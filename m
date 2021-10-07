@@ -2,125 +2,369 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DC8CC433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 08:11:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CEAAC433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 08:20:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6817361163
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 08:11:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6BFD561246
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 08:20:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240636AbhJGIMy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Oct 2021 04:12:54 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:51366 "EHLO
+        id S240570AbhJGIWg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Oct 2021 04:22:36 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:57768 "EHLO
         smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240591AbhJGIMy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Oct 2021 04:12:54 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id E7E46203C9;
-        Thu,  7 Oct 2021 08:10:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1633594259; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        with ESMTP id S240552AbhJGIWg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Oct 2021 04:22:36 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id B27CA1FF45;
+        Thu,  7 Oct 2021 08:20:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1633594841; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=Oc55QYscnPdKzwCjb0ywVfd/doUxkdVcTeLmeqISr7o=;
-        b=M+pb6kZBKTijfupuQci9zI0JzzADDVtW/KDSipGnsBgM01o/2Zfd8Zf2qDwIDRzPapNAPw
-        C/a15erqzs5+/vNjqXtbDZovG90WNGdDWv3/UjXvA8ptySXIDaLgqT+N+M30EdJqu5Rni2
-        QHhYCD82KKUdf/uvulrMMidepD6Q69c=
-Received: from suse.cz (unknown [10.100.201.86])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        bh=R+1l1YM0OMWcwwXHiU6Pvi6oXj7hXdm44oAgArGX78Y=;
+        b=FlVA3903R8AUXw9njlLiJciA6HUAVUvgc2/D5wE9FIOBNiNqPJbGCw2Wl/0abLJHQRzmgI
+        SkiiqtmJO9v30oOxQ+gi9FqdbqI1COluJwPJf/ALInJGuD11FwdUD0zUeF7cyIRcASgFVs
+        W5wbG0pQY7QIx4l3A+HQzD9DtU8Y9+A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1633594841;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=R+1l1YM0OMWcwwXHiU6Pvi6oXj7hXdm44oAgArGX78Y=;
+        b=IHrzimFaXIx0H5MfxFnEaO3X+GlrWAF88SjthZvbbqh8oD/IkxiWTITz0CkrGJXEEc/Zyj
+        qlLBJARBO8XKaCCw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 43D35A3B85;
-        Thu,  7 Oct 2021 08:10:59 +0000 (UTC)
-Date:   Thu, 7 Oct 2021 10:10:58 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, David Hildenbrand <david@redhat.com>,
-        John Hubbard <jhubbard@nvidia.com>,
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3081A132D4;
+        Thu,  7 Oct 2021 08:20:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id XqVECNitXmFDFQAAMHmgww
+        (envelope-from <osalvador@suse.de>); Thu, 07 Oct 2021 08:20:40 +0000
+Date:   Thu, 7 Oct 2021 10:20:38 +0200
+From:   Oscar Salvador <osalvador@suse.de>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     linux-kernel@vger.kernel.org,
         Andrew Morton <akpm@linux-foundation.org>,
-        Colin Cross <ccross@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Kalesh Singh <kaleshsingh@google.com>,
-        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
         Peter Zijlstra <peterz@infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        vincenzo.frascino@arm.com,
-        Chinwen Chang =?utf-8?B?KOW8temMpuaWhyk=?= 
-        <chinwen.chang@mediatek.com>,
-        Axel Rasmussen <axelrasmussen@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Jann Horn <jannh@google.com>, apopple@nvidia.com,
-        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
-        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
-        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
-        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
-        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
-        Chris Hyser <chris.hyser@oracle.com>,
-        Peter Collingbourne <pcc@google.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
-        Rolf Eike Beer <eb@emlix.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
-        cxfcosmos@gmail.com, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm <linux-mm@kvack.org>,
-        kernel-team <kernel-team@android.com>
-Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
-Message-ID: <YV6rksRHr2iSWR3S@dhcp22.suse.cz>
-References: <20211005184211.GA19804@duo.ucw.cz>
- <CAJuCfpE5JEThTMhwKPUREfSE1GYcTx4YSLoVhAH97fJH_qR0Zg@mail.gmail.com>
- <20211005200411.GB19804@duo.ucw.cz>
- <CAJuCfpFZkz2c0ZWeqzOAx8KFqk1ge3K-SiCMeu3dmi6B7bK-9w@mail.gmail.com>
- <efdffa68-d790-72e4-e6a3-80f2e194d811@nvidia.com>
- <YV1eCu0eZ+gQADNx@dhcp22.suse.cz>
- <6b15c682-72eb-724d-bc43-36ae6b79b91a@redhat.com>
- <CAJuCfpEPBM6ehQXgzp=g4SqtY6iaC8wuZ-CRE81oR1VOq7m4CA@mail.gmail.com>
- <20211006175821.GA1941@duo.ucw.cz>
- <CAJuCfpGuuXOpdYbt3AsNn+WNbavwuEsDfRMYunh+gajp6hOMAg@mail.gmail.com>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Shuah Khan <shuah@kernel.org>, Michal Hocko <mhocko@suse.com>,
+        Mike Rapoport <rppt@kernel.org>, x86@kernel.org,
+        linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        virtualization@lists.linux-foundation.org
+Subject: Re: [PATCH v1 2/6] mm/memory_hotplug: remove
+ CONFIG_MEMORY_HOTPLUG_SPARSE
+Message-ID: <YV6t1lYLXd9mcNG+@localhost.localdomain>
+References: <20210929143600.49379-1-david@redhat.com>
+ <20210929143600.49379-3-david@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAJuCfpGuuXOpdYbt3AsNn+WNbavwuEsDfRMYunh+gajp6hOMAg@mail.gmail.com>
+In-Reply-To: <20210929143600.49379-3-david@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed 06-10-21 11:18:31, Suren Baghdasaryan wrote:
-> On Wed, Oct 6, 2021 at 10:58 AM Pavel Machek <pavel@ucw.cz> wrote:
-[...]
-> > That "central facility" option can be as simple as "mkdir
-> > /somewhere/sanitized_id", using inode numbers for example. You don't
-> > really need IPC.
+On Wed, Sep 29, 2021 at 04:35:56PM +0200, David Hildenbrand wrote:
+> CONFIG_MEMORY_HOTPLUG depends on CONFIG_SPARSEMEM, so there is no need for
+> CONFIG_MEMORY_HOTPLUG_SPARSE anymore; adjust all instances to use
+> CONFIG_MEMORY_HOTPLUG and remove CONFIG_MEMORY_HOTPLUG_SPARSE.
 > 
-> Hmm, so the suggestion is to have some directory which contains files
-> representing IDs, each containing the string name of the associated
-> vma? Then let's say we are creating a new VMA and want to name it. We
-> would have to scan that directory, check all files and see if any of
-> them contain the name we want to reuse the same ID.
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-I believe Pavel meant something as simple as
-$ YOUR_FILE=$YOUR_IDS_DIR/my_string_name
-$ touch $YOUR_FILE
-$ stat -c %i $YOUR_FILE
+Acked-by: Oscar Salvador <osalvador@suse.de>
 
-YOUR_IDS_DIR can live on a tmpfs and you can even implement a policy on
-top of that (who can generate new ids, gurantee uniqness etc...).
+> ---
+>  arch/powerpc/include/asm/machdep.h            |  2 +-
+>  arch/powerpc/kernel/setup_64.c                |  2 +-
+>  arch/powerpc/platforms/powernv/setup.c        |  4 ++--
+>  arch/powerpc/platforms/pseries/setup.c        |  2 +-
+>  drivers/base/Makefile                         |  2 +-
+>  drivers/base/node.c                           |  9 ++++-----
+>  drivers/virtio/Kconfig                        |  2 +-
+>  include/linux/memory.h                        | 18 +++++++-----------
+>  include/linux/node.h                          |  4 ++--
+>  lib/Kconfig.debug                             |  2 +-
+>  mm/Kconfig                                    |  4 ----
+>  mm/memory_hotplug.c                           |  2 --
+>  tools/testing/selftests/memory-hotplug/config |  1 -
+>  13 files changed, 21 insertions(+), 33 deletions(-)
+> 
+> diff --git a/arch/powerpc/include/asm/machdep.h b/arch/powerpc/include/asm/machdep.h
+> index 764f2732a821..d8a2ca007082 100644
+> --- a/arch/powerpc/include/asm/machdep.h
+> +++ b/arch/powerpc/include/asm/machdep.h
+> @@ -32,7 +32,7 @@ struct machdep_calls {
+>  	void		(*iommu_save)(void);
+>  	void		(*iommu_restore)(void);
+>  #endif
+> -#ifdef CONFIG_MEMORY_HOTPLUG_SPARSE
+> +#ifdef CONFIG_MEMORY_HOTPLUG
+>  	unsigned long	(*memory_block_size)(void);
+>  #endif
+>  #endif /* CONFIG_PPC64 */
+> diff --git a/arch/powerpc/kernel/setup_64.c b/arch/powerpc/kernel/setup_64.c
+> index eaa79a0996d1..21f15d82f062 100644
+> --- a/arch/powerpc/kernel/setup_64.c
+> +++ b/arch/powerpc/kernel/setup_64.c
+> @@ -912,7 +912,7 @@ void __init setup_per_cpu_areas(void)
+>  }
+>  #endif
+>  
+> -#ifdef CONFIG_MEMORY_HOTPLUG_SPARSE
+> +#ifdef CONFIG_MEMORY_HOTPLUG
+>  unsigned long memory_block_size_bytes(void)
+>  {
+>  	if (ppc_md.memory_block_size)
+> diff --git a/arch/powerpc/platforms/powernv/setup.c b/arch/powerpc/platforms/powernv/setup.c
+> index a8db3f153063..ad56a54ac9c5 100644
+> --- a/arch/powerpc/platforms/powernv/setup.c
+> +++ b/arch/powerpc/platforms/powernv/setup.c
+> @@ -440,7 +440,7 @@ static void pnv_kexec_cpu_down(int crash_shutdown, int secondary)
+>  }
+>  #endif /* CONFIG_KEXEC_CORE */
+>  
+> -#ifdef CONFIG_MEMORY_HOTPLUG_SPARSE
+> +#ifdef CONFIG_MEMORY_HOTPLUG
+>  static unsigned long pnv_memory_block_size(void)
+>  {
+>  	/*
+> @@ -553,7 +553,7 @@ define_machine(powernv) {
+>  #ifdef CONFIG_KEXEC_CORE
+>  	.kexec_cpu_down		= pnv_kexec_cpu_down,
+>  #endif
+> -#ifdef CONFIG_MEMORY_HOTPLUG_SPARSE
+> +#ifdef CONFIG_MEMORY_HOTPLUG
+>  	.memory_block_size	= pnv_memory_block_size,
+>  #endif
+>  };
+> diff --git a/arch/powerpc/platforms/pseries/setup.c b/arch/powerpc/platforms/pseries/setup.c
+> index f79126f16258..d29f6f1f7f37 100644
+> --- a/arch/powerpc/platforms/pseries/setup.c
+> +++ b/arch/powerpc/platforms/pseries/setup.c
+> @@ -1089,7 +1089,7 @@ define_machine(pseries) {
+>  	.machine_kexec          = pSeries_machine_kexec,
+>  	.kexec_cpu_down         = pseries_kexec_cpu_down,
+>  #endif
+> -#ifdef CONFIG_MEMORY_HOTPLUG_SPARSE
+> +#ifdef CONFIG_MEMORY_HOTPLUG
+>  	.memory_block_size	= pseries_memory_block_size,
+>  #endif
+>  };
+> diff --git a/drivers/base/Makefile b/drivers/base/Makefile
+> index ef8e44a7d288..02f7f1358e86 100644
+> --- a/drivers/base/Makefile
+> +++ b/drivers/base/Makefile
+> @@ -13,7 +13,7 @@ obj-y			+= power/
+>  obj-$(CONFIG_ISA_BUS_API)	+= isa.o
+>  obj-y				+= firmware_loader/
+>  obj-$(CONFIG_NUMA)	+= node.o
+> -obj-$(CONFIG_MEMORY_HOTPLUG_SPARSE) += memory.o
+> +obj-$(CONFIG_MEMORY_HOTPLUG) += memory.o
+>  ifeq ($(CONFIG_SYSFS),y)
+>  obj-$(CONFIG_MODULES)	+= module.o
+>  endif
+> diff --git a/drivers/base/node.c b/drivers/base/node.c
+> index c56d34f8158f..b5a4ba18f9f9 100644
+> --- a/drivers/base/node.c
+> +++ b/drivers/base/node.c
+> @@ -629,7 +629,7 @@ static void node_device_release(struct device *dev)
+>  {
+>  	struct node *node = to_node(dev);
+>  
+> -#if defined(CONFIG_MEMORY_HOTPLUG_SPARSE) && defined(CONFIG_HUGETLBFS)
+> +#if defined(CONFIG_MEMORY_HOTPLUG) && defined(CONFIG_HUGETLBFS)
+>  	/*
+>  	 * We schedule the work only when a memory section is
+>  	 * onlined/offlined on this node. When we come here,
+> @@ -782,7 +782,7 @@ int unregister_cpu_under_node(unsigned int cpu, unsigned int nid)
+>  	return 0;
+>  }
+>  
+> -#ifdef CONFIG_MEMORY_HOTPLUG_SPARSE
+> +#ifdef CONFIG_MEMORY_HOTPLUG
+>  static int __ref get_nid_for_pfn(unsigned long pfn)
+>  {
+>  #ifdef CONFIG_DEFERRED_STRUCT_PAGE_INIT
+> @@ -958,10 +958,9 @@ static int node_memory_callback(struct notifier_block *self,
+>  	return NOTIFY_OK;
+>  }
+>  #endif	/* CONFIG_HUGETLBFS */
+> -#endif /* CONFIG_MEMORY_HOTPLUG_SPARSE */
+> +#endif /* CONFIG_MEMORY_HOTPLUG */
+>  
+> -#if !defined(CONFIG_MEMORY_HOTPLUG_SPARSE) || \
+> -    !defined(CONFIG_HUGETLBFS)
+> +#if !defined(CONFIG_MEMORY_HOTPLUG) || !defined(CONFIG_HUGETLBFS)
+>  static inline int node_memory_callback(struct notifier_block *self,
+>  				unsigned long action, void *arg)
+>  {
+> diff --git a/drivers/virtio/Kconfig b/drivers/virtio/Kconfig
+> index ce1b3f6ec325..3654def9915c 100644
+> --- a/drivers/virtio/Kconfig
+> +++ b/drivers/virtio/Kconfig
+> @@ -98,7 +98,7 @@ config VIRTIO_MEM
+>  	default m
+>  	depends on X86_64
+>  	depends on VIRTIO
+> -	depends on MEMORY_HOTPLUG_SPARSE
+> +	depends on MEMORY_HOTPLUG
+>  	depends on MEMORY_HOTREMOVE
+>  	depends on CONTIG_ALLOC
+>  	help
+> diff --git a/include/linux/memory.h b/include/linux/memory.h
+> index 7efc0a7c14c9..dd6e608c3e0b 100644
+> --- a/include/linux/memory.h
+> +++ b/include/linux/memory.h
+> @@ -110,7 +110,7 @@ struct mem_section;
+>  #define SLAB_CALLBACK_PRI       1
+>  #define IPC_CALLBACK_PRI        10
+>  
+> -#ifndef CONFIG_MEMORY_HOTPLUG_SPARSE
+> +#ifndef CONFIG_MEMORY_HOTPLUG
+>  static inline void memory_dev_init(void)
+>  {
+>  	return;
+> @@ -126,7 +126,11 @@ static inline int memory_notify(unsigned long val, void *v)
+>  {
+>  	return 0;
+>  }
+> -#else
+> +#define hotplug_memory_notifier(fn, pri)	({ 0; })
+> +/* These aren't inline functions due to a GCC bug. */
+> +#define register_hotmemory_notifier(nb)    ({ (void)(nb); 0; })
+> +#define unregister_hotmemory_notifier(nb)  ({ (void)(nb); })
+> +#else /* CONFIG_MEMORY_HOTPLUG */
+>  extern int register_memory_notifier(struct notifier_block *nb);
+>  extern void unregister_memory_notifier(struct notifier_block *nb);
+>  int create_memory_block_devices(unsigned long start, unsigned long size,
+> @@ -149,9 +153,6 @@ struct memory_group *memory_group_find_by_id(int mgid);
+>  typedef int (*walk_memory_groups_func_t)(struct memory_group *, void *);
+>  int walk_dynamic_memory_groups(int nid, walk_memory_groups_func_t func,
+>  			       struct memory_group *excluded, void *arg);
+> -#endif /* CONFIG_MEMORY_HOTPLUG_SPARSE */
+> -
+> -#ifdef CONFIG_MEMORY_HOTPLUG
+>  #define hotplug_memory_notifier(fn, pri) ({		\
+>  	static __meminitdata struct notifier_block fn##_mem_nb =\
+>  		{ .notifier_call = fn, .priority = pri };\
+> @@ -159,12 +160,7 @@ int walk_dynamic_memory_groups(int nid, walk_memory_groups_func_t func,
+>  })
+>  #define register_hotmemory_notifier(nb)		register_memory_notifier(nb)
+>  #define unregister_hotmemory_notifier(nb) 	unregister_memory_notifier(nb)
+> -#else
+> -#define hotplug_memory_notifier(fn, pri)	({ 0; })
+> -/* These aren't inline functions due to a GCC bug. */
+> -#define register_hotmemory_notifier(nb)    ({ (void)(nb); 0; })
+> -#define unregister_hotmemory_notifier(nb)  ({ (void)(nb); })
+> -#endif
+> +#endif /* CONFIG_MEMORY_HOTPLUG */
+>  
+>  /*
+>   * Kernel text modification mutex, used for code patching. Users of this lock
+> diff --git a/include/linux/node.h b/include/linux/node.h
+> index 8e5a29897936..bb21fd631b16 100644
+> --- a/include/linux/node.h
+> +++ b/include/linux/node.h
+> @@ -85,7 +85,7 @@ struct node {
+>  	struct device	dev;
+>  	struct list_head access_list;
+>  
+> -#if defined(CONFIG_MEMORY_HOTPLUG_SPARSE) && defined(CONFIG_HUGETLBFS)
+> +#if defined(CONFIG_MEMORY_HOTPLUG) && defined(CONFIG_HUGETLBFS)
+>  	struct work_struct	node_work;
+>  #endif
+>  #ifdef CONFIG_HMEM_REPORTING
+> @@ -98,7 +98,7 @@ struct memory_block;
+>  extern struct node *node_devices[];
+>  typedef  void (*node_registration_func_t)(struct node *);
+>  
+> -#if defined(CONFIG_MEMORY_HOTPLUG_SPARSE) && defined(CONFIG_NUMA)
+> +#if defined(CONFIG_MEMORY_HOTPLUG) && defined(CONFIG_NUMA)
+>  void link_mem_sections(int nid, unsigned long start_pfn,
+>  		       unsigned long end_pfn,
+>  		       enum meminit_context context);
+> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> index 2a9b6dcdac4f..669fee1d26b8 100644
+> --- a/lib/Kconfig.debug
+> +++ b/lib/Kconfig.debug
+> @@ -877,7 +877,7 @@ config DEBUG_MEMORY_INIT
+>  
+>  config MEMORY_NOTIFIER_ERROR_INJECT
+>  	tristate "Memory hotplug notifier error injection module"
+> -	depends on MEMORY_HOTPLUG_SPARSE && NOTIFIER_ERROR_INJECTION
+> +	depends on MEMORY_HOTPLUG && NOTIFIER_ERROR_INJECTION
+>  	help
+>  	  This option provides the ability to inject artificial errors to
+>  	  memory hotplug notifier chain callbacks.  It is controlled through
+> diff --git a/mm/Kconfig b/mm/Kconfig
+> index b7fb3f0b485e..ea8762cd8e1e 100644
+> --- a/mm/Kconfig
+> +++ b/mm/Kconfig
+> @@ -128,10 +128,6 @@ config MEMORY_HOTPLUG
+>  	depends on 64BIT || BROKEN
+>  	select NUMA_KEEP_MEMINFO if NUMA
+>  
+> -config MEMORY_HOTPLUG_SPARSE
+> -	def_bool y
+> -	depends on SPARSEMEM && MEMORY_HOTPLUG
+> -
+>  config MEMORY_HOTPLUG_DEFAULT_ONLINE
+>  	bool "Online the newly added memory blocks by default"
+>  	depends on MEMORY_HOTPLUG
+> diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+> index 9fd0be32a281..8d7b2b593a26 100644
+> --- a/mm/memory_hotplug.c
+> +++ b/mm/memory_hotplug.c
+> @@ -220,7 +220,6 @@ static void release_memory_resource(struct resource *res)
+>  	kfree(res);
+>  }
+>  
+> -#ifdef CONFIG_MEMORY_HOTPLUG_SPARSE
+>  static int check_pfn_span(unsigned long pfn, unsigned long nr_pages,
+>  		const char *reason)
+>  {
+> @@ -1163,7 +1162,6 @@ int __ref online_pages(unsigned long pfn, unsigned long nr_pages,
+>  	mem_hotplug_done();
+>  	return ret;
+>  }
+> -#endif /* CONFIG_MEMORY_HOTPLUG_SPARSE */
+>  
+>  static void reset_node_present_pages(pg_data_t *pgdat)
+>  {
+> diff --git a/tools/testing/selftests/memory-hotplug/config b/tools/testing/selftests/memory-hotplug/config
+> index a7e8cd5bb265..1eef042a31e1 100644
+> --- a/tools/testing/selftests/memory-hotplug/config
+> +++ b/tools/testing/selftests/memory-hotplug/config
+> @@ -1,5 +1,4 @@
+>  CONFIG_MEMORY_HOTPLUG=y
+> -CONFIG_MEMORY_HOTPLUG_SPARSE=y
+>  CONFIG_NOTIFIER_ERROR_INJECTION=y
+>  CONFIG_MEMORY_NOTIFIER_ERROR_INJECT=m
+>  CONFIG_MEMORY_HOTREMOVE=y
+> -- 
+> 2.31.1
+> 
+> 
 
-The above is certainly not for free of course but if you really need a
-system wide consistency when using names then you need some sort of
-central authority. How you implement that is not all that important
-but I do not think we want to handle that in the kernel.
 -- 
-Michal Hocko
+Oscar Salvador
 SUSE Labs
