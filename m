@@ -2,54 +2,63 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC585C433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 18:13:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61213C433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 18:50:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CF25F60F39
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 18:13:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3DA41610CE
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 18:50:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233709AbhJGSOz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Oct 2021 14:14:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53436 "EHLO
+        id S243709AbhJGSwQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Oct 2021 14:52:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243526AbhJGSOy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Oct 2021 14:14:54 -0400
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A0D6C061755
-        for <linux-doc@vger.kernel.org>; Thu,  7 Oct 2021 11:13:00 -0700 (PDT)
-Received: by mail-pg1-x52a.google.com with SMTP id v11so567606pgb.8
-        for <linux-doc@vger.kernel.org>; Thu, 07 Oct 2021 11:13:00 -0700 (PDT)
+        with ESMTP id S233854AbhJGSwP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Oct 2021 14:52:15 -0400
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0C5EC061755
+        for <linux-doc@vger.kernel.org>; Thu,  7 Oct 2021 11:50:21 -0700 (PDT)
+Received: by mail-yb1-xb30.google.com with SMTP id q189so15632648ybq.1
+        for <linux-doc@vger.kernel.org>; Thu, 07 Oct 2021 11:50:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=o4WwfSdG/6KRIuI/J9zyZX24q26V4qiHr2+KV/sCerI=;
-        b=UFWObsTY+6ez5xDu9StX0xHOEvb0Awqkv0IojxdYI+PxQZVMQnm1+78GXylVO7eQKc
-         unCWRkoNBPz+dlTqyMSHkXjEyBSrxvIoYe8zqlUquJAovzzTTAutOaWA2u7XXWw+cqmI
-         8LjuIEZ3xAwyUSETK/5DPVjRVFkuDfq7sRi3w=
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=E0+5wT+wrdMqcXbNJTk/9zibrUNlQPSrWQVNSFGRH0Q=;
+        b=f+jqxJIJSLt5FZwMq8HxqaGUYxnqZd2XHM9BdnYqSOU2kuqNgIW8wdNJ+eIspkoDj7
+         Y9gcKeC/pYYgB7yyLLyYx+RB+VVGInIY8fY+l7ByRtsBh75EzVZLLHUx0s/JgAaUxjSx
+         hGIwnJa6ufRLm2694PKbR8PkW8ggrSVSF19tXiQkNxjdPHqzGQENgGZtovh4JP3nyBmm
+         km/ahg3AYuRK3xJ3BxULxSYwkGBP+AaFviZfQCvWKnwo6U4m7pnW6dL83ihp8vhP+OEn
+         KjczJIjrhAJYXJHrPGk4lt9lhphV4v8E1sVoy0rsM5C4FRJOlgdvGR8HGAR7WauUTcVs
+         gaxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=o4WwfSdG/6KRIuI/J9zyZX24q26V4qiHr2+KV/sCerI=;
-        b=15LeWVXajiirgtrdOKKwpC7W6wErD9pL7ittZV9xsl4Tl1ajmW5nTUYDCM3NbRS7HG
-         Gma0RNB9l5yubr3rYB5txtOOdIHLQT5JURZB2h2ipb2nH7xU/xivJHhG9j0NEjGPQRwB
-         s/VEVvyY9FMP0WTpd4NHo4Lac+vVUqLLp3yv3FVsvXVDn8dkKVYoVYS7/nsboqIzY8ua
-         C02ytq+Vg1yVZQge41tFJpA6KT4znWnHlOhrTq2sJZVGNgHTuBlIt60yElG2/fKRuld8
-         ApRPJw10swS74pJyGeAIOnJqvjI1J49qMfyV670lM4jbmKUyZy999FstgsKW5sDwcJA/
-         rDrw==
-X-Gm-Message-State: AOAM533zr7LthMn5jciZd5Jdph5LCNemimekN5HTjo3ddpHh2YtVWx3j
-        NQDbYOqsk6a9YWPp/9neBgM/tw==
-X-Google-Smtp-Source: ABdhPJwSg+58niV4vPup/bWS/NCxrnl+eE4p/Fjn93JargziJ6r/R5cJnbLK3rzcm1kJQTUPRYo/ew==
-X-Received: by 2002:a62:5ac6:0:b0:44c:b979:afe3 with SMTP id o189-20020a625ac6000000b0044cb979afe3mr5778529pfb.61.1633630379668;
-        Thu, 07 Oct 2021 11:12:59 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id l10sm106280pff.119.2021.10.07.11.12.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Oct 2021 11:12:59 -0700 (PDT)
-Date:   Thu, 7 Oct 2021 11:12:58 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Suren Baghdasaryan <surenb@google.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=E0+5wT+wrdMqcXbNJTk/9zibrUNlQPSrWQVNSFGRH0Q=;
+        b=wfO5eynvHIlfnF/EMLe2lSunkyVMnsbajhgCOOk1ftVDk98sFkxxeaTUMfzUfqwt2t
+         XwsDFTtH09KifpFVd6875lD8QRedfSjZ8S5VFVgCHasO62RRFpE9A/2H38UoIQt5+m7p
+         488CYCg+Sh32W6PLJYBZouUU67rHorVxoO2I/AByWDWSSY6flFdrhRpNwYJVzKxyE1F/
+         Xa9bcbiItmJt9nhUQT4wPPnHzEUL0EywD8HMUujKRBDcpHefUNVGYW5AeVMRtCid1vEk
+         Q5lvvtLtRdqaCshV2vw335zuUfvZq+Jd5LjibUf9hxYCHtxGur6JS8cI1frQLtvABMHJ
+         EYuw==
+X-Gm-Message-State: AOAM531hkcQf0lHZTprGAhIzQQkOBllL+d86DL8NHeZSpB0h6JmWMAKg
+        4hJ7jQi0CHBIbs8GFUSXitjQQ/mo0S5VDlvA0pGc9Q==
+X-Google-Smtp-Source: ABdhPJwX3MSlqHYl/15/mb53bQi9n5NdlsFOxC7cfpcgUkjWDcfJbTPgeVDqsBWb3sDjKC8m87AdHD4J0DwOcD30v/I=
+X-Received: by 2002:a25:5b04:: with SMTP id p4mr6402702ybb.34.1633632620440;
+ Thu, 07 Oct 2021 11:50:20 -0700 (PDT)
+MIME-Version: 1.0
+References: <20211006175821.GA1941@duo.ucw.cz> <CAJuCfpGuuXOpdYbt3AsNn+WNbavwuEsDfRMYunh+gajp6hOMAg@mail.gmail.com>
+ <YV6rksRHr2iSWR3S@dhcp22.suse.cz> <92cbfe3b-f3d1-a8e1-7eb9-bab735e782f6@rasmusvillemoes.dk>
+ <20211007101527.GA26288@duo.ucw.cz> <CAJuCfpGp0D9p3KhOWhcxMO1wEbo-J_b2Anc-oNwdycx4NTRqoA@mail.gmail.com>
+ <YV8jB+kwU95hLqTq@dhcp22.suse.cz> <CAJuCfpG-Nza3YnpzvHaS_i1mHds3nJ+PV22xTAfgwvj+42WQNA@mail.gmail.com>
+ <YV8u4B8Y9AP9xZIJ@dhcp22.suse.cz> <CAJuCfpHAG_C5vE-Xkkrm2kynTFF-Jd06tQoCWehHATL0W2mY_g@mail.gmail.com>
+ <202110071111.DF87B4EE3@keescook>
+In-Reply-To: <202110071111.DF87B4EE3@keescook>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Thu, 7 Oct 2021 11:50:09 -0700
+Message-ID: <CAJuCfpFT7qcLM0ygjbzgCj1ScPDkZvv0hcvHkc40s9wgoTov7A@mail.gmail.com>
+Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
+To:     Kees Cook <keescook@chromium.org>
 Cc:     Michal Hocko <mhocko@suse.com>, Pavel Machek <pavel@ucw.cz>,
         Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         David Hildenbrand <david@redhat.com>,
@@ -70,7 +79,7 @@ Cc:     Michal Hocko <mhocko@suse.com>, Pavel Machek <pavel@ucw.cz>,
         Peter Zijlstra <peterz@infradead.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
         vincenzo.frascino@arm.com,
-        Chinwen Chang =?utf-8?B?KOW8temMpuaWhyk=?= 
+        =?UTF-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?= 
         <chinwen.chang@mediatek.com>,
         Axel Rasmussen <axelrasmussen@google.com>,
         Andrea Arcangeli <aarcange@redhat.com>,
@@ -93,89 +102,79 @@ Cc:     Michal Hocko <mhocko@suse.com>, Pavel Machek <pavel@ucw.cz>,
         linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-mm <linux-mm@kvack.org>,
         kernel-team <kernel-team@android.com>
-Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
-Message-ID: <202110071111.DF87B4EE3@keescook>
-References: <20211006175821.GA1941@duo.ucw.cz>
- <CAJuCfpGuuXOpdYbt3AsNn+WNbavwuEsDfRMYunh+gajp6hOMAg@mail.gmail.com>
- <YV6rksRHr2iSWR3S@dhcp22.suse.cz>
- <92cbfe3b-f3d1-a8e1-7eb9-bab735e782f6@rasmusvillemoes.dk>
- <20211007101527.GA26288@duo.ucw.cz>
- <CAJuCfpGp0D9p3KhOWhcxMO1wEbo-J_b2Anc-oNwdycx4NTRqoA@mail.gmail.com>
- <YV8jB+kwU95hLqTq@dhcp22.suse.cz>
- <CAJuCfpG-Nza3YnpzvHaS_i1mHds3nJ+PV22xTAfgwvj+42WQNA@mail.gmail.com>
- <YV8u4B8Y9AP9xZIJ@dhcp22.suse.cz>
- <CAJuCfpHAG_C5vE-Xkkrm2kynTFF-Jd06tQoCWehHATL0W2mY_g@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJuCfpHAG_C5vE-Xkkrm2kynTFF-Jd06tQoCWehHATL0W2mY_g@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 07, 2021 at 10:50:24AM -0700, Suren Baghdasaryan wrote:
-> On Thu, Oct 7, 2021 at 10:31 AM Michal Hocko <mhocko@suse.com> wrote:
-> >
-> > On Thu 07-10-21 09:58:02, Suren Baghdasaryan wrote:
-> > > On Thu, Oct 7, 2021 at 9:40 AM Michal Hocko <mhocko@suse.com> wrote:
-> > > >
-> > > > On Thu 07-10-21 09:04:09, Suren Baghdasaryan wrote:
-> > > > > On Thu, Oct 7, 2021 at 3:15 AM Pavel Machek <pavel@ucw.cz> wrote:
-> > > > > >
-> > > > > > Hi!
-> > > > > >
-> > > > > > > >> Hmm, so the suggestion is to have some directory which contains files
-> > > > > > > >> representing IDs, each containing the string name of the associated
-> > > > > > > >> vma? Then let's say we are creating a new VMA and want to name it. We
-> > > > > > > >> would have to scan that directory, check all files and see if any of
-> > > > > > > >> them contain the name we want to reuse the same ID.
-> > > > > > > >
-> > > > > > > > I believe Pavel meant something as simple as
-> > > > > > > > $ YOUR_FILE=$YOUR_IDS_DIR/my_string_name
-> > > > > > > > $ touch $YOUR_FILE
-> > > > > > > > $ stat -c %i $YOUR_FILE
-> > > > >
-> > > > > Ah, ok, now I understand the proposal. Thanks for the clarification!
-> > > > > So, this would use filesystem as a directory for inode->name mappings.
-> > > > > One rough edge for me is that the consumer would still need to parse
-> > > > > /proc/$pid/maps and convert [anon:inode] into [anon:name] instead of
-> > > > > just dumping the content for the user. Would it be acceptable if we
-> > > > > require the ID provided by prctl() to always be a valid inode and
-> > > > > show_map_vma() would do the inode-to-filename conversion when
-> > > > > generating maps/smaps files? I know that inode->dentry is not
-> > > > > one-to-one mapping but we can simply output the first dentry name.
-> > > > > WDYT?
-> > > >
-> > > > No. You do not want to dictate any particular way of the mapping. The
-> > > > above is just one way to do that without developing any actual mapping
-> > > > yourself. You just use a filesystem for that. Kernel doesn't and
-> > > > shouldn't understand the meaning of those numbers. It has no business in
-> > > > that.
-> > > >
-> > > > In a way this would be pushing policy into the kernel.
+On Thu, Oct 7, 2021 at 11:13 AM Kees Cook <keescook@chromium.org> wrote:
+>
+> On Thu, Oct 07, 2021 at 10:50:24AM -0700, Suren Baghdasaryan wrote:
+> > On Thu, Oct 7, 2021 at 10:31 AM Michal Hocko <mhocko@suse.com> wrote:
 > > >
-> > > I can see your point. Any other ideas on how to prevent tools from
-> > > doing this id-to-name conversion themselves?
+> > > On Thu 07-10-21 09:58:02, Suren Baghdasaryan wrote:
+> > > > On Thu, Oct 7, 2021 at 9:40 AM Michal Hocko <mhocko@suse.com> wrote:
+> > > > >
+> > > > > On Thu 07-10-21 09:04:09, Suren Baghdasaryan wrote:
+> > > > > > On Thu, Oct 7, 2021 at 3:15 AM Pavel Machek <pavel@ucw.cz> wrote:
+> > > > > > >
+> > > > > > > Hi!
+> > > > > > >
+> > > > > > > > >> Hmm, so the suggestion is to have some directory which contains files
+> > > > > > > > >> representing IDs, each containing the string name of the associated
+> > > > > > > > >> vma? Then let's say we are creating a new VMA and want to name it. We
+> > > > > > > > >> would have to scan that directory, check all files and see if any of
+> > > > > > > > >> them contain the name we want to reuse the same ID.
+> > > > > > > > >
+> > > > > > > > > I believe Pavel meant something as simple as
+> > > > > > > > > $ YOUR_FILE=$YOUR_IDS_DIR/my_string_name
+> > > > > > > > > $ touch $YOUR_FILE
+> > > > > > > > > $ stat -c %i $YOUR_FILE
+> > > > > >
+> > > > > > Ah, ok, now I understand the proposal. Thanks for the clarification!
+> > > > > > So, this would use filesystem as a directory for inode->name mappings.
+> > > > > > One rough edge for me is that the consumer would still need to parse
+> > > > > > /proc/$pid/maps and convert [anon:inode] into [anon:name] instead of
+> > > > > > just dumping the content for the user. Would it be acceptable if we
+> > > > > > require the ID provided by prctl() to always be a valid inode and
+> > > > > > show_map_vma() would do the inode-to-filename conversion when
+> > > > > > generating maps/smaps files? I know that inode->dentry is not
+> > > > > > one-to-one mapping but we can simply output the first dentry name.
+> > > > > > WDYT?
+> > > > >
+> > > > > No. You do not want to dictate any particular way of the mapping. The
+> > > > > above is just one way to do that without developing any actual mapping
+> > > > > yourself. You just use a filesystem for that. Kernel doesn't and
+> > > > > shouldn't understand the meaning of those numbers. It has no business in
+> > > > > that.
+> > > > >
+> > > > > In a way this would be pushing policy into the kernel.
+> > > >
+> > > > I can see your point. Any other ideas on how to prevent tools from
+> > > > doing this id-to-name conversion themselves?
+> > >
+> > > I really fail to understand why you really want to prevent them from that.
+> > > Really, the whole thing is just a cookie that kernel maintains for memory
+> > > mappings so that two parties can understand what the meaning of that
+> > > mapping is from a higher level. They both have to agree on the naming
+> > > but the kernel shouldn't dictate any specific convention because the
+> > > kernel _doesn't_ _care_. These things are not really anything actionable
+> > > for the kernel. It is just a metadata.
 > >
-> > I really fail to understand why you really want to prevent them from that.
-> > Really, the whole thing is just a cookie that kernel maintains for memory
-> > mappings so that two parties can understand what the meaning of that
-> > mapping is from a higher level. They both have to agree on the naming
-> > but the kernel shouldn't dictate any specific convention because the
-> > kernel _doesn't_ _care_. These things are not really anything actionable
-> > for the kernel. It is just a metadata.
-> 
-> The desire is for one of these two parties to be a human who can get
-> the data and use it as is without additional conversions.
-> /proc/$pid/maps could report FD numbers instead of pathnames, which
-> could be converted to pathnames in userspace. However we do not do
-> that because pathnames are more convenient for humans to identify a
-> specific resource. Same logic applies here IMHO.
+> > The desire is for one of these two parties to be a human who can get
+> > the data and use it as is without additional conversions.
+> > /proc/$pid/maps could report FD numbers instead of pathnames, which
+> > could be converted to pathnames in userspace. However we do not do
+> > that because pathnames are more convenient for humans to identify a
+> > specific resource. Same logic applies here IMHO.
+>
+> Yes, please. It really seems like the folks that are interested in this
+> feature want strings. (I certainly do.) For those not interested in the
+> feature, it sounds like a CONFIG to keep it away would be sufficient.
+> Can we just move forward with that?
 
-Yes, please. It really seems like the folks that are interested in this
-feature want strings. (I certainly do.) For those not interested in the
-feature, it sounds like a CONFIG to keep it away would be sufficient.
-Can we just move forward with that?
+Would love to if others are ok with this.
 
--- 
-Kees Cook
+>
+> --
+> Kees Cook
