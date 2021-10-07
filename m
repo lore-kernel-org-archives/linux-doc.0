@@ -2,369 +2,595 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CEAAC433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 08:20:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A069C433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 08:25:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6BFD561246
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 08:20:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 695C361246
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 08:25:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240570AbhJGIWg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Oct 2021 04:22:36 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:57768 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240552AbhJGIWg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Oct 2021 04:22:36 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id B27CA1FF45;
-        Thu,  7 Oct 2021 08:20:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1633594841; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=R+1l1YM0OMWcwwXHiU6Pvi6oXj7hXdm44oAgArGX78Y=;
-        b=FlVA3903R8AUXw9njlLiJciA6HUAVUvgc2/D5wE9FIOBNiNqPJbGCw2Wl/0abLJHQRzmgI
-        SkiiqtmJO9v30oOxQ+gi9FqdbqI1COluJwPJf/ALInJGuD11FwdUD0zUeF7cyIRcASgFVs
-        W5wbG0pQY7QIx4l3A+HQzD9DtU8Y9+A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1633594841;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=R+1l1YM0OMWcwwXHiU6Pvi6oXj7hXdm44oAgArGX78Y=;
-        b=IHrzimFaXIx0H5MfxFnEaO3X+GlrWAF88SjthZvbbqh8oD/IkxiWTITz0CkrGJXEEc/Zyj
-        qlLBJARBO8XKaCCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3081A132D4;
-        Thu,  7 Oct 2021 08:20:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id XqVECNitXmFDFQAAMHmgww
-        (envelope-from <osalvador@suse.de>); Thu, 07 Oct 2021 08:20:40 +0000
-Date:   Thu, 7 Oct 2021 10:20:38 +0200
-From:   Oscar Salvador <osalvador@suse.de>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Shuah Khan <shuah@kernel.org>, Michal Hocko <mhocko@suse.com>,
-        Mike Rapoport <rppt@kernel.org>, x86@kernel.org,
-        linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH v1 2/6] mm/memory_hotplug: remove
- CONFIG_MEMORY_HOTPLUG_SPARSE
-Message-ID: <YV6t1lYLXd9mcNG+@localhost.localdomain>
-References: <20210929143600.49379-1-david@redhat.com>
- <20210929143600.49379-3-david@redhat.com>
+        id S240648AbhJGI1o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Oct 2021 04:27:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38278 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S240557AbhJGI1n (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 Oct 2021 04:27:43 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 11E0C610A5;
+        Thu,  7 Oct 2021 08:25:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1633595150;
+        bh=gNIYxA1NB9orTr5lcyTSnx02UiuLFJnABbrOV6vScfM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=JVY8i78V7gSQenBjx4l7ORc+a2cDfpSu9jgdFaALajszaMpXgAotYNNz1Kn2w6IyB
+         4DSrSzphUAlwBSx/3G5CAgqJf/BUlByyy0YJsRNR5tK8/m8XRNrqEE3FBkj8FvEsxI
+         jnGuLiHtTaF8fqZCXVrrZTsr1/jom9rH8KpzA2G/kHJdL0QnPkAH9+z//niWjh72+8
+         VJ7PeqhDVYw7eDqU+niVUdFs41HHA9PwwApcBj3ooPBKItm92zRownRzZIZzpGmXt/
+         Ko3OG31fj5oBmYrEg/d6OpSmyTVEPo16M3NYTC6RcSZytJt3iywnqEXj6WbSXgo1Ba
+         vQAXTwkFjQl3w==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1mYOip-001sTk-Vr; Thu, 07 Oct 2021 10:25:48 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Amit Kucheria <amitk@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Zhang Rui <rui.zhang@intel.com>, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Subject: [PATCH v2] thermal: Move ABI documentation do Documentation/ABI
+Date:   Thu,  7 Oct 2021 10:25:46 +0200
+Message-Id: <864dd17a1bff58770b1c1dc0b430bd26b6d7fa01.1633595141.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210929143600.49379-3-david@redhat.com>
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 29, 2021 at 04:35:56PM +0200, David Hildenbrand wrote:
-> CONFIG_MEMORY_HOTPLUG depends on CONFIG_SPARSEMEM, so there is no need for
-> CONFIG_MEMORY_HOTPLUG_SPARSE anymore; adjust all instances to use
-> CONFIG_MEMORY_HOTPLUG and remove CONFIG_MEMORY_HOTPLUG_SPARSE.
-> 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+The thermal ABI is described, together with the internal
+development details at:
 
-Acked-by: Oscar Salvador <osalvador@suse.de>
+	Documentation/driver-api/thermal/sysfs-api.rst
 
-> ---
->  arch/powerpc/include/asm/machdep.h            |  2 +-
->  arch/powerpc/kernel/setup_64.c                |  2 +-
->  arch/powerpc/platforms/powernv/setup.c        |  4 ++--
->  arch/powerpc/platforms/pseries/setup.c        |  2 +-
->  drivers/base/Makefile                         |  2 +-
->  drivers/base/node.c                           |  9 ++++-----
->  drivers/virtio/Kconfig                        |  2 +-
->  include/linux/memory.h                        | 18 +++++++-----------
->  include/linux/node.h                          |  4 ++--
->  lib/Kconfig.debug                             |  2 +-
->  mm/Kconfig                                    |  4 ----
->  mm/memory_hotplug.c                           |  2 --
->  tools/testing/selftests/memory-hotplug/config |  1 -
->  13 files changed, 21 insertions(+), 33 deletions(-)
-> 
-> diff --git a/arch/powerpc/include/asm/machdep.h b/arch/powerpc/include/asm/machdep.h
-> index 764f2732a821..d8a2ca007082 100644
-> --- a/arch/powerpc/include/asm/machdep.h
-> +++ b/arch/powerpc/include/asm/machdep.h
-> @@ -32,7 +32,7 @@ struct machdep_calls {
->  	void		(*iommu_save)(void);
->  	void		(*iommu_restore)(void);
->  #endif
-> -#ifdef CONFIG_MEMORY_HOTPLUG_SPARSE
-> +#ifdef CONFIG_MEMORY_HOTPLUG
->  	unsigned long	(*memory_block_size)(void);
->  #endif
->  #endif /* CONFIG_PPC64 */
-> diff --git a/arch/powerpc/kernel/setup_64.c b/arch/powerpc/kernel/setup_64.c
-> index eaa79a0996d1..21f15d82f062 100644
-> --- a/arch/powerpc/kernel/setup_64.c
-> +++ b/arch/powerpc/kernel/setup_64.c
-> @@ -912,7 +912,7 @@ void __init setup_per_cpu_areas(void)
->  }
->  #endif
->  
-> -#ifdef CONFIG_MEMORY_HOTPLUG_SPARSE
-> +#ifdef CONFIG_MEMORY_HOTPLUG
->  unsigned long memory_block_size_bytes(void)
->  {
->  	if (ppc_md.memory_block_size)
-> diff --git a/arch/powerpc/platforms/powernv/setup.c b/arch/powerpc/platforms/powernv/setup.c
-> index a8db3f153063..ad56a54ac9c5 100644
-> --- a/arch/powerpc/platforms/powernv/setup.c
-> +++ b/arch/powerpc/platforms/powernv/setup.c
-> @@ -440,7 +440,7 @@ static void pnv_kexec_cpu_down(int crash_shutdown, int secondary)
->  }
->  #endif /* CONFIG_KEXEC_CORE */
->  
-> -#ifdef CONFIG_MEMORY_HOTPLUG_SPARSE
-> +#ifdef CONFIG_MEMORY_HOTPLUG
->  static unsigned long pnv_memory_block_size(void)
->  {
->  	/*
-> @@ -553,7 +553,7 @@ define_machine(powernv) {
->  #ifdef CONFIG_KEXEC_CORE
->  	.kexec_cpu_down		= pnv_kexec_cpu_down,
->  #endif
-> -#ifdef CONFIG_MEMORY_HOTPLUG_SPARSE
-> +#ifdef CONFIG_MEMORY_HOTPLUG
->  	.memory_block_size	= pnv_memory_block_size,
->  #endif
->  };
-> diff --git a/arch/powerpc/platforms/pseries/setup.c b/arch/powerpc/platforms/pseries/setup.c
-> index f79126f16258..d29f6f1f7f37 100644
-> --- a/arch/powerpc/platforms/pseries/setup.c
-> +++ b/arch/powerpc/platforms/pseries/setup.c
-> @@ -1089,7 +1089,7 @@ define_machine(pseries) {
->  	.machine_kexec          = pSeries_machine_kexec,
->  	.kexec_cpu_down         = pseries_kexec_cpu_down,
->  #endif
-> -#ifdef CONFIG_MEMORY_HOTPLUG_SPARSE
-> +#ifdef CONFIG_MEMORY_HOTPLUG
->  	.memory_block_size	= pseries_memory_block_size,
->  #endif
->  };
-> diff --git a/drivers/base/Makefile b/drivers/base/Makefile
-> index ef8e44a7d288..02f7f1358e86 100644
-> --- a/drivers/base/Makefile
-> +++ b/drivers/base/Makefile
-> @@ -13,7 +13,7 @@ obj-y			+= power/
->  obj-$(CONFIG_ISA_BUS_API)	+= isa.o
->  obj-y				+= firmware_loader/
->  obj-$(CONFIG_NUMA)	+= node.o
-> -obj-$(CONFIG_MEMORY_HOTPLUG_SPARSE) += memory.o
-> +obj-$(CONFIG_MEMORY_HOTPLUG) += memory.o
->  ifeq ($(CONFIG_SYSFS),y)
->  obj-$(CONFIG_MODULES)	+= module.o
->  endif
-> diff --git a/drivers/base/node.c b/drivers/base/node.c
-> index c56d34f8158f..b5a4ba18f9f9 100644
-> --- a/drivers/base/node.c
-> +++ b/drivers/base/node.c
-> @@ -629,7 +629,7 @@ static void node_device_release(struct device *dev)
->  {
->  	struct node *node = to_node(dev);
->  
-> -#if defined(CONFIG_MEMORY_HOTPLUG_SPARSE) && defined(CONFIG_HUGETLBFS)
-> +#if defined(CONFIG_MEMORY_HOTPLUG) && defined(CONFIG_HUGETLBFS)
->  	/*
->  	 * We schedule the work only when a memory section is
->  	 * onlined/offlined on this node. When we come here,
-> @@ -782,7 +782,7 @@ int unregister_cpu_under_node(unsigned int cpu, unsigned int nid)
->  	return 0;
->  }
->  
-> -#ifdef CONFIG_MEMORY_HOTPLUG_SPARSE
-> +#ifdef CONFIG_MEMORY_HOTPLUG
->  static int __ref get_nid_for_pfn(unsigned long pfn)
->  {
->  #ifdef CONFIG_DEFERRED_STRUCT_PAGE_INIT
-> @@ -958,10 +958,9 @@ static int node_memory_callback(struct notifier_block *self,
->  	return NOTIFY_OK;
->  }
->  #endif	/* CONFIG_HUGETLBFS */
-> -#endif /* CONFIG_MEMORY_HOTPLUG_SPARSE */
-> +#endif /* CONFIG_MEMORY_HOTPLUG */
->  
-> -#if !defined(CONFIG_MEMORY_HOTPLUG_SPARSE) || \
-> -    !defined(CONFIG_HUGETLBFS)
-> +#if !defined(CONFIG_MEMORY_HOTPLUG) || !defined(CONFIG_HUGETLBFS)
->  static inline int node_memory_callback(struct notifier_block *self,
->  				unsigned long action, void *arg)
->  {
-> diff --git a/drivers/virtio/Kconfig b/drivers/virtio/Kconfig
-> index ce1b3f6ec325..3654def9915c 100644
-> --- a/drivers/virtio/Kconfig
-> +++ b/drivers/virtio/Kconfig
-> @@ -98,7 +98,7 @@ config VIRTIO_MEM
->  	default m
->  	depends on X86_64
->  	depends on VIRTIO
-> -	depends on MEMORY_HOTPLUG_SPARSE
-> +	depends on MEMORY_HOTPLUG
->  	depends on MEMORY_HOTREMOVE
->  	depends on CONTIG_ALLOC
->  	help
-> diff --git a/include/linux/memory.h b/include/linux/memory.h
-> index 7efc0a7c14c9..dd6e608c3e0b 100644
-> --- a/include/linux/memory.h
-> +++ b/include/linux/memory.h
-> @@ -110,7 +110,7 @@ struct mem_section;
->  #define SLAB_CALLBACK_PRI       1
->  #define IPC_CALLBACK_PRI        10
->  
-> -#ifndef CONFIG_MEMORY_HOTPLUG_SPARSE
-> +#ifndef CONFIG_MEMORY_HOTPLUG
->  static inline void memory_dev_init(void)
->  {
->  	return;
-> @@ -126,7 +126,11 @@ static inline int memory_notify(unsigned long val, void *v)
->  {
->  	return 0;
->  }
-> -#else
-> +#define hotplug_memory_notifier(fn, pri)	({ 0; })
-> +/* These aren't inline functions due to a GCC bug. */
-> +#define register_hotmemory_notifier(nb)    ({ (void)(nb); 0; })
-> +#define unregister_hotmemory_notifier(nb)  ({ (void)(nb); })
-> +#else /* CONFIG_MEMORY_HOTPLUG */
->  extern int register_memory_notifier(struct notifier_block *nb);
->  extern void unregister_memory_notifier(struct notifier_block *nb);
->  int create_memory_block_devices(unsigned long start, unsigned long size,
-> @@ -149,9 +153,6 @@ struct memory_group *memory_group_find_by_id(int mgid);
->  typedef int (*walk_memory_groups_func_t)(struct memory_group *, void *);
->  int walk_dynamic_memory_groups(int nid, walk_memory_groups_func_t func,
->  			       struct memory_group *excluded, void *arg);
-> -#endif /* CONFIG_MEMORY_HOTPLUG_SPARSE */
-> -
-> -#ifdef CONFIG_MEMORY_HOTPLUG
->  #define hotplug_memory_notifier(fn, pri) ({		\
->  	static __meminitdata struct notifier_block fn##_mem_nb =\
->  		{ .notifier_call = fn, .priority = pri };\
-> @@ -159,12 +160,7 @@ int walk_dynamic_memory_groups(int nid, walk_memory_groups_func_t func,
->  })
->  #define register_hotmemory_notifier(nb)		register_memory_notifier(nb)
->  #define unregister_hotmemory_notifier(nb) 	unregister_memory_notifier(nb)
-> -#else
-> -#define hotplug_memory_notifier(fn, pri)	({ 0; })
-> -/* These aren't inline functions due to a GCC bug. */
-> -#define register_hotmemory_notifier(nb)    ({ (void)(nb); 0; })
-> -#define unregister_hotmemory_notifier(nb)  ({ (void)(nb); })
-> -#endif
-> +#endif /* CONFIG_MEMORY_HOTPLUG */
->  
->  /*
->   * Kernel text modification mutex, used for code patching. Users of this lock
-> diff --git a/include/linux/node.h b/include/linux/node.h
-> index 8e5a29897936..bb21fd631b16 100644
-> --- a/include/linux/node.h
-> +++ b/include/linux/node.h
-> @@ -85,7 +85,7 @@ struct node {
->  	struct device	dev;
->  	struct list_head access_list;
->  
-> -#if defined(CONFIG_MEMORY_HOTPLUG_SPARSE) && defined(CONFIG_HUGETLBFS)
-> +#if defined(CONFIG_MEMORY_HOTPLUG) && defined(CONFIG_HUGETLBFS)
->  	struct work_struct	node_work;
->  #endif
->  #ifdef CONFIG_HMEM_REPORTING
-> @@ -98,7 +98,7 @@ struct memory_block;
->  extern struct node *node_devices[];
->  typedef  void (*node_registration_func_t)(struct node *);
->  
-> -#if defined(CONFIG_MEMORY_HOTPLUG_SPARSE) && defined(CONFIG_NUMA)
-> +#if defined(CONFIG_MEMORY_HOTPLUG) && defined(CONFIG_NUMA)
->  void link_mem_sections(int nid, unsigned long start_pfn,
->  		       unsigned long end_pfn,
->  		       enum meminit_context context);
-> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index 2a9b6dcdac4f..669fee1d26b8 100644
-> --- a/lib/Kconfig.debug
-> +++ b/lib/Kconfig.debug
-> @@ -877,7 +877,7 @@ config DEBUG_MEMORY_INIT
->  
->  config MEMORY_NOTIFIER_ERROR_INJECT
->  	tristate "Memory hotplug notifier error injection module"
-> -	depends on MEMORY_HOTPLUG_SPARSE && NOTIFIER_ERROR_INJECTION
-> +	depends on MEMORY_HOTPLUG && NOTIFIER_ERROR_INJECTION
->  	help
->  	  This option provides the ability to inject artificial errors to
->  	  memory hotplug notifier chain callbacks.  It is controlled through
-> diff --git a/mm/Kconfig b/mm/Kconfig
-> index b7fb3f0b485e..ea8762cd8e1e 100644
-> --- a/mm/Kconfig
-> +++ b/mm/Kconfig
-> @@ -128,10 +128,6 @@ config MEMORY_HOTPLUG
->  	depends on 64BIT || BROKEN
->  	select NUMA_KEEP_MEMINFO if NUMA
->  
-> -config MEMORY_HOTPLUG_SPARSE
-> -	def_bool y
-> -	depends on SPARSEMEM && MEMORY_HOTPLUG
-> -
->  config MEMORY_HOTPLUG_DEFAULT_ONLINE
->  	bool "Online the newly added memory blocks by default"
->  	depends on MEMORY_HOTPLUG
-> diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-> index 9fd0be32a281..8d7b2b593a26 100644
-> --- a/mm/memory_hotplug.c
-> +++ b/mm/memory_hotplug.c
-> @@ -220,7 +220,6 @@ static void release_memory_resource(struct resource *res)
->  	kfree(res);
->  }
->  
-> -#ifdef CONFIG_MEMORY_HOTPLUG_SPARSE
->  static int check_pfn_span(unsigned long pfn, unsigned long nr_pages,
->  		const char *reason)
->  {
-> @@ -1163,7 +1162,6 @@ int __ref online_pages(unsigned long pfn, unsigned long nr_pages,
->  	mem_hotplug_done();
->  	return ret;
->  }
-> -#endif /* CONFIG_MEMORY_HOTPLUG_SPARSE */
->  
->  static void reset_node_present_pages(pg_data_t *pgdat)
->  {
-> diff --git a/tools/testing/selftests/memory-hotplug/config b/tools/testing/selftests/memory-hotplug/config
-> index a7e8cd5bb265..1eef042a31e1 100644
-> --- a/tools/testing/selftests/memory-hotplug/config
-> +++ b/tools/testing/selftests/memory-hotplug/config
-> @@ -1,5 +1,4 @@
->  CONFIG_MEMORY_HOTPLUG=y
-> -CONFIG_MEMORY_HOTPLUG_SPARSE=y
->  CONFIG_NOTIFIER_ERROR_INJECTION=y
->  CONFIG_MEMORY_NOTIFIER_ERROR_INJECT=m
->  CONFIG_MEMORY_HOTREMOVE=y
-> -- 
-> 2.31.1
-> 
-> 
+Move the sysfs API description to Documentation/ABI,
+ensuring that scripts/get_abi.pl will properly parse it.
 
+While here, also update MAINTAINERS for it to point to
+the documentation.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/ABI/testing/sysfs-class-thermal | 259 ++++++++++++++++++
+ .../driver-api/thermal/sysfs-api.rst          | 225 +--------------
+ MAINTAINERS                                   |   2 +
+ 3 files changed, 264 insertions(+), 222 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-class-thermal
+
+diff --git a/Documentation/ABI/testing/sysfs-class-thermal b/Documentation/ABI/testing/sysfs-class-thermal
+new file mode 100644
+index 000000000000..2c52bb1f864c
+--- /dev/null
++++ b/Documentation/ABI/testing/sysfs-class-thermal
+@@ -0,0 +1,259 @@
++What:		/sys/class/thermal/thermal_zoneX/type
++Description:
++		Strings which represent the thermal zone type.
++		This is given by thermal zone driver as part of registration.
++		E.g: "acpitz" indicates it's an ACPI thermal device.
++		In order to keep it consistent with hwmon sys attribute; this
++		shouldbe a short, lowercase string, not containing spaces nor
++		dashes.
++
++		RO, Required
++
++What:		/sys/class/thermal/thermal_zoneX/temp
++Description:
++		Current temperature as reported by thermal zone (sensor).
++
++		Unit: millidegree Celsius
++
++		RO, Required
++
++What:		/sys/class/thermal/thermal_zoneX/mode
++Description:
++		One of the predefined values in [enabled, disabled].
++		This file gives information about the algorithm that is
++		currently managing the thermal zone. It can be either default
++		kernel based algorithm or user space application.
++
++		enabled
++				enable Kernel Thermal management.
++		disabled
++				Preventing kernel thermal zone driver actions upon
++				trip points so that user application can take full
++				charge of the thermal management.
++
++		RW, Optional
++
++What:		/sys/class/thermal/thermal_zoneX/policy
++Description:
++		One of the various thermal governors used for a particular zone.
++
++		RW, Required
++
++What:		/sys/class/thermal/thermal_zoneX/available_policies
++Description:
++		Available thermal governors which can be used for a
++		particular zone.
++
++		RO, Required
++
++What:		/sys/class/thermal/thermal_zoneX/trip_point_Y_temp
++Description:
++		The temperature above which trip point will be fired.
++
++		Unit: millidegree Celsius
++
++		RO, Optional
++
++What:		/sys/class/thermal/thermal_zoneX/trip_point_Y_type
++Description:
++		Strings which indicate the type of the trip point.
++
++		E.g. it can be one of critical, hot, passive, `active[0-*]`
++		for ACPI thermal zone.
++
++		RO, Optional
++
++What:		/sys/class/thermal/thermal_zoneX/trip_point_Y_hyst
++Description:
++		The hysteresis value for a trip point, represented as an
++		integer.
++
++		Unit: Celsius
++
++		RW, Optional
++
++What:		/sys/class/thermal/thermal_zoneX/cdevY
++Description:
++	Sysfs link to the thermal cooling device node where the sys I/F
++	for cooling device throttling control represents.
++
++	RO, Optional
++
++What:		/sys/class/thermal/thermal_zoneX/cdevY_trip_point
++Description:
++		The trip point in this thermal zone which `cdev[0-*]` is
++		associated with; -1 means the cooling device is not
++		associated with any trip point.
++
++		RO, Optional
++
++What:		/sys/class/thermal/thermal_zoneX/cdevY_weight
++Description:
++		The influence of `cdev[0-*]` in this thermal zone. This value
++		is relative to the rest of cooling devices in the thermal
++		zone. For example, if a cooling device has a weight double
++		than that of other, it's twice as effective in cooling the
++		thermal zone.
++
++		RW, Optional
++
++What:		/sys/class/thermal/thermal_zoneX/emul_temp
++Description:
++		Interface to set the emulated temperature method in thermal zone
++		(sensor). After setting this temperature, the thermal zone may
++		pass this temperature to platform emulation function if
++		registered or cache it locally. This is useful in debugging
++		different temperature threshold and its associated cooling
++		action. This is write only node and writing 0 on this node
++		should disable emulation.
++
++		Unit: millidegree Celsius
++
++		WO, Optional
++
++		WARNING:
++		    Be careful while enabling this option on production systems,
++		    because userland can easily disable the thermal policy by simply
++		    flooding this sysfs node with low temperature values.
++
++
++What:		/sys/class/thermal/thermal_zoneX/k_d
++Description:
++		The derivative term of the power allocator governor's PID
++		controller. For more information see
++		Documentation/driver-api/thermal/power_allocator.rst
++
++		RW, Optional
++
++What:		/sys/class/thermal/thermal_zoneX/k_i
++Description:
++		The integral term of the power allocator governor's PID
++		controller. This term allows the PID controller to compensate
++		for long term drift. For more information see
++		Documentation/driver-api/thermal/power_allocator.rst
++
++		RW, Optional
++
++What:		/sys/class/thermal/thermal_zoneX/k_po
++Description:
++		The proportional term of the power allocator governor's PID
++		controller during temperature overshoot. Temperature overshoot
++		is when the current temperature is above the "desired
++		temperature" trip point. For more information see
++		Documentation/driver-api/thermal/power_allocator.rst
++
++		RW, Optional
++
++What:		/sys/class/thermal/thermal_zoneX/k_pu
++Description:
++		The proportional term of the power allocator governor's PID
++		controller during temperature undershoot. Temperature undershoot
++		is when the current temperature is below the "desired
++		temperature" trip point. For more information see
++		Documentation/driver-api/thermal/power_allocator.rst
++
++		RW, Optional
++
++What:		/sys/class/thermal/thermal_zoneX/integral_cutoff
++Description:
++		Temperature offset from the desired temperature trip point
++		above which the integral term of the power allocator
++		governor's PID controller starts accumulating errors. For
++		example, if integral_cutoff is 0, then the integral term only
++		accumulates error when temperature is above the desired
++		temperature trip point. For more information see
++		Documentation/driver-api/thermal/power_allocator.rst
++
++		Unit: millidegree Celsius
++
++		RW, Optional
++
++What:		/sys/class/thermal/thermal_zoneX/slope
++Description:
++		The slope constant used in a linear extrapolation model
++		to determine a hotspot temperature based off the sensor's
++		raw readings. It is up to the device driver to determine
++		the usage of these values.
++
++		RW, Optional
++
++What:		/sys/class/thermal/thermal_zoneX/offset
++Description:
++		The offset constant used in a linear extrapolation model
++		to determine a hotspot temperature based off the sensor's
++		raw readings. It is up to the device driver to determine
++		the usage of these values.
++
++		RW, Optional
++
++What:		/sys/class/thermal/thermal_zoneX/sustainable_power
++Description:
++		An estimate of the sustained power that can be dissipated by
++		the thermal zone. Used by the power allocator governor. For
++		more information see
++		Documentation/driver-api/thermal/power_allocator.rst
++
++		Unit: milliwatts
++
++		RW, Optional
++
++What:		/sys/class/thermal/cooling_deviceX/type
++Description:
++		String which represents the type of device, e.g:
++
++		- for generic ACPI: should be "Fan", "Processor" or "LCD"
++		- for memory controller device on intel_menlow platform:
++		should be "Memory controller".
++
++		RO, Required
++
++What:		/sys/class/thermal/cooling_deviceX/max_state
++Description:
++		The maximum permissible cooling state of this cooling device.
++
++		RO, Required
++
++What:		/sys/class/thermal/cooling_deviceX/cur_state
++Description:
++		The current cooling state of this cooling device.
++		The value can any integer numbers between 0 and max_state:
++
++		- cur_state == 0 means no cooling
++		- cur_state == max_state means the maximum cooling.
++
++		RW, Required
++
++What:		/sys/class/thermal/cooling_deviceX/stats/reset
++Description:
++		Writing any value resets the cooling device's statistics.
++
++		WO, Required
++
++What:		/sys/class/thermal/cooling_deviceX/stats/time_in_state_ms:
++Description:
++		The amount of time spent by the cooling device in various
++		cooling states. The output will have "<state> <time>" pair
++		in each line, which will mean this cooling device spent <time>
++		msec of time at <state>.
++
++		Output will have one line for each of the supported states.
++
++		RO, Required
++
++What:		/sys/class/thermal/cooling_deviceX/stats/total_trans
++Description:
++		A single positive value showing the total number of times
++		the state of a cooling device is changed.
++
++		RO, Required
++
++What:		/sys/class/thermal/cooling_deviceX/stats/trans_table
++Description:
++		This gives fine grained information about all the cooling state
++		transitions. The cat output here is a two dimensional matrix,
++		where an entry <i,j> (row i, column j) represents the number
++		of transitions from State_i to State_j. If the transition
++		table is bigger than PAGE_SIZE, reading this will return
++		an -EFBIG error.
++
++		RO, Required
+diff --git a/Documentation/driver-api/thermal/sysfs-api.rst b/Documentation/driver-api/thermal/sysfs-api.rst
+index c93fa5e961a0..2e0f79a9e2ee 100644
+--- a/Documentation/driver-api/thermal/sysfs-api.rst
++++ b/Documentation/driver-api/thermal/sysfs-api.rst
+@@ -428,6 +428,9 @@ of thermal zone device. E.g. the generic thermal driver registers one hwmon
+ class device and build the associated hwmon sysfs I/F for all the registered
+ ACPI thermal zones.
+ 
++Please read Documentation/ABI/testing/sysfs-class-thermal for thermal
++zone and cooling device attribute details.
++
+ ::
+ 
+   /sys/class/hwmon/hwmon[0-*]:
+@@ -437,228 +440,6 @@ ACPI thermal zones.
+ 
+ Please read Documentation/hwmon/sysfs-interface.rst for additional information.
+ 
+-Thermal zone attributes
+------------------------
+-
+-type
+-	Strings which represent the thermal zone type.
+-	This is given by thermal zone driver as part of registration.
+-	E.g: "acpitz" indicates it's an ACPI thermal device.
+-	In order to keep it consistent with hwmon sys attribute; this should
+-	be a short, lowercase string, not containing spaces nor dashes.
+-	RO, Required
+-
+-temp
+-	Current temperature as reported by thermal zone (sensor).
+-	Unit: millidegree Celsius
+-	RO, Required
+-
+-mode
+-	One of the predefined values in [enabled, disabled].
+-	This file gives information about the algorithm that is currently
+-	managing the thermal zone. It can be either default kernel based
+-	algorithm or user space application.
+-
+-	enabled
+-			  enable Kernel Thermal management.
+-	disabled
+-			  Preventing kernel thermal zone driver actions upon
+-			  trip points so that user application can take full
+-			  charge of the thermal management.
+-
+-	RW, Optional
+-
+-policy
+-	One of the various thermal governors used for a particular zone.
+-
+-	RW, Required
+-
+-available_policies
+-	Available thermal governors which can be used for a particular zone.
+-
+-	RO, Required
+-
+-`trip_point_[0-*]_temp`
+-	The temperature above which trip point will be fired.
+-
+-	Unit: millidegree Celsius
+-
+-	RO, Optional
+-
+-`trip_point_[0-*]_type`
+-	Strings which indicate the type of the trip point.
+-
+-	E.g. it can be one of critical, hot, passive, `active[0-*]` for ACPI
+-	thermal zone.
+-
+-	RO, Optional
+-
+-`trip_point_[0-*]_hyst`
+-	The hysteresis value for a trip point, represented as an integer
+-	Unit: Celsius
+-	RW, Optional
+-
+-`cdev[0-*]`
+-	Sysfs link to the thermal cooling device node where the sys I/F
+-	for cooling device throttling control represents.
+-
+-	RO, Optional
+-
+-`cdev[0-*]_trip_point`
+-	The trip point in this thermal zone which `cdev[0-*]` is associated
+-	with; -1 means the cooling device is not associated with any trip
+-	point.
+-
+-	RO, Optional
+-
+-`cdev[0-*]_weight`
+-	The influence of `cdev[0-*]` in this thermal zone. This value
+-	is relative to the rest of cooling devices in the thermal
+-	zone. For example, if a cooling device has a weight double
+-	than that of other, it's twice as effective in cooling the
+-	thermal zone.
+-
+-	RW, Optional
+-
+-emul_temp
+-	Interface to set the emulated temperature method in thermal zone
+-	(sensor). After setting this temperature, the thermal zone may pass
+-	this temperature to platform emulation function if registered or
+-	cache it locally. This is useful in debugging different temperature
+-	threshold and its associated cooling action. This is write only node
+-	and writing 0 on this node should disable emulation.
+-	Unit: millidegree Celsius
+-
+-	WO, Optional
+-
+-	  WARNING:
+-	    Be careful while enabling this option on production systems,
+-	    because userland can easily disable the thermal policy by simply
+-	    flooding this sysfs node with low temperature values.
+-
+-sustainable_power
+-	An estimate of the sustained power that can be dissipated by
+-	the thermal zone. Used by the power allocator governor. For
+-	more information see Documentation/driver-api/thermal/power_allocator.rst
+-
+-	Unit: milliwatts
+-
+-	RW, Optional
+-
+-k_po
+-	The proportional term of the power allocator governor's PID
+-	controller during temperature overshoot. Temperature overshoot
+-	is when the current temperature is above the "desired
+-	temperature" trip point. For more information see
+-	Documentation/driver-api/thermal/power_allocator.rst
+-
+-	RW, Optional
+-
+-k_pu
+-	The proportional term of the power allocator governor's PID
+-	controller during temperature undershoot. Temperature undershoot
+-	is when the current temperature is below the "desired
+-	temperature" trip point. For more information see
+-	Documentation/driver-api/thermal/power_allocator.rst
+-
+-	RW, Optional
+-
+-k_i
+-	The integral term of the power allocator governor's PID
+-	controller. This term allows the PID controller to compensate
+-	for long term drift. For more information see
+-	Documentation/driver-api/thermal/power_allocator.rst
+-
+-	RW, Optional
+-
+-k_d
+-	The derivative term of the power allocator governor's PID
+-	controller. For more information see
+-	Documentation/driver-api/thermal/power_allocator.rst
+-
+-	RW, Optional
+-
+-integral_cutoff
+-	Temperature offset from the desired temperature trip point
+-	above which the integral term of the power allocator
+-	governor's PID controller starts accumulating errors. For
+-	example, if integral_cutoff is 0, then the integral term only
+-	accumulates error when temperature is above the desired
+-	temperature trip point. For more information see
+-	Documentation/driver-api/thermal/power_allocator.rst
+-
+-	Unit: millidegree Celsius
+-
+-	RW, Optional
+-
+-slope
+-	The slope constant used in a linear extrapolation model
+-	to determine a hotspot temperature based off the sensor's
+-	raw readings. It is up to the device driver to determine
+-	the usage of these values.
+-
+-	RW, Optional
+-
+-offset
+-	The offset constant used in a linear extrapolation model
+-	to determine a hotspot temperature based off the sensor's
+-	raw readings. It is up to the device driver to determine
+-	the usage of these values.
+-
+-	RW, Optional
+-
+-Cooling device attributes
+--------------------------
+-
+-type
+-	String which represents the type of device, e.g:
+-
+-	- for generic ACPI: should be "Fan", "Processor" or "LCD"
+-	- for memory controller device on intel_menlow platform:
+-	  should be "Memory controller".
+-
+-	RO, Required
+-
+-max_state
+-	The maximum permissible cooling state of this cooling device.
+-
+-	RO, Required
+-
+-cur_state
+-	The current cooling state of this cooling device.
+-	The value can any integer numbers between 0 and max_state:
+-
+-	- cur_state == 0 means no cooling
+-	- cur_state == max_state means the maximum cooling.
+-
+-	RW, Required
+-
+-stats/reset
+-	Writing any value resets the cooling device's statistics.
+-	WO, Required
+-
+-stats/time_in_state_ms:
+-	The amount of time spent by the cooling device in various cooling
+-	states. The output will have "<state> <time>" pair in each line, which
+-	will mean this cooling device spent <time> msec of time at <state>.
+-	Output will have one line for each of the supported states.
+-	RO, Required
+-
+-
+-stats/total_trans:
+-	A single positive value showing the total number of times the state of a
+-	cooling device is changed.
+-
+-	RO, Required
+-
+-stats/trans_table:
+-	This gives fine grained information about all the cooling state
+-	transitions. The cat output here is a two dimensional matrix, where an
+-	entry <i,j> (row i, column j) represents the number of transitions from
+-	State_i to State_j. If the transition table is bigger than PAGE_SIZE,
+-	reading this will return an -EFBIG error.
+-	RO, Required
+-
+ 3. A simple implementation
+ ==========================
+ 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 7cfd63ce7122..a8fa66402b05 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -18697,7 +18697,9 @@ L:	linux-pm@vger.kernel.org
+ S:	Supported
+ Q:	https://patchwork.kernel.org/project/linux-pm/list/
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
++F:	Documentation/ABI/testing/sysfs-class-thermal
+ F:	Documentation/devicetree/bindings/thermal/
++F:	Documentation/driver-api/thermal/
+ F:	drivers/thermal/
+ F:	include/linux/cpu_cooling.h
+ F:	include/linux/thermal.h
 -- 
-Oscar Salvador
-SUSE Labs
+2.31.1
+
