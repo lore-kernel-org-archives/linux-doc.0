@@ -2,135 +2,160 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93506C433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 23:36:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2216C433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 02:29:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6607A610A1
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Oct 2021 23:36:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 854FF6124C
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 02:29:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231241AbhJFXit (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Oct 2021 19:38:49 -0400
-Received: from mail108.syd.optusnet.com.au ([211.29.132.59]:39572 "EHLO
-        mail108.syd.optusnet.com.au" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230300AbhJFXis (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Oct 2021 19:38:48 -0400
-X-Greylist: delayed 1318 seconds by postgrey-1.27 at vger.kernel.org; Wed, 06 Oct 2021 19:38:48 EDT
-Received: from dread.disaster.area (pa49-195-238-16.pa.nsw.optusnet.com.au [49.195.238.16])
-        by mail108.syd.optusnet.com.au (Postfix) with ESMTPS id 3BA985E92DF;
-        Thu,  7 Oct 2021 10:14:54 +1100 (AEDT)
-Received: from dave by dread.disaster.area with local (Exim 4.92.3)
-        (envelope-from <david@fromorbit.com>)
-        id 1mYG7g-003Hvo-Gu; Thu, 07 Oct 2021 10:14:52 +1100
-Date:   Thu, 7 Oct 2021 10:14:52 +1100
-From:   Dave Chinner <david@fromorbit.com>
-To:     Vlastimil Babka <vbabka@suse.cz>
-Cc:     Michal Hocko <mhocko@suse.com>, NeilBrown <neilb@suse.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        "Darrick J. Wong" <djwong@kernel.org>,
+        id S232070AbhJGCbX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Oct 2021 22:31:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38384 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230489AbhJGCbW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 6 Oct 2021 22:31:22 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 53E5561215;
+        Thu,  7 Oct 2021 02:29:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1633573770;
+        bh=QKnJdE88voYB/9FaSah2G1VK75svKZo3+imFlVbkWFk=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=sy3Id8Xw5K5JSS0QPe6KDaxwGmEsoiHtqVrOeqe1WMmSTAOI9kUw4iT3U1l7U1Buu
+         3w5tGvkoDfNxV23My6X1HDBhvus6DnOB/Q8phFYwuZC071WMp5Bs8FZl11x3GMauiE
+         Im+2fhvnN7zYh48vimu0ZpWrbH7fQ4uo59x+NuAc=
+Date:   Wed, 6 Oct 2021 19:29:27 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     David Hildenbrand <david@redhat.com>,
+        Michal Hocko <mhocko@suse.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Pavel Machek <pavel@ucw.cz>, Colin Cross <ccross@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Kees Cook <keescook@chromium.org>,
         Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>, Jonathan Corbet <corbet@lwn.net>,
-        linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/6] MM: improve documentation for __GFP_NOFAIL
-Message-ID: <20211006231452.GF54211@dread.disaster.area>
-References: <163184698512.29351.4735492251524335974.stgit@noble.brown>
- <163184741778.29351.16920832234899124642.stgit@noble.brown>
- <b680fb87-439b-0ba4-cf9f-33d729f27941@suse.cz>
- <YVwyhDnE/HEnoLAi@dhcp22.suse.cz>
- <eba04a07-99da-771a-ab6b-36de41f9f120@suse.cz>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <eba04a07-99da-771a-ab6b-36de41f9f120@suse.cz>
-X-Optus-CM-Score: 0
-X-Optus-CM-Analysis: v=2.4 cv=VuxAv86n c=1 sm=1 tr=0 ts=615e2df0
-        a=DzKKRZjfViQTE5W6EVc0VA==:117 a=DzKKRZjfViQTE5W6EVc0VA==:17
-        a=kj9zAlcOel0A:10 a=8gfv0ekSlNoA:10 a=VwQbUJbxAAAA:8 a=7-415B0cAAAA:8
-        a=y7N-FL6dZ1VV32BAIJQA:9 a=CjuIK1q_8ugA:10 a=AjGcO6oz07-iQ99wixmX:22
-        a=biEYGPWJfzWAr4FL6Ov7:22
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        vincenzo.frascino@arm.com,
+        Chinwen Chang ( =?UTF-8?Q?=E5=BC=B5=E9=8C=A6=E6=96=87?=) 
+        <chinwen.chang@mediatek.com>,
+        Axel Rasmussen <axelrasmussen@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Jann Horn <jannh@google.com>, apopple@nvidia.com,
+        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
+        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
+        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
+        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
+        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
+        chris.hyser@oracle.com, Peter Collingbourne <pcc@google.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
+        Rolf Eike Beer <eb@emlix.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
+        cxfcosmos@gmail.com, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm <linux-mm@kvack.org>,
+        kernel-team <kernel-team@android.com>
+Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
+Message-Id: <20211006192927.f7a735f1afe4182bf4693838@linux-foundation.org>
+In-Reply-To: <CAJuCfpH4KT=fOAWsYhaAb_LLg-VwPvL4Bmv32NYuUtZ3Ceo+PA@mail.gmail.com>
+References: <20211001205657.815551-1-surenb@google.com>
+        <20211001205657.815551-3-surenb@google.com>
+        <20211005184211.GA19804@duo.ucw.cz>
+        <CAJuCfpE5JEThTMhwKPUREfSE1GYcTx4YSLoVhAH97fJH_qR0Zg@mail.gmail.com>
+        <20211005200411.GB19804@duo.ucw.cz>
+        <CAJuCfpFZkz2c0ZWeqzOAx8KFqk1ge3K-SiCMeu3dmi6B7bK-9w@mail.gmail.com>
+        <efdffa68-d790-72e4-e6a3-80f2e194d811@nvidia.com>
+        <YV1eCu0eZ+gQADNx@dhcp22.suse.cz>
+        <6b15c682-72eb-724d-bc43-36ae6b79b91a@redhat.com>
+        <CAJuCfpEPBM6ehQXgzp=g4SqtY6iaC8wuZ-CRE81oR1VOq7m4CA@mail.gmail.com>
+        <192438ab-a095-d441-6843-432fbbb8e38a@redhat.com>
+        <CAJuCfpH4KT=fOAWsYhaAb_LLg-VwPvL4Bmv32NYuUtZ3Ceo+PA@mail.gmail.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 05, 2021 at 02:27:45PM +0200, Vlastimil Babka wrote:
-> On 10/5/21 13:09, Michal Hocko wrote:
-> > On Tue 05-10-21 11:20:51, Vlastimil Babka wrote:
-> > [...]
-> >> > --- a/include/linux/gfp.h
-> >> > +++ b/include/linux/gfp.h
-> >> > @@ -209,7 +209,11 @@ struct vm_area_struct;
-> >> >   * used only when there is no reasonable failure policy) but it is
-> >> >   * definitely preferable to use the flag rather than opencode endless
-> >> >   * loop around allocator.
-> >> > - * Using this flag for costly allocations is _highly_ discouraged.
-> >> > + * Use of this flag may lead to deadlocks if locks are held which would
-> >> > + * be needed for memory reclaim, write-back, or the timely exit of a
-> >> > + * process killed by the OOM-killer.  Dropping any locks not absolutely
-> >> > + * needed is advisable before requesting a %__GFP_NOFAIL allocate.
-> >> > + * Using this flag for costly allocations (order>1) is _highly_ discouraged.
-> >> 
-> >> We define costly as 3, not 1. But sure it's best to avoid even order>0 for
-> >> __GFP_NOFAIL. Advising order>1 seems arbitrary though?
-> > 
-> > This is not completely arbitrary. We have a warning for any higher order
-> > allocation.
-> > rmqueue:
-> > 	WARN_ON_ONCE((gfp_flags & __GFP_NOFAIL) && (order > 1));
+On Wed, 6 Oct 2021 08:20:20 -0700 Suren Baghdasaryan <surenb@google.com> wrote:
+
+> On Wed, Oct 6, 2021 at 8:08 AM David Hildenbrand <david@redhat.com> wrote:
+> >
+> > On 06.10.21 17:01, Suren Baghdasaryan wrote:
+> > > On Wed, Oct 6, 2021 at 2:27 AM David Hildenbrand <david@redhat.com> wrote:
+> > >>
+> > >> On 06.10.21 10:27, Michal Hocko wrote:
+> > >>> On Tue 05-10-21 23:57:36, John Hubbard wrote:
+> > >>> [...]
+> > >>>> 1) Yes, just leave the strings in the kernel, that's simple and
+> > >>>> it works, and the alternatives don't really help your case nearly
+> > >>>> enough.
+> > >>>
+> > >>> I do not have a strong opinion. Strings are easier to use but they
+> > >>> are more involved and the necessity of kref approach just underlines
+> > >>> that. There are going to be new allocations and that always can lead
+> > >>> to surprising side effects.  These are small (80B at maximum) so the
+> > >>> overall footpring shouldn't all that large by default but it can grow
+> > >>> quite large with a very high max_map_count. There are workloads which
+> > >>> really require the default to be set high (e.g. heavy mremap users). So
+> > >>> if anything all those should be __GFP_ACCOUNT and memcg accounted.
+> > >>>
+> > >>> I do agree that numbers are just much more simpler from accounting,
+> > >>> performance and implementation POV.
+> > >>
+> > >> +1
+> > >>
+> > >> I can understand that having a string can be quite beneficial e.g., when
+> > >> dumping mmaps. If only user space knows the id <-> string mapping, that
+> > >> can be quite tricky.
+> > >>
+> > >> However, I also do wonder if there would be a way to standardize/reserve
+> > >> ids, such that a given id always corresponds to a specific user. If we
+> > >> use an uint64_t for an id, there would be plenty room to reserve ids ...
+> > >>
+> > >> I'd really prefer if we can avoid using strings and instead using ids.
+> > >
+> > > I wish it was that simple and for some names like [anon:.bss] or
+> > > [anon:dalvik-zygote space] reserving a unique id would work, however
+> > > some names like [anon:dalvik-/system/framework/boot-core-icu4j.art]
+> > > are generated dynamically at runtime and include package name.
+> >
+> > Valuable information
 > 
-> Oh, I missed that.
+> Yeah, I should have described it clearer the first time around.
+
+If it gets this fancy then the 80 char limit is likely to become a
+significant limitation and the choice should be explained & justified.
+
+Why not 97?  1034?  Why not just strndup_user() and be done with it?
+
+> > My question would be, if we really have to expose these strings to the
+> > kernel, or if an id is sufficient. Sure, it would move complexity to
+> > user space, but keeping complexity out of the kernel is usually a good idea.
 > 
-> > I do agree that "Using this flag for higher order allocations is
-> > _highly_ discouraged.
-> 
-> Well, with the warning in place this is effectively forbidden, not just
-> discouraged.
+> My worry here is not the additional complexity on the userspace side
+> but the performance hit we would have to endure due to these
+> conversions.
 
-Yup, especially as it doesn't obey __GFP_NOWARN.
+Has the performance hit been quantified?
 
-See commit de2860f46362 ("mm: Add kvrealloc()") as a direct result
-of unwittingly tripping over this warning when adding __GFP_NOFAIL
-annotations to replace open coded high-order kmalloc loops that have
-been in place for a couple of decades without issues.
+I've seen this many times down the ages.  Something which *could* be
+done in userspace is instead done in the kernel because coordinating
+userspace is Just So Damn Hard.  I guess the central problem is that
+userspace isn't centrally coordinated.  I wish we were better at this.
 
-Personally I think that the way __GFP_NOFAIL is first of all
-recommended over open coded loops and then only later found to be
-effectively forbidden and needing to be replaced with open coded
-loops to be a complete mess.
 
-Not to mention on the impossibility of using __GFP_NOFAIL with
-kvmalloc() calls. Just what do we expect kmalloc_node(__GFP_NORETRY
-| __GFP_NOFAIL) to do, exactly?
-
-So, effectively, we have to open-code around kvmalloc() in
-situations where failure is not an option. Even if we pass
-__GFP_NOFAIL to __vmalloc(), it isn't guaranteed to succeed because
-of the "we won't honor gfp flags passed to __vmalloc" semantics it
-has.
-
-Even the API constaints of kvmalloc() w.r.t. only doing the vmalloc
-fallback if the gfp context is GFP_KERNEL - we already do GFP_NOFS
-kvmalloc via memalloc_nofs_save/restore(), so this behavioural
-restriction w.r.t. gfp flags just makes no sense at all.
-
-That leads to us having to go back to writing extremely custom open
-coded loops to avoid awful high-order kmalloc direct reclaim
-behaviour and still fall back to vmalloc and to still handle NOFAIL
-semantics we need:
-
-https://lore.kernel.org/linux-xfs/20210902095927.911100-8-david@fromorbit.com/
-
-So, really, the problems are much deeper here than just badly
-documented, catch-22 rules for __GFP_NOFAIL - we can't even use
-__GFP_NOFAIL consistently across the allocation APIs because it
-changes allocation behaviours in unusable, self-defeating ways....
-
-Cheers,
-
-Dave.
--- 
-Dave Chinner
-david@fromorbit.com
