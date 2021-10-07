@@ -2,185 +2,268 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6278C433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 21:32:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CA2AC433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 23:15:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C60D261090
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 21:32:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 44FC061212
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 23:15:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241270AbhJGVeN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Oct 2021 17:34:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43272 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241215AbhJGVeM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Oct 2021 17:34:12 -0400
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E3D0C061760
-        for <linux-doc@vger.kernel.org>; Thu,  7 Oct 2021 14:32:18 -0700 (PDT)
-Received: by mail-yb1-xb2c.google.com with SMTP id d131so16554079ybd.5
-        for <linux-doc@vger.kernel.org>; Thu, 07 Oct 2021 14:32:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zLOXetc7YBsFaoXhbAiQwjFQGKVuF+LsdrpZkpJ+Yn8=;
-        b=I7CD544nPG2Zflz/Gmzk0gLTZ7/XyNqM8T4Eficx6meLX3T7YHuRuP9RVKBBvNs/P2
-         mhyB+AAsIFAsz1EGzZuY3ezfjym+9cyyXdAXexeO5MF5zTh5JVDgUEdfeHi14X2IJ8l7
-         5lDTy2C1wHckIghEmN/nVKQeMWg6GqUrXa4AQrOs55U0gAhE+XcLoCfbJkQfpfZRI1Nu
-         dsLeERidXU0RJ4NSQYbaySX/CsVAG6TVC615Am35UMCjL6hrFjEx70Z27rFSJu7+qRzM
-         OfblfwbTiIipcqehK3HiWYnpFL3J6FGlnwT9QlijReFRI62FoG06AFMdZdDpoUIWIAZu
-         7sYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zLOXetc7YBsFaoXhbAiQwjFQGKVuF+LsdrpZkpJ+Yn8=;
-        b=CgTEs7TygN0C46iIjyQQ0IsKN0HsSSS/jfgJJSAme2bfmQOhB+YxSWcyS0bajscR/F
-         hIeF0Uq/j6f31o7b7YhspvTM0gw05WEKOQAbJU8GuH5UK5+ujXgISxnlqYK61C609W13
-         hCHkdx07McpVYQkklziiwpXQJrtyYRxp4b91bhNWFHpoIKc7TnrvdCOJN2bF2fdbqYwh
-         tO554oD5R3LU7spEhpK9pncp7Tz9zDWp2qxar+SJfZX0Ooj9FrQQcKVdmOOy7duomGpw
-         M+c4QiLZrEaeue7XXZIuukBAeXOkfYKmfx6iRanWc53RD7xeutlr7S2Fa7N0NZCPx7tc
-         hmCA==
-X-Gm-Message-State: AOAM533ywZcw/pMSajejN9sVNmzLKwofTA0YDj7hltLOwNAhaDEk4/wD
-        5nNfPffPXacyos4pgGaijo8zpZV1E/VhHgtqqFM/Rg==
-X-Google-Smtp-Source: ABdhPJw+6Zfp/de4q4PUFURmsm27H9dUiP8PYD3C452O9dUP9v1kYwwmNSfCZmVsZsUTThCuCkm06GukPScYtl8lfN0=
-X-Received: by 2002:a25:3:: with SMTP id 3mr7689141yba.418.1633642337263; Thu,
- 07 Oct 2021 14:32:17 -0700 (PDT)
+        id S233133AbhJGXRt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Oct 2021 19:17:49 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:49822 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232772AbhJGXRt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Oct 2021 19:17:49 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 37AA222390;
+        Thu,  7 Oct 2021 23:15:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1633648553; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=kSnrerwv270QxT0w2bS3cPFwhWQVdE6mdRZdEBg4V4o=;
+        b=Pn27Dngy7k6xyCB/L8UnC3idx+w9mU6b8Q2lt4+NQFDFiGnhBi9jq3UDR0hysdsa7PFnZV
+        zB46tndaWmkqwMnZmG0A6VLfehDUUpxSzpMvC8ze+NcgM/WLFBH7lKLW9GSg/JWo7I0S+m
+        2thz9a10DZWK0cihVLW/hy3PzPPWkOs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1633648553;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=kSnrerwv270QxT0w2bS3cPFwhWQVdE6mdRZdEBg4V4o=;
+        b=eIauZ+xvoroRlzFeFKYGLP++hO24vjEin49QWmDbxltJw1low2C3e6OU4+G/OJ+dMC+RFu
+        eEOM33gIa1WozrBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7648113C3A;
+        Thu,  7 Oct 2021 23:15:48 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id 7SFLDaR/X2EGMAAAMHmgww
+        (envelope-from <neilb@suse.de>); Thu, 07 Oct 2021 23:15:48 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20211006175821.GA1941@duo.ucw.cz> <CAJuCfpGuuXOpdYbt3AsNn+WNbavwuEsDfRMYunh+gajp6hOMAg@mail.gmail.com>
- <YV6rksRHr2iSWR3S@dhcp22.suse.cz> <92cbfe3b-f3d1-a8e1-7eb9-bab735e782f6@rasmusvillemoes.dk>
- <20211007101527.GA26288@duo.ucw.cz> <CAJuCfpGp0D9p3KhOWhcxMO1wEbo-J_b2Anc-oNwdycx4NTRqoA@mail.gmail.com>
- <YV8jB+kwU95hLqTq@dhcp22.suse.cz> <CAJuCfpG-Nza3YnpzvHaS_i1mHds3nJ+PV22xTAfgwvj+42WQNA@mail.gmail.com>
- <YV8u4B8Y9AP9xZIJ@dhcp22.suse.cz> <CAJuCfpHAG_C5vE-Xkkrm2kynTFF-Jd06tQoCWehHATL0W2mY_g@mail.gmail.com>
- <202110071111.DF87B4EE3@keescook> <CAJuCfpFT7qcLM0ygjbzgCj1ScPDkZvv0hcvHkc40s9wgoTov7A@mail.gmail.com>
- <caa830de-ea66-267d-bafa-369a6175251e@nvidia.com>
-In-Reply-To: <caa830de-ea66-267d-bafa-369a6175251e@nvidia.com>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Thu, 7 Oct 2021 14:32:06 -0700
-Message-ID: <CAJuCfpHJmDeyTXdsO8T5tTLgcNT22b15hj41EBNCDXBAoCdpog@mail.gmail.com>
-Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Kees Cook <keescook@chromium.org>, Michal Hocko <mhocko@suse.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        David Hildenbrand <david@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Colin Cross <ccross@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Kalesh Singh <kaleshsingh@google.com>,
-        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        vincenzo.frascino@arm.com,
-        =?UTF-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?= 
-        <chinwen.chang@mediatek.com>,
-        Axel Rasmussen <axelrasmussen@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Jann Horn <jannh@google.com>, apopple@nvidia.com,
-        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
-        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
-        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
-        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
-        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
-        Chris Hyser <chris.hyser@oracle.com>,
-        Peter Collingbourne <pcc@google.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
-        Rolf Eike Beer <eb@emlix.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
-        cxfcosmos@gmail.com, LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm <linux-mm@kvack.org>,
-        kernel-team <kernel-team@android.com>
-Content-Type: text/plain; charset="UTF-8"
+From:   "NeilBrown" <neilb@suse.de>
+To:     "Michal Hocko" <mhocko@suse.com>
+Cc:     "Dave Chinner" <david@fromorbit.com>,
+        "Vlastimil Babka" <vbabka@suse.cz>,
+        "Andrew Morton" <akpm@linux-foundation.org>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        "Andreas Dilger" <adilger.kernel@dilger.ca>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        "Matthew Wilcox" <willy@infradead.org>,
+        "Mel Gorman" <mgorman@suse.de>, "Jonathan Corbet" <corbet@lwn.net>,
+        linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/6] MM: improve documentation for __GFP_NOFAIL
+In-reply-to: <YV7G7gyfZkmw7/Ae@dhcp22.suse.cz>
+References: <163184698512.29351.4735492251524335974.stgit@noble.brown>,
+ <163184741778.29351.16920832234899124642.stgit@noble.brown>,
+ <b680fb87-439b-0ba4-cf9f-33d729f27941@suse.cz>,
+ <YVwyhDnE/HEnoLAi@dhcp22.suse.cz>,
+ <eba04a07-99da-771a-ab6b-36de41f9f120@suse.cz>,
+ <20211006231452.GF54211@dread.disaster.area>,
+ <YV7G7gyfZkmw7/Ae@dhcp22.suse.cz>
+Date:   Fri, 08 Oct 2021 10:15:45 +1100
+Message-id: <163364854551.31063.4377741712039731672@noble.neil.brown.name>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 7, 2021 at 12:03 PM 'John Hubbard' via kernel-team
-<kernel-team@android.com> wrote:
->
-> On 10/7/21 11:50, Suren Baghdasaryan wrote:
-> ...
-> >>>>>>>>>> I believe Pavel meant something as simple as
-> >>>>>>>>>> $ YOUR_FILE=$YOUR_IDS_DIR/my_string_name
-> >>>>>>>>>> $ touch $YOUR_FILE
-> >>>>>>>>>> $ stat -c %i $YOUR_FILE
-> >>>>>>>
-> >>>>>>> Ah, ok, now I understand the proposal. Thanks for the clarification!
-> >>>>>>> So, this would use filesystem as a directory for inode->name mappings.
-> >>>>>>> One rough edge for me is that the consumer would still need to parse
-> >>>>>>> /proc/$pid/maps and convert [anon:inode] into [anon:name] instead of
-> >>>>>>> just dumping the content for the user. Would it be acceptable if we
-> >>>>>>> require the ID provided by prctl() to always be a valid inode and
-> >>>>>>> show_map_vma() would do the inode-to-filename conversion when
-> >>>>>>> generating maps/smaps files? I know that inode->dentry is not
-> >>>>>>> one-to-one mapping but we can simply output the first dentry name.
-> >>>>>>> WDYT?
-> >>>>>>
-> >>>>>> No. You do not want to dictate any particular way of the mapping. The
-> >>>>>> above is just one way to do that without developing any actual mapping
-> >>>>>> yourself. You just use a filesystem for that. Kernel doesn't and
-> >>>>>> shouldn't understand the meaning of those numbers. It has no business in
-> >>>>>> that.
-> >>>>>>
-> >>>>>> In a way this would be pushing policy into the kernel.
-> >>>>>
-> >>>>> I can see your point. Any other ideas on how to prevent tools from
-> >>>>> doing this id-to-name conversion themselves?
-> >>>>
-> >>>> I really fail to understand why you really want to prevent them from that.
-> >>>> Really, the whole thing is just a cookie that kernel maintains for memory
-> >>>> mappings so that two parties can understand what the meaning of that
-> >>>> mapping is from a higher level. They both have to agree on the naming
-> >>>> but the kernel shouldn't dictate any specific convention because the
-> >>>> kernel _doesn't_ _care_. These things are not really anything actionable
-> >>>> for the kernel. It is just a metadata.
-> >>>
-> >>> The desire is for one of these two parties to be a human who can get
-> >>> the data and use it as is without additional conversions.
-> >>> /proc/$pid/maps could report FD numbers instead of pathnames, which
-> >>> could be converted to pathnames in userspace. However we do not do
-> >>> that because pathnames are more convenient for humans to identify a
-> >>> specific resource. Same logic applies here IMHO.
-> >>
-> >> Yes, please. It really seems like the folks that are interested in this
-> >> feature want strings. (I certainly do.) For those not interested in the
-> >> feature, it sounds like a CONFIG to keep it away would be sufficient.
-> >> Can we just move forward with that?
-> >
-> > Would love to if others are ok with this.
-> >
->
-> If this doesn't get accepted, then another way forward would to continue
-> the ideas above to their logical conclusion, and create a new file system:
-> vma-fs.  Like debug-fs and other special file systems, similar policy and
-> motivation. Also protected by a CONFIG option.
+On Thu, 07 Oct 2021, Michal Hocko wrote:
+> On Thu 07-10-21 10:14:52, Dave Chinner wrote:
+> > On Tue, Oct 05, 2021 at 02:27:45PM +0200, Vlastimil Babka wrote:
+> > > On 10/5/21 13:09, Michal Hocko wrote:
+> > > > On Tue 05-10-21 11:20:51, Vlastimil Babka wrote:
+> > > > [...]
+> > > >> > --- a/include/linux/gfp.h
+> > > >> > +++ b/include/linux/gfp.h
+> > > >> > @@ -209,7 +209,11 @@ struct vm_area_struct;
+> > > >> >   * used only when there is no reasonable failure policy) but it is
+> > > >> >   * definitely preferable to use the flag rather than opencode end=
+less
+> > > >> >   * loop around allocator.
+> > > >> > - * Using this flag for costly allocations is _highly_ discouraged.
+> > > >> > + * Use of this flag may lead to deadlocks if locks are held which=
+ would
+> > > >> > + * be needed for memory reclaim, write-back, or the timely exit o=
+f a
+> > > >> > + * process killed by the OOM-killer.  Dropping any locks not abso=
+lutely
+> > > >> > + * needed is advisable before requesting a %__GFP_NOFAIL allocate.
+> > > >> > + * Using this flag for costly allocations (order>1) is _highly_ d=
+iscouraged.
+> > > >>=20
+> > > >> We define costly as 3, not 1. But sure it's best to avoid even order=
+>0 for
+> > > >> __GFP_NOFAIL. Advising order>1 seems arbitrary though?
+> > > >=20
+> > > > This is not completely arbitrary. We have a warning for any higher or=
+der
+> > > > allocation.
+> > > > rmqueue:
+> > > > 	WARN_ON_ONCE((gfp_flags & __GFP_NOFAIL) && (order > 1));
+> > >=20
+> > > Oh, I missed that.
+> > >=20
+> > > > I do agree that "Using this flag for higher order allocations is
+> > > > _highly_ discouraged.
+> > >=20
+> > > Well, with the warning in place this is effectively forbidden, not just
+> > > discouraged.
+> >=20
+> > Yup, especially as it doesn't obey __GFP_NOWARN.
+> >=20
+> > See commit de2860f46362 ("mm: Add kvrealloc()") as a direct result
+> > of unwittingly tripping over this warning when adding __GFP_NOFAIL
+> > annotations to replace open coded high-order kmalloc loops that have
+> > been in place for a couple of decades without issues.
+> >=20
+> > Personally I think that the way __GFP_NOFAIL is first of all
+> > recommended over open coded loops and then only later found to be
+> > effectively forbidden and needing to be replaced with open coded
+> > loops to be a complete mess.
+>=20
+> Well, there are two things. Opencoding something that _can_ be replaced
+> by __GFP_NOFAIL and those that cannot because the respective allocator
+> doesn't really support that semantic. kvmalloc is explicit about that
+> IIRC. If you have a better way to consolidate the documentation then I
+> am all for it.
 
-TBH, I would prefer to have the current simple solution protected with
-a CONFIG option.
+I think one thing that might help make the documentation better is to
+explicitly state *why* __GFP_NOFAIL is better than a loop.
 
->
-> Actually this seems at least as natural as the procfs approach, especially
-> given the nature of these strings, which feel more like dir+file names, than
-> simple strings.
->
-> thanks,
-> --
-> John Hubbard
-> NVIDIA
->
-> --
-> To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
->
+It occurs to me that
+  while (!(p =3D kmalloc(sizeof(*p), GFP_KERNEL));
+
+would behave much the same as adding __GFP_NOFAIL and dropping the
+'while'.  So why not? I certainly cannot see the need to add any delay
+to this loop as kmalloc does a fair bit of sleeping when permitted.
+
+I understand that __GFP_NOFAIL allows page_alloc to dip into reserves,
+but Mel holds that up as a reason *not* to use __GFP_NOFAIL as it can
+impact on other subsystems.  Why not just let the caller decide if they
+deserve the boost, but oring in __GFP_ATOMIC or __GFP_MEMALLOC as
+appropriate.
+
+I assume there is a good reason.  I vaguely remember the conversation
+that lead to __GFP_NOFAIL being introduced.  I just cannot remember or
+deduce what the reason is.  So it would be great to have it documented.
+
+>=20
+> > Not to mention on the impossibility of using __GFP_NOFAIL with
+> > kvmalloc() calls. Just what do we expect kmalloc_node(__GFP_NORETRY
+> > | __GFP_NOFAIL) to do, exactly?
+>=20
+> This combination doesn't make any sense. Like others. Do you want us to
+> list all combinations that make sense?
+
+I've been wondering about that.  There seem to be sets of flags that are
+mutually exclusive.  It is as though gfp_t is a struct of a few enums.
+
+0, DMA32, DMA, HIGHMEM
+0, FS, IO
+0, ATOMIC, MEMALLOC, NOMEMALLOC, HIGH
+NORETRY, RETRY_MAYFAIL, 0, NOFAIL
+0, KSWAPD_RECLAIM, DIRECT_RECLAIM
+0, THISNODE, HARDWALL
+
+In a few cases there seem to be 3 bits where there are only 4 possibly
+combinations, so 2 bits would be enough.  There is probably no real
+value is squeezing these into 2 bits, but clearly documenting the groups
+surely wouldn't hurt.  Particularly highlighting the difference between
+related bits would help.
+
+The set with  'ATOMIC' is hard to wrap my mind around.
+They relate to ALLOC_HIGH and ALLOC_HARDER, but also to WMARK_NIN,
+WMARK_LOW, WMARK_HIGH ... I think.
+
+I wonder if FS,IO is really in the same set as DIRECT_RECLAIM as they
+all affect reclaim.  Maybe FS and IO are only relevan if DIRECT_RECLAIM
+is set?
+
+I'd love to know that to expect if neither RETRY_MAYFAIL or NOFAIL is
+set.  I guess it can fail, but it still tries harder than if
+RETRY_MAYFAIL is set....
+Ahhhh...  I found some documentation which mentions that RETRY_MAYFAIL
+doesn't trigger the oom killer.  Is that it? So RETRY_NOKILLOOM might be
+a better name?
+
+>=20
+> > So, effectively, we have to open-code around kvmalloc() in
+> > situations where failure is not an option. Even if we pass
+> > __GFP_NOFAIL to __vmalloc(), it isn't guaranteed to succeed because
+> > of the "we won't honor gfp flags passed to __vmalloc" semantics it
+> > has.
+>=20
+> yes vmalloc doesn't support nofail semantic and it is not really trivial
+> to craft it there.
+>=20
+> > Even the API constaints of kvmalloc() w.r.t. only doing the vmalloc
+> > fallback if the gfp context is GFP_KERNEL - we already do GFP_NOFS
+> > kvmalloc via memalloc_nofs_save/restore(), so this behavioural
+> > restriction w.r.t. gfp flags just makes no sense at all.
+>=20
+> GFP_NOFS (without using the scope API) has the same problem as NOFAIL in
+> the vmalloc. Hence it is not supported. If you use the scope API then
+> you can GFP_KERNEL for kvmalloc. This is clumsy but I am not sure how to
+> define these conditions in a more sensible way. Special case NOFS if the
+> scope api is in use? Why do you want an explicit NOFS then?
+
+It would seem to make sense for kvmalloc to WARN_ON if it is passed
+flags that does not allow it to use vmalloc.
+Such callers could then know they can either change to a direct
+kmalloc(), or change flags.  Silently ignoring the 'v' in the function
+name sees like a poor choice.
+
+Thanks,
+NeilBrown
+
+>=20
+> > That leads to us having to go back to writing extremely custom open
+> > coded loops to avoid awful high-order kmalloc direct reclaim
+> > behaviour and still fall back to vmalloc and to still handle NOFAIL
+> > semantics we need:
+> >=20
+> > https://lore.kernel.org/linux-xfs/20210902095927.911100-8-david@fromorbit=
+.com/
+>=20
+> It would be more productive to get to MM people rather than rant on a
+> xfs specific patchse. Anyway, I can see a kvmalloc mode where the
+> kmalloc allocation would be really a very optimistic one - like your
+> effectively GFP_NOWAIT. Nobody has requested such a mode until now and I
+> am not sure how we would sensibly describe that by a gfp mask.
+>=20
+> Btw. your GFP_NOWAIT | __GFP_NORETRY combination doesn't make any sense
+> in the allocator context as the later is a reclaim mofifier which
+> doesn't get applied when the reclaim is disabled (in your case by flags
+> &=3D ~__GFP_DIRECT_RECLAIM).
+>=20
+> GFP flags are not that easy to build a coherent and usable apis.
+> Something we carry as a baggage for a long time.
+>=20
+> > So, really, the problems are much deeper here than just badly
+> > documented, catch-22 rules for __GFP_NOFAIL - we can't even use
+> > __GFP_NOFAIL consistently across the allocation APIs because it
+> > changes allocation behaviours in unusable, self-defeating ways....
+>=20
+> GFP_NOFAIL sucks. Not all allocator can follow it for practical
+> reasons. You are welcome to help document those awkward corner cases or
+> fix them up if you have a good idea how.
+>=20
+> Thanks!
+> --=20
+> Michal Hocko
+> SUSE Labs
+>=20
+>=20
