@@ -2,131 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36999C433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 09:31:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E69B3C433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 09:33:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 17A5261163
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 09:31:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BEABA611C3
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 09:33:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240743AbhJGJdQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Oct 2021 05:33:16 -0400
-Received: from mga09.intel.com ([134.134.136.24]:60352 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240712AbhJGJdN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Oct 2021 05:33:13 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10129"; a="226106498"
-X-IronPort-AV: E=Sophos;i="5.85,354,1624345200"; 
-   d="scan'208";a="226106498"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2021 02:31:19 -0700
-X-IronPort-AV: E=Sophos;i="5.85,354,1624345200"; 
-   d="scan'208";a="488899530"
-Received: from roliveir-mobl1.ger.corp.intel.com (HELO localhost) ([10.249.41.10])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2021 02:31:16 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Thorsten Leemhuis <linux@leemhuis.info>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH v1 2/2] docs: submitting-patches: make section about the Link: tag more explicit
-In-Reply-To: <d97daa2791a7598a6ee4e853d3c6b536919191d5.1633593385.git.linux@leemhuis.info>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1633593385.git.linux@leemhuis.info> <d97daa2791a7598a6ee4e853d3c6b536919191d5.1633593385.git.linux@leemhuis.info>
-Date:   Thu, 07 Oct 2021 12:31:12 +0300
-Message-ID: <87pmshyye7.fsf@intel.com>
+        id S240592AbhJGJe6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Oct 2021 05:34:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50370 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232700AbhJGJe6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Oct 2021 05:34:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1633599184;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=YLM20CrNDiSc8ANWHfJkU17zM0jd+LCsGgIfHq5T3Hk=;
+        b=Qm9yhdhnvMrWWcj/IGjSK5TI7ChgiUfswj8ssOQmLEGXw74WR/s5H9ZbMUHQTOqO0nJHIt
+        NPOS3kgZZHrh7HvqDdfrpIElX6HAVCtiI1Lky2X5kpbEGl8iKPNOm8xW0PNh6lMoSy946s
+        8fTID3utYMAu7gsw7tqxDnwt4WmqCAg=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-441-SGwr_uDqOmWd40JMLVn8RQ-1; Thu, 07 Oct 2021 05:33:03 -0400
+X-MC-Unique: SGwr_uDqOmWd40JMLVn8RQ-1
+Received: by mail-wr1-f69.google.com with SMTP id p12-20020adfc38c000000b00160d6a7e293so1708246wrf.18
+        for <linux-doc@vger.kernel.org>; Thu, 07 Oct 2021 02:33:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=YLM20CrNDiSc8ANWHfJkU17zM0jd+LCsGgIfHq5T3Hk=;
+        b=dH3CoLuagtcc/aaoWjcrZKllqBSwHCm/QR57YCMHdfzTH/T3CfaLQwiANFRMD6YG6W
+         1y5iAgL5yb2h/7Inpl3RxaKOzMhCCIXc2IgRLJrXpn4pT4uFyEMhofnLBSRk+HmchdJP
+         Zm0aGQprdMYKAGtzQungxD/66fEdzbObf2Yhrsj7XpTePkPHG5+PizSdZdhCxawfWO7h
+         yvQ/rjZhTLCzUni4+O+bvDcSpeDRG/53BjxA/P+53vwJi08+E67FR0+AeKBobEIpzDu/
+         XdwteTQATradCFwwsvtStoixWMIw6ZZ8tGmSVDxWsA1C4O1C2YBCdbWKXaYPzXiXt5e5
+         AGFg==
+X-Gm-Message-State: AOAM5337/mizXLMVY1edJeEc7GAWhoYIe38Oi09FTdX1j+A2xjD30xbc
+        RnrZO2+L0pG9z4AFeKmp6Ok0UWI9iMN9s4967Em3f01rdoWL9fSOy/OaSekYuvoZeCA+zkCjthC
+        jL4WRfE4v/YFhjkMYJ2Cq
+X-Received: by 2002:adf:a118:: with SMTP id o24mr3898232wro.15.1633598859308;
+        Thu, 07 Oct 2021 02:27:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwTkTGQO7OWYf67tE5FRQkAoLSad774DWcZLIKG1RX8coeD4jn+lqAsFsAow6Xbu9zf7PRTow==
+X-Received: by 2002:adf:a118:: with SMTP id o24mr3898207wro.15.1633598859138;
+        Thu, 07 Oct 2021 02:27:39 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c6886.dip0.t-ipconnect.de. [91.12.104.134])
+        by smtp.gmail.com with ESMTPSA id l17sm23582725wrx.24.2021.10.07.02.27.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Oct 2021 02:27:38 -0700 (PDT)
+Subject: Re: [PATCH v1 6/6] x86: remove memory hotplug support on X86_32
+To:     Oscar Salvador <osalvador@suse.de>
+Cc:     linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Shuah Khan <shuah@kernel.org>, Michal Hocko <mhocko@suse.com>,
+        Mike Rapoport <rppt@kernel.org>, x86@kernel.org,
+        linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        virtualization@lists.linux-foundation.org
+References: <20210929143600.49379-1-david@redhat.com>
+ <20210929143600.49379-7-david@redhat.com>
+ <YV66zoLEP3niIHEu@localhost.localdomain>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <565bdc3e-04b2-8eff-181c-d4dcf82e0e40@redhat.com>
+Date:   Thu, 7 Oct 2021 11:27:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <YV66zoLEP3niIHEu@localhost.localdomain>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 07 Oct 2021, Thorsten Leemhuis <linux@leemhuis.info> wrote:
-> Mention the 'Link' tag in the section about adding URLs to the commit
-> msg, which makes it easier to find its meaning with a text search. For
-> the same reason and to also improve comprehensibility provide an
-> example.
->
-> Slightly improve the text at the same time to make it more obvious
-> developers are meant to add links to issue reports in mailing list
-> archives, as those allow regression tracking efforts to automatically
-> check which bugs got resolved.
->
-> Move the section also downwards slightly, to reduce jumping back and
-> forth between aspects relevant for the top and the bottom part of the
-> commit msg.
+On 07.10.21 11:15, Oscar Salvador wrote:
+> On Wed, Sep 29, 2021 at 04:36:00PM +0200, David Hildenbrand wrote:
+>> CONFIG_MEMORY_HOTPLUG was marked BROKEN over one year and we just
+>> restricted it to 64 bit. Let's remove the unused x86 32bit implementation
+>> and simplify the Kconfig.
+>>
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
+> 
+> Reviewed-by: Oscar Salvador <osalvador@suse.de>
 
-FWIW, we've been using the Link: tag in the drm-misc and drm-intel trees
-to reference the patch (that became the commit) in the freedesktop.org
-patchwork instance by message-id. This is almost exclusively the only
-way we use the Link: tag, and we've been doing this for about 5 years
-now. It gets automatically added by the tooling we use while applying
-patches. You get to the discussion, patch series, and Intel CI test
-results via the link.
-
-For ages, References: tag has been used the way described in this patch.
-
-BR,
-Jani.
-
->
-> CC: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
-> ---
->  Documentation/process/submitting-patches.rst | 32 +++++++++++++-------
->  1 file changed, 21 insertions(+), 11 deletions(-)
->
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> index b0f31aa82fcd..8ba69332322f 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -96,17 +96,6 @@ instead of "[This patch] makes xyzzy do frotz" or "[I] changed xyzzy
->  to do frotz", as if you are giving orders to the codebase to change
->  its behaviour.
->  
-> -If the patch fixes a logged bug entry, refer to that bug entry by
-> -number and URL.  If the patch follows from a mailing list discussion,
-> -give a URL to the mailing list archive; use the https://lore.kernel.org/
-> -redirector with a ``Message-Id``, to ensure that the links cannot become
-> -stale.
-> -
-> -However, try to make your explanation understandable without external
-> -resources.  In addition to giving a URL to a mailing list archive or
-> -bug, summarize the relevant points of the discussion that led to the
-> -patch as submitted.
-> -
->  If you want to refer to a specific commit, don't just refer to the
->  SHA-1 ID of the commit. Please also include the oneline summary of
->  the commit, to make it easier for reviewers to know what it is about.
-> @@ -123,6 +112,27 @@ collisions with shorter IDs a real possibility.  Bear in mind that, even if
->  there is no collision with your six-character ID now, that condition may
->  change five years from now.
->  
-> +Add 'Link:' tags with URLs pointing to related discussions and rationale
-> +behind the change whenever that makes sense. If your patch for example
-> +fixes a bug, add a tag with a URL referencing the report in the mailing
-> +list archives or a bug tracker; if the patch was discussed on a mailing
-> +list or originated in some discussion, point to it.
-> +
-> +When linking to mailing list archives, preferably use the lore.kernel.org
-> +message archiver service. To create the link URL, use the contents of the
-> +``Message-Id`` header of the message without the surrounding angle brackets.
-> +For example::
-> +
-> +    Link: https://lore.kernel.org/r/git-send-email.555-1234@example.org
-> +
-> +Please check the link to make sure that it is actually working and points
-> +to the relevant message.
-> +
-> +However, try to make your explanation understandable without external
-> +resources.  In addition to giving a URL to a mailing list archive or
-> +bug, summarize the relevant points of the discussion that led to the
-> +patch as submitted.
-> +
->  If your patch fixes a bug in a specific commit, e.g. you found an issue using
->  ``git bisect``, please use the 'Fixes:' tag with the first 12 characters of
->  the SHA-1 ID, and the one line summary.  Do not split the tag across multiple
+Thanks for the review Oscar!
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+Thanks,
+
+David / dhildenb
+
