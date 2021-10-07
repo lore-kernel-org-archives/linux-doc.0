@@ -2,69 +2,65 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7566AC433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 02:47:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5624CC433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 02:50:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 568B86124C
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 02:47:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2A41B6113E
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 02:50:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232415AbhJGCtD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Oct 2021 22:49:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37856 "EHLO
+        id S238858AbhJGCwp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Oct 2021 22:52:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232191AbhJGCtC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Oct 2021 22:49:02 -0400
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7164C061746
-        for <linux-doc@vger.kernel.org>; Wed,  6 Oct 2021 19:47:09 -0700 (PDT)
-Received: by mail-yb1-xb2d.google.com with SMTP id d131so9991338ybd.5
-        for <linux-doc@vger.kernel.org>; Wed, 06 Oct 2021 19:47:09 -0700 (PDT)
+        with ESMTP id S232254AbhJGCwn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Oct 2021 22:52:43 -0400
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D5B1C061753
+        for <linux-doc@vger.kernel.org>; Wed,  6 Oct 2021 19:50:50 -0700 (PDT)
+Received: by mail-yb1-xb2e.google.com with SMTP id s4so9951090ybs.8
+        for <linux-doc@vger.kernel.org>; Wed, 06 Oct 2021 19:50:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=2Cs1bvfp4Te/cba1+QGm30Xc9WLtpDndPuoyLtYCfOA=;
-        b=MygceOBt27vyNNGEqPQPWKuRkZ869tZRG97KZw+qF6zk5ZcPjKugxuSYijToTNPHb5
-         sHYurBA8Cs8YtaARlyaAoqTpa7S+RaQKEyZK2TfBlzx3raE+YsEFnvEW9WCnztTk7uS4
-         xyO8HfreUzXFQ89tkC5GhWeCknXB/iFJgrrZ2woMGXTROFMluFEDsfpNEZUIvw+FZhwx
-         7YDdAIbzbggvSGe9ECRQzEDbTH8tssZN0dIbBCp0AvIJSGh15x8jhsHnCejypdbRR3fy
-         QMVBSDQOooJ62cKwgaSWNKYGs9M4VIVuFE5ruEV6hBdVPbtYWbXhzsSTt+tY8bNNh0ZK
-         /bfQ==
+        bh=4F/VUUoX5d9pLuj9va8DmcDC9EaYJA0ZhNF6WOHt3n8=;
+        b=W4z+Ot2/rwfvUtqGOA0HqHFoPN/g2j2f12GEa+aPzxsQqWMDUSbzhdbl4QKDrE5ZEH
+         uCF7VIMSREr8EXiPVqrejCQbJSVyY2YfWGFwWBoIrfj/BB6LCd9F9DVskFMoD9Ak5lyQ
+         7OGOEDa1y4GOfsuzJV8OjddHLK7I2zWWrZ6LX9yavhM0d79aOGcrKB69ETdcrtkCp+vL
+         eTLjv/V9P4VkKOZxo4oydFSm52hqgupfnZYFj3X3H0XUZw+yNpoBAiqlCXntoBX7AveU
+         1ea1Tcel5OGxJeCtTyf8suXBuuZ9WvU7NB51pCaeC8wreksJH3D5S8qvwFjnytkmgNbt
+         zkjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=2Cs1bvfp4Te/cba1+QGm30Xc9WLtpDndPuoyLtYCfOA=;
-        b=Df/n5aZo9AGrF+olWFbJqXhS5hIu1nLxHd1CPSmcwItiUhWd3I2Isr9uqBfhd8sn3/
-         Tu6lUQoK2nVWUfUgYihJo7zLrJU0uonoZpSOHIElDCeq5XdMdjAC+qTDYjp6eNtZgJxH
-         3bqho/EV/HWs+683O7xHkC0IEjNhjhUImT6Drv0lSZaxGaqoVKQpUezMX6On9n0a86KN
-         F4mQLv9OTWQ4TVq7cFAVJbRIO79zJi0VOXPKnSQ36FSfDK25iwEKdrWTLM8PVKMUbA7W
-         YQ9e84IhkdWtFb6qUkmuVF1Bybji/aBSZGji2IG+mq2GImqbCFG9P+MCvx4v6qtO5sXf
-         KrHQ==
-X-Gm-Message-State: AOAM530yzXYWXZVRl7qGGxWa96QlTzbjt9WqHYzf2ThUqakBpmzfuvgC
-        29hG1MQ1ZO2+bFbZC6vizkJyARbPdqTFLQA9kiCUFA==
-X-Google-Smtp-Source: ABdhPJxLU8MGnE5SoLyGYG5TTI2jtt2gBV2C+wxkDDL0PUeP0WMegid6aYDJmZhvRMGMzbnJu/NSWMskp6PX5qCRqOQ=
-X-Received: by 2002:a25:d1d3:: with SMTP id i202mr2002703ybg.487.1633574828693;
- Wed, 06 Oct 2021 19:47:08 -0700 (PDT)
+        bh=4F/VUUoX5d9pLuj9va8DmcDC9EaYJA0ZhNF6WOHt3n8=;
+        b=oUu0ZNl6HXuLMob2AQNT3tEgK6il/KlM8upLw3wfhAFyYRweAeQVZH/AwaSZNZ1ppI
+         HZrfrkuqEivJJ21dMKV+GO0uyP5tLzFDSnCtfW7upRksiOMBzDQrR7Gli3HvSriNzyD2
+         1CrLwyTp0ljyvP23rQwFE85CfPSKgqRkDKB9B3atu0IpiQGUcj6khj1Zs6yWMPDPOAoA
+         0MB/F6N6kTmcQRmGD6EafcQWnqLOZnSe603HY9FoRNjfBJWLfuReajDwm2zk8cVEwI1O
+         ZMKJ52J2mJIhoVyfchCS9Z24PmD2oxWZQPJZE+QbcQ7AwSVczzLq5Vf1ikX+csRgH2Bh
+         f+Ug==
+X-Gm-Message-State: AOAM532SLSPiCgSoJe35cEzwfI4ELWnsEzd8dyzvRFyfsy4U1vkeApG0
+        2OLuK4v1IbI3A4gFZMMgp0oK1/vZTu9dfH/rsBcycw==
+X-Google-Smtp-Source: ABdhPJwURhBGwIa2Mo2zsN2z5+HcTIt/J+M1PIauJMogSr896kv94sWKf2q7mONzOcq02flzV/NuzQLkoCDX8/08/9U=
+X-Received: by 2002:a05:6902:120e:: with SMTP id s14mr2185756ybu.161.1633575049472;
+ Wed, 06 Oct 2021 19:50:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211001205657.815551-1-surenb@google.com> <20211001205657.815551-3-surenb@google.com>
- <20211005184211.GA19804@duo.ucw.cz> <CAJuCfpE5JEThTMhwKPUREfSE1GYcTx4YSLoVhAH97fJH_qR0Zg@mail.gmail.com>
- <20211005200411.GB19804@duo.ucw.cz> <CAJuCfpFZkz2c0ZWeqzOAx8KFqk1ge3K-SiCMeu3dmi6B7bK-9w@mail.gmail.com>
- <efdffa68-d790-72e4-e6a3-80f2e194d811@nvidia.com> <YV1eCu0eZ+gQADNx@dhcp22.suse.cz>
- <6b15c682-72eb-724d-bc43-36ae6b79b91a@redhat.com> <CAJuCfpEPBM6ehQXgzp=g4SqtY6iaC8wuZ-CRE81oR1VOq7m4CA@mail.gmail.com>
- <192438ab-a095-d441-6843-432fbbb8e38a@redhat.com> <CAJuCfpH4KT=fOAWsYhaAb_LLg-VwPvL4Bmv32NYuUtZ3Ceo+PA@mail.gmail.com>
- <20211006192927.f7a735f1afe4182bf4693838@linux-foundation.org>
-In-Reply-To: <20211006192927.f7a735f1afe4182bf4693838@linux-foundation.org>
+References: <20211001205657.815551-1-surenb@google.com> <20211001205657.815551-2-surenb@google.com>
+ <20211001160830.700c36b32b736478000b3420@linux-foundation.org>
+ <CAJuCfpGpMru4z=ZMezRQW56tHNjrWHU3jWhG3qzuXvuUytq-3w@mail.gmail.com>
+ <CAJuCfpFWUXQ445VcqTcV1kNY3AWX=wB5iaeDAX_=+xZefjTUjg@mail.gmail.com> <20211006193940.c261f21fcd14b4b52aae1fbc@linux-foundation.org>
+In-Reply-To: <20211006193940.c261f21fcd14b4b52aae1fbc@linux-foundation.org>
 From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Wed, 6 Oct 2021 19:46:57 -0700
-Message-ID: <CAJuCfpGLQK5aVe5zQfdkP=K4NBZXPjtG=ycjk3E4D64CAvVPsg@mail.gmail.com>
-Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
+Date:   Wed, 6 Oct 2021 19:50:38 -0700
+Message-ID: <CAJuCfpGMKPmVx8ADwFOyRPYfYKCuOHCUzr2o-vq0GZGSVj20Dw@mail.gmail.com>
+Subject: Re: [PATCH v10 2/3] mm: add a field to store names for private
+ anonymous memory
 To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     David Hildenbrand <david@redhat.com>,
-        Michal Hocko <mhocko@suse.com>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Pavel Machek <pavel@ucw.cz>, Colin Cross <ccross@google.com>,
+Cc:     Colin Cross <ccross@google.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
+        Michal Hocko <mhocko@suse.com>,
         Dave Hansen <dave.hansen@intel.com>,
         Kees Cook <keescook@chromium.org>,
         Matthew Wilcox <willy@infradead.org>,
@@ -83,6 +79,7 @@ Cc:     David Hildenbrand <david@redhat.com>,
         Axel Rasmussen <axelrasmussen@google.com>,
         Andrea Arcangeli <aarcange@redhat.com>,
         Jann Horn <jannh@google.com>, apopple@nvidia.com,
+        John Hubbard <jhubbard@nvidia.com>,
         Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
         fenghua.yu@intel.com, thunder.leizhen@huawei.com,
         Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
@@ -94,6 +91,7 @@ Cc:     David Hildenbrand <david@redhat.com>,
         Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
         Rolf Eike Beer <eb@emlix.com>,
         Cyrill Gorcunov <gorcunov@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>,
         Muchun Song <songmuchun@bytedance.com>,
         Viresh Kumar <viresh.kumar@linaro.org>,
         Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
@@ -101,98 +99,77 @@ Cc:     David Hildenbrand <david@redhat.com>,
         LKML <linux-kernel@vger.kernel.org>,
         linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-mm <linux-mm@kvack.org>,
-        kernel-team <kernel-team@android.com>,
-        Tim Murray <timmurray@google.com>
+        kernel-team <kernel-team@android.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 6, 2021 at 7:29 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+On Wed, Oct 6, 2021 at 7:39 PM Andrew Morton <akpm@linux-foundation.org> wrote:
 >
-> On Wed, 6 Oct 2021 08:20:20 -0700 Suren Baghdasaryan <surenb@google.com> wrote:
+> On Mon, 4 Oct 2021 09:21:42 -0700 Suren Baghdasaryan <surenb@google.com> wrote:
 >
-> > On Wed, Oct 6, 2021 at 8:08 AM David Hildenbrand <david@redhat.com> wrote:
-> > >
-> > > On 06.10.21 17:01, Suren Baghdasaryan wrote:
-> > > > On Wed, Oct 6, 2021 at 2:27 AM David Hildenbrand <david@redhat.com> wrote:
-> > > >>
-> > > >> On 06.10.21 10:27, Michal Hocko wrote:
-> > > >>> On Tue 05-10-21 23:57:36, John Hubbard wrote:
-> > > >>> [...]
-> > > >>>> 1) Yes, just leave the strings in the kernel, that's simple and
-> > > >>>> it works, and the alternatives don't really help your case nearly
-> > > >>>> enough.
-> > > >>>
-> > > >>> I do not have a strong opinion. Strings are easier to use but they
-> > > >>> are more involved and the necessity of kref approach just underlines
-> > > >>> that. There are going to be new allocations and that always can lead
-> > > >>> to surprising side effects.  These are small (80B at maximum) so the
-> > > >>> overall footpring shouldn't all that large by default but it can grow
-> > > >>> quite large with a very high max_map_count. There are workloads which
-> > > >>> really require the default to be set high (e.g. heavy mremap users). So
-> > > >>> if anything all those should be __GFP_ACCOUNT and memcg accounted.
-> > > >>>
-> > > >>> I do agree that numbers are just much more simpler from accounting,
-> > > >>> performance and implementation POV.
-> > > >>
-> > > >> +1
-> > > >>
-> > > >> I can understand that having a string can be quite beneficial e.g., when
-> > > >> dumping mmaps. If only user space knows the id <-> string mapping, that
-> > > >> can be quite tricky.
-> > > >>
-> > > >> However, I also do wonder if there would be a way to standardize/reserve
-> > > >> ids, such that a given id always corresponds to a specific user. If we
-> > > >> use an uint64_t for an id, there would be plenty room to reserve ids ...
-> > > >>
-> > > >> I'd really prefer if we can avoid using strings and instead using ids.
+> > > > > The name pointers are not shared between vmas even if they contain the
+> > > > > same name. The name pointer is stored in a union with fields that are
+> > > > > only used on file-backed mappings, so it does not increase memory usage.
+> > > > >
+> > > > > The patch is based on the original patch developed by Colin Cross, more
+> > > > > specifically on its latest version [1] posted upstream by Sumit Semwal.
+> > > > > It used a userspace pointer to store vma names. In that design, name
+> > > > > pointers could be shared between vmas. However during the last upstreaming
+> > > > > attempt, Kees Cook raised concerns [2] about this approach and suggested
+> > > > > to copy the name into kernel memory space, perform validity checks [3]
+> > > > > and store as a string referenced from vm_area_struct.
+> > > > > One big concern is about fork() performance which would need to strdup
+> > > > > anonymous vma names. Dave Hansen suggested experimenting with worst-case
+> > > > > scenario of forking a process with 64k vmas having longest possible names
+> > > > > [4]. I ran this experiment on an ARM64 Android device and recorded a
+> > > > > worst-case regression of almost 40% when forking such a process. This
+> > > > > regression is addressed in the followup patch which replaces the pointer
+> > > > > to a name with a refcounted structure that allows sharing the name pointer
+> > > > > between vmas of the same name. Instead of duplicating the string during
+> > > > > fork() or when splitting a vma it increments the refcount.
 > > > >
-> > > > I wish it was that simple and for some names like [anon:.bss] or
-> > > > [anon:dalvik-zygote space] reserving a unique id would work, however
-> > > > some names like [anon:dalvik-/system/framework/boot-core-icu4j.art]
-> > > > are generated dynamically at runtime and include package name.
+> > > > Generally, the patch adds a bunch of code which a lot of users won't
+> > > > want.  Did we bust a gut to reduce this impact?  Was a standalone
+> > > > config setting considered?
 > > >
-> > > Valuable information
+> > > I didn't consider a standalone config for this feature because when
+> > > not used it has no memory impact at runtime. As for the image size, I
+> > > built Linus' ToT with and without this patchset with allmodconfig and
+>
+> allnoconfig would be more interesting.  People who want small kernels
+> won't be using allmodconfig!
+
+Sure, I will check that and report back.
+
+>
+> > > the sizes are:
+> > > Without the patchset:
+> > > $ size vmlinux
+> > >    text    data     bss     dec     hex filename
+> > > 40763556 58424519 29016228 128204303 7a43e0f vmlinux
+> > >
+> > > With the patchset:
+> > > $ size vmlinux
+> > >    text    data     bss     dec     hex filename
+> > > 40765068 58424671 29016228 128205967 7a4448f vmlinux
+> > >
+> > > The increase seems quite small, so I'm not sure if it warrants a
+> > > separate config option.
 > >
-> > Yeah, I should have described it clearer the first time around.
+> > Andrew, do you still think we need a separate CONFIG option? I fixed
+> > the build issue when CONFIG_ADVISE_SYSCALLS=n and would like to post
+> > the update but if you want to have a separate config then I can post
+> > that together with the fix. Please let me know.
 >
-> If it gets this fancy then the 80 char limit is likely to become a
-> significant limitation and the choice should be explained & justified.
->
-> Why not 97?  1034?  Why not just strndup_user() and be done with it?
+> I don't see much downside to the standalone option.  More complexity
+> for developers/testers, I guess.  But such is life?
 
-The original patch from 8 years ago used 256 as the limit but Rasmus
-argued that the string content should be human-readable, so 80 chars
-seems to be a reasonable limit (see:
-https://lore.kernel.org/all/d8619a98-2380-ca96-001e-60fe9c6204a6@rasmusvillemoes.dk),
-which makes sense to me. We should be able to handle the 80 char limit
-by trimming it before calling prctl().
+Sounds good to me. I will post a new version with a separate config if
+we get over the objections of using numbers instead of strings.
+Thanks!
 
->
-> > > My question would be, if we really have to expose these strings to the
-> > > kernel, or if an id is sufficient. Sure, it would move complexity to
-> > > user space, but keeping complexity out of the kernel is usually a good idea.
-> >
-> > My worry here is not the additional complexity on the userspace side
-> > but the performance hit we would have to endure due to these
-> > conversions.
->
-> Has the performance hit been quantified?
-
-I'll try to get the data that was collected or at least an estimate. I
-imagine collecting such data would require considerable userspace
-redesign.
-
-> I've seen this many times down the ages.  Something which *could* be
-> done in userspace is instead done in the kernel because coordinating
-> userspace is Just So Damn Hard.  I guess the central problem is that
-> userspace isn't centrally coordinated.  I wish we were better at this.
-
-It's not just hard, it's also inefficient. And for our usecase
-performance is important.
-
->
 >
 > --
 > To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
