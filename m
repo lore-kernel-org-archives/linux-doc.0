@@ -2,67 +2,40 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31E50C433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 16:04:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BE16C433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 16:37:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1A7636113E
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 16:04:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7502C610E6
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 16:37:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242476AbhJGQGQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Oct 2021 12:06:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50256 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242442AbhJGQGP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Oct 2021 12:06:15 -0400
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DEF2C061762
-        for <linux-doc@vger.kernel.org>; Thu,  7 Oct 2021 09:04:21 -0700 (PDT)
-Received: by mail-yb1-xb2d.google.com with SMTP id s64so14449251yba.11
-        for <linux-doc@vger.kernel.org>; Thu, 07 Oct 2021 09:04:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=idsd5mctgolloTq522mlXra0iGlPTwRxJgNy/gnn+wQ=;
-        b=kXYYisjK1xNhb3JOoFrAhJNoJOkeGU9DaJyxG2fvBrDNVdaOmc6g3jNa//6kthDqeG
-         zQxMuDKUOyw9KSRu50Aj3rQlprQSM3QiPHY/4v/gfs/jtmBqZD25r1t8w2gpbY224vgR
-         xOMfkCe7Yx1sFQvabb2bpd3/Zfqv1ZftfZMd+RgN9itmzWRuej+FJ9ZqMlTnWcL0qy1E
-         MXMJUEoVQnMz3Qoxc3FVeY2vG5GGww+t6HbNg1oqLu41PlRbignDbA32LJ+u3yp3Ywe5
-         GYnqJsOJVUBfC+PJaNS6AhT4w3FcDiuVHdNrQuBDl/qY7WauvSAvbPtSzjCehbYqkNhM
-         AowA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=idsd5mctgolloTq522mlXra0iGlPTwRxJgNy/gnn+wQ=;
-        b=fsXGrUHzn65JIVgz5GL/96RdbcEf+/SncfVxvc7qffVy3mzhBlZ8ScmOAgACgKG+GJ
-         IsC4zNFXS2EVEa8NdBudQv1L759gjkEjoiUTy0GIM7rThLSqCu/JYDioQzKY25fh55wh
-         5lS8yTkvkaJW8E/PJmoyhIjowGE9zd+5JS5VwPg3wkzgqfotiEskyydq80Q+RISVEnoT
-         1l+pg3NqKAvy2IQK/QZhrQe17a68dZMuJtjmT3OPNKOYZ/GjWf9YhXp7hkAn3Z6tujrW
-         IPYKX/aRl4OW5+jpg5pKN/kXIUIXwTlOhrxQASdEyzw4E+E4idm/TQB56Dp1+//67BIe
-         tJKQ==
-X-Gm-Message-State: AOAM531mx0ncug2avbdWTHppMQGQtun7s9rhAUeRMeTwKiQsSIK4Mt59
-        1Pzu9SMT19ZIM6pPRowQ2dWqsoqN4hYKTeFVnI7ihA==
-X-Google-Smtp-Source: ABdhPJxRZSNNPrKdHDus3HcjlavGjc70+r39LVG0FYYUgfxFDkbPBxwLgqcMcnfSqqkSgGqKj0vntbBJ/ETTWgkukL0=
-X-Received: by 2002:a25:5646:: with SMTP id k67mr5923693ybb.127.1633622660245;
- Thu, 07 Oct 2021 09:04:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211005200411.GB19804@duo.ucw.cz> <CAJuCfpFZkz2c0ZWeqzOAx8KFqk1ge3K-SiCMeu3dmi6B7bK-9w@mail.gmail.com>
- <efdffa68-d790-72e4-e6a3-80f2e194d811@nvidia.com> <YV1eCu0eZ+gQADNx@dhcp22.suse.cz>
- <6b15c682-72eb-724d-bc43-36ae6b79b91a@redhat.com> <CAJuCfpEPBM6ehQXgzp=g4SqtY6iaC8wuZ-CRE81oR1VOq7m4CA@mail.gmail.com>
- <20211006175821.GA1941@duo.ucw.cz> <CAJuCfpGuuXOpdYbt3AsNn+WNbavwuEsDfRMYunh+gajp6hOMAg@mail.gmail.com>
- <YV6rksRHr2iSWR3S@dhcp22.suse.cz> <92cbfe3b-f3d1-a8e1-7eb9-bab735e782f6@rasmusvillemoes.dk>
- <20211007101527.GA26288@duo.ucw.cz>
-In-Reply-To: <20211007101527.GA26288@duo.ucw.cz>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Thu, 7 Oct 2021 09:04:09 -0700
-Message-ID: <CAJuCfpGp0D9p3KhOWhcxMO1wEbo-J_b2Anc-oNwdycx4NTRqoA@mail.gmail.com>
-Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Michal Hocko <mhocko@suse.com>,
-        David Hildenbrand <david@redhat.com>,
+        id S233594AbhJGQjs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Oct 2021 12:39:48 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:58244 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242714AbhJGQjr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Oct 2021 12:39:47 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id E8AB61FE9D;
+        Thu,  7 Oct 2021 16:37:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1633624671; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=pgKKsGQrUYNdgMl9z1+VDxyRxaQOGIIghSaW1BWRpLQ=;
+        b=nSmKMl9h0mVz+YBvIPdVx/KLRm1kLqIBsQRUUH5vnJv224ZBJxU9QNZBit9ZeUDjGLBStN
+        IWDiSX/UDYMESp75oloI0N61CqNg2dwN/GNRK58XvSwdf3KiIJn2vGdX8Acx+27CJArkwi
+        6qR7C5YRIuVUP9H0zEtT58WgRWmuo1A=
+Received: from suse.cz (unknown [10.100.201.86])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 89075A3B88;
+        Thu,  7 Oct 2021 16:37:50 +0000 (UTC)
+Date:   Thu, 7 Oct 2021 18:37:49 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     David Hildenbrand <david@redhat.com>,
         John Hubbard <jhubbard@nvidia.com>,
+        Pavel Machek <pavel@ucw.cz>,
         Andrew Morton <akpm@linux-foundation.org>,
         Colin Cross <ccross@google.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
@@ -80,7 +53,7 @@ Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Peter Zijlstra <peterz@infradead.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
         vincenzo.frascino@arm.com,
-        =?UTF-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?= 
+        Chinwen Chang =?utf-8?B?KOW8temMpuaWhyk=?= 
         <chinwen.chang@mediatek.com>,
         Axel Rasmussen <axelrasmussen@google.com>,
         Andrea Arcangeli <aarcange@redhat.com>,
@@ -90,8 +63,7 @@ Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
         Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
         Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
-        Chris Hyser <chris.hyser@oracle.com>,
-        Peter Collingbourne <pcc@google.com>,
+        chris.hyser@oracle.com, Peter Collingbourne <pcc@google.com>,
         "Eric W. Biederman" <ebiederm@xmission.com>,
         Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
         Rolf Eike Beer <eb@emlix.com>,
@@ -99,72 +71,95 @@ Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Muchun Song <songmuchun@bytedance.com>,
         Viresh Kumar <viresh.kumar@linaro.org>,
         Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
-        cxfcosmos@gmail.com, LKML <linux-kernel@vger.kernel.org>,
+        cxfcosmos@gmail.com, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        LKML <linux-kernel@vger.kernel.org>,
         linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-mm <linux-mm@kvack.org>,
         kernel-team <kernel-team@android.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
+Message-ID: <YV8iXQ9npVOLEeuc@dhcp22.suse.cz>
+References: <20211005184211.GA19804@duo.ucw.cz>
+ <CAJuCfpE5JEThTMhwKPUREfSE1GYcTx4YSLoVhAH97fJH_qR0Zg@mail.gmail.com>
+ <20211005200411.GB19804@duo.ucw.cz>
+ <CAJuCfpFZkz2c0ZWeqzOAx8KFqk1ge3K-SiCMeu3dmi6B7bK-9w@mail.gmail.com>
+ <efdffa68-d790-72e4-e6a3-80f2e194d811@nvidia.com>
+ <YV1eCu0eZ+gQADNx@dhcp22.suse.cz>
+ <6b15c682-72eb-724d-bc43-36ae6b79b91a@redhat.com>
+ <CAJuCfpEPBM6ehQXgzp=g4SqtY6iaC8wuZ-CRE81oR1VOq7m4CA@mail.gmail.com>
+ <YV6o3Bsb4f87FaAy@dhcp22.suse.cz>
+ <CAJuCfpGZAWewsEzqA5=+z_CaBLcPQX+sYF-FM0o_58UMCZoJfw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJuCfpGZAWewsEzqA5=+z_CaBLcPQX+sYF-FM0o_58UMCZoJfw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 7, 2021 at 3:15 AM Pavel Machek <pavel@ucw.cz> wrote:
->
-> Hi!
->
-> > >> Hmm, so the suggestion is to have some directory which contains files
-> > >> representing IDs, each containing the string name of the associated
-> > >> vma? Then let's say we are creating a new VMA and want to name it. We
-> > >> would have to scan that directory, check all files and see if any of
-> > >> them contain the name we want to reuse the same ID.
-> > >
-> > > I believe Pavel meant something as simple as
-> > > $ YOUR_FILE=$YOUR_IDS_DIR/my_string_name
-> > > $ touch $YOUR_FILE
-> > > $ stat -c %i $YOUR_FILE
-
-Ah, ok, now I understand the proposal. Thanks for the clarification!
-So, this would use filesystem as a directory for inode->name mappings.
-One rough edge for me is that the consumer would still need to parse
-/proc/$pid/maps and convert [anon:inode] into [anon:name] instead of
-just dumping the content for the user. Would it be acceptable if we
-require the ID provided by prctl() to always be a valid inode and
-show_map_vma() would do the inode-to-filename conversion when
-generating maps/smaps files? I know that inode->dentry is not
-one-to-one mapping but we can simply output the first dentry name.
-WDYT?
-
+On Thu 07-10-21 08:45:21, Suren Baghdasaryan wrote:
+> On Thu, Oct 7, 2021 at 12:59 AM Michal Hocko <mhocko@suse.com> wrote:
 > >
-> > So in terms of syscall overhead, that would be open(..., O_CREAT |
-> > O_CLOEXEC), fstat(), close() - or one could optimistically start by
->
-> You could get to two if you used mkdir instead of open.
->
-> > > YOUR_IDS_DIR can live on a tmpfs and you can even implement a policy on
-> > > top of that (who can generate new ids, gurantee uniqness etc...).
+> > On Wed 06-10-21 08:01:56, Suren Baghdasaryan wrote:
+> > > On Wed, Oct 6, 2021 at 2:27 AM David Hildenbrand <david@redhat.com> wrote:
+> > > >
+> > > > On 06.10.21 10:27, Michal Hocko wrote:
+> > > > > On Tue 05-10-21 23:57:36, John Hubbard wrote:
+> > > > > [...]
+> > > > >> 1) Yes, just leave the strings in the kernel, that's simple and
+> > > > >> it works, and the alternatives don't really help your case nearly
+> > > > >> enough.
+> > > > >
+> > > > > I do not have a strong opinion. Strings are easier to use but they
+> > > > > are more involved and the necessity of kref approach just underlines
+> > > > > that. There are going to be new allocations and that always can lead
+> > > > > to surprising side effects.  These are small (80B at maximum) so the
+> > > > > overall footpring shouldn't all that large by default but it can grow
+> > > > > quite large with a very high max_map_count. There are workloads which
+> > > > > really require the default to be set high (e.g. heavy mremap users). So
+> > > > > if anything all those should be __GFP_ACCOUNT and memcg accounted.
+> > > > >
+> > > > > I do agree that numbers are just much more simpler from accounting,
+> > > > > performance and implementation POV.
+> > > >
+> > > > +1
+> > > >
+> > > > I can understand that having a string can be quite beneficial e.g., when
+> > > > dumping mmaps. If only user space knows the id <-> string mapping, that
+> > > > can be quite tricky.
+> > > >
+> > > > However, I also do wonder if there would be a way to standardize/reserve
+> > > > ids, such that a given id always corresponds to a specific user. If we
+> > > > use an uint64_t for an id, there would be plenty room to reserve ids ...
+> > > >
+> > > > I'd really prefer if we can avoid using strings and instead using ids.
 > > >
-> > > The above is certainly not for free of course but if you really need a
-> > > system wide consistency when using names then you need some sort of
-> > > central authority. How you implement that is not all that important
-> > > but I do not think we want to handle that in the kernel.
-
-Ideally it would be great if $YOUR_IDS_DIR/my_string_name entries
-could be generated by the kernel in response to userspace calling
-prctl(..., name) but I haven't looked into complexity of doing that,
-so I would not propose that at this point.
-Thanks for sharing the ideas!
-Suren.
-
+> > > I wish it was that simple and for some names like [anon:.bss] or
+> > > [anon:dalvik-zygote space] reserving a unique id would work, however
+> > > some names like [anon:dalvik-/system/framework/boot-core-icu4j.art]
+> > > are generated dynamically at runtime and include package name.
+> > > Packages are constantly evolving, new ones are developed, names can
+> > > change, etc. So assigning a unique id for these names is not really
+> > > feasible.
 > >
-> > IDK. If the whole thing could be put behind a CONFIG_ knob, with _zero_
-> > overhead when not enabled (and I'm a bit worried about all the functions
-> > that grow an extra argument that gets passed around), I don't mind the
-> > string interface. But I don't really have a say either way.
->
-> If this is ever useful outside of Android, eventually distros will
-> have it enabled.
->
-> Best regards,
->                                                                 Pavel
-> --
-> http://www.livejournal.com/~pavelmachek
+> > I still do not follow. If you need a globaly consistent naming then
+> > you need clear rules for that, no matter whether that is number or a
+> > file. How do you handle this with strings currently?
+> 
+> Some names represent standard categories, some are unique. A simple
+> tool could calculate and report the total for each name, a more
+> advanced tool might recognize some standard names and process them
+> differently. From kernel's POV, it's just a name used by the userspace
+> to categorize anonymous memory areas.
+
+OK, so there is no real authority or any real naming convention. You
+just hope that applications will behave so that the consumer of those
+names can make proper calls. Correct?
+
+In that case the same applies to numbers and I do not see any strong
+argument for strings other than it is more pleasing to a human eye when
+reading the file. And that doesn't sound like a strong argument to make
+the kernel more complicated. Functionally both approaches are equal from
+a practical POV.
+-- 
+Michal Hocko
+SUSE Labs
