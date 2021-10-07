@@ -2,168 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4D1EC433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 07:37:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C08FC433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 07:59:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C40CB61139
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 07:37:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E8A586112D
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 07:59:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232578AbhJGHjM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Oct 2021 03:39:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50598 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232512AbhJGHjK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Oct 2021 03:39:10 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8B83760F22;
-        Thu,  7 Oct 2021 07:37:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1633592236;
-        bh=EeaDISX4nx0CukTLIziNpZxMI2I7MdtAi3qldQDb+ms=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HGt3VR213kXy//b4+APJwNkKQv2k0VvCeoLnXnMgqEEP4ycnXc96fo7EFRCNm9yn8
-         iBZDt4mkYgEZup1PPBdyMm/f7WpZcmY+j9LGfMvYyT18xqoIrFHCGNLIABym13fHZV
-         lYIYkYbXbddv/7DE///K2Q0phL860mAxoR09rYo6cJwsmbmES2DmTODAC2sgGgCCBd
-         /+8P0aMDC1AzyYEvLfytFxr6Ovv6gJebEFxvEwa+Wa97FQAhY2dJWULS+8y3nxkIW6
-         fbXkvHIaGGrErHKdu5EnIkMYRON4nvEO/0Q6B7N/oGAX4rWI5WP/CrmHJ1W+tR6GTr
-         0N0Bw68QP9g7w==
-Date:   Thu, 7 Oct 2021 10:37:10 +0300
-From:   Mike Rapoport <rppt@kernel.org>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     linux-kernel@vger.kernel.org,
+        id S240370AbhJGIBV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Oct 2021 04:01:21 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:32824 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232593AbhJGIBU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Oct 2021 04:01:20 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 75547225E7;
+        Thu,  7 Oct 2021 07:59:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1633593565; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=k1SjRykK8qSsuEpLbR/1BLHsqb/6nAB8R8Bq+VJeYNY=;
+        b=d4VB9wDRP5RBYTz/tZZccmKEouWEMpxlGyzJ3cDxLEAWtJJfSvPKPXl7IfxWWsBOhVqzmB
+        kiY4t9Hm32ScRgKORVWbDR3aTJg7VB01in/XMs8Jkfi5/94IuVtY1V1e0s8lcbRUVnOQZo
+        PL7pwO6wfwPyOFHfUFdtbrpVBm89uu8=
+Received: from suse.cz (unknown [10.100.201.86])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 95C36A3B95;
+        Thu,  7 Oct 2021 07:59:24 +0000 (UTC)
+Date:   Thu, 7 Oct 2021 09:59:24 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     David Hildenbrand <david@redhat.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Pavel Machek <pavel@ucw.cz>,
         Andrew Morton <akpm@linux-foundation.org>,
+        Colin Cross <ccross@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Michal Hocko <mhocko@suse.com>,
-        Oscar Salvador <osalvador@suse.de>, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH v1 3/3] memory-hotplug.rst: document the "auto-movable"
- online policy
-Message-ID: <YV6jpoVERotn/New@kernel.org>
-References: <20210930144117.23641-1-david@redhat.com>
- <20210930144117.23641-4-david@redhat.com>
- <YVzvYmf4xWC1DORO@kernel.org>
- <4bab9000-0b49-a852-d574-1c8b2fe10de1@redhat.com>
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        vincenzo.frascino@arm.com,
+        Chinwen Chang =?utf-8?B?KOW8temMpuaWhyk=?= 
+        <chinwen.chang@mediatek.com>,
+        Axel Rasmussen <axelrasmussen@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Jann Horn <jannh@google.com>, apopple@nvidia.com,
+        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
+        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
+        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
+        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
+        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
+        chris.hyser@oracle.com, Peter Collingbourne <pcc@google.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
+        Rolf Eike Beer <eb@emlix.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
+        cxfcosmos@gmail.com, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm <linux-mm@kvack.org>,
+        kernel-team <kernel-team@android.com>
+Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
+Message-ID: <YV6o3Bsb4f87FaAy@dhcp22.suse.cz>
+References: <20211001205657.815551-1-surenb@google.com>
+ <20211001205657.815551-3-surenb@google.com>
+ <20211005184211.GA19804@duo.ucw.cz>
+ <CAJuCfpE5JEThTMhwKPUREfSE1GYcTx4YSLoVhAH97fJH_qR0Zg@mail.gmail.com>
+ <20211005200411.GB19804@duo.ucw.cz>
+ <CAJuCfpFZkz2c0ZWeqzOAx8KFqk1ge3K-SiCMeu3dmi6B7bK-9w@mail.gmail.com>
+ <efdffa68-d790-72e4-e6a3-80f2e194d811@nvidia.com>
+ <YV1eCu0eZ+gQADNx@dhcp22.suse.cz>
+ <6b15c682-72eb-724d-bc43-36ae6b79b91a@redhat.com>
+ <CAJuCfpEPBM6ehQXgzp=g4SqtY6iaC8wuZ-CRE81oR1VOq7m4CA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4bab9000-0b49-a852-d574-1c8b2fe10de1@redhat.com>
+In-Reply-To: <CAJuCfpEPBM6ehQXgzp=g4SqtY6iaC8wuZ-CRE81oR1VOq7m4CA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 06, 2021 at 10:01:39AM +0200, David Hildenbrand wrote:
-> On 06.10.21 02:35, Mike Rapoport wrote:
-> > On Thu, Sep 30, 2021 at 04:41:17PM +0200, David Hildenbrand wrote:
-> > > In commit e83a437faa62 ("mm/memory_hotplug: introduce "auto-movable" online
-> > > policy") we introduced a new memory online policy to automatically
-> > > select a zone for memory blocks to be onlined. We added a way to
-> > > set the active online policy and tunables for the auto-movable online
-> > > policy. In follow-up commits we tweaked the "auto-movable" policy to also
-> > > consider memory device details when selecting zones for memory blocks to
-> > > be onlined.
-> > > 
-> > > Let's document the new toggles and how the two online policies we have
-> > > work.
-> > > 
-> > > Signed-off-by: David Hildenbrand <david@redhat.com>
-> > > ---
-> > >   .../admin-guide/mm/memory-hotplug.rst         | 128 +++++++++++++++---
-> > >   1 file changed, 108 insertions(+), 20 deletions(-)
-> > > 
-> > > diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
-> > > index ee00b70dedde..c20a2c0031cf 100644
-> > > --- a/Documentation/admin-guide/mm/memory-hotplug.rst
-> > > +++ b/Documentation/admin-guide/mm/memory-hotplug.rst
-> > > @@ -165,9 +165,8 @@ Or alternatively::
-> > >   	% echo 1 > /sys/devices/system/memory/memoryXXX/online
-> > > -The kernel will select the target zone automatically, usually defaulting to
-> > > -``ZONE_NORMAL`` unless ``movable_node`` has been specified on the kernel
-> > > -command line or if the memory block would intersect the ZONE_MOVABLE already.
-> > > +The kernel will select the target zone automatically, depending on the
-> > > +configured ``online_policy``.
-> > >   One can explicitly request to associate an offline memory block with
-> > >   ZONE_MOVABLE by::
-> > > @@ -198,6 +197,9 @@ Auto-onlining can be enabled by writing ``online``, ``online_kernel`` or
-> > >   	% echo online > /sys/devices/system/memory/auto_online_blocks
-> > > +Similarly to manual onlining, with ``online`` the kernel will select the
-> > > +target zone automatically, depending on the configured ``online_policy``.
-> > > +
-> > >   Modifying the auto-online behavior will only affect all subsequently added
-> > >   memory blocks only.
-> > > @@ -393,9 +395,11 @@ command line parameters are relevant:
-> > >   ======================== =======================================================
-> > >   ``memhp_default_state``	 configure auto-onlining by essentially setting
-> > >                            ``/sys/devices/system/memory/auto_online_blocks``.
-> > > -``movable_node``	 configure automatic zone selection in the kernel. When
-> > > -			 set, the kernel will default to ZONE_MOVABLE, unless
-> > > -			 other zones can be kept contiguous.
-> > > +``movable_node``	 configure automatic zone selection in the kernel when
-> > > +			 using the ``contig-zones`` online policy. When
-> > > +			 set, the kernel will default to ZONE_MOVABLE when
-> > > +			 onlining a memory block, unless other zones can be kept
-> > > +			 contiguous.
-> > 
-> > The movable_node main purpose is to allow unplugging an entire node. Zone
-> > selection is a consequence of this. You may want to cite the description of
-> > movable_node in kernel-paramenters.txt here.
+On Wed 06-10-21 08:01:56, Suren Baghdasaryan wrote:
+> On Wed, Oct 6, 2021 at 2:27 AM David Hildenbrand <david@redhat.com> wrote:
+> >
+> > On 06.10.21 10:27, Michal Hocko wrote:
+> > > On Tue 05-10-21 23:57:36, John Hubbard wrote:
+> > > [...]
+> > >> 1) Yes, just leave the strings in the kernel, that's simple and
+> > >> it works, and the alternatives don't really help your case nearly
+> > >> enough.
+> > >
+> > > I do not have a strong opinion. Strings are easier to use but they
+> > > are more involved and the necessity of kref approach just underlines
+> > > that. There are going to be new allocations and that always can lead
+> > > to surprising side effects.  These are small (80B at maximum) so the
+> > > overall footpring shouldn't all that large by default but it can grow
+> > > quite large with a very high max_map_count. There are workloads which
+> > > really require the default to be set high (e.g. heavy mremap users). So
+> > > if anything all those should be __GFP_ACCOUNT and memcg accounted.
+> > >
+> > > I do agree that numbers are just much more simpler from accounting,
+> > > performance and implementation POV.
+> >
+> > +1
+> >
+> > I can understand that having a string can be quite beneficial e.g., when
+> > dumping mmaps. If only user space knows the id <-> string mapping, that
+> > can be quite tricky.
+> >
+> > However, I also do wonder if there would be a way to standardize/reserve
+> > ids, such that a given id always corresponds to a specific user. If we
+> > use an uint64_t for an id, there would be plenty room to reserve ids ...
+> >
+> > I'd really prefer if we can avoid using strings and instead using ids.
 > 
-> Right, I only document the effects of these parameters on memory
-> hot(un)plug.
-> 
-> What about:
-> 
-> diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst
-> b/Documentation/admin-guide/mm/memory-hotplug.rst
-> index c20a2c0031cf..f8976ded0863 100644
-> --- a/Documentation/admin-guide/mm/memory-hotplug.rst
-> +++ b/Documentation/admin-guide/mm/memory-hotplug.rst
-> @@ -402,6 +402,9 @@ command line parameters are relevant:
->                          contiguous.
->  ========================
-> =======================================================
-> 
-> +See Documentation/admin-guide/kernel-parameters.txt for a more generic
-> +description of these command line parameters.
-> +
+> I wish it was that simple and for some names like [anon:.bss] or
+> [anon:dalvik-zygote space] reserving a unique id would work, however
+> some names like [anon:dalvik-/system/framework/boot-core-icu4j.art]
+> are generated dynamically at runtime and include package name.
+> Packages are constantly evolving, new ones are developed, names can
+> change, etc. So assigning a unique id for these names is not really
+> feasible.
 
-Ok.
-
->  Module Parameters
->  ------------------
-> 
-> 
-> > 
-> > And, pardon my ignorance, how movable_node will play with auto-movable
-> > policy?
-> 
-> It's essentially ignored with the auto-movable policy for memory hotplugged
-> after boot (!MEMBLOCK_HOTPLUG). That's why only the description of
-> "contig-zones" below describes how it interacts with the ``movable_node``,
-> and we make it clear here that it's restricted to the "contig-zones" policy
-> as well.
-> 
-> <details>
-> Bare metal, where we care about reliably unplugging hotplugged memory
-> usually configures auto-onlining to "online_movable": for example, that's
-> the case on RHEL. auto-movable doesn't make too much sense for bare metal:
-> the nature of "movable_node" is to essentially online anything that might
-> get hotunplugged MOVABLE, especially after hotplugging memory and rebooting:
-> that is highly dangerous especially in virtualized environments.
-> 
-> "auto-movable" is valuable in virtualized environments, where we add memory
-> via:
-> * add_memory_driver_managed() like virtio-mem, whereby such memory is
->   never part of the firmware provided memory-map, so the policy is
->   always in control even after a reboot.
-> * Hotplugged virtual DIMMs, such as provided by x86-64/arm64, whereby we
->   don't include these DIMMs in the firmware-provided memory map, but
->   ACPI code adds them after early boot, making it behave similar to
->   add_memory_driver_managed() -- the policy is always in control even
->   after a reboot.
-> </details>
- 
-Do you want to put it somewhere in Documentation/ ?
-It's already written anyway ;-)
+I still do not follow. If you need a globaly consistent naming then
+you need clear rules for that, no matter whether that is number or a
+file. How do you handle this with strings currently?
 
 -- 
-Sincerely yours,
-Mike.
+Michal Hocko
+SUSE Labs
