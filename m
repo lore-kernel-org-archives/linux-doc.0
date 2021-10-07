@@ -2,169 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A478AC433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 08:47:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5355C433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 09:02:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8944E611C1
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 08:47:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BB6146109F
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 09:02:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232502AbhJGItb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Oct 2021 04:49:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32880 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232348AbhJGItb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Oct 2021 04:49:31 -0400
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AF40C061746
-        for <linux-doc@vger.kernel.org>; Thu,  7 Oct 2021 01:47:37 -0700 (PDT)
-Received: by mail-lf1-x133.google.com with SMTP id i24so21011479lfj.13
-        for <linux-doc@vger.kernel.org>; Thu, 07 Oct 2021 01:47:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=adlW7pivg4cyteV3mlsXKz5Do/ag2vJ2th3mLW+Jmhk=;
-        b=NWv2fnZXyOmBKQNz9D7DBaxjTucq2XfkEMTsgzUE8HR+WVOhbVAUU4xS7nXJRwqJF8
-         g3q1WrbffIpNZTnYHCkKMDKRrc3rJ2PvfatVUE2Uw1i6BVBTwiccMxMJj/YAMu2MuKJ7
-         9XEcOXAoCIocfpPBryXu5bKAKs+AlDSqnYUtA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=adlW7pivg4cyteV3mlsXKz5Do/ag2vJ2th3mLW+Jmhk=;
-        b=nuV83tVpog9ldJAipESeiZrtIa6gtVYKEEpO+lOF++Jqa4ed53l8ZhmP7FLQbbpWmO
-         pPaDyRhGq43yhcHNQ/LLGgwhswJ5PiQ357htgsUajvVn64eOmaY7zpGkTkLLZv7Jn8HQ
-         z1xGyVoV6bGRW7Egg3uEAipaiX33m/m0WhRUWchHIUqkKGiXzym1/yMuNefKlHuDpqxa
-         s8Ea7ZvU394B1HsYhrpw1uIGuqmtlnqSHDZNMOePhlW5IWkmSa5OasP30jdI1p1UbOxS
-         d+S5xoyjseittRO0SWs2UijRn2iqbZ5jaNoRpLKlwbEjG/q2qgg1wl2cgj0BKNRW9wYI
-         pJJA==
-X-Gm-Message-State: AOAM533jkRVs4ofJ+OdUqD4TCfFxbV44aqmrJOk1xYpGXZygirW4R+NZ
-        0lucd98yCCxMnfPa5gjNyeigjg==
-X-Google-Smtp-Source: ABdhPJzsYPt+vLAs50hdpyaFOkVRdocmTQrfybHrq0Gm27Ezn/kTFNFcWG+99jNjVDI1tjzVTzjMvw==
-X-Received: by 2002:a05:6512:228f:: with SMTP id f15mr2982523lfu.253.1633596454456;
-        Thu, 07 Oct 2021 01:47:34 -0700 (PDT)
-Received: from [172.16.11.1] ([81.216.59.226])
-        by smtp.gmail.com with ESMTPSA id l23sm2716647ljg.99.2021.10.07.01.47.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Oct 2021 01:47:34 -0700 (PDT)
-Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
-To:     Michal Hocko <mhocko@suse.com>,
-        Suren Baghdasaryan <surenb@google.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, David Hildenbrand <david@redhat.com>,
-        John Hubbard <jhubbard@nvidia.com>,
+        id S232573AbhJGJEL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Oct 2021 05:04:11 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:48562 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231661AbhJGJEK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Oct 2021 05:04:10 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 30EC22262B;
+        Thu,  7 Oct 2021 09:02:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1633597335; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=TvTy7OIFpMRsbso1NF1f6Ks+BgvmrJ6wkv3NW7NfJyY=;
+        b=GNTEZSz7kgdAFwe28alhJ/eP+02Z1EOihzX+n9vgBwes/WRv9pASKWGhtrUDxgfMG1b8bt
+        eD1XA2PxyYXX9LAPbMAWcHuixO0YxRCluf3P/ht02R7TKYo50KBLYUtBCNMgLJEKjh6WKV
+        20A4InA3XI2jHfLnQHnOad/06SY09Fg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1633597335;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=TvTy7OIFpMRsbso1NF1f6Ks+BgvmrJ6wkv3NW7NfJyY=;
+        b=LnmiiJ98gJZKCmXY5/iYk60e5PM03lAS4VN2Ge0taIvYAilG9n+pj9T7gNMBcMdDsc9obF
+        rnsZE5qa74+KAUCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 34A8B13B1B;
+        Thu,  7 Oct 2021 09:02:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id QJzlB5W3XmG6KAAAMHmgww
+        (envelope-from <osalvador@suse.de>); Thu, 07 Oct 2021 09:02:13 +0000
+Date:   Thu, 7 Oct 2021 11:02:11 +0200
+From:   Oscar Salvador <osalvador@suse.de>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     linux-kernel@vger.kernel.org,
         Andrew Morton <akpm@linux-foundation.org>,
-        Colin Cross <ccross@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Kalesh Singh <kaleshsingh@google.com>,
-        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
         Peter Zijlstra <peterz@infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        vincenzo.frascino@arm.com,
-        =?UTF-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?= 
-        <chinwen.chang@mediatek.com>,
-        Axel Rasmussen <axelrasmussen@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Jann Horn <jannh@google.com>, apopple@nvidia.com,
-        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
-        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
-        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
-        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
-        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
-        Chris Hyser <chris.hyser@oracle.com>,
-        Peter Collingbourne <pcc@google.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
-        Rolf Eike Beer <eb@emlix.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
-        cxfcosmos@gmail.com, LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm <linux-mm@kvack.org>,
-        kernel-team <kernel-team@android.com>
-References: <20211005184211.GA19804@duo.ucw.cz>
- <CAJuCfpE5JEThTMhwKPUREfSE1GYcTx4YSLoVhAH97fJH_qR0Zg@mail.gmail.com>
- <20211005200411.GB19804@duo.ucw.cz>
- <CAJuCfpFZkz2c0ZWeqzOAx8KFqk1ge3K-SiCMeu3dmi6B7bK-9w@mail.gmail.com>
- <efdffa68-d790-72e4-e6a3-80f2e194d811@nvidia.com>
- <YV1eCu0eZ+gQADNx@dhcp22.suse.cz>
- <6b15c682-72eb-724d-bc43-36ae6b79b91a@redhat.com>
- <CAJuCfpEPBM6ehQXgzp=g4SqtY6iaC8wuZ-CRE81oR1VOq7m4CA@mail.gmail.com>
- <20211006175821.GA1941@duo.ucw.cz>
- <CAJuCfpGuuXOpdYbt3AsNn+WNbavwuEsDfRMYunh+gajp6hOMAg@mail.gmail.com>
- <YV6rksRHr2iSWR3S@dhcp22.suse.cz>
-From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Message-ID: <92cbfe3b-f3d1-a8e1-7eb9-bab735e782f6@rasmusvillemoes.dk>
-Date:   Thu, 7 Oct 2021 10:47:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Shuah Khan <shuah@kernel.org>, Michal Hocko <mhocko@suse.com>,
+        Mike Rapoport <rppt@kernel.org>, x86@kernel.org,
+        linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        virtualization@lists.linux-foundation.org
+Subject: Re: [PATCH v1 3/6] mm/memory_hotplug: restrict CONFIG_MEMORY_HOTPLUG
+ to 64 bit
+Message-ID: <YV63kyvrxt0tx/Ru@localhost.localdomain>
+References: <20210929143600.49379-1-david@redhat.com>
+ <20210929143600.49379-4-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YV6rksRHr2iSWR3S@dhcp22.suse.cz>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210929143600.49379-4-david@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/10/2021 10.10, Michal Hocko wrote:
-> On Wed 06-10-21 11:18:31, Suren Baghdasaryan wrote:
->> On Wed, Oct 6, 2021 at 10:58 AM Pavel Machek <pavel@ucw.cz> wrote:
-> [...]
->>> That "central facility" option can be as simple as "mkdir
->>> /somewhere/sanitized_id", using inode numbers for example. You don't
->>> really need IPC.
->>
->> Hmm, so the suggestion is to have some directory which contains files
->> representing IDs, each containing the string name of the associated
->> vma? Then let's say we are creating a new VMA and want to name it. We
->> would have to scan that directory, check all files and see if any of
->> them contain the name we want to reuse the same ID.
+On Wed, Sep 29, 2021 at 04:35:57PM +0200, David Hildenbrand wrote:
+> 32 bit support is broken in various ways: for example, we can online
+> memory that should actually go to ZONE_HIGHMEM to ZONE_MOVABLE or in
+> some cases even to one of the other kernel zones.
 > 
-> I believe Pavel meant something as simple as
-> $ YOUR_FILE=$YOUR_IDS_DIR/my_string_name
-> $ touch $YOUR_FILE
-> $ stat -c %i $YOUR_FILE
-
-So in terms of syscall overhead, that would be open(..., O_CREAT |
-O_CLOEXEC), fstat(), close() - or one could optimistically start by
-doing a single lstat() if it is normal that the name is already created
-(which I assume).
-
-As for the consumer, one can't directly map an inode number to a dentry,
-but whoever first creates the name->id mapping could also be responsible
-for doing a "sprintf(buf, "/id/to/name/%016lx", id); symlink(name,
-buf)". And if one did the optimistic lstat() succesfully, one would know
-that someone else created the file and thus the symlink. And since the
-operations are idempotent, the obvious races are irrelevant.
-
-Then the consumer would only need to do a readlink() to get the name.
-But that would only be for presentation to a human. Internally all the
-aggregation based on the type of anon mem the tool might as well do in
-terms of the integer id.
-
-> YOUR_IDS_DIR can live on a tmpfs and you can even implement a policy on
-> top of that (who can generate new ids, gurantee uniqness etc...).
+> We marked it BROKEN in commit b59d02ed0869 ("mm/memory_hotplug: disable the
+> functionality for 32b") almost one year ago. According to that commit
+> it might be broken at least since 2017. Further, there is hardly a sane use
+> case nowadays.
 > 
-> The above is certainly not for free of course but if you really need a
-> system wide consistency when using names then you need some sort of
-> central authority. How you implement that is not all that important
-> but I do not think we want to handle that in the kernel.
+> Let's just depend completely on 64bit, dropping the "BROKEN" dependency to
+> make clear that we are not going to support it again. Next, we'll remove
+> some HIGHMEM leftovers from memory hotplug code to clean up.
+> 
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-IDK. If the whole thing could be put behind a CONFIG_ knob, with _zero_
-overhead when not enabled (and I'm a bit worried about all the functions
-that grow an extra argument that gets passed around), I don't mind the
-string interface. But I don't really have a say either way.
+Reviewed-by: Oscar Salvador <osalvador@suse.de>
 
-Rasmus
+> ---
+>  mm/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/mm/Kconfig b/mm/Kconfig
+> index ea8762cd8e1e..88273dd5c6d6 100644
+> --- a/mm/Kconfig
+> +++ b/mm/Kconfig
+> @@ -125,7 +125,7 @@ config MEMORY_HOTPLUG
+>  	select MEMORY_ISOLATION
+>  	depends on SPARSEMEM
+>  	depends on ARCH_ENABLE_MEMORY_HOTPLUG
+> -	depends on 64BIT || BROKEN
+> +	depends on 64BIT
+>  	select NUMA_KEEP_MEMINFO if NUMA
+>  
+>  config MEMORY_HOTPLUG_DEFAULT_ONLINE
+> -- 
+> 2.31.1
+> 
+> 
+
+-- 
+Oscar Salvador
+SUSE Labs
