@@ -2,235 +2,181 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1E62C433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 19:03:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E099FC433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 19:38:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D9C12611C3
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 19:03:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B278660FDC
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 19:38:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243796AbhJGTE6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Oct 2021 15:04:58 -0400
-Received: from mail-bn8nam11on2062.outbound.protection.outlook.com ([40.107.236.62]:56673
-        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233903AbhJGTE6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 7 Oct 2021 15:04:58 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Xvagy62so3znFnr8+MTSL+zO0KdcYvT6F6gXoZ+x5Xxa4OxjHjaRPf5VGU+XX0wEbgLWkoXgJOJh5KHNCM2yfOjMaUllm56XRGErcEtF8Dtn+VbU7BPmUpzDR1PTVBuUMo7ktnAYT95ZbHtwgMybsPhDx6jFIeEjmJ0GYUbf75X5KD0Aarc5drhpNzDgqfaaMyiPmD+00AhxU/K8q1RhSaG+tWIIbCjLMhawGqPjYu8QwwJnnJkLjxNhCaYCFVCHZydNqvgztAk3qQ3yO+N5cG5LwMk33TbnrrNzpKBX1elI6MSkf24FbuNjghDzw1Hn0P9UGoYlMHzmcz/IpRXGmw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VxjWqgtDDlrGe7w4H/RNo4If3Jf+Bcry3GECUMQWoLY=;
- b=B8yShhOZIG+Ns0rX4pNW7JuQjlS5tsBw67eWCbUaEtepH+iJV7gRSTahYooYel2wgT575/WVsgq4fDQ7wsPFZ5gvIm7yy8RIc0plAEUtfsHgZveX1IcLBoxXSqgh+eZjbLUiXJANSCLJ1Xhv0qJF2G1jGlcxgWypAiVVvP9Flf1rLTixrSsNB8ygIR9qzoT90ztq21DDAZiVtwFXmfPMBfk5ug6s0M/0BNp6gnChRVa+M+H+V85qknojA9LLXLHT2Lksd4A4VpgtGQzseZwzqQ1rKb5Ku5sJCflT16UgbI+FmrgbygmHMm5FURyjVZzshjew2rsyX4WehWKhJIOHwQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VxjWqgtDDlrGe7w4H/RNo4If3Jf+Bcry3GECUMQWoLY=;
- b=EBfYhijV4bA29kYoeCF4cOsw3Yo1ZbXj3BoJRvU8MMWLYmZ1RRVUFwLEYKXHS6rLb6f7yYWYAIxbHDaj1tZZXHrQzr2FbOzcSUxIo+y1ZTObXRIT1Zn1s/O5HD+gROqPJAThvXZWXKEqVNPOlQ4qsAk3fORSuWk7CrREqXOqqliA70SoLqFTxq1+hbnNpmga3jNLGHbyJ/7HNysrC7+V+bo4swc6/1bpYxxRj9Ism7NKSdbrYNF0ksPj9w9VKvivapi8Tn1OK0VRdutKNAAy+rM1hnk19DQ5gjX1VgmKY4gwxVk2p2SaAx06IoCDhhmb1t6HW9Xlf6M+LcQDqF5XUw==
-Authentication-Results: google.com; dkim=none (message not signed)
- header.d=none;google.com; dmarc=none action=none header.from=nvidia.com;
-Received: from BY5PR12MB4130.namprd12.prod.outlook.com (2603:10b6:a03:20b::16)
- by BYAPR12MB2789.namprd12.prod.outlook.com (2603:10b6:a03:72::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.22; Thu, 7 Oct
- 2021 19:03:00 +0000
-Received: from BY5PR12MB4130.namprd12.prod.outlook.com
- ([fe80::a0ac:922f:1e42:f310]) by BY5PR12MB4130.namprd12.prod.outlook.com
- ([fe80::a0ac:922f:1e42:f310%3]) with mapi id 15.20.4587.020; Thu, 7 Oct 2021
- 19:03:00 +0000
-Message-ID: <caa830de-ea66-267d-bafa-369a6175251e@nvidia.com>
-Date:   Thu, 7 Oct 2021 12:02:55 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.2
-Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
-Content-Language: en-US
-To:     Suren Baghdasaryan <surenb@google.com>,
-        Kees Cook <keescook@chromium.org>
-Cc:     Michal Hocko <mhocko@suse.com>, Pavel Machek <pavel@ucw.cz>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        David Hildenbrand <david@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Colin Cross <ccross@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Kalesh Singh <kaleshsingh@google.com>,
-        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        vincenzo.frascino@arm.com,
-        =?UTF-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?= 
-        <chinwen.chang@mediatek.com>,
-        Axel Rasmussen <axelrasmussen@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Jann Horn <jannh@google.com>, apopple@nvidia.com,
-        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
-        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
-        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
-        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
-        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
-        Chris Hyser <chris.hyser@oracle.com>,
-        Peter Collingbourne <pcc@google.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
-        Rolf Eike Beer <eb@emlix.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
-        cxfcosmos@gmail.com, LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm <linux-mm@kvack.org>,
-        kernel-team <kernel-team@android.com>
-References: <20211006175821.GA1941@duo.ucw.cz>
- <CAJuCfpGuuXOpdYbt3AsNn+WNbavwuEsDfRMYunh+gajp6hOMAg@mail.gmail.com>
- <YV6rksRHr2iSWR3S@dhcp22.suse.cz>
- <92cbfe3b-f3d1-a8e1-7eb9-bab735e782f6@rasmusvillemoes.dk>
- <20211007101527.GA26288@duo.ucw.cz>
- <CAJuCfpGp0D9p3KhOWhcxMO1wEbo-J_b2Anc-oNwdycx4NTRqoA@mail.gmail.com>
- <YV8jB+kwU95hLqTq@dhcp22.suse.cz>
- <CAJuCfpG-Nza3YnpzvHaS_i1mHds3nJ+PV22xTAfgwvj+42WQNA@mail.gmail.com>
- <YV8u4B8Y9AP9xZIJ@dhcp22.suse.cz>
- <CAJuCfpHAG_C5vE-Xkkrm2kynTFF-Jd06tQoCWehHATL0W2mY_g@mail.gmail.com>
- <202110071111.DF87B4EE3@keescook>
- <CAJuCfpFT7qcLM0ygjbzgCj1ScPDkZvv0hcvHkc40s9wgoTov7A@mail.gmail.com>
-From:   John Hubbard <jhubbard@nvidia.com>
-In-Reply-To: <CAJuCfpFT7qcLM0ygjbzgCj1ScPDkZvv0hcvHkc40s9wgoTov7A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR13CA0007.namprd13.prod.outlook.com
- (2603:10b6:a03:2c0::12) To BY5PR12MB4130.namprd12.prod.outlook.com
- (2603:10b6:a03:20b::16)
+        id S241340AbhJGTj4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Oct 2021 15:39:56 -0400
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:52473 "EHLO
+        wnew1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232559AbhJGTj4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Oct 2021 15:39:56 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailnew.west.internal (Postfix) with ESMTP id 67C112B0094F;
+        Thu,  7 Oct 2021 15:38:01 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Thu, 07 Oct 2021 15:38:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=from
+        :to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=fm3; bh=6t8F0nLbX20nu7PWPH1NYpcD+G
+        PaasA0AhXVP4bdQeg=; b=JbSx3GOKH7vNl/FpGltwtg3AZUy1DFEpk3vm8eY//O
+        flkCLZKAm8pPdCWBAQZpW94diYSRzFrR3Q647227ZtfVDITndVrC7RiaroK/Jjlm
+        BwHRKB6smGYnqEYFWJZsQA++pvidooGK2KnGD8HYTBvsubgAPl5Gt3A0wiI5B7CB
+        SoB7I3zY9EOgCTDVQqmQdREcGqhIOZkuehrHlNKeXzMuoU6e6oLL9lTAgb+yG4y8
+        wVBYEotGsHDBQkCD2/javESwZseMnfGAd3yswIhIHElKQ89y/6L3HgBtfKGiv3+J
+        oCcAMPAlMBFivDABJIDrc0hfsmnAy5Npx4XFb4Qe/3VA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=6t8F0nLbX20nu7PWP
+        H1NYpcD+GPaasA0AhXVP4bdQeg=; b=iG6I+j5yTt5uTX97E5jqD+NlIyG1tt0Gr
+        WqnzfiVN+ztTSf1Y5J5wz4lDegm2I4U73EJkRF0juBICjZOXvEq2YT2IzqeCuH4F
+        DmCoOzxmZVfccL3VDC8zrG6zrTNH8IJW3gBC5SXzzouKm4+k7as2nUr0NgQ1ghpW
+        p6Wj1b3v6t60FREAj0522MNCqEC1pqSPRt54NIkT6P045gBAkzIjiB0nw7KzZObL
+        DvzAVvIVQVBdbSrpB4NfAcT5orhnGxNvF2H91HRBuAvrD42PZwqxas1zfPyCHk2O
+        8yTzX+huaav75fF7FcNQCcZn6yI0I4ZsCXYPNzi4QpqCCkvvmIQFA==
+X-ME-Sender: <xms:mExfYbwmvcaV46OjSqvV9VROtDRm8RPeRJcnHp2YmY_I9_KrjLJi2w>
+    <xme:mExfYTSCnJSVph4UbD6EjE6C_hjJbxPf21ISFtthzvPfX4jcjegOPJ03svLjq-iAQ
+    nn0EILsxqB7pDralA>
+X-ME-Received: <xmr:mExfYVWA7voDTH6AIU6RKfSH5j83Q8KMumChFhVVHZSXM-MVIXr1Jg6aVkjI9hZRptCB>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudelkedgudefjecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpefhvghrnhgrnhguohcutfgrmhhoshcuoehgrhgvvghnfhhoohes
+    uhelvddrvghuqeenucggtffrrghtthgvrhhnpeegtdehgeduteehkeeugedtuedugfffhe
+    fguedtudefvddtgeevudeuleegkeeitdenucffohhmrghinhepkhgvrhhnvghlrdhorhhg
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvg
+    gvnhhfohhosehuledvrdgvuh
+X-ME-Proxy: <xmx:mExfYVhuGGjP9MEfT54i62c-DRcV6tdOSW8sUV78GTVjqd8TCcCvGg>
+    <xmx:mExfYdDP7YrsM-FuWPRVLcD4rfVWdP-cu0HNBnrzPlDn6mt4jXGFJg>
+    <xmx:mExfYeL3nESssM1W-pZKF0UTOQHTt8CUORKOamz4ZAu5OEtG9RzGxA>
+    <xmx:mUxfYRvVBbxdR19es_j0r8Pto48kGjVLX3PU0iHxCySaTVM2IE0UHYE420c>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 7 Oct 2021 15:37:57 -0400 (EDT)
+From:   Fernando Ramos <greenfoo@u92.eu>
+To:     dri-devel@lists.freedesktop.org
+Cc:     linux-kernel@vger.kernel.org, sean@poorly.run,
+        linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH v3 00/20] drm: cleanup: Use DRM_MODESET_LOCK_ALL_* helpers
+Date:   Thu,  7 Oct 2021 21:37:35 +0200
+Message-Id: <20211007193755.29579-1-greenfoo@u92.eu>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Received: from [10.2.57.28] (216.228.112.21) by SJ0PR13CA0007.namprd13.prod.outlook.com (2603:10b6:a03:2c0::12) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.5 via Frontend Transport; Thu, 7 Oct 2021 19:02:57 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 77d2aa4a-8d08-46bb-91e0-08d989c514b5
-X-MS-TrafficTypeDiagnostic: BYAPR12MB2789:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR12MB27893796371EA86B18C48F8CA8B19@BYAPR12MB2789.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kcbiA0CAZgJ4kPtzkNha3R57iRxup0FvXsUCUZcxvvhP8W4LvnZXXZS+yx5LOvhMfM9TwBV6voXyyYCSDdym9gXZ3BkNsRDZRhDthB5DaIXnMarJnm4IZfdXbT2ciyaDxeGrmi0w1xgEGxppF9xA9oNoEix9xB6S/tcDDntc8tAu/eFPVESxAug7NyuEFheNl44tJxOecMHNM8LsMDfQphllzPWtrKWwBsqBVNMyLcwh/wsYhhd1i6bhKrL+PhCT2jOf2twHg11ucPhy3jRmlxDfa+epTQQSCxZ0Us3EOOkaXfdWslMvylZ4IdCLJl2xnb8ecCPWbY/3kdBY6BpP3/lGDppLcPY3uxtyNoelV7qNPY3GdjQ52rBfwcDpO+SD0eD1eVCXWqpfWbSqCZfVjw58Yb8Lfk5dGBdkG47wQyQulZ97/f7OLU0CHhUMEXkEFN3Vj15vTVYj7+KjaSd0ryqD0pSG12P5e/+G/MXhDzTlR/RHTD3JQ75uUcyBRz7BPdpeaLZC87jCScv+pVSh1uepa7tRsUG4yPJ6zKGujggsTwpBx9SUqPfiGWszfUcs/z/xFMqpMPrmP5PZ2gKW0dUp8VBWrxlwKPfvHWGoB5ejtesuhpfDjTMny8oMYh9blAyJU0ADMAIB443A3MWdlbaMGJTy60CgscpCb/egq7SZsqGhI4jYFzeHaaA0/rG3hMSlQAZDlqBdagcbw1OZqtDlf3ra4crG6B3M3+gosgBQtU6VFw26FILI3pfHsG54
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR12MB4130.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(186003)(4326008)(316002)(31696002)(54906003)(86362001)(6486002)(2906002)(36756003)(110136005)(8936002)(508600001)(7416002)(7406005)(7366002)(16576012)(53546011)(5660300002)(66946007)(2616005)(66476007)(31686004)(8676002)(38100700002)(26005)(66556008)(956004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WUd4bHU0Z1lDTmRzSVdmT1BEaXZkMlQyaWJKRVU1eDJtY3c3V2VpS2JwS0lP?=
- =?utf-8?B?N3U2cnFEeHBoeUgyOGJoaGNiQkVZdEcyOFE5WDhGL0hHNWRPTGFEQXVQcWFl?=
- =?utf-8?B?MC9DVERiOHY1d1BXMVY3N0VSYkpiQWNreHA1dlRBcGRVU3VKNEpQV3k0TWZG?=
- =?utf-8?B?bnhMNjlweTF4SmVUM1R3ZHd5RU5PeTVmM3pJRWVLRVNRbXliZ0Ntdk9CVHNm?=
- =?utf-8?B?T2F6SkVXaFozNTN0eThra1h2aTY0UDMvdi9QSFBiYUtFVi9PYjdCejh3UThG?=
- =?utf-8?B?Q1pDM2F1TGhRVGJlOGp4UEtpV0FZaGVoL0JTNEhUOXd5S0tuc3E3QjROa0NV?=
- =?utf-8?B?Wm1Qb0R5THlzenFkSGJrUnFYRjNIWDBJTGhYQ2NYRVdUVnZFNkhyLzlRUGlt?=
- =?utf-8?B?NzJlTEk5RllmbmtBSnFsNWpkTFZIMThoNk41NnR5N0NPcFZsM1JRcDJwUWN6?=
- =?utf-8?B?MGhieFBmWFlQUjlHczhNWDZzMFR1SVRmT2N3VWN4OEFBckJJRVhYMlpHdy9U?=
- =?utf-8?B?SGxGK3ZtT2R5d2J5enV5czNlUStXczhxVDZGMjhGaXlpOENFK1drL2tHZ3Fk?=
- =?utf-8?B?NTRBS2xIcUQ2Kzd3RExib3lvbG9jNUEweHkzMVFhNnlYRm92VGZrVlpSU09n?=
- =?utf-8?B?THM2aWt0OTJra0h6ck9aYzVXMG5DMDRIZGNwWC9EdFVCQ3hpZXpydklnb2Ru?=
- =?utf-8?B?aGdua3JreEQ1RkZLbnQycUQ1Q01PZURuSklQNjA2Snp2MzlEL045aXRGR0Yx?=
- =?utf-8?B?VDFURU9iWUtMNHNYeUhSM1dFYWVWd2krQitqYm5xWFFkV0x5VTRZcU5Ocmhw?=
- =?utf-8?B?czdQdVdtNjZLMDBidFZsdE5Wc3U2YjBhRCt1Y1FuNHA0M3hpK0pBVnMzVUZk?=
- =?utf-8?B?Y3pQRTVWbE92NGtFUCtGa3JYWXl3MzY4YnZGNUsySERIY1kwQnNDc2hVcU83?=
- =?utf-8?B?UWc2Mm53NG9KSi9iVjJEbG81SmV3Y1pUcXRObUZaMld2VUJacDBiU0pnTHhs?=
- =?utf-8?B?QUdFQTRBdHJuZ29nTUxpQitGNngwWmpWSjZsTXhVWlE4cXhaTHZkWmpIMVBW?=
- =?utf-8?B?S1QwYmttQWxuOFpjcmtOSk5yRGxPb1pIMTJSbkpLSWhhTVNwT2ZpY1daZ0Na?=
- =?utf-8?B?SWJFWUx6bUxXenM5L3dMUWRYUjlReVEwYVNvU1c3QmIvTnZXN2x5ZzRwbEYw?=
- =?utf-8?B?Q3hqMm03MEtGUEVoMm4vMEdWKy9jMkZOR0hEd1NtbWFwejJMcml0bklaYmVx?=
- =?utf-8?B?UFpSbHpmY3hZYURLSlI2R2ltY2hKUzlZazA0djJOdlBFTnVTWjBJZXphUURG?=
- =?utf-8?B?cXBjQlAwU0RUU091eVh2VmI1cTJvd2R0MzFxRkZRWWVhRUhkQlROYWxHUGdj?=
- =?utf-8?B?TFM4UllYZmxTZ2tCdzJ1SnNwNjVzWkRWbXE5Z3ErbjZybllRR25pNnVCR29J?=
- =?utf-8?B?NHUrMExwZmt2WTkzWlJsdHhMUG5acU9uZnZzeTdOK0s1N0ZkVXFtT1JLOE84?=
- =?utf-8?B?dFFXVEx6SGhIK1V5OGFSeTBCK0MvNC9UVXk4c2lJZXM3RWtIMmtteXN4eFNS?=
- =?utf-8?B?QjV0aFlydkxsaUcyTEkzTjc4eVdQQlNRdGNBbXhrcmIzRWM4UzFkdXpiaXYv?=
- =?utf-8?B?dzViWlFLc2NuV0I1NmhrSjFSOWU5d1U4S2lRbm52TDBLWXY5ZVp1dWJtcXJn?=
- =?utf-8?B?Q01zNDMvSk4reVhFR0VUNEtnQXVITW41eGhoN09IWGxmM1BPMDFOdnkweGJX?=
- =?utf-8?Q?5FbkI6/nW7IzSKLWtNos9wSHblqV8J9bQs/iLD3?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 77d2aa4a-8d08-46bb-91e0-08d989c514b5
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4130.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2021 19:03:00.3032
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eCZlXTJRNJy5myyayzIL3KsF0bdIIAI1YBHRo4OboSbi5iVk69kners7pjEyUbv8S5f/lqOMctEJCSYKTWx9sg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2789
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/7/21 11:50, Suren Baghdasaryan wrote:
-...
->>>>>>>>>> I believe Pavel meant something as simple as
->>>>>>>>>> $ YOUR_FILE=$YOUR_IDS_DIR/my_string_name
->>>>>>>>>> $ touch $YOUR_FILE
->>>>>>>>>> $ stat -c %i $YOUR_FILE
->>>>>>>
->>>>>>> Ah, ok, now I understand the proposal. Thanks for the clarification!
->>>>>>> So, this would use filesystem as a directory for inode->name mappings.
->>>>>>> One rough edge for me is that the consumer would still need to parse
->>>>>>> /proc/$pid/maps and convert [anon:inode] into [anon:name] instead of
->>>>>>> just dumping the content for the user. Would it be acceptable if we
->>>>>>> require the ID provided by prctl() to always be a valid inode and
->>>>>>> show_map_vma() would do the inode-to-filename conversion when
->>>>>>> generating maps/smaps files? I know that inode->dentry is not
->>>>>>> one-to-one mapping but we can simply output the first dentry name.
->>>>>>> WDYT?
->>>>>>
->>>>>> No. You do not want to dictate any particular way of the mapping. The
->>>>>> above is just one way to do that without developing any actual mapping
->>>>>> yourself. You just use a filesystem for that. Kernel doesn't and
->>>>>> shouldn't understand the meaning of those numbers. It has no business in
->>>>>> that.
->>>>>>
->>>>>> In a way this would be pushing policy into the kernel.
->>>>>
->>>>> I can see your point. Any other ideas on how to prevent tools from
->>>>> doing this id-to-name conversion themselves?
->>>>
->>>> I really fail to understand why you really want to prevent them from that.
->>>> Really, the whole thing is just a cookie that kernel maintains for memory
->>>> mappings so that two parties can understand what the meaning of that
->>>> mapping is from a higher level. They both have to agree on the naming
->>>> but the kernel shouldn't dictate any specific convention because the
->>>> kernel _doesn't_ _care_. These things are not really anything actionable
->>>> for the kernel. It is just a metadata.
->>>
->>> The desire is for one of these two parties to be a human who can get
->>> the data and use it as is without additional conversions.
->>> /proc/$pid/maps could report FD numbers instead of pathnames, which
->>> could be converted to pathnames in userspace. However we do not do
->>> that because pathnames are more convenient for humans to identify a
->>> specific resource. Same logic applies here IMHO.
->>
->> Yes, please. It really seems like the folks that are interested in this
->> feature want strings. (I certainly do.) For those not interested in the
->> feature, it sounds like a CONFIG to keep it away would be sufficient.
->> Can we just move forward with that?
-> 
-> Would love to if others are ok with this.
-> 
+Hi all,
 
-If this doesn't get accepted, then another way forward would to continue
-the ideas above to their logical conclusion, and create a new file system:
-vma-fs.  Like debug-fs and other special file systems, similar policy and
-motivation. Also protected by a CONFIG option.
+One of the things in the DRM TODO list ("Documentation/gpu/todo.rst") was to
+"use DRM_MODESET_LOCAL_ALL_* helpers instead of boilerplate". That's what this
+patch series is about.
 
-Actually this seems at least as natural as the procfs approach, especially
-given the nature of these strings, which feel more like dir+file names, than
-simple strings.
+You will find two types of changes here:
 
-thanks,
+  - Replacing "drm_modeset_lock_all_ctx()" (and surrounding boilerplate) with
+    "DRM_MODESET_LOCK_ALL_BEGIN()/END()" in the remaining places (as it has
+    already been done in previous commits such as b7ea04d2)
+
+  - Replacing "drm_modeset_lock_all()" with "DRM_MODESET_LOCK_ALL_BEGIN()/END()"
+    in the remaining places (as it has already been done in previous commits
+    such as 57037094)
+    
+Most of the changes are straight forward, except for a few cases in the "amd"
+and "i915" drivers where some extra dancing was needed to overcome the
+limitation that the DRM_MODESET_LOCK_ALL_BEGIN()/END() macros can only be used
+once inside the same function (the reason being that the macro expansion
+includes *labels*, and you can not have two labels named the same inside one
+function)
+
+Notice that, even after this patch series, some places remain where
+"drm_modeset_lock_all()" and "drm_modeset_lock_all_ctx()" are still present,
+all inside drm core (which makes sense), except for two (in "amd" and "i915")
+which cannot be replaced due to the way they are being used.
+
+Changes in v2:
+  - Fix commit message typo
+  - Use the value returned by DRM_MODESET_LOCK_ALL_END when possible
+  - Split drm/i915 patch into two simpler ones
+  - Remove drm_modeset_(un)lock_all()
+  - Fix build problems in non-x86 platforms
+
+Changes in v3:
+  - Fix in drm/i915 driver to make sure global context is no longer used
+  - Fix in drm/amdgpu driver to make sure global context is no longer used
+  - Split amdgpu driver to make it easier to understand
+  - Remove acquire_ctx from drm_mode_config 
+  - Rebase on top of drm-tip
+  - WARNING: There is some discussion going on regarding whether the new macros
+    should be used (or not) in the i915 driver, as a different set of functions
+    has been proposed in the past (see here:
+    https://lore.kernel.org/dri-devel/YVriZxCeipBUgc8O@intel.com/).
+    In that case I will need to create a v4 where i915 files are left unchanged.
+    Let me know your thoughts regarding this.
+
+Fernando Ramos (20):
+  drm: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/i915: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/msm: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/vmwgfx: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/tegra: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/shmobile: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/radeon: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/omapdrm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/nouveau: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/msm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/i915: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/i915: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN() [part 2]
+  drm/i915: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN() [part 3]
+  drm/gma500: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/amd: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
+  drm/amd: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN() [part 2]
+  drm/amd: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN() [part 3]
+  drm: cleanup: remove drm_modeset_(un)lock_all()
+  drm: cleanup: remove acquire_ctx from drm_mode_config
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   | 21 +++--
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 59 ++++++------
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  3 +-
+ .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 25 ++---
+ drivers/gpu/drm/drm_client_modeset.c          | 14 ++-
+ drivers/gpu/drm/drm_crtc_helper.c             | 18 ++--
+ drivers/gpu/drm/drm_fb_helper.c               | 10 +-
+ drivers/gpu/drm/drm_framebuffer.c             |  6 +-
+ drivers/gpu/drm/drm_modeset_lock.c            | 94 +------------------
+ drivers/gpu/drm/gma500/psb_device.c           | 18 ++--
+ drivers/gpu/drm/i915/display/intel_audio.c    | 16 ++--
+ drivers/gpu/drm/i915/display/intel_display.c  | 25 ++---
+ .../drm/i915/display/intel_display_debugfs.c  | 46 +++++----
+ drivers/gpu/drm/i915/display/intel_overlay.c  | 46 ++++-----
+ drivers/gpu/drm/i915/display/intel_pipe_crc.c |  7 +-
+ drivers/gpu/drm/i915/i915_drv.c               | 13 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      | 10 +-
+ .../gpu/drm/msm/disp/msm_disp_snapshot_util.c | 12 +--
+ drivers/gpu/drm/nouveau/dispnv50/disp.c       | 15 ++-
+ drivers/gpu/drm/omapdrm/omap_fb.c             |  9 +-
+ drivers/gpu/drm/radeon/radeon_device.c        | 21 +++--
+ drivers/gpu/drm/radeon/radeon_dp_mst.c        | 10 +-
+ drivers/gpu/drm/shmobile/shmob_drm_drv.c      |  6 +-
+ drivers/gpu/drm/tegra/dsi.c                   |  6 +-
+ drivers/gpu/drm/tegra/hdmi.c                  |  6 +-
+ drivers/gpu/drm/tegra/sor.c                   | 11 ++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c         | 11 ++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           | 12 ++-
+ include/drm/drm_mode_config.h                 | 10 --
+ include/drm/drm_modeset_lock.h                |  2 -
+ 30 files changed, 272 insertions(+), 290 deletions(-)
+
+
+base-commit: 58a206ae5bf2f81a11e4408d10a3e1b445d6eebb
 -- 
-John Hubbard
-NVIDIA
+2.33.0
+
