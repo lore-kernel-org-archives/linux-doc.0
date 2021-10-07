@@ -2,128 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53043C433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 08:09:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DC8CC433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 08:11:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3681B6137F
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 08:09:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6817361163
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 08:11:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240519AbhJGILC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Oct 2021 04:11:02 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:36256 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240607AbhJGILB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Oct 2021 04:11:01 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 9CFFE225F4;
-        Thu,  7 Oct 2021 08:09:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1633594146; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        id S240636AbhJGIMy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Oct 2021 04:12:54 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:51366 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240591AbhJGIMy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Oct 2021 04:12:54 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id E7E46203C9;
+        Thu,  7 Oct 2021 08:10:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1633594259; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=vZ78DbAR+r/e/r6GYTwg4MxP7fk6xf1yQWORN1dcpaw=;
-        b=p/Sjmspufjnzjjein9NvN3QmLYZhdyAyB0P0BiEw/nO0oDKX6ZKsoQDpDfFMhkcKuArLRN
-        fPH4WEuNCqaQ9xxgOiNhGRVVrXuN1qC+dLhq3H65JcZz//9vtSrXeX6sw73n9G6uYsPW0s
-        2H+6gC3mhVlYrBwHlU2eArtih6Dm2FY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1633594146;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=vZ78DbAR+r/e/r6GYTwg4MxP7fk6xf1yQWORN1dcpaw=;
-        b=d7GACDCTta4X67QvurOXYEnWzqbvKqOo3kXRGX7FXuY1MWnD0h4KBmo3KUWYLvUGJahujc
-        q2Aj7atscFaMIcDA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        bh=Oc55QYscnPdKzwCjb0ywVfd/doUxkdVcTeLmeqISr7o=;
+        b=M+pb6kZBKTijfupuQci9zI0JzzADDVtW/KDSipGnsBgM01o/2Zfd8Zf2qDwIDRzPapNAPw
+        C/a15erqzs5+/vNjqXtbDZovG90WNGdDWv3/UjXvA8ptySXIDaLgqT+N+M30EdJqu5Rni2
+        QHhYCD82KKUdf/uvulrMMidepD6Q69c=
+Received: from suse.cz (unknown [10.100.201.86])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2CC2813A9B;
-        Thu,  7 Oct 2021 08:09:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id i1ruByGrXmEPEAAAMHmgww
-        (envelope-from <osalvador@suse.de>); Thu, 07 Oct 2021 08:09:05 +0000
-Date:   Thu, 7 Oct 2021 10:09:03 +0200
-From:   Oscar Salvador <osalvador@suse.de>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     linux-kernel@vger.kernel.org,
+        by relay2.suse.de (Postfix) with ESMTPS id 43D35A3B85;
+        Thu,  7 Oct 2021 08:10:59 +0000 (UTC)
+Date:   Thu, 7 Oct 2021 10:10:58 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     Pavel Machek <pavel@ucw.cz>, David Hildenbrand <david@redhat.com>,
+        John Hubbard <jhubbard@nvidia.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
+        Colin Cross <ccross@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
         Peter Zijlstra <peterz@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Shuah Khan <shuah@kernel.org>, Michal Hocko <mhocko@suse.com>,
-        Mike Rapoport <rppt@kernel.org>, x86@kernel.org,
-        linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH v1 1/6] mm/memory_hotplug: remove CONFIG_X86_64_ACPI_NUMA
- dependency from CONFIG_MEMORY_HOTPLUG
-Message-ID: <YV6rH31mpJG0WLLQ@localhost.localdomain>
-References: <20210929143600.49379-1-david@redhat.com>
- <20210929143600.49379-2-david@redhat.com>
+        Catalin Marinas <catalin.marinas@arm.com>,
+        vincenzo.frascino@arm.com,
+        Chinwen Chang =?utf-8?B?KOW8temMpuaWhyk=?= 
+        <chinwen.chang@mediatek.com>,
+        Axel Rasmussen <axelrasmussen@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Jann Horn <jannh@google.com>, apopple@nvidia.com,
+        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
+        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
+        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
+        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
+        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
+        Chris Hyser <chris.hyser@oracle.com>,
+        Peter Collingbourne <pcc@google.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
+        Rolf Eike Beer <eb@emlix.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
+        cxfcosmos@gmail.com, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm <linux-mm@kvack.org>,
+        kernel-team <kernel-team@android.com>
+Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
+Message-ID: <YV6rksRHr2iSWR3S@dhcp22.suse.cz>
+References: <20211005184211.GA19804@duo.ucw.cz>
+ <CAJuCfpE5JEThTMhwKPUREfSE1GYcTx4YSLoVhAH97fJH_qR0Zg@mail.gmail.com>
+ <20211005200411.GB19804@duo.ucw.cz>
+ <CAJuCfpFZkz2c0ZWeqzOAx8KFqk1ge3K-SiCMeu3dmi6B7bK-9w@mail.gmail.com>
+ <efdffa68-d790-72e4-e6a3-80f2e194d811@nvidia.com>
+ <YV1eCu0eZ+gQADNx@dhcp22.suse.cz>
+ <6b15c682-72eb-724d-bc43-36ae6b79b91a@redhat.com>
+ <CAJuCfpEPBM6ehQXgzp=g4SqtY6iaC8wuZ-CRE81oR1VOq7m4CA@mail.gmail.com>
+ <20211006175821.GA1941@duo.ucw.cz>
+ <CAJuCfpGuuXOpdYbt3AsNn+WNbavwuEsDfRMYunh+gajp6hOMAg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210929143600.49379-2-david@redhat.com>
+In-Reply-To: <CAJuCfpGuuXOpdYbt3AsNn+WNbavwuEsDfRMYunh+gajp6hOMAg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 29, 2021 at 04:35:55PM +0200, David Hildenbrand wrote:
-> SPARSEMEM is the only possible memory model for x86-64, FLATMEM is not
-> possible:
-> 	config ARCH_FLATMEM_ENABLE
-> 		def_bool y
-> 		depends on X86_32 && !NUMA
+On Wed 06-10-21 11:18:31, Suren Baghdasaryan wrote:
+> On Wed, Oct 6, 2021 at 10:58 AM Pavel Machek <pavel@ucw.cz> wrote:
+[...]
+> > That "central facility" option can be as simple as "mkdir
+> > /somewhere/sanitized_id", using inode numbers for example. You don't
+> > really need IPC.
 > 
-> And X86_64_ACPI_NUMA (obviously) only supports x86-64:
-> 	config X86_64_ACPI_NUMA
-> 		def_bool y
-> 		depends on X86_64 && NUMA && ACPI && PCI
-> 
-> Let's just remove the CONFIG_X86_64_ACPI_NUMA dependency, as it does no
-> longer make sense.
-> 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+> Hmm, so the suggestion is to have some directory which contains files
+> representing IDs, each containing the string name of the associated
+> vma? Then let's say we are creating a new VMA and want to name it. We
+> would have to scan that directory, check all files and see if any of
+> them contain the name we want to reuse the same ID.
 
-Reviewed-by: Oscar Salvador <osalvador@suse.de>
+I believe Pavel meant something as simple as
+$ YOUR_FILE=$YOUR_IDS_DIR/my_string_name
+$ touch $YOUR_FILE
+$ stat -c %i $YOUR_FILE
 
-> ---
->  mm/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/mm/Kconfig b/mm/Kconfig
-> index d16ba9249bc5..b7fb3f0b485e 100644
-> --- a/mm/Kconfig
-> +++ b/mm/Kconfig
-> @@ -123,7 +123,7 @@ config ARCH_ENABLE_MEMORY_HOTPLUG
->  config MEMORY_HOTPLUG
->  	bool "Allow for memory hot-add"
->  	select MEMORY_ISOLATION
-> -	depends on SPARSEMEM || X86_64_ACPI_NUMA
-> +	depends on SPARSEMEM
->  	depends on ARCH_ENABLE_MEMORY_HOTPLUG
->  	depends on 64BIT || BROKEN
->  	select NUMA_KEEP_MEMINFO if NUMA
-> -- 
-> 2.31.1
-> 
-> 
+YOUR_IDS_DIR can live on a tmpfs and you can even implement a policy on
+top of that (who can generate new ids, gurantee uniqness etc...).
 
+The above is certainly not for free of course but if you really need a
+system wide consistency when using names then you need some sort of
+central authority. How you implement that is not all that important
+but I do not think we want to handle that in the kernel.
 -- 
-Oscar Salvador
+Michal Hocko
 SUSE Labs
