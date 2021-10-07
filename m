@@ -2,542 +2,297 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60D6DC433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 10:20:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EE14C433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 11:53:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 46580611C1
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 10:20:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 76AD361260
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Oct 2021 11:53:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232771AbhJGKWd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Oct 2021 06:22:33 -0400
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:40944 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S232166AbhJGKWc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Oct 2021 06:22:32 -0400
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 197ACunu005823;
-        Thu, 7 Oct 2021 12:20:19 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : subject : to
- : cc : references : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=uxdP5tS3IB+aZZDmzrv/D7sDDw4iu+VGAibxcqFPt3c=;
- b=yTJUDkp6VqHjxT/hYXFyuYQvQpDfmAhQg0zgftet2aK5Y4JfTBDdhXhxC1GO5FjXppJQ
- ovgCG5SaiIiJY6UEVqZ9S+MVm4spdqeVvKgeuF5ykPpcFQajmsRvzmUJY5xaeV/HN7jW
- G9lp3T1mKToWFIJDDfGBAOurUGJGi2N3ulTtoz3JXwiNs+NlpHfx5NVohsht85ahT+Gc
- Dt6xPfex+3Os6uEQlHOH/S6Olz9diIMNmKrQQ1XwJAfs8iXoHU8EMK1J2LbXfUx+9I4/
- vrcTOwCu+fJa9RqbNFCvIG2qwr1dVSMgmuZSReiaLvHxE3P9LbUasB7urNXlGvdluLQD VQ== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 3bhxwxg1m6-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 07 Oct 2021 12:20:19 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id CF8A0100039;
-        Thu,  7 Oct 2021 12:20:17 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 4B6BE21CA9A;
-        Thu,  7 Oct 2021 12:20:17 +0200 (CEST)
-Received: from lmecxl0889.lme.st.com (10.75.127.47) by SFHDAG2NODE2.st.com
- (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Thu, 7 Oct
- 2021 12:20:14 +0200
-From:   Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>
-Subject: Re: [PATCH v8 2/2] tty: add rpmsg driver
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>
-CC:     Ohad Ben-Cohen <ohad@wizery.com>, Jonathan Corbet <corbet@lwn.net>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>, Suman Anna <s-anna@ti.com>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-remoteproc@vger.kernel.org>
-References: <20210930160520.19678-1-arnaud.pouliquen@foss.st.com>
- <20210930160520.19678-3-arnaud.pouliquen@foss.st.com>
- <YVtgG01o5pyB3Tc8@ripper> <04f62e46-74ca-b7b5-a229-fdf6651343be@foss.st.com>
- <YVx8N0fmZI/jzkiM@ripper>
-Message-ID: <a01ad3ee-c486-de83-c3d2-8661aeacdbe8@foss.st.com>
-Date:   Thu, 7 Oct 2021 12:20:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        id S232893AbhJGLzC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Oct 2021 07:55:02 -0400
+Received: from mga12.intel.com ([192.55.52.136]:34319 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230091AbhJGLy5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 7 Oct 2021 07:54:57 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10129"; a="206349650"
+X-IronPort-AV: E=Sophos;i="5.85,354,1624345200"; 
+   d="gz'50?scan'50,208,50";a="206349650"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2021 04:52:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,354,1624345200"; 
+   d="gz'50?scan'50,208,50";a="478531944"
+Received: from lkp-server01.sh.intel.com (HELO 72c3bd3cf19c) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 07 Oct 2021 04:52:45 -0700
+Received: from kbuild by 72c3bd3cf19c with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1mYRx7-0007N6-BN; Thu, 07 Oct 2021 11:52:45 +0000
+Date:   Thu, 7 Oct 2021 19:51:55 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     "Darrick J. Wong" <djwong@kernel.org>
+Cc:     kbuild-all@lists.01.org,
+        "Darrick J. Wong" <darrick.wong@oracle.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [djwong-xfs:zero-initialize-pmem-5.16 25/28]
+ fs/iomap/buffered-io.c:943: warning: This comment starts with '/**', but
+ isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202110071951.xYAkEWMm-lkp@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <YVx8N0fmZI/jzkiM@ripper>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.75.127.47]
-X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SFHDAG2NODE2.st.com
- (10.75.127.5)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
- definitions=2021-10-07_01,2021-10-07_01,2020-04-07_01
+Content-Type: multipart/mixed; boundary="Nq2Wo0NMKNjxTN9z"
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Bjorn,
 
-On 10/5/21 6:24 PM, Bjorn Andersson wrote:
-> On Tue 05 Oct 09:00 PDT 2021, Arnaud POULIQUEN wrote:
-> 
->> Hello Bjorn,
->>
->> On 10/4/21 10:12 PM, Bjorn Andersson wrote:
->>> On Thu 30 Sep 09:05 PDT 2021, Arnaud Pouliquen wrote:
->>>
->>>> This driver exposes a standard TTY interface on top of the rpmsg
->>>> framework through a rpmsg service.
->>>>
->>>> This driver supports multi-instances, offering a /dev/ttyRPMSGx entry
->>>> per rpmsg endpoint.
->>>>
->>>
->>> I think this looks pretty good, but it's a while since we discussed
->>> this, reading your patches again makes me wonder:
->>
->> That's fair, the last discussion on the topic was over a year ago.
->>
->>>
->>> 1) With all the efforts related to virtualization and adding things such
->>> as I2C support there, what are the merits of putting a tty driver ontop
->>> of rpmsg in comparison with directly on virtio - which would be used for
->>> virtualization as well.
->>
->> As mentionned in the cover letter, the main advantage of the RPMsg vs virtio is
->> that RPMsg is able to mix the services on an unique virtio instance. Using
->> Virtio console implies to add a new virtio instance for each service (or
->> instance of a service) with associated mailbox channels.
->> Taking advantage of the RPMsg service mixing is important for platform (such as
->> stm32MP1) on which coprocessor is limited in term of memory mapping.
->>
-> 
-> The limitations related to mapping additional virtio pipes does seem
-> like a reasonable one. I just hope we don't end up duplicating much of
-> the virtualization effort, with the recently concluded I2C client
-> support coming to mind.
+--Nq2Wo0NMKNjxTN9z
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Difficult to have a prediction on this.
-This is something that should be coming with rational.The I2C management would
-be a good example. If we consider a I2C bus managed by the coprocessor. A main
-processor can have to access to a device on this bus.
-Is limited number of access to the device justify to reserve a dedicated memory
-area and a mailbox channel just for few device configurations on runtime?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git zero-initialize-pmem-5.16
+head:   34b80c3d1203abd5fd64242ef25898c7d64166ca
+commit: 262459cd3e039d51ed6f6c478e1b794dda7d9de8 [25/28] iomap: use accelerated zeroing on a block device to zero a file range
+config: um-x86_64_defconfig (attached as .config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce (this is a W=1 build):
+        # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/commit/?id=262459cd3e039d51ed6f6c478e1b794dda7d9de8
+        git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git
+        git fetch --no-tags djwong-xfs zero-initialize-pmem-5.16
+        git checkout 262459cd3e039d51ed6f6c478e1b794dda7d9de8
+        # save the attached .config to linux build tree
+        make W=1 ARCH=um SUBARCH=x86_64
 
-Anyway supported more virtio services in remoteproc and OpenAMP library seems
-something like a good middle term objective. The work I started around
-remoteproc virtio, I guess, is going in this direction.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-> 
->> I also expect that this service would be available for some other backend than
->> the virtio one.
->>
-> 
-> Last time we discussed this I believe I mentioned the AT command
-> channels found in Qualcomm modems. Since then that got pushed into
-> drivers/net/wwan, for the few other cases rpmsg_char works fine.
-> 
->>>
->>> 2) What prevents you from pointing your userspace tool at an rpmsg_char
->>> endpoint?
->>
->> You are right rpmsg_char could be an alternative. But advantage of the TTY is:
->>
->> - It possible to reuse existing applications/tools relying on TTY devices.
->> An example is a TTY RPMSG device dedicated for coprocessor traces that can be
->> simply redirect to a log file or mixed to the kernel logs by scripts.
->> Another exemple is the ability to ease migration from a 2-processors system
->> solution (with UART-based IPC) to a system solution with an internal
->> coprocessor. We received such requirement from some ST customers.
->>
-> 
-> I presume the transport itself provided by rpmsg_char would work just
-> fine for this, but that these applications expects something from the
-> tty framework, with its known ioctls etc?
+All warnings (new ones prefixed by >>):
 
-The rts mechanism i implemented in previous version is also something
-interesting to add on for the flow control.
+>> fs/iomap/buffered-io.c:943: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Force a filesystem to write zeroes to mapped extents, even if they're
+--
+>> fs/iomap/buffered-io.c:948:1: warning: no previous prototype for 'iomap_zeroinit_range' [-Wmissing-prototypes]
+     948 | iomap_zeroinit_range(struct inode *inode, loff_t pos, loff_t len,
+         | ^~~~~~~~~~~~~~~~~~~~
 
-> 
->> - For rpmsg_char you have to share device between TX and RX (only one fopen
->> allowed per device), while TTY allows you to manage one device in 2 independent
->> threads/appliaction.
->>
-> 
-> At least in the Qualcomm case, where the channels have a state and
-> clients opening and closing the rpmsg_char will affect that state it
-> simplifies things a lot not to support a multi-client model. So I think
-> there's merit to this difference.
-> 
->> - TTY framework manages intermediate buffer that allow to free Rx RPMsg buffers.
->>
-> 
-> rpmsg_char does the same thing, by putting incoming messages on
-> epddev->queue.
 
-That's right, I forgot that, thanks for pointing it out.
+vim +943 fs/iomap/buffered-io.c
 
-> 
->> So rpmsg_char and rpmsg_tty don't seem to me to cover exactly the same requierement.
->>
-> 
-> No, you're right there's some differences here.
+   941	
+   942	/**
+ > 943	 * Force a filesystem to write zeroes to mapped extents, even if they're
+   944	 * unwritten.  DAX files are not supported, and the caller should fsync the
+   945	 * file before returning to userspace.
+   946	 */
+   947	int
+ > 948	iomap_zeroinit_range(struct inode *inode, loff_t pos, loff_t len,
+   949			     const struct iomap_ops *ops)
+   950	{
+   951		struct iomap_iter iter = {
+   952			.inode		= inode,
+   953			.pos		= pos,
+   954			.len		= len,
+   955			.flags		= IOMAP_ZERO,
+   956		};
+   957		int ret;
+   958	
+   959		if (IS_DAX(inode))
+   960			return -EOPNOTSUPP;
+   961	
+   962		while ((ret = iomap_iter(&iter, ops)) > 0)
+   963			iter.processed = iomap_zero_iter(&iter, NULL, false);
+   964		return ret;
+   965	}
+   966	EXPORT_SYMBOL_GPL(iomap_zeroinit_range);
+   967	
 
-So can I consider that there is no blocking point on your side to move forward
-with this Rpmsg service?
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
-Thanks,
-Arnaud
-> 
-> Regards,
-> Bjorn
-> 
->> Thanks,
->> Arnaud
->>
->>>
->>> Thanks,
->>> Bjorn
->>>
->>>> Signed-off-by: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
->>>> ---
->>>>  Documentation/serial/tty_rpmsg.rst |  15 ++
->>>>  drivers/tty/Kconfig                |   9 +
->>>>  drivers/tty/Makefile               |   1 +
->>>>  drivers/tty/rpmsg_tty.c            | 275 +++++++++++++++++++++++++++++
->>>>  4 files changed, 300 insertions(+)
->>>>  create mode 100644 Documentation/serial/tty_rpmsg.rst
->>>>  create mode 100644 drivers/tty/rpmsg_tty.c
->>>>
->>>> diff --git a/Documentation/serial/tty_rpmsg.rst b/Documentation/serial/tty_rpmsg.rst
->>>> new file mode 100644
->>>> index 000000000000..b055107866c9
->>>> --- /dev/null
->>>> +++ b/Documentation/serial/tty_rpmsg.rst
->>>> @@ -0,0 +1,15 @@
->>>> +.. SPDX-License-Identifier: GPL-2.0
->>>> +
->>>> +=========
->>>> +RPMsg TTY
->>>> +=========
->>>> +
->>>> +The rpmsg tty driver implements serial communication on the RPMsg bus to makes possible for
->>>> +user-space programs to send and receive rpmsg messages as a standard tty protocol.
->>>> +
->>>> +The remote processor can instantiate a new tty by requesting a "rpmsg-tty" RPMsg service.
->>>> +
->>>> +The "rpmsg-tty" service is directly used for data exchange. No flow control is implemented.
->>>> +
->>>> +Information related to the RPMsg and associated tty device is available in
->>>> +/sys/bus/rpmsg/devices/.
->>>> diff --git a/drivers/tty/Kconfig b/drivers/tty/Kconfig
->>>> index 23cc988c68a4..5095513029d7 100644
->>>> --- a/drivers/tty/Kconfig
->>>> +++ b/drivers/tty/Kconfig
->>>> @@ -368,6 +368,15 @@ config VCC
->>>>  
->>>>  source "drivers/tty/hvc/Kconfig"
->>>>  
->>>> +config RPMSG_TTY
->>>> +	tristate "RPMSG tty driver"
->>>> +	depends on RPMSG
->>>> +	help
->>>> +	  Say y here to export rpmsg endpoints as tty devices, usually found
->>>> +	  in /dev/ttyRPMSGx.
->>>> +	  This makes it possible for user-space programs to send and receive
->>>> +	  rpmsg messages as a standard tty protocol.
->>>> +
->>>>  endif # TTY
->>>>  
->>>>  source "drivers/tty/serdev/Kconfig"
->>>> diff --git a/drivers/tty/Makefile b/drivers/tty/Makefile
->>>> index a2bd75fbaaa4..07aca5184a55 100644
->>>> --- a/drivers/tty/Makefile
->>>> +++ b/drivers/tty/Makefile
->>>> @@ -26,5 +26,6 @@ obj-$(CONFIG_PPC_EPAPR_HV_BYTECHAN) += ehv_bytechan.o
->>>>  obj-$(CONFIG_GOLDFISH_TTY)	+= goldfish.o
->>>>  obj-$(CONFIG_MIPS_EJTAG_FDC_TTY) += mips_ejtag_fdc.o
->>>>  obj-$(CONFIG_VCC)		+= vcc.o
->>>> +obj-$(CONFIG_RPMSG_TTY)		+= rpmsg_tty.o
->>>>  
->>>>  obj-y += ipwireless/
->>>> diff --git a/drivers/tty/rpmsg_tty.c b/drivers/tty/rpmsg_tty.c
->>>> new file mode 100644
->>>> index 000000000000..0c99f54c2911
->>>> --- /dev/null
->>>> +++ b/drivers/tty/rpmsg_tty.c
->>>> @@ -0,0 +1,275 @@
->>>> +// SPDX-License-Identifier: GPL-2.0
->>>> +/*
->>>> + * Copyright (C) STMicroelectronics 2021 - All Rights Reserved
->>>> + */
->>>> +
->>>> +#include <linux/module.h>
->>>> +#include <linux/rpmsg.h>
->>>> +#include <linux/slab.h>
->>>> +#include <linux/tty.h>
->>>> +#include <linux/tty_flip.h>
->>>> +
->>>> +#define MAX_TTY_RPMSG	32
->>>> +
->>>> +static DEFINE_IDR(tty_idr);	/* tty instance id */
->>>> +static DEFINE_MUTEX(idr_lock);	/* protects tty_idr */
->>>> +
->>>> +static struct tty_driver *rpmsg_tty_driver;
->>>> +
->>>> +struct rpmsg_tty_port {
->>>> +	struct tty_port		port;	 /* TTY port data */
->>>> +	int			id;	 /* TTY rpmsg index */
->>>> +	struct rpmsg_device	*rpdev;	 /* rpmsg device */
->>>> +};
->>>> +
->>>> +static int rpmsg_tty_cb(struct rpmsg_device *rpdev, void *data, int len, void *priv, u32 src)
->>>> +{
->>>> +	struct rpmsg_tty_port *cport = dev_get_drvdata(&rpdev->dev);
->>>> +	int copied;
->>>> +
->>>> +	if (!len)
->>>> +		return -EINVAL;
->>>> +	copied = tty_insert_flip_string(&cport->port, data, len);
->>>> +	if (copied != len)
->>>> +		dev_dbg(&rpdev->dev, "Trunc buffer: available space is %d\n",
->>>> +			copied);
->>>> +	tty_flip_buffer_push(&cport->port);
->>>> +
->>>> +	return 0;
->>>> +}
->>>> +
->>>> +static int rpmsg_tty_install(struct tty_driver *driver, struct tty_struct *tty)
->>>> +{
->>>> +	struct rpmsg_tty_port *cport = idr_find(&tty_idr, tty->index);
->>>> +
->>>> +	if (!cport) {
->>>> +		dev_err(tty->dev, "Cannot get cport\n");
->>>> +		return -ENODEV;
->>>> +	}
->>>> +
->>>> +	tty->driver_data = cport;
->>>> +
->>>> +	return tty_port_install(&cport->port, driver, tty);
->>>> +}
->>>> +
->>>> +static int rpmsg_tty_open(struct tty_struct *tty, struct file *filp)
->>>> +{
->>>> +	return tty_port_open(tty->port, tty, filp);
->>>> +}
->>>> +
->>>> +static void rpmsg_tty_close(struct tty_struct *tty, struct file *filp)
->>>> +{
->>>> +	return tty_port_close(tty->port, tty, filp);
->>>> +}
->>>> +
->>>> +static int rpmsg_tty_write(struct tty_struct *tty, const u8 *buf, int len)
->>>> +{
->>>> +	struct rpmsg_tty_port *cport = tty->driver_data;
->>>> +	struct rpmsg_device *rpdev;
->>>> +	int msg_max_size, msg_size;
->>>> +	int ret;
->>>> +
->>>> +	rpdev = cport->rpdev;
->>>> +
->>>> +	dev_dbg(&rpdev->dev, "Send msg from tty->index = %d, len = %d\n", tty->index, len);
->>>> +
->>>> +	msg_max_size = rpmsg_get_mtu(rpdev->ept);
->>>> +	if (msg_max_size < 0)
->>>> +		return msg_max_size;
->>>> +
->>>> +	msg_size = min(len, msg_max_size);
->>>> +
->>>> +	/*
->>>> +	 * Use rpmsg_trysend instead of rpmsg_send to send the message so the caller is not
->>>> +	 * hung until a rpmsg buffer is available. In such case rpmsg_trysend returns -ENOMEM.
->>>> +	 */
->>>> +	ret = rpmsg_trysend(rpdev->ept, (void *)buf, msg_size);
->>>> +	if (ret) {
->>>> +		dev_dbg(&rpdev->dev, "rpmsg_send failed: %d\n", ret);
->>>> +		return ret;
->>>> +	}
->>>> +
->>>> +	return msg_size;
->>>> +}
->>>> +
->>>> +static unsigned int rpmsg_tty_write_room(struct tty_struct *tty)
->>>> +{
->>>> +	struct rpmsg_tty_port *cport = tty->driver_data;
->>>> +	int size;
->>>> +
->>>> +	size = rpmsg_get_mtu(cport->rpdev->ept);
->>>> +	if (size < 0)
->>>> +		return 0;
->>>> +
->>>> +	return size;
->>>> +}
->>>> +
->>>> +static const struct tty_operations rpmsg_tty_ops = {
->>>> +	.install	= rpmsg_tty_install,
->>>> +	.open		= rpmsg_tty_open,
->>>> +	.close		= rpmsg_tty_close,
->>>> +	.write		= rpmsg_tty_write,
->>>> +	.write_room	= rpmsg_tty_write_room,
->>>> +};
->>>> +
->>>> +static struct rpmsg_tty_port *rpmsg_tty_alloc_cport(void)
->>>> +{
->>>> +	struct rpmsg_tty_port *cport;
->>>> +	int err;
->>>> +
->>>> +	cport = kzalloc(sizeof(*cport), GFP_KERNEL);
->>>> +	if (!cport)
->>>> +		return ERR_PTR(-ENOMEM);
->>>> +
->>>> +	mutex_lock(&idr_lock);
->>>> +	cport->id = idr_alloc(&tty_idr, cport, 0, MAX_TTY_RPMSG, GFP_KERNEL);
->>>> +	mutex_unlock(&idr_lock);
->>>> +
->>>> +	if (cport->id < 0) {
->>>> +		err = cport->id;
->>>> +		kfree(cport);
->>>> +		return ERR_PTR(err);
->>>> +	}
->>>> +
->>>> +	return cport;
->>>> +}
->>>> +
->>>> +static void rpmsg_tty_release_cport(struct rpmsg_tty_port *cport)
->>>> +{
->>>> +	mutex_lock(&idr_lock);
->>>> +	idr_remove(&tty_idr, cport->id);
->>>> +	mutex_unlock(&idr_lock);
->>>> +
->>>> +	kfree(cport);
->>>> +}
->>>> +
->>>> +static const struct tty_port_operations rpmsg_tty_port_ops = { };
->>>> +
->>>> +static int rpmsg_tty_probe(struct rpmsg_device *rpdev)
->>>> +{
->>>> +	struct rpmsg_tty_port *cport;
->>>> +	struct device *dev = &rpdev->dev;
->>>> +	struct device *tty_dev;
->>>> +	int ret;
->>>> +
->>>> +	cport = rpmsg_tty_alloc_cport();
->>>> +	if (IS_ERR(cport)) {
->>>> +		dev_err(dev, "Failed to alloc tty port\n");
->>>> +		return PTR_ERR(cport);
->>>> +	}
->>>> +
->>>> +	tty_port_init(&cport->port);
->>>> +	cport->port.ops = &rpmsg_tty_port_ops;
->>>> +
->>>> +	tty_dev = tty_port_register_device(&cport->port, rpmsg_tty_driver,
->>>> +					   cport->id, dev);
->>>> +	if (IS_ERR(tty_dev)) {
->>>> +		dev_err(dev, "Failed to register tty port\n");
->>>> +		ret = PTR_ERR(tty_dev);
->>>> +		goto  err_destroy;
->>>> +	}
->>>> +
->>>> +	cport->rpdev = rpdev;
->>>> +
->>>> +	dev_set_drvdata(dev, cport);
->>>> +
->>>> +	dev_dbg(dev, "New channel: 0x%x -> 0x%x : ttyRPMSG%d\n",
->>>> +		rpdev->src, rpdev->dst, cport->id);
->>>> +
->>>> +	return 0;
->>>> +
->>>> +err_destroy:
->>>> +	tty_port_destroy(&cport->port);
->>>> +	rpmsg_tty_release_cport(cport);
->>>> +
->>>> +	return ret;
->>>> +}
->>>> +
->>>> +static void rpmsg_tty_remove(struct rpmsg_device *rpdev)
->>>> +{
->>>> +	struct rpmsg_tty_port *cport = dev_get_drvdata(&rpdev->dev);
->>>> +
->>>> +	dev_dbg(&rpdev->dev, "Removing rpmsg tty device %d\n", cport->id);
->>>> +
->>>> +	/* User hang up to release the tty */
->>>> +	if (tty_port_initialized(&cport->port))
->>>> +		tty_port_tty_hangup(&cport->port, false);
->>>> +
->>>> +	tty_unregister_device(rpmsg_tty_driver, cport->id);
->>>> +
->>>> +	tty_port_destroy(&cport->port);
->>>> +	rpmsg_tty_release_cport(cport);
->>>> +}
->>>> +
->>>> +static struct rpmsg_device_id rpmsg_driver_tty_id_table[] = {
->>>> +	{ .name	= "rpmsg-tty" },
->>>> +	{ },
->>>> +};
->>>> +MODULE_DEVICE_TABLE(rpmsg, rpmsg_driver_tty_id_table);
->>>> +
->>>> +static struct rpmsg_driver rpmsg_tty_rpmsg_drv = {
->>>> +	.drv.name	= KBUILD_MODNAME,
->>>> +	.id_table	= rpmsg_driver_tty_id_table,
->>>> +	.probe		= rpmsg_tty_probe,
->>>> +	.callback	= rpmsg_tty_cb,
->>>> +	.remove		= rpmsg_tty_remove,
->>>> +};
->>>> +
->>>> +static int __init rpmsg_tty_init(void)
->>>> +{
->>>> +	int err;
->>>> +
->>>> +	rpmsg_tty_driver = tty_alloc_driver(MAX_TTY_RPMSG, TTY_DRIVER_REAL_RAW |
->>>> +					    TTY_DRIVER_DYNAMIC_DEV);
->>>> +	if (IS_ERR(rpmsg_tty_driver))
->>>> +		return PTR_ERR(rpmsg_tty_driver);
->>>> +
->>>> +	rpmsg_tty_driver->driver_name = "rpmsg_tty";
->>>> +	rpmsg_tty_driver->name = "ttyRPMSG";
->>>> +	rpmsg_tty_driver->major = 0;
->>>> +	rpmsg_tty_driver->type = TTY_DRIVER_TYPE_CONSOLE;
->>>> +
->>>> +	/* Disable unused mode by default */
->>>> +	rpmsg_tty_driver->init_termios = tty_std_termios;
->>>> +	rpmsg_tty_driver->init_termios.c_lflag &= ~(ECHO | ICANON);
->>>> +	rpmsg_tty_driver->init_termios.c_oflag &= ~(OPOST | ONLCR);
->>>> +
->>>> +	tty_set_operations(rpmsg_tty_driver, &rpmsg_tty_ops);
->>>> +
->>>> +	err = tty_register_driver(rpmsg_tty_driver);
->>>> +	if (err < 0) {
->>>> +		pr_err("Couldn't install rpmsg tty driver: err %d\n", err);
->>>> +		goto error_put;
->>>> +	}
->>>> +
->>>> +	err = register_rpmsg_driver(&rpmsg_tty_rpmsg_drv);
->>>> +	if (err < 0) {
->>>> +		pr_err("Couldn't register rpmsg tty driver: err %d\n", err);
->>>> +		goto error_unregister;
->>>> +	}
->>>> +
->>>> +	return 0;
->>>> +
->>>> +error_unregister:
->>>> +	tty_unregister_driver(rpmsg_tty_driver);
->>>> +
->>>> +error_put:
->>>> +	tty_driver_kref_put(rpmsg_tty_driver);
->>>> +
->>>> +	return err;
->>>> +}
->>>> +
->>>> +static void __exit rpmsg_tty_exit(void)
->>>> +{
->>>> +	unregister_rpmsg_driver(&rpmsg_tty_rpmsg_drv);
->>>> +	tty_unregister_driver(rpmsg_tty_driver);
->>>> +	tty_driver_kref_put(rpmsg_tty_driver);
->>>> +	idr_destroy(&tty_idr);
->>>> +}
->>>> +
->>>> +module_init(rpmsg_tty_init);
->>>> +module_exit(rpmsg_tty_exit);
->>>> +
->>>> +MODULE_AUTHOR("Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>");
->>>> +MODULE_DESCRIPTION("remote processor messaging tty driver");
->>>> +MODULE_LICENSE("GPL v2");
->>>> -- 
->>>> 2.17.1
->>>>
+--Nq2Wo0NMKNjxTN9z
+Content-Type: application/gzip
+Content-Disposition: attachment; filename=".config.gz"
+Content-Transfer-Encoding: base64
+
+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
+
+--Nq2Wo0NMKNjxTN9z--
