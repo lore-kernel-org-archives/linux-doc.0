@@ -2,130 +2,412 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3980C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Oct 2021 08:33:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B96F4C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Oct 2021 09:45:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 84E1860EBD
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Oct 2021 08:33:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 87ECE61029
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Oct 2021 09:45:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229931AbhJHIfN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Oct 2021 04:35:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44749 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229868AbhJHIfM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Oct 2021 04:35:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1633681997;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=LWDLjYLfIQsF5wCuVEzYPdRcUsEP6b+ecuhVQm+wn8w=;
-        b=IB28LEMA+GHNcXGLBXaLhv6uSXuzUBIN0HGmxanvFb12jgUnX+hzoNuCbv+8/+lE6eVtK6
-        N78IwStD9yxoHeFfbrv1TnusOgGW3ACTJvHJIvJvXsC6SPk8paNnqWTX4MNIBW11MmDgLx
-        iVkON2UkCLyt4Y4kCoyeGWDFig+Zb6Q=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-48-vGLgJzEqMDmU-2tz2VABDg-1; Fri, 08 Oct 2021 04:33:16 -0400
-X-MC-Unique: vGLgJzEqMDmU-2tz2VABDg-1
-Received: by mail-wr1-f72.google.com with SMTP id e12-20020a056000178c00b001606927de88so6700405wrg.10
-        for <linux-doc@vger.kernel.org>; Fri, 08 Oct 2021 01:33:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=LWDLjYLfIQsF5wCuVEzYPdRcUsEP6b+ecuhVQm+wn8w=;
-        b=KsK68g5zisNDdbC8mVeOqXBd5Ptrb0unw5pT7qfW3kETqW/lEK16hbDzpDh+Pf2UeS
-         cOXKQ6FtwTtiD7acmt5FE4KQ5y9UHQPIgpbPQVU5PbY3GhjjcsgvxmtsQ9kbOrwplv5G
-         KSuE7hzWRdChSs78lL5ITxKbnmOW4eIf4tt44Xf+0D9/CzJtQoA09Ec5aGKXjkAoioZU
-         iIb3lF42g5d6l9Sc3u9iRufWqV7xln2/H7RpyCe4ScuNC2qch5siQOO3uQx0En+YepTv
-         qv19PzQu/ewTDigNWy+ekthmxozGHZFZxR0BVVaCVhGZD1ZC20pHcgDTrnek4TGCjYs9
-         BbMA==
-X-Gm-Message-State: AOAM533oq/1De08NPXn1Jlargepg0HL/H4hWIo6h3mqeH4/p3G5YhsfV
-        Zu91ylc9jc3y/soQV2eF/AfYJgLJJ2HtfiPUtHnMVQ5vPJfEWm3QZI9PH7rrQBNYrQsRLxB0c2C
-        d14iChtey+vlPJHAV8Gkc
-X-Received: by 2002:a05:600c:214:: with SMTP id 20mr2054653wmi.190.1633681994960;
-        Fri, 08 Oct 2021 01:33:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw1IXlpujwJuJnsWvtfA/duexrkNA5KkPHDXn1rcjVjPRraMjzp22x+I83g1SqU49zTwT3NkQ==
-X-Received: by 2002:a05:600c:214:: with SMTP id 20mr2054628wmi.190.1633681994720;
-        Fri, 08 Oct 2021 01:33:14 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c676e.dip0.t-ipconnect.de. [91.12.103.110])
-        by smtp.gmail.com with ESMTPSA id a127sm9585796wme.40.2021.10.08.01.33.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 Oct 2021 01:33:14 -0700 (PDT)
-Subject: Re: [PATCH v1 3/3] memory-hotplug.rst: document the "auto-movable"
- online policy
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Hocko <mhocko@suse.com>,
-        Oscar Salvador <osalvador@suse.de>, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org
-References: <20210930144117.23641-1-david@redhat.com>
- <20210930144117.23641-4-david@redhat.com> <YVzvYmf4xWC1DORO@kernel.org>
- <4bab9000-0b49-a852-d574-1c8b2fe10de1@redhat.com>
- <YV6jpoVERotn/New@kernel.org>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <09027675-5737-a076-7616-277aeb38427c@redhat.com>
-Date:   Fri, 8 Oct 2021 10:33:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <YV6jpoVERotn/New@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S229869AbhJHJrK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Oct 2021 05:47:10 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46602 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229918AbhJHJrK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 8 Oct 2021 05:47:10 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CFD1860F93;
+        Fri,  8 Oct 2021 09:45:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1633686315;
+        bh=72IOpelzvD4VWWoJ/OdoEENNH7zEZGX25e8klEHpHkA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=PGdPJSdFhWF4+uM7u00Kigj0dmwFw5JK0CtteTgn/eYvKghVdKPoFQTOX1xotjpIf
+         tF1GfON0pDaY/frS/rtEGBZJV1z5KUaGN76MGY7bvYMnB6FDjqYnrPR/KfiDpIqnWw
+         aZEXOJT0UpDMz7hHSB7Oy9HBEiCKgDxiCWxfGKCqZ6p+YLSuPGjQNCSWkW5f/ECvMA
+         ArFlgGe3DFXH573ABRQzzoBxo8hmiL0o/3+jehA45nAYPNuWovsCxZ1dVq0z7A751Q
+         wG3VioFW2C/lPIipgDHhjJwkh4C4944XTRvuCpC+y3J+BflBpdC7XnyDQrlDPR9ehq
+         2mpy+Mx9YAb6g==
+From:   SeongJae Park <sj@kernel.org>
+To:     akpm@linux-foundation.org
+Cc:     SeongJae Park <sj@kernel.org>, Jonathan.Cameron@Huawei.com,
+        amit@kernel.org, benh@kernel.crashing.org, corbet@lwn.net,
+        david@redhat.com, dwmw@amazon.com, elver@google.com,
+        foersleo@amazon.de, gthelen@google.com, markubo@amazon.de,
+        rientjes@google.com, shakeelb@google.com, shuah@kernel.org,
+        linux-damon@amazon.com, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/4] mm/damon/dbgfs: Implement recording feature
+Date:   Fri,  8 Oct 2021 09:45:06 +0000
+Message-Id: <20211008094509.16179-1-sj@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->> It's essentially ignored with the auto-movable policy for memory hotplugged
->> after boot (!MEMBLOCK_HOTPLUG). That's why only the description of
->> "contig-zones" below describes how it interacts with the ``movable_node``,
->> and we make it clear here that it's restricted to the "contig-zones" policy
->> as well.
->>
->> <details>
->> Bare metal, where we care about reliably unplugging hotplugged memory
->> usually configures auto-onlining to "online_movable": for example, that's
->> the case on RHEL. auto-movable doesn't make too much sense for bare metal:
->> the nature of "movable_node" is to essentially online anything that might
->> get hotunplugged MOVABLE, especially after hotplugging memory and rebooting:
->> that is highly dangerous especially in virtualized environments.
->>
->> "auto-movable" is valuable in virtualized environments, where we add memory
->> via:
->> * add_memory_driver_managed() like virtio-mem, whereby such memory is
->>    never part of the firmware provided memory-map, so the policy is
->>    always in control even after a reboot.
->> * Hotplugged virtual DIMMs, such as provided by x86-64/arm64, whereby we
->>    don't include these DIMMs in the firmware-provided memory map, but
->>    ACPI code adds them after early boot, making it behave similar to
->>    add_memory_driver_managed() -- the policy is always in control even
->>    after a reboot.
->> </details>
->   
-> Do you want to put it somewhere in Documentation/ ?
-> It's already written anyway ;-)
-> 
+The user space can get the monitoring results via the 'damon_aggregated'
+tracepoint event.  For simplicity and brevity, the tracepoint events
+have some duplicated information such as 'target_id' and 'nr_regions',
+though.  As a result, its size is greater than really needed.  Also,
+dealing with the tracepoint could be complex for some simple use cases.
+To provide a way for getting more efficient and simple monitoring
+results to user space, this commit implements 'recording' feature in
+'damon-dbgfs'.
 
-I'll add to the "auto-movable" description:
+The feature is exported to the user space via a new debugfs file named
+'record', which is located in '<debugfs>/damon/' directory.  The file
+allows users to record monitored access patterns in a regular binary
+file in a simple format.  The recorded results are first written in an
+in-memory buffer and flushed to a file in batch.  Users can get and set
+the size of the buffer and the path to the result file by reading from
+and writing to the 'record' file.  For example, below commands set the
+buffer to be 4 KiB and the result to be saved in '/damon.data'.
 
-"This policy ignores the ``movable_node`` kernel command line parameter 
-and isn't really applicable in environments that require it (e.g., bare 
-metal with hotunpluggable nodes) where hotplugged memory might be 
-exposed via the firmware-provided memory map early during boot to the 
-system instead of getting detected, added and onlined later during boot 
-(such as done by virito-mem or by some hypervisors implementing emulated 
-DIMMs)."
+    # cd <debugfs>/damon
+    # echo "4096 /damon.data" > record
+    # cat record
+    4096 /damon.data
 
-Thanks Mike!
+The recording can be disabled by setting the buffer size zero.
 
+Evaluation
+----------
+
+With a simple test workload[1], recording the tracepoint event using
+'perf-record' results in 1.7 MiB 'perf.data' file.  When the access
+pattern is recorded via this feature, the size is reduced to 264 KiB.
+Also, the resulting record file is simple enough to be manipulated by a
+small (100 lines of code) python script which will be introduced by a
+following commit ("selftests/damon: Test recording feature").
+
+[1] https://github.com/sjp38/masim/blob/master/configs/zigzag.cfg
+
+Signed-off-by: SeongJae Park <sj@kernel.org>
+---
+ mm/damon/dbgfs.c | 267 ++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 263 insertions(+), 4 deletions(-)
+
+diff --git a/mm/damon/dbgfs.c b/mm/damon/dbgfs.c
+index 28d6abf27763..45584f54c2b5 100644
+--- a/mm/damon/dbgfs.c
++++ b/mm/damon/dbgfs.c
+@@ -15,6 +15,17 @@
+ #include <linux/page_idle.h>
+ #include <linux/slab.h>
+ 
++#define MIN_RECORD_BUFFER_LEN	1024
++#define MAX_RECORD_BUFFER_LEN	(4 * 1024 * 1024)
++#define MAX_RFILE_PATH_LEN	256
++
++struct dbgfs_recorder {
++	unsigned char *rbuf;
++	unsigned int rbuf_len;
++	unsigned int rbuf_offset;
++	char *rfile_path;
++};
++
+ static struct damon_ctx **dbgfs_ctxs;
+ static int dbgfs_nr_ctxs;
+ static struct dentry **dbgfs_dirs;
+@@ -98,6 +109,116 @@ static ssize_t dbgfs_attrs_write(struct file *file,
+ 	return ret;
+ }
+ 
++static ssize_t dbgfs_record_read(struct file *file,
++		char __user *buf, size_t count, loff_t *ppos)
++{
++	struct damon_ctx *ctx = file->private_data;
++	struct dbgfs_recorder *rec = ctx->callback.private;
++	char record_buf[20 + MAX_RFILE_PATH_LEN];
++	int ret;
++
++	mutex_lock(&ctx->kdamond_lock);
++	ret = scnprintf(record_buf, ARRAY_SIZE(record_buf), "%u %s\n",
++			rec->rbuf_len, rec->rfile_path);
++	mutex_unlock(&ctx->kdamond_lock);
++	return simple_read_from_buffer(buf, count, ppos, record_buf, ret);
++}
++
++/*
++ * dbgfs_set_recording() - Set attributes for the recording.
++ * @ctx:	target kdamond context
++ * @rbuf_len:	length of the result buffer
++ * @rfile_path:	path to the monitor result files
++ *
++ * Setting 'rbuf_len' 0 disables recording.
++ *
++ * This function should not be called while the kdamond is running.
++ *
++ * Return: 0 on success, negative error code otherwise.
++ */
++static int dbgfs_set_recording(struct damon_ctx *ctx,
++			unsigned int rbuf_len, char *rfile_path)
++{
++	struct dbgfs_recorder *recorder;
++	size_t rfile_path_len;
++
++	if (rbuf_len && (rbuf_len > MAX_RECORD_BUFFER_LEN ||
++			rbuf_len < MIN_RECORD_BUFFER_LEN)) {
++		pr_err("result buffer size (%u) is out of [%d,%d]\n",
++				rbuf_len, MIN_RECORD_BUFFER_LEN,
++				MAX_RECORD_BUFFER_LEN);
++		return -EINVAL;
++	}
++	rfile_path_len = strnlen(rfile_path, MAX_RFILE_PATH_LEN);
++	if (rfile_path_len >= MAX_RFILE_PATH_LEN) {
++		pr_err("too long (>%d) result file path %s\n",
++				MAX_RFILE_PATH_LEN, rfile_path);
++		return -EINVAL;
++	}
++
++	recorder = ctx->callback.private;
++	if (!recorder) {
++		recorder = kzalloc(sizeof(*recorder), GFP_KERNEL);
++		if (!recorder)
++			return -ENOMEM;
++		ctx->callback.private = recorder;
++	}
++
++	recorder->rbuf_len = rbuf_len;
++	kfree(recorder->rbuf);
++	recorder->rbuf = NULL;
++	kfree(recorder->rfile_path);
++	recorder->rfile_path = NULL;
++
++	if (rbuf_len) {
++		recorder->rbuf = kvmalloc(rbuf_len, GFP_KERNEL);
++		if (!recorder->rbuf)
++			return -ENOMEM;
++	}
++	recorder->rfile_path = kmalloc(rfile_path_len + 1, GFP_KERNEL);
++	if (!recorder->rfile_path)
++		return -ENOMEM;
++	strncpy(recorder->rfile_path, rfile_path, rfile_path_len + 1);
++
++	return 0;
++}
++
++static ssize_t dbgfs_record_write(struct file *file,
++		const char __user *buf, size_t count, loff_t *ppos)
++{
++	struct damon_ctx *ctx = file->private_data;
++	char *kbuf;
++	unsigned int rbuf_len;
++	char rfile_path[MAX_RFILE_PATH_LEN];
++	ssize_t ret = count;
++	int err;
++
++	kbuf = user_input_str(buf, count, ppos);
++	if (IS_ERR(kbuf))
++		return PTR_ERR(kbuf);
++
++	if (sscanf(kbuf, "%u %s",
++				&rbuf_len, rfile_path) != 2) {
++		ret = -EINVAL;
++		goto out;
++	}
++
++	mutex_lock(&ctx->kdamond_lock);
++	if (ctx->kdamond) {
++		ret = -EBUSY;
++		goto unlock_out;
++	}
++
++	err = dbgfs_set_recording(ctx, rbuf_len, rfile_path);
++	if (err)
++		ret = err;
++unlock_out:
++	mutex_unlock(&ctx->kdamond_lock);
++out:
++	kfree(kbuf);
++	return ret;
++}
++
+ static ssize_t sprint_schemes(struct damon_ctx *c, char *buf, ssize_t len)
+ {
+ 	struct damos *s;
+@@ -433,6 +554,12 @@ static const struct file_operations attrs_fops = {
+ 	.write = dbgfs_attrs_write,
+ };
+ 
++static const struct file_operations record_fops = {
++	.open = damon_dbgfs_open,
++	.read = dbgfs_record_read,
++	.write = dbgfs_record_write,
++};
++
+ static const struct file_operations schemes_fops = {
+ 	.open = damon_dbgfs_open,
+ 	.read = dbgfs_schemes_read,
+@@ -452,20 +579,144 @@ static const struct file_operations kdamond_pid_fops = {
+ 
+ static void dbgfs_fill_ctx_dir(struct dentry *dir, struct damon_ctx *ctx)
+ {
+-	const char * const file_names[] = {"attrs", "schemes", "target_ids",
+-		"kdamond_pid"};
+-	const struct file_operations *fops[] = {&attrs_fops, &schemes_fops,
+-		&target_ids_fops, &kdamond_pid_fops};
++	const char * const file_names[] = {"attrs", "record", "schemes",
++		"target_ids", "kdamond_pid"};
++	const struct file_operations *fops[] = {&attrs_fops,
++		&record_fops, &schemes_fops, &target_ids_fops,
++		&kdamond_pid_fops};
+ 	int i;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(file_names); i++)
+ 		debugfs_create_file(file_names[i], 0600, dir, ctx, fops[i]);
+ }
+ 
++/*
++ * Flush the content in the result buffer to the result file
++ */
++static void dbgfs_flush_rbuffer(struct dbgfs_recorder *rec)
++{
++	ssize_t sz;
++	loff_t pos = 0;
++	struct file *rfile;
++
++	if (!rec->rbuf_offset)
++		return;
++
++	rfile = filp_open(rec->rfile_path,
++			O_CREAT | O_RDWR | O_APPEND | O_LARGEFILE, 0600);
++	if (IS_ERR(rfile)) {
++		pr_err("Cannot open the result file %s\n",
++				rec->rfile_path);
++		return;
++	}
++
++	while (rec->rbuf_offset) {
++		sz = kernel_write(rfile, rec->rbuf, rec->rbuf_offset, &pos);
++		if (sz < 0)
++			break;
++		rec->rbuf_offset -= sz;
++	}
++	filp_close(rfile, NULL);
++}
++
++/*
++ * Write a data into the result buffer
++ */
++static void dbgfs_write_rbuf(struct damon_ctx *ctx, void *data, ssize_t size)
++{
++	struct dbgfs_recorder *rec = ctx->callback.private;
++
++	if (!rec->rbuf_len || !rec->rbuf || !rec->rfile_path)
++		return;
++	if (rec->rbuf_offset + size > rec->rbuf_len)
++		dbgfs_flush_rbuffer(ctx->callback.private);
++	if (rec->rbuf_offset + size > rec->rbuf_len) {
++		pr_warn("%s: flush failed, or wrong size given(%u, %zu)\n",
++				__func__, rec->rbuf_offset, size);
++		return;
++	}
++
++	memcpy(&rec->rbuf[rec->rbuf_offset], data, size);
++	rec->rbuf_offset += size;
++}
++
++static void dbgfs_write_record_header(struct damon_ctx *ctx)
++{
++	int recfmt_ver = 2;
++
++	dbgfs_write_rbuf(ctx, "damon_recfmt_ver", 16);
++	dbgfs_write_rbuf(ctx, &recfmt_ver, sizeof(recfmt_ver));
++}
++
++static void dbgfs_free_recorder(struct dbgfs_recorder *recorder)
++{
++	kfree(recorder->rbuf);
++	kfree(recorder->rfile_path);
++	kfree(recorder);
++}
++
++static unsigned int nr_damon_targets(struct damon_ctx *ctx)
++{
++	struct damon_target *t;
++	unsigned int nr_targets = 0;
++
++	damon_for_each_target(t, ctx)
++		nr_targets++;
++
++	return nr_targets;
++}
++
++static int dbgfs_before_start(struct damon_ctx *ctx)
++{
++	dbgfs_write_record_header(ctx);
++	return 0;
++}
++
++/*
++ * Store the aggregated monitoring results to the result buffer
++ *
++ * The format for the result buffer is as below:
++ *
++ *   <time> <number of targets> <array of target infos>
++ *
++ *   target info: <id> <number of regions> <array of region infos>
++ *   region info: <start address> <end address> <nr_accesses>
++ */
++static int dbgfs_after_aggregation(struct damon_ctx *c)
++{
++	struct damon_target *t;
++	struct timespec64 now;
++	unsigned int nr;
++
++	ktime_get_coarse_ts64(&now);
++
++	dbgfs_write_rbuf(c, &now, sizeof(now));
++	nr = nr_damon_targets(c);
++	dbgfs_write_rbuf(c, &nr, sizeof(nr));
++
++	damon_for_each_target(t, c) {
++		struct damon_region *r;
++
++		dbgfs_write_rbuf(c, &t->id, sizeof(t->id));
++		nr = damon_nr_regions(t);
++		dbgfs_write_rbuf(c, &nr, sizeof(nr));
++		damon_for_each_region(r, t) {
++			dbgfs_write_rbuf(c, &r->ar.start, sizeof(r->ar.start));
++			dbgfs_write_rbuf(c, &r->ar.end, sizeof(r->ar.end));
++			dbgfs_write_rbuf(c, &r->nr_accesses,
++					sizeof(r->nr_accesses));
++		}
++	}
++
++	return 0;
++}
++
+ static int dbgfs_before_terminate(struct damon_ctx *ctx)
+ {
+ 	struct damon_target *t, *next;
+ 
++	dbgfs_flush_rbuffer(ctx->callback.private);
++
+ 	if (!targetid_is_pid(ctx))
+ 		return 0;
+ 
+@@ -484,13 +735,21 @@ static struct damon_ctx *dbgfs_new_ctx(void)
+ 	if (!ctx)
+ 		return NULL;
+ 
++	if (dbgfs_set_recording(ctx, 0, "none")) {
++		damon_destroy_ctx(ctx);
++		return NULL;
++	}
++
+ 	damon_va_set_primitives(ctx);
++	ctx->callback.before_start = dbgfs_before_start;
++	ctx->callback.after_aggregation = dbgfs_after_aggregation;
+ 	ctx->callback.before_terminate = dbgfs_before_terminate;
+ 	return ctx;
+ }
+ 
+ static void dbgfs_destroy_ctx(struct damon_ctx *ctx)
+ {
++	dbgfs_free_recorder(ctx->callback.private);
+ 	damon_destroy_ctx(ctx);
+ }
+ 
 -- 
-Thanks,
-
-David / dhildenb
+2.17.1
 
