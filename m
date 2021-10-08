@@ -2,153 +2,134 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA686C433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Oct 2021 11:55:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A818AC433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Oct 2021 14:03:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B033F60F43
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Oct 2021 11:55:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8F59E61039
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Oct 2021 14:03:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241129AbhJHL4y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Oct 2021 07:56:54 -0400
-Received: from mail-dm6nam10on2044.outbound.protection.outlook.com ([40.107.93.44]:21434
-        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S241110AbhJHL4q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 8 Oct 2021 07:56:46 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SYnMyFahAgwuNqwUUghSgTQ4U2rSmyOGBvJQF1kEyLdyGYleoFyZmoDwnpgIS2XdfN3gAhWsknMZ4BApCyQqXq3/a16x7fkZV0VFlr1DnqBiy5PA1RyY2g51C8kO27BYeipdMzVtx7Ad1bmxhq87wHC8mWA6KMSI4JeE8mLOKiz0udOLmUTfmHJ4lA7abi7sugwCh8xo8Wk9JKxW6skiTEAqq7SvbpQGGAFguvs4JBd88ira1zqSPHLd5pKDRqGhpBIliQOmn1J1xsPXuBubCPjtvnnyRHpeP8inlFTDVB9lj1LV30aY+XZ8Q5Me+uaG8WSqcj3HF8toobRWn6zFkA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sZ4Hp50rO2X2zPOLOaVbQBRbV7JnnPkUXDACh3FufdA=;
- b=invNPfSbxbol75IEDuweCF2ytN7qC/n9ZyZcLbX/XnKt30mLnK00uv5GlblPhr4jITwETNORu1lmTCD6oY2o2B7PC7dpRHWat0j/qSFOAsnqMEexIdKepMPXhqVSqbF1xCY+zfLEEHolI9I4B7T2PdGYMoAUqhAS5snNB+YplwTUUHjFYbryfpkkBRfpmPsnDB6HOxdRs+2LlLiVkCvRvlZqRsDLIb0EZ3bXazH6bUyeDRIOSiNCY8CJtaUmiDH7n+1aC0GgbhSz+hUm2M1LOz0M91cUwyGYlCUl4PgTmc+qCybVK71S/dSHJ+Q9WRjGb5GxC0TB7sn0lrObtRY34A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sZ4Hp50rO2X2zPOLOaVbQBRbV7JnnPkUXDACh3FufdA=;
- b=C8y0UAJMLyBKVgafDLjBfl0BMiuOrrB4LOPz1//GbOktG8bQFx8eKJD/Ca0TLjPNsre6HGvxObX2oJGPoUWnmpCzFeNFDdC6WmjQ+7sfmYaRg9Dn9icEiY5Wb3g+yfGXcWt/cUlXSDobzgI02qo9QYi+3Llcxmr5yCbWs0oOOmR5+OyZYbIcjLhKZy6C/CWKW1LCUPx4AXy7rGnRzoSBx5u682fYta3udq6QT+EkaogkWmyiyVZZGQLopdc5hAql/lNuCbsuHqmmngfAU+SrgBA7jh9w6EzIK5VFwA29bTtYmJq28Xmzx0nvpfC5agJFsiLpeSCpkpqvsNCjCHAvDw==
-Authentication-Results: oracle.com; dkim=none (message not signed)
- header.d=none;oracle.com; dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
- by BL1PR12MB5061.namprd12.prod.outlook.com (2603:10b6:208:310::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.19; Fri, 8 Oct
- 2021 11:54:49 +0000
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::e8af:232:915e:2f95]) by BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::e8af:232:915e:2f95%7]) with mapi id 15.20.4587.022; Fri, 8 Oct 2021
- 11:54:49 +0000
-Date:   Fri, 8 Oct 2021 08:54:48 -0300
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Joao Martins <joao.m.martins@oracle.com>
-Cc:     linux-mm@kvack.org, Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Jane Chu <jane.chu@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Christoph Hellwig <hch@lst.de>, nvdimm@lists.linux.dev,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 08/14] mm/gup: grab head page refcount once for group
- of subpages
-Message-ID: <20211008115448.GA2976530@nvidia.com>
-References: <20210827145819.16471-1-joao.m.martins@oracle.com>
- <20210827145819.16471-9-joao.m.martins@oracle.com>
+        id S241048AbhJHOFa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Oct 2021 10:05:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40976 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240974AbhJHOF3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Oct 2021 10:05:29 -0400
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27F6AC061570;
+        Fri,  8 Oct 2021 07:03:34 -0700 (PDT)
+Received: by mail-oi1-x22c.google.com with SMTP id o4so13847306oia.10;
+        Fri, 08 Oct 2021 07:03:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Tj1c7r+zFI1XL5f1HV03FqFq7aJGpB1dEp7dBvj8Wnk=;
+        b=okHRW+A9P+PProJWdZr8GHnJQM4kMIIor3MOJgJwlA3i21rhKUDPnVPD7MTtbdbTk6
+         scKYmcGu5yQaiLaPqghaGFs7WK5YQeCRB9p/9kfwlh5ioREDQuJxiothtPX7dWr4SQt3
+         CYJGuZVVQz2KBbqf1eeb4ivpnzPnLx7n4RqVnGkIuT9KKwdgcZpmH/2qiErUVUzIHWXb
+         nxdp0500bd0S2WhyubDbfEmPN/47IfnBMp54VCNOxrsFY9XqYL0SthQ0tx6x8nn3YLAN
+         oRVIs9VnFv07iW1WOwFYoBcF3pPMCzH0UrHO0oUf2MKmwER3aJnH1dt5whhHJAfHjWVq
+         UlIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=Tj1c7r+zFI1XL5f1HV03FqFq7aJGpB1dEp7dBvj8Wnk=;
+        b=6bcLDKmZ13sERBuCo0NVIAPxH1U4nQ7S4ILECob41s4G/V6xKzvGV1KStbW1jtcFeO
+         qLzcUDwo987bOXbE4ETEMAeBLrBFdm0zUKMZHaprN234RZtEP59N/THJyGh2htMORzO7
+         tXo4SjcsJRkFVfSt8BhAFxx8C5JTzk/6J9Iuw/BCh87mKcawMTpwwhnqx595NkRvtL1k
+         vtf912v/5gRY3LmXWBckcf7uKho9d3pl/0oH2AM3//EtQYjgz3Qi+LR3uisdRfJE3tBn
+         17Q85j9mGBBq3fV9RscraNr5PwaEavyqmm6tJkur3jVwfLW0HPmwzwRStOLE2MoitBy3
+         roMQ==
+X-Gm-Message-State: AOAM530Bo0rW2xy9fK+pQzyMu+n7UltowF9JFiL+BvOXSFZY1rcktTpb
+        LQjqbbJ5kNL4iCdBe1rXkKZGixMGW90=
+X-Google-Smtp-Source: ABdhPJxi5GqEavvQBFKbIeKfGRLMTuFrmsBc6IRwQqYHuxaUIRC3YHI6TlRJzSMWz3Jy1S+O4rXREg==
+X-Received: by 2002:a05:6808:3b6:: with SMTP id n22mr7965264oie.133.1633701813525;
+        Fri, 08 Oct 2021 07:03:33 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id e16sm696023oiw.2.2021.10.08.07.03.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Oct 2021 07:03:33 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Fri, 8 Oct 2021 07:03:31 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Zev Weiss <zev@bewilderbeest.net>
+Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 7/8] hwmon: (pmbus/lm25066) Support configurable sense
+ resistor values
+Message-ID: <20211008140331.GA1728738@roeck-us.net>
+References: <20210928092242.30036-1-zev@bewilderbeest.net>
+ <20210928092242.30036-8-zev@bewilderbeest.net>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210827145819.16471-9-joao.m.martins@oracle.com>
-X-ClientProxiedBy: MN2PR08CA0014.namprd08.prod.outlook.com
- (2603:10b6:208:239::19) To BL0PR12MB5506.namprd12.prod.outlook.com
- (2603:10b6:208:1cb::22)
-MIME-Version: 1.0
-Received: from mlx.ziepe.ca (142.162.113.129) by MN2PR08CA0014.namprd08.prod.outlook.com (2603:10b6:208:239::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.15 via Frontend Transport; Fri, 8 Oct 2021 11:54:49 +0000
-Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1mYoSe-00CUNf-2n; Fri, 08 Oct 2021 08:54:48 -0300
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 25032739-e771-4478-1ae7-08d98a526e32
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5061:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL1PR12MB50611F6F0A4050187021B7F8C2B29@BL1PR12MB5061.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: TizXLbM+FxmddaGEN/fMbMb4bzkLZIsKjmOy80rRY2JAnMTMU0ovkNz8FL0FCl9piz9/WV9ccEShrZgRoM+fVbhmNI2G64nTFuLUiGFsVyCNkh8MqrSuufwU8//yKoGobR2ZEd7+OKgxYYHDDKI4B/jK8x7lO2IXFahubdSBDYHlr31082mi56WiKZW3jIPCWCt/zr2r0oPrpuppOSHZlcQQ9JgbQFa3frSmQgiWBuS3rmup+CYf4y8BuzfGG8+SgzK1yCg502FpijVKHwwrylNIyJT4F8wFOfguUwKSA6Weg2HszwtQv9D9Cw904508Xmja+qxDRpjDwX+wMWWtlGxJK/iznL9LgLzYau6gTrW57FCfXnQABqAQev7rs78tcVpH0BgZtc2lKU9ejCFc5CNpUFu0WOKSeNvgCMWjS5gVkN9OzJsnightnlOjyGb1Uktz293h+xZtWeyh4LMOQmwdS/GoklLKj9HP52h5gImnC7YvU4XlsakE7chdneaVZfiUBYsWJzddgyfoqmP1E8ykKsCRgiDtpadv2dUnha2WjZxfjcC0J5s+FQcQMVSKZaPOmHgxL3QLLkMimS2+gtI9u2eWQxk565GHDR0baGEdFS7v1h3cSzijD5lFru8vvgiJ0n+8zhXYeMiZGnImSQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB5506.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(66946007)(186003)(86362001)(26005)(1076003)(36756003)(66476007)(38100700002)(66556008)(6916009)(33656002)(8676002)(2906002)(316002)(83380400001)(4326008)(2616005)(426003)(5660300002)(9746002)(7416002)(8936002)(9786002)(54906003)(508600001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?qWxclkV4sUaHgixOif6tYCXMQLE0edwoH+Z+JjGdRf/pT+UP+GsByLNpjzT/?=
- =?us-ascii?Q?X/ss9gFGnv1BdEUeQ7g8fGEr/RRX9cnz8Numor7L61BBtfg5KMalpzlkIWcp?=
- =?us-ascii?Q?awWGc8ZF7R9dZmf9Tj+b3hJdkv5RfeEBgfQBXJNhtZ5SYJstJ7G3k57URYzT?=
- =?us-ascii?Q?rs0nnzQDVxYcFBI2bBflx8c0A3it52tuxst+pbHn1KY9Ni+VFjeXsi7CumbL?=
- =?us-ascii?Q?17GxtBwRQO+YY/YbPeZXN8Ayjj4e4bXxjVuluU6ytiKWk+hP6IsY/x67Gb38?=
- =?us-ascii?Q?84Pfiv4mh0nvPIQ4OLqP3PASv1nxYMABXxzl+MV5wq3DJaBOB1MlCObDAJyL?=
- =?us-ascii?Q?snSjyfefKrstJi/rkn0ONTHO94Y3MvbtfeGGuKBEzS9dofwqQseeWTiKFQl6?=
- =?us-ascii?Q?+J0wvPJqWqPOyrlp2fS8C3F8mSBeAL8zHTRehcIg3wYCeDgjFWsPeHjy5PnP?=
- =?us-ascii?Q?2LjvjUZWABotTCyZLNemw5sFEKquIVPq7A5X5l2FM6hDAKD1UOl4+SDss0+T?=
- =?us-ascii?Q?9YhqKEdiJ3phDzEAl4HZ8npC4wN7fN5KFG11hNJKBabBmjCZT6uizb/KO3H1?=
- =?us-ascii?Q?YuKlh3WFdGl1eUX3Mc2cw2MDyI57dQNRu6SJgby8SHpDi+2ckaXTWUO8IEQJ?=
- =?us-ascii?Q?V2rlJtNZyzdoiXcSeO5D5w017aUDBUXbwT+OrmwY6iqHifvOQhSuVIRGyt3D?=
- =?us-ascii?Q?o1q7yKprgT+oYN0qeqiwdTsT/mJ8lIXoXrd9Jln+NAiJtH9vkBubxDq6loW0?=
- =?us-ascii?Q?0E8tEWtMnCN/DwSkSwT0BR6OfOKEtTYP+3yzMKjES7KmVyYjiMxx9koP58Nd?=
- =?us-ascii?Q?KTBDHLsshBRrHt04Ydt+7R96u3Du8rOZUefr5xcnyjRyDI2z0znMSPiGsbeO?=
- =?us-ascii?Q?rTCDGCehpGiqeu/orHeJ3P6K6Ur0lHjVTuZvQzRl2sxSBsPa7KvnIyPhYAXv?=
- =?us-ascii?Q?xyV7Dvv0xlvqMwIuTeWoe/sfNeyqRQAESP5ymMBFu3sBXy2DanH5gxGZAY70?=
- =?us-ascii?Q?u+YIpznmzTCzFc0q9u2jxqLhdKylRx1uVEaRZmGIUt78TuL30IknpaoTF6Ga?=
- =?us-ascii?Q?o4QQb+6G2ncuD8lBgPlekbN0st/Mpr/k2dcS5sOTWdbDIsWiz5NwMeFQx+4u?=
- =?us-ascii?Q?CuhLcj6SG1vVuMNkq6Kb6U5jsoOtDBKXMh8bDSYfhucvWIl5qkh5p2I4k/bO?=
- =?us-ascii?Q?2gM2d2V+A+O9uQFuPQ9CLL/Lv3uyNf//HR758vm7xcmE35nuOavvWPX2JoQG?=
- =?us-ascii?Q?fzdTuyJjt7ux4N7QuYP5DXw2kzrAvoiYv4Me0WGdJRiB7yAOf05RaJZGri8a?=
- =?us-ascii?Q?T7kspTJzQ2ZV1zsDcBTr4WXc?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 25032739-e771-4478-1ae7-08d98a526e32
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2021 11:54:49.4098
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YPkf/fDa6B+r7GDa2e3lrislVYPtu5yWuzB+wi1L8UOaDdUDrpzAYL0dXTXNyfPp
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5061
+In-Reply-To: <20210928092242.30036-8-zev@bewilderbeest.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 27, 2021 at 03:58:13PM +0100, Joao Martins wrote:
-> @@ -2252,16 +2265,25 @@ static int __gup_device_huge(unsigned long pfn, unsigned long addr,
->  			ret = 0;
->  			break;
->  		}
-> -		SetPageReferenced(page);
-> -		pages[*nr] = page;
-> -		if (unlikely(!try_grab_page(page, flags))) {
-> -			undo_dev_pagemap(nr, nr_start, flags, pages);
+On Tue, Sep 28, 2021 at 02:22:41AM -0700, Zev Weiss wrote:
+> The appropriate mantissa values for the lm25066 family's direct-format
+> current and power readings are a function of the sense resistor
+> employed between the SENSE and VIN pins of the chip.  Instead of
+> assuming that resistance is always the same 1mOhm as used in the
+> datasheet, allow it to be configured via a device-tree property
+> ("shunt-resistor-micro-ohms").
+> 
+> Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
+> ---
+>  Documentation/hwmon/lm25066.rst |  2 ++
+>  drivers/hwmon/pmbus/lm25066.c   | 12 ++++++++++++
+>  2 files changed, 14 insertions(+)
+> 
+> diff --git a/Documentation/hwmon/lm25066.rst b/Documentation/hwmon/lm25066.rst
+> index 9f1d7e4d3ca1..a2098eb24090 100644
+> --- a/Documentation/hwmon/lm25066.rst
+> +++ b/Documentation/hwmon/lm25066.rst
+> @@ -79,6 +79,8 @@ This driver does not auto-detect devices. You will have to instantiate the
+>  devices explicitly. Please see Documentation/i2c/instantiating-devices.rst for
+>  details.
+>  
+> +The shunt (sense) resistor value can be configured by a device tree property;
+> +see Documentation/devicetree/bindings/hwmon/pmbus/ti,lm25066.yaml for details.
+>  
+>  Platform data support
+>  ---------------------
+> diff --git a/drivers/hwmon/pmbus/lm25066.c b/drivers/hwmon/pmbus/lm25066.c
+> index 18d5a76f346d..29e848bcd436 100644
+> --- a/drivers/hwmon/pmbus/lm25066.c
+> +++ b/drivers/hwmon/pmbus/lm25066.c
+> @@ -458,6 +458,7 @@ MODULE_DEVICE_TABLE(of, lm25066_of_match);
+>  static int lm25066_probe(struct i2c_client *client)
+>  {
+>  	int config;
+> +	u32 shunt;
+>  	struct lm25066_data *data;
+>  	struct pmbus_driver_info *info;
+>  	const struct __coeff *coeff;
+> @@ -535,6 +536,17 @@ static int lm25066_probe(struct i2c_client *client)
+>  		info->b[PSC_POWER] = coeff[PSC_POWER].b;
+>  	}
+>  
+> +	/*
+> +	 * Values in the TI datasheets are normalized for a 1mOhm sense
+> +	 * resistor; assume that unless DT specifies a value explicitly.
+> +	 */
+> +	if (of_property_read_u32(client->dev.of_node,
+> +	                         "shunt-resistor-micro-ohms", &shunt))
+
+Space vs. tabs again. Never mind, fixed up and applied.
+
+Thanks,
+Guenter
+
+> +		shunt = 1000;
 > +
-> +		head = compound_head(page);
-> +		/* @end is assumed to be limited at most one compound page */
-> +		if (PageHead(head))
-> +			next = end;
-> +		refs = record_subpages(page, addr, next, pages + *nr);
+> +	info->m[PSC_CURRENT_IN] = info->m[PSC_CURRENT_IN] * shunt / 1000;
+> +	info->m[PSC_POWER] = info->m[PSC_POWER] * shunt / 1000;
 > +
-> +		SetPageReferenced(head);
-> +		if (unlikely(!try_grab_compound_head(head, refs, flags))) {
-
-I was thinking about this some more, and this ordering doesn't seem
-like a good idea. We shouldn't be looking at any part of the struct
-page without holding the refcount, certainly not the compound_head()
-
-The only optimization that might work here is to grab the head, then
-compute the extent of tail pages and amalgamate them. Holding a ref on
-the head also secures the tails.
-
-Which also means most of what I was suggesting isn't going to work
-anyhow.
-
-Jason
+>  	return pmbus_do_probe(client, info);
+>  }
+>  
