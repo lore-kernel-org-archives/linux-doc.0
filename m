@@ -2,59 +2,58 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC0EEC433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Oct 2021 20:58:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E746EC433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Oct 2021 21:13:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8DC7E60F44
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Oct 2021 20:58:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CD21C60F92
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Oct 2021 21:13:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243192AbhJHU77 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Oct 2021 16:59:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52626 "EHLO
+        id S243380AbhJHVPH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Oct 2021 17:15:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231702AbhJHU77 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Oct 2021 16:59:59 -0400
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4575BC061570
-        for <linux-doc@vger.kernel.org>; Fri,  8 Oct 2021 13:58:03 -0700 (PDT)
-Received: by mail-pg1-x52c.google.com with SMTP id a73so4283195pge.0
-        for <linux-doc@vger.kernel.org>; Fri, 08 Oct 2021 13:58:03 -0700 (PDT)
+        with ESMTP id S231668AbhJHVPH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Oct 2021 17:15:07 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4712C061570
+        for <linux-doc@vger.kernel.org>; Fri,  8 Oct 2021 14:13:11 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id np13so8494632pjb.4
+        for <linux-doc@vger.kernel.org>; Fri, 08 Oct 2021 14:13:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=IjJJiWQU/XhRbwSW4a6J5pEI82Dwvbf4Msp/9IsGztA=;
-        b=fuF/48s/XKLjw/WxekTae8fxsnWdv9YZmnzgUBVcpUj7wDFyoAh9dbVeWHwfDtkKDu
-         RiFV0cdkUHd/WrfAjkgqUH34GYwNOU8Km6wcNGt+b1nCWLn47S0Ft8Xq1zZt+StdVMvU
-         jBfM3LscUBzEFw2GiqY3yuUIwXQjskDaNCMz4=
+        bh=F0j9Fen+aM1yxtAVTmt6zwsss9sN5UsLCk44GHH1tRc=;
+        b=I+McrbgmDL8gZ9vmtX1aR7+zkzhDrlHhXT6iEzjY4OCKkruLZDBi+tzb3viHWvPBBY
+         kW2Us4im1MyQTWLJHDidgCouWJsWR1fzIwUGgK8+FBItkM6TWjIfpDSi5vv4VKXHDqoI
+         OyfVYPUddfURQDYvCN/P/GevbyB1QLdePw59Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=IjJJiWQU/XhRbwSW4a6J5pEI82Dwvbf4Msp/9IsGztA=;
-        b=K1svyAm2ajo3GPPH7UKAc4QxQcdjCgX9YN9G0z+kFNVHaMOD8E1VuJ+FoEjw220158
-         +10kS5VdqIizadSyjlip0Xwhy2I/5wgs2fOzr9eXLlWHEpSBI5v8QaxrN0eyQmrdAUer
-         5EG3Z42Fz7+Y2L3wmH+/MfMua+VJNcowb7QqZU32oIQldQAm9xtrvkvO271E14XsbPpp
-         lOXi81aidfj1tD+BdXXYRZgjh6TU0KyAlblU74vWn67jsoqWj3rOaFeAkJU/7Htwdss5
-         vKJlavrS9gGw3UTi4IuDWWw2+XLiseMfwQbOzvssOJIVqRGH0F5IvY8LGBtt4s4zK0Z/
-         uZIw==
-X-Gm-Message-State: AOAM5337qdpytHUFR5TOK8l20LxI/OXjObLA11N6b2nYr/pvOJ6606yQ
-        zWDIBd/cTCC8bwHzxUyjcovIZQ==
-X-Google-Smtp-Source: ABdhPJyrGB7dBpiaDnYPnJIbaaQdWSM4FfIArdEe62p0xJjdD6l8chOBq8mOvXFxCXKn2tBgDNxRKA==
-X-Received: by 2002:a63:d2:: with SMTP id 201mr6488991pga.400.1633726682737;
-        Fri, 08 Oct 2021 13:58:02 -0700 (PDT)
+        bh=F0j9Fen+aM1yxtAVTmt6zwsss9sN5UsLCk44GHH1tRc=;
+        b=ZhQ1FL0IcBK0yxpMDwWzgLm5bzIuQuzAn5u8jsr7tZdjK/82ird/I6Y9KNGMKdrNix
+         sDAdqyXrT30KhhPFVzogl+IBiZwdbS3HskpN7Wg4SHJRNtipV2gSAgIIPWYB6Ljpd0zS
+         dDfsM0GAm6ZZBeEOgTiR6qvrhLeEnPLV11BGNdeqVuQmH67V6GxNI72GBH1TxxgtPjsN
+         FGbFWzM4CNXZhxCIWuEfa+tIZVeE4l5LWpNdXfrQick0clgzOzuBMbck4X4YRYVpjYPe
+         JtQD/z8AQdP94eUejlcdEHzitok0NQcyuyT7j7dGIoym4UCrdoIpnfTjqH+SdDpeotw0
+         PYkQ==
+X-Gm-Message-State: AOAM530pVyfo9C2OMUGbvo7Kms91Nn9gu4oL57SybzwD7JIyU5WiCsuo
+        0Jyc+3SC3qnlRzGWjZ0bvQMTjA==
+X-Google-Smtp-Source: ABdhPJzKqh8cplGZb7R2umhTGHifh9Yt7Lk84Rr0o+/sxMRQibhJwMtOnRqKr/aL33Vlwtg7KQQOpQ==
+X-Received: by 2002:a17:902:7043:b0:13e:1007:3d6d with SMTP id h3-20020a170902704300b0013e10073d6dmr11395704plt.79.1633727591177;
+        Fri, 08 Oct 2021 14:13:11 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id b1sm222008pfm.38.2021.10.08.13.58.02
+        by smtp.gmail.com with ESMTPSA id x7sm233598pfj.28.2021.10.08.14.13.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Oct 2021 13:58:02 -0700 (PDT)
-Date:   Fri, 8 Oct 2021 13:58:01 -0700
+        Fri, 08 Oct 2021 14:13:10 -0700 (PDT)
+Date:   Fri, 8 Oct 2021 14:13:09 -0700
 From:   Kees Cook <keescook@chromium.org>
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Suren Baghdasaryan <surenb@google.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        David Hildenbrand <david@redhat.com>,
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         John Hubbard <jhubbard@nvidia.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Michal Hocko <mhocko@suse.com>, Pavel Machek <pavel@ucw.cz>,
         Andrew Morton <akpm@linux-foundation.org>,
         Colin Cross <ccross@google.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
@@ -95,65 +94,49 @@ Cc:     Suren Baghdasaryan <surenb@google.com>,
         linux-mm <linux-mm@kvack.org>,
         kernel-team <kernel-team@android.com>
 Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
-Message-ID: <202110081344.FE6A7A82@keescook>
-References: <YV6rksRHr2iSWR3S@dhcp22.suse.cz>
- <92cbfe3b-f3d1-a8e1-7eb9-bab735e782f6@rasmusvillemoes.dk>
- <20211007101527.GA26288@duo.ucw.cz>
- <CAJuCfpGp0D9p3KhOWhcxMO1wEbo-J_b2Anc-oNwdycx4NTRqoA@mail.gmail.com>
+Message-ID: <202110081401.7AB25E4@keescook>
+References: <CAJuCfpGp0D9p3KhOWhcxMO1wEbo-J_b2Anc-oNwdycx4NTRqoA@mail.gmail.com>
  <YV8jB+kwU95hLqTq@dhcp22.suse.cz>
  <CAJuCfpG-Nza3YnpzvHaS_i1mHds3nJ+PV22xTAfgwvj+42WQNA@mail.gmail.com>
  <YV8u4B8Y9AP9xZIJ@dhcp22.suse.cz>
  <CAJuCfpHAG_C5vE-Xkkrm2kynTFF-Jd06tQoCWehHATL0W2mY_g@mail.gmail.com>
  <202110071111.DF87B4EE3@keescook>
- <YV/mhyWH1ZwWazdE@dhcp22.suse.cz>
+ <CAJuCfpFT7qcLM0ygjbzgCj1ScPDkZvv0hcvHkc40s9wgoTov7A@mail.gmail.com>
+ <caa830de-ea66-267d-bafa-369a6175251e@nvidia.com>
+ <b606021e-0afa-a509-84c4-2988d77f68bc@rasmusvillemoes.dk>
+ <eb9fd99e-177e-efe6-667c-f5ff99ad518b@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YV/mhyWH1ZwWazdE@dhcp22.suse.cz>
+In-Reply-To: <eb9fd99e-177e-efe6-667c-f5ff99ad518b@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 08, 2021 at 08:34:47AM +0200, Michal Hocko wrote:
-> I am sorry but there were no strong arguments mentioned for strings so
-> far. Effectively string require a more complex and more resource hungry
-> solution. The only advantage is that strings are nicer to read for
-> humans.
+On Fri, Oct 08, 2021 at 09:43:59AM +0200, David Hildenbrand wrote:
+> I'm going to point out that we already do have names for memfds.
 
-How I see it:
+I just did the same here[1]. :P
 
-- Strings are already present in the "maps" output, so this doesn't
-  create a burden on userspace to grow new parsers.
+> [...] It's also displayed in /proc/self/maps.
 
-- Strings for "anon" specifically have no required format (this is good)
-  it's informational like the task_struct::comm and can (roughly)
-  anything. There's no naming convention for memfds, AF_UNIX, etc. Why
-  is one needed here? That seems like a completely unreasonable
-  requirement.
+I missed that part! /me screams forever
 
-- Strings need to be in kernel space because cross-process GUP has been a
-  constant source of security flaws.
+We really need to filter this at creation time. :( At least
+seq_file_path() escapes "\n" for it, but not "\r", so humans on a
+terminal could get very confused...
 
-> There hasn't been any plan presented for actual naming convention or how
-> those names would be used in practice. Except for a more advanced
-> resource management and that sounds like something that can work with
-> ids just fine.
+$ ./memfd '^M0000000000000000-ffffffffffffffff rwxp 00000000 00:00 0 [stack]' &
+[1] 2953833
+$ cat /proc/2953833/maps
+...
+0000000000000000-ffffffffffffffff rwxp 00000000 00:00 0     [stack] (deleted)
+...
 
-There doesn't need to be and there shouldn't be. Why aren't memfds names
-an id? Because, to quote the man-page, "... serves only for debugging
-purposes. Names do not affect the behavior of the file descriptor, and
-as such multiple files can have the same name without any side effects."
 
-And they aren't filtered _at all_ either. I think the anonymous vma name
-series has gone out of its way to be safe and sane while still providing
-the ease-of-use that it was designed to provide.
+-Kees
 
-> Initially I was not really feeling strongly one way or other but more we
-> are discussing the topic the more I see that strings have a very weak
-> justification behind.
-
-I just don't see any _down_ side to gaining this. There's only resource
-utilization when it's used, and the complexity is minimal.
+[1] https://lore.kernel.org/lkml/202110081344.FE6A7A82@keescook
 
 -- 
 Kees Cook
