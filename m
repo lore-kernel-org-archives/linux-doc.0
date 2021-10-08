@@ -2,130 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75CD0C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Oct 2021 14:57:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1B45C433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Oct 2021 15:36:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4B60561039
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Oct 2021 14:57:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CA2F86101E
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Oct 2021 15:36:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242666AbhJHO7f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Oct 2021 10:59:35 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:34500 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242304AbhJHO7f (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Oct 2021 10:59:35 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id A6D9A1FF47;
-        Fri,  8 Oct 2021 14:57:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1633705058; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=hLBV1SjSGEf+OI0gMp4JXsVXBC5E4MDos4xMm1nlyIE=;
-        b=V9a1bNcXmSTGtAC+pLehQf0TNb+WqUBKqvPBGNoYRau2lx3dBFc9cpVz2iuJwOf3CZ68lo
-        m1Kp83OfKs1MNfHLP+SzZYlja2GZA+yytMpzsczDHl48CJP2Lx4PSLmDqHIYE70JMUhp+8
-        6IOMzE1R+T9mYzGuYqqPfhwj18k06Lg=
-Received: from suse.cz (unknown [10.100.201.86])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 084BFA3B89;
-        Fri,  8 Oct 2021 14:57:36 +0000 (UTC)
-Date:   Fri, 8 Oct 2021 16:57:32 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        David Hildenbrand <david@redhat.com>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Colin Cross <ccross@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+        id S243017AbhJHPhz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Oct 2021 11:37:55 -0400
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:37166 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S231129AbhJHPhy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Oct 2021 11:37:54 -0400
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1989fqnV023368;
+        Fri, 8 Oct 2021 17:35:45 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=selector1;
+ bh=QmQxNQufiV2GsuHqMFZOe4B4PMKFaz6wLa6CZ7V7C+s=;
+ b=hSODOskKfdFbXZ8C0dDucIejQii9ipzIXg/DOTtsuS/il3p54JqBsND9ntlJRZ3DKdca
+ uqx3zVfc9LyvzfzwHf09n+Rr4u5r7xwlFXqlraqGVv/mOE1X3VnwA0KYHJ/h3NnNmg5F
+ /Uoi3OlZ6KU8XV52YgFYocUASDO1+9BCDgEP2om9l7eS/9lHq4K27vvkDpEF5myVDGmg
+ bBEQOhor6UeJRxCxSNc6EciGAwWSmFbdybMQ5qj5zkMSgUbIFQxlH+qh29dq/PdoyCoM
+ u7nuETV4CMQ8otVgfUsOhv/IF3xmP034cg6tikO1rcHPzDu/6kZnXrtp9NblbsliDo1o +Q== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 3bjkk79wja-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 08 Oct 2021 17:35:45 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 05B5410002A;
+        Fri,  8 Oct 2021 17:35:44 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id EC5AD237D9A;
+        Fri,  8 Oct 2021 17:35:43 +0200 (CEST)
+Received: from localhost (10.75.127.50) by SFHDAG2NODE2.st.com (10.75.127.5)
+ with Microsoft SMTP Server (TLS) id 15.0.1497.18; Fri, 8 Oct 2021 17:35:43
+ +0200
+From:   Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
+To:     Ohad Ben-Cohen <ohad@wizery.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Kalesh Singh <kaleshsingh@google.com>,
-        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        vincenzo.frascino@arm.com,
-        Chinwen Chang =?utf-8?B?KOW8temMpuaWhyk=?= 
-        <chinwen.chang@mediatek.com>,
-        Axel Rasmussen <axelrasmussen@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Jann Horn <jannh@google.com>, apopple@nvidia.com,
-        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
-        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
-        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
-        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
-        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
-        Chris Hyser <chris.hyser@oracle.com>,
-        Peter Collingbourne <pcc@google.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
-        Rolf Eike Beer <eb@emlix.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
-        cxfcosmos@gmail.com, LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm <linux-mm@kvack.org>,
-        kernel-team <kernel-team@android.com>
-Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
-Message-ID: <YWBcXPZh9pYr0AHm@dhcp22.suse.cz>
-References: <92cbfe3b-f3d1-a8e1-7eb9-bab735e782f6@rasmusvillemoes.dk>
- <20211007101527.GA26288@duo.ucw.cz>
- <CAJuCfpGp0D9p3KhOWhcxMO1wEbo-J_b2Anc-oNwdycx4NTRqoA@mail.gmail.com>
- <YV8jB+kwU95hLqTq@dhcp22.suse.cz>
- <CAJuCfpG-Nza3YnpzvHaS_i1mHds3nJ+PV22xTAfgwvj+42WQNA@mail.gmail.com>
- <YV8u4B8Y9AP9xZIJ@dhcp22.suse.cz>
- <CAJuCfpHAG_C5vE-Xkkrm2kynTFF-Jd06tQoCWehHATL0W2mY_g@mail.gmail.com>
- <202110071111.DF87B4EE3@keescook>
- <YV/mhyWH1ZwWazdE@dhcp22.suse.cz>
- <4a1dd04f-eda3-5c71-4772-726fd6fa2a38@intel.com>
+        Mathieu Poirier <mathieu.poirier@linaro.org>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        <arnaud.pouliquen@foss.st.com>, Suman Anna <s-anna@ti.com>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-remoteproc@vger.kernel.org>
+Subject: [PATCH v9 0/2] Add rpmsg tty driver
+Date:   Fri, 8 Oct 2021 17:34:44 +0200
+Message-ID: <20211008153446.23188-1-arnaud.pouliquen@foss.st.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4a1dd04f-eda3-5c71-4772-726fd6fa2a38@intel.com>
+Content-Type: text/plain
+X-Originating-IP: [10.75.127.50]
+X-ClientProxiedBy: SFHDAG1NODE2.st.com (10.75.127.2) To SFHDAG2NODE2.st.com
+ (10.75.127.5)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-10-08_04,2021-10-07_02,2020-04-07_01
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri 08-10-21 07:14:58, Dave Hansen wrote:
-> On 10/7/21 11:34 PM, Michal Hocko wrote:
-> >> Yes, please. It really seems like the folks that are interested in this
-> >> feature want strings. (I certainly do.)
-> > I am sorry but there were no strong arguments mentioned for strings so
-> > far.
-> 
-> The folks who want this have maintained an out-of-tree patch using
-> strings.  They've maintained it for the better part of a decade.  I
-> don't know how widely this shipped in the Android ecosystem, but I
-> suspect we're talking about billions of devices.  Right?
-> 
-> This is a feature that, if accepted into mainline, will get enabled and
-> used on billions of devices.  If we dumb this down to integers, it's not
-> 100% clear that it _will_ get used.
-> 
-> That's a pretty strong argument in my book, even if the contributors
-> have difficulty articulating exactly why they want strings.
+This new revision reopens subject started a long time ago. Previous revision discussions
+available here [1]. 
 
-I would agree that if integers would make this unusable then this would
-be a strong argument. But I haven't really heard any arguments like that
-so far. I have heard about IPC overhead and other speculations that do
-not seem really convincing. We shouldn't hand wave concerns regarding
-the implementation complexity and resource handling just by "somebody
-has been using this for decates", right?
+This patchset introduces a TTY console on top of the RPMsg framework which
+enables the following use cases:
+- Provide a console to communicate easily with the remote processor application.
+- Provide an interface to get the remote processor log traces without ring
+  buffer limitation.
+- Ease the migration from MPU + MCU processors to multi core processors
+  (MPU and MCU integrated in one processor) by offering a virtual serial link.
 
-Do not get me wrong. This is going to become a user interface and we
-will have to maintain it for ever. As such an extra scrutiny has to be
-applied.
+An alternative of this proposed solution would consist in using the virtio
+console:
+The drawback with that solution is that it requires a specific virtio buffer
+(in addition to the one already used for RPMsg) which does not fit with remote
+processors with little memory. The proposed solution allows to multiplex the
+console with the other rpmsg services, optimizing the memory.
+
+The first patch adds an API to the rpmsg framework ('get max transmission unit')
+and the second one is the rpmsg tty driver itself.
+
+Update previous revision [1] based on Bjorn Andersson and Greg Kroah-Hartman comments.
+
+Applied and tested on kernel V5.15-rc1
+
+[1] https://lkml.org/lkml/2021/9/30/792 
+
+Arnaud Pouliquen (2):
+  rpmsg: core: add API to get MTU
+  tty: add rpmsg driver
+
+ drivers/rpmsg/rpmsg_core.c       |  21 +++
+ drivers/rpmsg/rpmsg_internal.h   |   2 +
+ drivers/rpmsg/virtio_rpmsg_bus.c |  10 ++
+ drivers/tty/Kconfig              |  12 ++
+ drivers/tty/Makefile             |   1 +
+ drivers/tty/rpmsg_tty.c          | 275 +++++++++++++++++++++++++++++++
+ include/linux/rpmsg.h            |  10 ++
+ 7 files changed, 331 insertions(+)
+ create mode 100644 drivers/tty/rpmsg_tty.c
+
 -- 
-Michal Hocko
-SUSE Labs
+2.17.1
+
