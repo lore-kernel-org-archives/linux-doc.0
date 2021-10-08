@@ -2,134 +2,153 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A818AC433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Oct 2021 14:03:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98FEFC433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Oct 2021 14:15:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8F59E61039
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Oct 2021 14:03:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6FA9A61073
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Oct 2021 14:15:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241048AbhJHOFa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Oct 2021 10:05:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40976 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240974AbhJHOF3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Oct 2021 10:05:29 -0400
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27F6AC061570;
-        Fri,  8 Oct 2021 07:03:34 -0700 (PDT)
-Received: by mail-oi1-x22c.google.com with SMTP id o4so13847306oia.10;
-        Fri, 08 Oct 2021 07:03:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Tj1c7r+zFI1XL5f1HV03FqFq7aJGpB1dEp7dBvj8Wnk=;
-        b=okHRW+A9P+PProJWdZr8GHnJQM4kMIIor3MOJgJwlA3i21rhKUDPnVPD7MTtbdbTk6
-         scKYmcGu5yQaiLaPqghaGFs7WK5YQeCRB9p/9kfwlh5ioREDQuJxiothtPX7dWr4SQt3
-         CYJGuZVVQz2KBbqf1eeb4ivpnzPnLx7n4RqVnGkIuT9KKwdgcZpmH/2qiErUVUzIHWXb
-         nxdp0500bd0S2WhyubDbfEmPN/47IfnBMp54VCNOxrsFY9XqYL0SthQ0tx6x8nn3YLAN
-         oRVIs9VnFv07iW1WOwFYoBcF3pPMCzH0UrHO0oUf2MKmwER3aJnH1dt5whhHJAfHjWVq
-         UlIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=Tj1c7r+zFI1XL5f1HV03FqFq7aJGpB1dEp7dBvj8Wnk=;
-        b=6bcLDKmZ13sERBuCo0NVIAPxH1U4nQ7S4ILECob41s4G/V6xKzvGV1KStbW1jtcFeO
-         qLzcUDwo987bOXbE4ETEMAeBLrBFdm0zUKMZHaprN234RZtEP59N/THJyGh2htMORzO7
-         tXo4SjcsJRkFVfSt8BhAFxx8C5JTzk/6J9Iuw/BCh87mKcawMTpwwhnqx595NkRvtL1k
-         vtf912v/5gRY3LmXWBckcf7uKho9d3pl/0oH2AM3//EtQYjgz3Qi+LR3uisdRfJE3tBn
-         17Q85j9mGBBq3fV9RscraNr5PwaEavyqmm6tJkur3jVwfLW0HPmwzwRStOLE2MoitBy3
-         roMQ==
-X-Gm-Message-State: AOAM530Bo0rW2xy9fK+pQzyMu+n7UltowF9JFiL+BvOXSFZY1rcktTpb
-        LQjqbbJ5kNL4iCdBe1rXkKZGixMGW90=
-X-Google-Smtp-Source: ABdhPJxi5GqEavvQBFKbIeKfGRLMTuFrmsBc6IRwQqYHuxaUIRC3YHI6TlRJzSMWz3Jy1S+O4rXREg==
-X-Received: by 2002:a05:6808:3b6:: with SMTP id n22mr7965264oie.133.1633701813525;
-        Fri, 08 Oct 2021 07:03:33 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id e16sm696023oiw.2.2021.10.08.07.03.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Oct 2021 07:03:33 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Fri, 8 Oct 2021 07:03:31 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Zev Weiss <zev@bewilderbeest.net>
-Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 7/8] hwmon: (pmbus/lm25066) Support configurable sense
- resistor values
-Message-ID: <20211008140331.GA1728738@roeck-us.net>
-References: <20210928092242.30036-1-zev@bewilderbeest.net>
- <20210928092242.30036-8-zev@bewilderbeest.net>
+        id S229756AbhJHORB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Oct 2021 10:17:01 -0400
+Received: from mga12.intel.com ([192.55.52.136]:46263 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229607AbhJHORB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 8 Oct 2021 10:17:01 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10130"; a="206633129"
+X-IronPort-AV: E=Sophos;i="5.85,357,1624345200"; 
+   d="scan'208";a="206633129"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2021 07:15:05 -0700
+X-IronPort-AV: E=Sophos;i="5.85,357,1624345200"; 
+   d="scan'208";a="546213132"
+Received: from gjunker-mobl.amr.corp.intel.com (HELO [10.212.192.245]) ([10.212.192.245])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2021 07:15:01 -0700
+Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
+To:     Michal Hocko <mhocko@suse.com>, Kees Cook <keescook@chromium.org>
+Cc:     Suren Baghdasaryan <surenb@google.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        David Hildenbrand <david@redhat.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Colin Cross <ccross@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        vincenzo.frascino@arm.com,
+        =?UTF-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?= 
+        <chinwen.chang@mediatek.com>,
+        Axel Rasmussen <axelrasmussen@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Jann Horn <jannh@google.com>, apopple@nvidia.com,
+        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
+        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
+        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
+        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
+        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
+        Chris Hyser <chris.hyser@oracle.com>,
+        Peter Collingbourne <pcc@google.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
+        Rolf Eike Beer <eb@emlix.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
+        cxfcosmos@gmail.com, LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm <linux-mm@kvack.org>,
+        kernel-team <kernel-team@android.com>
+References: <CAJuCfpGuuXOpdYbt3AsNn+WNbavwuEsDfRMYunh+gajp6hOMAg@mail.gmail.com>
+ <YV6rksRHr2iSWR3S@dhcp22.suse.cz>
+ <92cbfe3b-f3d1-a8e1-7eb9-bab735e782f6@rasmusvillemoes.dk>
+ <20211007101527.GA26288@duo.ucw.cz>
+ <CAJuCfpGp0D9p3KhOWhcxMO1wEbo-J_b2Anc-oNwdycx4NTRqoA@mail.gmail.com>
+ <YV8jB+kwU95hLqTq@dhcp22.suse.cz>
+ <CAJuCfpG-Nza3YnpzvHaS_i1mHds3nJ+PV22xTAfgwvj+42WQNA@mail.gmail.com>
+ <YV8u4B8Y9AP9xZIJ@dhcp22.suse.cz>
+ <CAJuCfpHAG_C5vE-Xkkrm2kynTFF-Jd06tQoCWehHATL0W2mY_g@mail.gmail.com>
+ <202110071111.DF87B4EE3@keescook> <YV/mhyWH1ZwWazdE@dhcp22.suse.cz>
+From:   Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <4a1dd04f-eda3-5c71-4772-726fd6fa2a38@intel.com>
+Date:   Fri, 8 Oct 2021 07:14:58 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210928092242.30036-8-zev@bewilderbeest.net>
+In-Reply-To: <YV/mhyWH1ZwWazdE@dhcp22.suse.cz>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 28, 2021 at 02:22:41AM -0700, Zev Weiss wrote:
-> The appropriate mantissa values for the lm25066 family's direct-format
-> current and power readings are a function of the sense resistor
-> employed between the SENSE and VIN pins of the chip.  Instead of
-> assuming that resistance is always the same 1mOhm as used in the
-> datasheet, allow it to be configured via a device-tree property
-> ("shunt-resistor-micro-ohms").
-> 
-> Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
-> ---
->  Documentation/hwmon/lm25066.rst |  2 ++
->  drivers/hwmon/pmbus/lm25066.c   | 12 ++++++++++++
->  2 files changed, 14 insertions(+)
-> 
-> diff --git a/Documentation/hwmon/lm25066.rst b/Documentation/hwmon/lm25066.rst
-> index 9f1d7e4d3ca1..a2098eb24090 100644
-> --- a/Documentation/hwmon/lm25066.rst
-> +++ b/Documentation/hwmon/lm25066.rst
-> @@ -79,6 +79,8 @@ This driver does not auto-detect devices. You will have to instantiate the
->  devices explicitly. Please see Documentation/i2c/instantiating-devices.rst for
->  details.
->  
-> +The shunt (sense) resistor value can be configured by a device tree property;
-> +see Documentation/devicetree/bindings/hwmon/pmbus/ti,lm25066.yaml for details.
->  
->  Platform data support
->  ---------------------
-> diff --git a/drivers/hwmon/pmbus/lm25066.c b/drivers/hwmon/pmbus/lm25066.c
-> index 18d5a76f346d..29e848bcd436 100644
-> --- a/drivers/hwmon/pmbus/lm25066.c
-> +++ b/drivers/hwmon/pmbus/lm25066.c
-> @@ -458,6 +458,7 @@ MODULE_DEVICE_TABLE(of, lm25066_of_match);
->  static int lm25066_probe(struct i2c_client *client)
->  {
->  	int config;
-> +	u32 shunt;
->  	struct lm25066_data *data;
->  	struct pmbus_driver_info *info;
->  	const struct __coeff *coeff;
-> @@ -535,6 +536,17 @@ static int lm25066_probe(struct i2c_client *client)
->  		info->b[PSC_POWER] = coeff[PSC_POWER].b;
->  	}
->  
-> +	/*
-> +	 * Values in the TI datasheets are normalized for a 1mOhm sense
-> +	 * resistor; assume that unless DT specifies a value explicitly.
-> +	 */
-> +	if (of_property_read_u32(client->dev.of_node,
-> +	                         "shunt-resistor-micro-ohms", &shunt))
+On 10/7/21 11:34 PM, Michal Hocko wrote:
+>> Yes, please. It really seems like the folks that are interested in this
+>> feature want strings. (I certainly do.)
+> I am sorry but there were no strong arguments mentioned for strings so
+> far.
 
-Space vs. tabs again. Never mind, fixed up and applied.
+The folks who want this have maintained an out-of-tree patch using
+strings.  They've maintained it for the better part of a decade.  I
+don't know how widely this shipped in the Android ecosystem, but I
+suspect we're talking about billions of devices.  Right?
 
-Thanks,
-Guenter
+This is a feature that, if accepted into mainline, will get enabled and
+used on billions of devices.  If we dumb this down to integers, it's not
+100% clear that it _will_ get used.
 
-> +		shunt = 1000;
-> +
-> +	info->m[PSC_CURRENT_IN] = info->m[PSC_CURRENT_IN] * shunt / 1000;
-> +	info->m[PSC_POWER] = info->m[PSC_POWER] * shunt / 1000;
-> +
->  	return pmbus_do_probe(client, info);
->  }
->  
+That's a pretty strong argument in my book, even if the contributors
+have difficulty articulating exactly why they want strings.
