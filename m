@@ -2,281 +2,204 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62C54C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Oct 2021 22:36:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8D21C433F5
+	for <linux-doc@archiver.kernel.org>; Sat,  9 Oct 2021 00:37:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 49DAE60F92
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Oct 2021 22:36:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BF40560FD8
+	for <linux-doc@archiver.kernel.org>; Sat,  9 Oct 2021 00:37:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243574AbhJHWiw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Oct 2021 18:38:52 -0400
-Received: from mail110.syd.optusnet.com.au ([211.29.132.97]:33445 "EHLO
-        mail110.syd.optusnet.com.au" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S243505AbhJHWiw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Oct 2021 18:38:52 -0400
-Received: from dread.disaster.area (pa49-195-238-16.pa.nsw.optusnet.com.au [49.195.238.16])
-        by mail110.syd.optusnet.com.au (Postfix) with ESMTPS id 28688108AC6;
-        Sat,  9 Oct 2021 09:36:50 +1100 (AEDT)
-Received: from dave by dread.disaster.area with local (Exim 4.92.3)
-        (envelope-from <david@fromorbit.com>)
-        id 1mYyTx-0042Ma-CL; Sat, 09 Oct 2021 09:36:49 +1100
-Date:   Sat, 9 Oct 2021 09:36:49 +1100
-From:   Dave Chinner <david@fromorbit.com>
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     NeilBrown <neilb@suse.de>, Vlastimil Babka <vbabka@suse.cz>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>, Jonathan Corbet <corbet@lwn.net>,
-        linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/6] MM: improve documentation for __GFP_NOFAIL
-Message-ID: <20211008223649.GJ54211@dread.disaster.area>
-References: <163184698512.29351.4735492251524335974.stgit@noble.brown>
- <163184741778.29351.16920832234899124642.stgit@noble.brown>
- <b680fb87-439b-0ba4-cf9f-33d729f27941@suse.cz>
- <YVwyhDnE/HEnoLAi@dhcp22.suse.cz>
- <eba04a07-99da-771a-ab6b-36de41f9f120@suse.cz>
- <20211006231452.GF54211@dread.disaster.area>
- <YV7G7gyfZkmw7/Ae@dhcp22.suse.cz>
- <163364854551.31063.4377741712039731672@noble.neil.brown.name>
- <YV/31+qXwqEgaxJL@dhcp22.suse.cz>
+        id S243984AbhJIAj2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Oct 2021 20:39:28 -0400
+Received: from mga02.intel.com ([134.134.136.20]:5242 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231963AbhJIAj1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 8 Oct 2021 20:39:27 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10131"; a="213756480"
+X-IronPort-AV: E=Sophos;i="5.85,358,1624345200"; 
+   d="scan'208";a="213756480"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2021 17:37:31 -0700
+X-IronPort-AV: E=Sophos;i="5.85,358,1624345200"; 
+   d="scan'208";a="624905334"
+Received: from dmsojoza-mobl3.amr.corp.intel.com (HELO skuppusw-desk1.amr.corp.intel.com) ([10.251.135.62])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2021 17:37:29 -0700
+From:   Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Richard Henderson <rth@twiddle.net>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        James E J Bottomley <James.Bottomley@HansenPartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        David Hildenbrand <david@redhat.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Josh Poimboeuf <jpoimboe@redhat.com>
+Cc:     Peter H Anvin <hpa@zytor.com>, Dave Hansen <dave.hansen@intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
+        Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>, x86@kernel.org,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        virtualization@lists.linux-foundation.org
+Subject: [PATCH v5 00/16] Add TDX Guest Support (shared-mm support)
+Date:   Fri,  8 Oct 2021 17:36:55 -0700
+Message-Id: <20211009003711.1390019-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YV/31+qXwqEgaxJL@dhcp22.suse.cz>
-X-Optus-CM-Score: 0
-X-Optus-CM-Analysis: v=2.4 cv=VuxAv86n c=1 sm=1 tr=0 ts=6160c805
-        a=DzKKRZjfViQTE5W6EVc0VA==:117 a=DzKKRZjfViQTE5W6EVc0VA==:17
-        a=kj9zAlcOel0A:10 a=8gfv0ekSlNoA:10 a=7-415B0cAAAA:8
-        a=6S5xgBsxOMK7_jEV4OcA:9 a=CjuIK1q_8ugA:10 a=biEYGPWJfzWAr4FL6Ov7:22
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 08, 2021 at 09:48:39AM +0200, Michal Hocko wrote:
-> On Fri 08-10-21 10:15:45, Neil Brown wrote:
-> > On Thu, 07 Oct 2021, Michal Hocko wrote:
-> > > On Thu 07-10-21 10:14:52, Dave Chinner wrote:
-> > > > On Tue, Oct 05, 2021 at 02:27:45PM +0200, Vlastimil Babka wrote:
-> > > > > On 10/5/21 13:09, Michal Hocko wrote:
-> > > > > > On Tue 05-10-21 11:20:51, Vlastimil Babka wrote:
-> > > > > > [...]
-> > > > > >> > --- a/include/linux/gfp.h
-> > > > > >> > +++ b/include/linux/gfp.h
-> > > > > >> > @@ -209,7 +209,11 @@ struct vm_area_struct;
-> > > > > >> >   * used only when there is no reasonable failure policy) but it is
-> > > > > >> >   * definitely preferable to use the flag rather than opencode endless
-> > > > > >> >   * loop around allocator.
-> > > > > >> > - * Using this flag for costly allocations is _highly_ discouraged.
-> > > > > >> > + * Use of this flag may lead to deadlocks if locks are held which would
-> > > > > >> > + * be needed for memory reclaim, write-back, or the timely exit of a
-> > > > > >> > + * process killed by the OOM-killer.  Dropping any locks not absolutely
-> > > > > >> > + * needed is advisable before requesting a %__GFP_NOFAIL allocate.
-> > > > > >> > + * Using this flag for costly allocations (order>1) is _highly_ discouraged.
-> > > > > >> 
-> > > > > >> We define costly as 3, not 1. But sure it's best to avoid even order>0 for
-> > > > > >> __GFP_NOFAIL. Advising order>1 seems arbitrary though?
-> > > > > > 
-> > > > > > This is not completely arbitrary. We have a warning for any higher order
-> > > > > > allocation.
-> > > > > > rmqueue:
-> > > > > > 	WARN_ON_ONCE((gfp_flags & __GFP_NOFAIL) && (order > 1));
-> > > > > 
-> > > > > Oh, I missed that.
-> > > > > 
-> > > > > > I do agree that "Using this flag for higher order allocations is
-> > > > > > _highly_ discouraged.
-> > > > > 
-> > > > > Well, with the warning in place this is effectively forbidden, not just
-> > > > > discouraged.
-> > > > 
-> > > > Yup, especially as it doesn't obey __GFP_NOWARN.
-> > > > 
-> > > > See commit de2860f46362 ("mm: Add kvrealloc()") as a direct result
-> > > > of unwittingly tripping over this warning when adding __GFP_NOFAIL
-> > > > annotations to replace open coded high-order kmalloc loops that have
-> > > > been in place for a couple of decades without issues.
-> > > > 
-> > > > Personally I think that the way __GFP_NOFAIL is first of all
-> > > > recommended over open coded loops and then only later found to be
-> > > > effectively forbidden and needing to be replaced with open coded
-> > > > loops to be a complete mess.
-> > > 
-> > > Well, there are two things. Opencoding something that _can_ be replaced
-> > > by __GFP_NOFAIL and those that cannot because the respective allocator
-> > > doesn't really support that semantic. kvmalloc is explicit about that
-> > > IIRC. If you have a better way to consolidate the documentation then I
-> > > am all for it.
-> > 
-> > I think one thing that might help make the documentation better is to
-> > explicitly state *why* __GFP_NOFAIL is better than a loop.
-> > 
-> > It occurs to me that
-> >   while (!(p = kmalloc(sizeof(*p), GFP_KERNEL));
-> > 
-> > would behave much the same as adding __GFP_NOFAIL and dropping the
-> > 'while'.  So why not? I certainly cannot see the need to add any delay
-> > to this loop as kmalloc does a fair bit of sleeping when permitted.
-> > 
-> > I understand that __GFP_NOFAIL allows page_alloc to dip into reserves,
-> > but Mel holds that up as a reason *not* to use __GFP_NOFAIL as it can
-> > impact on other subsystems.
-> 
-> __GFP_NOFAIL usage is a risk on its own. It is a hard requirement that
-> the allocator cannot back off.
+Hi All,
 
-No, "allocator cannot back off" isn't a hard requirement for most
-GFP_NOFAIL uses. *Not failing the allocation* is the hard
-requirement.
+Intel's Trust Domain Extensions (TDX) protect guest VMs from malicious
+hosts and some physical attacks. Since VMM is untrusted entity, it does
+not allow VMM to access guest private memory. Any memory that is required
+for communication with VMM must be shared explicitly. This series adds
+support to securely share guest memory with VMM when it is required by
+guest.
 
-How long it takes for the allocation to actually succeed is
-irrelevant to most callers, and given that we are replacing loops
-that do
+Originally TDX did automatic sharing of every ioremap. But it was found that
+this ends up with a lot of memory shared that is supposed to be private, for
+example ACPI tables. Also in general since only a few drivers are expected
+to be used it's safer to mark them explicitly (for virtio it actually only
+needs two places). This gives the advantage of automatically preventing
+other drivers from doing MMIO, which can happen in some cases even with
+the device filter. There is still a command line option to override this option,
+which allows to use all drivers.
 
-	while (!(p = kmalloc(sizeof(*p), GFP_KERNEL))
+This series is the continuation of the patch series titled "Add TDX Guest
+Support (Initial support)", "Add TDX Guest Support (#VE handler support)"
+and "Add TDX Guest Support (boot support)" which added initial support,
+ #VE handler support and boot fixes for TDX guests. You  can find the
+related patchsets in the following links.
 
-with __GFP_NOFAIL largely indicates that allocation *latency* and/or
-deadlocks are not an issue here.
+[set 1, v9] - https://lore.kernel.org/lkml/20211008234009.1211215-1-sathyanarayanan.kuppuswamy@linux.intel.com/
+[set 2, v7] - https://lore.kernel.org/lkml/20211005204136.1812078-1-sathyanarayanan.kuppuswamy@linux.intel.com/
+[set 3, v7] - https://lore.kernel.org/lkml/20211005230550.1819406-1-sathyanarayanan.kuppuswamy@linux.intel.com/
 
-Indeed, if we deadlock in XFS because there is no memory available,
-that is *not a problem kmalloc() should be trying to solve*. THe
-problem is the caller being unable to handle allocation failure, so
-if allocation cannot make progress, that needs to be fixed by the
-caller getting rid of the unfailable allocation.
+Also please note that this series alone is not necessarily fully
+functional. You need to apply all the above 3 patch series to get
+a fully functional TDX guest.
 
-The fact is that we've had these loops in production code for a
-couple of decades and these subsystems just aren't failing or
-deadlocking with such loops. IOWs, we don't need __GFP_NOFAIL to dig
-deep into reserves or drive the system to OOM killing - we just need
-to it keep retrying the same allocation until it succeeds.
+You can find TDX related documents in the following link.
 
-Put simply, we want "retry forever" semantics to match what
-production kernels have been doing for the past couple of decades,
-but all we've been given are "never fail" semantics that also do
-something different and potentially much more problematic.
+https://software.intel.com/content/www/br/pt/develop/articles/intel-trust-domain-extensions.html
 
-Do you see the difference here? __GFP_NOFAIL is not what we
-need in the vast majority of cases where it is used. We don't want
-the failing allocations to drive the machine hard into critical
-reserves, we just want the allocation to -eventually succeed- and if
-it doesn't, that's our problem to handle, not kmalloc()....
+Also, ioremap related changes in mips, parisc, alpha, sparch archs' are
+only compile tested, and hence need help from the community users of these
+archs' to make sure that it does not break any functionality.
 
-> So it has to absolutely everything to
-> suceed. Whether it cheats and dips into reserves or not is a mere
-> implementation detail and a subject to the specific implementation.
+In this patch series, following patches are in PCI domain and are
+meant for the PCI domain reviewers.
 
-My point exactly: that's how the MM interprets __GFP_NOFAIL is supposed to
-provide callers with. What we are trying to tell you is that the
-semantics associated with __GFP_NOFAIL is not actually what we
-require, and it's the current semantics of __GFP_NOFAIL that cause
-all the "can't be applied consistently across the entire allocation
-APIs" problems....
+  pci: Consolidate pci_iomap* and pci_iomap*wc
+  pci: Add pci_iomap_shared{,_range}
+  pci: Mark MSI data shared
 
-> > > > So, effectively, we have to open-code around kvmalloc() in
-> > > > situations where failure is not an option. Even if we pass
-> > > > __GFP_NOFAIL to __vmalloc(), it isn't guaranteed to succeed because
-> > > > of the "we won't honor gfp flags passed to __vmalloc" semantics it
-> > > > has.
-> > > 
-> > > yes vmalloc doesn't support nofail semantic and it is not really trivial
-> > > to craft it there.
+Patch titled "asm/io.h: Add ioremap_host_shared fallback" adds
+generic and arch specific ioremap_host_shared headers and are
+meant to be reviewed by linux-arch@vger.kernel.org,
+linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org.
 
-Yet retry-forever is trivial to implement across everything:
+Similarly patch titled "virtio: Use shared mappings for virtio
+PCI devices" adds ioremap_host_shared() support for virtio drivers
+and are meant to be reviewed by virtio driver maintainers.
 
-kvmalloc(size, gfp_mask)
-{
-	gfp_t	flags = gfp_mask & ~__GFP_RETRY_FOREVER;
+I have CCed this patch series to all the related domain maintainers
+and open lists. If you prefer to get only patches specific to your
+domain, please let me know. I will fix this in next submission.
 
-	do {
-		p = __kvmalloc(size, flags)
-	} while (!p && (gfp_mask & __GFP_RETRY_FOREVER));
+Changes since v4:
+ * Since patch titled "x86/tdx: Get TD execution environment
+   information via TDINFO" is required only by this patch set,
+   moved it here.
+ * Rest of the change log is included per patch.
 
-	return p;
-}
+Changes since v3:
+ * Rebased on top of Tom Lendacky's protected guest
+   changes (https://lore.kernel.org/patchwork/cover/1468760/)
+ * Added new API to share io-reamapped memory selectively
+   (using ioremap_shared())
+ * Added new wrapper (pci_iomap_shared_range()) for PCI IO
+   remap shared mappings use case.
 
-That provides "allocation will eventually succeed" semantics just
-fine, yes? It doesn't guarantee forwards progress or success, just
-that *it won't fail*.
+Changes since v2:
+ * Rebased on top of v5.14-rc1.
+ * No functional changes.
 
-It should be obvious what the difference between "retry forever" and
-__GFP_NOFAIL semantics are now, and why we don't actually want
-__GFP_NOFAIL. We just want __GFP_RETRY_FOREVER semantics that can be
-applied consistently across the entire allocation API regardless of
-whatever other flags are passed into the allocation: don't return
-until an allocation with the provided semantics succeeds.
+Andi Kleen (6):
+  PCI: Consolidate pci_iomap_range(), pci_iomap_wc_range()
+  asm/io.h: Add ioremap_host_shared fallback
+  PCI: Add pci_iomap_host_shared(), pci_iomap_host_shared_range()
+  PCI: Mark MSI data shared
+  virtio: Use shared mappings for virtio PCI devices
+  x86/tdx: Implement ioremap_host_shared for x86
 
+Isaku Yamahata (1):
+  x86/tdx: ioapic: Add shared bit for IOAPIC base address
 
+Kirill A. Shutemov (7):
+  x86/mm: Move force_dma_unencrypted() to common code
+  x86/tdx: Get TD execution environment information via TDINFO
+  x86/tdx: Exclude Shared bit from physical_mask
+  x86/tdx: Make pages shared in ioremap()
+  x86/tdx: Add helper to do MapGPA hypercall
+  x86/tdx: Make DMA pages shared
+  x86/kvm: Use bounce buffers for TD guest
 
-> > > > Even the API constaints of kvmalloc() w.r.t. only doing the vmalloc
-> > > > fallback if the gfp context is GFP_KERNEL - we already do GFP_NOFS
-> > > > kvmalloc via memalloc_nofs_save/restore(), so this behavioural
-> > > > restriction w.r.t. gfp flags just makes no sense at all.
-> > > 
-> > > GFP_NOFS (without using the scope API) has the same problem as NOFAIL in
-> > > the vmalloc. Hence it is not supported. If you use the scope API then
-> > > you can GFP_KERNEL for kvmalloc. This is clumsy but I am not sure how to
-> > > define these conditions in a more sensible way. Special case NOFS if the
-> > > scope api is in use? Why do you want an explicit NOFS then?
+Kuppuswamy Sathyanarayanan (2):
+  x86/tdx: Enable shared memory confidential guest flags for TDX guest
+  x86/tdx: Add cmdline option to force use of ioremap_host_shared
 
-Exactly my point - this is clumsy and a total mess. I'm not asking
-for an explicit GFP_NOFS, just pointing out that the documented
-restrictions that "vmalloc can only do GFP_KERNEL allocations" is
-completely wrong.
+ .../admin-guide/kernel-parameters.rst         |   1 +
+ .../admin-guide/kernel-parameters.txt         |  12 ++
+ Documentation/driver-api/device-io.rst        |   7 +
+ arch/alpha/include/asm/io.h                   |   2 +
+ arch/mips/include/asm/io.h                    |   2 +
+ arch/parisc/include/asm/io.h                  |   2 +
+ arch/sparc/include/asm/io_64.h                |   2 +
+ arch/x86/Kconfig                              |   9 +-
+ arch/x86/include/asm/io.h                     |   6 +
+ arch/x86/include/asm/mem_encrypt_common.h     |  21 +++
+ arch/x86/include/asm/pgtable.h                |   5 +
+ arch/x86/include/asm/tdx.h                    |  22 +++
+ arch/x86/kernel/apic/io_apic.c                |  18 ++-
+ arch/x86/kernel/cc_platform.c                 |   3 +
+ arch/x86/kernel/tdx.c                         | 109 +++++++++++++++
+ arch/x86/mm/Makefile                          |   2 +
+ arch/x86/mm/ioremap.c                         |  64 +++++++--
+ arch/x86/mm/mem_encrypt.c                     |   8 +-
+ arch/x86/mm/mem_encrypt_common.c              |  40 ++++++
+ arch/x86/mm/pat/set_memory.c                  |  45 +++++-
+ drivers/pci/msi.c                             |   2 +-
+ drivers/virtio/virtio_pci_modern_dev.c        |   2 +-
+ include/asm-generic/io.h                      |   5 +
+ include/asm-generic/pci_iomap.h               |   6 +
+ include/linux/cc_platform.h                   |  13 ++
+ lib/pci_iomap.c                               | 131 +++++++++++++-----
+ 26 files changed, 475 insertions(+), 64 deletions(-)
+ create mode 100644 arch/x86/include/asm/mem_encrypt_common.h
+ create mode 100644 arch/x86/mm/mem_encrypt_common.c
 
-vmalloc()
-{
-	if (!(gfp_flags &  __GFP_FS))
-		memalloc_nofs_save();
-	p = __vmalloc(gfp_flags | GFP_KERNEL)
-	if (!(gfp_flags &  __GFP_FS))
-		memalloc_nofs_restore();
-}
-
-Yup, that's how simple it is to support GFP_NOFS support in
-vmalloc().
-
-This goes along with the argument that "it's impossible to do
-GFP_NOFAIL with vmalloc" as I addressed above. These things are not
-impossible, but we hide behind "we don't want people to use vmalloc"
-as an excuse for having shitty behaviour whilst ignoring that
-vmalloc is *heavily used* by core subsystems like filesystems
-because they cannot rely on high order allocations succeeding....
-
-It also points out that the scope API is highly deficient.
-We can do GFP_NOFS via the scope API, but we can't
-do anything else because *there is no scope API for other GFP
-flags*.
-
-Why don't we have a GFP_NOFAIL/__GFP_RETRY_FOREVER scope API? That
-would save us a lot of bother in XFS. What about GFP_DIRECT_RECLAIM?
-I'd really like to turn that off for allocations in the XFS
-transaction commit path (as noted already in this thread) because
-direct reclaim that can make no progress is actively harmful (as
-noted already in this thread)
-
-Like I said - this is more than just bad documentation - the problem
-is that the whole allocation API is an inconsistent mess of control
-mechanisms to begin with...
-
-> > It would seem to make sense for kvmalloc to WARN_ON if it is passed
-> > flags that does not allow it to use vmalloc.
-> 
-> vmalloc is certainly not the hottest path in the kernel so I wouldn't be
-> opposed.
-
-kvmalloc is most certainly becoming one of the hottest paths in XFS.
-IOWs, arguments that "vmalloc is not a hot path" are simply invalid
-these days because they are simply untrue. e.g. the profiles I
-posted in this thread...
-
-Cheers,
-
-Dave.
 -- 
-Dave Chinner
-david@fromorbit.com
+2.25.1
+
