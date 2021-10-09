@@ -2,95 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC874C433EF
-	for <linux-doc@archiver.kernel.org>; Sat,  9 Oct 2021 02:10:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF5C2C433EF
+	for <linux-doc@archiver.kernel.org>; Sat,  9 Oct 2021 03:24:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 880726103C
-	for <linux-doc@archiver.kernel.org>; Sat,  9 Oct 2021 02:10:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8DC5A60FC3
+	for <linux-doc@archiver.kernel.org>; Sat,  9 Oct 2021 03:24:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232207AbhJICMf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Oct 2021 22:12:35 -0400
-Received: from mga12.intel.com ([192.55.52.136]:51972 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231947AbhJICMf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 8 Oct 2021 22:12:35 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10131"; a="206740999"
-X-IronPort-AV: E=Sophos;i="5.85,360,1624345200"; 
-   d="scan'208";a="206740999"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2021 19:10:30 -0700
-X-IronPort-AV: E=Sophos;i="5.85,360,1624345200"; 
-   d="scan'208";a="489694922"
-Received: from aakepati-mobl.amr.corp.intel.com (HELO skuppusw-mobl5.amr.corp.intel.com) ([10.212.226.212])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2021 19:10:29 -0700
-Subject: Re: [PATCH v5 16/16] x86/tdx: Add cmdline option to force use of
- ioremap_host_shared
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        James E J Bottomley <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        "David S . Miller" <davem@davemloft.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        David Hildenbrand <david@redhat.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>
-Cc:     Peter H Anvin <hpa@zytor.com>, Dave Hansen <dave.hansen@intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
-        x86@kernel.org, linux-kernel@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        virtualization@lists.linux-foundation.org
-References: <20211009003711.1390019-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20211009003711.1390019-17-sathyanarayanan.kuppuswamy@linux.intel.com>
- <7b4c3e3e-09e4-3bf8-6e23-77892fb6df02@infradead.org>
-From:   "Kuppuswamy, Sathyanarayanan" 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-Message-ID: <b8975692-6c4c-3985-8ee7-ad294f4ae2c9@linux.intel.com>
-Date:   Fri, 8 Oct 2021 19:10:27 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.13.0
+        id S244025AbhJID0o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Oct 2021 23:26:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54500 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244114AbhJID0n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Oct 2021 23:26:43 -0400
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24952C061755
+        for <linux-doc@vger.kernel.org>; Fri,  8 Oct 2021 20:24:47 -0700 (PDT)
+Received: by mail-ed1-x52a.google.com with SMTP id g10so42534320edj.1
+        for <linux-doc@vger.kernel.org>; Fri, 08 Oct 2021 20:24:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=IZRlkZIYHzl58za9sUnq4fOlO8pVB3H3OBy0aiY0iqw=;
+        b=XZF1s2tHpyMwHJkpvi3Wm3uoo0wBTKfHYjYvXxYqbA3AlVRzHdNVT4Tj+Z7OUT5PtA
+         yXqfo/f2nlfTw9O/6il2ubiIBy8xQWIZUHsQ+fxqituPD2UuugtFrzXMplXv9nof2HkH
+         3G1CGdw9TP0oGI1RrvZbW7CGM03ELaFajceS7nsYn+vXx2WfzO6iTfmE6opBA1QpiJGk
+         vmYpe0c5NlFywzyOgtUlP/rmkgODWu1SWu3YwywHV9qBGP4b8gi2oUs0qVrVPfdlRD/A
+         TBzjod14ceAoHB0BjC4/FBMmU22oWHU466uWKYiKlQSWDyaZklDkc6ouiGNqwAkgtMbe
+         MyFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=IZRlkZIYHzl58za9sUnq4fOlO8pVB3H3OBy0aiY0iqw=;
+        b=2Q8n9Zr+JomJKk+6LcVRhBeqv5zRkZgOC+NvGtpvatA5qOtH4vhNOrUU95dVohgjh1
+         G1Cmgy45rWG04eefArwLs5C5+qVIsDTSdeWSBcxSQuAw5mqda27kp1iTBXEsC94BrqLW
+         gZZ5A/oez7kDE59SjGC9/7yYZTy0zStddzfFfTJ2EIxAsQdSx5jfDFTpBvR8NpCd3VeW
+         uFH+j7uH7ZLZXlHwVqOtjIszQCcsSmvgEHyrGR4cffRRWQCwtz784YnJ3vlh8VMw99Uv
+         eZUoimFBIsDH28LGBvPBuxiQRijD8pqm23fJ1ItU0Rq11h8pE/bMmiZ7ksjwIQk50Rhr
+         D4FQ==
+X-Gm-Message-State: AOAM531Eh2pbxQZQ0CdPsjvCLAqMkZaDmolTpCMBHFELOmTosvIll+7o
+        ieBSVkGBxX59rXa8PAe/zoGjyjj9kU7fui4PaVkx
+X-Google-Smtp-Source: ABdhPJyG2PqyTbN74aP30ZckkjH25mY7f9nlIIcHgynGPXVzG3aBnt4SvoNb+WWer8qY/2E+24r0sr3gDa+bHf7mgIU=
+X-Received: by 2002:a05:6402:274b:: with SMTP id z11mr20848615edd.151.1633749885735;
+ Fri, 08 Oct 2021 20:24:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <7b4c3e3e-09e4-3bf8-6e23-77892fb6df02@infradead.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20211006202904.30241-1-rdunlap@infradead.org>
+In-Reply-To: <20211006202904.30241-1-rdunlap@infradead.org>
+From:   Yongji Xie <xieyongji@bytedance.com>
+Date:   Sat, 9 Oct 2021 11:24:35 +0800
+Message-ID: <CACycT3umszHAXOf5shB7_fg0WNTon0rLdrMRZtzX=hm7RxfRVQ@mail.gmail.com>
+Subject: Re: [PATCH] VDUSE: fix documentation underline warning
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        Jason Wang <jasowang@redhat.com>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        virtualization <virtualization@lists.linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, Oct 7, 2021 at 4:29 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> Fix a VDUSE documentation build warning:
+>
+> Documentation/userspace-api/vduse.rst:21: WARNING: Title underline too short.
+>
+> Fixes: 7bc7f61897b6 ("Documentation: Add documentation for VDUSE")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Xie Yongji <xieyongji@bytedance.com>
+> Cc: Jason Wang <jasowang@redhat.com>
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Cc: virtualization@lists.linux-foundation.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> ---
+>  Documentation/userspace-api/vduse.rst |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
 
+Reviewed-by: Xie Yongji <xieyongji@bytedance.com>
 
-On 10/8/21 6:45 PM, Randy Dunlap wrote:
-> Hi,
-> This cmdline option text should have a little bit more info. Just as an
-> example/template:
-> 
->      acpi_apic_instance=    [ACPI, IOAPIC]
->              Format: <int>
->              2: use 2nd APIC table, if available
->              1,0: use 1st APIC table
->              default: 0
-> 
-> So what is expected after the "=" sign?...
-
-It does not take any arguments. I will remove the = sign in next version.
-
--- 
-Sathyanarayanan Kuppuswamy
-Linux Kernel Developer
+Thanks,
+Yongji
