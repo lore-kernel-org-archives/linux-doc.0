@@ -2,120 +2,147 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96790C433EF
-	for <linux-doc@archiver.kernel.org>; Sat,  9 Oct 2021 13:30:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B139FC433FE
+	for <linux-doc@archiver.kernel.org>; Sat,  9 Oct 2021 20:40:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5C3BD60F70
-	for <linux-doc@archiver.kernel.org>; Sat,  9 Oct 2021 13:30:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8D4CC60F44
+	for <linux-doc@archiver.kernel.org>; Sat,  9 Oct 2021 20:40:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233386AbhJINcr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 9 Oct 2021 09:32:47 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35754 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233209AbhJINcq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 9 Oct 2021 09:32:46 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 199BVVke007307;
-        Sat, 9 Oct 2021 09:30:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : reply-to : to : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=4Cro3IpcEkZeGz4yDmnXZpwZJa3Nd2CCDYW1ytGiNbw=;
- b=kJ7qtltQ0cYEWq9Lsxp0UM1v5srrA8BPAPXxyvYye4whtqVWi3TgImbPmsfmprD86HXF
- iM12jbOG82a13N1wuYMU/e6kvgisuf284d/QN2GNfh5qqGPXXPx8ZOBZmA/Wn30IsUC1
- ofOJpzLxywpXCtcesGvjZZNj7EuGGjSWX156V7h7F0tLkzwAIu8Qfc9Rr6s+ceM+Mxwo
- UtqUvIR4UWeEnl+Bwf1D/EE7Q16y1uXFweOztbcFgMDy51D/NNSfEFSh52tzKUUPpN2I
- ckOIexRjkrTrYbu5qNA3tEfLjKrJfEayKnEsPqY/7YiNrQq0xW0VVZ+9zAy3zZV8xbKh uQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3bka9ksax0-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 09 Oct 2021 09:30:00 -0400
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 199DPc6I032508;
-        Sat, 9 Oct 2021 09:29:59 -0400
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com [169.47.144.27])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3bka9ksawm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 09 Oct 2021 09:29:59 -0400
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
-        by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 199DMVM5028876;
-        Sat, 9 Oct 2021 13:29:58 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
-        by ppma05wdc.us.ibm.com with ESMTP id 3bk2q9mj6t-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 09 Oct 2021 13:29:57 +0000
-Received: from b03ledav004.gho.boulder.ibm.com (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
-        by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 199DTuDp35717580
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sat, 9 Oct 2021 13:29:57 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id D67417806B;
-        Sat,  9 Oct 2021 13:29:56 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 1127778060;
-        Sat,  9 Oct 2021 13:29:53 +0000 (GMT)
-Received: from [172.17.101.49] (unknown [9.211.116.119])
-        by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Sat,  9 Oct 2021 13:29:53 +0000 (GMT)
-Message-ID: <1749e7c3b528d361c09b40e5758b92c7386ffe1f.camel@linux.ibm.com>
-Subject: Re: [PATCH 0/2] tpm: use SM3 instead of SM3_256
-From:   James Bottomley <jejb@linux.ibm.com>
-Reply-To: jejb@linux.ibm.com
-To:     Tianjia Zhang <tianjia.zhang@linux.alibaba.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Peter Huewe <peterhuewe@gmx.de>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Jerry Snitselaar <jsnitsel@redhat.com>,
-        linux-integrity@vger.kernel.org, keyrings@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-security-module@vger.kernel.org
-Date:   Sat, 09 Oct 2021 08:29:52 -0500
-In-Reply-To: <20211009130828.101396-1-tianjia.zhang@linux.alibaba.com>
-References: <20211009130828.101396-1-tianjia.zhang@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: WI7fZO2iFMsMT2VYtdPhk3sDP0oOa09u
-X-Proofpoint-ORIG-GUID: 55pBK2apPaN51qGasERyyQnEDHOUSIei
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+        id S230308AbhJIUmH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 9 Oct 2021 16:42:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56478 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230143AbhJIUmG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 9 Oct 2021 16:42:06 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67558C061764
+        for <linux-doc@vger.kernel.org>; Sat,  9 Oct 2021 13:40:09 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id ls18so10143323pjb.3
+        for <linux-doc@vger.kernel.org>; Sat, 09 Oct 2021 13:40:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=intel-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=PNkbI6CC4MPwch06xoRoPuOpZuZRykTcMawJcvuLIGc=;
+        b=Muu3r0eHUqB/dNHg2SbcMZBR59fyebiqEBsvk6PezrQlxQGwEI1ZicQJ1XHU8yb+jR
+         kHSIW8u2KEJn+hh/8bqD+oSUoLGTMzHi2MKjMWxijaluyFQ9X/HFL9QP8jG3kJvP1+yC
+         MFrvKW7dOAqDY1UzAuwqQRxVpGtbg2xoYhxoIQminXJgv3DKYb4mwO0GqHZDYiNWBRPr
+         zX9FmLpjC1P17blRe4cxwK4BawnSAcTVigJTMtvWGUVR4Krw0LhW/yHMyjDs7LwJths0
+         zTeiN6ZgCa7R3RDBLb9WPt7ZUqU0TGXpSpq1OOroQI9pRt1DcheHTMwoozKzKGHc51Jc
+         ai5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PNkbI6CC4MPwch06xoRoPuOpZuZRykTcMawJcvuLIGc=;
+        b=5Fs3XdW1B2DbEX7J2XpQJ/n9YrTSyG7iwzJV3ywuLedv6z21EHfMaxUjUv/yIceO8u
+         cpPYv/mfq6WbPt/AnkSexZLqJ0P+/QtOVjsvdcPN9ZIE0PhZohst95ohSnb9UwW5hqkr
+         Bb/rEfXOI7D7jjjb/3YCYcoOlyVX+yyyc0VQgTsH2yRYMxw2MhqwkLv6TOJOU7a0hDat
+         yTnbVyYHc+e/Kgjy67E4GN2BWsqq3WSUM5+KsHtM/zNTyY9gYDUl5WXeihlCLBPzz4EH
+         EBTEvgWzQ3/fATz8AEnVJ5UU7rV+rgh2W7yzXwD0Mh4xYUL5NdTBV5S6HlpEilgbcEty
+         Bgvg==
+X-Gm-Message-State: AOAM531SICGr8T7WPr44TXW7lBARDa9soyupysHhwBF4PXMXHEu6y8ek
+        CzYnOzNah8jgkUfj2l7H34s0IWw2IbWXK8Gshu2hVA==
+X-Google-Smtp-Source: ABdhPJySd5zqNERLKr8S37E5WA9IMnevPxuJEZ9BVS6uY8X2FGjPzRDwsaOEKoQH/I5/2YcevgWJ2BJGpdsvJiUJb30=
+X-Received: by 2002:a17:90a:d686:: with SMTP id x6mr20678375pju.8.1633812008773;
+ Sat, 09 Oct 2021 13:40:08 -0700 (PDT)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
- definitions=2021-10-09_03,2021-10-07_02,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- suspectscore=0 mlxlogscore=999 adultscore=0 mlxscore=0 malwarescore=0
- bulkscore=0 clxscore=1011 phishscore=0 priorityscore=1501
- lowpriorityscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2109230001 definitions=main-2110090093
+References: <20211009003711.1390019-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20211009003711.1390019-13-sathyanarayanan.kuppuswamy@linux.intel.com> <20211009053103-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20211009053103-mutt-send-email-mst@kernel.org>
+From:   Dan Williams <dan.j.williams@intel.com>
+Date:   Sat, 9 Oct 2021 13:39:57 -0700
+Message-ID: <CAPcyv4hDhjRXYCX_aiOboLF0eaTo6VySbZDa5NQu2ed9Ty2Ekw@mail.gmail.com>
+Subject: Re: [PATCH v5 12/16] PCI: Add pci_iomap_host_shared(), pci_iomap_host_shared_range()
+To:     "Michael S. Tsirkin" <mst@redhat.com>
+Cc:     Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Richard Henderson <rth@twiddle.net>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        James E J Bottomley <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        David Hildenbrand <david@redhat.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Peter H Anvin <hpa@zytor.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
+        X86 ML <x86@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PCI <linux-pci@vger.kernel.org>,
+        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        virtualization@lists.linux-foundation.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 2021-10-09 at 21:08 +0800, Tianjia Zhang wrote:
-> According to https://tools.ietf.org/id/draft-oscca-cfrg-sm3-01.html,
-> SM3 always produces a 256-bit hash value and there are no plans for
-> other length development, so there is no ambiguity in the name of
-> sm3.
+On Sat, Oct 9, 2021 at 2:53 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Fri, Oct 08, 2021 at 05:37:07PM -0700, Kuppuswamy Sathyanarayanan wrote:
+> > From: Andi Kleen <ak@linux.intel.com>
+> >
+> > For Confidential VM guests like TDX, the host is untrusted and hence
+> > the devices emulated by the host or any data coming from the host
+> > cannot be trusted. So the drivers that interact with the outside world
+> > have to be hardened by sharing memory with host on need basis
+> > with proper hardening fixes.
+> >
+> > For the PCI driver case, to share the memory with the host add
+> > pci_iomap_host_shared() and pci_iomap_host_shared_range() APIs.
+> >
+> > Signed-off-by: Andi Kleen <ak@linux.intel.com>
+> > Signed-off-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+>
+> So I proposed to make all pci mappings shared, eliminating the need
+> to patch drivers.
+>
+> To which Andi replied
+>         One problem with removing the ioremap opt-in is that
+>         it's still possible for drivers to get at devices without going through probe.
+>
+> To which Greg replied:
+> https://lore.kernel.org/all/YVXBNJ431YIWwZdQ@kroah.com/
+>         If there are in-kernel PCI drivers that do not do this, they need to be
+>         fixed today.
+>
+> Can you guys resolve the differences here?
 
-For the TPM we're following the TPM Library specification
+I agree with you and Greg here. If a driver is accessing hardware
+resources outside of the bind lifetime of one of the devices it
+supports, and in a way that neither modrobe-policy nor
+device-authorization -policy infrastructure can block, that sounds
+like a bug report. Fix those drivers instead of sprinkling
+ioremap_shared in select places and with unclear rules about when a
+driver is allowed to do "shared" mappings. Let the new
+device-authorization mechanism (with policy in userspace) be the
+central place where all of these driver "trust" issues are managed.
 
-https://trustedcomputinggroup.org/resource/tpm-library-specification/
+> And once they are resolved, mention this in the commit log so
+> I don't get to re-read the series just to find out nothing
+> changed in this respect?
+>
+> I frankly do not believe we are anywhere near being able to harden
+> an arbitrary kernel config against attack.
+> How about creating a defconfig that makes sense for TDX then?
+> Anyone deviating from that better know what they are doing,
+> this API tweaking is just putting policy into the kernel  ...
 
-Which is very clear: the algorithm name is TPM_ALG_SM3_256
-
-We're using sm3 as our exposed name because that's what linux crypto
-uses, so there should be no problem in what the end user sees, but
-changing to non standard TPM definitions is only going to cause
-confusion at the kernel level.
-
-James
-
-
+Right, userspace authorization policy and select driver fixups seems
+to be the answer to the raised concerns.
