@@ -2,130 +2,61 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71456C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 02:05:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CFA6C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 02:13:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 46B9460F11
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 02:05:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 67D9060F11
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 02:13:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233533AbhJKCHH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 10 Oct 2021 22:07:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44580 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231578AbhJKCHH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 Oct 2021 22:07:07 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37F73C061570;
-        Sun, 10 Oct 2021 19:05:08 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id nn3-20020a17090b38c300b001a03bb6c4ebso9825108pjb.1;
-        Sun, 10 Oct 2021 19:05:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:cc:from:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=63V6FE+fQW+SKi4KjZOqiA/PPlGq7C8uAp1sNW6G/lE=;
-        b=YK0ry9+6jUEWi3XytvEl7n3HWuSftzNe/vVUS5EyJIaSu+QXECvi5h+uUQalpBR5ky
-         sJjrt2tsg/C2zXy5LgU1S9tJn4Os8YZS8DaytV3PuJJfjYegehLt3/zVa0NTsF3e4pJW
-         GaT+cyiNi6T8cOry9xmSp/xt4vpPb69A2xs65cue6c2o33rdfv8YvfTdOFNfKCeaRRFt
-         p02tkZ86+AXqA4Zc/+iYN0q6PX4isfaEAauq4srjIo7vv+ebGvLpSzD6ZlVM0+879L+m
-         W4DgqnHqxskmuAHLPqhqxTAr930+Vs5hxf/6lmNK0sZ99LrX7SvmXixVdFX38AFU0psh
-         JSKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
-         :mime-version:content-language:content-transfer-encoding;
-        bh=63V6FE+fQW+SKi4KjZOqiA/PPlGq7C8uAp1sNW6G/lE=;
-        b=G8/3w91mkcGli+/19zGanT/ltTzIOVtbGju2rjQwZwNQ9FhGJZtC3Q6csohksjj+qh
-         2PaCwhQQj6oytmB2Z/gcYLNSGnae7/2bSEgF73cJhvBGUk4fY7wxvP8e7tsgsno/3j7e
-         BQHgLZ4yLUm6RdbV5bhwSaL9qguMsTYacn2XJCOk3WrcBs+fik1EWf72vgFsrAMT+Rh0
-         nyo/yh7LWAFyR+PFqYG3zYBe084skmSaSoPlDYd/IAGVYGSTVV0KIst8ypoShUoznUnp
-         qbWOElx6Boh0if5mtl8pc6h2V9O77LrbX1D0f8bO497Spwj9ygp7xAMiz+ysqW5D+KBe
-         u+Pw==
-X-Gm-Message-State: AOAM533iQiGApjuzvJMTvSgLJ5CagADU+lsbdcFWIRkE1/6WjpdyA4Rk
-        HJ/PxHXR0PvD6pZyUOFRZ1E0EwO2GKE=
-X-Google-Smtp-Source: ABdhPJzX5fCZjS7AyWKdVTEXgbxHYj08Sl8KmKQcKkvtOxnuKpJD7hbLgsKviAILL8aFkCdQHW5O2A==
-X-Received: by 2002:a17:902:780f:b0:13a:3a88:f4cb with SMTP id p15-20020a170902780f00b0013a3a88f4cbmr22093431pll.68.1633917907564;
-        Sun, 10 Oct 2021 19:05:07 -0700 (PDT)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id i1sm6205802pgc.94.2021.10.10.19.05.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 10 Oct 2021 19:05:07 -0700 (PDT)
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-From:   Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH] docs: pdfdocs: Adjust \headheight for fancyhdr
-Message-ID: <c5a5577e-5de8-9cd4-9253-956ccc748417@gmail.com>
-Date:   Mon, 11 Oct 2021 11:05:04 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        id S231872AbhJKCPW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 10 Oct 2021 22:15:22 -0400
+Received: from out30-43.freemail.mail.aliyun.com ([115.124.30.43]:46330 "EHLO
+        out30-43.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231578AbhJKCPW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 Oct 2021 22:15:22 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R671e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e01424;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0UrJKsBw_1633918399;
+Received: from 30.21.164.80(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0UrJKsBw_1633918399)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Mon, 11 Oct 2021 10:13:20 +0800
+Subject: Re: [PATCH] hugetlb: Support node specified when using cma for
+ gigantic hugepages
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     mike.kravetz@oracle.com, mhocko@kernel.org, guro@fb.com,
+        corbet@lwn.net, yaozhenguo1@gmail.com, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <1633843448-966-1-git-send-email-baolin.wang@linux.alibaba.com>
+ <20211010135507.f2d1c6bcaeecc82d6d025604@linux-foundation.org>
+From:   Baolin Wang <baolin.wang@linux.alibaba.com>
+Message-ID: <d0d09382-c6ea-bf60-efbd-11a57a09263d@linux.alibaba.com>
+Date:   Mon, 11 Oct 2021 10:14:01 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <20211010135507.f2d1c6bcaeecc82d6d025604@linux-foundation.org>
+Content-Type: text/plain; charset=gbk; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fancyhdr prior to v4.0 outputs a message per document as follows:
 
-    Package Fancyhdr Warning: \headheight is too small (12.0pt):
-    Make it at least 13.59999pt.
-    We now make it that large for the rest of the document.
-    This may cause the page layout to be inconsistent, however.
 
-Fancyhdr v4.0 complains (once a page!) as follows:
+On 2021/10/11 4:55, Andrew Morton wrote:
+> On Sun, 10 Oct 2021 13:24:08 +0800 Baolin Wang <baolin.wang@linux.alibaba.com> wrote:
+> 
+>> Now the size of CMA area for gigantic hugepages runtime allocation is
+>> balanced for all online nodes, but we also want to specify the size of
+>> CMA per-node, or only one node in some cases, which are similar with
+> 
+> Please describe in full detail why "we want to" do this.  In other
+> words, what is the benefit to our users?  What are the use-cases, etc?
 
-    Package fancyhdr Warning: \headheight is too small (12.0pt):
-    (fancyhdr)    Make it at least 13.59999pt, for example:
-    (fancyhdr)    \setlength{\headheight}{13.59999pt}.
-    (fancyhdr)    You might also make \topmargin smaller to compensate:
+Sure. On some multi-nodes systems, each node's memory can be different, 
+allocating the same size of CMA for each node is not suitable for the 
+low-memory nodes. Meanwhile some workloads like DPDK mentioned by 
+Zhenguo only need hugepages in one node.
 
-    (fancyhdr)    \addtolength{\topmargin}{-1.59999pt}.
-
-Related item in fancyhdr v4.0 announcement on 2021-01-04 [1]:
-
-    Backward incompatible changes:
-      - Eliminate adjustments of \headheight or \footskip, when the
-        header or footer is too high.
-
-[1]: https://www.ctan.org/ctan-ann/id/mailman.2685.1609863692.2532.ctan-ann@ctan.org
-
-Silence the warnings by adding a couple of \addtolength commands in
-the preamble.
-
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
-Hi,
-
-This update doesn't have much visual effects in the final PDFs
-(adjustment of only 1.6pt), but getting rid of harmless warnings
-would help spot potential important ones.
-
-Tested against Sphinx versions 2.4.4 and 4.2.0, with Tex Live
-versions 2017/debian (Ubuntu 18.04), 2019/debian (Ubuntu 20.04),
-and vanilla 2021 (as of 2021-10-08).
-
-        Thanks, Akira
---
- Documentation/conf.py | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 948a97d6387d..17f7cee56987 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -353,6 +353,9 @@ latex_elements = {
-         \\setsansfont{DejaVu Sans}
-         \\setromanfont{DejaVu Serif}
-         \\setmonofont{DejaVu Sans Mono}
-+        % Adjust \\headheight for fancyhdr
-+        \\addtolength{\\headheight}{1.6pt}
-+        \\addtolength{\\topmargin}{-1.6pt}
-      ''',
- }
- 
-
-base-commit: 7275423c177e5dcf53e350ab9db38f99946b8ec5
--- 
-2.17.1
-
+On the other hand, we have some machines with multiple types of memory, 
+like DRAM and PMEM (persistent memory). On this system, we may want to 
+specify all the hugepages on DRAM node, or specify the proportion of 
+DRAM node and PMEM node, to tuning the performance of the workloads.
