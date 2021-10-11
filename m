@@ -2,132 +2,188 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97368C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 18:29:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CA04C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 19:03:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7CCAB60F14
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 18:29:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 35A7260E8B
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 19:03:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234534AbhJKSbE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Oct 2021 14:31:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47728 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234559AbhJKSbB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Oct 2021 14:31:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1633976940;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=G16gwMe6+CYnKg8tN/Sjy4s4dxSh+B0vWdkeXZ6WaCc=;
-        b=Zl6EWmCQoR9O8W46q+A4dRrfHiQTShQFOTcz0tY7PrUuWMyL44KiH19MEOzhf5AxCgzXXQ
-        SjoZZuDstLs8pcIf19wDm7AJ7RkABwi6eCGPySFC8DSvEZ0PkUoHx0WxvmuSY1rVjOlvZt
-        mpSnNvhZtphISW5C+2iehx2nqi4Iztw=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-576-vj43w8e9NHmQPjQIGJ_FaA-1; Mon, 11 Oct 2021 14:28:59 -0400
-X-MC-Unique: vj43w8e9NHmQPjQIGJ_FaA-1
-Received: by mail-ed1-f69.google.com with SMTP id e14-20020a056402088e00b003db6ebb9526so7038628edy.22
-        for <linux-doc@vger.kernel.org>; Mon, 11 Oct 2021 11:28:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=G16gwMe6+CYnKg8tN/Sjy4s4dxSh+B0vWdkeXZ6WaCc=;
-        b=3zUYB5S/Wp3yuxCvbF9Q3HcbWGzmVBt1ti6SU/IxLppsu3XvGU2ycbV8RDhJH6aATa
-         1PtWmWNDlqGWVyLtZTW4MsvYBYYb66mvH9/lNIWMphMhd8tUiHzVUtXs1h3zGORvIia4
-         4jQEloY4DtY8jhOWZ+5OULiV6IKh5rjX6nGEgC77SFyEnmhE1c1nUMdXkYZRllty3gXy
-         sg1JFU1uYEbMI5lLeX5rqFEHBr0sGG+aDeuuoZdsR7dnj/lrrVXXveD3lOoTI+gYfkzU
-         H3U8p9R4747mp+Dl6U+kv1TZhh0Vzz6hQykzB30pf817hiZS3lety8WO0od1Lq0DRMEV
-         TEQQ==
-X-Gm-Message-State: AOAM531b2xiYPBcwyMudbb0dyrlrnbdWu1JE7yH0/C/EK6Au5GRlC6Nj
-        RORTSDztCK55SRhwgFtykxnY+1Xq/cUB/+Nign7C8tesHzcw49VM8zAhKEJd/NtidFGDiDvtYSX
-        NezQYKAKLSbyAkVHY2YyK
-X-Received: by 2002:a17:906:64a:: with SMTP id t10mr29341692ejb.5.1633976938257;
-        Mon, 11 Oct 2021 11:28:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwJs31ZBNnkMDy6Y3/bA4NkSUevwMmxI5GLaEsaPOhFcbZtCu9lTE6tYoeFaMp5H2duksbEGQ==
-X-Received: by 2002:a17:906:64a:: with SMTP id t10mr29341674ejb.5.1633976938096;
-        Mon, 11 Oct 2021 11:28:58 -0700 (PDT)
-Received: from redhat.com ([2.55.159.57])
-        by smtp.gmail.com with ESMTPSA id w11sm4722003edl.87.2021.10.11.11.28.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Oct 2021 11:28:57 -0700 (PDT)
-Date:   Mon, 11 Oct 2021 14:28:51 -0400
-From:   "Michael S. Tsirkin" <mst@redhat.com>
-To:     Andi Kleen <ak@linux.intel.com>
-Cc:     Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        James E J Bottomley <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        "David S . Miller" <davem@davemloft.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        David Hildenbrand <david@redhat.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Peter H Anvin <hpa@zytor.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
-        x86@kernel.org, linux-kernel@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH v5 16/16] x86/tdx: Add cmdline option to force use of
- ioremap_host_shared
-Message-ID: <20211011142330-mutt-send-email-mst@kernel.org>
-References: <20211009003711.1390019-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20211009003711.1390019-17-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20211009070132-mutt-send-email-mst@kernel.org>
- <8c906de6-5efa-b87a-c800-6f07b98339d0@linux.intel.com>
- <20211011075945-mutt-send-email-mst@kernel.org>
- <9d0ac556-6a06-0f2e-c4ff-0c3ce742a382@linux.intel.com>
+        id S234481AbhJKTFk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Oct 2021 15:05:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51652 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233905AbhJKTFk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Oct 2021 15:05:40 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFB13C061570;
+        Mon, 11 Oct 2021 12:03:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=lly2oV++EB8MLjlYRFL/38jQaOHMGIONvw6X549JSsE=; b=KQbWzxiVJMRkcpVwfk2l9dHU3T
+        xyB4c2qqD/PoaETldJK6z8Yz97yWnLPiJch1snwoFn4gR2mbmkMfGiU4CmuUfqKMMfpmNS6twnf8K
+        VIMijx2oNTCEDy+XXh2yujUogjCQ3vpMspQJyM0+hzrNZSZYG54y3DxGkUrV5PQ2p07MakgkGw2Ag
+        yXCJ4ZEC+kssx3a43eD0mtUEKG+nkHEp5OoSnpIqi157chHG1qAmm1zNVQZxxXdz39vx6bC/B0Whu
+        c/I+vVmGfG43+tVK8TV9IAF1F/s7KFRrD0l6gWmLOSahPUfipwptrP6lqknMd1nx3hZYdco3ECQGk
+        U12+mc1A==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1ma0aB-00ARXU-AN; Mon, 11 Oct 2021 19:03:31 +0000
+Date:   Mon, 11 Oct 2021 12:03:31 -0700
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     tj@kernel.org, gregkh@linuxfoundation.org,
+        akpm@linux-foundation.org, minchan@kernel.org, jeyu@kernel.org,
+        shuah@kernel.org, bvanassche@acm.org, dan.j.williams@intel.com,
+        joe@perches.com, tglx@linutronix.de, rostedt@goodmis.org,
+        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 03/12] selftests: add tests_sysfs module
+Message-ID: <YWSKg7+og7ID8cCV@bombadil.infradead.org>
+References: <20210927163805.808907-1-mcgrof@kernel.org>
+ <20210927163805.808907-4-mcgrof@kernel.org>
+ <202110050912.3DF681ED@keescook>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9d0ac556-6a06-0f2e-c4ff-0c3ce742a382@linux.intel.com>
+In-Reply-To: <202110050912.3DF681ED@keescook>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 11, 2021 at 10:35:18AM -0700, Andi Kleen wrote:
+On Tue, Oct 05, 2021 at 09:30:10AM -0700, Kees Cook wrote:
+> On Mon, Sep 27, 2021 at 09:37:56AM -0700, Luis Chamberlain wrote:
+> > --- /dev/null
+> > +++ b/lib/test_sysfs.c
+> > @@ -0,0 +1,921 @@
+> > +// SPDX-License-Identifier: GPL-2.0-or-later OR copyleft-next-0.3.1
+> > +/*
+> > + * sysfs test driver
+> > + *
+> > + * Copyright (C) 2021 Luis Chamberlain <mcgrof@kernel.org>
+> > + *
+> > + * This program is free software; you can redistribute it and/or modify it
+> > + * under the terms of the GNU General Public License as published by the Free
+> > + * Software Foundation; either version 2 of the License, or at your option any
+> > + * later version; or, when distributed separately from the Linux kernel or
+> > + * when incorporated into other software packages, subject to the following
+> > + * license:
+> > + *
+> > + * This program is free software; you can redistribute it and/or modify it
+> > + * under the terms of copyleft-next (version 0.3.1 or later) as published
+> > + * at http://copyleft-next.org/.
 > 
-> > Presumably bios code is in arch/x86 and drivers/acpi, right?
-> > Up to 200 calls the majority of which is likely private ...
-> 
-> Yes.
-> 
-> > I don't have better ideas but the current setup will just
-> > result in people making their guests vulnerable whenever they
-> > want to allow device pass-through.
-> 
-> 
-> Yes that's true. For current TDX our target is virtual devices only. But if
-> pass through usage will be really wide spread we may need to revisit.
-> 
-> 
-> -Andi
+> As Greg suggested, please drop the boilerplate here.
 
-I mean ... it's already wide spread. If we support it with TDX
-it will be used with TDX. If we don't then I guess it won't,
-exposing this kind of limitation in a userspace visible way isn't great
-though. I guess it boils down to the fact that
-ioremap_host_shared is just not a great interface, users simply
-have no idea whether a given driver uses ioremap.
+Sure, sorry for missing that fixed.
 
--- 
-MST
+> > +static ssize_t config_show(struct device *dev,
+> > +			   struct device_attribute *attr,
+> > +			   char *buf)
+> > +{
+> > +	struct sysfs_test_device *test_dev = dev_to_test_dev(dev);
+> > +	struct test_config *config = &test_dev->config;
+> > +	int len = 0;
+> > +
+> > +	test_dev_config_lock(test_dev);
+> > +
+> > +	len += snprintf(buf, PAGE_SIZE,
+> > +			"Configuration for: %s\n",
+> > +			dev_name(dev));
+> 
+> Please use sysfs_emit() instead of snprintf().
 
+Oh nice, done and fixed also in the other places.
+
+> > +static int sysfs_test_dev_alloc_blockdev(struct sysfs_test_device *test_dev)
+> > +{
+> > +	int ret = -ENOMEM;
+> > +
+> > +	test_dev->disk = blk_alloc_disk(NUMA_NO_NODE);
+> > +	if (!test_dev->disk) {
+> > +		pr_err("Error allocating disk structure for device %d\n",
+> > +		       test_dev->dev_idx);
+> > +		goto out;
+> > +	}
+> > +
+> > +	test_dev->disk->major = sysfs_test_major;
+> > +	test_dev->disk->first_minor = test_dev->dev_idx + 1;
+> > +	test_dev->disk->fops = &sysfs_testdev_ops;
+> > +	test_dev->disk->private_data = test_dev;
+> > +	snprintf(test_dev->disk->disk_name, 16, "test_sysfs%d",
+> > +		 test_dev->dev_idx);
+> 
+> Prefer sizeof(test_dev->disk->disk_name) over open-coded "16".
+
+Sure.
+
+> > +static ssize_t read_reset_first_test_dev(struct file *file,
+> > +					 char __user *user_buf,
+> > +					 size_t count, loff_t *ppos)
+> > +{
+> > +	ssize_t len;
+> > +	char buf[32];
+> > +
+> > +	reset_first_test_dev++;
+> > +	len = sprintf(buf, "%d\n", reset_first_test_dev);
+> 
+> Even though it's safe as-is, I was going to suggest scnprintf() here
+> (i.e. explicit bounds and a bounds-checked "len"). However, scnprintf()
+> returns ssize_t, and there's no bounds checking in
+> simple_read_from_buffer. That needs fixing (I'll send a patch).
+
+OK we can later change it to scnprintf() once your patch gets merged.
+
+> > --- /dev/null
+> > +++ b/tools/testing/selftests/sysfs/sysfs.sh
+> > @@ -0,0 +1,1208 @@
+> > +#!/bin/bash
+> > +# SPDX-License-Identifier: GPL-2.0-or-later
+> > +# Copyright (C) 2021 Luis Chamberlain <mcgrof@kernel.org>
+> > +#
+> > +# This program is free software; you can redistribute it and/or modify it
+> > +# under the terms of the GNU General Public License as published by the Free
+> > +# Software Foundation; either version 2 of the License, or at your option any
+> > +# later version; or, when distributed separately from the Linux kernel or
+> > +# when incorporated into other software packages, subject to the following
+> > +# license:
+> > +#
+> > +# This program is free software; you can redistribute it and/or modify it
+> > +# under the terms of copyleft-next (version 0.3.1 or later) as published
+> > +# at http://copyleft-next.org/.
+> > +
+> > +# This performs a series tests against the sysfs filesystem.
+> 
+> -boilerplate
+
+Nuked.
+
+> > +check_dmesg()
+> > +{
+> > +	# filter out intentional WARNINGs or Oopses
+> > +	local filter=${1:-_check_dmesg_filter}
+> > +
+> > +	_dmesg_since_test_start | $filter >$seqres.dmesg
+> > +	egrep -q -e "kernel BUG at" \
+> > +	     -e "WARNING:" \
+> > +	     -e "\bBUG:" \
+> > +	     -e "Oops:" \
+> > +	     -e "possible recursive locking detected" \
+> > +	     -e "Internal error" \
+> > +	     -e "(INFO|ERR): suspicious RCU usage" \
+> > +	     -e "INFO: possible circular locking dependency detected" \
+> > +	     -e "general protection fault:" \
+> > +	     -e "BUG .* remaining" \
+> > +	     -e "UBSAN:" \
+> > +	     $seqres.dmesg
+> 
+> Is just looking for "call trace" sufficient here?
+
+So far from my testing yes. This strategy is also borrowed from fstests
+and that's what is done there, and so quite a lot of testing has been
+done with that. If we are to consider an enhancement here we should then
+also consider an enhancement welcome for fstests.
+
+  Luis
