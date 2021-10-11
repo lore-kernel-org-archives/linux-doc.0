@@ -2,251 +2,410 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 939CEC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 09:31:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66639C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 10:03:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 716D461038
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 09:31:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4CA0060F43
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 10:03:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235469AbhJKJd2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Oct 2021 05:33:28 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38220 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235510AbhJKJdZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 11 Oct 2021 05:33:25 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E88FC60F43;
-        Mon, 11 Oct 2021 09:31:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1633944685;
-        bh=DSE8X0dpnfd7QIrR4I5G+z9Qh53T0/0bmCO7iQy8Iec=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jRKJpjL+3rKJUxta9m5ZbbqKYBJxqJvuwXxdGDZjJPCwffSMWt8DFYqBaRbqxizb+
-         qtYVHmwT7oMqn6YddTbsWUQDw6JWMR5rNxJcOHpJ6e8YnMGXa56dlu0so7lmJ0Ih4B
-         WNdK2ioFygS98jQTabusTt4pghuYlIseTl9HYbyrx48rmVrrCNTPqTydZPWLRd/C+A
-         D8s2C4112FwxPG3QhIk2iAMp+d8M8qsB212zGyKY6tX7Gz1QePRobGMXFTdNpPy4ZC
-         lAywsVrenNwC6OVUsp111mwWUTaXcvdvtx18XxdFV1NVvnh5mDsqa66aCVB4Y46UaT
-         lY6o/z6lLlnkg==
-Date:   Mon, 11 Oct 2021 12:31:18 +0300
-From:   Mike Rapoport <rppt@kernel.org>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Hocko <mhocko@suse.com>,
-        Oscar Salvador <osalvador@suse.de>, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH v2 3/3] memory-hotplug.rst: document the "auto-movable"
- online policy
-Message-ID: <YWQEZuXAQFYNrKkx@kernel.org>
-References: <20211011082058.6076-1-david@redhat.com>
- <20211011082058.6076-4-david@redhat.com>
+        id S235721AbhJKKFr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Oct 2021 06:05:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39246 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235837AbhJKKFe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Oct 2021 06:05:34 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F540C061774
+        for <linux-doc@vger.kernel.org>; Mon, 11 Oct 2021 03:03:30 -0700 (PDT)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <afa@pengutronix.de>)
+        id 1mZs8v-0006Sn-HC; Mon, 11 Oct 2021 12:02:49 +0200
+Received: from afa by dude.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <afa@pengutronix.de>)
+        id 1mZs8s-0002d3-0e; Mon, 11 Oct 2021 12:02:46 +0200
+From:   Ahmad Fatoum <a.fatoum@pengutronix.de>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        David Howells <dhowells@redhat.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        James Bottomley <jejb@linux.ibm.com>,
+        Mimi Zohar <zohar@linux.ibm.com>
+Cc:     kernel@pengutronix.de, David Gstir <david@sigma-star.at>,
+        Tim Harvey <tharvey@gateworks.com>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        =?UTF-8?q?Horia=20Geant=C4=83?= <horia.geanta@nxp.com>,
+        Aymen Sghaier <aymen.sghaier@nxp.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Udit Agarwal <udit.agarwal@nxp.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Jan Luebbe <j.luebbe@pengutronix.de>,
+        Richard Weinberger <richard@nod.at>,
+        Franck LENORMAND <franck.lenormand@nxp.com>,
+        Sumit Garg <sumit.garg@linaro.org>, keyrings@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org
+Subject: [PATCH v4 5/5] KEYS: trusted: Introduce support for NXP CAAM-based trusted keys
+Date:   Mon, 11 Oct 2021 12:02:38 +0200
+Message-Id: <a0f1d14af8ac8bae16dd29ad1073f7143ba28f26.1633946449.git-series.a.fatoum@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <cover.8f40b6d1b93adc80aed2cac29a134f7a7fb5ee98.1633946449.git-series.a.fatoum@pengutronix.de>
+References: <cover.8f40b6d1b93adc80aed2cac29a134f7a7fb5ee98.1633946449.git-series.a.fatoum@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211011082058.6076-4-david@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: afa@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 11, 2021 at 10:20:58AM +0200, David Hildenbrand wrote:
-> In commit e83a437faa62 ("mm/memory_hotplug: introduce "auto-movable" online
-> policy") we introduced a new memory online policy to automatically
-> select a zone for memory blocks to be onlined. We added a way to
-> set the active online policy and tunables for the auto-movable online
-> policy. In follow-up commits we tweaked the "auto-movable" policy to also
-> consider memory device details when selecting zones for memory blocks to
-> be onlined.
-> 
-> Let's document the new toggles and how the two online policies we have
-> work.
-> 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+The Cryptographic Acceleration and Assurance Module (CAAM) is an IP core
+built into many newer i.MX and QorIQ SoCs by NXP.
 
-Acked-by: Mike Rapoport <rppt@linux.ibm.com>
+The CAAM does crypto acceleration, hardware number generation and
+has a blob mechanism for encapsulation/decapsulation of sensitive material.
 
-> ---
->  .../admin-guide/mm/memory-hotplug.rst         | 141 +++++++++++++++---
->  1 file changed, 121 insertions(+), 20 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
-> index ee00b70dedde..0f56ecd8ac05 100644
-> --- a/Documentation/admin-guide/mm/memory-hotplug.rst
-> +++ b/Documentation/admin-guide/mm/memory-hotplug.rst
-> @@ -165,9 +165,8 @@ Or alternatively::
->  
->  	% echo 1 > /sys/devices/system/memory/memoryXXX/online
->  
-> -The kernel will select the target zone automatically, usually defaulting to
-> -``ZONE_NORMAL`` unless ``movable_node`` has been specified on the kernel
-> -command line or if the memory block would intersect the ZONE_MOVABLE already.
-> +The kernel will select the target zone automatically, depending on the
-> +configured ``online_policy``.
->  
->  One can explicitly request to associate an offline memory block with
->  ZONE_MOVABLE by::
-> @@ -198,6 +197,9 @@ Auto-onlining can be enabled by writing ``online``, ``online_kernel`` or
->  
->  	% echo online > /sys/devices/system/memory/auto_online_blocks
->  
-> +Similarly to manual onlining, with ``online`` the kernel will select the
-> +target zone automatically, depending on the configured ``online_policy``.
-> +
->  Modifying the auto-online behavior will only affect all subsequently added
->  memory blocks only.
->  
-> @@ -393,11 +395,16 @@ command line parameters are relevant:
->  ======================== =======================================================
->  ``memhp_default_state``	 configure auto-onlining by essentially setting
->                           ``/sys/devices/system/memory/auto_online_blocks``.
-> -``movable_node``	 configure automatic zone selection in the kernel. When
-> -			 set, the kernel will default to ZONE_MOVABLE, unless
-> -			 other zones can be kept contiguous.
-> +``movable_node``	 configure automatic zone selection in the kernel when
-> +			 using the ``contig-zones`` online policy. When
-> +			 set, the kernel will default to ZONE_MOVABLE when
-> +			 onlining a memory block, unless other zones can be kept
-> +			 contiguous.
->  ======================== =======================================================
->  
-> +See Documentation/admin-guide/kernel-parameters.txt for a more generic
-> +description of these command line parameters.
-> +
->  Module Parameters
->  ------------------
->  
-> @@ -414,20 +421,114 @@ and they can be observed (and some even modified at runtime) via::
->  
->  The following module parameters are currently defined:
->  
-> -======================== =======================================================
-> -``memmap_on_memory``	 read-write: Allocate memory for the memmap from the
-> -			 added memory block itself. Even if enabled, actual
-> -			 support depends on various other system properties and
-> -			 should only be regarded as a hint whether the behavior
-> -			 would be desired.
-> -
-> -			 While allocating the memmap from the memory block
-> -			 itself makes memory hotplug less likely to fail and
-> -			 keeps the memmap on the same NUMA node in any case, it
-> -			 can fragment physical memory in a way that huge pages
-> -			 in bigger granularity cannot be formed on hotplugged
-> -			 memory.
-> -======================== =======================================================
-> +================================ ===============================================
-> +``memmap_on_memory``		 read-write: Allocate memory for the memmap from
-> +				 the added memory block itself. Even if enabled,
-> +				 actual support depends on various other system
-> +				 properties and should only be regarded as a
-> +				 hint whether the behavior would be desired.
-> +
-> +				 While allocating the memmap from the memory
-> +				 block itself makes memory hotplug less likely
-> +				 to fail and keeps the memmap on the same NUMA
-> +				 node in any case, it can fragment physical
-> +				 memory in a way that huge pages in bigger
-> +				 granularity cannot be formed on hotplugged
-> +				 memory.
-> +``online_policy``		 read-write: Set the basic policy used for
-> +				 automatic zone selection when onlining memory
-> +				 blocks without specifying a target zone.
-> +				 ``contig-zones`` has been the kernel default
-> +				 before this parameter was added. After an
-> +				 online policy was configured and memory was
-> +				 online, the policy should not be changed
-> +				 anymore.
-> +
-> +				 When set to ``contig-zones``, the kernel will
-> +				 try keeping zones contiguous. If a memory block
-> +				 intersects multiple zones or no zone, the
-> +				 behavior depends on the ``movable_node`` kernel
-> +				 command line parameter: default to ZONE_MOVABLE
-> +				 if set, default to the applicable kernel zone
-> +				 (usually ZONE_NORMAL) if not set.
-> +
-> +				 When set to ``auto-movable``, the kernel will
-> +				 try onlining memory blocks to ZONE_MOVABLE if
-> +				 possible according to the configuration and
-> +				 memory device details. With this policy, one
-> +				 can avoid zone imbalances when eventually
-> +				 hotplugging a lot of memory later and still
-> +				 wanting to be able to hotunplug as much as
-> +				 possible reliably, very desirable in
-> +				 virtualized environments. This policy ignores
-> +				 the ``movable_node`` kernel command line
-> +				 parameter and isn't really applicable in
-> +				 environments that require it (e.g., bare metal
-> +				 with hotunpluggable nodes) where hotplugged
-> +				 memory might be exposed via the
-> +				 firmware-provided memory map early during boot
-> +				 to the system instead of getting detected,
-> +				 added and onlined  later during boot (such as
-> +				 done by virtio-mem or by some hypervisors
-> +				 implementing emulated DIMMs). As one example, a
-> +				 hotplugged DIMM will be onlined either
-> +				 completely to ZONE_MOVABLE or completely to
-> +				 ZONE_NORMAL, not a mixture.
-> +				 As another example, as many memory blocks
-> +				 belonging to a virtio-mem device will be
-> +				 onlined to ZONE_MOVABLE as possible,
-> +				 special-casing units of memory blocks that can
-> +				 only get hotunplugged together. *This policy
-> +				 does not protect from setups that are
-> +				 problematic with ZONE_MOVABLE and does not
-> +				 change the zone of memory blocks dynamically
-> +				 after they were onlined.*
-> +``auto_movable_ratio``		 read-write: Set the maximum MOVABLE:KERNEL
-> +				 memory ratio in % for the ``auto-movable``
-> +				 online policy. Whether the ratio applies only
-> +				 for the system across all NUMA nodes or also
-> +				 per NUMA nodes depends on the
-> +				 ``auto_movable_numa_aware`` configuration.
-> +
-> +				 All accounting is based on present memory pages
-> +				 in the zones combined with accounting per
-> +				 memory device. Memory dedicated to the CMA
-> +				 allocator is accounted as MOVABLE, although
-> +				 residing on one of the kernel zones. The
-> +				 possible ratio depends on the actual workload.
-> +				 The kernel default is "301" %, for example,
-> +				 allowing for hotplugging 24 GiB to a 8 GiB VM
-> +				 and automatically onlining all hotplugged
-> +				 memory to ZONE_MOVABLE in many setups. The
-> +				 additional 1% deals with some pages being not
-> +				 present, for example, because of some firmware
-> +				 allocations.
-> +
-> +				 Note that ZONE_NORMAL memory provided by one
-> +				 memory device does not allow for more
-> +				 ZONE_MOVABLE memory for a different memory
-> +				 device. As one example, onlining memory of a
-> +				 hotplugged DIMM to ZONE_NORMAL will not allow
-> +				 for another hotplugged DIMM to get onlined to
-> +				 ZONE_MOVABLE automatically. In contrast, memory
-> +				 hotplugged by a virtio-mem device that got
-> +				 onlined to ZONE_NORMAL will allow for more
-> +				 ZONE_MOVABLE memory within *the same*
-> +				 virtio-mem device.
-> +``auto_movable_numa_aware``	 read-write: Configure whether the
-> +				 ``auto_movable_ratio`` in the ``auto-movable``
-> +				 online policy also applies per NUMA
-> +				 node in addition to the whole system across all
-> +				 NUMA nodes. The kernel default is "Y".
-> +
-> +				 Disabling NUMA awareness can be helpful when
-> +				 dealing with NUMA nodes that should be
-> +				 completely hotunpluggable, onlining the memory
-> +				 completely to ZONE_MOVABLE automatically if
-> +				 possible.
-> +
-> +				 Parameter availability depends on CONFIG_NUMA.
-> +================================ ===============================================
->  
->  ZONE_MOVABLE
->  ============
-> -- 
-> 2.31.1
-> 
+This blob mechanism depends on a device specific random 256-bit One Time
+Programmable Master Key that is fused in each SoC at manufacturing
+time. This key is unreadable and can only be used by the CAAM for AES
+encryption/decryption of user data.
 
+This makes it a suitable backend (source) for kernel trusted keys.
+
+Previous commits generalized trusted keys to support multiple backends
+and added an API to access the CAAM blob mechanism. Based on these,
+provide the necessary glue to use the CAAM for trusted keys.
+
+Reviewed-by: David Gstir <david@sigma-star.at>
+Tested-By: Tim Harvey <tharvey@gateworks.com>
+Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+---
+To: Jonathan Corbet <corbet@lwn.net>
+To: David Howells <dhowells@redhat.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+To: James Bottomley <jejb@linux.ibm.com>
+To: Mimi Zohar <zohar@linux.ibm.com>
+Cc: James Morris <jmorris@namei.org>
+Cc: "Serge E. Hallyn" <serge@hallyn.com>
+Cc: "Horia Geantă" <horia.geanta@nxp.com>
+Cc: Aymen Sghaier <aymen.sghaier@nxp.com>
+Cc: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Udit Agarwal <udit.agarwal@nxp.com>
+Cc: Eric Biggers <ebiggers@kernel.org>
+Cc: Jan Luebbe <j.luebbe@pengutronix.de>
+Cc: David Gstir <david@sigma-star.at>
+Cc: Richard Weinberger <richard@nod.at>
+Cc: Franck LENORMAND <franck.lenormand@nxp.com>
+Cc: Sumit Garg <sumit.garg@linaro.org>
+Cc: keyrings@vger.kernel.org
+Cc: linux-crypto@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-integrity@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-security-module@vger.kernel.org
+---
+ Documentation/admin-guide/kernel-parameters.txt   |  1 +-
+ Documentation/security/keys/trusted-encrypted.rst | 42 ++++++++-
+ MAINTAINERS                                       |  9 ++-
+ include/keys/trusted_caam.h                       | 11 ++-
+ security/keys/trusted-keys/Kconfig                | 11 +-
+ security/keys/trusted-keys/Makefile               |  2 +-
+ security/keys/trusted-keys/trusted_caam.c         | 74 ++++++++++++++++-
+ security/keys/trusted-keys/trusted_core.c         |  6 +-
+ 8 files changed, 152 insertions(+), 4 deletions(-)
+ create mode 100644 include/keys/trusted_caam.h
+ create mode 100644 security/keys/trusted-keys/trusted_caam.c
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index d5969452f063..0ed1165e0f55 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -5767,6 +5767,7 @@
+ 			sources:
+ 			- "tpm"
+ 			- "tee"
++			- "caam"
+ 			If not specified then it defaults to iterating through
+ 			the trust source list starting with TPM and assigns the
+ 			first trust source as a backend which is initialized
+diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Documentation/security/keys/trusted-encrypted.rst
+index 1d4b4b8f12f0..ad66573ca6fd 100644
+--- a/Documentation/security/keys/trusted-encrypted.rst
++++ b/Documentation/security/keys/trusted-encrypted.rst
+@@ -35,6 +35,13 @@ safe.
+          Rooted to Hardware Unique Key (HUK) which is generally burnt in on-chip
+          fuses and is accessible to TEE only.
+ 
++     (3) CAAM (Cryptographic Acceleration and Assurance Module: IP on NXP SoCs)
++
++         When High Assurance Boot (HAB) is enabled and the CAAM is in secure
++         mode, trust is rooted to the OTPMK, a never-disclosed 256-bit key
++         randomly generated and fused into each SoC at manufacturing time.
++         Otherwise, a common fixed test key is used instead.
++
+   *  Execution isolation
+ 
+      (1) TPM
+@@ -46,6 +53,10 @@ safe.
+          Customizable set of operations running in isolated execution
+          environment verified via Secure/Trusted boot process.
+ 
++     (3) CAAM
++
++         Fixed set of operations running in isolated execution environment.
++
+   * Optional binding to platform integrity state
+ 
+      (1) TPM
+@@ -63,6 +74,11 @@ safe.
+          Relies on Secure/Trusted boot process for platform integrity. It can
+          be extended with TEE based measured boot process.
+ 
++     (3) CAAM
++
++         Relies on the High Assurance Boot (HAB) mechanism of NXP SoCs
++         for platform integrity.
++
+   *  Interfaces and APIs
+ 
+      (1) TPM
+@@ -74,10 +90,13 @@ safe.
+          TEEs have well-documented, standardized client interface and APIs. For
+          more details refer to ``Documentation/staging/tee.rst``.
+ 
++     (3) CAAM
++
++         Interface is specific to silicon vendor.
+ 
+   *  Threat model
+ 
+-     The strength and appropriateness of a particular TPM or TEE for a given
++     The strength and appropriateness of a particular trust source for a given
+      purpose must be assessed when using them to protect security-relevant data.
+ 
+ 
+@@ -104,8 +123,14 @@ selected trust source:
+      from platform specific hardware RNG or a software based Fortuna CSPRNG
+      which can be seeded via multiple entropy sources.
+ 
++  *  CAAM: Kernel RNG
++
++     The normal kernel random number generator is used. To seed it from the
++     CAAM HWRNG, enable CRYPTO_DEV_FSL_CAAM_RNG_API and ensure the device
++     can be probed.
++
+ Optionally, users may specify ``trusted.kernel_rng=1`` on the kernel
+-command-line to override the used RNG with the kernel's random number pool.
++command-line to force use of the kernel's random number pool.
+ 
+ Encrypted Keys
+ --------------
+@@ -192,6 +217,19 @@ Usage::
+ specific to TEE device implementation.  The key length for new keys is always
+ in bytes. Trusted Keys can be 32 - 128 bytes (256 - 1024 bits).
+ 
++Trusted Keys usage: CAAM
++------------------------
++
++Usage::
++
++    keyctl add trusted name "new keylen" ring
++    keyctl add trusted name "load hex_blob" ring
++    keyctl print keyid
++
++"keyctl print" returns an ASCII hex copy of the sealed key, which is in format
++specific to CAAM device implementation.  The key length for new keys is always
++in bytes. Trusted Keys can be 32 - 128 bytes (256 - 1024 bits).
++
+ Encrypted Keys usage
+ --------------------
+ 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a4a0c2baaf27..2c6514759222 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -10364,6 +10364,15 @@ S:	Supported
+ F:	include/keys/trusted_tee.h
+ F:	security/keys/trusted-keys/trusted_tee.c
+ 
++KEYS-TRUSTED-CAAM
++M:	Ahmad Fatoum <a.fatoum@pengutronix.de>
++R:	Pengutronix Kernel Team <kernel@pengutronix.de>
++L:	linux-integrity@vger.kernel.org
++L:	keyrings@vger.kernel.org
++S:	Supported
++F:	include/keys/trusted_caam.h
++F:	security/keys/trusted-keys/trusted_caam.c
++
+ KEYS/KEYRINGS
+ M:	David Howells <dhowells@redhat.com>
+ M:	Jarkko Sakkinen <jarkko@kernel.org>
+diff --git a/include/keys/trusted_caam.h b/include/keys/trusted_caam.h
+new file mode 100644
+index 000000000000..2fba0996b0b0
+--- /dev/null
++++ b/include/keys/trusted_caam.h
+@@ -0,0 +1,11 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2021 Pengutronix, Ahmad Fatoum <kernel@pengutronix.de>
++ */
++
++#ifndef __CAAM_TRUSTED_KEY_H
++#define __CAAM_TRUSTED_KEY_H
++
++extern struct trusted_key_ops caam_trusted_key_ops;
++
++#endif
+diff --git a/security/keys/trusted-keys/Kconfig b/security/keys/trusted-keys/Kconfig
+index fc4abd581abb..dbfdd8536468 100644
+--- a/security/keys/trusted-keys/Kconfig
++++ b/security/keys/trusted-keys/Kconfig
+@@ -24,6 +24,15 @@ config TRUSTED_KEYS_TEE
+ 	  Enable use of the Trusted Execution Environment (TEE) as trusted
+ 	  key backend.
+ 
+-if !TRUSTED_KEYS_TPM && !TRUSTED_KEYS_TEE
++config TRUSTED_KEYS_CAAM
++	bool "CAAM-based trusted keys"
++	depends on CRYPTO_DEV_FSL_CAAM_JR >= TRUSTED_KEYS
++	select CRYPTO_DEV_FSL_CAAM_BLOB_GEN
++	default y
++	help
++	  Enable use of NXP's Cryptographic Accelerator and Assurance Module
++	  (CAAM) as trusted key backend.
++
++if !TRUSTED_KEYS_TPM && !TRUSTED_KEYS_TEE && !TRUSTED_KEYS_CAAM
+ comment "No trust source selected!"
+ endif
+diff --git a/security/keys/trusted-keys/Makefile b/security/keys/trusted-keys/Makefile
+index 2e2371eae4d5..735aa0bc08ef 100644
+--- a/security/keys/trusted-keys/Makefile
++++ b/security/keys/trusted-keys/Makefile
+@@ -12,3 +12,5 @@ trusted-$(CONFIG_TRUSTED_KEYS_TPM) += trusted_tpm2.o
+ trusted-$(CONFIG_TRUSTED_KEYS_TPM) += tpm2key.asn1.o
+ 
+ trusted-$(CONFIG_TRUSTED_KEYS_TEE) += trusted_tee.o
++
++trusted-$(CONFIG_TRUSTED_KEYS_CAAM) += trusted_caam.o
+diff --git a/security/keys/trusted-keys/trusted_caam.c b/security/keys/trusted-keys/trusted_caam.c
+new file mode 100644
+index 000000000000..01adfd18adda
+--- /dev/null
++++ b/security/keys/trusted-keys/trusted_caam.c
+@@ -0,0 +1,74 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (C) 2021 Pengutronix, Ahmad Fatoum <kernel@pengutronix.de>
++ */
++
++#include <keys/trusted_caam.h>
++#include <keys/trusted-type.h>
++#include <linux/build_bug.h>
++#include <linux/key-type.h>
++#include <soc/fsl/caam-blob.h>
++
++static struct caam_blob_priv *blobifier;
++
++#define KEYMOD "kernel:trusted"
++
++static_assert(MAX_KEY_SIZE + CAAM_BLOB_OVERHEAD <= CAAM_BLOB_MAX_LEN);
++static_assert(MAX_BLOB_SIZE <= CAAM_BLOB_MAX_LEN);
++
++static int trusted_caam_seal(struct trusted_key_payload *p, char *datablob)
++{
++	int length = p->key_len + CAAM_BLOB_OVERHEAD;
++	int ret;
++
++	ret = caam_encap_blob(blobifier, KEYMOD, p->key, p->blob, length);
++	if (ret)
++		return ret;
++
++	p->blob_len = length;
++	return 0;
++}
++
++static int trusted_caam_unseal(struct trusted_key_payload *p, char *datablob)
++{
++	int length = p->blob_len;
++	int ret;
++
++	ret = caam_decap_blob(blobifier, KEYMOD, p->blob, p->key, length);
++	if (ret)
++		return ret;
++
++	p->key_len = length - CAAM_BLOB_OVERHEAD;
++	return 0;
++}
++
++static int trusted_caam_init(void)
++{
++	int ret;
++
++	blobifier = caam_blob_gen_init();
++	if (IS_ERR(blobifier)) {
++		pr_err("Job Ring Device allocation for transform failed\n");
++		return PTR_ERR(blobifier);
++	}
++
++	ret = register_key_type(&key_type_trusted);
++	if (ret)
++		caam_blob_gen_exit(blobifier);
++
++	return ret;
++}
++
++static void trusted_caam_exit(void)
++{
++	unregister_key_type(&key_type_trusted);
++	caam_blob_gen_exit(blobifier);
++}
++
++struct trusted_key_ops caam_trusted_key_ops = {
++	.migratable = 0, /* non-migratable */
++	.init = trusted_caam_init,
++	.seal = trusted_caam_seal,
++	.unseal = trusted_caam_unseal,
++	.exit = trusted_caam_exit,
++};
+diff --git a/security/keys/trusted-keys/trusted_core.c b/security/keys/trusted-keys/trusted_core.c
+index d2b7626cde8b..305e44651180 100644
+--- a/security/keys/trusted-keys/trusted_core.c
++++ b/security/keys/trusted-keys/trusted_core.c
+@@ -9,6 +9,7 @@
+ #include <keys/user-type.h>
+ #include <keys/trusted-type.h>
+ #include <keys/trusted_tee.h>
++#include <keys/trusted_caam.h>
+ #include <keys/trusted_tpm.h>
+ #include <linux/capability.h>
+ #include <linux/err.h>
+@@ -29,7 +30,7 @@ MODULE_PARM_DESC(kernel_rng, "Generate key material from kernel RNG");
+ 
+ static char *trusted_key_source;
+ module_param_named(source, trusted_key_source, charp, 0);
+-MODULE_PARM_DESC(source, "Select trusted keys source (tpm or tee)");
++MODULE_PARM_DESC(source, "Select trusted keys source (tpm, tee or caam)");
+ 
+ static const struct trusted_key_source trusted_key_sources[] = {
+ #if defined(CONFIG_TRUSTED_KEYS_TPM)
+@@ -38,6 +39,9 @@ static const struct trusted_key_source trusted_key_sources[] = {
+ #if defined(CONFIG_TRUSTED_KEYS_TEE)
+ 	{ "tee", &trusted_key_tee_ops },
+ #endif
++#if defined(CONFIG_TRUSTED_KEYS_CAAM)
++	{ "caam", &caam_trusted_key_ops },
++#endif
+ };
+ 
+ DEFINE_STATIC_CALL_NULL(trusted_key_init, *trusted_key_sources[0].ops->init);
 -- 
-Sincerely yours,
-Mike.
+git-series 0.9.1
