@@ -2,252 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69960C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 08:21:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 652F6C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 08:36:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5421260F43
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 08:21:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 44CEE60EE2
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 08:36:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235091AbhJKIXb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Oct 2021 04:23:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38993 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235035AbhJKIXU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Oct 2021 04:23:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1633940480;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
+        id S235065AbhJKIiG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Oct 2021 04:38:06 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:36992 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235036AbhJKIiF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Oct 2021 04:38:05 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id EA3FC21D8B;
+        Mon, 11 Oct 2021 08:36:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1633941364; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=oU6+6HWL5GmIkQnpQXwdFBRh8dosSEH5vc2CV90VCiI=;
-        b=IcgLe74Ll4qH/xZllJpUPRRxwj+XG5WqDQ5XNiTMEOhO9mb8LH4rywT71cN/l7i/w2pTga
-        xwPmM7+45ONTgbZbOrdBo3nCX9FTvX8IzsCV2FEvMCqdyaWBzEA4bVLeaZwwDziVPcq9iy
-        G+PV8sq2K39qfQs+5+HOBtnrTZcHrrQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-132-qELhb83BMrO-MD4uh1Zo1Q-1; Mon, 11 Oct 2021 04:21:16 -0400
-X-MC-Unique: qELhb83BMrO-MD4uh1Zo1Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        bh=FPbx2B9Llgf08l9/6ELaloI4uW3syuPUrdAfP+Y5Qqs=;
+        b=sKasgaIoJZe6ADDnCA66rzx+jt4F4vnLrnLMwfaqfATL/9+45+7ZmuriPFRGAG6LJiyZJF
+        kOO4/p0J6FJShwtpAujtTihW8LLk44i0X90xoz92rBoTmSsWxS6Ox2leKwc1BzT/huEcJr
+        eCiBO1hXEuWESlUJergcr5sIKtGge44=
+Received: from suse.cz (unknown [10.100.201.86])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C232809CD5;
-        Mon, 11 Oct 2021 08:21:15 +0000 (UTC)
-Received: from t480s.redhat.com (unknown [10.39.192.99])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id EA6585FC22;
-        Mon, 11 Oct 2021 08:21:12 +0000 (UTC)
-From:   David Hildenbrand <david@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     David Hildenbrand <david@redhat.com>,
+        by relay2.suse.de (Postfix) with ESMTPS id 070EBA3B87;
+        Mon, 11 Oct 2021 08:36:04 +0000 (UTC)
+Date:   Mon, 11 Oct 2021 10:36:03 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Suren Baghdasaryan <surenb@google.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        David Hildenbrand <david@redhat.com>,
+        John Hubbard <jhubbard@nvidia.com>,
         Andrew Morton <akpm@linux-foundation.org>,
+        Colin Cross <ccross@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Michal Hocko <mhocko@suse.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Mike Rapoport <rppt@kernel.org>, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: [PATCH v2 3/3] memory-hotplug.rst: document the "auto-movable" online policy
-Date:   Mon, 11 Oct 2021 10:20:58 +0200
-Message-Id: <20211011082058.6076-4-david@redhat.com>
-In-Reply-To: <20211011082058.6076-1-david@redhat.com>
-References: <20211011082058.6076-1-david@redhat.com>
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        vincenzo.frascino@arm.com,
+        Chinwen Chang =?utf-8?B?KOW8temMpuaWhyk=?= 
+        <chinwen.chang@mediatek.com>,
+        Axel Rasmussen <axelrasmussen@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Jann Horn <jannh@google.com>, apopple@nvidia.com,
+        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
+        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
+        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
+        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
+        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
+        Chris Hyser <chris.hyser@oracle.com>,
+        Peter Collingbourne <pcc@google.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
+        Rolf Eike Beer <eb@emlix.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
+        cxfcosmos@gmail.com, LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm <linux-mm@kvack.org>,
+        kernel-team <kernel-team@android.com>
+Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
+Message-ID: <YWP3c/bozz5npQ8O@dhcp22.suse.cz>
+References: <92cbfe3b-f3d1-a8e1-7eb9-bab735e782f6@rasmusvillemoes.dk>
+ <20211007101527.GA26288@duo.ucw.cz>
+ <CAJuCfpGp0D9p3KhOWhcxMO1wEbo-J_b2Anc-oNwdycx4NTRqoA@mail.gmail.com>
+ <YV8jB+kwU95hLqTq@dhcp22.suse.cz>
+ <CAJuCfpG-Nza3YnpzvHaS_i1mHds3nJ+PV22xTAfgwvj+42WQNA@mail.gmail.com>
+ <YV8u4B8Y9AP9xZIJ@dhcp22.suse.cz>
+ <CAJuCfpHAG_C5vE-Xkkrm2kynTFF-Jd06tQoCWehHATL0W2mY_g@mail.gmail.com>
+ <202110071111.DF87B4EE3@keescook>
+ <YV/mhyWH1ZwWazdE@dhcp22.suse.cz>
+ <202110081344.FE6A7A82@keescook>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202110081344.FE6A7A82@keescook>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In commit e83a437faa62 ("mm/memory_hotplug: introduce "auto-movable" online
-policy") we introduced a new memory online policy to automatically
-select a zone for memory blocks to be onlined. We added a way to
-set the active online policy and tunables for the auto-movable online
-policy. In follow-up commits we tweaked the "auto-movable" policy to also
-consider memory device details when selecting zones for memory blocks to
-be onlined.
+On Fri 08-10-21 13:58:01, Kees Cook wrote:
+> - Strings for "anon" specifically have no required format (this is good)
+>   it's informational like the task_struct::comm and can (roughly)
+>   anything. There's no naming convention for memfds, AF_UNIX, etc. Why
+>   is one needed here? That seems like a completely unreasonable
+>   requirement.
 
-Let's document the new toggles and how the two online policies we have
-work.
+I might be misreading the justification for the feature. Patch 2 is
+talking about tools that need to understand memeory usage to make
+further actions. Also Suren was suggesting "numbering convetion" as an
+argument against. 
 
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- .../admin-guide/mm/memory-hotplug.rst         | 141 +++++++++++++++---
- 1 file changed, 121 insertions(+), 20 deletions(-)
-
-diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
-index ee00b70dedde..0f56ecd8ac05 100644
---- a/Documentation/admin-guide/mm/memory-hotplug.rst
-+++ b/Documentation/admin-guide/mm/memory-hotplug.rst
-@@ -165,9 +165,8 @@ Or alternatively::
- 
- 	% echo 1 > /sys/devices/system/memory/memoryXXX/online
- 
--The kernel will select the target zone automatically, usually defaulting to
--``ZONE_NORMAL`` unless ``movable_node`` has been specified on the kernel
--command line or if the memory block would intersect the ZONE_MOVABLE already.
-+The kernel will select the target zone automatically, depending on the
-+configured ``online_policy``.
- 
- One can explicitly request to associate an offline memory block with
- ZONE_MOVABLE by::
-@@ -198,6 +197,9 @@ Auto-onlining can be enabled by writing ``online``, ``online_kernel`` or
- 
- 	% echo online > /sys/devices/system/memory/auto_online_blocks
- 
-+Similarly to manual onlining, with ``online`` the kernel will select the
-+target zone automatically, depending on the configured ``online_policy``.
-+
- Modifying the auto-online behavior will only affect all subsequently added
- memory blocks only.
- 
-@@ -393,11 +395,16 @@ command line parameters are relevant:
- ======================== =======================================================
- ``memhp_default_state``	 configure auto-onlining by essentially setting
-                          ``/sys/devices/system/memory/auto_online_blocks``.
--``movable_node``	 configure automatic zone selection in the kernel. When
--			 set, the kernel will default to ZONE_MOVABLE, unless
--			 other zones can be kept contiguous.
-+``movable_node``	 configure automatic zone selection in the kernel when
-+			 using the ``contig-zones`` online policy. When
-+			 set, the kernel will default to ZONE_MOVABLE when
-+			 onlining a memory block, unless other zones can be kept
-+			 contiguous.
- ======================== =======================================================
- 
-+See Documentation/admin-guide/kernel-parameters.txt for a more generic
-+description of these command line parameters.
-+
- Module Parameters
- ------------------
- 
-@@ -414,20 +421,114 @@ and they can be observed (and some even modified at runtime) via::
- 
- The following module parameters are currently defined:
- 
--======================== =======================================================
--``memmap_on_memory``	 read-write: Allocate memory for the memmap from the
--			 added memory block itself. Even if enabled, actual
--			 support depends on various other system properties and
--			 should only be regarded as a hint whether the behavior
--			 would be desired.
--
--			 While allocating the memmap from the memory block
--			 itself makes memory hotplug less likely to fail and
--			 keeps the memmap on the same NUMA node in any case, it
--			 can fragment physical memory in a way that huge pages
--			 in bigger granularity cannot be formed on hotplugged
--			 memory.
--======================== =======================================================
-+================================ ===============================================
-+``memmap_on_memory``		 read-write: Allocate memory for the memmap from
-+				 the added memory block itself. Even if enabled,
-+				 actual support depends on various other system
-+				 properties and should only be regarded as a
-+				 hint whether the behavior would be desired.
-+
-+				 While allocating the memmap from the memory
-+				 block itself makes memory hotplug less likely
-+				 to fail and keeps the memmap on the same NUMA
-+				 node in any case, it can fragment physical
-+				 memory in a way that huge pages in bigger
-+				 granularity cannot be formed on hotplugged
-+				 memory.
-+``online_policy``		 read-write: Set the basic policy used for
-+				 automatic zone selection when onlining memory
-+				 blocks without specifying a target zone.
-+				 ``contig-zones`` has been the kernel default
-+				 before this parameter was added. After an
-+				 online policy was configured and memory was
-+				 online, the policy should not be changed
-+				 anymore.
-+
-+				 When set to ``contig-zones``, the kernel will
-+				 try keeping zones contiguous. If a memory block
-+				 intersects multiple zones or no zone, the
-+				 behavior depends on the ``movable_node`` kernel
-+				 command line parameter: default to ZONE_MOVABLE
-+				 if set, default to the applicable kernel zone
-+				 (usually ZONE_NORMAL) if not set.
-+
-+				 When set to ``auto-movable``, the kernel will
-+				 try onlining memory blocks to ZONE_MOVABLE if
-+				 possible according to the configuration and
-+				 memory device details. With this policy, one
-+				 can avoid zone imbalances when eventually
-+				 hotplugging a lot of memory later and still
-+				 wanting to be able to hotunplug as much as
-+				 possible reliably, very desirable in
-+				 virtualized environments. This policy ignores
-+				 the ``movable_node`` kernel command line
-+				 parameter and isn't really applicable in
-+				 environments that require it (e.g., bare metal
-+				 with hotunpluggable nodes) where hotplugged
-+				 memory might be exposed via the
-+				 firmware-provided memory map early during boot
-+				 to the system instead of getting detected,
-+				 added and onlined  later during boot (such as
-+				 done by virtio-mem or by some hypervisors
-+				 implementing emulated DIMMs). As one example, a
-+				 hotplugged DIMM will be onlined either
-+				 completely to ZONE_MOVABLE or completely to
-+				 ZONE_NORMAL, not a mixture.
-+				 As another example, as many memory blocks
-+				 belonging to a virtio-mem device will be
-+				 onlined to ZONE_MOVABLE as possible,
-+				 special-casing units of memory blocks that can
-+				 only get hotunplugged together. *This policy
-+				 does not protect from setups that are
-+				 problematic with ZONE_MOVABLE and does not
-+				 change the zone of memory blocks dynamically
-+				 after they were onlined.*
-+``auto_movable_ratio``		 read-write: Set the maximum MOVABLE:KERNEL
-+				 memory ratio in % for the ``auto-movable``
-+				 online policy. Whether the ratio applies only
-+				 for the system across all NUMA nodes or also
-+				 per NUMA nodes depends on the
-+				 ``auto_movable_numa_aware`` configuration.
-+
-+				 All accounting is based on present memory pages
-+				 in the zones combined with accounting per
-+				 memory device. Memory dedicated to the CMA
-+				 allocator is accounted as MOVABLE, although
-+				 residing on one of the kernel zones. The
-+				 possible ratio depends on the actual workload.
-+				 The kernel default is "301" %, for example,
-+				 allowing for hotplugging 24 GiB to a 8 GiB VM
-+				 and automatically onlining all hotplugged
-+				 memory to ZONE_MOVABLE in many setups. The
-+				 additional 1% deals with some pages being not
-+				 present, for example, because of some firmware
-+				 allocations.
-+
-+				 Note that ZONE_NORMAL memory provided by one
-+				 memory device does not allow for more
-+				 ZONE_MOVABLE memory for a different memory
-+				 device. As one example, onlining memory of a
-+				 hotplugged DIMM to ZONE_NORMAL will not allow
-+				 for another hotplugged DIMM to get onlined to
-+				 ZONE_MOVABLE automatically. In contrast, memory
-+				 hotplugged by a virtio-mem device that got
-+				 onlined to ZONE_NORMAL will allow for more
-+				 ZONE_MOVABLE memory within *the same*
-+				 virtio-mem device.
-+``auto_movable_numa_aware``	 read-write: Configure whether the
-+				 ``auto_movable_ratio`` in the ``auto-movable``
-+				 online policy also applies per NUMA
-+				 node in addition to the whole system across all
-+				 NUMA nodes. The kernel default is "Y".
-+
-+				 Disabling NUMA awareness can be helpful when
-+				 dealing with NUMA nodes that should be
-+				 completely hotunpluggable, onlining the memory
-+				 completely to ZONE_MOVABLE automatically if
-+				 possible.
-+
-+				 Parameter availability depends on CONFIG_NUMA.
-+================================ ===============================================
- 
- ZONE_MOVABLE
- ============
+So can we get a clear example how is this being used actually? If this
+is just to be used to debug by humans than I can see an argument for
+human readable form. If this is, however, meant to be used by tools to
+make some actions then the argument for strings is much weaker.
 -- 
-2.31.1
-
+Michal Hocko
+SUSE Labs
