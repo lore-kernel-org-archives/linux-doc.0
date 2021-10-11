@@ -2,237 +2,224 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51F84C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 20:44:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08E81C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 20:54:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 360F260F5B
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 20:44:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E6DE660F11
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 20:54:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235028AbhJKUq2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Oct 2021 16:46:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45986 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235036AbhJKUq2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Oct 2021 16:46:28 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0795C061570;
-        Mon, 11 Oct 2021 13:44:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=ktQ3PVVcg2TTN+o+OAXoDDmRIIVVJexPj9+ndnqpzu8=; b=D2ghYpL2Ow+Sn1V1Fe+THQzT1h
-        vkRE1iM8Meq1G8vSFDmf8zU2Zido3E10mAUlTkcrP7jYr8oeUjCit5bTEYa+0PD8snuo2ATINasgy
-        mrCxmPuAwySK4hhqL5ow8U/55frzluZDop3NxiyN72+Q8icTVBD5yYvHOQs4pBzLZ4NBAgLxKl/ln
-        ywN/ktVvJiJ8SDLCRVUjP/cuyVppHbzsxFdmBnMk2eNc0EQrm+ATv9sCLqYT0Yca8IYz2rwoCbXa3
-        OEAUBunYRoyH6+DWLgSm+gLbU3Dh3LSVau2o8GnVc5c6Ttyy3kt2K3ZSDiks3zyteAxeHoIZTAK9J
-        WWhfYQJg==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1ma29j-00AdGr-82; Mon, 11 Oct 2021 20:44:19 +0000
-Date:   Mon, 11 Oct 2021 13:44:19 -0700
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     tj@kernel.org, gregkh@linuxfoundation.org,
-        akpm@linux-foundation.org, minchan@kernel.org, jeyu@kernel.org,
-        shuah@kernel.org, bvanassche@acm.org, dan.j.williams@intel.com,
-        joe@perches.com, tglx@linutronix.de, rostedt@goodmis.org,
-        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 04/12] kernfs: add initial failure injection support
-Message-ID: <YWSiIwr/8/JQE9qW@bombadil.infradead.org>
-References: <20210927163805.808907-1-mcgrof@kernel.org>
- <20210927163805.808907-5-mcgrof@kernel.org>
- <202110051225.419CD64@keescook>
+        id S235100AbhJKU4F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Oct 2021 16:56:05 -0400
+Received: from mga04.intel.com ([192.55.52.120]:12745 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235112AbhJKU4D (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 11 Oct 2021 16:56:03 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10134"; a="225740112"
+X-IronPort-AV: E=Sophos;i="5.85,365,1624345200"; 
+   d="scan'208";a="225740112"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2021 13:54:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,365,1624345200"; 
+   d="scan'208";a="625654550"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by fmsmga001.fm.intel.com with ESMTP; 11 Oct 2021 13:54:01 -0700
+Received: from fmsmsx609.amr.corp.intel.com (10.18.126.89) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Mon, 11 Oct 2021 13:54:01 -0700
+Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
+ fmsmsx609.amr.corp.intel.com (10.18.126.89) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Mon, 11 Oct 2021 13:54:00 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12 via Frontend Transport; Mon, 11 Oct 2021 13:54:00 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.12; Mon, 11 Oct 2021 13:54:00 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=V+hT8bg8lH/GVYIVAANE/NjeP/GhsPmkX4dkQBhClvAqTgmeIel1cnk811jn+LuLVs/OQTFVIU3Xkof9usgFx/2l2iSFUl3U1Lb82g4YWbmSrjfiqgLs73vsDOpQULTrS7yPp5Vi5G/Ruo1BSt/ns+jVrbPRjG57qsSd/fJ2oZFCazVHntJsZzqW610QprGY5BlS/VkqhlDmOFIMu7U63paFeY8xB/zb6vWM/rjI+Wafwi7VH7RMQRB2vCqoe9UFg5fJJ2IPMUv8RxvFqxwyXkcEnh99BjF+OVDrJ+gFOpsno9/M8lGLKYS6OmfJ7buduBo3xYSpCuzHqqBmgZEXzQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hOoGdcoB9BpEgjTNE6QR+CmXlk0ZdBF9xh4AyNxE6kQ=;
+ b=QWUP2LzVD8N80NJWiujQ9WIpVV7+0vRdbdL1Vzq0SvHWlQa/nhXmY5DmXsZHwaDm4q8N2vx/ye+W1uxOUfo1bYmijOJaNO8wWEysx5qEevbIawc4XQK7KfGczPB91VmmeIEtbmMDwSX+yBywc1uwVDBWAMNKxEnMLr3VhbMaOKH7AC7dZ8r+SVa13pwZhQV5CVFnmAKSvLYb04tNyY4U+zsqATKbW2qfK/0Jbdy9SanDHanf7yy4pwCbaxx8Jdrw7eenIQ60WRd3q8PAr+CdmRbrivndGvg911LlBNJKlvQRSTHWo2HWJkeKmutEewPtXkeYVsQYGiSiSq4ITJUW4g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hOoGdcoB9BpEgjTNE6QR+CmXlk0ZdBF9xh4AyNxE6kQ=;
+ b=YtMCzKE08KlyfPXPT6j5WAifmC49Q1xF6VNuIYyAaWOdOStgZVfmvOyWU7Gi76gDwhvWpWi8IonsI0FZdPH03VRMQ1tUDsf5tKkPRt+8YAKBHvZl84+09e127RNkjVdPBGNhHier53nrbLx2jMOAFhbLwzB5ymj4Ukvc8uYngXI=
+Received: from CY4PR1101MB2278.namprd11.prod.outlook.com
+ (2603:10b6:910:18::13) by CY4PR1101MB2279.namprd11.prod.outlook.com
+ (2603:10b6:910:17::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.22; Mon, 11 Oct
+ 2021 20:53:52 +0000
+Received: from CY4PR1101MB2278.namprd11.prod.outlook.com
+ ([fe80::c482:c237:bcf1:70bc]) by CY4PR1101MB2278.namprd11.prod.outlook.com
+ ([fe80::c482:c237:bcf1:70bc%11]) with mapi id 15.20.4587.026; Mon, 11 Oct
+ 2021 20:53:52 +0000
+From:   "Winiarska, Iwona" <iwona.winiarska@intel.com>
+To:     "Hansen, Dave" <dave.hansen@intel.com>,
+        "bp@alien8.de" <bp@alien8.de>
+CC:     "corbet@lwn.net" <corbet@lwn.net>,
+        "jae.hyun.yoo@linux.intel.com" <jae.hyun.yoo@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "Luck, Tony" <tony.luck@intel.com>,
+        "andrew@aj.id.au" <andrew@aj.id.au>,
+        "Williams, Dan J" <dan.j.williams@intel.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "jdelvare@suse.com" <jdelvare@suse.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "olof@lixom.net" <olof@lixom.net>, "arnd@arndb.de" <arnd@arndb.de>,
+        "linux@roeck-us.net" <linux@roeck-us.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+        "zweiss@equinix.com" <zweiss@equinix.com>,
+        "d.mueller@elsoft.ch" <d.mueller@elsoft.ch>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "joel@jms.id.au" <joel@jms.id.au>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>,
+        "yazen.ghannam@amd.com" <yazen.ghannam@amd.com>,
+        "pierre-louis.bossart@linux.intel.com" 
+        <pierre-louis.bossart@linux.intel.com>
+Subject: Re: [PATCH v2 01/15] x86/cpu: Move intel-family to arch-independent
+ headers
+Thread-Topic: [PATCH v2 01/15] x86/cpu: Move intel-family to arch-independent
+ headers
+Thread-Index: AQHXiFtZAf43JMVeikGj7NGS9LF26KvDlHGAgAsFNYCAAAVHAIAAFIsA
+Date:   Mon, 11 Oct 2021 20:53:51 +0000
+Message-ID: <43e367e452c6c8d9c6a275299d7ff6f2bb26b8e3.camel@intel.com>
+References: <20210803113134.2262882-1-iwona.winiarska@intel.com>
+         <20210803113134.2262882-2-iwona.winiarska@intel.com>
+         <YVtQG+idmwKn0qLe@zn.tnic>
+         <58ef4107e9b2c60a2605aac0d2fb6670a95bc9e0.camel@intel.com>
+         <67f2cfda-c78b-6282-f5a3-2f345f8e2849@intel.com>
+In-Reply-To: <67f2cfda-c78b-6282-f5a3-2f345f8e2849@intel.com>
+Accept-Language: en-US, pl-PL
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+authentication-results: intel.com; dkim=none (message not signed)
+ header.d=none;intel.com; dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: a2c2f317-b587-498f-b9a1-08d98cf93b7c
+x-ms-traffictypediagnostic: CY4PR1101MB2279:
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr,ExtFwd
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <CY4PR1101MB2279F49F67F92809F64D4001ECB59@CY4PR1101MB2279.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: KrPG5qWBCDXdXyeAkTeI5HVRl3bQm2VWYFOw4YKBHz9Oxp/xbeROlD43UW5tAOIJFGjFHsglc4myxiKWnv0yyu9ySmvbOL+ikZniPr81dcj6dn2ZxesKOKTa3KHuQxA7dtSa94l9yDrfEEG9p23CyDGwACiCHGLFoopvQPgHaEuoQV9EZD2fVSEntQwjhq+WrSwzhTA5bbzGikxOeDvGQrz+e6Dl0JEQcMV0uAOA3wKp3E7RzCq6FY1GGnuupfQWPsx8St+DjbaIgexdEutSegYSMhGLNN99UayMNrMHP0UXRO0csxNS8NuXS0mn0q8Jzcdq12OBmk74uKYGbdORYOX/oF2ec4k2xtP9WBKOfVu+Ohy3WJCe7tCX5adlI7EDgKUTeeQHKUhT5O5Wi8O8xKrUHMMHsXLW/VyDVg8r1vD1sQ0gLhDSFQDPHItJayLlWXgehniKz/Q/iM0JdHk2+5gYVnCHeUrn6VZF58o6eZAf9SXe2B6Z1CYeDDZ3/yhSkWVl6vxexrBq5Zv+QWAWedRah7VNM6Bu7msJuzkoc2jY7hyLJFSAGk/TRJzBLWcPr+dMM/oe+j2I+YDlhjV2caqvkYRbbBWCJbPOnCQACAKWk/NQnzpmxDiWCXTER41yrp27NXkJnheQzT5VHQD7E0L84YmZl8iemAJF7d5eCjfw89AzB3hQD8q32qahUL+4ytOppAyRxtXP7ax1TvlpcA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR1101MB2278.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(53546011)(7416002)(8936002)(91956017)(122000001)(54906003)(110136005)(186003)(7406005)(71200400001)(6512007)(6506007)(4001150100001)(83380400001)(5660300002)(36756003)(4326008)(26005)(6486002)(64756008)(66476007)(2906002)(66556008)(508600001)(66446008)(66946007)(76116006)(316002)(86362001)(38100700002)(2616005)(38070700005)(8676002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NVpNUXJMUnZBVC9OWDEvdnh4cEdzQWVSZGwycktBeVZ0clE5MlV0T3VON3p3?=
+ =?utf-8?B?T0NncXJ3c2IxcVhxeE9YSDIvd3lqZnZFcnhlUVM0TFpsaGZ4TnJiOWZUeDBx?=
+ =?utf-8?B?NSs3Ymp3VFc0R0ZBVk9HYTNodEF1dnFkaVRaVEpwZ05BNzdybkVsM2xBQ3JR?=
+ =?utf-8?B?clhaVWFuZmRJMTEySGJVNkloSnh6ZmZwUWloeFNqcm5RSHl6K3pQc0FPd2JR?=
+ =?utf-8?B?TnRQZlpKbjFNWGZEZmNHSEc5cnVSbGRaMXM0TFlIdTVoVjZhQ1gyRStlTFk4?=
+ =?utf-8?B?bEkreTJjN0F1NDF6Y2JSdWtPM0NMM1JjTjJYV0o2cG5SektsUStVQXRvaGx4?=
+ =?utf-8?B?NTV3dUh4VXFqeUJNRnAxL0NzVlBmdStsQ3lFN0lDd1VvYzdSa21yKy9qSlM0?=
+ =?utf-8?B?YTdOR245Y2ZMbjN4RlN6YjJ3UXJFd1ZMMXZJdjR4K283NWNzaUk0aTludjQ2?=
+ =?utf-8?B?cSsrQTdyNVZpUXI4MGxicmFsc0VnWm1FWmJobXg4akI1NXc0MnZPZFcvbEJR?=
+ =?utf-8?B?TDE5OE40OXFJMUZGOXl4VGczd1NDN3JLNkJBblFIMVR2T1pXSVR5VXo5Tjcr?=
+ =?utf-8?B?eER3Wm5hOE1lWjZMM3RFOFpRRE1pODFKNU1qZ0RLMFYvUmo2Z2hPMlY0YUdD?=
+ =?utf-8?B?ZVIvMHQvaUxrYmZvWkVQcDlBYXZsQ1JIUnNFVE1pVmJYNVBrWnlCZ3dvV0Jv?=
+ =?utf-8?B?WHlKM0swWEQ5NFg1dUxjZDNjYklPTzRPUkhnZEJOSFh3UGdRbUV1RDlsbUNI?=
+ =?utf-8?B?Sjl5NnBHdXM4RzZHZHc2RDZrZEQ2VHNrS01tS01scElKTUNEclZVcXlGQTZW?=
+ =?utf-8?B?NG14OWRrSWtDMEoweGdNaUhIUUxSNDdSTnlLaERERGVja2gvd2VBMU91YWpP?=
+ =?utf-8?B?YURZL0hWb0RuNk1OdkUxeUZzYS9RL3h2K3VNajZuZTZwTmFwdDVUSEIxenQz?=
+ =?utf-8?B?ajJzeXFyYnFSRFpyVHZRS1dzUFhXbU1LdGwzeWpuUjU2MXVheEx6M1paMW1Z?=
+ =?utf-8?B?czZjbnlIZjBWemZsVm41eGxrUVVvMForWjR6NnkzeDUwZzZVZWZDVEF0ZHZN?=
+ =?utf-8?B?b3VOZDBnTERZcVdDWnRrMUFkc3dTZEw4TTM4c0pjOE9WdmJJaTFWdGVPV2xF?=
+ =?utf-8?B?UTdUbzhlUS92TkphNlJDQ1ZkeGhMTGJrRUhLYVlZYUIvbXlTVmZHQmMzalB5?=
+ =?utf-8?B?TVJrOFBBS0RzUlMxS002TFVwdlpwUDRDamxEQlo2UjVLUDhvTkNQSHo5V0FF?=
+ =?utf-8?B?TzhoRXUzNFVDbU4xRklMdjJiak43UGNPV012OU0ybzgxU1VXMlJDckU4eU9P?=
+ =?utf-8?B?YXNRcGwxTGRYSjllYndOS01MQ1ZEN1orTjloU1lhRHBkcFZWWW53TlpXbTk0?=
+ =?utf-8?B?K0VyNms1TGd5TDUrNlo5STZBZkkwaTQxbVozcXJOQWlDLzJ3ai9VNnE5bW9L?=
+ =?utf-8?B?SW1xMjBzYXlUaVo3TGMzd3c0aDF6VU04WktkcWZqM211Sks5L1pFMWZ6QmVP?=
+ =?utf-8?B?UDkrRGNlajF0anZzc0h5RXU5MDhLclgrSjgzejZkZDR3S3B6c0tRMWs3akxw?=
+ =?utf-8?B?MlZIMzVEa3dmZTZyRmxYMGdteTV5MFRjcUVvRXdMRmVtNVBjYVdsNVAwU0VV?=
+ =?utf-8?B?MEkwQlE1dXk5MXFreThrMXhQcDhybm5ZL3lXUVplRnBySHZWSUwwOU5PNlJV?=
+ =?utf-8?B?WjlmMWlTZFRnVGx0Mlp5MzFYN01rem1YVnU3b2MyNGwwTDVTVE8rYk9VMWYv?=
+ =?utf-8?B?VCttdnhLTUdXWDJpNzV0YmdUMnJpOFg2MmV5QjF0Wm0xWVMxaUJrbjlGMTI1?=
+ =?utf-8?B?Mzh1WVhQcVd0a2VkaE92Zz09?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <21BD1D9D076CFC4A905980A87AE662C4@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202110051225.419CD64@keescook>
-Sender: Luis Chamberlain <mcgrof@infradead.org>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR1101MB2278.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a2c2f317-b587-498f-b9a1-08d98cf93b7c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Oct 2021 20:53:52.0151
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 3m2SbFB1t+bhOgRrruaQecgL6ztslj7qD87UHdd5E59w0IdDZDLY87RMK/LBzuqlQDRr9lnxy8MnLljhDXU2iTKgDiA7GAC15/Bj96AiHxQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1101MB2279
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 05, 2021 at 12:47:22PM -0700, Kees Cook wrote:
-> On Mon, Sep 27, 2021 at 09:37:57AM -0700, Luis Chamberlain wrote:
-> > This adds initial failure injection support to kernfs. We start
-> > off with debug knobs which when enabled allow test drivers, such as
-> > test_sysfs, to then make use of these to try to force certain
-> > difficult races to take place with a high degree of certainty.
-> > 
-> > This only adds runtime code *iff* the new bool CONFIG_FAIL_KERNFS_KNOBS is
-> > enabled in your kernel. If you don't have this enabled this provides
-> > no new functional. When CONFIG_FAIL_KERNFS_KNOBS is disabled the new
-> > routine kernfs_debug_should_wait() ends up being transformed to if
-> > (false), and so the compiler should optimize these out as dead code
-> > producing no new effective binary changes.
-> > 
-> > We start off with enabling failure injections in kernfs by allowing us to
-> > alter the way kernfs_fop_write_iter() behaves. We allow for the routine
-> > kernfs_fop_write_iter() to wait for a certain condition in the kernel to
-> > occur, after which it will sleep a predefined amount of time. This lets
-> > kernfs users to time exactly when it want kernfs_fop_write_iter() to
-> > complete, allowing for developing race conditions and test for correctness
-> > in kernfs.
-> > 
-> > You'd boot with this enabled on your kernel command line:
-> > 
-> > fail_kernfs_fop_write_iter=1,100,0,1
-> > 
-> > The values are <interval,probability,size,times>, we don't care for
-> > size, so for now we ignore it. The above ensures a failure will trigger
-> > only once.
-> > 
-> > *How* we allow for this routine to change behaviour is left to knobs we
-> > expose under debugfs:
-> > 
-> >  # ls -1 /sys/kernel/debug/kernfs/config_fail_kernfs_fop_write_iter/
-> 
-> I'd expect this to live under /sys/kernel/debug/fail_kernfs, like the
-> other fault injectors.
-
-Yes I see, thanks will fix up!
-
-> > diff --git a/Documentation/fault-injection/fault-injection.rst b/Documentation/fault-injection/fault-injection.rst
-> > index 4a25c5eb6f07..d4d34b082f47 100644
-> > --- a/Documentation/fault-injection/fault-injection.rst
-> > +++ b/Documentation/fault-injection/fault-injection.rst
-> > @@ -28,6 +28,28 @@ Available fault injection capabilities
-> >  
-> >    injects kernel RPC client and server failures.
-> >  
-> > +- fail_kernfs_fop_write_iter
-> > +
-> > +  Allows for failures to be enabled inside kernfs_fop_write_iter(). Enabling
-> > +  this does not immediately enable any errors to occur. You must configure
-> > +  how you want this routine to fail or change behaviour by using the debugfs
-> > +  knobs for it:
-> > +
-> > +  # ls -1 /sys/kernel/debug/kernfs/config_fail_kernfs_fop_write_iter/
-> > +  wait_after_active
-> > +  wait_after_mutex
-> > +  wait_at_start
-> > +  wait_before_mutex
-> 
-> This should be split up and detailed in the "debugfs entries" section
-> below here.
-
-Done!
-
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 1b4cefcb064c..fadfd961ad80 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -10384,7 +10384,7 @@ M:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> >  M:	Tejun Heo <tj@kernel.org>
-> >  S:	Supported
-> >  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git
-> > -F:	fs/kernfs/
-> > +F:	fs/kernfs/*
-> >  F:	include/linux/kernfs.h
-> >  
-> >  KEXEC
-> > diff --git a/fs/kernfs/Makefile b/fs/kernfs/Makefile
-> > index 4ca54ff54c98..bc5b32ca39f9 100644
-> > --- a/fs/kernfs/Makefile
-> > +++ b/fs/kernfs/Makefile
-> > @@ -4,3 +4,4 @@
-> >  #
-> >  
-> >  obj-y		:= mount.o inode.o dir.o file.o symlink.o
-> > +obj-$(CONFIG_FAIL_KERNFS_KNOBS)    += failure-injection.o
-> > diff --git a/fs/kernfs/failure-injection.c b/fs/kernfs/failure-injection.c
-> > new file mode 100644
-> > index 000000000000..4130d202c13b
-> > --- /dev/null
-> > +++ b/fs/kernfs/failure-injection.c
-> 
-> I'd name this fault_inject.c, which matches the more common case:
-> 
-> $ find . -type f -name '*fault*inject*.c'
-> ./fs/nfsd/fault_inject.c
-> ./drivers/nvme/host/fault_inject.c
-> ./drivers/scsi/ufs/ufs-fault-injection.c
-> ./lib/fault-inject.c
-> ./lib/fault-inject-usercopy.c
-
-Sure, done.
-
-> > +int __kernfs_debug_should_wait_kernfs_fop_write_iter(bool evaluate)
-> > +{
-> > +	if (!evaluate)
-> > +		return 0;
-> > +
-> > +	return should_fail(&fail_kernfs_fop_write_iter, 0);
-> > +}
-> 
-> Every caller ends up doing the wait, so how about just including that
-> here instead? It should make things much less intrusive and more readable.
-> 
-> And for the naming, other fault injectors use "should_fail_$topic", so
-> maybe better here would be something like may_wait_kernfs(...).
-
-In case anyone is reading Hail Mary by Andy Weir: "Yes yes yes!"
-
-Indeed, that's a great idea. Changed!
-
-> > +
-> > +DECLARE_COMPLETION(kernfs_debug_wait_completion);
-> > +EXPORT_SYMBOL_NS_GPL(kernfs_debug_wait_completion, KERNFS_DEBUG_PRIVATE);
-> > +
-> > +void kernfs_debug_wait(void)
-> > +{
-> > +	unsigned long timeout;
-> > +
-> > +	timeout = wait_for_completion_timeout(&kernfs_debug_wait_completion,
-> > +					      msecs_to_jiffies(3000));
-> > +	if (!timeout)
-> > +		pr_info("%s waiting for kernfs_debug_wait_completion timed out\n",
-> > +			__func__);
-> > +	else
-> > +		pr_info("%s received completion with time left on timeout %u ms\n",
-> > +			__func__, jiffies_to_msecs(timeout));
-> > +
-> > +	/**
-> > +	 * The goal is wait for an event, and *then* once we have
-> > +	 * reached it, the other side will try to do something which
-> > +	 * it thinks will break. So we must give it some time to do
-> > +	 * that. The amount of time is configurable.
-> > +	 */
-> > +	msleep(kernfs_config_fail.sleep_after_wait_ms);
-> > +	pr_info("%s ended\n", __func__);
-> > +}
-> 
-> All the uses of "__func__" here seems redundant; I would drop them.
-
-Alright, and I also added the pr_fmt define which I forgot.
-
-> > diff --git a/fs/kernfs/file.c b/fs/kernfs/file.c
-> > index 60e2a86c535e..4479c6580333 100644
-> > --- a/fs/kernfs/file.c
-> > +++ b/fs/kernfs/file.c
-> > @@ -259,6 +259,9 @@ static ssize_t kernfs_fop_write_iter(struct kiocb *iocb, struct iov_iter *iter)
-> >  	const struct kernfs_ops *ops;
-> >  	char *buf;
-> >  
-> > +	if (kernfs_debug_should_wait(kernfs_fop_write_iter, at_start))
-> > +		kernfs_debug_wait();
-> 
-> So this could just be:
-> 
-> 	may_wait_kernfs(kernfs_fop_write_iter, at_start);
-
-Yup! Thanks!
-
-> > diff --git a/fs/kernfs/kernfs-internal.h b/fs/kernfs/kernfs-internal.h
-> > index f9cc912c31e1..9e3abf597e2d 100644
-> > --- a/fs/kernfs/kernfs-internal.h
-> > +++ b/fs/kernfs/kernfs-internal.h
-> > +#define __kernfs_config_wait_var(func, when) \
-> > +	(kernfs_config_fail.  func  ## _fail.wait_  ## when)
->                             ^^     ^               ^
-> nit: needless spaces
-
-Trimmed.
-
-  Luis
+T24gTW9uLCAyMDIxLTEwLTExIGF0IDEyOjQwIC0wNzAwLCBEYXZlIEhhbnNlbiB3cm90ZToNCj4g
+T24gMTAvMTEvMjEgMTI6MjEgUE0sIFdpbmlhcnNrYSwgSXdvbmEgd3JvdGU6DQo+ID4gT24gTW9u
+LCAyMDIxLTEwLTA0IGF0IDIxOjAzICswMjAwLCBCb3Jpc2xhdiBQZXRrb3Ygd3JvdGU6DQo+ID4g
+PiBPbiBUdWUsIEF1ZyAwMywgMjAyMSBhdCAwMTozMToyMFBNICswMjAwLCBJd29uYSBXaW5pYXJz
+a2Egd3JvdGU6DQo+ID4gPiA+IEJhc2Vib2FyZCBtYW5hZ2VtZW50IGNvbnRyb2xsZXJzIChCTUMp
+IG9mdGVuIHJ1biBMaW51eCBidXQgYXJlIHVzdWFsbHkNCj4gPiA+ID4gaW1wbGVtZW50ZWQgd2l0
+aCBub24tWDg2IHByb2Nlc3NvcnMuIFRoZXkgY2FuIHVzZSBQRUNJIHRvIGFjY2VzcyBwYWNrYWdl
+DQo+ID4gPiA+IGNvbmZpZyBzcGFjZSAoUENTKSByZWdpc3RlcnMgb24gdGhlIGhvc3QgQ1BVIGFu
+ZCBzaW5jZSBzb21lIGluZm9ybWF0aW9uLA0KPiA+ID4gPiBlLmcuIGZpZ3VyaW5nIG91dCB0aGUg
+Y29yZSBjb3VudCwgY2FuIGJlIG9idGFpbmVkIHVzaW5nIGRpZmZlcmVudA0KPiA+ID4gPiByZWdp
+c3RlcnMgb24gZGlmZmVyZW50IENQVSBnZW5lcmF0aW9ucywgdGhleSBuZWVkIHRvIGRlY29kZSB0
+aGUgZmFtaWx5DQo+ID4gPiA+IGFuZCBtb2RlbC4NCj4gPiA+ID4gDQo+ID4gPiA+IE1vdmUgdGhl
+IGRhdGEgZnJvbSBhcmNoL3g4Ni9pbmNsdWRlL2FzbS9pbnRlbC1mYW1pbHkuaCBpbnRvIGEgbmV3
+IGZpbGUNCj4gPiA+ID4gaW5jbHVkZS9saW51eC94ODYvaW50ZWwtZmFtaWx5Lmggc28gdGhhdCBp
+dCBjYW4gYmUgdXNlZCBieSBvdGhlcg0KPiA+ID4gPiBhcmNoaXRlY3R1cmVzLg0KPiA+ID4gPiAN
+Cj4gPiA+ID4gU2lnbmVkLW9mZi1ieTogSXdvbmEgV2luaWFyc2thIDxpd29uYS53aW5pYXJza2FA
+aW50ZWwuY29tPg0KPiA+ID4gPiBSZXZpZXdlZC1ieTogVG9ueSBMdWNrIDx0b255Lmx1Y2tAaW50
+ZWwuY29tPg0KPiA+ID4gPiBSZXZpZXdlZC1ieTogRGFuIFdpbGxpYW1zIDxkYW4uai53aWxsaWFt
+c0BpbnRlbC5jb20+DQo+ID4gPiA+IC0tLQ0KPiA+ID4gPiBUbyBsaW1pdCB0cmVlLXdpZGUgY2hh
+bmdlcyBhbmQgaGVscCBwZW9wbGUgdGhhdCB3ZXJlIGV4cGVjdGluZw0KPiA+ID4gPiBpbnRlbC1m
+YW1pbHkgZGVmaW5lcyBpbiBhcmNoL3g4NiB0byBmaW5kIGl0IG1vcmUgZWFzaWx5IHdpdGhvdXQg
+Z29pbmcNCj4gPiA+ID4gdGhyb3VnaCBnaXQgaGlzdG9yeSwgd2UncmUgbm90IHJlbW92aW5nIHRo
+ZSBvcmlnaW5hbCBoZWFkZXINCj4gPiA+ID4gY29tcGxldGVseSwgd2UncmUga2VlcGluZyBpdCBh
+cyBhICJzdHViIiB0aGF0IGluY2x1ZGVzIHRoZSBuZXcgb25lLg0KPiA+ID4gPiBJZiB0aGVyZSBp
+cyBhIGNvbnNlbnN1cyB0aGF0IHRoZSB0cmVlLXdpZGUgb3B0aW9uIGlzIGJldHRlciwNCj4gPiA+
+ID4gd2UgY2FuIGNob29zZSB0aGlzIGFwcHJvYWNoLg0KPiA+ID4gV2h5IGNhbid0IHRoZSBsaW51
+eC8gbmFtZXNwYWNlIGhlYWRlciBpbmNsdWRlIHRoZSB4ODYgb25lIHNvIHRoYXQNCj4gPiA+IG5v
+dGhpbmcgY2hhbmdlcyBmb3IgYXJjaC94ODYvPw0KPiA+IFNhbWUgcmVhc29uIHdoeSBQRUNJIGNh
+bid0IGp1c3QgaW5jbHVkZSBhcmNoL3g4NiBkaXJlY3RseSAod2UncmUgYnVpbGRpbmcNCj4gPiBm
+b3INCj4gPiBBUk0sIG5vdCB4ODYpLg0KPiBJZiB5b3UncmUgaW4gaW5jbHVkZS9saW51eC94ODYt
+aGFja3MuaCwgd2hhdCBwcmV2ZW50cyB5b3UgZnJvbSBkb2luZw0KPiANCj4gI2luY2x1ZGUgIi4u
+Ly4uL2FyY2gveDg2L2luY2x1ZGUvYXNtL2ludGVsLWZhbWlseS5oIg0KPiANCj4gPw0KPiANCj4g
+SW4gdGhlIGVuZCwgdG8gdGhlIGNvbXBpbGVyLCBpdCdzIGp1c3QgYSBmaWxlIGluIGEgd2VpcmQg
+bG9jYXRpb24gaW4gdGhlDQo+IHRyZWUuwqAgSSB0aGluayBJJ2QgcHJlZmVyIG9uZSB3ZWlyZCBp
+bmNsdWRlIHRvIG1vdmluZyB0aGF0IGZpbGUgb3V0IG9mDQo+IGFyY2gveDg2Lg0KDQpVc2luZyBy
+ZWxhdGl2ZSBpbmNsdWRlcyBpbiBpbmNsdWRlL2xpbnV4IGlzIHVuY29tbW9uIChJIGNhbiBzZWUg
+anVzdCBvbmUgdXNhZ2UNCmluIGxpYmZkdC5oIHB1bGxpbmcgc3R1ZmYgZnJvbSBzY3JpcHRzKSwg
+c28gSSB0aG91Z2h0IEkgY2FuJ3QgdXNlIGl0IGluIHRoaXMgd2F5DQooc2VlbXMgc2xpZ2h0bHkg
+aGFja3kgdG8gcHVsbCBzdHVmZiBmcm9tIG91dHNpZGUgaW5jbHVkZSBwYXRoKS4NCg0KQnV0IGlm
+IHRoYXQgd291bGQgYmUgb2ssIGl0IGxvb2tzIGxpa2UgYSBnb29kIGFsdGVybmF0aXZlIHRvIGF2
+b2lkIGR1cGxpY2F0aW9uDQppbiB0aGlzIGNhc2UuDQoNClRoYW5rcw0KLUl3b25hDQo=
