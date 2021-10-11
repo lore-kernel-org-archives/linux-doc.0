@@ -2,188 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CA04C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 19:03:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3710C43217
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 19:09:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 35A7260E8B
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 19:03:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C754C60E8B
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 19:09:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234481AbhJKTFk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Oct 2021 15:05:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51652 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233905AbhJKTFk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Oct 2021 15:05:40 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFB13C061570;
-        Mon, 11 Oct 2021 12:03:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=lly2oV++EB8MLjlYRFL/38jQaOHMGIONvw6X549JSsE=; b=KQbWzxiVJMRkcpVwfk2l9dHU3T
-        xyB4c2qqD/PoaETldJK6z8Yz97yWnLPiJch1snwoFn4gR2mbmkMfGiU4CmuUfqKMMfpmNS6twnf8K
-        VIMijx2oNTCEDy+XXh2yujUogjCQ3vpMspQJyM0+hzrNZSZYG54y3DxGkUrV5PQ2p07MakgkGw2Ag
-        yXCJ4ZEC+kssx3a43eD0mtUEKG+nkHEp5OoSnpIqi157chHG1qAmm1zNVQZxxXdz39vx6bC/B0Whu
-        c/I+vVmGfG43+tVK8TV9IAF1F/s7KFRrD0l6gWmLOSahPUfipwptrP6lqknMd1nx3hZYdco3ECQGk
-        U12+mc1A==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1ma0aB-00ARXU-AN; Mon, 11 Oct 2021 19:03:31 +0000
-Date:   Mon, 11 Oct 2021 12:03:31 -0700
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     tj@kernel.org, gregkh@linuxfoundation.org,
-        akpm@linux-foundation.org, minchan@kernel.org, jeyu@kernel.org,
-        shuah@kernel.org, bvanassche@acm.org, dan.j.williams@intel.com,
-        joe@perches.com, tglx@linutronix.de, rostedt@goodmis.org,
-        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 03/12] selftests: add tests_sysfs module
-Message-ID: <YWSKg7+og7ID8cCV@bombadil.infradead.org>
-References: <20210927163805.808907-1-mcgrof@kernel.org>
- <20210927163805.808907-4-mcgrof@kernel.org>
- <202110050912.3DF681ED@keescook>
+        id S234542AbhJKTLV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Oct 2021 15:11:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52455 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234550AbhJKTLU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Oct 2021 15:11:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1633979360;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=oZEQAOmKk6R+KRX2BzvVHC2H3CodKlCG/yzYUUC2zJA=;
+        b=BS4bA3fCPL7ji4sk0sY++AgXBRA5903u4v5fTv5U+qeJOVInB+UsGXRdm/y/lsPVrS3VBE
+        LdiOFVDZaPAUAcjXri+vHn2LuaratoyeuQB63xehStRiGYWhYQbWxE2542eW86FKAKGdSn
+        9jCnAoRWYokRQikWIZzlLf5YZ0OzmjQ=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-511-wU-Nq89xPFmYcri4150arg-1; Mon, 11 Oct 2021 15:09:18 -0400
+X-MC-Unique: wU-Nq89xPFmYcri4150arg-1
+Received: by mail-ed1-f69.google.com with SMTP id g28-20020a50d0dc000000b003dae69dfe3aso16689433edf.7
+        for <linux-doc@vger.kernel.org>; Mon, 11 Oct 2021 12:09:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=oZEQAOmKk6R+KRX2BzvVHC2H3CodKlCG/yzYUUC2zJA=;
+        b=jb1GEgYpMhr/cwBtU21jMHLQOtFcDAFQQS/tkkG7g2SKlDadtmn5Li8WnEETOC9xHd
+         deQM3oZoJGF9tY/k+Pnx9V2xzDTK3hd1amBTVYB0NUPRqQknrLAmyXpJAFy2ICrfnCVm
+         0COlrKAsRfUvKRUzsN86asP5IqrPYvK6iSXR+XNT/sOG04H3W2a/QZoEEFyxSoBQwJE8
+         bfqakrtCTEYg8JmFOEPylw/5bkqNp7C9ENfiXwEMbbntVyerrVdhhEl8SShNExqEOd6S
+         1OHCqGpzdpLTtgi0+mb38cJhPDC7wa1zElo0wwpcUZYsnqL32p2Le1mevGXsU2MxgsK5
+         9KjA==
+X-Gm-Message-State: AOAM533R2z3BVj5UdONjQdHFD4EBmtMQvidDwnb4AryF956yfCY+uAFu
+        HdRIm9P7/ySM/6pkkpq6PKlL/B3L1jWAsgs73jyZFMXA1tinrtHc9HDSUUrf9U/2R8Hmgj6AHOS
+        NJJv9ozPML9Wj7TNQQlT4
+X-Received: by 2002:aa7:c38b:: with SMTP id k11mr4113136edq.79.1633979356727;
+        Mon, 11 Oct 2021 12:09:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwGboOz6J9azwkeciPdL9sKClCOiUS/XGJc/PjIe5OTL3dASYPSk/hflbIEKyA9zwBTklJK0A==
+X-Received: by 2002:aa7:c38b:: with SMTP id k11mr4113103edq.79.1633979356541;
+        Mon, 11 Oct 2021 12:09:16 -0700 (PDT)
+Received: from redhat.com ([2.55.159.57])
+        by smtp.gmail.com with ESMTPSA id z4sm5250327edd.46.2021.10.11.12.09.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Oct 2021 12:09:15 -0700 (PDT)
+Date:   Mon, 11 Oct 2021 15:09:09 -0400
+From:   "Michael S. Tsirkin" <mst@redhat.com>
+To:     Andi Kleen <ak@linux.intel.com>
+Cc:     Christoph Hellwig <hch@infradead.org>,
+        Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Richard Henderson <rth@twiddle.net>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        James E J Bottomley <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        David Hildenbrand <david@redhat.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Peter H Anvin <hpa@zytor.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
+        x86@kernel.org, linux-kernel@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-alpha@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        virtualization@lists.linux-foundation.org
+Subject: Re: [PATCH v5 12/16] PCI: Add pci_iomap_host_shared(),
+ pci_iomap_host_shared_range()
+Message-ID: <20211011142956-mutt-send-email-mst@kernel.org>
+References: <20211009003711.1390019-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20211009003711.1390019-13-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <YWPunfa+WK86Cgnv@infradead.org>
+ <a070274e-6a3a-fb0a-68ff-d320d0729377@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202110050912.3DF681ED@keescook>
-Sender: Luis Chamberlain <mcgrof@infradead.org>
+In-Reply-To: <a070274e-6a3a-fb0a-68ff-d320d0729377@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 05, 2021 at 09:30:10AM -0700, Kees Cook wrote:
-> On Mon, Sep 27, 2021 at 09:37:56AM -0700, Luis Chamberlain wrote:
-> > --- /dev/null
-> > +++ b/lib/test_sysfs.c
-> > @@ -0,0 +1,921 @@
-> > +// SPDX-License-Identifier: GPL-2.0-or-later OR copyleft-next-0.3.1
-> > +/*
-> > + * sysfs test driver
-> > + *
-> > + * Copyright (C) 2021 Luis Chamberlain <mcgrof@kernel.org>
-> > + *
-> > + * This program is free software; you can redistribute it and/or modify it
-> > + * under the terms of the GNU General Public License as published by the Free
-> > + * Software Foundation; either version 2 of the License, or at your option any
-> > + * later version; or, when distributed separately from the Linux kernel or
-> > + * when incorporated into other software packages, subject to the following
-> > + * license:
-> > + *
-> > + * This program is free software; you can redistribute it and/or modify it
-> > + * under the terms of copyleft-next (version 0.3.1 or later) as published
-> > + * at http://copyleft-next.org/.
+On Mon, Oct 11, 2021 at 10:23:00AM -0700, Andi Kleen wrote:
 > 
-> As Greg suggested, please drop the boilerplate here.
-
-Sure, sorry for missing that fixed.
-
-> > +static ssize_t config_show(struct device *dev,
-> > +			   struct device_attribute *attr,
-> > +			   char *buf)
-> > +{
-> > +	struct sysfs_test_device *test_dev = dev_to_test_dev(dev);
-> > +	struct test_config *config = &test_dev->config;
-> > +	int len = 0;
-> > +
-> > +	test_dev_config_lock(test_dev);
-> > +
-> > +	len += snprintf(buf, PAGE_SIZE,
-> > +			"Configuration for: %s\n",
-> > +			dev_name(dev));
+> On 10/11/2021 12:58 AM, Christoph Hellwig wrote:
+> > Just as last time:  This does not make any sense.  ioremap is shared
+> > by definition.
 > 
-> Please use sysfs_emit() instead of snprintf().
+> It's not necessarily shared with the host for confidential computing: for
+> example BIOS mappings definitely should not be shared, but they're using
+> ioremap today.
 
-Oh nice, done and fixed also in the other places.
+That just needs to be fixed.
 
-> > +static int sysfs_test_dev_alloc_blockdev(struct sysfs_test_device *test_dev)
-> > +{
-> > +	int ret = -ENOMEM;
-> > +
-> > +	test_dev->disk = blk_alloc_disk(NUMA_NO_NODE);
-> > +	if (!test_dev->disk) {
-> > +		pr_err("Error allocating disk structure for device %d\n",
-> > +		       test_dev->dev_idx);
-> > +		goto out;
-> > +	}
-> > +
-> > +	test_dev->disk->major = sysfs_test_major;
-> > +	test_dev->disk->first_minor = test_dev->dev_idx + 1;
-> > +	test_dev->disk->fops = &sysfs_testdev_ops;
-> > +	test_dev->disk->private_data = test_dev;
-> > +	snprintf(test_dev->disk->disk_name, 16, "test_sysfs%d",
-> > +		 test_dev->dev_idx);
+> But if you have a better term please propose something. I tried to clarify
+> it with "shared_host", but I don't know a better term.
 > 
-> Prefer sizeof(test_dev->disk->disk_name) over open-coded "16".
-
-Sure.
-
-> > +static ssize_t read_reset_first_test_dev(struct file *file,
-> > +					 char __user *user_buf,
-> > +					 size_t count, loff_t *ppos)
-> > +{
-> > +	ssize_t len;
-> > +	char buf[32];
-> > +
-> > +	reset_first_test_dev++;
-> > +	len = sprintf(buf, "%d\n", reset_first_test_dev);
 > 
-> Even though it's safe as-is, I was going to suggest scnprintf() here
-> (i.e. explicit bounds and a bounds-checked "len"). However, scnprintf()
-> returns ssize_t, and there's no bounds checking in
-> simple_read_from_buffer. That needs fixing (I'll send a patch).
-
-OK we can later change it to scnprintf() once your patch gets merged.
-
-> > --- /dev/null
-> > +++ b/tools/testing/selftests/sysfs/sysfs.sh
-> > @@ -0,0 +1,1208 @@
-> > +#!/bin/bash
-> > +# SPDX-License-Identifier: GPL-2.0-or-later
-> > +# Copyright (C) 2021 Luis Chamberlain <mcgrof@kernel.org>
-> > +#
-> > +# This program is free software; you can redistribute it and/or modify it
-> > +# under the terms of the GNU General Public License as published by the Free
-> > +# Software Foundation; either version 2 of the License, or at your option any
-> > +# later version; or, when distributed separately from the Linux kernel or
-> > +# when incorporated into other software packages, subject to the following
-> > +# license:
-> > +#
-> > +# This program is free software; you can redistribute it and/or modify it
-> > +# under the terms of copyleft-next (version 0.3.1 or later) as published
-> > +# at http://copyleft-next.org/.
-> > +
-> > +# This performs a series tests against the sysfs filesystem.
+> -Andi
 > 
-> -boilerplate
 
-Nuked.
 
-> > +check_dmesg()
-> > +{
-> > +	# filter out intentional WARNINGs or Oopses
-> > +	local filter=${1:-_check_dmesg_filter}
-> > +
-> > +	_dmesg_since_test_start | $filter >$seqres.dmesg
-> > +	egrep -q -e "kernel BUG at" \
-> > +	     -e "WARNING:" \
-> > +	     -e "\bBUG:" \
-> > +	     -e "Oops:" \
-> > +	     -e "possible recursive locking detected" \
-> > +	     -e "Internal error" \
-> > +	     -e "(INFO|ERR): suspicious RCU usage" \
-> > +	     -e "INFO: possible circular locking dependency detected" \
-> > +	     -e "general protection fault:" \
-> > +	     -e "BUG .* remaining" \
-> > +	     -e "UBSAN:" \
-> > +	     $seqres.dmesg
-> 
-> Is just looking for "call trace" sufficient here?
+The reason we have trouble is that it's not clear what does the API mean
+outside the realm of TDX.
+If we really, truly want an API that says "ioremap and it's a hardened
+driver" then I guess ioremap_hardened_driver is what you want.
 
-So far from my testing yes. This strategy is also borrowed from fstests
-and that's what is done there, and so quite a lot of testing has been
-done with that. If we are to consider an enhancement here we should then
-also consider an enhancement welcome for fstests.
+-- 
+MST
 
-  Luis
