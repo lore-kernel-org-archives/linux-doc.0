@@ -2,77 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D050DC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 12:52:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCC12C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 12:52:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AF50860E9C
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 12:52:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BDD3460F23
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 12:52:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234885AbhJKMy3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Oct 2021 08:54:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59528 "EHLO
+        id S236746AbhJKMyl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Oct 2021 08:54:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45708 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231628AbhJKMy3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Oct 2021 08:54:29 -0400
+        by vger.kernel.org with ESMTP id S235180AbhJKMyk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Oct 2021 08:54:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1633956748;
+        s=mimecast20190719; t=1633956760;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=QaBIGi0oAdZ+bifrwuDRXIfKMEk3gl8Olbtkp3fD4yo=;
-        b=RK4rQP3oqPrHIAKTSVOLe0ezgq5tPiqWKptrxyEmunnS6qKS4M79xyMfCDMSs9UwO5NIP/
-        W9oP5nv4GGjooc23NivbtrSU77JZBJfpJDGc+luKAQcHZrIBEH1Iqvt0BRp0Lj6DmNJENY
-        Q084Buh9F5/ksZ8zrovs8AXajUH84zU=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-501-Jw4iijHWOCKYYM6-GKp7AQ-1; Mon, 11 Oct 2021 08:52:27 -0400
-X-MC-Unique: Jw4iijHWOCKYYM6-GKp7AQ-1
-Received: by mail-ed1-f69.google.com with SMTP id i7-20020a50d747000000b003db0225d219so15863974edj.0
-        for <linux-doc@vger.kernel.org>; Mon, 11 Oct 2021 05:52:26 -0700 (PDT)
+        bh=R/O41kNxsiEROmyRK7T1peFirCbbua8dp9Na0HOmfkg=;
+        b=L9SBvUCzDHi0ObsBO0i9M2cV4yYfcfiDHWCAnrmmRMOAO7PqRuBHUHj7luuVu5VArBb40J
+        0TBwdCJzlQTd1D4ECZJ7KuTE8JJz8X9Fo1duKrLnlNP2FG1zA/cnxRGWLCAIlNRIczu7e9
+        1wqFz3F9/7b4r3a6HiRCY3i7YMY6wpI=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-147-9nD5iYm8MaSkrmbcpUin8g-1; Mon, 11 Oct 2021 08:52:39 -0400
+X-MC-Unique: 9nD5iYm8MaSkrmbcpUin8g-1
+Received: by mail-ed1-f70.google.com with SMTP id z23-20020aa7cf97000000b003db7be405e1so4897799edx.13
+        for <linux-doc@vger.kernel.org>; Mon, 11 Oct 2021 05:52:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=QaBIGi0oAdZ+bifrwuDRXIfKMEk3gl8Olbtkp3fD4yo=;
-        b=MWxx9VYGOoIPH03mnn06PR9BN3rDt4GticqPd9Ot47pFxTe5qos3H5g85JxOFw7KXJ
-         Y8QQTBRIg/XwodTWienuxM1TXI1XzsN2KkYlXNmQ+4DM2wevcgN7MNuambMDWd/Bzl8C
-         du8PuDaFgocswW/BVgwIPMX7x+KNvaXeqFBsg6yk3iQ1fm2mtXD9QeB+SxtpMLaHYgxY
-         S9NOkvykQnYN2sIz8szVNfDtHSlXpGHc7CaSb8NxhVMXohChPWq3uxVI8HPbSFhBQBsX
-         yi2hXIbWmnKJ5dLkbgkWpaMnLBhZO+Zv6PV7vOoTcmTEOoR9DgOpk11aOB8FTnwHO+CI
-         XWCw==
-X-Gm-Message-State: AOAM532YQkW1x4AtADuOHkYiQWMoH8CEL+1IvPlcHPxnNQ6YBA4VLEVp
-        5GU4/XTv+QxJUItfyOxQHWc9U2zD5xnxhAe39GN5kCdQAJeT1WN7QZewp1X0ki09x36zGtwDiHV
-        uVjuKLPdRLClW98L9ttFW
-X-Received: by 2002:a17:906:b00c:: with SMTP id v12mr25574521ejy.222.1633956745596;
-        Mon, 11 Oct 2021 05:52:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzuB4IMrDwLNLmZu6++TamTcz3ffKC3IdkeBOEaxJk43O3zJ6vyUZCqDugm3PErNzR6Spdtkg==
-X-Received: by 2002:a17:906:b00c:: with SMTP id v12mr25574491ejy.222.1633956745398;
-        Mon, 11 Oct 2021 05:52:25 -0700 (PDT)
+        bh=R/O41kNxsiEROmyRK7T1peFirCbbua8dp9Na0HOmfkg=;
+        b=w0KLE7VezyOmkedtRJIFjEmZCEcxC19C9izyv24zN+H2cqd9R2J3iSIcGkzTsni67e
+         As/YuNer/LjH+Dw3/Gmg1CxGd0K75Kd6GddRnLFq8zi1qAxqhIAw0BYYEW7aDPRqwYuu
+         5+FpAK2tFP6UT4d5qur/NmnHMc/9kw63PhaYOyTmJWUZChATIbhGGI8T1J4zFs8Lpsqo
+         mHpnfgvWULi8nkM4ncsGjCvYvNBA8bryKZGIPPCTYylZInWILCLKZHk4sWyMTYE4lXde
+         Jjc8xfIDNaC4GNOW4MKokHnLoKRBuHfHOMPm+NvyK2Jjk2RihnGRkeRTOZ/a07WC0sTe
+         xwaA==
+X-Gm-Message-State: AOAM532zbdMHxw5VtKfhJtDOoHxU9grL6ltmUfEbJjwa/GQ41V2Rj2ch
+        80sUFd01adrLfSei7pwW5FQPkD5WP25TE/vMzifcBj9QUr8TCfHtFzf1RMsyilNpxBEURahu5Zf
+        z+In99YPfNF5jBWgm5dhF
+X-Received: by 2002:a17:906:b796:: with SMTP id dt22mr18038382ejb.456.1633956757796;
+        Mon, 11 Oct 2021 05:52:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxi7o92tq3gvqBc2CVw+igZfADk/zfjRvTv8729ds/ygTzFp3Qlc3LXYc3L1Pnrvj/Zr7JHAQ==
+X-Received: by 2002:a17:906:b796:: with SMTP id dt22mr18038364ejb.456.1633956757634;
+        Mon, 11 Oct 2021 05:52:37 -0700 (PDT)
 Received: from x1.localdomain ([81.30.35.201])
-        by smtp.gmail.com with ESMTPSA id t20sm3469789ejc.105.2021.10.11.05.52.24
+        by smtp.gmail.com with ESMTPSA id lb12sm3570830ejc.28.2021.10.11.05.52.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Oct 2021 05:52:25 -0700 (PDT)
-Subject: Re: [PATCH 2/7] ABI: sysfs-platform-dell-privacy-wmi: correct ABI
- entries
+        Mon, 11 Oct 2021 05:52:37 -0700 (PDT)
+Subject: Re: [PATCH 7/7] ABI: sysfs-platform-intel-pmc: add blank lines to
+ make it valid for ReST
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Perry Yuan <perry_yuan@dell.com>,
-        linux-kernel@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        David E Box <david.e.box@intel.com>,
+        Rajneesh Bhardwaj <irenic.rajneesh@gmail.com>,
+        Tamar Mashiah <tamar.mashiah@intel.com>,
+        Tomas Winkler <tomas.winkler@intel.com>,
+        linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
 References: <cover.1632740376.git.mchehab+huawei@kernel.org>
- <42846621fdf2bf206feb114d06b14cbc47475fb5.1632740376.git.mchehab+huawei@kernel.org>
+ <3673e1a255ad4100c933af215b60d68ba126f820.1632740376.git.mchehab+huawei@kernel.org>
 From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <5e4e394d-6005-e784-9e45-610ab66ce331@redhat.com>
-Date:   Mon, 11 Oct 2021 14:52:24 +0200
+Message-ID: <e5ce90b3-898e-34ca-0a4e-19c7ea214f4d@redhat.com>
+Date:   Mon, 11 Oct 2021 14:52:36 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <42846621fdf2bf206feb114d06b14cbc47475fb5.1632740376.git.mchehab+huawei@kernel.org>
+In-Reply-To: <3673e1a255ad4100c933af215b60d68ba126f820.1632740376.git.mchehab+huawei@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -80,35 +85,10 @@ X-Mailing-List: linux-doc@vger.kernel.org
 Hi,
 
 On 9/27/21 1:10 PM, Mauro Carvalho Chehab wrote:
-> As described at Documentation/ABI/README doesn't contain an
-> Attribute: field.
+> The ReST format requires blank lines before/after identation changes,
+> for it to properly detect lists.
 > 
-> The way sysfs ABI is supposed to work is that each different
-> attribute would have a separate file. So, the right way to
-> map this would be like:
-> 
-> 	/sys/.../dell_privacy_supported_type/mic_mute
-> 	/sys/.../dell_privacy_supported_type/camera_shutter
-> 
-> 	/sys/.../dell_privacy_current_state/mic_mute
-> 	/sys/.../dell_privacy_current_state/camera_shutter
-> 
-> However, it seems to late to fix that, as this was merged already on
-> Kernel 5.13, and a change right now would be a regression.
-> 
-> So, instead, let's at least fix the entry to match the expected
-> format.
-> 
-> While here, fix the format of the contact, which is not a valid
-> e-mail URL.
-> 
-> This should also fix the current warnings produced when building the
-> docs:
-> 
-> 	Documentation/ABI/testing/sysfs-platform-dell-privacy-wmi:35: WARNING: Unexpected indentation.
-> 	Documentation/ABI/testing/sysfs-platform-dell-privacy-wmi:2: WARNING: Unexpected indentation.
-> 
-> Fixes: 8af9fa37b8a3 ("platform/x86: dell-privacy: Add support for Dell hardware privacy")
+> Fixes: ee7abc105e2b ("platform/x86: intel_pmc_core: export platform global reset bits via etr3 sysfs file")
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
 Thank you for your patch, I've applied this patch to my review-hans 
@@ -128,111 +108,27 @@ Regards,
 Hans
 
 
-
 > ---
 > 
 > See [PATCH 0/7] at: https://lore.kernel.org/all/cover.1632740376.git.mchehab+huawei@kernel.org/T/#t
 > 
->  .../testing/sysfs-platform-dell-privacy-wmi   | 60 ++++++++++++-------
->  1 file changed, 38 insertions(+), 22 deletions(-)
+>  Documentation/ABI/testing/sysfs-platform-intel-pmc | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> diff --git a/Documentation/ABI/testing/sysfs-platform-dell-privacy-wmi b/Documentation/ABI/testing/sysfs-platform-dell-privacy-wmi
-> index 7f9e18705861..1f1f274a6979 100644
-> --- a/Documentation/ABI/testing/sysfs-platform-dell-privacy-wmi
-> +++ b/Documentation/ABI/testing/sysfs-platform-dell-privacy-wmi
-> @@ -1,55 +1,71 @@
->  What:		/sys/bus/wmi/devices/6932965F-1671-4CEB-B988-D3AB0A901919/dell_privacy_supported_type
->  Date:		Apr 2021
->  KernelVersion:	5.13
-> -Contact:	"perry.yuan@dell.com>"
-> +Contact:	"<perry.yuan@dell.com>"
->  Description:
->  		Display which dell hardware level privacy devices are supported
->  		“Dell Privacy” is a set of HW, FW, and SW features to enhance
->  		Dell’s commitment to platform privacy for MIC, Camera, and
->  		ePrivacy screens.
->  		The supported hardware privacy devices are:
-> -Attributes:
-> -		Microphone Mute:
+> diff --git a/Documentation/ABI/testing/sysfs-platform-intel-pmc b/Documentation/ABI/testing/sysfs-platform-intel-pmc
+> index ef199af75ab0..f31d59b21f9b 100644
+> --- a/Documentation/ABI/testing/sysfs-platform-intel-pmc
+> +++ b/Documentation/ABI/testing/sysfs-platform-intel-pmc
+> @@ -11,8 +11,10 @@ Description:
+>  		to take effect.
+>  
+>  		Display global reset setting bits for PMC.
 > +
-> +		Attributes:
-> +			Microphone Mute:
->  				Identifies the local microphone can be muted by hardware, no applications
->  				is available to capture system mic sound
->  
-> -		Camera Shutter:
-> +			Camera Shutter:
->  				Identifies camera shutter controlled by hardware, which is a micromechanical
->  				shutter assembly that is built onto the camera module to block capturing images
->  				from outside the laptop
->  
-> -		supported:
-> +		Values:
+>  			* bit 31 - global reset is locked
+>  			* bit 20 - global reset is set
 > +
-> +			supported:
->  				The privacy device is supported by this system
->  
-> -		unsupported:
-> +			unsupported:
->  				The privacy device is not supported on this system
->  
-> -		For example to check which privacy devices are supported:
-> +		For example to check which privacy devices are supported::
->  
-> -		# cat /sys/bus/wmi/drivers/dell-privacy/6932965F-1671-4CEB-B988-D3AB0A901919/dell_privacy_supported_type
-> -		[Microphone Mute] [supported]
-> -		[Camera Shutter] [supported]
-> -		[ePrivacy Screen] [unsupported]
-> +		    # cat /sys/bus/wmi/drivers/dell-privacy/6932965F-1671-4CEB-B988-D3AB0A901919/dell_privacy_supported_type
-> +		    [Microphone Mute] [supported]
-> +		    [Camera Shutter] [supported]
-> +		    [ePrivacy Screen] [unsupported]
->  
->  What:		/sys/bus/wmi/devices/6932965F-1671-4CEB-B988-D3AB0A901919/dell_privacy_current_state
->  Date:		Apr 2021
->  KernelVersion:	5.13
-> -Contact:	"perry.yuan@dell.com>"
-> +Contact:	"<perry.yuan@dell.com>"
->  Description:
->  		Allow user space to check current dell privacy device state.
->  		Describes the Device State class exposed by BIOS which can be
->  		consumed by various applications interested in knowing the Privacy
->  		feature capabilities
-> -Attributes:
-> -		muted:
-> -			Identifies the privacy device is turned off and cannot send stream to OS applications
->  
-> -		unmuted:
-> -			Identifies the privacy device is turned on ,audio or camera driver can get
-> -			stream from mic and camera module to OS applications
-> +		Attributes:
-> +			Microphone:
-> +				Identifies the local microphone can be muted by hardware, no applications
-> +				is available to capture system mic sound
->  
-> -		For example to check all supported current privacy device states:
-> +			Camera Shutter:
-> +				Identifies camera shutter controlled by hardware, which is a micromechanical
-> +				shutter assembly that is built onto the camera module to block capturing images
-> +				from outside the laptop
->  
-> -		# cat /sys/bus/wmi/drivers/dell-privacy/6932965F-1671-4CEB-B988-D3AB0A901919/dell_privacy_current_state
-> -		[Microphone] [unmuted]
-> -		[Camera Shutter] [unmuted]
-> +		Values:
-> +			muted:
-> +				Identifies the privacy device is turned off
-> +				and cannot send stream to OS applications
-> +
-> +			unmuted:
-> +				Identifies the privacy device is turned on,
-> +				audio or camera driver can get stream from mic
-> +				and camera module to OS applications
-> +
-> +		For example to check all supported current privacy device states::
-> +
-> +		    # cat /sys/bus/wmi/drivers/dell-privacy/6932965F-1671-4CEB-B988-D3AB0A901919/dell_privacy_current_state
-> +		    [Microphone] [unmuted]
-> +		    [Camera Shutter] [unmuted]
+>  		Writing bit 20 value to the etr3 will induce
+>  		a platform "global reset" upon consequent platform reset,
+>  		in case the register is not locked.
 > 
 
