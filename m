@@ -2,71 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99387C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 15:55:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35670C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 17:23:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7EED560C4B
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 15:55:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1012360E78
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 17:23:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239154AbhJKP5t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Oct 2021 11:57:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42540 "EHLO mail.kernel.org"
+        id S233981AbhJKRZD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Oct 2021 13:25:03 -0400
+Received: from mga12.intel.com ([192.55.52.136]:3265 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239142AbhJKP5s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 11 Oct 2021 11:57:48 -0400
-Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5C0AA60E98;
-        Mon, 11 Oct 2021 15:55:48 +0000 (UTC)
-Received: from sofa.misterjones.org ([185.219.108.64] helo=hot-poop.lan)
-        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <maz@kernel.org>)
-        id 1mZxeU-00G454-1s; Mon, 11 Oct 2021 16:55:46 +0100
-From:   Marc Zyngier <maz@kernel.org>
-To:     james.morse@arm.com, linux-arm-kernel@lists.infradead.org,
-        will@kernel.org, corbet@lwn.net,
-        Alexandru Elisei <alexandru.elisei@arm.com>,
-        catalin.marinas@arm.com, linux-kernel@vger.kernel.org,
-        kvmarm@lists.cs.columbia.edu, suzuki.poulose@arm.com,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation: admin-guide: Document side effects when pKVM is enabled
-Date:   Mon, 11 Oct 2021 16:55:42 +0100
-Message-Id: <163396773657.855753.9209725646924595792.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211011153835.291147-1-alexandru.elisei@arm.com>
-References: <20211011153835.291147-1-alexandru.elisei@arm.com>
+        id S233933AbhJKRZD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 11 Oct 2021 13:25:03 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10134"; a="207042928"
+X-IronPort-AV: E=Sophos;i="5.85,365,1624345200"; 
+   d="scan'208";a="207042928"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2021 10:23:02 -0700
+X-IronPort-AV: E=Sophos;i="5.85,365,1624345200"; 
+   d="scan'208";a="440882109"
+Received: from akleen-mobl1.amr.corp.intel.com (HELO [10.255.229.69]) ([10.255.229.69])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2021 10:23:01 -0700
+Message-ID: <a070274e-6a3a-fb0a-68ff-d320d0729377@linux.intel.com>
+Date:   Mon, 11 Oct 2021 10:23:00 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: james.morse@arm.com, linux-arm-kernel@lists.infradead.org, will@kernel.org, corbet@lwn.net, alexandru.elisei@arm.com, catalin.marinas@arm.com, linux-kernel@vger.kernel.org, kvmarm@lists.cs.columbia.edu, suzuki.poulose@arm.com, linux-doc@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v5 12/16] PCI: Add pci_iomap_host_shared(),
+ pci_iomap_host_shared_range()
+Content-Language: en-US
+To:     Christoph Hellwig <hch@infradead.org>,
+        Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Richard Henderson <rth@twiddle.net>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        James E J Bottomley <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        David Hildenbrand <david@redhat.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Peter H Anvin <hpa@zytor.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
+        x86@kernel.org, linux-kernel@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-alpha@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        virtualization@lists.linux-foundation.org
+References: <20211009003711.1390019-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20211009003711.1390019-13-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <YWPunfa+WK86Cgnv@infradead.org>
+From:   Andi Kleen <ak@linux.intel.com>
+In-Reply-To: <YWPunfa+WK86Cgnv@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 11 Oct 2021 16:38:35 +0100, Alexandru Elisei wrote:
-> Recent changes to KVM for arm64 has made it impossible for the host to
-> hibernate or use kexec when protected mode is enabled via the kernel
-> command line.
-> 
-> There are people who rely on kexec (for example, developers who use kexec
-> as a quick way to test a new kernel), let's document this change in
-> behaviour, so it doesn't catch them by surprise and we have a place to
-> point people to if it does.
 
-Applied to next, thanks!
+On 10/11/2021 12:58 AM, Christoph Hellwig wrote:
+> Just as last time:  This does not make any sense.  ioremap is shared
+> by definition.
 
-[1/1] Documentation: admin-guide: Document side effects when pKVM is enabled
-      commit: 53e8ce137f7b34bd7a54429d18e0d0e5f56f54e8
+It's not necessarily shared with the host for confidential computing: 
+for example BIOS mappings definitely should not be shared, but they're 
+using ioremap today.
 
-Cheers,
+But if you have a better term please propose something. I tried to 
+clarify it with "shared_host", but I don't know a better term.
 
-	M.
--- 
-Without deviation from the norm, progress is not possible.
+
+-Andi
 
 
