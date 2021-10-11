@@ -2,120 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD38FC433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 21:25:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8B37C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 21:31:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BAE8261038
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 21:25:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CD84061074
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 21:31:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235225AbhJKV1z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Oct 2021 17:27:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55280 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230114AbhJKV1z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Oct 2021 17:27:55 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89388C061570;
-        Mon, 11 Oct 2021 14:25:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=rvR++cOV6St/IKyuFj/V4jUUpnc9vYLPZ+efnuLPdWc=; b=25WRJtmBryphhp7aLK/UkJ4aWA
-        tK73XQukZ8oxuJlQ20xqvbyZ2vAL72VzbO+/iHZ5dWu8l0Tc0dS1+X1oi6wITuyN3WczsfC/2TbAS
-        8i+0OvOlvtM+vtQzQDamnzOhvw3FD2fGqvmkfMBXQz9adj5JPXbLeIv0PtKY6JIpjcR0jw/X857w3
-        J7B/ZD3uRcS6NnIiRdDYtHdxi8o/MPiyFEWaeoj8iXZonj6X7sJ91q3TlaR1N3d14Se1r+cs/QHve
-        soiEUlTGPsgb7VMv7J1IS6q03hcBm3HjPypLaF6BEWefYfZdAQ0+Ey1qR/nUTt1ZlL33O807I0Diy
-        iYbx0SOA==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1ma2nq-00Al54-96; Mon, 11 Oct 2021 21:25:46 +0000
-Date:   Mon, 11 Oct 2021 14:25:46 -0700
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Ming Lei <ming.lei@redhat.com>
-Cc:     tj@kernel.org, gregkh@linuxfoundation.org,
-        akpm@linux-foundation.org, minchan@kernel.org, jeyu@kernel.org,
-        shuah@kernel.org, bvanassche@acm.org, dan.j.williams@intel.com,
-        joe@perches.com, tglx@linutronix.de, keescook@chromium.org,
-        rostedt@goodmis.org, linux-spdx@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 09/12] sysfs: fix deadlock race with module removal
-Message-ID: <YWSr2trabEJflzlj@bombadil.infradead.org>
-References: <20210927163805.808907-1-mcgrof@kernel.org>
- <20210927163805.808907-10-mcgrof@kernel.org>
- <YVwZwh7qDKfSM59h@T590>
+        id S235245AbhJKVdv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Oct 2021 17:33:51 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:35146 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230114AbhJKVdv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 11 Oct 2021 17:33:51 -0400
+Received: from zn.tnic (p200300ec2f08bb0003b0f726e81805f8.dip0.t-ipconnect.de [IPv6:2003:ec:2f08:bb00:3b0:f726:e818:5f8])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id DA1831EC04D6;
+        Mon, 11 Oct 2021 23:31:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1633987909;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=ktB79OgjKWu4SFhSyygmMhHHJddjGqbKPeqk6+xxA10=;
+        b=AP8NNI/lF9orIz29IHoZ1onaqIlWc4+tv7BBIyQ+KqL9M5VUAmvyQner4HQ8Dfej+ezj0s
+        rDjJ5dFRCYDxJHoQ7a4kNXigxCehCvPoD4ITWptC1gRP9uXVExolKqM7HHEp1MW8PxfoEr
+        lJQDN29VXXUI+lSK76b0wei8vrWh1jM=
+Date:   Mon, 11 Oct 2021 23:31:45 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Winiarska, Iwona" <iwona.winiarska@intel.com>
+Cc:     "corbet@lwn.net" <corbet@lwn.net>,
+        "jae.hyun.yoo@linux.intel.com" <jae.hyun.yoo@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "Luck, Tony" <tony.luck@intel.com>,
+        "andrew@aj.id.au" <andrew@aj.id.au>,
+        "Williams, Dan J" <dan.j.williams@intel.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "jdelvare@suse.com" <jdelvare@suse.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "olof@lixom.net" <olof@lixom.net>, "arnd@arndb.de" <arnd@arndb.de>,
+        "linux@roeck-us.net" <linux@roeck-us.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+        "zweiss@equinix.com" <zweiss@equinix.com>,
+        "d.mueller@elsoft.ch" <d.mueller@elsoft.ch>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "joel@jms.id.au" <joel@jms.id.au>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>,
+        "yazen.ghannam@amd.com" <yazen.ghannam@amd.com>,
+        "pierre-louis.bossart@linux.intel.com" 
+        <pierre-louis.bossart@linux.intel.com>
+Subject: Re: [PATCH v2 01/15] x86/cpu: Move intel-family to arch-independent
+ headers
+Message-ID: <YWStQSrRJQ09KXVY@zn.tnic>
+References: <20210803113134.2262882-1-iwona.winiarska@intel.com>
+ <20210803113134.2262882-2-iwona.winiarska@intel.com>
+ <YVtQG+idmwKn0qLe@zn.tnic>
+ <58ef4107e9b2c60a2605aac0d2fb6670a95bc9e0.camel@intel.com>
+ <YWSZTq8NWWcCMXtA@zn.tnic>
+ <337b6332312ea63862aedd09279417c9e1c7e11f.camel@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YVwZwh7qDKfSM59h@T590>
-Sender: Luis Chamberlain <mcgrof@infradead.org>
+In-Reply-To: <337b6332312ea63862aedd09279417c9e1c7e11f.camel@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 05, 2021 at 05:24:18PM +0800, Ming Lei wrote:
-> On Mon, Sep 27, 2021 at 09:38:02AM -0700, Luis Chamberlain wrote:
-> > When driver sysfs attributes use a lock also used on module removal we
-> > can race to deadlock. This happens when for instance a sysfs file on
-> > a driver is used, then at the same time we have module removal call
-> > trigger. The module removal call code holds a lock, and then the
-> > driver's sysfs file entry waits for the same lock. While holding the
-> > lock the module removal tries to remove the sysfs entries, but these
-> > cannot be removed yet as one is waiting for a lock. This won't complete
-> > as the lock is already held. Likewise module removal cannot complete,
-> > and so we deadlock.
-> > 
-> > This can now be easily reproducible with our sysfs selftest as follows:
-> > 
-> > ./tools/testing/selftests/sysfs/sysfs.sh -t 0027
-> > 
-> > This uses a local driver lock. Test 0028 can also be used, that uses
-> > the rtnl_lock():
-> > 
-> > ./tools/testing/selftests/sysfs/sysfs.sh -t 0028
-> > 
-> > To fix this we extend the struct kernfs_node with a module reference
-> > and use the try_module_get() after kernfs_get_active() is called. As
-> > documented in the prior patch, we now know that once kernfs_get_active()
-> > is called the module is implicitly guarded to exist and cannot be removed.
-> > This is because the module is the one in charge of removing the same
-> > sysfs file it created, and removal of sysfs files on module exit will wait
-> > until they don't have any active references. By using a try_module_get()
-> > after kernfs_get_active() we yield to let module removal trump calls to
-> > process a sysfs operation, while also preventing module removal if a sysfs
-> > operation is in already progress. This prevents the deadlock.
-> > 
-> > This deadlock was first reported with the zram driver, however the live
-> 
-> Looks not see the lock pattern you mentioned in zram driver, can you
-> share the related zram code?
+On Mon, Oct 11, 2021 at 08:38:43PM +0000, Winiarska, Iwona wrote:
+> Everything that's part of this series runs on the BMC (Baseboard
+> Management Controller). There's nothing ARM specific to it - it's just
+> that the BMC hardware we're currently supporting is ARM-based. PECI is
+> an interface that's exposed by some x86 CPUs - but that's a hardware
+> interface (available completely independent from whatever is actually
+> running on the x86 CPU).
 
-I recommend to not look at the zram driver, instead look at the
-test_sysfs driver as that abstracts the issue more clearly and uses
-two different locks as an example. The point is that if on module
-removal *any* lock is used which is *also* used on the sysfs file
-created by the module, you can deadlock.
+Aha, I think I got it: so this whole PECI pile is supposed to run on
+the BMC - which can be ARM but doesn't have to be, i.e., code should be
+generic enough - and the interfaces to the x86 CPU do get exposed to the
+Linux running on the BMC.
 
-> > And this can lead to this condition:
-> > 
-> > CPU A                              CPU B
-> >                                    foo_store()
-> > foo_exit()
-> >   mutex_lock(&foo)
-> >                                    mutex_lock(&foo)
-> >    del_gendisk(some_struct->disk);
-> >      device_del()
-> >        device_remove_groups()
-> 
-> I guess the deadlock exists if foo_exit() is called anywhere. If yes,
-> look the issue may not be related with removing module directly, right?
+Which brings me to the answer to your other mail:
 
-No, the reason this can deadlock is that the module exit routine will
-patiently wait for the sysfs / kernfs files to be stop being used,
-but clearly they cannot if the exit routine took the mutex also used
-by the sysfs ops. That is, the special condition here is the removal of
-the sysfs files, and the sysfs files using a lock also used on module
-exit.
+On Mon, Oct 11, 2021 at 07:32:38PM +0000, Winiarska, Iwona wrote:
+> Nothing wrong - just a trade-off between churn and keeping things tidy
+> and not duplicated, similar to patch 1. And just like in patch 1, if
+> you have a strong opinion against it - we can duplicate.
 
- Luis
+So it is not about strong opinion. Rather, it is about whether this
+exporting would be disadvantageous for x86 freedom. And I think it will
+be:
+
+Because if you exported those and then we went and changed those
+interfaces and defines (changed their naming, function arguments,
+whatever) and something outside of x86 used them, we will break that
+something.
+
+And usually we go and fix those users too but I doubt anyone has access
+to that PECI hw to actually test fixes, etc, etc.
+
+So I'd prefer the small amount of duplication vs external stuff using
+x86 facilities any day of the week. And so I'd suggest you simply copy
+the handful of functions and defines you're gonna be needing and the
+defines and be done with it.
+
+Dave's idea makes sense to me too but lately it keeps happening that
+we change something in x86-land and it turns out something "from the
+outside" is using it and it breaks, so it is a lot easier if things are
+independent.
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
