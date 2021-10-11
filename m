@@ -2,134 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87B36C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 21:03:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5B63C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 21:17:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6247360F92
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 21:03:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C0D1560EBB
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 21:17:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235133AbhJKVF1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Oct 2021 17:05:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50328 "EHLO
+        id S235243AbhJKVTG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Oct 2021 17:19:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230299AbhJKVF0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Oct 2021 17:05:26 -0400
-Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com [IPv6:2607:f8b0:4864:20::d2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E66DC061570;
-        Mon, 11 Oct 2021 14:03:26 -0700 (PDT)
-Received: by mail-io1-xd2a.google.com with SMTP id p68so21339434iof.6;
-        Mon, 11 Oct 2021 14:03:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VpTOmMnYeBAsmZpKSwKJS+8kAPjTggYUu3T1PRR8puw=;
-        b=DWamGnG8bmG8X21EnR0ChHMFjln82VqGUosTW7gTqGfbJnbsKpRDtDk95XDFSVcyM6
-         3MMwWs5f8h4BIZOrA4mYmwDpHOL52JD8lMpNF/mwfN2yxWbpi9YGG3FMvrIkTJZ9sVOU
-         vcqeVv+TJDnsbX1FWpME4OHN0mJGbIFFkiZGlIwEXz5+ruScYFOHc56LLM53ktU7qcTc
-         x9U3FmMp/zv08wn60KJuxRPH8NZIIUyfbVydxa2JOkyQGk88qnbRC+iy3omLIyGwXJ01
-         pwIQrx0tBNNOze+uh8niuwZGvczhrxsA3qkDrMYDdQHmQ9BrJPGlmPpjEEhXJcrysxVy
-         k2lQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VpTOmMnYeBAsmZpKSwKJS+8kAPjTggYUu3T1PRR8puw=;
-        b=3nAvL1HKU4YcJUPXeE2HeoZiS/aPg3OXT6Qjxhf8wrZxh2iuJi2VNGvqpx41I73E3z
-         SWe+6p/auhCxiVbzmiNNlRNEvQqqdxbS7NmkF9gSe7Ei7VNsSLVRNnJY5e0/A57+IS8h
-         T7Pwd+wCs01Il+mWUlJoQ/jlPj1XrFxIg0j2bfBRKSLYL4F6kw9o+7WjZjcii5O3UA0Z
-         WKGvWwgVBsVgXqVvMQf7btRIjQSIHnda6lB/dXTvXbWfHB4BvsIxK1RxAsynUo4oTL6W
-         knnKAMKq9Q09n0TmqSC1lp/uDcChtlDF2c3uVY5INpmChS6jG0Y8JV2nRC8OrpxPIYDM
-         IbZQ==
-X-Gm-Message-State: AOAM533L+Bts7fZvIru04xtlvZvlUVfAusU+mduiwGR/qCLoSIVYIHbK
-        gx8HXCbab99pr6FxklkNt1lsp2TXXatNc4LNIYQ=
-X-Google-Smtp-Source: ABdhPJzi9/gjwxSZ7bmJ0i3RpOAZy2AEW8HH88NtQ9J7F/6skXH3IiVp6v+0qkoiL8LEwek/nQh7AnpHXvVKyQmEBsI=
-X-Received: by 2002:a05:6638:37a7:: with SMTP id w39mr21016254jal.19.1633986205891;
- Mon, 11 Oct 2021 14:03:25 -0700 (PDT)
+        with ESMTP id S235143AbhJKVTF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Oct 2021 17:19:05 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3848EC061570;
+        Mon, 11 Oct 2021 14:17:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=oHJKmsHD7penyk6OD1+g+sCSq0p6pDMGXXRqG5EFM2c=; b=h/sv7zpH5SRitkNKfrncMjc6+J
+        LyoGPSyYNuJrXTemLutd74V6qekrmUKV0oY7yjjYyyQGJhekRcD4ptrgU/BKG8NpcfVwPfvBXrj2f
+        BCuTVhE5zRs7TPR1VThprQ1Sn0D2E35Yv4+AQuGeNQY2fvKe5EGLAQIfqsSHQ3SUysdkE4oY+6ma6
+        T/UY8u7j8hhNSY8lxlp48NwGVgU4RsLJJYNiX90cuLkPZE3yqFBUuRv8kNwtzGkVEiz8ffozZ2yCw
+        UEqaT6pj2inuyQJnopCZC+YfY8YA5kK2kroSQdm6AkajSrfiGm78OJDH0/h+KIwo0ZzXWMX5hFBRL
+        6y26P6rA==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1ma2fK-00Ajc8-3G; Mon, 11 Oct 2021 21:16:58 +0000
+Date:   Mon, 11 Oct 2021 14:16:58 -0700
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     tj@kernel.org, gregkh@linuxfoundation.org,
+        akpm@linux-foundation.org, minchan@kernel.org, jeyu@kernel.org,
+        shuah@kernel.org, bvanassche@acm.org, dan.j.williams@intel.com,
+        joe@perches.com, tglx@linutronix.de, rostedt@goodmis.org,
+        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 06/12] kernel/module: add documentation for
+ try_module_get()
+Message-ID: <YWSpyrhK4PA6MFro@bombadil.infradead.org>
+References: <20210927163805.808907-1-mcgrof@kernel.org>
+ <20210927163805.808907-7-mcgrof@kernel.org>
+ <202110051252.790B3F2F0@keescook>
 MIME-Version: 1.0
-References: <20211011195503.23153-1-pauk.denis@gmail.com> <20211011195503.23153-2-pauk.denis@gmail.com>
-In-Reply-To: <20211011195503.23153-2-pauk.denis@gmail.com>
-From:   Eugene Shalygin <eugene.shalygin@gmail.com>
-Date:   Mon, 11 Oct 2021 23:03:14 +0200
-Message-ID: <CAB95QASjUq4P3HhFJrCpBwtJLzwc0ig0q5YQg6FGTDaxkS3SPg@mail.gmail.com>
-Subject: Re: [PATCH v5 1/2] hwmon: (asus_wmi_ec_sensors) Support B550 Asus WMI.
-To:     Denis Pauk <pauk.denis@gmail.com>
-Cc:     andy.shevchenko@gmail.com, platform-driver-x86@vger.kernel.org,
-        Tor Vic <torvic9@mailbox.org>,
-        kernel test robot <lkp@intel.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202110051252.790B3F2F0@keescook>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Denis,
+On Tue, Oct 05, 2021 at 12:58:47PM -0700, Kees Cook wrote:
+> On Mon, Sep 27, 2021 at 09:37:59AM -0700, Luis Chamberlain wrote:
+> > diff --git a/include/linux/module.h b/include/linux/module.h
+> > index c9f1200b2312..22eacd5e1e85 100644
+> > --- a/include/linux/module.h
+> > +++ b/include/linux/module.h
+> > @@ -609,10 +609,40 @@ void symbol_put_addr(void *addr);
+> >     to handle the error case (which only happens with rmmod --wait). */
+> >  extern void __module_get(struct module *module);
+> >  
+> > -/* This is the Right Way to get a module: if it fails, it's being removed,
+> > - * so pretend it's not there. */
+> > +/**
+> > + * try_module_get() - yields to module removal and bumps refcnt otherwise
+> 
+> I find this hard to parse. How about:
+> 	"Take module refcount unless module is being removed"
 
-> +       for (i_sensor = 0; i_sensor < ec->nr_sensors; i_sensor++) {
-> +               s = &ec->sensors[i_sensor];
-> +               si = &known_ec_sensors[s->info_index];
-> +
-> +               switch (si->addr.size) {
-> +               case 1:
-> +                       s->cached_value = ec->read_buffer[read_reg_ct];
-> +                       break;
-> +               case 2:
-> +                       s->cached_value = get_unaligned_be16(&ec->read_buffer[read_reg_ct]);
-> +                       break;
-> +               case 4:
-> +                       s->cached_value = get_unaligned_be32(&ec->read_buffer[read_reg_ct]);
-> +                       break;
-> +               default:
-> +                       s->cached_value =  0;
-> +               }
-> +               read_reg_ct += si->addr.size;
+Sure.
 
-There is at least one more sensor hiding in the EC address space: the
-south bridge voltage. And it seems its value is not an integer, so the
-conversion to mV will not be a simple get_unaligned_xx() call when we
-locate and add it. Thus, I would suggest extracting this switch in a
-separate function to make the future modification simpler. Something
-like the following:
+> > + * @module: the module we should check for
+> > + *
+> > + * This can be used to try to bump the reference count of a module, so to
+> > + * prevent module removal. The reference count of a module is not allowed
+> > + * to be incremented if the module is already being removed.
+> 
+> This I understand.
+> 
+> > + *
+> > + * Care must be taken to ensure the module cannot be removed during the call to
+> > + * try_module_get(). This can be done by having another entity other than the
+> > + * module itself increment the module reference count, or through some other
+> > + * means which guarantees the module could not be removed during an operation.
+> > + * An example of this later case is using try_module_get() in a sysfs file
+> > + * which the module created. The sysfs store / read file operations are
+> > + * gauranteed to exist through the use of kernfs's active reference (see
+> > + * kernfs_active()). If a sysfs file operation is being run, the module which
+> > + * created it must still exist as the module is in charge of removing the same
+> > + * sysfs file being read. Also, a sysfs / kernfs file removal cannot happen
+> > + * unless the same file is not active.
+> 
+> I can't understand this paragraph at all. "Care must be taken ..."? Why?
 
-static inline u32 get_sensor_value(const struct ec_sensor_info *si, u8
-*data) // si for the data encoding scheme
-{
-    switch (si->addr.components.size) {
-    case 1:
-        return *data;
-    case 2:
-        return get_unaligned_be16(data);
-    case 4:
-        return get_unaligned_be32(data);
-    }
-}
+Because the routine try_module_get() assumes the struct module pointer
+is valid for the entire call. That can only be true if at least one
+reference is held prior to this call.
 
-static void update_sensor_values(struct ec_sensors_data *ec, u8 *data)
-{
-    const struct ec_sensor_info *si;
-    struct ec_sensor *s;
+> Shouldn't callers of try_module_get() be satisfied with the results?
 
-    for (s = ec->sensors; s != ec->sensors + ec->nr_sensors; s++) {
-        si = &known_ec_sensors[s->info_index];
-        s->cached_value = get_sensor_value(si, data);
-        data += si->addr.components.size;
-    }
-}
+Yes but only with the above care addressed.
 
-Additionally, this would simplify update_ec_sensors() body:
+> I don't follow the example at all. It seems to just say "sysfs store/read
+> functions don't need try_module_get() because whatever opened the sysfs
+> file is already keeping the module referenced." ?
 
-mutex_lock(&ec->lock);
-make_asus_wmi_block_read_query(ec);
-status = asus_ec_block_read(dev, METHODID_BLOCK_READ_EC, ec->read_arg,
-    buffer);
+That is exactly what I intended to clarify with that example, yes, a
+reference is held but this is done implicitly. *If* a kernfs op is
+active module removal waits for that active reference to go down. So
+while a kernfs file is being used it is simply not possible for the
+module to disappear underneath us. And the reason is that the module
+that created the sysfs file must obviously destroy that same sysfs file.
+But since kernfs ensures that sysfs file cannot be removed if a sysfs
+file is being used, this implicitly holds a module reference.
 
-if (!status) {
-    update_sensor_values(ec, buffer);
-}
-mutex_unlock(&ec->lock);
+Let me know if y ou can think of a better way to phrase this.
 
+> > + *
+> > + * One of the real values to try_module_get() is the module_is_live() check
+> > + * which ensures this the caller of try_module_get() can yield to userspace
+> > + * module removal requests and fail whatever it was about to process.
+> 
+> Please document the return value explicitly.
 
-Eugene
+Sure thing.
+
+  Luis
