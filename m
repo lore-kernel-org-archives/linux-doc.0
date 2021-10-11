@@ -2,414 +2,197 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32A37C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 21:48:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4718EC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 22:28:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0CC8D6108E
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 21:48:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 235FB600D4
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 22:28:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230074AbhJNVur (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Oct 2021 17:50:47 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:8472 "EHLO
-        mx0a-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229690AbhJNVuq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Oct 2021 17:50:46 -0400
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19EKt3mf022067;
-        Thu, 14 Oct 2021 21:48:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=DWHUzuJuPmRid4+LdijpS/3jGG2z3Pyqn2kcBqyM7C4=;
- b=jOARDCzjmr92OXo6dMqXZ3RUHtjiDX2WqOBFWw7cDO9MXt6l3fhGHuOg8kBD7HuvoQwa
- Rz1pGslYaH7rTTIbSQDqLCHVmsQsL2hIzUDPrNLyH8Ruh9wL9n+65xZp1s0GHdXzVMz2
- qV5g3sq4xpZ1+HhckMTvWDFsE/iPdAPyCJU0/3kwyBH4GoXvy4ZahBCrfBUUP4p3Yr3o
- wCVosm5ZDXELbINcyCGQJ6oCHf21iN9cdnYNIC9RhX1zDsvig6JvW6IY73Lk4+pHovJK
- mmqPqjBctL8fgK6tKyUSFcsvrUirageu+CSU6fF2RMreMnQlx7ezhdeh1yS06r4qjH4X og== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3bpfvedb6t-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 14 Oct 2021 21:48:31 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 19ELipAR063757;
-        Thu, 14 Oct 2021 21:48:30 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2173.outbound.protection.outlook.com [104.47.57.173])
-        by aserp3020.oracle.com with ESMTP id 3bmae3a7gp-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 14 Oct 2021 21:48:30 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=D1htYeIA/cYPS7laq0tbXUYzDxFM7Bj/JgTcg+FMXExYnmXRSaSi8TgFXA8cxZtp5z8o5fz3dVzYRM93KZyZ0BNSRhYEWhTWqrVXhuPNAcM3k1dmqkxivQ2V0JukMWOrrF3TxDCilZJtQmOYmnkFUWF+wcaHdvcjCn9elOL5Pa+85e6f7ptsClwRnpC234CktjAQj8C/pqPQhDGz4Juy43LOvsvdOt/OxMIEoyvO+8bzheOEfqQEH2RijPe7qsS3uzF7ZB/zm9i2g92FdoTFjpCJwyHjfqyJ0552BgfpyS6IyUifQ1UJRBT9rK+Ql5/0B2gyqogKcrlVe+MLMkTzmQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DWHUzuJuPmRid4+LdijpS/3jGG2z3Pyqn2kcBqyM7C4=;
- b=kXKgJNAftPGINp29aKUHnZ+V2fdAUgw6t6d6gOBbrQnIHYYlLleIs0gJWHlN3DRC25LzJuX6zNYDun1EfnKgT03s4NQwzowDhs7jKra3InUT965TJpHfmv7LNOXJl0QS1Iggx3O8LRhz94yY9bUe3eW6LH6JvQPveUBvxWZA4cCT2xk6Q6tmuvuyTrUa96pQuMTKmmsr70qN3E5MSVoTaanMVPhN6Nn/ESTb3inIMhudrIsoHKRLfYGOlMiKZJDT9aqRIfCU/otUrkEP3RFoRjnrBzoCjKMms91TA3p9u2+hobXq/ChGkqCicdpo6+7+Dawg4x72DYava1pBiJO/Tg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DWHUzuJuPmRid4+LdijpS/3jGG2z3Pyqn2kcBqyM7C4=;
- b=Vzn13oG88/7Mk0K3Dv5PSTsJY3/uwFoBXuxd/Ss0o/XZOCR9+VTx4Fc6hKVTPRfzyCEB8GtAhGp93LKlMOFR2ey67baCnI6+RGp9/9RZIpDFpZ2ariU0EXPYSnOMj4181uqxcve+yl59mYElW6HvccxwgBhdiB9Btiveh3DOUQE=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=oracle.com;
-Received: from BY5PR10MB4196.namprd10.prod.outlook.com (2603:10b6:a03:20d::23)
- by BYAPR10MB3640.namprd10.prod.outlook.com (2603:10b6:a03:122::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.24; Thu, 14 Oct
- 2021 21:48:28 +0000
-Received: from BY5PR10MB4196.namprd10.prod.outlook.com
- ([fe80::bc59:71de:1590:cbf5]) by BY5PR10MB4196.namprd10.prod.outlook.com
- ([fe80::bc59:71de:1590:cbf5%7]) with mapi id 15.20.4587.026; Thu, 14 Oct 2021
- 21:48:28 +0000
-Subject: Re: [PATCH v2] hugetlb: Support node specified when using cma for
- gigantic hugepages
-To:     Baolin Wang <baolin.wang@linux.alibaba.com>,
-        akpm@linux-foundation.org
-Cc:     mhocko@kernel.org, guro@fb.com, corbet@lwn.net,
-        yaozhenguo1@gmail.com, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <3ba7d5a3ce5002f6718ab2c16e10441eaaf7740a.1634182476.git.baolin.wang@linux.alibaba.com>
-From:   Mike Kravetz <mike.kravetz@oracle.com>
-Message-ID: <424eaeb5-f2b5-89f2-f3d9-fe386ec344e3@oracle.com>
-Date:   Thu, 14 Oct 2021 14:48:25 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
-In-Reply-To: <3ba7d5a3ce5002f6718ab2c16e10441eaaf7740a.1634182476.git.baolin.wang@linux.alibaba.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+        id S233920AbhJNWad (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Oct 2021 18:30:33 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:51220 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229768AbhJNWab (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Oct 2021 18:30:31 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id C3A5A1FD37;
+        Thu, 14 Oct 2021 22:28:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1634250504; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=XamiXsFb6RQH4eKb4WeCOhk32Zh5qQsoE1V0O9eGBfc=;
+        b=nWjnsuhqzJKhcayDHGPSKVhGlxwOGc1FYOYAIGXOxXi+KmMZ6G3bzFhb35Mrx5ahaR7jZa
+        PWr6UUzOXGL755IhAqhMAkhrgHR9yJnBRad9O7EQTfHSHon1T8eEmBl5qXiJpziDYPszuN
+        WAG3Jp8f1UqTXeD6J2dkg4YKUMAFDi4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1634250504;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=XamiXsFb6RQH4eKb4WeCOhk32Zh5qQsoE1V0O9eGBfc=;
+        b=/068GKy8+Es6V00efq8CtbnWkMwkStq+NFkGkSd+LYhmyfVgvIxiSKpOP3WZrHB9q3ZUem
+        aG9MPOMP0uI9AQBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8EEC313B3A;
+        Thu, 14 Oct 2021 22:28:18 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id swtxDgKvaGHoPAAAMHmgww
+        (envelope-from <neilb@suse.de>); Thu, 14 Oct 2021 22:28:18 +0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MWHPR17CA0077.namprd17.prod.outlook.com
- (2603:10b6:300:c2::15) To BY5PR10MB4196.namprd10.prod.outlook.com
- (2603:10b6:a03:20d::23)
 MIME-Version: 1.0
-Received: from [192.168.2.123] (50.38.35.18) by MWHPR17CA0077.namprd17.prod.outlook.com (2603:10b6:300:c2::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.14 via Frontend Transport; Thu, 14 Oct 2021 21:48:27 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8c183a92-d83d-4f87-9a15-08d98f5c5afd
-X-MS-TrafficTypeDiagnostic: BYAPR10MB3640:
-X-Microsoft-Antispam-PRVS: <BYAPR10MB36404C41E1607911448077B1E2B89@BYAPR10MB3640.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5/8wnvMITqPIFvokui3504jOXklnZmWkAFFdUGze92mxfCtLV0jnrK52ZCcl9IjYVDuzZHb5NqEKUv4MXMrs24DLreQPBptgyhX+tNyK9EBcxTL7fXSFIsa3j3/yFDkpCEn2ZHRFeC7xHU77Uj1F6Nec4FopEEL4H0z909s+fu//FX64Qz2C/2T7BH3i9Rq6nM8A6OLjF9tp6W2Jg3G0hGnqGg84lM0r6xS2JfGnIpDbnyeDW+DZrQ2I6wL0lP0vVU5iQhEiOGOlXF4Dcx6tQWsRZm+p7z9mkseUEvaNGqUGoshgBZm7AOLDgUr5zNEWP+BxVlKxYzedj5qHLncPtODgvv31leYZYc5lKTOCXYuHM/JZ9YLqZiZeSlfTrQx6fsDKbgYd+J6iXb7TSgbU7WzMWFaiyEIdX+tDXGXT7wjX17mfO5g4+B7Xe/xmAKHpNcirp9ODskdfipiYcCgxJgbstyHuBioioWs8Wuq7UIrVmO/NcjbQ9ex5yNCc76sRci16aVhXhMTYX1YHX/rDQVfH/IdmmSHnI0GF5UgPBE34k7TRyGcESmy65pnQL/hx+yxfzPluGCgvbS+KVSen7ufGpyUr7b1HoEg6VauoSYdQjtDeSXShWko60eB9JDyKuzKYJHC9+doTQF3OnNs+lHR5aP89IMxDWfViJ7qHCocBgVHndRdNeF9IFwslKKYY0Qmorhkaigpt5FP6i1HruurZssC9zc4C/hszaGxTdXPKK3vojkA2/4FVx7oQUuL/IoUojy7cSAaXxBT7d4rjvR4TfnzMbD2j/E339RpJIxaHryxns5+6IFFzin6IEwb+RVAsCwewHB9btNOGOV5OnXr7tQvrVUUqh2cpFRSyz8GabU/OGQS0ROqHBxQodPFyjXoooLjaJEmEfDVVrz40pg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR10MB4196.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(8676002)(31686004)(186003)(508600001)(316002)(66476007)(8936002)(36756003)(966005)(66556008)(26005)(16576012)(66946007)(2906002)(83380400001)(53546011)(31696002)(4326008)(2616005)(956004)(52116002)(38100700002)(86362001)(38350700002)(5660300002)(6486002)(44832011)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eGNPNUVObVdxRlcza3ZKaFdNOVBsOVQ0MlNkdnBTOEhNVG5xVmxKS2lFWU1H?=
- =?utf-8?B?Ykhha2xDTFQvWGdYN3lXYnFpWnhISE9hSVZjcWx0T0ZwaW1saTdJanArdWpq?=
- =?utf-8?B?Z0JrZ2lhV3ZUZGJVWC9oenhPRFNOOHhBTVFlOTJhaFFMU1FHZ1FxVVMxMUVS?=
- =?utf-8?B?cExmbUU0Umh1blAvNW5ZM3FOZlVtUloxTGxMenBxSmxlcEIyc2IvQ2ltQjVw?=
- =?utf-8?B?ZkxIT1UyUjdTb3I3N1BGb24zd2hic2dHVGUzTWxPbUhsRWpxNURRUU1na0hR?=
- =?utf-8?B?VGRINnJjWkU1TW1jdExiOXdZUXlnZEc4YnFRdmcwdkwrMnAvUS9PbFhSY1BB?=
- =?utf-8?B?WGFtcnhGbUxTdVNNSytpU1hRYUplbUNBWFNqdEQ3NnRDMnI0Nk1Ob2RoTFNF?=
- =?utf-8?B?NzBkemlJeStTeXluczBsZW9hZTNQMUl2YStaNDRSV3NvNVFheXNyK0Z5T2cw?=
- =?utf-8?B?Qm82WjkzRTNJam54QlNvUHZSMlM2MXRBZFVRS011dytCSjJLS1RGdGdPaFFS?=
- =?utf-8?B?aFJiRS9FYkQ4dnVubEU0TXpWbUFtZk92Znc2L0g5QTdKcEZlYi9OSG1ST1hi?=
- =?utf-8?B?UmFhMU1leHdNRXJzZC81U2ovcFdyS0p2eUpYMUV1YjZ0eVRPUEN5N3lDZHBk?=
- =?utf-8?B?SFZlQXhGa2ttcjJIRTAzV0R4U1lSVzMwZUtuYVN2NzNhZWZtcnZVNUIvaG1V?=
- =?utf-8?B?UWNxVnRrRGtsa2tVdEpiOWVSWGdQeHZvNmVnZm02SUZJNUhaWCtURVJqYVVh?=
- =?utf-8?B?bzZUOWd1dEtqOS9CZTUyOC9RWm43T1pLM0RMTEJja2U4R0hsdUtrNkNoT3RV?=
- =?utf-8?B?Ymt0QmpFU1ZtcUlOUmZveFVlVmdNeXhIWHlCZnNsUU96MEJsZDhnRmIwVlFL?=
- =?utf-8?B?UitCK2JJZm9yNjJJeUJJbTFTUkl2N1pkdC9hWWl4V1RrL0lmeG13RWJJTnRF?=
- =?utf-8?B?TUpnOW5UR05DU3ZZdlBjaDRud1czV05qTm1QcGVadWg4TUZCOVB2ZTlCajhm?=
- =?utf-8?B?QlFNMkV0TVlXV1FCbHFMNGxtRTBOOHA5M2d1NTFvQWFLbkVVenBXM2x6K2lY?=
- =?utf-8?B?ZDczcmY3dEdHTzlvM0hKYzQvREVWTmgvRmM5WllHZHp6WUt2NmJEMWwvQnpM?=
- =?utf-8?B?V08vb3JVeHFMa1l2N0YxemFHZzZOVmV0a3ZJNTA2TGNPaERlMmdNSjRpYXI1?=
- =?utf-8?B?SUVLNjJmZnBUT0FLL2FIZ3U4WklNZkFGUVRWS1NJWEtuUW9WWGs2cllsZGlZ?=
- =?utf-8?B?UEJTN20vakxOcE9OczI3ejVSeGsvVFlEcCs4anBvZk43aGRpeVdMaFB0dS9m?=
- =?utf-8?B?ZzIrOVhJY1lNUnFoOW5sbVpPcXpLcTJvdUtHZjQydGR0YVFjUk9MWVNETzJD?=
- =?utf-8?B?UmZrWkpyVjM3Q1JSeFVrZDliUkhuQ1h3U2xsR1dtcmkwZitlTzd5U0l0bGRC?=
- =?utf-8?B?NGpYNFVoTDV2eXlDT3YvKzZ1bDZaYVJ3K0hhZnVCaUFoQlVKd2pyM0ZzNzBD?=
- =?utf-8?B?RXNYQlhWdVk0Z3JKUnJFZktmeEVMSnBWYzFtd1h0a0kxUGJ0S294QlUwRFlE?=
- =?utf-8?B?bjdRQU9XaTM4bWVWeGFLSjBvZjRqMXdFYXhTdml4alp1eU5vdXlBSExmdlpT?=
- =?utf-8?B?RVFLdlVDUy9idXBFcU5uak4xOFUrUFlZdGRoMU5FczNZR0p2VFVDbzZ3a1Rm?=
- =?utf-8?B?RXpQZG5oRk5Ta0MyOWlnVk4zb2REOHc4Q0k5NDlxZ1AzcVROKzYzK3ZNdjBh?=
- =?utf-8?Q?uWQPdG5JlPjm24Y0lRKruro3y1sJdIRO16seV+C?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c183a92-d83d-4f87-9a15-08d98f5c5afd
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR10MB4196.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2021 21:48:28.1285
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RBjUddGU8iB5spu7k9trmaxw8OFYUkNd+k3iKnn5DCBo0F8I+xyQcTujrdc1ClIqnxr11q5eGhlo/QQ7H33Juw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB3640
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10137 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 phishscore=0
- suspectscore=0 mlxlogscore=999 bulkscore=0 mlxscore=0 malwarescore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2109230001 definitions=main-2110140122
-X-Proofpoint-GUID: 84w7uis-aVqNSGfDHwM_XKP3OLSfYAU6
-X-Proofpoint-ORIG-GUID: 84w7uis-aVqNSGfDHwM_XKP3OLSfYAU6
+From:   "NeilBrown" <neilb@suse.de>
+To:     "Michal Hocko" <mhocko@suse.com>
+Cc:     "Dave Chinner" <david@fromorbit.com>,
+        "Vlastimil Babka" <vbabka@suse.cz>,
+        "Andrew Morton" <akpm@linux-foundation.org>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        "Andreas Dilger" <adilger.kernel@dilger.ca>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        "Matthew Wilcox" <willy@infradead.org>,
+        "Mel Gorman" <mgorman@suse.de>, "Jonathan Corbet" <corbet@lwn.net>,
+        linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/6] MM: improve documentation for __GFP_NOFAIL
+In-reply-to: <YWQmsESyyiea0zle@dhcp22.suse.cz>
+References: <163184698512.29351.4735492251524335974.stgit@noble.brown>,
+ <163184741778.29351.16920832234899124642.stgit@noble.brown>,
+ <b680fb87-439b-0ba4-cf9f-33d729f27941@suse.cz>,
+ <YVwyhDnE/HEnoLAi@dhcp22.suse.cz>,
+ <eba04a07-99da-771a-ab6b-36de41f9f120@suse.cz>,
+ <20211006231452.GF54211@dread.disaster.area>,
+ <YV7G7gyfZkmw7/Ae@dhcp22.suse.cz>,
+ <163364854551.31063.4377741712039731672@noble.neil.brown.name>,
+ <YV/31+qXwqEgaxJL@dhcp22.suse.cz>,
+ <20211008223649.GJ54211@dread.disaster.area>,
+ <YWQmsESyyiea0zle@dhcp22.suse.cz>
+Date:   Tue, 12 Oct 2021 08:49:46 +1100
+Message-id: <163398898675.17149.16715168325131099480@noble.neil.brown.name>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/13/21 11:08 PM, Baolin Wang wrote:
-> Now the size of CMA area for gigantic hugepages runtime allocation is
-> balanced for all online nodes, but we also want to specify the size of
-> CMA per-node, or only one node in some cases, which are similar with
-> commit 86acc55c3d32 ("hugetlbfs: extend the definition of hugepages
-> parameter to support node allocation")[1].
-
-I would not include the commit hash here.  IIUC, this can change as it
-is moved to Linus' tree in the next merge window.
-
-> For example, on some multi-nodes systems, each node's memory can be
-> different, allocating the same size of CMA for each node is not suitable
-> for the low-memory nodes. Meanwhile some workloads like DPDK mentioned by
-> Zhenguo in patch [1] only need hugepages in one node.
+On Mon, 11 Oct 2021, Michal Hocko wrote:
+> On Sat 09-10-21 09:36:49, Dave Chinner wrote:
+> > 
+> > Put simply, we want "retry forever" semantics to match what
+> > production kernels have been doing for the past couple of decades,
+> > but all we've been given are "never fail" semantics that also do
+> > something different and potentially much more problematic.
+> > 
+> > Do you see the difference here? __GFP_NOFAIL is not what we
+> > need in the vast majority of cases where it is used. We don't want
+> > the failing allocations to drive the machine hard into critical
+> > reserves, we just want the allocation to -eventually succeed- and if
+> > it doesn't, that's our problem to handle, not kmalloc()....
 > 
-> On the other hand, we have some machines with multiple types of memory,
-> like DRAM and PMEM (persistent memory). On this system, we may want to
-> specify all the hugepages only on DRAM node, or specify the proportion
-> of DRAM node and PMEM node, to tuning the performance of the workloads.
+> I can see your point. I do have a recollection that there were some
+> instance involved where an emergency access to memory reserves helped
+> in OOM situations.
+
+It might have been better to annotate those particular calls with
+__GFP_ATOMIC or similar rather then change GFP_NOFAIL for everyone.
+Too late to fix that now though I think.  Maybe the best way forward is
+to discourage new uses of GFP_NOFAIL.  We would need a well-documented
+replacement.
+
 > 
-> Thus this patch adds node format for 'hugetlb_cma' parameter to support
-> specifying the size of CMA per-node. An example is as follows:
+> Anway as I've tried to explain earlier that this all is an
+> implementation detail users of the flag shouldn't really care about. If
+> this heuristic is not doing any good then it should be removed.
+
+Maybe users shouldn't care about implementation details, but they do
+need to care about semantics and costs.
+We need to know when it is appropriate to use GFP_NOFAIL, and when it is
+not.  And what alternatives there are when it is not appropriate.
+Just saying "try to avoid using it" and "requires careful analysis"
+isn't acceptable.  Sometimes it is unavoidable and analysis can only be
+done with a clear understanding of costs.  Possibly analysis can only be
+done with a clear understanding of the internal implementation details.
+
 > 
-> hugetlb_cma=0:5G,2:5G
+> > It also points out that the scope API is highly deficient.
+> > We can do GFP_NOFS via the scope API, but we can't
+> > do anything else because *there is no scope API for other GFP
+> > flags*.
+> > 
+> > Why don't we have a GFP_NOFAIL/__GFP_RETRY_FOREVER scope API?
 > 
-> which means allocating 5G size of CMA area on node 0 and node 2
-> respectively. And the users should use the node specific sysfs file to
-> allocate the gigantic hugepages if specified the CMA size on that node.
+> NO{FS,IO} where first flags to start this approach. And I have to admit
+> the experiment was much less successful then I hoped for. There are
+> still thousands of direct NOFS users so for some reason defining scopes
+> is not an easy thing to do.
+
+I'm not certain your conclusion is valid.  It could be that defining
+scopes is easy enough, but no one feels motivated to do it.
+We need to do more than provide functionality.  We need to tell people. 
+Repeatedly.  And advertise widely.  And propose patches to make use of
+the functionality.  And... and... and...
+
+I think changing to the scope API is a good change, but it is
+conceptually a big change.  It needs to be driven.
+
 > 
-> [1]
-> https://lkml.kernel.org/r/20211005054729.86457-1-yaozhenguo1@gmail.com
+> I am not against NOFAIL scopes in principle but seeing the nofs
+> "success" I am worried this will not go really well either and it is
+> much more tricky as NOFAIL has much stronger requirements than NOFS.
+> Just imagine how tricky this can be if you just call a library code
+> that is not under your control within a NOFAIL scope. What if that
+> library code decides to allocate (e.g. printk that would attempt to do
+> an optimistic NOWAIT allocation).
+
+__GFP_NOMEMALLOC holds a lesson worth learning here.  PF_MEMALLOC
+effectively adds __GFP_MEMALLOC to all allocations, but some call sites
+need to over-ride that because there are alternate strategies available.
+This need-to-over-ride doesn't apply to NOFS or NOIO as that really is a
+thread-wide state.  But MEMALLOC and NOFAIL are different.  Some call
+sites can reasonably handle failure locally.
+
+I imagine the scope-api would say something like "NO_ENOMEM".  i.e.
+memory allocations can fail as long as ENOMEM is never returned.
+Any caller that sets __GFP_RETRY_MAYFAIL or __GFP_NORETRY or maybe some
+others which not be affected by the NO_ENOMEM scope.  But a plain
+GFP_KERNEL would.
+
+Introducing the scope api would be a good opportunity to drop the
+priority boost and *just* block until success.  Priority boosts could
+then be added (possibly as a scope) only where they are measurably needed.
+
+I think we have 28 process flags in use.  So we can probably afford one
+more for PF_MEMALLOC_NO_ENOMEM.  What other scope flags might be useful?
+PF_MEMALLOC_BOOST which added __GFP_ATOMIC but not __GFP_MEMALLOC ??
+PF_MEMALLOC_NORECLAIM ??
+
 > 
-> Signed-off-by: Baolin Wang <baolin.wang@linux.alibaba.com>
-> ---
-> Changes from v1:
->  - Update the commit log.
->  - Avoid changing the behavior for 'balanced' gigantic huge page pool
->  allocations.
->  - Catch the invalid node specified in hugetlb_cma_reserve().
->  - Validate the size of CMA for each node in hugetlb_cma_reserve().
-> ---
->  Documentation/admin-guide/kernel-parameters.txt |  6 +-
->  mm/hugetlb.c                                    | 98 ++++++++++++++++++++++---
->  2 files changed, 93 insertions(+), 11 deletions(-)
+> > That
+> > would save us a lot of bother in XFS. What about GFP_DIRECT_RECLAIM?
+> > I'd really like to turn that off for allocations in the XFS
+> > transaction commit path (as noted already in this thread) because
+> > direct reclaim that can make no progress is actively harmful (as
+> > noted already in this thread)
 > 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 3ad8e9d0..a147faa5 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -1587,8 +1587,10 @@
->  			registers.  Default set by CONFIG_HPET_MMAP_DEFAULT.
->  
->  	hugetlb_cma=	[HW,CMA] The size of a CMA area used for allocation
-> -			of gigantic hugepages.
-> -			Format: nn[KMGTPE]
-> +			of gigantic hugepages. Or using node format, the size
-> +			of a CMA area per node can be specified.
-> +			Format: nn[KMGTPE] or (node format)
-> +				<node>:nn[KMGTPE][,<node>:nn[KMGTPE]]
->  
->  			Reserve a CMA area of given size and allocate gigantic
->  			hugepages using the CMA allocator. If enabled, the
-> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> index 6d2f4c2..ac9afc2 100644
-> --- a/mm/hugetlb.c
-> +++ b/mm/hugetlb.c
-> @@ -50,6 +50,7 @@
->  
->  #ifdef CONFIG_CMA
->  static struct cma *hugetlb_cma[MAX_NUMNODES];
-> +static unsigned long hugetlb_cma_size_in_node[MAX_NUMNODES] __initdata;
->  static bool hugetlb_cma_page(struct page *page, unsigned int order)
->  {
->  	return cma_pages_valid(hugetlb_cma[page_to_nid(page)], page,
-> @@ -62,6 +63,7 @@ static bool hugetlb_cma_page(struct page *page, unsigned int order)
->  }
->  #endif
->  static unsigned long hugetlb_cma_size __initdata;
-> +static nodemask_t hugetlb_cma_nodes_allowed = NODE_MASK_NONE;
->  
->  /*
->   * Minimum page order among possible hugepage sizes, set to a proper value
-> @@ -3508,7 +3510,16 @@ static ssize_t __nr_hugepages_store_common(bool obey_mempolicy,
->  		/*
->  		 * Node specific request.  count adjustment happens in
->  		 * set_max_huge_pages() after acquiring hugetlb_lock.
-> +		 *
-> +		 * If we've specified the size of CMA area per node for
-> +		 * gigantic hugepages, should catch the warning if the
-> +		 * nid is not in the 'hugetlb_cma_nodes_allowed' nodemask.
->  		 */
-> +		if (hstate_is_gigantic(h) &&
-> +		    !nodes_empty(hugetlb_cma_nodes_allowed) &&
-> +		    !node_isset(nid, hugetlb_cma_nodes_allowed))
-> +			pr_warn("hugetlb_cma: no reservation on this node %d\n", nid);
-> +
+> As always if you have reasonable usecases then it is best to bring them
+> up on the MM list and we can discuss them.
 
-I would prefer to drop this code and hugetlb_cma_nodes_allowed.  Why?
+We are on the MM lists now... let's discuss :-)
 
-CMA is an alternative allocation mechanism for gigantic pages.  The
-allocator will fall back to the normal allocator (alloc_contig_pages) if
-allocation from CMA fails.
+Dave: How would you feel about an effort to change xfs to stop using
+GFP_NOFS, and to use memalloc_nofs_save/restore instead? Having a major
+filesystem make the transition would be a good test-case, and could be
+used to motivate other filesystems to follow.
+We could add and use memalloc_no_enomem_save() too.
 
-This warning implies that the user 'forgot' to reserve CMA on the
-specified node, or is perhaps allocating gigantic pages on the wrong
-node.  We can not be sure this is the case.
-
-I agree that in most cases when a user requests node specific CMA
-reservations, they will likely want to perform gigantic page allocations
-on the same nodes.  However, that may not always be the case and in such
-cases the warning could be confusing.
-
-We do not print warnings today when allocating huge pages via the
-proc/sysfs interfaces.  We should not add one unless there is a very
-good reason.
-
->  		init_nodemask_of_node(&nodes_allowed, nid);
->  		n_mask = &nodes_allowed;
->  	}
-> @@ -6745,7 +6756,38 @@ void hugetlb_unshare_all_pmds(struct vm_area_struct *vma)
->  
->  static int __init cmdline_parse_hugetlb_cma(char *p)
->  {
-> -	hugetlb_cma_size = memparse(p, &p);
-> +	int nid, count = 0;
-> +	unsigned long tmp;
-> +	char *s = p;
-> +
-> +	while (*s) {
-> +		if (sscanf(s, "%lu%n", &tmp, &count) != 1)
-> +			break;
-> +
-> +		if (s[count] == ':') {
-> +			nid = tmp;
-> +			if (nid < 0 || nid >= MAX_NUMNODES)
-> +				break;
-> +
-> +			s += count + 1;
-> +			tmp = memparse(s, &s);
-> +			hugetlb_cma_size_in_node[nid] = tmp;
-> +			hugetlb_cma_size += tmp;
-> +
-> +			/*
-> +			 * Skip the separator if have one, otherwise
-> +			 * break the parsing.
-> +			 */
-> +			if (*s == ',')
-> +				s++;
-> +			else
-> +				break;
-> +		} else {
-> +			hugetlb_cma_size = memparse(p, &p);
-> +			break;
-> +		}
-> +	}
-> +
->  	return 0;
->  }
->  
-> @@ -6754,6 +6796,7 @@ static int __init cmdline_parse_hugetlb_cma(char *p)
->  void __init hugetlb_cma_reserve(int order)
->  {
->  	unsigned long size, reserved, per_node;
-> +	bool node_specific_cma_alloc = false;
->  	int nid;
->  
->  	cma_reserve_called = true;
-> @@ -6761,26 +6804,61 @@ void __init hugetlb_cma_reserve(int order)
->  	if (!hugetlb_cma_size)
->  		return;
->  
-> +	for (nid = 0; nid < MAX_NUMNODES; nid++) {
-> +		if (hugetlb_cma_size_in_node[nid] == 0)
-> +			continue;
-> +
-> +		if (!node_state(nid, N_ONLINE)) {
-> +			pr_warn("hugetlb_cma: invalid node %d specified\n", nid);
-> +			hugetlb_cma_size -= hugetlb_cma_size_in_node[nid];
-> +			hugetlb_cma_size_in_node[nid] = 0;
-> +			continue;
-> +		}
-> +
-> +		if (hugetlb_cma_size_in_node[nid] < (PAGE_SIZE << order)) {
-> +			pr_warn("hugetlb_cma: cma area of node %d should be at least %lu MiB\n",
-> +				nid, (PAGE_SIZE << order) / SZ_1M);
-> +			hugetlb_cma_size -= hugetlb_cma_size_in_node[nid];
-> +			hugetlb_cma_size_in_node[nid] = 0;
-> +		} else {
-> +			node_specific_cma_alloc = true;
-> +		}
-> +	}
-> +
-> +	/* Validate the CMA size again in case some invalid nodes specified. */
-> +	if (!hugetlb_cma_size)
-> +		return;
-> +
->  	if (hugetlb_cma_size < (PAGE_SIZE << order)) {
->  		pr_warn("hugetlb_cma: cma area should be at least %lu MiB\n",
->  			(PAGE_SIZE << order) / SZ_1M);
->  		return;
->  	}
-
-The series "hugetlb: add demote/split page functionality"
-https://lore.kernel.org/linux-mm/20211007181918.136982-1-mike.kravetz@oracle.com/T/#mcb25f5edaa235b93dd0d0b8fb81ba15f0317feeb
-is in Andrew's tree and has modified the above to set hugetlb_cma_size
-to 0 before returning.
-
-Code in that series uses the varialbe hugetlb_cma_size to determine if
-CMA was reserved and can possibly be used for huge pages.  If no CMA is
-reserved in this routine, it must be set to 0.
-
-The code below should be fine as it checks 'reserved' at the end of
-routine and sets hugetlb_cma_size to zero if !reserved before returning.
-
-Mostly wanted to point out the context conflict with Andrew's tree.  He
-or you will need to fix this for the patch to apply.
--- 
-Mike Kravetz
-
->  
-> -	/*
-> -	 * If 3 GB area is requested on a machine with 4 numa nodes,
-> -	 * let's allocate 1 GB on first three nodes and ignore the last one.
-> -	 */
-> -	per_node = DIV_ROUND_UP(hugetlb_cma_size, nr_online_nodes);
-> -	pr_info("hugetlb_cma: reserve %lu MiB, up to %lu MiB per node\n",
-> -		hugetlb_cma_size / SZ_1M, per_node / SZ_1M);
-> +	if (!node_specific_cma_alloc) {
-> +		/*
-> +		 * If 3 GB area is requested on a machine with 4 numa nodes,
-> +		 * let's allocate 1 GB on first three nodes and ignore the last one.
-> +		 */
-> +		per_node = DIV_ROUND_UP(hugetlb_cma_size, nr_online_nodes);
-> +		pr_info("hugetlb_cma: reserve %lu MiB, up to %lu MiB per node\n",
-> +			hugetlb_cma_size / SZ_1M, per_node / SZ_1M);
-> +	}
->  
->  	reserved = 0;
->  	for_each_node_state(nid, N_ONLINE) {
->  		int res;
->  		char name[CMA_MAX_NAME];
->  
-> -		size = min(per_node, hugetlb_cma_size - reserved);
-> +		if (node_specific_cma_alloc) {
-> +			if (hugetlb_cma_size_in_node[nid] == 0)
-> +				continue;
-> +
-> +			size = hugetlb_cma_size_in_node[nid];
-> +		} else {
-> +			size = min(per_node, hugetlb_cma_size - reserved);
-> +		}
-> +
->  		size = round_up(size, PAGE_SIZE << order);
->  
->  		snprintf(name, sizeof(name), "hugetlb%d", nid);
-> @@ -6799,6 +6877,8 @@ void __init hugetlb_cma_reserve(int order)
->  			continue;
->  		}
->  
-> +		if (node_specific_cma_alloc)
-> +			node_set(nid, hugetlb_cma_nodes_allowed);
->  		reserved += size;
->  		pr_info("hugetlb_cma: reserved %lu MiB on node %d\n",
->  			size / SZ_1M, nid);
-> 
+Thanks,
+NeilBrown
