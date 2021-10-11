@@ -2,202 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9998C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 18:22:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9741EC4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 18:23:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C818B60EB1
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 18:22:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7E02B60EB1
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 18:23:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234407AbhJKSYp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Oct 2021 14:24:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55516 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233835AbhJKSYo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Oct 2021 14:24:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1633976563;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=dMNh2Z50mjXzYsw8NI8wyY+ikUuFKE6oW0fJI23ISWw=;
-        b=fISYrrSJNh9ZzUprXO1YpfKegc7B9Qj+81C1tBjNjqnDq7uIFV0QC5vTNWL6fmuDzC/oUL
-        GzepTAj17G/Br0CpfRQzdBSPZ+jrgivJkXcBIQAEvHM3hWf0UlcWAdN4JeJFv0fPeVhfDz
-        apBKm7KWzqve5OWKqVG8qMp5lseaa/o=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-198-EEswTugyPy-3IAKQsVx1CQ-1; Mon, 11 Oct 2021 14:22:42 -0400
-X-MC-Unique: EEswTugyPy-3IAKQsVx1CQ-1
-Received: by mail-ed1-f70.google.com with SMTP id x5-20020a50f185000000b003db0f796903so16601312edl.18
-        for <linux-doc@vger.kernel.org>; Mon, 11 Oct 2021 11:22:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=dMNh2Z50mjXzYsw8NI8wyY+ikUuFKE6oW0fJI23ISWw=;
-        b=I3BQUKnPvGjoIUT+24Vf2ExPTGPV9mmvE3lrNBr+nPrkN19gEnGrXhL3n2vevJ6rZo
-         XshQ23k/M9ICKFJR4BKCxVs6BVLaFPYappWLo6RykYOdld2V+j56FYlAdkD2ZvOPsy2U
-         6KH7IoRt1QWESY8pGTCLm9ENaVeN4+Swlv3CfGrDNoKeFKlB8Bj4aRzDl/dWcr/jYnsM
-         oVrYWIfWmte7ElRbpvyHwEyaig7FmY+bt9G21wGV52cAVsX4SJ8gpXGn9dMIOy0dtOBX
-         JD0Rd64h/6NwblvflPvwYfU/y8VLQMspsSZ9RoYv/c+72jQrRY9JIu1CS3/GEn8YuB+K
-         lrjw==
-X-Gm-Message-State: AOAM530vs3sj/JOI3wjrEY99hIZdBfTZjXYJFAjUZSz2TTBTCwBD/J5H
-        NgKsU1r05RX9/EjWWXxtw695p2PFPCNdnE1ojy1yw5WcwyOCri4v1gEdU+73qAR7RkWb6jguR5l
-        DOIE0sRstM0iGbGaYfVKj
-X-Received: by 2002:aa7:c941:: with SMTP id h1mr44235671edt.128.1633976560834;
-        Mon, 11 Oct 2021 11:22:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyN/U+BRUzodKL6gvFVqtuU/Q67n/I/WAJHIiErFZ+rnv84Ucv2oE2o+msvXuPI2MK8YmvNow==
-X-Received: by 2002:aa7:c941:: with SMTP id h1mr44235616edt.128.1633976560614;
-        Mon, 11 Oct 2021 11:22:40 -0700 (PDT)
-Received: from redhat.com ([2.55.159.57])
-        by smtp.gmail.com with ESMTPSA id u2sm4623544eda.32.2021.10.11.11.22.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Oct 2021 11:22:39 -0700 (PDT)
-Date:   Mon, 11 Oct 2021 14:22:33 -0400
-From:   "Michael S. Tsirkin" <mst@redhat.com>
-To:     Andi Kleen <ak@linux.intel.com>
-Cc:     Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        James E J Bottomley <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        "David S . Miller" <davem@davemloft.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        David Hildenbrand <david@redhat.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Peter H Anvin <hpa@zytor.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
-        x86@kernel.org, linux-kernel@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH v5 12/16] PCI: Add pci_iomap_host_shared(),
- pci_iomap_host_shared_range()
-Message-ID: <20211011141248-mutt-send-email-mst@kernel.org>
-References: <20211009003711.1390019-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20211009003711.1390019-13-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20211009053103-mutt-send-email-mst@kernel.org>
- <cec62ebb-87d7-d725-1096-2c97c5eedbc3@linux.intel.com>
- <20211011073614-mutt-send-email-mst@kernel.org>
- <78766e28-8353-acc8-19e2-033d4bbf3472@linux.intel.com>
+        id S234399AbhJKSZh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Oct 2021 14:25:37 -0400
+Received: from smtprelay0102.hostedemail.com ([216.40.44.102]:43086 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S232165AbhJKSZh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Oct 2021 14:25:37 -0400
+Received: from omf16.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay01.hostedemail.com (Postfix) with ESMTP id EE257100E7B59;
+        Mon, 11 Oct 2021 18:23:35 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf16.hostedemail.com (Postfix) with ESMTPA id 97EB42550F1;
+        Mon, 11 Oct 2021 18:23:34 +0000 (UTC)
+Message-ID: <2d6bf6a7413fafce51a7e1d80c959b57faeb4b75.camel@perches.com>
+Subject: Re: [PATCH] scripts: kernel-doc: Ignore __alloc_size() attribute
+From:   Joe Perches <joe@perches.com>
+To:     Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+Date:   Mon, 11 Oct 2021 11:23:33 -0700
+In-Reply-To: <20211011180650.3603988-1-keescook@chromium.org>
+References: <20211011180650.3603988-1-keescook@chromium.org>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <78766e28-8353-acc8-19e2-033d4bbf3472@linux.intel.com>
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Server: rspamout05
+X-Rspamd-Queue-Id: 97EB42550F1
+X-Stat-Signature: chfeo6t9fsqd6ck4jrcnp4qfidbw6wj6
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1/XcxNNFly5dEc3mwylO5u/uBrBiKCxf2w=
+X-HE-Tag: 1633976614-606409
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 11, 2021 at 10:32:23AM -0700, Andi Kleen wrote:
+On Mon, 2021-10-11 at 11:06 -0700, Kees Cook wrote:
+> Fixes "Compiler Attributes: add __alloc_size() for better bounds checking"
+> so that the __alloc_size() macro is ignored for function prototypes when
+> generating kerndoc. Avoids warnings like:
 > 
-> > Because it does not end with I/O operations, that's a trivial example.
-> > module unloading is famous for being racy: I just re-read that part of
-> > virtio drivers and sure enough we have bugs there, this is after
-> > they have presumably been audited, so a TDX guest is better off
-> > just disabling hot-unplug completely, and hotplug isn't far behind.
-> 
-> These all shouldn't matter for a confidential guest. The only way it can be
-> attacked is through IO, everything else is protected by hardware.
-> 
-> 
-> Also it would all require doing something at the guest level, which we
-> assume is not malicious.
-> 
-> 
-> > Malicious filesystems can exploit many linux systems unless
-> > you take pains to limit what is mounted and how.
-> 
-> That's expected to be handled by authenticated dmcrypt and similar.
-> Hardening at this level has been done for many years.
+> ./include/linux/slab.h:662: warning: Function parameter or member '1' not described in '__alloc_size'
+> ./include/linux/slab.h:662: warning: Function parameter or member '2' not described in '__alloc_size'
+> ./include/linux/slab.h:662: warning: expecting prototype for kcalloc().  Prototype was for __alloc_size() instead
+[]
+> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+[]
+> @@ -1789,6 +1789,7 @@ sub dump_function($$) {
+>      $prototype =~ s/__weak +//;
+>      $prototype =~ s/__sched +//;
+>      $prototype =~ s/__printf\s*\(\s*\d*\s*,\s*\d*\s*\) +//;
+> +    $prototype =~ s/__alloc_size\s*\(\s*\d+\s*(?:,\s*\d+\s*)?\) +//;
+>      my $define = $prototype =~ s/^#\s*define\s+//; #ak added
+>      $prototype =~ s/__attribute_const__ +//;
+>      $prototype =~ s/__attribute__\s*\(\(
 
-It's possible to do it like this, sure. But that's not the
-only configuration, userspace needs to be smart about setting things up.
-Which is my point really.
+Perhaps all this would be more intelligible and a bit more future-proof
+using a regex that consumes all the various __<foo> prefixed attributes.
 
-> 
-> > Networking devices tend to get into the default namespaces and can
-> > do more or less whatever CAP_NET_ADMIN can.
-> > Etc.
-> 
-> 
-> Networking should be already hardened, otherwise you would have much worse
-> problems today.
+Maybe:
 
-Same thing. NFS is pretty common, you are saying don't do it then. Fair
-enough but again, arbitrary configs just aren't going to be secure.
+	my $balanced_parens = qr/(\((?:[^\(\)]++|(?-1))*\))/;
+	$prototype =~ s/\b__\w+\s*(?:$balanced_parens)?\s*//g;
 
-> 
-> 
-> > hange in your subsystem here.
-> > Well I commented on the API patch, not the virtio patch.
-> > If it's a way for a driver to say "I am hardened
-> > and audited" then I guess it should at least say so.
-> 
-> 
-> This is handled by the central allow list. We intentionally didn't want each
-> driver to declare itself, but have a central list where changes will get
-> more scrutiny than random driver code.
 
-Makes sense. Additionally, distros can tweak that to their heart's
-content, selecting the functionality/security balance that makes sense
-for them.
-
-> But then there are the additional opt-ins for the low level firewall. These
-> are in the API. I don't see how it could be done at the driver level, unless
-> you want to pass in a struct device everywhere?
-
-I am just saying don't do it then. Don't build drivers that distro does
-not want to support into kernel. And don't load them when they are
-modules.
-
-> > > > How about creating a defconfig that makes sense for TDX then?
-> > > TDX can be used in many different ways, I don't think a defconfig is
-> > > practical.
-> > > 
-> > > In theory you could do some Kconfig dependency (at the pain point of having
-> > > separate kernel binariees), but why not just do it at run time then if you
-> > > maintain the list anyways. That's much easier and saner for everyone. In the
-> > > past we usually always ended up with runtime mechanism for similar things
-> > > anyways.
-> > > 
-> > > Also it turns out that the filter mechanisms are needed for some arch
-> > > drivers which are not even configurable, so alone it's probably not enough,
-> > 
-> > I guess they aren't really needed though right, or you won't try to
-> > filter them?
-> 
-> We're addressing most of them with the device filter for platform drivers.
-> But since we cannot stop them doing ioremap IO in their init code they also
-> need the low level firewall.
-> 
-> Some others that cannot be addressed have explicit disables.
-> 
-> 
-> > So make them configurable?
-> 
-> Why not just fix the runtime? It's much saner for everyone. Proposing to do
-> things at build time sounds like we're in Linux 0.99 days.
-> 
-> -Andi
-
-Um. Tweaking driver code is not just build time, it's development time.
-At least with kconfig you don't need to patch your kernel.
-
--- 
-MST
 
