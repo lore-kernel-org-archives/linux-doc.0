@@ -2,108 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7DF5C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 17:40:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A0CDC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 17:57:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7FC0F60ED4
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 17:40:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EBEE860C49
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 17:57:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231300AbhJKRmu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Oct 2021 13:42:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32918 "EHLO
+        id S234166AbhJKR7d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Oct 2021 13:59:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230077AbhJKRmu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Oct 2021 13:42:50 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2396BC061570;
-        Mon, 11 Oct 2021 10:40:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=vQMzlZrrHWenwrSVaJ+s8I1Up0NtEx2jMMgBgtwzpgU=; b=2Htew9QXDgXovJdiSDZT91xm0P
-        qcV9J2QLzVSv6c2JjV+GOD92Jq4AQ32oHgON7TO+Y+iWwh+hPsz+GjhmnyETcNWTSLudkt5K9vM2A
-        /gGez+k+JLaPPkOaSp9vhNhFqVOPazcWmH3nfQd7yhEAlHhl325tMFg/aPl0+/VXjGmDSaMZQmBCa
-        b2V8bax4nxFYK9H4oMraQIykqWgrJWry1DenEu1aI9HP5YTK2MD4ZCOFYhcJGPJij+Hjei0i34FeQ
-        M+ZbNSbx9wTXYbpABT3hPhrrn767JyVf2rbNzJjvuLpHL70H2nAHBTlvXgnMjxzFWZcf/cMyJkMsp
-        FHCaWW7w==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mZzI2-00AGG5-JY; Mon, 11 Oct 2021 17:40:42 +0000
-Date:   Mon, 11 Oct 2021 10:40:42 -0700
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Tim.Bird@sony.com
-Cc:     gregkh@linuxfoundation.org, tj@kernel.org,
+        with ESMTP id S232880AbhJKR7c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Oct 2021 13:59:32 -0400
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31FF6C061570
+        for <linux-doc@vger.kernel.org>; Mon, 11 Oct 2021 10:57:32 -0700 (PDT)
+Received: by mail-pl1-x62f.google.com with SMTP id v20so4749561plo.7
+        for <linux-doc@vger.kernel.org>; Mon, 11 Oct 2021 10:57:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=BSp2yWANVc1Phuyo/keIPaoQjZd3svkQ3tUzmadeJho=;
+        b=QEFRxoZko+he7BYeS4IBgs0z2jZ+ipDMKAPvqbhZg2q1lhvAppS/5nSD2EPaBfDYxr
+         kHAwyKxraJXYzoNqRMkRLdvNWg0UkPeFh6mjeFatNEhIGu7k1Ld0QfIlmlPHbQzJpLpu
+         eIxWrdl71nae+vHvyBFdqo76D3k47ik+eZh8c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=BSp2yWANVc1Phuyo/keIPaoQjZd3svkQ3tUzmadeJho=;
+        b=i5uScO4c20dyX5XU+dx3cc7JwqPs/Z/o9VLOcnkRKdJEAFijm96vSRLFC9JQ2ZKmRj
+         qbLwR2yGMavwpIY4nM/B+MRUuVGs/ljK+fMk212PjPYtnKHxQY5LgMo56smVs0BGVRfb
+         oYrCD21lFRcJyvuWvDUKerLdbddIb+g0dySJRXLbINaSvuZiJ4X6n8UEHC1ZhgV69hAt
+         QymD+Wvox6sNJUxCKy3SltRV0+rl6ZOL/+kBlby2hfiFuUh1xMylKyCIGRYLPGFuwwLO
+         M6OnxqHLUyUq4vibkS08qhAief8juPXH5bMCgNTCQxjviIytcb9KLE/QtW0Z7nZ3vC8J
+         j6Tg==
+X-Gm-Message-State: AOAM530tkGxAYbm2N9qFpzrrG8e/dmtNJ5yiKZPq0r7T47mzxgy0EQsf
+        hfXkFpjmHkfF/uXrTy7tVqaZPA==
+X-Google-Smtp-Source: ABdhPJwymYfSHFQK1xgMrSYEK2u8tbk74BTl0AzUjUEaIOEkTlpw05zJuCoA5v7CHA1pakUAeT9vHQ==
+X-Received: by 2002:a17:90b:1e05:: with SMTP id pg5mr443752pjb.173.1633975047683;
+        Mon, 11 Oct 2021 10:57:27 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id u65sm669446pfb.208.2021.10.11.10.57.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Oct 2021 10:57:27 -0700 (PDT)
+Date:   Mon, 11 Oct 2021 10:57:26 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     tj@kernel.org, gregkh@linuxfoundation.org,
         akpm@linux-foundation.org, minchan@kernel.org, jeyu@kernel.org,
         shuah@kernel.org, bvanassche@acm.org, dan.j.williams@intel.com,
-        joe@perches.com, tglx@linutronix.de, keescook@chromium.org,
-        rostedt@goodmis.org, linux-spdx@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 03/12] selftests: add tests_sysfs module
-Message-ID: <YWR3GnSlobVqOQWw@bombadil.infradead.org>
+        joe@perches.com, tglx@linutronix.de, rostedt@goodmis.org,
+        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Goldwyn Rodrigues <rgoldwyn@suse.com>,
+        Kuno Woudt <kuno@frob.nl>,
+        Richard Fontana <fontana@sharpeleven.org>,
+        copyleft-next@lists.fedorahosted.org,
+        Ciaran Farrell <Ciaran.Farrell@suse.com>,
+        Christopher De Nicolo <Christopher.DeNicolo@suse.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [PATCH v8 01/12] LICENSES: Add the copyleft-next-0.3.1 license
+Message-ID: <202110111057.F6678D3F@keescook>
 References: <20210927163805.808907-1-mcgrof@kernel.org>
- <20210927163805.808907-4-mcgrof@kernel.org>
- <YVxeTvKkYs938g94@kroah.com>
- <BYAPR13MB2503180449E0863CFD4672F5FDAF9@BYAPR13MB2503.namprd13.prod.outlook.com>
+ <20210927163805.808907-2-mcgrof@kernel.org>
+ <202110050907.35FBD2A1@keescook>
+ <YWR2ZrtzChamY1y4@bombadil.infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <BYAPR13MB2503180449E0863CFD4672F5FDAF9@BYAPR13MB2503.namprd13.prod.outlook.com>
-Sender: Luis Chamberlain <mcgrof@infradead.org>
+In-Reply-To: <YWR2ZrtzChamY1y4@bombadil.infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 05, 2021 at 04:57:55PM +0000, Tim.Bird@sony.com wrote:
-> 
-> 
-> > -----Original Message-----
-> > From: Greg KH <gregkh@linuxfoundation.org>
-> > Sent: Tuesday, October 5, 2021 8:17 AM
-> > To: Luis Chamberlain <mcgrof@kernel.org>
-> > Cc: tj@kernel.org; akpm@linux-foundation.org; minchan@kernel.org; jeyu@kernel.org; shuah@kernel.org; bvanassche@acm.org;
-> > dan.j.williams@intel.com; joe@perches.com; tglx@linutronix.de; keescook@chromium.org; rostedt@goodmis.org; linux-
-> > spdx@vger.kernel.org; linux-doc@vger.kernel.org; linux-block@vger.kernel.org; linux-fsdevel@vger.kernel.org; linux-
-> > kselftest@vger.kernel.org; linux-kernel@vger.kernel.org
-> > Subject: Re: [PATCH v8 03/12] selftests: add tests_sysfs module
+On Mon, Oct 11, 2021 at 10:37:42AM -0700, Luis Chamberlain wrote:
+> On Tue, Oct 05, 2021 at 09:08:59AM -0700, Kees Cook wrote:
+> > On Mon, Sep 27, 2021 at 09:37:54AM -0700, Luis Chamberlain wrote:
+> > I can confirm that LICENSES/dual/copyleft-next-0.3.1 matches
+> > https://github.com/copyleft-next/copyleft-next/blob/master/Releases/copyleft-next-0.3.1
 > > 
-> > On Mon, Sep 27, 2021 at 09:37:56AM -0700, Luis Chamberlain wrote:
-> > > --- /dev/null
-> > > +++ b/lib/test_sysfs.c
-> > > @@ -0,0 +1,921 @@
-> > > +// SPDX-License-Identifier: GPL-2.0-or-later OR copyleft-next-0.3.1
-> > > +/*
-> > > + * sysfs test driver
-> > > + *
-> > > + * Copyright (C) 2021 Luis Chamberlain <mcgrof@kernel.org>
-> > > + *
-> > > + * This program is free software; you can redistribute it and/or modify it
-> > > + * under the terms of the GNU General Public License as published by the Free
-> > > + * Software Foundation; either version 2 of the License, or at your option any
-> > > + * later version; or, when distributed separately from the Linux kernel or
-> > > + * when incorporated into other software packages, subject to the following
-> > > + * license:
+> > Reviewed-by: Kees Cook <keescook@chromium.org>
+> > 
+> > > +   If the Derived Work includes material licensed under the GPL, You may
+> > > +   instead license the Derived Work under the GPL.
+> > > +   
+> > 
+> > nit: needless whitespace, though technically the original license
+> > includes this too. :)
 > 
-> This is a very strange license grant, which I'm not sure is covered by any
-> current SPDX syntax.
-> " when distributed separately from the Linux kernel or when incorporated into
-> other software packages, subject to the following license:"
+> Indeed, I decided to leave the white space as the original had it too.
+> Should I really get rid of the space or keep it?
 
-drivers/xen/events/events_fifo.c has that same language.
+Probably keep it for 0 diff with original. :)
 
-> Why would we care about the license used when the code is used in a non-kernel
-> project?  If it is desired for the code to be available outside the kernel under a
-> different license, then surely the easiest thing is to make it available separately
-> under that license.  I'm not sure why the kernel needs to carry this license for
-> non-kernel use of the code.
-> 
-> I would recommend giving this a GPLv2 SPDX header, and maybe in the comment
-> at the top of the file put a reference to a git repository where the code can be
-> obtained under a different license.
-
-Keeping the dual let's new updates directly on the kernel benefit from
-evolution. A fork would stagnate it in place and would require updates
-separately.
-
-  Luis
+-- 
+Kees Cook
