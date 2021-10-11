@@ -2,94 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 932ADC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 20:56:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CD8EC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 21:02:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 69C5360F3A
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 20:56:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3E92A60F5B
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 21:02:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234411AbhJKU62 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Oct 2021 16:58:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48770 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235186AbhJKU6Z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Oct 2021 16:58:25 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C50ACC061570;
-        Mon, 11 Oct 2021 13:56:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=OMRA5Uy0CFXQGBZKXpMNyiSotsoVxsy0srVBHW0eyHE=; b=sRfuKtWUNHZUGaWjNQQbXf/e8b
-        iEkEAXyheUHXhWt4e7rydqqkHjMCfN8Sh7O/Y+Nw9QLVBeQ+k8ZWIM0/AzbOCL63UB/EMCpp46KiS
-        +F0yVbklkLFCPZZIDvcy7aybZraDYDTr3zZQyiGBvTETg6ZwvTCyi+lNMKiS7yPCreyoBYGLTLTAc
-        HC5QKkLo7ssw3OMMdkup6XnzsYzVsdr4yLx4uDX+0Cbpk5xVE0e3aKm10V/4LylFQpXDozuAYtJea
-        5Chg0HgbknV86PRZYhJxB1LkXM43W8HFdMsN0EpEEzeApLlOXqrgm+oFSUkXk95G5Hert03HWNbh7
-        PJh8ufmg==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1ma2LJ-00AffX-0F; Mon, 11 Oct 2021 20:56:17 +0000
-Date:   Mon, 11 Oct 2021 13:56:16 -0700
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     tj@kernel.org, gregkh@linuxfoundation.org,
-        akpm@linux-foundation.org, minchan@kernel.org, jeyu@kernel.org,
-        shuah@kernel.org, bvanassche@acm.org, dan.j.williams@intel.com,
-        joe@perches.com, tglx@linutronix.de, rostedt@goodmis.org,
-        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 05/12] test_sysfs: add support to use kernfs failure
- injection
-Message-ID: <YWSk8N1apUGE5gnd@bombadil.infradead.org>
-References: <20210927163805.808907-1-mcgrof@kernel.org>
- <20210927163805.808907-6-mcgrof@kernel.org>
- <202110051248.FCF2E89@keescook>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202110051248.FCF2E89@keescook>
-Sender: Luis Chamberlain <mcgrof@infradead.org>
+        id S235033AbhJKVEi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Oct 2021 17:04:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36970 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230299AbhJKVEi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 11 Oct 2021 17:04:38 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7E28360F23;
+        Mon, 11 Oct 2021 21:02:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1633986158;
+        bh=Jm6whGm1SYWN5n0xAQTdIeZ9V6XW0chF912C9+QjTcM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Nh65/IBIADLhMY9W1ThQ+x/HbV6CHO2s22TKn9rPlXzpLKdrKZHUpuZmVEbFmB1Ws
+         7yfK4ne8BH9vrfsfviIBXtPVE7Z4/Md8m7I4tXLACBdAKbsd3Y2C7QMIhJWNDtKIic
+         SB2TZau4xVB2gZiPlaimrGkh72Ut4efN4vhaKofU=
+Date:   Mon, 11 Oct 2021 14:02:35 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     SeongJae Park <sj@kernel.org>
+Cc:     Jonathan.Cameron@Huawei.com, amit@kernel.org,
+        benh@kernel.crashing.org, corbet@lwn.net, david@redhat.com,
+        dwmw@amazon.com, elver@google.com, foersleo@amazon.de,
+        gthelen@google.com, markubo@amazon.de, rientjes@google.com,
+        shakeelb@google.com, shuah@kernel.org, linux-damon@amazon.com,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/4] mm/damon/dbgfs: Implement recording feature
+Message-Id: <20211011140235.f75b842f861b730c53e4b19c@linux-foundation.org>
+In-Reply-To: <20211011093057.30790-1-sj@kernel.org>
+References: <20211010150140.be96f07048079188d9d6b613@linux-foundation.org>
+        <20211011093057.30790-1-sj@kernel.org>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 05, 2021 at 12:51:33PM -0700, Kees Cook wrote:
-> On Mon, Sep 27, 2021 at 09:37:58AM -0700, Luis Chamberlain wrote:
-> > diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> > index a29b7d398c4e..176b822654e5 100644
-> > --- a/lib/Kconfig.debug
-> > +++ b/lib/Kconfig.debug
-> > @@ -2358,6 +2358,9 @@ config TEST_SYSFS
-> >  	depends on SYSFS
-> >  	depends on NET
-> >  	depends on BLOCK
-> > +	select FAULT_INJECTION
-> > +	select FAULT_INJECTION_DEBUG_FS
-> > +	select FAIL_KERNFS_KNOBS
+On Mon, 11 Oct 2021 09:30:57 +0000 SeongJae Park <sj@kernel.org> wrote:
+
+> Hello Andrew,
 > 
-> I don't like seeing "select" for user-configurable CONFIGs -- things
-> tend to end up weird. This should simply be:
 > 
-> 	depends on FAIL_KERNFS_KNOBS
-
-Sure.
-
-> > diff --git a/lib/test_sysfs.c b/lib/test_sysfs.c
-> > index 2043ca494af8..c6e62de61403 100644
-> > --- a/lib/test_sysfs.c
-> > +++ b/lib/test_sysfs.c
-> > @@ -38,6 +38,11 @@
-> >  #include <linux/rtnetlink.h>
-> >  #include <linux/genhd.h>
-> >  #include <linux/blkdev.h>
-> > +#include <linux/kernfs.h>
-> > +
-> > +#ifdef CONFIG_FAIL_KERNFS_KNOBS
+> Thank you for great questions!
 > 
-> This isn't an optional config here (and following)?
+> On Sun, 10 Oct 2021 15:01:40 -0700 Andrew Morton <akpm@linux-foundation.org> wrote:
+> 
+> > On Fri,  8 Oct 2021 09:45:06 +0000 SeongJae Park <sj@kernel.org> wrote:
+> > 
+> > > The user space can get the monitoring results via the 'damon_aggregated'
+> > > tracepoint event.  For simplicity and brevity, the tracepoint events
+> > > have some duplicated information such as 'target_id' and 'nr_regions',
+> > > though.  As a result, its size is greater than really needed.  Also,
+> > > dealing with the tracepoint could be complex for some simple use cases.
+> > > To provide a way for getting more efficient and simple monitoring
+> > > results to user space, this commit implements 'recording' feature in
+> > > 'damon-dbgfs'.
+> > > 
+> > > The feature is exported to the user space via a new debugfs file named
+> > > 'record', which is located in '<debugfs>/damon/' directory.  The file
+> > > allows users to record monitored access patterns in a regular binary
+> > > file in a simple format.
+> > 
+> > Binary files are troublesome.
+> > 
+> > Is the format of this file documented anywhere?
+> 
+> No.  I intended the Python script in the following patch[1] and the user space
+> tool[2] to be used as such documents.  I will write up one before the next
+> spin.
+> 
+> [1] https://lore.kernel.org/linux-mm/20211008094509.16179-3-sj@kernel.org/
+> [2] https://github.com/awslabs/damo/blob/v0.0.5/_damon_result.py#L38
+> 
+> > 
+> > I assume that the file's contents will have different representations
+> > depending on host endianness and word size and I further assume that
+> > the provided python script won't handle this very well?
+> 
+> You're right.  I will make the script properly handle the cases in the next
+> spin.
 
-Sure with the above change this is no longer needed. Removed all that
-ifdef'ery.
+Well, rather than messing with the different file formats, you could
+make the binary file machine-independent.  Decide on the endianness and
+word size, implement them and document them.  Things like cpu_to_le32
+are zero-cost on little-endian machines.
 
-  Luis
