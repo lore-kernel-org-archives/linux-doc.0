@@ -2,130 +2,254 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8B37C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 21:31:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE41FC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 22:26:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CD84061074
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 21:31:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C310D60EB4
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 22:26:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235245AbhJKVdv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Oct 2021 17:33:51 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:35146 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230114AbhJKVdv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 11 Oct 2021 17:33:51 -0400
-Received: from zn.tnic (p200300ec2f08bb0003b0f726e81805f8.dip0.t-ipconnect.de [IPv6:2003:ec:2f08:bb00:3b0:f726:e818:5f8])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id DA1831EC04D6;
-        Mon, 11 Oct 2021 23:31:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1633987909;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=ktB79OgjKWu4SFhSyygmMhHHJddjGqbKPeqk6+xxA10=;
-        b=AP8NNI/lF9orIz29IHoZ1onaqIlWc4+tv7BBIyQ+KqL9M5VUAmvyQner4HQ8Dfej+ezj0s
-        rDjJ5dFRCYDxJHoQ7a4kNXigxCehCvPoD4ITWptC1gRP9uXVExolKqM7HHEp1MW8PxfoEr
-        lJQDN29VXXUI+lSK76b0wei8vrWh1jM=
-Date:   Mon, 11 Oct 2021 23:31:45 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Winiarska, Iwona" <iwona.winiarska@intel.com>
-Cc:     "corbet@lwn.net" <corbet@lwn.net>,
-        "jae.hyun.yoo@linux.intel.com" <jae.hyun.yoo@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-        "Luck, Tony" <tony.luck@intel.com>,
-        "andrew@aj.id.au" <andrew@aj.id.au>,
-        "Williams, Dan J" <dan.j.williams@intel.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "jdelvare@suse.com" <jdelvare@suse.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        "olof@lixom.net" <olof@lixom.net>, "arnd@arndb.de" <arnd@arndb.de>,
-        "linux@roeck-us.net" <linux@roeck-us.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
-        "zweiss@equinix.com" <zweiss@equinix.com>,
-        "d.mueller@elsoft.ch" <d.mueller@elsoft.ch>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "joel@jms.id.au" <joel@jms.id.au>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "yazen.ghannam@amd.com" <yazen.ghannam@amd.com>,
-        "pierre-louis.bossart@linux.intel.com" 
-        <pierre-louis.bossart@linux.intel.com>
-Subject: Re: [PATCH v2 01/15] x86/cpu: Move intel-family to arch-independent
- headers
-Message-ID: <YWStQSrRJQ09KXVY@zn.tnic>
-References: <20210803113134.2262882-1-iwona.winiarska@intel.com>
- <20210803113134.2262882-2-iwona.winiarska@intel.com>
- <YVtQG+idmwKn0qLe@zn.tnic>
- <58ef4107e9b2c60a2605aac0d2fb6670a95bc9e0.camel@intel.com>
- <YWSZTq8NWWcCMXtA@zn.tnic>
- <337b6332312ea63862aedd09279417c9e1c7e11f.camel@intel.com>
+        id S235490AbhJKW2L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Oct 2021 18:28:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40456 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235484AbhJKW2L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Oct 2021 18:28:11 -0400
+Received: from bombadil.infradead.org (unknown [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBE97C061570;
+        Mon, 11 Oct 2021 15:26:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=lyPSIok62utLCmQ4XS6IoW1XOT62RU2rbFfpT1HFMT8=; b=RRjvyhwmsM0XNPnlsbJ5OA6ShL
+        RGPwyPvsjZ1T4+S1dg08rGnJQHcV3gA8cWbgauzip21rH7GHbMqYXxWamSP8Sb2lxS7p9pwmiXmmL
+        FCEYph6e4gt439koJVuoF8F4zaM3ccMwjyl7SHQlrVTYez9s3BNkTCzFPWFaJXGXUI14b+LRKTWmD
+        fIjRrEBdri3OqVE/y6KlfRqKom9mWe3SGtgdE6IkIclGP/8ELY6JY27WkB0abRlU4lSai7iJkhfj3
+        dvy0aMZ+2LRnaRKZWDrydq0PSOMQddh72peNtkMy++CaAMhWRrltC9Vmw1tfuGKIYYOg0F02It4o2
+        ao1ptUwg==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1ma3kA-00AtVE-C9; Mon, 11 Oct 2021 22:26:02 +0000
+Date:   Mon, 11 Oct 2021 15:26:02 -0700
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     tj@kernel.org, gregkh@linuxfoundation.org,
+        akpm@linux-foundation.org, minchan@kernel.org, jeyu@kernel.org,
+        shuah@kernel.org, bvanassche@acm.org, dan.j.williams@intel.com,
+        joe@perches.com, tglx@linutronix.de, rostedt@goodmis.org,
+        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 09/12] sysfs: fix deadlock race with module removal
+Message-ID: <YWS5+uyDQ4qklTcT@bombadil.infradead.org>
+References: <20210927163805.808907-1-mcgrof@kernel.org>
+ <20210927163805.808907-10-mcgrof@kernel.org>
+ <202110051315.B2165F455@keescook>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <337b6332312ea63862aedd09279417c9e1c7e11f.camel@intel.com>
+In-Reply-To: <202110051315.B2165F455@keescook>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 11, 2021 at 08:38:43PM +0000, Winiarska, Iwona wrote:
-> Everything that's part of this series runs on the BMC (Baseboard
-> Management Controller). There's nothing ARM specific to it - it's just
-> that the BMC hardware we're currently supporting is ARM-based. PECI is
-> an interface that's exposed by some x86 CPUs - but that's a hardware
-> interface (available completely independent from whatever is actually
-> running on the x86 CPU).
+On Tue, Oct 05, 2021 at 01:50:31PM -0700, Kees Cook wrote:
+> On Mon, Sep 27, 2021 at 09:38:02AM -0700, Luis Chamberlain wrote:
+> > A sketch of how this can happen follows, consider foo a local mutex
+> > part of a driver, and used on the driver's module exit routine and
+> > on one of its sysfs ops:
+> > 
+> > foo.c:
+> > static DEFINE_MUTEX(foo);
+> > static ssize_t foo_store(struct device *dev,
+> > 			 struct device_attribute *attr,
+> > 			 const char *buf, size_t count)
+> > {
+> > 	...
+> > 	mutex_lock(&foo);
+> > 	...
+> > 	mutex_lock(&foo);
+> > 	...
+> > }
+> > static DEVICE_ATTR_RW(foo);
+> > ...
+> > void foo_exit(void)
+> > {
+> > 	mutex_lock(&foo);
+> > 	...
+> > 	mutex_unlock(&foo);
+> > }
+> > module_exit(foo_exit);
+> > 
+> > And this can lead to this condition:
+> > 
+> > CPU A                              CPU B
+> >                                    foo_store()
+> > foo_exit()
+> >   mutex_lock(&foo)
+> >                                    mutex_lock(&foo)
+> >    del_gendisk(some_struct->disk);
+> >      device_del()
+> >        device_remove_groups()
+> 
+> Please expand this further, where does device_remove_groups() end up
+> waiting for that never happens?
 
-Aha, I think I got it: so this whole PECI pile is supposed to run on
-the BMC - which can be ARM but doesn't have to be, i.e., code should be
-generic enough - and the interfaces to the x86 CPU do get exposed to the
-Linux running on the BMC.
+Sure. How about:
 
-Which brings me to the answer to your other mail:
+Furthermore, device_remove_groups() will just go on trying to remove
+the sysfs files, which are kernfs entries. The way kernfs deals with
+removal is that it will wait until all active references for the files
+being removed are done. The active reference is obtained through
+kernfs_get_active(). Removal ends up waiting through kernfs_drain()
+for the active references to be done, and that only happens if the
+kernfs file ops can complete. If these kernfs ops / sysfs files
+are waiting for a mutex which taken by the module's exit routine
+prior to trying to remove the sysfs files we deadlock.
 
-On Mon, Oct 11, 2021 at 07:32:38PM +0000, Winiarska, Iwona wrote:
-> Nothing wrong - just a trade-off between churn and keeping things tidy
-> and not duplicated, similar to patch 1. And just like in patch 1, if
-> you have a strong opinion against it - we can duplicate.
+> > In this situation foo_store() is waiting for the mutex foo to
+> > become unlocked, but that won't happen until module removal is complete.
+> > But module removal won't complete until the sysfs file being poked at
+> > completes which is waiting for a lock already held.
+> > 
+> > Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
+> > ---
+> >  arch/x86/kernel/cpu/resctrl/rdtgroup.c |  4 +-
+> >  fs/kernfs/dir.c                        | 44 ++++++++++++++++++----
+> >  fs/kernfs/file.c                       |  6 ++-
+> >  fs/kernfs/kernfs-internal.h            |  3 +-
+> >  fs/kernfs/symlink.c                    |  3 +-
+> >  fs/sysfs/dir.c                         |  2 +-
+> >  fs/sysfs/file.c                        |  6 ++-
+> >  fs/sysfs/group.c                       |  3 +-
+> >  include/linux/kernfs.h                 | 14 ++++---
+> >  include/linux/sysfs.h                  | 52 ++++++++++++++++++++------
+> >  kernel/cgroup/cgroup.c                 |  2 +-
+> >  11 files changed, 105 insertions(+), 34 deletions(-)
+> > 
+> > diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> > index b57b3db9a6a7..4edf3b37fd2c 100644
+> > --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> > +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> > @@ -209,7 +209,7 @@ static int rdtgroup_add_file(struct kernfs_node *parent_kn, struct rftype *rft)
+> >  
+> >  	kn = __kernfs_create_file(parent_kn, rft->name, rft->mode,
+> >  				  GLOBAL_ROOT_UID, GLOBAL_ROOT_GID,
+> > -				  0, rft->kf_ops, rft, NULL, NULL);
+> > +				  0, rft->kf_ops, rft, NULL, NULL, NULL);
+> >  	if (IS_ERR(kn))
+> >  		return PTR_ERR(kn);
+> >  
+> > @@ -2482,7 +2482,7 @@ static int mon_addfile(struct kernfs_node *parent_kn, const char *name,
+> >  
+> >  	kn = __kernfs_create_file(parent_kn, name, 0444,
+> >  				  GLOBAL_ROOT_UID, GLOBAL_ROOT_GID, 0,
+> > -				  &kf_mondata_ops, priv, NULL, NULL);
+> > +				  &kf_mondata_ops, priv, NULL, NULL, NULL);
+> >  	if (IS_ERR(kn))
+> >  		return PTR_ERR(kn);
+> >  
+> > diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
+> > index ba581429bf7b..e841201fd11b 100644
+> > --- a/fs/kernfs/dir.c
+> > +++ b/fs/kernfs/dir.c
+> > @@ -14,6 +14,7 @@
+> >  #include <linux/slab.h>
+> >  #include <linux/security.h>
+> >  #include <linux/hash.h>
+> > +#include <linux/module.h>
+> >  
+> >  #include "kernfs-internal.h"
+> >  
+> > @@ -414,12 +415,29 @@ static bool kernfs_unlink_sibling(struct kernfs_node *kn)
+> >   */
+> >  struct kernfs_node *kernfs_get_active(struct kernfs_node *kn)
+> >  {
+> > +	int v;
+> > +
+> >  	if (unlikely(!kn))
+> >  		return NULL;
+> >  
+> >  	if (!atomic_inc_unless_negative(&kn->active))
+> >  		return NULL;
+> >  
+> > +	/*
+> > +	 * If a module created the kernfs_node, the module cannot possibly be
+> > +	 * removed if the above atomic_inc_unless_negative() succeeded. So the
+> > +	 * try_module_get() below is not to protect the lifetime of the module
+> > +	 * as that is already guaranteed. The try_module_get() below is used
+> > +	 * to ensure that we don't deadlock in case a kernfs operation and
+> > +	 * module removal used a shared lock.
+> > +	 */
+> > +	if (!try_module_get(kn->owner)) {
+> > +		v = atomic_dec_return(&kn->active);
+> > +		if (unlikely(v == KN_DEACTIVATED_BIAS))
+> > +			wake_up_all(&kernfs_root(kn)->deactivate_waitq);
+> > +		return NULL;
+> > +	}
+> 
+> The special casing in here makes me think this isn't happening the right
+> place. (i.e this looks like an open-coded version of kernfs_put_active())
 
-So it is not about strong opinion. Rather, it is about whether this
-exporting would be disadvantageous for x86 freedom. And I think it will
-be:
+No, well you see, in effect the special care taken in
+kernfs_put_active() *is* the right way to inform a waiter that
+that the *taken* reference right above *also* is no longer active.
 
-Because if you exported those and then we went and changed those
-interfaces and defines (changed their naming, function arguments,
-whatever) and something outside of x86 used them, we will break that
-something.
+The special casing here is because we took the active reference
+before the try_module_get() in the above atomic_inc_unless_negative()
+call. Outside callers deal with this through kernfs_put_active().
 
-And usually we go and fix those users too but I doubt anyone has access
-to that PECI hw to actually test fixes, etc, etc.
+We are special casing to deal with the deadlock case.
 
-So I'd prefer the small amount of duplication vs external stuff using
-x86 facilities any day of the week. And so I'd suggest you simply copy
-the handful of functions and defines you're gonna be needing and the
-defines and be done with it.
+> > +
+> >  	if (kernfs_lockdep(kn))
+> >  		rwsem_acquire_read(&kn->dep_map, 0, 1, _RET_IP_);
+> >  	return kn;
+> > @@ -442,6 +460,13 @@ void kernfs_put_active(struct kernfs_node *kn)
+> >  	if (kernfs_lockdep(kn))
+> >  		rwsem_release(&kn->dep_map, _RET_IP_);
+> >  	v = atomic_dec_return(&kn->active);
+> > +
+> > +	/*
+> > +	 * We prevent module exit *until* we know for sure all possible
+> > +	 * kernfs ops are done.
+> > +	 */
+> > +	module_put(kn->owner);
+> > +
+> >  	if (likely(v != KN_DEACTIVATED_BIAS))
+> >  		return;
+> 
+> What I don't understand, however, is what kernfs_get/put_active() is
+> intending to do -- it looks like it's trying to provide an interruption
+> point for open kernfs file operations?
 
-Dave's idea makes sense to me too but lately it keeps happening that
-we change something in x86-land and it turns out something "from the
-outside" is using it and it breaks, so it is a lot easier if things are
-independent.
+It is essentially ensuring that removal does not happen if any ops
+are being used.
 
-Thx.
+> This all seems extremely complex for what seems like it should just be a
+> global "am I being removed?" bool?
 
--- 
-Regards/Gruss,
-    Boris.
+It used to be worse :) And Tejun has cleaned this up over time. Yes,
+perhaps we can improve that more but, given how sensible this code
+is I think such improvements should be made separately.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+> Regardless, while I do see the logic of associating the module get/put
+> with get/put of kernfs "active", why is it not better tied to strictly
+> kernfs open/close? 
+
+It's not just files, consider kernfs_iop_mkdir() which also calls
+kernfs_get_active(). How about kernfs_fop_mmap()? And so, the common
+denominator is actually kernfs_get_active().
+
+> That would seem to be much simpler and not require
+> any special handling?
+
+Yes true, but it I think this would still leave open some other possible
+deadlocks.
+
+> For example, why does this not work?
+
+It does for the write case for sure, but I haven't written tests for the
+other odd cases, but suspect that would deadlock as well.
+
+ Luis
