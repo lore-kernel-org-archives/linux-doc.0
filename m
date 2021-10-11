@@ -2,61 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CFA6C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 02:13:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3570CC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 02:40:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 67D9060F11
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 02:13:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F01E160F4C
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 02:39:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231872AbhJKCPW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 10 Oct 2021 22:15:22 -0400
-Received: from out30-43.freemail.mail.aliyun.com ([115.124.30.43]:46330 "EHLO
-        out30-43.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231578AbhJKCPW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 Oct 2021 22:15:22 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R671e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e01424;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0UrJKsBw_1633918399;
-Received: from 30.21.164.80(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0UrJKsBw_1633918399)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Mon, 11 Oct 2021 10:13:20 +0800
-Subject: Re: [PATCH] hugetlb: Support node specified when using cma for
- gigantic hugepages
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     mike.kravetz@oracle.com, mhocko@kernel.org, guro@fb.com,
-        corbet@lwn.net, yaozhenguo1@gmail.com, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <1633843448-966-1-git-send-email-baolin.wang@linux.alibaba.com>
- <20211010135507.f2d1c6bcaeecc82d6d025604@linux-foundation.org>
-From:   Baolin Wang <baolin.wang@linux.alibaba.com>
-Message-ID: <d0d09382-c6ea-bf60-efbd-11a57a09263d@linux.alibaba.com>
-Date:   Mon, 11 Oct 2021 10:14:01 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        id S233252AbhJKCl5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 10 Oct 2021 22:41:57 -0400
+Received: from mga17.intel.com ([192.55.52.151]:13178 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231578AbhJKCl4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 10 Oct 2021 22:41:56 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10133"; a="207592594"
+X-IronPort-AV: E=Sophos;i="5.85,363,1624345200"; 
+   d="scan'208";a="207592594"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2021 19:39:57 -0700
+X-IronPort-AV: E=Sophos;i="5.85,363,1624345200"; 
+   d="scan'208";a="459805979"
+Received: from akleen-mobl1.amr.corp.intel.com (HELO [10.209.83.75]) ([10.209.83.75])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2021 19:39:56 -0700
+Message-ID: <8c906de6-5efa-b87a-c800-6f07b98339d0@linux.intel.com>
+Date:   Sun, 10 Oct 2021 19:39:55 -0700
 MIME-Version: 1.0
-In-Reply-To: <20211010135507.f2d1c6bcaeecc82d6d025604@linux-foundation.org>
-Content-Type: text/plain; charset=gbk; format=flowed
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v5 16/16] x86/tdx: Add cmdline option to force use of
+ ioremap_host_shared
+Content-Language: en-US
+To:     "Michael S. Tsirkin" <mst@redhat.com>,
+        Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Richard Henderson <rth@twiddle.net>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        James E J Bottomley <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        David Hildenbrand <david@redhat.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Peter H Anvin <hpa@zytor.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
+        x86@kernel.org, linux-kernel@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-alpha@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        virtualization@lists.linux-foundation.org
+References: <20211009003711.1390019-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20211009003711.1390019-17-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20211009070132-mutt-send-email-mst@kernel.org>
+From:   Andi Kleen <ak@linux.intel.com>
+In-Reply-To: <20211009070132-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+> The connection is quite unfortunate IMHO.
+> Can't there be an option
+> that unbreaks drivers *without* opening up security holes by
+> making BIOS shared?
 
-On 2021/10/11 4:55, Andrew Morton wrote:
-> On Sun, 10 Oct 2021 13:24:08 +0800 Baolin Wang <baolin.wang@linux.alibaba.com> wrote:
-> 
->> Now the size of CMA area for gigantic hugepages runtime allocation is
->> balanced for all online nodes, but we also want to specify the size of
->> CMA per-node, or only one node in some cases, which are similar with
-> 
-> Please describe in full detail why "we want to" do this.  In other
-> words, what is the benefit to our users?  What are the use-cases, etc?
+That would require new low level APIs that distinguish both cases, and a 
+tree sweep.
 
-Sure. On some multi-nodes systems, each node's memory can be different, 
-allocating the same size of CMA for each node is not suitable for the 
-low-memory nodes. Meanwhile some workloads like DPDK mentioned by 
-Zhenguo only need hugepages in one node.
 
-On the other hand, we have some machines with multiple types of memory, 
-like DRAM and PMEM (persistent memory). On this system, we may want to 
-specify all the hugepages on DRAM node, or specify the proportion of 
-DRAM node and PMEM node, to tuning the performance of the workloads.
+-Andi
+
