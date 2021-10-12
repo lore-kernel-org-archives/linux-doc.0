@@ -2,61 +2,61 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 343A8C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Oct 2021 01:19:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B7CDC4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Oct 2021 01:20:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1A74860F22
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Oct 2021 01:19:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E178561040
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Oct 2021 01:20:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235420AbhJLBVL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Oct 2021 21:21:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50286 "EHLO
+        id S234595AbhJLBWi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Oct 2021 21:22:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235581AbhJLBVG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Oct 2021 21:21:06 -0400
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1738C061745
-        for <linux-doc@vger.kernel.org>; Mon, 11 Oct 2021 18:19:05 -0700 (PDT)
-Received: by mail-yb1-xb32.google.com with SMTP id n65so42962663ybb.7
-        for <linux-doc@vger.kernel.org>; Mon, 11 Oct 2021 18:19:05 -0700 (PDT)
+        with ESMTP id S234902AbhJLBWi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Oct 2021 21:22:38 -0400
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73C0EC06161C
+        for <linux-doc@vger.kernel.org>; Mon, 11 Oct 2021 18:20:37 -0700 (PDT)
+Received: by mail-yb1-xb33.google.com with SMTP id w10so43025785ybt.4
+        for <linux-doc@vger.kernel.org>; Mon, 11 Oct 2021 18:20:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=407czVbE3e5WcfWCrJgGTmSTywUsN04juLc0rcDIHos=;
-        b=TzwbmzL5U816Bqh9kOlyCsD1sCD6dVJn2Q0kP6rcyb8lKPkHAH+ygv0sec8MKihXkD
-         ohWYsPx597UOJUURiCPg8CepyKL2AjXQwvZ8979WeWLSKPtxHE5knrUhoujX7zgcuX/f
-         E4gU92yKZxrpzWVS4cRDvqdp5VC/CfND05hjJKQc3AK5SQEodjo4wcbFwILdLwtP0k5b
-         S7zFBs1/Jn75JjnSRsw9z2j5huA8PxzJdsHDHBlP0tpkDk9A14MjdrblhO4+htQGh/+j
-         gvri2TKFi3Cym0kqw5rDVLaALHsHDbZG931XjBYJ3r+senO6Kw7oqEg9zq8eVuxlxMiA
-         s0HA==
+        bh=T0rvH8tccG1GCW1xVscvfSQVrt0Y/dmYu+9N0LqR3IU=;
+        b=ozWNgkyPQ6g2Pb6GhDQaCx4ZxPKDrBt5s2ggV9Ns3aDuMRwgN/pb8qCCc75VBqb19f
+         OghPvT9NZ3DJ8gXsGqPKYt6+SQFN/ApQF6XXqcBQDxiC5rgqd0w20vWV7y/3n/HBX73A
+         mYHYuTI/yuzdz6aA8LJWPIynztB+pp8z1VmlcJSARvWWwH3sjX/rD1nXx/GWDMfJbRiY
+         onfCMl0VsmdBL4rZnW+ek3I+1+Sk62K28tZE0iSXgGlhh5683azjY2imwUSYEYfhUaqE
+         8T9k1TImgSZOiUTnlqCMBWhndlrEIqEIpm5qjv40lClFReap2zuQBi62mOwgtVEqrVGk
+         z2Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=407czVbE3e5WcfWCrJgGTmSTywUsN04juLc0rcDIHos=;
-        b=W36eoVqCQBZMEAeHQjrmSWd0kxW9d9PdnbowcAqvG1nQbayC831cMq49pnDsH3DNgf
-         O9v2hqd+H3EXdiYRXf3C9mhUjEWqKJkMjxU7r/Vwl4nFYJTYRBEVxFMMaUuV7KT3P4uo
-         pTS4n4IW9Nh/X7SX64O61pvvhwRq7WRYZfODWRqYDBLYgBCKI+doov5ua7e1iaOXv2LO
-         Y9VxJtPkIikwnzJ+NhIeZN+tWKomi68dOcAZBGIJmv8ubElm+45tCHqqh8vT+mNzD0Y4
-         albTe1pDL4SOlrDbB5OpWz0/kGcLZiHPZznmi3DXNNc4ttts5Dq/k4H+JKLvwA0Zz51o
-         qdaQ==
-X-Gm-Message-State: AOAM531mJCFy0AP4sWD2mLcu/GC/UkyfbBuKzBBVyxa8BG3PJ131Tsqw
-        /rDqrJdY4/g9AuBvQuzjtO32fAvhZZ6fFaf3NfiEcA==
-X-Google-Smtp-Source: ABdhPJydBqN1UA6qSG6Yd7QpZaqkzf4R5GfK9WN1SrDGCBvxbOa3Jn4cy0jn1DEmqHVaPdnUwvnrPheLhIM3SXmo6U8=
-X-Received: by 2002:a25:552:: with SMTP id 79mr24303168ybf.202.1634001543876;
- Mon, 11 Oct 2021 18:19:03 -0700 (PDT)
+        bh=T0rvH8tccG1GCW1xVscvfSQVrt0Y/dmYu+9N0LqR3IU=;
+        b=5+Q7Na/mYwYWlQeIE6108jZrIOvMAaXJQa0Akc0NU4olX4Zm2my30tvnYzL36k9np7
+         uocTdd/x9jOVYsSOOGMnh1a0HmenpqlvbClp4bTnsl21rRF/w3xq8ZXdckqepGub0sSN
+         19Ddm5am1aWUX8c5CTjt70Apg3+l/BFddjGMby9hlh+oAsiH3ak8F/OZLnaocAasdKjf
+         0LWvz3yqe2SVS70yEaRFoeb4hB0A6PU/Vd3+NBIFRE0QCLMtJjoLvNA2WnOfYM9Yy4aC
+         NAGdGBrF9yb45F/EYauLO/IVa8vi5bitSBTE+BQy5vtUxx3YPWQvR9leg/SItTwb4dqF
+         KGkg==
+X-Gm-Message-State: AOAM533EOjOpxHnk5WZp8iH6C2Dmec+/6bPSgN6QEoBtOND+lNHPu3rv
+        Rbu5tHVJPWCM47uRvcJfgH3X+BS2InWWtxtGfZX6zg==
+X-Google-Smtp-Source: ABdhPJyHvt4aySXDLkg2z+6x0kGcvsx1rVoezM+PTBjUy0+IBRYK/uij8JJWNi9p7n7FF7CAOZG+U+VrGupgEfmgznE=
+X-Received: by 2002:a25:8411:: with SMTP id u17mr25321543ybk.376.1634001636162;
+ Mon, 11 Oct 2021 18:20:36 -0700 (PDT)
 MIME-Version: 1.0
 References: <92cbfe3b-f3d1-a8e1-7eb9-bab735e782f6@rasmusvillemoes.dk>
  <20211007101527.GA26288@duo.ucw.cz> <CAJuCfpGp0D9p3KhOWhcxMO1wEbo-J_b2Anc-oNwdycx4NTRqoA@mail.gmail.com>
  <YV8jB+kwU95hLqTq@dhcp22.suse.cz> <CAJuCfpG-Nza3YnpzvHaS_i1mHds3nJ+PV22xTAfgwvj+42WQNA@mail.gmail.com>
  <YV8u4B8Y9AP9xZIJ@dhcp22.suse.cz> <CAJuCfpHAG_C5vE-Xkkrm2kynTFF-Jd06tQoCWehHATL0W2mY_g@mail.gmail.com>
  <202110071111.DF87B4EE3@keescook> <YV/mhyWH1ZwWazdE@dhcp22.suse.cz>
- <202110081344.FE6A7A82@keescook> <YWP3c/bozz5npQ8O@dhcp22.suse.cz>
-In-Reply-To: <YWP3c/bozz5npQ8O@dhcp22.suse.cz>
+ <202110081344.FE6A7A82@keescook> <YWP3c/bozz5npQ8O@dhcp22.suse.cz> <CAJuCfpHQVMM4+6Lm_EnFk06+KrOjSjGA19K2cv9GmP3k9LW5vg@mail.gmail.com>
+In-Reply-To: <CAJuCfpHQVMM4+6Lm_EnFk06+KrOjSjGA19K2cv9GmP3k9LW5vg@mail.gmail.com>
 From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Mon, 11 Oct 2021 18:18:52 -0700
-Message-ID: <CAJuCfpHQVMM4+6Lm_EnFk06+KrOjSjGA19K2cv9GmP3k9LW5vg@mail.gmail.com>
+Date:   Mon, 11 Oct 2021 18:20:25 -0700
+Message-ID: <CAJuCfpHaF1e0V=wAoNO36nRL2A5EaNnuQrvZ2K3wh6PL6FrwZQ@mail.gmail.com>
 Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
 To:     Michal Hocko <mhocko@suse.com>
 Cc:     Kees Cook <keescook@chromium.org>, Pavel Machek <pavel@ucw.cz>,
@@ -101,73 +101,79 @@ Cc:     Kees Cook <keescook@chromium.org>, Pavel Machek <pavel@ucw.cz>,
         cxfcosmos@gmail.com, LKML <linux-kernel@vger.kernel.org>,
         linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-mm <linux-mm@kvack.org>,
-        kernel-team <kernel-team@android.com>
+        kernel-team <kernel-team@android.com>,
+        Tim Murray <timmurray@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 11, 2021 at 1:36 AM Michal Hocko <mhocko@suse.com> wrote:
+On Mon, Oct 11, 2021 at 6:18 PM Suren Baghdasaryan <surenb@google.com> wrote:
 >
-> On Fri 08-10-21 13:58:01, Kees Cook wrote:
-> > - Strings for "anon" specifically have no required format (this is good)
-> >   it's informational like the task_struct::comm and can (roughly)
-> >   anything. There's no naming convention for memfds, AF_UNIX, etc. Why
-> >   is one needed here? That seems like a completely unreasonable
-> >   requirement.
+> On Mon, Oct 11, 2021 at 1:36 AM Michal Hocko <mhocko@suse.com> wrote:
+> >
+> > On Fri 08-10-21 13:58:01, Kees Cook wrote:
+> > > - Strings for "anon" specifically have no required format (this is good)
+> > >   it's informational like the task_struct::comm and can (roughly)
+> > >   anything. There's no naming convention for memfds, AF_UNIX, etc. Why
+> > >   is one needed here? That seems like a completely unreasonable
+> > >   requirement.
+> >
+> > I might be misreading the justification for the feature. Patch 2 is
+> > talking about tools that need to understand memeory usage to make
+> > further actions. Also Suren was suggesting "numbering convetion" as an
+> > argument against.
+> >
+> > So can we get a clear example how is this being used actually? If this
+> > is just to be used to debug by humans than I can see an argument for
+> > human readable form. If this is, however, meant to be used by tools to
+> > make some actions then the argument for strings is much weaker.
 >
-> I might be misreading the justification for the feature. Patch 2 is
-> talking about tools that need to understand memeory usage to make
-> further actions. Also Suren was suggesting "numbering convetion" as an
-> argument against.
+> The simplest usecase is when we notice that a process consumes more
+> memory than usual and we do "cat /proc/$(pidof my_process)/maps" to
+> check which area is contributing to this growth. The names we assign
+> to anonymous areas are descriptive enough for a developer to get an
+> idea where the increased consumption is coming from and how to proceed
+> with their investigation.
+> There are of course cases when tools are involved, but the end-user is
+> always a human and the final report should contain easily
+> understandable data.
 >
-> So can we get a clear example how is this being used actually? If this
-> is just to be used to debug by humans than I can see an argument for
-> human readable form. If this is, however, meant to be used by tools to
-> make some actions then the argument for strings is much weaker.
+> IIUC, the main argument here is whether the userspace can provide
+> tools to perform the translations between ids and names, with the
+> kernel accepting and reporting ids instead of strings. Technically
+> it's possible, but to be practical that conversion should be fast
+> because we will need to make name->id conversion potentially for each
+> mmap. On the consumer side the performance is not as critical, but the
+> fact that instead of dumping /proc/$pid/maps we will have to parse the
+> file, do id->name conversion and replace all [anon:id] with
+> [anon:name] would be an issue when we do that in bulk, for example
+> when collecting system-wide data for a bugreport.
+>
+> I went ahead and implemented the proposed userspace solution involving
+> tmpfs as a repository for name->id mapping (more precisely
+> filename->inode mapping). Profiling shows that open()+fstat()+close()
+> takes:
+> - roughly 15 times longer than mmap() with 1000 unique names each
+> being reused 50 times.
+> - roughly 3 times longer than mmap() with 100 unique names each being
+> reused 500 times. This is due to lstat() optimization suggested by
+> Rasmus which avoids open() and close().
+> For comparison, proposed prctl() takes roughly the same amount of time
+> as mmap() and does not depend on the number of unique names.
+>
+> I'm still evaluating the proposal to use memfds but I'm not sure if
+> the issue that David Hildenbrand mentioned about additional memory
+> consumed in pagecache (which has to be addressed) is the only one we
+> will encounter with this approach. If anyone knows of any potential
+> issues with using memfds as named anonymous memory, I would really
+> appreciate your feedback before I go too far in that direction.
+> Thanks,
+> Suren.
 
-The simplest usecase is when we notice that a process consumes more
-memory than usual and we do "cat /proc/$(pidof my_process)/maps" to
-check which area is contributing to this growth. The names we assign
-to anonymous areas are descriptive enough for a developer to get an
-idea where the increased consumption is coming from and how to proceed
-with their investigation.
-There are of course cases when tools are involved, but the end-user is
-always a human and the final report should contain easily
-understandable data.
+Just noticed that timmurray@ was dropped from the last reply. Adding him back.
 
-IIUC, the main argument here is whether the userspace can provide
-tools to perform the translations between ids and names, with the
-kernel accepting and reporting ids instead of strings. Technically
-it's possible, but to be practical that conversion should be fast
-because we will need to make name->id conversion potentially for each
-mmap. On the consumer side the performance is not as critical, but the
-fact that instead of dumping /proc/$pid/maps we will have to parse the
-file, do id->name conversion and replace all [anon:id] with
-[anon:name] would be an issue when we do that in bulk, for example
-when collecting system-wide data for a bugreport.
-
-I went ahead and implemented the proposed userspace solution involving
-tmpfs as a repository for name->id mapping (more precisely
-filename->inode mapping). Profiling shows that open()+fstat()+close()
-takes:
-- roughly 15 times longer than mmap() with 1000 unique names each
-being reused 50 times.
-- roughly 3 times longer than mmap() with 100 unique names each being
-reused 500 times. This is due to lstat() optimization suggested by
-Rasmus which avoids open() and close().
-For comparison, proposed prctl() takes roughly the same amount of time
-as mmap() and does not depend on the number of unique names.
-
-I'm still evaluating the proposal to use memfds but I'm not sure if
-the issue that David Hildenbrand mentioned about additional memory
-consumed in pagecache (which has to be addressed) is the only one we
-will encounter with this approach. If anyone knows of any potential
-issues with using memfds as named anonymous memory, I would really
-appreciate your feedback before I go too far in that direction.
-Thanks,
-Suren.
-
-> --
-> Michal Hocko
-> SUSE Labs
+>
+> > --
+> > Michal Hocko
+> > SUSE Labs
