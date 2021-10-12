@@ -2,152 +2,242 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E32F2C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Oct 2021 17:01:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6C25C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Oct 2021 17:43:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C8C8161076
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Oct 2021 17:01:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BDB58610C9
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Oct 2021 17:43:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231808AbhJLRDT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Oct 2021 13:03:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38318 "EHLO
+        id S232844AbhJLRpH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Oct 2021 13:45:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229510AbhJLRDT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Oct 2021 13:03:19 -0400
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A4F1C061746
-        for <linux-doc@vger.kernel.org>; Tue, 12 Oct 2021 10:01:17 -0700 (PDT)
-Received: by mail-yb1-xb2d.google.com with SMTP id w10so22416ybt.4
-        for <linux-doc@vger.kernel.org>; Tue, 12 Oct 2021 10:01:17 -0700 (PDT)
+        with ESMTP id S232784AbhJLRpG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Oct 2021 13:45:06 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75CA2C061746
+        for <linux-doc@vger.kernel.org>; Tue, 12 Oct 2021 10:43:04 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id m14so177017pfc.9
+        for <linux-doc@vger.kernel.org>; Tue, 12 Oct 2021 10:43:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
+        d=intel-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=8Tzhl0MVFy9A0j1rnPsvy8YVR9B6G5UsH8EyCGPBclE=;
-        b=ZcOenQ6fVRLLsv/XeQFPg7fnM5YEM500n89LF22NH+zpMwjIeByGZnUmUhodoBeu4+
-         uwRWuao0Tu++R3OlxtP+LKtt7vSGIzR7JzZAOoRYt2nrsggm63sKqt5bHG4YydOI6rbz
-         EWfFpyddnUNjAcDMQdF8LgCWLuUDazezQTw7gQy9qtJAntsZUsYobnzegylDiaOMGwOI
-         MDxq8+Dre7QZRyI4jvrs5HJwdVG78mh5+2eIvdkY04GLC9IKL1K9rD+9U39CrRpRZfZ+
-         85bzsQZhzLNXmWkU4iZojVd4u4SE2SIV3Kygv4OxuhiD5x9Uo9VVm0sv7jo2p7b5oW5u
-         1ctg==
+        bh=c0eaXCym61eiyhGT8GrUnwQDVzwTszJGE9WWYZbnw/I=;
+        b=WxPZdN095KQgIlI5yU5qv0kDDUbBxKJaeY7ZC60bwwjCmldsE5dJp8xBjUlh2H3f7u
+         KDcadpUVFwub2imKyC31S7f+xXPYC3o0QZayMhGwBFND9QSSkipX+sNLN90JdelYcTQV
+         icggDdPWpuMAw4t03MeCBYYi/bC9qevHqZZYs+zUb+0aiQ7EAIJHrMdiFnYoTYu422eg
+         uJNegZaUShKK4Z3PYQkHuOa7SLoCwsbTusMRGb7Z+VqP1cY9TG6mW5XMlJLFBqIp0ND4
+         Qohcz53rKRmxnjn2Kc0dL0iebauPHDeU9Xe9+UkQrP37q/4ILF/V1eyPuoG9gexwZ1Jh
+         vFjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=8Tzhl0MVFy9A0j1rnPsvy8YVR9B6G5UsH8EyCGPBclE=;
-        b=bYmE2T8tKgMnM1sJLSlp/MOUv5mejfFTYq36z1CjF2Y3OOpmgxDvW9qIW4MdcVtvCI
-         5kZvxnL1YigW5xOX06LYFBEdz59yRn0hHf7VurXgKyCLTGUwlQ/x/ylIaqui8m2+E5hn
-         xKE9f6d2Q2p4s0klw8bxw7oEKKqDxPJOPHl32Ufjx8CKh1Wq7oxVmhUbaiM5k4MQ9GBr
-         +JtzvOt6IJ2MGxLy9o080tOpxIiJIjQxRZAEfCyBrh5qsvx2C3w+39Jga0PGDMJBD/xb
-         8haQMNfQmY+FYVa7ZMH9Xi4fyfwnLcAaueb7+dmGJ40WOYDj9SHOgT81FAYBVxQ/IPdt
-         dyHg==
-X-Gm-Message-State: AOAM531puJqnIYppde+m5tdLAn+Lt+u2aQ5K/dGoxO4f5MJl/i6Z0ERm
-        3pVQmPvwBaQNpefH8ptdnuY2N7AIVJTn701Cl3v0jw==
-X-Google-Smtp-Source: ABdhPJwOPTX5trcDK3fnE5j1KylJQjqxL9bNX71uZKloGBWhRHQA8xA+zeQh1Ynbd9I628/FnTZxa/rbysY+VRcBD8Y=
-X-Received: by 2002:a25:552:: with SMTP id 79mr28537708ybf.202.1634058076286;
- Tue, 12 Oct 2021 10:01:16 -0700 (PDT)
+        bh=c0eaXCym61eiyhGT8GrUnwQDVzwTszJGE9WWYZbnw/I=;
+        b=OEL5R1fbz9JuJP0/KfGfvW8gIlO8YzeepHLK3waQvSGnpS8uKgnAnONlosN0JV5HcL
+         uCxAkCF0APm8UjYMfE24EL/H2YHnrb3VD7xTJOZckZtI24+Jk3HiuUc1H9FwrNwa4CLW
+         /0g5w2odogeeS55XL1FHCHquUjpdjojndOkhJXAXi3BFteM+e6dFsseonyc5BZ7+1b9B
+         6fc2DvGwYlkI0KhRpy4tOMxooB8FVzYFYFgmwExfxX5qPTsnWaMA7ABNhOm9yyp1FXCn
+         8M9d57Mb1DcyKFOxq6xNdIX3ZMPQXK4aUrZjlRRTXBOeYv4bi9X1BTffuw6I8lofRIOB
+         Xkxg==
+X-Gm-Message-State: AOAM533p6KP3o0vWSE/KRopbWanTJ+meAzsVCCTgq1qcjm9EUszmjhGQ
+        fkCmed1eFaRLb0UmqSh6c4HMztwgDhRW6R/qIXdpiw==
+X-Google-Smtp-Source: ABdhPJw1VjQ62MwbxnVetu2KFatM9kheWAJJfezTYytAXzbh88FOGY4hTcSMBpDz0J/dm4EaQSnWU4J67TnjFV+cb6o=
+X-Received: by 2002:a62:1b92:0:b0:3eb:3f92:724 with SMTP id
+ b140-20020a621b92000000b003eb3f920724mr33331175pfb.3.1634060583829; Tue, 12
+ Oct 2021 10:43:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <92cbfe3b-f3d1-a8e1-7eb9-bab735e782f6@rasmusvillemoes.dk>
- <20211007101527.GA26288@duo.ucw.cz> <CAJuCfpGp0D9p3KhOWhcxMO1wEbo-J_b2Anc-oNwdycx4NTRqoA@mail.gmail.com>
- <YV8jB+kwU95hLqTq@dhcp22.suse.cz> <CAJuCfpG-Nza3YnpzvHaS_i1mHds3nJ+PV22xTAfgwvj+42WQNA@mail.gmail.com>
- <YV8u4B8Y9AP9xZIJ@dhcp22.suse.cz> <CAJuCfpHAG_C5vE-Xkkrm2kynTFF-Jd06tQoCWehHATL0W2mY_g@mail.gmail.com>
- <202110071111.DF87B4EE3@keescook> <YV/mhyWH1ZwWazdE@dhcp22.suse.cz>
- <202110081344.FE6A7A82@keescook> <YWP3c/bozz5npQ8O@dhcp22.suse.cz>
- <CAJuCfpHQVMM4+6Lm_EnFk06+KrOjSjGA19K2cv9GmP3k9LW5vg@mail.gmail.com> <26f9db1e-69e9-1a54-6d49-45c0c180067c@redhat.com>
-In-Reply-To: <26f9db1e-69e9-1a54-6d49-45c0c180067c@redhat.com>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Tue, 12 Oct 2021 10:01:05 -0700
-Message-ID: <CAJuCfpGTCM_Rf3GEyzpR5UOTfgGKTY0_rvAbGdtjbyabFhrRAw@mail.gmail.com>
-Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Michal Hocko <mhocko@suse.com>, Kees Cook <keescook@chromium.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Colin Cross <ccross@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Kalesh Singh <kaleshsingh@google.com>,
-        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
+References: <20211009003711.1390019-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20211009003711.1390019-13-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20211009053103-mutt-send-email-mst@kernel.org> <CAPcyv4hDhjRXYCX_aiOboLF0eaTo6VySbZDa5NQu2ed9Ty2Ekw@mail.gmail.com>
+ <0e6664ac-cbb2-96ff-0106-9301735c0836@linux.intel.com>
+In-Reply-To: <0e6664ac-cbb2-96ff-0106-9301735c0836@linux.intel.com>
+From:   Dan Williams <dan.j.williams@intel.com>
+Date:   Tue, 12 Oct 2021 10:42:52 -0700
+Message-ID: <CAPcyv4g0v0YHZ-okxf4wwVCYxHotxdKwsJpZGkoT+fhvvAJEFg@mail.gmail.com>
+Subject: Re: [PATCH v5 12/16] PCI: Add pci_iomap_host_shared(), pci_iomap_host_shared_range()
+To:     Andi Kleen <ak@linux.intel.com>
+Cc:     "Michael S. Tsirkin" <mst@redhat.com>,
+        Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Peter Zijlstra <peterz@infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        vincenzo.frascino@arm.com,
-        =?UTF-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?= 
-        <chinwen.chang@mediatek.com>,
-        Axel Rasmussen <axelrasmussen@google.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Richard Henderson <rth@twiddle.net>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        James E J Bottomley <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        David Hildenbrand <david@redhat.com>,
         Andrea Arcangeli <aarcange@redhat.com>,
-        Jann Horn <jannh@google.com>, apopple@nvidia.com,
-        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
-        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
-        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
-        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
-        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
-        Chris Hyser <chris.hyser@oracle.com>,
-        Peter Collingbourne <pcc@google.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
-        Rolf Eike Beer <eb@emlix.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
-        cxfcosmos@gmail.com, LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm <linux-mm@kvack.org>,
-        kernel-team <kernel-team@android.com>
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Peter H Anvin <hpa@zytor.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
+        X86 ML <x86@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PCI <linux-pci@vger.kernel.org>,
+        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        virtualization@lists.linux-foundation.org,
+        "Reshetova, Elena" <elena.reshetova@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 12, 2021 at 12:44 AM David Hildenbrand <david@redhat.com> wrote:
+On Sun, Oct 10, 2021 at 3:11 PM Andi Kleen <ak@linux.intel.com> wrote:
 >
-> > I'm still evaluating the proposal to use memfds but I'm not sure if
-> > the issue that David Hildenbrand mentioned about additional memory
-> > consumed in pagecache (which has to be addressed) is the only one we
-> > will encounter with this approach. If anyone knows of any potential
-> > issues with using memfds as named anonymous memory, I would really
-> > appreciate your feedback before I go too far in that direction.
 >
-> [MAP_PRIVATE memfd only behave that way with 4k, not with huge pages, so
-> I think it just has to be fixed. It doesn't make any sense to allocate a
-> page for the pagecache ("populate the file") when accessing via a
-> private mapping that's supposed to leave the file untouched]
+> On 10/9/2021 1:39 PM, Dan Williams wrote:
+> > On Sat, Oct 9, 2021 at 2:53 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+> >> On Fri, Oct 08, 2021 at 05:37:07PM -0700, Kuppuswamy Sathyanarayanan wrote:
+> >>> From: Andi Kleen <ak@linux.intel.com>
+> >>>
+> >>> For Confidential VM guests like TDX, the host is untrusted and hence
+> >>> the devices emulated by the host or any data coming from the host
+> >>> cannot be trusted. So the drivers that interact with the outside world
+> >>> have to be hardened by sharing memory with host on need basis
+> >>> with proper hardening fixes.
+> >>>
+> >>> For the PCI driver case, to share the memory with the host add
+> >>> pci_iomap_host_shared() and pci_iomap_host_shared_range() APIs.
+> >>>
+> >>> Signed-off-by: Andi Kleen <ak@linux.intel.com>
+> >>> Signed-off-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+> >> So I proposed to make all pci mappings shared, eliminating the need
+> >> to patch drivers.
+> >>
+> >> To which Andi replied
+> >>          One problem with removing the ioremap opt-in is that
+> >>          it's still possible for drivers to get at devices without going through probe.
+> >>
+> >> To which Greg replied:
+> >> https://lore.kernel.org/all/YVXBNJ431YIWwZdQ@kroah.com/
+> >>          If there are in-kernel PCI drivers that do not do this, they need to be
+> >>          fixed today.
+> >>
+> >> Can you guys resolve the differences here?
+> > I agree with you and Greg here. If a driver is accessing hardware
+> > resources outside of the bind lifetime of one of the devices it
+> > supports, and in a way that neither modrobe-policy nor
+> > device-authorization -policy infrastructure can block, that sounds
+> > like a bug report.
 >
-> My gut feeling is if you really need a string as identifier, then try
-> going with memfds. Yes, we might hit some road blocks to be sorted out,
-> but it just logically makes sense to me: Files have names. These names
-> exist before mapping and after mapping. They "name" the content.
+> The 5.15 tree has something like ~2.4k IO accesses (including MMIO and
+> others) in init functions that also register drivers (thanks Elena for
+> the number)
+>
+> Some are probably old drivers that could be fixed, but it's quite a few
+> legitimate cases. For example for platform or ISA drivers that's the
+> only way they can be implemented because they often have no other
+> enumeration mechanism. For PCI drivers it's rarer, but also still can
+> happen. One example that comes to mind here is the x86 Intel uncore
+> drivers, which support a mix of MSR, ioremap and PCI config space
+> accesses all from the same driver. This particular example can (and
+> should be) fixed in other ways, but similar things also happen in other
+> drivers, and they're not all broken. Even for the broken ones they're
+> usually for some crufty old devices that has very few users, so it's
+> likely untestable in practice.
+>
+> My point is just that the ecosystem of devices that Linux supports is
+> messy enough that there are legitimate exceptions from the "First IO
+> only in probe call only" rule.
+>
+> And we can't just fix them all. Even if we could it would be hard to
+> maintain.
+>
+> Using a "firewall model" hooking into a few strategic points like we're
+> proposing here is much saner for everyone.
+>
+> Now we can argue about the details. Right now what we're proposing has
+> some redundancies: it has both a device model filter and low level
+> filter for ioremap (this patch and some others). The low level filter is
+> for catching issues that don't clearly fit into the
+> "enumeration<->probe" model. You could call that redundant, but I would
+> call it defense in depth or better safe than sorry. In theory it would
+> be enough to have the low level opt-in only, but that would have the
+> drawback that is something gets enumerated after all you would have all
+> kind of weird device driver failures and in some cases even killed
+> guests. So I think it makes sense to have
 
-I'm investigating this direction. I don't have much background with
-memfds, so I'll need to digest the code first.
+The "better safe-than-sorry" argument is hard to build consensus
+around. The spectre mitigations ran into similar problems where the
+community rightly wanted to see the details and instrument the
+problematic paths rather than blanket sprinkle lfence "just to be
+safe". In this case the rules about when a driver is suitably
+"hardened" are vague and the overlapping policy engines are confusing.
+
+I'd rather see more concerted efforts focused/limited core changes
+rather than leaf driver changes until there is a clearer definition of
+hardened. I.e. instead of jumping to the assertion that fixing up
+these init-path vulnerabilities are too big to fix, dig to the next
+level to provide more evidence that per-driver opt-in is the only
+viable option.
+
+For example, how many of these problematic paths are built-in to the
+average kernel config? A strawman might be to add a sprinkling error
+exits in the module_init() of the problematic drivers, and only fail
+if the module is built-in, and let modprobe policy handle the rest.
 
 >
-> Maybe it's just me, but the whole interface, setting the name via a
-> prctl after the mapping was already instantiated doesn't really spark
-> joy at my end. That's not a strong pushback, but if we can avoid it
-> using something that's already there, that would be very much preferred.
+>
+> > Fix those drivers instead of sprinkling
+> > ioremap_shared in select places and with unclear rules about when a
+> > driver is allowed to do "shared" mappings.
+>
+> Only add it when the driver has been audited and hardened.
+>
+> But I agree we need on a documented process for this. I will work on
+> some documentation for a proposal. But essentially I think it should be
+> some variant of what Elena has outlined in her talk at Security Summit.
+>
+> https://static.sched.com/hosted_files/lssna2021/b6/LSS-HardeningLinuxGuestForCCC.pdf
+>
+> That is using extra auditing/scrutiny at review time, supported with
+> some static code analysis that points to the interaction points, and
+> code needs to be fuzzed explicitly.
+>
+> However short term it's only three virtio drivers, so this is not a
+> urgent problem.
+>
+> > Let the new
+> > device-authorization mechanism (with policy in userspace)
+>
+>
+> Default policy in user space just seems to be a bad idea here. Who
+> should know if a driver is hardened other than the kernel? Maintaining
+> the list somewhere else just doesn't make sense to me.
 
-Actually that's one of my worries about using memfds. There might be
-cases when we need to name a vma after it was mapped. memfd_create()
-would not allow us to do that AFAIKT. But I need to check all usages
-to say if that's really an issue.
-Thanks!
+I do not understand the maintenance burden correlation of where the
+policy is driven vs where the list is maintained? Even if I agreed
+with the contention that out-of-tree userspace would have a hard time
+tracking the "hardened" driver list there is still an in-tree
+userspace path to explore. E.g. perf maintains lists of things tightly
+coupled to the kernel, this authorized device list seems to be in the
+same category of data.
 
+> Also there is the more practical problem that some devices are needed
+> for booting. For example in TDX we can't print something to the console
+> with this mechanism, so you would never get any output before the
+> initrd. Just seems like a nightmare for debugging anything. There really
+> needs to be an authorization mechanism that works reasonably early.
 >
-> --
-> Thanks,
->
-> David / dhildenb
->
-> --
-> To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
->
+> I can see a point of having user space overrides though, but we need to
+> have a sane kernel default that works early.
+
+Right, as I suggested [1], just enough early authorization to
+bootstrap/debug initramfs and then that can authorize the remainder.
+
+[1]: https://lore.kernel.org/all/CAPcyv4im4Tsj1SnxSWe=cAHBP1mQ=zgO-D81n2BpD+_HkpitbQ@mail.gmail.com/
