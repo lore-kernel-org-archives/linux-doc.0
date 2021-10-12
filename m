@@ -2,82 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16B20C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Oct 2021 19:42:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F17EC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Oct 2021 19:49:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EBBDE60ED4
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Oct 2021 19:42:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EA7006109E
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Oct 2021 19:49:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233468AbhJLTo0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Oct 2021 15:44:26 -0400
-Received: from ms.lwn.net ([45.79.88.28]:53210 "EHLO ms.lwn.net"
+        id S233456AbhJLTvS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Oct 2021 15:51:18 -0400
+Received: from mga14.intel.com ([192.55.52.115]:10914 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233693AbhJLToZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 12 Oct 2021 15:44:25 -0400
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 1A07D867;
-        Tue, 12 Oct 2021 19:42:23 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1A07D867
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1634067743; bh=DhfzkKNemz6ltK5a1qeX50X3yxuyizjQJ4/MbR+l/Wg=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=ZiCWb/jttP764R/kepx4XZtO5HZmDHWacvwFPlEK3LxexyMl5sA8Qg/PltsVZp6WM
-         HFa/smlBiSt/9Md5QX9pnuRI8NNBooMmgrK1JzrgnplHMfmz1xhOkI0hinYJKbrXoR
-         IZD6gWq8m+4TbJTT9jnFfqyO9AAKpdSNOENyPcZVnluMzKJ1j5CrRVFJlynL3FXVSp
-         T4JhWkD73vrAzdX0O7v8luNYhyKGE2kO4SCvhRBPyC2ZTquHIQRoM6rGmSItO2z75N
-         ftpg7HmmLO6jPkR1rl8weH+HguTl2PnUDe/xijcvNrIkxdAdr8c8T+hhtsikZQPXzm
-         2fUCoQ+mxL9yw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jeff Layton <jlayton@kernel.org>, linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH] Documentation: remove reference to now removed
- mandatory-locking doc
-In-Reply-To: <20211005100222.5499-1-jlayton@kernel.org>
-References: <20211005100222.5499-1-jlayton@kernel.org>
-Date:   Tue, 12 Oct 2021 13:42:22 -0600
-Message-ID: <87ily2uj1d.fsf@meer.lwn.net>
+        id S232648AbhJLTvR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 12 Oct 2021 15:51:17 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10135"; a="227537886"
+X-IronPort-AV: E=Sophos;i="5.85,368,1624345200"; 
+   d="scan'208";a="227537886"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2021 12:49:10 -0700
+X-IronPort-AV: E=Sophos;i="5.85,368,1624345200"; 
+   d="scan'208";a="562799204"
+Received: from akleen-mobl1.amr.corp.intel.com (HELO [10.209.115.208]) ([10.209.115.208])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2021 12:49:07 -0700
+Message-ID: <f3002304-ae85-1d88-219d-c67574e80427@linux.intel.com>
+Date:   Tue, 12 Oct 2021 12:49:06 -0700
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v5 12/16] PCI: Add pci_iomap_host_shared(),
+ pci_iomap_host_shared_range()
+Content-Language: en-US
+To:     Dan Williams <dan.j.williams@intel.com>,
+        "Reshetova, Elena" <elena.reshetova@intel.com>
+Cc:     "Michael S. Tsirkin" <mst@redhat.com>,
+        Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Richard Henderson <rth@twiddle.net>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        James E J Bottomley <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        David Hildenbrand <david@redhat.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Peter H Anvin <hpa@zytor.com>,
+        "Hansen, Dave" <dave.hansen@intel.com>,
+        "Luck, Tony" <tony.luck@intel.com>,
+        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
+        X86 ML <x86@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PCI <linux-pci@vger.kernel.org>,
+        "linux-alpha@vger.kernel.org" <linux-alpha@vger.kernel.org>,
+        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
+        "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
+        "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "virtualization@lists.linux-foundation.org" 
+        <virtualization@lists.linux-foundation.org>
+References: <20211009003711.1390019-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20211009003711.1390019-13-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20211009053103-mutt-send-email-mst@kernel.org>
+ <CAPcyv4hDhjRXYCX_aiOboLF0eaTo6VySbZDa5NQu2ed9Ty2Ekw@mail.gmail.com>
+ <0e6664ac-cbb2-96ff-0106-9301735c0836@linux.intel.com>
+ <DM8PR11MB57501C8F8F5C8B315726882EE7B69@DM8PR11MB5750.namprd11.prod.outlook.com>
+ <f850d2d6-d427-8aeb-bd38-f9b5eb088191@linux.intel.com>
+ <DM8PR11MB57505C520763DF706309E177E7B69@DM8PR11MB5750.namprd11.prod.outlook.com>
+ <CAPcyv4g8VjbMaVnXXyWVh8tXNakO9FmDXfANJmPmgvDfZX-OBA@mail.gmail.com>
+From:   Andi Kleen <ak@linux.intel.com>
+In-Reply-To: <CAPcyv4g8VjbMaVnXXyWVh8tXNakO9FmDXfANJmPmgvDfZX-OBA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jeff Layton <jlayton@kernel.org> writes:
 
-> When I removed the document on mandatory locking from the tree, I missed
-> removing the reference to it from the index file.
->
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> ---
->  Documentation/filesystems/index.rst | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-> index c0ad233963ae..bee63d42e5ec 100644
-> --- a/Documentation/filesystems/index.rst
-> +++ b/Documentation/filesystems/index.rst
-> @@ -29,7 +29,6 @@ algorithms work.
->     fiemap
->     files
->     locks
-> -   mandatory-locking
->     mount_api
->     quota
+On 10/12/2021 12:13 PM, Dan Williams wrote:
+> On Tue, Oct 12, 2021 at 11:57 AM Reshetova, Elena
+> <elena.reshetova@intel.com> wrote:
+>>
+>>> I suspect the true number is even higher because that doesn't include IO
+>>> inside calls to other modules and indirect pointers, correct?
+>> Actually everything should be included. Smatch has cross-function db and
+>> I am using it for getting the call chains and it follows function pointers.
+>> Also since I am starting from a list of individual read IOs, every single
+>> base read IO in drivers/* should be covered as far as I can see. But if it uses
+>> some weird IO wrappers then the actual list might be higher.
+> Why analyze individual IO calls? I thought the goal here was to
+> disable entire classes of ioremap() users?
 
-So this is a fine change, but there's a couple more:
+This is everything that would need to be moved somewhere else if we 
+didn't disable the entire classes of ioremap users.
 
- - Documentation/filesystems/locks.rst still has a section on mandatory
-   locking that, presumably, can just come out; it has a reference to
-   the now-removed file.
+-Andi
 
- - There is also a reference (dated April 1996) in the pseudo-changelog
-   comments at the head of fs/locks.c.  I'd take the whole pile out, but
-   that's me...
-
-Thanks,
-
-jon
