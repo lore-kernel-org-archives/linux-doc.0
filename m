@@ -2,70 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6419C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Oct 2021 20:08:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D641C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Oct 2021 20:09:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CD1E6610A2
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Oct 2021 20:08:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 502336101D
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Oct 2021 20:09:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234383AbhJLUKR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Oct 2021 16:10:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53624 "EHLO
+        id S233308AbhJLULS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Oct 2021 16:11:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234343AbhJLUKQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Oct 2021 16:10:16 -0400
+        with ESMTP id S233112AbhJLULS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Oct 2021 16:11:18 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB2DFC061745;
-        Tue, 12 Oct 2021 13:08:14 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AE94C061570;
+        Tue, 12 Oct 2021 13:09:16 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id A3F02A08;
-        Tue, 12 Oct 2021 20:08:14 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A3F02A08
+        by ms.lwn.net (Postfix) with ESMTPSA id EBFA7867;
+        Tue, 12 Oct 2021 20:09:15 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EBFA7867
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1634069294; bh=xBvPBSgq/jALR+fUU1/6u75c/wa341hjobtQpxOJqt8=;
+        t=1634069356; bh=zxIqeYDiMyPPDwY3JGMtAhMaTDV44x2D+hOurfXa1sk=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=PMfsYchxyn5dDMDtzNr4WXKfliwYt/4lmDamCInzjTvhZbz1Bk3MHfG8ufppfqpwG
-         +rlWRfiPHPzc1CzV3y5tBrSS45MoH/ENRANkwpfQa9F8e5wA6Nn4Xacg4+H+AqkaZj
-         0A4gpuak3zgB1UJU0vYcK2OcyIb+0cUnUN2p/hBUBHen8ZDuzZCf+9VBvIpasDOtbs
-         iEsW7qMoc+T5QWUbEMI9CruM9Chs5UOhAGes/F5aNdDTdZyCQ1Rd5o6QE7C2ZcH5fm
-         G6nAgsE5VSgaR7FshcINvJOlFkKt7wVEDLryQitaIN+lcgXm8iUWSdN/5P3yKDsr6m
-         7/QE8fi9NDBOQ==
+        b=e1HqYa43JiBAiw8JnNonutF/hvyDK2r/lr0romX6CuVuCPkhHtmPDihnjQwhJFHJm
+         CnQn72kHvTN72RNoLQCUwKGk/IARriNkQ0d7YLL2apzciF0GLD6Z+TzVfNuKU8rFEb
+         0JpW3YkY02dq4w24dH1w7HsPyF4zbwMl+4i8socpxXy2sapfJET1BtQ2qbqn9sOVfM
+         VK7mweXTwbIawz7J/EPoZEAbDHhRe2GcH55Vuy4x3doycTKkAjfRMSpnCH5UtTTAF/
+         yP0QWIVUldB+GmeuaitLrKSeZ+wwjOFy+3ceLYsi5nM220TKZeuRfLOIvjRol1zpl8
+         +AcAx71gB1nLA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Jeff Dike <jdike@addtoit.com>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        linux-um@lists.infradead.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: UML: user_mode_linux_howto_v2 edits
-In-Reply-To: <20211010064827.3405-1-rdunlap@infradead.org>
-References: <20211010064827.3405-1-rdunlap@infradead.org>
-Date:   Tue, 12 Oct 2021 14:08:14 -0600
-Message-ID: <871r4quhu9.fsf@meer.lwn.net>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: pdfdocs: Adjust \headheight for fancyhdr
+In-Reply-To: <c5a5577e-5de8-9cd4-9253-956ccc748417@gmail.com>
+References: <c5a5577e-5de8-9cd4-9253-956ccc748417@gmail.com>
+Date:   Tue, 12 Oct 2021 14:09:15 -0600
+Message-ID: <87wnmit384.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Randy Dunlap <rdunlap@infradead.org> writes:
+Akira Yokosawa <akiyks@gmail.com> writes:
 
-> Fix various typos, command syntax, punctuation, capitalization,
-> and whitespace.
+> Fancyhdr prior to v4.0 outputs a message per document as follows:
 >
-> Fixes: 04301bf5b072 ("docs: replace the old User Mode Linux HowTo with a new one")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jeff Dike <jdike@addtoit.com>
-> Cc: Richard Weinberger <richard@nod.at>
-> Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
-> Cc: linux-um@lists.infradead.org
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
+>     Package Fancyhdr Warning: \headheight is too small (12.0pt):
+>     Make it at least 13.59999pt.
+>     We now make it that large for the rest of the document.
+>     This may cause the page layout to be inconsistent, however.
+>
+> Fancyhdr v4.0 complains (once a page!) as follows:
+>
+>     Package fancyhdr Warning: \headheight is too small (12.0pt):
+>     (fancyhdr)    Make it at least 13.59999pt, for example:
+>     (fancyhdr)    \setlength{\headheight}{13.59999pt}.
+>     (fancyhdr)    You might also make \topmargin smaller to compensate:
+>
+>     (fancyhdr)    \addtolength{\topmargin}{-1.59999pt}.
+>
+> Related item in fancyhdr v4.0 announcement on 2021-01-04 [1]:
+>
+>     Backward incompatible changes:
+>       - Eliminate adjustments of \headheight or \footskip, when the
+>         header or footer is too high.
+>
+> [1]: https://www.ctan.org/ctan-ann/id/mailman.2685.1609863692.2532.ctan-ann@ctan.org
+>
+> Silence the warnings by adding a couple of \addtolength commands in
+> the preamble.
+>
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 > ---
->  Documentation/virt/uml/user_mode_linux_howto_v2.rst |  119 +++++-----
->  1 file changed, 62 insertions(+), 57 deletions(-)
+> Hi,
+>
+> This update doesn't have much visual effects in the final PDFs
+> (adjustment of only 1.6pt), but getting rid of harmless warnings
+> would help spot potential important ones.
+>
+> Tested against Sphinx versions 2.4.4 and 4.2.0, with Tex Live
+> versions 2017/debian (Ubuntu 18.04), 2019/debian (Ubuntu 20.04),
+> and vanilla 2021 (as of 2021-10-08).
+>
+>         Thanks, Akira
+> --
+>  Documentation/conf.py | 3 +++
+>  1 file changed, 3 insertions(+)
 
 Applied, thanks.
 
