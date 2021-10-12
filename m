@@ -2,144 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6B54C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 23:12:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EF34C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Oct 2021 00:21:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7745360EFE
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Oct 2021 23:12:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 14F3860F3A
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Oct 2021 00:21:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235658AbhJKXO0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Oct 2021 19:14:26 -0400
-Received: from mga06.intel.com ([134.134.136.31]:47884 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235636AbhJKXOZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 11 Oct 2021 19:14:25 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10134"; a="287867793"
-X-IronPort-AV: E=Sophos;i="5.85,365,1624345200"; 
-   d="scan'208";a="287867793"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2021 16:12:24 -0700
-X-IronPort-AV: E=Sophos;i="5.85,365,1624345200"; 
-   d="scan'208";a="490674153"
-Received: from vg1-mobl2.amr.corp.intel.com (HELO [10.212.193.198]) ([10.212.193.198])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2021 16:12:23 -0700
-Subject: Re: [PATCH v2 01/15] x86/cpu: Move intel-family to arch-independent
- headers
-To:     "Winiarska, Iwona" <iwona.winiarska@intel.com>,
-        "bp@alien8.de" <bp@alien8.de>
-Cc:     "corbet@lwn.net" <corbet@lwn.net>,
-        "jae.hyun.yoo@linux.intel.com" <jae.hyun.yoo@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-        "Luck, Tony" <tony.luck@intel.com>,
-        "andrew@aj.id.au" <andrew@aj.id.au>,
-        "Williams, Dan J" <dan.j.williams@intel.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "jdelvare@suse.com" <jdelvare@suse.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        "olof@lixom.net" <olof@lixom.net>, "arnd@arndb.de" <arnd@arndb.de>,
-        "linux@roeck-us.net" <linux@roeck-us.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
-        "zweiss@equinix.com" <zweiss@equinix.com>,
-        "d.mueller@elsoft.ch" <d.mueller@elsoft.ch>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "joel@jms.id.au" <joel@jms.id.au>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "yazen.ghannam@amd.com" <yazen.ghannam@amd.com>,
-        "pierre-louis.bossart@linux.intel.com" 
-        <pierre-louis.bossart@linux.intel.com>
-References: <20210803113134.2262882-1-iwona.winiarska@intel.com>
- <20210803113134.2262882-2-iwona.winiarska@intel.com>
- <YVtQG+idmwKn0qLe@zn.tnic>
- <58ef4107e9b2c60a2605aac0d2fb6670a95bc9e0.camel@intel.com>
- <67f2cfda-c78b-6282-f5a3-2f345f8e2849@intel.com>
- <43e367e452c6c8d9c6a275299d7ff6f2bb26b8e3.camel@intel.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <18cd5f4a-452b-f043-5686-fc5af47eb5ac@intel.com>
-Date:   Mon, 11 Oct 2021 16:12:20 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S233082AbhJLAXQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Oct 2021 20:23:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49856 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234318AbhJLAXP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Oct 2021 20:23:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1633998074;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=XpsLnH9NGEB0jCvrlBpGabDndtUY8/3VwXWgLo0MtD0=;
+        b=jJshqgaVmc4Vbe/ytuRVLwXTQtDtyaejc23GXSOF+iKuiYxYDL74Mizwg6VDnyflZqmI6B
+        D/mX75Koykd1BbkA8mq+1omdpDGcifupVrI0kCisZTt8deWyN+VbrGWls85gmoap1DqQzu
+        vl79GmUFVoZbPvH0Vq5jwgCHkAOupDc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-95-00PJPiFrMTyzNCMr5bA9IA-1; Mon, 11 Oct 2021 20:21:08 -0400
+X-MC-Unique: 00PJPiFrMTyzNCMr5bA9IA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C2DF657;
+        Tue, 12 Oct 2021 00:21:04 +0000 (UTC)
+Received: from T590 (ovpn-8-18.pek2.redhat.com [10.72.8.18])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 496F757CA1;
+        Tue, 12 Oct 2021 00:20:51 +0000 (UTC)
+Date:   Tue, 12 Oct 2021 08:20:46 +0800
+From:   Ming Lei <ming.lei@redhat.com>
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     tj@kernel.org, gregkh@linuxfoundation.org,
+        akpm@linux-foundation.org, minchan@kernel.org, jeyu@kernel.org,
+        shuah@kernel.org, bvanassche@acm.org, dan.j.williams@intel.com,
+        joe@perches.com, tglx@linutronix.de, keescook@chromium.org,
+        rostedt@goodmis.org, linux-spdx@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 09/12] sysfs: fix deadlock race with module removal
+Message-ID: <YWTU3kTlJKONyFjZ@T590>
+References: <20210927163805.808907-1-mcgrof@kernel.org>
+ <20210927163805.808907-10-mcgrof@kernel.org>
+ <YVwZwh7qDKfSM59h@T590>
+ <YWSr2trabEJflzlj@bombadil.infradead.org>
 MIME-Version: 1.0
-In-Reply-To: <43e367e452c6c8d9c6a275299d7ff6f2bb26b8e3.camel@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YWSr2trabEJflzlj@bombadil.infradead.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/11/21 1:53 PM, Winiarska, Iwona wrote:
->> If you're in include/linux/x86-hacks.h, what prevents you from doing
->>
->> #include "../../arch/x86/include/asm/intel-family.h"
->>
->> ?
->>
->> In the end, to the compiler, it's just a file in a weird location in the
->> tree.  I think I'd prefer one weird include to moving that file out of
->> arch/x86.
-> Using relative includes in include/linux is uncommon (I can see just one usage
-> in libfdt.h pulling stuff from scripts), so I thought I can't use it in this way
-> (seems slightly hacky to pull stuff from outside include path).
+On Mon, Oct 11, 2021 at 02:25:46PM -0700, Luis Chamberlain wrote:
+> On Tue, Oct 05, 2021 at 05:24:18PM +0800, Ming Lei wrote:
+> > On Mon, Sep 27, 2021 at 09:38:02AM -0700, Luis Chamberlain wrote:
+> > > When driver sysfs attributes use a lock also used on module removal we
+> > > can race to deadlock. This happens when for instance a sysfs file on
+> > > a driver is used, then at the same time we have module removal call
+> > > trigger. The module removal call code holds a lock, and then the
+> > > driver's sysfs file entry waits for the same lock. While holding the
+> > > lock the module removal tries to remove the sysfs entries, but these
+> > > cannot be removed yet as one is waiting for a lock. This won't complete
+> > > as the lock is already held. Likewise module removal cannot complete,
+> > > and so we deadlock.
+> > > 
+> > > This can now be easily reproducible with our sysfs selftest as follows:
+> > > 
+> > > ./tools/testing/selftests/sysfs/sysfs.sh -t 0027
+> > > 
+> > > This uses a local driver lock. Test 0028 can also be used, that uses
+> > > the rtnl_lock():
+> > > 
+> > > ./tools/testing/selftests/sysfs/sysfs.sh -t 0028
+> > > 
+> > > To fix this we extend the struct kernfs_node with a module reference
+> > > and use the try_module_get() after kernfs_get_active() is called. As
+> > > documented in the prior patch, we now know that once kernfs_get_active()
+> > > is called the module is implicitly guarded to exist and cannot be removed.
+> > > This is because the module is the one in charge of removing the same
+> > > sysfs file it created, and removal of sysfs files on module exit will wait
+> > > until they don't have any active references. By using a try_module_get()
+> > > after kernfs_get_active() we yield to let module removal trump calls to
+> > > process a sysfs operation, while also preventing module removal if a sysfs
+> > > operation is in already progress. This prevents the deadlock.
+> > > 
+> > > This deadlock was first reported with the zram driver, however the live
+> > 
+> > Looks not see the lock pattern you mentioned in zram driver, can you
+> > share the related zram code?
 > 
-> But if that would be ok, it looks like a good alternative to avoid duplication
-> in this case.
+> I recommend to not look at the zram driver, instead look at the
+> test_sysfs driver as that abstracts the issue more clearly and uses
 
-If you don't want to do it from a header, you can also do it directly
-from a .c file that's outside of arch/x86.
+Looks test_sysfs isn't in linus tree, where can I find it? Also please
+update your commit log about this wrong info if it can't be applied on
+zram.
 
-I think that's a much better alternative than moving stuff elsewhere.
+> two different locks as an example. The point is that if on module
+> removal *any* lock is used which is *also* used on the sysfs file
+> created by the module, you can deadlock.
+> 
+> > > And this can lead to this condition:
+> > > 
+> > > CPU A                              CPU B
+> > >                                    foo_store()
+> > > foo_exit()
+> > >   mutex_lock(&foo)
+> > >                                    mutex_lock(&foo)
+> > >    del_gendisk(some_struct->disk);
+> > >      device_del()
+> > >        device_remove_groups()
+> > 
+> > I guess the deadlock exists if foo_exit() is called anywhere. If yes,
+> > look the issue may not be related with removing module directly, right?
+> 
+> No, the reason this can deadlock is that the module exit routine will
+> patiently wait for the sysfs / kernfs files to be stop being used,
+
+Can you share the code which waits for the sysfs / kernfs files to be
+stop being used? And why does it make a difference in case of being
+called from module_exit()?
+
+
+
+Thanks,
+Ming
+
