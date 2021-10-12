@@ -2,65 +2,38 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1249CC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Oct 2021 05:36:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0CE1C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Oct 2021 07:37:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E53236109E
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Oct 2021 05:36:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9EEC76108F
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Oct 2021 07:37:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232346AbhJLFii (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Oct 2021 01:38:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50396 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229739AbhJLFii (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Oct 2021 01:38:38 -0400
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12558C061570
-        for <linux-doc@vger.kernel.org>; Mon, 11 Oct 2021 22:36:37 -0700 (PDT)
-Received: by mail-yb1-xb2e.google.com with SMTP id w10so44096242ybt.4
-        for <linux-doc@vger.kernel.org>; Mon, 11 Oct 2021 22:36:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7XL2OhH3/JP2d1n5i0NoQYVBLyR5b6ih9F8rC7fPaw8=;
-        b=YIz7schr62o25Kk8g7+lX0aqEsOX9ha4KRCurs5t8nYWe3ybb0BGYRyTNxOMDQOt4L
-         gRMaIvi1d5c020EPGi2iB+KhmmRlH0d6ErcqsmawK4hViPXWSHB8THppCf0yRlDWQsbS
-         1eMwwPcHGB5y/XIJhsmmdMZc+YTZntrOYcrGKVIusunJdjDqMyhxNosruNdKybo6Ghla
-         I5rPA1ih4GOrBL5FL9LswuwUgRYkdHRsI22iY+KhbSsZxVkOzruQfuAcp6IixjL8uPKU
-         4dC/+SScw5mAcuOp40squ2No5UFu3JEoaMnizIyl/RoGHsoQwZwD7NU0S2kEc+cOqUZh
-         a1wQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7XL2OhH3/JP2d1n5i0NoQYVBLyR5b6ih9F8rC7fPaw8=;
-        b=dF+Dv+eZXSYGv+LUmyrciLecXGddmTgDz0RJO6ji+0tWNETdioLSmD6MjxYj0Df77T
-         aw+8Jq0AnvqgAwnEUj8VkiJLsp8kcLOSyaSj6u6rM9ZWg7Fegg+E0jsPd6jjLHb56DaZ
-         j3bbBfSr1Yt/CjAdQUWDyOKVrekrFyelONMau4kJWB0zCV+n2tgBowuO4s9lO6jnhkIr
-         7KIZW7+PB/6ZRuwaya/Z37CjFKLKjZlFv/nyLIE4oA3JxhKHizhcyjXxZIzjQPiumqfc
-         faMGae9wnvaKZbViH+ai5wXuBA5rxjDcUNFb8+MUuz770i7rdKcAQV9zDPCJy6Z9MJ2P
-         BXzg==
-X-Gm-Message-State: AOAM531hSdJn8AIuI6BTgSEf9w+CnuZVdmcpD1/EbWkZ+i6PbYGUNRYr
-        F50tVCg2syvT4p4BqLGkmqekcs8zGSbScsFHcEmBlw==
-X-Google-Smtp-Source: ABdhPJyTsM4JaN/xPnjTpzxxuo73xadaPUNGih6GtuXol8Vc+QjBmhQFZit4fZr7hGyTs8vyfUE4twxwx2HN6kT73h4=
-X-Received: by 2002:a25:3:: with SMTP id 3mr27812738yba.418.1634016995938;
- Mon, 11 Oct 2021 22:36:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <YV8jB+kwU95hLqTq@dhcp22.suse.cz> <CAJuCfpG-Nza3YnpzvHaS_i1mHds3nJ+PV22xTAfgwvj+42WQNA@mail.gmail.com>
- <YV8u4B8Y9AP9xZIJ@dhcp22.suse.cz> <CAJuCfpHAG_C5vE-Xkkrm2kynTFF-Jd06tQoCWehHATL0W2mY_g@mail.gmail.com>
- <202110071111.DF87B4EE3@keescook> <YV/mhyWH1ZwWazdE@dhcp22.suse.cz>
- <202110081344.FE6A7A82@keescook> <YWP3c/bozz5npQ8O@dhcp22.suse.cz>
- <CAJuCfpHQVMM4+6Lm_EnFk06+KrOjSjGA19K2cv9GmP3k9LW5vg@mail.gmail.com>
- <CAJuCfpHaF1e0V=wAoNO36nRL2A5EaNnuQrvZ2K3wh6PL6FrwZQ@mail.gmail.com> <YWT6Ptp/Uo4QGeP4@cmpxchg.org>
-In-Reply-To: <YWT6Ptp/Uo4QGeP4@cmpxchg.org>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Mon, 11 Oct 2021 22:36:24 -0700
-Message-ID: <CAJuCfpERX-nqHkYzx8FAi_DuOU1vkoV5ppCAhLHziOm7o7wj6g@mail.gmail.com>
-Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
-To:     Johannes Weiner <hannes@cmpxchg.org>
-Cc:     Michal Hocko <mhocko@suse.com>, Kees Cook <keescook@chromium.org>,
-        Pavel Machek <pavel@ucw.cz>,
+        id S234243AbhJLHjB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Oct 2021 03:39:01 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:40590 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233869AbhJLHi7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Oct 2021 03:38:59 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id E8FCB1FF40;
+        Tue, 12 Oct 2021 07:36:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1634024216; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=4nD2ISDAf2TQ3t3VfHUt8r1cCwete3O5TAZWbE4kE7M=;
+        b=C6A/Psx27DoZPrXya2lWB+l7IwGjlMGmwcL8xgtP+rlT5//7r1Ou5LMxdw1roHmjKf3q7F
+        81xK5su5B8gm1HWP+lEF6NWpiv2Ko43ifsKNqSqqA1lnIYYJT+AHiZufyRXlgf0cF/5ivF
+        Cpowdql7MZF6RmK+IF0F45XrHXvkJIE=
+Received: from suse.cz (unknown [10.100.201.86])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 854B8A3B89;
+        Tue, 12 Oct 2021 07:36:54 +0000 (UTC)
+Date:   Tue, 12 Oct 2021 09:36:52 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     Kees Cook <keescook@chromium.org>, Pavel Machek <pavel@ucw.cz>,
         Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         David Hildenbrand <david@redhat.com>,
         John Hubbard <jhubbard@nvidia.com>,
@@ -71,6 +44,7 @@ Cc:     Michal Hocko <mhocko@suse.com>, Kees Cook <keescook@chromium.org>,
         Matthew Wilcox <willy@infradead.org>,
         "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
         Vlastimil Babka <vbabka@suse.cz>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Al Viro <viro@zeniv.linux.org.uk>,
         Randy Dunlap <rdunlap@infradead.org>,
@@ -79,7 +53,7 @@ Cc:     Michal Hocko <mhocko@suse.com>, Kees Cook <keescook@chromium.org>,
         Peter Zijlstra <peterz@infradead.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
         vincenzo.frascino@arm.com,
-        =?UTF-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?= 
+        Chinwen Chang =?utf-8?B?KOW8temMpuaWhyk=?= 
         <chinwen.chang@mediatek.com>,
         Axel Rasmussen <axelrasmussen@google.com>,
         Andrea Arcangeli <aarcange@redhat.com>,
@@ -103,64 +77,98 @@ Cc:     Michal Hocko <mhocko@suse.com>, Kees Cook <keescook@chromium.org>,
         linux-mm <linux-mm@kvack.org>,
         kernel-team <kernel-team@android.com>,
         Tim Murray <timmurray@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
+Message-ID: <YWU7FELcxIFmr9uz@dhcp22.suse.cz>
+References: <YV8jB+kwU95hLqTq@dhcp22.suse.cz>
+ <CAJuCfpG-Nza3YnpzvHaS_i1mHds3nJ+PV22xTAfgwvj+42WQNA@mail.gmail.com>
+ <YV8u4B8Y9AP9xZIJ@dhcp22.suse.cz>
+ <CAJuCfpHAG_C5vE-Xkkrm2kynTFF-Jd06tQoCWehHATL0W2mY_g@mail.gmail.com>
+ <202110071111.DF87B4EE3@keescook>
+ <YV/mhyWH1ZwWazdE@dhcp22.suse.cz>
+ <202110081344.FE6A7A82@keescook>
+ <YWP3c/bozz5npQ8O@dhcp22.suse.cz>
+ <CAJuCfpHQVMM4+6Lm_EnFk06+KrOjSjGA19K2cv9GmP3k9LW5vg@mail.gmail.com>
+ <CAJuCfpHaF1e0V=wAoNO36nRL2A5EaNnuQrvZ2K3wh6PL6FrwZQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJuCfpHaF1e0V=wAoNO36nRL2A5EaNnuQrvZ2K3wh6PL6FrwZQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 11, 2021 at 8:00 PM Johannes Weiner <hannes@cmpxchg.org> wrote:
->
-> On Mon, Oct 11, 2021 at 06:20:25PM -0700, Suren Baghdasaryan wrote:
-> > On Mon, Oct 11, 2021 at 6:18 PM Suren Baghdasaryan <surenb@google.com> wrote:
+On Mon 11-10-21 18:20:25, Suren Baghdasaryan wrote:
+> On Mon, Oct 11, 2021 at 6:18 PM Suren Baghdasaryan <surenb@google.com> wrote:
+> >
+> > On Mon, Oct 11, 2021 at 1:36 AM Michal Hocko <mhocko@suse.com> wrote:
 > > >
-> > > On Mon, Oct 11, 2021 at 1:36 AM Michal Hocko <mhocko@suse.com> wrote:
-> > > >
-> > > > On Fri 08-10-21 13:58:01, Kees Cook wrote:
-> > > > > - Strings for "anon" specifically have no required format (this is good)
-> > > > >   it's informational like the task_struct::comm and can (roughly)
-> > > > >   anything. There's no naming convention for memfds, AF_UNIX, etc. Why
-> > > > >   is one needed here? That seems like a completely unreasonable
-> > > > >   requirement.
-> > > >
-> > > > I might be misreading the justification for the feature. Patch 2 is
-> > > > talking about tools that need to understand memeory usage to make
-> > > > further actions. Also Suren was suggesting "numbering convetion" as an
-> > > > argument against.
-> > > >
-> > > > So can we get a clear example how is this being used actually? If this
-> > > > is just to be used to debug by humans than I can see an argument for
-> > > > human readable form. If this is, however, meant to be used by tools to
-> > > > make some actions then the argument for strings is much weaker.
+> > > On Fri 08-10-21 13:58:01, Kees Cook wrote:
+> > > > - Strings for "anon" specifically have no required format (this is good)
+> > > >   it's informational like the task_struct::comm and can (roughly)
+> > > >   anything. There's no naming convention for memfds, AF_UNIX, etc. Why
+> > > >   is one needed here? That seems like a completely unreasonable
+> > > >   requirement.
 > > >
-> > > The simplest usecase is when we notice that a process consumes more
-> > > memory than usual and we do "cat /proc/$(pidof my_process)/maps" to
-> > > check which area is contributing to this growth. The names we assign
-> > > to anonymous areas are descriptive enough for a developer to get an
-> > > idea where the increased consumption is coming from and how to proceed
-> > > with their investigation.
-> > > There are of course cases when tools are involved, but the end-user is
-> > > always a human and the final report should contain easily
-> > > understandable data.
+> > > I might be misreading the justification for the feature. Patch 2 is
+> > > talking about tools that need to understand memeory usage to make
+> > > further actions. Also Suren was suggesting "numbering convetion" as an
+> > > argument against.
 > > >
-> > > IIUC, the main argument here is whether the userspace can provide
-> > > tools to perform the translations between ids and names, with the
-> > > kernel accepting and reporting ids instead of strings. Technically
-> > > it's possible, but to be practical that conversion should be fast
-> > > because we will need to make name->id conversion potentially for each
-> > > mmap. On the consumer side the performance is not as critical, but the
-> > > fact that instead of dumping /proc/$pid/maps we will have to parse the
-> > > file, do id->name conversion and replace all [anon:id] with
-> > > [anon:name] would be an issue when we do that in bulk, for example
-> > > when collecting system-wide data for a bugreport.
->
-> Is that something you need to do client-side? Or could the bug tool
-> upload the userspace-maintained name:ids database alongside the
-> /proc/pid/maps dump for external processing?
+> > > So can we get a clear example how is this being used actually? If this
+> > > is just to be used to debug by humans than I can see an argument for
+> > > human readable form. If this is, however, meant to be used by tools to
+> > > make some actions then the argument for strings is much weaker.
+> >
+> > The simplest usecase is when we notice that a process consumes more
+> > memory than usual and we do "cat /proc/$(pidof my_process)/maps" to
+> > check which area is contributing to this growth. The names we assign
+> > to anonymous areas are descriptive enough for a developer to get an
+> > idea where the increased consumption is coming from and how to proceed
+> > with their investigation.
+> > There are of course cases when tools are involved, but the end-user is
+> > always a human and the final report should contain easily
+> > understandable data.
 
-You can generate a bugreport and analyze it locally or submit it as an
-attachment to a bug for further analyzes.
-Sure, we can attach the id->name conversion table to the bugreport but
-either way, some tool would have to post-process it to resolve the
-ids. If we are not analyzing the results immediately then that step
-can be postponed and I think that's what you mean? If so, then yes,
-that is correct.
+OK, it would have been much more preferable to be explicit about this
+main use case from the very beginning. Just to make sure we are at the
+same page. Is the primary usecase usage and bug reporting?
+
+My initial understanding was that at userspace managed memory management
+could make an educated guess about targeted reclaim (e.g. MADV_{FREE,COLD,PAGEOUT}
+for cached data in memory like uncompressed images/data). Such a usecase
+would clearly require a standardized id/naming convention to be
+application neutral.
+
+> > IIUC, the main argument here is whether the userspace can provide
+> > tools to perform the translations between ids and names, with the
+> > kernel accepting and reporting ids instead of strings. Technically
+> > it's possible, but to be practical that conversion should be fast
+> > because we will need to make name->id conversion potentially for each
+> > mmap. On the consumer side the performance is not as critical, but the
+> > fact that instead of dumping /proc/$pid/maps we will have to parse the
+> > file, do id->name conversion and replace all [anon:id] with
+> > [anon:name] would be an issue when we do that in bulk, for example
+> > when collecting system-wide data for a bugreport.
+
+Whether you use ids or human readable strings you still have to
+understand the underlying meaning to make any educated guess. Let me
+give you an example. Say I have an application with a memory leak. Right
+now I can only tell that it is anonymous memory growing but it is not
+clear who uses that anonymous. You are adding a means to tell different
+users appart. That is really helpful. Now I know this is an anon
+user 1234 or MySuperAnonMemory. Neither of the will not tell me more
+without a id/naming convention or reading the code. A convention can be
+useful for the most common users (e.g. a specific allocator) but I am
+rather dubious there are many more that would be _generally_ recognized
+without some understanding of the said application.
+
+Maybe the situation in Android is different because the runtime is more
+coupled but is it reasonable to expect any common naming conventions for
+general Linux platforms?
+
+I am slightly worried that we have spent way too much time talking
+specifics about id->name translation rather than the actual usability
+of the token.
+-- 
+Michal Hocko
+SUSE Labs
