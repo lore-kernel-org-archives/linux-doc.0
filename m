@@ -2,100 +2,238 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E47C9C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Oct 2021 16:29:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFD51C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Oct 2021 16:50:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CA7B2610A2
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Oct 2021 16:29:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B159A60C4A
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Oct 2021 16:50:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230394AbhJLQba (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Oct 2021 12:31:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58938 "EHLO
+        id S230420AbhJLQws (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Oct 2021 12:52:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229632AbhJLQba (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Oct 2021 12:31:30 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65FC0C061745
-        for <linux-doc@vger.kernel.org>; Tue, 12 Oct 2021 09:29:28 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id u18so68826628wrg.5
-        for <linux-doc@vger.kernel.org>; Tue, 12 Oct 2021 09:29:28 -0700 (PDT)
+        with ESMTP id S229565AbhJLQwr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Oct 2021 12:52:47 -0400
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00A3AC061570
+        for <linux-doc@vger.kernel.org>; Tue, 12 Oct 2021 09:50:46 -0700 (PDT)
+Received: by mail-yb1-xb34.google.com with SMTP id v195so69381ybb.0
+        for <linux-doc@vger.kernel.org>; Tue, 12 Oct 2021 09:50:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=6wind.com; s=google;
-        h=reply-to:subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=WoI+RIYPtTHHEGdSwuorNq+48h1lI38S5XMbUzci1do=;
-        b=IXnGkACIv8ATP6Rg+2IOmXepCL9y3vwvei56jej9pA2dn5ZGDyaixPeJaPEI3uby1y
-         Hr9e0UN5sFQlev6+W+k7RzkQNF1NZeX3p8ox3nucq6xMUHyOIkiWkCUpj2QGe/r9evuE
-         0+9pce8I5+0Da9ZDGxt/eAGDFuRmXasghtIlP/gDlRyfsh4EZP0K9uH+Qme+YarXosb5
-         5zT3IzvsQl62fzHEfSIBDXFRrezqj/75a6nuZ3KbS1egtb8NU9Wzc4noOWPXO8ZveJ3Z
-         4cHRUBorP1aqAr166LpyNMvn2pfPUk70LqYkfxJ4Nlxeu38PE8MIQIBdlilyvzYWAKHo
-         iA8w==
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Ar09QrWZPbtZ1MPFu1DvBkyuuQRpZh8UgkauKcNPOAM=;
+        b=YaK6rwZTq4aRgarlqFIa1o4IaxOiXPj3qbCjvidENvw68SISlHG+ig7WWufPr7cyyc
+         iLYpsHU9CVkCr3SrnNEDIABH0Rvvra4Y1Toyq7J1Hw07pRZXvbD3xXZu6kqc1t/0riCj
+         XixP30thoEdXn7Fkf4PxSST9mYIrZ9voaWm4ID3wWTwToLSCDjdFU/NMr5IDC54RW4C7
+         GD6zFsvDMeMJ5L4mc1VIn6D0XScIOUYxYtsXyV2PD9x4hnEfH/EPSldRjaHYwQnzJeD6
+         ds9Pe3GqsmSNwVDVfAhhG+AElXJLhzNGpKcnTmrpxin8D6FZvzDX5HXboNHhFNyKmoP4
+         oSfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:reply-to:subject:to:cc:references:from
-         :organization:message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=WoI+RIYPtTHHEGdSwuorNq+48h1lI38S5XMbUzci1do=;
-        b=ymwPlXxKMW5+s1j4wcNLnNesmV5W3BGhAH/GNmgFYzOTU5A3U2ZSVxZzlosjn/rY0h
-         WovS74LEzVYStFIj30WY33RwUPdTAtgCSGk69swT1bmenpquXf97fNbpJ4DgAC6B247p
-         q4q1kgVtIp6BpRb7SPO1DSHa7M/rDganria43yiyDn/q97nPRxWdgkiRIxMIeBf9Yjbp
-         M6Oa/91iwtgf5f7BcvoRPdw0wATR2QWQUnwKr41jNkbF0zXRsvp3gnLTuX+pOklIJWT7
-         dvYaLV3OS19DJ2vdtnpUPDOTfqaPxfLfQEr11odw/7deIFVuKHEmNmQ9rHaWvyxl2pVN
-         VaOg==
-X-Gm-Message-State: AOAM5302y5JFLTQmO26IPb/4rjikmTpcJ3DZUv9Vbwk5EIc/l3qDV1Gh
-        eqeKDMUpcCVGF5o1Mkl2sM39gQ==
-X-Google-Smtp-Source: ABdhPJyOvOpRNu4YETAcMkAxjvEJmxG7khGK/O+O0wVECw82ef9aelrGdQva2GQHQ48aAFfflyUy1Q==
-X-Received: by 2002:adf:bc14:: with SMTP id s20mr33111077wrg.8.1634056167015;
-        Tue, 12 Oct 2021 09:29:27 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:410:bb00:5564:458a:9373:f0e4? ([2a01:e0a:410:bb00:5564:458a:9373:f0e4])
-        by smtp.gmail.com with ESMTPSA id p19sm2886484wmg.29.2021.10.12.09.29.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Oct 2021 09:29:26 -0700 (PDT)
-Reply-To: nicolas.dichtel@6wind.com
-Subject: Re: [PATCH v2 4/4] bpf: export bpf_jit_current
-To:     Lorenz Bauer <lmb@cloudflare.com>, luke.r.nels@gmail.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-Cc:     kernel-team@cloudflare.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        bpf@vger.kernel.org
-References: <20211012135935.37054-1-lmb@cloudflare.com>
- <20211012135935.37054-5-lmb@cloudflare.com>
-From:   Nicolas Dichtel <nicolas.dichtel@6wind.com>
-Organization: 6WIND
-Message-ID: <836d9371-7d51-b01f-eefd-cc3bf6f5f68e@6wind.com>
-Date:   Tue, 12 Oct 2021 18:29:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Ar09QrWZPbtZ1MPFu1DvBkyuuQRpZh8UgkauKcNPOAM=;
+        b=UQ+3HzodsBfCHDyvcJfTolOeG6rqfWBvGhAAc8jYEVMcCJJvcLA/b+Wm7klGzzj5lR
+         Cwio80MjbT8SSl/YXdy3CpwEekSfdl8GVplcSRx9cgQSiciD9VupucWuvqIEERxUg66k
+         ytd9dKpuNR6B/x0rZWHj7UA6VgtNmB1V7MOSnPFOXltfzW5089yU3nuvAZ340LY3g2H3
+         zihILIStKFcQWKWY0zNTl9YR1zPHiI7Jx4QgFBImp5tBO9X/qC8nHWQRxP6Vq3oeKqfQ
+         avaD54UYK5O8g4iVp/3Ib7Gvc09M8H8ETPjG+q+P8J3NDknJLKkKmjcFfzLwqLrg2bic
+         haLQ==
+X-Gm-Message-State: AOAM533WPVEcow1PuscMPSKhbkqOCFb51Rwp/PL7miX98v8CpLGgRYsx
+        6IzDxuKqijM9X2XlYkzLjNp89aqD/bOssveBl190fw==
+X-Google-Smtp-Source: ABdhPJz2dtiPou9PSUcVJPjWtl1ZS5oxDJf/t7tSJdJJSiEPO2SLzNa3EVK7YV+ElEwQ813Mhr+Eyk+va9mwyNRAxsc=
+X-Received: by 2002:a25:d1d3:: with SMTP id i202mr31604897ybg.487.1634057444798;
+ Tue, 12 Oct 2021 09:50:44 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211012135935.37054-5-lmb@cloudflare.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <YV8jB+kwU95hLqTq@dhcp22.suse.cz> <CAJuCfpG-Nza3YnpzvHaS_i1mHds3nJ+PV22xTAfgwvj+42WQNA@mail.gmail.com>
+ <YV8u4B8Y9AP9xZIJ@dhcp22.suse.cz> <CAJuCfpHAG_C5vE-Xkkrm2kynTFF-Jd06tQoCWehHATL0W2mY_g@mail.gmail.com>
+ <202110071111.DF87B4EE3@keescook> <YV/mhyWH1ZwWazdE@dhcp22.suse.cz>
+ <202110081344.FE6A7A82@keescook> <YWP3c/bozz5npQ8O@dhcp22.suse.cz>
+ <CAJuCfpHQVMM4+6Lm_EnFk06+KrOjSjGA19K2cv9GmP3k9LW5vg@mail.gmail.com>
+ <CAJuCfpHaF1e0V=wAoNO36nRL2A5EaNnuQrvZ2K3wh6PL6FrwZQ@mail.gmail.com> <YWU7FELcxIFmr9uz@dhcp22.suse.cz>
+In-Reply-To: <YWU7FELcxIFmr9uz@dhcp22.suse.cz>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Tue, 12 Oct 2021 09:50:33 -0700
+Message-ID: <CAJuCfpESeM_Xd8dhCj_okNggtDUXx3Nn9FpL_f9qsKXKZzCKpA@mail.gmail.com>
+Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Kees Cook <keescook@chromium.org>, Pavel Machek <pavel@ucw.cz>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        David Hildenbrand <david@redhat.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Colin Cross <ccross@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        vincenzo.frascino@arm.com,
+        =?UTF-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?= 
+        <chinwen.chang@mediatek.com>,
+        Axel Rasmussen <axelrasmussen@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Jann Horn <jannh@google.com>, apopple@nvidia.com,
+        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
+        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
+        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
+        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
+        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
+        Chris Hyser <chris.hyser@oracle.com>,
+        Peter Collingbourne <pcc@google.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
+        Rolf Eike Beer <eb@emlix.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
+        cxfcosmos@gmail.com, LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm <linux-mm@kvack.org>,
+        kernel-team <kernel-team@android.com>,
+        Tim Murray <timmurray@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Le 12/10/2021 à 15:59, Lorenz Bauer a écrit :
-> Expose bpf_jit_current as a read only value via sysctl.
-> 
-> Signed-off-by: Lorenz Bauer <lmb@cloudflare.com>
-> ---
+On Tue, Oct 12, 2021 at 12:37 AM Michal Hocko <mhocko@suse.com> wrote:
+>
+> On Mon 11-10-21 18:20:25, Suren Baghdasaryan wrote:
+> > On Mon, Oct 11, 2021 at 6:18 PM Suren Baghdasaryan <surenb@google.com> wrote:
+> > >
+> > > On Mon, Oct 11, 2021 at 1:36 AM Michal Hocko <mhocko@suse.com> wrote:
+> > > >
+> > > > On Fri 08-10-21 13:58:01, Kees Cook wrote:
+> > > > > - Strings for "anon" specifically have no required format (this is good)
+> > > > >   it's informational like the task_struct::comm and can (roughly)
+> > > > >   anything. There's no naming convention for memfds, AF_UNIX, etc. Why
+> > > > >   is one needed here? That seems like a completely unreasonable
+> > > > >   requirement.
+> > > >
+> > > > I might be misreading the justification for the feature. Patch 2 is
+> > > > talking about tools that need to understand memeory usage to make
+> > > > further actions. Also Suren was suggesting "numbering convetion" as an
+> > > > argument against.
+> > > >
+> > > > So can we get a clear example how is this being used actually? If this
+> > > > is just to be used to debug by humans than I can see an argument for
+> > > > human readable form. If this is, however, meant to be used by tools to
+> > > > make some actions then the argument for strings is much weaker.
+> > >
+> > > The simplest usecase is when we notice that a process consumes more
+> > > memory than usual and we do "cat /proc/$(pidof my_process)/maps" to
+> > > check which area is contributing to this growth. The names we assign
+> > > to anonymous areas are descriptive enough for a developer to get an
+> > > idea where the increased consumption is coming from and how to proceed
+> > > with their investigation.
+> > > There are of course cases when tools are involved, but the end-user is
+> > > always a human and the final report should contain easily
+> > > understandable data.
+>
+> OK, it would have been much more preferable to be explicit about this
+> main use case from the very beginning. Just to make sure we are at the
+> same page. Is the primary usecase usage and bug reporting?
 
-[snip]
+Sorry, I should have spent more time on patch #2 description. Yes,
+debugging memory issues is the primary usecase. In fact that's the
+only usecase in Android AFAIK.
 
-> +	{
-> +		.procname	= "bpf_jit_current",
-> +		.data		= &bpf_jit_current,
-> +		.maxlen		= sizeof(long),
-> +		.mode		= 0400,
-Why not 0444 ?
+>
+> My initial understanding was that at userspace managed memory management
+> could make an educated guess about targeted reclaim (e.g. MADV_{FREE,COLD,PAGEOUT}
+> for cached data in memory like uncompressed images/data). Such a usecase
+> would clearly require a standardized id/naming convention to be
+> application neutral.
 
+Ah, now I understand your angle. Our prior work on process_madvise()
+probably helped in leading your thoughts in this direction :) Sorry
+about the confusion.
 
-Regards,
-Nicolas
+>
+> > > IIUC, the main argument here is whether the userspace can provide
+> > > tools to perform the translations between ids and names, with the
+> > > kernel accepting and reporting ids instead of strings. Technically
+> > > it's possible, but to be practical that conversion should be fast
+> > > because we will need to make name->id conversion potentially for each
+> > > mmap. On the consumer side the performance is not as critical, but the
+> > > fact that instead of dumping /proc/$pid/maps we will have to parse the
+> > > file, do id->name conversion and replace all [anon:id] with
+> > > [anon:name] would be an issue when we do that in bulk, for example
+> > > when collecting system-wide data for a bugreport.
+>
+> Whether you use ids or human readable strings you still have to
+> understand the underlying meaning to make any educated guess. Let me
+> give you an example. Say I have an application with a memory leak. Right
+> now I can only tell that it is anonymous memory growing but it is not
+> clear who uses that anonymous. You are adding a means to tell different
+> users appart. That is really helpful. Now I know this is an anon
+> user 1234 or MySuperAnonMemory. Neither of the will not tell me more
+> without a id/naming convention or reading the code. A convention can be
+> useful for the most common users (e.g. a specific allocator) but I am
+> rather dubious there are many more that would be _generally_ recognized
+> without some understanding of the said application.
+
+I guess an example would be better to clarify this. Here are some vma
+names from Google maps app:
+
+[anon:dalvik-main space (region space)]
+[anon:dalvik-/apex/com.android.art/javalib/boot.art]
+[anon:dalvik-/apex/com.android.art/javalib/boot-apache-xml.art]
+[anon:.bss]
+[anon:dalvik-zygote space]
+[anon:dalvik-non moving space]
+[anon:dalvik-free list large object space]
+[anon:dalvik-/product/app/Maps/oat/arm64/Maps.art]
+[anon:stack_and_tls:20792]
+[anon:stack_and_tls:20791]
+[anon:dalvik-LinearAlloc]
+[anon:dalvik-CompilerMetadata]
+[anon:dalvik-indirect ref table]
+[anon:dalvik-live stack]
+[anon:dalvik-allocation stack]
+[anon:dalvik-large object free list space allocation info map]
+[anon:scudo:primary]
+[anon:scudo:secondary]
+[anon:bionic_alloc_small_objects]
+
+Most of them have names standard for Android and can be recognized by
+developers and even Android framework (example where "anon:dalvik-main
+space" and other standard names are being parsed:
+https://cs.android.com/android/platform/superproject/+/master:frameworks/base/core/jni/android_os_Debug.cpp;l=340).
+Names like "anon:dalvik-/apex/com.android.art/javalib/boot.art" help
+the developer to recognize the component responsible for the memory.
+Names like "anon:stack_and_tls:20792" include the TID of the thread
+which uses this memory. All this information can help in narrowing
+down memory consumption investigation. Hopefully these examples
+clarify the usage a bit better?
+
+>
+> Maybe the situation in Android is different because the runtime is more
+> coupled but is it reasonable to expect any common naming conventions for
+> general Linux platforms?
+
+Well, to be useful the system would have to agree to *some* convention I guess.
+
+>
+> I am slightly worried that we have spent way too much time talking
+> specifics about id->name translation rather than the actual usability
+> of the token.
+
+Agree. I'll try to avoid further confusions.
+Thanks!
+
+> --
+> Michal Hocko
+> SUSE Labs
