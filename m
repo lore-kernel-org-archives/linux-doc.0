@@ -2,668 +2,205 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5DC9C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 08:07:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48B80C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 08:27:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BEA0060F11
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 08:07:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 27CDC60F23
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 08:27:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238760AbhJMIJl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Oct 2021 04:09:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45830 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233058AbhJMIJh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Oct 2021 04:09:37 -0400
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26032C061714
-        for <linux-doc@vger.kernel.org>; Wed, 13 Oct 2021 01:07:33 -0700 (PDT)
-Received: by mail-lf1-x131.google.com with SMTP id y15so8101137lfk.7
-        for <linux-doc@vger.kernel.org>; Wed, 13 Oct 2021 01:07:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/TM5GwDv8NroYF6yRzu2LdJ5UTHqxzCh/VTQkYC9Rtw=;
-        b=RpvgoDVLdHogB/2KR1AXZAAA+FjrBwFLJpDjj+HUp/EVwuNdnl1ZRTT3nSYrDG/t2Z
-         9Mvfl4KKRTwq5ycuWM3k2t6G1c9U8Yd8mddWxuItLKGxKUDHxc77AZnxDef7ls8mxv/+
-         G4hnoZOvD8w4VbJBXku2DWul13ezpThT6/gjJyewG0ElKFnwzKSBKTYdLRX1KZa3tsiZ
-         2TWqEH1/eo7nc8lIs9hSMeAG9v7z73/X35ieA3vN4cbx1LBJ2jk7mYaujv9UZcW3KoQh
-         Pu+As8yr1zVczvFEA10lqwgHAPx8nLG3S9Sc/aw1BFCM/SZNXYMwC2UwoWtgw89HDMLE
-         OudA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/TM5GwDv8NroYF6yRzu2LdJ5UTHqxzCh/VTQkYC9Rtw=;
-        b=gF/sazl3ZOHT0ibLTXysV40atVUJcROCvGL9im47NaGuu+nCIeKpgNX0qvywLGkmim
-         zV/4gFhbOu+e45gO3iBRlIuXpp13JoyfZ5k/oWEj0lUyHq+mPa+4Ewzr+SqHUWLF+8m1
-         1F5RiNTBx3y5Kv4+tgQkAQRJvMR07VbeRFouA0XaUeLF2p8DUVTeH48EHflYMPafAWtG
-         Jnm740ZVkTQqm8n6OOOMV7Lv0MR/HVRHFmj1z9iH3XvYfPezbppnBjoSZO/eQeleBsH6
-         /SmyyDZ+xmBvnhsrFLzBpKbB+EBffZXHxsfgp8IAFdus1y6cli4Byg5me1MVORRVj/Fa
-         /Jjw==
-X-Gm-Message-State: AOAM532sLQA2q5zU6asJIay5NzPY0byXw7rXRx+bUmmIsDAAYdTvOyV+
-        YiIFPAp4OPYME+uhtjRqZGJc20ATWGw95UPwDr9fyQ==
-X-Google-Smtp-Source: ABdhPJwefnvae/S7fmJDSykZmRiuSbFvw3UiA5BoK9O6xt8X4WVonh2ptTDgrrCcKjmgZvefhzK2nnr/LLKtiG3zO5Y=
-X-Received: by 2002:a05:6512:3503:: with SMTP id h3mr37770257lfs.513.1634112451238;
- Wed, 13 Oct 2021 01:07:31 -0700 (PDT)
+        id S238637AbhJMI3F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Oct 2021 04:29:05 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:59052 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232609AbhJMI3D (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Oct 2021 04:29:03 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 4721822293;
+        Wed, 13 Oct 2021 08:26:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1634113619; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=McR6yLTw26IMl2q+Ttf8E0wCs6FpSGK2pEn0KwZBs4Q=;
+        b=Bc2vAIAmillFOD/w7gXfw+OemzeQe4gw3MeuwYVov4/Uno6d88ZQytx35zg3gnZFoo+m3e
+        AraEWcP/ZW/YS59FTqCxuwlTSWG1/rZVgyI/zedQilBYDcaev36ZPoV+ig2L2nyPz7u5gb
+        IVIZNlkwo/2ROs3X6NM9FabSSFwkYiw=
+Received: from suse.cz (unknown [10.100.201.86])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id B41AAA3B83;
+        Wed, 13 Oct 2021 08:26:58 +0000 (UTC)
+Date:   Wed, 13 Oct 2021 10:26:58 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     Dave Chinner <david@fromorbit.com>
+Cc:     NeilBrown <neilb@suse.de>, Vlastimil Babka <vbabka@suse.cz>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+        linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/6] MM: improve documentation for __GFP_NOFAIL
+Message-ID: <YWaYUsXgXS6GXM+M@dhcp22.suse.cz>
+References: <b680fb87-439b-0ba4-cf9f-33d729f27941@suse.cz>
+ <YVwyhDnE/HEnoLAi@dhcp22.suse.cz>
+ <eba04a07-99da-771a-ab6b-36de41f9f120@suse.cz>
+ <20211006231452.GF54211@dread.disaster.area>
+ <YV7G7gyfZkmw7/Ae@dhcp22.suse.cz>
+ <163364854551.31063.4377741712039731672@noble.neil.brown.name>
+ <YV/31+qXwqEgaxJL@dhcp22.suse.cz>
+ <20211008223649.GJ54211@dread.disaster.area>
+ <YWQmsESyyiea0zle@dhcp22.suse.cz>
+ <20211013023231.GV2361455@dread.disaster.area>
 MIME-Version: 1.0
-References: <20211006071546.2540920-1-jens.wiklander@linaro.org> <20211006071546.2540920-7-jens.wiklander@linaro.org>
-In-Reply-To: <20211006071546.2540920-7-jens.wiklander@linaro.org>
-From:   Sumit Garg <sumit.garg@linaro.org>
-Date:   Wed, 13 Oct 2021 13:37:19 +0530
-Message-ID: <CAFA6WYPB2hNMgdK+BkZFhvEqmyrbYH8i1b97v-6pSWM0hECW8g@mail.gmail.com>
-Subject: Re: [PATCH v6 6/6] optee: add asynchronous notifications
-To:     Jens Wiklander <jens.wiklander@linaro.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        OP-TEE TrustedFirmware <op-tee@lists.trustedfirmware.org>,
-        Devicetree List <devicetree@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jerome Forissier <jerome@forissier.org>,
-        Etienne Carriere <etienne.carriere@linaro.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ard Biesheuvel <ardb@kernel.org>, Marc Zyngier <maz@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211013023231.GV2361455@dread.disaster.area>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 6 Oct 2021 at 12:46, Jens Wiklander <jens.wiklander@linaro.org> wrote:
->
-> Adds support for asynchronous notifications from secure world to normal
-> world. This allows a design with a top half and bottom half type of
-> driver where the top half runs in secure interrupt context and a
-> notifications tells normal world to schedule a yielding call to do the
-> bottom half processing.
->
-> The protocol is defined in optee_msg.h optee_rpc_cmd.h and optee_smc.h.
->
-> A notification consists of a 32-bit value which normal world can
-> retrieve using a fastcall into secure world. The value
-> OPTEE_SMC_ASYNC_NOTIF_VALUE_DO_BOTTOM_HALF (0) has a special meaning.
-> When this value is sent it means that normal world is supposed to make a
-> yielding call OPTEE_MSG_CMD_DO_BOTTOM_HALF.
->
-> Notification capability is negotiated while the driver is initialized.
-> If both sides supports these notifications then they are enabled.
->
-> An interrupt is used to notify the driver that there are asynchronous
-> notifications pending. The maximum needed notification value is
-> communicated at this stage. This allows scaling up when needed.
->
-> Acked-by: Ard Biesheuvel <ardb@kernel.org>
-> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> ---
->  drivers/tee/optee/call.c          |  27 ++++++++
->  drivers/tee/optee/core.c          |  83 ++++++++++++++++-------
->  drivers/tee/optee/notif.c         | 109 ++++++++++++++++++++++++++++--
->  drivers/tee/optee/optee_msg.h     |   9 +++
->  drivers/tee/optee/optee_private.h |   6 +-
->  drivers/tee/optee/optee_smc.h     |  75 +++++++++++++++++++-
->  6 files changed, 277 insertions(+), 32 deletions(-)
->
-> diff --git a/drivers/tee/optee/call.c b/drivers/tee/optee/call.c
-> index 945f03da0223..e428e0e9a3af 100644
-> --- a/drivers/tee/optee/call.c
-> +++ b/drivers/tee/optee/call.c
-> @@ -392,6 +392,33 @@ int optee_cancel_req(struct tee_context *ctx, u32 cancel_id, u32 session)
->         return 0;
->  }
->
-> +static int simple_call_with_arg(struct tee_context *ctx, u32 cmd)
-> +{
-> +       struct optee_msg_arg *msg_arg;
-> +       phys_addr_t msg_parg;
-> +       struct tee_shm *shm;
-> +
-> +       shm = get_msg_arg(ctx, 0, &msg_arg, &msg_parg);
-> +       if (IS_ERR(shm))
-> +               return PTR_ERR(shm);
-> +
-> +       msg_arg->cmd = cmd;
-> +       optee_do_call_with_arg(ctx, msg_parg);
-> +
-> +       tee_shm_free(shm);
-> +       return 0;
-> +}
-> +
-> +int optee_do_bottom_half(struct tee_context *ctx)
-> +{
-> +       return simple_call_with_arg(ctx, OPTEE_MSG_CMD_DO_BOTTOM_HALF);
-> +}
-> +
-> +int optee_stop_async_notif(struct tee_context *ctx)
-> +{
-> +       return simple_call_with_arg(ctx, OPTEE_MSG_CMD_STOP_ASYNC_NOTIF);
+On Wed 13-10-21 13:32:31, Dave Chinner wrote:
+> On Mon, Oct 11, 2021 at 01:57:36PM +0200, Michal Hocko wrote:
+> > On Sat 09-10-21 09:36:49, Dave Chinner wrote:
+> > > On Fri, Oct 08, 2021 at 09:48:39AM +0200, Michal Hocko wrote:
+> > > > > > > Even the API constaints of kvmalloc() w.r.t. only doing the vmalloc
+> > > > > > > fallback if the gfp context is GFP_KERNEL - we already do GFP_NOFS
+> > > > > > > kvmalloc via memalloc_nofs_save/restore(), so this behavioural
+> > > > > > > restriction w.r.t. gfp flags just makes no sense at all.
+> > > > > > 
+> > > > > > GFP_NOFS (without using the scope API) has the same problem as NOFAIL in
+> > > > > > the vmalloc. Hence it is not supported. If you use the scope API then
+> > > > > > you can GFP_KERNEL for kvmalloc. This is clumsy but I am not sure how to
+> > > > > > define these conditions in a more sensible way. Special case NOFS if the
+> > > > > > scope api is in use? Why do you want an explicit NOFS then?
+> > > 
+> > > Exactly my point - this is clumsy and a total mess. I'm not asking
+> > > for an explicit GFP_NOFS, just pointing out that the documented
+> > > restrictions that "vmalloc can only do GFP_KERNEL allocations" is
+> > > completely wrong.
+> > > 
+> > > vmalloc()
+> > > {
+> > > 	if (!(gfp_flags &  __GFP_FS))
+> > > 		memalloc_nofs_save();
+> > > 	p = __vmalloc(gfp_flags | GFP_KERNEL)
+> > > 	if (!(gfp_flags &  __GFP_FS))
+> > > 		memalloc_nofs_restore();
+> > > }
+> > > 
+> > > Yup, that's how simple it is to support GFP_NOFS support in
+> > > vmalloc().
+> > 
+> > Yes, this would work from the functionality POV but it defeats the
+> > philosophy behind the scope API. Why would you even need this if the
+> > scope was defined by the caller of the allocator?
+> 
+> Who actually cares that vmalloc might be using the scoped API
+> internally to implement GFP_NOFS or GFP_NOIO? Nobody at all.
+> It is far more useful (and self documenting!) for one-off allocations
+> to pass a GFP_NOFS flag than it is to use a scope API...
 
-Is there any particular reason that this isn't a fast call similar to
-OPTEE_SMC_ENABLE_ASYNC_NOTIF?
+I would agree with you if the explicit GFP_NOFS usage was consistent
+and actually justified in the majority cases. My experience tells me
+otherwise though. Many filesystems use the flag just because that is
+easier. That leads to a huge overuse of the flag that leads to practical
+problems.
 
-> +}
-> +
->  /**
->   * optee_enable_shm_cache() - Enables caching of some shared memory allocation
->   *                           in OP-TEE
-> diff --git a/drivers/tee/optee/core.c b/drivers/tee/optee/core.c
-> index 8531184f98f4..ccafd7151b45 100644
-> --- a/drivers/tee/optee/core.c
-> +++ b/drivers/tee/optee/core.c
-> @@ -8,9 +8,12 @@
->  #include <linux/arm-smccc.h>
->  #include <linux/crash_dump.h>
->  #include <linux/errno.h>
-> +#include <linux/interrupt.h>
->  #include <linux/io.h>
-> +#include <linux/irqdomain.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
-> +#include <linux/of_irq.h>
->  #include <linux/of_platform.h>
->  #include <linux/platform_device.h>
->  #include <linux/slab.h>
-> @@ -355,6 +358,17 @@ static const struct tee_desc optee_supp_desc = {
->         .flags = TEE_DESC_PRIVILEGED,
->  };
->
-> +static int enable_async_notif(optee_invoke_fn *invoke_fn)
-> +{
-> +       struct arm_smccc_res res;
-> +
-> +       invoke_fn(OPTEE_SMC_ENABLE_ASYNC_NOTIF, 0, 0, 0, 0, 0, 0, 0, &res);
-> +
-> +       if (res.a0)
-> +               return -EINVAL;
-> +       return 0;
-> +}
-> +
->  static bool optee_msg_api_uid_is_optee_api(optee_invoke_fn *invoke_fn)
->  {
->         struct arm_smccc_res res;
-> @@ -404,7 +418,7 @@ static bool optee_msg_api_revision_is_compatible(optee_invoke_fn *invoke_fn)
->  }
->
->  static bool optee_msg_exchange_capabilities(optee_invoke_fn *invoke_fn,
-> -                                           u32 *sec_caps)
-> +                                           u32 *sec_caps, u32 *max_notif_value)
->  {
->         union {
->                 struct arm_smccc_res smccc;
-> @@ -427,6 +441,7 @@ static bool optee_msg_exchange_capabilities(optee_invoke_fn *invoke_fn,
->                 return false;
->
->         *sec_caps = res.result.capabilities;
-> +       *max_notif_value = res.result.max_notif_value;
->         return true;
->  }
->
-> @@ -630,6 +645,7 @@ static int optee_probe(struct platform_device *pdev)
->         struct optee *optee = NULL;
->         void *memremaped_shm = NULL;
->         struct tee_device *teedev;
-> +       u32 max_notif_value;
->         u32 sec_caps;
->         int rc;
->
-> @@ -659,7 +675,8 @@ static int optee_probe(struct platform_device *pdev)
->                 return -EINVAL;
->         }
->
-> -       if (!optee_msg_exchange_capabilities(invoke_fn, &sec_caps)) {
-> +       if (!optee_msg_exchange_capabilities(invoke_fn, &sec_caps,
-> +                                            &max_notif_value)) {
->                 pr_warn("capabilities mismatch\n");
->                 return -EINVAL;
->         }
-> @@ -682,7 +699,7 @@ static int optee_probe(struct platform_device *pdev)
->         optee = kzalloc(sizeof(*optee), GFP_KERNEL);
->         if (!optee) {
->                 rc = -ENOMEM;
-> -               goto err;
-> +               goto err_free_pool;
->         }
->
->         optee->invoke_fn = invoke_fn;
-> @@ -691,24 +708,24 @@ static int optee_probe(struct platform_device *pdev)
->         teedev = tee_device_alloc(&optee_desc, NULL, pool, optee);
->         if (IS_ERR(teedev)) {
->                 rc = PTR_ERR(teedev);
-> -               goto err;
-> +               goto err_free_optee;
->         }
->         optee->teedev = teedev;
->
->         teedev = tee_device_alloc(&optee_supp_desc, NULL, pool, optee);
->         if (IS_ERR(teedev)) {
->                 rc = PTR_ERR(teedev);
-> -               goto err;
-> +               goto err_unreg_teedev;
->         }
->         optee->supp_teedev = teedev;
->
->         rc = tee_device_register(optee->teedev);
->         if (rc)
-> -               goto err;
-> +               goto err_unreg_supp_teedev;
->
->         rc = tee_device_register(optee->supp_teedev);
->         if (rc)
-> -               goto err;
-> +               goto err_unreg_supp_teedev;
->
->         mutex_init(&optee->call_queue.mutex);
->         INIT_LIST_HEAD(&optee->call_queue.waiters);
-> @@ -717,10 +734,31 @@ static int optee_probe(struct platform_device *pdev)
->         optee->pool = pool;
->
->         platform_set_drvdata(pdev, optee);
-> -       rc = optee_notif_init(optee, 255);
-> -       if (rc) {
-> -               optee_remove(pdev);
-> -               return rc;
-> +
-> +       if (sec_caps & OPTEE_SMC_SEC_CAP_ASYNC_NOTIF) {
-> +               unsigned int irq;
-> +
-> +               rc = platform_get_irq(pdev, 0);
-> +               if (rc < 0) {
-> +                       pr_err("platform_get_irq: ret %d\n", rc);
-> +                       goto err_unreg_supp_teedev;
-> +               }
-> +               irq = rc;
-> +
-> +               rc = optee_notif_init(optee, max_notif_value, irq);
-> +               if (rc) {
-> +                       irq_dispose_mapping(irq);
-> +                       optee_remove(pdev);
-> +                       return rc;
-> +               }
-> +               enable_async_notif(optee->invoke_fn);
-> +               pr_info("Asynchronous notifications enabled\n");
-> +       } else {
-> +               rc = optee_notif_init(optee, 255, 0);
-> +               if (rc) {
-> +                       optee_remove(pdev);
+I was hoping that if we offer an API that would define problematic
+reclaim recursion scopes then it would reduce the abuse. I haven't
+expected this to happen overnight but it is few years and it seems
+it will not happen soon either.
 
-IMO, multiple usage of optee_remove() in the error path makes error
-handling a bit complex. I liked the way you tagged the error paths. So
-can't we get rid of optee_remove() from the error path and handle
-errors based on tagged error paths only?
+[...]
 
-> +                       return rc;
-> +               }
->         }
->
->         /*
-> @@ -745,20 +783,15 @@ static int optee_probe(struct platform_device *pdev)
->
->         pr_info("initialized driver\n");
->         return 0;
-> -err:
-> -       if (optee) {
-> -               /*
-> -                * tee_device_unregister() is safe to call even if the
-> -                * devices hasn't been registered with
-> -                * tee_device_register() yet.
-> -                */
-> -               tee_device_unregister(optee->supp_teedev);
-> -               tee_device_unregister(optee->teedev);
-> -               kfree(optee);
-> -       }
-> -       if (pool)
-> -               tee_shm_pool_free(pool);
-> -       if (memremaped_shm)
-> +err_unreg_supp_teedev:
-> +       tee_device_unregister(optee->supp_teedev);
-> +err_unreg_teedev:
-> +       tee_device_unregister(optee->teedev);
-> +err_free_optee:
-> +       kfree(optee);
-> +err_free_pool:
-> +       tee_shm_pool_free(pool);
-> +       if (optee->memremaped_shm)
->                 memunmap(memremaped_shm);
->         return rc;
->  }
-> diff --git a/drivers/tee/optee/notif.c b/drivers/tee/optee/notif.c
-> index a28fa03dcd0e..2c888ad87451 100644
-> --- a/drivers/tee/optee/notif.c
-> +++ b/drivers/tee/optee/notif.c
-> @@ -7,10 +7,14 @@
->
->  #include <linux/arm-smccc.h>
->  #include <linux/errno.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/irqdomain.h>
->  #include <linux/slab.h>
->  #include <linux/spinlock.h>
->  #include <linux/tee_drv.h>
->  #include "optee_private.h"
-> +#include "optee_smc.h"
-> +#include "optee_rpc_cmd.h"
->
->  struct notif_entry {
->         struct list_head link;
-> @@ -18,6 +22,54 @@ struct notif_entry {
->         u_int key;
->  };
->
-> +static u32 get_async_notif_value(optee_invoke_fn *invoke_fn, bool *value_valid,
-> +                                bool *value_pending)
-> +{
-> +       struct arm_smccc_res res;
-> +
-> +       invoke_fn(OPTEE_SMC_GET_ASYNC_NOTIF_VALUE, 0, 0, 0, 0, 0, 0, 0, &res);
-> +
-> +       if (res.a0)
-> +               return 0;
-> +       *value_valid = (res.a2 & OPTEE_SMC_ASYNC_NOTIF_VALUE_VALID);
-> +       *value_pending = (res.a2 & OPTEE_SMC_ASYNC_NOTIF_VALUE_PENDING);
-> +       return res.a1;
-> +}
-> +
-> +static irqreturn_t notif_irq_handler(int irq, void *dev_id)
-> +{
-> +       struct optee *optee = dev_id;
-> +       bool do_bottom_half = false;
-> +       bool value_valid;
-> +       bool value_pending;
-> +       u32 value;
-> +
-> +       do {
-> +               value = get_async_notif_value(optee->invoke_fn, &value_valid,
-> +                                             &value_pending);
-> +               if (!value_valid)
-> +                       break;
-> +
-> +               if (value == OPTEE_SMC_ASYNC_NOTIF_VALUE_DO_BOTTOM_HALF)
-> +                       do_bottom_half = true;
-> +               else
-> +                       optee_notif_send(optee, value);
-> +       } while (value_pending);
-> +
-> +       if (do_bottom_half)
-> +               return IRQ_WAKE_THREAD;
-> +       return IRQ_HANDLED;
-> +}
-> +
-> +static irqreturn_t notif_irq_thread_fn(int irq, void *dev_id)
-> +{
-> +       struct optee *optee = dev_id;
-> +
-> +       optee_do_bottom_half(optee->notif.ctx);
-> +
-> +       return IRQ_HANDLED;
-> +}
-> +
->  static bool have_key(struct optee *optee, u_int key)
->  {
->         struct notif_entry *entry;
-> @@ -106,20 +158,69 @@ int optee_notif_send(struct optee *optee, u_int key)
->         return 0;
->  }
->
-> -int optee_notif_init(struct optee *optee, u_int max_key)
-> +int optee_notif_init(struct optee *optee, u_int max_key, u_int irq)
->  {
-> +       struct tee_context *ctx;
-> +       int rc;
-> +
-> +       if (irq) {
-> +               ctx = teedev_open(optee->teedev);
-> +               if (IS_ERR(ctx))
-> +                       return PTR_ERR(ctx);
-> +
-> +               optee->notif.ctx = ctx;
-> +       }
-> +
->         spin_lock_init(&optee->notif.lock);
->         INIT_LIST_HEAD(&optee->notif.db);
->         optee->notif.bitmap = bitmap_zalloc(max_key, GFP_KERNEL);
-> -       if (!optee->notif.bitmap)
-> -               return -ENOMEM;
-> -
-> +       if (!optee->notif.bitmap) {
-> +               rc = -ENOMEM;
-> +               goto err_close_ctx;
-> +       }
->         optee->notif.max_key = max_key;
->
-> +       if (irq) {
-> +               rc = request_threaded_irq(irq, notif_irq_handler,
-> +                                         notif_irq_thread_fn,
-> +                                         0, "optee_notification", optee);
-> +               if (rc)
-> +                       goto err_free_bitmap;
-> +
-> +               optee->notif.irq = irq;
-> +       }
-> +
->         return 0;
-> +
-> +err_free_bitmap:
-> +       kfree(optee->notif.bitmap);
-> +err_close_ctx:
-> +       teedev_close_context(optee->notif.ctx);
-> +       optee->notif.ctx = NULL;
-> +
-> +       return rc;
->  }
->
->  void optee_notif_uninit(struct optee *optee)
->  {
-> +       if (optee->notif.ctx) {
-> +               optee_stop_async_notif(optee->notif.ctx);
-> +               if (optee->notif.irq) {
-> +                       free_irq(optee->notif.irq, optee);
-> +                       irq_dispose_mapping(optee->notif.irq);
-> +               }
-> +
-> +               /*
-> +                * The thread normally working with optee->notif.ctx was
-> +                * stopped with free_irq() above.
-> +                *
-> +                * Note we're not using teedev_close_context() or
-> +                * tee_client_close_context() since we have already called
-> +                * tee_device_put() while initializing to avoid a circular
-> +                * reference counting.
-> +                */
-> +               teedev_close_context(optee->notif.ctx);
-> +       }
-> +
->         kfree(optee->notif.bitmap);
->  }
-> diff --git a/drivers/tee/optee/optee_msg.h b/drivers/tee/optee/optee_msg.h
-> index e3d72d09c484..3e09c8386e46 100644
-> --- a/drivers/tee/optee/optee_msg.h
-> +++ b/drivers/tee/optee/optee_msg.h
-> @@ -293,6 +293,13 @@ struct optee_msg_arg {
->   * [in] param[0].u.rmem.shm_ref                holds shared memory reference
->   * [in] param[0].u.rmem.offs           0
->   * [in] param[0].u.rmem.size           0
-> + *
-> + * OPTEE_MSG_CMD_DO_BOTTOM_HALF does the scheduled bottom half processing
-> + * of a driver.
-> + *
-> + * OPTEE_MSG_CMD_STOP_ASYNC_NOTIF informs secure world that from now is
-> + * normal world unable to process asynchronous notifications. Typically
-> + * used when the driver is shut down.
->   */
->  #define OPTEE_MSG_CMD_OPEN_SESSION     0
->  #define OPTEE_MSG_CMD_INVOKE_COMMAND   1
-> @@ -300,6 +307,8 @@ struct optee_msg_arg {
->  #define OPTEE_MSG_CMD_CANCEL           3
->  #define OPTEE_MSG_CMD_REGISTER_SHM     4
->  #define OPTEE_MSG_CMD_UNREGISTER_SHM   5
-> +#define OPTEE_MSG_CMD_DO_BOTTOM_HALF   6
-> +#define OPTEE_MSG_CMD_STOP_ASYNC_NOTIF 7
->  #define OPTEE_MSG_FUNCID_CALL_WITH_ARG 0x0004
->
->  #endif /* _OPTEE_MSG_H */
-> diff --git a/drivers/tee/optee/optee_private.h b/drivers/tee/optee/optee_private.h
-> index 76a16d9b6cf4..f62a16935c49 100644
-> --- a/drivers/tee/optee/optee_private.h
-> +++ b/drivers/tee/optee/optee_private.h
-> @@ -37,6 +37,8 @@ struct optee_call_queue {
->
->  struct optee_notif {
->         u_int max_key;
-> +       unsigned int irq;
-> +       struct tee_context *ctx;
->         /* Serializes access to the elements below in this struct */
->         spinlock_t lock;
->         struct list_head db;
-> @@ -132,7 +134,7 @@ void optee_handle_rpc(struct tee_context *ctx, struct optee_rpc_param *param,
->                       struct optee_call_ctx *call_ctx);
->  void optee_rpc_finalize_call(struct optee_call_ctx *call_ctx);
->
-> -int optee_notif_init(struct optee *optee, u_int max_key);
-> +int optee_notif_init(struct optee *optee, u_int max_key, u_int irq);
->  void optee_notif_uninit(struct optee *optee);
->  int optee_notif_wait(struct optee *optee, u_int key);
->  int optee_notif_send(struct optee *optee, u_int key);
-> @@ -159,6 +161,8 @@ int optee_close_session(struct tee_context *ctx, u32 session);
->  int optee_invoke_func(struct tee_context *ctx, struct tee_ioctl_invoke_arg *arg,
->                       struct tee_param *param);
->  int optee_cancel_req(struct tee_context *ctx, u32 cancel_id, u32 session);
-> +int optee_do_bottom_half(struct tee_context *ctx);
-> +int optee_stop_async_notif(struct tee_context *ctx);
->
->  void optee_enable_shm_cache(struct optee *optee);
->  void optee_disable_shm_cache(struct optee *optee);
-> diff --git a/drivers/tee/optee/optee_smc.h b/drivers/tee/optee/optee_smc.h
-> index 80eb763a8a80..c6eec6b6febf 100644
-> --- a/drivers/tee/optee/optee_smc.h
-> +++ b/drivers/tee/optee/optee_smc.h
-> @@ -107,6 +107,12 @@ struct optee_smc_call_get_os_revision_result {
->  /*
->   * Call with struct optee_msg_arg as argument
->   *
-> + * When calling this function normal world has a few responsibilities:
-> + * 1. It must be able to handle eventual RPCs
-> + * 2. Non-secure interrupts should not be masked
-> + * 3. If asynchronous notifications has be negotiated successfully, then
+> > > It also points out that the scope API is highly deficient.
+> > > We can do GFP_NOFS via the scope API, but we can't
+> > > do anything else because *there is no scope API for other GFP
+> > > flags*.
+> > > 
+> > > Why don't we have a GFP_NOFAIL/__GFP_RETRY_FOREVER scope API?
+> > 
+> > NO{FS,IO} where first flags to start this approach. And I have to admit
+> > the experiment was much less successful then I hoped for. There are
+> > still thousands of direct NOFS users so for some reason defining scopes
+> > is not an easy thing to do.
+> > 
+> > I am not against NOFAIL scopes in principle but seeing the nofs
+> > "success" I am worried this will not go really well either and it is
+> > much more tricky as NOFAIL has much stronger requirements than NOFS.
+> > Just imagine how tricky this can be if you just call a library code
+> > that is not under your control within a NOFAIL scope. What if that
+> > library code decides to allocate (e.g. printk that would attempt to do
+> > an optimistic NOWAIT allocation).
+> 
+> I already asked you that _exact_ question earlier in the thread
+> w.r.t.  kvmalloc(GFP_NOFAIL) using optimistic NOWAIT kmalloc
+> allocation. I asked you as a MM expert to define *and document* the
+> behaviour that should result, not turn around and use the fact that
+> it is undefined behaviour as a "this is too hard" excuse for not
+> changing anything.
 
-nit: s/has be/have been/
+Dave, you have "thrown" a lot of complains in previous emails and it is
+hard to tell rants from features requests apart. I am sorry but I
+believe it would be much more productive to continue this discussion if
+you could mild your tone.
 
-> + *    asynchronous notifications should be unmasked during this call.
-> + *
->   * Call register usage:
->   * a0  SMC Function ID, OPTEE_SMC*CALL_WITH_ARG
->   * a1  Upper 32 bits of a 64-bit physical pointer to a struct optee_msg_arg
-> @@ -195,7 +201,8 @@ struct optee_smc_get_shm_config_result {
->   * Normal return register usage:
->   * a0  OPTEE_SMC_RETURN_OK
->   * a1  bitfield of secure world capabilities OPTEE_SMC_SEC_CAP_*
-> - * a2-7        Preserved
-> + * a2  The maximum secure world notification number
-> + * a3-7        Preserved
->   *
->   * Error return register usage:
->   * a0  OPTEE_SMC_RETURN_ENOTAVAIL, can't use the capabilities from normal world
-> @@ -218,6 +225,8 @@ struct optee_smc_get_shm_config_result {
->  #define OPTEE_SMC_SEC_CAP_VIRTUALIZATION       BIT(3)
->  /* Secure world supports Shared Memory with a NULL reference */
->  #define OPTEE_SMC_SEC_CAP_MEMREF_NULL          BIT(4)
-> +/* Secure world supports asynchronous notification of normal world */
-> +#define OPTEE_SMC_SEC_CAP_ASYNC_NOTIF          BIT(5)
->
->  #define OPTEE_SMC_FUNCID_EXCHANGE_CAPABILITIES 9
->  #define OPTEE_SMC_EXCHANGE_CAPABILITIES \
-> @@ -226,8 +235,8 @@ struct optee_smc_get_shm_config_result {
->  struct optee_smc_exchange_capabilities_result {
->         unsigned long status;
->         unsigned long capabilities;
-> +       unsigned long max_notif_value;
->         unsigned long reserved0;
-> -       unsigned long reserved1;
->  };
->
->  /*
-> @@ -319,6 +328,68 @@ struct optee_smc_disable_shm_cache_result {
->  #define OPTEE_SMC_GET_THREAD_COUNT \
->         OPTEE_SMC_FAST_CALL_VAL(OPTEE_SMC_FUNCID_GET_THREAD_COUNT)
->
-> +/*
-> + * Inform OP-TEE that normal world is able to receive asynchronous
-> + * notifications.
-> + *
-> + * Call requests usage:
-> + * a0  SMC Function ID, OPTEE_SMC_ENABLE_ASYNC_NOTIF
-> + * a1-6        Not used
-> + * a7  Hypervisor Client ID register
-> + *
-> + * Normal return register usage:
-> + * a0  OPTEE_SMC_RETURN_OK
-> + * a1-7        Preserved
-> + *
-> + * Not supported return register usage:
-> + * a0  OPTEE_SMC_RETURN_ENOTAVAIL
-> + * a1-7        Preserved
-> + */
-> +#define OPTEE_SMC_FUNCID_ENABLE_ASYNC_NOTIF    16
-> +#define OPTEE_SMC_ENABLE_ASYNC_NOTIF \
-> +       OPTEE_SMC_FAST_CALL_VAL(OPTEE_SMC_FUNCID_ENABLE_ASYNC_NOTIF)
-> +
-> +/*
-> + * Retrieve a value of notifications pended since the last call of this
+Can I ask you to break down your feature requests into separate emails
+so that we can discuss and track them separately rather in this quite a
+long thread which has IMHO diverghed from the initial topic. Thanks!
 
-nit: s/pended/pending/
+> THe fact is that the scope APIs are only really useful for certain
+> contexts where restrictions are set by higher level functionality.
+> For one-off allocation constraints the API sucks and we end up with
 
-> + * function.
-> + *
-> + * OP-TEE keeps a records of all posted values. When an interrupts is
+Could you be more specific about these one-off allocation constrains?
+What would be the reason to define one-off NO{FS,IO} allocation
+constrain? Or did you have your NOFAIL example in mind?
 
-nit: s/records/record/
+> crap like this (found in btrfs):
+> 
+>                 /*                                                               
+>                  * We're holding a transaction handle, so use a NOFS memory      
+>                  * allocation context to avoid deadlock if reclaim happens.      
+>                  */                                                              
+>                 nofs_flag = memalloc_nofs_save();                                
+>                 value = kmalloc(size, GFP_KERNEL);                               
+>                 memalloc_nofs_restore(nofs_flag);                                
 
-> + * received which indicates that there are posed values this function
-> + * should be called until all pended values has been retrieved. When a
+Yes this looks wrong indeed! If I were to review such a code I would ask
+why the scope cannot match the transaction handle context. IIRC jbd does
+that.
 
-nit: s/has/have/
+I am aware of these patterns. I was pulled in some discussions in the
+past and in some it turned out that the constrain is not needed at all
+and in some cases that has led to a proper scope definition. As you
+point out in your other examples it just happens that it is easier to
+go an easy path and define scopes ad-hoc to work around allocation
+API limitations.
 
-> + * value is retrieved it's cleared from the record in secure world.
-> + *
-> + * Call requests usage:
-> + * a0  SMC Function ID, OPTEE_SMC_GET_ASYNC_NOTIF_VALUE
-> + * a1-6        Not used
-> + * a7  Hypervisor Client ID register
-> + *
-> + * Normal return register usage:
-> + * a0  OPTEE_SMC_RETURN_OK
-> + * a1  value
-> + * a2  Bit[0]: OPTEE_SMC_ASYNC_NOTIF_VALUE_VALID if the value in a1 is
-> + *             valid, else 0 if no values where pending
-> + * a2  Bit[1]: OPTEE_SMC_ASYNC_NOTIF_VALUE_PENDING if another value is
-> + *             pending, else 0.
-> + *     Bit[31:2]: MBZ
-> + * a3-7        Preserved
-> + *
-> + * Not supported return register usage:
-> + * a0  OPTEE_SMC_RETURN_ENOTAVAIL
-> + * a1-7        Preserved
-> + */
-> +#define OPTEE_SMC_ASYNC_NOTIF_VALUE_VALID      BIT(0)
-> +#define OPTEE_SMC_ASYNC_NOTIF_VALUE_PENDING    BIT(1)
-> +
-> +/*
-> + * Notification that OP-TEE expects a yielding call to do some bottom half
-> + * work in a driver.
-> + */
-> +#define OPTEE_SMC_ASYNC_NOTIF_VALUE_DO_BOTTOM_HALF     0
-> +
-> +#define OPTEE_SMC_FUNCID_GET_ASYNC_NOTIF_VALUE 17
-> +#define OPTEE_SMC_GET_ASYNC_NOTIF_VALUE \
-> +       OPTEE_SMC_FAST_CALL_VAL(OPTEE_SMC_FUNCID_GET_ASYNC_NOTIF_VALUE)
-> +
->  /*
->   * Resume from RPC (for example after processing a foreign interrupt)
->   *
+[...]
 
-Apart from comments above, this patch looks good to me in general.
+> IOWs, a large number of the users of the scope API simply make
+> [k]vmalloc() provide GFP_NOFS behaviour. ceph_kvmalloc() is pretty
+> much a wrapper that indicates how all vmalloc functions should
+> behave. Honour GFP_NOFS and GFP_NOIO by using the scope API
+> internally.
 
--Sumit
+I was discouraging from this behavior at vmalloc level to push people
+to use scopes properly - aka at the level where the reclaim recursion is
+really a problem. If that is infeasible in practice then we can
+re-evaluate of course. I was really hoping we can get rid of cargo cult
+GFP_NOFS usage this way but the reality often disagrees with hopes.
 
-> --
-> 2.31.1
->
+All that being said, let's discuss [k]vmalloc constrains and usecases
+that need changes in a separate email thread.
+
+Thanks!
+-- 
+Michal Hocko
+SUSE Labs
