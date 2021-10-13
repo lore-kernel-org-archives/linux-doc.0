@@ -2,99 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26B6DC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 08:35:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5CE0C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 11:36:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0A0B860C40
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 08:35:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C393C61056
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 11:36:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230461AbhJMIhV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Oct 2021 04:37:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52290 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230092AbhJMIhS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Oct 2021 04:37:18 -0400
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3F58C061570
-        for <linux-doc@vger.kernel.org>; Wed, 13 Oct 2021 01:35:15 -0700 (PDT)
-Received: by mail-lf1-x131.google.com with SMTP id z11so8452827lfj.4
-        for <linux-doc@vger.kernel.org>; Wed, 13 Oct 2021 01:35:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cloudflare.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=SefPEr/moa6wKQbCWN6jZ4XKEiadGETzM9Rm53D/EzU=;
-        b=vknABL3GD8R2SCx+yRHuxuXifwOW2ayrE5DQjDemq83z5+4G7v2Rwp4QdzWEmDtUl6
-         RhQj49RaP8tSRCqWRlUiUayLRCxAGMR9IxJmXLlKsScV9r0+QXFUUfgAgD84t9oekgpc
-         ztBwHaKrhwuXXOarPxkgoztR0ybOIwhXwX6XM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=SefPEr/moa6wKQbCWN6jZ4XKEiadGETzM9Rm53D/EzU=;
-        b=1YhMNDl/Rz15XRE67y1TVWNqWxgj4xz4fR7MNiXl3nwW7fC3YK0WMWZgoP08L1vNCR
-         8gYI6orzsAZvdgCpXF3OFtDpK6JQ5XscXaZ583cUFMv2rffWFIXkVhoF42dyCfsv18Jv
-         lpASdb8QeoATFL/KXEnisUEAQuI31i0s6kPYV+Q4tQiy3bivBXwZNpZGzHa+rfL6XFlx
-         t8psErepF3t/Kv0D+OY4N9tEy9e9pT2CKjeenJxl4prcbEjJY1SKAGKGvsuoMjIGwTNi
-         T9dlnv3NPOnEJOSoJ+pN56h85pQZqQ81zMv8cOGwZTFS+ZigSOOORDlBzcaB9BLxJLGr
-         9P6g==
-X-Gm-Message-State: AOAM532ZTioUQvp5g0WJEL55eqB+FQv+Y+ekmV9OZhkNvnmRnPvDB5WZ
-        ML7dc7rCnscerk5QdYRsy/UnBbtQr+78e0X1++gxYA==
-X-Google-Smtp-Source: ABdhPJxwVjBoXGbdxEOjKa3jafLF2MTLf7MWOKnf9TsyT7qGPhKyGXz2Y2SQhSx02NS3pjnpCMIzIPz7JhLyZOSw7zM=
-X-Received: by 2002:a05:6512:314b:: with SMTP id s11mr13005772lfi.206.1634114114183;
- Wed, 13 Oct 2021 01:35:14 -0700 (PDT)
+        id S230158AbhJMLiB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Oct 2021 07:38:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44620 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229580AbhJMLiA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 13 Oct 2021 07:38:00 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1F00A61056;
+        Wed, 13 Oct 2021 11:35:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1634124957;
+        bh=0AS/yLP2yK3sTdbiZCSQM1HW9SITjeso/NdzJ9aa4do=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hChzRU33BtRxo+ygIVPKDciZUAPaDqCbUnOnriCdJlfDrSUvuT11dD5XLb0xd3CYf
+         1U5pakay/5eaUhbbCCSGX7C525pUC6197yAC7akBiOxyt2wltnZuxIHXgmwTRaJ53f
+         5XUWsy/aN0m/AMGHlsnqQSyLxFWQIeWF1ijIWRac=
+Date:   Wed, 13 Oct 2021 13:35:55 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Andrew Halaney <ahalaney@redhat.com>
+Cc:     Jason Baron <jbaron@akamai.com>, Jonathan Corbet <corbet@lwn.net>,
+        Jim Cromie <jim.cromie@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/3] Trivial dynamic debug fixups
+Message-ID: <YWbEm1Eq8BlpIQ7V@kroah.com>
+References: <20210920205444.20068-1-ahalaney@redhat.com>
+ <670b5afa-0d76-7e78-2b31-f1d4355dd026@akamai.com>
+ <YWBrXZrqdoETlqWG@kroah.com>
+ <20211008162707.nc6vr22srcmga5fp@halaneylaptop>
 MIME-Version: 1.0
-References: <20211012135935.37054-1-lmb@cloudflare.com> <20211012135935.37054-5-lmb@cloudflare.com>
- <836d9371-7d51-b01f-eefd-cc3bf6f5f68e@6wind.com>
-In-Reply-To: <836d9371-7d51-b01f-eefd-cc3bf6f5f68e@6wind.com>
-From:   Lorenz Bauer <lmb@cloudflare.com>
-Date:   Wed, 13 Oct 2021 09:35:03 +0100
-Message-ID: <CACAyw99ZfALrTRYKOTifWXCRFS9sUOhONbyEyWjTBdzFE4fpQQ@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] bpf: export bpf_jit_current
-To:     nicolas.dichtel@6wind.com
-Cc:     Luke Nelson <luke.r.nels@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        kernel-team <kernel-team@cloudflare.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211008162707.nc6vr22srcmga5fp@halaneylaptop>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 12 Oct 2021 at 17:29, Nicolas Dichtel <nicolas.dichtel@6wind.com> w=
-rote:
->
-> Le 12/10/2021 =C3=A0 15:59, Lorenz Bauer a =C3=A9crit :
-> > Expose bpf_jit_current as a read only value via sysctl.
-> >
-> > Signed-off-by: Lorenz Bauer <lmb@cloudflare.com>
-> > ---
->
-> [snip]
->
-> > +     {
-> > +             .procname       =3D "bpf_jit_current",
-> > +             .data           =3D &bpf_jit_current,
-> > +             .maxlen         =3D sizeof(long),
-> > +             .mode           =3D 0400,
-> Why not 0444 ?
+On Fri, Oct 08, 2021 at 11:27:07AM -0500, Andrew Halaney wrote:
+> On Fri, Oct 08, 2021 at 06:01:33PM +0200, Greg Kroah-Hartman wrote:
+> > On Fri, Oct 08, 2021 at 11:58:57AM -0400, Jason Baron wrote:
+> > > Adding Greg to this (should have added him earlier)
+> > > 
+> > > Greg, if you are ok with this series, we'd like to have it added
+> > > to -next.
+> > 
+> > What series?
+> > 
+> > Have a pointer to it?  It would help if it was actually sent to me if
+> > people want it applied...
+> > 
+> > thanks,
+> > 
+> > greg k-h
+> > 
+> 
+> Sorry Greg, that's probably my bad.. still getting used to the kernel's
+> workflow.
+> 
+> Here's the lore link: https://lore.kernel.org/all/20210920205444.20068-1-ahalaney@redhat.com/
+> 
+> Did I do something silly when sending the patches? I basically
+> just added everyone manually when using git send-email.
+> 
+> I found who to add via:
+> 
+>     ahalaney@halaneylaptop ~/git/linux (git)-[master] % ./scripts/get_maintainer.pl 0002-dyndbg-Remove-support-for-ddebug_query-param.patch                                     :(
+>     Jonathan Corbet <corbet@lwn.net> (maintainer:DOCUMENTATION,commit_signer:1/2=50%)
+>     Jason Baron <jbaron@akamai.com> (maintainer:DYNAMIC DEBUG)
+>     Martin Kepplinger <martink@posteo.de> (commit_signer:1/2=50%,authored:1/2=50%,added_lines:1/3=33%,removed_lines:1/5=20%)
+>     Andrew Halaney <ahalaney@redhat.com> (commit_signer:1/2=50%,authored:1/2=50%,added_lines:2/3=67%,removed_lines:4/5=80%)
+>     "Paul E. McKenney" <paulmck@kernel.org> (commit_signer:14/89=16%,authored:7/89=8%,added_lines:44/527=8%)
+>     Thomas Gleixner <tglx@linutronix.de> (commit_signer:11/89=12%)
+>     Andrew Morton <akpm@linux-foundation.org> (commit_signer:11/89=12%)
+>     Peter Zijlstra <peterz@infradead.org> (commit_signer:8/89=9%,removed_lines:13/137=9%)
+>     Will Deacon <will@kernel.org> (commit_signer:7/89=8%)
+>     "Maciej W. Rozycki" <macro@orcam.me.uk> (added_lines:90/527=17%)
+>     Muchun Song <songmuchun@bytedance.com> (added_lines:28/527=5%)
+>     Viresh Kumar <viresh.kumar@linaro.org> (removed_lines:14/137=10%)
+>     Robin Murphy <robin.murphy@arm.com> (removed_lines:13/137=9%)
+>     Randy Dunlap <rdunlap@infradead.org> (removed_lines:10/137=7%)
+>     Lu Baolu <baolu.lu@linux.intel.com> (removed_lines:10/137=7%)
+>     linux-doc@vger.kernel.org (open list:DOCUMENTATION)
+>     linux-kernel@vger.kernel.org (open list)
+> 
+> 
+> per patch, and I just hit the maintainers and the lists specified
+> since I figured the commit_signers don't care. Did I goof up?
 
-This mirrors what the other BPF related sysctls do, which only allow
-access from root with CAP_SYS_ADMIN. I'd prefer 0444 as well, but
-Daniel explicitly locked down these sysctls in
-2e4a30983b0f9b19b59e38bbf7427d7fdd480d98.
+No, that's all correct.  It's up to the maintainers to then route your
+patches to the proper tree.
 
-Lorenz
+If they want me to take them, great, I'll be glad to do so, but I need
+them to send them to me :)
 
---
-Lorenz Bauer  |  Systems Engineer
-6th Floor, County Hall/The Riverside Building, SE1 7PB, UK
+thanks,
 
-www.cloudflare.com
+greg k-h
