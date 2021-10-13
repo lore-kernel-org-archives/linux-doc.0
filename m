@@ -2,205 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48B80C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 08:27:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26B6DC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 08:35:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 27CDC60F23
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 08:27:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0A0B860C40
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 08:35:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238637AbhJMI3F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Oct 2021 04:29:05 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:59052 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232609AbhJMI3D (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Oct 2021 04:29:03 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 4721822293;
-        Wed, 13 Oct 2021 08:26:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1634113619; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=McR6yLTw26IMl2q+Ttf8E0wCs6FpSGK2pEn0KwZBs4Q=;
-        b=Bc2vAIAmillFOD/w7gXfw+OemzeQe4gw3MeuwYVov4/Uno6d88ZQytx35zg3gnZFoo+m3e
-        AraEWcP/ZW/YS59FTqCxuwlTSWG1/rZVgyI/zedQilBYDcaev36ZPoV+ig2L2nyPz7u5gb
-        IVIZNlkwo/2ROs3X6NM9FabSSFwkYiw=
-Received: from suse.cz (unknown [10.100.201.86])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id B41AAA3B83;
-        Wed, 13 Oct 2021 08:26:58 +0000 (UTC)
-Date:   Wed, 13 Oct 2021 10:26:58 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Dave Chinner <david@fromorbit.com>
-Cc:     NeilBrown <neilb@suse.de>, Vlastimil Babka <vbabka@suse.cz>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>, Jonathan Corbet <corbet@lwn.net>,
-        linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/6] MM: improve documentation for __GFP_NOFAIL
-Message-ID: <YWaYUsXgXS6GXM+M@dhcp22.suse.cz>
-References: <b680fb87-439b-0ba4-cf9f-33d729f27941@suse.cz>
- <YVwyhDnE/HEnoLAi@dhcp22.suse.cz>
- <eba04a07-99da-771a-ab6b-36de41f9f120@suse.cz>
- <20211006231452.GF54211@dread.disaster.area>
- <YV7G7gyfZkmw7/Ae@dhcp22.suse.cz>
- <163364854551.31063.4377741712039731672@noble.neil.brown.name>
- <YV/31+qXwqEgaxJL@dhcp22.suse.cz>
- <20211008223649.GJ54211@dread.disaster.area>
- <YWQmsESyyiea0zle@dhcp22.suse.cz>
- <20211013023231.GV2361455@dread.disaster.area>
+        id S230461AbhJMIhV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Oct 2021 04:37:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52290 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230092AbhJMIhS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Oct 2021 04:37:18 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3F58C061570
+        for <linux-doc@vger.kernel.org>; Wed, 13 Oct 2021 01:35:15 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id z11so8452827lfj.4
+        for <linux-doc@vger.kernel.org>; Wed, 13 Oct 2021 01:35:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cloudflare.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=SefPEr/moa6wKQbCWN6jZ4XKEiadGETzM9Rm53D/EzU=;
+        b=vknABL3GD8R2SCx+yRHuxuXifwOW2ayrE5DQjDemq83z5+4G7v2Rwp4QdzWEmDtUl6
+         RhQj49RaP8tSRCqWRlUiUayLRCxAGMR9IxJmXLlKsScV9r0+QXFUUfgAgD84t9oekgpc
+         ztBwHaKrhwuXXOarPxkgoztR0ybOIwhXwX6XM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=SefPEr/moa6wKQbCWN6jZ4XKEiadGETzM9Rm53D/EzU=;
+        b=1YhMNDl/Rz15XRE67y1TVWNqWxgj4xz4fR7MNiXl3nwW7fC3YK0WMWZgoP08L1vNCR
+         8gYI6orzsAZvdgCpXF3OFtDpK6JQ5XscXaZ583cUFMv2rffWFIXkVhoF42dyCfsv18Jv
+         lpASdb8QeoATFL/KXEnisUEAQuI31i0s6kPYV+Q4tQiy3bivBXwZNpZGzHa+rfL6XFlx
+         t8psErepF3t/Kv0D+OY4N9tEy9e9pT2CKjeenJxl4prcbEjJY1SKAGKGvsuoMjIGwTNi
+         T9dlnv3NPOnEJOSoJ+pN56h85pQZqQ81zMv8cOGwZTFS+ZigSOOORDlBzcaB9BLxJLGr
+         9P6g==
+X-Gm-Message-State: AOAM532ZTioUQvp5g0WJEL55eqB+FQv+Y+ekmV9OZhkNvnmRnPvDB5WZ
+        ML7dc7rCnscerk5QdYRsy/UnBbtQr+78e0X1++gxYA==
+X-Google-Smtp-Source: ABdhPJxwVjBoXGbdxEOjKa3jafLF2MTLf7MWOKnf9TsyT7qGPhKyGXz2Y2SQhSx02NS3pjnpCMIzIPz7JhLyZOSw7zM=
+X-Received: by 2002:a05:6512:314b:: with SMTP id s11mr13005772lfi.206.1634114114183;
+ Wed, 13 Oct 2021 01:35:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211013023231.GV2361455@dread.disaster.area>
+References: <20211012135935.37054-1-lmb@cloudflare.com> <20211012135935.37054-5-lmb@cloudflare.com>
+ <836d9371-7d51-b01f-eefd-cc3bf6f5f68e@6wind.com>
+In-Reply-To: <836d9371-7d51-b01f-eefd-cc3bf6f5f68e@6wind.com>
+From:   Lorenz Bauer <lmb@cloudflare.com>
+Date:   Wed, 13 Oct 2021 09:35:03 +0100
+Message-ID: <CACAyw99ZfALrTRYKOTifWXCRFS9sUOhONbyEyWjTBdzFE4fpQQ@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] bpf: export bpf_jit_current
+To:     nicolas.dichtel@6wind.com
+Cc:     Luke Nelson <luke.r.nels@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        kernel-team <kernel-team@cloudflare.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed 13-10-21 13:32:31, Dave Chinner wrote:
-> On Mon, Oct 11, 2021 at 01:57:36PM +0200, Michal Hocko wrote:
-> > On Sat 09-10-21 09:36:49, Dave Chinner wrote:
-> > > On Fri, Oct 08, 2021 at 09:48:39AM +0200, Michal Hocko wrote:
-> > > > > > > Even the API constaints of kvmalloc() w.r.t. only doing the vmalloc
-> > > > > > > fallback if the gfp context is GFP_KERNEL - we already do GFP_NOFS
-> > > > > > > kvmalloc via memalloc_nofs_save/restore(), so this behavioural
-> > > > > > > restriction w.r.t. gfp flags just makes no sense at all.
-> > > > > > 
-> > > > > > GFP_NOFS (without using the scope API) has the same problem as NOFAIL in
-> > > > > > the vmalloc. Hence it is not supported. If you use the scope API then
-> > > > > > you can GFP_KERNEL for kvmalloc. This is clumsy but I am not sure how to
-> > > > > > define these conditions in a more sensible way. Special case NOFS if the
-> > > > > > scope api is in use? Why do you want an explicit NOFS then?
-> > > 
-> > > Exactly my point - this is clumsy and a total mess. I'm not asking
-> > > for an explicit GFP_NOFS, just pointing out that the documented
-> > > restrictions that "vmalloc can only do GFP_KERNEL allocations" is
-> > > completely wrong.
-> > > 
-> > > vmalloc()
-> > > {
-> > > 	if (!(gfp_flags &  __GFP_FS))
-> > > 		memalloc_nofs_save();
-> > > 	p = __vmalloc(gfp_flags | GFP_KERNEL)
-> > > 	if (!(gfp_flags &  __GFP_FS))
-> > > 		memalloc_nofs_restore();
-> > > }
-> > > 
-> > > Yup, that's how simple it is to support GFP_NOFS support in
-> > > vmalloc().
-> > 
-> > Yes, this would work from the functionality POV but it defeats the
-> > philosophy behind the scope API. Why would you even need this if the
-> > scope was defined by the caller of the allocator?
-> 
-> Who actually cares that vmalloc might be using the scoped API
-> internally to implement GFP_NOFS or GFP_NOIO? Nobody at all.
-> It is far more useful (and self documenting!) for one-off allocations
-> to pass a GFP_NOFS flag than it is to use a scope API...
+On Tue, 12 Oct 2021 at 17:29, Nicolas Dichtel <nicolas.dichtel@6wind.com> w=
+rote:
+>
+> Le 12/10/2021 =C3=A0 15:59, Lorenz Bauer a =C3=A9crit :
+> > Expose bpf_jit_current as a read only value via sysctl.
+> >
+> > Signed-off-by: Lorenz Bauer <lmb@cloudflare.com>
+> > ---
+>
+> [snip]
+>
+> > +     {
+> > +             .procname       =3D "bpf_jit_current",
+> > +             .data           =3D &bpf_jit_current,
+> > +             .maxlen         =3D sizeof(long),
+> > +             .mode           =3D 0400,
+> Why not 0444 ?
 
-I would agree with you if the explicit GFP_NOFS usage was consistent
-and actually justified in the majority cases. My experience tells me
-otherwise though. Many filesystems use the flag just because that is
-easier. That leads to a huge overuse of the flag that leads to practical
-problems.
+This mirrors what the other BPF related sysctls do, which only allow
+access from root with CAP_SYS_ADMIN. I'd prefer 0444 as well, but
+Daniel explicitly locked down these sysctls in
+2e4a30983b0f9b19b59e38bbf7427d7fdd480d98.
 
-I was hoping that if we offer an API that would define problematic
-reclaim recursion scopes then it would reduce the abuse. I haven't
-expected this to happen overnight but it is few years and it seems
-it will not happen soon either.
+Lorenz
 
-[...]
+--
+Lorenz Bauer  |  Systems Engineer
+6th Floor, County Hall/The Riverside Building, SE1 7PB, UK
 
-> > > It also points out that the scope API is highly deficient.
-> > > We can do GFP_NOFS via the scope API, but we can't
-> > > do anything else because *there is no scope API for other GFP
-> > > flags*.
-> > > 
-> > > Why don't we have a GFP_NOFAIL/__GFP_RETRY_FOREVER scope API?
-> > 
-> > NO{FS,IO} where first flags to start this approach. And I have to admit
-> > the experiment was much less successful then I hoped for. There are
-> > still thousands of direct NOFS users so for some reason defining scopes
-> > is not an easy thing to do.
-> > 
-> > I am not against NOFAIL scopes in principle but seeing the nofs
-> > "success" I am worried this will not go really well either and it is
-> > much more tricky as NOFAIL has much stronger requirements than NOFS.
-> > Just imagine how tricky this can be if you just call a library code
-> > that is not under your control within a NOFAIL scope. What if that
-> > library code decides to allocate (e.g. printk that would attempt to do
-> > an optimistic NOWAIT allocation).
-> 
-> I already asked you that _exact_ question earlier in the thread
-> w.r.t.  kvmalloc(GFP_NOFAIL) using optimistic NOWAIT kmalloc
-> allocation. I asked you as a MM expert to define *and document* the
-> behaviour that should result, not turn around and use the fact that
-> it is undefined behaviour as a "this is too hard" excuse for not
-> changing anything.
-
-Dave, you have "thrown" a lot of complains in previous emails and it is
-hard to tell rants from features requests apart. I am sorry but I
-believe it would be much more productive to continue this discussion if
-you could mild your tone.
-
-Can I ask you to break down your feature requests into separate emails
-so that we can discuss and track them separately rather in this quite a
-long thread which has IMHO diverghed from the initial topic. Thanks!
-
-> THe fact is that the scope APIs are only really useful for certain
-> contexts where restrictions are set by higher level functionality.
-> For one-off allocation constraints the API sucks and we end up with
-
-Could you be more specific about these one-off allocation constrains?
-What would be the reason to define one-off NO{FS,IO} allocation
-constrain? Or did you have your NOFAIL example in mind?
-
-> crap like this (found in btrfs):
-> 
->                 /*                                                               
->                  * We're holding a transaction handle, so use a NOFS memory      
->                  * allocation context to avoid deadlock if reclaim happens.      
->                  */                                                              
->                 nofs_flag = memalloc_nofs_save();                                
->                 value = kmalloc(size, GFP_KERNEL);                               
->                 memalloc_nofs_restore(nofs_flag);                                
-
-Yes this looks wrong indeed! If I were to review such a code I would ask
-why the scope cannot match the transaction handle context. IIRC jbd does
-that.
-
-I am aware of these patterns. I was pulled in some discussions in the
-past and in some it turned out that the constrain is not needed at all
-and in some cases that has led to a proper scope definition. As you
-point out in your other examples it just happens that it is easier to
-go an easy path and define scopes ad-hoc to work around allocation
-API limitations.
-
-[...]
-
-> IOWs, a large number of the users of the scope API simply make
-> [k]vmalloc() provide GFP_NOFS behaviour. ceph_kvmalloc() is pretty
-> much a wrapper that indicates how all vmalloc functions should
-> behave. Honour GFP_NOFS and GFP_NOIO by using the scope API
-> internally.
-
-I was discouraging from this behavior at vmalloc level to push people
-to use scopes properly - aka at the level where the reclaim recursion is
-really a problem. If that is infeasible in practice then we can
-re-evaluate of course. I was really hoping we can get rid of cargo cult
-GFP_NOFS usage this way but the reality often disagrees with hopes.
-
-All that being said, let's discuss [k]vmalloc constrains and usecases
-that need changes in a separate email thread.
-
-Thanks!
--- 
-Michal Hocko
-SUSE Labs
+www.cloudflare.com
