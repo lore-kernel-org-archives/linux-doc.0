@@ -2,29 +2,29 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48E4EC11F64
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 19:07:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7545DC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 19:07:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2C49D61163
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 19:07:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 583E1611AD
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 19:07:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237738AbhJMTJY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Oct 2021 15:09:24 -0400
-Received: from linux.microsoft.com ([13.77.154.182]:49062 "EHLO
+        id S239377AbhJMTJZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Oct 2021 15:09:25 -0400
+Received: from linux.microsoft.com ([13.77.154.182]:49064 "EHLO
         linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236935AbhJMTIp (ORCPT
+        with ESMTP id S234675AbhJMTIp (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Oct 2021 15:08:45 -0400
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-        by linux.microsoft.com (Postfix) with ESMTPSA id BD16120B9D00;
-        Wed, 13 Oct 2021 12:06:39 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com BD16120B9D00
+        by linux.microsoft.com (Postfix) with ESMTPSA id 0DF7520B9D03;
+        Wed, 13 Oct 2021 12:06:40 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0DF7520B9D03
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1634151999;
-        bh=IxYst3FiNb/kY3ikZe2nWCnkf57ca9R+8i/DDEvqFOY=;
+        s=default; t=1634152000;
+        bh=U+g085wgU+Is+WzDTIguYGX9/BIK0TB3mTgcW+hbXss=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hl3m88SnYHDr7975V7Zl8YyNcB5uZfa1XLHlldlDU+1D3VDPrBpIrkkM61j5j1anq
-         0XDaZ+B+jTwDXyRbMBO2Ps0brW3DskGy8QXJcO0PpzVQuJWpYxCj8fFgKqXTxAlFBe
-         kDbFcFzu3AsljvRlmzXi8eNmcUDnziTjbaG4Ydtc=
+        b=hNWiwCq4PZL2yfdogwdKCdQzIhozD2pXyjeq1alhyFFQS2IdxtBRY0w40JMuUiKo4
+         dzNG/ohizceyGgAxhO2vN3w4omLWd2a1BfaGK430qFK/MXvCzAMGLpvtCkgVOAaxpD
+         hzTrXyM7OaVRQFh7FfukHeApI5y6JLRYTZ+dD4DQ=
 From:   deven.desai@linux.microsoft.com
 To:     corbet@lwn.net, axboe@kernel.dk, agk@redhat.com,
         snitzer@redhat.com, ebiggers@kernel.org, tytso@mit.edu,
@@ -34,9 +34,9 @@ Cc:     jannh@google.com, dm-devel@redhat.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
         linux-fscrypt@vger.kernel.org, linux-audit@redhat.com,
         linux-security-module@vger.kernel.org
-Subject: [RFC PATCH v7 05/16] ipe: add LSM hooks on execution and kernel read
-Date:   Wed, 13 Oct 2021 12:06:24 -0700
-Message-Id: <1634151995-16266-6-git-send-email-deven.desai@linux.microsoft.com>
+Subject: [RFC PATCH v7 08/16] ipe: add permissive toggle
+Date:   Wed, 13 Oct 2021 12:06:27 -0700
+Message-Id: <1634151995-16266-9-git-send-email-deven.desai@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1634151995-16266-1-git-send-email-deven.desai@linux.microsoft.com>
 References: <1634151995-16266-1-git-send-email-deven.desai@linux.microsoft.com>
@@ -46,338 +46,287 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Deven Bowers <deven.desai@linux.microsoft.com>
 
-IPE's initial goal is to control both execution and the loading of
-kernel modules based on the system's definition of trust. It
-accomplishes this by plugging into the security hooks for execve,
-mprotect, mmap, kernel_load_data and kernel_read_data.
+IPE, like SELinux, supports a permissive mode. This mode allows policy
+authors to test and evaluate IPE policy without it effecting their
+programs.
 
 Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
 ---
 
 Relevant changes since v6:
+  * Refactor series to:
+      1. Support a context structure, enabling easier testing
+      2. Make parser code cleaner
   * Split up patch 02/12 into four parts:
       1. context creation [01/16]
       2. audit [07/16]
       3. evaluation loop [03/16]
-      4. access control hooks [05/16] (this patch)
+      4. access control hooks [05/16]
+      5. permissive mode [08/16]
 
 ---
- security/ipe/hooks.c  | 149 ++++++++++++++++++++++++++++++++++++++++++
- security/ipe/hooks.h  |  23 ++++++-
- security/ipe/ipe.c    |   5 ++
- security/ipe/policy.c |  23 +++++++
- security/ipe/policy.h |  12 +++-
- 5 files changed, 209 insertions(+), 3 deletions(-)
+ security/ipe/audit.c | 40 +++++++++++++++++++++++
+ security/ipe/audit.h |  5 +++
+ security/ipe/ctx.c   |  6 ++++
+ security/ipe/ctx.h   |  1 +
+ security/ipe/eval.c  |  6 ++++
+ security/ipe/fs.c    | 78 ++++++++++++++++++++++++++++++++++++++++++++
+ 6 files changed, 136 insertions(+)
 
-diff --git a/security/ipe/hooks.c b/security/ipe/hooks.c
-index ed0c886eaa5a..216242408a80 100644
---- a/security/ipe/hooks.c
-+++ b/security/ipe/hooks.c
-@@ -6,11 +6,15 @@
- #include "ipe.h"
- #include "ctx.h"
- #include "hooks.h"
-+#include "eval.h"
+diff --git a/security/ipe/audit.c b/security/ipe/audit.c
+index 5f6c0a52b0cb..82bf94b83fe1 100644
+--- a/security/ipe/audit.c
++++ b/security/ipe/audit.c
+@@ -262,3 +262,43 @@ void ipe_audit_policy_load(const struct ipe_policy *const p)
  
-+#include <linux/fs.h>
- #include <linux/sched.h>
- #include <linux/types.h>
- #include <linux/refcount.h>
- #include <linux/rcupdate.h>
-+#include <linux/binfmts.h>
-+#include <linux/mman.h>
- 
- /**
-  * ipe_task_alloc: Assign a new context for an associated task structure.
-@@ -56,3 +60,148 @@ void ipe_task_free(struct task_struct *task)
- 	ipe_put_ctx(ctx);
- 	rcu_read_unlock();
+ 	audit_log_end(ab);
  }
 +
 +/**
-+ * ipe_on_exec: LSM hook called when a process is loaded through the exec
-+ *		family of system calls.
-+ * @bprm: Supplies a pointer to a linux_binprm structure to source the file
-+ *	  being evaluated.
-+ *
-+ * Return:
-+ * 0 - OK
-+ * !0 - Error
++ * ipe_audit_enforce: Audit a change in IPE's enforcement state
++ * @ctx: Supplies a pointer to the contexts whose state changed.
 + */
-+int ipe_on_exec(struct linux_binprm *bprm)
++void ipe_audit_enforce(const struct ipe_context *const ctx)
 +{
-+	return ipe_process_event(bprm->file, ipe_operation_exec, ipe_hook_exec);
++	struct audit_buffer *ab;
++	bool enforcing = false;
++
++	ab = audit_log_start(audit_context(), GFP_KERNEL, AUDIT_TRUST_STATUS);
++	if (!ab)
++		return;
++
++	rcu_read_lock();
++	enforcing = READ_ONCE(ctx->enforce);
++	rcu_read_unlock();
++
++	audit_log_format(ab, "IPE enforce=%d", enforcing);
++
++	audit_log_end(ab);
 +}
 +
 +/**
-+ * ipe_on_mmap: LSM hook called when a file is loaded through the mmap
-+ *		family of system calls.
-+ * @f: File being mmap'd. Can be NULL in the case of anonymous memory.
-+ * @reqprot: The requested protection on the mmap, passed from usermode.
-+ * @prot: The effective protection on the mmap, resolved from reqprot and
-+ *	  system configuration.
-+ * @flags: Unused.
++ * emit_enforcement: Emit the enforcement state of IPE started with.
 + *
 + * Return:
-+ * 0 - OK
-+ * !0 - Error
++ * 0 - Always
 + */
-+int ipe_on_mmap(struct file *f, unsigned long reqprot, unsigned long prot,
-+		unsigned long flags)
++static int emit_enforcement(void)
 +{
-+	if (prot & PROT_EXEC || reqprot & PROT_EXEC)
-+		return ipe_process_event(f, ipe_operation_exec, ipe_hook_mmap);
++	struct ipe_context *ctx = NULL;
 +
++	ctx = ipe_current_ctx();
++	ipe_audit_enforce(ctx);
++	ipe_put_ctx(ctx);
 +	return 0;
 +}
 +
-+/**
-+ * ipe_on_mprotect: LSM hook called when a mmap'd region of memory is changing
-+ *		    its protections via mprotect.
-+ * @vma: Existing virtual memory area created by mmap or similar
-+ * @reqprot: The requested protection on the mmap, passed from usermode.
-+ * @prot: The effective protection on the mmap, resolved from reqprot and
-+ *	  system configuration.
-+ *
-+ * Return:
-+ * 0 - OK
-+ * !0 - Error
-+ */
-+int ipe_on_mprotect(struct vm_area_struct *vma, unsigned long reqprot,
-+		    unsigned long prot)
-+{
-+	/* Already Executable */
-+	if (vma->vm_flags & VM_EXEC)
-+		return 0;
-+
-+	if (((prot & PROT_EXEC) || reqprot & PROT_EXEC))
-+		return ipe_process_event(vma->vm_file, ipe_operation_exec,
-+					 ipe_hook_mprotect);
-+
-+	return 0;
-+}
-+
-+/**
-+ * ipe_on_kernel_read: LSM hook called when a file is being read in from
-+ *		       disk.
-+ * @file: Supplies a pointer to the file structure being read in from disk
-+ * @id: Supplies the enumeration identifying the purpose of the read.
-+ * @contents: Unused.
-+ *
-+ * Return:
-+ * 0 - OK
-+ * !0 - Error
-+ */
-+int ipe_on_kernel_read(struct file *file, enum kernel_read_file_id id,
-+		       bool contents)
-+{
-+	enum ipe_operation op;
-+
-+	switch (id) {
-+	case READING_FIRMWARE:
-+		op = ipe_operation_firmware;
-+		break;
-+	case READING_MODULE:
-+		op = ipe_operation_kernel_module;
-+		break;
-+	case READING_KEXEC_INITRAMFS:
-+		op = ipe_operation_kexec_initramfs;
-+		break;
-+	case READING_KEXEC_IMAGE:
-+		op = ipe_operation_kexec_image;
-+		break;
-+	case READING_POLICY:
-+		op = ipe_operation_ima_policy;
-+		break;
-+	case READING_X509_CERTIFICATE:
-+		op = ipe_operation_ima_x509;
-+		break;
-+	default:
-+		op = ipe_operation_max;
-+	}
-+
-+	return ipe_process_event(file, op, ipe_hook_kernel_read);
-+}
-+
-+/**
-+ * ipe_on_kernel_load_data: LSM hook called when a buffer is being read in from
-+ *			    disk.
-+ * @id: Supplies the enumeration identifying the purpose of the read.
-+ * @contents: Unused.
-+ *
-+ * Return:
-+ * 0 - OK
-+ * !0 - Error
-+ */
-+int ipe_on_kernel_load_data(enum kernel_load_data_id id, bool contents)
-+{
-+	enum ipe_operation op;
-+
-+	switch (id) {
-+	case LOADING_FIRMWARE:
-+		op = ipe_operation_firmware;
-+		break;
-+	case LOADING_MODULE:
-+		op = ipe_operation_kernel_module;
-+		break;
-+	case LOADING_KEXEC_INITRAMFS:
-+		op = ipe_operation_kexec_initramfs;
-+		break;
-+	case LOADING_KEXEC_IMAGE:
-+		op = ipe_operation_kexec_image;
-+		break;
-+	case LOADING_POLICY:
-+		op = ipe_operation_ima_policy;
-+		break;
-+	case LOADING_X509_CERTIFICATE:
-+		op = ipe_operation_ima_x509;
-+		break;
-+	default:
-+		op = ipe_operation_max;
-+	}
-+
-+	return ipe_process_event(NULL, op, ipe_hook_kernel_load);
-+}
-diff --git a/security/ipe/hooks.h b/security/ipe/hooks.h
-index 58ed4a612e26..c99a0b7f45f7 100644
---- a/security/ipe/hooks.h
-+++ b/security/ipe/hooks.h
-@@ -5,11 +5,19 @@
- #ifndef IPE_HOOKS_H
- #define IPE_HOOKS_H
- 
-+#include <linux/fs.h>
- #include <linux/types.h>
- #include <linux/sched.h>
-+#include <linux/binfmts.h>
-+#include <linux/security.h>
- 
- enum ipe_hook {
--	ipe_hook_max = 0
-+	ipe_hook_exec = 0,
-+	ipe_hook_mmap,
-+	ipe_hook_mprotect,
-+	ipe_hook_kernel_read,
-+	ipe_hook_kernel_load,
-+	ipe_hook_max
- };
- 
- int ipe_task_alloc(struct task_struct *task,
-@@ -17,4 +25,17 @@ int ipe_task_alloc(struct task_struct *task,
- 
- void ipe_task_free(struct task_struct *task);
- 
-+int ipe_on_exec(struct linux_binprm *bprm);
-+
-+int ipe_on_mmap(struct file *f, unsigned long reqprot, unsigned long prot,
-+		unsigned long flags);
-+
-+int ipe_on_mprotect(struct vm_area_struct *vma, unsigned long reqprot,
-+		    unsigned long prot);
-+
-+int ipe_on_kernel_read(struct file *file, enum kernel_read_file_id id,
-+		       bool contents);
-+
-+int ipe_on_kernel_load_data(enum kernel_load_data_id id, bool contents);
-+
- #endif /* IPE_HOOKS_H */
-diff --git a/security/ipe/ipe.c b/security/ipe/ipe.c
-index b58b372327a1..3f9d43783293 100644
---- a/security/ipe/ipe.c
-+++ b/security/ipe/ipe.c
-@@ -25,6 +25,11 @@ struct lsm_blob_sizes ipe_blobs __lsm_ro_after_init = {
- static struct security_hook_list ipe_hooks[] __lsm_ro_after_init = {
- 	LSM_HOOK_INIT(task_alloc, ipe_task_alloc),
- 	LSM_HOOK_INIT(task_free, ipe_task_free),
-+	LSM_HOOK_INIT(bprm_check_security, ipe_on_exec),
-+	LSM_HOOK_INIT(mmap_file, ipe_on_mmap),
-+	LSM_HOOK_INIT(file_mprotect, ipe_on_mprotect),
-+	LSM_HOOK_INIT(kernel_read_file, ipe_on_kernel_read),
-+	LSM_HOOK_INIT(kernel_load_data, ipe_on_kernel_load_data),
- };
- 
- /**
-diff --git a/security/ipe/policy.c b/security/ipe/policy.c
-index b766824cc08f..048500229365 100644
---- a/security/ipe/policy.c
-+++ b/security/ipe/policy.c
-@@ -483,6 +483,14 @@ int ipe_parse_op(const struct ipe_policy_token *tok,
++late_initcall(emit_enforcement);
+diff --git a/security/ipe/audit.h b/security/ipe/audit.h
+index 6b6880f6e8e7..a9d16323a3c8 100644
+--- a/security/ipe/audit.h
++++ b/security/ipe/audit.h
+@@ -16,6 +16,7 @@ void ipe_audit_match(const struct ipe_eval_ctx *const ctx,
+ 		     bool enforce);
+ void ipe_audit_policy_load(const struct ipe_policy *const p);
+ void ipe_audit_policy_activation(const struct ipe_policy *const p);
++void ipe_audit_enforce(const struct ipe_context *const ctx);
+ #else
+ static inline void ipe_audit_match(const struct ipe_eval_ctx *const ctx,
+ 				   enum ipe_match match_type,
+@@ -31,6 +32,10 @@ static inline void ipe_audit_policy_load(const struct ipe_policy *const p)
+ static inline void ipe_audit_policy_activation(const struct ipe_policy *const p)
  {
- 	substring_t match[MAX_OPT_ARGS] = { 0 };
- 	const match_table_t ops = {
-+		{ ipe_operation_exec,		 "EXECUTE" },
-+		{ ipe_operation_firmware,	 "FIRMWARE" },
-+		{ ipe_operation_kernel_module,	 "KMODULE" },
-+		{ ipe_operation_kexec_image,	 "KEXEC_IMAGE" },
-+		{ ipe_operation_kexec_initramfs, "KEXEC_INITRAMFS"},
-+		{ ipe_operation_ima_policy,	 "IMA_POLICY" },
-+		{ ipe_operation_ima_x509,	 "IMA_X509_CERT" },
-+		{ ipe_op_alias_kernel_read,	 "KERNEL_READ" },
- 		{ ipe_op_alias_max, NULL },
- 	};
- 
-@@ -838,6 +846,15 @@ static int parse_policy(struct ipe_policy *p)
- 	return rc;
  }
++
++static inline void ipe_audit_enforce(const struct ipe_context *const ctx)
++{
++}
+ #endif /* CONFIG_AUDIT */
  
-+static const enum ipe_operation alias_kread[] = {
-+	ipe_operation_firmware,
-+	ipe_operation_kernel_module,
-+	ipe_operation_ima_policy,
-+	ipe_operation_ima_x509,
-+	ipe_operation_kexec_image,
-+	ipe_operation_kexec_initramfs,
+ #endif /* IPE_AUDIT_H */
+diff --git a/security/ipe/ctx.c b/security/ipe/ctx.c
+index 77475aedbfe9..fc9b8e467bc9 100644
+--- a/security/ipe/ctx.c
++++ b/security/ipe/ctx.c
+@@ -16,6 +16,7 @@
+ #include <linux/moduleparam.h>
+ 
+ static bool success_audit;
++static bool enforce = true;
+ 
+ /**
+  * ver_to_u64: convert an internal ipe_policy_version to a u64
+@@ -151,6 +152,7 @@ static struct ipe_context *create_ctx(void)
+ 	INIT_LIST_HEAD(&ctx->policies);
+ 	refcount_set(&ctx->refcount, 1);
+ 	spin_lock_init(&ctx->lock);
++	WRITE_ONCE(ctx->enforce, true);
+ 
+ 	return ctx;
+ 
+@@ -337,6 +339,7 @@ int __init ipe_init_ctx(void)
+ 
+ 	spin_lock(&lns->lock);
+ 	WRITE_ONCE(lns->success_audit, success_audit);
++	WRITE_ONCE(lns->enforce, enforce);
+ 	spin_unlock(&lns->lock);
+ 
+ 	rcu_assign_pointer(*ipe_tsk_ctx(current), lns);
+@@ -355,3 +358,6 @@ int __init ipe_init_ctx(void)
+ 
+ module_param(success_audit, bool, 0400);
+ MODULE_PARM_DESC(success_audit, "Start IPE with success auditing enabled");
++
++module_param(enforce, bool, 0400);
++MODULE_PARM_DESC(enforce, "Start IPE in enforce or permissive mode");
+diff --git a/security/ipe/ctx.h b/security/ipe/ctx.h
+index 31aea2fb9e49..d7bf9fc6426a 100644
+--- a/security/ipe/ctx.h
++++ b/security/ipe/ctx.h
+@@ -14,6 +14,7 @@
+ 
+ struct ipe_context {
+ 	struct ipe_policy __rcu *active_policy;
++	bool __rcu enforce;
+ 
+ 	bool __rcu success_audit;
+ 
+diff --git a/security/ipe/eval.c b/security/ipe/eval.c
+index dcb62179e4bf..e520ce521c05 100644
+--- a/security/ipe/eval.c
++++ b/security/ipe/eval.c
+@@ -86,6 +86,10 @@ static int evaluate(const struct ipe_eval_ctx *const ctx)
+ 	if (!pol)
+ 		goto out;
+ 
++	rcu_read_lock();
++	enforcing = READ_ONCE(ctx->ci_ctx->enforce);
++	rcu_read_unlock();
++
+ 	rules = &pol->parsed->rules[ctx->op];
+ 
+ 	list_for_each_entry(rule, &rules->rules, next) {
+@@ -114,6 +118,8 @@ static int evaluate(const struct ipe_eval_ctx *const ctx)
+ 	if (action == ipe_action_deny)
+ 		rc = -EACCES;
+ 
++	if (!enforcing)
++		rc = 0;
+ out:
+ 	ipe_put_policy(pol);
+ 	return rc;
+diff --git a/security/ipe/fs.c b/security/ipe/fs.c
+index c202c0753755..e6b36291e62f 100644
+--- a/security/ipe/fs.c
++++ b/security/ipe/fs.c
+@@ -13,8 +13,73 @@
+ static struct dentry *np __ro_after_init;
+ static struct dentry *root __ro_after_init;
+ static struct dentry *config __ro_after_init;
++static struct dentry *enforce __ro_after_init;
+ static struct dentry *success_audit __ro_after_init;
+ 
++/**
++ * setenforce: Write handler for the securityfs node, "ipe/enforce"
++ * @f: Supplies a file structure representing the securityfs node.
++ * @data: Supplies a buffer passed to the write syscall
++ * @len: Supplies the length of @data
++ * @offset: unused.
++ *
++ * Return:
++ * >0 - Success, Length of buffer written
++ * <0 - Error
++ */
++static ssize_t setenforce(struct file *f, const char __user *data,
++			  size_t len, loff_t *offset)
++{
++	int rc = 0;
++	bool value;
++	struct ipe_context *ctx;
++
++	if (!file_ns_capable(f, &init_user_ns, CAP_MAC_ADMIN))
++		return -EPERM;
++
++	rc = kstrtobool_from_user(data, len, &value);
++	if (rc)
++		return rc;
++
++	ctx = ipe_current_ctx();
++
++	spin_lock(&ctx->lock);
++	WRITE_ONCE(ctx->enforce, value);
++	spin_unlock(&ctx->lock);
++	synchronize_rcu();
++
++	ipe_audit_enforce(ctx);
++	ipe_put_ctx(ctx);
++	return len;
++}
++
++/**
++ * getenforce: Read handler for the securityfs node, "ipe/enforce"
++ * @f: Supplies a file structure representing the securityfs node.
++ * @data: Supplies a buffer passed to the read syscall
++ * @len: Supplies the length of @data
++ * @offset: unused.
++ *
++ * Return:
++ * >0 - Success, Length of buffer written
++ * <0 - Error
++ */
++static ssize_t getenforce(struct file *f, char __user *data,
++			  size_t len, loff_t *offset)
++{
++	const char *result;
++	struct ipe_context *ctx;
++
++	ctx = ipe_current_ctx();
++
++	rcu_read_lock();
++	result = ((READ_ONCE(ctx->enforce)) ? "1" : "0");
++	rcu_read_unlock();
++
++	ipe_put_ctx(ctx);
++	return simple_read_from_buffer(data, len, offset, result, 2);
++}
++
+ /**
+  * setaudit: Write handler for the securityfs node, "ipe/success_audit"
+  * @f: Supplies a file structure representing the securityfs node.
+@@ -185,6 +250,11 @@ static const struct file_operations np_fops = {
+ 	.write = new_policy,
+ };
+ 
++static const struct file_operations enforce_fops = {
++	.write = setenforce,
++	.read = getenforce,
 +};
 +
- /**
-  * ipe_is_op_alias: Determine if @op is an alias for one or more operations
-  * @op: Supplies the operation to check. Should be either ipe_operation or
-@@ -852,9 +869,15 @@ static int parse_policy(struct ipe_policy *p)
- bool ipe_is_op_alias(int op, const enum ipe_operation **map, size_t *size)
- {
- 	switch (op) {
-+	case ipe_op_alias_kernel_read:
-+		*map = alias_kread;
-+		*size = ARRAY_SIZE(alias_kread);
-+		break;
- 	default:
- 		return false;
+ static const struct file_operations audit_fops = {
+ 	.write = setaudit,
+ 	.read = getaudit,
+@@ -230,6 +300,13 @@ static int __init ipe_init_securityfs(void)
+ 		goto err;
  	}
+ 
++	enforce = securityfs_create_file("enforce", 0600, root, NULL,
++					 &enforce_fops);
++	if (IS_ERR(enforce)) {
++		rc = PTR_ERR(enforce);
++		goto err;
++	}
 +
-+	return true;
- }
- 
- /**
-diff --git a/security/ipe/policy.h b/security/ipe/policy.h
-index 6818f6405dd0..ca37af46e5af 100644
---- a/security/ipe/policy.h
-+++ b/security/ipe/policy.h
-@@ -26,7 +26,14 @@ struct ipe_policy_line {
- struct ipe_module;
- 
- enum ipe_operation {
--	ipe_operation_max = 0,
-+	ipe_operation_exec = 0,
-+	ipe_operation_firmware,
-+	ipe_operation_kernel_module,
-+	ipe_operation_kexec_image,
-+	ipe_operation_kexec_initramfs,
-+	ipe_operation_ima_policy,
-+	ipe_operation_ima_x509,
-+	ipe_operation_max
- };
- 
- /*
-@@ -34,7 +41,8 @@ enum ipe_operation {
-  * that are just one or more operations under the hood
-  */
- enum ipe_op_alias {
--	ipe_op_alias_max = ipe_operation_max,
-+	ipe_op_alias_kernel_read = ipe_operation_max,
-+	ipe_op_alias_max,
- };
- 
- enum ipe_action {
+ 	ctx->policy_root = securityfs_create_dir("policies", root);
+ 	if (IS_ERR(ctx->policy_root)) {
+ 		rc = PTR_ERR(ctx->policy_root);
+@@ -241,6 +318,7 @@ static int __init ipe_init_securityfs(void)
+ 	securityfs_remove(np);
+ 	securityfs_remove(root);
+ 	securityfs_remove(config);
++	securityfs_remove(enforce);
+ 	securityfs_remove(success_audit);
+ 	securityfs_remove(ctx->policy_root);
+ 	return rc;
 -- 
 2.33.0
 
