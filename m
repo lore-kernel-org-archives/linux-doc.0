@@ -2,108 +2,171 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E6F8C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 15:42:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DC13C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 15:42:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 23F9A610CE
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 15:42:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 310D2608FE
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 15:42:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230527AbhJMPoW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Oct 2021 11:44:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38930 "EHLO
+        id S234368AbhJMPog (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Oct 2021 11:44:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229711AbhJMPoW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Oct 2021 11:44:22 -0400
-Received: from mx0b-00190b01.pphosted.com (mx0b-00190b01.pphosted.com [IPv6:2620:100:9005:57f::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4642C061570;
-        Wed, 13 Oct 2021 08:42:18 -0700 (PDT)
-Received: from pps.filterd (m0122331.ppops.net [127.0.0.1])
-        by mx0b-00190b01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19DEoeFe022425;
-        Wed, 13 Oct 2021 16:42:13 +0100
+        with ESMTP id S234266AbhJMPog (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Oct 2021 11:44:36 -0400
+Received: from mx0a-00190b01.pphosted.com (mx0a-00190b01.pphosted.com [IPv6:2620:100:9001:583::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E391DC061746;
+        Wed, 13 Oct 2021 08:42:30 -0700 (PDT)
+Received: from pps.filterd (m0050095.ppops.net [127.0.0.1])
+        by m0050095.ppops.net-00190b01. (8.16.1.2/8.16.1.2) with SMTP id 19DDNH7f004949;
+        Wed, 13 Oct 2021 16:42:26 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akamai.com; h=from : to : cc :
- subject : date : message-id; s=jan2016.eng;
- bh=DO0lCRBNP6M5Y5Vbcjjxet85Ai56VRLRgzAv8gTnEi4=;
- b=LutFxOtBHH79K4N5/a25Rr5fdS8vCseKjZljj9fq3w8Y7I1Mx1JulDF+glH0gK6yXyQc
- oEAUkdA3bi9qSk3qOWdHMEj8mhPqOjQx+LxgSi4JzZY6vv55XF/Tk68P4JRju1oy4Kod
- CLUcnNRIKFtL7ToA/UoKrZqLNyS4nF4XzrxKNr99T6838UztHHqMUIIpcEZ0l4JB/e8M
- zO8u7zmKca8KFu9tGVvi05F9gKpvaG44sICgCOY74UN+cViLKJ6L5khXEwZJbKBWkb7y
- NE4ACHdSsDfRw+LOiNZhC6JS8lP/cS0wJtMcCi50sN5XqTZ7kbLCGWnbCMERJNaP6xkx Kg== 
-Received: from prod-mail-ppoint1 (prod-mail-ppoint1.akamai.com [184.51.33.18] (may be forged))
-        by mx0b-00190b01.pphosted.com with ESMTP id 3bp1jy15hq-1
+ subject : date : message-id : in-reply-to : references; s=jan2016.eng;
+ bh=k9yOyr6XpqBefjUfocPkvcZLR2GdgHM0Xy+F3BDcisQ=;
+ b=O0eBGW9DZGg1FswK7OdFtLKHSdnaI9qBs7beltR2wavgVyysH/qwuSSf0vuBzsjxE6Oy
+ ytfMJm+gVhh4vAnpJEzEfeGCM1XHYiJlro3BZhHtc2eULt5JLtznsPfjawQN1d+iDwTL
+ Xlh09hv36EF6RuNpL+2gM8fi7jnd+D7v04y8shF29BYrNx+CH4pHD59A7Hnndks3Tqch
+ vsRsFwLZME1KV+xTzOs2Utj7fXA9DpAz/57wVtsMJPP7AF+kNLjnB8yKinEK+ekzX816
+ h8q01OQdgx0lcF/1IAn2dIUcgipFpNo0l9pxEUHyQaQ3dbLj/D2r6a4IRK7jVsvqLrDg hw== 
+Received: from prod-mail-ppoint5 (prod-mail-ppoint5.akamai.com [184.51.33.60] (may be forged))
+        by m0050095.ppops.net-00190b01. with ESMTP id 3bp09vbf6a-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 13 Oct 2021 16:42:13 +0100
-Received: from pps.filterd (prod-mail-ppoint1.akamai.com [127.0.0.1])
-        by prod-mail-ppoint1.akamai.com (8.16.1.2/8.16.1.2) with SMTP id 19DFXxKI013080;
-        Wed, 13 Oct 2021 11:42:12 -0400
+        Wed, 13 Oct 2021 16:42:26 +0100
+Received: from pps.filterd (prod-mail-ppoint5.akamai.com [127.0.0.1])
+        by prod-mail-ppoint5.akamai.com (8.16.1.2/8.16.1.2) with SMTP id 19DFZADa020146;
+        Wed, 13 Oct 2021 08:42:18 -0700
 Received: from prod-mail-relay11.akamai.com ([172.27.118.250])
-        by prod-mail-ppoint1.akamai.com with ESMTP id 3bneah9r5t-1;
-        Wed, 13 Oct 2021 11:42:12 -0400
+        by prod-mail-ppoint5.akamai.com with ESMTP id 3bnf6fhn0j-1;
+        Wed, 13 Oct 2021 08:42:17 -0700
 Received: from bos-lpjec.145bw.corp.akamai.com (bos-lpjec.145bw.corp.akamai.com [172.28.3.71])
-        by prod-mail-relay11.akamai.com (Postfix) with ESMTP id 9E4F127751;
-        Wed, 13 Oct 2021 15:42:12 +0000 (GMT)
+        by prod-mail-relay11.akamai.com (Postfix) with ESMTP id D5EBA27755;
+        Wed, 13 Oct 2021 15:42:17 +0000 (GMT)
 From:   Jason Baron <jbaron@akamai.com>
 To:     gregkh@linuxfoundation.org
 Cc:     ahalaney@redhat.com, jim.cromie@gmail.com, corbet@lwn.net,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 0/3] Trivial dynamic debug fixups
-Date:   Wed, 13 Oct 2021 11:40:19 -0400
-Message-Id: <1634139622-20667-1-git-send-email-jbaron@akamai.com>
+Subject: [PATCH v3 2/3] dyndbg: Remove support for ddebug_query param
+Date:   Wed, 13 Oct 2021 11:40:21 -0400
+Message-Id: <1634139622-20667-3-git-send-email-jbaron@akamai.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1634139622-20667-1-git-send-email-jbaron@akamai.com>
+References: <1634139622-20667-1-git-send-email-jbaron@akamai.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425,18.0.790
  definitions=2021-10-13_06:2021-10-13,2021-10-13 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=758 adultscore=0
- malwarescore=0 bulkscore=0 suspectscore=0 spamscore=0 mlxscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2109230001 definitions=main-2110130101
-X-Proofpoint-ORIG-GUID: BFN7zaovYHcpRbmz3HlFNSeoqVYD4-jF
-X-Proofpoint-GUID: BFN7zaovYHcpRbmz3HlFNSeoqVYD4-jF
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 malwarescore=0 bulkscore=0
+ suspectscore=0 mlxscore=0 phishscore=0 spamscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109230001
+ definitions=main-2110130101
+X-Proofpoint-ORIG-GUID: u4X_XlLDBpAFXrFLI-O-9J0NlJFSQ2aV
+X-Proofpoint-GUID: u4X_XlLDBpAFXrFLI-O-9J0NlJFSQ2aV
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
  definitions=2021-10-13_06,2021-10-13_02,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 clxscore=1015
- suspectscore=0 priorityscore=1501 phishscore=0 spamscore=0 adultscore=0
- impostorscore=0 lowpriorityscore=0 mlxscore=0 mlxlogscore=713 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109230001
- definitions=main-2110130102
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 priorityscore=1501
+ phishscore=0 lowpriorityscore=0 impostorscore=0 malwarescore=0
+ clxscore=1015 adultscore=0 mlxscore=0 suspectscore=0 spamscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2109230001 definitions=main-2110130102
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Greg,
+From: Andrew Halaney <ahalaney@redhat.com>
 
-Here's the patch series from Andrew. Please consider applying to -next.
-I copied his cover letter message below.
+This param has been deprecated for a very long time now, let's rip it
+out.
 
-Thanks!
-
--Jason
-
-
-Here is round 3 of some trivial dynamic debug improvements.
-
-v2 -> v3:
- * Use a more clear example in the cli param examples
-
-v1 -> v2:
- * Use different example when showing misleading error message
- * Justify dynamic debug scanning the whole command line
- * Add patch removing ddebug_query
- * Add patch improving cli param examples for dyndbg/$module.dyndbg
-
-v2: https://lore.kernel.org/all/20210913222440.731329-1-ahalaney@redhat.com/
-v1: https://lore.kernel.org/all/20210909161755.61743-1-ahalaney@redhat.com/
-
-
-Andrew Halaney (3):
-  dyndbg: make dyndbg a known cli param
-  dyndbg: Remove support for ddebug_query param
-  Documentation: dyndbg: Improve cli param examples
-
- Documentation/admin-guide/dynamic-debug-howto.rst | 13 ++++++-----
+Signed-off-by: Andrew Halaney <ahalaney@redhat.com>
+Signed-off-by: Jason Baron <jbaron@akamai.com>
+---
+ Documentation/admin-guide/dynamic-debug-howto.rst |  6 ++----
  Documentation/admin-guide/kernel-parameters.txt   |  5 -----
- lib/dynamic_debug.c                               | 27 ++++++-----------------
- 3 files changed, 14 insertions(+), 31 deletions(-)
+ lib/dynamic_debug.c                               | 25 -----------------------
+ 3 files changed, 2 insertions(+), 34 deletions(-)
 
+diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+index b119b8277b3e..d0911e7cc271 100644
+--- a/Documentation/admin-guide/dynamic-debug-howto.rst
++++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+@@ -249,8 +249,7 @@ Debug messages during Boot Process
+ 
+ To activate debug messages for core code and built-in modules during
+ the boot process, even before userspace and debugfs exists, use
+-``dyndbg="QUERY"``, ``module.dyndbg="QUERY"``, or ``ddebug_query="QUERY"``
+-(``ddebug_query`` is obsoleted by ``dyndbg``, and deprecated).  QUERY follows
++``dyndbg="QUERY"`` or ``module.dyndbg="QUERY"``.  QUERY follows
+ the syntax described above, but must not exceed 1023 characters.  Your
+ bootloader may impose lower limits.
+ 
+@@ -270,8 +269,7 @@ this boot parameter for debugging purposes.
+ 
+ If ``foo`` module is not built-in, ``foo.dyndbg`` will still be processed at
+ boot time, without effect, but will be reprocessed when module is
+-loaded later. ``ddebug_query=`` and bare ``dyndbg=`` are only processed at
+-boot.
++loaded later. Bare ``dyndbg=`` is only processed at boot.
+ 
+ 
+ Debug Messages at Module Initialization Time
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 91ba391f9b32..9c0c57d1ca78 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -841,11 +841,6 @@
+ 			Format: <port#>,<type>
+ 			See also Documentation/input/devices/joystick-parport.rst
+ 
+-	ddebug_query=	[KNL,DYNAMIC_DEBUG] Enable debug messages at early boot
+-			time. See
+-			Documentation/admin-guide/dynamic-debug-howto.rst for
+-			details.  Deprecated, see dyndbg.
+-
+ 	debug		[KNL] Enable kernel debugging (events log level).
+ 
+ 	debug_boot_weak_hash
+diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+index 84c16309cc63..130ce0eb550d 100644
+--- a/lib/dynamic_debug.c
++++ b/lib/dynamic_debug.c
+@@ -746,21 +746,6 @@ EXPORT_SYMBOL(__dynamic_ibdev_dbg);
+ 
+ #endif
+ 
+-#define DDEBUG_STRING_SIZE 1024
+-static __initdata char ddebug_setup_string[DDEBUG_STRING_SIZE];
+-
+-static __init int ddebug_setup_query(char *str)
+-{
+-	if (strlen(str) >= DDEBUG_STRING_SIZE) {
+-		pr_warn("ddebug boot param string too large\n");
+-		return 0;
+-	}
+-	strlcpy(ddebug_setup_string, str, DDEBUG_STRING_SIZE);
+-	return 1;
+-}
+-
+-__setup("ddebug_query=", ddebug_setup_query);
+-
+ /*
+  * Install a noop handler to make dyndbg look like a normal kernel cli param.
+  * This avoids warnings about dyndbg being an unknown cli param when supplied
+@@ -1133,16 +1118,6 @@ static int __init dynamic_debug_init(void)
+ 		 entries, modct, (int)((modct * sizeof(struct ddebug_table)) >> 10),
+ 		 (int)((entries * sizeof(struct _ddebug)) >> 10));
+ 
+-	/* apply ddebug_query boot param, dont unload tables on err */
+-	if (ddebug_setup_string[0] != '\0') {
+-		pr_warn("ddebug_query param name is deprecated, change it to dyndbg\n");
+-		ret = ddebug_exec_queries(ddebug_setup_string, NULL);
+-		if (ret < 0)
+-			pr_warn("Invalid ddebug boot param %s\n",
+-				ddebug_setup_string);
+-		else
+-			pr_info("%d changes by ddebug_query\n", ret);
+-	}
+ 	/* now that ddebug tables are loaded, process all boot args
+ 	 * again to find and activate queries given in dyndbg params.
+ 	 * While this has already been done for known boot params, it
 -- 
 2.7.4
 
