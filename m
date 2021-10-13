@@ -2,144 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87B5FC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 19:20:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C12CFC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 19:24:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 62696611F2
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 19:20:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 96C30611BF
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 19:24:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230474AbhJMTW5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Oct 2021 15:22:57 -0400
-Received: from foss.arm.com ([217.140.110.172]:44222 "EHLO foss.arm.com"
+        id S237580AbhJMT0W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Oct 2021 15:26:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57254 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229664AbhJMTW5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 13 Oct 2021 15:22:57 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A69F21063;
-        Wed, 13 Oct 2021 12:20:52 -0700 (PDT)
-Received: from [10.57.95.157] (unknown [10.57.95.157])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 300FF3F70D;
-        Wed, 13 Oct 2021 12:20:51 -0700 (PDT)
-Subject: Re: [PATCH] iommu/iova: Add support for IOVA max alignment tuning
-To:     Georgi Djakov <quic_c_gdjako@quicinc.com>, joro@8bytes.org,
-        will@kernel.org
-Cc:     akpm@linux-foundation.org, baolu.lu@linux.intel.com,
-        corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
-        djakov@kernel.org
-References: <1634148667-409263-1-git-send-email-quic_c_gdjako@quicinc.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <a72ccd19-4888-d823-5ec6-9ca891b4fe66@arm.com>
-Date:   Wed, 13 Oct 2021 20:20:45 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        id S229664AbhJMT0W (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 13 Oct 2021 15:26:22 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1509C61165;
+        Wed, 13 Oct 2021 19:24:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1634153058;
+        bh=JUok33pGH4UgBASbmLqOAHK5yJuIuNZQKpPd6Vna/dg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XccaERcARzIvJnuXANFKQNKReeOrIWdIqKl5rzPUZFJN7xcAcduSZ3Z+Dbps8mTbn
+         LphHMJMf3fA0TW0mDXX4+z95W8vl6NkC2kg32q25r06CGg7r07iNpiCPWE5yDiPBTD
+         SZ9NEP045hQdcd1MJZ0CkRlAzguW7PpFXN0x+lHoP3oKGFrufud9qO7izn3HM/40Lx
+         UY+2B4+/Ppn2Q8swW3uZV36cVFdD9uuwjHUBb+TwibbdIyvbjZM45dKT61kqeaI0BK
+         ZOnzQiT4sbUcAiqpqcptty4eqf6afmjRb9TN+drtT7u+Fywbi8Gw5Qwb1nT1xaCvQf
+         vmNlV3Kcsglvg==
+Date:   Wed, 13 Oct 2021 12:24:16 -0700
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     deven.desai@linux.microsoft.com
+Cc:     corbet@lwn.net, axboe@kernel.dk, agk@redhat.com,
+        snitzer@redhat.com, tytso@mit.edu, paul@paul-moore.com,
+        eparis@redhat.com, jmorris@namei.org, serge@hallyn.com,
+        jannh@google.com, dm-devel@redhat.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-audit@redhat.com,
+        linux-security-module@vger.kernel.org
+Subject: Re: [RFC PATCH v7 12/16] fsverity|security: add security hooks to
+ fsverity digest and signature
+Message-ID: <YWcyYBuNppjrVOe2@gmail.com>
+References: <1634151995-16266-1-git-send-email-deven.desai@linux.microsoft.com>
+ <1634151995-16266-13-git-send-email-deven.desai@linux.microsoft.com>
 MIME-Version: 1.0
-In-Reply-To: <1634148667-409263-1-git-send-email-quic_c_gdjako@quicinc.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1634151995-16266-13-git-send-email-deven.desai@linux.microsoft.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021-10-13 19:11, Georgi Djakov wrote:
-> IOVAs are aligned to the smallest PAGE_SIZE order, where the requested
-> IOVA can fit. But this might not work for all use-cases. It can cause
-> IOVA fragmentation in some multimedia and 8K video use-cases that may
-> require larger buffers to be allocated and mapped.
+On Wed, Oct 13, 2021 at 12:06:31PM -0700, deven.desai@linux.microsoft.com wrote:
+> From: Fan Wu <wufan@linux.microsoft.com>
 > 
-> When the above allocation pattern is used with the current alignment
-> scheme, the IOVA space could be quickly exhausted for 32bit devices.
-> 
-> In order to get better IOVA space utilization and reduce fragmentation,
-> a new kernel command line parameter is introduced to make the alignment
-> limit configurable by the user during boot.
-> 
-> Signed-off-by: Georgi Djakov <quic_c_gdjako@quicinc.com>
-> ---
->   Documentation/admin-guide/kernel-parameters.txt |  8 ++++++++
->   drivers/iommu/iova.c                            | 26 ++++++++++++++++++++++++-
+> Add security_inode_setsecurity to fsverity signature verification.
+> This can let LSMs save the signature data and digest hashes provided
+> by fsverity.
 
-I see no good reason for the IOVA layer to lie to its callers. If they 
-don't need an aligned IOVA, they shouldn't ask for one in the first 
-place. If callers still need some intermediate degree of alignment then 
-the IOVA API might want to grow something more expressive than "bool 
-size_aligned", but it should still be the callers' responsibility to 
-pass an appropriate value.
+Can you elaborate on why LSMs need this information?
 
-Thanks,
-Robin.
+> 
+> Also changes the implementaion inside the hook function to let
+> multiple LSMs can add hooks.
 
->   2 files changed, 33 insertions(+), 1 deletion(-)
+Please split fs/verity/ changes and security/ changes into separate patches, if
+possible.
+
 > 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index ad94a2aa9819..630246dc691f 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -2056,6 +2056,14 @@
->   			  forcing Dual Address Cycle for PCI cards supporting
->   			  greater than 32-bit addressing.
->   
-> +	iommu.max_align_shift=
-> +			[ARM64, X86] Limit the alignment of IOVAs to a maximum
-> +			PAGE_SIZE order. Larger IOVAs will be aligned to this
-> +			specified order. The order is expressed as a power of
-> +			two multiplied by the PAGE_SIZE.
-> +			Format: { "4" | "5" | "6" | "7" | "8" | "9" }
-> +			Default: 9
+> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+> Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
+
+> @@ -177,6 +178,17 @@ struct fsverity_info *fsverity_create_info(const struct inode *inode,
+>  		fsverity_err(inode, "Error %d computing file digest", err);
+>  		goto out;
+>  	}
 > +
->   	iommu.strict=	[ARM64, X86] Configure TLB invalidation behaviour
->   			Format: { "0" | "1" }
->   			0 - Lazy mode.
-> diff --git a/drivers/iommu/iova.c b/drivers/iommu/iova.c
-> index 9e8bc802ac05..5a8c86871735 100644
-> --- a/drivers/iommu/iova.c
-> +++ b/drivers/iommu/iova.c
-> @@ -15,6 +15,9 @@
->   /* The anchor node sits above the top of the usable address space */
->   #define IOVA_ANCHOR	~0UL
->   
-> +#define IOMMU_DEFAULT_IOVA_MAX_ALIGN_SHIFT	9
-> +static unsigned long iommu_max_align_shift __read_mostly = IOMMU_DEFAULT_IOVA_MAX_ALIGN_SHIFT;
-> +
->   static bool iova_rcache_insert(struct iova_domain *iovad,
->   			       unsigned long pfn,
->   			       unsigned long size);
-> @@ -27,6 +30,27 @@ static void free_iova_rcaches(struct iova_domain *iovad);
->   static void fq_destroy_all_entries(struct iova_domain *iovad);
->   static void fq_flush_timeout(struct timer_list *t);
->   
-> +static unsigned long limit_align_shift(struct iova_domain *iovad, unsigned long shift)
-> +{
-> +	unsigned long max_align_shift;
-> +
-> +	max_align_shift = iommu_max_align_shift + PAGE_SHIFT - iova_shift(iovad);
-> +	return min_t(unsigned long, max_align_shift, shift);
-> +}
-> +
-> +static int __init iommu_set_def_max_align_shift(char *str)
-> +{
-> +	unsigned long max_align_shift;
-> +
-> +	int ret = kstrtoul(str, 10, &max_align_shift);
-> +
-> +	if (!ret)
-> +		iommu_max_align_shift = max_align_shift;
-> +
-> +	return 0;
-> +}
-> +early_param("iommu.max_align_shift", iommu_set_def_max_align_shift);
-> +
->   static int iova_cpuhp_dead(unsigned int cpu, struct hlist_node *node)
->   {
->   	struct iova_domain *iovad;
-> @@ -242,7 +266,7 @@ static int __alloc_and_insert_iova_range(struct iova_domain *iovad,
->   	unsigned long high_pfn = limit_pfn, low_pfn = iovad->start_pfn;
->   
->   	if (size_aligned)
-> -		align_mask <<= fls_long(size - 1);
-> +		align_mask <<= limit_align_shift(iovad, fls_long(size - 1));
->   
->   	/* Walk the tree backwards */
->   	spin_lock_irqsave(&iovad->iova_rbtree_lock, flags);
-> 
+> +	err = security_inode_setsecurity((struct inode *)inode,
+
+If a non-const inode is needed, please propagate that into the callers rather
+than randomly casting away the const.
+
+> +					 FS_VERITY_DIGEST_SEC_NAME,
+> +					 vi->file_digest,
+> +					 vi->tree_params.hash_alg->digest_size,
+> +					 0);
+
+The digest isn't meaningful without knowing the hash algorithm it uses.
+It's available here, but you aren't passing it to this function.
+
+> @@ -84,7 +85,9 @@ int fsverity_verify_signature(const struct fsverity_info *vi,
+>  
+>  	pr_debug("Valid signature for file digest %s:%*phN\n",
+>  		 hash_alg->name, hash_alg->digest_size, vi->file_digest);
+> -	return 0;
+> +	return security_inode_setsecurity((struct inode *)inode,
+
+Likewise, please don't cast away const.
+
+> +					FS_VERITY_SIGNATURE_SEC_NAME,
+> +					signature, sig_size, 0);
+
+This is only for fs-verity built-in signatures which aren't the only way to do
+signatures with fs-verity.  Are you sure this is what you're looking for?  Can
+you elaborate on your use case for fs-verity built-in signatures, and what the
+LSM hook will do with them?
+
+- Eric
