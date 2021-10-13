@@ -2,161 +2,150 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2915C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 13:43:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2283C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 13:54:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CAA1C6109E
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 13:43:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C0761610F9
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 13:54:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231644AbhJMNpL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Oct 2021 09:45:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38764 "EHLO
+        id S231644AbhJMN4x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Oct 2021 09:56:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235496AbhJMNpK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Oct 2021 09:45:10 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1681BC061570
-        for <linux-doc@vger.kernel.org>; Wed, 13 Oct 2021 06:43:07 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id u18so8643543wrg.5
-        for <linux-doc@vger.kernel.org>; Wed, 13 Oct 2021 06:43:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=i+Y0xyyI1wLmc3f9TlGqhucUogMT+qFqaRbraqD/TSo=;
-        b=v0LSbR00mJZeqwHdD2h5ESrF3UnP8I0vyl7OIhpMgahKvzTvI/9e4nVBnrxMCszkKL
-         p9luteX+Yn5bWVI8RphvikmshhL3NwKYW+P8QPzUoFwv+k2MxUJkyF7BtMswP+PeJqn0
-         7fZHSnwxRQRQZtNbSNSQsXnLd+kYmxgDMo9iMvLRQb33DpntYwM5EJpbcIuzKUTkngda
-         SHN6DNmhk8wzdC6i8lb/k3J/I8i8v11EPggq34p1qq+VLL3wNs0ZK3DRomTc9Qq66fa2
-         0ElEXF0WwPCs6pHMFfb8V8UNWE9Tp9zCzbHrN2vz2BK3WlI4AFntaLL+/XWeL3e+vCrH
-         JxAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=i+Y0xyyI1wLmc3f9TlGqhucUogMT+qFqaRbraqD/TSo=;
-        b=7NTIC54qsrEqFcEBNvH0cTyEAUcQiE04RbtxoyIyLDx7ZDQrF865TdBi+l5ikY2WwF
-         ApjHmBGr367zsmbWWitAGLvR9hSLmBEeUkN/m4uFWnD7m6c9fn4xxCadPh+D1E1vrnaX
-         fvMA6InYxrY7oVfIkt315myORxBtnPLGRJcsGVdac708r5nipxt6hd2u5/t+P26Egr+Y
-         9qflmyMkI1T18wRnJh+Qld1uamwf8nIJvRzZtaEfI0UWUldiIvQIGF2L2EwJE3WzZRFj
-         Qo0+pesLn/pH1HKaMiv+xVv8tS1K4r5plIzBPEBAf8SNhvXsupSpo/7oh2ab5tpnXj0z
-         31jQ==
-X-Gm-Message-State: AOAM530/3gr65NuRi0BvL2sui6tUh5FaAnzTa63e5T7OOl5XOG7JUTHm
-        27ubB52vENOlXBk3YQgAZu+YlVBDPRMCq4UBVY0zOA==
-X-Google-Smtp-Source: ABdhPJwJ9HbDf8L1dZ2qzc+MlJeIlkxrfEj/wa5d66jDnrlWwI3mSRO5QpF9ovKMRItVh8P6fqQmQNmpT0lzkOB2t1s=
-X-Received: by 2002:a5d:6d86:: with SMTP id l6mr4282849wrs.96.1634132584493;
- Wed, 13 Oct 2021 06:43:04 -0700 (PDT)
+        with ESMTP id S229611AbhJMN4w (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Oct 2021 09:56:52 -0400
+Received: from mx0a-00190b01.pphosted.com (mx0a-00190b01.pphosted.com [IPv6:2620:100:9001:583::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6284DC061570;
+        Wed, 13 Oct 2021 06:54:49 -0700 (PDT)
+Received: from pps.filterd (m0050095.ppops.net [127.0.0.1])
+        by m0050095.ppops.net-00190b01. (8.16.1.2/8.16.1.2) with SMTP id 19DDN6af004835;
+        Wed, 13 Oct 2021 14:54:38 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akamai.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=jan2016.eng;
+ bh=sMP+jJB6SWg9fLjAmeom2/nDG2YfFwUo6uWVt8nwc6Y=;
+ b=JNdCVimbsquDOkU/VbvdSwCpFP6q1ZrHxtQFzFH9vUOPzDSXj+ZrAQ/cqA/6SJ1YyyXg
+ JIxGkfA6HiY3hUPLJOb8F6w6vEAKAa1iBme58jHeoAPACyA/ZfvIdq7DgXLvg9w3d169
+ nOuxHsWEiugq7wfu22WbPEpyii++cPSPncwYyOOKBPXhF/4cklJif+lRjqkzd3F3UWaT
+ lXNv+QRBES+5GviFouU9fU0Xg8nqPS9n98voMpYSC99UF6XyxLFa2yN1mrn26yLnFxXs
+ XV1id6bOnq9gOqUgSdmEBlZfZ+fCCmKV6J2VcXFIbsKaa577aI8t0EVxBRuikY+kbh7o 3A== 
+Received: from prod-mail-ppoint7 (a72-247-45-33.deploy.static.akamaitechnologies.com [72.247.45.33] (may be forged))
+        by m0050095.ppops.net-00190b01. with ESMTP id 3bp09v8u9r-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 13 Oct 2021 14:54:37 +0100
+Received: from pps.filterd (prod-mail-ppoint7.akamai.com [127.0.0.1])
+        by prod-mail-ppoint7.akamai.com (8.16.1.2/8.16.1.2) with SMTP id 19DDoBP1024035;
+        Wed, 13 Oct 2021 09:54:37 -0400
+Received: from prod-mail-relay19.dfw02.corp.akamai.com ([172.27.165.173])
+        by prod-mail-ppoint7.akamai.com with ESMTP id 3bn97e80ag-1;
+        Wed, 13 Oct 2021 09:54:37 -0400
+Received: from [0.0.0.0] (prod-ssh-gw01.bos01.corp.akamai.com [172.27.119.138])
+        by prod-mail-relay19.dfw02.corp.akamai.com (Postfix) with ESMTP id A01D4600B8;
+        Wed, 13 Oct 2021 13:54:36 +0000 (GMT)
+Subject: Re: [PATCH v3 0/3] Trivial dynamic debug fixups
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Halaney <ahalaney@redhat.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Jim Cromie <jim.cromie@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20210920205444.20068-1-ahalaney@redhat.com>
+ <670b5afa-0d76-7e78-2b31-f1d4355dd026@akamai.com>
+ <YWBrXZrqdoETlqWG@kroah.com> <20211008162707.nc6vr22srcmga5fp@halaneylaptop>
+ <YWbEm1Eq8BlpIQ7V@kroah.com>
+From:   Jason Baron <jbaron@akamai.com>
+Message-ID: <9f8b253d-6db2-e6bb-5bc5-b39ec23a2721@akamai.com>
+Date:   Wed, 13 Oct 2021 09:54:36 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20211006071546.2540920-1-jens.wiklander@linaro.org>
- <20211006071546.2540920-6-jens.wiklander@linaro.org> <CAFA6WYNdebJKoWZdQRPc=OdmaA=_jiguz12gfyHsdozbdx45vQ@mail.gmail.com>
-In-Reply-To: <CAFA6WYNdebJKoWZdQRPc=OdmaA=_jiguz12gfyHsdozbdx45vQ@mail.gmail.com>
-From:   Jens Wiklander <jens.wiklander@linaro.org>
-Date:   Wed, 13 Oct 2021 15:42:53 +0200
-Message-ID: <CAHUa44E9jLYsMd1LPVJTDXyCkT==EW7s-nHn3rYRx30gyBU8=g@mail.gmail.com>
-Subject: Re: [PATCH v6 5/6] optee: separate notification functions
-To:     Sumit Garg <sumit.garg@linaro.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        OP-TEE TrustedFirmware <op-tee@lists.trustedfirmware.org>,
-        Devicetree List <devicetree@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jerome Forissier <jerome@forissier.org>,
-        Etienne Carriere <etienne.carriere@linaro.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ard Biesheuvel <ardb@kernel.org>, Marc Zyngier <maz@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <YWbEm1Eq8BlpIQ7V@kroah.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425,18.0.790
+ definitions=2021-10-13_05:2021-10-13,2021-10-13 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 mlxscore=0
+ adultscore=0 mlxlogscore=366 suspectscore=0 spamscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109230001
+ definitions=main-2110130094
+X-Proofpoint-ORIG-GUID: QcSu3Ggp3HZp7jbuhygVGfD9OpFVARyC
+X-Proofpoint-GUID: QcSu3Ggp3HZp7jbuhygVGfD9OpFVARyC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-10-13_05,2021-10-13_02,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 priorityscore=1501
+ phishscore=0 lowpriorityscore=0 impostorscore=0 malwarescore=0
+ clxscore=1015 adultscore=0 mlxscore=0 suspectscore=0 spamscore=0
+ mlxlogscore=244 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2109230001 definitions=main-2110130095
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 13, 2021 at 9:15 AM Sumit Garg <sumit.garg@linaro.org> wrote:
->
-> On Wed, 6 Oct 2021 at 12:46, Jens Wiklander <jens.wiklander@linaro.org> wrote:
-> >
-> > Renames struct optee_wait_queue to struct optee_notif and all related
-> > functions to optee_notif_*().
-> >
-> > The implementation is changed to allow sending a notification from an
-> > atomic state, that is from the top half of an interrupt handler.
-> >
-> > Waiting for keys is currently only used when secure world is waiting for
-> > a mutex or condition variable. The old implementation could handle any
-> > 32-bit key while this new implementation is restricted to only 8 bits or
-> > the maximum value 255. A upper value is needed since a bitmap is
-> > allocated to allow an interrupt handler to only set a bit in case the
-> > waiter hasn't had the time yet to allocate and register a completion.
-> >
-> > The keys are currently only representing secure world threads which
-> > number usually are never even close to 255 so it should be safe for now.
-> > In future ABI updates the maximum value of the key will be communicated
-> > while the driver is initializing.
-> >
-> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> > ---
-> >  drivers/tee/optee/Makefile        |   1 +
-> >  drivers/tee/optee/core.c          |  12 ++-
-> >  drivers/tee/optee/notif.c         | 125 ++++++++++++++++++++++++++++++
-> >  drivers/tee/optee/optee_private.h |  19 +++--
-> >  drivers/tee/optee/optee_rpc_cmd.h |  31 ++++----
-> >  drivers/tee/optee/rpc.c           |  73 ++---------------
-> >  6 files changed, 170 insertions(+), 91 deletions(-)
-> >  create mode 100644 drivers/tee/optee/notif.c
-> >
->
-> Apart from minor nit below:
->
-> Reviewed-by: Sumit Garg <sumit.garg@linaro.org>
->
-> > diff --git a/drivers/tee/optee/Makefile b/drivers/tee/optee/Makefile
-> > index 3aa33ea9e6a6..df55e4ad5370 100644
-> > --- a/drivers/tee/optee/Makefile
-> > +++ b/drivers/tee/optee/Makefile
-> > @@ -2,6 +2,7 @@
-> >  obj-$(CONFIG_OPTEE) += optee.o
-> >  optee-objs += core.o
-> >  optee-objs += call.o
-> > +optee-objs += notif.o
-> >  optee-objs += rpc.o
-> >  optee-objs += supp.o
-> >  optee-objs += shm_pool.o
-> > diff --git a/drivers/tee/optee/core.c b/drivers/tee/optee/core.c
-> > index 5ce13b099d7d..8531184f98f4 100644
-> > --- a/drivers/tee/optee/core.c
-> > +++ b/drivers/tee/optee/core.c
-> > @@ -592,6 +592,7 @@ static int optee_remove(struct platform_device *pdev)
-> >          */
-> >         optee_disable_shm_cache(optee);
-> >
-> > +       optee_notif_uninit(optee);
-> >         /*
-> >          * The two devices have to be unregistered before we can free the
-> >          * other resources.
-> > @@ -602,7 +603,6 @@ static int optee_remove(struct platform_device *pdev)
-> >         tee_shm_pool_free(optee->pool);
-> >         if (optee->memremaped_shm)
-> >                 memunmap(optee->memremaped_shm);
-> > -       optee_wait_queue_exit(&optee->wait_queue);
-> >         optee_supp_uninit(&optee->supp);
-> >         mutex_destroy(&optee->call_queue.mutex);
-> >
-> > @@ -712,11 +712,17 @@ static int optee_probe(struct platform_device *pdev)
-> >
-> >         mutex_init(&optee->call_queue.mutex);
-> >         INIT_LIST_HEAD(&optee->call_queue.waiters);
-> > -       optee_wait_queue_init(&optee->wait_queue);
-> >         optee_supp_init(&optee->supp);
-> >         optee->memremaped_shm = memremaped_shm;
-> >         optee->pool = pool;
-> >
-> > +       platform_set_drvdata(pdev, optee);
-> > +       rc = optee_notif_init(optee, 255);
->
-> nit: Can you use a macro here instead of a constant with a proper
-> comment similar to the one in commit description?
 
-OK, I'll fix.
+
+On 10/13/21 7:35 AM, Greg Kroah-Hartman wrote:
+> On Fri, Oct 08, 2021 at 11:27:07AM -0500, Andrew Halaney wrote:
+>> On Fri, Oct 08, 2021 at 06:01:33PM +0200, Greg Kroah-Hartman wrote:
+>>> On Fri, Oct 08, 2021 at 11:58:57AM -0400, Jason Baron wrote:
+>>>> Adding Greg to this (should have added him earlier)
+>>>>
+>>>> Greg, if you are ok with this series, we'd like to have it added
+>>>> to -next.
+>>>
+>>> What series?
+>>>
+>>> Have a pointer to it?  It would help if it was actually sent to me if
+>>> people want it applied...
+>>>
+>>> thanks,
+>>>
+>>> greg k-h
+>>>
+>>
+>> Sorry Greg, that's probably my bad.. still getting used to the kernel's
+>> workflow.
+>>
+>> Here's the lore link: https://urldefense.com/v3/__https://lore.kernel.org/all/20210920205444.20068-1-ahalaney@redhat.com/__;!!GjvTz_vk!A7QQa1yGOtgSmhzn52NLhZuRbLxxMCyl17_8RiqsehjeAG2AAsYl7bgWgK15Pw$ 
+>>
+>> Did I do something silly when sending the patches? I basically
+>> just added everyone manually when using git send-email.
+>>
+>> I found who to add via:
+>>
+>>     ahalaney@halaneylaptop ~/git/linux (git)-[master] % ./scripts/get_maintainer.pl 0002-dyndbg-Remove-support-for-ddebug_query-param.patch                                     :(
+>>     Jonathan Corbet <corbet@lwn.net> (maintainer:DOCUMENTATION,commit_signer:1/2=50%)
+>>     Jason Baron <jbaron@akamai.com> (maintainer:DYNAMIC DEBUG)
+>>     Martin Kepplinger <martink@posteo.de> (commit_signer:1/2=50%,authored:1/2=50%,added_lines:1/3=33%,removed_lines:1/5=20%)
+>>     Andrew Halaney <ahalaney@redhat.com> (commit_signer:1/2=50%,authored:1/2=50%,added_lines:2/3=67%,removed_lines:4/5=80%)
+>>     "Paul E. McKenney" <paulmck@kernel.org> (commit_signer:14/89=16%,authored:7/89=8%,added_lines:44/527=8%)
+>>     Thomas Gleixner <tglx@linutronix.de> (commit_signer:11/89=12%)
+>>     Andrew Morton <akpm@linux-foundation.org> (commit_signer:11/89=12%)
+>>     Peter Zijlstra <peterz@infradead.org> (commit_signer:8/89=9%,removed_lines:13/137=9%)
+>>     Will Deacon <will@kernel.org> (commit_signer:7/89=8%)
+>>     "Maciej W. Rozycki" <macro@orcam.me.uk> (added_lines:90/527=17%)
+>>     Muchun Song <songmuchun@bytedance.com> (added_lines:28/527=5%)
+>>     Viresh Kumar <viresh.kumar@linaro.org> (removed_lines:14/137=10%)
+>>     Robin Murphy <robin.murphy@arm.com> (removed_lines:13/137=9%)
+>>     Randy Dunlap <rdunlap@infradead.org> (removed_lines:10/137=7%)
+>>     Lu Baolu <baolu.lu@linux.intel.com> (removed_lines:10/137=7%)
+>>     linux-doc@vger.kernel.org (open list:DOCUMENTATION)
+>>     linux-kernel@vger.kernel.org (open list)
+>>
+>>
+>> per patch, and I just hit the maintainers and the lists specified
+>> since I figured the commit_signers don't care. Did I goof up?
+> 
+> No, that's all correct.  It's up to the maintainers to then route your
+> patches to the proper tree.
+> 
+> If they want me to take them, great, I'll be glad to do so, but I need
+> them to send them to me :)
+
+Ok, I will re-send the series to Greg.
 
 Thanks,
-Jens
+
+-Jason
+
+
