@@ -2,271 +2,276 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE12DC433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 01:07:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42537C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 02:32:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A286860EB4
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 01:07:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2724560F23
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 02:32:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235799AbhJMBJ2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Oct 2021 21:09:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59603 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235747AbhJMBJ2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Oct 2021 21:09:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1634087245;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=9W5/Nim7UR99mhQj6VlGoOdNyQkVOGVgooJgVby/UVQ=;
-        b=DJyaTYAGVUCm+fAZpcxjd0AGXg/mjRP//WCQR/8E2KumLQqPK4MjT3dBD+J/BHeJJLCwdY
-        b4wI+iUUOqj79LaEGIb6AjG/rv3HdibCX+heA+gJmpL7wlSD7/LwwWDsgXZruijtlA1npK
-        y9JqWZebV81DjsXcUlWsiQlTKQWqJfE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-479-HxK1RB5_PS67AtBc8N0hMg-1; Tue, 12 Oct 2021 21:07:22 -0400
-X-MC-Unique: HxK1RB5_PS67AtBc8N0hMg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF65169721;
-        Wed, 13 Oct 2021 01:07:19 +0000 (UTC)
-Received: from T590 (ovpn-8-23.pek2.redhat.com [10.72.8.23])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 145D660D30;
-        Wed, 13 Oct 2021 01:07:09 +0000 (UTC)
-Date:   Wed, 13 Oct 2021 09:07:03 +0800
-From:   Ming Lei <ming.lei@redhat.com>
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     tj@kernel.org, gregkh@linuxfoundation.org,
-        akpm@linux-foundation.org, minchan@kernel.org, jeyu@kernel.org,
-        shuah@kernel.org, bvanassche@acm.org, dan.j.williams@intel.com,
-        joe@perches.com, tglx@linutronix.de, keescook@chromium.org,
-        rostedt@goodmis.org, linux-spdx@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 09/12] sysfs: fix deadlock race with module removal
-Message-ID: <YWYxN875B6rlmAjC@T590>
-References: <20210927163805.808907-1-mcgrof@kernel.org>
- <20210927163805.808907-10-mcgrof@kernel.org>
- <YVwZwh7qDKfSM59h@T590>
- <YWSr2trabEJflzlj@bombadil.infradead.org>
- <YWTU3kTlJKONyFjZ@T590>
- <YWX7pAn0YMaJeJBA@bombadil.infradead.org>
+        id S235120AbhJMCel (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Oct 2021 22:34:41 -0400
+Received: from mail110.syd.optusnet.com.au ([211.29.132.97]:35514 "EHLO
+        mail110.syd.optusnet.com.au" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233316AbhJMCel (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Oct 2021 22:34:41 -0400
+Received: from dread.disaster.area (pa49-195-238-16.pa.nsw.optusnet.com.au [49.195.238.16])
+        by mail110.syd.optusnet.com.au (Postfix) with ESMTPS id 89ADC104FAB;
+        Wed, 13 Oct 2021 13:32:32 +1100 (AEDT)
+Received: from dave by dread.disaster.area with local (Exim 4.92.3)
+        (envelope-from <david@fromorbit.com>)
+        id 1maU4F-005boy-4E; Wed, 13 Oct 2021 13:32:31 +1100
+Date:   Wed, 13 Oct 2021 13:32:31 +1100
+From:   Dave Chinner <david@fromorbit.com>
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     NeilBrown <neilb@suse.de>, Vlastimil Babka <vbabka@suse.cz>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+        linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/6] MM: improve documentation for __GFP_NOFAIL
+Message-ID: <20211013023231.GV2361455@dread.disaster.area>
+References: <163184741778.29351.16920832234899124642.stgit@noble.brown>
+ <b680fb87-439b-0ba4-cf9f-33d729f27941@suse.cz>
+ <YVwyhDnE/HEnoLAi@dhcp22.suse.cz>
+ <eba04a07-99da-771a-ab6b-36de41f9f120@suse.cz>
+ <20211006231452.GF54211@dread.disaster.area>
+ <YV7G7gyfZkmw7/Ae@dhcp22.suse.cz>
+ <163364854551.31063.4377741712039731672@noble.neil.brown.name>
+ <YV/31+qXwqEgaxJL@dhcp22.suse.cz>
+ <20211008223649.GJ54211@dread.disaster.area>
+ <YWQmsESyyiea0zle@dhcp22.suse.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YWX7pAn0YMaJeJBA@bombadil.infradead.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <YWQmsESyyiea0zle@dhcp22.suse.cz>
+X-Optus-CM-Score: 0
+X-Optus-CM-Analysis: v=2.4 cv=epq8cqlX c=1 sm=1 tr=0 ts=61664544
+        a=DzKKRZjfViQTE5W6EVc0VA==:117 a=DzKKRZjfViQTE5W6EVc0VA==:17
+        a=kj9zAlcOel0A:10 a=8gfv0ekSlNoA:10 a=7-415B0cAAAA:8
+        a=neU_OqogJPR7JUYaiz0A:9 a=CjuIK1q_8ugA:10 a=biEYGPWJfzWAr4FL6Ov7:22
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 12, 2021 at 02:18:28PM -0700, Luis Chamberlain wrote:
-> On Tue, Oct 12, 2021 at 08:20:46AM +0800, Ming Lei wrote:
-> > On Mon, Oct 11, 2021 at 02:25:46PM -0700, Luis Chamberlain wrote:
-> > > On Tue, Oct 05, 2021 at 05:24:18PM +0800, Ming Lei wrote:
-> > > > On Mon, Sep 27, 2021 at 09:38:02AM -0700, Luis Chamberlain wrote:
-> > > > > When driver sysfs attributes use a lock also used on module removal we
-> > > > > can race to deadlock. This happens when for instance a sysfs file on
-> > > > > a driver is used, then at the same time we have module removal call
-> > > > > trigger. The module removal call code holds a lock, and then the
-> > > > > driver's sysfs file entry waits for the same lock. While holding the
-> > > > > lock the module removal tries to remove the sysfs entries, but these
-> > > > > cannot be removed yet as one is waiting for a lock. This won't complete
-> > > > > as the lock is already held. Likewise module removal cannot complete,
-> > > > > and so we deadlock.
+On Mon, Oct 11, 2021 at 01:57:36PM +0200, Michal Hocko wrote:
+> On Sat 09-10-21 09:36:49, Dave Chinner wrote:
+> > On Fri, Oct 08, 2021 at 09:48:39AM +0200, Michal Hocko wrote:
+> > > > > > Even the API constaints of kvmalloc() w.r.t. only doing the vmalloc
+> > > > > > fallback if the gfp context is GFP_KERNEL - we already do GFP_NOFS
+> > > > > > kvmalloc via memalloc_nofs_save/restore(), so this behavioural
+> > > > > > restriction w.r.t. gfp flags just makes no sense at all.
 > > > > > 
-> > > > > This can now be easily reproducible with our sysfs selftest as follows:
-> > > > > 
-> > > > > ./tools/testing/selftests/sysfs/sysfs.sh -t 0027
-> > > > > 
-> > > > > This uses a local driver lock. Test 0028 can also be used, that uses
-> > > > > the rtnl_lock():
-> > > > > 
-> > > > > ./tools/testing/selftests/sysfs/sysfs.sh -t 0028
-> > > > > 
-> > > > > To fix this we extend the struct kernfs_node with a module reference
-> > > > > and use the try_module_get() after kernfs_get_active() is called. As
-> > > > > documented in the prior patch, we now know that once kernfs_get_active()
-> > > > > is called the module is implicitly guarded to exist and cannot be removed.
-> > > > > This is because the module is the one in charge of removing the same
-> > > > > sysfs file it created, and removal of sysfs files on module exit will wait
-> > > > > until they don't have any active references. By using a try_module_get()
-> > > > > after kernfs_get_active() we yield to let module removal trump calls to
-> > > > > process a sysfs operation, while also preventing module removal if a sysfs
-> > > > > operation is in already progress. This prevents the deadlock.
-> > > > > 
-> > > > > This deadlock was first reported with the zram driver, however the live
-> > > > 
-> > > > Looks not see the lock pattern you mentioned in zram driver, can you
-> > > > share the related zram code?
-> > > 
-> > > I recommend to not look at the zram driver, instead look at the
-> > > test_sysfs driver as that abstracts the issue more clearly and uses
+> > > > > GFP_NOFS (without using the scope API) has the same problem as NOFAIL in
+> > > > > the vmalloc. Hence it is not supported. If you use the scope API then
+> > > > > you can GFP_KERNEL for kvmalloc. This is clumsy but I am not sure how to
+> > > > > define these conditions in a more sensible way. Special case NOFS if the
+> > > > > scope api is in use? Why do you want an explicit NOFS then?
 > > 
-> > Looks test_sysfs isn't in linus tree, where can I find it?
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux-next.git/log/?h=20210927-sysfs-generic-deadlock-fix
-> 
-> > Also please
-> > update your commit log about this wrong info if it can't be applied on
-> > zram.
-> 
-> It does apply to zram, it is just that I have other fixes for zram in
-> my pipeline which will change the zram driver further, and so what makes
-> more sense is to abstract the issue into a selftest driver to
-> demonstrate the issue more clearly.
-> 
-> To reproduce the deadlock revert the patch in this thread and then run
-> either of these two tests as root:
-> 
-> ./tools/testing/selftests/sysfs/sysfs.sh -w 0027
-> ./tools/testing/selftests/sysfs/sysfs.sh -w 0028
-> 
-> You will need to enable the test_sysfs driver.
-> 
-> > > two different locks as an example. The point is that if on module
-> > > removal *any* lock is used which is *also* used on the sysfs file
-> > > created by the module, you can deadlock.
-> > > 
-> > > > > And this can lead to this condition:
-> > > > > 
-> > > > > CPU A                              CPU B
-> > > > >                                    foo_store()
-> > > > > foo_exit()
-> > > > >   mutex_lock(&foo)
-> > > > >                                    mutex_lock(&foo)
-> > > > >    del_gendisk(some_struct->disk);
-> > > > >      device_del()
-> > > > >        device_remove_groups()
-> > > > 
-> > > > I guess the deadlock exists if foo_exit() is called anywhere. If yes,
-> > > > look the issue may not be related with removing module directly, right?
-> > > 
-> > > No, the reason this can deadlock is that the module exit routine will
-> > > patiently wait for the sysfs / kernfs files to be stop being used,
+> > Exactly my point - this is clumsy and a total mess. I'm not asking
+> > for an explicit GFP_NOFS, just pointing out that the documented
+> > restrictions that "vmalloc can only do GFP_KERNEL allocations" is
+> > completely wrong.
 > > 
-> > Can you share the code which waits for the sysfs / kernfs files to be
-> > stop being used?
+> > vmalloc()
+> > {
+> > 	if (!(gfp_flags &  __GFP_FS))
+> > 		memalloc_nofs_save();
+> > 	p = __vmalloc(gfp_flags | GFP_KERNEL)
+> > 	if (!(gfp_flags &  __GFP_FS))
+> > 		memalloc_nofs_restore();
+> > }
+> > 
+> > Yup, that's how simple it is to support GFP_NOFS support in
+> > vmalloc().
 > 
-> How about a call trace of the two tasks which deadlock, here is one of
-> running test 0027:
-> 
-> kdevops login: [  363.875459] INFO: task sysfs.sh:1271 blocked for more
-> than 120 seconds.
-> [  363.878341]       Tainted: G            E
-> 5.15.0-rc3-next-20210927+ #83
-> [  363.881218] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs"
-> disables this message.
-> [  363.882255] task:sysfs.sh        state:D stack:    0 pid: 1271 ppid:
-> 1 flags:0x00000004
-> [  363.882894] Call Trace:
-> [  363.883091]  <TASK>
-> [  363.883259]  __schedule+0x2fd/0x990
-> [  363.883551]  schedule+0x43/0xe0
-> [  363.883800]  schedule_preempt_disabled+0x14/0x20
-> [  363.884160]  __mutex_lock.constprop.0+0x249/0x470
-> [  363.884524]  test_dev_x_store+0xa5/0xc0 [test_sysfs]
-> [  363.884915]  kernfs_fop_write_iter+0x177/0x220
-> [  363.885257]  new_sync_write+0x11c/0x1b0
-> [  363.885556]  vfs_write+0x20d/0x2a0
-> [  363.885821]  ksys_write+0x5f/0xe0
-> [  363.886081]  do_syscall_64+0x38/0xc0
-> [  363.886359]  entry_SYSCALL_64_after_hwframe+0x44/0xae
-> [  363.886748] RIP: 0033:0x7fee00f8bf33
-> [  363.887029] RSP: 002b:00007ffd372c5d18 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-> [  363.887633] RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007fee00f8bf33
-> [  363.888217] RDX: 0000000000000003 RSI: 000055a4d14a0db0 RDI: 0000000000000001
-> [  363.888761] RBP: 000055a4d14a0db0 R08: 000000000000000a R09: 0000000000000002
-> [  363.889267] R10: 000055a4d1554ac0 R11: 0000000000000246 R12: 0000000000000003
-> [  363.889983] R13: 00007fee0105c6a0 R14: 0000000000000003 R15: 00007fee0105c8a0
-> [  363.890513]  </TASK>
-> [  363.890709] INFO: task modprobe:1276 blocked for more than 120 seconds.
-> [  363.891185]       Tainted: G            E 5.15.0-rc3-next-20210927+ #83
-> [  363.891781] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-> [  363.892353] task:modprobe        state:D stack:    0 pid: 1276 ppid: 1 flags:0x00004000
-> [  363.892955] Call Trace:
-> [  363.893141]  <TASK>
-> [  363.893457]  __schedule+0x2fd/0x990
-> [  363.893865]  schedule+0x43/0xe0
-> [  363.894246]  __kernfs_remove.part.0+0x21e/0x2a0
-> [  363.894704]  ? do_wait_intr_irq+0xa0/0xa0
-> [  363.895142]  kernfs_remove_by_name_ns+0x50/0x90
-> [  363.895632]  remove_files+0x2b/0x60
-> [  363.896035]  sysfs_remove_group+0x38/0x80
-> [  363.896470]  sysfs_remove_groups+0x29/0x40
-> [  363.896912]  device_remove_attrs+0x5b/0x90
-> [  363.897352]  device_del+0x183/0x400
-> [  363.897758]  unregister_test_dev_sysfs+0x5b/0xaa [test_sysfs]
-> [  363.898317]  test_sysfs_exit+0x45/0xfb0 [test_sysfs]
-> [  363.898833]  __do_sys_delete_module+0x18d/0x2a0
-> [  363.899329]  ? fpregs_assert_state_consistent+0x1e/0x40
-> [  363.899868]  ? exit_to_user_mode_prepare+0x3a/0x180
-> [  363.900390]  do_syscall_64+0x38/0xc0
-> [  363.900810]  entry_SYSCALL_64_after_hwframe+0x44/0xae
-> [  363.901330] RIP: 0033:0x7f21915c57d7
-> [  363.901747] RSP: 002b:00007ffd90869fe8 EFLAGS: 00000206 ORIG_RAX: 00000000000000b0
-> [  363.902442] RAX: ffffffffffffffda RBX: 000055ce676ffc30 RCX: 00007f21915c57d7
-> [  363.903104] RDX: 0000000000000000 RSI: 0000000000000800 RDI: 000055ce676ffc98
-> [  363.903782] RBP: 000055ce676ffc30 R08: 0000000000000000 R09: 0000000000000000
-> [  363.904462] R10: 00007f2191638ac0 R11: 0000000000000206 R12: 000055ce676ffc98
-> [  363.905128] R13: 0000000000000000 R14: 0000000000000000 R15: 000055ce676ffdf0
-> [  363.905797]  </TASK>
+> Yes, this would work from the functionality POV but it defeats the
+> philosophy behind the scope API. Why would you even need this if the
+> scope was defined by the caller of the allocator?
 
-That doesn't show the deadlock is related with module_exit().
+Who actually cares that vmalloc might be using the scoped API
+internally to implement GFP_NOFS or GFP_NOIO? Nobody at all.
+It is far more useful (and self documenting!) for one-off allocations
+to pass a GFP_NOFS flag than it is to use a scope API...
 
-> 
-> 
-> And gdb:
-> 
-> (gdb) l *(__kernfs_remove+0x21e)
-> 0xffffffff8139288e is in __kernfs_remove (fs/kernfs/dir.c:476).
-> 471                     if (atomic_read(&kn->active) != KN_DEACTIVATED_BIAS)
-> 472                             lock_contended(&kn->dep_map, _RET_IP_);
-> 473             }
-> 474
-> 475             /* but everyone should wait for draining */
-> 476             wait_event(root->deactivate_waitq,
-> 477                        atomic_read(&kn->active) == KN_DEACTIVATED_BIAS);
-> 478
-> 479             if (kernfs_lockdep(kn)) {
-> 480                     lock_acquired(&kn->dep_map, _RET_IP_);
-> 
-> (gdb) l *(kernfs_remove_by_name_ns+0x50)
-> 0xffffffff813938d0 is in kernfs_remove_by_name_ns (fs/kernfs/dir.c:1534).
-> 1529
-> 1530            kn = kernfs_find_ns(parent, name, ns);
-> 1531            if (kn)
-> 1532                    __kernfs_remove(kn);
-> 1533
-> 1534            up_write(&kernfs_rwsem);
-> 1535
-> 1536            if (kn)
-> 1537                    return 0;
-> 1538            else
-> 
-> The same happens for test 0028 except instead of a mutex
-> lock an rtnl_lock() is used.
-> 
-> Would this be better for the commit log?
-> 
-> > And why does it make a difference in case of being
-> > called from module_exit()?
-> 
-> Well because that is where we remove the sysfs files. *If*
-> a developer happens to use a lock on a sysfs op but it is
-> also used on module exit, this deadlock is bound to happen.
+> The initial hope was
+> to get rid of the NOFS abuse that can be seen in many filesystems. All
+> allocations from the scope would simply inherit the NOFS semantic so
+> an explicit NOFS shouldn't be really necessary, right?
 
-It is clearly one AA deadlock, what I meant was that it isn't related with
-module exit cause lock & device_del() isn't always done in module exit, so
-I doubt your fix with grabbing module refcnt is good or generic enough.
+Yes, but I think you miss my point entirely: that the vmalloc
+restrictions on what gfp flags can be passed without making it
+entirely useless are completely arbitrary and non-sensical.
 
-Except for your cooked test_sys module, how many real drivers do suffer the
-problem? What are they? Why can't we fix the exact driver?
+> > This goes along with the argument that "it's impossible to do
+> > GFP_NOFAIL with vmalloc" as I addressed above. These things are not
+> > impossible, but we hide behind "we don't want people to use vmalloc"
+> > as an excuse for having shitty behaviour whilst ignoring that
+> > vmalloc is *heavily used* by core subsystems like filesystems
+> > because they cannot rely on high order allocations succeeding....
+> 
+> I do not think there is any reason to discourage anybody from using
+> vmalloc these days. 32b is dying out and vmalloc space is no longer a
+> very scarce resource.
 
+We are still discouraged from doing high order allocations and
+should only use pages directly. Not to mention that the API doesn't
+make it simple to use vmalloc as a direct replacement for high order
+kmalloc tends to discourage new users...
 
-Thanks,
-Ming
+> > It also points out that the scope API is highly deficient.
+> > We can do GFP_NOFS via the scope API, but we can't
+> > do anything else because *there is no scope API for other GFP
+> > flags*.
+> > 
+> > Why don't we have a GFP_NOFAIL/__GFP_RETRY_FOREVER scope API?
+> 
+> NO{FS,IO} where first flags to start this approach. And I have to admit
+> the experiment was much less successful then I hoped for. There are
+> still thousands of direct NOFS users so for some reason defining scopes
+> is not an easy thing to do.
+> 
+> I am not against NOFAIL scopes in principle but seeing the nofs
+> "success" I am worried this will not go really well either and it is
+> much more tricky as NOFAIL has much stronger requirements than NOFS.
+> Just imagine how tricky this can be if you just call a library code
+> that is not under your control within a NOFAIL scope. What if that
+> library code decides to allocate (e.g. printk that would attempt to do
+> an optimistic NOWAIT allocation).
 
+I already asked you that _exact_ question earlier in the thread
+w.r.t.  kvmalloc(GFP_NOFAIL) using optimistic NOWAIT kmalloc
+allocation. I asked you as a MM expert to define *and document* the
+behaviour that should result, not turn around and use the fact that
+it is undefined behaviour as a "this is too hard" excuse for not
+changing anything.
+
+THe fact is that the scope APIs are only really useful for certain
+contexts where restrictions are set by higher level functionality.
+For one-off allocation constraints the API sucks and we end up with
+crap like this (found in btrfs):
+
+                /*                                                               
+                 * We're holding a transaction handle, so use a NOFS memory      
+                 * allocation context to avoid deadlock if reclaim happens.      
+                 */                                                              
+                nofs_flag = memalloc_nofs_save();                                
+                value = kmalloc(size, GFP_KERNEL);                               
+                memalloc_nofs_restore(nofs_flag);                                
+
+But also from btrfs, this pattern is repeated in several places:
+
+        nofs_flag = memalloc_nofs_save();                                        
+        ctx = kvmalloc(struct_size(ctx, chunks, num_chunks), GFP_KERNEL);        
+        memalloc_nofs_restore(nofs_flag);                                        
+
+This needs to use the scoped API because vmalloc doesn't support
+GFP_NOFS. So the poor "vmalloc needs scoped API" pattern is bleeding
+over into other code that doesn't have the problems vmalloc does. Do
+you see how this leads to poorly written code now?
+
+Or perhaps I should just point at ceph?
+
+/*
+ * kvmalloc() doesn't fall back to the vmalloc allocator unless flags are
+ * compatible with (a superset of) GFP_KERNEL.  This is because while the
+ * actual pages are allocated with the specified flags, the page table pages
+ * are always allocated with GFP_KERNEL.
+ *
+ * ceph_kvmalloc() may be called with GFP_KERNEL, GFP_NOFS or GFP_NOIO.
+ */
+void *ceph_kvmalloc(size_t size, gfp_t flags)
+{
+        void *p;
+
+        if ((flags & (__GFP_IO | __GFP_FS)) == (__GFP_IO | __GFP_FS)) {
+                p = kvmalloc(size, flags);
+        } else if ((flags & (__GFP_IO | __GFP_FS)) == __GFP_IO) {
+                unsigned int nofs_flag = memalloc_nofs_save();
+                p = kvmalloc(size, GFP_KERNEL);
+                memalloc_nofs_restore(nofs_flag);
+        } else {
+                unsigned int noio_flag = memalloc_noio_save();
+                p = kvmalloc(size, GFP_KERNEL);
+                memalloc_noio_restore(noio_flag);
+        }
+
+        return p;
+}
+
+IOWs, a large number of the users of the scope API simply make
+[k]vmalloc() provide GFP_NOFS behaviour. ceph_kvmalloc() is pretty
+much a wrapper that indicates how all vmalloc functions should
+behave. Honour GFP_NOFS and GFP_NOIO by using the scope API
+internally.
+
+> > That
+> > would save us a lot of bother in XFS. What about GFP_DIRECT_RECLAIM?
+> > I'd really like to turn that off for allocations in the XFS
+> > transaction commit path (as noted already in this thread) because
+> > direct reclaim that can make no progress is actively harmful (as
+> > noted already in this thread)
+> 
+> As always if you have reasonable usecases then it is best to bring them
+> up on the MM list and we can discuss them.
+
+They've been pointed out many times in the past, and I've pointed
+them out again in this thread. Telling me to "bring them up on the
+mm list" when that's exactly what I'm doing right now is not a
+helpful response.
+
+> > Like I said - this is more than just bad documentation - the problem
+> > is that the whole allocation API is an inconsistent mess of control
+> > mechanisms to begin with...
+> 
+> I am not going to disagree. There is a lot of historical baggage and
+> it doesn't help that any change is really hard to review because this
+> interface is used throughout the kernel. I have tried to change some
+> most obvious inconsistencies and I can tell this has always been a
+> frustrating experience with a very small "reward" in the end because
+> there are so many other problems.
+
+Technical debt in the mm APIs is something the mm developers need to
+address, not the people who tell you it's a problem for them.
+Telling the messenger "do my job for me because I find it too
+frustrating to make progress myself" doesn't help anyone make
+progress. If you find it frustrating trying to get mm code changed,
+imagine what it feels like for someone on the outside asking for
+relatively basic things like a consistent control API....
+
+> That being said, I would more than love to have a consistent and well
+> defined interface and if you want to spend a lot of time on that then be
+> my guest.
+
+My point exactly: saying "fix it yourself" is not a good response....
+
+> > > > It would seem to make sense for kvmalloc to WARN_ON if it is passed
+> > > > flags that does not allow it to use vmalloc.
+> > > 
+> > > vmalloc is certainly not the hottest path in the kernel so I wouldn't be
+> > > opposed.
+> > 
+> > kvmalloc is most certainly becoming one of the hottest paths in XFS.
+> > IOWs, arguments that "vmalloc is not a hot path" are simply invalid
+> > these days because they are simply untrue. e.g. the profiles I
+> > posted in this thread...
+> 
+> Is it such a hot path that a check for compatible flags would be visible
+> in profiles though?
+
+No, that doesn't even show up as noise - the overhead of global
+spinlock contention and direct reclaim are the elephants that
+profiles point to, not a couple of flag checks on function
+parameters...
+
+Cheers,
+
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
