@@ -2,116 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9DE1C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 12:29:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F15C5C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 12:35:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CDB2E610E7
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 12:29:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D26D4610E8
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 12:35:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233182AbhJMMbr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Oct 2021 08:31:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49600 "EHLO
+        id S233108AbhJMMhn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Oct 2021 08:37:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233626AbhJMMbX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Oct 2021 08:31:23 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DECADC06174E
-        for <linux-doc@vger.kernel.org>; Wed, 13 Oct 2021 05:29:19 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id u18so7854154wrg.5
-        for <linux-doc@vger.kernel.org>; Wed, 13 Oct 2021 05:29:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=6wind.com; s=google;
-        h=reply-to:subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=jxXON34bwb9U7480ZI8tD9t7EEtIFIeyXWCvuOY9nFo=;
-        b=VC+P5UlQ+oa8RbtjkI6ihbKMfbye3hyLHafy4vC6TZ/b2HfnrH7nV5364N8CnXHH1o
-         GbrzBKBdRPPQwEX23FzhzFYs+Z/tTPuDETyDVqrmCttOwI/ei3kS9hWtQLQwrHOOqLQY
-         7QVhHDvwEkBleqiz2KkdOF//mFKsb9feT36V6YQo1YENKhAt7e+1sGujzR09uh0pts6/
-         IPzecce4A3D3bTmbWBNYJDdOgBeQtnep1bknl+zPOpw3Rro+Gzg7ki4oajHI0OLuU7qP
-         y0yXUzV0jHJTZs31IUWS/8z+loY+KCEqCzPKP5tdrM02RliDA8izTq7dD3tMiygPax1t
-         I5OA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:reply-to:subject:to:cc:references:from
-         :organization:message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=jxXON34bwb9U7480ZI8tD9t7EEtIFIeyXWCvuOY9nFo=;
-        b=dbpBhyqAZwAr7qMZ/zEl1xogad5HodPdQHkB0LsqJjycouSECFdJhhLgp0NmXEZIAD
-         43UW8gFXB4DBsYPYZeuCq9hp16lHt027Ud6LOOinr6leyjh6R3yVVTmcS/mceFLw5X1e
-         yq4+UIIX7FhZsTh4OEFzU3E4FUhvGBWGpIiKEvQPK0t7ZqHyTMKaaeVJYqv2+kk+UDDf
-         vKFxt30jPP9mmjDCrc9R6VdDjtACqB25r7op/Gs29sngucI2s72lYTCyxRGZET7k2B7z
-         ewmmtOg4zNgyZfTvK+2i9MVGV73JFUliGKVdl4EogLtIkwrc2kuKsuO3h8d2ic0ByBEc
-         elvA==
-X-Gm-Message-State: AOAM532HjgDAy3vLrkh5Eq+mFxD2lY4jXJJ7Ald6KnOyKqeRrx6UyXib
-        RORbcKWzbuyjB+YS4ZanVUahfQ==
-X-Google-Smtp-Source: ABdhPJzl6+sUsuUybRUSH6RZdbmAHK1EefCNIcA8VP9VCCbH04KII0GFLfkdnJcYa7FxDnWPNabdHg==
-X-Received: by 2002:a7b:cf29:: with SMTP id m9mr12651264wmg.64.1634128158449;
-        Wed, 13 Oct 2021 05:29:18 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:410:bb00:cdb4:f738:2bad:740f? ([2a01:e0a:410:bb00:cdb4:f738:2bad:740f])
-        by smtp.gmail.com with ESMTPSA id v3sm13427135wrg.23.2021.10.13.05.29.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Oct 2021 05:29:18 -0700 (PDT)
-Reply-To: nicolas.dichtel@6wind.com
-Subject: Re: [PATCH v2 4/4] bpf: export bpf_jit_current
-To:     Lorenz Bauer <lmb@cloudflare.com>
-Cc:     Luke Nelson <luke.r.nels@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        kernel-team <kernel-team@cloudflare.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>
-References: <20211012135935.37054-1-lmb@cloudflare.com>
- <20211012135935.37054-5-lmb@cloudflare.com>
- <836d9371-7d51-b01f-eefd-cc3bf6f5f68e@6wind.com>
- <CACAyw99ZfALrTRYKOTifWXCRFS9sUOhONbyEyWjTBdzFE4fpQQ@mail.gmail.com>
-From:   Nicolas Dichtel <nicolas.dichtel@6wind.com>
-Organization: 6WIND
-Message-ID: <1792748b-9204-c96e-b9c6-367eb19928cb@6wind.com>
-Date:   Wed, 13 Oct 2021 14:29:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        with ESMTP id S231145AbhJMMhn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Oct 2021 08:37:43 -0400
+Received: from bombadil.infradead.org (unknown [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CD63C061570;
+        Wed, 13 Oct 2021 05:35:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=eMEXfomHe+Tl3sMKtQnjNMhVYCC3yttKmNX8r/7xFTY=; b=m1S8aLcRwPu/lHVCZXsGpjbKZn
+        H/jfFqw6Ddw2nkaWJYuacvjGIcAy7kv50lsFDQN6vDtgBIJrHd6+/VtI3GG5aVNAHmXdDuO+Iz3El
+        ohcKBqtlsogvHJlTPuc1tSRRgHWCuSsaMLx+6yC2Zcy+/0LVuhvbSxlspq00XYjwi7pDsBNisKRC4
+        moLCwrhlGdLLXir0ZkxLM7mbUx/xkceROdYWd4mm0/wMSglM7Q3nSL/Xi7obfULfcDshqoifqwwbo
+        Cri00mYnzZ1IErZDEddZhiDIaSQZptCRed0NmaquBclvDm+IgdQaByRvQzNpQzu7nGvwXp3sZV1TU
+        xvy1VHPA==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1madTn-00GayY-Os; Wed, 13 Oct 2021 12:35:31 +0000
+Date:   Wed, 13 Oct 2021 05:35:31 -0700
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Ming Lei <ming.lei@redhat.com>, Miroslav Benes <mbenes@suse.cz>
+Cc:     tj@kernel.org, gregkh@linuxfoundation.org,
+        akpm@linux-foundation.org, minchan@kernel.org, jeyu@kernel.org,
+        shuah@kernel.org, bvanassche@acm.org, dan.j.williams@intel.com,
+        joe@perches.com, tglx@linutronix.de, keescook@chromium.org,
+        rostedt@goodmis.org, linux-spdx@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 09/12] sysfs: fix deadlock race with module removal
+Message-ID: <YWbSk6p3bfXUPZ92@bombadil.infradead.org>
+References: <20210927163805.808907-1-mcgrof@kernel.org>
+ <20210927163805.808907-10-mcgrof@kernel.org>
+ <YVwZwh7qDKfSM59h@T590>
+ <YWSr2trabEJflzlj@bombadil.infradead.org>
+ <YWTU3kTlJKONyFjZ@T590>
+ <YWX7pAn0YMaJeJBA@bombadil.infradead.org>
+ <YWYxN875B6rlmAjC@T590>
 MIME-Version: 1.0
-In-Reply-To: <CACAyw99ZfALrTRYKOTifWXCRFS9sUOhONbyEyWjTBdzFE4fpQQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YWYxN875B6rlmAjC@T590>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Le 13/10/2021 à 10:35, Lorenz Bauer a écrit :
-> On Tue, 12 Oct 2021 at 17:29, Nicolas Dichtel <nicolas.dichtel@6wind.com> wrote:
->>
->> Le 12/10/2021 à 15:59, Lorenz Bauer a écrit :
->>> Expose bpf_jit_current as a read only value via sysctl.
->>>
->>> Signed-off-by: Lorenz Bauer <lmb@cloudflare.com>
->>> ---
->>
->> [snip]
->>
->>> +     {
->>> +             .procname       = "bpf_jit_current",
->>> +             .data           = &bpf_jit_current,
->>> +             .maxlen         = sizeof(long),
->>> +             .mode           = 0400,
->> Why not 0444 ?
-> 
-> This mirrors what the other BPF related sysctls do, which only allow
-> access from root with CAP_SYS_ADMIN. I'd prefer 0444 as well, but
-> Daniel explicitly locked down these sysctls in
-> 2e4a30983b0f9b19b59e38bbf7427d7fdd480d98.
-Even after this patch, bpf_jit_enable is 0644.
+On Wed, Oct 13, 2021 at 09:07:03AM +0800, Ming Lei wrote:
+> On Tue, Oct 12, 2021 at 02:18:28PM -0700, Luis Chamberlain wrote:
+> > > Looks test_sysfs isn't in linus tree, where can I find it?
+> > 
+> > https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux-next.git/log/?h=20210927-sysfs-generic-deadlock-fix
+> > 
+> > To reproduce the deadlock revert the patch in this thread and then run
+> > either of these two tests as root:
+> > 
+> > ./tools/testing/selftests/sysfs/sysfs.sh -w 0027
+> > ./tools/testing/selftests/sysfs/sysfs.sh -w 0028
+> > 
+> > You will need to enable the test_sysfs driver.
+> > > Can you share the code which waits for the sysfs / kernfs files to be
+> > > stop being used?
+> > 
+> > How about a call trace of the two tasks which deadlock, here is one of
+> > running test 0027:
+> > 
+> > kdevops login: [  363.875459] INFO: task sysfs.sh:1271 blocked for more
+> > than 120 seconds.
 
-In fact, if you have CAP_BPF or CAP_SYS_ADMIN, this value has no impact for your
-programs. But I you don't have one of these capabilities, it may be rejected,
-but you cannot read these values, which help to understand why.
+<-- snip -->
 
+> That doesn't show the deadlock is related with module_exit().
 
-Regards,
-Nicolas
+Not directly no.
+
+> It is clearly one AA deadlock, what I meant was that it isn't related with
+> module exit cause lock & device_del() isn't always done in module exit, so
+> I doubt your fix with grabbing module refcnt is good or generic enough.
+
+A device_del() *can* happen in other areas other than module exit sure,
+but the issue is if a shared lock is used *before* device_del() and also
+used on a sysfs op. Typically this can happen on module exit, and the
+other common use case in my experience is on sysfs ops, such is the case
+with the zram driver. Both cases are covered then by this fix.
+
+If there are other areas, that is still driver specific, but of the
+things we *can* generalize, definitely module exit is a common path.
+
+> Except for your cooked test_sys module, how many real drivers do suffer the
+> problem? What are they?
+
+I only really seriously considered trying to generalize this after it
+was hinted to me live patching was also affected, and so clearly
+something generic was desirable.
+
+There may be other drivers for sure, but a hunt for that with semantics
+would require a bit complex coccinelle patch with iteration support.
+
+> Why can't we fix the exact driver?
+
+You can try, the way the lock is used in zram is correct, specially
+after my other fix in this series which addresses another unrelated bug
+with cpu hotplug multistate support. So we then can proceed to either
+take the position to say: "Thou shalt not use a shared lock on module
+exit and a sysfs op" and try to fix all places, or we generalize a fix
+for this. A generic fix seems more desirable.
+
+  Luis
