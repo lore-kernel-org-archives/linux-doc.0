@@ -2,801 +2,668 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D879FC433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 07:21:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5DC9C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 08:07:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C078260EDF
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 07:21:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BEA0060F11
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 08:07:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231338AbhJMHXS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Oct 2021 03:23:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40954 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238487AbhJMHVi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 13 Oct 2021 03:21:38 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 57AAA60EDF;
-        Wed, 13 Oct 2021 07:19:27 +0000 (UTC)
-From:   Huacai Chen <chenhuacai@loongson.cn>
-To:     Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Huacai Chen <chenhuacai@gmail.com>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Huacai Chen <chenhuacai@loongson.cn>
-Subject: [PATCH V5 22/22] LoongArch: Add Loongson-3 default config file
-Date:   Wed, 13 Oct 2021 15:11:17 +0800
-Message-Id: <20211013071117.3097969-9-chenhuacai@loongson.cn>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20211013071117.3097969-1-chenhuacai@loongson.cn>
-References: <20211013063656.3084555-1-chenhuacai@loongson.cn>
- <20211013071117.3097969-1-chenhuacai@loongson.cn>
+        id S238760AbhJMIJl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Oct 2021 04:09:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45830 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233058AbhJMIJh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Oct 2021 04:09:37 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26032C061714
+        for <linux-doc@vger.kernel.org>; Wed, 13 Oct 2021 01:07:33 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id y15so8101137lfk.7
+        for <linux-doc@vger.kernel.org>; Wed, 13 Oct 2021 01:07:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/TM5GwDv8NroYF6yRzu2LdJ5UTHqxzCh/VTQkYC9Rtw=;
+        b=RpvgoDVLdHogB/2KR1AXZAAA+FjrBwFLJpDjj+HUp/EVwuNdnl1ZRTT3nSYrDG/t2Z
+         9Mvfl4KKRTwq5ycuWM3k2t6G1c9U8Yd8mddWxuItLKGxKUDHxc77AZnxDef7ls8mxv/+
+         G4hnoZOvD8w4VbJBXku2DWul13ezpThT6/gjJyewG0ElKFnwzKSBKTYdLRX1KZa3tsiZ
+         2TWqEH1/eo7nc8lIs9hSMeAG9v7z73/X35ieA3vN4cbx1LBJ2jk7mYaujv9UZcW3KoQh
+         Pu+As8yr1zVczvFEA10lqwgHAPx8nLG3S9Sc/aw1BFCM/SZNXYMwC2UwoWtgw89HDMLE
+         OudA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/TM5GwDv8NroYF6yRzu2LdJ5UTHqxzCh/VTQkYC9Rtw=;
+        b=gF/sazl3ZOHT0ibLTXysV40atVUJcROCvGL9im47NaGuu+nCIeKpgNX0qvywLGkmim
+         zV/4gFhbOu+e45gO3iBRlIuXpp13JoyfZ5k/oWEj0lUyHq+mPa+4Ewzr+SqHUWLF+8m1
+         1F5RiNTBx3y5Kv4+tgQkAQRJvMR07VbeRFouA0XaUeLF2p8DUVTeH48EHflYMPafAWtG
+         Jnm740ZVkTQqm8n6OOOMV7Lv0MR/HVRHFmj1z9iH3XvYfPezbppnBjoSZO/eQeleBsH6
+         /SmyyDZ+xmBvnhsrFLzBpKbB+EBffZXHxsfgp8IAFdus1y6cli4Byg5me1MVORRVj/Fa
+         /Jjw==
+X-Gm-Message-State: AOAM532sLQA2q5zU6asJIay5NzPY0byXw7rXRx+bUmmIsDAAYdTvOyV+
+        YiIFPAp4OPYME+uhtjRqZGJc20ATWGw95UPwDr9fyQ==
+X-Google-Smtp-Source: ABdhPJwefnvae/S7fmJDSykZmRiuSbFvw3UiA5BoK9O6xt8X4WVonh2ptTDgrrCcKjmgZvefhzK2nnr/LLKtiG3zO5Y=
+X-Received: by 2002:a05:6512:3503:: with SMTP id h3mr37770257lfs.513.1634112451238;
+ Wed, 13 Oct 2021 01:07:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211006071546.2540920-1-jens.wiklander@linaro.org> <20211006071546.2540920-7-jens.wiklander@linaro.org>
+In-Reply-To: <20211006071546.2540920-7-jens.wiklander@linaro.org>
+From:   Sumit Garg <sumit.garg@linaro.org>
+Date:   Wed, 13 Oct 2021 13:37:19 +0530
+Message-ID: <CAFA6WYPB2hNMgdK+BkZFhvEqmyrbYH8i1b97v-6pSWM0hECW8g@mail.gmail.com>
+Subject: Re: [PATCH v6 6/6] optee: add asynchronous notifications
+To:     Jens Wiklander <jens.wiklander@linaro.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        OP-TEE TrustedFirmware <op-tee@lists.trustedfirmware.org>,
+        Devicetree List <devicetree@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jerome Forissier <jerome@forissier.org>,
+        Etienne Carriere <etienne.carriere@linaro.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ard Biesheuvel <ardb@kernel.org>, Marc Zyngier <maz@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch adds a default config file for LoongArch-based Loongson-3
-platform.
+On Wed, 6 Oct 2021 at 12:46, Jens Wiklander <jens.wiklander@linaro.org> wrote:
+>
+> Adds support for asynchronous notifications from secure world to normal
+> world. This allows a design with a top half and bottom half type of
+> driver where the top half runs in secure interrupt context and a
+> notifications tells normal world to schedule a yielding call to do the
+> bottom half processing.
+>
+> The protocol is defined in optee_msg.h optee_rpc_cmd.h and optee_smc.h.
+>
+> A notification consists of a 32-bit value which normal world can
+> retrieve using a fastcall into secure world. The value
+> OPTEE_SMC_ASYNC_NOTIF_VALUE_DO_BOTTOM_HALF (0) has a special meaning.
+> When this value is sent it means that normal world is supposed to make a
+> yielding call OPTEE_MSG_CMD_DO_BOTTOM_HALF.
+>
+> Notification capability is negotiated while the driver is initialized.
+> If both sides supports these notifications then they are enabled.
+>
+> An interrupt is used to notify the driver that there are asynchronous
+> notifications pending. The maximum needed notification value is
+> communicated at this stage. This allows scaling up when needed.
+>
+> Acked-by: Ard Biesheuvel <ardb@kernel.org>
+> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> ---
+>  drivers/tee/optee/call.c          |  27 ++++++++
+>  drivers/tee/optee/core.c          |  83 ++++++++++++++++-------
+>  drivers/tee/optee/notif.c         | 109 ++++++++++++++++++++++++++++--
+>  drivers/tee/optee/optee_msg.h     |   9 +++
+>  drivers/tee/optee/optee_private.h |   6 +-
+>  drivers/tee/optee/optee_smc.h     |  75 +++++++++++++++++++-
+>  6 files changed, 277 insertions(+), 32 deletions(-)
+>
+> diff --git a/drivers/tee/optee/call.c b/drivers/tee/optee/call.c
+> index 945f03da0223..e428e0e9a3af 100644
+> --- a/drivers/tee/optee/call.c
+> +++ b/drivers/tee/optee/call.c
+> @@ -392,6 +392,33 @@ int optee_cancel_req(struct tee_context *ctx, u32 cancel_id, u32 session)
+>         return 0;
+>  }
+>
+> +static int simple_call_with_arg(struct tee_context *ctx, u32 cmd)
+> +{
+> +       struct optee_msg_arg *msg_arg;
+> +       phys_addr_t msg_parg;
+> +       struct tee_shm *shm;
+> +
+> +       shm = get_msg_arg(ctx, 0, &msg_arg, &msg_parg);
+> +       if (IS_ERR(shm))
+> +               return PTR_ERR(shm);
+> +
+> +       msg_arg->cmd = cmd;
+> +       optee_do_call_with_arg(ctx, msg_parg);
+> +
+> +       tee_shm_free(shm);
+> +       return 0;
+> +}
+> +
+> +int optee_do_bottom_half(struct tee_context *ctx)
+> +{
+> +       return simple_call_with_arg(ctx, OPTEE_MSG_CMD_DO_BOTTOM_HALF);
+> +}
+> +
+> +int optee_stop_async_notif(struct tee_context *ctx)
+> +{
+> +       return simple_call_with_arg(ctx, OPTEE_MSG_CMD_STOP_ASYNC_NOTIF);
 
-Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
----
- arch/loongarch/Makefile                    |   2 +
- arch/loongarch/configs/loongson3_defconfig | 725 +++++++++++++++++++++
- 2 files changed, 727 insertions(+)
- create mode 100644 arch/loongarch/configs/loongson3_defconfig
+Is there any particular reason that this isn't a fast call similar to
+OPTEE_SMC_ENABLE_ASYNC_NOTIF?
 
-diff --git a/arch/loongarch/Makefile b/arch/loongarch/Makefile
-index ddc31d4def20..565382ed15a0 100644
---- a/arch/loongarch/Makefile
-+++ b/arch/loongarch/Makefile
-@@ -3,6 +3,8 @@
- # Author: Huacai Chen <chenhuacai@loongson.cn>
- # Copyright (C) 2020-2021 Loongson Technology Corporation Limited
- 
-+KBUILD_DEFCONFIG := loongson3_defconfig
-+
- #
- # Select the object file format to substitute into the linker script.
- #
-diff --git a/arch/loongarch/configs/loongson3_defconfig b/arch/loongarch/configs/loongson3_defconfig
-new file mode 100644
-index 000000000000..3cb95a2e379c
---- /dev/null
-+++ b/arch/loongarch/configs/loongson3_defconfig
-@@ -0,0 +1,725 @@
-+# CONFIG_LOCALVERSION_AUTO is not set
-+CONFIG_SYSVIPC=y
-+CONFIG_POSIX_MQUEUE=y
-+CONFIG_NO_HZ=y
-+CONFIG_HIGH_RES_TIMERS=y
-+CONFIG_BPF_SYSCALL=y
-+CONFIG_PREEMPT=y
-+CONFIG_BSD_PROCESS_ACCT=y
-+CONFIG_BSD_PROCESS_ACCT_V3=y
-+CONFIG_TASKSTATS=y
-+CONFIG_TASK_DELAY_ACCT=y
-+CONFIG_TASK_XACCT=y
-+CONFIG_TASK_IO_ACCOUNTING=y
-+CONFIG_LOG_BUF_SHIFT=18
-+CONFIG_NUMA_BALANCING=y
-+CONFIG_MEMCG=y
-+CONFIG_BLK_CGROUP=y
-+CONFIG_CFS_BANDWIDTH=y
-+CONFIG_RT_GROUP_SCHED=y
-+CONFIG_CGROUP_PIDS=y
-+CONFIG_CGROUP_FREEZER=y
-+CONFIG_CGROUP_HUGETLB=y
-+CONFIG_CPUSETS=y
-+CONFIG_CGROUP_DEVICE=y
-+CONFIG_CGROUP_CPUACCT=y
-+CONFIG_CGROUP_PERF=y
-+CONFIG_CGROUP_BPF=y
-+CONFIG_NAMESPACES=y
-+CONFIG_USER_NS=y
-+CONFIG_CHECKPOINT_RESTORE=y
-+CONFIG_SCHED_AUTOGROUP=y
-+CONFIG_SYSFS_DEPRECATED=y
-+CONFIG_RELAY=y
-+CONFIG_BLK_DEV_INITRD=y
-+CONFIG_EXPERT=y
-+CONFIG_USERFAULTFD=y
-+CONFIG_PERF_EVENTS=y
-+# CONFIG_COMPAT_BRK is not set
-+CONFIG_LOONGARCH=y
-+CONFIG_64BIT=y
-+CONFIG_MACH_LOONGSON64=y
-+CONFIG_DMI=y
-+CONFIG_EFI=y
-+CONFIG_SMP=y
-+CONFIG_NR_CPUS=64
-+CONFIG_NUMA=y
-+CONFIG_PAGE_SIZE_16KB=y
-+CONFIG_HZ_250=y
-+CONFIG_ACPI=y
-+CONFIG_ACPI_SPCR_TABLE=y
-+CONFIG_ACPI_HOTPLUG_CPU=y
-+CONFIG_ACPI_HOTPLUG_MEMORY=y
-+CONFIG_EFI_CAPSULE_LOADER=m
-+CONFIG_EFI_TEST=m
-+CONFIG_MODULES=y
-+CONFIG_MODULE_FORCE_LOAD=y
-+CONFIG_MODULE_UNLOAD=y
-+CONFIG_MODULE_FORCE_UNLOAD=y
-+CONFIG_MODVERSIONS=y
-+CONFIG_BLK_DEV_THROTTLING=y
-+CONFIG_PARTITION_ADVANCED=y
-+CONFIG_IOSCHED_BFQ=y
-+CONFIG_BFQ_GROUP_IOSCHED=y
-+CONFIG_BINFMT_MISC=m
-+CONFIG_MEMORY_HOTPLUG=y
-+CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE=y
-+CONFIG_MEMORY_HOTREMOVE=y
-+CONFIG_KSM=y
-+CONFIG_TRANSPARENT_HUGEPAGE=y
-+CONFIG_NET=y
-+CONFIG_PACKET=y
-+CONFIG_UNIX=y
-+CONFIG_XFRM_USER=y
-+CONFIG_NET_KEY=y
-+CONFIG_INET=y
-+CONFIG_IP_MULTICAST=y
-+CONFIG_IP_ADVANCED_ROUTER=y
-+CONFIG_IP_MULTIPLE_TABLES=y
-+CONFIG_IP_ROUTE_MULTIPATH=y
-+CONFIG_IP_ROUTE_VERBOSE=y
-+CONFIG_IP_PNP=y
-+CONFIG_IP_PNP_DHCP=y
-+CONFIG_IP_PNP_BOOTP=y
-+CONFIG_IP_PNP_RARP=y
-+CONFIG_INET_ESP=m
-+CONFIG_INET_UDP_DIAG=y
-+CONFIG_TCP_CONG_ADVANCED=y
-+CONFIG_TCP_CONG_BBR=m
-+CONFIG_NETWORK_PHY_TIMESTAMPING=y
-+CONFIG_NETFILTER=y
-+CONFIG_NETFILTER_NETLINK_LOG=m
-+CONFIG_NF_CONNTRACK=m
-+CONFIG_NF_LOG_NETDEV=m
-+CONFIG_NF_CONNTRACK_AMANDA=m
-+CONFIG_NF_CONNTRACK_FTP=m
-+CONFIG_NF_CONNTRACK_NETBIOS_NS=m
-+CONFIG_NF_CONNTRACK_TFTP=m
-+CONFIG_NF_CT_NETLINK=m
-+CONFIG_NF_TABLES=m
-+CONFIG_NFT_COUNTER=m
-+CONFIG_NFT_CONNLIMIT=m
-+CONFIG_NFT_LOG=m
-+CONFIG_NFT_LIMIT=m
-+CONFIG_NFT_MASQ=m
-+CONFIG_NFT_REDIR=m
-+CONFIG_NFT_NAT=m
-+CONFIG_NFT_TUNNEL=m
-+CONFIG_NFT_OBJREF=m
-+CONFIG_NFT_QUEUE=m
-+CONFIG_NFT_QUOTA=m
-+CONFIG_NFT_REJECT=m
-+CONFIG_NFT_COMPAT=m
-+CONFIG_NFT_HASH=m
-+CONFIG_NFT_SOCKET=m
-+CONFIG_NFT_OSF=m
-+CONFIG_NFT_TPROXY=m
-+CONFIG_NETFILTER_XT_SET=m
-+CONFIG_NETFILTER_XT_TARGET_AUDIT=m
-+CONFIG_NETFILTER_XT_TARGET_CHECKSUM=m
-+CONFIG_NETFILTER_XT_TARGET_CLASSIFY=m
-+CONFIG_NETFILTER_XT_TARGET_CONNMARK=m
-+CONFIG_NETFILTER_XT_TARGET_CT=m
-+CONFIG_NETFILTER_XT_TARGET_DSCP=m
-+CONFIG_NETFILTER_XT_TARGET_HMARK=m
-+CONFIG_NETFILTER_XT_TARGET_IDLETIMER=m
-+CONFIG_NETFILTER_XT_TARGET_LED=m
-+CONFIG_NETFILTER_XT_TARGET_LOG=m
-+CONFIG_NETFILTER_XT_TARGET_MARK=m
-+CONFIG_NETFILTER_XT_TARGET_NFQUEUE=m
-+CONFIG_NETFILTER_XT_TARGET_TRACE=m
-+CONFIG_NETFILTER_XT_TARGET_SECMARK=m
-+CONFIG_NETFILTER_XT_TARGET_TCPMSS=m
-+CONFIG_NETFILTER_XT_TARGET_TCPOPTSTRIP=m
-+CONFIG_NETFILTER_XT_MATCH_ADDRTYPE=m
-+CONFIG_NETFILTER_XT_MATCH_BPF=m
-+CONFIG_NETFILTER_XT_MATCH_CGROUP=m
-+CONFIG_NETFILTER_XT_MATCH_CLUSTER=m
-+CONFIG_NETFILTER_XT_MATCH_COMMENT=m
-+CONFIG_NETFILTER_XT_MATCH_CONNBYTES=m
-+CONFIG_NETFILTER_XT_MATCH_CONNLABEL=m
-+CONFIG_NETFILTER_XT_MATCH_CONNLIMIT=m
-+CONFIG_NETFILTER_XT_MATCH_CONNMARK=m
-+CONFIG_NETFILTER_XT_MATCH_CONNTRACK=m
-+CONFIG_NETFILTER_XT_MATCH_CPU=m
-+CONFIG_NETFILTER_XT_MATCH_DCCP=m
-+CONFIG_NETFILTER_XT_MATCH_DEVGROUP=m
-+CONFIG_NETFILTER_XT_MATCH_DSCP=m
-+CONFIG_NETFILTER_XT_MATCH_ESP=m
-+CONFIG_NETFILTER_XT_MATCH_HASHLIMIT=m
-+CONFIG_NETFILTER_XT_MATCH_HELPER=m
-+CONFIG_NETFILTER_XT_MATCH_IPCOMP=m
-+CONFIG_NETFILTER_XT_MATCH_IPRANGE=m
-+CONFIG_NETFILTER_XT_MATCH_IPVS=m
-+CONFIG_NETFILTER_XT_MATCH_LENGTH=m
-+CONFIG_NETFILTER_XT_MATCH_LIMIT=m
-+CONFIG_NETFILTER_XT_MATCH_MAC=m
-+CONFIG_NETFILTER_XT_MATCH_MARK=m
-+CONFIG_NETFILTER_XT_MATCH_MULTIPORT=m
-+CONFIG_NETFILTER_XT_MATCH_NFACCT=m
-+CONFIG_NETFILTER_XT_MATCH_OSF=m
-+CONFIG_NETFILTER_XT_MATCH_OWNER=m
-+CONFIG_NETFILTER_XT_MATCH_POLICY=m
-+CONFIG_NETFILTER_XT_MATCH_PKTTYPE=m
-+CONFIG_NETFILTER_XT_MATCH_QUOTA=m
-+CONFIG_NETFILTER_XT_MATCH_RATEEST=m
-+CONFIG_NETFILTER_XT_MATCH_REALM=m
-+CONFIG_NETFILTER_XT_MATCH_SOCKET=m
-+CONFIG_NETFILTER_XT_MATCH_STATE=m
-+CONFIG_NETFILTER_XT_MATCH_STATISTIC=m
-+CONFIG_NETFILTER_XT_MATCH_STRING=m
-+CONFIG_NETFILTER_XT_MATCH_TCPMSS=m
-+CONFIG_NETFILTER_XT_MATCH_TIME=m
-+CONFIG_NETFILTER_XT_MATCH_U32=m
-+CONFIG_IP_SET=m
-+CONFIG_IP_VS=m
-+CONFIG_IP_VS_PROTO_TCP=y
-+CONFIG_IP_VS_PROTO_UDP=y
-+CONFIG_IP_VS_RR=m
-+CONFIG_IP_VS_NFCT=y
-+CONFIG_NF_TABLES_IPV4=y
-+CONFIG_NFT_DUP_IPV4=m
-+CONFIG_NFT_FIB_IPV4=m
-+CONFIG_NF_TABLES_ARP=y
-+CONFIG_NF_LOG_ARP=m
-+CONFIG_IP_NF_IPTABLES=m
-+CONFIG_IP_NF_MATCH_AH=m
-+CONFIG_IP_NF_MATCH_ECN=m
-+CONFIG_IP_NF_MATCH_RPFILTER=m
-+CONFIG_IP_NF_MATCH_TTL=m
-+CONFIG_IP_NF_FILTER=m
-+CONFIG_IP_NF_TARGET_REJECT=m
-+CONFIG_IP_NF_TARGET_SYNPROXY=m
-+CONFIG_IP_NF_NAT=m
-+CONFIG_IP_NF_TARGET_MASQUERADE=m
-+CONFIG_IP_NF_TARGET_NETMAP=m
-+CONFIG_IP_NF_TARGET_REDIRECT=m
-+CONFIG_IP_NF_MANGLE=m
-+CONFIG_IP_NF_TARGET_CLUSTERIP=m
-+CONFIG_IP_NF_TARGET_ECN=m
-+CONFIG_IP_NF_TARGET_TTL=m
-+CONFIG_IP_NF_RAW=m
-+CONFIG_IP_NF_SECURITY=m
-+CONFIG_IP_NF_ARPTABLES=m
-+CONFIG_IP_NF_ARPFILTER=m
-+CONFIG_IP_NF_ARP_MANGLE=m
-+CONFIG_NF_TABLES_IPV6=y
-+CONFIG_IP6_NF_IPTABLES=y
-+CONFIG_IP6_NF_MATCH_AH=m
-+CONFIG_IP6_NF_MATCH_EUI64=m
-+CONFIG_IP6_NF_MATCH_FRAG=m
-+CONFIG_IP6_NF_MATCH_OPTS=m
-+CONFIG_IP6_NF_MATCH_IPV6HEADER=m
-+CONFIG_IP6_NF_MATCH_MH=m
-+CONFIG_IP6_NF_MATCH_RPFILTER=m
-+CONFIG_IP6_NF_MATCH_RT=m
-+CONFIG_IP6_NF_MATCH_SRH=m
-+CONFIG_IP6_NF_FILTER=y
-+CONFIG_IP6_NF_TARGET_REJECT=m
-+CONFIG_IP6_NF_TARGET_SYNPROXY=m
-+CONFIG_IP6_NF_MANGLE=m
-+CONFIG_IP6_NF_RAW=m
-+CONFIG_IP6_NF_SECURITY=m
-+CONFIG_IP6_NF_NAT=m
-+CONFIG_IP6_NF_TARGET_MASQUERADE=m
-+CONFIG_IP6_NF_TARGET_NPT=m
-+CONFIG_NF_TABLES_BRIDGE=m
-+CONFIG_BRIDGE_NF_EBTABLES=m
-+CONFIG_BRIDGE_EBT_BROUTE=m
-+CONFIG_BRIDGE_EBT_T_FILTER=m
-+CONFIG_BRIDGE_EBT_T_NAT=m
-+CONFIG_IP_SCTP=m
-+CONFIG_RDS=y
-+CONFIG_L2TP=m
-+CONFIG_BRIDGE=m
-+CONFIG_VLAN_8021Q=m
-+CONFIG_VLAN_8021Q_GVRP=y
-+CONFIG_VLAN_8021Q_MVRP=y
-+CONFIG_NET_SCHED=y
-+CONFIG_NET_SCH_PRIO=m
-+CONFIG_NET_SCH_TBF=m
-+CONFIG_NET_SCH_INGRESS=m
-+CONFIG_NET_CLS_BASIC=m
-+CONFIG_NET_CLS_U32=m
-+CONFIG_NET_CLS_CGROUP=m
-+CONFIG_NET_CLS_ACT=y
-+CONFIG_NET_ACT_POLICE=m
-+CONFIG_NET_ACT_GACT=m
-+CONFIG_NET_ACT_MIRRED=m
-+CONFIG_OPENVSWITCH=m
-+CONFIG_NETLINK_DIAG=y
-+CONFIG_CGROUP_NET_PRIO=y
-+CONFIG_BT=m
-+CONFIG_BT_HCIBTUSB=m
-+# CONFIG_BT_HCIBTUSB_BCM is not set
-+# CONFIG_BT_HCIBTUSB_RTL is not set
-+CONFIG_CFG80211=m
-+CONFIG_CFG80211_WEXT=y
-+CONFIG_MAC80211=m
-+CONFIG_RFKILL=m
-+CONFIG_RFKILL_INPUT=y
-+CONFIG_NET_9P=y
-+CONFIG_CEPH_LIB=m
-+CONFIG_PCIEPORTBUS=y
-+CONFIG_HOTPLUG_PCI_PCIE=y
-+CONFIG_PCIEAER=y
-+# CONFIG_PCIEASPM is not set
-+CONFIG_PCI_IOV=y
-+CONFIG_HOTPLUG_PCI=y
-+CONFIG_HOTPLUG_PCI_SHPC=y
-+CONFIG_PCCARD=m
-+CONFIG_YENTA=m
-+CONFIG_RAPIDIO=y
-+CONFIG_RAPIDIO_TSI721=y
-+CONFIG_RAPIDIO_ENABLE_RX_TX_PORTS=y
-+CONFIG_RAPIDIO_ENUM_BASIC=m
-+CONFIG_RAPIDIO_CHMAN=m
-+CONFIG_RAPIDIO_MPORT_CDEV=m
-+CONFIG_UEVENT_HELPER=y
-+CONFIG_DEVTMPFS=y
-+CONFIG_DEVTMPFS_MOUNT=y
-+CONFIG_MTD=m
-+CONFIG_MTD_BLOCK=m
-+CONFIG_MTD_CFI=m
-+CONFIG_MTD_JEDECPROBE=m
-+CONFIG_MTD_CFI_INTELEXT=m
-+CONFIG_MTD_CFI_AMDSTD=m
-+CONFIG_MTD_CFI_STAA=m
-+CONFIG_MTD_RAM=m
-+CONFIG_MTD_ROM=m
-+CONFIG_PARPORT=y
-+CONFIG_PARPORT_PC=y
-+CONFIG_PARPORT_SERIAL=y
-+CONFIG_PARPORT_PC_FIFO=y
-+CONFIG_BLK_DEV_LOOP=y
-+CONFIG_BLK_DEV_CRYPTOLOOP=y
-+CONFIG_BLK_DEV_RAM=y
-+CONFIG_BLK_DEV_RAM_SIZE=8192
-+CONFIG_BLK_DEV_RBD=m
-+CONFIG_BLK_DEV_NVME=y
-+CONFIG_EEPROM_AT24=m
-+CONFIG_BLK_DEV_SD=y
-+CONFIG_BLK_DEV_SR=y
-+CONFIG_CHR_DEV_SG=y
-+CONFIG_CHR_DEV_SCH=m
-+CONFIG_SCSI_CONSTANTS=y
-+CONFIG_SCSI_LOGGING=y
-+CONFIG_SCSI_SPI_ATTRS=m
-+CONFIG_SCSI_FC_ATTRS=m
-+CONFIG_SCSI_SAS_ATA=y
-+CONFIG_ISCSI_TCP=m
-+CONFIG_SCSI_MVSAS=y
-+# CONFIG_SCSI_MVSAS_DEBUG is not set
-+CONFIG_SCSI_MVSAS_TASKLET=y
-+CONFIG_SCSI_MVUMI=y
-+CONFIG_MEGARAID_NEWGEN=y
-+CONFIG_MEGARAID_MM=y
-+CONFIG_MEGARAID_MAILBOX=y
-+CONFIG_MEGARAID_LEGACY=y
-+CONFIG_MEGARAID_SAS=y
-+CONFIG_SCSI_MPT2SAS=y
-+CONFIG_LIBFC=m
-+CONFIG_LIBFCOE=m
-+CONFIG_FCOE=m
-+CONFIG_SCSI_QLOGIC_1280=m
-+CONFIG_SCSI_QLA_FC=m
-+CONFIG_TCM_QLA2XXX=m
-+CONFIG_SCSI_QLA_ISCSI=m
-+CONFIG_SCSI_LPFC=m
-+CONFIG_ATA=y
-+CONFIG_SATA_AHCI=y
-+CONFIG_SATA_AHCI_PLATFORM=y
-+CONFIG_PATA_ATIIXP=y
-+CONFIG_PATA_PCMCIA=m
-+CONFIG_MD=y
-+CONFIG_BLK_DEV_MD=m
-+CONFIG_MD_LINEAR=m
-+CONFIG_MD_RAID0=m
-+CONFIG_MD_RAID1=m
-+CONFIG_MD_RAID10=m
-+CONFIG_MD_RAID456=m
-+CONFIG_MD_MULTIPATH=m
-+CONFIG_BCACHE=m
-+CONFIG_BLK_DEV_DM=y
-+CONFIG_DM_CRYPT=m
-+CONFIG_DM_SNAPSHOT=m
-+CONFIG_DM_THIN_PROVISIONING=m
-+CONFIG_DM_MIRROR=m
-+CONFIG_DM_ZERO=m
-+CONFIG_DM_MULTIPATH=m
-+CONFIG_DM_MULTIPATH_QL=m
-+CONFIG_DM_MULTIPATH_ST=m
-+CONFIG_TARGET_CORE=m
-+CONFIG_TCM_IBLOCK=m
-+CONFIG_TCM_FILEIO=m
-+CONFIG_TCM_PSCSI=m
-+CONFIG_TCM_USER2=m
-+CONFIG_LOOPBACK_TARGET=m
-+CONFIG_ISCSI_TARGET=m
-+CONFIG_NETDEVICES=y
-+CONFIG_BONDING=m
-+CONFIG_DUMMY=y
-+CONFIG_MACVLAN=m
-+CONFIG_MACVTAP=m
-+CONFIG_IPVLAN=m
-+CONFIG_VXLAN=y
-+CONFIG_RIONET=m
-+CONFIG_TUN=m
-+CONFIG_VETH=m
-+# CONFIG_NET_VENDOR_3COM is not set
-+# CONFIG_NET_VENDOR_ADAPTEC is not set
-+# CONFIG_NET_VENDOR_AGERE is not set
-+# CONFIG_NET_VENDOR_ALACRITECH is not set
-+# CONFIG_NET_VENDOR_ALTEON is not set
-+# CONFIG_NET_VENDOR_AMAZON is not set
-+# CONFIG_NET_VENDOR_AMD is not set
-+# CONFIG_NET_VENDOR_AQUANTIA is not set
-+# CONFIG_NET_VENDOR_ARC is not set
-+# CONFIG_NET_VENDOR_ATHEROS is not set
-+CONFIG_BNX2=y
-+# CONFIG_NET_VENDOR_BROCADE is not set
-+# CONFIG_NET_VENDOR_CAVIUM is not set
-+CONFIG_CHELSIO_T1=m
-+CONFIG_CHELSIO_T1_1G=y
-+CONFIG_CHELSIO_T3=m
-+CONFIG_CHELSIO_T4=m
-+# CONFIG_NET_VENDOR_CIRRUS is not set
-+# CONFIG_NET_VENDOR_CISCO is not set
-+# CONFIG_NET_VENDOR_DEC is not set
-+# CONFIG_NET_VENDOR_DLINK is not set
-+# CONFIG_NET_VENDOR_EMULEX is not set
-+# CONFIG_NET_VENDOR_EZCHIP is not set
-+# CONFIG_NET_VENDOR_I825XX is not set
-+CONFIG_E1000=y
-+CONFIG_E1000E=y
-+CONFIG_IGB=y
-+CONFIG_IXGB=y
-+CONFIG_IXGBE=y
-+# CONFIG_NET_VENDOR_MARVELL is not set
-+# CONFIG_NET_VENDOR_MELLANOX is not set
-+# CONFIG_NET_VENDOR_MICREL is not set
-+# CONFIG_NET_VENDOR_MYRI is not set
-+# CONFIG_NET_VENDOR_NATSEMI is not set
-+# CONFIG_NET_VENDOR_NETRONOME is not set
-+# CONFIG_NET_VENDOR_NVIDIA is not set
-+# CONFIG_NET_VENDOR_OKI is not set
-+# CONFIG_NET_VENDOR_QLOGIC is not set
-+# CONFIG_NET_VENDOR_QUALCOMM is not set
-+# CONFIG_NET_VENDOR_RDC is not set
-+CONFIG_8139CP=m
-+CONFIG_8139TOO=m
-+CONFIG_R8169=y
-+# CONFIG_NET_VENDOR_RENESAS is not set
-+# CONFIG_NET_VENDOR_ROCKER is not set
-+# CONFIG_NET_VENDOR_SAMSUNG is not set
-+# CONFIG_NET_VENDOR_SEEQ is not set
-+# CONFIG_NET_VENDOR_SOLARFLARE is not set
-+# CONFIG_NET_VENDOR_SILAN is not set
-+# CONFIG_NET_VENDOR_SIS is not set
-+# CONFIG_NET_VENDOR_SMSC is not set
-+CONFIG_STMMAC_ETH=y
-+# CONFIG_NET_VENDOR_SUN is not set
-+# CONFIG_NET_VENDOR_TEHUTI is not set
-+# CONFIG_NET_VENDOR_TI is not set
-+# CONFIG_NET_VENDOR_VIA is not set
-+# CONFIG_NET_VENDOR_WIZNET is not set
-+# CONFIG_NET_VENDOR_XILINX is not set
-+CONFIG_PPP=m
-+CONFIG_PPP_BSDCOMP=m
-+CONFIG_PPP_DEFLATE=m
-+CONFIG_PPP_FILTER=y
-+CONFIG_PPP_MPPE=m
-+CONFIG_PPP_MULTILINK=y
-+CONFIG_PPPOE=m
-+CONFIG_PPPOL2TP=m
-+CONFIG_PPP_ASYNC=m
-+CONFIG_PPP_SYNC_TTY=m
-+# CONFIG_USB_NET_AX8817X is not set
-+# CONFIG_USB_NET_AX88179_178A is not set
-+CONFIG_USB_NET_CDC_EEM=m
-+CONFIG_USB_NET_HUAWEI_CDC_NCM=m
-+CONFIG_USB_NET_CDC_MBIM=m
-+# CONFIG_USB_NET_NET1080 is not set
-+# CONFIG_USB_BELKIN is not set
-+# CONFIG_USB_ARMLINUX is not set
-+# CONFIG_USB_NET_ZAURUS is not set
-+CONFIG_ATH9K=m
-+CONFIG_ATH9K_HTC=m
-+CONFIG_IWLWIFI=m
-+CONFIG_IWLDVM=m
-+CONFIG_IWLMVM=m
-+CONFIG_IWLWIFI_BCAST_FILTERING=y
-+CONFIG_HOSTAP=m
-+CONFIG_MT7601U=m
-+CONFIG_RT2X00=m
-+CONFIG_RT2800USB=m
-+CONFIG_RTL8192CE=m
-+CONFIG_RTL8192SE=m
-+CONFIG_RTL8192DE=m
-+CONFIG_RTL8723AE=m
-+CONFIG_RTL8723BE=m
-+CONFIG_RTL8188EE=m
-+CONFIG_RTL8192EE=m
-+CONFIG_RTL8821AE=m
-+CONFIG_RTL8192CU=m
-+# CONFIG_RTLWIFI_DEBUG is not set
-+CONFIG_RTL8XXXU=m
-+CONFIG_ZD1211RW=m
-+CONFIG_USB_NET_RNDIS_WLAN=m
-+CONFIG_INPUT_POLLDEV=m
-+CONFIG_INPUT_MOUSEDEV=y
-+CONFIG_INPUT_MOUSEDEV_PSAUX=y
-+CONFIG_KEYBOARD_XTKBD=m
-+CONFIG_MOUSE_PS2_ELANTECH=y
-+CONFIG_MOUSE_PS2_SENTELIC=y
-+CONFIG_MOUSE_SERIAL=m
-+CONFIG_INPUT_MISC=y
-+CONFIG_INPUT_UINPUT=m
-+CONFIG_SERIO_SERPORT=m
-+CONFIG_SERIO_RAW=m
-+CONFIG_LEGACY_PTY_COUNT=16
-+CONFIG_SERIAL_8250=y
-+CONFIG_SERIAL_8250_CONSOLE=y
-+CONFIG_SERIAL_8250_NR_UARTS=16
-+CONFIG_SERIAL_8250_RUNTIME_UARTS=16
-+CONFIG_SERIAL_8250_EXTENDED=y
-+CONFIG_SERIAL_8250_MANY_PORTS=y
-+CONFIG_SERIAL_8250_SHARE_IRQ=y
-+CONFIG_SERIAL_8250_RSA=y
-+CONFIG_SERIAL_NONSTANDARD=y
-+CONFIG_PRINTER=m
-+CONFIG_IPMI_HANDLER=m
-+CONFIG_IPMI_DEVICE_INTERFACE=m
-+CONFIG_IPMI_SI=m
-+CONFIG_HW_RANDOM=y
-+CONFIG_I2C_CHARDEV=y
-+CONFIG_I2C_PIIX4=y
-+CONFIG_I2C_GPIO=y
-+CONFIG_SPI=y
-+CONFIG_GPIO_SYSFS=y
-+CONFIG_GPIO_LOONGSON=y
-+CONFIG_SENSORS_LM75=m
-+CONFIG_SENSORS_LM93=m
-+CONFIG_SENSORS_W83795=m
-+CONFIG_SENSORS_W83627HF=m
-+CONFIG_RC_CORE=m
-+CONFIG_LIRC=y
-+CONFIG_RC_DECODERS=y
-+CONFIG_IR_NEC_DECODER=m
-+CONFIG_IR_RC5_DECODER=m
-+CONFIG_IR_RC6_DECODER=m
-+CONFIG_IR_JVC_DECODER=m
-+CONFIG_IR_SONY_DECODER=m
-+CONFIG_IR_SANYO_DECODER=m
-+CONFIG_IR_SHARP_DECODER=m
-+CONFIG_IR_MCE_KBD_DECODER=m
-+CONFIG_IR_XMP_DECODER=m
-+CONFIG_IR_IMON_DECODER=m
-+CONFIG_MEDIA_SUPPORT=m
-+CONFIG_MEDIA_USB_SUPPORT=y
-+CONFIG_USB_VIDEO_CLASS=m
-+CONFIG_MEDIA_PCI_SUPPORT=y
-+CONFIG_VIDEO_BT848=m
-+CONFIG_DVB_BT8XX=m
-+CONFIG_DRM=y
-+CONFIG_DRM_RADEON=m
-+CONFIG_DRM_RADEON_USERPTR=y
-+CONFIG_DRM_AMDGPU=m
-+CONFIG_DRM_AMDGPU_SI=y
-+CONFIG_DRM_AMDGPU_CIK=y
-+CONFIG_DRM_AMDGPU_USERPTR=y
-+CONFIG_DRM_AST=y
-+CONFIG_FB=y
-+CONFIG_FB_EFI=y
-+CONFIG_FB_RADEON=y
-+CONFIG_LCD_PLATFORM=m
-+# CONFIG_VGA_CONSOLE is not set
-+CONFIG_FRAMEBUFFER_CONSOLE=y
-+CONFIG_FRAMEBUFFER_CONSOLE_ROTATION=y
-+CONFIG_LOGO=y
-+CONFIG_SOUND=y
-+CONFIG_SND=y
-+CONFIG_SND_SEQUENCER=m
-+CONFIG_SND_SEQ_DUMMY=m
-+# CONFIG_SND_ISA is not set
-+CONFIG_SND_BT87X=m
-+CONFIG_SND_BT87X_OVERCLOCK=y
-+CONFIG_SND_HDA_INTEL=y
-+CONFIG_SND_HDA_HWDEP=y
-+CONFIG_SND_HDA_INPUT_BEEP=y
-+CONFIG_SND_HDA_PATCH_LOADER=y
-+CONFIG_SND_HDA_CODEC_REALTEK=y
-+CONFIG_SND_HDA_CODEC_SIGMATEL=y
-+CONFIG_SND_HDA_CODEC_HDMI=y
-+CONFIG_SND_HDA_CODEC_CONEXANT=y
-+CONFIG_SND_USB_AUDIO=m
-+CONFIG_HIDRAW=y
-+CONFIG_UHID=m
-+CONFIG_HID_A4TECH=m
-+CONFIG_HID_CHERRY=m
-+CONFIG_HID_LOGITECH=m
-+CONFIG_HID_LOGITECH_DJ=m
-+CONFIG_LOGITECH_FF=y
-+CONFIG_LOGIRUMBLEPAD2_FF=y
-+CONFIG_LOGIG940_FF=y
-+CONFIG_HID_MICROSOFT=m
-+CONFIG_HID_MULTITOUCH=m
-+CONFIG_HID_SUNPLUS=m
-+CONFIG_USB_HIDDEV=y
-+CONFIG_USB=y
-+CONFIG_USB_OTG=y
-+CONFIG_USB_MON=y
-+CONFIG_USB_XHCI_HCD=y
-+CONFIG_USB_EHCI_HCD=y
-+CONFIG_USB_EHCI_ROOT_HUB_TT=y
-+CONFIG_USB_EHCI_HCD_PLATFORM=y
-+CONFIG_USB_OHCI_HCD=y
-+CONFIG_USB_OHCI_HCD_PLATFORM=y
-+CONFIG_USB_UHCI_HCD=m
-+CONFIG_USB_ACM=m
-+CONFIG_USB_PRINTER=m
-+CONFIG_USB_STORAGE=m
-+CONFIG_USB_STORAGE_REALTEK=m
-+CONFIG_USB_UAS=m
-+CONFIG_USB_DWC2=y
-+CONFIG_USB_DWC2_HOST=y
-+CONFIG_USB_SERIAL=m
-+CONFIG_USB_SERIAL_CH341=m
-+CONFIG_USB_SERIAL_CP210X=m
-+CONFIG_USB_SERIAL_FTDI_SIO=m
-+CONFIG_USB_SERIAL_PL2303=m
-+CONFIG_USB_SERIAL_OPTION=m
-+CONFIG_USB_GADGET=y
-+CONFIG_INFINIBAND=m
-+CONFIG_RTC_CLASS=y
-+CONFIG_RTC_DRV_EFI=y
-+CONFIG_UIO=m
-+CONFIG_UIO_PDRV_GENIRQ=m
-+CONFIG_UIO_DMEM_GENIRQ=m
-+CONFIG_UIO_PCI_GENERIC=m
-+# CONFIG_VIRTIO_MENU is not set
-+CONFIG_COMEDI=m
-+CONFIG_COMEDI_PCI_DRIVERS=m
-+CONFIG_COMEDI_8255_PCI=m
-+CONFIG_COMEDI_ADL_PCI6208=m
-+CONFIG_COMEDI_ADL_PCI7X3X=m
-+CONFIG_COMEDI_ADL_PCI8164=m
-+CONFIG_COMEDI_ADL_PCI9111=m
-+CONFIG_COMEDI_ADL_PCI9118=m
-+CONFIG_COMEDI_ADV_PCI1710=m
-+CONFIG_COMEDI_ADV_PCI1720=m
-+CONFIG_COMEDI_ADV_PCI1723=m
-+CONFIG_COMEDI_ADV_PCI1724=m
-+CONFIG_COMEDI_ADV_PCI1760=m
-+CONFIG_COMEDI_ADV_PCI_DIO=m
-+CONFIG_COMEDI_NI_LABPC_PCI=m
-+CONFIG_COMEDI_NI_PCIDIO=m
-+CONFIG_COMEDI_NI_PCIMIO=m
-+CONFIG_STAGING=y
-+CONFIG_R8188EU=m
-+# CONFIG_88EU_AP_MODE is not set
-+CONFIG_PM_DEVFREQ=y
-+CONFIG_DEVFREQ_GOV_SIMPLE_ONDEMAND=y
-+CONFIG_DEVFREQ_GOV_PERFORMANCE=y
-+CONFIG_DEVFREQ_GOV_POWERSAVE=y
-+CONFIG_DEVFREQ_GOV_USERSPACE=y
-+CONFIG_PWM=y
-+CONFIG_EXT2_FS=y
-+CONFIG_EXT2_FS_XATTR=y
-+CONFIG_EXT2_FS_POSIX_ACL=y
-+CONFIG_EXT2_FS_SECURITY=y
-+CONFIG_EXT3_FS=y
-+CONFIG_EXT3_FS_POSIX_ACL=y
-+CONFIG_EXT3_FS_SECURITY=y
-+CONFIG_XFS_FS=y
-+CONFIG_XFS_QUOTA=y
-+CONFIG_XFS_POSIX_ACL=y
-+CONFIG_BTRFS_FS=y
-+CONFIG_FANOTIFY=y
-+CONFIG_FANOTIFY_ACCESS_PERMISSIONS=y
-+CONFIG_QUOTA=y
-+# CONFIG_PRINT_QUOTA_WARNING is not set
-+CONFIG_QFMT_V1=m
-+CONFIG_QFMT_V2=m
-+CONFIG_AUTOFS4_FS=y
-+CONFIG_FUSE_FS=m
-+CONFIG_OVERLAY_FS=y
-+CONFIG_OVERLAY_FS_INDEX=y
-+CONFIG_OVERLAY_FS_XINO_AUTO=y
-+CONFIG_OVERLAY_FS_METACOPY=y
-+CONFIG_FSCACHE=y
-+CONFIG_ISO9660_FS=y
-+CONFIG_JOLIET=y
-+CONFIG_UDF_FS=y
-+CONFIG_MSDOS_FS=m
-+CONFIG_VFAT_FS=m
-+CONFIG_FAT_DEFAULT_CODEPAGE=936
-+CONFIG_FAT_DEFAULT_IOCHARSET="gb2312"
-+CONFIG_PROC_KCORE=y
-+CONFIG_TMPFS=y
-+CONFIG_TMPFS_POSIX_ACL=y
-+CONFIG_HUGETLBFS=y
-+CONFIG_CONFIGFS_FS=y
-+# CONFIG_EFIVAR_FS is not set
-+CONFIG_CRAMFS=m
-+CONFIG_SQUASHFS=y
-+CONFIG_SQUASHFS_XATTR=y
-+CONFIG_SQUASHFS_LZ4=y
-+CONFIG_SQUASHFS_LZO=y
-+CONFIG_SQUASHFS_XZ=y
-+CONFIG_NFS_FS=y
-+CONFIG_NFS_V3_ACL=y
-+CONFIG_NFS_V4=y
-+CONFIG_NFS_V4_1=y
-+CONFIG_NFS_V4_2=y
-+CONFIG_ROOT_NFS=y
-+CONFIG_NFSD=y
-+CONFIG_NFSD_V3_ACL=y
-+CONFIG_NFSD_V4=y
-+CONFIG_NFSD_BLOCKLAYOUT=y
-+CONFIG_CIFS=m
-+# CONFIG_CIFS_DEBUG is not set
-+CONFIG_9P_FS=y
-+CONFIG_NLS_CODEPAGE_437=y
-+CONFIG_NLS_CODEPAGE_936=y
-+CONFIG_NLS_ASCII=y
-+CONFIG_NLS_UTF8=y
-+CONFIG_KEY_DH_OPERATIONS=y
-+CONFIG_SECURITY=y
-+CONFIG_SECURITY_SELINUX=y
-+CONFIG_SECURITY_SELINUX_BOOTPARAM=y
-+CONFIG_SECURITY_SELINUX_DISABLE=y
-+CONFIG_SECURITY_APPARMOR=y
-+CONFIG_SECURITY_YAMA=y
-+CONFIG_DEFAULT_SECURITY_DAC=y
-+CONFIG_CRYPTO_USER=m
-+# CONFIG_CRYPTO_MANAGER_DISABLE_TESTS is not set
-+CONFIG_CRYPTO_PCRYPT=m
-+CONFIG_CRYPTO_CRYPTD=m
-+CONFIG_CRYPTO_CHACHA20POLY1305=m
-+CONFIG_CRYPTO_HMAC=y
-+CONFIG_CRYPTO_VMAC=m
-+CONFIG_CRYPTO_TGR192=m
-+CONFIG_CRYPTO_WP512=m
-+CONFIG_CRYPTO_ANUBIS=m
-+CONFIG_CRYPTO_BLOWFISH=m
-+CONFIG_CRYPTO_CAST5=m
-+CONFIG_CRYPTO_CAST6=m
-+CONFIG_CRYPTO_KHAZAD=m
-+CONFIG_CRYPTO_SALSA20=m
-+CONFIG_CRYPTO_SEED=m
-+CONFIG_CRYPTO_SERPENT=m
-+CONFIG_CRYPTO_TEA=m
-+CONFIG_CRYPTO_TWOFISH=m
-+CONFIG_CRYPTO_DEFLATE=m
-+CONFIG_CRYPTO_USER_API_HASH=m
-+CONFIG_CRYPTO_USER_API_SKCIPHER=m
-+CONFIG_CRYPTO_USER_API_RNG=m
-+CONFIG_CRYPTO_USER_API_AEAD=m
-+CONFIG_PRINTK_TIME=y
-+CONFIG_STRIP_ASM_SYMS=y
-+CONFIG_MAGIC_SYSRQ=y
-+# CONFIG_SCHED_DEBUG is not set
-+CONFIG_SCHEDSTATS=y
-+# CONFIG_DEBUG_PREEMPT is not set
-+# CONFIG_FTRACE is not set
--- 
-2.27.0
+> +}
+> +
+>  /**
+>   * optee_enable_shm_cache() - Enables caching of some shared memory allocation
+>   *                           in OP-TEE
+> diff --git a/drivers/tee/optee/core.c b/drivers/tee/optee/core.c
+> index 8531184f98f4..ccafd7151b45 100644
+> --- a/drivers/tee/optee/core.c
+> +++ b/drivers/tee/optee/core.c
+> @@ -8,9 +8,12 @@
+>  #include <linux/arm-smccc.h>
+>  #include <linux/crash_dump.h>
+>  #include <linux/errno.h>
+> +#include <linux/interrupt.h>
+>  #include <linux/io.h>
+> +#include <linux/irqdomain.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+> +#include <linux/of_irq.h>
+>  #include <linux/of_platform.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/slab.h>
+> @@ -355,6 +358,17 @@ static const struct tee_desc optee_supp_desc = {
+>         .flags = TEE_DESC_PRIVILEGED,
+>  };
+>
+> +static int enable_async_notif(optee_invoke_fn *invoke_fn)
+> +{
+> +       struct arm_smccc_res res;
+> +
+> +       invoke_fn(OPTEE_SMC_ENABLE_ASYNC_NOTIF, 0, 0, 0, 0, 0, 0, 0, &res);
+> +
+> +       if (res.a0)
+> +               return -EINVAL;
+> +       return 0;
+> +}
+> +
+>  static bool optee_msg_api_uid_is_optee_api(optee_invoke_fn *invoke_fn)
+>  {
+>         struct arm_smccc_res res;
+> @@ -404,7 +418,7 @@ static bool optee_msg_api_revision_is_compatible(optee_invoke_fn *invoke_fn)
+>  }
+>
+>  static bool optee_msg_exchange_capabilities(optee_invoke_fn *invoke_fn,
+> -                                           u32 *sec_caps)
+> +                                           u32 *sec_caps, u32 *max_notif_value)
+>  {
+>         union {
+>                 struct arm_smccc_res smccc;
+> @@ -427,6 +441,7 @@ static bool optee_msg_exchange_capabilities(optee_invoke_fn *invoke_fn,
+>                 return false;
+>
+>         *sec_caps = res.result.capabilities;
+> +       *max_notif_value = res.result.max_notif_value;
+>         return true;
+>  }
+>
+> @@ -630,6 +645,7 @@ static int optee_probe(struct platform_device *pdev)
+>         struct optee *optee = NULL;
+>         void *memremaped_shm = NULL;
+>         struct tee_device *teedev;
+> +       u32 max_notif_value;
+>         u32 sec_caps;
+>         int rc;
+>
+> @@ -659,7 +675,8 @@ static int optee_probe(struct platform_device *pdev)
+>                 return -EINVAL;
+>         }
+>
+> -       if (!optee_msg_exchange_capabilities(invoke_fn, &sec_caps)) {
+> +       if (!optee_msg_exchange_capabilities(invoke_fn, &sec_caps,
+> +                                            &max_notif_value)) {
+>                 pr_warn("capabilities mismatch\n");
+>                 return -EINVAL;
+>         }
+> @@ -682,7 +699,7 @@ static int optee_probe(struct platform_device *pdev)
+>         optee = kzalloc(sizeof(*optee), GFP_KERNEL);
+>         if (!optee) {
+>                 rc = -ENOMEM;
+> -               goto err;
+> +               goto err_free_pool;
+>         }
+>
+>         optee->invoke_fn = invoke_fn;
+> @@ -691,24 +708,24 @@ static int optee_probe(struct platform_device *pdev)
+>         teedev = tee_device_alloc(&optee_desc, NULL, pool, optee);
+>         if (IS_ERR(teedev)) {
+>                 rc = PTR_ERR(teedev);
+> -               goto err;
+> +               goto err_free_optee;
+>         }
+>         optee->teedev = teedev;
+>
+>         teedev = tee_device_alloc(&optee_supp_desc, NULL, pool, optee);
+>         if (IS_ERR(teedev)) {
+>                 rc = PTR_ERR(teedev);
+> -               goto err;
+> +               goto err_unreg_teedev;
+>         }
+>         optee->supp_teedev = teedev;
+>
+>         rc = tee_device_register(optee->teedev);
+>         if (rc)
+> -               goto err;
+> +               goto err_unreg_supp_teedev;
+>
+>         rc = tee_device_register(optee->supp_teedev);
+>         if (rc)
+> -               goto err;
+> +               goto err_unreg_supp_teedev;
+>
+>         mutex_init(&optee->call_queue.mutex);
+>         INIT_LIST_HEAD(&optee->call_queue.waiters);
+> @@ -717,10 +734,31 @@ static int optee_probe(struct platform_device *pdev)
+>         optee->pool = pool;
+>
+>         platform_set_drvdata(pdev, optee);
+> -       rc = optee_notif_init(optee, 255);
+> -       if (rc) {
+> -               optee_remove(pdev);
+> -               return rc;
+> +
+> +       if (sec_caps & OPTEE_SMC_SEC_CAP_ASYNC_NOTIF) {
+> +               unsigned int irq;
+> +
+> +               rc = platform_get_irq(pdev, 0);
+> +               if (rc < 0) {
+> +                       pr_err("platform_get_irq: ret %d\n", rc);
+> +                       goto err_unreg_supp_teedev;
+> +               }
+> +               irq = rc;
+> +
+> +               rc = optee_notif_init(optee, max_notif_value, irq);
+> +               if (rc) {
+> +                       irq_dispose_mapping(irq);
+> +                       optee_remove(pdev);
+> +                       return rc;
+> +               }
+> +               enable_async_notif(optee->invoke_fn);
+> +               pr_info("Asynchronous notifications enabled\n");
+> +       } else {
+> +               rc = optee_notif_init(optee, 255, 0);
+> +               if (rc) {
+> +                       optee_remove(pdev);
 
+IMO, multiple usage of optee_remove() in the error path makes error
+handling a bit complex. I liked the way you tagged the error paths. So
+can't we get rid of optee_remove() from the error path and handle
+errors based on tagged error paths only?
+
+> +                       return rc;
+> +               }
+>         }
+>
+>         /*
+> @@ -745,20 +783,15 @@ static int optee_probe(struct platform_device *pdev)
+>
+>         pr_info("initialized driver\n");
+>         return 0;
+> -err:
+> -       if (optee) {
+> -               /*
+> -                * tee_device_unregister() is safe to call even if the
+> -                * devices hasn't been registered with
+> -                * tee_device_register() yet.
+> -                */
+> -               tee_device_unregister(optee->supp_teedev);
+> -               tee_device_unregister(optee->teedev);
+> -               kfree(optee);
+> -       }
+> -       if (pool)
+> -               tee_shm_pool_free(pool);
+> -       if (memremaped_shm)
+> +err_unreg_supp_teedev:
+> +       tee_device_unregister(optee->supp_teedev);
+> +err_unreg_teedev:
+> +       tee_device_unregister(optee->teedev);
+> +err_free_optee:
+> +       kfree(optee);
+> +err_free_pool:
+> +       tee_shm_pool_free(pool);
+> +       if (optee->memremaped_shm)
+>                 memunmap(memremaped_shm);
+>         return rc;
+>  }
+> diff --git a/drivers/tee/optee/notif.c b/drivers/tee/optee/notif.c
+> index a28fa03dcd0e..2c888ad87451 100644
+> --- a/drivers/tee/optee/notif.c
+> +++ b/drivers/tee/optee/notif.c
+> @@ -7,10 +7,14 @@
+>
+>  #include <linux/arm-smccc.h>
+>  #include <linux/errno.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/irqdomain.h>
+>  #include <linux/slab.h>
+>  #include <linux/spinlock.h>
+>  #include <linux/tee_drv.h>
+>  #include "optee_private.h"
+> +#include "optee_smc.h"
+> +#include "optee_rpc_cmd.h"
+>
+>  struct notif_entry {
+>         struct list_head link;
+> @@ -18,6 +22,54 @@ struct notif_entry {
+>         u_int key;
+>  };
+>
+> +static u32 get_async_notif_value(optee_invoke_fn *invoke_fn, bool *value_valid,
+> +                                bool *value_pending)
+> +{
+> +       struct arm_smccc_res res;
+> +
+> +       invoke_fn(OPTEE_SMC_GET_ASYNC_NOTIF_VALUE, 0, 0, 0, 0, 0, 0, 0, &res);
+> +
+> +       if (res.a0)
+> +               return 0;
+> +       *value_valid = (res.a2 & OPTEE_SMC_ASYNC_NOTIF_VALUE_VALID);
+> +       *value_pending = (res.a2 & OPTEE_SMC_ASYNC_NOTIF_VALUE_PENDING);
+> +       return res.a1;
+> +}
+> +
+> +static irqreturn_t notif_irq_handler(int irq, void *dev_id)
+> +{
+> +       struct optee *optee = dev_id;
+> +       bool do_bottom_half = false;
+> +       bool value_valid;
+> +       bool value_pending;
+> +       u32 value;
+> +
+> +       do {
+> +               value = get_async_notif_value(optee->invoke_fn, &value_valid,
+> +                                             &value_pending);
+> +               if (!value_valid)
+> +                       break;
+> +
+> +               if (value == OPTEE_SMC_ASYNC_NOTIF_VALUE_DO_BOTTOM_HALF)
+> +                       do_bottom_half = true;
+> +               else
+> +                       optee_notif_send(optee, value);
+> +       } while (value_pending);
+> +
+> +       if (do_bottom_half)
+> +               return IRQ_WAKE_THREAD;
+> +       return IRQ_HANDLED;
+> +}
+> +
+> +static irqreturn_t notif_irq_thread_fn(int irq, void *dev_id)
+> +{
+> +       struct optee *optee = dev_id;
+> +
+> +       optee_do_bottom_half(optee->notif.ctx);
+> +
+> +       return IRQ_HANDLED;
+> +}
+> +
+>  static bool have_key(struct optee *optee, u_int key)
+>  {
+>         struct notif_entry *entry;
+> @@ -106,20 +158,69 @@ int optee_notif_send(struct optee *optee, u_int key)
+>         return 0;
+>  }
+>
+> -int optee_notif_init(struct optee *optee, u_int max_key)
+> +int optee_notif_init(struct optee *optee, u_int max_key, u_int irq)
+>  {
+> +       struct tee_context *ctx;
+> +       int rc;
+> +
+> +       if (irq) {
+> +               ctx = teedev_open(optee->teedev);
+> +               if (IS_ERR(ctx))
+> +                       return PTR_ERR(ctx);
+> +
+> +               optee->notif.ctx = ctx;
+> +       }
+> +
+>         spin_lock_init(&optee->notif.lock);
+>         INIT_LIST_HEAD(&optee->notif.db);
+>         optee->notif.bitmap = bitmap_zalloc(max_key, GFP_KERNEL);
+> -       if (!optee->notif.bitmap)
+> -               return -ENOMEM;
+> -
+> +       if (!optee->notif.bitmap) {
+> +               rc = -ENOMEM;
+> +               goto err_close_ctx;
+> +       }
+>         optee->notif.max_key = max_key;
+>
+> +       if (irq) {
+> +               rc = request_threaded_irq(irq, notif_irq_handler,
+> +                                         notif_irq_thread_fn,
+> +                                         0, "optee_notification", optee);
+> +               if (rc)
+> +                       goto err_free_bitmap;
+> +
+> +               optee->notif.irq = irq;
+> +       }
+> +
+>         return 0;
+> +
+> +err_free_bitmap:
+> +       kfree(optee->notif.bitmap);
+> +err_close_ctx:
+> +       teedev_close_context(optee->notif.ctx);
+> +       optee->notif.ctx = NULL;
+> +
+> +       return rc;
+>  }
+>
+>  void optee_notif_uninit(struct optee *optee)
+>  {
+> +       if (optee->notif.ctx) {
+> +               optee_stop_async_notif(optee->notif.ctx);
+> +               if (optee->notif.irq) {
+> +                       free_irq(optee->notif.irq, optee);
+> +                       irq_dispose_mapping(optee->notif.irq);
+> +               }
+> +
+> +               /*
+> +                * The thread normally working with optee->notif.ctx was
+> +                * stopped with free_irq() above.
+> +                *
+> +                * Note we're not using teedev_close_context() or
+> +                * tee_client_close_context() since we have already called
+> +                * tee_device_put() while initializing to avoid a circular
+> +                * reference counting.
+> +                */
+> +               teedev_close_context(optee->notif.ctx);
+> +       }
+> +
+>         kfree(optee->notif.bitmap);
+>  }
+> diff --git a/drivers/tee/optee/optee_msg.h b/drivers/tee/optee/optee_msg.h
+> index e3d72d09c484..3e09c8386e46 100644
+> --- a/drivers/tee/optee/optee_msg.h
+> +++ b/drivers/tee/optee/optee_msg.h
+> @@ -293,6 +293,13 @@ struct optee_msg_arg {
+>   * [in] param[0].u.rmem.shm_ref                holds shared memory reference
+>   * [in] param[0].u.rmem.offs           0
+>   * [in] param[0].u.rmem.size           0
+> + *
+> + * OPTEE_MSG_CMD_DO_BOTTOM_HALF does the scheduled bottom half processing
+> + * of a driver.
+> + *
+> + * OPTEE_MSG_CMD_STOP_ASYNC_NOTIF informs secure world that from now is
+> + * normal world unable to process asynchronous notifications. Typically
+> + * used when the driver is shut down.
+>   */
+>  #define OPTEE_MSG_CMD_OPEN_SESSION     0
+>  #define OPTEE_MSG_CMD_INVOKE_COMMAND   1
+> @@ -300,6 +307,8 @@ struct optee_msg_arg {
+>  #define OPTEE_MSG_CMD_CANCEL           3
+>  #define OPTEE_MSG_CMD_REGISTER_SHM     4
+>  #define OPTEE_MSG_CMD_UNREGISTER_SHM   5
+> +#define OPTEE_MSG_CMD_DO_BOTTOM_HALF   6
+> +#define OPTEE_MSG_CMD_STOP_ASYNC_NOTIF 7
+>  #define OPTEE_MSG_FUNCID_CALL_WITH_ARG 0x0004
+>
+>  #endif /* _OPTEE_MSG_H */
+> diff --git a/drivers/tee/optee/optee_private.h b/drivers/tee/optee/optee_private.h
+> index 76a16d9b6cf4..f62a16935c49 100644
+> --- a/drivers/tee/optee/optee_private.h
+> +++ b/drivers/tee/optee/optee_private.h
+> @@ -37,6 +37,8 @@ struct optee_call_queue {
+>
+>  struct optee_notif {
+>         u_int max_key;
+> +       unsigned int irq;
+> +       struct tee_context *ctx;
+>         /* Serializes access to the elements below in this struct */
+>         spinlock_t lock;
+>         struct list_head db;
+> @@ -132,7 +134,7 @@ void optee_handle_rpc(struct tee_context *ctx, struct optee_rpc_param *param,
+>                       struct optee_call_ctx *call_ctx);
+>  void optee_rpc_finalize_call(struct optee_call_ctx *call_ctx);
+>
+> -int optee_notif_init(struct optee *optee, u_int max_key);
+> +int optee_notif_init(struct optee *optee, u_int max_key, u_int irq);
+>  void optee_notif_uninit(struct optee *optee);
+>  int optee_notif_wait(struct optee *optee, u_int key);
+>  int optee_notif_send(struct optee *optee, u_int key);
+> @@ -159,6 +161,8 @@ int optee_close_session(struct tee_context *ctx, u32 session);
+>  int optee_invoke_func(struct tee_context *ctx, struct tee_ioctl_invoke_arg *arg,
+>                       struct tee_param *param);
+>  int optee_cancel_req(struct tee_context *ctx, u32 cancel_id, u32 session);
+> +int optee_do_bottom_half(struct tee_context *ctx);
+> +int optee_stop_async_notif(struct tee_context *ctx);
+>
+>  void optee_enable_shm_cache(struct optee *optee);
+>  void optee_disable_shm_cache(struct optee *optee);
+> diff --git a/drivers/tee/optee/optee_smc.h b/drivers/tee/optee/optee_smc.h
+> index 80eb763a8a80..c6eec6b6febf 100644
+> --- a/drivers/tee/optee/optee_smc.h
+> +++ b/drivers/tee/optee/optee_smc.h
+> @@ -107,6 +107,12 @@ struct optee_smc_call_get_os_revision_result {
+>  /*
+>   * Call with struct optee_msg_arg as argument
+>   *
+> + * When calling this function normal world has a few responsibilities:
+> + * 1. It must be able to handle eventual RPCs
+> + * 2. Non-secure interrupts should not be masked
+> + * 3. If asynchronous notifications has be negotiated successfully, then
+
+nit: s/has be/have been/
+
+> + *    asynchronous notifications should be unmasked during this call.
+> + *
+>   * Call register usage:
+>   * a0  SMC Function ID, OPTEE_SMC*CALL_WITH_ARG
+>   * a1  Upper 32 bits of a 64-bit physical pointer to a struct optee_msg_arg
+> @@ -195,7 +201,8 @@ struct optee_smc_get_shm_config_result {
+>   * Normal return register usage:
+>   * a0  OPTEE_SMC_RETURN_OK
+>   * a1  bitfield of secure world capabilities OPTEE_SMC_SEC_CAP_*
+> - * a2-7        Preserved
+> + * a2  The maximum secure world notification number
+> + * a3-7        Preserved
+>   *
+>   * Error return register usage:
+>   * a0  OPTEE_SMC_RETURN_ENOTAVAIL, can't use the capabilities from normal world
+> @@ -218,6 +225,8 @@ struct optee_smc_get_shm_config_result {
+>  #define OPTEE_SMC_SEC_CAP_VIRTUALIZATION       BIT(3)
+>  /* Secure world supports Shared Memory with a NULL reference */
+>  #define OPTEE_SMC_SEC_CAP_MEMREF_NULL          BIT(4)
+> +/* Secure world supports asynchronous notification of normal world */
+> +#define OPTEE_SMC_SEC_CAP_ASYNC_NOTIF          BIT(5)
+>
+>  #define OPTEE_SMC_FUNCID_EXCHANGE_CAPABILITIES 9
+>  #define OPTEE_SMC_EXCHANGE_CAPABILITIES \
+> @@ -226,8 +235,8 @@ struct optee_smc_get_shm_config_result {
+>  struct optee_smc_exchange_capabilities_result {
+>         unsigned long status;
+>         unsigned long capabilities;
+> +       unsigned long max_notif_value;
+>         unsigned long reserved0;
+> -       unsigned long reserved1;
+>  };
+>
+>  /*
+> @@ -319,6 +328,68 @@ struct optee_smc_disable_shm_cache_result {
+>  #define OPTEE_SMC_GET_THREAD_COUNT \
+>         OPTEE_SMC_FAST_CALL_VAL(OPTEE_SMC_FUNCID_GET_THREAD_COUNT)
+>
+> +/*
+> + * Inform OP-TEE that normal world is able to receive asynchronous
+> + * notifications.
+> + *
+> + * Call requests usage:
+> + * a0  SMC Function ID, OPTEE_SMC_ENABLE_ASYNC_NOTIF
+> + * a1-6        Not used
+> + * a7  Hypervisor Client ID register
+> + *
+> + * Normal return register usage:
+> + * a0  OPTEE_SMC_RETURN_OK
+> + * a1-7        Preserved
+> + *
+> + * Not supported return register usage:
+> + * a0  OPTEE_SMC_RETURN_ENOTAVAIL
+> + * a1-7        Preserved
+> + */
+> +#define OPTEE_SMC_FUNCID_ENABLE_ASYNC_NOTIF    16
+> +#define OPTEE_SMC_ENABLE_ASYNC_NOTIF \
+> +       OPTEE_SMC_FAST_CALL_VAL(OPTEE_SMC_FUNCID_ENABLE_ASYNC_NOTIF)
+> +
+> +/*
+> + * Retrieve a value of notifications pended since the last call of this
+
+nit: s/pended/pending/
+
+> + * function.
+> + *
+> + * OP-TEE keeps a records of all posted values. When an interrupts is
+
+nit: s/records/record/
+
+> + * received which indicates that there are posed values this function
+> + * should be called until all pended values has been retrieved. When a
+
+nit: s/has/have/
+
+> + * value is retrieved it's cleared from the record in secure world.
+> + *
+> + * Call requests usage:
+> + * a0  SMC Function ID, OPTEE_SMC_GET_ASYNC_NOTIF_VALUE
+> + * a1-6        Not used
+> + * a7  Hypervisor Client ID register
+> + *
+> + * Normal return register usage:
+> + * a0  OPTEE_SMC_RETURN_OK
+> + * a1  value
+> + * a2  Bit[0]: OPTEE_SMC_ASYNC_NOTIF_VALUE_VALID if the value in a1 is
+> + *             valid, else 0 if no values where pending
+> + * a2  Bit[1]: OPTEE_SMC_ASYNC_NOTIF_VALUE_PENDING if another value is
+> + *             pending, else 0.
+> + *     Bit[31:2]: MBZ
+> + * a3-7        Preserved
+> + *
+> + * Not supported return register usage:
+> + * a0  OPTEE_SMC_RETURN_ENOTAVAIL
+> + * a1-7        Preserved
+> + */
+> +#define OPTEE_SMC_ASYNC_NOTIF_VALUE_VALID      BIT(0)
+> +#define OPTEE_SMC_ASYNC_NOTIF_VALUE_PENDING    BIT(1)
+> +
+> +/*
+> + * Notification that OP-TEE expects a yielding call to do some bottom half
+> + * work in a driver.
+> + */
+> +#define OPTEE_SMC_ASYNC_NOTIF_VALUE_DO_BOTTOM_HALF     0
+> +
+> +#define OPTEE_SMC_FUNCID_GET_ASYNC_NOTIF_VALUE 17
+> +#define OPTEE_SMC_GET_ASYNC_NOTIF_VALUE \
+> +       OPTEE_SMC_FAST_CALL_VAL(OPTEE_SMC_FUNCID_GET_ASYNC_NOTIF_VALUE)
+> +
+>  /*
+>   * Resume from RPC (for example after processing a foreign interrupt)
+>   *
+
+Apart from comments above, this patch looks good to me in general.
+
+-Sumit
+
+> --
+> 2.31.1
+>
