@@ -2,163 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 865F3C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 15:04:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E6F8C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 15:42:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5EF7E61053
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 15:04:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 23F9A610CE
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 15:42:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233969AbhJMPGp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Oct 2021 11:06:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32030 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236315AbhJMPGn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Oct 2021 11:06:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1634137480;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=d+mcxn9Yq7uI+Viy+K4BQvLPxElVK5331udxqYrTR1s=;
-        b=czVfnmG1Fgv3twWElMZJVffzr9QomQc1SaSZ3Emy8QrPVWww0HcaI30uBdMcRW7PN3nxua
-        J/ImaGpAsFtfcBnej8gd2ZwTocb6UelhJFKkcdT028u/zII6NOq3l6GkOQzHHxTkDAAfsK
-        d8qW8u/G0npUaJmh37M+kTTFA6bbM1E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-16-yR6kJGqXNkKhVj3G7P5dzg-1; Wed, 13 Oct 2021 11:04:34 -0400
-X-MC-Unique: yR6kJGqXNkKhVj3G7P5dzg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EDE0802CB8;
-        Wed, 13 Oct 2021 15:04:31 +0000 (UTC)
-Received: from T590 (ovpn-8-39.pek2.redhat.com [10.72.8.39])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 0AAC357CB9;
-        Wed, 13 Oct 2021 15:04:12 +0000 (UTC)
-Date:   Wed, 13 Oct 2021 23:04:07 +0800
-From:   Ming Lei <ming.lei@redhat.com>
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     Miroslav Benes <mbenes@suse.cz>, tj@kernel.org,
-        gregkh@linuxfoundation.org, akpm@linux-foundation.org,
-        minchan@kernel.org, jeyu@kernel.org, shuah@kernel.org,
-        bvanassche@acm.org, dan.j.williams@intel.com, joe@perches.com,
-        tglx@linutronix.de, keescook@chromium.org, rostedt@goodmis.org,
-        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ming.lei@redhat.com
-Subject: Re: [PATCH v8 09/12] sysfs: fix deadlock race with module removal
-Message-ID: <YWb1Z7EXruo6gaEp@T590>
-References: <20210927163805.808907-1-mcgrof@kernel.org>
- <20210927163805.808907-10-mcgrof@kernel.org>
- <YVwZwh7qDKfSM59h@T590>
- <YWSr2trabEJflzlj@bombadil.infradead.org>
- <YWTU3kTlJKONyFjZ@T590>
- <YWX7pAn0YMaJeJBA@bombadil.infradead.org>
- <YWYxN875B6rlmAjC@T590>
- <YWbSk6p3bfXUPZ92@bombadil.infradead.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YWbSk6p3bfXUPZ92@bombadil.infradead.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+        id S230527AbhJMPoW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Oct 2021 11:44:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38930 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229711AbhJMPoW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Oct 2021 11:44:22 -0400
+Received: from mx0b-00190b01.pphosted.com (mx0b-00190b01.pphosted.com [IPv6:2620:100:9005:57f::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4642C061570;
+        Wed, 13 Oct 2021 08:42:18 -0700 (PDT)
+Received: from pps.filterd (m0122331.ppops.net [127.0.0.1])
+        by mx0b-00190b01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19DEoeFe022425;
+        Wed, 13 Oct 2021 16:42:13 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akamai.com; h=from : to : cc :
+ subject : date : message-id; s=jan2016.eng;
+ bh=DO0lCRBNP6M5Y5Vbcjjxet85Ai56VRLRgzAv8gTnEi4=;
+ b=LutFxOtBHH79K4N5/a25Rr5fdS8vCseKjZljj9fq3w8Y7I1Mx1JulDF+glH0gK6yXyQc
+ oEAUkdA3bi9qSk3qOWdHMEj8mhPqOjQx+LxgSi4JzZY6vv55XF/Tk68P4JRju1oy4Kod
+ CLUcnNRIKFtL7ToA/UoKrZqLNyS4nF4XzrxKNr99T6838UztHHqMUIIpcEZ0l4JB/e8M
+ zO8u7zmKca8KFu9tGVvi05F9gKpvaG44sICgCOY74UN+cViLKJ6L5khXEwZJbKBWkb7y
+ NE4ACHdSsDfRw+LOiNZhC6JS8lP/cS0wJtMcCi50sN5XqTZ7kbLCGWnbCMERJNaP6xkx Kg== 
+Received: from prod-mail-ppoint1 (prod-mail-ppoint1.akamai.com [184.51.33.18] (may be forged))
+        by mx0b-00190b01.pphosted.com with ESMTP id 3bp1jy15hq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 13 Oct 2021 16:42:13 +0100
+Received: from pps.filterd (prod-mail-ppoint1.akamai.com [127.0.0.1])
+        by prod-mail-ppoint1.akamai.com (8.16.1.2/8.16.1.2) with SMTP id 19DFXxKI013080;
+        Wed, 13 Oct 2021 11:42:12 -0400
+Received: from prod-mail-relay11.akamai.com ([172.27.118.250])
+        by prod-mail-ppoint1.akamai.com with ESMTP id 3bneah9r5t-1;
+        Wed, 13 Oct 2021 11:42:12 -0400
+Received: from bos-lpjec.145bw.corp.akamai.com (bos-lpjec.145bw.corp.akamai.com [172.28.3.71])
+        by prod-mail-relay11.akamai.com (Postfix) with ESMTP id 9E4F127751;
+        Wed, 13 Oct 2021 15:42:12 +0000 (GMT)
+From:   Jason Baron <jbaron@akamai.com>
+To:     gregkh@linuxfoundation.org
+Cc:     ahalaney@redhat.com, jim.cromie@gmail.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/3] Trivial dynamic debug fixups
+Date:   Wed, 13 Oct 2021 11:40:19 -0400
+Message-Id: <1634139622-20667-1-git-send-email-jbaron@akamai.com>
+X-Mailer: git-send-email 2.7.4
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425,18.0.790
+ definitions=2021-10-13_06:2021-10-13,2021-10-13 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=758 adultscore=0
+ malwarescore=0 bulkscore=0 suspectscore=0 spamscore=0 mlxscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2109230001 definitions=main-2110130101
+X-Proofpoint-ORIG-GUID: BFN7zaovYHcpRbmz3HlFNSeoqVYD4-jF
+X-Proofpoint-GUID: BFN7zaovYHcpRbmz3HlFNSeoqVYD4-jF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-10-13_06,2021-10-13_02,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 clxscore=1015
+ suspectscore=0 priorityscore=1501 phishscore=0 spamscore=0 adultscore=0
+ impostorscore=0 lowpriorityscore=0 mlxscore=0 mlxlogscore=713 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109230001
+ definitions=main-2110130102
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 13, 2021 at 05:35:31AM -0700, Luis Chamberlain wrote:
-> On Wed, Oct 13, 2021 at 09:07:03AM +0800, Ming Lei wrote:
-> > On Tue, Oct 12, 2021 at 02:18:28PM -0700, Luis Chamberlain wrote:
-> > > > Looks test_sysfs isn't in linus tree, where can I find it?
-> > > 
-> > > https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux-next.git/log/?h=20210927-sysfs-generic-deadlock-fix
-> > > 
-> > > To reproduce the deadlock revert the patch in this thread and then run
-> > > either of these two tests as root:
-> > > 
-> > > ./tools/testing/selftests/sysfs/sysfs.sh -w 0027
-> > > ./tools/testing/selftests/sysfs/sysfs.sh -w 0028
-> > > 
-> > > You will need to enable the test_sysfs driver.
-> > > > Can you share the code which waits for the sysfs / kernfs files to be
-> > > > stop being used?
-> > > 
-> > > How about a call trace of the two tasks which deadlock, here is one of
-> > > running test 0027:
-> > > 
-> > > kdevops login: [  363.875459] INFO: task sysfs.sh:1271 blocked for more
-> > > than 120 seconds.
-> 
-> <-- snip -->
-> 
-> > That doesn't show the deadlock is related with module_exit().
-> 
-> Not directly no.
+Hi Greg,
 
-Then the patch title of 'sysfs: fix deadlock race with module removal'
-is wrong.
+Here's the patch series from Andrew. Please consider applying to -next.
+I copied his cover letter message below.
 
-> 
-> > It is clearly one AA deadlock, what I meant was that it isn't related with
-> > module exit cause lock & device_del() isn't always done in module exit, so
-> > I doubt your fix with grabbing module refcnt is good or generic enough.
-> 
-> A device_del() *can* happen in other areas other than module exit sure,
-> but the issue is if a shared lock is used *before* device_del() and also
-> used on a sysfs op. Typically this can happen on module exit, and the
-> other common use case in my experience is on sysfs ops, such is the case
-> with the zram driver. Both cases are covered then by this fix.
+Thanks!
 
-Again, can you share the related zram code about the issue? In
-zram_drv.c of linus or next tree, I don't see any lock is held before
-calling del_gendisk().
-
-> 
-> If there are other areas, that is still driver specific, but of the
-> things we *can* generalize, definitely module exit is a common path.
-> 
-> > Except for your cooked test_sys module, how many real drivers do suffer the
-> > problem? What are they?
-> 
-> I only really seriously considered trying to generalize this after it
-
-IMO your generalization isn't good or correct because this kind of issue
-is _not_ related with module exit at all. What matters is just that one lock is
-held before calling device_del(), meantime the same lock is required
-in the device's attribute show/store function().
-
-There are many cases in which we call device_del() not from module_exit(),
-such as scsi scan, scsi sysfs store(), or even handling event from
-device side, nvme error handling, usb hotplug, ...
-
-> was hinted to me live patching was also affected, and so clearly
-> something generic was desirable.
-
-It might be just the only two drivers(zram and live patch) with this bug, and
-it is one simply AA bug in driver. Not mention I don't see such usage in
-zram_drv.c.
-
-> 
-> There may be other drivers for sure, but a hunt for that with semantics
-> would require a bit complex coccinelle patch with iteration support.
-> 
-> > Why can't we fix the exact driver?
-> 
-> You can try, the way the lock is used in zram is correct, specially
-
-What is the lock in zram? Again can you share the related functions?
-
-> after my other fix in this series which addresses another unrelated bug
-> with cpu hotplug multistate support. So we then can proceed to either
-> take the position to say: "Thou shalt not use a shared lock on module
-> exit and a sysfs op" and try to fix all places, or we generalize a fix
-> for this. A generic fix seems more desirable.
-
-What matters is that the lock is held before calling device_del()
-instead of being held in module_exit().
+-Jason
 
 
+Here is round 3 of some trivial dynamic debug improvements.
 
-Thanks,
-Ming
+v2 -> v3:
+ * Use a more clear example in the cli param examples
+
+v1 -> v2:
+ * Use different example when showing misleading error message
+ * Justify dynamic debug scanning the whole command line
+ * Add patch removing ddebug_query
+ * Add patch improving cli param examples for dyndbg/$module.dyndbg
+
+v2: https://lore.kernel.org/all/20210913222440.731329-1-ahalaney@redhat.com/
+v1: https://lore.kernel.org/all/20210909161755.61743-1-ahalaney@redhat.com/
+
+
+Andrew Halaney (3):
+  dyndbg: make dyndbg a known cli param
+  dyndbg: Remove support for ddebug_query param
+  Documentation: dyndbg: Improve cli param examples
+
+ Documentation/admin-guide/dynamic-debug-howto.rst | 13 ++++++-----
+ Documentation/admin-guide/kernel-parameters.txt   |  5 -----
+ lib/dynamic_debug.c                               | 27 ++++++-----------------
+ 3 files changed, 14 insertions(+), 31 deletions(-)
+
+-- 
+2.7.4
 
