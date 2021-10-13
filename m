@@ -2,731 +2,290 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22DCCC4321E
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 19:07:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1DB7C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 19:19:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 06EE3611B0
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 19:07:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7C2C5611C8
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 19:19:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239087AbhJMTJY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Oct 2021 15:09:24 -0400
-Received: from linux.microsoft.com ([13.77.154.182]:49068 "EHLO
-        linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237143AbhJMTIp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Oct 2021 15:08:45 -0400
-Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-        by linux.microsoft.com (Postfix) with ESMTPSA id EA73820B9D02;
-        Wed, 13 Oct 2021 12:06:39 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com EA73820B9D02
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1634152000;
-        bh=BM3rJKCXfcZEtw4PeOjJxoZpUH7vJt73PAtSiLZhUuY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=dv+mPR5aOVAYjSI44vi9DBuLOdhl2uhmmaK9owh03SA0/8v9X2dk3cot23rCj33os
-         Zj960padefav7toxPPy6dvDqvnS/PKnA2WzXKfBiyOX01uz9UfiDgLrB2akiNvd1FV
-         mTmrPW7PUr5hMxWUe5BkEgWPNd4XUlsxoIZkIyQI=
-From:   deven.desai@linux.microsoft.com
-To:     corbet@lwn.net, axboe@kernel.dk, agk@redhat.com,
-        snitzer@redhat.com, ebiggers@kernel.org, tytso@mit.edu,
-        paul@paul-moore.com, eparis@redhat.com, jmorris@namei.org,
-        serge@hallyn.com
-Cc:     jannh@google.com, dm-devel@redhat.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-audit@redhat.com,
-        linux-security-module@vger.kernel.org
-Subject: [RFC PATCH v7 07/16] ipe: add auditing support
-Date:   Wed, 13 Oct 2021 12:06:26 -0700
-Message-Id: <1634151995-16266-8-git-send-email-deven.desai@linux.microsoft.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1634151995-16266-1-git-send-email-deven.desai@linux.microsoft.com>
-References: <1634151995-16266-1-git-send-email-deven.desai@linux.microsoft.com>
+        id S229664AbhJMTVg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Oct 2021 15:21:36 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:25784 "EHLO
+        mx0a-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229529AbhJMTVf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Oct 2021 15:21:35 -0400
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19DIVDX8008142;
+        Wed, 13 Oct 2021 19:18:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2021-07-09;
+ bh=jFlbDCcnhmjGmYDhErhJcd68YiSg7nt1fcygxBiprTA=;
+ b=K9Gk3TwqQbggRhqwTo7UDfpcXHy6AKqh+a71YC7nAg2Ffp948+OX2bovKB23ArSbl8TC
+ ciobso4TES8twM7y6+vwV6M+ReX03P2qh7xvxCJoGpyZE6yEEThPGRu/56hSndTWqV8n
+ 1fl8UbAr2KW0b+Uf8t9e/PAD7qN5X8HsTeSGEZktarMXIVfmdUIR4jGyAZkxDQuA5eik
+ Dx4msjJb1nskDwVkif+zuh5zDFWX/DQQJHpf9W+NocKjb/CvLy/pN0RB8qiuAy/A83cH
+ tDArIVnybaCM1NVsV54YPSm+FkmcLFfJtxAu74LR6pKJgrs8nYuIM4J2LIN4uGGHWbE9 zA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by mx0b-00069f02.pphosted.com with ESMTP id 3bnkbj6wqe-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 13 Oct 2021 19:18:48 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 19DItCrR132830;
+        Wed, 13 Oct 2021 19:18:18 GMT
+Received: from nam02-sn1-obe.outbound.protection.outlook.com (mail-sn1anam02lp2047.outbound.protection.outlook.com [104.47.57.47])
+        by userp3020.oracle.com with ESMTP id 3bkyvcnp3d-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 13 Oct 2021 19:18:18 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IcEL0AwDeMmvsDePxzQwaTtL2BdJzEGkBxaSYuAxcHBQgi344ZTIUEwuZB9oLPJPFzY4CM+KlgRLfTqGD23H6r9KVMQucdaKiIvpHaH/R7hn+nkC4bBaFYY+ZdIubC3kKxhELi87F8YXbSFeanSLwMjLPFNIAuxDctCwgjMYVYuj2VpDkW+40P7dwwqZi3FfJO5eduCIF1f+CpomuPzAi7ERBdQBpWX48wPTC/bj9uVMeVFrypVsF6D/eqTQXtYUPaGxa/UaEiZiJjZ4mn4J4Akk2Zx/DWL2VfNuVRNuLCmoDZg9DoK0bYN1hl3cueOhXiZK2pN0TA9JjvOTvCK9JQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jFlbDCcnhmjGmYDhErhJcd68YiSg7nt1fcygxBiprTA=;
+ b=QFhfcdEWJBA5X2vkOkhnWk9Vip84sw3KuiBGrUyyVdcznIfhXXLK8d4yhCl1cVXzPtS7EMA7BLzA2DSPfjrFwAtTQsHxb74RFtp/I5ZT6tCFcgEFSmPjleWKUxUOlIdDAtGSnl+1ojrx63x4g3NwEi8TbEJQ6eAlVcnRFydsvdKDN6g1CD7tUVZtXJH7IsHE+ScHqD4evgy9uH1CHKvb7EGoCvZutGlVMg+pUguuhWRJsRKlOGLTfN0h2/HarkZUroF1ZYLbT7C7GeYeihNb2mzWDKcF0S1mePIh6VN2NdA9rnwOIHneJ0TXgGMGHhZ3PicoZHxVnX8LDDEnZ4hruw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jFlbDCcnhmjGmYDhErhJcd68YiSg7nt1fcygxBiprTA=;
+ b=WwCvY67/SKElrEjHEJiVO2MC2B6NBpE8LJcNiISLWYFkd16oDZGpQ4Ts6ih8LvV0hKgGlQdiJZjCy1jI8X3w9rmp+pG85bFTQNNe+mrx+hOQsJ5Oc5LCmnDEpZMvH/Gvid1ooSSoGL/8Zu0f5Pz6+XdkiaQPclAuUgdavgqkbww=
+Authentication-Results: nvidia.com; dkim=none (message not signed)
+ header.d=none;nvidia.com; dmarc=none action=none header.from=oracle.com;
+Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
+ by BLAPR10MB5124.namprd10.prod.outlook.com (2603:10b6:208:325::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.16; Wed, 13 Oct
+ 2021 19:18:17 +0000
+Received: from BLAPR10MB4835.namprd10.prod.outlook.com
+ ([fe80::d809:9016:4511:2bc6]) by BLAPR10MB4835.namprd10.prod.outlook.com
+ ([fe80::d809:9016:4511:2bc6%8]) with mapi id 15.20.4608.016; Wed, 13 Oct 2021
+ 19:18:16 +0000
+Message-ID: <20e2472f-736a-be3a-6f3a-5dfcb85f4cfb@oracle.com>
+Date:   Wed, 13 Oct 2021 20:18:08 +0100
+Subject: Re: [PATCH v4 08/14] mm/gup: grab head page refcount once for group
+ of subpages
+Content-Language: en-US
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     linux-mm@kvack.org, Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Jane Chu <jane.chu@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Christoph Hellwig <hch@lst.de>, nvdimm@lists.linux.dev,
+        linux-doc@vger.kernel.org
+References: <20210827145819.16471-1-joao.m.martins@oracle.com>
+ <20210827145819.16471-9-joao.m.martins@oracle.com>
+ <20211008115448.GA2976530@nvidia.com>
+ <01bf81a4-04f0-2ca3-0391-fceb1e557174@oracle.com>
+ <20211013174140.GJ2744544@nvidia.com>
+From:   Joao Martins <joao.m.martins@oracle.com>
+In-Reply-To: <20211013174140.GJ2744544@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM4PR0202CA0007.eurprd02.prod.outlook.com
+ (2603:10a6:200:89::17) To BLAPR10MB4835.namprd10.prod.outlook.com
+ (2603:10b6:208:331::11)
+MIME-Version: 1.0
+Received: from [10.175.197.177] (138.3.204.49) by AM4PR0202CA0007.eurprd02.prod.outlook.com (2603:10a6:200:89::17) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.15 via Frontend Transport; Wed, 13 Oct 2021 19:18:13 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: af99738a-1921-40dd-7e3b-08d98e7e3593
+X-MS-TrafficTypeDiagnostic: BLAPR10MB5124:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BLAPR10MB512497B6CC121BB0639D53ECBBB79@BLAPR10MB5124.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: uNkMohyNZzpB02GMP1GXskoIOXk9aXwAUvNJ00+cpSpt9yIlIAscbVq6cnfEvwkzpqaw1Zsx04pvIKUK8o/jGuNjxuEhnsAxgpNUNlblyVaN+pUslBBsg4A5LakZ0mAsmA6eE2XriGdihKxqoWicEIYt7pBpNl0RpynfDgUDB16oU3sy+4kwhsrskdXsgQmAiU2Ohcwwg/rhnRdCeVxoWsQAb4sJBm02DkvgBDXDaIZ94x8RIsWbBfZ8RnYcAVVtK2OvwgFDFRgG48x7he11Y7UgN9A+8d+Qwv9/aWJtKPLbA5R7N59WWBqv2n9ypy39Wn5/SCYWAny3OscJSj6n91wAQJTDCFUaF0JlyxnCd+zwdmL9FKdY+JATzbU3ZnFV4pEyDwLZ1skxS9RMjUWTtym4C2eMNG3XIxyLYeuBvqWLv5IErP5El7Cb9AQGs3O3o3K+DkfftiOeJwfg14vXPohx041DfvxA2t+hroXgj0fp3w8mZEuv5YRTeDBbfkSC+9ULa/B6RPL7SfG08cMwfONX76gboUAa32SCMQrQ13/8I30zyjc0r2TDhL/yhBzT87qnIvp5USw6LPbAKn0SyQqigm2HpyXzJGza1w7Z8kMLLF7ov9/zyEZVmPR/6H56xIUFhUxqjSyjNBjWGiStHb98jFIujjbo5tWLlw4+QkHt1HkZUImF82ze503uipyBiRH4VoGaotsICtFg9/YFig==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB4835.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(8676002)(6666004)(8936002)(956004)(2616005)(66946007)(66476007)(66556008)(86362001)(4326008)(31696002)(508600001)(316002)(5660300002)(16576012)(7416002)(53546011)(2906002)(6916009)(54906003)(83380400001)(26005)(186003)(31686004)(36756003)(38100700002)(6486002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WHR6M05nNWdmWnV4blphVG04YWdQNnNzUkRMM2x0VTM4OFRKcStxN1MrQVpI?=
+ =?utf-8?B?YWNBazBJU1JpMEc1amFDcXh5MHlzb1k4T2psa0xlbEc3SFM3UWhaMU5wYWFi?=
+ =?utf-8?B?aUxBUlVUNGFBeXp1WTBrMmlWcFR0SjR5YWNmcEl6ZldIeVVmRlZzY1N3VkJG?=
+ =?utf-8?B?MWJWSWYyN0hqaHBOUHpiQW96NHF5WkZRaTRHUXJxZHNEdUVmTWxuM0ZKekwv?=
+ =?utf-8?B?UlBQVldOb2MyOC8zVG56OHVrbEg5YkdSQ0FROTRzYzV4VGtaOGl1bGVuTGE5?=
+ =?utf-8?B?ck9LMytwYkduUXgzV2lzNTN1dFhQVFAxTzJ0WFBWY3FmSHM1SGpRYUtRTEp0?=
+ =?utf-8?B?dSt1V2l1TzE0NU9MbGp5eW9BYzhQWDVkUUxUR3BUWlByNVJMeW1QVTN4NTdM?=
+ =?utf-8?B?K2hDeVZJcU9FekZ1ZG5pNTFSbXBoaytmMmRnLzE5S1JDTDROVFY2b01wR3Jk?=
+ =?utf-8?B?eUdHNFNWN1VJRkRuR21kVmxRUHE2dGpEZzBUL1RlWnZPZ3NDeUZOV0duQjhL?=
+ =?utf-8?B?SmowK0haN2ozZUNJNFd3YW1wL2NlZzkxcXNyNEpPY3k0MTl6RzVDd0NIQVha?=
+ =?utf-8?B?M3ZxMEE0b2JMZC9odXMrbFpQVU8vR0pKRGxwOVd0MXFBRzIzQkxtN0M2bytM?=
+ =?utf-8?B?WTdDUWdic3ZWZnU1NUd3eFNaODlMSXBBaE1uWUNMd1EvUk1KSDloZWJJYit6?=
+ =?utf-8?B?aDYxMkVCaThvcjBpM0o1cUFENkpoQUd3WHJudDU1TUkvNVFwZnNNUWNiQ05s?=
+ =?utf-8?B?eURGcmFnMkpDalFyUlBWVlM1dFN3N2lndHRkRVlhM3hReUgxTDhMZ3drV3Zq?=
+ =?utf-8?B?djZVMlNkN2Fqa21TRm5jRzcwWWVXR1RJWVNBWllLUU9iSVNjNGtRbmU4RlBh?=
+ =?utf-8?B?YzlqOG1CUzNVOHdoa2dDZFpoaDV0eGNNNkxQUWp4NDlTaUZOVWxtL1F1YnFw?=
+ =?utf-8?B?cjVHZ3o0SmtOaHpTMzR6N29rTWRhV2o2V3JXcVhFOXJGb2xRN29mV3ZRWU1P?=
+ =?utf-8?B?YmgrQXRudVZlZXJkS0pCYVVoRzJpZnFXR1RPbjBCY2NzNnk0TnJYWVlOMnNZ?=
+ =?utf-8?B?dDJkV2cvMTlLSXNUWEpTblZtY2VtcTRoV21oVm4yZVlpNm8zVjFMTFdiU0t6?=
+ =?utf-8?B?eVBWVnJrQVBxcS9DVTZRWEhXT3E2UkxKbFMwZFd3T3RySkd0NjhoeThRV2NW?=
+ =?utf-8?B?YURSd09acUJiWDRyOGc0R2g5aWRFNU92RTMxWHlGd3JMdW8vUDc4Y08yNWFC?=
+ =?utf-8?B?SGxscFNQQzVRTUtGVVhYVXZwZld3QjFFT1Fzd2JOaUs4ditrUzFoRWFsZHM5?=
+ =?utf-8?B?OEZJeVFCOEFJMzJtN2JwUEdYQ3VDbCs0cHo5QnZNT3g4bHBPRzJIakkvZHZ1?=
+ =?utf-8?B?KzQ4NFdHbG5oYkttYVY2bEJFOFNSL0VCUEJNRmpWMUtZV2FlUFhSL0pJSHNY?=
+ =?utf-8?B?T2dvRzJydlk5VmJKaHQ5THQvZWgwNFJYTFZmTkE3UGlocUgvSWtISjRLUVM3?=
+ =?utf-8?B?ODVLYkN4TzVBWkRoQlJneXNzM2Yvc1cvbjROeVhacEllc2RFcitBalVxanhq?=
+ =?utf-8?B?NjBrN1NjNWZWMHZSUDJCVFBhR2RLQ3FzRlRhSVk3Vis3emdWaEZGU01oWk5j?=
+ =?utf-8?B?OXE5WjNZNlkvVkdnWDBpWDFXZjkzdGV4UWZ6Yyt4TEZYZ2syQlBXL3ZpRGt1?=
+ =?utf-8?B?cGRLMDFRUTJPQVF0dm5LanE1ZFUzZVlRdERWaytiVTRjTUdZNXplb1NBaElo?=
+ =?utf-8?Q?RNUp97wjwIfjeBYbrtWQ4dihRgFj4UyCBJ6WsCf?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: af99738a-1921-40dd-7e3b-08d98e7e3593
+X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2021 19:18:16.7957
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: l7xZhVocZzc6340uNjttXW1RyhUb7bk1WxVkI80th1kMiscFDeUK45qn5v79ZMklysDRTcICmlRnl+yA1HVWj4LrFv9y4WOe8+mAQN0EoVo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB5124
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10136 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ adultscore=0 bulkscore=0 mlxscore=0 spamscore=0 mlxlogscore=999
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2109230001 definitions=main-2110130114
+X-Proofpoint-ORIG-GUID: xYU6BowaVGYmaO1do7hiN0CWuJDM9dwb
+X-Proofpoint-GUID: xYU6BowaVGYmaO1do7hiN0CWuJDM9dwb
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Deven Bowers <deven.desai@linux.microsoft.com>
+On 10/13/21 18:41, Jason Gunthorpe wrote:
+> On Mon, Oct 11, 2021 at 04:53:29PM +0100, Joao Martins wrote:
+>> On 10/8/21 12:54, Jason Gunthorpe wrote:
+> 
+>>> The only optimization that might work here is to grab the head, then
+>>> compute the extent of tail pages and amalgamate them. Holding a ref on
+>>> the head also secures the tails.
+>>
+>> How about pmd_page(orig) / pud_page(orig) like what the rest of hugetlb/thp
+>> checks do? i.e. we would pass pmd_page(orig)/pud_page(orig) to __gup_device_huge()
+>> as an added @head argument. While keeping the same structure of counting tail pages
+>> between @addr .. @end if we have a head page.
+> 
+> The right logic is what everything else does:
+> 
+> 	page = pud_page(orig) + ((addr & ~PUD_MASK) >> PAGE_SHIFT);
+> 	refs = record_subpages(page, addr, end, pages + *nr);
+> 	head = try_grab_compound_head(pud_page(orig), refs, flags);
+> 
+> If you can use this, or not, depends entirely on answering the
+> question of why does  __gup_device_huge() exist at all.
+> 
+So for device-dax it seems to be an untackled oversight[*], probably
+inherited from when fsdax devmap was introduced. What I don't know
+is the other devmap users :(
 
-Users of IPE require a way to identify when and why an operation fails,
-allowing them to both respond to violations of policy and be notified
-of potentially malicious actions on their systens with respect to IPE
-itself.
+[*] it has all the same properties as hugetlbfs AFAIU (after this series)
 
-Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
----
+Certainly if any devmap PMD/PUD was represented in a single compound
+page like THP/hugetlbfs then this patch would be a matter of removing
+pgmap ref grab (and nuke the __gup_device_huge function existence as I
+suggested earlier).
 
-Relevant changes since v6:
-  * Split up patch 02/12 into four parts:
-      1. context creation [01/16]
-      2. audit [07/16] (this patch)
-      3. evaluation loop [03/16]
-      4. access control hooks [05/16]
+> This I don't fully know:
+> 
+> 1) As discussed quite a few times now, the entire get_dev_pagemap
+>    stuff looks usless and should just be deleted. If you care about
+>    optimizing this I would persue doing that as it will give the
+>    biggest single win.
+> 
+I am not questioning the well-deserved improvement -- but from a pure
+optimization perspective the get_dev_pagemap() cost is not
+visible and quite negligeble. It is done once and only once and
+subsequent calls to get_dev_pagemap with a non-NULL pgmap don't alter
+the refcount and just return the pgmap object. And the xarray storing
+the ranges -> pgmap won't be that big ... perhaps maybe 12 pgmaps on
+a large >1T pmem system depending on your DIMM size.
 
----
- security/ipe/Kconfig              |  52 ++++++
- security/ipe/Makefile             |   2 +
- security/ipe/audit.c              | 264 ++++++++++++++++++++++++++++++
- security/ipe/audit.h              |  36 ++++
- security/ipe/ctx.c                |  18 ++
- security/ipe/ctx.h                |   2 +
- security/ipe/eval.c               |   8 +
- security/ipe/eval.h               |   7 +
- security/ipe/fs.c                 |  79 +++++++++
- security/ipe/modules/ipe_module.h |   2 +
- 10 files changed, 470 insertions(+)
- create mode 100644 security/ipe/audit.c
- create mode 100644 security/ipe/audit.h
+The refcount update of the individual 4K page is what introduces
+a seriously prohibite cost: I am seeing 10x the cost with DRAM
+located struct pages (pmem located struct pages is even more ludicrous).
 
-diff --git a/security/ipe/Kconfig b/security/ipe/Kconfig
-index c4503083e92d..ef556b66e674 100644
---- a/security/ipe/Kconfig
-+++ b/security/ipe/Kconfig
-@@ -17,3 +17,55 @@ menuconfig SECURITY_IPE
- 	  requirements on the fly.
- 
- 	  If unsure, answer N.
-+
-+if SECURITY_IPE
-+
-+choice
-+	prompt "Hash algorithm used in auditing policies"
-+	default IPE_AUDIT_HASH_SHA1
-+	depends on AUDIT
-+	help
-+		Specify the hash algorithm used when auditing policies.
-+		The hash is used to uniquely identify a policy from other
-+		policies on the system.
-+
-+		If unsure, leave default.
-+
-+	config IPE_AUDIT_HASH_SHA1
-+		bool "sha1"
-+		depends on CRYPTO_SHA1
-+		help
-+			Use the SHA128 algorithm to hash policies
-+			in the audit records.
-+
-+	config IPE_AUDIT_HASH_SHA256
-+		bool "sha256"
-+		depends on CRYPTO_SHA256
-+		help
-+			Use the SHA256 algorithm to hash policies
-+			in the audit records.
-+
-+	config IPE_AUDIT_HASH_SHA384
-+		bool "sha384"
-+		depends on CRYPTO_SHA512
-+		help
-+			Use the SHA384 algorithm to hash policies
-+			in the audit records
-+
-+	config IPE_AUDIT_HASH_SHA512
-+		bool "sha512"
-+		depends on CRYPTO_SHA512
-+		help
-+			Use the SHA512 algorithm to hash policies
-+			in the audit records
-+endchoice
-+
-+config IPE_AUDIT_HASH_ALG
-+	string
-+	depends on AUDIT
-+	default "sha1" if IPE_AUDIT_HASH_SHA1
-+	default "sha256" if IPE_AUDIT_HASH_SHA256
-+	default "sha384" if IPE_AUDIT_HASH_SHA384
-+	default "sha512" if IPE_AUDIT_HASH_SHA512
-+
-+endif
-diff --git a/security/ipe/Makefile b/security/ipe/Makefile
-index d5660a17364c..6d9ac818e8c6 100644
---- a/security/ipe/Makefile
-+++ b/security/ipe/Makefile
-@@ -18,3 +18,5 @@ obj-$(CONFIG_SECURITY_IPE) += \
- 	parsers.o \
- 	policy.o \
- 	policyfs.o \
-+
-+obj-$(CONFIG_AUDIT) += audit.o
-diff --git a/security/ipe/audit.c b/security/ipe/audit.c
-new file mode 100644
-index 000000000000..5f6c0a52b0cb
---- /dev/null
-+++ b/security/ipe/audit.c
-@@ -0,0 +1,264 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) Microsoft Corporation. All rights reserved.
-+ */
-+
-+#include "ipe.h"
-+#include "eval.h"
-+#include "hooks.h"
-+#include "policy.h"
-+#include "audit.h"
-+#include "modules/ipe_module.h"
-+
-+#include <linux/slab.h>
-+#include <linux/audit.h>
-+#include <linux/types.h>
-+#include <crypto/hash.h>
-+
-+#define NULLSTR(x) ((x) == NULL ? "NULL" : "!NULL")
-+#define ACTSTR(x) ((x) == ipe_action_allow ? "ALLOW" : "DENY")
-+
-+#define POLICY_LOAD_FMT "IPE policy_name=%s policy_version=%hu.%hu.%hu "\
-+			CONFIG_IPE_AUDIT_HASH_ALG "="
-+
-+static const char *const audit_hook_names[ipe_hook_max] = {
-+	"EXECVE",
-+	"MMAP",
-+	"MPROTECT",
-+	"KERNEL_READ",
-+	"KERNEL_LOAD",
-+};
-+
-+static const char *const audit_op_names[ipe_operation_max] = {
-+	"EXECUTE",
-+	"FIRMWARE",
-+	"KMODULE",
-+	"KEXEC_IMAGE",
-+	"KEXEC_INITRAMFS",
-+	"IMA_X509_CERT",
-+	"IMA_POLICY",
-+};
-+
-+/**
-+ * audit_pathname: retrieve the absoute path to a file being evaluated.
-+ * @f: File to retrieve the absolute path for.
-+ *
-+ * This function walks past symlinks and mounts.
-+ *
-+ * Return:
-+ * !IS_ERR - OK
-+ */
-+static char *audit_pathname(const struct file *f)
-+{
-+	int rc = 0;
-+	char *pos = NULL;
-+	char *pathbuf = NULL;
-+	char *temp_path = NULL;
-+
-+	if (IS_ERR_OR_NULL(f))
-+		return ERR_PTR(-ENOENT);
-+
-+	pathbuf = __getname();
-+	if (!pathbuf)
-+		return ERR_PTR(-ENOMEM);
-+
-+	pos = d_absolute_path(&f->f_path, pathbuf, PATH_MAX);
-+	if (IS_ERR(pos)) {
-+		rc = PTR_ERR(pos);
-+		goto err;
-+	}
-+
-+	temp_path = __getname();
-+	if (!temp_path) {
-+		rc = -ENOMEM;
-+		goto err;
-+	}
-+
-+	strscpy(temp_path, pos, PATH_MAX);
-+	__putname(pathbuf);
-+
-+	return temp_path;
-+err:
-+	__putname(pathbuf);
-+	return ERR_PTR(rc);
-+}
-+
-+/**
-+ * audit_eval_ctx: audit an evaluation context structure.
-+ * @ab: Supplies a poniter to the audit_buffer to append to.
-+ * @ctx: Supplies a pointer to the evaluation context to audit
-+ * @enforce: Supplies a boolean representing the enforcement state
-+ */
-+static void audit_eval_ctx(struct audit_buffer *ab,
-+			   const struct ipe_eval_ctx *const ctx, bool enforce)
-+{
-+	char *abspath = NULL;
-+
-+	audit_log_format(ab, "ctx_pid=%d ", task_tgid_nr(current));
-+	audit_log_format(ab, "ctx_op=%s ", audit_op_names[ctx->op]);
-+	audit_log_format(ab, "ctx_hook=%s ", audit_hook_names[ctx->hook]);
-+	audit_log_format(ab, "ctx_ns_enforce=%d ", enforce);
-+	audit_log_format(ab, "ctx_comm=");
-+	audit_log_n_untrustedstring(ab, current->comm, ARRAY_SIZE(current->comm));
-+	audit_log_format(ab, " ");
-+
-+	/* best effort */
-+	if (ctx->file) {
-+		abspath = audit_pathname(ctx->file);
-+		if (!IS_ERR(abspath)) {
-+			audit_log_format(ab, "ctx_pathname=");
-+			audit_log_n_untrustedstring(ab, abspath, PATH_MAX);
-+			__putname(abspath);
-+		}
-+
-+		audit_log_format(ab, " ctx_ino=%ld ctx_dev=%s",
-+				 ctx->file->f_inode->i_ino,
-+				 ctx->file->f_inode->i_sb->s_id);
-+	}
-+}
-+
-+/**
-+ * audit_rule: audit an IPE policy rule approximation.
-+ * @ab: Supplies a poniter to the audit_buffer to append to.
-+ * @r: Supplies a pointer to the ipe_rule to approximate a string form for.
-+ *
-+ * This is an approximation because aliases like "KERNEL_READ" will be
-+ * emitted in their expanded form.
-+ */
-+static void audit_rule(struct audit_buffer *ab, const struct ipe_rule *r)
-+{
-+	const struct ipe_policy_mod *ptr;
-+
-+	audit_log_format(ab, "rule=\"op=%s ", audit_op_names[r->op]);
-+
-+	list_for_each_entry(ptr, &r->modules, next) {
-+		audit_log_format(ab, "%s=", ptr->mod->name);
-+
-+		ptr->mod->audit(ab, ptr->mod_value);
-+
-+		audit_log_format(ab, " ");
-+	}
-+
-+	audit_log_format(ab, "action=%s\"", ACTSTR(r->action));
-+}
-+
-+/**
-+ * ipe_audit_match: audit a match for IPE policy.
-+ * @ctx: Supplies a poniter to the evaluation context that was used in the
-+ *	 evaluation.
-+ * @match_type: Supplies the scope of the match: rule, operation default,
-+ *		global default.
-+ * @act: Supplies the IPE's evaluation decision, deny or allow.
-+ * @r: Supplies a pointer to the rule that was matched, if possible.
-+ * @enforce: Supplies the enforcement/permissive state at the point
-+ *	     the enforcement decision was made.
-+ */
-+void ipe_audit_match(const struct ipe_eval_ctx *const ctx,
-+		     enum ipe_match match_type,
-+		     enum ipe_action act, const struct ipe_rule *const r,
-+		     bool enforce)
-+{
-+	struct audit_buffer *ab;
-+	bool success_audit;
-+
-+	rcu_read_lock();
-+	success_audit = READ_ONCE(ctx->ci_ctx->success_audit);
-+	rcu_read_unlock();
-+
-+	if (act != ipe_action_deny && !success_audit)
-+		return;
-+
-+	ab = audit_log_start(audit_context(), GFP_KERNEL, AUDIT_TRUST_RESULT);
-+	if (!ab)
-+		return;
-+
-+	audit_log_format(ab, "IPE ");
-+	audit_eval_ctx(ab, ctx, enforce);
-+	audit_log_format(ab, " ");
-+
-+	if (match_type == ipe_match_rule)
-+		audit_rule(ab, r);
-+	else if (match_type == ipe_match_table)
-+		audit_log_format(ab, "rule=\"DEFAULT op=%s action=%s\"",
-+				 audit_op_names[ctx->op], ACTSTR(act));
-+	else
-+		audit_log_format(ab, "rule=\"DEFAULT action=%s\"",
-+				 ACTSTR(act));
-+
-+	audit_log_end(ab);
-+}
-+
-+/**
-+ * audit_policy: Audit a policy's name, version and thumprint to @ab
-+ * @ab: Supplies a pointer to the audit buffer to append to.
-+ * @p: Supplies a pointer to the policy to audit
-+ */
-+static void audit_policy(struct audit_buffer *ab,
-+			 const struct ipe_policy *const p)
-+{
-+	u8 *digest = NULL;
-+	struct crypto_shash *tfm;
-+	SHASH_DESC_ON_STACK(desc, tfm);
-+
-+	tfm = crypto_alloc_shash(CONFIG_IPE_AUDIT_HASH_ALG, 0, 0);
-+	if (IS_ERR(tfm))
-+		return;
-+
-+	desc->tfm = tfm;
-+
-+	digest = kzalloc(crypto_shash_digestsize(tfm), GFP_KERNEL);
-+	if (!digest)
-+		goto out;
-+
-+	if (crypto_shash_init(desc))
-+		goto out;
-+
-+	if (crypto_shash_update(desc, p->pkcs7, p->pkcs7len))
-+		goto out;
-+
-+	if (crypto_shash_final(desc, digest))
-+		goto out;
-+
-+	audit_log_format(ab, POLICY_LOAD_FMT, p->parsed->name,
-+			 p->parsed->version.major, p->parsed->version.minor,
-+			 p->parsed->version.rev);
-+	audit_log_n_hex(ab, digest, crypto_shash_digestsize(tfm));
-+
-+out:
-+	kfree(digest);
-+	crypto_free_shash(tfm);
-+}
-+
-+/**
-+ * ipe_audit_policy_activation: Audit a policy being made the active policy.
-+ * @p: Supplies a pointer to the policy to audit
-+ */
-+void ipe_audit_policy_activation(const struct ipe_policy *const p)
-+{
-+	struct audit_buffer *ab;
-+
-+	ab = audit_log_start(audit_context(), GFP_KERNEL, AUDIT_TRUST_POLICY_ACTIVATE);
-+	if (!ab)
-+		return;
-+
-+	audit_policy(ab, p);
-+
-+	audit_log_end(ab);
-+}
-+
-+/**
-+ * ipe_audit_policy_load: Audit a policy being loaded into the kernel.
-+ * @p: Supplies a pointer to the policy to audit
-+ */
-+void ipe_audit_policy_load(const struct ipe_policy *const p)
-+{
-+	struct audit_buffer *ab;
-+
-+	ab = audit_log_start(audit_context(), GFP_KERNEL, AUDIT_TRUST_POLICY_LOAD);
-+	if (!ab)
-+		return;
-+
-+	audit_policy(ab, p);
-+
-+	audit_log_end(ab);
-+}
-diff --git a/security/ipe/audit.h b/security/ipe/audit.h
-new file mode 100644
-index 000000000000..6b6880f6e8e7
---- /dev/null
-+++ b/security/ipe/audit.h
-@@ -0,0 +1,36 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (C) Microsoft Corporation. All rights reserved.
-+ */
-+
-+#ifndef IPE_AUDIT_H
-+#define IPE_AUDIT_H
-+
-+#include "ipe.h"
-+#include "eval.h"
-+
-+#ifdef CONFIG_AUDIT
-+void ipe_audit_match(const struct ipe_eval_ctx *const ctx,
-+		     enum ipe_match match_type,
-+		     enum ipe_action act, const struct ipe_rule *const r,
-+		     bool enforce);
-+void ipe_audit_policy_load(const struct ipe_policy *const p);
-+void ipe_audit_policy_activation(const struct ipe_policy *const p);
-+#else
-+static inline void ipe_audit_match(const struct ipe_eval_ctx *const ctx,
-+				   enum ipe_match match_type,
-+				   enum ipe_action act, const struct ipe_rule *const r,
-+				   bool enforce)
-+{
-+}
-+
-+static inline void ipe_audit_policy_load(const struct ipe_policy *const p)
-+{
-+}
-+
-+static inline void ipe_audit_policy_activation(const struct ipe_policy *const p)
-+{
-+}
-+#endif /* CONFIG_AUDIT */
-+
-+#endif /* IPE_AUDIT_H */
-diff --git a/security/ipe/ctx.c b/security/ipe/ctx.c
-index 664c671a4f9c..77475aedbfe9 100644
---- a/security/ipe/ctx.c
-+++ b/security/ipe/ctx.c
-@@ -6,12 +6,16 @@
- #include "ipe.h"
- #include "ctx.h"
- #include "policy.h"
-+#include "audit.h"
- 
- #include <linux/slab.h>
- #include <linux/types.h>
- #include <linux/parser.h>
- #include <linux/refcount.h>
- #include <linux/spinlock.h>
-+#include <linux/moduleparam.h>
-+
-+static bool success_audit;
- 
- /**
-  * ver_to_u64: convert an internal ipe_policy_version to a u64
-@@ -265,6 +269,7 @@ int ipe_set_active_pol(const struct ipe_policy *p)
- 	spin_unlock(&ctx->lock);
- 	synchronize_rcu();
- 
-+	ipe_audit_policy_activation(p);
- out:
- 	ipe_put_policy(ap);
- 	ipe_put_ctx(ctx);
-@@ -330,6 +335,10 @@ int __init ipe_init_ctx(void)
- 		goto err;
- 	}
- 
-+	spin_lock(&lns->lock);
-+	WRITE_ONCE(lns->success_audit, success_audit);
-+	spin_unlock(&lns->lock);
-+
- 	rcu_assign_pointer(*ipe_tsk_ctx(current), lns);
- 
- 	return 0;
-@@ -337,3 +346,12 @@ int __init ipe_init_ctx(void)
- 	ipe_put_ctx(lns);
- 	return rc;
- }
-+
-+/* Set the right module name */
-+#ifdef KBUILD_MODNAME
-+#undef KBUILD_MODNAME
-+#define KBUILD_MODNAME "ipe"
-+#endif
-+
-+module_param(success_audit, bool, 0400);
-+MODULE_PARM_DESC(success_audit, "Start IPE with success auditing enabled");
-diff --git a/security/ipe/ctx.h b/security/ipe/ctx.h
-index fe11fb767788..31aea2fb9e49 100644
---- a/security/ipe/ctx.h
-+++ b/security/ipe/ctx.h
-@@ -15,6 +15,8 @@
- struct ipe_context {
- 	struct ipe_policy __rcu *active_policy;
- 
-+	bool __rcu success_audit;
-+
- 	refcount_t refcount;
- 	/* Protects concurrent writers */
- 	spinlock_t lock;
-diff --git a/security/ipe/eval.c b/security/ipe/eval.c
-index b732f76cfd05..dcb62179e4bf 100644
---- a/security/ipe/eval.c
-+++ b/security/ipe/eval.c
-@@ -9,6 +9,7 @@
- #include "hooks.h"
- #include "policy.h"
- #include "modules/ipe_module.h"
-+#include "audit.h"
- 
- #include <linux/slab.h>
- #include <linux/file.h>
-@@ -73,7 +74,9 @@ static int evaluate(const struct ipe_eval_ctx *const ctx)
- {
- 	int rc = 0;
- 	bool match = false;
-+	bool enforcing = true;
- 	enum ipe_action action;
-+	enum ipe_match match_type;
- 	struct ipe_policy *pol = NULL;
- 	const struct ipe_rule *rule = NULL;
- 	const struct ipe_policy_mod *module = NULL;
-@@ -97,12 +100,17 @@ static int evaluate(const struct ipe_eval_ctx *const ctx)
- 
- 	if (match) {
- 		action = rule->action;
-+		match_type = ipe_match_rule;
- 	} else if (rules->default_action != ipe_action_max) {
- 		action = rules->default_action;
-+		match_type = ipe_match_table;
- 	} else {
- 		action = pol->parsed->global_default;
-+		match_type = ipe_match_global;
- 	}
- 
-+	ipe_audit_match(ctx, match_type, action, rule, enforcing);
-+
- 	if (action == ipe_action_deny)
- 		rc = -EACCES;
- 
-diff --git a/security/ipe/eval.h b/security/ipe/eval.h
-index db6da2998a20..8c08eed5af2b 100644
---- a/security/ipe/eval.h
-+++ b/security/ipe/eval.h
-@@ -20,6 +20,13 @@ struct ipe_eval_ctx {
- 	struct ipe_context *ci_ctx;
- };
- 
-+enum ipe_match {
-+	ipe_match_rule = 0,
-+	ipe_match_table,
-+	ipe_match_global,
-+	ipe_match_max
-+};
-+
- int ipe_process_event(const struct file *file, enum ipe_operation op,
- 		      enum ipe_hook hook);
- 
-diff --git a/security/ipe/fs.c b/security/ipe/fs.c
-index 10ad23f8bf92..c202c0753755 100644
---- a/security/ipe/fs.c
-+++ b/security/ipe/fs.c
-@@ -5,6 +5,7 @@
- #include "ipe.h"
- #include "fs.h"
- #include "policy.h"
-+#include "audit.h"
- 
- #include <linux/dcache.h>
- #include <linux/security.h>
-@@ -12,6 +13,70 @@
- static struct dentry *np __ro_after_init;
- static struct dentry *root __ro_after_init;
- static struct dentry *config __ro_after_init;
-+static struct dentry *success_audit __ro_after_init;
-+
-+/**
-+ * setaudit: Write handler for the securityfs node, "ipe/success_audit"
-+ * @f: Supplies a file structure representing the securityfs node.
-+ * @data: Supplies a buffer passed to the write syscall
-+ * @len: Supplies the length of @data
-+ * @offset: unused.
-+ *
-+ * Return:
-+ * >0 - Success, Length of buffer written
-+ * <0 - Error
-+ */
-+static ssize_t setaudit(struct file *f, const char __user *data,
-+			size_t len, loff_t *offset)
-+{
-+	int rc = 0;
-+	bool value;
-+	struct ipe_context *ctx;
-+
-+	if (!file_ns_capable(f, &init_user_ns, CAP_MAC_ADMIN))
-+		return -EPERM;
-+
-+	rc = kstrtobool_from_user(data, len, &value);
-+	if (rc)
-+		return rc;
-+
-+	ctx = ipe_current_ctx();
-+
-+	spin_lock(&ctx->lock);
-+	WRITE_ONCE(ctx->success_audit, value);
-+	spin_unlock(&ctx->lock);
-+	synchronize_rcu();
-+
-+	ipe_put_ctx(ctx);
-+	return len;
-+}
-+
-+/**
-+ * getaudit: Read handler for the securityfs node, "ipe/success_audit"
-+ * @f: Supplies a file structure representing the securityfs node.
-+ * @data: Supplies a buffer passed to the read syscall
-+ * @len: Supplies the length of @data
-+ * @offset: unused.
-+ *
-+ * Return:
-+ * >0 - Success, Length of buffer written
-+ * <0 - Error
-+ */
-+static ssize_t getaudit(struct file *f, char __user *data,
-+			size_t len, loff_t *offset)
-+{
-+	const char *result;
-+	struct ipe_context *ctx;
-+
-+	ctx = ipe_current_ctx();
-+
-+	rcu_read_lock();
-+	result = ((READ_ONCE(ctx->success_audit)) ? "1" : "0");
-+	rcu_read_unlock();
-+
-+	ipe_put_ctx(ctx);
-+	return simple_read_from_buffer(data, len, offset, result, 2);
-+}
- 
- /**
-  * new_policy: Write handler for the securityfs node, "ipe/new_policy"
-@@ -54,6 +119,7 @@ static ssize_t new_policy(struct file *f, const char __user *data,
- 		goto err;
- 
- 	ipe_add_policy(ctx, p);
-+	ipe_audit_policy_load(p);
- err:
- 	ipe_put_policy(p);
- 	ipe_put_ctx(ctx);
-@@ -119,6 +185,11 @@ static const struct file_operations np_fops = {
- 	.write = new_policy,
- };
- 
-+static const struct file_operations audit_fops = {
-+	.write = setaudit,
-+	.read = getaudit,
-+};
-+
- /**
-  * ipe_init_securityfs: Initialize IPE's securityfs tree at fsinit
-  *
-@@ -152,6 +223,13 @@ static int __init ipe_init_securityfs(void)
- 		goto err;
- 	}
- 
-+	success_audit = securityfs_create_file("success_audit", 0600, root,
-+					       NULL, &audit_fops);
-+	if (IS_ERR(success_audit)) {
-+		rc = PTR_ERR(success_audit);
-+		goto err;
-+	}
-+
- 	ctx->policy_root = securityfs_create_dir("policies", root);
- 	if (IS_ERR(ctx->policy_root)) {
- 		rc = PTR_ERR(ctx->policy_root);
-@@ -163,6 +241,7 @@ static int __init ipe_init_securityfs(void)
- 	securityfs_remove(np);
- 	securityfs_remove(root);
- 	securityfs_remove(config);
-+	securityfs_remove(success_audit);
- 	securityfs_remove(ctx->policy_root);
- 	return rc;
- }
-diff --git a/security/ipe/modules/ipe_module.h b/security/ipe/modules/ipe_module.h
-index b4f975e9218a..6855815d72da 100644
---- a/security/ipe/modules/ipe_module.h
-+++ b/security/ipe/modules/ipe_module.h
-@@ -6,6 +6,7 @@
- #define IPE_MODULE_H
- 
- #include <linux/types.h>
-+#include <linux/audit.h>
- #include "../eval.h"
- 
- /**
-@@ -26,6 +27,7 @@ struct ipe_module {
- 	int (*free)(void **value);			/* optional */
- 	bool (*eval)(const struct ipe_eval_ctx *ctx,	/* required */
- 		     const void *val);
-+	void (*audit)(struct audit_buffer *ab, const void *val); /* required */
- };
- 
- #define IPE_MODULE(parser)				\
--- 
-2.33.0
+> 2) It breaks up the PUD/PMD into tail pages and scans them all
+>    Why? Can devmap combine multiple compound_head's into the same PTE?
 
+
+I am not aware of any other usage of compound pages for devmap struct pages
+than this series. At least I haven't seen device-dax or fsdax using this.
+Unless HMM does this stuff, or some sort of devmap page migration? P2PDMA
+doesn't seem to be (yet?) caught by any of the GUP path at least before
+Logan's series lands. Or am I misunderstanding things here?
+
+>    Does devmap guarentee that the PUD/PMD points to the head page? (I
+>    assume no)
+> 
+For device-dax yes.
+
+
+> But I'm looking at this some more and I see try_get_compound_head() is
+> reading the compound_head with no locking, just READ_ONCE, so that
+> must be OK under GUP.
+> 
+I suppose one other way to get around the double atomic op would be to fail
+the try_get_compound_head() by comparing the first tail page compound_head()
+after grabbing the head with @refs. That is instead of comparing against
+grabbed head page and the passed page argument.
+
+> It still seems to me the same generic algorithm should work
+> everywhere, once we get rid of the get_dev_pagemap
+> 
+>   start_pfn = pud/pmd_pfn() + pud/pmd_page_offset(addr)
+>   end_pfn = start_pfn + (end - addr) // fixme
+>   if (THP)
+>      refs = end_pfn - start_pfn
+>   if (devmap)
+>      refs = 1
+> 
+>   do {
+>      page = pfn_to_page(start_pfn)
+>      head_page = try_grab_compound_head(page, refs, flags)
+>      if (pud/pmd_val() != orig)
+>         err
+> 
+>      npages = 1 << compound_order(head_page)
+>      npages = min(npages, end_pfn - start_pfn)
+>      for (i = 0, iter = page; i != npages) {
+>      	 *pages++ = iter;
+>          mem_map_next(iter, page, i)
+>      }
+> 
+>      if (devmap && npages > 2)
+>          grab_compound_head(head_page, npages - 1, flags)
+>      start_pfn += npages;
+>   } while (start_pfn != end_pfn)
+> 
+> Above needs to be cleaned up quite a bit, but is the general idea.
+> 
+> There is an further optimization we can put in where we can know that
+> 'page' is still in a currently grab'd compound (eg last_page+1 = page,
+> not past compound_order) and defer the refcount work.
+> 
+I was changing __gup_device_huge() with similar to the above, but yeah
+it follows that algorithm as inside your do { } while() (thanks!). I can
+turn __gup_device_huge() into another (renamed to like try_grab_pages())
+helper and replace the callsites of gup_huge_{pud,pmd} for the THP/hugetlbfs
+equivalent handling.
+
+>> It's interesting how THP (in gup_huge_pmd()) unilaterally computes
+>> tails assuming pmd_page(orig) is the head page.
+> 
+> I think this is an integral property of THP, probably not devmap/dax
+> though?
+
+I think the right answer is "depends on the devmap" type. device-dax with
+PMD/PUDs (i.e. 2m pagesize PMEM or 1G pagesize pmem) works with the same
+rules as hugetlbfs. fsdax not so much (as you say above) but it would
+follow up changes to perhaps adhere to similar scheme (not exactly sure
+how do deal with holes). HMM I am not sure what the rules are there.
+P2PDMA seems not applicable?
