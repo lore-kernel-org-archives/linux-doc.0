@@ -2,517 +2,521 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 877E8C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 07:15:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A2F0C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 07:15:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 67A7161027
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 07:15:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E21736103C
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 07:15:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238138AbhJMHRZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Oct 2021 03:17:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33722 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238325AbhJMHRY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Oct 2021 03:17:24 -0400
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1EA0C061753
-        for <linux-doc@vger.kernel.org>; Wed, 13 Oct 2021 00:15:21 -0700 (PDT)
-Received: by mail-lf1-x12b.google.com with SMTP id j21so7763405lfe.0
-        for <linux-doc@vger.kernel.org>; Wed, 13 Oct 2021 00:15:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1mRu3r6Qc3uUoeu3SdPEjmroiMDsLF1jPWRmtXaNPAA=;
-        b=al1Hrn9n9NyPydAhRSyu6i9JjnSJvw2qYFkFfkq60Y6RdpdaMBeE4eTxkEOh5B5C4Q
-         9CafVsugwLBpHn2ZmG1M8lEbMNoXUt0a3k2/ITrS1GvPM8X8+zN40jzSywmamGo3yZij
-         cKXnJ5mysfsocsiXFwZCrhrjQUI6LhiRHhTbXqu1isilviPXv9liKuSCBNhe8YlMF3cv
-         E5oxDVrtc3aD1Qc0p4jEmI8tJBKQEm0yL850kxsyMlVfqYQUxl+uDUXoRK/I5xsbbYUV
-         vzlMLgNe6SU96GdvxIanh3FTDOiJckpcnhHD9d6zOitAt+K7gcxT5T1pBAm6djfGyJ7g
-         b4Gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1mRu3r6Qc3uUoeu3SdPEjmroiMDsLF1jPWRmtXaNPAA=;
-        b=J+CI5chV5MOecKPgTGLodyTi23SDDuwyA1tfDWb8oJvESQK/JiGWdjvBMD+7OMmLbi
-         jTFvGM16LdTaffIWO2e6CVekFLf9jDZHVRo+JwNKZg052HL6KgneiRUX8lridd+IvfBV
-         vOm6LBNqu9Fme9mshx3KZxtlXJSGyO3NgwLW3TSuu2ndupidJJID4wP6dWOeEJPiD5YI
-         NNQ1hAkafhdPNFbJtGJRmABcDr1rKXb0YCwDOqmS+QHAdgOFrMuYVCA5IMCciM3oX/53
-         a14VQs02Vb6suIhVq9BwD6uOiR616pzWNAmR+lY6lS5p2EmU3qFsjPq7vMLAvT7LiDv9
-         w5JQ==
-X-Gm-Message-State: AOAM532mv+KRqWHumT6yo1uCVvmhXmTcKMYNV6A9RXP/jjv0+qImaBZ9
-        MEody1oe+0nn8cQbULjboFiLYWty6/aWpAWSb00obw==
-X-Google-Smtp-Source: ABdhPJyb8WUCpaMMu5Yv2FN9p2LzQERvURaBz9kbHlydnIFUCkQJy5f8G3OaGBJC8ZKPaQcaWNS7MrkQbWn2LlZnPIs=
-X-Received: by 2002:a05:651c:1304:: with SMTP id u4mr33573336lja.136.1634109320000;
- Wed, 13 Oct 2021 00:15:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211006071546.2540920-1-jens.wiklander@linaro.org> <20211006071546.2540920-6-jens.wiklander@linaro.org>
-In-Reply-To: <20211006071546.2540920-6-jens.wiklander@linaro.org>
-From:   Sumit Garg <sumit.garg@linaro.org>
-Date:   Wed, 13 Oct 2021 12:45:08 +0530
-Message-ID: <CAFA6WYNdebJKoWZdQRPc=OdmaA=_jiguz12gfyHsdozbdx45vQ@mail.gmail.com>
-Subject: Re: [PATCH v6 5/6] optee: separate notification functions
-To:     Jens Wiklander <jens.wiklander@linaro.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        OP-TEE TrustedFirmware <op-tee@lists.trustedfirmware.org>,
-        Devicetree List <devicetree@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jerome Forissier <jerome@forissier.org>,
-        Etienne Carriere <etienne.carriere@linaro.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
+        id S238319AbhJMHRd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Oct 2021 03:17:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60726 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S238262AbhJMHRb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 13 Oct 2021 03:17:31 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3ED5561074;
+        Wed, 13 Oct 2021 07:15:05 +0000 (UTC)
+From:   Huacai Chen <chenhuacai@loongson.cn>
+To:     Arnd Bergmann <arnd@arndb.de>, Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
         Jonathan Corbet <corbet@lwn.net>,
-        Ard Biesheuvel <ardb@kernel.org>, Marc Zyngier <maz@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Huacai Chen <chenhuacai@gmail.com>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Huacai Chen <chenhuacai@loongson.cn>
+Subject: [PATCH V5 17/22] LoongArch: Add some library functions
+Date:   Wed, 13 Oct 2021 15:11:12 +0800
+Message-Id: <20211013071117.3097969-4-chenhuacai@loongson.cn>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20211013071117.3097969-1-chenhuacai@loongson.cn>
+References: <20211013063656.3084555-1-chenhuacai@loongson.cn>
+ <20211013071117.3097969-1-chenhuacai@loongson.cn>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 6 Oct 2021 at 12:46, Jens Wiklander <jens.wiklander@linaro.org> wrote:
->
-> Renames struct optee_wait_queue to struct optee_notif and all related
-> functions to optee_notif_*().
->
-> The implementation is changed to allow sending a notification from an
-> atomic state, that is from the top half of an interrupt handler.
->
-> Waiting for keys is currently only used when secure world is waiting for
-> a mutex or condition variable. The old implementation could handle any
-> 32-bit key while this new implementation is restricted to only 8 bits or
-> the maximum value 255. A upper value is needed since a bitmap is
-> allocated to allow an interrupt handler to only set a bit in case the
-> waiter hasn't had the time yet to allocate and register a completion.
->
-> The keys are currently only representing secure world threads which
-> number usually are never even close to 255 so it should be safe for now.
-> In future ABI updates the maximum value of the key will be communicated
-> while the driver is initializing.
->
-> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> ---
->  drivers/tee/optee/Makefile        |   1 +
->  drivers/tee/optee/core.c          |  12 ++-
->  drivers/tee/optee/notif.c         | 125 ++++++++++++++++++++++++++++++
->  drivers/tee/optee/optee_private.h |  19 +++--
->  drivers/tee/optee/optee_rpc_cmd.h |  31 ++++----
->  drivers/tee/optee/rpc.c           |  73 ++---------------
->  6 files changed, 170 insertions(+), 91 deletions(-)
->  create mode 100644 drivers/tee/optee/notif.c
->
+This patch adds some library functions for LoongArch, including: delay,
+memset, memcpy, memmove, copy_user, strncpy_user, strnlen_user and tlb
+dump functions.
 
-Apart from minor nit below:
+Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+---
+ arch/loongarch/include/asm/delay.h  |  26 +++++++
+ arch/loongarch/include/asm/string.h |  17 +++++
+ arch/loongarch/lib/clear_user.S     |  43 +++++++++++
+ arch/loongarch/lib/copy_user.S      |  47 ++++++++++++
+ arch/loongarch/lib/delay.c          |  43 +++++++++++
+ arch/loongarch/lib/dump_tlb.c       | 111 ++++++++++++++++++++++++++++
+ arch/loongarch/lib/memcpy.S         |  32 ++++++++
+ arch/loongarch/lib/memmove.S        |  45 +++++++++++
+ arch/loongarch/lib/memset.S         |  30 ++++++++
+ 9 files changed, 394 insertions(+)
+ create mode 100644 arch/loongarch/include/asm/delay.h
+ create mode 100644 arch/loongarch/include/asm/string.h
+ create mode 100644 arch/loongarch/lib/clear_user.S
+ create mode 100644 arch/loongarch/lib/copy_user.S
+ create mode 100644 arch/loongarch/lib/delay.c
+ create mode 100644 arch/loongarch/lib/dump_tlb.c
+ create mode 100644 arch/loongarch/lib/memcpy.S
+ create mode 100644 arch/loongarch/lib/memmove.S
+ create mode 100644 arch/loongarch/lib/memset.S
 
-Reviewed-by: Sumit Garg <sumit.garg@linaro.org>
+diff --git a/arch/loongarch/include/asm/delay.h b/arch/loongarch/include/asm/delay.h
+new file mode 100644
+index 000000000000..717227c1c79d
+--- /dev/null
++++ b/arch/loongarch/include/asm/delay.h
+@@ -0,0 +1,26 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (C) 2020-2021 Loongson Technology Corporation Limited
++ */
++#ifndef _ASM_DELAY_H
++#define _ASM_DELAY_H
++
++#include <linux/param.h>
++
++extern void __delay(unsigned long loops);
++extern void __ndelay(unsigned long ns);
++extern void __udelay(unsigned long us);
++
++#define ndelay(ns) __ndelay(ns)
++#define udelay(us) __udelay(us)
++
++/* make sure "usecs *= ..." in udelay do not overflow. */
++#if HZ >= 1000
++#define MAX_UDELAY_MS	1
++#elif HZ <= 200
++#define MAX_UDELAY_MS	5
++#else
++#define MAX_UDELAY_MS	(1000 / HZ)
++#endif
++
++#endif /* _ASM_DELAY_H */
+diff --git a/arch/loongarch/include/asm/string.h b/arch/loongarch/include/asm/string.h
+new file mode 100644
+index 000000000000..21e9e0a58194
+--- /dev/null
++++ b/arch/loongarch/include/asm/string.h
+@@ -0,0 +1,17 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (C) 2020-2021 Loongson Technology Corporation Limited
++ */
++#ifndef _ASM_STRING_H
++#define _ASM_STRING_H
++
++#define __HAVE_ARCH_MEMSET
++extern void *memset(void *__s, int __c, size_t __count);
++
++#define __HAVE_ARCH_MEMCPY
++extern void *memcpy(void *__to, __const__ void *__from, size_t __n);
++
++#define __HAVE_ARCH_MEMMOVE
++extern void *memmove(void *__dest, __const__ void *__src, size_t __n);
++
++#endif /* _ASM_STRING_H */
+diff --git a/arch/loongarch/lib/clear_user.S b/arch/loongarch/lib/clear_user.S
+new file mode 100644
+index 000000000000..97b9998360cc
+--- /dev/null
++++ b/arch/loongarch/lib/clear_user.S
+@@ -0,0 +1,43 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (C) 2020-2021 Loongson Technology Corporation Limited
++ */
++
++#include <asm/asm.h>
++#include <asm/asmmacro.h>
++#include <asm/export.h>
++#include <asm/regdef.h>
++
++.macro fixup_ex from, to, offset, fix
++.if \fix
++	.section .fixup, "ax"
++\to:	addi.d	v0, a1, \offset
++	jr	ra
++	.previous
++.endif
++	.section __ex_table, "a"
++	PTR	\from\()b, \to\()b
++	.previous
++.endm
++
++/*
++ * unsigned long __clear_user(void *addr, size_t size)
++ *
++ * a0: addr
++ * a1: size
++ */
++SYM_FUNC_START(__clear_user)
++	beqz	a1, 2f
++
++1:	st.b	zero, a0, 0
++	addi.d	a0, a0, 1
++	addi.d	a1, a1, -1
++	bgt	a1, zero, 1b
++
++2:	move	v0, a1
++	jr	ra
++
++	fixup_ex 1, 3, 0, 1
++SYM_FUNC_END(__clear_user)
++
++EXPORT_SYMBOL(__clear_user)
+diff --git a/arch/loongarch/lib/copy_user.S b/arch/loongarch/lib/copy_user.S
+new file mode 100644
+index 000000000000..b814efd9cbd2
+--- /dev/null
++++ b/arch/loongarch/lib/copy_user.S
+@@ -0,0 +1,47 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (C) 2020-2021 Loongson Technology Corporation Limited
++ */
++
++#include <asm/asm.h>
++#include <asm/asmmacro.h>
++#include <asm/export.h>
++#include <asm/regdef.h>
++
++.macro fixup_ex from, to, offset, fix
++.if \fix
++	.section .fixup, "ax"
++\to:	addi.d	v0, a2, \offset
++	jr	ra
++	.previous
++.endif
++	.section __ex_table, "a"
++	PTR	\from\()b, \to\()b
++	.previous
++.endm
++
++/*
++ * unsigned long __copy_user(void *to, const void *from, size_t n)
++ *
++ * a0: to
++ * a1: from
++ * a2: n
++ */
++SYM_FUNC_START(__copy_user)
++	beqz	a2, 3f
++
++1:	ld.b	t0, a1, 0
++2:	st.b	t0, a0, 0
++	addi.d	a0, a0, 1
++	addi.d	a1, a1, 1
++	addi.d	a2, a2, -1
++	bgt	a2, zero, 1b
++
++3:	move	v0, a2
++	jr	ra
++
++	fixup_ex 1, 4, 0, 1
++	fixup_ex 2, 4, 0, 0
++SYM_FUNC_END(__copy_user)
++
++EXPORT_SYMBOL(__copy_user)
+diff --git a/arch/loongarch/lib/delay.c b/arch/loongarch/lib/delay.c
+new file mode 100644
+index 000000000000..cf22f0899a9a
+--- /dev/null
++++ b/arch/loongarch/lib/delay.c
+@@ -0,0 +1,43 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) 2020-2021 Loongson Technology Corporation Limited
++ */
++#include <linux/delay.h>
++#include <linux/export.h>
++#include <linux/smp.h>
++#include <linux/timex.h>
++
++#include <asm/compiler.h>
++#include <asm/processor.h>
++
++void __delay(unsigned long cycles)
++{
++	u64 t0 = get_cycles();
++
++	while ((unsigned long)(get_cycles() - t0) < cycles)
++		cpu_relax();
++}
++EXPORT_SYMBOL(__delay);
++
++/*
++ * Division by multiplication: you don't have to worry about
++ * loss of precision.
++ *
++ * Use only for very small delays ( < 1 msec).	Should probably use a
++ * lookup table, really, as the multiplications take much too long with
++ * short delays.  This is a "reasonable" implementation, though (and the
++ * first constant multiplications gets optimized away if the delay is
++ * a constant)
++ */
++
++void __udelay(unsigned long us)
++{
++	__delay((us * 0x000010c7ull * HZ * lpj_fine) >> 32);
++}
++EXPORT_SYMBOL(__udelay);
++
++void __ndelay(unsigned long ns)
++{
++	__delay((ns * 0x00000005ull * HZ * lpj_fine) >> 32);
++}
++EXPORT_SYMBOL(__ndelay);
+diff --git a/arch/loongarch/lib/dump_tlb.c b/arch/loongarch/lib/dump_tlb.c
+new file mode 100644
+index 000000000000..21b55681a726
+--- /dev/null
++++ b/arch/loongarch/lib/dump_tlb.c
+@@ -0,0 +1,111 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) 2020-2021 Loongson Technology Corporation Limited
++ *
++ * Derived from MIPS:
++ * Copyright (C) 1994, 1995 by Waldorf Electronics, written by Ralf Baechle.
++ * Copyright (C) 1999 by Silicon Graphics, Inc.
++ */
++#include <linux/kernel.h>
++#include <linux/mm.h>
++
++#include <asm/loongarch.h>
++#include <asm/page.h>
++#include <asm/pgtable.h>
++#include <asm/tlb.h>
++
++void dump_tlb_regs(void)
++{
++	const int field = 2 * sizeof(unsigned long);
++
++	pr_info("Index    : %0x\n", read_csr_tlbidx());
++	pr_info("PageSize : %0x\n", read_csr_pagesize());
++	pr_info("EntryHi  : %0*lx\n", field, read_csr_entryhi());
++	pr_info("EntryLo0 : %0*lx\n", field, read_csr_entrylo0());
++	pr_info("EntryLo1 : %0*lx\n", field, read_csr_entrylo1());
++}
++
++static void dump_tlb(int first, int last)
++{
++	unsigned long s_entryhi, entryhi, asid;
++	unsigned long long entrylo0, entrylo1, pa;
++	unsigned int index;
++	unsigned int s_index, s_asid;
++	unsigned int pagesize, c0, c1, i;
++	unsigned long asidmask = cpu_asid_mask(&current_cpu_data);
++	int pwidth = 11;
++	int vwidth = 11;
++	int asidwidth = DIV_ROUND_UP(ilog2(asidmask) + 1, 4);
++
++	s_entryhi = read_csr_entryhi();
++	s_index = read_csr_tlbidx();
++	s_asid = read_csr_asid();
++
++	for (i = first; i <= last; i++) {
++		write_csr_index(i);
++		tlb_read();
++		pagesize = read_csr_pagesize();
++		entryhi	 = read_csr_entryhi();
++		entrylo0 = read_csr_entrylo0();
++		entrylo1 = read_csr_entrylo1();
++		index = read_csr_tlbidx();
++		asid = read_csr_asid();
++
++		/* EHINV bit marks entire entry as invalid */
++		if (index & CSR_TLBIDX_EHINV)
++			continue;
++		/*
++		 * ASID takes effect in absence of G (global) bit.
++		 */
++		if (!((entrylo0 | entrylo1) & ENTRYLO_G) &&
++		    asid != s_asid)
++			continue;
++
++		/*
++		 * Only print entries in use
++		 */
++		pr_info("Index: %2d pgsize=%x ", i, (1 << pagesize));
++
++		c0 = (entrylo0 & ENTRYLO_C) >> ENTRYLO_C_SHIFT;
++		c1 = (entrylo1 & ENTRYLO_C) >> ENTRYLO_C_SHIFT;
++
++		pr_cont("va=%0*lx asid=%0*lx",
++			vwidth, (entryhi & ~0x1fffUL), asidwidth, asid & asidmask);
++
++		/* RI/XI are in awkward places, so mask them off separately */
++		pa = entrylo0 & ~(ENTRYLO_RI | ENTRYLO_XI);
++		pa = pa & PAGE_MASK;
++		pr_cont("\n\t[");
++		pr_cont("ri=%d xi=%d ",
++			(entrylo0 & ENTRYLO_RI) ? 1 : 0,
++			(entrylo0 & ENTRYLO_XI) ? 1 : 0);
++		pr_cont("pa=%0*llx c=%d d=%d v=%d g=%d plv=%lld] [",
++			pwidth, pa, c0,
++			(entrylo0 & ENTRYLO_D) ? 1 : 0,
++			(entrylo0 & ENTRYLO_V) ? 1 : 0,
++			(entrylo0 & ENTRYLO_G) ? 1 : 0,
++			(entrylo0 & ENTRYLO_PLV) >> ENTRYLO_PLV_SHIFT);
++		/* RI/XI are in awkward places, so mask them off separately */
++		pa = entrylo1 & ~(ENTRYLO_RI | ENTRYLO_XI);
++		pa = pa & PAGE_MASK;
++		pr_cont("ri=%d xi=%d ",
++			(entrylo1 & ENTRYLO_RI) ? 1 : 0,
++			(entrylo1 & ENTRYLO_XI) ? 1 : 0);
++		pr_cont("pa=%0*llx c=%d d=%d v=%d g=%d plv=%lld]\n",
++			pwidth, pa, c1,
++			(entrylo1 & ENTRYLO_D) ? 1 : 0,
++			(entrylo1 & ENTRYLO_V) ? 1 : 0,
++			(entrylo1 & ENTRYLO_G) ? 1 : 0,
++			(entrylo1 & ENTRYLO_PLV) >> ENTRYLO_PLV_SHIFT);
++	}
++	pr_info("\n");
++
++	write_csr_entryhi(s_entryhi);
++	write_csr_tlbidx(s_index);
++	write_csr_asid(s_asid);
++}
++
++void dump_tlb_all(void)
++{
++	dump_tlb(0, current_cpu_data.tlbsize - 1);
++}
+diff --git a/arch/loongarch/lib/memcpy.S b/arch/loongarch/lib/memcpy.S
+new file mode 100644
+index 000000000000..e94899d99624
+--- /dev/null
++++ b/arch/loongarch/lib/memcpy.S
+@@ -0,0 +1,32 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (C) 2020-2021 Loongson Technology Corporation Limited
++ */
++
++#include <asm/asmmacro.h>
++#include <asm/export.h>
++#include <asm/regdef.h>
++
++/*
++ * void *memcpy(void *dst, const void *src, size_t n)
++ *
++ * a0: dst
++ * a1: src
++ * a2: n
++ */
++SYM_FUNC_START(memcpy)
++	move	a3, a0
++	beqz	a2, 2f
++
++1:	ld.b	t0, a1, 0
++	st.b	t0, a0, 0
++	addi.d	a0, a0, 1
++	addi.d	a1, a1, 1
++	addi.d	a2, a2, -1
++	bgt	a2, zero, 1b
++
++2:	move	v0, a3
++	jr	ra
++SYM_FUNC_END(memcpy)
++
++EXPORT_SYMBOL(memcpy)
+diff --git a/arch/loongarch/lib/memmove.S b/arch/loongarch/lib/memmove.S
+new file mode 100644
+index 000000000000..f55d8dcd09dd
+--- /dev/null
++++ b/arch/loongarch/lib/memmove.S
+@@ -0,0 +1,45 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (C) 2020-2021 Loongson Technology Corporation Limited
++ */
++
++#include <asm/asmmacro.h>
++#include <asm/export.h>
++#include <asm/regdef.h>
++
++/*
++ * void *rmemcpy(void *dst, const void *src, size_t n)
++ *
++ * a0: dst
++ * a1: src
++ * a2: n
++ */
++SYM_FUNC_START(rmemcpy)
++	move	a3, a0
++	beqz	a2, 2f
++
++	add.d	a0, a0, a2
++	add.d	a1, a1, a2
++
++1:	ld.b	t0, a1, -1
++	st.b	t0, a0, -1
++	addi.d	a0, a0, -1
++	addi.d	a1, a1, -1
++	addi.d	a2, a2, -1
++	bgt	a2, zero, 1b
++
++2:	move	v0, a3
++	jr	ra
++SYM_FUNC_END(rmemcpy)
++
++SYM_FUNC_START(memmove)
++	blt	a0, a1, 1f	/* dst < src, memcpy */
++	blt	a1, a0, 2f	/* src < dst, rmemcpy */
++	jr	ra		/* dst == src, return */
++
++1:	b	memcpy
++
++2:	b	rmemcpy
++SYM_FUNC_END(memmove)
++
++EXPORT_SYMBOL(memmove)
+diff --git a/arch/loongarch/lib/memset.S b/arch/loongarch/lib/memset.S
+new file mode 100644
+index 000000000000..f599017e68fd
+--- /dev/null
++++ b/arch/loongarch/lib/memset.S
+@@ -0,0 +1,30 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (C) 2020-2021 Loongson Technology Corporation Limited
++ */
++
++#include <asm/asmmacro.h>
++#include <asm/export.h>
++#include <asm/regdef.h>
++
++/*
++ * void *memset(void *s, int c, size_t n)
++ *
++ * a0: s
++ * a1: c
++ * a2: n
++ */
++SYM_FUNC_START(memset)
++	move	a3, a0
++	beqz	a2, 2f
++
++1:	st.b	a1, a0, 0
++	addi.d	a0, a0, 1
++	addi.d	a2, a2, -1
++	bgt	a2, zero, 1b
++
++2:	move	v0, a3
++	jr	ra
++SYM_FUNC_END(memset)
++
++EXPORT_SYMBOL(memset)
+-- 
+2.27.0
 
-> diff --git a/drivers/tee/optee/Makefile b/drivers/tee/optee/Makefile
-> index 3aa33ea9e6a6..df55e4ad5370 100644
-> --- a/drivers/tee/optee/Makefile
-> +++ b/drivers/tee/optee/Makefile
-> @@ -2,6 +2,7 @@
->  obj-$(CONFIG_OPTEE) += optee.o
->  optee-objs += core.o
->  optee-objs += call.o
-> +optee-objs += notif.o
->  optee-objs += rpc.o
->  optee-objs += supp.o
->  optee-objs += shm_pool.o
-> diff --git a/drivers/tee/optee/core.c b/drivers/tee/optee/core.c
-> index 5ce13b099d7d..8531184f98f4 100644
-> --- a/drivers/tee/optee/core.c
-> +++ b/drivers/tee/optee/core.c
-> @@ -592,6 +592,7 @@ static int optee_remove(struct platform_device *pdev)
->          */
->         optee_disable_shm_cache(optee);
->
-> +       optee_notif_uninit(optee);
->         /*
->          * The two devices have to be unregistered before we can free the
->          * other resources.
-> @@ -602,7 +603,6 @@ static int optee_remove(struct platform_device *pdev)
->         tee_shm_pool_free(optee->pool);
->         if (optee->memremaped_shm)
->                 memunmap(optee->memremaped_shm);
-> -       optee_wait_queue_exit(&optee->wait_queue);
->         optee_supp_uninit(&optee->supp);
->         mutex_destroy(&optee->call_queue.mutex);
->
-> @@ -712,11 +712,17 @@ static int optee_probe(struct platform_device *pdev)
->
->         mutex_init(&optee->call_queue.mutex);
->         INIT_LIST_HEAD(&optee->call_queue.waiters);
-> -       optee_wait_queue_init(&optee->wait_queue);
->         optee_supp_init(&optee->supp);
->         optee->memremaped_shm = memremaped_shm;
->         optee->pool = pool;
->
-> +       platform_set_drvdata(pdev, optee);
-> +       rc = optee_notif_init(optee, 255);
-
-nit: Can you use a macro here instead of a constant with a proper
-comment similar to the one in commit description?
-
--Sumit
-
-> +       if (rc) {
-> +               optee_remove(pdev);
-> +               return rc;
-> +       }
-> +
->         /*
->          * Ensure that there are no pre-existing shm objects before enabling
->          * the shm cache so that there's no chance of receiving an invalid
-> @@ -731,8 +737,6 @@ static int optee_probe(struct platform_device *pdev)
->         if (optee->sec_caps & OPTEE_SMC_SEC_CAP_DYNAMIC_SHM)
->                 pr_info("dynamic shared memory is enabled\n");
->
-> -       platform_set_drvdata(pdev, optee);
-> -
->         rc = optee_enumerate_devices(PTA_CMD_GET_DEVICES);
->         if (rc) {
->                 optee_remove(pdev);
-> diff --git a/drivers/tee/optee/notif.c b/drivers/tee/optee/notif.c
-> new file mode 100644
-> index 000000000000..a28fa03dcd0e
-> --- /dev/null
-> +++ b/drivers/tee/optee/notif.c
-> @@ -0,0 +1,125 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2015-2021, Linaro Limited
-> + */
-> +
-> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> +
-> +#include <linux/arm-smccc.h>
-> +#include <linux/errno.h>
-> +#include <linux/slab.h>
-> +#include <linux/spinlock.h>
-> +#include <linux/tee_drv.h>
-> +#include "optee_private.h"
-> +
-> +struct notif_entry {
-> +       struct list_head link;
-> +       struct completion c;
-> +       u_int key;
-> +};
-> +
-> +static bool have_key(struct optee *optee, u_int key)
-> +{
-> +       struct notif_entry *entry;
-> +
-> +       list_for_each_entry(entry, &optee->notif.db, link)
-> +               if (entry->key == key)
-> +                       return true;
-> +
-> +       return false;
-> +}
-> +
-> +int optee_notif_wait(struct optee *optee, u_int key)
-> +{
-> +       unsigned long flags;
-> +       struct notif_entry *entry;
-> +       int rc = 0;
-> +
-> +       if (key > optee->notif.max_key)
-> +               return -EINVAL;
-> +
-> +       entry = kmalloc(sizeof(*entry), GFP_KERNEL);
-> +       if (!entry)
-> +               return -ENOMEM;
-> +       init_completion(&entry->c);
-> +       entry->key = key;
-> +
-> +       spin_lock_irqsave(&optee->notif.lock, flags);
-> +
-> +       /*
-> +        * If the bit is already set it means that the key has already
-> +        * been posted and we must not wait.
-> +        */
-> +       if (test_bit(key, optee->notif.bitmap)) {
-> +               clear_bit(key, optee->notif.bitmap);
-> +               goto out;
-> +       }
-> +
-> +       /*
-> +        * Check if someone is already waiting for this key. If there is
-> +        * it's a programming error.
-> +        */
-> +       if (have_key(optee, key)) {
-> +               rc = -EBUSY;
-> +               goto out;
-> +       }
-> +
-> +       list_add_tail(&entry->link, &optee->notif.db);
-> +
-> +       /*
-> +        * Unlock temporarily and wait for completion.
-> +        */
-> +       spin_unlock_irqrestore(&optee->notif.lock, flags);
-> +       wait_for_completion(&entry->c);
-> +       spin_lock_irqsave(&optee->notif.lock, flags);
-> +
-> +       list_del(&entry->link);
-> +out:
-> +       spin_unlock_irqrestore(&optee->notif.lock, flags);
-> +
-> +       kfree(entry);
-> +
-> +       return rc;
-> +}
-> +
-> +int optee_notif_send(struct optee *optee, u_int key)
-> +{
-> +       unsigned long flags;
-> +       struct notif_entry *entry;
-> +
-> +       if (key > optee->notif.max_key)
-> +               return -EINVAL;
-> +
-> +       spin_lock_irqsave(&optee->notif.lock, flags);
-> +
-> +       list_for_each_entry(entry, &optee->notif.db, link)
-> +               if (entry->key == key) {
-> +                       complete(&entry->c);
-> +                       goto out;
-> +               }
-> +
-> +       /* Only set the bit in case there where nobody waiting */
-> +       set_bit(key, optee->notif.bitmap);
-> +out:
-> +       spin_unlock_irqrestore(&optee->notif.lock, flags);
-> +
-> +       return 0;
-> +}
-> +
-> +int optee_notif_init(struct optee *optee, u_int max_key)
-> +{
-> +       spin_lock_init(&optee->notif.lock);
-> +       INIT_LIST_HEAD(&optee->notif.db);
-> +       optee->notif.bitmap = bitmap_zalloc(max_key, GFP_KERNEL);
-> +       if (!optee->notif.bitmap)
-> +               return -ENOMEM;
-> +
-> +       optee->notif.max_key = max_key;
-> +
-> +       return 0;
-> +}
-> +
-> +void optee_notif_uninit(struct optee *optee)
-> +{
-> +       kfree(optee->notif.bitmap);
-> +}
-> diff --git a/drivers/tee/optee/optee_private.h b/drivers/tee/optee/optee_private.h
-> index dbdd367be156..76a16d9b6cf4 100644
-> --- a/drivers/tee/optee/optee_private.h
-> +++ b/drivers/tee/optee/optee_private.h
-> @@ -35,10 +35,12 @@ struct optee_call_queue {
->         struct list_head waiters;
->  };
->
-> -struct optee_wait_queue {
-> -       /* Serializes access to this struct */
-> -       struct mutex mu;
-> +struct optee_notif {
-> +       u_int max_key;
-> +       /* Serializes access to the elements below in this struct */
-> +       spinlock_t lock;
->         struct list_head db;
-> +       u_long *bitmap;
->  };
->
->  /**
-> @@ -72,8 +74,7 @@ struct optee_supp {
->   * @teedev:            client device
->   * @invoke_fn:         function to issue smc or hvc
->   * @call_queue:                queue of threads waiting to call @invoke_fn
-> - * @wait_queue:                queue of threads from secure world waiting for a
-> - *                     secure world sync object
-> + * @notif:             notification synchronization struct
->   * @supp:              supplicant synchronization struct for RPC to supplicant
->   * @pool:              shared memory pool
->   * @memremaped_shm     virtual address of memory in shared memory pool
-> @@ -88,7 +89,7 @@ struct optee {
->         struct tee_device *teedev;
->         optee_invoke_fn *invoke_fn;
->         struct optee_call_queue call_queue;
-> -       struct optee_wait_queue wait_queue;
-> +       struct optee_notif notif;
->         struct optee_supp supp;
->         struct tee_shm_pool *pool;
->         void *memremaped_shm;
-> @@ -131,8 +132,10 @@ void optee_handle_rpc(struct tee_context *ctx, struct optee_rpc_param *param,
->                       struct optee_call_ctx *call_ctx);
->  void optee_rpc_finalize_call(struct optee_call_ctx *call_ctx);
->
-> -void optee_wait_queue_init(struct optee_wait_queue *wq);
-> -void optee_wait_queue_exit(struct optee_wait_queue *wq);
-> +int optee_notif_init(struct optee *optee, u_int max_key);
-> +void optee_notif_uninit(struct optee *optee);
-> +int optee_notif_wait(struct optee *optee, u_int key);
-> +int optee_notif_send(struct optee *optee, u_int key);
->
->  u32 optee_supp_thrd_req(struct tee_context *ctx, u32 func, size_t num_params,
->                         struct tee_param *param);
-> diff --git a/drivers/tee/optee/optee_rpc_cmd.h b/drivers/tee/optee/optee_rpc_cmd.h
-> index b8275140cef8..f3f06e0994a7 100644
-> --- a/drivers/tee/optee/optee_rpc_cmd.h
-> +++ b/drivers/tee/optee/optee_rpc_cmd.h
-> @@ -28,24 +28,27 @@
->  #define OPTEE_RPC_CMD_GET_TIME         3
->
->  /*
-> - * Wait queue primitive, helper for secure world to implement a wait queue.
-> + * Notification from/to secure world.
->   *
-> - * If secure world needs to wait for a secure world mutex it issues a sleep
-> - * request instead of spinning in secure world. Conversely is a wakeup
-> - * request issued when a secure world mutex with a thread waiting thread is
-> - * unlocked.
-> + * If secure world needs to wait for something, for instance a mutex, it
-> + * does a notification wait request instead of spinning in secure world.
-> + * Conversely can a synchronous notification can be sent when a secure
-> + * world mutex with a thread waiting thread is unlocked.
->   *
-> - * Waiting on a key
-> - * [in]    value[0].a      OPTEE_RPC_WAIT_QUEUE_SLEEP
-> - * [in]    value[0].b      Wait key
-> + * This interface can also be used to wait for a asynchronous notification
-> + * which instead is sent via a non-secure interrupt.
->   *
-> - * Waking up a key
-> - * [in]    value[0].a      OPTEE_RPC_WAIT_QUEUE_WAKEUP
-> - * [in]    value[0].b      Wakeup key
-> + * Waiting on notification
-> + * [in]    value[0].a      OPTEE_RPC_NOTIFICATION_WAIT
-> + * [in]    value[0].b      notification value
-> + *
-> + * Sending a synchronous notification
-> + * [in]    value[0].a      OPTEE_RPC_NOTIFICATION_SEND
-> + * [in]    value[0].b      notification value
->   */
-> -#define OPTEE_RPC_CMD_WAIT_QUEUE       4
-> -#define OPTEE_RPC_WAIT_QUEUE_SLEEP     0
-> -#define OPTEE_RPC_WAIT_QUEUE_WAKEUP    1
-> +#define OPTEE_RPC_CMD_NOTIFICATION     4
-> +#define OPTEE_RPC_NOTIFICATION_WAIT    0
-> +#define OPTEE_RPC_NOTIFICATION_SEND    1
->
->  /*
->   * Suspend execution
-> diff --git a/drivers/tee/optee/rpc.c b/drivers/tee/optee/rpc.c
-> index efbaff7ad7e5..fa492655843a 100644
-> --- a/drivers/tee/optee/rpc.c
-> +++ b/drivers/tee/optee/rpc.c
-> @@ -1,6 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0-only
->  /*
-> - * Copyright (c) 2015-2016, Linaro Limited
-> + * Copyright (c) 2015-2021, Linaro Limited
->   */
->
->  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> @@ -14,23 +14,6 @@
->  #include "optee_smc.h"
->  #include "optee_rpc_cmd.h"
->
-> -struct wq_entry {
-> -       struct list_head link;
-> -       struct completion c;
-> -       u32 key;
-> -};
-> -
-> -void optee_wait_queue_init(struct optee_wait_queue *priv)
-> -{
-> -       mutex_init(&priv->mu);
-> -       INIT_LIST_HEAD(&priv->db);
-> -}
-> -
-> -void optee_wait_queue_exit(struct optee_wait_queue *priv)
-> -{
-> -       mutex_destroy(&priv->mu);
-> -}
-> -
->  static void handle_rpc_func_cmd_get_time(struct optee_msg_arg *arg)
->  {
->         struct timespec64 ts;
-> @@ -143,48 +126,6 @@ static void handle_rpc_func_cmd_i2c_transfer(struct tee_context *ctx,
->  }
->  #endif
->
-> -static struct wq_entry *wq_entry_get(struct optee_wait_queue *wq, u32 key)
-> -{
-> -       struct wq_entry *w;
-> -
-> -       mutex_lock(&wq->mu);
-> -
-> -       list_for_each_entry(w, &wq->db, link)
-> -               if (w->key == key)
-> -                       goto out;
-> -
-> -       w = kmalloc(sizeof(*w), GFP_KERNEL);
-> -       if (w) {
-> -               init_completion(&w->c);
-> -               w->key = key;
-> -               list_add_tail(&w->link, &wq->db);
-> -       }
-> -out:
-> -       mutex_unlock(&wq->mu);
-> -       return w;
-> -}
-> -
-> -static void wq_sleep(struct optee_wait_queue *wq, u32 key)
-> -{
-> -       struct wq_entry *w = wq_entry_get(wq, key);
-> -
-> -       if (w) {
-> -               wait_for_completion(&w->c);
-> -               mutex_lock(&wq->mu);
-> -               list_del(&w->link);
-> -               mutex_unlock(&wq->mu);
-> -               kfree(w);
-> -       }
-> -}
-> -
-> -static void wq_wakeup(struct optee_wait_queue *wq, u32 key)
-> -{
-> -       struct wq_entry *w = wq_entry_get(wq, key);
-> -
-> -       if (w)
-> -               complete(&w->c);
-> -}
-> -
->  static void handle_rpc_func_cmd_wq(struct optee *optee,
->                                    struct optee_msg_arg *arg)
->  {
-> @@ -196,11 +137,13 @@ static void handle_rpc_func_cmd_wq(struct optee *optee,
->                 goto bad;
->
->         switch (arg->params[0].u.value.a) {
-> -       case OPTEE_RPC_WAIT_QUEUE_SLEEP:
-> -               wq_sleep(&optee->wait_queue, arg->params[0].u.value.b);
-> +       case OPTEE_RPC_NOTIFICATION_WAIT:
-> +               if (optee_notif_wait(optee, arg->params[0].u.value.b))
-> +                       goto bad;
->                 break;
-> -       case OPTEE_RPC_WAIT_QUEUE_WAKEUP:
-> -               wq_wakeup(&optee->wait_queue, arg->params[0].u.value.b);
-> +       case OPTEE_RPC_NOTIFICATION_SEND:
-> +               if (optee_notif_send(optee, arg->params[0].u.value.b))
-> +                       goto bad;
->                 break;
->         default:
->                 goto bad;
-> @@ -463,7 +406,7 @@ static void handle_rpc_func_cmd(struct tee_context *ctx, struct optee *optee,
->         case OPTEE_RPC_CMD_GET_TIME:
->                 handle_rpc_func_cmd_get_time(arg);
->                 break;
-> -       case OPTEE_RPC_CMD_WAIT_QUEUE:
-> +       case OPTEE_RPC_CMD_NOTIFICATION:
->                 handle_rpc_func_cmd_wq(optee, arg);
->                 break;
->         case OPTEE_RPC_CMD_SUSPEND:
-> --
-> 2.31.1
->
