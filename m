@@ -2,150 +2,163 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2283C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 13:54:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 865F3C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 15:04:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C0761610F9
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 13:54:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5EF7E61053
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Oct 2021 15:04:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231644AbhJMN4x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Oct 2021 09:56:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41416 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229611AbhJMN4w (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Oct 2021 09:56:52 -0400
-Received: from mx0a-00190b01.pphosted.com (mx0a-00190b01.pphosted.com [IPv6:2620:100:9001:583::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6284DC061570;
-        Wed, 13 Oct 2021 06:54:49 -0700 (PDT)
-Received: from pps.filterd (m0050095.ppops.net [127.0.0.1])
-        by m0050095.ppops.net-00190b01. (8.16.1.2/8.16.1.2) with SMTP id 19DDN6af004835;
-        Wed, 13 Oct 2021 14:54:38 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akamai.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=jan2016.eng;
- bh=sMP+jJB6SWg9fLjAmeom2/nDG2YfFwUo6uWVt8nwc6Y=;
- b=JNdCVimbsquDOkU/VbvdSwCpFP6q1ZrHxtQFzFH9vUOPzDSXj+ZrAQ/cqA/6SJ1YyyXg
- JIxGkfA6HiY3hUPLJOb8F6w6vEAKAa1iBme58jHeoAPACyA/ZfvIdq7DgXLvg9w3d169
- nOuxHsWEiugq7wfu22WbPEpyii++cPSPncwYyOOKBPXhF/4cklJif+lRjqkzd3F3UWaT
- lXNv+QRBES+5GviFouU9fU0Xg8nqPS9n98voMpYSC99UF6XyxLFa2yN1mrn26yLnFxXs
- XV1id6bOnq9gOqUgSdmEBlZfZ+fCCmKV6J2VcXFIbsKaa577aI8t0EVxBRuikY+kbh7o 3A== 
-Received: from prod-mail-ppoint7 (a72-247-45-33.deploy.static.akamaitechnologies.com [72.247.45.33] (may be forged))
-        by m0050095.ppops.net-00190b01. with ESMTP id 3bp09v8u9r-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 13 Oct 2021 14:54:37 +0100
-Received: from pps.filterd (prod-mail-ppoint7.akamai.com [127.0.0.1])
-        by prod-mail-ppoint7.akamai.com (8.16.1.2/8.16.1.2) with SMTP id 19DDoBP1024035;
-        Wed, 13 Oct 2021 09:54:37 -0400
-Received: from prod-mail-relay19.dfw02.corp.akamai.com ([172.27.165.173])
-        by prod-mail-ppoint7.akamai.com with ESMTP id 3bn97e80ag-1;
-        Wed, 13 Oct 2021 09:54:37 -0400
-Received: from [0.0.0.0] (prod-ssh-gw01.bos01.corp.akamai.com [172.27.119.138])
-        by prod-mail-relay19.dfw02.corp.akamai.com (Postfix) with ESMTP id A01D4600B8;
-        Wed, 13 Oct 2021 13:54:36 +0000 (GMT)
-Subject: Re: [PATCH v3 0/3] Trivial dynamic debug fixups
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Halaney <ahalaney@redhat.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Jim Cromie <jim.cromie@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210920205444.20068-1-ahalaney@redhat.com>
- <670b5afa-0d76-7e78-2b31-f1d4355dd026@akamai.com>
- <YWBrXZrqdoETlqWG@kroah.com> <20211008162707.nc6vr22srcmga5fp@halaneylaptop>
- <YWbEm1Eq8BlpIQ7V@kroah.com>
-From:   Jason Baron <jbaron@akamai.com>
-Message-ID: <9f8b253d-6db2-e6bb-5bc5-b39ec23a2721@akamai.com>
-Date:   Wed, 13 Oct 2021 09:54:36 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S233969AbhJMPGp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Oct 2021 11:06:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32030 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236315AbhJMPGn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Oct 2021 11:06:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1634137480;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=d+mcxn9Yq7uI+Viy+K4BQvLPxElVK5331udxqYrTR1s=;
+        b=czVfnmG1Fgv3twWElMZJVffzr9QomQc1SaSZ3Emy8QrPVWww0HcaI30uBdMcRW7PN3nxua
+        J/ImaGpAsFtfcBnej8gd2ZwTocb6UelhJFKkcdT028u/zII6NOq3l6GkOQzHHxTkDAAfsK
+        d8qW8u/G0npUaJmh37M+kTTFA6bbM1E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-16-yR6kJGqXNkKhVj3G7P5dzg-1; Wed, 13 Oct 2021 11:04:34 -0400
+X-MC-Unique: yR6kJGqXNkKhVj3G7P5dzg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EDE0802CB8;
+        Wed, 13 Oct 2021 15:04:31 +0000 (UTC)
+Received: from T590 (ovpn-8-39.pek2.redhat.com [10.72.8.39])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 0AAC357CB9;
+        Wed, 13 Oct 2021 15:04:12 +0000 (UTC)
+Date:   Wed, 13 Oct 2021 23:04:07 +0800
+From:   Ming Lei <ming.lei@redhat.com>
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     Miroslav Benes <mbenes@suse.cz>, tj@kernel.org,
+        gregkh@linuxfoundation.org, akpm@linux-foundation.org,
+        minchan@kernel.org, jeyu@kernel.org, shuah@kernel.org,
+        bvanassche@acm.org, dan.j.williams@intel.com, joe@perches.com,
+        tglx@linutronix.de, keescook@chromium.org, rostedt@goodmis.org,
+        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ming.lei@redhat.com
+Subject: Re: [PATCH v8 09/12] sysfs: fix deadlock race with module removal
+Message-ID: <YWb1Z7EXruo6gaEp@T590>
+References: <20210927163805.808907-1-mcgrof@kernel.org>
+ <20210927163805.808907-10-mcgrof@kernel.org>
+ <YVwZwh7qDKfSM59h@T590>
+ <YWSr2trabEJflzlj@bombadil.infradead.org>
+ <YWTU3kTlJKONyFjZ@T590>
+ <YWX7pAn0YMaJeJBA@bombadil.infradead.org>
+ <YWYxN875B6rlmAjC@T590>
+ <YWbSk6p3bfXUPZ92@bombadil.infradead.org>
 MIME-Version: 1.0
-In-Reply-To: <YWbEm1Eq8BlpIQ7V@kroah.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425,18.0.790
- definitions=2021-10-13_05:2021-10-13,2021-10-13 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 mlxscore=0
- adultscore=0 mlxlogscore=366 suspectscore=0 spamscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109230001
- definitions=main-2110130094
-X-Proofpoint-ORIG-GUID: QcSu3Ggp3HZp7jbuhygVGfD9OpFVARyC
-X-Proofpoint-GUID: QcSu3Ggp3HZp7jbuhygVGfD9OpFVARyC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-10-13_05,2021-10-13_02,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 priorityscore=1501
- phishscore=0 lowpriorityscore=0 impostorscore=0 malwarescore=0
- clxscore=1015 adultscore=0 mlxscore=0 suspectscore=0 spamscore=0
- mlxlogscore=244 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2109230001 definitions=main-2110130095
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YWbSk6p3bfXUPZ92@bombadil.infradead.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 10/13/21 7:35 AM, Greg Kroah-Hartman wrote:
-> On Fri, Oct 08, 2021 at 11:27:07AM -0500, Andrew Halaney wrote:
->> On Fri, Oct 08, 2021 at 06:01:33PM +0200, Greg Kroah-Hartman wrote:
->>> On Fri, Oct 08, 2021 at 11:58:57AM -0400, Jason Baron wrote:
->>>> Adding Greg to this (should have added him earlier)
->>>>
->>>> Greg, if you are ok with this series, we'd like to have it added
->>>> to -next.
->>>
->>> What series?
->>>
->>> Have a pointer to it?  It would help if it was actually sent to me if
->>> people want it applied...
->>>
->>> thanks,
->>>
->>> greg k-h
->>>
->>
->> Sorry Greg, that's probably my bad.. still getting used to the kernel's
->> workflow.
->>
->> Here's the lore link: https://urldefense.com/v3/__https://lore.kernel.org/all/20210920205444.20068-1-ahalaney@redhat.com/__;!!GjvTz_vk!A7QQa1yGOtgSmhzn52NLhZuRbLxxMCyl17_8RiqsehjeAG2AAsYl7bgWgK15Pw$ 
->>
->> Did I do something silly when sending the patches? I basically
->> just added everyone manually when using git send-email.
->>
->> I found who to add via:
->>
->>     ahalaney@halaneylaptop ~/git/linux (git)-[master] % ./scripts/get_maintainer.pl 0002-dyndbg-Remove-support-for-ddebug_query-param.patch                                     :(
->>     Jonathan Corbet <corbet@lwn.net> (maintainer:DOCUMENTATION,commit_signer:1/2=50%)
->>     Jason Baron <jbaron@akamai.com> (maintainer:DYNAMIC DEBUG)
->>     Martin Kepplinger <martink@posteo.de> (commit_signer:1/2=50%,authored:1/2=50%,added_lines:1/3=33%,removed_lines:1/5=20%)
->>     Andrew Halaney <ahalaney@redhat.com> (commit_signer:1/2=50%,authored:1/2=50%,added_lines:2/3=67%,removed_lines:4/5=80%)
->>     "Paul E. McKenney" <paulmck@kernel.org> (commit_signer:14/89=16%,authored:7/89=8%,added_lines:44/527=8%)
->>     Thomas Gleixner <tglx@linutronix.de> (commit_signer:11/89=12%)
->>     Andrew Morton <akpm@linux-foundation.org> (commit_signer:11/89=12%)
->>     Peter Zijlstra <peterz@infradead.org> (commit_signer:8/89=9%,removed_lines:13/137=9%)
->>     Will Deacon <will@kernel.org> (commit_signer:7/89=8%)
->>     "Maciej W. Rozycki" <macro@orcam.me.uk> (added_lines:90/527=17%)
->>     Muchun Song <songmuchun@bytedance.com> (added_lines:28/527=5%)
->>     Viresh Kumar <viresh.kumar@linaro.org> (removed_lines:14/137=10%)
->>     Robin Murphy <robin.murphy@arm.com> (removed_lines:13/137=9%)
->>     Randy Dunlap <rdunlap@infradead.org> (removed_lines:10/137=7%)
->>     Lu Baolu <baolu.lu@linux.intel.com> (removed_lines:10/137=7%)
->>     linux-doc@vger.kernel.org (open list:DOCUMENTATION)
->>     linux-kernel@vger.kernel.org (open list)
->>
->>
->> per patch, and I just hit the maintainers and the lists specified
->> since I figured the commit_signers don't care. Did I goof up?
+On Wed, Oct 13, 2021 at 05:35:31AM -0700, Luis Chamberlain wrote:
+> On Wed, Oct 13, 2021 at 09:07:03AM +0800, Ming Lei wrote:
+> > On Tue, Oct 12, 2021 at 02:18:28PM -0700, Luis Chamberlain wrote:
+> > > > Looks test_sysfs isn't in linus tree, where can I find it?
+> > > 
+> > > https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux-next.git/log/?h=20210927-sysfs-generic-deadlock-fix
+> > > 
+> > > To reproduce the deadlock revert the patch in this thread and then run
+> > > either of these two tests as root:
+> > > 
+> > > ./tools/testing/selftests/sysfs/sysfs.sh -w 0027
+> > > ./tools/testing/selftests/sysfs/sysfs.sh -w 0028
+> > > 
+> > > You will need to enable the test_sysfs driver.
+> > > > Can you share the code which waits for the sysfs / kernfs files to be
+> > > > stop being used?
+> > > 
+> > > How about a call trace of the two tasks which deadlock, here is one of
+> > > running test 0027:
+> > > 
+> > > kdevops login: [  363.875459] INFO: task sysfs.sh:1271 blocked for more
+> > > than 120 seconds.
 > 
-> No, that's all correct.  It's up to the maintainers to then route your
-> patches to the proper tree.
+> <-- snip -->
 > 
-> If they want me to take them, great, I'll be glad to do so, but I need
-> them to send them to me :)
+> > That doesn't show the deadlock is related with module_exit().
+> 
+> Not directly no.
 
-Ok, I will re-send the series to Greg.
+Then the patch title of 'sysfs: fix deadlock race with module removal'
+is wrong.
+
+> 
+> > It is clearly one AA deadlock, what I meant was that it isn't related with
+> > module exit cause lock & device_del() isn't always done in module exit, so
+> > I doubt your fix with grabbing module refcnt is good or generic enough.
+> 
+> A device_del() *can* happen in other areas other than module exit sure,
+> but the issue is if a shared lock is used *before* device_del() and also
+> used on a sysfs op. Typically this can happen on module exit, and the
+> other common use case in my experience is on sysfs ops, such is the case
+> with the zram driver. Both cases are covered then by this fix.
+
+Again, can you share the related zram code about the issue? In
+zram_drv.c of linus or next tree, I don't see any lock is held before
+calling del_gendisk().
+
+> 
+> If there are other areas, that is still driver specific, but of the
+> things we *can* generalize, definitely module exit is a common path.
+> 
+> > Except for your cooked test_sys module, how many real drivers do suffer the
+> > problem? What are they?
+> 
+> I only really seriously considered trying to generalize this after it
+
+IMO your generalization isn't good or correct because this kind of issue
+is _not_ related with module exit at all. What matters is just that one lock is
+held before calling device_del(), meantime the same lock is required
+in the device's attribute show/store function().
+
+There are many cases in which we call device_del() not from module_exit(),
+such as scsi scan, scsi sysfs store(), or even handling event from
+device side, nvme error handling, usb hotplug, ...
+
+> was hinted to me live patching was also affected, and so clearly
+> something generic was desirable.
+
+It might be just the only two drivers(zram and live patch) with this bug, and
+it is one simply AA bug in driver. Not mention I don't see such usage in
+zram_drv.c.
+
+> 
+> There may be other drivers for sure, but a hunt for that with semantics
+> would require a bit complex coccinelle patch with iteration support.
+> 
+> > Why can't we fix the exact driver?
+> 
+> You can try, the way the lock is used in zram is correct, specially
+
+What is the lock in zram? Again can you share the related functions?
+
+> after my other fix in this series which addresses another unrelated bug
+> with cpu hotplug multistate support. So we then can proceed to either
+> take the position to say: "Thou shalt not use a shared lock on module
+> exit and a sysfs op" and try to fix all places, or we generalize a fix
+> for this. A generic fix seems more desirable.
+
+What matters is that the lock is held before calling device_del()
+instead of being held in module_exit().
+
+
 
 Thanks,
-
--Jason
-
+Ming
 
