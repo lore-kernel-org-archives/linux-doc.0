@@ -2,448 +2,171 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1146C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 07:45:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B366C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 09:26:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C6037610F9
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 07:45:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 62A3261152
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 09:26:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229988AbhJNHrl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Oct 2021 03:47:41 -0400
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:51028 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S229551AbhJNHrk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Oct 2021 03:47:40 -0400
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19E7OBDZ015669;
-        Thu, 14 Oct 2021 09:45:10 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=AteCvuyAJ2rDfYN7kHL5rJ2Ghv35YuaE3N1sonzQglA=;
- b=zXcPq1j/qY2R56OwiYSHuMkC7TkG9cvLidbOUw5u5FTDBjaf2hNIKtraREIF8OPeWaSv
- dere4jWtbcCD1m2rAqI7T2Ng+27Bq4q8k2CWWqP+hh04JkhxGNdjs4rtPBOVFdKNUr+L
- 1oTkubRG6DDQLZ5SEJxuitnlZ8v9Pf865N4jhf+pw58d0QzypVde9AyrHKK4YBpsP6Tu
- e6So1kKA6ga9F9WYjRISJU7mExXxZ3eg3rEQ/TTUFwGovlpxH8Kj1jSw6U6nfvk0vmsA
- GPuugmVOZYTIx28ZNL12vEUPeMSOuCbTz/gkZoheaqdszH88wfGpNNGPw1ZQFl+MEdeD Lg== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 3bp9estnvk-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 14 Oct 2021 09:45:10 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id DB05210002A;
-        Thu, 14 Oct 2021 09:45:08 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id CCF582128B1;
-        Thu, 14 Oct 2021 09:45:08 +0200 (CEST)
-Received: from lmecxl0889.lme.st.com (10.75.127.44) by SFHDAG2NODE2.st.com
- (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Thu, 14 Oct
- 2021 09:45:07 +0200
-Subject: Re: [PATCH v9 2/2] tty: add rpmsg driver
-To:     Mathieu Poirier <mathieu.poirier@linaro.org>
-CC:     Ohad Ben-Cohen <ohad@wizery.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        id S230049AbhJNJ2g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Oct 2021 05:28:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58791 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229468AbhJNJ2f (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Oct 2021 05:28:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1634203590;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=MFy26Kc6cpLu18LAs5Mx0Nrg8iL3DuTgZC2Ev14vjlo=;
+        b=X2mCdv8b1K88eBKlnWLq69ctpJUgvxcadvamxM/mn99+T+jMO3aioYuoqC+npqMg6NSXb9
+        DjbnOYauRoO0F+uJ1Fd4TTsFKj80Qh9YoDcsBGmIU0Z53054RrYn3NRQVR6ZKRRpPpdlZw
+        t/YBQ7/WS+kpUFDtv2YGdeKj9M2YW4E=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-313-rPrCpCpSPpCv0-CIbOZkUQ-1; Thu, 14 Oct 2021 05:26:29 -0400
+X-MC-Unique: rPrCpCpSPpCv0-CIbOZkUQ-1
+Received: by mail-ed1-f72.google.com with SMTP id v2-20020a50f082000000b003db24e28d59so4660616edl.5
+        for <linux-doc@vger.kernel.org>; Thu, 14 Oct 2021 02:26:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=MFy26Kc6cpLu18LAs5Mx0Nrg8iL3DuTgZC2Ev14vjlo=;
+        b=KCOIl8Acwrjl3aXW651BaV9extqAyRCyjaYt9JuqiiOPu3oJWSmzMhCl1y6l7Zlarb
+         4hUVFdT80HCU7GpTC2FuEKHvxtIviVw9jXfjerNwVD/hSZ8C2v3/F568bitLO+SKOkSd
+         ITLj9hm0AbvNgeiWQfHvWjzjaBs5dfnKiPTeJ1tGqBjZb5rqE7zA1A4mu9gLdzBJvl2h
+         WfkVtrdZMB4geFDsQF6zxofcwxZM5KLGwK5/6YOQKEwp37+MZF1DYcJ3vEb9H47VErzh
+         FvkOYNAF07DPnWNOu4ZlYN+c9XG+F83qbteEaAFm/+LO/KjyUDA1unJoDzT6Jqbyx+TF
+         22nw==
+X-Gm-Message-State: AOAM533biaVETmYqRt33+JK4auh6D2MQFA26G9MdhgWsmiTP2zNttGxP
+        Tp4lWmqrgFdBWbpQhMlI4EpbqbGcPVebiZ1jgOjDAIr8jOhnmyvUchJaOuzsgfVooZxxfu1oRZD
+        3KsnixqG2Cmm30ch4KEwv
+X-Received: by 2002:a05:6402:3488:: with SMTP id v8mr6898752edc.106.1634203588063;
+        Thu, 14 Oct 2021 02:26:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwzUMhY55dY1Ed2tUolHVxn0GGtah89ijl+mJABjkbp/N7HKf5Fl2EAkvFydJiTJ/Wm+2qndQ==
+X-Received: by 2002:a05:6402:3488:: with SMTP id v8mr6898699edc.106.1634203587836;
+        Thu, 14 Oct 2021 02:26:27 -0700 (PDT)
+Received: from redhat.com ([2.55.16.227])
+        by smtp.gmail.com with ESMTPSA id f19sm1749252edj.77.2021.10.14.02.26.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Oct 2021 02:26:27 -0700 (PDT)
+Date:   Thu, 14 Oct 2021 05:26:20 -0400
+From:   "Michael S. Tsirkin" <mst@redhat.com>
+To:     "Reshetova, Elena" <elena.reshetova@intel.com>
+Cc:     Andi Kleen <ak@linux.intel.com>,
+        "Williams, Dan J" <dan.j.williams@intel.com>,
+        Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Richard Henderson <rth@twiddle.net>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        James E J Bottomley <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        Arnd Bergmann <arnd@arndb.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>, Suman Anna <s-anna@ti.com>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-remoteproc@vger.kernel.org>
-References: <20211008153446.23188-1-arnaud.pouliquen@foss.st.com>
- <20211008153446.23188-3-arnaud.pouliquen@foss.st.com>
- <20211012180723.GC4010675@p14s>
-From:   Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>
-Message-ID: <0439d5ea-0ef0-e715-0558-15bb23e042ea@foss.st.com>
-Date:   Thu, 14 Oct 2021 09:45:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        Paolo Bonzini <pbonzini@redhat.com>,
+        David Hildenbrand <david@redhat.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Peter H Anvin <hpa@zytor.com>,
+        "Hansen, Dave" <dave.hansen@intel.com>,
+        "Luck, Tony" <tony.luck@intel.com>,
+        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
+        X86 ML <x86@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PCI <linux-pci@vger.kernel.org>,
+        "linux-alpha@vger.kernel.org" <linux-alpha@vger.kernel.org>,
+        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
+        "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
+        "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "virtualization@lists.linux-foundation.org" 
+        <virtualization@lists.linux-foundation.org>
+Subject: Re: [PATCH v5 12/16] PCI: Add pci_iomap_host_shared(),
+ pci_iomap_host_shared_range()
+Message-ID: <20211014052605-mutt-send-email-mst@kernel.org>
+References: <20211009003711.1390019-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20211009003711.1390019-13-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20211009053103-mutt-send-email-mst@kernel.org>
+ <CAPcyv4hDhjRXYCX_aiOboLF0eaTo6VySbZDa5NQu2ed9Ty2Ekw@mail.gmail.com>
+ <0e6664ac-cbb2-96ff-0106-9301735c0836@linux.intel.com>
+ <DM8PR11MB57501C8F8F5C8B315726882EE7B69@DM8PR11MB5750.namprd11.prod.outlook.com>
+ <20211012171016-mutt-send-email-mst@kernel.org>
+ <DM8PR11MB5750A40FAA6AFF6A29CF70DAE7B89@DM8PR11MB5750.namprd11.prod.outlook.com>
+ <20211014025514-mutt-send-email-mst@kernel.org>
+ <DM8PR11MB57500B2D821E8AAF93EB66CEE7B89@DM8PR11MB5750.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <20211012180723.GC4010675@p14s>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.75.127.44]
-X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SFHDAG2NODE2.st.com
- (10.75.127.5)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-10-14_02,2021-10-14_01,2020-04-07_01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DM8PR11MB57500B2D821E8AAF93EB66CEE7B89@DM8PR11MB5750.namprd11.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Mathieu,
-
-On 10/12/21 8:07 PM, Mathieu Poirier wrote:
-> On Fri, Oct 08, 2021 at 05:34:46PM +0200, Arnaud Pouliquen wrote:
->> This driver exposes a standard TTY interface on top of the rpmsg
->> framework through a rpmsg service.
->>
->> This driver supports multi-instances, offering a /dev/ttyRPMSGx entry
->> per rpmsg endpoint.
->>
->> Signed-off-by: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
->>
->> ---
->> Update from V8
->> => Update based on Greg Greg Kroah-Hartman comments:
->>  - add module name in kconfig
->>  - remove the tty_rpmsg.rst documentation file and add description in
->>    rpmsg_tty.c.
->>  - rpmsg_tty.c remove of useless check and logs.
->>  - print err log instead of debug log on truncated RX buffer.
->> ---
->>  drivers/tty/Kconfig     |  12 ++
->>  drivers/tty/Makefile    |   1 +
->>  drivers/tty/rpmsg_tty.c | 275 ++++++++++++++++++++++++++++++++++++++++
->>  3 files changed, 288 insertions(+)
->>  create mode 100644 drivers/tty/rpmsg_tty.c
->>
->> diff --git a/drivers/tty/Kconfig b/drivers/tty/Kconfig
->> index 23cc988c68a4..cc30ff93e2e4 100644
->> --- a/drivers/tty/Kconfig
->> +++ b/drivers/tty/Kconfig
->> @@ -368,6 +368,18 @@ config VCC
->>  
->>  source "drivers/tty/hvc/Kconfig"
->>  
->> +config RPMSG_TTY
->> +	tristate "RPMSG tty driver"
->> +	depends on RPMSG
->> +	help
->> +	  Say y here to export rpmsg endpoints as tty devices, usually found
->> +	  in /dev/ttyRPMSGx.
->> +	  This makes it possible for user-space programs to send and receive
->> +	  rpmsg messages as a standard tty protocol.
->> +
->> +	  To compile this driver as a module, choose M here: the module will be
->> +	  called rpmsg_tty.
->> +
->>  endif # TTY
->>  
->>  source "drivers/tty/serdev/Kconfig"
->> diff --git a/drivers/tty/Makefile b/drivers/tty/Makefile
->> index a2bd75fbaaa4..07aca5184a55 100644
->> --- a/drivers/tty/Makefile
->> +++ b/drivers/tty/Makefile
->> @@ -26,5 +26,6 @@ obj-$(CONFIG_PPC_EPAPR_HV_BYTECHAN) += ehv_bytechan.o
->>  obj-$(CONFIG_GOLDFISH_TTY)	+= goldfish.o
->>  obj-$(CONFIG_MIPS_EJTAG_FDC_TTY) += mips_ejtag_fdc.o
->>  obj-$(CONFIG_VCC)		+= vcc.o
->> +obj-$(CONFIG_RPMSG_TTY)		+= rpmsg_tty.o
->>  
->>  obj-y += ipwireless/
->> diff --git a/drivers/tty/rpmsg_tty.c b/drivers/tty/rpmsg_tty.c
->> new file mode 100644
->> index 000000000000..226a13f6ef94
->> --- /dev/null
->> +++ b/drivers/tty/rpmsg_tty.c
->> @@ -0,0 +1,275 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * Copyright (C) 2021 STMicroelectronics - All Rights Reserved
->> + *
->> + * The rpmsg tty driver implements serial communication on the RPMsg bus to makes
->> + * possible for user-space programs to send and receive rpmsg messages as a standard
->> + * tty protocol.
->> + *
->> + * The remote processor can instantiate a new tty by requesting a "rpmsg-tty" RPMsg service.
->> + * The "rpmsg-tty" service is directly used for data exchange. No flow control is implemented yet.
->> + */
->> +
->> +#include <linux/module.h>
->> +#include <linux/rpmsg.h>
->> +#include <linux/slab.h>
->> +#include <linux/tty.h>
->> +#include <linux/tty_flip.h>
->> +
->> +#define MAX_TTY_RPMSG	32
->> +
->> +static DEFINE_IDR(tty_idr);	/* tty instance id */
->> +static DEFINE_MUTEX(idr_lock);	/* protects tty_idr */
->> +
->> +static struct tty_driver *rpmsg_tty_driver;
->> +
->> +struct rpmsg_tty_port {
->> +	struct tty_port		port;	 /* TTY port data */
->> +	int			id;	 /* TTY rpmsg index */
->> +	struct rpmsg_device	*rpdev;	 /* rpmsg device */
->> +};
->> +
->> +static int rpmsg_tty_cb(struct rpmsg_device *rpdev, void *data, int len, void *priv, u32 src)
->> +{
->> +	struct rpmsg_tty_port *cport = dev_get_drvdata(&rpdev->dev);
->> +	int copied;
->> +
->> +	if (!len)
->> +		return -EINVAL;
->> +	copied = tty_insert_flip_string(&cport->port, data, len);
->> +	if (copied != len)
->> +		dev_err(&rpdev->dev, "Trunc buffer: available space is %d\n",
->> +			copied);
-
-Here as the rpmsg callback return is not tested we need to log something because
-data is lost. I will add the ratelimited version to limit logs.
-
->> +	tty_flip_buffer_push(&cport->port);
->> +
->> +	return 0;
->> +}
->> +
->> +static int rpmsg_tty_install(struct tty_driver *driver, struct tty_struct *tty)
->> +{
->> +	struct rpmsg_tty_port *cport = idr_find(&tty_idr, tty->index);
->> +
->> +	tty->driver_data = cport;
->> +
->> +	return tty_port_install(&cport->port, driver, tty);
->> +}
->> +
->> +static int rpmsg_tty_open(struct tty_struct *tty, struct file *filp)
->> +{
->> +	return tty_port_open(tty->port, tty, filp);
->> +}
->> +
->> +static void rpmsg_tty_close(struct tty_struct *tty, struct file *filp)
->> +{
->> +	return tty_port_close(tty->port, tty, filp);
->> +}
->> +
->> +static int rpmsg_tty_write(struct tty_struct *tty, const u8 *buf, int len)
->> +{
->> +	struct rpmsg_tty_port *cport = tty->driver_data;
->> +	struct rpmsg_device *rpdev;
->> +	int msg_max_size, msg_size;
->> +	int ret;
->> +
->> +	rpdev = cport->rpdev;
->> +
->> +	msg_max_size = rpmsg_get_mtu(rpdev->ept);
->> +	if (msg_max_size < 0)
->> +		return msg_max_size;
->> +
->> +	msg_size = min(len, msg_max_size);
->> +
->> +	/*
->> +	 * Use rpmsg_trysend instead of rpmsg_send to send the message so the caller is not
->> +	 * hung until a rpmsg buffer is available. In such case rpmsg_trysend returns -ENOMEM.
->> +	 */
->> +	ret = rpmsg_trysend(rpdev->ept, (void *)buf, msg_size);
->> +	if (ret) {
->> +		dev_dbg(&rpdev->dev, "rpmsg_send failed: %d\n", ret);
+On Thu, Oct 14, 2021 at 07:27:42AM +0000, Reshetova, Elena wrote:
+> > On Thu, Oct 14, 2021 at 06:32:32AM +0000, Reshetova, Elena wrote:
+> > > > On Tue, Oct 12, 2021 at 06:36:16PM +0000, Reshetova, Elena wrote:
+> > > > > > The 5.15 tree has something like ~2.4k IO accesses (including MMIO and
+> > > > > > others) in init functions that also register drivers (thanks Elena for
+> > > > > > the number)
+> > > > >
+> > > > > To provide more numbers on this. What I can see so far from a smatch-based
+> > > > > analysis, we have 409 __init style functions (.probe & builtin/module_
+> > > > > _platform_driver_probe excluded) for 5.15 with allyesconfig.
+> > > >
+> > > > I don't think we care about allyesconfig at all though.
+> > > > Just don't do that.
+> > > > How about allmodconfig? This is closer to what distros actually do.
+> > >
+> > > It does not make any difference really for the content of the /drivers/*:
+> > > gives 408 __init style functions doing IO (.probe & builtin/module_
+> > > > > _platform_driver_probe excluded) for 5.15 with allmodconfig:
+> > >
+> > > ['doc200x_ident_chip',
+> > > 'doc_probe', 'doc2001_init', 'mtd_speedtest_init',
+> > > 'mtd_nandbiterrs_init', 'mtd_oobtest_init', 'mtd_pagetest_init',
+> > > 'tort_init', 'mtd_subpagetest_init', 'fixup_pmc551',
+> > > 'doc_set_driver_info', 'init_amd76xrom', 'init_l440gx',
+> > > 'init_sc520cdp', 'init_ichxrom', 'init_ck804xrom', 'init_esb2rom',
+> > > 'probe_acpi_namespace_devices', 'amd_iommu_init_pci', 'state_next',
+> > > 'arm_v7s_do_selftests', 'arm_lpae_run_tests', 'init_iommu_one',
+> > 
+> > Um. ARM? Which architecture is this build for?
 > 
-> I'm with Greg on this one.  Event if it's a dev_dbg() something like this could
-> quickly fill the logs. 
-That's right,if the remote side is stalled and application doesn't propertly
-handle the error returned.
-
-> Customers should learn to use ftrace.  At the very least
-> please use the ratelimited() version.  Same comment applies to rpmsg_tty_cb().
-
-I'm not yet an expert in ftrace, I don't see trace that would highligth this
-error (return value not traced), except adding trace_printk. If you have a
-solution, please could you point that out to me?
-The goal here is that a customers (who has an user spece application develloper
-profile) has the explicit information that something goes wrong.
-
-By default I would be in favour of using ratelimited version also here.
-
+> The list of smatch IO findings is built for x86, but the smatch cross function
+> database covers all archs, so when queried for all potential function callers,
+> it would show non x86 arch call chains also. 
 > 
-> Otherwise:
+> Here is the original x86 finding and call chain for the 'arm_v7s_do_selftests':
 > 
-> Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+>   Detected low-level IO from arm_v7s_do_selftests in fun
+> __iommu_queue_command_sync
 > 
+> drivers/iommu/amd/iommu.c:1025 __iommu_queue_command_sync() error:
+> {15002074744551330002}
+>     'check_host_input' read from the host using function 'readl' to a
+> member of the structure 'iommu->cmd_buf_head';
+> 
+> __iommu_queue_command_sync()
+>   iommu_completion_wait()
+>     amd_iommu_domain_flush_complete()
+>       iommu_v1_map_page()
+>         arm_v7s_do_selftests()
+> 
+> So, the results can be further filtered if you want a specified arch. 
 
-Thanks,
-Arnaud
+So what is it just for x86? Could you tell?
 
->> +		return ret;
->> +	}
->> +
->> +	return msg_size;
->> +}
->> +
->> +static unsigned int rpmsg_tty_write_room(struct tty_struct *tty)
->> +{
->> +	struct rpmsg_tty_port *cport = tty->driver_data;
->> +	int size;
->> +
->> +	size = rpmsg_get_mtu(cport->rpdev->ept);
->> +	if (size < 0)
->> +		return 0;
->> +
->> +	return size;
->> +}
->> +
->> +static const struct tty_operations rpmsg_tty_ops = {
->> +	.install	= rpmsg_tty_install,
->> +	.open		= rpmsg_tty_open,
->> +	.close		= rpmsg_tty_close,
->> +	.write		= rpmsg_tty_write,
->> +	.write_room	= rpmsg_tty_write_room,
->> +};
->> +
->> +static struct rpmsg_tty_port *rpmsg_tty_alloc_cport(void)
->> +{
->> +	struct rpmsg_tty_port *cport;
->> +	int err;
->> +
->> +	cport = kzalloc(sizeof(*cport), GFP_KERNEL);
->> +	if (!cport)
->> +		return ERR_PTR(-ENOMEM);
->> +
->> +	mutex_lock(&idr_lock);
->> +	cport->id = idr_alloc(&tty_idr, cport, 0, MAX_TTY_RPMSG, GFP_KERNEL);
->> +	mutex_unlock(&idr_lock);
->> +
->> +	if (cport->id < 0) {
->> +		err = cport->id;
->> +		kfree(cport);
->> +		return ERR_PTR(err);
->> +	}
->> +
->> +	return cport;
->> +}
->> +
->> +static void rpmsg_tty_release_cport(struct rpmsg_tty_port *cport)
->> +{
->> +	mutex_lock(&idr_lock);
->> +	idr_remove(&tty_idr, cport->id);
->> +	mutex_unlock(&idr_lock);
->> +
->> +	kfree(cport);
->> +}
->> +
->> +static const struct tty_port_operations rpmsg_tty_port_ops = { };
->> +
->> +static int rpmsg_tty_probe(struct rpmsg_device *rpdev)
->> +{
->> +	struct rpmsg_tty_port *cport;
->> +	struct device *dev = &rpdev->dev;
->> +	struct device *tty_dev;
->> +	int ret;
->> +
->> +	cport = rpmsg_tty_alloc_cport();
->> +	if (IS_ERR(cport)) {
->> +		dev_err(dev, "Failed to alloc tty port\n");
->> +		return PTR_ERR(cport);
->> +	}
->> +
->> +	tty_port_init(&cport->port);
->> +	cport->port.ops = &rpmsg_tty_port_ops;
->> +
->> +	tty_dev = tty_port_register_device(&cport->port, rpmsg_tty_driver,
->> +					   cport->id, dev);
->> +	if (IS_ERR(tty_dev)) {
->> +		dev_err(dev, "Failed to register tty port\n");
->> +		ret = PTR_ERR(tty_dev);
->> +		goto  err_destroy;
->> +	}
->> +
->> +	cport->rpdev = rpdev;
->> +
->> +	dev_set_drvdata(dev, cport);
->> +
->> +	dev_dbg(dev, "New channel: 0x%x -> 0x%x : ttyRPMSG%d\n",
->> +		rpdev->src, rpdev->dst, cport->id);
->> +
->> +	return 0;
->> +
->> +err_destroy:
->> +	tty_port_destroy(&cport->port);
->> +	rpmsg_tty_release_cport(cport);
->> +
->> +	return ret;
->> +}
->> +
->> +static void rpmsg_tty_remove(struct rpmsg_device *rpdev)
->> +{
->> +	struct rpmsg_tty_port *cport = dev_get_drvdata(&rpdev->dev);
->> +
->> +	dev_dbg(&rpdev->dev, "Removing rpmsg tty device %d\n", cport->id);
->> +
->> +	/* User hang up to release the tty */
->> +	if (tty_port_initialized(&cport->port))
->> +		tty_port_tty_hangup(&cport->port, false);
->> +
->> +	tty_unregister_device(rpmsg_tty_driver, cport->id);
->> +
->> +	tty_port_destroy(&cport->port);
->> +	rpmsg_tty_release_cport(cport);
->> +}
->> +
->> +static struct rpmsg_device_id rpmsg_driver_tty_id_table[] = {
->> +	{ .name	= "rpmsg-tty" },
->> +	{ },
->> +};
->> +MODULE_DEVICE_TABLE(rpmsg, rpmsg_driver_tty_id_table);
->> +
->> +static struct rpmsg_driver rpmsg_tty_rpmsg_drv = {
->> +	.drv.name	= KBUILD_MODNAME,
->> +	.id_table	= rpmsg_driver_tty_id_table,
->> +	.probe		= rpmsg_tty_probe,
->> +	.callback	= rpmsg_tty_cb,
->> +	.remove		= rpmsg_tty_remove,
->> +};
->> +
->> +static int __init rpmsg_tty_init(void)
->> +{
->> +	int err;
->> +
->> +	rpmsg_tty_driver = tty_alloc_driver(MAX_TTY_RPMSG, TTY_DRIVER_REAL_RAW |
->> +					    TTY_DRIVER_DYNAMIC_DEV);
->> +	if (IS_ERR(rpmsg_tty_driver))
->> +		return PTR_ERR(rpmsg_tty_driver);
->> +
->> +	rpmsg_tty_driver->driver_name = "rpmsg_tty";
->> +	rpmsg_tty_driver->name = "ttyRPMSG";
->> +	rpmsg_tty_driver->major = 0;
->> +	rpmsg_tty_driver->type = TTY_DRIVER_TYPE_CONSOLE;
->> +
->> +	/* Disable unused mode by default */
->> +	rpmsg_tty_driver->init_termios = tty_std_termios;
->> +	rpmsg_tty_driver->init_termios.c_lflag &= ~(ECHO | ICANON);
->> +	rpmsg_tty_driver->init_termios.c_oflag &= ~(OPOST | ONLCR);
->> +
->> +	tty_set_operations(rpmsg_tty_driver, &rpmsg_tty_ops);
->> +
->> +	err = tty_register_driver(rpmsg_tty_driver);
->> +	if (err < 0) {
->> +		pr_err("Couldn't install rpmsg tty driver: err %d\n", err);
->> +		goto error_put;
->> +	}
->> +
->> +	err = register_rpmsg_driver(&rpmsg_tty_rpmsg_drv);
->> +	if (err < 0) {
->> +		pr_err("Couldn't register rpmsg tty driver: err %d\n", err);
->> +		goto error_unregister;
->> +	}
->> +
->> +	return 0;
->> +
->> +error_unregister:
->> +	tty_unregister_driver(rpmsg_tty_driver);
->> +
->> +error_put:
->> +	tty_driver_kref_put(rpmsg_tty_driver);
->> +
->> +	return err;
->> +}
->> +
->> +static void __exit rpmsg_tty_exit(void)
->> +{
->> +	unregister_rpmsg_driver(&rpmsg_tty_rpmsg_drv);
->> +	tty_unregister_driver(rpmsg_tty_driver);
->> +	tty_driver_kref_put(rpmsg_tty_driver);
->> +	idr_destroy(&tty_idr);
->> +}
->> +
->> +module_init(rpmsg_tty_init);
->> +module_exit(rpmsg_tty_exit);
->> +
->> +MODULE_AUTHOR("Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>");
->> +MODULE_DESCRIPTION("remote processor messaging tty driver");
->> +MODULE_LICENSE("GPL v2");
->> -- 
->> 2.17.1
->>
+-- 
+MST
+
