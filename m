@@ -2,75 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8232C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 09:46:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3F04C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 11:32:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 851AB60F36
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 09:46:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B53BE60C49
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 11:32:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230032AbhJNJsc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Oct 2021 05:48:32 -0400
-Received: from out4436.biz.mail.alibaba.com ([47.88.44.36]:60790 "EHLO
-        out4436.biz.mail.alibaba.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229468AbhJNJsb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Oct 2021 05:48:31 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04407;MF=tianjia.zhang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0UroTJsU_1634204772;
-Received: from B-455UMD6M-2027.local(mailfrom:tianjia.zhang@linux.alibaba.com fp:SMTPD_---0UroTJsU_1634204772)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Thu, 14 Oct 2021 17:46:13 +0800
-Subject: Re: [PATCH 2/2] tpm: use SM3 instead of SM3_256
-To:     Jarkko Sakkinen <jarkko@kernel.org>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Peter Huewe <peterhuewe@gmx.de>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Jerry Snitselaar <jsnitsel@redhat.com>,
-        linux-integrity@vger.kernel.org, keyrings@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-security-module@vger.kernel.org
-References: <20211009130828.101396-1-tianjia.zhang@linux.alibaba.com>
- <20211009130828.101396-3-tianjia.zhang@linux.alibaba.com>
- <c6c2337ed83c237f70716cb4c62794d1d3da31f2.camel@kernel.org>
-From:   Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
-Message-ID: <5db32f21-1df7-c92e-42a1-a2a85b29dfbf@linux.alibaba.com>
-Date:   Thu, 14 Oct 2021 17:46:11 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.14.0
+        id S230346AbhJNLed (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Oct 2021 07:34:33 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:54992 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230328AbhJNLec (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Oct 2021 07:34:32 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 9EA0C2198B;
+        Thu, 14 Oct 2021 11:32:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1634211146;
+        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+         cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=/RwKkctM2kYfnsQns9zuzmOBOyPsbRBTF9oUmtbr7Ms=;
+        b=dpiQAn/loFlbz4yWiqf186W/BaqzQq9wvfy5P7pQQ1YrtwhY4ufluqbf2MexpVoslqCG8e
+        MnM3sydeHKUdJc1AbzfqBMzsGW6Ly1Sg+PmPpNgdc7AyB5L6z7/AA6K8BPr3qyzHz+iPBb
+        TP9uHMHgprnT9qOl8YvF76iMrdiV2+g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1634211146;
+        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+         cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=/RwKkctM2kYfnsQns9zuzmOBOyPsbRBTF9oUmtbr7Ms=;
+        b=8EZMvlC6qiw4OcFd+TAafSCyudqB11qMFpd0Qesz9Y+PPuSVxGlI/40rwudPGqcnOs/NrS
+        swhsaH/NDSrcMhBA==
+Received: from ds.suse.cz (ds.suse.cz [10.100.12.205])
+        by relay2.suse.de (Postfix) with ESMTP id 7593FA3B81;
+        Thu, 14 Oct 2021 11:32:26 +0000 (UTC)
+Received: by ds.suse.cz (Postfix, from userid 10065)
+        id CAC6DDA7A3; Thu, 14 Oct 2021 13:32:01 +0200 (CEST)
+Date:   Thu, 14 Oct 2021 13:32:01 +0200
+From:   David Sterba <dsterba@suse.cz>
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Dave Chinner <david@fromorbit.com>, NeilBrown <neilb@suse.de>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+        linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/6] MM: improve documentation for __GFP_NOFAIL
+Message-ID: <20211014113201.GA19582@twin.jikos.cz>
+Reply-To: dsterba@suse.cz
+Mail-Followup-To: dsterba@suse.cz, Michal Hocko <mhocko@suse.com>,
+        Dave Chinner <david@fromorbit.com>, NeilBrown <neilb@suse.de>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>, Mel Gorman <mgorman@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>, linux-xfs@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-nfs@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <YVwyhDnE/HEnoLAi@dhcp22.suse.cz>
+ <eba04a07-99da-771a-ab6b-36de41f9f120@suse.cz>
+ <20211006231452.GF54211@dread.disaster.area>
+ <YV7G7gyfZkmw7/Ae@dhcp22.suse.cz>
+ <163364854551.31063.4377741712039731672@noble.neil.brown.name>
+ <YV/31+qXwqEgaxJL@dhcp22.suse.cz>
+ <20211008223649.GJ54211@dread.disaster.area>
+ <YWQmsESyyiea0zle@dhcp22.suse.cz>
+ <20211013023231.GV2361455@dread.disaster.area>
+ <YWaYUsXgXS6GXM+M@dhcp22.suse.cz>
 MIME-Version: 1.0
-In-Reply-To: <c6c2337ed83c237f70716cb4c62794d1d3da31f2.camel@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YWaYUsXgXS6GXM+M@dhcp22.suse.cz>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jarkko,
-
-On 10/12/21 11:21 PM, Jarkko Sakkinen wrote:
-> On Sat, 2021-10-09 at 21:08 +0800, Tianjia Zhang wrote:
->> According to https://tools.ietf.org/id/draft-oscca-cfrg-sm3-01.html,
->> SM3 always produces a 256-bit hash value and there are no plans for
->> other length development, so there is no ambiguity in the name of sm3.
->>
->> Signed-off-by: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+On Wed, Oct 13, 2021 at 10:26:58AM +0200, Michal Hocko wrote:
+> > crap like this (found in btrfs):
+> > 
+> >                 /*                                                               
+> >                  * We're holding a transaction handle, so use a NOFS memory      
+> >                  * allocation context to avoid deadlock if reclaim happens.      
+> >                  */                                                              
+> >                 nofs_flag = memalloc_nofs_save();                                
+> >                 value = kmalloc(size, GFP_KERNEL);                               
+> >                 memalloc_nofs_restore(nofs_flag);                                
 > 
-> This is not enough to make any changes because the commit message
-> does not describe what goes wrong if we keep it as it was.
-> 
-> /Jarkko
-> 
+> Yes this looks wrong indeed! If I were to review such a code I would ask
+> why the scope cannot match the transaction handle context. IIRC jbd does
+> that.
 
-This did not cause an error, just to use a more standard algorithm name. 
-If it is possible to use the SM3 name instead of SM3_256 if it can be 
-specified from the source, it is of course better. I have contacted the 
-trustedcomputinggroup and have not yet received a reply.
+Adding the transaction start/end as the NOFS scope is a long term plan
+and going on for years, because it's not a change we would need in
+btrfs, but rather a favor to MM to switch away from "GFP_NOFS everywhere
+because it's easy".
 
-Best regards,
-Tianjia
+The first step was to convert the easy cases. Almost all safe cases
+switching GFP_NOFS to GFP_KERNEL have happened. Another step is to
+convert GFP_NOFS to memalloc_nofs_save/GFP_KERNEL/memalloc_nofs_restore
+in contexts where we know we'd rely on the transaction NOFS scope in the
+future. Once this is implemented, the memalloc_nofs_* calls are deleted
+and it works as expected.  Now you may argue that the switch could be
+changing GFP_NOFS to GFP_KERNEL at that time but that is not that easy
+to review or reason about in the whole transaction context in all
+allocations.
+
+This leads to code that was found in __btrfs_set_acl and called crap
+or wrong, because perhaps the background and the bigger plan is not
+immediately obvious. I hope the explanation above it puts it to the
+right perspective.
+
+The other class of scoped NOFS protection is around vmalloc-based
+allocations but that's for a different reason, would be solved by the
+same transaction start/end conversion as well.
+
+I'm working on that from time to time but this usually gets pushed down
+in the todo list. It's changing a lot of code, from what I've researched
+so far cannot be done at once and would probably introduce bugs hard to
+hit because of the external conditions (allocator, system load, ...).
+
+I have a plan to do that incrementally, adding assertions and converting
+functions in small batches to be able to catch bugs early, but I'm not
+exactly thrilled to start such endeavour in addition to normal
+development bug hunting.
+
+To get things moving again, I've refreshed the patch adding stubs and
+will try to find the best timing for merg to avoid patch conflicts, but
+no promises.
