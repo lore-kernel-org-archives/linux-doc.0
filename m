@@ -2,146 +2,236 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1095EC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 02:12:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50B34C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 02:23:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DB4DE60E0C
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 02:12:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2C6A1610F9
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 02:23:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229754AbhJNCOW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Oct 2021 22:14:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57669 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229496AbhJNCOV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Oct 2021 22:14:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1634177537;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=rKi/nC1vwY+bmICKgPE8kpfZB/d+Vx8FvEWoSRsnXMI=;
-        b=aDWxu5t0yQ5rWXctdrrnIXJ19DG1b3rFEuLQIDainy+l/xdodRbFICciON4EqCGBwKvhH1
-        ah0Yr6NUNXyYIHCRNjqz0ZJ0HcYzOk4tfnUh2AU4TI/1Uh3dxQz+x465s1hA6KRuskutW4
-        VVsJy/ZTIG7JNDNS5b1e75bH3LKf+Z0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-497-aJwzUtPhPXmykCOmR_Jyfw-1; Wed, 13 Oct 2021 22:12:16 -0400
-X-MC-Unique: aJwzUtPhPXmykCOmR_Jyfw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5163279EDD;
-        Thu, 14 Oct 2021 02:12:13 +0000 (UTC)
-Received: from T590 (ovpn-8-18.pek2.redhat.com [10.72.8.18])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 47E042B0B2;
-        Thu, 14 Oct 2021 02:11:50 +0000 (UTC)
-Date:   Thu, 14 Oct 2021 10:11:46 +0800
-From:   Ming Lei <ming.lei@redhat.com>
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     tj@kernel.org, gregkh@linuxfoundation.org,
-        akpm@linux-foundation.org, minchan@kernel.org, jeyu@kernel.org,
-        shuah@kernel.org, bvanassche@acm.org, dan.j.williams@intel.com,
-        joe@perches.com, tglx@linutronix.de, keescook@chromium.org,
-        rostedt@goodmis.org, linux-spdx@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 11/12] zram: fix crashes with cpu hotplug multistate
-Message-ID: <YWeR4moCRh+ZHOmH@T590>
-References: <20210927163805.808907-1-mcgrof@kernel.org>
- <20210927163805.808907-12-mcgrof@kernel.org>
- <YWeOJP2UJWYF94fu@T590>
+        id S229878AbhJNCZI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Oct 2021 22:25:08 -0400
+Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:39257 "EHLO
+        out30-54.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229837AbhJNCZI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Oct 2021 22:25:08 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R681e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04423;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0UrkNAwe_1634178180;
+Received: from 30.21.164.76(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0UrkNAwe_1634178180)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Thu, 14 Oct 2021 10:23:01 +0800
+Subject: Re: [PATCH] hugetlb: Support node specified when using cma for
+ gigantic hugepages
+To:     Mike Kravetz <mike.kravetz@oracle.com>, akpm@linux-foundation.org
+Cc:     mhocko@kernel.org, guro@fb.com, corbet@lwn.net,
+        yaozhenguo1@gmail.com, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <1633843448-966-1-git-send-email-baolin.wang@linux.alibaba.com>
+ <6bd3789f-4dee-a184-d415-4ad77f0f98b7@oracle.com>
+From:   Baolin Wang <baolin.wang@linux.alibaba.com>
+Message-ID: <326ece39-a6f5-26ce-827b-68272525e947@linux.alibaba.com>
+Date:   Thu, 14 Oct 2021 10:23:42 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YWeOJP2UJWYF94fu@T590>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <6bd3789f-4dee-a184-d415-4ad77f0f98b7@oracle.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 14, 2021 at 09:55:48AM +0800, Ming Lei wrote:
-> On Mon, Sep 27, 2021 at 09:38:04AM -0700, Luis Chamberlain wrote:
 
-...
+
+On 2021/10/14 6:06, Mike Kravetz wrote:
+> On 10/9/21 10:24 PM, Baolin Wang wrote:
+>> Now the size of CMA area for gigantic hugepages runtime allocation is
+>> balanced for all online nodes, but we also want to specify the size of
+>> CMA per-node, or only one node in some cases, which are similar with
+>> commit 86acc55c3d32 ("hugetlbfs: extend the definition of hugepages
+>> parameter to support node allocation")[1].
+>>
+>> Thus this patch adds node format for 'hugetlb_cma' parameter to support
+>> specifying the size of CMA per-node. An example is as follows:
+>>
+>> hugetlb_cma=0:5G,2:5G
+>>
+>> which means allocating 5G size of CMA area on node 0 and node 2
+>> respectively.
+>>
+>> [1]
+>> https://lkml.kernel.org/r/20211005054729.86457-1-yaozhenguo1@gmail.com
+>>
+>> Signed-off-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+>> ---
+>>   Documentation/admin-guide/kernel-parameters.txt |  6 +-
+>>   mm/hugetlb.c                                    | 79 +++++++++++++++++++++----
+>>   2 files changed, 73 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>> index 3ad8e9d0..a147faa5 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -1587,8 +1587,10 @@
+>>   			registers.  Default set by CONFIG_HPET_MMAP_DEFAULT.
+>>   
+>>   	hugetlb_cma=	[HW,CMA] The size of a CMA area used for allocation
+>> -			of gigantic hugepages.
+>> -			Format: nn[KMGTPE]
+>> +			of gigantic hugepages. Or using node format, the size
+>> +			of a CMA area per node can be specified.
+>> +			Format: nn[KMGTPE] or (node format)
+>> +				<node>:nn[KMGTPE][,<node>:nn[KMGTPE]]
+>>   
+>>   			Reserve a CMA area of given size and allocate gigantic
+>>   			hugepages using the CMA allocator. If enabled, the
+>> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+>> index 6d2f4c2..8b4e409 100644
+>> --- a/mm/hugetlb.c
+>> +++ b/mm/hugetlb.c
+>> @@ -50,6 +50,7 @@
+>>   
+>>   #ifdef CONFIG_CMA
+>>   static struct cma *hugetlb_cma[MAX_NUMNODES];
+>> +static unsigned long hugetlb_cma_size_in_node[MAX_NUMNODES] __initdata;
+>>   static bool hugetlb_cma_page(struct page *page, unsigned int order)
+>>   {
+>>   	return cma_pages_valid(hugetlb_cma[page_to_nid(page)], page,
+>> @@ -62,6 +63,7 @@ static bool hugetlb_cma_page(struct page *page, unsigned int order)
+>>   }
+>>   #endif
+>>   static unsigned long hugetlb_cma_size __initdata;
+>> +static nodemask_t hugetlb_cma_nodes_allowed = NODE_MASK_NONE;
+>>   
+>>   /*
+>>    * Minimum page order among possible hugepage sizes, set to a proper value
+>> @@ -3497,9 +3499,15 @@ static ssize_t __nr_hugepages_store_common(bool obey_mempolicy,
+>>   
+>>   	if (nid == NUMA_NO_NODE) {
+>>   		/*
+>> +		 * If we've specified the size of CMA area per node,
+>> +		 * should use it firstly.
+>> +		 */
+>> +		if (hstate_is_gigantic(h) && !nodes_empty(hugetlb_cma_nodes_allowed))
+>> +			n_mask = &hugetlb_cma_nodes_allowed;
+>> +		/*
+> 
+> IIUC, this changes the behavior for 'balanced' gigantic huge page pool
+> allocations if per-node hugetlb_cma is specified.  It will now only
+> attempt to allocate gigantic pages on nodes where CMA was reserved.
+> Even if we run out of space on the node, it will not go to other nodes
+> as before.  Is that correct?
+
+Right.
 
 > 
-> Hello Luis,
+> I do not believe we want this change in behavior.  IMO, if the user is
+> doing node specific CMA reservations, then the user should use the node
+> specific sysfs file for pool allocations on that node.
+
+Sounds more reasonable, will move 'hugetlb_cma_nodes_allowed' to the 
+node specific allocation.
+
+>>   		 * global hstate attribute
+>>   		 */
+>> -		if (!(obey_mempolicy &&
+>> +		else if (!(obey_mempolicy &&
+>>   				init_nodemask_of_mempolicy(&nodes_allowed)))
+>>   			n_mask = &node_states[N_MEMORY];
+>>   		else
+>> @@ -6745,7 +6753,38 @@ void hugetlb_unshare_all_pmds(struct vm_area_struct *vma)
+>>   
+>>   static int __init cmdline_parse_hugetlb_cma(char *p)
+>>   {
+>> -	hugetlb_cma_size = memparse(p, &p);
+>> +	int nid, count = 0;
+>> +	unsigned long tmp;
+>> +	char *s = p;
+>> +
+>> +	while (*s) {
+>> +		if (sscanf(s, "%lu%n", &tmp, &count) != 1)
+>> +			break;
+>> +
+>> +		if (s[count] == ':') {
+>> +			nid = tmp;
+>> +			if (nid < 0 || nid >= MAX_NUMNODES)
+>> +				break;
 > 
-> Can you test the following patch and see if the issue can be addressed?
+> nid can only be compared to MAX_NUMNODES because this an early param
+> before numa is setup and we do not know exactly how many nodes there
+> are.  Is this correct?
+
+Yes.
+
 > 
-> Please see the idea from the inline comment.
+> Suppose one specifies an invaid node.  For example, on my 2 node system
+> I use the option 'hugetlb_cma=2:2G'.  This is not flagged as an error
+> during processing and 1G CMA is reserved on node 0 and 1G is reserved
+> on node 1.  Is that by design, or just chance?
+
+Actually we won't allocate any CMA area in this case, since in 
+hugetlb_cma_reserve(), we will only iterate the online nodes to try to 
+allocate CMA area, and node 2 is not in the range of online nodes in 
+this case.
+
+> We should be able to catch this in hugetlb_cma_reserve.  For the example
+> above, I think we should flag this as an error and not reserve any CMA.
+
+Sure, as I said above, it will not allocate CMA for the non-online nodes 
+though these invalid nodes can be specified in the command line. But I 
+can add a warning to catch the invalid nodes setting in 
+hugetlb_cma_reserve().
+
+>> +
+>> +			s += count + 1;
+>> +			tmp = memparse(s, &s);
+>> +			hugetlb_cma_size_in_node[nid] = tmp;
+>> +			hugetlb_cma_size += tmp;
+>> +
+>> +			/*
+>> +			 * Skip the separator if have one, otherwise
+>> +			 * break the parsing.
+>> +			 */
+>> +			if (*s == ',')
+>> +				s++;
+>> +			else
+>> +				break;
+>> +		} else {
+>> +			hugetlb_cma_size = memparse(p, &p);
+>> +			break;
+>> +		}
+>> +	}
+>> +
+>>   	return 0;
+>>   }
+>>   
+>> @@ -6754,6 +6793,7 @@ static int __init cmdline_parse_hugetlb_cma(char *p)
+>>   void __init hugetlb_cma_reserve(int order)
+>>   {
+>>   	unsigned long size, reserved, per_node;
+>> +	bool node_specific_cma_alloc = false;
+>>   	int nid;
+>>   
+>>   	cma_reserve_called = true;
+>> @@ -6767,20 +6807,37 @@ void __init hugetlb_cma_reserve(int order)
+>>   		return;
+>>   	}
 > 
-> Also zram_index_mutex isn't needed in zram disk's store() compared with
-> your patch, then the deadlock issue you are addressing in this series can
-> be avoided.
+> Earlier in hugetlb_cma_reserve (not in the context here), there is this
+> code:
 > 
+> 	if (hugetlb_cma_size < (PAGE_SIZE << order)) {
+> 		pr_warn("hugetlb_cma: cma area should be at least %lu MiB\n",
+> 			(PAGE_SIZE << order) / SZ_1M);
+> 		hugetlb_cma_size = 0;
+> 		return;
+> 	}
 > 
-> diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
-> index fcaf2750f68f..3c17927d23a7 100644
-> --- a/drivers/block/zram/zram_drv.c
-> +++ b/drivers/block/zram/zram_drv.c
-> @@ -1985,11 +1985,17 @@ static int zram_remove(struct zram *zram)
->  
->  	/* Make sure all the pending I/O are finished */
->  	fsync_bdev(bdev);
-> -	zram_reset_device(zram);
->  
->  	pr_info("Removed device: %s\n", zram->disk->disk_name);
->  
->  	del_gendisk(zram->disk);
-> +
-> +	/*
-> +	 * reset device after gendisk is removed, so any change from sysfs
-> +	 * store won't come in, then we can really reset device here
-> +	 */
-> +	zram_reset_device(zram);
-> +
->  	blk_cleanup_disk(zram->disk);
->  	kfree(zram);
->  	return 0;
-> @@ -2073,7 +2079,12 @@ static int zram_remove_cb(int id, void *ptr, void *data)
->  static void destroy_devices(void)
->  {
->  	class_unregister(&zram_control_class);
-> +
-> +	/* hold the global lock so new device can't be added */
-> +	mutex_lock(&zram_index_mutex);
->  	idr_for_each(&zram_index_idr, &zram_remove_cb, NULL);
-> +	mutex_unlock(&zram_index_mutex);
-> +
+> That causes an early exit if hugetlb_cma_size is too small for a
+> gigantic page.
+> 
+> On my 2 node x86 system with 1G gigantic pages, I can specify
+> 'hugetlb_cma=0:512M,1:512M'.  This does not trigger the above early exit
+> because total hugetlb_cma_size is 1G.  It does end up reserving 1G on
+> node 0 and nothing on node 1.  I do not believe this is by design.  We
+> should validate the specified per-node sizes as well.
 
-Actually zram_index_mutex isn't needed when calling zram_remove_cb()
-since the zram-control sysfs interface has been removed, so userspace
-can't add new device any more, then the issue is supposed to be fixed
-by the following one line change, please test it:
-
-diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
-index fcaf2750f68f..96dd641de233 100644
---- a/drivers/block/zram/zram_drv.c
-+++ b/drivers/block/zram/zram_drv.c
-@@ -1985,11 +1985,17 @@ static int zram_remove(struct zram *zram)
- 
- 	/* Make sure all the pending I/O are finished */
- 	fsync_bdev(bdev);
--	zram_reset_device(zram);
- 
- 	pr_info("Removed device: %s\n", zram->disk->disk_name);
- 
- 	del_gendisk(zram->disk);
-+
-+	/*
-+	 * reset device after gendisk is removed, so any change from sysfs
-+	 * store won't come in, then we can really reset device here
-+	 */
-+	zram_reset_device(zram);
-+
- 	blk_cleanup_disk(zram->disk);
- 	kfree(zram);
- 	return 0;
-
-
-
-Thanks, 
-Ming
-
+Sure. Will do in next version. Thanks for your comments.
