@@ -2,376 +2,214 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AC0DC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 00:23:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E86CFC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 01:56:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4EEAC61154
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 00:23:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CD8B161181
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 01:56:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229590AbhJNAZL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Oct 2021 20:25:11 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:38986 "EHLO
-        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229496AbhJNAZK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Oct 2021 20:25:10 -0400
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19DLSgrR032068;
-        Wed, 13 Oct 2021 22:06:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=0U+XHhgvBxpksYQTBwNqY71Yxz1vzt/b2fpfRf5+lQU=;
- b=zGKUWYMr4jMuXjCtVD7XFN0JgWJ03do7SQAF9i+H69Uzm+zsvsBxAcA5PEoeg/cLwqEd
- 3SD7umOeUlOyF+36G2o2yFZTZpJTLim6mahGuW2US5X+/gO5en8S99SZVv54AOLNUVcB
- +lk1xAw2rlBaJUFqcjJkQYyJyULjKWZhYyF/U5bwf9BzbxVy4E/KdGtg+6LmPmc7gLhK
- JR2uo6UAwPbmTYdEAMb1RP424K9D53xvBLORZ5lOrM2YUQp0Gq8j6xq7v5rpodxkmyiS
- /0U99d1P+kOGpGL6aiqxpbXxxbBvZnn8l4nmjqSJ4a4OqBoz5OPVXUde8qBM0/SzKLIo lA== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3bnkbjfxw6-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 13 Oct 2021 22:06:37 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 19DM0VWx192530;
-        Wed, 13 Oct 2021 22:06:36 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2045.outbound.protection.outlook.com [104.47.66.45])
-        by aserp3030.oracle.com with ESMTP id 3bkyxu8d7p-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 13 Oct 2021 22:06:36 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kWJH1V/Kaw7hHjDX+z3kiJrtXuTcZ4NhgIhbgAOfDdSd5m5U58UkpCHlsKcF5+6SMFu4V+zy9JDrfrKukVYFIB9N9JKDusR/r1KvN+PCj2weilZkxHLrdos20vQqhoz8VQan+RHVcqCHqDka5iNHBge6van9XHIt2PxA/Xh8j3pvIKYP3cVUzJYRNDDBpndlxJB6OOhAIsIpRTs0mnyzmHcfqGQTR+k7BBEscnwKQ5icNeFtEjqiTLMlkUsnK8aR0EZiDf/mrdBBiygU2Ux2jyBQxAnvtQwJFjNOM08xiUSBiOmOQzdyh/LCI8f0xRXZ+EsjLAj94+5o1kti15iF0Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0U+XHhgvBxpksYQTBwNqY71Yxz1vzt/b2fpfRf5+lQU=;
- b=JvJuZhYjJypMTAWF5Xj7DFECI2ZQN+slnmo+iJ8JRIETSnomsWIP3MDYngyMufamv5CvI2SAz9ACgX7oeewuKhXIgilOeMwk8MEIKMnjyou4x/bClKcY7cl/osxPB0i48PgXmBLdQkPQ12oOEDwbRMGr+dd1TiVjEYH026AwxAdSCXRel88/a9n6qQHBFiZ2ncnk2TL8oBUG/d9tS2XWl8ZdtmQmniakeMtjfMwGD4cJfLu11v6P7nLk8Qd046ovSPrxdKEhedQ1f+Xdj40JbLySxNSMiSjvqASN6IcHB1H45+/YNkJue0vOFwxS5KmesurGJ5lJoXjgoVQS+/1JBw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0U+XHhgvBxpksYQTBwNqY71Yxz1vzt/b2fpfRf5+lQU=;
- b=bU4F4YVNdJ+KireWR/Q0YrMYjWLtB60lZ39axC6bxXXvfPtw/oBR/wvxbk1i9NN67nUPfaKXRQRjVyTsl1ZI4iZvX3Y0JMWX6xuCQNsAAFSIYSrTujReIpKTH8rqJZeEyy9Nu9GL3FmmpaQt2kuKk9uKuM6v1A0lrXq+CTWqXBM=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=oracle.com;
-Received: from BY5PR10MB4196.namprd10.prod.outlook.com (2603:10b6:a03:20d::23)
- by SJ0PR10MB4671.namprd10.prod.outlook.com (2603:10b6:a03:2d5::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.22; Wed, 13 Oct
- 2021 22:06:34 +0000
-Received: from BY5PR10MB4196.namprd10.prod.outlook.com
- ([fe80::bc59:71de:1590:cbf5]) by BY5PR10MB4196.namprd10.prod.outlook.com
- ([fe80::bc59:71de:1590:cbf5%7]) with mapi id 15.20.4587.026; Wed, 13 Oct 2021
- 22:06:34 +0000
-Subject: Re: [PATCH] hugetlb: Support node specified when using cma for
- gigantic hugepages
-To:     Baolin Wang <baolin.wang@linux.alibaba.com>,
-        akpm@linux-foundation.org
-Cc:     mhocko@kernel.org, guro@fb.com, corbet@lwn.net,
-        yaozhenguo1@gmail.com, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <1633843448-966-1-git-send-email-baolin.wang@linux.alibaba.com>
-From:   Mike Kravetz <mike.kravetz@oracle.com>
-Message-ID: <6bd3789f-4dee-a184-d415-4ad77f0f98b7@oracle.com>
-Date:   Wed, 13 Oct 2021 15:06:31 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
-In-Reply-To: <1633843448-966-1-git-send-email-baolin.wang@linux.alibaba.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW2PR16CA0012.namprd16.prod.outlook.com (2603:10b6:907::25)
- To BY5PR10MB4196.namprd10.prod.outlook.com (2603:10b6:a03:20d::23)
+        id S229496AbhJNB6S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Oct 2021 21:58:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27506 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229913AbhJNB6R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Oct 2021 21:58:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1634176573;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=/eMqOQ3e5RQMx416/mb99bJ9/X7E112z3XaSuwCe8BQ=;
+        b=AAq5RLdPvd76gXD9mT9T9H3pzUC1tZ6ciMvSoNe8qaI1lo8yVftCOilv5Z6ytxNMHsWWLE
+        E/Wy1yohiWLvAXttxk0+Hdvw00f46Q4tMMHsUtLh28mKSlB1fcfFRGIMi8XzUjhh/+/yUw
+        yev3zlHBr5dvjHyEnCDOLC3f4Yw/iFw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-495-ErOttYVpP9Wxn08DKzneyw-1; Wed, 13 Oct 2021 21:56:07 -0400
+X-MC-Unique: ErOttYVpP9Wxn08DKzneyw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F0A3100C660;
+        Thu, 14 Oct 2021 01:56:05 +0000 (UTC)
+Received: from T590 (ovpn-8-18.pek2.redhat.com [10.72.8.18])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 495E15D6BA;
+        Thu, 14 Oct 2021 01:55:52 +0000 (UTC)
+Date:   Thu, 14 Oct 2021 09:55:48 +0800
+From:   Ming Lei <ming.lei@redhat.com>
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     tj@kernel.org, gregkh@linuxfoundation.org,
+        akpm@linux-foundation.org, minchan@kernel.org, jeyu@kernel.org,
+        shuah@kernel.org, bvanassche@acm.org, dan.j.williams@intel.com,
+        joe@perches.com, tglx@linutronix.de, keescook@chromium.org,
+        rostedt@goodmis.org, linux-spdx@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-kernel@vger.kernel.org, ming.lei@redhat.com
+Subject: Re: [PATCH v8 11/12] zram: fix crashes with cpu hotplug multistate
+Message-ID: <YWeOJP2UJWYF94fu@T590>
+References: <20210927163805.808907-1-mcgrof@kernel.org>
+ <20210927163805.808907-12-mcgrof@kernel.org>
 MIME-Version: 1.0
-Received: from [192.168.2.123] (50.38.35.18) by MW2PR16CA0012.namprd16.prod.outlook.com (2603:10b6:907::25) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.15 via Frontend Transport; Wed, 13 Oct 2021 22:06:33 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7003b93b-3e7d-439f-00d9-08d98e95b7c1
-X-MS-TrafficTypeDiagnostic: SJ0PR10MB4671:
-X-Microsoft-Antispam-PRVS: <SJ0PR10MB46712429A787239354FDC2A2E2B79@SJ0PR10MB4671.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:356;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: khWx1hrgTrT5HinBXtF8b3s/aihoa26Pc1NgsuQRALzo4K3et5HW3Jc0ML03A4l5hfGWuXdAkAoWjqrzWGf3d4n+2sFwPG0khvRYESyJutwSBmo+aPr/NaCwwgKc95k6SvukpFjpyoesFFVlgTkooJjL9t26UTzkRARbCemUbcm+ipId5pm/oYITu1ec8veOHCDmTCE9Uf9/v/MuqLp/EmkU9oH3twk3ztSEijQdMsS4pVcvCwOxBGY9x7yOJJ9TawZKA7H05JYg3bgMMOQck9I5jF0xQWkWTCvtBp2/ZbZrpc7bYQ6/1OsrtW8QVwqltfUvIn26nFj3W9cKmLrR6/++j7oSpd1g0QQkdCDDwcw1WmQlU3FolMwscQmY8uEjfXhiaoft9YwMqh/Oz9R3nJwwP8O4KPOE4vd+P8NKLKvbMx2x5+vmt62iAa/A7BE09V9xefK5WSZalkmRFy0Gl18MLylWYBN92rgTEYKrdrpZ7vptHOsNgi9ft0a9SNdwp1woi/9Uk0+U5Iz6WxKi0/CTuVh9JmwRqDezyV8KIcsqsdkag06695fdOnKS6OvOHixnsh4WYG/tweYr1+ATM+gPnTZnm8/xx4ARA6ppDqjAue5Na2j5Kn8ZSwoRL8Txr2ghDxhbmdgMRpA25T3w1eEdOgzAq8WSiD6uQF6W7Xd6TsPPAqmNz5Y+joAb90Z2qqdVSkeE412ooHJL2GN23nnSbf1I6KYLe2z+Ki6Eq6Oc5/S5LMJL62s92lvnKwy3d0SXkp/djJiD8nENqRwmt2eXSDZot+UaRaRxTGPbuykMgNH6Rrd/OLQiyEjP/DZ50RE79Fr6ZMWwanw6oklHUiaEpFyHFbuOGXDzb1u9fjA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR10MB4196.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(16576012)(186003)(66946007)(31686004)(8676002)(38350700002)(966005)(508600001)(6486002)(38100700002)(66556008)(26005)(31696002)(66476007)(2906002)(86362001)(36756003)(52116002)(4326008)(2616005)(5660300002)(316002)(44832011)(956004)(83380400001)(8936002)(53546011)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b2NXbE9BMVB4Y2FhdGVycTFNZysvT25OUzRLT3pqM3QrRkt5aVlGOGkwQVNn?=
- =?utf-8?B?MDFuOTBGUW1UWWJDemZyRDNlVndYVkNOZWhMVWIwdXJLK0lta0lwWHJKRDM5?=
- =?utf-8?B?NXF5bWJnZUhtN1UzMjl2Ky9vcTNUaDlDYXEyYjQ2UUY0T3MxMWp5UkN3OFlK?=
- =?utf-8?B?c1F6ZEE3Tm0rcWhFRit6eHlabXQ0dGJvK052THh2S1hHTnpVUndjTWhITWV1?=
- =?utf-8?B?R3VuQ3d3R3hhUzdFUE5kWitKQmx5TVN5S2hjcVRROHY1MVAvUE5xWThrMlls?=
- =?utf-8?B?b2tNem44UTM4bzRMR0xZT1NjcUxEQjN4SkJRSk9pd28yL0tHaGFRT29ELzE4?=
- =?utf-8?B?QUR2NEkzS1MvZmhIMXdkWlhBTUt4eC8vNmdSamM1T1NycVo0SXFtNTlzang5?=
- =?utf-8?B?SjY3V3NGTjBYZ0o0alU1QzNtN2xyNzdjbmE1SVEvenREUnl4cFY2eXdsSjFy?=
- =?utf-8?B?V1d3ZHV0NmUxR3RBbVY1RFRLK1pvTXhMNU5oT3F3bjY0MXdVS2Vwa3JzUjZ1?=
- =?utf-8?B?Kzd1RWU2UkJjZlZSQWVMK09LVWlOVEFxTWZKVGwxUEJEZ1kxRW9ialZETTlQ?=
- =?utf-8?B?NUovYTcwa2ZsUTExZ2h4NU9vSWxLVHVSWlBrRGF6V1VpRUtGa2dQdzFJZk9a?=
- =?utf-8?B?M3h1WjRac29aZXJLNFdWQkl0cFlEVXZBaFp2T3RQclpCT0ROQStpN3dMK0lp?=
- =?utf-8?B?WHZGNzZQdmZKZENNN0dxT2k4c2gvRzNTMFdKZjl2dTU0bHRxeUU5MXNvMFB5?=
- =?utf-8?B?aE9YZldLMGJzRkJFdHZvdG1takt1dVpNYVJMSGROQ3laWVZja0grOW44YnVw?=
- =?utf-8?B?K2FSck5LU2lyWEltVkc3ZTZQVHR2UkpyTHNhdkpMS2tUZjZpbTl3OWFjYWVr?=
- =?utf-8?B?bW41ZXk0RU12UGZmdW1KaTBiUEY0bi92MWE5ZDU1bFpsODRsNHVIR0ZIS1RZ?=
- =?utf-8?B?amtOV2IzUTZKMGRGYW9XZ3h1UU12dnBtNjlHcEtjcWRKRmRqSkdVbEc2akQ1?=
- =?utf-8?B?WjdRNDZ6enJJbUtWdkhlN3IralczWjA5aVppUGs0V3dsSVFIK2dwWFRqbEJJ?=
- =?utf-8?B?bWJKckVuT1ZVR3BkKzh0RXArR3g4ZWY3ZXI1d2dnOVBDZ0pJVTlRVEw2bDBh?=
- =?utf-8?B?MDFCVGlQQzBhSmtYQWVjMmMxNm1yNkVYdEhXUzNSMTRMUUtXUytNb1luQmlh?=
- =?utf-8?B?N3VOREN0ZWRWSUNjY3JjbnAraVV0bnlEcW9mNWJnOGNDV3ZFYWxYdVZhL1FY?=
- =?utf-8?B?aTlnRUpsczNDaGJHcE1Db3ZjcEdtOEdCNHVtRjc2TUVDQlljWlBqeWZCMUI1?=
- =?utf-8?B?YkpwMisrNFRRR3dqMnFyS253ek1kbDh1N1NPbTF4TDB3ZU9YOEpyeVdnQkpW?=
- =?utf-8?B?d3dDRDNkUkwxTDdqbzlTQ3cycjN2TDI3Ymp3d2drdEd0SVI5SWRNRHcxODFx?=
- =?utf-8?B?eUltYVovdWJwNTg3cGs3aTZYRmtZTGt3MFpVeDlYSisweUp4U0lpZ1Y1bDMr?=
- =?utf-8?B?bHc0SUdmcmhPbHlnWDZ1WlNXcDg3MFV6SmF3aUs2VmNWaTJNSlNxTTJoU09H?=
- =?utf-8?B?N0hJUjFVSDhvaGlaaVBtMFlHekZhTnVoUzNEU3hMVnhHUnE4SldBVU05UXlh?=
- =?utf-8?B?Z2xJTlJoYWRsMis5T0FROFZKTFBLaGxJTTFaOEI4a3JvZUhzZHJ4aVRhUUlJ?=
- =?utf-8?B?MjhHdFI2MWxaVWlyVy9FNENGaTBzMlR1YUNGQ0haS00zQWdORTVqRXE1NC9G?=
- =?utf-8?Q?CTOroAF9TPuRYfD+VJ8AclkTsoDRd5cM6utJS87?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7003b93b-3e7d-439f-00d9-08d98e95b7c1
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR10MB4196.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2021 22:06:34.1173
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: T0Aio58tdUaioMHo3NqhbmlvYqeDeiMt9aFQOl1EdsMl0vPjFX0F6gtb0eSTC64wQvX9omqNEBkqgGUs+zexLw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4671
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10136 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 phishscore=0 suspectscore=0
- mlxlogscore=999 mlxscore=0 bulkscore=0 adultscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109230001
- definitions=main-2110130133
-X-Proofpoint-GUID: 9prkCZb87ROd_cHCOZSmS3cr-CyBTGC7
-X-Proofpoint-ORIG-GUID: 9prkCZb87ROd_cHCOZSmS3cr-CyBTGC7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210927163805.808907-12-mcgrof@kernel.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/9/21 10:24 PM, Baolin Wang wrote:
-> Now the size of CMA area for gigantic hugepages runtime allocation is
-> balanced for all online nodes, but we also want to specify the size of
-> CMA per-node, or only one node in some cases, which are similar with
-> commit 86acc55c3d32 ("hugetlbfs: extend the definition of hugepages
-> parameter to support node allocation")[1].
+On Mon, Sep 27, 2021 at 09:38:04AM -0700, Luis Chamberlain wrote:
+> Provide a simple state machine to fix races with driver exit where we
+> remove the CPU multistate callbacks and re-initialization / creation of
+> new per CPU instances which should be managed by these callbacks.
 > 
-> Thus this patch adds node format for 'hugetlb_cma' parameter to support
-> specifying the size of CMA per-node. An example is as follows:
+> The zram driver makes use of cpu hotplug multistate support, whereby it
+> associates a struct zcomp per CPU. Each struct zcomp represents a
+> compression algorithm in charge of managing compression streams per
+> CPU. Although a compiled zram driver only supports a fixed set of
+> compression algorithms, each zram device gets a struct zcomp allocated
+> per CPU. The "multi" in CPU hotplug multstate refers to these per
+> cpu struct zcomp instances. Each of these will have the CPU hotplug
+> callback called for it on CPU plug / unplug. The kernel's CPU hotplug
+> multistate keeps a linked list of these different structures so that
+> it will iterate over them on CPU transitions.
 > 
-> hugetlb_cma=0:5G,2:5G
+> By default at driver initialization we will create just one zram device
+> (num_devices=1) and a zcomp structure then set for the now default
+> lzo-rle comrpession algorithm. At driver removal we first remove each
+> zram device, and so we destroy the associated struct zcomp per CPU. But
+> since we expose sysfs attributes to create new devices or reset /
+> initialize existing zram devices, we can easily end up re-initializing
+> a struct zcomp for a zram device before the exit routine of the module
+> removes the cpu hotplug callback. When this happens the kernel's CPU
+> hotplug will detect that at least one instance (struct zcomp for us)
+> exists. This can happen in the following situation:
 > 
-> which means allocating 5G size of CMA area on node 0 and node 2
-> respectively.
+> CPU 1                            CPU 2
 > 
-> [1]
-> https://lkml.kernel.org/r/20211005054729.86457-1-yaozhenguo1@gmail.com
+>                                 disksize_store(...);
+> class_unregister(...);
+> idr_for_each(...);
+> zram_debugfs_destroy();
 > 
-> Signed-off-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> idr_destroy(...);
+> unregister_blkdev(...);
+> cpuhp_remove_multi_state(...);
+> 
+> The warning comes up on cpuhp_remove_multi_state() when it sees that the
+> state for CPUHP_ZCOMP_PREPARE does not have an empty instance linked list.
+> In this case, that a struct zcom still exists, the driver allowed its
+> creation per CPU even though we could have just freed them per CPU
+> though a call on another CPU, and we are then later trying to remove the
+> hotplug callback.
+> 
+> Fix all this by providing a zram initialization boolean
+> protected the shared in the driver zram_index_mutex, which we
+> can use to annotate when sysfs attributes are safe to use or
+> not -- once the driver is properly initialized. When the driver
+> is going down we also are sure to not let userspace muck with
+> attributes which may affect each per cpu struct zcomp.
+> 
+> This also fixes a series of possible memory leaks. The
+> crashes and memory leaks can easily be caused by issuing
+> the zram02.sh script from the LTP project [0] in a loop
+> in two separate windows:
+> 
+>   cd testcases/kernel/device-drivers/zram
+>   while true; do PATH=$PATH:$PWD:$PWD/../../../lib/ ./zram02.sh; done
+> 
+> You end up with a splat as follows:
+> 
+> kernel: zram: Removed device: zram0
+> kernel: zram: Added device: zram0
+> kernel: zram0: detected capacity change from 0 to 209715200
+> kernel: Adding 104857596k swap on /dev/zram0.  <etc>
+> kernel: zram0: detected capacitky change from 209715200 to 0
+> kernel: zram0: detected capacity change from 0 to 209715200
+> kernel: ------------[ cut here ]------------
+> kernel: Error: Removing state 63 which has instances left.
+> kernel: WARNING: CPU: 7 PID: 70457 at \
+> 	kernel/cpu.c:2069 __cpuhp_remove_state_cpuslocked+0xf9/0x100
+> kernel: Modules linked in: zram(E-) zsmalloc(E) <etc>
+> kernel: CPU: 7 PID: 70457 Comm: rmmod Tainted: G            \
+> 	E     5.12.0-rc1-next-20210304 #3
+> kernel: Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), \
+> 	BIOS 1.14.0-2 04/01/2014
+> kernel: RIP: 0010:__cpuhp_remove_state_cpuslocked+0xf9/0x100
+> kernel: Code: <etc>
+> kernel: RSP: 0018:ffffa800c139be98 EFLAGS: 00010282
+> kernel: RAX: 0000000000000000 RBX: ffffffff9083db58 RCX: ffff9609f7dd86d8
+> kernel: RDX: 00000000ffffffd8 RSI: 0000000000000027 RDI: ffff9609f7dd86d0
+> kernel: RBP: 0000000000000000i R08: 0000000000000000 R09: ffffa800c139bcb8
+> kernel: R10: ffffa800c139bcb0 R11: ffffffff908bea40 R12: 000000000000003f
+> kernel: R13: 00000000000009d8 R14: 0000000000000000 R15: 0000000000000000
+> kernel: FS: 00007f1b075a7540(0000) GS:ffff9609f7dc0000(0000) knlGS:<etc>
+> kernel: CS:  0010 DS: 0000 ES 0000 CR0: 0000000080050033
+> kernel: CR2: 00007f1b07610490 CR3: 00000001bd04e000 CR4: 0000000000350ee0
+> kernel: Call Trace:
+> kernel: __cpuhp_remove_state+0x2e/0x80
+> kernel: __do_sys_delete_module+0x190/0x2a0
+> kernel:  do_syscall_64+0x33/0x80
+> kernel: entry_SYSCALL_64_after_hwframe+0x44/0xae
+> 
+> The "Error: Removing state 63 which has instances left" refers
+> to the zram per CPU struct zcomp instances left.
+> 
+> [0] https://github.com/linux-test-project/ltp.git
+> 
+> Acked-by: Minchan Kim <minchan@kernel.org>
+> Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
 > ---
->  Documentation/admin-guide/kernel-parameters.txt |  6 +-
->  mm/hugetlb.c                                    | 79 +++++++++++++++++++++----
->  2 files changed, 73 insertions(+), 12 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 3ad8e9d0..a147faa5 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -1587,8 +1587,10 @@
->  			registers.  Default set by CONFIG_HPET_MMAP_DEFAULT.
->  
->  	hugetlb_cma=	[HW,CMA] The size of a CMA area used for allocation
-> -			of gigantic hugepages.
-> -			Format: nn[KMGTPE]
-> +			of gigantic hugepages. Or using node format, the size
-> +			of a CMA area per node can be specified.
-> +			Format: nn[KMGTPE] or (node format)
-> +				<node>:nn[KMGTPE][,<node>:nn[KMGTPE]]
->  
->  			Reserve a CMA area of given size and allocate gigantic
->  			hugepages using the CMA allocator. If enabled, the
-> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> index 6d2f4c2..8b4e409 100644
-> --- a/mm/hugetlb.c
-> +++ b/mm/hugetlb.c
-> @@ -50,6 +50,7 @@
->  
->  #ifdef CONFIG_CMA
->  static struct cma *hugetlb_cma[MAX_NUMNODES];
-> +static unsigned long hugetlb_cma_size_in_node[MAX_NUMNODES] __initdata;
->  static bool hugetlb_cma_page(struct page *page, unsigned int order)
->  {
->  	return cma_pages_valid(hugetlb_cma[page_to_nid(page)], page,
-> @@ -62,6 +63,7 @@ static bool hugetlb_cma_page(struct page *page, unsigned int order)
->  }
->  #endif
->  static unsigned long hugetlb_cma_size __initdata;
-> +static nodemask_t hugetlb_cma_nodes_allowed = NODE_MASK_NONE;
->  
->  /*
->   * Minimum page order among possible hugepage sizes, set to a proper value
-> @@ -3497,9 +3499,15 @@ static ssize_t __nr_hugepages_store_common(bool obey_mempolicy,
->  
->  	if (nid == NUMA_NO_NODE) {
->  		/*
-> +		 * If we've specified the size of CMA area per node,
-> +		 * should use it firstly.
-> +		 */
-> +		if (hstate_is_gigantic(h) && !nodes_empty(hugetlb_cma_nodes_allowed))
-> +			n_mask = &hugetlb_cma_nodes_allowed;
-> +		/*
 
-IIUC, this changes the behavior for 'balanced' gigantic huge page pool
-allocations if per-node hugetlb_cma is specified.  It will now only
-attempt to allocate gigantic pages on nodes where CMA was reserved.
-Even if we run out of space on the node, it will not go to other nodes
-as before.  Is that correct?
+Hello Luis,
 
-I do not believe we want this change in behavior.  IMO, if the user is
-doing node specific CMA reservations, then the user should use the node
-specific sysfs file for pool allocations on that node.
+Can you test the following patch and see if the issue can be addressed?
 
->  		 * global hstate attribute
->  		 */
-> -		if (!(obey_mempolicy &&
-> +		else if (!(obey_mempolicy &&
->  				init_nodemask_of_mempolicy(&nodes_allowed)))
->  			n_mask = &node_states[N_MEMORY];
->  		else
-> @@ -6745,7 +6753,38 @@ void hugetlb_unshare_all_pmds(struct vm_area_struct *vma)
->  
->  static int __init cmdline_parse_hugetlb_cma(char *p)
->  {
-> -	hugetlb_cma_size = memparse(p, &p);
-> +	int nid, count = 0;
-> +	unsigned long tmp;
-> +	char *s = p;
-> +
-> +	while (*s) {
-> +		if (sscanf(s, "%lu%n", &tmp, &count) != 1)
-> +			break;
-> +
-> +		if (s[count] == ':') {
-> +			nid = tmp;
-> +			if (nid < 0 || nid >= MAX_NUMNODES)
-> +				break;
+Please see the idea from the inline comment.
 
-nid can only be compared to MAX_NUMNODES because this an early param
-before numa is setup and we do not know exactly how many nodes there
-are.  Is this correct?
+Also zram_index_mutex isn't needed in zram disk's store() compared with
+your patch, then the deadlock issue you are addressing in this series can
+be avoided.
 
-Suppose one specifies an invaid node.  For example, on my 2 node system
-I use the option 'hugetlb_cma=2:2G'.  This is not flagged as an error
-during processing and 1G CMA is reserved on node 0 and 1G is reserved
-on node 1.  Is that by design, or just chance?
 
-We should be able to catch this in hugetlb_cma_reserve.  For the example
-above, I think we should flag this as an error and not reserve any CMA.
+diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
+index fcaf2750f68f..3c17927d23a7 100644
+--- a/drivers/block/zram/zram_drv.c
++++ b/drivers/block/zram/zram_drv.c
+@@ -1985,11 +1985,17 @@ static int zram_remove(struct zram *zram)
+ 
+ 	/* Make sure all the pending I/O are finished */
+ 	fsync_bdev(bdev);
+-	zram_reset_device(zram);
+ 
+ 	pr_info("Removed device: %s\n", zram->disk->disk_name);
+ 
+ 	del_gendisk(zram->disk);
++
++	/*
++	 * reset device after gendisk is removed, so any change from sysfs
++	 * store won't come in, then we can really reset device here
++	 */
++	zram_reset_device(zram);
++
+ 	blk_cleanup_disk(zram->disk);
+ 	kfree(zram);
+ 	return 0;
+@@ -2073,7 +2079,12 @@ static int zram_remove_cb(int id, void *ptr, void *data)
+ static void destroy_devices(void)
+ {
+ 	class_unregister(&zram_control_class);
++
++	/* hold the global lock so new device can't be added */
++	mutex_lock(&zram_index_mutex);
+ 	idr_for_each(&zram_index_idr, &zram_remove_cb, NULL);
++	mutex_unlock(&zram_index_mutex);
++
+ 	zram_debugfs_destroy();
+ 	idr_destroy(&zram_index_idr);
+ 	unregister_blkdev(zram_major, "zram");
 
-> +
-> +			s += count + 1;
-> +			tmp = memparse(s, &s);
-> +			hugetlb_cma_size_in_node[nid] = tmp;
-> +			hugetlb_cma_size += tmp;
-> +
-> +			/*
-> +			 * Skip the separator if have one, otherwise
-> +			 * break the parsing.
-> +			 */
-> +			if (*s == ',')
-> +				s++;
-> +			else
-> +				break;
-> +		} else {
-> +			hugetlb_cma_size = memparse(p, &p);
-> +			break;
-> +		}
-> +	}
-> +
->  	return 0;
->  }
->  
-> @@ -6754,6 +6793,7 @@ static int __init cmdline_parse_hugetlb_cma(char *p)
->  void __init hugetlb_cma_reserve(int order)
->  {
->  	unsigned long size, reserved, per_node;
-> +	bool node_specific_cma_alloc = false;
->  	int nid;
->  
->  	cma_reserve_called = true;
-> @@ -6767,20 +6807,37 @@ void __init hugetlb_cma_reserve(int order)
->  		return;
->  	}
+Thanks,
+Ming
 
-Earlier in hugetlb_cma_reserve (not in the context here), there is this
-code:
-
-	if (hugetlb_cma_size < (PAGE_SIZE << order)) {
-		pr_warn("hugetlb_cma: cma area should be at least %lu MiB\n",
-			(PAGE_SIZE << order) / SZ_1M);
-		hugetlb_cma_size = 0;
-		return;
-	}
-
-That causes an early exit if hugetlb_cma_size is too small for a
-gigantic page.
-
-On my 2 node x86 system with 1G gigantic pages, I can specify
-'hugetlb_cma=0:512M,1:512M'.  This does not trigger the above early exit
-because total hugetlb_cma_size is 1G.  It does end up reserving 1G on
-node 0 and nothing on node 1.  I do not believe this is by design.  We
-should validate the specified per-node sizes as well.
--- 
-Mike Kravetz
-
->  
-> -	/*
-> -	 * If 3 GB area is requested on a machine with 4 numa nodes,
-> -	 * let's allocate 1 GB on first three nodes and ignore the last one.
-> -	 */
-> -	per_node = DIV_ROUND_UP(hugetlb_cma_size, nr_online_nodes);
-> -	pr_info("hugetlb_cma: reserve %lu MiB, up to %lu MiB per node\n",
-> -		hugetlb_cma_size / SZ_1M, per_node / SZ_1M);
-> +	for_each_node_state(nid, N_ONLINE) {
-> +		if (hugetlb_cma_size_in_node[nid] > 0) {
-> +			node_specific_cma_alloc = true;
-> +			break;
-> +		}
-> +	}
-> +
-> +	if (!node_specific_cma_alloc) {
-> +		/*
-> +		 * If 3 GB area is requested on a machine with 4 numa nodes,
-> +		 * let's allocate 1 GB on first three nodes and ignore the last one.
-> +		 */
-> +		per_node = DIV_ROUND_UP(hugetlb_cma_size, nr_online_nodes);
-> +		pr_info("hugetlb_cma: reserve %lu MiB, up to %lu MiB per node\n",
-> +			hugetlb_cma_size / SZ_1M, per_node / SZ_1M);
-> +	}
->  
->  	reserved = 0;
->  	for_each_node_state(nid, N_ONLINE) {
->  		int res;
->  		char name[CMA_MAX_NAME];
->  
-> -		size = min(per_node, hugetlb_cma_size - reserved);
-> +		if (node_specific_cma_alloc) {
-> +			if (hugetlb_cma_size_in_node[nid] <= 0)
-> +				continue;
-> +
-> +			size = hugetlb_cma_size_in_node[nid];
-> +		} else {
-> +			size = min(per_node, hugetlb_cma_size - reserved);
-> +		}
-> +
->  		size = round_up(size, PAGE_SIZE << order);
->  
->  		snprintf(name, sizeof(name), "hugetlb%d", nid);
-> @@ -6799,6 +6856,8 @@ void __init hugetlb_cma_reserve(int order)
->  			continue;
->  		}
->  
-> +		if (node_specific_cma_alloc)
-> +			node_set(nid, hugetlb_cma_nodes_allowed);
->  		reserved += size;
->  		pr_info("hugetlb_cma: reserved %lu MiB on node %d\n",
->  			size / SZ_1M, nid);
-> 
