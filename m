@@ -2,150 +2,197 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6C3FC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 18:07:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03A3AC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 20:17:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C676861167
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 18:07:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DA0DC61166
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 20:17:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233864AbhJNSJH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Oct 2021 14:09:07 -0400
-Received: from mail-dm6nam11on2052.outbound.protection.outlook.com ([40.107.223.52]:32096
-        "EHLO NAM11-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233859AbhJNSJF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 14 Oct 2021 14:09:05 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Refu4eSV0qm5NmH3ktHWGA8zQ5XWT7Zl/ocvHRjUO4mZy9rU26VogUwAcZkA7fYXJ24mgLa2bCqk4r/xEU0QJbpV7qCgFQoddamb5IENkomOcZLgQnyz2HPL8oWh/7ItXEQH9C6DMr3AX5WmS9SHqA/F08znXrcXpk5Px6D9OC/xonhWTh7G4brU/thPZADT20+6wrSZwepPeSav52ZFfsBzEJv8QT1h4HJ/WR+rDnJanxqIISAEa/H2CsAzyirVbihHlxvt71KlWT4OA3hAuFXrgul39ToYA1nUjECWKO8HKaoNxLsyWLzhOMv+OK5kBClfCzJ0Gnz7mv/F78Q+bQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9/m+NmYQ8FbFZWhFzS3pICdk1XyLjZrt4s24hxzupSY=;
- b=c81ZG5UHVwUAqp2VMnADSGe6mNurqShF1ELNUH/Xv/zgnJBvT9MzgNsZKBwEL18wcnrVTWtHnQgEn4ZY9ulqjEZFVP7bYWWQcnQpja8mj2VECq40ed97gUg4DLz/+9b59PBowZsnkzB5O/MbEWaKgfWB7+c+BN/6AUEQ6ZswaTfgvn8SCC8Sx44bHZhz/j35tHeaJORFJBmdpHfukUcfqYvQFpnR3OETZWi8T2l4RBEghtvfzCaJtA+8tpKpdcYKVcFlgC6hWnKC2XnDaId8QqEKHOdt6jftJaiauQHeQyFnFsH/Chsz/w+z+JyqtlbV0X9bZnsNRU4VDEJj8bGTkQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9/m+NmYQ8FbFZWhFzS3pICdk1XyLjZrt4s24hxzupSY=;
- b=Yt64+NCMuTkmCzU1vAtYSLOMcYbDgiuOdp7xwyFJrhyebxWPwMPvpNCS/YQyYhjkPLkptZ/KsmwZjO3F2XsF5LsKdXd4BivaWhgl4zZhHvSK97cUltBhCNW9Ao/qFzrW/Eb/IbzZWZNbWOv9qCR2Jm0nicR2CANMCFNAfrw+Eo9ZlidZmVlGR0QfgsJj/cn7EwP61qBEc0pYrdv0hynt0JZv9mjmurfbs3d+DSYseYJ+ISLKsvjRPMrjmZcqbH3bxU+zqOEEsfhgk1HcztRAv0VsNoA2usDcP8AzZxLpkEnqSAP0qmAbEdSc5Masp6DFiYgi3fHB9TK1e+6yGx2FWA==
-Authentication-Results: oracle.com; dkim=none (message not signed)
- header.d=none;oracle.com; dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
- by BL1PR12MB5141.namprd12.prod.outlook.com (2603:10b6:208:309::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.15; Thu, 14 Oct
- 2021 18:06:58 +0000
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::e8af:232:915e:2f95]) by BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::e8af:232:915e:2f95%6]) with mapi id 15.20.4608.017; Thu, 14 Oct 2021
- 18:06:58 +0000
-Date:   Thu, 14 Oct 2021 15:06:57 -0300
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Joao Martins <joao.m.martins@oracle.com>
-Cc:     linux-mm@kvack.org, Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Jane Chu <jane.chu@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Christoph Hellwig <hch@lst.de>, nvdimm@lists.linux.dev,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 08/14] mm/gup: grab head page refcount once for group
- of subpages
-Message-ID: <20211014180657.GB3567687@nvidia.com>
-References: <20210827145819.16471-1-joao.m.martins@oracle.com>
- <20210827145819.16471-9-joao.m.martins@oracle.com>
- <20211008115448.GA2976530@nvidia.com>
- <01bf81a4-04f0-2ca3-0391-fceb1e557174@oracle.com>
- <20211013174140.GJ2744544@nvidia.com>
- <20e2472f-736a-be3a-6f3a-5dfcb85f4cfb@oracle.com>
- <20211013194345.GO2744544@nvidia.com>
- <9a9dccc8-81b0-f3dd-60ea-130406791e64@oracle.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9a9dccc8-81b0-f3dd-60ea-130406791e64@oracle.com>
-X-ClientProxiedBy: BL1PR13CA0288.namprd13.prod.outlook.com
- (2603:10b6:208:2bc::23) To BL0PR12MB5506.namprd12.prod.outlook.com
- (2603:10b6:208:1cb::22)
+        id S234087AbhJNUTG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Oct 2021 16:19:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35068 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233711AbhJNUTF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Oct 2021 16:19:05 -0400
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D52DFC061570
+        for <linux-doc@vger.kernel.org>; Thu, 14 Oct 2021 13:16:59 -0700 (PDT)
+Received: by mail-yb1-xb2e.google.com with SMTP id q189so17553761ybq.1
+        for <linux-doc@vger.kernel.org>; Thu, 14 Oct 2021 13:16:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=c0cmuWRsBM8lyTJIMBQh8bNKy5hHUkW2gy7WXb11ikU=;
+        b=f0qLDOKzIPAztbLgdkQY2YKlIIwOO4CPZpbMpiSv8Ew9Oil/ath9n07/ohZFTfCchC
+         tUfFpgpxKWGSiuPuGQXa1lAJMzvJ2v2jEgfNJIChSA6p3F/PA65vL35nhyaFPtFPTu49
+         1247Evth3zZtmiV9KJGFY1VnR8L91bL9rPwjPym6PmsUCAowdylHSWXNeLXHESeggihA
+         Vt1lQtjprzK6LMxeZPiVT/NtzOrDnx2xOOG8OJMrpdLwEzixkPIbxPqs1oZmLmYb8uvN
+         owoPUF3VgkSF9BJUFMguFjxt/z84NGzPG34QC62MSK7yEjYhoPlVKw2QYEROpDMnIVFl
+         tCsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=c0cmuWRsBM8lyTJIMBQh8bNKy5hHUkW2gy7WXb11ikU=;
+        b=Ic1GKGnL15dN+2Tm7KqN7pGBra/IsbRAJlvUDe/CX7671aYCgRmHkqE9P4QFqxXUbZ
+         ksBCX3bbTrQ5gG8WYBDZk9KnhNl6m3db33IBe7Ifs88FusVammP8Uj+XXE32yCmFxtWl
+         VzG8NdfKUU+Fhmy5vAw3Lvedn9hrTgD2B4ruMOrbE8FaFnY2SN/vZ8lPsog9DbKwFpSO
+         4TfWi3G4NNZtT/AGDCSRntTuKtcxGSVE7Vq65n8J+ZZ9G+j8wHVr9J4p6DPqOOh381SI
+         ZhcemPJxO6V1+Uiujheux1vw40m70by75oiO70eDafJRpPjIdDtg8436/KxEv1U7UKxy
+         n8Xg==
+X-Gm-Message-State: AOAM53036T21wT70H16510F40cg0Qcg4dwrdLBzzunXiNTOxiVxVxVYu
+        C2czTrVDUprXGmr494y9x+TyMC84YgpV4JuCgiIGHQ==
+X-Google-Smtp-Source: ABdhPJyxDeRMapi8KKC0nonneI/eCQ7+kw+lLAqFaMCn23DedEM+4BAtFbvseb+djFd5f1c00tNd4JPLKH7QEDYHlig=
+X-Received: by 2002:a25:5b04:: with SMTP id p4mr8493469ybb.34.1634242618619;
+ Thu, 14 Oct 2021 13:16:58 -0700 (PDT)
 MIME-Version: 1.0
-Received: from mlx.ziepe.ca (142.162.113.129) by BL1PR13CA0288.namprd13.prod.outlook.com (2603:10b6:208:2bc::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.8 via Frontend Transport; Thu, 14 Oct 2021 18:06:58 +0000
-Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1mb585-00F0LV-JW; Thu, 14 Oct 2021 15:06:57 -0300
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ca254175-5f0c-4331-22ed-08d98f3d69f3
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5141:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL1PR12MB5141E3179C7ED7A3434C6B0FC2B89@BL1PR12MB5141.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: By0EzjyPb3Bf17+DyJyzaYaP4UvCtYIT/ObkkCEEbo4vQvIJhtEZCd6colpZ/yQXpb7q33A6E0TYZ37Yuwln5HTcYAsU4rPNhkD1uVVETgDU/IGZJ5tN3o0Szdgncyi+83mxNqa2EdZru2J/PSfGgrZsfVWa9i9hOUiWwD/QN92uQG0r8YecxKkBQvK5ZSS44RNWQe4Y43VzSoOwCbOJiAaKv+qfcWEFIP3OGPqpZTBk4A6ttLqKOnTeLu38WEKlv24NFTH+QRzuY0F7izypYS0ordvBHWAxHwYShL7jNHfYJeIwARvId+XsEBTfuiS6/WiUZ3Q/qdqv4L/bpEi/5rb/p6wjewx+yZ5u2RYkU3xQpwdJUKESMrO7SvFxt71F0qT3snSnG+wV2gqUENsDhdye9UgHr41zA8hsSb01B5Hox9ppUpUNOxgnIBjAZ6FbOi/iWUzfsLtqr5apgIdRjmmzgOCGFRWgGeV8QZPzs8izBhm+z/O893kinIiwlCr/41qs5S8DkZogQB/PyffHq/Q5JURxxzthV/0CGrSxg9WHgFfsEgaKDhXLGlbtElitu3rjPNz0R6Qbcir2RiHLd/zkOa0FMW5il5Hn2kaiN7isLstPIr+08+SS6xT5AFuwaPdnIxRPuPyhqVtsnQye1g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB5506.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(66556008)(8936002)(66946007)(66476007)(9786002)(186003)(8676002)(2906002)(54906003)(9746002)(316002)(6916009)(5660300002)(7416002)(508600001)(4326008)(36756003)(86362001)(38100700002)(1076003)(33656002)(426003)(2616005)(26005)(83380400001)(4744005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5eehCHgvdKup543K9835WYbvOfFq7KUPDo8gjY+iMCdnOtG66svEowQtG2QD?=
- =?us-ascii?Q?QT0C0YK9DimXRxM7GAYMIycUOf6IpRpktHVQGdPXdiZYp5vyCCi/t3Ml0BmQ?=
- =?us-ascii?Q?XrG/A7L4/+IBOzbSGLVwyXHLYajZWmWD+hhVtDHn8p5nb/J9FXfpUnixfU7+?=
- =?us-ascii?Q?3+wo2OAFNZEyOyigupVXPOwSSq7mEVcoBYjGJ8C92r8EFFPshh5kiBDNNmov?=
- =?us-ascii?Q?FbiENQd0QUJcIaE8DL91fPNJytW41TaGLwnk+SaUQt6ETlbVA16zJPsrt1Rj?=
- =?us-ascii?Q?46qZx3OFrj6SCQ6dcCh3NPgDJwN9QUhvbUaKQG/ETlnpw8KNNOzIiKUDqmcx?=
- =?us-ascii?Q?vhgL/e8PDpHYGMIRFq1xs6eVbYHCSIRr0BSiUYjBoXcjeElQZF8bqDechC6X?=
- =?us-ascii?Q?My0B8ahfoTj1Mw697Rx0Sk3GstX02NgPJy5E9hlzdUBUy/rnzSovtwTuTwBB?=
- =?us-ascii?Q?HUeMYACP30igO6CmWVMdQiBcKDSvqxwSf8vLZbxlQMQZV++IuX01BQlt3UD6?=
- =?us-ascii?Q?GC8nj2PgrH5mPVoucc0fsVW4/UrHOvjDPWKSwDQZcKDv9qvdnQo0DFCKoLoG?=
- =?us-ascii?Q?G+tVFRndi6Bv389z3iM/INCkK5jwgRgUPj7Q/1lAQlIr3M8bAtxcfb8OZAVw?=
- =?us-ascii?Q?PYx0eeiCUvi0PW8UUcPfCFA9g78gXbTB00kbFpCEeaiW4YVkR2FSIcga2SFe?=
- =?us-ascii?Q?FmgA5TRPLS93s9wRWm60oQEcKrQEfQjDczxuXx30TN/Tm5Spu/ru25NV+h1/?=
- =?us-ascii?Q?R5NSOxgzrNSP6e9k1FfoC1TRSY0/ndQHfxcDEigPhm3GjQvqSnPVUEaTfQo1?=
- =?us-ascii?Q?e6SDMQa5UO9uUAK4LU8jGXgWJF/iq141z7tH3PO9XWkjynEy/OliwFs5wWZE?=
- =?us-ascii?Q?3yN8JyDup6gdURMZYnIubzwJ5+hgxaXMm2mVk23a4IsNbaAqzTEwROHyIDqP?=
- =?us-ascii?Q?5TOfOpksI6kcBBwqbHOrGJEYGK++Z/uywaJ/odrGBTVc5hwvbfvkPhV6eMeq?=
- =?us-ascii?Q?FSEFkGb2Re5rS4TUaFee8Exeb9zdqANoY+rQHaIPObiiVULmvI37RzPFzebO?=
- =?us-ascii?Q?2vHB7Uxq7wpU1siDqzKd8UqryEBshhdU/wiAPeLBUakrq/PVWymgO9/Mpjuo?=
- =?us-ascii?Q?DkwHesRlYojnS/uaukzQrGP6R6KsMQ87T2WRZYciikd4mOtePmlSMhCx6579?=
- =?us-ascii?Q?E3ldrgUI6apwKycv86N7NyT2EhyPGFcGHoFQe4aE4lBleBBl63bSBfxGLNPM?=
- =?us-ascii?Q?fjruXFj/y8IMOzH8YNHR7oE9lH4iNRt6Eg5tqniYwS5FSwQ/HtdVsTb3nnyQ?=
- =?us-ascii?Q?pvjzvu70TnV73RPaXAujH/x4xJiPuCBv/Fid6RVoZoi4Bg=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ca254175-5f0c-4331-22ed-08d98f3d69f3
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2021 18:06:58.3960
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: m+axPUrEygphVT4oSBftJ2Fsn3zJ1EFNZfQ64u0yOhSaRPCDDRwkkKOyAoOudqjq
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5141
+References: <92cbfe3b-f3d1-a8e1-7eb9-bab735e782f6@rasmusvillemoes.dk>
+ <20211007101527.GA26288@duo.ucw.cz> <CAJuCfpGp0D9p3KhOWhcxMO1wEbo-J_b2Anc-oNwdycx4NTRqoA@mail.gmail.com>
+ <YV8jB+kwU95hLqTq@dhcp22.suse.cz> <CAJuCfpG-Nza3YnpzvHaS_i1mHds3nJ+PV22xTAfgwvj+42WQNA@mail.gmail.com>
+ <YV8u4B8Y9AP9xZIJ@dhcp22.suse.cz> <CAJuCfpHAG_C5vE-Xkkrm2kynTFF-Jd06tQoCWehHATL0W2mY_g@mail.gmail.com>
+ <202110071111.DF87B4EE3@keescook> <YV/mhyWH1ZwWazdE@dhcp22.suse.cz>
+ <202110081344.FE6A7A82@keescook> <YWP3c/bozz5npQ8O@dhcp22.suse.cz>
+ <CAJuCfpHQVMM4+6Lm_EnFk06+KrOjSjGA19K2cv9GmP3k9LW5vg@mail.gmail.com>
+ <26f9db1e-69e9-1a54-6d49-45c0c180067c@redhat.com> <CAJuCfpGTCM_Rf3GEyzpR5UOTfgGKTY0_rvAbGdtjbyabFhrRAw@mail.gmail.com>
+In-Reply-To: <CAJuCfpGTCM_Rf3GEyzpR5UOTfgGKTY0_rvAbGdtjbyabFhrRAw@mail.gmail.com>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Thu, 14 Oct 2021 13:16:47 -0700
+Message-ID: <CAJuCfpE2j91_AOwwRs_pYBs50wfLTwassRqgtqhXsh6fT+4MCg@mail.gmail.com>
+Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Michal Hocko <mhocko@suse.com>, Kees Cook <keescook@chromium.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Colin Cross <ccross@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        vincenzo.frascino@arm.com,
+        =?UTF-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?= 
+        <chinwen.chang@mediatek.com>,
+        Axel Rasmussen <axelrasmussen@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Jann Horn <jannh@google.com>, apopple@nvidia.com,
+        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
+        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
+        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
+        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
+        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
+        Chris Hyser <chris.hyser@oracle.com>,
+        Peter Collingbourne <pcc@google.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
+        Rolf Eike Beer <eb@emlix.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
+        cxfcosmos@gmail.com, LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm <linux-mm@kvack.org>,
+        kernel-team <kernel-team@android.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 14, 2021 at 06:56:51PM +0100, Joao Martins wrote:
+On Tue, Oct 12, 2021 at 10:01 AM Suren Baghdasaryan <surenb@google.com> wrote:
+>
+> On Tue, Oct 12, 2021 at 12:44 AM David Hildenbrand <david@redhat.com> wrote:
+> >
+> > > I'm still evaluating the proposal to use memfds but I'm not sure if
+> > > the issue that David Hildenbrand mentioned about additional memory
+> > > consumed in pagecache (which has to be addressed) is the only one we
+> > > will encounter with this approach. If anyone knows of any potential
+> > > issues with using memfds as named anonymous memory, I would really
+> > > appreciate your feedback before I go too far in that direction.
+> >
+> > [MAP_PRIVATE memfd only behave that way with 4k, not with huge pages, so
+> > I think it just has to be fixed. It doesn't make any sense to allocate a
+> > page for the pagecache ("populate the file") when accessing via a
+> > private mapping that's supposed to leave the file untouched]
+> >
+> > My gut feeling is if you really need a string as identifier, then try
+> > going with memfds. Yes, we might hit some road blocks to be sorted out,
+> > but it just logically makes sense to me: Files have names. These names
+> > exist before mapping and after mapping. They "name" the content.
+>
+> I'm investigating this direction. I don't have much background with
+> memfds, so I'll need to digest the code first.
 
-> > And I would document this relationship in the GUP side "This do/while
-> > is required because insert_pfn_pmd/pud() is used with compound pages
-> > smaller than the PUD/PMD size" so it isn't so confused with just
-> > "devmap"
-> 
-> Also, it's not that PMDs span compound heads, it's that PMDs/PUDs use
-> just base pages. Compound pages/head in devmap are only introduced by
-> series and for device-dax only.
+I've done some investigation into the possibility of using memfds to
+name anonymous VMAs. Here are my findings:
 
-I think it all makes sense, I just want to clarify what I mean by
-compound_head:
+1. Forking a process with anonymous vmas named using memfd is 5-15%
+slower than with prctl (depends on the number of VMAs in the process
+being forked). Profiling shows that i_mmap_lock_write() dominates
+dup_mmap(). Exit path is also slower by roughly 9% with
+free_pgtables() and fput() dominating exit_mmap(). Fork performance is
+important for Android because almost all processes are forked from
+zygote, therefore this limitation already makes this approach
+prohibitive.
 
-  compound_head(base_page) == base_page
+2. mremap() usage to grow the mapping has an issue when used with memfds:
 
-Ie a PMD consisting only of order 0 pages would have N 'compound_heads'
-within it even though nothing is a compound page.
+fd = memfd_create(name, MFD_ALLOW_SEALING);
+ftruncate(fd, size_bytes);
+ptr = mmap(NULL, size_bytes, prot, MAP_PRIVATE, fd, 0);
+close(fd);
+ptr = mremap(ptr, size_bytes, size_bytes * 2, MREMAP_MAYMOVE);
+touch_mem(ptr, size_bytes * 2);
 
-Which is relavent because the GUP algorithms act on the compound_head
+This would generate a SIGBUS in touch_mem(). I believe it's because
+ftruncate() specified the size to be size_bytes and we are accessing
+more than that after remapping. prctl() does not have this limitation
+and we do have a usecase for growing a named VMA.
 
-Jason
+3. Leaves an fd exposed, even briefly, which may lead to unexpected
+flaws (e.g. anything using mmap MAP_SHARED could allow exposures or
+overwrites). Even MAP_PRIVATE, if an attacker writes into the file
+after ftruncate() and before mmap(), can cause private memory to be
+initialized with unexpected data.
+
+4. There is a usecase in the Android userspace where vma naming
+happens after memory was allocated. Bionic linker does in-memory
+relocations and then names some relocated sections.
+
+In the light of these findings, could the current patchset be reconsidered?
+Thanks,
+Suren.
+
+
+>
+> >
+> > Maybe it's just me, but the whole interface, setting the name via a
+> > prctl after the mapping was already instantiated doesn't really spark
+> > joy at my end. That's not a strong pushback, but if we can avoid it
+> > using something that's already there, that would be very much preferred.
+>
+> Actually that's one of my worries about using memfds. There might be
+> cases when we need to name a vma after it was mapped. memfd_create()
+> would not allow us to do that AFAIKT. But I need to check all usages
+> to say if that's really an issue.
+> Thanks!
+>
+> >
+> > --
+> > Thanks,
+> >
+> > David / dhildenb
+> >
+> > --
+> > To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
+> >
