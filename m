@@ -2,335 +2,461 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB358C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 16:16:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C9C1C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 16:45:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9CCDF60C41
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 16:16:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 52C7C61139
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 16:45:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230177AbhJNQSe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Oct 2021 12:18:34 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:46878 "EHLO
-        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229471AbhJNQSe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Oct 2021 12:18:34 -0400
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19EFa2Um029664;
-        Thu, 14 Oct 2021 16:15:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=ZMDPvgZCnwoVrQFn+QcO7FFTH7Rn51F0sFhzQc/f8A8=;
- b=qFHREW/9Z+AheZ0xIt4NKE1fx20fSYCDFVU/s2ayBpUEy73/qwRbzwslE0pHwVeNOpti
- WIPNiuTo+dcx65Yn+EmM6xhOw1Sy2dNY+FJFEMzV5V00ngXv2bSFUkq5e2EKRODnPMwW
- 6NEQsp5eUABMScYAF8N/oTHbYgd4Lyh9b5epbockttbzd2wLb9qd0EMutrlkhewZvIQX
- 9SJ4901Xs1R/sbRv0yLWjsR590pvdZm9ULNm9UoWuwOgheAn8nkSusMmI4xN22wEIWh9
- /5vT9RJizSSO/5lDD/6oAZQ8rwMOpPLXrvGwAn6otU6rcGsy2qXIp5wLjY/0e5IlZZNl fg== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3bphhuakgc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 14 Oct 2021 16:15:37 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 19EGEdD4166843;
-        Thu, 14 Oct 2021 16:15:23 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2173.outbound.protection.outlook.com [104.47.59.173])
-        by aserp3030.oracle.com with ESMTP id 3bkyxvh2qm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 14 Oct 2021 16:15:23 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mPi03+BEi+czZMpcqAkePu6ycvoc79lp7n0bPzczzdUdtMlPFFwoQYOVOMfcfAzweCWku1NrDF6CJN5pIvGGH2J1uIby1KMKMnefhPXcIgjO7k5QmuUvawIQKTJ1eSO7P9bgYqcgL1Z7683B6GCifPE7td0or+aBiUqTzmysjoQiXU32iWWP0KRVExgoUu/VAmb4wV9D5fjs10gDjYZMHbFuKFbqPK/VSTmSaQl4QEQgdA0R0AKeKKgeNqqYdcG0QQ9zThzQv2d1RrLxYbj/3ZHDLbxMXvBWpvGe9r2buWV8DbgA0ThyOq8JVLSd7KO3p5JsQs2HaJgE/umSf0CHGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZMDPvgZCnwoVrQFn+QcO7FFTH7Rn51F0sFhzQc/f8A8=;
- b=MAKgS1aWKRuclZYe0EG7ULUnbT+OJ3jlr2YKGDlkaJ3Taac5oRURrI5lRB4lwgzfkZE1pMteweXMDy9pdqs8+srHOP7qX1CTjLIWqUulgRmvpwtSbDUdN7AnYrk67AoO0O3d+tLzK1rytlHr4y21JGGfs873pWURaDcllge3mtr64uQb63+UAmmFvNLJJWYwn5nry/Pu3sfosU0NC5zLbuMXtXqWf5Oxw7MSoXDeJyzXhFgpWnUdAzBy7BwHnbYca9tBMbr5sptopWBNzBt1voWTCJHSZ+mEkaTco4ko8tuYMbVvy6QTocO1tflRURPhAb07lk833/HhQLoRbApnxA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+        id S232422AbhJNQrT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Oct 2021 12:47:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43258 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232420AbhJNQrS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Oct 2021 12:47:18 -0400
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A7EFC061570
+        for <linux-doc@vger.kernel.org>; Thu, 14 Oct 2021 09:45:13 -0700 (PDT)
+Received: by mail-pf1-x436.google.com with SMTP id c29so5979152pfp.2
+        for <linux-doc@vger.kernel.org>; Thu, 14 Oct 2021 09:45:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZMDPvgZCnwoVrQFn+QcO7FFTH7Rn51F0sFhzQc/f8A8=;
- b=QVyzmnnthddlhAwXMtztwbnfE1hbAiRBM/gSWRfmxI8RQOyQR9Lp7Vctc5B9blBFPrpMWOJR0LsNK2p6wkuMWiLnLljY3DduQUER23CDULwV/76lFgdNmDXJkj6EclKkUfvJmBrijdClFdV1wyF+XMS9fp1Aoj1UTGRqnUDK+Kw=
-Received: from DM6PR10MB3018.namprd10.prod.outlook.com (2603:10b6:5:6d::27) by
- DM6PR10MB2810.namprd10.prod.outlook.com (2603:10b6:5:71::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4608.16; Thu, 14 Oct 2021 16:15:20 +0000
-Received: from DM6PR10MB3018.namprd10.prod.outlook.com
- ([fe80::8d95:1612:fb86:6c68]) by DM6PR10MB3018.namprd10.prod.outlook.com
- ([fe80::8d95:1612:fb86:6c68%7]) with mapi id 15.20.4587.030; Thu, 14 Oct 2021
- 16:15:20 +0000
-From:   Liam Howlett <liam.howlett@oracle.com>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-CC:     "x86@kernel.org" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=8Ngj7j8BBNeyxut6zrN8DgCX52tIOMZ+Jc/rfRZBRTA=;
+        b=f7cy0ryuZxrRSNiXOnKkDyGZ4mqZr0H8naGdE2mI/n57DEs9MaLiFUS8af3Vu2ZRln
+         fLIMktrsRwptFjqB6HWhQdM7b5ER+SvV+rqnkL+utuUzGzLbQvkzcVuvsg2gu5B5tZ65
+         Ax3sY5uxjHc5/AQU4SPDidRl/AK4r8C/cmZLC+mh3WMi/wj4xp6bUfmujsvR3y08jXWp
+         nTEi27ECltlSUDPomOd7bB1SgZZa4zA+c0s+G27sZqQnExA71yd3TanYFyUCE15M8hfl
+         pXpX9xa92ggx/4ry18Jh3SLRyhavdU74Hgo4OioLrRgxs/ZGsvVPpre7f4rzCYS40UNe
+         a8tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=8Ngj7j8BBNeyxut6zrN8DgCX52tIOMZ+Jc/rfRZBRTA=;
+        b=Ph5Fc6cL9Zpo39HOR8RH+RjB3/o4N2yM+tIWez03Z+xqGk4ubOm00YafzU6THRdlYK
+         B7bi+WTTOJjNPaKVd+JekeNXSuSioRVWx8Nvx3LdmEMjvzgs+FdtjKXLU7eaCLZE1CrX
+         fFfDBsfmulO96DxoErt0tKWavIXXwNQtCCpDkNK1cZ6/2FAVkGvAmh5rqP43+qU+z78+
+         LQYwIVSuxfkpFLlCQI+512jcstuYUrogEmDQ333ql+R5TVmWimOiL2hSaq2OAY6sS3No
+         blYLnn1A6Sv32Kh+QfIpEZBtQt1RlQaPCVEMkm0TwzpS9Hew2jpWK0+W8szYgVnokzd2
+         GXpA==
+X-Gm-Message-State: AOAM533SzfREeABt9xVeY4DzAIVFeaN9sDUsvlEB9KiKnX0sZ/dTrCAh
+        8xeK/L5YyKinznRj6DYf/T36qg==
+X-Google-Smtp-Source: ABdhPJzBDPCxbtgn5YUbwc1rjEGZOSsTmd9r0OF8XM/Nh5ogvQDd4ozq4SePUWYem1TgsdwaigTcpA==
+X-Received: by 2002:a63:6ac8:: with SMTP id f191mr179461pgc.386.1634229912978;
+        Thu, 14 Oct 2021 09:45:12 -0700 (PDT)
+Received: from p14s (S0106889e681aac74.cg.shawcable.net. [68.147.0.187])
+        by smtp.gmail.com with ESMTPSA id u4sm3074161pfh.147.2021.10.14.09.45.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Oct 2021 09:45:11 -0700 (PDT)
+Date:   Thu, 14 Oct 2021 10:45:09 -0600
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+To:     Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>
+Cc:     Ohad Ben-Cohen <ohad@wizery.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>,
-        Peter Collingbourne <pcc@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v22 21/28] mm: Re-introduce vm_flags to do_mmap()
-Thread-Topic: [PATCH v22 21/28] mm: Re-introduce vm_flags to do_mmap()
-Thread-Index: AQHXFfkGAPz+JV8zwUWN0ORL7/sgQavUAWIA
-Date:   Thu, 14 Oct 2021 16:15:20 +0000
-Message-ID: <20211014161512.nhpxd6lyjx3c5jjr@revolver>
-References: <20210310220046.15866-1-yu-cheng.yu@intel.com>
- <20210310220046.15866-22-yu-cheng.yu@intel.com>
-In-Reply-To: <20210310220046.15866-22-yu-cheng.yu@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=oracle.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 8b59ee20-fd0d-442b-aa14-08d98f2dd1d2
-x-ms-traffictypediagnostic: DM6PR10MB2810:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM6PR10MB28109F524F680A1564FAC706FDB89@DM6PR10MB2810.namprd10.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:269;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Uoomk0/M4gG1zFHsShShuEE6XX7nF9xSQQKGp0XCwzipps+x52YGaaskdMfo2FMjAx2AGpYATnxjX9fcdlHlJvnF8ghYd20zQLwmmINpBO5bvhPADaEzeK2t126nWGA/oGFJCQ+JIqhGg+8NfWP9Reml9HbeZ9xjQ8uW//7CoRGxoV7dKnaiVUcc5NRIVrYZEYzd8eDpcqBnq4e589OLwRYWA3U3KWh83/JKuxxzr7HGnqjTPhaJxZ6DOYjEThH4wTEZSXECzdkMlYVu3QYAHWdIsgGfdscbe2kc9UbdQgchVKaleyRQdjxJrztD4QSrOYdlrAwvpeQZDcOBzcXQSnAmEXqS+TIZl8FPD99YF+echaOfro5WXM7LJCUDatp3XURDncK1wUvvIuZa3PkD9XRMazQ1zj9AEAThws8BUAPgs3td4BrlWpdaz2UNrN8NlIww8CBWh4Ex2/97S1suBS+tklMkdadR+A3jyIBreozGhisH80Yq3w0GVh54nzntJBdsVypCl4la2fdbc3N52ZyL45xcaT5+OW9frGyo+ycEb+iMjKxXpVSjjb35utuOMN+n8JXNHoate6IIE8Io/ggmodi11KDBqOPvoGPa+zTwIRFfSQdhgdgUI+ynvWpnEELfXV8cYMdzgPJu9A/1F5EoR/bki7YuqaY1zR2Mrzhg8B0ZBJE7JZ1U2Ee8Rzbt9TI7QuHIBw7D+kDOpWbHgQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB3018.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(7916004)(366004)(38070700005)(44832011)(66946007)(66556008)(66446008)(6512007)(9686003)(54906003)(66476007)(64756008)(86362001)(91956017)(76116006)(186003)(2906002)(6506007)(26005)(508600001)(83380400001)(6916009)(71200400001)(8936002)(4326008)(122000001)(316002)(38100700002)(1076003)(33716001)(6486002)(8676002)(5660300002)(7416002)(7406005);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?kEBAk3UH6yNL9k3iy3K87g3T2e/7QRKNrg0btlNZ3eaym0XOiO8XI10hAjvc?=
- =?us-ascii?Q?1oNDVaytOvx+bQjaQdWMfb4x9aBMPemSd10TvZgNti5LZPp1kZTUL6yQDeMk?=
- =?us-ascii?Q?e/Ud+JO2WEGpZmvnEbUH+XIEbVKPgzFewZKe5DvAzks7IGVBOYXstNxfP/WG?=
- =?us-ascii?Q?Gj23lHQ9rvKW9hF0tQuy2OB2EvfvAmGhAkYpUuj3Ea8YMn7rUXWuFnaBshS6?=
- =?us-ascii?Q?ZZ8Rx/4f1U/ToIVoqU7vWluOpprjB6a1Fag5H+IwMC0EGNFzN0e8Xmakv3NL?=
- =?us-ascii?Q?fU537xGqGkF4oQPnYy8qel8y4h8iZBOUUYWk3wrVfTaEn17CRnXwiLBiDdpq?=
- =?us-ascii?Q?qFJLV/qF+PtuhbMOkpaI131GG3KwGrhyT2sWZ4jd6X3Ehfag5IPIyHaPxOFQ?=
- =?us-ascii?Q?y15Y4FPIr7GAkVVpNX+iZYF3kAiEnOJqrRjgouZTtdD8/4eBe1Rw9Z7v8deB?=
- =?us-ascii?Q?W+1tFj3tSr0myyNFtVh1C6i9l1OyGOYPP0wYJ78MHBb2tAXbMkEfkaPXnD1S?=
- =?us-ascii?Q?IwBbM0vGmnmSG/R936eFcGv1R3crUu4H+nc99Gk1giuSZvF5+BZAy7MTRdNi?=
- =?us-ascii?Q?G24W4uMwekIH6f2exe5Oad8KuoUD8xNTMqeUu6/W1y6edSb+UzPVsA6KsXW9?=
- =?us-ascii?Q?lHnNVEg8PRs9h2hWtjxCRQsUGFNDVRPFqnm1UtI92y4DrF9gdq+K/+Em/7dG?=
- =?us-ascii?Q?u4Y4h0rokCaewkGc+j8M+zfRS2sXjQqqeNOSKxboS91NJPC6Phg6LN35EKC9?=
- =?us-ascii?Q?hJHnYnfK/KdFMEUKSyQCcuKSOCCnWCc4vb4R2ukNbbZTP6sGcWCLBf5vUkai?=
- =?us-ascii?Q?OXrKl5R/kPvocLpbuyeE4Add53bqdD6uSiu/QMhj2ohGYTTy4sdumLE/FdDw?=
- =?us-ascii?Q?dWMAAkGY/M6zx7XDu0MVR+SIa0BaD+/yzn8s9sJTv1vkxiog/wv3rACBpBcp?=
- =?us-ascii?Q?4DS+YrS/nm+eSUbh8VpDfK/kBjm/RpW/0RS2CqiMC8f2IQcqHkou9bubap9n?=
- =?us-ascii?Q?z5MhDlNazA0RnRpaL90DRY3f4SBtZkQtHeCsnHW1VSnedlEd0RbWoPAgpMIm?=
- =?us-ascii?Q?VT0rW0cS5Yj1LXLwKgNr5vunhIhOIjehDml5WjyDKuYeuwKw9ZyyAdHRw1k/?=
- =?us-ascii?Q?oMySSaSc+E6i99H1R5G1f+Dd2XeMJbEqwgR3QN3TmkgnoPdawjn6rntosibF?=
- =?us-ascii?Q?y4ABsrUMSIJa59leWOfrdib7RtJdqsvuSH7HukHPoUltJejUQVWXT9N6J40e?=
- =?us-ascii?Q?XsAnmw+hvT835LL2712z7LbxJ02AzP8K11RIaMtWE70JCQ6B9U0n+oTr8s2M?=
- =?us-ascii?Q?++DzPqyQHRxQruFMnQPd/oiH?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <74AEF4C5A5934E4DB2A838D971BDABAF@namprd10.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>, Suman Anna <s-anna@ti.com>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org
+Subject: Re: [PATCH v9 2/2] tty: add rpmsg driver
+Message-ID: <20211014164509.GB2847733@p14s>
+References: <20211008153446.23188-1-arnaud.pouliquen@foss.st.com>
+ <20211008153446.23188-3-arnaud.pouliquen@foss.st.com>
+ <20211012180723.GC4010675@p14s>
+ <0439d5ea-0ef0-e715-0558-15bb23e042ea@foss.st.com>
 MIME-Version: 1.0
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB3018.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8b59ee20-fd0d-442b-aa14-08d98f2dd1d2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Oct 2021 16:15:20.4451
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: fglRD360+l0ZHVXlLy+NFglsXI16Eqda8QWSiw2tpEONyMMPznHDsTzHfoS4Fl28+j05IoiJ/cHRA6Q2TcoqRw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB2810
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10137 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 phishscore=0 suspectscore=0
- mlxlogscore=999 mlxscore=0 bulkscore=0 adultscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109230001
- definitions=main-2110140095
-X-Proofpoint-ORIG-GUID: qzZ4k7zHakj-Zx1kFftlMva9NEtQ5Q6t
-X-Proofpoint-GUID: qzZ4k7zHakj-Zx1kFftlMva9NEtQ5Q6t
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0439d5ea-0ef0-e715-0558-15bb23e042ea@foss.st.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Yu-cheng Yu <yu-cheng.yu@intel.com> [210310 17:02]:
-> There was no more caller passing vm_flags to do_mmap(), and vm_flags was
-> removed from the function's input by:
->=20
->     commit 45e55300f114 ("mm: remove unnecessary wrapper function do_mmap=
-_pgoff()").
->=20
-> There is a new user now.  Shadow stack allocation passes VM_SHSTK to
-> do_mmap().  Re-introduce vm_flags to do_mmap(), but without the old wrapp=
-er
-> do_mmap_pgoff().  Instead, make all callers of the wrapper pass a zero
-> vm_flags to do_mmap().
+Good morning,
 
-In a later patch, PROT_SHSTK is introduced.  do_mmap() already takes the
-PROT flags.  Could PROT_SHSTK be used to indicate VM_SHSTK instead of
-expanding the arguments passed to do_mmap()?
+On Thu, Oct 14, 2021 at 09:45:07AM +0200, Arnaud POULIQUEN wrote:
+> Hello Mathieu,
+> 
+> On 10/12/21 8:07 PM, Mathieu Poirier wrote:
+> > On Fri, Oct 08, 2021 at 05:34:46PM +0200, Arnaud Pouliquen wrote:
+> >> This driver exposes a standard TTY interface on top of the rpmsg
+> >> framework through a rpmsg service.
+> >>
+> >> This driver supports multi-instances, offering a /dev/ttyRPMSGx entry
+> >> per rpmsg endpoint.
+> >>
+> >> Signed-off-by: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
+> >>
+> >> ---
+> >> Update from V8
+> >> => Update based on Greg Greg Kroah-Hartman comments:
+> >>  - add module name in kconfig
+> >>  - remove the tty_rpmsg.rst documentation file and add description in
+> >>    rpmsg_tty.c.
+> >>  - rpmsg_tty.c remove of useless check and logs.
+> >>  - print err log instead of debug log on truncated RX buffer.
+> >> ---
+> >>  drivers/tty/Kconfig     |  12 ++
+> >>  drivers/tty/Makefile    |   1 +
+> >>  drivers/tty/rpmsg_tty.c | 275 ++++++++++++++++++++++++++++++++++++++++
+> >>  3 files changed, 288 insertions(+)
+> >>  create mode 100644 drivers/tty/rpmsg_tty.c
+> >>
+> >> diff --git a/drivers/tty/Kconfig b/drivers/tty/Kconfig
+> >> index 23cc988c68a4..cc30ff93e2e4 100644
+> >> --- a/drivers/tty/Kconfig
+> >> +++ b/drivers/tty/Kconfig
+> >> @@ -368,6 +368,18 @@ config VCC
+> >>  
+> >>  source "drivers/tty/hvc/Kconfig"
+> >>  
+> >> +config RPMSG_TTY
+> >> +	tristate "RPMSG tty driver"
+> >> +	depends on RPMSG
+> >> +	help
+> >> +	  Say y here to export rpmsg endpoints as tty devices, usually found
+> >> +	  in /dev/ttyRPMSGx.
+> >> +	  This makes it possible for user-space programs to send and receive
+> >> +	  rpmsg messages as a standard tty protocol.
+> >> +
+> >> +	  To compile this driver as a module, choose M here: the module will be
+> >> +	  called rpmsg_tty.
+> >> +
+> >>  endif # TTY
+> >>  
+> >>  source "drivers/tty/serdev/Kconfig"
+> >> diff --git a/drivers/tty/Makefile b/drivers/tty/Makefile
+> >> index a2bd75fbaaa4..07aca5184a55 100644
+> >> --- a/drivers/tty/Makefile
+> >> +++ b/drivers/tty/Makefile
+> >> @@ -26,5 +26,6 @@ obj-$(CONFIG_PPC_EPAPR_HV_BYTECHAN) += ehv_bytechan.o
+> >>  obj-$(CONFIG_GOLDFISH_TTY)	+= goldfish.o
+> >>  obj-$(CONFIG_MIPS_EJTAG_FDC_TTY) += mips_ejtag_fdc.o
+> >>  obj-$(CONFIG_VCC)		+= vcc.o
+> >> +obj-$(CONFIG_RPMSG_TTY)		+= rpmsg_tty.o
+> >>  
+> >>  obj-y += ipwireless/
+> >> diff --git a/drivers/tty/rpmsg_tty.c b/drivers/tty/rpmsg_tty.c
+> >> new file mode 100644
+> >> index 000000000000..226a13f6ef94
+> >> --- /dev/null
+> >> +++ b/drivers/tty/rpmsg_tty.c
+> >> @@ -0,0 +1,275 @@
+> >> +// SPDX-License-Identifier: GPL-2.0
+> >> +/*
+> >> + * Copyright (C) 2021 STMicroelectronics - All Rights Reserved
+> >> + *
+> >> + * The rpmsg tty driver implements serial communication on the RPMsg bus to makes
+> >> + * possible for user-space programs to send and receive rpmsg messages as a standard
+> >> + * tty protocol.
+> >> + *
+> >> + * The remote processor can instantiate a new tty by requesting a "rpmsg-tty" RPMsg service.
+> >> + * The "rpmsg-tty" service is directly used for data exchange. No flow control is implemented yet.
+> >> + */
+> >> +
+> >> +#include <linux/module.h>
+> >> +#include <linux/rpmsg.h>
+> >> +#include <linux/slab.h>
+> >> +#include <linux/tty.h>
+> >> +#include <linux/tty_flip.h>
+> >> +
+> >> +#define MAX_TTY_RPMSG	32
+> >> +
+> >> +static DEFINE_IDR(tty_idr);	/* tty instance id */
+> >> +static DEFINE_MUTEX(idr_lock);	/* protects tty_idr */
+> >> +
+> >> +static struct tty_driver *rpmsg_tty_driver;
+> >> +
+> >> +struct rpmsg_tty_port {
+> >> +	struct tty_port		port;	 /* TTY port data */
+> >> +	int			id;	 /* TTY rpmsg index */
+> >> +	struct rpmsg_device	*rpdev;	 /* rpmsg device */
+> >> +};
+> >> +
+> >> +static int rpmsg_tty_cb(struct rpmsg_device *rpdev, void *data, int len, void *priv, u32 src)
+> >> +{
+> >> +	struct rpmsg_tty_port *cport = dev_get_drvdata(&rpdev->dev);
+> >> +	int copied;
+> >> +
+> >> +	if (!len)
+> >> +		return -EINVAL;
+> >> +	copied = tty_insert_flip_string(&cport->port, data, len);
+> >> +	if (copied != len)
+> >> +		dev_err(&rpdev->dev, "Trunc buffer: available space is %d\n",
+> >> +			copied);
+> 
+> Here as the rpmsg callback return is not tested we need to log something because
+> data is lost. I will add the ratelimited version to limit logs.
+> 
+> >> +	tty_flip_buffer_push(&cport->port);
+> >> +
+> >> +	return 0;
+> >> +}
+> >> +
+> >> +static int rpmsg_tty_install(struct tty_driver *driver, struct tty_struct *tty)
+> >> +{
+> >> +	struct rpmsg_tty_port *cport = idr_find(&tty_idr, tty->index);
+> >> +
+> >> +	tty->driver_data = cport;
+> >> +
+> >> +	return tty_port_install(&cport->port, driver, tty);
+> >> +}
+> >> +
+> >> +static int rpmsg_tty_open(struct tty_struct *tty, struct file *filp)
+> >> +{
+> >> +	return tty_port_open(tty->port, tty, filp);
+> >> +}
+> >> +
+> >> +static void rpmsg_tty_close(struct tty_struct *tty, struct file *filp)
+> >> +{
+> >> +	return tty_port_close(tty->port, tty, filp);
+> >> +}
+> >> +
+> >> +static int rpmsg_tty_write(struct tty_struct *tty, const u8 *buf, int len)
+> >> +{
+> >> +	struct rpmsg_tty_port *cport = tty->driver_data;
+> >> +	struct rpmsg_device *rpdev;
+> >> +	int msg_max_size, msg_size;
+> >> +	int ret;
+> >> +
+> >> +	rpdev = cport->rpdev;
+> >> +
+> >> +	msg_max_size = rpmsg_get_mtu(rpdev->ept);
+> >> +	if (msg_max_size < 0)
+> >> +		return msg_max_size;
+> >> +
+> >> +	msg_size = min(len, msg_max_size);
+> >> +
+> >> +	/*
+> >> +	 * Use rpmsg_trysend instead of rpmsg_send to send the message so the caller is not
+> >> +	 * hung until a rpmsg buffer is available. In such case rpmsg_trysend returns -ENOMEM.
+> >> +	 */
+> >> +	ret = rpmsg_trysend(rpdev->ept, (void *)buf, msg_size);
+> >> +	if (ret) {
+> >> +		dev_dbg(&rpdev->dev, "rpmsg_send failed: %d\n", ret);
+> > 
+> > I'm with Greg on this one.  Event if it's a dev_dbg() something like this could
+> > quickly fill the logs. 
+> That's right,if the remote side is stalled and application doesn't propertly
+> handle the error returned.
+> 
+> > Customers should learn to use ftrace.  At the very least
+> > please use the ratelimited() version.  Same comment applies to rpmsg_tty_cb().
+> 
+> I'm not yet an expert in ftrace, I don't see trace that would highligth this
+> error (return value not traced), except adding trace_printk. If you have a
+> solution, please could you point that out to me?
+> The goal here is that a customers (who has an user spece application develloper
+> profile) has the explicit information that something goes wrong.
 
->=20
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> Reviewed-by: Peter Collingbourne <pcc@google.com>
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Oleg Nesterov <oleg@redhat.com>
-> Cc: linux-mm@kvack.org
-> ---
->  fs/aio.c           |  2 +-
->  include/linux/mm.h |  3 ++-
->  ipc/shm.c          |  2 +-
->  mm/mmap.c          | 10 +++++-----
->  mm/nommu.c         |  4 ++--
->  mm/util.c          |  2 +-
->  6 files changed, 12 insertions(+), 11 deletions(-)
->=20
-> diff --git a/fs/aio.c b/fs/aio.c
-> index 1f32da13d39e..b5d0586209a7 100644
-> --- a/fs/aio.c
-> +++ b/fs/aio.c
-> @@ -529,7 +529,7 @@ static int aio_setup_ring(struct kioctx *ctx, unsigne=
-d int nr_events)
-> =20
->  	ctx->mmap_base =3D do_mmap(ctx->aio_ring_file, 0, ctx->mmap_size,
->  				 PROT_READ | PROT_WRITE,
-> -				 MAP_SHARED, 0, &unused, NULL);
-> +				 MAP_SHARED, 0, 0, &unused, NULL);
->  	mmap_write_unlock(mm);
->  	if (IS_ERR((void *)ctx->mmap_base)) {
->  		ctx->mmap_size =3D 0;
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index e363173f7634..2731889f49c1 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -2543,7 +2543,8 @@ extern unsigned long mmap_region(struct file *file,=
- unsigned long addr,
->  	struct list_head *uf);
->  extern unsigned long do_mmap(struct file *file, unsigned long addr,
->  	unsigned long len, unsigned long prot, unsigned long flags,
-> -	unsigned long pgoff, unsigned long *populate, struct list_head *uf);
-> +	vm_flags_t vm_flags, unsigned long pgoff, unsigned long *populate,
-> +	struct list_head *uf);
->  extern int __do_munmap(struct mm_struct *, unsigned long, size_t,
->  		       struct list_head *uf, bool downgrade);
->  extern int do_munmap(struct mm_struct *, unsigned long, size_t,
-> diff --git a/ipc/shm.c b/ipc/shm.c
-> index febd88daba8c..b6370eb1eaab 100644
-> --- a/ipc/shm.c
-> +++ b/ipc/shm.c
-> @@ -1556,7 +1556,7 @@ long do_shmat(int shmid, char __user *shmaddr, int =
-shmflg,
->  			goto invalid;
->  	}
-> =20
-> -	addr =3D do_mmap(file, addr, size, prot, flags, 0, &populate, NULL);
-> +	addr =3D do_mmap(file, addr, size, prot, flags, 0, 0, &populate, NULL);
->  	*raddr =3D addr;
->  	err =3D 0;
->  	if (IS_ERR_VALUE(addr))
-> diff --git a/mm/mmap.c b/mm/mmap.c
-> index 2ac67882ace2..99077171010b 100644
-> --- a/mm/mmap.c
-> +++ b/mm/mmap.c
-> @@ -1401,11 +1401,11 @@ static inline bool file_mmap_ok(struct file *file=
-, struct inode *inode,
->   */
->  unsigned long do_mmap(struct file *file, unsigned long addr,
->  			unsigned long len, unsigned long prot,
-> -			unsigned long flags, unsigned long pgoff,
-> -			unsigned long *populate, struct list_head *uf)
-> +			unsigned long flags, vm_flags_t vm_flags,
-> +			unsigned long pgoff, unsigned long *populate,
-> +			struct list_head *uf)
->  {
->  	struct mm_struct *mm =3D current->mm;
-> -	vm_flags_t vm_flags;
->  	int pkey =3D 0;
-> =20
->  	*populate =3D 0;
-> @@ -1467,7 +1467,7 @@ unsigned long do_mmap(struct file *file, unsigned l=
-ong addr,
->  	 * to. we assume access permissions have been handled by the open
->  	 * of the memory object, so we don't do any here.
->  	 */
-> -	vm_flags =3D calc_vm_prot_bits(prot, pkey) | calc_vm_flag_bits(flags) |
-> +	vm_flags |=3D calc_vm_prot_bits(prot, pkey) | calc_vm_flag_bits(flags) =
-|
->  			mm->def_flags | VM_MAYREAD | VM_MAYWRITE | VM_MAYEXEC;
-> =20
->  	if (flags & MAP_LOCKED)
-> @@ -3047,7 +3047,7 @@ SYSCALL_DEFINE5(remap_file_pages, unsigned long, st=
-art, unsigned long, size,
-> =20
->  	file =3D get_file(vma->vm_file);
->  	ret =3D do_mmap(vma->vm_file, start, size,
-> -			prot, flags, pgoff, &populate, NULL);
-> +			prot, flags, 0, pgoff, &populate, NULL);
->  	fput(file);
->  out:
->  	mmap_write_unlock(mm);
-> diff --git a/mm/nommu.c b/mm/nommu.c
-> index 5c9ab799c0e6..9b6f7a1895c2 100644
-> --- a/mm/nommu.c
-> +++ b/mm/nommu.c
-> @@ -1071,6 +1071,7 @@ unsigned long do_mmap(struct file *file,
->  			unsigned long len,
->  			unsigned long prot,
->  			unsigned long flags,
-> +			vm_flags_t vm_flags,
->  			unsigned long pgoff,
->  			unsigned long *populate,
->  			struct list_head *uf)
-> @@ -1078,7 +1079,6 @@ unsigned long do_mmap(struct file *file,
->  	struct vm_area_struct *vma;
->  	struct vm_region *region;
->  	struct rb_node *rb;
-> -	vm_flags_t vm_flags;
->  	unsigned long capabilities, result;
->  	int ret;
-> =20
-> @@ -1097,7 +1097,7 @@ unsigned long do_mmap(struct file *file,
-> =20
->  	/* we've determined that we can make the mapping, now translate what we
->  	 * now know into VMA flags */
-> -	vm_flags =3D determine_vm_flags(file, prot, flags, capabilities);
-> +	vm_flags |=3D determine_vm_flags(file, prot, flags, capabilities);
-> =20
->  	/* we're going to need to record the mapping */
->  	region =3D kmem_cache_zalloc(vm_region_jar, GFP_KERNEL);
-> diff --git a/mm/util.c b/mm/util.c
-> index 54870226cea6..49cbd4400d13 100644
-> --- a/mm/util.c
-> +++ b/mm/util.c
-> @@ -516,7 +516,7 @@ unsigned long vm_mmap_pgoff(struct file *file, unsign=
-ed long addr,
->  	if (!ret) {
->  		if (mmap_write_lock_killable(mm))
->  			return -EINTR;
-> -		ret =3D do_mmap(file, addr, len, prot, flag, pgoff, &populate,
-> +		ret =3D do_mmap(file, addr, len, prot, flag, 0, pgoff, &populate,
->  			      &uf);
->  		mmap_write_unlock(mm);
->  		userfaultfd_unmap_complete(mm, &uf);
-> --=20
-> 2.21.0
->=20
-> =
+Typically trance_printk() are removed after debugging and spinning off your own
+events file under include/trace/events/ seems overkill to me.  
+
+> 
+> By default I would be in favour of using ratelimited version also here.
+
+Yes, ratelimited should do just fine. 
+
+> 
+> > 
+> > Otherwise:
+> > 
+> > Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+> > 
+> 
+> Thanks,
+> Arnaud
+> 
+> >> +		return ret;
+> >> +	}
+> >> +
+> >> +	return msg_size;
+> >> +}
+> >> +
+> >> +static unsigned int rpmsg_tty_write_room(struct tty_struct *tty)
+> >> +{
+> >> +	struct rpmsg_tty_port *cport = tty->driver_data;
+> >> +	int size;
+> >> +
+> >> +	size = rpmsg_get_mtu(cport->rpdev->ept);
+> >> +	if (size < 0)
+> >> +		return 0;
+> >> +
+> >> +	return size;
+> >> +}
+> >> +
+> >> +static const struct tty_operations rpmsg_tty_ops = {
+> >> +	.install	= rpmsg_tty_install,
+> >> +	.open		= rpmsg_tty_open,
+> >> +	.close		= rpmsg_tty_close,
+> >> +	.write		= rpmsg_tty_write,
+> >> +	.write_room	= rpmsg_tty_write_room,
+> >> +};
+> >> +
+> >> +static struct rpmsg_tty_port *rpmsg_tty_alloc_cport(void)
+> >> +{
+> >> +	struct rpmsg_tty_port *cport;
+> >> +	int err;
+> >> +
+> >> +	cport = kzalloc(sizeof(*cport), GFP_KERNEL);
+> >> +	if (!cport)
+> >> +		return ERR_PTR(-ENOMEM);
+> >> +
+> >> +	mutex_lock(&idr_lock);
+> >> +	cport->id = idr_alloc(&tty_idr, cport, 0, MAX_TTY_RPMSG, GFP_KERNEL);
+> >> +	mutex_unlock(&idr_lock);
+> >> +
+> >> +	if (cport->id < 0) {
+> >> +		err = cport->id;
+> >> +		kfree(cport);
+> >> +		return ERR_PTR(err);
+> >> +	}
+> >> +
+> >> +	return cport;
+> >> +}
+> >> +
+> >> +static void rpmsg_tty_release_cport(struct rpmsg_tty_port *cport)
+> >> +{
+> >> +	mutex_lock(&idr_lock);
+> >> +	idr_remove(&tty_idr, cport->id);
+> >> +	mutex_unlock(&idr_lock);
+> >> +
+> >> +	kfree(cport);
+> >> +}
+> >> +
+> >> +static const struct tty_port_operations rpmsg_tty_port_ops = { };
+> >> +
+> >> +static int rpmsg_tty_probe(struct rpmsg_device *rpdev)
+> >> +{
+> >> +	struct rpmsg_tty_port *cport;
+> >> +	struct device *dev = &rpdev->dev;
+> >> +	struct device *tty_dev;
+> >> +	int ret;
+> >> +
+> >> +	cport = rpmsg_tty_alloc_cport();
+> >> +	if (IS_ERR(cport)) {
+> >> +		dev_err(dev, "Failed to alloc tty port\n");
+> >> +		return PTR_ERR(cport);
+> >> +	}
+> >> +
+> >> +	tty_port_init(&cport->port);
+> >> +	cport->port.ops = &rpmsg_tty_port_ops;
+> >> +
+> >> +	tty_dev = tty_port_register_device(&cport->port, rpmsg_tty_driver,
+> >> +					   cport->id, dev);
+> >> +	if (IS_ERR(tty_dev)) {
+> >> +		dev_err(dev, "Failed to register tty port\n");
+> >> +		ret = PTR_ERR(tty_dev);
+> >> +		goto  err_destroy;
+> >> +	}
+> >> +
+> >> +	cport->rpdev = rpdev;
+> >> +
+> >> +	dev_set_drvdata(dev, cport);
+> >> +
+> >> +	dev_dbg(dev, "New channel: 0x%x -> 0x%x : ttyRPMSG%d\n",
+> >> +		rpdev->src, rpdev->dst, cport->id);
+> >> +
+> >> +	return 0;
+> >> +
+> >> +err_destroy:
+> >> +	tty_port_destroy(&cport->port);
+> >> +	rpmsg_tty_release_cport(cport);
+> >> +
+> >> +	return ret;
+> >> +}
+> >> +
+> >> +static void rpmsg_tty_remove(struct rpmsg_device *rpdev)
+> >> +{
+> >> +	struct rpmsg_tty_port *cport = dev_get_drvdata(&rpdev->dev);
+> >> +
+> >> +	dev_dbg(&rpdev->dev, "Removing rpmsg tty device %d\n", cport->id);
+> >> +
+> >> +	/* User hang up to release the tty */
+> >> +	if (tty_port_initialized(&cport->port))
+> >> +		tty_port_tty_hangup(&cport->port, false);
+> >> +
+> >> +	tty_unregister_device(rpmsg_tty_driver, cport->id);
+> >> +
+> >> +	tty_port_destroy(&cport->port);
+> >> +	rpmsg_tty_release_cport(cport);
+> >> +}
+> >> +
+> >> +static struct rpmsg_device_id rpmsg_driver_tty_id_table[] = {
+> >> +	{ .name	= "rpmsg-tty" },
+> >> +	{ },
+> >> +};
+> >> +MODULE_DEVICE_TABLE(rpmsg, rpmsg_driver_tty_id_table);
+> >> +
+> >> +static struct rpmsg_driver rpmsg_tty_rpmsg_drv = {
+> >> +	.drv.name	= KBUILD_MODNAME,
+> >> +	.id_table	= rpmsg_driver_tty_id_table,
+> >> +	.probe		= rpmsg_tty_probe,
+> >> +	.callback	= rpmsg_tty_cb,
+> >> +	.remove		= rpmsg_tty_remove,
+> >> +};
+> >> +
+> >> +static int __init rpmsg_tty_init(void)
+> >> +{
+> >> +	int err;
+> >> +
+> >> +	rpmsg_tty_driver = tty_alloc_driver(MAX_TTY_RPMSG, TTY_DRIVER_REAL_RAW |
+> >> +					    TTY_DRIVER_DYNAMIC_DEV);
+> >> +	if (IS_ERR(rpmsg_tty_driver))
+> >> +		return PTR_ERR(rpmsg_tty_driver);
+> >> +
+> >> +	rpmsg_tty_driver->driver_name = "rpmsg_tty";
+> >> +	rpmsg_tty_driver->name = "ttyRPMSG";
+> >> +	rpmsg_tty_driver->major = 0;
+> >> +	rpmsg_tty_driver->type = TTY_DRIVER_TYPE_CONSOLE;
+> >> +
+> >> +	/* Disable unused mode by default */
+> >> +	rpmsg_tty_driver->init_termios = tty_std_termios;
+> >> +	rpmsg_tty_driver->init_termios.c_lflag &= ~(ECHO | ICANON);
+> >> +	rpmsg_tty_driver->init_termios.c_oflag &= ~(OPOST | ONLCR);
+> >> +
+> >> +	tty_set_operations(rpmsg_tty_driver, &rpmsg_tty_ops);
+> >> +
+> >> +	err = tty_register_driver(rpmsg_tty_driver);
+> >> +	if (err < 0) {
+> >> +		pr_err("Couldn't install rpmsg tty driver: err %d\n", err);
+> >> +		goto error_put;
+> >> +	}
+> >> +
+> >> +	err = register_rpmsg_driver(&rpmsg_tty_rpmsg_drv);
+> >> +	if (err < 0) {
+> >> +		pr_err("Couldn't register rpmsg tty driver: err %d\n", err);
+> >> +		goto error_unregister;
+> >> +	}
+> >> +
+> >> +	return 0;
+> >> +
+> >> +error_unregister:
+> >> +	tty_unregister_driver(rpmsg_tty_driver);
+> >> +
+> >> +error_put:
+> >> +	tty_driver_kref_put(rpmsg_tty_driver);
+> >> +
+> >> +	return err;
+> >> +}
+> >> +
+> >> +static void __exit rpmsg_tty_exit(void)
+> >> +{
+> >> +	unregister_rpmsg_driver(&rpmsg_tty_rpmsg_drv);
+> >> +	tty_unregister_driver(rpmsg_tty_driver);
+> >> +	tty_driver_kref_put(rpmsg_tty_driver);
+> >> +	idr_destroy(&tty_idr);
+> >> +}
+> >> +
+> >> +module_init(rpmsg_tty_init);
+> >> +module_exit(rpmsg_tty_exit);
+> >> +
+> >> +MODULE_AUTHOR("Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>");
+> >> +MODULE_DESCRIPTION("remote processor messaging tty driver");
+> >> +MODULE_LICENSE("GPL v2");
+> >> -- 
+> >> 2.17.1
+> >>
