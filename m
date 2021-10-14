@@ -2,131 +2,171 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A050C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 11:46:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA67AC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 11:50:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F284361156
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 11:46:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CFD0861184
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Oct 2021 11:50:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231177AbhJNLs4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Oct 2021 07:48:56 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:57600 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231195AbhJNLs4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Oct 2021 07:48:56 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id C454721A74;
-        Thu, 14 Oct 2021 11:46:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1634212009; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
+        id S231305AbhJNLwL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Oct 2021 07:52:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54676 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231194AbhJNLwK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Oct 2021 07:52:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1634212205;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=wyaP3FH3PLclKjDKzeDI/4MiW25bGyBys//UvUZ3Dtc=;
-        b=oGF2SOMb+pNZDg14b6Db7pdF4DQSHbGw0lc7CMPv+bf+1B3mR4Wc+QoF8G3bESLpiicgq3
-        1oCC9VPDJ+OIF1PQO01uxozfS+WjRUmcVwp3ibJ9PrbIafhtupqhCv9IGsA+Y6IxQSHcd3
-        zJkxyTtr2HEu6eddciChxUNXtRP69tQ=
-Received: from suse.cz (unknown [10.100.201.86])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 95BE2A3B83;
-        Thu, 14 Oct 2021 11:46:49 +0000 (UTC)
-Date:   Thu, 14 Oct 2021 13:46:48 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     David Sterba <dsterba@suse.cz>
-Cc:     Dave Chinner <david@fromorbit.com>, NeilBrown <neilb@suse.de>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>, Jonathan Corbet <corbet@lwn.net>,
-        linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/6] MM: improve documentation for __GFP_NOFAIL
-Message-ID: <YWgYqNOUE/Sx7WeZ@dhcp22.suse.cz>
-References: <eba04a07-99da-771a-ab6b-36de41f9f120@suse.cz>
- <20211006231452.GF54211@dread.disaster.area>
- <YV7G7gyfZkmw7/Ae@dhcp22.suse.cz>
- <163364854551.31063.4377741712039731672@noble.neil.brown.name>
- <YV/31+qXwqEgaxJL@dhcp22.suse.cz>
- <20211008223649.GJ54211@dread.disaster.area>
- <YWQmsESyyiea0zle@dhcp22.suse.cz>
- <20211013023231.GV2361455@dread.disaster.area>
- <YWaYUsXgXS6GXM+M@dhcp22.suse.cz>
- <20211014113201.GA19582@twin.jikos.cz>
+        bh=BjIpv+udz4Ba/qOEMRyyxOUnaMX1at+9okP/sD2YABQ=;
+        b=RJbGGIXmx737jWGuoaQ8BkDITholNunoKfz2idBH8Ex9dwETzD6evS4D1CIE7V9DHUciz4
+        tIIp3EVImjL3SuQUCsQxqGKnmw7Bo0J8UBrdr5DKdcGaLtonDs3pki71SV7Dk0V/XrKKVS
+        hRNVJHH+BKAKBG8xync17sEcCJQHEn8=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-445-zcwYFmS7NxCiK5JU8A26RA-1; Thu, 14 Oct 2021 07:50:04 -0400
+X-MC-Unique: zcwYFmS7NxCiK5JU8A26RA-1
+Received: by mail-wr1-f70.google.com with SMTP id r25-20020adfab59000000b001609ddd5579so4311431wrc.21
+        for <linux-doc@vger.kernel.org>; Thu, 14 Oct 2021 04:50:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=BjIpv+udz4Ba/qOEMRyyxOUnaMX1at+9okP/sD2YABQ=;
+        b=m8uNAqtzRijPnEx6FRxJzxj+J84720zOJnxS3z2P1KTkOWO3XJN9UnGqwCwOL0vwZJ
+         C7EfcS7El/b6GmHZNz2f2XQIu0pB4ZGbv7mu6c+Q3UgnrADcIZ964ocln5thJS84q2BJ
+         L3eQwbxsBUSJ/Ixdvkq73uBptL6Ydfs6QvR87UpU8uQYyaQzf/B+5HLaJB/uHiqRGZ30
+         o8nZA9AihayZdCjEDGIvw3oe92V5RuWPZSSzMeYhP2eRWxjES0iYYuMhLGO0+xRfecwT
+         kjwWcKPr5PMk04dT2RIh2pj1DE9fijrrgJLFJmIUx1vI+4IIackAWD/Y8RgraRlVsrt/
+         pE9w==
+X-Gm-Message-State: AOAM533lZUOMRZGjzMLfzBZ7jZm1TShfbOrnGBHt9uhvOf1voSlX540n
+        zohzRLPlcIMh3MmybixIVhJPLUxZxHdHVMBA2tpFjphZtUww3ASOxuxStUPwwD282TtHHH53sd/
+        dqThbsaEDjzu9+BdG+HpF
+X-Received: by 2002:adf:959a:: with SMTP id p26mr5903584wrp.342.1634212203031;
+        Thu, 14 Oct 2021 04:50:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz9qOw3WbNBTRd79UJzGLK0rcHBsHFX2nKa+bjejslC1TbPETWCFjebXvTyHUX4CLIfPAkTIA==
+X-Received: by 2002:adf:959a:: with SMTP id p26mr5903550wrp.342.1634212202845;
+        Thu, 14 Oct 2021 04:50:02 -0700 (PDT)
+Received: from redhat.com ([2.55.16.227])
+        by smtp.gmail.com with ESMTPSA id o1sm2171853wru.91.2021.10.14.04.49.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Oct 2021 04:50:02 -0700 (PDT)
+Date:   Thu, 14 Oct 2021 07:49:55 -0400
+From:   "Michael S. Tsirkin" <mst@redhat.com>
+To:     "Reshetova, Elena" <elena.reshetova@intel.com>
+Cc:     Andi Kleen <ak@linux.intel.com>,
+        "Williams, Dan J" <dan.j.williams@intel.com>,
+        Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Richard Henderson <rth@twiddle.net>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        James E J Bottomley <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        David Hildenbrand <david@redhat.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Peter H Anvin <hpa@zytor.com>,
+        "Hansen, Dave" <dave.hansen@intel.com>,
+        "Luck, Tony" <tony.luck@intel.com>,
+        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
+        X86 ML <x86@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PCI <linux-pci@vger.kernel.org>,
+        "linux-alpha@vger.kernel.org" <linux-alpha@vger.kernel.org>,
+        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
+        "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
+        "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "virtualization@lists.linux-foundation.org" 
+        <virtualization@lists.linux-foundation.org>
+Subject: Re: [PATCH v5 12/16] PCI: Add pci_iomap_host_shared(),
+ pci_iomap_host_shared_range()
+Message-ID: <20211014065626-mutt-send-email-mst@kernel.org>
+References: <20211009003711.1390019-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20211009003711.1390019-13-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20211009053103-mutt-send-email-mst@kernel.org>
+ <CAPcyv4hDhjRXYCX_aiOboLF0eaTo6VySbZDa5NQu2ed9Ty2Ekw@mail.gmail.com>
+ <0e6664ac-cbb2-96ff-0106-9301735c0836@linux.intel.com>
+ <DM8PR11MB57501C8F8F5C8B315726882EE7B69@DM8PR11MB5750.namprd11.prod.outlook.com>
+ <20211012171016-mutt-send-email-mst@kernel.org>
+ <DM8PR11MB5750A40FAA6AFF6A29CF70DAE7B89@DM8PR11MB5750.namprd11.prod.outlook.com>
+ <20211014025514-mutt-send-email-mst@kernel.org>
+ <DM8PR11MB57500B2D821E8AAF93EB66CEE7B89@DM8PR11MB5750.namprd11.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211014113201.GA19582@twin.jikos.cz>
+In-Reply-To: <DM8PR11MB57500B2D821E8AAF93EB66CEE7B89@DM8PR11MB5750.namprd11.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 14-10-21 13:32:01, David Sterba wrote:
-> On Wed, Oct 13, 2021 at 10:26:58AM +0200, Michal Hocko wrote:
-> > > crap like this (found in btrfs):
-> > > 
-> > >                 /*                                                               
-> > >                  * We're holding a transaction handle, so use a NOFS memory      
-> > >                  * allocation context to avoid deadlock if reclaim happens.      
-> > >                  */                                                              
-> > >                 nofs_flag = memalloc_nofs_save();                                
-> > >                 value = kmalloc(size, GFP_KERNEL);                               
-> > >                 memalloc_nofs_restore(nofs_flag);                                
+On Thu, Oct 14, 2021 at 07:27:42AM +0000, Reshetova, Elena wrote:
+> > On Thu, Oct 14, 2021 at 06:32:32AM +0000, Reshetova, Elena wrote:
+> > > > On Tue, Oct 12, 2021 at 06:36:16PM +0000, Reshetova, Elena wrote:
+> > > > > > The 5.15 tree has something like ~2.4k IO accesses (including MMIO and
+> > > > > > others) in init functions that also register drivers (thanks Elena for
+> > > > > > the number)
+> > > > >
+> > > > > To provide more numbers on this. What I can see so far from a smatch-based
+> > > > > analysis, we have 409 __init style functions (.probe & builtin/module_
+> > > > > _platform_driver_probe excluded) for 5.15 with allyesconfig.
+> > > >
+> > > > I don't think we care about allyesconfig at all though.
+> > > > Just don't do that.
+> > > > How about allmodconfig? This is closer to what distros actually do.
+> > >
+> > > It does not make any difference really for the content of the /drivers/*:
+> > > gives 408 __init style functions doing IO (.probe & builtin/module_
+> > > > > _platform_driver_probe excluded) for 5.15 with allmodconfig:
+> > >
+> > > ['doc200x_ident_chip',
+> > > 'doc_probe', 'doc2001_init', 'mtd_speedtest_init',
+> > > 'mtd_nandbiterrs_init', 'mtd_oobtest_init', 'mtd_pagetest_init',
+> > > 'tort_init', 'mtd_subpagetest_init', 'fixup_pmc551',
+> > > 'doc_set_driver_info', 'init_amd76xrom', 'init_l440gx',
+> > > 'init_sc520cdp', 'init_ichxrom', 'init_ck804xrom', 'init_esb2rom',
+> > > 'probe_acpi_namespace_devices', 'amd_iommu_init_pci', 'state_next',
+> > > 'arm_v7s_do_selftests', 'arm_lpae_run_tests', 'init_iommu_one',
 > > 
-> > Yes this looks wrong indeed! If I were to review such a code I would ask
-> > why the scope cannot match the transaction handle context. IIRC jbd does
-> > that.
+> > Um. ARM? Which architecture is this build for?
 > 
-> Adding the transaction start/end as the NOFS scope is a long term plan
-> and going on for years, because it's not a change we would need in
-> btrfs, but rather a favor to MM to switch away from "GFP_NOFS everywhere
-> because it's easy".
+> The list of smatch IO findings is built for x86, but the smatch cross function
+> database covers all archs, so when queried for all potential function callers,
+> it would show non x86 arch call chains also. 
 > 
-> The first step was to convert the easy cases. Almost all safe cases
-> switching GFP_NOFS to GFP_KERNEL have happened. Another step is to
-> convert GFP_NOFS to memalloc_nofs_save/GFP_KERNEL/memalloc_nofs_restore
-> in contexts where we know we'd rely on the transaction NOFS scope in the
-> future. Once this is implemented, the memalloc_nofs_* calls are deleted
-> and it works as expected.  Now you may argue that the switch could be
-> changing GFP_NOFS to GFP_KERNEL at that time but that is not that easy
-> to review or reason about in the whole transaction context in all
-> allocations.
+> Here is the original x86 finding and call chain for the 'arm_v7s_do_selftests':
 > 
-> This leads to code that was found in __btrfs_set_acl and called crap
-> or wrong, because perhaps the background and the bigger plan is not
-> immediately obvious. I hope the explanation above it puts it to the
-> right perspective.
+>   Detected low-level IO from arm_v7s_do_selftests in fun
+> __iommu_queue_command_sync
+> 
+> drivers/iommu/amd/iommu.c:1025 __iommu_queue_command_sync() error:
+> {15002074744551330002}
+>     'check_host_input' read from the host using function 'readl' to a
+> member of the structure 'iommu->cmd_buf_head';
+> 
+> __iommu_queue_command_sync()
+>   iommu_completion_wait()
+>     amd_iommu_domain_flush_complete()
+>       iommu_v1_map_page()
+>         arm_v7s_do_selftests()
+> 
+> So, the results can be further filtered if you want a specified arch. 
 
-Yes it helps. Thanks for the clarification because this is far from
-obvious and changelogs I've checked do not mention this high level plan.
-I would have gone with a /* TODO: remove me once transactions use scopes... */
-but this is obviously your call.
-
-> 
-> The other class of scoped NOFS protection is around vmalloc-based
-> allocations but that's for a different reason, would be solved by the
-> same transaction start/end conversion as well.
-> 
-> I'm working on that from time to time but this usually gets pushed down
-> in the todo list. It's changing a lot of code, from what I've researched
-> so far cannot be done at once and would probably introduce bugs hard to
-> hit because of the external conditions (allocator, system load, ...).
-> 
-> I have a plan to do that incrementally, adding assertions and converting
-> functions in small batches to be able to catch bugs early, but I'm not
-> exactly thrilled to start such endeavour in addition to normal
-> development bug hunting.
-> 
-> To get things moving again, I've refreshed the patch adding stubs and
-> will try to find the best timing for merg to avoid patch conflicts, but
-> no promises.
-
-Thanks!
+Even better would be a typical distro build.
 
 -- 
-Michal Hocko
-SUSE Labs
+MST
+
