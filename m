@@ -2,220 +2,439 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FADAC433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Oct 2021 08:04:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE21BC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Oct 2021 08:23:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0770461027
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Oct 2021 08:04:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A452161184
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Oct 2021 08:23:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234927AbhJOIG1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Oct 2021 04:06:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43742 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236600AbhJOIGF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Oct 2021 04:06:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1634285036;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ggZGR9DaIVOeY+FRltem0wB6ymI3HDlfEdwv9GyNtfI=;
-        b=VS12Lp+eR3OB29gXCpt+rsrElp11aBZLw5uBsaSFIQya7Vcfnc50VU4dX5xqYg4iRotghy
-        eDjPxi3Jp0r/KoYyYeDqQ+t2km+XGLS9pdKin1pVQv6T34wYleKqenGQGztUi76F5sN/UQ
-        rh6vxK5s0Y7X4QP8o734mD6/y1O5F8c=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-283-C1zGhCjiMXmBqngpjKS4qw-1; Fri, 15 Oct 2021 04:03:55 -0400
-X-MC-Unique: C1zGhCjiMXmBqngpjKS4qw-1
-Received: by mail-wm1-f70.google.com with SMTP id k6-20020a7bc306000000b0030d92a6bdc7so600627wmj.3
-        for <linux-doc@vger.kernel.org>; Fri, 15 Oct 2021 01:03:55 -0700 (PDT)
+        id S235337AbhJOIZE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Oct 2021 04:25:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54812 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237001AbhJOIYx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Oct 2021 04:24:53 -0400
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63DF5C0613E3;
+        Fri, 15 Oct 2021 01:22:27 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id z20so35116148edc.13;
+        Fri, 15 Oct 2021 01:22:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=VrNt/o1nSa4MO5VitUgo1gh5ZbHCnm6V9nLtUmAkb7I=;
+        b=i4gbiwmRnCV0DehbtrRYKr9MsrTjzWHvG9/DAZOuZjfO3gwr0gBifehKCNJd8KjZfc
+         /0zGdGLVVne8PE/UcyabuP9GWakU9gPziEmLk6NcisHh6REihNFnLqqiAynryLaFwz/n
+         hhpFfQRNhNuPZAB21MY39jBh+CATMo7Qvim6Jc44IGcvESbpDlh7cVB4LddoB85Pmz6z
+         1qqSREoh6Ag4/mJNIdpqT9hUEe972Or8nt5d9JsdedFuY8Mcc95QXmVEyVatNkRiQmMC
+         NVezkgx1Kpf1t9t5IQkkJB70TwKS4FXNjMDS/g6PhVfPpIAfux7AaRsDnLCc+Al3tc+7
+         13bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:organization:in-reply-to
-         :content-transfer-encoding;
-        bh=ggZGR9DaIVOeY+FRltem0wB6ymI3HDlfEdwv9GyNtfI=;
-        b=3Lx+lx7bpYbknbnivILcz0Xgq7HcNuHYC02yfmMmRXpbMNDME1WGjZOtVuhe34oJq/
-         ySXS0aUUS1Jv7QLlMUEf6kFcnFkAFkse9N+jvIB0ewGSvryBXOHpPpMhf3Xm6CVe3+GD
-         wSri1HHIRUKEE/yEX6RnZYha5WplNJ8zp2ZRQba3lRcFkZs3ihoAzamdK70aRTq33pJX
-         yjOUGyIF1/TRx7HYcEoDNTXb0yo2v2bL9m/WqoKUGB+q/5HgAqgWrusvRCPx+V5xblhf
-         gUQHJIOdxU7YNRnsCluZXzD+RNmigOvEuRdzHxL6u5e8bsFgktbDwHQAdJBxYXG6AWEf
-         CyJQ==
-X-Gm-Message-State: AOAM531/uGkDCS5Otfxg0QWeVlSe7jI/E6VbbBk34ZGfV2Oopml1n44p
-        +2/Id6MNs/9f0E99wvSVuMmYFpUib5PS+K37lkvjfomt4T43d8HHSw1YCMlUxrHGp+46PNuMzkZ
-        C5secKl7q8tzzaezXJJgZ
-X-Received: by 2002:a05:600c:1d1f:: with SMTP id l31mr24174296wms.44.1634285034161;
-        Fri, 15 Oct 2021 01:03:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwyS/mpsmRvUStNqiEiz88T6GCugC6hJP08MiJ6PoPMw9Y5ONN056muHJGQhAs7LpZbDtZMuw==
-X-Received: by 2002:a05:600c:1d1f:: with SMTP id l31mr24174227wms.44.1634285033755;
-        Fri, 15 Oct 2021 01:03:53 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c6a01.dip0.t-ipconnect.de. [91.12.106.1])
-        by smtp.gmail.com with ESMTPSA id p18sm4349286wrt.54.2021.10.15.01.03.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Oct 2021 01:03:53 -0700 (PDT)
-Message-ID: <b46d9bfe-17a9-0de9-271d-a3e6429e3f5f@redhat.com>
-Date:   Fri, 15 Oct 2021 10:03:50 +0200
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VrNt/o1nSa4MO5VitUgo1gh5ZbHCnm6V9nLtUmAkb7I=;
+        b=URLCHig4Hs37oq/zRtrIfM88Zw6DLMoBPuE0mnHiBYkl7zfVZhVDs/dXLnZwawTY55
+         Ir0via1rUwKFjq6ob4Fg0j3LIks0oNwdHYC3t1FhRbkZV4HsJ/s9UIgVgAAL6Y6uiLa/
+         9/aO0/j1IrDirEBEiwGeG5BODtiIZf5HPRJ/zDhty/qjjZNFsqz4HWE74cywFcludjRv
+         RlqjNbEQFo1sStJlaiATREPyaLilpXFgOdW4QbOz40Vziqwzid+IGq4KutCQxqHmKkrU
+         w/99ebIAt1vFCJZxklUqnZ9SxTbgFoSD6DosVlyrfmjkgdw959I3P2gYWZnuFzWP25NX
+         Pvrg==
+X-Gm-Message-State: AOAM531zoJWi2nEXK0sHB0nqmjJryGtWUM5AlxwEmQ5AwU7CiVulsgsQ
+        SK2f/MdDyBqwlq3cUWWd9zfMQ8tZVImTumqkv/g=
+X-Google-Smtp-Source: ABdhPJwv/ExlTDSry1jLJBW9JfIk31scH5Z7zEfPwN/7wDwFoY9c1bFn4NLJEn9bhxHfMjB+s/13Hoi/JD1IdPRkgAU=
+X-Received: by 2002:a17:906:a158:: with SMTP id bu24mr4830546ejb.356.1634286145843;
+ Fri, 15 Oct 2021 01:22:25 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
-Content-Language: en-US
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     Michal Hocko <mhocko@suse.com>, Kees Cook <keescook@chromium.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Colin Cross <ccross@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Kalesh Singh <kaleshsingh@google.com>,
-        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        vincenzo.frascino@arm.com,
-        =?UTF-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?= 
-        <chinwen.chang@mediatek.com>,
-        Axel Rasmussen <axelrasmussen@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Jann Horn <jannh@google.com>, apopple@nvidia.com,
-        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
-        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
-        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
-        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
-        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
-        Chris Hyser <chris.hyser@oracle.com>,
-        Peter Collingbourne <pcc@google.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
-        Rolf Eike Beer <eb@emlix.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
-        cxfcosmos@gmail.com, LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm <linux-mm@kvack.org>,
-        kernel-team <kernel-team@android.com>
-References: <92cbfe3b-f3d1-a8e1-7eb9-bab735e782f6@rasmusvillemoes.dk>
- <20211007101527.GA26288@duo.ucw.cz>
- <CAJuCfpGp0D9p3KhOWhcxMO1wEbo-J_b2Anc-oNwdycx4NTRqoA@mail.gmail.com>
- <YV8jB+kwU95hLqTq@dhcp22.suse.cz>
- <CAJuCfpG-Nza3YnpzvHaS_i1mHds3nJ+PV22xTAfgwvj+42WQNA@mail.gmail.com>
- <YV8u4B8Y9AP9xZIJ@dhcp22.suse.cz>
- <CAJuCfpHAG_C5vE-Xkkrm2kynTFF-Jd06tQoCWehHATL0W2mY_g@mail.gmail.com>
- <202110071111.DF87B4EE3@keescook> <YV/mhyWH1ZwWazdE@dhcp22.suse.cz>
- <202110081344.FE6A7A82@keescook> <YWP3c/bozz5npQ8O@dhcp22.suse.cz>
- <CAJuCfpHQVMM4+6Lm_EnFk06+KrOjSjGA19K2cv9GmP3k9LW5vg@mail.gmail.com>
- <26f9db1e-69e9-1a54-6d49-45c0c180067c@redhat.com>
- <CAJuCfpGTCM_Rf3GEyzpR5UOTfgGKTY0_rvAbGdtjbyabFhrRAw@mail.gmail.com>
- <CAJuCfpE2j91_AOwwRs_pYBs50wfLTwassRqgtqhXsh6fT+4MCg@mail.gmail.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <CAJuCfpE2j91_AOwwRs_pYBs50wfLTwassRqgtqhXsh6fT+4MCg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20211015055808.327453-1-pauk.denis@gmail.com> <20211015055808.327453-2-pauk.denis@gmail.com>
+In-Reply-To: <20211015055808.327453-2-pauk.denis@gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 15 Oct 2021 11:21:49 +0300
+Message-ID: <CAHp75VfUYgYT_RSNXCc+_3rkBbywL8ZDcAFPwr=WbPzcD8MF0w@mail.gmail.com>
+Subject: Re: [PATCH v7 1/2] hwmon: (asus_wmi_ec_sensors) Support B550 Asus WMI.
+To:     Denis Pauk <pauk.denis@gmail.com>
+Cc:     Eugene Shalygin <eugene.shalygin@gmail.com>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        thomas@weissschuh.net, Tor Vic <torvic9@mailbox.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        kernel test robot <lkp@intel.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 14.10.21 22:16, Suren Baghdasaryan wrote:
-> On Tue, Oct 12, 2021 at 10:01 AM Suren Baghdasaryan <surenb@google.com> wrote:
->>
->> On Tue, Oct 12, 2021 at 12:44 AM David Hildenbrand <david@redhat.com> wrote:
->>>
->>>> I'm still evaluating the proposal to use memfds but I'm not sure if
->>>> the issue that David Hildenbrand mentioned about additional memory
->>>> consumed in pagecache (which has to be addressed) is the only one we
->>>> will encounter with this approach. If anyone knows of any potential
->>>> issues with using memfds as named anonymous memory, I would really
->>>> appreciate your feedback before I go too far in that direction.
->>>
->>> [MAP_PRIVATE memfd only behave that way with 4k, not with huge pages, so
->>> I think it just has to be fixed. It doesn't make any sense to allocate a
->>> page for the pagecache ("populate the file") when accessing via a
->>> private mapping that's supposed to leave the file untouched]
->>>
->>> My gut feeling is if you really need a string as identifier, then try
->>> going with memfds. Yes, we might hit some road blocks to be sorted out,
->>> but it just logically makes sense to me: Files have names. These names
->>> exist before mapping and after mapping. They "name" the content.
->>
->> I'm investigating this direction. I don't have much background with
->> memfds, so I'll need to digest the code first.
-> 
-> I've done some investigation into the possibility of using memfds to
-> name anonymous VMAs. Here are my findings:
+On Fri, Oct 15, 2021 at 8:58 AM Denis Pauk <pauk.denis@gmail.com> wrote:
+>
+> Linux HWMON sensors driver for ASUS motherboards to read
+> sensors from the embedded controller.
+>
+> Many ASUS motherboards do not publish all the available
+> sensors via the Super I/O chip but the missing ones are
+> available through the embedded controller (EC) registers.
+>
+> This driver implements reading those sensor data via the
+> WMI method BREC, which is known to be present in all ASUS
+> motherboards based on the AMD 500 series chipsets (and
+> probably is available in other models too). The driver
+> needs to know exact register addresses for the sensors and
+> thus support for each motherboard has to be added explicitly.
+>
+> The EC registers do not provide critical values for the
+> sensors and as such they are not published to the HWMON.
+>
+> Supported motherboards:
+> * PRIME X570-PRO
+> * Pro WS X570-ACE
+> * ROG CROSSHAIR VIII HERO
+> * ROG CROSSHAIR VIII DARK HERO
+> * ROG CROSSHAIR VIII FORMULA
+> * ROG STRIX X570-E GAMING
+> * ROG STRIX B550-E GAMING
 
-Thanks for exploring the alternatives!
+...
 
-> 
-> 1. Forking a process with anonymous vmas named using memfd is 5-15%
-> slower than with prctl (depends on the number of VMAs in the process
-> being forked). Profiling shows that i_mmap_lock_write() dominates
-> dup_mmap(). Exit path is also slower by roughly 9% with
-> free_pgtables() and fput() dominating exit_mmap(). Fork performance is
-> important for Android because almost all processes are forked from
-> zygote, therefore this limitation already makes this approach
-> prohibitive.
+> Reported-by: kernel test robot <lkp@intel.com>
 
-Interesting, naturally I wonder if that can be optimized.
+New code can't be reported as regression. Or what did you mean by that?
 
-> 
-> 2. mremap() usage to grow the mapping has an issue when used with memfds:
-> 
-> fd = memfd_create(name, MFD_ALLOW_SEALING);
-> ftruncate(fd, size_bytes);
-> ptr = mmap(NULL, size_bytes, prot, MAP_PRIVATE, fd, 0);
-> close(fd);
-> ptr = mremap(ptr, size_bytes, size_bytes * 2, MREMAP_MAYMOVE);
-> touch_mem(ptr, size_bytes * 2);
-> 
-> This would generate a SIGBUS in touch_mem(). I believe it's because
-> ftruncate() specified the size to be size_bytes and we are accessing
-> more than that after remapping. prctl() does not have this limitation
-> and we do have a usecase for growing a named VMA.
+...
 
-Can't you simply size the memfd much larger? I mean, it doesn't really
-cost much, does it?
+> +Kernel driver asus-wmi-ec-sensors
+> +=================================
+> +
+> +Supported boards:
+> + * PRIME X570-PRO,
+> + * Pro WS X570-ACE,
+> + * ROG CROSSHAIR VIII DARK HERO,
+> + * ROG CROSSHAIR VIII FORMULA,
+> + * ROG CROSSHAIR VIII HERO,
+> + * ROG STRIX B550-E GAMING,
+> + * ROG STRIX X570-E GAMING.
+> +
 
-> 
-> 3. Leaves an fd exposed, even briefly, which may lead to unexpected
-> flaws (e.g. anything using mmap MAP_SHARED could allow exposures or
-> overwrites). Even MAP_PRIVATE, if an attacker writes into the file
-> after ftruncate() and before mmap(), can cause private memory to be
-> initialized with unexpected data.
+> +Authors:
+> +        Eugene Shalygin <eugene.shalygin@gmail.com>
 
-I don't quite follow. Can you elaborate what exactly the issue here is?
-We use a temporary fd, yes, but how is that a problem?
+reST has a special keyword for that.
 
-Any attacker can just write any random memory memory in the address
-space, so I don't see the issue.
+...
 
-> 
-> 4. There is a usecase in the Android userspace where vma naming
-> happens after memory was allocated. Bionic linker does in-memory
-> relocations and then names some relocated sections.
+> +/*
+> + * HWMON driver for ASUS B550/X570 motherboards that publish sensor
+> + * values via the embedded controller registers.
+> + *
+> + * Copyright (C) 2021 Eugene Shalygin <eugene.shalygin@gmail.com>
+> + * Copyright (C) 2018-2019 Ed Brindley <kernel@maidavale.org>
+> + *
+> + * EC provides:
+> + * Chipset temperature,
+> + * CPU temperature,
+> + * Motherboard temperature,
+> + * T_Sensor temperature,
+> + * VRM  temperature,
+> + * Water In temperature,
+> + * Water Out temperature,
+> + * CPU Optional Fan RPM,
+> + * Chipset Fan RPM,
+> + * Water Flow Fan RPM,
+> + * CPU current.
 
-Would renaming a memfd be an option or is that "too late" ?
+> + *
 
-> 
-> In the light of these findings, could the current patchset be reconsidered?
-> Thanks,
-> Suren.
-> 
+Redundant line.
 
+> + */
+
+> +#include <asm/unaligned.h>
+
+The common rule is to go from generic to particular, hence
+linux/*
+followed by
+asm/*
+followed by local subsystem / local headers like
+linux/hwmon*
+
+with a blank line between each group.
+
+> +#include <linux/acpi.h>
+> +#include <linux/dmi.h>
+> +#include <linux/hwmon.h>
+> +#include <linux/hwmon-sysfs.h>
+> +#include <linux/init.h>
+> +#include <linux/jiffies.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/nls.h>
+> +#include <linux/units.h>
+> +#include <linux/wmi.h>
+
+...
+
+> +/* BLOCK_READ_EC */
+
+Not sure what this means, but...
+
+> +#define        ASUSWMI_METHODID_BREC   0x42524543
+
+...above has definitely an ASCII combination in hex format, care to
+decode it in the comment?
+
+...
+
+> +/* from the ASUS DSDT source */
+
+Keep the same style for all comments, i.e. here "From ..."
+
+...
+
+> +#define        MAKE_SENSOR_ADDRESS(size_i, bank_i, index_i) \
+> +       { .size = size_i,\
+> +          .bank = bank_i,\
+> +          .index = index_i}
+
+You should choose one style for all macros. Here is one, there is
+another... I would recommend to use one of
+
+#define ... { \
+... \
+}
+
+or
+
+#define ... \
+{ \
+... \
+}
+
+In the second case the indentation of the {} is defined by the
+semantics of the macro: in case of function-like macro it starts from
+the first column, in case of data structure filler usually with one
+TAB.
+
+...
+
+> +/*
+> + * All the known sensors for ASUS EC controllers
+> + */
+
+One line and "All known sensors..."
+
+...
+
+> +struct asus_wmi_ec_info {
+> +       struct ec_sensor sensors[SENSOR_MAX];
+
+> +       char read_arg[((ASUSWMI_BREC_REGISTERS_MAX * 4) + 1) * 2];
+
+Too many parentheses.
+
+> +       u8 read_buffer[ASUSWMI_BREC_REGISTERS_MAX];
+> +       unsigned int nr_sensors;
+> +       unsigned int nr_registers;
+> +       unsigned long last_updated;
+> +};
+
+...
+
+> +       for (i = 0; i < SENSOR_MAX && bsi[i] != SENSOR_MAX; i++) {
+> +               s[i].info_index = bsi[i];
+
+> +               s[i].cached_value = 0;
+
+Isn't it filled by kzalloc() or alike?
+
+> +               ec->nr_sensors++;
+> +               ec->nr_registers += known_ec_sensors[bsi[i]].addr.size;
+> +       }
+
+...
+
+> +/*
+> + * The next four functions converts to/from BRxx string argument format
+> + * The format of the string is as follows:
+> + * The string consists of two-byte UTF-16 characters
+> + * The value of the very first byte int the string is equal to the total length
+> + * of the next string in bytes, thus excluding the first two-byte character
+> + * The rest of the string encodes pairs of (bank, index) pairs, where both
+> + * values are byte-long (0x00 to 0xFF)
+> + * Numbers are encoded as UTF-16 hex values
+
+The comment above misses a lot of punctuation. Also it would be nice
+to indent the list of items if any and so on.
+
+> + */
+> +static void asus_wmi_ec_decode_reply_buffer(const u8 *inp, u8 *out, u32 length)
+> +{
+> +       char buffer[ASUSWMI_MAX_BUF_LEN * 2];
+> +       const char *pos = buffer;
+> +       const u8 *data = inp + 2;
+> +       unsigned int i;
+> +       u32 len;
+
+> +       len = min3((u32)ASUSWMI_MAX_BUF_LEN, (length - 2) / 4, (u32)inp[0] / 4);
+
+Instead I would prefer to have to min_t() calls without adding castings.
+Also might be useful to have a short comment explaining this choice.
+
+> +       utf16s_to_utf8s((wchar_t *)data, len * 2,  UTF16_LITTLE_ENDIAN, buffer, len * 2);
+
+> +       for (i = 0; i < len; i++, pos += 2)
+> +               out[i] = (hex_to_bin(pos[0]) << 4) + hex_to_bin(pos[1]);
+
+NIH hex2bin().
+
+> +}
+
+...
+
+> +       for (i = 0; i < len; i++) {
+> +               byte = registers[i] >> 8;
+> +               *pos = hex_asc_hi(byte);
+> +               pos++;
+> +               *pos = hex_asc_lo(byte);
+> +               pos++;
+> +               byte = registers[i];
+> +               *pos = hex_asc_hi(byte);
+> +               pos++;
+> +               *pos = hex_asc_lo(byte);
+> +               pos++;
+> +       }
+
+NIH bin2hex()
+
+...
+
+> +               for (j = 0; j < si->addr.size;
+> +                    j++, register_idx++) {
+
+One line.
+
+> +                       registers[register_idx] = (si->addr.bank << 8) + si->addr.index + j;
+> +               }
+
+...
+
+> +       /* the first byte of the BRxx() argument string has to be the string size */
+
+Comment style.
+
+...
+
+> +       input.length = (acpi_size)query[0] + 2;
+
+Why is casting needed?
+
+...
+
+> +       status = wmi_evaluate_method(ASUSWMI_MONITORING_GUID, 0, method_id, &input,
+> +                                    &output);
+
+Logically better to keep &input and &output on the same line, i.e.
+second one here.
+
+> +       obj = output.pointer;
+> +       if (!obj || obj->type != ACPI_TYPE_BUFFER) {
+
+> +               acpi_os_free(obj);
+
+What's the point of calling acpi_os_free(obj) when you already know it's NULL?
+
+On top of that is the acpi_os_free() high-level enough API for this?
+
+> +               return -EIO;
+> +       }
+> +       asus_wmi_ec_decode_reply_buffer(obj->buffer.pointer, out, obj->buffer.length);
+
+> +       acpi_os_free(obj);
+
+Ditto.
+
+...
+
+> +       switch (data_type) {
+> +       case hwmon_curr:
+> +       case hwmon_temp:
+> +       case hwmon_in:
+
+> +               return value * KILO;
+
+Thanks for using KILO, but do you think it's the correct one and not MILLI?
+MILLI means that we got value in <units> and we would like to convert
+it to <milliunits>.
+KILO would mean the opposite, like we got in <milliunits> and we would
+like to have <units>.
+
+> +       default:
+> +               return value;
+> +       }
+
+...
+
+> +/*
+> + * Now follow the functions that implement the hwmon interface
+> + */
+
+One line.
+
+...
+
+> +       int index;
+> +       const struct asus_wmi_sensors *sensor_data = drvdata;
+
+Here and elsewhere, perhaps reversed xmas tree order?
+
+...
+
+> +       int nr_count[hwmon_max] = { 0 }, nr_types = 0;
+
+{} will work as well.
+
+...
+
+> +       /*
+> +        * if we can get values for all the registers in a single query,
+> +        * the query will not change from call to call
+
+"If..."
+And period at the end since it's a multi-line comment.
+
+> +        */
+
+...
+
+> +       sensor_data = devm_kzalloc(dev, sizeof(struct asus_wmi_sensors),
+> +                                  GFP_KERNEL);
+
+One line?
+
+...
+
+> +       /* ec init */
+
+Usefulness of this comment?
+
+> +       return asus_wmi_ec_configure_sensor_setup(dev,
+> +                                                 sensor_data, bsi);
+
+One line?
+
+...
+
+> +       .driver = {
+
+> +               .name = KBUILD_MODNAME,
+
+It's kinda semi-ABI, please be not dependent on compile-time variables.
+
+> +       },
 
 -- 
-Thanks,
-
-David / dhildenb
-
+With Best Regards,
+Andy Shevchenko
