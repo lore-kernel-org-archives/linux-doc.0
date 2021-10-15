@@ -2,83 +2,220 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61B55C4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Oct 2021 07:59:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FADAC433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Oct 2021 08:04:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4A33C610D2
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Oct 2021 07:59:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0770461027
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Oct 2021 08:04:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234769AbhJOIBR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Oct 2021 04:01:17 -0400
-Received: from mx24.baidu.com ([111.206.215.185]:55946 "EHLO baidu.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S236454AbhJOIBR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 15 Oct 2021 04:01:17 -0400
-Received: from BJHW-Mail-Ex13.internal.baidu.com (unknown [10.127.64.36])
-        by Forcepoint Email with ESMTPS id 2C981B763F1651A4C1D6;
-        Fri, 15 Oct 2021 15:59:06 +0800 (CST)
-Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BJHW-Mail-Ex13.internal.baidu.com (10.127.64.36) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Fri, 15 Oct 2021 15:59:06 +0800
-Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Fri, 15 Oct 2021 15:59:04 +0800
-From:   Cai Huoqing <caihuoqing@baidu.com>
-To:     <caihuoqing@baidu.com>
-CC:     Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Joe Perches <joe@perches.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Whitcroft <apw@canonical.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH 2/2] docs: checkpatch: Add the description for RFC_TAG_PREFIX waining messsage
-Date:   Fri, 15 Oct 2021 15:58:52 +0800
-Message-ID: <20211015075853.4038-2-caihuoqing@baidu.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211015075853.4038-1-caihuoqing@baidu.com>
-References: <20211015075853.4038-1-caihuoqing@baidu.com>
+        id S234927AbhJOIG1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Oct 2021 04:06:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43742 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236600AbhJOIGF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Oct 2021 04:06:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1634285036;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=ggZGR9DaIVOeY+FRltem0wB6ymI3HDlfEdwv9GyNtfI=;
+        b=VS12Lp+eR3OB29gXCpt+rsrElp11aBZLw5uBsaSFIQya7Vcfnc50VU4dX5xqYg4iRotghy
+        eDjPxi3Jp0r/KoYyYeDqQ+t2km+XGLS9pdKin1pVQv6T34wYleKqenGQGztUi76F5sN/UQ
+        rh6vxK5s0Y7X4QP8o734mD6/y1O5F8c=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-283-C1zGhCjiMXmBqngpjKS4qw-1; Fri, 15 Oct 2021 04:03:55 -0400
+X-MC-Unique: C1zGhCjiMXmBqngpjKS4qw-1
+Received: by mail-wm1-f70.google.com with SMTP id k6-20020a7bc306000000b0030d92a6bdc7so600627wmj.3
+        for <linux-doc@vger.kernel.org>; Fri, 15 Oct 2021 01:03:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=ggZGR9DaIVOeY+FRltem0wB6ymI3HDlfEdwv9GyNtfI=;
+        b=3Lx+lx7bpYbknbnivILcz0Xgq7HcNuHYC02yfmMmRXpbMNDME1WGjZOtVuhe34oJq/
+         ySXS0aUUS1Jv7QLlMUEf6kFcnFkAFkse9N+jvIB0ewGSvryBXOHpPpMhf3Xm6CVe3+GD
+         wSri1HHIRUKEE/yEX6RnZYha5WplNJ8zp2ZRQba3lRcFkZs3ihoAzamdK70aRTq33pJX
+         yjOUGyIF1/TRx7HYcEoDNTXb0yo2v2bL9m/WqoKUGB+q/5HgAqgWrusvRCPx+V5xblhf
+         gUQHJIOdxU7YNRnsCluZXzD+RNmigOvEuRdzHxL6u5e8bsFgktbDwHQAdJBxYXG6AWEf
+         CyJQ==
+X-Gm-Message-State: AOAM531/uGkDCS5Otfxg0QWeVlSe7jI/E6VbbBk34ZGfV2Oopml1n44p
+        +2/Id6MNs/9f0E99wvSVuMmYFpUib5PS+K37lkvjfomt4T43d8HHSw1YCMlUxrHGp+46PNuMzkZ
+        C5secKl7q8tzzaezXJJgZ
+X-Received: by 2002:a05:600c:1d1f:: with SMTP id l31mr24174296wms.44.1634285034161;
+        Fri, 15 Oct 2021 01:03:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwyS/mpsmRvUStNqiEiz88T6GCugC6hJP08MiJ6PoPMw9Y5ONN056muHJGQhAs7LpZbDtZMuw==
+X-Received: by 2002:a05:600c:1d1f:: with SMTP id l31mr24174227wms.44.1634285033755;
+        Fri, 15 Oct 2021 01:03:53 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c6a01.dip0.t-ipconnect.de. [91.12.106.1])
+        by smtp.gmail.com with ESMTPSA id p18sm4349286wrt.54.2021.10.15.01.03.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 Oct 2021 01:03:53 -0700 (PDT)
+Message-ID: <b46d9bfe-17a9-0de9-271d-a3e6429e3f5f@redhat.com>
+Date:   Fri, 15 Oct 2021 10:03:50 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BC-Mail-Ex31.internal.baidu.com (172.31.51.25) To
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
-X-Baidu-BdMsfe-DateCheck: 1_BJHW-Mail-Ex13_2021-10-15 15:59:06:217
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
+Content-Language: en-US
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     Michal Hocko <mhocko@suse.com>, Kees Cook <keescook@chromium.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Colin Cross <ccross@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        vincenzo.frascino@arm.com,
+        =?UTF-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?= 
+        <chinwen.chang@mediatek.com>,
+        Axel Rasmussen <axelrasmussen@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Jann Horn <jannh@google.com>, apopple@nvidia.com,
+        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
+        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
+        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
+        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
+        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
+        Chris Hyser <chris.hyser@oracle.com>,
+        Peter Collingbourne <pcc@google.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
+        Rolf Eike Beer <eb@emlix.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
+        cxfcosmos@gmail.com, LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm <linux-mm@kvack.org>,
+        kernel-team <kernel-team@android.com>
+References: <92cbfe3b-f3d1-a8e1-7eb9-bab735e782f6@rasmusvillemoes.dk>
+ <20211007101527.GA26288@duo.ucw.cz>
+ <CAJuCfpGp0D9p3KhOWhcxMO1wEbo-J_b2Anc-oNwdycx4NTRqoA@mail.gmail.com>
+ <YV8jB+kwU95hLqTq@dhcp22.suse.cz>
+ <CAJuCfpG-Nza3YnpzvHaS_i1mHds3nJ+PV22xTAfgwvj+42WQNA@mail.gmail.com>
+ <YV8u4B8Y9AP9xZIJ@dhcp22.suse.cz>
+ <CAJuCfpHAG_C5vE-Xkkrm2kynTFF-Jd06tQoCWehHATL0W2mY_g@mail.gmail.com>
+ <202110071111.DF87B4EE3@keescook> <YV/mhyWH1ZwWazdE@dhcp22.suse.cz>
+ <202110081344.FE6A7A82@keescook> <YWP3c/bozz5npQ8O@dhcp22.suse.cz>
+ <CAJuCfpHQVMM4+6Lm_EnFk06+KrOjSjGA19K2cv9GmP3k9LW5vg@mail.gmail.com>
+ <26f9db1e-69e9-1a54-6d49-45c0c180067c@redhat.com>
+ <CAJuCfpGTCM_Rf3GEyzpR5UOTfgGKTY0_rvAbGdtjbyabFhrRAw@mail.gmail.com>
+ <CAJuCfpE2j91_AOwwRs_pYBs50wfLTwassRqgtqhXsh6fT+4MCg@mail.gmail.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <CAJuCfpE2j91_AOwwRs_pYBs50wfLTwassRqgtqhXsh6fT+4MCg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A check item for RFC tags is added to checkpatch.pl,
-which will report RFC_TAG_PREFIX warning. so add
-the description for RFC_TAG_PREFIX.
+On 14.10.21 22:16, Suren Baghdasaryan wrote:
+> On Tue, Oct 12, 2021 at 10:01 AM Suren Baghdasaryan <surenb@google.com> wrote:
+>>
+>> On Tue, Oct 12, 2021 at 12:44 AM David Hildenbrand <david@redhat.com> wrote:
+>>>
+>>>> I'm still evaluating the proposal to use memfds but I'm not sure if
+>>>> the issue that David Hildenbrand mentioned about additional memory
+>>>> consumed in pagecache (which has to be addressed) is the only one we
+>>>> will encounter with this approach. If anyone knows of any potential
+>>>> issues with using memfds as named anonymous memory, I would really
+>>>> appreciate your feedback before I go too far in that direction.
+>>>
+>>> [MAP_PRIVATE memfd only behave that way with 4k, not with huge pages, so
+>>> I think it just has to be fixed. It doesn't make any sense to allocate a
+>>> page for the pagecache ("populate the file") when accessing via a
+>>> private mapping that's supposed to leave the file untouched]
+>>>
+>>> My gut feeling is if you really need a string as identifier, then try
+>>> going with memfds. Yes, we might hit some road blocks to be sorted out,
+>>> but it just logically makes sense to me: Files have names. These names
+>>> exist before mapping and after mapping. They "name" the content.
+>>
+>> I'm investigating this direction. I don't have much background with
+>> memfds, so I'll need to digest the code first.
+> 
+> I've done some investigation into the possibility of using memfds to
+> name anonymous VMAs. Here are my findings:
 
-Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
----
- Documentation/dev-tools/checkpatch.rst | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Thanks for exploring the alternatives!
 
-diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-index b52452bc2963..0da827af3d93 100644
---- a/Documentation/dev-tools/checkpatch.rst
-+++ b/Documentation/dev-tools/checkpatch.rst
-@@ -554,6 +554,16 @@ Commit message
- 
-     See: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#describe-your-changes
- 
-+  **RFC_TAG_PREFIX**
-+    RFC tag is outside subject prefix.
-+    RFC tag outside subject prefix is incorrect like this::
-+
-+      Subject: [PATCH v2] RFC:
-+
-+    Perfer::
-+
-+      Subject: [RFC PATCH v2]
-+
-   **FROM_SIGN_OFF_MISMATCH**
-     The author's email does not match with that in the Signed-off-by:
-     line(s). This can be sometimes caused due to an improperly configured
+> 
+> 1. Forking a process with anonymous vmas named using memfd is 5-15%
+> slower than with prctl (depends on the number of VMAs in the process
+> being forked). Profiling shows that i_mmap_lock_write() dominates
+> dup_mmap(). Exit path is also slower by roughly 9% with
+> free_pgtables() and fput() dominating exit_mmap(). Fork performance is
+> important for Android because almost all processes are forked from
+> zygote, therefore this limitation already makes this approach
+> prohibitive.
+
+Interesting, naturally I wonder if that can be optimized.
+
+> 
+> 2. mremap() usage to grow the mapping has an issue when used with memfds:
+> 
+> fd = memfd_create(name, MFD_ALLOW_SEALING);
+> ftruncate(fd, size_bytes);
+> ptr = mmap(NULL, size_bytes, prot, MAP_PRIVATE, fd, 0);
+> close(fd);
+> ptr = mremap(ptr, size_bytes, size_bytes * 2, MREMAP_MAYMOVE);
+> touch_mem(ptr, size_bytes * 2);
+> 
+> This would generate a SIGBUS in touch_mem(). I believe it's because
+> ftruncate() specified the size to be size_bytes and we are accessing
+> more than that after remapping. prctl() does not have this limitation
+> and we do have a usecase for growing a named VMA.
+
+Can't you simply size the memfd much larger? I mean, it doesn't really
+cost much, does it?
+
+> 
+> 3. Leaves an fd exposed, even briefly, which may lead to unexpected
+> flaws (e.g. anything using mmap MAP_SHARED could allow exposures or
+> overwrites). Even MAP_PRIVATE, if an attacker writes into the file
+> after ftruncate() and before mmap(), can cause private memory to be
+> initialized with unexpected data.
+
+I don't quite follow. Can you elaborate what exactly the issue here is?
+We use a temporary fd, yes, but how is that a problem?
+
+Any attacker can just write any random memory memory in the address
+space, so I don't see the issue.
+
+> 
+> 4. There is a usecase in the Android userspace where vma naming
+> happens after memory was allocated. Bionic linker does in-memory
+> relocations and then names some relocated sections.
+
+Would renaming a memfd be an option or is that "too late" ?
+
+> 
+> In the light of these findings, could the current patchset be reconsidered?
+> Thanks,
+> Suren.
+> 
+
+
 -- 
-2.25.1
+Thanks,
+
+David / dhildenb
 
