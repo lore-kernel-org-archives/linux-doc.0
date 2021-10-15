@@ -2,56 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 182B1C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Oct 2021 17:45:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0E07C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Oct 2021 18:34:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EA5AD611C1
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Oct 2021 17:45:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 93ACA61037
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Oct 2021 18:34:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241802AbhJORrQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Oct 2021 13:47:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45526 "EHLO
+        id S237860AbhJOSgC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Oct 2021 14:36:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241630AbhJORrP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Oct 2021 13:47:15 -0400
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E10E5C061570
-        for <linux-doc@vger.kernel.org>; Fri, 15 Oct 2021 10:45:08 -0700 (PDT)
-Received: by mail-pg1-x536.google.com with SMTP id 75so9246109pga.3
-        for <linux-doc@vger.kernel.org>; Fri, 15 Oct 2021 10:45:08 -0700 (PDT)
+        with ESMTP id S241261AbhJOSfm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Oct 2021 14:35:42 -0400
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 535B2C061765
+        for <linux-doc@vger.kernel.org>; Fri, 15 Oct 2021 11:33:35 -0700 (PDT)
+Received: by mail-yb1-xb2d.google.com with SMTP id v195so24971051ybb.0
+        for <linux-doc@vger.kernel.org>; Fri, 15 Oct 2021 11:33:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=l4qlclu2RIa4oxKpd1H+1z1yST7CZssZbBES01bC8pU=;
-        b=cAOAcqa2nvyIYH0EqUubHMzpXLPqTCLfz9xXXZUr73uY/T9PXlYXrzSWM4agbNawT6
-         UHxCgHfYfzOnRHuIvx9WP0OnZ8mbvAgQLzUM9uzvOQ9Fip6iBQ8ox7zgwXjDH2XjEKcN
-         oWT/v3c7Vz8AVenh97wnyrnm+5OkVdfp4L2FE=
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Te9f2SCg6g7ZLqzS5jQBTUtq73YsWWcz5wpKa5oJkKU=;
+        b=L88l/ewTW7/hyA58QlhQiGpG0PpswGaSNEs9o63QcWE94uA741P2X4ymDTKOeuNfIb
+         iCDTwyIR3RBwLo2XTniMIe7bsVraWqopcn7H10rNgTxKMLSd6Olgc0gD5qnxTJ/f6O1p
+         Twfo0WeeL6+tdVn1PJjDDV+pQSyMFctUIDe7lj0bhaqzrR9GE+OXQs3eS3CoZx4hLY89
+         BfjA9j4Kh6tKvBmpiWziY3Q41Tx5rk0BbbmrwES8KWPnRMashsyU/CChh/EWVbI/IvD8
+         TA5ckE+apAM6C/B5biqIIrVnILGJ+kS4Qt0E/qBYslhp5Br6IdGtRh092e9cVY0/gfbY
+         4YYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=l4qlclu2RIa4oxKpd1H+1z1yST7CZssZbBES01bC8pU=;
-        b=S11hCVL783SzLL7hDm8QqKXTb2aZ0NtRaECJDNMFQvROO7VqR9tKfcODxFkBHvHnSq
-         D+XLfvm/jctq/SBxNll/tyuuGjFbV3FzC3SyR3Y7K0Q/jftZ44ONZpdQZzP2bYvyxWn2
-         uzP4b+a8d0v1YZ6NcqqEqGQORZEYsksCgntyY3G86k2vt1u9iOmV3Vcvp40fwu8f5N3T
-         5aWEnaXe3f3rnflJ85aD1oqvvMWVJ9fXRl/N3qMRcgb87XXQNeRtfhPCMGbq9nB5FsOA
-         KPbssDhBpoB0EnHjIWmoPcfLRekI5BI7PXVM2qAwie5w6IjZpEZFpvPRbjkfWcAvfybN
-         N9+A==
-X-Gm-Message-State: AOAM533A9iSgO+d+x/tKSJlAFQy5UJ2Eo4OJ+1fvIFJKSwIs1TgoC3os
-        bRceYIQjVKJTz+sS61qdhQVQIA==
-X-Google-Smtp-Source: ABdhPJwjRvl42xTYzqW8RUTxPJkRo3VNvT2r9xBa4I1xgxZ5olUh/8U0oh2VG71cExredtCSHa+qkw==
-X-Received: by 2002:a05:6a00:731:b0:44c:7c1b:fe6a with SMTP id 17-20020a056a00073100b0044c7c1bfe6amr12970406pfm.44.1634319908311;
-        Fri, 15 Oct 2021 10:45:08 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id s14sm5644591pfg.50.2021.10.15.10.45.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Oct 2021 10:45:07 -0700 (PDT)
-Date:   Fri, 15 Oct 2021 10:45:06 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     David Hildenbrand <david@redhat.com>,
-        Michal Hocko <mhocko@suse.com>, Pavel Machek <pavel@ucw.cz>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Te9f2SCg6g7ZLqzS5jQBTUtq73YsWWcz5wpKa5oJkKU=;
+        b=EehjtZt5ya5IZKvluFtcHVaJtXTcTvveuBT73Z8san3q2WTcLWIvoU2eCb83FcHnVa
+         WqMNKdMiWNVMohpk5k1jTSHjN2XBQe1hXAT1YyV53R4erNTiiFVv9WTUo7dYIkha4Qb9
+         47q1hAVg76OTMJERbGyv+6rn/dn/ApBXSKyvZK5ZfhnhsD6l44gh6ULCaBUuF5gyxa2O
+         EnJeX9YZSFvR/0N/idEfBQlHBBfdQUZvQW3pS3O3aRmGkQKF8Yf+r7pB4qwHLvaxJXnC
+         zC89mQrXbOGI5BcSzpr2IHGNTFWB01THUaOvBczBTIGjdwkRXPdIH2zqEadueoSCqC++
+         ppdg==
+X-Gm-Message-State: AOAM531/fLO6KdcTLVyf3e1yRbNKKK4wNFyMEreJXHbktMxgA7mbL0Iu
+        cmtg6rhQDQb1KZNQF2VFBcMmjf9nazctv1Uo1/5JHQ==
+X-Google-Smtp-Source: ABdhPJyxBFWbSkfrU5ks5rSh2Jm/DM5lei4c6HB9bi0EhzY6DB8hXPXtRMmfNb/TaOZCIf5FbSO8rKZXnEP/tJQFETg=
+X-Received: by 2002:a05:6902:120e:: with SMTP id s14mr17200240ybu.161.1634322814158;
+ Fri, 15 Oct 2021 11:33:34 -0700 (PDT)
+MIME-Version: 1.0
+References: <92cbfe3b-f3d1-a8e1-7eb9-bab735e782f6@rasmusvillemoes.dk>
+ <20211007101527.GA26288@duo.ucw.cz> <CAJuCfpGp0D9p3KhOWhcxMO1wEbo-J_b2Anc-oNwdycx4NTRqoA@mail.gmail.com>
+ <YV8jB+kwU95hLqTq@dhcp22.suse.cz> <CAJuCfpG-Nza3YnpzvHaS_i1mHds3nJ+PV22xTAfgwvj+42WQNA@mail.gmail.com>
+ <YV8u4B8Y9AP9xZIJ@dhcp22.suse.cz> <CAJuCfpHAG_C5vE-Xkkrm2kynTFF-Jd06tQoCWehHATL0W2mY_g@mail.gmail.com>
+ <202110071111.DF87B4EE3@keescook> <YV/mhyWH1ZwWazdE@dhcp22.suse.cz>
+ <202110081344.FE6A7A82@keescook> <YWP3c/bozz5npQ8O@dhcp22.suse.cz>
+ <CAJuCfpHQVMM4+6Lm_EnFk06+KrOjSjGA19K2cv9GmP3k9LW5vg@mail.gmail.com>
+ <26f9db1e-69e9-1a54-6d49-45c0c180067c@redhat.com> <CAJuCfpGTCM_Rf3GEyzpR5UOTfgGKTY0_rvAbGdtjbyabFhrRAw@mail.gmail.com>
+ <CAJuCfpE2j91_AOwwRs_pYBs50wfLTwassRqgtqhXsh6fT+4MCg@mail.gmail.com>
+ <b46d9bfe-17a9-0de9-271d-a3e6429e3f5f@redhat.com> <CAJuCfpG=fNMDuYUo8UwjB-kDzR2gxmRmTJCqgojfPe6RULwc4A@mail.gmail.com>
+ <3563a3e8-b971-b604-7388-766ecfce4634@redhat.com>
+In-Reply-To: <3563a3e8-b971-b604-7388-766ecfce4634@redhat.com>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Fri, 15 Oct 2021 11:33:22 -0700
+Message-ID: <CAJuCfpEemQv+9nfx48cPGQMOYBWrmKcBt-SdSq460Udh8ZsKfA@mail.gmail.com>
+Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Michal Hocko <mhocko@suse.com>, Kees Cook <keescook@chromium.org>,
+        Pavel Machek <pavel@ucw.cz>,
         Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         John Hubbard <jhubbard@nvidia.com>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -70,7 +84,7 @@ Cc:     David Hildenbrand <david@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
         vincenzo.frascino@arm.com,
-        Chinwen Chang =?utf-8?B?KOW8temMpuaWhyk=?= 
+        =?UTF-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?= 
         <chinwen.chang@mediatek.com>,
         Axel Rasmussen <axelrasmussen@google.com>,
         Andrea Arcangeli <aarcange@redhat.com>,
@@ -93,84 +107,123 @@ Cc:     David Hildenbrand <david@redhat.com>,
         linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-mm <linux-mm@kvack.org>,
         kernel-team <kernel-team@android.com>
-Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
-Message-ID: <202110151002.059B2EAF@keescook>
-References: <202110071111.DF87B4EE3@keescook>
- <YV/mhyWH1ZwWazdE@dhcp22.suse.cz>
- <202110081344.FE6A7A82@keescook>
- <YWP3c/bozz5npQ8O@dhcp22.suse.cz>
- <CAJuCfpHQVMM4+6Lm_EnFk06+KrOjSjGA19K2cv9GmP3k9LW5vg@mail.gmail.com>
- <26f9db1e-69e9-1a54-6d49-45c0c180067c@redhat.com>
- <CAJuCfpGTCM_Rf3GEyzpR5UOTfgGKTY0_rvAbGdtjbyabFhrRAw@mail.gmail.com>
- <CAJuCfpE2j91_AOwwRs_pYBs50wfLTwassRqgtqhXsh6fT+4MCg@mail.gmail.com>
- <b46d9bfe-17a9-0de9-271d-a3e6429e3f5f@redhat.com>
- <CAJuCfpG=fNMDuYUo8UwjB-kDzR2gxmRmTJCqgojfPe6RULwc4A@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJuCfpG=fNMDuYUo8UwjB-kDzR2gxmRmTJCqgojfPe6RULwc4A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 15, 2021 at 09:30:09AM -0700, Suren Baghdasaryan wrote:
-> On Fri, Oct 15, 2021 at 1:04 AM David Hildenbrand <david@redhat.com> wrote:
+On Fri, Oct 15, 2021 at 9:39 AM David Hildenbrand <david@redhat.com> wrote:
+>
+>
+> >>>
+> >>> 1. Forking a process with anonymous vmas named using memfd is 5-15%
+> >>> slower than with prctl (depends on the number of VMAs in the process
+> >>> being forked). Profiling shows that i_mmap_lock_write() dominates
+> >>> dup_mmap(). Exit path is also slower by roughly 9% with
+> >>> free_pgtables() and fput() dominating exit_mmap(). Fork performance is
+> >>> important for Android because almost all processes are forked from
+> >>> zygote, therefore this limitation already makes this approach
+> >>> prohibitive.
+> >>
+> >> Interesting, naturally I wonder if that can be optimized.
 > >
-> > On 14.10.21 22:16, Suren Baghdasaryan wrote:
-> > > [...]
-> > > 3. Leaves an fd exposed, even briefly, which may lead to unexpected
-> > > flaws (e.g. anything using mmap MAP_SHARED could allow exposures or
-> > > overwrites). Even MAP_PRIVATE, if an attacker writes into the file
-> > > after ftruncate() and before mmap(), can cause private memory to be
-> > > initialized with unexpected data.
+> > Maybe but it looks like we simply do additional things for file-backed
+> > memory, which seems natural. The call to i_mmap_lock_write() is from
+> > here: https://elixir.bootlin.com/linux/latest/source/kernel/fork.c#L565
 > >
-> > I don't quite follow. Can you elaborate what exactly the issue here is?
-> > We use a temporary fd, yes, but how is that a problem?
+> >>
+> >>>
+> >>> 2. mremap() usage to grow the mapping has an issue when used with memfds:
+> >>>
+> >>> fd = memfd_create(name, MFD_ALLOW_SEALING);
+> >>> ftruncate(fd, size_bytes);
+> >>> ptr = mmap(NULL, size_bytes, prot, MAP_PRIVATE, fd, 0);
+> >>> close(fd);
+> >>> ptr = mremap(ptr, size_bytes, size_bytes * 2, MREMAP_MAYMOVE);
+> >>> touch_mem(ptr, size_bytes * 2);
+> >>>
+> >>> This would generate a SIGBUS in touch_mem(). I believe it's because
+> >>> ftruncate() specified the size to be size_bytes and we are accessing
+> >>> more than that after remapping. prctl() does not have this limitation
+> >>> and we do have a usecase for growing a named VMA.
+> >>
+> >> Can't you simply size the memfd much larger? I mean, it doesn't really
+> >> cost much, does it?
 > >
-> > Any attacker can just write any random memory memory in the address
-> > space, so I don't see the issue.
-> 
-> It feels to me that introducing another handle to the memory region is
-> a potential attack vector but I'm not a security expert. Maybe Kees
-> can assess this better?
+> > If we know beforehand what the max size it can reach then that would
+> > be possible. I would really hate to miscalculate here and cause a
+> > simple memory access to generate signals. Tracking such corner cases
+> > in the field is not an easy task and I would rather avoid the
+> > possibility of it.
+>
+> The question would be if you cannot simply add some extremely large
+> number, because the file size itself doesn't really matter for memfd IIRC.
+>
+> Having that said, without trying it out, I wouldn't know from the top of
+> my head if memremap would work that way on an already closed fd that ahs
+> a sufficient size :/ If you have the example still somewhere, I would be
+> interested if that would work in general.
 
-This case is kind of just an extension of "we don't need an fd, we need
-a name". There is a lot of resulting baggage suddenly added to using
-anonymous VMA (fork overhead to deal with the fds, etc), but for me, this
-particular situation above is what really demonstrates the "unexpected
-side-effects" of trying to swap an anonymous mmap for a memfd: there is
-now an _external handle_ attached to memory that doesn't pass through
-any of the existing security boundaries normally associated with process
-memory (i.e. ptrace). Here's the example race:
+Yes, I tried a simple test like this and it works:
 
-victim process			attacker process (same uid)
-memfd_create(name, flags);
-	-> /proc/$pid/fd/3
-ftruncate(3, size);
-				open("/proc/$victim/fd/3", O_RDWR)
-					-> 3
-				mmap(NULL, size,
-				     PROT_READ | PROT_WRITE | PROT_EXEC,
-				     MAP_SHARED, 3, 0);
-					-> addr
-				memset(addr, 0xFF, size);
+fd = memfd_create(name, MFD_ALLOW_SEALING);
+ftruncate(fd, size_bytes * 2);
+ptr = mmap(NULL, size_bytes, prot, MAP_PRIVATE, fd, 0);
+close(fd);
+ptr = mremap(ptr, size_bytes, size_bytes * 2, MREMAP_MAYMOVE);
+touch_mem(ptr, size_bytes * 2);
 
-mmap(NULL, size, prot,
-     MAP_PRIVATE, 3, 0);
-	-> addr
-close(3);
+I understand your suggestion but it's just another hoop we have to
+jump to make this work and feels unnatural from userspace POV. Also
+virtual address space exhaustion might be an issue for 32bit userspace
+with this approach.
 
-surprise, addr[0] != 0x00
+>
+> [...]
+>
+> >>
+> >>>
+> >>> 4. There is a usecase in the Android userspace where vma naming
+> >>> happens after memory was allocated. Bionic linker does in-memory
+> >>> relocations and then names some relocated sections.
+> >>
+> >> Would renaming a memfd be an option or is that "too late" ?
+> >
+> > My understanding is that linker allocates space to load and relocate
+> > the code, performs the relocations in that space and then names some
+> > of the regions after that. Whether it can be redesigned to allocate
+> > multiple named regions and perform the relocation between them I did
+> > not really try since it would be a project by itself.
+> >
+> > TBH, at some point I just look at the amount of required changes (both
+> > kernel and userspace) and new limitations that userspace has to adhere
+> > to for fitting memfds to my usecase, and I feel that it's just not
+> > worth it. In the end we end up using the same refcounted strings with
+> > vma->vm_file->f_count as the refcount and name stored in
+> > vma->vm_file->f_path->dentry but with more overhead.
+>
+> Yes, but it's glued to files which naturally have names :)
 
-And again, yes, we could program defensively, but it's a surprising
-situation with new corner cases that haven't been present for years of
-Just Using Anon VMAs. :) I would be worried about other vectors we
-haven't imagined yet.
+Yeah, I understand your motivations and that's why I'm exploring these
+possibilities but it proves to be just too costly for a feature as
+simple as naming a vma :)
 
-So, I think between both the overhead of files and the expanded attack
-surface make memfd unsuited for this use-case.
+>
+> Again, I appreciate that you looked into alternatives! I can see the
+> late renaming could be the biggest blocker if user space cannot be
+> adjusted easily to be compatible with that using memfds.
 
--Kees
+Yeah, it would definitely be hard for Android to adopt this.
 
--- 
-Kees Cook
+If there are no objections to the current approach I would like to
+respin another version with the CONFIG option added sometime early
+next week. If anyone has objections, please let me know.
+Thanks,
+Suren.
+
+>
+> --
+> Thanks,
+>
+> David / dhildenb
+>
