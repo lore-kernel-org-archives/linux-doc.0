@@ -2,139 +2,206 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 913BBC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Oct 2021 13:53:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22E2CC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Oct 2021 14:14:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 631BC60EB4
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Oct 2021 13:53:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 014A161090
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Oct 2021 14:14:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240149AbhJON4F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Oct 2021 09:56:05 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:48024 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240083AbhJON4E (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Oct 2021 09:56:04 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 08ADC21972;
-        Fri, 15 Oct 2021 13:53:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1634306037; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=XLIhjbHS5OiUN2tPtH3NIRpzLe/6U1/ST92qVeetz/4=;
-        b=rOkY2K6gg6owgwal/7TXs6RGXwq1PYGkmAjpkaD9iETBaLrvfuru3wXmMKFqf+p6mQSdkF
-        ctkhYybZn4cqr/jB4QaV7b+NEc4+Bg8DPlaTyHg8ELXZoveeJ8ado41WGYVCpFrVGSI0BY
-        wEmmc5S6eQx70C8jbFDjs8UZFsuJgD0=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CF531133A7;
-        Fri, 15 Oct 2021 13:53:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id MMfQMfSHaWG2PAAAMHmgww
-        (envelope-from <mkoutny@suse.com>); Fri, 15 Oct 2021 13:53:56 +0000
-From:   =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>
-To:     Jens Axboe <axboe@kernel.dk>,
-        Paolo Valente <paolo.valente@linaro.org>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2] block, bfq: Accept symmetric weight adjustments
-Date:   Fri, 15 Oct 2021 15:53:52 +0200
-Message-Id: <20211015135352.57245-1-mkoutny@suse.com>
-X-Mailer: git-send-email 2.33.0
+        id S234883AbhJOOQ0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Oct 2021 10:16:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51574 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236941AbhJOOQZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Oct 2021 10:16:25 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16D22C061570
+        for <linux-doc@vger.kernel.org>; Fri, 15 Oct 2021 07:14:19 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id z20so38867491edc.13
+        for <linux-doc@vger.kernel.org>; Fri, 15 Oct 2021 07:14:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2rJxeYYnbN1BqAbq3eridm9U4CkbE9dBcGehVd60yHQ=;
+        b=xZnTHuAuPumh9gY513gOjcoEIBojcfbXPYblG9DBqCyu9w+7SrCdmuB7gEnT7Z2/d4
+         Dy00cnuQiOFiDnHDjDNkT/GAIVeUpSmQD0m54oMGRqXy5Jctgg5GVA7aiBkmWAhHZ5ao
+         mmZrlilcGq1V7vWDmvcuWZXD6Ud1+TP3WpVrdLJKXkT05p/WFnz3NJfjVcBUXZmmfIHV
+         S146osdHREWEWMw2xDl536hot0PN53Dd8+d0PBSnDAS5MyG9RN0uxY7RO/KqnNg/izm0
+         acovJz6ifR5SZBbU/WTJp1Q6ImMhYcwnQOgD5111c1pZp426p6Ms8IJutNaYI18Tpa8Z
+         SdFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2rJxeYYnbN1BqAbq3eridm9U4CkbE9dBcGehVd60yHQ=;
+        b=fWkuHaaAlCl3xJE5jzC8h18YrOA7ysJM6M2h3cqW64L0ogyi9T7VADEe023fK0Ey/v
+         3AL1CCWt7KjEuV7d7UhofAW18KKsIZoHTtzaFb2MV1Ua4rpYApL6A87/9faOG5bLHoMk
+         FCKjnAR2iR0l97ULm86WLNLx+NRZUF99qIGH1vGtKXW5oXiSDuctNLYNCD8bb1WlQHPI
+         aJu0zCSO14mR8hpi32V8Lr5Qny9uc+nqfCkTBRVMh2to0fG8nu5FmqKANUtixZwsLCZI
+         +ZMvMAa6Qk8p0k82agYtAHxef1tlVJuwOKvJTYRJzThrCPnD9YcemWlZwswVGG3imSdc
+         XSqQ==
+X-Gm-Message-State: AOAM532KwqeJ9jQrMOTXdKXK205gZ/TyOQhjb6wVcuUtCgOiI8ith3ky
+        HbSwfB5TJJdJiiZX25/D7kQZa7DA0vPVXUB6IzhkYA==
+X-Google-Smtp-Source: ABdhPJwyWhnDU7znLM6TsqQtys/OEF0zuKOS5DiBTSLCAfhLJHeCMdHnVxEZpmIrWGNBSmwyG8eCzKwO2UyHGqwnW8k=
+X-Received: by 2002:a50:d50c:: with SMTP id u12mr18241839edi.118.1634307227070;
+ Fri, 15 Oct 2021 07:13:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20211008081739.26807-1-brgl@bgdev.pl>
+In-Reply-To: <20211008081739.26807-1-brgl@bgdev.pl>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Fri, 15 Oct 2021 16:13:36 +0200
+Message-ID: <CAMRc=McpCw2TgLFCzvwOupd+RW2BoQRJKVTdbR6s2z+O2pJuUQ@mail.gmail.com>
+Subject: Re: [PATCH v7 0/8] gpio: implement the configfs testing module
+To:     Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>,
+        Shuah Khan <shuah@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Kent Gibson <warthog618@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Jack Winch <sunt.un.morcov@gmail.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-doc <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The allowed range for BFQ weights is currently 1..1000 with 100 being
-the default. There is no apparent reason to not accept weight
-adjustments of same ratio on both sides of the default. This change
-makes the attribute domain consistent with other cgroup (v2) knobs with
-the weight semantics.
+On Fri, Oct 8, 2021 at 10:17 AM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+>
+> I'm respinning this series now because I noticed that I need to start writing
+> tests for my work on the new libgpiod v2 code to make sense (it's just becoming
+> too complicated to make even remotely functional without test coverage). At the
+> same time I don't want to rewrite the tests using gpio-mockup if the goal is to
+> replace it with gpio-sim anyway.
+>
+> I fixed issues pointed out by Al Viro and made sure that references are
+> correctly counted (including error paths) and that memory allocated for the
+> pending and live groups gets freed.
+>
+> ===
+>
+> Cc'ing Viresh too.
+>
+> Viresh: while there's still a long way to go before the libgpio v2.0 release,
+> in order to merge the Rust bindings, we'll need a test-suite similar to what
+> we have now for C++ and Python bindings, except that it will have to be based
+> on the gpio-sim module when it makes its way into mainline.
+>
+> ===
+>
+> This series adds a new GPIO testing module based on configfs committable items
+> and sysfs. The goal is to provide a testing driver that will be configurable
+> at runtime (won't need module reload) and easily extensible. The control over
+> the attributes is also much more fine-grained than in gpio-mockup.
+>
+> This series also contains a respin of the patches I sent separately to the
+> configfs maintainers - these patches implement the concept of committable
+> items that was well defined for a long time but never actually completed.
+>
+> Apart from the new driver itself, its selftests and the configfs patches, this
+> series contains some changes to the bitmap API - most importantly: it adds
+> devres managed variants of bitmap_alloc() and bitmap_zalloc().
+>
+> v1 -> v2:
+> - add selftests for gpio-sim
+> - add helper programs for selftests
+> - update the configfs rename callback to work with the new API introduced in
+>   v5.11
+> - fix a missing quote in the documentation
+> - use !! whenever using bits operation that are required to return 0 or 1
+> - use provided bitmap API instead of reimplementing copy or fill operations
+> - fix a deadlock in gpio_sim_direction_output()
+> - add new read-only configfs attributes for mapping of configfs items to GPIO
+>   device names
+> - and address other minor issues pointed out in reviews of v1
+>
+> v2 -> v3:
+> - use devm_bitmap_alloc() instead of the zalloc variant if we're initializing
+>   the bitmap with 1s
+> - drop the patch exporting device_is_bound()
+> - don't return -ENODEV from dev_nam and chip_name configfs attributes, return
+>   a string indicating that the device is not available yet ('n/a')
+> - fix indentation where it makes sense
+> - don't protect IDA functions which use their own locking and where it's not
+>   needed
+> - use kmemdup() instead of kzalloc() + memcpy()
+> - collected review tags
+> - minor coding style fixes
+>
+> v3 -> v4:
+> - return 'none' instead of 'n/a' from dev_name and chip_name before the device
+>   is registered
+> - use sysfs_emit() instead of s*printf()
+> - drop GPIO_SIM_MAX_PROP as it's only used in an array's definition where it's
+>   fine to hardcode the value
+>
+> v4 -> v5:
+> - drop lib patches that are already upstream
+> - use BIT() instead of (1UL << bit) for flags
+> - fix refcounting for the configfs_dirent in rename()
+> - drop d_move() from the rename() callback
+> - free memory allocated for the live and pending groups in configfs_d_iput()
+>   and not in detach_groups()
+> - make sure that if a group of some name is in the live directory, a new group
+>   with the same name cannot be created in the pending directory
+>
+> v5 -> v6:
+> - go back to using (1UL << bit) instead of BIT()
+> - if the live group dentry doesn't exist for whatever reason at the time when
+>   mkdir() in the pending group is called (would be a BUG()), return -ENOENT
+>   instead of -EEXIST which should only be returned if given subsystem already
+>   exists in either live or pending group
+>
+> v6 -> v7:
+> - as detailed by Andy in commit 6fda593f3082 ("gpio: mockup: Convert to use
+>   software nodes") removing device properties after the platform device is
+>   removed but before the GPIO device gets dropped can lead to a use-after-free
+>   bug - use software nodes to manually control the freeing of the properties
+>
+> Bartosz Golaszewski (8):
+>   configfs: increase the item name length
+>   configfs: use (1UL << bit) for internal flags
+>   configfs: implement committable items
+>   samples: configfs: add a committable group
+>   gpio: sim: new testing module
+>   selftests: gpio: provide a helper for reading chip info
+>   selftests: gpio: add a helper for reading GPIO line names
+>   selftests: gpio: add test cases for gpio-sim
+>
+>  Documentation/admin-guide/gpio/gpio-sim.rst   |  72 ++
+>  Documentation/filesystems/configfs.rst        |   6 +-
+>  drivers/gpio/Kconfig                          |   8 +
+>  drivers/gpio/Makefile                         |   1 +
+>  drivers/gpio/gpio-sim.c                       | 886 ++++++++++++++++++
+>  fs/configfs/configfs_internal.h               |  22 +-
+>  fs/configfs/dir.c                             | 276 +++++-
+>  include/linux/configfs.h                      |   3 +-
+>  samples/configfs/configfs_sample.c            | 153 +++
+>  tools/testing/selftests/gpio/.gitignore       |   2 +
+>  tools/testing/selftests/gpio/Makefile         |   4 +-
+>  tools/testing/selftests/gpio/config           |   1 +
+>  tools/testing/selftests/gpio/gpio-chip-info.c |  57 ++
+>  tools/testing/selftests/gpio/gpio-line-name.c |  55 ++
+>  tools/testing/selftests/gpio/gpio-sim.sh      | 229 +++++
+>  15 files changed, 1752 insertions(+), 23 deletions(-)
+>  create mode 100644 Documentation/admin-guide/gpio/gpio-sim.rst
+>  create mode 100644 drivers/gpio/gpio-sim.c
+>  create mode 100644 tools/testing/selftests/gpio/gpio-chip-info.c
+>  create mode 100644 tools/testing/selftests/gpio/gpio-line-name.c
+>  create mode 100755 tools/testing/selftests/gpio/gpio-sim.sh
+>
+> --
+> 2.30.1
+>
 
-This extension of the range does not restrict existing configurations
-(quite the opposite). This may affect setups where weights >1000 were
-attempted to be set but failed with the default 100. Such cgroups would
-attain their intended weight now. This is a changed behavior but it
-rectifies the situation (similar intention to the
-commit 69d7fde5909b ("blkcg: use CGROUP_WEIGHT_* scale for io.weight on
-the unified hierarchy") for CFQ formerly (and v2 only)).
+Another ping...
 
-Additionally, the changed range does not imply all IO workloads can be
-really controlled to achieve the widest possible ratio 1:10^4.
-
-Signed-off-by: Michal Koutný <mkoutny@suse.com>
-Acked-by: Tejun Heo <tj@kernel.org>
-Acked-by: Paolo Valente <paolo.valente@linaro.org>
----
- Documentation/admin-guide/cgroup-v1/blkio-controller.rst | 2 +-
- Documentation/block/bfq-iosched.rst                      | 2 +-
- block/bfq-iosched.h                                      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
-
-
-Changes since v1 https://lore.kernel.org/r/20210826131212.GE4520@blackbody.suse.cz/
-- collect acks, reformat commit message
-- effectively a resend
-
-Given the length of addressee list from get_maintainers.pl, I'd break
-possible tie (if there are no objections) by asking this being routed
-via Jens's/linux-block tree.
-
-Thanks,
-Michal
-
-
-diff --git a/Documentation/admin-guide/cgroup-v1/blkio-controller.rst b/Documentation/admin-guide/cgroup-v1/blkio-controller.rst
-index 16253eda192e..48559541c9d8 100644
---- a/Documentation/admin-guide/cgroup-v1/blkio-controller.rst
-+++ b/Documentation/admin-guide/cgroup-v1/blkio-controller.rst
-@@ -102,7 +102,7 @@ Proportional weight policy files
- 	  on all the devices until and unless overridden by per device rule
- 	  (see `blkio.bfq.weight_device` below).
- 
--	  Currently allowed range of weights is from 1 to 1000. For more details,
-+	  Currently allowed range of weights is from 1 to 10000. For more details,
-           see Documentation/block/bfq-iosched.rst.
- 
-   blkio.bfq.weight_device
-diff --git a/Documentation/block/bfq-iosched.rst b/Documentation/block/bfq-iosched.rst
-index df3a8a47f58c..88b5251734ce 100644
---- a/Documentation/block/bfq-iosched.rst
-+++ b/Documentation/block/bfq-iosched.rst
-@@ -560,7 +560,7 @@ For each group, the following parameters can be set:
- 
-   weight
-         This specifies the default weight for the cgroup inside its parent.
--        Available values: 1..1000 (default: 100).
-+        Available values: 1..10000 (default: 100).
- 
-         For cgroup v1, it is set by writing the value to `blkio.bfq.weight`.
- 
-diff --git a/block/bfq-iosched.h b/block/bfq-iosched.h
-index a73488eec8a4..f1abb8b90091 100644
---- a/block/bfq-iosched.h
-+++ b/block/bfq-iosched.h
-@@ -16,7 +16,7 @@
- #define BFQ_CL_IDLE_TIMEOUT	(HZ/5)
- 
- #define BFQ_MIN_WEIGHT			1
--#define BFQ_MAX_WEIGHT			1000
-+#define BFQ_MAX_WEIGHT			10000
- #define BFQ_WEIGHT_CONVERSION_COEFF	10
- 
- #define BFQ_DEFAULT_QUEUE_IOPRIO	4
--- 
-2.33.0
-
+Bart
