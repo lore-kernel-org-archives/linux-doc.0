@@ -2,93 +2,241 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04D2AC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Oct 2021 15:20:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59615C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Oct 2021 16:30:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E6CD66120E
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Oct 2021 15:20:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2F74D61151
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Oct 2021 16:30:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240877AbhJOPWH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Oct 2021 11:22:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60894 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232267AbhJOPWG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 15 Oct 2021 11:22:06 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9E2F361181;
-        Fri, 15 Oct 2021 15:19:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634311200;
-        bh=fWcVkFP52FOs/xPDPEmntNU+EM79bIknhYN49kApNB4=;
-        h=Subject:From:To:Date:In-Reply-To:References:From;
-        b=YYOZC4O91hPiL10R/oH31GOv5+FZW9yAD+ts/qdMMK/TcNeY9mPXAB0gH71liXiic
-         99nPBL5dLmNzjPFxqZAsnhnwpeZjtx4vVunzgJlnuA2bb/3XVQN8Go3D7y23I/ST4K
-         3ORRS0xJy+bBt9TNFJThGvytaAPCrzbSMCr6hSUYoPkGysgTvAGb9KO1w4y7ONwbxk
-         mf47iBiT9GeewpngVjCJxzHp7u8/L9lHRNPqL1oZWDG6E6nZwa5mrugJUSUBX+wvpp
-         nSXtdyiDm4POrtW70M3cx/IL8vZh/JMTuJHxOvdjlgllK7/A++/v9ZnBOZRJmUubU3
-         FqUD22sGJLv5A==
-Message-ID: <31d49f7785dd82fd2f0c1078c9a94153e3c389ac.camel@kernel.org>
-Subject: Re: [PATCH 2/2] tpm: use SM3 instead of SM3_256
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     Tianjia Zhang <tianjia.zhang@linux.alibaba.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Peter Huewe <peterhuewe@gmx.de>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Jerry Snitselaar <jsnitsel@redhat.com>,
-        linux-integrity@vger.kernel.org, keyrings@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-security-module@vger.kernel.org
-Date:   Fri, 15 Oct 2021 18:19:57 +0300
-In-Reply-To: <5db32f21-1df7-c92e-42a1-a2a85b29dfbf@linux.alibaba.com>
-References: <20211009130828.101396-1-tianjia.zhang@linux.alibaba.com>
-         <20211009130828.101396-3-tianjia.zhang@linux.alibaba.com>
-         <c6c2337ed83c237f70716cb4c62794d1d3da31f2.camel@kernel.org>
-         <5db32f21-1df7-c92e-42a1-a2a85b29dfbf@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.40.0-1 
+        id S241332AbhJOQca (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Oct 2021 12:32:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55718 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236936AbhJOQc3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Oct 2021 12:32:29 -0400
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DED5C061762
+        for <linux-doc@vger.kernel.org>; Fri, 15 Oct 2021 09:30:21 -0700 (PDT)
+Received: by mail-yb1-xb2b.google.com with SMTP id q189so24134635ybq.1
+        for <linux-doc@vger.kernel.org>; Fri, 15 Oct 2021 09:30:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=kz5lMVwvOCVrmogtVEWpwErQFfGGKuUYVGz/2nToq3M=;
+        b=j2u09yM5l/323Ka448VaPv1LG7LqAaEYz0PZdr1r/KNJ1g2xJcBMLqZlsDpDMzRb5h
+         9Vy7xuf0SdACs1IMILrxi2L2UVJpAsywRRr1wlr5kvTFterFPXO+6ywJpiSQ4e/m+cM8
+         HkgnzQJrFHocBgUiBBO64Kr/Y8YCS+F/TYQTUnYmIgNybQ/pb8n1BVRhTgQnTVh8uh7A
+         84xYZ7CxxEBn2+EMqvpOKBHpTNCtrX+jqsTafZriRQS7NIZ/Z7URojLuuB00AHf2noJ2
+         v7mme9NkiL8tUyYNnljRWXFEhhl2qhFvqKMCOwGjGThZIS6buys8ohJ7+5kkZuBoV1dT
+         7fPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kz5lMVwvOCVrmogtVEWpwErQFfGGKuUYVGz/2nToq3M=;
+        b=GWFcNfbMoiwsuw9fgTW2Hy+IYln62vRycNVTRMWF9sxVUyA9uNJohZV6m5DZKelOfb
+         cUmhdAkNKTnEuuBJA7tAoSenvRRCFVAM0OzqWKxRuLz8Qg7IQsWxf08hveKwQP1yn/bU
+         otOjzmCsMrOAVUdA4UC84f3Olkkw8IVuDI4/m5Kfmgi16NJfG/tmaV38nX32VP2P2V1k
+         VsAi8wG7WX1kmfl3vFxoxmTGu/ijw4/EDhpTmgODyTXSg58jj5u0FDItxP4QuoGiQGc3
+         Qrf5AEENykFcJcyZ82BB86YEkgNsJDJQCx5gvRklepvXUQ8+s0+oWtkV/d+BiFIrmjvd
+         DsuA==
+X-Gm-Message-State: AOAM5331r/IKq5584HM/DlhMl1mTFoJ6vNBnI/CPeRN9+g35iFg8hVhj
+        ew73xqaECLDpz67gFBLyDC2gQDnRFTqhUVnhbqE2FQ==
+X-Google-Smtp-Source: ABdhPJyQziOQe5F3EOcgL5uw4MWVkI519Ki6NKatykqIbO5nuXsaj+RptOUZLkH+K74gIqKrcOujKI9DJiSsZkQ5uC0=
+X-Received: by 2002:a25:bd03:: with SMTP id f3mr13232331ybk.412.1634315420493;
+ Fri, 15 Oct 2021 09:30:20 -0700 (PDT)
 MIME-Version: 1.0
+References: <92cbfe3b-f3d1-a8e1-7eb9-bab735e782f6@rasmusvillemoes.dk>
+ <20211007101527.GA26288@duo.ucw.cz> <CAJuCfpGp0D9p3KhOWhcxMO1wEbo-J_b2Anc-oNwdycx4NTRqoA@mail.gmail.com>
+ <YV8jB+kwU95hLqTq@dhcp22.suse.cz> <CAJuCfpG-Nza3YnpzvHaS_i1mHds3nJ+PV22xTAfgwvj+42WQNA@mail.gmail.com>
+ <YV8u4B8Y9AP9xZIJ@dhcp22.suse.cz> <CAJuCfpHAG_C5vE-Xkkrm2kynTFF-Jd06tQoCWehHATL0W2mY_g@mail.gmail.com>
+ <202110071111.DF87B4EE3@keescook> <YV/mhyWH1ZwWazdE@dhcp22.suse.cz>
+ <202110081344.FE6A7A82@keescook> <YWP3c/bozz5npQ8O@dhcp22.suse.cz>
+ <CAJuCfpHQVMM4+6Lm_EnFk06+KrOjSjGA19K2cv9GmP3k9LW5vg@mail.gmail.com>
+ <26f9db1e-69e9-1a54-6d49-45c0c180067c@redhat.com> <CAJuCfpGTCM_Rf3GEyzpR5UOTfgGKTY0_rvAbGdtjbyabFhrRAw@mail.gmail.com>
+ <CAJuCfpE2j91_AOwwRs_pYBs50wfLTwassRqgtqhXsh6fT+4MCg@mail.gmail.com> <b46d9bfe-17a9-0de9-271d-a3e6429e3f5f@redhat.com>
+In-Reply-To: <b46d9bfe-17a9-0de9-271d-a3e6429e3f5f@redhat.com>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Fri, 15 Oct 2021 09:30:09 -0700
+Message-ID: <CAJuCfpG=fNMDuYUo8UwjB-kDzR2gxmRmTJCqgojfPe6RULwc4A@mail.gmail.com>
+Subject: Re: [PATCH v10 3/3] mm: add anonymous vma name refcounting
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Michal Hocko <mhocko@suse.com>, Kees Cook <keescook@chromium.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Colin Cross <ccross@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Kalesh Singh <kaleshsingh@google.com>,
+        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        vincenzo.frascino@arm.com,
+        =?UTF-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?= 
+        <chinwen.chang@mediatek.com>,
+        Axel Rasmussen <axelrasmussen@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Jann Horn <jannh@google.com>, apopple@nvidia.com,
+        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
+        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
+        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
+        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
+        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
+        Chris Hyser <chris.hyser@oracle.com>,
+        Peter Collingbourne <pcc@google.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
+        Rolf Eike Beer <eb@emlix.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
+        cxfcosmos@gmail.com, LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm <linux-mm@kvack.org>,
+        kernel-team <kernel-team@android.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2021-10-14 at 17:46 +0800, Tianjia Zhang wrote:
-> Hi Jarkko,
->=20
-> On 10/12/21 11:21 PM, Jarkko Sakkinen wrote:
-> > On Sat, 2021-10-09 at 21:08 +0800, Tianjia Zhang wrote:
-> > > According to https://tools.ietf.org/id/draft-oscca-cfrg-sm3-01.html,
-> > > SM3 always produces a 256-bit hash value and there are no plans for
-> > > other length development, so there is no ambiguity in the name of sm3=
-.
-> > >=20
-> > > Signed-off-by: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
-> >=20
-> > This is not enough to make any changes because the commit message
-> > does not describe what goes wrong if we keep it as it was.
-> >=20
-> > /Jarkko
-> >=20
->=20
-> This did not cause an error, just to use a more standard algorithm name.=
-=20
-> If it is possible to use the SM3 name instead of SM3_256 if it can be=20
-> specified from the source, it is of course better. I have contacted the=
-=20
-> trustedcomputinggroup and have not yet received a reply.
->=20
-> Best regards,
-> Tianjia
+On Fri, Oct 15, 2021 at 1:04 AM David Hildenbrand <david@redhat.com> wrote:
+>
+> On 14.10.21 22:16, Suren Baghdasaryan wrote:
+> > On Tue, Oct 12, 2021 at 10:01 AM Suren Baghdasaryan <surenb@google.com> wrote:
+> >>
+> >> On Tue, Oct 12, 2021 at 12:44 AM David Hildenbrand <david@redhat.com> wrote:
+> >>>
+> >>>> I'm still evaluating the proposal to use memfds but I'm not sure if
+> >>>> the issue that David Hildenbrand mentioned about additional memory
+> >>>> consumed in pagecache (which has to be addressed) is the only one we
+> >>>> will encounter with this approach. If anyone knows of any potential
+> >>>> issues with using memfds as named anonymous memory, I would really
+> >>>> appreciate your feedback before I go too far in that direction.
+> >>>
+> >>> [MAP_PRIVATE memfd only behave that way with 4k, not with huge pages, so
+> >>> I think it just has to be fixed. It doesn't make any sense to allocate a
+> >>> page for the pagecache ("populate the file") when accessing via a
+> >>> private mapping that's supposed to leave the file untouched]
+> >>>
+> >>> My gut feeling is if you really need a string as identifier, then try
+> >>> going with memfds. Yes, we might hit some road blocks to be sorted out,
+> >>> but it just logically makes sense to me: Files have names. These names
+> >>> exist before mapping and after mapping. They "name" the content.
+> >>
+> >> I'm investigating this direction. I don't have much background with
+> >> memfds, so I'll need to digest the code first.
+> >
+> > I've done some investigation into the possibility of using memfds to
+> > name anonymous VMAs. Here are my findings:
+>
+> Thanks for exploring the alternatives!
 
-Why don't you then create a patch set that fully removes SM3_256, if it
-is incorrect?
+Thanks for pointing to them!
 
-This looks a bit half-baked patch set.
+>
+> >
+> > 1. Forking a process with anonymous vmas named using memfd is 5-15%
+> > slower than with prctl (depends on the number of VMAs in the process
+> > being forked). Profiling shows that i_mmap_lock_write() dominates
+> > dup_mmap(). Exit path is also slower by roughly 9% with
+> > free_pgtables() and fput() dominating exit_mmap(). Fork performance is
+> > important for Android because almost all processes are forked from
+> > zygote, therefore this limitation already makes this approach
+> > prohibitive.
+>
+> Interesting, naturally I wonder if that can be optimized.
 
-/Jarkko
+Maybe but it looks like we simply do additional things for file-backed
+memory, which seems natural. The call to i_mmap_lock_write() is from
+here: https://elixir.bootlin.com/linux/latest/source/kernel/fork.c#L565
+
+>
+> >
+> > 2. mremap() usage to grow the mapping has an issue when used with memfds:
+> >
+> > fd = memfd_create(name, MFD_ALLOW_SEALING);
+> > ftruncate(fd, size_bytes);
+> > ptr = mmap(NULL, size_bytes, prot, MAP_PRIVATE, fd, 0);
+> > close(fd);
+> > ptr = mremap(ptr, size_bytes, size_bytes * 2, MREMAP_MAYMOVE);
+> > touch_mem(ptr, size_bytes * 2);
+> >
+> > This would generate a SIGBUS in touch_mem(). I believe it's because
+> > ftruncate() specified the size to be size_bytes and we are accessing
+> > more than that after remapping. prctl() does not have this limitation
+> > and we do have a usecase for growing a named VMA.
+>
+> Can't you simply size the memfd much larger? I mean, it doesn't really
+> cost much, does it?
+
+If we know beforehand what the max size it can reach then that would
+be possible. I would really hate to miscalculate here and cause a
+simple memory access to generate signals. Tracking such corner cases
+in the field is not an easy task and I would rather avoid the
+possibility of it.
+
+>
+> >
+> > 3. Leaves an fd exposed, even briefly, which may lead to unexpected
+> > flaws (e.g. anything using mmap MAP_SHARED could allow exposures or
+> > overwrites). Even MAP_PRIVATE, if an attacker writes into the file
+> > after ftruncate() and before mmap(), can cause private memory to be
+> > initialized with unexpected data.
+>
+> I don't quite follow. Can you elaborate what exactly the issue here is?
+> We use a temporary fd, yes, but how is that a problem?
+>
+> Any attacker can just write any random memory memory in the address
+> space, so I don't see the issue.
+
+It feels to me that introducing another handle to the memory region is
+a potential attack vector but I'm not a security expert. Maybe Kees
+can assess this better?
+
+>
+> >
+> > 4. There is a usecase in the Android userspace where vma naming
+> > happens after memory was allocated. Bionic linker does in-memory
+> > relocations and then names some relocated sections.
+>
+> Would renaming a memfd be an option or is that "too late" ?
+
+My understanding is that linker allocates space to load and relocate
+the code, performs the relocations in that space and then names some
+of the regions after that. Whether it can be redesigned to allocate
+multiple named regions and perform the relocation between them I did
+not really try since it would be a project by itself.
+
+TBH, at some point I just look at the amount of required changes (both
+kernel and userspace) and new limitations that userspace has to adhere
+to for fitting memfds to my usecase, and I feel that it's just not
+worth it. In the end we end up using the same refcounted strings with
+vma->vm_file->f_count as the refcount and name stored in
+vma->vm_file->f_path->dentry but with more overhead.
+Thanks,
+Suren.
+
+>
+> >
+> > In the light of these findings, could the current patchset be reconsidered?
+> > Thanks,
+> > Suren.
+> >
+>
+>
+> --
+> Thanks,
+>
+> David / dhildenb
+>
