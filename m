@@ -2,155 +2,269 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C2AEC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Oct 2021 00:23:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB87DC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Oct 2021 01:14:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3E76B610FF
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Oct 2021 00:23:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A7C67611EE
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Oct 2021 01:14:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234061AbhJOAY7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Oct 2021 20:24:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33296 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232796AbhJOAY5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Oct 2021 20:24:57 -0400
-Received: from bombadil.infradead.org (unknown [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F35BC061570;
-        Thu, 14 Oct 2021 17:22:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=OUxfpVYwd1GISRQGHaPwsHIXWhsw5Vl+rVIwmaXqPus=; b=BWCEZGQgSTnq6IcezkJ/FcXHOX
-        lTsyP6U1zNSYHW6xi0f7JJ/gCPvqj5otkDqItzlhW1Jh55zXpKcM3fMrJeRhMIuPL6+RhQ3Nqn/Kl
-        uBbNmBHqO3JiXHgvV1GcTEQJZ6EY4wjDP+fTc7q6pbqMPMMfdsgp56QzmIINFg0L6V85vp8atq7fk
-        8pnKiGXMngNHmU0ez9ghshWUrWlNzzWI0Q65GDzrsUu3rwz/nuVYxt0YupIpziAiygEuBaViYVohr
-        w+7OjuR2T6zzzMpZXZUhn/BgTJgcOXEfmECx6G/qkn6GymAjKvvxvxVOwKeHMzxvQHh1x4Iw/9oJb
-        wqMk+ESA==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mbAzg-004lOG-7L; Fri, 15 Oct 2021 00:22:40 +0000
-Date:   Thu, 14 Oct 2021 17:22:40 -0700
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Ming Lei <ming.lei@redhat.com>
-Cc:     tj@kernel.org, gregkh@linuxfoundation.org,
-        akpm@linux-foundation.org, minchan@kernel.org, jeyu@kernel.org,
-        shuah@kernel.org, bvanassche@acm.org, dan.j.williams@intel.com,
-        joe@perches.com, tglx@linutronix.de, keescook@chromium.org,
-        rostedt@goodmis.org, linux-spdx@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 11/12] zram: fix crashes with cpu hotplug multistate
-Message-ID: <YWjJ0O7K+31Iz3ox@bombadil.infradead.org>
-References: <20210927163805.808907-1-mcgrof@kernel.org>
- <20210927163805.808907-12-mcgrof@kernel.org>
- <YWeOJP2UJWYF94fu@T590>
- <YWeR4moCRh+ZHOmH@T590>
- <YWiSAN6xfYcUDJCb@bombadil.infradead.org>
- <YWjCpLUNPF3s4P2U@T590>
+        id S231873AbhJOBRB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Oct 2021 21:17:01 -0400
+Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133]:38388 "EHLO
+        out30-133.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229922AbhJOBQ7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Oct 2021 21:16:59 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04407;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0Us-zOa._1634260491;
+Received: from 30.21.164.24(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0Us-zOa._1634260491)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Fri, 15 Oct 2021 09:14:51 +0800
+Subject: Re: [PATCH v2] hugetlb: Support node specified when using cma for
+ gigantic hugepages
+To:     Mike Kravetz <mike.kravetz@oracle.com>, akpm@linux-foundation.org
+Cc:     mhocko@kernel.org, guro@fb.com, corbet@lwn.net,
+        yaozhenguo1@gmail.com, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <3ba7d5a3ce5002f6718ab2c16e10441eaaf7740a.1634182476.git.baolin.wang@linux.alibaba.com>
+ <424eaeb5-f2b5-89f2-f3d9-fe386ec344e3@oracle.com>
+From:   Baolin Wang <baolin.wang@linux.alibaba.com>
+Message-ID: <b27bd04c-7f25-e9e0-b577-e453ea3d9de0@linux.alibaba.com>
+Date:   Fri, 15 Oct 2021 09:15:32 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YWjCpLUNPF3s4P2U@T590>
-Sender: Luis Chamberlain <mcgrof@infradead.org>
+In-Reply-To: <424eaeb5-f2b5-89f2-f3d9-fe386ec344e3@oracle.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 15, 2021 at 07:52:04AM +0800, Ming Lei wrote:
-> On Thu, Oct 14, 2021 at 01:24:32PM -0700, Luis Chamberlain wrote:
-> > On Thu, Oct 14, 2021 at 10:11:46AM +0800, Ming Lei wrote:
-> > > On Thu, Oct 14, 2021 at 09:55:48AM +0800, Ming Lei wrote:
-> > > > On Mon, Sep 27, 2021 at 09:38:04AM -0700, Luis Chamberlain wrote:
-> > > 
-> > > ...
-> > > 
-> > > > 
-> > > > Hello Luis,
-> > > > 
-> > > > Can you test the following patch and see if the issue can be addressed?
-> > > > 
-> > > > Please see the idea from the inline comment.
-> > > > 
-> > > > Also zram_index_mutex isn't needed in zram disk's store() compared with
-> > > > your patch, then the deadlock issue you are addressing in this series can
-> > > > be avoided.
-> > > > 
-> > > > 
-> > > > diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
-> > > > index fcaf2750f68f..3c17927d23a7 100644
-> > > > --- a/drivers/block/zram/zram_drv.c
-> > > > +++ b/drivers/block/zram/zram_drv.c
-> > > > @@ -1985,11 +1985,17 @@ static int zram_remove(struct zram *zram)
-> > > >  
-> > > >  	/* Make sure all the pending I/O are finished */
-> > > >  	fsync_bdev(bdev);
-> > > > -	zram_reset_device(zram);
-> > > >  
-> > > >  	pr_info("Removed device: %s\n", zram->disk->disk_name);
-> > > >  
-> > > >  	del_gendisk(zram->disk);
-> > > > +
-> > > > +	/*
-> > > > +	 * reset device after gendisk is removed, so any change from sysfs
-> > > > +	 * store won't come in, then we can really reset device here
-> > > > +	 */
-> > > > +	zram_reset_device(zram);
-> > > > +
-> > > >  	blk_cleanup_disk(zram->disk);
-> > > >  	kfree(zram);
-> > > >  	return 0;
-> > > > @@ -2073,7 +2079,12 @@ static int zram_remove_cb(int id, void *ptr, void *data)
-> > > >  static void destroy_devices(void)
-> > > >  {
-> > > >  	class_unregister(&zram_control_class);
-> > > > +
-> > > > +	/* hold the global lock so new device can't be added */
-> > > > +	mutex_lock(&zram_index_mutex);
-> > > >  	idr_for_each(&zram_index_idr, &zram_remove_cb, NULL);
-> > > > +	mutex_unlock(&zram_index_mutex);
-> > > > +
-> > > 
-> > > Actually zram_index_mutex isn't needed when calling zram_remove_cb()
-> > > since the zram-control sysfs interface has been removed, so userspace
-> > > can't add new device any more, then the issue is supposed to be fixed
-> > > by the following one line change, please test it:
-> > > 
-> > > diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
-> > > index fcaf2750f68f..96dd641de233 100644
-> > > --- a/drivers/block/zram/zram_drv.c
-> > > +++ b/drivers/block/zram/zram_drv.c
-> > > @@ -1985,11 +1985,17 @@ static int zram_remove(struct zram *zram)
-> > >  
-> > >  	/* Make sure all the pending I/O are finished */
-> > >  	fsync_bdev(bdev);
-> > > -	zram_reset_device(zram);
-> > >  
-> > >  	pr_info("Removed device: %s\n", zram->disk->disk_name);
-> > >  
-> > >  	del_gendisk(zram->disk);
-> > > +
-> > > +	/*
-> > > +	 * reset device after gendisk is removed, so any change from sysfs
-> > > +	 * store won't come in, then we can really reset device here
-> > > +	 */
-> > > +	zram_reset_device(zram);
-> > > +
-> > >  	blk_cleanup_disk(zram->disk);
-> > >  	kfree(zram);
-> > >  	return 0;
-> > 
-> > Sorry but nope, the cpu multistate issue is still present and we end up
-> > eventually with page faults. I tried with both patches.
-> 
-> In theory disksize_store() can't come in after del_gendisk() returns,
-> then zram_reset_device() should cleanup everything, that is the issue
-> you described in commit log.
-> 
-> We need to understand the exact reason why there is still cpuhp node
-> left, can you share us the exact steps for reproducing the issue?
-> Otherwise we may have to trace and narrow down the reason.
 
-See my commit log for my own fix for this issue.
 
-  Luis
+On 2021/10/15 5:48, Mike Kravetz wrote:
+> On 10/13/21 11:08 PM, Baolin Wang wrote:
+>> Now the size of CMA area for gigantic hugepages runtime allocation is
+>> balanced for all online nodes, but we also want to specify the size of
+>> CMA per-node, or only one node in some cases, which are similar with
+>> commit 86acc55c3d32 ("hugetlbfs: extend the definition of hugepages
+>> parameter to support node allocation")[1].
+> 
+> I would not include the commit hash here.  IIUC, this can change as it
+> is moved to Linus' tree in the next merge window.
+
+Sure.
+
+> 
+>> For example, on some multi-nodes systems, each node's memory can be
+>> different, allocating the same size of CMA for each node is not suitable
+>> for the low-memory nodes. Meanwhile some workloads like DPDK mentioned by
+>> Zhenguo in patch [1] only need hugepages in one node.
+>>
+>> On the other hand, we have some machines with multiple types of memory,
+>> like DRAM and PMEM (persistent memory). On this system, we may want to
+>> specify all the hugepages only on DRAM node, or specify the proportion
+>> of DRAM node and PMEM node, to tuning the performance of the workloads.
+>>
+>> Thus this patch adds node format for 'hugetlb_cma' parameter to support
+>> specifying the size of CMA per-node. An example is as follows:
+>>
+>> hugetlb_cma=0:5G,2:5G
+>>
+>> which means allocating 5G size of CMA area on node 0 and node 2
+>> respectively. And the users should use the node specific sysfs file to
+>> allocate the gigantic hugepages if specified the CMA size on that node.
+>>
+>> [1]
+>> https://lkml.kernel.org/r/20211005054729.86457-1-yaozhenguo1@gmail.com
+>>
+>> Signed-off-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+>> ---
+>> Changes from v1:
+>>   - Update the commit log.
+>>   - Avoid changing the behavior for 'balanced' gigantic huge page pool
+>>   allocations.
+>>   - Catch the invalid node specified in hugetlb_cma_reserve().
+>>   - Validate the size of CMA for each node in hugetlb_cma_reserve().
+>> ---
+>>   Documentation/admin-guide/kernel-parameters.txt |  6 +-
+>>   mm/hugetlb.c                                    | 98 ++++++++++++++++++++++---
+>>   2 files changed, 93 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>> index 3ad8e9d0..a147faa5 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -1587,8 +1587,10 @@
+>>   			registers.  Default set by CONFIG_HPET_MMAP_DEFAULT.
+>>   
+>>   	hugetlb_cma=	[HW,CMA] The size of a CMA area used for allocation
+>> -			of gigantic hugepages.
+>> -			Format: nn[KMGTPE]
+>> +			of gigantic hugepages. Or using node format, the size
+>> +			of a CMA area per node can be specified.
+>> +			Format: nn[KMGTPE] or (node format)
+>> +				<node>:nn[KMGTPE][,<node>:nn[KMGTPE]]
+>>   
+>>   			Reserve a CMA area of given size and allocate gigantic
+>>   			hugepages using the CMA allocator. If enabled, the
+>> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+>> index 6d2f4c2..ac9afc2 100644
+>> --- a/mm/hugetlb.c
+>> +++ b/mm/hugetlb.c
+>> @@ -50,6 +50,7 @@
+>>   
+>>   #ifdef CONFIG_CMA
+>>   static struct cma *hugetlb_cma[MAX_NUMNODES];
+>> +static unsigned long hugetlb_cma_size_in_node[MAX_NUMNODES] __initdata;
+>>   static bool hugetlb_cma_page(struct page *page, unsigned int order)
+>>   {
+>>   	return cma_pages_valid(hugetlb_cma[page_to_nid(page)], page,
+>> @@ -62,6 +63,7 @@ static bool hugetlb_cma_page(struct page *page, unsigned int order)
+>>   }
+>>   #endif
+>>   static unsigned long hugetlb_cma_size __initdata;
+>> +static nodemask_t hugetlb_cma_nodes_allowed = NODE_MASK_NONE;
+>>   
+>>   /*
+>>    * Minimum page order among possible hugepage sizes, set to a proper value
+>> @@ -3508,7 +3510,16 @@ static ssize_t __nr_hugepages_store_common(bool obey_mempolicy,
+>>   		/*
+>>   		 * Node specific request.  count adjustment happens in
+>>   		 * set_max_huge_pages() after acquiring hugetlb_lock.
+>> +		 *
+>> +		 * If we've specified the size of CMA area per node for
+>> +		 * gigantic hugepages, should catch the warning if the
+>> +		 * nid is not in the 'hugetlb_cma_nodes_allowed' nodemask.
+>>   		 */
+>> +		if (hstate_is_gigantic(h) &&
+>> +		    !nodes_empty(hugetlb_cma_nodes_allowed) &&
+>> +		    !node_isset(nid, hugetlb_cma_nodes_allowed))
+>> +			pr_warn("hugetlb_cma: no reservation on this node %d\n", nid);
+>> +
+> 
+> I would prefer to drop this code and hugetlb_cma_nodes_allowed.  Why?
+> 
+> CMA is an alternative allocation mechanism for gigantic pages.  The
+> allocator will fall back to the normal allocator (alloc_contig_pages) if
+> allocation from CMA fails.
+
+Yes.
+
+> This warning implies that the user 'forgot' to reserve CMA on the
+> specified node, or is perhaps allocating gigantic pages on the wrong
+> node.  We can not be sure this is the case.
+> 
+> I agree that in most cases when a user requests node specific CMA
+> reservations, they will likely want to perform gigantic page allocations
+> on the same nodes.  However, that may not always be the case and in such
+> cases the warning could be confusing.
+> 
+> We do not print warnings today when allocating huge pages via the
+> proc/sysfs interfaces.  We should not add one unless there is a very
+> good reason.
+
+OK. Will remove this in next version.
+
+> 
+>>   		init_nodemask_of_node(&nodes_allowed, nid);
+>>   		n_mask = &nodes_allowed;
+>>   	}
+>> @@ -6745,7 +6756,38 @@ void hugetlb_unshare_all_pmds(struct vm_area_struct *vma)
+>>   
+>>   static int __init cmdline_parse_hugetlb_cma(char *p)
+>>   {
+>> -	hugetlb_cma_size = memparse(p, &p);
+>> +	int nid, count = 0;
+>> +	unsigned long tmp;
+>> +	char *s = p;
+>> +
+>> +	while (*s) {
+>> +		if (sscanf(s, "%lu%n", &tmp, &count) != 1)
+>> +			break;
+>> +
+>> +		if (s[count] == ':') {
+>> +			nid = tmp;
+>> +			if (nid < 0 || nid >= MAX_NUMNODES)
+>> +				break;
+>> +
+>> +			s += count + 1;
+>> +			tmp = memparse(s, &s);
+>> +			hugetlb_cma_size_in_node[nid] = tmp;
+>> +			hugetlb_cma_size += tmp;
+>> +
+>> +			/*
+>> +			 * Skip the separator if have one, otherwise
+>> +			 * break the parsing.
+>> +			 */
+>> +			if (*s == ',')
+>> +				s++;
+>> +			else
+>> +				break;
+>> +		} else {
+>> +			hugetlb_cma_size = memparse(p, &p);
+>> +			break;
+>> +		}
+>> +	}
+>> +
+>>   	return 0;
+>>   }
+>>   
+>> @@ -6754,6 +6796,7 @@ static int __init cmdline_parse_hugetlb_cma(char *p)
+>>   void __init hugetlb_cma_reserve(int order)
+>>   {
+>>   	unsigned long size, reserved, per_node;
+>> +	bool node_specific_cma_alloc = false;
+>>   	int nid;
+>>   
+>>   	cma_reserve_called = true;
+>> @@ -6761,26 +6804,61 @@ void __init hugetlb_cma_reserve(int order)
+>>   	if (!hugetlb_cma_size)
+>>   		return;
+>>   
+>> +	for (nid = 0; nid < MAX_NUMNODES; nid++) {
+>> +		if (hugetlb_cma_size_in_node[nid] == 0)
+>> +			continue;
+>> +
+>> +		if (!node_state(nid, N_ONLINE)) {
+>> +			pr_warn("hugetlb_cma: invalid node %d specified\n", nid);
+>> +			hugetlb_cma_size -= hugetlb_cma_size_in_node[nid];
+>> +			hugetlb_cma_size_in_node[nid] = 0;
+>> +			continue;
+>> +		}
+>> +
+>> +		if (hugetlb_cma_size_in_node[nid] < (PAGE_SIZE << order)) {
+>> +			pr_warn("hugetlb_cma: cma area of node %d should be at least %lu MiB\n",
+>> +				nid, (PAGE_SIZE << order) / SZ_1M);
+>> +			hugetlb_cma_size -= hugetlb_cma_size_in_node[nid];
+>> +			hugetlb_cma_size_in_node[nid] = 0;
+>> +		} else {
+>> +			node_specific_cma_alloc = true;
+>> +		}
+>> +	}
+>> +
+>> +	/* Validate the CMA size again in case some invalid nodes specified. */
+>> +	if (!hugetlb_cma_size)
+>> +		return;
+>> +
+>>   	if (hugetlb_cma_size < (PAGE_SIZE << order)) {
+>>   		pr_warn("hugetlb_cma: cma area should be at least %lu MiB\n",
+>>   			(PAGE_SIZE << order) / SZ_1M);
+>>   		return;
+>>   	}
+> 
+> The series "hugetlb: add demote/split page functionality"
+> https://lore.kernel.org/linux-mm/20211007181918.136982-1-mike.kravetz@oracle.com/T/#mcb25f5edaa235b93dd0d0b8fb81ba15f0317feeb
+> is in Andrew's tree and has modified the above to set hugetlb_cma_size
+> to 0 before returning.
+> 
+> Code in that series uses the varialbe hugetlb_cma_size to determine if
+> CMA was reserved and can possibly be used for huge pages.  If no CMA is
+> reserved in this routine, it must be set to 0.
+> 
+> The code below should be fine as it checks 'reserved' at the end of
+> routine and sets hugetlb_cma_size to zero if !reserved before returning.
+> 
+> Mostly wanted to point out the context conflict with Andrew's tree.  He
+> or you will need to fix this for the patch to apply.
+
+Thanks, I will rebase the code in next version.
