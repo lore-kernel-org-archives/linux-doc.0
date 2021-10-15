@@ -2,206 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22E2CC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Oct 2021 14:14:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48CAAC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Oct 2021 14:26:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 014A161090
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Oct 2021 14:14:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 284706115C
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Oct 2021 14:26:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234883AbhJOOQ0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Oct 2021 10:16:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51574 "EHLO
+        id S240287AbhJOO2R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Oct 2021 10:28:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236941AbhJOOQZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Oct 2021 10:16:25 -0400
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16D22C061570
-        for <linux-doc@vger.kernel.org>; Fri, 15 Oct 2021 07:14:19 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id z20so38867491edc.13
-        for <linux-doc@vger.kernel.org>; Fri, 15 Oct 2021 07:14:18 -0700 (PDT)
+        with ESMTP id S240273AbhJOO2P (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Oct 2021 10:28:15 -0400
+Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5842EC061570;
+        Fri, 15 Oct 2021 07:26:09 -0700 (PDT)
+Received: by mail-io1-xd2e.google.com with SMTP id s17so7877956ioa.13;
+        Fri, 15 Oct 2021 07:26:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=2rJxeYYnbN1BqAbq3eridm9U4CkbE9dBcGehVd60yHQ=;
-        b=xZnTHuAuPumh9gY513gOjcoEIBojcfbXPYblG9DBqCyu9w+7SrCdmuB7gEnT7Z2/d4
-         Dy00cnuQiOFiDnHDjDNkT/GAIVeUpSmQD0m54oMGRqXy5Jctgg5GVA7aiBkmWAhHZ5ao
-         mmZrlilcGq1V7vWDmvcuWZXD6Ud1+TP3WpVrdLJKXkT05p/WFnz3NJfjVcBUXZmmfIHV
-         S146osdHREWEWMw2xDl536hot0PN53Dd8+d0PBSnDAS5MyG9RN0uxY7RO/KqnNg/izm0
-         acovJz6ifR5SZBbU/WTJp1Q6ImMhYcwnQOgD5111c1pZp426p6Ms8IJutNaYI18Tpa8Z
-         SdFA==
+        bh=yoxPsmnc01VS+MXakR3w69x2ei/elIBkKRVWfGQtpeQ=;
+        b=Wk4FiEkzfymg8nQOcrLtLcRFiR/itEoqbhDsMUDdjABFxDgI/q+/eOpGiooJrLpbYR
+         /7CpmfDl0EcJ/JJxMAJlemV4qTNQ72boy7Aob6T6gMZ2F5s34G2qrCx1owFLyoQofl1j
+         6j0DSYAhigtADL3lnkRGVfVt8EViL22wKoLrjKcxxWoNaKdM16jbewLFgMPoGtzyZ7Rx
+         +pyFTwxwwy+4L2K0TUvfi3+hzwxxfVonIJoZLPpZwNMFCJbWJ5gLfCopR0oI0yxmFhAN
+         Wb5lNUABlWi5+DfO/5toq8ubNTgysiL8mWljPKgxRaFcRN/0DezYDnX6X0Jdbt/XxMX6
+         xDCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=2rJxeYYnbN1BqAbq3eridm9U4CkbE9dBcGehVd60yHQ=;
-        b=fWkuHaaAlCl3xJE5jzC8h18YrOA7ysJM6M2h3cqW64L0ogyi9T7VADEe023fK0Ey/v
-         3AL1CCWt7KjEuV7d7UhofAW18KKsIZoHTtzaFb2MV1Ua4rpYApL6A87/9faOG5bLHoMk
-         FCKjnAR2iR0l97ULm86WLNLx+NRZUF99qIGH1vGtKXW5oXiSDuctNLYNCD8bb1WlQHPI
-         aJu0zCSO14mR8hpi32V8Lr5Qny9uc+nqfCkTBRVMh2to0fG8nu5FmqKANUtixZwsLCZI
-         +ZMvMAa6Qk8p0k82agYtAHxef1tlVJuwOKvJTYRJzThrCPnD9YcemWlZwswVGG3imSdc
-         XSqQ==
-X-Gm-Message-State: AOAM532KwqeJ9jQrMOTXdKXK205gZ/TyOQhjb6wVcuUtCgOiI8ith3ky
-        HbSwfB5TJJdJiiZX25/D7kQZa7DA0vPVXUB6IzhkYA==
-X-Google-Smtp-Source: ABdhPJwyWhnDU7znLM6TsqQtys/OEF0zuKOS5DiBTSLCAfhLJHeCMdHnVxEZpmIrWGNBSmwyG8eCzKwO2UyHGqwnW8k=
-X-Received: by 2002:a50:d50c:: with SMTP id u12mr18241839edi.118.1634307227070;
- Fri, 15 Oct 2021 07:13:47 -0700 (PDT)
+        bh=yoxPsmnc01VS+MXakR3w69x2ei/elIBkKRVWfGQtpeQ=;
+        b=FOK5QhjWGk/fvS+MY0n/QFxDcXb6YXbP/Ftiskqpi5nnvDYVphgxgbPFJbbA9AIRiK
+         AQydxHgJTiDOcPHcOBSZjmYKwD0Ey0AfuTz8RBj8KVEHVgjoUi8JXyvOcZ/swUE1ZeZ+
+         Qmw2rZPQJH70Weeq1RPGkXCNbXNnbVQtFuqd943RSRJJnctR2UP+1zjpIETUPhiFGTNy
+         /WXwYZK7SsdMj1vR3Bot0qGvPam+rcVP0KeLBItFKTkOg6dmpd0If2CRFLF4gz5aCIkN
+         E9GVuBSl4NCaXllG8L61p0daUDlRE3GoY2ttAjGB6MJzdpR3oWWdH27Kv2dnbsGYeXJM
+         KLrA==
+X-Gm-Message-State: AOAM531ZocfGVPFztUpZ3Xxs65vaVjSiT/cjBrbCZFrhUCWgqwErqgtW
+        ByOfalo8uCAjUtR1j6HPZNvuv3x04EVkX+h1Rk8=
+X-Google-Smtp-Source: ABdhPJwqJKE4HRjNGvtHlHAn5UXmcbJDLTqP+RhK1SBxcQZWOPsrfkUqGDJu/vOqVZZXTrd6bq3S8U8fseoCy4YvBB0=
+X-Received: by 2002:a02:2124:: with SMTP id e36mr8485785jaa.35.1634307968705;
+ Fri, 15 Oct 2021 07:26:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211008081739.26807-1-brgl@bgdev.pl>
-In-Reply-To: <20211008081739.26807-1-brgl@bgdev.pl>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Fri, 15 Oct 2021 16:13:36 +0200
-Message-ID: <CAMRc=McpCw2TgLFCzvwOupd+RW2BoQRJKVTdbR6s2z+O2pJuUQ@mail.gmail.com>
-Subject: Re: [PATCH v7 0/8] gpio: implement the configfs testing module
-To:     Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>,
-        Shuah Khan <shuah@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Kent Gibson <warthog618@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Jack Winch <sunt.un.morcov@gmail.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>
-Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-doc <linux-doc@vger.kernel.org>
+References: <20211015055808.327453-1-pauk.denis@gmail.com> <20211015055808.327453-2-pauk.denis@gmail.com>
+ <CAHp75VfUYgYT_RSNXCc+_3rkBbywL8ZDcAFPwr=WbPzcD8MF0w@mail.gmail.com>
+In-Reply-To: <CAHp75VfUYgYT_RSNXCc+_3rkBbywL8ZDcAFPwr=WbPzcD8MF0w@mail.gmail.com>
+From:   Eugene Shalygin <eugene.shalygin@gmail.com>
+Date:   Fri, 15 Oct 2021 16:25:57 +0200
+Message-ID: <CAB95QAQMP58-H427+nASKBvHOHZtLQqgRBSPa+MqGU7_D42M2Q@mail.gmail.com>
+Subject: Re: [PATCH v7 1/2] hwmon: (asus_wmi_ec_sensors) Support B550 Asus WMI.
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Denis Pauk <pauk.denis@gmail.com>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        thomas@weissschuh.net, Tor Vic <torvic9@mailbox.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        kernel test robot <lkp@intel.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 8, 2021 at 10:17 AM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
->
-> I'm respinning this series now because I noticed that I need to start writing
-> tests for my work on the new libgpiod v2 code to make sense (it's just becoming
-> too complicated to make even remotely functional without test coverage). At the
-> same time I don't want to rewrite the tests using gpio-mockup if the goal is to
-> replace it with gpio-sim anyway.
->
-> I fixed issues pointed out by Al Viro and made sure that references are
-> correctly counted (including error paths) and that memory allocated for the
-> pending and live groups gets freed.
->
-> ===
->
-> Cc'ing Viresh too.
->
-> Viresh: while there's still a long way to go before the libgpio v2.0 release,
-> in order to merge the Rust bindings, we'll need a test-suite similar to what
-> we have now for C++ and Python bindings, except that it will have to be based
-> on the gpio-sim module when it makes its way into mainline.
->
-> ===
->
-> This series adds a new GPIO testing module based on configfs committable items
-> and sysfs. The goal is to provide a testing driver that will be configurable
-> at runtime (won't need module reload) and easily extensible. The control over
-> the attributes is also much more fine-grained than in gpio-mockup.
->
-> This series also contains a respin of the patches I sent separately to the
-> configfs maintainers - these patches implement the concept of committable
-> items that was well defined for a long time but never actually completed.
->
-> Apart from the new driver itself, its selftests and the configfs patches, this
-> series contains some changes to the bitmap API - most importantly: it adds
-> devres managed variants of bitmap_alloc() and bitmap_zalloc().
->
-> v1 -> v2:
-> - add selftests for gpio-sim
-> - add helper programs for selftests
-> - update the configfs rename callback to work with the new API introduced in
->   v5.11
-> - fix a missing quote in the documentation
-> - use !! whenever using bits operation that are required to return 0 or 1
-> - use provided bitmap API instead of reimplementing copy or fill operations
-> - fix a deadlock in gpio_sim_direction_output()
-> - add new read-only configfs attributes for mapping of configfs items to GPIO
->   device names
-> - and address other minor issues pointed out in reviews of v1
->
-> v2 -> v3:
-> - use devm_bitmap_alloc() instead of the zalloc variant if we're initializing
->   the bitmap with 1s
-> - drop the patch exporting device_is_bound()
-> - don't return -ENODEV from dev_nam and chip_name configfs attributes, return
->   a string indicating that the device is not available yet ('n/a')
-> - fix indentation where it makes sense
-> - don't protect IDA functions which use their own locking and where it's not
->   needed
-> - use kmemdup() instead of kzalloc() + memcpy()
-> - collected review tags
-> - minor coding style fixes
->
-> v3 -> v4:
-> - return 'none' instead of 'n/a' from dev_name and chip_name before the device
->   is registered
-> - use sysfs_emit() instead of s*printf()
-> - drop GPIO_SIM_MAX_PROP as it's only used in an array's definition where it's
->   fine to hardcode the value
->
-> v4 -> v5:
-> - drop lib patches that are already upstream
-> - use BIT() instead of (1UL << bit) for flags
-> - fix refcounting for the configfs_dirent in rename()
-> - drop d_move() from the rename() callback
-> - free memory allocated for the live and pending groups in configfs_d_iput()
->   and not in detach_groups()
-> - make sure that if a group of some name is in the live directory, a new group
->   with the same name cannot be created in the pending directory
->
-> v5 -> v6:
-> - go back to using (1UL << bit) instead of BIT()
-> - if the live group dentry doesn't exist for whatever reason at the time when
->   mkdir() in the pending group is called (would be a BUG()), return -ENOENT
->   instead of -EEXIST which should only be returned if given subsystem already
->   exists in either live or pending group
->
-> v6 -> v7:
-> - as detailed by Andy in commit 6fda593f3082 ("gpio: mockup: Convert to use
->   software nodes") removing device properties after the platform device is
->   removed but before the GPIO device gets dropped can lead to a use-after-free
->   bug - use software nodes to manually control the freeing of the properties
->
-> Bartosz Golaszewski (8):
->   configfs: increase the item name length
->   configfs: use (1UL << bit) for internal flags
->   configfs: implement committable items
->   samples: configfs: add a committable group
->   gpio: sim: new testing module
->   selftests: gpio: provide a helper for reading chip info
->   selftests: gpio: add a helper for reading GPIO line names
->   selftests: gpio: add test cases for gpio-sim
->
->  Documentation/admin-guide/gpio/gpio-sim.rst   |  72 ++
->  Documentation/filesystems/configfs.rst        |   6 +-
->  drivers/gpio/Kconfig                          |   8 +
->  drivers/gpio/Makefile                         |   1 +
->  drivers/gpio/gpio-sim.c                       | 886 ++++++++++++++++++
->  fs/configfs/configfs_internal.h               |  22 +-
->  fs/configfs/dir.c                             | 276 +++++-
->  include/linux/configfs.h                      |   3 +-
->  samples/configfs/configfs_sample.c            | 153 +++
->  tools/testing/selftests/gpio/.gitignore       |   2 +
->  tools/testing/selftests/gpio/Makefile         |   4 +-
->  tools/testing/selftests/gpio/config           |   1 +
->  tools/testing/selftests/gpio/gpio-chip-info.c |  57 ++
->  tools/testing/selftests/gpio/gpio-line-name.c |  55 ++
->  tools/testing/selftests/gpio/gpio-sim.sh      | 229 +++++
->  15 files changed, 1752 insertions(+), 23 deletions(-)
->  create mode 100644 Documentation/admin-guide/gpio/gpio-sim.rst
->  create mode 100644 drivers/gpio/gpio-sim.c
->  create mode 100644 tools/testing/selftests/gpio/gpio-chip-info.c
->  create mode 100644 tools/testing/selftests/gpio/gpio-line-name.c
->  create mode 100755 tools/testing/selftests/gpio/gpio-sim.sh
->
-> --
-> 2.30.1
->
+Hi, Andy,
 
-Another ping...
 
-Bart
+> > +#define        ASUSWMI_METHODID_BREC   0x42524543
+>
+> ...above has definitely an ASCII combination in hex format, care to
+> decode it in the comment?
+
+This is a constant from the WMI dispatch function, the number is a
+four-letter ASCII-encoded method name, here BREC, which is already
+noted in the define identifier. Is it needed to repeat that?
+
+> > +       utf16s_to_utf8s((wchar_t *)data, len * 2,  UTF16_LITTLE_ENDIAN, buffer, len * 2);
+>
+> > +       for (i = 0; i < len; i++, pos += 2)
+> > +               out[i] = (hex_to_bin(pos[0]) << 4) + hex_to_bin(pos[1]);
+>
+> NIH hex2bin().
+
+Does it make sense to call hex2bin() with size = 1?
+
+> > +       for (i = 0; i < len; i++) {
+> > +               byte = registers[i] >> 8;
+> > +               *pos = hex_asc_hi(byte);
+> > +               pos++;
+> > +               *pos = hex_asc_lo(byte);
+> > +               pos++;
+> > +               byte = registers[i];
+> > +               *pos = hex_asc_hi(byte);
+> > +               pos++;
+> > +               *pos = hex_asc_lo(byte);
+> > +               pos++;
+> > +       }
+>
+> NIH bin2hex()
+
+bin2hex() can't output UTF-16LE characters, can it? It would need an
+intermediate buffer and a call to convert ASCII (UTF-8) to UTF-16.
+
+
+> > +       obj = output.pointer;
+> > +       if (!obj || obj->type != ACPI_TYPE_BUFFER) {
+>
+> > +               acpi_os_free(obj);
+>
+> What's the point of calling acpi_os_free(obj) when you already know it's NULL?
+
+The case when obj->type != ACPI_TYPE_BUFFER
+
+Regards,
+Eugene
