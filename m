@@ -2,157 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C65D3C433FE
-	for <linux-doc@archiver.kernel.org>; Sat, 16 Oct 2021 11:29:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC1B0C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 16 Oct 2021 20:32:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A2AA06120A
-	for <linux-doc@archiver.kernel.org>; Sat, 16 Oct 2021 11:29:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BB7EB60F56
+	for <linux-doc@archiver.kernel.org>; Sat, 16 Oct 2021 20:32:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229848AbhJPLbN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 16 Oct 2021 07:31:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23491 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S244323AbhJPLbM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Oct 2021 07:31:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1634383744;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=FpnA9lYWxkJjvg75Ewu7vyuMBg8oJ+36xZYExlcfae0=;
-        b=X/LGTeiWIBLXsRHckAoQjixV/rpnIsy1JaX4ZFNzhvoHsSlMJBSRb0nVgGH0MMbZMatLtf
-        FpX9N6IEKRj0BEyUmCYXsDrGN4IPWkIJll+GMUDbdTzMz3UhU45ZgEVqCl987JFZ+r10FO
-        pTMW05bM3zxfVJf1WoKFDvw3JaXfOiE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-401-AX-aE8PPOTGtJ1ZuG3mfog-1; Sat, 16 Oct 2021 07:29:00 -0400
-X-MC-Unique: AX-aE8PPOTGtJ1ZuG3mfog-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91F0010A8E00;
-        Sat, 16 Oct 2021 11:28:57 +0000 (UTC)
-Received: from T590 (ovpn-8-19.pek2.redhat.com [10.72.8.19])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C8695DA61;
-        Sat, 16 Oct 2021 11:28:44 +0000 (UTC)
-Date:   Sat, 16 Oct 2021 19:28:39 +0800
-From:   Ming Lei <ming.lei@redhat.com>
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     tj@kernel.org, gregkh@linuxfoundation.org,
-        akpm@linux-foundation.org, minchan@kernel.org, jeyu@kernel.org,
-        shuah@kernel.org, bvanassche@acm.org, dan.j.williams@intel.com,
-        joe@perches.com, tglx@linutronix.de, keescook@chromium.org,
-        rostedt@goodmis.org, linux-spdx@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 11/12] zram: fix crashes with cpu hotplug multistate
-Message-ID: <YWq3Z++uoJ/kcp+3@T590>
-References: <20210927163805.808907-1-mcgrof@kernel.org>
- <20210927163805.808907-12-mcgrof@kernel.org>
- <YWeOJP2UJWYF94fu@T590>
- <YWeR4moCRh+ZHOmH@T590>
- <YWiSAN6xfYcUDJCb@bombadil.infradead.org>
- <YWjCpLUNPF3s4P2U@T590>
- <YWjJ0O7K+31Iz3ox@bombadil.infradead.org>
- <YWk9e957Hb+I7HvR@T590>
- <YWm68xUnAofop3PZ@bombadil.infradead.org>
+        id S234780AbhJPUe1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 16 Oct 2021 16:34:27 -0400
+Received: from o2.lv1nn.shared.sendgrid.net ([167.89.100.176]:30124 "EHLO
+        o2.lv1nn.shared.sendgrid.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233817AbhJPUe1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Oct 2021 16:34:27 -0400
+X-Greylist: delayed 501 seconds by postgrey-1.27 at vger.kernel.org; Sat, 16 Oct 2021 16:34:27 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wasin.io;
+        h=from:subject:mime-version:to:cc:content-transfer-encoding:
+        content-type;
+        s=s1; bh=qNBGXlLMnPhrJq5G4++xZYyQ0CDuclAGDf2//H9A8Jw=;
+        b=vOZiUPFv7s4UU2Qqs6qcRIpvwIdKNsdpEOPZ31ACdliidt7aC+7cDa5sV63kHcf/6Bp1
+        ePrcVJieJsrBjuo7PVyFVCwUpTsrPy6r8y1pQHGfKsWchBW30Pcu703hIa7nGaCrLbprCn
+        VeTLlpOrWdRq1mkVCWZmL+or4h6+lY84ZTD+cyBJhqfs1BEm/w5mL8mePvVGovIqhMLtwg
+        zCM4nubETAMubzioeHWqP3q8J0xDrmqTZkHVVdd+QQrgfCOv7m8lSKgqp1p7ybvgU2aGBX
+        3gichD9Ff1Ol8C/T1kkkAOkvjDx3XQY7IHfZ7k4NUaSCvhlgvOW+dAFkprgEyT5w==
+Received: by filterdrecv-75ff7b5ffb-ktk29 with SMTP id filterdrecv-75ff7b5ffb-ktk29-1-616B32BC-2A
+        2021-10-16 20:14:53.012529027 +0000 UTC m=+3880458.246409000
+Received: from mail.wasin.io (unknown)
+        by geopod-ismtpd-4-0 (SG) with ESMTP
+        id 8_MvZWIGSoqTZ3NnEzhUhw
+        for <linux-doc@vger.kernel.org>;
+        Sat, 16 Oct 2021 20:14:52.434 +0000 (UTC)
+Received: from mail.wasin.io (localhost.localdomain [127.0.0.1])
+        by mail.wasin.io (Postfix) with ESMTP id 979A4A7988
+        for <linux-doc@vger.kernel.org>; Sun, 17 Oct 2021 03:21:38 +0800 (SGT)
+X-Virus-Scanned: Debian amavisd-new at mail.wasin.io
+Received: from mail.wasin.io ([127.0.0.1])
+        by mail.wasin.io (mail.wasin.io [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id AmYsJ4HiYYVN for <linux-doc@vger.kernel.org>;
+        Sun, 17 Oct 2021 03:21:13 +0800 (SGT)
+Received: from haxpor-desktop.fritz.box (unknown [185.134.6.138])
+        by mail.wasin.io (Postfix) with ESMTPSA id 3270FA7982;
+        Sun, 17 Oct 2021 03:21:07 +0800 (SGT)
+From:   Wasin Thonkaew <wasin@wasin.io>
+Subject: [PATCH] docs: filesystems: Fix grammatical error "with" to "which"
+Date:   Sat, 16 Oct 2021 20:14:53 +0000 (UTC)
+Message-Id: <20211016201157.34240-1-wasin@wasin.io>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+X-SG-EID: =?us-ascii?Q?zTXXJmbXDq374aSgSvBccBfxYYlnkEq2csSLV7s2zvJ+VzBfif=2FVK=2F1r3dRlUa?=
+ =?us-ascii?Q?HKdShZ1bg6oUZY4XHrArWueftgMhcHLQFhZZy6b?=
+ =?us-ascii?Q?atsisLdt84+guylGSTU3AV0OcG0sMCXkHHCfYK5?=
+ =?us-ascii?Q?Mk710BzXcINFipmQeuvmqrdNCiynmOCWftbGoX2?=
+ =?us-ascii?Q?Nnz0g97GLF3vdZIfqMY1PUwX0YHzIPdU=2FU6LUbb?=
+ =?us-ascii?Q?IrEH11pHy9x2LZKI8vk4NXCjLLWNdpIYR++d2S?=
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Wasin Thonkaew <wasin@wasin.io>
+X-Entity-ID: 9qDajD32UCSRojGE52wDxw==
+Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YWm68xUnAofop3PZ@bombadil.infradead.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 15, 2021 at 10:31:31AM -0700, Luis Chamberlain wrote:
-> On Fri, Oct 15, 2021 at 04:36:11PM +0800, Ming Lei wrote:
-> > On Thu, Oct 14, 2021 at 05:22:40PM -0700, Luis Chamberlain wrote:
-> > > On Fri, Oct 15, 2021 at 07:52:04AM +0800, Ming Lei wrote:
-> > ...
-> > > > 
-> > > > We need to understand the exact reason why there is still cpuhp node
-> > > > left, can you share us the exact steps for reproducing the issue?
-> > > > Otherwise we may have to trace and narrow down the reason.
-> > > 
-> > > See my commit log for my own fix for this issue.
-> > 
-> > OK, thanks!
-> > 
-> > I can reproduce the issue, and the reason is that reset_store fails
-> > zram_remove() when unloading module, then the warning is caused.
-> > 
-> > The top 3 patches in the following tree can fix the issue:
-> > 
-> > https://github.com/ming1/linux/commits/my_v5.15-blk-dev
-> 
-> Thanks for trying an alternative fix! A crash stops yes, however this
+Signed-off-by: Wasin Thonkaew <wasin@wasin.io>
+---
+ Documentation/filesystems/autofs.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I doubt it is alternative since your patchset doesn't mention the exact
-reason of 'Error: Removing state 63 which has instances left.', that is
-simply caused by failing to remove zram because ->claim is set during
-unloading module.
-
-Yeah, you mentioned the race between disksize_store() vs. zram_remove(),
-however I don't think it is reproduced easily in the test because the race
-window is pretty small, also it can be fixed easily in my 3rd path
-without any complicated tricks.
-
-Not dig into details of your patchset via grabbing module reference
-count during show/store attribute of kernfs which is done in your patch
-9, but IMO this way isn't necessary:
-
-1) any driver module has to cleanup anything which may refer to symbols
-or data defined in module_exit of this driver
-
-2) device_del() is often done in module_exit(), once device_del()
-returns, no any new show/store on the device's kobject attribute
-is possible.
-
-3) it is _not_ a must or pattern for fixing bugs to hold one lock before
-calling device_del(), meantime the lock is required in the device's
-attribute show()/store(), which causes AA deadlock easily. Your approach
-just avoids the issue by not releasing module until all show/store are
-done.
-
-Also the model of using module refcount is usually that if anyone will
-use the module, grab one extra ref, and once the use is done, release
-it. For example of block device, the driver's module refcnt is grabbed
-when the disk/part is opened, and released when the disk/part is closed.
-
-
-> also ends up leaving the driver in an unrecoverable state after a few
-> tries. Ie, you CTRL-C the scripts and try again over and over again and
-> the driver ends up in a situation where it just says:
-> 
-> zram: Can't change algorithm for initialized device
-
-It means the algorithm can't be changed for one initialized device
-at the exact time. That is understandable because two zram02.sh are
-running concurrently.
-
-Your test script just runs two ./zram02.sh tasks concurrently forever,
-so what is your expected result for the test? Of course, it can't be
-over.
-
-I can't reproduce the 'unrecoverable' state in my test, can you share the
-stack trace log after that happens?
-
-Is the zram02.sh still running or slept somewhere in the 'unrecoverable'
-state? If it is still running, it means the current sleep point isn't
-interruptable when running 'CTRL-C'. In my test, after several 'CTRL-C',
-both the two zram02.sh started from two terminals can be terminated. If
-it is slept somewhere forever, it can be one problem.
-
-> 
-> And the zram module can't be removed at that point.
-
-It is just that systemd opens the zram or the disk is opened as swap
-disk, and once systemd closes it or after you run swapoff, it can be
-unloaded.
-
-
-Thanks,
-Ming
+diff --git a/Documentation/filesystems/autofs.rst b/Documentation/filesystems/autofs.rst
+index 681c6a492bc0..4f490278d22f 100644
+--- a/Documentation/filesystems/autofs.rst
++++ b/Documentation/filesystems/autofs.rst
+@@ -35,7 +35,7 @@ This document describes only the kernel module and the interactions
+ required with any user-space program.  Subsequent text refers to this
+ as the "automount daemon" or simply "the daemon".
+ 
+-"autofs" is a Linux kernel module with provides the "autofs"
++"autofs" is a Linux kernel module which provides the "autofs"
+ filesystem type.  Several "autofs" filesystems can be mounted and they
+ can each be managed separately, or all managed by the same daemon.
+ 
+-- 
+2.25.1
 
