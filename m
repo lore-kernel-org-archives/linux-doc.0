@@ -2,86 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC1B0C433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 16 Oct 2021 20:32:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E7EBC433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 16 Oct 2021 22:23:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BB7EB60F56
-	for <linux-doc@archiver.kernel.org>; Sat, 16 Oct 2021 20:32:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1939D6101E
+	for <linux-doc@archiver.kernel.org>; Sat, 16 Oct 2021 22:23:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234780AbhJPUe1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 16 Oct 2021 16:34:27 -0400
-Received: from o2.lv1nn.shared.sendgrid.net ([167.89.100.176]:30124 "EHLO
-        o2.lv1nn.shared.sendgrid.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233817AbhJPUe1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Oct 2021 16:34:27 -0400
-X-Greylist: delayed 501 seconds by postgrey-1.27 at vger.kernel.org; Sat, 16 Oct 2021 16:34:27 EDT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wasin.io;
-        h=from:subject:mime-version:to:cc:content-transfer-encoding:
-        content-type;
-        s=s1; bh=qNBGXlLMnPhrJq5G4++xZYyQ0CDuclAGDf2//H9A8Jw=;
-        b=vOZiUPFv7s4UU2Qqs6qcRIpvwIdKNsdpEOPZ31ACdliidt7aC+7cDa5sV63kHcf/6Bp1
-        ePrcVJieJsrBjuo7PVyFVCwUpTsrPy6r8y1pQHGfKsWchBW30Pcu703hIa7nGaCrLbprCn
-        VeTLlpOrWdRq1mkVCWZmL+or4h6+lY84ZTD+cyBJhqfs1BEm/w5mL8mePvVGovIqhMLtwg
-        zCM4nubETAMubzioeHWqP3q8J0xDrmqTZkHVVdd+QQrgfCOv7m8lSKgqp1p7ybvgU2aGBX
-        3gichD9Ff1Ol8C/T1kkkAOkvjDx3XQY7IHfZ7k4NUaSCvhlgvOW+dAFkprgEyT5w==
-Received: by filterdrecv-75ff7b5ffb-ktk29 with SMTP id filterdrecv-75ff7b5ffb-ktk29-1-616B32BC-2A
-        2021-10-16 20:14:53.012529027 +0000 UTC m=+3880458.246409000
-Received: from mail.wasin.io (unknown)
-        by geopod-ismtpd-4-0 (SG) with ESMTP
-        id 8_MvZWIGSoqTZ3NnEzhUhw
-        for <linux-doc@vger.kernel.org>;
-        Sat, 16 Oct 2021 20:14:52.434 +0000 (UTC)
-Received: from mail.wasin.io (localhost.localdomain [127.0.0.1])
-        by mail.wasin.io (Postfix) with ESMTP id 979A4A7988
-        for <linux-doc@vger.kernel.org>; Sun, 17 Oct 2021 03:21:38 +0800 (SGT)
-X-Virus-Scanned: Debian amavisd-new at mail.wasin.io
-Received: from mail.wasin.io ([127.0.0.1])
-        by mail.wasin.io (mail.wasin.io [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id AmYsJ4HiYYVN for <linux-doc@vger.kernel.org>;
-        Sun, 17 Oct 2021 03:21:13 +0800 (SGT)
-Received: from haxpor-desktop.fritz.box (unknown [185.134.6.138])
-        by mail.wasin.io (Postfix) with ESMTPSA id 3270FA7982;
-        Sun, 17 Oct 2021 03:21:07 +0800 (SGT)
-From:   Wasin Thonkaew <wasin@wasin.io>
-Subject: [PATCH] docs: filesystems: Fix grammatical error "with" to "which"
-Date:   Sat, 16 Oct 2021 20:14:53 +0000 (UTC)
-Message-Id: <20211016201157.34240-1-wasin@wasin.io>
-X-Mailer: git-send-email 2.25.1
+        id S235882AbhJPWZg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 16 Oct 2021 18:25:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54794 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235717AbhJPWZf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Oct 2021 18:25:35 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D397CC061767
+        for <linux-doc@vger.kernel.org>; Sat, 16 Oct 2021 15:23:26 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id z11so56257764lfj.4
+        for <linux-doc@vger.kernel.org>; Sat, 16 Oct 2021 15:23:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=p3FVWFHYEJvia2KboNohOnop6t5qjPeV+JIRsjfGAvQ=;
+        b=PcAfAJ7La6ATrlQFcKj7Yet2plWqrYwTqKqG/hqo3fQBaEj6mz9AjBYZpLX7Goa7kG
+         WONoO8E7+mM4nmkHFzZLwRWN6R7cbBo4QYHHG456kCYDvZ/RRM58fp3jMbBN9mJ8Lgi2
+         sLYv9K5RYXsm+91VwuyzZBqiIq5H/yAlZVhhGN9Odnp43B2MXKkQ9N3p0KsiiVgVTciD
+         OOEmPLMpfxafQu6UWwRvwDG7p77SdPnKMTg+bsSib0rt16VzJNDug1yI1+Y5Vqw7FaQK
+         /9lxOCfxHnxNFisfQXozF2WYWF0N6v27DXcrdxFuYLthvGEUF3EWFtE6Nj4sNnzORmBs
+         X0wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=p3FVWFHYEJvia2KboNohOnop6t5qjPeV+JIRsjfGAvQ=;
+        b=KHKcI8ikMmp4A5X1NVJzHXlRgPTiOS0K0LEcQ0PGIO5/KIiNfsNEhxf9l2O7X26w9u
+         PZsIIM37dxkQesqcoISG128kS0cn4uh8iitBQZCLjq3Wk6dmthK7QGsenQmz4Sw23cox
+         eKzzvvdTQXj80KyPjZE0Tzbv5Jtroen95oB6v00aJRh+ZK5muMnF3OYq8E6UELxddkIr
+         axE5vgusiLiccWMINYxm6PjKz71Q5RBzCV6OfudFYYQXeXdBzGbRZwD+K8Rk8PqSg0VA
+         1ixcSjJDhGE7L26uHZE1vrVWoqIJU0z3QLHh4UtYIdhW/McpSH+VohAuV7hdLcUhtKxs
+         DgSA==
+X-Gm-Message-State: AOAM530p8vrawsXvIip91FvTA0mu+8t47hgfnbMQFg9iCyXaxxx+t85Z
+        x9CXSBWGwu8YUu6AbmCmKIZtLOgmVrVMJEZnAosHdA==
+X-Google-Smtp-Source: ABdhPJy82eQjg2a0KgyXHCV7OyYHGgWPCMzm75KYH0/22I29cGhFGc7f/I9ftrW1M4rzVCVFOHqliZaq2imdQccEUC4=
+X-Received: by 2002:a05:6512:3e9:: with SMTP id n9mr21107873lfq.72.1634423005077;
+ Sat, 16 Oct 2021 15:23:25 -0700 (PDT)
 MIME-Version: 1.0
-X-SG-EID: =?us-ascii?Q?zTXXJmbXDq374aSgSvBccBfxYYlnkEq2csSLV7s2zvJ+VzBfif=2FVK=2F1r3dRlUa?=
- =?us-ascii?Q?HKdShZ1bg6oUZY4XHrArWueftgMhcHLQFhZZy6b?=
- =?us-ascii?Q?atsisLdt84+guylGSTU3AV0OcG0sMCXkHHCfYK5?=
- =?us-ascii?Q?Mk710BzXcINFipmQeuvmqrdNCiynmOCWftbGoX2?=
- =?us-ascii?Q?Nnz0g97GLF3vdZIfqMY1PUwX0YHzIPdU=2FU6LUbb?=
- =?us-ascii?Q?IrEH11pHy9x2LZKI8vk4NXCjLLWNdpIYR++d2S?=
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Wasin Thonkaew <wasin@wasin.io>
-X-Entity-ID: 9qDajD32UCSRojGE52wDxw==
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset=us-ascii
+References: <20211008081739.26807-1-brgl@bgdev.pl> <CAMRc=McpCw2TgLFCzvwOupd+RW2BoQRJKVTdbR6s2z+O2pJuUQ@mail.gmail.com>
+In-Reply-To: <CAMRc=McpCw2TgLFCzvwOupd+RW2BoQRJKVTdbR6s2z+O2pJuUQ@mail.gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Sun, 17 Oct 2021 00:23:13 +0200
+Message-ID: <CACRpkdYtD-3vX1VW9uLn3zqxD7gYjCXs+NgLHfnsZHhcA4nJyw@mail.gmail.com>
+Subject: Re: [PATCH v7 0/8] gpio: implement the configfs testing module
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>,
+        Shuah Khan <shuah@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Kent Gibson <warthog618@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Jack Winch <sunt.un.morcov@gmail.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-doc <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Signed-off-by: Wasin Thonkaew <wasin@wasin.io>
----
- Documentation/filesystems/autofs.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Fri, Oct 15, 2021 at 4:13 PM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
 
-diff --git a/Documentation/filesystems/autofs.rst b/Documentation/filesystems/autofs.rst
-index 681c6a492bc0..4f490278d22f 100644
---- a/Documentation/filesystems/autofs.rst
-+++ b/Documentation/filesystems/autofs.rst
-@@ -35,7 +35,7 @@ This document describes only the kernel module and the interactions
- required with any user-space program.  Subsequent text refers to this
- as the "automount daemon" or simply "the daemon".
- 
--"autofs" is a Linux kernel module with provides the "autofs"
-+"autofs" is a Linux kernel module which provides the "autofs"
- filesystem type.  Several "autofs" filesystems can be mounted and they
- can each be managed separately, or all managed by the same daemon.
- 
--- 
-2.25.1
+> Another ping...
 
+If it's hard to get attention I would simply queue these on a immutable branch
+in the GPIO tree, then merge it into what you send to linux-next and offer
+the interested parties to pull it in.
+
+If noone complains as we get really close to the merge window, just offer
+this branch to Torvalds in a separate pull request.
+
+Yours,
+Linus Walleij
