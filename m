@@ -2,54 +2,54 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7658EC433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 16 Oct 2021 04:25:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 972F9C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 16 Oct 2021 04:25:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 50EF661073
-	for <linux-doc@archiver.kernel.org>; Sat, 16 Oct 2021 04:25:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6F1D261211
+	for <linux-doc@archiver.kernel.org>; Sat, 16 Oct 2021 04:25:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239493AbhJPE1V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 16 Oct 2021 00:27:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46038 "EHLO
+        id S229451AbhJPE10 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 16 Oct 2021 00:27:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbhJPE1V (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Oct 2021 00:27:21 -0400
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CF47C061570
-        for <linux-doc@vger.kernel.org>; Fri, 15 Oct 2021 21:25:14 -0700 (PDT)
-Received: by mail-ot1-x32d.google.com with SMTP id l16-20020a9d6a90000000b0054e7ab56f27so787275otq.12
-        for <linux-doc@vger.kernel.org>; Fri, 15 Oct 2021 21:25:14 -0700 (PDT)
+        with ESMTP id S239533AbhJPE1Z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Oct 2021 00:27:25 -0400
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com [IPv6:2607:f8b0:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F057C061570
+        for <linux-doc@vger.kernel.org>; Fri, 15 Oct 2021 21:25:18 -0700 (PDT)
+Received: by mail-ot1-x332.google.com with SMTP id p6-20020a9d7446000000b0054e6bb223f3so322177otk.3
+        for <linux-doc@vger.kernel.org>; Fri, 15 Oct 2021 21:25:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ttHG94EZHsD+P+/9KmyJTL/xAboWx2cUCq0Dm+TL3NU=;
-        b=R+w2LRSRYENdkhvkNWjsKAWxGt57NB/N4N8xbi6c+vHGHEBqhpAS+4Rk8sDYHLVfMR
-         zmhaizi0kxMbakTkwprfIBi1xDq6ZOAwpPbhX/GPEaCqHjr5YMwq26hJkm0a+Yi+jrTn
-         mqCJmLZigJwi3b5nrDTpmvOHnb9DeolPZHkmmyL3h6JAbCsEOtpky9RLM/urDuJCJHxK
-         lcyUyoLtH3fCPBiVCJ6IHSU9oBqUYbz/73f6Nsa8jcQowYLITQl8vni2442JAp+3/II2
-         c4vg+jSas5A1eiy0d5R/Emd6WIGY6IYVSQtoCkmPZO6iG7oebAdAUVHUdpFIpwcV+4lj
-         0byw==
+        bh=m+b5ZlNmpnVFCl8nE9x1/8J/Upes135Oeig6X9QA02o=;
+        b=T1tjtQkYlJPk3/QMNKD3x5Vp6yP2e22F/19cxUumqrYDpoc30BkQuhLWZNh7F0tTlw
+         1npp8C93kTPGoj6VgsFI2ItjPZhKrRvnXrm/qzBw2+lVV5hG3aAb79XKsLGYIFmh1Jol
+         cusfAmn+EgneKAwf79I5V+POBAmJMvfxMReHu4wnPeJHsria9R83HLzbVwBvRoNDJiRd
+         kBLlZMhasRWgrmjeSkMlV0oKkJW6yJv5Epu5ZetEWmk7FfdVuap95NjSfCS862touj/H
+         FZNLPRHgkBknkLFS3qHHyfh0kj+LrORQeSMrjQqYOvgOQJWDyqh/uZuLTqbTLLc8RNk0
+         QUdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ttHG94EZHsD+P+/9KmyJTL/xAboWx2cUCq0Dm+TL3NU=;
-        b=4Ka8CwH7RTbUM5FvFtxmx5j7wUKJUsjoE6u7l0F6ESQdNgnaEqTweBJZkT6elRDd6R
-         QjCLs8St7sbJsfllnh265RM9eCGl0bjDo8ksXRF3NcRUZIyWCuhj6IZf4WozMkfJxc5d
-         GQwXeSlO+gn4ktT7f3clzv2cAfMMQiGccFQllM1O50l0w6FR4rgEGxQgdQb5Z58AQXq8
-         Qlx10ea7u7DPm5yZlqbUWjvcIWJWfd5UMfEVCvhUbffm7E9/495t4EpCr1d0DV5AIlZh
-         SBkMX00hRAmGsXZNYKDySunbsMJvBZDYHqhneci6RlE9tKr90DCvROeqTOj1cyh6u+GZ
-         fWfg==
-X-Gm-Message-State: AOAM531c9srHJEHrsqTOjm3LIaKXcMHvG+6F5HIMqk3rtL5BQzW2NffC
-        JYrauY16AWG9M0VoWVpv4CU=
-X-Google-Smtp-Source: ABdhPJzaXj6kxCsioYM9QNAdSuNwj04oX+jWf7ddAf9ZefEK8Py8E+4DYiRB2aZHFsdQ6gT+1Y5gLg==
-X-Received: by 2002:a05:6830:349d:: with SMTP id c29mr9114214otu.263.1634358311547;
-        Fri, 15 Oct 2021 21:25:11 -0700 (PDT)
+        bh=m+b5ZlNmpnVFCl8nE9x1/8J/Upes135Oeig6X9QA02o=;
+        b=mjqzQ3ZWkSBwbk5dLMqFoARCIt+VCKX/FexfO4oMKyx5/SeT1NcLEv3yBYNcUZ+xcy
+         ajgzhmfG/H7n4ci1pqGGZhainoDFU9pEoYEX5uLV3x4JKs79LeBrRbI2VT/7Q/JXAd3d
+         EK5Xphyx4Tp2/92Qg8zCpyQZQzNavBrkVKYnnLO+GCfdQRu8Oho5pCxY4j/gb47v4wsX
+         VzzRo87f5WfP+aN47R7P92AibFfBKy7jDIZwcdpIYAtZYB8IRKEaY2vSwRyTnCrw/I5L
+         84ZDZGUce5zHCh7/RGjDNrPFpn1r5TV3veeCmHXZMELhKkQi9setWt5rI4Pkspx2OiwX
+         YCAw==
+X-Gm-Message-State: AOAM530+bJL3kfgNKW5Ew7olMN09eh0Y3qfBRp+oxeRXXY73vlujK25P
+        KadGdXuichuZRM0dzrAlF3J/eIt31lfVtA==
+X-Google-Smtp-Source: ABdhPJxdMFEn4o8TE+Qk2GNJ26szMLtsJLsNLkD64ALSsIkZ/pCwHMAxSIDlwCwKbN603VuGQ8e9BA==
+X-Received: by 2002:a05:6830:1af0:: with SMTP id c16mr11129071otd.16.1634358315580;
+        Fri, 15 Oct 2021 21:25:15 -0700 (PDT)
 Received: from localhost.localdomain ([8.26.182.34])
-        by smtp.gmail.com with ESMTPSA id e23sm1633558oih.40.2021.10.15.21.25.07
+        by smtp.gmail.com with ESMTPSA id e23sm1633558oih.40.2021.10.15.21.25.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Oct 2021 21:25:11 -0700 (PDT)
+        Fri, 15 Oct 2021 21:25:15 -0700 (PDT)
 From:   Yanteng Si <siyanteng01@gmail.com>
 X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
 To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
@@ -57,9 +57,9 @@ To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
 Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
         jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
         realpuyuwang@gmail.com, siyanteng01@gmail.com
-Subject: [PATCH v2 1/2] docs/zh_CN: add core-api assoc_array translation
-Date:   Sat, 16 Oct 2021 12:24:46 +0800
-Message-Id: <860ac85d9a2a83c2b63eb8d1be929ad64280d7b2.1634358018.git.siyanteng@loongson.cn>
+Subject: [PATCH v2 2/2] docs/zh_CN: add core-api xarray translation
+Date:   Sat, 16 Oct 2021 12:24:47 +0800
+Message-Id: <2a125bcb3220e7c1b72ae87bcad1b225dd950338.1634358018.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1634358018.git.siyanteng@loongson.cn>
 References: <cover.1634358018.git.siyanteng@loongson.cn>
@@ -70,25 +70,44 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate Documentation/core-api/assoc_array.rst into Chinese.
+Translate Documentation/core-api/xarray.rst into Chinese
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 Reviewed-by: Alex Shi <alexs@kernel.org>
 ---
- .../zh_CN/core-api/assoc_array.rst            | 473 ++++++++++++++++++
- .../translations/zh_CN/core-api/index.rst     |   2 +-
- 2 files changed, 474 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/core-api/assoc_array.rst
+ .../translations/zh_CN/core-api/index.rst     |   3 +-
+ .../translations/zh_CN/core-api/xarray.rst    | 371 ++++++++++++++++++
+ 2 files changed, 373 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/core-api/xarray.rst
 
-diff --git a/Documentation/translations/zh_CN/core-api/assoc_array.rst b/Documentation/translations/zh_CN/core-api/assoc_array.rst
+diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
+index 741723011281..d10191c45cf1 100644
+--- a/Documentation/translations/zh_CN/core-api/index.rst
++++ b/Documentation/translations/zh_CN/core-api/index.rst
+@@ -41,11 +41,12 @@
+    kobject
+    kref
+    assoc_array
++   xarray
+ 
+ Todolist:
+ 
+ 
+-   xarray
++
+    idr
+    circular-buffers
+    rbtree
+diff --git a/Documentation/translations/zh_CN/core-api/xarray.rst b/Documentation/translations/zh_CN/core-api/xarray.rst
 new file mode 100644
-index 000000000000..3649bf0d1488
+index 000000000000..ff2d9bcb7c34
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/core-api/assoc_array.rst
-@@ -0,0 +1,473 @@
++++ b/Documentation/translations/zh_CN/core-api/xarray.rst
+@@ -0,0 +1,371 @@
++.. SPDX-License-Identifier: GPL-2.0+
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/core-api/assoc_array.rst
++:Original: Documentation/core-api/xarray.rst
 +
 +:翻译:
 +
@@ -98,484 +117,364 @@ index 000000000000..3649bf0d1488
 +
 +
 +
-+.. _cn_core-api_assoc_array:
++.. _cn_core-api_xarray:
 +
-+==================
-+通用关联数组的实现
-+==================
++======
++XArray
++======
 +
-+简介
++:作者: Matthew Wilcox
++
++概览
 +====
 +
-+这个关联数组的实现是一个具有以下属性的对象容器:
++XArray是一个抽象的数据类型，它的行为就像一个非常大的指针数组。它满足了许多与哈
++希或传统可调整大小的数组相同的需求。与哈希不同的是，它允许你以一种高效的缓存方
++式合理地转到下一个或上一个条目。与可调整大小的数组相比，不需要复制数据或改变MMU
++的映射来增加数组。与双链表相比，它的内存效率更高，可并行，对缓存更友好。它利用
++RCU的优势来执行查找而不需要锁定。
 +
-+1. 对象是不透明的指针。该实现不关心它们指向哪里（如果有的话）或它们指向什么（如果有的
-+   话）。
++当使用的索引是密集聚集的时候，XArray的实现是有效的；而哈希对象并使用哈希作为索引
++将不会有好的表现。XArray对小的索引进行了优化，不过对大的索引仍有良好的性能。如果
++你的索引可以大于 ``ULONG_MAX`` ，那么XArray就不适合你的数据类型。XArray最重要
++的用户是页面高速缓存。
 +
-+   .. note::
++普通指针可以直接存储在XArray中。它们必须是4字节对齐的，这对任何从kmalloc()和
++alloc_page()返回的指针来说都是如此。这对任意的用户空间指针和函数指针来说都不是
++真的。你可以存储指向静态分配对象的指针，只要这些对象的对齐方式至少是4（字节）。
 +
-+      指向对象的指针 *必须* 在最小有效位为零。
++你也可以在XArray中存储0到 ``LONG_MAX`` 之间的整数。你必须首先使用xa_mk_value()
++将其转换为一个条目。当你从XArray中检索一个条目时，你可以通过调用xa_is_value()检
++查它是否是一个值条目，并通过调用xa_to_value()将它转换回一个整数。
 +
-+2. 对象不需要包含供数组使用的链接块。这允许一个对象同时位于多个数组中。相反，数组是
-+   由指向对象的元数据块组成的。
++一些用户希望对他们存储在XArray中的指针进行标记。你可以调用xa_tag_pointer()来创建
++一个带有标签的条目，xa_untag_pointer()将一个有标签的条目转回一个无标签的指针，
++xa_pointer_tag()来检索一个条目的标签。标签指针使用相同的位，用于区分值条目和普通
++指针，所以你必须决定他们是否要在任何特定的XArray中存储值条目或标签指针。
 +
-+3. 对象需要索引键来定位它们在阵列中的位置。
++XArray不支持存储IS_ERR()指针，因为有些指针与值条目或内部条目冲突。
 +
-+4. 索引键必须是唯一的。插入一个与已经在数组中的且具有相同键值的对象将取代旧的对象。
++XArray的一个不寻常的特点是能够创建占据一系列索引的条目。一旦存储到其中，查询该范围
++内的任何索引将返回与查询该范围内任何其他索引相同的条目。存储到任何索引都会存储所有
++的索引条目。多索引条目可以明确地分割成更小的条目，或者将其存储 ``NULL`` 到任何条目中
++都会使XArray忘记范围。
 +
-+5. 索引键可以是任何长度，也可以是不同的长度。
-+
-+6. 索引键应该在早期就对长度进行编码，即在任何由于长度引起的变化出现之前。
-+
-+7. 索引键可以包括一个哈希值，以便将对象分散到整个数组中。
-+
-+8. 该数组可以迭代。对象不一定会按索引键的顺序出现。
-+
-+9.  数组可以在被修改的时候进行迭代，只要RCU的读锁被迭代器持有。然而，请注意，在这种情
-+    况下，一些对象可能会被看到不止一次。如果这是个问题，迭代器应该锁定以防止修改。然
-+    而，除非删除，否则对象不会被错过。
-+
-+10. 数组中的对象可以通过其索引键进行查询。
-+
-+11. 当数组被修改时，对象可以被查询，前提是进行查询的线程持有RCU的读锁。
-+
-+该实现在内部使用了一棵由16个指针节点组成的树，这些节点在每一层都由索引键的小数点进行索
-+引，其方式与基数树相同。为了提高内存效率，可以放置快捷键，以跳过本来是一系列单占节点的地
-+方。此外，节点将叶子对象指针打包到节点的空闲空间中，而不是做一个额外的分支，直到有对象
-+需要被添加到一个完整的节点中。
-+
-+公用API
++普通API
 +=======
 +
-+公用API可以在 ``<linux/assoc_array.h>`` 中找到。关联数组的根是以下结构::
++首先初始化一个XArray，对于静态分配的XArray可以用DEFINE_XARRAY()，对于动态分配的
++XArray可以用xa_init()。一个新初始化的XArray在每个索引处都包含一个 ``NULL`` 指针。
 +
-+    struct assoc_array {
-+            ...
-+    };
++然后你可以用xa_store()来设置条目，用xa_load()来获取条目。xa_store将用新的条目覆盖任
++何条目，并返回存储在该索引的上一个条目。你可以使用xa_erase()来代替调用xa_store()的
++``NULL`` 条目。一个从未被存储过的条目、一个被擦除的条目和一个最近被存储过 ``NULL`` 的
++条目之间没有区别。
 +
-+该代码是通过启用 ``CONFIG_ASSOCIATIVE_ARRAY`` 来选择的，以::
++你可以通过使用xa_cmpxchg()有条件地替换一个索引中的条目。和cmpxchg()一样，它只有在该索
++引的条目有 ‘旧‘ 值时才会成功。它也会返回该索引上的条目；如果它返回与传递的 ‘旧‘ 相同的条
++目，那么xa_cmpxchg()就成功了。
 +
-+    ./script/config -e ASSOCIATIVE_ARRAY
++如果你只想在某个索引的当前条目为 ``NULL`` 时将一个新条目存储到该索引，你可以使用xa_insert()，
++如果该条目不是空的，则返回 ``-EBUSY`` 。
 +
++你可以通过调用xa_extract()将条目从XArray中复制到一个普通数组中。或者你可以通过调用
++xa_for_each()、xa_for_each_start()或xa_for_each_range()来遍历XArray中的现有条目。你
++可能更喜欢使用xa_find()或xa_find_after()来移动到XArray中的下一个当前条目。
 +
-+编辑脚本
++调用xa_store_range()可以在一个索引范围内存储同一个条目。如果你这样做，其他的一些操作将以
++一种稍微奇怪的方式进行。例如，在一个索引上标记条目可能会导致该条目在一些，但不是所有其他索
++引上被标记。储存到一个索引中可能会导致由一些，但不是所有其他索引检索的条目发生变化。
++
++有时你需要确保对xa_store()的后续调用将不需要分配内存。xa_reserve()函数将在指定索引处存储
++一个保留条目。普通API的用户将看到这个条目包含 ``NULL`` 。如果你不需要使用保留的条目，你可
++以调用xa_release()来删除这个未使用的条目。如果在此期间有其他用户存储到该条目，xa_release()
++将不做任何事情；相反，如果你想让该条目变成 ``NULL`` ，你应该使用xa_erase()。在一个保留的条
++目上使用xa_insert()将会失败。
++
++如果数组中的所有条目都是 ``NULL`` ，xa_empty()函数将返回 ``true`` 。
++
++最后，你可以通过调用xa_destroy()删除XArray中的所有条目。如果XArray的条目是指针，你可能希望
++先释放这些条目。你可以通过使用xa_for_each()迭代器遍历XArray中所有存在的条目来实现这一目的。
++
++搜索标记
 +--------
 +
-+插入和删除功能会产生一个“编辑脚本”，以后可以应用这个脚本来实现更改，而不会造成 ``ENOMEM``
-+风险。这保留了将被安装在内部树中的预分配的元数据块，并跟踪应用脚本时将从树中删除的元数
-+据块。
++数组中的每个条目都有三个与之相关的位，称为标记。每个标记可以独立于其他标记被设置或清除。你可以
++通过使用xa_for_each_marked()迭代器来迭代有标记的条目。
 +
-+在脚本应用后，这也被用来跟踪死块和死对象，以便以后可以释放它们。释放是在RCU宽限期过后
-+进行的--因此允许访问功能在RCU读锁下进行。
++你可以通过使用xa_get_mark()来查询某个条目是否设置了标记。如果该条目不是 ``NULL`` ，你可以通过
++使用xa_set_mark()来设置一个标记，并通过调用xa_clear_mark()来删除条目上的标记。你可以通过调用
++xa_marked()来询问XArray中的任何条目是否有一个特定的标记被设置。从XArray中删除一个条目会导致与
++该条目相关的所有标记被清除。
 +
-+脚本在API之外显示为一个类型为::
++在一个多索引条目的任何索引上设置或清除标记将影响该条目所涵盖的所有索引。查询任何索引上的标记将返
++回相同的结果。
 +
-+    struct assoc_array_edit;
++没有办法对没有标记的条目进行迭代；数据结构不允许有效地实现这一点。目前没有迭代器来搜索比特的逻辑
++组合（例如迭代所有同时设置了 ``XA_MARK_1`` 和 ``XA_MARK_2`` 的条目，或者迭代所有设置了
++``XA_MARK_0`` 或 ``XA_MARK_2`` 的条目）。如果有用户需要，可以增加这些内容。
 +
-+有两个处理脚本的功能:
++分配XArrays
++-----------
 +
-+1. 应用一个编辑脚本::
++如果你使用DEFINE_XARRAY_ALLOC()来定义XArray，或者通过向xa_init_flags()传递 ``XA_FLAGS_ALLOC``
++来初始化它，XArray会改变以跟踪条目是否被使用。
 +
-+    void assoc_array_apply_edit(struct assoc_array_edit *edit);
++你可以调用xa_alloc()将条目存储在XArray中一个未使用的索引上。如果你需要从中断上下文中修改数组，你
++可以使用xa_alloc_bh()或xa_alloc_irq()，在分配ID的同时禁用中断。
 +
-+这将执行编辑功能，插值各种写屏障，以允许在RCU读锁下的访问继续进行。然后，编辑脚本将被
-+传递给 ``call_rcu()`` ，以释放它和它所指向的任何死的东西。
++使用xa_store()、xa_cmpxchg()或xa_insert()也将标记该条目为正在分配。与普通的XArray不同，存储 ``NULL``
++将标记该条目为正在使用中，就像xa_reserve()。要释放一个条目，请使用xa_erase()（或者xa_release()，
++如果你只想释放一个 ``NULL`` 的条目）。
 +
-+2. Cancel an edit script::
++默认情况下，最低的空闲条目从0开始分配。如果你想从1开始分配条目，使用DEFINE_XARRAY_ALLOC1()或
++``XA_FLAGS_ALLOC1`` 会更有效。如果你想分配ID到一个最大值，然后绕回最低的空闲ID，你可以使用
++xa_alloc_cyclic()。
 +
-+    void assoc_array_cancel_edit(struct assoc_array_edit *edit);
++你不能在分配的XArray中使用 ``XA_MARK_0`` ，因为这个标记是用来跟踪一个条目是否是空闲的。其他的
++标记可以供你使用。
 +
-+这将立即释放编辑脚本和所有预分配的内存。如果这是为了插入，新的对象不会被这个函数释放，
-+而是必须由调用者释放。
-+
-+这些函数保证不会失败。
-+
-+
-+操作表
-+------
-+
-+各种功能采用了一个操作表::
-+
-+    struct assoc_array_ops {
-+            ...
-+    };
-+
-+这指出了一些方法，所有这些方法都需要提供:
-+
-+1. 从调用者数据中获取索引键的一个块::
-+
-+    unsigned long (*get_key_chunk)(const void *index_key, int level);
-+
-+这应该返回一个由调用者提供的索引键的块，从level参数给出的 *比特* 位置开始。level参数将
-+是 ``ASSOC_ARRAY_KEY_CHUNK_SIZE`` 的倍数，该函数应返回 ``ASSOC_ARRAY_KEY_CHUNK_SIZE``
-+位。不可能出现错误。
-+
-+
-+2. 获取一个对象的索引键的一个块::
-+
-+    unsigned long (*get_object_key_chunk)(const void *object, int level);
-+
-+和前面的函数一样，但是从数组中的一个对象而不是从调用者提供的索引键中获取数据。
-+
-+
-+3. 看看这是否是我们要找的对象::
-+
-+    bool (*compare_object)(const void *object, const void *index_key);
-+
-+将对象与一个索引键进行比较，如果匹配则返回 ``true`` ，不匹配则返回 ``false`` 。
-+
-+
-+4. 对两个对象的索引键进行比较::
-+
-+    int (*diff_objects)(const void *object, const void *index_key);
-+
-+返回指定对象的索引键与给定索引键不同的比特位置，如果它们相同，则返回-1。
-+
-+
-+5. 释放一个对象::
-+
-+    void (*free_object)(void *object);
-+
-+释放指定的对象。注意，这可能是在调用 ``assoc_array_apply_edit()`` 后的一个RCU宽限期内
-+调用的，所以在模块卸载时可能需要 ``synchronize_rcu()`` 。
-+
-+
-+操控函数
++内存分配
 +--------
 +
-+有一些函数用于操控关联数组:
++xa_store(), xa_cmpxchg(), xa_alloc(), xa_reserve()和xa_insert()函数接受一个gfp_t参数，以
++防XArray需要分配内存来存储这个条目。如果该条目被删除，则不需要进行内存分配，指定的GFP标志将被忽
++略。
 +
-+1. 初始化一个关联数组::
++没有内存可供分配是可能的，特别是如果你传递了一组限制性的GFP标志。在这种情况下，这些函数会返回一
++个特殊的值，可以用xa_err()把它变成一个错误值。如果你不需要确切地知道哪个错误发生，使用xa_is_err()
++会更有效一些。
 +
-+    void assoc_array_init(struct assoc_array *array);
++锁
++--
 +
-+这将初始化一个关联数组的基础结构。它不会失败。
++当使用普通API时，你不必担心锁的问题。XArray使用RCU和一个内部自旋锁来同步访问:
 +
++不需要锁:
++ * xa_empty()
++ * xa_marked()
 +
-+2. 在一个关联数组中插入/替换一个对象::
++采取RCU读锁:
++ * xa_load()
++ * xa_for_each()
++ * xa_for_each_start()
++ * xa_for_each_range()
++ * xa_find()
++ * xa_find_after()
++ * xa_extract()
++ * xa_get_mark()
 +
-+    struct assoc_array_edit *
-+    assoc_array_insert(struct assoc_array *array,
-+                       const struct assoc_array_ops *ops,
-+                       const void *index_key,
-+                       void *object);
++内部使用xa_lock:
++ * xa_store()
++ * xa_store_bh()
++ * xa_store_irq()
++ * xa_insert()
++ * xa_insert_bh()
++ * xa_insert_irq()
++ * xa_erase()
++ * xa_erase_bh()
++ * xa_erase_irq()
++ * xa_cmpxchg()
++ * xa_cmpxchg_bh()
++ * xa_cmpxchg_irq()
++ * xa_store_range()
++ * xa_alloc()
++ * xa_alloc_bh()
++ * xa_alloc_irq()
++ * xa_reserve()
++ * xa_reserve_bh()
++ * xa_reserve_irq()
++ * xa_destroy()
++ * xa_set_mark()
++ * xa_clear_mark()
 +
-+这将把给定的对象插入数组中。注意，指针的最小有效位必须是0，因为它被用来在内部标记指针的类
-+型。
++假设进入时持有xa_lock:
++ * __xa_store()
++ * __xa_insert()
++ * __xa_erase()
++ * __xa_cmpxchg()
++ * __xa_alloc()
++ * __xa_set_mark()
++ * __xa_clear_mark()
 +
-+如果该键已经存在一个对象，那么它将被新的对象所取代，旧的对象将被自动释放。
++如果你想利用锁来保护你存储在XArray中的数据结构，你可以在调用xa_load()之前调用xa_lock()，然后在
++调用xa_unlock()之前对你找到的对象进行一个引用计数。这将防止存储操作在查找对象和增加refcount期间
++从数组中删除对象。你也可以使用RCU来避免解除对已释放内存的引用，但对这一点的解释已经超出了本文的范
++围。
 +
-+``index_key`` 参数应持有索引键信息，并在调用OPP表中的方法时传递给它们。
++在修改数组时，XArray不会禁用中断或softirqs。从中断或softirq上下文中读取XArray是安全的，因为RCU锁
++提供了足够的保护。
 +
-+这个函数不对数组本身做任何改动，而是返回一个必须应用的编辑脚本。如果出现内存不足的错误，会
-+返回 ``-ENOMEM`` 。
++例如，如果你想在进程上下文中存储XArray中的条目，然后在softirq上下文中擦除它们，你可以这样做::
 +
-+调用者应专门锁定数组的其他修改器。
++    void foo_init(struct foo *foo)
++    {
++        xa_init_flags(&foo->array, XA_FLAGS_LOCK_BH);
++    }
 +
++    int foo_store(struct foo *foo, unsigned long index, void *entry)
++    {
++        int err;
 +
-+3. 从一个关联数组中删除一个对象::
++        xa_lock_bh(&foo->array);
++        err = xa_err(__xa_store(&foo->array, index, entry, GFP_KERNEL));
++        if (!err)
++            foo->count++;
++        xa_unlock_bh(&foo->array);
++        return err;
++    }
 +
-+    struct assoc_array_edit *
-+    assoc_array_delete(struct assoc_array *array,
-+                       const struct assoc_array_ops *ops,
-+                       const void *index_key);
++    /* foo_erase()只在软中断上下文中调用 */
++    void foo_erase(struct foo *foo, unsigned long index)
++    {
++        xa_lock(&foo->array);
++        __xa_erase(&foo->array, index);
++        foo->count--;
++        xa_unlock(&foo->array);
++    }
 +
-+这将从数组中删除一个符合指定数据的对象。
++如果你要从中断或softirq上下文中修改XArray，你需要使用xa_init_flags()初始化数组，传递
++``XA_FLAGS_LOCK_IRQ`` 或 ``XA_FLAGS_LOCK_BH`` （参数）。
 +
-+``index_key`` 参数应持有索引键信息，并在调用OPP表中的方法时传递给它们。
++上面的例子还显示了一个常见的模式，即希望在存储端扩展xa_lock的覆盖范围，以保护与数组相关的一些统计
++数据。
 +
-+这个函数不对数组本身做任何改动，而是返回一个必须应用的编辑脚本。 ``-ENOMEM`` 在出现内存不足
-+的错误时返回。如果在数组中没有找到指定的对象，将返回 ``NULL`` 。
++与中断上下文共享XArray也是可能的，可以在中断处理程序和进程上下文中都使用xa_lock_irqsave()，或者
++在进程上下文中使用xa_lock_irq()，在中断处理程序中使用xa_lock()。一些更常见的模式有一些辅助函数，
++如xa_store_bh()、xa_store_irq()、xa_erase_bh()、xa_erase_irq()、xa_cmpxchg_bh() 和xa_cmpxchg_irq()。
 +
-+调用者应该对数组的其他修改者进行专门锁定。
++有时你需要用一个mutex来保护对XArray的访问，因为这个锁在锁的层次结构中位于另一个mutex之上。这并不
++意味着你有权使用像__xa_erase()这样的函数而不占用xa_lock；xa_lock是用来进行lockdep验证的，将来也
++会用于其他用途。
 +
++__xa_set_mark() 和 __xa_clear_mark() 函数也适用于你查找一个条目并想原子化地设置或清除一个标记的
++情况。在这种情况下，使用高级API可能更有效，因为它将使你免于走两次树。
 +
-+4. 从一个关联数组中删除所有对象::
++高级API
++=======
 +
-+    struct assoc_array_edit *
-+    assoc_array_clear(struct assoc_array *array,
-+                      const struct assoc_array_ops *ops);
++高级API提供了更多的灵活性和更好的性能，但代价是接口可能更难使用，保障措施更少。高级API没有为你加锁，
++你需要在修改数组的时候使用xa_lock。在对数组进行只读操作时，你可以选择使用xa_lock或RCU锁。你可以在
++同一个数组上混合使用高级和普通操作；事实上，普通API是以高级API的形式实现的。高级API只对具有GPL兼容
++许可证的模块可用。
 +
-+这个函数删除了一个关联数组中的所有对象，使其完全为空。
++高级API是基于xa_state的。这是一个不透明的数据结构，你使用XA_STATE()宏在堆栈中声明。这个宏初始化了
++xa_state，准备开始在XArray上移动。它被用作一个游标来保持在XArray中的位置，并让你把各种操作组合在一
++起，而不必每次都从头开始。
 +
-+这个函数没有对数组本身做任何改动，而是返回一个必须应用的编辑脚本。如果出现内存不足
-+的错误，则返回 ``-ENOMEM`` 。
++xa_state也被用来存储错误(store errors)。你可以调用xas_error()来检索错误。所有的操作在进行之前都
++会检查xa_state是否处于错误状态，所以你没有必要在每次调用之后检查错误；你可以连续进行多次调用，只在
++方便的时候检查。目前XArray代码本身产生的错误只有 ``ENOMEM`` 和 ``EINVAL`` ，但它支持任意的错误，
++以防你想自己调用xas_set_err()。
 +
-+调用者应专门锁定数组的其他修改者。
++如果xa_state持有 ``ENOMEM`` 错误，调用xas_nomem()将尝试使用指定的gfp标志分配更多的内存，并将其缓
++存在xa_state中供下一次尝试。这个想法是，你拿着xa_lock，尝试操作，然后放弃锁。该操作试图在持有锁的情
++况下分配内存，但它更有可能失败。一旦你放弃了锁，xas_nomem()可以更努力地尝试分配更多内存。如果值得重
++试该操作，它将返回 ``true`` （即出现了内存错误，分配了更多的内存）。如果它之前已经分配了内存，并且
++该内存没有被使用，也没有错误（或者一些不是 ``ENOMEM`` 的错误），那么它将释放之前分配的内存。
 +
-+
-+5. 销毁一个关联数组，删除所有对象::
-+
-+    void assoc_array_destroy(struct assoc_array *array,
-+                             const struct assoc_array_ops *ops);
-+
-+这将破坏关联数组的内容，使其完全为空。在这个函数销毁数组的同时，不允许另一个线程在RCU读锁
-+下遍历数组，因为在内存释放时不执行RCU延迟，这需要分配内存。
-+
-+调用者应该专门针对数组的其他修改者和访问者进行锁定。
-+
-+
-+6. 垃圾回收一个关联数组::
-+
-+    int assoc_array_gc(struct assoc_array *array,
-+                       const struct assoc_array_ops *ops,
-+                       bool (*iterator)(void *object, void *iterator_data),
-+                       void *iterator_data);
-+
-+这是对一个关联数组中的对象进行迭代，并将每个对象传递给 ``iterator()`` 。如果 ``iterator()`` 返回
-+true，该对象被保留。如果它返回 ``false`` ，该对象将被释放。如果 ``iterator()`` 函数返回 ``true`` ，它必须
-+在返回之前对该对象进行适当的 ``refcount`` 递增。
-+
-+如果可能的话，内部树将被打包下来，作为迭代的一部分，以减少其中的节点数量。
-+
-+``iterator_data`` 被直接传递给 ``iterator()`` ，否则会被函数忽略。
-+
-+如果成功，该函数将返回 ``0`` ，如果没有足够的内存，则返回 ``-ENOMEM`` 。
-+
-+在这个函数执行过程中，其他线程有可能在RCU读锁下迭代或搜索阵列。调用者应该专门针对数组的其他
-+修改者进行锁定。
-+
-+
-+访问函数
++内部条目
 +--------
 +
-+有两个函数用于访问一个关联数组:
++XArray为它自己的目的保留了一些条目。这些条目从未通过正常的API暴露出来，但是当使用高级API时，有可能看
++到它们。通常，处理它们的最好方法是把它们传递给xas_retry()，如果它返回 ``true`` ，就重试操作。
 +
-+1. 遍历一个关联数组中的所有对象::
++.. flat-table::
++   :widths: 1 1 6
 +
-+    int assoc_array_iterate(const struct assoc_array *array,
-+                            int (*iterator)(const void *object,
-+                                            void *iterator_data),
-+                            void *iterator_data);
++   * - 名称
++     - 检测
++     - 用途
 +
-+这将数组中的每个对象传递给迭代器回调函数。 ``iterator_data`` 是该函数的私有数据。
++   * - Node
++     - xa_is_node()
++     - 一个XArray节点。 在使用多索引xa_state时可能是可见的。
 +
-+在数组被修改的同时，可以在数组上使用这个方法，前提是RCU读锁被持有。在这种情况下，迭代函数有
-+可能两次看到某些对象。如果这是个问题，那么修改应该被锁定。然而，迭代算法不应该错过任何对象。
++   * - Sibling
++     - xa_is_sibling()
++     - 一个多索引条目的非典型条目。该值表示该节点中的哪个槽有典型条目。
 +
-+如果数组中没有对象，该函数将返回 ``0`` ，否则将返回最后一次调用的迭代器函数的结果。如果对迭代函数
-+的任何调用导致非零返回，迭代立即停止。
++   * - Retry
++     - xa_is_retry()
++     - 这个条目目前正在被一个拥有xa_lock的线程修改。在这个RCU周期结束时，包含该条目的节点可能会被释放。
++       你应该从数组的头部重新开始查找。
 +
++   * - Zero
++     - xa_is_zero()
++     - Zero条目通过普通API显示为 ``NULL`` ，但在XArray中占有一个条目，可用于保留索引供将来使用。这是
++       通过为分配的条目分配XArrays来使用的，这些条目是 ``NULL`` 。
 +
-+2. 在一个关联数组中寻找一个对象::
++其他内部条目可能会在未来被添加。在可能的情况下，它们将由xas_retry()处理。
 +
-+    void *assoc_array_find(const struct assoc_array *array,
-+                           const struct assoc_array_ops *ops,
-+                           const void *index_key);
++附加函数
++--------
 +
-+这将直接穿过数组的内部树，到达索引键所指定的对象。
++xas_create_range()函数分配了所有必要的内存来存储一个范围内的每一个条目。如果它不能分配内存，它将在
++xa_state中设置ENOMEM。
 +
-+这个函数可以在修改数组的同时用在数组上，前提是RCU读锁被持有。
++你可以使用xas_init_marks()将一个条目上的标记重置为默认状态。这通常是清空所有标记，除非XArray被标记
++为 ``XA_FLAGS_TRACK_FREE`` ，在这种情况下，标记0被设置，所有其他标记被清空。使用xas_store()将一个
++条目替换为另一个条目不会重置该条目上的标记；如果你想重置标记，你应该明确地这样做。
 +
-+如果找到对象，该函数将返回对象（并将 ``*_type`` 设置为对象的类型），如果没有找到对象，将返回 ``NULL`` 。
++xas_load()会尽可能地将xa_state移动到该条目附近。如果你知道xa_state已经移动到了该条目，并且需要检查
++该条目是否有变化，你可以使用xas_reload()来保存一个函数调用。
 +
++如果你需要移动到XArray中的不同索引，可以调用xas_set()。这可以将光标重置到树的顶端，这通常会使下一个
++操作将光标移动到树中想要的位置。如果你想移动到下一个或上一个索引，调用xas_next()或xas_prev()。设置
++索引不会使光标在数组中移动，所以不需要锁，而移动到下一个或上一个索引则需要锁。
 +
-+索引键形式
++你可以使用xas_find()搜索下一个当前条目。这相当于xa_find()和xa_find_after()；如果光标已经移动到了
++一个条目，那么它将找到当前引用的条目之后的下一个条目。如果没有，它将返回xa_state索引处的条目。使用
++xas_next_entry()而不是xas_find()来移动到下一个当前条目，在大多数情况下会节省一个函数调用，但代价
++是发出更多内联代码。
++
++xas_find_marked()函数也是如此。如果xa_state没有被移动过，它将返回xa_state的索引处的条目，如果它
++被标记了。否则，它将返回xa_state所引用的条目之后的第一个被标记的条目。xas_next_marked()函数等同
++于xas_next_entry()。
++
++当使用xas_for_each()或xas_for_each_marked()在XArray的某个范围内进行迭代时，可能需要暂时停止迭代。
++xas_pause()函数的存在就是为了这个目的。在你完成了必要的工作并希望恢复后，xa_state处于适当的状态，在
++你最后处理的条目后继续迭代。如果你在迭代时禁用了中断，那么暂停迭代并在每一个 ``XA_CHECK_SCHED`` 条目
++中重新启用中断是很好的做法。
++
++xas_get_mark(), xas_set_mark()和xas_clear_mark()函数要求xa_state光标已经被移动到XArray中的适当位
++置；如果你在之前调用了xas_pause()或xas_set()，它们将不会有任何作用。
++
++你可以调用xas_set_update()，让XArray每次更新一个节点时都调用一个回调函数。这被页面缓存的workingset
++代码用来维护其只包含阴影项的节点列表。
++
++多索引条目
 +----------
 +
-+索引键可以是任何形式的，但是由于算法没有被告知键有多长，所以强烈建议在任何由于长度而产生的变化
-+对比较产生影响之前，索引键应该很早就包括其长度。
++XArray有能力将多个索引联系在一起，因此对一个索引的操作会影响到所有的索引。例如，存储到任何索引将改变
++从任何索引检索的条目的值。在任何索引上设置或清除一个标记，都会在每个被绑在一起的索引上设置或清除该标
++记。目前的实现只允许将2的整数倍的范围绑在一起；例如指数64-127可以绑在一起，但2-6不能。这可以节省大量
++的内存；例如，将512个条目绑在一起可以节省4kB以上的内存。
 +
-+这将导致具有不同长度键的叶子相互分散，而具有相同长度键的叶子则聚集在一起。
++你可以通过使用XA_STATE_ORDER()或xas_set_order()，然后调用xas_store()来创建一个多索引条目。用一个
++多索引的xa_state调用xas_load()会把xa_state移动到树中的正确位置，但是返回值没有意义，有可能是一个内
++部条目或 ``NULL`` ，即使在范围内有一个条目存储。调用xas_find_conflict()将返回该范围内的第一个条目，
++如果该范围内没有条目，则返回 ``NULL`` 。xas_for_each_conflict()迭代器将遍历每个与指定范围重叠的条目。
 +
-+我们还建议索引键以键的其余部分的哈希值开始，以最大限度地提高整个键空间的散布情况。
++如果xas_load()遇到一个多索引条目，xa_state中的xa_index将不会被改变。当遍历一个XArray或者调用xas_find()
++时，如果初始索引在一个多索引条目的中间，它将不会被改变。随后的调用或迭代将把索引移到范围内的第一个索引。
++每个条目只会被返回一次，不管它占据了多少个索引。
 +
-+分散性越好，内部树就越宽，越低。
++不支持使用xas_next()或xas_prev()来处理一个多索引的xa_state。在一个多索引的条目上使用这两个函数中的任
++何一个都会显示出同级的条目；这些条目应该被调用者跳过。
 +
-+分散性差并不是一个太大的问题，因为有快捷键，节点可以包含叶子和元数据指针的混合物。
++在一个多索引条目的任何一个索引中存储 ``NULL`` ，将把每个索引的条目设置为 ``NULL`` ，并解除绑定。通过调
++用xas_split_alloc()，在没有xa_lock的情况下，可以将一个多索引条目分割成占据较小范围的条目，然后再取锁并
++调用xas_split()。
 +
-+索引键是以机器字的块状来读取的。每个块被细分为每层一个nibble（4比特），所以在32位CPU上这适合8层，
-+在64位CPU上适合16层。除非散布情况真的很差，否则不太可能有超过一个字的任何特定索引键需要被使用。
-+
-+
-+内部工作机制
++函数和结构体
 +============
 +
-+关联数组数据结构有一个内部树。这个树由两种类型的元数据块构成：节点和快捷键。
++该API在以下内核代码中:
 +
-+一个节点是一个槽的数组。每个槽可以包含以下四种东西之一:
++include/linux/xarray.h
 +
-+* 一个NULL的指针，表示槽是空的。
-+* 一个指向对象（叶子）的指针。
-+* 一个指向下一级节点的指针。
-+* 一个指向快捷键的指针。
-+
-+
-+基本的内部树形布局
-+------------------
-+
-+暂时不考虑快捷键，节点形成一个多级树。索引键空间被树上的节点严格细分，节点出现在固定的层次上。例如::
-+
-+ Level: 0               1               2               3
-+        =============== =============== =============== ===============
-+                                                        NODE D
-+                        NODE B          NODE C  +------>+---+
-+                +------>+---+   +------>+---+   |       | 0 |
-+        NODE A  |       | 0 |   |       | 0 |   |       +---+
-+        +---+   |       +---+   |       +---+   |       :   :
-+        | 0 |   |       :   :   |       :   :   |       +---+
-+        +---+   |       +---+   |       +---+   |       | f |
-+        | 1 |---+       | 3 |---+       | 7 |---+       +---+
-+        +---+           +---+           +---+
-+        :   :           :   :           | 8 |---+
-+        +---+           +---+           +---+   |       NODE E
-+        | e |---+       | f |           :   :   +------>+---+
-+        +---+   |       +---+           +---+           | 0 |
-+        | f |   |                       | f |           +---+
-+        +---+   |                       +---+           :   :
-+                |       NODE F                          +---+
-+                +------>+---+                           | f |
-+                        | 0 |           NODE G          +---+
-+                        +---+   +------>+---+
-+                        :   :   |       | 0 |
-+                        +---+   |       +---+
-+                        | 6 |---+       :   :
-+                        +---+           +---+
-+                        :   :           | f |
-+                        +---+           +---+
-+                        | f |
-+                        +---+
-+
-+在上述例子中，有7个节点（A-G），每个节点有16个槽（0-f）。假设树上没有其他元数据节点，那么密钥空间
-+是这样划分的::
-+
-+    KEY PREFIX      NODE
-+    ==========      ====
-+    137*            D
-+    138*            E
-+    13[0-69-f]*     C
-+    1[0-24-f]*      B
-+    e6*             G
-+    e[0-57-f]*      F
-+    [02-df]*        A
-+
-+因此，例如，具有以下示例索引键的键将在适当的节点中被找到::
-+
-+    INDEX KEY       PREFIX  NODE
-+    =============== ======= ====
-+    13694892892489  13      C
-+    13795289025897  137     D
-+    13889dde88793   138     E
-+    138bbb89003093  138     E
-+    1394879524789   12      C
-+    1458952489      1       B
-+    9431809de993ba  -       A
-+    b4542910809cd   -       A
-+    e5284310def98   e       F
-+    e68428974237    e6      G
-+    e7fffcbd443     e       F
-+    f3842239082     -       A
-+
-+为了节省内存，如果一个节点可以容纳它的那部分键空间中的所有叶子，那么这个节点将有所有这些叶子，而不
-+会有任何元数据指针——即使其中一些叶子想在同一个槽中。
-+
-+一个节点可以包含叶子和元数据指针的异质性混合。元数据指针必须在与它们的关键空间的细分相匹配的槽中。
-+叶子可以在任何没有被元数据指针占据的槽中。保证一个节点中没有一个叶子会与元数据指针占据的槽相匹配。
-+如果元数据指针在那里，任何键与元数据键前缀相匹配的叶必须在元数据指针指向的子树中。
-+
-+在上面的索引键的例子列表中，节点A将包含::
-+
-+    SLOT    CONTENT         INDEX KEY (PREFIX)
-+    ====    =============== ==================
-+    1       PTR TO NODE B   1*
-+    any     LEAF            9431809de993ba
-+    any     LEAF            b4542910809cd
-+    e       PTR TO NODE F   e*
-+    any     LEAF            f3842239082
-+
-+和节点B::
-+
-+    3	PTR TO NODE C	13*
-+    any	LEAF		1458952489
-+
-+
-+快捷键
-+---------
-+
-+快捷键是跳过一块键空间的元数据记录。快捷键是一系列通过层次上升的单占节点的替代物。快捷键的存在是
-+为了节省内存和加快遍历速度。
-+
-+树的根部有可能是一个快捷键——比如说，树至少包含17个节点，都有键前缀 ``1111`` 。插入算法将插入一个快捷键，
-+以单次跳过 ``1111`` 的键位，并到达第四层，在这里，这些键位实际上变得不同。
-+
-+
-+拆分和合并节点
-+------------------------------
-+
-+每个节点的最大容量为16个叶子和元数据指针。如果插入算法发现它正试图将一个第17个对象插入到一个节点中，
-+该节点将被拆分，使得至少两个在该层有一个共同的关键段的叶子最终在一个单独的节点中，该共同的关键段的根
-+在该槽上。
-+
-+如果一个完整的节点中的叶子和被插入的叶子足够相似，那么就会在树中插入一个快捷键。
-+
-+当根植于某个节点的子树中的对象数量下降到16个或更少时，那么该子树将被合并成一个单独的节点——如果可能的
-+话，这将向根部扩散。
-+
-+
-+非递归式迭代
-+------------
-+
-+每个节点和快捷键都包含一个指向其父节点的后置指针，以及该父节点中指向它的槽数。非递归迭代使用这些来
-+通过树的根部进行，前往父节点，槽N+1，以确保在没有堆栈的情况下取得进展。
-+
-+然而，反向指针使得同时改变和迭代变得很棘手。
-+
-+
-+同时改变和迭代
-+--------------
-+
-+有一些情况需要考虑:
-+
-+1. 简单的插入/替换。这涉及到简单地将一个NULL或旧的匹配叶子的指针替换为屏障后的新叶子的指针。否则元数
-+   据块不会改变。一个旧的叶子直到RCU宽限期过后才会被释放。
-+
-+2. 简单删除。这只是涉及到清除一个旧的匹配叶子。元数据块不会有其他变化。旧的叶子直到RCU宽限期之后才会
-+   被释放。
-+
-+3. 插入，替换我们还没有进入的子树的一部分。这可能涉及到替换该子树的一部分——但这不会影响迭代，因为我们
-+   还没有到达它的指针，而且祖先块也不会被替换（这些块的布局不会改变）。
-+
-+4. 插入替换了我们正在处理的节点。这不是一个问题，因为我们已经通过了锚定指针，直到我们跟随后面的指针才
-+   会切换到新的布局上——这时我们已经检查了被替换节点的叶子（在跟随任何元数据指针之前，我们会迭代一个节
-+   点的所有叶子）。
-+
-+   然而，我们可能会重新看到一些叶子，这些叶子已经被分割成一个新的分支，而这个分支的位置比我们之前的位
-+   置更远。
-+
-+5. 插入替换了我们正在处理的依赖分支的节点。这不会影响到我们，直到我们跟随后面的指针。与（4）类似。
-+
-+6. 删掉我们下面的一个分支。这不会影响我们，因为在我们看到新节点之前，回溯指针会让我们回到新节点的父节
-+   点。整个崩溃的子树被扔掉了，没有任何变化——而且仍然会在同一个槽上生根，所以我们不应该第二次处理它，
-+   因为我们会回到槽+1。
-+
-+.. note::
-+
-+    在某些情况下，我们需要同时改变一个节点的父指针和父槽指针（比如说，我们在它之前插入了另一个节点，
-+    并把它往上移了一层）。我们不能在不锁定读取的情况下这样做——所以我们必须同时替换该节点。
-+
-+    然而，当我们把一个快捷键改成一个节点时，这不是一个问题，因为快捷键只有一个槽，所以当向后遍
-+    历一个槽时，不会使用父槽号。这意味着先改变槽位号是可以的——只要使用适当的屏障来确保父槽位号在后
-+    退指针之后被读取。
-+
-+过时的块和叶子在RCU宽限期过后会被释放，所以只要任何进行遍历或迭代的人持有RCU读锁，旧的上层建筑就不
-+应该在他们身上消失。
-diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
-index 9e03b8d5e3ec..741723011281 100644
---- a/Documentation/translations/zh_CN/core-api/index.rst
-+++ b/Documentation/translations/zh_CN/core-api/index.rst
-@@ -40,11 +40,11 @@
- 
-    kobject
-    kref
-+   assoc_array
- 
- Todolist:
- 
- 
--   assoc_array
-    xarray
-    idr
-    circular-buffers
++lib/xarray.c
 -- 
 2.27.0
 
