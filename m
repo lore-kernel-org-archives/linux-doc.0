@@ -2,88 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E7EBC433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 16 Oct 2021 22:23:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC503C433F5
+	for <linux-doc@archiver.kernel.org>; Sun, 17 Oct 2021 07:27:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1939D6101E
-	for <linux-doc@archiver.kernel.org>; Sat, 16 Oct 2021 22:23:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A46A960F44
+	for <linux-doc@archiver.kernel.org>; Sun, 17 Oct 2021 07:27:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235882AbhJPWZg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 16 Oct 2021 18:25:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54794 "EHLO
+        id S233482AbhJQH3i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 17 Oct 2021 03:29:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235717AbhJPWZf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Oct 2021 18:25:35 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D397CC061767
-        for <linux-doc@vger.kernel.org>; Sat, 16 Oct 2021 15:23:26 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id z11so56257764lfj.4
-        for <linux-doc@vger.kernel.org>; Sat, 16 Oct 2021 15:23:26 -0700 (PDT)
+        with ESMTP id S232716AbhJQH3i (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Oct 2021 03:29:38 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22806C061765;
+        Sun, 17 Oct 2021 00:27:29 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id i12so34769472wrb.7;
+        Sun, 17 Oct 2021 00:27:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=p3FVWFHYEJvia2KboNohOnop6t5qjPeV+JIRsjfGAvQ=;
-        b=PcAfAJ7La6ATrlQFcKj7Yet2plWqrYwTqKqG/hqo3fQBaEj6mz9AjBYZpLX7Goa7kG
-         WONoO8E7+mM4nmkHFzZLwRWN6R7cbBo4QYHHG456kCYDvZ/RRM58fp3jMbBN9mJ8Lgi2
-         sLYv9K5RYXsm+91VwuyzZBqiIq5H/yAlZVhhGN9Odnp43B2MXKkQ9N3p0KsiiVgVTciD
-         OOEmPLMpfxafQu6UWwRvwDG7p77SdPnKMTg+bsSib0rt16VzJNDug1yI1+Y5Vqw7FaQK
-         /9lxOCfxHnxNFisfQXozF2WYWF0N6v27DXcrdxFuYLthvGEUF3EWFtE6Nj4sNnzORmBs
-         X0wg==
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=oiduE/LQqYR1IcZvqAgWtFEtOd2hhEmfHVFgC1RKeq8=;
+        b=jZFbep4PmzAXtDnUaiajm2zaeo5slYPLoslC8MMTd+fyyvh9PyErWW/WIm7OHZ2gfr
+         Wi0N7tTHCuYnmMEQ3jffQDpGRf5G8pvrVBiPLok3MdmNBEH5DSJbtj+XOC+xrehLKgye
+         Z+Wm8w1P22m4j9XfCpNjwp3wWI8pgp03KqNtJOFWH4v5qsg55Za8ucHn+5yTk6WfPdf8
+         bDl0jiSKcf2KVPaUJPfDJDBdqDTPCtnI/llhPoUYBAzv6dTZ/ZjeEuqyfvfVV/TnOAZZ
+         +sNIQSAZA6nMxkZP8XEMLHNMMlnFqyiEbDiEhrmpIUAiUPIH4GA806NtTXIN6iIB+q7I
+         JKYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=p3FVWFHYEJvia2KboNohOnop6t5qjPeV+JIRsjfGAvQ=;
-        b=KHKcI8ikMmp4A5X1NVJzHXlRgPTiOS0K0LEcQ0PGIO5/KIiNfsNEhxf9l2O7X26w9u
-         PZsIIM37dxkQesqcoISG128kS0cn4uh8iitBQZCLjq3Wk6dmthK7QGsenQmz4Sw23cox
-         eKzzvvdTQXj80KyPjZE0Tzbv5Jtroen95oB6v00aJRh+ZK5muMnF3OYq8E6UELxddkIr
-         axE5vgusiLiccWMINYxm6PjKz71Q5RBzCV6OfudFYYQXeXdBzGbRZwD+K8Rk8PqSg0VA
-         1ixcSjJDhGE7L26uHZE1vrVWoqIJU0z3QLHh4UtYIdhW/McpSH+VohAuV7hdLcUhtKxs
-         DgSA==
-X-Gm-Message-State: AOAM530p8vrawsXvIip91FvTA0mu+8t47hgfnbMQFg9iCyXaxxx+t85Z
-        x9CXSBWGwu8YUu6AbmCmKIZtLOgmVrVMJEZnAosHdA==
-X-Google-Smtp-Source: ABdhPJy82eQjg2a0KgyXHCV7OyYHGgWPCMzm75KYH0/22I29cGhFGc7f/I9ftrW1M4rzVCVFOHqliZaq2imdQccEUC4=
-X-Received: by 2002:a05:6512:3e9:: with SMTP id n9mr21107873lfq.72.1634423005077;
- Sat, 16 Oct 2021 15:23:25 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=oiduE/LQqYR1IcZvqAgWtFEtOd2hhEmfHVFgC1RKeq8=;
+        b=f302/nLekXWLzcUQlJQ6yJeUkzuRmJtFJxm04Ah2UyVtk0KlsxE7YzihZv7eHkf3xZ
+         gV6tlw0iGn620IU3Lef5h7N17cUeragoyuJ+MSr0M/vrMv7w2Y+vXZjBw2V0YL2Zifn/
+         xmGpn7NaBXfr/VkGjoXlvGkZvaXpKu81l0cY8017lmpEU90CtdpEyuyB0mZX4liRG3o+
+         x1AsncyPYV8NrdKF8TalGia1ZZ3b+bdAsOmc3sbLtGhcsy0STNsnfaa2OhDXJoR2xKP3
+         4ZrgyHUzvS5mLRqpTQXrSeM5yNpThVQQUSA5Bej3qSVgnF7or4Al/lMIH6nnONMUdsg9
+         NMGA==
+X-Gm-Message-State: AOAM531K3P66EpusGT2DU2rQ4ckRt2kzTB/Qp+B/IHHHGElESMRSnZhN
+        W3qcGwdzqkhIUMLDqI0vpeBETsMF5bQ=
+X-Google-Smtp-Source: ABdhPJxJFzhDKRf060qZ+mIy5M7I19yiNI+YdQpJWiHPQdXMBCxawCH80oKTBqvhU8qJesvpcy1S5w==
+X-Received: by 2002:adf:bb8d:: with SMTP id q13mr27511386wrg.327.1634455647199;
+        Sun, 17 Oct 2021 00:27:27 -0700 (PDT)
+Received: from tom-desktop (net-188-153-110-208.cust.vodafonedsl.it. [188.153.110.208])
+        by smtp.gmail.com with ESMTPSA id m4sm10803127wrz.45.2021.10.17.00.27.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Oct 2021 00:27:26 -0700 (PDT)
+Date:   Sun, 17 Oct 2021 09:27:24 +0200
+From:   Tommaso Merciai <tomm.merciai@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        arjan@linux.intel.com
+Subject: Re: [PATCH] docs: update file link location
+Message-ID: <20211017072724.GA3786@tom-desktop>
+References: <20211003220706.7784-1-tomm.merciai@gmail.com>
+ <87ee8quipd.fsf@meer.lwn.net>
 MIME-Version: 1.0
-References: <20211008081739.26807-1-brgl@bgdev.pl> <CAMRc=McpCw2TgLFCzvwOupd+RW2BoQRJKVTdbR6s2z+O2pJuUQ@mail.gmail.com>
-In-Reply-To: <CAMRc=McpCw2TgLFCzvwOupd+RW2BoQRJKVTdbR6s2z+O2pJuUQ@mail.gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Sun, 17 Oct 2021 00:23:13 +0200
-Message-ID: <CACRpkdYtD-3vX1VW9uLn3zqxD7gYjCXs+NgLHfnsZHhcA4nJyw@mail.gmail.com>
-Subject: Re: [PATCH v7 0/8] gpio: implement the configfs testing module
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>,
-        Shuah Khan <shuah@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Kent Gibson <warthog618@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Jack Winch <sunt.un.morcov@gmail.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-doc <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87ee8quipd.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 15, 2021 at 4:13 PM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+On Tue, Oct 12, 2021 at 01:49:34PM -0600, Jonathan Corbet wrote:
+> Tommaso Merciai <tomm.merciai@gmail.com> writes:
+> 
+> [CC += Arjan just in case]
+> 
+> > Fix web error: this site can't be reached
+> >
+> > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+> > ---
+> >  Documentation/process/submitting-drivers.rst | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/process/submitting-drivers.rst b/Documentation/process/submitting-drivers.rst
+> > index 3861887e0ca5..8413b693d10d 100644
+> > --- a/Documentation/process/submitting-drivers.rst
+> > +++ b/Documentation/process/submitting-drivers.rst
+> > @@ -185,7 +185,7 @@ Linux USB project:
+> >  	http://www.linux-usb.org/
+> >  
+> >  How to NOT write kernel driver by Arjan van de Ven:
+> > -	http://www.fenrus.org/how-to-not-write-a-device-driver-paper.pdf
+> > +	https://landley.net/kdocs/ols/2002/ols2002-pages-545-555.pdf
+> 
+> This is an OK change, I guess...a working link is better than a broken
+> one.  That said, I do have to wonder whether this link needs to be
+> preserved at all.  That paper was good advice 19 years ago, but I'm not
+> sure it has much to tell people in 2021; the days of having to tell
+> developers to think about SMP systems are past.
 
-> Another ping...
+  Got it :)
 
-If it's hard to get attention I would simply queue these on a immutable branch
-in the GPIO tree, then merge it into what you send to linux-next and offer
-the interested parties to pull it in.
-
-If noone complains as we get really close to the merge window, just offer
-this branch to Torvalds in a separate pull request.
-
-Yours,
-Linus Walleij
+  Thanks,
+  tommaso
+> 
+> I'll apply this for now, though.
+> 
+> Thanks,
+> 
+> jon
