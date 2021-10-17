@@ -2,112 +2,148 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC18DC433F5
-	for <linux-doc@archiver.kernel.org>; Sun, 17 Oct 2021 14:49:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C0B3C433F5
+	for <linux-doc@archiver.kernel.org>; Sun, 17 Oct 2021 21:49:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 883AC60F8F
-	for <linux-doc@archiver.kernel.org>; Sun, 17 Oct 2021 14:49:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3DF3460FDA
+	for <linux-doc@archiver.kernel.org>; Sun, 17 Oct 2021 21:49:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343915AbhJQOvR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 17 Oct 2021 10:51:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34147 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1343886AbhJQOvQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Oct 2021 10:51:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1634482147;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-        bh=Ip6ZgePH8xwpK2sHmkpaBxfB7ZKPtwdcnXkOJDJISgI=;
-        b=cZqmA6S03o5aJ1IrMdXkH/h3X0VugOHyRZohjOsRo+0AtjzV5KR6+F5H3Xu12Hbxpniw1h
-        oYgQpDn9Pmhj6/ofQaQ6i52P8UZWh5eMJZSpJte5KMQq+a5Cjh39HdP2/UMor2pKaKIzeI
-        6seZU+jyZUdLciwVSRfIhgFIqIbzn8o=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-342-vDWoVrC0Pv2xKk42tT_N9g-1; Sun, 17 Oct 2021 10:49:05 -0400
-X-MC-Unique: vDWoVrC0Pv2xKk42tT_N9g-1
-Received: by mail-wm1-f71.google.com with SMTP id s22-20020a1ca916000000b0030dcdcd37c5so2311272wme.8
-        for <linux-doc@vger.kernel.org>; Sun, 17 Oct 2021 07:49:05 -0700 (PDT)
+        id S238326AbhJQVwC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 17 Oct 2021 17:52:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50354 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235532AbhJQVwC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Oct 2021 17:52:02 -0400
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1DB7C06161C;
+        Sun, 17 Oct 2021 14:49:51 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id n40-20020a05600c3ba800b0030da2439b21so8524320wms.0;
+        Sun, 17 Oct 2021 14:49:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:subject:message-id:mime-version:content-disposition;
+        bh=Rp36An9Whu1Q5tp2hHHWfj8eeqEEPzX3I1EdK1KS93Q=;
+        b=KdRiRJeSS5BCaItuDsrEu4ldLY05y+fpsv0f2NOQDUqkNf6pyn9f1hjL8k6Y1aRQ6V
+         eJrEj/T5oEqRe+UTnF4H5tQgxds1r8+FJd73f8CqnTB3Sk2quVYZ9WmR1gib6cWS+4HE
+         VU35MsCtaqbMEq9C6DWJlp7b42nTaYmTtq8QsCMC1l0yGIlzH5+yfVapqRhUNLx2dunt
+         d9DrmP9dkLG7A9ykJttUKM6nkPuG1cC+POWygmt/VRE1V/NNfqPhwSY5C0sQqrSVNHo8
+         yrkpqmwMl4ya3ceFnB4BTpC+UUiFrttbA7fcwkiBrBUInmFcZoBmuKIA+8V5rNwTMo96
+         t/nQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
          :content-disposition;
-        bh=Ip6ZgePH8xwpK2sHmkpaBxfB7ZKPtwdcnXkOJDJISgI=;
-        b=SEIOgmXc92HOhzDA3n8X2LUOsvhm7CHrI/Nei4kN4gOc/mAM1W/jrnm0/4YXy+PTy9
-         z/4t6iCY6SRZL5SQs/nirsSsu1XuDGDCRtEJG/qeqkN6DQOP9bwBZqhONvXCtfp6+q3c
-         RartNsi4FVdozoY9gXZU1KRie9KoYLHYYx18/Ad3A/P8faSYwnLpSbrJRdY0WawzIQT9
-         DwSiO+OJdghV/drPIvw7d3QuyMryz7UObHljFCsErVfSSX5CUb7EB30ampsYPGE2Q1Kr
-         mj9TTHRiMon9vu1pFN7XnzPhb9exXBYxmwZIwTanTzj88FImp5FELhoMYhAzfGQPgq4h
-         XcaQ==
-X-Gm-Message-State: AOAM530csWMCU8ZrdiyNKtQewln/VWnoqddx43J8l9csdO+2Jmpgu4zy
-        42BguaDNvSlJXiHdFzg4+zJNvr9HlH8hHwkjV9stbZ1KxSB+ahlSOnYBIcbZ7HqjQ4Lv96QfR26
-        2AJXLch3u/L0h0VAoBESp
-X-Received: by 2002:a05:6000:1683:: with SMTP id y3mr15124354wrd.314.1634482144583;
-        Sun, 17 Oct 2021 07:49:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyFBg10YCOIJdS2cG0k9v/rSms6MDVN0cXyAC9SocqmtQ9OZq/KfKELZOAfWYN7H7AEZxW3lg==
-X-Received: by 2002:a05:6000:1683:: with SMTP id y3mr15124332wrd.314.1634482144347;
-        Sun, 17 Oct 2021 07:49:04 -0700 (PDT)
-Received: from redhat.com ([2.55.147.75])
-        by smtp.gmail.com with ESMTPSA id a2sm11630293wrq.9.2021.10.17.07.49.01
+        bh=Rp36An9Whu1Q5tp2hHHWfj8eeqEEPzX3I1EdK1KS93Q=;
+        b=ZHM5L8z63ecviwK9Cw1pCRFve0+UzcCCWEoRkHPU3N5WFBMqIGIxxizSnE0X4u58Ab
+         NzJVfMj7kmow0jEdwiqfoxUZeIz5Fp3eI7b/uscE0G0RHkMM+2T2v6DyTouEduKlDGNf
+         6ZHHYzakJqisf9+RvV/wJ+92vTssi7tiW2IgiHlTVX80aWHhrEBzASvFfMGKe9zEsbhL
+         orZxMTMNz8S/VAnAcpiDjXAu0LWS4865hn/Ggxs2Vw7YyprPBUao7+dGJXlml/vMCRPn
+         qKxOq68xChutG5AiK63IgXcPDshCrde1DM3OeTk5HKTPyZWd3fjmULgVmM0otZlzXZnt
+         mg2A==
+X-Gm-Message-State: AOAM531cxrZVjzBqMcq0CnSMgZUFMY/38DtnMuEHTDEcSnByPY3xObrC
+        nNSW+YeC2lH0lUc07jNvyP9Twymas0I=
+X-Google-Smtp-Source: ABdhPJwDOCGD4ssD71NTxVoMy3pNyDLxXhfk75GEvgvWaIpbXuU5cMeEyQL/DY9bnydIi8KgbnM+XA==
+X-Received: by 2002:a05:600c:1c8c:: with SMTP id k12mr26755884wms.74.1634507390401;
+        Sun, 17 Oct 2021 14:49:50 -0700 (PDT)
+Received: from matrix-ESPRIMO-P710 (p200300c78f4e06087995111441372b59.dip0.t-ipconnect.de. [2003:c7:8f4e:608:7995:1114:4137:2b59])
+        by smtp.gmail.com with ESMTPSA id n1sm16208809wmi.30.2021.10.17.14.49.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Oct 2021 07:49:03 -0700 (PDT)
-Date:   Sun, 17 Oct 2021 10:49:00 -0400
-From:   "Michael S. Tsirkin" <mst@redhat.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        corbet@lwn.net, jasowang@redhat.com, linux-doc@vger.kernel.org,
-        lulu@redhat.com, markver@us.ibm.com, mst@redhat.com,
-        pasic@linux.ibm.com, rdunlap@infradead.org, stable@vger.kernel.org,
-        wuzongyong@linux.alibaba.com, xieyongji@bytedance.com
-Subject: [GIT PULL] virtio,vdpa: fixes
-Message-ID: <20211017104900-mutt-send-email-mst@kernel.org>
+        Sun, 17 Oct 2021 14:49:50 -0700 (PDT)
+Date:   Sun, 17 Oct 2021 23:49:48 +0200
+From:   Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Docs: usb: update struct usb_driver, __init and __exit
+Message-ID: <20211017214948.GA9901@matrix-ESPRIMO-P710>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Mutt-Fcc: =sent
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The following changes since commit be9c6bad9b46451ba5bb8d366c51e2475f374981:
+update struct usb_driver from usb-skeleton.c.
+update __init and __exit functions that are moved from
+usb-skeleton.c to common used multi-stage macros.
 
-  vdpa: potential uninitialized return in vhost_vdpa_va_map() (2021-09-14 18:10:43 -0400)
+Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+---
+ .../driver-api/usb/writing_usb_driver.rst     | 51 +++++++------------
+ 1 file changed, 19 insertions(+), 32 deletions(-)
 
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git tags/for_linus
-
-for you to fetch changes up to bcef9356fc2e1302daf373c83c826aa27954d128:
-
-  vhost-vdpa: Fix the wrong input in config_cb (2021-10-13 08:42:07 -0400)
-
-----------------------------------------------------------------
-virtio,vdpa: fixes
-
-Fixes up some issues in rc5.
-
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-
-----------------------------------------------------------------
-Cindy Lu (1):
-      vhost-vdpa: Fix the wrong input in config_cb
-
-Halil Pasic (1):
-      virtio: write back F_VERSION_1 before validate
-
-Michael S. Tsirkin (1):
-      Revert "virtio-blk: Add validation for block size in config space"
-
-Randy Dunlap (1):
-      VDUSE: fix documentation underline warning
-
-Wu Zongyong (1):
-      vhost_vdpa: unset vq irq before freeing irq
-
- Documentation/userspace-api/vduse.rst |  2 +-
- drivers/block/virtio_blk.c            | 37 ++++++-----------------------------
- drivers/vhost/vdpa.c                  | 10 +++++-----
- drivers/virtio/virtio.c               | 11 +++++++++++
- 4 files changed, 23 insertions(+), 37 deletions(-)
+diff --git a/Documentation/driver-api/usb/writing_usb_driver.rst b/Documentation/driver-api/usb/writing_usb_driver.rst
+index 2176297e5765..1064adf79ccb 100644
+--- a/Documentation/driver-api/usb/writing_usb_driver.rst
++++ b/Documentation/driver-api/usb/writing_usb_driver.rst
+@@ -54,12 +54,15 @@ information is passed to the USB subsystem in the :c:type:`usb_driver`
+ structure. The skeleton driver declares a :c:type:`usb_driver` as::
+ 
+     static struct usb_driver skel_driver = {
+-	    .name        = "skeleton",
+-	    .probe       = skel_probe,
+-	    .disconnect  = skel_disconnect,
+-	    .fops        = &skel_fops,
+-	    .minor       = USB_SKEL_MINOR_BASE,
+-	    .id_table    = skel_table,
++           .name        = "skeleton",
++           .probe       = skel_probe,
++           .disconnect  = skel_disconnect,
++           .suspend     = skel_suspend,
++           .resume      = skel_resume,
++           .pre_reset   = skel_pre_reset,
++           .post_reset  = skel_post_reset,
++           .id_table    = skel_table,
++           .supports_autosuspend = 1,
+     };
+ 
+ 
+@@ -81,36 +84,20 @@ this user-space interaction. The skeleton driver needs this kind of
+ interface, so it provides a minor starting number and a pointer to its
+ :c:type:`file_operations` functions.
+ 
+-The USB driver is then registered with a call to :c:func:`usb_register`,
+-usually in the driver's init function, as shown here::
+-
+-    static int __init usb_skel_init(void)
+-    {
+-	    int result;
+-
+-	    /* register this driver with the USB subsystem */
+-	    result = usb_register(&skel_driver);
+-	    if (result < 0) {
+-		    err("usb_register failed for the "__FILE__ "driver."
+-			"Error number %d", result);
+-		    return -1;
+-	    }
+-
+-	    return 0;
+-    }
+-    module_init(usb_skel_init);
+-
++The USB driver is then registered with a call to :c:func:`usb_register`
++which is usually in the driver's init function. Since this functionality
++is usable with many USB drivers, it is hidden behind multi-stage macros.
++While the first macros are USB specific the later macros are used in different
++subsystems. This removes a lot of boilerplate code.
+ 
+ When the driver is unloaded from the system, it needs to deregister
+ itself with the USB subsystem. This is done with the :c:func:`usb_deregister`
+-function::
++which is also hidden behind multi-stage macros.
+ 
+-    static void __exit usb_skel_exit(void)
+-    {
+-	    /* deregister this driver with the USB subsystem */
+-	    usb_deregister(&skel_driver);
+-    }
+-    module_exit(usb_skel_exit);
++The init and exit functions are included in the macro :
++module_usb_driver(skel_driver);
++which is in the first stage replaced by:
++module_driver(__usb_driver, usb_register, usb_deregister)
+ 
+ 
+ To enable the linux-hotplug system to load the driver automatically when
+-- 
+2.25.1
 
