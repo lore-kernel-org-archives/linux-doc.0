@@ -2,224 +2,215 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 081ECC4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Oct 2021 10:23:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 123E9C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Oct 2021 10:25:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E67BB60FED
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Oct 2021 10:23:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DED3B6101B
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Oct 2021 10:25:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230385AbhJRKZ7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Oct 2021 06:25:59 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:52972 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229473AbhJRKZ6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Oct 2021 06:25:58 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 643AE21977;
-        Mon, 18 Oct 2021 10:23:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1634552626; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=5pfBZDoLk4ZpCwseu4wfT52O1HEr2BW47ti2eIQLJ4c=;
-        b=n0iHqSz5Cdj/OTCOaFShvFFM3HOJkLGulYHz3YmOxvsTJQHe4ZBJbT6BZ0PsLhHzC1qK1r
-        XzT1k+43pV+TIW0BeKEK9xAbgn/mfh3rf/l7kVlx0skRtB9V60FHexH00EZqFhijkGP3o3
-        Tx+phI7k6TkIzgV8fV0oJFXiU/Zlsnw=
-Received: from suse.cz (unknown [10.100.201.86])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id E8622A3B81;
-        Mon, 18 Oct 2021 10:23:45 +0000 (UTC)
-Date:   Mon, 18 Oct 2021 12:23:42 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     NeilBrown <neilb@suse.de>
-Cc:     Dave Chinner <david@fromorbit.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>, Jonathan Corbet <corbet@lwn.net>,
-        linux-xfs@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-nfs@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/6] MM: improve documentation for __GFP_NOFAIL
-Message-ID: <YW1LLlwjbyv8dcmn@dhcp22.suse.cz>
-References: <b680fb87-439b-0ba4-cf9f-33d729f27941@suse.cz>
- <YVwyhDnE/HEnoLAi@dhcp22.suse.cz>
- <eba04a07-99da-771a-ab6b-36de41f9f120@suse.cz>
- <20211006231452.GF54211@dread.disaster.area>
- <YV7G7gyfZkmw7/Ae@dhcp22.suse.cz>
- <163364854551.31063.4377741712039731672@noble.neil.brown.name>
- <YV/31+qXwqEgaxJL@dhcp22.suse.cz>
- <20211008223649.GJ54211@dread.disaster.area>
- <YWQmsESyyiea0zle@dhcp22.suse.cz>
- <163398898675.17149.16715168325131099480@noble.neil.brown.name>
+        id S229668AbhJRK1f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Oct 2021 06:27:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47888 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229498AbhJRK1e (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Oct 2021 06:27:34 -0400
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F206C06161C
+        for <linux-doc@vger.kernel.org>; Mon, 18 Oct 2021 03:25:23 -0700 (PDT)
+Received: by mail-pg1-x530.google.com with SMTP id t7so1219858pgl.9
+        for <linux-doc@vger.kernel.org>; Mon, 18 Oct 2021 03:25:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5hJn0tv/F/sL1RuQjVyX8qRGIEQO8ATZ5/GOtF8kpVA=;
+        b=l2NO6x5eM9wLywlxnSerCAgsD5jECSbuwWbvmAFt4JDEq/bk3MZIIfPLZ9J9LDkSeP
+         J3reA8F6aOrYVqcryC67lgrjNezRjloVhkxyPOeJ81KgsJq/1KyMnk2GfIqpXBNKNIy/
+         PNGZnujYEaDAxv7RAPhtjIfCdpz/8sB5Dh0Rr016aOe6K3n6OmLXOiN1+yui/o00/LLn
+         ePXGjbrwNNFlDBYwVu+OM2oJJoUcpZoUKEruWPcu2q5Tsp0zF6mdKfwfewi1/xWuNJyi
+         asJyEPiTpBKIkQ765pXbRHtjgGjOP9mVTu4MtygppUob3e9vO3aWz1jFz/KO19MCp6I8
+         Dh5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5hJn0tv/F/sL1RuQjVyX8qRGIEQO8ATZ5/GOtF8kpVA=;
+        b=NDMi7mNQMldjVDpvUC4VAk3fcAD2csVz7xmmZbh97RmtMJ+Iu5/hNWgb1PmZaNtUo2
+         GzFPxN5p955QOClPCOP2fnnFTz4ysydiZ0NHJjfUH9dI8qgyBL+JwdPYwBnt/wGDcpoe
+         rAmQzGNpFd1o/NPi/jmlu90LjjPFGxRjZmK3pI91SF3tQy3dpUNWopDJ52rVtJT+hIJD
+         PHNRmTiDSn1R0kXh0PSNhMq989KyEJSowTQk12lrz1lvUXeeFdoqosjhRCpeS/WmBdys
+         XYQ3zqaTpWMssuhg2XIr581khmhEf32dcsmgu/lVcAfGqkCE0majhOp4YYRop+xZmbON
+         LQ4w==
+X-Gm-Message-State: AOAM530sIjsuv1c2YMSzbouPYrm2awZT4TLjoQUO1TctisYUqT55Mqds
+        9tBj6x5iXlPWz0knCmanMbExlg==
+X-Google-Smtp-Source: ABdhPJzzKT7TTsX32cSWNDr4cq0BkhbHPkjGlD/9X2eT0kWw4s+Fpr7VuB057mDIH/syreRqhcw9jg==
+X-Received: by 2002:a63:7:: with SMTP id 7mr23068169pga.127.1634552723108;
+        Mon, 18 Oct 2021 03:25:23 -0700 (PDT)
+Received: from localhost.localdomain ([139.177.225.237])
+        by smtp.gmail.com with ESMTPSA id nn14sm12762232pjb.27.2021.10.18.03.25.17
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 18 Oct 2021 03:25:22 -0700 (PDT)
+From:   Muchun Song <songmuchun@bytedance.com>
+To:     mike.kravetz@oracle.com, akpm@linux-foundation.org,
+        osalvador@suse.de, mhocko@suse.com, song.bao.hua@hisilicon.com,
+        david@redhat.com, chenhuang5@huawei.com, bodeddub@amazon.com,
+        corbet@lwn.net, willy@infradead.org, 21cnbao@gmail.com
+Cc:     duanxiongchun@bytedance.com, fam.zheng@bytedance.com,
+        smuchun@gmail.com, zhengqi.arch@bytedance.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, Muchun Song <songmuchun@bytedance.com>
+Subject: [PATCH v6 0/5] Free the 2nd vmemmap page associated with each HugeTLB page
+Date:   Mon, 18 Oct 2021 18:20:38 +0800
+Message-Id: <20211018102043.78685-1-songmuchun@bytedance.com>
+X-Mailer: git-send-email 2.21.0 (Apple Git-122)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <163398898675.17149.16715168325131099480@noble.neil.brown.name>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue 12-10-21 08:49:46, Neil Brown wrote:
-> On Mon, 11 Oct 2021, Michal Hocko wrote:
-> > On Sat 09-10-21 09:36:49, Dave Chinner wrote:
-> > > 
-> > > Put simply, we want "retry forever" semantics to match what
-> > > production kernels have been doing for the past couple of decades,
-> > > but all we've been given are "never fail" semantics that also do
-> > > something different and potentially much more problematic.
-> > > 
-> > > Do you see the difference here? __GFP_NOFAIL is not what we
-> > > need in the vast majority of cases where it is used. We don't want
-> > > the failing allocations to drive the machine hard into critical
-> > > reserves, we just want the allocation to -eventually succeed- and if
-> > > it doesn't, that's our problem to handle, not kmalloc()....
-> > 
-> > I can see your point. I do have a recollection that there were some
-> > instance involved where an emergency access to memory reserves helped
-> > in OOM situations.
-> 
-> It might have been better to annotate those particular calls with
-> __GFP_ATOMIC or similar rather then change GFP_NOFAIL for everyone.
+This series can minimize the overhead of struct page for 2MB HugeTLB pages
+significantly, comments and reviews are welcome. Thanks.
 
-For historical reasons __GFP_ATOMIC is reserved for non sleeping
-allocations. __GFP_HIGH would be an alternative.
+After the feature of "Free sonme vmemmap pages of HugeTLB page" is enabled,
+the mapping of the vmemmap addresses associated with a 2MB HugeTLB page
+becomes the figure below.
 
-> Too late to fix that now though I think.  Maybe the best way forward is
-> to discourage new uses of GFP_NOFAIL.  We would need a well-documented
-> replacement.
+     HugeTLB                  struct pages(8 pages)         page frame(8 pages)
+ +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+---> PG_head
+ |           |                     |     0     | -------------> |     0     |
+ |           |                     +-----------+                +-----------+
+ |           |                     |     1     | -------------> |     1     |
+ |           |                     +-----------+                +-----------+
+ |           |                     |     2     | ----------------^ ^ ^ ^ ^ ^
+ |           |                     +-----------+                   | | | | |
+ |           |                     |     3     | ------------------+ | | | |
+ |           |                     +-----------+                     | | | |
+ |           |                     |     4     | --------------------+ | | |
+ |    2MB    |                     +-----------+                       | | |
+ |           |                     |     5     | ----------------------+ | |
+ |           |                     +-----------+                         | |
+ |           |                     |     6     | ------------------------+ |
+ |           |                     +-----------+                           |
+ |           |                     |     7     | --------------------------+
+ |           |                     +-----------+
+ |           |
+ |           |
+ |           |
+ +-----------+
 
-I am not sure what that should be. Really if the memory reserves
-behavior of GFP_NOFAIL is really problematic then let's just reap it
-out. I do not see a new nofail like flag is due.
+As we can see, the 2nd vmemmap page frame (indexed by 1) is reused and remaped.
+However, the 2nd vmemmap page frame is also can be freed to the buddy allocator,
+then we can change the mapping from the figure above to the figure below.
 
-> > Anway as I've tried to explain earlier that this all is an
-> > implementation detail users of the flag shouldn't really care about. If
-> > this heuristic is not doing any good then it should be removed.
-> 
-> Maybe users shouldn't care about implementation details, but they do
-> need to care about semantics and costs.
-> We need to know when it is appropriate to use GFP_NOFAIL, and when it is
-> not.  And what alternatives there are when it is not appropriate.
-> Just saying "try to avoid using it" and "requires careful analysis"
-> isn't acceptable.  Sometimes it is unavoidable and analysis can only be
-> done with a clear understanding of costs.  Possibly analysis can only be
-> done with a clear understanding of the internal implementation details.
+    HugeTLB                  struct pages(8 pages)         page frame(8 pages)
+ +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+---> PG_head
+ |           |                     |     0     | -------------> |     0     |
+ |           |                     +-----------+                +-----------+
+ |           |                     |     1     | ---------------^ ^ ^ ^ ^ ^ ^
+ |           |                     +-----------+                  | | | | | |
+ |           |                     |     2     | -----------------+ | | | | |
+ |           |                     +-----------+                    | | | | |
+ |           |                     |     3     | -------------------+ | | | |
+ |           |                     +-----------+                      | | | |
+ |           |                     |     4     | ---------------------+ | | |
+ |    2MB    |                     +-----------+                        | | |
+ |           |                     |     5     | -----------------------+ | |
+ |           |                     +-----------+                          | |
+ |           |                     |     6     | -------------------------+ |
+ |           |                     +-----------+                            |
+ |           |                     |     7     | ---------------------------+
+ |           |                     +-----------+
+ |           |
+ |           |
+ |           |
+ +-----------+
 
-What we document currently is this
- * %__GFP_NOFAIL: The VM implementation _must_ retry infinitely: the caller
- * cannot handle allocation failures. The allocation could block
- * indefinitely but will never return with failure. Testing for
- * failure is pointless.
- * New users should be evaluated carefully (and the flag should be
- * used only when there is no reasonable failure policy) but it is
- * definitely preferable to use the flag rather than opencode endless
- * loop around allocator.
- * Using this flag for costly allocations is _highly_ discouraged.
+After we do this, all tail vmemmap pages (1-7) are mapped to the head vmemmap
+page frame (0). In other words, there are more than one page struct with
+PG_head associated with each HugeTLB page.  We __know__ that there is only one
+head page struct, the tail page structs with PG_head are fake head page structs.
+We need an approach to distinguish between those two different types of page
+structs so that compound_head(), PageHead() and PageTail() can work properly
+if the parameter is the tail page struct but with PG_head.
 
-so we tell when to use it - aka no reasonable failure policy. We put
-some discouragind language there. There is some discouraging language
-for high order allocations. Maybe we should suggest an alternative
-there. It seems there are usecases for those as well so we should
-implement a proper NOFAIL kvmalloc and recommend it for that instead.
+The following code snippet describes how to distinguish between real and fake
+head page struct.
 
-> > > It also points out that the scope API is highly deficient.
-> > > We can do GFP_NOFS via the scope API, but we can't
-> > > do anything else because *there is no scope API for other GFP
-> > > flags*.
-> > > 
-> > > Why don't we have a GFP_NOFAIL/__GFP_RETRY_FOREVER scope API?
-> > 
-> > NO{FS,IO} where first flags to start this approach. And I have to admit
-> > the experiment was much less successful then I hoped for. There are
-> > still thousands of direct NOFS users so for some reason defining scopes
-> > is not an easy thing to do.
-> 
-> I'm not certain your conclusion is valid.  It could be that defining
-> scopes is easy enough, but no one feels motivated to do it.
-> We need to do more than provide functionality.  We need to tell people. 
-> Repeatedly.  And advertise widely.  And propose patches to make use of
-> the functionality.  And... and... and...
+	if (test_bit(PG_head, &page->flags)) {
+		unsigned long head = READ_ONCE(page[1].compound_head);
 
-Been there, done that for the low hanging fruit. Others were much more
-complex for me to follow up and I had other stuff on my table.
- 
-> I think changing to the scope API is a good change, but it is
-> conceptually a big change.  It needs to be driven.
+		if (head & 1) {
+			if (head == (unsigned long)page + 1)
+				==> head page struct
+			else
+				==> tail page struct
+		} else
+			==> head page struct
+	}
 
-Agreed.
+We can safely access the field of the @page[1] with PG_head because the @page
+is a compound page composed with at least two contiguous pages. The main
+implementation is in the patch 1.
 
-> > I am not against NOFAIL scopes in principle but seeing the nofs
-> > "success" I am worried this will not go really well either and it is
-> > much more tricky as NOFAIL has much stronger requirements than NOFS.
-> > Just imagine how tricky this can be if you just call a library code
-> > that is not under your control within a NOFAIL scope. What if that
-> > library code decides to allocate (e.g. printk that would attempt to do
-> > an optimistic NOWAIT allocation).
-> 
-> __GFP_NOMEMALLOC holds a lesson worth learning here.  PF_MEMALLOC
-> effectively adds __GFP_MEMALLOC to all allocations, but some call sites
-> need to over-ride that because there are alternate strategies available.
-> This need-to-over-ride doesn't apply to NOFS or NOIO as that really is a
-> thread-wide state.  But MEMALLOC and NOFAIL are different.  Some call
-> sites can reasonably handle failure locally.
-> 
-> I imagine the scope-api would say something like "NO_ENOMEM".  i.e.
-> memory allocations can fail as long as ENOMEM is never returned.
-> Any caller that sets __GFP_RETRY_MAYFAIL or __GFP_NORETRY or maybe some
-> others which not be affected by the NO_ENOMEM scope.  But a plain
-> GFP_KERNEL would.
-> 
-> Introducing the scope api would be a good opportunity to drop the
-> priority boost and *just* block until success.  Priority boosts could
-> then be added (possibly as a scope) only where they are measurably needed.
-> 
-> I think we have 28 process flags in use.  So we can probably afford one
-> more for PF_MEMALLOC_NO_ENOMEM.  What other scope flags might be useful?
-> PF_MEMALLOC_BOOST which added __GFP_ATOMIC but not __GFP_MEMALLOC ??
-> PF_MEMALLOC_NORECLAIM ??
+In our server, we can save extra 2GB memory with this patchset applied if there
+are 1 TB HugeTLB (2 MB) pages. If the size of the HugeTLB page is 1 GB, it only
+can save 4MB. For 2 MB HugeTLB page, it is a nice gain.
 
-I dunno. PF_MEMALLOC and its GFP_$FOO counterparts are quite hard to
-wrap my head around. I have never liked thos much TBH and building more
-on top sounds like step backward. I might be wrong but this sounds like
-even more work than NOFS scopes.
- 
-> > > That
-> > > would save us a lot of bother in XFS. What about GFP_DIRECT_RECLAIM?
-> > > I'd really like to turn that off for allocations in the XFS
-> > > transaction commit path (as noted already in this thread) because
-> > > direct reclaim that can make no progress is actively harmful (as
-> > > noted already in this thread)
-> > 
-> > As always if you have reasonable usecases then it is best to bring them
-> > up on the MM list and we can discuss them.
-> 
-> We are on the MM lists now... let's discuss :-)
+Changlogs in v6:
+  1. Add test case to tools/testing/selftests/vm/run_vmtests.sh.
 
-Sure we can but this thread is a mix of so many topics that finding
-something useful will turn to be hard from my past experience.
+Changlogs in v5:
+  1. Move NR_RESET_STRUCT_PAGE to the front of reset_struct_pages().
+  2. Collect Reviewed-by tags.
 
-> Dave: How would you feel about an effort to change xfs to stop using
-> GFP_NOFS, and to use memalloc_nofs_save/restore instead?
+  Thanks Barry for his suggestions and reviews.
 
-xfs is an example of a well behaved scope user. In fact the API has been
-largely based on xfs previous interface. There are still NOFS usesages
-in xfs which would be great to get rid of (e.g. the default mapping NOFS
-which was added due to lockdep false positives but that is unrelated).
+Changlogs in v4:
+  1. Move hugetlb_free_vmemmap_enabled from hugetlb.h to page-flags.h.
+  2. Collect Reviewed-by.
+  3. Add a new patch to move vmemmap functions related to HugeTLB to
+     the scope of the CONFIG_HUGETLB_PAGE_FREE_VMEMMAP.
 
-> Having a major
-> filesystem make the transition would be a good test-case, and could be
-> used to motivate other filesystems to follow.
-> We could add and use memalloc_no_enomem_save() too.
+  Thanks Barry for his suggestions and reviews.
 
-ext has converted their transaction context to the scope API as well.
-There is still some explicit NOFS usage but I haven't checked details
-recently.
+Changlogs in v3:
+  1. Rename page_head_if_fake() to page_fixed_fake_head().
+  2. Introducing a new helper page_is_fake_head() to make code more readable.
+  3. Update commit log of patch 3 to add more judgements.
+  4. Add some comments in check_page_flags() in the patch 4.
+
+  Thanks Barry for his suggestions and reviews.
+
+Changlogs in v2:
+  1. Drop two patches of introducing PAGEFLAGS_MASK from this series.
+  2. Let page_head_if_fake() return page instead of NULL.
+  3. Add a selftest to check if PageHead or PageTail work well.
+
+Muchun Song (5):
+  mm: hugetlb: free the 2nd vmemmap page associated with each HugeTLB
+    page
+  mm: hugetlb: replace hugetlb_free_vmemmap_enabled with a static_key
+  mm: sparsemem: use page table lock to protect kernel pmd operations
+  selftests: vm: add a hugetlb test case
+  mm: sparsemem: move vmemmap related to HugeTLB to
+    CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
+
+ Documentation/admin-guide/kernel-parameters.txt |   2 +-
+ include/linux/hugetlb.h                         |   6 -
+ include/linux/mm.h                              |   2 +
+ include/linux/page-flags.h                      |  90 ++++++++++++++-
+ mm/hugetlb_vmemmap.c                            |  66 ++++++-----
+ mm/memory_hotplug.c                             |   2 +-
+ mm/ptdump.c                                     |  16 ++-
+ mm/sparse-vmemmap.c                             |  70 +++++++++---
+ tools/testing/selftests/vm/.gitignore           |   1 +
+ tools/testing/selftests/vm/Makefile             |   1 +
+ tools/testing/selftests/vm/hugepage-vmemmap.c   | 144 ++++++++++++++++++++++++
+ tools/testing/selftests/vm/run_vmtests.sh       |  11 ++
+ 12 files changed, 349 insertions(+), 62 deletions(-)
+ create mode 100644 tools/testing/selftests/vm/hugepage-vmemmap.c
+
 -- 
-Michal Hocko
-SUSE Labs
+2.11.0
+
