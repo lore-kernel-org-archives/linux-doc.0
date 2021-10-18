@@ -2,82 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D257C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Oct 2021 02:21:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6356C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Oct 2021 02:38:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D65AD61260
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Oct 2021 02:21:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A11BF61266
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Oct 2021 02:38:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236965AbhJRCXq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 17 Oct 2021 22:23:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52586 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236699AbhJRCXq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Oct 2021 22:23:46 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13226C06161C;
-        Sun, 17 Oct 2021 19:21:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=DIQKw3qwkDPCsXVrAmS0+BsNjJtAvTsvtObVynrX8dE=; b=Zv7pV55a57UKMjZhSUwkrg2KGh
-        VBRiEcVefW0t2tUlf1qKwUHL6GUV5xRkBaktWkpwxQDyxZ0IlOEvrMQY750p505ZTKoOssDYxDawM
-        0RHstdRi+dHMhY8O8SH7+HTnaXscH+N60iUHmM9qVmv325S4eF9LyTP061d0+6WXG4VgLKNhrlXXY
-        cVNi/b94tY/RfqNMdZBH1GEBy5cUWXDiarvHB58cWmV24xggRj6L8nYfr5g8cs/JEXTL3nfgtA7Ex
-        vIqnMv6w5R+r2aA7Th39dOsXyswzTWe7DP2WnHQw5/4AurkCnb6E/gBJwKRctmIiLOTNy18dP/an4
-        JjhEJ7FQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mcIDp-00AdoF-Mt; Mon, 18 Oct 2021 02:18:41 +0000
-Date:   Mon, 18 Oct 2021 03:17:53 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Boqun Feng <boqun.feng@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Tejun Heo <tj@kernel.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] workqueue: doc: Call out the non-reentrance conditions
-Message-ID: <YWzZUZILdhAGba8I@casper.infradead.org>
-References: <20211018013117.256284-1-boqun.feng@gmail.com>
+        id S242997AbhJRCkV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 17 Oct 2021 22:40:21 -0400
+Received: from out30-42.freemail.mail.aliyun.com ([115.124.30.42]:41685 "EHLO
+        out30-42.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S238675AbhJRCkU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Oct 2021 22:40:20 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R731e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04407;MF=tianjia.zhang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0UsUNe6S_1634524684;
+Received: from 30.240.100.200(mailfrom:tianjia.zhang@linux.alibaba.com fp:SMTPD_---0UsUNe6S_1634524684)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Mon, 18 Oct 2021 10:38:06 +0800
+Message-ID: <5b0bc02a-eeb5-9d86-852b-d3041f3c6286@linux.alibaba.com>
+Date:   Mon, 18 Oct 2021 10:37:56 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211018013117.256284-1-boqun.feng@gmail.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.2.0
+Subject: Re: [PATCH 2/2] tpm: use SM3 instead of SM3_256
+Content-Language: en-US
+To:     Jarkko Sakkinen <jarkko@kernel.org>,
+        James Bottomley <jejb@linux.ibm.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Peter Huewe <peterhuewe@gmx.de>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Jerry Snitselaar <jsnitsel@redhat.com>,
+        linux-integrity@vger.kernel.org, keyrings@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-security-module@vger.kernel.org
+References: <20211009130828.101396-1-tianjia.zhang@linux.alibaba.com>
+ <20211009130828.101396-3-tianjia.zhang@linux.alibaba.com>
+ <c6c2337ed83c237f70716cb4c62794d1d3da31f2.camel@kernel.org>
+ <5db32f21-1df7-c92e-42a1-a2a85b29dfbf@linux.alibaba.com>
+ <31d49f7785dd82fd2f0c1078c9a94153e3c389ac.camel@kernel.org>
+From:   Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+In-Reply-To: <31d49f7785dd82fd2f0c1078c9a94153e3c389ac.camel@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 18, 2021 at 09:31:17AM +0800, Boqun Feng wrote:
-> @@ -391,6 +387,23 @@ the stack trace of the offending worker thread. ::
->  The work item's function should be trivially visible in the stack
->  trace.
->  
-> +Non-reentrance Conditions
-> +=========================
-> +
-> +Workqueue guarantees that a work item cannot be re-entrant if the following
-> +conditions hold after a work item gets queued:
-> +
-> +        1. The work function hasn't been changed.
-> +        2. No one queues the work item to another workqueue.
-> +        3. The work item hasn't been reinitiated.
-> +
-> +In other words, if the above conditions hold, the work item is guaranteed to be
-> +executed by at most one worker system-wide at any given time.
-> +
-> +Note that requeuing the work item (to the same queue) in the self function
-> +doesn't break these conditions, so it's safe to do. Otherwise, caution is
-> +required when breaking the conditions inside a work function.
-> +
+Hi Jarkko,
 
-I'd like to suggest that this be added to the Guidelines section
-instead:
+On 10/15/21 11:19 PM, Jarkko Sakkinen wrote:
+> On Thu, 2021-10-14 at 17:46 +0800, Tianjia Zhang wrote:
+>> Hi Jarkko,
+>>
+>> On 10/12/21 11:21 PM, Jarkko Sakkinen wrote:
+>>> On Sat, 2021-10-09 at 21:08 +0800, Tianjia Zhang wrote:
+>>>> According to https://tools.ietf.org/id/draft-oscca-cfrg-sm3-01.html,
+>>>> SM3 always produces a 256-bit hash value and there are no plans for
+>>>> other length development, so there is no ambiguity in the name of sm3.
+>>>>
+>>>> Signed-off-by: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+>>>
+>>> This is not enough to make any changes because the commit message
+>>> does not describe what goes wrong if we keep it as it was.
+>>>
+>>> /Jarkko
+>>>
+>>
+>> This did not cause an error, just to use a more standard algorithm name.
+>> If it is possible to use the SM3 name instead of SM3_256 if it can be
+>> specified from the source, it is of course better. I have contacted the
+>> trustedcomputinggroup and have not yet received a reply.
+>>
+>> Best regards,
+>> Tianjia
+> 
+> Why don't you then create a patch set that fully removes SM3_256, if it
+> is incorrect?
+> 
+> This looks a bit half-baked patch set.
+> 
+> /Jarkko
+> 
 
-* A work item will not normally be processed on multiple CPUs at the
-  same time.  It can happen if the work function is changed, the work
-  item is queued to multiple queues or the work function is
-  reinitialised after being queued.
+This series of patch is a complete replacement. Patch 1 is a replacement 
+of the crypto subsystem, and patch 2 is a replacement of the tpm driver.
+
+Best regards,
+Tianjia
