@@ -2,175 +2,208 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC4C5C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Oct 2021 18:37:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 331FFC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Oct 2021 19:32:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D546F6115A
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Oct 2021 18:37:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0FE8760F8F
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Oct 2021 19:32:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232873AbhJRSkD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Oct 2021 14:40:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50230 "EHLO
+        id S233360AbhJRTen (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Oct 2021 15:34:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229924AbhJRSkC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Oct 2021 14:40:02 -0400
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66909C06161C
-        for <linux-doc@vger.kernel.org>; Mon, 18 Oct 2021 11:37:51 -0700 (PDT)
-Received: by mail-qk1-x734.google.com with SMTP id bj31so13509816qkb.2
-        for <linux-doc@vger.kernel.org>; Mon, 18 Oct 2021 11:37:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=wJNcqyK0rI+evQwD2jibSP3vMmIjKUzQYxLr4+LBMxw=;
-        b=mHTSwxuHIb35EXaVeJxHacMsxHXRiwRrzFlTIzu95R4xpKwQjwTi98YJDiO/ogOyVM
-         1V7to07GJw+HEy22WjoZpWwQLvne2PqoTaWujVU221XSQ58bOy/UsmRz4R02QewOXFks
-         acre2QabSw5LHCBI+pv5SpreClVFg/bJ6nlQ/VS75gnqpOpQ72VMWJUgtPfdSaVZ2NRR
-         aR9NXBrEKrOwNVxyGUgJ3GgJi4d5JiOV3jk9t3w19Mx1HFZ37As2BIG1ofkgahbOsDOr
-         Ld9w6HJk+P8TZXAQcbI/asl8w6v8xhjwIELLnYWoSLB09w6bhkGIiXfr0SSCeYn6edEm
-         cAIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=wJNcqyK0rI+evQwD2jibSP3vMmIjKUzQYxLr4+LBMxw=;
-        b=dm2jtyP6vQW5W4RSa5FOHnohzhC3pENd+BMsO5l4f7Qn2rbR+FZDwwv6XuUSvLIe5l
-         55+Em3ct4hfGCWxxvVjc4Wj0XqGkpRfE/cpHTO5eY6cvJTS/3dVqnjtnP6HYB8HhSlk1
-         keqWmpZzE/BXf5wAEHSYPSc+3mrJZ7qRDwT65iITM5iOumkmYLs0do56l0npH2TF3RJl
-         ohohOeypXUSj3UvAjkIO+HL2vJJ3jLejsiwpy+/tkFgNJwjHBTPlbNFglnvEGtICuf9+
-         bgr8Hb8Dx8nbsZj64/tQpTKLyH+YCvw6mr8B3Gtfoic0bya40jMBEQ/0qvrc7Yp058Rr
-         juAw==
-X-Gm-Message-State: AOAM532bLvAaH29mCDaQJmyqU7vmO0yqrMkP959bMZNG926XQcXoywS4
-        TK80xBaMkM5JGKE3FOOfpE6kzA==
-X-Google-Smtp-Source: ABdhPJwqYNU955h8X5OyxNzk5+v0MXjssNIi2HrA1CNfbfl5up52FXcbIilaAETYLXx/PoOFN5pYfg==
-X-Received: by 2002:a05:620a:1a28:: with SMTP id bk40mr15176090qkb.224.1634582270558;
-        Mon, 18 Oct 2021 11:37:50 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.129])
-        by smtp.gmail.com with ESMTPSA id bk7sm5189997qkb.72.2021.10.18.11.37.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Oct 2021 11:37:50 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1mcXW9-00GLve-Gq; Mon, 18 Oct 2021 15:37:49 -0300
-Date:   Mon, 18 Oct 2021 15:37:49 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Joao Martins <joao.m.martins@oracle.com>
-Cc:     Dan Williams <dan.j.williams@intel.com>, linux-mm@kvack.org,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Jane Chu <jane.chu@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Christoph Hellwig <hch@lst.de>, nvdimm@lists.linux.dev,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 08/14] mm/gup: grab head page refcount once for group
- of subpages
-Message-ID: <20211018183749.GE3686969@ziepe.ca>
-References: <20210827145819.16471-1-joao.m.martins@oracle.com>
- <20210827145819.16471-9-joao.m.martins@oracle.com>
- <20210827162552.GK1200268@ziepe.ca>
- <da90638d-d97f-bacb-f0fa-01f5fd9f2504@oracle.com>
- <20210830130741.GO1200268@ziepe.ca>
- <cda6d8fb-bd48-a3de-9d4e-96e4a43ebe58@oracle.com>
- <20210831170526.GP1200268@ziepe.ca>
- <8c23586a-eb3b-11a6-e72a-dcc3faad4e96@oracle.com>
- <20210928180150.GI3544071@ziepe.ca>
- <3f35cc33-7012-5230-a771-432275e6a21e@oracle.com>
+        with ESMTP id S231969AbhJRTem (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Oct 2021 15:34:42 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7260CC06161C;
+        Mon, 18 Oct 2021 12:32:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=B9bByHMOUaNb4hIzLjt6ee5iMVKuoAuSSlDfjNfXcVw=; b=XtN6iHFYDXFCgENpbEdGOr2pmU
+        yFFYqYJYUwhdr5Zlp2UsdTC2rL+hCJS1bFB6SdwLPL8YHN2d2igwldOx4aN39GeV7zWYehrfXe2jn
+        xPp8Wbs+3g4hxTSveCN7QqtgeFHuYXz8JAy/ZGSgg4zr67ZKFiZkEZvtfzpv+LZY72zafXjqhxeu+
+        5Fsq/DwQleE7J00WQFTjv7uxD1NogvR0qdqKtmAPsd2KXSwIcnQ3dqcWurIfkTXkOc6O9SU7pasYf
+        Jps0O7g4MB47gCoKXLrVqcnjY2O026y80dKCw6tVa5/wa0aFv5cYUejuIFIsV/jimkvEoP7FdHUzf
+        FB3gz3QQ==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mcYMl-00H11w-Tb; Mon, 18 Oct 2021 19:32:11 +0000
+Date:   Mon, 18 Oct 2021 12:32:11 -0700
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Ming Lei <ming.lei@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>
+Cc:     tj@kernel.org, gregkh@linuxfoundation.org,
+        akpm@linux-foundation.org, minchan@kernel.org, jeyu@kernel.org,
+        shuah@kernel.org, bvanassche@acm.org, dan.j.williams@intel.com,
+        joe@perches.com, tglx@linutronix.de, keescook@chromium.org,
+        rostedt@goodmis.org, linux-spdx@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 11/12] zram: fix crashes with cpu hotplug multistate
+Message-ID: <YW3LuzaPhW96jSBK@bombadil.infradead.org>
+References: <20210927163805.808907-1-mcgrof@kernel.org>
+ <20210927163805.808907-12-mcgrof@kernel.org>
+ <YWeOJP2UJWYF94fu@T590>
+ <YWeR4moCRh+ZHOmH@T590>
+ <YWiSAN6xfYcUDJCb@bombadil.infradead.org>
+ <YWjCpLUNPF3s4P2U@T590>
+ <YWjJ0O7K+31Iz3ox@bombadil.infradead.org>
+ <YWk9e957Hb+I7HvR@T590>
+ <YWm68xUnAofop3PZ@bombadil.infradead.org>
+ <YWq3Z++uoJ/kcp+3@T590>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3f35cc33-7012-5230-a771-432275e6a21e@oracle.com>
+In-Reply-To: <YWq3Z++uoJ/kcp+3@T590>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 29, 2021 at 12:50:15PM +0100, Joao Martins wrote:
-> On 9/28/21 19:01, Jason Gunthorpe wrote:
-> > On Thu, Sep 23, 2021 at 05:51:04PM +0100, Joao Martins wrote:
-> >> So ... if pgmap accounting was removed from gup-fast then this patch
-> >> would be a lot simpler and we could perhaps just fallback to the regular
-> >> hugepage case (THP, HugeTLB) like your suggestion at the top. See at the
-> >> end below scissors mark as the ballpark of changes.
-> >>
-> >> So far my options seem to be: 1) this patch which leverages the existing
-> >> iteration logic or 2) switching to for_each_compound_range() -- see my previous
-> >> reply 3) waiting for Dan to remove @pgmap accounting in gup-fast and use
-> >> something similar to below scissors mark.
-> >>
-> >> What do you think would be the best course of action?
+On Sat, Oct 16, 2021 at 07:28:39PM +0800, Ming Lei wrote:
+> On Fri, Oct 15, 2021 at 10:31:31AM -0700, Luis Chamberlain wrote:
+> > On Fri, Oct 15, 2021 at 04:36:11PM +0800, Ming Lei wrote:
+> > > On Thu, Oct 14, 2021 at 05:22:40PM -0700, Luis Chamberlain wrote:
+> > > > On Fri, Oct 15, 2021 at 07:52:04AM +0800, Ming Lei wrote:
+> > > ...
+> > > > > 
+> > > > > We need to understand the exact reason why there is still cpuhp node
+> > > > > left, can you share us the exact steps for reproducing the issue?
+> > > > > Otherwise we may have to trace and narrow down the reason.
+> > > > 
+> > > > See my commit log for my own fix for this issue.
+> > > 
+> > > OK, thanks!
+> > > 
+> > > I can reproduce the issue, and the reason is that reset_store fails
+> > > zram_remove() when unloading module, then the warning is caused.
+> > > 
+> > > The top 3 patches in the following tree can fix the issue:
+> > > 
+> > > https://github.com/ming1/linux/commits/my_v5.15-blk-dev
 > > 
-> > I still think the basic algorithm should be to accumulate physicaly
-> > contiguous addresses when walking the page table and then flush them
-> > back to struct pages once we can't accumulate any more.
-> > 
-> > That works for both the walkers and all the page types?
-> > 
+> > Thanks for trying an alternative fix! A crash stops yes, however this
 > 
-> The logic already handles all page types -- I was trying to avoid the extra
-> complexity in regular hugetlb/THP path by not merging the handling of the
-> oddball case that is devmap (or fundamentally devmap
-> non-compound case in the future).
+> I doubt it is alternative since your patchset doesn't mention the exact
+> reason of 'Error: Removing state 63 which has instances left.', that is
+> simply caused by failing to remove zram because ->claim is set during
+> unloading module.
 
-FYI, this untested thing is what I came to when I tried to make
-something like this:
+Well I disagree because it does explain how the race can happen, and it
+also explains how since the sysfs interface is exposed until module
+removal completes, it leaves exposed knobs to allow re-initializing of a
+struct zcomp for a zram device before the exit.
 
-/*
- * A large page entry such as PUD/PMD can point to a struct page. In cases like
- * THP this struct page will be a compound page of the same order as the page
- * table level. However, in cases like DAX or more generally pgmap ZONE_DEVICE,
- * the PUD/PMD may point at the first pfn in a string of pages.
- *
- * This helper iterates over all head pages or all the non-compound base pages.
- */
-static pt_entry_iter_state
-{
-	struct page *head;
-	unsigned long compound_nr;
-	unsigned long pfn;
-	unsigned long end_pfn;
-};
+> Yeah, you mentioned the race between disksize_store() vs. zram_remove(),
+> however I don't think it is reproduced easily in the test because the race
+> window is pretty small, also it can be fixed easily in my 3rd path
+> without any complicated tricks.
 
-static inline struct page *__pt_start_iter(struct iter_state *state,
-					   struct page *page, unsigned long pfn,
-					   unsigned int entry_size)
-{
-	state->head = compound_head(page);
-	state->compound_nr = compound_nr(page);
-	state->pfn = pfn & (~(state->compound_nr - 1));
-	state->end_pfn = pfn + entry_size / PAGE_SIZE;
-	return state->head;
-}
+Reproducing for me is... extremely easy.
 
-static inline struct page *__pt_next_page(struct iter_state *state)
-{
-	state->pfn += state->compound_nr;
-	if (state->end_pfn <= state->pfn)
-		return NULL;
-	state->head = pfn_to_page(state->pfn);
-	state->compound_nr = compound_nr(page);
-	return state->head;
-}
+> Not dig into details of your patchset via grabbing module reference
+> count during show/store attribute of kernfs which is done in your patch
+> 9, but IMO this way isn't necessary:
 
-#define for_each_page_in_pt_entry(state, page, pfn, entry_size)                \
-	for (page = __pt_start_iter(state, page, pfn, entry_size); page;       \
-	     page = __pt_next_page(&state))
+That's to address the deadlock only.
 
-static bool remove_pages_from_page_table(struct vm_area_struct *vma,
-					 struct page *page, unsigned long pfn,
-					 unsigned int entry_size, bool is_dirty,
-					 bool is_young)
-{
-	struct iter_state state;
+> 1) any driver module has to cleanup anything which may refer to symbols
+> or data defined in module_exit of this driver
 
-	for_each_page_in_pt_entry(&state, page, pfn, entry_size)
-		remove_page_from_page_table(vma, page, is_dirty, is_young);
-}
+Yes, and as the cpu multistate hotplug documentation warns (although
+such documentation is kind of hidden) that driver authors need to be
+careful with module removal too, refer to the warning at the end of
+__cpuhp_remove_state_cpuslocked() about module removal.
 
+> 2) device_del() is often done in module_exit(), once device_del()
+> returns, no any new show/store on the device's kobject attribute
+> is possible.
 
-Jason
+Right and if a syfs knob is exposed before device_del() completely
+and is allowed to do things, the driver should take care to prevent
+races for CPU multistate support. The small state machine I added ensures
+we don't run over any expectations from cpu hotplug multistate support.
+
+I've *never* suggested there cannot be alternatives to my solution with
+the small state machine, but for you to say it is incorrect is simply
+not right either.
+
+> 3) it is _not_ a must or pattern for fixing bugs to hold one lock before
+> calling device_del(), meantime the lock is required in the device's
+> attribute show()/store(), which causes AA deadlock easily. Your approach
+> just avoids the issue by not releasing module until all show/store are
+> done.
+
+Right, there are two approaches here:
+
+a) Your approach is to accept the deadlock as a requirement and so
+you would prefer to implement an alternative to using a shared lock
+on module exit and sysfs op.
+
+b) While I address such a deadlock head on as I think this sort of locking
+be allowed for two reasons:
+   b1) as we never documented such requirement otherwise.
+   b2) There is a possibility that other drivers already exist too
+       which *do* use a shared lock on module removal and sysfs ops
+       (and I just confirmed this to be true)
+
+By you only addressing the deadlock as a requirement on approach a) you are
+forgetting that there *may* already be present drivers which *do* implement
+such patterns in the kernel. I worked on addressing the deadlock because
+I was informed livepatching *did* have that issue as well and so very
+likely a generic solution to the deadlock could be beneficial to other
+random drivers.
+
+So I *really* don't think it is wise for us to simply accept this new
+found deadlock as a *new* requirement, specially if we can fix it easily.
+
+A cursory review using Coccinelle potential issues with mutex lock
+directly used on module exit (so this doesn't cover drivers like zram
+which uses a routine and then grabs the lock through indirection) and a
+sysfs op shows these drivers are also affected by this deadlock:
+
+  * arch/powerpc/sysdev/fsl_mpic_timer_wakeup.c
+  * lib/test_firmware.c
+
+Note that this cursory review does not cover spin_lock uses, and other
+forms locks. Consider the case where a routine is used and then that
+routine grabs a lock, so one level indirection. There are many levels
+of indirections possible here. And likewise there are different types
+of locks.
+
+> > also ends up leaving the driver in an unrecoverable state after a few
+> > tries. Ie, you CTRL-C the scripts and try again over and over again and
+> > the driver ends up in a situation where it just says:
+> > 
+> > zram: Can't change algorithm for initialized device
+> 
+> It means the algorithm can't be changed for one initialized device
+> at the exact time. That is understandable because two zram02.sh are
+> running concurrently.
+
+Indeed but with your patch it can get stuck and cannot be taken out of this
+state.
+
+> Your test script just runs two ./zram02.sh tasks concurrently forever,
+> so what is your expected result for the test? Of course, it can't be
+> over.
+>
+> I can't reproduce the 'unrecoverable' state in my test, can you share the
+> stack trace log after that happens?
+
+Try a bit harder, cancel the scripts after running for a while randomly
+(CTRL C a few times until the script finishes) and have them race again.
+Do this a few times.
+
+> > And the zram module can't be removed at that point.
+> 
+> It is just that systemd opens the zram or the disk is opened as swap
+> disk, and once systemd closes it or after you run swapoff, it can be
+> unloaded.
+
+With my patch this issues does not happen.
+
+  Luis
