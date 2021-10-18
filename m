@@ -2,196 +2,159 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5F58C4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Oct 2021 01:10:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78FC2C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Oct 2021 01:31:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C39A96124B
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Oct 2021 01:10:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5B21B61263
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Oct 2021 01:31:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344914AbhJRBMe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 17 Oct 2021 21:12:34 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:35054 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344912AbhJRBMe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Oct 2021 21:12:34 -0400
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1634519422;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=2renu8ZE8ozzoUn8doITIHK/p2oy+zqiubPlxkzvjKI=;
-        b=NeYfFMecTWNziQtQWeHQRI+pSG8mlPx6rXnTY+tqAmJzCsEnkfJdfxBPRvyYIRvcAU8kWP
-        JXOl8vAwoKGZixe/fWcIkEVur6LcilfP2x0Ax+WPMpFO3NFr9bARL3HGLg5zIGHjKA1y9c
-        q3rYu+QwEgDYmExjuGiOFYCLkBA4EzIpDVo6HZbDQqKEnzRgAYO7b3zRFgn8jpP+A800Jj
-        2UmK35n0lwcDd6gSXItNrWDs8YtI0n7t5587yj/LuVrrNu61iqhJw5dBbpEd3Rf2pdoDV6
-        Jc98JYhX0b1wja0EWFZO/gKnYKM45illilYEq4oiOkJMu8T1dEdMpLcTGJ5lLQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1634519422;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=2renu8ZE8ozzoUn8doITIHK/p2oy+zqiubPlxkzvjKI=;
-        b=yTgU4qMQsJ0Prrb5VgmZPnJugZRYb/9AQNBOmEJMAHu2NeRNJyDX9XIv0KSMJ7cnVvjbMs
-        5ijmDWqMRiGSdHAA==
-To:     Andi Kleen <ak@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Arjan van de Ven <arjan@linux.intel.com>,
-        "Schlobohm, Bruce" <bruce.schlobohm@intel.com>,
-        "Kovatch, Kathleen" <kathleen.kovatch@intel.com>
-Cc:     Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        id S1344933AbhJRBdw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 17 Oct 2021 21:33:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41658 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242987AbhJRBdv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Oct 2021 21:33:51 -0400
+Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29AADC06161C;
+        Sun, 17 Oct 2021 18:31:41 -0700 (PDT)
+Received: by mail-il1-x130.google.com with SMTP id y17so13202679ilb.9;
+        Sun, 17 Oct 2021 18:31:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=itLvXSj0egwKycv7hBiTETZl/qGBc0N5NpF6/aBGmVc=;
+        b=orLHn8u4jjhyFCfzKFpAzi2rQJmd88jiYGaqjb92RBSMNszikVp+zQtLmaE3roqg78
+         EzATwJKjM1rcnZP4R+e5Nqzdr0/GZn1brABXGYWdJOQfrT6fcl5/SvG4xv6s0eNG2ChV
+         sSCzphvdSlNcoiJx0qGJBU7uosns0QomXzSJxwW9EWro0RozXnHJrSPCMVRHq/SBPe1I
+         vMh60KNI5PAf8DqI5OI6ciEe4jdBMS0XtVvpTzUVIk6SrbT9wdFOMj8rtdWXg/SDoeG6
+         FKWP7y0zExIOPakwt5fgEpHmnHostGeoz2hZ094ZpJGkpG9D8NqvWbYUJCtNwbMvc2zz
+         bxYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=itLvXSj0egwKycv7hBiTETZl/qGBc0N5NpF6/aBGmVc=;
+        b=MkEXBQ5jzHw8ANddVqR2idMb6UXrE8aHisHy5p6BEGHWdtZJTiRkfj/uRaxu18qinz
+         XBI0pMYKZ/Nazo2w7W5vgtB3Vl6oxro7Z4hzUHx8IgithZt7CBz+xq+84DOCuIuJji5N
+         erwLXNK3EWrQIwjG70oGu4eRn9bhSvP0nrT/E+bpYIiGgFH3R1ruZ0h9gj+nbr1WL3VW
+         qbYgdz0K0rEk9k9N29vPWw922gMLKt973uwJk2E1rAxi1gw9Cgax5VElnKbFci9Zj8/R
+         bhDAvYRtituTbehZNabN0x5J3XwNmP4sGfs0YjNKtz09ydQHkr3tPt/JX+sXgxjUxqDT
+         Kicw==
+X-Gm-Message-State: AOAM531gsUzCOAOfSWXXqDUnnj6sQPRLkVVEoP1VasVQeKAsNwzxZCY1
+        nhRrDFwr/4fdU2PWcFfZIiw=
+X-Google-Smtp-Source: ABdhPJwQlEHrXTGaOUuVuaKbb9jxTFAFbQUZeoZie34DIKawGs0W6o8NGfigxsaTf3yIw3rCdAWSUg==
+X-Received: by 2002:a05:6e02:1a61:: with SMTP id w1mr12669237ilv.197.1634520700570;
+        Sun, 17 Oct 2021 18:31:40 -0700 (PDT)
+Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com. [66.111.4.227])
+        by smtp.gmail.com with ESMTPSA id y16sm6207914iln.74.2021.10.17.18.31.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Oct 2021 18:31:39 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailauth.nyi.internal (Postfix) with ESMTP id 67CCE27C0054;
+        Sun, 17 Oct 2021 21:31:38 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Sun, 17 Oct 2021 21:31:38 -0400
+X-ME-Sender: <xms:ec5sYYoFjjPQScP7LZH8BCjdAkMzIYTtV91ktgA12_tlL_KcQYan_A>
+    <xme:ec5sYepzoJu5v9dEYE7YcoJXIetf_RUCfFXKFjQk0VH1sr740iV41brykOifwXao2
+    qpiChAOfzmEBfhzJA>
+X-ME-Received: <xmr:ec5sYdPujSo2jMwY_kP9W6VmHc-ztFvGENHr9DYxdgnPUbiiRuzdR2MTLQDiKQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdduledggeduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeeuohhquhhnucfh
+    vghnghcuoegsohhquhhnrdhfvghnghesghhmrghilhdrtghomheqnecuggftrfgrthhtvg
+    hrnhepieeuveejleehudetfeevfeelgfejteefhedvkedukefggedugefhudfhteevjedu
+    necuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtne
+    curfgrrhgrmhepmhgrihhlfhhrohhmpegsohhquhhnodhmvghsmhhtphgruhhthhhpvghr
+    shhonhgrlhhithihqdeiledvgeehtdeigedqudejjeekheehhedvqdgsohhquhhnrdhfvg
+    hngheppehgmhgrihhlrdgtohhmsehfihigmhgvrdhnrghmvg
+X-ME-Proxy: <xmx:ec5sYf6tZwwQ1E4mdr2zVrHFcAGV-uaSspSI9tL8HdrBIqMUdZdxYw>
+    <xmx:ec5sYX4N41RaTJPOrWS2nWdIjByQWlhNKvnzdU_Ut4z6fMV30SkwBQ>
+    <xmx:ec5sYfiO2ldkjHTgRM07PoQb2wroXlAmXHHSEzL32FzbIHW2vnh7zA>
+    <xmx:es5sYRsyMnnc1b78eJFnlOttbe0KBxZpiwuktZzT3pL7lmCo4dY3Jg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 17 Oct 2021 21:31:37 -0400 (EDT)
+From:   Boqun Feng <boqun.feng@gmail.com>
+To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Peter Zijlstra <peterz@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        James E J Bottomley <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        "David S . Miller" <davem@davemloft.net>,
-        Arnd Bergmann <arnd@arndb.de>,
+        Frederic Weisbecker <frederic@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        David Hildenbrand <david@redhat.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Peter H Anvin <hpa@zytor.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
-        X86 ML <x86@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PCI <linux-pci@vger.kernel.org>,
-        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        virtualization@lists.linux-foundation.org,
-        "Reshetova, Elena" <elena.reshetova@intel.com>
-Subject: Re: [PATCH v5 12/16] PCI: Add pci_iomap_host_shared(),
- pci_iomap_host_shared_range()
-In-Reply-To: <875ytv2lu8.ffs@tglx>
-References: <875ytv2lu8.ffs@tglx>
-Date:   Mon, 18 Oct 2021 03:10:21 +0200
-Message-ID: <871r4j2l4y.ffs@tglx>
+        Boqun Feng <boqun.feng@gmail.com>
+Subject: [PATCH] workqueue: doc: Call out the non-reentrance conditions
+Date:   Mon, 18 Oct 2021 09:31:17 +0800
+Message-Id: <20211018013117.256284-1-boqun.feng@gmail.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 18 2021 at 02:55, Thomas Gleixner wrote:
-> On Sun, Oct 10 2021 at 15:11, Andi Kleen wrote:
->> The 5.15 tree has something like ~2.4k IO accesses (including MMIO and 
->> others) in init functions that also register drivers (thanks Elena for 
->> the number)
->
-> These numbers are completely useless simply because they are based on
-> nonsensical criteria. See:
->
->   https://lore.kernel.org/r/87r1cj2uad.ffs@tglx
->
->> My point is just that the ecosystem of devices that Linux supports is 
->> messy enough that there are legitimate exceptions from the "First IO 
->> only in probe call only" rule.
->
-> Your point is based on your outright refusal to actualy do a proper
-> analysis and your outright refusal to help fixing the real problems.
->
-> All you have provided so far is handwaving based on a completely useless
-> analysis.
->
-> Sure, your goal is to get this TDX problem solved, but it's not going to
-> be solved by:
->
->   1) Providing a nonsensical analysis
->
->   2) Using #1 as an argument to hack some half baken interfaces into the
->      kernel which allow you to tick off your checkbox and then leave the
->      resulting mess for others to clean up.
->  
-> Try again when you have factual data to back up your claims and factual
-> arguments which prove that the problem can't be fixed otherwise.
->
-> I might be repeating myself, but kernel development works this way:
->
->   1) Hack your private POC - Yay!
->
->   2) Sit down and think hard about the problems you identified in step
->      #1. Do a thorough analysis.
->   
->   3) Come up with a sensible integration plan.
->
->   4) Do the necessary grump work of cleanups all over the place
->
->   5) Add sensible infrastructure which is understandable for the bulk
->      of kernel/driver developers
->
->   6) Let your feature fall in place
->
-> and not in the way you are insisting on:
->
->   1) Hack your private POC - Yay!
->
->   2) Define that this is the only way to do it and try to shove it down
->      the throat of everyone.
->
->   3) Getting told that this is not the way it works
->
->   4) Insist on it forever and blame the grumpy maintainers who are just
->      not understanding the great value of your approach.
->
->   5) Go back to #2
->
-> You should know that already, but I have no problem to give that lecture
-> to you over and over again. I probably should create a form letter.
->
-> And no, you can bitch about me as much as you want. These are not my
-> personal rules and personal pet pieves. These are rules Linus cares
-> about very much and aside of that they just reflect common sense.
->
->   The kernel is a common good and not the dump ground for your personal
->   brain waste.
->
->   The kernel does not serve Intel. Quite the contrary Intel depends on
->   the kernel to work nicely with it's hardware. Ergo, Intel should have
->   a vested interest to serve the kernel and take responsibility for it
->   as a whole. And so should you as an Intel employee.
->
-> Just dumping your next half baken workaround does not cut it especially
-> not when it is not backed up by sensible arguments.
->
-> Please try again, but not before you have something substantial to back
-> up your claims.
+The current doc of workqueue API suggests that work items are
+non-reentrant: any work item is guaranteed to be executed by at most one
+worker system-wide at any given time. However this is not true, the
+following case can cause a work item W executed by two workers at
+the same time:
 
-That said, I can't resist the urge to say a few words to the responsible
-senior and management people at Intel in this context:
+        queue_work_on(0, WQ1, W);
+        // after a worker picks up W and clear the pending bit
+        queue_work_on(1, WQ2, W);
+        // workers on CPU0 and CPU1 will execute W in the same time.
 
-I surely know that a lot of Intel people claim that their lack of
-progress is _only_ because Thomas is hard to work with and Thomas wants
-unreasonable changes to their code, which I could perceive as an abuse of
-myself for the purpose of self-deception. TBH, I don't give a damn.
+, which means the non-reentrance of a work item is conditional, and
+Lai Jiangshan provided a nice summary[1] of the conditions, therefore
+use it to improve the doc.
 
-Let me ask a few questions instead:
+[1]: https://lore.kernel.org/lkml/CAJhGHyDudet_xyNk=8xnuO2==o-u06s0E0GZVP4Q67nmQ84Ceg@mail.gmail.com/
 
-  - Is it unreasonable to expect that argumentations are based on facts
-    and proper analysis?
+Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
+---
+ Documentation/core-api/workqueue.rst | 21 +++++++++++++++++----
+ 1 file changed, 17 insertions(+), 4 deletions(-)
 
-  - Is it unreasonable to expect a proper integration of a new feature?
+diff --git a/Documentation/core-api/workqueue.rst b/Documentation/core-api/workqueue.rst
+index 541d31de8926..3b22ed137662 100644
+--- a/Documentation/core-api/workqueue.rst
++++ b/Documentation/core-api/workqueue.rst
+@@ -216,10 +216,6 @@ resources, scheduled and executed.
+ 
+   This flag is meaningless for unbound wq.
+ 
+-Note that the flag ``WQ_NON_REENTRANT`` no longer exists as all
+-workqueues are now non-reentrant - any work item is guaranteed to be
+-executed by at most one worker system-wide at any given time.
+-
+ 
+ ``max_active``
+ --------------
+@@ -391,6 +387,23 @@ the stack trace of the offending worker thread. ::
+ The work item's function should be trivially visible in the stack
+ trace.
+ 
++Non-reentrance Conditions
++=========================
++
++Workqueue guarantees that a work item cannot be re-entrant if the following
++conditions hold after a work item gets queued:
++
++        1. The work function hasn't been changed.
++        2. No one queues the work item to another workqueue.
++        3. The work item hasn't been reinitiated.
++
++In other words, if the above conditions hold, the work item is guaranteed to be
++executed by at most one worker system-wide at any given time.
++
++Note that requeuing the work item (to the same queue) in the self function
++doesn't break these conditions, so it's safe to do. Otherwise, caution is
++required when breaking the conditions inside a work function.
++
+ 
+ Kernel Inline Documentations Reference
+ ======================================
+-- 
+2.33.0
 
-  - Does it take unreasonable effort to do a proper design?
-
-  - Is it unreasonable to ask that he necessary cleanups are done
-    upfront?
-
-If anyone of the responsible people at Intel thinks so, then they should
-speak up now and tell me in public and into my face what's so
-unreasonable about that.
-
-Thanks,
-
-	Thomas
