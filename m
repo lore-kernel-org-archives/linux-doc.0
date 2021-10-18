@@ -2,111 +2,159 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22867C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Oct 2021 11:27:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C118C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Oct 2021 12:08:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0248C60E90
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Oct 2021 11:27:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D7DD66128E
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Oct 2021 12:08:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229491AbhJRL36 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Oct 2021 07:29:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34124 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230383AbhJRL35 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Oct 2021 07:29:57 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89007C06161C;
-        Mon, 18 Oct 2021 04:27:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=JFX8kP55RWXj6waFPYbQrLo3fe/X9uJgOWvgqmD7buQ=; b=vS/Pn2Hh90j1GtpMzv/CX9pnbg
-        y3LE4C+pJ2F5QZUxboSQrYbKadYzRPXcvT61T90Ww8XswMkbKOji3AuBXBsJd46SLoF2YYEaV0eJV
-        8Wx00/C8hTewQonHBeN+mXa/G38OLjscGkk03Y+DdDJ7/8vhxN830vhWbG4MEZpAX+eVuhVEFd336
-        rDaA8JXtoutvh6JhIH99x/8AlU2aHu8n0ugBflNeKs6J6E1pAT9BjkQzWNgYlDAHkLi46FSg2Vh3J
-        MXxytKk8j3wuabZKEnjSEHIuvGAdfzLICDYLWSGEDlvLKhcc36Jl6PCbdlxcUZRa3BOSU+C7GyCDy
-        vQa80eXQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mcQn0-00AuWN-5j; Mon, 18 Oct 2021 11:26:55 +0000
-Date:   Mon, 18 Oct 2021 12:26:46 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Boqun Feng <boqun.feng@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Tejun Heo <tj@kernel.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
+        id S229644AbhJRMKr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Oct 2021 08:10:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57970 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229519AbhJRMKr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 18 Oct 2021 08:10:47 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6A32D60EFF;
+        Mon, 18 Oct 2021 12:08:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1634558916;
+        bh=vkWcBlEDJXGIxjZypm/BJbICnDvEF+3H0d23MuRGm0Q=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=xFY0CQIXOwGC6S/lmBC22FQvTURuAJbwgyviVkrlrX8Mn/O9HkF0JIeIpzI+IH/lx
+         W6qI1WdW7TfVaU0Vrbbwe8qJBYNXdjvL3Akm8XpeqHPq/DcFsw1XJTuGpuaK9GQ+Ym
+         PR6IHySueEDqDoLJehztNpkbl1O34b4exMMmwGpY=
+Date:   Mon, 18 Oct 2021 14:08:33 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Andi Kleen <ak@linux.intel.com>
+Cc:     Dan Williams <dan.j.williams@intel.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
         Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Peter Zijlstra <peterz@infradead.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] workqueue: doc: Call out the non-reentrance conditions
-Message-ID: <YW1Z9rFpGl/j70HT@casper.infradead.org>
-References: <20211018013117.256284-1-boqun.feng@gmail.com>
- <YWzZUZILdhAGba8I@casper.infradead.org>
- <YWznsr6qnCpErKJi@boqun-archlinux>
+        Andy Lutomirski <luto@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Richard Henderson <rth@twiddle.net>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        James E J Bottomley <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        David Hildenbrand <david@redhat.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Peter H Anvin <hpa@zytor.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
+        X86 ML <x86@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PCI <linux-pci@vger.kernel.org>,
+        linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        virtualization@lists.linux-foundation.org,
+        "Reshetova, Elena" <elena.reshetova@intel.com>
+Subject: Re: [PATCH v5 12/16] PCI: Add pci_iomap_host_shared(),
+ pci_iomap_host_shared_range()
+Message-ID: <YW1jwc44EIx6/VAu@kroah.com>
+References: <20211009003711.1390019-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20211009003711.1390019-13-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20211009053103-mutt-send-email-mst@kernel.org>
+ <CAPcyv4hDhjRXYCX_aiOboLF0eaTo6VySbZDa5NQu2ed9Ty2Ekw@mail.gmail.com>
+ <0e6664ac-cbb2-96ff-0106-9301735c0836@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YWznsr6qnCpErKJi@boqun-archlinux>
+In-Reply-To: <0e6664ac-cbb2-96ff-0106-9301735c0836@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 18, 2021 at 11:19:14AM +0800, Boqun Feng wrote:
-> On Mon, Oct 18, 2021 at 03:17:53AM +0100, Matthew Wilcox wrote:
-> > On Mon, Oct 18, 2021 at 09:31:17AM +0800, Boqun Feng wrote:
-> > > @@ -391,6 +387,23 @@ the stack trace of the offending worker thread. ::
-> > >  The work item's function should be trivially visible in the stack
-> > >  trace.
-> > >  
-> > > +Non-reentrance Conditions
-> > > +=========================
-> > > +
-> > > +Workqueue guarantees that a work item cannot be re-entrant if the following
-> > > +conditions hold after a work item gets queued:
-> > > +
-> > > +        1. The work function hasn't been changed.
-> > > +        2. No one queues the work item to another workqueue.
-> > > +        3. The work item hasn't been reinitiated.
-> > > +
-> > > +In other words, if the above conditions hold, the work item is guaranteed to be
-> > > +executed by at most one worker system-wide at any given time.
-> > > +
-> > > +Note that requeuing the work item (to the same queue) in the self function
-> > > +doesn't break these conditions, so it's safe to do. Otherwise, caution is
-> > > +required when breaking the conditions inside a work function.
-> > > +
-> > 
-> > I'd like to suggest that this be added to the Guidelines section
+On Sun, Oct 10, 2021 at 03:11:23PM -0700, Andi Kleen wrote:
 > 
-> Good idea, Guidelines section is a better place to put these, since it's
-> for users.
+> On 10/9/2021 1:39 PM, Dan Williams wrote:
+> > On Sat, Oct 9, 2021 at 2:53 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > > On Fri, Oct 08, 2021 at 05:37:07PM -0700, Kuppuswamy Sathyanarayanan wrote:
+> > > > From: Andi Kleen <ak@linux.intel.com>
+> > > > 
+> > > > For Confidential VM guests like TDX, the host is untrusted and hence
+> > > > the devices emulated by the host or any data coming from the host
+> > > > cannot be trusted. So the drivers that interact with the outside world
+> > > > have to be hardened by sharing memory with host on need basis
+> > > > with proper hardening fixes.
+> > > > 
+> > > > For the PCI driver case, to share the memory with the host add
+> > > > pci_iomap_host_shared() and pci_iomap_host_shared_range() APIs.
+> > > > 
+> > > > Signed-off-by: Andi Kleen <ak@linux.intel.com>
+> > > > Signed-off-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+> > > So I proposed to make all pci mappings shared, eliminating the need
+> > > to patch drivers.
+> > > 
+> > > To which Andi replied
+> > >          One problem with removing the ioremap opt-in is that
+> > >          it's still possible for drivers to get at devices without going through probe.
+> > > 
+> > > To which Greg replied:
+> > > https://lore.kernel.org/all/YVXBNJ431YIWwZdQ@kroah.com/
+> > >          If there are in-kernel PCI drivers that do not do this, they need to be
+> > >          fixed today.
+> > > 
+> > > Can you guys resolve the differences here?
+> > I agree with you and Greg here. If a driver is accessing hardware
+> > resources outside of the bind lifetime of one of the devices it
+> > supports, and in a way that neither modrobe-policy nor
+> > device-authorization -policy infrastructure can block, that sounds
+> > like a bug report.
 > 
-> > instead:
-> > 
-> > * A work item will not normally be processed on multiple CPUs at the
+> The 5.15 tree has something like ~2.4k IO accesses (including MMIO and
+> others) in init functions that also register drivers (thanks Elena for the
+> number)
 > 
-> Precisely speaking, it should be "by mutliple workers" instead of "on
-> multiple CPUs", because two workers of tw unbound workqueue may process
-> the same work item on the same CPU, and that's problematic since
-> processing work is preemptible.
+> Some are probably old drivers that could be fixed, but it's quite a few
+> legitimate cases. For example for platform or ISA drivers that's the only
+> way they can be implemented because they often have no other enumeration
+> mechanism. For PCI drivers it's rarer, but also still can happen. One
+> example that comes to mind here is the x86 Intel uncore drivers, which
+> support a mix of MSR, ioremap and PCI config space accesses all from the
+> same driver. This particular example can (and should be) fixed in other
+> ways, but similar things also happen in other drivers, and they're not all
+> broken. Even for the broken ones they're usually for some crufty old devices
+> that has very few users, so it's likely untestable in practice.
 > 
-> >   same time.  It can happen if the work function is changed, the work
-> >   item is queued to multiple queues or the work function is
-> >   reinitialised after being queued.
-> 
-> I end up with something like below, I still want to keep the keyword
-> "reentrant" for searching, because sometimes one may forget this
-> particular aspect after reading the whole doc for a while, the keyword
-> can help locate the lines faster (Ok, the fact is that "one" was me
-> ;-)).
-> 
-> * A work item will not normally be processed by multiple workers at the
->   same time, i.e. it's non-reentrant.  However it can happen if the work
->   function is changed, the work item is queued to multiple queues or the
->   work item is reinitialised after being queued.
-> 
-> Thoughts? Thank for the suggestion!
+> My point is just that the ecosystem of devices that Linux supports is messy
+> enough that there are legitimate exceptions from the "First IO only in probe
+> call only" rule.
 
-Looks good to me!
+No, there should not be for PCI drivers.  If there is, that is a bug
+that you can, and should, fix.
+
+> And we can't just fix them all. Even if we could it would be hard to
+> maintain.
+
+Not true at all, you can fix them, and write a simple coccinelle rule to
+prevent them from ever coming back in.
+
+> Using a "firewall model" hooking into a few strategic points like we're
+> proposing here is much saner for everyone.
+
+No it is not.  It is "easier" for you because you all do not want to fix
+up all of the drivers and want to add additional code complexity on top
+of the current mess that we have and then you can claim that you have
+"hardened" the drivers you care about.
+
+Despite no one ever explaining exactly what "hardened" means to me.
+
+Again, fix the existing drivers, you have the whole source, if this is
+something that you all care about, it should not be hard to do.
+
+Stop making excuses.
+
+greg k-h
