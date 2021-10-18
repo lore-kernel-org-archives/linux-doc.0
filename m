@@ -2,111 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97E55C4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Oct 2021 13:58:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BD57C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Oct 2021 14:37:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 813E760F25
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Oct 2021 13:58:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 343B560FD8
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Oct 2021 14:37:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234503AbhJROAj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Oct 2021 10:00:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38242 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234664AbhJRN63 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 18 Oct 2021 09:58:29 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BAF7F61A40;
-        Mon, 18 Oct 2021 13:41:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634564489;
-        bh=iyQNCJw3F2btWylGkoSsJbiuAqzwxr7VZp84T8arEwk=;
-        h=Subject:From:To:Date:In-Reply-To:References:From;
-        b=Muk1xW0O5fPkNs1SObNldVoKqidRwndzDDCkNEC0B0lO2IyZKUCtY8K+mMfUuaYZd
-         cL0KbWMGwXTcZritJ7+AqX/i/Slq2vQ3TFT8qH4dnzifxwAlHnTB0R7fXbt/9Ydo6o
-         R6TW5vdR2I6vipcf13Wm9iIo7VWkS1eEmHIv3H14gJR2CmDKO2uFtJ4JYn5d5YXnpq
-         vEb7U3LYwRzjycvD69cavPuejBiYJODJwHhnF1zOLy2p7gCguIkj9PfbV2Ef/Rzk88
-         Ktx6XBGnB9cYIhgCbMozT4+fkladPBDQqNT0gUOFJuK42Tvn0S19FEBuRX06p0kTdR
-         7iRo20kZTREzw==
-Message-ID: <41aba1e1c5849b58f83108eb9f9f115d0cd5826f.camel@kernel.org>
-Subject: Re: [PATCH 1/2] crypto: use SM3 instead of SM3_256
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     jejb@linux.ibm.com,
-        Tianjia Zhang <tianjia.zhang@linux.alibaba.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Peter Huewe <peterhuewe@gmx.de>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Jerry Snitselaar <jsnitsel@redhat.com>,
-        linux-integrity@vger.kernel.org, keyrings@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-security-module@vger.kernel.org
-Date:   Mon, 18 Oct 2021 16:41:26 +0300
-In-Reply-To: <af8c2098c4cfe23b941a191f7b4ec0e3a5251760.camel@linux.ibm.com>
-References: <20211009130828.101396-1-tianjia.zhang@linux.alibaba.com>
-         <20211009130828.101396-2-tianjia.zhang@linux.alibaba.com>
-         <7035153d58e220473fe3cd17c9f574f2d91c740b.camel@linux.ibm.com>
-         <dbac037710d711959d5ce0969f80ea0dd18a176e.camel@kernel.org>
-         <af8c2098c4cfe23b941a191f7b4ec0e3a5251760.camel@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.40.0-1 
+        id S231888AbhJROjW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Oct 2021 10:39:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38204 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229833AbhJROjW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Oct 2021 10:39:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1634567830;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=Ng7Ch+ziTcXFMqpWwHpxE3VZVmB5z0SGbNUXf+BTCIE=;
+        b=iqqIXD++jHqVsOATwHyfkROZuH/p2nMbnTaYqymeG5ap38jGL310WUMReJBCDxwy/PVpSZ
+        O4wI7M30IkJedc/OlpecYmIftEORRntOiuoKIpWKmzOXWEbyCj0cEmJ1KzmIpoxviwKkxM
+        May0gSVDI3dbb5ynO5KrIXfXXZT3V5s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-579-ipjXnTKoOA6L-Qk9B6HtqA-1; Mon, 18 Oct 2021 10:37:04 -0400
+X-MC-Unique: ipjXnTKoOA6L-Qk9B6HtqA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 942E5801B1C;
+        Mon, 18 Oct 2021 14:37:02 +0000 (UTC)
+Received: from llong.com (unknown [10.22.16.224])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id A7A595F4EE;
+        Mon, 18 Oct 2021 14:36:32 +0000 (UTC)
+From:   Waiman Long <longman@redhat.com>
+To:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
+Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+        Waiman Long <longman@redhat.com>
+Subject: [PATCH v8 0/6] cgroup/cpuset: Add new cpuset partition type & empty effecitve cpus
+Date:   Mon, 18 Oct 2021 10:36:13 -0400
+Message-Id: <20211018143619.205065-1-longman@redhat.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2021-10-18 at 09:32 -0400, James Bottomley wrote:
-> On Mon, 2021-10-18 at 16:27 +0300, Jarkko Sakkinen wrote:
-> > On Mon, 2021-10-18 at 09:05 -0400, James Bottomley wrote:
-> > > On Sat, 2021-10-09 at 21:08 +0800, Tianjia Zhang wrote:
-> > > [...]
-> > > > diff --git a/include/uapi/linux/hash_info.h
-> > > > b/include/uapi/linux/hash_info.h
-> > > > index 74a8609fcb4d..1355525dd4aa 100644
-> > > > --- a/include/uapi/linux/hash_info.h
-> > > > +++ b/include/uapi/linux/hash_info.h
-> > > > @@ -32,7 +32,7 @@ enum hash_algo {
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 HASH_ALGO_TGR_128,
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 HASH_ALGO_TGR_160,
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 HASH_ALGO_TGR_192,
-> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 HASH_ALGO_SM3_256,
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 HASH_ALGO_SM3,
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 HASH_ALGO_STREEBOG_256,
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 HASH_ALGO_STREEBOG_512,
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 HASH_ALGO__LAST
-> > >=20
-> > > This is another one you can't do: all headers in UAPI are exports
-> > > to userspace and the definitions constitute an ABI.=C2=A0 If you simp=
-ly
-> > > do a rename, every userspace program that uses the current
-> > > definition will immediately break on compile.=C2=A0 You could add
-> > > HASH_ALGO_SM3, but you can't remove HASH_ALGO_SM3_256
-> > >=20
-> > > James
-> >=20
-> > So: shouldn't then also the old symbol continue to work also
-> > semantically?
->=20
-> Yes, that's the point: you can add a new definition ... in this case an
-> alias for the old one, but you can't remove a definition that's been
-> previously exported.
+v8:
+ - Reorganize the patch series and rationalize the features and
+   constraints of a partition.
+ - Update patch descriptions and documentation accordingly.
 
-Thanks, this of course obvious :-) I forgot temporarily that crypto
-has uapi interface. Tianjia, this patch set break production systems,
-so no chance we would ever merge it in this form.
+v7:
+ - Simplify the documentation patch (patch 5) as suggested by Tejun.
+ - Fix a typo in patch 2 and improper commit log in patch 3.
 
-Why not just do this:
+v6:
+ - Remove duplicated tmpmask from update_prstate() which should fix the
+   frame size too large problem reported by kernel test robot.
 
-...
-HASH_ALGO_SM3_256,
-HASH_ALOG_SM3 =3D HASH_ALOG_SM_256,
-...
+This patchset makes four enhancements to the cpuset v2 code.
 
-There is not good reason to mod the implementation because both symbols
-are kept.
+ Patch 1: Enable partition with no task to have empty cpuset.cpus.effective.
 
-/Jarkko
+ Patch 2: Refining the features and constraints of a cpuset partition
+ clarifying what changes are allowed.
+
+ Patch 3: Add a new partition state "isolated" to create a partition
+ root without load balancing. This is for handling intermitten workloads
+ that have a strict low latency requirement.
+
+ Patch 4: Enable the "cpuset.cpus.partition" file to show the reason
+ that causes invalid partition like "root invalid (No cpu available
+ due to hotplug)".
+
+Patch 5 updates the cgroup-v2.rst file accordingly. Patch 6 adds a new
+cpuset test to test the new cpuset partition code.
+
+Waiman Long (6):
+  cgroup/cpuset: Allow no-task partition to have empty
+    cpuset.cpus.effective
+  cgroup/cpuset: Refining features and constraints of a partition
+  cgroup/cpuset: Add a new isolated cpus.partition type
+  cgroup/cpuset: Show invalid partition reason string
+  cgroup/cpuset: Update description of cpuset.cpus.partition in
+    cgroup-v2.rst
+  kselftest/cgroup: Add cpuset v2 partition root state test
+
+ Documentation/admin-guide/cgroup-v2.rst       | 153 ++--
+ kernel/cgroup/cpuset.c                        | 393 +++++++----
+ tools/testing/selftests/cgroup/Makefile       |   5 +-
+ .../selftests/cgroup/test_cpuset_prs.sh       | 664 ++++++++++++++++++
+ tools/testing/selftests/cgroup/wait_inotify.c |  87 +++
+ 5 files changed, 1115 insertions(+), 187 deletions(-)
+ create mode 100755 tools/testing/selftests/cgroup/test_cpuset_prs.sh
+ create mode 100644 tools/testing/selftests/cgroup/wait_inotify.c
+
+-- 
+2.27.0
+
