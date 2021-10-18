@@ -2,63 +2,61 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D272EC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Oct 2021 18:36:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC4C5C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Oct 2021 18:37:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD2E26115A
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Oct 2021 18:36:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D546F6115A
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Oct 2021 18:37:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232873AbhJRSim (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Oct 2021 14:38:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49926 "EHLO
+        id S232873AbhJRSkD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Oct 2021 14:40:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231590AbhJRSil (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Oct 2021 14:38:41 -0400
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 258F4C06161C
-        for <linux-doc@vger.kernel.org>; Mon, 18 Oct 2021 11:36:30 -0700 (PDT)
-Received: by mail-qk1-x730.google.com with SMTP id x123so2418106qke.7
-        for <linux-doc@vger.kernel.org>; Mon, 18 Oct 2021 11:36:30 -0700 (PDT)
+        with ESMTP id S229924AbhJRSkC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Oct 2021 14:40:02 -0400
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66909C06161C
+        for <linux-doc@vger.kernel.org>; Mon, 18 Oct 2021 11:37:51 -0700 (PDT)
+Received: by mail-qk1-x734.google.com with SMTP id bj31so13509816qkb.2
+        for <linux-doc@vger.kernel.org>; Mon, 18 Oct 2021 11:37:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ziepe.ca; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=sTUgwvzk5rBLdhIf8DaS7J5sGbd2IBWKO4C29AYu/xc=;
-        b=eOxhZyJgnih5XmJTiUkqPchjr0GxPdMGTZWIOrKKBnbd5oIycmMn5R+gGA2sn3LkLK
-         8B5YnTnSH3n9NgDYusHw9PUwNsH//Okzwm4qTKGVc2c7MvJHV07z9MsRaF+X9nNusxjD
-         Yb0grXjEMIpSTl4VGTSaQ3iI8fXwYmRb57jc4vhGUbIbYT72PrcbqfY3R8MNDShnqyYr
-         ilFrKr09XfgBn481Ei+z6rbmJ8MirnyiEJDkYvopmpMs3+VzGVgPAR90YeYZjvrqPmsF
-         DGN+7sqiBax8sZV/x9u99m04iC7V65j6dSsg+qoYNVK/JvhIJiSTlZsa1sZ0D3JDmRF6
-         pxEQ==
+        bh=wJNcqyK0rI+evQwD2jibSP3vMmIjKUzQYxLr4+LBMxw=;
+        b=mHTSwxuHIb35EXaVeJxHacMsxHXRiwRrzFlTIzu95R4xpKwQjwTi98YJDiO/ogOyVM
+         1V7to07GJw+HEy22WjoZpWwQLvne2PqoTaWujVU221XSQ58bOy/UsmRz4R02QewOXFks
+         acre2QabSw5LHCBI+pv5SpreClVFg/bJ6nlQ/VS75gnqpOpQ72VMWJUgtPfdSaVZ2NRR
+         aR9NXBrEKrOwNVxyGUgJ3GgJi4d5JiOV3jk9t3w19Mx1HFZ37As2BIG1ofkgahbOsDOr
+         Ld9w6HJk+P8TZXAQcbI/asl8w6v8xhjwIELLnYWoSLB09w6bhkGIiXfr0SSCeYn6edEm
+         cAIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=sTUgwvzk5rBLdhIf8DaS7J5sGbd2IBWKO4C29AYu/xc=;
-        b=QS8U6pEAWM/7a6x6oVlZ5BED7M9oh48qKZGwowTKXKgMLt1jB9UmKQ8YiFO86OLUcF
-         q5fvrJc+BY5GrzAx6RhjWvg10DadmMN0yDeDyChqzTau77VGIUSNiJZDlm7otmNmaLbl
-         HZ+EAwz9SjnaK1nlDxRYTTlbOpWiftUJcbgtbeCEY9XZ36DFarem8iZ8V20esF+XPqlz
-         hgNy0m+RkaZwm5tKBHQxjSUkIbnX+EbWUa6bIGnQmuzbMvdF7P9vatonmlWXgxqus4jf
-         jK6aJkA9to9VED1yBwffpH72OVhCMTa1AxVx/0PCCbekKzSaXNZu1qB+VMJXE5ynxPiA
-         pm4w==
-X-Gm-Message-State: AOAM533Z7b+pbY5VNLDDNOFp148kqA5XmXl5A75isrELwCTDjPfhtJk9
-        9tdHguqtv30OB3EKONt3Dg1JdQ==
-X-Google-Smtp-Source: ABdhPJxOGqr4Dm+0wgcW0Qag4P+r6KIDtarTX9sViv/hQASfXUhZKkzCDtmh5gP+QfOaJGfe1TWiVQ==
-X-Received: by 2002:a05:620a:288f:: with SMTP id j15mr23613311qkp.280.1634582189080;
-        Mon, 18 Oct 2021 11:36:29 -0700 (PDT)
+        bh=wJNcqyK0rI+evQwD2jibSP3vMmIjKUzQYxLr4+LBMxw=;
+        b=dm2jtyP6vQW5W4RSa5FOHnohzhC3pENd+BMsO5l4f7Qn2rbR+FZDwwv6XuUSvLIe5l
+         55+Em3ct4hfGCWxxvVjc4Wj0XqGkpRfE/cpHTO5eY6cvJTS/3dVqnjtnP6HYB8HhSlk1
+         keqWmpZzE/BXf5wAEHSYPSc+3mrJZ7qRDwT65iITM5iOumkmYLs0do56l0npH2TF3RJl
+         ohohOeypXUSj3UvAjkIO+HL2vJJ3jLejsiwpy+/tkFgNJwjHBTPlbNFglnvEGtICuf9+
+         bgr8Hb8Dx8nbsZj64/tQpTKLyH+YCvw6mr8B3Gtfoic0bya40jMBEQ/0qvrc7Yp058Rr
+         juAw==
+X-Gm-Message-State: AOAM532bLvAaH29mCDaQJmyqU7vmO0yqrMkP959bMZNG926XQcXoywS4
+        TK80xBaMkM5JGKE3FOOfpE6kzA==
+X-Google-Smtp-Source: ABdhPJwqYNU955h8X5OyxNzk5+v0MXjssNIi2HrA1CNfbfl5up52FXcbIilaAETYLXx/PoOFN5pYfg==
+X-Received: by 2002:a05:620a:1a28:: with SMTP id bk40mr15176090qkb.224.1634582270558;
+        Mon, 18 Oct 2021 11:37:50 -0700 (PDT)
 Received: from ziepe.ca (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.129])
-        by smtp.gmail.com with ESMTPSA id m68sm6924782qkb.105.2021.10.18.11.36.28
+        by smtp.gmail.com with ESMTPSA id bk7sm5189997qkb.72.2021.10.18.11.37.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Oct 2021 11:36:28 -0700 (PDT)
+        Mon, 18 Oct 2021 11:37:50 -0700 (PDT)
 Received: from jgg by mlx with local (Exim 4.94)
         (envelope-from <jgg@ziepe.ca>)
-        id 1mcXUp-00GLtu-LR; Mon, 18 Oct 2021 15:36:27 -0300
-Date:   Mon, 18 Oct 2021 15:36:27 -0300
+        id 1mcXW9-00GLve-Gq; Mon, 18 Oct 2021 15:37:49 -0300
+Date:   Mon, 18 Oct 2021 15:37:49 -0300
 From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Alistair Popple <apopple@nvidia.com>
-Cc:     Joao Martins <joao.m.martins@oracle.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>, linux-mm@kvack.org,
+To:     Joao Martins <joao.m.martins@oracle.com>
+Cc:     Dan Williams <dan.j.williams@intel.com>, linux-mm@kvack.org,
         Vishal Verma <vishal.l.verma@intel.com>,
         Dave Jiang <dave.jiang@intel.com>,
         Naoya Horiguchi <naoya.horiguchi@nec.com>,
@@ -73,98 +71,106 @@ Cc:     Joao Martins <joao.m.martins@oracle.com>,
         linux-doc@vger.kernel.org
 Subject: Re: [PATCH v4 08/14] mm/gup: grab head page refcount once for group
  of subpages
-Message-ID: <20211018183627.GD3686969@ziepe.ca>
+Message-ID: <20211018183749.GE3686969@ziepe.ca>
 References: <20210827145819.16471-1-joao.m.martins@oracle.com>
+ <20210827145819.16471-9-joao.m.martins@oracle.com>
+ <20210827162552.GK1200268@ziepe.ca>
+ <da90638d-d97f-bacb-f0fa-01f5fd9f2504@oracle.com>
+ <20210830130741.GO1200268@ziepe.ca>
+ <cda6d8fb-bd48-a3de-9d4e-96e4a43ebe58@oracle.com>
+ <20210831170526.GP1200268@ziepe.ca>
+ <8c23586a-eb3b-11a6-e72a-dcc3faad4e96@oracle.com>
+ <20210928180150.GI3544071@ziepe.ca>
  <3f35cc33-7012-5230-a771-432275e6a21e@oracle.com>
- <20210929193405.GZ3544071@ziepe.ca>
- <31536278.clc0Zd3cv0@nvdebian>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <31536278.clc0Zd3cv0@nvdebian>
+In-Reply-To: <3f35cc33-7012-5230-a771-432275e6a21e@oracle.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 30, 2021 at 01:01:14PM +1000, Alistair Popple wrote:
-> On Thursday, 30 September 2021 5:34:05 AM AEST Jason Gunthorpe wrote:
-> > On Wed, Sep 29, 2021 at 12:50:15PM +0100, Joao Martins wrote:
+On Wed, Sep 29, 2021 at 12:50:15PM +0100, Joao Martins wrote:
+> On 9/28/21 19:01, Jason Gunthorpe wrote:
+> > On Thu, Sep 23, 2021 at 05:51:04PM +0100, Joao Martins wrote:
+> >> So ... if pgmap accounting was removed from gup-fast then this patch
+> >> would be a lot simpler and we could perhaps just fallback to the regular
+> >> hugepage case (THP, HugeTLB) like your suggestion at the top. See at the
+> >> end below scissors mark as the ballpark of changes.
+> >>
+> >> So far my options seem to be: 1) this patch which leverages the existing
+> >> iteration logic or 2) switching to for_each_compound_range() -- see my previous
+> >> reply 3) waiting for Dan to remove @pgmap accounting in gup-fast and use
+> >> something similar to below scissors mark.
+> >>
+> >> What do you think would be the best course of action?
 > > 
-> > > > If the get_dev_pagemap has to remain then it just means we have to
-> > > > flush before changing pagemap pointers
-> > > Right -- I don't think we should need it as that discussion on the other
-> > > thread goes.
-> > > 
-> > > OTOH, using @pgmap might be useful to unblock gup-fast FOLL_LONGTERM
-> > > for certain devmap types[0] (like MEMORY_DEVICE_GENERIC [device-dax]
-> > > can support it but not MEMORY_DEVICE_FSDAX [fsdax]).
+> > I still think the basic algorithm should be to accumulate physicaly
+> > contiguous addresses when walking the page table and then flush them
+> > back to struct pages once we can't accumulate any more.
 > > 
-> > When looking at Logan's patches I think it is pretty clear to me that
-> > page->pgmap must never be a dangling pointer if the caller has a
-> > legitimate refcount on the page.
+> > That works for both the walkers and all the page types?
 > > 
-> > For instance the migrate and stuff all blindly calls
-> > is_device_private_page() on the struct page expecting a valid
-> > page->pgmap.
-> > 
-> > This also looks like it is happening, ie
-> > 
-> > void __put_page(struct page *page)
-> > {
-> > 	if (is_zone_device_page(page)) {
-> > 		put_dev_pagemap(page->pgmap);
-> > 
-> > Is indeed putting the pgmap ref back when the page becomes ungettable.
-> > 
-> > This properly happens when the page refcount goes to zero and so it
-> > should fully interlock with __page_cache_add_speculative():
-> > 
-> > 	if (unlikely(!page_ref_add_unless(page, count, 0))) {
-> > 
-> > Thus, in gup.c, if we succeed at try_grab_compound_head() then
-> > page->pgmap is a stable pointer with a valid refcount.
-> > 
-> > So, all the external pgmap stuff in gup.c is completely pointless.
-> > try_grab_compound_head() provides us with an equivalent protection at
-> > lower cost. Remember gup.c doesn't deref the pgmap at all.
-> > 
-> > Dan/Alistair/Felix do you see any hole in that argument??
 > 
-> As background note that device pages are currently considered free when
-> refcount == 1 but the pgmap reference is dropped when the refcount transitions
-> 1->0. The final pgmap reference is typically dropped when a driver calls
-> memunmap_pages() and put_page() drops the last page reference:
-> 
-> void memunmap_pages(struct dev_pagemap *pgmap)
-> {
->         unsigned long pfn;
->         int i;
-> 
->         dev_pagemap_kill(pgmap);
->         for (i = 0; i < pgmap->nr_range; i++)
->                 for_each_device_pfn(pfn, pgmap, i)
->                         put_page(pfn_to_page(pfn));
->         dev_pagemap_cleanup(pgmap);
-> 
-> If there are still pgmap references dev_pagemap_cleanup(pgmap) will block until
-> the final reference is dropped. So I think your argument holds at least for
-> DEVICE_PRIVATE and DEVICE_GENERIC. DEVICE_FS_DAX defines it's own pagemap
-> cleanup but I can't see why the same argument wouldn't hold there - if a page
-> has a valid refcount it must have a reference on the pagemap too.
+> The logic already handles all page types -- I was trying to avoid the extra
+> complexity in regular hugetlb/THP path by not merging the handling of the
+> oddball case that is devmap (or fundamentally devmap
+> non-compound case in the future).
 
-To close this circle - the issue is use after free on the struct page
-* entry while it has a zero ref.
+FYI, this untested thing is what I came to when I tried to make
+something like this:
 
-memunmap_pages() does wait for the refcount to go to zero, but it then
-goes on to free the memory under the struct pages.
+/*
+ * A large page entry such as PUD/PMD can point to a struct page. In cases like
+ * THP this struct page will be a compound page of the same order as the page
+ * table level. However, in cases like DAX or more generally pgmap ZONE_DEVICE,
+ * the PUD/PMD may point at the first pfn in a string of pages.
+ *
+ * This helper iterates over all head pages or all the non-compound base pages.
+ */
+static pt_entry_iter_state
+{
+	struct page *head;
+	unsigned long compound_nr;
+	unsigned long pfn;
+	unsigned long end_pfn;
+};
 
-However there are possibly still untracked references to this memory
-in the page tables.
+static inline struct page *__pt_start_iter(struct iter_state *state,
+					   struct page *page, unsigned long pfn,
+					   unsigned int entry_size)
+{
+	state->head = compound_head(page);
+	state->compound_nr = compound_nr(page);
+	state->pfn = pfn & (~(state->compound_nr - 1));
+	state->end_pfn = pfn + entry_size / PAGE_SIZE;
+	return state->head;
+}
 
-This is the bug Dan has been working on - to shootdown page table
-mappings before getting to memunmap_pages()
+static inline struct page *__pt_next_page(struct iter_state *state)
+{
+	state->pfn += state->compound_nr;
+	if (state->end_pfn <= state->pfn)
+		return NULL;
+	state->head = pfn_to_page(state->pfn);
+	state->compound_nr = compound_nr(page);
+	return state->head;
+}
 
-Getting the page map ref will make the use-after-free never crash,
-just be a silent security problem. :(
+#define for_each_page_in_pt_entry(state, page, pfn, entry_size)                \
+	for (page = __pt_start_iter(state, page, pfn, entry_size); page;       \
+	     page = __pt_next_page(&state))
+
+static bool remove_pages_from_page_table(struct vm_area_struct *vma,
+					 struct page *page, unsigned long pfn,
+					 unsigned int entry_size, bool is_dirty,
+					 bool is_young)
+{
+	struct iter_state state;
+
+	for_each_page_in_pt_entry(&state, page, pfn, entry_size)
+		remove_page_from_page_table(vma, page, is_dirty, is_young);
+}
+
 
 Jason
