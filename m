@@ -2,47 +2,44 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C91F6C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 08:05:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0604CC433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 08:05:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B4A59613E8
+	by mail.kernel.org (Postfix) with ESMTP id DC0F261264
 	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 08:05:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234726AbhJSIGl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Oct 2021 04:06:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36134 "EHLO mail.kernel.org"
+        id S234712AbhJSIHQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Oct 2021 04:07:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36196 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234698AbhJSIGk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 19 Oct 2021 04:06:40 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8CA5561374;
-        Tue, 19 Oct 2021 08:04:27 +0000 (UTC)
+        id S234723AbhJSIGl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 19 Oct 2021 04:06:41 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1AFFA61264;
+        Tue, 19 Oct 2021 08:04:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634630667;
-        bh=xaf6KuSLcTnttMKNEiXwZh6FOYo6xmMhCzoJ1OhWWM8=;
+        s=k20201202; t=1634630669;
+        bh=IWvn8RRqDzm5qEzi8S9uL4gb1CkZcVS2+WnletImKAM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tm+/c6Y7qmf2d9izKanzk4lPpwADtc4Me9L5s93AKZqxuj4TFoBaAFCzXkzZQXDCC
-         /866pWYPhmN+j+E57meWMHjYhm3eAzbyMDhndecQlgvCfGJwyFaMiyKoo1dMyM0DPi
-         cAV6WIXDxBcrWWzTj/4T2OrgyF1cw6Mr4MSJtS2f4ady0J+KN+pasyLhs2V/lrmt91
-         US9YLLtw3CBTW6Lt3z9zbH+xocA0Szt/WH2yWQLGx3MMdnksfNe83OtjzuSaYWobjo
-         fmbQxzYdoIKqwV0KFvzbgsIMmQCU/NG/KB6vulFooOcPbx9VC5Kp90o0L7R4cCgcpw
-         DPvjF/Qyu7hCg==
+        b=ANeqkPQE3drySNmtIxndBy/lDdkj8yYwBvqo6+tYDZF4EH2aRF8fG7B8zfbApuE1N
+         9mB2GpUAUtAnqmBIdxI5YNhnYwLeJY2tdkR6qL/cg0B8iLbDq+nG6mP1dgGubC4LoF
+         rBXPIPJstCDT6yDnLoCbV70jxOT9yC1pl/8O2fmtxEjejonLkUQOP+Zcw8urVYd97O
+         hT0itaW8idgu8eW2GFo4UtLF2zzNz4SEQlRuW3IWXs1hsYCgnaLC8J9/6bpVTXVS1b
+         5kv85Pcf6AQhXTIdYqDogCkKfLT7+StzI26veI6xtYEmGgRrzMTnK3e7sjFMd94OFL
+         iK1J///QNIz6w==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mck6j-001oJj-9V; Tue, 19 Oct 2021 09:04:25 +0100
+        id 1mck6j-001oJ6-3Z; Tue, 19 Oct 2021 09:04:25 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Hannu Hartikainen <hannu@hrtk.in>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 19/23] Documentation/process: fix a cross reference
-Date:   Tue, 19 Oct 2021 09:04:18 +0100
-Message-Id: <5a34d27bb99b880579db8d1aafbe4d97705affd5.1634630486.git.mchehab+huawei@kernel.org>
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Corentin Labbe <clabbe@baylibre.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 06/23] MAINTAINERS: update faraday,ftrtc010.yaml reference
+Date:   Tue, 19 Oct 2021 09:04:05 +0100
+Message-Id: <56737d183299294c840c8308c1427c3385d88a1e.1634630486.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1634630485.git.mchehab+huawei@kernel.org>
 References: <cover.1634630485.git.mchehab+huawei@kernel.org>
@@ -53,40 +50,36 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The cross-reference for the handbooks section works. However, it is
-meant to describe the path inside the Kernel's doc where the section
-is, but there's an space instead of a dash, plus it lacks the .rst at
-the end, which makes:
+Changeset 8df65d4adca6 ("dt-bindings: convert rtc/faraday,ftrtc01 to yaml")
+renamed: Documentation/devicetree/bindings/rtc/faraday,ftrtc010.txt
+to: Documentation/devicetree/bindings/rtc/faraday,ftrtc010.yaml.
 
-	./scripts/documentation-file-ref-check
+Update its cross-reference accordingly.
 
-to complain.
-
-Fixes: 604370e106cc ("Documentation/process: Add maintainer handbooks section")
+Fixes: 8df65d4adca6 ("dt-bindings: convert rtc/faraday,ftrtc01 to yaml")
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
 
 To mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH v3 00/23] at: https://lore.kernel.org/all/cover.1634630485.git.mchehab+huawei@kernel.org/
 
- Documentation/process/submitting-patches.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index b0f31aa82fcd..22d876eda6ef 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -22,8 +22,8 @@ use it, it will make your life as a kernel developer and in general much
- easier.
- 
- Some subsystems and maintainer trees have additional information about
--their workflow and expectations, see :ref:`Documentation/process/maintainer
--handbooks <maintainer_handbooks_main>`.
-+their workflow and expectations, see
-+:ref:`Documentation/process/maintainer-handbooks.rst <maintainer_handbooks_main>`.
- 
- Obtain a current source tree
- ----------------------------
+diff --git a/MAINTAINERS b/MAINTAINERS
+index fb898af23d0a..d1721a65d79b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1888,7 +1888,7 @@ T:	git git://github.com/ulli-kroll/linux.git
+ F:	Documentation/devicetree/bindings/arm/gemini.txt
+ F:	Documentation/devicetree/bindings/net/cortina,gemini-ethernet.txt
+ F:	Documentation/devicetree/bindings/pinctrl/cortina,gemini-pinctrl.txt
+-F:	Documentation/devicetree/bindings/rtc/faraday,ftrtc010.txt
++F:	Documentation/devicetree/bindings/rtc/faraday,ftrtc010.yaml
+ F:	arch/arm/boot/dts/gemini*
+ F:	arch/arm/mach-gemini/
+ F:	drivers/crypto/gemini/
 -- 
 2.31.1
 
