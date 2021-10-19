@@ -2,52 +2,46 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19421C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 07:43:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5832DC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 08:04:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 04DA861378
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 07:43:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 32029613A3
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 08:04:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234575AbhJSHpQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Oct 2021 03:45:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55850 "EHLO mail.kernel.org"
+        id S234707AbhJSIGk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Oct 2021 04:06:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36118 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234581AbhJSHpO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 19 Oct 2021 03:45:14 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 385656136F;
-        Tue, 19 Oct 2021 07:43:02 +0000 (UTC)
+        id S234590AbhJSIGk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 19 Oct 2021 04:06:40 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 872D06136F;
+        Tue, 19 Oct 2021 08:04:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634629382;
-        bh=hJoet635Vy1bZq8U3J0xmPvh7E+f4HrdZFse3BcIUaE=;
+        s=k20201202; t=1634630667;
+        bh=ZPztEb+aAIBl2ebvem6ZZULgawaz8syRbV8Jk6E7RbM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZAiYan56EhycFINj4QXIHezUk0hXKMCem+RCbBFZQB0gwQk8FLcLUWWw0CDNtiW1g
-         jqrJVPxyn6aZBikDklBi7T7q6JCJHW41tvbaiJlso8PH3H3xHPbfRegZIYizB4gQgu
-         nvTQd3Yv4P4rNbGMVp/pZZGUdH+eyxQrPDK82cfzfjddpgSTNthoj/MRvS8IRV/dix
-         dHgusBY45kDfnyoIYVOdc9XTDqhrIIy4gCZ54k+73jqNREHjuBVSzEa0XLDFT6RXVB
-         PZoe7Lnw9JHN7HklmO7w/plzsLdxl7Tg3Zz8b6kHYXk4AYR3xhdMaRBFun1ts8G3SE
-         ljzeut4d9MIkg==
+        b=eJBxO/7uvItTeCrVH636EiNnFihlnVO5mRJnrk+/q7muX/7JIZaAVP6HZGUPp0igH
+         kFwBKOncNObcolcPlPBc9GuT1tOXPE4pYpqPGWJj8dUz77tYcglqpXRp5XPTIx5wL4
+         hpyjME+tmFEzWamTW79VokNA4C0a/7ktHmz4C4lxVijYdhBODR6xn7t21+YiXQBZcG
+         IbOFqePL014yQJsrZ/Sk/SasCZwpIsK1pFhuHknLTbORjZAh9i9NWNmiHR1BfUeH6f
+         B5cnTudcqGr6YwXENYL78QYkLdCqiBPbmkczg8m4xR5c2dFA5rEdVjgoEm8PAWzfOx
+         FqfWrYQDHe/DQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mcjlt-001nLk-8V; Tue, 19 Oct 2021 08:42:53 +0100
+        id 1mck6j-001oJF-53; Tue, 19 Oct 2021 09:04:25 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Martin KaFai Lau <kafai@fb.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH 2/2] scripts: documentation-file-ref-check: fix bpf selftests path
-Date:   Tue, 19 Oct 2021 08:42:51 +0100
-Message-Id: <49b765cbac6ccd22d627573154806ec9389d60f0.1634629094.git.mchehab+huawei@kernel.org>
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mirela Rabulea <mirela.rabulea@nxp.com>,
+        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 09/23] MAINTAINERS: update nxp,imx8-jpeg.yaml reference
+Date:   Tue, 19 Oct 2021 09:04:08 +0100
+Message-Id: <70f3d37561b5ea4770a9f10c70ca2d29f99208b6.1634630486.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1634629094.git.mchehab+huawei@kernel.org>
-References: <cover.1634629094.git.mchehab+huawei@kernel.org>
+In-Reply-To: <cover.1634630485.git.mchehab+huawei@kernel.org>
+References: <cover.1634630485.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -55,38 +49,36 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tools/testing/selftests/bpf/test_bpftool_synctypes.py use
-relative patches on the top of BPFTOOL_DIR:
+The file name: Documentation/devicetree/bindings/media/imx8-jpeg.yaml
+should be, instead: Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml.
 
-	BPFTOOL_DIR = os.path.join(LINUX_ROOT, 'tools/bpf/bpftool')
+Update its cross-reference accordingly.
 
-Change the script to automatically convert:
-
-	testing/selftests/bpf -> bpf/bpftool
-
-In order to properly check the files used by such script.
-
+Fixes: be157db0a3d8 ("media: Add maintainer for IMX jpeg v4l2 driver")
+Fixes: b16ed1e66008 ("media: dt-bindings: Add bindings for i.MX8QXP/QM JPEG driver")
+Reviewed-by: Mirela Rabulea <mirela.rabulea@nxp.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
 
 To mailbombing on a large number of people, only mailing lists were C/C on the cover.
-See [PATCH 0/2] at: https://lore.kernel.org/all/cover.1634629094.git.mchehab+huawei@kernel.org/
+See [PATCH v3 00/23] at: https://lore.kernel.org/all/cover.1634630485.git.mchehab+huawei@kernel.org/
 
- scripts/documentation-file-ref-check | 1 +
- 1 file changed, 1 insertion(+)
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/documentation-file-ref-check b/scripts/documentation-file-ref-check
-index 6865d8e63d5c..68083f2f1122 100755
---- a/scripts/documentation-file-ref-check
-+++ b/scripts/documentation-file-ref-check
-@@ -147,6 +147,7 @@ while (<IN>) {
- 		if ($f =~ m/tools/) {
- 			my $path = $f;
- 			$path =~ s,(.*)/.*,$1,;
-+			$path =~ s,testing/selftests/bpf,bpf/bpftool,;
- 			next if (grep -e, glob("$path/$ref $path/../$ref $path/$fulref"));
- 		}
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 843cb9779f4f..33147a1495f5 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -13702,7 +13702,7 @@ M:	Mirela Rabulea <mirela.rabulea@nxp.com>
+ R:	NXP Linux Team <linux-imx@nxp.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/media/imx8-jpeg.yaml
++F:	Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
+ F:	drivers/media/platform/imx-jpeg
  
+ NZXT-KRAKEN2 HARDWARE MONITORING DRIVER
 -- 
 2.31.1
 
