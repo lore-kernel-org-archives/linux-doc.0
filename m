@@ -2,125 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3C4DC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 08:24:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0ADEC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 09:22:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8C34761264
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 08:24:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A9B156103B
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 09:22:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234719AbhJSI0v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Oct 2021 04:26:51 -0400
-Received: from smtp-relay-internal-1.canonical.com ([185.125.188.123]:35682
-        "EHLO smtp-relay-internal-1.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234699AbhJSI0u (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Oct 2021 04:26:50 -0400
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com [209.85.208.198])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 94EB33FFF1
-        for <linux-doc@vger.kernel.org>; Tue, 19 Oct 2021 08:24:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1634631877;
-        bh=Swi6Ddj8Xbp80QnpAWQNLdENzfNBX7zxXSg0uNaLjZ4=;
-        h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-         In-Reply-To:Content-Type;
-        b=cCepZ2ALvBtLCAT3rf4ecpyPBaK0qnqF8X8A4aKwj3hC5XX2bgfMLNt1+LR/D7PzT
-         ZsFAOeneKYSpuZKXuXIDU965fjBhfxTWLM4aZFzPswBIuCqIF1FKfaQ8trNLRa7kfH
-         I2N4RpUVU/WLojDR2GffzcHnrz1Bd+581/iEYCu2OA5tuxwYIwHe/YljHCFZUyLC9J
-         JY0b4tOVoiBIDRkZ5q2r/Ff87cL/h6LdpLch2f8/nJ5J+dfriAI0a4YjpC/rL+tpwA
-         wyXB5w3GS0/JQh5EEQcbyliI+1U2s2zmyjQUJhThAbcWL3vernjSgsUbDPahACYPgy
-         9poyU8hLddm5A==
-Received: by mail-lj1-f198.google.com with SMTP id o4-20020a2ebd84000000b00210ae894d18so598469ljq.13
-        for <linux-doc@vger.kernel.org>; Tue, 19 Oct 2021 01:24:37 -0700 (PDT)
+        id S234914AbhJSJYw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Oct 2021 05:24:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50274 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234905AbhJSJYv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Oct 2021 05:24:51 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2399AC061749
+        for <linux-doc@vger.kernel.org>; Tue, 19 Oct 2021 02:22:39 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id p21so11194967wmq.1
+        for <linux-doc@vger.kernel.org>; Tue, 19 Oct 2021 02:22:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brainfault-org.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=fptJv6XvoZk9YouChC4oUHOD/enMQbUqo6YfTUG11j8=;
+        b=qHoQS2s76kBlprES0oGRziR9C5WQdcSO2SRygtuQ+41hE/s5IDtpq3tEADGZHIJ4+U
+         VVfBkwLBJhtJHMEu+eftbbpNpZoD8Ja0+GL9GkVPJfgdFUJOhcZWpg3xINz7Yx9vMHbl
+         M45X0oYiL5fFJI0xwYBz93K8WtjDVBNuHNqF4E79yiViVTSce7jJLYc/DH1eumrLWG/V
+         puPNq7f0+ZyREiB6mbuhxEeYkrptIs6uLKgKdiKHp0mDZmbTkXzbMSy9mjz+3/7zH1cC
+         APzCsqUddfIGZ72pHIJThOZTJ/iK+1/0LiCiD3zcBeFYmdorAkDWA8HVqnijqW2g5hAc
+         /lbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Swi6Ddj8Xbp80QnpAWQNLdENzfNBX7zxXSg0uNaLjZ4=;
-        b=kgaKl0th97tovWFxsFX3ABz1C9PN1lJYWSoDM2jPUBRg73SiWxf/xuytSr9e+IK+ap
-         jRcp4hiH4mWYTkdLFOXedjEckqr8duQgz2eNp5e4+SgNH619tIWgBbTp/mVRPhPRrIvu
-         a9IwRb0nd4TBcGEZQciJg+Lc9BKYaZ2F+ex1rlvIvM6Cmy+XFroAJyCWBW104IqCZsnu
-         9bnfddwqOKM/aH+A0lkJmSgVf4UpWqiXt8DtVZQNFSPrUPstk/M2yuX+iYXdiDKPru3Q
-         l8LCHroR4dc+vn2fi4dG/xxIHA4FV5muh5VSNeHyIh49g9XIAVVUTlZrfvQH4YtUA5VN
-         8g2w==
-X-Gm-Message-State: AOAM533oWhsUwa3sJ2zH7bETn7YWgVAOveEwf0/6wYo7PHIQq5iFztW+
-        bYgrM0jHc8hCbDsoKz59XCrTfSXmD3oGhmVIYAjnsBH19x6/tOPug1UIv4XKVK1oEH0pJdsgwTV
-        QjJULSh02SPuy+gpdwdjqHLs3nFv6IOOteWNN5g==
-X-Received: by 2002:a2e:9c92:: with SMTP id x18mr5094990lji.445.1634631876046;
-        Tue, 19 Oct 2021 01:24:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw/kAZBOxkypgv+WhYfxmIUQ9Io7rvWQf5Awb9V5Is54av5KHbiCRs1Zw9l65qYqDA79/DqWA==
-X-Received: by 2002:a2e:9c92:: with SMTP id x18mr5094971lji.445.1634631875874;
-        Tue, 19 Oct 2021 01:24:35 -0700 (PDT)
-Received: from [192.168.3.161] (89-77-68-124.dynamic.chello.pl. [89.77.68.124])
-        by smtp.gmail.com with ESMTPSA id b43sm822485ljr.17.2021.10.19.01.24.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Oct 2021 01:24:35 -0700 (PDT)
-Subject: Re: [PATCH v3 22/23] regulator: dt-bindings: update
- samsung,s5m8767.yaml reference
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-References: <cover.1634630485.git.mchehab+huawei@kernel.org>
- <63f3ac8bc958d65e4f31ad4a0060c21a7038cbde.1634630486.git.mchehab+huawei@kernel.org>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Message-ID: <ac1445ce-8b60-c772-4c61-7cdfb8fe6ec6@canonical.com>
-Date:   Tue, 19 Oct 2021 10:24:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fptJv6XvoZk9YouChC4oUHOD/enMQbUqo6YfTUG11j8=;
+        b=h/cW7IsvG5uw6d3J2ywMaSMUOeftegE5ciX4ylSI/8D59OXyn/TokUOX9NdVVClyph
+         s1wFdJWC9yuZA2BoCGQ5HSMKaNIHsyQ28meKHWyhER9I4QmLvRI0+DXCLBKIpMaVNchj
+         Q0taWUjj6U3FqEdHsdohdM9/rznjarbB/YBDJzXnLdKCvwAxu3r4vDyTz/nOjAjHbo9X
+         wns0dW6xmGy29UdIVsUu+pdNzxlBhBzxDbhFhbUVOFr3fe2CXLCDw+q7h/OlRxpoI1Wo
+         EGJVT9w3fYlPtiwyWhTlnC8ed1os6BUOJD6OXEm7SggzY49PMgP3E22q+7YN98YiAJ8b
+         HVWw==
+X-Gm-Message-State: AOAM530GjGzf+1LTdK6z7U/+7yOj2PL0gaReT5o3I3jtLsc2bxhDJWqv
+        oJj1AF2IY4W4bli7TFPtX9agpD9ryCSCut2DzqzA0w==
+X-Google-Smtp-Source: ABdhPJwQXDbqWUPeLTbC5CeRI9I3z7fchT4UiWD2mQAInmdDfeB1n/lMV05DAx2AdM1cIee8iuAMlgLiMMne7h40TPg=
+X-Received: by 2002:a05:600c:354c:: with SMTP id i12mr4817048wmq.59.1634635357474;
+ Tue, 19 Oct 2021 02:22:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <63f3ac8bc958d65e4f31ad4a0060c21a7038cbde.1634630486.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <cover.1634630485.git.mchehab+huawei@kernel.org> <1f62fdbd0dd9298a19c491447a4b415a8ef3bd69.1634630486.git.mchehab+huawei@kernel.org>
+In-Reply-To: <1f62fdbd0dd9298a19c491447a4b415a8ef3bd69.1634630486.git.mchehab+huawei@kernel.org>
+From:   Anup Patel <anup@brainfault.org>
+Date:   Tue, 19 Oct 2021 14:52:26 +0530
+Message-ID: <CAAhSdy0Rp8gf_OHy-qi1aDhCouMXYe_4qcFUUZkZCs2BCRPNog@mail.gmail.com>
+Subject: Re: [PATCH v3 13/23] Documentation: update vcpu-requests.rst reference
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Anup Patel <anup.patel@wdc.com>,
+        Atish Patra <atish.patra@wdc.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        kvm-riscv@lists.infradead.org, KVM General <kvm@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 19/10/2021 10:04, Mauro Carvalho Chehab wrote:
-> The file name: Documentation/devicetree/bindings/mfd/samsung,s5m8767.yaml
-> should be, instead: Documentation/devicetree/bindings/regulator/samsung,s5m8767.yaml.
-> 
+On Tue, Oct 19, 2021 at 1:34 PM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> Changeset 2f5947dfcaec ("Documentation: move Documentation/virtual to Documentation/virt")
+> renamed: Documentation/virtual/kvm/vcpu-requests.rst
+> to: Documentation/virt/kvm/vcpu-requests.rst.
+>
 > Update its cross-reference accordingly.
-> 
-> Fixes: fab58debc137 ("regulator: dt-bindings: samsung,s5m8767: convert to dtschema")
+>
+> Fixes: 2f5947dfcaec ("Documentation: move Documentation/virtual to Documentation/virt")
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
-> 
+
+Looks good to me.
+
+Reviewed-by: Anup Patel <anup.patel@wdc.com>
+
+Regards,
+Anup
+
+>
 > To mailbombing on a large number of people, only mailing lists were C/C on the cover.
 > See [PATCH v3 00/23] at: https://lore.kernel.org/all/cover.1634630485.git.mchehab+huawei@kernel.org/
-> 
->  .../devicetree/bindings/regulator/samsung,s5m8767.yaml          | 2 +-
+>
+>  arch/riscv/kvm/vcpu.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/regulator/samsung,s5m8767.yaml b/Documentation/devicetree/bindings/regulator/samsung,s5m8767.yaml
-> index 80a63d47790a..4281f670c775 100644
-> --- a/Documentation/devicetree/bindings/regulator/samsung,s5m8767.yaml
-> +++ b/Documentation/devicetree/bindings/regulator/samsung,s5m8767.yaml
-> @@ -15,7 +15,7 @@ description: |
->  
->    The S5M8767 provides buck and LDO regulators.
->  
-> -  See also Documentation/devicetree/bindings/mfd/samsung,s5m8767.yaml for
-> +  See also Documentation/devicetree/bindings/regulator/samsung,s5m8767.yaml for
->    additional information and example.
->  
->  patternProperties:
-> 
-
-
-Hi Mauro,
-
-Thanks for the patch but it is incorrect. Old path is proper, just the
-patch waits on merging.
-
-For this one: NAK.
-
-Best regards,
-Krzysztof
+>
+> diff --git a/arch/riscv/kvm/vcpu.c b/arch/riscv/kvm/vcpu.c
+> index c44cabce7dd8..260ce0779a32 100644
+> --- a/arch/riscv/kvm/vcpu.c
+> +++ b/arch/riscv/kvm/vcpu.c
+> @@ -912,7 +912,7 @@ int kvm_arch_vcpu_ioctl_run(struct kvm_vcpu *vcpu)
+>                  * Ensure we set mode to IN_GUEST_MODE after we disable
+>                  * interrupts and before the final VCPU requests check.
+>                  * See the comment in kvm_vcpu_exiting_guest_mode() and
+> -                * Documentation/virtual/kvm/vcpu-requests.rst
+> +                * Documentation/virt/kvm/vcpu-requests.rst
+>                  */
+>                 vcpu->mode = IN_GUEST_MODE;
+>
+> --
+> 2.31.1
+>
+>
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
