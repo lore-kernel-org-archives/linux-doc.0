@@ -2,351 +2,351 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB030C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 14:50:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5115DC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 15:07:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AAE8D6113B
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 14:50:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 35AF16115A
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 15:07:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232521AbhJSOwV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Oct 2021 10:52:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41176 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233936AbhJSOwF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Oct 2021 10:52:05 -0400
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD2A7C06177B
-        for <linux-doc@vger.kernel.org>; Tue, 19 Oct 2021 07:49:28 -0700 (PDT)
-Received: by mail-wm1-x330.google.com with SMTP id 67-20020a1c1946000000b0030d4c90fa87so3290514wmz.2
-        for <linux-doc@vger.kernel.org>; Tue, 19 Oct 2021 07:49:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=jMwKeDx1xIluS3Y035lgALsVGvJn3c2xJ25VMV8QOGs=;
-        b=d5OV6axjaaW3HY62xWBS/mJAitWnIu7hNZhBo0xLnYj0sPR8SECroaHaKL0iST38x1
-         V9wDpUc18lSmsoaryOwS93wvpKYb/QeCN1DrvIb8WtC23/7rzmgEGZA8RIfbGgY/AfUw
-         WFvwcgY8oS0uBxCdYMF17QOlc4O2o1m/P6FV4Te6QrIlKp0RYHrsaVDyrPavmu/Zlc6i
-         cJyF18ZNjunogRUfJVRzWt6o111aPhDiwVequdpePRky3IXck0hw0HgUfyzLG7qaWQD+
-         dnFeDmqKhYJoFoOXGEyxHPWHMaIPuVDeOl32eGm6TflD4vaMurAuEnnqTIdiTF2ahaAx
-         iiMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=jMwKeDx1xIluS3Y035lgALsVGvJn3c2xJ25VMV8QOGs=;
-        b=hkjzpaQyn5whHck/BZuVfeylOtAIPGY8im4tGlzVU3AOiXk6I4EmprilTnVYX+46Ri
-         DzJz2UEkWtWlZTVX634CEObV4ON0//JjiwiisE71Frxl1+BJt6pxFzCC2fxg4dt4H534
-         5APBCeXblySOUpOKIbTRfJWoVIL7UaliQscDlCOmWtrTwKXOdios+1A32q6T1+Fr/PxG
-         qke1Jv7FJPB3tBDL9R6tFyDVxrwuMy5mU1yDg5hPKWvdy0mo/MdwbEU419C2wyy9u4E2
-         1tF0nhqXuWhyy35jczVyiC5JFNN44ZKva/PojuoP6erDZ77tNm04zFKc+Vy1GSo74jn6
-         zTqg==
-X-Gm-Message-State: AOAM5304RwecJKwP+y5jlW0hRJ72XHmcpO8ZGWc0rkwMyKrShSs9DDij
-        uYdU5v/04W9WCasz1cyOqUcH5A==
-X-Google-Smtp-Source: ABdhPJw68Xm7j5jX3xpVx1k96ImK4Fftt66JIDJngLbjqppjKdUbYxogns/Gi9++m0tBdlD9OA76Lw==
-X-Received: by 2002:adf:ead0:: with SMTP id o16mr13067340wrn.106.1634654967258;
-        Tue, 19 Oct 2021 07:49:27 -0700 (PDT)
-Received: from debian-brgl.home ([2a01:cb1d:334:ac00:7d50:ff5:f5c1:e225])
-        by smtp.gmail.com with ESMTPSA id j1sm16212752wrd.28.2021.10.19.07.49.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Oct 2021 07:49:27 -0700 (PDT)
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-To:     Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>,
-        Shuah Khan <shuah@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Kent Gibson <warthog618@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Jack Winch <sunt.un.morcov@gmail.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>
-Cc:     linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>
-Subject: [PATCH v8 8/8] selftests: gpio: add test cases for gpio-sim
-Date:   Tue, 19 Oct 2021 16:49:09 +0200
-Message-Id: <20211019144909.21959-9-brgl@bgdev.pl>
-X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20211019144909.21959-1-brgl@bgdev.pl>
-References: <20211019144909.21959-1-brgl@bgdev.pl>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S232126AbhJSPKD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Oct 2021 11:10:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57472 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232109AbhJSPKC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 19 Oct 2021 11:10:02 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6F4FF60F22;
+        Tue, 19 Oct 2021 15:07:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1634656070;
+        bh=+H87Uncj34Cx/PMBvgEaU/uvlSTbAFuE8APT0rdbAgs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=RH1I+ciO+avleyR2SrjUREAjWZQ2WlByzX5FU6PJ6fn/OzZuV/p9RyvZHniK4c4GR
+         rdRrKZ3X/RV004ofXHJprCkRGWjAx2L2YCFfNsHH8qV5LKHvS91XIesRCdhr4TIMgf
+         PDz4f5O0qWn+wXZ+3lqG3HnFrbwZ2UVTKYqdNEY5T6RdEODyzV/S/G/wZzCMwMl7Xz
+         1+VrWmCMZxHP8mqX1fMrjHmgmm6U6W5CUMK/K0MSVbMhQQ5kq2vofVnvnx7iWesrwP
+         h6ylQdQYiL1Oe6NmKGO/hyDdD+40oUS5ceHGWP5+/aiCaUZP7ccSi5CsTNqa0aOqph
+         BxwOdKJ3vlXbg==
+From:   SeongJae Park <sj@kernel.org>
+To:     akpm@linux-foundation.org
+Cc:     SeongJae Park <sj@kernel.org>, Jonathan.Cameron@Huawei.com,
+        amit@kernel.org, benh@kernel.crashing.org, corbet@lwn.net,
+        david@redhat.com, dwmw@amazon.com, elver@google.com,
+        foersleo@amazon.de, gthelen@google.com, markubo@amazon.de,
+        rientjes@google.com, shakeelb@google.com, shuah@kernel.org,
+        linux-damon@amazon.com, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 00/15] Introduce DAMON-based Proactive Reclamation
+Date:   Tue, 19 Oct 2021 15:07:16 +0000
+Message-Id: <20211019150731.16699-1-sj@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a set of tests for the new gpio-sim module. This is a pure shell
-test-suite and uses the helper programs available in the gpio selftests
-directory. These test-cases only test the functionalities exposed by the
-gpio-sim driver, not those handled by core gpiolib code.
+Changes from Previous Version (RFC v3)
+======================================
 
-Signed-off-by: Bartosz Golaszewski <brgl@bgdev.pl>
----
- tools/testing/selftests/gpio/Makefile    |   2 +-
- tools/testing/selftests/gpio/config      |   1 +
- tools/testing/selftests/gpio/gpio-sim.sh | 229 +++++++++++++++++++++++
- 3 files changed, 231 insertions(+), 1 deletion(-)
- create mode 100755 tools/testing/selftests/gpio/gpio-sim.sh
+Compared to the RFC v3
+(https://lore.kernel.org/linux-mm/20210720131309.22073-1-sj38.park@gmail.com/),
+this version contains below changes.
 
-diff --git a/tools/testing/selftests/gpio/Makefile b/tools/testing/selftests/gpio/Makefile
-index d7d8f1985d99..4c6df61c76a8 100644
---- a/tools/testing/selftests/gpio/Makefile
-+++ b/tools/testing/selftests/gpio/Makefile
-@@ -1,6 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
- 
--TEST_PROGS := gpio-mockup.sh
-+TEST_PROGS := gpio-mockup.sh gpio-sim.sh
- TEST_FILES := gpio-mockup-sysfs.sh
- TEST_GEN_PROGS_EXTENDED := gpio-mockup-cdev gpio-chip-info gpio-line-name
- 
-diff --git a/tools/testing/selftests/gpio/config b/tools/testing/selftests/gpio/config
-index ce100342c20b..409a8532facc 100644
---- a/tools/testing/selftests/gpio/config
-+++ b/tools/testing/selftests/gpio/config
-@@ -1,3 +1,4 @@
- CONFIG_GPIOLIB=y
- CONFIG_GPIO_CDEV=y
- CONFIG_GPIO_MOCKUP=m
-+CONFIG_GPIO_SIM=m
-diff --git a/tools/testing/selftests/gpio/gpio-sim.sh b/tools/testing/selftests/gpio/gpio-sim.sh
-new file mode 100755
-index 000000000000..fcca6ec611f8
---- /dev/null
-+++ b/tools/testing/selftests/gpio/gpio-sim.sh
-@@ -0,0 +1,229 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0
-+# Copyright (C) 2021 Bartosz Golaszewski <bgolaszewski@baylibre.com>
-+
-+BASE_DIR=`dirname $0`
-+CONFIGFS_DIR="/sys/kernel/config/gpio-sim"
-+PENDING_DIR=$CONFIGFS_DIR/pending
-+LIVE_DIR=$CONFIGFS_DIR/live
-+MODULE="gpio-sim"
-+
-+fail() {
-+	echo "$*" >&2
-+	echo "GPIO $MODULE test FAIL"
-+	exit 1
-+}
-+
-+skip() {
-+	echo "$*" >&2
-+	echo "GPIO $MODULE test SKIP"
-+	exit 4
-+}
-+
-+configfs_cleanup() {
-+	for DIR in `ls $LIVE_DIR`; do
-+		mv $LIVE_DIR/$DIR $PENDING_DIR
-+	done
-+
-+	for DIR in `ls $PENDING_DIR`; do
-+		rmdir $PENDING_DIR/$DIR
-+	done
-+}
-+
-+create_pending_chip() {
-+	local NAME="$1"
-+	local LABEL="$2"
-+	local NUM_LINES="$3"
-+	local LINE_NAMES="$4"
-+	local CHIP_DIR="$PENDING_DIR/$NAME"
-+
-+	mkdir $CHIP_DIR
-+	test -n "$LABEL" && echo $LABEL > $CHIP_DIR/label
-+	test -n "$NUM_LINES" && echo $NUM_LINES > $CHIP_DIR/num_lines
-+	if [ -n "$LINE_NAMES" ]; then
-+		echo $LINE_NAMES 2> /dev/null > $CHIP_DIR/line_names
-+		# This one can fail
-+		if [ "$?" -ne "0" ]; then
-+			return 1
-+		fi
-+	fi
-+}
-+
-+create_live_chip() {
-+	local CHIP_DIR="$PENDING_DIR/$1"
-+
-+	create_pending_chip "$@" || fail "unable to create the chip configfs item"
-+	mv $CHIP_DIR $LIVE_DIR || fail "unable to commit the chip configfs item"
-+}
-+
-+remove_pending_chip() {
-+	local NAME="$1"
-+
-+	rmdir $PENDING_DIR/$NAME || fail "unable to remove the chip configfs item"
-+}
-+
-+remove_live_chip() {
-+	local NAME="$1"
-+
-+	mv $LIVE_DIR/$NAME $PENDING_DIR || fail "unable to uncommit the chip configfs item"
-+	remove_pending_chip "$@"
-+}
-+
-+configfs_chip_name() {
-+	local CHIP="$1"
-+
-+	cat $LIVE_DIR/$CHIP/chip_name 2> /dev/null || return 1
-+}
-+
-+configfs_dev_name() {
-+	local CHIP="$1"
-+
-+	cat $LIVE_DIR/$CHIP/dev_name 2> /dev/null || return 1
-+}
-+
-+get_chip_num_lines() {
-+	local CHIP="$1"
-+
-+	$BASE_DIR/gpio-chip-info /dev/`configfs_chip_name $CHIP` num-lines
-+}
-+
-+get_chip_label() {
-+	local CHIP="$1"
-+
-+	$BASE_DIR/gpio-chip-info /dev/`configfs_chip_name $CHIP` label
-+}
-+
-+get_line_name() {
-+	local CHIP="$1"
-+	local OFFSET="$2"
-+
-+	$BASE_DIR/gpio-line-name /dev/`configfs_chip_name $CHIP` $OFFSET
-+}
-+
-+sysfs_set_pull() {
-+	local CHIP="$1"
-+	local OFFSET="$2"
-+	local PULL="$3"
-+	local SYSFSPATH="/sys/devices/platform/`configfs_dev_name $CHIP`/line-ctrl/gpio$OFFSET"
-+
-+	echo $PULL > $SYSFSPATH
-+}
-+
-+# Load the gpio-sim module. This will pull in configfs if needed too.
-+modprobe gpio-sim || skip "unable to load the gpio-sim module"
-+# Make sure configfs is mounted at /sys/kernel/config. Wait a bit if needed.
-+for IDX in `seq 5`; do
-+	if [ "$IDX" -eq "5" ]; then
-+		skip "configfs not mounted at /sys/kernel/config"
-+	fi
-+
-+	mountpoint -q /sys/kernel/config && break
-+	sleep 0.1
-+done
-+# If the module was already loaded: remove all previous chips
-+configfs_cleanup
-+
-+trap "exit 1" SIGTERM SIGINT
-+trap configfs_cleanup EXIT
-+
-+echo "1. chip_name and dev_name attributes"
-+
-+echo "1.1. Chip name is communicated to user"
-+create_live_chip chip
-+test -n `cat $LIVE_DIR/chip/chip_name` || fail "chip_name doesn't work"
-+remove_live_chip chip
-+
-+echo "1.2. chip_name returns 'none' if the chip is still pending"
-+create_pending_chip chip
-+test "`cat $PENDING_DIR/chip/chip_name`" = "none" || fail "chip_name doesn't return 'none' for a pending chip"
-+remove_pending_chip chip
-+
-+echo "1.3. Device name is communicated to user"
-+create_live_chip chip
-+test -n `cat $LIVE_DIR/chip/dev_name` || fail "dev_name doesn't work"
-+remove_live_chip chip
-+
-+echo "1.4. dev_name returns 'none' if chip is still pending"
-+create_pending_chip chip
-+test "`cat $PENDING_DIR/chip/dev_name`" = "none" || fail "dev_name doesn't return 'none' for a pending chip"
-+remove_pending_chip chip
-+
-+echo "2. Creating simulated chips"
-+
-+echo "2.1. Default number of lines is 1"
-+create_live_chip chip
-+test "`get_chip_num_lines chip`" = "1" || fail "default number of lines is not 1"
-+remove_live_chip chip
-+
-+echo "2.2. Number of lines can be specified"
-+create_live_chip chip test-label 16
-+test "`get_chip_num_lines chip`" = "16" || fail "number of lines is not 16"
-+remove_live_chip chip
-+
-+echo "2.3. Label can be set"
-+create_live_chip chip foobar
-+test "`get_chip_label chip`" = "foobar" || fail "label is incorrect"
-+remove_live_chip chip
-+
-+echo "2.4. Label can be left empty"
-+create_live_chip chip
-+test -z "`cat $LIVE_DIR/chip/label`" || fail "label is not empty"
-+remove_live_chip chip
-+
-+echo "2.5. Line names can be configured"
-+create_live_chip chip test-label 16 '"foo", "", "bar"'
-+test "`get_line_name chip 0`" = "foo" || fail "line name is incorrect"
-+test "`get_line_name chip 2`" = "bar" || fail "line name is incorrect"
-+remove_live_chip chip
-+
-+echo "2.6. Errors in line names are detected"
-+create_pending_chip chip test-label 8 '"foo", bar' && fail "incorrect line name accepted"
-+remove_pending_chip chip
-+create_pending_chip chip test-label 8 '"foo" "bar"' && fail "incorrect line name accepted"
-+remove_pending_chip chip
-+
-+echo "2.7. Multiple chips can be created"
-+create_live_chip chip0
-+create_live_chip chip1
-+create_live_chip chip2
-+remove_live_chip chip0
-+remove_live_chip chip1
-+remove_live_chip chip2
-+
-+echo "3. Controlling simulated chips"
-+
-+echo "3.3. Pull can be set over sysfs"
-+create_live_chip chip test-label 8
-+sysfs_set_pull chip 0 1
-+$BASE_DIR/gpio-mockup-cdev /dev/`configfs_chip_name chip` 0
-+test "$?" = "1" || fail "pull set incorrectly"
-+sysfs_set_pull chip 0 0
-+$BASE_DIR/gpio-mockup-cdev /dev/`configfs_chip_name chip` 1
-+test "$?" = "0" || fail "pull set incorrectly"
-+remove_live_chip chip
-+
-+echo "3.4. Incorrect input in sysfs is rejected"
-+create_live_chip chip test-label 8
-+SYSFS_PATH="/sys/devices/platform/`configfs_dev_name chip`/line-ctrl/gpio0"
-+echo 2 > $SYSFS_PATH 2> /dev/null && fail "invalid input not detectec"
-+remove_live_chip chip
-+
-+echo "4. Simulated GPIO chips are functional"
-+
-+echo "4.1. Values can be read from sysfs"
-+create_live_chip chip test-label 8
-+SYSFS_PATH="/sys/devices/platform/`configfs_dev_name chip`/line-ctrl/gpio0"
-+test `cat $SYSFS_PATH` = "0" || fail "incorrect value read from sysfs"
-+$BASE_DIR/gpio-mockup-cdev -s 1 /dev/`configfs_chip_name chip` 0 &
-+sleep 0.1 # FIXME Any better way?
-+test `cat $SYSFS_PATH` = "1" || fail "incorrect value read from sysfs"
-+kill $!
-+remove_live_chip chip
-+
-+echo "4.2. Bias settings work correctly"
-+create_live_chip chip test-label 8
-+$BASE_DIR/gpio-mockup-cdev -b pull-up /dev/`configfs_chip_name chip` 0
-+test `cat $SYSFS_PATH` = "1" || fail "bias setting does not work"
-+remove_live_chip chip
-+
-+echo "GPIO $MODULE test PASS"
+- Rebase on latest -mm tree
+- Use less aggressive default parameter values (coldness threshold: 5s ->
+  2mins, cpu time quota: 100ms/1s -> 10ms/1s, size quota: 1GiB/s -> 128MiB/s)
+- Update the evaluation results in the coverletter
+
+Introduction
+============
+
+This patchset 1) makes the engine for general data access pattern-oriented
+memory management (DAMOS) be more useful for production environments, and
+2) implements a static kernel module for lightweight proactive reclamation
+using the engine.
+
+Proactive Reclamation
+---------------------
+
+On general memory over-committed systems, proactively reclaiming cold pages
+helps saving memory and reducing latency spikes that incurred by the direct
+reclaim or the CPU consumption of kswapd, while incurring only minimal
+performance degradation[2].
+
+A Free Pages Reporting[8] based memory over-commit virtualization system would
+be one more specific use case.  In the system, the guest VMs reports their free
+memory to host, and the host reallocates the reported memory to other guests.
+As a result, the system's memory utilization can be maximized.  However, the
+guests could be not so memory-frugal, because some kernel subsystems and
+user-space applications are designed to use as much memory as available.  Then,
+guests would report only small amount of free memory to host, results in poor
+memory utilization.  Running the proactive reclamation in such guests could
+help mitigating this problem.
+
+Google has also implemented this idea and using it in their data center.  They
+further proposed upstreaming it in LSFMM'19, and "the general consensus was
+that, while this sort of proactive reclaim would be useful for a number of
+users, the cost of this particular solution was too high to consider merging it
+upstream"[3].  The cost mainly comes from the coldness tracking.  Roughly
+speaking, the implementation periodically scans the 'Accessed' bit of each
+page.  For the reason, the overhead linearly increases as the size of the
+memory and the scanning frequency grows.  As a result, Google is known to
+dedicating one CPU for the work.  That's a reasonable option to someone like
+Google, but it wouldn't be so to some others.
+
+DAMON and DAMOS: An engine for data access pattern-oriented memory management
+-----------------------------------------------------------------------------
+
+DAMON[4] is a framework for general data access monitoring.  Its adaptive
+monitoring overhead control feature minimizes its monitoring overhead.  It also
+let the upper-bound of the overhead be configurable by clients, regardless of
+the size of the monitoring target memory.  While monitoring 70 GiB memory of a
+production system every 5 milliseconds, it consumes less than 1% single CPU
+time.  For this, it could sacrify some of the quality of the monitoring
+results.  Nevertheless, the lower-bound of the quality is configurable, and it
+uses a best-effort algorithm for better quality.  Our test results[5] show the
+quality is practical enough.  From the production system monitoring, we were
+able to find a 4 KiB region in the 70 GiB memory that shows highest access
+frequency.
+
+We normally don't monitor the data access pattern just for fun but to improve
+something like memory management.  Proactive reclamation is one such usage.
+For such general cases, DAMON provides a feature called DAMon-based Operation
+Schemes (DAMOS)[6].  It makes DAMON an engine for general data access pattern
+oriented memory management.  Using this, clients can ask DAMON to find memory
+regions of specific data access pattern and apply some memory management action
+(e.g., page out, move to head of the LRU list, use huge page, ...).  We call
+the request 'scheme'.
+
+Proactive Reclamation on top of DAMON/DAMOS
+-------------------------------------------
+
+Therefore, by using DAMON for the cold pages detection, the proactive
+reclamation's monitoring overhead issue can be solved.  Actually, we previously
+implemented a version of proactive reclamation using DAMOS and achieved
+noticeable improvements with our evaluation setup[5].  Nevertheless, it more
+for a proof-of-concept, rather than production uses.  It supports only virtual
+address spaces of processes, and require additional tuning efforts for given
+workloads and the hardware.  For the tuning, we introduced a simple auto-tuning
+user space tool[8].  Google is also known to using a ML-based similar approach
+for their fleets[2].  But, making it just works with intuitive knobs in the
+kernel would be helpful for general users.
+
+To this end, this patchset improves DAMOS to be ready for such production
+usages, and implements another version of the proactive reclamation, namely
+DAMON_RECLAIM, on top of it.
+
+DAMOS Improvements: Aggressiveness Control, Prioritization, and Watermarks
+--------------------------------------------------------------------------
+
+First of all, the current version of DAMOS supports only virtual address
+spaces.  This patchset makes it supports the physical address space for the
+page out action.
+
+Next major problem of the current version of DAMOS is the lack of the
+aggressiveness control, which can results in arbitrary overhead.  For example,
+if huge memory regions having the data access pattern of interest are found,
+applying the requested action to all of the regions could incur significant
+overhead.  It can be controlled by tuning the target data access pattern with
+manual or automated approaches[2,7].  But, some people would prefer the kernel
+to just work with only intuitive tuning or default values.
+
+For such cases, this patchset implements a safeguard, namely time/size quota.
+Using this, the clients can specify up to how much time can be used for
+applying the action, and/or up to how much memory regions the action can be
+applied within a user-specified time duration.  A followup question is, to
+which memory regions should the action applied within the limits?  We implement
+a simple regions prioritization mechanism for each action and make DAMOS to
+apply the action to high priority regions first.  It also allows clients tune
+the prioritization mechanism to use different weights for size, access
+frequency, and age of memory regions.  This means we could use not only LRU but
+also LFU or some fancy algorithms like CAR[9] with lightweight overhead.
+
+Though DAMON is lightweight, someone would want to remove even the cold pages
+monitoring overhead when it is unnecessary.  Currently, it should manually
+turned on and off by clients, but some clients would simply want to turn it on
+and off based on some metrics like free memory ratio or memory fragmentation.
+For such cases, this patchset implements a watermarks-based automatic
+activation feature.  It allows the clients configure the metric of their
+interest, and three watermarks of the metric.  If the metric is higher than the
+high watermark or lower than the low watermark, the scheme is deactivated.  If
+the metric is lower than the mid watermark but higher than the low watermark,
+the scheme is activated.
+
+DAMON-based Reclaim
+-------------------
+
+Using the improved version of DAMOS, this patchset implements a static kernel
+module called 'damon_reclaim'.  It finds memory regions that didn't accessed
+for specific time duration and page out.  Consuming too much CPU for the paging
+out operations, or doing pageout too frequently can be critical for systems
+configuring their swap devices with software-defined in-memory block devices
+like zram/zswap or total number of writes limited devices like SSDs,
+respectively.  To avoid the problems, the time/size quotas can be configured.
+Under the quotas, it pages out memory regions that didn't accessed longer
+first.  Also, to remove the monitoring overhead under peaceful situation, and
+to fall back to the LRU-list based page granularity reclamation when it doesn't
+make progress, the three watermarks based activation mechanism is used, with
+the free memory ratio as the watermark metric.
+
+For convenient configurations, it provides several module parameters.  Using
+these, sysadmins can enable/disable it, and tune its parameters including the
+coldness identification time threshold, the time/size quotas and the three
+watermarks.
+
+Evaluation
+==========
+
+In short, DAMON_RECLAIM with 50ms/s time quota and regions prioritization on
+v5.15-rc5 Linux kernel with ZRAM swap device achieves 38.58% memory saving with
+only 1.94% runtime overhead.  For this, DAMON_RECLAIM consumes only 4.97% of
+single CPU time.
+
+Setup
+-----
+
+We evaluate DAMON_RECLAIM to show how each of the DAMOS improvements make
+effect.  For this, we measure DAMON_RECLAIM's CPU consumption, entire system
+memory footprint, total number of major page faults, and runtime of 24
+realistic workloads in PARSEC3 and SPLASH-2X benchmark suites on my QEMU/KVM
+based virtual machine.  The virtual machine runs on an i3.metal AWS instance,
+has 130GiB memory, and runs a linux kernel built on latest -mm tree[1] plus
+this patchset.  It also utilizes a 4 GiB ZRAM swap device.  We repeats the
+measurement 5 times and use averages.
+
+[1] https://github.com/hnaz/linux-mm/tree/v5.15-rc5-mmots-2021-10-13-19-55
+
+Detailed Results
+----------------
+
+The results are summarized in the below table.
+
+With coldness identification threshold of 5 seconds, DAMON_RECLAIM without the
+time quota-based speed limit achieves 47.21% memory saving, but incur 4.59%
+runtime slowdown to the workloads on average.  For this, DAMON_RECLAIM consumes
+about 11.28% single CPU time.
+
+Applying time quotas of 200ms/s, 50ms/s, and 10ms/s without the regions
+prioritization reduces the slowdown to 4.89%, 2.65%, and 1.5%, respectively.
+Time quota of 200ms/s (20%) makes no real change compared to the quota
+unapplied version, because the quota unapplied version consumes only 11.28% CPU
+time.  DAMON_RECLAIM's CPU utilization also similarly reduced: 11.24%, 5.51%,
+and 2.01% of single CPU time.  That is, the overhead is proportional to the
+speed limit.  Nevertheless, it also reduces the memory saving because it
+becomes less aggressive.  In detail, the three variants show 48.76%, 37.83%,
+and 7.85% memory saving, respectively.
+
+Applying the regions prioritization (page out regions that not accessed longer
+first within the time quota) further reduces the performance degradation.
+Runtime slowdowns and total number of major page faults increase has been
+4.89%/218,690% -> 4.39%/166,136% (200ms/s), 2.65%/111,886% -> 1.94%/59,053%
+(50ms/s), and 1.5%/34,973.40% -> 2.08%/8,781.75% (10ms/s).  The runtime under
+10ms/s time quota has increased with prioritization, but apparently that's
+under the margin of error.
+
+    time quota   prioritization  memory_saving  cpu_util  slowdown  pgmajfaults overhead
+    N            N               47.21%         11.28%    4.59%     194,802%
+    200ms/s      N               48.76%         11.24%    4.89%     218,690%
+    50ms/s       N               37.83%         5.51%     2.65%     111,886%
+    10ms/s       N               7.85%          2.01%     1.5%      34,793.40%
+    200ms/s      Y               50.08%         10.38%    4.39%     166,136%
+    50ms/s       Y               38.58%         4.97%     1.94%     59,053%
+    10ms/s       Y               3.63%          1.73%     2.08%     8,781.75%
+
+Baseline and Complete Git Trees
+===============================
+
+The patches are based on the latest -mm tree
+(v5.15-rc5-mmots-2021-10-13-19-55).  You can also clone the complete git tree
+from:
+
+    $ git clone git://github.com/sjp38/linux -b damon_reclaim/patches/v1
+
+The web is also available:
+https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git/tag/?h=damon_reclaim/patches/v1
+
+Sequence Of Patches
+===================
+
+The first patch makes DAMOS support the physical address space for the page out
+action.  Following five patches (patches 2-6) implement the time/size quotas.
+Next four patches (patches 7-10) implement the memory regions prioritization
+within the limit.  Then, three following patches (patches 11-13) implement the
+watermarks-based schemes activation.  Finally, the last two patches (patches
+14-15) implement and document the DAMON-based reclamation using the advanced
+DAMOS.
+
+[1] https://www.kernel.org/doc/html/v5.15-rc1/vm/damon/index.html
+[2] https://research.google/pubs/pub48551/
+[3] https://lwn.net/Articles/787611/
+[4] https://damonitor.github.io
+[5] https://damonitor.github.io/doc/html/latest/vm/damon/eval.html
+[6] https://lore.kernel.org/linux-mm/20211001125604.29660-1-sj@kernel.org/
+[7] https://github.com/awslabs/damoos
+[8] https://www.kernel.org/doc/html/latest/vm/free_page_reporting.html
+[9] https://www.usenix.org/conference/fast-04/car-clock-adaptive-replacement
+
+Patch History
+=============
+
+Changes from RFC v3
+(https://lore.kernel.org/linux-mm/20210720131309.22073-1-sj38.park@gmail.com/)
+- Rebase on latest -mm tree
+- Use less aggressive default parameter values (coldness threshold: 5s ->
+  2mins, cpu time quota: 100ms/1s -> 10ms/1s, size quota: 1GiB/s -> 128MiB/s)
+- Update the evaluation results in the coverletter
+
+Changes from RFC v2
+(https://lore.kernel.org/linux-mm/20210608115254.11930-1-sj38.park@gmail.com/)
+- Rebase on latest -mm tree (v5.14-rc1-mmots-2021-07-15-18-47)
+- Make reclamation restarts from exactly the point it stopped due to the limit
+- Implement a time quota (limits the time for trying reclamation of cold pages)
+
+[1] https://lore.kernel.org/linux-mm/20210716081449.22187-1-sj38.park@gmail.com/
+
+Changes from RFC v1
+(https://lore.kernel.org/linux-mm/20210531133816.12689-1-sj38.park@gmail.com/)
+- Avoid fake I/O load reporting (James Gowans)
+- Remove kernel configs for the build time enabling and the parameters setting
+- Export kdamond pid via a readonly parameter file
+- Elaborate coverletter, especially for evaluation and DAMON_RECLAIM interface
+- Add documentation
+- Rebase on -mm tree
+- Cleanup code
+
+SeongJae Park (15):
+  mm/damon/paddr: Support the pageout scheme
+  mm/damon/schemes: Implement size quota for schemes application speed
+    control
+  mm/damon/schemes: Skip already charged targets and regions
+  mm/damon/schemes: Implement time quota
+  mm/damon/dbgfs: Support quotas of schemes
+  mm/damon/selftests: Support schemes quotas
+  mm/damon/schemes: Prioritize regions within the quotas
+  mm/damon/vaddr,paddr: Support pageout prioritization
+  mm/damon/dbgfs: Support prioritization weights
+  tools/selftests/damon: Update for regions prioritization of schemes
+  mm/damon/schemes: Activate schemes based on a watermarks mechanism
+  mm/damon/dbgfs: Support watermarks
+  selftests/damon: Support watermarks
+  mm/damon: Introduce DAMON-based Reclamation (DAMON_RECLAIM)
+  Documentation/admin-guide/mm/damon: Add a document for DAMON_RECLAIM
+
+ Documentation/admin-guide/mm/damon/index.rst  |   1 +
+ .../admin-guide/mm/damon/reclaim.rst          | 235 ++++++++++++
+ include/linux/damon.h                         | 136 ++++++-
+ mm/damon/Kconfig                              |  12 +
+ mm/damon/Makefile                             |   1 +
+ mm/damon/core.c                               | 283 +++++++++++++-
+ mm/damon/dbgfs.c                              |  29 +-
+ mm/damon/paddr.c                              |  51 ++-
+ mm/damon/prmtv-common.c                       |  46 +++
+ mm/damon/prmtv-common.h                       |   3 +
+ mm/damon/reclaim.c                            | 354 ++++++++++++++++++
+ mm/damon/vaddr.c                              |  15 +
+ .../testing/selftests/damon/debugfs_attrs.sh  |   4 +-
+ 13 files changed, 1145 insertions(+), 25 deletions(-)
+ create mode 100644 Documentation/admin-guide/mm/damon/reclaim.rst
+ create mode 100644 mm/damon/reclaim.c
+
 -- 
-2.30.1
+2.17.1
 
