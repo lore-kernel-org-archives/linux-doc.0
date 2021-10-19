@@ -2,44 +2,41 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6A8CC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 08:04:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DB50C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 08:04:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B228A613A8
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 08:04:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6D57D6136F
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 08:04:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234699AbhJSIGy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S234830AbhJSIGy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 19 Oct 2021 04:06:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36540 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:36568 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234766AbhJSIGo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 19 Oct 2021 04:06:44 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 12C2461391;
+        id S234772AbhJSIGp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 19 Oct 2021 04:06:45 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 492F0613A4;
         Tue, 19 Oct 2021 08:04:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1634630672;
-        bh=2A561v897STUW9N/El0ducHR0zmDURkTioj6ePTyLAQ=;
+        bh=OLQmIGIa96dqOjXdQ2IruQsJW6tAzqr/YAsyfqvgLa0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Q+//9H8/Z9WMhO9+v8H3UKQjPmeBU+1miouUD10oRi4/ZFlEzInWYhh3N62r63QVQ
-         Kf/F/qkWe2HefwjTyEe9gY3Qdon9Ia7RhN/PF1wk4zhu37s4dDg7dGpUxkt9BCM+4T
-         bNDSQBGdhi5NSAYhQMRsltFZBQGnpdpIsbzXDARgGzP9+x8a9y5aMfFPWV1YABaPs4
-         sYVzL6zvMfYS4irtx99OkyAX2Xyrcd5PgSZ24ge3KwbxU6NjkBKo5stugup6CHMcSp
-         yKljDJBqJIYvKUg1s4f/7fnNaIPQzKeVzKV3myU0gUZqNFS76bGaj8ZRyCn/5Oh1Rl
-         DhyYD0XR5aLCQ==
+        b=J9B/TDwT0Qn7yEcTUBhZ5Fe4yT/XY+9+QmBYjYdHYbeHdN4CABZUaFuN+KJSALreT
+         6LFpfAlinMeakg9tauHg9CadEOKSTc+heswFTGosVoGCEfPDcKIADR/cDi5aYA+Juo
+         AS+4ymTXSzuFySdSs7vnpb+m2f18HgqCSkOOAzalv1rtLMAKKclV54T6h0uljBAl6x
+         yICttUVdmkQp26JVTupOTskHmN1Eup/iBUNO+/iTN/XXWlTbEy8B/7mQugKCeuH3Kh
+         vw73hGehxs68WGBmPrkIBNsl4MlseLZZEc7UGTBfTuolbWRwdSCnJTDSFzCQJVFKhD
+         uCVUufzAUXmIA==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mck6j-001oJ0-1y; Tue, 19 Oct 2021 09:04:25 +0100
+        id 1mck6j-001oJd-8a; Tue, 19 Oct 2021 09:04:25 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh@kernel.org>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 04/23] MAINTAINERS: update arm,vic.yaml reference
-Date:   Tue, 19 Oct 2021 09:04:03 +0100
-Message-Id: <ec54d0aa65a3b98ae425721663f196b499a59513.1634630485.git.mchehab+huawei@kernel.org>
+        Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 17/23] docs: fs: locks.rst: update comment about mandatory file locking
+Date:   Tue, 19 Oct 2021 09:04:16 +0100
+Message-Id: <1dfcade1692df5435d4f0fd8e439a6e55cf44fa6.1634630486.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1634630485.git.mchehab+huawei@kernel.org>
 References: <cover.1634630485.git.mchehab+huawei@kernel.org>
@@ -50,37 +47,48 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset b7705ba6d0c4 ("dt-bindings: interrupt-controller: Convert ARM VIC to json-schema")
-renamed: Documentation/devicetree/bindings/interrupt-controller/arm,vic.txt
-to: Documentation/devicetree/bindings/interrupt-controller/arm,vic.yaml.
+The mandatory file locking got removed due to its problems, but
+the fs locks documentation still points to it.
 
-Update its cross-reference accordingly.
+Update the text there, informing that it was removed on Kernel
+5.14.
 
-Fixes: b7705ba6d0c4 ("dt-bindings: interrupt-controller: Convert ARM VIC to json-schema")
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Acked-by: Sudeep Holla <sudeep.holla@arm.com>
+Fixes: f7e33bdbd6d1 ("fs: remove mandatory file locking support")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
 
 To mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH v3 00/23] at: https://lore.kernel.org/all/cover.1634630485.git.mchehab+huawei@kernel.org/
 
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/filesystems/locks.rst | 17 +++++------------
+ 1 file changed, 5 insertions(+), 12 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a10b915292e1..22efd0c518a1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1560,7 +1560,7 @@ ARM PRIMECELL VIC PL190/PL192 DRIVER
- M:	Linus Walleij <linus.walleij@linaro.org>
- L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
- S:	Maintained
--F:	Documentation/devicetree/bindings/interrupt-controller/arm,vic.txt
-+F:	Documentation/devicetree/bindings/interrupt-controller/arm,vic.yaml
- F:	drivers/irqchip/irq-vic.c
+diff --git a/Documentation/filesystems/locks.rst b/Documentation/filesystems/locks.rst
+index c5ae858b1aac..26429317dbbc 100644
+--- a/Documentation/filesystems/locks.rst
++++ b/Documentation/filesystems/locks.rst
+@@ -57,16 +57,9 @@ fcntl(), with all the problems that implies.
+ 1.3 Mandatory Locking As A Mount Option
+ ---------------------------------------
  
- ARM SMC WATCHDOG DRIVER
+-Mandatory locking, as described in
+-'Documentation/filesystems/mandatory-locking.rst' was prior to this release a
+-general configuration option that was valid for all mounted filesystems.  This
+-had a number of inherent dangers, not the least of which was the ability to
+-freeze an NFS server by asking it to read a file for which a mandatory lock
+-existed.
+-
+-From this release of the kernel, mandatory locking can be turned on and off
+-on a per-filesystem basis, using the mount options 'mand' and 'nomand'.
+-The default is to disallow mandatory locking. The intention is that
+-mandatory locking only be enabled on a local filesystem as the specific need
+-arises.
++Mandatory locking was prior to this release a general configuration option
++that was valid for all mounted filesystems.  This had a number of inherent
++dangers, not the least of which was the ability to freeze an NFS server by
++asking it to read a file for which a mandatory lock existed.
+ 
++Such option was dropped in Kernel v5.14.
 -- 
 2.31.1
 
