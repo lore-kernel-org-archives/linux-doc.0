@@ -2,43 +2,44 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56CA0C4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 08:04:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6A8CC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 08:04:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 433026139F
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 08:04:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B228A613A8
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 08:04:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234817AbhJSIGw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Oct 2021 04:06:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36564 "EHLO mail.kernel.org"
+        id S234699AbhJSIGy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Oct 2021 04:06:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36540 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234769AbhJSIGo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S234766AbhJSIGo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 19 Oct 2021 04:06:44 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 42568613A2;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 12C2461391;
         Tue, 19 Oct 2021 08:04:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1634630672;
-        bh=l+5qrHPQwgVEBRsVoSdWjNw2H7vXakL3yn40Su1hRXQ=;
+        bh=2A561v897STUW9N/El0ducHR0zmDURkTioj6ePTyLAQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=eiBjESAslgZCb+XHYRPQ9BDm7grA9I27ZpTxHaI4h7iOm9iHQoHElMDdyDlco6uNd
-         sD3WuugDFQBSjZ5+GcCEUlKyN0uJKpQItfDhfhmErZ/fPZkfnreLUFssBevJCBhK3z
-         4OjIEJoDM78a1elSfMzMFCvTgIlgC94dLiGq/ljbxccZvJVhV008Kp6dqd0l5/LUdb
-         qzbfgVZzuFOsXb1GIcknnBtc0T/WuMRT3rZmFoiuSXF38dpbyOnfjOM9o3PYK/RbN/
-         cP5sbuPWIZ/wOI1OzVfso43UXxx4bvgCuScQcC109gZKW9U9+IGXUQ/Ao2KP4iPFK+
-         hpiP9pJSRFLBg==
+        b=Q+//9H8/Z9WMhO9+v8H3UKQjPmeBU+1miouUD10oRi4/ZFlEzInWYhh3N62r63QVQ
+         Kf/F/qkWe2HefwjTyEe9gY3Qdon9Ia7RhN/PF1wk4zhu37s4dDg7dGpUxkt9BCM+4T
+         bNDSQBGdhi5NSAYhQMRsltFZBQGnpdpIsbzXDARgGzP9+x8a9y5aMfFPWV1YABaPs4
+         sYVzL6zvMfYS4irtx99OkyAX2Xyrcd5PgSZ24ge3KwbxU6NjkBKo5stugup6CHMcSp
+         yKljDJBqJIYvKUg1s4f/7fnNaIPQzKeVzKV3myU0gUZqNFS76bGaj8ZRyCn/5Oh1Rl
+         DhyYD0XR5aLCQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mck6j-001oJ9-47; Tue, 19 Oct 2021 09:04:25 +0100
+        id 1mck6j-001oJ0-1y; Tue, 19 Oct 2021 09:04:25 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Nishanth Menon <nm@ti.com>, Rob Herring <robh@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Tero Kristo <kristo@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 07/23] MAINTAINERS: update ti,sci.yaml reference
-Date:   Tue, 19 Oct 2021 09:04:06 +0100
-Message-Id: <6c9959f9d744b27908ff21a8414dcc772a45354f.1634630486.git.mchehab+huawei@kernel.org>
+        Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh@kernel.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3 04/23] MAINTAINERS: update arm,vic.yaml reference
+Date:   Tue, 19 Oct 2021 09:04:03 +0100
+Message-Id: <ec54d0aa65a3b98ae425721663f196b499a59513.1634630485.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1634630485.git.mchehab+huawei@kernel.org>
 References: <cover.1634630485.git.mchehab+huawei@kernel.org>
@@ -49,14 +50,15 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 5a9652f6994e ("dt-bindings: arm: keystone: Convert ti,sci to json schema")
-renamed: Documentation/devicetree/bindings/arm/keystone/ti,sci.txt
-to: Documentation/devicetree/bindings/arm/keystone/ti,sci.yaml.
+Changeset b7705ba6d0c4 ("dt-bindings: interrupt-controller: Convert ARM VIC to json-schema")
+renamed: Documentation/devicetree/bindings/interrupt-controller/arm,vic.txt
+to: Documentation/devicetree/bindings/interrupt-controller/arm,vic.yaml.
 
 Update its cross-reference accordingly.
 
-Fixes: 5a9652f6994e ("dt-bindings: arm: keystone: Convert ti,sci to json schema")
-Reviewed-by: Nishanth Menon <nm@ti.com>
+Fixes: b7705ba6d0c4 ("dt-bindings: interrupt-controller: Convert ARM VIC to json-schema")
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Acked-by: Sudeep Holla <sudeep.holla@arm.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
 
@@ -67,18 +69,18 @@ See [PATCH v3 00/23] at: https://lore.kernel.org/all/cover.1634630485.git.mcheha
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index d1721a65d79b..5459f6ec8c10 100644
+index a10b915292e1..22efd0c518a1 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -18744,7 +18744,7 @@ M:	Santosh Shilimkar <ssantosh@kernel.org>
+@@ -1560,7 +1560,7 @@ ARM PRIMECELL VIC PL190/PL192 DRIVER
+ M:	Linus Walleij <linus.walleij@linaro.org>
  L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
  S:	Maintained
- F:	Documentation/devicetree/bindings/arm/keystone/ti,k3-sci-common.yaml
--F:	Documentation/devicetree/bindings/arm/keystone/ti,sci.txt
-+F:	Documentation/devicetree/bindings/arm/keystone/ti,sci.yaml
- F:	Documentation/devicetree/bindings/clock/ti,sci-clk.yaml
- F:	Documentation/devicetree/bindings/interrupt-controller/ti,sci-inta.yaml
- F:	Documentation/devicetree/bindings/interrupt-controller/ti,sci-intr.yaml
+-F:	Documentation/devicetree/bindings/interrupt-controller/arm,vic.txt
++F:	Documentation/devicetree/bindings/interrupt-controller/arm,vic.yaml
+ F:	drivers/irqchip/irq-vic.c
+ 
+ ARM SMC WATCHDOG DRIVER
 -- 
 2.31.1
 
