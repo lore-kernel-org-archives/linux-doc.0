@@ -2,42 +2,44 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90492C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 10:47:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A64B3C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 10:50:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7116D610E7
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 10:47:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8468061355
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 10:50:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235085AbhJSKtz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Oct 2021 06:49:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42380 "EHLO mail.kernel.org"
+        id S234955AbhJSKwg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Oct 2021 06:52:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43350 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234955AbhJSKtz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 19 Oct 2021 06:49:55 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 666F3610E5;
-        Tue, 19 Oct 2021 10:47:42 +0000 (UTC)
+        id S230117AbhJSKwg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 19 Oct 2021 06:52:36 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DF4BC61154;
+        Tue, 19 Oct 2021 10:50:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634640462;
-        bh=9m4ltT8/a7DGvFsHOhAr5758XNq5QXgulWAqKkntxyk=;
+        s=k20201202; t=1634640623;
+        bh=L0poGPzGEIYL2TPnM3Vav05iGMWfIk7Klty6aCujrWU=;
         h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=C5Mqu4CSOi37dyr+6iBk1CzNn42VSOhFPmfwzyyyii2GAHuorIZh983cVog1Zzxyj
-         nSovcj0iExVa8LkUp6jv6liJjZor9eKAzHm9kJoV+0gCBre0ab6mk2oZDJbCHPa9Vb
-         0TLDsoYBvD7Gnqyg6HUBHVhxwwiSVegBgVg5sNTM5/bNmX6xbnFIlzYtbl5KwCvxb1
-         7ZWQpu8uMxu3ePFLmWHO7RobTsdwtLEqJgQ8vJkVHdcboHcqLWvpHc7i6MMcoNzeql
-         0gs97eo8dMYYKW2qicxHXhYLlXceC2Kd08LTMtT0unySkhSGrCm7Ghwd+9hscahHjM
-         W7hBZuvshNc0Q==
-Message-ID: <9c339a7eb3861ebc40929f02a967ba3dd40ca19a.camel@kernel.org>
-Subject: Re: [PATCH v3 17/23] docs: fs: locks.rst: update comment about
- mandatory file locking
+        b=hhpwCv4+TSuvJTXfVfwSPpVU9VUjtDc1xOV9b/Oo0h/ZW0bpj6fGmjUi8fQy1xJmh
+         MDXRtn29lhl+vax+BYu9n0oTTQhjDoSsW0ULRWC+FD68jj4GTbMB3nKqwxCATulhfx
+         BpDT3UROXvgjbOaAtHRiTWXPvYIa8rowtLz9xHP/bfpn17GKFEbjh00u3I06maIL7f
+         wcxhuszXDtmgaQ28+VhV22uC4bDBLEH5ZAvUP5/FY7try11yGHPTVeDYma7KPJIUFC
+         uPzN+YBRaNA3KJoGwLR5ej035byan9HjAalyfZs2z8Tdx3P3p1hYKV15UhkAu48ELC
+         4UMYaOkiotwRQ==
+Message-ID: <f352a2e4b50a8678a8ddef5177702ecf9040490f.camel@kernel.org>
+Subject: Re: [PATCH v3 18/23] fs: remove a comment pointing to the removed
+ mandatory-locking file
 From:   Jeff Layton <jlayton@kernel.org>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org
-Date:   Tue, 19 Oct 2021 06:47:41 -0400
-In-Reply-To: <1dfcade1692df5435d4f0fd8e439a6e55cf44fa6.1634630486.git.mchehab+huawei@kernel.org>
+Cc:     "J. Bruce Fields" <bfields@fieldses.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Tue, 19 Oct 2021 06:50:21 -0400
+In-Reply-To: <887de3a1ecadda3dbfe0adf9df9070f0afa9406c.1634630486.git.mchehab+huawei@kernel.org>
 References: <cover.1634630485.git.mchehab+huawei@kernel.org>
-         <1dfcade1692df5435d4f0fd8e439a6e55cf44fa6.1634630486.git.mchehab+huawei@kernel.org>
+         <887de3a1ecadda3dbfe0adf9df9070f0afa9406c.1634630486.git.mchehab+huawei@kernel.org>
 Content-Type: text/plain; charset="ISO-8859-15"
 User-Agent: Evolution 3.40.4 (3.40.4-2.fc34) 
 MIME-Version: 1.0
@@ -48,10 +50,10 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Tue, 2021-10-19 at 09:04 +0100, Mauro Carvalho Chehab wrote:
 > The mandatory file locking got removed due to its problems, but
-> the fs locks documentation still points to it.
+> there's still a comment inside fs/locks.c pointing to the removed
+> doc.
 > 
-> Update the text there, informing that it was removed on Kernel
-> 5.14.
+> Remove it.
 > 
 > Fixes: f7e33bdbd6d1 ("fs: remove mandatory file locking support")
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
@@ -60,39 +62,24 @@ On Tue, 2021-10-19 at 09:04 +0100, Mauro Carvalho Chehab wrote:
 > To mailbombing on a large number of people, only mailing lists were C/C on the cover.
 > See [PATCH v3 00/23] at: https://lore.kernel.org/all/cover.1634630485.git.mchehab+huawei@kernel.org/
 > 
->  Documentation/filesystems/locks.rst | 17 +++++------------
->  1 file changed, 5 insertions(+), 12 deletions(-)
+>  fs/locks.c | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> diff --git a/Documentation/filesystems/locks.rst b/Documentation/filesystems/locks.rst
-> index c5ae858b1aac..26429317dbbc 100644
-> --- a/Documentation/filesystems/locks.rst
-> +++ b/Documentation/filesystems/locks.rst
-> @@ -57,16 +57,9 @@ fcntl(), with all the problems that implies.
->  1.3 Mandatory Locking As A Mount Option
->  ---------------------------------------
->  
-> -Mandatory locking, as described in
-> -'Documentation/filesystems/mandatory-locking.rst' was prior to this release a
-> -general configuration option that was valid for all mounted filesystems.  This
-> -had a number of inherent dangers, not the least of which was the ability to
-> -freeze an NFS server by asking it to read a file for which a mandatory lock
-> -existed.
-> -
-> -From this release of the kernel, mandatory locking can be turned on and off
-> -on a per-filesystem basis, using the mount options 'mand' and 'nomand'.
-> -The default is to disallow mandatory locking. The intention is that
-> -mandatory locking only be enabled on a local filesystem as the specific need
-> -arises.
-> +Mandatory locking was prior to this release a general configuration option
-> +that was valid for all mounted filesystems.  This had a number of inherent
-> +dangers, not the least of which was the ability to freeze an NFS server by
-> +asking it to read a file for which a mandatory lock existed.
->  
-> +Such option was dropped in Kernel v5.14.
+> diff --git a/fs/locks.c b/fs/locks.c
+> index d397394633be..94feadcdab4e 100644
+> --- a/fs/locks.c
+> +++ b/fs/locks.c
+> @@ -61,7 +61,6 @@
+>   *
+>   *  Initial implementation of mandatory locks. SunOS turned out to be
+>   *  a rotten model, so I implemented the "obvious" semantics.
+> - *  See 'Documentation/filesystems/mandatory-locking.rst' for details.
+>   *  Andy Walker (andy@lysaker.kvaerner.no), April 06, 1996.
+>   *
+>   *  Don't allow mandatory locks on mmap()'ed files. Added simple functions to
 
-Looks good. I'll plan to pick this up and (add a Reported-by for Jon,
-who noted this a few days ago).
-
+Thanks Mauro. I'll pick this into my locks branch, so it should make
+v5.16 as well.
 -- 
 Jeff Layton <jlayton@kernel.org>
 
