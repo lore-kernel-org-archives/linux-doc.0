@@ -2,69 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF92BC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 21:04:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90F68C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 21:17:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A29E960E9B
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 21:04:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7411F60FD9
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 21:17:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232213AbhJSVGj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Oct 2021 17:06:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42282 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231506AbhJSVGh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Oct 2021 17:06:37 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4A61C06161C;
-        Tue, 19 Oct 2021 14:04:22 -0700 (PDT)
+        id S229611AbhJSVUF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Oct 2021 17:20:05 -0400
+Received: from ms.lwn.net ([45.79.88.28]:53264 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229498AbhJSVUF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 19 Oct 2021 17:20:05 -0400
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 3F7BF7DE;
-        Tue, 19 Oct 2021 21:04:22 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3F7BF7DE
+        by ms.lwn.net (Postfix) with ESMTPSA id AA2DC738;
+        Tue, 19 Oct 2021 21:17:51 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AA2DC738
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1634677462; bh=OBcS/ydQa8jx7fNfnnJNWUzruUCNqteSSCGMNGtXBQk=;
+        t=1634678271; bh=UCRDCuJa8KPpx1EsK+Fxjrdirrt8HupK/FB9Ht4UhsY=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Air9jU1ddzD3XVn+ET5DV9x7i7OrWZN/DVwJuDI40ThC9obz0SBdkjOu5v3ED5Aql
-         cDw9YwdQ1+rjiFMHx+X9TDbqFr0CO8srUhKVmtpMZVB/jZjFf1yGdHQrtishdmziom
-         cFGB0ipeBza8mEAKWs2cQybPK60p4bAuYJvibSJ2haNPmlOQKUqDMdSjcqRA3mIHX/
-         ww4dy/PVMrBeMhtNcK7JeH3NtNkssHRA7q8Djycas+WVy1MiyCTysVulp5PjWd/gBG
-         iaLkP5VTXNTRueNPGPUiv2mJL6uv3DQqameEnDea84a5jjIHcnSxwD4yeHxOqVBSY6
-         bv4EoLj9O4lDg==
+        b=YIEAG/3ngtwg4ajkuJOUWI/bVFHx2fjSHZyVnMDLoaIbjSFZu5VmrolIP/xjhZ83N
+         l7dxwTEZoi+qFmq3X1XS50IyEc5UR1km25s0cg3fFFD4A1oHTUkWdXDS8Hq4w1lXya
+         we2yPx3yV4YEvywY88d59EL4kJNlXwkHAIsZMj/JYgH7ZIKRBJCh/EJDGkALLCHC1o
+         NUHwoNiJ0aaopXmhbgSF1bdkxKNAg1XFZIujvxJ3Mob/WwWVbSvbcN57mB+Uv/sQan
+         +Z5ZDEJPYlDBqHrsHpkENn6WF4JgyA4ma60YaMgXX+HE3mrWY/LdWekCkmoWyBUtuI
+         16NpgYQ7u7BeA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jens Axboe <axboe@kernel.dk>, Steffen Maier <maier@linux.ibm.com>,
-        Nikanth Karthikesan <knikanth@suse.de>,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-s390@vger.kernel.org
-Subject: Re: [PATCH] block: add documentation for inflight
-In-Reply-To: <572fd6c4-ccb9-4799-3882-685efa4492ad@kernel.dk>
-References: <20211019130230.77594-1-maier@linux.ibm.com>
- <572fd6c4-ccb9-4799-3882-685efa4492ad@kernel.dk>
-Date:   Tue, 19 Oct 2021 15:04:21 -0600
-Message-ID: <87lf2osp4a.fsf@meer.lwn.net>
+To:     Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: [PATCH] Docs: usb: update struct usb_driver, __init and __exit
+In-Reply-To: <20211017214948.GA9901@matrix-ESPRIMO-P710>
+References: <20211017214948.GA9901@matrix-ESPRIMO-P710>
+Date:   Tue, 19 Oct 2021 15:17:51 -0600
+Message-ID: <87h7dcsohs.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jens Axboe <axboe@kernel.dk> writes:
+Philipp Hortmann <philipp.g.hortmann@gmail.com> writes:
 
-> On 10/19/21 7:02 AM, Steffen Maier wrote:
->> Complements v2.6.32 commit a9327cac440b ("Seperate read and write
->> statistics of in_flight requests") and commit 316d315bffa4 ("block:
->> Seperate read and write statistics of in_flight requests v2").
+> update struct usb_driver from usb-skeleton.c.
+> update __init and __exit functions that are moved from
+> usb-skeleton.c to common used multi-stage macros.
 >
-> Jon, probably better if you take this through the doc tree. You can
-> add my:
->
-> Reviewed-by: Jens Axboe <axboe@kernel.dk>
+> Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+> ---
+>  .../driver-api/usb/writing_usb_driver.rst     | 51 +++++++------------
+>  1 file changed, 19 insertions(+), 32 deletions(-)
 
-Done.
+Adding linux-usb: this seems like a reasonable change (though see
+below), but the USB folks should have a chance to look it over too.
+
+> diff --git a/Documentation/driver-api/usb/writing_usb_driver.rst b/Documentation/driver-api/usb/writing_usb_driver.rst
+> index 2176297e5765..1064adf79ccb 100644
+> --- a/Documentation/driver-api/usb/writing_usb_driver.rst
+> +++ b/Documentation/driver-api/usb/writing_usb_driver.rst
+> @@ -54,12 +54,15 @@ information is passed to the USB subsystem in the :c:type:`usb_driver`
+>  structure. The skeleton driver declares a :c:type:`usb_driver` as::
+>  
+>      static struct usb_driver skel_driver = {
+> -	    .name        = "skeleton",
+> -	    .probe       = skel_probe,
+> -	    .disconnect  = skel_disconnect,
+> -	    .fops        = &skel_fops,
+> -	    .minor       = USB_SKEL_MINOR_BASE,
+> -	    .id_table    = skel_table,
+> +           .name        = "skeleton",
+> +           .probe       = skel_probe,
+> +           .disconnect  = skel_disconnect,
+> +           .suspend     = skel_suspend,
+> +           .resume      = skel_resume,
+> +           .pre_reset   = skel_pre_reset,
+> +           .post_reset  = skel_post_reset,
+> +           .id_table    = skel_table,
+> +           .supports_autosuspend = 1,
+>      };
+>  
+>  
+> @@ -81,36 +84,20 @@ this user-space interaction. The skeleton driver needs this kind of
+>  interface, so it provides a minor starting number and a pointer to its
+>  :c:type:`file_operations` functions.
+>  
+> -The USB driver is then registered with a call to :c:func:`usb_register`,
+> -usually in the driver's init function, as shown here::
+> -
+> -    static int __init usb_skel_init(void)
+> -    {
+> -	    int result;
+> -
+> -	    /* register this driver with the USB subsystem */
+> -	    result = usb_register(&skel_driver);
+> -	    if (result < 0) {
+> -		    err("usb_register failed for the "__FILE__ "driver."
+> -			"Error number %d", result);
+> -		    return -1;
+> -	    }
+> -
+> -	    return 0;
+> -    }
+> -    module_init(usb_skel_init);
+> -
+> +The USB driver is then registered with a call to :c:func:`usb_register`
+
+We shouldn't be using :c:func: anymore; just say usb_register() and the
+right things will happen.  Definitely worth fixing while you are in the
+neighborhood.
+
+> +which is usually in the driver's init function. Since this functionality
+> +is usable with many USB drivers, it is hidden behind multi-stage macros.
+> +While the first macros are USB specific the later macros are used in different
+> +subsystems. This removes a lot of boilerplate code.
+>  
+>  When the driver is unloaded from the system, it needs to deregister
+>  itself with the USB subsystem. This is done with the :c:func:`usb_deregister`
+> -function::
+> +which is also hidden behind multi-stage macros.
+
+If you're making this change, take out "the" (as well as :c:func:).
+
+> -    static void __exit usb_skel_exit(void)
+> -    {
+> -	    /* deregister this driver with the USB subsystem */
+> -	    usb_deregister(&skel_driver);
+> -    }
+> -    module_exit(usb_skel_exit);
+> +The init and exit functions are included in the macro :
+> +module_usb_driver(skel_driver);
+> +which is in the first stage replaced by:
+> +module_driver(__usb_driver, usb_register, usb_deregister)
+
+This will not render the way you want; consider using literal blocks
+here. 
 
 Thanks,
 
