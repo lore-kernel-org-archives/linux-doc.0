@@ -2,42 +2,42 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 718E0C43219
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAB18C433F5
 	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 08:04:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5D06A61390
+	by mail.kernel.org (Postfix) with ESMTP id B79B261264
 	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 08:04:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234762AbhJSIGo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Oct 2021 04:06:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36196 "EHLO mail.kernel.org"
+        id S234773AbhJSIGp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Oct 2021 04:06:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36206 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234655AbhJSIGk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S234705AbhJSIGk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 19 Oct 2021 04:06:40 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9582A6138B;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9DBAE61390;
         Tue, 19 Oct 2021 08:04:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1634630667;
-        bh=Om4KyLtBf6nDzVXmp3HH5sIpq0Cb+KlmBASKG0hOI1E=;
+        bh=cygLgH5ZY3lIXQKvPD8oyJHKouY0yhIQi14h93eZ/60=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PK4XHJnvjVVHEYGcZnwd8lKhMu9Q5sujV7+r9RnH+fPlbi283NbKYyPXB60xzG+dA
-         SEna7md8RVnwrn+xuZLNutmRhmydh51xv+BUPzPs2rjsFV0a8CrpylKisFzGKCtBoZ
-         7hcHIodB3U4HIfDpuxJVcq5PY2e4L+FkcyMBNBB9G3MhDqAsz3yXbZoXIiU5/jexep
-         X53sF7lcWwDEPO+QrRx0+1UTS67ufDZrxNTxUWvAxBN+P2os7e15s98oUIA9vIyHB9
-         JnRnu2i2WFVnTFGj8G/Djfllt1K/ee7Kg1eMUQUwgWzPDi+cSDZ6iE8qp2L0Ex2CLA
-         aKAmA44BFz5hQ==
+        b=awDOkQ736AnNoB2JKDz6dZgQvSmIz5tVYPOcO86OVuFGcxSfZuibt8G+hHMMADiPX
+         KbhQJGdUpa2bRdhOfkOfnJyo0HUNnW836ocWAYntpwufSEgybhG1saEgVCMr7KHrOv
+         PCKurHuwjxXeviKPAWtfd0Gw6O8TJ004qDEOst1eY+XSAA2XQK1D+OrVept0I4d2a1
+         7Csb3VcQAMAeAKc9ywwcMSQoNuTOuphfr7nRyZIJtSidPOP62VhrtXf/RD4VLernUP
+         /JkfiPV9gJDKN/Jkkv17DDOicYoNTiUFRkb/n/bhvIYvOT9cIjBG8h3fCz7OSSoKgA
+         AbzqrktsfEPkg==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mck6j-001oJI-5V; Tue, 19 Oct 2021 09:04:25 +0100
+        id 1mck6j-001oJC-4d; Tue, 19 Oct 2021 09:04:25 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Linus Walleij <linus.walleij@linaro.org>,
         Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 10/23] MAINTAINERS: update gemini.yaml reference
-Date:   Tue, 19 Oct 2021 09:04:09 +0100
-Message-Id: <dd52c97597a073a5830ecf115d4a6516eebc6d6a.1634630486.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v3 08/23] MAINTAINERS: update intel,ixp46x-rng.yaml reference
+Date:   Tue, 19 Oct 2021 09:04:07 +0100
+Message-Id: <70a3d6696de52a3d6112adbf7247a4b4ae9c7e11.1634630486.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1634630485.git.mchehab+huawei@kernel.org>
 References: <cover.1634630485.git.mchehab+huawei@kernel.org>
@@ -48,13 +48,13 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 7da6ebf5f5a5 ("dt-bindings: arm: Convert Gemini boards to YAML")
-renamed: Documentation/devicetree/bindings/arm/gemini.txt
-to: Documentation/devicetree/bindings/arm/gemini.yaml.
+The file name: Documentation/devicetree/bindings/display/intel,ixp46x-rng.yaml
+should be, instead: Documentation/devicetree/bindings/rng/intel,ixp46x-rng.yaml.
 
 Update its cross-reference accordingly.
 
-Fixes: 7da6ebf5f5a5 ("dt-bindings: arm: Convert Gemini boards to YAML")
+Fixes: cca061b04c0d ("hw_random: ixp4xx: Add DT bindings")
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
 
@@ -65,18 +65,18 @@ See [PATCH v3 00/23] at: https://lore.kernel.org/all/cover.1634630485.git.mcheha
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 33147a1495f5..74428ad1a74d 100644
+index 5459f6ec8c10..843cb9779f4f 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1885,7 +1885,7 @@ M:	Linus Walleij <linus.walleij@linaro.org>
- L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+@@ -9608,7 +9608,7 @@ F:	include/linux/soc/ixp4xx/qmgr.h
+ INTEL IXP4XX RANDOM NUMBER GENERATOR SUPPORT
+ M:	Deepak Saxena <dsaxena@plexity.net>
  S:	Maintained
- T:	git git://github.com/ulli-kroll/linux.git
--F:	Documentation/devicetree/bindings/arm/gemini.txt
-+F:	Documentation/devicetree/bindings/arm/gemini.yaml
- F:	Documentation/devicetree/bindings/net/cortina,gemini-ethernet.txt
- F:	Documentation/devicetree/bindings/pinctrl/cortina,gemini-pinctrl.txt
- F:	Documentation/devicetree/bindings/rtc/faraday,ftrtc010.yaml
+-F:	Documentation/devicetree/bindings/display/intel,ixp46x-rng.yaml
++F:	Documentation/devicetree/bindings/rng/intel,ixp46x-rng.yaml
+ F:	drivers/char/hw_random/ixp4xx-rng.c
+ 
+ INTEL KEEM BAY DRM DRIVER
 -- 
 2.31.1
 
