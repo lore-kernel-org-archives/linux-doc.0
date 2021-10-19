@@ -2,138 +2,233 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4831AC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 15:46:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B85FBC433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 15:50:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 17FA06113D
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 15:46:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A557F61175
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 15:50:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229789AbhJSPtG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Oct 2021 11:49:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59264 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229774AbhJSPtF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 19 Oct 2021 11:49:05 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 38C76610C7;
-        Tue, 19 Oct 2021 15:46:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634658412;
-        bh=67SC+1FKNIhtaifskaOaeFgNFOiPb79JlJDhJDbdXL0=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=ACoUtrEJX4wt/9AlA98Ou0ZRiySUWjDcmOzmdybSfxe1vbHFNfpNi7DbYEbHI+Cra
-         cUG/Y9gn4qksIF4guX7gRb7Ee4eJSZf5lQe3cd6AhMd/YIXG8DHmVeknOZAaQjp9f3
-         zaVPKGzbVNjpq2Vn1cDqbj2Hkp7nOoAECz35B2mUVxLG/AYA/M9GamiwxWANA5UHvS
-         IYMI+bEW1MF6wvHMdFGD8w//6D0rNT7/5xfMfJl5KSa+5sqg+6mcjo7G300FNjfWSu
-         KBUEJoRvrOtgl4IGjup7+kxm4Nctn8CnwXYHxV0toaAflTopaMCv/CtOp76P1RlFcM
-         QTldYGidv6PWQ==
-Message-ID: <e7bdcf0b279989e51c2c333e89acf3e1d476eff0.camel@kernel.org>
-Subject: Re: [PATCH v3 18/23] fs: remove a comment pointing to the removed
- mandatory-locking file
-From:   Jeff Layton <jlayton@kernel.org>
-To:     "J. Bruce Fields" <bfields@fieldses.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Tue, 19 Oct 2021 11:46:51 -0400
-In-Reply-To: <20211019141427.GA15063@fieldses.org>
-References: <cover.1634630485.git.mchehab+huawei@kernel.org>
-         <887de3a1ecadda3dbfe0adf9df9070f0afa9406c.1634630486.git.mchehab+huawei@kernel.org>
-         <f352a2e4b50a8678a8ddef5177702ecf9040490f.camel@kernel.org>
-         <20211019141427.GA15063@fieldses.org>
-Content-Type: text/plain; charset="ISO-8859-15"
-User-Agent: Evolution 3.40.4 (3.40.4-2.fc34) 
+        id S231750AbhJSPwt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Oct 2021 11:52:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55730 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232841AbhJSPwt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Oct 2021 11:52:49 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D84DC061746;
+        Tue, 19 Oct 2021 08:50:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=nT27txnUfGO6REhnP4Je8DDqpo3m4O97nM5Zogzy7nM=; b=ZYDbmU796/03+AMtI14zcM4M31
+        6Ao9ei1XYKGhGbgqITEZjHyabP1/hfOh2LByUVBpJ9GSIMh0H7faAdB2IA0a9utbG4x/Stce0t6aE
+        whbES1u1pKnlhkFDDTK+frP8ISJiT6vLvGToN9xppwP0+d8MD/gRVje6VzHjnweGjxZEOoiP/vd1w
+        vs2HGEwsoANUFNNO2Obw9mIwNFUCq36hwJSj8TGYSoUfvE//SP6geF31S+S/k/IvGgDewGubMWGzo
+        zV41hYO2OhUBjNH6rZ4MWvCs6/nJJnHWoSAnvQrVm9tRYq5JN4PtXS0WsJgiRcip6Ek3JulADX7zK
+        fZ9sYfDQ==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mcrNg-001kpn-RU; Tue, 19 Oct 2021 15:50:24 +0000
+Date:   Tue, 19 Oct 2021 08:50:24 -0700
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Ming Lei <ming.lei@redhat.com>
+Cc:     Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>, tj@kernel.org,
+        gregkh@linuxfoundation.org, akpm@linux-foundation.org,
+        minchan@kernel.org, jeyu@kernel.org, shuah@kernel.org,
+        bvanassche@acm.org, dan.j.williams@intel.com, joe@perches.com,
+        tglx@linutronix.de, keescook@chromium.org, rostedt@goodmis.org,
+        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 11/12] zram: fix crashes with cpu hotplug multistate
+Message-ID: <YW7pQKi8AlV+ZemU@bombadil.infradead.org>
+References: <YWeOJP2UJWYF94fu@T590>
+ <YWeR4moCRh+ZHOmH@T590>
+ <YWiSAN6xfYcUDJCb@bombadil.infradead.org>
+ <YWjCpLUNPF3s4P2U@T590>
+ <YWjJ0O7K+31Iz3ox@bombadil.infradead.org>
+ <YWk9e957Hb+I7HvR@T590>
+ <YWm68xUnAofop3PZ@bombadil.infradead.org>
+ <YWq3Z++uoJ/kcp+3@T590>
+ <YW3LuzaPhW96jSBK@bombadil.infradead.org>
+ <YW4uwep3BCe9Vxq8@T590>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YW4uwep3BCe9Vxq8@T590>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2021-10-19 at 10:14 -0400, J. Bruce Fields wrote:
-> On Tue, Oct 19, 2021 at 06:50:21AM -0400, Jeff Layton wrote:
-> > On Tue, 2021-10-19 at 09:04 +0100, Mauro Carvalho Chehab wrote:
-> > > The mandatory file locking got removed due to its problems, but
-> > > there's still a comment inside fs/locks.c pointing to the removed
-> > > doc.
+On Tue, Oct 19, 2021 at 10:34:41AM +0800, Ming Lei wrote:
+> On Mon, Oct 18, 2021 at 12:32:11PM -0700, Luis Chamberlain wrote:
+> > On Sat, Oct 16, 2021 at 07:28:39PM +0800, Ming Lei wrote:
+> > > On Fri, Oct 15, 2021 at 10:31:31AM -0700, Luis Chamberlain wrote:
+> > > > On Fri, Oct 15, 2021 at 04:36:11PM +0800, Ming Lei wrote:
+> > > > > On Thu, Oct 14, 2021 at 05:22:40PM -0700, Luis Chamberlain wrote:
+> > > > > > On Fri, Oct 15, 2021 at 07:52:04AM +0800, Ming Lei wrote:
+> > > > > ...
+> > > > > > > 
+> > > > > > > We need to understand the exact reason why there is still cpuhp node
+> > > > > > > left, can you share us the exact steps for reproducing the issue?
+> > > > > > > Otherwise we may have to trace and narrow down the reason.
+> > > > > > 
+> > > > > > See my commit log for my own fix for this issue.
+> > > > > 
+> > > > > OK, thanks!
+> > > > > 
+> > > > > I can reproduce the issue, and the reason is that reset_store fails
+> > > > > zram_remove() when unloading module, then the warning is caused.
+> > > > > 
+> > > > > The top 3 patches in the following tree can fix the issue:
+> > > > > 
+> > > > > https://github.com/ming1/linux/commits/my_v5.15-blk-dev
+> > > > 
+> > > > Thanks for trying an alternative fix! A crash stops yes, however this
 > > > 
-> > > Remove it.
-> > > 
-> > > Fixes: f7e33bdbd6d1 ("fs: remove mandatory file locking support")
-> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > > ---
-> > > 
-> > > To mailbombing on a large number of people, only mailing lists were C/C on the cover.
-> > > See [PATCH v3 00/23] at: https://lore.kernel.org/all/cover.1634630485.git.mchehab+huawei@kernel.org/
-> > > 
-> > >  fs/locks.c | 1 -
-> > >  1 file changed, 1 deletion(-)
-> > > 
-> > > diff --git a/fs/locks.c b/fs/locks.c
-> > > index d397394633be..94feadcdab4e 100644
-> > > --- a/fs/locks.c
-> > > +++ b/fs/locks.c
-> > > @@ -61,7 +61,6 @@
-> > >   *
-> > >   *  Initial implementation of mandatory locks. SunOS turned out to be
-> > >   *  a rotten model, so I implemented the "obvious" semantics.
-> > > - *  See 'Documentation/filesystems/mandatory-locking.rst' for details.
-> > >   *  Andy Walker (andy@lysaker.kvaerner.no), April 06, 1996.
-> > >   *
-> > >   *  Don't allow mandatory locks on mmap()'ed files. Added simple functions to
+> > > I doubt it is alternative since your patchset doesn't mention the exact
+> > > reason of 'Error: Removing state 63 which has instances left.', that is
+> > > simply caused by failing to remove zram because ->claim is set during
+> > > unloading module.
 > > 
-> > Thanks Mauro. I'll pick this into my locks branch, so it should make
-> > v5.16 as well.
+> > Well I disagree because it does explain how the race can happen, and it
+> > also explains how since the sysfs interface is exposed until module
+> > removal completes, it leaves exposed knobs to allow re-initializing of a
+> > struct zcomp for a zram device before the exit.
+> > 
+> > > Yeah, you mentioned the race between disksize_store() vs. zram_remove(),
+> > > however I don't think it is reproduced easily in the test because the race
+> > > window is pretty small, also it can be fixed easily in my 3rd path
+> > > without any complicated tricks.
+> > 
+> > Reproducing for me is... extremely easy.
 > 
-> Could we delete the rest too?
+> In my observation, failing zram_remove() is extremely easy to trigger, which
+> is caused by reset_store() which sets ->reclaim as true, so
+> zram_remove() is failed and zram_reset_device() is bypassed , then the
+> failure of 'Error: Removing state 63 which has instances left.' is caused.
 > 
-> We don't do those changelog-style comments any more; they're in the git
-> history if you need them.  I can sort of get leaving some in out of
-> respect or if they've still provide some useful information.  But
-> keeping comments referring to code that doesn't even exist any more just
-> seems confusing.
+> We are in same page?
+
+The actual first issue is the CPU hotplug remove callback is long gone and
+in the meantime we allow a race to add a new "instance", in the zram
+driver's case a cpu struct zcomp instance though the sysfs interface.
+
+Regardless of if zram_remove() can fail or not, the above race needs to
+be addressed.
+
+> > > Not dig into details of your patchset via grabbing module reference
+> > > count during show/store attribute of kernfs which is done in your patch
+> > > 9, but IMO this way isn't necessary:
+> > 
+> > That's to address the deadlock only.
+> > 
+> > > 1) any driver module has to cleanup anything which may refer to symbols
+> > > or data defined in module_exit of this driver
+> > 
+> > Yes, and as the cpu multistate hotplug documentation warns (although
+> > such documentation is kind of hidden) that driver authors need to be
+> > careful with module removal too, refer to the warning at the end of
+> > __cpuhp_remove_state_cpuslocked() about module removal.
 > 
-> --b.
+> It is zram's bug. zram has to clean everything in module_exit(),
+> unfortunately zram_remove() can be failed when calling from
+> module_exit() because ->claim is set as true by reset_store(), then
+> zram_reset_device()(->zcomp_destroy) isn't called, and this failure should
+> not happen when unloading module, should it?
+
+You're addressing a possible failig zram_remove() while I address not
+allowing entry to muck with the zram driver at all once we're bailing
+on module removal.
+
+> > > 2) device_del() is often done in module_exit(), once device_del()
+> > > returns, no any new show/store on the device's kobject attribute
+> > > is possible.
+> > 
+> > Right and if a syfs knob is exposed before device_del() completely
+> > and is allowed to do things, the driver should take care to prevent
+> > races for CPU multistate support. The small state machine I added ensures
 > 
-> diff --git a/fs/locks.c b/fs/locks.c
-> index 3d6fb4ae847b..2540b7aedeac 100644
-> --- a/fs/locks.c
-> +++ b/fs/locks.c
-> @@ -59,17 +59,6 @@
->   *  once we've checked for blocking and deadlocking.
->   *  Andy Walker (andy@lysaker.kvaerner.no), April 03, 1996.
->   *
-> - *  Initial implementation of mandatory locks. SunOS turned out to be
-> - *  a rotten model, so I implemented the "obvious" semantics.
-> - *  See 'Documentation/filesystems/mandatory-locking.rst' for details.
-> - *  Andy Walker (andy@lysaker.kvaerner.no), April 06, 1996.
-> - *
-> - *  Don't allow mandatory locks on mmap()'ed files. Added simple functions to
-> - *  check if a file has mandatory locks, used by mmap(), open() and creat() to
-> - *  see if system call should be rejected. Ref. HP-UX/SunOS/Solaris Reference
-> - *  Manual, Section 2.
-> - *  Andy Walker (andy@lysaker.kvaerner.no), April 09, 1996.
-> - *
->   *  Tidied up block list handling. Added '/proc/locks' interface.
->   *  Andy Walker (andy@lysaker.kvaerner.no), April 24, 1996.
->   *
-> @@ -95,10 +84,6 @@
->   *  Made the block list a circular list to minimise searching in the list.
->   *  Andy Walker (andy@lysaker.kvaerner.no), Sep 25, 1996.
->   *
-> - *  Made mandatory locking a mount option. Default is not to allow mandatory
-> - *  locking.
-> - *  Andy Walker (andy@lysaker.kvaerner.no), Oct 04, 1996.
-> - *
->   *  Some adaptations for NFS support.
->   *  Olaf Kirch (okir@monad.swb.de), Dec 1996,
->   *
+> What is the race for CPU multistate support? If you mean 'Error: Removing
+> state 63 which has instances left.', it is zram's bug since zram has to
+> cleanup everything in module_exit().
 
-IDK...Do we want to "erase history" selectively like that?
+Yes. And it is what my out of tree yet Acked patch, 'zram: fix     
+crashes with cpu hotplug multistate' does.
 
-Maybe we should just get rid of the whole pile of "changelog" comments
-in fs/locks.c? They aren't terribly useful these days anyhow.
+> > we don't run over any expectations from cpu hotplug multistate support.
+> > 
+> > I've *never* suggested there cannot be alternatives to my solution with
+> > the small state machine, but for you to say it is incorrect is simply
+> > not right either.
+> > 
+> > > 3) it is _not_ a must or pattern for fixing bugs to hold one lock before
+> > > calling device_del(), meantime the lock is required in the device's
+> > > attribute show()/store(), which causes AA deadlock easily. Your approach
+> > > just avoids the issue by not releasing module until all show/store are
+> > > done.
+> > 
+> > Right, there are two approaches here:
+> > 
+> > a) Your approach is to accept the deadlock as a requirement and so
+> > you would prefer to implement an alternative to using a shared lock
+> > on module exit and sysfs op.
+> 
+> wrt. in-tree zram, there is neither any deadlock in linus tree, nor after
+> applying my 3 patches. If you think there is, please share us the code
+> or lockdep warning.
 
--- 
-Jeff Layton <jlayton@kernel.org>
+Right, 'zram: fix crashes with cpu hotplug multistate' is not yet
+merged, my approach to fixing that does add a lock use on module removal
+which does introduce a possible deadlock with syfs, which is later addressed
+generically between sysfs and module removal for all drivers.
 
+> > b) While I address such a deadlock head on as I think this sort of locking
+> > be allowed for two reasons:
+> >    b1) as we never documented such requirement otherwise.
+> >    b2) There is a possibility that other drivers already exist too
+> >        which *do* use a shared lock on module removal and sysfs ops
+> >        (and I just confirmed this to be true)
+> 
+> The 'deadlock' is actually caused by your out-of-tree patch of 'zram: fix
+> crashes with cpu hotplug multistate' which adds mutex_lock(zram_index_mutex)
+> in destroy_devices().
+
+Yes yes, but you are completely throwing out the window that other
+possible deadlocks can exist in the kernel *and* that *new* cases of
+the deadlock can easily also be added!
+
+> We can fix this issue easily without needing the global lock, please see the
+> attached(pre-V2) patch.
+
+So far your patches do not fix the issues though...
+
+> > So I *really* don't think it is wise for us to simply accept this new
+> > found deadlock as a *new* requirement, specially if we can fix it easily.
+> > 
+> > A cursory review using Coccinelle potential issues with mutex lock
+> > directly used on module exit (so this doesn't cover drivers like zram
+> > which uses a routine and then grabs the lock through indirection) and a
+> > sysfs op shows these drivers are also affected by this deadlock:
+> > 
+> >   * arch/powerpc/sysdev/fsl_mpic_timer_wakeup.c
+> 
+> In fsl_wakeup_sys_exit(), device_remove_file() is called before
+> acquiring &sysfs_lock, so there shouldn't be such AA deadlock.
+> 
+> >   * lib/test_firmware.c
+> 
+> Yeah, there is the AA deadlock risk, but it should be fixed by moving
+> misc_deregister() out of &test_fw_mutex.
+
+And just like that you are ignoring other possible uses in the kernel
+which might have similar deadlocks.
+
+So do you want to take the position:
+
+Hey driver authors: you cannot use any shared lock on module removal and
+on sysfs ops?
+
+  Luis
