@@ -2,124 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D642C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 09:24:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C06FBC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 09:35:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4A48761355
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 09:24:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A162861390
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 09:35:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235063AbhJSJ0e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Oct 2021 05:26:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50502 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235056AbhJSJ0d (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Oct 2021 05:26:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1634635460;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=wmbGZV2ZKwLQrOAxpGl2pHHhTDBQE+6LCzInPZcyFEo=;
-        b=hHV+57siKZcYdbWwnqDJirAKS/yKUgDXSSpQUOUfFy6Bc7rgSZ+z5E77P4UEKw8FDlANru
-        boQgcED7MzkcZvHqd8vbsylKKbJiBF5LqnVz5Pocn5yJqCZAXSAHB75fiiX5tMyV0ywcSI
-        sxpzLGKpUOKgK3NxMGNvLnFeBMViQV4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-390-Lm_WcdWwPiKJafreVln3Gg-1; Tue, 19 Oct 2021 05:24:16 -0400
-X-MC-Unique: Lm_WcdWwPiKJafreVln3Gg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9044B802575;
-        Tue, 19 Oct 2021 09:24:12 +0000 (UTC)
-Received: from T590 (ovpn-8-39.pek2.redhat.com [10.72.8.39])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 612425D6D5;
-        Tue, 19 Oct 2021 09:23:55 +0000 (UTC)
-Date:   Tue, 19 Oct 2021 17:23:50 +0800
-From:   Ming Lei <ming.lei@redhat.com>
-To:     Miroslav Benes <mbenes@suse.cz>
-Cc:     Luis Chamberlain <mcgrof@kernel.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>, tj@kernel.org,
-        gregkh@linuxfoundation.org, akpm@linux-foundation.org,
-        minchan@kernel.org, jeyu@kernel.org, shuah@kernel.org,
-        bvanassche@acm.org, dan.j.williams@intel.com, joe@perches.com,
-        tglx@linutronix.de, keescook@chromium.org, rostedt@goodmis.org,
-        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ming.lei@redhat.com
-Subject: Re: [PATCH v8 11/12] zram: fix crashes with cpu hotplug multistate
-Message-ID: <YW6OptglA6UykZg/@T590>
-References: <YWeR4moCRh+ZHOmH@T590>
- <YWiSAN6xfYcUDJCb@bombadil.infradead.org>
- <YWjCpLUNPF3s4P2U@T590>
- <YWjJ0O7K+31Iz3ox@bombadil.infradead.org>
- <YWk9e957Hb+I7HvR@T590>
- <YWm68xUnAofop3PZ@bombadil.infradead.org>
- <YWq3Z++uoJ/kcp+3@T590>
- <YW3LuzaPhW96jSBK@bombadil.infradead.org>
- <YW4uwep3BCe9Vxq8@T590>
- <alpine.LSU.2.21.2110190820590.15009@pobox.suse.cz>
+        id S235067AbhJSJh2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Oct 2021 05:37:28 -0400
+Received: from out30-43.freemail.mail.aliyun.com ([115.124.30.43]:35815 "EHLO
+        out30-43.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234561AbhJSJh2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Oct 2021 05:37:28 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R661e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04400;MF=tianjia.zhang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0UsuQlL7_1634636110;
+Received: from 30.240.101.11(mailfrom:tianjia.zhang@linux.alibaba.com fp:SMTPD_---0UsuQlL7_1634636110)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Tue, 19 Oct 2021 17:35:11 +0800
+Message-ID: <3bd42726-b383-eb33-5c03-2932036d06a4@linux.alibaba.com>
+Date:   Tue, 19 Oct 2021 17:35:05 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <alpine.LSU.2.21.2110190820590.15009@pobox.suse.cz>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.2.0
+Subject: Re: [PATCH 1/2] crypto: use SM3 instead of SM3_256
+Content-Language: en-US
+To:     jejb@linux.ibm.com, Jarkko Sakkinen <jarkko@kernel.org>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Peter Huewe <peterhuewe@gmx.de>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Jerry Snitselaar <jsnitsel@redhat.com>,
+        linux-integrity@vger.kernel.org, keyrings@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-security-module@vger.kernel.org
+References: <20211009130828.101396-1-tianjia.zhang@linux.alibaba.com>
+ <20211009130828.101396-2-tianjia.zhang@linux.alibaba.com>
+ <7035153d58e220473fe3cd17c9f574f2d91c740b.camel@linux.ibm.com>
+From:   Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+In-Reply-To: <7035153d58e220473fe3cd17c9f574f2d91c740b.camel@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 19, 2021 at 08:23:51AM +0200, Miroslav Benes wrote:
-> > > By you only addressing the deadlock as a requirement on approach a) you are
-> > > forgetting that there *may* already be present drivers which *do* implement
-> > > such patterns in the kernel. I worked on addressing the deadlock because
-> > > I was informed livepatching *did* have that issue as well and so very
-> > > likely a generic solution to the deadlock could be beneficial to other
-> > > random drivers.
-> > 
-> > In-tree zram doesn't have such deadlock, if livepatching has such AA deadlock,
-> > just fixed it, and seems it has been fixed by 3ec24776bfd0.
+Hi James,
+
+On 10/18/21 9:05 PM, James Bottomley wrote:
+> On Sat, 2021-10-09 at 21:08 +0800, Tianjia Zhang wrote:
+> [...]
+>> diff --git a/include/uapi/linux/hash_info.h
+>> b/include/uapi/linux/hash_info.h
+>> index 74a8609fcb4d..1355525dd4aa 100644
+>> --- a/include/uapi/linux/hash_info.h
+>> +++ b/include/uapi/linux/hash_info.h
+>> @@ -32,7 +32,7 @@ enum hash_algo {
+>>   	HASH_ALGO_TGR_128,
+>>   	HASH_ALGO_TGR_160,
+>>   	HASH_ALGO_TGR_192,
+>> -	HASH_ALGO_SM3_256,
+>> +	HASH_ALGO_SM3,
+>>   	HASH_ALGO_STREEBOG_256,
+>>   	HASH_ALGO_STREEBOG_512,
+>>   	HASH_ALGO__LAST
 > 
-> I would not call it a fix. It is a kind of ugly workaround because the 
-> generic infrastructure lacked (lacks) the proper support in my opinion. 
-> Luis is trying to fix that.
+> This is another one you can't do: all headers in UAPI are exports to
+> userspace and the definitions constitute an ABI.  If you simply do a
+> rename, every userspace program that uses the current definition will
+> immediately break on compile.  You could add HASH_ALGO_SM3, but you
+> can't remove HASH_ALGO_SM3_256
+> 
+> James
+> 
 
-What is the proper support of the generic infrastructure? I am not
-familiar with livepatching's model(especially with module unload), you mean
-livepatching have to do the following way from sysfs:
+Correct, Thanks for pointing it out, redefining a macro is indeed a more 
+appropriate method.
 
-1) during module exit:
-	
-	mutex_lock(lp_lock);
-	kobject_put(lp_kobj);
-	mutex_unlock(lp_lock);
-	
-2) show()/store() method of attributes of lp_kobj
-	
-	mutex_lock(lp_lock)
-	...
-	mutex_unlock(lp_lock)
-
-IMO, the above usage simply caused AA deadlock. Even in Luis's patch
-'zram: fix crashes with cpu hotplug multistate', new/same AA deadlock
-(hot_remove_store() vs. disksize_store() or reset_store()) is added
-because hot_remove_store() isn't called from module_exit().
-
-Luis tries to delay unloading module until all show()/store() are done. But
-that can be obtained by the following way simply during module_exit():
-
-	kobject_del(lp_kobj); //all pending store()/show() from lp_kobj are done,
-						  //no new store()/show() can come after
-						  //kobject_del() returns	
-	mutex_lock(lp_lock);
-	kobject_put(lp_kobj);
-	mutex_unlock(lp_lock);
-
-Or can you explain your requirement on kobject/module unload in a bit
-details?
-
-
-Thanks,
-Ming
-
+Best regards,
+Tianjia
