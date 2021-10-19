@@ -2,119 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0ADEC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 09:22:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D642C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 09:24:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A9B156103B
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 09:22:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4A48761355
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 09:24:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234914AbhJSJYw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Oct 2021 05:24:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50274 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234905AbhJSJYv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Oct 2021 05:24:51 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2399AC061749
-        for <linux-doc@vger.kernel.org>; Tue, 19 Oct 2021 02:22:39 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id p21so11194967wmq.1
-        for <linux-doc@vger.kernel.org>; Tue, 19 Oct 2021 02:22:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brainfault-org.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=fptJv6XvoZk9YouChC4oUHOD/enMQbUqo6YfTUG11j8=;
-        b=qHoQS2s76kBlprES0oGRziR9C5WQdcSO2SRygtuQ+41hE/s5IDtpq3tEADGZHIJ4+U
-         VVfBkwLBJhtJHMEu+eftbbpNpZoD8Ja0+GL9GkVPJfgdFUJOhcZWpg3xINz7Yx9vMHbl
-         M45X0oYiL5fFJI0xwYBz93K8WtjDVBNuHNqF4E79yiViVTSce7jJLYc/DH1eumrLWG/V
-         puPNq7f0+ZyREiB6mbuhxEeYkrptIs6uLKgKdiKHp0mDZmbTkXzbMSy9mjz+3/7zH1cC
-         APzCsqUddfIGZ72pHIJThOZTJ/iK+1/0LiCiD3zcBeFYmdorAkDWA8HVqnijqW2g5hAc
-         /lbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fptJv6XvoZk9YouChC4oUHOD/enMQbUqo6YfTUG11j8=;
-        b=h/cW7IsvG5uw6d3J2ywMaSMUOeftegE5ciX4ylSI/8D59OXyn/TokUOX9NdVVClyph
-         s1wFdJWC9yuZA2BoCGQ5HSMKaNIHsyQ28meKHWyhER9I4QmLvRI0+DXCLBKIpMaVNchj
-         Q0taWUjj6U3FqEdHsdohdM9/rznjarbB/YBDJzXnLdKCvwAxu3r4vDyTz/nOjAjHbo9X
-         wns0dW6xmGy29UdIVsUu+pdNzxlBhBzxDbhFhbUVOFr3fe2CXLCDw+q7h/OlRxpoI1Wo
-         EGJVT9w3fYlPtiwyWhTlnC8ed1os6BUOJD6OXEm7SggzY49PMgP3E22q+7YN98YiAJ8b
-         HVWw==
-X-Gm-Message-State: AOAM530GjGzf+1LTdK6z7U/+7yOj2PL0gaReT5o3I3jtLsc2bxhDJWqv
-        oJj1AF2IY4W4bli7TFPtX9agpD9ryCSCut2DzqzA0w==
-X-Google-Smtp-Source: ABdhPJwQXDbqWUPeLTbC5CeRI9I3z7fchT4UiWD2mQAInmdDfeB1n/lMV05DAx2AdM1cIee8iuAMlgLiMMne7h40TPg=
-X-Received: by 2002:a05:600c:354c:: with SMTP id i12mr4817048wmq.59.1634635357474;
- Tue, 19 Oct 2021 02:22:37 -0700 (PDT)
+        id S235063AbhJSJ0e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Oct 2021 05:26:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50502 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S235056AbhJSJ0d (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Oct 2021 05:26:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1634635460;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=wmbGZV2ZKwLQrOAxpGl2pHHhTDBQE+6LCzInPZcyFEo=;
+        b=hHV+57siKZcYdbWwnqDJirAKS/yKUgDXSSpQUOUfFy6Bc7rgSZ+z5E77P4UEKw8FDlANru
+        boQgcED7MzkcZvHqd8vbsylKKbJiBF5LqnVz5Pocn5yJqCZAXSAHB75fiiX5tMyV0ywcSI
+        sxpzLGKpUOKgK3NxMGNvLnFeBMViQV4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-390-Lm_WcdWwPiKJafreVln3Gg-1; Tue, 19 Oct 2021 05:24:16 -0400
+X-MC-Unique: Lm_WcdWwPiKJafreVln3Gg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9044B802575;
+        Tue, 19 Oct 2021 09:24:12 +0000 (UTC)
+Received: from T590 (ovpn-8-39.pek2.redhat.com [10.72.8.39])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 612425D6D5;
+        Tue, 19 Oct 2021 09:23:55 +0000 (UTC)
+Date:   Tue, 19 Oct 2021 17:23:50 +0800
+From:   Ming Lei <ming.lei@redhat.com>
+To:     Miroslav Benes <mbenes@suse.cz>
+Cc:     Luis Chamberlain <mcgrof@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>, tj@kernel.org,
+        gregkh@linuxfoundation.org, akpm@linux-foundation.org,
+        minchan@kernel.org, jeyu@kernel.org, shuah@kernel.org,
+        bvanassche@acm.org, dan.j.williams@intel.com, joe@perches.com,
+        tglx@linutronix.de, keescook@chromium.org, rostedt@goodmis.org,
+        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ming.lei@redhat.com
+Subject: Re: [PATCH v8 11/12] zram: fix crashes with cpu hotplug multistate
+Message-ID: <YW6OptglA6UykZg/@T590>
+References: <YWeR4moCRh+ZHOmH@T590>
+ <YWiSAN6xfYcUDJCb@bombadil.infradead.org>
+ <YWjCpLUNPF3s4P2U@T590>
+ <YWjJ0O7K+31Iz3ox@bombadil.infradead.org>
+ <YWk9e957Hb+I7HvR@T590>
+ <YWm68xUnAofop3PZ@bombadil.infradead.org>
+ <YWq3Z++uoJ/kcp+3@T590>
+ <YW3LuzaPhW96jSBK@bombadil.infradead.org>
+ <YW4uwep3BCe9Vxq8@T590>
+ <alpine.LSU.2.21.2110190820590.15009@pobox.suse.cz>
 MIME-Version: 1.0
-References: <cover.1634630485.git.mchehab+huawei@kernel.org> <1f62fdbd0dd9298a19c491447a4b415a8ef3bd69.1634630486.git.mchehab+huawei@kernel.org>
-In-Reply-To: <1f62fdbd0dd9298a19c491447a4b415a8ef3bd69.1634630486.git.mchehab+huawei@kernel.org>
-From:   Anup Patel <anup@brainfault.org>
-Date:   Tue, 19 Oct 2021 14:52:26 +0530
-Message-ID: <CAAhSdy0Rp8gf_OHy-qi1aDhCouMXYe_4qcFUUZkZCs2BCRPNog@mail.gmail.com>
-Subject: Re: [PATCH v3 13/23] Documentation: update vcpu-requests.rst reference
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Anup Patel <anup.patel@wdc.com>,
-        Atish Patra <atish.patra@wdc.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        kvm-riscv@lists.infradead.org, KVM General <kvm@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.LSU.2.21.2110190820590.15009@pobox.suse.cz>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 19, 2021 at 1:34 PM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
->
-> Changeset 2f5947dfcaec ("Documentation: move Documentation/virtual to Documentation/virt")
-> renamed: Documentation/virtual/kvm/vcpu-requests.rst
-> to: Documentation/virt/kvm/vcpu-requests.rst.
->
-> Update its cross-reference accordingly.
->
-> Fixes: 2f5947dfcaec ("Documentation: move Documentation/virtual to Documentation/virt")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
+On Tue, Oct 19, 2021 at 08:23:51AM +0200, Miroslav Benes wrote:
+> > > By you only addressing the deadlock as a requirement on approach a) you are
+> > > forgetting that there *may* already be present drivers which *do* implement
+> > > such patterns in the kernel. I worked on addressing the deadlock because
+> > > I was informed livepatching *did* have that issue as well and so very
+> > > likely a generic solution to the deadlock could be beneficial to other
+> > > random drivers.
+> > 
+> > In-tree zram doesn't have such deadlock, if livepatching has such AA deadlock,
+> > just fixed it, and seems it has been fixed by 3ec24776bfd0.
+> 
+> I would not call it a fix. It is a kind of ugly workaround because the 
+> generic infrastructure lacked (lacks) the proper support in my opinion. 
+> Luis is trying to fix that.
 
-Looks good to me.
+What is the proper support of the generic infrastructure? I am not
+familiar with livepatching's model(especially with module unload), you mean
+livepatching have to do the following way from sysfs:
 
-Reviewed-by: Anup Patel <anup.patel@wdc.com>
+1) during module exit:
+	
+	mutex_lock(lp_lock);
+	kobject_put(lp_kobj);
+	mutex_unlock(lp_lock);
+	
+2) show()/store() method of attributes of lp_kobj
+	
+	mutex_lock(lp_lock)
+	...
+	mutex_unlock(lp_lock)
 
-Regards,
-Anup
+IMO, the above usage simply caused AA deadlock. Even in Luis's patch
+'zram: fix crashes with cpu hotplug multistate', new/same AA deadlock
+(hot_remove_store() vs. disksize_store() or reset_store()) is added
+because hot_remove_store() isn't called from module_exit().
 
->
-> To mailbombing on a large number of people, only mailing lists were C/C on the cover.
-> See [PATCH v3 00/23] at: https://lore.kernel.org/all/cover.1634630485.git.mchehab+huawei@kernel.org/
->
->  arch/riscv/kvm/vcpu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/arch/riscv/kvm/vcpu.c b/arch/riscv/kvm/vcpu.c
-> index c44cabce7dd8..260ce0779a32 100644
-> --- a/arch/riscv/kvm/vcpu.c
-> +++ b/arch/riscv/kvm/vcpu.c
-> @@ -912,7 +912,7 @@ int kvm_arch_vcpu_ioctl_run(struct kvm_vcpu *vcpu)
->                  * Ensure we set mode to IN_GUEST_MODE after we disable
->                  * interrupts and before the final VCPU requests check.
->                  * See the comment in kvm_vcpu_exiting_guest_mode() and
-> -                * Documentation/virtual/kvm/vcpu-requests.rst
-> +                * Documentation/virt/kvm/vcpu-requests.rst
->                  */
->                 vcpu->mode = IN_GUEST_MODE;
->
-> --
-> 2.31.1
->
->
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+Luis tries to delay unloading module until all show()/store() are done. But
+that can be obtained by the following way simply during module_exit():
+
+	kobject_del(lp_kobj); //all pending store()/show() from lp_kobj are done,
+						  //no new store()/show() can come after
+						  //kobject_del() returns	
+	mutex_lock(lp_lock);
+	kobject_put(lp_kobj);
+	mutex_unlock(lp_lock);
+
+Or can you explain your requirement on kobject/module unload in a bit
+details?
+
+
+Thanks,
+Ming
+
