@@ -2,81 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFA90C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 06:23:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47BCAC433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 07:42:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BA1AB61260
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 06:23:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2CBF261374
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 07:42:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234190AbhJSG0I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Oct 2021 02:26:08 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:50458 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234165AbhJSG0H (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Oct 2021 02:26:07 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 346CE2197E;
-        Tue, 19 Oct 2021 06:23:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1634624633; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=aNvJPt85vZf9bBMJjbgwMuKxAMmcbsHIJPwZz/3xngo=;
-        b=aPPUZQip1FXzonJxM4wqd/690HrZk6fz9rhHm/1JCFBw9ALlZDpceFtf6flMY3j6oMRMFe
-        AQmevTkq51HUk5WPl3N4P1eN9xv890mbZxJ7GfHV8xreOSPvAbt4ZkskV7eS7JuJeAvANa
-        9uoyyw60aVq6hbOMcli3eofF+oZayMg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1634624633;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=aNvJPt85vZf9bBMJjbgwMuKxAMmcbsHIJPwZz/3xngo=;
-        b=GijXbiZXw/n+u9uG38fm5BwLSEeX5PBkSlrFwGvVSFdmfffvdMVEtRW9XLwkcJp1P8EfmE
-        6ukLpP3n3DF7j3Dw==
-Received: from pobox.suse.cz (pobox.suse.cz [10.100.2.14])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 0341FA3B8A;
-        Tue, 19 Oct 2021 06:23:52 +0000 (UTC)
-Date:   Tue, 19 Oct 2021 08:23:51 +0200 (CEST)
-From:   Miroslav Benes <mbenes@suse.cz>
-To:     Ming Lei <ming.lei@redhat.com>
-cc:     Luis Chamberlain <mcgrof@kernel.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>, tj@kernel.org,
-        gregkh@linuxfoundation.org, akpm@linux-foundation.org,
-        minchan@kernel.org, jeyu@kernel.org, shuah@kernel.org,
-        bvanassche@acm.org, dan.j.williams@intel.com, joe@perches.com,
-        tglx@linutronix.de, keescook@chromium.org, rostedt@goodmis.org,
-        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 11/12] zram: fix crashes with cpu hotplug multistate
-In-Reply-To: <YW4uwep3BCe9Vxq8@T590>
-Message-ID: <alpine.LSU.2.21.2110190820590.15009@pobox.suse.cz>
-References: <20210927163805.808907-12-mcgrof@kernel.org> <YWeOJP2UJWYF94fu@T590> <YWeR4moCRh+ZHOmH@T590> <YWiSAN6xfYcUDJCb@bombadil.infradead.org> <YWjCpLUNPF3s4P2U@T590> <YWjJ0O7K+31Iz3ox@bombadil.infradead.org> <YWk9e957Hb+I7HvR@T590>
- <YWm68xUnAofop3PZ@bombadil.infradead.org> <YWq3Z++uoJ/kcp+3@T590> <YW3LuzaPhW96jSBK@bombadil.infradead.org> <YW4uwep3BCe9Vxq8@T590>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S234458AbhJSHpJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Oct 2021 03:45:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55724 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230207AbhJSHpI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 19 Oct 2021 03:45:08 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1B9E761374;
+        Tue, 19 Oct 2021 07:42:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1634629376;
+        bh=SO5fYejgKA+nOb49D+W5pbFFKzUDjz05kUsN/v0JTbY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Y7sv6CKyz/k3rbP3js7CQqHoAPoRn6VSnZ1ud+vlz2d4+AJu+0dq+2d8axT/DTBw/
+         xZ/oz2tQ382OvUX8Q4NRzI7xyBAH1XtxKK8e8vL1fGslzx3aIF3bPjeZYPUoPZ25RD
+         EnuX+crW7sJFo0/6wxR52QzyYl+Y0BpzNfpHIvtTDmAyRg1r0Ge6LvNYB427CBrUWi
+         ghYmOmdkbYffAda/fn3as8KizjIx6uR3LwFF8a6pM6CiSKIliOU7+Rjr1sLwzZ6jHH
+         1A1zPbttqeQ8/QOPM6XpeM6Tjk1ESbbcmle7+xzCEO86dpEmkYqYpxE8OTmQbqnkww
+         Q9RmXyogaDnlw==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1mcjlt-001nLe-6o; Tue, 19 Oct 2021 08:42:53 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Martin KaFai Lau <kafai@fb.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        bpf@vger.kernel.org, netdev@vger.kernel.org
+Subject: [PATCH 0/2] Two fixes for documentation-file-ref-check
+Date:   Tue, 19 Oct 2021 08:42:49 +0100
+Message-Id: <cover.1634629094.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> > By you only addressing the deadlock as a requirement on approach a) you are
-> > forgetting that there *may* already be present drivers which *do* implement
-> > such patterns in the kernel. I worked on addressing the deadlock because
-> > I was informed livepatching *did* have that issue as well and so very
-> > likely a generic solution to the deadlock could be beneficial to other
-> > random drivers.
-> 
-> In-tree zram doesn't have such deadlock, if livepatching has such AA deadlock,
-> just fixed it, and seems it has been fixed by 3ec24776bfd0.
+Hi Jon,
 
-I would not call it a fix. It is a kind of ugly workaround because the 
-generic infrastructure lacked (lacks) the proper support in my opinion. 
-Luis is trying to fix that.
+This small series contain two fixes for  documentation-file-ref-check,
+in order to remove some (false) positives.
 
-Just my two cents.
+The first one makes it to ignore files that start with a dot. It
+prevents the script to try parsing hidden files. 
 
-Miroslav
+The second one shuts up (currently) two false-positives for some
+documents under:
+
+	tools/bpf/bpftool/Documentation/
+
+Mauro Carvalho Chehab (2):
+  scripts: documentation-file-ref-check: ignore hidden files
+  scripts: documentation-file-ref-check: fix bpf selftests path
+
+ scripts/documentation-file-ref-check | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+-- 
+2.31.1
+
+
