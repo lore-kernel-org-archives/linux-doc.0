@@ -2,117 +2,176 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AB76C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 22:31:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2334DC433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 23:05:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5E88E6115B
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 22:31:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0A95B610E6
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 23:05:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229757AbhJSWeD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Oct 2021 18:34:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34062 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229734AbhJSWeD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Oct 2021 18:34:03 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21F29C06161C;
-        Tue, 19 Oct 2021 15:31:50 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id t184so1266871pfd.0;
-        Tue, 19 Oct 2021 15:31:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QQt79f2ztwEytrG3Wcrb+UJxVauF4hf/a/9L7b7paIc=;
-        b=ej0Kea7BiqGuAt4aKtPjKo+cLvhiFuWuFwxu4v6BlAwQe4zOpN4sD71RrNJAd1uYAn
-         UbYC0A7LrpxXLQWgmagvghe5QDBcC423gzvcmIzSGWIWI8Kh9k+0nMgaqQ1uFT3WIY+i
-         y+ec3MLN4Ki3YJZ6DQsPZsfy474aXkQC4iTpSSybg+HjoHzv0bZBWZ4y+QYfNNAScrvw
-         imRoNfL+7RTIaKw638hOOkT+ahnlXSZZIjLOxZf2k7NKBKXJTi0M91eX91UXDXnmFamK
-         JBvcA8+/qKpvUfnxvPWR/PVd9Bnl+K6+14QxPAmZ8ZhdNb6z/K4upmWoGA4dP8dx2PgW
-         S94g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QQt79f2ztwEytrG3Wcrb+UJxVauF4hf/a/9L7b7paIc=;
-        b=VcJ56z+jtnaAXJOjUuJ8LKq2/yo3cIHTXev68Rs+Ta4O7sX32H0QeGFKHTYiWJNWlz
-         WsQZszw0j9IuQV9x9PoqoZ+8cc2B3T4VvD1BgLySfRSCCsYlvNxQiKJsZyrO/Io5hm/l
-         mzbjaQmlsHVD+s/WiG5WWaKbyRpyBdJSxkiL5xap2YGILuxYFsD8K97bks0an9LRPaId
-         fq3VW7nTKSXgrx+rPAifYQVeV8hkXEcCZc3EIyEmjiWLhtbyz11rXFQ3ttBgkSJGZYsM
-         74Tn/T3Uv9T9WeP3Rvv+5GROUQrhJ9YEiK4Bss5JTnk1JEHBYONUxAsJJgOg4BRQAFik
-         yqxw==
-X-Gm-Message-State: AOAM532O7LYSHtbD0xIU0LaeCdNpeI0/sWdcE6KeRiwGDH9YF2npGBRU
-        UIOM7ZFQO0RcwjvdobHoVnf7tul5hYiKZqDiIuM=
-X-Google-Smtp-Source: ABdhPJx1ZTfV1KbHy9KP6Y6JzrwYhVPoMKjxO+PGza3THp14gnPZ50Ulxz3A7SO+g7ja72X+W5MdPQAyTH/vBTMQksE=
-X-Received: by 2002:a63:374c:: with SMTP id g12mr30702710pgn.35.1634682709570;
- Tue, 19 Oct 2021 15:31:49 -0700 (PDT)
+        id S229702AbhJSXH2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Oct 2021 19:07:28 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:49196 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229498AbhJSXH2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Oct 2021 19:07:28 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id B58BA21A68;
+        Tue, 19 Oct 2021 23:05:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1634684713; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=edPWi4QNjr3rGhgEVoIehJJC1w1N/fslMyFCwd0XhfM=;
+        b=VwGiTD0AGIXTC/55ntv2s8KP5NKu8YY89uuNotGVGeFr5V0HDznfYe6IliuQJKbalhpLby
+        5sKbBdXX9nszxkaG1uEE983xYbE1ajyMPd3SS4bZEdnkXApBBk6s3FfoOuKh2q7m3ekc3q
+        HGTqJt+K+FoBha4ev5c8Qg8pQKXm0dU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1634684713;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=edPWi4QNjr3rGhgEVoIehJJC1w1N/fslMyFCwd0XhfM=;
+        b=qjxRwCWoAFWVUE6ywnIMSU68hCvXB+8fcrooi7klc6/DjfHtuI/dWV019cjjr3NtFNm4oT
+        ctmTzTqYD/xeJxCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 14F3B13B21;
+        Tue, 19 Oct 2021 23:05:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id lWYRLSdPb2FeIQAAMHmgww
+        (envelope-from <neilb@suse.de>); Tue, 19 Oct 2021 23:05:11 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-References: <cover.1634630485.git.mchehab+huawei@kernel.org>
- <11f3dc3cfc192e2ee271467d7a6c7c1920006766.1634630486.git.mchehab+huawei@kernel.org>
- <e11c38fa-22fa-a0ae-4dd1-cac5a208e021@isovalent.com>
-In-Reply-To: <e11c38fa-22fa-a0ae-4dd1-cac5a208e021@isovalent.com>
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date:   Tue, 19 Oct 2021 15:31:38 -0700
-Message-ID: <CAADnVQ+9+fXGXyEU+fWYGiM7HqzaJwPoSKBuXKd=qz3x25XfSw@mail.gmail.com>
-Subject: Re: [PATCH v3 14/23] bpftool: update bpftool-cgroup.rst reference
-To:     Quentin Monnet <quentin@isovalent.com>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        David Ahern <dsahern@gmail.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Martin KaFai Lau <kafai@fb.com>,
-        Roman Gushchin <guro@fb.com>, Shuah Khan <shuah@kernel.org>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        bpf <bpf@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+From:   "NeilBrown" <neilb@suse.de>
+To:     "Paul E. McKenney" <paulmck@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     rcu@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH] Documentation: Add refcount analogy to What is RCU
+Date:   Wed, 20 Oct 2021 10:05:08 +1100
+Message-id: <163468470814.17149.17892190693057737430@noble.neil.brown.name>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 19, 2021 at 2:35 AM Quentin Monnet <quentin@isovalent.com> wrote:
->
-> 2021-10-19 09:04 UTC+0100 ~ Mauro Carvalho Chehab
-> <mchehab+huawei@kernel.org>
-> > The file name: Documentation/bpftool-cgroup.rst
-> > should be, instead: tools/bpf/bpftool/Documentation/bpftool-cgroup.rst.
-> >
-> > Update its cross-reference accordingly.
-> >
-> > Fixes: a2b5944fb4e0 ("selftests/bpf: Check consistency between bpftool source, doc, completion")
-> > Fixes: 5ccda64d38cc ("bpftool: implement cgroup bpf operations")
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >
-> > To mailbombing on a large number of people, only mailing lists were C/C on the cover.
-> > See [PATCH v3 00/23] at: https://lore.kernel.org/all/cover.1634630485.git.mchehab+huawei@kernel.org/
-> >
-> >  tools/testing/selftests/bpf/test_bpftool_synctypes.py | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/tools/testing/selftests/bpf/test_bpftool_synctypes.py b/tools/testing/selftests/bpf/test_bpftool_synctypes.py
-> > index be54b7335a76..617b8084c440 100755
-> > --- a/tools/testing/selftests/bpf/test_bpftool_synctypes.py
-> > +++ b/tools/testing/selftests/bpf/test_bpftool_synctypes.py
-> > @@ -392,7 +392,7 @@ class ManCgroupExtractor(ManPageExtractor):
-> >      """
-> >      An extractor for bpftool-cgroup.rst.
-> >      """
-> > -    filename = os.path.join(BPFTOOL_DIR, 'Documentation/bpftool-cgroup.rst')
-> > +    filename = os.path.join(BPFTOOL_DIR, 'tools/bpf/bpftool/Documentation/bpftool-cgroup.rst')
-> >
-> >      def get_attach_types(self):
-> >          return self.get_rst_list('ATTACH_TYPE')
-> >
->
-> No, this change is incorrect. We have discussed it several times before
-> [0][1]. Please drop this patch.
 
-+1
+The reader-writer-lock analogy is a useful way to think about RCU, but
+it is not always applicable.  It is useful to have other analogies to
+work with, and particularly to emphasise that no single analogy is
+perfect.
+
+This patch adds a "RCU as reference count" to the "what is RCU" document.
+
+See https://lwn.net/Articles/872559/
+
+Signed-off-by: NeilBrown <neilb@suse.de>
+---
+ Documentation/RCU/whatisRCU.rst | 78 +++++++++++++++++++++++++++++++--
+ 1 file changed, 75 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/RCU/whatisRCU.rst b/Documentation/RCU/whatisRCU.rst
+index 17e95ab2a201..836b3c0bbf2e 100644
+--- a/Documentation/RCU/whatisRCU.rst
++++ b/Documentation/RCU/whatisRCU.rst
+@@ -872,7 +872,79 @@ be used in place of synchronize_rcu().
+ 
+ .. _7_whatisRCU:
+ 
+-7.  FULL LIST OF RCU APIs
++7.  ANALOGY WITH REFERENCE COUNTING
++-----------------------------------
++
++Many uses of RCU do not look so much like reader-writer locking as
++illustrated by the previous section and so it can be helpful to have
++other analogies to draw on.  One such analogy involves thinking of its
++behaviour as similar to reference counting: RCU effectively provides a
++temporary protected reference on "everything".
++
++A reference count typically does not prevent the referenced object from
++changes to values, but does prevent changes to type - particularly the
++gross change of type that happens when the memory used to store the
++object is freed and reclaimed for some other purpose.  Once a
++type-safe reference to the object is obtained some other mechanism is
++needed to ensure consistent access to the data in the object.  This
++could involve taking a spinlock, but with RCU the typical approach is to
++perform reads with SMP-aware operations such as smp_load_acquire(), to
++perform updates with atomic read-modify-write operations, and to be
++careful of ordering the operations.  RCU provides a number of support
++functions that embedded the required operations and ordering, such as the
++list_for_each_entry_rcu() in the example of the previous section.
++
++A more precise statement of the reference counting behaviour is that,
++between rcu_read_lock() and rcu_read_unlock(), any reference taken with
++rcu_dereference() on a pointer marked as ``__rcu`` can be treated as
++though a reference-count on that object has been temporarily increased.
++This prevents the object from changing type.  Exactly what this means
++will depend on normal expectations of objects of that type, but it
++typically includes that spinlocks can still be safely locked, normal
++reference counters can be safely manipulated, and ``__rcu`` pointers can
++be safely dereferenced.
++
++Some operations that one might expect to see on an object for
++which an RCU reference is held include:
++ - copying out data that is guaranteed to be stable by the type of the
++   object.
++ - Using kref_get_unless_zero() or similar to get a longer-term 
++   reference.  This may fail of course.
++ - Claiming a spinlock in the object, and checking if the object still
++   is the expected object and if so, manipulating it freely.
++
++The understanding that RCU provides a reference that only prevents a
++change of type is particularly visible with objects allocated from a
++slab cache marked SLAB_TYPESAFE_BY_RCU.  RCU operations may yield a
++reference to and object from such a cache that has been concurrently
++freed and reallocated to a completely different object, though of the
++same type.  In this case RCU doesn't even protect the identity of the
++object from changing, only its type.  So the object found may not be the
++one expected, but it will be one where it is safe to take a reference or
++spinlock and then confirm that the identity matches the expectations.
++
++With traditional reference counting - such as that implemented by the
++kref library in Linux - there is typically code that runs when the last
++reference to an object is dropped.  With kref, this is the function
++passed to kref_put().  When RCU is being used such finalization code
++must not be run until all ``__rcu`` pointers referencing the object have
++been updated, and then a grace period has passed.  Every remaining
++globally visible pointer to the object must be considered to be a
++potential counted reference, and the finalization code it typically run
++using call_rcu() only after all those pointers have been changed.
++
++To see how to choose between there two analogies - of RCU as a
++reader-writer lock and RCU as a reference counting system - it is useful
++to reflect on the scale of the thing being protected.  The reader-writer
++lock analogy looks at larger multi-part objects such as a linked list
++and shows how RCU can facilitate concurrency while elements are add to,
++and removed from, the list.  The reference-count analogy looks at the
++individual objects and looks at how they can be accessed safely within
++whatever whole they are a part of.
++
++.. _8_whatisRCU:
++
++8.  FULL LIST OF RCU APIs
+ -------------------------
+ 
+ The RCU APIs are documented in docbook-format header comments in the
+@@ -1035,9 +1107,9 @@ g.	Otherwise, use RCU.
+ Of course, this all assumes that you have determined that RCU is in fact
+ the right tool for your job.
+ 
+-.. _8_whatisRCU:
++.. _9_whatisRCU:
+ 
+-8.  ANSWERS TO QUICK QUIZZES
++9.  ANSWERS TO QUICK QUIZZES
+ ----------------------------
+ 
+ Quick Quiz #1:
+-- 
+2.33.1
+
