@@ -2,84 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A64B3C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 10:50:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69752C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 12:05:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8468061355
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 10:50:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 56598610E7
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 12:05:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234955AbhJSKwg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Oct 2021 06:52:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43350 "EHLO mail.kernel.org"
+        id S235523AbhJSMHf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Oct 2021 08:07:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44186 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230117AbhJSKwg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 19 Oct 2021 06:52:36 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DF4BC61154;
-        Tue, 19 Oct 2021 10:50:22 +0000 (UTC)
+        id S230267AbhJSMHe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 19 Oct 2021 08:07:34 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 909486113D;
+        Tue, 19 Oct 2021 12:05:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634640623;
-        bh=L0poGPzGEIYL2TPnM3Vav05iGMWfIk7Klty6aCujrWU=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=hhpwCv4+TSuvJTXfVfwSPpVU9VUjtDc1xOV9b/Oo0h/ZW0bpj6fGmjUi8fQy1xJmh
-         MDXRtn29lhl+vax+BYu9n0oTTQhjDoSsW0ULRWC+FD68jj4GTbMB3nKqwxCATulhfx
-         BpDT3UROXvgjbOaAtHRiTWXPvYIa8rowtLz9xHP/bfpn17GKFEbjh00u3I06maIL7f
-         wcxhuszXDtmgaQ28+VhV22uC4bDBLEH5ZAvUP5/FY7try11yGHPTVeDYma7KPJIUFC
-         uPzN+YBRaNA3KJoGwLR5ej035byan9HjAalyfZs2z8Tdx3P3p1hYKV15UhkAu48ELC
-         4UMYaOkiotwRQ==
-Message-ID: <f352a2e4b50a8678a8ddef5177702ecf9040490f.camel@kernel.org>
-Subject: Re: [PATCH v3 18/23] fs: remove a comment pointing to the removed
- mandatory-locking file
-From:   Jeff Layton <jlayton@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     "J. Bruce Fields" <bfields@fieldses.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Tue, 19 Oct 2021 06:50:21 -0400
-In-Reply-To: <887de3a1ecadda3dbfe0adf9df9070f0afa9406c.1634630486.git.mchehab+huawei@kernel.org>
+        s=k20201202; t=1634645121;
+        bh=Yfzv3JLOoikBX5r0f6NfD+xVedKpz1VXqAirmc35zTA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=YSVCkvJ4gbqhy5ptebDPhXkK7TvFGUETIaHbESiXy62S/1kmp4B2Nacw3b+in1DuY
+         662rjmB+Oxuyr9FpGGzTVO8UPVPZitMZoBAHD5g15s068GRXaAZfw+RdPAx97VzvdH
+         XpN6QAWEZuHnhrwILQpU8lp2/DZTo9JWrzRNN94AXGiEWkYjgbU1XaHbodaI9s+/Pj
+         s2WIe/vz2huIkSUv9JQ7N0Ufk6P/SWAOwgrcY59C8t3zhoFmvkFJpFKoq7bkILXgpH
+         YWXVMwsZ1z112/xiYfx00GJ3K9HFEn+gT37FkhbnIm5gV+QlFtXulENj+diC/CxHOU
+         vvQ7FrQ6iOsDA==
+Date:   Tue, 19 Oct 2021 13:04:59 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH v3 21/23] regulator: dt-bindings: update
+ samsung,s2mpa01.yaml reference
+Message-ID: <YW60a8z0JNDnTLV/@sirena.org.uk>
 References: <cover.1634630485.git.mchehab+huawei@kernel.org>
-         <887de3a1ecadda3dbfe0adf9df9070f0afa9406c.1634630486.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset="ISO-8859-15"
-User-Agent: Evolution 3.40.4 (3.40.4-2.fc34) 
+ <9acc235dc4af794d18e1267371944a3955e1fb21.1634630486.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="EWoxm8P8Rct2LAPY"
+Content-Disposition: inline
+In-Reply-To: <9acc235dc4af794d18e1267371944a3955e1fb21.1634630486.git.mchehab+huawei@kernel.org>
+X-Cookie: I program, therefore I am.
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2021-10-19 at 09:04 +0100, Mauro Carvalho Chehab wrote:
-> The mandatory file locking got removed due to its problems, but
-> there's still a comment inside fs/locks.c pointing to the removed
-> doc.
-> 
-> Remove it.
-> 
-> Fixes: f7e33bdbd6d1 ("fs: remove mandatory file locking support")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
-> 
+
+--EWoxm8P8Rct2LAPY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Tue, Oct 19, 2021 at 09:04:20AM +0100, Mauro Carvalho Chehab wrote:
+
 > To mailbombing on a large number of people, only mailing lists were C/C on the cover.
 > See [PATCH v3 00/23] at: https://lore.kernel.org/all/cover.1634630485.git.mchehab+huawei@kernel.org/
-> 
->  fs/locks.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/fs/locks.c b/fs/locks.c
-> index d397394633be..94feadcdab4e 100644
-> --- a/fs/locks.c
-> +++ b/fs/locks.c
-> @@ -61,7 +61,6 @@
->   *
->   *  Initial implementation of mandatory locks. SunOS turned out to be
->   *  a rotten model, so I implemented the "obvious" semantics.
-> - *  See 'Documentation/filesystems/mandatory-locking.rst' for details.
->   *  Andy Walker (andy@lysaker.kvaerner.no), April 06, 1996.
->   *
->   *  Don't allow mandatory locks on mmap()'ed files. Added simple functions to
 
-Thanks Mauro. I'll pick this into my locks branch, so it should make
-v5.16 as well.
--- 
-Jeff Layton <jlayton@kernel.org>
+It'd be a bit easier to put a note in here about what the dependencies
+are rather than forcing people to go out to a link to figure out what's
+going on unless it's complicated.  For a case like this where there's no
+dependencies or real relationship between the patches it's probably
+better to just not thread everything and send the patches separately to
+everyone, the threading is just adding noise and confusion.
 
+--EWoxm8P8Rct2LAPY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmFutGsACgkQJNaLcl1U
+h9CpcQf/eSHN/SxKNGSizt9rtPBAa8/G/yrOVJanFr1TpMgBqymW7cBkBbXTGEoz
+MlvVhYvaOC1OUl2Ov3V/R5vs4HmOXbFkm+uU3Hy0pdmuoR+xp2GXkRykwFp8VOo9
+u86bgJzCmE1vMGPs6CU5L/oLaZtgu2fOSkIddls4s2BzCEgj9RXCZVZZDuiwu1p5
+En59hCC7xvkrwl+DzR7ELgphtrGbhWP8udWOpispPKOra+L2fvck+d1CNHVWWx0T
+hHXnc2o0xvG2TVSXxxD14sYrgOOEPahJN1EFZSMqmo+1KDjK7lyXXsAkMNYAoTT5
+mdoz3TDNrINobQeldsheYs7AYnpjQQ==
+=OxCs
+-----END PGP SIGNATURE-----
+
+--EWoxm8P8Rct2LAPY--
