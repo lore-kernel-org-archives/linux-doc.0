@@ -2,85 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C06FBC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 09:35:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87B25C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 09:35:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A162861390
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 09:35:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6E8846137E
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Oct 2021 09:35:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235067AbhJSJh2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Oct 2021 05:37:28 -0400
-Received: from out30-43.freemail.mail.aliyun.com ([115.124.30.43]:35815 "EHLO
-        out30-43.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234561AbhJSJh2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Oct 2021 05:37:28 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R661e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04400;MF=tianjia.zhang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0UsuQlL7_1634636110;
-Received: from 30.240.101.11(mailfrom:tianjia.zhang@linux.alibaba.com fp:SMTPD_---0UsuQlL7_1634636110)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Tue, 19 Oct 2021 17:35:11 +0800
-Message-ID: <3bd42726-b383-eb33-5c03-2932036d06a4@linux.alibaba.com>
-Date:   Tue, 19 Oct 2021 17:35:05 +0800
+        id S235086AbhJSJiC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Oct 2021 05:38:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53312 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234561AbhJSJiC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Oct 2021 05:38:02 -0400
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DB08C06161C
+        for <linux-doc@vger.kernel.org>; Tue, 19 Oct 2021 02:35:49 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id y3so46741769wrl.1
+        for <linux-doc@vger.kernel.org>; Tue, 19 Oct 2021 02:35:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=isovalent-com.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=L2Opnlu/+Ei1mILrJUudB00wyP5HtEuEpZxkiaGcTuk=;
+        b=4Uvv/V9yhjJYTwf+O9NvMcCHZPepWSsWQ2DUG9K7T456ybg9EBcQvphaGM/VctW7mv
+         UXLs7h8Sh9o39g1WSMZgTt5pHkZBakrJZqayHGdmOXsrYJlqf7oDOVBbF/EHTSmlOMyM
+         a6IlSoE+YWI5Uld+lTvGOg/MOcO72KNwvdOOGLxYL53+KWobDyx1phCv8M3Ok53Efots
+         YvjwEjeZ9gSlhjRFgkE+fTmHhQgBNYZ6nIrX6sTpJ0IBFzXwwbDLAglILfPEYJiKXEYu
+         1EBw+rQt9324DpZLRV++n8Erlk1/ztmsoKNHHMZ0PnAoOkLDs5PbL0hHWC1QGe2BYPOH
+         YB1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=L2Opnlu/+Ei1mILrJUudB00wyP5HtEuEpZxkiaGcTuk=;
+        b=myJYpRL49u+SaCiJ7SxYtw2AiIE/NVNb+iUNn0QH0bqOc+kdB0pJiRZOFELLj78KuH
+         7JFlhIPEaFK9EQwQpgJYiFeli1GwCUHkyWsY/4Zs+UYmwW9Nx6iZnuPCvv8nDPPnhynM
+         KGhpUa51MsDYVTqKqNoVVLeE5WjI2LoOD3sT9yqU68c3qdd+w+zKz/kSYhZJyddTIVJQ
+         8d54QHFmX7BxPCFbWqUL3QV1uX+OhSxKZmir2rA7QbZuoY0Psf4CNKlD7itAaCyJgtkz
+         ddSqCbgQYT2Cvp8kEii4cHFUxNRbajY3j6o4RTNbUkE/6+7sp19NKw78OL8+jBgkBzlI
+         rPKA==
+X-Gm-Message-State: AOAM531CucBjJPKp94RSuWAeFuB/yHGt1dg4rkthOyC5WxnVsEOzPo3f
+        AbmTk3DItXk285ZgMlnSsmue6A==
+X-Google-Smtp-Source: ABdhPJx8VfDG1M08CY2EwW4NlYD+30EjdeM5Y4rFFcgsoqwPfH7CxovxzrJhPB1TEyjaKCuj+tU1uA==
+X-Received: by 2002:adf:9b8a:: with SMTP id d10mr40402392wrc.151.1634636148051;
+        Tue, 19 Oct 2021 02:35:48 -0700 (PDT)
+Received: from [192.168.1.8] ([149.86.82.20])
+        by smtp.gmail.com with ESMTPSA id p3sm1727165wmp.43.2021.10.19.02.35.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Oct 2021 02:35:47 -0700 (PDT)
+Message-ID: <e11c38fa-22fa-a0ae-4dd1-cac5a208e021@isovalent.com>
+Date:   Tue, 19 Oct 2021 10:35:46 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.2.0
-Subject: Re: [PATCH 1/2] crypto: use SM3 instead of SM3_256
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v3 14/23] bpftool: update bpftool-cgroup.rst reference
 Content-Language: en-US
-To:     jejb@linux.ibm.com, Jarkko Sakkinen <jarkko@kernel.org>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Peter Huewe <peterhuewe@gmx.de>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Jerry Snitselaar <jsnitsel@redhat.com>,
-        linux-integrity@vger.kernel.org, keyrings@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-security-module@vger.kernel.org
-References: <20211009130828.101396-1-tianjia.zhang@linux.alibaba.com>
- <20211009130828.101396-2-tianjia.zhang@linux.alibaba.com>
- <7035153d58e220473fe3cd17c9f574f2d91c740b.camel@linux.ibm.com>
-From:   Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
-In-Reply-To: <7035153d58e220473fe3cd17c9f574f2d91c740b.camel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Alexei Starovoitov <ast@kernel.org>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        David Ahern <dsahern@gmail.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Martin KaFai Lau <kafai@fb.com>,
+        Roman Gushchin <guro@fb.com>, Shuah Khan <shuah@kernel.org>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, netdev@vger.kernel.org
+References: <cover.1634630485.git.mchehab+huawei@kernel.org>
+ <11f3dc3cfc192e2ee271467d7a6c7c1920006766.1634630486.git.mchehab+huawei@kernel.org>
+From:   Quentin Monnet <quentin@isovalent.com>
+In-Reply-To: <11f3dc3cfc192e2ee271467d7a6c7c1920006766.1634630486.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi James,
-
-On 10/18/21 9:05 PM, James Bottomley wrote:
-> On Sat, 2021-10-09 at 21:08 +0800, Tianjia Zhang wrote:
-> [...]
->> diff --git a/include/uapi/linux/hash_info.h
->> b/include/uapi/linux/hash_info.h
->> index 74a8609fcb4d..1355525dd4aa 100644
->> --- a/include/uapi/linux/hash_info.h
->> +++ b/include/uapi/linux/hash_info.h
->> @@ -32,7 +32,7 @@ enum hash_algo {
->>   	HASH_ALGO_TGR_128,
->>   	HASH_ALGO_TGR_160,
->>   	HASH_ALGO_TGR_192,
->> -	HASH_ALGO_SM3_256,
->> +	HASH_ALGO_SM3,
->>   	HASH_ALGO_STREEBOG_256,
->>   	HASH_ALGO_STREEBOG_512,
->>   	HASH_ALGO__LAST
+2021-10-19 09:04 UTC+0100 ~ Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org>
+> The file name: Documentation/bpftool-cgroup.rst
+> should be, instead: tools/bpf/bpftool/Documentation/bpftool-cgroup.rst.
 > 
-> This is another one you can't do: all headers in UAPI are exports to
-> userspace and the definitions constitute an ABI.  If you simply do a
-> rename, every userspace program that uses the current definition will
-> immediately break on compile.  You could add HASH_ALGO_SM3, but you
-> can't remove HASH_ALGO_SM3_256
+> Update its cross-reference accordingly.
 > 
-> James
+> Fixes: a2b5944fb4e0 ("selftests/bpf: Check consistency between bpftool source, doc, completion")
+> Fixes: 5ccda64d38cc ("bpftool: implement cgroup bpf operations")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+> 
+> To mailbombing on a large number of people, only mailing lists were C/C on the cover.
+> See [PATCH v3 00/23] at: https://lore.kernel.org/all/cover.1634630485.git.mchehab+huawei@kernel.org/
+> 
+>  tools/testing/selftests/bpf/test_bpftool_synctypes.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/tools/testing/selftests/bpf/test_bpftool_synctypes.py b/tools/testing/selftests/bpf/test_bpftool_synctypes.py
+> index be54b7335a76..617b8084c440 100755
+> --- a/tools/testing/selftests/bpf/test_bpftool_synctypes.py
+> +++ b/tools/testing/selftests/bpf/test_bpftool_synctypes.py
+> @@ -392,7 +392,7 @@ class ManCgroupExtractor(ManPageExtractor):
+>      """
+>      An extractor for bpftool-cgroup.rst.
+>      """
+> -    filename = os.path.join(BPFTOOL_DIR, 'Documentation/bpftool-cgroup.rst')
+> +    filename = os.path.join(BPFTOOL_DIR, 'tools/bpf/bpftool/Documentation/bpftool-cgroup.rst')
+>  
+>      def get_attach_types(self):
+>          return self.get_rst_list('ATTACH_TYPE')
 > 
 
-Correct, Thanks for pointing it out, redefining a macro is indeed a more 
-appropriate method.
+No, this change is incorrect. We have discussed it several times before
+[0][1]. Please drop this patch.
 
-Best regards,
-Tianjia
+Quentin
+
+[0]
+https://lore.kernel.org/bpf/eb80e8f5-b9d7-5031-8ebb-4595bb295dbf@isovalent.com/
+[1]
+https://lore.kernel.org/bpf/CAEf4BzZhr+3JzuPvyTozQSts7QixnyY1N8CD+-ZuteHodCpmRA@mail.gmail.com/
