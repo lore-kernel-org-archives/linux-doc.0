@@ -2,92 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFCEEC4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 16:18:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64872C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 16:19:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D1E5D60C51
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 16:18:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4C2CB611C7
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 16:19:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231234AbhJTQUg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Oct 2021 12:20:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48782 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230372AbhJTQUf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Oct 2021 12:20:35 -0400
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F304C06161C;
-        Wed, 20 Oct 2021 09:18:21 -0700 (PDT)
-Received: by mail-pg1-x536.google.com with SMTP id q5so22965631pgr.7;
-        Wed, 20 Oct 2021 09:18:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=wRjN+fFhf5ZDRdsJW+ExfiLsDHvU4PP0qY8Z9DJXa+Y=;
-        b=ZlK8y7JXK8JJTN6O/RcMNvlIrPlXv+chFPhqJAay1KrY3xiOISTUyXjAhxOAnlvSRz
-         9+9jvS5BazdrB9s84Uq+GFrPbQSp2dgIJJ/vs4oKVWvMKnm5E9ByN9tMUNuqB/Qnm4x3
-         97hf+hO0tQcLzsTT+i4gj2C446ZvE8QnChtGN39L/L83WcufKn7475cFUVFnpsqudsaX
-         VlYq6dSEBCijyk/t2QOhyQED4EgxtyVes8eygyRJsEBbyzSx0K9cvSAqmSq/0ZZ/1WyO
-         FMeaN7MK/6TBC3Oa5mt3DRPnrem6jWrD77yEXZ6wXBozy/9bZP1MVgxH0fbz+uxmkBq1
-         TG/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=wRjN+fFhf5ZDRdsJW+ExfiLsDHvU4PP0qY8Z9DJXa+Y=;
-        b=tq06y3vubjrg4vak6ZbGHU7GaL4WY1l8Q/XLw3/8HlEZoZa8CHYGlLmmnryDxjn0Xm
-         KDEZnVfVFOAGAXpLaYDzhI+bIh9poSmbkXbpj7tRaUwsBLFJfnvD6B0dHJuDpIMxDFz0
-         wXxI880bFCoxiSM+EoKkqPGXnez5308JOjOkBO6316rjK9KtymQvooT03jjJA0l5ywPH
-         NbXD9hu3hAPU/KnvcE/SLgBhZ4hYL9DQLUBgCuN8mUQcmR697ZO70jrNCg5pQ2+3zzjd
-         XhkmvYkJopyZ+lsjO7UeIrHC8BXOnMB7ZrT+Q3v3NBL1J0Bj7es6jJrhGwhcQX2wMQik
-         IjfQ==
-X-Gm-Message-State: AOAM5304u8nHwWDKMnbAhyGdPeShb5iNFXAZbRkjnFuFfd0+zgveMD23
-        zI33qmu7XC1D9xj1yemcbQU=
-X-Google-Smtp-Source: ABdhPJzYGYiaYqG6HBbNjSdlim7mfX7k/kJhbqPQ6/ns6u+6hM7MXCpC344AnJiLegWqFFKpxpm14A==
-X-Received: by 2002:a63:7b52:: with SMTP id k18mr138686pgn.345.1634746700451;
-        Wed, 20 Oct 2021 09:18:20 -0700 (PDT)
-Received: from localhost (2603-800c-1a02-1bae-e24f-43ff-fee6-449f.res6.spectrum.com. [2603:800c:1a02:1bae:e24f:43ff:fee6:449f])
-        by smtp.gmail.com with ESMTPSA id j9sm2730874pgn.24.2021.10.20.09.18.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Oct 2021 09:18:19 -0700 (PDT)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Wed, 20 Oct 2021 06:18:18 -1000
-From:   Tejun Heo <tj@kernel.org>
-To:     Boqun Feng <boqun.feng@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
+        id S231124AbhJTQV0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Oct 2021 12:21:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55000 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230459AbhJTQVZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 20 Oct 2021 12:21:25 -0400
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id CC15960C51;
+        Wed, 20 Oct 2021 16:19:09 +0000 (UTC)
+Date:   Wed, 20 Oct 2021 12:19:08 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Kalesh Singh <kaleshsingh@google.com>
+Cc:     Suren Baghdasaryan <surenb@google.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        "Cc: Android Kernel" <kernel-team@android.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH] workqueue: doc: Call out the non-reentrance conditions
-Message-ID: <YXBBSrlOmAU8+J5w@slm.duckdns.org>
-References: <20211018013117.256284-1-boqun.feng@gmail.com>
- <YW8EzNmq/bde5VTa@slm.duckdns.org>
- <YW+rxfMof4QcGSrq@boqun-archlinux>
+        Ingo Molnar <mingo@redhat.com>, Shuah Khan <shuah@kernel.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Tom Zanussi <zanussi@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH v2 3/5] tracing: Fix operator precedence for hist
+ triggers expression
+Message-ID: <20211020121908.28fed7af@gandalf.local.home>
+In-Reply-To: <CAC_TJvfsF9BF2wfGck1icX_Ya7dLWO+hOBA5cR56PPr0Dn9D9Q@mail.gmail.com>
+References: <20211020013153.4106001-1-kaleshsingh@google.com>
+        <20211020013153.4106001-4-kaleshsingh@google.com>
+        <20211020114805.3fbb7d94@gandalf.local.home>
+        <CAC_TJvfsF9BF2wfGck1icX_Ya7dLWO+hOBA5cR56PPr0Dn9D9Q@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YW+rxfMof4QcGSrq@boqun-archlinux>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 20, 2021 at 01:40:21PM +0800, Boqun Feng wrote:
-> * A work item instance will not be processed by multiple workers at the
->   same time, i.e. it's non-reentrant, so requeuing the same instance of
->   a work item is safe and not racy.  Operations considered as changing
->   the work item to a different instance are: 1) change the work
->   function, 2) queue the work item to a different workqueue, or 3)
->   reinitiate the work item.  The non-reentrance guarantee doesn't hold
->   for different work item instances.
+On Wed, 20 Oct 2021 09:11:27 -0700
+Kalesh Singh <kaleshsingh@google.com> wrote:
 
-Yeah, I prefer it to be described this way but it's not a strong opinion.
-Looks good to me either way.
+> The main reason for this is that it's predictable behavior form the
+> user's perspective. Before this patch the recursion always walked down
+> a single branch so limiting by level worked out the same as limiting
+> by sub expressions and is in line with the error the user would see
+> ("Too many sub-expressions (3 max)"). Now that we take multiple paths
+> in the recursion, using the level to reflect the number of
+> sub-expressions would lead to only seeing the error in some of the
+> cases (Sometimes we allow 4, 5, 6 sub-expressions depending on how
+> balanced the tree is, and sometimes we error out on 4 - when the tree
+> is list-like). Limiting by sub-expression keeps this consistent
+> (always error out if we have more than 3 sub-expressions) and is in
+> line with the previous behavior.
 
-Thanks.
+I'm fine with that. If we want to improve this in the future then fine. We
+can always extend, as that doesn't break user API.
 
--- 
-tejun
+So we can keep it as is.
+
+-- Steve
