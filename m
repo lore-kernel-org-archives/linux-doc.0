@@ -2,178 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AB32C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 19:15:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAF47C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 20:12:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2CA3661354
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 19:15:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C8D4F60EB1
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 20:12:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231503AbhJTTRY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Oct 2021 15:17:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33464 "EHLO
+        id S229952AbhJTUOY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Oct 2021 16:14:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231442AbhJTTRY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Oct 2021 15:17:24 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFA54C06174E
-        for <linux-doc@vger.kernel.org>; Wed, 20 Oct 2021 12:15:09 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id o133so3780312pfg.7
-        for <linux-doc@vger.kernel.org>; Wed, 20 Oct 2021 12:15:09 -0700 (PDT)
+        with ESMTP id S230052AbhJTUOY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Oct 2021 16:14:24 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94FC9C061749
+        for <linux-doc@vger.kernel.org>; Wed, 20 Oct 2021 13:12:09 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id t21so8880130plr.6
+        for <linux-doc@vger.kernel.org>; Wed, 20 Oct 2021 13:12:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=google.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=i22CGOfMdCgEzNofkN2ujFXF/VRH37ibkrOAmDeTGJk=;
-        b=JpcmTmu47LLgTalrcwHRfbvnurUdEUIPsEFm+gDXyWzHYc7ndXQEKbhgm4vo91rqt1
-         TMNIN7Qa9dCpB6e3ViS2EZ+qPxoTjr6dHBkYXKic25otGOFt5rTop+eIp8mnFDNRwpGt
-         aje3upgjKjBAz6T1loijjMNJQqfNOXXET2wlA=
+        bh=ZiXG6npJQ40qHjEvArb6k7d15fp/E+O+F6q9OgsTVB0=;
+        b=Bs6oDxIB9/BvVAMg2OuQLkevbXtWhuULIQBz+tqDxlUSrd8RseBFIS63sD5AFUyNFA
+         y6rjUICcdFnVdlmsyhEg/SAVUrRIBjTHT1EPHCFeljsfY9tI0FlqVdePnDs6rspmVybg
+         JprEhH85z/yToGsmQwvLF1iCTVZAsvwJlEk6EXQ0y2k6N6MAHn3qDk2ZgNgQWXr51LTX
+         d9cXEFt49jshq0HZu8G67Bhu+aAKS3raIBigvZVnN1h4i8tMvjNF/rjs6KbJo+PvaCjg
+         yvtpQo6kI09UQQ9P5CuPPjpmXLbxwjO8vGXgr0FkQKwf34SZSsuvldUqskUsGfKS5LfE
+         Y6vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=i22CGOfMdCgEzNofkN2ujFXF/VRH37ibkrOAmDeTGJk=;
-        b=J1AWIji5rdPPAtlYJJxuqxQ/n0jWSJ48gIPdJnRikZMY+7LzVsSowDcOmU8ZCaV5hw
-         I7HjSxxCQfB1mSO18Iaai26W6r32i1h693sir4DcPd31LVOonzYIObQC/fBk5p+60ZcY
-         Ue2a0K1Yjiehg1021u0XyyMdFDSTwVQUAMiMF82ok6yeNQFA7Ax5we7dlTE75rGft3/j
-         QLFvE29rdpiGmOSGzpqrHI3Hf1XZKepo3O+DdUT/XIfjqjpfOZJHaRtjX9MvWja80G0l
-         Lg6ODg+cRRamasEZ4fhoZhoVnwY+OfpXbLMz3oaNB6kK+bgdMTwV9g1pXDTFnqX76DXx
-         xWaQ==
-X-Gm-Message-State: AOAM533astqnI61rUIIXCh/UY5mYChPx8YWMi6AcijLAgkm0uAqsRiPE
-        TSV1wpx5MwD5AoGjYJUlwkE8Ew==
-X-Google-Smtp-Source: ABdhPJwlN6e6EukdLBE/1sEfEDDBaNtAFd50dDayRvjCFtYq+pdfXTDmzg6uAqxABX6av/5tLtlX3w==
-X-Received: by 2002:aa7:94a8:0:b0:44c:f3e0:81fb with SMTP id a8-20020aa794a8000000b0044cf3e081fbmr797733pfl.6.1634757309155;
-        Wed, 20 Oct 2021 12:15:09 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id p12sm3981100pfh.52.2021.10.20.12.15.08
+        bh=ZiXG6npJQ40qHjEvArb6k7d15fp/E+O+F6q9OgsTVB0=;
+        b=QKk+vBMgIBiyrcS9nQgBbJfTQBZcbO+mLPRExzIHJYB7CUPXOpwC+7A9rHrxQFeCEB
+         1jbaWeGdazEGvrpu6SptiLLNzQUdQwUE2M/9bYiGm0GLwyQFPsCl+g6FOtjbSmgIR9K1
+         J1TgUsvaWXK27v/Nqz6mSaiANqBifMHE1BZpP88Jf+d1EQA3DP4zjiJ8dfngJXM1V111
+         23wsZRPi28aaDyP0I6BF5pLcvpxhrfwOcnrnqrylbCqmjeTN9gahYtW7LBJS8h/5XkGL
+         SLXmxmIo6UyHYV1agrP/u2bYT6Q1P1UpkvUBzsNd+dCF/5ZTmHst07fK5w351Vj9JYjh
+         OLNQ==
+X-Gm-Message-State: AOAM530bZu/YJEzL5WB31biAmTBUg0AwjG6L3IFg/chAKTZWcOUknn4B
+        KEaK0MSGfArhdQsnJvz7fA1KFwQZwJDAug==
+X-Google-Smtp-Source: ABdhPJxyDHHysLeYQux6u2PjLueuQPGehtUGpIgOL8UuONJAF8k+vkIJxYxeVmC9UGFYJ5fS4AQuYA==
+X-Received: by 2002:a17:902:a9c3:b0:13f:c765:148d with SMTP id b3-20020a170902a9c300b0013fc765148dmr1191357plr.28.1634760728940;
+        Wed, 20 Oct 2021 13:12:08 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id x6sm3827540pfh.77.2021.10.20.13.12.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Oct 2021 12:15:08 -0700 (PDT)
-Date:   Wed, 20 Oct 2021 12:15:08 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
+        Wed, 20 Oct 2021 13:12:08 -0700 (PDT)
+Date:   Wed, 20 Oct 2021 20:12:04 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Wanpeng Li <kernellwp@gmail.com>
+Cc:     zhenwei pi <pizhenwei@bytedance.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
-        llvm@lists.linux.dev, Dan Li <ashimida@linux.alibaba.com>,
-        ardb@kernel.org, ojeda@kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] gcc-plugins: Explicitly document purpose and
- deprecation schedule
-Message-ID: <202110201212.43DC4A24@keescook>
-References: <20211020173554.38122-1-keescook@chromium.org>
- <20211020173554.38122-2-keescook@chromium.org>
- <YXBVx+0YjoMtQ27T@archlinux-ax161>
+        Wanpeng Li <wanpengli@tencent.com>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] x86/kvm: Introduce boot parameter no-kvm-pvipi
+Message-ID: <YXB4FHfzh99707EH@google.com>
+References: <20211020120726.4022086-1-pizhenwei@bytedance.com>
+ <CANRm+CxAVA-L0wjm72eohXXWvh9fS7wVFzfKHuEjrsiRFuk9fg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YXBVx+0YjoMtQ27T@archlinux-ax161>
+In-Reply-To: <CANRm+CxAVA-L0wjm72eohXXWvh9fS7wVFzfKHuEjrsiRFuk9fg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 20, 2021 at 10:45:43AM -0700, Nathan Chancellor wrote:
-> On Wed, Oct 20, 2021 at 10:35:53AM -0700, Kees Cook wrote:
-> > GCC plugins should only exist when some compiler feature needs to be
-> > proven but does not exist in either GCC nor Clang. For example, if a
-> > desired feature is already in Clang, it should be added to GCC upstream.
-> > Document this explicitly.
-> > 
-> > Additionally, mark the plugins with matching upstream GCC features as
-> > removable past their respective GCC versions.
-> > 
-> > Cc: Masahiro Yamada <masahiroy@kernel.org>
-> > Cc: Michal Marek <michal.lkml@markovi.net>
-> > Cc: Nick Desaulniers <ndesaulniers@google.com>
-> > Cc: Jonathan Corbet <corbet@lwn.net>
-> > Cc: James Morris <jmorris@namei.org>
-> > Cc: "Serge E. Hallyn" <serge@hallyn.com>
-> > Cc: Nathan Chancellor <nathan@kernel.org>
-> > Cc: linux-hardening@vger.kernel.org
-> > Cc: linux-kbuild@vger.kernel.org
-> > Cc: linux-doc@vger.kernel.org
-> > Cc: linux-security-module@vger.kernel.org
-> > Cc: llvm@lists.linux.dev
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
+On Wed, Oct 20, 2021, Wanpeng Li wrote:
+> On Wed, 20 Oct 2021 at 20:08, zhenwei pi <pizhenwei@bytedance.com> wrote:
+> >
+> > Although host side exposes KVM PV SEND IPI feature to guest side,
+> > guest should still have a chance to disable it.
+> >
+> > A typicall case of this parameter:
+> > If the host AMD server enables AVIC feature, the flat mode of APIC
+> > get better performance in the guest.
 > 
-> Seems reasonable to me.
-> 
-> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+> Hmm, I didn't find enough valuable information in your posting. We
+> observe AMD a lot before.
+> https://lore.kernel.org/all/CANRm+Cx597FNRUCyVz1D=B6Vs2GX3Sw57X7Muk+yMpi_hb+v1w@mail.gmail.com/T/#u
 
-Thanks!
-
-> 
-> One comment below.
-> 
-> > ---
-> >  Documentation/kbuild/gcc-plugins.rst | 26 ++++++++++++++++++++++++++
-> >  scripts/gcc-plugins/Kconfig          |  4 ++--
-> >  security/Kconfig.hardening           |  9 ++++++---
-> >  3 files changed, 34 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/Documentation/kbuild/gcc-plugins.rst b/Documentation/kbuild/gcc-plugins.rst
-> > index 3349966f213d..4b28c7a4032f 100644
-> > --- a/Documentation/kbuild/gcc-plugins.rst
-> > +++ b/Documentation/kbuild/gcc-plugins.rst
-> > @@ -32,6 +32,32 @@ This infrastructure was ported from grsecurity [6]_ and PaX [7]_.
-> >  .. [7] https://pax.grsecurity.net/
-> >  
-> >  
-> > +Purpose
-> > +=======
-> > +
-> > +GCC plugins are designed to provide a place to experiment with potential
-> > +compiler features that are neither in GCC nor Clang upstream. Once
-> > +their utility is proven, the goal is to upstream the feature into GCC
-> > +(and Clang), and then to finally remove them from the kernel once the
-> > +feature is available in all supported versions of GCC.
-> > +
-> > +Specifically, new plugins should implement only features that have no
-> > +upstream compiler support (in either GCC or Clang).
-> > +
-> > +When a feature exists in Clang but not GCC, effort should be made to
-> > +bring the feature to upstream GCC (rather than just as a kernel-specific
-> > +GCC plugin), so the entire ecosystem can benefit from it.
-> > +
-> > +Similarly, even if a feature provided by a GCC plugin does *not* exist
-> > +in Clang, but the feature is proven to be useful, effort should be spent
-> > +to upstream the feature to GCC (and Clang).
-> > +
-> > +After a feature is available in upstream GCC, the plugin will be made
-> > +unbuildable for the corresponding GCC version (and later). Once all
-> > +kernel-supported versions of GCC provide the feature, the plugin will
-> > +be removed from the kernel.
-> > +
-> > +
-> >  Files
-> >  =====
-> >  
-> > diff --git a/scripts/gcc-plugins/Kconfig b/scripts/gcc-plugins/Kconfig
-> > index ab9eb4cbe33a..3f5d3580ec06 100644
-> > --- a/scripts/gcc-plugins/Kconfig
-> > +++ b/scripts/gcc-plugins/Kconfig
-> > @@ -37,6 +37,8 @@ config GCC_PLUGIN_CYC_COMPLEXITY
-> >  
-> >  config GCC_PLUGIN_SANCOV
-> >  	bool
-> > +	# Plugin can be removed once the kernel only supports GCC 6.1.0+
-> > +	depends on !CC_HAS_SANCOV_TRACE_PC
-> 
-> This symbol is not user selectable and the one place that does select it
-> only does so when !CC_HAS_SANCOV_TRACE_PC so this seems pointless to me.
-> 
-> Keep the comment, ditch the depends?
-
-I had a similar thought, and in the end, I decided I wanted to always
-enforce the GCC feature check through a depends, with a comment about
-the expected version. I want to make sure we don't use plugins if an
-upstream feature is already available. It happens that SANCOV was
-effectively the first to do this, but it did so on the other side and I
-wanted it repeated here so it was "self contained".
-
--Kees
-
--- 
-Kees Cook
+I too would like to see numbers.  I suspect the answer is going to be that
+AVIC performs poorly in CPU overcommit scenarios because of the cost of managing
+the tables and handling "failed delivery" exits, but that AVIC does quite well
+when vCPUs are pinned 1:1 and IPIs rarely require an exit to the host.
