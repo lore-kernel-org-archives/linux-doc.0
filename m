@@ -2,100 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13629C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 11:12:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6422CC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 12:04:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E161760E9B
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 11:12:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4F5BC60EE5
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 12:04:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229910AbhJTLOS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Oct 2021 07:14:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38158 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229900AbhJTLOS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 20 Oct 2021 07:14:18 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6B0076139F;
-        Wed, 20 Oct 2021 11:04:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634727889;
-        bh=sMNqIiJjcwrM/kpzKPJkufx9T9IAXcb0wsTgtzG1xm8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SF+pbDEb5LUWi1FIobUSa9latykvOw8D/Rjn5udnGrIKSbxOOJ6lkudyC6Bu2sada
-         wlV4IFiYddC9gBwhc/xSciIzwTot31Ckbj88C6ADvDGZFRKGmiflGOg3KiAFoKu42j
-         gaP4otG5FQmsvCqpGKqRiHe0au5EIbyQ1s0XLZ2zSgiqOfHZ80ieAVf6Xm/AvYI9Lp
-         3+fqA5/6igarlf8LaEL3XLOMcQyBgxK6Jxry4gJWk3pI2olcQGfYOo7NFtvnDgoHNf
-         ydSvMHhfbuRHNun3yFpBhxr/cyx+e31rlFChBvuFYS0ll78rSUQEkhLpL0vwyITHYt
-         XoIINZvWBbaOg==
-Date:   Wed, 20 Oct 2021 12:04:47 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S230316AbhJTMHF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Oct 2021 08:07:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46132 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230219AbhJTMHC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Oct 2021 08:07:02 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34373C061746
+        for <linux-doc@vger.kernel.org>; Wed, 20 Oct 2021 05:04:48 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id y4so16020223plb.0
+        for <linux-doc@vger.kernel.org>; Wed, 20 Oct 2021 05:04:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BCKWEoi8FeeBRDvl5EymVEm69MjyykXFzH9HAs/kyO4=;
+        b=cuiutl2QAAxfwD56hLItqR8kvhCEQ7NLO3pkxhfHS9+G/fMLr1/t8rKVJEqmHJiNpb
+         CZ21EE6qwrk20h7kpm27tNC/c4jVdseWv2S9gIsftsOTHCsJLoVZJc0mJkI8+oObIRwY
+         pMNdJZGPHl1m5HRFt9dwroghBaTQXLkVX66aE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BCKWEoi8FeeBRDvl5EymVEm69MjyykXFzH9HAs/kyO4=;
+        b=oQyY58yZih1UwEOII4EbQu8MtYB5nzOTruAow5npKnRSdRf49enyp+PVVoTcDr9Vn9
+         6PRgmRrJH9ez+Ge3AfjhJKUB+QcPhDx3xSo2RbPn88O8Cbq7qadslu9V64q4XGdyxZNT
+         VUT82GpqZlzJ9oiD8iYBwJePou7naJ+YLI9dLTEqQLC9ply+0SZnjVuIP723g6VlHa2d
+         V/xk0xzJhyrlAwPSFc9K8OhfZVPlkWuFkEz6lbRJ0D2Na6v20FLUFI+DT2H9sijq3eV0
+         sLvVyyKXJ6WQcMQDYKRFyZwUsVCpma3FhMWJp1UOiE0jw91SA+pLou/f/gbMVzk3GkcM
+         lkfg==
+X-Gm-Message-State: AOAM530OXqd7YXPz+BHNh0zqbS6u59GzU0AUebgdMjccw604DGRlnoW5
+        Kz5ksrxN4rezHvJvA4+xgfMmFg==
+X-Google-Smtp-Source: ABdhPJzr2LjWMqwdO+RhWupttHiFUwdUh98FJ2jVhkMKr665jMBIQfRoeEZuFCiB3w1/PLoDsOA18Q==
+X-Received: by 2002:a17:90a:c206:: with SMTP id e6mr6827339pjt.193.1634731487726;
+        Wed, 20 Oct 2021 05:04:47 -0700 (PDT)
+Received: from localhost ([2401:fa00:8f:203:e516:d575:e6f:a526])
+        by smtp.gmail.com with UTF8SMTPSA id fh3sm5721784pjb.8.2021.10.20.05.04.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Oct 2021 05:04:47 -0700 (PDT)
+From:   Hikaru Nishida <hikalium@chromium.org>
+To:     linux-kernel@vger.kernel.org, dme@dme.org, tglx@linutronix.de,
+        mlevitsk@redhat.com, linux@roeck-us.net, pbonzini@redhat.com,
+        vkuznets@redhat.com, maz@kernel.org, will@kernel.org
+Cc:     suleiman@google.com, senozhatsky@google.com,
+        kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org,
+        Hikaru Nishida <hikalium@chromium.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        John Stultz <john.stultz@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH v3 21/23] regulator: dt-bindings: update
- samsung,s2mpa01.yaml reference
-Message-ID: <YW/3z1HBU3+WwsZu@sirena.org.uk>
-References: <cover.1634630485.git.mchehab+huawei@kernel.org>
- <9acc235dc4af794d18e1267371944a3955e1fb21.1634630486.git.mchehab+huawei@kernel.org>
- <YW60a8z0JNDnTLV/@sirena.org.uk>
- <20211020073013.6d144c0d@sal.lan>
+        Juergen Gross <jgross@suse.com>,
+        Kees Cook <keescook@chromium.org>,
+        Lai Jiangshan <laijs@linux.alibaba.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Sean Christopherson <seanjc@google.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Wanpeng Li <wanpengli@tencent.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, x86@kernel.org
+Subject: [RFC PATCH v3 0/5] x86/kvm: Virtual suspend time injection support
+Date:   Wed, 20 Oct 2021 21:04:25 +0900
+Message-Id: <20211020120431.776494-1-hikalium@chromium.org>
+X-Mailer: git-send-email 2.33.0.1079.g6e70778dc9-goog
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ZAEkjZ1m1ca4kKva"
-Content-Disposition: inline
-In-Reply-To: <20211020073013.6d144c0d@sal.lan>
-X-Cookie: I program, therefore I am.
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---ZAEkjZ1m1ca4kKva
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Hi,
 
-On Wed, Oct 20, 2021 at 07:30:13AM +0100, Mauro Carvalho Chehab wrote:
-> Mark Brown <broonie@kernel.org> escreveu:
+This patch series adds virtual suspend time injection support to KVM.
+It is an updated version of the following series:
+v2:
+https://lore.kernel.org/kvm/20210806100710.2425336-1-hikalium@chromium.org/
+v1:
+https://lore.kernel.org/kvm/20210426090644.2218834-1-hikalium@chromium.org/
 
-> > For a case like this where there's no
-> > dependencies or real relationship between the patches it's probably
-> > better to just not thread everything and send the patches separately to
-> > everyone, the threading is just adding noise and confusion.
+Please take a look again.
 
-> It is not that easy, unfortunately. On some cases (specially due to
-> DT binding renames) some patches change the context of a hunk, affecting
-> a subsequent patch.
+To kvm/arm64 folks:
+I'm going to implement this mechanism to ARM64 as well but not
+sure which function should be used to make an IRQ (like kvm_apic_set_irq
+in x86) and if it is okay to use kvm_gfn_to_hva_cache /
+kvm_write_guest_cached for sharing the suspend duration.
+Please let me know if there is other suitable way or any suggestions.
 
-If that's the case then the cover letter really needs work to make this
-clear, I couldn't tell that there was any risk of dependencies nor would
-I expect any for such trivial changes.
+Thanks,
 
-> I tried a couple of times in the past to send the patches individually,
-> but that was messier, as there was harder for people to apply them,
-> as, instead of running b4 just once to get everything, maintainers
-> would need to apply each patch individually. Also, there were cases
-> where the patch order would be relevant, due to context changes.
+Hikaru Nishida
 
-You could also send a per subsystem series if there's a concern about it
-being hard to pick up individual patches.
 
---ZAEkjZ1m1ca4kKva
-Content-Type: application/pgp-signature; name="signature.asc"
+Changes in v3:
+- Used PM notifier instead of modifying timekeeping_resume()
+  - This avoids holding kvm_lock under interrupt disabled context.
+- Used KVM_REQ_* to make a request for vcpus.
+- Reused HYPERVISOR_CALLBACK_VECTOR IRQ instead of adding a new one.
+- Extracted arch-independent parts.
+- Fixed other reviewed points.
 
------BEGIN PGP SIGNATURE-----
+Hikaru Nishida (5):
+  timekeeping: Expose tk->offs_boot via ktime_get_offs_boot_ns
+  kvm/x86: Include asm/pvclock.h in asm/kvmclock.h
+  kvm/x86: virtual suspend time injection: Add common definitions
+  kvm/x86: virtual suspend time injection: Implement host side
+  kvm/x86: virtual suspend time injection: Implement guest side
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmFv984ACgkQJNaLcl1U
-h9C02Af/QqIIdFgUqHCd9imzBH3Vi5+Z+3/0On7vsl4IbE20RXNk5eZFnv8f5Ved
-2PlH3h6rteKeQFjUiXyFBM2GVhAtb7/PW/JslNVEVv9XatCiRDIwa5la4Eivdrw6
-7n1zkGTV6kk6SQKiE8m9ECRx6JrPEWpGRIk0wdTgqAwhUPZbADYmBB8CyCGnJWw8
-hj04Xhz+Ud1I63Eyv052BBD7OoVGC1JnQhwr8VfQWvg3WPolzBY/eIGp825rg0Ov
-XwEOMSYyWFi7QvHi0HC/xBMK51xg6wlfhliRzX5nnrVKt6u6Etb7TNchakCXQ3/F
-6JqMMaEsGO3D7AXzjR4QLo22YpvAMA==
-=tTrb
------END PGP SIGNATURE-----
+ Documentation/virt/kvm/cpuid.rst     |   3 +
+ Documentation/virt/kvm/msr.rst       |  30 ++++++++
+ arch/x86/Kconfig                     |  13 ++++
+ arch/x86/include/asm/idtentry.h      |   2 +-
+ arch/x86/include/asm/kvm_host.h      |   2 +
+ arch/x86/include/asm/kvmclock.h      |  11 +++
+ arch/x86/include/uapi/asm/kvm_para.h |   6 ++
+ arch/x86/kernel/kvm.c                |  14 +++-
+ arch/x86/kernel/kvmclock.c           |  26 +++++++
+ arch/x86/kvm/Kconfig                 |  13 ++++
+ arch/x86/kvm/cpuid.c                 |   4 +
+ arch/x86/kvm/x86.c                   | 109 +++++++++++++++++++++++++++
+ arch/x86/mm/fault.c                  |   2 +-
+ include/linux/kvm_host.h             |  48 ++++++++++++
+ include/linux/timekeeper_internal.h  |   5 ++
+ include/linux/timekeeping.h          |   6 ++
+ kernel/time/timekeeping.c            |  56 ++++++++++++++
+ virt/kvm/kvm_main.c                  |  88 +++++++++++++++++++++
+ 18 files changed, 432 insertions(+), 6 deletions(-)
 
---ZAEkjZ1m1ca4kKva--
+-- 
+2.33.0.1079.g6e70778dc9-goog
+
