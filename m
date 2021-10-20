@@ -2,50 +2,47 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2147BC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 05:50:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFC27C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 06:30:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ED92B610F8
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 05:50:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 968796113D
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 06:30:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229864AbhJTFwy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Oct 2021 01:52:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59420 "EHLO mail.kernel.org"
+        id S229878AbhJTGcd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Oct 2021 02:32:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48372 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229829AbhJTFwx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 20 Oct 2021 01:52:53 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7B637611EF;
-        Wed, 20 Oct 2021 05:50:37 +0000 (UTC)
+        id S229591AbhJTGcd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 20 Oct 2021 02:32:33 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 11EC36115A;
+        Wed, 20 Oct 2021 06:30:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634709039;
-        bh=Y/HNCkQN1Dm+Xz7LGNy6kj13dbmiKV6jL2UTzRuCpY0=;
+        s=k20201202; t=1634711419;
+        bh=tllcKVdOCf1880LUhvS7XrPGcwtfJQbGlrVjX9YMtt8=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=aY/iMJmBzRPMOWlea5jYrHiLOtuV8+PJmdylnIE+uk6yvXhayIvbxDZeKriQ80Pp/
-         2Hs+sEoSjjBy3fwKkE58HHDykVwBWwDetqlnNpgcelPwkXGJPixLHtfdNhu0bLwmpA
-         Jm7Tvy0ftkd/urNPNQrrHVLID8K2ry0/MNf6jDQJ4R/eThq2TIo/7VivIqvrV0NPiS
-         IZJIt2O0kdsBYuGf0Ae4Usl/rSwiZrZ65Gq88LT9R3dlKy/X+zDXC0hQoAffbSlVf3
-         eih343gTmfnz/HDoGRWDpifCTp5fW9cJIXLZJYxuQlFwS8qdJO28YSA7Wi2Q2ZyI1k
-         0fvQ9FUljMUpA==
-Date:   Wed, 20 Oct 2021 06:50:33 +0100
+        b=m3/sLdGDb5JoeBwHZroAOE5md4OeTg6ihclpVaa41kJVBjbUtQoMyz8gW9sQOCrw9
+         UU8KQu0G1XO0Picbov8U/nr5/ew7INb49eRccpuXbXbigiFoPmaqrtpclgUiF4y5ny
+         CN201CfNQKLxyi7kwel6rGGDZmoFR9z/iyIcuCf2Nx4PbsbbxS8VxNWrIWOBrs6lnH
+         4FnNoq+UySwnBnkVv9RiLdpi+L0NwY05wp6pigH3HpXpNyjrM+Vfu2eUexXo/ZebxA
+         52OMYFt0VoErTF9d1G7Bq7aDHIVVFDnKWDpxp0LWta3Br96tg2c/Q/OXG4QmdjlRCx
+         A8Fo4fmJpolqg==
+Date:   Wed, 20 Oct 2021 07:30:13 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Jeff Layton <jlayton@kernel.org>
-Cc:     "J. Bruce Fields" <bfields@fieldses.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] locks: remove changelog comments
-Message-ID: <20211020065033.032c86f9@sal.lan>
-In-Reply-To: <6f4a14d0a455c5a93eccfdf2dc8555b82b79694b.camel@kernel.org>
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH v3 21/23] regulator: dt-bindings: update
+ samsung,s2mpa01.yaml reference
+Message-ID: <20211020073013.6d144c0d@sal.lan>
+In-Reply-To: <YW60a8z0JNDnTLV/@sirena.org.uk>
 References: <cover.1634630485.git.mchehab+huawei@kernel.org>
-        <887de3a1ecadda3dbfe0adf9df9070f0afa9406c.1634630486.git.mchehab+huawei@kernel.org>
-        <f352a2e4b50a8678a8ddef5177702ecf9040490f.camel@kernel.org>
-        <20211019141427.GA15063@fieldses.org>
-        <e7bdcf0b279989e51c2c333e89acf3e1d476eff0.camel@kernel.org>
-        <20211019161651.GD15063@fieldses.org>
-        <c6d2e1a8691a49afbbc280bb74a05b9b110b7f27.camel@kernel.org>
-        <20211019173835.GE15063@fieldses.org>
-        <6f4a14d0a455c5a93eccfdf2dc8555b82b79694b.camel@kernel.org>
+        <9acc235dc4af794d18e1267371944a3955e1fb21.1634630486.git.mchehab+huawei@kernel.org>
+        <YW60a8z0JNDnTLV/@sirena.org.uk>
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -54,162 +51,47 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 19 Oct 2021 14:14:08 -0400
-Jeff Layton <jlayton@kernel.org> escreveu:
+Em Tue, 19 Oct 2021 13:04:59 +0100
+Mark Brown <broonie@kernel.org> escreveu:
 
-> On Tue, 2021-10-19 at 13:38 -0400, J. Bruce Fields wrote:
-> > From: "J. Bruce Fields" <bfields@redhat.com>
-> > 
-> > This is only of historical interest, and anyone interested in the
-> > history can dig out an old version of locks.c from from git.
-> > 
-> > Triggered by the observation that it references the now-removed
-> > Documentation/filesystems/mandatory-locking.rst.
-> > 
-> > Reported-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > Signed-off-by: J. Bruce Fields <bfields@redhat.com>
-> > ---
-> >  fs/locks.c | 114 ++---------------------------------------------------
-> >  1 file changed, 4 insertions(+), 110 deletions(-)
-> > 
-> > On Tue, Oct 19, 2021 at 12:27:55PM -0400, Jeff Layton wrote:  
-> > > Yeah, I think that looks great. Send it with a changelog and I'll pull
-> > > it into the branch I have feeding into -next.  
-> > 
-> > OK!--b.
-> > 
-> > diff --git a/fs/locks.c b/fs/locks.c
-> > index 3d6fb4ae847b..b54813eae44f 100644
-> > --- a/fs/locks.c
-> > +++ b/fs/locks.c
-> > @@ -2,117 +2,11 @@
-> >  /*
-> >   *  linux/fs/locks.c
-> >   *
-> > - *  Provide support for fcntl()'s F_GETLK, F_SETLK, and F_SETLKW calls.
-> > - *  Doug Evans (dje@spiff.uucp), August 07, 1992
-> > + * We implement four types of file locks: BSD locks, posix locks, open
-> > + * file description locks, and leases.  For details about BSD locks,
-> > + * see the flock(2) man page; for details about the other three, see
-> > + * fcntl(2).
-> >   *
-> > - *  Deadlock detection added.
-> > - *  FIXME: one thing isn't handled yet:
-> > - *	- mandatory locks (requires lots of changes elsewhere)
-> > - *  Kelly Carmichael (kelly@[142.24.8.65]), September 17, 1994.
-> > - *
-> > - *  Miscellaneous edits, and a total rewrite of posix_lock_file() code.
-> > - *  Kai Petzke (wpp@marie.physik.tu-berlin.de), 1994
-> > - *
-> > - *  Converted file_lock_table to a linked list from an array, which eliminates
-> > - *  the limits on how many active file locks are open.
-> > - *  Chad Page (pageone@netcom.com), November 27, 1994
-> > - *
-> > - *  Removed dependency on file descriptors. dup()'ed file descriptors now
-> > - *  get the same locks as the original file descriptors, and a close() on
-> > - *  any file descriptor removes ALL the locks on the file for the current
-> > - *  process. Since locks still depend on the process id, locks are inherited
-> > - *  after an exec() but not after a fork(). This agrees with POSIX, and both
-> > - *  BSD and SVR4 practice.
-> > - *  Andy Walker (andy@lysaker.kvaerner.no), February 14, 1995
-> > - *
-> > - *  Scrapped free list which is redundant now that we allocate locks
-> > - *  dynamically with kmalloc()/kfree().
-> > - *  Andy Walker (andy@lysaker.kvaerner.no), February 21, 1995
-> > - *
-> > - *  Implemented two lock personalities - FL_FLOCK and FL_POSIX.
-> > - *
-> > - *  FL_POSIX locks are created with calls to fcntl() and lockf() through the
-> > - *  fcntl() system call. They have the semantics described above.
-> > - *
-> > - *  FL_FLOCK locks are created with calls to flock(), through the flock()
-> > - *  system call, which is new. Old C libraries implement flock() via fcntl()
-> > - *  and will continue to use the old, broken implementation.
-> > - *
-> > - *  FL_FLOCK locks follow the 4.4 BSD flock() semantics. They are associated
-> > - *  with a file pointer (filp). As a result they can be shared by a parent
-> > - *  process and its children after a fork(). They are removed when the last
-> > - *  file descriptor referring to the file pointer is closed (unless explicitly
-> > - *  unlocked).
-> > - *
-> > - *  FL_FLOCK locks never deadlock, an existing lock is always removed before
-> > - *  upgrading from shared to exclusive (or vice versa). When this happens
-> > - *  any processes blocked by the current lock are woken up and allowed to
-> > - *  run before the new lock is applied.
-> > - *  Andy Walker (andy@lysaker.kvaerner.no), June 09, 1995
-> > - *
-> > - *  Removed some race conditions in flock_lock_file(), marked other possible
-> > - *  races. Just grep for FIXME to see them.
-> > - *  Dmitry Gorodchanin (pgmdsg@ibi.com), February 09, 1996.
-> > - *
-> > - *  Addressed Dmitry's concerns. Deadlock checking no longer recursive.
-> > - *  Lock allocation changed to GFP_ATOMIC as we can't afford to sleep
-> > - *  once we've checked for blocking and deadlocking.
-> > - *  Andy Walker (andy@lysaker.kvaerner.no), April 03, 1996.
-> > - *
-> > - *  Initial implementation of mandatory locks. SunOS turned out to be
-> > - *  a rotten model, so I implemented the "obvious" semantics.
-> > - *  See 'Documentation/filesystems/mandatory-locking.rst' for details.
-> > - *  Andy Walker (andy@lysaker.kvaerner.no), April 06, 1996.
-> > - *
-> > - *  Don't allow mandatory locks on mmap()'ed files. Added simple functions to
-> > - *  check if a file has mandatory locks, used by mmap(), open() and creat() to
-> > - *  see if system call should be rejected. Ref. HP-UX/SunOS/Solaris Reference
-> > - *  Manual, Section 2.
-> > - *  Andy Walker (andy@lysaker.kvaerner.no), April 09, 1996.
-> > - *
-> > - *  Tidied up block list handling. Added '/proc/locks' interface.
-> > - *  Andy Walker (andy@lysaker.kvaerner.no), April 24, 1996.
-> > - *
-> > - *  Fixed deadlock condition for pathological code that mixes calls to
-> > - *  flock() and fcntl().
-> > - *  Andy Walker (andy@lysaker.kvaerner.no), April 29, 1996.
-> > - *
-> > - *  Allow only one type of locking scheme (FL_POSIX or FL_FLOCK) to be in use
-> > - *  for a given file at a time. Changed the CONFIG_LOCK_MANDATORY scheme to
-> > - *  guarantee sensible behaviour in the case where file system modules might
-> > - *  be compiled with different options than the kernel itself.
-> > - *  Andy Walker (andy@lysaker.kvaerner.no), May 15, 1996.
-> > - *
-> > - *  Added a couple of missing wake_up() calls. Thanks to Thomas Meckel
-> > - *  (Thomas.Meckel@mni.fh-giessen.de) for spotting this.
-> > - *  Andy Walker (andy@lysaker.kvaerner.no), May 15, 1996.
-> > - *
-> > - *  Changed FL_POSIX locks to use the block list in the same way as FL_FLOCK
-> > - *  locks. Changed process synchronisation to avoid dereferencing locks that
-> > - *  have already been freed.
-> > - *  Andy Walker (andy@lysaker.kvaerner.no), Sep 21, 1996.
-> > - *
-> > - *  Made the block list a circular list to minimise searching in the list.
-> > - *  Andy Walker (andy@lysaker.kvaerner.no), Sep 25, 1996.
-> > - *
-> > - *  Made mandatory locking a mount option. Default is not to allow mandatory
-> > - *  locking.
-> > - *  Andy Walker (andy@lysaker.kvaerner.no), Oct 04, 1996.
-> > - *
-> > - *  Some adaptations for NFS support.
-> > - *  Olaf Kirch (okir@monad.swb.de), Dec 1996,
-> > - *
-> > - *  Fixed /proc/locks interface so that we can't overrun the buffer we are handed.
-> > - *  Andy Walker (andy@lysaker.kvaerner.no), May 12, 1997.
-> > - *
-> > - *  Use slab allocator instead of kmalloc/kfree.
-> > - *  Use generic list implementation from <linux/list.h>.
-> > - *  Sped up posix_locks_deadlock by only considering blocked locks.
-> > - *  Matthew Wilcox <willy@debian.org>, March, 2000.
-> > - *
-> > - *  Leases and LOCK_MAND
-> > - *  Matthew Wilcox <willy@debian.org>, June, 2000.
-> > - *  Stephen Rothwell <sfr@canb.auug.org.au>, June, 2000.
-> >   *
-> >   * Locking conflicts and dependencies:
-> >   * If multiple threads attempt to lock the same byte (or flock the same file)  
+> On Tue, Oct 19, 2021 at 09:04:20AM +0100, Mauro Carvalho Chehab wrote:
 > 
-> Thanks, Bruce (and Mauro). Applied to the locks-next branch (and I
-> dropped Mauro's patch that touched the same area). It should make v5.16.
-
-Thanks! Yeah, it looks a lot cleaner without those changelog-style
-comments.
-
+> > To mailbombing on a large number of people, only mailing lists were C/C on the cover.
+> > See [PATCH v3 00/23] at: https://lore.kernel.org/all/cover.1634630485.git.mchehab+huawei@kernel.org/  
 > 
-> Cheers,
+> It'd be a bit easier to put a note in here about what the dependencies
+> are rather than forcing people to go out to a link to figure out what's
+> going on unless it's complicated. 
+>
+> For a case like this where there's no
+> dependencies or real relationship between the patches it's probably
+> better to just not thread everything and send the patches separately to
+> everyone, the threading is just adding noise and confusion.
+
+It is not that easy, unfortunately. On some cases (specially due to
+DT binding renames) some patches change the context of a hunk, affecting
+a subsequent patch.
+
+I tried a couple of times in the past to send the patches individually,
+but that was messier, as there was harder for people to apply them,
+as, instead of running b4 just once to get everything, maintainers
+would need to apply each patch individually. Also, there were cases
+where the patch order would be relevant, due to context changes.
+
+-
+
+Btw, talking about what it would be easier, the best procedure to
+adopt is to run:
+
+	./scripts/documentation-file-ref-check 
+
+Before sending/applying patches touching documents.
+
+That would avoid the need of such fixup patches ;-)
+
+Unfortunately, in the specific case of dt-bindings, things are not
+that easy, as doc changes usually go via one tree, while references 
+to them come from other places.
+
+Regards,
+Mauro
