@@ -2,87 +2,225 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8A0BC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 02:28:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7911BC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 04:32:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B29DA60FE8
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 02:28:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 50EF46113D
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 04:32:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229657AbhJTCaN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Oct 2021 22:30:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39778 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229555AbhJTCaN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 19 Oct 2021 22:30:13 -0400
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7DB5460F0F;
-        Wed, 20 Oct 2021 02:27:58 +0000 (UTC)
-Date:   Tue, 19 Oct 2021 22:27:56 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Kalesh Singh <kaleshsingh@google.com>
-Cc:     surenb@google.com, hridya@google.com, namhyung@kernel.org,
-        kernel-team@android.com, Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>, Shuah Khan <shuah@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Tom Zanussi <zanussi@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 2/5] tracing: Add division and multiplication support
- for hist triggers
-Message-ID: <20211019222756.1fde436b@gandalf.local.home>
-In-Reply-To: <20211020013153.4106001-3-kaleshsingh@google.com>
-References: <20211020013153.4106001-1-kaleshsingh@google.com>
-        <20211020013153.4106001-3-kaleshsingh@google.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S229555AbhJTEej (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Oct 2021 00:34:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57032 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229492AbhJTEeh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Oct 2021 00:34:37 -0400
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80972C061746
+        for <linux-doc@vger.kernel.org>; Tue, 19 Oct 2021 21:32:23 -0700 (PDT)
+Received: by mail-pl1-x634.google.com with SMTP id i5so8997592pla.5
+        for <linux-doc@vger.kernel.org>; Tue, 19 Oct 2021 21:32:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=dvi61QFuvuShv+3C4W94ogPVceuR/aowJYZsiY4/3GI=;
+        b=D9r70ySclJHKVJ9bC4/FcPlel7f1QWFjuli76epDNbwmbz0PxfcHX+bRUCkRfLTatj
+         2K/XPWsh197AI8534C19FofjRsAD6EokQv7VtmvCphlBdY7cSazbSr008tq0vAKKCCTP
+         KqLzuffGvd0ExJUeO9DKqXNkujt0bBHSBPwjMv0VYMnJPVNgPAnQm8682SiZQc5tJRkZ
+         WyiKD/fXAdJAFdJnOPZTDwTkndx4n5MMfGUVziOeSDDnCGAUvTzaj7iHCf2Jur0VDz/H
+         IDcMdWigR6RBgRFS0lYrSgnLL44xY4IvKSE2mV5mLOcv0fo4+qLOdHswfK53xFg1Sfna
+         FPMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=dvi61QFuvuShv+3C4W94ogPVceuR/aowJYZsiY4/3GI=;
+        b=GCRX3nnvFSjs66mWOmPyQj68ZV7H+HDizmjbI8QHvJnHc5O1k9BCpMJMq2y+LtRLYL
+         1mcU3Sk7mdwEA2ZHtkf9T+xNVdmhGt+SCXBn9H7Kh5Tawj+XBm7bs6+12merGNBH5nV7
+         BJG9+Dr0qu26kbFwCX3Pou/pdBYqcd1JLukoUQYM/lSWH5nGo2zZneBipNBWUDBC23Sh
+         qNuj6uwHyIZtUjPVOnHZkkP7yMMfcD3KokkPofXB9msmivOiYfXh46h+xrqf98Mn8DVV
+         IewwMvtTaYlqgqs0kR4l+85RJGQPA/DvLsOq3o+eM18gIEKHVRAlHnrubhsXtDe9kTop
+         uZjw==
+X-Gm-Message-State: AOAM530jWnN6iF9ddLZ0UCIbC3oolznDJnab9KX3txnoTeWbWc/qx6Yh
+        hG1zNP8cW0CIVTlw20NWbLCxCA==
+X-Google-Smtp-Source: ABdhPJyCoNonj7i9wFbTo7ZEqVWDMc1CTUpPzabuuzyv/Gykgij5ZNgb52DYBeBkMiFXLwaPq3CmGA==
+X-Received: by 2002:a17:902:ab8c:b0:13a:22d1:88d with SMTP id f12-20020a170902ab8c00b0013a22d1088dmr36924331plr.33.1634704342883;
+        Tue, 19 Oct 2021 21:32:22 -0700 (PDT)
+Received: from n210-191-019.byted.org ([49.7.45.193])
+        by smtp.googlemail.com with ESMTPSA id f84sm788324pfa.25.2021.10.19.21.32.14
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 19 Oct 2021 21:32:22 -0700 (PDT)
+From:   Li Yu <liyu.yukiteru@bytedance.com>
+To:     pbonzini@redhat.com
+Cc:     liyu.yukiteru@bytedance.com, Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        "Maciej W. Rozycki" <macro@orcam.me.uk>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kvm@vger.kernel.org
+Subject: [PATCH v3] KVM: x86/mmu: Warn on iTLB multi-hit for possible problems
+Date:   Wed, 20 Oct 2021 12:31:27 +0800
+Message-Id: <20211020043131.1222542-1-liyu.yukiteru@bytedance.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <YW7w8g+65PjGs2wc@google.com>
+References: <YW7w8g+65PjGs2wc@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 19 Oct 2021 18:31:39 -0700
-Kalesh Singh <kaleshsingh@google.com> wrote:
+Warn for guest huge pages split if iTLB multi-hit bug is present
+and CPU mitigations is enabled.
 
-> +static u64 hist_field_div(struct hist_field *hist_field,
-> +			   struct tracing_map_elt *elt,
-> +			   struct trace_buffer *buffer,
-> +			   struct ring_buffer_event *rbe,
-> +			   void *event)
-> +{
-> +	struct hist_field *operand1 = hist_field->operands[0];
-> +	struct hist_field *operand2 = hist_field->operands[1];
-> +
-> +	u64 val1 = operand1->fn(operand1, elt, buffer, rbe, event);
-> +	u64 val2 = operand2->fn(operand2, elt, buffer, rbe, event);
-> +
-> +	/* Return -1 for the undefined case */
-> +	if (!val2)
-> +		return -1;
-> +
-> +	return div64_u64(val1, val2);
-> +}
-> +
+Warn for possible CPU lockup if iTLB multi-hit bug is present but
+CPU mitigations is disabled.
 
-I wonder if you should add a shift operator as well?
+Signed-off-by: Li Yu <liyu.yukiteru@bytedance.com>
+---
+ Documentation/admin-guide/hw-vuln/multihit.rst  |  8 +++--
+ Documentation/admin-guide/kernel-parameters.txt | 10 +++---
+ arch/x86/kvm/mmu/mmu.c                          | 48 +++++++++++++++++++++----
+ 3 files changed, 53 insertions(+), 13 deletions(-)
 
-I mean, if for some reason you want to divide by a power of two, then why
-us the division. Especially if this is on a 32 bit machine.
+diff --git a/Documentation/admin-guide/hw-vuln/multihit.rst b/Documentation/admin-guide/hw-vuln/multihit.rst
+index 140e4cec38c3..7b2cd027d759 100644
+--- a/Documentation/admin-guide/hw-vuln/multihit.rst
++++ b/Documentation/admin-guide/hw-vuln/multihit.rst
+@@ -129,19 +129,21 @@ boot time with the option "kvm.nx_huge_pages=".
+ 
+ The valid arguments for these options are:
+ 
+-  ==========  ================================================================
++  ==========  =================================================================
+   force       Mitigation is enabled. In this case, the mitigation implements
+               non-executable huge pages in Linux kernel KVM module. All huge
+               pages in the EPT are marked as non-executable.
+               If a guest attempts to execute in one of those pages, the page is
+               broken down into 4K pages, which are then marked executable.
+ 
+-  off	      Mitigation is disabled.
++  off         Mitigation is disabled.
++
++  off,nowarn  Same as 'off', but hypervisors will not warn when KVM is loaded.
+ 
+   auto        Enable mitigation only if the platform is affected and the kernel
+               was not booted with the "mitigations=off" command line parameter.
+ 	      This is the default option.
+-  ==========  ================================================================
++  ==========  =================================================================
+ 
+ 
+ Mitigation selection guide
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 43dc35fe5bc0..8f014cf462a3 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2339,10 +2339,12 @@
+ 	kvm.nx_huge_pages=
+ 			[KVM] Controls the software workaround for the
+ 			X86_BUG_ITLB_MULTIHIT bug.
+-			force	: Always deploy workaround.
+-			off	: Never deploy workaround.
+-			auto    : Deploy workaround based on the presence of
+-				  X86_BUG_ITLB_MULTIHIT.
++			force	   : Always deploy workaround.
++			off	   : Never deploy workaround.
++			off,nowarn : Same as 'off', but hypervisors will not
++				     warn when KVM is loaded.
++			auto	   : Deploy workaround based on the presence of
++				     X86_BUG_ITLB_MULTIHIT and cpu mitigations.
+ 
+ 			Default is 'auto'.
+ 
+diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+index 1a64ba5b9437..b9dc68e3dc2c 100644
+--- a/arch/x86/kvm/mmu/mmu.c
++++ b/arch/x86/kvm/mmu/mmu.c
+@@ -6056,20 +6056,41 @@ static void __set_nx_huge_pages(bool val)
+ 	nx_huge_pages = itlb_multihit_kvm_mitigation = val;
+ }
+ 
++#define ITLB_MULTIHIT_NX_ON  "iTLB multi-hit CPU bug present and cpu mitigations enabled, guest huge pages may split by kernel for security. See CVE-2018-12207 and https://www.kernel.org/doc/html/latest/admin-guide/hw-vuln/multihit.html for details.\n"
++#define ITLB_MULTIHIT_NX_OFF "iTLB multi-hit CPU bug present but cpu mitigations disabled, malicious guest may cause a CPU lockup. See CVE-2018-12207 and https://www.kernel.org/doc/html/latest/admin-guide/hw-vuln/multihit.html for details.\n"
++
+ static int set_nx_huge_pages(const char *val, const struct kernel_param *kp)
+ {
+ 	bool old_val = nx_huge_pages;
+ 	bool new_val;
++	bool nowarn = false;
+ 
+ 	/* In "auto" mode deploy workaround only if CPU has the bug. */
+-	if (sysfs_streq(val, "off"))
++	if (sysfs_streq(val, "off")) {
++		new_val = 0;
++	} else if (sysfs_streq(val, "off,nowarn")) {
+ 		new_val = 0;
+-	else if (sysfs_streq(val, "force"))
++		nowarn = true;
++	} else if (sysfs_streq(val, "force")) {
++		/*
++		 * When `force` is set, admin should know that no matter whether
++		 * CPU has the bug or not, guest pages may split anyway. So warn
++		 * is not needed.
++		 */
+ 		new_val = 1;
+-	else if (sysfs_streq(val, "auto"))
++		nowarn = true;
++	} else if (sysfs_streq(val, "auto")) {
+ 		new_val = get_nx_auto_mode();
+-	else if (strtobool(val, &new_val) < 0)
++	} else if (strtobool(val, &new_val) < 0) {
+ 		return -EINVAL;
++	}
++
++	if (!nowarn && boot_cpu_has_bug(X86_BUG_ITLB_MULTIHIT)) {
++		if (new_val)
++			pr_warn_once(ITLB_MULTIHIT_NX_ON);
++		else
++			pr_warn_once(ITLB_MULTIHIT_NX_OFF);
++	}
+ 
+ 	__set_nx_huge_pages(new_val);
+ 
+@@ -6094,9 +6115,24 @@ static int set_nx_huge_pages(const char *val, const struct kernel_param *kp)
+ int kvm_mmu_module_init(void)
+ {
+ 	int ret = -ENOMEM;
++	bool mode;
+ 
+-	if (nx_huge_pages == -1)
+-		__set_nx_huge_pages(get_nx_auto_mode());
++	if (nx_huge_pages == -1) {
++		mode = get_nx_auto_mode();
++		if (boot_cpu_has_bug(X86_BUG_ITLB_MULTIHIT)) {
++			/*
++			 * Warn on the CPU multi-hit bug when `nx_huge_pages` is `auto`
++			 * by default. If cpu mitigations was enabled, warn that guest
++			 * huge pages may split, otherwise warn that the bug may cause
++			 * a CPU lockup because of a malicious guest.
++			 */
++			if (mode)
++				pr_warn_once(ITLB_MULTIHIT_NX_ON);
++			else
++				pr_warn_once(ITLB_MULTIHIT_NX_OFF);
++		}
++		__set_nx_huge_pages(mode);
++	}
+ 
+ 	/*
+ 	 * MMU roles use union aliasing which is, generally speaking, an
+-- 
+2.11.0
 
-Of course, the parsing could detect that. If the divisor is a constant. Or
-we could even optimize the above with:
-
-	if (!val2)
-		return -1;
-
-	if (!(val2 & (val2 - 1))
-		return val1 >> __ffs64(val2);
-
-Which should be faster than a divide, and even if it isn't a power of two,
-the subtract and & should be in the noise compared to the divide.
-
-Note, the above can be added to this. I'm not suggesting changing this
-patch.
-
--- Steve
