@@ -2,301 +2,198 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B122C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 17:26:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46369C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 17:35:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EA52D6138F
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 17:26:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2473460F57
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 17:35:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230384AbhJTR2z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Oct 2021 13:28:55 -0400
-Received: from mail-dm6nam10on2047.outbound.protection.outlook.com ([40.107.93.47]:11585
-        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230392AbhJTR2x (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 20 Oct 2021 13:28:53 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Sx2EcZua0ojw0BzKen6FxlF+OzRJOUkmAH83E0TC3fF6gnny4HM0fo48xKkxiF4myeBFgvLaEp8JiIfk1Zvfh8zhQwc47OE01tRPEH/1JH0wgZYyc0Y23wWMA6+aLvjCTzLFGorvwWgw8ZCknvmRX74a1EIL7zGlnBohW+xn9IunIGMVyhuazulTSy7+FwCisBo+s6Fu+Rk6imURwrKC4129r5MeS/DVQfIDzXXtChYGZYWH1q8laArkiL/doJNH73i4T254cM+mXW+Xy/ywK7oNwm0FU4BprCBSks6xvIUJ8ILgA5gnZTzOiQXcehBv0rs1vGfedhsv9Zo/HUO4Fg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kpAcJkx2zC8LdsbwxMe8SN9vYo8iAQp6cKmAWVC/V6A=;
- b=IXnGOykcpLPSx/tVJjPGIl9fORwt8z8cQDq7fahSX0AFVQVazUcLKAA9wVlK+TYNhPNo9EpJCOJDFFHGPJ9nrm1MqR80Z3tsqL2T0njYBSYuezU1FXdP8ihjkJ59Aoy0lsgM6rStbsJKJkUS+ZDfYoxn/YSa4OQqkvb+O7OzMDlZC+hqnWI4XWJmcRc+ne4WrCPThWCWoCxLr4YJOUiJ0RWGgQ25VkLrLW7AXm315EHzCFKdY8DsilbuT4hG/POXofCVlawY53u/LbfHQY1iIogGVfomnbf24T0QalEewzUDjCGMPv9CYm4aSN6xuW8phlny5v9XFtrexBC1v2LYKA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kpAcJkx2zC8LdsbwxMe8SN9vYo8iAQp6cKmAWVC/V6A=;
- b=UKda+SsuhxDvTLK7mdrtpGFB9XPdmWqRDIHRSndnPmcm3yq4yAzuEy2NJ+WDokKOmtwu3Hcj/BbsF4pcASPc51kT6S5aQKobvR+dR0FBA/YofBivBVV8FYA6+6wZTlx/t1gIxMpAZlwqhVkM5LjwfPjwV1GwOA649aurQoN5rM8=
-Authentication-Results: lists.linux-foundation.org; dkim=none (message not
- signed) header.d=none;lists.linux-foundation.org; dmarc=none action=none
- header.from=amd.com;
-Received: from DM4PR12MB5229.namprd12.prod.outlook.com (2603:10b6:5:398::12)
- by DM4PR12MB5214.namprd12.prod.outlook.com (2603:10b6:5:395::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.16; Wed, 20 Oct
- 2021 17:26:35 +0000
-Received: from DM4PR12MB5229.namprd12.prod.outlook.com
- ([fe80::a87d:568d:994f:c5f9]) by DM4PR12MB5229.namprd12.prod.outlook.com
- ([fe80::a87d:568d:994f:c5f9%7]) with mapi id 15.20.4628.016; Wed, 20 Oct 2021
- 17:26:35 +0000
-Subject: Re: [PATCH v5 07/16] x86/kvm: Use bounce buffers for TD guest
-To:     Sathyanarayanan Kuppuswamy 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        James E J Bottomley <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        "David S . Miller" <davem@davemloft.net>,
-        Arnd Bergmann <arnd@arndb.de>,
+        id S230411AbhJTRiL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Oct 2021 13:38:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38418 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230329AbhJTRiL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Oct 2021 13:38:11 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5DC4C06161C
+        for <linux-doc@vger.kernel.org>; Wed, 20 Oct 2021 10:35:56 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id t5-20020a17090a4e4500b001a0a284fcc2so1055985pjl.2
+        for <linux-doc@vger.kernel.org>; Wed, 20 Oct 2021 10:35:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Ws4j8gO4JntA0wlKwlmQrmrVOGmPKcOTbGQbFPeYxe8=;
+        b=SbblMPzMlPY8A4MSnv3l2Wo17xTLRkKnbJY1T9AlW16vMzYUT4nWpQKHzWojxD0zmD
+         XoRT6OhfgXgfV1c+OPJinKiJUviKMLxu/lh6trMG9rbv6gPZyRud3Dud8n5nD/cYt61f
+         8qfrMQBiYBwpJS1T6d3noRRz41Pc8/yRc4kGo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Ws4j8gO4JntA0wlKwlmQrmrVOGmPKcOTbGQbFPeYxe8=;
+        b=CmEA9c8w09Y2ggShVO1YLJn6c3I6GFDSuAUNm76FSKIQAHr4KKonLHnIRXZtu2M8Bz
+         Ttb7G2TVgsThcjEYYrkQzOoDctvFIbpm9SyuqKl8iq9WSE51bvte4Y7omOfaQ5E7Np5m
+         HaWe/4FnpzkjNqsDDpUiPDIpc4167LqN0uSwB/JRWxfDkQemSFzY4EQKtzme/9eZyR6f
+         z8gvV9RqaZ/w+hkrMWrtSYbYGj2h46RJdFjtb2WwJhToCmEc6t3hg0WQTvP0fmPA7zHY
+         WkEVzlZf9Cr8MSVLjM+XjJVnZUJRF2zrXT0uHI3ekbvnaqPazFYTBFyZi+M/PaSF+0ko
+         u/2A==
+X-Gm-Message-State: AOAM530hWt2+l+/kRN9nPw51UmqEZTBffuCXXzeu52HsqA5ZflGaxdZ5
+        9pgo2C85RH0wbX1wRxmcm7UBxXy65eHcUQ==
+X-Google-Smtp-Source: ABdhPJx6T/k29TC03YiaucAFwr0Br6abF98oVDvUsim52qn/NPhaCpNs2adzvGgXzay2hOX7y0jVNQ==
+X-Received: by 2002:a17:90b:4c4a:: with SMTP id np10mr233234pjb.233.1634751356359;
+        Wed, 20 Oct 2021 10:35:56 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id i124sm3266217pfc.153.2021.10.20.10.35.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Oct 2021 10:35:56 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        David Hildenbrand <david@redhat.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>
-Cc:     Peter H Anvin <hpa@zytor.com>, Dave Hansen <dave.hansen@intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Kirill Shutemov <kirill.shutemov@linux.intel.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Kuppuswamy Sathyanarayanan <knsathya@kernel.org>,
-        x86@kernel.org, linux-kernel@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        virtualization@lists.linux-foundation.org
-References: <20211009003711.1390019-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20211009003711.1390019-8-sathyanarayanan.kuppuswamy@linux.intel.com>
- <42f17b60-9bd4-a8bc-5164-d960e54cd30b@amd.com>
- <0a9c6485-74d8-e0fc-d261-097380272e07@linux.intel.com>
-From:   Tom Lendacky <thomas.lendacky@amd.com>
-Message-ID: <591e0566-59e1-71d1-684a-fd1240b2eedc@amd.com>
-Date:   Wed, 20 Oct 2021 12:26:31 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-In-Reply-To: <0a9c6485-74d8-e0fc-d261-097380272e07@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: CH0PR03CA0330.namprd03.prod.outlook.com
- (2603:10b6:610:118::22) To DM4PR12MB5229.namprd12.prod.outlook.com
- (2603:10b6:5:398::12)
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
+        llvm@lists.linux.dev, Dan Li <ashimida@linux.alibaba.com>,
+        ardb@kernel.org, ojeda@kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] gcc-plugins: Explicitly document purpose and deprecation schedule
+Date:   Wed, 20 Oct 2021 10:35:53 -0700
+Message-Id: <20211020173554.38122-2-keescook@chromium.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20211020173554.38122-1-keescook@chromium.org>
+References: <20211020173554.38122-1-keescook@chromium.org>
 MIME-Version: 1.0
-Received: from [10.236.30.241] (165.204.77.1) by CH0PR03CA0330.namprd03.prod.outlook.com (2603:10b6:610:118::22) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4628.16 via Frontend Transport; Wed, 20 Oct 2021 17:26:33 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 05d09b0a-9341-47be-9875-08d993eec43c
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5214:
-X-Microsoft-Antispam-PRVS: <DM4PR12MB5214CC75060FB975567CF46DECBE9@DM4PR12MB5214.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mwUaOOrppXIz2ZZHhtClOgpkboVgeJvHAdD9pUZQA1YIsEwfiGeHF0t4o/M8GaWyVPteLFFeANGMZCq6rXR+kyICKcibYGcp17eXU36v4bSyFvZsZRApPbQ/YR87xAIhHJz5Vawp91fDH5/gey0sG01gzpod/18bFrOucuJLgBUvpuB0s2vbSclO/ZcanMdtCpyp8EaC/ru4ZiMKiC8fXWJ9m6SrkMYG1ZgYYPzCRoiryPtsYjkZphGMd2RkhzRG5eCg0fd/FulWvu1qd+/ZWLQYPfYDtg0hhC/8Tk2fvQr2REr9p59/0fC+rnLUpU8lN/rIHHUfZgltHuHwZ2aO3d/wV92vgXK7gVimqhp1VfXwBcePGU6Y+XON2ZkAruecSQLC2kc7aXwqsVPyoWn6R2NhevAxRVp+OXUnObn2e6DwdbzlfBGgzflvxSAH017BMJ07D2uVVbt2glnvlu6jBB32d12U1CZkTBnO0iIY6w7UT8TaRuu0bK7iTO0V/8GYC6eyKwKIizlXk214TrU2dFzizbcLiyMZ2Ytz2UroMu49dqeO81Y9EdFFFhprLOB+A81HQxoYT+1vl+AY+RGxBErlrkaCacs0gh+syTElmFwyRo1inUKoGgQYHdLJTV0aTorYV9FM4zvnivLeBfRk3xVmxMGtga7Ud+WK4Fd4oSM/F7Xfnx58EMiJX45o6RTrh6v9JlpA26nv7UYBeXIeFqDdoKi69/IEwzsSRIzc5GXmB9mcJHqBXNNSyoPsGBEZKmPkit68S/ohlAP06WRnMlvycf6F++v0jMla2cX9VXU8t2NQQrjbIdxlySN/tkRccW22R9HDJ3fKhK2G+lbn2aJ/ml0Wj0BoDH8emwp34jo=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5229.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(956004)(66476007)(921005)(83380400001)(66556008)(508600001)(110136005)(54906003)(2616005)(66946007)(16576012)(53546011)(7406005)(86362001)(8676002)(5660300002)(7416002)(8936002)(31696002)(316002)(31686004)(36756003)(38100700002)(186003)(2906002)(26005)(4326008)(6486002)(45080400002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UXBSQ1l4aXdNZks1a1FTckVxL3J1MVlGTGJRZUttZVBmUU9ON1NNSmc0c2k0?=
- =?utf-8?B?clFIMlVYZ0NTUm9HWUtiZEZoeHZYT21SNFh5WFNySitZdVdHNy91VXVPb3NT?=
- =?utf-8?B?SVI2b0NBalVjRDVaWEpqUEU2MjlLU3hGQjZiZ1lQWURHNmkxSGNNUmFDeDFL?=
- =?utf-8?B?TTdQTFpUa2JxNzVxS0xBZnlQTE16dFVCWUpONWI1bDRPOXdwY1BGeDJiQngv?=
- =?utf-8?B?bkExSFdOVmZRdUpIc1NaMHpyUWhwREhIMDN3WkNwTTlTdWRwNXhkUjlPellN?=
- =?utf-8?B?OFNxdEZydG1MNUZhc2swVjFHcUY5SUxiNzh1WXR3SDRMcHlyT2JhQTI4ZG1r?=
- =?utf-8?B?dVFxY3hlYldlSHRpNkhVeE5DZitSTHZ1TCtRV2xyMjlobDlqVXoycXBLSzNI?=
- =?utf-8?B?bjhxZEZGUXY2NFV5RUNpS28vYktlRHJTUGRqUUxlV2ZjV1FjN2ZaZGlRc0tC?=
- =?utf-8?B?L2UwUC91Q1NBMVpRZnVQMTI5ZUlKbXBvVHhQTkJBNzN0NVhQeFlaZGVobm1H?=
- =?utf-8?B?dDAyUHMwekp1N3QxNllhVUN5dDNIRU1Ra3FMZlZPNitDN0tmMjB1R0t5NjBk?=
- =?utf-8?B?c2Fqb0pVRDEvOG5kRDJCQ2hZU2JYdWFWeHJUekVSUGlubERFQ3lXRVl6OWVo?=
- =?utf-8?B?eU5UTFlEc2VoSHZMMXNRK1lHdWpXMkMvS1FoSUZ6NGpBSFBQcExvbTBZL2Z4?=
- =?utf-8?B?TjFHZGJCWDMwVnpKVTN0V0k3OG5aSXdHM1VmYTRzUzlhdHordU5GR2oxaGdN?=
- =?utf-8?B?VzNTSWkzdWFUNk1YSFJwMHl4U1dnVFhCUFZNTURvdlh0eFAvMHBnaTVVTktI?=
- =?utf-8?B?a0FyOTNXU1RwRTFaK3NaaG5oVG5WYjlOR3B0VGlFVVEyK2pVeU1yRnU5dzZx?=
- =?utf-8?B?NklQQlN3b2thZkRLUFh3NkpQNC9HT1lhajQ2bzhySzQwZW1Ec05uZE1JMmtS?=
- =?utf-8?B?WTNiMUxkSkJma0dXREVhK053eEhscFZnU3JGQlNhRkt0T0JYYnRlNzEvQWFs?=
- =?utf-8?B?Rmh3RWp2TUhKeXZjbTM0Tlp1SVcwQnF4bHpzZCtUd2NkU01iN2pyRkRxRnBB?=
- =?utf-8?B?MWtMOEZYclhBei96czR6MDJvTTlBNXJsV2FVcVExZVBTM3kvaFRRQmVDY3du?=
- =?utf-8?B?Vm9sSlRBTURoNFVWc2pDeFN1UmhnKzRuNFZaUHl5Ymx4ZVZmMi9jU0pyR3Jn?=
- =?utf-8?B?U1ZPSzFNUDU3NlllWWlPL0ovQUJsYWFYYmNrU29IQTNnV2NRN2RyTmh0Q3FK?=
- =?utf-8?B?cVFZVVRDakZIYnhJdEVYVTNhYllBMlZBVEw2QnFsYkZvVUZYeml4TWh2d2NS?=
- =?utf-8?B?RXMyUmVRZWxxZ2F2SjJySlRJVVZ5aDc5ejFmeFphZVlHSU9ZNFVUS2djRlMy?=
- =?utf-8?B?QVRJUUVlcDJTaUIyMHNjWEU1Kzg5VWVtTmI3Nlp2dGVZNlpCN3JLak5IcC9G?=
- =?utf-8?B?ZlNxVmNHRXMzL29XdmdxUkxXMUtOcE0wVytWWHE0eHRwN2YrY0wrUnFpV2Jy?=
- =?utf-8?B?Znd2NGhyRDJqZ1NWelBRQy84Vi83L3JRUUNJZHhsdGQ5Rng2ZjFoNDduN0Zn?=
- =?utf-8?B?WTVLaE8zVjgzWWVMNlgvd0doZ01zMUpoWkZxYkIzWE1vSkFrWWtyblZ6bStS?=
- =?utf-8?B?enlsWlpBNnF6WWhwYXhpbWVGZVpldk41UFIyOWFlVDZ4c3lIOFJVK1BRVzk1?=
- =?utf-8?B?REVBajNWVVFzUm5jZ2tsd1BLSm1QbmpsU3Y4V3EvdzBXVVZmd25INURUemxO?=
- =?utf-8?Q?Aa3RgpVcuMvfnwjmrWxZIy+QR3+mAgVLUxyGKRD?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 05d09b0a-9341-47be-9875-08d993eec43c
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5229.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2021 17:26:35.5979
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tlendack@amd.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5214
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4804; h=from:subject; bh=Kk2hDVQKDHU81p/hq2gHwgV4ExxhvGmxDL3o/9ljT8c=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhcFN5m7tUmu78WD8GEq7nnZOssuJVi1eV1tkp6m44 ECcS0E6JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYXBTeQAKCRCJcvTf3G3AJjDfEA CG4zTatumYmooLLsrwZmk+APIY3n++Qt3f+4SACaWAkayQIe/8CR+Sc83nQEFXZPJwYBX66E5Jq72K XuPj98uHYA/nj55MwLSarOYeLKJI937+zb0ROuprJ5VyWAqSlOnOALL4wxKpSr/kNsXtgSlutct9bS eqwPzdnsY7YLng50ABUBwSWkPdmjmZlJpy9rpaCgOJ9eesgfB8J8SUY9At3crZXZU6tg0/HDb8MDly zQ308qV/hez5lb/H0+qkYrAhjydssyqvd7cObO8EAQzA29yS7TQIcAnU3/Rk1SNtUrGa8gJ9qDJNMP X5wE4Q5tTW1ttTwaVf0rnrnlPgJtDutpqyPTn9yK31lG/6BGuTDj7QS0vnvE8MQ/Lw8dEX/geDnJXN isrvLzJssEcui65dEnb+DXxYW/8Nq3sGJdMB4SJb1P+rvC1JDKpi0I5K/EcKe2QoG4s4ol4w+Aq5nW dubO68BLqUePSjF2m5X0pdbRbnbM+Fl0MTbPOmhUpeI0Hbat5H0citqCqLPWxQn3hpsbEYCr8Bb3nn l3JY539yxClVsZeChRYvzZ+XPbA0ql9AtQ3GynE6JAY2VejJjFSAHwXAM3a6sR7/dApqQyZDreMVBZ r0z/ASfvImyAno48Mxiic8p+hfy/E4p1gbB+eYpjcIVezmhm02Lhxup5H2Hw==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/20/21 11:50 AM, Sathyanarayanan Kuppuswamy wrote:
-> 
-> 
-> On 10/20/21 9:39 AM, Tom Lendacky wrote:
->> On 10/8/21 7:37 PM, Kuppuswamy Sathyanarayanan wrote:
->>> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
->>>
->>> Intel TDX doesn't allow VMM to directly access guest private memory.
->>> Any memory that is required for communication with VMM must be shared
->>> explicitly. The same rule applies for any DMA to and from TDX guest.
->>> All DMA pages had to marked as shared pages. A generic way to achieve
->>> this without any changes to device drivers is to use the SWIOTLB
->>> framework.
->>>
->>> This method of handling is similar to AMD SEV. So extend this support
->>> for TDX guest as well. Also since there are some common code between
->>> AMD SEV and TDX guest in mem_encrypt_init(), move it to
->>> mem_encrypt_common.c and call AMD specific init function from it
->>>
->>> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
->>> Reviewed-by: Andi Kleen <ak@linux.intel.com>
->>> Reviewed-by: Tony Luck <tony.luck@intel.com>
->>> Signed-off-by: Kuppuswamy Sathyanarayanan 
->>> <sathyanarayanan.kuppuswamy@linux.intel.com>
->>> ---
->>>
->>> Changes since v4:
->>>   * Replaced prot_guest_has() with cc_guest_has().
->>>
->>> Changes since v3:
->>>   * Rebased on top of Tom Lendacky's protected guest
->>>     changes 
->>> (https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fpatchwork%2Fcover%2F1468760%2F&amp;data=04%7C01%7Cthomas.lendacky%40amd.com%7Cad852703670a44b1e29108d993e9dcc2%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637703454904800065%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=lXwd5%2Fhnmd5QYaIElQ%2BtVT%2B62JHq%2Bimno5VIjTILaig%3D&amp;reserved=0) 
->>>
->>>
->>> Changes since v1:
->>>   * Removed sme_me_mask check for amd_mem_encrypt_init() in 
->>> mem_encrypt_init().
->>>
->>>   arch/x86/include/asm/mem_encrypt_common.h |  3 +++
->>>   arch/x86/kernel/tdx.c                     |  2 ++
->>>   arch/x86/mm/mem_encrypt.c                 |  5 +----
->>>   arch/x86/mm/mem_encrypt_common.c          | 14 ++++++++++++++
->>>   4 files changed, 20 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/arch/x86/include/asm/mem_encrypt_common.h 
->>> b/arch/x86/include/asm/mem_encrypt_common.h
->>> index 697bc40a4e3d..bc90e565bce4 100644
->>> --- a/arch/x86/include/asm/mem_encrypt_common.h
->>> +++ b/arch/x86/include/asm/mem_encrypt_common.h
->>> @@ -8,11 +8,14 @@
->>>   #ifdef CONFIG_AMD_MEM_ENCRYPT
->>>   bool amd_force_dma_unencrypted(struct device *dev);
->>> +void __init amd_mem_encrypt_init(void);
->>>   #else /* CONFIG_AMD_MEM_ENCRYPT */
->>>   static inline bool amd_force_dma_unencrypted(struct device *dev)
->>>   {
->>>       return false;
->>>   }
->>> +
->>> +static inline void amd_mem_encrypt_init(void) {}
->>>   #endif /* CONFIG_AMD_MEM_ENCRYPT */
->>>   #endif
->>> diff --git a/arch/x86/kernel/tdx.c b/arch/x86/kernel/tdx.c
->>> index 433f366ca25c..ce8e3019b812 100644
->>> --- a/arch/x86/kernel/tdx.c
->>> +++ b/arch/x86/kernel/tdx.c
->>> @@ -12,6 +12,7 @@
->>>   #include <asm/insn.h>
->>>   #include <asm/insn-eval.h>
->>>   #include <linux/sched/signal.h> /* force_sig_fault() */
->>> +#include <linux/swiotlb.h>
->>>   /* TDX Module call Leaf IDs */
->>>   #define TDX_GET_INFO            1
->>> @@ -577,6 +578,7 @@ void __init tdx_early_init(void)
->>>       pv_ops.irq.halt = tdx_halt;
->>>       legacy_pic = &null_legacy_pic;
->>> +    swiotlb_force = SWIOTLB_FORCE;
->>>       cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "tdx:cpu_hotplug",
->>>                 NULL, tdx_cpu_offline_prepare);
->>> diff --git a/arch/x86/mm/mem_encrypt.c b/arch/x86/mm/mem_encrypt.c
->>> index 5d7fbed73949..8385bc4565e9 100644
->>> --- a/arch/x86/mm/mem_encrypt.c
->>> +++ b/arch/x86/mm/mem_encrypt.c
->>> @@ -438,14 +438,11 @@ static void print_mem_encrypt_feature_info(void)
->>>   }
->>>   /* Architecture __weak replacement functions */
->>> -void __init mem_encrypt_init(void)
->>> +void __init amd_mem_encrypt_init(void)
->>>   {
->>>       if (!sme_me_mask)
->>>           return;
->>> -    /* Call into SWIOTLB to update the SWIOTLB DMA buffers */
->>> -    swiotlb_update_mem_attributes();
->>> -
->>>       /*
->>>        * With SEV, we need to unroll the rep string I/O instructions,
->>>        * but SEV-ES supports them through the #VC handler.
->>> diff --git a/arch/x86/mm/mem_encrypt_common.c 
->>> b/arch/x86/mm/mem_encrypt_common.c
->>> index 119a9056efbb..6fe44c6cb753 100644
->>> --- a/arch/x86/mm/mem_encrypt_common.c
->>> +++ b/arch/x86/mm/mem_encrypt_common.c
->>> @@ -10,6 +10,7 @@
->>>   #include <asm/mem_encrypt_common.h>
->>>   #include <linux/dma-mapping.h>
->>>   #include <linux/cc_platform.h>
->>> +#include <linux/swiotlb.h>
->>>   /* Override for DMA direct allocation check - 
->>> ARCH_HAS_FORCE_DMA_UNENCRYPTED */
->>>   bool force_dma_unencrypted(struct device *dev)
->>> @@ -24,3 +25,16 @@ bool force_dma_unencrypted(struct device *dev)
->>>       return false;
->>>   }
->>> +
->>> +/* Architecture __weak replacement functions */
->>> +void __init mem_encrypt_init(void)
->>> +{
->>> +    /*
->>> +     * For TDX guest or SEV/SME, call into SWIOTLB to update
->>> +     * the SWIOTLB DMA buffers
->>> +     */
->>> +    if (sme_me_mask || cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT))
->>
->> Can't you just make this:
->>
->>      if (cc_platform_has(CC_ATTR_MEM_ENCRYPT))
->>
->> SEV will return true if sme_me_mask is not zero and TDX should only 
->> return true if it is TDX guest, right?
-> 
-> Yes. It can be simplified.
-> 
-> But where shall we leave this function cc_platform.c or here?
+GCC plugins should only exist when some compiler feature needs to be
+proven but does not exist in either GCC nor Clang. For example, if a
+desired feature is already in Clang, it should be added to GCC upstream.
+Document this explicitly.
 
-Either one works...  all depends on how the maintainers feel about 
-creating/using mem_encrypt_common.c or using cc_platform.c.
+Additionally, mark the plugins with matching upstream GCC features as
+removable past their respective GCC versions.
 
-Thanks,
-Tom
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Michal Marek <michal.lkml@markovi.net>
+Cc: Nick Desaulniers <ndesaulniers@google.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: James Morris <jmorris@namei.org>
+Cc: "Serge E. Hallyn" <serge@hallyn.com>
+Cc: Nathan Chancellor <nathan@kernel.org>
+Cc: linux-hardening@vger.kernel.org
+Cc: linux-kbuild@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-security-module@vger.kernel.org
+Cc: llvm@lists.linux.dev
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ Documentation/kbuild/gcc-plugins.rst | 26 ++++++++++++++++++++++++++
+ scripts/gcc-plugins/Kconfig          |  4 ++--
+ security/Kconfig.hardening           |  9 ++++++---
+ 3 files changed, 34 insertions(+), 5 deletions(-)
 
-> 
->>
->> Thanks,
->> Tom
->>
->>> +        swiotlb_update_mem_attributes();
->>> +
->>> +    amd_mem_encrypt_init();
->>> +}
->>>
-> 
+diff --git a/Documentation/kbuild/gcc-plugins.rst b/Documentation/kbuild/gcc-plugins.rst
+index 3349966f213d..4b28c7a4032f 100644
+--- a/Documentation/kbuild/gcc-plugins.rst
++++ b/Documentation/kbuild/gcc-plugins.rst
+@@ -32,6 +32,32 @@ This infrastructure was ported from grsecurity [6]_ and PaX [7]_.
+ .. [7] https://pax.grsecurity.net/
+ 
+ 
++Purpose
++=======
++
++GCC plugins are designed to provide a place to experiment with potential
++compiler features that are neither in GCC nor Clang upstream. Once
++their utility is proven, the goal is to upstream the feature into GCC
++(and Clang), and then to finally remove them from the kernel once the
++feature is available in all supported versions of GCC.
++
++Specifically, new plugins should implement only features that have no
++upstream compiler support (in either GCC or Clang).
++
++When a feature exists in Clang but not GCC, effort should be made to
++bring the feature to upstream GCC (rather than just as a kernel-specific
++GCC plugin), so the entire ecosystem can benefit from it.
++
++Similarly, even if a feature provided by a GCC plugin does *not* exist
++in Clang, but the feature is proven to be useful, effort should be spent
++to upstream the feature to GCC (and Clang).
++
++After a feature is available in upstream GCC, the plugin will be made
++unbuildable for the corresponding GCC version (and later). Once all
++kernel-supported versions of GCC provide the feature, the plugin will
++be removed from the kernel.
++
++
+ Files
+ =====
+ 
+diff --git a/scripts/gcc-plugins/Kconfig b/scripts/gcc-plugins/Kconfig
+index ab9eb4cbe33a..3f5d3580ec06 100644
+--- a/scripts/gcc-plugins/Kconfig
++++ b/scripts/gcc-plugins/Kconfig
+@@ -37,6 +37,8 @@ config GCC_PLUGIN_CYC_COMPLEXITY
+ 
+ config GCC_PLUGIN_SANCOV
+ 	bool
++	# Plugin can be removed once the kernel only supports GCC 6.1.0+
++	depends on !CC_HAS_SANCOV_TRACE_PC
+ 	help
+ 	  This plugin inserts a __sanitizer_cov_trace_pc() call at the start of
+ 	  basic blocks. It supports all gcc versions with plugin support (from
+@@ -83,8 +85,6 @@ config GCC_PLUGIN_RANDSTRUCT
+ 	  the existing seed and will be removed by a make mrproper or
+ 	  make distclean.
+ 
+-	  Note that the implementation requires gcc 4.7 or newer.
+-
+ 	  This plugin was ported from grsecurity/PaX. More information at:
+ 	   * https://grsecurity.net/
+ 	   * https://pax.grsecurity.net/
+diff --git a/security/Kconfig.hardening b/security/Kconfig.hardening
+index 90cbaff86e13..d30c6225de74 100644
+--- a/security/Kconfig.hardening
++++ b/security/Kconfig.hardening
+@@ -53,7 +53,8 @@ choice
+ 
+ 	config GCC_PLUGIN_STRUCTLEAK_USER
+ 		bool "zero-init structs marked for userspace (weak)"
+-		depends on GCC_PLUGINS
++		# Plugin can be removed once the kernel only supports GCC 12+
++		depends on GCC_PLUGINS && !CC_HAS_AUTO_VAR_INIT_ZERO
+ 		select GCC_PLUGIN_STRUCTLEAK
+ 		help
+ 		  Zero-initialize any structures on the stack containing
+@@ -64,7 +65,8 @@ choice
+ 
+ 	config GCC_PLUGIN_STRUCTLEAK_BYREF
+ 		bool "zero-init structs passed by reference (strong)"
+-		depends on GCC_PLUGINS
++		# Plugin can be removed once the kernel only supports GCC 12+
++		depends on GCC_PLUGINS && !CC_HAS_AUTO_VAR_INIT_ZERO
+ 		depends on !(KASAN && KASAN_STACK)
+ 		select GCC_PLUGIN_STRUCTLEAK
+ 		help
+@@ -82,7 +84,8 @@ choice
+ 
+ 	config GCC_PLUGIN_STRUCTLEAK_BYREF_ALL
+ 		bool "zero-init everything passed by reference (very strong)"
+-		depends on GCC_PLUGINS
++		# Plugin can be removed once the kernel only supports GCC 12+
++		depends on GCC_PLUGINS && !CC_HAS_AUTO_VAR_INIT_ZERO
+ 		depends on !(KASAN && KASAN_STACK)
+ 		select GCC_PLUGIN_STRUCTLEAK
+ 		help
+-- 
+2.30.2
+
