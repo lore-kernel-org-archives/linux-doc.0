@@ -2,178 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4954C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 12:05:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FB1FC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 12:07:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B999A61354
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 12:05:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 47DCB61260
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 12:07:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230387AbhJTMHh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Oct 2021 08:07:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46222 "EHLO
+        id S230139AbhJTMJw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Oct 2021 08:09:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230321AbhJTMH1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Oct 2021 08:07:27 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8256C061749
-        for <linux-doc@vger.kernel.org>; Wed, 20 Oct 2021 05:05:12 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id oa4so2342008pjb.2
-        for <linux-doc@vger.kernel.org>; Wed, 20 Oct 2021 05:05:12 -0700 (PDT)
+        with ESMTP id S229998AbhJTMJw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Oct 2021 08:09:52 -0400
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F15DAC06161C
+        for <linux-doc@vger.kernel.org>; Wed, 20 Oct 2021 05:07:37 -0700 (PDT)
+Received: by mail-pl1-x631.google.com with SMTP id y4so16025395plb.0
+        for <linux-doc@vger.kernel.org>; Wed, 20 Oct 2021 05:07:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=7bzPbU2Xaa8fmzxUh6rCSbTEYDD93djqUZnD3TW+SAs=;
-        b=UX+uqnX27wkcUQgZ7Np/jTXc2gdVOauvft2bDy1JTzrj3fz3ZiNp7p/BLL6K/zXTIw
-         R4Q5EID0HPrqtxjWoUKWlr3IayZYodQ+mwfmBI1Ehvyhu5BtHD03bI1iChvsTHq8wxSq
-         PhMLe2jeLzD9QSxuYYTqv4dIPnC124TCI+wow=
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UPb23yf1YkyfOx+oag7Ck//sJg18vV7uspwA+E7VEtk=;
+        b=DMq8CQb8145WnBh56YUXI87IitFSapenMfe4DDTV8hUsTUsiLYw4XRbUw3w5R9rBM9
+         b+ZYOdlWv+oFKRKxtvAlpD+OpIhUDEbcJlnPUPTTmpudRw2ztYPv0wnaZXx8SnZDbL+S
+         5M43mm30t2OLt2IjJLS1ajqbvPrcDTgo35H3WpyAVVU1HXl1UyGblE0ranub1VIZFV1B
+         XmOUFgBX2DF9lf9yuIgV53spgv7ellxEcthCmpZOrQuzOkWAJyqnzGZsbzmbd7WokKZE
+         sASek1uWUTfk+cAI4YQ3RNOPpKyjrCooiARK57Fa8J1BGzBiDt7hcHJfxwx6pDMPTedl
+         fhjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=7bzPbU2Xaa8fmzxUh6rCSbTEYDD93djqUZnD3TW+SAs=;
-        b=nX91nUqxoC/yIBdj4dWzY8cSlT0rvQHxXNDo613fMGjKibZFaU+aiCpcCgZnazzxhx
-         rj8XtxkR2l4WdbO68fBNtBP1TOQEXs9UU8AReduT8Nm+ZuRgy0kD8Z+pLi/kGPVcCK15
-         oYuqW6Q12nv1MsuybsucGQDjSAjjBkT5yA8dG8zIBRtEM3eiYYJFcRHFcB6YJUz/HzWL
-         Z31rV7eaHxb28imd+cEXwD1xAW2FXdYbirLXB0ORwpejN3Wet5yTQ36iTTDqE7uXDxmB
-         niAl366apVxICxA0oKd5XAXh2D5sVzERIi/oiCPAh593XkNUJ6lI5q7gVZmjNNsPLFiS
-         fxkQ==
-X-Gm-Message-State: AOAM532uTaTnj08bLAdFyxxG/Nlg97+CWV7AE6tJO3cIoP/sj2Jzmszy
-        u9Il6q9BtEPmLrw06BGk0eCJfw==
-X-Google-Smtp-Source: ABdhPJw1+iL+I6HcYGcYZD7jYmOIU3e4eK8PQhco2KBIwknjmRZyUPYqWMY+ib0NNjlPhxwohXSeBQ==
-X-Received: by 2002:a17:902:8682:b0:13f:8e12:c977 with SMTP id g2-20020a170902868200b0013f8e12c977mr32473932plo.62.1634731512056;
-        Wed, 20 Oct 2021 05:05:12 -0700 (PDT)
-Received: from localhost ([2401:fa00:8f:203:e516:d575:e6f:a526])
-        by smtp.gmail.com with UTF8SMTPSA id n14sm2115748pgd.68.2021.10.20.05.05.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Oct 2021 05:05:11 -0700 (PDT)
-From:   Hikaru Nishida <hikalium@chromium.org>
-To:     linux-kernel@vger.kernel.org, dme@dme.org, tglx@linutronix.de,
-        mlevitsk@redhat.com, linux@roeck-us.net, pbonzini@redhat.com,
-        vkuznets@redhat.com, maz@kernel.org, will@kernel.org
-Cc:     suleiman@google.com, senozhatsky@google.com,
-        kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org,
-        Hikaru Nishida <hikalium@chromium.org>,
-        Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Wanpeng Li <wanpengli@tencent.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, x86@kernel.org
-Subject: [RFC PATCH v3 3/5] kvm/x86: virtual suspend time injection: Add common definitions
-Date:   Wed, 20 Oct 2021 21:04:28 +0900
-Message-Id: <20211020210348.RFC.v3.3.I6e8f979820f45e38370aa19180a33a8c046d0fa9@changeid>
-X-Mailer: git-send-email 2.33.0.1079.g6e70778dc9-goog
-In-Reply-To: <20211020120431.776494-1-hikalium@chromium.org>
-References: <20211020120431.776494-1-hikalium@chromium.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UPb23yf1YkyfOx+oag7Ck//sJg18vV7uspwA+E7VEtk=;
+        b=uJ1Yc7/4peuk5uriU6k4U9Ub4h3IUlc6Cqx6GPxpzUXVTLibIvg1vLhEwI3pO6iH1l
+         DPXFLZhju7B7dQE7jhGbFhN1JhHTySNTtgZVQ9Aduc2pbl0zbGqVACEPGw9RysagKcEa
+         KBddL97KcAcM+U/lNGvfrmrnbPC2MwyqYqbd516zt3tlcr5/9c0O0k7rs7tH7CGlWFGF
+         ZL2u4cvXtV/ZO3XIZ4FmjL+bHgGGfQHYFvzt8akdXThUwOK4nR03Sw6fT4ODXESy7ohe
+         UHPVWIqXGMCFe41rYhxD/0WsKDoIIEfJ6s9MBhRbfGGqBMDQ8XhyDXhi/emY0PTtyU3W
+         mDsA==
+X-Gm-Message-State: AOAM530bBzgrgm8+njV/8clkGsNoXuhyzg+Ig+aErgXGuVFD8RNkl3Q9
+        kX0JPpre4e2LaT+6vYsfBJgF2A==
+X-Google-Smtp-Source: ABdhPJxXKuFjiVRLuWSpaoxDL57/NxBql+534hTakttbVJJ00w2S51CzmB+kaHBLm9jfrM18hOLnmw==
+X-Received: by 2002:a17:90b:ecc:: with SMTP id gz12mr6952300pjb.241.1634731657391;
+        Wed, 20 Oct 2021 05:07:37 -0700 (PDT)
+Received: from libai.bytedance.net ([61.120.150.71])
+        by smtp.gmail.com with ESMTPSA id o72sm2268237pjo.50.2021.10.20.05.07.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Oct 2021 05:07:36 -0700 (PDT)
+From:   zhenwei pi <pizhenwei@bytedance.com>
+To:     pbonzini@redhat.com, corbet@lwn.net
+Cc:     wanpengli@tencent.com, seanjc@google.com,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        zhenwei pi <pizhenwei@bytedance.com>
+Subject: [PATCH] x86/kvm: Introduce boot parameter no-kvm-pvipi
+Date:   Wed, 20 Oct 2021 20:07:26 +0800
+Message-Id: <20211020120726.4022086-1-pizhenwei@bytedance.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add definitions of MSR, KVM_FEATURE bit and a structure called
-kvm_suspend_time that are used by later patches to support the
-virtual suspend time injection mechanism.
+Although host side exposes KVM PV SEND IPI feature to guest side,
+guest should still have a chance to disable it.
 
-Also add documentations for them.
+A typicall case of this parameter:
+If the host AMD server enables AVIC feature, the flat mode of APIC
+get better performance in the guest.
 
-Signed-off-by: Hikaru Nishida <hikalium@chromium.org>
+Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
 ---
+ Documentation/admin-guide/kernel-parameters.txt |  2 ++
+ arch/x86/kernel/kvm.c                           | 13 ++++++++++++-
+ 2 files changed, 14 insertions(+), 1 deletion(-)
 
-Changes in v3:
-- Moved the definition of struct kvm_suspend_time into this patch.
-
- Documentation/virt/kvm/cpuid.rst     |  3 +++
- Documentation/virt/kvm/msr.rst       | 30 ++++++++++++++++++++++++++++
- arch/x86/include/uapi/asm/kvm_para.h |  6 ++++++
- 3 files changed, 39 insertions(+)
-
-diff --git a/Documentation/virt/kvm/cpuid.rst b/Documentation/virt/kvm/cpuid.rst
-index bda3e3e737d7..f17b95b0d943 100644
---- a/Documentation/virt/kvm/cpuid.rst
-+++ b/Documentation/virt/kvm/cpuid.rst
-@@ -103,6 +103,9 @@ KVM_FEATURE_HC_MAP_GPA_RANGE       16          guest checks this feature bit bef
- KVM_FEATURE_MIGRATION_CONTROL      17          guest checks this feature bit before
-                                                using MSR_KVM_MIGRATION_CONTROL
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 43dc35fe5bc0..73b8712b94b0 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3495,6 +3495,8 @@
+ 	no-kvmapf	[X86,KVM] Disable paravirtualized asynchronous page
+ 			fault handling.
  
-+KVM_FEATURE_HOST_SUSPEND_TIME      18          host suspend time information
-+                                               is available at msr 0x4b564d09.
++	no-kvm-pvipi	[X86,KVM] Disable paravirtualized KVM send IPI.
 +
- KVM_FEATURE_CLOCKSOURCE_STABLE_BIT 24          host will warn if no guest-side
-                                                per-cpu warps are expected in
-                                                kvmclock
-diff --git a/Documentation/virt/kvm/msr.rst b/Documentation/virt/kvm/msr.rst
-index 9315fc385fb0..40ec0fd263ac 100644
---- a/Documentation/virt/kvm/msr.rst
-+++ b/Documentation/virt/kvm/msr.rst
-@@ -389,3 +389,33 @@ data:
-         guest is communicating page encryption status to the host using the
-         ``KVM_HC_MAP_GPA_RANGE`` hypercall, it can set bit 0 in this MSR to
-         allow live migration of the guest.
-+
-+MSR_KVM_HOST_SUSPEND_TIME:
-+	0x4b564d09
-+
-+data:
-+	8-byte alignment physical address of a memory area which must be
-+	in guest RAM, plus an enable bit in bit 0. This memory is expected to
-+	hold a copy of the following structure::
-+
-+	 struct kvm_suspend_time {
-+		__u64   suspend_time_ns;
-+	 };
-+
-+	whose data will be filled in by the hypervisor.
-+	If the guest register this structure through the MSR write, the host
-+	will stop all the clocks visible to the guest (including TSCs) during
-+	the host's suspension and report the duration of suspend through this
-+	structure. The update will be notified through
-+	HYPERVISOR_CALLBACK_VECTOR IRQ. Fields have the following meanings:
-+
-+	suspend_time_ns:
-+		Total number of nanoseconds passed during the host's suspend
-+		while the VM is running. This value will be increasing
-+		monotonically and cumulative.
-+
-+	Note that although MSRs are per-CPU entities, the effect of this
-+	particular MSR is global.
-+
-+	Availability of this MSR must be checked via bit 18 in 0x4000001 cpuid
-+	leaf prior to usage.
-diff --git a/arch/x86/include/uapi/asm/kvm_para.h b/arch/x86/include/uapi/asm/kvm_para.h
-index 5146bbab84d4..ccea4e344f46 100644
---- a/arch/x86/include/uapi/asm/kvm_para.h
-+++ b/arch/x86/include/uapi/asm/kvm_para.h
-@@ -35,6 +35,7 @@
- #define KVM_FEATURE_MSI_EXT_DEST_ID	15
- #define KVM_FEATURE_HC_MAP_GPA_RANGE	16
- #define KVM_FEATURE_MIGRATION_CONTROL	17
-+#define KVM_FEATURE_HOST_SUSPEND_TIME	18
+ 	no-vmw-sched-clock
+ 			[X86,PV_OPS] Disable paravirtualized VMware scheduler
+ 			clock and use the default one.
+diff --git a/arch/x86/kernel/kvm.c b/arch/x86/kernel/kvm.c
+index b656456c3a94..911f1cd2bec5 100644
+--- a/arch/x86/kernel/kvm.c
++++ b/arch/x86/kernel/kvm.c
+@@ -62,6 +62,17 @@ static int __init parse_no_stealacc(char *arg)
  
- #define KVM_HINTS_REALTIME      0
+ early_param("no-steal-acc", parse_no_stealacc);
  
-@@ -57,6 +58,7 @@
- #define MSR_KVM_ASYNC_PF_INT	0x4b564d06
- #define MSR_KVM_ASYNC_PF_ACK	0x4b564d07
- #define MSR_KVM_MIGRATION_CONTROL	0x4b564d08
-+#define MSR_KVM_HOST_SUSPEND_TIME      0x4b564d09
- 
- struct kvm_steal_time {
- 	__u64 steal;
-@@ -79,6 +81,10 @@ struct kvm_clock_pairing {
- 	__u32 pad[9];
- };
- 
-+struct kvm_suspend_time {
-+	__u64   suspend_time_ns;
-+};
++static int kvm_pvipi = 1;
 +
- #define KVM_STEAL_ALIGNMENT_BITS 5
- #define KVM_STEAL_VALID_BITS ((-1ULL << (KVM_STEAL_ALIGNMENT_BITS + 1)))
- #define KVM_STEAL_RESERVED_MASK (((1 << KVM_STEAL_ALIGNMENT_BITS) - 1 ) << 1)
++static int __init parse_no_kvm_pvipi(char *arg)
++{
++	kvm_pvipi = 0;
++
++	return 0;
++}
++
++early_param("no-kvm-pvipi", parse_no_kvm_pvipi);
++
+ static DEFINE_PER_CPU_DECRYPTED(struct kvm_vcpu_pv_apf_data, apf_reason) __aligned(64);
+ DEFINE_PER_CPU_DECRYPTED(struct kvm_steal_time, steal_time) __aligned(64) __visible;
+ static int has_steal_clock = 0;
+@@ -795,7 +806,7 @@ static uint32_t __init kvm_detect(void)
+ static void __init kvm_apic_init(void)
+ {
+ #ifdef CONFIG_SMP
+-	if (pv_ipi_supported())
++	if (pv_ipi_supported() && kvm_pvipi)
+ 		kvm_setup_pv_ipi();
+ #endif
+ }
 -- 
-2.33.0.1079.g6e70778dc9-goog
+2.25.1
 
