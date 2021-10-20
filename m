@@ -2,144 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE5A5C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 10:10:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13629C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 11:12:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CB31B6136A
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 10:10:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E161760E9B
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 11:12:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230090AbhJTKM7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Oct 2021 06:12:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42615 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230089AbhJTKM4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Oct 2021 06:12:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1634724641;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=iVYvpCAnj9ExJE6+BU/e/+6ORCn7prDFiQBrCjeMj74=;
-        b=TkJM2guU1gLshwYEInWMDrPHylEFgFVKcQIEVqgguC89fTB49/RiQJhLN7sbQmUjGtdJZR
-        FcFL7TOVgwgp20/Iwzx+2NqsdI2ht4XejbIFiRX45sDQT1eVqQo7jusUbBWJJzgkSItc8Q
-        zSDl43E1Q6ttpv2aUIcSzlzXKFw3D34=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-262-SDebCvAIP7iyuPJjpM4UEw-1; Wed, 20 Oct 2021 06:10:38 -0400
-X-MC-Unique: SDebCvAIP7iyuPJjpM4UEw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EC83802575;
-        Wed, 20 Oct 2021 10:10:35 +0000 (UTC)
-Received: from T590 (ovpn-8-41.pek2.redhat.com [10.72.8.41])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id A511D7621D;
-        Wed, 20 Oct 2021 10:09:56 +0000 (UTC)
-Date:   Wed, 20 Oct 2021 18:09:51 +0800
-From:   Ming Lei <ming.lei@redhat.com>
-To:     Miroslav Benes <mbenes@suse.cz>
-Cc:     Luis Chamberlain <mcgrof@kernel.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>, tj@kernel.org,
-        gregkh@linuxfoundation.org, akpm@linux-foundation.org,
-        minchan@kernel.org, jeyu@kernel.org, shuah@kernel.org,
-        bvanassche@acm.org, dan.j.williams@intel.com, joe@perches.com,
-        tglx@linutronix.de, keescook@chromium.org, rostedt@goodmis.org,
-        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        live-patching@vger.kernel.org
-Subject: Re: [PATCH v8 11/12] zram: fix crashes with cpu hotplug multistate
-Message-ID: <YW/q70dLyF+YudyF@T590>
-References: <YWk9e957Hb+I7HvR@T590>
- <YWm68xUnAofop3PZ@bombadil.infradead.org>
- <YWq3Z++uoJ/kcp+3@T590>
- <YW3LuzaPhW96jSBK@bombadil.infradead.org>
- <YW4uwep3BCe9Vxq8@T590>
- <alpine.LSU.2.21.2110190820590.15009@pobox.suse.cz>
- <YW6OptglA6UykZg/@T590>
- <alpine.LSU.2.21.2110200835490.26817@pobox.suse.cz>
- <YW/KEsfWJMIPnz76@T590>
- <alpine.LSU.2.21.2110201014400.26817@pobox.suse.cz>
+        id S229910AbhJTLOS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Oct 2021 07:14:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38158 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229900AbhJTLOS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 20 Oct 2021 07:14:18 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6B0076139F;
+        Wed, 20 Oct 2021 11:04:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1634727889;
+        bh=sMNqIiJjcwrM/kpzKPJkufx9T9IAXcb0wsTgtzG1xm8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SF+pbDEb5LUWi1FIobUSa9latykvOw8D/Rjn5udnGrIKSbxOOJ6lkudyC6Bu2sada
+         wlV4IFiYddC9gBwhc/xSciIzwTot31Ckbj88C6ADvDGZFRKGmiflGOg3KiAFoKu42j
+         gaP4otG5FQmsvCqpGKqRiHe0au5EIbyQ1s0XLZ2zSgiqOfHZ80ieAVf6Xm/AvYI9Lp
+         3+fqA5/6igarlf8LaEL3XLOMcQyBgxK6Jxry4gJWk3pI2olcQGfYOo7NFtvnDgoHNf
+         ydSvMHhfbuRHNun3yFpBhxr/cyx+e31rlFChBvuFYS0ll78rSUQEkhLpL0vwyITHYt
+         XoIINZvWBbaOg==
+Date:   Wed, 20 Oct 2021 12:04:47 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH v3 21/23] regulator: dt-bindings: update
+ samsung,s2mpa01.yaml reference
+Message-ID: <YW/3z1HBU3+WwsZu@sirena.org.uk>
+References: <cover.1634630485.git.mchehab+huawei@kernel.org>
+ <9acc235dc4af794d18e1267371944a3955e1fb21.1634630486.git.mchehab+huawei@kernel.org>
+ <YW60a8z0JNDnTLV/@sirena.org.uk>
+ <20211020073013.6d144c0d@sal.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ZAEkjZ1m1ca4kKva"
 Content-Disposition: inline
-In-Reply-To: <alpine.LSU.2.21.2110201014400.26817@pobox.suse.cz>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20211020073013.6d144c0d@sal.lan>
+X-Cookie: I program, therefore I am.
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 20, 2021 at 10:19:27AM +0200, Miroslav Benes wrote:
-> On Wed, 20 Oct 2021, Ming Lei wrote:
-> 
-> > On Wed, Oct 20, 2021 at 08:43:37AM +0200, Miroslav Benes wrote:
-> > > On Tue, 19 Oct 2021, Ming Lei wrote:
-> > > 
-> > > > On Tue, Oct 19, 2021 at 08:23:51AM +0200, Miroslav Benes wrote:
-> > > > > > > By you only addressing the deadlock as a requirement on approach a) you are
-> > > > > > > forgetting that there *may* already be present drivers which *do* implement
-> > > > > > > such patterns in the kernel. I worked on addressing the deadlock because
-> > > > > > > I was informed livepatching *did* have that issue as well and so very
-> > > > > > > likely a generic solution to the deadlock could be beneficial to other
-> > > > > > > random drivers.
-> > > > > > 
-> > > > > > In-tree zram doesn't have such deadlock, if livepatching has such AA deadlock,
-> > > > > > just fixed it, and seems it has been fixed by 3ec24776bfd0.
-> > > > > 
-> > > > > I would not call it a fix. It is a kind of ugly workaround because the 
-> > > > > generic infrastructure lacked (lacks) the proper support in my opinion. 
-> > > > > Luis is trying to fix that.
-> > > > 
-> > > > What is the proper support of the generic infrastructure? I am not
-> > > > familiar with livepatching's model(especially with module unload), you mean
-> > > > livepatching have to do the following way from sysfs:
-> > > > 
-> > > > 1) during module exit:
-> > > > 	
-> > > > 	mutex_lock(lp_lock);
-> > > > 	kobject_put(lp_kobj);
-> > > > 	mutex_unlock(lp_lock);
-> > > > 	
-> > > > 2) show()/store() method of attributes of lp_kobj
-> > > > 	
-> > > > 	mutex_lock(lp_lock)
-> > > > 	...
-> > > > 	mutex_unlock(lp_lock)
-> > > 
-> > > Yes, this was exactly the case. We then reworked it a lot (see 
-> > > 958ef1e39d24 ("livepatch: Simplify API by removing registration step"), so 
-> > > now the call sequence is different. kobject_put() is basically offloaded 
-> > > to a workqueue scheduled right from the store() method. Meaning that 
-> > > Luis's work would probably not help us currently, but on the other hand 
-> > > the issues with AA deadlock were one of the main drivers of the redesign 
-> > > (if I remember correctly). There were other reasons too as the changelog 
-> > > of the commit describes.
-> > > 
-> > > So, from my perspective, if there was a way to easily synchronize between 
-> > > a data cleanup from module_exit callback and sysfs/kernfs operations, it 
-> > > could spare people many headaches.
-> > 
-> > kobject_del() is supposed to do so, but you can't hold a shared lock
-> > which is required in show()/store() method. Once kobject_del() returns,
-> > no pending show()/store() any more.
-> > 
-> > The question is that why one shared lock is required for livepatching to
-> > delete the kobject. What are you protecting when you delete one kobject?
-> 
-> I think it boils down to the fact that we embed kobject statically to 
-> structures which livepatch uses to maintain data. That is discouraged 
-> generally, but all the attempts to implement it correctly were utter 
-> failures.
 
-OK, then it isn't one common usage, in which kobject covers the release
-of the external object. What is the exact kobject in livepatching?
+--ZAEkjZ1m1ca4kKva
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-But kobject_del() won't release the kobject, you shouldn't need the lock
-to delete kobject first. After the kobject is deleted, no any show() and
-store() any more, isn't such sync[1] you expected?
+On Wed, Oct 20, 2021 at 07:30:13AM +0100, Mauro Carvalho Chehab wrote:
+> Mark Brown <broonie@kernel.org> escreveu:
 
+> > For a case like this where there's no
+> > dependencies or real relationship between the patches it's probably
+> > better to just not thread everything and send the patches separately to
+> > everyone, the threading is just adding noise and confusion.
 
-Thanks,
-Ming
+> It is not that easy, unfortunately. On some cases (specially due to
+> DT binding renames) some patches change the context of a hunk, affecting
+> a subsequent patch.
 
+If that's the case then the cover letter really needs work to make this
+clear, I couldn't tell that there was any risk of dependencies nor would
+I expect any for such trivial changes.
+
+> I tried a couple of times in the past to send the patches individually,
+> but that was messier, as there was harder for people to apply them,
+> as, instead of running b4 just once to get everything, maintainers
+> would need to apply each patch individually. Also, there were cases
+> where the patch order would be relevant, due to context changes.
+
+You could also send a per subsystem series if there's a concern about it
+being hard to pick up individual patches.
+
+--ZAEkjZ1m1ca4kKva
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmFv984ACgkQJNaLcl1U
+h9C02Af/QqIIdFgUqHCd9imzBH3Vi5+Z+3/0On7vsl4IbE20RXNk5eZFnv8f5Ved
+2PlH3h6rteKeQFjUiXyFBM2GVhAtb7/PW/JslNVEVv9XatCiRDIwa5la4Eivdrw6
+7n1zkGTV6kk6SQKiE8m9ECRx6JrPEWpGRIk0wdTgqAwhUPZbADYmBB8CyCGnJWw8
+hj04Xhz+Ud1I63Eyv052BBD7OoVGC1JnQhwr8VfQWvg3WPolzBY/eIGp825rg0Ov
+XwEOMSYyWFi7QvHi0HC/xBMK51xg6wlfhliRzX5nnrVKt6u6Etb7TNchakCXQ3/F
+6JqMMaEsGO3D7AXzjR4QLo22YpvAMA==
+=tTrb
+-----END PGP SIGNATURE-----
+
+--ZAEkjZ1m1ca4kKva--
