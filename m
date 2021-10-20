@@ -2,109 +2,192 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48E22C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 13:52:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F406DC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 14:19:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2FE7D6103D
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 13:52:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D809F6135E
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 14:19:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230031AbhJTNys (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Oct 2021 09:54:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50128 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230190AbhJTNys (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 20 Oct 2021 09:54:48 -0400
-Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 097B161052;
-        Wed, 20 Oct 2021 13:52:34 +0000 (UTC)
-Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
-        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <maz@kernel.org>)
-        id 1mdC19-000RjV-SP; Wed, 20 Oct 2021 14:52:31 +0100
-Date:   Wed, 20 Oct 2021 14:52:31 +0100
-Message-ID: <874k9bdcrk.wl-maz@kernel.org>
-From:   Marc Zyngier <maz@kernel.org>
-To:     Hikaru Nishida <hikalium@chromium.org>
-Cc:     linux-kernel@vger.kernel.org, dme@dme.org, tglx@linutronix.de,
-        mlevitsk@redhat.com, linux@roeck-us.net, pbonzini@redhat.com,
-        vkuznets@redhat.com, will@kernel.org, suleiman@google.com,
-        senozhatsky@google.com, kvmarm@lists.cs.columbia.edu,
+        id S229842AbhJTOWE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Oct 2021 10:22:04 -0400
+Received: from mail-oi1-f172.google.com ([209.85.167.172]:39495 "EHLO
+        mail-oi1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229639AbhJTOWD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Oct 2021 10:22:03 -0400
+Received: by mail-oi1-f172.google.com with SMTP id s9so7473161oiw.6;
+        Wed, 20 Oct 2021 07:19:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=CQR8bA2DDw1T775UVo7jNnRB7J3D07XKlU/rQiyQQnM=;
+        b=hw8kjlnFP5HelJJ0iGdWviTMjYxDek3O9gWM+etcHTVK6sIdJCnzoSM//v4h96jdl5
+         lGrSX0dfwcleypjLHAJRcKfQI7t0Om/sDzTe7jNTFMKp+cWVw5Jy7EiYC9EbT3czYOtM
+         auFIWs8OYd/l4K+SVXuR2S/rhZlRiEO1J0ITVLbZpOWAzBZGh/FHinGbMkB0IWLQ0v7n
+         T+Vu5TWqHX79htd5Lxgt1T6CZmMapBwQ0cY5KE+/0mPxBeW28KnoDQqMB/PV8fJeSEu1
+         I8famPAcUyGM8W7e1aYmkdqgjCZ5VOlm8j+jmB6g3PmT9GM15TS9+TJ9Jni/dZjy7rJv
+         NbUA==
+X-Gm-Message-State: AOAM533hkB3ulSDEb2UbKCzxO6MMsFaaNBjbmtiPQ28fcJc/R+KjX1cg
+        4aaY5ewThK9DRC/Bgoxbkg==
+X-Google-Smtp-Source: ABdhPJxW9P/PudtVYOU9cQ6l4rME3ClU1cNhDdvCc/Xw17GiN25AzsXlt7wEgblNZKsgXYjVar84Rw==
+X-Received: by 2002:a05:6808:199d:: with SMTP id bj29mr7759915oib.165.1634739588807;
+        Wed, 20 Oct 2021 07:19:48 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id x10sm424722ooa.16.2021.10.20.07.19.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Oct 2021 07:19:47 -0700 (PDT)
+Received: (nullmailer pid 2299344 invoked by uid 1000);
+        Wed, 20 Oct 2021 14:19:45 -0000
+Date:   Wed, 20 Oct 2021 09:19:45 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Zhen Lei <thunder.leizhen@huawei.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
+        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        kexec@lists.infradead.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
         linux-arm-kernel@lists.infradead.org,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        John Stultz <john.stultz@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Juergen Gross <jgross@suse.com>,
-        Kees Cook <keescook@chromium.org>,
-        Lai Jiangshan <laijs@linux.alibaba.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Sean Christopherson <seanjc@google.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Wanpeng Li <wanpengli@tencent.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, x86@kernel.org
-Subject: Re: [RFC PATCH v3 0/5] x86/kvm: Virtual suspend time injection support
-In-Reply-To: <20211020120431.776494-1-hikalium@chromium.org>
-References: <20211020120431.776494-1-hikalium@chromium.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
- (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: hikalium@chromium.org, linux-kernel@vger.kernel.org, dme@dme.org, tglx@linutronix.de, mlevitsk@redhat.com, linux@roeck-us.net, pbonzini@redhat.com, vkuznets@redhat.com, will@kernel.org, suleiman@google.com, senozhatsky@google.com, kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org, luto@kernel.org, arnd@arndb.de, bp@alien8.de, dave.hansen@linux.intel.com, geert@linux-m68k.org, hpa@zytor.com, mingo@kernel.org, mingo@redhat.com, jmattson@google.com, joro@8bytes.org, john.stultz@linaro.org, corbet@lwn.net, jgross@suse.com, keescook@chromium.org, laijs@linux.alibaba.com, linus.walleij@linaro.org, peterz@infradead.org, seanjc@google.com, sboyd@kernel.org, wanpengli@tencent.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org, x86@kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>
+Subject: Re: [PATCH v15 09/10] of: fdt: Add memory for devices by DT property
+ "linux,usable-memory-range"
+Message-ID: <YXAlgdZ5q7CdBXw4@robh.at.kernel.org>
+References: <20211020020317.1220-1-thunder.leizhen@huawei.com>
+ <20211020020317.1220-10-thunder.leizhen@huawei.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211020020317.1220-10-thunder.leizhen@huawei.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Hikaru,
-
-On Wed, 20 Oct 2021 13:04:25 +0100,
-Hikaru Nishida <hikalium@chromium.org> wrote:
+On Wed, Oct 20, 2021 at 10:03:16AM +0800, Zhen Lei wrote:
+> From: Chen Zhou <chenzhou10@huawei.com>
 > 
+> When reserving crashkernel in high memory, some low memory is reserved
+> for crash dump kernel devices and never mapped by the first kernel.
+> This memory range is advertised to crash dump kernel via DT property
+> under /chosen,
+>         linux,usable-memory-range = <BASE1 SIZE1 [BASE2 SIZE2]>
 > 
-> Hi,
+> We reused the DT property linux,usable-memory-range and made the low
+> memory region as the second range "BASE2 SIZE2", which keeps compatibility
+> with existing user-space and older kdump kernels.
 > 
-> This patch series adds virtual suspend time injection support to KVM.
-> It is an updated version of the following series:
-> v2:
-> https://lore.kernel.org/kvm/20210806100710.2425336-1-hikalium@chromium.org/
-> v1:
-> https://lore.kernel.org/kvm/20210426090644.2218834-1-hikalium@chromium.org/
+> Crash dump kernel reads this property at boot time and call memblock_add()
+> to add the low memory region after memblock_cap_memory_range() has been
+> called.
 > 
-> Please take a look again.
+> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+> ---
+>  drivers/of/fdt.c | 47 ++++++++++++++++++++++++++++++++++++-----------
+>  1 file changed, 36 insertions(+), 11 deletions(-)
 > 
-> To kvm/arm64 folks:
-> I'm going to implement this mechanism to ARM64 as well but not
-> sure which function should be used to make an IRQ (like kvm_apic_set_irq
-> in x86) and if it is okay to use kvm_gfn_to_hva_cache /
-> kvm_write_guest_cached for sharing the suspend duration.
+> diff --git a/drivers/of/fdt.c b/drivers/of/fdt.c
+> index 4546572af24bbf1..cf59c847b2c28a5 100644
+> --- a/drivers/of/fdt.c
+> +++ b/drivers/of/fdt.c
+> @@ -969,8 +969,16 @@ static void __init early_init_dt_check_for_elfcorehdr(unsigned long node)
+>  		 elfcorehdr_addr, elfcorehdr_size);
+>  }
+>  
+> -static phys_addr_t cap_mem_addr;
+> -static phys_addr_t cap_mem_size;
+> +/*
+> + * The main usage of linux,usable-memory-range is for crash dump kernel.
+> + * Originally, the number of usable-memory regions is one. Now there may
+> + * be two regions, low region and high region.
+> + * To make compatibility with existing user-space and older kdump, the low
+> + * region is always the last range of linux,usable-memory-range if exist.
+> + */
+> +#define MAX_USABLE_RANGES		2
+> +
+> +static struct memblock_region cap_mem_regions[MAX_USABLE_RANGES];
+>  
+>  /**
+>   * early_init_dt_check_for_usable_mem_range - Decode usable memory range
+> @@ -979,20 +987,30 @@ static phys_addr_t cap_mem_size;
+>   */
+>  static void __init early_init_dt_check_for_usable_mem_range(unsigned long node)
+>  {
+> -	const __be32 *prop;
+> -	int len;
+> +	const __be32 *prop, *endp;
+> +	int len, nr = 0;
+> +	struct memblock_region *rgn = &cap_mem_regions[0];
+>  
+>  	pr_debug("Looking for usable-memory-range property... ");
+>  
+>  	prop = of_get_flat_dt_prop(node, "linux,usable-memory-range", &len);
+> -	if (!prop || (len < (dt_root_addr_cells + dt_root_size_cells)))
+> +	if (!prop)
+>  		return;
+>  
+> -	cap_mem_addr = dt_mem_next_cell(dt_root_addr_cells, &prop);
+> -	cap_mem_size = dt_mem_next_cell(dt_root_size_cells, &prop);
+> +	endp = prop + (len / sizeof(__be32));
+> +	while ((endp - prop) >= (dt_root_addr_cells + dt_root_size_cells)) {
+> +		rgn->base = dt_mem_next_cell(dt_root_addr_cells, &prop);
+> +		rgn->size = dt_mem_next_cell(dt_root_size_cells, &prop);
+> +
+> +		pr_debug("cap_mem_regions[%d]: base=%pa, size=%pa\n",
+> +			 nr, &rgn->base, &rgn->size);
+> +
+> +		if (++nr >= MAX_USABLE_RANGES)
+> +			break;
+> +
+> +		rgn++;
+> +	}
+>  
+> -	pr_debug("cap_mem_start=%pa cap_mem_size=%pa\n", &cap_mem_addr,
+> -		 &cap_mem_size);
+>  }
+>  
+>  #ifdef CONFIG_SERIAL_EARLYCON
+> @@ -1265,7 +1283,8 @@ bool __init early_init_dt_verify(void *params)
+>  
+>  void __init early_init_dt_scan_nodes(void)
+>  {
+> -	int rc = 0;
+> +	int i, rc = 0;
+> +	struct memblock_region *rgn = &cap_mem_regions[0];
+>  
+>  	/* Initialize {size,address}-cells info */
+>  	of_scan_flat_dt(early_init_dt_scan_root, NULL);
+> @@ -1279,7 +1298,13 @@ void __init early_init_dt_scan_nodes(void)
+>  	of_scan_flat_dt(early_init_dt_scan_memory, NULL);
+>  
+>  	/* Handle linux,usable-memory-range property */
+> -	memblock_cap_memory_range(cap_mem_addr, cap_mem_size);
+> +	memblock_cap_memory_range(rgn->base, rgn->size);
+> +	for (i = 1; i < MAX_USABLE_RANGES; i++) {
+> +		rgn++;
 
-Before we discuss interrupt injection, I want to understand what this
-is doing, and how this is doing it. And more precisely, I want to find
-out how you solve the various problems described by Thomas here [1].
+Just use rgn[i].
 
-Assuming you solve these, you should model the guest memory access
-similarly to what we do for stolen time. As for injecting an
-interrupt, why can't this be a userspace thing?
+> +
+> +		if (rgn->size)
 
-Thanks,
+This check can be in the 'for' conditions check.
 
-	M.
-
-[1] https://lore.kernel.org/all/871r557jls.ffs@tglx
+> +			memblock_add(rgn->base, rgn->size);
+> +	}
 
 
--- 
-Without deviation from the norm, progress is not possible.
+There's not really any point in doing all this in 2 steps. I'm 
+assuming this needs to be handled after scanning the memory nodes, so 
+can you refactor this moving early_init_dt_check_for_usable_mem_range 
+out of early_init_dt_scan_chosen() and call it here. You'll have to get 
+the offset for /chosen twice or save the offset.
+
+Rob
