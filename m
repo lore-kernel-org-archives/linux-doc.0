@@ -2,79 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22513C4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 12:23:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48E22C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 13:52:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0D9F960FD8
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 12:23:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2FE7D6103D
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 13:52:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230157AbhJTMZT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Oct 2021 08:25:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50526 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229941AbhJTMZT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Oct 2021 08:25:19 -0400
-Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com [IPv6:2607:f8b0:4864:20::c33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4E0EC06161C;
-        Wed, 20 Oct 2021 05:23:04 -0700 (PDT)
-Received: by mail-oo1-xc33.google.com with SMTP id r4-20020a4aa2c4000000b002b6f374cac9so1952134ool.6;
-        Wed, 20 Oct 2021 05:23:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=KnpSTKaVxWeLwjg6JGO5JCxJHBUSE+8ki8bjGqS/oL8=;
-        b=M5OAz7D3STdY5Eqg6qqLhbe94UPlkuJP16z1PvrH0eg7gGN73m4BUVPD1LEmD0QCGI
-         sFCx5+aLAfHx1a9ivYk2Q83QJCG7gQIyf8Ga1yWdJrk7pJs7ZQlMCyUl4k7O3zaJ137w
-         GgRCFgalWPmorsJmNOV02gkdHI/ILvFuQvaPMMwY0iZCEQIAkgnK4vkun4zD7nqoRtdu
-         v6XxV951i7bMR/OoLkEbQ1Mvq4mREZAmpxBnSyqWyv/V0EJOQbWwX48iUsG5qYxxlyMQ
-         5Y3pO0F2EJ+MhKH3QAcJsYO/rjMvh/I7bT6up2YcMmlvdOUA0OpBvaB0kN27B9kV4NjD
-         Dp8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KnpSTKaVxWeLwjg6JGO5JCxJHBUSE+8ki8bjGqS/oL8=;
-        b=oN/+CHAH5elso2jSBRfABMYyUKzr6tOlQdpa7OflLhoGd8lvem2omsSucdB1zeIkjY
-         0ni4Nk/acjBzHvxkWJMuNswl2Fu3V+HeEGkkzU8z58YEzn6jxM+n1Lru0slFKfE+0JKD
-         1stHYju1upAYwBAaB8y5Mm1CegY/pD1uWg2vuDL+A2rrAUV4VltJt7v4dyQFltFvow5c
-         K46KiZlquCR8YGExaCqPJh1z1dwhd9KhhIcLPR7nlrXqNAoHEo7HTYOy62mvAimHox0W
-         aqkUUQNGyMQ7H8thVNgwv4+uKAQRr0YpuRZLdeJUfvhuPvuC6xXZFCCeML/wjbr3ku3p
-         /9qw==
-X-Gm-Message-State: AOAM532ozf78tQgYRdWAAtPwCvhXJQgoA6CgDOF0/PPDRRThliFUYykc
-        kG8shNUjvpN79CCQxwr+fX6kde0+aJt08hC3kEQ=
-X-Google-Smtp-Source: ABdhPJwi60I+gGronRWQVJkldYpoSJJehKfYgLhGeop7ohHFjqVK2o+mX0tEzOhu1WuDUia0D4B2s7boTyNF/pLmjkQ=
-X-Received: by 2002:a4a:52ce:: with SMTP id d197mr9487161oob.83.1634732584377;
- Wed, 20 Oct 2021 05:23:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211020120726.4022086-1-pizhenwei@bytedance.com>
-In-Reply-To: <20211020120726.4022086-1-pizhenwei@bytedance.com>
-From:   Wanpeng Li <kernellwp@gmail.com>
-Date:   Wed, 20 Oct 2021 20:22:53 +0800
-Message-ID: <CANRm+CxAVA-L0wjm72eohXXWvh9fS7wVFzfKHuEjrsiRFuk9fg@mail.gmail.com>
-Subject: Re: [PATCH] x86/kvm: Introduce boot parameter no-kvm-pvipi
-To:     zhenwei pi <pizhenwei@bytedance.com>
-Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        id S230031AbhJTNys (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Oct 2021 09:54:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50128 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230190AbhJTNys (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 20 Oct 2021 09:54:48 -0400
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 097B161052;
+        Wed, 20 Oct 2021 13:52:34 +0000 (UTC)
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <maz@kernel.org>)
+        id 1mdC19-000RjV-SP; Wed, 20 Oct 2021 14:52:31 +0100
+Date:   Wed, 20 Oct 2021 14:52:31 +0100
+Message-ID: <874k9bdcrk.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Hikaru Nishida <hikalium@chromium.org>
+Cc:     linux-kernel@vger.kernel.org, dme@dme.org, tglx@linutronix.de,
+        mlevitsk@redhat.com, linux@roeck-us.net, pbonzini@redhat.com,
+        vkuznets@redhat.com, will@kernel.org, suleiman@google.com,
+        senozhatsky@google.com, kvmarm@lists.cs.columbia.edu,
+        linux-arm-kernel@lists.infradead.org,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        John Stultz <john.stultz@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Wanpeng Li <wanpengli@tencent.com>,
+        Juergen Gross <jgross@suse.com>,
+        Kees Cook <keescook@chromium.org>,
+        Lai Jiangshan <laijs@linux.alibaba.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Peter Zijlstra <peterz@infradead.org>,
         Sean Christopherson <seanjc@google.com>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Stephen Boyd <sboyd@kernel.org>,
+        Wanpeng Li <wanpengli@tencent.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, x86@kernel.org
+Subject: Re: [RFC PATCH v3 0/5] x86/kvm: Virtual suspend time injection support
+In-Reply-To: <20211020120431.776494-1-hikalium@chromium.org>
+References: <20211020120431.776494-1-hikalium@chromium.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: hikalium@chromium.org, linux-kernel@vger.kernel.org, dme@dme.org, tglx@linutronix.de, mlevitsk@redhat.com, linux@roeck-us.net, pbonzini@redhat.com, vkuznets@redhat.com, will@kernel.org, suleiman@google.com, senozhatsky@google.com, kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org, luto@kernel.org, arnd@arndb.de, bp@alien8.de, dave.hansen@linux.intel.com, geert@linux-m68k.org, hpa@zytor.com, mingo@kernel.org, mingo@redhat.com, jmattson@google.com, joro@8bytes.org, john.stultz@linaro.org, corbet@lwn.net, jgross@suse.com, keescook@chromium.org, laijs@linux.alibaba.com, linus.walleij@linaro.org, peterz@infradead.org, seanjc@google.com, sboyd@kernel.org, wanpengli@tencent.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org, x86@kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 20 Oct 2021 at 20:08, zhenwei pi <pizhenwei@bytedance.com> wrote:
->
-> Although host side exposes KVM PV SEND IPI feature to guest side,
-> guest should still have a chance to disable it.
->
-> A typicall case of this parameter:
-> If the host AMD server enables AVIC feature, the flat mode of APIC
-> get better performance in the guest.
+Hi Hikaru,
 
-Hmm, I didn't find enough valuable information in your posting. We
-observe AMD a lot before.
-https://lore.kernel.org/all/CANRm+Cx597FNRUCyVz1D=B6Vs2GX3Sw57X7Muk+yMpi_hb+v1w@mail.gmail.com/T/#u
+On Wed, 20 Oct 2021 13:04:25 +0100,
+Hikaru Nishida <hikalium@chromium.org> wrote:
+> 
+> 
+> Hi,
+> 
+> This patch series adds virtual suspend time injection support to KVM.
+> It is an updated version of the following series:
+> v2:
+> https://lore.kernel.org/kvm/20210806100710.2425336-1-hikalium@chromium.org/
+> v1:
+> https://lore.kernel.org/kvm/20210426090644.2218834-1-hikalium@chromium.org/
+> 
+> Please take a look again.
+> 
+> To kvm/arm64 folks:
+> I'm going to implement this mechanism to ARM64 as well but not
+> sure which function should be used to make an IRQ (like kvm_apic_set_irq
+> in x86) and if it is okay to use kvm_gfn_to_hva_cache /
+> kvm_write_guest_cached for sharing the suspend duration.
 
-    Wanpeng
+Before we discuss interrupt injection, I want to understand what this
+is doing, and how this is doing it. And more precisely, I want to find
+out how you solve the various problems described by Thomas here [1].
+
+Assuming you solve these, you should model the guest memory access
+similarly to what we do for stolen time. As for injecting an
+interrupt, why can't this be a userspace thing?
+
+Thanks,
+
+	M.
+
+[1] https://lore.kernel.org/all/871r557jls.ffs@tglx
+
+
+-- 
+Without deviation from the norm, progress is not possible.
