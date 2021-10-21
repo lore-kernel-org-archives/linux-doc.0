@@ -2,98 +2,175 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FA1EC433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 23:47:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60763C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Oct 2021 00:39:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5D0A3610A2
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Oct 2021 23:47:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 20CB2611CE
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Oct 2021 00:39:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230510AbhJTXtv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Oct 2021 19:49:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36006 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230103AbhJTXtt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 20 Oct 2021 19:49:49 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 04E6861004;
-        Wed, 20 Oct 2021 23:47:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634773654;
-        bh=9d545R9PWdQWgRdbw7W5tcMHp9oZBeg+DHAnlfPE+vU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KyPiwW446bj302JCDkfG8CtZMG4oK07102wrPx+eQKBBQ2PDQV+ylFJYdPL9OtRPn
-         IFuCrr8/h5BRVvP9Gf6leTiOAmalzBdAS5u+qb3UQ3WroX4GQpAvpQorfSPYN9m34J
-         YUR6gtb7wF/5Yj+OyBaufc2uyPxyMUpgQ2liiwY6s0JVHvPachAfuUYhz62yRVhIsW
-         eLU3jPlodt9HbDxx+u8g0012MIdtYSCJnQkeszpYQT7eDzti3V7Nj2rDQjIIPZfhET
-         ftM+Lexlzin2QZgOp7eanyTJSsNhB7LCIQBgV8TQ5c50UglTH26MmQ1nbI0qKuiuLd
-         GAOnbQnEhCU9Q==
-Date:   Wed, 20 Oct 2021 18:52:14 -0500
-From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To:     Len Baker <len.baker@gmx.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Joe Perches <joe@perches.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v3] docs: deprecated.rst: Clarify open-coded arithmetic
- with literals
-Message-ID: <20211020235214.GA1346969@embeddedor>
-References: <20210925143455.21221-1-len.baker@gmx.com>
+        id S230499AbhJUAmF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Oct 2021 20:42:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56082 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230268AbhJUAmF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Oct 2021 20:42:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1634776789;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=nINcHNP1LunHuFgS+T7bSGFWStA5gFA7A821E6TM/8E=;
+        b=CbX4hham1ntphzzf2fngYUoCDjB9g0f5F7dzZutLUX2T2N81zOMzauIC7LZuKjXWgktulN
+        GZz+kuHKyprLzi4EAa7kBlTBHcy0XZxqm7EzOf2hiZud4eIcx60bJjG2wVywj1y9TpfNp8
+        yNfIzATb646+lOevZoiTEkv4cXoqmtY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-557-c3Q0yG6OP5e-tVuS9OPEsw-1; Wed, 20 Oct 2021 20:39:45 -0400
+X-MC-Unique: c3Q0yG6OP5e-tVuS9OPEsw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AFD5A1006AA2;
+        Thu, 21 Oct 2021 00:39:42 +0000 (UTC)
+Received: from T590 (ovpn-8-19.pek2.redhat.com [10.72.8.19])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 2231319D9B;
+        Thu, 21 Oct 2021 00:39:10 +0000 (UTC)
+Date:   Thu, 21 Oct 2021 08:39:05 +0800
+From:   Ming Lei <ming.lei@redhat.com>
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>, tj@kernel.org,
+        gregkh@linuxfoundation.org, akpm@linux-foundation.org,
+        minchan@kernel.org, jeyu@kernel.org, shuah@kernel.org,
+        bvanassche@acm.org, dan.j.williams@intel.com, joe@perches.com,
+        tglx@linutronix.de, keescook@chromium.org, rostedt@goodmis.org,
+        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ming.lei@redhat.com
+Subject: Re: [PATCH v8 11/12] zram: fix crashes with cpu hotplug multistate
+Message-ID: <YXC2qcx/RlLwjrKx@T590>
+References: <YWk9e957Hb+I7HvR@T590>
+ <YWm68xUnAofop3PZ@bombadil.infradead.org>
+ <YWq3Z++uoJ/kcp+3@T590>
+ <YW3LuzaPhW96jSBK@bombadil.infradead.org>
+ <YW4uwep3BCe9Vxq8@T590>
+ <YW7kFXlzRrvwzARP@bombadil.infradead.org>
+ <YW7ygbLAwm2/LZFl@T590>
+ <YW8eSq2B+5FtOLZb@bombadil.infradead.org>
+ <YW9tqPunx5bssxIz@T590>
+ <YXA6NMhwoiIMeHji@bombadil.infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210925143455.21221-1-len.baker@gmx.com>
+In-Reply-To: <YXA6NMhwoiIMeHji@bombadil.infradead.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Sep 25, 2021 at 04:34:55PM +0200, Len Baker wrote:
-> Although using literals for size calculation in allocator arguments may
-> be harmless due to compiler warnings in case of overflows, it is better
-> to refactor the code to avoid the use of open-coded arithmetic.
+On Wed, Oct 20, 2021 at 08:48:04AM -0700, Luis Chamberlain wrote:
+> On Wed, Oct 20, 2021 at 09:15:20AM +0800, Ming Lei wrote:
+> > On Tue, Oct 19, 2021 at 12:36:42PM -0700, Luis Chamberlain wrote:
+> > > On Wed, Oct 20, 2021 at 12:29:53AM +0800, Ming Lei wrote:
+> > > > diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
+> > > > index d0cae7a42f4d..a14ba3d350ea 100644
+> > > > --- a/drivers/block/zram/zram_drv.c
+> > > > +++ b/drivers/block/zram/zram_drv.c
+> > > > @@ -1704,12 +1704,12 @@ static void zram_reset_device(struct zram *zram)
+> > > >  	set_capacity_and_notify(zram->disk, 0);
+> > > >  	part_stat_set_all(zram->disk->part0, 0);
+> > > >  
+> > > > -	up_write(&zram->init_lock);
+> > > >  	/* I/O operation under all of CPU are done so let's free */
+> > > >  	zram_meta_free(zram, disksize);
+> > > >  	memset(&zram->stats, 0, sizeof(zram->stats));
+> > > >  	zcomp_destroy(comp);
+> > > >  	reset_bdev(zram);
+> > > > +	up_write(&zram->init_lock);
+> > > >  }
+> > > >  
+> > > >  static ssize_t disksize_store(struct device *dev,
+> > > 
+> > > With this, it still ends up in a state where we loop and can't get out of:
+> > > 
+> > > zram: Can't change algorithm for initialized device
+> > 
+> > Again, you are running two zram02.sh[1] on /dev/zram0, that isn't unexpected
 > 
-> So, clarify the preferred way in these cases.
-> 
-> Suggested-by: Kees Cook <keescook@chromium.org>
-> Signed-off-by: Len Baker <len.baker@gmx.com>
+> You mean that it is not expected? If so then yes, of course.
 
-This looks good to me.
+My meaning is clear: it is not unexpected, so it is expected.
 
-Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> 
+> > behavior. Here the difference is just timing.
+> 
+> Right, but that is what helped reproduce a difficutl to re-produce customer
+> bug. Once you find an easy way to reproduce a reported issue you stick
+> with it and try to make the situation worse to ensure no more bugs are
+> present.
+> 
+> > Also you did not answer my question about your test expected result when
+> > running the following script from two terminal concurrently:
+> > 
+> > 	while true; do
+> > 		PATH=$PATH:$PWD:$PWD/../../../lib/ ./zram02.sh;
+> > 	done
+> 
+> If you run this, you should see no failures.
 
-Thanks
---
-Gustavo
+OK, not see any failure when running single zram02.sh after applying my
+patch V2.
 
-> ---
-> Changelog v1 -> v2
->  - Clarify the sentence by changing "keep <foo> out" with "avoid <foo>"
->    (Joe Perches).
 > 
-> Changelog v2 -> v3
->  - Reword the sentence to comunicate better (Jonathan Corbet).
+> Once you start a second script that one should cause odd issues on both
+> sides but never crash or stall the module.
+
+crash can't be observed with my patch V2, what do you mean 'stall'
+the module? Is that 'zram' can't be unloaded after the test is
+terminated via multiple 'ctrl-c'?
+
 > 
-> The previous version can be found here [1].
+> A second series of tests is hitting CTRL-C on either randonly and
+> restarting testing once again randomly.
+
+ltp/zram02.sh has cleanup handler via trap to clean everything(swapoff/umount/reset/
+rmmod), ctrl-c will terminate current forground task and cause shell to run the
+cleanup handler first, but further 'ctrl-c' will terminate the cleanup handler,
+then the cleanup won't be done completely, such as zram disk is left as swap
+device and zram can't be unloaded. The idea can be observed via the following
+script:
+
+	#!/bin/bash
+	trap 'echo "enter trap"; sleep 20; echo "exit trap";' INT
+	sleep 30
+
+After the above script is run foreground, when 1st ctrl-c is pressed, 'sleep 30'
+is terminated, then the trap command is run, so you can see "enter trap"
+dumped. Then if you pressed 2nd ctrl-c, 'sleep 20' is terminated immediately.
+So 'swapoff' from zram02.sh's trap function can be terminated in this way.
+
+zram disk being left as swap disk can be observed with your patch too
+after terminating via multiple ctrl-c which has to be done this way because
+the test is dead loop.
+
+So it is hard to cleanup everything completely after multiple 'CTRL-C' is
+involved, and it should be impossible. It needs violent multiple ctrl-c to
+terminate the dealoop test.
+
+So it isn't reasonable to expect that zram can be always unloaded successfully
+after the test script is terminated via multiple ctrl-c.
+
+But zram can be unloaded after running swapoff manually, from driver
+viewpoint, nothing is wrong.
+
 > 
-> [1] https://lore.kernel.org/linux-hardening/20210829144716.2931-1-len.baker@gmx.com/
+> Again, neither should crash the kernel or stall the module.
 > 
->  Documentation/process/deprecated.rst | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-> index 8ced754a5a0f..388cb19f5dbb 100644
-> --- a/Documentation/process/deprecated.rst
-> +++ b/Documentation/process/deprecated.rst
-> @@ -59,8 +59,9 @@ risk of them overflowing. This could lead to values wrapping around and a
->  smaller allocation being made than the caller was expecting. Using those
->  allocations could lead to linear overflows of heap memory and other
->  misbehaviors. (One exception to this is literal values where the compiler
-> -can warn if they might overflow. Though using literals for arguments as
-> -suggested below is also harmless.)
-> +can warn if they might overflow. However, the preferred way in these
-> +cases is to refactor the code as suggested below to avoid the open-coded
-> +arithmetic.)
-> 
->  For example, do not use ``count * size`` as an argument, as in::
-> 
-> --
-> 2.25.1
-> 
+> In the end of these tests you should be able to run the script alone
+> just once and not see issues.
+
+
+Thanks,
+Ming
+
