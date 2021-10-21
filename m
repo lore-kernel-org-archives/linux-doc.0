@@ -2,175 +2,204 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60763C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Oct 2021 00:39:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C862C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Oct 2021 01:14:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 20CB2611CE
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Oct 2021 00:39:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E2340610D0
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Oct 2021 01:14:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230499AbhJUAmF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Oct 2021 20:42:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56082 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230268AbhJUAmF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Oct 2021 20:42:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1634776789;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=nINcHNP1LunHuFgS+T7bSGFWStA5gFA7A821E6TM/8E=;
-        b=CbX4hham1ntphzzf2fngYUoCDjB9g0f5F7dzZutLUX2T2N81zOMzauIC7LZuKjXWgktulN
-        GZz+kuHKyprLzi4EAa7kBlTBHcy0XZxqm7EzOf2hiZud4eIcx60bJjG2wVywj1y9TpfNp8
-        yNfIzATb646+lOevZoiTEkv4cXoqmtY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-557-c3Q0yG6OP5e-tVuS9OPEsw-1; Wed, 20 Oct 2021 20:39:45 -0400
-X-MC-Unique: c3Q0yG6OP5e-tVuS9OPEsw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AFD5A1006AA2;
-        Thu, 21 Oct 2021 00:39:42 +0000 (UTC)
-Received: from T590 (ovpn-8-19.pek2.redhat.com [10.72.8.19])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 2231319D9B;
-        Thu, 21 Oct 2021 00:39:10 +0000 (UTC)
-Date:   Thu, 21 Oct 2021 08:39:05 +0800
-From:   Ming Lei <ming.lei@redhat.com>
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>, tj@kernel.org,
-        gregkh@linuxfoundation.org, akpm@linux-foundation.org,
-        minchan@kernel.org, jeyu@kernel.org, shuah@kernel.org,
-        bvanassche@acm.org, dan.j.williams@intel.com, joe@perches.com,
-        tglx@linutronix.de, keescook@chromium.org, rostedt@goodmis.org,
-        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ming.lei@redhat.com
-Subject: Re: [PATCH v8 11/12] zram: fix crashes with cpu hotplug multistate
-Message-ID: <YXC2qcx/RlLwjrKx@T590>
-References: <YWk9e957Hb+I7HvR@T590>
- <YWm68xUnAofop3PZ@bombadil.infradead.org>
- <YWq3Z++uoJ/kcp+3@T590>
- <YW3LuzaPhW96jSBK@bombadil.infradead.org>
- <YW4uwep3BCe9Vxq8@T590>
- <YW7kFXlzRrvwzARP@bombadil.infradead.org>
- <YW7ygbLAwm2/LZFl@T590>
- <YW8eSq2B+5FtOLZb@bombadil.infradead.org>
- <YW9tqPunx5bssxIz@T590>
- <YXA6NMhwoiIMeHji@bombadil.infradead.org>
+        id S230393AbhJUBQq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Oct 2021 21:16:46 -0400
+Received: from szxga08-in.huawei.com ([45.249.212.255]:26105 "EHLO
+        szxga08-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230268AbhJUBQq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Oct 2021 21:16:46 -0400
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.54])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4HZTx516ZTz1DHb1;
+        Thu, 21 Oct 2021 09:12:41 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.15; Thu, 21 Oct 2021 09:14:28 +0800
+Received: from [10.174.178.55] (10.174.178.55) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.15; Thu, 21 Oct 2021 09:14:27 +0800
+Subject: Re: [PATCH v15 09/10] of: fdt: Add memory for devices by DT property
+ "linux,usable-memory-range"
+To:     Rob Herring <robh@kernel.org>
+CC:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+        <linux-kernel@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
+        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        <kexec@lists.infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Will Deacon" <will@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        "Frank Rowand" <frowand.list@gmail.com>,
+        <devicetree@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>
+References: <20211020020317.1220-1-thunder.leizhen@huawei.com>
+ <20211020020317.1220-10-thunder.leizhen@huawei.com>
+ <YXAlgdZ5q7CdBXw4@robh.at.kernel.org>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <f1d767a3-a616-adfa-454b-5980f8683892@huawei.com>
+Date:   Thu, 21 Oct 2021 09:14:26 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YXA6NMhwoiIMeHji@bombadil.infradead.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <YXAlgdZ5q7CdBXw4@robh.at.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 20, 2021 at 08:48:04AM -0700, Luis Chamberlain wrote:
-> On Wed, Oct 20, 2021 at 09:15:20AM +0800, Ming Lei wrote:
-> > On Tue, Oct 19, 2021 at 12:36:42PM -0700, Luis Chamberlain wrote:
-> > > On Wed, Oct 20, 2021 at 12:29:53AM +0800, Ming Lei wrote:
-> > > > diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
-> > > > index d0cae7a42f4d..a14ba3d350ea 100644
-> > > > --- a/drivers/block/zram/zram_drv.c
-> > > > +++ b/drivers/block/zram/zram_drv.c
-> > > > @@ -1704,12 +1704,12 @@ static void zram_reset_device(struct zram *zram)
-> > > >  	set_capacity_and_notify(zram->disk, 0);
-> > > >  	part_stat_set_all(zram->disk->part0, 0);
-> > > >  
-> > > > -	up_write(&zram->init_lock);
-> > > >  	/* I/O operation under all of CPU are done so let's free */
-> > > >  	zram_meta_free(zram, disksize);
-> > > >  	memset(&zram->stats, 0, sizeof(zram->stats));
-> > > >  	zcomp_destroy(comp);
-> > > >  	reset_bdev(zram);
-> > > > +	up_write(&zram->init_lock);
-> > > >  }
-> > > >  
-> > > >  static ssize_t disksize_store(struct device *dev,
-> > > 
-> > > With this, it still ends up in a state where we loop and can't get out of:
-> > > 
-> > > zram: Can't change algorithm for initialized device
-> > 
-> > Again, you are running two zram02.sh[1] on /dev/zram0, that isn't unexpected
+
+
+On 2021/10/20 22:19, Rob Herring wrote:
+> On Wed, Oct 20, 2021 at 10:03:16AM +0800, Zhen Lei wrote:
+>> From: Chen Zhou <chenzhou10@huawei.com>
+>>
+>> When reserving crashkernel in high memory, some low memory is reserved
+>> for crash dump kernel devices and never mapped by the first kernel.
+>> This memory range is advertised to crash dump kernel via DT property
+>> under /chosen,
+>>         linux,usable-memory-range = <BASE1 SIZE1 [BASE2 SIZE2]>
+>>
+>> We reused the DT property linux,usable-memory-range and made the low
+>> memory region as the second range "BASE2 SIZE2", which keeps compatibility
+>> with existing user-space and older kdump kernels.
+>>
+>> Crash dump kernel reads this property at boot time and call memblock_add()
+>> to add the low memory region after memblock_cap_memory_range() has been
+>> called.
+>>
+>> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+>> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+>> ---
+>>  drivers/of/fdt.c | 47 ++++++++++++++++++++++++++++++++++++-----------
+>>  1 file changed, 36 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/drivers/of/fdt.c b/drivers/of/fdt.c
+>> index 4546572af24bbf1..cf59c847b2c28a5 100644
+>> --- a/drivers/of/fdt.c
+>> +++ b/drivers/of/fdt.c
+>> @@ -969,8 +969,16 @@ static void __init early_init_dt_check_for_elfcorehdr(unsigned long node)
+>>  		 elfcorehdr_addr, elfcorehdr_size);
+>>  }
+>>  
+>> -static phys_addr_t cap_mem_addr;
+>> -static phys_addr_t cap_mem_size;
+>> +/*
+>> + * The main usage of linux,usable-memory-range is for crash dump kernel.
+>> + * Originally, the number of usable-memory regions is one. Now there may
+>> + * be two regions, low region and high region.
+>> + * To make compatibility with existing user-space and older kdump, the low
+>> + * region is always the last range of linux,usable-memory-range if exist.
+>> + */
+>> +#define MAX_USABLE_RANGES		2
+>> +
+>> +static struct memblock_region cap_mem_regions[MAX_USABLE_RANGES];
+>>  
+>>  /**
+>>   * early_init_dt_check_for_usable_mem_range - Decode usable memory range
+>> @@ -979,20 +987,30 @@ static phys_addr_t cap_mem_size;
+>>   */
+>>  static void __init early_init_dt_check_for_usable_mem_range(unsigned long node)
+>>  {
+>> -	const __be32 *prop;
+>> -	int len;
+>> +	const __be32 *prop, *endp;
+>> +	int len, nr = 0;
+>> +	struct memblock_region *rgn = &cap_mem_regions[0];
+>>  
+>>  	pr_debug("Looking for usable-memory-range property... ");
+>>  
+>>  	prop = of_get_flat_dt_prop(node, "linux,usable-memory-range", &len);
+>> -	if (!prop || (len < (dt_root_addr_cells + dt_root_size_cells)))
+>> +	if (!prop)
+>>  		return;
+>>  
+>> -	cap_mem_addr = dt_mem_next_cell(dt_root_addr_cells, &prop);
+>> -	cap_mem_size = dt_mem_next_cell(dt_root_size_cells, &prop);
+>> +	endp = prop + (len / sizeof(__be32));
+>> +	while ((endp - prop) >= (dt_root_addr_cells + dt_root_size_cells)) {
+>> +		rgn->base = dt_mem_next_cell(dt_root_addr_cells, &prop);
+>> +		rgn->size = dt_mem_next_cell(dt_root_size_cells, &prop);
+>> +
+>> +		pr_debug("cap_mem_regions[%d]: base=%pa, size=%pa\n",
+>> +			 nr, &rgn->base, &rgn->size);
+>> +
+>> +		if (++nr >= MAX_USABLE_RANGES)
+>> +			break;
+>> +
+>> +		rgn++;
+>> +	}
+>>  
+>> -	pr_debug("cap_mem_start=%pa cap_mem_size=%pa\n", &cap_mem_addr,
+>> -		 &cap_mem_size);
+>>  }
+>>  
+>>  #ifdef CONFIG_SERIAL_EARLYCON
+>> @@ -1265,7 +1283,8 @@ bool __init early_init_dt_verify(void *params)
+>>  
+>>  void __init early_init_dt_scan_nodes(void)
+>>  {
+>> -	int rc = 0;
+>> +	int i, rc = 0;
+>> +	struct memblock_region *rgn = &cap_mem_regions[0];
+>>  
+>>  	/* Initialize {size,address}-cells info */
+>>  	of_scan_flat_dt(early_init_dt_scan_root, NULL);
+>> @@ -1279,7 +1298,13 @@ void __init early_init_dt_scan_nodes(void)
+>>  	of_scan_flat_dt(early_init_dt_scan_memory, NULL);
+>>  
+>>  	/* Handle linux,usable-memory-range property */
+>> -	memblock_cap_memory_range(cap_mem_addr, cap_mem_size);
+>> +	memblock_cap_memory_range(rgn->base, rgn->size);
+>> +	for (i = 1; i < MAX_USABLE_RANGES; i++) {
+>> +		rgn++;
 > 
-> You mean that it is not expected? If so then yes, of course.
+> Just use rgn[i].
 
-My meaning is clear: it is not unexpected, so it is expected.
-
-> 
-> > behavior. Here the difference is just timing.
-> 
-> Right, but that is what helped reproduce a difficutl to re-produce customer
-> bug. Once you find an easy way to reproduce a reported issue you stick
-> with it and try to make the situation worse to ensure no more bugs are
-> present.
-> 
-> > Also you did not answer my question about your test expected result when
-> > running the following script from two terminal concurrently:
-> > 
-> > 	while true; do
-> > 		PATH=$PATH:$PWD:$PWD/../../../lib/ ./zram02.sh;
-> > 	done
-> 
-> If you run this, you should see no failures.
-
-OK, not see any failure when running single zram02.sh after applying my
-patch V2.
+OK.
 
 > 
-> Once you start a second script that one should cause odd issues on both
-> sides but never crash or stall the module.
+>> +
+>> +		if (rgn->size)
+> 
+> This check can be in the 'for' conditions check.
 
-crash can't be observed with my patch V2, what do you mean 'stall'
-the module? Is that 'zram' can't be unloaded after the test is
-terminated via multiple 'ctrl-c'?
+Yes, this node is added by kexec tool, it is impossible that
+the first range is zero and the second range is not zero.
 
 > 
-> A second series of tests is hitting CTRL-C on either randonly and
-> restarting testing once again randomly.
+>> +			memblock_add(rgn->base, rgn->size);
+>> +	}
+> 
+> 
+> There's not really any point in doing all this in 2 steps. I'm 
+> assuming this needs to be handled after scanning the memory nodes, so 
+> can you refactor this moving early_init_dt_check_for_usable_mem_range 
+> out of early_init_dt_scan_chosen() and call it here. You'll have to get 
+> the offset for /chosen twice or save the offset.
 
-ltp/zram02.sh has cleanup handler via trap to clean everything(swapoff/umount/reset/
-rmmod), ctrl-c will terminate current forground task and cause shell to run the
-cleanup handler first, but further 'ctrl-c' will terminate the cleanup handler,
-then the cleanup won't be done completely, such as zram disk is left as swap
-device and zram can't be unloaded. The idea can be observed via the following
-script:
+This's a good suggestion. I'll refactor it. Thanks.
 
-	#!/bin/bash
-	trap 'echo "enter trap"; sleep 20; echo "exit trap";' INT
-	sleep 30
-
-After the above script is run foreground, when 1st ctrl-c is pressed, 'sleep 30'
-is terminated, then the trap command is run, so you can see "enter trap"
-dumped. Then if you pressed 2nd ctrl-c, 'sleep 20' is terminated immediately.
-So 'swapoff' from zram02.sh's trap function can be terminated in this way.
-
-zram disk being left as swap disk can be observed with your patch too
-after terminating via multiple ctrl-c which has to be done this way because
-the test is dead loop.
-
-So it is hard to cleanup everything completely after multiple 'CTRL-C' is
-involved, and it should be impossible. It needs violent multiple ctrl-c to
-terminate the dealoop test.
-
-So it isn't reasonable to expect that zram can be always unloaded successfully
-after the test script is terminated via multiple ctrl-c.
-
-But zram can be unloaded after running swapoff manually, from driver
-viewpoint, nothing is wrong.
+Zhen Lei
 
 > 
-> Again, neither should crash the kernel or stall the module.
+> Rob
+> .
 > 
-> In the end of these tests you should be able to run the script alone
-> just once and not see issues.
-
-
-Thanks,
-Ming
-
