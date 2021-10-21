@@ -2,204 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C862C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Oct 2021 01:14:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84D0EC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Oct 2021 03:06:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E2340610D0
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Oct 2021 01:14:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6403060FE8
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Oct 2021 03:06:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230393AbhJUBQq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Oct 2021 21:16:46 -0400
-Received: from szxga08-in.huawei.com ([45.249.212.255]:26105 "EHLO
-        szxga08-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230268AbhJUBQq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Oct 2021 21:16:46 -0400
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.54])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4HZTx516ZTz1DHb1;
-        Thu, 21 Oct 2021 09:12:41 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.15; Thu, 21 Oct 2021 09:14:28 +0800
-Received: from [10.174.178.55] (10.174.178.55) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.15; Thu, 21 Oct 2021 09:14:27 +0800
-Subject: Re: [PATCH v15 09/10] of: fdt: Add memory for devices by DT property
- "linux,usable-memory-range"
-To:     Rob Herring <robh@kernel.org>
-CC:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
-        <linux-kernel@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
-        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        <kexec@lists.infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Will Deacon" <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        "Frank Rowand" <frowand.list@gmail.com>,
-        <devicetree@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>
-References: <20211020020317.1220-1-thunder.leizhen@huawei.com>
- <20211020020317.1220-10-thunder.leizhen@huawei.com>
- <YXAlgdZ5q7CdBXw4@robh.at.kernel.org>
-From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Message-ID: <f1d767a3-a616-adfa-454b-5980f8683892@huawei.com>
-Date:   Thu, 21 Oct 2021 09:14:26 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S231228AbhJUDIP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Oct 2021 23:08:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53356 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231208AbhJUDIO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Oct 2021 23:08:14 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EA5BC061749
+        for <linux-doc@vger.kernel.org>; Wed, 20 Oct 2021 20:05:59 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id n8-20020a17090a2bc800b00196286963b9so2049221pje.3
+        for <linux-doc@vger.kernel.org>; Wed, 20 Oct 2021 20:05:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=GHlCsQKA6ANrCmV8EAVd8kSzy36VnW2q1AuqAqPG6C0=;
+        b=eeSEbPXnojW9ytHGkh3hy9RzO5u0Q0bchANyGqPTc4oajy1Ah9Jw3D3z2f7Ziv3INN
+         3BV1SIcQScjzE+ruRGgZGjMoEWUd/E1nYo1qwcgzdUSQEnzJwtvqop4bnLb3h+ECE8pV
+         uktoihN+C54gFvW2EH0/HDiO6355KKkE18mdsPgCMOrJait1mW6IvFJS+Dt7SofWqmD/
+         xb1huHZnlKoSTR5+pRcH6CBEIEkyOk4u2fXy2kOc6def57d+yWN/7Gx+m6Uhj+VJ3tD7
+         4irdoJBk91/7hFtyK5am7neKkV1VkNZrCSvd8KbQqG6rDeDFbdkUVnsQkRgSrifVczrf
+         kfjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=GHlCsQKA6ANrCmV8EAVd8kSzy36VnW2q1AuqAqPG6C0=;
+        b=BBWLwWnh5at3bj65YV8OtxegsHXxwQsH8ogTTRqJmGfaZXQE5QitArEuomsq/gs0wv
+         lHejgpjVgE0o3wquvigav3PqRUQ0G5gMlSFBUMI95HW0wkoroevBYkZ9qzkKapY7m/BA
+         gQlhHty+O4yMzei3IwrZBmoIJmIItyAi6CwpixjQyelLF4BDoeRYOKGPXyzah0/TNMfF
+         roIRUc4QxUNYpzpQtxqI9bRi1wgshc6dAfVgdkasZu5kQCID3RjqXt+yUIwj/LUT94Vt
+         5lNGra2e9rSPcC4y+5r905COsf10NZBPPdJerPbbvnLvyG69OBNKlZ8vbcF9cKPoUoAw
+         9oOg==
+X-Gm-Message-State: AOAM531XI0XvBgbA2xTObHMH/OsrRjI5zdpb8IgHWDPjYC4X+hmFRFaz
+        9Hiyy7C6rpY2D+bKTMlGeRJIrNGC1U8=
+X-Google-Smtp-Source: ABdhPJxf82HF6CwlXS3DZSINuO3hhhyHQRWNXAxz2GBbAKJw8ZU5mZcbUJbc6rq9fX62zgROnXXL0w==
+X-Received: by 2002:a17:90b:17d2:: with SMTP id me18mr3249244pjb.98.1634785558244;
+        Wed, 20 Oct 2021 20:05:58 -0700 (PDT)
+Received: from [10.2.24.177] ([61.120.150.70])
+        by smtp.gmail.com with ESMTPSA id l1sm3605910pgt.39.2021.10.20.20.05.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Oct 2021 20:05:57 -0700 (PDT)
+Subject: Re: Re: [PATCH] x86/kvm: Introduce boot parameter no-kvm-pvipi
+To:     Sean Christopherson <seanjc@google.com>,
+        Wanpeng Li <kernellwp@gmail.com>
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
+References: <20211020120726.4022086-1-pizhenwei@bytedance.com>
+ <CANRm+CxAVA-L0wjm72eohXXWvh9fS7wVFzfKHuEjrsiRFuk9fg@mail.gmail.com>
+ <YXB4FHfzh99707EH@google.com>
+From:   zhenwei pi <pizhenwei@bytedance.com>
+Message-ID: <08757159-1673-5c7b-3efc-e5b54e82d6c3@bytedance.com>
+Date:   Thu, 21 Oct 2021 11:02:15 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YXAlgdZ5q7CdBXw4@robh.at.kernel.org>
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <YXB4FHfzh99707EH@google.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.178.55]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-
-On 2021/10/20 22:19, Rob Herring wrote:
-> On Wed, Oct 20, 2021 at 10:03:16AM +0800, Zhen Lei wrote:
->> From: Chen Zhou <chenzhou10@huawei.com>
+On 10/21/21 4:12 AM, Sean Christopherson wrote:
+> On Wed, Oct 20, 2021, Wanpeng Li wrote:
+>> On Wed, 20 Oct 2021 at 20:08, zhenwei pi <pizhenwei@bytedance.com> wrote:
+>>>
+>>> Although host side exposes KVM PV SEND IPI feature to guest side,
+>>> guest should still have a chance to disable it.
+>>>
+>>> A typicall case of this parameter:
+>>> If the host AMD server enables AVIC feature, the flat mode of APIC
+>>> get better performance in the guest.
 >>
->> When reserving crashkernel in high memory, some low memory is reserved
->> for crash dump kernel devices and never mapped by the first kernel.
->> This memory range is advertised to crash dump kernel via DT property
->> under /chosen,
->>         linux,usable-memory-range = <BASE1 SIZE1 [BASE2 SIZE2]>
->>
->> We reused the DT property linux,usable-memory-range and made the low
->> memory region as the second range "BASE2 SIZE2", which keeps compatibility
->> with existing user-space and older kdump kernels.
->>
->> Crash dump kernel reads this property at boot time and call memblock_add()
->> to add the low memory region after memblock_cap_memory_range() has been
->> called.
->>
->> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
->> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
->> ---
->>  drivers/of/fdt.c | 47 ++++++++++++++++++++++++++++++++++++-----------
->>  1 file changed, 36 insertions(+), 11 deletions(-)
->>
->> diff --git a/drivers/of/fdt.c b/drivers/of/fdt.c
->> index 4546572af24bbf1..cf59c847b2c28a5 100644
->> --- a/drivers/of/fdt.c
->> +++ b/drivers/of/fdt.c
->> @@ -969,8 +969,16 @@ static void __init early_init_dt_check_for_elfcorehdr(unsigned long node)
->>  		 elfcorehdr_addr, elfcorehdr_size);
->>  }
->>  
->> -static phys_addr_t cap_mem_addr;
->> -static phys_addr_t cap_mem_size;
->> +/*
->> + * The main usage of linux,usable-memory-range is for crash dump kernel.
->> + * Originally, the number of usable-memory regions is one. Now there may
->> + * be two regions, low region and high region.
->> + * To make compatibility with existing user-space and older kdump, the low
->> + * region is always the last range of linux,usable-memory-range if exist.
->> + */
->> +#define MAX_USABLE_RANGES		2
->> +
->> +static struct memblock_region cap_mem_regions[MAX_USABLE_RANGES];
->>  
->>  /**
->>   * early_init_dt_check_for_usable_mem_range - Decode usable memory range
->> @@ -979,20 +987,30 @@ static phys_addr_t cap_mem_size;
->>   */
->>  static void __init early_init_dt_check_for_usable_mem_range(unsigned long node)
->>  {
->> -	const __be32 *prop;
->> -	int len;
->> +	const __be32 *prop, *endp;
->> +	int len, nr = 0;
->> +	struct memblock_region *rgn = &cap_mem_regions[0];
->>  
->>  	pr_debug("Looking for usable-memory-range property... ");
->>  
->>  	prop = of_get_flat_dt_prop(node, "linux,usable-memory-range", &len);
->> -	if (!prop || (len < (dt_root_addr_cells + dt_root_size_cells)))
->> +	if (!prop)
->>  		return;
->>  
->> -	cap_mem_addr = dt_mem_next_cell(dt_root_addr_cells, &prop);
->> -	cap_mem_size = dt_mem_next_cell(dt_root_size_cells, &prop);
->> +	endp = prop + (len / sizeof(__be32));
->> +	while ((endp - prop) >= (dt_root_addr_cells + dt_root_size_cells)) {
->> +		rgn->base = dt_mem_next_cell(dt_root_addr_cells, &prop);
->> +		rgn->size = dt_mem_next_cell(dt_root_size_cells, &prop);
->> +
->> +		pr_debug("cap_mem_regions[%d]: base=%pa, size=%pa\n",
->> +			 nr, &rgn->base, &rgn->size);
->> +
->> +		if (++nr >= MAX_USABLE_RANGES)
->> +			break;
->> +
->> +		rgn++;
->> +	}
->>  
->> -	pr_debug("cap_mem_start=%pa cap_mem_size=%pa\n", &cap_mem_addr,
->> -		 &cap_mem_size);
->>  }
->>  
->>  #ifdef CONFIG_SERIAL_EARLYCON
->> @@ -1265,7 +1283,8 @@ bool __init early_init_dt_verify(void *params)
->>  
->>  void __init early_init_dt_scan_nodes(void)
->>  {
->> -	int rc = 0;
->> +	int i, rc = 0;
->> +	struct memblock_region *rgn = &cap_mem_regions[0];
->>  
->>  	/* Initialize {size,address}-cells info */
->>  	of_scan_flat_dt(early_init_dt_scan_root, NULL);
->> @@ -1279,7 +1298,13 @@ void __init early_init_dt_scan_nodes(void)
->>  	of_scan_flat_dt(early_init_dt_scan_memory, NULL);
->>  
->>  	/* Handle linux,usable-memory-range property */
->> -	memblock_cap_memory_range(cap_mem_addr, cap_mem_size);
->> +	memblock_cap_memory_range(rgn->base, rgn->size);
->> +	for (i = 1; i < MAX_USABLE_RANGES; i++) {
->> +		rgn++;
+>> Hmm, I didn't find enough valuable information in your posting. We
+>> observe AMD a lot before.
+>> https://lore.kernel.org/all/CANRm+Cx597FNRUCyVz1D=B6Vs2GX3Sw57X7Muk+yMpi_hb+v1w@mail.gmail.com/T/#u
 > 
-> Just use rgn[i].
+> I too would like to see numbers.  I suspect the answer is going to be that
+> AVIC performs poorly in CPU overcommit scenarios because of the cost of managing
+> the tables and handling "failed delivery" exits, but that AVIC does quite well
+> when vCPUs are pinned 1:1 and IPIs rarely require an exit to the host.
+> 
 
-OK.
+Test env:
+CPU: AMD EPYC 7642 48-Core Processor
 
-> 
->> +
->> +		if (rgn->size)
-> 
-> This check can be in the 'for' conditions check.
+Kmod args(enable avic and disable nested):
+modprobe kvm-amd nested=0 avic=1 npt=1
 
-Yes, this node is added by kexec tool, it is impossible that
-the first range is zero and the second range is not zero.
+QEMU args(disable x2apic):
+... -cpu host,x2apic=off ...
 
-> 
->> +			memblock_add(rgn->base, rgn->size);
->> +	}
-> 
-> 
-> There's not really any point in doing all this in 2 steps. I'm 
-> assuming this needs to be handled after scanning the memory nodes, so 
-> can you refactor this moving early_init_dt_check_for_usable_mem_range 
-> out of early_init_dt_scan_chosen() and call it here. You'll have to get 
-> the offset for /chosen twice or save the offset.
+Benchmark tool:
+https://github.com/bytedance/kvm-utils/tree/master/microbenchmark/apic-ipi
 
-This's a good suggestion. I'll refactor it. Thanks.
+~# insmod apic_ipi.ko options=5 && dmesg -c
 
-Zhen Lei
+  apic_ipi: 1 NUMA node(s)
+  apic_ipi: apic [flat]
+  apic_ipi: apic->send_IPI[default_send_IPI_single+0x0/0x40]
+  apic_ipi: apic->send_IPI_mask[kvm_send_ipi_mask+0x0/0x10]
+  apic_ipi: 	IPI[kvm_send_ipi_mask] from CPU[0] to CPU[1]
+  apic_ipi:		total cycles 375671259, avg 3756
+  apic_ipi: 	IPI[flat_send_IPI_mask] from CPU[0] to CPU[1]
+  apic_ipi:		total cycles 221961822, avg 2219
 
-> 
-> Rob
-> .
-> 
+
+apic->send_IPI_mask[kvm_send_ipi_mask+0x0/0x10]
+   -> This line show current send_IPI_mask is kvm_send_ipi_mask(because 
+of PV SEND IPI FEATURE)
+
+apic_ipi: 	IPI[kvm_send_ipi_mask] from CPU[0] to CPU[1]
+apic_ipi:		total cycles 375671259, avg 3756
+   -->These lines show the average cycles of each kvm_send_ipi_mask: 3756
+
+apic_ipi: 	IPI[flat_send_IPI_mask] from CPU[0] to CPU[1]
+apic_ipi:		total cycles 221961822, avg 2219
+   -->These lines show the average cycles of each flat_send_IPI_mask: 2219
+
+
+-- 
+zhenwei pi
