@@ -2,97 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A80FC433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Oct 2021 10:28:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D8F6C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Oct 2021 12:12:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 005806112D
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Oct 2021 10:28:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4C541610A2
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Oct 2021 12:12:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230330AbhJUKaq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Oct 2021 06:30:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54196 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230077AbhJUKah (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 21 Oct 2021 06:30:37 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 874596120C;
-        Thu, 21 Oct 2021 10:28:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634812101;
-        bh=XZqwcRi8eGbcHfTa8FsBo0CyV+VMmanZEXSL34v2xNA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=LSIZboXeBiM2XeY8Wt+EdS5vzOT0y1ZBbT9bRqQsj3JP7BP/yWGDJFdQJDSckB09B
-         7uqGgy/9ZJHs5HkWP1mzK+b4YDPzJqFGxOwtsNXcSuJd++RJzuPnbSBghUV5uvPrQr
-         48FXQ0hb3XPEUFdAkHZ8go/OfpfNzL7Oi+qwtMWOwsIoe54SPCBCf3WNrap+GInr0V
-         yGABj0eWy+Oy4uHPhX+84IqzwjRnnFriSooLwDn9DdP3ldmXSfRxTG8Sqpob+snAai
-         xloBuBSX8vt6kna/4iXumpsepFj39VfqjUz5ICYwwc7ll2r4XouRi6EbQQOqDpLgmh
-         FssfdAsIY4+8g==
-Received: by mail-oi1-f170.google.com with SMTP id o83so295125oif.4;
-        Thu, 21 Oct 2021 03:28:21 -0700 (PDT)
-X-Gm-Message-State: AOAM532DDyVNWD56Lze+VMe2j0wrKXyHFoz1vzJF7HGTawJ3pxUd+IoB
-        fsnsREcnrxDYexSext4MlwHcM8cep6MuXn6B43k=
-X-Google-Smtp-Source: ABdhPJwJS57ISbZcVKqBAD81WN0NdiqSiFCaDg4V8so9PFGuh1YHfNT+etwlr7CUC37Bkxt5mEwG0tXwsqwrLAT+eTk=
-X-Received: by 2002:aca:4bc4:: with SMTP id y187mr3602617oia.174.1634812100804;
- Thu, 21 Oct 2021 03:28:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211020173554.38122-1-keescook@chromium.org>
-In-Reply-To: <20211020173554.38122-1-keescook@chromium.org>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Thu, 21 Oct 2021 12:28:09 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXEw2P+Q2Nd-+vf6U5apx+v5Q4TTW6y0m-MFaB1O2OAehQ@mail.gmail.com>
-Message-ID: <CAMj1kXEw2P+Q2Nd-+vf6U5apx+v5Q4TTW6y0m-MFaB1O2OAehQ@mail.gmail.com>
-Subject: Re: [PATCH 0/2] gcc-plugins: Explicitly document purpose and
- deprecation schedule
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Dan Li <ashimida@linux.alibaba.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
+        id S231309AbhJUMOp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Oct 2021 08:14:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35104 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230360AbhJUMOo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Oct 2021 08:14:44 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 787F2C06161C
+        for <linux-doc@vger.kernel.org>; Thu, 21 Oct 2021 05:12:28 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id r7so696806wrc.10
+        for <linux-doc@vger.kernel.org>; Thu, 21 Oct 2021 05:12:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=0vIQqYKkVJx23x9coP48EXe0l28e0ZIhnZSwiowHwyg=;
+        b=fjDYojDfUIX7vpR8IADwpgpzztO0mBpWvU65QUoNAhI5h5l4jvmUm9miufICBJ5fu+
+         FxiTVlKpiDwYP9RvWlJVzgmCn3rKhVbPBFdp3eV8AhF2NEhLLUTgdfsXR6jOaKfV95yA
+         yKh8F+J7jnDhCPp43d4HMm/IFi5aPJNRVnbPhadYav0+2DUOEOyshcveJJlYbHUBBW89
+         Gsnd+/3PE0Y4U0MHiH5O9sI0rqUhz35zhF46IeFgbtyqZUXESpSdaHnQMpFL1oUoZCPz
+         VcOuC9wOfHlEiiYm1/30+n9HZsc9I3fqsfVUg3Hb9vpiPeZPD4gkJpKPjASc40Nw/YQx
+         Tr/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=0vIQqYKkVJx23x9coP48EXe0l28e0ZIhnZSwiowHwyg=;
+        b=GzBavtXPwy2FIFr7jNhGY/RVFV5YCI3hyLjQ1Q0y4JeC4vH/XlEMbLxb495gQ6R4vV
+         Qd7nr122f5RTIth6qi8eADQT80MgabQlq1vgZmvmMEFc2rLbb2T5vfFRLqGuznZ5JpcV
+         nuL4YLonX21exKuLvWql6I7ygUrTj80yWmsF+KD+i4Tba4a6Lkc6bOIRvkERRoR9byVY
+         OexSOkM2RAx81A1KkaP5l3tAsWEoONQ8Kd1Jw2XeOsQ8jGZC+2s7FiDrooUAP/GWsgSR
+         F1lDqcbExm7TfMqZScj9iccqTNw28h8mjME/YO/n2RBNZyAaeVVt9re87gAhgo8kSe1S
+         ZeDA==
+X-Gm-Message-State: AOAM530db6fBwe8FQ4C0esuCCi4CjN0k085624Q0u98wTZKDXf+W+UWv
+        etOo37oYbvcTw/kaVbpyllo/ag==
+X-Google-Smtp-Source: ABdhPJzQay9dVlMqf3DY2Soi8sHXotsMVqIdyaXQBVCXgXq5JubAhzo8DeCcf5lcsyavZ1roeJjN1g==
+X-Received: by 2002:a05:6000:1683:: with SMTP id y3mr6576853wrd.314.1634818346988;
+        Thu, 21 Oct 2021 05:12:26 -0700 (PDT)
+Received: from google.com ([95.148.6.207])
+        by smtp.gmail.com with ESMTPSA id a2sm5200597wrq.9.2021.10.21.05.12.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Oct 2021 05:12:26 -0700 (PDT)
+Date:   Thu, 21 Oct 2021 13:12:24 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-hardening@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-security-module@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 20/23] dt-bindings: mfd: update x-powers,axp152.yaml
+ reference
+Message-ID: <YXFZKGfFTbjAVCb5@google.com>
+References: <cover.1634630485.git.mchehab+huawei@kernel.org>
+ <aedef820f4dc9af5d3a3fcce2ad733d75e1ad4f0.1634630486.git.mchehab+huawei@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aedef820f4dc9af5d3a3fcce2ad733d75e1ad4f0.1634630486.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 20 Oct 2021 at 19:35, Kees Cook <keescook@chromium.org> wrote:
->
-> Hi,
->
-> GCC plugins should only exist when some compiler feature needs to be
-> proven but does not exist in either GCC nor Clang. For example, if a
-> desired feature is already in Clang, it should be added to GCC upstream.
-> Document this explicitly.
->
-> I'll put this in -next unless there are objections. :)
->
-> Thanks!
->
-> -Kees
->
->
-> Kees Cook (2):
->   gcc-plugins: Explicitly document purpose and deprecation schedule
->   gcc-plugins: Remove cyc_complexity
->
+On Tue, 19 Oct 2021, Mauro Carvalho Chehab wrote:
 
-Acked-by: Ard Biesheuvel <ardb@kernel.org>
+> Changeset f38d3e404326 ("dt-bindings: mfd: Convert X-Powers AXP binding to a schema")
+> renamed: Documentation/devicetree/bindings/mfd/axp20x.txt
+> to: Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml.
+> 
+> Update its cross-reference accordingly.
+> 
+> Fixes: f38d3e404326 ("dt-bindings: mfd: Convert X-Powers AXP binding to a schema")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+> 
+> To mailbombing on a large number of people, only mailing lists were C/C on the cover.
+> See [PATCH v3 00/23] at: https://lore.kernel.org/all/cover.1634630485.git.mchehab+huawei@kernel.org/
+> 
+>  Documentation/devicetree/bindings/gpio/gpio-axp209.txt | 2 +-
 
->  Documentation/kbuild/gcc-plugins.rst        | 28 ++++++++-
->  scripts/Makefile.gcc-plugins                |  2 -
->  scripts/gcc-plugins/Kconfig                 | 20 +-----
->  scripts/gcc-plugins/cyc_complexity_plugin.c | 69 ---------------------
->  security/Kconfig.hardening                  |  9 ++-
->  5 files changed, 34 insertions(+), 94 deletions(-)
->  delete mode 100644 scripts/gcc-plugins/cyc_complexity_plugin.c
->
-> --
-> 2.30.2
->
+This file no longer exists.
+
+If it's still relevant, please rebase onto Linux -next and resubmit.
+
+See this commit for details:
+
+  dt-bindings: gpio: Convert X-Powers AXP209 GPIO binding to a schema
+
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/gpio/gpio-axp209.txt b/Documentation/devicetree/bindings/gpio/gpio-axp209.txt
+> index fc42b2caa06d..538f04e60ff9 100644
+> --- a/Documentation/devicetree/bindings/gpio/gpio-axp209.txt
+> +++ b/Documentation/devicetree/bindings/gpio/gpio-axp209.txt
+> @@ -17,7 +17,7 @@ Required properties:
+>  - gpio-controller: Marks the device node as a GPIO controller.
+>  
+>  This node must be a subnode of the axp20x PMIC, documented in
+> -Documentation/devicetree/bindings/mfd/axp20x.txt
+> +Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
+>  
+>  Example:
+>  
+
+-- 
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
