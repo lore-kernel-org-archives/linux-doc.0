@@ -2,173 +2,169 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B46BC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Oct 2021 07:21:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D26DBC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Oct 2021 08:12:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1803760F5D
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Oct 2021 07:21:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AA7FA6058D
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Oct 2021 08:12:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231133AbhJUHXW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Oct 2021 03:23:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53038 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229854AbhJUHXV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Oct 2021 03:23:21 -0400
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FA10C061749
-        for <linux-doc@vger.kernel.org>; Thu, 21 Oct 2021 00:21:06 -0700 (PDT)
-Received: by mail-pf1-x435.google.com with SMTP id 187so5097088pfc.10
-        for <linux-doc@vger.kernel.org>; Thu, 21 Oct 2021 00:21:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=HqBHLqwwr+ko0hKn1SGvuqbP8NIUIoixaku53/kbAb0=;
-        b=PUr3JwS9ESdq0+Ehhr7y26LHzIrPn3zmjF8b0PKIbMpEOpwCkWfpyvhXiR11nBWWhH
-         fBPVp/susk/5nRTNPVcvgCsYJwrkZwva7c/2Han0vjDtZC09FDgI3nGKU8V3QhLnWOsD
-         D9YazPifQlkFmVUrF1StMi+GT8J1B16KJD5wJ/dcSzfpYQtrSHfVXedlAUl3AEFpaZRr
-         E3OFuS44b61mfNDRMHPtFTiV3UjjdhWCXc1oiNEEI2UfqKc41JvZusJuXL0JplGX1hiA
-         GsZe86rlpaRFsMNq2QfubHz0Zoznf50OmGOFaP1DnQlIykxfElkIybDoAXREb9JyjlUN
-         uBVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=HqBHLqwwr+ko0hKn1SGvuqbP8NIUIoixaku53/kbAb0=;
-        b=hpzz1ITgd8ClGSOpo1MeqKdkz4/O4GYAj/Qkk08r8s0GUUrw8Xy1cdkKgPYypdqUo0
-         MzCF0VgeZCekWAw1buZWCJnyJnXweaVWJaLiwrNsusxq3aFfCWEo9gJeylit/Ntcu1dx
-         5muoO6POO5RbLqkcgEnazjzGFDgM5syxBh3XJVZ8QTVHw5WYqeBkZMumAYBHlPCmj9Eq
-         0kTanPng4k2IB0JlrwPQDipM1jlv3ePVh5b15FFPsg8ZiIrJcusLXBAnA1Ia5aNIwpDJ
-         Ar5LxCS3XRlpWO9WCLf3YWdnNbS/JpfqjOwfuiG7zNhq9eZI61ABCsRpHSKqXXzjST8P
-         AQ9A==
-X-Gm-Message-State: AOAM532Owfj4TOMKCINBgKXHmNUnfouDCj4Ts7BBvSDt1Mxi9ty7bJUo
-        1mCxdBPz8j6D9sgySSjxLc+0qDku54k=
-X-Google-Smtp-Source: ABdhPJw6U6zsLMUsFT1dmUQxmeij3RvOikJRFdxyw7tUviPjlruquQE5fl4czgRbWBfL4c28GulOvg==
-X-Received: by 2002:a63:b246:: with SMTP id t6mr1846077pgo.378.1634800865837;
-        Thu, 21 Oct 2021 00:21:05 -0700 (PDT)
-Received: from [10.2.24.177] ([61.120.150.70])
-        by smtp.gmail.com with ESMTPSA id h4sm4396719pgn.6.2021.10.21.00.21.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Oct 2021 00:21:05 -0700 (PDT)
-Subject: Re: Re: Re: [PATCH] x86/kvm: Introduce boot parameter no-kvm-pvipi
-To:     Wanpeng Li <kernellwp@gmail.com>
-Cc:     Sean Christopherson <seanjc@google.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
-References: <20211020120726.4022086-1-pizhenwei@bytedance.com>
- <CANRm+CxAVA-L0wjm72eohXXWvh9fS7wVFzfKHuEjrsiRFuk9fg@mail.gmail.com>
- <YXB4FHfzh99707EH@google.com>
- <08757159-1673-5c7b-3efc-e5b54e82d6c3@bytedance.com>
- <CANRm+CzcTUWYJeaj3eWKH84YZYgeMZz3kbpn13c8i97iYGGHFQ@mail.gmail.com>
-From:   zhenwei pi <pizhenwei@bytedance.com>
-Message-ID: <5b718b32-cd92-920e-c474-27b9cafeec60@bytedance.com>
-Date:   Thu, 21 Oct 2021 15:17:21 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S231281AbhJUIOU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Oct 2021 04:14:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49054 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230385AbhJUIOT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 21 Oct 2021 04:14:19 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2021D610EA;
+        Thu, 21 Oct 2021 08:00:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1634803231;
+        bh=AN4yQj3R/L6Utyw/bIYGBaFdbUzMpv6pWsfYDjS1t74=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Djf/uchKNMzhvackK23asCzzrk1/KRQXEpXDsVMzU13O0DRpuxBraa33kaFe9BgEz
+         xSJeUoqC1eCf4qjyzxGRTR+8g1a7v0j9V83feox6X+M9SO+AYMI9Bo9tEictSmRbaA
+         pCwSPuH188aYhK3gEy0Mb4/+D1Q/MiCcvX6wgsms=
+Date:   Thu, 21 Oct 2021 10:00:28 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2] Docs: usb: update struct usb_driver, __init and __exit
+Message-ID: <YXEeHCySQF+jbVty@kroah.com>
+References: <20211020201446.GA8482@matrix-ESPRIMO-P710>
 MIME-Version: 1.0
-In-Reply-To: <CANRm+CzcTUWYJeaj3eWKH84YZYgeMZz3kbpn13c8i97iYGGHFQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211020201446.GA8482@matrix-ESPRIMO-P710>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/21/21 1:03 PM, Wanpeng Li wrote:
-> On Thu, 21 Oct 2021 at 11:05, zhenwei pi <pizhenwei@bytedance.com> wrote:
->>
->>
->> On 10/21/21 4:12 AM, Sean Christopherson wrote:
->>> On Wed, Oct 20, 2021, Wanpeng Li wrote:
->>>> On Wed, 20 Oct 2021 at 20:08, zhenwei pi <pizhenwei@bytedance.com> wrote:
->>>>>
->>>>> Although host side exposes KVM PV SEND IPI feature to guest side,
->>>>> guest should still have a chance to disable it.
->>>>>
->>>>> A typicall case of this parameter:
->>>>> If the host AMD server enables AVIC feature, the flat mode of APIC
->>>>> get better performance in the guest.
->>>>
->>>> Hmm, I didn't find enough valuable information in your posting. We
->>>> observe AMD a lot before.
->>>> https://lore.kernel.org/all/CANRm+Cx597FNRUCyVz1D=B6Vs2GX3Sw57X7Muk+yMpi_hb+v1w@mail.gmail.com/T/#u
->>>
->>> I too would like to see numbers.  I suspect the answer is going to be that
->>> AVIC performs poorly in CPU overcommit scenarios because of the cost of managing
->>> the tables and handling "failed delivery" exits, but that AVIC does quite well
->>> when vCPUs are pinned 1:1 and IPIs rarely require an exit to the host.
->>>
->>
->> Test env:
->> CPU: AMD EPYC 7642 48-Core Processor
->>
->> Kmod args(enable avic and disable nested):
->> modprobe kvm-amd nested=0 avic=1 npt=1
->>
->> QEMU args(disable x2apic):
->> ... -cpu host,x2apic=off ...
->>
->> Benchmark tool:
->> https://github.com/bytedance/kvm-utils/tree/master/microbenchmark/apic-ipi
->>
->> ~# insmod apic_ipi.ko options=5 && dmesg -c
->>
->>    apic_ipi: 1 NUMA node(s)
->>    apic_ipi: apic [flat]
->>    apic_ipi: apic->send_IPI[default_send_IPI_single+0x0/0x40]
->>    apic_ipi: apic->send_IPI_mask[kvm_send_ipi_mask+0x0/0x10]
->>    apic_ipi:     IPI[kvm_send_ipi_mask] from CPU[0] to CPU[1]
->>    apic_ipi:             total cycles 375671259, avg 3756
->>    apic_ipi:     IPI[flat_send_IPI_mask] from CPU[0] to CPU[1]
->>    apic_ipi:             total cycles 221961822, avg 2219
->>
->>
->> apic->send_IPI_mask[kvm_send_ipi_mask+0x0/0x10]
->>     -> This line show current send_IPI_mask is kvm_send_ipi_mask(because
->> of PV SEND IPI FEATURE)
->>
->> apic_ipi:       IPI[kvm_send_ipi_mask] from CPU[0] to CPU[1]
->> apic_ipi:               total cycles 375671259, avg 3756
->>     -->These lines show the average cycles of each kvm_send_ipi_mask: 3756
->>
->> apic_ipi:       IPI[flat_send_IPI_mask] from CPU[0] to CPU[1]
->> apic_ipi:               total cycles 221961822, avg 2219
->>     -->These lines show the average cycles of each flat_send_IPI_mask: 2219
+On Wed, Oct 20, 2021 at 10:14:46PM +0200, Philipp Hortmann wrote:
+> update struct usb_driver from usb-skeleton.c.
+> update __init and __exit functions that are moved from
+> usb-skeleton.c to common used multi-stage macros.
 > 
-> Just single target IPI is not eough.
+> Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+> ---
+> V1 -> V2: changed :c:func:`usb_register` to usb_register()
+>           changed the :c:func:`usb_deregister` to usb_deregister()
+>           used literal blocks for makro module_usb_driver and added one more
+>           stage of multi-stage macros.
 > 
->      Wanpeng
+>  .../driver-api/usb/writing_usb_driver.rst     | 70 ++++++++++---------
+>  1 file changed, 36 insertions(+), 34 deletions(-)
 > 
+> diff --git a/Documentation/driver-api/usb/writing_usb_driver.rst b/Documentation/driver-api/usb/writing_usb_driver.rst
+> index 2176297e5765..12e0481cceae 100644
+> --- a/Documentation/driver-api/usb/writing_usb_driver.rst
+> +++ b/Documentation/driver-api/usb/writing_usb_driver.rst
+> @@ -54,12 +54,15 @@ information is passed to the USB subsystem in the :c:type:`usb_driver`
+>  structure. The skeleton driver declares a :c:type:`usb_driver` as::
+>  
+>      static struct usb_driver skel_driver = {
+> -	    .name        = "skeleton",
+> -	    .probe       = skel_probe,
+> -	    .disconnect  = skel_disconnect,
+> -	    .fops        = &skel_fops,
+> -	    .minor       = USB_SKEL_MINOR_BASE,
+> -	    .id_table    = skel_table,
+> +           .name        = "skeleton",
+> +           .probe       = skel_probe,
+> +           .disconnect  = skel_disconnect,
+> +           .suspend     = skel_suspend,
+> +           .resume      = skel_resume,
+> +           .pre_reset   = skel_pre_reset,
+> +           .post_reset  = skel_post_reset,
+> +           .id_table    = skel_table,
+> +           .supports_autosuspend = 1,
 
-Benchmark smp_call_function_single 
-(https://github.com/bytedance/kvm-utils/blob/master/microbenchmark/ipi-bench/ipi_bench.c):
+Why remove the tabs?  Is that needed here?
 
-  Test env:
-  CPU: AMD EPYC 7642 48-Core Processor
+>      };
+>  
+>  
+> @@ -81,36 +84,35 @@ this user-space interaction. The skeleton driver needs this kind of
+>  interface, so it provides a minor starting number and a pointer to its
+>  :c:type:`file_operations` functions.
+>  
+> -The USB driver is then registered with a call to :c:func:`usb_register`,
+> -usually in the driver's init function, as shown here::
+> -
+> -    static int __init usb_skel_init(void)
+> -    {
+> -	    int result;
+> -
+> -	    /* register this driver with the USB subsystem */
+> -	    result = usb_register(&skel_driver);
+> -	    if (result < 0) {
+> -		    err("usb_register failed for the "__FILE__ "driver."
+> -			"Error number %d", result);
+> -		    return -1;
+> -	    }
+> -
+> -	    return 0;
+> -    }
+> -    module_init(usb_skel_init);
+> -
+> +The USB driver is then registered with a call to usb_register()
+> +which is usually in the driver's init function. Since this functionality
+> +is usable with many USB drivers, it is hidden behind multi-stage macros.
 
-  Kmod args(enable avic and disable nested):
-  modprobe kvm-amd nested=0 avic=1 npt=1
+I don't understand the need for the "multi-stage macros" term here.
 
-  QEMU args(disable x2apic):
-  ... -cpu host,x2apic=off ...
-
-1> without no-kvm-pvipi:
-ipi_bench_single wait[1], CPU0[NODE0] -> CPU1[NODE0], loop = 100000
-      elapsed =        424945631 cycles, average =     4249 cycles
-      ipitime =        385246136 cycles, average =     3852 cycles
-ipi_bench_single wait[0], CPU0[NODE0] -> CPU1[NODE0], loop = 100000
-      elapsed =        419057953 cycles, average =     4190 cycles
-
-2> with no-kvm-pvipi:
-ipi_bench_single wait[1], CPU0[NODE0] -> CPU1[NODE0], loop = 100000
-      elapsed =        321756407 cycles, average =     3217 cycles
-      ipitime =        299433550 cycles, average =     2994 cycles
-ipi_bench_single wait[0], CPU0[NODE0] -> CPU1[NODE0], loop = 100000
-      elapsed =        295382146 cycles, average =     2953 cycles
+And what functionality is referred to here by "this"?
 
 
--- 
-zhenwei pi
+> +While the first macros are USB specific the later macros are used in different
+> +subsystems. This removes a lot of boilerplate code.
+
+What later macros?  Is that really needed to describe here?
+
+I think the above code example should remain, as it is good for learning
+and understanding, and maybe just add something that says "Or you can
+use the following macro to replace all of the above common code."
+
+
+>  
+>  When the driver is unloaded from the system, it needs to deregister
+> -itself with the USB subsystem. This is done with the :c:func:`usb_deregister`
+> -function::
+> -
+> -    static void __exit usb_skel_exit(void)
+> -    {
+> -	    /* deregister this driver with the USB subsystem */
+> -	    usb_deregister(&skel_driver);
+> -    }
+> -    module_exit(usb_skel_exit);
+> +itself with the USB subsystem. This is done with usb_deregister()
+> +which is also hidden behind multi-stage macros.
+> +
+> +The init and exit functions are included in the macro module_usb_driver.
+> +Find the first three stages of macros below::
+> +
+> +    module_usb_driver(skel_driver);
+> +                         |
+> +                         V
+> +    module_driver(__usb_driver, usb_register, usb_deregister)
+> +                         |               \               \
+> +                         V                ----------      ----------
+> +    static int __init __driver##_init(void) \      |               |
+> +    { \                 v---------------------------               |
+> +            return __register(&(__driver) , ##__VA_ARGS__); \      |
+> +    } \                                                            |
+> +    module_init(__driver##_init); \                                |
+> +    static void __exit __driver##_exit(void) \                     |
+> +    { \            v------------------------------------------------
+> +            __unregister(&(__driver) , ##__VA_ARGS__); \
+> +    } \
+> +    module_exit(__driver##_exit);
+
+As the one who wrote these macros, I can't really understand the
+ascii-art here, so I worry about anyone else :)
+
+Again, do not think trying to show an implementation detail like this is
+needed.
+
+thanks,
+
+greg k-h
