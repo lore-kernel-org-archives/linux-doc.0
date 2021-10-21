@@ -2,123 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D8F6C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Oct 2021 12:12:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4260C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Oct 2021 13:32:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4C541610A2
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Oct 2021 12:12:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A9C686103D
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Oct 2021 13:32:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231309AbhJUMOp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Oct 2021 08:14:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35104 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230360AbhJUMOo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Oct 2021 08:14:44 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 787F2C06161C
-        for <linux-doc@vger.kernel.org>; Thu, 21 Oct 2021 05:12:28 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id r7so696806wrc.10
-        for <linux-doc@vger.kernel.org>; Thu, 21 Oct 2021 05:12:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=0vIQqYKkVJx23x9coP48EXe0l28e0ZIhnZSwiowHwyg=;
-        b=fjDYojDfUIX7vpR8IADwpgpzztO0mBpWvU65QUoNAhI5h5l4jvmUm9miufICBJ5fu+
-         FxiTVlKpiDwYP9RvWlJVzgmCn3rKhVbPBFdp3eV8AhF2NEhLLUTgdfsXR6jOaKfV95yA
-         yKh8F+J7jnDhCPp43d4HMm/IFi5aPJNRVnbPhadYav0+2DUOEOyshcveJJlYbHUBBW89
-         Gsnd+/3PE0Y4U0MHiH5O9sI0rqUhz35zhF46IeFgbtyqZUXESpSdaHnQMpFL1oUoZCPz
-         VcOuC9wOfHlEiiYm1/30+n9HZsc9I3fqsfVUg3Hb9vpiPeZPD4gkJpKPjASc40Nw/YQx
-         Tr/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=0vIQqYKkVJx23x9coP48EXe0l28e0ZIhnZSwiowHwyg=;
-        b=GzBavtXPwy2FIFr7jNhGY/RVFV5YCI3hyLjQ1Q0y4JeC4vH/XlEMbLxb495gQ6R4vV
-         Qd7nr122f5RTIth6qi8eADQT80MgabQlq1vgZmvmMEFc2rLbb2T5vfFRLqGuznZ5JpcV
-         nuL4YLonX21exKuLvWql6I7ygUrTj80yWmsF+KD+i4Tba4a6Lkc6bOIRvkERRoR9byVY
-         OexSOkM2RAx81A1KkaP5l3tAsWEoONQ8Kd1Jw2XeOsQ8jGZC+2s7FiDrooUAP/GWsgSR
-         F1lDqcbExm7TfMqZScj9iccqTNw28h8mjME/YO/n2RBNZyAaeVVt9re87gAhgo8kSe1S
-         ZeDA==
-X-Gm-Message-State: AOAM530db6fBwe8FQ4C0esuCCi4CjN0k085624Q0u98wTZKDXf+W+UWv
-        etOo37oYbvcTw/kaVbpyllo/ag==
-X-Google-Smtp-Source: ABdhPJzQay9dVlMqf3DY2Soi8sHXotsMVqIdyaXQBVCXgXq5JubAhzo8DeCcf5lcsyavZ1roeJjN1g==
-X-Received: by 2002:a05:6000:1683:: with SMTP id y3mr6576853wrd.314.1634818346988;
-        Thu, 21 Oct 2021 05:12:26 -0700 (PDT)
-Received: from google.com ([95.148.6.207])
-        by smtp.gmail.com with ESMTPSA id a2sm5200597wrq.9.2021.10.21.05.12.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Oct 2021 05:12:26 -0700 (PDT)
-Date:   Thu, 21 Oct 2021 13:12:24 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S230334AbhJUNfA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Oct 2021 09:35:00 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:33832 "EHLO
+        mx0b-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230374AbhJUNfA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Oct 2021 09:35:00 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19LCLj84038810;
+        Thu, 21 Oct 2021 09:32:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=sgOHubR8R6J54xwngiqD0Y0ChXz2lRdk62x6cxNTnJE=;
+ b=SEGLJ6Tdu+0tsmMz9qciS1Js8x8vTMy7HMDk3G62w/2cu9Oz4hPj7HDV+VNCuOpVLC6F
+ 9okZ+UcDwy8t+EHPzAzewPbHCX1qoh5IS5NE5Ae29BrUPw0kDxvrde2NZRoLA8unnCB3
+ MQi3TD+nX5jk9WqAOwIwUi3YasOKH5eA/6WxBBA4WXV3Gh/nqw3NF5NcAQwJmOpgIp/3
+ lMpq60ISc8DPqao8Ep1mygkSN0D4q/Ne8WiljhwdPDwB5xpjXDg0FWCMsQbDUaV/Dgen
+ bWbLP/iZwLyTJMQigzW/9aGXL0V+BpHbAjFwrjZlw1Xw5RVovX03xGdws4qWkw83STKJ ig== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3btxutwmy2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 21 Oct 2021 09:32:29 -0400
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 19LBAsSg034394;
+        Thu, 21 Oct 2021 09:32:28 -0400
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.10])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3btxutwmxj-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 21 Oct 2021 09:32:28 -0400
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+        by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 19LDNKvV018457;
+        Thu, 21 Oct 2021 13:32:28 GMT
+Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com [9.57.198.23])
+        by ppma02dal.us.ibm.com with ESMTP id 3bqpcd5chq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 21 Oct 2021 13:32:27 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com [9.57.199.111])
+        by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 19LDWQjl36831726
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 21 Oct 2021 13:32:27 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id DFEE3AC065;
+        Thu, 21 Oct 2021 13:32:26 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 6590DAC05B;
+        Thu, 21 Oct 2021 13:32:21 +0000 (GMT)
+Received: from li-c92d2ccc-254b-11b2-a85c-a700b5bfb098.ibm.com (unknown [9.211.103.136])
+        by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
+        Thu, 21 Oct 2021 13:32:21 +0000 (GMT)
+Subject: Re: [PATCH v3 01/10] vfio/ccw: Remove unneeded GFP_DMA
+To:     Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>,
+        Tony Krowiak <akrowiak@linux.ibm.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Cornelia Huck <cohuck@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 20/23] dt-bindings: mfd: update x-powers,axp152.yaml
- reference
-Message-ID: <YXFZKGfFTbjAVCb5@google.com>
-References: <cover.1634630485.git.mchehab+huawei@kernel.org>
- <aedef820f4dc9af5d3a3fcce2ad733d75e1ad4f0.1634630486.git.mchehab+huawei@kernel.org>
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org,
+        Eric Farman <farman@linux.ibm.com>,
+        Harald Freudenberger <freude@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        intel-gfx@lists.freedesktop.org,
+        intel-gvt-dev@lists.freedesktop.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jason Herne <jjherne@linux.ibm.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Vineeth Vijayan <vneethv@linux.ibm.com>,
+        Zhenyu Wang <zhenyuw@linux.intel.com>,
+        Zhi Wang <zhi.a.wang@intel.com>
+Cc:     Christoph Hellwig <hch@infradead.org>,
+        Christoph Hellwig <hch@lst.de>
+References: <1-v3-57c1502c62fd+2190-ccw_mdev_jgg@nvidia.com>
+From:   Matthew Rosato <mjrosato@linux.ibm.com>
+Message-ID: <5a6016b3-2e3f-0cf6-1e7a-2cd242fe46a8@linux.ibm.com>
+Date:   Thu, 21 Oct 2021 09:32:20 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aedef820f4dc9af5d3a3fcce2ad733d75e1ad4f0.1634630486.git.mchehab+huawei@kernel.org>
+In-Reply-To: <1-v3-57c1502c62fd+2190-ccw_mdev_jgg@nvidia.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: dQHjb8Ez5MbK_bJreSXQOqa-qwmcwmWa
+X-Proofpoint-GUID: N6Z06c8FDqqRjq_dvqnQhuBZQucCGB3C
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-10-21_04,2021-10-21_02,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 adultscore=0
+ suspectscore=0 lowpriorityscore=0 priorityscore=1501 mlxscore=0
+ malwarescore=0 impostorscore=0 mlxlogscore=999 clxscore=1011 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2109230001 definitions=main-2110210072
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 19 Oct 2021, Mauro Carvalho Chehab wrote:
+On 10/1/21 1:52 PM, Jason Gunthorpe wrote:
+> Since the ccw_io_region was split out of the private the allocation no
+> longer needs the GFP_DMA. Remove it.
+> 
+> Reported-by: Christoph Hellwig <hch@infradead.org>
+> Fixes: c98e16b2fa12 ("s390/cio: Convert ccw_io_region to pointer")
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 
-> Changeset f38d3e404326 ("dt-bindings: mfd: Convert X-Powers AXP binding to a schema")
-> renamed: Documentation/devicetree/bindings/mfd/axp20x.txt
-> to: Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml.
-> 
-> Update its cross-reference accordingly.
-> 
-> Fixes: f38d3e404326 ("dt-bindings: mfd: Convert X-Powers AXP binding to a schema")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
+
 > ---
+>   drivers/s390/cio/vfio_ccw_drv.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> To mailbombing on a large number of people, only mailing lists were C/C on the cover.
-> See [PATCH v3 00/23] at: https://lore.kernel.org/all/cover.1634630485.git.mchehab+huawei@kernel.org/
+> diff --git a/drivers/s390/cio/vfio_ccw_drv.c b/drivers/s390/cio/vfio_ccw_drv.c
+> index 76099bcb765b45..371558ec92045d 100644
+> --- a/drivers/s390/cio/vfio_ccw_drv.c
+> +++ b/drivers/s390/cio/vfio_ccw_drv.c
+> @@ -161,7 +161,7 @@ static int vfio_ccw_sch_probe(struct subchannel *sch)
+>   		return -ENODEV;
+>   	}
+>   
+> -	private = kzalloc(sizeof(*private), GFP_KERNEL | GFP_DMA);
+> +	private = kzalloc(sizeof(*private), GFP_KERNEL);
+>   	if (!private)
+>   		return -ENOMEM;
+>   
 > 
->  Documentation/devicetree/bindings/gpio/gpio-axp209.txt | 2 +-
 
-This file no longer exists.
-
-If it's still relevant, please rebase onto Linux -next and resubmit.
-
-See this commit for details:
-
-  dt-bindings: gpio: Convert X-Powers AXP209 GPIO binding to a schema
-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/gpio/gpio-axp209.txt b/Documentation/devicetree/bindings/gpio/gpio-axp209.txt
-> index fc42b2caa06d..538f04e60ff9 100644
-> --- a/Documentation/devicetree/bindings/gpio/gpio-axp209.txt
-> +++ b/Documentation/devicetree/bindings/gpio/gpio-axp209.txt
-> @@ -17,7 +17,7 @@ Required properties:
->  - gpio-controller: Marks the device node as a GPIO controller.
->  
->  This node must be a subnode of the axp20x PMIC, documented in
-> -Documentation/devicetree/bindings/mfd/axp20x.txt
-> +Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
->  
->  Example:
->  
-
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
