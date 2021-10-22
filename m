@@ -2,89 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FCC5C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Oct 2021 22:51:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F23D3C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Oct 2021 00:05:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E77F66135E
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Oct 2021 22:51:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D0A9E6101D
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Oct 2021 00:05:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231772AbhJUWxm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Oct 2021 18:53:42 -0400
-Received: from rere.qmqm.pl ([91.227.64.183]:56520 "EHLO rere.qmqm.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229935AbhJUWxm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 21 Oct 2021 18:53:42 -0400
-Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 4Hb2lc2JCTz6R;
-        Fri, 22 Oct 2021 00:51:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1634856684; bh=ZwoePfzEfsoQ8Zx+vw7u0tVHnJGAJrlBMlcivXSgOgA=;
-        h=Date:In-Reply-To:References:From:Subject:To:Cc:From;
-        b=ayTpHcro7nKHbKWJIgWmfnXcSv3s0VwFAF5kxAaIK6X2ZsDRkHMDQNM1G89k74UDn
-         hU9QvKZrKV+F1hfoeYFbXyVGGbfWzIQ925Q+6D9dSj4sqjrkRVqA12SnGiiMUM/6B2
-         ayvj4eHkN3njrYneicJUXRiKsOjE+swpDNBJ3x4uzZ2ENk2Prk6wLuAnUEee1sBEaE
-         bsp4v8nQrbXXynshNwXaLIKzxpXm9pr6yOry3nvZa/NwrlexTTLBGqIl+jheqqiOBU
-         ZhLcTg6D2wJxLK0Y7J6lANZEyvsI41x7nHVnusJGYabTsVwF5qe+s+Zp3ytcqRT8fP
-         HLM6yp6xZKiVQ==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.103.3 at mail
-Date:   Fri, 22 Oct 2021 00:51:24 +0200
-Message-Id: <b84381943483d1e0b44ca28b4e549f2f912349bf.1634856658.git.mirq-linux@rere.qmqm.pl>
-In-Reply-To: <8a6b11c6ada5d55bdb2b1f8319e47bbf5192654b.1634856658.git.mirq-linux@rere.qmqm.pl>
-References: <8a6b11c6ada5d55bdb2b1f8319e47bbf5192654b.1634856658.git.mirq-linux@rere.qmqm.pl>
-From:   =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
-Subject: [PATCH 2/2] block: allow empty cmdline partition set
+        id S231839AbhJVAIC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Oct 2021 20:08:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20166 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229512AbhJVAIC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Oct 2021 20:08:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1634861145;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=N5JfCAsI+inccAUJ1Aaxw45z/l5KEHCFXJn6LAT6Uv8=;
+        b=gs0ydNl57/JUkxjCBrVde3aRhLoLGKgKIlpA5bQR0vwuEWY2XtZUfORY76B2hF91kX5pVQ
+        InFI9AemreBsL3a7DpR/Fg+euxJwKzUDcDik55mxGMJoNHkemeqPtfWYs8qVIWX1go5mq0
+        WQ5/gdYXTh9WB0f+gs9p31IzPPVVaZc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-392-2rnw5DspNCGnqLASt3ZXsg-1; Thu, 21 Oct 2021 20:05:39 -0400
+X-MC-Unique: 2rnw5DspNCGnqLASt3ZXsg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81E66806688;
+        Fri, 22 Oct 2021 00:05:36 +0000 (UTC)
+Received: from T590 (ovpn-8-17.pek2.redhat.com [10.72.8.17])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id EE0B819D9B;
+        Fri, 22 Oct 2021 00:05:23 +0000 (UTC)
+Date:   Fri, 22 Oct 2021 08:05:18 +0800
+From:   Ming Lei <ming.lei@redhat.com>
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>, tj@kernel.org,
+        gregkh@linuxfoundation.org, akpm@linux-foundation.org,
+        minchan@kernel.org, jeyu@kernel.org, shuah@kernel.org,
+        bvanassche@acm.org, dan.j.williams@intel.com, joe@perches.com,
+        tglx@linutronix.de, keescook@chromium.org, rostedt@goodmis.org,
+        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 11/12] zram: fix crashes with cpu hotplug multistate
+Message-ID: <YXIAPtvxW98lyM9r@T590>
+References: <YWq3Z++uoJ/kcp+3@T590>
+ <YW3LuzaPhW96jSBK@bombadil.infradead.org>
+ <YW4uwep3BCe9Vxq8@T590>
+ <YW7kFXlzRrvwzARP@bombadil.infradead.org>
+ <YW7ygbLAwm2/LZFl@T590>
+ <YW8eSq2B+5FtOLZb@bombadil.infradead.org>
+ <YW9tqPunx5bssxIz@T590>
+ <YXA6NMhwoiIMeHji@bombadil.infradead.org>
+ <YXC2qcx/RlLwjrKx@T590>
+ <YXGg95OcaR+5ktAZ@bombadil.infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To:     Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-block@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YXGg95OcaR+5ktAZ@bombadil.infradead.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Make no-partitions setting valid. This makes it possible to prevent
-kernel from trying to read a partition table from a device.
+On Thu, Oct 21, 2021 at 10:18:47AM -0700, Luis Chamberlain wrote:
+> On Thu, Oct 21, 2021 at 08:39:05AM +0800, Ming Lei wrote:
+> > On Wed, Oct 20, 2021 at 08:48:04AM -0700, Luis Chamberlain wrote:
+> > > A second series of tests is hitting CTRL-C on either randonly and
+> > > restarting testing once again randomly.
+> > 
+> > ltp/zram02.sh has cleanup handler via trap to clean everything(swapoff/umount/reset/
+> > rmmod), ctrl-c will terminate current forground task and cause shell to run the
+> > cleanup handler first, but further 'ctrl-c' will terminate the cleanup handler,
+> > then the cleanup won't be done completely, such as zram disk is left as swap
+> > device and zram can't be unloaded. The idea can be observed via the following
+> > script:
+> > 
+> > 	#!/bin/bash
+> > 	trap 'echo "enter trap"; sleep 20; echo "exit trap";' INT
+> > 	sleep 30
+> > 
+> > After the above script is run foreground, when 1st ctrl-c is pressed, 'sleep 30'
+> > is terminated, then the trap command is run, so you can see "enter trap"
+> > dumped. Then if you pressed 2nd ctrl-c, 'sleep 20' is terminated immediately.
+> > So 'swapoff' from zram02.sh's trap function can be terminated in this way.
+> > 
+> > zram disk being left as swap disk can be observed with your patch too
+> > after terminating via multiple ctrl-c which has to be done this way because
+> > the test is dead loop.
+> > 
+> > So it is hard to cleanup everything completely after multiple 'CTRL-C' is
+> > involved, and it should be impossible. It needs violent multiple ctrl-c to
+> > terminate the dealoop test.
+> > 
+> > So it isn't reasonable to expect that zram can be always unloaded successfully
+> > after the test script is terminated via multiple ctrl-c.
+> 
+> For the life of me, I do not run into these issue with my patch. But
+> with yours I had.
+> 
+> To be clear, I run zram02.sh on two terminals. Then to interrupt I just leave
+> CTRL-C pressed to issue multiple terminations until the script is done
+> on each terminal at a time, until I see both have completed.
+> 
+> I repeat the same test, noting always that when I start one one terminal
+> the test is succeeding. And also when I cancel completely one script the
+> test continue fine without issue.
 
-Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
----
- Documentation/block/cmdline-partition.rst | 2 +-
- block/partitions/cmdline.c                | 8 +++-----
- 2 files changed, 4 insertions(+), 6 deletions(-)
+As I explained wrt. shell's trap, this issue won't be avoided from
+userspace because trap function can be terminated by ctrl-c too,
+otherwise one shell script may not be terminated at all.
 
-diff --git a/Documentation/block/cmdline-partition.rst b/Documentation/block/cmdline-partition.rst
-index 530bedff548a..a5ccacee982f 100644
---- a/Documentation/block/cmdline-partition.rst
-+++ b/Documentation/block/cmdline-partition.rst
-@@ -13,7 +13,7 @@ Users can easily change the partition.
- The format for the command line is just like mtdparts:
- 
- blkdevparts=<blkdev-def>[;<blkdev-def>]
--  <blkdev-def> := <blkdev-id>:<partdef>[,<partdef>]
-+  <blkdev-def> := <blkdev-id>:[<partdef>[,<partdef>]]
-     <partdef> := <size>[@<offset>](part-name)
- 
- <blkdev-id>
-diff --git a/block/partitions/cmdline.c b/block/partitions/cmdline.c
-index 1af610f0ba8c..3655e8c8e949 100644
---- a/block/partitions/cmdline.c
-+++ b/block/partitions/cmdline.c
-@@ -164,11 +164,9 @@ static int parse_parts(struct cmdline_parts **parts, const char *bdevdef)
- 		next_subpart = &(*next_subpart)->next_subpart;
- 	}
- 
--	if (!newparts->subpart) {
--		pr_warn("cmdline partition has no valid partition.");
--		ret = -EINVAL;
--		goto fail;
--	}
-+	if (!newparts->subpart)
-+		pr_warn("%s: cmdline partition has no valid partitions.",
-+			newparts->name);
- 
- 	*parts = newparts;
- 
--- 
-2.30.2
+The unclean shutdown can be observed in single 'while true; do zram02.sh; done'
+too on both your patches and mine.
+
+Also it is insane to write write test in a deadloop, and people seldom
+do that, not see such way in either blktests/xfstests.
+
+I you limit completion time of this test in long enough time(one or
+several hours) or big enough loops, I believe it can be done cleanly,
+such as:
+
+cnt=0
+MAX=10000
+while [ $cnt -lt $MAX ]; do
+	PATH=$PATH:$PWD:$PWD/../../../lib/ ./zram02.sh;
+done
+
+
+Thanks,
+Ming
 
