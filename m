@@ -2,168 +2,229 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35619C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Oct 2021 00:42:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 547FFC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Oct 2021 06:23:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0AEB4610A3
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Oct 2021 00:42:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 35F5F610E7
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Oct 2021 06:23:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229512AbhJVAo7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Oct 2021 20:44:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38606 "EHLO
+        id S231269AbhJVG0K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Oct 2021 02:26:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231518AbhJVAo5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Oct 2021 20:44:57 -0400
-Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ED6EC061764;
-        Thu, 21 Oct 2021 17:42:40 -0700 (PDT)
-Received: by mail-il1-x135.google.com with SMTP id s3so2636905ild.0;
-        Thu, 21 Oct 2021 17:42:40 -0700 (PDT)
+        with ESMTP id S229545AbhJVG0J (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Oct 2021 02:26:09 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96BB2C061764;
+        Thu, 21 Oct 2021 23:23:52 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id d13so3026656wrf.11;
+        Thu, 21 Oct 2021 23:23:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=fGQU2RHkVxGOExQu2OUZpB0obfWrd6o1lB0pM6j+C8w=;
-        b=jQUPWRD0bTWD6LHJZFV95EshZcCSrBjWuLFBs0ZdH9BRn6D2fMHXdmHHG+u044ISvs
-         bxcHB7VlcduRlttnzOm87YaaT3TQKAa+ahXhZU3Uyffv7SRX9pIw7xgDD2BcmlvqA4nx
-         4YKxUnrJ0hjgHL6732sLvroNhR6rPoIctAFFmUELExZ2S5ZrBuq6wp262dPXG29qxNH5
-         LODYIHwBSGv4XqiQpVZ7iD6YZRp8mQF7dbMpWHW8fKKAryyBrkMXuqqqVQibrjCseTZo
-         HwGzHw0qnitY8ORdNiTLIlovgZML1ObQLaguR5tbahVcPDautsGuYbKxJ33cSTQmH3I7
-         Dtfg==
+        h=subject:to:references:from:cc:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Aaw8YgvRiaafTD5648Ti2Vgf91t9kC5WLzXGLiyz7vc=;
+        b=SvWEwo5EWVAEYqZSB6ZZlNPLbdjIMtfHxce/fMdBZVxTqRcr4z4yPmdpBhQAbktoBV
+         BmWMaGdoTFmwaLxW6LbE9ac0Ain+M/Kvk4xCS+ZFRSImz2Gr7YwPoc1nh1Z49b6P/l5j
+         6byArAY5Ow3PxV1TM9cEyicQFHd39xiT2IyeMyVo+gCI0DZ3xv5Dl/hrpuaOYcSvqXcZ
+         lWJonE/jUapIuyhXo0hoBCtDaGAlmuiDwxZargI2uzlXZwbiGJswCwJWpUoJucSSvt0S
+         VcmAFKkmWTKwCEKMqBBCHdLgvFdetrru1iFAngxVMELclJ04uvzCUpb70es1+LzoOuHZ
+         aEag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:subject:to:references:from:cc:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=fGQU2RHkVxGOExQu2OUZpB0obfWrd6o1lB0pM6j+C8w=;
-        b=0TR7PN9CG6vlJFSfxTgGIJ46SQStARD4rS/6bV2GkuDuSoP3fPMT0JPbG9/jNi3Vpz
-         GivBs7efyNYm/i/kN465AY9ZZttrthyk0EsNxci2Y9Vym62FytMiJufolVZyZYd63ueT
-         8fiMTvePT9Lk1aEN01LDsNCkfmfjEAAw+CaUPE2YXWTcB0l/jtKVnwcdl9FfQfJQQeR6
-         w8ZkX4hv4Yew0dRtiGiikz2ILV5wdH4ENKVGIjjNooR3KWTX4ADsgBROSc6UDhOFhtM1
-         WzToPEFXjKO3TXNIVv5KWxoZXoSVj+7U3ZR/8fvdihyDkulaZDrH8UwjEM5lWvTZoxbA
-         PQxw==
-X-Gm-Message-State: AOAM532NvRN4Zhb7yN8t+Z2RL3JlE78Pg/sCmGajTkFscqFrjsaS7id6
-        n3wGGoQVvp0gf5qoK6jF4AU=
-X-Google-Smtp-Source: ABdhPJzX1RUaSmHriEj5dNW0g88CUW3B5ivdmHZx1Z9XqGib/lVFxaKS2hwA/uyuKhaLoxOQBb+hRA==
-X-Received: by 2002:a92:cd82:: with SMTP id r2mr6097525ilb.198.1634863360003;
-        Thu, 21 Oct 2021 17:42:40 -0700 (PDT)
-Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com. [66.111.4.227])
-        by smtp.gmail.com with ESMTPSA id l10sm3282867ioq.8.2021.10.21.17.42.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Oct 2021 17:42:39 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailauth.nyi.internal (Postfix) with ESMTP id 4CBD827C0054;
-        Thu, 21 Oct 2021 20:42:37 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Thu, 21 Oct 2021 20:42:38 -0400
-X-ME-Sender: <xms:_QhyYVoSHpKUg7aKaCauZufLn1HLmtUoR1B9C2zuu1jcPYWP7Y6c6w>
-    <xme:_QhyYXrIOHqGdNVKCBp0_z__eGBTpriaD1Tcp8bbS_PhPwNij9ooJCPpqP_vY36Fz
-    BeO4vFk8UBSjHl8hA>
-X-ME-Received: <xmr:_QhyYSNQI6LZ6z2Dw1FrXVuACTKUNLvRMzS5FMYbBKO--oCCKfYUjRHM5gE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddvjedgfeegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeeuohhquhhnucfh
-    vghnghcuoegsohhquhhnrdhfvghnghesghhmrghilhdrtghomheqnecuggftrfgrthhtvg
-    hrnhepieeuveejleehudetfeevfeelgfejteefhedvkedukefggedugefhudfhteevjedu
-    necuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtne
-    curfgrrhgrmhepmhgrihhlfhhrohhmpegsohhquhhnodhmvghsmhhtphgruhhthhhpvghr
-    shhonhgrlhhithihqdeiledvgeehtdeigedqudejjeekheehhedvqdgsohhquhhnrdhfvg
-    hngheppehgmhgrihhlrdgtohhmsehfihigmhgvrdhnrghmvg
-X-ME-Proxy: <xmx:_QhyYQ79L0LS4oCB8ziZ1YXohLTQSkNE4JbJUCBlZYZmS9gQkHjNTw>
-    <xmx:_QhyYU4X9fSZIp5JB080fSdDWYq8w-G4zJZycqe4kve4O0gLWyKwNg>
-    <xmx:_QhyYYicGSDm2SO4992RHpfo32qdISCKIXeqSHH2s4wi-2lAQJc-qA>
-    <xmx:_QhyYVF9ljWZhkkIqLq0zpPIBN4CTv8Kiab7zOHY9QSQBYbd-VYCOs00lj4>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 21 Oct 2021 20:42:36 -0400 (EDT)
-From:   Boqun Feng <boqun.feng@gmail.com>
-To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Matthew Wilcox <willy@infradead.org>
-Subject: [PATCH v2] workqueue: doc: Call out the non-reentrance conditions
-Date:   Fri, 22 Oct 2021 08:42:08 +0800
-Message-Id: <20211022004208.350992-1-boqun.feng@gmail.com>
-X-Mailer: git-send-email 2.33.0
+        bh=Aaw8YgvRiaafTD5648Ti2Vgf91t9kC5WLzXGLiyz7vc=;
+        b=He89XDmTfWW0poSMeDSx3WBSc+ebyG1Zz1Yn8dBX9QyMe1b7BE1OjKVTm4T4NuOwdh
+         k7EtnueCh91NUki4wi+SzVsw0GkItvIjrgwiX1yuM5I7vF0tgw/9SiUu+7va3R11F9E3
+         sW8WWGfJbyJKy01y5vZgg6QavHhrt72r+Z+YlLxBDKfB45kLuTJdmXENGEjdGyI5ZUj8
+         PZ7Dnq3p4EJLsy49I6OvrFtnOhwamNLjgKN8V8c4FOKVrZdwG0RZZQICAEsFIkHmlrpp
+         /E0Gu7UnLaZ4s5bdtXN9JY1lDHl/+sEhynvTAhkgOdePLcJl50KkjBWDqWfMyYyFhAYe
+         38CA==
+X-Gm-Message-State: AOAM533RbkYDN8zC7fwZbOIGA0tJpL/Kxw92hkqx/VGWN/503q8FYj4+
+        M144Kbct0ndlqqYDjvow5VrwdsKlnS8=
+X-Google-Smtp-Source: ABdhPJyCktv989C4tDF9GGF3YgYc2NeThoneQAihwX2wDoFKXL8ADDC1uyA4kjaooIL91lLtrNfmVA==
+X-Received: by 2002:a5d:638c:: with SMTP id p12mr3028021wru.187.1634883831134;
+        Thu, 21 Oct 2021 23:23:51 -0700 (PDT)
+Received: from ?IPv6:2003:c7:8f4e:657:6495:ba38:e227:1149? (p200300c78f4e06576495ba38e2271149.dip0.t-ipconnect.de. [2003:c7:8f4e:657:6495:ba38:e227:1149])
+        by smtp.gmail.com with ESMTPSA id f17sm1755095wmf.44.2021.10.21.23.23.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Oct 2021 23:23:50 -0700 (PDT)
+Subject: Re: [PATCH v2] Docs: usb: update struct usb_driver, __init and __exit
+To:     Greg KH <gregkh@linuxfoundation.org>
+References: <20211020201446.GA8482@matrix-ESPRIMO-P710>
+ <YXEeHCySQF+jbVty@kroah.com>
+From:   Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Message-ID: <9e203187-0b9c-fe5b-e30f-40c2f73352c8@gmail.com>
+Date:   Fri, 22 Oct 2021 08:23:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
+In-Reply-To: <YXEeHCySQF+jbVty@kroah.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The current doc of workqueue API suggests that work items are
-non-reentrant: any work item is guaranteed to be executed by at most one
-worker system-wide at any given time. However this is not true, the
-following case can cause a work item W executed by two workers at
-the same time:
+On 10/21/21 10:00 AM, Greg KH wrote:
+> On Wed, Oct 20, 2021 at 10:14:46PM +0200, Philipp Hortmann wrote:
+>> update struct usb_driver from usb-skeleton.c.
+>> update __init and __exit functions that are moved from
+>> usb-skeleton.c to common used multi-stage macros.
+>>
+>> Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+>> ---
+>> V1 -> V2: changed :c:func:`usb_register` to usb_register()
+>>            changed the :c:func:`usb_deregister` to usb_deregister()
+>>            used literal blocks for makro module_usb_driver and added one more
+>>            stage of multi-stage macros.
+>>
+>>   .../driver-api/usb/writing_usb_driver.rst     | 70 ++++++++++---------
+>>   1 file changed, 36 insertions(+), 34 deletions(-)
+>>
+>> diff --git a/Documentation/driver-api/usb/writing_usb_driver.rst b/Documentation/driver-api/usb/writing_usb_driver.rst
+>> index 2176297e5765..12e0481cceae 100644
+>> --- a/Documentation/driver-api/usb/writing_usb_driver.rst
+>> +++ b/Documentation/driver-api/usb/writing_usb_driver.rst
+>> @@ -54,12 +54,15 @@ information is passed to the USB subsystem in the :c:type:`usb_driver`
+>>   structure. The skeleton driver declares a :c:type:`usb_driver` as::
+>>   
+>>       static struct usb_driver skel_driver = {
+>> -	    .name        = "skeleton",
+>> -	    .probe       = skel_probe,
+>> -	    .disconnect  = skel_disconnect,
+>> -	    .fops        = &skel_fops,
+>> -	    .minor       = USB_SKEL_MINOR_BASE,
+>> -	    .id_table    = skel_table,
+>> +           .name        = "skeleton",
+>> +           .probe       = skel_probe,
+>> +           .disconnect  = skel_disconnect,
+>> +           .suspend     = skel_suspend,
+>> +           .resume      = skel_resume,
+>> +           .pre_reset   = skel_pre_reset,
+>> +           .post_reset  = skel_post_reset,
+>> +           .id_table    = skel_table,
+>> +           .supports_autosuspend = 1,
+> 
+> Why remove the tabs?  Is that needed here?
+You are right will be changed.
+> 
+>>       };
+>>   
+>>   
+>> @@ -81,36 +84,35 @@ this user-space interaction. The skeleton driver needs this kind of
+>>   interface, so it provides a minor starting number and a pointer to its
+>>   :c:type:`file_operations` functions.
+>>   
+>> -The USB driver is then registered with a call to :c:func:`usb_register`,
+>> -usually in the driver's init function, as shown here::
+>> -
+>> -    static int __init usb_skel_init(void)
+>> -    {
+>> -	    int result;
+>> -
+>> -	    /* register this driver with the USB subsystem */
+>> -	    result = usb_register(&skel_driver);
+>> -	    if (result < 0) {
+>> -		    err("usb_register failed for the "__FILE__ "driver."
+>> -			"Error number %d", result);
+>> -		    return -1;
+>> -	    }
+>> -
+>> -	    return 0;
+>> -    }
+>> -    module_init(usb_skel_init);
+>> -
+>> +The USB driver is then registered with a call to usb_register()
+>> +which is usually in the driver's init function. Since this functionality
+>> +is usable with many USB drivers, it is hidden behind multi-stage macros.
+> 
+> I don't understand the need for the "multi-stage macros" term here.
+I am not a native English speaker so "multi-stage macros" is just not a 
+fitting wording. May be “staged macros” is better or something else…
+> 
+> And what functionality is referred to here by "this"?
+The “this” is replacing the “init function” but when this is unclear I 
+will change in a later proposal…
+> 
+> 
+>> +While the first macros are USB specific the later macros are used in different
+>> +subsystems. This removes a lot of boilerplate code.
+> 
+> What later macros?  Is that really needed to describe here?
+I will improve wording...
 
-        queue_work_on(0, WQ1, W);
-        // after a worker picks up W and clear the pending bit
-        queue_work_on(1, WQ2, W);
-        // workers on CPU0 and CPU1 will execute W in the same time.
+> I think the above code example should remain, as it is good for learning
+> and understanding, and maybe just add something that says "Or you can
+> use the following macro to replace all of the above common code."
+I understand the need for keeping the code examples. But I would like to 
+inform the reader about the macros first.
+> 
+> 
+>>   
+>>   When the driver is unloaded from the system, it needs to deregister
+>> -itself with the USB subsystem. This is done with the :c:func:`usb_deregister`
+>> -function::
+>> -
+>> -    static void __exit usb_skel_exit(void)
+>> -    {
+>> -	    /* deregister this driver with the USB subsystem */
+>> -	    usb_deregister(&skel_driver);
+>> -    }
+>> -    module_exit(usb_skel_exit);
+>> +itself with the USB subsystem. This is done with usb_deregister()
+>> +which is also hidden behind multi-stage macros.
+>> +
+>> +The init and exit functions are included in the macro module_usb_driver.
+>> +Find the first three stages of macros below::
+>> +
+>> +    module_usb_driver(skel_driver);
+>> +                         |
+>> +                         V
+>> +    module_driver(__usb_driver, usb_register, usb_deregister)
+>> +                         |               \               \
+>> +                         V                ----------      ----------
+>> +    static int __init __driver##_init(void) \      |               |
+>> +    { \                 v---------------------------               |
+>> +            return __register(&(__driver) , ##__VA_ARGS__); \      |
+>> +    } \                                                            |
+>> +    module_init(__driver##_init); \                                |
+>> +    static void __exit __driver##_exit(void) \                     |
+>> +    { \            v------------------------------------------------
+>> +            __unregister(&(__driver) , ##__VA_ARGS__); \
+>> +    } \
+>> +    module_exit(__driver##_exit);
+> 
+> As the one who wrote these macros, I can't really understand the
+> ascii-art here, so I worry about anyone else :)
+Code is just better readable, even when code uses more lines. Will be 
+changed in next proposal.
+> 
+> Again, do not think trying to show an implementation detail like this is
+> needed.
+The big question for me is for whom is this document written? For the 
+USB subsystem maintainer that has even written the code by himself? I 
+guess not, but may be I am wrong. Or for the kernel newbies like me? 
+Please consider that the changed lines are may be not so much of use for 
+me anymore as I am in the details.
 
-, which means the non-reentrance of a work item is conditional, and
-Lai Jiangshan provided a nice summary[1] of the conditions, therefore
-use it to describe a work item instance and improve the doc.
+When I saw the __init and __exit code example first, I was very happy to 
+see it and then I was searching in the code for it. I did not find 
+“init” and “exit” and was very frustrated. I want to help others to get 
+into this example more smoothly.
+> 
+> thanks,
+> 
+> greg k-h
+> 
+Thanks that you replied at all.
+Thanks for your very fast reply.
 
-[1]: https://lore.kernel.org/lkml/CAJhGHyDudet_xyNk=8xnuO2==o-u06s0E0GZVP4Q67nmQ84Ceg@mail.gmail.com/
+Kernelnewbie Philipp G. Hortmann
 
-Suggested-by: Matthew Wilcox <willy@infradead.org>
-Suggested-by: Tejun Heo <tj@kernel.org>
-Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
----
-v1 -> v2:
-
-*	Apply the suggestion from Matthew and Tejun
-
-[v1]: https://lore.kernel.org/lkml/20211018013117.256284-1-boqun.feng@gmail.com/
-
- Documentation/core-api/workqueue.rst | 21 +++++++++++++++++----
- 1 file changed, 17 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/core-api/workqueue.rst b/Documentation/core-api/workqueue.rst
-index 541d31de8926..3b22ed137662 100644
---- a/Documentation/core-api/workqueue.rst
-+++ b/Documentation/core-api/workqueue.rst
-@@ -216,10 +216,6 @@ resources, scheduled and executed.
- 
-   This flag is meaningless for unbound wq.
- 
--Note that the flag ``WQ_NON_REENTRANT`` no longer exists as all
--workqueues are now non-reentrant - any work item is guaranteed to be
--executed by at most one worker system-wide at any given time.
--
- 
- ``max_active``
- --------------
-@@ -391,6 +387,23 @@ the stack trace of the offending worker thread. ::
- The work item's function should be trivially visible in the stack
- trace.
- 
-+Non-reentrance Conditions
-+=========================
-+
-+Workqueue guarantees that a work item cannot be re-entrant if the following
-+conditions hold after a work item gets queued:
-+
-+        1. The work function hasn't been changed.
-+        2. No one queues the work item to another workqueue.
-+        3. The work item hasn't been reinitiated.
-+
-+In other words, if the above conditions hold, the work item is guaranteed to be
-+executed by at most one worker system-wide at any given time.
-+
-+Note that requeuing the work item (to the same queue) in the self function
-+doesn't break these conditions, so it's safe to do. Otherwise, caution is
-+required when breaking the conditions inside a work function.
-+
- 
- Kernel Inline Documentations Reference
- ======================================
--- 
-2.33.0
 
