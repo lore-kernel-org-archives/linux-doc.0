@@ -2,164 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97A81C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Oct 2021 22:13:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0370C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 23 Oct 2021 00:48:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6B96D61205
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Oct 2021 22:13:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B17946101E
+	for <linux-doc@archiver.kernel.org>; Sat, 23 Oct 2021 00:48:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232411AbhJVWQF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Oct 2021 18:16:05 -0400
-Received: from relay.yourmailgateway.de ([188.68.61.106]:56685 "EHLO
-        relay.yourmailgateway.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231363AbhJVWQF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Oct 2021 18:16:05 -0400
-X-Greylist: delayed 607 seconds by postgrey-1.27 at vger.kernel.org; Fri, 22 Oct 2021 18:16:04 EDT
-Received: from mors-relay-8405.netcup.net (localhost [127.0.0.1])
-        by mors-relay-8405.netcup.net (Postfix) with ESMTPS id 4Hbddv2B5yz6w03;
-        Sat, 23 Oct 2021 00:03:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-        d=alexander-lochmann.de; s=key2; t=1634940211;
-        bh=jtUzDXvaR8hHXjywNo+4aj/Qd4yRV+sSG1NHKsnVZuM=;
-        h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
-        b=aqtQLCPAmhRVc1Ual9aluO8IxBavtf44InjrqyKS429p5R68ZiXOUrmrRhJhKfVrj
-         aXsPR7blZ7RUAS9UqJqzO7V2J5qm7q2geeHsSjfxLAKG1M/84hpilVAwlBSNeFPIG/
-         KTLIlCKSyh/J7Fv85/gobsINjlc+E7rYvuIsVZqaqFJceRerrk94UqLTQQHL8HGd/6
-         daX1GhgziWdYYP/KIOEiWMcQ3fJ7MuUjm0dNOkP/quGBsn+9hP5qDlDEecj8QbFZbj
-         WSuu2mGc/P9iQFVFJMVSy78aOCYQiBdfSwTzggji51L0+A3wTRrm5/HwAzZpObZysM
-         j7kcDjJZStEAQ==
-Received: from policy02-mors.netcup.net (unknown [46.38.225.35])
-        by mors-relay-8405.netcup.net (Postfix) with ESMTPS id 4Hbddv1pmhz6w01;
-        Sat, 23 Oct 2021 00:03:31 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at policy02-mors.netcup.net
-Received: from mx2e12.netcup.net (unknown [10.243.12.53])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by policy02-mors.netcup.net (Postfix) with ESMTPS id 4Hbddr3XTvz8svs;
-        Sat, 23 Oct 2021 00:03:28 +0200 (CEST)
-Received: from [10.128.131.224] (unknown [37.120.132.67])
-        by mx2e12.netcup.net (Postfix) with ESMTPSA id 5B203A04FB;
-        Sat, 23 Oct 2021 00:03:20 +0200 (CEST)
-Authentication-Results: mx2e12;
-        spf=pass (sender IP is 37.120.132.67) smtp.mailfrom=info@alexander-lochmann.de smtp.helo=[10.128.131.224]
-Received-SPF: pass (mx2e12: connection is authenticated)
-To:     Peter Zijlstra <peterz@infradead.org>,
-        Dmitry Vyukov <dvyukov@google.com>
-Cc:     Andrey Konovalov <andreyknvl@gmail.com>,
+        id S229597AbhJWAui (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Oct 2021 20:50:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55618 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229507AbhJWAui (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 22 Oct 2021 20:50:38 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id ADB5F6101C;
+        Sat, 23 Oct 2021 00:48:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1634950100;
+        bh=kbtNHfGbGhSMTAw0+cA9930pf9e1d4ODVtDxLJB8ts0=;
+        h=Subject:From:To:Date:In-Reply-To:References:From;
+        b=Eo8NRWz4J4aoPfPJ2sLX/Xrbd8+vVzacRcBGYaC9WBuZFnUcrew6/6//GZeuq8O2C
+         htN23e6J3Q39RBFAS1DqXxIkQZHS0Y3YFPwj35yEkRbXfwq18VaLc4+akTbmegKa61
+         QFkDW3igonoSEBFsbbIKyixv6VOIKcSmE0CUPd5UUqDAIbg46od8rLrcDXwIfEYzxP
+         M31o7JQvj69xmboEk2A1IIfALhcDrpiV4q7usN9F8+IfUKLw4hwQkubO4xQNHuxpz+
+         ekIbOSY7ZPdDliovD/MLBeP08CcI1j1Jb8gQrRZIUZ2+EzRhs7V2Dz1MblFasLw//m
+         xF89ZSZqBo7+Q==
+Message-ID: <f5c87a233027c8026ae8574f3e25c9162da3bfff.camel@kernel.org>
+Subject: Re: [PATCH v2 1/2] crypto: use SM3 instead of SM3_256
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     Tianjia Zhang <tianjia.zhang@linux.alibaba.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Andrew Klychkov <andrew.a.klychkov@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Ingo Molnar <mingo@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Aleksandr Nogikh <nogikh@google.com>,
-        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210927173348.265501-1-info@alexander-lochmann.de>
- <YVQkzCryS9dkvRGB@hirez.programming.kicks-ass.net>
-From:   Alexander Lochmann <info@alexander-lochmann.de>
-Subject: Re: [PATCHv2] Introduced new tracing mode KCOV_MODE_UNIQUE.
-Message-ID: <927385c7-0155-22b0-c2f3-7776b6fe374c@alexander-lochmann.de>
-Date:   Sat, 23 Oct 2021 00:03:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Peter Huewe <peterhuewe@gmx.de>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Jerry Snitselaar <jsnitsel@redhat.com>,
+        linux-integrity@vger.kernel.org, keyrings@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-security-module@vger.kernel.org
+Date:   Sat, 23 Oct 2021 03:48:17 +0300
+In-Reply-To: <20211019100423.43615-2-tianjia.zhang@linux.alibaba.com>
+References: <20211019100423.43615-1-tianjia.zhang@linux.alibaba.com>
+         <20211019100423.43615-2-tianjia.zhang@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.40.4-1 
 MIME-Version: 1.0
-In-Reply-To: <YVQkzCryS9dkvRGB@hirez.programming.kicks-ass.net>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="CDzUVjhiPtClmKUvK9yUQsAHucLgloZvz"
-X-PPP-Message-ID: <163494020654.20467.833133958238456166@mx2e12.netcup.net>
-X-PPP-Vhost: alexander-lochmann.de
-X-NC-CID: yTucXSprgOVIdQ7m3pFnHtEZSL80pRmPiiPjZRCUXJtPlaTCDtHB87NH
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---CDzUVjhiPtClmKUvK9yUQsAHucLgloZvz
-Content-Type: multipart/mixed; boundary="UBwMM8vn54PR4LUbz1olAyRhXFoyVHnMk";
- protected-headers="v1"
-From: Alexander Lochmann <info@alexander-lochmann.de>
-To: Peter Zijlstra <peterz@infradead.org>, Dmitry Vyukov <dvyukov@google.com>
-Cc: Andrey Konovalov <andreyknvl@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Andrew Klychkov <andrew.a.klychkov@gmail.com>,
- Miguel Ojeda <ojeda@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
- Johannes Berg <johannes@sipsolutions.net>, Ingo Molnar <mingo@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Jakub Kicinski <kuba@kernel.org>, Aleksandr Nogikh <nogikh@google.com>,
- kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Message-ID: <927385c7-0155-22b0-c2f3-7776b6fe374c@alexander-lochmann.de>
-Subject: Re: [PATCHv2] Introduced new tracing mode KCOV_MODE_UNIQUE.
-References: <20210927173348.265501-1-info@alexander-lochmann.de>
- <YVQkzCryS9dkvRGB@hirez.programming.kicks-ass.net>
-In-Reply-To: <YVQkzCryS9dkvRGB@hirez.programming.kicks-ass.net>
+T24gVHVlLCAyMDIxLTEwLTE5IGF0IDE4OjA0ICswODAwLCBUaWFuamlhIFpoYW5nIHdyb3RlOgo+
+IEFjY29yZGluZyB0byBodHRwczovL3Rvb2xzLmlldGYub3JnL2lkL2RyYWZ0LW9zY2NhLWNmcmct
+c20zLTAxLmh0bWwsCj4gU00zIGFsd2F5cyBwcm9kdWNlcyBhIDI1Ni1iaXQgaGFzaCB2YWx1ZSBh
+bmQgdGhlcmUgYXJlIG5vIHBsYW5zIGZvcgo+IG90aGVyIGxlbmd0aCBkZXZlbG9wbWVudCwgc28g
+dGhlcmUgaXMgbm8gYW1iaWd1aXR5IGluIHRoZSBuYW1lIG9mIHNtMy4KPiAKPiBTdWdnZXN0ZWQt
+Ynk6IEphbWVzIEJvdHRvbWxleSA8amVqYkBsaW51eC5pYm0uY29tPgo+IFNpZ25lZC1vZmYtYnk6
+IFRpYW5qaWEgWmhhbmcgPHRpYW5qaWEuemhhbmdAbGludXguYWxpYmFiYS5jb20+Cj4gLS0tCj4g
+wqBEb2N1bWVudGF0aW9uL3NlY3VyaXR5L2tleXMvdHJ1c3RlZC1lbmNyeXB0ZWQucnN0IHwgMiAr
+LQo+IMKgY3J5cHRvL2hhc2hfaW5mby5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCA0ICsrLS0KPiDCoGRyaXZlcnMvY2hhci90
+cG0vdHBtMi1jbWQuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IHwgMiArLQo+IMKgaW5jbHVkZS9jcnlwdG8vaGFzaF9pbmZvLmjCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwgMiArLQo+IMKgaW5jbHVkZS91YXBpL2xpbnV4
+L2hhc2hfaW5mby5owqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCAzICsr
+LQo+IMKgc2VjdXJpdHkva2V5cy90cnVzdGVkLWtleXMvdHJ1c3RlZF90cG0yLmPCoMKgwqDCoMKg
+wqDCoMKgIHwgMiArLQo+IMKgNiBmaWxlcyBjaGFuZ2VkLCA4IGluc2VydGlvbnMoKyksIDcgZGVs
+ZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vc2VjdXJpdHkva2V5cy90
+cnVzdGVkLWVuY3J5cHRlZC5yc3QgYi9Eb2N1bWVudGF0aW9uL3NlY3VyaXR5L2tleXMvdHJ1c3Rl
+ZC1lbmNyeXB0ZWQucnN0Cj4gaW5kZXggODBkNWE1YWY2MmExLi4zMjkyNDYxNTE3ZjYgMTAwNjQ0
+Cj4gLS0tIGEvRG9jdW1lbnRhdGlvbi9zZWN1cml0eS9rZXlzL3RydXN0ZWQtZW5jcnlwdGVkLnJz
+dAo+ICsrKyBiL0RvY3VtZW50YXRpb24vc2VjdXJpdHkva2V5cy90cnVzdGVkLWVuY3J5cHRlZC5y
+c3QKPiBAQCAtMTYyLDcgKzE2Miw3IEBAIFVzYWdlOjoKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgZGVmYXVsdCAxIChyZXNlYWxpbmcgYWxsb3dlZCkKPiDCoMKg
+wqDCoMKgwqDCoCBoYXNoPcKgwqDCoMKgwqDCoMKgwqAgaGFzaCBhbGdvcml0aG0gbmFtZSBhcyBh
+IHN0cmluZy4gRm9yIFRQTSAxLnggdGhlIG9ubHkKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgYWxsb3dlZCB2YWx1ZSBpcyBzaGExLiBGb3IgVFBNIDIueCB0aGUg
+YWxsb3dlZCB2YWx1ZXMKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCBhcmUgc2hhMSwgc2hhMjU2LCBzaGEzODQsIHNoYTUxMiBhbmQgc20zLTI1Ni4KPiArwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBhcmUgc2hhMSwgc2hhMjU2LCBzaGEz
+ODQsIHNoYTUxMiBhbmQgc20zLgoKWW91IGNhbm5vdCByZW1vdmUgc20zLTI1NiBmcm9tIHVhcGku
+CgovSmFya2tvCgo=
 
---UBwMM8vn54PR4LUbz1olAyRhXFoyVHnMk
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: de-DE-1901
-Content-Transfer-Encoding: quoted-printable
-
-Maybe Dmitry can shed some light on this. He actually suggested that=20
-optimization.
-
-- Alex
-
-On 29.09.21 10:33, Peter Zijlstra wrote:
-> On Mon, Sep 27, 2021 at 07:33:40PM +0200, Alexander Lochmann wrote:
->> The existing trace mode stores PCs in execution order. This could lead=
-
->> to a buffer overflow if sufficient amonut of kernel code is executed.
->> Thus, a user might not see all executed PCs. KCOV_MODE_UNIQUE favors
->> completeness over execution order. While ignoring the execution order,=
-
->> it marks a PC as exectued by setting a bit representing that PC. Each
->> bit in the shared buffer represents every fourth byte of the text
->> segment.  Since a call instruction on every supported architecture is
->> at least four bytes, it is safe to just store every fourth byte of the=
-
->> text segment.
->=20
-> I'm still trying to wake up, but why are call instruction more importan=
-t
-> than other instructions? Specifically, I'd think any branch instruction=
-
-> matters for coverage.
->=20
-> More specifically, x86 can do a tail call with just 2 bytes.
->=20
-
---=20
-Alexander Lochmann                PGP key: 0xBC3EF6FD
-Heiliger Weg 72                   phone:  +49.231.28053964
-D-44141 Dortmund                  mobile: +49.151.15738323
-
-
---UBwMM8vn54PR4LUbz1olAyRhXFoyVHnMk--
-
---CDzUVjhiPtClmKUvK9yUQsAHucLgloZvz
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEElhZsUHzVP0dbkjCRWT7tBbw+9v0FAmFzNSQFAwAAAAAACgkQWT7tBbw+9v3r
-3w/7Bv8kyg3mPcCinEzZ9AnnM/yQ20THcNhazgLOZNfSMOqGKhyu2lCwY8A8TakScZAd+si/iU/v
-d6n14El+O4hTXzqjq42Kyukl9F56f45qPd8CXciiSnkCcH2LO7t0MEck6KobaGDe1km0QBoXc/kN
-hhyG5Yp5qduw34Ltj8kaylCUzSOqYiRFmZ2Ws7aA5HkGTA8zgoRm4BZj/YEqpUsoFeGsUglvMtlt
-vPyG479llRhv3DVE3Kal7pxGTSVccFg4uCMsBGFzl5nwLhrkC9P3c2gzkbzcQ6rUTTCnBEZAnU6o
-6G4lZER0xOW41J8ZxdCfk3JadcKM/w245pu6SBDHKNE+oLm//+BCbhAReB/74WqPI4XvkQP623Gk
-x6mFm6EeXA72C/bWQg+V0VrFdbnkBACI88QMcEyzDHTddNno3/jkFx3rOQx7ZbVjY98Xw0p6Nf/P
-YjPM3qj1LEg7wKV12oQEBIHGo6oLUC4f2NUpl4DtYKCpBjBF4iMqCbkTmTtGi7GCyzFfiUDscafB
-3Y9BzfzJKM5zlgsd9n29jAWzUCFhAByzJsFUY78c5JjVylnUugdLuBoichLvh1r4Hg67AX1TB84N
-cvS0Y+c/jgXEV4/EeqnfaBW9Uk8yhdGLytC6UpAhGNNkK3r5bhU1WY6PiCGGR5XbFIkbw9+i6L5Q
-ST8=
-=9qA3
------END PGP SIGNATURE-----
-
---CDzUVjhiPtClmKUvK9yUQsAHucLgloZvz--
