@@ -2,53 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AF6CC433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 23 Oct 2021 08:51:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 052B3C433EF
+	for <linux-doc@archiver.kernel.org>; Sun, 24 Oct 2021 15:17:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E10516105A
-	for <linux-doc@archiver.kernel.org>; Sat, 23 Oct 2021 08:51:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D846760E96
+	for <linux-doc@archiver.kernel.org>; Sun, 24 Oct 2021 15:17:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229983AbhJWIxo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 23 Oct 2021 04:53:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51586 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229935AbhJWIxm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 23 Oct 2021 04:53:42 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8548460EE9;
-        Sat, 23 Oct 2021 08:51:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1634979084;
-        bh=ct54VtT4K6JE49+uBccZJPg0Fi+OTpFzKU1ZlZJS4ew=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QbsrjSwS91SrdgYD5BqeVZSiLY2AlYS+SZHBaTnzKfXnPcz2uRX8VQkZ0tdYHvrt/
-         pUsQudoVQK6I467c+Ypfl5Q+b08CsyoIEYhDY2LMc9wcRiK2YKJPLLQWqQVJdZMwoj
-         T9GXradhzLza5ZZYgDsqYMaviLasUmqxGbm26ExA=
-Date:   Sat, 23 Oct 2021 10:51:16 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3] Docs: usb: update struct usb_driver, __init and __exit
-Message-ID: <YXPNBAdp+3YO+ZT/@kroah.com>
-References: <20211023065916.GA6268@matrix-ESPRIMO-P710>
+        id S229788AbhJXPUR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 24 Oct 2021 11:20:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40896 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229886AbhJXPUR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Oct 2021 11:20:17 -0400
+Received: from metanate.com (unknown [IPv6:2001:8b0:1628:5005::111])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9731DC061745;
+        Sun, 24 Oct 2021 08:17:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=metanate.com; s=stronger; h=Content-Transfer-Encoding:Message-Id:Date:
+        Subject:Cc:To:From:Content-Type:Reply-To:Content-ID:Content-Description:
+        In-Reply-To:References; bh=Wx0knZzTTV3Xd6oi7w1NDuFxpSk5IUn+b6TO2aUcEUY=; b=Qv
+        WbbBuc/AlP0qdIMpm9MQ0d51msICbWr+GY0F5eGFoA1abcRCPA1BX8wx0ghNXBxErE+TCtNFit/0q
+        A5nBohhn0JbEGppLK4DRvrV5zxQ/VQjrSc6vRfxgPNKqVbfgfbAsIWzAl8bVVmf++jInwVYC4+Cex
+        DMoXyPr3GbgwgLxEeRX3KliSvRe6N1pI1wmdn1ZXYaVo1aGIG29b+SK+mJ77o/gB1F5qixZ/Fzmn4
+        7eXa3VCnWDMBSzPaZSxkFDpTrBog7onaVHZNJNPNjBx/ca6qFFP05Q+nuKatctMJf17DazfBQ0NRo
+        T+9wxapJOpb0zhAuMEtypkntlZya5FLA==;
+Received: from [81.174.171.191] (helo=donbot.metanate.com)
+        by email.metanate.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <john@metanate.com>)
+        id 1mefFn-0005Px-Iz; Sun, 24 Oct 2021 16:17:43 +0100
+From:   John Keeping <john@metanate.com>
+To:     alsa-devel@alsa-project.org
+Cc:     John Keeping <john@metanate.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: doc: update codec example code
+Date:   Sun, 24 Oct 2021 16:17:31 +0100
+Message-Id: <20211024151731.360638-1-john@metanate.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211023065916.GA6268@matrix-ESPRIMO-P710>
+Content-Transfer-Encoding: 8bit
+X-Authenticated: YES
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Oct 23, 2021 at 08:59:16AM +0200, Philipp Hortmann wrote:
-> update struct usb_driver from usb-skeleton.c.
-> remove :c:func: for usb_register and usb_deregister
-> 
-> Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+As the codec API has evolved the documentation has not kept up and still
+uses old fields that have been removed.  Update the examples to
+represent the current API.
 
-As you are doing two totally different things here in the same patch,
-this should be 2 different patches, right?  Please make this a patch
-series.
+Signed-off-by: John Keeping <john@metanate.com>
+---
+ Documentation/sound/soc/codec.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-thanks,
+diff --git a/Documentation/sound/soc/codec.rst b/Documentation/sound/soc/codec.rst
+index 8a9737eb7597..57df149acafc 100644
+--- a/Documentation/sound/soc/codec.rst
++++ b/Documentation/sound/soc/codec.rst
+@@ -40,7 +40,7 @@ e.g.
+ 	.prepare	= wm8731_pcm_prepare,
+ 	.hw_params	= wm8731_hw_params,
+ 	.shutdown	= wm8731_shutdown,
+-	.digital_mute	= wm8731_mute,
++	.mute_stream	= wm8731_mute,
+ 	.set_sysclk	= wm8731_set_dai_sysclk,
+ 	.set_fmt	= wm8731_set_dai_fmt,
+   };
+@@ -60,7 +60,7 @@ e.g.
+ 		.rates = WM8731_RATES,
+ 		.formats = WM8731_FORMATS,},
+ 	.ops = &wm8731_dai_ops,
+-	.symmetric_rates = 1,
++	.symmetric_rate = 1,
+   };
+ 
+ 
+@@ -177,10 +177,10 @@ when the mute is applied or freed.
+ i.e.
+ ::
+ 
+-  static int wm8974_mute(struct snd_soc_dai *dai, int mute)
++  static int wm8974_mute(struct snd_soc_dai *dai, int mute, int direction)
+   {
+ 	struct snd_soc_component *component = dai->component;
+-	u16 mute_reg = snd_soc_component_read32(component, WM8974_DAC) & 0xffbf;
++	u16 mute_reg = snd_soc_component_read(component, WM8974_DAC) & 0xffbf;
+ 
+ 	if (mute)
+ 		snd_soc_component_write(component, WM8974_DAC, mute_reg | 0x40);
+-- 
+2.33.1
 
-greg k-h
