@@ -2,89 +2,203 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0622CC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 03:04:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A82DC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 03:18:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D58CB60F4F
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 03:04:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 658A360F4F
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 03:18:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231610AbhJYDGc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 24 Oct 2021 23:06:32 -0400
-Received: from out30-43.freemail.mail.aliyun.com ([115.124.30.43]:55363 "EHLO
-        out30-43.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230040AbhJYDGc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Oct 2021 23:06:32 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04394;MF=tianjia.zhang@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0UtUyMKi_1635131045;
-Received: from 30.240.102.8(mailfrom:tianjia.zhang@linux.alibaba.com fp:SMTPD_---0UtUyMKi_1635131045)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Mon, 25 Oct 2021 11:04:06 +0800
-Message-ID: <0997d70b-9f28-ba0a-853f-2160922dc722@linux.alibaba.com>
-Date:   Mon, 25 Oct 2021 11:04:02 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.2.0
-Subject: Re: [PATCH v2 1/2] crypto: use SM3 instead of SM3_256
-Content-Language: en-US
-To:     Jarkko Sakkinen <jarkko@kernel.org>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
+        id S231954AbhJYDU3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 24 Oct 2021 23:20:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56780 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231610AbhJYDU3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Oct 2021 23:20:29 -0400
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADE79C061764
+        for <linux-doc@vger.kernel.org>; Sun, 24 Oct 2021 20:18:07 -0700 (PDT)
+Received: by mail-pg1-x52d.google.com with SMTP id e65so9530007pgc.5
+        for <linux-doc@vger.kernel.org>; Sun, 24 Oct 2021 20:18:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=nsGfQnXWSm62AW+QNrvXvH+eBp/zC3qWToj/YACxaB8=;
+        b=JYoB+vgxzNII/q7TzoPz3nKk2wwekI0SLs+3rB/OLGHJDfgL/esH4v4zyD1Bh0PgWv
+         BTlf/d56rffFTFQEmZOfdodVpT06VQLmHIJcJPCxI8mpmTnrmZo/JKLNeSpu3/CROf5V
+         1r2Lp+P4cDlkpOPQj7oPpLqXfF5r/uGygx2rwMlfqQ2BPdcIrS08ySDxpZQJPEgCZAgP
+         Kc4uXkPDmRvVf06bqOM0oTwH1t9dr22pZqWkj9Nsgs1cVI4bkUjL/c23TBEjIaY2hAhP
+         wrZiTc4piINJKLEldDSY7gDN/K/cylRnSLEFuAkq0SgbyvpYU0mc/QTXkMaGcQ2oX19t
+         x4XA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=nsGfQnXWSm62AW+QNrvXvH+eBp/zC3qWToj/YACxaB8=;
+        b=sm0KylQ+S498I/ol45W/b4vgejpTznxfwrhoP62RkDWE4bW9GgLcRoeWMK7UOcKpbg
+         8FJy31VU3dF/kaol9obJJH5m0cBBtA6zNfD382dyEwpWmgP/k9LwV/BgFkmya87UCWFb
+         IW+iZBxYFE+SmJQub/CjTx2xxDWT0G+DfxYUFDITgVhkGoAlHZbStOXGMwL/0O+gSULO
+         C2ObE7tsdV2lW8pP+8/VWJB+Te2+axq8pQiFD32DAzeuj6NMlKvkFuyh8mDIVAPPdjDF
+         oJlVv4e+8uXFjGpvotokmkdMu9KaqRxDwh/p9ET/wtRd6qD1yNypXTh+iuzOZZm+xBUG
+         mccQ==
+X-Gm-Message-State: AOAM530hCsJUskQNRXM7TGCjXCGt/ojxgWycyVwodG78OL8irbFS3R9z
+        IVJ5pihIq8xD4x80ycCsUNu67jeLuy7r/A==
+X-Google-Smtp-Source: ABdhPJwbwShw0VfqPM4Odn5xsAapjaBU4pYODbV2tgfstvScWSUyIrN/spGEGDjRkxWr8+jWgDMfdw==
+X-Received: by 2002:aa7:8189:0:b0:44c:293a:31e4 with SMTP id g9-20020aa78189000000b0044c293a31e4mr15458017pfi.51.1635131887047;
+        Sun, 24 Oct 2021 20:18:07 -0700 (PDT)
+Received: from [10.2.24.177] ([61.120.150.70])
+        by smtp.gmail.com with ESMTPSA id l12sm18165113pfu.100.2021.10.24.20.18.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 24 Oct 2021 20:18:06 -0700 (PDT)
+Subject: Re: [PATCH] x86/kvm: Introduce boot parameter no-kvm-pvipi
+From:   zhenwei pi <pizhenwei@bytedance.com>
+To:     Wanpeng Li <kernellwp@gmail.com>,
+        Sean Christopherson <seanjc@google.com>
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Peter Huewe <peterhuewe@gmx.de>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Jerry Snitselaar <jsnitsel@redhat.com>,
-        linux-integrity@vger.kernel.org, keyrings@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-security-module@vger.kernel.org
-References: <20211019100423.43615-1-tianjia.zhang@linux.alibaba.com>
- <20211019100423.43615-2-tianjia.zhang@linux.alibaba.com>
- <f5c87a233027c8026ae8574f3e25c9162da3bfff.camel@kernel.org>
-From:   Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
-In-Reply-To: <f5c87a233027c8026ae8574f3e25c9162da3bfff.camel@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+        Wanpeng Li <wanpengli@tencent.com>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
+References: <20211020120726.4022086-1-pizhenwei@bytedance.com>
+ <CANRm+CxAVA-L0wjm72eohXXWvh9fS7wVFzfKHuEjrsiRFuk9fg@mail.gmail.com>
+ <YXB4FHfzh99707EH@google.com>
+ <08757159-1673-5c7b-3efc-e5b54e82d6c3@bytedance.com>
+ <CANRm+CzcTUWYJeaj3eWKH84YZYgeMZz3kbpn13c8i97iYGGHFQ@mail.gmail.com>
+ <5b718b32-cd92-920e-c474-27b9cafeec60@bytedance.com>
+Message-ID: <ec014e8d-eb5f-03cc-3ed1-da58039ef034@bytedance.com>
+Date:   Mon, 25 Oct 2021 11:14:13 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <5b718b32-cd92-920e-c474-27b9cafeec60@bytedance.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jarkko,
-
-On 10/23/21 8:48 AM, Jarkko Sakkinen wrote:
-> On Tue, 2021-10-19 at 18:04 +0800, Tianjia Zhang wrote:
->> According to https://tools.ietf.org/id/draft-oscca-cfrg-sm3-01.html,
->> SM3 always produces a 256-bit hash value and there are no plans for
->> other length development, so there is no ambiguity in the name of sm3.
+On 10/21/21 3:17 PM, zhenwei pi wrote:
+> On 10/21/21 1:03 PM, Wanpeng Li wrote:
+>> On Thu, 21 Oct 2021 at 11:05, zhenwei pi <pizhenwei@bytedance.com> wrote:
+>>>
+>>>
+>>> On 10/21/21 4:12 AM, Sean Christopherson wrote:
+>>>> On Wed, Oct 20, 2021, Wanpeng Li wrote:
+>>>>> On Wed, 20 Oct 2021 at 20:08, zhenwei pi <pizhenwei@bytedance.com> 
+>>>>> wrote:
+>>>>>>
+>>>>>> Although host side exposes KVM PV SEND IPI feature to guest side,
+>>>>>> guest should still have a chance to disable it.
+>>>>>>
+>>>>>> A typicall case of this parameter:
+>>>>>> If the host AMD server enables AVIC feature, the flat mode of APIC
+>>>>>> get better performance in the guest.
+>>>>>
+>>>>> Hmm, I didn't find enough valuable information in your posting. We
+>>>>> observe AMD a lot before.
+>>>>> https://lore.kernel.org/all/CANRm+Cx597FNRUCyVz1D=B6Vs2GX3Sw57X7Muk+yMpi_hb+v1w@mail.gmail.com/T/#u 
+>>>>>
+>>>>
+>>>> I too would like to see numbers.  I suspect the answer is going to 
+>>>> be that
+>>>> AVIC performs poorly in CPU overcommit scenarios because of the cost 
+>>>> of managing
+>>>> the tables and handling "failed delivery" exits, but that AVIC does 
+>>>> quite well
+>>>> when vCPUs are pinned 1:1 and IPIs rarely require an exit to the host.
+>>>>
+>>>
+>>> Test env:
+>>> CPU: AMD EPYC 7642 48-Core Processor
+>>>
+>>> Kmod args(enable avic and disable nested):
+>>> modprobe kvm-amd nested=0 avic=1 npt=1
+>>>
+>>> QEMU args(disable x2apic):
+>>> ... -cpu host,x2apic=off ...
+>>>
+>>> Benchmark tool:
+>>> https://github.com/bytedance/kvm-utils/tree/master/microbenchmark/apic-ipi 
+>>>
+>>>
+>>> ~# insmod apic_ipi.ko options=5 && dmesg -c
+>>>
+>>>    apic_ipi: 1 NUMA node(s)
+>>>    apic_ipi: apic [flat]
+>>>    apic_ipi: apic->send_IPI[default_send_IPI_single+0x0/0x40]
+>>>    apic_ipi: apic->send_IPI_mask[kvm_send_ipi_mask+0x0/0x10]
+>>>    apic_ipi:     IPI[kvm_send_ipi_mask] from CPU[0] to CPU[1]
+>>>    apic_ipi:             total cycles 375671259, avg 3756
+>>>    apic_ipi:     IPI[flat_send_IPI_mask] from CPU[0] to CPU[1]
+>>>    apic_ipi:             total cycles 221961822, avg 2219
+>>>
+>>>
+>>> apic->send_IPI_mask[kvm_send_ipi_mask+0x0/0x10]
+>>>     -> This line show current send_IPI_mask is kvm_send_ipi_mask(because
+>>> of PV SEND IPI FEATURE)
+>>>
+>>> apic_ipi:       IPI[kvm_send_ipi_mask] from CPU[0] to CPU[1]
+>>> apic_ipi:               total cycles 375671259, avg 3756
+>>>     -->These lines show the average cycles of each kvm_send_ipi_mask: 
+>>> 3756
+>>>
+>>> apic_ipi:       IPI[flat_send_IPI_mask] from CPU[0] to CPU[1]
+>>> apic_ipi:               total cycles 221961822, avg 2219
+>>>     -->These lines show the average cycles of each 
+>>> flat_send_IPI_mask: 2219
 >>
->> Suggested-by: James Bottomley <jejb@linux.ibm.com>
->> Signed-off-by: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
->> ---
->>   Documentation/security/keys/trusted-encrypted.rst | 2 +-
->>   crypto/hash_info.c                                | 4 ++--
->>   drivers/char/tpm/tpm2-cmd.c                       | 2 +-
->>   include/crypto/hash_info.h                        | 2 +-
->>   include/uapi/linux/hash_info.h                    | 3 ++-
->>   security/keys/trusted-keys/trusted_tpm2.c         | 2 +-
->>   6 files changed, 8 insertions(+), 7 deletions(-)
+>> Just single target IPI is not eough.
 >>
->> diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Documentation/security/keys/trusted-encrypted.rst
->> index 80d5a5af62a1..3292461517f6 100644
->> --- a/Documentation/security/keys/trusted-encrypted.rst
->> +++ b/Documentation/security/keys/trusted-encrypted.rst
->> @@ -162,7 +162,7 @@ Usage::
->>                        default 1 (resealing allowed)
->>          hash=         hash algorithm name as a string. For TPM 1.x the only
->>                        allowed value is sha1. For TPM 2.x the allowed values
->> -                     are sha1, sha256, sha384, sha512 and sm3-256.
->> +                     are sha1, sha256, sha384, sha512 and sm3.
+>>      Wanpeng
+>>
 > 
-> You cannot remove sm3-256 from uapi.
+> Benchmark smp_call_function_single 
+> (https://github.com/bytedance/kvm-utils/blob/master/microbenchmark/ipi-bench/ipi_bench.c): 
 > 
+> 
+>   Test env:
+>   CPU: AMD EPYC 7642 48-Core Processor
+> 
+>   Kmod args(enable avic and disable nested):
+>   modprobe kvm-amd nested=0 avic=1 npt=1
+> 
+>   QEMU args(disable x2apic):
+>   ... -cpu host,x2apic=off ...
+> 
+> 1> without no-kvm-pvipi:
+> ipi_bench_single wait[1], CPU0[NODE0] -> CPU1[NODE0], loop = 100000
+>       elapsed =        424945631 cycles, average =     4249 cycles
+>       ipitime =        385246136 cycles, average =     3852 cycles
+> ipi_bench_single wait[0], CPU0[NODE0] -> CPU1[NODE0], loop = 100000
+>       elapsed =        419057953 cycles, average =     4190 cycles
+> 
+> 2> with no-kvm-pvipi:
+> ipi_bench_single wait[1], CPU0[NODE0] -> CPU1[NODE0], loop = 100000
+>       elapsed =        321756407 cycles, average =     3217 cycles
+>       ipitime =        299433550 cycles, average =     2994 cycles
+> ipi_bench_single wait[0], CPU0[NODE0] -> CPU1[NODE0], loop = 100000
+>       elapsed =        295382146 cycles, average =     2953 cycles
+> 
+> 
+Hi, Wanpeng & Sean
 
-Thanks for pointing it out, Maybe this fix is more appropriate in patch 2.
+Also benchmark redis(by 127.0.0.1) in a guest(2vCPU), 'no-kvm-pvipi' 
+gets better performance.
 
-Best regards,
-Tianjia
+Test env:
+Host side: pin 2vCPU on 2core in a die.
+Guest side: run command:
+   taskset -c 1 ./redis-server --appendonly no
+   taskset -c 0 ./redis-benchmark -h 127.0.0.1 -d 1024 -n 10000000 -t get
+
+1> without no-kvm-pvipi:
+redis QPS: 193203.12 requests per second
+kvm_pv_send_ipi exit: ~18K/s
+
+2> with no-kvm-pvipi:
+redis QPS: 196028.47 requests per second
+avic_incomplete_ipi_interception exit: ~5K/s
+
+-- 
+zhenwei pi
