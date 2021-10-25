@@ -2,442 +2,544 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEEC8C4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 19:57:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EDFBC43217
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 19:57:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C816160C4A
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 19:57:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 75F8160E09
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 19:57:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237569AbhJYUAG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Oct 2021 16:00:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59124 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239838AbhJYT6F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Oct 2021 15:58:05 -0400
-Received: from mail-pj1-x1049.google.com (mail-pj1-x1049.google.com [IPv6:2607:f8b0:4864:20::1049])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDD9DC110F30
-        for <linux-doc@vger.kernel.org>; Mon, 25 Oct 2021 12:24:28 -0700 (PDT)
-Received: by mail-pj1-x1049.google.com with SMTP id lt6-20020a17090b354600b001a232054fe5so134701pjb.5
-        for <linux-doc@vger.kernel.org>; Mon, 25 Oct 2021 12:24:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:cc;
-        bh=iRuPYXoXcrU+gBqRAGhoDpe/K+LXE+9n+7UkO6cV9+w=;
-        b=C/w3/Y+X9ucU0aKHe7sgjL9qLWwXwIDcQ05xFVMWZLvrVkP4c9emtFp5Uxzs79/crJ
-         yvRsNl6KDxBFprdibyFW3P+jHgiVZDAaN68RjIr8nCgtVzVQ+TZ1gAd/aRmBBuXORpxk
-         VrmFb4cooL3PG+8ZX8M6ESNLSCJF0BUef4Vm5eOHz1PCWTymCZi/AuRl9r78fvXLM1zH
-         VwZAqF5e4mrEGCv74MeMV7Ow5jtoFAJRzwWlVX03W0KlUULI+GTVTM3Geu9OqcoGbUqc
-         lI04VXu/EPGxxRcHR1cVup5CagWGl6NI4OODPdl6iu0nL9nVDaitA/vhLY0N1s7bXOcs
-         cSjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:cc;
-        bh=iRuPYXoXcrU+gBqRAGhoDpe/K+LXE+9n+7UkO6cV9+w=;
-        b=VHhqzIl239cFfuDpvAkUIhW91cGjI7wzNVZLAmyy6g/bWNpfMluh1KtszDKLGzvam2
-         GcKSaeLuSYN3EWpAS+LtmCXP09G+an5Ys/8DJGqFs/bWpHKMN7OJ4sXmuIdIW2zX6xM9
-         daeUa/ucNe31XJ1hz3k5HsX6gXhL1ynu+LHE/5ytmcOHzufNzeCzLMUmYElfW7y4tl7p
-         1GSLYK5JwMM0WjSlNBKT1X5443r1LcAR2AjFK6VZcyG5+bRNllgwGcPn2yK6cyKxPWOC
-         rsSuhpYbPC4vr6qAmE3LKXAS8vdn+LeHYUlac/Z6Srcavpvd8wOyk4n7BvQSVfLp5IOi
-         oPWA==
-X-Gm-Message-State: AOAM530ROdK+uOYq8lKpWVHrnToM4Xx7u0Z/dc9/9AVEZWt3NyRIBP4O
-        YG4SUw3pJkSisFisyGxulDGfm5rQhlwIkH9hwQ==
-X-Google-Smtp-Source: ABdhPJyOaT7f+j9Oif9wq26bb+2Vo9pdLPQEuCnvGRv9tJLI2vMGL2UwUS06rSguFhA58+v2E0HYvItJoLSR56xIwQ==
-X-Received: from kaleshsingh.mtv.corp.google.com ([2620:15c:211:200:b783:5702:523e:d435])
- (user=kaleshsingh job=sendgmr) by 2002:a17:902:db02:b0:140:581e:6eb5 with
- SMTP id m2-20020a170902db0200b00140581e6eb5mr7017995plx.46.1635189868271;
- Mon, 25 Oct 2021 12:24:28 -0700 (PDT)
-Date:   Mon, 25 Oct 2021 12:23:14 -0700
-In-Reply-To: <20211025192330.2992076-1-kaleshsingh@google.com>
-Message-Id: <20211025192330.2992076-4-kaleshsingh@google.com>
-Mime-Version: 1.0
-References: <20211025192330.2992076-1-kaleshsingh@google.com>
-X-Mailer: git-send-email 2.33.0.1079.g6e70778dc9-goog
-Subject: [PATCH v3 3/8] tracing: Fix operator precedence for hist triggers expression
-From:   Kalesh Singh <kaleshsingh@google.com>
-Cc:     surenb@google.com, hridya@google.com, namhyung@kernel.org,
-        kernel-team@android.com, Kalesh Singh <kaleshsingh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>, Shuah Khan <shuah@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Tom Zanussi <zanussi@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-To:     unlisted-recipients:; (no To-header on input)
+        id S240331AbhJYUAS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Oct 2021 16:00:18 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:9208 "EHLO
+        esa1.hgst.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238817AbhJYT6Q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Oct 2021 15:58:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1635191754; x=1666727754;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=z5EmETjcUsdznDx+lrKC1Kike2243E7vchcD/Zvrv9k=;
+  b=rtIQ1/TrO7vcx4fWXrk/74wP/1Ml3boSH9keabllsmdEDxlSG5EPk3nL
+   YkgrOWUg4ttaw46EnYY5QpVWrFdRBFvS2/7fh7hQ8CQGQernzqGBOUKoY
+   JDcZ5qF4SGS6qazqXaAPsTMAia7Mijo/Y8yvUNW3ESjbfxhRZEqOHGQ0O
+   NC9NQYqNz3PhBtfw66TQOJRFCk3X9JaJ7/doFrQQsYWX8Ukwl2yVxrQpE
+   yZSI+rNzvmbW++wEFv8CwUuBQ2BEunHHANO2Zu4/JLdSM3/d3eGKryOpx
+   0HwNpVKlZojwTQKE+Q+NYcy/aarnIQf5F+twUmXIajlcuwbdrvZMdbUdc
+   g==;
+X-IronPort-AV: E=Sophos;i="5.87,181,1631548800"; 
+   d="scan'208";a="295545848"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
+  by ob1.hgst.iphmx.com with ESMTP; 26 Oct 2021 03:53:56 +0800
+IronPort-SDR: kDUPOvuXtTfjcy5ciVUteE5ZXqWOc7LIj5UDklcZpgL+eN+sAyvDR3cUq/lz1U+U7cKybhlsu4
+ ZLK4iyfkAZhD3rrFyWmDQEG7wYdva5/rc8zipWc5IvlT6fACZz3G2EFExfLQJrhXPh3ym60wFk
+ KwXGSOIUuOfjYTwIA18uiUxxaQ1oFsDXc7onPjuqSnLQd5YYA91hxdWpgL/9XVK3SwXW/Sb3B9
+ 2WXnhMi2XIE82CIuq2WTd2lqT4GLZ8WYhd3xfcicXgsIXKueHm3GfD95ZA+1R2dRelnXht2xTu
+ eZ4BJlCsxM6xfB4xim+zDlcG
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2021 12:27:54 -0700
+IronPort-SDR: nluRUXP+94rZNP16XBZdEhCLN6DIIu1IHF83+zN11b7EFzqjl2R/X+UTCYMCpipfKZA3hgyDWy
+ pX2PHweUs04Z1eK/KTu2w2AV2olfIIKxI9PdykI3eHediBA15RbFSoiH3iOj2ave9J/ReB/PdK
+ iG7Ge75nVY3oZa/iiDL243CcXmhYT+EU3lFSH0HJ2L+BzJAK8RKOqAD2VjnrJbztxJM+MsDH0l
+ uhumV0UXHTszt28DzhpeE0JMmp2Yhcc5zTmmSVieNvt1+6dQs0n20BFT1y0FOeEKIr8+2G3PLM
+ wFg=
+WDCIronportException: Internal
+Received: from unknown (HELO hulk.wdc.com) ([10.225.167.27])
+  by uls-op-cesaip01.wdc.com with ESMTP; 25 Oct 2021 12:53:56 -0700
+From:   Atish Patra <atish.patra@wdc.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Atish Patra <atish.patra@wdc.com>, Anup Patel <anup.patel@wdc.com>,
+        David Abdurachmanov <david.abdurachmanov@sifive.com>,
+        devicetree@vger.kernel.org, Greentime Hu <greentime.hu@sifive.com>,
+        Guo Ren <guoren@linux.alibaba.com>,
+        Heinrich Schuchardt <xypron.glpk@gmx.de>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
+        Nick Kossifidis <mick@ics.forth.gr>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Vincent Chen <vincent.chen@sifive.com>
+Subject: [v4 03/11] RISC-V: Add a perf core library for pmu drivers
+Date:   Mon, 25 Oct 2021 12:53:42 -0700
+Message-Id: <20211025195350.242914-4-atish.patra@wdc.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211025195350.242914-1-atish.patra@wdc.com>
+References: <20211025195350.242914-1-atish.patra@wdc.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The current histogram expression evaluation logic evaluates the
-expression from right to left. This can lead to incorrect results
-if the operations are not associative (as is the case for subtraction
-and, the now added, division operators).
-	e.g. 16-8-4-2 should be 2 not 10 --> 16-8-4-2 = ((16-8)-4)-2
-	     64/8/4/2 should be 1 not 16 --> 64/8/4/2 = ((64/8)/4)/2
+Implement a perf core library that can support all the essential perf
+features in future. It can also accommodate any type of PMU implementation
+in future. Currently, both SBI based perf driver and legacy driver
+implemented uses the library. Most of the common perf functionalities
+are kept in this core library wile PMU specific driver can implement PMU
+specific features. For example, the SBI specific functionality will be
+implemented in the SBI specific driver.
 
-Division and multiplication are currently limited to single operation
-expression due to operator precedence support not yet implemented.
-
-Rework the expression parsing to support the correct evaluation of
-expressions containing operators of different precedences; and fix
-the associativity error by evaluating expressions with operators of
-the same precedence from left to right.
-
-Examples:
-        (1) echo 'hist:keys=common_pid:a=8,b=4,c=2,d=1,w=$a-$b-$c-$d' \
-                  >> event/trigger
-        (2) echo 'hist:keys=common_pid:x=$a/$b/3/2' >> event/trigger
-        (3) echo 'hist:keys=common_pid:y=$a+10/$c*1024' >> event/trigger
-        (4) echo 'hist:keys=common_pid:z=$a/$b+$c*$d' >> event/trigger
-
-Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
-Reviewed-by: Namhyung Kim <namhyung@kernel.org>
+Signed-off-by: Atish Patra <atish.patra@wdc.com>
 ---
+ drivers/perf/Kconfig           |   8 +
+ drivers/perf/Makefile          |   1 +
+ drivers/perf/riscv_pmu.c       | 329 +++++++++++++++++++++++++++++++++
+ include/linux/cpuhotplug.h     |   1 +
+ include/linux/perf/riscv_pmu.h |  65 +++++++
+ 5 files changed, 404 insertions(+)
+ create mode 100644 drivers/perf/riscv_pmu.c
+ create mode 100644 include/linux/perf/riscv_pmu.h
 
-Changed in v2:
-  - Add Namhyung's Reviewed-by
-
- kernel/trace/trace_events_hist.c | 210 ++++++++++++++++++++-----------
- 1 file changed, 140 insertions(+), 70 deletions(-)
-
-diff --git a/kernel/trace/trace_events_hist.c b/kernel/trace/trace_events_hist.c
-index 522355a06f58..e10c7d9611e5 100644
---- a/kernel/trace/trace_events_hist.c
-+++ b/kernel/trace/trace_events_hist.c
-@@ -67,7 +67,9 @@
- 	C(TOO_MANY_SORT_FIELDS,	"Too many sort fields (Max = 2)"),	\
- 	C(INVALID_SORT_FIELD,	"Sort field must be a key or a val"),	\
- 	C(INVALID_STR_OPERAND,	"String type can not be an operand in expression"), \
--	C(EXPECT_NUMBER,	"Expecting numeric literal"),
-+	C(EXPECT_NUMBER,	"Expecting numeric literal"),		\
-+	C(UNARY_MINUS_SUBEXPR,	"Unary minus not supported in sub-expressions"), \
-+	C(SYM_OFFSET_SUBEXPR,	".sym-offset not supported in sub-expressions"),
+diff --git a/drivers/perf/Kconfig b/drivers/perf/Kconfig
+index 77522e5efe11..fc42ab613ea0 100644
+--- a/drivers/perf/Kconfig
++++ b/drivers/perf/Kconfig
+@@ -56,6 +56,14 @@ config ARM_PMU
+ 	  Say y if you want to use CPU performance monitors on ARM-based
+ 	  systems.
  
- #undef C
- #define C(a, b)		HIST_ERR_##a
-@@ -1644,40 +1646,96 @@ static char *expr_str(struct hist_field *field, unsigned int level)
- 	return expr;
- }
- 
--static int contains_operator(char *str)
++config RISCV_PMU
++	depends on RISCV
++	bool "RISC-V PMU framework"
++	default y
++	help
++	  Say y if you want to use CPU performance monitors on RISCV-based
++	  systems.
++
+ config ARM_PMU_ACPI
+ 	depends on ARM_PMU && ACPI
+ 	def_bool y
+diff --git a/drivers/perf/Makefile b/drivers/perf/Makefile
+index 5260b116c7da..76e5c50e24bb 100644
+--- a/drivers/perf/Makefile
++++ b/drivers/perf/Makefile
+@@ -10,6 +10,7 @@ obj-$(CONFIG_FSL_IMX8_DDR_PMU) += fsl_imx8_ddr_perf.o
+ obj-$(CONFIG_HISI_PMU) += hisilicon/
+ obj-$(CONFIG_QCOM_L2_PMU)	+= qcom_l2_pmu.o
+ obj-$(CONFIG_QCOM_L3_PMU) += qcom_l3_pmu.o
++obj-$(CONFIG_RISCV_PMU) += riscv_pmu.o
+ obj-$(CONFIG_THUNDERX2_PMU) += thunderx2_pmu.o
+ obj-$(CONFIG_XGENE_PMU) += xgene_pmu.o
+ obj-$(CONFIG_ARM_SPE_PMU) += arm_spe_pmu.o
+diff --git a/drivers/perf/riscv_pmu.c b/drivers/perf/riscv_pmu.c
+new file mode 100644
+index 000000000000..9c4ebcabca6e
+--- /dev/null
++++ b/drivers/perf/riscv_pmu.c
+@@ -0,0 +1,329 @@
++// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * If field_op != FIELD_OP_NONE, *sep points to the root operator
-+ * of the expression tree to be evaluated.
++ * RISC-V performance counter support.
++ *
++ * Copyright (C) 2021 Western Digital Corporation or its affiliates.
++ *
++ * This implementation is based on old RISC-V perf and ARM perf event code
++ * which are in turn based on sparc64 and x86 code.
 + */
-+static int contains_operator(char *str, char **sep)
- {
- 	enum field_op_id field_op = FIELD_OP_NONE;
--	char *op;
-+	char *minus_op, *plus_op, *div_op, *mult_op;
 +
++#include <linux/cpumask.h>
++#include <linux/irq.h>
++#include <linux/irqdesc.h>
++#include <linux/perf/riscv_pmu.h>
++#include <linux/printk.h>
++#include <linux/smp.h>
 +
-+	/*
-+	 * Report the last occurrence of the operators first, so that the
-+	 * expression is evaluated left to right. This is important since
-+	 * subtraction and division are not associative.
-+	 *
-+	 *	e.g
-+	 *		64/8/4/2 is 1, i.e 64/8/4/2 = ((64/8)/4)/2
-+	 *		14-7-5-2 is 0, i.e 14-7-5-2 = ((14-7)-5)-2
-+	 */
- 
--	op = strpbrk(str, "+-/*");
--	if (!op)
--		return FIELD_OP_NONE;
-+	/*
-+	 * First, find lower precedence addition and subtraction
-+	 * since the expression will be evaluated recursively.
-+	 */
-+	minus_op = strrchr(str, '-');
-+	if (minus_op) {
-+		/* Unfortunately, the modifier ".sym-offset" can confuse things. */
-+		if (minus_op - str >= 4 && !strncmp(minus_op - 4, ".sym-offset", 11))
-+			goto out;
- 
--	switch (*op) {
--	case '-':
- 		/*
--		 * Unfortunately, the modifier ".sym-offset"
--		 * can confuse things.
-+		 * Unary minus is not supported in sub-expressions. If
-+		 * present, it is always the next root operator.
- 		 */
--		if (op - str >= 4 && !strncmp(op - 4, ".sym-offset", 11))
--			return FIELD_OP_NONE;
--
--		if (*str == '-')
-+		if (minus_op == str) {
- 			field_op = FIELD_OP_UNARY_MINUS;
--		else
--			field_op = FIELD_OP_MINUS;
--		break;
--	case '+':
--		field_op = FIELD_OP_PLUS;
--		break;
--	case '/':
-+			goto out;
-+		}
++static unsigned long csr_read_num(int csr_num)
++{
++#define switchcase_csr_read(__csr_num, __val)		{\
++	case __csr_num:					\
++		__val = csr_read(__csr_num);		\
++		break; }
++#define switchcase_csr_read_2(__csr_num, __val)		{\
++	switchcase_csr_read(__csr_num + 0, __val)	 \
++	switchcase_csr_read(__csr_num + 1, __val)}
++#define switchcase_csr_read_4(__csr_num, __val)		{\
++	switchcase_csr_read_2(__csr_num + 0, __val)	 \
++	switchcase_csr_read_2(__csr_num + 2, __val)}
++#define switchcase_csr_read_8(__csr_num, __val)		{\
++	switchcase_csr_read_4(__csr_num + 0, __val)	 \
++	switchcase_csr_read_4(__csr_num + 4, __val)}
++#define switchcase_csr_read_16(__csr_num, __val)	{\
++	switchcase_csr_read_8(__csr_num + 0, __val)	 \
++	switchcase_csr_read_8(__csr_num + 8, __val)}
++#define switchcase_csr_read_32(__csr_num, __val)	{\
++	switchcase_csr_read_16(__csr_num + 0, __val)	 \
++	switchcase_csr_read_16(__csr_num + 16, __val)}
 +
-+		field_op = FIELD_OP_MINUS;
++	unsigned long ret = 0;
++
++	switch (csr_num) {
++	switchcase_csr_read_32(CSR_CYCLE, ret)
++	switchcase_csr_read_32(CSR_CYCLEH, ret)
++	default :
++		break;
 +	}
 +
-+	plus_op = strrchr(str, '+');
-+	if (plus_op || minus_op) {
++	return ret;
++#undef switchcase_csr_read_32
++#undef switchcase_csr_read_16
++#undef switchcase_csr_read_8
++#undef switchcase_csr_read_4
++#undef switchcase_csr_read_2
++#undef switchcase_csr_read
++}
++
++/*
++ * Read the CSR of a corresponding counter.
++ */
++unsigned long riscv_pmu_ctr_read_csr(unsigned long csr)
++{
++	if (csr < CSR_CYCLE || csr > CSR_HPMCOUNTER31H ||
++	   (csr > CSR_HPMCOUNTER31 && csr < CSR_CYCLEH)) {
++		pr_err("Invalid performance counter csr %lx\n", csr);
++		return -EINVAL;
++	}
++
++	return csr_read_num(csr);
++}
++
++static uint64_t riscv_pmu_ctr_get_mask(struct perf_event *event)
++{
++	int cwidth;
++	struct riscv_pmu *rvpmu = to_riscv_pmu(event->pmu);
++	struct hw_perf_event *hwc = &event->hw;
++
++	if (!rvpmu->ctr_get_width)
++	/**
++	 * If the pmu driver doesn't support counter width, set it to default maximum
++	 * allowed by the specification.
++	 */
++		cwidth = 63;
++	else {
++		if (hwc->idx == -1)
++			/* Handle init case where idx is not initialized yet */
++			cwidth = rvpmu->ctr_get_width(0);
++		else
++			cwidth = rvpmu->ctr_get_width(hwc->idx);
++	}
++
++	return GENMASK_ULL(cwidth, 0);
++}
++
++u64 riscv_pmu_event_update(struct perf_event *event)
++{
++	struct riscv_pmu *rvpmu = to_riscv_pmu(event->pmu);
++	struct hw_perf_event *hwc = &event->hw;
++	u64 prev_raw_count, new_raw_count;
++	unsigned long cmask;
++	u64 oldval, delta;
++
++	if (!rvpmu->ctr_read)
++		return 0;
++
++	cmask = riscv_pmu_ctr_get_mask(event);
++
++	do {
++		prev_raw_count = local64_read(&hwc->prev_count);
++		new_raw_count = rvpmu->ctr_read(event);
++		oldval = local64_cmpxchg(&hwc->prev_count, prev_raw_count,
++					 new_raw_count);
++	} while (oldval != prev_raw_count);
++
++	delta = (new_raw_count - prev_raw_count) & cmask;
++	local64_add(delta, &event->count);
++	local64_sub(delta, &hwc->period_left);
++
++	return delta;
++}
++
++static void riscv_pmu_stop(struct perf_event *event, int flags)
++{
++	struct hw_perf_event *hwc = &event->hw;
++	struct riscv_pmu *rvpmu = to_riscv_pmu(event->pmu);
++
++	WARN_ON_ONCE(hwc->state & PERF_HES_STOPPED);
++
++	if (!(hwc->state & PERF_HES_STOPPED)) {
++		if (rvpmu->ctr_stop) {
++			rvpmu->ctr_stop(event, 0);
++			hwc->state |= PERF_HES_STOPPED;
++		}
++		riscv_pmu_event_update(event);
++		hwc->state |= PERF_HES_UPTODATE;
++	}
++}
++
++int riscv_pmu_event_set_period(struct perf_event *event, u64 *init_val)
++{
++	struct hw_perf_event *hwc = &event->hw;
++	s64 left = local64_read(&hwc->period_left);
++	s64 period = hwc->sample_period;
++	u64 max_period;
++	int ret = 0;
++	uint64_t cmask = riscv_pmu_ctr_get_mask(event);
++
++	max_period = cmask;
++	if (unlikely(left <= -period)) {
++		left = period;
++		local64_set(&hwc->period_left, left);
++		hwc->last_period = period;
++		ret = 1;
++	}
++
++	if (unlikely(left <= 0)) {
++		left += period;
++		local64_set(&hwc->period_left, left);
++		hwc->last_period = period;
++		ret = 1;
++	}
++
++	/*
++	 * Limit the maximum period to prevent the counter value
++	 * from overtaking the one we are about to program. In
++	 * effect we are reducing max_period to account for
++	 * interrupt latency (and we are being very conservative).
++	 */
++	if (left > (max_period >> 1))
++		left = (max_period >> 1);
++
++	local64_set(&hwc->prev_count, (u64)-left);
++	*init_val = (u64)(-left) & max_period;
++	perf_event_update_userpage(event);
++
++	return ret;
++}
++
++static void riscv_pmu_start(struct perf_event *event, int flags)
++{
++	struct hw_perf_event *hwc = &event->hw;
++	struct riscv_pmu *rvpmu = to_riscv_pmu(event->pmu);
++	u64 init_val;
++
++	if (WARN_ON_ONCE(!(event->hw.state & PERF_HES_STOPPED)))
++		return;
++
++	if (flags & PERF_EF_RELOAD) {
++		WARN_ON_ONCE(!(event->hw.state & PERF_HES_UPTODATE));
++
 +		/*
-+		 * For operators of the same precedence use to rightmost as the
-+		 * root, so that the expression is evaluated left to right.
++		 * Set the counter to the period to the next interrupt here,
++		 * if you have any.
 +		 */
-+		if (plus_op > minus_op)
-+			field_op = FIELD_OP_PLUS;
++	}
++
++	hwc->state = 0;
++	riscv_pmu_event_set_period(event, &init_val);
++	rvpmu->ctr_start(event, init_val);
++	perf_event_update_userpage(event);
++}
++
++static int riscv_pmu_add(struct perf_event *event, int flags)
++{
++	struct riscv_pmu *rvpmu = to_riscv_pmu(event->pmu);
++	struct cpu_hw_events *cpuc = this_cpu_ptr(rvpmu->hw_events);
++	struct hw_perf_event *hwc = &event->hw;
++	int idx;
++
++	idx = rvpmu->ctr_get_idx(event);
++	if (idx < 0)
++		return idx;
++
++	hwc->idx = idx;
++	cpuc->events[idx] = event;
++	cpuc->n_events++;
++	hwc->state = PERF_HES_UPTODATE | PERF_HES_STOPPED;
++	if (flags & PERF_EF_START)
++		riscv_pmu_start(event, PERF_EF_RELOAD);
++
++	/* Propagate our changes to the userspace mapping. */
++	perf_event_update_userpage(event);
++
++	return 0;
++}
++
++static void riscv_pmu_del(struct perf_event *event, int flags)
++{
++	struct riscv_pmu *rvpmu = to_riscv_pmu(event->pmu);
++	struct cpu_hw_events *cpuc = this_cpu_ptr(rvpmu->hw_events);
++	struct hw_perf_event *hwc = &event->hw;
++
++	riscv_pmu_stop(event, PERF_EF_UPDATE);
++	cpuc->events[hwc->idx] = NULL;
++	/* The firmware need to reset the counter mapping */
++	if (rvpmu->ctr_stop)
++		rvpmu->ctr_stop(event, RISCV_PMU_STOP_FLAG_RESET);
++	cpuc->n_events--;
++	if (rvpmu->ctr_clear_idx)
++		rvpmu->ctr_clear_idx(event);
++	perf_event_update_userpage(event);
++	hwc->idx = -1;
++}
++
++static void riscv_pmu_read(struct perf_event *event)
++{
++	riscv_pmu_event_update(event);
++}
++
++static int riscv_pmu_event_init(struct perf_event *event)
++{
++	struct hw_perf_event *hwc = &event->hw;
++	struct riscv_pmu *rvpmu = to_riscv_pmu(event->pmu);
++	int mapped_event;
++	u64 event_config = 0;
++	uint64_t cmask;
++
++	hwc->flags = 0;
++	mapped_event = rvpmu->event_map(event, &event_config);
++	if (mapped_event < 0) {
++		pr_debug("event %x:%llx not supported\n", event->attr.type,
++			 event->attr.config);
++		return mapped_event;
++	}
++
++	/*
++	 * idx is set to -1 because the index of a general event should not be
++	 * decided until binding to some counter in pmu->add().
++	 * config will contain the information about counter CSR
++	 * the idx will contain the counter index
++	 */
++	hwc->config = event_config;
++	hwc->idx = -1;
++	hwc->event_base = mapped_event;
++
++	if (!is_sampling_event(event)) {
++		/*
++		 * For non-sampling runs, limit the sample_period to half
++		 * of the counter width. That way, the new counter value
++		 * is far less likely to overtake the previous one unless
++		 * you have some serious IRQ latency issues.
++		 */
++		cmask = riscv_pmu_ctr_get_mask(event);
++		hwc->sample_period  =  cmask >> 1;
++		hwc->last_period    = hwc->sample_period;
++		local64_set(&hwc->period_left, hwc->sample_period);
++	}
++
++	return 0;
++}
++
++struct riscv_pmu *riscv_pmu_alloc(void)
++{
++	struct riscv_pmu *pmu;
++	int cpuid, i;
++	struct cpu_hw_events *cpuc;
++
++	pmu = kzalloc(sizeof(*pmu), GFP_KERNEL);
++	if (!pmu)
 +		goto out;
++
++	pmu->hw_events = alloc_percpu_gfp(struct cpu_hw_events, GFP_KERNEL);
++	if (!pmu->hw_events) {
++		pr_info("failed to allocate per-cpu PMU data.\n");
++		goto out_free_pmu;
 +	}
 +
-+	/*
-+	 * Multiplication and division have higher precedence than addition and
-+	 * subtraction.
-+	 */
-+	div_op = strrchr(str, '/');
-+	if (div_op)
- 		field_op = FIELD_OP_DIV;
--		break;
--	case '*':
++	for_each_possible_cpu(cpuid) {
++		cpuc = per_cpu_ptr(pmu->hw_events, cpuid);
++		cpuc->n_events = 0;
++		for (i = 0; i < RISCV_MAX_COUNTERS; i++)
++			cpuc->events[i] = NULL;
++	}
++	pmu->pmu = (struct pmu) {
++		.event_init	= riscv_pmu_event_init,
++		.add		= riscv_pmu_add,
++		.del		= riscv_pmu_del,
++		.start		= riscv_pmu_start,
++		.stop		= riscv_pmu_stop,
++		.read		= riscv_pmu_read,
++	};
 +
-+	mult_op = strrchr(str, '*');
-+	/*
-+	 * For operators of the same precedence use to rightmost as the
-+	 * root, so that the expression is evaluated left to right.
-+	 */
-+	if (mult_op > div_op)
- 		field_op = FIELD_OP_MULT;
--		break;
--	default:
--		break;
++	return pmu;
 +
++out_free_pmu:
++	kfree(pmu);
 +out:
-+	if (sep) {
-+		switch (field_op) {
-+		case FIELD_OP_UNARY_MINUS:
-+		case FIELD_OP_MINUS:
-+			*sep = minus_op;
-+			break;
-+		case FIELD_OP_PLUS:
-+			*sep = plus_op;
-+			break;
-+		case FIELD_OP_DIV:
-+			*sep = div_op;
-+			break;
-+		case FIELD_OP_MULT:
-+			*sep = mult_op;
-+			break;
-+		case FIELD_OP_NONE:
-+		default:
-+			*sep = NULL;
-+			break;
-+		}
- 	}
- 
- 	return field_op;
-@@ -2003,7 +2061,7 @@ static char *field_name_from_var(struct hist_trigger_data *hist_data,
- 
- 		if (strcmp(var_name, name) == 0) {
- 			field = hist_data->attrs->var_defs.expr[i];
--			if (contains_operator(field) || is_var_ref(field))
-+			if (contains_operator(field, NULL) || is_var_ref(field))
- 				continue;
- 			return field;
- 		}
-@@ -2266,21 +2324,24 @@ static struct hist_field *parse_atom(struct hist_trigger_data *hist_data,
- static struct hist_field *parse_expr(struct hist_trigger_data *hist_data,
- 				     struct trace_event_file *file,
- 				     char *str, unsigned long flags,
--				     char *var_name, unsigned int level);
-+				     char *var_name, unsigned int *n_subexprs);
- 
- static struct hist_field *parse_unary(struct hist_trigger_data *hist_data,
- 				      struct trace_event_file *file,
- 				      char *str, unsigned long flags,
--				      char *var_name, unsigned int level)
-+				      char *var_name, unsigned int *n_subexprs)
- {
- 	struct hist_field *operand1, *expr = NULL;
- 	unsigned long operand_flags;
- 	int ret = 0;
- 	char *s;
- 
-+	/* Unary minus operator, increment n_subexprs */
-+	++*n_subexprs;
++	return NULL;
++}
+diff --git a/include/linux/cpuhotplug.h b/include/linux/cpuhotplug.h
+index 39cf84a30b9f..1743b8a4624d 100644
+--- a/include/linux/cpuhotplug.h
++++ b/include/linux/cpuhotplug.h
+@@ -123,6 +123,7 @@ enum cpuhp_state {
+ 	CPUHP_AP_PERF_ARM_HW_BREAKPOINT_STARTING,
+ 	CPUHP_AP_PERF_ARM_ACPI_STARTING,
+ 	CPUHP_AP_PERF_ARM_STARTING,
++	CPUHP_AP_PERF_RISCV_STARTING,
+ 	CPUHP_AP_ARM_L2X0_STARTING,
+ 	CPUHP_AP_EXYNOS4_MCT_TIMER_STARTING,
+ 	CPUHP_AP_ARM_ARCH_TIMER_STARTING,
+diff --git a/include/linux/perf/riscv_pmu.h b/include/linux/perf/riscv_pmu.h
+new file mode 100644
+index 000000000000..564129839e19
+--- /dev/null
++++ b/include/linux/perf/riscv_pmu.h
+@@ -0,0 +1,65 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (C) 2018 SiFive
++ * Copyright (C) 2018 Andes Technology Corporation
++ * Copyright (C) 2021 Western Digital Corporation or its affiliates.
++ *
++ */
 +
- 	/* we support only -(xxx) i.e. explicit parens required */
- 
--	if (level > 3) {
-+	if (*n_subexprs > 3) {
- 		hist_err(file->tr, HIST_ERR_TOO_MANY_SUBEXPR, errpos(str));
- 		ret = -EINVAL;
- 		goto free;
-@@ -2297,8 +2358,16 @@ static struct hist_field *parse_unary(struct hist_trigger_data *hist_data,
- 	}
- 
- 	s = strrchr(str, ')');
--	if (s)
-+	if (s) {
-+		 /* unary minus not supported in sub-expressions */
-+		if (*(s+1) != '\0') {
-+			hist_err(file->tr, HIST_ERR_UNARY_MINUS_SUBEXPR,
-+				 errpos(str));
-+			ret = -EINVAL;
-+			goto free;
-+		}
- 		*s = '\0';
-+	}
- 	else {
- 		ret = -EINVAL; /* no closing ')' */
- 		goto free;
-@@ -2312,7 +2381,7 @@ static struct hist_field *parse_unary(struct hist_trigger_data *hist_data,
- 	}
- 
- 	operand_flags = 0;
--	operand1 = parse_expr(hist_data, file, str, operand_flags, NULL, ++level);
-+	operand1 = parse_expr(hist_data, file, str, operand_flags, NULL, n_subexprs);
- 	if (IS_ERR(operand1)) {
- 		ret = PTR_ERR(operand1);
- 		goto free;
-@@ -2382,60 +2451,61 @@ static int check_expr_operands(struct trace_array *tr,
- static struct hist_field *parse_expr(struct hist_trigger_data *hist_data,
- 				     struct trace_event_file *file,
- 				     char *str, unsigned long flags,
--				     char *var_name, unsigned int level)
-+				     char *var_name, unsigned int *n_subexprs)
- {
- 	struct hist_field *operand1 = NULL, *operand2 = NULL, *expr = NULL;
- 	unsigned long operand_flags;
- 	int field_op, ret = -EINVAL;
- 	char *sep, *operand1_str;
- 
--	if (level > 3) {
-+	if (*n_subexprs > 3) {
- 		hist_err(file->tr, HIST_ERR_TOO_MANY_SUBEXPR, errpos(str));
- 		return ERR_PTR(-EINVAL);
- 	}
- 
--	field_op = contains_operator(str);
-+	/*
-+	 * ".sym-offset" in expressions has no effect on their evaluation,
-+	 * but can confuse operator parsing.
-+	 */
-+	if (*n_subexprs == 0) {
-+		sep = strstr(str, ".sym-offset");
-+		if (sep) {
-+			*sep = '\0';
-+			if (strpbrk(str, "+-/*") || strpbrk(sep + 11, "+-/*")) {
-+				*sep = '.';
-+				hist_err(file->tr, HIST_ERR_SYM_OFFSET_SUBEXPR,
-+					 errpos(sep));
-+				return ERR_PTR(-EINVAL);
-+			}
-+			*sep = '.';
-+		}
-+	}
++#ifndef _ASM_RISCV_PERF_EVENT_H
++#define _ASM_RISCV_PERF_EVENT_H
 +
-+	field_op = contains_operator(str, &sep);
- 
- 	if (field_op == FIELD_OP_NONE)
- 		return parse_atom(hist_data, file, str, &flags, var_name);
- 
- 	if (field_op == FIELD_OP_UNARY_MINUS)
--		return parse_unary(hist_data, file, str, flags, var_name, ++level);
-+		return parse_unary(hist_data, file, str, flags, var_name, n_subexprs);
- 
--	switch (field_op) {
--	case FIELD_OP_MINUS:
--		sep = "-";
--		break;
--	case FIELD_OP_PLUS:
--		sep = "+";
--		break;
--	case FIELD_OP_DIV:
--		sep = "/";
--		break;
--	case FIELD_OP_MULT:
--		sep = "*";
--		break;
--	default:
--		goto free;
--	}
-+	/* Binary operator found, increment n_subexprs */
-+	++*n_subexprs;
- 
--	/*
--	 * Multiplication and division are only supported in single operator
--	 * expressions, since the expression is always evaluated from right
--	 * to left.
--	 */
--	if ((field_op == FIELD_OP_DIV || field_op == FIELD_OP_MULT) && level > 0) {
--		hist_err(file->tr, HIST_ERR_TOO_MANY_SUBEXPR, errpos(str));
--		return ERR_PTR(-EINVAL);
--	}
-+	/* Split the expression string at the root operator */
-+	if (!sep)
-+		goto free;
-+	*sep = '\0';
-+	operand1_str = str;
-+	str = sep+1;
- 
--	operand1_str = strsep(&str, sep);
- 	if (!operand1_str || !str)
- 		goto free;
- 
- 	operand_flags = 0;
--	operand1 = parse_atom(hist_data, file, operand1_str,
--			      &operand_flags, NULL);
++#include <linux/perf_event.h>
++#include <linux/ptrace.h>
++#include <linux/interrupt.h>
 +
-+	/* LHS of string is an expression e.g. a+b in a+b+c */
-+	operand1 = parse_expr(hist_data, file, operand1_str, operand_flags, NULL, n_subexprs);
- 	if (IS_ERR(operand1)) {
- 		ret = PTR_ERR(operand1);
- 		operand1 = NULL;
-@@ -2447,9 +2517,9 @@ static struct hist_field *parse_expr(struct hist_trigger_data *hist_data,
- 		goto free;
- 	}
- 
--	/* rest of string could be another expression e.g. b+c in a+b+c */
-+	/* RHS of string is another expression e.g. c in a+b+c */
- 	operand_flags = 0;
--	operand2 = parse_expr(hist_data, file, str, operand_flags, NULL, ++level);
-+	operand2 = parse_expr(hist_data, file, str, operand_flags, NULL, n_subexprs);
- 	if (IS_ERR(operand2)) {
- 		ret = PTR_ERR(operand2);
- 		operand2 = NULL;
-@@ -3883,9 +3953,9 @@ static int __create_val_field(struct hist_trigger_data *hist_data,
- 			      unsigned long flags)
- {
- 	struct hist_field *hist_field;
--	int ret = 0;
-+	int ret = 0, n_subexprs = 0;
- 
--	hist_field = parse_expr(hist_data, file, field_str, flags, var_name, 0);
-+	hist_field = parse_expr(hist_data, file, field_str, flags, var_name, &n_subexprs);
- 	if (IS_ERR(hist_field)) {
- 		ret = PTR_ERR(hist_field);
- 		goto out;
-@@ -4026,7 +4096,7 @@ static int create_key_field(struct hist_trigger_data *hist_data,
- 	struct hist_field *hist_field = NULL;
- 	unsigned long flags = 0;
- 	unsigned int key_size;
--	int ret = 0;
-+	int ret = 0, n_subexprs = 0;
- 
- 	if (WARN_ON(key_idx >= HIST_FIELDS_MAX))
- 		return -EINVAL;
-@@ -4039,7 +4109,7 @@ static int create_key_field(struct hist_trigger_data *hist_data,
- 		hist_field = create_hist_field(hist_data, NULL, flags, NULL);
- 	} else {
- 		hist_field = parse_expr(hist_data, file, field_str, flags,
--					NULL, 0);
-+					NULL, &n_subexprs);
- 		if (IS_ERR(hist_field)) {
- 			ret = PTR_ERR(hist_field);
- 			goto out;
++#ifdef CONFIG_RISCV_PMU
++
++/*
++ * The RISCV_MAX_COUNTERS parameter should be specified.
++ */
++
++#define RISCV_MAX_COUNTERS	64
++#define RISCV_OP_UNSUPP		(-EOPNOTSUPP)
++#define RISCV_PMU_PDEV_NAME	"riscv-pmu"
++
++#define RISCV_PMU_STOP_FLAG_RESET 1
++
++struct cpu_hw_events {
++	/* currently enabled events */
++	int			n_events;
++	/* currently enabled events */
++	struct perf_event	*events[RISCV_MAX_COUNTERS];
++	/* currently enabled counters */
++	DECLARE_BITMAP(used_event_ctrs, RISCV_MAX_COUNTERS);
++};
++
++struct riscv_pmu {
++	struct pmu	pmu;
++	char		*name;
++
++	irqreturn_t	(*handle_irq)(int irq_num, void *dev);
++	int		irq;
++
++	int		num_counters;
++	u64		(*ctr_read)(struct perf_event *event);
++	int		(*ctr_get_idx)(struct perf_event *event);
++	int		(*ctr_get_width)(int idx);
++	void		(*ctr_clear_idx)(struct perf_event *event);
++	void		(*ctr_start)(struct perf_event *event, u64 init_val);
++	void		(*ctr_stop)(struct perf_event *event, unsigned long flag);
++	int		(*event_map)(struct perf_event *event, u64 *config);
++
++	struct cpu_hw_events	__percpu *hw_events;
++	struct hlist_node	node;
++};
++
++#define to_riscv_pmu(p) (container_of(p, struct riscv_pmu, pmu))
++unsigned long riscv_pmu_ctr_read_csr(unsigned long csr);
++int riscv_pmu_event_set_period(struct perf_event *event, u64 *init_val);
++u64 riscv_pmu_event_update(struct perf_event *event);
++struct riscv_pmu *riscv_pmu_alloc(void);
++
++#endif /* CONFIG_RISCV_PMU */
++
++#endif /* _ASM_RISCV_PERF_EVENT_H */
 -- 
-2.33.0.1079.g6e70778dc9-goog
+2.31.1
 
