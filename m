@@ -2,145 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D7F4C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 13:58:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAD76C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 14:32:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1778E60F9B
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 13:58:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D571360F9D
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 14:32:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230225AbhJYOAq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Oct 2021 10:00:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32948 "EHLO
+        id S233569AbhJYOem (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Oct 2021 10:34:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233103AbhJYOAn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Oct 2021 10:00:43 -0400
-Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27347C061767
-        for <linux-doc@vger.kernel.org>; Mon, 25 Oct 2021 06:58:21 -0700 (PDT)
-Received: by mail-il1-x12a.google.com with SMTP id l13so1476618ilh.3
-        for <linux-doc@vger.kernel.org>; Mon, 25 Oct 2021 06:58:21 -0700 (PDT)
+        with ESMTP id S233588AbhJYOel (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Oct 2021 10:34:41 -0400
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com [IPv6:2607:f8b0:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A38CC061746;
+        Mon, 25 Oct 2021 07:32:19 -0700 (PDT)
+Received: by mail-oi1-x236.google.com with SMTP id u69so15810407oie.3;
+        Mon, 25 Oct 2021 07:32:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=5nOmumExDuG/UBbWiWJp0a/1EMKZWB5ak0TMFRBCeFs=;
-        b=RD+yB4ghUqrfkSSJGjh+N55d9jZmY75F5H7HVh4K8FoB4SSvqDvZN5VloLtsirCso3
-         FEmuj4BrBYMAmP9RCFazaiaAtLO8prTuJJ6OA70V0Lls2QvtPNUijdLFENWO7E4+6/3r
-         gIrTmxzc/xbpsuAATXeCi0STHDAEySlKr2KfswuALPmXtXxBXTgK/l9Z0hH2MIPGRHyW
-         LoW2gIU9M7zkL50Yu+aZeQJw1Qr+je4oGqHYTaabz9ySS9rway4s0I3BN78nG7rXaadU
-         5PWcciMPJpeB6K1CbE4fGHhcNbk1sBFZEMPVqD7xTsun7/eMsvBq/PqFAgJgzOHEaGl1
-         Y5sQ==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=pmebVXES+76mcKv5JBTJdxBg8OzPf8jfiUIeu+qp7AQ=;
+        b=KN/5JlHLu6ClZJBbYzBYLzN30uU6RqIWbSRiOnnjfQJEij9D/LgVKKDeLScGYA6FHi
+         T1VaKw9qj0ZxqR2cQBrCFbmnyu7zyGbS1D0zjFhwk4NWj1DjgWJd9z5pmvSqAH0ydM8y
+         ggrWMs7iqeT/kte2jNs+E1tbTViujJse+QFdVca0TgZenyS/7L3mfkscl/k4itN3g+0c
+         h/hH0n/ESvSFqoAHNStD1nmsaX+Bsj2xWRTJTQpTvWqv2eDpzsJJTebMsNw5EEY15yP6
+         OIZrwep7oGrBIao0uCKUWRifuLbGd9SkBp9+IIXfV8oukZFHz4oYtcGZTxwXPi/6D2DT
+         kmkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=5nOmumExDuG/UBbWiWJp0a/1EMKZWB5ak0TMFRBCeFs=;
-        b=N2dr9nSYrbX69JG0dKJ9iEpsEBtwVc/jJWCiI4F09XYwLW3r6WNOJwb4jRRv0oOhTj
-         h/SWXyBIwEbicdLvpIJRIVbbsPOEw122ApsiTM5hW/KmOjRUw8bF4dCDCfeUMvt55JxY
-         pEzIjRc4Won5OAEZ0rPzP4oOSSoCNcCCfsWlYHvkCOKWPTWmUsLdIsjTN/HRQYw01K6g
-         dSYApYhFlWB41ro+61ArLMsGoypQs+cHyn0tp5eY5X8P/7iEW/12lfUpzYc+g2sCO0wt
-         l9xyzlLoW7ImTMIAIjMvsQR6+Zy/teqx7s53oGMkJEiK/ndQcjMgrOIvUQdr98c9OQgZ
-         WD4Q==
-X-Gm-Message-State: AOAM532DZYgG9M1hHBuT4FwW/jQD9ZZSjP3XpGq57v06irkejXrAFLIl
-        STvCIGpS1dmfy0qY+k/tjE1IOO4UhVzqQvBtwjE=
-X-Google-Smtp-Source: ABdhPJwUp+7tjXKXMGORaPWYjZ4bt4JUWi8Xlg/Qf9nAwzVGDRKgDWfNcUV+4NJbdrFl+K5bfC3cKCmP4RrEYfkdTjA=
-X-Received: by 2002:a05:6e02:1a42:: with SMTP id u2mr4460372ilv.97.1635170300634;
- Mon, 25 Oct 2021 06:58:20 -0700 (PDT)
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=pmebVXES+76mcKv5JBTJdxBg8OzPf8jfiUIeu+qp7AQ=;
+        b=WyZdaKgawuiuPGLtwKMXcksHi4LuyE6QPAW3u914GJKnyqtiLqjxIY0GbgmcHO+zLG
+         D08RFttIm9JuiJucSTyMJ/AM+SuGARTZLxcFKIm7wX9iguJ7Cxe7NqcrSNN4giAlIF0m
+         RIxYMgpOQ/RpKJbqAd7rP36NNNM3pHtq5QELpWX66ErJ+E91eLdm0ajLr4mAw5pAwkBs
+         NZKLKiGP4G58JT5YC+awc7ijkzqQJ2HhFAVmcQgV4T+gwCGQi2AZkdKvQ5QXZGb3Mn/e
+         6L03V2VtvsLqe90O8yC/tsKQrCB1z5quqvQ0g8ikO70/HMogrQnQI/NQbo/g/gYNcCNN
+         jiIA==
+X-Gm-Message-State: AOAM530HeHlHVA0nP1BEV0ZMJkJdP3XehNUkv1xVV85ADxBrQ4ZDuaMC
+        /I83SMG3/ljELrHQt7I05m0=
+X-Google-Smtp-Source: ABdhPJyfvhXAD5bAJ8pfK0Z27LAI0zpl8BNKmE4gMYAcmsvoKqH+NrVYIWrZSFD549xjoHGic166/A==
+X-Received: by 2002:aca:4b84:: with SMTP id y126mr22465314oia.127.1635172338576;
+        Mon, 25 Oct 2021 07:32:18 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id v13sm3560494oto.65.2021.10.25.07.32.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Oct 2021 07:32:18 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Mon, 25 Oct 2021 07:32:16 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Denis Pauk <pauk.denis@gmail.com>
+Cc:     eugene.shalygin@gmail.com, andy.shevchenko@gmail.com,
+        platform-driver-x86@vger.kernel.org, thomas@weissschuh.net,
+        Joel =?utf-8?Q?Wir=C4=81mu?= Pauling <jwp@redhat.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 3/3] hwmon: (nct6775) Add ProArt X570-CREATOR WIFI
+ support.
+Message-ID: <20211025143216.GA3203621@roeck-us.net>
+References: <20211022200032.23267-1-pauk.denis@gmail.com>
+ <20211022200032.23267-4-pauk.denis@gmail.com>
 MIME-Version: 1.0
-References: <cover.1634723736.git.siyanteng@loongson.cn> <d40830880bdf788512023735b69fcadcfa824578.1634723736.git.siyanteng@loongson.cn>
-In-Reply-To: <d40830880bdf788512023735b69fcadcfa824578.1634723736.git.siyanteng@loongson.cn>
-From:   Alex Shi <seakeel@gmail.com>
-Date:   Mon, 25 Oct 2021 21:57:44 +0800
-Message-ID: <CAJy-AmmxMuoiCM0tTZO_iaN1Rzw8me1Xkdq1oodp4Zcfhsrwqg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] docs/zh_CN add PCI index.rst translation
-To:     Yanteng Si <siyanteng01@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        "Wu X.C." <bobwxc@email.cn>, Yanteng Si <siyanteng@loongson.cn>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        linux-doc@vger.kernel.org, Puyu Wang <realpuyuwang@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211022200032.23267-4-pauk.denis@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Reviewed-by: Alex Shi <alexs@kernel.org>
+On Fri, Oct 22, 2021 at 11:00:31PM +0300, Denis Pauk wrote:
+> Tested on:
+> ```
+> BIOS Information
+>     Vendor: American Megatrends Inc.
+>     Version: 0402
+>     Release Date: 08/04/2021
+> ```
+> 
 
-On Wed, Oct 20, 2021 at 6:04 PM Yanteng Si <siyanteng01@gmail.com> wrote:
->
-> Translate ../PCI/index.rst into Chinese
->
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+This is not an appropriate patch description. Also. it should be an independent
+patch and not be tied to the other patches of the series.
+
+Guenter
+
+> BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=204807
+> Signed-off-by: Denis Pauk <pauk.denis@gmail.com>
+> Tested-by: Joel Wirāmu Pauling <jwp@redhat.com>
+> 
 > ---
->  .../translations/zh_CN/PCI/index.rst          | 35 +++++++++++++++++++
->  Documentation/translations/zh_CN/index.rst    |  2 +-
->  2 files changed, 36 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/translations/zh_CN/PCI/index.rst
->
-> diff --git a/Documentation/translations/zh_CN/PCI/index.rst b/Documentati=
-on/translations/zh_CN/PCI/index.rst
-> new file mode 100644
-> index 000000000000..8c6dec03856f
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/PCI/index.rst
-> @@ -0,0 +1,35 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/PCI/index.rst
-> +
-> +:=E7=BF=BB=E8=AF=91:
-> +
-> + =E5=8F=B8=E5=BB=B6=E8=85=BE Yanteng Si <siyanteng@loongson.cn>
-> +
-> +:=E6=A0=A1=E8=AF=91:
-> +
-> +
-> +
-> +.. _cn_PCI_index.rst:
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +Linux PCI=E6=80=BB=E7=BA=BF=E5=AD=90=E7=B3=BB=E7=BB=9F
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +.. toctree::
-> +   :maxdepth: 2
-> +   :numbered:
-> +
-> +Todolist:
-> +
-> +   pci
-> +   pciebus-howto
-> +   pci-iov-howto
-> +   msi-howto
-> +   sysfs-pci
-> +   acpi-info
-> +   pci-error-recovery
-> +   pcieaer-howto
-> +   endpoint/index
-> +   boot-interrupts
-> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/t=
-ranslations/zh_CN/index.rst
-> index a34e58733ac8..45bfd0774f2d 100644
-> --- a/Documentation/translations/zh_CN/index.rst
-> +++ b/Documentation/translations/zh_CN/index.rst
-> @@ -106,6 +106,7 @@ TODOList:
->     virt/index
->     infiniband/index
->     accounting/index
-> +   PCI/index
->
->  TODOList:
->
-> @@ -137,7 +138,6 @@ TODOList:
->  * vm/index
->  * bpf/index
->  * usb/index
-> -* PCI/index
->  * scsi/index
->  * misc-devices/index
->  * scheduler/index
-> --
-> 2.27.0
->
+> Changes in v8:
+> - Add ProArt X570 support.
+> ---
+>  drivers/hwmon/nct6775.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/hwmon/nct6775.c b/drivers/hwmon/nct6775.c
+> index f345e1902ad9..93dca471972e 100644
+> --- a/drivers/hwmon/nct6775.c
+> +++ b/drivers/hwmon/nct6775.c
+> @@ -4986,6 +4986,7 @@ static int __init nct6775_find(int sioaddr, struct nct6775_sio_data *sio_data)
+>  static struct platform_device *pdev[2];
+>  
+>  static const char * const asus_wmi_boards[] = {
+> +	"ProArt X570-CREATOR WIFI",
+>  	"Pro WS X570-ACE",
+>  	"PRIME B360-PLUS",
+>  	"PRIME B460-PLUS",
+> -- 
+> 2.33.0
+> 
