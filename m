@@ -2,102 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30186C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 17:20:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BECEC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 18:18:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 134AB60F4F
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 17:20:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E4A8B60EBB
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 18:18:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232342AbhJYRWu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Oct 2021 13:22:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52112 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230183AbhJYRWs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Oct 2021 13:22:48 -0400
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B5E8C061745;
-        Mon, 25 Oct 2021 10:20:26 -0700 (PDT)
-Received: by mail-pf1-x42e.google.com with SMTP id k26so11381035pfi.5;
-        Mon, 25 Oct 2021 10:20:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=bdG6zTkPGu9c4FKs3tg7miki1n8YFj1c71kLZtHP0Yk=;
-        b=HlPiDvf5Mmkmyy/HaH057fo86toFQwJNi1VAhkDPTbfw3Yurbl1vNS8KmrEtIi0jE+
-         QH1MtjboqxaouRgvKDlfSN5yKTKDHwD7XipxKDKTRxBisZ9/c5VpOQQ+JJWuOB3eGBj4
-         KyfOUSyLVZ4gmPNx3070+51Vg7vWwwnf2WNBXl50+3mhAP1xTxzF0imVRsGBupexejse
-         5ddk5JCds5HvJFAWlHSK++n2B/YOSzDHH3l6yyrLA/fGXhiYqbFMagyXE5iSb+ss2BnF
-         VY/Nh9eI7TcS/3Uee3bmLfaxZjDVv7a56tz2e6pNwQV3rLb9Cz1HSuPqMRHDxoTiV94c
-         PdxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=bdG6zTkPGu9c4FKs3tg7miki1n8YFj1c71kLZtHP0Yk=;
-        b=j8bhsiuKeSBDM1P9ukc9e/07U0uVj/RBUN1uQtOuCljQ9BYSkpir5dzI8uFsp7EtNF
-         PAos/cAGhCgE19RR18JVTX7Ci7OLlHPPzd5IbOx0Bdlj/hH6dJckE0aErwzVAw937UcK
-         fb5iEez/BDo0O+A/L2NifbtRm7TfPaN+BYCdD3fx4q03RFm4FqgQP4pEqg4wAt+KEVTy
-         8JrJnRIueSQsWn9pSvgbZ3gxQ5r5YASsgheo/bDzp2lv8LFOU+NM6jPC1vqWmAfBD8Ki
-         xaS6en5PjoGAfJ6T4zK4a2dXNS7cVatUsqzS/LAPf4dlP1BcXWVvrpChML1Jf9IApI+k
-         FeLg==
-X-Gm-Message-State: AOAM533W2ahu12iGt7l0kSdm9M1Nq+p1z4CpsOGYYlttUdScWZEJGyjQ
-        90UV+HYxT+EtZVObNBAewngrYbRiAT6MeQ==
-X-Google-Smtp-Source: ABdhPJwaBZgfZUvCNkZCvJc2kHpsZkVCvrwl6Zg6T8fHG/aLvHYURtVl6s5FiwOtMiRRD7tflFXS5Q==
-X-Received: by 2002:a63:b448:: with SMTP id n8mr14831028pgu.31.1635182425732;
-        Mon, 25 Oct 2021 10:20:25 -0700 (PDT)
-Received: from localhost (2603-800c-1a02-1bae-e24f-43ff-fee6-449f.res6.spectrum.com. [2603:800c:1a02:1bae:e24f:43ff:fee6:449f])
-        by smtp.gmail.com with ESMTPSA id b8sm20813105pfv.56.2021.10.25.10.20.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Oct 2021 10:20:25 -0700 (PDT)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Mon, 25 Oct 2021 07:20:23 -1000
-From:   Tejun Heo <tj@kernel.org>
-To:     Boqun Feng <boqun.feng@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH v2] workqueue: doc: Call out the non-reentrance conditions
-Message-ID: <YXbnV8wbrL5LEZZP@slm.duckdns.org>
-References: <20211022004208.350992-1-boqun.feng@gmail.com>
+        id S232594AbhJYSU1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Oct 2021 14:20:27 -0400
+Received: from ink.ssi.bg ([178.16.128.7]:43435 "EHLO ink.ssi.bg"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231512AbhJYSUZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 25 Oct 2021 14:20:25 -0400
+X-Greylist: delayed 321 seconds by postgrey-1.27 at vger.kernel.org; Mon, 25 Oct 2021 14:20:25 EDT
+Received: from ja.ssi.bg (unknown [178.16.129.10])
+        by ink.ssi.bg (Postfix) with ESMTPS id DAE5F3C09C0;
+        Mon, 25 Oct 2021 21:12:36 +0300 (EEST)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+        by ja.ssi.bg (8.16.1/8.16.1) with ESMTP id 19PICXia016733;
+        Mon, 25 Oct 2021 21:12:35 +0300
+Date:   Mon, 25 Oct 2021 21:12:33 +0300 (EEST)
+From:   Julian Anastasov <ja@ssi.bg>
+To:     yangxingwu <xingwu.yang@gmail.com>
+cc:     Simon Horman <horms@verge.net.au>, pablo@netfilter.org,
+        kadlec@netfilter.org, fw@strlen.de,
+        "David S. Miller" <davem@davemloft.net>, kuba@kernel.org,
+        netdev@vger.kernel.org, lvs-devel@vger.kernel.org,
+        netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, corbet@lwn.net
+Subject: Re: [PATCH] ipvs: Fix reuse connection if RS weight is 0
+In-Reply-To: <20211025115910.2595-1-xingwu.yang@gmail.com>
+Message-ID: <707b5fb3-6b61-c53-e983-bc1373aa2bf@ssi.bg>
+References: <20211025115910.2595-1-xingwu.yang@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211022004208.350992-1-boqun.feng@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 22, 2021 at 08:42:08AM +0800, Boqun Feng wrote:
-> The current doc of workqueue API suggests that work items are
-> non-reentrant: any work item is guaranteed to be executed by at most one
-> worker system-wide at any given time. However this is not true, the
-> following case can cause a work item W executed by two workers at
-> the same time:
-> 
->         queue_work_on(0, WQ1, W);
->         // after a worker picks up W and clear the pending bit
->         queue_work_on(1, WQ2, W);
->         // workers on CPU0 and CPU1 will execute W in the same time.
-> 
-> , which means the non-reentrance of a work item is conditional, and
-> Lai Jiangshan provided a nice summary[1] of the conditions, therefore
-> use it to describe a work item instance and improve the doc.
-> 
-> [1]: https://lore.kernel.org/lkml/CAJhGHyDudet_xyNk=8xnuO2==o-u06s0E0GZVP4Q67nmQ84Ceg@mail.gmail.com/
-> 
-> Suggested-by: Matthew Wilcox <willy@infradead.org>
-> Suggested-by: Tejun Heo <tj@kernel.org>
-> Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
 
-Applied to wq/for-5.16.
+	Hello,
 
-Thanks.
+On Mon, 25 Oct 2021, yangxingwu wrote:
 
--- 
-tejun
+> Since commit dc7b3eb900aa ("ipvs: Fix reuse connection if real server is
+> dead"), new connections to dead servers are redistributed immediately to
+> new servers.
+> 
+> Then commit d752c3645717 ("ipvs: allow rescheduling of new connections when
+> port reuse is detected") disable expire_nodest_conn if conn_reuse_mode is
+> 0. And new connection may be distributed to a real server with weight 0.
+
+	Your change does not look correct to me. At the time
+expire_nodest_conn was created, it was not checked when
+weight is 0. At different places different terms are used
+but in short, we have two independent states for real server:
+
+- inhibited: weight=0 and no new connections should be served,
+	packets for existing connections can be routed to server
+	if it is still available and packets are not dropped
+	by expire_nodest_conn.
+	The new feature is that port reuse detection can
+	redirect the new TCP connection into a new IPVS conn and
+	to expire the existing cp/ct.
+
+- unavailable (!IP_VS_DEST_F_AVAILABLE): server is removed,
+	can be temporary, drop traffic for existing connections
+	but on expire_nodest_conn we can select different server
+
+	The new conn_reuse_mode flag allows port reuse to
+be detected. Only then expire_nodest_conn has the
+opportunity with commit dc7b3eb900aa to check weight=0
+and to consider the old traffic as finished. If a new
+server is selected, any retrans from previous connection
+would be considered as part from the new connection. It
+is a rapid way to switch server without checking with
+is_new_conn_expected() because we can not have many
+conns/conntracks to different servers.
+
+> Signed-off-by: yangxingwu <xingwu.yang@gmail.com>
+> ---
+>  Documentation/networking/ipvs-sysctl.rst | 3 +--
+>  net/netfilter/ipvs/ip_vs_core.c          | 5 +++--
+>  2 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/networking/ipvs-sysctl.rst b/Documentation/networking/ipvs-sysctl.rst
+> index 2afccc63856e..1cfbf1add2fc 100644
+> --- a/Documentation/networking/ipvs-sysctl.rst
+> +++ b/Documentation/networking/ipvs-sysctl.rst
+> @@ -37,8 +37,7 @@ conn_reuse_mode - INTEGER
+>  
+>  	0: disable any special handling on port reuse. The new
+>  	connection will be delivered to the same real server that was
+> -	servicing the previous connection. This will effectively
+> -	disable expire_nodest_conn.
+> +	servicing the previous connection.
+>  
+>  	bit 1: enable rescheduling of new connections when it is safe.
+>  	That is, whenever expire_nodest_conn and for TCP sockets, when
+> diff --git a/net/netfilter/ipvs/ip_vs_core.c b/net/netfilter/ipvs/ip_vs_core.c
+> index 128690c512df..9279aed69e23 100644
+> --- a/net/netfilter/ipvs/ip_vs_core.c
+> +++ b/net/netfilter/ipvs/ip_vs_core.c
+> @@ -2042,14 +2042,15 @@ ip_vs_in(struct netns_ipvs *ipvs, unsigned int hooknum, struct sk_buff *skb, int
+>  			     ipvs, af, skb, &iph);
+>  
+>  	conn_reuse_mode = sysctl_conn_reuse_mode(ipvs);
+> -	if (conn_reuse_mode && !iph.fragoffs && is_new_conn(skb, &iph) && cp) {
+> +	if (!iph.fragoffs && is_new_conn(skb, &iph) && cp) {
+>  		bool old_ct = false, resched = false;
+>  
+>  		if (unlikely(sysctl_expire_nodest_conn(ipvs)) && cp->dest &&
+>  		    unlikely(!atomic_read(&cp->dest->weight))) {
+>  			resched = true;
+>  			old_ct = ip_vs_conn_uses_old_conntrack(cp, skb);
+> -		} else if (is_new_conn_expected(cp, conn_reuse_mode)) {
+> +		} else if (conn_reuse_mode &&
+> +			   is_new_conn_expected(cp, conn_reuse_mode)) {
+>  			old_ct = ip_vs_conn_uses_old_conntrack(cp, skb);
+>  			if (!atomic_read(&cp->n_control)) {
+>  				resched = true;
+> -- 
+> 2.30.2
+
+Regards
+
+--
+Julian Anastasov <ja@ssi.bg>
