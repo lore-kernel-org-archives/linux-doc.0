@@ -2,134 +2,167 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8B86C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 14:49:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7221C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 14:55:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A188160C40
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 14:49:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 97DE760EFF
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 14:55:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233639AbhJYOvb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Oct 2021 10:51:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44380 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233364AbhJYOup (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 25 Oct 2021 10:50:45 -0400
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 71EE960C40;
-        Mon, 25 Oct 2021 14:48:20 +0000 (UTC)
-Date:   Mon, 25 Oct 2021 10:48:19 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Tiezhu Yang <yangtiezhu@loongson.cn>
-Cc:     Masami Hiramatsu <mhiramat@kernel.org>, naveen.n.rao@linux.ibm.com,
-        anil.s.keshavamurthy@intel.com, davem@davemloft.net,
-        corbet@lwn.net, ananth@in.ibm.com, akpm@linux-foundation.org,
-        randy.dunlap@oracle.com, mathieu.desnoyers@polymtl.ca,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/4] MAINTAINERS: Add git tree and missing files for
- KPROBES
-Message-ID: <20211025104819.66404060@gandalf.local.home>
-In-Reply-To: <c10e50c8-081b-aca6-eefe-eac463cb5a30@loongson.cn>
-References: <1635132660-5038-1-git-send-email-yangtiezhu@loongson.cn>
-        <1635132660-5038-5-git-send-email-yangtiezhu@loongson.cn>
-        <20211025153821.baa3f5d90fd40943ee28d2e1@kernel.org>
-        <c10e50c8-081b-aca6-eefe-eac463cb5a30@loongson.cn>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        id S233367AbhJYO5Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Oct 2021 10:57:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46226 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233002AbhJYO5Y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Oct 2021 10:57:24 -0400
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEE07C061745;
+        Mon, 25 Oct 2021 07:55:01 -0700 (PDT)
+Received: by mail-qt1-x829.google.com with SMTP id v17so10549751qtp.1;
+        Mon, 25 Oct 2021 07:55:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+lhcq3mtoqVS+aHWU0W9BXR1xARM/S8unL7B46ETl5A=;
+        b=eubAxmKNf0HGfyvCVJaJcBGu3LC/0zm6EM5SL47XSI+2kMoZ5hYfDNgv5xKK7/llki
+         CWYHSNa2kva472UlnrI1JLjqNvBQlbr42lpepor2zK3LX1ewz8rL1nchV6oq+gJKM6qz
+         8BijkyhohWnD5Dwj2rfTXBQwAC1+Uj2prtXaPD4aJFmIaJdvbAAdhx9jDeiOn1L1/tJh
+         axHQvPqiNOeJwY75NqdDV+SsOagS5GOPnaO3Ro4O6RRLtiHGapmEoiMLtuCYEq+E6kW9
+         1tDztmMMF3Xn6Pyj2wqibMtVGwNFAswwUcIQLPRhVsSawGrjWSjhRf2WbfwaJ2qVXt+0
+         z+nA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+lhcq3mtoqVS+aHWU0W9BXR1xARM/S8unL7B46ETl5A=;
+        b=VBwLaxYAwjD7nEu3rSVbktHiFOqaY8Go1i3cL60Mu86zElBaj3n8Yac6xHxRH/JJcT
+         XGxHWpPM4JM+JPfmzWp/C7pXOBFmz+KQZ1EgGBlqENfK/ksWaqgghkYD22yBDCbcUV9Y
+         kxjZ40o8Z4Xr0sJ2f2iLFHeW8RlQTZiI3yTQWp4JM2BRdfykyJ+6V4nCoMtIhlOoHLw5
+         zVOyLWuUDrZHmc0xebtlVLxN1rU+tlmoVhri67pzKbC5uNcMlxHsbc/f6B6w4QG38rRh
+         PhrWcA4mQz4qt+6bskleryysNeeSmQf7AYN5BFXZWYhgJZSst/qAR0CmafGLn6caCArN
+         OKvw==
+X-Gm-Message-State: AOAM531CfU8UmU5w9jKr1VD8cUXrEhzsiDQBiu2HvttJsyIDZRzq7Nf3
+        /+iWqp0E19hsrh7HBd3R+sk=
+X-Google-Smtp-Source: ABdhPJxuS5WBX79fRoguMv16c828fhnrk028h32D5bckw+tTO4RAOVfZcayqGjp0ks7eLCdmHgDCFg==
+X-Received: by 2002:ac8:42dd:: with SMTP id g29mr18193067qtm.168.1635173700971;
+        Mon, 25 Oct 2021 07:55:00 -0700 (PDT)
+Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com. [66.111.4.227])
+        by smtp.gmail.com with ESMTPSA id n2sm9080420qtk.8.2021.10.25.07.54.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Oct 2021 07:55:00 -0700 (PDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailauth.nyi.internal (Postfix) with ESMTP id A918A27C0054;
+        Mon, 25 Oct 2021 10:54:58 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Mon, 25 Oct 2021 10:54:58 -0400
+X-ME-Sender: <xms:QMV2YY0gD-SzxpAds7Sh8V81jcseKzqFuuV-M-Gb6IrbwiIE4AOq7A>
+    <xme:QMV2YTGmoUHxwZXYCBhrVhB8MbNgTuLvwK1Wk-AAUbn7VC0fiBtr7tjbJdG1F4deJ
+    L8NtokQWE4X3URnkQ>
+X-ME-Received: <xmr:QMV2YQ4hsNdiAb4cpJowHyztwvdgkGusXJ9So9Uk5Cbl8B4fChUY6OotZ9uqRQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdefhedgheehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    goufhorhhtvggutfgvtghiphdvucdlgedtmdenucfjughrpefhvffufffkofgggfestdek
+    redtredttdenucfhrhhomhepuehoqhhunhcuhfgvnhhguceosghoqhhunhdrfhgvnhhgse
+    hgmhgrihhlrdgtohhmqeenucggtffrrghtthgvrhhnpeeiueevjeelheduteefveeflefg
+    jeetfeehvdekudekgfegudeghfduhfetveejudenucffohhmrghinhepkhgvrhhnvghlrd
+    horhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
+    sghoqhhunhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqieelvdeghedtie
+    egqddujeejkeehheehvddqsghoqhhunhdrfhgvnhhgpeepghhmrghilhdrtghomhesfhhi
+    gihmvgdrnhgrmhgv
+X-ME-Proxy: <xmx:QMV2YR0TfPV50jKFn8AXvqcSBlObruKTsCE-BdzGx53h-qAQxyGrpw>
+    <xmx:QMV2YbH1___Tf_EKXBrRrWb6KAP38rdByaiu8CRlGdT5H7CuH4UaXA>
+    <xmx:QMV2Ya8-y3TA2J_4Fa7U1hVrcUb3FJzmyOyo_WmsedLStuTtSexDvg>
+    <xmx:QsV2YWnxSB5CSBpAiD5fiJO33gpy5d8W689_meCWGxJhg_1aotp3grzgcEQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 25 Oct 2021 10:54:55 -0400 (EDT)
+From:   Boqun Feng <boqun.feng@gmail.com>
+To:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     "Paul E . McKenney " <paulmck@kernel.org>,
+        Dan Lustig <dlustig@nvidia.com>, Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Peter Anvin <hpa@zytor.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Vince Weaver <vincent.weaver@maine.edu>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@redhat.com>,
+        Stephane Eranian <eranian@google.com>, palmer@dabbelt.com,
+        paul.walmsley@sifive.com, mpe@ellerman.id.au,
+        Jonathan Corbet <corbet@lwn.net>,
+        Boqun Feng <boqun.feng@gmail.com>
+Subject: [RFC v2 0/3] memory model: Make unlock(A)+lock(B) on the same CPU RCtso
+Date:   Mon, 25 Oct 2021 22:54:13 +0800
+Message-Id: <20211025145416.698183-1-boqun.feng@gmail.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 25 Oct 2021 16:31:07 +0800
-Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
+Hi,
 
-> On 10/25/2021 02:38 PM, Masami Hiramatsu wrote:
-> > On Mon, 25 Oct 2021 11:31:00 +0800
-> > Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
-> >  
-> >> There is no git tree for KPROBES in MAINTAINERS, it is not convinent to
-> >> rebase, lib/test_kprobes.c and samples/kprobes belong to kprobe, add them.
-> >>
-> >> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
-> >> ---
-> >>   MAINTAINERS | 3 +++
-> >>   1 file changed, 3 insertions(+)
-> >>
-> >> diff --git a/MAINTAINERS b/MAINTAINERS
-> >> index 4372473..0e9bc60 100644
-> >> --- a/MAINTAINERS
-> >> +++ b/MAINTAINERS
-> >> @@ -10506,10 +10506,13 @@ M:	Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>
-> >>   M:	"David S. Miller" <davem@davemloft.net>
-> >>   M:	Masami Hiramatsu <mhiramat@kernel.org>
-> >>   S:	Maintained
-> >> +T:	git git://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git  
-> > NACK. As I said, this branch was prepared when I discussed with tip maintainer
-> > on kretprobe stackfix series but now it has been maintained on Steve's tracing
-> > tree.
-> >
-> > Steve, should we put your tree here?  
-> 
+Just a new version trying to make forward progress on this  ;-)
 
-I'm fine if kprobes goes through my tree.
+v1: https://lore.kernel.org/lkml/20210930130823.2103688-1-boqun.feng@gmail.com/
 
-> If yes, should I update patch #4 and then send a v2 version of this 
-> patch set?
-> 
-> @@ -10505,11 +10505,16 @@ M:    Naveen N. Rao <naveen.n.rao@linux.ibm.com>
->   M:     Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>
->   M:     "David S. Miller" <davem@davemloft.net>
->   M:     Masami Hiramatsu <mhiramat@kernel.org>
-> +L:     linux-trace-devel@vger.kernel.org
+Changes since v1:
 
-Please do not add the above mailing list. That's more for tracing tools
-like trace-cmd, kernelshark and the libtracefs/libtraceevent libraries.
-Only API changes (additions) should go to that list. Not internal updates.
+*	Split the patch into three to help resolve the litmus test
+	addition discussion.
+*	Add some explanation in patch #2 on the requirement of tests in
+	litmus-tests directory.
 
->   S:     Maintained
-> +Q:     https://patchwork.kernel.org/project/linux-trace-devel/list/
+To summarize the change in memory model, we now guarantee in the
+following code:
 
-And this too is for the tracing tools, not the kernel. The patches status
-on that patchwork do not get updated by changes to the kernel. Only changes
-to the libraries and tool git trees will update those patches.
+	<memory access M>
+	spin_unlock(A);
+	spin_lock(B);
+	<memory access N>
 
-> +T:     git 
-> git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace.git
->   F:     Documentation/trace/kprobes.rst
->   F:     include/asm-generic/kprobes.h
->   F:     include/linux/kprobes.h
->   F:     kernel/kprobes.c
-> +F:     lib/test_kprobes.c
-> +F:     samples/kprobes
-> 
-> By the way, it seems that we should also update the TRACING git tree [1]?
-> If yes, should I send the following change as a new patch #5 in the v2 
-> version
-> or do the following change in the above patch #4?
-> 
-> @@ -19065,8 +19070,10 @@ F:     drivers/char/tpm/
->   TRACING
->   M:     Steven Rostedt <rostedt@goodmis.org>
->   M:     Ingo Molnar <mingo@redhat.com>
-> +L:     linux-trace-devel@vger.kernel.org
+M is ordered against N unless M is a store and N is a load. More
+detailed examples of this guarantee can be found in patch #3.
 
-Again, don't add that list.
+Architecture maintainers, appreciate it that you can take a look at
+patch #3 and rest of whole set to confirm this guarantee works on your
+architectures.
 
->   S:     Maintained
-> -T:     git git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git 
-> perf/core
-> +Q:     https://patchwork.kernel.org/project/linux-trace-devel/list/
+Alan, I split the patchset into three patches because I do think we need
+some sort of patch #2 so that we can have consensus about whether merge
+patch #3 or not. I know you want to keep litmus-tests directory as
+simple as possible, but it won't hurt to document the requirement.
+Looking forwards to your thoughts ;-)
 
-Nor the patchwork.
+Suggestion and comments are welcome!
 
-> +T:     git 
-> git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace.git
->   F:     Documentation/trace/ftrace.rst
->   F:     arch/*/*/*/ftrace.h
->   F:     arch/*/kernel/ftrace.c
-> 
+Regards,
+Boqun
 
--- Steve
+
+Boqun Feng (3):
+  tools/memory-model: Provide extra ordering for unlock+lock pair on the
+    same CPU
+  tools/memory-model: doc: Describe the requirement of the litmus-tests
+    directory
+  tools/memory-model: litmus: Add two tests for unlock(A)+lock(B)
+    ordering
+
+ .../Documentation/explanation.txt             | 44 +++++++++++--------
+ tools/memory-model/README                     | 12 +++++
+ tools/memory-model/linux-kernel.cat           |  6 +--
+ ...LB+unlocklockonceonce+poacquireonce.litmus | 33 ++++++++++++++
+ ...unlocklockonceonce+fencermbonceonce.litmus | 33 ++++++++++++++
+ tools/memory-model/litmus-tests/README        |  8 ++++
+ 6 files changed, 114 insertions(+), 22 deletions(-)
+ create mode 100644 tools/memory-model/litmus-tests/LB+unlocklockonceonce+poacquireonce.litmus
+ create mode 100644 tools/memory-model/litmus-tests/MP+unlocklockonceonce+fencermbonceonce.litmus
+
+-- 
+2.33.0
+
