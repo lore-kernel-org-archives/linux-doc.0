@@ -2,134 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD9CDC433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 20:02:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B12B5C4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 20:03:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A7298600CC
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 20:02:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 98119600CC
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 20:03:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237606AbhJYUFP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Oct 2021 16:05:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59214 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237827AbhJYUCU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Oct 2021 16:02:20 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12F5FC0432F4
-        for <linux-doc@vger.kernel.org>; Mon, 25 Oct 2021 12:25:30 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id y16-20020a2586d0000000b005b752db8f97so18708240ybm.18
-        for <linux-doc@vger.kernel.org>; Mon, 25 Oct 2021 12:25:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:cc;
-        bh=zTwkaja/2JWSasZvIIm+cYcdHeXbXK6HRxptMu06TGw=;
-        b=es0PIzo5QRe/gNbKP/B9WOwdGUjl3l9nyAvVGwTkzf/E0vFbRT43d5JLLX+0lCXYrj
-         IuV1P8y4Zn0oRJfSwiaEGxa/UiAZz8da4/F8a5EHSpnbwDi+6C0PA/Lnnyz29lNBruSh
-         BEGlpTgEM0+76Ouvm072oqAOIMtPb9D7p+/gImv+17JnzOioFBRX0d4dWauFZr5olSzv
-         UhAfDvqixN7XGXm2cyzJHyg8HKcwCorh+H8p1i15l4RoGG8g0z94TwyT/Skl05dI3NSQ
-         h9ac+zm++4zhUn2z0dbq4Z7N72HhEcHJQV0eDJka8cAB4CrPam/tgATotv94uLIo0ENt
-         s3lA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:cc;
-        bh=zTwkaja/2JWSasZvIIm+cYcdHeXbXK6HRxptMu06TGw=;
-        b=8OVjIaTUiKXKr+lUQCQeXt8JD0UB4OGGRrhtGzs5l+Eq9jpM5i4Bnz3Tzh3PxEksno
-         LJLiByF56OjO+3WGnkdEi5kDTMBaF3Hb7tYZwCtaATp4ZEwFDLiU8NH0mrxATc/N2j9Q
-         X9Eul+tKK1SKtGTyGI7wz+gGQHIWP8M1+fnQtzbTu66Sj5NhXMAdaJ80o0nrJaclX9Hd
-         mPge1hHe0IIIVZjT8E3SW3D3vg3wjcW94QwSwEOfqH83VIRpJ1ePs5jtT42a9h9WMn7L
-         kCvu9++hDM1X9v2VsP+Osmm5Kk5wM6zRRlSSg5ZCeXg11V2ke6+Okeg7SsU+hNHo+Olq
-         4UkQ==
-X-Gm-Message-State: AOAM533BkJ84ToMwOIDpRb+l16qF1SIckVMPWKVHqmkxt/Bm3BojjKEG
-        vQnh5M0s9PQ0e8zamxAHte0WKxW40LQFUWygbA==
-X-Google-Smtp-Source: ABdhPJynb9pf2F0DjhOaAmMkHMZpmL6519gTydu0ZsQZU9+8HWvfo2CFsZGDTuGlxXOTmpzBjpkKiYIVVkTGlU3T6g==
-X-Received: from kaleshsingh.mtv.corp.google.com ([2620:15c:211:200:b783:5702:523e:d435])
- (user=kaleshsingh job=sendgmr) by 2002:a25:400f:: with SMTP id
- n15mr21239484yba.497.1635189929323; Mon, 25 Oct 2021 12:25:29 -0700 (PDT)
-Date:   Mon, 25 Oct 2021 12:23:17 -0700
-In-Reply-To: <20211025192330.2992076-1-kaleshsingh@google.com>
-Message-Id: <20211025192330.2992076-7-kaleshsingh@google.com>
-Mime-Version: 1.0
-References: <20211025192330.2992076-1-kaleshsingh@google.com>
-X-Mailer: git-send-email 2.33.0.1079.g6e70778dc9-goog
-Subject: [PATCH v3 6/8] tracing/histogram: Optimize division by a power of 2
-From:   Kalesh Singh <kaleshsingh@google.com>
-Cc:     surenb@google.com, hridya@google.com, namhyung@kernel.org,
-        kernel-team@android.com, Kalesh Singh <kaleshsingh@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>, Shuah Khan <shuah@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Tom Zanussi <zanussi@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-To:     unlisted-recipients:; (no To-header on input)
+        id S238450AbhJYUFY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Oct 2021 16:05:24 -0400
+Received: from mga12.intel.com ([192.55.52.136]:60200 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S240517AbhJYUDU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 25 Oct 2021 16:03:20 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10148"; a="209833218"
+X-IronPort-AV: E=Sophos;i="5.87,181,1631602800"; 
+   d="scan'208";a="209833218"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2021 12:49:27 -0700
+X-IronPort-AV: E=Sophos;i="5.87,181,1631602800"; 
+   d="scan'208";a="446776866"
+Received: from smile.fi.intel.com ([10.237.72.184])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2021 12:49:23 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andy.shevchenko@gmail.com>)
+        id 1mf5xu-000xNZ-JJ;
+        Mon, 25 Oct 2021 22:49:02 +0300
+Date:   Mon, 25 Oct 2021 22:49:02 +0300
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+To:     Denis Pauk <pauk.denis@gmail.com>
+Cc:     eugene.shalygin@gmail.com, platform-driver-x86@vger.kernel.org,
+        thomas@weissschuh.net, Tor Vic <torvic9@mailbox.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 1/3] hwmon: (asus_wmi_ec_sensors) Support B550 Asus
+ WMI.
+Message-ID: <YXcKLvRu3gRm3zUF@smile.fi.intel.com>
+References: <20211022200032.23267-1-pauk.denis@gmail.com>
+ <20211022200032.23267-2-pauk.denis@gmail.com>
+ <YXcDcXrUo4a/KAsT@smile.fi.intel.com>
+ <YXcHYvleoOr6sqMK@smile.fi.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YXcHYvleoOr6sqMK@smile.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The division is a slow operation. If the divisor is a power of 2, use a
-shift instead.
+On Mon, Oct 25, 2021 at 10:37:06PM +0300, Andy Shevchenko wrote:
+> On Mon, Oct 25, 2021 at 10:20:17PM +0300, Andy Shevchenko wrote:
+> > On Fri, Oct 22, 2021 at 11:00:29PM +0300, Denis Pauk wrote:
 
-Results were obtained using Android's version of perf (simpleperf[1]) as
-described below:
+...
 
-1. hist_field_div() is modified to call 2 test functions:
-   test_hist_field_div_[not]_optimized(); passing them the
-   same args. Use noinline and volatile to ensure these are
-   not optimized out by the compiler.
-2. Create a hist event trigger that uses division:
-      events/kmem/rss_stat$ echo 'hist:keys=common_pid:x=size/<divisor>'
-         >> trigger
-      events/kmem/rss_stat$ echo 'hist:keys=common_pid:vals=$x'
-         >> trigger
-3. Run Android's lmkd_test[2] to generate rss_stat events, and
-   record CPU samples with Android's simpleperf:
-      simpleperf record -a --exclude-perf --post-unwind=yes -m 16384 -g
-         -f 2000 -o perf.data
+> > Below is a follow up, I have not compiled it.
+> > Feel free to take fully or partially.
 
-== Results ==
+Okay, here a few additional fixes (make them symmetrical and hope that
+it will compile now):
 
-Divisor is a power of 2 (divisor == 32):
-
-   test_hist_field_div_not_optimized  | 8,717,091 cpu-cycles
-   test_hist_field_div_optimized      | 1,643,137 cpu-cycles
-
-If the divisor is a power of 2, the optimized version is ~5.3x faster.
-
-Divisor is not a power of 2 (divisor == 33):
-
-   test_hist_field_div_not_optimized  | 4,444,324 cpu-cycles
-   test_hist_field_div_optimized      | 5,497,958 cpu-cycles
-
-If the divisor is not a power of 2, as expected, the optimized version is
-slightly slower (~24% slower).
-
-[1] https://android.googlesource.com/platform/system/extras/+/master/simpleperf/doc/README.md
-[2] https://cs.android.com/android/platform/superproject/+/master:system/memory/lmkd/tests/lmkd_test.cpp
-
-Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
-Suggested-by: Steven Rostedt <rostedt@goodmis.org>
-
----
- kernel/trace/trace_events_hist.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/kernel/trace/trace_events_hist.c b/kernel/trace/trace_events_hist.c
-index db28bcf976f4..364cb3091789 100644
---- a/kernel/trace/trace_events_hist.c
-+++ b/kernel/trace/trace_events_hist.c
-@@ -304,6 +304,10 @@ static u64 hist_field_div(struct hist_field *hist_field,
- 	if (!val2)
- 		return -1;
+diff --git a/drivers/hwmon/asus_wmi_ec_sensors.c b/drivers/hwmon/asus_wmi_ec_sensors.c
+index 870de5a7f20d..d39271b5e50c 100644
+--- a/drivers/hwmon/asus_wmi_ec_sensors.c
++++ b/drivers/hwmon/asus_wmi_ec_sensors.c
+@@ -261,10 +261,7 @@ static int asus_wmi_ec_fill_board_sensors(struct asus_wmi_ec_info *ec,
+ static int asus_wmi_ec_decode_reply_buffer(const u8 *in, u32 length, u8 *out)
+ {
+ 	char buffer[ASUSWMI_MAX_BUF_LEN * 2];
+-	u32 len;
+-
+-	/* Minimum of size of response and size of ACPI result (in bytes) */
+-	len = min_t(u32, in[0], length - 2);
++	u32 len = min_t(u32, get_unaligned_le16(in), length - 2);
  
-+	/* Use shift if the divisor is a power of 2 */
-+	if (!(val2 & (val2 - 1)))
-+		return val1 >> __ffs64(val2);
+ 	utf16s_to_utf8s((wchar_t *)(in + 2), len / 2, UTF16_LITTLE_ENDIAN, buffer, sizeof(buffer));
+ 
+@@ -274,13 +271,13 @@ static int asus_wmi_ec_decode_reply_buffer(const u8 *in, u32 length, u8 *out)
+ static void asus_wmi_ec_encode_registers(const u8 *in, u32 length, char *out)
+ {
+ 	char buffer[ASUSWMI_MAX_BUF_LEN * 2];
+-	u16 len = nr_registers * 2;
+-
+-	put_unaligned_le16(len * 2, out);
++	u32 len = length;
+ 
+ 	bin2hex(buffer, in, len);
+ 
+ 	utf8s_to_utf16s(buffer, len * 2, UTF16_LITTLE_ENDIAN, (wchar_t *)(out + 2), len);
 +
- 	return div64_u64(val1, val2);
++	put_unaligned_le16(len * 2, out);
  }
  
+ static void asus_wmi_ec_make_block_read_query(struct asus_wmi_ec_info *ec)
+@@ -298,7 +295,7 @@ static void asus_wmi_ec_make_block_read_query(struct asus_wmi_ec_info *ec)
+ 		}
+ 	}
+ 
+-	asus_wmi_ec_encode_registers(registers, ec->nr_registers, ec->read_arg);
++	asus_wmi_ec_encode_registers(registers, offset, ec->read_arg);
+ }
+ 
+ static int asus_wmi_ec_block_read(u32 method_id, char *query, u8 *out)
+
 -- 
-2.33.0.1079.g6e70778dc9-goog
+With Best Regards,
+Andy Shevchenko
+
 
