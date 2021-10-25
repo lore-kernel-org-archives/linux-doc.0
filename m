@@ -2,116 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AF02C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 09:06:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 666A7C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 09:35:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7BD6760F46
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 09:06:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5311660FD7
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 09:35:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232295AbhJYJJA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Oct 2021 05:09:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50218 "EHLO
+        id S232620AbhJYJhm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Oct 2021 05:37:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232273AbhJYJJA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Oct 2021 05:09:00 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34621C061745;
-        Mon, 25 Oct 2021 02:06:38 -0700 (PDT)
-Received: from ip4d173d4a.dynamic.kabel-deutschland.de ([77.23.61.74] helo=truhe.fritz.box); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1mevwB-0005ei-Se; Mon, 25 Oct 2021 11:06:35 +0200
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/1] docs: submitting-patches: make section about the Link: tag more explicit
-Date:   Mon, 25 Oct 2021 11:06:35 +0200
-Message-Id: <27105768dc19b395e7c8e7a80d056d1ff9c570d0.1635152553.git.linux@leemhuis.info>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1635152553.git.linux@leemhuis.info>
-References: <cover.1635152553.git.linux@leemhuis.info>
+        with ESMTP id S232627AbhJYJhl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Oct 2021 05:37:41 -0400
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36685C061745;
+        Mon, 25 Oct 2021 02:35:19 -0700 (PDT)
+Received: by mail-ed1-x52e.google.com with SMTP id l13so19877667edi.8;
+        Mon, 25 Oct 2021 02:35:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=RSWOPzNpv+gqobr9oD44cMNl/gjPokC+2ZSGAR+LGvc=;
+        b=a+5dD8ItWz4O5QFIzUEtGJoJsR951RDBjl81/f3t4cVyOqcgWrgIuY2AP49/K8n6Rd
+         /stIXbufTsTrDU495bT0dnLGUXJrdvk7ZKyyH6Zz1Aj1wpHXP378Aj9RCraqP9mTpmbH
+         icbT9i4jg/b4/D2yZEL+CWA+P1GecqsnekYdtxPX891Erk5Yn/eoaURCq2EqoISGvEXN
+         eSGui04a9h4g/RQgUrqrvK5QLHPw9r7c1inttYrSJ8M2kPLuPSqmZUCSqSVhow53Oazb
+         HI7YT04u3ZN+wAY5umc1PrwSY41CFxBRN04uTy6eRoZjbzWP4o+I+b11SILZWht/2ezm
+         w2Kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RSWOPzNpv+gqobr9oD44cMNl/gjPokC+2ZSGAR+LGvc=;
+        b=hsrhv8vuZqVHSjHT18IWA377hzbpU84D3eZRJwoNWFws728YhQkzLNXLe7yNg1CVsX
+         kTXwv6K99afq1Jqte+kJI1uUnX7wWDAGJm1X+ZauRhhBdro/3kGsS8BL/03xk1eqrQ5B
+         ocJ9kOtguKeW1L5HIztZt95n4TdnH8ZpP2OcxsXnnKd7rc2BUtN63D1hej08oea4p8u3
+         3PGjJv4SzPc7Qqom6iMMCFV4AnaUMc7UVksB2ILzKSh4elzr+W28/28M7lFUwI3q399P
+         WX7G6pGVemw5LhDfTH2gQeGzC/2B9XDoZOvlgn7w00+vBYvhRQWtsrYol2h6fgrKdpll
+         WY8w==
+X-Gm-Message-State: AOAM531QPyWfqG1Xj6czZc8TVkOrHDLalGBujVX1/3fcRgUoy1zePadp
+        MTr2F84OT5jxKns/r0UfxkZJujPZ1Nt45uIZHBjgfAE6pQFN2A==
+X-Google-Smtp-Source: ABdhPJx3+UgXIEBRlA9nUZuUcAiapUMwd/T0Yw/6DynvNGWRM7W9yjJVyzjCBVv6iOwqWGLngTX5Bl78AuEdwya0ox0=
+X-Received: by 2002:a05:6402:2031:: with SMTP id ay17mr25638264edb.240.1635154517795;
+ Mon, 25 Oct 2021 02:35:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1635152798;d914673d;
-X-HE-SMSGID: 1mevwB-0005ei-Se
+References: <20211022200032.23267-1-pauk.denis@gmail.com>
+In-Reply-To: <20211022200032.23267-1-pauk.denis@gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 25 Oct 2021 12:34:23 +0300
+Message-ID: <CAHp75VcvzBoY_avM2r-vQei+UCULU8oEYBdgM6dD7Yr3N69hvA@mail.gmail.com>
+Subject: Re: [PATCH v8 0/3] Update ASUS WMI supported boards
+To:     Denis Pauk <pauk.denis@gmail.com>
+Cc:     Eugene Shalygin <eugene.shalygin@gmail.com>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        thomas@weissschuh.net, Ed Brindley <kernel@maidavale.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mention the 'Link' tag in the section about adding URLs to the commit
-msg, to make it clearer they "_primarily_ [...] should be about
-background", as Linus recently stated (see the link below). That makes
-the explanation also easier to find with a text search. For the same
-reason and to improve comprehensibility provide an example, too.
+On Fri, Oct 22, 2021 at 11:01 PM Denis Pauk <pauk.denis@gmail.com> wrote:
+>
+> Update ASUS WMI supported boards
+>
+> Add support by WMI interface privided by Asus for B550/X570 boards:
 
-Slightly improve the text at the same time to make it more obvious
-developers are meant to add links to issue reports in mailing list
-archives, as those allow regression tracking efforts to automatically
-check which bugs got resolved.
+provided
 
-Move the section also downwards slightly, to reduce jumping back and
-forth between aspects relevant for the top and the bottom part of the
-commit msg.
+> * PRIME X570-PRO,
+> * ROG CROSSHAIR VIII HERO
+> * ROG CROSSHAIR VIII DARK HERO
+> * ROG CROSSHAIR VIII FORMULA
+> * ROG STRIX X570-E GAMING
+> * ROG STRIX B550-E GAMING
+>
+> Add support by WMI interface privided by Asus for X370/X470/
 
-Link: https://lore.kernel.org/lkml/CAHk-=wgBhyLhQLPem1vybKNt7BKP+=qF=veBgc7VirZaXn4FUw@mail.gmail.com/
-CC: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
----
- Documentation/process/submitting-patches.rst | 33 +++++++++++++-------
- 1 file changed, 22 insertions(+), 11 deletions(-)
+provided
 
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index b0f31aa82fcd..cbe9ddbe2775 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -96,17 +96,6 @@ instead of "[This patch] makes xyzzy do frotz" or "[I] changed xyzzy
- to do frotz", as if you are giving orders to the codebase to change
- its behaviour.
- 
--If the patch fixes a logged bug entry, refer to that bug entry by
--number and URL.  If the patch follows from a mailing list discussion,
--give a URL to the mailing list archive; use the https://lore.kernel.org/
--redirector with a ``Message-Id``, to ensure that the links cannot become
--stale.
--
--However, try to make your explanation understandable without external
--resources.  In addition to giving a URL to a mailing list archive or
--bug, summarize the relevant points of the discussion that led to the
--patch as submitted.
--
- If you want to refer to a specific commit, don't just refer to the
- SHA-1 ID of the commit. Please also include the oneline summary of
- the commit, to make it easier for reviewers to know what it is about.
-@@ -123,6 +112,28 @@ collisions with shorter IDs a real possibility.  Bear in mind that, even if
- there is no collision with your six-character ID now, that condition may
- change five years from now.
- 
-+If related discussions or any other background information behind the change
-+can be found on the web, add 'Link:' tags pointing to it. In case your patch
-+for example fixes a bug, add a tag with a URL referencing the report in the
-+mailing list archives or a bug tracker; if the patch is a result of some
-+earlier mailing list discussion or something documented on the web, point to
-+it.
-+
-+When linking to mailing list archives, preferably use the lore.kernel.org
-+message archiver service. To create the link URL, use the contents of the
-+``Message-Id`` header of the message without the surrounding angle brackets.
-+For example::
-+
-+    Link: https://lore.kernel.org/r/30th.anniversary.repost@klaava.Helsinki.FI/
-+
-+Please check the link to make sure that it is actually working and points
-+to the relevant message.
-+
-+However, try to make your explanation understandable without external
-+resources. In addition to giving a URL to a mailing list archive or bug,
-+summarize the relevant points of the discussion that led to the
-+patch as submitted.
-+
- If your patch fixes a bug in a specific commit, e.g. you found an issue using
- ``git bisect``, please use the 'Fixes:' tag with the first 12 characters of
- the SHA-1 ID, and the one line summary.  Do not split the tag across multiple
+> B450/X399 boards:
+> * ROG CROSSHAIR VI HERO,
+> * PRIME X399-A,
+> * PRIME X470-PRO,
+> * ROG CROSSHAIR VI EXTREME,
+> * ROG CROSSHAIR VI HERO (WI-FI AC),
+> * ROG CROSSHAIR VII HERO,
+> * ROG CROSSHAIR VII HERO (WI-FI),
+> * ROG STRIX B450-E GAMING,
+> * ROG STRIX B450-F GAMING,
+> * ROG STRIX B450-I GAMING,
+> * ROG STRIX X399-E GAMING,
+> * ROG STRIX X470-F GAMING,
+> * ROG STRIX X470-I GAMING,
+> * ROG ZENITH EXTREME,
+> * ROG ZENITH EXTREME ALPHA.
+>
+> Add support to nct6775:
+> * ProArt X570-CREATOR WIFI.
+>
+> Could you please review?
+
+> Signed-off-by: Denis Pauk <pauk.denis@gmail.com>
+> Signed-off-by: Ed Brindley <kernel@maidavale.org>
+> Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
+
+No need to have this in cover letter. But it's harmless, so up to you.
+
+I will look at it this week, I think we can still improve utf conversion code.
+
 -- 
-2.31.1
-
+With Best Regards,
+Andy Shevchenko
