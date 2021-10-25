@@ -2,81 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41FB3C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 16:40:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30186C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 17:20:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2555860F9D
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 16:40:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 134AB60F4F
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 17:20:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234068AbhJYQm1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Oct 2021 12:42:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47320 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234023AbhJYQmW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 25 Oct 2021 12:42:22 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E596B60F6F;
-        Mon, 25 Oct 2021 16:39:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1635179999;
-        bh=K0Kpvc0OulldRog10BpW9uV+5Ap0vvFVLeAAOvO4H6Y=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=W3RmhSzVFfh5RJ/cuqvdXTgiBWwrdIADre33R0XA8lX/bYr+rTg2+uE04KMImeqTC
-         oK2stpXwEsKB+egrAbxoTI4AoIUlCF/+nhMg20Z4eyryPT8Uf3bOLUpyKLEhoimC5/
-         bRbTG3oYIOzbrAjFFvO4CAOZn1J85p0IKWKaLw9nakpAQprfWr0JYltrdn51k+/rnM
-         tGSa/1kN/Wt/qqFJwzr/VjZ1DLGaf66v5AhszxT2oYgJ1ZFFJfpN5CejS67BN+hEzi
-         d9p+wsT0CUjgOyWms1JexN4NmnBYhH8bFmLOn+FlgpIw4ZxAhAFK1XTaQEioX1xVVc
-         7r5dlw/rWjv3Q==
-From:   Mark Brown <broonie@kernel.org>
-To:     John Keeping <john@metanate.com>, alsa-devel@alsa-project.org
-Cc:     Mark Brown <broonie@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
+        id S232342AbhJYRWu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Oct 2021 13:22:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52112 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230183AbhJYRWs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Oct 2021 13:22:48 -0400
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B5E8C061745;
+        Mon, 25 Oct 2021 10:20:26 -0700 (PDT)
+Received: by mail-pf1-x42e.google.com with SMTP id k26so11381035pfi.5;
+        Mon, 25 Oct 2021 10:20:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=bdG6zTkPGu9c4FKs3tg7miki1n8YFj1c71kLZtHP0Yk=;
+        b=HlPiDvf5Mmkmyy/HaH057fo86toFQwJNi1VAhkDPTbfw3Yurbl1vNS8KmrEtIi0jE+
+         QH1MtjboqxaouRgvKDlfSN5yKTKDHwD7XipxKDKTRxBisZ9/c5VpOQQ+JJWuOB3eGBj4
+         KyfOUSyLVZ4gmPNx3070+51Vg7vWwwnf2WNBXl50+3mhAP1xTxzF0imVRsGBupexejse
+         5ddk5JCds5HvJFAWlHSK++n2B/YOSzDHH3l6yyrLA/fGXhiYqbFMagyXE5iSb+ss2BnF
+         VY/Nh9eI7TcS/3Uee3bmLfaxZjDVv7a56tz2e6pNwQV3rLb9Cz1HSuPqMRHDxoTiV94c
+         PdxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=bdG6zTkPGu9c4FKs3tg7miki1n8YFj1c71kLZtHP0Yk=;
+        b=j8bhsiuKeSBDM1P9ukc9e/07U0uVj/RBUN1uQtOuCljQ9BYSkpir5dzI8uFsp7EtNF
+         PAos/cAGhCgE19RR18JVTX7Ci7OLlHPPzd5IbOx0Bdlj/hH6dJckE0aErwzVAw937UcK
+         fb5iEez/BDo0O+A/L2NifbtRm7TfPaN+BYCdD3fx4q03RFm4FqgQP4pEqg4wAt+KEVTy
+         8JrJnRIueSQsWn9pSvgbZ3gxQ5r5YASsgheo/bDzp2lv8LFOU+NM6jPC1vqWmAfBD8Ki
+         xaS6en5PjoGAfJ6T4zK4a2dXNS7cVatUsqzS/LAPf4dlP1BcXWVvrpChML1Jf9IApI+k
+         FeLg==
+X-Gm-Message-State: AOAM533W2ahu12iGt7l0kSdm9M1Nq+p1z4CpsOGYYlttUdScWZEJGyjQ
+        90UV+HYxT+EtZVObNBAewngrYbRiAT6MeQ==
+X-Google-Smtp-Source: ABdhPJwaBZgfZUvCNkZCvJc2kHpsZkVCvrwl6Zg6T8fHG/aLvHYURtVl6s5FiwOtMiRRD7tflFXS5Q==
+X-Received: by 2002:a63:b448:: with SMTP id n8mr14831028pgu.31.1635182425732;
+        Mon, 25 Oct 2021 10:20:25 -0700 (PDT)
+Received: from localhost (2603-800c-1a02-1bae-e24f-43ff-fee6-449f.res6.spectrum.com. [2603:800c:1a02:1bae:e24f:43ff:fee6:449f])
+        by smtp.gmail.com with ESMTPSA id b8sm20813105pfv.56.2021.10.25.10.20.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Oct 2021 10:20:25 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Mon, 25 Oct 2021 07:20:23 -1000
+From:   Tejun Heo <tj@kernel.org>
+To:     Boqun Feng <boqun.feng@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Frederic Weisbecker <frederic@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>
-Subject: Re: [PATCH] ASoC: doc: update codec example code
-Date:   Mon, 25 Oct 2021 17:39:29 +0100
-Message-Id: <163517996155.3558038.10361487855050489332.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211024151731.360638-1-john@metanate.com>
-References: <20211024151731.360638-1-john@metanate.com>
+        Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v2] workqueue: doc: Call out the non-reentrance conditions
+Message-ID: <YXbnV8wbrL5LEZZP@slm.duckdns.org>
+References: <20211022004208.350992-1-boqun.feng@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211022004208.350992-1-boqun.feng@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 24 Oct 2021 16:17:31 +0100, John Keeping wrote:
-> As the codec API has evolved the documentation has not kept up and still
-> uses old fields that have been removed.  Update the examples to
-> represent the current API.
+On Fri, Oct 22, 2021 at 08:42:08AM +0800, Boqun Feng wrote:
+> The current doc of workqueue API suggests that work items are
+> non-reentrant: any work item is guaranteed to be executed by at most one
+> worker system-wide at any given time. However this is not true, the
+> following case can cause a work item W executed by two workers at
+> the same time:
 > 
+>         queue_work_on(0, WQ1, W);
+>         // after a worker picks up W and clear the pending bit
+>         queue_work_on(1, WQ2, W);
+>         // workers on CPU0 and CPU1 will execute W in the same time.
 > 
+> , which means the non-reentrance of a work item is conditional, and
+> Lai Jiangshan provided a nice summary[1] of the conditions, therefore
+> use it to describe a work item instance and improve the doc.
+> 
+> [1]: https://lore.kernel.org/lkml/CAJhGHyDudet_xyNk=8xnuO2==o-u06s0E0GZVP4Q67nmQ84Ceg@mail.gmail.com/
+> 
+> Suggested-by: Matthew Wilcox <willy@infradead.org>
+> Suggested-by: Tejun Heo <tj@kernel.org>
+> Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
 
-Applied to
+Applied to wq/for-5.16.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Thanks.
 
-Thanks!
-
-[1/1] ASoC: doc: update codec example code
-      commit: a6d968a3e8f01bdc09fc397697ce27ef75392ce7
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+-- 
+tejun
