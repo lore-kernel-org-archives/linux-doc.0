@@ -2,153 +2,442 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45FD6C19772
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 19:57:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEEC8C4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 19:57:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2AEA960FE8
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 19:57:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C816160C4A
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 19:57:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237294AbhJYT7V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Oct 2021 15:59:21 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:9214 "EHLO
-        esa1.hgst.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238104AbhJYT4U (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Oct 2021 15:56:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1635191637; x=1666727637;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=GO7omq3rVi+V+CzKbzcTcJGYp29gXK/DeiBhKM0seGs=;
-  b=TC0wj2HlmcrAza1GR18WrKhtGvvC45vn/p8bS1+Zb6BQN+9tXMLaVcTY
-   iCEAYK9+LkcH2fpQW1x+4n5WuEeLInLaQXwC6d/p9gBJaiafJTK9+7Nba
-   SNbUeS2RkVARVhKCdM87gmFWGPt7LntGtmn+IMTySxeNCJ26X1l3TFlMg
-   svQXl7o6zvKSQzVyM1zoBgxQuqm5YsBTAbUrAY3WMAe0l7889xAnSKx5O
-   o7AzSYjQxEt0Dxpj/CQSRNYDgpzbs5STf4CXskvcAXSEOsanSaVUptgAC
-   USvwSmye+CIV0W7n9aHcqVh+bweicBzfHDmq1mPKLNYDz0mvXuz3xVUOz
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.87,181,1631548800"; 
-   d="scan'208";a="295545846"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
-  by ob1.hgst.iphmx.com with ESMTP; 26 Oct 2021 03:53:55 +0800
-IronPort-SDR: +ewxhMTBFDgxzIPAHSKAZhJZu8n/oyEy9xgtqHsMHYmSrfO5kOS1oGh9OskKpivO/bUNsscSms
- bCuiffED+Y7nnjKCx1XlmcHxsCwM4FK5HVkgqiMLdFCNh6EFDjREMCZCV89+AJlYQazl/3lRCE
- v8d6iaj4+AqTwfohMf3zQGTqkbHhIeQDxwXM9r0NcD1Zb23vyv+IHD5YYt5/1YjLnieZiTip7/
- kNBkuRhLsNGdaptKizZaANr8jsLVtlltgwbdb24ndQnUe8TMmZLy6RqoiNF4VEICOrVOurqTzo
- nyy/UJ7pj2GDTKMjid4K69vj
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
-  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2021 12:27:53 -0700
-IronPort-SDR: hpQC9zq/7VkwmF1ZoGH6Vdwe6qQ8dMUpLSNVbWkiYEX3/d8OQCy9jbdpx/Q9yXQoz3OuRoGXv3
- vjPEuqgXxvENKxY7Skq8zrYEHXd23316LcZp43E3N90YNTZmVzuwHFh6S9lfNNm28BLc4KQJ2B
- TqYAhhgPG2C7STOgQC/PeMqSMBvbbIaPiHvdQawdIBYr1c34eyvq/L/pShp27wI7biHxFs8B3p
- zi8wbsqLDQzcmFhtpANpgS9Xij9cFFym4dKh83QShSN7zjgaLtctRX79/b4KtkZ1AIfCdkXiCo
- 9LQ=
-WDCIronportException: Internal
-Received: from unknown (HELO hulk.wdc.com) ([10.225.167.27])
-  by uls-op-cesaip01.wdc.com with ESMTP; 25 Oct 2021 12:53:56 -0700
-From:   Atish Patra <atish.patra@wdc.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Atish Patra <atish.patra@wdc.com>, Anup Patel <anup.patel@wdc.com>,
-        David Abdurachmanov <david.abdurachmanov@sifive.com>,
-        devicetree@vger.kernel.org, Greentime Hu <greentime.hu@sifive.com>,
-        Guo Ren <guoren@linux.alibaba.com>,
-        Heinrich Schuchardt <xypron.glpk@gmx.de>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
-        Nick Kossifidis <mick@ics.forth.gr>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Vincent Chen <vincent.chen@sifive.com>
-Subject: [v4 02/11] RISC-V: Add CSR encodings for all HPMCOUNTERS
-Date:   Mon, 25 Oct 2021 12:53:41 -0700
-Message-Id: <20211025195350.242914-3-atish.patra@wdc.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211025195350.242914-1-atish.patra@wdc.com>
-References: <20211025195350.242914-1-atish.patra@wdc.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S237569AbhJYUAG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Oct 2021 16:00:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59124 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239838AbhJYT6F (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Oct 2021 15:58:05 -0400
+Received: from mail-pj1-x1049.google.com (mail-pj1-x1049.google.com [IPv6:2607:f8b0:4864:20::1049])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDD9DC110F30
+        for <linux-doc@vger.kernel.org>; Mon, 25 Oct 2021 12:24:28 -0700 (PDT)
+Received: by mail-pj1-x1049.google.com with SMTP id lt6-20020a17090b354600b001a232054fe5so134701pjb.5
+        for <linux-doc@vger.kernel.org>; Mon, 25 Oct 2021 12:24:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:cc;
+        bh=iRuPYXoXcrU+gBqRAGhoDpe/K+LXE+9n+7UkO6cV9+w=;
+        b=C/w3/Y+X9ucU0aKHe7sgjL9qLWwXwIDcQ05xFVMWZLvrVkP4c9emtFp5Uxzs79/crJ
+         yvRsNl6KDxBFprdibyFW3P+jHgiVZDAaN68RjIr8nCgtVzVQ+TZ1gAd/aRmBBuXORpxk
+         VrmFb4cooL3PG+8ZX8M6ESNLSCJF0BUef4Vm5eOHz1PCWTymCZi/AuRl9r78fvXLM1zH
+         VwZAqF5e4mrEGCv74MeMV7Ow5jtoFAJRzwWlVX03W0KlUULI+GTVTM3Geu9OqcoGbUqc
+         lI04VXu/EPGxxRcHR1cVup5CagWGl6NI4OODPdl6iu0nL9nVDaitA/vhLY0N1s7bXOcs
+         cSjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:cc;
+        bh=iRuPYXoXcrU+gBqRAGhoDpe/K+LXE+9n+7UkO6cV9+w=;
+        b=VHhqzIl239cFfuDpvAkUIhW91cGjI7wzNVZLAmyy6g/bWNpfMluh1KtszDKLGzvam2
+         GcKSaeLuSYN3EWpAS+LtmCXP09G+an5Ys/8DJGqFs/bWpHKMN7OJ4sXmuIdIW2zX6xM9
+         daeUa/ucNe31XJ1hz3k5HsX6gXhL1ynu+LHE/5ytmcOHzufNzeCzLMUmYElfW7y4tl7p
+         1GSLYK5JwMM0WjSlNBKT1X5443r1LcAR2AjFK6VZcyG5+bRNllgwGcPn2yK6cyKxPWOC
+         rsSuhpYbPC4vr6qAmE3LKXAS8vdn+LeHYUlac/Z6Srcavpvd8wOyk4n7BvQSVfLp5IOi
+         oPWA==
+X-Gm-Message-State: AOAM530ROdK+uOYq8lKpWVHrnToM4Xx7u0Z/dc9/9AVEZWt3NyRIBP4O
+        YG4SUw3pJkSisFisyGxulDGfm5rQhlwIkH9hwQ==
+X-Google-Smtp-Source: ABdhPJyOaT7f+j9Oif9wq26bb+2Vo9pdLPQEuCnvGRv9tJLI2vMGL2UwUS06rSguFhA58+v2E0HYvItJoLSR56xIwQ==
+X-Received: from kaleshsingh.mtv.corp.google.com ([2620:15c:211:200:b783:5702:523e:d435])
+ (user=kaleshsingh job=sendgmr) by 2002:a17:902:db02:b0:140:581e:6eb5 with
+ SMTP id m2-20020a170902db0200b00140581e6eb5mr7017995plx.46.1635189868271;
+ Mon, 25 Oct 2021 12:24:28 -0700 (PDT)
+Date:   Mon, 25 Oct 2021 12:23:14 -0700
+In-Reply-To: <20211025192330.2992076-1-kaleshsingh@google.com>
+Message-Id: <20211025192330.2992076-4-kaleshsingh@google.com>
+Mime-Version: 1.0
+References: <20211025192330.2992076-1-kaleshsingh@google.com>
+X-Mailer: git-send-email 2.33.0.1079.g6e70778dc9-goog
+Subject: [PATCH v3 3/8] tracing: Fix operator precedence for hist triggers expression
+From:   Kalesh Singh <kaleshsingh@google.com>
+Cc:     surenb@google.com, hridya@google.com, namhyung@kernel.org,
+        kernel-team@android.com, Kalesh Singh <kaleshsingh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>, Shuah Khan <shuah@kernel.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Tom Zanussi <zanussi@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Signed-off-by: Atish Patra <atish.patra@wdc.com>
----
- arch/riscv/include/asm/csr.h | 58 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 58 insertions(+)
+The current histogram expression evaluation logic evaluates the
+expression from right to left. This can lead to incorrect results
+if the operations are not associative (as is the case for subtraction
+and, the now added, division operators).
+	e.g. 16-8-4-2 should be 2 not 10 --> 16-8-4-2 = ((16-8)-4)-2
+	     64/8/4/2 should be 1 not 16 --> 64/8/4/2 = ((64/8)/4)/2
 
-diff --git a/arch/riscv/include/asm/csr.h b/arch/riscv/include/asm/csr.h
-index 87ac65696871..e4d369830af4 100644
---- a/arch/riscv/include/asm/csr.h
-+++ b/arch/riscv/include/asm/csr.h
-@@ -89,9 +89,67 @@
- #define CSR_CYCLE		0xc00
- #define CSR_TIME		0xc01
- #define CSR_INSTRET		0xc02
-+#define CSR_HPMCOUNTER3		0xc03
-+#define CSR_HPMCOUNTER4		0xc04
-+#define CSR_HPMCOUNTER5		0xc05
-+#define CSR_HPMCOUNTER6		0xc06
-+#define CSR_HPMCOUNTER7		0xc07
-+#define CSR_HPMCOUNTER8		0xc08
-+#define CSR_HPMCOUNTER9		0xc09
-+#define CSR_HPMCOUNTER10	0xc0a
-+#define CSR_HPMCOUNTER11	0xc0b
-+#define CSR_HPMCOUNTER12	0xc0c
-+#define CSR_HPMCOUNTER13	0xc0d
-+#define CSR_HPMCOUNTER14	0xc0e
-+#define CSR_HPMCOUNTER15	0xc0f
-+#define CSR_HPMCOUNTER16	0xc10
-+#define CSR_HPMCOUNTER17	0xc11
-+#define CSR_HPMCOUNTER18	0xc12
-+#define CSR_HPMCOUNTER19	0xc13
-+#define CSR_HPMCOUNTER20	0xc14
-+#define CSR_HPMCOUNTER21	0xc15
-+#define CSR_HPMCOUNTER22	0xc16
-+#define CSR_HPMCOUNTER23	0xc17
-+#define CSR_HPMCOUNTER24	0xc18
-+#define CSR_HPMCOUNTER25	0xc19
-+#define CSR_HPMCOUNTER26	0xc1a
-+#define CSR_HPMCOUNTER27	0xc1b
-+#define CSR_HPMCOUNTER28	0xc1c
-+#define CSR_HPMCOUNTER29	0xc1d
-+#define CSR_HPMCOUNTER30	0xc1e
-+#define CSR_HPMCOUNTER31	0xc1f
- #define CSR_CYCLEH		0xc80
- #define CSR_TIMEH		0xc81
- #define CSR_INSTRETH		0xc82
-+#define CSR_HPMCOUNTER3H	0xc83
-+#define CSR_HPMCOUNTER4H	0xc84
-+#define CSR_HPMCOUNTER5H	0xc85
-+#define CSR_HPMCOUNTER6H	0xc86
-+#define CSR_HPMCOUNTER7H	0xc87
-+#define CSR_HPMCOUNTER8H	0xc88
-+#define CSR_HPMCOUNTER9H	0xc89
-+#define CSR_HPMCOUNTER10H	0xc8a
-+#define CSR_HPMCOUNTER11H	0xc8b
-+#define CSR_HPMCOUNTER12H	0xc8c
-+#define CSR_HPMCOUNTER13H	0xc8d
-+#define CSR_HPMCOUNTER14H	0xc8e
-+#define CSR_HPMCOUNTER15H	0xc8f
-+#define CSR_HPMCOUNTER16H	0xc90
-+#define CSR_HPMCOUNTER17H	0xc91
-+#define CSR_HPMCOUNTER18H	0xc92
-+#define CSR_HPMCOUNTER19H	0xc93
-+#define CSR_HPMCOUNTER20H	0xc94
-+#define CSR_HPMCOUNTER21H	0xc95
-+#define CSR_HPMCOUNTER22H	0xc96
-+#define CSR_HPMCOUNTER23H	0xc97
-+#define CSR_HPMCOUNTER24H	0xc98
-+#define CSR_HPMCOUNTER25H	0xc99
-+#define CSR_HPMCOUNTER26H	0xc9a
-+#define CSR_HPMCOUNTER27H	0xc9b
-+#define CSR_HPMCOUNTER28H	0xc9c
-+#define CSR_HPMCOUNTER29H	0xc9d
-+#define CSR_HPMCOUNTER30H	0xc9e
-+#define CSR_HPMCOUNTER31H	0xc9f
+Division and multiplication are currently limited to single operation
+expression due to operator precedence support not yet implemented.
+
+Rework the expression parsing to support the correct evaluation of
+expressions containing operators of different precedences; and fix
+the associativity error by evaluating expressions with operators of
+the same precedence from left to right.
+
+Examples:
+        (1) echo 'hist:keys=common_pid:a=8,b=4,c=2,d=1,w=$a-$b-$c-$d' \
+                  >> event/trigger
+        (2) echo 'hist:keys=common_pid:x=$a/$b/3/2' >> event/trigger
+        (3) echo 'hist:keys=common_pid:y=$a+10/$c*1024' >> event/trigger
+        (4) echo 'hist:keys=common_pid:z=$a/$b+$c*$d' >> event/trigger
+
+Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
+Reviewed-by: Namhyung Kim <namhyung@kernel.org>
+---
+
+Changed in v2:
+  - Add Namhyung's Reviewed-by
+
+ kernel/trace/trace_events_hist.c | 210 ++++++++++++++++++++-----------
+ 1 file changed, 140 insertions(+), 70 deletions(-)
+
+diff --git a/kernel/trace/trace_events_hist.c b/kernel/trace/trace_events_hist.c
+index 522355a06f58..e10c7d9611e5 100644
+--- a/kernel/trace/trace_events_hist.c
++++ b/kernel/trace/trace_events_hist.c
+@@ -67,7 +67,9 @@
+ 	C(TOO_MANY_SORT_FIELDS,	"Too many sort fields (Max = 2)"),	\
+ 	C(INVALID_SORT_FIELD,	"Sort field must be a key or a val"),	\
+ 	C(INVALID_STR_OPERAND,	"String type can not be an operand in expression"), \
+-	C(EXPECT_NUMBER,	"Expecting numeric literal"),
++	C(EXPECT_NUMBER,	"Expecting numeric literal"),		\
++	C(UNARY_MINUS_SUBEXPR,	"Unary minus not supported in sub-expressions"), \
++	C(SYM_OFFSET_SUBEXPR,	".sym-offset not supported in sub-expressions"),
  
- #define CSR_SSTATUS		0x100
- #define CSR_SIE			0x104
+ #undef C
+ #define C(a, b)		HIST_ERR_##a
+@@ -1644,40 +1646,96 @@ static char *expr_str(struct hist_field *field, unsigned int level)
+ 	return expr;
+ }
+ 
+-static int contains_operator(char *str)
++/*
++ * If field_op != FIELD_OP_NONE, *sep points to the root operator
++ * of the expression tree to be evaluated.
++ */
++static int contains_operator(char *str, char **sep)
+ {
+ 	enum field_op_id field_op = FIELD_OP_NONE;
+-	char *op;
++	char *minus_op, *plus_op, *div_op, *mult_op;
++
++
++	/*
++	 * Report the last occurrence of the operators first, so that the
++	 * expression is evaluated left to right. This is important since
++	 * subtraction and division are not associative.
++	 *
++	 *	e.g
++	 *		64/8/4/2 is 1, i.e 64/8/4/2 = ((64/8)/4)/2
++	 *		14-7-5-2 is 0, i.e 14-7-5-2 = ((14-7)-5)-2
++	 */
+ 
+-	op = strpbrk(str, "+-/*");
+-	if (!op)
+-		return FIELD_OP_NONE;
++	/*
++	 * First, find lower precedence addition and subtraction
++	 * since the expression will be evaluated recursively.
++	 */
++	minus_op = strrchr(str, '-');
++	if (minus_op) {
++		/* Unfortunately, the modifier ".sym-offset" can confuse things. */
++		if (minus_op - str >= 4 && !strncmp(minus_op - 4, ".sym-offset", 11))
++			goto out;
+ 
+-	switch (*op) {
+-	case '-':
+ 		/*
+-		 * Unfortunately, the modifier ".sym-offset"
+-		 * can confuse things.
++		 * Unary minus is not supported in sub-expressions. If
++		 * present, it is always the next root operator.
+ 		 */
+-		if (op - str >= 4 && !strncmp(op - 4, ".sym-offset", 11))
+-			return FIELD_OP_NONE;
+-
+-		if (*str == '-')
++		if (minus_op == str) {
+ 			field_op = FIELD_OP_UNARY_MINUS;
+-		else
+-			field_op = FIELD_OP_MINUS;
+-		break;
+-	case '+':
+-		field_op = FIELD_OP_PLUS;
+-		break;
+-	case '/':
++			goto out;
++		}
++
++		field_op = FIELD_OP_MINUS;
++	}
++
++	plus_op = strrchr(str, '+');
++	if (plus_op || minus_op) {
++		/*
++		 * For operators of the same precedence use to rightmost as the
++		 * root, so that the expression is evaluated left to right.
++		 */
++		if (plus_op > minus_op)
++			field_op = FIELD_OP_PLUS;
++		goto out;
++	}
++
++	/*
++	 * Multiplication and division have higher precedence than addition and
++	 * subtraction.
++	 */
++	div_op = strrchr(str, '/');
++	if (div_op)
+ 		field_op = FIELD_OP_DIV;
+-		break;
+-	case '*':
++
++	mult_op = strrchr(str, '*');
++	/*
++	 * For operators of the same precedence use to rightmost as the
++	 * root, so that the expression is evaluated left to right.
++	 */
++	if (mult_op > div_op)
+ 		field_op = FIELD_OP_MULT;
+-		break;
+-	default:
+-		break;
++
++out:
++	if (sep) {
++		switch (field_op) {
++		case FIELD_OP_UNARY_MINUS:
++		case FIELD_OP_MINUS:
++			*sep = minus_op;
++			break;
++		case FIELD_OP_PLUS:
++			*sep = plus_op;
++			break;
++		case FIELD_OP_DIV:
++			*sep = div_op;
++			break;
++		case FIELD_OP_MULT:
++			*sep = mult_op;
++			break;
++		case FIELD_OP_NONE:
++		default:
++			*sep = NULL;
++			break;
++		}
+ 	}
+ 
+ 	return field_op;
+@@ -2003,7 +2061,7 @@ static char *field_name_from_var(struct hist_trigger_data *hist_data,
+ 
+ 		if (strcmp(var_name, name) == 0) {
+ 			field = hist_data->attrs->var_defs.expr[i];
+-			if (contains_operator(field) || is_var_ref(field))
++			if (contains_operator(field, NULL) || is_var_ref(field))
+ 				continue;
+ 			return field;
+ 		}
+@@ -2266,21 +2324,24 @@ static struct hist_field *parse_atom(struct hist_trigger_data *hist_data,
+ static struct hist_field *parse_expr(struct hist_trigger_data *hist_data,
+ 				     struct trace_event_file *file,
+ 				     char *str, unsigned long flags,
+-				     char *var_name, unsigned int level);
++				     char *var_name, unsigned int *n_subexprs);
+ 
+ static struct hist_field *parse_unary(struct hist_trigger_data *hist_data,
+ 				      struct trace_event_file *file,
+ 				      char *str, unsigned long flags,
+-				      char *var_name, unsigned int level)
++				      char *var_name, unsigned int *n_subexprs)
+ {
+ 	struct hist_field *operand1, *expr = NULL;
+ 	unsigned long operand_flags;
+ 	int ret = 0;
+ 	char *s;
+ 
++	/* Unary minus operator, increment n_subexprs */
++	++*n_subexprs;
++
+ 	/* we support only -(xxx) i.e. explicit parens required */
+ 
+-	if (level > 3) {
++	if (*n_subexprs > 3) {
+ 		hist_err(file->tr, HIST_ERR_TOO_MANY_SUBEXPR, errpos(str));
+ 		ret = -EINVAL;
+ 		goto free;
+@@ -2297,8 +2358,16 @@ static struct hist_field *parse_unary(struct hist_trigger_data *hist_data,
+ 	}
+ 
+ 	s = strrchr(str, ')');
+-	if (s)
++	if (s) {
++		 /* unary minus not supported in sub-expressions */
++		if (*(s+1) != '\0') {
++			hist_err(file->tr, HIST_ERR_UNARY_MINUS_SUBEXPR,
++				 errpos(str));
++			ret = -EINVAL;
++			goto free;
++		}
+ 		*s = '\0';
++	}
+ 	else {
+ 		ret = -EINVAL; /* no closing ')' */
+ 		goto free;
+@@ -2312,7 +2381,7 @@ static struct hist_field *parse_unary(struct hist_trigger_data *hist_data,
+ 	}
+ 
+ 	operand_flags = 0;
+-	operand1 = parse_expr(hist_data, file, str, operand_flags, NULL, ++level);
++	operand1 = parse_expr(hist_data, file, str, operand_flags, NULL, n_subexprs);
+ 	if (IS_ERR(operand1)) {
+ 		ret = PTR_ERR(operand1);
+ 		goto free;
+@@ -2382,60 +2451,61 @@ static int check_expr_operands(struct trace_array *tr,
+ static struct hist_field *parse_expr(struct hist_trigger_data *hist_data,
+ 				     struct trace_event_file *file,
+ 				     char *str, unsigned long flags,
+-				     char *var_name, unsigned int level)
++				     char *var_name, unsigned int *n_subexprs)
+ {
+ 	struct hist_field *operand1 = NULL, *operand2 = NULL, *expr = NULL;
+ 	unsigned long operand_flags;
+ 	int field_op, ret = -EINVAL;
+ 	char *sep, *operand1_str;
+ 
+-	if (level > 3) {
++	if (*n_subexprs > 3) {
+ 		hist_err(file->tr, HIST_ERR_TOO_MANY_SUBEXPR, errpos(str));
+ 		return ERR_PTR(-EINVAL);
+ 	}
+ 
+-	field_op = contains_operator(str);
++	/*
++	 * ".sym-offset" in expressions has no effect on their evaluation,
++	 * but can confuse operator parsing.
++	 */
++	if (*n_subexprs == 0) {
++		sep = strstr(str, ".sym-offset");
++		if (sep) {
++			*sep = '\0';
++			if (strpbrk(str, "+-/*") || strpbrk(sep + 11, "+-/*")) {
++				*sep = '.';
++				hist_err(file->tr, HIST_ERR_SYM_OFFSET_SUBEXPR,
++					 errpos(sep));
++				return ERR_PTR(-EINVAL);
++			}
++			*sep = '.';
++		}
++	}
++
++	field_op = contains_operator(str, &sep);
+ 
+ 	if (field_op == FIELD_OP_NONE)
+ 		return parse_atom(hist_data, file, str, &flags, var_name);
+ 
+ 	if (field_op == FIELD_OP_UNARY_MINUS)
+-		return parse_unary(hist_data, file, str, flags, var_name, ++level);
++		return parse_unary(hist_data, file, str, flags, var_name, n_subexprs);
+ 
+-	switch (field_op) {
+-	case FIELD_OP_MINUS:
+-		sep = "-";
+-		break;
+-	case FIELD_OP_PLUS:
+-		sep = "+";
+-		break;
+-	case FIELD_OP_DIV:
+-		sep = "/";
+-		break;
+-	case FIELD_OP_MULT:
+-		sep = "*";
+-		break;
+-	default:
+-		goto free;
+-	}
++	/* Binary operator found, increment n_subexprs */
++	++*n_subexprs;
+ 
+-	/*
+-	 * Multiplication and division are only supported in single operator
+-	 * expressions, since the expression is always evaluated from right
+-	 * to left.
+-	 */
+-	if ((field_op == FIELD_OP_DIV || field_op == FIELD_OP_MULT) && level > 0) {
+-		hist_err(file->tr, HIST_ERR_TOO_MANY_SUBEXPR, errpos(str));
+-		return ERR_PTR(-EINVAL);
+-	}
++	/* Split the expression string at the root operator */
++	if (!sep)
++		goto free;
++	*sep = '\0';
++	operand1_str = str;
++	str = sep+1;
+ 
+-	operand1_str = strsep(&str, sep);
+ 	if (!operand1_str || !str)
+ 		goto free;
+ 
+ 	operand_flags = 0;
+-	operand1 = parse_atom(hist_data, file, operand1_str,
+-			      &operand_flags, NULL);
++
++	/* LHS of string is an expression e.g. a+b in a+b+c */
++	operand1 = parse_expr(hist_data, file, operand1_str, operand_flags, NULL, n_subexprs);
+ 	if (IS_ERR(operand1)) {
+ 		ret = PTR_ERR(operand1);
+ 		operand1 = NULL;
+@@ -2447,9 +2517,9 @@ static struct hist_field *parse_expr(struct hist_trigger_data *hist_data,
+ 		goto free;
+ 	}
+ 
+-	/* rest of string could be another expression e.g. b+c in a+b+c */
++	/* RHS of string is another expression e.g. c in a+b+c */
+ 	operand_flags = 0;
+-	operand2 = parse_expr(hist_data, file, str, operand_flags, NULL, ++level);
++	operand2 = parse_expr(hist_data, file, str, operand_flags, NULL, n_subexprs);
+ 	if (IS_ERR(operand2)) {
+ 		ret = PTR_ERR(operand2);
+ 		operand2 = NULL;
+@@ -3883,9 +3953,9 @@ static int __create_val_field(struct hist_trigger_data *hist_data,
+ 			      unsigned long flags)
+ {
+ 	struct hist_field *hist_field;
+-	int ret = 0;
++	int ret = 0, n_subexprs = 0;
+ 
+-	hist_field = parse_expr(hist_data, file, field_str, flags, var_name, 0);
++	hist_field = parse_expr(hist_data, file, field_str, flags, var_name, &n_subexprs);
+ 	if (IS_ERR(hist_field)) {
+ 		ret = PTR_ERR(hist_field);
+ 		goto out;
+@@ -4026,7 +4096,7 @@ static int create_key_field(struct hist_trigger_data *hist_data,
+ 	struct hist_field *hist_field = NULL;
+ 	unsigned long flags = 0;
+ 	unsigned int key_size;
+-	int ret = 0;
++	int ret = 0, n_subexprs = 0;
+ 
+ 	if (WARN_ON(key_idx >= HIST_FIELDS_MAX))
+ 		return -EINVAL;
+@@ -4039,7 +4109,7 @@ static int create_key_field(struct hist_trigger_data *hist_data,
+ 		hist_field = create_hist_field(hist_data, NULL, flags, NULL);
+ 	} else {
+ 		hist_field = parse_expr(hist_data, file, field_str, flags,
+-					NULL, 0);
++					NULL, &n_subexprs);
+ 		if (IS_ERR(hist_field)) {
+ 			ret = PTR_ERR(hist_field);
+ 			goto out;
 -- 
-2.31.1
+2.33.0.1079.g6e70778dc9-goog
 
