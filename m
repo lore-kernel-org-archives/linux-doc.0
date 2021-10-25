@@ -2,31 +2,31 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5B4AC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 06:29:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6CC8C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 06:33:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7637560FBF
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 06:29:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 907C560FBF
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 06:33:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230397AbhJYGcH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Oct 2021 02:32:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44478 "EHLO mail.kernel.org"
+        id S231166AbhJYGfy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Oct 2021 02:35:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45634 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230369AbhJYGcH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 25 Oct 2021 02:32:07 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C216F60C4A;
-        Mon, 25 Oct 2021 06:29:42 +0000 (UTC)
+        id S231156AbhJYGfx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 25 Oct 2021 02:35:53 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BCF6460EE3;
+        Mon, 25 Oct 2021 06:33:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1635143385;
-        bh=BN1cngPxgf6pNckB5yfeW0VtZExwVPhHyz+0ku2Gb/0=;
+        s=k20201202; t=1635143612;
+        bh=ka9tOWHk8CyVaySt26h5prsTz0KJokyT7FnqKCGkgwE=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=A+hyKG34GAdfp7K2SFGzPjp6Vm3KwF61QL5bBpyb0CY7Qc0NV89oYJ2YI9pdL5B3M
-         iUA9QTL7dfe4pjxJUQ72Ahf19cMomTA1ePhafUWegB8y5EB44r33yf3bHyzOJ2Oght
-         GErn7bf3WnYANACiO3wCo2iuhViBSha+Mo+pE/8+MYEjIMBiv3LfZAPskcWwIlR9Wa
-         733uII9E1Ie1hPKKQuY0zRh0twnFYBCu8rq5oBmBTKN8UgBT2fqmixZPMU2+WCacCh
-         qdByrZc6Sj+POPB6//xRksjSnnkkOxBq1HMBnypTLaExjz6UpZV9P9gO9awfiLTIjd
-         pa2Ep/TT27ycA==
-Date:   Mon, 25 Oct 2021 15:29:41 +0900
+        b=RCwgJ0IowLgsPGF7Rvw2Bycuz9T/I6uILDTzj0Ay8ripbt7SmbE8I0kcqkM7mcnKd
+         InkBbhzmPVF2FC8KhwAZEV3H6CaosWNAvHVw/ep7JM6h09Bws1oWJ8KCA7u2a4qRRD
+         MNyNPefojm6t+VrHw0HRuXVu9TH6y/l1TDkluHSoLQ7yOGLzy8mCWlfR63YBCJ74vQ
+         gkbAZBwFy18fLB8NfYeR5c6omRL1z/wpPk37oYDhisE2f/dTWbbtOjekcCxr/WexnN
+         lgywSiV2JMN/whiL45RHaQvFLZQWSK3TokFTe2sB68lbjBER8Ncse8szoKBr5JJ3XD
+         6cGA1GlHFnjrQ==
+Date:   Mon, 25 Oct 2021 15:33:28 +0900
 From:   Masami Hiramatsu <mhiramat@kernel.org>
 To:     Tiezhu Yang <yangtiezhu@loongson.cn>
 Cc:     naveen.n.rao@linux.ibm.com, anil.s.keshavamurthy@intel.com,
@@ -34,12 +34,11 @@ Cc:     naveen.n.rao@linux.ibm.com, anil.s.keshavamurthy@intel.com,
         akpm@linux-foundation.org, randy.dunlap@oracle.com,
         mathieu.desnoyers@polymtl.ca, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/4] docs, kprobes: Remove invalid URL and add new
- reference
-Message-Id: <20211025152941.02d219a7a48a31a6ece7f149@kernel.org>
-In-Reply-To: <1635132660-5038-3-git-send-email-yangtiezhu@loongson.cn>
+Subject: Re: [PATCH 3/4] test_kprobes: Move it from kernel/ to lib/
+Message-Id: <20211025153328.daad69af917db6647dcd8b9b@kernel.org>
+In-Reply-To: <1635132660-5038-4-git-send-email-yangtiezhu@loongson.cn>
 References: <1635132660-5038-1-git-send-email-yangtiezhu@loongson.cn>
-        <1635132660-5038-3-git-send-email-yangtiezhu@loongson.cn>
+        <1635132660-5038-4-git-send-email-yangtiezhu@loongson.cn>
 X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -48,39 +47,56 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 25 Oct 2021 11:30:58 +0800
+On Mon, 25 Oct 2021 11:30:59 +0800
 Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
 
-> The following reference is invalid, remove it.
-> https://www.ibm.com/developerworks/library/l-kprobes/index.html
-> 
-> Add the following new reference "An introduction to KProbes":
-> https://lwn.net/Articles/132196/
+> Since config KPROBES_SANITY_TEST is in lib/Kconfig.debug, it is better to
+> let test_kprobes.c in lib/, just like other similar tests found in lib/.
 
-Looks good to me.
+This is also good to me. It may be a good timing to move this under the
+lib/ because there is KUnit too.
 
 Acked-by: Masami Hiramatsu <mhiramat@kernel.org>
 
-Thanks!
+Thank you,
 
 > 
 > Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
 > ---
->  Documentation/trace/kprobes.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  kernel/Makefile                | 1 -
+>  lib/Makefile                   | 1 +
+>  {kernel => lib}/test_kprobes.c | 0
+>  3 files changed, 1 insertion(+), 1 deletion(-)
+>  rename {kernel => lib}/test_kprobes.c (100%)
 > 
-> diff --git a/Documentation/trace/kprobes.rst b/Documentation/trace/kprobes.rst
-> index 998149c..f318bce 100644
-> --- a/Documentation/trace/kprobes.rst
-> +++ b/Documentation/trace/kprobes.rst
-> @@ -784,6 +784,6 @@ References
+> diff --git a/kernel/Makefile b/kernel/Makefile
+> index 4df609b..9e4d33d 100644
+> --- a/kernel/Makefile
+> +++ b/kernel/Makefile
+> @@ -85,7 +85,6 @@ obj-$(CONFIG_PID_NS) += pid_namespace.o
+>  obj-$(CONFIG_IKCONFIG) += configs.o
+>  obj-$(CONFIG_IKHEADERS) += kheaders.o
+>  obj-$(CONFIG_SMP) += stop_machine.o
+> -obj-$(CONFIG_KPROBES_SANITY_TEST) += test_kprobes.o
+>  obj-$(CONFIG_AUDIT) += audit.o auditfilter.o
+>  obj-$(CONFIG_AUDITSYSCALL) += auditsc.o audit_watch.o audit_fsnotify.o audit_tree.o
+>  obj-$(CONFIG_GCOV_KERNEL) += gcov/
+> diff --git a/lib/Makefile b/lib/Makefile
+> index 2cfd339..2c70452 100644
+> --- a/lib/Makefile
+> +++ b/lib/Makefile
+> @@ -100,6 +100,7 @@ obj-$(CONFIG_TEST_MEMINIT) += test_meminit.o
+>  obj-$(CONFIG_TEST_LOCKUP) += test_lockup.o
+>  obj-$(CONFIG_TEST_HMM) += test_hmm.o
+>  obj-$(CONFIG_TEST_FREE_PAGES) += test_free_pages.o
+> +obj-$(CONFIG_KPROBES_SANITY_TEST) += test_kprobes.o
 >  
->  For additional information on Kprobes, refer to the following URLs:
->  
-> -- https://www.ibm.com/developerworks/library/l-kprobes/index.html
-> +- https://lwn.net/Articles/132196/
->  - https://www.kernel.org/doc/ols/2006/ols2006v2-pages-109-124.pdf
->  
+>  #
+>  # CFLAGS for compiling floating point code inside the kernel. x86/Makefile turns
+> diff --git a/kernel/test_kprobes.c b/lib/test_kprobes.c
+> similarity index 100%
+> rename from kernel/test_kprobes.c
+> rename to lib/test_kprobes.c
 > -- 
 > 2.1.0
 > 
