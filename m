@@ -2,248 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B81DCC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 20:00:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 375FAC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 20:02:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 96FAD60C4A
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 20:00:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 13CBE600CC
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 20:02:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235698AbhJYUDI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Oct 2021 16:03:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59738 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237791AbhJYUAu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Oct 2021 16:00:50 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50B7DC036D4D
-        for <linux-doc@vger.kernel.org>; Mon, 25 Oct 2021 12:25:07 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id x68-20020a25ce47000000b005c198858e6bso2554218ybe.21
-        for <linux-doc@vger.kernel.org>; Mon, 25 Oct 2021 12:25:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:cc;
-        bh=9Ql4uehadw2j6BVRhe3fDBuv0Q3sPrmeMa11sG3Mghc=;
-        b=CjK3qa+LRnQlrKD32MixlMBHWpmyPuaXfyrhPr29OWVk8ewAxNn+DC0BHIAzDtTjlL
-         2BqBiqVSHV4UrnVMNHuw7xGeKbjBbAVaeKQ4zA/r+R51XbksUQXHfn+8oH9rcKXFUEty
-         KOWBw1LKNoCUsGt5ybafmz/39ZElM1WB4o21hxObJ5xVP6BGC3ccpLJ2HmVbOySGK5bk
-         VhwlwMDX8U36F7f4xYMeKV6fvCuX3Ii81RXw2zM1+anZxHqhFq4kroM7p62+ckopc+Jq
-         v0a+o4BiKNsJzEtGYyo+cnqe0bA6c+VoORdYVgTEM4vd5S1gs4epYdhTH/SStB7ggfNy
-         q9bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:cc;
-        bh=9Ql4uehadw2j6BVRhe3fDBuv0Q3sPrmeMa11sG3Mghc=;
-        b=oupEOBF1eaK58PBBZEs8uwQmHsQPV2otAzGBqV/enNXlKoTfMWjui/ksDcrNwQ0vxE
-         t+gcOy8GVRLI7n8VAfjwHUpyD4jqq5zwQDIbk5P65EZMv2CaW9pzn0PPrLFJoJL+oJAz
-         XRILNDCILIRZAtcfSoAoCpVM+dkl6pHjyq6kDCJIHzZQmGD/TO1Z1620gRf2iyl/1Vnq
-         jgBrKvsDiazuh84RR6D4mkAi3TCJYp2SQdFX+MhZNXQ1JFvFwHAXhqteu/ma4r/gyHiU
-         3qeqqzM0Pe8UWoOlEyH5rEVXEsBZtbpUectrsks/rLHeU6PY3AHIq+FSR9QbiFrl9cw7
-         d+dw==
-X-Gm-Message-State: AOAM531rE3e+m4QrJvkN7oAVaw1g09gxiWFc+OtvtqlTDwmktDAkCYFY
-        T6ZM/d5JbHHblNIeLa0UCPDHT7c32r8uDXrwmQ==
-X-Google-Smtp-Source: ABdhPJwEU718QD6CYBzlo0tkEFiliWh68r9hbOSAJN6K80wLyxtEhFO0eCAz5+0x8Zxjhkv8UpJU5Mr+B9UjHtdvgw==
-X-Received: from kaleshsingh.mtv.corp.google.com ([2620:15c:211:200:b783:5702:523e:d435])
- (user=kaleshsingh job=sendgmr) by 2002:a25:86c4:: with SMTP id
- y4mr17365728ybm.258.1635189906533; Mon, 25 Oct 2021 12:25:06 -0700 (PDT)
-Date:   Mon, 25 Oct 2021 12:23:16 -0700
-In-Reply-To: <20211025192330.2992076-1-kaleshsingh@google.com>
-Message-Id: <20211025192330.2992076-6-kaleshsingh@google.com>
-Mime-Version: 1.0
-References: <20211025192330.2992076-1-kaleshsingh@google.com>
-X-Mailer: git-send-email 2.33.0.1079.g6e70778dc9-goog
-Subject: [PATCH v3 5/8] tracing/histogram: Covert expr to const if both
- operands are constants
-From:   Kalesh Singh <kaleshsingh@google.com>
-Cc:     surenb@google.com, hridya@google.com, namhyung@kernel.org,
-        kernel-team@android.com, Kalesh Singh <kaleshsingh@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>, Shuah Khan <shuah@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Tom Zanussi <zanussi@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-To:     unlisted-recipients:; (no To-header on input)
+        id S236558AbhJYUFI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Oct 2021 16:05:08 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:9211 "EHLO
+        esa1.hgst.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239332AbhJYUCR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Oct 2021 16:02:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1635191995; x=1666727995;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=xCy3IumqXQBouXXEPa6nxFODZXMtRI4XUvf0Po2mZLM=;
+  b=coH3Yy55VEMnGCwW6ypbodCjJ23aqLVx9rMt4gQTotE6wJ/p75WdZFf0
+   Wz7q5bAIpMYfdYp4JgGHCjXNrsmHkPcG4wID008clfAsr1jAoh6FjMS2I
+   ditN/XPJr1aU06T6he8mdUDtoZXhruneDrqn0OmQSMWmIqoYgyrUnkPiz
+   3FPbQZmaErI9Ulj/gPSA7vDpzSew9898eRkJhwPQrqVIDBYLKREg+wRR+
+   9qSjS+mY62VDZsSs6hz/jbmxPSRmHVwv8i7bBwATCoNEfV5pClMgbwcIg
+   kcyv1PUsNJPsHSRZpj5J7Zp6orX+biP45hv+s2APNPJhaKqVzmYXMTjcz
+   w==;
+X-IronPort-AV: E=Sophos;i="5.87,181,1631548800"; 
+   d="scan'208";a="295545865"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
+  by ob1.hgst.iphmx.com with ESMTP; 26 Oct 2021 03:53:59 +0800
+IronPort-SDR: bY52fTvVU/iZ32c2IWMva4HFzL2He8TiZgs9regi+/yA79DrTEp0v5yub5tpCO7v9DDvIeaA+R
+ YDcgSF/UrqYv9+nCvyN/0FMI/sDkfxydeCnpG1MOMYIhu5nobEoOvmL6CRVR98fmTDb2fvax/t
+ s2GyNg1eYOHtDSWgsCHSWpxQr2l3P0sXwc8kNRDxpuPki6NguUvryqdZSWHWLyKsV5f1dJqAv4
+ mhhc8YRVbXUsvj6kKt934fzRBMNP1+HPVpZ+72VnBPd5A9cnhmjlN7ezevK8HlZYmQece6V87j
+ EaGVMcJh67c8BB6WNuKpcrnu
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2021 12:27:57 -0700
+IronPort-SDR: aCtzHnd6pbCvl4fpTnR1j83yaKX8pxZjmksZIRBZqTfD7aLv+ZCH3yAu1XSEW8YQ28LglwCBOm
+ mfodnMO14DtBzyQzDZYTvPXQRdmYHVFoejY6Cttr2RXGNbo5AkdwXavvz5GDlj4AdinWNw+kJh
+ oK2RSfawvyy1SSCPvlPCBOSAGYfnv26uC7fjog1wwy2sygjLKa60GOyAshiYdg/snBVeEU9SPd
+ NWMuXmL92f1u9xbbyf2FeHlMIcNRQWAwZqeNuaX1RhiID97nEOWj3hOvQQXTjXLTpW4DxlvVUa
+ tQw=
+WDCIronportException: Internal
+Received: from unknown (HELO hulk.wdc.com) ([10.225.167.27])
+  by uls-op-cesaip01.wdc.com with ESMTP; 25 Oct 2021 12:54:00 -0700
+From:   Atish Patra <atish.patra@wdc.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Atish Patra <atish.patra@wdc.com>, Anup Patel <anup.patel@wdc.com>,
+        David Abdurachmanov <david.abdurachmanov@sifive.com>,
+        devicetree@vger.kernel.org, Greentime Hu <greentime.hu@sifive.com>,
+        Guo Ren <guoren@linux.alibaba.com>,
+        Heinrich Schuchardt <xypron.glpk@gmx.de>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
+        Nick Kossifidis <mick@ics.forth.gr>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Vincent Chen <vincent.chen@sifive.com>
+Subject: [v4 10/11] riscv: dts: fu740: Add pmu node
+Date:   Mon, 25 Oct 2021 12:53:49 -0700
+Message-Id: <20211025195350.242914-11-atish.patra@wdc.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211025195350.242914-1-atish.patra@wdc.com>
+References: <20211025195350.242914-1-atish.patra@wdc.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-If both operands of a hist trigger expression are constants, convert the
-expression to a constant. This optimization avoids having to perform the
-same calculation multiple times and also saves on memory since the
-merged constants are represented by a single struct hist_field instead
-or multiple.
+HiFive unmatched supports HPMCounters but does not implement mcountinhibit
+or sscof extension. Thus, perf monitoring can be used on the unmatched
+board without sampling.
 
-Change-Id: I83388bbbc6e109980f08eac437172238576055d5
-Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
-Suggested-by: Steven Rostedt <rostedt@goodmis.org>
+Add the PMU node with compatible string so that Linux perf driver can
+utilize this to enable PMU.
+
+Signed-off-by: Atish Patra <atish.patra@wdc.com>
 ---
- kernel/trace/trace_events_hist.c | 104 ++++++++++++++++++++++---------
- 1 file changed, 74 insertions(+), 30 deletions(-)
+ arch/riscv/boot/dts/sifive/fu740-c000.dtsi | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/kernel/trace/trace_events_hist.c b/kernel/trace/trace_events_hist.c
-index 34aba07d23f8..db28bcf976f4 100644
---- a/kernel/trace/trace_events_hist.c
-+++ b/kernel/trace/trace_events_hist.c
-@@ -2411,9 +2411,15 @@ static struct hist_field *parse_unary(struct hist_trigger_data *hist_data,
- 	return ERR_PTR(ret);
- }
- 
-+/*
-+ * If the operands are var refs, return pointers the
-+ * variable(s) referenced in var1 and var2, else NULL.
-+ */
- static int check_expr_operands(struct trace_array *tr,
- 			       struct hist_field *operand1,
--			       struct hist_field *operand2)
-+			       struct hist_field *operand2,
-+			       struct hist_field **var1,
-+			       struct hist_field **var2)
- {
- 	unsigned long operand1_flags = operand1->flags;
- 	unsigned long operand2_flags = operand2->flags;
-@@ -2426,6 +2432,7 @@ static int check_expr_operands(struct trace_array *tr,
- 		if (!var)
- 			return -EINVAL;
- 		operand1_flags = var->flags;
-+		*var1 = var;
- 	}
- 
- 	if ((operand2_flags & HIST_FIELD_FL_VAR_REF) ||
-@@ -2436,6 +2443,7 @@ static int check_expr_operands(struct trace_array *tr,
- 		if (!var)
- 			return -EINVAL;
- 		operand2_flags = var->flags;
-+		*var2 = var;
- 	}
- 
- 	if ((operand1_flags & HIST_FIELD_FL_TIMESTAMP_USECS) !=
-@@ -2453,9 +2461,12 @@ static struct hist_field *parse_expr(struct hist_trigger_data *hist_data,
- 				     char *var_name, unsigned int *n_subexprs)
- {
- 	struct hist_field *operand1 = NULL, *operand2 = NULL, *expr = NULL;
--	unsigned long operand_flags;
-+	struct hist_field *var1 = NULL, *var2 = NULL;
-+	unsigned long operand_flags, operand2_flags;
- 	int field_op, ret = -EINVAL;
- 	char *sep, *operand1_str;
-+	hist_field_fn_t op_fn;
-+	bool combine_consts;
- 
- 	if (*n_subexprs > 3) {
- 		hist_err(file->tr, HIST_ERR_TOO_MANY_SUBEXPR, errpos(str));
-@@ -2512,11 +2523,38 @@ static struct hist_field *parse_expr(struct hist_trigger_data *hist_data,
- 		goto free;
- 	}
- 
--	ret = check_expr_operands(file->tr, operand1, operand2);
-+	switch (field_op) {
-+	case FIELD_OP_MINUS:
-+		op_fn = hist_field_minus;
-+		break;
-+	case FIELD_OP_PLUS:
-+		op_fn = hist_field_plus;
-+		break;
-+	case FIELD_OP_DIV:
-+		op_fn = hist_field_div;
-+		break;
-+	case FIELD_OP_MULT:
-+		op_fn = hist_field_mult;
-+		break;
-+	default:
-+		ret = -EINVAL;
-+		goto free;
-+	}
-+
-+	ret = check_expr_operands(file->tr, operand1, operand2, &var1, &var2);
- 	if (ret)
- 		goto free;
- 
--	flags |= HIST_FIELD_FL_EXPR;
-+	operand_flags = var1 ? var1->flags : operand1->flags;
-+	operand2_flags = var2 ? var2->flags : operand2->flags;
-+
-+	/*
-+	 * If both operands are constant, the expression can be
-+	 * collapsed to a single constant.
-+	 */
-+	combine_consts = operand_flags & operand2_flags & HIST_FIELD_FL_CONST;
-+
-+	flags |= combine_consts ? HIST_FIELD_FL_CONST : HIST_FIELD_FL_EXPR;
- 
- 	flags |= operand1->flags &
- 		(HIST_FIELD_FL_TIMESTAMP | HIST_FIELD_FL_TIMESTAMP_USECS);
-@@ -2533,37 +2571,43 @@ static struct hist_field *parse_expr(struct hist_trigger_data *hist_data,
- 	expr->operands[0] = operand1;
- 	expr->operands[1] = operand2;
- 
--	/* The operand sizes should be the same, so just pick one */
--	expr->size = operand1->size;
-+	if (combine_consts) {
-+		if (var1)
-+			expr->operands[0] = var1;
-+		if (var2)
-+			expr->operands[1] = var2;
- 
--	expr->operator = field_op;
--	expr->name = expr_str(expr, 0);
--	expr->type = kstrdup_const(operand1->type, GFP_KERNEL);
--	if (!expr->type) {
--		ret = -ENOMEM;
--		goto free;
--	}
-+		expr->constant = op_fn(expr, NULL, NULL, NULL, NULL);
- 
--	switch (field_op) {
--	case FIELD_OP_MINUS:
--		expr->fn = hist_field_minus;
--		break;
--	case FIELD_OP_PLUS:
--		expr->fn = hist_field_plus;
--		break;
--	case FIELD_OP_DIV:
--		expr->fn = hist_field_div;
--		break;
--	case FIELD_OP_MULT:
--		expr->fn = hist_field_mult;
--		break;
--	default:
--		ret = -EINVAL;
--		goto free;
-+		expr->operands[0] = NULL;
-+		expr->operands[1] = NULL;
-+
-+		/*
-+		 * var refs won't be destroyed immediately
-+		 * See: destroy_hist_field()
-+		 */
-+		destroy_hist_field(operand2, 0);
-+		destroy_hist_field(operand1, 0);
-+
-+		expr->name = expr_str(expr, 0);
-+	} else {
-+		expr->fn = op_fn;
-+
-+		/* The operand sizes should be the same, so just pick one */
-+		expr->size = operand1->size;
-+
-+		expr->operator = field_op;
-+		expr->type = kstrdup_const(operand1->type, GFP_KERNEL);
-+		if (!expr->type) {
-+			ret = -ENOMEM;
-+			goto free;
-+		}
-+
-+		expr->name = expr_str(expr, 0);
- 	}
- 
- 	return expr;
-- free:
-+free:
- 	destroy_hist_field(operand1, 0);
- 	destroy_hist_field(operand2, 0);
- 	destroy_hist_field(expr, 0);
+diff --git a/arch/riscv/boot/dts/sifive/fu740-c000.dtsi b/arch/riscv/boot/dts/sifive/fu740-c000.dtsi
+index abbb960f90a0..b35b96b58820 100644
+--- a/arch/riscv/boot/dts/sifive/fu740-c000.dtsi
++++ b/arch/riscv/boot/dts/sifive/fu740-c000.dtsi
+@@ -140,6 +140,9 @@ soc {
+ 		#size-cells = <2>;
+ 		compatible = "simple-bus";
+ 		ranges;
++		pmu {
++			compatible = "riscv,pmu";
++		};
+ 		plic0: interrupt-controller@c000000 {
+ 			#interrupt-cells = <1>;
+ 			#address-cells = <0>;
 -- 
-2.33.0.1079.g6e70778dc9-goog
+2.31.1
 
