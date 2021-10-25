@@ -2,120 +2,208 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 666A7C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 09:35:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B55E4C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 09:36:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5311660FD7
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 09:35:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 996A460FBF
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 09:36:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232620AbhJYJhm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Oct 2021 05:37:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56884 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232627AbhJYJhl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Oct 2021 05:37:41 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36685C061745;
-        Mon, 25 Oct 2021 02:35:19 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id l13so19877667edi.8;
-        Mon, 25 Oct 2021 02:35:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RSWOPzNpv+gqobr9oD44cMNl/gjPokC+2ZSGAR+LGvc=;
-        b=a+5dD8ItWz4O5QFIzUEtGJoJsR951RDBjl81/f3t4cVyOqcgWrgIuY2AP49/K8n6Rd
-         /stIXbufTsTrDU495bT0dnLGUXJrdvk7ZKyyH6Zz1Aj1wpHXP378Aj9RCraqP9mTpmbH
-         icbT9i4jg/b4/D2yZEL+CWA+P1GecqsnekYdtxPX891Erk5Yn/eoaURCq2EqoISGvEXN
-         eSGui04a9h4g/RQgUrqrvK5QLHPw9r7c1inttYrSJ8M2kPLuPSqmZUCSqSVhow53Oazb
-         HI7YT04u3ZN+wAY5umc1PrwSY41CFxBRN04uTy6eRoZjbzWP4o+I+b11SILZWht/2ezm
-         w2Kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RSWOPzNpv+gqobr9oD44cMNl/gjPokC+2ZSGAR+LGvc=;
-        b=hsrhv8vuZqVHSjHT18IWA377hzbpU84D3eZRJwoNWFws728YhQkzLNXLe7yNg1CVsX
-         kTXwv6K99afq1Jqte+kJI1uUnX7wWDAGJm1X+ZauRhhBdro/3kGsS8BL/03xk1eqrQ5B
-         ocJ9kOtguKeW1L5HIztZt95n4TdnH8ZpP2OcxsXnnKd7rc2BUtN63D1hej08oea4p8u3
-         3PGjJv4SzPc7Qqom6iMMCFV4AnaUMc7UVksB2ILzKSh4elzr+W28/28M7lFUwI3q399P
-         WX7G6pGVemw5LhDfTH2gQeGzC/2B9XDoZOvlgn7w00+vBYvhRQWtsrYol2h6fgrKdpll
-         WY8w==
-X-Gm-Message-State: AOAM531QPyWfqG1Xj6czZc8TVkOrHDLalGBujVX1/3fcRgUoy1zePadp
-        MTr2F84OT5jxKns/r0UfxkZJujPZ1Nt45uIZHBjgfAE6pQFN2A==
-X-Google-Smtp-Source: ABdhPJx3+UgXIEBRlA9nUZuUcAiapUMwd/T0Yw/6DynvNGWRM7W9yjJVyzjCBVv6iOwqWGLngTX5Bl78AuEdwya0ox0=
-X-Received: by 2002:a05:6402:2031:: with SMTP id ay17mr25638264edb.240.1635154517795;
- Mon, 25 Oct 2021 02:35:17 -0700 (PDT)
+        id S232653AbhJYJjR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Oct 2021 05:39:17 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:52702 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232641AbhJYJjQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Oct 2021 05:39:16 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id CDD1B1FD3E;
+        Mon, 25 Oct 2021 09:36:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1635154613; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=oFDKyWHqyVtPJmp22asWqTp6wN27PNTJwsnOdNI5eMw=;
+        b=0Xg0WL2wzBuKe8D4tUJxuoGcMnqsjXk7A13F8njp3iYOm50V6ZAwqkd27sCxqrQedMjsFS
+        AHnv8t7+kV4e/rV8PmSGEWL7l37LFNVrBJW+ZQpSpbPo3L6jM7G+Dl8edfAarwAeqggGuP
+        Y51sabkzcSkC5aslQnkHBvQn33v1ag8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1635154613;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=oFDKyWHqyVtPJmp22asWqTp6wN27PNTJwsnOdNI5eMw=;
+        b=IOPyp9V44gtzgcvq2Nseafs7GksOT0uX8jP9ZpVb0E0OvDhhgKinc6Nx6P7SXgWt0b4qyx
+        d5kyRpiaXeUHasDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 92E451377E;
+        Mon, 25 Oct 2021 09:36:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id RAozI7V6dmGAUAAAMHmgww
+        (envelope-from <vbabka@suse.cz>); Mon, 25 Oct 2021 09:36:53 +0000
+Message-ID: <be7ee3a6-9b3c-b436-f042-82bd3c416acc@suse.cz>
+Date:   Mon, 25 Oct 2021 11:36:53 +0200
 MIME-Version: 1.0
-References: <20211022200032.23267-1-pauk.denis@gmail.com>
-In-Reply-To: <20211022200032.23267-1-pauk.denis@gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 25 Oct 2021 12:34:23 +0300
-Message-ID: <CAHp75VcvzBoY_avM2r-vQei+UCULU8oEYBdgM6dD7Yr3N69hvA@mail.gmail.com>
-Subject: Re: [PATCH v8 0/3] Update ASUS WMI supported boards
-To:     Denis Pauk <pauk.denis@gmail.com>
-Cc:     Eugene Shalygin <eugene.shalygin@gmail.com>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        thomas@weissschuh.net, Ed Brindley <kernel@maidavale.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Content-Language: en-US
+To:     Rustam Kovhaev <rkovhaev@gmail.com>, cl@linux.com,
+        penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
+        akpm@linux-foundation.org, corbet@lwn.net
+Cc:     djwong@kernel.org, david@fromorbit.com,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
+        viro@zeniv.linux.org.uk, dvyukov@google.com
+References: <1dfb7a79-3e66-a9fe-ee7c-1277d7ff5950@suse.cz>
+ <20211023064114.708532-1-rkovhaev@gmail.com>
+From:   Vlastimil Babka <vbabka@suse.cz>
+Subject: Re: [PATCH v2] slob: add size header to all allocations
+In-Reply-To: <20211023064114.708532-1-rkovhaev@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 22, 2021 at 11:01 PM Denis Pauk <pauk.denis@gmail.com> wrote:
->
-> Update ASUS WMI supported boards
->
-> Add support by WMI interface privided by Asus for B550/X570 boards:
+On 10/23/21 08:41, Rustam Kovhaev wrote:
+> Let's prepend both kmalloc() and kmem_cache_alloc() allocations with the
+> size header.
+> It simplifies the slab API and guarantees that both kmem_cache_alloc()
+> and kmalloc() memory could be freed by kfree().
+> 
+> meminfo right after the system boot, without the patch:
+> Slab:              35456 kB
+> 
+> the same, with the patch:
+> Slab:              36160 kB
+> 
+> Link: https://lore.kernel.org/lkml/20210929212347.1139666-1-rkovhaev@gmail.com
+> Signed-off-by: Rustam Kovhaev <rkovhaev@gmail.com>
 
-provided
+Seems overal correct to me, thanks! I'll just suggest some improvements:
 
-> * PRIME X570-PRO,
-> * ROG CROSSHAIR VIII HERO
-> * ROG CROSSHAIR VIII DARK HERO
-> * ROG CROSSHAIR VIII FORMULA
-> * ROG STRIX X570-E GAMING
-> * ROG STRIX B550-E GAMING
->
-> Add support by WMI interface privided by Asus for X370/X470/
+> ---
+> v2:
+>  - Allocate compound pages in slob_alloc_node()
+>  - Use slob_free_pages() in kfree()
+>  - Update documentation
+> 
+>  Documentation/core-api/memory-allocation.rst |   4 +-
+>  mm/slob.c                                    | 114 +++++++++----------
+>  2 files changed, 55 insertions(+), 63 deletions(-)
+> 
+> diff --git a/Documentation/core-api/memory-allocation.rst b/Documentation/core-api/memory-allocation.rst
+> index 5954ddf6ee13..fea0ed11a7c5 100644
+> --- a/Documentation/core-api/memory-allocation.rst
+> +++ b/Documentation/core-api/memory-allocation.rst
+> @@ -172,5 +172,5 @@ wrappers can allocate memory from that cache.
+>  
+>  When the allocated memory is no longer needed it must be freed. You can
+>  use kvfree() for the memory allocated with `kmalloc`, `vmalloc` and
+> -`kvmalloc`. The slab caches should be freed with kmem_cache_free(). And
+> -don't forget to destroy the cache with kmem_cache_destroy().
+> +`kvmalloc`. The slab caches can be freed with kmem_cache_free() or kvfree().
+> +And don't forget to destroy the cache with kmem_cache_destroy().
 
-provided
+I would phrase it like this (improves also weird wording "The slab caches
+should be freed with..." prior to your patch, etc.):
 
-> B450/X399 boards:
-> * ROG CROSSHAIR VI HERO,
-> * PRIME X399-A,
-> * PRIME X470-PRO,
-> * ROG CROSSHAIR VI EXTREME,
-> * ROG CROSSHAIR VI HERO (WI-FI AC),
-> * ROG CROSSHAIR VII HERO,
-> * ROG CROSSHAIR VII HERO (WI-FI),
-> * ROG STRIX B450-E GAMING,
-> * ROG STRIX B450-F GAMING,
-> * ROG STRIX B450-I GAMING,
-> * ROG STRIX X399-E GAMING,
-> * ROG STRIX X470-F GAMING,
-> * ROG STRIX X470-I GAMING,
-> * ROG ZENITH EXTREME,
-> * ROG ZENITH EXTREME ALPHA.
->
-> Add support to nct6775:
-> * ProArt X570-CREATOR WIFI.
->
-> Could you please review?
+When the allocated memory is no longer needed it must be freed. Objects
+allocated by `kmalloc` can be freed by `kfree` or `kvfree`.
+Objects allocated by `kmem_cache_alloc` can be freed with `kmem_cache_free`
+or also by `kfree` or `kvfree`.
+Memory allocated by `vmalloc` can be freed with `vfree` or `kvfree`.
+Memory allocated by `kvmalloc` can be freed with `kvfree`.
+Caches created by `kmem_cache_create` should be freed with with
+`kmem_cache_destroy`.
 
-> Signed-off-by: Denis Pauk <pauk.denis@gmail.com>
-> Signed-off-by: Ed Brindley <kernel@maidavale.org>
-> Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
+> -static void slob_free_pages(void *b, int order)
+> +static void slob_free_pages(struct page *sp, int order)
+>  {
+> -	struct page *sp = virt_to_page(b);
+> -
+> -	if (current->reclaim_state)
+> -		current->reclaim_state->reclaimed_slab += 1 << order;
+> +	if (PageSlab(sp)) {
+> +		__ClearPageSlab(sp);
+> +		page_mapcount_reset(sp);
+> +		if (current->reclaim_state)
+> +			current->reclaim_state->reclaimed_slab += 1 << order;
+> +	}
+>  
+>  	mod_node_page_state(page_pgdat(sp), NR_SLAB_UNRECLAIMABLE_B,
+>  			    -(PAGE_SIZE << order));
+> @@ -247,9 +244,7 @@ static void *slob_page_alloc(struct page *sp, size_t size, int align,
+>  		/*
+>  		 * 'aligned' will hold the address of the slob block so that the
+>  		 * address 'aligned'+'align_offset' is aligned according to the
+> -		 * 'align' parameter. This is for kmalloc() which prepends the
+> -		 * allocated block with its size, so that the block itself is
+> -		 * aligned when needed.
+> +		 * 'align' parameter.
+>  		 */
+>  		if (align) {
+>  			aligned = (slob_t *)
+> @@ -373,25 +368,28 @@ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node,
+>  	}
+>  	if (unlikely(gfp & __GFP_ZERO))
+>  		memset(b, 0, size);
+> +	/* Write size in the header */
+> +	*(unsigned int *)b = size - align_offset;
+> +	b = (void *)b + align_offset;
+>  	return b;
 
-No need to have this in cover letter. But it's harmless, so up to you.
+I would just "return (void *)b + align_offset;" here,  no need to update 'b'.
 
-I will look at it this week, I think we can still improve utf conversion code.
+>  }
+>  
+>  /*
+>   * slob_free: entry point into the slob allocator.
+>   */
+> -static void slob_free(void *block, int size)
+> +static void slob_free(void *block)
+>  {
+>  	struct page *sp;
+> -	slob_t *prev, *next, *b = (slob_t *)block;
+> +	int align_offset = max_t(size_t, ARCH_KMALLOC_MINALIGN, ARCH_SLAB_MINALIGN);
 
--- 
-With Best Regards,
-Andy Shevchenko
+This patch adds a number of these in several functions, it was just
+__do_kmalloc_node(). It's compile-time constant so I would just #define it
+somewhere at the top of slob.c, e.g. something like:
+
+#if ARCH_KMALLOC_MINALIGN < ARCH_SLAB_MINALIGN
+#define SLOB_HDR_SIZE ARCH_SLAB_MINALIGN
+#else
+#define SLOB_HDR_SIZE ARCH_KMALLOC_MINALIGN
+#endif
+
+> +	void *hdr = block - align_offset;
+> +	unsigned int size = *(unsigned int *)hdr + align_offset;
+> +	slob_t *prev, *next, *b = hdr;
+
+IMHO this is too subtle to put in the declaration. I would move these
+assignments below the declarations.
+
+That way you can also ditch 'hdr' and just do a 'block -= SLOB_HDR_SIZE;';
+
+>  	slobidx_t units;
+>  	unsigned long flags;
+>  	struct list_head *slob_list;
+>  
+> -	if (unlikely(ZERO_OR_NULL_PTR(block)))
+> -		return;
+> -	BUG_ON(!size);
+> -
+> -	sp = virt_to_page(block);
+> +	BUG_ON(!size || size >= PAGE_SIZE);
+> +	sp = virt_to_page(hdr);
+>  	units = SLOB_UNITS(size);
+>  
+>  	spin_lock_irqsave(&slob_lock, flags);
