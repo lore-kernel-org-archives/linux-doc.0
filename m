@@ -2,241 +2,153 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99F0EC43217
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 19:56:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45FD6C19772
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 19:57:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7D78C60C41
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 19:56:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2AEA960FE8
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 19:57:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237269AbhJYT7U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Oct 2021 15:59:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57930 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237218AbhJYT4T (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Oct 2021 15:56:19 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CEC6C110F24
-        for <linux-doc@vger.kernel.org>; Mon, 25 Oct 2021 12:24:09 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id x15-20020a056902102f00b005ba71cd7dbfso18787567ybt.8
-        for <linux-doc@vger.kernel.org>; Mon, 25 Oct 2021 12:24:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:cc;
-        bh=+/27iLcVwsoRtZBbebC5PI/8sCrYV9o5nqqwoDvFwLQ=;
-        b=iJyBPNByASMp+w6u1OkWWEXPmlY+xuxhMQCry00NkR6CZi5U11wQfoXyJgPVnrdsN5
-         l1jlpID4yAeJ6DA9F5o77Qmt4Csbolwyo+aERKpL88HbbqOxBzalYfHIK6EUn34ingcM
-         9ulqgmaEh9+s8F/utYRhLzwDCF4f7Vhbd/MkFGip8zQUYpVh+9+IKxarCXs1aecowlls
-         uDja4f+k3tDJ3CTj/p4GefB9//lhLSLWJr/t8VwkLvNLZbOkqBmJ7pmvCWpSIVKkpcN0
-         lC9d5sRZYXXm/r8DN7C9JO8C5G7Q3ApBIa4JlH9p/h1E9mbny8IvZVVQ2FqzyJBZ3lyr
-         YX3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:cc;
-        bh=+/27iLcVwsoRtZBbebC5PI/8sCrYV9o5nqqwoDvFwLQ=;
-        b=njyqHG8OlrOGstGSShF3nTeHPEw7o1HESEsCewgZBO4QEj1HUcaSzxwpB9cYqJ+YSb
-         KARqsQhp7mNnvofQmI8t/4IAf5c+TRCX1dLFymX2ZMcsEc6wn4ul+gfEj9eJVIYLCdEu
-         URqmFCdeM5Whh+iBvVIdmWtdWIXAQibOUYEENg2kcFtrtdymTEttqd4vZmI9tbDUcDG9
-         adsxHpY6XRYTDVGQ1kclfTnhCVnriCKEc0ITTPM1gTCLxdYCivuDiAn7HaDs3oN6ZQ7W
-         ykfBdMOcxdyvtWsuoosLw4KHqfF/p8kVdJrdWKCSZOGORre6p4L96jEiRzEUTJJDefaT
-         8tUg==
-X-Gm-Message-State: AOAM533z0txLLLwdGgnie5gTWx+he+SI6LpbCepsWXtjMpvinESWWwBv
-        MEeJT15XMzlAL5IRvQmLqMVexBuKWd9t725ncQ==
-X-Google-Smtp-Source: ABdhPJzGkE0zCUemaF+iHnCTNiduZE54B6+Q+I95bSiWKG4W1OfAzxxaOmrl4UL79SWQbI9iCBMUB9r9pO5DM4x0nw==
-X-Received: from kaleshsingh.mtv.corp.google.com ([2620:15c:211:200:b783:5702:523e:d435])
- (user=kaleshsingh job=sendgmr) by 2002:a05:6902:501:: with SMTP id
- x1mr19798810ybs.217.1635189848312; Mon, 25 Oct 2021 12:24:08 -0700 (PDT)
-Date:   Mon, 25 Oct 2021 12:23:13 -0700
-In-Reply-To: <20211025192330.2992076-1-kaleshsingh@google.com>
-Message-Id: <20211025192330.2992076-3-kaleshsingh@google.com>
-Mime-Version: 1.0
-References: <20211025192330.2992076-1-kaleshsingh@google.com>
-X-Mailer: git-send-email 2.33.0.1079.g6e70778dc9-goog
-Subject: [PATCH v3 2/8] tracing: Add division and multiplication support for
- hist triggers
-From:   Kalesh Singh <kaleshsingh@google.com>
-Cc:     surenb@google.com, hridya@google.com, namhyung@kernel.org,
-        kernel-team@android.com, Kalesh Singh <kaleshsingh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>, Shuah Khan <shuah@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Tom Zanussi <zanussi@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-To:     unlisted-recipients:; (no To-header on input)
+        id S237294AbhJYT7V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Oct 2021 15:59:21 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:9214 "EHLO
+        esa1.hgst.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238104AbhJYT4U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Oct 2021 15:56:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1635191637; x=1666727637;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=GO7omq3rVi+V+CzKbzcTcJGYp29gXK/DeiBhKM0seGs=;
+  b=TC0wj2HlmcrAza1GR18WrKhtGvvC45vn/p8bS1+Zb6BQN+9tXMLaVcTY
+   iCEAYK9+LkcH2fpQW1x+4n5WuEeLInLaQXwC6d/p9gBJaiafJTK9+7Nba
+   SNbUeS2RkVARVhKCdM87gmFWGPt7LntGtmn+IMTySxeNCJ26X1l3TFlMg
+   svQXl7o6zvKSQzVyM1zoBgxQuqm5YsBTAbUrAY3WMAe0l7889xAnSKx5O
+   o7AzSYjQxEt0Dxpj/CQSRNYDgpzbs5STf4CXskvcAXSEOsanSaVUptgAC
+   USvwSmye+CIV0W7n9aHcqVh+bweicBzfHDmq1mPKLNYDz0mvXuz3xVUOz
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.87,181,1631548800"; 
+   d="scan'208";a="295545846"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
+  by ob1.hgst.iphmx.com with ESMTP; 26 Oct 2021 03:53:55 +0800
+IronPort-SDR: +ewxhMTBFDgxzIPAHSKAZhJZu8n/oyEy9xgtqHsMHYmSrfO5kOS1oGh9OskKpivO/bUNsscSms
+ bCuiffED+Y7nnjKCx1XlmcHxsCwM4FK5HVkgqiMLdFCNh6EFDjREMCZCV89+AJlYQazl/3lRCE
+ v8d6iaj4+AqTwfohMf3zQGTqkbHhIeQDxwXM9r0NcD1Zb23vyv+IHD5YYt5/1YjLnieZiTip7/
+ kNBkuRhLsNGdaptKizZaANr8jsLVtlltgwbdb24ndQnUe8TMmZLy6RqoiNF4VEICOrVOurqTzo
+ nyy/UJ7pj2GDTKMjid4K69vj
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2021 12:27:53 -0700
+IronPort-SDR: hpQC9zq/7VkwmF1ZoGH6Vdwe6qQ8dMUpLSNVbWkiYEX3/d8OQCy9jbdpx/Q9yXQoz3OuRoGXv3
+ vjPEuqgXxvENKxY7Skq8zrYEHXd23316LcZp43E3N90YNTZmVzuwHFh6S9lfNNm28BLc4KQJ2B
+ TqYAhhgPG2C7STOgQC/PeMqSMBvbbIaPiHvdQawdIBYr1c34eyvq/L/pShp27wI7biHxFs8B3p
+ zi8wbsqLDQzcmFhtpANpgS9Xij9cFFym4dKh83QShSN7zjgaLtctRX79/b4KtkZ1AIfCdkXiCo
+ 9LQ=
+WDCIronportException: Internal
+Received: from unknown (HELO hulk.wdc.com) ([10.225.167.27])
+  by uls-op-cesaip01.wdc.com with ESMTP; 25 Oct 2021 12:53:56 -0700
+From:   Atish Patra <atish.patra@wdc.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Atish Patra <atish.patra@wdc.com>, Anup Patel <anup.patel@wdc.com>,
+        David Abdurachmanov <david.abdurachmanov@sifive.com>,
+        devicetree@vger.kernel.org, Greentime Hu <greentime.hu@sifive.com>,
+        Guo Ren <guoren@linux.alibaba.com>,
+        Heinrich Schuchardt <xypron.glpk@gmx.de>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
+        Nick Kossifidis <mick@ics.forth.gr>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Vincent Chen <vincent.chen@sifive.com>
+Subject: [v4 02/11] RISC-V: Add CSR encodings for all HPMCOUNTERS
+Date:   Mon, 25 Oct 2021 12:53:41 -0700
+Message-Id: <20211025195350.242914-3-atish.patra@wdc.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211025195350.242914-1-atish.patra@wdc.com>
+References: <20211025195350.242914-1-atish.patra@wdc.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Adds basic support for division and multiplication operations for
-hist trigger variable expressions.
-
-For simplicity this patch only supports, division and multiplication
-for a single operation expression (e.g. x=$a/$b), as currently
-expressions are always evaluated right to left. This can lead to some
-incorrect results:
-
-	e.g. echo 'hist:keys=common_pid:x=8-4-2' >> event/trigger
-
-	     8-4-2 should evaluate to 2 i.e. (8-4)-2
-	     but currently x evaluate to  6 i.e. 8-(4-2)
-
-Multiplication and division in sub-expressions will work correctly, once
-correct operator precedence support is added (See next patch in this
-series).
-
-For the undefined case of division by 0, the histogram expression
-evaluates to (u64)(-1). Since this cannot be detected when the
-expression is created, it is the responsibility of the user to be
-aware and account for this possibility.
-
-Examples:
-	echo 'hist:keys=common_pid:a=8,b=4,x=$a/$b' \
-                   >> event/trigger
-
-	echo 'hist:keys=common_pid:y=5*$b' \
-                   >> event/trigger
-
-Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
+Signed-off-by: Atish Patra <atish.patra@wdc.com>
 ---
+ arch/riscv/include/asm/csr.h | 58 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 58 insertions(+)
 
-Changes in v2:
-  - Use div64 helper in hist_field_div() to avoid faults on
-    x86 32-bit machines, per Steven Rostedt
-
- kernel/trace/trace_events_hist.c | 72 +++++++++++++++++++++++++++++++-
- 1 file changed, 71 insertions(+), 1 deletion(-)
-
-diff --git a/kernel/trace/trace_events_hist.c b/kernel/trace/trace_events_hist.c
-index 28f711224944..522355a06f58 100644
---- a/kernel/trace/trace_events_hist.c
-+++ b/kernel/trace/trace_events_hist.c
-@@ -97,6 +97,8 @@ enum field_op_id {
- 	FIELD_OP_PLUS,
- 	FIELD_OP_MINUS,
- 	FIELD_OP_UNARY_MINUS,
-+	FIELD_OP_DIV,
-+	FIELD_OP_MULT,
- };
+diff --git a/arch/riscv/include/asm/csr.h b/arch/riscv/include/asm/csr.h
+index 87ac65696871..e4d369830af4 100644
+--- a/arch/riscv/include/asm/csr.h
++++ b/arch/riscv/include/asm/csr.h
+@@ -89,9 +89,67 @@
+ #define CSR_CYCLE		0xc00
+ #define CSR_TIME		0xc01
+ #define CSR_INSTRET		0xc02
++#define CSR_HPMCOUNTER3		0xc03
++#define CSR_HPMCOUNTER4		0xc04
++#define CSR_HPMCOUNTER5		0xc05
++#define CSR_HPMCOUNTER6		0xc06
++#define CSR_HPMCOUNTER7		0xc07
++#define CSR_HPMCOUNTER8		0xc08
++#define CSR_HPMCOUNTER9		0xc09
++#define CSR_HPMCOUNTER10	0xc0a
++#define CSR_HPMCOUNTER11	0xc0b
++#define CSR_HPMCOUNTER12	0xc0c
++#define CSR_HPMCOUNTER13	0xc0d
++#define CSR_HPMCOUNTER14	0xc0e
++#define CSR_HPMCOUNTER15	0xc0f
++#define CSR_HPMCOUNTER16	0xc10
++#define CSR_HPMCOUNTER17	0xc11
++#define CSR_HPMCOUNTER18	0xc12
++#define CSR_HPMCOUNTER19	0xc13
++#define CSR_HPMCOUNTER20	0xc14
++#define CSR_HPMCOUNTER21	0xc15
++#define CSR_HPMCOUNTER22	0xc16
++#define CSR_HPMCOUNTER23	0xc17
++#define CSR_HPMCOUNTER24	0xc18
++#define CSR_HPMCOUNTER25	0xc19
++#define CSR_HPMCOUNTER26	0xc1a
++#define CSR_HPMCOUNTER27	0xc1b
++#define CSR_HPMCOUNTER28	0xc1c
++#define CSR_HPMCOUNTER29	0xc1d
++#define CSR_HPMCOUNTER30	0xc1e
++#define CSR_HPMCOUNTER31	0xc1f
+ #define CSR_CYCLEH		0xc80
+ #define CSR_TIMEH		0xc81
+ #define CSR_INSTRETH		0xc82
++#define CSR_HPMCOUNTER3H	0xc83
++#define CSR_HPMCOUNTER4H	0xc84
++#define CSR_HPMCOUNTER5H	0xc85
++#define CSR_HPMCOUNTER6H	0xc86
++#define CSR_HPMCOUNTER7H	0xc87
++#define CSR_HPMCOUNTER8H	0xc88
++#define CSR_HPMCOUNTER9H	0xc89
++#define CSR_HPMCOUNTER10H	0xc8a
++#define CSR_HPMCOUNTER11H	0xc8b
++#define CSR_HPMCOUNTER12H	0xc8c
++#define CSR_HPMCOUNTER13H	0xc8d
++#define CSR_HPMCOUNTER14H	0xc8e
++#define CSR_HPMCOUNTER15H	0xc8f
++#define CSR_HPMCOUNTER16H	0xc90
++#define CSR_HPMCOUNTER17H	0xc91
++#define CSR_HPMCOUNTER18H	0xc92
++#define CSR_HPMCOUNTER19H	0xc93
++#define CSR_HPMCOUNTER20H	0xc94
++#define CSR_HPMCOUNTER21H	0xc95
++#define CSR_HPMCOUNTER22H	0xc96
++#define CSR_HPMCOUNTER23H	0xc97
++#define CSR_HPMCOUNTER24H	0xc98
++#define CSR_HPMCOUNTER25H	0xc99
++#define CSR_HPMCOUNTER26H	0xc9a
++#define CSR_HPMCOUNTER27H	0xc9b
++#define CSR_HPMCOUNTER28H	0xc9c
++#define CSR_HPMCOUNTER29H	0xc9d
++#define CSR_HPMCOUNTER30H	0xc9e
++#define CSR_HPMCOUNTER31H	0xc9f
  
- /*
-@@ -285,6 +287,40 @@ static u64 hist_field_minus(struct hist_field *hist_field,
- 	return val1 - val2;
- }
- 
-+static u64 hist_field_div(struct hist_field *hist_field,
-+			   struct tracing_map_elt *elt,
-+			   struct trace_buffer *buffer,
-+			   struct ring_buffer_event *rbe,
-+			   void *event)
-+{
-+	struct hist_field *operand1 = hist_field->operands[0];
-+	struct hist_field *operand2 = hist_field->operands[1];
-+
-+	u64 val1 = operand1->fn(operand1, elt, buffer, rbe, event);
-+	u64 val2 = operand2->fn(operand2, elt, buffer, rbe, event);
-+
-+	/* Return -1 for the undefined case */
-+	if (!val2)
-+		return -1;
-+
-+	return div64_u64(val1, val2);
-+}
-+
-+static u64 hist_field_mult(struct hist_field *hist_field,
-+			   struct tracing_map_elt *elt,
-+			   struct trace_buffer *buffer,
-+			   struct ring_buffer_event *rbe,
-+			   void *event)
-+{
-+	struct hist_field *operand1 = hist_field->operands[0];
-+	struct hist_field *operand2 = hist_field->operands[1];
-+
-+	u64 val1 = operand1->fn(operand1, elt, buffer, rbe, event);
-+	u64 val2 = operand2->fn(operand2, elt, buffer, rbe, event);
-+
-+	return val1 * val2;
-+}
-+
- static u64 hist_field_unary_minus(struct hist_field *hist_field,
- 				  struct tracing_map_elt *elt,
- 				  struct trace_buffer *buffer,
-@@ -1592,6 +1628,12 @@ static char *expr_str(struct hist_field *field, unsigned int level)
- 	case FIELD_OP_PLUS:
- 		strcat(expr, "+");
- 		break;
-+	case FIELD_OP_DIV:
-+		strcat(expr, "/");
-+		break;
-+	case FIELD_OP_MULT:
-+		strcat(expr, "*");
-+		break;
- 	default:
- 		kfree(expr);
- 		return NULL;
-@@ -1607,7 +1649,7 @@ static int contains_operator(char *str)
- 	enum field_op_id field_op = FIELD_OP_NONE;
- 	char *op;
- 
--	op = strpbrk(str, "+-");
-+	op = strpbrk(str, "+-/*");
- 	if (!op)
- 		return FIELD_OP_NONE;
- 
-@@ -1628,6 +1670,12 @@ static int contains_operator(char *str)
- 	case '+':
- 		field_op = FIELD_OP_PLUS;
- 		break;
-+	case '/':
-+		field_op = FIELD_OP_DIV;
-+		break;
-+	case '*':
-+		field_op = FIELD_OP_MULT;
-+		break;
- 	default:
- 		break;
- 	}
-@@ -2361,10 +2409,26 @@ static struct hist_field *parse_expr(struct hist_trigger_data *hist_data,
- 	case FIELD_OP_PLUS:
- 		sep = "+";
- 		break;
-+	case FIELD_OP_DIV:
-+		sep = "/";
-+		break;
-+	case FIELD_OP_MULT:
-+		sep = "*";
-+		break;
- 	default:
- 		goto free;
- 	}
- 
-+	/*
-+	 * Multiplication and division are only supported in single operator
-+	 * expressions, since the expression is always evaluated from right
-+	 * to left.
-+	 */
-+	if ((field_op == FIELD_OP_DIV || field_op == FIELD_OP_MULT) && level > 0) {
-+		hist_err(file->tr, HIST_ERR_TOO_MANY_SUBEXPR, errpos(str));
-+		return ERR_PTR(-EINVAL);
-+	}
-+
- 	operand1_str = strsep(&str, sep);
- 	if (!operand1_str || !str)
- 		goto free;
-@@ -2436,6 +2500,12 @@ static struct hist_field *parse_expr(struct hist_trigger_data *hist_data,
- 	case FIELD_OP_PLUS:
- 		expr->fn = hist_field_plus;
- 		break;
-+	case FIELD_OP_DIV:
-+		expr->fn = hist_field_div;
-+		break;
-+	case FIELD_OP_MULT:
-+		expr->fn = hist_field_mult;
-+		break;
- 	default:
- 		ret = -EINVAL;
- 		goto free;
+ #define CSR_SSTATUS		0x100
+ #define CSR_SIE			0x104
 -- 
-2.33.0.1079.g6e70778dc9-goog
+2.31.1
 
