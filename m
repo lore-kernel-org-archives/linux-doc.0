@@ -2,286 +2,264 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7EE0C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 19:54:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02CEBC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 19:56:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D482E604DA
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 19:54:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DAAF9611C8
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 19:56:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238247AbhJYT40 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Oct 2021 15:56:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57938 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239233AbhJYTyY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Oct 2021 15:54:24 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 509FCC110F11
-        for <linux-doc@vger.kernel.org>; Mon, 25 Oct 2021 12:23:52 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id x15-20020a056902102f00b005ba71cd7dbfso18786699ybt.8
-        for <linux-doc@vger.kernel.org>; Mon, 25 Oct 2021 12:23:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:cc;
-        bh=loxzsYhDjTebX67ME+FCIKC4vQSRTq2WjXhQBNyrLj8=;
-        b=RJoFoecv8w3cy7UeAFaKPMZCZ47mxIugAnyZXHWGVlgWk5lDlGL5Oi/stF8Xv4HcIS
-         7v21WcAkL9URcnMQ/zKB+cDssX6yLDBCNwxl2k0eH9vefctFha+C/jPnST2BmPEIqu22
-         hC8+WyFfVBA+zWncFrrSoTCul45BPOwXn+ec1GiAGlTgsibhGCMNpjRbxgwVStV3odlW
-         zNu4lb4Uj1y4aPs86mb30zzCvqGIzplH2UUco56oWJRO/CwgU/CPXHYBeCjcENNm/Z64
-         qrZ5AjbyC42ByDdWnxWmeHIwnjd0ybw9j4efBSxC9++CS1yZNWwSUCpli8ooCOwmWilP
-         o6bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:cc;
-        bh=loxzsYhDjTebX67ME+FCIKC4vQSRTq2WjXhQBNyrLj8=;
-        b=bw8IvD6CWlMv3e+R4nLdqcQFXBjfDwXaAz6JHxWRnUF0+oPftFdc7GnbKu5nrVXrCZ
-         a0r+UMmBIQY/LJQwGhYroP4FhttVq3V0Gfa3Z5XyM+4hl3UAR4WCgImcv0Oz1SaV5QD6
-         2HOyKnlBziM2H8amoG/MoHhdNACgmPL7Vus41uEVyBQPb+BfeAEsj3MA2SFFBaOWBbK5
-         ox7nAcw4Reu3bPe5pTQ63PZ+8HAnN5lH9kZcxT+vTxqQd8w0V7oE/UhynLf0G/wEf6to
-         q8p8AAiZBub/ty+BxQlnCtn7+Ro+Y+898unZ+4eBeSz+XsvJXoHCZFks6cxlVXGxek1V
-         ptoA==
-X-Gm-Message-State: AOAM533D+SRSYcP9aZpNVuIKPx2loWhGaxH6KZBSEXVhLU73ZMyD9All
-        rzZQrC2I/a2M1IwlkJ8t43cmPcTVthqDItmn2Q==
-X-Google-Smtp-Source: ABdhPJydJvl3PC03wLHBI/sDcDMdjPhmIoqIJeNbRR3IGq1cA8fGfxZtEiuFMiAWHLE1skqG2pTkYV1aYIAcDKhP0g==
-X-Received: from kaleshsingh.mtv.corp.google.com ([2620:15c:211:200:b783:5702:523e:d435])
- (user=kaleshsingh job=sendgmr) by 2002:a25:f50b:: with SMTP id
- a11mr17568377ybe.241.1635189831607; Mon, 25 Oct 2021 12:23:51 -0700 (PDT)
-Date:   Mon, 25 Oct 2021 12:23:12 -0700
-In-Reply-To: <20211025192330.2992076-1-kaleshsingh@google.com>
-Message-Id: <20211025192330.2992076-2-kaleshsingh@google.com>
-Mime-Version: 1.0
-References: <20211025192330.2992076-1-kaleshsingh@google.com>
-X-Mailer: git-send-email 2.33.0.1079.g6e70778dc9-goog
-Subject: [PATCH v3 1/8] tracing: Add support for creating hist trigger
- variables from literal
-From:   Kalesh Singh <kaleshsingh@google.com>
-Cc:     surenb@google.com, hridya@google.com, namhyung@kernel.org,
-        kernel-team@android.com, Kalesh Singh <kaleshsingh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>, Shuah Khan <shuah@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Tom Zanussi <zanussi@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-To:     unlisted-recipients:; (no To-header on input)
+        id S236899AbhJYT7S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Oct 2021 15:59:18 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:9208 "EHLO
+        esa1.hgst.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237511AbhJYT4S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Oct 2021 15:56:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1635191636; x=1666727636;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ra5cHQjoFPKLRZBOzWvo0QPRgs19DUjfkgJ7ryBlKZA=;
+  b=V97VeQp1mRx65qIM/mGsndqW4pQtb15rmAydjga4jVhcGXDeZIW2gXDJ
+   gYO2Ucgu/6hMQTPnAVZDDDQAX8NLgmll8DVlJNsuolvC8EK4XXrM3eFfH
+   dEQn1bF9uPoiYzP9LRBmDXMpsqnb8/9Za1YD5NZDz22Pdefv54vEK5Mln
+   x0K7r1yCNNBAhYatcQPvmkHKzTWp9nLLzmy8sVjhpVdqAfRpYRu9kChgL
+   xGA7eXahSr/5AaXFjhWOs0S91jMQ4dF2dYfPAiupJDiAQcWkwGgjSQ2NX
+   FJfNoQmmxc/F2Zznhs/kbXoewrRA5TxM5VBeSFHnACvgUpiIlKG37YgmF
+   g==;
+X-IronPort-AV: E=Sophos;i="5.87,181,1631548800"; 
+   d="scan'208";a="295545841"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
+  by ob1.hgst.iphmx.com with ESMTP; 26 Oct 2021 03:53:54 +0800
+IronPort-SDR: fOT1yPSiBiIbY64We5Dxk8Ta7/7ktRM8DfE5mcFJwEtoRobo9GuhBVXyltUINMBvdwShNou/P9
+ eZKq/qn+0ClcMMDQlS5pkabbNO4yyHa0oR33dlcy/0z5nmjRz3YY/eq70WeC0Grf8suQ+KHhSE
+ aUTBGgklsM3bZPOs3V5HUyNMxXG4nWBhKJmQ0mRyDJuWZwfTUJGnNpRSMewpxsAfFVD7g+ezvh
+ Gl0bkz5wOHMLNZuDtKikL3wZyLHC6Yctj6Rf73wb3ehsqwxAyNf/BSAuzkpAdG5yJzZHtBUFHC
+ AbVDsTGvqZuOBOz8t9VJHZAp
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2021 12:27:52 -0700
+IronPort-SDR: 7wb65s50StrG+Zvc4UY2LXG7YFZXSdHtiL3Tof2hdRS+IP4IdNXFPTnF4uex7cAxmkIMBFPzab
+ 8rXP4QYsU/fUJO1ywB3SRuMuD4LTZeluPMv9o6718jS3JiYgTUc+myKk9ED4lq9OTeUEVaIZ1Q
+ bbPoiry319MQnb6RYihD9moUgK8ZJCryUa6mMAaIJQP2cd0sp20bEEOca8kDBqciza9NK+R186
+ SqtFFS7Jf+246AkFsE/L6Zc2rGHt4ZiyRC1ktPkWPcYlnTb9+ZSF8/pvn004H5QPoklJ0CsQvs
+ cGo=
+WDCIronportException: Internal
+Received: from unknown (HELO hulk.wdc.com) ([10.225.167.27])
+  by uls-op-cesaip01.wdc.com with ESMTP; 25 Oct 2021 12:53:55 -0700
+From:   Atish Patra <atish.patra@wdc.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Atish Patra <atish.patra@wdc.com>, Anup Patel <anup.patel@wdc.com>,
+        David Abdurachmanov <david.abdurachmanov@sifive.com>,
+        devicetree@vger.kernel.org, Greentime Hu <greentime.hu@sifive.com>,
+        Guo Ren <guoren@linux.alibaba.com>,
+        Heinrich Schuchardt <xypron.glpk@gmx.de>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
+        Nick Kossifidis <mick@ics.forth.gr>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Vincent Chen <vincent.chen@sifive.com>
+Subject: [v4 00/11] Improve RISC-V Perf support using SBI PMU and sscofpmf extension
+Date:   Mon, 25 Oct 2021 12:53:39 -0700
+Message-Id: <20211025195350.242914-1-atish.patra@wdc.com>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently hist trigger expressions don't support the use of numeric
-literals:
-	e.g. echo 'hist:keys=common_pid:x=$y-1234'
-		--> is not valid expression syntax
+This series adds improved perf support for RISC-V based system using
+SBI PMU extension[1] and Sscofpmf extension[2]. The SBI PMU extension allows
+the kernel to program the counters for different events and start/stop counters
+while the sscofpmf extension allows the counter overflow interrupt and privilege
+mode filtering. An hardware platform can leverage SBI PMU extension without
+the sscofpmf extension if it supports mcountinhibit and mcounteren. However,
+the reverse is not true. With both of these extension enabled, a platform can
+take advantage of all both event counting and sampling using perf tool. 
 
-Having the ability to use numeric constants in hist triggers supports
-a wider range of expressions for creating variables.
+This series introduces a platform perf driver instead of a existing arch
+specific implementation. The new perf implementation has adopted a modular
+approach where most of the generic event handling is done in the core library
+while individual PMUs need to only implement necessary features specific to
+the PMU. This is easily extensible and any future RISC-V PMU implementation
+can leverage this. Currently, SBI PMU driver & legacy PMU driver are implemented
+as a part of this series.
 
-Add support for creating trace event histogram variables from numeric
-literals.
+The legacy driver tries to reimplement the existing minimal perf under a new
+config to maintain backward compatibility. This implementation only allows
+monitoring of always running cycle/instruction counters. Moreover, they can
+not be started or stopped. In general, this is very limited and not very useful.
+That's why, I am not very keen to carry the support into the new driver.
+However, I don't want to break perf for any existing hardware platforms.
+If everybody agrees that we don't need legacy perf implementation for older
+implementation, I will be happy to drop PATCH 4.
 
-	e.g. echo 'hist:keys=common_pid:x=1234,y=size-1024' >> event/trigger
+This series has been tested in Qemu (RV64 & RV32) and HiFive Unmatched.
+Qemu[5] & OpenSBI [3] patches are required to test it on Qemu and a dt patch
+required in U-Boot[6] for HiFive Unmatched. Qemu changes are not
+backward compatible. That means, you can not use perf anymore on older Qemu
+versions with latest OpenSBI and/or Kernel. However, newer kernel will
+just use legacy pmu driver if old OpenSBI is detected.
 
-A negative numeric constant is created, using unary minus operator
-(parentheses are required).
+The U-Boot patch is just an example that encodes few of the events defined
+in fu740 documentation [7] in the DT. We can update the DT to include all the
+events defined if required.
 
-	e.g. echo 'hist:keys=common_pid:z=-(2)' >> event/trigger
+Here is an output of perf stat/report while running perf benchmark with OpenSBI, 
+Linux kernel and U-Boot patches applied.
 
-Constants can be used with division/multiplication (added in the
-next patch in this series) to implement granularity filters for frequent
-trace events. For instance we can limit emitting the rss_stat
-trace event to when there is a 512KB cross over in the rss size:
+HiFive Unmatched:
+=================
+perf stat -e cycles -e instructions -e L1-icache-load-misses -e branches -e branch-misses \
+-e r0000000000000200 -e r0000000000000400 \
+-e r0000000000000800 perf bench sched messaging -g 25 -l 15
 
-  # Create a synthetic event to monitor instead of the high frequency
-  # rss_stat event
-  echo 'rss_stat_throttled unsigned int mm_id; unsigned int curr;
-	int member; long size' >> tracing/synthetic_events
+# Running 'sched/messaging' benchmark:
+# 20 sender and receiver processes per group
+# 25 groups == 1000 processes run
 
-  # Create a hist trigger that emits the synthetic rss_stat_throttled
-  # event only when the rss size crosses a 512KB boundary.
-  echo 'hist:keys=keys=mm_id,member:bucket=size/0x80000:onchange($bucket)
-      .rss_stat_throttled(mm_id,curr,member,size)'
-        >> events/kmem/rss_stat/trigger
+     Total time: 0.826 [sec]
 
-A use case for using constants with addition/subtraction is not yet
-known, but for completeness the use of constants are supported for all
-operators.
+ Performance counter stats for 'perf bench sched messaging -g 25 -l 15':
 
-Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
-Change-Id: I142121d28dc3475dfbc3a882e7b2368d833474eb
----
+        3426710073      cycles                (65.92%)
+        1348772808      instructions          #0.39  insn per cycle  (75.44%)
+                 0      L1-icache-load-misses (72.28%)
+         201133996      branches              (67.88%)
+          44663584      branch-misses         #22.21% of all branches (35.01%)
+         248194747      r0000000000000200     (41.94%) --> Integer load instruction retired
+         156879950      r0000000000000400     (43.58%) --> Integer store instruction retired
+           6988678      r0000000000000800     (47.91%) --> Atomic memory operation retired
 
-Changes in v3:
-  - Remove the limit on the number of constants that can be created,
-    per Steven Rostedt
+       1.931335000 seconds time elapsed
 
-Changes in v2:
-  - Add description of use case for constants in arithmetic
-    operations in commit message, per Steven Rostedt
-  - Add Namhyung's Reviewed-by
+       1.100415000 seconds user
+       3.755176000 seconds sys
 
- kernel/trace/trace_events_hist.c | 71 +++++++++++++++++++++++++++++++-
- 1 file changed, 70 insertions(+), 1 deletion(-)
 
-diff --git a/kernel/trace/trace_events_hist.c b/kernel/trace/trace_events_hist.c
-index f01e442716e2..28f711224944 100644
---- a/kernel/trace/trace_events_hist.c
-+++ b/kernel/trace/trace_events_hist.c
-@@ -66,7 +66,8 @@
- 	C(EMPTY_SORT_FIELD,	"Empty sort field"),			\
- 	C(TOO_MANY_SORT_FIELDS,	"Too many sort fields (Max = 2)"),	\
- 	C(INVALID_SORT_FIELD,	"Sort field must be a key or a val"),	\
--	C(INVALID_STR_OPERAND,	"String type can not be an operand in expression"),
-+	C(INVALID_STR_OPERAND,	"String type can not be an operand in expression"), \
-+	C(EXPECT_NUMBER,	"Expecting numeric literal"),
- 
- #undef C
- #define C(a, b)		HIST_ERR_##a
-@@ -89,6 +90,7 @@ typedef u64 (*hist_field_fn_t) (struct hist_field *field,
- #define HIST_FIELD_OPERANDS_MAX	2
- #define HIST_FIELDS_MAX		(TRACING_MAP_FIELDS_MAX + TRACING_MAP_VARS_MAX)
- #define HIST_ACTIONS_MAX	8
-+#define HIST_CONST_DIGITS_MAX	21
- 
- enum field_op_id {
- 	FIELD_OP_NONE,
-@@ -152,6 +154,9 @@ struct hist_field {
- 	bool                            read_once;
- 
- 	unsigned int			var_str_idx;
-+
-+	/* Numeric literals are represented as u64 */
-+	u64				constant;
- };
- 
- static u64 hist_field_none(struct hist_field *field,
-@@ -163,6 +168,15 @@ static u64 hist_field_none(struct hist_field *field,
- 	return 0;
- }
- 
-+static u64 hist_field_const(struct hist_field *field,
-+			   struct tracing_map_elt *elt,
-+			   struct trace_buffer *buffer,
-+			   struct ring_buffer_event *rbe,
-+			   void *event)
-+{
-+	return field->constant;
-+}
-+
- static u64 hist_field_counter(struct hist_field *field,
- 			      struct tracing_map_elt *elt,
- 			      struct trace_buffer *buffer,
-@@ -341,6 +355,7 @@ enum hist_field_flags {
- 	HIST_FIELD_FL_CPU		= 1 << 15,
- 	HIST_FIELD_FL_ALIAS		= 1 << 16,
- 	HIST_FIELD_FL_BUCKET		= 1 << 17,
-+	HIST_FIELD_FL_CONST		= 1 << 18,
- };
- 
- struct var_defs {
-@@ -1516,6 +1531,12 @@ static void expr_field_str(struct hist_field *field, char *expr)
- {
- 	if (field->flags & HIST_FIELD_FL_VAR_REF)
- 		strcat(expr, "$");
-+	else if (field->flags & HIST_FIELD_FL_CONST) {
-+		char str[HIST_CONST_DIGITS_MAX];
-+
-+		snprintf(str, HIST_CONST_DIGITS_MAX, "%llu", field->constant);
-+		strcat(expr, str);
-+	}
- 
- 	strcat(expr, hist_field_name(field, 0));
- 
-@@ -1689,6 +1710,15 @@ static struct hist_field *create_hist_field(struct hist_trigger_data *hist_data,
- 		goto out;
- 	}
- 
-+	if (flags & HIST_FIELD_FL_CONST) {
-+		hist_field->fn = hist_field_const;
-+		hist_field->size = sizeof(u64);
-+		hist_field->type = kstrdup("u64", GFP_KERNEL);
-+		if (!hist_field->type)
-+			goto free;
-+		goto out;
-+	}
-+
- 	if (flags & HIST_FIELD_FL_STACKTRACE) {
- 		hist_field->fn = hist_field_none;
- 		goto out;
-@@ -2090,6 +2120,29 @@ static struct hist_field *create_alias(struct hist_trigger_data *hist_data,
- 	return alias;
- }
- 
-+static struct hist_field *parse_const(struct hist_trigger_data *hist_data,
-+				      char *str, char *var_name,
-+				      unsigned long *flags)
-+{
-+	struct trace_array *tr = hist_data->event_file->tr;
-+	struct hist_field *field = NULL;
-+	u64 constant;
-+
-+	if (kstrtoull(str, 0, &constant)) {
-+		hist_err(tr, HIST_ERR_EXPECT_NUMBER, errpos(str));
-+		return NULL;
-+	}
-+
-+	*flags |= HIST_FIELD_FL_CONST;
-+	field = create_hist_field(hist_data, NULL, *flags, var_name);
-+	if (!field)
-+		return NULL;
-+
-+	field->constant = constant;
-+
-+	return field;
-+}
-+
- static struct hist_field *parse_atom(struct hist_trigger_data *hist_data,
- 				     struct trace_event_file *file, char *str,
- 				     unsigned long *flags, char *var_name)
-@@ -2100,6 +2153,15 @@ static struct hist_field *parse_atom(struct hist_trigger_data *hist_data,
- 	unsigned long buckets = 0;
- 	int ret = 0;
- 
-+	if (isdigit(str[0])) {
-+		hist_field = parse_const(hist_data, str, var_name, flags);
-+		if (!hist_field) {
-+			ret = -EINVAL;
-+			goto out;
-+		}
-+		return hist_field;
-+	}
-+
- 	s = strchr(str, '.');
- 	if (s) {
- 		s = strchr(++s, '.');
-@@ -4950,6 +5012,8 @@ static void hist_field_debug_show_flags(struct seq_file *m,
- 
- 	if (flags & HIST_FIELD_FL_ALIAS)
- 		seq_puts(m, "        HIST_FIELD_FL_ALIAS\n");
-+	else if (flags & HIST_FIELD_FL_CONST)
-+		seq_puts(m, "        HIST_FIELD_FL_CONST\n");
- }
- 
- static int hist_field_debug_show(struct seq_file *m,
-@@ -4971,6 +5035,9 @@ static int hist_field_debug_show(struct seq_file *m,
- 			   field->var.idx);
- 	}
- 
-+	if (field->flags & HIST_FIELD_FL_CONST)
-+		seq_printf(m, "      constant: %llu\n", field->constant);
-+
- 	if (field->flags & HIST_FIELD_FL_ALIAS)
- 		seq_printf(m, "      var_ref_idx (into hist_data->var_refs[]): %u\n",
- 			   field->var_ref_idx);
-@@ -5213,6 +5280,8 @@ static void hist_field_print(struct seq_file *m, struct hist_field *hist_field)
- 
- 	if (hist_field->flags & HIST_FIELD_FL_CPU)
- 		seq_puts(m, "common_cpu");
-+	else if (hist_field->flags & HIST_FIELD_FL_CONST)
-+		seq_printf(m, "%llu", hist_field->constant);
- 	else if (field_name) {
- 		if (hist_field->flags & HIST_FIELD_FL_VAR_REF ||
- 		    hist_field->flags & HIST_FIELD_FL_ALIAS)
--- 
-2.33.0.1079.g6e70778dc9-goog
+QEMU:
+=========
+Perf stat:
+=========
+
+[root@fedora-riscv riscv]# perf stat -e r8000000000000005 -e r8000000000000007 \
+-e r8000000000000006 -e r0000000000020002 -e r0000000000020004 -e branch-misses \
+-e cache-misses -e dTLB-load-misses -e dTLB-store-misses -e iTLB-load-misses \
+-e cycles -e instructions perf bench sched messaging -g 15 -l 10 \
+Running with 15*40 (== 600) tasks.
+Time: 6.578
+
+ Performance counter stats for './hackbench -pipe 15 process':
+
+             1,794      r8000000000000005      (52.59%) --> SBI_PMU_FW_SET_TIMER
+             2,859      r8000000000000007      (60.74%) --> SBI_PMU_FW_IPI_RECVD
+             4,205      r8000000000000006      (68.71%) --> SBI_PMU_FW_IPI_SENT
+                 0      r0000000000020002      (81.69%)
+     <not counted>      r0000000000020004      (0.00%)
+     <not counted>      branch-misses          (0.00%)
+     <not counted>      cache-misses           (0.00%)
+         7,878,328      dTLB-load-misses       (15.60%)
+           680,270      dTLB-store-misses      (28.45%)
+         8,287,931      iTLB-load-misses       (39.24%)
+    20,008,506,675      cycles                 (48.60%)
+    21,484,427,932      instructions   # 1.07  insn per cycle (56.60%)
+
+       1.681344735 seconds time elapsed
+
+       0.614460000 seconds user
+       8.313254000 seconds sys
+
+
+Perf record:
+============
+[root@fedora-riscv riscv]# perf record -e cycles -e instructions \
+-e dTLB-load-misses -e dTLB-store-misses -e iTLB-load-misses -c 10000 \
+perf bench sched messaging -g 15 -l 10
+# Running 'sched/messaging' benchmark:
+# 20 sender and receiver processes per group
+# 15 groups == 600 processes run
+
+     Total time: 1.261 [sec]
+[ perf record: Woken up 1 times to write data ]
+[ perf record: Captured and wrote 0.101 MB perf.data (845 samples) ]
+
+[root@fedora-riscv riscv]# perf report
+Available samples                                                               
+407 cycles                                                                     _
+407 instructions                                                               _
+18 dTLB-load-misses                                                            _
+2 dTLB-store-misses                                                            _
+11 iTLB-load-misses                                                            _
+                           
+[1] https://github.com/riscv-non-isa/riscv-sbi-doc/blob/master/riscv-sbi.adoc
+[2] https://drive.google.com/file/d/171j4jFjIkKdj5LWcExphq4xG_2sihbfd/edit
+[3] https://github.com/atishp04/opensbi/tree/pmu_sscofpmf_v2 
+[4] https://github.com/atishp04/linux/tree/riscv_pmu_v4
+[5] https://github.com/atishp04/qemu/tree/riscv_pmu_v3
+[6] https://github.com/atishp04/u-boot/tree/hifive_unmatched_dt_pmu
+[7] https://sifive.cdn.prismic.io/sifive/de1491e5-077c-461d-9605-e8a0ce57337d_fu740-c000-manual-v1p3.pdf
+
+Changes from v3->v4:
+1. Do not proceed overflow handler if event doesn't set for sampling.
+2. overflow status register is only read after counters are stopped.
+3. Added the PMU DT node for HiFive Unmatched.
+
+Changes from v2->v3:
+1. Added interrupt overflow support.
+2. Cleaned up legacy driver initialization.
+3. Supports perf record now.
+4. Added the DT binding and maintainers file.
+5. Changed cpu hotplug notifier to be multi-state.
+6. OpenSBI doesn't disable cycle/instret counter during boot. Update the
+   perf code to disable all the counter during the boot.
+
+Changes from v1->v2
+1. Implemented the latest SBI PMU extension specification.
+2. The core platform driver was changed to operate as a library while only
+   sbi based PMU is built as a driver. The legacy one is just a fallback if
+   SBI PMU extension is not available.
+
+Atish Patra (11):
+RISC-V: Remove the current perf implementation
+RISC-V: Add CSR encodings for all HPMCOUNTERS
+RISC-V: Add a perf core library for pmu drivers
+RISC-V: Add a simple platform driver for RISC-V legacy perf
+RISC-V: Add RISC-V SBI PMU extension definitions
+dt-binding: pmu: Add RISC-V PMU DT bindings
+RISC-V: Add perf platform driver based on SBI PMU extension
+RISC-V: Add interrupt support for perf
+Documentation: riscv: Remove the old documentation
+riscv: dts: fu740: Add pmu node
+MAINTAINERS: Add entry for RISC-V PMU drivers
+
+.../devicetree/bindings/perf/riscv,pmu.yaml   |  51 ++
+Documentation/riscv/pmu.rst                   | 255 ------
+MAINTAINERS                                   |  10 +
+arch/riscv/Kconfig                            |  13 -
+arch/riscv/boot/dts/sifive/fu740-c000.dtsi    |   3 +
+arch/riscv/include/asm/csr.h                  |  66 +-
+arch/riscv/include/asm/perf_event.h           |  72 --
+arch/riscv/include/asm/sbi.h                  |  97 +++
+arch/riscv/kernel/Makefile                    |   1 -
+arch/riscv/kernel/perf_event.c                | 485 ------------
+drivers/perf/Kconfig                          |  25 +
+drivers/perf/Makefile                         |   5 +
+drivers/perf/riscv_pmu.c                      | 331 ++++++++
+drivers/perf/riscv_pmu_legacy.c               | 143 ++++
+drivers/perf/riscv_pmu_sbi.c                  | 732 ++++++++++++++++++
+include/linux/cpuhotplug.h                    |   1 +
+include/linux/perf/riscv_pmu.h                |  69 ++
+17 files changed, 1532 insertions(+), 827 deletions(-)
+create mode 100644 Documentation/devicetree/bindings/perf/riscv,pmu.yaml
+delete mode 100644 Documentation/riscv/pmu.rst
+delete mode 100644 arch/riscv/kernel/perf_event.c
+create mode 100644 drivers/perf/riscv_pmu.c
+create mode 100644 drivers/perf/riscv_pmu_legacy.c
+create mode 100644 drivers/perf/riscv_pmu_sbi.c
+create mode 100644 include/linux/perf/riscv_pmu.h
+
+--
+2.31.1
 
