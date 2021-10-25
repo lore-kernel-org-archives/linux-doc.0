@@ -2,208 +2,171 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B55E4C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 09:36:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 906D3C4321E
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 09:58:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 996A460FBF
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 09:36:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 751C361039
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 09:58:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232653AbhJYJjR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Oct 2021 05:39:17 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:52702 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232641AbhJYJjQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Oct 2021 05:39:16 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id CDD1B1FD3E;
-        Mon, 25 Oct 2021 09:36:53 +0000 (UTC)
+        id S232633AbhJYKBR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Oct 2021 06:01:17 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:36442 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230297AbhJYKBQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Oct 2021 06:01:16 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id EF03B2191E;
+        Mon, 25 Oct 2021 09:58:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1635154613; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1635155932; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=oFDKyWHqyVtPJmp22asWqTp6wN27PNTJwsnOdNI5eMw=;
-        b=0Xg0WL2wzBuKe8D4tUJxuoGcMnqsjXk7A13F8njp3iYOm50V6ZAwqkd27sCxqrQedMjsFS
-        AHnv8t7+kV4e/rV8PmSGEWL7l37LFNVrBJW+ZQpSpbPo3L6jM7G+Dl8edfAarwAeqggGuP
-        Y51sabkzcSkC5aslQnkHBvQn33v1ag8=
+        bh=DT/OTBMCYlwriv5HWVIwUqv72OWQWapWNPJDICv0yPg=;
+        b=W7Zw/nrZiA4UZbuSr/qogGK+E0KzuQF8C/nNafNbDs454vnam3HWvFibs3P3ppVLB573Pd
+        pcjluKXWNEeN0GDQh0V3sb+bLG9doxPr4I5VO9O6qCviitGL7zqC2/IWdaz++RWuDqmEO8
+        hPH/V5uiLhBHBPhm3hhY2gU0UrW7PTs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1635154613;
+        s=susede2_ed25519; t=1635155932;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=oFDKyWHqyVtPJmp22asWqTp6wN27PNTJwsnOdNI5eMw=;
-        b=IOPyp9V44gtzgcvq2Nseafs7GksOT0uX8jP9ZpVb0E0OvDhhgKinc6Nx6P7SXgWt0b4qyx
-        d5kyRpiaXeUHasDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        bh=DT/OTBMCYlwriv5HWVIwUqv72OWQWapWNPJDICv0yPg=;
+        b=GGtCOE9aHLrFGguQIcVEHQWTiUfWvyUjgN07MJk1AkEGOmaktxaEin5n25sR0a3Nu2OV5T
+        gNPSgW4XevCQ0cCw==
+Received: from pobox.suse.cz (pobox.suse.cz [10.100.2.14])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 92E451377E;
-        Mon, 25 Oct 2021 09:36:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id RAozI7V6dmGAUAAAMHmgww
-        (envelope-from <vbabka@suse.cz>); Mon, 25 Oct 2021 09:36:53 +0000
-Message-ID: <be7ee3a6-9b3c-b436-f042-82bd3c416acc@suse.cz>
-Date:   Mon, 25 Oct 2021 11:36:53 +0200
+        by relay2.suse.de (Postfix) with ESMTPS id 57932A3B81;
+        Mon, 25 Oct 2021 09:58:51 +0000 (UTC)
+Date:   Mon, 25 Oct 2021 11:58:51 +0200 (CEST)
+From:   Miroslav Benes <mbenes@suse.cz>
+To:     Greg KH <gregkh@linuxfoundation.org>
+cc:     Ming Lei <ming.lei@redhat.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>, tj@kernel.org,
+        akpm@linux-foundation.org, minchan@kernel.org, jeyu@kernel.org,
+        shuah@kernel.org, bvanassche@acm.org, dan.j.williams@intel.com,
+        joe@perches.com, tglx@linutronix.de, keescook@chromium.org,
+        rostedt@goodmis.org, linux-spdx@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-kernel@vger.kernel.org, live-patching@vger.kernel.org,
+        pmladek@suse.com
+Subject: Re: [PATCH v8 11/12] zram: fix crashes with cpu hotplug multistate
+In-Reply-To: <YW/TRkXth/mbTQ6b@kroah.com>
+Message-ID: <alpine.LSU.2.21.2110251144270.7294@pobox.suse.cz>
+References: <YWk9e957Hb+I7HvR@T590> <YWm68xUnAofop3PZ@bombadil.infradead.org> <YWq3Z++uoJ/kcp+3@T590> <YW3LuzaPhW96jSBK@bombadil.infradead.org> <YW4uwep3BCe9Vxq8@T590> <alpine.LSU.2.21.2110190820590.15009@pobox.suse.cz> <YW6OptglA6UykZg/@T590>
+ <alpine.LSU.2.21.2110200835490.26817@pobox.suse.cz> <YW/KEsfWJMIPnz76@T590> <alpine.LSU.2.21.2110201014400.26817@pobox.suse.cz> <YW/TRkXth/mbTQ6b@kroah.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Content-Language: en-US
-To:     Rustam Kovhaev <rkovhaev@gmail.com>, cl@linux.com,
-        penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
-        akpm@linux-foundation.org, corbet@lwn.net
-Cc:     djwong@kernel.org, david@fromorbit.com,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
-        viro@zeniv.linux.org.uk, dvyukov@google.com
-References: <1dfb7a79-3e66-a9fe-ee7c-1277d7ff5950@suse.cz>
- <20211023064114.708532-1-rkovhaev@gmail.com>
-From:   Vlastimil Babka <vbabka@suse.cz>
-Subject: Re: [PATCH v2] slob: add size header to all allocations
-In-Reply-To: <20211023064114.708532-1-rkovhaev@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/23/21 08:41, Rustam Kovhaev wrote:
-> Let's prepend both kmalloc() and kmem_cache_alloc() allocations with the
-> size header.
-> It simplifies the slab API and guarantees that both kmem_cache_alloc()
-> and kmalloc() memory could be freed by kfree().
+On Wed, 20 Oct 2021, Greg KH wrote:
+
+> On Wed, Oct 20, 2021 at 10:19:27AM +0200, Miroslav Benes wrote:
+> > On Wed, 20 Oct 2021, Ming Lei wrote:
+> > 
+> > > On Wed, Oct 20, 2021 at 08:43:37AM +0200, Miroslav Benes wrote:
+> > > > On Tue, 19 Oct 2021, Ming Lei wrote:
+> > > > 
+> > > > > On Tue, Oct 19, 2021 at 08:23:51AM +0200, Miroslav Benes wrote:
+> > > > > > > > By you only addressing the deadlock as a requirement on approach a) you are
+> > > > > > > > forgetting that there *may* already be present drivers which *do* implement
+> > > > > > > > such patterns in the kernel. I worked on addressing the deadlock because
+> > > > > > > > I was informed livepatching *did* have that issue as well and so very
+> > > > > > > > likely a generic solution to the deadlock could be beneficial to other
+> > > > > > > > random drivers.
+> > > > > > > 
+> > > > > > > In-tree zram doesn't have such deadlock, if livepatching has such AA deadlock,
+> > > > > > > just fixed it, and seems it has been fixed by 3ec24776bfd0.
+> > > > > > 
+> > > > > > I would not call it a fix. It is a kind of ugly workaround because the 
+> > > > > > generic infrastructure lacked (lacks) the proper support in my opinion. 
+> > > > > > Luis is trying to fix that.
+> > > > > 
+> > > > > What is the proper support of the generic infrastructure? I am not
+> > > > > familiar with livepatching's model(especially with module unload), you mean
+> > > > > livepatching have to do the following way from sysfs:
+> > > > > 
+> > > > > 1) during module exit:
+> > > > > 	
+> > > > > 	mutex_lock(lp_lock);
+> > > > > 	kobject_put(lp_kobj);
+> > > > > 	mutex_unlock(lp_lock);
+> > > > > 	
+> > > > > 2) show()/store() method of attributes of lp_kobj
+> > > > > 	
+> > > > > 	mutex_lock(lp_lock)
+> > > > > 	...
+> > > > > 	mutex_unlock(lp_lock)
+> > > > 
+> > > > Yes, this was exactly the case. We then reworked it a lot (see 
+> > > > 958ef1e39d24 ("livepatch: Simplify API by removing registration step"), so 
+> > > > now the call sequence is different. kobject_put() is basically offloaded 
+> > > > to a workqueue scheduled right from the store() method. Meaning that 
+> > > > Luis's work would probably not help us currently, but on the other hand 
+> > > > the issues with AA deadlock were one of the main drivers of the redesign 
+> > > > (if I remember correctly). There were other reasons too as the changelog 
+> > > > of the commit describes.
+> > > > 
+> > > > So, from my perspective, if there was a way to easily synchronize between 
+> > > > a data cleanup from module_exit callback and sysfs/kernfs operations, it 
+> > > > could spare people many headaches.
+> > > 
+> > > kobject_del() is supposed to do so, but you can't hold a shared lock
+> > > which is required in show()/store() method. Once kobject_del() returns,
+> > > no pending show()/store() any more.
+> > > 
+> > > The question is that why one shared lock is required for livepatching to
+> > > delete the kobject. What are you protecting when you delete one kobject?
+> > 
+> > I think it boils down to the fact that we embed kobject statically to 
+> > structures which livepatch uses to maintain data. That is discouraged 
+> > generally, but all the attempts to implement it correctly were utter 
+> > failures.
 > 
-> meminfo right after the system boot, without the patch:
-> Slab:              35456 kB
-> 
-> the same, with the patch:
-> Slab:              36160 kB
-> 
-> Link: https://lore.kernel.org/lkml/20210929212347.1139666-1-rkovhaev@gmail.com
-> Signed-off-by: Rustam Kovhaev <rkovhaev@gmail.com>
+> Sounds like this is the real problem that needs to be fixed.  kobjects
+> should always control the lifespan of the structure they are embedded
+> in.  If not, then that is a design flaw of the user of the kobject :(
 
-Seems overal correct to me, thanks! I'll just suggest some improvements:
+Right, and you've already told us. A couple of times.
 
-> ---
-> v2:
->  - Allocate compound pages in slob_alloc_node()
->  - Use slob_free_pages() in kfree()
->  - Update documentation
-> 
->  Documentation/core-api/memory-allocation.rst |   4 +-
->  mm/slob.c                                    | 114 +++++++++----------
->  2 files changed, 55 insertions(+), 63 deletions(-)
-> 
-> diff --git a/Documentation/core-api/memory-allocation.rst b/Documentation/core-api/memory-allocation.rst
-> index 5954ddf6ee13..fea0ed11a7c5 100644
-> --- a/Documentation/core-api/memory-allocation.rst
-> +++ b/Documentation/core-api/memory-allocation.rst
-> @@ -172,5 +172,5 @@ wrappers can allocate memory from that cache.
->  
->  When the allocated memory is no longer needed it must be freed. You can
->  use kvfree() for the memory allocated with `kmalloc`, `vmalloc` and
-> -`kvmalloc`. The slab caches should be freed with kmem_cache_free(). And
-> -don't forget to destroy the cache with kmem_cache_destroy().
-> +`kvmalloc`. The slab caches can be freed with kmem_cache_free() or kvfree().
-> +And don't forget to destroy the cache with kmem_cache_destroy().
+For example 
+here https://lore.kernel.org/all/20190502074230.GA27847@kroah.com/
 
-I would phrase it like this (improves also weird wording "The slab caches
-should be freed with..." prior to your patch, etc.):
+:)
+ 
+> Where in the kernel is this happening?  And where have been the attempts
+> to fix this up?
 
-When the allocated memory is no longer needed it must be freed. Objects
-allocated by `kmalloc` can be freed by `kfree` or `kvfree`.
-Objects allocated by `kmem_cache_alloc` can be freed with `kmem_cache_free`
-or also by `kfree` or `kvfree`.
-Memory allocated by `vmalloc` can be freed with `vfree` or `kvfree`.
-Memory allocated by `kvmalloc` can be freed with `kvfree`.
-Caches created by `kmem_cache_create` should be freed with with
-`kmem_cache_destroy`.
+include/linux/livepatch.h and kernel/livepatch/core.c. See 
+klp_{patch,object,func}.
 
-> -static void slob_free_pages(void *b, int order)
-> +static void slob_free_pages(struct page *sp, int order)
->  {
-> -	struct page *sp = virt_to_page(b);
-> -
-> -	if (current->reclaim_state)
-> -		current->reclaim_state->reclaimed_slab += 1 << order;
-> +	if (PageSlab(sp)) {
-> +		__ClearPageSlab(sp);
-> +		page_mapcount_reset(sp);
-> +		if (current->reclaim_state)
-> +			current->reclaim_state->reclaimed_slab += 1 << order;
-> +	}
->  
->  	mod_node_page_state(page_pgdat(sp), NR_SLAB_UNRECLAIMABLE_B,
->  			    -(PAGE_SIZE << order));
-> @@ -247,9 +244,7 @@ static void *slob_page_alloc(struct page *sp, size_t size, int align,
->  		/*
->  		 * 'aligned' will hold the address of the slob block so that the
->  		 * address 'aligned'+'align_offset' is aligned according to the
-> -		 * 'align' parameter. This is for kmalloc() which prepends the
-> -		 * allocated block with its size, so that the block itself is
-> -		 * aligned when needed.
-> +		 * 'align' parameter.
->  		 */
->  		if (align) {
->  			aligned = (slob_t *)
-> @@ -373,25 +368,28 @@ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node,
->  	}
->  	if (unlikely(gfp & __GFP_ZERO))
->  		memset(b, 0, size);
-> +	/* Write size in the header */
-> +	*(unsigned int *)b = size - align_offset;
-> +	b = (void *)b + align_offset;
->  	return b;
+It took some archeology, but I think 
+https://lore.kernel.org/all/1464018848-4303-1-git-send-email-pmladek@suse.com/ 
+is it. Petr might correct me.
 
-I would just "return (void *)b + align_offset;" here,  no need to update 'b'.
+It was long before we added some important features to the code, so it 
+might be even more difficult today.
 
->  }
->  
->  /*
->   * slob_free: entry point into the slob allocator.
->   */
-> -static void slob_free(void *block, int size)
-> +static void slob_free(void *block)
->  {
->  	struct page *sp;
-> -	slob_t *prev, *next, *b = (slob_t *)block;
-> +	int align_offset = max_t(size_t, ARCH_KMALLOC_MINALIGN, ARCH_SLAB_MINALIGN);
+It resurfaced later when Tobin tried to fix some of kobject call sites in 
+the kernel...
 
-This patch adds a number of these in several functions, it was just
-__do_kmalloc_node(). It's compile-time constant so I would just #define it
-somewhere at the top of slob.c, e.g. something like:
+https://lore.kernel.org/all/20190430001534.26246-1-tobin@kernel.org/
+https://lore.kernel.org/all/20190430233803.GB10777@eros.localdomain/
+https://lore.kernel.org/all/20190502023142.20139-6-tobin@kernel.org/
 
-#if ARCH_KMALLOC_MINALIGN < ARCH_SLAB_MINALIGN
-#define SLOB_HDR_SIZE ARCH_SLAB_MINALIGN
-#else
-#define SLOB_HDR_SIZE ARCH_KMALLOC_MINALIGN
-#endif
+There are probably more references.
 
-> +	void *hdr = block - align_offset;
-> +	unsigned int size = *(unsigned int *)hdr + align_offset;
-> +	slob_t *prev, *next, *b = hdr;
+Anyway, the current code works fine (well, one could argue about that). If 
+someone wants to take a (another) stab at this, then why not, but it 
+seemed like a rabbit hole without a substantial gain in the past. On the 
+other hand, we currently misuse the API to some extent.
 
-IMHO this is too subtle to put in the declaration. I would move these
-assignments below the declarations.
+/me scratches head
 
-That way you can also ditch 'hdr' and just do a 'block -= SLOB_HDR_SIZE;';
-
->  	slobidx_t units;
->  	unsigned long flags;
->  	struct list_head *slob_list;
->  
-> -	if (unlikely(ZERO_OR_NULL_PTR(block)))
-> -		return;
-> -	BUG_ON(!size);
-> -
-> -	sp = virt_to_page(block);
-> +	BUG_ON(!size || size >= PAGE_SIZE);
-> +	sp = virt_to_page(hdr);
->  	units = SLOB_UNITS(size);
->  
->  	spin_lock_irqsave(&slob_lock, flags);
+Miroslav
