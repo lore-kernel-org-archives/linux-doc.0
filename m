@@ -2,156 +2,228 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8B6EC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 13:08:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDA21C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 14:29:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 93BAF6023D
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 13:08:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B664D610F8
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 14:29:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233210AbhJZNLO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Oct 2021 09:11:14 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:3834 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S230324AbhJZNLN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 09:11:13 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19QCH26B025394;
-        Tue, 26 Oct 2021 13:08:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=/xKjX7zeq971INJvr0YNpESJxm9aAQToNy2FujCIzE4=;
- b=NGtmOg2G+ZIp4mWj40sNUXExjKP4CmvUvmSl7oSGcMcBV50q0TFbQCV68XwILo2m0M1m
- G3raEkGL2egiV7XfPWJRkz1nVBppzBRZ78fbN5SWDA+f4aIyiUwvng/v5Ix+rpN8Toxu
- OznP/t+hlpqLKnC9KPQv8YBZAwvqgHCinG8kGxoIzAp+bCw6SaVJWw3cIXb4wpqn47p8
- 14quNNzNwT6F2hchPhzXgbZBfsYV1YFk46KcyUYK9DI3ROuGegw7MYU70ZV0HogePkFQ
- Ky7uEp6tKEs0KgBcnIa+33ngHb0rv71CAPXND93OI00VSnviYKgf0vYTDX2hJPPe6t33 1g== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 3bx596x846-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 26 Oct 2021 13:08:40 +0000
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 19QBkR4R021388;
-        Tue, 26 Oct 2021 13:08:40 GMT
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com [169.55.85.253])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 3bx596x83n-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 26 Oct 2021 13:08:40 +0000
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
-        by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 19QCvlDX011481;
-        Tue, 26 Oct 2021 13:08:39 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
-        by ppma01wdc.us.ibm.com with ESMTP id 3bx4efbupq-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 26 Oct 2021 13:08:39 +0000
-Received: from b03ledav005.gho.boulder.ibm.com (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
-        by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 19QD8cfv48693634
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 26 Oct 2021 13:08:38 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 98FEEBE05A;
-        Tue, 26 Oct 2021 13:08:38 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 6E031BE065;
-        Tue, 26 Oct 2021 13:08:38 +0000 (GMT)
-Received: from localhost (unknown [9.211.49.177])
-        by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Tue, 26 Oct 2021 13:08:38 +0000 (GMT)
-From:   Nathan Lynch <nathanl@linux.ibm.com>
-To:     Hill Ma <maahiuzeon@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        benh@kernel.crashing.org, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH v2] macintosh/via-pmu-led: make disk activity usage a
- parameter.
-In-Reply-To: <20211026033254.1052-1-maahiuzeon@gmail.com>
-References: <20211026033254.1052-1-maahiuzeon@gmail.com>
-Date:   Tue, 26 Oct 2021 08:08:38 -0500
-Message-ID: <87fssox7ah.fsf@linux.ibm.com>
+        id S236609AbhJZOb2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Oct 2021 10:31:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55230 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236611AbhJZObW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 10:31:22 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31277C06122C
+        for <linux-doc@vger.kernel.org>; Tue, 26 Oct 2021 07:28:51 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id u6-20020a17090a3fc600b001a00250584aso2408775pjm.4
+        for <linux-doc@vger.kernel.org>; Tue, 26 Oct 2021 07:28:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Lurf7pLmFfI8PFqHVx6TDwHnjD6o21b/FbSCQOL4ZwA=;
+        b=kyJREW0kMU2y5W01Tp8hmPQxtDJafRxlr1A/Heu3XNDIF1+OOngkjBp7l/UbHLSSS9
+         WgkFV+hQ+r8y6kI3VijZ6K6AUu3yqvcg+yYjE1hW2pqKZqqvQRigIU/3NV5q8xh2MQAi
+         SAP2MsyjU7+gQQ/3EJitOymtYcpD0VV9q/r2md6ecKZW4QV+iuu3JQ9Qx1SLMfdbQZ4J
+         EhsC+/MfHTU3mQqve40aLRakdwwykEugm/QUsscB9BuWsaHiM/r0VsujGJt3Mz8Gwcz0
+         LYibsNVpHh6hv/WVBTRZOim/Sm8d8jGW5heMoNorhlG/1/x6J5eJavazPg3y7zEZG2ex
+         ZTsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Lurf7pLmFfI8PFqHVx6TDwHnjD6o21b/FbSCQOL4ZwA=;
+        b=uXaoxaaa8RMDyH5pZtkHltXIjEUrorSKVclPxpWEeBxLkV9zCAIU/KGE21XXdSbf4H
+         5zQ+Ut17tUMJi8HW1t+zcuED8pE6AIMV/FJCw5otds14s21NdT80/2/QkrVPDK/8Dhgt
+         2oehSjGZETCW5qOBbJlOLsw6Vt9YHZItbDH34zZ+j05MAv2DtvYL+ERaP6D3prwQjIpw
+         UwQN8dEL0BW26f2i1Y5NYe76Lz2QLYDfA09b5QbxPiBli9RCiF6uPydeuceHTPeao00P
+         l8hchISe4LhxmoQmsiUmmrE4X8oGmRueFgYLg0hF3UMVTCERkkWZ40RWETZPQBhi/eDI
+         xtfw==
+X-Gm-Message-State: AOAM533fK9pGWapHKsuX/fhm45/M9IVRlra9rTvFptePlDbZS4QM85ZV
+        XWKe0CM39OGyGZtrdYMhp10cT7jyX6t4AvQFsa9HZQ==
+X-Google-Smtp-Source: ABdhPJzMJdJHE9L/b1rT+cs4ENyPqi8wu9eQIbr7CMebXBLB3zRikOsje5xfnU8hY9nFtgLTr4mWvqH3ADsOiDagAwY=
+X-Received: by 2002:a17:903:183:b0:140:47c1:1f2e with SMTP id
+ z3-20020a170903018300b0014047c11f2emr14674517plg.69.1635258530393; Tue, 26
+ Oct 2021 07:28:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 6aO6ediL6HTYrQHIwSlnY5kSvANXx6ix
-X-Proofpoint-GUID: 0Jj02Gc0AyomDLd7w1-3ui-6PXWErbaf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-10-26_02,2021-10-26_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 malwarescore=0
- mlxlogscore=999 phishscore=0 adultscore=0 impostorscore=0 bulkscore=0
- mlxscore=0 lowpriorityscore=0 priorityscore=1501 spamscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2110260076
+References: <20211025200852.3002369-1-kaleshsingh@google.com>
+ <20211025200852.3002369-8-kaleshsingh@google.com> <20211026214311.583c728d90d41778c38201dd@kernel.org>
+In-Reply-To: <20211026214311.583c728d90d41778c38201dd@kernel.org>
+From:   Kalesh Singh <kaleshsingh@google.com>
+Date:   Tue, 26 Oct 2021 07:28:39 -0700
+Message-ID: <CAC_TJvfQQCyuSZqjzC0fuAah84uLgHJv5T+WtR8=9h5fN9nrLA@mail.gmail.com>
+Subject: Re: [PATCH v4 7/8] tracing/selftests: Add tests for hist trigger
+ expression parsing
+To:     Masami Hiramatsu <mhiramat@kernel.org>
+Cc:     surenb@google.com, hridya@google.com, namhyung@kernel.org,
+        kernel-team@android.com, Jonathan Corbet <corbet@lwn.net>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>, Shuah Khan <shuah@kernel.org>,
+        Tom Zanussi <zanussi@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
+On Tue, Oct 26, 2021 at 5:43 AM Masami Hiramatsu <mhiramat@kernel.org> wrote:
+>
+> Hi Kalesh,
+>
+> On Mon, 25 Oct 2021 13:08:39 -0700
+> Kalesh Singh <kaleshsingh@google.com> wrote:
+>
+> > Add tests for the parsing of hist trigger expressions; and to
+> > validate expression evaluation.
+> >
+> > Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
+> > Reviewed-by: Namhyung Kim <namhyung@kernel.org>
+> > ---
+> >
+> > Changes in v3:
+> >   - Remove .sym-offset error check tests
+> >
+> > Changes in v2:
+> >   - Add Namhyung's Reviewed-by
+> >   - Update comment to clarify err_pos in "Too many subexpressions" test
+> >
+> >
+> >  .../testing/selftests/ftrace/test.d/functions |  4 +-
+> >  .../trigger/trigger-hist-expressions.tc       | 72 +++++++++++++++++++
+> >  2 files changed, 74 insertions(+), 2 deletions(-)
+> >  create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-hist-expressions.tc
+> >
+> > diff --git a/tools/testing/selftests/ftrace/test.d/functions b/tools/testing/selftests/ftrace/test.d/functions
+> > index 000fd05e84b1..1855a63559ad 100644
+> > --- a/tools/testing/selftests/ftrace/test.d/functions
+> > +++ b/tools/testing/selftests/ftrace/test.d/functions
+> > @@ -16,13 +16,13 @@ reset_tracer() { # reset the current tracer
+> >
+> >  reset_trigger_file() {
+> >      # remove action triggers first
+> > -    grep -H ':on[^:]*(' $@ |
+> > +    grep -H ':on[^:]*(' $@ | tac |
+> >      while read line; do
+> >          cmd=`echo $line | cut -f2- -d: | cut -f1 -d"["`
+> >       file=`echo $line | cut -f1 -d:`
+> >       echo "!$cmd" >> $file
+> >      done
+> > -    grep -Hv ^# $@ |
+> > +    grep -Hv ^# $@ | tac |
+> >      while read line; do
+> >          cmd=`echo $line | cut -f2- -d: | cut -f1 -d"["`
+> >       file=`echo $line | cut -f1 -d:`
+>
+> If this update has any meaning, please make a separate patch for this part.
 
-Hill Ma <maahiuzeon@gmail.com> writes:
-> Whether to use the LED as a disk activity is a user preference.
-> Some like this usage while others find the LED too bright. So it
-> might be a good idea to make this choice a runtime parameter rather
-> than compile-time config.
+Hi Masami,
 
-Users already have the ability to change the LED behavior at runtime
-already, correct? I.e. they can do:
+Thanks for the feedback. The above change is to ensure we remove
+triggers in the reverse order that we created them - important when
+one trigger depends on another. I can split it out into a separate
+patch and will add a README pattern check to the requires tag for
+these tests.
 
-  echo none > /sys/class/leds/pmu-led::front/trigger
+Thanks,
+Kalesh
 
-in their boot scripts. Granted, a kernel built with ADB_PMU_LED_DISK=y
-will blink the LED on disk activity until user space is running. Is this
-unsatisfactory?
-
-> The default is set to disabled as OS X does not use the LED as a
-> disk activity indicator.
-
-This is long-standing behavior in Linux and OS X has been EOL on this
-architecture for a decade, so this isn't much of a consideration at this
-point. Seems more important to avoid surprising existing users and
-distributions with a behavior change that makes additional work for
-them. See below.
-
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 43dc35fe5bc0..a656a51ba0a8 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -250,6 +250,12 @@
->  			Use timer override. For some broken Nvidia NF5 boards
->  			that require a timer override, but don't have HPET
->  
-> +	adb_pmu_led_disk [PPC]
-> +			Use front LED as disk LED by default. Only applies to
-> +			PowerBook, iBook, PowerMac 7,2/7,3.
-> +			Format: <bool>  (1/Y/y=enable, 0/N/n=disable)
-> +			Default: disabled
-> +
->  	add_efi_memmap	[EFI; X86] Include EFI memory map in
->  			kernel's map of available physical RAM.
->  
-> diff --git a/drivers/macintosh/Kconfig b/drivers/macintosh/Kconfig
-> index 5cdc361da37c..243215de563c 100644
-> --- a/drivers/macintosh/Kconfig
-> +++ b/drivers/macintosh/Kconfig
-> @@ -78,16 +78,6 @@ config ADB_PMU_LED
->  	  behaviour of the old CONFIG_BLK_DEV_IDE_PMAC_BLINK, select this
->  	  and the disk LED trigger and configure appropriately through sysfs.
->  
-> -config ADB_PMU_LED_DISK
-> -	bool "Use front LED as DISK LED by default"
-> -	depends on ADB_PMU_LED
-> -	depends on LEDS_CLASS
-> -	select LEDS_TRIGGERS
-> -	select LEDS_TRIGGER_DISK
-> -	help
-> -	  This option makes the front LED default to the disk trigger
-> -	  so that it blinks on disk activity.
-> -
-
-So, if I've been relying on CONFIG_ADB_PMU_LED_DISK=y and I upgrade to a
-newer kernel with the proposed change, from my point of view the disk
-activity LED has stopped working and I need to alter the bootloader
-config or init scripts to restore the expected behavior. That seems
-undesirable to me.
-
-I don't think we rigidly enforce Kconfig backward compatibility, but
-when it comes to a user-visible function on a legacy platform where
-users and distros likely have their configurations figured out already,
-it's probably best to avoid such changes.
+>
+> > diff --git a/tools/testing/selftests/ftrace/test.d/trigger/trigger-hist-expressions.tc b/tools/testing/selftests/ftrace/test.d/trigger/trigger-hist-expressions.tc
+> > new file mode 100644
+> > index 000000000000..e715641c54d3
+> > --- /dev/null
+> > +++ b/tools/testing/selftests/ftrace/test.d/trigger/trigger-hist-expressions.tc
+> > @@ -0,0 +1,72 @@
+> > +#!/bin/sh
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +# description: event trigger - test histogram expression parsing
+> > +# requires: set_event events/sched/sched_process_fork/trigger events/sched/sched_process_fork/hist error_log
+>
+> Hmm, are there any way to check the running kernel supports this feature?
+> Because the latest version of the kselftest is expected to run on the old stable
+> kernel for testing, the testcase should check whether the kernel supports this
+> testing feature or not. (That's why the requires tag supports README pattern check)
+>
+> So, at first if you didn't update the <tracefs>/README, please update it first
+> to show the new syntax is supported, and add "SOME-PATTERN":README to the
+> requires tag.
+>
+> Thank you,
+>
+> > +
+> > +
+> > +fail() { #msg
+> > +    echo $1
+> > +    exit_fail
+> > +}
+> > +
+> > +get_hist_var() { #var_name hist_path
+> > +    hist_output=`grep -m1 "$1: " $2`
+> > +    hitcount=`echo $hist_output | awk '{ for (i=1; i<=NF; ++i) { if ($i ~ "hitcount:") print $(i+1)} }'`
+> > +    var_sum=`echo $hist_output | awk '{ for (i=1; i<=NF; ++i) { if ($i ~ "'$1':") print $(i+1)} }'`
+> > +    var_val=$(( var_sum / hitcount ))
+> > +    echo $var_val
+> > +}
+> > +
+> > +test_hist_expr() { # test_name expression expected_val
+> > +    reset_trigger
+> > +
+> > +    echo "Test hist trigger expressions - $1"
+> > +
+> > +    echo "hist:keys=common_pid:x=$2" > events/sched/sched_process_fork/trigger
+> > +    echo 'hist:keys=common_pid:vals=$x' >> events/sched/sched_process_fork/trigger
+> > +    for i in `seq 1 10` ; do ( echo "forked" > /dev/null); done
+> > +
+> > +    actual=`get_hist_var x events/sched/sched_process_fork/hist`
+> > +
+> > +    if [ $actual != $3 ]; then
+> > +        fail "Failed hist trigger expression evaluation: Expression: $2 Expected: $3, Actual: $actual"
+> > +    fi
+> > +
+> > +    reset_trigger
+> > +}
+> > +
+> > +check_error() { # test_name command-with-error-pos-by-^
+> > +    reset_trigger
+> > +
+> > +    echo "Test hist trigger expressions - $1"
+> > +    ftrace_errlog_check 'hist:sched:sched_process_fork' "$2" 'events/sched/sched_process_fork/trigger'
+> > +
+> > +    reset_trigger
+> > +}
+> > +
+> > +test_hist_expr "Variable assignment" "123" "123"
+> > +
+> > +test_hist_expr "Subtraction not associative" "16-8-4-2" "2"
+> > +
+> > +test_hist_expr "Division not associative" "64/8/4/2" "1"
+> > +
+> > +test_hist_expr "Same precedence operators (+,-) evaluated left to right" "16-8+4+2" "14"
+> > +
+> > +test_hist_expr "Same precedence operators (*,/) evaluated left to right" "4*3/2*2" "12"
+> > +
+> > +test_hist_expr "Multiplication evaluated before addition/subtraction" "4+3*2-2" "8"
+> > +
+> > +test_hist_expr "Division evaluated before addition/subtraction" "4+6/2-2" "5"
+> > +
+> > +# Division by zero returns -1
+> > +test_hist_expr "Handles division by zero" "3/0" "-1"
+> > +
+> > +# err pos for "too many subexpressions" is dependent on where
+> > +# the last subexpression was detected. This can vary depending
+> > +# on how the expression tree was generated.
+> > +check_error "Too many subexpressions" 'hist:keys=common_pid:x=32+^10*3/20-4'
+> > +check_error "Too many subexpressions" 'hist:keys=common_pid:x=^1+2+3+4+5'
+> > +
+> > +check_error "Unary minus not supported in subexpression" 'hist:keys=common_pid:x=-(^1)+2'
+> > +
+> > +exit 0
+> > --
+> > 2.33.0.1079.g6e70778dc9-goog
+> >
+>
+>
+> --
+> Masami Hiramatsu <mhiramat@kernel.org>
