@@ -2,103 +2,161 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B58BC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 14:44:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 476CFC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 14:50:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1D9DD60E74
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 14:44:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2429B60E74
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 14:50:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236851AbhJZOrT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Oct 2021 10:47:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59410 "EHLO
+        id S235191AbhJZOwt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Oct 2021 10:52:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233957AbhJZOrT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 10:47:19 -0400
-Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com [IPv6:2607:f8b0:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C585C061745;
-        Tue, 26 Oct 2021 07:44:55 -0700 (PDT)
-Received: by mail-il1-x12e.google.com with SMTP id y17so17535421ilb.9;
-        Tue, 26 Oct 2021 07:44:55 -0700 (PDT)
+        with ESMTP id S234709AbhJZOws (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 10:52:48 -0400
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CA1DC061745;
+        Tue, 26 Oct 2021 07:50:24 -0700 (PDT)
+Received: by mail-lj1-x22e.google.com with SMTP id 65so15035070ljf.9;
+        Tue, 26 Oct 2021 07:50:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Iy+awNeYow+pZc/iB1UDBBsLq5AXRGWMxqulAP9fDkA=;
-        b=MaFGLlXw8Ugv98OU2Ywa01KZmCS1SMD0hUBKIvK2njSBNmhmhbUUJjHDAubWhhY96/
-         1uoOCR18qWVWXpL4p9ElnAxI9EId8fCBeRaApfRpFvFo6gLUzst4uulZoKVKaKplepD4
-         jbg7SH6E7l6whBKq0FGjBfj0NkQhv1ChdDXnlHXXKmZdX+5srX3YnyeMDQAkAEiTX0SR
-         X/yJEI5JCUjHYiWcPCMqb4tIhsQ1yMU4GJ5taDHufVyh+8DKZAHt7x+GLvpQN3IZd4pG
-         IpXDmjxH3dtrOgMp1sQ1HbTCmtOvkAjr6ZBMH1cfiiFRIcFYuKdSUqGCBK0x0r2vUH/M
-         H7XA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=wv8gi01ZEigq0zjxWHYaalehUKR7G5eHYfl2J1tFc+g=;
+        b=ndCAi0POSvM+VeiQLzjMGVUHX1XM64AVfkCRl0OLmB/DxOBCnWNuiYgfsnL9XNXH0X
+         U6AXUdWzfqFcuo79jxRoecbK5ib7OZkYMmA2AxtJIJkFTGKGnt+W61I92X8U1EuLQXJt
+         /z2IENPVU0sCyFKXNsNEaCMgO7Ng74wEnDP1IwIoretz2JtJm8g2nKe0WXE+M6lfqg+R
+         L3mioHMCqvrI5prEnWbrS1g8eN98uyk7bNAW8mAQkvoFzh+p1lYwWXz8bjVGyS1c8AAk
+         LV8Gh9k9LSJGQa1zaxhvLaUYL/8wkwNCw9MaJ7ozvmIqX7PS263Y+hG5Ks32/btQ+6mT
+         q0kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Iy+awNeYow+pZc/iB1UDBBsLq5AXRGWMxqulAP9fDkA=;
-        b=7Y7bd/nTf3a8Nw9/vjVlSQUtdco7+Fq87eBdkdlM2xspQiQd2XFmyfkuykg3Xzbgj3
-         8c0XrM/CvrUlz9ngZyW0JTokDVAgDJYy2hDsI8Ka2UjYHpq89dzj1BA5W128X+brycih
-         5jW+CsVPaLcLYbWv57FcLLPbZk18WSAO506pypdoqqf7Rq9B/uhGkvDPwmKXDiZh52qu
-         kg8AA/zOa8Hb52u/w89KgHFeGExfI5DGqdurPX2yByTADneEcEKRCRpIrMobcpa8kpJs
-         pdwcKcvBMcq7+jtJ/gk2YKGM7D0LWp7b7gbEmRyRXCR1b2W82rX+TZwezZbY4/tbCWjQ
-         r/tw==
-X-Gm-Message-State: AOAM533ZUh8eLF/znef7B5lPsmpILOAsdgUR9MoWJhwWyD/DsccfZvn5
-        2ZmoLzloY0vXwcV0bjnRgESRfAB9tH0=
-X-Google-Smtp-Source: ABdhPJyzdApKplVzN7/9JWa4Tw5Xsfjg1GuQfTiTMYS5/pJNyb7FjRJq9TcM98BEdvYLiJcOvsG0yg==
-X-Received: by 2002:a05:6e02:104b:: with SMTP id p11mr15157863ilj.187.1635259495054;
-        Tue, 26 Oct 2021 07:44:55 -0700 (PDT)
-Received: from localhost (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id z26sm10063738ioe.9.2021.10.26.07.44.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Oct 2021 07:44:54 -0700 (PDT)
-Date:   Tue, 26 Oct 2021 10:44:52 -0400
-From:   Trevor Woerner <twoerner@gmail.com>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Jiri Kosina <trivial@kernel.org>,
-        Joe Perches <joe@perches.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        Yorick de Wid <yorickdewid@users.noreply.github.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH] coding-style.rst: trivial: fix location of driver model
- macros
-Message-ID: <20211026144452.GA40651@localhost>
-References: <20210423184012.39300-1-twoerner@gmail.com>
- <CANiq72mUBh+76iy5uCAGHpKHDnTGRVyQduMngEWDMCF6kRySJA@mail.gmail.com>
- <CAHUNapQfFBcqrX7MvUvq8qbPgk2bPu-h3+9NxAUFpRtpOGFODw@mail.gmail.com>
- <CANiq72=iDhHiFKBzud6sj6reCS=pEYxFn5x4b=VfNLMxva-RuA@mail.gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=wv8gi01ZEigq0zjxWHYaalehUKR7G5eHYfl2J1tFc+g=;
+        b=HEWHeSbYMfKOKHeSGBJSpAEE3ewMZ8aT/a2wcmimshdBiwUkmzp7ay7AjTNOOThKe1
+         ALDxSYjzbGYxv36GhTYOG6Bek61v4qF3YkdZklsrO6MHNuh1Y8nqru5Fe5ufVmT+gUJ/
+         EL4QjwuDmqdZbyUUTsKWYciJl60gZuDxsblZocI4xqCzH47aIg++RmINrnRpZKB954vc
+         IYfm5LlVfsz+WQkURQZeYTFy8utoijEUUrdBziDkdEaeKdUvV/cIcputepGM5ZPCY5Ck
+         Y8ODO4w17j3Vcbtn1mLnRBT5dvQZUYXIAr8bimNbsVwHFy6LBC5Ca3jLgao7BrkOsPKT
+         pd5A==
+X-Gm-Message-State: AOAM533QojhaJE6j0Vc7vr3lkoY16dck4Jbqhe3whbP8z0q70jSPReM9
+        ta1fQS2MwIslKX7h1KJPsY4MJSosD1LNQ78o5roIb4hgyJBlDQ==
+X-Google-Smtp-Source: ABdhPJyy1EKyBIqz5vqbrvWBotlkahxJX5CZ/VCMCLuv055iVc26/E4mc62j6aAEo261WYq+6qrZefJckS+cTHIt3N0=
+X-Received: by 2002:a2e:b5a2:: with SMTP id f2mr5618786ljn.23.1635259822879;
+ Tue, 26 Oct 2021 07:50:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CANiq72=iDhHiFKBzud6sj6reCS=pEYxFn5x4b=VfNLMxva-RuA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20211026033254.1052-1-maahiuzeon@gmail.com> <87fssox7ah.fsf@linux.ibm.com>
+In-Reply-To: <87fssox7ah.fsf@linux.ibm.com>
+From:   Hill Ma <maahiuzeon@gmail.com>
+Date:   Tue, 26 Oct 2021 07:50:12 -0700
+Message-ID: <CABpQrUMcCKbgSTnTB4BeUUVwq5jkOw7pGbUC53SGe-4DEVnUag@mail.gmail.com>
+Subject: Re: [PATCH v2] macintosh/via-pmu-led: make disk activity usage a parameter.
+To:     Nathan Lynch <nathanl@linux.ibm.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        benh@kernel.crashing.org, linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue 2021-10-26 @ 02:47:12 PM, Miguel Ojeda wrote:
-> On Mon, Oct 25, 2021 at 11:40 PM Trevor Woerner <twoerner@gmail.com> wrote:
-> >
-> > ping?
-> >
-> > It doesn't look like this was picked up by trivial? Although, it doesn't look like git://git.kernel.org/pub/scm/linux/kernel/git/jikos/trivial.git has been used in a while. Is there an alternate (preferred) path for trivial patches?
-> 
-> Jonathan should be able to take it, or perhaps Andrew.
-> 
-> Note that you should put whoever should take it in the To field (I
-> just noticed your original email did not) -- use
-> `scripts/get_maintainer.pl` for getting the relevant people for a
-> patch or path.
+Thanks for the review.
 
-Ah, good point. I have a "cccmd" line in my ~/.gitconfig for adding people to
-the CC when I "git send-email", maybe I should switch that to a "tocmd"?
+On Tue, Oct 26, 2021 at 6:08 AM Nathan Lynch <nathanl@linux.ibm.com> wrote:
+>
+> Hello,
+>
+> Hill Ma <maahiuzeon@gmail.com> writes:
+> > Whether to use the LED as a disk activity is a user preference.
+> > Some like this usage while others find the LED too bright. So it
+> > might be a good idea to make this choice a runtime parameter rather
+> > than compile-time config.
+>
+> Users already have the ability to change the LED behavior at runtime
+> already, correct? I.e. they can do:
+>
+>   echo none > /sys/class/leds/pmu-led::front/trigger
+>
+> in their boot scripts. Granted, a kernel built with ADB_PMU_LED_DISK=y
+> will blink the LED on disk activity until user space is running. Is this
+> unsatisfactory?
 
-get_maintainer.pl didn't add Andrew back then on my patch and still doesn't
-even now. Maybe the MAINTAINERS file needs an update if Andrew is to be
-included on trivial/documentation patches?
+Yes, indeed. As someone who does not like this behavior on iBooks.
+
+> > The default is set to disabled as OS X does not use the LED as a
+> > disk activity indicator.
+>
+> This is long-standing behavior in Linux and OS X has been EOL on this
+> architecture for a decade, so this isn't much of a consideration at this
+> point. Seems more important to avoid surprising existing users and
+> distributions with a behavior change that makes additional work for
+> them. See below.
+>
+> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> > index 43dc35fe5bc0..a656a51ba0a8 100644
+> > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > @@ -250,6 +250,12 @@
+> >                       Use timer override. For some broken Nvidia NF5 boards
+> >                       that require a timer override, but don't have HPET
+> >
+> > +     adb_pmu_led_disk [PPC]
+> > +                     Use front LED as disk LED by default. Only applies to
+> > +                     PowerBook, iBook, PowerMac 7,2/7,3.
+> > +                     Format: <bool>  (1/Y/y=enable, 0/N/n=disable)
+> > +                     Default: disabled
+> > +
+> >       add_efi_memmap  [EFI; X86] Include EFI memory map in
+> >                       kernel's map of available physical RAM.
+> >
+> > diff --git a/drivers/macintosh/Kconfig b/drivers/macintosh/Kconfig
+> > index 5cdc361da37c..243215de563c 100644
+> > --- a/drivers/macintosh/Kconfig
+> > +++ b/drivers/macintosh/Kconfig
+> > @@ -78,16 +78,6 @@ config ADB_PMU_LED
+> >         behaviour of the old CONFIG_BLK_DEV_IDE_PMAC_BLINK, select this
+> >         and the disk LED trigger and configure appropriately through sysfs.
+> >
+> > -config ADB_PMU_LED_DISK
+> > -     bool "Use front LED as DISK LED by default"
+> > -     depends on ADB_PMU_LED
+> > -     depends on LEDS_CLASS
+> > -     select LEDS_TRIGGERS
+> > -     select LEDS_TRIGGER_DISK
+> > -     help
+> > -       This option makes the front LED default to the disk trigger
+> > -       so that it blinks on disk activity.
+> > -
+>
+> So, if I've been relying on CONFIG_ADB_PMU_LED_DISK=y and I upgrade to a
+> newer kernel with the proposed change, from my point of view the disk
+> activity LED has stopped working and I need to alter the bootloader
+> config or init scripts to restore the expected behavior. That seems
+> undesirable to me.
+>
+> I don't think we rigidly enforce Kconfig backward compatibility, but
+> when it comes to a user-visible function on a legacy platform where
+> users and distros likely have their configurations figured out already,
+> it's probably best to avoid such changes.
+
+I actually asked some distributions that still ship PowerPC BE
+architectures to unset it.
+https://github.com/void-ppc/void-packages/pull/48
+https://github.com/void-linux/void-packages/pull/33275
+https://git.adelielinux.org/adelie/packages/-/merge_requests/607
+
+And Debian, which still has PowerPC BE architectures as ports, does
+not turn it on.
+https://salsa.debian.org/kernel-team/linux/-/blob/master/debian/config/kernelarch-powerpc/config
+
+The problem I see is the following:
+- A distribution might accidentally turn it back on, which happened
+with Void already.
+- For people like the disk activity behavior, they need to recompile
+the kernel to regain the exact previous behavior.
+
+I think we could retain backward compatibility by adding back the
+Kconfig and setting the initial value of adb_pmu_led_disk based on the
+config. I am not sure if we need two mechanisms for this single
+preference though.
