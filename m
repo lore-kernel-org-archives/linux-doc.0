@@ -2,170 +2,164 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93FADC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 02:54:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 066F7C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 03:33:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6B098610A0
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 02:54:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E3B8F60E0B
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 03:33:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233033AbhJZC5Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Oct 2021 22:57:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40418 "EHLO
+        id S234653AbhJZDfq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Oct 2021 23:35:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232402AbhJZC5P (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Oct 2021 22:57:15 -0400
-Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBB81C061745;
-        Mon, 25 Oct 2021 19:54:52 -0700 (PDT)
-Received: by mail-qt1-x82e.google.com with SMTP id r17so12191159qtx.10;
-        Mon, 25 Oct 2021 19:54:52 -0700 (PDT)
+        with ESMTP id S233728AbhJZDfq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Oct 2021 23:35:46 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE0FFC061745;
+        Mon, 25 Oct 2021 20:33:22 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id nn3-20020a17090b38c300b001a03bb6c4ebso566942pjb.1;
+        Mon, 25 Oct 2021 20:33:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=tkzNHgBhfoN1mN/bXgW3MkB27AZfqmaYrRvjImCn3wA=;
-        b=fjCVH2KPY/mOAid4lHIsGk80qGZe30oFxUXZMY6H8BI1NPpfz1H7r97F4+u6+k31yg
-         XryUZ5iJTS0menFBaz8G/X0/x71oUEWhb2XKfy4L63t5PRcBboHIJSYDpcsU/calqj7w
-         /xamMaezkiK9JyR9DavPcNl1V/T6S0i3uPsr07Vc/6M1q04LocQutxVNe10VkkPJc0fU
-         +cLN6Y30I76ymGcpkbmxFXY+PlLj9sjm7aMHlmdQHDviQT+0dSomZY80Q+qXs4yq1rWN
-         wA2A2SqcD8V3Hwhdk++g7kX8XRcecg2LszFyi5wdkY7YecZYkA07iJ95uGxBh3t3RK8H
-         ul2w==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Mkq3aea+NCXE9zaVj4MupeFeuH4eRueS9CDWO70cBHg=;
+        b=Io3oA2TNwgqt2KOVh19dDB40d3zTv1EmwhDyaeSJlPW+jCTF3ZUxoLzx3sx+dAgzA2
+         tkpHVVD/ng2yLaWu1SzihCEkNT41LTXcm0348rNqF4kuPepBXdw3kvdM5EvXh8gSZSX/
+         MFEGKVPoaDA/P8p216qFNx7+UO68jh/c+ptXyVsj+veRayu/MpkMLeKBU9dzzXfozTMZ
+         wqSXsUebMtVWf4A/RvdrHj4hw0+w0kkf+NWOnxK2Uird7mZ8g/eEokqdSe5cMiHj572W
+         p+0TQsBm/P7mX9WTNQUaxYI/ysn3QD1eueHkoQWLiMle2FgHPH4sJfSbbDYhPBrujcZc
+         pFDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=tkzNHgBhfoN1mN/bXgW3MkB27AZfqmaYrRvjImCn3wA=;
-        b=lQJxcN5ckFoqLNhCwsqrWzdnH3dsYvDVsSEjFyp00tCoFLkFJ1OnzzfEBBe6Ann7CI
-         VsRa2Xln8oDQrLLhqbGVzW+DVYq0czor7sR0yw/1e9jUlgBpR7+jPOynWMd1pE5NUb4h
-         RrUM+a7Y/ront96r57imSiQjopEq+XmvQ9VWydOGh0T99eAdyzbqcznjT7aDIOGH9JTp
-         uuKKhqfs9o1erwMGCr6cNVCnUd0FQf4r9CFzkQlFa3ZUdNDWUMkHk5572Dcbswk25zip
-         66xrRVsguiM4EsHvIB6jpMMiALqwdYNdIjcIxyQTQoixeBSb98m5PctIbmVFLdPRs7gU
-         9blw==
-X-Gm-Message-State: AOAM531ZsbyeYKhTBKJ5KYd0BNuj5tD4l/ZUIsLsrXZJIZSUxuYs1ay5
-        Nnves9Qjxk3VXiKGEQgKv71l3Nx8/aLH19Q8b1jmFse7iTziqw==
-X-Google-Smtp-Source: ABdhPJw3JwJbWZw56oelucSpMM5M8gmCdguOUx+CVabxorwtsOFgtyp4lRdNV3fGm7s/OcBmgax57e8YWA+HUsA5OIs=
-X-Received: by 2002:ac8:7d47:: with SMTP id h7mr21574977qtb.92.1635216891902;
- Mon, 25 Oct 2021 19:54:51 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Mkq3aea+NCXE9zaVj4MupeFeuH4eRueS9CDWO70cBHg=;
+        b=rPOewNs4Yl2mp/jLV0zl2Xx0NAeAU9gxBAbBFKLXxUgWpXwP6BXp+eLBiQr8Kohyv4
+         eIaUCfbbXTYJKYZeRGJzdC2lC+pexJkV30a3aL4d5qPJvB91tKu+vuF8vz73CxW1+FeS
+         qObEmzU7Pbo+Z+NFfT2+5XED2IigvE7hjDf01gEbnne0Z+LYmnXRU6P9twaqDhDloqFW
+         i+DZglg0/vo0BZkvk2L4d3aI/0nJ0TRiLCxwWHQ2VIWodmh3dTGkn9IMJRZ5tV7Y46dJ
+         uIlBt9CppXfYVZAKqsZrsjwe9PDXMXOkbqNQ2ddmLAMGq/yID3psT+5T3laFrtOywTGv
+         w4/Q==
+X-Gm-Message-State: AOAM533JF5fxP57fd7K52v1z5mNF2sbBq8fKp8lEPspfkxDZDXwfJgbZ
+        c/5Wny5UHN2mqV+ztstI/WM=
+X-Google-Smtp-Source: ABdhPJw1/vCijhY8xut2g+W8TLMDs7p7jzHYjrF94y5AKv57S5LiwNiOF6aS3TQOXDqfE55gVELcqg==
+X-Received: by 2002:a17:90b:1a87:: with SMTP id ng7mr40993753pjb.69.1635219200489;
+        Mon, 25 Oct 2021 20:33:20 -0700 (PDT)
+Received: from localhost.localdomain (c-73-222-199-61.hsd1.ca.comcast.net. [73.222.199.61])
+        by smtp.googlemail.com with ESMTPSA id ng5sm20091129pjb.51.2021.10.25.20.33.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Oct 2021 20:33:20 -0700 (PDT)
+From:   Hill Ma <maahiuzeon@gmail.com>
+To:     benh@kernel.crashing.org, linuxppc-dev@lists.ozlabs.org
+Cc:     Hill Ma <maahiuzeon@gmail.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v2] macintosh/via-pmu-led: make disk activity usage a parameter.
+Date:   Mon, 25 Oct 2021 20:32:54 -0700
+Message-Id: <20211026033254.1052-1-maahiuzeon@gmail.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-References: <20211025115910.2595-1-xingwu.yang@gmail.com> <707b5fb3-6b61-c53-e983-bc1373aa2bf@ssi.bg>
-In-Reply-To: <707b5fb3-6b61-c53-e983-bc1373aa2bf@ssi.bg>
-From:   yangxingwu <xingwu.yang@gmail.com>
-Date:   Tue, 26 Oct 2021 10:54:40 +0800
-Message-ID: <CA+7U5JsSuwqP7eHj1tMHfsb+EemwrhZEJ2b944LFWTroxAnQRQ@mail.gmail.com>
-Subject: Re: [PATCH] ipvs: Fix reuse connection if RS weight is 0
-To:     Julian Anastasov <ja@ssi.bg>
-Cc:     Simon Horman <horms@verge.net.au>,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        kadlec@netfilter.org, fw@strlen.de,
-        "David S. Miller" <davem@davemloft.net>, kuba@kernel.org,
-        netdev@vger.kernel.org, lvs-devel@vger.kernel.org,
-        netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, corbet@lwn.net
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-thanks julian
+Whether to use the LED as a disk activity is a user preference.
+Some like this usage while others find the LED too bright. So it
+might be a good idea to make this choice a runtime parameter rather
+than compile-time config.
 
-What happens in this situation is that if we set the wait of the
-realserver to 0 and do NOT remove the weight zero realserver with
-sysctl settings (conn_reuse_mode == 0 && expire_nodest_conn == 1), and
-the client reuses its source ports, the kernel will constantly
-reuse connections and send the traffic to the weight 0 realserver.
+The default is set to disabled as OS X does not use the LED as a
+disk activity indicator.
 
-you may check the details from
-https://github.com/kubernetes/kubernetes/issues/81775
+Signed-off-by: Hill Ma <maahiuzeon@gmail.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt |  6 ++++++
+ drivers/macintosh/Kconfig                       | 10 ----------
+ drivers/macintosh/via-pmu-led.c                 | 11 ++++++++---
+ 3 files changed, 14 insertions(+), 13 deletions(-)
 
-On Tue, Oct 26, 2021 at 2:12 AM Julian Anastasov <ja@ssi.bg> wrote:
->
->
->         Hello,
->
-> On Mon, 25 Oct 2021, yangxingwu wrote:
->
-> > Since commit dc7b3eb900aa ("ipvs: Fix reuse connection if real server is
-> > dead"), new connections to dead servers are redistributed immediately to
-> > new servers.
-> >
-> > Then commit d752c3645717 ("ipvs: allow rescheduling of new connections when
-> > port reuse is detected") disable expire_nodest_conn if conn_reuse_mode is
-> > 0. And new connection may be distributed to a real server with weight 0.
->
->         Your change does not look correct to me. At the time
-> expire_nodest_conn was created, it was not checked when
-> weight is 0. At different places different terms are used
-> but in short, we have two independent states for real server:
->
-> - inhibited: weight=0 and no new connections should be served,
->         packets for existing connections can be routed to server
->         if it is still available and packets are not dropped
->         by expire_nodest_conn.
->         The new feature is that port reuse detection can
->         redirect the new TCP connection into a new IPVS conn and
->         to expire the existing cp/ct.
->
-> - unavailable (!IP_VS_DEST_F_AVAILABLE): server is removed,
->         can be temporary, drop traffic for existing connections
->         but on expire_nodest_conn we can select different server
->
->         The new conn_reuse_mode flag allows port reuse to
-> be detected. Only then expire_nodest_conn has the
-> opportunity with commit dc7b3eb900aa to check weight=0
-> and to consider the old traffic as finished. If a new
-> server is selected, any retrans from previous connection
-> would be considered as part from the new connection. It
-> is a rapid way to switch server without checking with
-> is_new_conn_expected() because we can not have many
-> conns/conntracks to different servers.
->
-> > Signed-off-by: yangxingwu <xingwu.yang@gmail.com>
-> > ---
-> >  Documentation/networking/ipvs-sysctl.rst | 3 +--
-> >  net/netfilter/ipvs/ip_vs_core.c          | 5 +++--
-> >  2 files changed, 4 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/Documentation/networking/ipvs-sysctl.rst b/Documentation/networking/ipvs-sysctl.rst
-> > index 2afccc63856e..1cfbf1add2fc 100644
-> > --- a/Documentation/networking/ipvs-sysctl.rst
-> > +++ b/Documentation/networking/ipvs-sysctl.rst
-> > @@ -37,8 +37,7 @@ conn_reuse_mode - INTEGER
-> >
-> >       0: disable any special handling on port reuse. The new
-> >       connection will be delivered to the same real server that was
-> > -     servicing the previous connection. This will effectively
-> > -     disable expire_nodest_conn.
-> > +     servicing the previous connection.
-> >
-> >       bit 1: enable rescheduling of new connections when it is safe.
-> >       That is, whenever expire_nodest_conn and for TCP sockets, when
-> > diff --git a/net/netfilter/ipvs/ip_vs_core.c b/net/netfilter/ipvs/ip_vs_core.c
-> > index 128690c512df..9279aed69e23 100644
-> > --- a/net/netfilter/ipvs/ip_vs_core.c
-> > +++ b/net/netfilter/ipvs/ip_vs_core.c
-> > @@ -2042,14 +2042,15 @@ ip_vs_in(struct netns_ipvs *ipvs, unsigned int hooknum, struct sk_buff *skb, int
-> >                            ipvs, af, skb, &iph);
-> >
-> >       conn_reuse_mode = sysctl_conn_reuse_mode(ipvs);
-> > -     if (conn_reuse_mode && !iph.fragoffs && is_new_conn(skb, &iph) && cp) {
-> > +     if (!iph.fragoffs && is_new_conn(skb, &iph) && cp) {
-> >               bool old_ct = false, resched = false;
-> >
-> >               if (unlikely(sysctl_expire_nodest_conn(ipvs)) && cp->dest &&
-> >                   unlikely(!atomic_read(&cp->dest->weight))) {
-> >                       resched = true;
-> >                       old_ct = ip_vs_conn_uses_old_conntrack(cp, skb);
-> > -             } else if (is_new_conn_expected(cp, conn_reuse_mode)) {
-> > +             } else if (conn_reuse_mode &&
-> > +                        is_new_conn_expected(cp, conn_reuse_mode)) {
-> >                       old_ct = ip_vs_conn_uses_old_conntrack(cp, skb);
-> >                       if (!atomic_read(&cp->n_control)) {
-> >                               resched = true;
-> > --
-> > 2.30.2
->
-> Regards
->
-> --
-> Julian Anastasov <ja@ssi.bg>
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 43dc35fe5bc0..a656a51ba0a8 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -250,6 +250,12 @@
+ 			Use timer override. For some broken Nvidia NF5 boards
+ 			that require a timer override, but don't have HPET
+ 
++	adb_pmu_led_disk [PPC]
++			Use front LED as disk LED by default. Only applies to
++			PowerBook, iBook, PowerMac 7,2/7,3.
++			Format: <bool>  (1/Y/y=enable, 0/N/n=disable)
++			Default: disabled
++
+ 	add_efi_memmap	[EFI; X86] Include EFI memory map in
+ 			kernel's map of available physical RAM.
+ 
+diff --git a/drivers/macintosh/Kconfig b/drivers/macintosh/Kconfig
+index 5cdc361da37c..243215de563c 100644
+--- a/drivers/macintosh/Kconfig
++++ b/drivers/macintosh/Kconfig
+@@ -78,16 +78,6 @@ config ADB_PMU_LED
+ 	  behaviour of the old CONFIG_BLK_DEV_IDE_PMAC_BLINK, select this
+ 	  and the disk LED trigger and configure appropriately through sysfs.
+ 
+-config ADB_PMU_LED_DISK
+-	bool "Use front LED as DISK LED by default"
+-	depends on ADB_PMU_LED
+-	depends on LEDS_CLASS
+-	select LEDS_TRIGGERS
+-	select LEDS_TRIGGER_DISK
+-	help
+-	  This option makes the front LED default to the disk trigger
+-	  so that it blinks on disk activity.
+-
+ config PMAC_SMU
+ 	bool "Support for SMU  based PowerMacs"
+ 	depends on PPC_PMAC64
+diff --git a/drivers/macintosh/via-pmu-led.c b/drivers/macintosh/via-pmu-led.c
+index ae067ab2373d..faf39a5962aa 100644
+--- a/drivers/macintosh/via-pmu-led.c
++++ b/drivers/macintosh/via-pmu-led.c
+@@ -25,6 +25,7 @@
+ #include <linux/leds.h>
+ #include <linux/adb.h>
+ #include <linux/pmu.h>
++#include <linux/moduleparam.h>
+ #include <asm/prom.h>
+ 
+ static spinlock_t pmu_blink_lock;
+@@ -71,11 +72,10 @@ static void pmu_led_set(struct led_classdev *led_cdev,
+  	spin_unlock_irqrestore(&pmu_blink_lock, flags);
+ }
+ 
++bool adb_pmu_led_disk;
++
+ static struct led_classdev pmu_led = {
+ 	.name = "pmu-led::front",
+-#ifdef CONFIG_ADB_PMU_LED_DISK
+-	.default_trigger = "disk-activity",
+-#endif
+ 	.brightness_set = pmu_led_set,
+ };
+ 
+@@ -106,6 +106,9 @@ static int __init via_pmu_led_init(void)
+ 	}
+ 	of_node_put(dt);
+ 
++	if (adb_pmu_led_disk)
++		pmu_led.default_trigger = "disk-activity";
++
+ 	spin_lock_init(&pmu_blink_lock);
+ 	/* no outstanding req */
+ 	pmu_blink_req.complete = 1;
+@@ -114,4 +117,6 @@ static int __init via_pmu_led_init(void)
+ 	return led_classdev_register(NULL, &pmu_led);
+ }
+ 
++core_param(adb_pmu_led_disk, adb_pmu_led_disk, bool, 0644);
++
+ late_initcall(via_pmu_led_init);
+-- 
+2.33.1
+
