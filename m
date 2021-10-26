@@ -2,100 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA5D5C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 17:02:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87516C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 18:03:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C1C4C6109D
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 17:02:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6BC3160EFF
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 18:03:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233332AbhJZREb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Oct 2021 13:04:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34936 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231360AbhJZRE0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 13:04:26 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBD49C061745;
-        Tue, 26 Oct 2021 10:02:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=rokadze8fRogRPO3TrlkJtrH8Z7jdFewFpbGPuZXCIM=; b=Qu7hbKOTAdEdBAA2y8tI88Y2/9
-        fLNwaKezOpXserGMaIVWN2jN15mgeYqvk8M/nMFdvuU5t2HO/FTeOt9d2UnO/Ggl4TZKbTQdsz+G4
-        nXL1XP7usNiHTBSnuvt5MSW3VpiWZscPz5mEn0nHDheFG/gaH7XQRVOfMfyO9X9MK1IREmP9s72mA
-        QTDix5gCEW/5udqqkrYa156daZNZ2zGDGhygkQ21zCMafu9t/D+JajvGykPFMZdU/SiIGrSpnAD0A
-        1UKOvtUSFjhuxsuXZjboMKtwJV73xZGh8YYSz/Tknj3RKEaQ8H8Afu4sGA/11uH8N2/HPJ0IdzpiW
-        RZAtoISw==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mfPpV-002Yak-03; Tue, 26 Oct 2021 17:01:41 +0000
-Date:   Tue, 26 Oct 2021 10:01:40 -0700
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Ming Lei <ming.lei@redhat.com>,
-        Julia Lawall <julia.lawall@inria.fr>
-Cc:     Petr Mladek <pmladek@suse.com>, Miroslav Benes <mbenes@suse.cz>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>, tj@kernel.org,
-        gregkh@linuxfoundation.org, akpm@linux-foundation.org,
-        minchan@kernel.org, jeyu@kernel.org, shuah@kernel.org,
-        bvanassche@acm.org, dan.j.williams@intel.com, joe@perches.com,
-        tglx@linutronix.de, keescook@chromium.org, rostedt@goodmis.org,
-        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        live-patching@vger.kernel.org
-Subject: Re: [PATCH v8 11/12] zram: fix crashes with cpu hotplug multistate
-Message-ID: <YXg0dFZ+6qHw7d0g@bombadil.infradead.org>
-References: <YW3LuzaPhW96jSBK@bombadil.infradead.org>
- <YW4uwep3BCe9Vxq8@T590>
- <alpine.LSU.2.21.2110190820590.15009@pobox.suse.cz>
- <YW6OptglA6UykZg/@T590>
- <alpine.LSU.2.21.2110200835490.26817@pobox.suse.cz>
- <YW/KEsfWJMIPnz76@T590>
- <alpine.LSU.2.21.2110201014400.26817@pobox.suse.cz>
- <YW/q70dLyF+YudyF@T590>
- <YXfA0jfazCPDTEBw@alley>
- <YXgguuAY5iEUIV0u@T590>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YXgguuAY5iEUIV0u@T590>
-Sender: Luis Chamberlain <mcgrof@infradead.org>
+        id S237952AbhJZSF7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Oct 2021 14:05:59 -0400
+Received: from mail-oo1-f53.google.com ([209.85.161.53]:34325 "EHLO
+        mail-oo1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230258AbhJZSF4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 14:05:56 -0400
+Received: by mail-oo1-f53.google.com with SMTP id e200-20020a4a55d1000000b002b8bedf08cdso20111oob.1;
+        Tue, 26 Oct 2021 11:03:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=MYaZzPsql9ylVu0bAh9A9jNKkz/9F195FCssTtA7QOA=;
+        b=JUfXGx3EViPKkTdGgMQ3vPDtoa3DGa7nvXdiGoYkSOhw0apf6LLE/Xi4RODT91w9PZ
+         LFkrzq/8zYMM/6FD2sOdYJFW6erD8HTaa6dZJ8BXkVzBqIsEMvO6Ci1cIZHgyXAWJKtr
+         ekKvZ4ZgBArkYs01q54yRcET3jmRvDZPbzwjy8kP/WEpCVlydLKnEoFQXr4Z8UQuJVty
+         puacuzAlHmQT0WDfubdmcteafLyGhGy3Ld28DQ5dRS3ox+Gl4UaNFTHC77f2l0irzuI5
+         CZCpr1a506SuvbbMUZgHwQ6tzCcKdGqSSLSHiCyrd3mFbokBR6qegCirt/IKYr7LU4Cf
+         Nq7g==
+X-Gm-Message-State: AOAM533JL8CzJhnHW6EI49WElouhjzMm/I2ng/Dc3GkQ1E3nYo9sQFvH
+        CzD5J9DSegrnxqwMeXIMbQ==
+X-Google-Smtp-Source: ABdhPJxjWOBTKuVo96eUaTsi5lRNizXIavvqz64LU5NRPwTjcl0iUd+GSv9jSGpt9Yt4n83bnz5g1Q==
+X-Received: by 2002:a4a:b109:: with SMTP id a9mr18430444ooo.73.1635271411807;
+        Tue, 26 Oct 2021 11:03:31 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id a13sm4761104oiy.9.2021.10.26.11.03.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Oct 2021 11:03:31 -0700 (PDT)
+Received: (nullmailer pid 2939410 invoked by uid 1000);
+        Tue, 26 Oct 2021 18:03:29 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Atish Patra <atish.patra@wdc.com>
+Cc:     Rob Herring <robh+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Guo Ren <guoren@linux.alibaba.com>,
+        Heinrich Schuchardt <xypron.glpk@gmx.de>,
+        David Abdurachmanov <david.abdurachmanov@sifive.com>,
+        linux-kernel@vger.kernel.org,
+        Greentime Hu <greentime.hu@sifive.com>,
+        linux-doc@vger.kernel.org, Nick Kossifidis <mick@ics.forth.gr>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org,
+        Vincent Chen <vincent.chen@sifive.com>,
+        Anup Patel <anup.patel@wdc.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        linux-riscv@lists.infradead.org
+In-Reply-To: <20211025195350.242914-7-atish.patra@wdc.com>
+References: <20211025195350.242914-1-atish.patra@wdc.com> <20211025195350.242914-7-atish.patra@wdc.com>
+Subject: Re: [v4 06/11] dt-binding: pmu: Add RISC-V PMU DT bindings
+Date:   Tue, 26 Oct 2021 13:03:29 -0500
+Message-Id: <1635271409.185787.2939409.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 26, 2021 at 11:37:30PM +0800, Ming Lei wrote:
-> On Tue, Oct 26, 2021 at 10:48:18AM +0200, Petr Mladek wrote:
-> > Livepatch code never called kobject_del() under a lock. It would cause
-> > the obvious deadlock.
-
-Never?
-
-> > The historic code only waited in the
-> > module_exit() callback until the sysfs interface was removed.
+On Mon, 25 Oct 2021 12:53:45 -0700, Atish Patra wrote:
+> This patch adds the DT bindings for RISC-V PMU driver. It also defines
+> the interrupt related properties to allow counter overflow interrupt.
 > 
-> OK, then Luis shouldn't consider livepatching as one such issue to solve
-> with one generic solution.
+> Signed-off-by: Atish Patra <atish.patra@wdc.com>
+> ---
+>  .../devicetree/bindings/perf/riscv,pmu.yaml   | 51 +++++++++++++++++++
+>  1 file changed, 51 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/perf/riscv,pmu.yaml
+> 
 
-It's not what I was told when the deadlock was found with zram, so I was
-informed quite the contrary.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-I'm working on a generic coccinelle patch which hunts for actual cases
-using iteration (a feature of coccinelle for complex searches). The
-search is pretty involved, so I don't think I'll have an answer to this
-soon.
+yamllint warnings/errors:
 
-Since the question of how generic this deadlock is remains questionable,
-I think it makes sense to put the generic deadlock fix off the table for
-now, and we address this once we have a more concrete search with
-coccinelle.
+dtschema/dtc warnings/errors:
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/perf/riscv,pmu.yaml: 'optional' is not one of ['$id', '$schema', 'title', 'description', 'examples', 'required', 'allOf', 'anyOf', 'oneOf', 'definitions', '$defs', 'additionalProperties', 'dependencies', 'patternProperties', 'properties', 'if', 'then', 'else', 'unevaluatedProperties', 'deprecated', 'maintainers', 'select']
+	from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+./Documentation/devicetree/bindings/perf/riscv,pmu.yaml: $id: relative path/filename doesn't match actual path or filename
+	expected: http://devicetree.org/schemas/perf/riscv,pmu.yaml#
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/perf/riscv,pmu.yaml: ignoring, error in schema: 
+warning: no schema found in file: ./Documentation/devicetree/bindings/perf/riscv,pmu.yaml
+Documentation/devicetree/bindings/perf/riscv,pmu.example.dt.yaml:0:0: /example-0/pmu: failed to match any schema with compatible: ['riscv,pmu']
 
-But to say we *don't* have drivers which can cause this is obviously
-wrong as well, from a cursory search so far. But let's wait and see how
-big this list actually is.
+doc reference errors (make refcheckdocs):
 
-I'll drop the deadlock generic fixes and move on with at least a starter
-kernfs / sysfs tests.
+See https://patchwork.ozlabs.org/patch/1545970
 
-  Luis
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
