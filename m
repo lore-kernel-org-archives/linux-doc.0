@@ -2,172 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CDF4C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 07:54:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78937C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 07:56:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1298D610A6
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 07:54:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5CD99610D2
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 07:56:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232956AbhJZH5P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Oct 2021 03:57:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50068 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231860AbhJZH5O (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 03:57:14 -0400
-Received: from mail-ua1-x92f.google.com (mail-ua1-x92f.google.com [IPv6:2607:f8b0:4864:20::92f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69D1FC061745
-        for <linux-doc@vger.kernel.org>; Tue, 26 Oct 2021 00:54:51 -0700 (PDT)
-Received: by mail-ua1-x92f.google.com with SMTP id s4so3205763uaq.0
-        for <linux-doc@vger.kernel.org>; Tue, 26 Oct 2021 00:54:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nathanrossi.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7KThsVsJ0ORwtbbILrkIHcQVvOXxtniaD63wKOd53qk=;
-        b=HnvJ4vvoBGWPejDQnm/ceHOouktHbMPYb2NVqm8X890uLYuhTntSkXmPPrfeXPUxFf
-         JaV8TxThiaayueFvWeFtc7E5kZRxffOdqIDgYnawrTS77/V2nCdJXJQLIW3UjwIUd5PK
-         PoezPScg2qx0ovlwPBRS3QbxEwCQ3qQEE0n7miqUGqf+QRuID0gmWS+YmqKyowfwxUqa
-         TEw0jBSG6oL3BH7IsdFPy1p7oHtarhL+e4cERUZMn/2Yb3w+zyUslD1AQ65WMu5jf422
-         sE1v6m683vV+buas/UyPtz8IEzH08wLrjA8XA0dX7DhXBLdMQl+RRmD3Mn7hKV3p6+JW
-         XxFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7KThsVsJ0ORwtbbILrkIHcQVvOXxtniaD63wKOd53qk=;
-        b=qxDdZMRFTOVxkkaYhw4bsYKkR/AuOL1KVXk4yx4WywebiiH4Wwr7BdsxP3ULqlEpak
-         fuN2xKksqjnfqGtK4hmj70jYgyHOz5Cr/AuPMUxdiSv2OTx7+x1fQoe4JvVd7yAWgyYk
-         M2oaSaowLCQqw6MEugiZCMK/K/W81vd47GvBBcFqxfgV7rzx33EVajrtSicnNZ0eBvY7
-         pxvnJiX3kFr+zI4o9P+U+XWQFgR3z7N19E1SvpuptBMXALl4lJFNln9kXxenYYbMHxI2
-         AkUXTRfS+m2UOHc9rkDqIqXMWE7jZ7u6YSPlTcJNFsjTZTVHSHtPkBFTLm8gpdzrNd5e
-         5QZw==
-X-Gm-Message-State: AOAM530Tf6MdN5rdPoXyXfe3PJMgZz5YClPaMY63M3Hfn0f/Cybk2hn9
-        14vRxH1UhBKPH7ZMyWMGaJxdyoZlpS5IiIpoTTj/wA==
-X-Google-Smtp-Source: ABdhPJwA8HUnvfBBeHEMaTCPWBYGAi9sB4Mm+usDOw4yuTD8raJr2E0KRF4gRS78GU5/ltQS8MgS2XLSeiXqnOeISEE=
-X-Received: by 2002:a67:f1ca:: with SMTP id v10mr18800145vsm.55.1635234890581;
- Tue, 26 Oct 2021 00:54:50 -0700 (PDT)
+        id S233438AbhJZH6y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Oct 2021 03:58:54 -0400
+Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133]:59953 "EHLO
+        out30-133.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233200AbhJZH6y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 03:58:54 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R891e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04395;MF=tianjia.zhang@linux.alibaba.com;NM=1;PH=DS;RN=19;SR=0;TI=SMTPD_---0Utl7WGR_1635234987;
+Received: from localhost(mailfrom:tianjia.zhang@linux.alibaba.com fp:SMTPD_---0Utl7WGR_1635234987)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Tue, 26 Oct 2021 15:56:27 +0800
+From:   Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+To:     James Bottomley <jejb@linux.ibm.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Peter Huewe <peterhuewe@gmx.de>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Jerry Snitselaar <jsnitsel@redhat.com>,
+        linux-integrity@vger.kernel.org, keyrings@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-security-module@vger.kernel.org
+Cc:     Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+Subject: [PATCH v3 1/2] crypto: use SM3 instead of SM3_256
+Date:   Tue, 26 Oct 2021 15:56:25 +0800
+Message-Id: <20211026075626.61975-2-tianjia.zhang@linux.alibaba.com>
+X-Mailer: git-send-email 2.19.1.3.ge56e4f7
+In-Reply-To: <20211026075626.61975-1-tianjia.zhang@linux.alibaba.com>
+References: <20211026075626.61975-1-tianjia.zhang@linux.alibaba.com>
 MIME-Version: 1.0
-References: <20211025025805.618566-0-nathan@nathanrossi.com>
- <20211025025805.618566-2-nathan@nathanrossi.com> <7297bf4c-2f8e-f217-0153-c2224a1c56b3@roeck-us.net>
- <CA+aJhH0yPZ=3LEPDm0GkWx9bLtHJ+QRbRo33HiCXM5FH6nzPFA@mail.gmail.com> <2f5aecd2-55a1-9382-46eb-f4ff48663b30@roeck-us.net>
-In-Reply-To: <2f5aecd2-55a1-9382-46eb-f4ff48663b30@roeck-us.net>
-From:   Nathan Rossi <nathan@nathanrossi.com>
-Date:   Tue, 26 Oct 2021 17:54:39 +1000
-Message-ID: <CA+aJhH0RDXPE4m2yEa2ROEW2L3fnq20XTgPrxhO5k2gSa5_XdA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] hwmon: Driver for Texas Instruments INA238
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Nathan Rossi <nathan.rossi@digi.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 26 Oct 2021 at 01:45, Guenter Roeck <linux@roeck-us.net> wrote:
->
-> On 10/24/21 11:27 PM, Nathan Rossi wrote:
-> [ ... ]
-> >> Is there reason to believe that the shunt register value needs to be visible
-> >> and writeable with sysfs attributes ? This is quite unusual nowadays.
-> >> If so, please provide a use case.
-> >
-> > I do not have a specific use case for being able to change the shunt
-> > resistor at run time. The only reason this behaviour is here is to
-> > mirror the api that is provided by the ina2xx driver. Since as you
-> > mention its unusual should I remove the write and leave the read?
-> > Being able to determine the resistor value is useful if manually using
-> > the shunt voltage. Though the shunt information could be obtained from
-> > the device tree node?
-> >
->
-> Please drop the attribute. There is already probe noise displaying it,
-> and it is contained in the devicetree data. If there is a use case,
-> the attribute can always be added later.
->
-> [ ... ]
->
-> >> Those preinitializations make me wonder if there should be devicetree
-> >> properties for at least some of the data.
-> >
-> > Yes, I did consider adding configuration for the conversion time and
-> > sampling average as device tree properties. The existing ina2xx driver
-> > handles configuring sampling average via the "update_interval" sysfs
-> > attribute. Our use case does not require changing these at runtime so
-> > did not implement the update_interval and was unsure if changes to
-> > device tree bindings would make sense. Should these be device tree
-> > properties? If yes, should the other ina drivers be updated to support
-> > the properties?
-> >
->
-> I wasn't specifically thinking about conversion time or sampling average,
-> but I do think it would be desirable to be able to configure all those
-> values via devicetree. The datasheet says "... allows for robust operation
-> in a variety of noisy environments", and that is definitely a system property.
-> ADCRANGE should also be configurable via devicetree. The same applies to MODE,
+According to https://tools.ietf.org/id/draft-oscca-cfrg-sm3-01.html,
+SM3 always produces a 256-bit hash value and there are no plans for
+other length development, so there is no ambiguity in the name of sm3.
 
-I will add a property "ti,shunt-gain". Since the ina209, ina219,
-ina220 use the PGA term which is the actual function being provided,
-where ADCRANGE=0 is a /4 PGA for ina238 and the other devices have /1,
-/2, /4, /8.
+Suggested-by: James Bottomley <jejb@linux.ibm.com>
+Signed-off-by: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+---
+ crypto/hash_info.c                        | 4 ++--
+ drivers/char/tpm/tpm2-cmd.c               | 2 +-
+ include/crypto/hash_info.h                | 2 +-
+ include/uapi/linux/hash_info.h            | 3 ++-
+ security/keys/trusted-keys/trusted_tpm2.c | 2 +-
+ 5 files changed, 7 insertions(+), 6 deletions(-)
 
-> but that would add some complexity so I am not sure if you'd want to get
-> into that (it would require per-channel entries in devicetree to be able
-> to enable/disable each channel). FWIW, you _could_ also do that with
-> standard sysfs attributes if you want to ({in,curr,temp}X_enable, or
-> hwmon_{temp,in,curr}_enable in the with_info API). That can also be added
-> later if needed, so there is no need to do it now if it is not required
-> for your use case.
->
-> As for other ina drivers - that is a different question. I would not touch
-> those unless you have a use case (and a means to test the code). I'd also
-> consider it more important to convert those drivers to use the _with_info
-> API before implementing any other changes. There is also the added
-> complexity that we already have two drivers for those other chips (see
-> drivers/iio/adc/ina2xx-adc.c), and I'd rather have a better API
-> between IIO and HWMON and drop drivers/hwmon/ina2xx.c entirely than
-> making changes to it.
->
-> Can you possibly send me a register dump for the INA238 ? That would
-> enable me to write a module test for the driver.
+diff --git a/crypto/hash_info.c b/crypto/hash_info.c
+index a49ff96bde77..fe0119407219 100644
+--- a/crypto/hash_info.c
++++ b/crypto/hash_info.c
+@@ -26,7 +26,7 @@ const char *const hash_algo_name[HASH_ALGO__LAST] = {
+ 	[HASH_ALGO_TGR_128]	= "tgr128",
+ 	[HASH_ALGO_TGR_160]	= "tgr160",
+ 	[HASH_ALGO_TGR_192]	= "tgr192",
+-	[HASH_ALGO_SM3_256]	= "sm3",
++	[HASH_ALGO_SM3]		= "sm3",
+ 	[HASH_ALGO_STREEBOG_256] = "streebog256",
+ 	[HASH_ALGO_STREEBOG_512] = "streebog512",
+ };
+@@ -50,7 +50,7 @@ const int hash_digest_size[HASH_ALGO__LAST] = {
+ 	[HASH_ALGO_TGR_128]	= TGR128_DIGEST_SIZE,
+ 	[HASH_ALGO_TGR_160]	= TGR160_DIGEST_SIZE,
+ 	[HASH_ALGO_TGR_192]	= TGR192_DIGEST_SIZE,
+-	[HASH_ALGO_SM3_256]	= SM3256_DIGEST_SIZE,
++	[HASH_ALGO_SM3]		= SM3_DIGEST_SIZE,
+ 	[HASH_ALGO_STREEBOG_256] = STREEBOG256_DIGEST_SIZE,
+ 	[HASH_ALGO_STREEBOG_512] = STREEBOG512_DIGEST_SIZE,
+ };
+diff --git a/drivers/char/tpm/tpm2-cmd.c b/drivers/char/tpm/tpm2-cmd.c
+index a25815a6f625..20f55de9d87b 100644
+--- a/drivers/char/tpm/tpm2-cmd.c
++++ b/drivers/char/tpm/tpm2-cmd.c
+@@ -19,7 +19,7 @@ static struct tpm2_hash tpm2_hash_map[] = {
+ 	{HASH_ALGO_SHA256, TPM_ALG_SHA256},
+ 	{HASH_ALGO_SHA384, TPM_ALG_SHA384},
+ 	{HASH_ALGO_SHA512, TPM_ALG_SHA512},
+-	{HASH_ALGO_SM3_256, TPM_ALG_SM3_256},
++	{HASH_ALGO_SM3, TPM_ALG_SM3_256},
+ };
+ 
+ int tpm2_get_timeouts(struct tpm_chip *chip)
+diff --git a/include/crypto/hash_info.h b/include/crypto/hash_info.h
+index dd4f06785049..c1e6b2884732 100644
+--- a/include/crypto/hash_info.h
++++ b/include/crypto/hash_info.h
+@@ -32,7 +32,7 @@
+ #define TGR192_DIGEST_SIZE 24
+ 
+ /* not defined in include/crypto/ */
+-#define SM3256_DIGEST_SIZE 32
++#define SM3_DIGEST_SIZE 32
+ 
+ extern const char *const hash_algo_name[HASH_ALGO__LAST];
+ extern const int hash_digest_size[HASH_ALGO__LAST];
+diff --git a/include/uapi/linux/hash_info.h b/include/uapi/linux/hash_info.h
+index 74a8609fcb4d..3829279b2d37 100644
+--- a/include/uapi/linux/hash_info.h
++++ b/include/uapi/linux/hash_info.h
+@@ -32,7 +32,8 @@ enum hash_algo {
+ 	HASH_ALGO_TGR_128,
+ 	HASH_ALGO_TGR_160,
+ 	HASH_ALGO_TGR_192,
+-	HASH_ALGO_SM3_256,
++	HASH_ALGO_SM3,
++	HASH_ALGO_SM3_256 = HASH_ALGO_SM3,
+ 	HASH_ALGO_STREEBOG_256,
+ 	HASH_ALGO_STREEBOG_512,
+ 	HASH_ALGO__LAST
+diff --git a/security/keys/trusted-keys/trusted_tpm2.c b/security/keys/trusted-keys/trusted_tpm2.c
+index 0165da386289..52a696035176 100644
+--- a/security/keys/trusted-keys/trusted_tpm2.c
++++ b/security/keys/trusted-keys/trusted_tpm2.c
+@@ -23,7 +23,7 @@ static struct tpm2_hash tpm2_hash_map[] = {
+ 	{HASH_ALGO_SHA256, TPM_ALG_SHA256},
+ 	{HASH_ALGO_SHA384, TPM_ALG_SHA384},
+ 	{HASH_ALGO_SHA512, TPM_ALG_SHA512},
+-	{HASH_ALGO_SM3_256, TPM_ALG_SM3_256},
++	{HASH_ALGO_SM3, TPM_ALG_SM3_256},
+ };
+ 
+ static u32 tpm2key_oid[] = { 2, 23, 133, 10, 1, 5 };
+-- 
+2.19.1.3.ge56e4f7
 
-Dump of registers below. Other notes, upper two bits are ignored so
-the address space wraps at 0x40, etc. The undocumented/unused
-registers between 0x11 and 0x3e are 0xffff.
-
-power on, before probe:
-0x00: 0x0000
-0x01: 0xfb68
-0x02: 0x1000
-0x03: 0xffff
-0x04: 0x087c
-0x05: 0x0e77
-0x06: 0x0f10
-0x07: 0x087c
-0x08: 0x01eac3
-0x09: 0xffff
-0x10: 0x7ff0
-0x11: 0xffff
-0x3e: 0x5449
-0x3f: 0x2381
-
-after probe, actual state of device ~10mV shunt voltage, 20 mOhm
-shunt, ~12V bus, ~6W power, ~30C temperature
-0x00: 0x0000
-0x01: 0xfb6a
-0x02: 0x4000
-0x03: 0xffff
-0x04: 0x087c
-0x05: 0x0e77
-0x06: 0x0f10
-0x07: 0x087c
-0x08: 0x01eac3
-0x09: 0xffff
-0x10: 0x7ff0
-0x11: 0xffff
-0x3e: 0x5449
-0x3f: 0x2381
-
-Thanks,
-Nathan
