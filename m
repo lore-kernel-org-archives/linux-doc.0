@@ -2,131 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6DF9C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 23:39:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDB5AC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 23:49:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8510360F56
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 23:39:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A9050600CC
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 23:49:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237277AbhJZXlu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Oct 2021 19:41:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40450 "EHLO
+        id S235674AbhJZXvj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Oct 2021 19:51:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235398AbhJZXlt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 19:41:49 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58CEDC061745
-        for <linux-doc@vger.kernel.org>; Tue, 26 Oct 2021 16:39:25 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id v10so59506pjr.3
-        for <linux-doc@vger.kernel.org>; Tue, 26 Oct 2021 16:39:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=UGc8wLx9Y9uYc1sV+rqKsRejtsRqKlqZmOxOwdL9dxo=;
-        b=lgak8A5JAimuhKaibtc98+IZJupYTHZrci4KeklKbTahRGCywHv/kh8spzrzks3Ooa
-         4kzviyAyUN30XjNWTMniYD6ih/SqpaSMNLQvaeV9p67QG3C85mEimzInwQ05N7bTrp0H
-         rzfAhb1xGIZUS6zH5aePLgh6GholdaqTq1NhMvZyWaDsky9Itxn29QRavydkGf9S4kap
-         uVxLTLJGrX3vnCrnPa3IxRGjorSjJGA6pSQ7njDn4munlyhfqS8BNwRCXAwmQCQ4AlgG
-         kRYlI4hyqIyCRWl2+HhbEbncIWQrGrH83LsQfvEykfHOVARGERXHzpyB+iv0aNBSwU9Y
-         mY4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UGc8wLx9Y9uYc1sV+rqKsRejtsRqKlqZmOxOwdL9dxo=;
-        b=l0nCNTNDUocfZsimnxGQ+F6YGr8oa9G0lSCslqNPvaNf3vtaJAslQpgzNv9lJhxKkp
-         lM6B+0k1sIzLTMf+ofEs7JOrvOQ3yhjehHREX2T3jWqW2w1VE6m6JEH053DmsTOCEw1z
-         lZjXL7PWA2lh2sReKNo7E5lnPhjtTQsK5J7Sq1qFa43NVchcKXvVdaE9GShUYgsYaJ+N
-         4cAqAjkdKR3j8v593cbKFKw1CqxNBOxhLg2tXRvzpb7vgUynhISCFbO+JKTJVtvAQ5fk
-         YaTCgdi8q64D46yImjNqlVyH+M27OS8rtZFQCORaAnVnA2xmKiTK0cYqD+aPP3HM6U6g
-         iUAw==
-X-Gm-Message-State: AOAM531FRJ9TZoC2n460IJtH/X3Y2kNc5pxZKXUSGAKd4ID7wZegiJ0D
-        SDpWsdDC3ePD4QUtgLi/bZLBrdBqz01lNl9MqsdYiA==
-X-Google-Smtp-Source: ABdhPJzeAmpt6HrgmDoiSxmoSMQGtLPDR45n0ttxg8f33uar4tiH2S9UcjbIbifjly/2KDpzcF4Fp20BBPVzc7588+0=
-X-Received: by 2002:a17:903:183:b0:140:47c1:1f2e with SMTP id
- z3-20020a170903018300b0014047c11f2emr17151977plg.69.1635291564597; Tue, 26
- Oct 2021 16:39:24 -0700 (PDT)
+        with ESMTP id S236297AbhJZXvc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 19:51:32 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C59F1C061570;
+        Tue, 26 Oct 2021 16:49:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=V6gYGPSmlZO2+IdapoJ3lT2mIVvRXAYGfe/XfmyiAJs=; b=a3USxLIdQD1loITMP9y1jCz4Lq
+        3wo17dxEitP+ofnaJnPJnzHbPtf0/6nSS+jRls7BoQ6n4+AqhALYLt4oU1IQNRPpO4B3u8Yh1RJPV
+        dla5b9Zs9PV2g13PAUryJDSMft9V9ujage5Q2uzb5ijJItZb5OPNR/fnHcMVF1Ts/SnQwvbajcyQL
+        YSPMWLvPtfLR319S94f7Vrh7YyZ8L6jDevViR+HLMBP9hDylEMKxsoatWSSIz9TrStuq7R1ymIKIq
+        xdEaZXH3egUNBWfEEUTW1CXg/47DM5cAxPDjupeJssDdp9gUP4+NI2mqagFa8SxPnJnY0AFr//sEM
+        9sdckVcw==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mfWBk-003IBF-AO; Tue, 26 Oct 2021 23:49:04 +0000
+Subject: Re: [PATCH] coding-style.rst: trivial: fix location of driver model
+ macros
+To:     Joe Perches <joe@perches.com>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Trevor Woerner <twoerner@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Jiri Kosina <trivial@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Yorick de Wid <yorickdewid@users.noreply.github.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <20210423184012.39300-1-twoerner@gmail.com>
+ <CANiq72mUBh+76iy5uCAGHpKHDnTGRVyQduMngEWDMCF6kRySJA@mail.gmail.com>
+ <CAHUNapQfFBcqrX7MvUvq8qbPgk2bPu-h3+9NxAUFpRtpOGFODw@mail.gmail.com>
+ <CANiq72=iDhHiFKBzud6sj6reCS=pEYxFn5x4b=VfNLMxva-RuA@mail.gmail.com>
+ <20211026144452.GA40651@localhost>
+ <CANiq72kf0QZUeO+=U67NLs=WXc=sEtasdv_yaZ5sZedNmzzJBw@mail.gmail.com>
+ <fe86efbd-4e03-76c8-55cf-dabd33e85823@infradead.org>
+ <58650d3729a5b3a8bc86037757bccda5cc254e3f.camel@perches.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <0976b45a-5cf8-450d-c651-96984fa340c9@infradead.org>
+Date:   Tue, 26 Oct 2021 16:49:03 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20211025200852.3002369-1-kaleshsingh@google.com>
- <20211025200852.3002369-7-kaleshsingh@google.com> <20211026151451.7f3e09a4@gandalf.local.home>
-In-Reply-To: <20211026151451.7f3e09a4@gandalf.local.home>
-From:   Kalesh Singh <kaleshsingh@google.com>
-Date:   Tue, 26 Oct 2021 16:39:13 -0700
-Message-ID: <CAC_TJveHgsPZw7p7BWOgQw6h8GNU_Pv_WUjNmw3AUq+wnSzk6Q@mail.gmail.com>
-Subject: Re: [PATCH v4 6/8] tracing/histogram: Optimize division by a power of 2
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     surenb@google.com, hridya@google.com, namhyung@kernel.org,
-        kernel-team@android.com, Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>, Shuah Khan <shuah@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Tom Zanussi <zanussi@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <58650d3729a5b3a8bc86037757bccda5cc254e3f.camel@perches.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 26, 2021 at 12:14 PM Steven Rostedt <rostedt@goodmis.org> wrote:
->
-> On Mon, 25 Oct 2021 13:08:38 -0700
-> Kalesh Singh <kaleshsingh@google.com> wrote:
->
-> > == Results ==
-> >
-> > Divisor is a power of 2 (divisor == 32):
-> >
-> >    test_hist_field_div_not_optimized  | 8,717,091 cpu-cycles
-> >    test_hist_field_div_optimized      | 1,643,137 cpu-cycles
-> >
-> > If the divisor is a power of 2, the optimized version is ~5.3x faster.
-> >
-> > Divisor is not a power of 2 (divisor == 33):
-> >
-> >    test_hist_field_div_not_optimized  | 4,444,324 cpu-cycles
-> >    test_hist_field_div_optimized      | 5,497,958 cpu-cycles
->
-> To optimize this even more, if the divisor is constant, we could make a
-> separate function to not do the branch, and just shift or divide.
+On 10/26/21 8:27 AM, Joe Perches wrote:
+> On Tue, 2021-10-26 at 08:18 -0700, Randy Dunlap wrote:
+>> On 10/26/21 8:10 AM, Miguel Ojeda wrote:
+>>> On Tue, Oct 26, 2021 at 4:44 PM Trevor Woerner <twoerner@gmail.com> wrote:
+>>>>
+>>>> get_maintainer.pl didn't add Andrew back then on my patch and still doesn't
+>>>> even now. Maybe the MAINTAINERS file needs an update if Andrew is to be
+>>>> included on trivial/documentation patches?
+>>>
+>>> I mentioned Andrew because he does the hard job of being a backup for
+>>> everything and everyone, but normally you should try to put the actual
+>>> maintainer first in the `To` field and/or trivial@kernel.org.
+>>
+>> I think that we decided to stop using trivial@kernel.org for new patches
+>> a few months ago...
+> 
+> Dunno who the "we" is but then maybe this is appropriate:
+> ---
+>   MAINTAINERS | 6 ------
+>   1 file changed, 6 deletions(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 869e6cc6366bc..8c933736bb412 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -19282,12 +19282,6 @@ W:	https://github.com/srcres258/linux-doc
+>   T:	git git://github.com/srcres258/linux-doc.git doc-zh-tw
+>   F:	Documentation/translations/zh_TW/
+>   
+> -TRIVIAL PATCHES
+> -M:	Jiri Kosina <trivial@kernel.org>
+> -S:	Maintained
+> -T:	git git://git.kernel.org/pub/scm/linux/kernel/git/jikos/trivial.git
+> -K:	^Subject:.*(?i)trivial
+> -
+>   TTY LAYER
+>   M:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>   M:	Jiri Slaby <jirislaby@kernel.org>
+> 
 
-Ack. I can update to use separate functions for the constant divisors.
+Jiri?
 
->
-> And even if it is not a power of 2, for constants, we could implement a
-> multiplication and shift, and guarantee an accuracy up to a defined max.
->
->
-> If div is a constant, then we can calculate the mult and shift, and max
-> dividend. Let's use 20 for shift.
->
->         // This works best for small divisors
->         if (div > max_div) {
->                 // only do a real division
->                 return;
->         }
->         shift = 20;
->         mult = ((1 << shift) + div - 1) / div;
->         delta = mult * div - (1 << shift);
->         if (!delta) {
->                 /* div is a power of 2 */
->                 max = -1;
->                 return;
->         }
->         max = (1 << shift) / delta;
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-I'm still trying to digest the above algorithm. But doesn't this add 2
-extra divisions? What am I missing here?
+thanks.
 
-Thanks,
-Kalesh
-
->
-> We would of course need to use 64 bit operations (maybe only do this for 64
-> bit machines). And perhaps even use bigger shift values to get a bigger max.
->
-> Then we could do:
->
->         if (val1 < max)
->                 return (val1 * mult) >> shift;
->
-> -- Steve
+-- 
+~Randy
