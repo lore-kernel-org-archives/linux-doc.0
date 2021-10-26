@@ -2,59 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEEB5C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 17:00:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA5D5C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 17:02:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BAE3360F9B
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 17:00:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C1C4C6109D
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 17:02:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237699AbhJZRDR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Oct 2021 13:03:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53588 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237690AbhJZRDP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 26 Oct 2021 13:03:15 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B1FB260F56;
-        Tue, 26 Oct 2021 17:00:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1635267651;
-        bh=N6mR0nlTyP972P3SDjcUELwCXA7yQW09NYrXCt3cNP0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=j9cJElx7TbZRVKmslx3nX/2j52TV7RP0OzseU83Aa//zyUqdfPhyvvp2G6siUmNDr
-         uONKV6BqBwe9EmAPDX6enH3cD7c6fz09eaJY8za/FOdWp6jOB7VUrbCfu2lGlc0WLl
-         /wn9T914dIdDshexgKmKmBETBG9xY1KJ1YQ76Y4Oxw9cxD+zVv68hHsLxlSFeGGDmZ
-         rl6pMFIwKAPtAgo4Qqs63e6LRgDDfTpTcMIdEEd27W+mAS5OkjdMLCBfIpWsWhCCUm
-         jtaMP4ux8I0SB0IqjFCfPgTIgfgCh42BSakDcINgNfn3nbnB/IqH8raHN5kvP1mTNo
-         WQA2yfYjl+HeQ==
-Date:   Tue, 26 Oct 2021 12:05:44 -0500
-From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Len Baker <len.baker@gmx.com>, Kees Cook <keescook@chromium.org>,
-        Joe Perches <joe@perches.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v3] docs: deprecated.rst: Clarify open-coded arithmetic
- with literals
-Message-ID: <20211026170544.GA1457721@embeddedor>
-References: <20210925143455.21221-1-len.baker@gmx.com>
- <871r47g59t.fsf@meer.lwn.net>
+        id S233332AbhJZREb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Oct 2021 13:04:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34936 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231360AbhJZRE0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 13:04:26 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBD49C061745;
+        Tue, 26 Oct 2021 10:02:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=rokadze8fRogRPO3TrlkJtrH8Z7jdFewFpbGPuZXCIM=; b=Qu7hbKOTAdEdBAA2y8tI88Y2/9
+        fLNwaKezOpXserGMaIVWN2jN15mgeYqvk8M/nMFdvuU5t2HO/FTeOt9d2UnO/Ggl4TZKbTQdsz+G4
+        nXL1XP7usNiHTBSnuvt5MSW3VpiWZscPz5mEn0nHDheFG/gaH7XQRVOfMfyO9X9MK1IREmP9s72mA
+        QTDix5gCEW/5udqqkrYa156daZNZ2zGDGhygkQ21zCMafu9t/D+JajvGykPFMZdU/SiIGrSpnAD0A
+        1UKOvtUSFjhuxsuXZjboMKtwJV73xZGh8YYSz/Tknj3RKEaQ8H8Afu4sGA/11uH8N2/HPJ0IdzpiW
+        RZAtoISw==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mfPpV-002Yak-03; Tue, 26 Oct 2021 17:01:41 +0000
+Date:   Tue, 26 Oct 2021 10:01:40 -0700
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Ming Lei <ming.lei@redhat.com>,
+        Julia Lawall <julia.lawall@inria.fr>
+Cc:     Petr Mladek <pmladek@suse.com>, Miroslav Benes <mbenes@suse.cz>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>, tj@kernel.org,
+        gregkh@linuxfoundation.org, akpm@linux-foundation.org,
+        minchan@kernel.org, jeyu@kernel.org, shuah@kernel.org,
+        bvanassche@acm.org, dan.j.williams@intel.com, joe@perches.com,
+        tglx@linutronix.de, keescook@chromium.org, rostedt@goodmis.org,
+        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        live-patching@vger.kernel.org
+Subject: Re: [PATCH v8 11/12] zram: fix crashes with cpu hotplug multistate
+Message-ID: <YXg0dFZ+6qHw7d0g@bombadil.infradead.org>
+References: <YW3LuzaPhW96jSBK@bombadil.infradead.org>
+ <YW4uwep3BCe9Vxq8@T590>
+ <alpine.LSU.2.21.2110190820590.15009@pobox.suse.cz>
+ <YW6OptglA6UykZg/@T590>
+ <alpine.LSU.2.21.2110200835490.26817@pobox.suse.cz>
+ <YW/KEsfWJMIPnz76@T590>
+ <alpine.LSU.2.21.2110201014400.26817@pobox.suse.cz>
+ <YW/q70dLyF+YudyF@T590>
+ <YXfA0jfazCPDTEBw@alley>
+ <YXgguuAY5iEUIV0u@T590>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <871r47g59t.fsf@meer.lwn.net>
+In-Reply-To: <YXgguuAY5iEUIV0u@T590>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 26, 2021 at 09:44:14AM -0600, Jonathan Corbet wrote:
-[..]
-> >  - Reword the sentence to comunicate better (Jonathan Corbet).
-> >
-> > The previous version can be found here [1].
-> >
-> > [1] https://lore.kernel.org/linux-hardening/20210829144716.2931-1-len.baker@gmx.com/
-> 
-> Applied, thanks.
+On Tue, Oct 26, 2021 at 11:37:30PM +0800, Ming Lei wrote:
+> On Tue, Oct 26, 2021 at 10:48:18AM +0200, Petr Mladek wrote:
+> > Livepatch code never called kobject_del() under a lock. It would cause
+> > the obvious deadlock.
 
-Thanks, Jonathan.
---
-Gustavo
+Never?
+
+> > The historic code only waited in the
+> > module_exit() callback until the sysfs interface was removed.
+> 
+> OK, then Luis shouldn't consider livepatching as one such issue to solve
+> with one generic solution.
+
+It's not what I was told when the deadlock was found with zram, so I was
+informed quite the contrary.
+
+I'm working on a generic coccinelle patch which hunts for actual cases
+using iteration (a feature of coccinelle for complex searches). The
+search is pretty involved, so I don't think I'll have an answer to this
+soon.
+
+Since the question of how generic this deadlock is remains questionable,
+I think it makes sense to put the generic deadlock fix off the table for
+now, and we address this once we have a more concrete search with
+coccinelle.
+
+But to say we *don't* have drivers which can cause this is obviously
+wrong as well, from a cursory search so far. But let's wait and see how
+big this list actually is.
+
+I'll drop the deadlock generic fixes and move on with at least a starter
+kernfs / sysfs tests.
+
+  Luis
