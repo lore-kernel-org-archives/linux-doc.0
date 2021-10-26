@@ -2,106 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDDBBC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 21:21:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A46EC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 21:23:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B563560F6F
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 21:21:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6899A60E09
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 21:23:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235205AbhJZVXd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Oct 2021 17:23:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37868 "EHLO
+        id S232108AbhJZVZd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Oct 2021 17:25:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239623AbhJZVXb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 17:23:31 -0400
-Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D7D3C061570;
-        Tue, 26 Oct 2021 14:21:07 -0700 (PDT)
-Received: by mail-io1-xd2f.google.com with SMTP id f9so1014517ioo.11;
-        Tue, 26 Oct 2021 14:21:07 -0700 (PDT)
+        with ESMTP id S232059AbhJZVZc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 17:25:32 -0400
+Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93C63C061570;
+        Tue, 26 Oct 2021 14:23:08 -0700 (PDT)
+Received: by mail-io1-xd35.google.com with SMTP id n67so1050377iod.9;
+        Tue, 26 Oct 2021 14:23:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=3NsbRHAcbqeLB98tL/5OrkvKy4kl3HelWqG3LhV0gE0=;
-        b=OH2Wv2wHn5wZKLgF467oUWhtBrZ2OQWHtq+JN8v6sNGGu42bFAQeKhoU3fvklJFpn4
-         IzdE+KjpqJidy1yFqNIiJu07xtHc4kVrO9OnoN8zjWbK/637NNnZeV0oEqflPpO3X/Aw
-         feIwMHA7xrQnwpEzgtGqM4wv9T2Sh590kIDukEUYQli32jt7bdV30lz+yiE334VTqNCh
-         HNBjXMBq8AjqO7CJiouHnSnU3M43Kzd0m1YHXr+cI3LcQJAHSYWx55qI93T7m541vnjz
-         PphAy2ItY7zwrIEc+jJY98oKfgwgNwY2hKOZOmg78Dc0/H5ekomNI54TQnlh2dmDv1Gh
-         5lEg==
+        bh=GuopS/a00IpLOIPNe2GKE1DFE1mO+ey9OPeZTHiR3zg=;
+        b=HGvA4MzKTjZL/5S/Ax9qmsmJ1yjWqvdcyb5dCy5ejqiJpxupo/WzagOc9/Qn5BdXpG
+         MhBA9V6ldCmU3o9eBRyuo//QvHPpfsPHsM7S5LSiQaAerg9m5eH4DejYfFtyzhWjolA8
+         rxm0tVJaIBKBVcp7VUnWEJ/VW447UiwqNxWpwpWp26vQx/vjbNIqj6PtHSOj/IycVXHw
+         O4bevGuGznrczJl5p7SG4kyN/RCpeECGvcDccz72itvei+Ww4M63qK8Teil2cz/l2QJd
+         3ybXpgT4TCFHlfJQ7WQmWtghVgUVQVndGMSIou88F/Sra69Yhv44iff1paDnpXJBBMxh
+         cy6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=3NsbRHAcbqeLB98tL/5OrkvKy4kl3HelWqG3LhV0gE0=;
-        b=wqj8KPKEfhK5aqVHmKRgQnSoVXmiNviQYXoKKOgBUVDys6U5lFlLoJpuEAFSqA1J3Z
-         zoC9VPoLW395t6WmI4r2E2+J6qO35sw/lyoPEQIBLH4i8HeQeEh0klgoN/y5TbhTunz3
-         utcfetWp7X6euwW1+wOPe5+xG08z2Brm6c+BUzZMUyPlTfnsx3oKS0ybtxTWypnyA1LQ
-         SKYLUvihPjVdbsXSsH8HVQt5eMXoYjdgGDO6BmF533KnBPo6k8HkrFYY2SOO3Tya00Kh
-         XGlVghgUwnyNGlLpiU3yD97MK9YL4MZoGWbyv6xoDT8+y3oOqo8XEovPMQ4svRmCvCJ9
-         P2nQ==
-X-Gm-Message-State: AOAM533FPMBzWsYYA39NbMBrX3dqPTYcE03ePv0m3SgphypfKcqJygBw
-        3p8CHrHZGMavvryRYkLrdcU=
-X-Google-Smtp-Source: ABdhPJy3SVZkvA3wIqlfARdTpCeLNj5tcqu7by2mqW9Nzq4fFquD6U7uFVkJZm/f9gL2tu9getYeZA==
-X-Received: by 2002:a5d:8719:: with SMTP id u25mr17015971iom.140.1635283266966;
-        Tue, 26 Oct 2021 14:21:06 -0700 (PDT)
+        bh=GuopS/a00IpLOIPNe2GKE1DFE1mO+ey9OPeZTHiR3zg=;
+        b=cSclCE/ENNtzAp12PQg3HkHWWHgAVgol7sKmUnEPQjc/akK3+tmnnMjYC2K1GHHPvA
+         bRLGMP3hFOfpamhTzroCYwDy54iS9dV0RzgJ2xoPtTReUQPZor5o4h3PvAZ9urgOWJsK
+         kXQmWKmi5DbBHfQUB3Aw61SN3VV+lz/qQlauVX5OCVvfnW4rwCdmhmrtvTUHaZr5Wruw
+         oGEYIFkJGshuBXuDFbWYiHSkBIwlMAQuQHZjSm16hOuolvBnnNZ9AhbZwC1PA6Vi12Zo
+         WIydHpCiFNBNiYPxWugFMi7FcwsbV45aGEcS5nUPnYUN8qV/QeRIIfQFv4mUFlI1paY3
+         lYkA==
+X-Gm-Message-State: AOAM533OZCRkW9Ab9lPim03xMw0ib0+Txr9C80UI6dlUEx0bDHtXv1DC
+        cwrJFV7vXCFYz5CQkpHiTwc=
+X-Google-Smtp-Source: ABdhPJzqzsY2gK2GmXc9n5IETpAcUQzxLrDimx7RS3PPSC8eh7v8wHnMlcd3ums7sbtxAAmvMw262A==
+X-Received: by 2002:a05:6602:2d13:: with SMTP id c19mr17058694iow.199.1635283388054;
+        Tue, 26 Oct 2021 14:23:08 -0700 (PDT)
 Received: from localhost (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id z7sm551192ioj.38.2021.10.26.14.21.05
+        by smtp.gmail.com with ESMTPSA id s7sm11979875iow.31.2021.10.26.14.23.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Oct 2021 14:21:06 -0700 (PDT)
-Date:   Tue, 26 Oct 2021 17:21:03 -0400
+        Tue, 26 Oct 2021 14:23:07 -0700 (PDT)
+Date:   Tue, 26 Oct 2021 17:23:05 -0400
 From:   Trevor Woerner <twoerner@gmail.com>
-To:     Joe Perches <joe@perches.com>
+To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
         linux-kernel <linux-kernel@vger.kernel.org>,
         Jiri Kosina <trivial@kernel.org>,
+        Joe Perches <joe@perches.com>,
         Shuah Khan <skhan@linuxfoundation.org>,
         Matthias Brugger <matthias.bgg@gmail.com>,
         Miguel Ojeda <ojeda@kernel.org>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        Yorick de Wid <yorickdewid@users.noreply.github.com>,
         Dan Williams <dan.j.williams@intel.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
 Subject: Re: [PATCH] coding-style.rst: trivial: fix location of driver model
  macros
-Message-ID: <20211026212103.GA6830@localhost>
+Message-ID: <20211026212305.GB6830@localhost>
 References: <20210423184012.39300-1-twoerner@gmail.com>
  <CANiq72mUBh+76iy5uCAGHpKHDnTGRVyQduMngEWDMCF6kRySJA@mail.gmail.com>
  <CAHUNapQfFBcqrX7MvUvq8qbPgk2bPu-h3+9NxAUFpRtpOGFODw@mail.gmail.com>
- <CANiq72=iDhHiFKBzud6sj6reCS=pEYxFn5x4b=VfNLMxva-RuA@mail.gmail.com>
- <20211026144452.GA40651@localhost>
- <52c1cd5fa698216734ffda706299d77a102fcb2f.camel@perches.com>
+ <87a6ivg5ex.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <52c1cd5fa698216734ffda706299d77a102fcb2f.camel@perches.com>
+In-Reply-To: <87a6ivg5ex.fsf@meer.lwn.net>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Joe,
-
-On Tue 2021-10-26 @ 08:37:29 AM, Joe Perches wrote:
-> On Tue, 2021-10-26 at 10:44 -0400, Trevor Woerner wrote:
-> > On Tue 2021-10-26 @ 02:47:12 PM, Miguel Ojeda wrote:
-> > > On Mon, Oct 25, 2021 at 11:40 PM Trevor Woerner <twoerner@gmail.com> wrote:
-> > > > ping?
-> []
-> > > Note that you should put whoever should take it in the To field (I
-> > > just noticed your original email did not) -- use
-> > > `scripts/get_maintainer.pl` for getting the relevant people for a
-> > > patch or path.
-> > 
-> > Ah, good point. I have a "cccmd" line in my ~/.gitconfig for adding people to
-> > the CC when I "git send-email", maybe I should switch that to a "tocmd"?
+On Tue 2021-10-26 @ 09:41:10 AM, Jonathan Corbet wrote:
+> Trevor Woerner <twoerner@gmail.com> writes:
 > 
-> I use scripts for both.
+> > ping?
+> >
+> > It doesn't look like this was picked up by trivial? Although, it doesn't
+> > look like git://git.kernel.org/pub/scm/linux/kernel/git/jikos/trivial.git
+> > has been used in a while. Is there an alternate (preferred) path for
+> > trivial patches?
 > 
-> https://lore.kernel.org/all/1473862411.32273.25.camel@perches.com/
+> Hmm...no idea why I missed it the first time around.  Applied now,
 
-That is awesome, thanks!
+Maybe because I added you in the CC instead of TO? Sorry about that. Anyway,
+that's cleaned up now (thanks to Joe's scripts).
+
+> Applied now,
+> apologies for the delay.
+
+Thanks!
