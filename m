@@ -2,52 +2,156 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3AE1C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 13:04:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8B6EC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 13:08:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8DC8961039
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 13:04:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 93BAF6023D
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 13:08:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236113AbhJZNGc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Oct 2021 09:06:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55432 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230324AbhJZNGc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 26 Oct 2021 09:06:32 -0400
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E07DE60F6F;
-        Tue, 26 Oct 2021 13:04:07 +0000 (UTC)
-Date:   Tue, 26 Oct 2021 09:04:06 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     Tiezhu Yang <yangtiezhu@loongson.cn>, naveen.n.rao@linux.ibm.com,
-        anil.s.keshavamurthy@intel.com, davem@davemloft.net,
-        mingo@redhat.com, corbet@lwn.net, akpm@linux-foundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] MAINTAINERS: Update KPROBES and TRACING entries
-Message-ID: <20211026090406.4c26967a@gandalf.local.home>
-In-Reply-To: <20211026172842.cb6fc83f888ade50d0b6046c@kernel.org>
-References: <1635213091-24387-1-git-send-email-yangtiezhu@loongson.cn>
-        <1635213091-24387-5-git-send-email-yangtiezhu@loongson.cn>
-        <20211026172842.cb6fc83f888ade50d0b6046c@kernel.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        id S233210AbhJZNLO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Oct 2021 09:11:14 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:3834 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S230324AbhJZNLN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 09:11:13 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19QCH26B025394;
+        Tue, 26 Oct 2021 13:08:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=/xKjX7zeq971INJvr0YNpESJxm9aAQToNy2FujCIzE4=;
+ b=NGtmOg2G+ZIp4mWj40sNUXExjKP4CmvUvmSl7oSGcMcBV50q0TFbQCV68XwILo2m0M1m
+ G3raEkGL2egiV7XfPWJRkz1nVBppzBRZ78fbN5SWDA+f4aIyiUwvng/v5Ix+rpN8Toxu
+ OznP/t+hlpqLKnC9KPQv8YBZAwvqgHCinG8kGxoIzAp+bCw6SaVJWw3cIXb4wpqn47p8
+ 14quNNzNwT6F2hchPhzXgbZBfsYV1YFk46KcyUYK9DI3ROuGegw7MYU70ZV0HogePkFQ
+ Ky7uEp6tKEs0KgBcnIa+33ngHb0rv71CAPXND93OI00VSnviYKgf0vYTDX2hJPPe6t33 1g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3bx596x846-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 26 Oct 2021 13:08:40 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 19QBkR4R021388;
+        Tue, 26 Oct 2021 13:08:40 GMT
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com [169.55.85.253])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3bx596x83n-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 26 Oct 2021 13:08:40 +0000
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+        by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 19QCvlDX011481;
+        Tue, 26 Oct 2021 13:08:39 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+        by ppma01wdc.us.ibm.com with ESMTP id 3bx4efbupq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 26 Oct 2021 13:08:39 +0000
+Received: from b03ledav005.gho.boulder.ibm.com (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+        by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 19QD8cfv48693634
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 26 Oct 2021 13:08:38 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 98FEEBE05A;
+        Tue, 26 Oct 2021 13:08:38 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 6E031BE065;
+        Tue, 26 Oct 2021 13:08:38 +0000 (GMT)
+Received: from localhost (unknown [9.211.49.177])
+        by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
+        Tue, 26 Oct 2021 13:08:38 +0000 (GMT)
+From:   Nathan Lynch <nathanl@linux.ibm.com>
+To:     Hill Ma <maahiuzeon@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        benh@kernel.crashing.org, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH v2] macintosh/via-pmu-led: make disk activity usage a
+ parameter.
+In-Reply-To: <20211026033254.1052-1-maahiuzeon@gmail.com>
+References: <20211026033254.1052-1-maahiuzeon@gmail.com>
+Date:   Tue, 26 Oct 2021 08:08:38 -0500
+Message-ID: <87fssox7ah.fsf@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 6aO6ediL6HTYrQHIwSlnY5kSvANXx6ix
+X-Proofpoint-GUID: 0Jj02Gc0AyomDLd7w1-3ui-6PXWErbaf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-10-26_02,2021-10-26_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 malwarescore=0
+ mlxlogscore=999 phishscore=0 adultscore=0 impostorscore=0 bulkscore=0
+ mlxscore=0 lowpriorityscore=0 priorityscore=1501 spamscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2110260076
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 26 Oct 2021 17:28:42 +0900
-Masami Hiramatsu <mhiramat@kernel.org> wrote:
+Hello,
 
-> This looks good to me for kprobe section.
-> 
-> Acked-by: Masami Hiramatsu <mhiramat@kernel.org>
+Hill Ma <maahiuzeon@gmail.com> writes:
+> Whether to use the LED as a disk activity is a user preference.
+> Some like this usage while others find the LED too bright. So it
+> might be a good idea to make this choice a runtime parameter rather
+> than compile-time config.
 
-Thanks, I'll pull this into my queue.
+Users already have the ability to change the LED behavior at runtime
+already, correct? I.e. they can do:
 
+  echo none > /sys/class/leds/pmu-led::front/trigger
 
--- Steve
+in their boot scripts. Granted, a kernel built with ADB_PMU_LED_DISK=y
+will blink the LED on disk activity until user space is running. Is this
+unsatisfactory?
+
+> The default is set to disabled as OS X does not use the LED as a
+> disk activity indicator.
+
+This is long-standing behavior in Linux and OS X has been EOL on this
+architecture for a decade, so this isn't much of a consideration at this
+point. Seems more important to avoid surprising existing users and
+distributions with a behavior change that makes additional work for
+them. See below.
+
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 43dc35fe5bc0..a656a51ba0a8 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -250,6 +250,12 @@
+>  			Use timer override. For some broken Nvidia NF5 boards
+>  			that require a timer override, but don't have HPET
+>  
+> +	adb_pmu_led_disk [PPC]
+> +			Use front LED as disk LED by default. Only applies to
+> +			PowerBook, iBook, PowerMac 7,2/7,3.
+> +			Format: <bool>  (1/Y/y=enable, 0/N/n=disable)
+> +			Default: disabled
+> +
+>  	add_efi_memmap	[EFI; X86] Include EFI memory map in
+>  			kernel's map of available physical RAM.
+>  
+> diff --git a/drivers/macintosh/Kconfig b/drivers/macintosh/Kconfig
+> index 5cdc361da37c..243215de563c 100644
+> --- a/drivers/macintosh/Kconfig
+> +++ b/drivers/macintosh/Kconfig
+> @@ -78,16 +78,6 @@ config ADB_PMU_LED
+>  	  behaviour of the old CONFIG_BLK_DEV_IDE_PMAC_BLINK, select this
+>  	  and the disk LED trigger and configure appropriately through sysfs.
+>  
+> -config ADB_PMU_LED_DISK
+> -	bool "Use front LED as DISK LED by default"
+> -	depends on ADB_PMU_LED
+> -	depends on LEDS_CLASS
+> -	select LEDS_TRIGGERS
+> -	select LEDS_TRIGGER_DISK
+> -	help
+> -	  This option makes the front LED default to the disk trigger
+> -	  so that it blinks on disk activity.
+> -
+
+So, if I've been relying on CONFIG_ADB_PMU_LED_DISK=y and I upgrade to a
+newer kernel with the proposed change, from my point of view the disk
+activity LED has stopped working and I need to alter the bootloader
+config or init scripts to restore the expected behavior. That seems
+undesirable to me.
+
+I don't think we rigidly enforce Kconfig backward compatibility, but
+when it comes to a user-visible function on a legacy platform where
+users and distros likely have their configurations figured out already,
+it's probably best to avoid such changes.
