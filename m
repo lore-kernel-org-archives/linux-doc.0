@@ -2,94 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DE40C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 19:58:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDDBBC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 21:21:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7DB7660F9D
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 19:58:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B563560F6F
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 21:21:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239053AbhJZUAl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Oct 2021 16:00:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47420 "EHLO
+        id S235205AbhJZVXd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Oct 2021 17:23:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239052AbhJZUAk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 16:00:40 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC8D9C061570;
-        Tue, 26 Oct 2021 12:58:15 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id x27so1209434lfu.5;
-        Tue, 26 Oct 2021 12:58:15 -0700 (PDT)
+        with ESMTP id S239623AbhJZVXb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 17:23:31 -0400
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D7D3C061570;
+        Tue, 26 Oct 2021 14:21:07 -0700 (PDT)
+Received: by mail-io1-xd2f.google.com with SMTP id f9so1014517ioo.11;
+        Tue, 26 Oct 2021 14:21:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=G2EUbiSBFqMAbwlq+Hh6bZmWi5bhxCtnpI1o6+QMB2g=;
-        b=SoHipItjHdtWBcxrwaOJGDTQDqdCu4ryplWxTF37sBQ1eLniffJQZZh80tiRvrhWJw
-         qzhJC2dZwIRHZcVcW5I6WZOC0H5nG3gHUSB0WZSvqrau4BY2IqXUbrwyHsTmzkXlPBxA
-         rbeM4pBik8HbrF9E2CYIjhW2SLcEb5F1Qt2OUguC6UxUtoF6BaA7Td41aCHapJzUHDfQ
-         PtpX2JPiIczvqi5lEO69txh+KLUsXX/MjyU+cnlYilh/gDG3XdALHzVdA7SuzPp0rhRt
-         B7PouoYeKTm5SeHeeaXJaOg+7MaYcXlQMKgpnE2o2gzmIkwTstXWvo3GcfHchAiro5cQ
-         MWhQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=3NsbRHAcbqeLB98tL/5OrkvKy4kl3HelWqG3LhV0gE0=;
+        b=OH2Wv2wHn5wZKLgF467oUWhtBrZ2OQWHtq+JN8v6sNGGu42bFAQeKhoU3fvklJFpn4
+         IzdE+KjpqJidy1yFqNIiJu07xtHc4kVrO9OnoN8zjWbK/637NNnZeV0oEqflPpO3X/Aw
+         feIwMHA7xrQnwpEzgtGqM4wv9T2Sh590kIDukEUYQli32jt7bdV30lz+yiE334VTqNCh
+         HNBjXMBq8AjqO7CJiouHnSnU3M43Kzd0m1YHXr+cI3LcQJAHSYWx55qI93T7m541vnjz
+         PphAy2ItY7zwrIEc+jJY98oKfgwgNwY2hKOZOmg78Dc0/H5ekomNI54TQnlh2dmDv1Gh
+         5lEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=G2EUbiSBFqMAbwlq+Hh6bZmWi5bhxCtnpI1o6+QMB2g=;
-        b=OD7sza7vVRaQimbIS0rZ7TTEnRPEl3ID6tCvNqO6D5ZEcGFgjc4MslsOP0b9w0Zvcd
-         XyjAa55HpDKt6zwz7EQJgxpfzaowbZfrNUB8RheEZKiQWRJHKnYMdc8FUYdHvuvGFE+8
-         gwUufP8/9ZO7p1b2mjn0hF2FGsYUszqn1R9OOr6heGqFPLzYdz49OO4wW34MKnYRqNS2
-         H/OEvvXBroct5HIfoabjo/+uXQXjt3JzuAjSAZa77SsTT2d+jrbmov+Ls4npCgbdRdHr
-         ZTv6T8+thIOpaP0X0fTmC8SwjvOqu9ISLzo9NGgbxGZ5tQ+LHIsZ6ECxyMPEZTFXmFs1
-         h9JA==
-X-Gm-Message-State: AOAM532wBlpC19nsDijb+ZHhk1sx5vmv4rVj6YdcMKvxrpZWULH/SWwy
-        DdWpXOVrTTWLukihr7NmvYoFXeDohUtP6w==
-X-Google-Smtp-Source: ABdhPJzAIHsmf6jhU+O5aBG2Yjds5qCqmoR//7ADUCzjefCud9HvzJygMhzcWwpYBJ0ouhiOtkmwHA==
-X-Received: by 2002:a05:6512:3f04:: with SMTP id y4mr24721401lfa.180.1635278294066;
-        Tue, 26 Oct 2021 12:58:14 -0700 (PDT)
-Received: from penguin.lxd ([94.179.4.108])
-        by smtp.gmail.com with ESMTPSA id w26sm2436759ljh.18.2021.10.26.12.58.11
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=3NsbRHAcbqeLB98tL/5OrkvKy4kl3HelWqG3LhV0gE0=;
+        b=wqj8KPKEfhK5aqVHmKRgQnSoVXmiNviQYXoKKOgBUVDys6U5lFlLoJpuEAFSqA1J3Z
+         zoC9VPoLW395t6WmI4r2E2+J6qO35sw/lyoPEQIBLH4i8HeQeEh0klgoN/y5TbhTunz3
+         utcfetWp7X6euwW1+wOPe5+xG08z2Brm6c+BUzZMUyPlTfnsx3oKS0ybtxTWypnyA1LQ
+         SKYLUvihPjVdbsXSsH8HVQt5eMXoYjdgGDO6BmF533KnBPo6k8HkrFYY2SOO3Tya00Kh
+         XGlVghgUwnyNGlLpiU3yD97MK9YL4MZoGWbyv6xoDT8+y3oOqo8XEovPMQ4svRmCvCJ9
+         P2nQ==
+X-Gm-Message-State: AOAM533FPMBzWsYYA39NbMBrX3dqPTYcE03ePv0m3SgphypfKcqJygBw
+        3p8CHrHZGMavvryRYkLrdcU=
+X-Google-Smtp-Source: ABdhPJy3SVZkvA3wIqlfARdTpCeLNj5tcqu7by2mqW9Nzq4fFquD6U7uFVkJZm/f9gL2tu9getYeZA==
+X-Received: by 2002:a5d:8719:: with SMTP id u25mr17015971iom.140.1635283266966;
+        Tue, 26 Oct 2021 14:21:06 -0700 (PDT)
+Received: from localhost (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
+        by smtp.gmail.com with ESMTPSA id z7sm551192ioj.38.2021.10.26.14.21.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Oct 2021 12:58:13 -0700 (PDT)
-Date:   Tue, 26 Oct 2021 22:58:05 +0300
-From:   Denis Pauk <pauk.denis@gmail.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     eugene.shalygin@gmail.com, platform-driver-x86@vger.kernel.org,
-        thomas@weissschuh.net, Tor Vic <torvic9@mailbox.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 1/3] hwmon: (asus_wmi_ec_sensors) Support B550 Asus
- WMI.
-Message-ID: <20211026225805.1504a9f9@penguin.lxd>
-In-Reply-To: <YXcKLvRu3gRm3zUF@smile.fi.intel.com>
-References: <20211022200032.23267-1-pauk.denis@gmail.com>
-        <20211022200032.23267-2-pauk.denis@gmail.com>
-        <YXcDcXrUo4a/KAsT@smile.fi.intel.com>
-        <YXcHYvleoOr6sqMK@smile.fi.intel.com>
-        <YXcKLvRu3gRm3zUF@smile.fi.intel.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; aarch64-unknown-linux-gnu)
+        Tue, 26 Oct 2021 14:21:06 -0700 (PDT)
+Date:   Tue, 26 Oct 2021 17:21:03 -0400
+From:   Trevor Woerner <twoerner@gmail.com>
+To:     Joe Perches <joe@perches.com>
+Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Jiri Kosina <trivial@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Yorick de Wid <yorickdewid@users.noreply.github.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH] coding-style.rst: trivial: fix location of driver model
+ macros
+Message-ID: <20211026212103.GA6830@localhost>
+References: <20210423184012.39300-1-twoerner@gmail.com>
+ <CANiq72mUBh+76iy5uCAGHpKHDnTGRVyQduMngEWDMCF6kRySJA@mail.gmail.com>
+ <CAHUNapQfFBcqrX7MvUvq8qbPgk2bPu-h3+9NxAUFpRtpOGFODw@mail.gmail.com>
+ <CANiq72=iDhHiFKBzud6sj6reCS=pEYxFn5x4b=VfNLMxva-RuA@mail.gmail.com>
+ <20211026144452.GA40651@localhost>
+ <52c1cd5fa698216734ffda706299d77a102fcb2f.camel@perches.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <52c1cd5fa698216734ffda706299d77a102fcb2f.camel@perches.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Andy,
+Joe,
 
-Thank you, currently code has returned N/A by some reason. I will search
-place of regression.
-
-On Mon, 25 Oct 2021 22:49:02 +0300
-Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
-...
+On Tue 2021-10-26 @ 08:37:29 AM, Joe Perches wrote:
+> On Tue, 2021-10-26 at 10:44 -0400, Trevor Woerner wrote:
+> > On Tue 2021-10-26 @ 02:47:12 PM, Miguel Ojeda wrote:
+> > > On Mon, Oct 25, 2021 at 11:40 PM Trevor Woerner <twoerner@gmail.com> wrote:
+> > > > ping?
+> []
+> > > Note that you should put whoever should take it in the To field (I
+> > > just noticed your original email did not) -- use
+> > > `scripts/get_maintainer.pl` for getting the relevant people for a
+> > > patch or path.
+> > 
+> > Ah, good point. I have a "cccmd" line in my ~/.gitconfig for adding people to
+> > the CC when I "git send-email", maybe I should switch that to a "tocmd"?
 > 
-> Okay, here a few additional fixes (make them symmetrical and hope that
-> it will compile now):
+> I use scripts for both.
 > 
-...
+> https://lore.kernel.org/all/1473862411.32273.25.camel@perches.com/
 
-Best regards,
-    Denis.
+That is awesome, thanks!
