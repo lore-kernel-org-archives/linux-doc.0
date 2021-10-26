@@ -2,34 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2889FC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 15:27:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16EE5C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 15:29:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0703760F21
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 15:27:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DB88F60E0B
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 15:29:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235650AbhJZPaM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Oct 2021 11:30:12 -0400
-Received: from smtprelay0229.hostedemail.com ([216.40.44.229]:51994 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S232476AbhJZPaL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 11:30:11 -0400
-Received: from omf19.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay07.hostedemail.com (Postfix) with ESMTP id 1519C184A82B1;
-        Tue, 26 Oct 2021 15:27:47 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf19.hostedemail.com (Postfix) with ESMTPA id 46E3620D751;
-        Tue, 26 Oct 2021 15:27:44 +0000 (UTC)
-Message-ID: <58650d3729a5b3a8bc86037757bccda5cc254e3f.camel@perches.com>
-Subject: Re: [PATCH] coding-style.rst: trivial: fix location of driver model
- macros
-From:   Joe Perches <joe@perches.com>
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Trevor Woerner <twoerner@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
+        id S230523AbhJZPbd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Oct 2021 11:31:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41376 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230342AbhJZPbc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 11:31:32 -0400
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DCCAC061745;
+        Tue, 26 Oct 2021 08:29:09 -0700 (PDT)
+Received: by mail-io1-xd30.google.com with SMTP id r194so722507iod.7;
+        Tue, 26 Oct 2021 08:29:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=KJolHZAJ+NHUzTXzRjY88iP/wLMrBD51AxY6Lzd7Fu0=;
+        b=iQqj7HS27USEcuVJAO2uQWLah4eVJ0LMNq6R3/nx8Hceh9EqMC5O7NG4dKUyRlmMKs
+         lX0JNHieIN4cqAzyiG/TSF6G7iH2cwk51t31MYAki7jqkbu1k56nRC+LLlUzii1vsj19
+         9H85WDG+2lOj8W6UiCjhICCBhGn79l6oHA1paI5urGWf1da49QgO7B9XTTXZ6Eu72+3Y
+         YJjlZBqDMvbhXFCyUxIjWIhI3dSaifhOr+eWEccUXjyOpjEGCGSW6BJ2xuwA3nTFqjsN
+         fwQChTpLZZYDS6YB38FN5x+nYUrgcBWsYxkKJnPTEbpwFJLetCF0PzDuSgs/6jVlpyfp
+         mFEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=KJolHZAJ+NHUzTXzRjY88iP/wLMrBD51AxY6Lzd7Fu0=;
+        b=l2K8Tu+sYcZfNkZBQ+IgUAx37giloyXD8tCudOiQzMurcA3hOzsPjINsCbs2t3oE39
+         /tNMzgVcxr0s7IPanVKAXr5AXk+OK/qfW31b0ZmuIFh7dq0gov/LV8tI4CiAemINHIuz
+         tk06r4gRWSbODHCQdNAU0NR/7DPhxJPzNUWTdYXskwGWPtbUS2+wHdnLC8TYCRorjrlh
+         +QK9y3YjvYzC5+4VWXpmxcq5S+U7l+b9mpuP+fgXo+onqum3d/OC1+H9ELgVNrRXq8hX
+         TQyJ/qBe1BqeO8s35614e5T0W5R1plbvOJhSDQb2OwvFHnjeIz6xnqufbOWveU/wKm/N
+         q64Q==
+X-Gm-Message-State: AOAM5324Ep8PIp+xetH3O2XsaSU4FoNHHIZ7L8/lvtp8BkC12lrCXap2
+        U8KwxYfsiPBbn0+ir8+gev/bTUce2rL246tkt74=
+X-Google-Smtp-Source: ABdhPJxahCG/EjlpsVlkUL4UB7ZYvXFOKMLyPnWHyZ5reTJl6PT6O9cdmV7V504GM+tmBiDhbrbTevRP53JuUMPzBHA=
+X-Received: by 2002:a5d:8903:: with SMTP id b3mr16216589ion.44.1635262148559;
+ Tue, 26 Oct 2021 08:29:08 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210423184012.39300-1-twoerner@gmail.com> <CANiq72mUBh+76iy5uCAGHpKHDnTGRVyQduMngEWDMCF6kRySJA@mail.gmail.com>
+ <CAHUNapQfFBcqrX7MvUvq8qbPgk2bPu-h3+9NxAUFpRtpOGFODw@mail.gmail.com>
+ <CANiq72=iDhHiFKBzud6sj6reCS=pEYxFn5x4b=VfNLMxva-RuA@mail.gmail.com>
+ <20211026144452.GA40651@localhost> <CANiq72kf0QZUeO+=U67NLs=WXc=sEtasdv_yaZ5sZedNmzzJBw@mail.gmail.com>
+ <fe86efbd-4e03-76c8-55cf-dabd33e85823@infradead.org>
+In-Reply-To: <fe86efbd-4e03-76c8-55cf-dabd33e85823@infradead.org>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Tue, 26 Oct 2021 17:28:57 +0200
+Message-ID: <CANiq72kVXwnP=BWkv-e_TcGBLj38hwKs4oWCtUxJPfvVr1Bd_Q@mail.gmail.com>
+Subject: Re: [PATCH] coding-style.rst: trivial: fix location of driver model macros
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Trevor Woerner <twoerner@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Andrew Morton <akpm@linux-foundation.org>,
         linux-kernel <linux-kernel@vger.kernel.org>,
         Jiri Kosina <trivial@kernel.org>,
+        Joe Perches <joe@perches.com>,
         Shuah Khan <skhan@linuxfoundation.org>,
         Matthias Brugger <matthias.bgg@gmail.com>,
         Miguel Ojeda <ojeda@kernel.org>,
@@ -38,64 +72,17 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Yorick de Wid <yorickdewid@users.noreply.github.com>,
         Dan Williams <dan.j.williams@intel.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Date:   Tue, 26 Oct 2021 08:27:43 -0700
-In-Reply-To: <fe86efbd-4e03-76c8-55cf-dabd33e85823@infradead.org>
-References: <20210423184012.39300-1-twoerner@gmail.com>
-         <CANiq72mUBh+76iy5uCAGHpKHDnTGRVyQduMngEWDMCF6kRySJA@mail.gmail.com>
-         <CAHUNapQfFBcqrX7MvUvq8qbPgk2bPu-h3+9NxAUFpRtpOGFODw@mail.gmail.com>
-         <CANiq72=iDhHiFKBzud6sj6reCS=pEYxFn5x4b=VfNLMxva-RuA@mail.gmail.com>
-         <20211026144452.GA40651@localhost>
-         <CANiq72kf0QZUeO+=U67NLs=WXc=sEtasdv_yaZ5sZedNmzzJBw@mail.gmail.com>
-         <fe86efbd-4e03-76c8-55cf-dabd33e85823@infradead.org>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.4-1 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout03
-X-Rspamd-Queue-Id: 46E3620D751
-X-Stat-Signature: nu3xzep8u4f9aors41inrambaais4ff4
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1/SVfpBUaA3R2tKARvohc5r/nEZqK9kxPg=
-X-HE-Tag: 1635262064-19342
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2021-10-26 at 08:18 -0700, Randy Dunlap wrote:
-> On 10/26/21 8:10 AM, Miguel Ojeda wrote:
-> > On Tue, Oct 26, 2021 at 4:44 PM Trevor Woerner <twoerner@gmail.com> wrote:
-> > > 
-> > > get_maintainer.pl didn't add Andrew back then on my patch and still doesn't
-> > > even now. Maybe the MAINTAINERS file needs an update if Andrew is to be
-> > > included on trivial/documentation patches?
-> > 
-> > I mentioned Andrew because he does the hard job of being a backup for
-> > everything and everyone, but normally you should try to put the actual
-> > maintainer first in the `To` field and/or trivial@kernel.org.
-> 
+On Tue, Oct 26, 2021 at 5:18 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
 > I think that we decided to stop using trivial@kernel.org for new patches
 > a few months ago...
 
-Dunno who the "we" is but then maybe this is appropriate:
----
- MAINTAINERS | 6 ------
- 1 file changed, 6 deletions(-)
+Ah, good to know, thanks! Then we should update submitting-patches.rst at least.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 869e6cc6366bc..8c933736bb412 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -19282,12 +19282,6 @@ W:	https://github.com/srcres258/linux-doc
- T:	git git://github.com/srcres258/linux-doc.git doc-zh-tw
- F:	Documentation/translations/zh_TW/
- 
--TRIVIAL PATCHES
--M:	Jiri Kosina <trivial@kernel.org>
--S:	Maintained
--T:	git git://git.kernel.org/pub/scm/linux/kernel/git/jikos/trivial.git
--K:	^Subject:.*(?i)trivial
--
- TTY LAYER
- M:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
- M:	Jiri Slaby <jirislaby@kernel.org>
-
+Cheers,
+Miguel
