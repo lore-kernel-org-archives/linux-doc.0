@@ -2,108 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F512C4321E
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 16:23:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA580C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 16:45:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 391E461156
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 16:23:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AF68360F59
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 16:45:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235172AbhJZQ0R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Oct 2021 12:26:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42200 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234584AbhJZQ0O (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 26 Oct 2021 12:26:14 -0400
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7D559610A5;
-        Tue, 26 Oct 2021 16:23:49 +0000 (UTC)
-Received: from rostedt by gandalf.local.home with local (Exim 4.95)
-        (envelope-from <rostedt@goodmis.org>)
-        id 1mfPEq-000qQe-Jj;
-        Tue, 26 Oct 2021 12:23:48 -0400
-Message-ID: <20211026162348.446188876@goodmis.org>
-User-Agent: quilt/0.66
-Date:   Tue, 26 Oct 2021 12:23:21 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Ingo Molnar <mingo@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        x86@kernel.org, linux-doc@vger.kernel.org
-Subject: [for-next][PATCH 06/12] trace/osnoise: Add migrate-disabled field to the osnoise header
-References: <20211026162315.297389528@goodmis.org>
+        id S233257AbhJZQrp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Oct 2021 12:47:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59382 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232034AbhJZQro (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 12:47:44 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C41BC061745;
+        Tue, 26 Oct 2021 09:45:20 -0700 (PDT)
+Received: from ip4d173d4a.dynamic.kabel-deutschland.de ([77.23.61.74] helo=[192.168.66.200]); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1mfPZb-0008Q8-6Q; Tue, 26 Oct 2021 18:45:15 +0200
+Message-ID: <390b1b40-6798-5215-914c-d75a9cf20dae@leemhuis.info>
+Date:   Tue, 26 Oct 2021 18:45:14 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Content-Language: en-BS
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <cover.1635152553.git.linux@leemhuis.info>
+ <27105768dc19b395e7c8e7a80d056d1ff9c570d0.1635152553.git.linux@leemhuis.info>
+ <20211025210536.hlmkpjwf3nll6mlm@meerkat.local> <87wnlzeqgr.fsf@meer.lwn.net>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [PATCH v3 1/1] docs: submitting-patches: make section about the
+ Link: tag more explicit
+In-Reply-To: <87wnlzeqgr.fsf@meer.lwn.net>
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1635266720;25ed95c4;
+X-HE-SMSGID: 1mfPZb-0008Q8-6Q
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Daniel Bristot de Oliveira <bristot@kernel.org>
 
-Since "54357f0c9149 tracing: Add migrate-disabled counter to tracing
-output," the migrate disabled field is also printed in the !PREEMPR_RT
-kernel config. While this information was added to the vast majority of
-tracers, osnoise and timerlat were not updated (because they are new
-tracers).
 
-Fix osnoise header by adding the information about migrate disabled.
+On 26.10.21 17:49, Jonathan Corbet wrote:
+> Konstantin Ryabitsev <konstantin@linuxfoundation.org> writes:
+> 
+>> On Mon, Oct 25, 2021 at 11:06:35AM +0200, Thorsten Leemhuis wrote:
+>>> +If related discussions or any other background information behind the change
+>>> +can be found on the web, add 'Link:' tags pointing to it. In case your patch
+>>> +for example fixes a bug, add a tag with a URL referencing the report in the
+>>> +mailing list archives or a bug tracker; if the patch is a result of some
+>>> +earlier mailing list discussion or something documented on the web, point to
+>>> +it.
+>>
+>> The "for example" is splitting the sentence awkwardly, so I would move it to
+>> the beginning of the sentence:
+>>
+>> "For example, in case your patch fixes a bug, add ..." etc
+>>
+>> Otherwise,
+>>
+>> Reviewed-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
 
-Link: https://lkml.kernel.org/r/9cb3d54e29e0588dbba12e81486bd8a09adcd8ca.1634308385.git.bristot@kernel.org
+BTW: thx, Konstantin, good idea.
 
-Cc: Daniel Bristot de Oliveira <bristot@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: x86@kernel.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Fixes: 54357f0c9149 ("tracing: Add migrate-disabled counter to tracing output.")
-Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
-Signed-off-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
----
- kernel/trace/trace_osnoise.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+> I tweaked things along these lines and applied the patch, thanks.
 
-diff --git a/kernel/trace/trace_osnoise.c b/kernel/trace/trace_osnoise.c
-index c4f14fb98aaa..34f26c632442 100644
---- a/kernel/trace/trace_osnoise.c
-+++ b/kernel/trace/trace_osnoise.c
-@@ -294,19 +294,19 @@ static void print_osnoise_headers(struct seq_file *s)
- 	seq_puts(s, "#                                _-----=> irqs-off\n");
- 	seq_puts(s, "#                               / _----=> need-resched\n");
- 	seq_puts(s, "#                              | / _---=> hardirq/softirq\n");
--	seq_puts(s, "#                              || / _--=> preempt-depth     ");
--	seq_puts(s, "                       MAX\n");
--
--	seq_puts(s, "#                              || /                         ");
-+	seq_puts(s, "#                              || / _--=> preempt-depth\n");
-+	seq_puts(s, "#                              ||| / _-=> migrate-disable     ");
-+	seq_puts(s, "                    MAX\n");
-+	seq_puts(s, "#                              |||| /     delay               ");
- 	seq_puts(s, "                    SINGLE      Interference counters:\n");
- 
--	seq_puts(s, "#                              ||||               RUNTIME   ");
-+	seq_puts(s, "#                              |||||               RUNTIME   ");
- 	seq_puts(s, "   NOISE  %% OF CPU  NOISE    +-----------------------------+\n");
- 
--	seq_puts(s, "#           TASK-PID      CPU# ||||   TIMESTAMP    IN US    ");
-+	seq_puts(s, "#           TASK-PID      CPU# |||||   TIMESTAMP    IN US    ");
- 	seq_puts(s, "   IN US  AVAILABLE  IN US     HW    NMI    IRQ   SIRQ THREAD\n");
- 
--	seq_puts(s, "#              | |         |   ||||      |           |      ");
-+	seq_puts(s, "#              | |         |   |||||      |           |      ");
- 	seq_puts(s, "       |    |            |      |      |      |      |      |\n");
- }
- #endif /* CONFIG_PREEMPT_RT */
--- 
-2.33.0
+Great, many thx Jon!
+
+Ciao, Thorsten
