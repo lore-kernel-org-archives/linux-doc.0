@@ -2,75 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA580C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 16:45:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEEB5C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 17:00:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AF68360F59
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 16:45:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BAE3360F9B
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 17:00:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233257AbhJZQrp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Oct 2021 12:47:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59382 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232034AbhJZQro (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 12:47:44 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C41BC061745;
-        Tue, 26 Oct 2021 09:45:20 -0700 (PDT)
-Received: from ip4d173d4a.dynamic.kabel-deutschland.de ([77.23.61.74] helo=[192.168.66.200]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1mfPZb-0008Q8-6Q; Tue, 26 Oct 2021 18:45:15 +0200
-Message-ID: <390b1b40-6798-5215-914c-d75a9cf20dae@leemhuis.info>
-Date:   Tue, 26 Oct 2021 18:45:14 +0200
+        id S237699AbhJZRDR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Oct 2021 13:03:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53588 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237690AbhJZRDP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 26 Oct 2021 13:03:15 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B1FB260F56;
+        Tue, 26 Oct 2021 17:00:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1635267651;
+        bh=N6mR0nlTyP972P3SDjcUELwCXA7yQW09NYrXCt3cNP0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=j9cJElx7TbZRVKmslx3nX/2j52TV7RP0OzseU83Aa//zyUqdfPhyvvp2G6siUmNDr
+         uONKV6BqBwe9EmAPDX6enH3cD7c6fz09eaJY8za/FOdWp6jOB7VUrbCfu2lGlc0WLl
+         /wn9T914dIdDshexgKmKmBETBG9xY1KJ1YQ76Y4Oxw9cxD+zVv68hHsLxlSFeGGDmZ
+         rl6pMFIwKAPtAgo4Qqs63e6LRgDDfTpTcMIdEEd27W+mAS5OkjdMLCBfIpWsWhCCUm
+         jtaMP4ux8I0SB0IqjFCfPgTIgfgCh42BSakDcINgNfn3nbnB/IqH8raHN5kvP1mTNo
+         WQA2yfYjl+HeQ==
+Date:   Tue, 26 Oct 2021 12:05:44 -0500
+From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Len Baker <len.baker@gmx.com>, Kees Cook <keescook@chromium.org>,
+        Joe Perches <joe@perches.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v3] docs: deprecated.rst: Clarify open-coded arithmetic
+ with literals
+Message-ID: <20211026170544.GA1457721@embeddedor>
+References: <20210925143455.21221-1-len.baker@gmx.com>
+ <871r47g59t.fsf@meer.lwn.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Content-Language: en-BS
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <cover.1635152553.git.linux@leemhuis.info>
- <27105768dc19b395e7c8e7a80d056d1ff9c570d0.1635152553.git.linux@leemhuis.info>
- <20211025210536.hlmkpjwf3nll6mlm@meerkat.local> <87wnlzeqgr.fsf@meer.lwn.net>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [PATCH v3 1/1] docs: submitting-patches: make section about the
- Link: tag more explicit
-In-Reply-To: <87wnlzeqgr.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1635266720;25ed95c4;
-X-HE-SMSGID: 1mfPZb-0008Q8-6Q
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <871r47g59t.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 26.10.21 17:49, Jonathan Corbet wrote:
-> Konstantin Ryabitsev <konstantin@linuxfoundation.org> writes:
+On Tue, Oct 26, 2021 at 09:44:14AM -0600, Jonathan Corbet wrote:
+[..]
+> >  - Reword the sentence to comunicate better (Jonathan Corbet).
+> >
+> > The previous version can be found here [1].
+> >
+> > [1] https://lore.kernel.org/linux-hardening/20210829144716.2931-1-len.baker@gmx.com/
 > 
->> On Mon, Oct 25, 2021 at 11:06:35AM +0200, Thorsten Leemhuis wrote:
->>> +If related discussions or any other background information behind the change
->>> +can be found on the web, add 'Link:' tags pointing to it. In case your patch
->>> +for example fixes a bug, add a tag with a URL referencing the report in the
->>> +mailing list archives or a bug tracker; if the patch is a result of some
->>> +earlier mailing list discussion or something documented on the web, point to
->>> +it.
->>
->> The "for example" is splitting the sentence awkwardly, so I would move it to
->> the beginning of the sentence:
->>
->> "For example, in case your patch fixes a bug, add ..." etc
->>
->> Otherwise,
->>
->> Reviewed-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+> Applied, thanks.
 
-BTW: thx, Konstantin, good idea.
-
-> I tweaked things along these lines and applied the patch, thanks.
-
-Great, many thx Jon!
-
-Ciao, Thorsten
+Thanks, Jonathan.
+--
+Gustavo
