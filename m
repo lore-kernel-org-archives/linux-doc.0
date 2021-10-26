@@ -2,60 +2,38 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3467C4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 15:10:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81A5FC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 15:18:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8ECBD60200
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 15:10:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 686F560C51
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 15:18:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235507AbhJZPNP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Oct 2021 11:13:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37062 "EHLO
+        id S235497AbhJZPUy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Oct 2021 11:20:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234461AbhJZPNK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 11:13:10 -0400
-Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95E5FC061745;
-        Tue, 26 Oct 2021 08:10:46 -0700 (PDT)
-Received: by mail-io1-xd36.google.com with SMTP id o184so20918668iof.6;
-        Tue, 26 Oct 2021 08:10:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=leS0/NaaYLKtfLrdxPy4xO2Kdcc++8pSTs9bmAMcg3U=;
-        b=eta4hMz9pfoCRtNg/nwYnCVrFsB3FdaaWIkrWuiuo0obFPbdUd2DjZsWQfv81mWidj
-         EGWvd8FqFxqymeuhGRN1KHZIW8x+kijSmcW3KAOfvtK8wSLVH3bOoQUY+4p1HAgNV8+R
-         ZphsXErJauZn2wzzvyA3c50DmSthOXUJ30Hvfhxsoo9P8PI9R1WWLH+uffPq2a8fzilU
-         cBrWEaDNn3owFPey3Y32FVX0Hs+AnPEl9701pR2S4N95DjvjrGRZ2hsT907M6djE4igD
-         qNGMQS1nAMe8JFhI/JV+u+NFr3tlYA9mEqQdWE2HnBWHz7vvdJ9FTyxs27NwsatqYT6K
-         u1uQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=leS0/NaaYLKtfLrdxPy4xO2Kdcc++8pSTs9bmAMcg3U=;
-        b=J6kA5XN+aQbDLMOUdxtaD/rHSyp9ccEqwvT+r4/8T1eVdjspSmJ0sMOeHX0FWIFmYr
-         jfAc/qSmMlrKYhYlB0rkoCISfvjwVcH8srYEXIntg7dMTKbKbyp5CfgeAcs1iXI8D7kq
-         TcOGuZdlZNX2aWx3/JIh1Yo5/9bnuKTDASgHeb7JM7u93WBK7iwpv8Wj8NrK7jR60IeX
-         tyPjeAnCyIK41l4iEA4HErzx0/7+BBfNyDiK8lln2SrIXQ/E4CytAeUhusKLOz3B6FM6
-         ZxRzPfQTdTLoSMUDRgUaJwhxMpAL6EdIjuCBfeZF6LGwNllYukDKIzLAwDtzK/E1ckHN
-         p42Q==
-X-Gm-Message-State: AOAM532XnJ9EnFPura7J8nsx2Ql98mpnobUfwa5S8Z/3LSKJztn50qbh
-        UYwnoS6RuR6IghvN6amBHgSBQII6RYLBwwD8gO0=
-X-Google-Smtp-Source: ABdhPJwWbLtW3CT7cBcX4C+TiLUAsmbALUd0+piWbeflsgxf+SHLX+uMRf/ch3Ap1o24Pe/h9qvcBp7QJYtnHFpelwk=
-X-Received: by 2002:a05:6602:2d4e:: with SMTP id d14mr16054823iow.172.1635261045995;
- Tue, 26 Oct 2021 08:10:45 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210423184012.39300-1-twoerner@gmail.com> <CANiq72mUBh+76iy5uCAGHpKHDnTGRVyQduMngEWDMCF6kRySJA@mail.gmail.com>
- <CAHUNapQfFBcqrX7MvUvq8qbPgk2bPu-h3+9NxAUFpRtpOGFODw@mail.gmail.com>
- <CANiq72=iDhHiFKBzud6sj6reCS=pEYxFn5x4b=VfNLMxva-RuA@mail.gmail.com> <20211026144452.GA40651@localhost>
-In-Reply-To: <20211026144452.GA40651@localhost>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Tue, 26 Oct 2021 17:10:34 +0200
-Message-ID: <CANiq72kf0QZUeO+=U67NLs=WXc=sEtasdv_yaZ5sZedNmzzJBw@mail.gmail.com>
-Subject: Re: [PATCH] coding-style.rst: trivial: fix location of driver model macros
-To:     Trevor Woerner <twoerner@gmail.com>
+        with ESMTP id S231931AbhJZPUx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 11:20:53 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08590C061745;
+        Tue, 26 Oct 2021 08:18:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=36Le8JT+MjbwIpd4YPOBdixMDoOu86XDiNDfVhsHRrw=; b=z1MLW99S5t8/UX5swpjnywtnO2
+        VAidXRPVIWdITEqTWL27k9WqWnTQ+LWAlNymFeH5cb53zLuRrbVyrhjMZFLwxdblQgc9TmlNqg/Hd
+        lOYG1ENnPBKzO+6sFdgSgAxBbs7Gy+sSb3BJlZeGLA7tLQ5lUH4JgMlKoV6nPSK5hUN5N6xFPgMYS
+        Q1hzgcL8h6+EiOuQS535tW8aEnfK1G3L+sI8XtNgTStDI5ULbZL6W+mgiHqLzTUUg7UvRRe6cq7q9
+        iscnx/c7gwCnUvsC1c6CiSUViZRzZIXuAMwoMN4L+XyYobBkF98edx9VYYWLLoWYmA5tZhTYevQuH
+        073kB+Kw==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mfODc-0028EW-8R; Tue, 26 Oct 2021 15:18:28 +0000
+Subject: Re: [PATCH] coding-style.rst: trivial: fix location of driver model
+ macros
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Trevor Woerner <twoerner@gmail.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Andrew Morton <akpm@linux-foundation.org>,
         linux-kernel <linux-kernel@vger.kernel.org>,
@@ -69,20 +47,39 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Yorick de Wid <yorickdewid@users.noreply.github.com>,
         Dan Williams <dan.j.williams@intel.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+References: <20210423184012.39300-1-twoerner@gmail.com>
+ <CANiq72mUBh+76iy5uCAGHpKHDnTGRVyQduMngEWDMCF6kRySJA@mail.gmail.com>
+ <CAHUNapQfFBcqrX7MvUvq8qbPgk2bPu-h3+9NxAUFpRtpOGFODw@mail.gmail.com>
+ <CANiq72=iDhHiFKBzud6sj6reCS=pEYxFn5x4b=VfNLMxva-RuA@mail.gmail.com>
+ <20211026144452.GA40651@localhost>
+ <CANiq72kf0QZUeO+=U67NLs=WXc=sEtasdv_yaZ5sZedNmzzJBw@mail.gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <fe86efbd-4e03-76c8-55cf-dabd33e85823@infradead.org>
+Date:   Tue, 26 Oct 2021 08:18:27 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+MIME-Version: 1.0
+In-Reply-To: <CANiq72kf0QZUeO+=U67NLs=WXc=sEtasdv_yaZ5sZedNmzzJBw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 26, 2021 at 4:44 PM Trevor Woerner <twoerner@gmail.com> wrote:
->
-> get_maintainer.pl didn't add Andrew back then on my patch and still doesn't
-> even now. Maybe the MAINTAINERS file needs an update if Andrew is to be
-> included on trivial/documentation patches?
+On 10/26/21 8:10 AM, Miguel Ojeda wrote:
+> On Tue, Oct 26, 2021 at 4:44 PM Trevor Woerner <twoerner@gmail.com> wrote:
+>>
+>> get_maintainer.pl didn't add Andrew back then on my patch and still doesn't
+>> even now. Maybe the MAINTAINERS file needs an update if Andrew is to be
+>> included on trivial/documentation patches?
+> 
+> I mentioned Andrew because he does the hard job of being a backup for
+> everything and everyone, but normally you should try to put the actual
+> maintainer first in the `To` field and/or trivial@kernel.org.
 
-I mentioned Andrew because he does the hard job of being a backup for
-everything and everyone, but normally you should try to put the actual
-maintainer first in the `To` field and/or trivial@kernel.org.
+I think that we decided to stop using trivial@kernel.org for new patches
+a few months ago...
 
-Cheers,
-Miguel
+-- 
+~Randy
