@@ -2,74 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C08DC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 15:27:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2889FC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 15:27:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 583D560E75
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 15:27:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0703760F21
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 15:27:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236703AbhJZP3h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Oct 2021 11:29:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40924 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232476AbhJZP3h (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 11:29:37 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40F18C061745
-        for <linux-doc@vger.kernel.org>; Tue, 26 Oct 2021 08:27:13 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id A917B4B9E;
-        Tue, 26 Oct 2021 15:27:12 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A917B4B9E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1635262032; bh=n24WLDF48/Ssj6zkgEgmtNOgfFkoH893NZ9OShPsFTI=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Px2Q70rEpRgUwVYZbSCJ5T3109dAn393kuwUOnoFsBt0CKYNZMC67k/vIL3xMA3K6
-         yFOeY0vd75j/UkdPixYWFjzDqgNXQBf4qTox2HkQ2rujkc9560ex66NTzFCX0bQzvF
-         XRaBOwNjQ9Pt/Xfh4ji9Hs9dKh2WVufwUdgNOr3+Oy6rwMAhDUzNsmjN3S3VuB/RSB
-         8opYuiKAX9QUvXRhndhObCjeXDsErJPLRU/AIGN+zTszY7UD65lq1miFmUKWCmW46w
-         5fhiGSmldlbFsgxfG8lwDaKK6Kd/dhpCBknaEHyZYd2Gsa9eFsblk/ugK4/qkPxcaq
-         SHsvSwDD8TSBg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Yanteng Si <siyanteng01@gmail.com>, alexs@kernel.org,
-        bobwxc@email.cn, seakeel@gmail.com
-Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
-        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
-        realpuyuwang@gmail.com, siyanteng01@gmail.com
-Subject: Re: [PATCH v2 0/2] docs/zh_CN add pci.rst translation
-In-Reply-To: <cover.1635248253.git.siyanteng@loongson.cn>
-References: <cover.1635248253.git.siyanteng@loongson.cn>
-Date:   Tue, 26 Oct 2021 09:27:12 -0600
-Message-ID: <87ilxjg627.fsf@meer.lwn.net>
+        id S235650AbhJZPaM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Oct 2021 11:30:12 -0400
+Received: from smtprelay0229.hostedemail.com ([216.40.44.229]:51994 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S232476AbhJZPaL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 11:30:11 -0400
+Received: from omf19.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay07.hostedemail.com (Postfix) with ESMTP id 1519C184A82B1;
+        Tue, 26 Oct 2021 15:27:47 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf19.hostedemail.com (Postfix) with ESMTPA id 46E3620D751;
+        Tue, 26 Oct 2021 15:27:44 +0000 (UTC)
+Message-ID: <58650d3729a5b3a8bc86037757bccda5cc254e3f.camel@perches.com>
+Subject: Re: [PATCH] coding-style.rst: trivial: fix location of driver model
+ macros
+From:   Joe Perches <joe@perches.com>
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Trevor Woerner <twoerner@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Jiri Kosina <trivial@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Yorick de Wid <yorickdewid@users.noreply.github.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Date:   Tue, 26 Oct 2021 08:27:43 -0700
+In-Reply-To: <fe86efbd-4e03-76c8-55cf-dabd33e85823@infradead.org>
+References: <20210423184012.39300-1-twoerner@gmail.com>
+         <CANiq72mUBh+76iy5uCAGHpKHDnTGRVyQduMngEWDMCF6kRySJA@mail.gmail.com>
+         <CAHUNapQfFBcqrX7MvUvq8qbPgk2bPu-h3+9NxAUFpRtpOGFODw@mail.gmail.com>
+         <CANiq72=iDhHiFKBzud6sj6reCS=pEYxFn5x4b=VfNLMxva-RuA@mail.gmail.com>
+         <20211026144452.GA40651@localhost>
+         <CANiq72kf0QZUeO+=U67NLs=WXc=sEtasdv_yaZ5sZedNmzzJBw@mail.gmail.com>
+         <fe86efbd-4e03-76c8-55cf-dabd33e85823@infradead.org>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.40.4-1 
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Server: rspamout03
+X-Rspamd-Queue-Id: 46E3620D751
+X-Stat-Signature: nu3xzep8u4f9aors41inrambaais4ff4
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1/SVfpBUaA3R2tKARvohc5r/nEZqK9kxPg=
+X-HE-Tag: 1635262064-19342
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Yanteng Si <siyanteng01@gmail.com> writes:
+On Tue, 2021-10-26 at 08:18 -0700, Randy Dunlap wrote:
+> On 10/26/21 8:10 AM, Miguel Ojeda wrote:
+> > On Tue, Oct 26, 2021 at 4:44 PM Trevor Woerner <twoerner@gmail.com> wrote:
+> > > 
+> > > get_maintainer.pl didn't add Andrew back then on my patch and still doesn't
+> > > even now. Maybe the MAINTAINERS file needs an update if Andrew is to be
+> > > included on trivial/documentation patches?
+> > 
+> > I mentioned Andrew because he does the hard job of being a backup for
+> > everything and everyone, but normally you should try to put the actual
+> > maintainer first in the `To` field and/or trivial@kernel.org.
+> 
+> I think that we decided to stop using trivial@kernel.org for new patches
+> a few months ago...
 
-> v2:
->
-> pick Alex's Reviewed-by tag.
->
-> v1:
->
-> Translate ../PCI/pci.rst into Chinese
->
-> Yanteng Si (2):
->   docs/zh_CN add PCI index.rst translation
->   docs/zh_CN add PCI pci.rst translation
->
->  .../translations/zh_CN/PCI/index.rst          |  36 ++
->  Documentation/translations/zh_CN/PCI/pci.rst  | 514 ++++++++++++++++++
->  Documentation/translations/zh_CN/index.rst    |   2 +-
->  3 files changed, 551 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/translations/zh_CN/PCI/index.rst
->  create mode 100644 Documentation/translations/zh_CN/PCI/pci.rst
+Dunno who the "we" is but then maybe this is appropriate:
+---
+ MAINTAINERS | 6 ------
+ 1 file changed, 6 deletions(-)
 
-Applied, thanks.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 869e6cc6366bc..8c933736bb412 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -19282,12 +19282,6 @@ W:	https://github.com/srcres258/linux-doc
+ T:	git git://github.com/srcres258/linux-doc.git doc-zh-tw
+ F:	Documentation/translations/zh_TW/
+ 
+-TRIVIAL PATCHES
+-M:	Jiri Kosina <trivial@kernel.org>
+-S:	Maintained
+-T:	git git://git.kernel.org/pub/scm/linux/kernel/git/jikos/trivial.git
+-K:	^Subject:.*(?i)trivial
+-
+ TTY LAYER
+ M:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+ M:	Jiri Slaby <jirislaby@kernel.org>
 
-jon
