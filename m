@@ -2,30 +2,30 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96D48C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 16:23:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0237CC433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 16:23:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 716826109D
+	by mail.kernel.org (Postfix) with ESMTP id DAD5C6109D
 	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 16:23:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234857AbhJZQ0P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Oct 2021 12:26:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42106 "EHLO mail.kernel.org"
+        id S235026AbhJZQ0Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Oct 2021 12:26:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42198 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234300AbhJZQ0N (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 26 Oct 2021 12:26:13 -0400
+        id S234557AbhJZQ0O (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 26 Oct 2021 12:26:14 -0400
 Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 41EA861090;
+        by mail.kernel.org (Postfix) with ESMTPSA id A93CB610CB;
         Tue, 26 Oct 2021 16:23:49 +0000 (UTC)
 Received: from rostedt by gandalf.local.home with local (Exim 4.95)
         (envelope-from <rostedt@goodmis.org>)
-        id 1mfPEq-000qPU-7Q;
+        id 1mfPEq-000qRC-Q5;
         Tue, 26 Oct 2021 12:23:48 -0400
-Message-ID: <20211026162348.058222229@goodmis.org>
+Message-ID: <20211026162348.633531840@goodmis.org>
 User-Agent: quilt/0.66
-Date:   Tue, 26 Oct 2021 12:23:19 -0400
+Date:   Tue, 26 Oct 2021 12:23:22 -0400
 From:   Steven Rostedt <rostedt@goodmis.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Ingo Molnar <mingo@kernel.org>,
@@ -37,7 +37,7 @@ Cc:     Ingo Molnar <mingo@kernel.org>,
         "H. Peter Anvin" <hpa@zytor.com>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
         x86@kernel.org, linux-doc@vger.kernel.org
-Subject: [for-next][PATCH 04/12] trace/osnoise: Fix an ifdef comment
+Subject: [for-next][PATCH 07/12] trace/timerlat: Add migrate-disabled field to the timerlat header
 References: <20211026162315.297389528@goodmis.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -47,11 +47,15 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Daniel Bristot de Oliveira <bristot@kernel.org>
 
-s/CONFIG_OSNOISE_TRAECR/CONFIG_OSNOISE_TRACER/
+Since "54357f0c9149 tracing: Add migrate-disabled counter to tracing
+output," the migrate disabled field is also printed in the !PREEMPR_RT
+kernel config. While this information was added to the vast majority of
+tracers, osnoise and timerlat were not updated (because they are new
+tracers).
 
-No functional changes.
+Fix timerlat header by adding the information about migrate disabled.
 
-Link: https://lkml.kernel.org/r/33924a16f6e5559ce24952ca7d62561604bfd94a.1634308385.git.bristot@kernel.org
+Link: https://lkml.kernel.org/r/bc0c234ab49946cdd63effa6584e1d5e8662cb44.1634308385.git.bristot@kernel.org
 
 Cc: Daniel Bristot de Oliveira <bristot@kernel.org>
 Cc: Jonathan Corbet <corbet@lwn.net>
@@ -63,21 +67,34 @@ Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Cc: x86@kernel.org
 Cc: linux-doc@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
+Fixes: 54357f0c9149 ("tracing: Add migrate-disabled counter to tracing output.")
 Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
 Signed-off-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
 ---
- arch/x86/kernel/trace.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ kernel/trace/trace_osnoise.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/arch/x86/kernel/trace.c b/arch/x86/kernel/trace.c
-index 6b73b6f92ad3..8322e8352777 100644
---- a/arch/x86/kernel/trace.c
-+++ b/arch/x86/kernel/trace.c
-@@ -231,4 +231,4 @@ void osnoise_arch_unregister(void)
- 	unregister_trace_local_timer_exit(trace_intel_irq_exit, "local_timer");
- 	unregister_trace_local_timer_entry(trace_intel_irq_entry, NULL);
+diff --git a/kernel/trace/trace_osnoise.c b/kernel/trace/trace_osnoise.c
+index 34f26c632442..d11b41784fac 100644
+--- a/kernel/trace/trace_osnoise.c
++++ b/kernel/trace/trace_osnoise.c
+@@ -378,11 +378,12 @@ static void print_timerlat_headers(struct seq_file *s)
+ 	seq_puts(s, "#                               / _----=> need-resched\n");
+ 	seq_puts(s, "#                              | / _---=> hardirq/softirq\n");
+ 	seq_puts(s, "#                              || / _--=> preempt-depth\n");
+-	seq_puts(s, "#                              || /\n");
+-	seq_puts(s, "#                              ||||             ACTIVATION\n");
+-	seq_puts(s, "#           TASK-PID      CPU# ||||   TIMESTAMP    ID     ");
+-	seq_puts(s, "       CONTEXT                LATENCY\n");
+-	seq_puts(s, "#              | |         |   ||||      |         |      ");
++	seq_puts(s, "#                              ||| / _-=> migrate-disable\n");
++	seq_puts(s, "#                              |||| /     delay\n");
++	seq_puts(s, "#                              |||||            ACTIVATION\n");
++	seq_puts(s, "#           TASK-PID      CPU# |||||   TIMESTAMP   ID      ");
++	seq_puts(s, "      CONTEXT                 LATENCY\n");
++	seq_puts(s, "#              | |         |   |||||      |         |      ");
+ 	seq_puts(s, "            |                       |\n");
  }
--#endif /* CONFIG_OSNOISE_TRAECR && CONFIG_X86_LOCAL_APIC */
-+#endif /* CONFIG_OSNOISE_TRACER && CONFIG_X86_LOCAL_APIC */
+ #endif /* CONFIG_PREEMPT_RT */
 -- 
 2.33.0
