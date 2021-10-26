@@ -2,152 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ABA2C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 06:14:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03451C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 07:01:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6FB3160EFF
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 06:14:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DB1B0610A4
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 07:01:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233215AbhJZGQY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Oct 2021 02:16:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55730 "EHLO
+        id S234505AbhJZHD7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Oct 2021 03:03:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232553AbhJZGQY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 02:16:24 -0400
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com [IPv6:2607:f8b0:4864:20::72d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9573C061745;
-        Mon, 25 Oct 2021 23:14:00 -0700 (PDT)
-Received: by mail-qk1-x72d.google.com with SMTP id h20so14007055qko.13;
-        Mon, 25 Oct 2021 23:14:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rZXleyp133hD3PRG1ySuktNjNOVf4N0QRMg8i2MUjj8=;
-        b=LNvIh7FX6R9EV3OLzv6fzhVQTLBn51dDro8PX6kJuVzAv5XqtoS3DnJHzuhivfl9Ml
-         0hrHjrLDZi5QNSJqzJq9IEJSgMeM4q3gx7dSPK9hWFPCigj/txfOD1r0BtypV18OzC1G
-         QCWYkNwNpaWTbrXb5PgHBixv0JWEDhVzmKu9uKLthjaGur0bwb132RnieRBsd6u+ZTbu
-         q+Y7RIqQ/Ya0mnoWx2edbSwoqiZRpYQkOFi23+QQ6fNxXWUSeC+BarlhthsaG0fFFALs
-         xjsvGAtare0YK2btnY7dnPSLdc/fD+ObrvfsPbcQNJ6k9sQzaS0t3PQGBTt+goTQYpXE
-         sDUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rZXleyp133hD3PRG1ySuktNjNOVf4N0QRMg8i2MUjj8=;
-        b=O9iAL7bAPEw3cTDOqXbz1cwSiT92HduCMboRGDkuE6orXkF0UMPbFEfYTsdyh3QZX4
-         fBm8CMGGAq9fRXDNkLZUL7eGyn+hoRnH3s2Dt+2ZonbHT2aCT+iYVdgayxQS0XTVcYXE
-         h1Mz3OzgdpD/T/X4Y7PYgJpWb5jC1Q5YKziLxzCZbRSZxGiHEYGGCYhg+L5y+G4OUQ17
-         mbbY0q7oldajy5n9yqxqAxrtdUAEADfOs2zHUA8xFAAGnpt3ok4kSnBPbaFwPQe1voWk
-         Q0GWx8WBhsOvAxfKgRPVHXITfCb4rbgCIDd1EflomJISn0NS2LhccglVpNJFU6aCEDBq
-         4Z7Q==
-X-Gm-Message-State: AOAM532SXOj/isbS0L1mkF9GwBcgoKio/Rwlzxiwc0mca6StIx62lpD/
-        vgW3cbA8SrWcpq/OQwh08/7ST0IbW2vjIMcco8Y=
-X-Google-Smtp-Source: ABdhPJyJyhDRhA/s2PfHrkLVXtWBzw7Z8bx6p6vXCG7jdg8/04eVgc3/u0W5VDd0A6K8q2EJgn+6gCM8RrWRhPoDF1A=
-X-Received: by 2002:a37:a93:: with SMTP id 141mr17376294qkk.443.1635228839907;
- Mon, 25 Oct 2021 23:13:59 -0700 (PDT)
+        with ESMTP id S231233AbhJZHD6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 03:03:58 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C789AC061745;
+        Tue, 26 Oct 2021 00:01:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=mDE+nIrUEwp9gdh7csFA4RkAg6IIsjAzd6M9miIHAew=; b=jg8Yj9hGaOgTZKFKecfny9To3N
+        VjgU+bk075mGrzLbby/E/7eVQjjzC7zUWiC8BTQcjnh3pcXwhVWR+cFpcvqNVOB0gp2MQD+OW6ryg
+        Bkc9ZwdWba8opu2f5VOMDhJB8PvoUIbTAHLuAGMca9YdrzJseFymGJnMP2jmzf/fZzGFwaIRj+em4
+        wrH1q6AQNTz7O+tqUIYy/1idVnKnQ8F8CU5CMQxOKhp36yDhyPhvpbKuPoFcCd3PzjKC2IX90M41i
+        w+oPAKmNEV8PVITFgv4bBpDqh7tcROWUyIeOfr2CIcZ+iTlrRuQNCAr4bnSheFspHTLcGKlXynw/a
+        0zMbtgAA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mfGSF-00CJJG-1l; Tue, 26 Oct 2021 07:01:03 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id E38AB3001BF;
+        Tue, 26 Oct 2021 09:01:00 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id BE0FF2D80369F; Tue, 26 Oct 2021 09:01:00 +0200 (CEST)
+Date:   Tue, 26 Oct 2021 09:01:00 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Boqun Feng <boqun.feng@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        "Paul E . McKenney " <paulmck@kernel.org>,
+        Dan Lustig <dlustig@nvidia.com>, Will Deacon <will@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Peter Anvin <hpa@zytor.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Vince Weaver <vincent.weaver@maine.edu>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@redhat.com>,
+        Stephane Eranian <eranian@google.com>, palmer@dabbelt.com,
+        paul.walmsley@sifive.com, mpe@ellerman.id.au,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alan Stern <stern@rowland.harvard.edu>
+Subject: Re: [RFC v2 3/3] tools/memory-model: litmus: Add two tests for
+ unlock(A)+lock(B) ordering
+Message-ID: <YXenrNeS+IaSDwvU@hirez.programming.kicks-ass.net>
+References: <20211025145416.698183-1-boqun.feng@gmail.com>
+ <20211025145416.698183-4-boqun.feng@gmail.com>
 MIME-Version: 1.0
-References: <20211025115910.2595-1-xingwu.yang@gmail.com> <707b5fb3-6b61-c53-e983-bc1373aa2bf@ssi.bg>
- <CA+7U5JsSuwqP7eHj1tMHfsb+EemwrhZEJ2b944LFWTroxAnQRQ@mail.gmail.com> <1190ef60-3ad9-119e-5336-1c62522aec81@ssi.bg>
-In-Reply-To: <1190ef60-3ad9-119e-5336-1c62522aec81@ssi.bg>
-From:   yangxingwu <xingwu.yang@gmail.com>
-Date:   Tue, 26 Oct 2021 14:13:48 +0800
-Message-ID: <CA+7U5JvvsNejgOifAwDdjddkLHUL30JPXSaDBTwysSL7dhphuA@mail.gmail.com>
-Subject: Re: [PATCH] ipvs: Fix reuse connection if RS weight is 0
-To:     Julian Anastasov <ja@ssi.bg>
-Cc:     Simon Horman <horms@verge.net.au>,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        kadlec@netfilter.org, fw@strlen.de,
-        "David S. Miller" <davem@davemloft.net>, kuba@kernel.org,
-        netdev@vger.kernel.org, lvs-devel@vger.kernel.org,
-        netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, corbet@lwn.net
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211025145416.698183-4-boqun.feng@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-thanks Julian
+On Mon, Oct 25, 2021 at 10:54:16PM +0800, Boqun Feng wrote:
+> diff --git a/tools/memory-model/litmus-tests/LB+unlocklockonceonce+poacquireonce.litmus b/tools/memory-model/litmus-tests/LB+unlocklockonceonce+poacquireonce.litmus
+> new file mode 100644
+> index 000000000000..955b9c7cdc7f
+> --- /dev/null
+> +++ b/tools/memory-model/litmus-tests/LB+unlocklockonceonce+poacquireonce.litmus
+> @@ -0,0 +1,33 @@
+> +C LB+unlocklockonceonce+poacquireonce
+> +
+> +(*
+> + * Result: Never
+> + *
+> + * If two locked critical sections execute on the same CPU, all accesses
+> + * in the first must execute before any accesses in the second, even if
+> + * the critical sections are protected by different locks.
 
-yes, I know that the one-second delay issue has been fixed by commit
-f0a5e4d7a594e0fe237d3dfafb069bb82f80f42f if we set conn_reuse_mode to
-1
+One small nit; the above "all accesses" reads as if:
 
-BUT  it's still NOT what we expected with sysctl settings
-(conn_reuse_mode == 0 && expire_nodest_conn == 1).
+	spin_lock(s);
+	WRITE_ONCE(*x, 1);
+	spin_unlock(s);
+	spin_lock(t);
+	r1 = READ_ONCE(*y);
+	spin_unlock(t);
 
-We run kubernetes in extremely diverse environments and this issue
-happens a lot.
+would also work, except of course that's the one reorder allowed by TSO.
 
-On Tue, Oct 26, 2021 at 1:44 PM Julian Anastasov <ja@ssi.bg> wrote:
->
->
->         Hello,
->
-> On Tue, 26 Oct 2021, yangxingwu wrote:
->
-> > thanks julian
-> >
-> > What happens in this situation is that if we set the wait of the
-> > realserver to 0 and do NOT remove the weight zero realserver with
-> > sysctl settings (conn_reuse_mode == 0 && expire_nodest_conn == 1), and
-> > the client reuses its source ports, the kernel will constantly
-> > reuse connections and send the traffic to the weight 0 realserver.
->
->         Yes, this is expected when conn_reuse_mode=0.
->
-> > you may check the details from
-> > https://github.com/kubernetes/kubernetes/issues/81775
->
->         What happens if you try conn_reuse_mode=1? The
-> one-second delay in previous kernels should be corrected with
->
-> commit f0a5e4d7a594e0fe237d3dfafb069bb82f80f42f
-> Date:   Wed Jul 1 18:17:19 2020 +0300
->
->     ipvs: allow connection reuse for unconfirmed conntrack
->
-> > On Tue, Oct 26, 2021 at 2:12 AM Julian Anastasov <ja@ssi.bg> wrote:
-> > >
-> > > On Mon, 25 Oct 2021, yangxingwu wrote:
-> > >
-> > > > Since commit dc7b3eb900aa ("ipvs: Fix reuse connection if real server is
-> > > > dead"), new connections to dead servers are redistributed immediately to
-> > > > new servers.
-> > > >
-> > > > Then commit d752c3645717 ("ipvs: allow rescheduling of new connections when
-> > > > port reuse is detected") disable expire_nodest_conn if conn_reuse_mode is
-> > > > 0. And new connection may be distributed to a real server with weight 0.
-> > >
-> > >         Your change does not look correct to me. At the time
-> > > expire_nodest_conn was created, it was not checked when
-> > > weight is 0. At different places different terms are used
-> > > but in short, we have two independent states for real server:
-> > >
-> > > - inhibited: weight=0 and no new connections should be served,
-> > >         packets for existing connections can be routed to server
-> > >         if it is still available and packets are not dropped
-> > >         by expire_nodest_conn.
-> > >         The new feature is that port reuse detection can
-> > >         redirect the new TCP connection into a new IPVS conn and
-> > >         to expire the existing cp/ct.
-> > >
-> > > - unavailable (!IP_VS_DEST_F_AVAILABLE): server is removed,
-> > >         can be temporary, drop traffic for existing connections
-> > >         but on expire_nodest_conn we can select different server
-> > >
-> > >         The new conn_reuse_mode flag allows port reuse to
-> > > be detected. Only then expire_nodest_conn has the
-> > > opportunity with commit dc7b3eb900aa to check weight=0
-> > > and to consider the old traffic as finished. If a new
-> > > server is selected, any retrans from previous connection
-> > > would be considered as part from the new connection. It
-> > > is a rapid way to switch server without checking with
-> > > is_new_conn_expected() because we can not have many
-> > > conns/conntracks to different servers.
->
-> Regards
->
-> --
-> Julian Anastasov <ja@ssi.bg>
+> + *)
+> +
+> +{}
+> +
+> +P0(spinlock_t *s, spinlock_t *t, int *x, int *y)
+> +{
+> +	int r1;
+> +
+> +	spin_lock(s);
+> +	r1 = READ_ONCE(*x);
+> +	spin_unlock(s);
+> +	spin_lock(t);
+> +	WRITE_ONCE(*y, 1);
+> +	spin_unlock(t);
+> +}
+> +
+> +P1(int *x, int *y)
+> +{
+> +	int r2;
+> +
+> +	r2 = smp_load_acquire(y);
+> +	WRITE_ONCE(*x, 1);
+> +}
+> +
+> +exists (0:r1=1 /\ 1:r2=1)
