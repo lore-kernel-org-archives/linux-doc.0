@@ -2,76 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B4E2C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 15:42:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DD35C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 15:44:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 09D5A60F92
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 15:42:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DDC8461078
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 15:44:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235162AbhJZPpR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Oct 2021 11:45:17 -0400
-Received: from ms.lwn.net ([45.79.88.28]:53324 "EHLO ms.lwn.net"
+        id S235816AbhJZPqk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Oct 2021 11:46:40 -0400
+Received: from ms.lwn.net ([45.79.88.28]:53326 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232651AbhJZPpR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 26 Oct 2021 11:45:17 -0400
+        id S233166AbhJZPqj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 26 Oct 2021 11:46:39 -0400
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 124E25ED5;
-        Tue, 26 Oct 2021 15:42:53 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 124E25ED5
+        by ms.lwn.net (Postfix) with ESMTPSA id 38A2D4B9E;
+        Tue, 26 Oct 2021 15:44:15 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 38A2D4B9E
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1635262973; bh=3gc4vV+tU4bNJypurxjSBfHk40yL80BPXB366nAZYxc=;
+        t=1635263055; bh=u3wRb/WRpatv2o30nV9WkibJqKdsJBM1qCh5RGAn0jA=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=p/RS7LSjDYY8ixyq7Lqx5M1pNLg2lOimIP6f77kiQWRNtZggyxzLlWYtQWxU8XcCi
-         d/mIA7FxyHZ+2xHBot2fiUs85ryBlu5wK2Yb/sLg2Ma7SwrRlC/U+xYbaOXZTejhCm
-         FWKrkoK5eyC+ZRka6XL30ni72U3cmHt9cmMWnPmAa+TcbZVVhRtuMnzgN189jfaRgL
-         xJptnngsPIqNZN692wFpye+bbwgSPvzeDXx5HKqG0JPc+Mx66OwmZXEwnxtbsyqqz/
-         ZfNocUipElHn/OYv5NiRCkBUXy5tbysF25yf4gII+CNg/qcDVl8mYifAuAAyT8SpTc
-         ifPj2Mn0P2mpA==
+        b=Jrkg71YorHHYh26hXr4eVVyGHyFzMKPYZi2bkV6lIlQPQ0u+KpdYHBLP2ASB/KQnG
+         yOP8A6FddoqoHurDMwy0Z7CxYWzKtMaXEJT5rtNSXzCIlDBnPdXPc2ZaVI4TNM/bbx
+         c+RlNTNsrUXmDJIeAOkEh3yy/YOdpv6eHi2ZayBlAIRqTdyKPpYpWxrvOAhKk543c1
+         f6hykKdkEPeXZHxnZdHy7f5y2uhKf8B9XUwbbeL52KxFy9jYHdSIj8RE11mUw/ggI/
+         VitMV5qGAj4x7vNQFgSQSfApLhXtUGR+mTrxGxWNBpwztDgWzLCUWm8L9qPi3+Gwe1
+         xinkqpSJIxPuw==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Martin KaFai Lau <kafai@fb.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        bpf@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH 0/2] Two fixes for documentation-file-ref-check
-In-Reply-To: <cover.1634629094.git.mchehab+huawei@kernel.org>
-References: <cover.1634629094.git.mchehab+huawei@kernel.org>
-Date:   Tue, 26 Oct 2021 09:42:52 -0600
-Message-ID: <875ytjg5c3.fsf@meer.lwn.net>
+To:     Len Baker <len.baker@gmx.com>, Kees Cook <keescook@chromium.org>
+Cc:     Len Baker <len.baker@gmx.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Joe Perches <joe@perches.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v3] docs: deprecated.rst: Clarify open-coded arithmetic
+ with literals
+In-Reply-To: <20210925143455.21221-1-len.baker@gmx.com>
+References: <20210925143455.21221-1-len.baker@gmx.com>
+Date:   Tue, 26 Oct 2021 09:44:14 -0600
+Message-ID: <871r47g59t.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+Len Baker <len.baker@gmx.com> writes:
 
-> Hi Jon,
+> Although using literals for size calculation in allocator arguments may
+> be harmless due to compiler warnings in case of overflows, it is better
+> to refactor the code to avoid the use of open-coded arithmetic.
 >
-> This small series contain two fixes for  documentation-file-ref-check,
-> in order to remove some (false) positives.
+> So, clarify the preferred way in these cases.
 >
-> The first one makes it to ignore files that start with a dot. It
-> prevents the script to try parsing hidden files. 
+> Suggested-by: Kees Cook <keescook@chromium.org>
+> Signed-off-by: Len Baker <len.baker@gmx.com>
+> ---
+> Changelog v1 -> v2
+>  - Clarify the sentence by changing "keep <foo> out" with "avoid <foo>"
+>    (Joe Perches).
 >
-> The second one shuts up (currently) two false-positives for some
-> documents under:
+> Changelog v2 -> v3
+>  - Reword the sentence to comunicate better (Jonathan Corbet).
 >
-> 	tools/bpf/bpftool/Documentation/
+> The previous version can be found here [1].
 >
-> Mauro Carvalho Chehab (2):
->   scripts: documentation-file-ref-check: ignore hidden files
->   scripts: documentation-file-ref-check: fix bpf selftests path
->
->  scripts/documentation-file-ref-check | 4 ++++
->  1 file changed, 4 insertions(+)
+> [1] https://lore.kernel.org/linux-hardening/20210829144716.2931-1-len.baker@gmx.com/
 
-Set applied, thanks.
+Applied, thanks.
 
 jon
