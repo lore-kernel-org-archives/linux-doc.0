@@ -2,108 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51979C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 09:24:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37AD9C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 11:45:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3BB5860FD7
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 09:24:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1259C60D07
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 11:45:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230225AbhJZJ0Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Oct 2021 05:26:24 -0400
-Received: from mga12.intel.com ([192.55.52.136]:42904 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230219AbhJZJ0X (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 26 Oct 2021 05:26:23 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10148"; a="209947524"
-X-IronPort-AV: E=Sophos;i="5.87,182,1631602800"; 
-   d="scan'208";a="209947524"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2021 02:23:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,182,1631602800"; 
-   d="scan'208";a="722229541"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
-  by fmsmga006.fm.intel.com with ESMTP; 26 Oct 2021 02:23:47 -0700
-Received: from alobakin-mobl.ger.corp.intel.com (dartyukh-MOBL2.ger.corp.intel.com [10.213.24.113])
-        by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id 19Q9NftA019935;
-        Tue, 26 Oct 2021 10:23:41 +0100
-From:   Alexander Lobakin <alexandr.lobakin@intel.com>
-To:     Saeed Mahameed <saeed@kernel.org>
-Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Lukasz Czapnik <lukasz.czapnik@intel.com>,
-        Marcin Kubiak <marcin.kubiak@intel.com>,
-        Michal Kubiak <michal.kubiak@intel.com>,
-        Michal Swiatkowski <michal.swiatkowski@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Netanel Belgazal <netanel@amazon.com>,
-        Arthur Kiyanovski <akiyano@amazon.com>,
-        Guy Tzalik <gtzalik@amazon.com>,
-        Saeed Bishara <saeedb@amazon.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Marcin Wojtas <mw@semihalf.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Edward Cree <ecree.xilinx@gmail.com>,
-        Martin Habets <habetsm.xilinx@gmail.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Shay Agroskin <shayagr@amazon.com>,
-        Sameeh Jubran <sameehj@amazon.com>,
-        Alexander Duyck <alexanderduyck@fb.com>,
-        Danielle Ratson <danieller@nvidia.com>,
-        Ido Schimmel <idosch@nvidia.com>, Andrew Lunn <andrew@lunn.ch>,
-        Vladyslav Tarasiuk <vladyslavt@nvidia.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jian Shen <shenjian15@huawei.com>,
-        Petr Vorel <petr.vorel@gmail.com>, Dan Murphy <dmurphy@ti.com>,
-        Yangbo Lu <yangbo.lu@nxp.com>,
-        Michal Kubecek <mkubecek@suse.cz>,
-        Zheng Yongjun <zhengyongjun3@huawei.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        YueHaibing <yuehaibing@huawei.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, bpf@vger.kernel.org
-Subject: Re: [PATCH net-next 03/21] ethtool, stats: introduce standard XDP statistics
-Date:   Tue, 26 Oct 2021 11:23:23 +0200
-Message-Id: <20211026092323.165-1-alexandr.lobakin@intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210803134900.578b4c37@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-References: <20210803163641.3743-1-alexandr.lobakin@intel.com> <20210803163641.3743-4-alexandr.lobakin@intel.com> <20210803134900.578b4c37@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com> <ec0aefbc987575d1979f9102d331bd3e8f809824.camel@kernel.org>
+        id S234114AbhJZLsU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Oct 2021 07:48:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46292 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233543AbhJZLsU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 07:48:20 -0400
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B178BC061745
+        for <linux-doc@vger.kernel.org>; Tue, 26 Oct 2021 04:45:56 -0700 (PDT)
+Received: by mail-oi1-x22c.google.com with SMTP id o83so20146946oif.4
+        for <linux-doc@vger.kernel.org>; Tue, 26 Oct 2021 04:45:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9+vkp4UF1+CIg0Zx8ISSlLxgqMnpIQBnIiJf3PacjFc=;
+        b=gcaCltrJdnLDEljVkRGBCsK5/Riagmz97l3d88Ubb4IqE2xiWIuD3Opj4PR482GD+2
+         Pt8FHQ3ovtordsihPwSlxZ1sHCOtGpjHy3aVYV70dX7WRroX3yYi884h/TK2Ld+EwHNR
+         oy+ONA0Fm8t0gzkLYO/nhQMihCfMbDTD+XUrFtxmiWtNNhCIds9ZXoosW8vXbmIf4Os4
+         MQNq17xGkQI+4WZCHmunKB9DBnN9vFa4hr4lzCIslw1hLnOLpngG3hThYgwtHGpVQiKh
+         DadJGWEoGQYJcj2KuO95Dnf8zoUcvavZlpP0UdQw2s2XIfNURkULqGrvIVE+HJNmtFwg
+         4Fyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9+vkp4UF1+CIg0Zx8ISSlLxgqMnpIQBnIiJf3PacjFc=;
+        b=pNfLNYX8mWiF2ynbNjx9Fih32oYKotYxpLheuDKkZb3Ju32mx7IAhQIA+SzagbzyqC
+         7BbdQJCOLFJSU2/tOCtq9h+XlgA+WN94aE5KRkgtgW9bvHXMgq5vAd7VJpWDRjLPRGCS
+         lVqMsng4EDP1wtcC7vpHrq6sZ+1h1C3Wl437pgCJDB++Pj42mDvXvZ3iZBEioOeFBTBY
+         2zdQRaxy897fP3W775btiF7wVNuLSv0drkIcDIjuHWBbZfTnTGc10aGEIIr/G+mzWG46
+         kBesxJrcmTACdiWcSCkjv7sKO8ZQ4qZe4+MpQ4SH0yCENa5nUz/InI8bvt/qvGZYNmR4
+         xIig==
+X-Gm-Message-State: AOAM5319LInloFlP9dA4ku+y+zmfkeLDpE9q8viK+bbx/Bk7Y8Pk6xol
+        A4mU6tMjUjcl8l63LUmcgKM=
+X-Google-Smtp-Source: ABdhPJxgvzMzrjVXa/otfboebDEB0jVTGK3VuuuSZ8BkejBug/kq5aBiuUu7DoEWImRzjOyUACMNig==
+X-Received: by 2002:a05:6808:1210:: with SMTP id a16mr17821829oil.130.1635248756045;
+        Tue, 26 Oct 2021 04:45:56 -0700 (PDT)
+Received: from localhost.localdomain ([8.26.182.170])
+        by smtp.gmail.com with ESMTPSA id e23sm4404340oih.40.2021.10.26.04.45.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Oct 2021 04:45:55 -0700 (PDT)
+From:   Yanteng Si <siyanteng01@gmail.com>
+X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
+To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
+        seakeel@gmail.com
+Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
+        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
+        realpuyuwang@gmail.com, siyanteng01@gmail.com
+Subject: [PATCH v2 0/2] docs/zh_CN add pci.rst translation
+Date:   Tue, 26 Oct 2021 19:45:29 +0800
+Message-Id: <cover.1635248253.git.siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Saeed Mahameed <saeed@kernel.org>
-Date: Tue, 03 Aug 2021 16:57:22 -0700
+v2:
 
-[ snip ]
+pick Alex's Reviewed-by tag.
 
-> XDP is going to always be eBPF based ! why not just report such stats
-> to a special BPF_MAP ? BPF stack can collect the stats from the driver
-> and report them to this special MAP upon user request.
+v1:
 
-I really dig this idea now. How do you see it?
-<ifindex:channel:stat_id> as a key and its value as a value or ...?
+Translate ../PCI/pci.rst into Chinese
 
-[ snip ]
+Yanteng Si (2):
+  docs/zh_CN add PCI index.rst translation
+  docs/zh_CN add PCI pci.rst translation
 
-Thanks,
-Al
+ .../translations/zh_CN/PCI/index.rst          |  36 ++
+ Documentation/translations/zh_CN/PCI/pci.rst  | 514 ++++++++++++++++++
+ Documentation/translations/zh_CN/index.rst    |   2 +-
+ 3 files changed, 551 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/PCI/index.rst
+ create mode 100644 Documentation/translations/zh_CN/PCI/pci.rst
+
+-- 
+2.27.0
+
