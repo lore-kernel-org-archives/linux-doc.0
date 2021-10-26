@@ -2,72 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5068C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 15:07:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3467C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 15:10:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B62236023D
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 15:07:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8ECBD60200
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 15:10:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231782AbhJZPJe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Oct 2021 11:09:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34794 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231184AbhJZPJ1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 26 Oct 2021 11:09:27 -0400
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 14FB0604AC;
-        Tue, 26 Oct 2021 15:07:02 +0000 (UTC)
-Date:   Tue, 26 Oct 2021 11:07:00 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     Kalesh Singh <kaleshsingh@google.com>, surenb@google.com,
-        hridya@google.com, namhyung@kernel.org, kernel-team@android.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>, Shuah Khan <shuah@kernel.org>,
-        Tom Zanussi <zanussi@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v4 7/8] tracing/selftests: Add tests for hist trigger
- expression parsing
-Message-ID: <20211026110700.3be13865@gandalf.local.home>
-In-Reply-To: <20211026214311.583c728d90d41778c38201dd@kernel.org>
-References: <20211025200852.3002369-1-kaleshsingh@google.com>
-        <20211025200852.3002369-8-kaleshsingh@google.com>
-        <20211026214311.583c728d90d41778c38201dd@kernel.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        id S235507AbhJZPNP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Oct 2021 11:13:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37062 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234461AbhJZPNK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 11:13:10 -0400
+Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95E5FC061745;
+        Tue, 26 Oct 2021 08:10:46 -0700 (PDT)
+Received: by mail-io1-xd36.google.com with SMTP id o184so20918668iof.6;
+        Tue, 26 Oct 2021 08:10:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=leS0/NaaYLKtfLrdxPy4xO2Kdcc++8pSTs9bmAMcg3U=;
+        b=eta4hMz9pfoCRtNg/nwYnCVrFsB3FdaaWIkrWuiuo0obFPbdUd2DjZsWQfv81mWidj
+         EGWvd8FqFxqymeuhGRN1KHZIW8x+kijSmcW3KAOfvtK8wSLVH3bOoQUY+4p1HAgNV8+R
+         ZphsXErJauZn2wzzvyA3c50DmSthOXUJ30Hvfhxsoo9P8PI9R1WWLH+uffPq2a8fzilU
+         cBrWEaDNn3owFPey3Y32FVX0Hs+AnPEl9701pR2S4N95DjvjrGRZ2hsT907M6djE4igD
+         qNGMQS1nAMe8JFhI/JV+u+NFr3tlYA9mEqQdWE2HnBWHz7vvdJ9FTyxs27NwsatqYT6K
+         u1uQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=leS0/NaaYLKtfLrdxPy4xO2Kdcc++8pSTs9bmAMcg3U=;
+        b=J6kA5XN+aQbDLMOUdxtaD/rHSyp9ccEqwvT+r4/8T1eVdjspSmJ0sMOeHX0FWIFmYr
+         jfAc/qSmMlrKYhYlB0rkoCISfvjwVcH8srYEXIntg7dMTKbKbyp5CfgeAcs1iXI8D7kq
+         TcOGuZdlZNX2aWx3/JIh1Yo5/9bnuKTDASgHeb7JM7u93WBK7iwpv8Wj8NrK7jR60IeX
+         tyPjeAnCyIK41l4iEA4HErzx0/7+BBfNyDiK8lln2SrIXQ/E4CytAeUhusKLOz3B6FM6
+         ZxRzPfQTdTLoSMUDRgUaJwhxMpAL6EdIjuCBfeZF6LGwNllYukDKIzLAwDtzK/E1ckHN
+         p42Q==
+X-Gm-Message-State: AOAM532XnJ9EnFPura7J8nsx2Ql98mpnobUfwa5S8Z/3LSKJztn50qbh
+        UYwnoS6RuR6IghvN6amBHgSBQII6RYLBwwD8gO0=
+X-Google-Smtp-Source: ABdhPJwWbLtW3CT7cBcX4C+TiLUAsmbALUd0+piWbeflsgxf+SHLX+uMRf/ch3Ap1o24Pe/h9qvcBp7QJYtnHFpelwk=
+X-Received: by 2002:a05:6602:2d4e:: with SMTP id d14mr16054823iow.172.1635261045995;
+ Tue, 26 Oct 2021 08:10:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20210423184012.39300-1-twoerner@gmail.com> <CANiq72mUBh+76iy5uCAGHpKHDnTGRVyQduMngEWDMCF6kRySJA@mail.gmail.com>
+ <CAHUNapQfFBcqrX7MvUvq8qbPgk2bPu-h3+9NxAUFpRtpOGFODw@mail.gmail.com>
+ <CANiq72=iDhHiFKBzud6sj6reCS=pEYxFn5x4b=VfNLMxva-RuA@mail.gmail.com> <20211026144452.GA40651@localhost>
+In-Reply-To: <20211026144452.GA40651@localhost>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Tue, 26 Oct 2021 17:10:34 +0200
+Message-ID: <CANiq72kf0QZUeO+=U67NLs=WXc=sEtasdv_yaZ5sZedNmzzJBw@mail.gmail.com>
+Subject: Re: [PATCH] coding-style.rst: trivial: fix location of driver model macros
+To:     Trevor Woerner <twoerner@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Jiri Kosina <trivial@kernel.org>,
+        Joe Perches <joe@perches.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Yorick de Wid <yorickdewid@users.noreply.github.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 26 Oct 2021 21:43:11 +0900
-Masami Hiramatsu <mhiramat@kernel.org> wrote:
+On Tue, Oct 26, 2021 at 4:44 PM Trevor Woerner <twoerner@gmail.com> wrote:
+>
+> get_maintainer.pl didn't add Andrew back then on my patch and still doesn't
+> even now. Maybe the MAINTAINERS file needs an update if Andrew is to be
+> included on trivial/documentation patches?
 
-> > diff --git a/tools/testing/selftests/ftrace/test.d/trigger/trigger-hist-expressions.tc b/tools/testing/selftests/ftrace/test.d/trigger/trigger-hist-expressions.tc
-> > new file mode 100644
-> > index 000000000000..e715641c54d3
-> > --- /dev/null
-> > +++ b/tools/testing/selftests/ftrace/test.d/trigger/trigger-hist-expressions.tc
-> > @@ -0,0 +1,72 @@
-> > +#!/bin/sh
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +# description: event trigger - test histogram expression parsing
-> > +# requires: set_event events/sched/sched_process_fork/trigger events/sched/sched_process_fork/hist error_log  
-> 
-> Hmm, are there any way to check the running kernel supports this feature?
-> Because the latest version of the kselftest is expected to run on the old stable
-> kernel for testing, the testcase should check whether the kernel supports this
-> testing feature or not. (That's why the requires tag supports README pattern check)
-> 
-> So, at first if you didn't update the <tracefs>/README, please update it first
-> to show the new syntax is supported, and add "SOME-PATTERN":README to the
-> requires tag.
+I mentioned Andrew because he does the hard job of being a backup for
+everything and everyone, but normally you should try to put the actual
+maintainer first in the `To` field and/or trivial@kernel.org.
 
-Yes, please update the README in kernel/trace/trace.c readme_msg[].
-
-I'll look at the other patches, and if they are fine, I may just apply them.
-
--- Steve
+Cheers,
+Miguel
