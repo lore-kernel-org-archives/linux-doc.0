@@ -2,93 +2,55 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68F8BC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 21:49:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42942C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 00:19:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4A58D61076
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Oct 2021 21:49:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 17B7B61039
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 00:19:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233252AbhJYVvy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Oct 2021 17:51:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57024 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230201AbhJYVvx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Oct 2021 17:51:53 -0400
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36144C061745;
-        Mon, 25 Oct 2021 14:49:31 -0700 (PDT)
-Received: by mail-pf1-x435.google.com with SMTP id d9so12243239pfl.6;
-        Mon, 25 Oct 2021 14:49:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=baPV4wjWZkGX1/OiILxvL9eAGAhGEPzvMBmxxzMUQ18=;
-        b=QXLi5LxfSEiZQavsYMecHFC1Ryzi+j4JIobg4vPw2H51u+3Qpgk/qgk/ux/t1ReruM
-         KiQESzV0bS9HJD+QdTRhClZDtSVjlkkab5WA6j2w3dZRfoFbPsPL0gBa/k/89DiD2kgv
-         ttzh3g7mvljlgu6xKH6VRjJ0an+TfrtWlQDe32vWWSqYRY5m5AyHBToW+6c6WMkFtCDb
-         iNUj6XPu9CN333mq03+/gZIkzsqEJPtKnvWpKB6z90AQW91h8WhfhO6x7hjbK00/sd+o
-         RDj99muUDZ3+JeYLZUVzdbnIejOlLaajjMCi+a6XlYTnljUNCUtzUxpa89nTOiISnYCU
-         eI+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=baPV4wjWZkGX1/OiILxvL9eAGAhGEPzvMBmxxzMUQ18=;
-        b=cXf2CxySb/XjS8U3nDd8yyHY8OrzvQ2eAgpfg4hW1eMV0ktsyKwQdWpcomIcwjDFU0
-         ybzSeBGRg0d0/XQU4jOGEuteiTFXVOijU6qVoE4t27eEKyCCNzW4bvHgrDHgAytvcm2c
-         DDGQf8zGu9mwsHW2Ay8gWR5SuVkRXOP6yVzIrCtRDKv8zSZAttvpqgqtwQfDroqcjLE3
-         iDLWsRLdqtNna6sVgKsxy1WXVtWTcS7EwCSZrMnCyu3FYqKkY6/8/2xp6S8WadAgGuaz
-         W8uUrQ9EDv8BooU4RBGPKl5UffrfyDcJSb4BAvOAhr92InOCRCR9bsvZR1AJ9Do9ghx+
-         Ft3A==
-X-Gm-Message-State: AOAM530YlNmUmRk66TWnky4dFWZTUuX2sBAi1PGqqTJu1aL6FAqR0htw
-        t6NJDiXMInHRNjWZCgiqm5E=
-X-Google-Smtp-Source: ABdhPJw1xycS/uWoVr3qeOLq5p9ffEYMa8CRtNzgPJKpeoMGS3IBSCUUq5cibp2J+FKWyHMhlzcgRQ==
-X-Received: by 2002:a62:9282:0:b0:47b:d0e9:a3c4 with SMTP id o124-20020a629282000000b0047bd0e9a3c4mr18809568pfd.12.1635198570571;
-        Mon, 25 Oct 2021 14:49:30 -0700 (PDT)
-Received: from nuc10 (d50-92-229-34.bchsia.telus.net. [50.92.229.34])
-        by smtp.gmail.com with ESMTPSA id p23sm9676409pfw.61.2021.10.25.14.49.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Oct 2021 14:49:30 -0700 (PDT)
-Date:   Mon, 25 Oct 2021 14:49:28 -0700
-From:   Rustam Kovhaev <rkovhaev@gmail.com>
-To:     Vlastimil Babka <vbabka@suse.cz>
-Cc:     cl@linux.com, penberg@kernel.org, rientjes@google.com,
-        iamjoonsoo.kim@lge.com, akpm@linux-foundation.org, corbet@lwn.net,
-        djwong@kernel.org, david@fromorbit.com,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
-        viro@zeniv.linux.org.uk, dvyukov@google.com
-Subject: Re: [PATCH v2] slob: add size header to all allocations
-Message-ID: <YXcmaNb4NXk7AcCd@nuc10>
-References: <1dfb7a79-3e66-a9fe-ee7c-1277d7ff5950@suse.cz>
- <20211023064114.708532-1-rkovhaev@gmail.com>
- <be7ee3a6-9b3c-b436-f042-82bd3c416acc@suse.cz>
+        id S235062AbhJZAWN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Oct 2021 20:22:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43954 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234809AbhJZAWM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 25 Oct 2021 20:22:12 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AD1EC60F92;
+        Tue, 26 Oct 2021 00:19:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1635207589;
+        bh=ewFMn7F/EMh7/+QcFBbhLnkKLeG/ezHK307YEtzASZE=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=Re+MAPo4aFCVE6mbCWNhJ61XgeUy4IVohht++U7W451VFSN1dWVT3u+dUIh3lQuWf
+         8IMfJpxbNWBNOiQIl1aScgQzm/NUOxTCVFrd89Jnid8EwR3CeWQgrfRvHzBXs+BXuL
+         hzHnCrMwq1LhU7Un3XDuiDd1Ts4Epv6KHOtYOX80tQnhCG0KYQZCcmyL+x1iDATd1Y
+         W/0ZlUQH7D/rDqtqnbHVc9LmCk4BNrRFnYIkfgzdkQo3PeXjAXA+bJbBbha+dyLUwg
+         xd22nc4gWYkgItt/PnPTXz+y4IRFu/NPxQPPl10izxq/6mQjd2Rfuo3D+Bc12XuNEq
+         6F7gDyb/a7wDA==
+Message-ID: <0f1b32fa-1b2a-5586-9dc1-d50135a166f8@kernel.org>
+Date:   Tue, 26 Oct 2021 08:19:46 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <be7ee3a6-9b3c-b436-f042-82bd3c416acc@suse.cz>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.0.3
+Subject: Re: [PATCH] f2fs: fix f2fs.rst build warning
+Content-Language: en-US
+To:     Fengnan Chang <changfengnan@vivo.com>, jaegeuk@kernel.org,
+        corbet@lwn.net
+Cc:     linux-f2fs-devel@lists.sourceforge.net, linux-doc@vger.kernel.org
+References: <20211023025833.216030-1-changfengnan@vivo.com>
+From:   Chao Yu <chao@kernel.org>
+In-Reply-To: <20211023025833.216030-1-changfengnan@vivo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 25, 2021 at 11:36:53AM +0200, Vlastimil Babka wrote:
-> On 10/23/21 08:41, Rustam Kovhaev wrote:
-> > Let's prepend both kmalloc() and kmem_cache_alloc() allocations with the
-> > size header.
-> > It simplifies the slab API and guarantees that both kmem_cache_alloc()
-> > and kmalloc() memory could be freed by kfree().
-> > 
-> > meminfo right after the system boot, without the patch:
-> > Slab:              35456 kB
-> > 
-> > the same, with the patch:
-> > Slab:              36160 kB
-> > 
-> > Link: https://lore.kernel.org/lkml/20210929212347.1139666-1-rkovhaev@gmail.com
-> > Signed-off-by: Rustam Kovhaev <rkovhaev@gmail.com>
+On 2021/10/23 10:58, Fengnan Chang wrote:
+> fix f2fs.rst build warning.
 > 
-> Seems overal correct to me, thanks! I'll just suggest some improvements:
+> Fixes: 151b1982be5d (f2fs: compress: add nocompress extensions support)
+> Signed-off-by: Fengnan Chang <changfengnan@vivo.com>
 
-Thank you, I'll send a v3.
+Reviewed-by: Chao Yu <chao@kernel.org>
 
+Thanks,
