@@ -2,99 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA1BBC4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 18:03:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B3D0C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 18:57:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BBF9261040
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 18:03:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0C81D6103C
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 18:57:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236655AbhJZSF7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Oct 2021 14:05:59 -0400
-Received: from mail-oi1-f173.google.com ([209.85.167.173]:37766 "EHLO
-        mail-oi1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236541AbhJZSF5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 14:05:57 -0400
-Received: by mail-oi1-f173.google.com with SMTP id o83so21827473oif.4;
-        Tue, 26 Oct 2021 11:03:33 -0700 (PDT)
+        id S238423AbhJZTAM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Oct 2021 15:00:12 -0400
+Received: from mail-ot1-f45.google.com ([209.85.210.45]:39436 "EHLO
+        mail-ot1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231592AbhJZTAL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 15:00:11 -0400
+Received: by mail-ot1-f45.google.com with SMTP id e59-20020a9d01c1000000b00552c91a99f7so57018ote.6;
+        Tue, 26 Oct 2021 11:57:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=3as/GuvOWTvyp/VYeOrt16zs8U1QuE2A3YEpnZ5CxsQ=;
-        b=3cI1bE3ZLta7GStu7RopFswF8YM2s4c3rub1/k+8cY2diRTPIpP+EwJ138ufbJP9Ry
-         or3ZomfkzKW1VL3vJNqSWqiDAGFYay7nZPVcMwnNJrZxOgfmD3E2geqhe47ORfst6Yz1
-         ij69xWghIQlF6sPP0l9f2aOMMx9AlztteuvXM3/76Cw28JsYFsZ+p1rcJL4grg6Q6ELB
-         oID4rJ9BZw111VsPOuLEScwQY/yeE97BrynUVQyN6qfcC/vtiVwGGxfVwAiadXOT0YDN
-         nOVGdUZIeK3t0q1fUVcODzO/2cM33X/rxGpxNOxyZrxN5IuDhhHv/StcGVeVfm39ig5t
-         0F4w==
-X-Gm-Message-State: AOAM532ZLKY/5ljWN3yz1geWFWzOu03DxieHtGWDhx8GAi0VOwURAWIN
-        E934c5kyI7gF455wkPoWoQ==
-X-Google-Smtp-Source: ABdhPJwzsHRq95UQ3fhFbv6gBTR2l9kWV9/6zEYmXLz/VmkD3vLwWIAVnFnoRaFdnDJJ4W33cmdkpg==
-X-Received: by 2002:a05:6808:1152:: with SMTP id u18mr184570oiu.158.1635271413576;
-        Tue, 26 Oct 2021 11:03:33 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=yXb5tcc4h5n8tVs/+ZyUdUiPi8sa74ADcNZ1YwYZr1s=;
+        b=A/qSHwluftK0AAMBAeo4Janw8W+YWllhlyoh8yrbBG5GHPwX6pWd4cgWsy5/ND7FAo
+         SBfm9IGo0SEDAf6lZZghSvuk0eIR1/NjrgUYyqWCOttOmvps3JMYyMs6dli57QXVd/br
+         CVkoWvEDJ7OhGV83QmjmpUO2N9FOXqIsCs9ghoev865OWeAOJY37ERSoKVIKNaTLS12E
+         coJTfWdxIb8tVgFetDK9N8e4612gbZn/lYMf/DmnAu8XhL4z3pcnXwTWSEZCRgTSN4k9
+         UKjcDZlCHewhrlfECPl/O23zFxZ5lXKL86EAkb1Vbh+DzHe6B1InakJ75o/dRZGJw80A
+         Htnw==
+X-Gm-Message-State: AOAM533F+mcZdjpZnUG4ajl1Ba0QItufX/HeFyAiyvB5FjQGt+0N65CB
+        ZqZpt9Z161mk7nq6loxKSw==
+X-Google-Smtp-Source: ABdhPJwEJfXe5iZi4Vv8sIh0PxJX00V4HchBP4pLf1W0FS/HoJN7GA+G5Fl71yFEWjMyw/vG8nFccQ==
+X-Received: by 2002:a9d:57c9:: with SMTP id q9mr2845956oti.281.1635274667337;
+        Tue, 26 Oct 2021 11:57:47 -0700 (PDT)
 Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id n7sm4733587oij.46.2021.10.26.11.03.32
+        by smtp.gmail.com with ESMTPSA id k26sm596627otp.42.2021.10.26.11.57.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Oct 2021 11:03:32 -0700 (PDT)
-Received: (nullmailer pid 2939413 invoked by uid 1000);
-        Tue, 26 Oct 2021 18:03:29 -0000
+        Tue, 26 Oct 2021 11:57:46 -0700 (PDT)
+Received: (nullmailer pid 3030040 invoked by uid 1000);
+        Tue, 26 Oct 2021 18:57:45 -0000
+Date:   Tue, 26 Oct 2021 13:57:45 -0500
 From:   Rob Herring <robh@kernel.org>
-To:     Jens Wiklander <jens.wiklander@linaro.org>
-Cc:     Sumit Garg <sumit.garg@linaro.org>, linux-doc@vger.kernel.org,
-        devicetree@vger.kernel.org, Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jerome Forissier <jerome@forissier.org>,
-        jens.vankeirsbilck@kuleuven.be, op-tee@lists.trustedfirmware.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Etienne Carriere <etienne.carriere@linaro.org>
-In-Reply-To: <20211026083138.1818705-3-jens.wiklander@linaro.org>
-References: <20211026083138.1818705-1-jens.wiklander@linaro.org> <20211026083138.1818705-3-jens.wiklander@linaro.org>
-Subject: Re: [PATCH v7 2/6] dt-bindings: arm: optee: add interrupt property
-Date:   Tue, 26 Oct 2021 13:03:29 -0500
-Message-Id: <1635271409.203246.2939412.nullmailer@robh.at.kernel.org>
+To:     Atish Patra <atish.patra@wdc.com>
+Cc:     linux-kernel@vger.kernel.org, Anup Patel <anup.patel@wdc.com>,
+        David Abdurachmanov <david.abdurachmanov@sifive.com>,
+        devicetree@vger.kernel.org, Greentime Hu <greentime.hu@sifive.com>,
+        Guo Ren <guoren@linux.alibaba.com>,
+        Heinrich Schuchardt <xypron.glpk@gmx.de>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
+        Nick Kossifidis <mick@ics.forth.gr>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Vincent Chen <vincent.chen@sifive.com>
+Subject: Re: [v4 06/11] dt-binding: pmu: Add RISC-V PMU DT bindings
+Message-ID: <YXhPqfpXh1VZN07T@robh.at.kernel.org>
+References: <20211025195350.242914-1-atish.patra@wdc.com>
+ <20211025195350.242914-7-atish.patra@wdc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211025195350.242914-7-atish.patra@wdc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 26 Oct 2021 10:31:34 +0200, Jens Wiklander wrote:
-> Adds an optional interrupt property to the optee binding.
+On Mon, Oct 25, 2021 at 12:53:45PM -0700, Atish Patra wrote:
+> This patch adds the DT bindings for RISC-V PMU driver. It also defines
+> the interrupt related properties to allow counter overflow interrupt.
 > 
-> Reviewed-by: Sumit Garg <sumit.garg@linaro.org>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Acked-by: Marc Zyngier <maz@kernel.org>
-> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> Signed-off-by: Atish Patra <atish.patra@wdc.com>
 > ---
->  .../devicetree/bindings/arm/firmware/linaro,optee-tz.yaml  | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  .../devicetree/bindings/perf/riscv,pmu.yaml   | 51 +++++++++++++++++++
+>  1 file changed, 51 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/perf/riscv,pmu.yaml
 > 
+> diff --git a/Documentation/devicetree/bindings/perf/riscv,pmu.yaml b/Documentation/devicetree/bindings/perf/riscv,pmu.yaml
+> new file mode 100644
+> index 000000000000..497caad63f16
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/perf/riscv,pmu.yaml
+> @@ -0,0 +1,51 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/pmu/riscv,pmu.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: RISC-V PMU
+> +
+> +maintainers:
+> +  - Atish Patra <atish.patra@wdc.com>
+> +
+> +description:
+> +  The "Sscofpmf" extension allows the RISC-V PMU counters to overflow and
+> +  generate a local interrupt so that event sampling can be done from user-space.
+> +  The above said ISA extension is an optional extension to maintain backward
+> +  compatibility and will be included in privilege specification v1.12 . That's
+> +  why the interrupt property is marked as optional. The platforms with sscofpmf
+> +  extension should add this property to enable event sampling.
+> +  The device tree node with the compatible string is mandatory for any platform
+> +  that wants to use pmu counter start/stop methods using SBI PMU extension.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - riscv,pmu
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Only 1 version? Every implementation detail is discoverable in other 
+ways?
 
-yamllint warnings/errors:
+> +
+> +    description:
+> +      Should be "riscv,pmu".
 
-dtschema/dtc warnings/errors:
-Error: Documentation/devicetree/bindings/arm/firmware/linaro,optee-tz.example.dts:23.31-32 syntax error
-FATAL ERROR: Unable to parse input tree
-make[1]: *** [scripts/Makefile.lib:385: Documentation/devicetree/bindings/arm/firmware/linaro,optee-tz.example.dt.yaml] Error 1
-make[1]: *** Waiting for unfinished jobs....
-make: *** [Makefile:1441: dt_binding_check] Error 2
+Don't write free form text of what the schema says.
 
-doc reference errors (make refcheckdocs):
+> +
+> +  interrupts-extended:
+> +    minItems: 1
+> +    maxItems: 4095
+> +
+> +additionalProperties: false
+> +
+> +required:
+> +  - None
+> +optional:
 
-See https://patchwork.ozlabs.org/patch/1546320
+No a json-schema keyword.
 
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+> +  - compatible
+> +  - interrupts-extended
+> +
+> +examples:
+> +  - |
+> +    pmu {
+> +      compatible = "riscv,pmu";
+> +      interrupts-extended = <&cpu0intc 13>,
+> +                            <&cpu1intc 13>,
+> +                            <&cpu2intc 13>,
+> +                            <&cpu3intc 13>;
+> +    };
+> +...
+> -- 
+> 2.31.1
+> 
+> 
