@@ -2,39 +2,74 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65502C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 19:14:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DE40C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 19:58:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 45F8F610A0
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 19:14:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7DB7660F9D
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Oct 2021 19:58:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235804AbhJZTRT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Oct 2021 15:17:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47746 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230184AbhJZTRS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 26 Oct 2021 15:17:18 -0400
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 897D16108D;
-        Tue, 26 Oct 2021 19:14:53 +0000 (UTC)
-Date:   Tue, 26 Oct 2021 15:14:51 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Kalesh Singh <kaleshsingh@google.com>
-Cc:     surenb@google.com, hridya@google.com, namhyung@kernel.org,
-        kernel-team@android.com, Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>, Shuah Khan <shuah@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Tom Zanussi <zanussi@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v4 6/8] tracing/histogram: Optimize division by a power
- of 2
-Message-ID: <20211026151451.7f3e09a4@gandalf.local.home>
-In-Reply-To: <20211025200852.3002369-7-kaleshsingh@google.com>
-References: <20211025200852.3002369-1-kaleshsingh@google.com>
-        <20211025200852.3002369-7-kaleshsingh@google.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        id S239053AbhJZUAl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Oct 2021 16:00:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47420 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239052AbhJZUAk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 16:00:40 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC8D9C061570;
+        Tue, 26 Oct 2021 12:58:15 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id x27so1209434lfu.5;
+        Tue, 26 Oct 2021 12:58:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=G2EUbiSBFqMAbwlq+Hh6bZmWi5bhxCtnpI1o6+QMB2g=;
+        b=SoHipItjHdtWBcxrwaOJGDTQDqdCu4ryplWxTF37sBQ1eLniffJQZZh80tiRvrhWJw
+         qzhJC2dZwIRHZcVcW5I6WZOC0H5nG3gHUSB0WZSvqrau4BY2IqXUbrwyHsTmzkXlPBxA
+         rbeM4pBik8HbrF9E2CYIjhW2SLcEb5F1Qt2OUguC6UxUtoF6BaA7Td41aCHapJzUHDfQ
+         PtpX2JPiIczvqi5lEO69txh+KLUsXX/MjyU+cnlYilh/gDG3XdALHzVdA7SuzPp0rhRt
+         B7PouoYeKTm5SeHeeaXJaOg+7MaYcXlQMKgpnE2o2gzmIkwTstXWvo3GcfHchAiro5cQ
+         MWhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=G2EUbiSBFqMAbwlq+Hh6bZmWi5bhxCtnpI1o6+QMB2g=;
+        b=OD7sza7vVRaQimbIS0rZ7TTEnRPEl3ID6tCvNqO6D5ZEcGFgjc4MslsOP0b9w0Zvcd
+         XyjAa55HpDKt6zwz7EQJgxpfzaowbZfrNUB8RheEZKiQWRJHKnYMdc8FUYdHvuvGFE+8
+         gwUufP8/9ZO7p1b2mjn0hF2FGsYUszqn1R9OOr6heGqFPLzYdz49OO4wW34MKnYRqNS2
+         H/OEvvXBroct5HIfoabjo/+uXQXjt3JzuAjSAZa77SsTT2d+jrbmov+Ls4npCgbdRdHr
+         ZTv6T8+thIOpaP0X0fTmC8SwjvOqu9ISLzo9NGgbxGZ5tQ+LHIsZ6ECxyMPEZTFXmFs1
+         h9JA==
+X-Gm-Message-State: AOAM532wBlpC19nsDijb+ZHhk1sx5vmv4rVj6YdcMKvxrpZWULH/SWwy
+        DdWpXOVrTTWLukihr7NmvYoFXeDohUtP6w==
+X-Google-Smtp-Source: ABdhPJzAIHsmf6jhU+O5aBG2Yjds5qCqmoR//7ADUCzjefCud9HvzJygMhzcWwpYBJ0ouhiOtkmwHA==
+X-Received: by 2002:a05:6512:3f04:: with SMTP id y4mr24721401lfa.180.1635278294066;
+        Tue, 26 Oct 2021 12:58:14 -0700 (PDT)
+Received: from penguin.lxd ([94.179.4.108])
+        by smtp.gmail.com with ESMTPSA id w26sm2436759ljh.18.2021.10.26.12.58.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Oct 2021 12:58:13 -0700 (PDT)
+Date:   Tue, 26 Oct 2021 22:58:05 +0300
+From:   Denis Pauk <pauk.denis@gmail.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     eugene.shalygin@gmail.com, platform-driver-x86@vger.kernel.org,
+        thomas@weissschuh.net, Tor Vic <torvic9@mailbox.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 1/3] hwmon: (asus_wmi_ec_sensors) Support B550 Asus
+ WMI.
+Message-ID: <20211026225805.1504a9f9@penguin.lxd>
+In-Reply-To: <YXcKLvRu3gRm3zUF@smile.fi.intel.com>
+References: <20211022200032.23267-1-pauk.denis@gmail.com>
+        <20211022200032.23267-2-pauk.denis@gmail.com>
+        <YXcDcXrUo4a/KAsT@smile.fi.intel.com>
+        <YXcHYvleoOr6sqMK@smile.fi.intel.com>
+        <YXcKLvRu3gRm3zUF@smile.fi.intel.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; aarch64-unknown-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -42,54 +77,19 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 25 Oct 2021 13:08:38 -0700
-Kalesh Singh <kaleshsingh@google.com> wrote:
+Hi Andy,
 
-> == Results ==
+Thank you, currently code has returned N/A by some reason. I will search
+place of regression.
+
+On Mon, 25 Oct 2021 22:49:02 +0300
+Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
+...
 > 
-> Divisor is a power of 2 (divisor == 32):
+> Okay, here a few additional fixes (make them symmetrical and hope that
+> it will compile now):
 > 
->    test_hist_field_div_not_optimized  | 8,717,091 cpu-cycles
->    test_hist_field_div_optimized      | 1,643,137 cpu-cycles
-> 
-> If the divisor is a power of 2, the optimized version is ~5.3x faster.
-> 
-> Divisor is not a power of 2 (divisor == 33):
-> 
->    test_hist_field_div_not_optimized  | 4,444,324 cpu-cycles
->    test_hist_field_div_optimized      | 5,497,958 cpu-cycles
+...
 
-To optimize this even more, if the divisor is constant, we could make a
-separate function to not do the branch, and just shift or divide.
-
-And even if it is not a power of 2, for constants, we could implement a
-multiplication and shift, and guarantee an accuracy up to a defined max.
-
-
-If div is a constant, then we can calculate the mult and shift, and max
-dividend. Let's use 20 for shift.
-
-	// This works best for small divisors
-	if (div > max_div) {
-		// only do a real division
-		return;
-	}
-	shift = 20;
-	mult = ((1 << shift) + div - 1) / div;
-	delta = mult * div - (1 << shift);
-	if (!delta) {
-		/* div is a power of 2 */
-		max = -1;
-		return;
-	}
-	max = (1 << shift) / delta;
-
-We would of course need to use 64 bit operations (maybe only do this for 64
-bit machines). And perhaps even use bigger shift values to get a bigger max.
-
-Then we could do:
-
-	if (val1 < max)
-		return (val1 * mult) >> shift;
-
--- Steve
+Best regards,
+    Denis.
