@@ -2,146 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0BE4C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Oct 2021 00:33:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8E2EC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Oct 2021 00:47:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A9D9E60EC0
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Oct 2021 00:33:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C2AC460F90
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Oct 2021 00:47:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234507AbhJ0AgG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Oct 2021 20:36:06 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:59409 "EHLO
-        gandalf.ozlabs.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233975AbhJ0AgG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 20:36:06 -0400
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 4Hf8nJ1rqnz4xbM;
-        Wed, 27 Oct 2021 11:33:40 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-        s=201909; t=1635294820;
-        bh=O3XGDoaskA0/eghgUkL7IhHse34zdf+k1dTb0Ycr8Tg=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=cja1ODRnYrVDWSEKyN0on9xo2nXEZEif7Wd5i+HjiIxOcNT2AigwJ5paEINk5o0Fy
-         gE1u1cIo4EFV8yk2T1OULNyOkKDgSwwhYRsfPqJAhWqITaLcEJE+Mbp6QVgv1AbyhL
-         M/rEH8B7ZznsgDIynTYkDxwiWF8Z20U1NaqeroaB7Qz3Guq8lxQUYqtRvO6hMeuA/m
-         mUGn3gMFYqLjm6DkfoKDTTm9M6uke+GWynyZgbvrwbgiHgy0BmCLgMW6zFgxsM+zf5
-         AZEhHFHi7QxPdg9xokc5WXntEBugja69S22D8w9laMLjoXhB9o79SUm2viBqGPg/Qo
-         uopCptrxiLBWw==
-From:   Michael Ellerman <mpe@ellerman.id.au>
-To:     Hill Ma <maahiuzeon@gmail.com>,
-        Nathan Lynch <nathanl@linux.ibm.com>
-Cc:     linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] macintosh/via-pmu-led: make disk activity usage a
- parameter.
-In-Reply-To: <CABpQrUMcCKbgSTnTB4BeUUVwq5jkOw7pGbUC53SGe-4DEVnUag@mail.gmail.com>
-References: <20211026033254.1052-1-maahiuzeon@gmail.com>
- <87fssox7ah.fsf@linux.ibm.com>
- <CABpQrUMcCKbgSTnTB4BeUUVwq5jkOw7pGbUC53SGe-4DEVnUag@mail.gmail.com>
-Date:   Wed, 27 Oct 2021 11:33:37 +1100
-Message-ID: <87ee87b926.fsf@mpe.ellerman.id.au>
+        id S234249AbhJ0At0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Oct 2021 20:49:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55318 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230373AbhJ0AtZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 20:49:25 -0400
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com [IPv6:2607:f8b0:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 830BBC061570;
+        Tue, 26 Oct 2021 17:47:01 -0700 (PDT)
+Received: by mail-oi1-x231.google.com with SMTP id q124so1154625oig.3;
+        Tue, 26 Oct 2021 17:47:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8xB69BiQvruCUDzQOHPnB7DSueM5V+wuTZ2lx3/6o88=;
+        b=k/WFPBeaDle6GpaxhQryQ8xKi5z911CVHoxJ666LxkcFYM8YQrcuReTOBsvTEKbGV3
+         V4Dw6e3eSXiADD+e2k27qOzL6GYD5eaF9+nryW/PBeTtsp6g1ocnka9zR3YJfsm/i0HY
+         1FALmHZ3ohohuKAgbKfWpGWY1xTAOsIU75LYK8dUbAr+IIHtRi4eqt6iBaNPMQJvrDUV
+         e9kuVA8vYLYjkPR2vEoLa3N6AZhwjF9Cmq6wv4V7TugtcPLXsKZFTkqg5DYW+9CRC+sX
+         ixJ4nwWIWwDL0R0b5YbWEhqijCCG8PWoUWuDz8bs/BLk9eqP2/34ui4gx5NX/xjtGJYG
+         +5qQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8xB69BiQvruCUDzQOHPnB7DSueM5V+wuTZ2lx3/6o88=;
+        b=PqpAvRgVV30OfbtULK0MF+K5rUy5ImOgMsoP01vzwRbjuUWHunYzBJcMzHwabsFeGG
+         S1n81XakpTxwLWH6XaNKj+WKomsxt6TsbBroi7ZJsTiSbUOnMti+LQ8oFFiFoq6ZKAVQ
+         /SAP7Xlldf3YXwJBHcdkrdaaoYg5GYX+RZWlx1qPxeVfNKZqiM9jUrFpB+qDdsUQsTN/
+         PC+1bT6MFN+HftLE4Btq7/QoxinsYgA3iRebdw3l1tbTRhERkcLPt9gO675auEEn84+o
+         DkIx+HQmrGrCWeBKyDSlgD+I5UaOKviMBYq6ndyP+2pd/iA67hYKnOwodcenqmRevoE2
+         k2jw==
+X-Gm-Message-State: AOAM533A8hd0rZsZLrb2LSkDzBOrFFFokFgJf0PvKKmmLl/EXzJftCSB
+        RGuYtiOqk8Hfa3oPDRB4Nkeuhm/AdLw5TPUK8zw=
+X-Google-Smtp-Source: ABdhPJyCwSWEU5JCr0kqNNifxLVLrqFpncRArGWwYqB89CWL/wL711ci9pxXIChUPLzXYXMr8qnijsT5klOeBht3yJ0=
+X-Received: by 2002:a05:6808:4d9:: with SMTP id a25mr1512698oie.33.1635295620839;
+ Tue, 26 Oct 2021 17:47:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20211020120726.4022086-1-pizhenwei@bytedance.com>
+ <CANRm+CxAVA-L0wjm72eohXXWvh9fS7wVFzfKHuEjrsiRFuk9fg@mail.gmail.com>
+ <YXB4FHfzh99707EH@google.com> <08757159-1673-5c7b-3efc-e5b54e82d6c3@bytedance.com>
+ <CANRm+CzcTUWYJeaj3eWKH84YZYgeMZz3kbpn13c8i97iYGGHFQ@mail.gmail.com>
+ <5b718b32-cd92-920e-c474-27b9cafeec60@bytedance.com> <ec014e8d-eb5f-03cc-3ed1-da58039ef034@bytedance.com>
+ <YXgnDBOXh2v3gzU4@google.com>
+In-Reply-To: <YXgnDBOXh2v3gzU4@google.com>
+From:   Wanpeng Li <kernellwp@gmail.com>
+Date:   Wed, 27 Oct 2021 08:46:49 +0800
+Message-ID: <CANRm+CygFFnvjrJc7U0zNrSVzH9nC=0Bh=SjhG2pjvRXo_zXgQ@mail.gmail.com>
+Subject: Re: [PATCH] x86/kvm: Introduce boot parameter no-kvm-pvipi
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     zhenwei pi <pizhenwei@bytedance.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hill Ma <maahiuzeon@gmail.com> writes:
-> Thanks for the review.
+On Wed, 27 Oct 2021 at 00:04, Sean Christopherson <seanjc@google.com> wrote:
 >
-> On Tue, Oct 26, 2021 at 6:08 AM Nathan Lynch <nathanl@linux.ibm.com> wrote:
->>
->> Hello,
->>
->> Hill Ma <maahiuzeon@gmail.com> writes:
->> > Whether to use the LED as a disk activity is a user preference.
->> > Some like this usage while others find the LED too bright. So it
->> > might be a good idea to make this choice a runtime parameter rather
->> > than compile-time config.
->>
->> Users already have the ability to change the LED behavior at runtime
->> already, correct? I.e. they can do:
->>
->>   echo none > /sys/class/leds/pmu-led::front/trigger
->>
->> in their boot scripts. Granted, a kernel built with ADB_PMU_LED_DISK=y
->> will blink the LED on disk activity until user space is running. Is this
->> unsatisfactory?
+> On Mon, Oct 25, 2021, zhenwei pi wrote:
+> > Hi, Wanpeng & Sean
+> >
+> > Also benchmark redis(by 127.0.0.1) in a guest(2vCPU), 'no-kvm-pvipi' gets
+> > better performance.
+> >
+> > Test env:
+> > Host side: pin 2vCPU on 2core in a die.
+> > Guest side: run command:
+> >   taskset -c 1 ./redis-server --appendonly no
+> >   taskset -c 0 ./redis-benchmark -h 127.0.0.1 -d 1024 -n 10000000 -t get
+> >
+> > 1> without no-kvm-pvipi:
+> > redis QPS: 193203.12 requests per second
+> > kvm_pv_send_ipi exit: ~18K/s
+> >
+> > 2> with no-kvm-pvipi:
+> > redis QPS: 196028.47 requests per second
+> > avic_incomplete_ipi_interception exit: ~5K/s
 >
-> Yes, indeed. As someone who does not like this behavior on iBooks.
->
->> > The default is set to disabled as OS X does not use the LED as a
->> > disk activity indicator.
->>
->> This is long-standing behavior in Linux and OS X has been EOL on this
->> architecture for a decade, so this isn't much of a consideration at this
->> point. Seems more important to avoid surprising existing users and
->> distributions with a behavior change that makes additional work for
->> them. See below.
->>
->> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->> > index 43dc35fe5bc0..a656a51ba0a8 100644
->> > --- a/Documentation/admin-guide/kernel-parameters.txt
->> > +++ b/Documentation/admin-guide/kernel-parameters.txt
->> > @@ -250,6 +250,12 @@
->> >                       Use timer override. For some broken Nvidia NF5 boards
->> >                       that require a timer override, but don't have HPET
->> >
->> > +     adb_pmu_led_disk [PPC]
->> > +                     Use front LED as disk LED by default. Only applies to
->> > +                     PowerBook, iBook, PowerMac 7,2/7,3.
->> > +                     Format: <bool>  (1/Y/y=enable, 0/N/n=disable)
->> > +                     Default: disabled
->> > +
->> >       add_efi_memmap  [EFI; X86] Include EFI memory map in
->> >                       kernel's map of available physical RAM.
->> >
->> > diff --git a/drivers/macintosh/Kconfig b/drivers/macintosh/Kconfig
->> > index 5cdc361da37c..243215de563c 100644
->> > --- a/drivers/macintosh/Kconfig
->> > +++ b/drivers/macintosh/Kconfig
->> > @@ -78,16 +78,6 @@ config ADB_PMU_LED
->> >         behaviour of the old CONFIG_BLK_DEV_IDE_PMAC_BLINK, select this
->> >         and the disk LED trigger and configure appropriately through sysfs.
->> >
->> > -config ADB_PMU_LED_DISK
->> > -     bool "Use front LED as DISK LED by default"
->> > -     depends on ADB_PMU_LED
->> > -     depends on LEDS_CLASS
->> > -     select LEDS_TRIGGERS
->> > -     select LEDS_TRIGGER_DISK
->> > -     help
->> > -       This option makes the front LED default to the disk trigger
->> > -       so that it blinks on disk activity.
->> > -
->>
->> So, if I've been relying on CONFIG_ADB_PMU_LED_DISK=y and I upgrade to a
->> newer kernel with the proposed change, from my point of view the disk
->> activity LED has stopped working and I need to alter the bootloader
->> config or init scripts to restore the expected behavior. That seems
->> undesirable to me.
->>
->> I don't think we rigidly enforce Kconfig backward compatibility, but
->> when it comes to a user-visible function on a legacy platform where
->> users and distros likely have their configurations figured out already,
->> it's probably best to avoid such changes.
->
-> I actually asked some distributions that still ship PowerPC BE
-> architectures to unset it.
-> https://github.com/void-ppc/void-packages/pull/48
-> https://github.com/void-linux/void-packages/pull/33275
-> https://git.adelielinux.org/adelie/packages/-/merge_requests/607
->
-> And Debian, which still has PowerPC BE architectures as ports, does
-> not turn it on.
-> https://salsa.debian.org/kernel-team/linux/-/blob/master/debian/config/kernelarch-powerpc/config
+> Numbers look sane, but I don't think that adding a guest-side kernel param is
+> the correct "fix".  As evidenced by Wanpeng's tests, PV IPI can outperform AVIC
+> in overcommit scenarios, and there's also no guarantee that AVIC/APICv is even
 
-Looks like all three distros have it disabled.
+Our evaluation is a dedicated scenario w/ big VM. The testing from
+above is a one-sided view.
 
-So let's drop the config option, make it disabled by default, and anyone
-who wants to turn it on can do so in their initramfs or init scripts.
-
-cheers
+    Wanpeng
