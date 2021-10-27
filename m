@@ -2,24 +2,24 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C21BDC433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Oct 2021 15:01:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 677AFC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Oct 2021 15:50:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A8D81610A3
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Oct 2021 15:01:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4A295610CB
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Oct 2021 15:50:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233137AbhJ0PES (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Oct 2021 11:04:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57748 "EHLO mail.kernel.org"
+        id S242849AbhJ0PxA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Oct 2021 11:53:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44480 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232003AbhJ0PER (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 27 Oct 2021 11:04:17 -0400
+        id S242848AbhJ0Pw6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 27 Oct 2021 11:52:58 -0400
 Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3D5DD60F38;
-        Wed, 27 Oct 2021 15:01:51 +0000 (UTC)
-Date:   Wed, 27 Oct 2021 11:01:49 -0400
+        by mail.kernel.org (Postfix) with ESMTPSA id AA391610A3;
+        Wed, 27 Oct 2021 15:50:31 +0000 (UTC)
+Date:   Wed, 27 Oct 2021 11:50:30 -0400
 From:   Steven Rostedt <rostedt@goodmis.org>
 To:     Masami Hiramatsu <mhiramat@kernel.org>
 Cc:     Kalesh Singh <kaleshsingh@google.com>, surenb@google.com,
@@ -30,8 +30,8 @@ Cc:     Kalesh Singh <kaleshsingh@google.com>, surenb@google.com,
         linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
 Subject: Re: [PATCH v4 7/8] tracing/selftests: Add tests for hist trigger
  expression parsing
-Message-ID: <20211027110149.4bf5eb88@gandalf.local.home>
-In-Reply-To: <20211027235229.06f268a62133882a547c3c01@kernel.org>
+Message-ID: <20211027115030.50edec1b@gandalf.local.home>
+In-Reply-To: <20211027110149.4bf5eb88@gandalf.local.home>
 References: <20211025200852.3002369-1-kaleshsingh@google.com>
         <20211025200852.3002369-8-kaleshsingh@google.com>
         <20211026214311.583c728d90d41778c38201dd@kernel.org>
@@ -44,6 +44,7 @@ References: <20211025200852.3002369-1-kaleshsingh@google.com>
         <CAC_TJvdMXd+wnvvs7XrTmT2-iyepr==hH9Kkd_T9_f3jd3Edrg@mail.gmail.com>
         <20211027103119.2365bc90@gandalf.local.home>
         <20211027235229.06f268a62133882a547c3c01@kernel.org>
+        <20211027110149.4bf5eb88@gandalf.local.home>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -52,20 +53,24 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 27 Oct 2021 23:52:29 +0900
-Masami Hiramatsu <mhiramat@kernel.org> wrote:
+On Wed, 27 Oct 2021 11:01:49 -0400
+Steven Rostedt <rostedt@goodmis.org> wrote:
 
-> > I'm currently going to test the config you sent.  
+> And my build failed with:
 > 
-> I'm also trying to reproduce it, but it seems to need full qemu mode.
-> If you share the above logs, it is easier to check why the tests have
-> been failed.
+> make[2]: *** No rule to make target 'kernel/drivers/char/hw_random/tpm-rng.o', needed by 'modules-only.symvers'.  Stop.
+> make[1]: *** [/work/git/linux-test.git/Makefile:1783: modules] Error 2
+> 
+> I'll tweak the config to go further.
 
-And my build failed with:
+I got it booted, but also had to disable selinux. I wonder if that caused
+any issues?
 
-make[2]: *** No rule to make target 'kernel/drivers/char/hw_random/tpm-rng.o', needed by 'modules-only.symvers'.  Stop.
-make[1]: *** [/work/git/linux-test.git/Makefile:1783: modules] Error 2
+It did find a minor bug. A warning happens if you try to connect an
+event-probe to an event that does not exist. That should not warn.
 
-I'll tweak the config to go further.
+I'll go fix that, but it would still be good to see the logs.
+
+Thanks,
 
 -- Steve
