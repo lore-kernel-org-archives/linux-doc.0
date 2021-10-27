@@ -2,107 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E257C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Oct 2021 04:04:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F14A9C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Oct 2021 07:42:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1F8BB60EB4
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Oct 2021 04:04:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DB4B4610A4
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Oct 2021 07:42:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229618AbhJ0EHH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Oct 2021 00:07:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43014 "EHLO
+        id S240574AbhJ0How (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Oct 2021 03:44:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229642AbhJ0EHG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Oct 2021 00:07:06 -0400
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA3FBC061767
-        for <linux-doc@vger.kernel.org>; Tue, 26 Oct 2021 21:04:41 -0700 (PDT)
-Received: by mail-pf1-x42a.google.com with SMTP id l203so1503583pfd.2
-        for <linux-doc@vger.kernel.org>; Tue, 26 Oct 2021 21:04:41 -0700 (PDT)
+        with ESMTP id S240582AbhJ0Hov (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Oct 2021 03:44:51 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D479FC0613B9
+        for <linux-doc@vger.kernel.org>; Wed, 27 Oct 2021 00:42:26 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id w16so1412157plg.3
+        for <linux-doc@vger.kernel.org>; Wed, 27 Oct 2021 00:42:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Izz2fSeyp7FglLJXkUAzOzwe9eczJwqGRtb97g7cQGw=;
-        b=NyISBRU3aODLArR4lea/SISpA7/zkEP9FG+wdnUmbXfTYwn+iY4lxF+u4WsnyaWcsE
-         EfK/OT4dk3HwYCy9gjZC4VwyzjQ9zmAhuutnXxJIpPAD/w3uVCtjWogL0sYgvLG74R+v
-         g6R5D7ncWinK5HCdKMsc6NiEeGrmqQoRWJFAQQAA77aRoza/R0cG29084cNFUn7f0aUm
-         VdmFFyGKLjWLIuGKycPA6pLy3hjB+XFt6+F3hUABK9tinH9C+Aa/rOkKwPQVM1WJZl+u
-         bow0zvjF7qRvdF3zi3kG4OxKHn1OHxdmRFNVC9hREC+r19Dom3frarwKheRIMqVPZ+FQ
-         /cng==
+        d=nathanrossi.com; s=google;
+        h=date:message-id:in-reply-to:references:from:to:cc:subject
+         :content-transfer-encoding:mime-version;
+        bh=EvWO9/aP2UYkWDRoMSk+UDHZ7nRats7jMQJQZIEXWAU=;
+        b=k0uypuoa/tSMIoB+UArjlA7+U5joF88Bjt7a/jjC+VozJJHJorpHFAPYgUAv3TcPb5
+         IooaM7AQRTLfNG1fcIu0e+jKw6OYKnqD2klEG0e6Y1J8UI+NZQso5uCGvvRU8KbsenWu
+         sWpWZzr69WDdZI5fvIKdRC3bBZ0E2mpKmANl1KUdnqgL64Yv6QZM14xXeJVHhpdiR5Ix
+         A92BxQ8OL9PrwpFB2L9HX6x75a1aDw89wSHnH4B4awmYMA58jqXMF8NHXvL3BFfIDd8S
+         11hgRoSD//YWuA8GCLsggL0PkUXx92NPm1AstguVi9m8fPjndlhC6XLGETnX+bzlKyGH
+         BFyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Izz2fSeyp7FglLJXkUAzOzwe9eczJwqGRtb97g7cQGw=;
-        b=sI5g2GpHqBbnfX7P/EUmDKbNtkgHPv2UibDIo447AiHnm/FPlqWbZxC6dL9quWI1zM
-         micclTW2Btq/RWfXQfbeslzT9fcZ0VD2MN1xUeay8ptqjwvBXH2M/e2hg/0+135Zr+7W
-         QdlFxde7jr3jVgvfqO2lEB6tvneDK/BJxRBNEm27D315triQcntWaQSfd1cysmS4YZQo
-         OmlWqnwMynV5VDbBb9tuhIRLfIPveoQVzAMAC70CCrkCuX3NAvd5fwrTLnSyn52jX3r/
-         eiTZCbUrkG2Ig8U0dg1bP1UuB3Sw92XS4hYF0uzulfn0qYkpqZZ3zMPKOl2QgOXbG60A
-         FX5g==
-X-Gm-Message-State: AOAM531w+Fv14eJ+0g24o2y+izEW0PEUDUV25Lky3ZVyDFV+S2CtlQlx
-        i70MCVSIyKloDRCkLyZGokkQvXOg8ZNbFbgsRgygZQ==
-X-Google-Smtp-Source: ABdhPJz0w3mvn4TX+ptIQYahw35WumxHe6KDzRZcbPE7yRtG2MVa4Il8IeujEeZaRa+ai+C0+yqpV1LFJQgVSPxIohU=
-X-Received: by 2002:a65:6499:: with SMTP id e25mr21858529pgv.146.1635307480887;
- Tue, 26 Oct 2021 21:04:40 -0700 (PDT)
+        h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
+         :cc:subject:content-transfer-encoding:mime-version;
+        bh=EvWO9/aP2UYkWDRoMSk+UDHZ7nRats7jMQJQZIEXWAU=;
+        b=XszIutqT2nfblUkAbvNlNqgOm0fWAiassrlaE1X4sp6molEyUYF6/I/sK3673jatzb
+         DWFe3/bgfEb7msPFUkxu2gtTPU0GulbouX91dXkrt2qL+AkTis12tYfxQS9Grjoj3x8t
+         VeRyXZYbNJUPS6Fm+cEWahwrGsZBVFps/uFmgG/4gdI1NKLrJ4CeUMOsTg4mL/pLctNI
+         tRmJ46jP8TvX+Qd6Li9oFM3zAHgT/q5X+qEnSNxet/t21ZLKh/d5rpD5Cb3c2XMJaw/8
+         d8iJmdiLJps34lRgvXF6ZfRpT2PlNL9PZl7qEO8vS3CJbHCIXKZIsSADf6tmuUCStaNy
+         yZSw==
+X-Gm-Message-State: AOAM533fFYUToLPwLpVwrqU6fCxUBTmVzssKjChVXdCDewgw10ab/XHQ
+        J6DzscPo9pMDpUri42mA0e41aA==
+X-Google-Smtp-Source: ABdhPJyf8nYG8qW81/yolRdeZUerGGa9z3mseuZofnD2TXanUqJezx9SKGVMO/KNngkgyBfXtZQpCA==
+X-Received: by 2002:a17:90a:cc05:: with SMTP id b5mr4099506pju.71.1635320546280;
+        Wed, 27 Oct 2021 00:42:26 -0700 (PDT)
+Received: from [127.0.1.1] (117-20-69-24.751445.bne.nbn.aussiebb.net. [117.20.69.24])
+        by smtp.gmail.com with UTF8SMTPSA id c85sm10272618pfc.146.2021.10.27.00.42.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Oct 2021 00:42:25 -0700 (PDT)
+Date:   Wed, 27 Oct 2021 07:42:12 +0000
+Message-Id: <20211027074212.690611-0-nathan@nathanrossi.com>
+In-Reply-To: <20211025025805.618566-0-nathan@nathanrossi.com>
+References: <20211025025805.618566-0-nathan@nathanrossi.com>
+From:   Nathan Rossi <nathan@nathanrossi.com>
+To:     linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     Nathan Rossi <nathan@nathanrossi.com>,
+        Nathan Rossi <nathan.rossi@digi.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jean Delvare <jdelvare@suse.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v2 0/3] Driver for TI INA238 I2C Power Monitor
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-References: <20211025200852.3002369-1-kaleshsingh@google.com>
- <20211025200852.3002369-7-kaleshsingh@google.com> <20211026151451.7f3e09a4@gandalf.local.home>
- <CAC_TJveHgsPZw7p7BWOgQw6h8GNU_Pv_WUjNmw3AUq+wnSzk6Q@mail.gmail.com>
- <20211026201846.08990d1d@rorschach.local.home> <CAC_TJve-mKSojaXtukdFeQKvPz-8TQtS=pgGD0Z18Wt6yJi7dg@mail.gmail.com>
- <20211026211511.403d76ca@rorschach.local.home> <CAC_TJvdwqQAKrVs3w6NcQNBT+bAgdyqR+8Zt_An7R9AQSSthGA@mail.gmail.com>
- <20211026222123.5e206fcf@rorschach.local.home> <20211026231557.1eedad9b@rorschach.local.home>
-In-Reply-To: <20211026231557.1eedad9b@rorschach.local.home>
-From:   Kalesh Singh <kaleshsingh@google.com>
-Date:   Tue, 26 Oct 2021 21:04:29 -0700
-Message-ID: <CAC_TJveyKhZ3jyTZ33jbxSKTxxJ1WG+NUUUbf11pJ8Gqk7UeaQ@mail.gmail.com>
-Subject: Re: [PATCH v4 6/8] tracing/histogram: Optimize division by a power of 2
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     surenb@google.com, hridya@google.com, namhyung@kernel.org,
-        kernel-team@android.com, Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>, Shuah Khan <shuah@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Tom Zanussi <zanussi@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 26, 2021 at 8:16 PM Steven Rostedt <rostedt@goodmis.org> wrote:
->
-> On Tue, 26 Oct 2021 22:21:23 -0400
-> Steven Rostedt <rostedt@goodmis.org> wrote:
->
-> > I'm sure there's an algorithm somewhere that can give as the real max.
->
-> You got me playing with this more ;-)
->
-> OK, I added the rounding in the wrong place. I found that we can make
-> the max_div to be the same as the shift! The bigger the shift, the
-> bigger the max!
+From: Nathan Rossi <nathan.rossi@digi.com>
 
-Nice! :)
->
->         mult = (1 << shift) / div;
->         max_div = (1 << shift)
->
-> But the rounding needs to be with the mult / shift:
->
->         return (val * mult + ((1 << shift) - 1)) >> shift;
->
->
-> When val goes pass 1 << shift, then the error will be off by more than
-> one.
-Did you mean, val should be such that when we do the (val * mult) we
-only get rounding errors less than (1 << shift)?
+Changes in v2:
+- Added device tree binding for ti,shunt-gain to specify the target
+  ADCRANGE for the ina238
+- Reworked ina238 driver to use hwmon_chip_info API, and addressed
+  various review comments
 
-I think we also need to flip the delta now since we round down initially:
+Nathan Rossi (3):
+  dt-bindings: hwmon: ti,ina2xx: Document ti,ina238 compatible string
+  dt-bindings: hwmon: ti,ina2xx: Add ti,shunt-gain property
+  hwmon: Driver for Texas Instruments INA238
 
-    delta =  (1 << shift) - (mult * div)
-
-Thanks,
-Kalesh
->
-> -- Steve
+ .../devicetree/bindings/hwmon/ti,ina2xx.yaml  |   7 +
+ Documentation/hwmon/ina238.rst                |  56 ++
+ Documentation/hwmon/index.rst                 |   1 +
+ drivers/hwmon/Kconfig                         |  12 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/ina238.c                        | 672 ++++++++++++++++++
+ 6 files changed, 749 insertions(+)
+ create mode 100644 Documentation/hwmon/ina238.rst
+ create mode 100644 drivers/hwmon/ina238.c
+---
+2.33.0
