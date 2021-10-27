@@ -2,27 +2,35 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 386C2C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Oct 2021 14:31:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15485C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Oct 2021 14:52:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0DDA760F6F
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Oct 2021 14:31:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EC48561090
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Oct 2021 14:52:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238672AbhJ0Odx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Oct 2021 10:33:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47532 "EHLO mail.kernel.org"
+        id S242630AbhJ0OzA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Oct 2021 10:55:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55268 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238741AbhJ0Odr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 27 Oct 2021 10:33:47 -0400
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3096D60F6F;
-        Wed, 27 Oct 2021 14:31:21 +0000 (UTC)
-Date:   Wed, 27 Oct 2021 10:31:19 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Kalesh Singh <kaleshsingh@google.com>
-Cc:     Masami Hiramatsu <mhiramat@kernel.org>, surenb@google.com,
+        id S237296AbhJ0OzA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 27 Oct 2021 10:55:00 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CAFB260724;
+        Wed, 27 Oct 2021 14:52:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1635346354;
+        bh=8M3nKt+glST/1vlSEYvPRleNwgXQb7gbwuxaCwI1Whg=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=fR/xE8m7qavd66EZEMHa2Um94damyxYlntoxUkZEmBPfI2A5kkRyyXpUs4MNS8p+V
+         qhu62Mbkwk4U4yP0MMLVlawZaGSSAecsLiQAH5r0AEyFUMxTgp1mm1vCumIArq44br
+         mUYif0qDQPVBy8eXTNkulbPq2tpOQdFhIgzMVn1pdwAg6/NLifaT6CO8K0FfiMqZc8
+         kU5+JCbzYWlfyqjFFJS1TE3VioDSh2ketCRCxlauE/fXZWI88loRIpoRC34+R5vwYc
+         +50aJ/ONRLLWROXaLmxvEkhQ5oVHeudRRH4BmzGS+eFb4PAB1lcRa0DhEc3YD2LvBJ
+         cTNWJ8poH/yvg==
+Date:   Wed, 27 Oct 2021 23:52:29 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Kalesh Singh <kaleshsingh@google.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>, surenb@google.com,
         hridya@google.com, namhyung@kernel.org, kernel-team@android.com,
         Jonathan Corbet <corbet@lwn.net>,
         Ingo Molnar <mingo@redhat.com>, Shuah Khan <shuah@kernel.org>,
@@ -30,8 +38,8 @@ Cc:     Masami Hiramatsu <mhiramat@kernel.org>, surenb@google.com,
         linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
 Subject: Re: [PATCH v4 7/8] tracing/selftests: Add tests for hist trigger
  expression parsing
-Message-ID: <20211027103119.2365bc90@gandalf.local.home>
-In-Reply-To: <CAC_TJvdMXd+wnvvs7XrTmT2-iyepr==hH9Kkd_T9_f3jd3Edrg@mail.gmail.com>
+Message-Id: <20211027235229.06f268a62133882a547c3c01@kernel.org>
+In-Reply-To: <20211027103119.2365bc90@gandalf.local.home>
 References: <20211025200852.3002369-1-kaleshsingh@google.com>
         <20211025200852.3002369-8-kaleshsingh@google.com>
         <20211026214311.583c728d90d41778c38201dd@kernel.org>
@@ -42,37 +50,53 @@ References: <20211025200852.3002369-1-kaleshsingh@google.com>
         <CAC_TJvf8areGd1rQMbJV4r+J6JP2-DWXBLQwKRZEOzNWL_rqrQ@mail.gmail.com>
         <20211027121420.03a09fca1efc414189bb40bb@kernel.org>
         <CAC_TJvdMXd+wnvvs7XrTmT2-iyepr==hH9Kkd_T9_f3jd3Edrg@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
+        <20211027103119.2365bc90@gandalf.local.home>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 26 Oct 2021 21:27:00 -0700
-Kalesh Singh <kaleshsingh@google.com> wrote:
+On Wed, 27 Oct 2021 10:31:19 -0400
+Steven Rostedt <rostedt@goodmis.org> wrote:
 
-> > Interesting. There should be test logs under logs/ directory in the
-> > ftracetest. Can you share the logs/*/ftracetest.log and your kernel kconfig?
-> >
-> > Thank you,
-> >  
-> Hi Masami,
+> On Tue, 26 Oct 2021 21:27:00 -0700
+> Kalesh Singh <kaleshsingh@google.com> wrote:
 > 
-> I have attached the config and ftracetest.log here.
+> > > Interesting. There should be test logs under logs/ directory in the
+> > > ftracetest. Can you share the logs/*/ftracetest.log and your kernel kconfig?
+> > >
+> > > Thank you,
+> > >  
+> > Hi Masami,
+> > 
+> > I have attached the config and ftracetest.log here.
+
+Thanks! but it seems that the tests were randomely failed...
+
+> 
+> 
+> Actually, could you attach the other files in that log?
+> 
+> tar cvjf log.tar.bz2 logs/<date>/
+> 
+> Where <date> is the value for the log that failed.
+> 
+> That will give me more information to why the tests failed.
+> 
+> I'm currently going to test the config you sent.
+
+I'm also trying to reproduce it, but it seems to need full qemu mode.
+If you share the above logs, it is easier to check why the tests have
+been failed.
+
+> 
+> Thanks!
+> 
+> -- Steve
 
 
-Actually, could you attach the other files in that log?
-
-tar cvjf log.tar.bz2 logs/<date>/
-
-Where <date> is the value for the log that failed.
-
-That will give me more information to why the tests failed.
-
-I'm currently going to test the config you sent.
-
-Thanks!
-
--- Steve
+-- 
+Masami Hiramatsu <mhiramat@kernel.org>
