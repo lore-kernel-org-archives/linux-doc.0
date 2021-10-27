@@ -2,98 +2,164 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7597C4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Oct 2021 01:31:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72D08C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Oct 2021 01:43:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8A85161040
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Oct 2021 01:31:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 59B4061078
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Oct 2021 01:43:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237520AbhJ0Bd6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Oct 2021 21:33:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37000 "EHLO
+        id S235525AbhJ0BqI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Oct 2021 21:46:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231575AbhJ0Bd5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 21:33:57 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B009C061570
-        for <linux-doc@vger.kernel.org>; Tue, 26 Oct 2021 18:31:33 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id y1-20020a17090a134100b001a27a7e9c8dso3398267pjf.3
-        for <linux-doc@vger.kernel.org>; Tue, 26 Oct 2021 18:31:33 -0700 (PDT)
+        with ESMTP id S230160AbhJ0BqI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Oct 2021 21:46:08 -0400
+Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com [IPv6:2607:f8b0:4864:20::f36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F5E7C061570;
+        Tue, 26 Oct 2021 18:43:43 -0700 (PDT)
+Received: by mail-qv1-xf36.google.com with SMTP id kd16so834640qvb.0;
+        Tue, 26 Oct 2021 18:43:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=hx2CTswgytxvss7kxEurcgmP5KcmJvBjnBSk15OJ7pE=;
-        b=EXGwIRd4lsCuLvvRdiNRqffudQ8CM9ZJvYGUorXhwpiBZil4EbFzcNtL9Xvx3pz9M4
-         WSiggrp/PXpWi6Mld8Kqw/lAltNh9dryQmEgfnyRc04qeulm74CT9Sr5zohzDNhZ/7CY
-         74IVE6QNDELB8g1ZyOmVNofiRYPkOVKZhtaD/QFZuHnVHZupzbdN1S8WRVq8+dKd5CON
-         +Uru4oNtlzHo5AwIwXu0yt6FD0nwqZxB6SV+ynhIj5hflchXNbyMiJTwFUOUNgM99qLF
-         WJrVPzSe01sqhcnxIjKLmdq+dKTy1+LZCVrtbizb2fTdwM9bK4MsL9bVmIiI/n6sW65C
-         IE8A==
+        bh=8LJqS8zky7pcMbUa92VXQE1e4F/KCHrhH+dmA5eIbDw=;
+        b=Spt2jzK0txE6TKglycyhopMhk7/Qs8AejfSjBab5DxG7mnLhZ31UyxEXNvk1wFHraj
+         kYzExGTJtV/vgKU1aNpPxrUHN8OGuFQ3rWPFz5lElDm8k3b0hd2m8/gN2hbyJfIdg9X1
+         zP+DzjQyWYq8UMzx3cUMSvZKRH1Z/9M1nnlexaqWV2dXbzVAle53OvqskgnsF/cWsXJ0
+         6+7SjorfK+9+u/0AJS/7op54mV0GVycWs8Iw3hkPDhjmpaqNA3EEblpIztvAQPOz58gZ
+         r/EykbTqZqpq8cMY/JjsOPJpU6R8ywr/CaF8viTwjNdZ4JCeSwDqwcCoZZewmNjskGnf
+         LaBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=hx2CTswgytxvss7kxEurcgmP5KcmJvBjnBSk15OJ7pE=;
-        b=l0VOSZvrTg4Awa7dZVZxP6ksRk1ygxALFwwploDZEaESYBqo9LZvZr8s6zA/uHyc5W
-         qUHbCnhICzuO4jUehBwyVAvtVdNSCrR1Ecmt//8CU9ajcp7eIJ1z6JbYAAvPYdUqvPHs
-         S/q3Hgd4ORaDq7yiGSEL4hptt1Z6/wDvjPoLZ2EwmQ7est5fAgEM+nxX+dgFJUyYagfn
-         GtmjeresYPUcPezrTuAega9pdi8w7JQ/bwf+PRvzx9QfoJX0azrvyB2bvQx3RaAzMPYw
-         XD00PqgFbqyr3M6wlsjAJKm+FCGnKNTKru7PjdHwk2WhEszHKyjdFZmkajn2foOZCQp0
-         at0A==
-X-Gm-Message-State: AOAM532zm2gKOghFbGk2BzxTy9ddzWDupUwInoABKA5/7kSbMjk9K3np
-        V9b4XmsXbjYCyWEnxt0WohbvMIKaYzlHQItiiAYujw==
-X-Google-Smtp-Source: ABdhPJyLneM3xQMO3ldQoIW2aan64ir8E90WZfnjCWKqMjRrHioWLmsJ5Yy3Mi1n0G/AD6jIbmJK9F8yKMq3xQEmT3A=
-X-Received: by 2002:a17:90a:b288:: with SMTP id c8mr2480230pjr.67.1635298292469;
- Tue, 26 Oct 2021 18:31:32 -0700 (PDT)
+        bh=8LJqS8zky7pcMbUa92VXQE1e4F/KCHrhH+dmA5eIbDw=;
+        b=ifLz8to5JZ7tCuduVCqRqe9UMTFm0TTW1Avlim9vzYiOiIDCnMzHqJ6BMdCEpy15BT
+         T85sIXBt4V5tdWqY3zq0bvn32cc/6zz5zatfxj4xyqUe2i7PAVed4ORHl2EPSFItS6ds
+         KAaNqvLBnPytBqUz9GIoNwFpoZQdiZXFH5kK0w4PhhdGVTqRF1ZkTrTA4C6Rigjue5/s
+         w58g0BwSWV9pOS4+I75PPlCabWo/KT6jzbV0O/mQTbUr8NQZBNlX4aslqWeWNSw0mvM5
+         HcUSbsiftb43Bjyn5r0PKDWwZ1Xvg9B+K2qP4r9dHi9S/9pKAcs/cFgbbvSA/jr9/5p+
+         Q6dA==
+X-Gm-Message-State: AOAM531UM//ahtMTe9qVzHcqq860Sy/D/UHHl4HTjXbmnJ0Pk1jzxxr8
+        LkgD/ed3ICDrd2LasLR54qUulvplp6N4K/7X62NGs9T+pGUVq8kJ
+X-Google-Smtp-Source: ABdhPJxmDg1USLsLZb2rgmX6eNh0CEG8+NnW52Q4brfVwVJz7fK/JAf60OYtssuk0++Jo3qg8OWPPWXB0Lb4Aws/ORA=
+X-Received: by 2002:a05:6214:2308:: with SMTP id gc8mr26076038qvb.31.1635299022709;
+ Tue, 26 Oct 2021 18:43:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211025200852.3002369-1-kaleshsingh@google.com>
- <20211025200852.3002369-7-kaleshsingh@google.com> <20211026151451.7f3e09a4@gandalf.local.home>
- <CAC_TJveHgsPZw7p7BWOgQw6h8GNU_Pv_WUjNmw3AUq+wnSzk6Q@mail.gmail.com>
- <20211026201846.08990d1d@rorschach.local.home> <CAC_TJve-mKSojaXtukdFeQKvPz-8TQtS=pgGD0Z18Wt6yJi7dg@mail.gmail.com>
- <20211026211511.403d76ca@rorschach.local.home>
-In-Reply-To: <20211026211511.403d76ca@rorschach.local.home>
-From:   Kalesh Singh <kaleshsingh@google.com>
-Date:   Tue, 26 Oct 2021 18:31:21 -0700
-Message-ID: <CAC_TJvdwqQAKrVs3w6NcQNBT+bAgdyqR+8Zt_An7R9AQSSthGA@mail.gmail.com>
-Subject: Re: [PATCH v4 6/8] tracing/histogram: Optimize division by a power of 2
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     surenb@google.com, hridya@google.com, namhyung@kernel.org,
-        kernel-team@android.com, Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>, Shuah Khan <shuah@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Tom Zanussi <zanussi@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+References: <20211025115910.2595-1-xingwu.yang@gmail.com> <707b5fb3-6b61-c53-e983-bc1373aa2bf@ssi.bg>
+ <CA+7U5JsSuwqP7eHj1tMHfsb+EemwrhZEJ2b944LFWTroxAnQRQ@mail.gmail.com>
+ <1190ef60-3ad9-119e-5336-1c62522aec81@ssi.bg> <CA+7U5JvvsNejgOifAwDdjddkLHUL30JPXSaDBTwysSL7dhphuA@mail.gmail.com>
+In-Reply-To: <CA+7U5JvvsNejgOifAwDdjddkLHUL30JPXSaDBTwysSL7dhphuA@mail.gmail.com>
+From:   yangxingwu <xingwu.yang@gmail.com>
+Date:   Wed, 27 Oct 2021 09:43:31 +0800
+Message-ID: <CA+7U5Jta_g2vCXiwScVVwLZppWp51TDOB7LxUxeundkPxNZYnA@mail.gmail.com>
+Subject: Re: [PATCH] ipvs: Fix reuse connection if RS weight is 0
+To:     Julian Anastasov <ja@ssi.bg>
+Cc:     Simon Horman <horms@verge.net.au>,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        kadlec@netfilter.org, fw@strlen.de,
+        "David S. Miller" <davem@davemloft.net>, kuba@kernel.org,
+        netdev@vger.kernel.org, lvs-devel@vger.kernel.org,
+        netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, corbet@lwn.net
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 26, 2021 at 6:15 PM Steven Rostedt <rostedt@goodmis.org> wrote:
+Julian
+
+what we want is if RS weight is 0, then no new connections should be
+served even if conn_reuse_mode is 0, just as commit dc7b3eb900aa
+("ipvs: Fix reuse connection if real server is
+dead") trying to do
+
+Pls let me know if there are any other issues of concern
+
+On Tue, Oct 26, 2021 at 2:13 PM yangxingwu <xingwu.yang@gmail.com> wrote:
 >
-> On Tue, 26 Oct 2021 18:09:22 -0700
-> Kalesh Singh <kaleshsingh@google.com> wrote:
+> thanks Julian
 >
-> > >   delta = mult * div / 2^20
+> yes, I know that the one-second delay issue has been fixed by commit
+> f0a5e4d7a594e0fe237d3dfafb069bb82f80f42f if we set conn_reuse_mode to
+> 1
+>
+> BUT  it's still NOT what we expected with sysctl settings
+> (conn_reuse_mode == 0 && expire_nodest_conn == 1).
+>
+> We run kubernetes in extremely diverse environments and this issue
+> happens a lot.
+>
+> On Tue, Oct 26, 2021 at 1:44 PM Julian Anastasov <ja@ssi.bg> wrote:
+> >
+> >
+> >         Hello,
+> >
+> > On Tue, 26 Oct 2021, yangxingwu wrote:
+> >
+> > > thanks julian
 > > >
-> > > That is if mult is a power of two, then there would be no rounding
-> > > errors, and the delta is zero, making the max infinite:
->
-> That should have been (as shown in the algorithm)
->
->   delta = mult * div - 2 ^ 20
->
-> As mult is 2^20 / div; and the above should end up zero if there's no
-> rounding issues, as it would be:
->
->  delta = (2^20 / div) * div - 2^20
-
-Good catch. We're checking if we get back the exact value.
-
-And IIUC max_div is an arbitrary value we decide on that's <= 2^shift?
-Is there a rule of thumb for choosing this?
-
-Thanks,
-Kalesh
->
-> -- Steve
+> > > What happens in this situation is that if we set the wait of the
+> > > realserver to 0 and do NOT remove the weight zero realserver with
+> > > sysctl settings (conn_reuse_mode == 0 && expire_nodest_conn == 1), and
+> > > the client reuses its source ports, the kernel will constantly
+> > > reuse connections and send the traffic to the weight 0 realserver.
+> >
+> >         Yes, this is expected when conn_reuse_mode=0.
+> >
+> > > you may check the details from
+> > > https://github.com/kubernetes/kubernetes/issues/81775
+> >
+> >         What happens if you try conn_reuse_mode=1? The
+> > one-second delay in previous kernels should be corrected with
+> >
+> > commit f0a5e4d7a594e0fe237d3dfafb069bb82f80f42f
+> > Date:   Wed Jul 1 18:17:19 2020 +0300
+> >
+> >     ipvs: allow connection reuse for unconfirmed conntrack
+> >
+> > > On Tue, Oct 26, 2021 at 2:12 AM Julian Anastasov <ja@ssi.bg> wrote:
+> > > >
+> > > > On Mon, 25 Oct 2021, yangxingwu wrote:
+> > > >
+> > > > > Since commit dc7b3eb900aa ("ipvs: Fix reuse connection if real server is
+> > > > > dead"), new connections to dead servers are redistributed immediately to
+> > > > > new servers.
+> > > > >
+> > > > > Then commit d752c3645717 ("ipvs: allow rescheduling of new connections when
+> > > > > port reuse is detected") disable expire_nodest_conn if conn_reuse_mode is
+> > > > > 0. And new connection may be distributed to a real server with weight 0.
+> > > >
+> > > >         Your change does not look correct to me. At the time
+> > > > expire_nodest_conn was created, it was not checked when
+> > > > weight is 0. At different places different terms are used
+> > > > but in short, we have two independent states for real server:
+> > > >
+> > > > - inhibited: weight=0 and no new connections should be served,
+> > > >         packets for existing connections can be routed to server
+> > > >         if it is still available and packets are not dropped
+> > > >         by expire_nodest_conn.
+> > > >         The new feature is that port reuse detection can
+> > > >         redirect the new TCP connection into a new IPVS conn and
+> > > >         to expire the existing cp/ct.
+> > > >
+> > > > - unavailable (!IP_VS_DEST_F_AVAILABLE): server is removed,
+> > > >         can be temporary, drop traffic for existing connections
+> > > >         but on expire_nodest_conn we can select different server
+> > > >
+> > > >         The new conn_reuse_mode flag allows port reuse to
+> > > > be detected. Only then expire_nodest_conn has the
+> > > > opportunity with commit dc7b3eb900aa to check weight=0
+> > > > and to consider the old traffic as finished. If a new
+> > > > server is selected, any retrans from previous connection
+> > > > would be considered as part from the new connection. It
+> > > > is a rapid way to switch server without checking with
+> > > > is_new_conn_expected() because we can not have many
+> > > > conns/conntracks to different servers.
+> >
+> > Regards
+> >
+> > --
+> > Julian Anastasov <ja@ssi.bg>
