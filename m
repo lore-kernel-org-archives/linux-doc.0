@@ -2,134 +2,207 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30770C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Oct 2021 23:37:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD7F3C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Oct 2021 23:53:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0AFC661106
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Oct 2021 23:37:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 93A82610CF
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Oct 2021 23:53:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230227AbhJ1XkW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Oct 2021 19:40:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44008 "EHLO
+        id S231502AbhJ1XzY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Oct 2021 19:55:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230134AbhJ1XkV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Oct 2021 19:40:21 -0400
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4D46C061745
-        for <linux-doc@vger.kernel.org>; Thu, 28 Oct 2021 16:37:53 -0700 (PDT)
-Received: by mail-yb1-xb36.google.com with SMTP id y3so8461958ybf.2
-        for <linux-doc@vger.kernel.org>; Thu, 28 Oct 2021 16:37:53 -0700 (PDT)
+        with ESMTP id S232057AbhJ1XzA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Oct 2021 19:55:00 -0400
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C203C061745;
+        Thu, 28 Oct 2021 16:52:32 -0700 (PDT)
+Received: by mail-qt1-x82d.google.com with SMTP id n2so7522018qta.2;
+        Thu, 28 Oct 2021 16:52:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=atishpatra.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cheY9bIPEAikUChpUOLiNCBs86TVcB1sR5Shc6iQ+Bg=;
-        b=gUq7HVwr4laLdDA+DkVm3Vp/7rVb2c2ngZ2rzoWvp47loWw7K2pDLqjapDGL3+v5aw
-         HprDuKOGdqpVnzO9szaYZiRVrP5maXpDrjj/j/I1Ntk17M6LFV5aplDuKHOrnSZ7lNkk
-         RmXsndUujojn9L33QYe76+RTpfqhr6xgiBevI=
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=NnQOX+vJ/hz7aU5gFRyXr2o8xbDUVOD1eunK5mgwKTw=;
+        b=oPXMfKDcVrBcZSI+56TY2EqBQjiD+IhZ3pIjQPx3nCCny+NEKewbWkB1LLUU3wpYX7
+         T+kv05jIRq6idredz67ydYKNIiJVv9WrIKlG0tZnN95veJ4nFHs1OriJKnB+ASDsIOGK
+         UlLGVkqydm0dLvVvaN9WEc3TnkBb2wpYoV0JxY9xhXwOaIrmQ9Aq4k613eZaRqTNeeBQ
+         f3BmafosYSlLHPPj1ceZYETzC3AxZp07cXfYsvrTgVAJRKm1nwZnn0jic/xrGCaIxt9W
+         Vgb93xZg3qTQgibWq0v6VICRXei1jOXOnEfCctg/cS/+2lqJEqbohvzAS9O1likoFoEm
+         KvfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cheY9bIPEAikUChpUOLiNCBs86TVcB1sR5Shc6iQ+Bg=;
-        b=X1CPEcem64XHsrUr9xxGwdU8gDMZbleH0eT4xSlmRRCm0lLYAenPRXqOf7nTYwTtlt
-         FJ2T40VhccbkyYHNsPGJVkKAm0mkhAAGq0QbRC8e3F8dboxR8/Pk7l04r8uaOXuJqnFo
-         PxMjaZ3PZ7k3q2/MBQo64mY7qMRyBxggnyyoKhtu4BThmuxwHCryg12eo6wRbVaP0gfF
-         J6pb8twZQvn44fimESxTA0ODPuqD4d6z4UHUC8+VMZIbWM9zIphfRkNfD8DObH/Y6XD5
-         v//0SjdTkN6WYizW8q2hm/+Ah5yuTrCJTjqHyak8iz1k3arQNecca59uH2pg/9+3stJT
-         sAEg==
-X-Gm-Message-State: AOAM530hETNNAnzjhcm/48ZFHFD0INepU5k0IXHdrvjkHV/bo9GLkSky
-        kA2BP0yOlpzz2iwGCrvIp+TfalAzCtAN3jZN/QV7
-X-Google-Smtp-Source: ABdhPJzSzknSU4EdecKlfWAUlLx9gBS4Hx80KVuVfnFb4yRPxWyPTPMNfFBpM+J1dEVoFJPcf22J0CA/PkPEBwzIyAU=
-X-Received: by 2002:a25:bf8c:: with SMTP id l12mr7950987ybk.87.1635464273081;
- Thu, 28 Oct 2021 16:37:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211025195350.242914-1-atish.patra@wdc.com> <20211025195350.242914-11-atish.patra@wdc.com>
- <YXsMtrmuavGAHk8S@Jessicas-MacBook-Pro.local>
-In-Reply-To: <YXsMtrmuavGAHk8S@Jessicas-MacBook-Pro.local>
-From:   Atish Patra <atishp@atishpatra.org>
-Date:   Thu, 28 Oct 2021 16:37:42 -0700
-Message-ID: <CAOnJCULqwZvK52nczp2HNinDCBjThnbGbvJpAvdameny1fK4Vw@mail.gmail.com>
-Subject: Re: [v4 10/11] riscv: dts: fu740: Add pmu node
-To:     Jessica Clarke <jrtc27@jrtc27.com>
-Cc:     Atish Patra <atish.patra@wdc.com>,
-        "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
-        Anup Patel <anup.patel@wdc.com>,
-        David Abdurachmanov <david.abdurachmanov@sifive.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        Greentime Hu <greentime.hu@sifive.com>,
-        Guo Ren <guoren@linux.alibaba.com>,
-        Heinrich Schuchardt <xypron.glpk@gmx.de>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=NnQOX+vJ/hz7aU5gFRyXr2o8xbDUVOD1eunK5mgwKTw=;
+        b=KAWOgzJsoPZRMaP+U9VsNaQr0RL7rDUq6jAqmRaMV2aVZQ74kj0tkDdO/R6p5NnlS0
+         0Q6dl/S8doZzfI2UcBfpRvzsiNpGzu0hVVLkR4A7R4svcqFT8doV2PAqfl/ki7FzhFCA
+         4WPMaKdceHGB90NRvMUArRKmSxOxl+iqDrhcFtJiRyYWRHllBBqtEZWPXM2ovng9sgVk
+         KkEfUW3FE81fJUiM4hu06/SvT7L7OJKRBeAtMBPxM+HDeFx6ANAYANjllXTvuHjbXbD0
+         rH2vf3cDo9PzptJCO9xCyn9bgG0ZMONJlLKUme3Xt2lXq9axd87DSFSg/iJVip/K4krw
+         bjhA==
+X-Gm-Message-State: AOAM531jmNhKS5S5UH/ghPG8NrRYz+/AJMMoexOlf80PFlLqwlSLZsZC
+        UU1OCFTzdnGYlfs05RLGeZM=
+X-Google-Smtp-Source: ABdhPJwKfB7BymxsZPOKR8rKtkU8yKoriuhXHlE1GcbNagl/BJUD4qQF3xnCF4lr+XxlI4Ta/erpzA==
+X-Received: by 2002:ac8:5cc5:: with SMTP id s5mr8206131qta.256.1635465151697;
+        Thu, 28 Oct 2021 16:52:31 -0700 (PDT)
+Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com. [66.111.4.227])
+        by smtp.gmail.com with ESMTPSA id o11sm3191122qkp.77.2021.10.28.16.52.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Oct 2021 16:52:30 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailauth.nyi.internal (Postfix) with ESMTP id 7EF6727C005B;
+        Thu, 28 Oct 2021 19:52:28 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Thu, 28 Oct 2021 19:52:28 -0400
+X-ME-Sender: <xms:ujd7YewAar1tiIshr0M11t08Jlrf1CUkQOoNGBwIugFMyqNXcpG7Pw>
+    <xme:ujd7YaSIfKzvaZZlsxKrJ5477O2A3DklLjhqxxHUNr_tiMFm5JjK-Iy8cNrLDlJD2
+    8FT4i3rVPiBKteW2A>
+X-ME-Received: <xmr:ujd7YQXeWXok1zsRs_DevKasa1ihR9c37HYpdXrr-TNFqtPd9i0z171apeWIBg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdeggedgvdegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpeeuohhquhhn
+    ucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilhdrtghomheqnecuggftrfgrth
+    htvghrnhepvdelieegudfggeevjefhjeevueevieetjeeikedvgfejfeduheefhffggedv
+    geejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsg
+    hoqhhunhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqieelvdeghedtieeg
+    qddujeejkeehheehvddqsghoqhhunhdrfhgvnhhgpeepghhmrghilhdrtghomhesfhhigi
+    hmvgdrnhgrmhgv
+X-ME-Proxy: <xmx:ujd7YUhyOx3uAw959fn21MFMC0gqc0y14rfnX21T1owQdm9OcHJAnQ>
+    <xmx:ujd7YQAdoOH4WtVBsiTdx6--DMho-XGM4RE2cRXyZ3ekj1s-Ijhl_Q>
+    <xmx:ujd7YVL1ICi33_IDGrp6wDUDQlXakypXRRTa_jTS8YN00ZCr4YtsSQ>
+    <xmx:vDd7YS6fGhlTizoyoW8tCLVMzUWn_V8bHIKO3p4sqcd1gWMY-bnt79pnFr0>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 28 Oct 2021 19:52:25 -0400 (EDT)
+Date:   Fri, 29 Oct 2021 07:51:39 +0800
+From:   Boqun Feng <boqun.feng@gmail.com>
+To:     "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org, Dan Lustig <dlustig@nvidia.com>,
+        Will Deacon <will@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Peter Anvin <hpa@zytor.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Vince Weaver <vincent.weaver@maine.edu>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@redhat.com>,
+        Stephane Eranian <eranian@google.com>, palmer@dabbelt.com,
+        paul.walmsley@sifive.com, mpe@ellerman.id.au,
         Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-perf-users@vger.kernel.org,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        Nick Kossifidis <mick@ics.forth.gr>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Vincent Chen <vincent.chen@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
+        Alan Stern <stern@rowland.harvard.edu>
+Subject: Re: [RFC v2 3/3] tools/memory-model: litmus: Add two tests for
+ unlock(A)+lock(B) ordering
+Message-ID: <YXs3i8g+GHYbRCRQ@boqun-archlinux>
+References: <20211025145416.698183-1-boqun.feng@gmail.com>
+ <20211025145416.698183-4-boqun.feng@gmail.com>
+ <YXenrNeS+IaSDwvU@hirez.programming.kicks-ass.net>
+ <20211028191129.GJ880162@paulmck-ThinkPad-P17-Gen-1>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211028191129.GJ880162@paulmck-ThinkPad-P17-Gen-1>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 28, 2021 at 1:49 PM Jessica Clarke <jrtc27@jrtc27.com> wrote:
->
-> On Mon, Oct 25, 2021 at 12:53:49PM -0700, Atish Patra wrote:
-> > HiFive unmatched supports HPMCounters but does not implement mcountinhibit
-> > or sscof extension. Thus, perf monitoring can be used on the unmatched
-> > board without sampling.
-> >
-> > Add the PMU node with compatible string so that Linux perf driver can
-> > utilize this to enable PMU.
-> >
-> > Signed-off-by: Atish Patra <atish.patra@wdc.com>
-> > ---
-> >  arch/riscv/boot/dts/sifive/fu740-c000.dtsi | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/arch/riscv/boot/dts/sifive/fu740-c000.dtsi b/arch/riscv/boot/dts/sifive/fu740-c000.dtsi
-> > index abbb960f90a0..b35b96b58820 100644
-> > --- a/arch/riscv/boot/dts/sifive/fu740-c000.dtsi
-> > +++ b/arch/riscv/boot/dts/sifive/fu740-c000.dtsi
-> > @@ -140,6 +140,9 @@ soc {
-> >               #size-cells = <2>;
-> >               compatible = "simple-bus";
-> >               ranges;
-> > +             pmu {
-> > +                     compatible = "riscv,pmu";
-> > +             };
->
-> This is a property of the user-replaceable firmware, not a property of
-> the hardware,
+On Thu, Oct 28, 2021 at 12:11:29PM -0700, Paul E. McKenney wrote:
+> On Tue, Oct 26, 2021 at 09:01:00AM +0200, Peter Zijlstra wrote:
+> > On Mon, Oct 25, 2021 at 10:54:16PM +0800, Boqun Feng wrote:
+> > > diff --git a/tools/memory-model/litmus-tests/LB+unlocklockonceonce+poacquireonce.litmus b/tools/memory-model/litmus-tests/LB+unlocklockonceonce+poacquireonce.litmus
+> > > new file mode 100644
+> > > index 000000000000..955b9c7cdc7f
+> > > --- /dev/null
+> > > +++ b/tools/memory-model/litmus-tests/LB+unlocklockonceonce+poacquireonce.litmus
+> > > @@ -0,0 +1,33 @@
+> > > +C LB+unlocklockonceonce+poacquireonce
+> > > +
+> > > +(*
+> > > + * Result: Never
+> > > + *
+> > > + * If two locked critical sections execute on the same CPU, all accesses
+> > > + * in the first must execute before any accesses in the second, even if
+> > > + * the critical sections are protected by different locks.
+> > 
+> > One small nit; the above "all accesses" reads as if:
+> > 
+> > 	spin_lock(s);
+> > 	WRITE_ONCE(*x, 1);
+> > 	spin_unlock(s);
+> > 	spin_lock(t);
+> > 	r1 = READ_ONCE(*y);
+> > 	spin_unlock(t);
+> > 
+> > would also work, except of course that's the one reorder allowed by TSO.
+> 
+> I applied this series with Peter's Acked-by, and with the above comment
 
-It's a property of hardware that indicates that the hardware supports PMU.
-Additionally, the counter overflow interrupt number needs to be
-defined through the DT as well
-so that a clean platform driver can be implemented.
+Thanks!
 
+> reading as follows:
+> 
+> +(*
+> + * Result: Never
+> + *
+> + * If two locked critical sections execute on the same CPU, all accesses
+> + * in the first must execute before any accesses in the second, even if the
+> + * critical sections are protected by different locks.  The one exception
+> + * to this rule is that (consistent with TSO) a prior write can be reordered
+> + * with a later read from the viewpoint of a process not holding both locks.
 
-so having this in the device tree under /soc, let alone
-> hard-coded in Linux, is utterly wrong. Why can this not just be probed
-> like any other SBI interface? The "Probe SBI extension" interface is
-> precisely for this kind of thing.
->
-SBI extension is anyways probed to verify if the firmware has PMU
-extension or not.
-However, adding the DT property allows different platforms (with or
-without sscof extension)
-to use the same code path.
-
-> Jess
->
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+Just want to be accurate, in our memory model "execute" means a CPU
+commit an memory access instruction to the Memory Subsystem, so if we
+have a store W and a load R, where W executes before R, it doesn't mean
+the memory effect of W is observed before the memory effect of R by
+other CPUs, consider the following case
 
 
+	CPU0			Memory Subsystem		CPU1
+	====							====
+	WRITE_ONCE(*x,1); // W ---------->|
+	spin_unlock(s);                   |
+	spin_lock(t);                     |
+	r1 = READ_ONCE(*y); // R -------->|
+	// R reads 0                      |
+					  |<----------------WRITR_ONCE(*y, 1); // W'
+		 W' propagates to CPU0    |
+		<-------------------------|
+					  |                 smp_mb();
+					  |<----------------r1 = READ_ONCE(*x); // R' reads 0
+					  |
+					  | W progrates to CPU 1
+		                          |----------------->
 
--- 
+The "->" from CPU0 to the Memory Subsystem shows that W executes before
+R, however the memory effect of a store can be observed only after the
+Memory Subsystem propagates it to another CPU, as a result CPU1 doesn't
+observe W before R is executed. So the original version of the comments
+is correct in our memory model terminology, at least that's how I
+understand it, Alan can correct me if I'm wrong.
+
+Maybe it's better to replace the sentence starting with "The one
+exception..." into:
+
+One thing to notice is that even though a write executes by a read, the
+memory effects can still be reordered from the viewpoint of a process
+not holding both locks, similar to TSO ordering.
+
+Thoughts?
+
+Apologies for responsing late...
+
+("Memory Subsystem" is an abstraction in our memory model, which doesn't
+mean hardware implements things in the same way.).
+
 Regards,
-Atish
+Boqun
+
+> + *)
+> 
+> Thank you all!
+> 
+> 							Thanx, Paul
