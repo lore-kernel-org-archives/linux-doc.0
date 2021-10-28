@@ -2,130 +2,346 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2437C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Oct 2021 13:08:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 194D7C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Oct 2021 15:30:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D6A7D60F56
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Oct 2021 13:08:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F2936610C7
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Oct 2021 15:30:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230157AbhJ1NKt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Oct 2021 09:10:49 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:59274 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229603AbhJ1NKt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Oct 2021 09:10:49 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19SCnGYv016294;
-        Thu, 28 Oct 2021 13:08:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : reply-to : to : cc : date : in-reply-to : references : content-type
- : content-transfer-encoding : mime-version; s=pp1;
- bh=8fiPYKyw0EhWbEal4tnK6baVTfmvbJ8ImkJJsxDI9cM=;
- b=W8DVNNVEqayOpJIMfqMvblEkGSgR3F9Bg8XTzVObqD/Bdjgxn7H/I+MFqCROVRWtayZ/
- iM90MsGJlPf+JhYpQlB04dyDsz9+Oefjc1L8vtmqdI0ld+v7Y7AP/4okzJvyCjj0s707
- AONemM+DNsD3rBdhE+uOc16Bk5qenX4tS3XsKwYwjopXf4tRHFiJY2OiQ2mLOdpClf31
- b2JvOneB3BE3TVbRKhWsSHNVhV46Jq2tHcBhQPlELIO3yO3Tn1zsF0tz3g9xks5pLCSB
- jMbmDfCLMWUHm4zAVxE0M1683kIkgDxY7K2JL4Yq7kiTUjXv4v3/0sfivlze8MZHTvzb Og== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3byv6r0ebr-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 28 Oct 2021 13:08:11 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 19SCnaA6016537;
-        Thu, 28 Oct 2021 13:08:11 GMT
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.11])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3byv6r0eb1-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 28 Oct 2021 13:08:10 +0000
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
-        by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 19SCvNEW020620;
-        Thu, 28 Oct 2021 13:08:09 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
-        by ppma03dal.us.ibm.com with ESMTP id 3bx4fn598y-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 28 Oct 2021 13:08:09 +0000
-Received: from b03ledav004.gho.boulder.ibm.com (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
-        by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 19SD88Pd24183174
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 28 Oct 2021 13:08:08 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 88DC378240;
-        Thu, 28 Oct 2021 13:08:07 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 3233D7807C;
-        Thu, 28 Oct 2021 13:07:46 +0000 (GMT)
-Received: from jarvis.int.hansenpartnership.com (unknown [9.163.12.226])
-        by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Thu, 28 Oct 2021 13:07:45 +0000 (GMT)
-Message-ID: <ff3d1d11291b7e115317b06503f0ec52949122ca.camel@linux.ibm.com>
-Subject: Re: [PATCH v3 0/2] use SM3 instead of SM3_256
-From:   James Bottomley <jejb@linux.ibm.com>
-Reply-To: jejb@linux.ibm.com
-To:     Ard Biesheuvel <ardb@kernel.org>,
-        Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
-Cc:     Jarkko Sakkinen <jarkko@kernel.org>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Peter Huewe <peterhuewe@gmx.de>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Jerry Snitselaar <jsnitsel@redhat.com>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
-        keyrings@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        linux-security-module@vger.kernel.org
-Date:   Thu, 28 Oct 2021 09:07:43 -0400
-In-Reply-To: <CAMj1kXGiC-LCc-50cfddJxJ-mezO=fcLqhJHiK110CgxKusy9w@mail.gmail.com>
-References: <20211026075626.61975-1-tianjia.zhang@linux.alibaba.com>
-         <CAMj1kXGiC-LCc-50cfddJxJ-mezO=fcLqhJHiK110CgxKusy9w@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: KOLHtfetbXM2M_5ECkPDVsAXdzorivCz
-X-Proofpoint-GUID: ThYkNwItNh-c7SaFT-nOwuL1brdOArJ_
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+        id S230225AbhJ1PdA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Oct 2021 11:33:00 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:39352 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230070AbhJ1PdA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Oct 2021 11:33:00 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id B3A50212CC;
+        Thu, 28 Oct 2021 15:30:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1635435031; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=T36UwH1/yGl7wulr/lS8k0fNFoAeRpKFikpRqVqZdLw=;
+        b=qzi+TgFcQHGEygIXEJLpSeK6AKJoEq3YAErFHPoGnl/E2zUA7bDs87zQgiVdeIocHX6od5
+        3dNKswNTRQBRxGOTa+KLTQSpq4qJnOUWjkzcfFURoLWz5hZKkIOebWI2DZHE6sgnKBlM0p
+        hOehuShlkx7w+kKhNpn6cLdkw8A4/hk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1635435031;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=T36UwH1/yGl7wulr/lS8k0fNFoAeRpKFikpRqVqZdLw=;
+        b=WhaP+UTdjDByfhpYJ7Tq1osjCTigCpHWYdsBkEuNAA4TwyrqsevSr7aS1fNUQegJKte62/
+        oA1v2EbI+J9T9XDg==
+Received: from suse.de (unknown [10.163.32.246])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 8D76FA3B83;
+        Thu, 28 Oct 2021 15:30:30 +0000 (UTC)
+Date:   Thu, 28 Oct 2021 16:30:28 +0100
+From:   Mel Gorman <mgorman@suse.de>
+To:     Gang Li <ligang.bdlg@bytedance.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v1] sched/numa: add per-process numa_balancing
+Message-ID: <20211028153028.GP3891@suse.de>
+References: <20211027132633.86653-1-ligang.bdlg@bytedance.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-10-28_01,2021-10-26_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- malwarescore=0 adultscore=0 mlxscore=0 suspectscore=0 clxscore=1015
- phishscore=0 bulkscore=0 mlxlogscore=999 priorityscore=1501 spamscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2110280073
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
+In-Reply-To: <20211027132633.86653-1-ligang.bdlg@bytedance.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2021-10-26 at 18:08 +0200, Ard Biesheuvel wrote:
-> On Tue, 26 Oct 2021 at 09:56, Tianjia Zhang
-> <tianjia.zhang@linux.alibaba.com> wrote:
-> > According to https://tools.ietf.org/id/draft-oscca-cfrg-sm3-01.html
-> > ,
-> > SM3 always produces a 256-bit hash value and there are no plans for
-> > other length development, so there is no ambiguity in the name of
-> > sm3.
-> > 
+On Wed, Oct 27, 2021 at 09:26:32PM +0800, Gang Li wrote:
+> This patch add a new api PR_NUMA_BALANCING in prctl.
 > 
-> What is the point of these changes? Having '256' in the identifiers
-> is merely redundant and not factually incorrect, so why can't we just
-> leave these as they are?
+> A large number of page faults will cause performance loss when numa balancing
+> is performing. Thus those processes which care about worst-case performance
+> need numa balancing disabled. Others, on the contrary, allow a temporary
+> performance loss in exchange for higher average performance, so enable numa
+> balancing is better for them.
+> 
+> Numa balancing can only be controlled globally by /proc/sys/kernel/numa_balancing.
+> Due to the above case, we want to disable/enable numa_balancing per-process
+> instead.
+> 
+> Add numa_balancing under mm_struct. Then use it in task_tick_numa.
+> 
+> Disable/enable per-process numa balancing:
+> 	prctl(PR_NUMA_BALANCING, PR_SET_NUMA_BALANCING, 0/1);
+> Get numa_balancing state:
+> 	prctl(PR_NUMA_BALANCING, PR_GET_NUMA_BALANCING, &ret);
+> 	cat /proc/<pid>/status | grep NumaBalancing_enabled
+> 
+> mm->numa_balancing only works when global numa_balancing is enabled.
+> When the global numa_balancing is diabled, mm->numa_blancing will not
+> change, but you will always get 0 while you want to get process
+> numa_balancing state and kernel will return err when you use prctl set
+> it.
+> 
 
-Me too on this.  Plus the various standards bodies we follow are still
-using the 256 suffix and it's not clear they'll change.
+This would also need a prctl(2) patch.
 
-Finally, I'm not sure, given the confusion over sha256 and sha3-256,
-that the IETF won't eventually decide that all hash algorithms should
-be designated by <algorithm>-<bitlength> in which case this will get
-churned again ...
+That aside though, the configuration space could be better. It's possible
+to selectively disable NUMA balance but not selectively enable because
+prctl is disabled if global NUMA balancing is disabled. That could be
+somewhat achieved by having a default value for mm->numa_balancing based on
+whether the global numa balancing is disabled via command line or sysctl
+and enabling the static branch if prctl is used with an informational
+message. This is not the only potential solution but as it stands,
+there are odd semantic corner cases. For example, explicit enabling
+of NUMA balancing by prctl gets silently revoked if numa balancing is
+disabled via sysctl and prctl(PR_NUMA_BALANCING, PR_SET_NUMA_BALANCING,
+1) means nothing.
 
-James
+> Signed-off-by: Gang Li <ligang.bdlg@bytedance.com>
+> ---
+>  Documentation/filesystems/proc.rst |  2 ++
+>  fs/proc/task_mmu.c                 | 16 ++++++++++++
+>  include/linux/mm_types.h           |  3 +++
+>  include/uapi/linux/prctl.h         |  5 ++++
+>  kernel/fork.c                      |  3 +++
+>  kernel/sched/fair.c                |  3 +++
+>  kernel/sys.c                       | 39 ++++++++++++++++++++++++++++++
+>  7 files changed, 71 insertions(+)
+> 
+> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+> index 8d7f141c6fc7..b90f43ed0668 100644
+> --- a/Documentation/filesystems/proc.rst
+> +++ b/Documentation/filesystems/proc.rst
+> @@ -192,6 +192,7 @@ read the file /proc/PID/status::
+>    VmLib:      1412 kB
+>    VmPTE:        20 kb
+>    VmSwap:        0 kB
+> +  NumaBalancing_enabled:  1
 
+Bit verbose
 
+NumaB_enabled:
+
+>    HugetlbPages:          0 kB
+>    CoreDumping:    0
+>    THP_enabled:	  1
+> @@ -273,6 +274,7 @@ It's slow but very precise.
+>   VmPTE                       size of page table entries
+>   VmSwap                      amount of swap used by anonymous private data
+>                               (shmem swap usage is not included)
+> + NumaBalancing_enabled       numa balancing state, use prctl(PR_NUMA_BALANCING, ...)
+
+s/use/set by/
+
+>   HugetlbPages                size of hugetlb memory portions
+>   CoreDumping                 process's memory is currently being dumped
+>                               (killing the process may lead to a corrupted core)
+> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> index ad667dbc96f5..161295e027d2 100644
+> --- a/fs/proc/task_mmu.c
+> +++ b/fs/proc/task_mmu.c
+> @@ -19,6 +19,7 @@
+>  #include <linux/shmem_fs.h>
+>  #include <linux/uaccess.h>
+>  #include <linux/pkeys.h>
+> +#include <linux/sched/numa_balancing.h>
+>  
+>  #include <asm/elf.h>
+>  #include <asm/tlb.h>
+> @@ -27,14 +28,23 @@
+>  
+>  #define SEQ_PUT_DEC(str, val) \
+>  		seq_put_decimal_ull_width(m, str, (val) << (PAGE_SHIFT-10), 8)
+> +
+> +DECLARE_STATIC_KEY_FALSE(sched_numa_balancing);
+> +
+
+Declare in a header.
+
+>  void task_mem(struct seq_file *m, struct mm_struct *mm)
+>  {
+>  	unsigned long text, lib, swap, anon, file, shmem;
+>  	unsigned long hiwater_vm, total_vm, hiwater_rss, total_rss;
+> +#ifdef CONFIG_NUMA_BALANCING
+> +	int numa_balancing;
+> +#endif
+>  
+
+rename to numab_enabled, the name as-is gives little hint as to what
+it means. If the prctl works even if numab is globally disabled by
+default then the variable can go away.
+
+>  	anon = get_mm_counter(mm, MM_ANONPAGES);
+>  	file = get_mm_counter(mm, MM_FILEPAGES);
+>  	shmem = get_mm_counter(mm, MM_SHMEMPAGES);
+> +#ifdef CONFIG_NUMA_BALANCING
+> +	numa_balancing = READ_ONCE(mm->numa_balancing);
+> +#endif
+>  
+
+The READ_ONCE/WRITE_ONCE may be overkill given that the value is set at
+fork time and doesn't change. I guess an application could be actively
+calling prctl() but it would be inherently race-prone.
+
+>  	/*
+>  	 * Note: to minimize their overhead, mm maintains hiwater_vm and
+> @@ -75,6 +85,12 @@ void task_mem(struct seq_file *m, struct mm_struct *mm)
+>  		    " kB\nVmPTE:\t", mm_pgtables_bytes(mm) >> 10, 8);
+>  	SEQ_PUT_DEC(" kB\nVmSwap:\t", swap);
+>  	seq_puts(m, " kB\n");
+> +#ifdef CONFIG_NUMA_BALANCING
+> +	if (!static_branch_unlikely(&sched_numa_balancing))
+> +		numa_balancing = 0;
+> +
+> +	seq_printf(m, "NumaBalancing_enabled:\t%d\n", numa_balancing);
+> +#endif
+>  	hugetlb_report_usage(m, mm);
+>  }
+>  #undef SEQ_PUT_DEC
+> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+> index bb8c6f5f19bc..feeb6f639f87 100644
+> --- a/include/linux/mm_types.h
+> +++ b/include/linux/mm_types.h
+> @@ -612,6 +612,9 @@ struct mm_struct {
+>  
+>  		/* numa_scan_seq prevents two threads setting pte_numa */
+>  		int numa_scan_seq;
+> +
+> +		/* numa_balancing control the numa balancing of this mm */
+> +		int numa_balancing;
+>  #endif
+>  		/*
+>  		 * An operation with batched TLB flushing is going on. Anything
+
+Rename to numab_enabled. The comment is not that helpful
+
+/* Controls whether NUMA balancing is active for this mm. */
+
+> diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+> index b2e4dc1449b9..2235b75efd30 100644
+> --- a/include/uapi/linux/prctl.h
+> +++ b/include/uapi/linux/prctl.h
+> @@ -272,4 +272,9 @@ struct prctl_mm_map {
+>  # define PR_SCHED_CORE_SCOPE_THREAD_GROUP	1
+>  # define PR_SCHED_CORE_SCOPE_PROCESS_GROUP	2
+>  
+> +/* Set/get enabled per-process numa_balancing */
+> +#define PR_NUMA_BALANCING		63
+> +# define PR_SET_NUMA_BALANCING		0
+> +# define PR_GET_NUMA_BALANCING		1
+> +
+>  #endif /* _LINUX_PRCTL_H */
+> diff --git a/kernel/fork.c b/kernel/fork.c
+> index 2079f1ebfe63..39e9d5daf00a 100644
+> --- a/kernel/fork.c
+> +++ b/kernel/fork.c
+> @@ -1110,6 +1110,9 @@ static struct mm_struct *mm_init(struct mm_struct *mm, struct task_struct *p,
+>  	init_tlb_flush_pending(mm);
+>  #if defined(CONFIG_TRANSPARENT_HUGEPAGE) && !USE_SPLIT_PMD_PTLOCKS
+>  	mm->pmd_huge_pte = NULL;
+> +#endif
+> +#ifdef CONFIG_NUMA_BALANCING
+> +	mm->numa_balancing = 1;
+>  #endif
+>  	mm_init_uprobes_state(mm);
+>  	hugetlb_count_init(mm);
+> diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
+> index 87db481e8a56..1325253e3613 100644
+> --- a/kernel/sched/fair.c
+> +++ b/kernel/sched/fair.c
+> @@ -2866,6 +2866,9 @@ static void task_tick_numa(struct rq *rq, struct task_struct *curr)
+>  	if ((curr->flags & (PF_EXITING | PF_KTHREAD)) || work->next != work)
+>  		return;
+>  
+> +	if (!READ_ONCE(curr->mm->numa_balancing))
+> +		return;
+> +
+>  	/*
+>  	 * Using runtime rather than walltime has the dual advantage that
+>  	 * we (mostly) drive the selection from busy threads and that the
+> diff --git a/kernel/sys.c b/kernel/sys.c
+> index 8fdac0d90504..64aee3d63ea8 100644
+> --- a/kernel/sys.c
+> +++ b/kernel/sys.c
+> @@ -154,6 +154,8 @@ int fs_overflowgid = DEFAULT_FS_OVERFLOWGID;
+>  EXPORT_SYMBOL(fs_overflowuid);
+>  EXPORT_SYMBOL(fs_overflowgid);
+>  
+> +DECLARE_STATIC_KEY_FALSE(sched_numa_balancing);
+> +
+
+Header.
+
+>  /*
+>   * Returns true if current's euid is same as p's uid or euid,
+>   * or has CAP_SYS_NICE to p's user_ns.
+> @@ -2081,6 +2083,28 @@ static int prctl_set_auxv(struct mm_struct *mm, unsigned long addr,
+>  	return 0;
+>  }
+>  
+> +#ifdef CONFIG_NUMA_BALANCING
+> +static int prctl_pid_numa_balancing_write(int numa_balancing)
+> +{
+> +	if (!static_branch_unlikely(&sched_numa_balancing))
+> +		return -EPERM;
+> +
+
+Obviously this would change again if prctl still has an effect if numa
+balancing is disabled by default.
+
+> +	if (numa_balancing != 0 && numa_balancing != 1)
+> +		return -EINVAL;
+> +
+> +	WRITE_ONCE(current->mm->numa_balancing, numa_balancing);
+> +	return 0;
+> +}
+> +
+> +static int prctl_pid_numa_balancing_read(void)
+> +{
+> +	if (!static_branch_unlikely(&sched_numa_balancing))
+> +		return 0;
+> +	else
+> +		return READ_ONCE(current->mm->numa_balancing);
+> +}
+> +#endif
+> +
+>  static int prctl_set_mm(int opt, unsigned long addr,
+>  			unsigned long arg4, unsigned long arg5)
+>  {
+> @@ -2525,6 +2549,21 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
+>  		error = set_syscall_user_dispatch(arg2, arg3, arg4,
+>  						  (char __user *) arg5);
+>  		break;
+> +#ifdef CONFIG_NUMA_BALANCING
+> +	case PR_NUMA_BALANCING:
+> +		switch (arg2) {
+> +		case PR_SET_NUMA_BALANCING:
+> +			error = prctl_pid_numa_balancing_write((int)arg3);
+> +			break;
+> +		case PR_GET_NUMA_BALANCING:
+> +			put_user(prctl_pid_numa_balancing_read(), (int __user *)arg3);
+> +			break;
+> +		default:
+> +			error = -EINVAL;
+> +			break;
+> +		}
+> +		break;
+> +#endif
+>  #ifdef CONFIG_SCHED_CORE
+>  	case PR_SCHED_CORE:
+>  		error = sched_core_share_pid(arg2, arg3, arg4, arg5);
+> -- 
+> 2.20.1
+> 
+
+-- 
+Mel Gorman
+SUSE Labs
