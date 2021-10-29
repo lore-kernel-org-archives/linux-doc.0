@@ -2,60 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF3EEC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 20:25:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64906C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 20:33:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A1D9360E76
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 20:25:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4BFC961039
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 20:33:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231270AbhJ2U2V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Oct 2021 16:28:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45932 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230070AbhJ2U2V (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 29 Oct 2021 16:28:21 -0400
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 57F6E6101E;
-        Fri, 29 Oct 2021 20:25:51 +0000 (UTC)
-Date:   Fri, 29 Oct 2021 16:25:49 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Kalesh Singh <kaleshsingh@google.com>
-Cc:     surenb@google.com, hridya@google.com, namhyung@kernel.org,
-        kernel-team@android.com, mhiramat@kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>, Shuah Khan <shuah@kernel.org>,
-        Tom Zanussi <zanussi@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] tracing/histogram: Optimize division by
- constants
-Message-ID: <20211029162549.2c22f2dd@gandalf.local.home>
-In-Reply-To: <CAC_TJve9OsL5taBN0ckgjG4=HxvmWfP6ULwwqnVsDyRxuQuRkg@mail.gmail.com>
-References: <20211029183339.3216491-1-kaleshsingh@google.com>
-        <20211029183339.3216491-2-kaleshsingh@google.com>
-        <20211029144524.367d6789@gandalf.local.home>
-        <CAC_TJve9OsL5taBN0ckgjG4=HxvmWfP6ULwwqnVsDyRxuQuRkg@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        id S230467AbhJ2Ufv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Oct 2021 16:35:51 -0400
+Received: from mxout03.lancloud.ru ([45.84.86.113]:55882 "EHLO
+        mxout03.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231463AbhJ2Ufu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Oct 2021 16:35:50 -0400
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout03.lancloud.ru E52BF208D528
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+Subject: Re: [PATCH 1/3] Docs: usb: update err() to pr_err() and replace
+ __FILE__
+To:     Philipp Hortmann <philipp.g.hortmann@gmail.com>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC:     <linux-usb@vger.kernel.org>
+References: <cover.1635533924.git.philipp.g.hortmann@gmail.com>
+ <e2f2c5c6995a011494105484849776a856af5bcc.1635533924.git.philipp.g.hortmann@gmail.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <49a766ec-014e-3667-828c-a4fd19c7c9e3@omp.ru>
+Date:   Fri, 29 Oct 2021 23:33:17 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <e2f2c5c6995a011494105484849776a856af5bcc.1635533924.git.philipp.g.hortmann@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 29 Oct 2021 11:53:16 -0700
-Kalesh Singh <kaleshsingh@google.com> wrote:
+On 10/29/21 10:39 PM, Philipp Hortmann wrote:
 
-> > If these functions are only called when val2 is constant, can't we make it
-> > such that we get val2 from the hist_field directly? That is:
-> >
-> >         u64 val2 = operand2->constant;  
+> update err() to pr_err() and replace __FILE__
 > 
-> operand2 might be a var ref to a constant, so we would need to resolve
-> that with hist_field_var_ref().
+> Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+> ---
+>  Documentation/driver-api/usb/writing_usb_driver.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/driver-api/usb/writing_usb_driver.rst b/Documentation/driver-api/usb/writing_usb_driver.rst
+> index 2176297e5765..5c29e5bdbe88 100644
+> --- a/Documentation/driver-api/usb/writing_usb_driver.rst
+> +++ b/Documentation/driver-api/usb/writing_usb_driver.rst
+> @@ -91,8 +91,8 @@ usually in the driver's init function, as shown here::
+>  	    /* register this driver with the USB subsystem */
+>  	    result = usb_register(&skel_driver);
+>  	    if (result < 0) {
+> -		    err("usb_register failed for the "__FILE__ "driver."
+> -			"Error number %d", result);
+> +		    pr_err("usb_register failed for the %s driver. "
 
-So can a var_ref change? If not, then we should convert that to a constant
-for this operation.
+   Don't break up the kernel message like this. The current code is a bad example --
+high time to fix it. :-)
 
--- Steve
+> +			   "Error number %d", skel_driver.name, result);
+>  		    return -1;
+>  	    }
+>  
+
+MBR, Sergey
