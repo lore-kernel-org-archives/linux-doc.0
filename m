@@ -2,300 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF621C433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 19:16:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DFF0C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 19:25:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C031360F9B
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 19:16:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0588260F02
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 19:25:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230287AbhJ2TTQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Oct 2021 15:19:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54756 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229474AbhJ2TTQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Oct 2021 15:19:16 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C666C061570
-        for <linux-doc@vger.kernel.org>; Fri, 29 Oct 2021 12:16:47 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id v20so7435425plo.7
-        for <linux-doc@vger.kernel.org>; Fri, 29 Oct 2021 12:16:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Fee4lFZ0WsKbU4ScFmGyAClkQKU9h+c4EKqLYfuXgB0=;
-        b=IXm2qJgJhvqkz8uR0ZCpcyXWDreKFGGQ++m4ZYgklgAKpVDl1afXwqt7NqkY+Lt548
-         BG8tJbHTUYPVu4V6ORZkJgmYsEH6L/XWi/WfFjm2CVcd/N0A6VU7LSpgDwcQFe5TitP6
-         IFbP7z5w/vP668dEwDwP/+ilxWhYL4+qBfyiZj7hblP7P5rNYHc6DL+N1dGU2uFykzPS
-         OwLd4Hd88Ca95Ja51wViAtYXdtd8wkjREKS7gf6YcDnoZBIcK3xI8eDmybGOAVuLOPrm
-         J30fbxc6BpWQGl7Sc3jdeFplawEeb42z3hNoH09AXQ47VdyBcxplktOOqsF3K+oUvnwK
-         vOTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Fee4lFZ0WsKbU4ScFmGyAClkQKU9h+c4EKqLYfuXgB0=;
-        b=DoBNMKRu5w7+aYu2eekBBB6wYTqBm9eJHim2CzfZi//fz0DEy++SWr/7J1zpi9vksM
-         /ujppyIv3GLJAE6wksLXiURw9pcL6MJFphlm/AmImNhqA8+yQB3dOex2E28s/0Pq7tU8
-         nVuxyE7XyT8wb5lB16wRarEfseqzFn5//L/O/1IG7jDd9+H45+YQdahVrsNoLkKQJcTp
-         pyoR44qmWb6L1zT6uHWbK6utdoQNmW4ijiOv+fv3mApJG9a7vvQ/lyciDoqwZ3cTxTrW
-         wbh/VrJEArjGQBByCn9qP4oIyT8Wc4+OzKIUSkOMfS3qP95jKnIvOROUzII3qb6Yfnw0
-         bI1A==
-X-Gm-Message-State: AOAM530i1jJmA15qlmie6MqNb2Oxjg/1/8OLEZMDmLiazyUTWp1PUYWD
-        kRi+R278/M3WWmGE+/SmfX/BOt0QyvYZl2kasvnVLg==
-X-Google-Smtp-Source: ABdhPJwXzXHZxQ2NGokm61i9oLlVLMppBzcCHYB/6lW2c0SZmj+c3A/Zfy1QyjYEv8JhZLuyJYOrcERjxh3NARPga0I=
-X-Received: by 2002:a17:902:6ac4:b0:13f:52e1:8840 with SMTP id
- i4-20020a1709026ac400b0013f52e18840mr11084807plt.15.1635535006473; Fri, 29
- Oct 2021 12:16:46 -0700 (PDT)
+        id S230506AbhJ2T2G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Oct 2021 15:28:06 -0400
+Received: from ink.ssi.bg ([178.16.128.7]:56431 "EHLO ink.ssi.bg"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230287AbhJ2T2F (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 29 Oct 2021 15:28:05 -0400
+Received: from ja.ssi.bg (unknown [178.16.129.10])
+        by ink.ssi.bg (Postfix) with ESMTPS id 81BBD3C09BA;
+        Fri, 29 Oct 2021 22:25:32 +0300 (EEST)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+        by ja.ssi.bg (8.16.1/8.16.1) with ESMTP id 19TJPRVa026763;
+        Fri, 29 Oct 2021 22:25:29 +0300
+Date:   Fri, 29 Oct 2021 22:25:27 +0300 (EEST)
+From:   Julian Anastasov <ja@ssi.bg>
+To:     yangxingwu <xingwu.yang@gmail.com>
+cc:     Simon Horman <horms@verge.net.au>, pablo@netfilter.org,
+        netdev@vger.kernel.org, lvs-devel@vger.kernel.org,
+        netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, legend050709@qq.com
+Subject: Re: [PATCH v2] ipvs: Fix reuse connection if RS weight is 0
+In-Reply-To: <20211029032604.5432-1-xingwu.yang@gmail.com>
+Message-ID: <8bdab9e0-3bd4-c37-94e9-ca1f74883356@ssi.bg>
+References: <20211029032604.5432-1-xingwu.yang@gmail.com>
 MIME-Version: 1.0
-References: <20211029183339.3216491-1-kaleshsingh@google.com>
- <20211029183339.3216491-2-kaleshsingh@google.com> <20211029144524.367d6789@gandalf.local.home>
- <CAC_TJve9OsL5taBN0ckgjG4=HxvmWfP6ULwwqnVsDyRxuQuRkg@mail.gmail.com>
-In-Reply-To: <CAC_TJve9OsL5taBN0ckgjG4=HxvmWfP6ULwwqnVsDyRxuQuRkg@mail.gmail.com>
-From:   Kalesh Singh <kaleshsingh@google.com>
-Date:   Fri, 29 Oct 2021 12:16:35 -0700
-Message-ID: <CAC_TJvcLKT+Gaz46Y-=7f7o12zoRWD=z4Ht5cbu+y5s5K4qEWw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] tracing/histogram: Optimize division by constants
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     surenb@google.com, hridya@google.com, namhyung@kernel.org,
-        kernel-team@android.com, mhiramat@kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>, Shuah Khan <shuah@kernel.org>,
-        Tom Zanussi <zanussi@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 29, 2021 at 11:53 AM Kalesh Singh <kaleshsingh@google.com> wrote:
->
-> On Fri, Oct 29, 2021 at 11:45 AM Steven Rostedt <rostedt@goodmis.org> wrote:
-> >
-> > On Fri, 29 Oct 2021 11:33:27 -0700
-> > Kalesh Singh <kaleshsingh@google.com> wrote:
-> >
-> > > If the divisor is a constant use specific division functions to
-> > > avoid extra branches when the trigger is hit.
-> > >
-> > > If the divisor constant but not a power of 2, the division can be
-> > > replaced with a multiplication and shift in the following case:
-> > >
-> > > Let X = dividend and Y = divisor.
-> > >
-> > > Choose Z = some power of 2. If Y <= Z, then:
-> > >     X / Y = (X * (Z / Y)) / Z
-> > >
-> > > (Z / Y) is a constant (mult) which is calculated at parse time, so:
-> > >     X / Y = (X * mult) / Z
-> > >
-> > > The division by Z can be replaced by a shift since Z is a power of 2:
-> > >     X / Y = (X * mult) >> shift
-> > >
-> > > As long, as X < Z the results will not be off by more than 1.
-> > >
-> > > Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
-> > > Suggested-by: Steven Rostedt <rostedt@goodmis.org>
-> > > ---
-> > >
-> > > Changes in v2:
-> > >   - Return -EDOM if divisor is a constant and zero, per Steve
-> > >
-> > >  kernel/trace/trace_events_hist.c | 117 ++++++++++++++++++++++++++++++-
-> > >  1 file changed, 116 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/kernel/trace/trace_events_hist.c b/kernel/trace/trace_events_hist.c
-> > > index 364cb3091789..1084aa41f047 100644
-> > > --- a/kernel/trace/trace_events_hist.c
-> > > +++ b/kernel/trace/trace_events_hist.c
-> > > @@ -68,7 +68,8 @@
-> > >       C(INVALID_SORT_FIELD,   "Sort field must be a key or a val"),   \
-> > >       C(INVALID_STR_OPERAND,  "String type can not be an operand in expression"), \
-> > >       C(EXPECT_NUMBER,        "Expecting numeric literal"),           \
-> > > -     C(UNARY_MINUS_SUBEXPR,  "Unary minus not supported in sub-expressions"),
-> > > +     C(UNARY_MINUS_SUBEXPR,  "Unary minus not supported in sub-expressions"), \
-> > > +     C(DIVISION_BY_ZERO,     "Division by zero"),
-> > >
-> > >  #undef C
-> > >  #define C(a, b)              HIST_ERR_##a
-> > > @@ -92,6 +93,7 @@ typedef u64 (*hist_field_fn_t) (struct hist_field *field,
-> > >  #define HIST_FIELDS_MAX              (TRACING_MAP_FIELDS_MAX + TRACING_MAP_VARS_MAX)
-> > >  #define HIST_ACTIONS_MAX     8
-> > >  #define HIST_CONST_DIGITS_MAX        21
-> > > +#define HIST_DIV_SHIFT               20  /* For optimizing division by constants */
-> > >
-> > >  enum field_op_id {
-> > >       FIELD_OP_NONE,
-> > > @@ -160,6 +162,8 @@ struct hist_field {
-> > >
-> > >       /* Numeric literals are represented as u64 */
-> > >       u64                             constant;
-> > > +     /* Used to optimize division by constants */
-> > > +     u64                             div_multiplier;
-> > >  };
-> > >
-> > >  static u64 hist_field_none(struct hist_field *field,
-> > > @@ -311,6 +315,72 @@ static u64 hist_field_div(struct hist_field *hist_field,
-> > >       return div64_u64(val1, val2);
-> > >  }
-> > >
-> > > +static u64 div_by_power_of_two(struct hist_field *hist_field,
-> > > +                             struct tracing_map_elt *elt,
-> > > +                             struct trace_buffer *buffer,
-> > > +                             struct ring_buffer_event *rbe,
-> > > +                             void *event)
-> > > +{
-> > > +     struct hist_field *operand1 = hist_field->operands[0];
-> > > +     struct hist_field *operand2 = hist_field->operands[1];
-> > > +
-> > > +     u64 val1 = operand1->fn(operand1, elt, buffer, rbe, event);
-> > > +     u64 val2 = operand2->fn(operand2, elt, buffer, rbe, event);
-> >
-> > If these functions are only called when val2 is constant, can't we make it
-> > such that we get val2 from the hist_field directly? That is:
-> >
-> >         u64 val2 = operand2->constant;
->
-> operand2 might be a var ref to a constant, so we would need to resolve
-> that with hist_field_var_ref().
->
-> -Kalesh
->
-> >
-> > That would save us a function call, and an indirect on at that (that gets
-> > slowed down by spectre).
 
-So would it be adding something like below?
+	Hello,
 
-if (operand2->flags & HIST_FIELD_FL_CONST)
-        val2 = operand2->constant;
-else
-        val2 = operand2->fn(operand2, elt, buffer, rbe, event);
+On Fri, 29 Oct 2021, yangxingwu wrote:
 
-Thanks,
-Kalesh
+> Since commit dc7b3eb900aa ("ipvs: Fix reuse connection if real server is
+> dead"), new connections to dead servers are redistributed immediately to
+> new servers.
+> 
+> Then commit d752c3645717 ("ipvs: allow rescheduling of new connections when
+> port reuse is detected") disable expire_nodest_conn if conn_reuse_mode is
+> 0. And new connection may be distributed to a real server with weight 0.
 
-> >
-> > Same for the ones below.
-> >
-> > -- Steve
-> >
-> >
-> > > +
-> > > +     return val1 >> __ffs64(val2);
-> > > +}
-> > > +
-> > > +static u64 div_by_not_power_of_two(struct hist_field *hist_field,
-> > > +                             struct tracing_map_elt *elt,
-> > > +                             struct trace_buffer *buffer,
-> > > +                             struct ring_buffer_event *rbe,
-> > > +                             void *event)
-> > > +{
-> > > +     struct hist_field *operand1 = hist_field->operands[0];
-> > > +     struct hist_field *operand2 = hist_field->operands[1];
-> > > +
-> > > +     u64 val1 = operand1->fn(operand1, elt, buffer, rbe, event);
-> > > +     u64 val2 = operand2->fn(operand2, elt, buffer, rbe, event);
-> > > +
-> > > +     return div64_u64(val1, val2);
-> > > +}
-> > > +
-> > > +static u64 div_by_mult_and_shift(struct hist_field *hist_field,
-> > > +                             struct tracing_map_elt *elt,
-> > > +                             struct trace_buffer *buffer,
-> > > +                             struct ring_buffer_event *rbe,
-> > > +                             void *event)
-> > > +{
-> > > +     struct hist_field *operand1 = hist_field->operands[0];
-> > > +     struct hist_field *operand2 = hist_field->operands[1];
-> > > +
-> > > +     u64 val1 = operand1->fn(operand1, elt, buffer, rbe, event);
-> > > +
-> > > +     /*
-> > > +      * If the divisor is a constant, do a multiplication and shift instead.
-> > > +      *
-> > > +      * Choose Z = some power of 2. If Y <= Z, then:
-> > > +      *     X / Y = (X * (Z / Y)) / Z
-> > > +      *
-> > > +      * (Z / Y) is a constant (mult) which is calculated at parse time, so:
-> > > +      *     X / Y = (X * mult) / Z
-> > > +      *
-> > > +      * The division by Z can be replaced by a shift since Z is a power of 2:
-> > > +      *     X / Y = (X * mult) >> HIST_DIV_SHIFT
-> > > +      *
-> > > +      * As long, as X < Z the results will not be off by more than 1.
-> > > +      */
-> > > +     if (val1 < (1 << HIST_DIV_SHIFT)) {
-> > > +             u64 mult = operand2->div_multiplier;
-> > > +
-> > > +             return (val1 * mult + ((1 << HIST_DIV_SHIFT) - 1)) >> HIST_DIV_SHIFT;
-> > > +     } else {
-> > > +             u64 val2 = operand2->fn(operand2, elt, buffer, rbe, event);
-> > > +
-> > > +             return div64_u64(val1, val2);
-> > > +     }
-> > > +}
-> > > +
-> > >  static u64 hist_field_mult(struct hist_field *hist_field,
-> > >                          struct tracing_map_elt *elt,
-> > >                          struct trace_buffer *buffer,
-> > > @@ -573,6 +643,37 @@ struct snapshot_context {
-> > >       void                    *key;
-> > >  };
-> > >
-> > > +
-> > > +static struct hist_field *find_var_field(struct hist_trigger_data *hist_data,
-> > > +                                      const char *var_name);
-> > > +
-> > > +/*
-> > > + * Returns the specific division function to use if the divisor
-> > > + * is constant. This avoids extra branches when the trigger is hit.
-> > > + */
-> > > +static hist_field_fn_t hist_field_get_div_fn(struct hist_field *divisor)
-> > > +{
-> > > +     u64 div;
-> > > +
-> > > +     if (divisor->flags & HIST_FIELD_FL_VAR_REF) {
-> > > +             struct hist_field *var;
-> > > +
-> > > +             var = find_var_field(divisor->var.hist_data, divisor->name);
-> > > +             div = var->constant;
-> > > +     } else
-> > > +             div = divisor->constant;
-> > > +
-> > > +     if (!(div & (div - 1)))
-> > > +             return div_by_power_of_two;
-> > > +
-> > > +     /* If the divisor is too large, do a regular division */
-> > > +     if (div > (1 << HIST_DIV_SHIFT))
-> > > +             return div_by_not_power_of_two;
-> > > +
-> > > +     divisor->div_multiplier = div64_u64((u64)(1 << HIST_DIV_SHIFT), div);
-> > > +     return div_by_mult_and_shift;
-> > > +}
-> > > +
-> > >  static void track_data_free(struct track_data *track_data)
-> > >  {
-> > >       struct hist_elt_data *elt_data;
-> > > @@ -2575,6 +2676,20 @@ static struct hist_field *parse_expr(struct hist_trigger_data *hist_data,
-> > >       expr->operands[0] = operand1;
-> > >       expr->operands[1] = operand2;
-> > >
-> > > +
-> > > +     if (field_op == FIELD_OP_DIV &&
-> > > +                     operand2_flags & HIST_FIELD_FL_CONST) {
-> > > +             u64 divisor = (var2) ? var2->constant : operand2->constant;
-> > > +
-> > > +             if (!divisor) {
-> > > +                     hist_err(file->tr, HIST_ERR_DIVISION_BY_ZERO, errpos(str));
-> > > +                     ret = -EDOM;
-> > > +                     goto free;
-> > > +             }
-> > > +
-> > > +             op_fn = hist_field_get_div_fn(operand2);
-> > > +     }
-> > > +
-> > >       if (combine_consts) {
-> > >               if (var1)
-> > >                       expr->operands[0] = var1;
-> >
+	Can you better explain in commit message that we are changing 
+expire_nodest_conn to work even for reused connections when
+conn_reuse_mode=0 but without affecting the controlled/persistent
+connections during the grace period while server is with weight=0.
+
+	Even if you target -next trees adding commit d752c3645717
+as Fixes line would be a good idea. Make sure the tree is specified
+after the v3 tag.
+
+> Co-developed-by: Chuanqi Liu <legend050709@qq.com>
+> Signed-off-by: Chuanqi Liu <legend050709@qq.com>
+> Signed-off-by: yangxingwu <xingwu.yang@gmail.com>
+> ---
+>  Documentation/networking/ipvs-sysctl.rst | 3 +--
+>  net/netfilter/ipvs/ip_vs_core.c          | 7 ++++---
+>  2 files changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/networking/ipvs-sysctl.rst b/Documentation/networking/ipvs-sysctl.rst
+> index 2afccc63856e..1cfbf1add2fc 100644
+> --- a/Documentation/networking/ipvs-sysctl.rst
+> +++ b/Documentation/networking/ipvs-sysctl.rst
+> @@ -37,8 +37,7 @@ conn_reuse_mode - INTEGER
+>  
+>  	0: disable any special handling on port reuse. The new
+>  	connection will be delivered to the same real server that was
+> -	servicing the previous connection. This will effectively
+> -	disable expire_nodest_conn.
+> +	servicing the previous connection.
+>  
+>  	bit 1: enable rescheduling of new connections when it is safe.
+>  	That is, whenever expire_nodest_conn and for TCP sockets, when
+> diff --git a/net/netfilter/ipvs/ip_vs_core.c b/net/netfilter/ipvs/ip_vs_core.c
+> index 128690c512df..374f4b0b7080 100644
+> --- a/net/netfilter/ipvs/ip_vs_core.c
+> +++ b/net/netfilter/ipvs/ip_vs_core.c
+> @@ -2042,14 +2042,15 @@ ip_vs_in(struct netns_ipvs *ipvs, unsigned int hooknum, struct sk_buff *skb, int
+>  			     ipvs, af, skb, &iph);
+>  
+>  	conn_reuse_mode = sysctl_conn_reuse_mode(ipvs);
+> -	if (conn_reuse_mode && !iph.fragoffs && is_new_conn(skb, &iph) && cp) {
+> +	if (!iph.fragoffs && is_new_conn(skb, &iph) && cp) {
+
+	It is even better to move the !cp->control check above:
+
+	if (!iph.fragoffs && is_new_conn(skb, &iph) && cp && !cp->control) {
+
+	Then is not needed in is_new_conn_expected() anymore.
+
+>  		bool old_ct = false, resched = false;
+
+	And now you can move conn_reuse_mode here:
+
+		int conn_reuse_mode = sysctl_conn_reuse_mode(ipvs);
+
+>  		if (unlikely(sysctl_expire_nodest_conn(ipvs)) && cp->dest &&
+> -		    unlikely(!atomic_read(&cp->dest->weight))) {
+> +		    unlikely(!atomic_read(&cp->dest->weight)) && !cp->control) {
+>  			resched = true;
+>  			old_ct = ip_vs_conn_uses_old_conntrack(cp, skb);
+> -		} else if (is_new_conn_expected(cp, conn_reuse_mode)) {
+> +		} else if (conn_reuse_mode &&
+> +			   is_new_conn_expected(cp, conn_reuse_mode)) {
+>  			old_ct = ip_vs_conn_uses_old_conntrack(cp, skb);
+>  			if (!atomic_read(&cp->n_control)) {
+>  				resched = true;
+> -- 
+> 2.30.2
+
+Regards
+
+--
+Julian Anastasov <ja@ssi.bg>
