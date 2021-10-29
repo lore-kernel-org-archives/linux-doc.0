@@ -2,205 +2,280 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE4ACC433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 12:01:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0E01C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 12:25:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AEDC360E0B
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 12:01:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D5F4F61130
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 12:25:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230252AbhJ2MDc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Oct 2021 08:03:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58908 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229930AbhJ2MDb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 29 Oct 2021 08:03:31 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AB05A610EA;
-        Fri, 29 Oct 2021 12:00:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1635508862;
-        bh=NLIUXGxZ2vevTNRxREH4RJnxeLV5TFgdY4m18daIieU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=M6PH50cS5iFZ5cK2P4tF5feffMimH66Ogb+IfUYyEJvoATeCuT1zu1L3nOLq3RPNe
-         H1K5JZlvwv5P7AsTtg2UywPpQG4dssEV4x5y7Thl4fTvQx9HiEOcuVGIWYpMk30d82
-         pX812MFDlBDApizQvzhBeOdx5eFFn8rd9yDxBD7fA1SXUqEjIA3XwKDsSx4/qoXOnf
-         OlYTSO14QbNHYKc0HObE+eytEO2o6XstLcRYITAHAgGCFH7ICSzhx1V/5GTzaukbe4
-         r+iCXXXrvyNS4v25ZZwg8jj+saX64Ws6QT4zoWzZUImHFQRN+PbLq+ANaxmMNaGY9s
-         HZFCT/3CMawUg==
-Date:   Fri, 29 Oct 2021 21:00:56 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     kernel test robot <oliver.sang@intel.com>
-Cc:     Kalesh Singh <kaleshsingh@google.com>, lkp@lists.01.org,
-        lkp@intel.com, surenb@google.com, hridya@google.com,
-        namhyung@kernel.org, kernel-team@android.com,
+        id S231551AbhJ2M1j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Oct 2021 08:27:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44980 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231533AbhJ2M1h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Oct 2021 08:27:37 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 475C2C061767
+        for <linux-doc@vger.kernel.org>; Fri, 29 Oct 2021 05:25:08 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id s13so8750635wrb.3
+        for <linux-doc@vger.kernel.org>; Fri, 29 Oct 2021 05:25:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=jrtc27.com; s=gmail.jrtc27.user;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=w7ERDMxld9y+CPUnX75l8Ta0sFWie18coBUraZlyenY=;
+        b=KoIfAALYtn/x4ST7dyMPyMUL21tc/UEqneS4L9orO2RmQSLOPMraMaM4Ive3ZB47Pr
+         FQOEDMWe5ToTjOF9mXQxjNDlm5DgRpxW4+cjydO3mYptYWMFTNX8tFPkJnjTCRb6dZR5
+         hAyT9b84MLVMwGmdhg76Q7PBjSnEo6i6l0WNxM1/7J2lLGER4dS/xPBKXrRZ5xzHIR/z
+         SZDVFpxyqxwRvYiydNNBgRMgef8PsCLY8rPTm9uNOYFUZG16hba7AEO4NWcAwRICLoZR
+         +WcUysteLWWPWxshpXd0fTpMRLUgn2pikWxycci1yv+hht3zQVYCCRlc7jJrKCBuhwql
+         yfQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=w7ERDMxld9y+CPUnX75l8Ta0sFWie18coBUraZlyenY=;
+        b=ddgL1RaE01qSMoIbHyqyiebkLPZBfnDEKvie3OEf9hjXcBNoc19SiIVREONKwZsxmD
+         vf37Cfu/HhfgMhIIF3gp+5boyeVYsEi21dj+Es+JPVwWLzFJ/ieGRmaDnDY4Ovm866Kh
+         rODpvl7oLrVNjkUsv6sRsEKQj8A8eRCiOIOeHbL70R8vTnPq2mj005UWWsYuOV6nMjJv
+         FEmxTAOmrGC2mkeoirb09iUtbtykxujxcjNH/bPOFfK+VnrP0h7botTABMr5onRrqat6
+         SDVzHX+8iQKG+UJJDx8T8gMn5YCAy1ZrABJ/Il8cPTdIBzTzuOVpuvZTW4lRKPzNlgZW
+         owFQ==
+X-Gm-Message-State: AOAM532AE2YxJBHltM4/uj099+CFD/4to3FYt+vSvwICTrcANeae/zDO
+        JMgAoog7WxBy2G33BpnnHw1Zhg==
+X-Google-Smtp-Source: ABdhPJzNeOWy0F/lHFywLb8P0P+Btkiv6onzYuaN22VjLXYuj/K536/O12T/6Kdme13KBlIKknwohA==
+X-Received: by 2002:adf:e992:: with SMTP id h18mr13746461wrm.21.1635510306627;
+        Fri, 29 Oct 2021 05:25:06 -0700 (PDT)
+Received: from smtpclient.apple (global-5-141.nat-2.net.cam.ac.uk. [131.111.5.141])
+        by smtp.gmail.com with ESMTPSA id q18sm8807724wmc.7.2021.10.29.05.25.05
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 29 Oct 2021 05:25:05 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [v4 10/11] riscv: dts: fu740: Add pmu node
+From:   Jessica Clarke <jrtc27@jrtc27.com>
+In-Reply-To: <CAOnJCUJjzmW=QobLPKAWYGppFeoJXjT2Ee6eG2-H=s2mnei=RQ@mail.gmail.com>
+Date:   Fri, 29 Oct 2021 13:25:04 +0100
+Cc:     Atish Patra <atish.patra@wdc.com>,
+        "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
+        Anup Patel <anup.patel@wdc.com>,
+        David Abdurachmanov <david.abdurachmanov@sifive.com>,
+        devicetree <devicetree@vger.kernel.org>,
+        Greentime Hu <greentime.hu@sifive.com>,
+        Guo Ren <guoren@linux.alibaba.com>,
+        Heinrich Schuchardt <xypron.glpk@gmx.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>, Shuah Khan <shuah@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Tom Zanussi <zanussi@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [tracing/selftests]  cfece71411:
- kernel-selftests.ftrace.event_trigger_-_test_inter-event_histogram_trigger_onchange_action.fail
-Message-Id: <20211029210056.6cd7796aea59cec3e9c1d7da@kernel.org>
-In-Reply-To: <20211029064818.GG737@xsang-OptiPlex-9020>
-References: <20211025200852.3002369-8-kaleshsingh@google.com>
-        <20211029064818.GG737@xsang-OptiPlex-9020>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-perf-users@vger.kernel.org,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        Nick Kossifidis <mick@ics.forth.gr>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Vincent Chen <vincent.chen@sifive.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <FE94A3CF-44B9-442A-B985-4ED86BF039EE@jrtc27.com>
+References: <20211025195350.242914-1-atish.patra@wdc.com>
+ <20211025195350.242914-11-atish.patra@wdc.com>
+ <YXsMtrmuavGAHk8S@Jessicas-MacBook-Pro.local>
+ <CAOnJCULqwZvK52nczp2HNinDCBjThnbGbvJpAvdameny1fK4Vw@mail.gmail.com>
+ <EDB030D6-D37A-43D6-9027-222794FDA80D@jrtc27.com>
+ <CAOnJCUJjzmW=QobLPKAWYGppFeoJXjT2Ee6eG2-H=s2mnei=RQ@mail.gmail.com>
+To:     Atish Patra <atishp@atishpatra.org>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On 29 Oct 2021, at 07:05, Atish Patra <atishp@atishpatra.org> wrote:
+>=20
+> On Thu, Oct 28, 2021 at 5:07 PM Jessica Clarke <jrtc27@jrtc27.com> =
+wrote:
+>>=20
+>> On 29 Oct 2021, at 00:37, Atish Patra <atishp@atishpatra.org> wrote:
+>>>=20
+>>> On Thu, Oct 28, 2021 at 1:49 PM Jessica Clarke <jrtc27@jrtc27.com> =
+wrote:
+>>>>=20
+>>>> On Mon, Oct 25, 2021 at 12:53:49PM -0700, Atish Patra wrote:
+>>>>> HiFive unmatched supports HPMCounters but does not implement =
+mcountinhibit
+>>>>> or sscof extension. Thus, perf monitoring can be used on the =
+unmatched
+>>>>> board without sampling.
+>>>>>=20
+>>>>> Add the PMU node with compatible string so that Linux perf driver =
+can
+>>>>> utilize this to enable PMU.
+>>>>>=20
+>>>>> Signed-off-by: Atish Patra <atish.patra@wdc.com>
+>>>>> ---
+>>>>> arch/riscv/boot/dts/sifive/fu740-c000.dtsi | 3 +++
+>>>>> 1 file changed, 3 insertions(+)
+>>>>>=20
+>>>>> diff --git a/arch/riscv/boot/dts/sifive/fu740-c000.dtsi =
+b/arch/riscv/boot/dts/sifive/fu740-c000.dtsi
+>>>>> index abbb960f90a0..b35b96b58820 100644
+>>>>> --- a/arch/riscv/boot/dts/sifive/fu740-c000.dtsi
+>>>>> +++ b/arch/riscv/boot/dts/sifive/fu740-c000.dtsi
+>>>>> @@ -140,6 +140,9 @@ soc {
+>>>>>             #size-cells =3D <2>;
+>>>>>             compatible =3D "simple-bus";
+>>>>>             ranges;
+>>>>> +             pmu {
+>>>>> +                     compatible =3D "riscv,pmu";
+>>>>> +             };
+>>>>=20
+>>>> This is a property of the user-replaceable firmware, not a property =
+of
+>>>> the hardware,
+>>>=20
+>>> It's a property of hardware that indicates that the hardware =
+supports PMU.
+>>=20
+>> All RISC-V hardware provides the CSRs, they=E2=80=99re part of the =
+privileged
+>> spec and not marked optional. How many aren=E2=80=99t hard-wired to =
+zero is up
+>> to the implementation. But even then you can=E2=80=99t know from the =
+hardware
+>> alone what is supported; the firmware has to enable S-mode (and
+>> U-mode)=E2=80=99s ability to read them, so you can=E2=80=99t assume =
+anything in a
+>> static device tree hard-coded in Linux about what firmware has done.
+>> Since you currently have to query the firmware to determine what=E2=80=99=
+s
+>> available to you anyway, I see no benefit from having a node in the
+>> device tree that tells you your firmware *might* have counters you =
+can
+>> use.
+>>=20
+>>> Additionally, the counter overflow interrupt number needs to be
+>>> defined through the DT as well
+>>> so that a clean platform driver can be implemented.
+>>=20
+>> The interrupt number is specified as 13 by the Sscofmpf spec.
+>> But that=E2=80=99s not relevant here, the FU740 predates and =
+doesn=E2=80=99t implement
+>> Sscofmpf, meaning there is no interrupt to even define here. And as I
+>> said on the other patch, don=E2=80=99t conflate =E2=80=9CSBI PMU =
+firmware interface is
+>> supported=E2=80=9D and =E2=80=9CSscofmpf is implemented in the =
+hardware=E2=80=9D; the former
+>> should be discovered by talking to firmware, and the latter should be
+>> discovered like any other extension (however that ends up happening).
+>=20
+> Presence of sscof extension can be discovered through general =
+extension
+> discovery mechanism (probably a separate DT node..that's a separate =
+discussion).
+>=20
+> However, the interrupt number discovery has to be through DT so the
+> platform driver
+> can probe the DT to figure out that.
 
-On Fri, 29 Oct 2021 14:48:18 +0800
-kernel test robot <oliver.sang@intel.com> wrote:
+No, you=E2=80=99re not reading what I said. It=E2=80=99s specified to be =
+13 in the
+Sscofmpf spec, there is zero need to encode information in the device
+tree that is already mandated by a specification. We don=E2=80=99t put =
+that
+supervisor software interrupts are 1 nor that supervisor timer
+interrupts are 5 in the device tree, so we also don=E2=80=99t need to =
+put that
+supervisor counter overflow interrupts are 13 in it. We *do* currently
+put machine timer interrupt information from the CLINT in the device
+tree, and both supervisor and machine external interrupt information
+from the PLIC, but that is not to tell you what=E2=80=99s already =
+specified
+(that they=E2=80=99re interrupts 7, 11 and 9 respectively), it=E2=80=99s =
+to tell you
+which order the per-hart registers are in in the CLINT, and which order
+the contexts are in in the PLIC. If it were up to me that would=E2=80=99ve=
+ been
+expressed a different way as it=E2=80=99s an ugly encoding, rather =
+redundant
+and not the nicest to decode in software, but it=E2=80=99s too late for =
+that.
+Though with the ACLINT, APLIC and other AIA parts on the horizon I hope
+we can get saner bindings for those that don=E2=80=99t repeat those =
+mistakes.
+But the point is, if it=E2=80=99s specified by the spec, it doesn=E2=80=99=
+t need to go
+in the device tree, the device tree is for telling you all the things
+you don=E2=80=99t, and can=E2=80=99t, already know.
 
-> 
-> 
-> Greeting,
-> 
-> FYI, we noticed the following commit (built with gcc-9):
-> 
-> commit: cfece71411dbca5dc5e1fa2d9ce5a3f38e55d4fe ("[PATCH v4 7/8] tracing/selftests: Add tests for hist trigger expression parsing")
-> url: https://github.com/0day-ci/linux/commits/Kalesh-Singh/tracing-Extend-histogram-triggers-expression-parsing/20211026-042529
-> 
-> 
-> in testcase: kernel-selftests
-> version: kernel-selftests-x86_64-c8c9111a-1_20210929
-> with following parameters:
-> 
-> 	group: ftrace
-> 	ucode: 0xe2
-> 
-> test-description: The kernel contains a set of "self tests" under the tools/testing/selftests/ directory. These are intended to be small unit tests to exercise individual code paths in the kernel.
-> test-url: https://www.kernel.org/doc/Documentation/kselftest.txt
+>>>> so having this in the device tree under /soc, let alone
+>>>> hard-coded in Linux, is utterly wrong. Why can this not just be =
+probed
+>>>> like any other SBI interface? The "Probe SBI extension" interface =
+is
+>>>> precisely for this kind of thing.
+>>>>=20
+>>> SBI extension is anyways probed to verify if the firmware has PMU
+>>> extension or not.
+>>> However, adding the DT property allows different platforms (with or
+>>> without sscof extension)
+>>> to use the same code path.
+>>=20
+>> You don=E2=80=99t need a device tree for that; that same code path =
+can just be
+>> =E2=80=9Cuse the existing standard firmware interface=E2=80=9D. That =
+also has the
+>> benefit that it=E2=80=99s not tied to device tree and so works =
+identically for
+>> ACPI, rather than needing an ACPI version of it.
+>>=20
+>=20
+> I don't disagree with that argument. However, we need a DT node for
+> interrupt number as explained in the above.
+> A DT based platform driver allows us to provide a unified code path
+> which can handle both kinds of platforms described below.
+>=20
+> 1. Platforms without sscof extension
+> 2. Platforms with sscof extension that requires a DT node for =
+interrupt number
+>=20
+> Otherwise, the driver has to do the following things in order.
+>=20
+> 1. Probe PMU extension
+> 2. first check if sscof extension is present in the special RISC-V ISA
+> extension DT node (which is yet to finalize)
+> 3. If sscof extension is present then register for a DT based platform =
+driver.
+> 4. Otherwise, register a simple platform driver.
+>=20
+> I am not completely opposed to doing that if there is a strong
+> technical issue with the current approach.
 
-Thanks! This issue has been found and will be fixed next version.
+Nope, it=E2=80=99s:
 
-BTW, I have some questions about this bot;
+1. Probe PMU SBI extension
+2. Register a driver
+3. If Sscofmpf is present, register for interrupt 13
 
-> 
-> 
-> on test machine: 4 threads Intel(R) Core(TM) i5-6500 CPU @ 3.20GHz with 32G memory
-> 
-> caused below changes (please refer to attached dmesg/kmsg for entire log/backtrace):
-> 
-> 
-> 
-> If you fix the issue, kindly add following tag
-> Reported-by: kernel test robot <oliver.sang@intel.com>
-> 
-> 
-> 
-> TAP version 13
-> 1..1
-> # selftests: ftrace: ftracetest
-> # === Ftrace unit tests ===
-> # [1] Basic trace file check	[PASS]
-> ...
-> <<< [1] - [67] have same results as parent, i.e. both PASS or both FAIL >>>
+Or perhaps with 2 and 3 swapped.
 
-At first, I guess the robot just checks the "[number]" instead
-of the test description, but the ftracetest doesn't fix the "[number]"
-for each test, Thus, it can be different when updated it.
-So if you compare the result, please check the descriptions too.
+You=E2=80=99re making this far too complicated by being fixated on =
+needing
+device tree in there somewhere. You don=E2=80=99t need it at all except
+possibly to tell you that Sscofmpf is supported, which should be done
+the same as any other supervisor extension like Svnapot or Svpbmt.
 
-> ...
-> # [67] event trigger - test multiple actions on hist trigger	[PASS]
-> 
-> >>> [68] - [72] can PASS on parent
-> # [68] event trigger - test inter-event histogram trigger onchange action	[FAIL]
-> # [69] event trigger - test inter-event histogram trigger onmatch action	[FAIL]
-> # [70] event trigger - test inter-event histogram trigger onmatch-onmax action	[FAIL]
-> # [71] event trigger - test inter-event histogram trigger onmax action	[FAIL]
-> # [72] event trigger - test inter-event histogram trigger snapshot action	[FAIL]
-> 
-> >>> [73] fail on parent, too
-> # [73] event trigger - test inter-event histogram trigger eprobe on synthetic event	[FAIL]
-> 
-> >>> [74] - [92] can PASS on parent
-> # [74] event trigger - test synthetic event create remove	[FAIL]
-> # [75] event trigger - test inter-event histogram trigger trace action with dynamic string param	[FAIL]
-> # [76] event trigger - test synthetic_events syntax parser	[FAIL]
-> # [77] event trigger - test synthetic_events syntax parser errors	[FAIL]
-> # [78] event trigger - test inter-event histogram trigger trace action	[FAIL]
-> # [79] event trigger - test event enable/disable trigger	[FAIL]
-> # [80] event trigger - test trigger filter	[FAIL]
-> # [81] event trigger - test histogram expression parsing	[FAIL]
-> # [82] event trigger - test histogram modifiers	[FAIL]
-> # [83] event trigger - test histogram parser errors	[FAIL]
-> # [84] event trigger - test histogram trigger	[FAIL]
-> # [85] event trigger - test multiple histogram triggers	[FAIL]
-> # [86] event trigger - test snapshot-trigger	[FAIL]
-> # [87] event trigger - test stacktrace-trigger	[FAIL]
-> # [88] trace_marker trigger - test histogram trigger	[FAIL]
-> # [89] trace_marker trigger - test snapshot trigger	[FAIL]
-> # [90] trace_marker trigger - test histogram with synthetic event against kernel event	[FAIL]
-> # [91] trace_marker trigger - test histogram with synthetic event	[FAIL]
-> # [92] event trigger - test traceon/off trigger	[FAIL]
-> # [93] (instance)  Basic test for tracers	[PASS]
-> ...
-> <<< [93] - [112] have same results as parent, all PASS >>>
-> ...
-> # [112] (instance)  trace_marker trigger - test histogram trigger	[PASS]
-> 
-> >>> parent has no [113]
-> # [113] (instance)  trace_marker trigger - test snapshot trigger	[PASS]
+Jess
 
-And next, some patch series may *ADD* new testcases if the series add
-a new feature, so if you find the difference which is not in the
-parent commit but it is passed, please ignore that.
+>> I see nothing here that can=E2=80=99t be discovered through =
+pre-existing means.
+>> If it can be discovered without use of the device tree then it does =
+not
+>> belong in the device tree; the device tree is purely for things that
+>> cannot otherwise be discovered.
+>>=20
+>> Jess
+>>=20
+>=20
+>=20
+> --=20
+> Regards,
+> Atish
 
-> # tac: failed to create temporary file in '/tmp/ftracetest-dir.o54lNh': No such file or directory
-> # tac: failed to create temporary file in '/tmp/ftracetest-dir.o54lNh': No such file or directory
-> # tac: failed to create temporary file in '/tmp/ftracetest-dir.o54lNh': No such file or directory
-> # tac: failed to create temporary file in '/tmp/ftracetest-dir.o54lNh': No such file or directory
-
-And if you find this kind of new error message like above, please report it.
-This is more important for us.
-
-> # 
-> # 
-> # # of passed:  85
-> # # of failed:  26
-> # # of unresolved:  1
-> # # of untested:  0
-> # # of unsupported:  0
-> # # of xfailed:  1
-> # # of undefined(test bug):  0
-> not ok 1 selftests: ftrace: ftracetest # exit=1
-
-Also, please configure your running environment correctly so that all
-ftracetest passes. If you unsure how to do, please ask me.
-
-Thank you,
-
-> 
-> 
-> 
-> To reproduce:
-> 
->         git clone https://github.com/intel/lkp-tests.git
->         cd lkp-tests
->         sudo bin/lkp install job.yaml           # job file is attached in this email
->         bin/lkp split-job --compatible job.yaml # generate the yaml file for lkp run
->         sudo bin/lkp run generated-yaml-file
-> 
->         # if come across any failure that blocks the test,
->         # please remove ~/.lkp and /lkp dir to run from a clean state.
-> 
-> 
-> 
-> ---
-> 0DAY/LKP+ Test Infrastructure                   Open Source Technology Center
-> https://lists.01.org/hyperkitty/list/lkp@lists.01.org       Intel Corporation
-> 
-> Thanks,
-> Oliver Sang
-> 
-
-
--- 
-Masami Hiramatsu <mhiramat@kernel.org>
