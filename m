@@ -2,187 +2,397 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88406C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 00:07:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3564CC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 03:06:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5808D60F38
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 00:07:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 100816103B
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 03:06:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230249AbhJ2AJe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Oct 2021 20:09:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50344 "EHLO
+        id S231593AbhJ2DI3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Oct 2021 23:08:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230055AbhJ2AJd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Oct 2021 20:09:33 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CE99C061714
-        for <linux-doc@vger.kernel.org>; Thu, 28 Oct 2021 17:07:05 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id v17so13076311wrv.9
-        for <linux-doc@vger.kernel.org>; Thu, 28 Oct 2021 17:07:05 -0700 (PDT)
+        with ESMTP id S231565AbhJ2DI3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Oct 2021 23:08:29 -0400
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67730C061570;
+        Thu, 28 Oct 2021 20:06:01 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id p40so3077519pfh.8;
+        Thu, 28 Oct 2021 20:06:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jrtc27.com; s=gmail.jrtc27.user;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=JM9ovXUoMQGYKoaMhT3SRYdxd24hIbjK2ebF0cmxAXY=;
-        b=ZuKxTiy+FIXkT3r4QoosEwipVKEPKjVz65mQqrv9DXeFRdrLUGpI2Kx7CpiV1vYZQP
-         G1hSiEXVntdl/cYopDkTkhVDyOiw/TBpwm3anuceKfqCzmDWpyi9MrhZz8vyVGDK5dXL
-         uTaQ8gU6a6gd8J7agSEI60+jPY8eMHR28xu6L2UtsiPZsXc0QLHC8WTFiKVu33ZPGT+H
-         7kvPcLCBRs4RjmfmQ+Jar5fgLOGGlhRXG3nqIRlKh5mmdmCI34GzNSZONWyNSC7gSmz5
-         +f4xvWGiODrGTqq3sUB5E7Avtk07HR41a/Q3Tg4J6Wn/qPXSS3YT5WNFF4lohG0Rym26
-         BpsA==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=nF2UQMpAHyZ0GiIHXEVJAWpPoUvlk8TfRcY0+JNwaKc=;
+        b=LW1ea1rzgfL6i20IL/6uSMvopTte4mpougbLtOG0vU2fDuPEFBn6qEv+k7/M2MiPFl
+         d5SiybF5/khj6UL6JrInlZ4xeunQ9YuNBH0wSScvHa5eRFeljFOQOmWCZdwRLPgQsuyu
+         MAKNrZW7t3HOXIskKZPESLoHy3L8BngSAR4GECR5hUdNAw6MK2cyY4Nf6fGJt/aSUmk1
+         V1FZbmRdcQ+yZTL0zkd9nxQS1JLQOjSwxtfW8JJS7+ra+lES6PXX3yTm0s02KPBr6uDq
+         XYIb64/Je1fH2kWPKdLwCfq8GLfic1B8LndMrcvbFJlH2KpCwFBZq3B6BEmnlfZxTJXA
+         3GqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=JM9ovXUoMQGYKoaMhT3SRYdxd24hIbjK2ebF0cmxAXY=;
-        b=txXHxPN5w8iLVGnfKwIZxlE7BGRB6xH1rctFg8GSpUY/w9x+hVec2GgCxrfjdgejN7
-         HrhxRb0Bvs0JEiYS6hpccVwOibS8GGyo+ZuGPHJAYY+ck+xkFACJxK/z8V1wX9ZkodqX
-         3VeqwF1ibqNiGyz89sy26T9+VKrAHFthBPVXmA5VKC7h44qKofHnmf9PKez6+eHPwsKz
-         j40VQEsz7aJRT7R9IfwilVBbQk4BbTpA37UsIbnxL4E3S3nJwYv0ZfiLRHcIubtI2bQQ
-         q4zYgH4QuPzFcRAJ97t5b4tpqx3sTOJ+CJQi3HL8ryz3R9Ek4fpaCu80e+YsaCJw1LrT
-         2L2g==
-X-Gm-Message-State: AOAM531FZyaQEuWc1tBnXP91r1S+sYFTLPwvwv7sZmIt2Y/9+rBzBngg
-        2nK2vkgL1VslxJFMYPxq9HOvcw==
-X-Google-Smtp-Source: ABdhPJxTZjsXKcFp8GnpfePalwr6klJnooGoh56zJ/LCNGXAeML3ODkDshvA2ZbtNAjmvvc7tNctjg==
-X-Received: by 2002:adf:dc43:: with SMTP id m3mr9937982wrj.66.1635466024151;
-        Thu, 28 Oct 2021 17:07:04 -0700 (PDT)
-Received: from smtpclient.apple (global-5-141.nat-2.net.cam.ac.uk. [131.111.5.141])
-        by smtp.gmail.com with ESMTPSA id h14sm8013871wmq.34.2021.10.28.17.07.03
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 28 Oct 2021 17:07:03 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
-Subject: Re: [v4 10/11] riscv: dts: fu740: Add pmu node
-From:   Jessica Clarke <jrtc27@jrtc27.com>
-In-Reply-To: <CAOnJCULqwZvK52nczp2HNinDCBjThnbGbvJpAvdameny1fK4Vw@mail.gmail.com>
-Date:   Fri, 29 Oct 2021 01:07:02 +0100
-Cc:     Atish Patra <atish.patra@wdc.com>,
-        "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
-        Anup Patel <anup.patel@wdc.com>,
-        David Abdurachmanov <david.abdurachmanov@sifive.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        Greentime Hu <greentime.hu@sifive.com>,
-        Guo Ren <guoren@linux.alibaba.com>,
-        Heinrich Schuchardt <xypron.glpk@gmx.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-perf-users@vger.kernel.org,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        Nick Kossifidis <mick@ics.forth.gr>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Vincent Chen <vincent.chen@sifive.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <EDB030D6-D37A-43D6-9027-222794FDA80D@jrtc27.com>
-References: <20211025195350.242914-1-atish.patra@wdc.com>
- <20211025195350.242914-11-atish.patra@wdc.com>
- <YXsMtrmuavGAHk8S@Jessicas-MacBook-Pro.local>
- <CAOnJCULqwZvK52nczp2HNinDCBjThnbGbvJpAvdameny1fK4Vw@mail.gmail.com>
-To:     Atish Patra <atishp@atishpatra.org>
-X-Mailer: Apple Mail (2.3654.120.0.1.13)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=nF2UQMpAHyZ0GiIHXEVJAWpPoUvlk8TfRcY0+JNwaKc=;
+        b=RzQc6Xhface561OTjcKBDZQYjKLAEaxAorB0rt8IbwQ1KSft9bvHXPGcoyzuyOqR/O
+         4wyYtmL7OmaPo/q6nL6+T0hLyoZHq3z/QId2P8/cYlZzzHC9Qd5y/2HMUtfjntn1HB6p
+         0tI/wjhusMyOVsCNUu0FroQ8nmrx1CjoGQg2w2Zl5V5HCnpjpa2cdyDhRBeYzfhtaVSX
+         tvaMkt7Ym1SYIj2z5c2NQTcUYGeH2mV35b7E523GBw2g3C0moMBIIGhkoU5shnPSXT5J
+         72Hy8EvsvOQJ5rS/xhJysvTJ6SPcLcWz8lFg0NML0AlPfItRRJ95LCacDkUceW69a8uZ
+         fVeQ==
+X-Gm-Message-State: AOAM531OEueiVhW4hK9VwbM2t5hHQIs76CpcErroT0bm4kIHi+0b2RRv
+        uUodJVwFy5N5lJAxFKv0IH8=
+X-Google-Smtp-Source: ABdhPJz3E4SlMF5Jrmbbv+iQW7lmWIOxY+JRXytdRqTPN5zRRbg+AcnV4rdjtorj3yNgHU/bT5YkYw==
+X-Received: by 2002:a63:8f5a:: with SMTP id r26mr6228281pgn.50.1635476760819;
+        Thu, 28 Oct 2021 20:06:00 -0700 (PDT)
+Received: from nuc10.. (d50-92-229-34.bchsia.telus.net. [50.92.229.34])
+        by smtp.gmail.com with ESMTPSA id q18sm5503665pfu.219.2021.10.28.20.06.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Oct 2021 20:06:00 -0700 (PDT)
+From:   Rustam Kovhaev <rkovhaev@gmail.com>
+To:     vbabka@suse.cz, cl@linux.com, penberg@kernel.org,
+        rientjes@google.com, iamjoonsoo.kim@lge.com,
+        akpm@linux-foundation.org, corbet@lwn.net
+Cc:     djwong@kernel.org, david@fromorbit.com,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
+        viro@zeniv.linux.org.uk, dvyukov@google.com,
+        Rustam Kovhaev <rkovhaev@gmail.com>
+Subject: [PATCH v3] slob: add size header to all allocations
+Date:   Thu, 28 Oct 2021 20:05:34 -0700
+Message-Id: <20211029030534.3847165-1-rkovhaev@gmail.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <be7ee3a6-9b3c-b436-f042-82bd3c416acc@suse.cz>
+References: <be7ee3a6-9b3c-b436-f042-82bd3c416acc@suse.cz>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 29 Oct 2021, at 00:37, Atish Patra <atishp@atishpatra.org> wrote:
->=20
-> On Thu, Oct 28, 2021 at 1:49 PM Jessica Clarke <jrtc27@jrtc27.com> =
-wrote:
->>=20
->> On Mon, Oct 25, 2021 at 12:53:49PM -0700, Atish Patra wrote:
->>> HiFive unmatched supports HPMCounters but does not implement =
-mcountinhibit
->>> or sscof extension. Thus, perf monitoring can be used on the =
-unmatched
->>> board without sampling.
->>>=20
->>> Add the PMU node with compatible string so that Linux perf driver =
-can
->>> utilize this to enable PMU.
->>>=20
->>> Signed-off-by: Atish Patra <atish.patra@wdc.com>
->>> ---
->>> arch/riscv/boot/dts/sifive/fu740-c000.dtsi | 3 +++
->>> 1 file changed, 3 insertions(+)
->>>=20
->>> diff --git a/arch/riscv/boot/dts/sifive/fu740-c000.dtsi =
-b/arch/riscv/boot/dts/sifive/fu740-c000.dtsi
->>> index abbb960f90a0..b35b96b58820 100644
->>> --- a/arch/riscv/boot/dts/sifive/fu740-c000.dtsi
->>> +++ b/arch/riscv/boot/dts/sifive/fu740-c000.dtsi
->>> @@ -140,6 +140,9 @@ soc {
->>>              #size-cells =3D <2>;
->>>              compatible =3D "simple-bus";
->>>              ranges;
->>> +             pmu {
->>> +                     compatible =3D "riscv,pmu";
->>> +             };
->>=20
->> This is a property of the user-replaceable firmware, not a property =
-of
->> the hardware,
->=20
-> It's a property of hardware that indicates that the hardware supports =
-PMU.
+Let's prepend both kmalloc() and kmem_cache_alloc() allocations with the
+size header.
+It simplifies the slab API and guarantees that both kmem_cache_alloc()
+and kmalloc() memory could be freed by kfree().
 
-All RISC-V hardware provides the CSRs, they=E2=80=99re part of the =
-privileged
-spec and not marked optional. How many aren=E2=80=99t hard-wired to zero =
-is up
-to the implementation. But even then you can=E2=80=99t know from the =
-hardware
-alone what is supported; the firmware has to enable S-mode (and
-U-mode)=E2=80=99s ability to read them, so you can=E2=80=99t assume =
-anything in a
-static device tree hard-coded in Linux about what firmware has done.
-Since you currently have to query the firmware to determine what=E2=80=99s=
+meminfo right after the system boot, x86-64 on xfs, without the patch:
+Slab:              35456 kB
 
-available to you anyway, I see no benefit from having a node in the
-device tree that tells you your firmware *might* have counters you can
-use.
+the same, with the patch:
+Slab:              36100 kB
 
-> Additionally, the counter overflow interrupt number needs to be
-> defined through the DT as well
-> so that a clean platform driver can be implemented.
+Link: https://lore.kernel.org/lkml/20210929212347.1139666-1-rkovhaev@gmail.com
+Signed-off-by: Rustam Kovhaev <rkovhaev@gmail.com>
+---
+v3:
+ - Add SLOB_HDR_SIZE define
+ - Remove references to minalign
+ - Improve documentation wording
 
-The interrupt number is specified as 13 by the Sscofmpf spec.
-But that=E2=80=99s not relevant here, the FU740 predates and doesn=E2=80=99=
-t implement
-Sscofmpf, meaning there is no interrupt to even define here. And as I
-said on the other patch, don=E2=80=99t conflate =E2=80=9CSBI PMU =
-firmware interface is
-supported=E2=80=9D and =E2=80=9CSscofmpf is implemented in the =
-hardware=E2=80=9D; the former
-should be discovered by talking to firmware, and the latter should be
-discovered like any other extension (however that ends up happening).
+v2:
+ - Allocate compound pages in slob_alloc_node()
+ - Use slob_free_pages() in kfree()
+ - Update documentation
+---
+ Documentation/core-api/memory-allocation.rst |  12 +-
+ mm/slob.c                                    | 132 +++++++++----------
+ 2 files changed, 68 insertions(+), 76 deletions(-)
 
->> so having this in the device tree under /soc, let alone
->> hard-coded in Linux, is utterly wrong. Why can this not just be =
-probed
->> like any other SBI interface? The "Probe SBI extension" interface is
->> precisely for this kind of thing.
->>=20
-> SBI extension is anyways probed to verify if the firmware has PMU
-> extension or not.
-> However, adding the DT property allows different platforms (with or
-> without sscof extension)
-> to use the same code path.
-
-You don=E2=80=99t need a device tree for that; that same code path can =
-just be
-=E2=80=9Cuse the existing standard firmware interface=E2=80=9D. That =
-also has the
-benefit that it=E2=80=99s not tied to device tree and so works =
-identically for
-ACPI, rather than needing an ACPI version of it.
-
-I see nothing here that can=E2=80=99t be discovered through pre-existing =
-means.
-If it can be discovered without use of the device tree then it does not
-belong in the device tree; the device tree is purely for things that
-cannot otherwise be discovered.
-
-Jess
+diff --git a/Documentation/core-api/memory-allocation.rst b/Documentation/core-api/memory-allocation.rst
+index 5954ddf6ee13..31806d5ebeec 100644
+--- a/Documentation/core-api/memory-allocation.rst
++++ b/Documentation/core-api/memory-allocation.rst
+@@ -170,7 +170,11 @@ should be used if a part of the cache might be copied to the userspace.
+ After the cache is created kmem_cache_alloc() and its convenience
+ wrappers can allocate memory from that cache.
+ 
+-When the allocated memory is no longer needed it must be freed. You can
+-use kvfree() for the memory allocated with `kmalloc`, `vmalloc` and
+-`kvmalloc`. The slab caches should be freed with kmem_cache_free(). And
+-don't forget to destroy the cache with kmem_cache_destroy().
++When the allocated memory is no longer needed it must be freed.
++Objects allocated by `kmalloc` can be freed with `kfree` or `kvfree`.
++Objects allocated by `kmem_cache_alloc` can be freed with `kmem_cache_free`
++or also by `kfree` or `kvfree`.
++Memory allocated by `vmalloc` can be freed with `vfree` or `kvfree`.
++Memory allocated by `kvmalloc` can be freed with `kvfree`.
++Caches created by `kmem_cache_create` should be freed with
++`kmem_cache_destroy`.
+diff --git a/mm/slob.c b/mm/slob.c
+index 74d3f6e60666..4a4f3fe40a59 100644
+--- a/mm/slob.c
++++ b/mm/slob.c
+@@ -25,23 +25,18 @@
+  * into the free list in address order, so this is effectively an
+  * address-ordered first fit.
+  *
+- * Above this is an implementation of kmalloc/kfree. Blocks returned
+- * from kmalloc are prepended with a 4-byte header with the kmalloc size.
+- * If kmalloc is asked for objects of PAGE_SIZE or larger, it calls
+- * alloc_pages() directly, allocating compound pages so the page order
+- * does not have to be separately tracked.
+- * These objects are detected in kfree() because PageSlab()
+- * is false for them.
++ * Blocks that are less than (PAGE_SIZE - SLOB_HDR_SIZE) are prepended with
++ * a 4-byte header with the size. Larger blocks do not have the header and
++ * SLOB calls alloc_pages() directly, allocating compound pages so the
++ * page order does not have to be separately tracked. These objects are
++ * detected in kfree() because PageSlab() is false for them.
+  *
+  * SLAB is emulated on top of SLOB by simply calling constructors and
+  * destructors for every SLAB allocation. Objects are returned with the
+  * 4-byte alignment unless the SLAB_HWCACHE_ALIGN flag is set, in which
+  * case the low-level allocator will fragment blocks to create the proper
+- * alignment. Again, objects of page-size or greater are allocated by
+- * calling alloc_pages(). As SLAB objects know their size, no separate
+- * size bookkeeping is necessary and there is essentially no allocation
+- * space overhead, and compound pages aren't needed for multi-page
+- * allocations.
++ * alignment. Again, objects of (PAGE_SIZE - SLOB_HDR_SIZE) or greater are
++ * allocated by calling alloc_pages().
+  *
+  * NUMA support in SLOB is fairly simplistic, pushing most of the real
+  * logic down to the page allocator, and simply doing the node accounting
+@@ -88,6 +83,8 @@ typedef s16 slobidx_t;
+ typedef s32 slobidx_t;
+ #endif
+ 
++#define SLOB_HDR_SIZE max(ARCH_KMALLOC_MINALIGN, ARCH_SLAB_MINALIGN)
++
+ struct slob_block {
+ 	slobidx_t units;
+ };
+@@ -207,12 +204,14 @@ static void *slob_new_pages(gfp_t gfp, int order, int node)
+ 	return page_address(page);
+ }
+ 
+-static void slob_free_pages(void *b, int order)
++static void slob_free_pages(struct page *sp, int order)
+ {
+-	struct page *sp = virt_to_page(b);
+-
+-	if (current->reclaim_state)
+-		current->reclaim_state->reclaimed_slab += 1 << order;
++	if (PageSlab(sp)) {
++		__ClearPageSlab(sp);
++		page_mapcount_reset(sp);
++		if (current->reclaim_state)
++			current->reclaim_state->reclaimed_slab += 1 << order;
++	}
+ 
+ 	mod_node_page_state(page_pgdat(sp), NR_SLAB_UNRECLAIMABLE_B,
+ 			    -(PAGE_SIZE << order));
+@@ -247,9 +246,7 @@ static void *slob_page_alloc(struct page *sp, size_t size, int align,
+ 		/*
+ 		 * 'aligned' will hold the address of the slob block so that the
+ 		 * address 'aligned'+'align_offset' is aligned according to the
+-		 * 'align' parameter. This is for kmalloc() which prepends the
+-		 * allocated block with its size, so that the block itself is
+-		 * aligned when needed.
++		 * 'align' parameter.
+ 		 */
+ 		if (align) {
+ 			aligned = (slob_t *)
+@@ -373,25 +370,26 @@ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node,
+ 	}
+ 	if (unlikely(gfp & __GFP_ZERO))
+ 		memset(b, 0, size);
+-	return b;
++	/* Write size in the header */
++	*(unsigned int *)b = size - align_offset;
++	return (void *)b + align_offset;
+ }
+ 
+ /*
+  * slob_free: entry point into the slob allocator.
+  */
+-static void slob_free(void *block, int size)
++static void slob_free(void *block)
+ {
+ 	struct page *sp;
+-	slob_t *prev, *next, *b = (slob_t *)block;
++	slob_t *prev, *next, *b = block - SLOB_HDR_SIZE;
++	unsigned int size;
+ 	slobidx_t units;
+ 	unsigned long flags;
+ 	struct list_head *slob_list;
+ 
+-	if (unlikely(ZERO_OR_NULL_PTR(block)))
+-		return;
+-	BUG_ON(!size);
+-
+-	sp = virt_to_page(block);
++	size = *(unsigned int *)b + SLOB_HDR_SIZE;
++	BUG_ON(!size || size >= PAGE_SIZE);
++	sp = virt_to_page(b);
+ 	units = SLOB_UNITS(size);
+ 
+ 	spin_lock_irqsave(&slob_lock, flags);
+@@ -401,9 +399,7 @@ static void slob_free(void *block, int size)
+ 		if (slob_page_free(sp))
+ 			clear_slob_page_free(sp);
+ 		spin_unlock_irqrestore(&slob_lock, flags);
+-		__ClearPageSlab(sp);
+-		page_mapcount_reset(sp);
+-		slob_free_pages(b, 0);
++		slob_free_pages(sp, 0);
+ 		return;
+ 	}
+ 
+@@ -476,36 +472,29 @@ void kmem_obj_info(struct kmem_obj_info *kpp, void *object, struct page *page)
+ static __always_inline void *
+ __do_kmalloc_node(size_t size, gfp_t gfp, int node, unsigned long caller)
+ {
+-	unsigned int *m;
+-	int minalign = max_t(size_t, ARCH_KMALLOC_MINALIGN, ARCH_SLAB_MINALIGN);
+ 	void *ret;
+ 
+ 	gfp &= gfp_allowed_mask;
+ 
+ 	might_alloc(gfp);
+ 
+-	if (size < PAGE_SIZE - minalign) {
+-		int align = minalign;
++	if (size < PAGE_SIZE - SLOB_HDR_SIZE) {
++		int align = SLOB_HDR_SIZE;
+ 
+ 		/*
+ 		 * For power of two sizes, guarantee natural alignment for
+ 		 * kmalloc()'d objects.
+ 		 */
+ 		if (is_power_of_2(size))
+-			align = max(minalign, (int) size);
++			align = max(align, (int) size);
+ 
+ 		if (!size)
+ 			return ZERO_SIZE_PTR;
+ 
+-		m = slob_alloc(size + minalign, gfp, align, node, minalign);
+-
+-		if (!m)
+-			return NULL;
+-		*m = size;
+-		ret = (void *)m + minalign;
++		ret = slob_alloc(size + SLOB_HDR_SIZE, gfp, align, node, SLOB_HDR_SIZE);
+ 
+ 		trace_kmalloc_node(caller, ret,
+-				   size, size + minalign, gfp, node);
++				   size, size + SLOB_HDR_SIZE, gfp, node);
+ 	} else {
+ 		unsigned int order = get_order(size);
+ 
+@@ -553,26 +542,17 @@ void kfree(const void *block)
+ 	kmemleak_free(block);
+ 
+ 	sp = virt_to_page(block);
+-	if (PageSlab(sp)) {
+-		int align = max_t(size_t, ARCH_KMALLOC_MINALIGN, ARCH_SLAB_MINALIGN);
+-		unsigned int *m = (unsigned int *)(block - align);
+-		slob_free(m, *m + align);
+-	} else {
+-		unsigned int order = compound_order(sp);
+-		mod_node_page_state(page_pgdat(sp), NR_SLAB_UNRECLAIMABLE_B,
+-				    -(PAGE_SIZE << order));
+-		__free_pages(sp, order);
+-
+-	}
++	if (PageSlab(sp))
++		slob_free((void *)block);
++	else
++		slob_free_pages(sp, compound_order(sp));
+ }
+ EXPORT_SYMBOL(kfree);
+ 
+-/* can't use ksize for kmem_cache_alloc memory, only kmalloc */
+ size_t __ksize(const void *block)
+ {
+ 	struct page *sp;
+-	int align;
+-	unsigned int *m;
++	unsigned int size;
+ 
+ 	BUG_ON(!block);
+ 	if (unlikely(block == ZERO_SIZE_PTR))
+@@ -582,9 +562,8 @@ size_t __ksize(const void *block)
+ 	if (unlikely(!PageSlab(sp)))
+ 		return page_size(sp);
+ 
+-	align = max_t(size_t, ARCH_KMALLOC_MINALIGN, ARCH_SLAB_MINALIGN);
+-	m = (unsigned int *)(block - align);
+-	return SLOB_UNITS(*m) * SLOB_UNIT;
++	size = *(unsigned int *)(block - SLOB_HDR_SIZE);
++	return SLOB_UNITS(size) * SLOB_UNIT;
+ }
+ EXPORT_SYMBOL(__ksize);
+ 
+@@ -606,16 +585,19 @@ static void *slob_alloc_node(struct kmem_cache *c, gfp_t flags, int node)
+ 
+ 	might_alloc(flags);
+ 
+-	if (c->size < PAGE_SIZE) {
+-		b = slob_alloc(c->size, flags, c->align, node, 0);
++	if (c->size < PAGE_SIZE - SLOB_HDR_SIZE) {
++		b = slob_alloc(c->size + SLOB_HDR_SIZE, flags, c->align, node, SLOB_HDR_SIZE);
+ 		trace_kmem_cache_alloc_node(_RET_IP_, b, c->object_size,
+-					    SLOB_UNITS(c->size) * SLOB_UNIT,
++					    SLOB_UNITS(c->size + SLOB_HDR_SIZE) * SLOB_UNIT,
+ 					    flags, node);
+ 	} else {
+-		b = slob_new_pages(flags, get_order(c->size), node);
++		unsigned int order = get_order(c->size);
++
++		if (likely(order))
++			flags |= __GFP_COMP;
++		b = slob_new_pages(flags, order, node);
+ 		trace_kmem_cache_alloc_node(_RET_IP_, b, c->object_size,
+-					    PAGE_SIZE << get_order(c->size),
+-					    flags, node);
++					    PAGE_SIZE << order, flags, node);
+ 	}
+ 
+ 	if (b && c->ctor) {
+@@ -647,12 +629,18 @@ void *kmem_cache_alloc_node(struct kmem_cache *cachep, gfp_t gfp, int node)
+ EXPORT_SYMBOL(kmem_cache_alloc_node);
+ #endif
+ 
+-static void __kmem_cache_free(void *b, int size)
++static void __kmem_cache_free(void *b)
+ {
+-	if (size < PAGE_SIZE)
+-		slob_free(b, size);
++	struct page *sp;
++
++	if (unlikely(ZERO_OR_NULL_PTR(b)))
++		return;
++
++	sp = virt_to_page(b);
++	if (PageSlab(sp))
++		slob_free(b);
+ 	else
+-		slob_free_pages(b, get_order(size));
++		slob_free_pages(sp, compound_order(sp));
+ }
+ 
+ static void kmem_rcu_free(struct rcu_head *head)
+@@ -660,7 +648,7 @@ static void kmem_rcu_free(struct rcu_head *head)
+ 	struct slob_rcu *slob_rcu = (struct slob_rcu *)head;
+ 	void *b = (void *)slob_rcu - (slob_rcu->size - sizeof(struct slob_rcu));
+ 
+-	__kmem_cache_free(b, slob_rcu->size);
++	__kmem_cache_free(b);
+ }
+ 
+ void kmem_cache_free(struct kmem_cache *c, void *b)
+@@ -672,7 +660,7 @@ void kmem_cache_free(struct kmem_cache *c, void *b)
+ 		slob_rcu->size = c->size;
+ 		call_rcu(&slob_rcu->head, kmem_rcu_free);
+ 	} else {
+-		__kmem_cache_free(b, c->size);
++		__kmem_cache_free(b);
+ 	}
+ 
+ 	trace_kmem_cache_free(_RET_IP_, b, c->name);
+-- 
+2.30.2
 
