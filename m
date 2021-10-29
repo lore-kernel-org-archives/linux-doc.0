@@ -2,212 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67660C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 06:05:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E36F4C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 06:12:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 35DC36113B
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 06:05:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C59426108F
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 06:12:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231911AbhJ2GIX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Oct 2021 02:08:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44160 "EHLO
+        id S231948AbhJ2GPF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Oct 2021 02:15:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231774AbhJ2GIW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Oct 2021 02:08:22 -0400
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 546BAC061714
-        for <linux-doc@vger.kernel.org>; Thu, 28 Oct 2021 23:05:54 -0700 (PDT)
-Received: by mail-yb1-xb36.google.com with SMTP id 131so10045358ybc.7
-        for <linux-doc@vger.kernel.org>; Thu, 28 Oct 2021 23:05:54 -0700 (PDT)
+        with ESMTP id S231982AbhJ2GPE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Oct 2021 02:15:04 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D45A3C061766
+        for <linux-doc@vger.kernel.org>; Thu, 28 Oct 2021 23:12:36 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id x33-20020a17090a6c2400b001a63ef25836so228462pjj.3
+        for <linux-doc@vger.kernel.org>; Thu, 28 Oct 2021 23:12:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=atishpatra.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=Ef7CgH5bstiFbSOUk78qZ1LgQ+HaUKVN7yqdDJbvgJM=;
-        b=Lu4P/PB9F9ghzQlQ1gTf3elDPEt0VhIoLYh95RM87su3kRebBW0vq9G4CCKAYPcy6R
-         wkQEqfeatb5Rz8ZoPPZqQNjN6n4ggXEmgDcY+rgzkpTnH3K0Lyuja8CkAHIwskQe6tmC
-         l+xuWdDlokRksbYia9moXY+odalbngjOHN3oo=
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=GmBAManK6+5n92cYCAjM0Y2324rUvA8onYfURui5swg=;
+        b=FzRfo54vrj1x+VLw9hZRhsWcpjKLGH17K667QXoIO36SpX9iUX4FFkZJEEPXUpJGsV
+         EtmWWVbnaZKVDy8mKtra/0rlwBqNkvmRWqC00/6xN4ZoC9Fmg2VPISK13AgHJGdZEVLD
+         dp2KqjrXbrOmMPeP1SXzkQSSIjmjMtjiIQmXJ9O/tSdqZKGjRhMplffWWzbbkfLc1aDZ
+         MdoBLJKytMXXpcG2Q10pe40fSIxz/RXnZZXA6zESGj3MoScrAUky4Qbt7DDQoV+wZYEG
+         pBdAf8H4oQ2xhC2jqtcYR9YAfqfZeYZQEhwgn0plZ7GRCU3BPi2QryAOfRpj9Nwrnyi2
+         TthA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Ef7CgH5bstiFbSOUk78qZ1LgQ+HaUKVN7yqdDJbvgJM=;
-        b=WCVb4W2tuvZNdQENP2Gj2PC/YnWJM91YVa0H4gltAsYupJD59zYzKrhRdWDuKiaRpS
-         DFNPIAO/x1NHf5Thk29D0uEDByquNUTVTpv2G8ErMs2FApNmQE5VootsM8IddQVkIg35
-         4RolM+h0+Q0owwVF+SZrxQcdKCeK+sUvZfsZI59BxlocSM54nMrH0d2DUQ5x7BzUATdr
-         GJ7mA7Tg5hwCyL6sK0yM5yKvmZC6S0DSFq90jPxAhF/kB+qDKj4lfu1yPJTIoov5hGz9
-         YweLi0llwgFXrM/h5BDK0b/WTlkH4bppC4UNcxy7hTcr9ANLcPL+4f/1oBahDZTtnzk0
-         2qiA==
-X-Gm-Message-State: AOAM533sflCOMw6tvfSHuFQTbdPw6ZKtmi68nM6dCoAR+WInco4H916r
-        DDZ3C2FHM+VvHlH6UFWOftlT07QbDeTem+rVlBhW
-X-Google-Smtp-Source: ABdhPJyAbwZ9hvTFa/radJfuWMS3aMdr2KxRKeUkW7bQFbqcD1sB+dxag58TbQt8Fx9iY4ymtLyrLQiBHBB94EUg6MQ=
-X-Received: by 2002:a25:5341:: with SMTP id h62mr9970718ybb.481.1635487553445;
- Thu, 28 Oct 2021 23:05:53 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=GmBAManK6+5n92cYCAjM0Y2324rUvA8onYfURui5swg=;
+        b=01jL3BqC3ATVD7jr7IAi+7hMvKoiI/sn9Pi3FaVE6c7yUbNgoLKT6w9KIOOpXGhpkV
+         vUo+tzmlq1nsnpE3EAuESBi9pvoiqaqvU07WZIx0IQ1uOUlk7Mqq5S04Sj2Va+i1aZ0b
+         AESM7vieuPJWV3zQsNfwkmYL/cnZ+9QhM4OEQ0R1xxQOHLAUAEKJ6nj9nTXT/3W2U6h2
+         2VaQQf13TWxU2jH0GTeMHSA2NVJDJjNkpu4pTfQUjdILH+gvMLcMhgO22LEWdnghjqSf
+         mGQpqot+9UoFvSLRToqYt2hYcqAf97a1l6vfN0/0ax52dtpqESlr2QxbALLXqG9oAtQ2
+         6MKA==
+X-Gm-Message-State: AOAM531mJAHGPWT+t/p1qUTNouoX9Lwy0GC0QQAEEkgzmylQTqCke5wn
+        k1cHnkiPpL85M6vPjquP+XS/LMI3dW4yQQ==
+X-Google-Smtp-Source: ABdhPJztBy0zM++I5AqHWJadlwUlf5T5u9UumL7kPyW5tAyH1YoVZN1zbsrrfFHD91xN+LsQ2NyLjQ==
+X-Received: by 2002:a17:902:f546:b0:141:b70e:1dd with SMTP id h6-20020a170902f54600b00141b70e01ddmr181519plf.30.1635487955947;
+        Thu, 28 Oct 2021 23:12:35 -0700 (PDT)
+Received: from [10.76.43.192] ([61.120.150.76])
+        by smtp.gmail.com with ESMTPSA id h6sm4796507pfi.174.2021.10.28.23.12.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Oct 2021 23:12:35 -0700 (PDT)
+Subject: Re: Re: [PATCH v1] sched/numa: add per-process numa_balancing
+To:     Mel Gorman <mgorman@suse.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20211027132633.86653-1-ligang.bdlg@bytedance.com>
+ <20211028153028.GP3891@suse.de>
+From:   Gang Li <ligang.bdlg@bytedance.com>
+Message-ID: <b884ad7d-48d3-fcc8-d199-9e7643552a9a@bytedance.com>
+Date:   Fri, 29 Oct 2021 14:12:28 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <20211025195350.242914-1-atish.patra@wdc.com> <20211025195350.242914-11-atish.patra@wdc.com>
- <YXsMtrmuavGAHk8S@Jessicas-MacBook-Pro.local> <CAOnJCULqwZvK52nczp2HNinDCBjThnbGbvJpAvdameny1fK4Vw@mail.gmail.com>
- <EDB030D6-D37A-43D6-9027-222794FDA80D@jrtc27.com>
-In-Reply-To: <EDB030D6-D37A-43D6-9027-222794FDA80D@jrtc27.com>
-From:   Atish Patra <atishp@atishpatra.org>
-Date:   Thu, 28 Oct 2021 23:05:42 -0700
-Message-ID: <CAOnJCUJjzmW=QobLPKAWYGppFeoJXjT2Ee6eG2-H=s2mnei=RQ@mail.gmail.com>
-Subject: Re: [v4 10/11] riscv: dts: fu740: Add pmu node
-To:     Jessica Clarke <jrtc27@jrtc27.com>
-Cc:     Atish Patra <atish.patra@wdc.com>,
-        "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
-        Anup Patel <anup.patel@wdc.com>,
-        David Abdurachmanov <david.abdurachmanov@sifive.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        Greentime Hu <greentime.hu@sifive.com>,
-        Guo Ren <guoren@linux.alibaba.com>,
-        Heinrich Schuchardt <xypron.glpk@gmx.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-perf-users@vger.kernel.org,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        Nick Kossifidis <mick@ics.forth.gr>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Vincent Chen <vincent.chen@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20211028153028.GP3891@suse.de>
+Content-Type: text/plain; charset=iso-8859-15; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 28, 2021 at 5:07 PM Jessica Clarke <jrtc27@jrtc27.com> wrote:
+On 10/28/21 11:30 PM, Mel Gorman wrote:
+> 
+> That aside though, the configuration space could be better. It's possible
+> to selectively disable NUMA balance but not selectively enable because
+> prctl is disabled if global NUMA balancing is disabled. That could be
+> somewhat achieved by having a default value for mm->numa_balancing based on
+> whether the global numa balancing is disabled via command line or sysctl
+> and enabling the static branch if prctl is used with an informational
+> message. This is not the only potential solution but as it stands,
+> there are odd semantic corner cases. For example, explicit enabling
+> of NUMA balancing by prctl gets silently revoked if numa balancing is
+> disabled via sysctl and prctl(PR_NUMA_BALANCING, PR_SET_NUMA_BALANCING,
+> 1) means nothing.
 >
-> On 29 Oct 2021, at 00:37, Atish Patra <atishp@atishpatra.org> wrote:
-> >
-> > On Thu, Oct 28, 2021 at 1:49 PM Jessica Clarke <jrtc27@jrtc27.com> wrot=
-e:
-> >>
-> >> On Mon, Oct 25, 2021 at 12:53:49PM -0700, Atish Patra wrote:
-> >>> HiFive unmatched supports HPMCounters but does not implement mcountin=
-hibit
-> >>> or sscof extension. Thus, perf monitoring can be used on the unmatche=
-d
-> >>> board without sampling.
-> >>>
-> >>> Add the PMU node with compatible string so that Linux perf driver can
-> >>> utilize this to enable PMU.
-> >>>
-> >>> Signed-off-by: Atish Patra <atish.patra@wdc.com>
-> >>> ---
-> >>> arch/riscv/boot/dts/sifive/fu740-c000.dtsi | 3 +++
-> >>> 1 file changed, 3 insertions(+)
-> >>>
-> >>> diff --git a/arch/riscv/boot/dts/sifive/fu740-c000.dtsi b/arch/riscv/=
-boot/dts/sifive/fu740-c000.dtsi
-> >>> index abbb960f90a0..b35b96b58820 100644
-> >>> --- a/arch/riscv/boot/dts/sifive/fu740-c000.dtsi
-> >>> +++ b/arch/riscv/boot/dts/sifive/fu740-c000.dtsi
-> >>> @@ -140,6 +140,9 @@ soc {
-> >>>              #size-cells =3D <2>;
-> >>>              compatible =3D "simple-bus";
-> >>>              ranges;
-> >>> +             pmu {
-> >>> +                     compatible =3D "riscv,pmu";
-> >>> +             };
-> >>
-> >> This is a property of the user-replaceable firmware, not a property of
-> >> the hardware,
-> >
-> > It's a property of hardware that indicates that the hardware supports P=
-MU.
->
-> All RISC-V hardware provides the CSRs, they=E2=80=99re part of the privil=
-eged
-> spec and not marked optional. How many aren=E2=80=99t hard-wired to zero =
-is up
-> to the implementation. But even then you can=E2=80=99t know from the hard=
-ware
-> alone what is supported; the firmware has to enable S-mode (and
-> U-mode)=E2=80=99s ability to read them, so you can=E2=80=99t assume anyth=
-ing in a
-> static device tree hard-coded in Linux about what firmware has done.
-> Since you currently have to query the firmware to determine what=E2=80=99=
-s
-> available to you anyway, I see no benefit from having a node in the
-> device tree that tells you your firmware *might* have counters you can
-> use.
->
-> > Additionally, the counter overflow interrupt number needs to be
-> > defined through the DT as well
-> > so that a clean platform driver can be implemented.
->
-> The interrupt number is specified as 13 by the Sscofmpf spec.
-> But that=E2=80=99s not relevant here, the FU740 predates and doesn=E2=80=
-=99t implement
-> Sscofmpf, meaning there is no interrupt to even define here. And as I
-> said on the other patch, don=E2=80=99t conflate =E2=80=9CSBI PMU firmware=
- interface is
-> supported=E2=80=9D and =E2=80=9CSscofmpf is implemented in the hardware=
-=E2=80=9D; the former
-> should be discovered by talking to firmware, and the latter should be
-> discovered like any other extension (however that ends up happening).
+static void task_tick_fair(struct rq *rq, struct task_struct *curr, int 
+queued)
+{
+	...
+	if (static_branch_unlikely(&sched_numa_balancing))
+		task_tick_numa(rq, curr);
+	...
+}
 
-Presence of sscof extension can be discovered through general extension
-discovery mechanism (probably a separate DT node..that's a separate discuss=
-ion).
+static void task_tick_numa(struct rq *rq, struct task_struct *curr)
+{
+	...
+	if (!READ_ONCE(curr->mm->numa_balancing))
+		return;
+	...
+}
 
-However, the interrupt number discovery has to be through DT so the
-platform driver
-can probe the DT to figure out that.
+When global numa_balancing is disabled, mm->numa_balancing is useless. 
+So I think prctl(PR_NUMA_BALANCING, PR_SET_NUMA_BALANCING,0/1) should 
+return error instead of modify mm->numa_balancing.
 
->
-> >> so having this in the device tree under /soc, let alone
-> >> hard-coded in Linux, is utterly wrong. Why can this not just be probed
-> >> like any other SBI interface? The "Probe SBI extension" interface is
-> >> precisely for this kind of thing.
-> >>
-> > SBI extension is anyways probed to verify if the firmware has PMU
-> > extension or not.
-> > However, adding the DT property allows different platforms (with or
-> > without sscof extension)
-> > to use the same code path.
->
-> You don=E2=80=99t need a device tree for that; that same code path can ju=
-st be
-> =E2=80=9Cuse the existing standard firmware interface=E2=80=9D. That also=
- has the
-> benefit that it=E2=80=99s not tied to device tree and so works identicall=
-y for
-> ACPI, rather than needing an ACPI version of it.
->
+Is it reasonable that prctl(PR_NUMA_BALANCING,PR_SET_NUMA_BALANCING,0/1)
+can still change the value of mm->numa_balancing when global 
+numa_balancing is disabled?
 
-I don't disagree with that argument. However, we need a DT node for
-interrupt number as explained in the above.
-A DT based platform driver allows us to provide a unified code path
-which can handle both kinds of platforms described below.
-
-1. Platforms without sscof extension
-2. Platforms with sscof extension that requires a DT node for interrupt num=
-ber
-
-Otherwise, the driver has to do the following things in order.
-
-1. Probe PMU extension
-2. first check if sscof extension is present in the special RISC-V ISA
-extension DT node (which is yet to finalize)
-3. If sscof extension is present then register for a DT based platform driv=
-er.
-4. Otherwise, register a simple platform driver.
-
-I am not completely opposed to doing that if there is a strong
-technical issue with the current approach.
-
-> I see nothing here that can=E2=80=99t be discovered through pre-existing =
-means.
-> If it can be discovered without use of the device tree then it does not
-> belong in the device tree; the device tree is purely for things that
-> cannot otherwise be discovered.
->
-> Jess
->
-
-
---=20
-Regards,
-Atish
