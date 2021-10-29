@@ -2,56 +2,57 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E36F4C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 06:12:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49B7EC433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 07:49:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C59426108F
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 06:12:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 32A14604DC
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 07:49:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231948AbhJ2GPF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Oct 2021 02:15:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45668 "EHLO
+        id S232399AbhJ2HwC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Oct 2021 03:52:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231982AbhJ2GPE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Oct 2021 02:15:04 -0400
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D45A3C061766
-        for <linux-doc@vger.kernel.org>; Thu, 28 Oct 2021 23:12:36 -0700 (PDT)
-Received: by mail-pj1-x1029.google.com with SMTP id x33-20020a17090a6c2400b001a63ef25836so228462pjj.3
-        for <linux-doc@vger.kernel.org>; Thu, 28 Oct 2021 23:12:36 -0700 (PDT)
+        with ESMTP id S232329AbhJ2Hvc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Oct 2021 03:51:32 -0400
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A542DC0613B9
+        for <linux-doc@vger.kernel.org>; Fri, 29 Oct 2021 00:49:03 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id 5so34901287edw.7
+        for <linux-doc@vger.kernel.org>; Fri, 29 Oct 2021 00:49:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=GmBAManK6+5n92cYCAjM0Y2324rUvA8onYfURui5swg=;
-        b=FzRfo54vrj1x+VLw9hZRhsWcpjKLGH17K667QXoIO36SpX9iUX4FFkZJEEPXUpJGsV
-         EtmWWVbnaZKVDy8mKtra/0rlwBqNkvmRWqC00/6xN4ZoC9Fmg2VPISK13AgHJGdZEVLD
-         dp2KqjrXbrOmMPeP1SXzkQSSIjmjMtjiIQmXJ9O/tSdqZKGjRhMplffWWzbbkfLc1aDZ
-         MdoBLJKytMXXpcG2Q10pe40fSIxz/RXnZZXA6zESGj3MoScrAUky4Qbt7DDQoV+wZYEG
-         pBdAf8H4oQ2xhC2jqtcYR9YAfqfZeYZQEhwgn0plZ7GRCU3BPi2QryAOfRpj9Nwrnyi2
-         TthA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vjqTlAq/8atUNGknBengC56rv9Dz2YcbvxQpL6f31NE=;
+        b=4NWQ97D8av1bcOmAuQzWks2cBvv6sEDFs9N8sqanD4uhWTidcfYo3hBwx+DyCNFz1K
+         P4C+s2YWl0gtXhIEz4s/whnD2DqPHxtpemt8r9bU+0/beruJ6D0okHZ8gattocaYAXEv
+         Zybb+4y2JNS6+rpvFo4Ectd4zS13QmraLGofH2mPNjDu9wd4ORTSd/6hT5VwdRxXkLxn
+         F1ewJRoO/QNgJhKynXm88FBtssDG+yUlM9zauo+3ocX/ytwveSWrB/tl11tDpcdmyEHQ
+         cxqna2wQ4HpL7O/dzDhj25Kv2djOE8/xDRnIPI1r/h0QlWADoXnouRt9Tdu3nKvKCxTs
+         dQkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=GmBAManK6+5n92cYCAjM0Y2324rUvA8onYfURui5swg=;
-        b=01jL3BqC3ATVD7jr7IAi+7hMvKoiI/sn9Pi3FaVE6c7yUbNgoLKT6w9KIOOpXGhpkV
-         vUo+tzmlq1nsnpE3EAuESBi9pvoiqaqvU07WZIx0IQ1uOUlk7Mqq5S04Sj2Va+i1aZ0b
-         AESM7vieuPJWV3zQsNfwkmYL/cnZ+9QhM4OEQ0R1xxQOHLAUAEKJ6nj9nTXT/3W2U6h2
-         2VaQQf13TWxU2jH0GTeMHSA2NVJDJjNkpu4pTfQUjdILH+gvMLcMhgO22LEWdnghjqSf
-         mGQpqot+9UoFvSLRToqYt2hYcqAf97a1l6vfN0/0ax52dtpqESlr2QxbALLXqG9oAtQ2
-         6MKA==
-X-Gm-Message-State: AOAM531mJAHGPWT+t/p1qUTNouoX9Lwy0GC0QQAEEkgzmylQTqCke5wn
-        k1cHnkiPpL85M6vPjquP+XS/LMI3dW4yQQ==
-X-Google-Smtp-Source: ABdhPJztBy0zM++I5AqHWJadlwUlf5T5u9UumL7kPyW5tAyH1YoVZN1zbsrrfFHD91xN+LsQ2NyLjQ==
-X-Received: by 2002:a17:902:f546:b0:141:b70e:1dd with SMTP id h6-20020a170902f54600b00141b70e01ddmr181519plf.30.1635487955947;
-        Thu, 28 Oct 2021 23:12:35 -0700 (PDT)
-Received: from [10.76.43.192] ([61.120.150.76])
-        by smtp.gmail.com with ESMTPSA id h6sm4796507pfi.174.2021.10.28.23.12.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Oct 2021 23:12:35 -0700 (PDT)
-Subject: Re: Re: [PATCH v1] sched/numa: add per-process numa_balancing
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vjqTlAq/8atUNGknBengC56rv9Dz2YcbvxQpL6f31NE=;
+        b=cnaNIfc3jNkzavDqPDzZvnVy3mpDUeYT4cWpyKMpFXEE+ERHiXrBIvUEoGF1HbIqy/
+         I+7LvgzdnuY+g425AXwGuexhwJZ19i3Zzr+8n8NMo7H5gICGcfHcyzZx4BQ0fbbd4hBI
+         8X/W0g9xExBYtyF3A7HxVu7gALJ8Cg6GwfelXFVB+5RBPRCOZrRfl3IEA0H+/vqXRcON
+         qRjukKdAzdiR9RLIOlbrwFbUY59COkGreUCQE2sqvPpXbamdfF5n3S+CgUAlVqTYqTJL
+         ChgfyjMd/IxvuQ6iaSbpRSeTQeGryeQgsr3Lo/WEVEGs5A8aPb6JBjgAxrWfP4JzAgT7
+         3wHQ==
+X-Gm-Message-State: AOAM5330fXfljUBQ2kUPjI/fNwGQFHqiuf8FE53tdCYbEdBbVSsStAY9
+        UzSSPIlWe5fiGYBywRKkCFaK+kP6bnSmF+M4DG9Pxg==
+X-Google-Smtp-Source: ABdhPJwjitD9q7llnX4M3SYof8U1mUQbFwcD39eUp1B6VYUJIc75/H1aw9+QzCU4himzNKQr5lfz8Bq83cIf+yo39EY=
+X-Received: by 2002:a17:906:c18c:: with SMTP id g12mr11994765ejz.458.1635493741880;
+ Fri, 29 Oct 2021 00:49:01 -0700 (PDT)
+MIME-Version: 1.0
+References: <20211027132633.86653-1-ligang.bdlg@bytedance.com> <20211028153028.GP3891@suse.de>
+In-Reply-To: <20211028153028.GP3891@suse.de>
+From:   =?UTF-8?B?5p2O5riv?= <ligang.bdlg@bytedance.com>
+Date:   Fri, 29 Oct 2021 15:48:50 +0800
+Message-ID: <CAMx52AR2h_RifrFPyu4WA3YDij9epuApOzG1zbH9F6pK4m7b9Q@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v1] sched/numa: add per-process numa_balancing
 To:     Mel Gorman <mgorman@suse.de>
 Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
@@ -63,24 +64,13 @@ Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
         Daniel Bristot de Oliveira <bristot@redhat.com>,
         linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20211027132633.86653-1-ligang.bdlg@bytedance.com>
- <20211028153028.GP3891@suse.de>
-From:   Gang Li <ligang.bdlg@bytedance.com>
-Message-ID: <b884ad7d-48d3-fcc8-d199-9e7643552a9a@bytedance.com>
-Date:   Fri, 29 Oct 2021 14:12:28 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.14.0
-MIME-Version: 1.0
-In-Reply-To: <20211028153028.GP3891@suse.de>
-Content-Type: text/plain; charset=iso-8859-15; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/28/21 11:30 PM, Mel Gorman wrote:
-> 
+On Thu, Oct 28, 2021 at 11:30 PM Mel Gorman <mgorman@suse.de> wrote:
+>
 > That aside though, the configuration space could be better. It's possible
 > to selectively disable NUMA balance but not selectively enable because
 > prctl is disabled if global NUMA balancing is disabled. That could be
@@ -92,29 +82,28 @@ On 10/28/21 11:30 PM, Mel Gorman wrote:
 > of NUMA balancing by prctl gets silently revoked if numa balancing is
 > disabled via sysctl and prctl(PR_NUMA_BALANCING, PR_SET_NUMA_BALANCING,
 > 1) means nothing.
->
-static void task_tick_fair(struct rq *rq, struct task_struct *curr, int 
-queued)
+
+static void task_tick_fair(struct rq *rq, struct task_struct *curr, int queued)
 {
-	...
-	if (static_branch_unlikely(&sched_numa_balancing))
-		task_tick_numa(rq, curr);
-	...
+    ...
+    if (static_branch_unlikely(&sched_numa_balancing))
+        task_tick_numa(rq, curr);
+    ...
 }
 
 static void task_tick_numa(struct rq *rq, struct task_struct *curr)
 {
-	...
-	if (!READ_ONCE(curr->mm->numa_balancing))
-		return;
-	...
+    ...
+    if (!READ_ONCE(curr->mm->numa_balancing))
+        return;
+    ...
 }
 
-When global numa_balancing is disabled, mm->numa_balancing is useless. 
-So I think prctl(PR_NUMA_BALANCING, PR_SET_NUMA_BALANCING,0/1) should 
-return error instead of modify mm->numa_balancing.
+When global numa_balancing is disabled, mm->numa_balancing is useless.
+So I think
+prctl(PR_NUMA_BALANCING, PR_SET_NUMA_BALANCING,0/1) should return an
+error instead of modifying mm->numa_balancing.
 
 Is it reasonable that prctl(PR_NUMA_BALANCING,PR_SET_NUMA_BALANCING,0/1)
-can still change the value of mm->numa_balancing when global 
-numa_balancing is disabled?
-
+can still change the value of mm->numa_balancing when global numa_balancing is
+disabled?
