@@ -2,282 +2,192 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2AF5C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 14:56:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8760DC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 15:01:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 92A3961165
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 14:56:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 675DE610FD
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 15:01:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229760AbhJ2O71 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Oct 2021 10:59:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48762 "EHLO mail.kernel.org"
+        id S229635AbhJ2PEZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Oct 2021 11:04:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54640 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229501AbhJ2O71 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 29 Oct 2021 10:59:27 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 63FAE610EA;
-        Fri, 29 Oct 2021 14:56:58 +0000 (UTC)
+        id S229626AbhJ2PEY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 29 Oct 2021 11:04:24 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id EF918610C7;
+        Fri, 29 Oct 2021 15:01:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1635519418;
-        bh=HQco0MA/N9ybEMneHr2LWllpRNftupfQhvqVBVmnYOg=;
+        s=k20201202; t=1635519716;
+        bh=YU3SKyC4e2m8Lcg4RAF1+N0COfHneo3Q2e46w4Iwa8w=;
         h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=KcGd0ru7xdkxwbNNvLy8bweff7HCYHOWBFjlstnd4ipb8AdaTxennufY7juJjEIy9
-         5gb2/oR7kQOlpDD7Sxdesme4JH6M1pce9CUBS+Nvz7XcBHwOffy6ETb74pH789csC+
-         jBCulNHfVcS5XhKZgg+ImRe1E1Ukjk5f0wSYQFklQxqtNA98eOqC8Z+pmcfvZBB/fB
-         FLtkoDZ6yyr4rmRRtXadXrDgcljJ4FpFyTxfAJbWmGVMMXY2GyF09xMLGWkxL1+RAd
-         eKOLWlAGzVXpF9/Q2M6YdaYPMukKOybtxlMkocrnGGI07lxGx0bd8oacQoB0zvz0jP
-         DY5MSgFHf5kdQ==
+        b=cd2JjO30e1QlVXotH2ecvoeeyFpuKEltiLrgGIFGVLpvBGQmT19cCxJoE1+ddBeiD
+         XfPbPCn1bx9HqUpAyV1aB4fCZuxC4L16zg7BCxSSlYXb5svkcOeEWUPFf82MstQWOd
+         kK04SIq0NPemINsI1IejTW/R8KOU1j/xEjowDrQ16/bBwprcBKXQp5iNQB1B7eInqV
+         sjTHoyW+Sw+uZBqyhULEKANdCrzCN0kAEUjq4l8zB3PhcbdVNmGVVnfZR3ZMzR2W2q
+         abdWXXVdgiyZgVLXeCsSBrHCJYqcLzhywEl7rUzX1bVT5FiCBoJ97EQenJZfo02NQG
+         gvG5yzMUgWXeQ==
 Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id A71605C051B; Fri, 29 Oct 2021 07:56:57 -0700 (PDT)
-Date:   Fri, 29 Oct 2021 07:56:57 -0700
+        id 570E35C051B; Fri, 29 Oct 2021 08:01:55 -0700 (PDT)
+Date:   Fri, 29 Oct 2021 08:01:55 -0700
 From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     neilb@suse.de, corbet@lwn.net, linux-doc@vger.kernel.org,
-        rcu@vger.kernel.org, willy@infradead.org
-Subject: Re: [PATCH v2] Documentation: Add refcount analogy to What is RCU
-Message-ID: <20211029145657.GR880162@paulmck-ThinkPad-P17-Gen-1>
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     Boqun Feng <boqun.feng@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org, Dan Lustig <dlustig@nvidia.com>,
+        Will Deacon <will@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Peter Anvin <hpa@zytor.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Vince Weaver <vincent.weaver@maine.edu>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@redhat.com>,
+        Stephane Eranian <eranian@google.com>, palmer@dabbelt.com,
+        paul.walmsley@sifive.com, mpe@ellerman.id.au,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [RFC v2 3/3] tools/memory-model: litmus: Add two tests for
+ unlock(A)+lock(B) ordering
+Message-ID: <20211029150155.GS880162@paulmck-ThinkPad-P17-Gen-1>
 Reply-To: paulmck@kernel.org
-References: <20211028190336.GI880162@paulmck-ThinkPad-P17-Gen-1>
- <ac66a5f3-da2a-db13-1e6f-d498108dab95@gmail.com>
+References: <20211025145416.698183-1-boqun.feng@gmail.com>
+ <20211025145416.698183-4-boqun.feng@gmail.com>
+ <YXenrNeS+IaSDwvU@hirez.programming.kicks-ass.net>
+ <20211028191129.GJ880162@paulmck-ThinkPad-P17-Gen-1>
+ <YXs3i8g+GHYbRCRQ@boqun-archlinux>
+ <20211029143442.GB1384368@rowland.harvard.edu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ac66a5f3-da2a-db13-1e6f-d498108dab95@gmail.com>
+In-Reply-To: <20211029143442.GB1384368@rowland.harvard.edu>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 29, 2021 at 05:16:45PM +0900, Akira Yokosawa wrote:
-> Hi Paul, Hello Neil,
-> 
-> Please find inline comments below on minor issues I noticed while
-> testing "make htmldocs" on this patch.
-> 
-> Thu, Thu, 28 Oct 2021 12:03:36 -0700
-> Paul E. McKenney wrote:
-> > I could not resist the urge to do a small amount of wordsmithing, so
-> > please check below in case I messed something up.
+On Fri, Oct 29, 2021 at 10:34:42AM -0400, Alan Stern wrote:
+> On Fri, Oct 29, 2021 at 07:51:39AM +0800, Boqun Feng wrote:
+> > On Thu, Oct 28, 2021 at 12:11:29PM -0700, Paul E. McKenney wrote:
+> > > On Tue, Oct 26, 2021 at 09:01:00AM +0200, Peter Zijlstra wrote:
+> > > > On Mon, Oct 25, 2021 at 10:54:16PM +0800, Boqun Feng wrote:
+> > > > > diff --git a/tools/memory-model/litmus-tests/LB+unlocklockonceonce+poacquireonce.litmus b/tools/memory-model/litmus-tests/LB+unlocklockonceonce+poacquireonce.litmus
+> > > > > new file mode 100644
+> > > > > index 000000000000..955b9c7cdc7f
+> > > > > --- /dev/null
+> > > > > +++ b/tools/memory-model/litmus-tests/LB+unlocklockonceonce+poacquireonce.litmus
+> > > > > @@ -0,0 +1,33 @@
+> > > > > +C LB+unlocklockonceonce+poacquireonce
+> > > > > +
+> > > > > +(*
+> > > > > + * Result: Never
+> > > > > + *
+> > > > > + * If two locked critical sections execute on the same CPU, all accesses
+> > > > > + * in the first must execute before any accesses in the second, even if
+> > > > > + * the critical sections are protected by different locks.
+> > > > 
+> > > > One small nit; the above "all accesses" reads as if:
+> > > > 
+> > > > 	spin_lock(s);
+> > > > 	WRITE_ONCE(*x, 1);
+> > > > 	spin_unlock(s);
+> > > > 	spin_lock(t);
+> > > > 	r1 = READ_ONCE(*y);
+> > > > 	spin_unlock(t);
+> > > > 
+> > > > would also work, except of course that's the one reorder allowed by TSO.
+> > > 
+> > > I applied this series with Peter's Acked-by, and with the above comment
 > > 
-> > 							Thanx, Paul
+> > Thanks!
 > > 
-> > -------------------------------------------------------------------------
+> > > reading as follows:
+> > > 
+> > > +(*
+> > > + * Result: Never
+> > > + *
+> > > + * If two locked critical sections execute on the same CPU, all accesses
+> > > + * in the first must execute before any accesses in the second, even if the
+> > > + * critical sections are protected by different locks.  The one exception
+> > > + * to this rule is that (consistent with TSO) a prior write can be reordered
+> > > + * with a later read from the viewpoint of a process not holding both locks.
 > > 
-> > commit 25ce7d081265ce4d29cb2a537a932813df1b7697
-> > Author: NeilBrown <neilb@suse.de>
-> > Date:   Tue Oct 26 15:53:38 2021 +1100
+> > Just want to be accurate, in our memory model "execute" means a CPU
+> > commit an memory access instruction to the Memory Subsystem, so if we
+> > have a store W and a load R, where W executes before R, it doesn't mean
+> > the memory effect of W is observed before the memory effect of R by
+> > other CPUs, consider the following case
 > > 
-> >     Documentation: Add refcount analogy to What is RCU
-> >     
-> >     The reader-writer-lock analogy is a useful way to think about RCU, but
-> >     it is not always applicable.  It is useful to have other analogies to
-> >     work with, and particularly to emphasise that no single analogy is
->                                      emphasize
-
-This is the proper Commonwealth spelling, last I knew, Neil lived in
-Australia, and we do have a fair number of them, so I will let this
-one be.  But yes, in perfbook, I would correct it.  ;-)
-
-> >     perfect.
-> >     
-> >     This patch add a "RCU as reference count" to the "what is RCU" document.
-> >     
-> >     See https://lwn.net/Articles/872559/
-> >     
-> >     Signed-off-by: NeilBrown <neilb@suse.de>
-> >     Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
 > > 
-> > diff --git a/Documentation/RCU/whatisRCU.rst b/Documentation/RCU/whatisRCU.rst
-> > index 17e95ab2a201..798f92c050cc 100644
-> > --- a/Documentation/RCU/whatisRCU.rst
-> > +++ b/Documentation/RCU/whatisRCU.rst
-> > @@ -39,9 +39,11 @@ different paths, as follows:
-> >  
-> >  :ref:`6.	ANALOGY WITH READER-WRITER LOCKING <6_whatisRCU>`
-> >  
-> > -:ref:`7.	FULL LIST OF RCU APIs <7_whatisRCU>`
-> > +:ref:`7.	ANALOGY WITH REFERENCE COUNTING <7_whatisRCU>'                                                             `  (:ref:`...`)
-
-I confess .rst confusion.  I am not sure what this string is supposed
-to replace nor what the "..." is supposed to be.  So could you please
-send me a fixup patch for this change so that I can squash that patch
-into Neil's original?
-
-> > -:ref:`8.	ANSWERS TO QUICK QUIZZES <8_whatisRCU>`
-> > +:ref:`8.	FULL LIST OF RCU APIs <8_whatisRCU>`
-> > +
-> > +:ref:`9.	ANSWERS TO QUICK QUIZZES <9_whatisRCU>`
-> >  
-> >  People who prefer starting with a conceptual overview should focus on
-> >  Section 1, though most readers will profit by reading this section at
-> > @@ -677,7 +679,7 @@ Quick Quiz #1:
-> >  		occur when using this algorithm in a real-world Linux
-> >  		kernel?  How could this deadlock be avoided?
-> >  
-> > -:ref:`Answers to Quick Quiz <8_whatisRCU>`
-> > +:ref:`Answers to Quick Quiz <9_whatisRCU>`
-> >  
-> >  5B.  "TOY" EXAMPLE #2: CLASSIC RCU
-> >  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > @@ -732,7 +734,7 @@ Quick Quiz #2:
-> >  		Give an example where Classic RCU's read-side
-> >  		overhead is **negative**.
-> >  
-> > -:ref:`Answers to Quick Quiz <8_whatisRCU>`
-> > +:ref:`Answers to Quick Quiz <9_whatisRCU>`
-> >  
-> >  .. _quiz_3:
-> >  
-> > @@ -741,7 +743,7 @@ Quick Quiz #3:
-> >  		critical section, what the heck do you do in
-> >  		CONFIG_PREEMPT_RT, where normal spinlocks can block???
-> >  
-> > -:ref:`Answers to Quick Quiz <8_whatisRCU>`
-> > +:ref:`Answers to Quick Quiz <9_whatisRCU>`
-> >  
-> >  .. _6_whatisRCU:
-> >  
-> > @@ -872,7 +874,78 @@ be used in place of synchronize_rcu().
-> >  
-> >  .. _7_whatisRCU:
-> >  
-> > -7.  FULL LIST OF RCU APIs
-> > +7.  ANALOGY WITH REFERENCE COUNTING
-> > +-----------------------------------
-> > +
-> > +The reader-writer analogy (illustrated by the previous section) is not
-> > +always the best way to think about using RCU.  Another helpful analogy
-> > +considers RCU a effective reference count on everything which is protected
->                  an
-
-Good catch, fixed!
-
-> > +by RCU.
-> > +
-> > +A reference count typically does not prevent the referenced object's
-> > +values from changing, but does prevent changes to type - particularly the
->                                                           -- (convention in this doc)
-
-Fixed this as well, thank you!
-
-> > +gross change of type that happens when that object's memory is freed and
-> > +re-allocated for some other purpose.  Once a type-safe reference to the
-> > +object is obtained, some other mechanism is needed to ensure consistent
-> > +access to the data in the object.  This could involve taking a spinlock,
-> > +but with RCU the typical approach is to perform reads with SMP-aware
-> > +operations such as smp_load_acquire(), to perform updates with atomic
-> > +read-modify-write operations, and to provide the necessary ordering.
-> > +RCU provides a number of support functions that embed the required
-> > +operations and ordering, such as the list_for_each_entry_rcu() macro
-> > +used in the previous section.
-> > +
-> > +A more focused view of the reference counting behaviour is that,
->                                                  behavior (American spelling)
-
-This one I did change.  Neil owns the commit log, but yes, the file
-should be consistent.
-
-> > +between rcu_read_lock() and rcu_read_unlock(), any reference taken with
-> > +rcu_dereference() on a pointer marked as ``__rcu`` can be treated as
-> > +though a reference-count on that object has been temporarily increased.
-> > +This prevents the object from changing type.  Exactly what this means
-> > +will depend on normal expectations of objects of that type, but it
-> > +typically includes that spinlocks can still be safely locked, normal
-> > +reference counters can be safely manipulated, and ``__rcu`` pointers
-> > +can be safely dereferenced.
-> > +
-> > +Some operations that one might expect to see on an object for
-> > +which an RCU reference is held include:
+> > 	CPU0			Memory Subsystem		CPU1
+> > 	====							====
+> > 	WRITE_ONCE(*x,1); // W ---------->|
+> > 	spin_unlock(s);                   |
+> > 	spin_lock(t);                     |
+> > 	r1 = READ_ONCE(*y); // R -------->|
+> > 	// R reads 0                      |
+> > 					  |<----------------WRITR_ONCE(*y, 1); // W'
+> > 		 W' propagates to CPU0    |
+> > 		<-------------------------|
+> > 					  |                 smp_mb();
+> > 					  |<----------------r1 = READ_ONCE(*x); // R' reads 0
+> > 					  |
+> > 					  | W progrates to CPU 1
+> > 		                          |----------------->
+> > 
+> > The "->" from CPU0 to the Memory Subsystem shows that W executes before
+> > R, however the memory effect of a store can be observed only after the
+> > Memory Subsystem propagates it to another CPU, as a result CPU1 doesn't
+> > observe W before R is executed. So the original version of the comments
+> > is correct in our memory model terminology, at least that's how I
+> > understand it, Alan can correct me if I'm wrong.
 > 
-> Without an empty line here, "make htmldocs" will complain. 
-
-Fixed, thank you!
-
-> > + - Copying out data that is guaranteed to be stable by the object's type.
-> > + - Using kref_get_unless_zero() or similar to get a longer-term
-> > +   reference.  This may fail of course.
-> > + - Acquiring a spinlock in the object, and checking if the object still
-> > +   is the expected object and if so, manipulating it freely.
-> > +
-> > +The understanding that RCU provides a reference that only prevents a
-> > +change of type is particularly visible with objects allocated from a
-> > +slab cache marked ``SLAB_TYPESAFE_BY_RCU``.  RCU operations may yield a
-> > +reference to an object from such a cache that has been concurrently
-> > +freed and the memory reallocated to a completely different object,
-> > +though of the same type.  In this case RCU doesn't even protect the
-> > +identity of the object from changing, only its type.  So the object
-> > +found may not be the one expected, but it will be one where it is safe
-> > +to take a reference or spinlock and then confirm that the identity
-> > +matches the expectations.
-> > +
-> > +With traditional reference counting - such as that implemented by the
->                                        --
-
-Fixed " - " globally, other than the bulleted list, thank you!
-
-> > +kref library in Linux - there is typically code that runs when the last
->                          --
+> Indeed, that is correct.
 > 
-> > +reference to an object is dropped.  With kref, this is the function
-> > +passed to kref_put().  When RCU is being used such finalization code
->                           When RCU is being used, such finalization code
+> It is an unfortunate inconsistency with the terminology in 
+> Documentation/memory-barriers.txt.  I suspect most people think of a 
+> write as executing when it is observed by another CPU, even though that 
+> really isn't a coherent concept.  (For example, it could easily lead 
+> somebody to think that a write observed at different times by different 
+> CPUs has executed more than once!)
 
-This one could be argued, but the extra comma helps.
+Agreed, the terminology is odd.  But the fact that different CPUs can
+see writes in different orders is probably always going to be a bit
+counter-intuitive, so it is good to avoid giving that intuition any
+support.
 
-> > +must not be run until all ``__rcu`` pointers referencing the object have
-> > +been updated, and then a grace period has passed.  Every remaining
-> > +globally visible pointer to the object must be considered to be a
-> > +potential counted reference, and the finalization code it typically run
->                                                           is (???)
-
-Looks that way to me, fixed.
-
-> > +using call_rcu() only after all those pointers have been changed.
-> > +
-> > +To see how to choose between there two analogies - of RCU as a
->                                 these               --
-
-Good eyes, fixed!
-
-> > +reader-writer lock and RCU as a reference counting system - it is useful
->                                                              --
+> > Maybe it's better to replace the sentence starting with "The one
+> > exception..." into:
+> > 
+> > One thing to notice is that even though a write executes by a read, the
+> > memory effects can still be reordered from the viewpoint of a process
+> > not holding both locks, similar to TSO ordering.
+> > 
+> > Thoughts?
 > 
-> > +to reflect on the scale of the thing being protected.  The reader-writer
-> > +lock analogy looks at larger multi-part objects such as a linked list
-> > +and shows how RCU can facilitate concurrency while elements are added
-> > +to, and removed from, the list.  The reference-count analogy looks at
-> > +the individual objects and looks at how they can be accessed safely
-> > +within whatever whole they are a part of.
+> Or more briefly:
 > 
-> Hope this helps.
-> 
-> With these comments addressed, please feel free to add:
-> 
-> Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
+> 	Note: Even when a write executes before a read, their memory
+> 	effects can be reordered from the viewpoint of another CPU (the 
+> 	kind of reordering allowed by TSO).
 
-I have a squash commit pending.  Please send me a patch for the
-table-of-contents ":ref:" change.  And it looks like I should make
-another try at getting "make htmldocs" running again...
+Very good!  I took this verbatim in a fixup patch to be combined
+with the original on my next rebase.
 
 							Thanx, Paul
 
->        Thanks, Akira
+> Alan
 > 
-> > +
-> > +.. _8_whatisRCU:
-> > +
-> > +8.  FULL LIST OF RCU APIs
-> >  -------------------------
-> >  
-> >  The RCU APIs are documented in docbook-format header comments in the
-> > @@ -1035,9 +1108,9 @@ g.	Otherwise, use RCU.
-> >  Of course, this all assumes that you have determined that RCU is in fact
-> >  the right tool for your job.
-> >  
-> > -.. _8_whatisRCU:
-> > +.. _9_whatisRCU:
-> >  
-> > -8.  ANSWERS TO QUICK QUIZZES
-> > +9.  ANSWERS TO QUICK QUIZZES
-> >  ----------------------------
-> >  
-> >  Quick Quiz #1:
-> 
+> > Apologies for responsing late...
+> > 
+> > ("Memory Subsystem" is an abstraction in our memory model, which doesn't
+> > mean hardware implements things in the same way.).
+> > 
+> > Regards,
+> > Boqun
+> > 
+> > > + *)
+> > > 
+> > > Thank you all!
+> > > 
+> > > 							Thanx, Paul
