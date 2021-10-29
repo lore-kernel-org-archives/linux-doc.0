@@ -2,91 +2,74 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD696C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 12:55:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 771CBC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 13:10:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C35DF61177
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 12:55:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5AA0961177
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 13:10:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231573AbhJ2M5s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Oct 2021 08:57:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58550 "EHLO mail.kernel.org"
+        id S231506AbhJ2NNZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Oct 2021 09:13:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37190 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231527AbhJ2M5r (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 29 Oct 2021 08:57:47 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B217760295;
-        Fri, 29 Oct 2021 12:55:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1635512119;
-        bh=6S42dh5xDanUU4TsiUbc3jqRNzdVkGf5kSXIUYAeo1k=;
-        h=Subject:From:To:Cc:Date:From;
-        b=cmGGEV7yy+ChtrShjXstBdrZy2tVA8yH7Nn/m86Vl1fzS0n1C/wcjbxqRm0dguc7E
-         UoDTHnDWjmRdqtnGbzNM2+ITrjIOQD02UO9BlDbtzBVLhN5Kc5BAQ62aIlVM3DDAkf
-         5cEx+/F/hIhx0KgRB7r2QxhBHFtt+UfoCOFMDZ5vE//gtl3p4vSwJRFYhbJs2M3MWP
-         T7l08noNryw+z+TawgsFyVHoIljbuBdXlL4kM0tk/40mfr8bK2rD1k3LillPuBi8az
-         ee13cFkdmrR5YksHqFU0s+XFhVmYMXxA9jJFQ7ogk0R4dlGTPF8oDUY0xoCrpjqLGE
-         yjnBaBDK5otbg==
-Message-ID: <44baecaf3d322ef0674b7b9b88026cf18d371d14.camel@kernel.org>
-Subject: [GIT PULL] file locking changes for v5.16
-From:   Jeff Layton <jlayton@kernel.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Bruce Fields <bfields@fieldses.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Date:   Fri, 29 Oct 2021 08:55:17 -0400
-Content-Type: text/plain; charset="ISO-8859-15"
-User-Agent: Evolution 3.40.4 (3.40.4-2.fc34) 
+        id S231504AbhJ2NNY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 29 Oct 2021 09:13:24 -0400
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B5B9D60FC4;
+        Fri, 29 Oct 2021 13:10:54 +0000 (UTC)
+Date:   Fri, 29 Oct 2021 09:10:53 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Masami Hiramatsu <mhiramat@kernel.org>
+Cc:     kernel test robot <oliver.sang@intel.com>,
+        Kalesh Singh <kaleshsingh@google.com>, lkp@lists.01.org,
+        lkp@intel.com, surenb@google.com, hridya@google.com,
+        namhyung@kernel.org, kernel-team@android.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>, Shuah Khan <shuah@kernel.org>,
+        Tom Zanussi <zanussi@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [tracing/selftests]  cfece71411:
+ kernel-selftests.ftrace.event_trigger_-_test_inter-event_histogram_trigger_onchange_action.fail
+Message-ID: <20211029091053.18cc2c25@gandalf.local.home>
+In-Reply-To: <20211029210056.6cd7796aea59cec3e9c1d7da@kernel.org>
+References: <20211025200852.3002369-8-kaleshsingh@google.com>
+        <20211029064818.GG737@xsang-OptiPlex-9020>
+        <20211029210056.6cd7796aea59cec3e9c1d7da@kernel.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The following changes since commit bf9f243f23e6623f310ba03fbb14e10ec3a61290:
+On Fri, 29 Oct 2021 21:00:56 +0900
+Masami Hiramatsu <mhiramat@kernel.org> wrote:
 
-  Merge tag '5.15-rc-ksmbd-part2' of git://git.samba.org/ksmbd (2021-09-09 16:17:14 -0700)
+> > # # of passed:  85
+> > # # of failed:  26
+> > # # of unresolved:  1
+> > # # of untested:  0
+> > # # of unsupported:  0
+> > # # of xfailed:  1
+> > # # of undefined(test bug):  0
+> > not ok 1 selftests: ftrace: ftracetest # exit=1  
+> 
+> Also, please configure your running environment correctly so that all
+> ftracetest passes. If you unsure how to do, please ask me.
 
-are available in the Git repository at:
+Although I think it's good to test with different configurations, where not
+all tests pass. Because then there's times when a test will fail when it
+should have been ignored, and that will let us know that there's a bug in
+the test.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git tags/locks-v5.16
+Or, different configurations might make a test fail that should have
+passed, where a missing dependency was made.
 
-for you to fetch changes up to 482e00075d660a16de822686a4be4f7c0e11e5e2:
+I had someone report a bug that I never caught because it only happened
+when something was configured off, and because I tested with everything on,
+I never hit that bug.
 
-  fs: remove leftover comments from mandatory locking removal (2021-10-26 12:20:50 -0400)
-
-----------------------------------------------------------------
-I know it's a bit early, but I don't expect to take in any more file
-locking patches before the merge window opens.
-
-Most of this is just follow-on cleanup work of documentation and
-comments from the mandatory locking removal in v5.15. The only real
-functional change is that LOCK_MAND flock() support is also being
-removed, as it has basically been non-functional since the v2.5 days.
-----------------------------------------------------------------
-J. Bruce Fields (1):
-      locks: remove changelog comments
-
-Jeff Layton (3):
-      locks: remove LOCK_MAND flock lock support
-      Documentation: remove reference to now removed mandatory-locking doc
-      fs: remove leftover comments from mandatory locking removal
-
-Mauro Carvalho Chehab (1):
-      docs: fs: locks.rst: update comment about mandatory file locking
-
- Documentation/filesystems/index.rst |   1 -
- Documentation/filesystems/locks.rst |  17 ++----
- fs/ceph/locks.c                     |   3 --
- fs/gfs2/file.c                      |   2 -
- fs/locks.c                          | 161 +++++++++-----------------------------------------------
- fs/namei.c                          |   4 +-
- fs/nfs/file.c                       |   9 ----
- fs/read_write.c                     |   4 --
- include/uapi/asm-generic/fcntl.h    |   4 ++
- 9 files changed, 36 insertions(+), 169 deletions(-)
-
--- 
-Jeff Layton <jlayton@kernel.org>
-
+-- Steve
