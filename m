@@ -2,280 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0E01C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 12:25:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD696C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 12:55:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D5F4F61130
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 12:25:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C35DF61177
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 12:55:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231551AbhJ2M1j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Oct 2021 08:27:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44980 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231533AbhJ2M1h (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Oct 2021 08:27:37 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 475C2C061767
-        for <linux-doc@vger.kernel.org>; Fri, 29 Oct 2021 05:25:08 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id s13so8750635wrb.3
-        for <linux-doc@vger.kernel.org>; Fri, 29 Oct 2021 05:25:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jrtc27.com; s=gmail.jrtc27.user;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=w7ERDMxld9y+CPUnX75l8Ta0sFWie18coBUraZlyenY=;
-        b=KoIfAALYtn/x4ST7dyMPyMUL21tc/UEqneS4L9orO2RmQSLOPMraMaM4Ive3ZB47Pr
-         FQOEDMWe5ToTjOF9mXQxjNDlm5DgRpxW4+cjydO3mYptYWMFTNX8tFPkJnjTCRb6dZR5
-         hAyT9b84MLVMwGmdhg76Q7PBjSnEo6i6l0WNxM1/7J2lLGER4dS/xPBKXrRZ5xzHIR/z
-         SZDVFpxyqxwRvYiydNNBgRMgef8PsCLY8rPTm9uNOYFUZG16hba7AEO4NWcAwRICLoZR
-         +WcUysteLWWPWxshpXd0fTpMRLUgn2pikWxycci1yv+hht3zQVYCCRlc7jJrKCBuhwql
-         yfQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=w7ERDMxld9y+CPUnX75l8Ta0sFWie18coBUraZlyenY=;
-        b=ddgL1RaE01qSMoIbHyqyiebkLPZBfnDEKvie3OEf9hjXcBNoc19SiIVREONKwZsxmD
-         vf37Cfu/HhfgMhIIF3gp+5boyeVYsEi21dj+Es+JPVwWLzFJ/ieGRmaDnDY4Ovm866Kh
-         rODpvl7oLrVNjkUsv6sRsEKQj8A8eRCiOIOeHbL70R8vTnPq2mj005UWWsYuOV6nMjJv
-         FEmxTAOmrGC2mkeoirb09iUtbtykxujxcjNH/bPOFfK+VnrP0h7botTABMr5onRrqat6
-         SDVzHX+8iQKG+UJJDx8T8gMn5YCAy1ZrABJ/Il8cPTdIBzTzuOVpuvZTW4lRKPzNlgZW
-         owFQ==
-X-Gm-Message-State: AOAM532AE2YxJBHltM4/uj099+CFD/4to3FYt+vSvwICTrcANeae/zDO
-        JMgAoog7WxBy2G33BpnnHw1Zhg==
-X-Google-Smtp-Source: ABdhPJzNeOWy0F/lHFywLb8P0P+Btkiv6onzYuaN22VjLXYuj/K536/O12T/6Kdme13KBlIKknwohA==
-X-Received: by 2002:adf:e992:: with SMTP id h18mr13746461wrm.21.1635510306627;
-        Fri, 29 Oct 2021 05:25:06 -0700 (PDT)
-Received: from smtpclient.apple (global-5-141.nat-2.net.cam.ac.uk. [131.111.5.141])
-        by smtp.gmail.com with ESMTPSA id q18sm8807724wmc.7.2021.10.29.05.25.05
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 29 Oct 2021 05:25:05 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
-Subject: Re: [v4 10/11] riscv: dts: fu740: Add pmu node
-From:   Jessica Clarke <jrtc27@jrtc27.com>
-In-Reply-To: <CAOnJCUJjzmW=QobLPKAWYGppFeoJXjT2Ee6eG2-H=s2mnei=RQ@mail.gmail.com>
-Date:   Fri, 29 Oct 2021 13:25:04 +0100
-Cc:     Atish Patra <atish.patra@wdc.com>,
-        "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
-        Anup Patel <anup.patel@wdc.com>,
-        David Abdurachmanov <david.abdurachmanov@sifive.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        Greentime Hu <greentime.hu@sifive.com>,
-        Guo Ren <guoren@linux.alibaba.com>,
-        Heinrich Schuchardt <xypron.glpk@gmx.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-perf-users@vger.kernel.org,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        Nick Kossifidis <mick@ics.forth.gr>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Vincent Chen <vincent.chen@sifive.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <FE94A3CF-44B9-442A-B985-4ED86BF039EE@jrtc27.com>
-References: <20211025195350.242914-1-atish.patra@wdc.com>
- <20211025195350.242914-11-atish.patra@wdc.com>
- <YXsMtrmuavGAHk8S@Jessicas-MacBook-Pro.local>
- <CAOnJCULqwZvK52nczp2HNinDCBjThnbGbvJpAvdameny1fK4Vw@mail.gmail.com>
- <EDB030D6-D37A-43D6-9027-222794FDA80D@jrtc27.com>
- <CAOnJCUJjzmW=QobLPKAWYGppFeoJXjT2Ee6eG2-H=s2mnei=RQ@mail.gmail.com>
-To:     Atish Patra <atishp@atishpatra.org>
-X-Mailer: Apple Mail (2.3654.120.0.1.13)
+        id S231573AbhJ2M5s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Oct 2021 08:57:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58550 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231527AbhJ2M5r (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 29 Oct 2021 08:57:47 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B217760295;
+        Fri, 29 Oct 2021 12:55:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1635512119;
+        bh=6S42dh5xDanUU4TsiUbc3jqRNzdVkGf5kSXIUYAeo1k=;
+        h=Subject:From:To:Cc:Date:From;
+        b=cmGGEV7yy+ChtrShjXstBdrZy2tVA8yH7Nn/m86Vl1fzS0n1C/wcjbxqRm0dguc7E
+         UoDTHnDWjmRdqtnGbzNM2+ITrjIOQD02UO9BlDbtzBVLhN5Kc5BAQ62aIlVM3DDAkf
+         5cEx+/F/hIhx0KgRB7r2QxhBHFtt+UfoCOFMDZ5vE//gtl3p4vSwJRFYhbJs2M3MWP
+         T7l08noNryw+z+TawgsFyVHoIljbuBdXlL4kM0tk/40mfr8bK2rD1k3LillPuBi8az
+         ee13cFkdmrR5YksHqFU0s+XFhVmYMXxA9jJFQ7ogk0R4dlGTPF8oDUY0xoCrpjqLGE
+         yjnBaBDK5otbg==
+Message-ID: <44baecaf3d322ef0674b7b9b88026cf18d371d14.camel@kernel.org>
+Subject: [GIT PULL] file locking changes for v5.16
+From:   Jeff Layton <jlayton@kernel.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Bruce Fields <bfields@fieldses.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Date:   Fri, 29 Oct 2021 08:55:17 -0400
+Content-Type: text/plain; charset="ISO-8859-15"
+User-Agent: Evolution 3.40.4 (3.40.4-2.fc34) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 29 Oct 2021, at 07:05, Atish Patra <atishp@atishpatra.org> wrote:
->=20
-> On Thu, Oct 28, 2021 at 5:07 PM Jessica Clarke <jrtc27@jrtc27.com> =
-wrote:
->>=20
->> On 29 Oct 2021, at 00:37, Atish Patra <atishp@atishpatra.org> wrote:
->>>=20
->>> On Thu, Oct 28, 2021 at 1:49 PM Jessica Clarke <jrtc27@jrtc27.com> =
-wrote:
->>>>=20
->>>> On Mon, Oct 25, 2021 at 12:53:49PM -0700, Atish Patra wrote:
->>>>> HiFive unmatched supports HPMCounters but does not implement =
-mcountinhibit
->>>>> or sscof extension. Thus, perf monitoring can be used on the =
-unmatched
->>>>> board without sampling.
->>>>>=20
->>>>> Add the PMU node with compatible string so that Linux perf driver =
-can
->>>>> utilize this to enable PMU.
->>>>>=20
->>>>> Signed-off-by: Atish Patra <atish.patra@wdc.com>
->>>>> ---
->>>>> arch/riscv/boot/dts/sifive/fu740-c000.dtsi | 3 +++
->>>>> 1 file changed, 3 insertions(+)
->>>>>=20
->>>>> diff --git a/arch/riscv/boot/dts/sifive/fu740-c000.dtsi =
-b/arch/riscv/boot/dts/sifive/fu740-c000.dtsi
->>>>> index abbb960f90a0..b35b96b58820 100644
->>>>> --- a/arch/riscv/boot/dts/sifive/fu740-c000.dtsi
->>>>> +++ b/arch/riscv/boot/dts/sifive/fu740-c000.dtsi
->>>>> @@ -140,6 +140,9 @@ soc {
->>>>>             #size-cells =3D <2>;
->>>>>             compatible =3D "simple-bus";
->>>>>             ranges;
->>>>> +             pmu {
->>>>> +                     compatible =3D "riscv,pmu";
->>>>> +             };
->>>>=20
->>>> This is a property of the user-replaceable firmware, not a property =
-of
->>>> the hardware,
->>>=20
->>> It's a property of hardware that indicates that the hardware =
-supports PMU.
->>=20
->> All RISC-V hardware provides the CSRs, they=E2=80=99re part of the =
-privileged
->> spec and not marked optional. How many aren=E2=80=99t hard-wired to =
-zero is up
->> to the implementation. But even then you can=E2=80=99t know from the =
-hardware
->> alone what is supported; the firmware has to enable S-mode (and
->> U-mode)=E2=80=99s ability to read them, so you can=E2=80=99t assume =
-anything in a
->> static device tree hard-coded in Linux about what firmware has done.
->> Since you currently have to query the firmware to determine what=E2=80=99=
-s
->> available to you anyway, I see no benefit from having a node in the
->> device tree that tells you your firmware *might* have counters you =
-can
->> use.
->>=20
->>> Additionally, the counter overflow interrupt number needs to be
->>> defined through the DT as well
->>> so that a clean platform driver can be implemented.
->>=20
->> The interrupt number is specified as 13 by the Sscofmpf spec.
->> But that=E2=80=99s not relevant here, the FU740 predates and =
-doesn=E2=80=99t implement
->> Sscofmpf, meaning there is no interrupt to even define here. And as I
->> said on the other patch, don=E2=80=99t conflate =E2=80=9CSBI PMU =
-firmware interface is
->> supported=E2=80=9D and =E2=80=9CSscofmpf is implemented in the =
-hardware=E2=80=9D; the former
->> should be discovered by talking to firmware, and the latter should be
->> discovered like any other extension (however that ends up happening).
->=20
-> Presence of sscof extension can be discovered through general =
-extension
-> discovery mechanism (probably a separate DT node..that's a separate =
-discussion).
->=20
-> However, the interrupt number discovery has to be through DT so the
-> platform driver
-> can probe the DT to figure out that.
+The following changes since commit bf9f243f23e6623f310ba03fbb14e10ec3a61290:
 
-No, you=E2=80=99re not reading what I said. It=E2=80=99s specified to be =
-13 in the
-Sscofmpf spec, there is zero need to encode information in the device
-tree that is already mandated by a specification. We don=E2=80=99t put =
-that
-supervisor software interrupts are 1 nor that supervisor timer
-interrupts are 5 in the device tree, so we also don=E2=80=99t need to =
-put that
-supervisor counter overflow interrupts are 13 in it. We *do* currently
-put machine timer interrupt information from the CLINT in the device
-tree, and both supervisor and machine external interrupt information
-from the PLIC, but that is not to tell you what=E2=80=99s already =
-specified
-(that they=E2=80=99re interrupts 7, 11 and 9 respectively), it=E2=80=99s =
-to tell you
-which order the per-hart registers are in in the CLINT, and which order
-the contexts are in in the PLIC. If it were up to me that would=E2=80=99ve=
- been
-expressed a different way as it=E2=80=99s an ugly encoding, rather =
-redundant
-and not the nicest to decode in software, but it=E2=80=99s too late for =
-that.
-Though with the ACLINT, APLIC and other AIA parts on the horizon I hope
-we can get saner bindings for those that don=E2=80=99t repeat those =
-mistakes.
-But the point is, if it=E2=80=99s specified by the spec, it doesn=E2=80=99=
-t need to go
-in the device tree, the device tree is for telling you all the things
-you don=E2=80=99t, and can=E2=80=99t, already know.
+  Merge tag '5.15-rc-ksmbd-part2' of git://git.samba.org/ksmbd (2021-09-09 16:17:14 -0700)
 
->>>> so having this in the device tree under /soc, let alone
->>>> hard-coded in Linux, is utterly wrong. Why can this not just be =
-probed
->>>> like any other SBI interface? The "Probe SBI extension" interface =
-is
->>>> precisely for this kind of thing.
->>>>=20
->>> SBI extension is anyways probed to verify if the firmware has PMU
->>> extension or not.
->>> However, adding the DT property allows different platforms (with or
->>> without sscof extension)
->>> to use the same code path.
->>=20
->> You don=E2=80=99t need a device tree for that; that same code path =
-can just be
->> =E2=80=9Cuse the existing standard firmware interface=E2=80=9D. That =
-also has the
->> benefit that it=E2=80=99s not tied to device tree and so works =
-identically for
->> ACPI, rather than needing an ACPI version of it.
->>=20
->=20
-> I don't disagree with that argument. However, we need a DT node for
-> interrupt number as explained in the above.
-> A DT based platform driver allows us to provide a unified code path
-> which can handle both kinds of platforms described below.
->=20
-> 1. Platforms without sscof extension
-> 2. Platforms with sscof extension that requires a DT node for =
-interrupt number
->=20
-> Otherwise, the driver has to do the following things in order.
->=20
-> 1. Probe PMU extension
-> 2. first check if sscof extension is present in the special RISC-V ISA
-> extension DT node (which is yet to finalize)
-> 3. If sscof extension is present then register for a DT based platform =
-driver.
-> 4. Otherwise, register a simple platform driver.
->=20
-> I am not completely opposed to doing that if there is a strong
-> technical issue with the current approach.
+are available in the Git repository at:
 
-Nope, it=E2=80=99s:
+  git://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git tags/locks-v5.16
 
-1. Probe PMU SBI extension
-2. Register a driver
-3. If Sscofmpf is present, register for interrupt 13
+for you to fetch changes up to 482e00075d660a16de822686a4be4f7c0e11e5e2:
 
-Or perhaps with 2 and 3 swapped.
+  fs: remove leftover comments from mandatory locking removal (2021-10-26 12:20:50 -0400)
 
-You=E2=80=99re making this far too complicated by being fixated on =
-needing
-device tree in there somewhere. You don=E2=80=99t need it at all except
-possibly to tell you that Sscofmpf is supported, which should be done
-the same as any other supervisor extension like Svnapot or Svpbmt.
+----------------------------------------------------------------
+I know it's a bit early, but I don't expect to take in any more file
+locking patches before the merge window opens.
 
-Jess
+Most of this is just follow-on cleanup work of documentation and
+comments from the mandatory locking removal in v5.15. The only real
+functional change is that LOCK_MAND flock() support is also being
+removed, as it has basically been non-functional since the v2.5 days.
+----------------------------------------------------------------
+J. Bruce Fields (1):
+      locks: remove changelog comments
 
->> I see nothing here that can=E2=80=99t be discovered through =
-pre-existing means.
->> If it can be discovered without use of the device tree then it does =
-not
->> belong in the device tree; the device tree is purely for things that
->> cannot otherwise be discovered.
->>=20
->> Jess
->>=20
->=20
->=20
-> --=20
-> Regards,
-> Atish
+Jeff Layton (3):
+      locks: remove LOCK_MAND flock lock support
+      Documentation: remove reference to now removed mandatory-locking doc
+      fs: remove leftover comments from mandatory locking removal
+
+Mauro Carvalho Chehab (1):
+      docs: fs: locks.rst: update comment about mandatory file locking
+
+ Documentation/filesystems/index.rst |   1 -
+ Documentation/filesystems/locks.rst |  17 ++----
+ fs/ceph/locks.c                     |   3 --
+ fs/gfs2/file.c                      |   2 -
+ fs/locks.c                          | 161 +++++++++-----------------------------------------------
+ fs/namei.c                          |   4 +-
+ fs/nfs/file.c                       |   9 ----
+ fs/read_write.c                     |   4 --
+ include/uapi/asm-generic/fcntl.h    |   4 ++
+ 9 files changed, 36 insertions(+), 169 deletions(-)
+
+-- 
+Jeff Layton <jlayton@kernel.org>
 
