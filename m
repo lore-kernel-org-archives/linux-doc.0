@@ -2,57 +2,57 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92191C433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 18:34:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 375C9C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 18:34:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 778D0610A0
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 18:34:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1F99160FDA
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 18:34:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230302AbhJ2Sgj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Oct 2021 14:36:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44656 "EHLO
+        id S230126AbhJ2Sgw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Oct 2021 14:36:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230287AbhJ2Sgi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Oct 2021 14:36:38 -0400
+        with ESMTP id S230419AbhJ2Sgv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Oct 2021 14:36:51 -0400
 Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFFAAC061714
-        for <linux-doc@vger.kernel.org>; Fri, 29 Oct 2021 11:34:09 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id b15-20020a25ae8f000000b005c20f367790so1575215ybj.2
-        for <linux-doc@vger.kernel.org>; Fri, 29 Oct 2021 11:34:09 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6DA7C061570
+        for <linux-doc@vger.kernel.org>; Fri, 29 Oct 2021 11:34:22 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id t7-20020a258387000000b005b6d7220c79so14990796ybk.16
+        for <linux-doc@vger.kernel.org>; Fri, 29 Oct 2021 11:34:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:cc;
-        bh=93iwUDOobBuls+/E5vDDQ4gbsROtaRql+3ZjfJ57cYg=;
-        b=QoWnKrdqlxAbjyByCl565yFgv7LbAxVEc9fWHpV7QHaZFLrCfCW0jqXuk1TP6EyGVC
-         cYAFFnejyfTMEmIs2d3ZqUbS1lJVfB3UI0Qrg6hCPDLOLWTXr1bD+cefwT8dMsIiTEqU
-         UIOOTbDRosaY9j42FqnnygRFjwNTsC1OkJiqjnjmIlH7pJd7oRBBPAZ1upYbctfWZBQj
-         eRZ4bzqvdE/T0FHzvkKJg1HQUrOOAO820ygOZqL8zZHIew8BjPFuAdPjp5m67cgN0lMB
-         1F+yvzVPmR68OngynN9I3P+R7lal48E3sLDPV8F/+yml38UYWQkSzAS3uiXMHi2bxjvi
-         X8gQ==
+        bh=aWdu1dWgU6LDlQT9WUgK1tbGyRaKD3AurTsATcx1ByY=;
+        b=jtbbuakJZsRZNaPCbKbfFEJmOU9Uoi3SgTKnPTxiKpMGfnbaSlJy2stcE7VXQOgk3Y
+         8bE9sTwZB4gVvZSs1w9ZbFbvJ0t1unK6DB/gzmQgkm6HgAOJEHv968FbY7hJajgtUNoY
+         2BCnTRP2ZgFqaTEimHnrN4cHb3FYJnJ5ib+SWRJpS11KIYfX42ZpP9gP+7ctok3m4WCi
+         zz6X2fY2YHn7qSqq5hKQ864OD25HPN/N2P2WJ6otYalY28oNO4h/iToCmZhKd39P8xPU
+         aAfSZLHDuo6WjfoAbCXaTjT1jVku5v4UJomfxT54+0kxQMfJyGQQcUeYWtUq28iBayuR
+         PxpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:cc;
-        bh=93iwUDOobBuls+/E5vDDQ4gbsROtaRql+3ZjfJ57cYg=;
-        b=MRWszRX/GBdjc20A6sZSSpIysBwO1tH5zZXUxIBdGqe8MyzRZSJmPz+x2jukNK1Z3X
-         9Ma/ITO6bhb41U7f500QLDnY0nqweOBcVNi5AKUEFBGJmaARdV8vgYVld0SbXvx+xqeE
-         4tUTkcJkSghGuH8HuZagCd93yPtswxcSg0FwLjW9LgLRbWo0M0RMo02KQZoDhjOZ9z/v
-         geBFrUcWs1Ou+9Kif+uzW07qPAA+Xfj1xrlsd/JKxjXygFXOcbZtmGwLFAyqiRu6iXej
-         eeHnRMOCwxiYSa+u66jSuOcd6iw9EjWUAUZJv50hBdolw9n6S7PxXINiYHLO5ipLJRAb
-         AeXw==
-X-Gm-Message-State: AOAM533Kd9jQS2nP6h7z62QK/VukoPU9juCx1p80qcB/tEGLvHWwVvdR
-        eeXJ6GprcWqKOnIV2QGLad0JfEVcfBnRpzuFFg==
-X-Google-Smtp-Source: ABdhPJyHZxfyrH6eLpocM017hIpzAqnbrDsn4QA+ZJuqOtZZeAOQQ5gqFAXj+xLsHy4p8JwjyIombNa5Rhgjz7XYbw==
+        bh=aWdu1dWgU6LDlQT9WUgK1tbGyRaKD3AurTsATcx1ByY=;
+        b=K7LvdmIvzY98e/42pgPorJ/CueXvBxQnVnrW6jDwD8awmGrrUKfSTf+U4AYS8lSXyZ
+         ByAK3746mRNEufZOvTIUkXjsH8sYcSCDaS0myKLM9Sqd2MsHGZfwFdzQG1zw3J0a0pzP
+         UQsMfKlE4CynlTgfT5fmbRLk0DtEGmmr2AE+UR4EmhDQJ3fUm3JFgVNNtYn5+Tso7Hj7
+         SBCPyL9wJCx8yDCaSZxkdF3b7kfjvs/2EYBkq8kbAFgjo0qcBVGQn5gu2J6Sl3oIIGWw
+         lwo9DzWRG25mU/Uq+j6iCyy3C3WbrNsZ+urbSCxtGfMDnxG3kvvr/ZOGqlys9w052II+
+         BUyw==
+X-Gm-Message-State: AOAM530tcZeCXS0TB9AD7z9ySUz4nDWUdJYokCyYg1YjXFqAS5qdjoW/
+        ZjRR6w95e1SvhYleQd9sMGPwKWYKTFkQJTDynQ==
+X-Google-Smtp-Source: ABdhPJxoOcfzYFe02j1Yvr53Nxi/e0BJwqCy7bwvJ5kG7TNG3tF0RFNwZgGROz2u207zvd8NZcELsX/MmPmadoPPMw==
 X-Received: from kaleshsingh.mtv.corp.google.com ([2620:15c:211:200:b03:1d88:1cf2:4973])
- (user=kaleshsingh job=sendgmr) by 2002:a25:d393:: with SMTP id
- e141mr327060ybf.244.1635532449020; Fri, 29 Oct 2021 11:34:09 -0700 (PDT)
-Date:   Fri, 29 Oct 2021 11:33:28 -0700
+ (user=kaleshsingh job=sendgmr) by 2002:a5b:402:: with SMTP id
+ m2mr13884785ybp.422.1635532461875; Fri, 29 Oct 2021 11:34:21 -0700 (PDT)
+Date:   Fri, 29 Oct 2021 11:33:29 -0700
 In-Reply-To: <20211029183339.3216491-1-kaleshsingh@google.com>
-Message-Id: <20211029183339.3216491-3-kaleshsingh@google.com>
+Message-Id: <20211029183339.3216491-4-kaleshsingh@google.com>
 Mime-Version: 1.0
 References: <20211029183339.3216491-1-kaleshsingh@google.com>
 X-Mailer: git-send-email 2.33.1.1089.g2158813163f-goog
-Subject: [PATCH 2/4] tracing/histogram: Update division by 0 documentation
+Subject: [PATCH v3 3/4] tracing/histogram: Document hist trigger variables
 From:   Kalesh Singh <kaleshsingh@google.com>
 Cc:     surenb@google.com, hridya@google.com, namhyung@kernel.org,
         kernel-team@android.com, rostedt@goodmis.org, mhiramat@kernel.org,
@@ -67,28 +67,48 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-If the divisor is a constant and zero, the undeifned case can be
-detected and an error returned instead of -1.
+Update the tracefs README to describe how hist trigger variables
+can be created.
 
 Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
+Acked-by: Masami Hiramatsu <mhiramat@kernel.org>
 ---
- Documentation/trace/histogram.rst | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/trace/histogram.rst b/Documentation/trace/histogram.rst
-index 66ec972dfb78..859fd1b76c63 100644
---- a/Documentation/trace/histogram.rst
-+++ b/Documentation/trace/histogram.rst
-@@ -1766,7 +1766,8 @@ using the same key and variable from yet another event::
- Expressions support the use of addition, subtraction, multiplication and
- division operators (+-\*/).
- 
--Note that division by zero always returns -1.
-+Note if division by zero cannot be detected at parse time (i.e. the
-+divisor is not a constant), the result will be -1.
- 
- Numeric constants can also be used directly in an expression::
- 
+Changes in v2:
+  - Add Masami's Acked-by.
+
+ kernel/trace/trace.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
+index bc677cd64224..c41b3786401d 100644
+--- a/kernel/trace/trace.c
++++ b/kernel/trace/trace.c
+@@ -5628,6 +5628,7 @@ static const char readme_msg[] =
+ #ifdef CONFIG_HIST_TRIGGERS
+ 	"      hist trigger\t- If set, event hits are aggregated into a hash table\n"
+ 	"\t    Format: hist:keys=<field1[,field2,...]>\n"
++	"\t            [:<var1>=<field|var_ref|numeric_literal>[,<var2>=...]]\n"
+ 	"\t            [:values=<field1[,field2,...]>]\n"
+ 	"\t            [:sort=<field1[,field2,...]>]\n"
+ 	"\t            [:size=#entries]\n"
+@@ -5639,6 +5640,16 @@ static const char readme_msg[] =
+ 	"\t            common_timestamp - to record current timestamp\n"
+ 	"\t            common_cpu - to record the CPU the event happened on\n"
+ 	"\n"
++	"\t    A hist trigger variable can be:\n"
++	"\t        - a reference to a field e.g. x=current_timestamp,\n"
++	"\t        - a reference to another variable e.g. y=$x,\n"
++	"\t        - a numeric literal: e.g. ms_per_sec=1000,\n"
++	"\t        - an arithmetic expression: e.g. time_secs=current_timestamp/1000\n"
++	"\n"
++	"\t    hist trigger aritmethic expressions support addition(+), subtraction(-),\n"
++	"\t    multiplication(*) and division(/) operators. An operand can be either a\n"
++	"\t    variable reference, field or numeric literal.\n"
++	"\n"
+ 	"\t    When a matching event is hit, an entry is added to a hash\n"
+ 	"\t    table using the key(s) and value(s) named, and the value of a\n"
+ 	"\t    sum called 'hitcount' is incremented.  Keys and values\n"
 -- 
 2.33.1.1089.g2158813163f-goog
 
