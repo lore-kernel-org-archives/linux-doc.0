@@ -2,125 +2,212 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95BCFC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 03:26:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67660C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 06:05:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 73C11610CF
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 03:26:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 35DC36113B
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 06:05:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231621AbhJ2D2v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Oct 2021 23:28:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37782 "EHLO
+        id S231911AbhJ2GIX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Oct 2021 02:08:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231611AbhJ2D2u (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Oct 2021 23:28:50 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B743DC061570;
-        Thu, 28 Oct 2021 20:26:22 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id n36-20020a17090a5aa700b0019fa884ab85so9523210pji.5;
-        Thu, 28 Oct 2021 20:26:22 -0700 (PDT)
+        with ESMTP id S231774AbhJ2GIW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Oct 2021 02:08:22 -0400
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 546BAC061714
+        for <linux-doc@vger.kernel.org>; Thu, 28 Oct 2021 23:05:54 -0700 (PDT)
+Received: by mail-yb1-xb36.google.com with SMTP id 131so10045358ybc.7
+        for <linux-doc@vger.kernel.org>; Thu, 28 Oct 2021 23:05:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LtgP/cUoxxhvYcfdihWX13hRZAIDcFCne2uXGpi/AnA=;
-        b=pnVPSE1jjdTlHf5q+/QOUvnEnDh/dyo56Nltoztkn7rp+u2qIthB4nz3zQts+FpEaC
-         ztX77ZUZG39hwxvuBeOUVCq5ol3T6+oOYJa8bHnbXZE2cWTGG1Qf0O0YXl73KaFpu0iQ
-         CQXkjEnU7IFLnvn1f+Ij2haWAY7oY5krONTZ2Xss/PowjeSm5Eo0LA9lKrxzzz6qm9qz
-         X7/4eE9kpYZ+AKwDk8M+IgYdSOGwXG1VqZ6gjFdouNpSWYHLJ8iiRXPGpy33W6w4GqTc
-         D3PDOZdA/hsQZ5Em7wFXVcQrmlWHF8ctOokrHC4PdaoO1KdkhrtW38ry8HxfVeJYrwJg
-         f9kA==
+        d=atishpatra.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Ef7CgH5bstiFbSOUk78qZ1LgQ+HaUKVN7yqdDJbvgJM=;
+        b=Lu4P/PB9F9ghzQlQ1gTf3elDPEt0VhIoLYh95RM87su3kRebBW0vq9G4CCKAYPcy6R
+         wkQEqfeatb5Rz8ZoPPZqQNjN6n4ggXEmgDcY+rgzkpTnH3K0Lyuja8CkAHIwskQe6tmC
+         l+xuWdDlokRksbYia9moXY+odalbngjOHN3oo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LtgP/cUoxxhvYcfdihWX13hRZAIDcFCne2uXGpi/AnA=;
-        b=I7pmpnRpcbiLr4ny7QEwmHvANP+IDEsffW16VZOsaUAXPXx4LmxNmRvbZ4ChnZePhK
-         M0jCHw1k7SJWtm9LQ/b1lrVzPbZqfFRjwF5hXjeVys4T76SisAE7I0pPeNBxKO0esp0x
-         KR8/CeHGS+tKx51pVsm/Bi85DKBS8Bd32cQcfv/CDe2RK//1QwgSvrb6hIze6pvZgQSB
-         kVmJUqHb+fy8yjKizt5AK550yJ1dFqsioLj6UBrLoxZSo8NAGzA+1a7LTB0mxsPjxnvU
-         eKMv7RNNhI+/eKkAH0v91nVy+7jCbccuWAG1pNqCm65zUw3QvkyTkveYLoEDv6whqPkA
-         gO1g==
-X-Gm-Message-State: AOAM5322MpDhDjPJmeVug8ZxYRT20Np/7IzuMReo6AxuTvzWHjGkS0E0
-        YaIfsoqxmZMcHAe7kpCeo/Y=
-X-Google-Smtp-Source: ABdhPJx9XgkGtE7qaUfO6vkh3qBVQlAF06dNogc1Z+fyPegLEQQNp04S/8BzTa1IelY1NsXFX41OOg==
-X-Received: by 2002:a17:902:bd96:b0:140:4a2b:c3ee with SMTP id q22-20020a170902bd9600b001404a2bc3eemr7549951pls.8.1635477982228;
-        Thu, 28 Oct 2021 20:26:22 -0700 (PDT)
-Received: from ubuntu-hirsute.. ([154.86.159.245])
-        by smtp.gmail.com with ESMTPSA id v2sm3940400pga.57.2021.10.28.20.26.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Oct 2021 20:26:21 -0700 (PDT)
-From:   yangxingwu <xingwu.yang@gmail.com>
-To:     horms@verge.net.au
-Cc:     ja@ssi.bg, pablo@netfilter.org, kadlec@netfilter.org, fw@strlen.de,
-        davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
-        lvs-devel@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        coreteam@netfilter.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, corbet@lwn.net, xingwu.yang@gmail.com,
-        legend050709@qq.com
-Subject: [PATCH v2] ipvs: Fix reuse connection if RS weight is 0
-Date:   Fri, 29 Oct 2021 11:26:04 +0800
-Message-Id: <20211029032604.5432-1-xingwu.yang@gmail.com>
-X-Mailer: git-send-email 2.30.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Ef7CgH5bstiFbSOUk78qZ1LgQ+HaUKVN7yqdDJbvgJM=;
+        b=WCVb4W2tuvZNdQENP2Gj2PC/YnWJM91YVa0H4gltAsYupJD59zYzKrhRdWDuKiaRpS
+         DFNPIAO/x1NHf5Thk29D0uEDByquNUTVTpv2G8ErMs2FApNmQE5VootsM8IddQVkIg35
+         4RolM+h0+Q0owwVF+SZrxQcdKCeK+sUvZfsZI59BxlocSM54nMrH0d2DUQ5x7BzUATdr
+         GJ7mA7Tg5hwCyL6sK0yM5yKvmZC6S0DSFq90jPxAhF/kB+qDKj4lfu1yPJTIoov5hGz9
+         YweLi0llwgFXrM/h5BDK0b/WTlkH4bppC4UNcxy7hTcr9ANLcPL+4f/1oBahDZTtnzk0
+         2qiA==
+X-Gm-Message-State: AOAM533sflCOMw6tvfSHuFQTbdPw6ZKtmi68nM6dCoAR+WInco4H916r
+        DDZ3C2FHM+VvHlH6UFWOftlT07QbDeTem+rVlBhW
+X-Google-Smtp-Source: ABdhPJyAbwZ9hvTFa/radJfuWMS3aMdr2KxRKeUkW7bQFbqcD1sB+dxag58TbQt8Fx9iY4ymtLyrLQiBHBB94EUg6MQ=
+X-Received: by 2002:a25:5341:: with SMTP id h62mr9970718ybb.481.1635487553445;
+ Thu, 28 Oct 2021 23:05:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211025195350.242914-1-atish.patra@wdc.com> <20211025195350.242914-11-atish.patra@wdc.com>
+ <YXsMtrmuavGAHk8S@Jessicas-MacBook-Pro.local> <CAOnJCULqwZvK52nczp2HNinDCBjThnbGbvJpAvdameny1fK4Vw@mail.gmail.com>
+ <EDB030D6-D37A-43D6-9027-222794FDA80D@jrtc27.com>
+In-Reply-To: <EDB030D6-D37A-43D6-9027-222794FDA80D@jrtc27.com>
+From:   Atish Patra <atishp@atishpatra.org>
+Date:   Thu, 28 Oct 2021 23:05:42 -0700
+Message-ID: <CAOnJCUJjzmW=QobLPKAWYGppFeoJXjT2Ee6eG2-H=s2mnei=RQ@mail.gmail.com>
+Subject: Re: [v4 10/11] riscv: dts: fu740: Add pmu node
+To:     Jessica Clarke <jrtc27@jrtc27.com>
+Cc:     Atish Patra <atish.patra@wdc.com>,
+        "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
+        Anup Patel <anup.patel@wdc.com>,
+        David Abdurachmanov <david.abdurachmanov@sifive.com>,
+        devicetree <devicetree@vger.kernel.org>,
+        Greentime Hu <greentime.hu@sifive.com>,
+        Guo Ren <guoren@linux.alibaba.com>,
+        Heinrich Schuchardt <xypron.glpk@gmx.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-perf-users@vger.kernel.org,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        Nick Kossifidis <mick@ics.forth.gr>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Vincent Chen <vincent.chen@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since commit dc7b3eb900aa ("ipvs: Fix reuse connection if real server is
-dead"), new connections to dead servers are redistributed immediately to
-new servers.
+On Thu, Oct 28, 2021 at 5:07 PM Jessica Clarke <jrtc27@jrtc27.com> wrote:
+>
+> On 29 Oct 2021, at 00:37, Atish Patra <atishp@atishpatra.org> wrote:
+> >
+> > On Thu, Oct 28, 2021 at 1:49 PM Jessica Clarke <jrtc27@jrtc27.com> wrot=
+e:
+> >>
+> >> On Mon, Oct 25, 2021 at 12:53:49PM -0700, Atish Patra wrote:
+> >>> HiFive unmatched supports HPMCounters but does not implement mcountin=
+hibit
+> >>> or sscof extension. Thus, perf monitoring can be used on the unmatche=
+d
+> >>> board without sampling.
+> >>>
+> >>> Add the PMU node with compatible string so that Linux perf driver can
+> >>> utilize this to enable PMU.
+> >>>
+> >>> Signed-off-by: Atish Patra <atish.patra@wdc.com>
+> >>> ---
+> >>> arch/riscv/boot/dts/sifive/fu740-c000.dtsi | 3 +++
+> >>> 1 file changed, 3 insertions(+)
+> >>>
+> >>> diff --git a/arch/riscv/boot/dts/sifive/fu740-c000.dtsi b/arch/riscv/=
+boot/dts/sifive/fu740-c000.dtsi
+> >>> index abbb960f90a0..b35b96b58820 100644
+> >>> --- a/arch/riscv/boot/dts/sifive/fu740-c000.dtsi
+> >>> +++ b/arch/riscv/boot/dts/sifive/fu740-c000.dtsi
+> >>> @@ -140,6 +140,9 @@ soc {
+> >>>              #size-cells =3D <2>;
+> >>>              compatible =3D "simple-bus";
+> >>>              ranges;
+> >>> +             pmu {
+> >>> +                     compatible =3D "riscv,pmu";
+> >>> +             };
+> >>
+> >> This is a property of the user-replaceable firmware, not a property of
+> >> the hardware,
+> >
+> > It's a property of hardware that indicates that the hardware supports P=
+MU.
+>
+> All RISC-V hardware provides the CSRs, they=E2=80=99re part of the privil=
+eged
+> spec and not marked optional. How many aren=E2=80=99t hard-wired to zero =
+is up
+> to the implementation. But even then you can=E2=80=99t know from the hard=
+ware
+> alone what is supported; the firmware has to enable S-mode (and
+> U-mode)=E2=80=99s ability to read them, so you can=E2=80=99t assume anyth=
+ing in a
+> static device tree hard-coded in Linux about what firmware has done.
+> Since you currently have to query the firmware to determine what=E2=80=99=
+s
+> available to you anyway, I see no benefit from having a node in the
+> device tree that tells you your firmware *might* have counters you can
+> use.
+>
+> > Additionally, the counter overflow interrupt number needs to be
+> > defined through the DT as well
+> > so that a clean platform driver can be implemented.
+>
+> The interrupt number is specified as 13 by the Sscofmpf spec.
+> But that=E2=80=99s not relevant here, the FU740 predates and doesn=E2=80=
+=99t implement
+> Sscofmpf, meaning there is no interrupt to even define here. And as I
+> said on the other patch, don=E2=80=99t conflate =E2=80=9CSBI PMU firmware=
+ interface is
+> supported=E2=80=9D and =E2=80=9CSscofmpf is implemented in the hardware=
+=E2=80=9D; the former
+> should be discovered by talking to firmware, and the latter should be
+> discovered like any other extension (however that ends up happening).
 
-Then commit d752c3645717 ("ipvs: allow rescheduling of new connections when
-port reuse is detected") disable expire_nodest_conn if conn_reuse_mode is
-0. And new connection may be distributed to a real server with weight 0.
+Presence of sscof extension can be discovered through general extension
+discovery mechanism (probably a separate DT node..that's a separate discuss=
+ion).
 
-Co-developed-by: Chuanqi Liu <legend050709@qq.com>
-Signed-off-by: Chuanqi Liu <legend050709@qq.com>
-Signed-off-by: yangxingwu <xingwu.yang@gmail.com>
----
- Documentation/networking/ipvs-sysctl.rst | 3 +--
- net/netfilter/ipvs/ip_vs_core.c          | 7 ++++---
- 2 files changed, 5 insertions(+), 5 deletions(-)
+However, the interrupt number discovery has to be through DT so the
+platform driver
+can probe the DT to figure out that.
 
-diff --git a/Documentation/networking/ipvs-sysctl.rst b/Documentation/networking/ipvs-sysctl.rst
-index 2afccc63856e..1cfbf1add2fc 100644
---- a/Documentation/networking/ipvs-sysctl.rst
-+++ b/Documentation/networking/ipvs-sysctl.rst
-@@ -37,8 +37,7 @@ conn_reuse_mode - INTEGER
- 
- 	0: disable any special handling on port reuse. The new
- 	connection will be delivered to the same real server that was
--	servicing the previous connection. This will effectively
--	disable expire_nodest_conn.
-+	servicing the previous connection.
- 
- 	bit 1: enable rescheduling of new connections when it is safe.
- 	That is, whenever expire_nodest_conn and for TCP sockets, when
-diff --git a/net/netfilter/ipvs/ip_vs_core.c b/net/netfilter/ipvs/ip_vs_core.c
-index 128690c512df..374f4b0b7080 100644
---- a/net/netfilter/ipvs/ip_vs_core.c
-+++ b/net/netfilter/ipvs/ip_vs_core.c
-@@ -2042,14 +2042,15 @@ ip_vs_in(struct netns_ipvs *ipvs, unsigned int hooknum, struct sk_buff *skb, int
- 			     ipvs, af, skb, &iph);
- 
- 	conn_reuse_mode = sysctl_conn_reuse_mode(ipvs);
--	if (conn_reuse_mode && !iph.fragoffs && is_new_conn(skb, &iph) && cp) {
-+	if (!iph.fragoffs && is_new_conn(skb, &iph) && cp) {
- 		bool old_ct = false, resched = false;
- 
- 		if (unlikely(sysctl_expire_nodest_conn(ipvs)) && cp->dest &&
--		    unlikely(!atomic_read(&cp->dest->weight))) {
-+		    unlikely(!atomic_read(&cp->dest->weight)) && !cp->control) {
- 			resched = true;
- 			old_ct = ip_vs_conn_uses_old_conntrack(cp, skb);
--		} else if (is_new_conn_expected(cp, conn_reuse_mode)) {
-+		} else if (conn_reuse_mode &&
-+			   is_new_conn_expected(cp, conn_reuse_mode)) {
- 			old_ct = ip_vs_conn_uses_old_conntrack(cp, skb);
- 			if (!atomic_read(&cp->n_control)) {
- 				resched = true;
--- 
-2.30.2
+>
+> >> so having this in the device tree under /soc, let alone
+> >> hard-coded in Linux, is utterly wrong. Why can this not just be probed
+> >> like any other SBI interface? The "Probe SBI extension" interface is
+> >> precisely for this kind of thing.
+> >>
+> > SBI extension is anyways probed to verify if the firmware has PMU
+> > extension or not.
+> > However, adding the DT property allows different platforms (with or
+> > without sscof extension)
+> > to use the same code path.
+>
+> You don=E2=80=99t need a device tree for that; that same code path can ju=
+st be
+> =E2=80=9Cuse the existing standard firmware interface=E2=80=9D. That also=
+ has the
+> benefit that it=E2=80=99s not tied to device tree and so works identicall=
+y for
+> ACPI, rather than needing an ACPI version of it.
+>
 
+I don't disagree with that argument. However, we need a DT node for
+interrupt number as explained in the above.
+A DT based platform driver allows us to provide a unified code path
+which can handle both kinds of platforms described below.
+
+1. Platforms without sscof extension
+2. Platforms with sscof extension that requires a DT node for interrupt num=
+ber
+
+Otherwise, the driver has to do the following things in order.
+
+1. Probe PMU extension
+2. first check if sscof extension is present in the special RISC-V ISA
+extension DT node (which is yet to finalize)
+3. If sscof extension is present then register for a DT based platform driv=
+er.
+4. Otherwise, register a simple platform driver.
+
+I am not completely opposed to doing that if there is a strong
+technical issue with the current approach.
+
+> I see nothing here that can=E2=80=99t be discovered through pre-existing =
+means.
+> If it can be discovered without use of the device tree then it does not
+> belong in the device tree; the device tree is purely for things that
+> cannot otherwise be discovered.
+>
+> Jess
+>
+
+
+--=20
+Regards,
+Atish
