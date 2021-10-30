@@ -2,132 +2,197 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF229C433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 30 Oct 2021 07:45:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED038C4332F
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Oct 2021 09:17:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C7FF860FC4
-	for <linux-doc@archiver.kernel.org>; Sat, 30 Oct 2021 07:45:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C11B560724
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Oct 2021 09:17:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231669AbhJ3HsW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 30 Oct 2021 03:48:22 -0400
-Received: from ink.ssi.bg ([178.16.128.7]:43737 "EHLO ink.ssi.bg"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230365AbhJ3HsW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 30 Oct 2021 03:48:22 -0400
-Received: from ja.ssi.bg (unknown [178.16.129.10])
-        by ink.ssi.bg (Postfix) with ESMTPS id 9941F3C09BA;
-        Sat, 30 Oct 2021 10:45:48 +0300 (EEST)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-        by ja.ssi.bg (8.16.1/8.16.1) with ESMTP id 19U7jhRk009603;
-        Sat, 30 Oct 2021 10:45:44 +0300
-Date:   Sat, 30 Oct 2021 10:45:43 +0300 (EEST)
-From:   Julian Anastasov <ja@ssi.bg>
-To:     yangxingwu <xingwu.yang@gmail.com>
-cc:     Simon Horman <horms@verge.net.au>, pablo@netfilter.org,
-        netdev@vger.kernel.org, lvs-devel@vger.kernel.org,
-        netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, Chuanqi Liu <legend050709@qq.com>
-Subject: Re: [PATCH nf-next v4] netfilter: ipvs: Fix reuse connection if RS
- weight is 0
-In-Reply-To: <20211030064049.9992-1-xingwu.yang@gmail.com>
-Message-ID: <e2699ba8-e733-2c71-584a-138746511f4@ssi.bg>
-References: <20211030064049.9992-1-xingwu.yang@gmail.com>
+        id S231803AbhJ3JT6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 30 Oct 2021 05:19:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40420 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231792AbhJ3JTz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Oct 2021 05:19:55 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C01CDC061570;
+        Sat, 30 Oct 2021 02:17:25 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id j9so25895628lfu.7;
+        Sat, 30 Oct 2021 02:17:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mHuy2cIt0h9Kxk01SYVC1I9qFk0wtgciIUKFEik4ujw=;
+        b=gaP8mpkWDvuFupEndZ9mSoykhDLxP09fXsUqwqskuGXXS/CtXWzimP5m2R++rileBU
+         dKsjMBMt+3EF08tsyXVCOpX29fe5Zn+wVuXbyneWkw35DRmPmAQY2uQmgKuSxlYJcyIg
+         ZFoVaTy1Ew5ePgIE9lfQJy8hx5zOqww29Y8fY5BWvnwPSkWJTdkZdfuleRyDorO7V0eu
+         daczcnxuVSYV5g3EGsf5n0ojwP/pdLP7e4yXW9XOXs3F+btq7bOlymJShBumkynmdciE
+         OqcEcUkHMVlr808tQv5XCHgAyWBOkJu6T2X8zihLC+CKR4iz0dv0yoTs078lhenJqhOg
+         6AHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mHuy2cIt0h9Kxk01SYVC1I9qFk0wtgciIUKFEik4ujw=;
+        b=A9xXA75WVTwfIBIBuYtWNexj3pJ6iyyu5+MoY7HafgXGP+s81kZgdUsHX7wOerG4ON
+         hDmq/owAHXN49ndYcCey/CYrJQxu4QlZcwi4EG8TonNnSXZRn0rTIjVR9aaRyDV14yOQ
+         7IBcuhGrTdMaNND/VBZHca4jvtkQX4plzuhp+LZAkBy8l3D/vDhbXomO4guyAhKpUb/y
+         BdiT+Gh6DoKd/6H6GwpOeZGsm9Lep+CxyFCRf7BzAs1eo9Nt2HnL/Wv+/P+aIGcI6tZP
+         BbogQNcdWttC9ivOJ8zqrNw3CA7+oSRRfVc9YW3xU2IsPsuO/1ja8YCBrzuMCZ7tikxp
+         cVnQ==
+X-Gm-Message-State: AOAM530whRXFHZnqJxtVi6UJ/e9jo0ZwGbPs04JJhwNjmfwwG9MZ5qcn
+        T5sS7I6+kSiy/3oXD2zo4HAw02IjjIy4pA==
+X-Google-Smtp-Source: ABdhPJy+RQJUBUePVR7zQUFtAE9+3e8gj5hssd9LCX1PxCbYfbjCPikJ7aEWslCSHkDW8nvWoKKmEQ==
+X-Received: by 2002:a05:6512:3697:: with SMTP id d23mr15234889lfs.187.1635585444050;
+        Sat, 30 Oct 2021 02:17:24 -0700 (PDT)
+Received: from localhost.localdomain ([94.179.35.89])
+        by smtp.gmail.com with ESMTPSA id x26sm868195ljh.24.2021.10.30.02.17.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 30 Oct 2021 02:17:23 -0700 (PDT)
+From:   Denis Pauk <pauk.denis@gmail.com>
+Cc:     eugene.shalygin@gmail.com, andy.shevchenko@gmail.com,
+        pauk.denis@gmail.com, platform-driver-x86@vger.kernel.org,
+        thomas@weissschuh.net, Ed Brindley <kernel@maidavale.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v9 0/2] Update ASUS WMI supported boards
+Date:   Sat, 30 Oct 2021 12:17:03 +0300
+Message-Id: <20211030091706.25470-1-pauk.denis@gmail.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Add support by WMI interface provided by Asus for B550/X570 boards: 
+* PRIME X570-PRO,
+* ROG CROSSHAIR VIII HERO
+* ROG CROSSHAIR VIII DARK HERO
+* ROG CROSSHAIR VIII FORMULA
+* ROG STRIX X570-E GAMING
+* ROG STRIX B550-E GAMING
 
-	Hello,
+Add support by WMI interface provided by Asus for X370/X470/
+B450/X399 boards:
+* ROG CROSSHAIR VI HERO,
+* PRIME X399-A,
+* PRIME X470-PRO,
+* ROG CROSSHAIR VI EXTREME,
+* ROG CROSSHAIR VI HERO (WI-FI AC),
+* ROG CROSSHAIR VII HERO,
+* ROG CROSSHAIR VII HERO (WI-FI),
+* ROG STRIX B450-E GAMING,
+* ROG STRIX B450-F GAMING,
+* ROG STRIX B450-I GAMING,
+* ROG STRIX X399-E GAMING,
+* ROG STRIX X470-F GAMING,
+* ROG STRIX X470-I GAMING,
+* ROG ZENITH EXTREME,
+* ROG ZENITH EXTREME ALPHA.
 
-On Sat, 30 Oct 2021, yangxingwu wrote:
+@Andy Shevchenko: I have added your changes to asus_wmi_ec_sensors. Have I 
+    correctly applied changes? Thank you.
+@Guenter Roeck: I have adeed comments about units in the 
+    asus_wmi_scale_sensor_value.
 
-> We are changing expire_nodest_conn to work even for reused connections when
-> conn_reuse_mode=0 but without affecting the controlled and persistent
-> connections during the graceful termination period while server is with
-> weight=0.
-> 
-> Fixes: d752c3645717 ("ipvs: allow rescheduling of new connections when port
-> reuse is detected")
-> Co-developed-by: Chuanqi Liu <legend050709@qq.com>
-> Signed-off-by: Chuanqi Liu <legend050709@qq.com>
-> Signed-off-by: yangxingwu <xingwu.yang@gmail.com>
+I have added ACPI_FREE for results to all case of 
+usage wmi_evaluate_method. Is it correct?
 
-	Looks good to me, thanks!
+Could you please review?
 
-Acked-by: Julian Anastasov <ja@ssi.bg>
+Signed-off-by: Denis Pauk <pauk.denis@gmail.com>
+Signed-off-by: Ed Brindley <kernel@maidavale.org>
+Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-	Simon, Pablo, may be you can change Fixes tag to be
-on one line before applying.
+---
+Changes in v9:
+- Fix memory leaks in asus_wmi_ec_block_read()
+- Fix buffer and parameter lengths in decode and encode algorithms
+- Simplify encoding in read query
+- Reshuffle structures to make pointer arithmetics simpler or
+  no-op in some cases
+- Shuffle parameters in some functions to make it more logical
+- Use temporary variable for EC info data structure
+- Many indentation fixes to improve readability (breaks 80 characters rule)
+- Fix memory leaks in asus_wmi_sensors:asus_wmi_*().
 
-> ---
->  Documentation/networking/ipvs-sysctl.rst |  3 +--
->  net/netfilter/ipvs/ip_vs_core.c          | 12 ++++--------
->  2 files changed, 5 insertions(+), 10 deletions(-)
-> 
-> diff --git a/Documentation/networking/ipvs-sysctl.rst b/Documentation/networking/ipvs-sysctl.rst
-> index 2afccc63856e..1cfbf1add2fc 100644
-> --- a/Documentation/networking/ipvs-sysctl.rst
-> +++ b/Documentation/networking/ipvs-sysctl.rst
-> @@ -37,8 +37,7 @@ conn_reuse_mode - INTEGER
->  
->  	0: disable any special handling on port reuse. The new
->  	connection will be delivered to the same real server that was
-> -	servicing the previous connection. This will effectively
-> -	disable expire_nodest_conn.
-> +	servicing the previous connection.
->  
->  	bit 1: enable rescheduling of new connections when it is safe.
->  	That is, whenever expire_nodest_conn and for TCP sockets, when
-> diff --git a/net/netfilter/ipvs/ip_vs_core.c b/net/netfilter/ipvs/ip_vs_core.c
-> index 128690c512df..ce6ceb55822b 100644
-> --- a/net/netfilter/ipvs/ip_vs_core.c
-> +++ b/net/netfilter/ipvs/ip_vs_core.c
-> @@ -1100,10 +1100,6 @@ static inline bool is_new_conn(const struct sk_buff *skb,
->  static inline bool is_new_conn_expected(const struct ip_vs_conn *cp,
->  					int conn_reuse_mode)
->  {
-> -	/* Controlled (FTP DATA or persistence)? */
-> -	if (cp->control)
-> -		return false;
-> -
->  	switch (cp->protocol) {
->  	case IPPROTO_TCP:
->  		return (cp->state == IP_VS_TCP_S_TIME_WAIT) ||
-> @@ -1964,7 +1960,6 @@ ip_vs_in(struct netns_ipvs *ipvs, unsigned int hooknum, struct sk_buff *skb, int
->  	struct ip_vs_proto_data *pd;
->  	struct ip_vs_conn *cp;
->  	int ret, pkts;
-> -	int conn_reuse_mode;
->  	struct sock *sk;
->  
->  	/* Already marked as IPVS request or reply? */
-> @@ -2041,15 +2036,16 @@ ip_vs_in(struct netns_ipvs *ipvs, unsigned int hooknum, struct sk_buff *skb, int
->  	cp = INDIRECT_CALL_1(pp->conn_in_get, ip_vs_conn_in_get_proto,
->  			     ipvs, af, skb, &iph);
->  
-> -	conn_reuse_mode = sysctl_conn_reuse_mode(ipvs);
-> -	if (conn_reuse_mode && !iph.fragoffs && is_new_conn(skb, &iph) && cp) {
-> +	if (!iph.fragoffs && is_new_conn(skb, &iph) && cp && !cp->control) {
->  		bool old_ct = false, resched = false;
-> +		int conn_reuse_mode = sysctl_conn_reuse_mode(ipvs);
->  
->  		if (unlikely(sysctl_expire_nodest_conn(ipvs)) && cp->dest &&
->  		    unlikely(!atomic_read(&cp->dest->weight))) {
->  			resched = true;
->  			old_ct = ip_vs_conn_uses_old_conntrack(cp, skb);
-> -		} else if (is_new_conn_expected(cp, conn_reuse_mode)) {
-> +		} else if (conn_reuse_mode &&
-> +			   is_new_conn_expected(cp, conn_reuse_mode)) {
->  			old_ct = ip_vs_conn_uses_old_conntrack(cp, skb);
->  			if (!atomic_read(&cp->n_control)) {
->  				resched = true;
-> -- 
-> 2.30.2
+Changes in v8:
+- Add seprate patch for ProArt X570-CREATOR WIFI support.
+- Fix codestyle in defines and comments.
+- Fix buffer length calculation.
+- Use hex2bin/bin2hex for convert values in buffers.
+- Remove unrequired acpi_os_free usage.
+- Call mutex_lock inside of functions.
 
-Regards
+Changes in v7:
+- Use  for directly get sensors list by board.
+- Add depends on ACPI_WMI to Kconfig.
+- Add response buffer size check in asus_wmi_ec_decode_reply_buffer.
+- Clean up defines names.
 
---
-Julian Anastasov <ja@ssi.bg>
+Changes in v6:
+- asus_wmi_ec_sensors: Generate query for all sensors on sensors setup
+- asus_wmi_ec_sensors: Move binary to sensor value logic to separate 
+  get_sensor_value (by Eugene Shalygin)
+- asus_wmi_ec_sensors: Use acpi_os_free without NULL pointer check.
+- Add asus_wmi_sensor to documentation index.
+- Add asus_wmi_ec_sensor to documentation index.
+
+Changes in v5:
+- Fixes build issue reported by kernel test robot with disabled ACPI_WMI.
+- asus_wmi_sensors: Remove sensor->name check as always evaluated to true.
+
+Changes in v4:
+ - Implement wmi driver instead platform driver.
+ - Update documentation with known issues.
+
+Changes in v3:
+ - Use MODULE_DEVICE_TABLE for match devices.
+ - asus_wmi_ec_sensors: Use get_unaligned_be32 instead incorrectly used 
+   get_unaligned_le32.
+ - Add documentaion for drivers.
+
+Changes in v2:
+ - asus_wmi_ec_sensors: Rename asus_wmi_sensors to asus_wmi_ec_sensors for 
+   B550/X570 boards.
+ - asus_wmi_ec_sensors: Use utf8s_to_utf16s/utf16s_to_utf8s instead handmade 
+   fuctions.
+ - asus_wmi_ec_sensors: Use post increment.
+ - asus_wmi_ec_sensors: Use get_unaligned* for convert values.
+ - asus_wmi_ec_sensors: Use PTR_ERR_OR_ZERO.
+ - asus_wmi_ec_sensors: Specify per-board sensors in a declarative way 
+   (by Eugene Shalygin).
+ - asus_wmi_sensors: Add support for X370/X470/B450/X399 boards.
+
+---
+
+Denis Pauk (2):
+  hwmon: (asus_wmi_ec_sensors) Support B550 Asus WMI.
+  hwmon: (asus_wmi_sensors) Support X370 Asus WMI.
+
+ Documentation/hwmon/asus_wmi_ec_sensors.rst |  35 ++
+ Documentation/hwmon/asus_wmi_sensors.rst    |  74 +++
+ Documentation/hwmon/index.rst               |   2 +
+ MAINTAINERS                                 |   8 +
+ drivers/hwmon/Kconfig                       |  24 +
+ drivers/hwmon/Makefile                      |   2 +
+ drivers/hwmon/asus_wmi_ec_sensors.c         | 612 ++++++++++++++++++
+ drivers/hwmon/asus_wmi_sensors.c            | 657 ++++++++++++++++++++
+ 8 files changed, 1414 insertions(+)
+ create mode 100644 Documentation/hwmon/asus_wmi_ec_sensors.rst
+ create mode 100644 Documentation/hwmon/asus_wmi_sensors.rst
+ create mode 100644 drivers/hwmon/asus_wmi_ec_sensors.c
+ create mode 100644 drivers/hwmon/asus_wmi_sensors.c
+
+
+base-commit: 10f0d2ab9aa672707559d46601fd35544759ff70
+-- 
+2.33.0
+
