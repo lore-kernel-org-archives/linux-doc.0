@@ -2,95 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82357C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 22:31:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E5B5C433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Oct 2021 02:08:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 66CDC61056
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Oct 2021 22:31:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2D2626103E
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Oct 2021 02:08:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231394AbhJ2WeV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Oct 2021 18:34:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42404 "EHLO
+        id S231177AbhJ3CKq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Oct 2021 22:10:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbhJ2WeV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Oct 2021 18:34:21 -0400
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50670C061570
-        for <linux-doc@vger.kernel.org>; Fri, 29 Oct 2021 15:31:52 -0700 (PDT)
-Received: by mail-pf1-x432.google.com with SMTP id l203so10473655pfd.2
-        for <linux-doc@vger.kernel.org>; Fri, 29 Oct 2021 15:31:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Qp6+zjDSd4OOLDe8/BIO29FCy7h5ITgGaqmhvNYsKr8=;
-        b=Mv2KXcJNajDF1a5vJiq3Uxo93jSk5UbONlTJlUsFvFkeV3GHwlpi6nzXdgiw8k1L7Q
-         Zu+iQ27x4FVnK6Fv5/UuCT7td78f5pK1rdcxZvrMWM1Ft4YQprljfaCJxnyARaijLNry
-         ZHH/IOhPaZLk/FAGM8bpNyTZC77eObvLOmHW3QgMJe4OzWEdcefxVaRLckV6qI/jg6mk
-         mQLpuor4gB8wvoKBenRn46kuhRE2RC0sLvJND3p41Qoihcp/MVwBfUly64thvbr83lZR
-         /nHORyWnTMwMbMNXUUomU26GJyneswDebjRc8nJwtU64yvDvhb0a9KdtwfFSkVltLfSU
-         E1yQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Qp6+zjDSd4OOLDe8/BIO29FCy7h5ITgGaqmhvNYsKr8=;
-        b=X4VZ1Wl+tWFnT96M4M9xEoyaumtfWoTZs4xrnNHcFKLtxXguD5SiildztAAzruFXxd
-         4axfCmG3FpacvTlp/g+nU9tSH+l1qDZhPJx7KCyC5nF66Zk78T12//OO/QIEAotSlYqm
-         aVeF2mcc/N/88PtIvF0zEeureFVvXFrKAvfCAGvfmeAxkpOlt6gAGHpWnf9a1Lat9gHr
-         JELO4YSIZ73Zh2gQACVKWs4zVLDdcSYUokneZ2xRz2fW7zJxwTHAozlfJbVfaB0iQdsf
-         XjN0m5XGOixp0rq+vO2cdjWbJkSL5sXUNmRakQW8ZfwGEEObxZz1O25DH9/nAtZiZye8
-         YEFg==
-X-Gm-Message-State: AOAM5332tzIf60Ki2yZhRUqW4v2SKcPrmjHuwLAlGjcLV8uW81B/ZEvp
-        xaLeTXKcDt+msH2L1ahtB+avN48FLsNDEi6i9nRnXg==
-X-Google-Smtp-Source: ABdhPJwVJl6dXdrnjKqah8Re2vFUHtSVD8OCuKxa6TJxFQVkBKSdRQWe3/98ZbQ/w5Bx/AgA+O1LxzcEyqWt7sAUShs=
-X-Received: by 2002:a62:7858:0:b0:47c:1cf3:d95 with SMTP id
- t85-20020a627858000000b0047c1cf30d95mr13882255pfc.60.1635546711320; Fri, 29
- Oct 2021 15:31:51 -0700 (PDT)
+        with ESMTP id S229784AbhJ3CKq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Oct 2021 22:10:46 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC6B3C061570;
+        Fri, 29 Oct 2021 19:08:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=nrEW7kuECysc7G8mItdbNyq/4urjerjQyoisk20/bT0=; b=iADe1WDRPoJUq7ZNlMhrY4Df8F
+        wG+rrC1nGgufZ8KKfDCajpkSE4Kab+a4DrU7bQwx3ijereQSov2/thKJ9zojMLhxQM77Wz3YglBH7
+        7ooO6apQal0ymUdgHpXluIV0qllEwOI01KQGjegJ5pdYyIJH7gjnEMf8L39bjj1eqStBI3z9ZmPwZ
+        Zy8DQ6HjoNZni+tWdCtKBGvoiVxt98NqtyKdTr26ha87hGyUXEGH1YsksrcN48A/8ptkm/pWjwF86
+        B4Fwb4L3Yf8Mkw+R32SCpqrGXhACF3cCGEsU+crL1x5qwl9aEdaQXOwcwzLeujM64N/+AGQeQJ34K
+        NYNSVKew==;
+Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mgdn4-00CdTw-Uq; Sat, 30 Oct 2021 02:08:15 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Russell King <linux@armlinux.org.uk>, linux-doc@vger.kernel.org
+Subject: [PATCH] kernel-doc: support DECLARE_PHY_INTERFACE_MASK()
+Date:   Fri, 29 Oct 2021 19:08:13 -0700
+Message-Id: <20211030020813.32654-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20211029183339.3216491-1-kaleshsingh@google.com>
- <20211029183339.3216491-2-kaleshsingh@google.com> <20211029144524.367d6789@gandalf.local.home>
- <CAC_TJve9OsL5taBN0ckgjG4=HxvmWfP6ULwwqnVsDyRxuQuRkg@mail.gmail.com> <20211029162549.2c22f2dd@gandalf.local.home>
-In-Reply-To: <20211029162549.2c22f2dd@gandalf.local.home>
-From:   Kalesh Singh <kaleshsingh@google.com>
-Date:   Fri, 29 Oct 2021 15:31:40 -0700
-Message-ID: <CAC_TJvfazjdZ=4Y_1YX=R+drsWKRu+faztcFjKEkkD_3Qk6_Xg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] tracing/histogram: Optimize division by constants
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     surenb@google.com, hridya@google.com, namhyung@kernel.org,
-        kernel-team@android.com, mhiramat@kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>, Shuah Khan <shuah@kernel.org>,
-        Tom Zanussi <zanussi@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 29, 2021 at 1:25 PM Steven Rostedt <rostedt@goodmis.org> wrote:
->
-> On Fri, 29 Oct 2021 11:53:16 -0700
-> Kalesh Singh <kaleshsingh@google.com> wrote:
->
-> > > If these functions are only called when val2 is constant, can't we make it
-> > > such that we get val2 from the hist_field directly? That is:
-> > >
-> > >         u64 val2 = operand2->constant;
-> >
-> > operand2 might be a var ref to a constant, so we would need to resolve
-> > that with hist_field_var_ref().
->
-> So can a var_ref change? If not, then we should convert that to a constant
-> for this operation.
+Support the DECLARE_PHY_INTERFACE_MASK() macro that is used to declare
+a bitmap by converting the macro to DECLARE_BITMAP(), as has been done
+for the __ETHTOOL_DECLARE_LINK_MODE_MASK() macro.
 
-A var ref to a constant won't change. I think we can just copy the
-constant value to the var ref's hist field and then we'll be able to
-get it from there instead of calling the fn() function. I'll post
-another version with this.
+This fixes a 'make htmldocs' warning:
 
-Thanks,
-Kalesh
+include/linux/phylink.h:82: warning: Function parameter or member 'DECLARE_PHY_INTERFACE_MASK(supported_interfaces' not described in 'phylink_config'
 
->
-> -- Steve
+that was introduced by commit
+  38c310eb46f5 ("net: phylink: add MAC phy_interface_t bitmap")
+
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: Russell King (Oracle) <linux@armlinux.org.uk>
+Cc: linux-doc@vger.kernel.org
+To: Jonathan Corbet <corbet@lwn.net>
+---
+ scripts/kernel-doc |    1 +
+ 1 file changed, 1 insertion(+)
+
+--- linux-next-20211029.orig/scripts/kernel-doc
++++ linux-next-20211029/scripts/kernel-doc
+@@ -1256,6 +1256,7 @@ sub dump_struct($$) {
+ 	my $args = qr{([^,)]+)};
+ 	# replace DECLARE_BITMAP
+ 	$members =~ s/__ETHTOOL_DECLARE_LINK_MODE_MASK\s*\(([^\)]+)\)/DECLARE_BITMAP($1, __ETHTOOL_LINK_MODE_MASK_NBITS)/gos;
++	$members =~ s/DECLARE_PHY_INTERFACE_MASK\s*\(([^\)]+)\)/DECLARE_BITMAP($1, PHY_INTERFACE_MODE_MAX)/gos;
+ 	$members =~ s/DECLARE_BITMAP\s*\($args,\s*$args\)/unsigned long $1\[BITS_TO_LONGS($2)\]/gos;
+ 	# replace DECLARE_HASHTABLE
+ 	$members =~ s/DECLARE_HASHTABLE\s*\($args,\s*$args\)/unsigned long $1\[1 << (($2) - 1)\]/gos;
