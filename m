@@ -2,86 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 197A8C433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 30 Oct 2021 11:45:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39C56C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Oct 2021 12:59:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D33A260527
-	for <linux-doc@archiver.kernel.org>; Sat, 30 Oct 2021 11:45:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 200D760F93
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Oct 2021 12:59:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231840AbhJ3Lr2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 30 Oct 2021 07:47:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43902 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230327AbhJ3Lr2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Oct 2021 07:47:28 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D79E6C061570;
-        Sat, 30 Oct 2021 04:44:57 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id j2so26387889lfg.3;
-        Sat, 30 Oct 2021 04:44:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=z2Zff269gpFMGO4oJzwm2RkZTLLsA1HaBdPOKQxR7ig=;
-        b=mRrYXbHOUsUiNTKM/TxfnpM/qFackavuXxVPk/xVYmh4lqbniwtY+xjN4nuAZ1tOUh
-         04Ka7Vz2N4vkNTo2F21MQY6FHDpFcGb/9aV70z2A/Idv4qLs3hYxU9jBpxDrBg/8t4rE
-         9dTl74zzzTkAoGnCn4eB1EFRVlNgoaJ9d4aevhDtfOlkt4UkqFTgAa0leSlVCpJKxgVW
-         MT33vv1O50I4e6Z7Ld30HtH+dfE4aAHVWO6EKUOBX46t/0zl4ZpGPzf1BlSG7rqTS6Lq
-         GLEqvC/b0XNPweBTS2UaRto8L2RlpnuR7sGrqWuhedtwOZnINHnbMvQhbf37b1nkbtDF
-         c2DQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=z2Zff269gpFMGO4oJzwm2RkZTLLsA1HaBdPOKQxR7ig=;
-        b=QYUBWrkePJyXQCzUOpmk0HjenIaYUASIkzX01dyranCG8fwlZzPSLR8MtAYlC13DUY
-         Z2SqK60anqwGsPdnn20PTc3F9xIb+h+5T8bK5FOAIJ7K8/EkjgWA6uxVi1QwXBhDj4dy
-         H8nLxnbmsR7tMFwdmBLwz4d7R66KH5x4kAcAEAxfK5vMpaAaIHtky3KAxqa+B64+YIfY
-         Irm43x8CNojqHNz2/6wtkTPc+/I3qOKuW6sWV+xgRrZ1IoBmdYFfybDmzh9C948IpZuo
-         weHTz7msAZUybVNYFvoON4g6+x3R9W2+3VnEjLLFjGGjLYGJ4po473YfM6+gD/Vk2Z8s
-         yVtQ==
-X-Gm-Message-State: AOAM531s2jMq1+EqvItV2klm3Y2lHYPBTbFcRyBRA0k753H+AujAenUW
-        LP2EDfMNIE6EH0mBjEFzXxUM+MxizeXM9/m3YCs=
-X-Google-Smtp-Source: ABdhPJwddF4ZU43dJdeF3PbTyMQvTGhrXqALX5yQ2mBaCnQhQ0wNJJnkPUznhx6eLMVnw67xIMSgyO1tlvrOVrcdoXs=
-X-Received: by 2002:a05:6512:260e:: with SMTP id bt14mr16427171lfb.129.1635594294870;
- Sat, 30 Oct 2021 04:44:54 -0700 (PDT)
+        id S230005AbhJ3NCY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 30 Oct 2021 09:02:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42978 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229640AbhJ3NCY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 30 Oct 2021 09:02:24 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CDC6360EFF;
+        Sat, 30 Oct 2021 12:59:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1635598793;
+        bh=oHZNPIIOWVnapw7CjqfF9ZXvF6wdYZNsVtNzLU2Uyw4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ssXoZ0apzp8LX3RfOj5eP7AgLS3A2pKgV3+YF4ljS0YvkiPJcCM/9zI8ajltv7B4j
+         OClbxsNWsJ4hlZ/7siyBZ77EwIH+MYkH9nV6OcFTpkn8h33LybqIeApTLcKwW04dKD
+         nFBe3pUhN/YjXu8r4aF45eQYnjF2c5xzLMrFFZuDNm7sBCjUBgl0d+C8vWX9O3ZmNw
+         onrPaX71kNyt1uCszuaK5qw5Ae5YnQIrXjKylnCv740bnyDA8Rtz9QOcTsrN3DG6tg
+         swpLIoVf2TRpcua5DL+9e1dQCf0N0LPaBKPTNkqVq6RWEjTmIBZ8/kIoexMkQlw2RU
+         2ftuj7v3WmmyQ==
+Received: by pali.im (Postfix)
+        id 89C1C1083; Sat, 30 Oct 2021 14:59:51 +0200 (CEST)
+Date:   Sat, 30 Oct 2021 14:59:51 +0200
+From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Andrew Lunn <andrew@lunn.ch>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] Documentation: arm: marvell: Add some links to
+ homepage / product infos
+Message-ID: <20211030125951.q6vo5mkr3ww4s5bv@pali>
+References: <20211008160105.24225-1-pali@kernel.org>
 MIME-Version: 1.0
-References: <20211030091706.25470-1-pauk.denis@gmail.com> <CAHp75Ve_dvc-33y5U3fgN-ZTGibcyO3dO7WxC_ZaPkNSh8kd0w@mail.gmail.com>
-In-Reply-To: <CAHp75Ve_dvc-33y5U3fgN-ZTGibcyO3dO7WxC_ZaPkNSh8kd0w@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 30 Oct 2021 14:44:18 +0300
-Message-ID: <CAHp75VfRY6nS=YcFstW_Bt+_+Zz366vh8=mfjat4kfTOBH0e3w@mail.gmail.com>
-Subject: Re: [PATCH v9 0/2] Update ASUS WMI supported boards
-To:     Denis Pauk <pauk.denis@gmail.com>
-Cc:     Eugene Shalygin <eugene.shalygin@gmail.com>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        thomas@weissschuh.net, Ed Brindley <kernel@maidavale.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211008160105.24225-1-pali@kernel.org>
+User-Agent: NeoMutt/20180716
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Oct 30, 2021 at 2:22 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
-> On Sat, Oct 30, 2021 at 12:17 PM Denis Pauk <pauk.denis@gmail.com> wrote:
+Hello! I would like to remind this documentation patch.
 
-
-> > Could you please review?
->
-> I'll look at it later.
-
-I briefly looked into it and found some subtle changes that might be
-incorporated. However, I will send the full review if there will be a
-new version (of the series) for sure. Let Guenter make his comment on
-this first.
-
--- 
-With Best Regards,
-Andy Shevchenko
+On Friday 08 October 2021 18:01:03 Pali Rohár wrote:
+> Webarchive contains some useful resources like product info or links to
+> other documents.
+> 
+> Signed-off-by: Pali Rohár <pali@kernel.org>
+> ---
+>  Documentation/arm/marvell.rst | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/Documentation/arm/marvell.rst b/Documentation/arm/marvell.rst
+> index c3d3f27edfbb..d4fe191bb88c 100644
+> --- a/Documentation/arm/marvell.rst
+> +++ b/Documentation/arm/marvell.rst
+> @@ -103,6 +103,8 @@ Discovery family
+>  
+>                  Not supported by the Linux kernel.
+>  
+> +  Homepage:
+> +        https://web.archive.org/web/20110924171043/http://www.marvell.com/embedded-processors/discovery-innovation/
+>    Core:
+>  	Feroceon 88fr571-vd ARMv5 compatible
+>  
+> @@ -119,6 +121,7 @@ EBU Armada family
+>          - 88F6707
+>          - 88F6W11
+>  
+> +    - Product infos:   https://web.archive.org/web/20141002083258/http://www.marvell.com/embedded-processors/armada-370/
+>      - Product Brief:   https://web.archive.org/web/20121115063038/http://www.marvell.com/embedded-processors/armada-300/assets/Marvell_ARMADA_370_SoC.pdf
+>      - Hardware Spec:   https://web.archive.org/web/20140617183747/http://www.marvell.com/embedded-processors/armada-300/assets/ARMADA370-datasheet.pdf
+>      - Functional Spec: https://web.archive.org/web/20140617183701/http://www.marvell.com/embedded-processors/armada-300/assets/ARMADA370-FunctionalSpec-datasheet.pdf
+> @@ -129,6 +132,7 @@ EBU Armada family
+>    Armada 375 Flavors:
+>  	- 88F6720
+>  
+> +    - Product infos: https://web.archive.org/web/20140108032402/http://www.marvell.com/embedded-processors/armada-375/
+>      - Product Brief: https://web.archive.org/web/20131216023516/http://www.marvell.com/embedded-processors/armada-300/assets/ARMADA_375_SoC-01_product_brief.pdf
+>  
+>    Core:
+> @@ -169,6 +173,9 @@ EBU Armada family
+>      NOTE:
+>  	not to be confused with the non-SMP 78xx0 SoCs
+>  
+> +    Product infos:
+> +        https://web.archive.org/web/20150101215721/http://www.marvell.com/embedded-processors/armada-xp/
+> +
+>      Product Brief:
+>  	https://web.archive.org/web/20121021173528/http://www.marvell.com/embedded-processors/armada-xp/assets/Marvell-ArmadaXP-SoC-product%20brief.pdf
+>  
+> -- 
+> 2.20.1
+> 
