@@ -2,207 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60A57C43219
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Nov 2021 16:19:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F56DC433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Nov 2021 16:20:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4F01E611AF
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Nov 2021 16:19:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 64B3C6113D
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Nov 2021 16:20:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232677AbhKAQV5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Nov 2021 12:21:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20801 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232641AbhKAQV4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Nov 2021 12:21:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1635783562;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=dO/4QsOfeW35SZcn1WG7FeeE85F7kQHGfg1XlWtfu7s=;
-        b=dGjxbARhmrqmSP2VMok+6FWlR5vfsJlCkA2ICczieAwQkB9r8jAuMlesyXmd6Ti7pHOYfw
-        jInSjckBY8/k3PkCV7oFnaMosuHx8uAurrVHuKpq+u0S5A6Xuj3mOqJXCLhEaKaUS7on6n
-        mO0qSPYfLrNhHSu7Y3NK6nHfZyTVUak=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-282-5OdkIJTLOe-Ds0UpIdB-uA-1; Mon, 01 Nov 2021 12:19:19 -0400
-X-MC-Unique: 5OdkIJTLOe-Ds0UpIdB-uA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB26E18125C4;
-        Mon,  1 Nov 2021 16:19:16 +0000 (UTC)
-Received: from starship (unknown [10.40.194.243])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 442D75D9DC;
-        Mon,  1 Nov 2021 16:19:10 +0000 (UTC)
-Message-ID: <b48210a35b3bc6d63beeb33c19b609b3014191dd.camel@redhat.com>
-Subject: Re: [PATCH v3 6/6] KVM: selftests: test KVM_GUESTDBG_BLOCKIRQ
-From:   Maxim Levitsky <mlevitsk@redhat.com>
-To:     Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org
-Cc:     Kieran Bingham <kbingham@kernel.org>,
-        Jan Kiszka <jan.kiszka@siemens.com>,
-        Andrew Jones <drjones@redhat.com>,
+        id S232643AbhKAQX3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Nov 2021 12:23:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53578 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231362AbhKAQX3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Nov 2021 12:23:29 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E20FEC061205
+        for <linux-doc@vger.kernel.org>; Mon,  1 Nov 2021 09:20:54 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id fv9-20020a17090b0e8900b001a6a5ab1392so355778pjb.1
+        for <linux-doc@vger.kernel.org>; Mon, 01 Nov 2021 09:20:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=nOeoZHECPKNnAQytROjQG/8KfDcG2slvfmEJKCwImrQ=;
+        b=OHjfuxxdfClfMEvZDiRQncM/tj04Oc4zKUcJsre2fgbrUibg0OrOYtxJvVFbiYWF/V
+         QV1/1BkSOuYAiHB/7n6GnABT8PtXMjdF0q/3kN7tXSbbW0ibOXOrXBZIBg62Du0E12fR
+         r2TOG2W15LOqdfoteLKwfqdg6gxPX1atPhYAw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=nOeoZHECPKNnAQytROjQG/8KfDcG2slvfmEJKCwImrQ=;
+        b=XsqDfFWbfCDWfuuKEGU9jx2pryYg1qTgr4w1vo/qHRMo7b70pCW1fStxAzHxRyxzpH
+         7pUQkpbtrbmTqNHVhI8Y5F7eWuRE8Q/b27rIqJ4afCLc1VH6BNTK6Oa/+weMUVDrKomN
+         MiG0AZXJtzC4zmQv0TQeuCC2tPG/2GLX85ZKVQGuXpM0sY48aILrL1bCjKt7694Ek2Q8
+         u+wk1zFXwLNAFUvQ3/5sd8ekVseVjJRCgxOaWINIEPI4AqaEtyB5nfwPfUslXxA3nJBk
+         Vjg2W/xkooDZ7gMHCtZ5HGJLR9uCIjTvXyvGU9cKxlDzn2myQ/XB0HtEJYhHlUM141+g
+         fQGQ==
+X-Gm-Message-State: AOAM530TraNmbqUeiPCSyqWOekg6zCNtR2QnhgevWW5HPk/NSj1CCmtN
+        YglDmTT/GmWUrmXJVYlx39ErOA==
+X-Google-Smtp-Source: ABdhPJx8302mlq2+2oG33p1FJwabY8ZQ+cEyzVsGqRt9mxOuWC/f5cg60TkG3G0h376S22Pc08/BlA==
+X-Received: by 2002:a17:902:70c5:b0:13f:f941:9ad6 with SMTP id l5-20020a17090270c500b0013ff9419ad6mr26059732plt.28.1635783653857;
+        Mon, 01 Nov 2021 09:20:53 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id p23sm18296772pjg.55.2021.11.01.09.20.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Nov 2021 09:20:53 -0700 (PDT)
+Date:   Mon, 1 Nov 2021 09:20:52 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
+        Fangrui Song <maskray@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        James Morris <jmorris@namei.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Jessica Yu <jeyu@kernel.org>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Yang Weijiang <weijiang.yang@intel.com>,
-        linux-kernel@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-Date:   Mon, 01 Nov 2021 18:19:09 +0200
-In-Reply-To: <87sfwfkhk5.fsf@vitty.brq.redhat.com>
-References: <20210811122927.900604-1-mlevitsk@redhat.com>
-         <20210811122927.900604-7-mlevitsk@redhat.com>
-         <137f2dcc-75d2-9d71-e259-dd66d43ad377@redhat.com>
-         <87sfwfkhk5.fsf@vitty.brq.redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
+        Kees Cook <keescook@chromium.org>, "KE.LI" <like1@oppo.com>,
+        linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org,
+        linux-kbuild@vger.kernel.org,
+        linux-security-module@vger.kernel.org, llvm@lists.linux.dev,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Padmanabha Srinivasaiah <treasure4paddy@gmail.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Will Deacon <will@kernel.org>,
+        Ye Guojin <ye.guojin@zte.com.cn>,
+        Zeal Robot <zealci@zte.com.cn>
+Subject: [GIT PULL] hardening updates for v5.16-rc1
+Message-ID: <202111010917.75B96F4E@keescook>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2021-11-01 at 16:43 +0100, Vitaly Kuznetsov wrote:
-> Paolo Bonzini <pbonzini@redhat.com> writes:
-> 
-> > On 11/08/21 14:29, Maxim Levitsky wrote:
-> > > Modify debug_regs test to create a pending interrupt
-> > > and see that it is blocked when single stepping is done
-> > > with KVM_GUESTDBG_BLOCKIRQ
-> > > 
-> > > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> > > ---
-> > >   .../testing/selftests/kvm/x86_64/debug_regs.c | 24 ++++++++++++++++---
-> > >   1 file changed, 21 insertions(+), 3 deletions(-)
-> > 
-> > I haven't looked very much at this, but the test fails.
-> > 
-> 
-> Same here,
-> 
-> the test passes on AMD but fails consistently on Intel:
-> 
-> # ./x86_64/debug_regs 
-> ==== Test Assertion Failure ====
->   x86_64/debug_regs.c:179: run->exit_reason == KVM_EXIT_DEBUG && run->debug.arch.exception == DB_VECTOR && run->debug.arch.pc == target_rip && run->debug.arch.dr6 == target_dr6
->   pid=13434 tid=13434 errno=0 - Success
->      1	0x00000000004027c6: main at debug_regs.c:179
->      2	0x00007f65344cf554: ?? ??:0
->      3	0x000000000040294a: _start at ??:?
->   SINGLE_STEP[1]: exit 8 exception 1 rip 0x402a25 (should be 0x402a27) dr6 0xffff4ff0 (should be 0xffff4ff0)
-> 
-> (I know I'm late to the party).
+Hi Linus,
 
-Well that is strange. It passes on my intel laptop. Just tested 
-(kvm/queue + qemu master, compiled today) :-(
+Please pull these hardening updates for v5.16-rc1. These are various
+compiler-related hardening feature updates. Notable is the addition of an
+explicit limited rationale for, and deprecation schedule of, gcc-plugins.
+More details in the tag below.
 
-It fails on iteration 1 (and there is iteration 0) which I think means that we
-start with RIP on sti, and get #DB on start of xor instruction first (correctly), 
-and then we get #DB again on start of xor instruction again?
+Thanks!
 
-Something very strange. My laptop has i7-7600U.
+-Kees
 
-Best regards,
-	Maxim Levitsky
+The following changes since commit e4e737bb5c170df6135a127739a9e6148ee3da82:
 
+  Linux 5.15-rc2 (2021-09-19 17:28:22 -0700)
 
+are available in the Git repository at:
 
+  https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git tags/hardening-v5.16-rc1
 
-> 
-> > Paolo
-> > 
-> > > diff --git a/tools/testing/selftests/kvm/x86_64/debug_regs.c b/tools/testing/selftests/kvm/x86_64/debug_regs.c
-> > > index 6097a8283377..5f078db1bcba 100644
-> > > --- a/tools/testing/selftests/kvm/x86_64/debug_regs.c
-> > > +++ b/tools/testing/selftests/kvm/x86_64/debug_regs.c
-> > > @@ -8,12 +8,15 @@
-> > >   #include <string.h>
-> > >   #include "kvm_util.h"
-> > >   #include "processor.h"
-> > > +#include "apic.h"
-> > >   
-> > >   #define VCPU_ID 0
-> > >   
-> > >   #define DR6_BD		(1 << 13)
-> > >   #define DR7_GD		(1 << 13)
-> > >   
-> > > +#define IRQ_VECTOR 0xAA
-> > > +
-> > >   /* For testing data access debug BP */
-> > >   uint32_t guest_value;
-> > >   
-> > > @@ -21,6 +24,11 @@ extern unsigned char sw_bp, hw_bp, write_data, ss_start, bd_start;
-> > >   
-> > >   static void guest_code(void)
-> > >   {
-> > > +	/* Create a pending interrupt on current vCPU */
-> > > +	x2apic_enable();
-> > > +	x2apic_write_reg(APIC_ICR, APIC_DEST_SELF | APIC_INT_ASSERT |
-> > > +			 APIC_DM_FIXED | IRQ_VECTOR);
-> > > +
-> > >   	/*
-> > >   	 * Software BP tests.
-> > >   	 *
-> > > @@ -38,12 +46,19 @@ static void guest_code(void)
-> > >   		     "mov %%rax,%0;\n\t write_data:"
-> > >   		     : "=m" (guest_value) : : "rax");
-> > >   
-> > > -	/* Single step test, covers 2 basic instructions and 2 emulated */
-> > > +	/*
-> > > +	 * Single step test, covers 2 basic instructions and 2 emulated
-> > > +	 *
-> > > +	 * Enable interrupts during the single stepping to see that
-> > > +	 * pending interrupt we raised is not handled due to KVM_GUESTDBG_BLOCKIRQ
-> > > +	 */
-> > >   	asm volatile("ss_start: "
-> > > +		     "sti\n\t"
-> > >   		     "xor %%eax,%%eax\n\t"
-> > >   		     "cpuid\n\t"
-> > >   		     "movl $0x1a0,%%ecx\n\t"
-> > >   		     "rdmsr\n\t"
-> > > +		     "cli\n\t"
-> > >   		     : : : "eax", "ebx", "ecx", "edx");
-> > >   
-> > >   	/* DR6.BD test */
-> > > @@ -72,11 +87,13 @@ int main(void)
-> > >   	uint64_t cmd;
-> > >   	int i;
-> > >   	/* Instruction lengths starting at ss_start */
-> > > -	int ss_size[4] = {
-> > > +	int ss_size[6] = {
-> > > +		1,		/* sti*/
-> > >   		2,		/* xor */
-> > >   		2,		/* cpuid */
-> > >   		5,		/* mov */
-> > >   		2,		/* rdmsr */
-> > > +		1,		/* cli */
-> > >   	};
-> > >   
-> > >   	if (!kvm_check_cap(KVM_CAP_SET_GUEST_DEBUG)) {
-> > > @@ -154,7 +171,8 @@ int main(void)
-> > >   	for (i = 0; i < (sizeof(ss_size) / sizeof(ss_size[0])); i++) {
-> > >   		target_rip += ss_size[i];
-> > >   		CLEAR_DEBUG();
-> > > -		debug.control = KVM_GUESTDBG_ENABLE | KVM_GUESTDBG_SINGLESTEP;
-> > > +		debug.control = KVM_GUESTDBG_ENABLE | KVM_GUESTDBG_SINGLESTEP |
-> > > +				KVM_GUESTDBG_BLOCKIRQ;
-> > >   		debug.arch.debugreg[7] = 0x00000400;
-> > >   		APPLY_DEBUG();
-> > >   		vcpu_run(vm, VCPU_ID);
-> > > 
+for you to fetch changes up to 6425392acf24b6d469932dd1b217dc7b20d6447f:
 
+  gcc-plugins: remove duplicate include in gcc-common.h (2021-10-21 08:41:51 -0700)
 
+----------------------------------------------------------------
+compiler hardening updates for v5.16-rc1
+
+This collects various compiler hardening feature related updates:
+
+- gcc-plugins:
+  - remove support for GCC 4.9 and older (Ard Biesheuvel)
+  - remove duplicate include in gcc-common.h (Ye Guojin)
+  - Explicitly document purpose and deprecation schedule (Kees Cook)
+  - Remove cyc_complexity (Kees Cook)
+
+- instrumentation:
+  - Avoid harmless Clang option under CONFIG_INIT_STACK_ALL_ZERO (Kees Cook)
+
+- Clang LTO:
+  - kallsyms: strip LTO suffixes from static functions (Nick Desaulniers)
+
+----------------------------------------------------------------
+Ard Biesheuvel (1):
+      gcc-plugins: remove support for GCC 4.9 and older
+
+Kees Cook (3):
+      hardening: Avoid harmless Clang option under CONFIG_INIT_STACK_ALL_ZERO
+      gcc-plugins: Explicitly document purpose and deprecation schedule
+      gcc-plugins: Remove cyc_complexity
+
+Nick Desaulniers (1):
+      kallsyms: strip LTO suffixes from static functions
+
+Ye Guojin (1):
+      gcc-plugins: remove duplicate include in gcc-common.h
+
+ Documentation/kbuild/gcc-plugins.rst               |  28 ++++-
+ Makefile                                           |   6 +-
+ kernel/kallsyms.c                                  |  46 +++++--
+ scripts/Makefile.gcc-plugins                       |   2 -
+ scripts/gcc-plugins/Kconfig                        |  20 +---
+ scripts/gcc-plugins/cyc_complexity_plugin.c        |  69 -----------
+ scripts/gcc-plugins/gcc-common.h                   | 132 +--------------------
+ scripts/gcc-plugins/gcc-generate-gimple-pass.h     |  19 ---
+ scripts/gcc-plugins/gcc-generate-ipa-pass.h        |  19 ---
+ scripts/gcc-plugins/gcc-generate-rtl-pass.h        |  19 ---
+ scripts/gcc-plugins/gcc-generate-simple_ipa-pass.h |  19 ---
+ scripts/gcc-plugins/structleak_plugin.c            |   2 -
+ security/Kconfig.hardening                         |  14 ++-
+ 13 files changed, 75 insertions(+), 320 deletions(-)
+ delete mode 100644 scripts/gcc-plugins/cyc_complexity_plugin.c
+
+-- 
+Kees Cook
