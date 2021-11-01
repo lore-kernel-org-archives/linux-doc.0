@@ -2,168 +2,149 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC50BC433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Nov 2021 14:00:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19413C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Nov 2021 14:57:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9684760F58
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Nov 2021 14:00:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EE0E260EB8
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Nov 2021 14:57:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231922AbhKAOCo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Nov 2021 10:02:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39023 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231366AbhKAOCm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Nov 2021 10:02:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1635775209;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=CGF/tc1tys7W0SSlzlHBg4COK2uDj55D54FnN5zXvwg=;
-        b=F6d5wok9IZifOCzZzaPB02i7IZGCYlIWXDyRgTGXkD/p3BTrDosznTFqJ9U2gQIebeShY5
-        fbS/Q3AAZ9l0Vmz+Is6ph93jyfpFU0Z5IjawnFZktOlc3cbddg0yK5IXdGg6/56bejf4gV
-        RjYtx+36pLx6VLoPdK7e/KQD+F7axm0=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-536-3-ysT1zwOyyKazf1Xpj3Gw-1; Mon, 01 Nov 2021 10:00:08 -0400
-X-MC-Unique: 3-ysT1zwOyyKazf1Xpj3Gw-1
-Received: by mail-wr1-f71.google.com with SMTP id z5-20020a5d6405000000b00182083d7d2aso1834101wru.13
-        for <linux-doc@vger.kernel.org>; Mon, 01 Nov 2021 07:00:08 -0700 (PDT)
+        id S230517AbhKAPAJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Nov 2021 11:00:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34858 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230261AbhKAPAI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Nov 2021 11:00:08 -0400
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com [IPv6:2607:f8b0:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97A28C061714;
+        Mon,  1 Nov 2021 07:57:35 -0700 (PDT)
+Received: by mail-ot1-x329.google.com with SMTP id n13-20020a9d710d000000b005558709b70fso19193628otj.10;
+        Mon, 01 Nov 2021 07:57:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ZoWUChLrSkcmoiG2opWpA+k/rTmSsnlHqI6Ys9fdYFQ=;
+        b=YD8Fs32WPQSObOB1EMMjztceewOji595D/by2Rf3Hy9vWfEchilncMgTk30b++xVa2
+         eFpkfZL/0hN8UO8u8Xo92Y5ul4hjbYjuIj0jRnYW//6YzcVD5bC79M823HNr/scbDnAk
+         nVe2t4HdzurIDlC2625xiEap0NPGHIyVXn8ggqxNUZdYQGFGijHj/gMQn5pKiEYuX6Iz
+         ZwMsgHQ/5HUOgecViuxZeUutEKmYzUdy0BuFPFL8CaST3QFscdXjeJbxeVnvwJgJz2EI
+         HcmsH6otTWevP3/qG+q6WW+03Km7KCafSpacdolp8SX++9Tlda6f5aGcTOUK6OYKw4V7
+         xPIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent
-         :content-language:to:cc:references:from:organization:subject
-         :in-reply-to:content-transfer-encoding;
-        bh=CGF/tc1tys7W0SSlzlHBg4COK2uDj55D54FnN5zXvwg=;
-        b=MuqWTSiHRnrEIMcSf0wP6LHryEMvbr1vlKuSlpCXGyVs8l5RSVT4+6SjZ0DfbyV32l
-         7oB5na1OhKz7B8t3hJtVF1JhAlAqBl8md5Fgbbt9jHsIwcO3siZ8L0J03dqB+vgnNNd7
-         ocphrJrpA0SKfZLiP/UlgX4X2+sIesHcY+iw6ho9Vt5dHQvcCKtLWXe5rgdHPhYndSki
-         ToLZrtdFh/mtDcpcXJcZ2XmqU7PsIe0FG+kJR9H5IOpM/zPWDt1Ha33HdLSonNaZe2bO
-         t2JGeST1R62BWy2KSNJZdDZP06eZEWQrl3Hu17kpEXU6VuQ81H4sNXZbl7fKy2t6If9d
-         WbQg==
-X-Gm-Message-State: AOAM531zAhrfBqVikWmbTNV36ne0RIBFKp+FcYR2VI8R/FZjObLKkgvj
-        Jy3uFqVX67q8bAMf6La/bUNuVW1pcbprYte0KT8eNs3a6fJcMUxsrR0AcI1VEtUe+rcQPLJfL2V
-        asw2wk/EOGNallPpsn4R7
-X-Received: by 2002:adf:a28f:: with SMTP id s15mr37249416wra.138.1635775206456;
-        Mon, 01 Nov 2021 07:00:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwAldUsQPP7Lli9jGRoJzxybz2sntHyUvrjKSbHwlWI9s0xBLd2KiypkKB5/K89Pzn79yikWw==
-X-Received: by 2002:adf:a28f:: with SMTP id s15mr37249383wra.138.1635775206204;
-        Mon, 01 Nov 2021 07:00:06 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c692a.dip0.t-ipconnect.de. [91.12.105.42])
-        by smtp.gmail.com with ESMTPSA id h18sm8369717wre.46.2021.11.01.06.59.55
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ZoWUChLrSkcmoiG2opWpA+k/rTmSsnlHqI6Ys9fdYFQ=;
+        b=SyyYOdLrlURUM4cd0uIGJnUoZubYBS91yjdEDm4CY+5YSuRgpXUGKOLcMRD2tNhGjW
+         rHZEre7N+dCPQ22g4rI9DBpKCIwJXYhhCvz9zd91fR9NOLTuOu7BRH85iWwESEHvHhLT
+         +ZsgP0GW79UfMaGnVQFfaz6hT52gymJSYH4Whm26Xv+ZYKfEhYZPbxD8P2HxUWmP2Kgj
+         zCpmRoHuU05nOo5cOhmTrG+BJOmjPrEyxhAmcBfL6xctm6I4rLsklWLoZDHeT1h46M0i
+         9xvNCjlO8cW6BBrEYUzHl297t5Fj61TK6KgpC+/qSJ1lZWHL0waEVWCw6ILdIn8RNg4k
+         WM4g==
+X-Gm-Message-State: AOAM5310FD6wlrJcz0Qm/8XBZv7NnNTKEGDlVa8P8zAhPvIt91G7urST
+        BpzEYW0KNCFeD4X2GDAHvFvIJe3RfnI=
+X-Google-Smtp-Source: ABdhPJyaB53F07+sWCX8irAOTSGg96G6xPWDKZVp1NjxQGUw+Rept/0xa1fKk7G6I0rbtmxfbtnaVA==
+X-Received: by 2002:a05:6830:4033:: with SMTP id i19mr20894327ots.320.1635778654812;
+        Mon, 01 Nov 2021 07:57:34 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id q11sm1117459ota.54.2021.11.01.07.57.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Nov 2021 06:59:58 -0700 (PDT)
-Message-ID: <997b4919-ea13-b5a7-0b4e-8c39b63bde0b@redhat.com>
-Date:   Mon, 1 Nov 2021 14:59:54 +0100
+        Mon, 01 Nov 2021 07:57:33 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Subject: Re: [PATCH v3 3/3] hwmon: Driver for Texas Instruments INA238
+To:     Nathan Rossi <nathan@nathanrossi.com>
+Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Nathan Rossi <nathan.rossi@digi.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <20211028081030.719265-0-nathan@nathanrossi.com>
+ <20211028081030.719265-3-nathan@nathanrossi.com>
+ <7b6764bf-4978-60ec-b1e6-8d59077c3023@roeck-us.net>
+ <CA+aJhH1aGJXwYSCU8RC275G5=qGLyZRK94g9ic24wxKuRGCwEA@mail.gmail.com>
+ <43c17bba-d4bd-1f9d-5034-1f5a9279d751@roeck-us.net>
+ <CA+aJhH0EBUjQhjQhxj-kfJzmpqGN6ZMNn_M-pAae_V9yPQhs3A@mail.gmail.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Message-ID: <5569b2b8-ac67-757b-f7cb-302c9f663e80@roeck-us.net>
+Date:   Mon, 1 Nov 2021 07:57:31 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
+In-Reply-To: <CA+aJhH0EBUjQhjQhxj-kfJzmpqGN6ZMNn_M-pAae_V9yPQhs3A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To:     teng sterling <sterlingteng@gmail.com>,
-        Alex Shi <seakeel@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Alex Shi <alexs@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Wu XiangCheng <bobwxc@email.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        linux-kernel@vger.kernel.org
-References: <cover.1634630485.git.mchehab+huawei@kernel.org>
- <b22b772c23f531708a9bc025d56c0312a53bd6c9.1634630486.git.mchehab+huawei@kernel.org>
- <878ryosocf.fsf@meer.lwn.net>
- <f0269915-4863-9ed6-dedd-592f2e308f46@redhat.com>
- <CAJy-AmnHht4=sNyQ5r78MwfOpMF8dRqrct8fasVX-ULadfMNvg@mail.gmail.com>
- <CAMU9jJoSVeXThH6vKjKKEvrMQ5f_Yu7Z9PD99Oxk1-MHVLLb5w@mail.gmail.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v3 16/23] docs: translations: zh_CN: memory-hotplug.rst:
- fix a typo
-In-Reply-To: <CAMU9jJoSVeXThH6vKjKKEvrMQ5f_Yu7Z9PD99Oxk1-MHVLLb5w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 01.11.21 14:38, teng sterling wrote:
-> Alex Shi <seakeel@gmail.com> 于2021年11月1日周一 下午3:48写道：
+On 10/31/21 10:55 PM, Nathan Rossi wrote:
+> On Mon, 1 Nov 2021 at 13:48, Guenter Roeck <linux@roeck-us.net> wrote:
 >>
->> On Wed, Oct 20, 2021 at 3:08 PM David Hildenbrand <david@redhat.com> wrote:
+>> On 10/31/21 7:20 PM, Nathan Rossi wrote:
+>> [ ... ]
+>>>>> +
+>>>>> +     if (attr != hwmon_in_max && attr != hwmon_in_min)
+>>>>> +             return -EOPNOTSUPP;
+>>>>> +
+>>>>> +     /* convert decimal to register value */
+>>>>> +     switch (channel) {
+>>>>> +     case 0:
+>>>>> +             /* signed value, clamp to max range +/-163 mV */
+>>>>> +             regval = clamp_val(val, -163, 163);
+>>>>> +             regval = (regval * 1000L * (4 - (int)data->gain + 1)) /
+>>>>
+>>>> nit: The typecast "(int)" is not needed here.
 >>>
->>> Dumb question that probably has been asked a couple of times already:
->>> why do we even maintain a translated doc in-tree?
+>>> Due to the unsigned type of gain, it causes promotion of regval (and
+>>> the rest of the numerator) to unsigned long which causes issues with
+>>> negative numbers on the divide. It makes more sense for gain to be an
+>>> int to begin with, I will change it to int to avoid the need for type
+>>> casting.
 >>>
->>> Every time I do an update on the original doc, I for sure can only guess
->>> which translated parts need updating. And I really can only update when
-> Dear David
-> 
-> Thank you very much for your contribution, in fact, we are always updating the
-> translations and improving the speed of the sync, so If you are not
-> good at Chinese
-> and want to get the sync faster, please CC us when you send the patch.
-> 
-
-It would be great if we would get this suggestion automatically, e.g.,
-via get_maintainers.pl --- maybe that's already done, I didn't check.
-
-Personally, I don't speak/read any Chinese, so I'm mostly lost staring
-at the Chinese translation. :)
-
-
->>> "deleting", not when rewording/adding. So we'll be left with stale doc
->>> that will have to be updated manually by $whoever.
 >>
->> cc to the translation maintainers and translator would be helpful?
-> Alex,Maybe we should provide a translation guide in English, e.g::
-> 
->   Dear developers, if you have trouble updating the Chinese documentation after
->   updating the original documentation, please CC the translator of
-> that documentation
->   and the maintainer of the Chinese documentation, and the relevant
-> documentation
->   will be updated soon.
-> 
+>> Are you sure ? I initially thought that as well and wrote a little test
+>> program with that expression, but it didn't do the promotion to unsigned.
 >>
->>> I don't feel very
->>> confident about this. No translated doc is better than outdated
->>> translated doc.
->>
->> Uh, I don't know other languages, but in Chinese, 15 years before
->> translated books are still selling well in China. :)
->> https://item.jd.com/1075130482.html  ->  Linux device driver
->> https://item.jd.com/10100237.html  -> Understanding linux kernel
-> Yes, I just bought a LDD3 last week.! >_<
+> 
+> It definitely calculates incorrectly at run time (on an arm 32-bit
+> platform), looking at the gcc output from -fdump-tree-original reveals
+> some more insight. Which is that the promotion to long overrides the
+> unsigned (from the 1000L) on long=64 but not on long=32.
+> 
+> Where regval is int, and gain is unsigned int (u32).
+> 
+> regval = (regval * 1000L * (4 - gain + 1)) / 5;
+> -> armv7-a (invalid)
+> regval = (int) ((((long unsigned int) regval * (long unsigned int) (5
+> - gain)) * 1000) / 5);
+> -> x86-64 (valid result)
+> regval = (int) ((unsigned int) (gain * 4294967096 + 1000) * (unsigned
+> int) regval);
+> 
+> note: 4294967096 is -800, 1000 * (4 - gain + 1) => (-800 * gain) + 1000
+> 
+> Slight variation without the 1000 being long.
+> 
+> regval = (regval * 1000 * (4 - gain + 1)) / 5;
+> -> armv7-a (invalid)
+> regval = (int) ((((unsigned int) regval * (5 - gain)) * 1000) / 5);
+> -> x86-64 (invalid)
+> regval = (int) ((((unsigned int) regval * (5 - gain)) * 1000) / 5);
+> 
+> regval = (regval * 1000LL * (4 - gain + 1)) / 5;
+> -> armv7-a (valid)
+> regval = (int) ((unsigned int) (gain * 4294967096 + 1000) * (unsigned
+> int) regval);
+> -> x86-64 (valid)
+> regval = (int) ((unsigned int) (gain * 4294967096 + 1000) * (unsigned
+> int) regval);
+> 
+> I think it still makes sense to change gain to be int, and avoid the
+> unsigned type issues.
+> 
 
-Yes, these books in particular are still of a lot of value, although
-outdated. :)
+Thanks for the details. I agree, changing gain to int makes sense.
 
-The difference is that when you translate a book, there is a
-date/version attached, meaning, the original book was for example based
-on kernel v2.XXX. Once you translate the book, it's simply based on the
-same kernel version.
-
-The in-tree doc is similar. You can access the v5.14 doc for example
-easily via https://www.kernel.org/doc/html/v5.14/. And the Chinese
-version via https://www.kernel.org/doc/html/v5.14/translations/zh_CN/.
-
-If I as a developer perform a doc update in v5.14, and the translation
-isn't updated until the end of the same release, the versioned
-documentation will be out of sync. And that happens automatically with a
-new release.
-
-With an out-of-tree translation, there wouldn't really be an issue. Once
-everything was translated (brought up-to-date), you would mark it has
-"fully translated doc of v5.15" manually and release it.
-
-But maybe the translation maintainers already take proper care of
-updating any translation just before the new kernel is released.
-
-So just my comment after stumbling over in-tree doc translations.
-
--- 
 Thanks,
-
-David / dhildenb
-
+Guenter
