@@ -2,152 +2,69 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F56DC433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Nov 2021 16:20:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60C34C433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Nov 2021 17:19:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 64B3C6113D
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Nov 2021 16:20:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3A4C460524
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Nov 2021 17:19:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232643AbhKAQX3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Nov 2021 12:23:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53578 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231362AbhKAQX3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Nov 2021 12:23:29 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E20FEC061205
-        for <linux-doc@vger.kernel.org>; Mon,  1 Nov 2021 09:20:54 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id fv9-20020a17090b0e8900b001a6a5ab1392so355778pjb.1
-        for <linux-doc@vger.kernel.org>; Mon, 01 Nov 2021 09:20:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=nOeoZHECPKNnAQytROjQG/8KfDcG2slvfmEJKCwImrQ=;
-        b=OHjfuxxdfClfMEvZDiRQncM/tj04Oc4zKUcJsre2fgbrUibg0OrOYtxJvVFbiYWF/V
-         QV1/1BkSOuYAiHB/7n6GnABT8PtXMjdF0q/3kN7tXSbbW0ibOXOrXBZIBg62Du0E12fR
-         r2TOG2W15LOqdfoteLKwfqdg6gxPX1atPhYAw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=nOeoZHECPKNnAQytROjQG/8KfDcG2slvfmEJKCwImrQ=;
-        b=XsqDfFWbfCDWfuuKEGU9jx2pryYg1qTgr4w1vo/qHRMo7b70pCW1fStxAzHxRyxzpH
-         7pUQkpbtrbmTqNHVhI8Y5F7eWuRE8Q/b27rIqJ4afCLc1VH6BNTK6Oa/+weMUVDrKomN
-         MiG0AZXJtzC4zmQv0TQeuCC2tPG/2GLX85ZKVQGuXpM0sY48aILrL1bCjKt7694Ek2Q8
-         u+wk1zFXwLNAFUvQ3/5sd8ekVseVjJRCgxOaWINIEPI4AqaEtyB5nfwPfUslXxA3nJBk
-         Vjg2W/xkooDZ7gMHCtZ5HGJLR9uCIjTvXyvGU9cKxlDzn2myQ/XB0HtEJYhHlUM141+g
-         fQGQ==
-X-Gm-Message-State: AOAM530TraNmbqUeiPCSyqWOekg6zCNtR2QnhgevWW5HPk/NSj1CCmtN
-        YglDmTT/GmWUrmXJVYlx39ErOA==
-X-Google-Smtp-Source: ABdhPJx8302mlq2+2oG33p1FJwabY8ZQ+cEyzVsGqRt9mxOuWC/f5cg60TkG3G0h376S22Pc08/BlA==
-X-Received: by 2002:a17:902:70c5:b0:13f:f941:9ad6 with SMTP id l5-20020a17090270c500b0013ff9419ad6mr26059732plt.28.1635783653857;
-        Mon, 01 Nov 2021 09:20:53 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id p23sm18296772pjg.55.2021.11.01.09.20.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Nov 2021 09:20:53 -0700 (PDT)
-Date:   Mon, 1 Nov 2021 09:20:52 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
-        Fangrui Song <maskray@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        James Morris <jmorris@namei.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>, "KE.LI" <like1@oppo.com>,
-        linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org,
-        linux-kbuild@vger.kernel.org,
-        linux-security-module@vger.kernel.org, llvm@lists.linux.dev,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Padmanabha Srinivasaiah <treasure4paddy@gmail.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Will Deacon <will@kernel.org>,
-        Ye Guojin <ye.guojin@zte.com.cn>,
-        Zeal Robot <zealci@zte.com.cn>
-Subject: [GIT PULL] hardening updates for v5.16-rc1
-Message-ID: <202111010917.75B96F4E@keescook>
+        id S229930AbhKARVs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Nov 2021 13:21:48 -0400
+Received: from ms.lwn.net ([45.79.88.28]:53364 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229811AbhKARVs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 1 Nov 2021 13:21:48 -0400
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id B25EB7DA;
+        Mon,  1 Nov 2021 17:19:14 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B25EB7DA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1635787154; bh=W1VBPrgIwTLYR6IucWEejHcqZPKiwUe3RWwN7QzUVl4=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=V9lSA+vlYs0JhcnArZ+y9KA7/QQbGTxpyAxIXUE+lCpW5/Xox42DDDGL/dwQKf6Rh
+         UBu31wyaYs7nw4NxAnPqYPpFGd2lxMMh6sq1rtzr825EgmZNafqG6psuvw/XoXeCvl
+         Et5tMCefJ7XG+YKUFPJQxZBHMqNlI1XaEXsEJS0S4v5T2mpJEDoEhoNfpJVcqbKnJV
+         mI0PNxKkIIfGvsIpwL/FaokxnBu7VrDd22a37QTe/xmOc9sXq7FklyZPAfEgbwksg/
+         SoWwAtxEolv2fo+e4LXLgAtONI34n1FBC8bamlQLYNBdxLzaboQ9Gg9MLz8LcdLukL
+         qPmmagaraS/Ew==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Samuel Thibault <samuel.thibault@ens-lyon.org>,
+        Colin Ian King <colin.i.king@googlemail.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] speakup: Fix typo in documentation "boo" -> "boot"
+In-Reply-To: <20211028182451.baizgvczghh37zfl@begin>
+References: <20211028182319.613315-1-colin.i.king@gmail.com>
+ <20211028182451.baizgvczghh37zfl@begin>
+Date:   Mon, 01 Nov 2021 11:19:14 -0600
+Message-ID: <87k0hr6bfx.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Linus,
+Samuel Thibault <samuel.thibault@ens-lyon.org> writes:
 
-Please pull these hardening updates for v5.16-rc1. These are various
-compiler-related hardening feature updates. Notable is the addition of an
-explicit limited rationale for, and deprecation schedule of, gcc-plugins.
-More details in the tag below.
+> Colin Ian King, le jeu. 28 oct. 2021 19:23:19 +0100, a ecrit:
+>> There is a typo in the speakup documentation. Fix it.
+>> 
+>> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+>
+> Reviewed-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
 
-Thanks!
+But ... we just got a kernel named "trick or treat" and now you want to
+delete "boo time"? :)
 
--Kees
+Applied, thanks.
 
-The following changes since commit e4e737bb5c170df6135a127739a9e6148ee3da82:
+But, Samuel, while you're on the line, whatever happened to the RST
+conversion for this document?  I'd sure like to get that (and the
+associated license change) merged...
 
-  Linux 5.15-rc2 (2021-09-19 17:28:22 -0700)
+Thanks,
 
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git tags/hardening-v5.16-rc1
-
-for you to fetch changes up to 6425392acf24b6d469932dd1b217dc7b20d6447f:
-
-  gcc-plugins: remove duplicate include in gcc-common.h (2021-10-21 08:41:51 -0700)
-
-----------------------------------------------------------------
-compiler hardening updates for v5.16-rc1
-
-This collects various compiler hardening feature related updates:
-
-- gcc-plugins:
-  - remove support for GCC 4.9 and older (Ard Biesheuvel)
-  - remove duplicate include in gcc-common.h (Ye Guojin)
-  - Explicitly document purpose and deprecation schedule (Kees Cook)
-  - Remove cyc_complexity (Kees Cook)
-
-- instrumentation:
-  - Avoid harmless Clang option under CONFIG_INIT_STACK_ALL_ZERO (Kees Cook)
-
-- Clang LTO:
-  - kallsyms: strip LTO suffixes from static functions (Nick Desaulniers)
-
-----------------------------------------------------------------
-Ard Biesheuvel (1):
-      gcc-plugins: remove support for GCC 4.9 and older
-
-Kees Cook (3):
-      hardening: Avoid harmless Clang option under CONFIG_INIT_STACK_ALL_ZERO
-      gcc-plugins: Explicitly document purpose and deprecation schedule
-      gcc-plugins: Remove cyc_complexity
-
-Nick Desaulniers (1):
-      kallsyms: strip LTO suffixes from static functions
-
-Ye Guojin (1):
-      gcc-plugins: remove duplicate include in gcc-common.h
-
- Documentation/kbuild/gcc-plugins.rst               |  28 ++++-
- Makefile                                           |   6 +-
- kernel/kallsyms.c                                  |  46 +++++--
- scripts/Makefile.gcc-plugins                       |   2 -
- scripts/gcc-plugins/Kconfig                        |  20 +---
- scripts/gcc-plugins/cyc_complexity_plugin.c        |  69 -----------
- scripts/gcc-plugins/gcc-common.h                   | 132 +--------------------
- scripts/gcc-plugins/gcc-generate-gimple-pass.h     |  19 ---
- scripts/gcc-plugins/gcc-generate-ipa-pass.h        |  19 ---
- scripts/gcc-plugins/gcc-generate-rtl-pass.h        |  19 ---
- scripts/gcc-plugins/gcc-generate-simple_ipa-pass.h |  19 ---
- scripts/gcc-plugins/structleak_plugin.c            |   2 -
- security/Kconfig.hardening                         |  14 ++-
- 13 files changed, 75 insertions(+), 320 deletions(-)
- delete mode 100644 scripts/gcc-plugins/cyc_complexity_plugin.c
-
--- 
-Kees Cook
+jon
