@@ -2,78 +2,63 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15447C433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Nov 2021 17:26:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03E59C433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Nov 2021 17:29:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DAAAE6058D
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Nov 2021 17:26:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E099F60EFF
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Nov 2021 17:29:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229933AbhKAR3B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Nov 2021 13:29:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40318 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229541AbhKAR27 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Nov 2021 13:28:59 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AD97C061714
-        for <linux-doc@vger.kernel.org>; Mon,  1 Nov 2021 10:26:26 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 29C3077D;
-        Mon,  1 Nov 2021 17:26:26 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 29C3077D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1635787586; bh=nOHdfCaVf82orMW5Q+S2KjOqJvGhs679BlZASt+GvDI=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=klvI7YiDFcyjNQAkzn3ssDacgomBdXfroXPI7ncoEB/aGrC7Rz7rdAeu9/A7OWwDg
-         Ex5n6jVlhG2EXiECaYAuD1p+0J74kzt5n2pO3DNcbK5Y/DkL05c7mVDd7eoHutSOki
-         y76KCBEf+Pk51lfHZ57aUw5HYqsgGk11lofpHe2IEnWM6Idb5PNYt9jl98kPpotWl2
-         gIoRGM2WhniP5vfOxUnnNs/bhMILy1e+M8nt3N5dw2wOoOl1i3rMHGILgPUTiqHcy0
-         9q8tIqIDR64m+bnux5upDZoJjbfw+lGbnDD0XGsj2AruWLGIL4qGS80s1V/ZYR+ANx
-         8uyzuHZ+Em6ug==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     yanteng si <siyanteng01@gmail.com>, Alex Shi <alexs@kernel.org>,
-        Wu XiangCheng <bobwxc@email.cn>, Alex Shi <seakeel@gmail.com>
-Cc:     Yanteng Si <siyanteng@loongson.cn>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        linux-doc@vger.kernel.org, Puyu Wang <realpuyuwang@gmail.com>
-Subject: Re: [PATCH v2 0/2] docs/zh_CN: add core-api assoc_array and xarray
- translation
-In-Reply-To: <CAEensMzpsCBB41+ueHsOVV_qbi6jrBpJ7N0bh04u8W8BFnASFg@mail.gmail.com>
-References: <cover.1634358018.git.siyanteng@loongson.cn>
- <CAEensMzpsCBB41+ueHsOVV_qbi6jrBpJ7N0bh04u8W8BFnASFg@mail.gmail.com>
-Date:   Mon, 01 Nov 2021 11:26:25 -0600
-Message-ID: <87fssf6b3y.fsf@meer.lwn.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+        id S230035AbhKARbZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Nov 2021 13:31:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53260 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229933AbhKARbY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 1 Nov 2021 13:31:24 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id 7A02460E8C;
+        Mon,  1 Nov 2021 17:28:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1635787730;
+        bh=qeNiMFBy1cSNUj0ddz0b+hNEBvdrSshNeRvCqeEietM=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=lDvVBMHk/LoAeJ/VxdTmEFl3k7hYfSrWy1NeWnpU2WRnyj3XuYDNH47HFhscY4F/0
+         YfIyp3jLzHqLUY5bfM6eHeOGWe3n2AcRiqwimAeSSer3PBx0+nhDyZJup/9856z1Qm
+         CJ9nKXY7SaG1vBm6MJdJqrZjLePNHh2WgCVJczP/ISDZTMR0U7naFNbkSNEfxrifEG
+         F1LQHDcnhVGXIHz9nS/n8xtJVeQpuQA4h1nFN3Ws7e9zGRSAFLB9TKoAg8r3sm7StJ
+         ScpHaENARZvg/OYg3h9Fps+ADhn8LGF85BDajF4xWFOFbnKKFM+ztbwjcwChhwtJsp
+         nz6UmOwIStBJA==
+Subject: Re: [GIT PULL] file locking changes for v5.16
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <44baecaf3d322ef0674b7b9b88026cf18d371d14.camel@kernel.org>
+References: <44baecaf3d322ef0674b7b9b88026cf18d371d14.camel@kernel.org>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <44baecaf3d322ef0674b7b9b88026cf18d371d14.camel@kernel.org>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git tags/locks-v5.16
+X-PR-Tracked-Commit-Id: 482e00075d660a16de822686a4be4f7c0e11e5e2
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 9ac211426fb6747c92d570647e2ce889e33cbffd
+Message-Id: <163578773046.18307.9004662856873438464.pr-tracker-bot@kernel.org>
+Date:   Mon, 01 Nov 2021 17:28:50 +0000
+To:     Jeff Layton <jlayton@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Bruce Fields <bfields@fieldses.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-yanteng si <siyanteng01@gmail.com> writes:
+The pull request you sent on Fri, 29 Oct 2021 08:55:17 -0400:
 
-> Yanteng Si <siyanteng01@gmail.com> =E4=BA=8E2021=E5=B9=B410=E6=9C=8816=E6=
-=97=A5=E5=91=A8=E5=85=AD =E4=B8=8B=E5=8D=8812:25=E5=86=99=E9=81=93=EF=BC=9A
->>
->> v2:
->>
->> * Modified some words under Alex's advices
->> * pick Alex's Reviewed-by tag.
->>
->> v1:
->>
->> Translate .../core-api/assoc_array.rst and ../core-api/xarray.rst into C=
-hinese.
->>
->> Yanteng Si (2):
->>   docs/zh_CN: add core-api assoc_array translation
->>   docs/zh_CN: add core-api xarray translation
->
-> Ping
+> git://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git tags/locks-v5.16
 
-Hmm...not sure what happened there.  Applied now, thanks.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/9ac211426fb6747c92d570647e2ce889e33cbffd
 
-jon
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
