@@ -2,54 +2,54 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50614C433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Nov 2021 03:22:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF129C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Nov 2021 03:22:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 376BD60F42
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Nov 2021 03:22:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A848960E0C
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Nov 2021 03:22:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231267AbhKADZF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 31 Oct 2021 23:25:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48294 "EHLO
+        id S231185AbhKADZW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 31 Oct 2021 23:25:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231214AbhKADY5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 31 Oct 2021 23:24:57 -0400
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 964C4C061766
-        for <linux-doc@vger.kernel.org>; Sun, 31 Oct 2021 20:22:24 -0700 (PDT)
-Received: by mail-pf1-x435.google.com with SMTP id b1so11570960pfm.6
-        for <linux-doc@vger.kernel.org>; Sun, 31 Oct 2021 20:22:24 -0700 (PDT)
+        with ESMTP id S231310AbhKADZN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 31 Oct 2021 23:25:13 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5E70C061766
+        for <linux-doc@vger.kernel.org>; Sun, 31 Oct 2021 20:22:40 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id g11so3706488pfv.7
+        for <linux-doc@vger.kernel.org>; Sun, 31 Oct 2021 20:22:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Ut/rsMwOCHZFvr+mAC3bHz7Yha0mg558IoAi3jATnso=;
-        b=dNXhV0WUz3hYwK0ywZtEkEujrLfTb1Gd4wvbadxnPd37rszDgwv5sukYpTn4ARVTdq
-         7aATfMNvbM+eZCDfCBX+PGweob3vK3RTJul+gZOO6vEeFt4yqZeTWuNHu5SpmRsq4pus
-         /ODs1GpTv/aqc+rE1YNBhYf6SV0LVnavvjLX+0dYcOPgUMvWGowC4TM5DMWTtOkeLd8n
-         oldbUP+ialHwIRHPXrfnpTHEO/x5qyE7dI7jHP/jmhj6TVMFY9XlTUeMFPLFOP/sd5zc
-         WbjwP6xkAvyyGiZDG/1rDv5YEcAmMp04cBPFpZ56WSlB/kCtRc1toIwh/Tx964NeCfcg
-         qCTw==
+        bh=2UoWjZzOHViEmzMC0Qv5p6Aol3nKS7az97fC7P92qe4=;
+        b=mKP0ohFbfVQvapDd1cxSSUQoOhILeQQNi04r/0XIuYy1v7A0lxlwD8CJhLGlYGDL+S
+         GEwrDudJKGSatRGKbpSPvwuO7/uK/brOWGDHxw8QH4w8v4O6lRhWgzHlaJX0KHouSdXu
+         u0u7n3nu9tzbLrbcfNOvYIlsXGBjzfbEjI0dcoW2RSktQMUfiFAecvgel+yiR4Eqo2Ih
+         vQPvdA8EygpJ/SIYaQh53HxuObxRie7bqsspLrdsPsTCKPGrz6K5Mb1T3nAYB1Y7gRla
+         z2cqsQzcfnRBPevYTo3Uwu6XH1ez9MDwMwA64GF7nlWljkoay9o9g20tENUSudsXTJ89
+         wQRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Ut/rsMwOCHZFvr+mAC3bHz7Yha0mg558IoAi3jATnso=;
-        b=dJxCYF0Z/VNgckmrwTmqqck4D3/bKFaavep7FIHN/kKS7GAVrGTmVJOrIhdUlr8Hdl
-         qovTxityaEuLN4VcLuOo+8xyrpczXGAuORyIrtCvWZQcStIq7IOAdUtnLB4VqgDKyZtV
-         r72ACtU9vHbiMsKxJj0SNrT11shQSu3G7LEcrW3H9LBRxrJrT2Pww4u2B3se1eKbgc3n
-         2/9Gy12Wt22DcFR9Q81xHtsR1AmNeoGd0ltHirDMdYyKXzzYesPYwdTeWRkesgUVByau
-         ircfnlpWVYoQxGJYYKf0rXDWoUlupiN1HLd0lJTz2IpmDfEvhQXiFJuxxCGoLuyKcQK4
-         xJZw==
-X-Gm-Message-State: AOAM533L/YsqQD0PkKHvHZyB3dfqKfNOTabX3DG1fboXsjxZd1q6ZCoi
-        DIABmPM9ymFc+0TTz4TxfZgr1g==
-X-Google-Smtp-Source: ABdhPJxag0DpT0JCnQK0GzshGS3PfD/ZjRKxTwaW18LcmjuKzI+FSZb7QbSlbwOo/6DIIp3PuBEdOg==
-X-Received: by 2002:a63:455f:: with SMTP id u31mr33289pgk.206.1635736944102;
-        Sun, 31 Oct 2021 20:22:24 -0700 (PDT)
+        bh=2UoWjZzOHViEmzMC0Qv5p6Aol3nKS7az97fC7P92qe4=;
+        b=QNwR+3hdqDtHyThMNllSS6ka+U6bTET1YXRjXvBV5l9jwZVI2eE7ZLBAcT1AC9C87d
+         icj6xkPzv85KJKLST4qHw/RvKplbnho0Tqg4ef3jcX7GUJhL+fN8pgeKpfcqrJE0tldc
+         g9itmd6tLVXPYbkr7HoE8PkMU3tNMDq5jQOGQkfr8gmo4bx7yxC/bCIsTDH4w2JcehAK
+         fTeyoFQySmnmRwDi26zxmD/8VKKgUgHosMD4Sira4IePw3iNGgzJsHLonKnv2s+bFT47
+         uz0QlDGX2WBHTPVLzSVswMQa6oULv8IsRLDALIRnNTM5ooHbqZDzz36hvCXa/+Z1pyEC
+         pBnA==
+X-Gm-Message-State: AOAM5315WTKIOlORFAGDrR6MKuQ2dpkPuwqT9ZP7mbIRhusO02uKDRg1
+        btdCw0hK2lI7JFgzg3xgn6WoGg==
+X-Google-Smtp-Source: ABdhPJx2a87GRNdgfXSLRJ0wr6CnW8L0BkmTvheFr9coFV82vt+FtcwdaXTOQpqDZtlezPC7KbtRNg==
+X-Received: by 2002:aa7:8019:0:b0:44d:d761:6f79 with SMTP id j25-20020aa78019000000b0044dd7616f79mr26229514pfi.3.1635736960495;
+        Sun, 31 Oct 2021 20:22:40 -0700 (PDT)
 Received: from localhost.localdomain ([139.177.225.242])
-        by smtp.gmail.com with ESMTPSA id f8sm11860963pjq.29.2021.10.31.20.22.15
+        by smtp.gmail.com with ESMTPSA id f8sm11860963pjq.29.2021.10.31.20.22.33
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 31 Oct 2021 20:22:23 -0700 (PDT)
+        Sun, 31 Oct 2021 20:22:40 -0700 (PDT)
 From:   Muchun Song <songmuchun@bytedance.com>
 To:     mike.kravetz@oracle.com, akpm@linux-foundation.org,
         osalvador@suse.de, mhocko@suse.com, song.bao.hua@hisilicon.com,
@@ -59,9 +59,9 @@ Cc:     duanxiongchun@bytedance.com, fam.zheng@bytedance.com,
         smuchun@gmail.com, zhengqi.arch@bytedance.com,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, Muchun Song <songmuchun@bytedance.com>
-Subject: [PATCH v7 3/5] mm: sparsemem: use page table lock to protect kernel pmd operations
-Date:   Mon,  1 Nov 2021 11:16:49 +0800
-Message-Id: <20211101031651.75851-4-songmuchun@bytedance.com>
+Subject: [PATCH v7 5/5] mm: sparsemem: move vmemmap related to HugeTLB to CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
+Date:   Mon,  1 Nov 2021 11:16:51 +0800
+Message-Id: <20211101031651.75851-6-songmuchun@bytedance.com>
 X-Mailer: git-send-email 2.21.0 (Apple Git-122)
 In-Reply-To: <20211101031651.75851-1-songmuchun@bytedance.com>
 References: <20211101031651.75851-1-songmuchun@bytedance.com>
@@ -71,169 +71,53 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The init_mm.page_table_lock is used to protect kernel page tables, we
-can use it to serialize splitting vmemmap PMD mappings instead of mmap
-write lock, which can increase the concurrency of vmemmap_remap_free().
-
-Actually, It increase the concurrency between allocations of HugeTLB
-pages. But it is not the only benefit. There are a lot of users of
-mmap read lock of init_mm. The mmap write lock is holding through
-vmemmap_remap_free(), removing mmap write lock usage to make it does
-not affect other users of mmap read lock. It is not making anything
-worse and always a win to move.
-
-Now the kernel page table walker does not hold the page_table_lock when
-walking pmd entries. There may be consistency issue of a pmd entry,
-because pmd entry might change from a huge pmd entry to a PTE page table.
-There is only one user of kernel page table walker, namely ptdump. The
-ptdump already considers the consistency, which use a local variable to
-cache the value of pmd entry. But we also need to update ->action to
-ACTION_CONTINUE to make sure the walker does not walk every pte entry
-again when concurrent thread has split the huge pmd.
+The vmemmap_remap_free/alloc are relevant to HugeTLB, so move those
+functiongs to the scope of CONFIG_HUGETLB_PAGE_FREE_VMEMMAP.
 
 Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+Reviewed-by: Barry Song <song.bao.hua@hisilicon.com>
 ---
- mm/ptdump.c         | 16 ++++++++++++----
- mm/sparse-vmemmap.c | 47 +++++++++++++++++++++++++++++++----------------
- 2 files changed, 43 insertions(+), 20 deletions(-)
+ include/linux/mm.h  | 2 ++
+ mm/sparse-vmemmap.c | 2 ++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/mm/ptdump.c b/mm/ptdump.c
-index da751448d0e4..eea3d28d173c 100644
---- a/mm/ptdump.c
-+++ b/mm/ptdump.c
-@@ -40,8 +40,10 @@ static int ptdump_pgd_entry(pgd_t *pgd, unsigned long addr,
- 	if (st->effective_prot)
- 		st->effective_prot(st, 0, pgd_val(val));
- 
--	if (pgd_leaf(val))
-+	if (pgd_leaf(val)) {
- 		st->note_page(st, addr, 0, pgd_val(val));
-+		walk->action = ACTION_CONTINUE;
-+	}
- 
- 	return 0;
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index a7e4a9e7d807..8c85863a067c 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -3184,10 +3184,12 @@ static inline void print_vma_addr(char *prefix, unsigned long rip)
  }
-@@ -61,8 +63,10 @@ static int ptdump_p4d_entry(p4d_t *p4d, unsigned long addr,
- 	if (st->effective_prot)
- 		st->effective_prot(st, 1, p4d_val(val));
+ #endif
  
--	if (p4d_leaf(val))
-+	if (p4d_leaf(val)) {
- 		st->note_page(st, addr, 1, p4d_val(val));
-+		walk->action = ACTION_CONTINUE;
-+	}
++#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
+ int vmemmap_remap_free(unsigned long start, unsigned long end,
+ 		       unsigned long reuse);
+ int vmemmap_remap_alloc(unsigned long start, unsigned long end,
+ 			unsigned long reuse, gfp_t gfp_mask);
++#endif
  
- 	return 0;
- }
-@@ -82,8 +86,10 @@ static int ptdump_pud_entry(pud_t *pud, unsigned long addr,
- 	if (st->effective_prot)
- 		st->effective_prot(st, 2, pud_val(val));
- 
--	if (pud_leaf(val))
-+	if (pud_leaf(val)) {
- 		st->note_page(st, addr, 2, pud_val(val));
-+		walk->action = ACTION_CONTINUE;
-+	}
- 
- 	return 0;
- }
-@@ -101,8 +107,10 @@ static int ptdump_pmd_entry(pmd_t *pmd, unsigned long addr,
- 
- 	if (st->effective_prot)
- 		st->effective_prot(st, 3, pmd_val(val));
--	if (pmd_leaf(val))
-+	if (pmd_leaf(val)) {
- 		st->note_page(st, addr, 3, pmd_val(val));
-+		walk->action = ACTION_CONTINUE;
-+	}
- 
- 	return 0;
- }
+ void *sparse_buffer_alloc(unsigned long size);
+ struct page * __populate_section_memmap(unsigned long pfn,
 diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
-index e881f5db7091..c64d1aa3c4b5 100644
+index c64d1aa3c4b5..8aecd6b3896c 100644
 --- a/mm/sparse-vmemmap.c
 +++ b/mm/sparse-vmemmap.c
-@@ -53,8 +53,7 @@ struct vmemmap_remap_walk {
- 	struct list_head *vmemmap_pages;
- };
+@@ -34,6 +34,7 @@
+ #include <asm/pgalloc.h>
+ #include <asm/tlbflush.h>
  
--static int split_vmemmap_huge_pmd(pmd_t *pmd, unsigned long start,
--				  struct vmemmap_remap_walk *walk)
-+static int __split_vmemmap_huge_pmd(pmd_t *pmd, unsigned long start)
- {
- 	pmd_t __pmd;
- 	int i;
-@@ -76,15 +75,34 @@ static int split_vmemmap_huge_pmd(pmd_t *pmd, unsigned long start,
- 		set_pte_at(&init_mm, addr, pte, entry);
- 	}
- 
--	/* Make pte visible before pmd. See comment in pmd_install(). */
--	smp_wmb();
--	pmd_populate_kernel(&init_mm, pmd, pgtable);
--
--	flush_tlb_kernel_range(start, start + PMD_SIZE);
-+	spin_lock(&init_mm.page_table_lock);
-+	if (likely(pmd_leaf(*pmd))) {
-+		/* Make pte visible before pmd. See comment in pmd_install(). */
-+		smp_wmb();
-+		pmd_populate_kernel(&init_mm, pmd, pgtable);
-+		flush_tlb_kernel_range(start, start + PMD_SIZE);
-+	} else {
-+		pte_free_kernel(&init_mm, pgtable);
-+	}
-+	spin_unlock(&init_mm.page_table_lock);
++#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
+ /**
+  * struct vmemmap_remap_walk - walk vmemmap page table
+  *
+@@ -419,6 +420,7 @@ int vmemmap_remap_alloc(unsigned long start, unsigned long end,
  
  	return 0;
  }
++#endif /* CONFIG_HUGETLB_PAGE_FREE_VMEMMAP */
  
-+static int split_vmemmap_huge_pmd(pmd_t *pmd, unsigned long start)
-+{
-+	int leaf;
-+
-+	spin_lock(&init_mm.page_table_lock);
-+	leaf = pmd_leaf(*pmd);
-+	spin_unlock(&init_mm.page_table_lock);
-+
-+	if (!leaf)
-+		return 0;
-+
-+	return __split_vmemmap_huge_pmd(pmd, start);
-+}
-+
- static void vmemmap_pte_range(pmd_t *pmd, unsigned long addr,
- 			      unsigned long end,
- 			      struct vmemmap_remap_walk *walk)
-@@ -121,13 +139,12 @@ static int vmemmap_pmd_range(pud_t *pud, unsigned long addr,
- 
- 	pmd = pmd_offset(pud, addr);
- 	do {
--		if (pmd_leaf(*pmd)) {
--			int ret;
-+		int ret;
-+
-+		ret = split_vmemmap_huge_pmd(pmd, addr & PMD_MASK);
-+		if (ret)
-+			return ret;
- 
--			ret = split_vmemmap_huge_pmd(pmd, addr & PMD_MASK, walk);
--			if (ret)
--				return ret;
--		}
- 		next = pmd_addr_end(addr, end);
- 		vmemmap_pte_range(pmd, addr, next, walk);
- 	} while (pmd++, addr = next, addr != end);
-@@ -321,10 +338,8 @@ int vmemmap_remap_free(unsigned long start, unsigned long end,
- 	 */
- 	BUG_ON(start - reuse != PAGE_SIZE);
- 
--	mmap_write_lock(&init_mm);
-+	mmap_read_lock(&init_mm);
- 	ret = vmemmap_remap_range(reuse, end, &walk);
--	mmap_write_downgrade(&init_mm);
--
- 	if (ret && walk.nr_walked) {
- 		end = reuse + walk.nr_walked * PAGE_SIZE;
- 		/*
+ /*
+  * Allocate a block of memory to be used to back the virtual memory map
 -- 
 2.11.0
 
