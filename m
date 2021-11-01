@@ -2,82 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4ED08C433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Nov 2021 07:27:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 443BFC433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Nov 2021 07:47:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 34C496108C
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Nov 2021 07:27:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2123460F56
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Nov 2021 07:47:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229882AbhKAHaE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Nov 2021 03:30:04 -0400
-Received: from mail-ed1-f47.google.com ([209.85.208.47]:41608 "EHLO
-        mail-ed1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229827AbhKAHaC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Nov 2021 03:30:02 -0400
-Received: by mail-ed1-f47.google.com with SMTP id h7so61935224ede.8;
-        Mon, 01 Nov 2021 00:27:28 -0700 (PDT)
+        id S230312AbhKAHuI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Nov 2021 03:50:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49686 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230289AbhKAHuH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Nov 2021 03:50:07 -0400
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE975C061714;
+        Mon,  1 Nov 2021 00:47:34 -0700 (PDT)
+Received: by mail-io1-xd2f.google.com with SMTP id b203so5182543iof.1;
+        Mon, 01 Nov 2021 00:47:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Kd4BPRZ9sK8kBGUMQbngZukIs4D7nqGTCYCtGM0fwOI=;
+        b=bOZ0dic5fwcUJXFHUmdbvSk/pbMnkfTPeiGDm+DOCeEkUVj9G6WlynL8SW158B4mEO
+         lg7Pz7/I8PRT5KWSbIt85/E8HQ/D5G5yRN4mRKwk23YAQRsaBOw0NOrpKSh8Cl0Aa5A+
+         OdccJvvdShMJDra7JqjXDV2kTM+uwcibd4Lsq6AjYI1+c2ufO3qQx8MkPlMgBz/mXFpP
+         lDbvi/z2V4x8tIFMl4XXZpusgdQvhPErV7zG8VgqTQ6fEYkCHSi3G1kuNXDfI7mGIvjr
+         fzuoG2U9FPJ7nO6Sz0ViaGDO1mgmEsazmgDk2rhw4Q7Cic/C7X6kwYJgKmy3lWy1WGOL
+         Mq6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=QX73/TVtR5W8m/Vq63b5sJhbliBL72ushPOHfy32+cA=;
-        b=KM4JJfDijYvvnT3SEC2XN73FuVc1kdbqJ+pW/VkmK7MkP+QvJY0229gHw1RyEv1nOl
-         7gnOaY83bDfwrYvJXulTfyGwigUT4/CgiBSdRXn5xKAlo3jjqTqqkPKSUPRTQwrNLXxc
-         KpWKofXV9c6kaPrvFYRMG+08AhUNaUaJdVZ1P19kZvZOjfsL+Vv1f4mU8GqXgA2QOafA
-         ACFs740O8y2wdJ60BT3bSDCiMBOfbPhMvxg59XG1NhpG89lsnCm/N+UNyECdtwggLAw1
-         ORHK7S+/PFb6HGI5hg6hMs5S3uAeTo4s+N5MvRwRcxXAe2qxSd33RnfXfmxYaP6dIiSb
-         zewQ==
-X-Gm-Message-State: AOAM53138G8dZXhUrKGDrdzJkGi/94AlC5xcn+TFUuB2s074Hr0fojoq
-        Ppih9/NKjA3orO2q9xgpGpE=
-X-Google-Smtp-Source: ABdhPJz67dOV3GnCoSUWOvabzexqGXdP8guxumkAaVgH9YZqCSQCmsiydaI/dW9/wtOJPyA45DiFiw==
-X-Received: by 2002:a17:906:4e54:: with SMTP id g20mr31002753ejw.284.1635751648035;
-        Mon, 01 Nov 2021 00:27:28 -0700 (PDT)
-Received: from ?IPV6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
-        by smtp.gmail.com with ESMTPSA id w1sm1854315edd.49.2021.11.01.00.27.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Nov 2021 00:27:27 -0700 (PDT)
-Message-ID: <0b42eede-d909-1afb-f3fc-c4ee1e2fc0f4@kernel.org>
-Date:   Mon, 1 Nov 2021 08:27:26 +0100
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Kd4BPRZ9sK8kBGUMQbngZukIs4D7nqGTCYCtGM0fwOI=;
+        b=GwRJgjUP9VKwg7qXZPJXEjnntpir4KHz52eeyPZZjMakYhqHGEv8/EwC+9lOEOUoUH
+         i3ypGEC7EpVV8rhzwxXxfdBvCnuOkDCEDbJDw+TiK+G6cv1hSO+9+kfW8AoEPhE88tv2
+         BxYKZPUI9oEjcQiVg1gWbLHSdNtirtXW+L2B2EglGWHFyiTt99Cc+9LOb6E0o/19cOrA
+         TO9KgfyehkU35x0zhPLQypS3IaavWX0n9m8VeULlIoUhayLA3aaDRP4TiZqZUXVuqDGU
+         9Hb2eptX2d/0X6KbL5fbb+bK7GnXj9JVP78rR2U0rnzY4pgQuDk3kIB480SuIJZCGaWU
+         pRtA==
+X-Gm-Message-State: AOAM533cxEPxvI6lsIjh31IBz0LpqMl2CmLY9NwpC8IM65ynGSBeULO7
+        Ma+uMpjtbUKvZE7QYJ95UCg5syazYG4uXnt7Pj3Tcd62NvI=
+X-Google-Smtp-Source: ABdhPJw61V19t70ObGqdAvRgYku+E/mnmBvyCooUjoLscT2KnaQ+lulIdqj1uuhxyXeSR8/aeQ1io+e4N1jQks8x6Q8=
+X-Received: by 2002:a02:cb42:: with SMTP id k2mr6471995jap.25.1635752854406;
+ Mon, 01 Nov 2021 00:47:34 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.1
-Subject: Re: [PATCH v10 0/2] Add rpmsg tty driver
-Content-Language: en-US
-To:     Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
-        Ohad Ben-Cohen <ohad@wizery.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Suman Anna <s-anna@ti.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org
-References: <20211015094701.5732-1-arnaud.pouliquen@foss.st.com>
-From:   Jiri Slaby <jirislaby@kernel.org>
-In-Reply-To: <20211015094701.5732-1-arnaud.pouliquen@foss.st.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <cover.1634630485.git.mchehab+huawei@kernel.org>
+ <b22b772c23f531708a9bc025d56c0312a53bd6c9.1634630486.git.mchehab+huawei@kernel.org>
+ <878ryosocf.fsf@meer.lwn.net> <f0269915-4863-9ed6-dedd-592f2e308f46@redhat.com>
+In-Reply-To: <f0269915-4863-9ed6-dedd-592f2e308f46@redhat.com>
+From:   Alex Shi <seakeel@gmail.com>
+Date:   Mon, 1 Nov 2021 15:46:58 +0800
+Message-ID: <CAJy-AmnHht4=sNyQ5r78MwfOpMF8dRqrct8fasVX-ULadfMNvg@mail.gmail.com>
+Subject: Re: [PATCH v3 16/23] docs: translations: zh_CN: memory-hotplug.rst:
+ fix a typo
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Alex Shi <alexs@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Wu XiangCheng <bobwxc@email.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 15. 10. 21, 11:46, Arnaud Pouliquen wrote:
-...
->   drivers/rpmsg/rpmsg_core.c       |  21 +++
->   drivers/rpmsg/rpmsg_internal.h   |   2 +
->   drivers/rpmsg/virtio_rpmsg_bus.c |  10 ++
->   drivers/tty/Kconfig              |  12 ++
->   drivers/tty/Makefile             |   1 +
->   drivers/tty/rpmsg_tty.c          | 274 +++++++++++++++++++++++++++++++
->   include/linux/rpmsg.h            |  10 ++
+On Wed, Oct 20, 2021 at 3:08 PM David Hildenbrand <david@redhat.com> wrote:
+>
+> Dumb question that probably has been asked a couple of times already:
+> why do we even maintain a translated doc in-tree?
+>
+> Every time I do an update on the original doc, I for sure can only guess
+> which translated parts need updating. And I really can only update when
+> "deleting", not when rewording/adding. So we'll be left with stale doc
+> that will have to be updated manually by $whoever.
 
-Hi,
+cc to the translation maintainers and translator would be helpful?
 
-care to add an entry to MAINTAINERS too?
+> I don't feel very
+> confident about this. No translated doc is better than outdated
+> translated doc.
 
-thanks,
--- 
-js
-suse labs
+Uh, I don't know other languages, but in Chinese, 15 years before
+translated books are still selling well in China. :)
+https://item.jd.com/1075130482.html  ->  Linux device driver
+https://item.jd.com/10100237.html  -> Understanding linux kernel
+
+Thanks
+Alex
+
+>
+> This feels like something that should be maintained out of tree. My 2 cents.
+>
+> --
+> Thanks,
+>
+> David / dhildenb
+>
