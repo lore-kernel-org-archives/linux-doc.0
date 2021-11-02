@@ -2,171 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25958C433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Nov 2021 10:47:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A7BFC433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Nov 2021 10:54:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F1D0F60EE9
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Nov 2021 10:47:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6CC0460EBC
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Nov 2021 10:54:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230102AbhKBKtg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Nov 2021 06:49:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49415 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230058AbhKBKte (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Nov 2021 06:49:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1635850018;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=XFQHbIlafDzJEHgYX2vpeRXhMsdqgY8QKpgrZUogIu4=;
-        b=RzXimXP4vcU1SyFnsRwoZ3joxAjHjIupQhd5Vw0LNnNDbq2JYybPDoi3+U29Mi+VaKOaUT
-        QrBdycED55t+fnEiUUHyeByX3YOuI0Cwt+sJgSjuNIoMhyQU0fpw899cv/FuLF/aQk79KQ
-        /biB5tSYUtTHgxSv3rlpGThVLmnSkGs=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-366-4_9DNMH6MPSUcQ7Sx-i_vQ-1; Tue, 02 Nov 2021 06:46:57 -0400
-X-MC-Unique: 4_9DNMH6MPSUcQ7Sx-i_vQ-1
-Received: by mail-wm1-f71.google.com with SMTP id m13-20020a05600c3b0d00b00332f48bef41so694733wms.7
-        for <linux-doc@vger.kernel.org>; Tue, 02 Nov 2021 03:46:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version;
-        bh=XFQHbIlafDzJEHgYX2vpeRXhMsdqgY8QKpgrZUogIu4=;
-        b=vgFUwSLdNG6JjKb5+oSL+Y5cU6ZWg1LAFooHZfjndxqvvRWebudOpLfzbMTH1rQT0H
-         CoRyue++Odh04iQWe4x+dH1uGIogvIPnCZM19F4t/mxXt0EBSZtDC7lUFZoaFZtd9SJd
-         qBQokNloML+GoFNSA9n7w4YG9+tIPc6VFquu6bBVu2mA3AyjDATlyxjmkhqM6gB06YAV
-         0KIeRqp8wBOunNJGjIYJ4QIr5OzHYP/PXeENsgx8emxX8x+/12hsLRDUf7zU+22CnjqR
-         QzHmPr+ZbyYoI7H3455RXcyMKY6wfx4sjbFOZT2sPgg7QJMiBvSv53blFTJbmucU7LDG
-         bwcQ==
-X-Gm-Message-State: AOAM532yOgDg8s3CYdhYPN+NL4IIYmJSEPLZCWUVeFBgdaDRcBv8RyD6
-        5tj4iNveiHRNCVEkF7YqXsarOxCeshdLOB8gkCcj8PmNQdQ5Zl2ijHFL/STy+HzC6iX43pAXvcB
-        qyzYFfKdm5IjZmtw4jYPE
-X-Received: by 2002:a1c:c91a:: with SMTP id f26mr6013763wmb.89.1635850016684;
-        Tue, 02 Nov 2021 03:46:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJze0huHSIEw1nkLBwxtB5ocsTOvhFwt3G116/y2bZnfLuM0x5klgPLxC7Q+PMIFw0Gw4wG3lA==
-X-Received: by 2002:a1c:c91a:: with SMTP id f26mr6013730wmb.89.1635850016453;
-        Tue, 02 Nov 2021 03:46:56 -0700 (PDT)
-Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
-        by smtp.gmail.com with ESMTPSA id p2sm110903wmq.23.2021.11.02.03.46.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Nov 2021 03:46:55 -0700 (PDT)
-From:   Vitaly Kuznetsov <vkuznets@redhat.com>
-To:     Sean Christopherson <seanjc@google.com>,
-        Maxim Levitsky <mlevitsk@redhat.com>
-Cc:     Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
-        Kieran Bingham <kbingham@kernel.org>,
-        Jan Kiszka <jan.kiszka@siemens.com>,
-        Andrew Jones <drjones@redhat.com>,
+        id S230058AbhKBK53 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Nov 2021 06:57:29 -0400
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:57116 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S229577AbhKBK53 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Nov 2021 06:57:29 -0400
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1A27KWag027459;
+        Tue, 2 Nov 2021 11:54:41 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=F3zslvwLhHMv15l+DDp1BP8HK4d2H8Odbk6ORCpvSWM=;
+ b=4+RNds1W1D6p9AXQqCyxrSLALcHZ+vLrsPJBZ6WVQvxYuznQMcqnGuUfK0jJJ4il4Rly
+ xbUyNvUWI3JyFe05zy6gkdA0lmP9g7m6o83G+kCa/07678UqBsjgQSo5g3b7b5CS/NaZ
+ APLE+CEwYIj3DpVyxlYJ4mWiDmx4WHjtMtW5rvXn4RCHPpYm3KxkBkJ7YrQ3D9y6quIq
+ CV994KH5lLOUKVamJtmocmLDT/ialwaRUM3SY2ncGC7O1N7ivEVZ5xJ28JYfP53kwLyv
+ BuHiPDQ1KUS4fnMjWadXsieARNUDGVXJKetTj91+T0Ew0zrVI8IApapnALXthhN8wEdL rA== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3c30uvhbwa-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 02 Nov 2021 11:54:41 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 5DC1210002A;
+        Tue,  2 Nov 2021 11:54:40 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id D729921667C;
+        Tue,  2 Nov 2021 11:54:38 +0100 (CET)
+Received: from lmecxl0889.lme.st.com (10.75.127.47) by SFHDAG2NODE2.st.com
+ (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Tue, 2 Nov
+ 2021 11:54:38 +0100
+Subject: Re: [PATCH v10 0/2] Add rpmsg tty driver
+To:     Jiri Slaby <jirislaby@kernel.org>,
+        Ohad Ben-Cohen <ohad@wizery.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Jessica Yu <jeyu@kernel.org>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Yang Weijiang <weijiang.yang@intel.com>,
-        linux-kernel@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v3 6/6] KVM: selftests: test KVM_GUESTDBG_BLOCKIRQ
-In-Reply-To: <YYB2l9bzFhKzobZB@google.com>
-References: <20210811122927.900604-1-mlevitsk@redhat.com>
- <20210811122927.900604-7-mlevitsk@redhat.com>
- <137f2dcc-75d2-9d71-e259-dd66d43ad377@redhat.com>
- <87sfwfkhk5.fsf@vitty.brq.redhat.com>
- <b48210a35b3bc6d63beeb33c19b609b3014191dd.camel@redhat.com>
- <YYB2l9bzFhKzobZB@google.com>
-Date:   Tue, 02 Nov 2021 11:46:54 +0100
-Message-ID: <87k0hqkf6p.fsf@vitty.brq.redhat.com>
+        Mathieu Poirier <mathieu.poirier@linaro.org>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Suman Anna <s-anna@ti.com>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-remoteproc@vger.kernel.org>
+References: <20211015094701.5732-1-arnaud.pouliquen@foss.st.com>
+ <0b42eede-d909-1afb-f3fc-c4ee1e2fc0f4@kernel.org>
+From:   Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>
+Message-ID: <dae498c3-3460-e493-564e-bc903e4aa5b8@foss.st.com>
+Date:   Tue, 2 Nov 2021 11:54:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <0b42eede-d909-1afb-f3fc-c4ee1e2fc0f4@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.75.127.47]
+X-ClientProxiedBy: SFHDAG1NODE3.st.com (10.75.127.3) To SFHDAG2NODE2.st.com
+ (10.75.127.5)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-11-02_06,2021-11-02_01,2020-04-07_01
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sean Christopherson <seanjc@google.com> writes:
+Hi Jiri,
 
-> On Mon, Nov 01, 2021, Maxim Levitsky wrote:
->> On Mon, 2021-11-01 at 16:43 +0100, Vitaly Kuznetsov wrote:
->> > Paolo Bonzini <pbonzini@redhat.com> writes:
->> > 
->> > > On 11/08/21 14:29, Maxim Levitsky wrote:
->> > > > Modify debug_regs test to create a pending interrupt
->> > > > and see that it is blocked when single stepping is done
->> > > > with KVM_GUESTDBG_BLOCKIRQ
->> > > > 
->> > > > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
->> > > > ---
->> > > >   .../testing/selftests/kvm/x86_64/debug_regs.c | 24 ++++++++++++++++---
->> > > >   1 file changed, 21 insertions(+), 3 deletions(-)
->> > > 
->> > > I haven't looked very much at this, but the test fails.
->> > > 
->> > 
->> > Same here,
->> > 
->> > the test passes on AMD but fails consistently on Intel:
->> > 
->> > # ./x86_64/debug_regs 
->> > ==== Test Assertion Failure ====
->> >   x86_64/debug_regs.c:179: run->exit_reason == KVM_EXIT_DEBUG && run->debug.arch.exception == DB_VECTOR && run->debug.arch.pc == target_rip && run->debug.arch.dr6 == target_dr6
->> >   pid=13434 tid=13434 errno=0 - Success
->> >      1	0x00000000004027c6: main at debug_regs.c:179
->> >      2	0x00007f65344cf554: ?? ??:0
->> >      3	0x000000000040294a: _start at ??:?
->> >   SINGLE_STEP[1]: exit 8 exception 1 rip 0x402a25 (should be 0x402a27) dr6 0xffff4ff0 (should be 0xffff4ff0)
->> > 
->> > (I know I'm late to the party).
->> 
->> Well that is strange. It passes on my intel laptop. Just tested 
->> (kvm/queue + qemu master, compiled today) :-(
->> 
->> It fails on iteration 1 (and there is iteration 0) which I think means that we
->> start with RIP on sti, and get #DB on start of xor instruction first (correctly), 
->> and then we get #DB again on start of xor instruction again?
->> 
->> Something very strange. My laptop has i7-7600U.
->
-> I haven't verified on hardware, but my guess is that this code in vmx_vcpu_run()
->
-> 	/* When single-stepping over STI and MOV SS, we must clear the
-> 	 * corresponding interruptibility bits in the guest state. Otherwise
-> 	 * vmentry fails as it then expects bit 14 (BS) in pending debug
-> 	 * exceptions being set, but that's not correct for the guest debugging
-> 	 * case. */
-> 	if (vcpu->guest_debug & KVM_GUESTDBG_SINGLESTEP)
-> 		vmx_set_interrupt_shadow(vcpu, 0);
->
-> interacts badly with APICv=1.  It will kill the STI shadow and cause the IRQ in
-> vmcs.GUEST_RVI to be recognized when it (micro-)architecturally should not.  My
-> head is going in circles trying to sort out what would actually happen.  Maybe
-> comment out that and/or disable APICv to see if either one makes the test pass?
->
+On 11/1/21 8:27 AM, Jiri Slaby wrote:
+> On 15. 10. 21, 11:46, Arnaud Pouliquen wrote:
+> ...
+>>   drivers/rpmsg/rpmsg_core.c       |  21 +++
+>>   drivers/rpmsg/rpmsg_internal.h   |   2 +
+>>   drivers/rpmsg/virtio_rpmsg_bus.c |  10 ++
+>>   drivers/tty/Kconfig              |  12 ++
+>>   drivers/tty/Makefile             |   1 +
+>>   drivers/tty/rpmsg_tty.c          | 274 +++++++++++++++++++++++++++++++
+>>   include/linux/rpmsg.h            |  10 ++
+> 
+> Hi,
+> 
+> care to add an entry to MAINTAINERS too?
 
-Interestingly,
+That's a good point. I will send a patch to propose myself as maintainer.
 
-loading 'kvm-intel' with 'enable_apicv=0' makes the test pass, however,
-commenting out "vmx_set_interrupt_shadow()" as suggested gives a
-different result (with enable_apicv=1):
+Thanks,
+Arnaud
 
-# ./x86_64/debug_regs 
-==== Test Assertion Failure ====
-  x86_64/debug_regs.c:179: run->exit_reason == KVM_EXIT_DEBUG && run->debug.arch.exception == DB_VECTOR && run->debug.arch.pc == target_rip && run->debug.arch.dr6 == target_dr6
-  pid=16352 tid=16352 errno=0 - Success
-     1	0x0000000000402b33: main at debug_regs.c:179 (discriminator 10)
-     2	0x00007f36401bd554: ?? ??:0
-     3	0x00000000004023a9: _start at ??:?
-  SINGLE_STEP[1]: exit 9 exception -2147483615 rip 0x1 (should be 0x4024d9) dr6 0xffff4ff0 (should be 0xffff4ff0)
-
-this is a fairly old "Intel(R) Xeon(R) CPU E5-2603 v3".
-
--- 
-Vitaly
-
+> 
+> thanks,
