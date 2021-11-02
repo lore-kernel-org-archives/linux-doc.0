@@ -2,58 +2,57 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 079CFC433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Nov 2021 16:42:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7045BC433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Nov 2021 18:45:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DAB6460EB4
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Nov 2021 16:42:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 57C5C60720
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Nov 2021 18:45:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234824AbhKBQom (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Nov 2021 12:44:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35337 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230357AbhKBQol (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Nov 2021 12:44:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1635871326;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=wK3CplyUTs+rLFNGYkxFeT0xpcKz1YPPLC+3BDuT/aI=;
-        b=UO+5W/N88ee+Dx8+k7sYJUYM/Pl0gwbmYptrYdElb1e3aBq/E5II2ElLimJ40i2vDx3Ojj
-        3BYg5kwYm5cWCf4umF6puVBYmHNcZwdEYPNWNTxA7gvjr9Q9I//M6+9yAMd4l117xh5WQp
-        NI72HW1fx1+f9tKgrAZMnKcOjAbXs60=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-587-nlRdZK5nNvyeFZWDgGZUWw-1; Tue, 02 Nov 2021 12:18:53 -0400
-X-MC-Unique: nlRdZK5nNvyeFZWDgGZUWw-1
-Received: by mail-wm1-f71.google.com with SMTP id c1-20020a05600c0ac100b00322fcaa2bc7so1044622wmr.4
-        for <linux-doc@vger.kernel.org>; Tue, 02 Nov 2021 09:18:53 -0700 (PDT)
+        id S235260AbhKBSsA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Nov 2021 14:48:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45898 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230230AbhKBSsA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Nov 2021 14:48:00 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDA95C061203
+        for <linux-doc@vger.kernel.org>; Tue,  2 Nov 2021 11:45:24 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id u17so193558plg.9
+        for <linux-doc@vger.kernel.org>; Tue, 02 Nov 2021 11:45:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=uyakuliA4UmCrR9fWLbnfsteDHRzQoVyMYaYZCZPqcE=;
+        b=QSvnvvTT239D4LtMPyZZ2dGqU4aTXmfJdH/jOQDnUdbwyhUHiqjgLzUASd7YARPN5d
+         PiPVaDSagyizNqCM9XYRyOlDwI2M0HKXCMaAapevrPynFPkZvaTpHYdzqo+rWPJ44Y+I
+         2y6ft7C56wEnX2Yzqk7MTxWJIGTBG25ryLEpYMveBSCtJL0x7877mhZhVDe1W7Yf7vnX
+         8sObXnSfkVhQLU4lnMb2I4JIwZPWEBz4aiI7KgViG5kE0EmwE6VrhD0ohArJRD96ShyH
+         wk5BEi6hRi8pBukU3inc+FAW7kURXuzOQFTIDq+ijLfpK0wtFnX4wg+FZ9PKRsrTJieF
+         nUWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version;
-        bh=wK3CplyUTs+rLFNGYkxFeT0xpcKz1YPPLC+3BDuT/aI=;
-        b=2BCG5Ag2bmXDlEF8VSlsxBQaWtehOp4pLNL2lux4lu+HcZZoDB39sU7PTSu9Xp4HHk
-         mMTAyNYBjnGzy1G0AF6MlkQY37gaa2QXssRR44EOwGPpiet83wBXMBdfUljT4Y3eo8qe
-         Q1OWtAPSJu9q+RUNbj82Y2SJMuzjMvtQCu1kddciFG34PtGK2IPetWmCyghjlEk21Y8y
-         bfvfQ9w1G8NcunH7dzK2VfgBRxW6KkDzQLjAW2Oj0DQbCgt39E2l4oTfB/ALe8dlf2+X
-         I8AA3sR6w3cW91waanuUDUFwJZwK6RqOAyEAZldb+g3zEL2U5k9E6RA6gqquAivf6rQ2
-         CWlQ==
-X-Gm-Message-State: AOAM530ygtcDM5LCgjlQDq9EVrtP/59cpdPGohTQ96oiu1v/Z7chCjXJ
-        8bStl9yZsh90rjKMStYULGZeQNZaKgiP8gTqDDXkc2GaNFKkSs648UBG5jWfxeOmuh74H8rFhjx
-        wf5i7aOLlyHFOz3I9Z9dR
-X-Received: by 2002:adf:df0b:: with SMTP id y11mr24247335wrl.181.1635869932278;
-        Tue, 02 Nov 2021 09:18:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxRLgXOmmGYC7qrn6wZIz5rGaltkLk0p5nNwexOv2/BGr6u6CjLVcaCTf54oi69NKmWtoLxSQ==
-X-Received: by 2002:adf:df0b:: with SMTP id y11mr24247300wrl.181.1635869932069;
-        Tue, 02 Nov 2021 09:18:52 -0700 (PDT)
-Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
-        by smtp.gmail.com with ESMTPSA id x13sm13871373wrr.47.2021.11.02.09.18.50
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=uyakuliA4UmCrR9fWLbnfsteDHRzQoVyMYaYZCZPqcE=;
+        b=C1f6wUJFLlU6CV1cfcd8lIENs4f80TP8ShM89KU+c45JYAxpqa7zZclkKLGlaasGII
+         KKhrZ9qxbgZf2XJ/p0puAjsjR91a7HouQOD6J5Eraddvz3DAH4S6OANuIFhfnd7ucvv0
+         EdJsDrBvSzmdtV+OCUeRyVOR9LnfsXX6MJMcei7tWFYUomnR1oHWXwsaFyYy4YLL3Uzv
+         Z7d7G5OGgFc9HYg59yyQpvqDrCimZcLmQNQ3mCqQ3kJ+1GZha91fCKO/tnYHD2NW9UoL
+         BSfBul229SDNONdRTRXBR31erdvKlrr58/MPda6+MPSi6nehxooW1W6PJgN5ZGxu+FNA
+         ZPxA==
+X-Gm-Message-State: AOAM530MD0fgUT02BRECXGAUSdeKkhWiEf5vCyHIs/rmB3lqmVaatWLy
+        rP/bb6TL0doWkD2d442ekezy2w==
+X-Google-Smtp-Source: ABdhPJzCg5XbTMBI/qYK59iig0i/B/ZoMAl/naQ660AkVcrQ73W0GGTo3KkOkNDq9jFtVZ4hn/R2LA==
+X-Received: by 2002:a17:90a:191a:: with SMTP id 26mr8974786pjg.118.1635878724218;
+        Tue, 02 Nov 2021 11:45:24 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id m4sm3167803pjl.11.2021.11.02.11.45.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Nov 2021 09:18:51 -0700 (PDT)
-From:   Vitaly Kuznetsov <vkuznets@redhat.com>
-To:     Sean Christopherson <seanjc@google.com>
+        Tue, 02 Nov 2021 11:45:23 -0700 (PDT)
+Date:   Tue, 2 Nov 2021 18:45:19 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Vitaly Kuznetsov <vkuznets@redhat.com>
 Cc:     Maxim Levitsky <mlevitsk@redhat.com>,
         Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
         Kieran Bingham <kbingham@kernel.org>,
@@ -76,94 +75,48 @@ Cc:     Maxim Levitsky <mlevitsk@redhat.com>,
         Shuah Khan <shuah@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>
 Subject: Re: [PATCH v3 6/6] KVM: selftests: test KVM_GUESTDBG_BLOCKIRQ
-In-Reply-To: <YYFe4LKXiuV+DyZh@google.com>
+Message-ID: <YYGHPyhFRHHQsX6a@google.com>
 References: <20210811122927.900604-1-mlevitsk@redhat.com>
  <20210811122927.900604-7-mlevitsk@redhat.com>
  <137f2dcc-75d2-9d71-e259-dd66d43ad377@redhat.com>
  <87sfwfkhk5.fsf@vitty.brq.redhat.com>
  <b48210a35b3bc6d63beeb33c19b609b3014191dd.camel@redhat.com>
- <YYB2l9bzFhKzobZB@google.com> <87k0hqkf6p.fsf@vitty.brq.redhat.com>
+ <YYB2l9bzFhKzobZB@google.com>
+ <87k0hqkf6p.fsf@vitty.brq.redhat.com>
  <YYFe4LKXiuV+DyZh@google.com>
-Date:   Tue, 02 Nov 2021 17:18:49 +0100
-Message-ID: <87fsseo7iu.fsf@vitty.brq.redhat.com>
+ <87fsseo7iu.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87fsseo7iu.fsf@vitty.brq.redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sean Christopherson <seanjc@google.com> writes:
+On Tue, Nov 02, 2021, Vitaly Kuznetsov wrote:
+> Sean Christopherson <seanjc@google.com> writes:
+> > But that mess is a red herring, the test fails with the same signature with APICv=1
+> > if the STI is replaced by PUSHF+BTS+POPFD (to avoid the STI shadow).  We all missed
+> > this key detail from Vitaly's report:
+> >
+> > SINGLE_STEP[1]: exit 8 exception 1 rip 0x402a25 (should be 0x402a27) dr6 0xffff4ff0 (should be 0xffff4ff0)
+> >                 ^^^^^^
+> >
+> > Exit '8' is KVM_EXIT_SHUTDOWN, i.e. the arrival of the IRQ hosed the guest because
+> > the test doesn't invoke vm_init_descriptor_tables() to install event handlers.
+> > The "exception 1" shows up because the run page isn't sanitized by the test, i.e.
+> > it's stale data that happens to match.
+> >
+> > So I would fully expect this test to fail with AVIC=1.  The problem is that
+> > KVM_GUESTDBG_BLOCKIRQ does absolutely nothing to handle APICv interrupts.  And
+> > even if KVM does something to fudge that behavior in the emulated local APIC, the
+> > test will then fail miserably virtual IPIs (currently AVIC only).
+> 
+> FWIW, the test doesn't seem to fail on my AMD EPYC system even with "avic=1" ...
 
-> On Tue, Nov 02, 2021, Vitaly Kuznetsov wrote:
->> Sean Christopherson <seanjc@google.com> writes:
->> > I haven't verified on hardware, but my guess is that this code in vmx_vcpu_run()
->> >
->> > 	/* When single-stepping over STI and MOV SS, we must clear the
->> > 	 * corresponding interruptibility bits in the guest state. Otherwise
->> > 	 * vmentry fails as it then expects bit 14 (BS) in pending debug
->> > 	 * exceptions being set, but that's not correct for the guest debugging
->> > 	 * case. */
->> > 	if (vcpu->guest_debug & KVM_GUESTDBG_SINGLESTEP)
->> > 		vmx_set_interrupt_shadow(vcpu, 0);
->> >
->> > interacts badly with APICv=1.  It will kill the STI shadow and cause the IRQ in
->> > vmcs.GUEST_RVI to be recognized when it (micro-)architecturally should not.  My
->> > head is going in circles trying to sort out what would actually happen.  Maybe
->> > comment out that and/or disable APICv to see if either one makes the test pass?
->> >
->> 
->> Interestingly,
->> 
->> loading 'kvm-intel' with 'enable_apicv=0' makes the test pass, however,
->> commenting out "vmx_set_interrupt_shadow()" as suggested gives a
->> different result (with enable_apicv=1):
->> 
->> # ./x86_64/debug_regs 
->> ==== Test Assertion Failure ====
->>   x86_64/debug_regs.c:179: run->exit_reason == KVM_EXIT_DEBUG && run->debug.arch.exception == DB_VECTOR && run->debug.arch.pc == target_rip && run->debug.arch.dr6 == target_dr6
->>   pid=16352 tid=16352 errno=0 - Success
->>      1	0x0000000000402b33: main at debug_regs.c:179 (discriminator 10)
->>      2	0x00007f36401bd554: ?? ??:0
->>      3	0x00000000004023a9: _start at ??:?
->>   SINGLE_STEP[1]: exit 9 exception -2147483615 rip 0x1 (should be 0x4024d9) dr6 0xffff4ff0 (should be 0xffff4ff0)
->
-> Exit 9 is KVM_EXIT_FAIL_ENTRY, which in this case VM-Entry likely failed due to
-> invalid guest state because there was STI blocking with single-step enabled but
-> no pending BS #DB:
->
->   Bit 14 (BS) must be 1 if the TF flag (bit 8) in the RFLAGS field is 1 and the
->   BTF flag (bit 1) in the IA32_DEBUGCTL field is 0.
->
-> Which is precisely what that hack-a-fix avoids.  There isn't really a clean
-> solution for legacy single-step, AFAIK the only way to avoid this would be to
-> switch KVM_GUESTDBG_SINGLESTEP to use MTF.
->
-> But that mess is a red herring, the test fails with the same signature with APICv=1
-> if the STI is replaced by PUSHF+BTS+POPFD (to avoid the STI shadow).  We all missed
-> this key detail from Vitaly's report:
->
-> SINGLE_STEP[1]: exit 8 exception 1 rip 0x402a25 (should be 0x402a27) dr6 0xffff4ff0 (should be 0xffff4ff0)
->                 ^^^^^^
->
-> Exit '8' is KVM_EXIT_SHUTDOWN, i.e. the arrival of the IRQ hosed the guest because
-> the test doesn't invoke vm_init_descriptor_tables() to install event handlers.
-> The "exception 1" shows up because the run page isn't sanitized by the test, i.e.
-> it's stale data that happens to match.
->
-> So I would fully expect this test to fail with AVIC=1.  The problem is that
-> KVM_GUESTDBG_BLOCKIRQ does absolutely nothing to handle APICv interrupts.  And
-> even if KVM does something to fudge that behavior in the emulated local APIC, the
-> test will then fail miserably virtual IPIs (currently AVIC only).
-
-FWIW, the test doesn't seem to fail on my AMD EPYC system even with "avic=1" ...
-
->
-> I stand by my original comment that "Deviating this far from architectural behavior
-> will end in tears at some point."  Rather than try to "fix" APICv, I vote to instead
-> either reject KVM_GUESTDBG_BLOCKIRQ if APICv=1, or log a debug message saying that
-> KVM_GUESTDBG_BLOCKIRQ is ineffective with APICv=1.
->
-
--- 
-Vitaly
-
+Huh.  Assuming the IRQ is pending in the vIRR and KVM didn't screw up elsewhere,
+that seems like a CPU AVIC bug.  #DBs have priority over IRQs, but single-step
+#DBs are trap-like and KVM (hopefully) isn't injecting a #DB, so a pending IRQ
+should be taken on the current instruction in the guest when executing VMRUN with
+guest.EFLAGS.IF=1,TF=1 since there will be a one-instruction delay before the
+single-step #DB kicks in.
