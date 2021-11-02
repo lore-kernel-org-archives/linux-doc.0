@@ -2,97 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A7BFC433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Nov 2021 10:54:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07F96C4332F
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Nov 2021 14:15:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6CC0460EBC
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Nov 2021 10:54:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E5C7261076
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Nov 2021 14:15:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230058AbhKBK53 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Nov 2021 06:57:29 -0400
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:57116 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S229577AbhKBK53 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Nov 2021 06:57:29 -0400
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1A27KWag027459;
-        Tue, 2 Nov 2021 11:54:41 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=F3zslvwLhHMv15l+DDp1BP8HK4d2H8Odbk6ORCpvSWM=;
- b=4+RNds1W1D6p9AXQqCyxrSLALcHZ+vLrsPJBZ6WVQvxYuznQMcqnGuUfK0jJJ4il4Rly
- xbUyNvUWI3JyFe05zy6gkdA0lmP9g7m6o83G+kCa/07678UqBsjgQSo5g3b7b5CS/NaZ
- APLE+CEwYIj3DpVyxlYJ4mWiDmx4WHjtMtW5rvXn4RCHPpYm3KxkBkJ7YrQ3D9y6quIq
- CV994KH5lLOUKVamJtmocmLDT/ialwaRUM3SY2ncGC7O1N7ivEVZ5xJ28JYfP53kwLyv
- BuHiPDQ1KUS4fnMjWadXsieARNUDGVXJKetTj91+T0Ew0zrVI8IApapnALXthhN8wEdL rA== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3c30uvhbwa-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 02 Nov 2021 11:54:41 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 5DC1210002A;
-        Tue,  2 Nov 2021 11:54:40 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id D729921667C;
-        Tue,  2 Nov 2021 11:54:38 +0100 (CET)
-Received: from lmecxl0889.lme.st.com (10.75.127.47) by SFHDAG2NODE2.st.com
- (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Tue, 2 Nov
- 2021 11:54:38 +0100
-Subject: Re: [PATCH v10 0/2] Add rpmsg tty driver
-To:     Jiri Slaby <jirislaby@kernel.org>,
-        Ohad Ben-Cohen <ohad@wizery.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Suman Anna <s-anna@ti.com>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-remoteproc@vger.kernel.org>
-References: <20211015094701.5732-1-arnaud.pouliquen@foss.st.com>
- <0b42eede-d909-1afb-f3fc-c4ee1e2fc0f4@kernel.org>
-From:   Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>
-Message-ID: <dae498c3-3460-e493-564e-bc903e4aa5b8@foss.st.com>
-Date:   Tue, 2 Nov 2021 11:54:37 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        id S230349AbhKBOR7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Nov 2021 10:17:59 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:51556 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229981AbhKBORy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Nov 2021 10:17:54 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id DA6F62190C;
+        Tue,  2 Nov 2021 14:15:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1635862517; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=xFpCDtO7PInDq/3jdlZmBNoQmZmKE1sd4nUqSIlkTbE=;
+        b=gRg9lKwlLjnDx6mCQy5M02cnZmit4lXJJrtjo+HMQTzOb0iwvl8CTZIh6RKkA+lpqn++ol
+        ohAiDp+5dkQNQJebie5mI3DHo57q+OuUSHa/tdu3iJEjMXE5e3OKad8Fn/SAPZ/9FShwrd
+        7XCNw7awdMa9MkhCOWcAhtZRuC36ggA=
+Received: from suse.cz (unknown [10.100.216.66])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 5F626A3B83;
+        Tue,  2 Nov 2021 14:15:17 +0000 (UTC)
+Date:   Tue, 2 Nov 2021 15:15:15 +0100
+From:   Petr Mladek <pmladek@suse.com>
+To:     Ming Lei <ming.lei@redhat.com>
+Cc:     Miroslav Benes <mbenes@suse.cz>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>, tj@kernel.org,
+        gregkh@linuxfoundation.org, akpm@linux-foundation.org,
+        minchan@kernel.org, jeyu@kernel.org, shuah@kernel.org,
+        bvanassche@acm.org, dan.j.williams@intel.com, joe@perches.com,
+        tglx@linutronix.de, keescook@chromium.org, rostedt@goodmis.org,
+        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        live-patching@vger.kernel.org
+Subject: Re: [PATCH v8 11/12] zram: fix crashes with cpu hotplug multistate
+Message-ID: <YYFH85CmVOYIMdYh@alley>
+References: <YW3LuzaPhW96jSBK@bombadil.infradead.org>
+ <YW4uwep3BCe9Vxq8@T590>
+ <alpine.LSU.2.21.2110190820590.15009@pobox.suse.cz>
+ <YW6OptglA6UykZg/@T590>
+ <alpine.LSU.2.21.2110200835490.26817@pobox.suse.cz>
+ <YW/KEsfWJMIPnz76@T590>
+ <alpine.LSU.2.21.2110201014400.26817@pobox.suse.cz>
+ <YW/q70dLyF+YudyF@T590>
+ <YXfA0jfazCPDTEBw@alley>
+ <YXgguuAY5iEUIV0u@T590>
 MIME-Version: 1.0
-In-Reply-To: <0b42eede-d909-1afb-f3fc-c4ee1e2fc0f4@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.75.127.47]
-X-ClientProxiedBy: SFHDAG1NODE3.st.com (10.75.127.3) To SFHDAG2NODE2.st.com
- (10.75.127.5)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-02_06,2021-11-02_01,2020-04-07_01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YXgguuAY5iEUIV0u@T590>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jiri,
-
-On 11/1/21 8:27 AM, Jiri Slaby wrote:
-> On 15. 10. 21, 11:46, Arnaud Pouliquen wrote:
-> ...
->>   drivers/rpmsg/rpmsg_core.c       |  21 +++
->>   drivers/rpmsg/rpmsg_internal.h   |   2 +
->>   drivers/rpmsg/virtio_rpmsg_bus.c |  10 ++
->>   drivers/tty/Kconfig              |  12 ++
->>   drivers/tty/Makefile             |   1 +
->>   drivers/tty/rpmsg_tty.c          | 274 +++++++++++++++++++++++++++++++
->>   include/linux/rpmsg.h            |  10 ++
+On Tue 2021-10-26 23:37:30, Ming Lei wrote:
+> On Tue, Oct 26, 2021 at 10:48:18AM +0200, Petr Mladek wrote:
+> > Below are more details about the livepatch code. I hope that it will
+> > help you to see if zram has similar problems or not.
+> > 
+> > We have kobject in three structures: klp_func, klp_object, and
+> > klp_patch, see include/linux/livepatch.h.
+> > 
+> > These structures have to be statically defined in the module sources
+> > because they define what is livepatched, see
+> > samples/livepatch/livepatch-sample.c
+> > 
+> > The kobject is used there to show information about the patch, patched
+> > objects, and patched functions, in sysfs. And most importantly,
+> > the sysfs interface can be used to disable the livepatch.
+> > 
+> > The problem with static structures is that the module must stay
+> > in the memory as long as the sysfs interface exists. It can be
+> > solved in module_exit() callback. It could wait until the sysfs
+> > interface is destroyed.
+> > 
+> > kobject API does not support this scenario. The relase() callbacks
 > 
-> Hi,
+> kobject_delete() is for supporting this scenario, that is why we don't
+> need to grab module refcnt before calling show()/store() of the
+> kobject's attributes.
 > 
-> care to add an entry to MAINTAINERS too?
+> kobject_delete() can be called in module_exit(), then any show()/store()
+> will be done after kobject_delete() returns.
 
-That's a good point. I will send a patch to propose myself as maintainer.
+I am a bit confused. I do not see kobject_delete() anywhere in kernel
+sources.
 
-Thanks,
-Arnaud
+I see only kobject_del() and kobject_put(). AFAIK, they do _not_
+guarantee that either the sysfs interface was destroyed or
+the release callbacks were called. For example, see
+schedule_delayed_work(&kobj->release, delay) in kobject_release().
 
-> 
-> thanks,
+By other words, anyone could still be using either the sysfs interface
+or the related structures after kobject_del() or kobject_put()
+returns.
+
+IMHO, kobject API does not support static structures and module
+removal.
+
+Best Regards,
+Petr
