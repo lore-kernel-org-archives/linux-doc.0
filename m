@@ -2,54 +2,54 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C489C433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Nov 2021 09:03:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 817F1C4332F
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Nov 2021 09:03:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6245361156
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Nov 2021 09:03:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 64F1F61175
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Nov 2021 09:03:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231629AbhKCJFk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Nov 2021 05:05:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39880 "EHLO
+        id S231979AbhKCJFp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Nov 2021 05:05:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231240AbhKCJFk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Nov 2021 05:05:40 -0400
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8E69C061714
-        for <linux-doc@vger.kernel.org>; Wed,  3 Nov 2021 02:03:03 -0700 (PDT)
-Received: by mail-lj1-x235.google.com with SMTP id t11so2614245ljh.6
-        for <linux-doc@vger.kernel.org>; Wed, 03 Nov 2021 02:03:03 -0700 (PDT)
+        with ESMTP id S231922AbhKCJFn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Nov 2021 05:05:43 -0400
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53411C06120D
+        for <linux-doc@vger.kernel.org>; Wed,  3 Nov 2021 02:03:06 -0700 (PDT)
+Received: by mail-lf1-x12a.google.com with SMTP id x27so3784363lfu.5
+        for <linux-doc@vger.kernel.org>; Wed, 03 Nov 2021 02:03:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=nJY8BVmSGkgTm20CsRqOlZqDh54ZnLLnIcGJozAZVtQ=;
-        b=pbU1z0Vj5sHJUKmosC+O+X4SNnuCMgsM5oZhO7615jidEjVdb6lSRxFrXXLEdOY46l
-         QWln5hwE96k7MpKskbrGrm5mZgqEhABOT9+KVXD8oXhz6z0opaQe58AgUEuIEOaQXF+4
-         MYxSC6P99XZf0KAxhklD5JnrHdm63D77PYY6ivSpekrPqZXgTGgNbA0pTLsJNanngOWm
-         39u4I3/DFjm6bVvpejl4RnLO+CNG18D2SuTgjp++8lTrO77zuYTaoUYD1oWBi6O/UTHd
-         yVFytaN4bR734pwXvzCqbABNxVdvqpEtnSr/HLHnASvhxN/XjCQFvC8P1sL0XnvltfKN
-         s9dw==
+        bh=VnwvHhRVfMlj7AENVrBuyzJTfXlbVoFinbin3zZfQAE=;
+        b=LtXm3dA7MQ6dUNvqq9edcqNrUoFg9/UAnmZ1CHv6+aujdVvSNJYsxYlqkNAWJnjFDu
+         EuMwqGhcM2uwOWPAWym7ZlX2vNC196HRZJGPCmEv3YJdpFkmNguTHtCWf6SUo0OQ4itT
+         ie9vQdfMVF91b5xD78Ql3AJmxrj7Gk2oisFYjqhN64yCjQpbX5E96on+mHhvN7K1JaBx
+         f/FV3HmS7701JBzt0/RnV25Xi5cmuKr2h5FsvTd+ja0W2A1/GzYKXxSeBryXo4NF59yR
+         iBm7v4ASoe+OG4Eh10bk7A7xK4BfO8fdJQxp1zcleOfExezfIxXJYSh8FIRqGKAOukxf
+         tOXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=nJY8BVmSGkgTm20CsRqOlZqDh54ZnLLnIcGJozAZVtQ=;
-        b=u/LChZHs9DpCtW/KbDhVcMk9crmDX98Te0ey2E29wqpEbCq6oG9FWK99XeH5ivAiBP
-         TALpjB0j11U3R+FWYSGNdbRU305eeHthtqyLIOKjUzJaEowe/zgRV8uyXyg1oVbAdKAN
-         nlCUXHlvRaAX0MJKGuPaMxIPN+HbzelCrmv1rN3Qz6f4j+O9ndPhdBjA+ZM7ukG/buT+
-         JIDfR/cKahffQ6trdEVZU/oJC46pUJ/6/csVVcTCriecGkaGGrWSSlqjl6WeIInv27yW
-         CxnBK9Cv160DL22j1P+HLXTVWQ0eOepzjDePpIniRX7etU/2+sb/GfeMXMOm0JN/0921
-         VAfA==
-X-Gm-Message-State: AOAM530O2gGpNCazZGdcW2l4GSlCWVXZ6RKhSEjRnt1YcgZEr+c9gppG
-        qbT0f6pyQeBTL3s96T3N0qMvSQ==
-X-Google-Smtp-Source: ABdhPJwf6qkKTCAxHYBhHAVkgqQC5SAOerKxxzgblePi8wBo76Wk366WL9aI4kfaHjV/5FosvmDJgw==
-X-Received: by 2002:a05:651c:b1f:: with SMTP id b31mr19893084ljr.272.1635930182081;
-        Wed, 03 Nov 2021 02:03:02 -0700 (PDT)
+        bh=VnwvHhRVfMlj7AENVrBuyzJTfXlbVoFinbin3zZfQAE=;
+        b=0SMKKaQEhMXkwSu4dNjgvFKhosaENyhH6oRCv/SotbpM//eRAyYTvZqK/XAip0f4Jz
+         3QUergON3c4inRa4C4tIwRC0cQYmQNGa2Nb0OjBtv7DI1GxG5yRxg2CamSkQKbpvXvRl
+         cAADp4onmasZkYjdUFYxtFqig7RMZFtVpmGEIfQso1H7pxLdNsrCXi3qga1tN4OXnRGC
+         1zS6h0jkaaJUmxUFpxMisg652ChrgDeWSUAN3zbmmuxjjnTMR3RF7oFW8CMXKpO3jbVX
+         RCTN/bwWK7AxZ0gvv2pL3ETYGaq3aEkYm0zkKWxLeToiFeJuOstgU1KFKBczR04ttoyP
+         1Feg==
+X-Gm-Message-State: AOAM532CUtMx/2ahiKhtdg+aPDWb6jPOkgwUXBojZ6tvcgCDVwE+eaTT
+        9ryqoziByGWg8hUAI2CiZJ/LpQ==
+X-Google-Smtp-Source: ABdhPJyAVI+qjX3kgLD2yOVvS/SSMgrb3OQm3fGGTr4NZa/pynv4ZVDjFADk2PIC4TobgYqrWzCJBg==
+X-Received: by 2002:a05:6512:31d2:: with SMTP id j18mr19318412lfe.229.1635930184683;
+        Wed, 03 Nov 2021 02:03:04 -0700 (PDT)
 Received: from jade.urgonet (h-94-254-48-165.A175.priv.bahnhof.se. [94.254.48.165])
-        by smtp.gmail.com with ESMTPSA id w16sm124373lfr.233.2021.11.03.02.03.01
+        by smtp.gmail.com with ESMTPSA id w16sm124373lfr.233.2021.11.03.02.03.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Nov 2021 02:03:01 -0700 (PDT)
+        Wed, 03 Nov 2021 02:03:04 -0700 (PDT)
 From:   Jens Wiklander <jens.wiklander@linaro.org>
 To:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         op-tee@lists.trustedfirmware.org, devicetree@vger.kernel.org,
@@ -63,9 +63,9 @@ Cc:     Jerome Forissier <jerome@forissier.org>,
         Ard Biesheuvel <ardb@kernel.org>,
         Marc Zyngier <maz@kernel.org>, jens.vankeirsbilck@kuleuven.be,
         Jens Wiklander <jens.wiklander@linaro.org>
-Subject: [PATCH v8 1/6] docs: staging/tee.rst: add a section on OP-TEE notifications
-Date:   Wed,  3 Nov 2021 10:02:50 +0100
-Message-Id: <20211103090255.998070-2-jens.wiklander@linaro.org>
+Subject: [PATCH v8 4/6] tee: export teedev_open() and teedev_close_context()
+Date:   Wed,  3 Nov 2021 10:02:53 +0100
+Message-Id: <20211103090255.998070-5-jens.wiklander@linaro.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211103090255.998070-1-jens.wiklander@linaro.org>
 References: <20211103090255.998070-1-jens.wiklander@linaro.org>
@@ -75,57 +75,76 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Adds a section on notifications used by OP-TEE, synchronous and
-asynchronous.
+Exports the two functions teedev_open() and teedev_close_context() in
+order to make it easier to create a driver internal struct tee_context.
 
 Reviewed-by: Sumit Garg <sumit.garg@linaro.org>
-Acked-by: Marc Zyngier <maz@kernel.org>
 Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
 ---
- Documentation/staging/tee.rst | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ drivers/tee/tee_core.c  |  6 ++++--
+ include/linux/tee_drv.h | 14 ++++++++++++++
+ 2 files changed, 18 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/staging/tee.rst b/Documentation/staging/tee.rst
-index 4d4b5f889603..3c63d8dcd61e 100644
---- a/Documentation/staging/tee.rst
-+++ b/Documentation/staging/tee.rst
-@@ -184,6 +184,36 @@ order to support device enumeration. In other words, OP-TEE driver invokes this
- application to retrieve a list of Trusted Applications which can be registered
- as devices on the TEE bus.
+diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
+index 85102d12d716..3fc426dad2df 100644
+--- a/drivers/tee/tee_core.c
++++ b/drivers/tee/tee_core.c
+@@ -43,7 +43,7 @@ static DEFINE_SPINLOCK(driver_lock);
+ static struct class *tee_class;
+ static dev_t tee_devt;
  
-+OP-TEE notifications
-+--------------------
-+
-+There are two kinds of notifications that secure world can use to make
-+normal world aware of some event.
-+
-+1. Synchronous notifications delivered with ``OPTEE_RPC_CMD_NOTIFICATION``
-+   using the ``OPTEE_RPC_NOTIFICATION_SEND`` parameter.
-+2. Asynchronous notifications delivered with a combination of a non-secure
-+   edge-triggered interrupt and a fast call from the non-secure interrupt
-+   handler.
-+
-+Synchronous notifications are limited by depending on RPC for delivery,
-+this is only usable when secure world is entered with a yielding call via
-+``OPTEE_SMC_CALL_WITH_ARG``. This excludes such notifications from secure
-+world interrupt handlers.
-+
-+An asynchronous notification is delivered via a non-secure edge-triggered
-+interrupt to an interrupt handler registered in the OP-TEE driver. The
-+actual notification value are retrieved with the fast call
-+``OPTEE_SMC_GET_ASYNC_NOTIF_VALUE``. Note that one interrupt can represent
-+multiple notifications.
-+
-+One notification value ``OPTEE_SMC_ASYNC_NOTIF_VALUE_DO_BOTTOM_HALF`` has a
-+special meaning. When this value is received it means that normal world is
-+supposed to make a yielding call ``OPTEE_MSG_CMD_DO_BOTTOM_HALF``. This
-+call is done from the thread assisting the interrupt handler. This is a
-+building block for OP-TEE OS in secure world to implement the top half and
-+bottom half style of device drivers.
-+
- AMD-TEE driver
- ==============
+-static struct tee_context *teedev_open(struct tee_device *teedev)
++struct tee_context *teedev_open(struct tee_device *teedev)
+ {
+ 	int rc;
+ 	struct tee_context *ctx;
+@@ -70,6 +70,7 @@ static struct tee_context *teedev_open(struct tee_device *teedev)
+ 	return ERR_PTR(rc);
  
+ }
++EXPORT_SYMBOL_GPL(teedev_open);
+ 
+ void teedev_ctx_get(struct tee_context *ctx)
+ {
+@@ -96,13 +97,14 @@ void teedev_ctx_put(struct tee_context *ctx)
+ 	kref_put(&ctx->refcount, teedev_ctx_release);
+ }
+ 
+-static void teedev_close_context(struct tee_context *ctx)
++void teedev_close_context(struct tee_context *ctx)
+ {
+ 	struct tee_device *teedev = ctx->teedev;
+ 
+ 	teedev_ctx_put(ctx);
+ 	tee_device_put(teedev);
+ }
++EXPORT_SYMBOL_GPL(teedev_close_context);
+ 
+ static int tee_open(struct inode *inode, struct file *filp)
+ {
+diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
+index a1f03461369b..468a7d83dc6c 100644
+--- a/include/linux/tee_drv.h
++++ b/include/linux/tee_drv.h
+@@ -587,4 +587,18 @@ struct tee_client_driver {
+ #define to_tee_client_driver(d) \
+ 		container_of(d, struct tee_client_driver, driver)
+ 
++/**
++ * teedev_open() - Open a struct tee_device
++ * @teedev:	Device to open
++ *
++ * @return a pointer to struct tee_context on success or an ERR_PTR on failure.
++ */
++struct tee_context *teedev_open(struct tee_device *teedev);
++
++/**
++ * teedev_close_context() - closes a struct tee_context
++ * @ctx:	The struct tee_context to close
++ */
++void teedev_close_context(struct tee_context *ctx);
++
+ #endif /*__TEE_DRV_H*/
 -- 
 2.31.1
 
