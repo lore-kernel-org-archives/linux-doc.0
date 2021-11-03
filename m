@@ -2,446 +2,154 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4172EC433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Nov 2021 16:53:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD1BCC433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Nov 2021 17:17:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1B50061108
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Nov 2021 16:53:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 91A306109F
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Nov 2021 17:17:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232806AbhKCQ4U convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Nov 2021 12:56:20 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:4061 "EHLO
-        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229894AbhKCQ4U (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Nov 2021 12:56:20 -0400
-Received: from fraeml715-chm.china.huawei.com (unknown [172.18.147.226])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Hkt570wkHz686Hq;
-        Thu,  4 Nov 2021 00:48:43 +0800 (CST)
-Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
- fraeml715-chm.china.huawei.com (10.206.15.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.15; Wed, 3 Nov 2021 17:53:40 +0100
-Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
- fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2308.015;
- Wed, 3 Nov 2021 17:53:40 +0100
-From:   Roberto Sassu <roberto.sassu@huawei.com>
-To:     Roberto Sassu <roberto.sassu@huawei.com>,
-        "deven.desai@linux.microsoft.com" <deven.desai@linux.microsoft.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "axboe@kernel.dk" <axboe@kernel.dk>,
-        "agk@redhat.com" <agk@redhat.com>,
-        "snitzer@redhat.com" <snitzer@redhat.com>,
-        "ebiggers@kernel.org" <ebiggers@kernel.org>,
-        "tytso@mit.edu" <tytso@mit.edu>,
-        "paul@paul-moore.com" <paul@paul-moore.com>,
-        "eparis@redhat.com" <eparis@redhat.com>,
-        "jmorris@namei.org" <jmorris@namei.org>,
-        "serge@hallyn.com" <serge@hallyn.com>
-CC:     "jannh@google.com" <jannh@google.com>,
-        "dm-devel@redhat.com" <dm-devel@redhat.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-fscrypt@vger.kernel.org" <linux-fscrypt@vger.kernel.org>,
-        "linux-audit@redhat.com" <linux-audit@redhat.com>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>
-Subject: RE: [RFC PATCH v7 14/16] scripts: add boot policy generation program
-Thread-Topic: [RFC PATCH v7 14/16] scripts: add boot policy generation program
-Thread-Index: AQHXwGWMtob3cI5FPU6KyidED8CNc6vyIPKAgAAEUjA=
-Date:   Wed, 3 Nov 2021 16:53:40 +0000
-Message-ID: <5b4cdc3c3dba4fe68dfc9590b7d12e48@huawei.com>
-References: <1634151995-16266-1-git-send-email-deven.desai@linux.microsoft.com>
- <1634151995-16266-15-git-send-email-deven.desai@linux.microsoft.com>
- <12aec559d6df4191a39ecaec7a0a378e@huawei.com>
-In-Reply-To: <12aec559d6df4191a39ecaec7a0a378e@huawei.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.204.63.33]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        id S230384AbhKCRTh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Nov 2021 13:19:37 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:35546 "EHLO
+        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229587AbhKCRTg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Nov 2021 13:19:36 -0400
+Received: from madeliefje.horms.nl (ip-80-113-23-202.ip.prioritytelecom.net [80.113.23.202])
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 7104C25AD6B;
+        Thu,  4 Nov 2021 04:16:57 +1100 (AEDT)
+Received: by madeliefje.horms.nl (Postfix, from userid 7100)
+        id 4F72D27B0; Wed,  3 Nov 2021 18:16:55 +0100 (CET)
+Date:   Wed, 3 Nov 2021 18:16:55 +0100
+From:   Simon Horman <horms@verge.net.au>
+To:     yangxingwu <xingwu.yang@gmail.com>
+Cc:     Julian Anastasov <ja@ssi.bg>,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        netdev@vger.kernel.org, lvs-devel@vger.kernel.org,
+        netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, Chuanqi Liu <legend050709@qq.com>
+Subject: Re: [PATCH nf-next v5] netfilter: ipvs: Fix reuse connection if RS
+ weight is 0
+Message-ID: <20211103171652.GA12763@vergenet.net>
+References: <20211101020416.31402-1-xingwu.yang@gmail.com>
+ <ae67eb7b-a25f-57d3-195f-cdbd9247ef5b@ssi.bg>
+ <CA+7U5Jumj_MwMZBmDTCvWLnvmfX28d==dbkLTq+6cOz+32GCvw@mail.gmail.com>
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+7U5Jumj_MwMZBmDTCvWLnvmfX28d==dbkLTq+6cOz+32GCvw@mail.gmail.com>
+Organisation: Horms Solutions BV
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> From: Roberto Sassu [mailto:roberto.sassu@huawei.com]
-> Sent: Wednesday, November 3, 2021 5:43 PM
-> > From: deven.desai@linux.microsoft.com
-> > [mailto:deven.desai@linux.microsoft.com]
-> > From: Deven Bowers <deven.desai@linux.microsoft.com>
-> >
-> > Enables an IPE policy to be enforced from kernel start, enabling access
-> > control based on trust from kernel startup. This is accomplished by
-> > transforming an IPE policy indicated by CONFIG_IPE_BOOT_POLICY into a
-> > c-string literal that is parsed at kernel startup as an unsigned policy.
-> >
-> > Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
-> > ---
-> >
-> > Relevant changes since v6:
-> >   * Move patch 01/12 to [14/16] of the series
-> >
-> > ---
-> >  MAINTAINERS                   |   1 +
-> >  scripts/Makefile              |   1 +
-> >  scripts/ipe/Makefile          |   2 +
-> >  scripts/ipe/polgen/.gitignore |   1 +
-> >  scripts/ipe/polgen/Makefile   |   6 ++
-> >  scripts/ipe/polgen/polgen.c   | 145 ++++++++++++++++++++++++++++++++++
-> >  security/ipe/.gitignore       |   1 +
-> >  security/ipe/Kconfig          |  10 +++
-> >  security/ipe/Makefile         |  13 +++
-> >  security/ipe/ctx.c            |  18 +++++
-> >  10 files changed, 198 insertions(+)
-> >  create mode 100644 scripts/ipe/Makefile
-> >  create mode 100644 scripts/ipe/polgen/.gitignore
-> >  create mode 100644 scripts/ipe/polgen/Makefile
-> >  create mode 100644 scripts/ipe/polgen/polgen.c
-> >  create mode 100644 security/ipe/.gitignore
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index f1e76f791d47..a84ca781199b 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -9283,6 +9283,7 @@ INTEGRITY POLICY ENFORCEMENT (IPE)
-> >  M:	Deven Bowers <deven.desai@linux.microsoft.com>
-> >  M:	Fan Wu <wufan@linux.microsoft.com>
-> >  S:	Supported
-> > +F:	scripts/ipe/
-> >  F:	security/ipe/
-> >
-> >  INTEL 810/815 FRAMEBUFFER DRIVER
-> > diff --git a/scripts/Makefile b/scripts/Makefile
-> > index 9adb6d247818..a31da6d57a36 100644
-> > --- a/scripts/Makefile
-> > +++ b/scripts/Makefile
-> > @@ -41,6 +41,7 @@ targets += module.lds
-> >  subdir-$(CONFIG_GCC_PLUGINS) += gcc-plugins
-> >  subdir-$(CONFIG_MODVERSIONS) += genksyms
-> >  subdir-$(CONFIG_SECURITY_SELINUX) += selinux
-> > +subdir-$(CONFIG_SECURITY_IPE) += ipe
-> >
-> >  # Let clean descend into subdirs
-> >  subdir-	+= basic dtc gdb kconfig mod
-> > diff --git a/scripts/ipe/Makefile b/scripts/ipe/Makefile
-> > new file mode 100644
-> > index 000000000000..e87553fbb8d6
-> > --- /dev/null
-> > +++ b/scripts/ipe/Makefile
-> > @@ -0,0 +1,2 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only
-> > +subdir-y := polgen
-> > diff --git a/scripts/ipe/polgen/.gitignore b/scripts/ipe/polgen/.gitignore
-> > new file mode 100644
-> > index 000000000000..80f32f25d200
-> > --- /dev/null
-> > +++ b/scripts/ipe/polgen/.gitignore
-> > @@ -0,0 +1 @@
-> > +polgen
-> > diff --git a/scripts/ipe/polgen/Makefile b/scripts/ipe/polgen/Makefile
-> > new file mode 100644
-> > index 000000000000..066060c22b4a
-> > --- /dev/null
-> > +++ b/scripts/ipe/polgen/Makefile
-> > @@ -0,0 +1,6 @@
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +hostprogs-always-y	:= polgen
-> > +HOST_EXTRACFLAGS += \
-> > +	-I$(srctree)/include \
-> > +	-I$(srctree)/include/uapi \
-> > +
-> > diff --git a/scripts/ipe/polgen/polgen.c b/scripts/ipe/polgen/polgen.c
-> > new file mode 100644
-> > index 000000000000..73cf13e743f7
-> > --- /dev/null
-> > +++ b/scripts/ipe/polgen/polgen.c
-> > @@ -0,0 +1,145 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Copyright (C) Microsoft Corporation. All rights reserved.
-> > + */
-> > +
-> > +#include <stdlib.h>
-> > +#include <stddef.h>
-> > +#include <stdio.h>
-> > +#include <unistd.h>
-> > +#include <errno.h>
-> > +
-> > +static void usage(const char *const name)
-> > +{
-> > +	printf("Usage: %s OutputFile (PolicyFile)\n", name);
-> > +	exit(EINVAL);
-> > +}
-> > +
-> > +static int policy_to_buffer(const char *pathname, char **buffer, size_t *size)
-> > +{
-> > +	int rc = 0;
-> > +	FILE *fd;
-> > +	char *lbuf;
-> > +	size_t fsize;
-> > +	size_t read;
-> > +
-> > +	fd = fopen(pathname, "r");
-> > +	if (!fd) {
-> > +		rc = errno;
-> > +		goto out;
-> > +	}
-> > +
-> > +	fseek(fd, 0, SEEK_END);
-> > +	fsize = ftell(fd);
-> > +	rewind(fd);
-> > +
-> > +	lbuf = malloc(fsize);
-> > +	if (!lbuf) {
-> > +		rc = ENOMEM;
-> > +		goto out_close;
-> > +	}
-> > +
-> > +	read = fread((void *)lbuf, sizeof(*lbuf), fsize, fd);
-> > +	if (read != fsize) {
-> > +		rc = -1;
-> > +		goto out_free;
-> > +	}
-> > +
-> > +	*buffer = lbuf;
-> > +	*size = fsize;
-> > +	fclose(fd);
-> > +
-> > +	return rc;
-> > +
-> > +out_free:
-> > +	free(lbuf);
-> > +out_close:
-> > +	fclose(fd);
-> > +out:
-> > +	return rc;
-> > +}
-> > +
-> > +static int write_boot_policy(const char *pathname, const char *buf, size_t
-> size)
-> > +{
-> > +	int rc = 0;
-> > +	FILE *fd;
-> > +	size_t i;
-> > +
-> > +	fd = fopen(pathname, "w");
-> > +	if (!fd) {
-> > +		rc = errno;
-> > +		goto err;
-> > +	}
-> > +
-> > +	fprintf(fd, "/* This file is automatically generated.");
-> > +	fprintf(fd, " Do not edit. */\n");
-> > +	fprintf(fd, "#include <stddef.h>\n");
-> > +	fprintf(fd, "\nextern const char *const ipe_boot_policy;\n\n");
-> > +	fprintf(fd, "const char *const ipe_boot_policy =\n");
-> > +
-> > +	if (!buf || size == 0) {
-> > +		fprintf(fd, "\tNULL;\n");
-> > +		fclose(fd);
-> > +		return 0;
-> > +	}
-> > +
-> > +	fprintf(fd, "\t\"");
-> > +
-> > +	for (i = 0; i < size; ++i) {
-> > +		switch (buf[i]) {
-> > +		case '"':
-> > +			fprintf(fd, "\\\"");
-> > +			break;
-> > +		case '\'':
-> > +			fprintf(fd, "'");
-> > +			break;
-> > +		case '\n':
-> > +			fprintf(fd, "\\n\"\n\t\"");
-> > +			break;
-> > +		case '\\':
-> > +			fprintf(fd, "\\\\");
-> > +			break;
-> > +		case '\t':
-> > +			fprintf(fd, "\\t");
-> > +			break;
-> > +		case '\?':
-> > +			fprintf(fd, "\\?");
-> > +			break;
-> > +		default:
-> > +			fprintf(fd, "%c", buf[i]);
-> > +		}
-> > +	}
-> > +	fprintf(fd, "\";\n");
-> > +	fclose(fd);
-> > +
-> > +	return 0;
-> > +
-> > +err:
-> > +	if (fd)
-> > +		fclose(fd);
-> > +	return rc;
-> > +}
-> > +
-> > +int main(int argc, const char *const argv[])
-> > +{
-> > +	int rc = 0;
-> > +	size_t len = 0;
-> > +	char *policy = NULL;
-> > +
-> > +	if (argc < 2)
-> > +		usage(argv[0]);
-> > +
-> > +	if (argc > 2) {
-> > +		rc = policy_to_buffer(argv[2], &policy, &len);
-> > +		if (rc != 0)
-> > +			goto cleanup;
-> > +	}
-> > +
-> > +	rc = write_boot_policy(argv[1], policy, len);
-> > +cleanup:
-> > +	if (policy)
-> > +		free(policy);
-> > +	if (rc != 0)
-> > +		perror("An error occurred during policy conversion: ");
-> > +	return rc;
-> > +}
-> > diff --git a/security/ipe/.gitignore b/security/ipe/.gitignore
-> > new file mode 100644
-> > index 000000000000..eca22ad5ed22
-> > --- /dev/null
-> > +++ b/security/ipe/.gitignore
-> > @@ -0,0 +1 @@
-> > +boot-policy.c
-> > \ No newline at end of file
-> > diff --git a/security/ipe/Kconfig b/security/ipe/Kconfig
-> > index fcf82a8152ec..39df680b67a2 100644
-> > --- a/security/ipe/Kconfig
-> > +++ b/security/ipe/Kconfig
-> > @@ -20,6 +20,16 @@ menuconfig SECURITY_IPE
-> >
-> >  if SECURITY_IPE
-> >
-> > +config IPE_BOOT_POLICY
-> > +	string "Integrity policy to apply on system startup"
-> > +	help
-> > +	  This option specifies a filepath to a IPE policy that is compiled
-> > +	  into the kernel. This policy will be enforced until a policy update
-> > +	  is deployed via the $securityfs/ipe/policies/$policy_name/active
-> > +	  interface.
-> > +
-> > +	  If unsure, leave blank.
-> > +
-> >  choice
-> >  	prompt "Hash algorithm used in auditing policies"
-> >  	default IPE_AUDIT_HASH_SHA1
-> > diff --git a/security/ipe/Makefile b/security/ipe/Makefile
-> > index 1e7b2d7fcd9e..89fec670f954 100644
-> > --- a/security/ipe/Makefile
-> > +++ b/security/ipe/Makefile
-> > @@ -7,7 +7,18 @@
-> >
-> >  ccflags-y := -I$(srctree)/security/ipe/modules
-> >
-> > +quiet_cmd_polgen = IPE_POL $(2)
-> > +      cmd_polgen = scripts/ipe/polgen/polgen security/ipe/boot-policy.c $(2)
-> > +
-> > +$(eval $(call config_filename,IPE_BOOT_POLICY))
-> > +
-> > +targets += boot-policy.c
-> > +
-> > +$(obj)/boot-policy.c: scripts/ipe/polgen/polgen
-> > $(IPE_BOOT_POLICY_FILENAME) FORCE
-> > +	$(call if_changed,polgen,$(IPE_BOOT_POLICY_FILENAME))
-> > +
-> >  obj-$(CONFIG_SECURITY_IPE) += \
-> > +	boot-policy.o \
-> >  	ctx.o \
-> >  	eval.o \
-> >  	fs.o \
-> > @@ -21,3 +32,5 @@ obj-$(CONFIG_SECURITY_IPE) += \
-> >  	policyfs.o \
-> >
-> >  obj-$(CONFIG_AUDIT) += audit.o
-> > +
-> > +clean-files := boot-policy.c \
-> > diff --git a/security/ipe/ctx.c b/security/ipe/ctx.c
-> > index fc9b8e467bc9..879acf4ceac5 100644
-> > --- a/security/ipe/ctx.c
-> > +++ b/security/ipe/ctx.c
-> > @@ -15,6 +15,7 @@
-> >  #include <linux/spinlock.h>
-> >  #include <linux/moduleparam.h>
-> >
-> > +extern const char *const ipe_boot_policy;
-> >  static bool success_audit;
-> >  static bool enforce = true;
-> >
-> > @@ -329,6 +330,7 @@ void ipe_put_ctx(struct ipe_context *ctx)
-> >  int __init ipe_init_ctx(void)
-> >  {
-> >  	int rc = 0;
-> > +	struct ipe_policy *p = NULL;
-> >  	struct ipe_context *lns = NULL;
-> >
-> >  	lns = create_ctx();
-> > @@ -342,10 +344,26 @@ int __init ipe_init_ctx(void)
-> >  	WRITE_ONCE(lns->enforce, enforce);
-> >  	spin_unlock(&lns->lock);
-> >
-> > +	if (ipe_boot_policy) {
-> > +		p = ipe_new_policy(ipe_boot_policy, strlen(ipe_boot_policy),
-> > +				   NULL, 0);
-> > +		if (IS_ERR(p)) {
-> > +			rc = PTR_ERR(lns);
+On Wed, Nov 03, 2021 at 07:40:46PM +0800, yangxingwu wrote:
+> hello Simon
 > 
-> This should be:
+> I delete the "This will effectively disable expire_nodest_conn" section
+> from doc, and the others remain untouched. The following is how it looks
+> like after modification:
 > 
-> 	rc = PTR_ERR(p);
+> 0: disable any special handling on port reuse. The new
+> connection will be delivered to the same real server that was
+> servicing the previous connection.
 > 
-> > +			goto err;
-> > +		}
-> > +
-> > +		ipe_add_policy(lns, p);
-> > +		rc = ipe_set_active_pol(p);
-> > +		if (!rc)
-> 
-> Here you need to set a non-zero value, so that ipe_init()
-> does not enable the LSM.
+> Simon, pls help to check if it's necessary to replace servicing with
+> service.
 
-Actually you probably should just check that rc is not zero
-and goto err.
+Sorry, my mistake. No need to replace servicing with service.
 
-Roberto
-
-HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
-Managing Director: Li Peng, Zhong Ronghua
-
-> I would set to 1 a new global variable, like ipe_lsm_enabled,
-> in ipe_init() just before security_add_hooks().
+> And I will move the conn_reuse_mode line above the bool line
 > 
-> Then, I would add a check of this variable in ipe_init_securityfs()
-> to avoid the kernel panic.
+> On Tue, Nov 2, 2021 at 2:21 AM Julian Anastasov <ja@ssi.bg> wrote:
 > 
-> Roberto
-> 
-> HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
-> Managing Director: Li Peng, Zhong Ronghua
-> 
-> > +			goto err;
-> > +	}
-> > +
-> >  	rcu_assign_pointer(*ipe_tsk_ctx(current), lns);
-> > +	ipe_put_policy(p);
 > >
-> >  	return 0;
-> >  err:
-> > +	ipe_put_policy(p);
-> >  	ipe_put_ctx(lns);
-> >  	return rc;
-> >  }
+> >         Hello,
+> >
+> > On Mon, 1 Nov 2021, yangxingwu wrote:
+> >
+> > > We are changing expire_nodest_conn to work even for reused connections
+> > when
+> > > conn_reuse_mode=0, just as what was done with commit dc7b3eb900aa ("ipvs:
+> > > Fix reuse connection if real server is dead").
+> > >
+> > > For controlled and persistent connections, the new connection will get
+> > the
+> > > needed real server depending on the rules in ip_vs_check_template().
+> > >
+> > > Fixes: d752c3645717 ("ipvs: allow rescheduling of new connections when
+> > port reuse is detected")
+> > > Co-developed-by: Chuanqi Liu <legend050709@qq.com>
+> > > Signed-off-by: Chuanqi Liu <legend050709@qq.com>
+> > > Signed-off-by: yangxingwu <xingwu.yang@gmail.com>
+> >
+> >         Looks good to me, thanks!
+> >
+> > Acked-by: Julian Anastasov <ja@ssi.bg>
+> >
+> > > ---
+> > >  Documentation/networking/ipvs-sysctl.rst | 3 +--
+> > >  net/netfilter/ipvs/ip_vs_core.c          | 8 ++++----
+> > >  2 files changed, 5 insertions(+), 6 deletions(-)
+> > >
+> > > diff --git a/Documentation/networking/ipvs-sysctl.rst
+> > b/Documentation/networking/ipvs-sysctl.rst
+> > > index 2afccc63856e..1cfbf1add2fc 100644
+> > > --- a/Documentation/networking/ipvs-sysctl.rst
+> > > +++ b/Documentation/networking/ipvs-sysctl.rst
+> > > @@ -37,8 +37,7 @@ conn_reuse_mode - INTEGER
+> > >
+> > >       0: disable any special handling on port reuse. The new
+> > >       connection will be delivered to the same real server that was
+> > > -     servicing the previous connection. This will effectively
+> > > -     disable expire_nodest_conn.
+> > > +     servicing the previous connection.
+> > >
+> > >       bit 1: enable rescheduling of new connections when it is safe.
+> > >       That is, whenever expire_nodest_conn and for TCP sockets, when
+> > > diff --git a/net/netfilter/ipvs/ip_vs_core.c
+> > b/net/netfilter/ipvs/ip_vs_core.c
+> > > index 128690c512df..f9d65d2c8da8 100644
+> > > --- a/net/netfilter/ipvs/ip_vs_core.c
+> > > +++ b/net/netfilter/ipvs/ip_vs_core.c
+> > > @@ -1964,7 +1964,6 @@ ip_vs_in(struct netns_ipvs *ipvs, unsigned int
+> > hooknum, struct sk_buff *skb, int
+> > >       struct ip_vs_proto_data *pd;
+> > >       struct ip_vs_conn *cp;
+> > >       int ret, pkts;
+> > > -     int conn_reuse_mode;
+> > >       struct sock *sk;
+> > >
+> > >       /* Already marked as IPVS request or reply? */
+> > > @@ -2041,15 +2040,16 @@ ip_vs_in(struct netns_ipvs *ipvs, unsigned int
+> > hooknum, struct sk_buff *skb, int
+> > >       cp = INDIRECT_CALL_1(pp->conn_in_get, ip_vs_conn_in_get_proto,
+> > >                            ipvs, af, skb, &iph);
+> > >
+> > > -     conn_reuse_mode = sysctl_conn_reuse_mode(ipvs);
+> > > -     if (conn_reuse_mode && !iph.fragoffs && is_new_conn(skb, &iph) &&
+> > cp) {
+> > > +     if (!iph.fragoffs && is_new_conn(skb, &iph) && cp) {
+> > >               bool old_ct = false, resched = false;
+> > > +             int conn_reuse_mode = sysctl_conn_reuse_mode(ipvs);
+> > >
+> > >               if (unlikely(sysctl_expire_nodest_conn(ipvs)) && cp->dest
+> > &&
+> > >                   unlikely(!atomic_read(&cp->dest->weight))) {
+> > >                       resched = true;
+> > >                       old_ct = ip_vs_conn_uses_old_conntrack(cp, skb);
+> > > -             } else if (is_new_conn_expected(cp, conn_reuse_mode)) {
+> > > +             } else if (conn_reuse_mode &&
+> > > +                        is_new_conn_expected(cp, conn_reuse_mode)) {
+> > >                       old_ct = ip_vs_conn_uses_old_conntrack(cp, skb);
+> > >                       if (!atomic_read(&cp->n_control)) {
+> > >                               resched = true;
+> > > --
+> > > 2.30.2
+> >
+> > Regards
+> >
 > > --
-> > 2.33.0
-
+> > Julian Anastasov <ja@ssi.bg>
+> >
