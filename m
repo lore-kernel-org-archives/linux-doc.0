@@ -2,163 +2,257 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A03BC433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Nov 2021 00:02:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBE6BC433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Nov 2021 00:35:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E016F61051
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Nov 2021 00:02:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A274E60EBC
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Nov 2021 00:35:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230059AbhKCAEw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Nov 2021 20:04:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25946 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230076AbhKCAEv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Nov 2021 20:04:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1635897735;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=cqJQisP1QPS+4wMPSGYJMWn3HlqeTze3DoRoDxtXcVY=;
-        b=HREh8hWlhCgMqnmW/rKxDYygvwAt8SSNUhm4H8YMAx63BGkzY6M+DiHyuytBICRUvXaJd7
-        wrlLV9KA407LrIwk5Lr2aSi9c6oYdSBIBORSW92Es0R9hZzRB/xlpF5E0e5+UD+VE261vK
-        p01/+OTvkf6cX0p9W7AgLS9JPVJzJ60=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-469-bzhDjEpxNyW8kBJ_BBDKpQ-1; Tue, 02 Nov 2021 20:02:14 -0400
-X-MC-Unique: bzhDjEpxNyW8kBJ_BBDKpQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E769A8066EB;
-        Wed,  3 Nov 2021 00:02:09 +0000 (UTC)
-Received: from T590 (ovpn-8-17.pek2.redhat.com [10.72.8.17])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 9128C60C0F;
-        Wed,  3 Nov 2021 00:01:49 +0000 (UTC)
-Date:   Wed, 3 Nov 2021 08:01:45 +0800
-From:   Ming Lei <ming.lei@redhat.com>
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     Petr Mladek <pmladek@suse.com>, Miroslav Benes <mbenes@suse.cz>,
-        Julia Lawall <julia.lawall@inria.fr>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>, tj@kernel.org,
-        gregkh@linuxfoundation.org, akpm@linux-foundation.org,
-        minchan@kernel.org, jeyu@kernel.org, shuah@kernel.org,
-        bvanassche@acm.org, dan.j.williams@intel.com, joe@perches.com,
-        tglx@linutronix.de, keescook@chromium.org, rostedt@goodmis.org,
-        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        live-patching@vger.kernel.org, ming.lei@redhat.com
-Subject: Re: [PATCH v8 11/12] zram: fix crashes with cpu hotplug multistate
-Message-ID: <YYHRaYlglX84lxB6@T590>
-References: <alpine.LSU.2.21.2110200835490.26817@pobox.suse.cz>
- <YW/KEsfWJMIPnz76@T590>
- <alpine.LSU.2.21.2110201014400.26817@pobox.suse.cz>
- <YW/q70dLyF+YudyF@T590>
- <YXfA0jfazCPDTEBw@alley>
- <YXgguuAY5iEUIV0u@T590>
- <YXg0dFZ+6qHw7d0g@bombadil.infradead.org>
- <alpine.LSU.2.21.2110271343290.3655@pobox.suse.cz>
- <YYFYFrnhwPiyOtst@alley>
- <YYFmiAAYIA2X7Uv5@bombadil.infradead.org>
+        id S231151AbhKCAht (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Nov 2021 20:37:49 -0400
+Received: from mail-bn8nam12on2061.outbound.protection.outlook.com ([40.107.237.61]:17761
+        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229804AbhKCAhs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 2 Nov 2021 20:37:48 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=i9QCSCsTatEyF24IJNqo52yW3uoA5iV7p53JfxhVjBZ1Amq4IfCBCQcZqIJK9uQ//TZ54CCeDDAir/jUKlW55LLhN4zHeZpO6zE2bQmSf7R8HuYKwHYMuhhIQvus6fSkvoYPd+6dn8Lu1tvxDIXf2wFwPriOJyeAyM+kl/eCQ1/rhykKMTe5la+ZTBIOqMUH5ljvtmrJC5KQJqegg5kKF1Q51wT6bVSbyUcozPfdH+i+hrv3E+FwhOk5KaQrBH3/Uy005rjA+S5JLQ3u2GdrnllzamC1hEsPTsZJ1Bwy2XFqQwRu+ZvoUQIh5bBMFkZzJYyf+hhTknVLRZjlAm2lAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MlYIZHOnDE58Q1y+HDJLus2LokZmLQcy8wnDyfhMSyk=;
+ b=bqfiY7dTYRry+vF/ypF1KEB7NYIUHHV+WsD5L3duxRWFoOeKZzXQAi/onttUjmr+CZGEXFo3L7orpZu5KLZFyx0TuNU9+LdhKjF0DEA4Edm1bQJP+R5KfaSAbXp5B0zEcHCwBdQFMw3fxQUM9Y7xsx0MujnwdUKuvkKcEfcleT37SfNFCnyxBJbqfBa5EnMHb4BqGktp/Od3XAP0iYJEgpeC8eFjUjc7yl3U1YqzxTkA8Ua+D85u0ZnUGFCD5P1wSbgF/z6zhDBqPV6xrEF10ukW67dkkUjKCVQeg5sTFHxKiFqGMVKrdlRn0UoQd59GluSntF1L5Jjtc0P3YcjPyQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.34) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MlYIZHOnDE58Q1y+HDJLus2LokZmLQcy8wnDyfhMSyk=;
+ b=l2NjiDJi1mabLIw+jeTKXhm6R1DrULJSZolZ93g/vo7kq4tmDg25PyM15dzVq8JmQbICKh6g5gLs45LG89Po3dINUxaIgnq8urmM3JguFXi/maJCiUBEHTq9mlPwRsU4YioDpLnSzrQ4+XuFOc0BeAJXAcubyTVEXu27gWrEsGDJn2ti3yx+sF4DYsKXWtNvOE+kGjYXv/8Lqs5qnbcnbPZyW6EHo+4XbNoSzNVGWsGYqBA5gK5xGIsE1blFtRILoy0u59eRpaC7BdSRQxEGvGLPIOpmvJG04bG3ehXN7uh8ZeeJH9uLJBLj1HwO//u2YARAmMj3LDaz8aYP7OgBiQ==
+Received: from BN0PR08CA0028.namprd08.prod.outlook.com (2603:10b6:408:142::27)
+ by MN2PR12MB3581.namprd12.prod.outlook.com (2603:10b6:208:c8::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.17; Wed, 3 Nov
+ 2021 00:35:10 +0000
+Received: from BN8NAM11FT057.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:142:cafe::23) by BN0PR08CA0028.outlook.office365.com
+ (2603:10b6:408:142::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.15 via Frontend
+ Transport; Wed, 3 Nov 2021 00:35:10 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ smtp.mailfrom=nvidia.com; vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ BN8NAM11FT057.mail.protection.outlook.com (10.13.177.49) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4669.10 via Frontend Transport; Wed, 3 Nov 2021 00:35:09 +0000
+Received: from [172.17.173.69] (172.20.187.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Wed, 3 Nov
+ 2021 00:35:06 +0000
+Subject: Re: [RFC v2 01/11] Documentation: Add HTE subsystem guide
+To:     Randy Dunlap <rdunlap@infradead.org>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <linux-kernel@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
+        <linus.walleij@linaro.org>, <bgolaszewski@baylibre.com>,
+        <warthog618@gmail.com>, <devicetree@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <robh+dt@kernel.org>
+References: <20210930232617.6396-1-dipenp@nvidia.com>
+ <20210930232617.6396-2-dipenp@nvidia.com>
+ <70321686-276c-b972-302a-e649f28412de@infradead.org>
+X-Nvconfidentiality: public
+From:   Dipen Patel <dipenp@nvidia.com>
+Message-ID: <fa9d2328-2b4b-fa94-f884-3980706c1ae6@nvidia.com>
+Date:   Tue, 2 Nov 2021 17:36:03 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YYFmiAAYIA2X7Uv5@bombadil.infradead.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <70321686-276c-b972-302a-e649f28412de@infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [172.20.187.6]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ca91de19-c5b1-4e7e-b9eb-08d99e61cae8
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3581:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB35819D718A4D975A3A99B1E9AE8C9@MN2PR12MB3581.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: a63TZY9thK8yiKI+WnUogp/3WTuJKEAKBSWROOa5QMBvg8rWeLQiaAUpx2rgQS5J9Maju/NJy1y/RMO6Gs4/o199zCZQNhda5z6SVs9HNsZ3gJxdg0riBTfQ4qoSlsw00k0yJDFCDIT7YKFKd279ct+rf0pjzgNQTqUvdgOnPKfqwwUktUhqgPCjBjldIwmJrr3ZjO9F/kv83C0olo07qeCb09vacFU7z0l2wxqq512/cOltFJ5PHKuDKKFxX934KGb9DOBmzk5s3DCOYIuMYIrlICbSqCY5U5x2Fl6ODvpq4/aMTgtUhAqHvBX3A7fjVh2a4NOYmx69UgO8IkFmgY++sqSi3tUAu1xhvl8dlybEcNIMtZtl8symsd+0k87A8H2Ryl++ITNHaUVxMf3EE8VA25xJRGC+/PXY3/8N5GSnbc+D4ccKoA7zKFVhml11qI7GmPb6CcieorVH+P2ZGldDsE8zRq9i2gr9SA9L34uf2kf8SwK4RAQRVrrJtU1UeSPDH0G5O/lrIE7zNrIXdPTQ4Amn4xXBZt874iMgv8JbjQjlpfVy/wC6WtZTu6OWUARgOciYzA1t/h/gw7pCJnWSAXs1EQcn0BaVWtv6Tf+k/a4QwCHEzi3o/KY9uDUcvdRgK8LYPugB6nrB6zJLVsS9f3iU0zlJvM3Qowg+Fx/xivoBueLH/qYuLAq9TKHzuly/L5dRqMxk0GxbFt38ZMr1FmLSPsZKBI3zvLl6cammwnLgEnlApnCn2N9TF+3mKahWKBBAKPhNEzRBiXIkQxhG3z2JWPjcyJcmzEUXOKg=
+X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(36840700001)(46966006)(82310400003)(16576012)(110136005)(336012)(2616005)(426003)(36906005)(83380400001)(8936002)(316002)(31686004)(47076005)(70586007)(186003)(7416002)(7636003)(16526019)(31696002)(53546011)(2906002)(921005)(6666004)(70206006)(36756003)(508600001)(36860700001)(8676002)(356005)(86362001)(26005)(5660300002)(43740500002)(2101003)(83996005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2021 00:35:09.9953
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ca91de19-c5b1-4e7e-b9eb-08d99e61cae8
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT057.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3581
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 02, 2021 at 09:25:44AM -0700, Luis Chamberlain wrote:
-> On Tue, Nov 02, 2021 at 04:24:06PM +0100, Petr Mladek wrote:
-> > On Wed 2021-10-27 13:57:40, Miroslav Benes wrote:
-> > > >From my perspective, it is quite easy to get it wrong due to either a lack 
-> > > of generic support, or missing rules/documentation. So if this thread 
-> > > leads to "do not share locks between a module removal and a sysfs 
-> > > operation" strict rule, it would be at least something. In the same 
-> > > manner as Luis proposed to document try_module_get() expectations.
-> > 
-> > The rule "do not share locks between a module removal and a sysfs
-> > operation" is not clear to me.
-> 
-> That's exactly it. It *is* not. The test_sysfs selftest will hopefully
-> help with this. But I'll wait to take a final position on whether or not
-> a generic fix should be merged until the Coccinelle patch which looks
-> for all uses cases completes.
-> 
-> So I think that once that Coccinelle hunt is done for the deadlock, we
-> should also remind folks of the potential deadlock and some of the rules
-> you mentioned below so that if we take a position that we don't support
-> this, we at least inform developers why and what to avoid. If Coccinelle
-> finds quite a bit of cases, then perhaps evaluating the generic fix
-> might be worth evaluating.
-> 
-> > IMHO, there are the following rules:
-> > 
-> > 1. rule: kobject_del() or kobject_put() must not be called under a lock that
-> > 	 is used by store()/show() callbacks.
-> > 
-> >    reason: kobject_del() waits until the sysfs interface is destroyed.
-> > 	 It has to wait until all store()/show() callbacks are finished.
-> 
-> Right, this is what actually started this entire conversation.
-> 
-> Note that as Ming pointed out, the generic kernfs fix I proposed would
-> only cover the case when kobject_del() ends up being called on module
-> exit, so it would not cover the cases where perhaps kobject_del() might
-> be called outside of module exit, and so the cope of the possible
-> deadlock then increases in scope.
-> 
-> Likewise, the Coccinelle hunt I'm trying would only cover the module
-> exit case. I'm a bit of afraid of the complexity of a generic hunt
-> as expresed in rule 1.
+Hi Randy,
 
-Question is that why one shared lock is required between kobject_del()
-and its show()/store(), both zram and livepatch needn't that. Is it
-one common usage?
+Thanks for the comments, will implement all your suggestions in RFC V3.
 
-> 
-> > 
-> > 2. rule: kobject_del()/kobject_put() must not be called from the
-> > 	related store() callbacks.
-> > 
-> >    reason: same as in 1st rule.
-> 
-> Sensible corollary.
-> 
-> Given tha the exact kobjet_del() / kobject_put() which must not be
-> called from the respective sysfs ops depends on which kobject is
-> underneath the device for which the sysfs ops is being created,
-> it would make this hunt in Coccinelle a bit tricky. My current iteration
-> of a coccinelle hunt cheats and looks at any sysfs looking op and
-> ensures a module exit exists.
-
-Actually kernfs/sysfs provides interface for supporting deleting
-kobject/attr from the attr's show()/store(), see example of
-sdev_store_delete(), and the livepatch example:
-
-https://lore.kernel.org/lkml/20211102145932.3623108-4-ming.lei@redhat.com/
-
-> 
-> > 3. rule: module_exit() must wait until all release() callbacks are called
-> > 	 when kobject are static.
-> > 
-> >    reason: kobject_put() must be called to clean up internal
-> > 	dependencies. The clean up might be done asynchronously
-> > 	and need access to the kobject structure.
-> 
-> This might be an easier rule to implement a respective Coccinelle rule
-> for.
-
-If kobject_del() is done in module_exit() or before module_exit(),
-kobject should have been freed in module_exit() via kobject_put().
-
-But yes, it can be asynchronously because of CONFIG_DEBUG_KOBJECT_RELEASE,
-seems like one real issue.
-
-
-Thanks,
-Ming
-
+On 10/1/21 5:18 PM, Randy Dunlap wrote:
+> On 9/30/21 4:26 PM, Dipen Patel wrote:
+>> Adding hte document which can help understand various APIs implemented
+>> in HTE framework for the HTE producers and the consumers.
+>>
+>> Signed-off-by: Dipen Patel <dipenp@nvidia.com>
+>> ---
+>> Changes in v2:
+>> - Removed explanation, instead added kernel-doc references.
+>>
+>>   Documentation/hte/hte.rst | 83 +++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 83 insertions(+)
+>>   create mode 100644 Documentation/hte/hte.rst
+>>
+>> diff --git a/Documentation/hte/hte.rst b/Documentation/hte/hte.rst
+>> new file mode 100644
+>> index 000000000000..c9b1badae601
+>> --- /dev/null
+>> +++ b/Documentation/hte/hte.rst
+>> @@ -0,0 +1,83 @@
+>> +============================================
+>> +The Linux Hardware Timestamping Engine (HTE)
+>> +============================================
+>> +
+>> +:Author: Dipen Patel
+>> +
+>> +Introduction
+>> +------------
+>> +
+>> +Certain devices have built in hardware timestamping engines which can
+>> +monitor sets of system signals, lines, buses etc... in realtime for state
+>> +change; upon detecting the change they can automatically store the timestamp at
+>> +the moment of occurrence. Such functionality may help achieve better accuracy
+>> +in obtaining timestamp than using software counterparts i.e. ktime and friends.
+>
+>                 timestamps
+>
+>> +
+>> +This document describes the API that can be used by hardware timestamping
+>> +engine provider and consumer drivers that want to use the hardware timestamping
+>> +engine (HTE) framework. Both consumers and providers must
+>> +#include <linux/hte.h>.
+>> +
+>> +The HTE framework APIs for the providers
+>> +----------------------------------------
+>> +
+>> +.. kernel-doc:: drivers/hte/hte.c
+>> +   :functions: devm_hte_register_chip hte_push_ts_ns
+>> +
+>> +The HTE framework APIs for the consumers
+>> +----------------------------------------
+>> +
+>> +.. kernel-doc:: drivers/hte/hte.c
+>> +   :functions: devm_of_hte_request_ts hte_req_ts_by_hte_name hte_release_ts hte_enable_ts hte_disable_ts hte_get_clk_src_info
+>> +
+>> +The HTE framework public structures
+>> +-----------------------------------
+>> +.. kernel-doc:: include/linux/hte.h
+>> +
+>> +
+>> +More on the HTE timestamp data
+>> +------------------------------
+>> +The struct hte_ts_data is used to pass timestamp details between the consumers
+>> +and the providers. It expresses timestamp data in nano second in u64 data
+>
+>                                                      nanosesconds
+>                                              possibly:           in a __u64 data
+>
+>> +type. For now all the HTE APIs using struct hte_ts_data requires tsc to be in
+>
+>                                                            require tsc to be in
+>
+>> +nano seconds. An example of the typical hte_ts_data data life cycle, for the
+>
+>    nanoseconds.
+>
+>> +GPIO line is as follows::
+>> +
+>> + - Monitors GPIO line change.
+>> + - Detects the state change on GPIO line.
+>> + - Converts timestamps in nano seconds and stores it in tsc.
+>
+>                              nanoseconds
+>
+>> + - Stores GPIO direction in dir variable if the provider has that hardware
+>> + capability.
+>> + - Pushes this hte_ts_data object to HTE subsystem.
+>> + - HTE subsystem increments seq counter and invokes consumer provided callback.
+>> + Based on callback return value, the HTE starts kernel thread and invokes
+>
+>                                             starts a kernel thread
+>
+>> + secondary callback in the thread context.
+>> +
+>> +HTE subsystem debugfs attributes
+>> +--------------------------------
+>> +HTE subsystem creates debugfs attributes at ``/sys/kernel/debug/hte/``.
+>> +It also creates line/signal related debugfs attributes at
+>
+>                         signal-related
+>
+>> +``/sys/kernel/debug/hte/<provider>/<label or line id>/``.
+>> +
+>> +`ts_requested`
+>> +        The total number of entities requested from the given provider,
+>> +        where entity is the provider specific and could represent
+>
+>                      is specified by the provider and could
+> (just guessing here; I could not parse it.)
+>
+>> +        lines, GPIO, chip signals, buses etc...
+>> +                The attribute will be availble at
+>
+>                                  available
+>
+>> +        ``/sys/kernel/debug/hte/<provider>/``.
+>> +
+>> +        Read only value
+>
+>         Read-only value
+>
+>> +
+>> +`total_ts`
+>> +        The total number of entities supported by the provider.
+>> +                The attribute will be availble at
+>
+>                                  available
+>
+>> +        ``/sys/kernel/debug/hte/<provider>/``.
+>> +
+>> +        Read only value
+>
+>         Read-only value
+>
+>> +
+>> +`dropped_timestamps`
+>> +        The dropped timestamps for a given line.
+>> +                The attribute will be availble at
+>
+>                                  available
+>
+>> +        ``/sys/kernel/debug/hte/<provider>/<label or line id>/``.
+>> +
+>> +        Read only value
+>
+>         Read-only value
+>>
+>
+>
