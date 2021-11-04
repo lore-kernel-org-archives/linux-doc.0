@@ -2,115 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E69AEC433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Nov 2021 14:04:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 603C9C433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Nov 2021 15:20:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C7CB2611C1
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Nov 2021 14:04:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 41B5A61212
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Nov 2021 15:20:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231152AbhKDOGr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Nov 2021 10:06:47 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:36828 "EHLO
-        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230420AbhKDOGq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Nov 2021 10:06:46 -0400
-Received: from madeliefje.horms.nl (ip-80-113-23-202.ip.prioritytelecom.net [80.113.23.202])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id CFB4925AE8A;
-        Fri,  5 Nov 2021 01:04:06 +1100 (AEDT)
-Received: by madeliefje.horms.nl (Postfix, from userid 7100)
-        id 3FF8327B5; Thu,  4 Nov 2021 15:04:04 +0100 (CET)
-Date:   Thu, 4 Nov 2021 15:04:04 +0100
-From:   Simon Horman <horms@verge.net.au>
-To:     yangxingwu <xingwu.yang@gmail.com>, pablo@netfilter.org
-Cc:     ja@ssi.bg, kadlec@netfilter.org, fw@strlen.de, davem@davemloft.net,
-        kuba@kernel.org, netdev@vger.kernel.org, lvs-devel@vger.kernel.org,
-        netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        corbet@lwn.net, Chuanqi Liu <legend050709@qq.com>
-Subject: Re: [PATCH nf-next v6] netfilter: ipvs: Fix reuse connection if RS
- weight is 0
-Message-ID: <20211104140401.GA16560@vergenet.net>
-References: <20211104031029.157366-1-xingwu.yang@gmail.com>
+        id S231341AbhKDPXG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Nov 2021 11:23:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55394 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231215AbhKDPXF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Nov 2021 11:23:05 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9360C061714;
+        Thu,  4 Nov 2021 08:20:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=Ji+bbfdo4q3qSjBuRHvVJfeL6yI7SMwgkPDy5yTTkw0=; b=jS7vtzK0f33pcSpWtiKEEfPORA
+        A6TIvQTX+8BBJEtti1SxJbDy/jLEXYOxxF6jF71NJkZ4Sy+7bJWXEZgZ3Nf7puhpUkVl7CFvbRb9Y
+        zbcuKV6E0vY57dYAhbZMlH9lNGZefeltq40x99vw1wwB21gfsvW0FSRwqwDM0SdLROjC5WEGGNF7t
+        PEoH8AWatIlM7xbdRVKPA/puXOHFkpk7bU5qDmcwyN2NuStt+7dEU9XwOj0S9T1ki/67sdld4ExkX
+        cwrVWeenLGt+WiiJULrh+asLqARsTnMELtQ+HalEDSvuPyxtI4QGGM7T7T5TdZd+D8RKUamt1qrgx
+        PPC55vjQ==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mieXT-009F1m-8f; Thu, 04 Nov 2021 15:20:27 +0000
+Subject: Re: [PATCH] Docs: Fixes link to I2C specification
+To:     Deep Majumder <deep@fastmail.in>, wsa@kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20211104060018.35570-1-deep@fastmail.in>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <cfdeab60-a59e-591b-363b-c34ccf58d52a@infradead.org>
+Date:   Thu, 4 Nov 2021 08:20:26 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211104031029.157366-1-xingwu.yang@gmail.com>
-Organisation: Horms Solutions BV
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20211104060018.35570-1-deep@fastmail.in>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 04, 2021 at 11:10:29AM +0800, yangxingwu wrote:
-> We are changing expire_nodest_conn to work even for reused connections when
-> conn_reuse_mode=0, just as what was done with commit dc7b3eb900aa ("ipvs:
-> Fix reuse connection if real server is dead").
+On 11/3/21 11:00 PM, Deep Majumder wrote:
+> The link to the I2C specification is broken and is replaced in this
+> patch by one that points to Rev 6 (2014) of the specification.
+> Although `https://www.nxp.com" hosts the Rev 7 (2021) of this
+> specification, it is behind a login-wall and thus cannot be used.
+
+To be clear, it can be downloaded if one registers first, but it cannot
+easily be downloaded by using something like 'wget filename'.
+
 > 
-> For controlled and persistent connections, the new connection will get the
-> needed real server depending on the rules in ip_vs_check_template().
-> 
-> Fixes: d752c3645717 ("ipvs: allow rescheduling of new connections when port reuse is detected")
-> Co-developed-by: Chuanqi Liu <legend050709@qq.com>
-> Signed-off-by: Chuanqi Liu <legend050709@qq.com>
-> Signed-off-by: yangxingwu <xingwu.yang@gmail.com>
-
-Acked-by: Simon Horman <horms@verge.net.au>
-
-(v5 was acked by Julian, probably that can be propagated here)
-
-Pablo, please consider this for nf-next at your convenience.
-
+> Signed-off-by: Deep Majumder <deep@fastmail.in>
 > ---
->  Documentation/networking/ipvs-sysctl.rst | 3 +--
->  net/netfilter/ipvs/ip_vs_core.c          | 8 ++++----
->  2 files changed, 5 insertions(+), 6 deletions(-)
+>   Documentation/i2c/summary.rst | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/networking/ipvs-sysctl.rst b/Documentation/networking/ipvs-sysctl.rst
-> index 2afccc63856e..1cfbf1add2fc 100644
-> --- a/Documentation/networking/ipvs-sysctl.rst
-> +++ b/Documentation/networking/ipvs-sysctl.rst
-> @@ -37,8 +37,7 @@ conn_reuse_mode - INTEGER
->  
->  	0: disable any special handling on port reuse. The new
->  	connection will be delivered to the same real server that was
-> -	servicing the previous connection. This will effectively
-> -	disable expire_nodest_conn.
-> +	servicing the previous connection.
->  
->  	bit 1: enable rescheduling of new connections when it is safe.
->  	That is, whenever expire_nodest_conn and for TCP sockets, when
-> diff --git a/net/netfilter/ipvs/ip_vs_core.c b/net/netfilter/ipvs/ip_vs_core.c
-> index 128690c512df..393058a43aa7 100644
-> --- a/net/netfilter/ipvs/ip_vs_core.c
-> +++ b/net/netfilter/ipvs/ip_vs_core.c
-> @@ -1964,7 +1964,6 @@ ip_vs_in(struct netns_ipvs *ipvs, unsigned int hooknum, struct sk_buff *skb, int
->  	struct ip_vs_proto_data *pd;
->  	struct ip_vs_conn *cp;
->  	int ret, pkts;
-> -	int conn_reuse_mode;
->  	struct sock *sk;
->  
->  	/* Already marked as IPVS request or reply? */
-> @@ -2041,15 +2040,16 @@ ip_vs_in(struct netns_ipvs *ipvs, unsigned int hooknum, struct sk_buff *skb, int
->  	cp = INDIRECT_CALL_1(pp->conn_in_get, ip_vs_conn_in_get_proto,
->  			     ipvs, af, skb, &iph);
->  
-> -	conn_reuse_mode = sysctl_conn_reuse_mode(ipvs);
-> -	if (conn_reuse_mode && !iph.fragoffs && is_new_conn(skb, &iph) && cp) {
-> +	if (!iph.fragoffs && is_new_conn(skb, &iph) && cp) {
-> +		int conn_reuse_mode = sysctl_conn_reuse_mode(ipvs);
->  		bool old_ct = false, resched = false;
->  
->  		if (unlikely(sysctl_expire_nodest_conn(ipvs)) && cp->dest &&
->  		    unlikely(!atomic_read(&cp->dest->weight))) {
->  			resched = true;
->  			old_ct = ip_vs_conn_uses_old_conntrack(cp, skb);
-> -		} else if (is_new_conn_expected(cp, conn_reuse_mode)) {
-> +		} else if (conn_reuse_mode &&
-> +			   is_new_conn_expected(cp, conn_reuse_mode)) {
->  			old_ct = ip_vs_conn_uses_old_conntrack(cp, skb);
->  			if (!atomic_read(&cp->n_control)) {
->  				resched = true;
-> -- 
-> 2.30.2
+> diff --git a/Documentation/i2c/summary.rst b/Documentation/i2c/summary.rst
+> index 136c4e333be7..607c72425ca6 100644
+> --- a/Documentation/i2c/summary.rst
+> +++ b/Documentation/i2c/summary.rst
+> @@ -12,7 +12,7 @@ and so are not advertised as being I2C but come under different names,
+>   e.g. TWI (Two Wire Interface), IIC.
+>   
+>   The official I2C specification is the `"I2C-bus specification and user
+> -manual" (UM10204) <https://www.nxp.com/docs/en/user-guide/UM10204.pdf>`_
+> +manual" (UM10204) <https://www.pololu.com/file/0J435/UM10204.pdf>`_
+>   published by NXP Semiconductors.
+>   
+>   SMBus (System Management Bus) is based on the I2C protocol, and is mostly
 > 
+
+
+-- 
+~Randy
