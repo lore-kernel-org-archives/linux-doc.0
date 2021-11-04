@@ -2,196 +2,157 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06BEAC433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Nov 2021 09:11:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0D8EC433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Nov 2021 11:39:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D0092611C0
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Nov 2021 09:11:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7E991610FD
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Nov 2021 11:39:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230383AbhKDJNq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Nov 2021 05:13:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55748 "EHLO
+        id S230494AbhKDLln (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Nov 2021 07:41:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230363AbhKDJNq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Nov 2021 05:13:46 -0400
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F856C06127A
-        for <linux-doc@vger.kernel.org>; Thu,  4 Nov 2021 02:11:08 -0700 (PDT)
-Received: by mail-lj1-x229.google.com with SMTP id y8so8389415ljm.4
-        for <linux-doc@vger.kernel.org>; Thu, 04 Nov 2021 02:11:08 -0700 (PDT)
+        with ESMTP id S229505AbhKDLln (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Nov 2021 07:41:43 -0400
+Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 509FEC061714
+        for <linux-doc@vger.kernel.org>; Thu,  4 Nov 2021 04:39:05 -0700 (PDT)
+Received: by mail-io1-xd2b.google.com with SMTP id n128so6485368iod.9
+        for <linux-doc@vger.kernel.org>; Thu, 04 Nov 2021 04:39:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ip4jIKzplcPRjOqExcXRBQqPqAPXrq235jk6EqfK8sA=;
-        b=Ajj9xGu0eMeaOm/pl+F3O4w34Y56ucIS1YivaQBUsztCkIODJSzEomzA8LyYwWDhIv
-         gL4GafSII/OrRNlmeVnclC/zVYk+T//wrPlyD/ksgrxvgeA82um0lcBr8G4qDc3xCJsQ
-         HpK4IiT/8yrDHY95CZO0fe4r0yALgFqeTpFBQ=
+         :cc:content-transfer-encoding;
+        bh=AlxwR9jkBdToiCLnAcaR2+TUcSIY5VDVb0XZN37MxtY=;
+        b=e2UAeaiWp5QYkKFSOSiyU5sSyGdlrcKjOGrMDbJFqnAUdWa08AEKUevbm5pH0zwB2j
+         4Zeyj8609Pgv0z0W05b0hJH3Qrw9SOcIxz78/Pb+TEx72vwntW8Lb/zjP4KoCGmv4dz0
+         ir8B+U6n4RnlMPvb17YM869sSX8201r03oIBlIn9BtTitBnqrBWLiN7ElcVxt/fgOoSm
+         rN9wgPPoDTVtr47kWMLi5djtMWNKsUbRb7YMpjK64HpWMO2tHQCdOyf8Ua/kNSKOajJT
+         cGf+JjPJeCP5ud7FlajyTn3c3ntxARGs0Cjh93CTrYiPS34UQi+tNwaUoODMOiP6K06+
+         25Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ip4jIKzplcPRjOqExcXRBQqPqAPXrq235jk6EqfK8sA=;
-        b=Tchg5t/vdDJMCx5ZsVw5vnfJ6cM4lmXwByK6GJQS77xo2ePJNqozFU1bwgVIUGyEyc
-         9vfb4LmZwGSk4ycZArvSXXpjKbXtOL0tI1+6KQK4dT5Hxy4XCdHlkjj+XwbhP9WeL4ag
-         AYbNO3ffhHU8AnNUD1c6pVEBUUHoqCQRvrj1pbxLjetUUU9nZ1XZKslKL6FpGt6C5qnR
-         8xc03HAfrZ+yJXXWxo5HxfemuwxsSFGZtHVMyFQTmCnkPOMR0MCY/HEtjo49/+GoGVRi
-         L0y0QMg0Si1tA8j5IxBuOkxR1P+xq7VYwuH2E6RoKiU3lY4nsl23LNUOJGjUpophFFWT
-         jKKQ==
-X-Gm-Message-State: AOAM533Py7UP8S0+juapdHs3lJmlJxcT2Bfslxb4RrKTUhfjpjCCeWkl
-        dSPFccJftcfP9UVs+LsrecwSiYw7PygbHSKFIGT6Pw==
-X-Google-Smtp-Source: ABdhPJy8fhKodASuD5SKo5rDH8OmLdPRdEwIa15ljtPKQs6a7cExLx0VBmUmWvEB+7WHB09t29utQs4L5T2n+YQsf8E=
-X-Received: by 2002:a2e:b5d2:: with SMTP id g18mr18870481ljn.282.1636017066544;
- Thu, 04 Nov 2021 02:11:06 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=AlxwR9jkBdToiCLnAcaR2+TUcSIY5VDVb0XZN37MxtY=;
+        b=bz1JDq3AoRbRPajtoIMnRz5HAm0GRTHIPlopj4f1t0nhErAKym5JrDZ+BBvtzQer1v
+         +yf1EWtG5lTMueB9Hivazft/SLDjPzPimnJVJnDMpvGXsfpcDHnVUi3Zt7VJgurXHl4S
+         BpGaFi0ggxrpM910HH7AdHVrhaOAuWiXPQGbsuohdNodmi1PtL7FXo9JuvdIud9Eze9r
+         5yZrjgR/TI5BIqEcl6aGoe/zTQokJlwIhr6OfrDvQCcJea4m8F09WXdliOyKIUjTis3i
+         aL2HuSMY1OGvsJb5CcWB9OKWsEV7Jf3MMXGvGEi6RojcQfM47Fw9VTD0X2qweMFUI5wd
+         sF9Q==
+X-Gm-Message-State: AOAM531M1pWEiCaczuubyMSTmCeuBe6pRCZqyAKBv2lC1Xir/RWSwzzn
+        iNfMucZjY2OTVX8OafYSALF7HTZD1WhgnfDbE18=
+X-Google-Smtp-Source: ABdhPJyZzxhhhVJYvU61O6fV3J9w8uoxSbVtBf99l07oBXNikC+Rdo1jrV6UY2vlOUwa/OstSgcA+URTldTscHpciSM=
+X-Received: by 2002:a05:6602:29c7:: with SMTP id z7mr36478262ioq.93.1636025944703;
+ Thu, 04 Nov 2021 04:39:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211020120431.776494-1-hikalium@chromium.org> <874k9bdcrk.wl-maz@kernel.org>
-In-Reply-To: <874k9bdcrk.wl-maz@kernel.org>
-From:   Hikaru Nishida <hikalium@chromium.org>
-Date:   Thu, 4 Nov 2021 18:10:55 +0900
-Message-ID: <CACTzKb+vVU0Ymh2Nx5B6kSydBsJ6AgrbQMF39RFvqoHpvL_riw@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 0/5] x86/kvm: Virtual suspend time injection support
-To:     Marc Zyngier <maz@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, dme@dme.org, tglx@linutronix.de,
-        mlevitsk@redhat.com, linux@roeck-us.net, pbonzini@redhat.com,
-        vkuznets@redhat.com, will@kernel.org, suleiman@google.com,
-        senozhatsky@google.com, kvmarm@lists.cs.columbia.edu,
-        linux-arm-kernel@lists.infradead.org,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        John Stultz <john.stultz@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Juergen Gross <jgross@suse.com>,
-        Kees Cook <keescook@chromium.org>,
-        Lai Jiangshan <laijs@linux.alibaba.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Sean Christopherson <seanjc@google.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Wanpeng Li <wanpengli@tencent.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, x86@kernel.org
+References: <cover.1635907089.git.siyanteng@loongson.cn> <90fa72d4031dbc024c1582fc3e0d35febd7923a4.1635907089.git.siyanteng@loongson.cn>
+In-Reply-To: <90fa72d4031dbc024c1582fc3e0d35febd7923a4.1635907089.git.siyanteng@loongson.cn>
+From:   Alex Shi <seakeel@gmail.com>
+Date:   Thu, 4 Nov 2021 19:38:28 +0800
+Message-ID: <CAJy-Am=00msKXwBzG7fenoW+r4271AD_2sucTY74zM3EqaCnvA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] docs/zh_CN: update sparse translation
+To:     Yanteng Si <siyanteng01@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        "Wu X.C." <bobwxc@email.cn>, leoyang.li@nxp.com,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Puyu Wang <realpuyuwang@gmail.com>,
+        Hu Haowen <src.res@email.cn>,
+        Wan Jiabing <wanjiabing@vivo.com>,
+        Bernard Zhao <bernard@vivo.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Marc,
-
-Thanks for the comments! (Sorry for the late reply)
-
-On Wed, Oct 20, 2021 at 10:52 PM Marc Zyngier <maz@kernel.org> wrote:
->
-> Hi Hikaru,
->
-> On Wed, 20 Oct 2021 13:04:25 +0100,
-> Hikaru Nishida <hikalium@chromium.org> wrote:
-> >
-> >
-> > Hi,
-> >
-> > This patch series adds virtual suspend time injection support to KVM.
-> > It is an updated version of the following series:
-> > v2:
-> > https://lore.kernel.org/kvm/20210806100710.2425336-1-hikalium@chromium.org/
-> > v1:
-> > https://lore.kernel.org/kvm/20210426090644.2218834-1-hikalium@chromium.org/
-> >
-> > Please take a look again.
-> >
-> > To kvm/arm64 folks:
-> > I'm going to implement this mechanism to ARM64 as well but not
-> > sure which function should be used to make an IRQ (like kvm_apic_set_irq
-> > in x86) and if it is okay to use kvm_gfn_to_hva_cache /
-> > kvm_write_guest_cached for sharing the suspend duration.
->
-> Before we discuss interrupt injection, I want to understand what this
-> is doing, and how this is doing it. And more precisely, I want to find
-> out how you solve the various problems described by Thomas here [1].
-
-The problems described by Thomas in the thread was:
-- User space or kernel space can observe the stale timestamp before
-the adjustment
-  - Moving CLOCK_MONOTONIC forward will trigger all sorts of timeouts,
-watchdogs, etc...
-- The last attempt to make CLOCK_MONOTONIC behave like CLOCK_BOOTTIME
-was reverted within 3 weeks. a3ed0e4393d6 ("Revert: Unify
-CLOCK_MONOTONIC and CLOCK_BOOTTIME")
-  - CLOCK_MONOTONIC correctness (stops during the suspend) should be maintained.
-
-I agree with the points above. And, the current CLOCK_MONOTONIC
-behavior in the KVM guest is not aligned with the statements above.
-(it advances during the host's suspension.)
-This causes the problems described above (triggering watchdog
-timeouts, etc...) so my patches are going to fix this by 2 steps
-roughly:
-1. Stopping the guest's clocks during the host's suspension
-2. Adjusting CLOCK_BOOTTIME later
-This will make the clocks behave like the host does, not making
-CLOCK_MONOTONIC behave like CLOCK_BOOTTIME.
-
-First one is a bit tricky since the guest can use a timestamp counter
-in each CPUs (TSC in x86) and we need to adjust it without stale
-values are observed by the guest kernel to prevent rewinding of
-CLOCK_MONOTONIC (which is our top priority to make the kernel happy).
-To achieve this, my patch adjusts TSCs (and a kvm-clock) before the
-first vcpu runs of each vcpus after the resume.
-
-Second one is relatively safe: since jumping CLOCK_BOOTTIME forward
-can happen even before my patches when suspend/resume happens, and
-that will not break the monotonicity of the clocks, we can do that
-through IRQ.
-
-[1] shows the flow of the adjustment logic, and [2] shows how the
-clocks behave in the guest and the host before/after my patches.
-The numbers on each step in [1] corresponds to the timing shown in [2].
-The left side of [2] is showing the behavior of the clocks before the
-patches, and the right side shows after the patches. Also, upper
-charts show the guest clocks, and bottom charts are host clocks.
-
-Before the patches(left side), CLOCK_MONOTONIC seems to be jumped from
-the guest's perspective after the host's suspension. As Thomas says,
-large jumps of CLOCK_MONOTONIC may lead to watchdog timeouts and other
-bad things that we want to avoid.
-With the patches(right side), both clocks will be adjusted (t=4,5) as
-if they are stopped during the suspension. This adjustment is done by
-the host side and invisible to the guest since it is done before the
-first vcpu run after the resume. After that, CLOCK_BOOTTIME will be
-adjusted from the guest side, triggered by the IRQ sent from the host.
-
-[1]: https://hikalium.com/files/kvm_virt_suspend_time_seq.png
-[2]: https://hikalium.com/files/kvm_virt_suspend_time_clocks.png
-
-
->
-> Assuming you solve these, you should model the guest memory access
-> similarly to what we do for stolen time. As for injecting an
-> interrupt, why can't this be a userspace thing?
-
-Since CLOCK_BOOTTIME is calculated by adding a gap
-(tk->monotonic_to_boot) to CLOCK_MONOTONIC, and there are no way to
-change the value from the outside of the guest kernel, we should
-implement some mechanism in the kernel to adjust it.
-(Actually, I tried to add a sysfs interface to modify the gap [3], but
-I learned that that is not a good idea...)
-
-[3]: https://lore.kernel.org/lkml/87eehoax14.fsf@nanos.tec.linutronix.de/
-
-Thank you,
-
-Hikaru Nishida
-
->
-> Thanks,
->
->         M.
->
-> [1] https://lore.kernel.org/all/871r557jls.ffs@tglx
->
->
-> --
-> Without deviation from the norm, progress is not possible.
+T24gV2VkLCBOb3YgMywgMjAyMSBhdCAxMDo0NyBBTSBZYW50ZW5nIFNpIDxzaXlhbnRlbmcwMUBn
+bWFpbC5jb20+IHdyb3RlOg0KPg0KPiBTcGFyc2UgZG9jdW1lbnRzIGFyZSB0b28gb3V0ZGF0ZWQs
+bGV0J3MgdXBkYXRlIHNwYXJzZS5yc3QgdG8gdGhlIGxhdGVzdCB2ZXJzaW9uLg0KPg0KPiBTaWdu
+ZWQtb2ZmLWJ5OiBZYW50ZW5nIFNpIDxzaXlhbnRlbmdAbG9vbmdzb24uY24+DQoNCmxvb2tzIGZp
+bmUgZm9yIG1lLg0KDQpSZXZpZXdlZC1ieTogQWxleCBTaGkgPGFsZXhzQGtlcm5lbC5vcmc+DQoN
+Cj4gLS0tDQo+ICAuLi4vdHJhbnNsYXRpb25zL3poX0NOL2Rldi10b29scy9zcGFyc2UucnN0ICAg
+fCA2MyArKysrKysrKysrKystLS0tLS0tDQo+ICAxIGZpbGUgY2hhbmdlZCwgNDAgaW5zZXJ0aW9u
+cygrKSwgMjMgZGVsZXRpb25zKC0pDQo+DQo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3Ry
+YW5zbGF0aW9ucy96aF9DTi9kZXYtdG9vbHMvc3BhcnNlLnJzdCBiL0RvY3VtZW50YXRpb24vdHJh
+bnNsYXRpb25zL3poX0NOL2Rldi10b29scy9zcGFyc2UucnN0DQo+IGluZGV4IDBmNDQ0YjgzZDYz
+OS4uZTJkZjk5OWYyOTY3IDEwMDY0NA0KPiAtLS0gYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9u
+cy96aF9DTi9kZXYtdG9vbHMvc3BhcnNlLnJzdA0KPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5z
+bGF0aW9ucy96aF9DTi9kZXYtdG9vbHMvc3BhcnNlLnJzdA0KPiBAQCAtMSwyOSArMSwyOSBAQA0K
+PiAt77u/Q2hpbmVzZSB0cmFuc2xhdGVkIHZlcnNpb24gb2YgRG9jdW1lbnRhdGlvbi9kZXYtdG9v
+bHMvc3BhcnNlLnJzdA0KPiAr77u/Q29weXJpZ2h0IDIwMDQgTGludXMgVG9ydmFsZHMNCj4gK0Nv
+cHlyaWdodCAyMDA0IFBhdmVsIE1hY2hlayA8cGF2ZWxAdWN3LmN6Pg0KPiArQ29weXJpZ2h0IDIw
+MDYgQm9iIENvcGVsYW5kIDxtZUBib2Jjb3BlbGFuZC5jb20+DQo+DQo+IC1JZiB5b3UgaGF2ZSBh
+bnkgY29tbWVudCBvciB1cGRhdGUgdG8gdGhlIGNvbnRlbnQsIHBsZWFzZSBjb250YWN0IHRoZQ0K
+PiAtb3JpZ2luYWwgZG9jdW1lbnQgbWFpbnRhaW5lciBkaXJlY3RseS4gIEhvd2V2ZXIsIGlmIHlv
+dSBoYXZlIGEgcHJvYmxlbQ0KPiAtY29tbXVuaWNhdGluZyBpbiBFbmdsaXNoIHlvdSBjYW4gYWxz
+byBhc2sgdGhlIENoaW5lc2UgbWFpbnRhaW5lciBmb3INCj4gLWhlbHAuICBDb250YWN0IHRoZSBD
+aGluZXNlIG1haW50YWluZXIgaWYgdGhpcyB0cmFuc2xhdGlvbiBpcyBvdXRkYXRlZA0KPiAtb3Ig
+aWYgdGhlcmUgaXMgYSBwcm9ibGVtIHdpdGggdGhlIHRyYW5zbGF0aW9uLg0KPiArLi4gaW5jbHVk
+ZTo6IC4uL2Rpc2NsYWltZXItemhfQ04ucnN0DQo+DQo+IC1DaGluZXNlIG1haW50YWluZXI6IExp
+IFlhbmcgPGxlb3lhbmcubGlAbnhwLmNvbT4NCj4gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiAtRG9jdW1lbnRh
+dGlvbi9kZXYtdG9vbHMvc3BhcnNlLnJzdCDnmoTkuK3mlofnv7vor5ENCj4gKzpPcmlnaW5hbDog
+RG9jdW1lbnRhdGlvbi9kZXYtdG9vbHMvc3BhcnNlLnJzdA0KPg0KPiAt5aaC5p6c5oOz6K+E6K66
+5oiW5pu05paw5pys5paH55qE5YaF5a6577yM6K+355u05o6l6IGU57O75Y6f5paH5qGj55qE57u0
+5oqk6ICF44CC5aaC5p6c5L2g5L2/55So6Iux5paHDQo+IC3kuqTmtYHmnInlm7Dpmr7nmoTor53v
+vIzkuZ/lj6/ku6XlkJHkuK3mlofniYjnu7TmiqTogIXmsYLliqnjgILlpoLmnpzmnKznv7vor5Hm
+m7TmlrDkuI3lj4rml7bmiJbogIXnv7sNCj4gLeivkeWtmOWcqOmXrumimO+8jOivt+iBlOezu+S4
+reaWh+eJiOe7tOaKpOiAheOAgg0KPiArOue/u+ivkToNCj4NCj4gLeS4reaWh+eJiOe7tOaKpOiA
+he+8miDmnY7pmLMgIExpIFlhbmcgPGxlb3lhbmcubGlAbnhwLmNvbT4NCj4gLeS4reaWh+eJiOe/
+u+ivkeiAhe+8miDmnY7pmLMgIExpIFlhbmcgPGxlb3lhbmcubGlAbnhwLmNvbT4NCj4gKyBMaSBZ
+YW5nIDxsZW95YW5nLmxpQG54cC5jb20+DQo+DQo+ICs65qCh6K+ROg0KPg0KPiAt5Lul5LiL5Li6
+5q2j5paHDQo+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gKyDlj7jlu7bohb4gWWFudGVuZyBTaSA8c2l5YW50
+ZW5nQGxvb25nc29uLmNuPg0KPg0KPiAtQ29weXJpZ2h0IDIwMDQgTGludXMgVG9ydmFsZHMNCj4g
+LUNvcHlyaWdodCAyMDA0IFBhdmVsIE1hY2hlayA8cGF2ZWxAdWN3LmN6Pg0KPiAtQ29weXJpZ2h0
+IDIwMDYgQm9iIENvcGVsYW5kIDxtZUBib2Jjb3BlbGFuZC5jb20+DQo+ICsuLiBfY25fc3BhcnNl
+Og0KPiArDQo+ICtTcGFyc2UNCj4gKz09PT09PQ0KPiArDQo+ICtTcGFyc2XmmK/kuIDkuKpD56iL
+5bqP55qE6K+t5LmJ5qOA5p+l5Zmo77yb5a6D5Y+v5Lul55So5p2l5Y+R546w5YaF5qC45Luj56CB
+55qE5LiA5Lqb5r2c5Zyo6Zeu6aKY44CCIOWFsw0KPiAr5LqOc3BhcnNl55qE5qaC6L+w77yM6K+3
+5Y+C6KeBaHR0cHM6Ly9sd24ubmV0L0FydGljbGVzLzY4OTkwNy/vvJvmnKzmlofmoaPljIXlkKsN
+Cj4gK+S4gOS6m+mSiOWvueWGheaguOeahHNwYXJzZeS/oeaBr+OAgg0KPiAr5YWz5LqOc3BhcnNl
+55qE5pu05aSa5L+h5oGv77yM5Li76KaB5piv5YWz5LqO5a6D55qE5YaF6YOo57uT5p6E77yM5Y+v
+5Lul5Zyo5a6D55qE5a6Y5pa5572R6aG15LiK5om+5Yiw77yaDQo+ICtodHRwczovL3NwYXJzZS5k
+b2NzLmtlcm5lbC5vcmfjgIINCj4NCj4gIOS9v+eUqCBzcGFyc2Ug5bel5YW35YGa57G75Z6L5qOA
+5p+lDQo+ICB+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fg0KPiBAQCAtNjAsMjUgKzYwLDQyIEBA
+IF9fYml0d2lzZSLnsbvlnovjgIINCj4gIOS4gOS4quWwj+aPkOmGku+8muW4uOaVsOaVtOaVsCIw
+IuaYr+eJueauiueahOOAguS9oOWPr+S7peebtOaOpeaKiuW4uOaVsOmbtuW9k+S9nOS9jeaWueW8
+j+aVtOaVsOS9v+eUqOiAjA0KPiAg5LiN55So5ouF5b+DIHNwYXJzZSDkvJrmirHmgKjjgILov5nm
+mK/lm6DkuLoiYml0d2lzZSLvvIjmgbDlpoLlhbblkI3vvInmmK/nlKjmnaXnoa7kv53kuI3lkIzk
+vY3mlrkNCj4gIOW8j+exu+Wei+S4jeS8muiiq+W8hOa3t++8iOWwj+WwvuaooeW8j++8jOWkp+Ww
+vuaooeW8j++8jGNwdeWwvuaooeW8j++8jOaIluiAheWFtuS7lu+8ie+8jOWvueS7luS7rOadpeiv
+tA0KPiAt5bi45pWwIjAi56Gu5a6e5piv54m55q6K55qE44CCDQo+ICvluLjmlbAiMCLnoa7lrp4g
+KuaYryog54m55q6K55qE44CCDQo+ICsNCj4gK+S9v+eUqHNwYXJzZei/m+ihjOmUgeajgOafpQ0K
+PiArLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gKw0KPiAr5LiL6Z2i55qE5a6P5a+55LqOIGdjYyDm
+naXor7TmmK/mnKrlrprkuYnnmoTvvIzlnKggc3BhcnNlIOi/kOihjOaXtuWumuS5ie+8jOS7peS9
+v+eUqHNwYXJzZeeahOKAnOS4iuS4i+aWh+KAnQ0KPiAr6Lef6Liq5Yqf6IO977yM5bqU55So5LqO
+6ZSB5a6a44CCIOi/meS6m+azqOmHiuWRiuiviSBzcGFyc2Ug5LuA5LmI5pe25YCZ5pyJ6ZSB77yM
+5Lul5Y+K5rOo6YeK55qE5Ye95pWw55qE6L+b5YWl5ZKMDQo+ICvpgIDlh7rjgIINCj4gKw0KPiAr
+X19tdXN0X2hvbGQgLSDmjIflrprnmoTplIHlnKjlh73mlbDov5vlhaXlkozpgIDlh7rml7booqvm
+jIHmnInjgIINCj4gKw0KPiArX19hY3F1aXJlcyAgLSDmjIflrprnmoTplIHlnKjlh73mlbDpgIDl
+h7rml7booqvmjIHmnInvvIzkvYblnKjov5vlhaXml7bkuI3ooqvmjIHmnInjgIINCj4gKw0KPiAr
+X19yZWxlYXNlcyAgLSDmjIflrprnmoTplIHlnKjlh73mlbDov5vlhaXml7booqvmjIHmnInvvIzk
+vYblnKjpgIDlh7rml7bkuI3ooqvmjIHmnInjgIINCj4gKw0KPiAr5aaC5p6c5Ye95pWw5Zyo5LiN
+5oyB5pyJ6ZSB55qE5oOF5Ya15LiL6L+b5YWl5ZKM6YCA5Ye677yM5Zyo5Ye95pWw5YaF6YOo5Lul
+5bmz6KGh55qE5pa55byP6I635Y+W5ZKM6YeK5pS+6ZSB77yM5YiZ5LiNDQo+ICvpnIDopoHms6jp
+h4rjgIINCj4gK+S4iumdoueahOS4ieS4quazqOmHiuaYr+mSiOWvuXNwYXJzZeWQpuWImeS8muaK
+peWRiuS4iuS4i+aWh+S4jeW5s+ihoeeahOaDheWGteOAgg0KPg0KPiAg6I635Y+WIHNwYXJzZSDl
+t6XlhbcNCj4gIH5+fn5+fn5+fn5+fn5+fn4NCj4NCj4gIOS9oOWPr+S7peS7jiBTcGFyc2Ug55qE
+5Li76aG16I635Y+W5pyA5paw55qE5Y+R5biD54mI5pys77yaDQo+DQo+IC0gICAgICAgaHR0cDov
+L3d3dy5rZXJuZWwub3JnL3B1Yi9saW51eC9rZXJuZWwvcGVvcGxlL2pvc2gvc3BhcnNlLw0KPiAr
+ICAgICAgIGh0dHBzOi8vd3d3Lmtlcm5lbC5vcmcvcHViL3NvZnR3YXJlL2RldmVsL3NwYXJzZS9k
+aXN0Lw0KPg0KPiAg5oiW6ICF77yM5L2g5Lmf5Y+v5Lul5L2/55SoIGdpdCDlhYvpmobmnIDmlrDn
+moQgc3BhcnNlIOW8gOWPkeeJiOacrO+8mg0KPg0KPiAtICAgICAgIGdpdDovL2dpdC5rZXJuZWwu
+b3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9qb3NoL3NwYXJzZS5naXQNCj4gKyAgICAgICBn
+aXQ6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2RldmVsL3NwYXJzZS9zcGFyc2UuZ2l0DQo+DQo+
+ICDkuIDml6bkvaDkuIvovb3kuobmupDnoIHvvIzlj6ropoHku6Xmma7pgJrnlKjmiLfouqvku73o
+v5DooYzvvJoNCj4NCj4gICAgICAgICBtYWtlDQo+ICAgICAgICAgbWFrZSBpbnN0YWxsDQo+DQo+
+IC3lroPlsIbkvJrooqvoh6rliqjlronoo4XliLDkvaDnmoQgfi9iaW4g55uu5b2V5LiL44CCDQo+
+ICvlpoLmnpzmmK/moIflh4bnmoTnlKjmiLfvvIzlroPlsIbkvJrooqvoh6rliqjlronoo4XliLDk
+vaDnmoR+L2JpbuebruW9leS4i+OAgg0KPg0KPiAg5L2/55SoIHNwYXJzZSDlt6XlhbcNCj4gIH5+
+fn5+fn5+fn5+fn5+fn4NCj4gLS0NCj4gMi4yNy4wDQo+DQo=
