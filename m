@@ -2,125 +2,175 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31F93C433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Nov 2021 16:57:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E7ADC433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Nov 2021 16:59:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 193AA61215
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Nov 2021 16:57:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8B15C61246
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Nov 2021 16:59:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232141AbhKDQ77 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Nov 2021 12:59:59 -0400
-Received: from mg.ssi.bg ([193.238.174.37]:44958 "EHLO mg.ssi.bg"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232134AbhKDQ7p (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 4 Nov 2021 12:59:45 -0400
-X-Greylist: delayed 542 seconds by postgrey-1.27 at vger.kernel.org; Thu, 04 Nov 2021 12:59:42 EDT
-Received: from mg.ssi.bg (localhost [127.0.0.1])
-        by mg.ssi.bg (Proxmox) with ESMTP id DF8402883C;
-        Thu,  4 Nov 2021 18:48:01 +0200 (EET)
-Received: from ink.ssi.bg (unknown [193.238.174.40])
-        by mg.ssi.bg (Proxmox) with ESMTP id 2593F287A6;
-        Thu,  4 Nov 2021 18:48:00 +0200 (EET)
-Received: from ja.ssi.bg (unknown [178.16.129.10])
-        by ink.ssi.bg (Postfix) with ESMTPS id 290F93C0325;
-        Thu,  4 Nov 2021 18:47:56 +0200 (EET)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-        by ja.ssi.bg (8.16.1/8.16.1) with ESMTP id 1A4GlsFT007224;
-        Thu, 4 Nov 2021 18:47:55 +0200
-Date:   Thu, 4 Nov 2021 18:47:54 +0200 (EET)
-From:   Julian Anastasov <ja@ssi.bg>
-To:     yangxingwu <xingwu.yang@gmail.com>
-cc:     Simon Horman <horms@verge.net.au>, pablo@netfilter.org,
-        netdev@vger.kernel.org, lvs-devel@vger.kernel.org,
-        netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, Chuanqi Liu <legend050709@qq.com>
-Subject: Re: [PATCH nf-next v6] netfilter: ipvs: Fix reuse connection if RS
- weight is 0
-In-Reply-To: <20211104031029.157366-1-xingwu.yang@gmail.com>
-Message-ID: <72d07ec2-ec1-9024-ca98-c923f5d8f74@ssi.bg>
-References: <20211104031029.157366-1-xingwu.yang@gmail.com>
+        id S231794AbhKDRBo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Nov 2021 13:01:44 -0400
+Received: from linux.microsoft.com ([13.77.154.182]:53428 "EHLO
+        linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231616AbhKDRBn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Nov 2021 13:01:43 -0400
+Received: from [10.137.106.139] (unknown [131.107.159.11])
+        by linux.microsoft.com (Postfix) with ESMTPSA id D817320ABA92;
+        Thu,  4 Nov 2021 09:59:04 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D817320ABA92
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1636045145;
+        bh=6Fhu1fVrlEM+zAeqzfl+2y2B+pfRDcedOWmMzTvJw68=;
+        h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+        b=qbxZqAsxfR+uZTMqf4wXUs1iyN/O0A9xneB0ugX07sKH4oYoJGlekFy5vbq79mK1h
+         MMnPCiWKoOKbLKYoMjOY7jqTP6yv1bSanJLOzZSGaLn8s1dJOojCUNY6+wZZJ0vs69
+         Mu73irmZ7f10kfbIy2N+gkfEspEQ5jrQWbygMak4=
+Message-ID: <bd189273-7640-e135-9ca3-e6f3b909b3a1@linux.microsoft.com>
+Date:   Thu, 4 Nov 2021 09:59:04 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.1
+From:   Deven Bowers <deven.desai@linux.microsoft.com>
+Subject: Re: [RFC PATCH v7 07/16] ipe: add auditing support
+To:     Steve Grubb <sgrubb@redhat.com>, corbet@lwn.net, axboe@kernel.dk,
+        agk@redhat.com, snitzer@redhat.com, ebiggers@kernel.org,
+        tytso@mit.edu, paul@paul-moore.com, eparis@redhat.com,
+        jmorris@namei.org, serge@hallyn.com, linux-audit@redhat.com
+Cc:     linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+        jannh@google.com, linux-fscrypt@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+        dm-devel@redhat.com
+References: <1634151995-16266-1-git-send-email-deven.desai@linux.microsoft.com>
+ <2159283.iZASKD2KPV@x2>
+ <8802b1ff-3028-642a-22c5-bc4896450a60@linux.microsoft.com>
+ <1898302.usQuhbGJ8B@x2>
+Content-Language: en-US
+In-Reply-To: <1898302.usQuhbGJ8B@x2>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-	Hello,
+On 11/2/2021 12:44 PM, Steve Grubb wrote:
+> Hello,
+>
+> On Friday, October 15, 2021 3:25:47 PM EDT Deven Bowers wrote:
+>> On 10/13/2021 1:02 PM, Steve Grubb wrote:
+>>> On Wednesday, October 13, 2021 3:06:26 PM EDT
+>>> deven.desai@linux.microsoft.com> 
+>>> wrote:
+>>>> Users of IPE require a way to identify when and why an operation fails,
+>>>> allowing them to both respond to violations of policy and be notified
+>>>> of potentially malicious actions on their systens with respect to IPE
+>>>> itself.
+>>> Would you mind sending examples of audit events so that we can see what
+>>> the end result is? Some people add them to the commit text. But we still
+>>> need to see what they look like.
+>> Sure, sorry. I’ll add them to the commit description (and the documentation
+>> patch at the end) for v8 – In the interest of asynchronous feedback, I’ve
+>> copied the relevant examples:
+> Thanks for sending these. This helps.
+>
+>   
+>> AUDIT1420 IPE ctx_pid=229 ctx_op=EXECUTE ctx_hook=MMAP ctx_enforce=0
+>> ctx_comm="grep" ctx_pathname="/usr/lib/libc-2.23.so"
+>> ctx_ino=532 ctx_dev=vda rule="DEFAULT op=EXECUTE action=DENY"
+> Question...why do all of these have a ctx_  prefix?
 
-On Thu, 4 Nov 2021, yangxingwu wrote:
+Ah, the ctx_ was because these fields are all grouped in ipe in a 
+context (ctx)
+structure. An private version (pre-v1) had these grouped like:
 
-> We are changing expire_nodest_conn to work even for reused connections when
-> conn_reuse_mode=0, just as what was done with commit dc7b3eb900aa ("ipvs:
-> Fix reuse connection if real server is dead").
-> 
-> For controlled and persistent connections, the new connection will get the
-> needed real server depending on the rules in ip_vs_check_template().
-> 
-> Fixes: d752c3645717 ("ipvs: allow rescheduling of new connections when port reuse is detected")
-> Co-developed-by: Chuanqi Liu <legend050709@qq.com>
-> Signed-off-by: Chuanqi Liu <legend050709@qq.com>
-> Signed-off-by: yangxingwu <xingwu.yang@gmail.com>
+    ctx={ pid=229 comm="grep" op=EXECUTE ... }
 
-Acked-by: Julian Anastasov <ja@ssi.bg>
+But during an internal review, it was brought up that the grouping is likely
+non-standard and to cause more issues than its worth instead of just 
+prefixing
+the field with ctx_. Now that I think about it a bit more, the context is
+implicit, so the prefix and grouping doesn't make sense.
 
-> ---
->  Documentation/networking/ipvs-sysctl.rst | 3 +--
->  net/netfilter/ipvs/ip_vs_core.c          | 8 ++++----
->  2 files changed, 5 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/networking/ipvs-sysctl.rst b/Documentation/networking/ipvs-sysctl.rst
-> index 2afccc63856e..1cfbf1add2fc 100644
-> --- a/Documentation/networking/ipvs-sysctl.rst
-> +++ b/Documentation/networking/ipvs-sysctl.rst
-> @@ -37,8 +37,7 @@ conn_reuse_mode - INTEGER
->  
->  	0: disable any special handling on port reuse. The new
->  	connection will be delivered to the same real server that was
-> -	servicing the previous connection. This will effectively
-> -	disable expire_nodest_conn.
-> +	servicing the previous connection.
->  
->  	bit 1: enable rescheduling of new connections when it is safe.
->  	That is, whenever expire_nodest_conn and for TCP sockets, when
-> diff --git a/net/netfilter/ipvs/ip_vs_core.c b/net/netfilter/ipvs/ip_vs_core.c
-> index 128690c512df..393058a43aa7 100644
-> --- a/net/netfilter/ipvs/ip_vs_core.c
-> +++ b/net/netfilter/ipvs/ip_vs_core.c
-> @@ -1964,7 +1964,6 @@ ip_vs_in(struct netns_ipvs *ipvs, unsigned int hooknum, struct sk_buff *skb, int
->  	struct ip_vs_proto_data *pd;
->  	struct ip_vs_conn *cp;
->  	int ret, pkts;
-> -	int conn_reuse_mode;
->  	struct sock *sk;
->  
->  	/* Already marked as IPVS request or reply? */
-> @@ -2041,15 +2040,16 @@ ip_vs_in(struct netns_ipvs *ipvs, unsigned int hooknum, struct sk_buff *skb, int
->  	cp = INDIRECT_CALL_1(pp->conn_in_get, ip_vs_conn_in_get_proto,
->  			     ipvs, af, skb, &iph);
->  
-> -	conn_reuse_mode = sysctl_conn_reuse_mode(ipvs);
-> -	if (conn_reuse_mode && !iph.fragoffs && is_new_conn(skb, &iph) && cp) {
-> +	if (!iph.fragoffs && is_new_conn(skb, &iph) && cp) {
-> +		int conn_reuse_mode = sysctl_conn_reuse_mode(ipvs);
->  		bool old_ct = false, resched = false;
->  
->  		if (unlikely(sysctl_expire_nodest_conn(ipvs)) && cp->dest &&
->  		    unlikely(!atomic_read(&cp->dest->weight))) {
->  			resched = true;
->  			old_ct = ip_vs_conn_uses_old_conntrack(cp, skb);
-> -		} else if (is_new_conn_expected(cp, conn_reuse_mode)) {
-> +		} else if (conn_reuse_mode &&
-> +			   is_new_conn_expected(cp, conn_reuse_mode)) {
->  			old_ct = ip_vs_conn_uses_old_conntrack(cp, skb);
->  			if (!atomic_read(&cp->n_control)) {
->  				resched = true;
-> -- 
-> 2.30.2
+> Is it possible to trigger an audit context so that the audit machinery
+> collects all of this stuff in  it's own way? Which means you could drop
+> everything execept op, hook, enforce, rule, and action.
 
-Regards
+I could do something internal in IPE that will create the context in the 
+right
+way. As far as inside the audit stack it looks like the closest analogue 
+would
+be common_lsm_audit - which fixes the type to be AVC. I don't think 
+adding another
+form of AVC is appropriate?
 
---
-Julian Anastasov <ja@ssi.bg>
+I could also either extend common_lsm_audit to accept a type parameter, or
+make a more generalized function as part of the audit framework. Do you have
+a preference? Paul, do you have a preference?
 
+> We also have a field dictionary here:
+> https://github.com/linux-audit/audit-documentation/blob/main/specs/fields/
+> field-dictionary.csv
+>
+> which names the known fields and how they should be formatted. If there is a
+> collision where they are something else and cannot be in the same format,
+> then we make a new name and hopefully update the dictionary. For example, if
+> you are collecting a process id, use pid and not ctx_pid so that it matches a
+> known definition.
+
+Wow. I didn't know about this - it should be pretty easy to change the 
+fields
+to follow this mapping. Almost everything has a correlation already. It 
+looks
+like there would be only one collision with hook being currently defined
+with netfilter. Everything else would be new (e.g. rule), or could map
+an existingfield.
+> Also, I don't thnk these events can stand on their own. Who did this action?
+> You have the pid, but no uid, auid, or session_id.
+
+It makes sense to add these fields; and it'd be taken care of with your 
+suggestion
+above to make the audit context just gathers this information in its 
+own, consistent
+way.
+
+> Hope this helps...
+>
+> -Steve
+>
+>   
+>> AUDIT1420 IPE ctx_pid=229 ctx_op=EXECUTE ctx_hook=MMAP ctx_enforce=0
+>> ctx_comm="grep" ctx_pathname="/usr/lib/libc-2.23.so"
+>> ctx_ino=532 ctx_dev=vda rule="DEFAULT action=DENY"
+>>
+>> AUDIT1420 IPE ctx_pid=253 ctx_op=EXECUTE ctx_hook=MMAP ctx_enforce=1
+>> ctx_comm="anon" rule="DEFAULT op=EXECUTE action=DENY"
+>>
+>> These three audit records represent various types of results after
+>> evaluating
+>> the trust of a resource. The first two differ in the rule that was
+>> matched in
+>> IPE's policy, the first being an operation-specific default, the second
+>> being
+>> a global default. The third is an example of what is audited when anonymous
+>> memory is blocked (as there is no way to verify the trust of an anonymous
+>> page).
+>>
+>> The remaining three events, AUDIT_TRUST_POLICY_LOAD (1421),
+>> AUDIT_TRUST_POLICY_ACTIVATE (1422), and AUDIT_TRUST_STATUS (1423) have this
+>> form:
+>>
+>> AUDIT1421 IPE policy_name="my-policy" policy_version=0.0.0
+>> <hash_alg_name>=<hash>
+>> AUDIT1422 IPE policy_name="my-policy" policy_version=0.0.0
+>> <hash_alg_name>=<hash>
+>> AUDIT1423 IPE enforce=1
+>>
+>> The 1421 (AUDIT_TRUST_POLICY_LOAD) event represents a new policy was loaded
+>> into the kernel, but not is not marked as the policy to enforce. The
+>>
+>> The 1422 (AUDIT_TRUST_POLICY_ACTIVATE) event represents a policy that was
+>> already loaded was made the enforcing policy.
+>>
+>> The 1423 (AUDIT_TRUST_STATUS) event represents a switch between
+>> permissive and
+>> enforce, it is added in 08/16 (the following patch)
