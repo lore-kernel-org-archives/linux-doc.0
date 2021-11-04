@@ -2,77 +2,47 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90AD0C433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Nov 2021 15:56:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D893BC433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Nov 2021 16:21:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 70992611C0
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Nov 2021 15:56:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C016161212
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Nov 2021 16:21:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231463AbhKDP7K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Nov 2021 11:59:10 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:33002 "EHLO
-        mx0a-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231395AbhKDP7J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Nov 2021 11:59:09 -0400
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1A4FtRAh007643;
-        Thu, 4 Nov 2021 15:56:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
- subject : from : to : cc : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=6iI3dZjA1r1YLhi0I3cKEArQZIA2GcYQ+WPrNcay3+E=;
- b=zz1LiqhE9Swsa48CA4BgSKfjsPXvTxCfcafbny3VXEM9sXcwFykN9KVHAMN64yq4puBM
- sPYkNE7ap2fs01GwVFZxX7kiKe+UumDuqQzjjIz2jeAQtQ8MtDYJY5lAA3FKiDcMXXk9
- m3NleSbHxWMrrgX2XEDVjzVKjCZ9+LcDX5ju4ZIp2NMqOwhPX/2Ea9zVjfuu6vQKCar9
- jXwNhSrKBSuhT1rcxD6dwIxy/sdhJn1EbonM5J39x5g3kKpzMaefqqzB3ImFe2ZSeMoF
- n2pZ9NfkY5DP9wxKRdJSMbZuGvOEYzM+gzhiLIBlANzaF7mvaYRCr8Z6yuh9GiL9ziFV Dg== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3c3mt5h8gb-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 04 Nov 2021 15:56:20 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1A4FaOGF177826;
-        Thu, 4 Nov 2021 15:55:42 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2175.outbound.protection.outlook.com [104.47.59.175])
-        by userp3020.oracle.com with ESMTP id 3c1khxdc7g-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 04 Nov 2021 15:55:42 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jxQ8uvZLNyZFbo409FopsHq7kE1hoVsGJ3AyeFLPt6fRr+s+1af4bFkVzIju+EAiSYmkl1hEptGUeFGoBN6/TBIKzdOsr2nqIFBKGHX29S2JYk1+Dtyb6Ett0jiEvcWZK7cQ4SlmUyaJgTdCcO5GfApGmoEibAEZXb+qxbjw7CblDvPlQ4dTe33VdYVojk7lniu6rO/+vwLPS2ccvHF4THIHqygbOjdi52c9dFYKmAvEpUl/ZvjfYY03BnyX+KsoaBKN5QTMLcphWAzwD6osPmXgF4pVcLrnewq9zH4EMXjPbkih46VcjPmlFZDa0QYnAmMHnUez8iRrZdL5yrB4vg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6iI3dZjA1r1YLhi0I3cKEArQZIA2GcYQ+WPrNcay3+E=;
- b=BTNNEjkniLxsNZx4Li5MQtNC6KW5Bs+8qMrbLKEU0yADIVI0SsuAmlhUBAaNdgaCmZjYyDSlytYKwZlOQFV0cva1hTRnH0CV/bFJ6V07Yh+VxFrpDD1u2LBqqoijjZlAXC3Dur8Y58Mn+Tsu9BLXub/rEQXPCXhr60NjMFRqt+A4eyKBn/My34/DE69hz8q7q/Y6W/81ENHd0rMzwtAOICziOzmRXuCDbCWHUFyw1zQCoREneg/aQfguOdqZpyeSXnsIeb3joB4OtpMFRXeyQzEAnthMTTFE0BPhTGxrgKlRdjxnyLvhkiVGHdio+LFsn3YeGXQKt++GTFoWMiA9ng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6iI3dZjA1r1YLhi0I3cKEArQZIA2GcYQ+WPrNcay3+E=;
- b=VmTuZp1w1Q+xzwcYWQWhEfUfrLqGYsUGHZjIZmB7fd4N4NuRxWxQ0S/fg4P5833iLFFs5X6QxJ8IUImbfKfatha28AD4/o6JHAstOkx4LC14vha9/NhSFn0chTSzX0MOnujpJVmmENikzwGQzY+qdwQsHXJ9FKuZdZJV39N2HWU=
-Authentication-Results: suse.com; dkim=none (message not signed)
- header.d=none;suse.com; dmarc=none action=none header.from=oracle.com;
-Received: from BLAPR10MB5009.namprd10.prod.outlook.com (2603:10b6:208:321::10)
- by BL0PR10MB2865.namprd10.prod.outlook.com (2603:10b6:208:72::28) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.11; Thu, 4 Nov
- 2021 15:55:40 +0000
-Received: from BLAPR10MB5009.namprd10.prod.outlook.com
- ([fe80::3c49:46aa:83e1:a329]) by BLAPR10MB5009.namprd10.prod.outlook.com
- ([fe80::3c49:46aa:83e1:a329%5]) with mapi id 15.20.4669.011; Thu, 4 Nov 2021
- 15:55:40 +0000
-Message-ID: <f8e52acc-2566-1ed0-d2a3-21e2d468fab7@oracle.com>
-Date:   Thu, 4 Nov 2021 11:55:34 -0400
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.2.1
+        id S231757AbhKDQYd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Nov 2021 12:24:33 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:37214 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231751AbhKDQYd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Nov 2021 12:24:33 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 084071FD3F;
+        Thu,  4 Nov 2021 16:21:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1636042914; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=RyW5Wt/bfDet9n989u3PUHzkl4L+NrHrgmkaQ6ot2hU=;
+        b=L92SKm06c/K/noNaQ0Z0+pat7K6xDrEy2Wn9WB8070x+MZT2MLOxJpTacYZxt8NfGexzWd
+        mr+KdTjauTiBwOu6ApzjX9WyAtBPGFzBQBz+5/M3GAmli8x9F98uY/+4AEdeNQMQuvETvz
+        YdWmVfKh3SSIYoL1FmIeHNaJ0fnoQ84=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C88EF13DA2;
+        Thu,  4 Nov 2021 16:21:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id 5+7UL6EIhGEJDAAAMHmgww
+        (envelope-from <jgross@suse.com>); Thu, 04 Nov 2021 16:21:53 +0000
 Subject: Re: [PATCH v4] xen/balloon: add late_initcall_sync() for initial
  ballooning done
-Content-Language: en-US
-From:   Boris Ostrovsky <boris.ostrovsky@oracle.com>
-To:     Juergen Gross <jgross@suse.com>, xen-devel@lists.xenproject.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+To:     Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        xen-devel@lists.xenproject.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Stefano Stabellini <sstabellini@kernel.org>,
         stable@vger.kernel.org,
@@ -80,135 +50,232 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         <marmarek@invisiblethingslab.com>
 References: <20211102091944.17487-1-jgross@suse.com>
  <f986a7c4-3032-fecd-2e19-4d63a2ee10c7@oracle.com>
-In-Reply-To: <f986a7c4-3032-fecd-2e19-4d63a2ee10c7@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BYAPR01CA0025.prod.exchangelabs.com (2603:10b6:a02:80::38)
- To BLAPR10MB5009.namprd10.prod.outlook.com (2603:10b6:208:321::10)
+ <f8e52acc-2566-1ed0-d2a3-21e2d468fab7@oracle.com>
+From:   Juergen Gross <jgross@suse.com>
+Message-ID: <3b1f1771-0a96-1f71-9c9d-9fb1a53a266e@suse.com>
+Date:   Thu, 4 Nov 2021 17:21:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Received: from [10.74.104.20] (138.3.200.20) by BYAPR01CA0025.prod.exchangelabs.com (2603:10b6:a02:80::38) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.17 via Frontend Transport; Thu, 4 Nov 2021 15:55:38 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f7fbeb1d-2c1d-4526-4561-08d99fab8d37
-X-MS-TrafficTypeDiagnostic: BL0PR10MB2865:
-X-Microsoft-Antispam-PRVS: <BL0PR10MB28658F11D15CC9F818E64D2B8A8D9@BL0PR10MB2865.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: DxQGjVyIB5XmLkdvsRexmk08/wrLch8DD/LNcep4OMk0I/jONuvjnCVGDNYewiusHjGuRJ0vtvXvbbUFaJaCH6ftz8LRz4AvFte/9zvYnFU/ygt6+sTYUsjt8rJRe/bO9ZWdmAtFXIal7RZmtuF4CWPhV9+7EX19gNH2104oVK87CUTDmhETbwOQ0I4p0EggzIkMypCdhdJ33ouC8qkjg1ynTLfZ17DL+mtF+pGHdOQ8KfhrsySLx9tUKmWvByMewAdDM07GvOjksCkZKL9696/tqSSFzTy8lOVzQ8cV5jwWIyrpwSYwhPtYmVzIHEcrH4XBXXzp0G7bh1l0GQRxg6mrf/7MPWXn0Nmxe4v2+J63auznkHMDXykcnjGpTGj5IZE1HJUjmsXOj03/CKP9MnHlW2oViuQr1g6AZkzgbni53QO+CScjyrlrP8FjL2PfPSYP1zpuJmWBQtUhhl1ThQrJK6FqPjRdejAzzk6ccoDBsZ+bqPJ0pPdABzwP2vjYOAugKcQXEPba2l9qikMx3QG5ElqYJeqEw2y5ERmdjj6EQ/JS8inZhF/eSw77K6y1Y1shoU/vUbUPO0zlsmzOL59zyV93vB2MLvvpfNrBa843bCn8gsFwCmAllfR4TQe8E9OXRLKf/OY6TBWZu2OJ+CHdXeYL2qGaRscgacOZ12f9tTsH4lLmUiGXmLKqKOlM0N6+5c94luNjhPV24320uA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB5009.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(508600001)(31696002)(53546011)(66476007)(2906002)(44832011)(66556008)(956004)(8936002)(186003)(6486002)(8676002)(5660300002)(26005)(83380400001)(66574015)(2616005)(66946007)(316002)(36756003)(16576012)(38100700002)(6666004)(4326008)(31686004)(54906003)(86362001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OTZHdHlRdUtlM1NaRUxjRlltcjNnWGkyRmd6Q2JxQU9IUnRnZ09KRE1XRDRq?=
- =?utf-8?B?dU83MVBSQWxUR0tKLzVaa2JXZjhQMld4dWp0R1VHQUJoSkZlRy83UzRkOTNw?=
- =?utf-8?B?QXZwTmhVM3RhMnRwOW1kOUtaaWhaWk5iaXdxellNNWsvZzZHOTNib1Q3VVB0?=
- =?utf-8?B?WFVSOGx1UFI5TktHVVlwZktINVVJenFUVHcxSkFWbmI1cUVKc3NobGpQcThI?=
- =?utf-8?B?MzdYdDlTODNQK3kzMlVjUHFEVS9uOTRGcHNOZEZabi9SUUVVMUgxQUhXVFV2?=
- =?utf-8?B?UVoyeHFxNUhaWC9DOXRPSEhDT0hKak82VTVweUZyK2VLNVlSQThzS3BWL3Vs?=
- =?utf-8?B?VFV1VXp2N3pGY3c5a0Vsam9OYmRyRHoyaEU0MTBIK3AwZnlyc1VTeEpycXUr?=
- =?utf-8?B?N1RpMWduQ0c2Ky9FbFFUdXRkODV2Y2FFRkp6TXhsNlQrVHd5VXFFdXBERWJz?=
- =?utf-8?B?alJBd1N6bTdtbjgvMTdNNGVIRG1zTlZjdDNER1lERHhSSDhtUnh6RjdKTktU?=
- =?utf-8?B?RElvNktLd3VESk8xeTJUcGFTK2oycXhhaXJDV09haEFoKzRsNFB0eUZPZ3k5?=
- =?utf-8?B?WXExdWNVNlZyZkNYamQ5QzZFSEhqbFRwNTUvSDl1NWdVSVBoZ0xIQzErcHh5?=
- =?utf-8?B?WFJ2OHppaURIOEpwL1RtSGZIS3ROaTNldTkvTUtRcVUwai9FK1cwcFVmcjIv?=
- =?utf-8?B?WUN0YmdXN29ydXdtbWhYR01qbUE5aDB3dEZ4UlhGczZOMnV5N2RpWEpaUzUw?=
- =?utf-8?B?V3pValpXdzhLb0xwQTk3Z2JEaUdEeHBDWjRGdExSSzVWcXBJR0x2dytHcTRD?=
- =?utf-8?B?dGVpU3dHNTFXNkNXWVRtRFZiMXhMeUJ6bWNkeUM1OXRLQTRyRUZUdHhhcXR1?=
- =?utf-8?B?VUNucE90MkxQQWdMbEJRMVJUM2VLRUcrUEZPUCtnczZweW50SVRJcTFlY21r?=
- =?utf-8?B?VGNHMGsyeXZnRHY2WFF6dFVYU3lKMWh1ZDVoMzU2aDAzVjJTRjNQMElVOTNY?=
- =?utf-8?B?LzRGNzd4TjB3S2h1SFR1Slo5eWRNN1VnUDJ3QUFkUkI1WjhpUk94VmdaVDBM?=
- =?utf-8?B?ZUo5NFJEelFIM2w4VDV5UFppMG1KMjZLbUs4SkpUQ1ZCVEZBaEE2eGxVTGJx?=
- =?utf-8?B?VkF3UWpabXlXZ2R0Z25PWEUzeHc0Wmw0MXFRNXRXZDdTZEhuVXNzL3JHOW9v?=
- =?utf-8?B?MDU4VWo4Zzd0WklXanVuczlCbHJOSCt1N1dqNTJ0Z2NSdXRIMWI0UzUvRFND?=
- =?utf-8?B?UmNaV1RQcW03YWtnMXQwRjRJQ3F4UW1uOFdYVjZoUlFyWVM2ZU5HNmJEVW5H?=
- =?utf-8?B?a29YSEdYRngyRG8wYzRlemFOSGNFRTNrRDMwTVRaQXA0QWR4a0Y2bGlSMHpK?=
- =?utf-8?B?NWVOWFh2YVBHNFJKbzNVa2NzQjBUdlV1QWV2YTlvdEpHMnJQYUdZZmY5MGJs?=
- =?utf-8?B?UHRmTUNONHBiOEF6OVk2aFB6SWxuaVc0THJybTI1a0EzdVRaVm4wdlRRV3NO?=
- =?utf-8?B?UThKVktWdDM2M1Z5MkY0QzJqUldHSll5ZHAvQnJXOEx6SGdEMXdSZDl5dy9C?=
- =?utf-8?B?VHo5U0dMc2JZUEhZakdvaVlUUjQvOUlvVFgyT2JOdjdFQ1ZoY2xDVExqWFpD?=
- =?utf-8?B?L3NKN1FyT3EwcCt5aXpJZXBWN3dBTUxZS3IrOThoQWtyclVieTgvS2FlaTR5?=
- =?utf-8?B?UDhTRlZvNmNIN1R0STNnRDh5cFdvcTE0TEdSZURJdjhjdkxRS3hLREJxN0tZ?=
- =?utf-8?B?c1kvMTZOSER0enR2MlRyYk9kUGhCcEVBVno0OC9Ba1NMRWpZNk5qWHpLTnpa?=
- =?utf-8?B?YmRNODNiZFlwbHpYWkF0NG8xMkI0dTM3TFFjcWk2NVd0OGt4YlhkYmFKNExE?=
- =?utf-8?B?VlAzdzlNb2xwQzViQTNYS3JldTl0cWltZitDMDFMRnFnL0NVVitGU09JRUtC?=
- =?utf-8?B?b2hYVDFaYk40c3l0aVVpWjRlYVhBdmxZOTZTSEZFTEJSWWZQT0ZpMnFsYXVj?=
- =?utf-8?B?RVRrWnZrKzFBLzdTQ0hPTUtsT0lmZ0kzVmcxVWRSNWgwb3FNcHRSY2RIOXlO?=
- =?utf-8?B?R1F4dCt6N1FmL25obU9nRlZ3WWw1N1BwLzd3MEJ4V3dYRTFCazNFanQxZVRk?=
- =?utf-8?B?MFl0RFpmNUFQdDZzUVpHYnZTcjdhZ0grQy9aMU1XZGh0UWJudDAyWFVabHh4?=
- =?utf-8?B?QUVtY1RXZGd2dnFMMW83eERDdDR6MmhhNXN4L1ZlMndxQm9CdFNJVmhiQ0VG?=
- =?utf-8?Q?lMIM8eQ8ojlY5NuiqaghEEiL3bnO6rDWP7UU1BmyJo=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f7fbeb1d-2c1d-4526-4561-08d99fab8d37
-X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB5009.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2021 15:55:40.8762
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XzUNb1QSgK0nKpvlgzZbZM+g4olrKY65sokOSlsxeBKqdRplmP78LPEZN1uViEyae68MkaTGhhSECWOPKEaRKWjwiIjGeqtANrjE5rN0Odk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR10MB2865
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10157 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 phishscore=0 bulkscore=0
- spamscore=0 adultscore=0 suspectscore=0 mlxlogscore=999 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2111040059
-X-Proofpoint-ORIG-GUID: 3m0PyIltpDF4PZMgd8lxRO8nwPvbnZqL
-X-Proofpoint-GUID: 3m0PyIltpDF4PZMgd8lxRO8nwPvbnZqL
+In-Reply-To: <f8e52acc-2566-1ed0-d2a3-21e2d468fab7@oracle.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="JzKPLG1VYmIxPCVCcWc1VenFHq5kAdOeC"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--JzKPLG1VYmIxPCVCcWc1VenFHq5kAdOeC
+Content-Type: multipart/mixed; boundary="2vIdrc1xpWVHwJMCuVJCcJZ1hc8yPTd8m";
+ protected-headers="v1"
+From: Juergen Gross <jgross@suse.com>
+To: Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ xen-devel@lists.xenproject.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Stefano Stabellini <sstabellini@kernel.org>, stable@vger.kernel.org,
+ =?UTF-8?Q?Marek_Marczykowski-G=c3=b3recki?= <marmarek@invisiblethingslab.com>
+Message-ID: <3b1f1771-0a96-1f71-9c9d-9fb1a53a266e@suse.com>
+Subject: Re: [PATCH v4] xen/balloon: add late_initcall_sync() for initial
+ ballooning done
+References: <20211102091944.17487-1-jgross@suse.com>
+ <f986a7c4-3032-fecd-2e19-4d63a2ee10c7@oracle.com>
+ <f8e52acc-2566-1ed0-d2a3-21e2d468fab7@oracle.com>
+In-Reply-To: <f8e52acc-2566-1ed0-d2a3-21e2d468fab7@oracle.com>
 
-On 11/3/21 9:55 PM, Boris Ostrovsky wrote:
->
-> On 11/2/21 5:19 AM, Juergen Gross wrote:
->> When running as PVH or HVM guest with actual memory < max memory the
->> hypervisor is using "populate on demand" in order to allow the guest
->> to balloon down from its maximum memory size. For this to work
->> correctly the guest must not touch more memory pages than its target
->> memory size as otherwise the PoD cache will be exhausted and the guest
->> is crashed as a result of that.
+--2vIdrc1xpWVHwJMCuVJCcJZ1hc8yPTd8m
+Content-Type: multipart/mixed;
+ boundary="------------EA8676FA21E0F3DD37BD799B"
+Content-Language: en-US
+
+This is a multi-part message in MIME format.
+--------------EA8676FA21E0F3DD37BD799B
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+
+On 04.11.21 16:55, Boris Ostrovsky wrote:
+>=20
+> On 11/3/21 9:55 PM, Boris Ostrovsky wrote:
 >>
->> In extreme cases ballooning down might not be finished today before
->> the init process is started, which can consume lots of memory.
+>> On 11/2/21 5:19 AM, Juergen Gross wrote:
+>>> When running as PVH or HVM guest with actual memory < max memory the
+>>> hypervisor is using "populate on demand" in order to allow the guest
+>>> to balloon down from its maximum memory size. For this to work
+>>> correctly the guest must not touch more memory pages than its target
+>>> memory size as otherwise the PoD cache will be exhausted and the gues=
+t
+>>> is crashed as a result of that.
+>>>
+>>> In extreme cases ballooning down might not be finished today before
+>>> the init process is started, which can consume lots of memory.
+>>>
+>>> In order to avoid random boot crashes in such cases, add a late init
+>>> call to wait for ballooning down having finished for PVH/HVM guests.
+>>>
+>>> Warn on console if initial ballooning fails, panic() after stalling
+>>> for more than 3 minutes per default. Add a module parameter for
+>>> changing this timeout.
+>>>
+>>> Cc: <stable@vger.kernel.org>
+>>> Reported-by: Marek Marczykowski-G=C3=B3recki=20
+>>> <marmarek@invisiblethingslab.com>
+>>> Signed-off-by: Juergen Gross <jgross@suse.com>
 >>
->> In order to avoid random boot crashes in such cases, add a late init
->> call to wait for ballooning down having finished for PVH/HVM guests.
 >>
->> Warn on console if initial ballooning fails, panic() after stalling
->> for more than 3 minutes per default. Add a module parameter for
->> changing this timeout.
 >>
->> Cc: <stable@vger.kernel.org>
->> Reported-by: Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>
->> Signed-off-by: Juergen Gross <jgross@suse.com>
->
->
->
-> Reviewed-by: Boris Ostrovsky <boris.ostrovsky@oracle.com>
+>> Reviewed-by: Boris Ostrovsky <boris.ostrovsky@oracle.com>
+>=20
+>=20
+> This appears to have noticeable effect on boot time (and boot experienc=
+e=20
+> in general).
+>=20
+>=20
+> I have
+>=20
+>=20
+>  =C2=A0 memory=3D1024
+>  =C2=A0 maxmem=3D8192
+>=20
+>=20
+> And my boot time (on an admittedly slow box) went from 33 to 45 seconds=
+=2E=20
+> And boot pauses in the middle while it is waiting for ballooning to=20
+> complete.
+>=20
+>=20
+> [=C2=A0=C2=A0=C2=A0 5.062714] xen:balloon: Waiting for initial ballooni=
+ng down having=20
+> finished.
+> [=C2=A0=C2=A0=C2=A0 5.449696] random: crng init done
+> [=C2=A0=C2=A0 34.613050] xen:balloon: Initial ballooning down finished.=
 
 
-This appears to have noticeable effect on boot time (and boot experience in general).
+This shows that before it was just by chance that the PoD cache wasn't
+exhausted.
+
+> So at least I think we should consider bumping log level down from info=
+=2E
+
+Which level would you prefer? warn?
+
+And if so, would you mind doing this while committing (I have one day
+off tomorrow)?
 
 
-I have
+Juergen
 
+--------------EA8676FA21E0F3DD37BD799B
+Content-Type: application/pgp-keys;
+ name="OpenPGP_0xB0DE9DD628BF132F.asc"
+Content-Transfer-Encoding: quoted-printable
+Content-Description: OpenPGP public key
+Content-Disposition: attachment;
+ filename="OpenPGP_0xB0DE9DD628BF132F.asc"
 
-   memory=1024
-   maxmem=8192
+-----BEGIN PGP PUBLIC KEY BLOCK-----
 
+xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOBy=
+cWx
+w3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJvedYm8O=
+f8Z
+d621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJNwQpd369y=
+9bf
+IhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvxXP3FAp2pkW0xq=
+G7/
+377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEBAAHNHEp1ZXJnZW4gR=
+3Jv
+c3MgPGpnQHBmdXBmLm5ldD7CwHkEEwECACMFAlOMcBYCGwMHCwkIBwMCAQYVCAIJCgsEFgIDA=
+QIe
+AQIXgAAKCRCw3p3WKL8TL0KdB/93FcIZ3GCNwFU0u3EjNbNjmXBKDY4FUGNQH2lvWAUy+dnyT=
+hpw
+dtF/jQ6j9RwE8VP0+NXcYpGJDWlNb9/JmYqLiX2Q3TyevpB0CA3dbBQp0OW0fgCetToGIQrg0=
+MbD
+1C/sEOv8Mr4NAfbauXjZlvTj30H2jO0u+6WGM6nHwbh2l5O8ZiHkH32iaSTfN7Eu5RnNVUJbv=
+oPH
+Z8SlM4KWm8rG+lIkGurqqu5gu8q8ZMKdsdGC4bBxdQKDKHEFExLJK/nRPFmAuGlId1E3fe10v=
+5QL
++qHI3EIPtyfE7i9Hz6rVwi7lWKgh7pe0ZvatAudZ+JNIlBKptb64FaiIOAWDCx1SzR9KdWVyZ=
+2Vu
+IEdyb3NzIDxqZ3Jvc3NAc3VzZS5jb20+wsB5BBMBAgAjBQJTjHCvAhsDBwsJCAcDAgEGFQgCC=
+QoL
+BBYCAwECHgECF4AACgkQsN6d1ii/Ey/HmQf/RtI7kv5A2PS4RF7HoZhPVPogNVbC4YA6lW7Dr=
+Wf0
+teC0RR3MzXfy6pJ+7KLgkqMlrAbN/8Dvjoz78X+5vhH/rDLa9BuZQlhFmvcGtCF8eR0T1v0nC=
+/nu
+AFVGy+67q2DH8As3KPu0344TBDpAvr2uYM4tSqxK4DURx5INz4ZZ0WNFHcqsfvlGJALDeE0Lh=
+ITT
+d9jLzdDad1pQSToCnLl6SBJZjDOX9QQcyUigZFtCXFst4dlsvddrxyqT1f17+2cFSdu7+ynLm=
+XBK
+7abQ3rwJY8SbRO2iRulogc5vr/RLMMlscDAiDkaFQWLoqHHOdfO9rURssHNN8WkMnQfvUewRz=
+80h
+SnVlcmdlbiBHcm9zcyA8amdyb3NzQG5vdmVsbC5jb20+wsB5BBMBAgAjBQJTjHDXAhsDBwsJC=
+AcD
+AgEGFQgCCQoLBBYCAwECHgECF4AACgkQsN6d1ii/Ey8PUQf/ehmgCI9jB9hlgexLvgOtf7PJn=
+FOX
+gMLdBQgBlVPO3/D9R8LtF9DBAFPNhlrsfIG/SqICoRCqUcJ96Pn3P7UUinFG/I0ECGF4EvTE1=
+jnD
+kfJZr6jrbjgyoZHiw/4BNwSTL9rWASyLgqlA8u1mf+c2yUwcGhgkRAd1gOwungxcwzwqgljf0=
+N51
+N5JfVRHRtyfwq/ge+YEkDGcTU6Y0sPOuj4Dyfm8fJzdfHNQsWq3PnczLVELStJNdapwPOoE+l=
+otu
+fe3AM2vAEYJ9rTz3Cki4JFUsgLkHFqGZarrPGi1eyQcXeluldO3m91NK/1xMI3/+8jbO0tsn1=
+tqS
+EUGIJi7ox80eSnVlcmdlbiBHcm9zcyA8amdyb3NzQHN1c2UuZGU+wsB5BBMBAgAjBQJTjHDrA=
+hsD
+BwsJCAcDAgEGFQgCCQoLBBYCAwECHgECF4AACgkQsN6d1ii/Ey+LhQf9GL45eU5vOowA2u5N3=
+g3O
+ZUEBmDHVVbqMtzwlmNC4k9Kx39r5s2vcFl4tXqW7g9/ViXYuiDXb0RfUpZiIUW89siKrkzmQ5=
+dM7
+wRqzgJpJwK8Bn2MIxAKArekWpiCKvBOB/Cc+3EXE78XdlxLyOi/NrmSGRIov0karw2RzMNOu5=
+D+j
+LRZQd1Sv27AR+IP3I8U4aqnhLpwhK7MEy9oCILlgZ1QZe49kpcumcZKORmzBTNh30FVKK1Evm=
+V2x
+AKDoaEOgQB4iFQLhJCdP1I5aSgM5IVFdn7v5YgEYuJYx37IoN1EblHI//x/e2AaIHpzK5h88N=
+Eaw
+QsaNRpNSrcfbFmAg987ATQRTjHAWAQgAyzH6AOODMBjgfWE9VeCgsrwH3exNAU32gLq2xvjpW=
+nHI
+s98ndPUDpnoxWQugJ6MpMncr0xSwFmHEgnSEjK/PAjppgmyc57BwKII3sV4on+gDVFJR6Y8ZR=
+wgn
+BC5mVM6JjQ5xDk8WRXljExRfUX9pNhdE5eBOZJrDRoLUmmjDtKzWaDhIg/+1Hzz93X4fCQkNV=
+bVF
+LELU9bMaLPBG/x5q4iYZ2k2ex6d47YE1ZFdMm6YBYMOljGkZKwYde5ldM9mo45mmwe0icXKLk=
+pEd
+IXKTZeKDO+Hdv1aqFuAcccTg9RXDQjmwhC3yEmrmcfl0+rPghO0Iv3OOImwTEe4co3c1mwARA=
+QAB
+wsBfBBgBAgAJBQJTjHAWAhsMAAoJELDendYovxMvQ/gH/1ha96vm4P/L+bQpJwrZ/dneZcmEw=
+Tbe
+8YFsw2V/Buv6Z4Mysln3nQK5ZadD534CF7TDVft7fC4tU4PONxF5D+/tvgkPfDAfF77zy2AH1=
+vJz
+Q1fOU8lYFpZXTXIHb+559UqvIB8AdgR3SAJGHHt4RKA0F7f5ipYBBrC6cyXJyyoprT10EMvU8=
+VGi
+wXvTyJz3fjoYsdFzpWPlJEBRMedCot60g5dmbdrZ5DWClAr0yau47zpWj3enf1tLWaqcsuylW=
+svi
+uGjKGw7KHQd3bxALOknAp4dN3QwBYCKuZ7AddY9yjynVaD5X7nF9nO5BjR/i1DG86lem3iBDX=
+zXs
+ZDn8R38=3D
+=3D2wuH
+-----END PGP PUBLIC KEY BLOCK-----
 
-And my boot time (on an admittedly slow box) went from 33 to 45 seconds. And boot pauses in the middle while it is waiting for ballooning to complete.
+--------------EA8676FA21E0F3DD37BD799B--
 
+--2vIdrc1xpWVHwJMCuVJCcJZ1hc8yPTd8m--
 
-[    5.062714] xen:balloon: Waiting for initial ballooning down having finished.
-[    5.449696] random: crng init done
-[   34.613050] xen:balloon: Initial ballooning down finished.
+--JzKPLG1VYmIxPCVCcWc1VenFHq5kAdOeC
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
+-----BEGIN PGP SIGNATURE-----
 
-So at least I think we should consider bumping log level down from info.
+wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmGECKEFAwAAAAAACgkQsN6d1ii/Ey+P
+BggAh6jDDygwPd1B1MxUqCUOGK7SQYdbqJnusvOH0yW8JyzIZXMriK8FS9A2KIaUTGoVZal7LsqD
+L241gvpZq4mIP+QJR088u2IOzfYNJ3VoWRqAn4SZFw4EFMu/DIVi5CZem0Lu0fCwn0SqBjdYwhCX
+4aHeSlOQi9nigZbA+VJRGPZfg+u4tq60OwyJT62ZyWzn7QveDHCpia0Bg8scrF/ClMF1QRtWG8en
+QHvYw9aIfmuCDHP1rojzjiMMvqanZyUOFLNXwmnfxmORJXFB9pfytBWkxhGA6DU0pRtPTsdb1gwQ
+a1x3VdrfLEtLQ7MJZOqcYKENNMxby6ovMdA9uWpCEg==
+=saKu
+-----END PGP SIGNATURE-----
 
-
-
--boris
-
+--JzKPLG1VYmIxPCVCcWc1VenFHq5kAdOeC--
