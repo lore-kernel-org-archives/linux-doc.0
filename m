@@ -2,97 +2,196 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82DD2C433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Nov 2021 06:00:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06BEAC433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Nov 2021 09:11:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 55731611C3
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Nov 2021 06:00:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D0092611C0
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Nov 2021 09:11:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229912AbhKDGDG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Nov 2021 02:03:06 -0400
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:38207 "EHLO
-        new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229968AbhKDGDG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Nov 2021 02:03:06 -0400
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 5F0ED5808FF;
-        Thu,  4 Nov 2021 02:00:28 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Thu, 04 Nov 2021 02:00:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.in; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=fm1; bh=XG5SjLSIYpcUNInidXITrQIdb+
-        0tTZMc/XqazBhh2TI=; b=GQqxouLO9RdkOFxM5pkM5MYr4NEtu8TsKRpcaEsjr3
-        exBFo4BsXHr2ikzrc3mEFj783QWL1ITPWW8gaq+mr7YAQWdhb2zqmJO28JSsp40u
-        NzTTZaZKzhnO14tWd2nzHCxX2vcLXf4iEAp8IarU6beVOsuqWk63JuT5Q8jMFWdP
-        HXbaIOg6rNoXcPJPDoYqKp0Tv/L0ZeafaaiBat0Bas9MKrcle5GmHGMKW5zhJh5W
-        /Iu7kUC7loGCbLKbeOhO62KKzMY0Vffg2/6d2vTyxRlyi3XJ8YdBvghP2u3/cZUz
-        qX2VwOfCHFH28iG+24BkcA0dW3RCJerlzrClUnr8Wc2g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=XG5SjLSIYpcUNInid
-        XITrQIdb+0tTZMc/XqazBhh2TI=; b=fpOFOKoJbDNap8cIPTBMBTmXOWLbJBH9e
-        vGVfN7nJGwDstmuy/18kupQkVvm9JJGHS4heuOHu3aFFhqGsjc/yPvmdDLpKVjql
-        +zTY2EkgGFUN5H2eOh2FRwys3cNuJAixcBCz7Vn/zoenUO2lZqCgGtO0i2cmYNLP
-        RcmWGnhYLPWCl8VURh6ICRBpKIH9aFCtQnxTwKC+xSnhaKh0YL8jb8ZMarICvJV7
-        VXp5dy8NdhDXA+Ph+pRZBTpvUoa4Fdg3sbG7lR1F19KciapN80noJ5gx0V8ioaPz
-        1VAcgpdvZ1KHWDlY3+99QjUmZ6x0ef6AluHwokAKvbNlVAYX5obsg==
-X-ME-Sender: <xms:-3aDYeZaQD0ljUtINysoDfLNEToMz83l-vvBwFDQUQVl3LVQtnHa1g>
-    <xme:-3aDYRZ0D25LN1SPtNUNrKSPIc12NyHFCKGLFI4b4xOxS47v-cYALVn2h3LqhZ-q6
-    V_fh-FhkQ8Y5p4f4YI>
-X-ME-Received: <xmr:-3aDYY-JiM5VTabAV4Us7GSgJfKD8ZIscmBwp8ZGhSieWrojP3e78vZT>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrtdefgdekiecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertdertd
-    dtnecuhfhrohhmpeffvggvphcuofgrjhhumhguvghruceouggvvghpsehfrghsthhmrghi
-    lhdrihhnqeenucggtffrrghtthgvrhhnpedvvedtkefhteeggfehveehgeehgeeigfekke
-    fgteejleehffffffeggfdtheetleenucffohhmrghinhepnhigphdrtghomhdpphholhho
-    lhhurdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepuggvvghpsehfrghsthhmrghilhdrihhn
-X-ME-Proxy: <xmx:-3aDYQp4cLKVLfZAYE49MESybtFuc1TCXT01O8WARJRsFJKkHFbwoA>
-    <xmx:-3aDYZrcN5ecFDUoekmZVYxpB15yo1D4zqXANv5GX1_k_yHUO8YXyQ>
-    <xmx:-3aDYeTl2f2B7oBbeXeaM9kRja2FM9fq8apAjMTEnSxWsja_QdEiag>
-    <xmx:_HaDYQWke8rLsCaeq5xqmY_fHqrbTNYKyxASgkoD-ygDMpGcUdpi8w>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 4 Nov 2021 02:00:26 -0400 (EDT)
-From:   Deep Majumder <deep@fastmail.in>
-To:     wsa@kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Deep Majumder <deep@fastmail.in>
-Subject: [PATCH] Docs: Fixes link to I2C specification
-Date:   Thu,  4 Nov 2021 11:30:18 +0530
-Message-Id: <20211104060018.35570-1-deep@fastmail.in>
-X-Mailer: git-send-email 2.30.2
+        id S230383AbhKDJNq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Nov 2021 05:13:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55748 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230363AbhKDJNq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Nov 2021 05:13:46 -0400
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F856C06127A
+        for <linux-doc@vger.kernel.org>; Thu,  4 Nov 2021 02:11:08 -0700 (PDT)
+Received: by mail-lj1-x229.google.com with SMTP id y8so8389415ljm.4
+        for <linux-doc@vger.kernel.org>; Thu, 04 Nov 2021 02:11:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ip4jIKzplcPRjOqExcXRBQqPqAPXrq235jk6EqfK8sA=;
+        b=Ajj9xGu0eMeaOm/pl+F3O4w34Y56ucIS1YivaQBUsztCkIODJSzEomzA8LyYwWDhIv
+         gL4GafSII/OrRNlmeVnclC/zVYk+T//wrPlyD/ksgrxvgeA82um0lcBr8G4qDc3xCJsQ
+         HpK4IiT/8yrDHY95CZO0fe4r0yALgFqeTpFBQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ip4jIKzplcPRjOqExcXRBQqPqAPXrq235jk6EqfK8sA=;
+        b=Tchg5t/vdDJMCx5ZsVw5vnfJ6cM4lmXwByK6GJQS77xo2ePJNqozFU1bwgVIUGyEyc
+         9vfb4LmZwGSk4ycZArvSXXpjKbXtOL0tI1+6KQK4dT5Hxy4XCdHlkjj+XwbhP9WeL4ag
+         AYbNO3ffhHU8AnNUD1c6pVEBUUHoqCQRvrj1pbxLjetUUU9nZ1XZKslKL6FpGt6C5qnR
+         8xc03HAfrZ+yJXXWxo5HxfemuwxsSFGZtHVMyFQTmCnkPOMR0MCY/HEtjo49/+GoGVRi
+         L0y0QMg0Si1tA8j5IxBuOkxR1P+xq7VYwuH2E6RoKiU3lY4nsl23LNUOJGjUpophFFWT
+         jKKQ==
+X-Gm-Message-State: AOAM533Py7UP8S0+juapdHs3lJmlJxcT2Bfslxb4RrKTUhfjpjCCeWkl
+        dSPFccJftcfP9UVs+LsrecwSiYw7PygbHSKFIGT6Pw==
+X-Google-Smtp-Source: ABdhPJy8fhKodASuD5SKo5rDH8OmLdPRdEwIa15ljtPKQs6a7cExLx0VBmUmWvEB+7WHB09t29utQs4L5T2n+YQsf8E=
+X-Received: by 2002:a2e:b5d2:: with SMTP id g18mr18870481ljn.282.1636017066544;
+ Thu, 04 Nov 2021 02:11:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211020120431.776494-1-hikalium@chromium.org> <874k9bdcrk.wl-maz@kernel.org>
+In-Reply-To: <874k9bdcrk.wl-maz@kernel.org>
+From:   Hikaru Nishida <hikalium@chromium.org>
+Date:   Thu, 4 Nov 2021 18:10:55 +0900
+Message-ID: <CACTzKb+vVU0Ymh2Nx5B6kSydBsJ6AgrbQMF39RFvqoHpvL_riw@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 0/5] x86/kvm: Virtual suspend time injection support
+To:     Marc Zyngier <maz@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, dme@dme.org, tglx@linutronix.de,
+        mlevitsk@redhat.com, linux@roeck-us.net, pbonzini@redhat.com,
+        vkuznets@redhat.com, will@kernel.org, suleiman@google.com,
+        senozhatsky@google.com, kvmarm@lists.cs.columbia.edu,
+        linux-arm-kernel@lists.infradead.org,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        John Stultz <john.stultz@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juergen Gross <jgross@suse.com>,
+        Kees Cook <keescook@chromium.org>,
+        Lai Jiangshan <laijs@linux.alibaba.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Sean Christopherson <seanjc@google.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Wanpeng Li <wanpengli@tencent.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, x86@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The link to the I2C specification is broken and is replaced in this
-patch by one that points to Rev 6 (2014) of the specification.
-Although `https://www.nxp.com" hosts the Rev 7 (2021) of this
-specification, it is behind a login-wall and thus cannot be used.
+Hi Marc,
 
-Signed-off-by: Deep Majumder <deep@fastmail.in>
----
- Documentation/i2c/summary.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks for the comments! (Sorry for the late reply)
 
-diff --git a/Documentation/i2c/summary.rst b/Documentation/i2c/summary.rst
-index 136c4e333be7..607c72425ca6 100644
---- a/Documentation/i2c/summary.rst
-+++ b/Documentation/i2c/summary.rst
-@@ -12,7 +12,7 @@ and so are not advertised as being I2C but come under different names,
- e.g. TWI (Two Wire Interface), IIC.
- 
- The official I2C specification is the `"I2C-bus specification and user
--manual" (UM10204) <https://www.nxp.com/docs/en/user-guide/UM10204.pdf>`_
-+manual" (UM10204) <https://www.pololu.com/file/0J435/UM10204.pdf>`_
- published by NXP Semiconductors.
- 
- SMBus (System Management Bus) is based on the I2C protocol, and is mostly
--- 
-2.30.2
+On Wed, Oct 20, 2021 at 10:52 PM Marc Zyngier <maz@kernel.org> wrote:
+>
+> Hi Hikaru,
+>
+> On Wed, 20 Oct 2021 13:04:25 +0100,
+> Hikaru Nishida <hikalium@chromium.org> wrote:
+> >
+> >
+> > Hi,
+> >
+> > This patch series adds virtual suspend time injection support to KVM.
+> > It is an updated version of the following series:
+> > v2:
+> > https://lore.kernel.org/kvm/20210806100710.2425336-1-hikalium@chromium.org/
+> > v1:
+> > https://lore.kernel.org/kvm/20210426090644.2218834-1-hikalium@chromium.org/
+> >
+> > Please take a look again.
+> >
+> > To kvm/arm64 folks:
+> > I'm going to implement this mechanism to ARM64 as well but not
+> > sure which function should be used to make an IRQ (like kvm_apic_set_irq
+> > in x86) and if it is okay to use kvm_gfn_to_hva_cache /
+> > kvm_write_guest_cached for sharing the suspend duration.
+>
+> Before we discuss interrupt injection, I want to understand what this
+> is doing, and how this is doing it. And more precisely, I want to find
+> out how you solve the various problems described by Thomas here [1].
 
+The problems described by Thomas in the thread was:
+- User space or kernel space can observe the stale timestamp before
+the adjustment
+  - Moving CLOCK_MONOTONIC forward will trigger all sorts of timeouts,
+watchdogs, etc...
+- The last attempt to make CLOCK_MONOTONIC behave like CLOCK_BOOTTIME
+was reverted within 3 weeks. a3ed0e4393d6 ("Revert: Unify
+CLOCK_MONOTONIC and CLOCK_BOOTTIME")
+  - CLOCK_MONOTONIC correctness (stops during the suspend) should be maintained.
+
+I agree with the points above. And, the current CLOCK_MONOTONIC
+behavior in the KVM guest is not aligned with the statements above.
+(it advances during the host's suspension.)
+This causes the problems described above (triggering watchdog
+timeouts, etc...) so my patches are going to fix this by 2 steps
+roughly:
+1. Stopping the guest's clocks during the host's suspension
+2. Adjusting CLOCK_BOOTTIME later
+This will make the clocks behave like the host does, not making
+CLOCK_MONOTONIC behave like CLOCK_BOOTTIME.
+
+First one is a bit tricky since the guest can use a timestamp counter
+in each CPUs (TSC in x86) and we need to adjust it without stale
+values are observed by the guest kernel to prevent rewinding of
+CLOCK_MONOTONIC (which is our top priority to make the kernel happy).
+To achieve this, my patch adjusts TSCs (and a kvm-clock) before the
+first vcpu runs of each vcpus after the resume.
+
+Second one is relatively safe: since jumping CLOCK_BOOTTIME forward
+can happen even before my patches when suspend/resume happens, and
+that will not break the monotonicity of the clocks, we can do that
+through IRQ.
+
+[1] shows the flow of the adjustment logic, and [2] shows how the
+clocks behave in the guest and the host before/after my patches.
+The numbers on each step in [1] corresponds to the timing shown in [2].
+The left side of [2] is showing the behavior of the clocks before the
+patches, and the right side shows after the patches. Also, upper
+charts show the guest clocks, and bottom charts are host clocks.
+
+Before the patches(left side), CLOCK_MONOTONIC seems to be jumped from
+the guest's perspective after the host's suspension. As Thomas says,
+large jumps of CLOCK_MONOTONIC may lead to watchdog timeouts and other
+bad things that we want to avoid.
+With the patches(right side), both clocks will be adjusted (t=4,5) as
+if they are stopped during the suspension. This adjustment is done by
+the host side and invisible to the guest since it is done before the
+first vcpu run after the resume. After that, CLOCK_BOOTTIME will be
+adjusted from the guest side, triggered by the IRQ sent from the host.
+
+[1]: https://hikalium.com/files/kvm_virt_suspend_time_seq.png
+[2]: https://hikalium.com/files/kvm_virt_suspend_time_clocks.png
+
+
+>
+> Assuming you solve these, you should model the guest memory access
+> similarly to what we do for stolen time. As for injecting an
+> interrupt, why can't this be a userspace thing?
+
+Since CLOCK_BOOTTIME is calculated by adding a gap
+(tk->monotonic_to_boot) to CLOCK_MONOTONIC, and there are no way to
+change the value from the outside of the guest kernel, we should
+implement some mechanism in the kernel to adjust it.
+(Actually, I tried to add a sysfs interface to modify the gap [3], but
+I learned that that is not a good idea...)
+
+[3]: https://lore.kernel.org/lkml/87eehoax14.fsf@nanos.tec.linutronix.de/
+
+Thank you,
+
+Hikaru Nishida
+
+>
+> Thanks,
+>
+>         M.
+>
+> [1] https://lore.kernel.org/all/871r557jls.ffs@tglx
+>
+>
+> --
+> Without deviation from the norm, progress is not possible.
