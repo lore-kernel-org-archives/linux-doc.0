@@ -2,66 +2,67 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6E10C433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Nov 2021 03:10:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82DD2C433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Nov 2021 06:00:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CE755610A8
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Nov 2021 03:10:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 55731611C3
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Nov 2021 06:00:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229893AbhKDDNS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Nov 2021 23:13:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60892 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229603AbhKDDNR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Nov 2021 23:13:17 -0400
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCDABC061714;
-        Wed,  3 Nov 2021 20:10:39 -0700 (PDT)
-Received: by mail-pl1-x634.google.com with SMTP id n8so4957076plf.4;
-        Wed, 03 Nov 2021 20:10:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pVMWYzSKDSb7lsl9klO/kz5BlvSpls9AhNm08IAgTtc=;
-        b=BSqZJDoE6Kf26f4Qphg3UUATcCUHmjv8DO0pTiDETbkZLFb5/Ik7pqjo8DhoVoornv
-         9qbGTrNDWWTOkAv+WDjFIP6LutM+zUSJj9snw/E96zMgVeMJ1H4XCPsEKPbCEgcNDln+
-         IE8Na/2CzMsCM0tOWVJi5Dx0tNoqRHffzBI+O9vqn6fJozQqb+qxgZq+ndcw2qMe49l9
-         9xTksSyDCIjXqr9OJ3d4XWG8r4WkZRC8tN+g2ChSZN8725MljLH3Mt+SnHr84SuzX3Ig
-         ptaeycQgb62ooFpiWFYDci2mASQrPjhc4vC2gTVcBdzhhV/GadMNd8niO1LUub8BAO2d
-         sXnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pVMWYzSKDSb7lsl9klO/kz5BlvSpls9AhNm08IAgTtc=;
-        b=kVUTsXorzRA9hROWikxneP6/uhO7DnDrLRM5SDB6014dbAVHDWTat6Y8RLQMch24O2
-         APD2HyA2YFLidHRhn4Lo5lvoogQGuBNNknrqKP4+CYJG2jXFbwgeyahpsSWp55szC8+k
-         hDFcaPDx3CawCvJqEavZt64sg5hDmsiTIkw9yLQZ0USmBJ/soVF159ZSJUYguaQkaYwP
-         fEb3fSyJL8qhn6cdzRXatmGtjCe68HQWt5FYvYfdSrp4Dkj9NxW81XD+bduSPcNPuQux
-         EgpzfGDnGQdACLMwOqUrYfpbjHe8uqxA38pxK564mUjRmKezZOPZsBo4xDrrYUJA344N
-         +EGw==
-X-Gm-Message-State: AOAM532NVT3Bp0lPp2O+nXl88jNk+r2XXP35TX/6xt93yuoi/lwdMvce
-        Qt7w6leQxGNKZCOjE1rBA3c=
-X-Google-Smtp-Source: ABdhPJzYOHC2jjRAzzqzIln/BCPn3LH2u/srZVA0eaLFBRXyTPi2OR1l1HAfkQDNZi3Sl5lCKhFihw==
-X-Received: by 2002:a17:902:e88f:b0:141:f982:777 with SMTP id w15-20020a170902e88f00b00141f9820777mr20014435plg.68.1635995439314;
-        Wed, 03 Nov 2021 20:10:39 -0700 (PDT)
-Received: from ubuntu-hirsute.. ([162.219.34.244])
-        by smtp.gmail.com with ESMTPSA id a8sm2991469pgd.8.2021.11.03.20.10.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Nov 2021 20:10:38 -0700 (PDT)
-From:   yangxingwu <xingwu.yang@gmail.com>
-To:     horms@verge.net.au
-Cc:     ja@ssi.bg, pablo@netfilter.org, kadlec@netfilter.org, fw@strlen.de,
-        davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
-        lvs-devel@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        coreteam@netfilter.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, corbet@lwn.net,
-        yangxingwu <xingwu.yang@gmail.com>,
-        Chuanqi Liu <legend050709@qq.com>
-Subject: [PATCH nf-next v6] netfilter: ipvs: Fix reuse connection if RS weight is 0
-Date:   Thu,  4 Nov 2021 11:10:29 +0800
-Message-Id: <20211104031029.157366-1-xingwu.yang@gmail.com>
+        id S229912AbhKDGDG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Nov 2021 02:03:06 -0400
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:38207 "EHLO
+        new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229968AbhKDGDG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Nov 2021 02:03:06 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 5F0ED5808FF;
+        Thu,  4 Nov 2021 02:00:28 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Thu, 04 Nov 2021 02:00:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.in; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=fm1; bh=XG5SjLSIYpcUNInidXITrQIdb+
+        0tTZMc/XqazBhh2TI=; b=GQqxouLO9RdkOFxM5pkM5MYr4NEtu8TsKRpcaEsjr3
+        exBFo4BsXHr2ikzrc3mEFj783QWL1ITPWW8gaq+mr7YAQWdhb2zqmJO28JSsp40u
+        NzTTZaZKzhnO14tWd2nzHCxX2vcLXf4iEAp8IarU6beVOsuqWk63JuT5Q8jMFWdP
+        HXbaIOg6rNoXcPJPDoYqKp0Tv/L0ZeafaaiBat0Bas9MKrcle5GmHGMKW5zhJh5W
+        /Iu7kUC7loGCbLKbeOhO62KKzMY0Vffg2/6d2vTyxRlyi3XJ8YdBvghP2u3/cZUz
+        qX2VwOfCHFH28iG+24BkcA0dW3RCJerlzrClUnr8Wc2g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=XG5SjLSIYpcUNInid
+        XITrQIdb+0tTZMc/XqazBhh2TI=; b=fpOFOKoJbDNap8cIPTBMBTmXOWLbJBH9e
+        vGVfN7nJGwDstmuy/18kupQkVvm9JJGHS4heuOHu3aFFhqGsjc/yPvmdDLpKVjql
+        +zTY2EkgGFUN5H2eOh2FRwys3cNuJAixcBCz7Vn/zoenUO2lZqCgGtO0i2cmYNLP
+        RcmWGnhYLPWCl8VURh6ICRBpKIH9aFCtQnxTwKC+xSnhaKh0YL8jb8ZMarICvJV7
+        VXp5dy8NdhDXA+Ph+pRZBTpvUoa4Fdg3sbG7lR1F19KciapN80noJ5gx0V8ioaPz
+        1VAcgpdvZ1KHWDlY3+99QjUmZ6x0ef6AluHwokAKvbNlVAYX5obsg==
+X-ME-Sender: <xms:-3aDYeZaQD0ljUtINysoDfLNEToMz83l-vvBwFDQUQVl3LVQtnHa1g>
+    <xme:-3aDYRZ0D25LN1SPtNUNrKSPIc12NyHFCKGLFI4b4xOxS47v-cYALVn2h3LqhZ-q6
+    V_fh-FhkQ8Y5p4f4YI>
+X-ME-Received: <xmr:-3aDYY-JiM5VTabAV4Us7GSgJfKD8ZIscmBwp8ZGhSieWrojP3e78vZT>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrtdefgdekiecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertdertd
+    dtnecuhfhrohhmpeffvggvphcuofgrjhhumhguvghruceouggvvghpsehfrghsthhmrghi
+    lhdrihhnqeenucggtffrrghtthgvrhhnpedvvedtkefhteeggfehveehgeehgeeigfekke
+    fgteejleehffffffeggfdtheetleenucffohhmrghinhepnhigphdrtghomhdpphholhho
+    lhhurdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepuggvvghpsehfrghsthhmrghilhdrihhn
+X-ME-Proxy: <xmx:-3aDYQp4cLKVLfZAYE49MESybtFuc1TCXT01O8WARJRsFJKkHFbwoA>
+    <xmx:-3aDYZrcN5ecFDUoekmZVYxpB15yo1D4zqXANv5GX1_k_yHUO8YXyQ>
+    <xmx:-3aDYeTl2f2B7oBbeXeaM9kRja2FM9fq8apAjMTEnSxWsja_QdEiag>
+    <xmx:_HaDYQWke8rLsCaeq5xqmY_fHqrbTNYKyxASgkoD-ygDMpGcUdpi8w>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 4 Nov 2021 02:00:26 -0400 (EDT)
+From:   Deep Majumder <deep@fastmail.in>
+To:     wsa@kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Deep Majumder <deep@fastmail.in>
+Subject: [PATCH] Docs: Fixes link to I2C specification
+Date:   Thu,  4 Nov 2021 11:30:18 +0530
+Message-Id: <20211104060018.35570-1-deep@fastmail.in>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -69,68 +70,29 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We are changing expire_nodest_conn to work even for reused connections when
-conn_reuse_mode=0, just as what was done with commit dc7b3eb900aa ("ipvs:
-Fix reuse connection if real server is dead").
+The link to the I2C specification is broken and is replaced in this
+patch by one that points to Rev 6 (2014) of the specification.
+Although `https://www.nxp.com" hosts the Rev 7 (2021) of this
+specification, it is behind a login-wall and thus cannot be used.
 
-For controlled and persistent connections, the new connection will get the
-needed real server depending on the rules in ip_vs_check_template().
-
-Fixes: d752c3645717 ("ipvs: allow rescheduling of new connections when port reuse is detected")
-Co-developed-by: Chuanqi Liu <legend050709@qq.com>
-Signed-off-by: Chuanqi Liu <legend050709@qq.com>
-Signed-off-by: yangxingwu <xingwu.yang@gmail.com>
+Signed-off-by: Deep Majumder <deep@fastmail.in>
 ---
- Documentation/networking/ipvs-sysctl.rst | 3 +--
- net/netfilter/ipvs/ip_vs_core.c          | 8 ++++----
- 2 files changed, 5 insertions(+), 6 deletions(-)
+ Documentation/i2c/summary.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/networking/ipvs-sysctl.rst b/Documentation/networking/ipvs-sysctl.rst
-index 2afccc63856e..1cfbf1add2fc 100644
---- a/Documentation/networking/ipvs-sysctl.rst
-+++ b/Documentation/networking/ipvs-sysctl.rst
-@@ -37,8 +37,7 @@ conn_reuse_mode - INTEGER
+diff --git a/Documentation/i2c/summary.rst b/Documentation/i2c/summary.rst
+index 136c4e333be7..607c72425ca6 100644
+--- a/Documentation/i2c/summary.rst
++++ b/Documentation/i2c/summary.rst
+@@ -12,7 +12,7 @@ and so are not advertised as being I2C but come under different names,
+ e.g. TWI (Two Wire Interface), IIC.
  
- 	0: disable any special handling on port reuse. The new
- 	connection will be delivered to the same real server that was
--	servicing the previous connection. This will effectively
--	disable expire_nodest_conn.
-+	servicing the previous connection.
+ The official I2C specification is the `"I2C-bus specification and user
+-manual" (UM10204) <https://www.nxp.com/docs/en/user-guide/UM10204.pdf>`_
++manual" (UM10204) <https://www.pololu.com/file/0J435/UM10204.pdf>`_
+ published by NXP Semiconductors.
  
- 	bit 1: enable rescheduling of new connections when it is safe.
- 	That is, whenever expire_nodest_conn and for TCP sockets, when
-diff --git a/net/netfilter/ipvs/ip_vs_core.c b/net/netfilter/ipvs/ip_vs_core.c
-index 128690c512df..393058a43aa7 100644
---- a/net/netfilter/ipvs/ip_vs_core.c
-+++ b/net/netfilter/ipvs/ip_vs_core.c
-@@ -1964,7 +1964,6 @@ ip_vs_in(struct netns_ipvs *ipvs, unsigned int hooknum, struct sk_buff *skb, int
- 	struct ip_vs_proto_data *pd;
- 	struct ip_vs_conn *cp;
- 	int ret, pkts;
--	int conn_reuse_mode;
- 	struct sock *sk;
- 
- 	/* Already marked as IPVS request or reply? */
-@@ -2041,15 +2040,16 @@ ip_vs_in(struct netns_ipvs *ipvs, unsigned int hooknum, struct sk_buff *skb, int
- 	cp = INDIRECT_CALL_1(pp->conn_in_get, ip_vs_conn_in_get_proto,
- 			     ipvs, af, skb, &iph);
- 
--	conn_reuse_mode = sysctl_conn_reuse_mode(ipvs);
--	if (conn_reuse_mode && !iph.fragoffs && is_new_conn(skb, &iph) && cp) {
-+	if (!iph.fragoffs && is_new_conn(skb, &iph) && cp) {
-+		int conn_reuse_mode = sysctl_conn_reuse_mode(ipvs);
- 		bool old_ct = false, resched = false;
- 
- 		if (unlikely(sysctl_expire_nodest_conn(ipvs)) && cp->dest &&
- 		    unlikely(!atomic_read(&cp->dest->weight))) {
- 			resched = true;
- 			old_ct = ip_vs_conn_uses_old_conntrack(cp, skb);
--		} else if (is_new_conn_expected(cp, conn_reuse_mode)) {
-+		} else if (conn_reuse_mode &&
-+			   is_new_conn_expected(cp, conn_reuse_mode)) {
- 			old_ct = ip_vs_conn_uses_old_conntrack(cp, skb);
- 			if (!atomic_read(&cp->n_control)) {
- 				resched = true;
+ SMBus (System Management Bus) is based on the I2C protocol, and is mostly
 -- 
 2.30.2
 
