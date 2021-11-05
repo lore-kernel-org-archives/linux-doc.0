@@ -2,84 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52FF4C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Nov 2021 14:59:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42590C433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Nov 2021 15:43:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 32C1B6120E
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Nov 2021 14:59:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2A1BF61183
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Nov 2021 15:43:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233299AbhKEPCY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Nov 2021 11:02:24 -0400
-Received: from mout.gmx.net ([212.227.17.21]:48445 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233344AbhKEPCY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 5 Nov 2021 11:02:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1636124353;
-        bh=rTZyr90F33UIxLT2rfkTze3Dx3P4fW7zLUDyWI7/ts4=;
-        h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=dxIr5giVrgHWCMHcPIkRVfFseDrweAo/gGxpbdLHAFzMO1S/qoYAl7eTwmKkI4Zla
-         dhHFVm4FriE4PQatxsvVyMFgCYPRRRwouSF+DUTIQn3LxRPFEUeH2Is3zeyiY5TJ1L
-         VhG/RxCRZvZ5qvJ525BXURVU01EcMkQ9vstHwm8o=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.1.252] ([5.166.175.137]) by mail.gmx.net (mrgmx104
- [212.227.17.174]) with ESMTPSA (Nemesis) id 1MdvmY-1m9OQ23QPe-00b78d; Fri, 05
- Nov 2021 15:59:12 +0100
-Message-ID: <10ed7b49-fd66-68c7-5533-866c2ea27ddb@gmx.com>
-Date:   Fri, 5 Nov 2021 14:59:11 +0000
+        id S231963AbhKEPqV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Nov 2021 11:46:21 -0400
+Received: from smtp-relay-internal-1.canonical.com ([185.125.188.123]:41910
+        "EHLO smtp-relay-internal-1.canonical.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231892AbhKEPqU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Nov 2021 11:46:20 -0400
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com [209.85.128.70])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 50F3E3F1D6
+        for <linux-doc@vger.kernel.org>; Fri,  5 Nov 2021 15:43:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1636127019;
+        bh=Kma2r6Cjt1RWiEDiySihOnGrp1HFvlTplV2HdiifHKA=;
+        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
+        b=Pv2s9dMT5q38F9GPg01SpNA4Yyt4qClouRXUzF5/gxS8l5bcAQXllxbIaASR8LV36
+         09z4TY4JVhcAX1yDfM4MVTml5JOAtaW8AuwNn0Ck7c7kbCrAiMDdkFvHTweXSTh/e9
+         m4cGsOPWKJjXEi7dXp/EJUCf7wa2gkWJPheJbeOoJsrJbJWY0dL0O+rcvTweNGE4cg
+         9UxD7SDNKwXX0ZubTKs2GpzBYDzC751U+d7FJ0qHl3e57i3oZ5dzsBGAhynwQqExEq
+         BZA4ut6pIT2iTutRL192dcNAxDJf5aqmgcqGcYZEmAVRGbIyMldA+XRee/9cuw+vHE
+         M1l/uJPQgJWZw==
+Received: by mail-wm1-f70.google.com with SMTP id o18-20020a05600c511200b00332fa17a02eso3371736wms.5
+        for <linux-doc@vger.kernel.org>; Fri, 05 Nov 2021 08:43:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Kma2r6Cjt1RWiEDiySihOnGrp1HFvlTplV2HdiifHKA=;
+        b=Yvmd+tVzd1Q2MlIFFoA3XLlGUuf1Br5Le+PYgkTYu2mXi8SR9jsJgt2PRam+Nuxkji
+         PRg9HMFq8iI9ywFovpTiQbkZ1F0WUu5qCB8lPdckbWaHhXnvyADQ2BTEPpCIrEyoi7/G
+         W0/swpLqOYt+O31U/5JI788UvhFMSWwYtmVMLvod6Bo++AnjnjqOpQBGPCr2465V/vl0
+         aeIpef6uo3IuKczQ6YHEc6+nxO+5nXTA/lKFWUtrRmMlPEAxIQIeY5vRitIqy6CegRf8
+         rOBWH2Ei5S+JKNrToOo/1BIPs9Tve3W67XAtS5LbZ1NeeYJI/iZEDc4oJZKzkgB/jbiz
+         jBuQ==
+X-Gm-Message-State: AOAM531GW7M20SVbRVoiEKp15x/56TZQrSEQqYmPmp4qe7qDMpnhRj95
+        tVteA9xotAsAol1RogsrHQi5NOEqt7DuB8eoSixSsjeraNnEU01JS2Rcb4GfIAOb4jIJzsqaAKY
+        QccGkDbLp9gHYkEP+fasX0U3zcGIH7wKztqoWLQ==
+X-Received: by 2002:a1c:f601:: with SMTP id w1mr30738293wmc.112.1636127019052;
+        Fri, 05 Nov 2021 08:43:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyoyh8Lr4yX65exQreiyo/watjC1Mfw4IA67+fs0m2xRDqQJ5/nM+wMDOQKHo1Bn9rMO/Br/w==
+X-Received: by 2002:a1c:f601:: with SMTP id w1mr30738272wmc.112.1636127018901;
+        Fri, 05 Nov 2021 08:43:38 -0700 (PDT)
+Received: from localhost.localdomain (lfbn-lyo-1-470-249.w2-7.abo.wanadoo.fr. [2.7.60.249])
+        by smtp.gmail.com with ESMTPSA id m2sm11245691wml.15.2021.11.05.08.43.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Nov 2021 08:43:38 -0700 (PDT)
+From:   Alexandre Ghiti <alexandre.ghiti@canonical.com>
+To:     Steve French <sfrench@samba.org>, Jonathan Corbet <corbet@lwn.net>,
+        David Howells <dhowells@redhat.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Jeff Layton <jlayton@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Ronnie Sahlberg <lsahlber@redhat.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kalle Valo <kvalo@codeaurora.org>, linux-cifs@vger.kernel.org,
+        samba-technical@lists.samba.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-cachefs@redhat.com,
+        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
+        linux-power@fi.rohmeurope.com
+Cc:     Alexandre Ghiti <alexandre.ghiti@canonical.com>
+Subject: [PATCH 0/7] Cleanup after removal of configs
+Date:   Fri,  5 Nov 2021 16:43:27 +0100
+Message-Id: <20211105154334.1841927-1-alexandre.ghiti@canonical.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Subject: Re: [PATCH v1 (RFC)] docs: discourage users from using
- bugzilla.kernel.org
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org
-References: <20210110121033.130504-1-linux@leemhuis.info>
- <6abc7248-efda-b569-9030-5384e5ce1f29@gmx.com>
- <YYVC6Nd+XjG6shDV@casper.infradead.org>
-From:   "Artem S. Tashkinov" <aros@gmx.com>
-In-Reply-To: <YYVC6Nd+XjG6shDV@casper.infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:18FimqYHz03+t3Osu8rgaYFfIygFQ7fi9zFJdfzEHD6rSwti+Wd
- BviphiGw0Ycj+ZwdwffgfUL25sqiA7PuN5OpsJ6ByyWixTI1C1BdRnptUIqk6U8bEc4DhHD
- W4L1D6tXaBgNXQqmfvPglbBJGyWvPnX4C2JqRTJN+57lsgWHVy2WOjPv3jM8oMAGBkvSqPX
- RX8lZO4S+mZfegxLnmgNw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7q0tcp2KL34=:CNiu6UFq6mvvSrRGKYsCM7
- /LUdigkclRC1TQbtUjGSdRrznLvZrbZ4KDOekQSOvRVGBWOsIvgKwafJZ6c4+iE/Cg541agh6
- 6D4T0wcseNTxdwLNaE8zeYBmBm6ENOXOKJHMvKsD49jhTa1Y03LIE8hPHnWaNCcec8DSOs33h
- FKykfuO8ALI7PItErLWdcxQJs5+v4npV4/+3/kfbKOg8ALu9A9srLLfy8JiqBR7uLYz88zBiF
- po028MDfav8wIQMLNFUdPRZ8PKSC2SNSfNQDzt8S3hsKqpAIm5ZSYBoA6lFizDbUhE4gPplGD
- H2csnGmqWcKTMWseKQu/bOQYX7isAmylnaH8xkOWzhYHKwB3u2HzRP14xu1DL6mg4vQJqaqWI
- lmekvx0QLxe6R5zx3K6VNDKjx51DUfcNY5O9jB4r0vWxUsWJ9dver2OXsdoqAGoNJ0Iw/nIBU
- EQfLMazUDWOQtCcOtXVwt6tEx482oP3EKz+uZZKIBGEOC+xRzERJp5Nw+UYY/PCZf/j1K+h5x
- TnDPfnmZeuePqCtnhCgz/k150ut92IU8ei08FtbXFj6X1LjAI39PS88L0wFeUVhCyFGdu8UTH
- H8lg/yHbr/b2HfSQULbsescPMlRkPx2VCcpeWrZ08hrlHMsupzpv8GFSO2jsb36pl5KChujs7
- DpwEUb/OVGMOIqu3Dj4poLUW3UfcTd6r9KGk5PzmdLAnF4eGBvG9e+DHZLBrf4Tm+a1qLgFt+
- ex28vXnj4TRUJ1fS8+PG7jMAgbiJaNWeuRx0Y6Pgixiti66mIY9wTaeNoyEP3w0mRNHrqHEYz
- Q7uHejLEPNhSK3TDl7+IiC4Sw7smyvTpRFOqTBQRCbjP6npEFuQ9uG86jce5Wa1rdcRAp8uIW
- Eiw0irBaIg0hlTeFztmT0rG7QTSWN9HV9WH6XaWxyEFnTZJXdMwGXxkz2oEGaa1oYQtHVYhz4
- lfaE5VAIIMuh26CWh7qc9kVBGGuN32g/uIlFltghD3vPmbkMlycPBSsVXOPGlxfd7dswaA1o5
- gogd4D9fmlsAZ76BzghDLwmaRdjku2sysalUU9X2TUlinD/ZJgmvmP9VEch7p+z9cw==
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/5/21 14:42, Matthew Wilcox wrote:
-> On Fri, Nov 05, 2021 at 02:36:51PM +0000, Artem S. Tashkinov wrote:
->> Hello,
->>
->> Let me express an utter dissatisfaction and even contempt for this prop=
-osal.
->
-> Thank you for volunteering to take over administration of
-> bugzilla.kernel.org.  Can you lay out your plans for making kernel
-> developers care about it?
->
+While bumping from 5.13 to 5.15, I found that a few deleted configs had
+left some pieces here and there: this patchset cleans that.
 
-Last time I checked the Linux foundation is not exactly living from hand
-to mouth and has enough financial backing from major corporations.
+Alexandre Ghiti (7):
+  Documentation, arch: Remove leftovers from fscache/cachefiles
+    histograms
+  Documentation, arch: Remove leftovers from raw device
+  Documentation, arch: Remove leftovers from CIFS_WEAK_PW_HASH
+  arch: Remove leftovers from mandatory file locking
+  Documentation, arch, fs: Remove leftovers from fscache object list
+  include: mfd: Remove leftovers from bd70528 watchdog
+  arch: Remove leftovers from prism54 wireless driver
 
-Is this really about funding?
+ Documentation/admin-guide/cifs/usage.rst      |   7 +-
+ Documentation/admin-guide/devices.txt         |   8 +-
+ .../filesystems/caching/cachefiles.rst        |  34 -----
+ Documentation/filesystems/caching/fscache.rst | 123 +-----------------
+ arch/arm/configs/axm55xx_defconfig            |   3 -
+ arch/arm/configs/cm_x300_defconfig            |   1 -
+ arch/arm/configs/ezx_defconfig                |   1 -
+ arch/arm/configs/imote2_defconfig             |   1 -
+ arch/arm/configs/nhk8815_defconfig            |   1 -
+ arch/arm/configs/pxa_defconfig                |   1 -
+ arch/arm/configs/spear13xx_defconfig          |   1 -
+ arch/arm/configs/spear3xx_defconfig           |   1 -
+ arch/arm/configs/spear6xx_defconfig           |   1 -
+ arch/mips/configs/decstation_64_defconfig     |   1 -
+ arch/mips/configs/decstation_defconfig        |   1 -
+ arch/mips/configs/decstation_r4k_defconfig    |   1 -
+ arch/mips/configs/fuloong2e_defconfig         |   1 -
+ arch/mips/configs/ip27_defconfig              |   1 -
+ arch/mips/configs/malta_defconfig             |   1 -
+ arch/mips/configs/malta_kvm_defconfig         |   1 -
+ arch/mips/configs/malta_qemu_32r6_defconfig   |   1 -
+ arch/mips/configs/maltaaprp_defconfig         |   1 -
+ arch/mips/configs/maltasmvp_defconfig         |   1 -
+ arch/mips/configs/maltasmvp_eva_defconfig     |   1 -
+ arch/mips/configs/maltaup_defconfig           |   1 -
+ arch/mips/configs/maltaup_xpa_defconfig       |   1 -
+ arch/mips/configs/nlm_xlp_defconfig           |   2 -
+ arch/mips/configs/nlm_xlr_defconfig           |   2 -
+ arch/powerpc/configs/pmac32_defconfig         |   1 -
+ arch/powerpc/configs/ppc6xx_defconfig         |   1 -
+ arch/powerpc/configs/pseries_defconfig        |   1 -
+ arch/sh/configs/titan_defconfig               |   1 -
+ fs/fscache/object.c                           |   3 -
+ fs/fscache/proc.c                             |  12 --
+ include/linux/mfd/rohm-bd70528.h              |  24 ----
+ 35 files changed, 6 insertions(+), 237 deletions(-)
 
-Regards,
-Artem
+-- 
+2.32.0
+
