@@ -2,131 +2,251 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CE70C433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Nov 2021 17:12:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B836C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Nov 2021 00:31:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 84D646124D
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Nov 2021 17:12:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 458B36124D
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Nov 2021 00:31:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232609AbhKDROv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Nov 2021 13:14:51 -0400
-Received: from linux.microsoft.com ([13.77.154.182]:55138 "EHLO
-        linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232614AbhKDROt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Nov 2021 13:14:49 -0400
-Received: from [10.137.106.139] (unknown [131.107.159.11])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 5ED1720ABA94;
-        Thu,  4 Nov 2021 10:12:10 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5ED1720ABA94
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1636045930;
-        bh=qEPw2InKnsvskNfMVAs79ETCgoEtkA0LqlU3T/wm4UU=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=TOKjsjpHy/6jP6DASOEiio4+SFbY1bV2zRvkMssy96xZM0i5VxP1rkA4e/T9SCZ6P
-         4waObN9FPi2nFKpG56+iXnUxO+7Q+NmeIx/NfccfBZOI2tCSlSsiK5C+0559jeIH7u
-         f+DR+oor43nyIe7u/bOblKF60y+83HkhuOSbu32Q=
-Message-ID: <8d12dcf4-165d-9db6-5a42-591bc8b97c00@linux.microsoft.com>
-Date:   Thu, 4 Nov 2021 10:12:09 -0700
+        id S230044AbhKEAeh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Nov 2021 20:34:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38618 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229587AbhKEAeg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Nov 2021 20:34:36 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EE54C061714
+        for <linux-doc@vger.kernel.org>; Thu,  4 Nov 2021 17:31:58 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id v23so17731pjr.5
+        for <linux-doc@vger.kernel.org>; Thu, 04 Nov 2021 17:31:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=intel-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BsG61L7IKjHxv8q9I3AHXY4seKqtKLeUDkmnvn0KnP8=;
+        b=f2aFR1Fm8LSmJU324PxSLHMJ0vM2TsbHB+Jt0aFhdwrv4uFbXTc8tL0tTLJFkljgMX
+         aepjsXWXDRTwLoWLppme8/smx82NczNW+0yIrVuHrAUNhwQhHrIS9FQTLX68f4YGvrAd
+         6oX+HvJV4dZZWm0hRaMq5XoNwGnEMZXMmRgrt4Q0ozb1JALvsSkr3gAyuEQIbP0zFau+
+         vfCKgkpBihG+RZdymSvrJzqnk5J5LzVBWBkGB5hniGExdwxUmzKqqK2r8L9VaRIyO7Wv
+         ySEGxxIsK76syxRbpoYaOkOAp5FcoTHjG/c+z53jEET0JwjZ28ZVw7Xm3eTg1UYW0kTy
+         8cCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BsG61L7IKjHxv8q9I3AHXY4seKqtKLeUDkmnvn0KnP8=;
+        b=cfolDMhhoR7ZONUHGMjICQyjcbJcHaFNV2Vy8/cp2HofGJ3+ScP277IWBqrS6aD6jr
+         bLCJagV183iPJu5FxLkdVYVc7MV4m6DbC4Z+Os0QDn6gD+OTeDW4Sda6n6mAKVzlQfUT
+         hZRH4EPOTsam6oN8FrYdfwrOuKQHVCeaxlAVdc4yWkL8kNE0wU50Tg+jt+FXPrSCtSw0
+         T/CbvhzLtQiTqStHafDGBdGhwe9GHIdgVv9X1oTHmeyfItnxzoYpynxSQVHrex6S9EdQ
+         L3afdl8RLn0QLcMldEWp+GDhQ7Ouo0QErNLOZgBTgdXpQbxUeL0G8XQZsYvCUPQ4YzhZ
+         cJGg==
+X-Gm-Message-State: AOAM530fhIEL3kUTfAwD812bzR72FtbpXaXaxhYk5UFLXxMRoUk1JcYm
+        AIVl2KcidowFJyJXZlm65tAjcoTrm3oMTEqXc1kNwQ==
+X-Google-Smtp-Source: ABdhPJzdNJs/yaP7/e0Ok6RA1nQ7eSYjB01hdhGvhZElvzf3xImzKee5uyaUgzfX2cFNO/XPNkKFDEdlcXooM37lnlQ=
+X-Received: by 2002:a17:90b:1e07:: with SMTP id pg7mr5702299pjb.93.1636072317543;
+ Thu, 04 Nov 2021 17:31:57 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.1
-Subject: Re: [RFC PATCH v7 12/16] fsverity|security: add security hooks to
- fsverity digest and signature
-Content-Language: en-US
-To:     Roberto Sassu <roberto.sassu@huawei.com>,
-        Eric Biggers <ebiggers@kernel.org>
-Cc:     "corbet@lwn.net" <corbet@lwn.net>,
-        "axboe@kernel.dk" <axboe@kernel.dk>,
-        "agk@redhat.com" <agk@redhat.com>,
-        "snitzer@redhat.com" <snitzer@redhat.com>,
-        "tytso@mit.edu" <tytso@mit.edu>,
-        "paul@paul-moore.com" <paul@paul-moore.com>,
-        "eparis@redhat.com" <eparis@redhat.com>,
-        "jmorris@namei.org" <jmorris@namei.org>,
-        "serge@hallyn.com" <serge@hallyn.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dm-devel@redhat.com" <dm-devel@redhat.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-fscrypt@vger.kernel.org" <linux-fscrypt@vger.kernel.org>,
-        "linux-audit@redhat.com" <linux-audit@redhat.com>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>
-References: <1634151995-16266-1-git-send-email-deven.desai@linux.microsoft.com>
- <1634151995-16266-13-git-send-email-deven.desai@linux.microsoft.com>
- <YWcyYBuNppjrVOe2@gmail.com>
- <9089bdb0-b28a-9fa0-c510-00fa275af621@linux.microsoft.com>
- <0b4c9a91afb441b085ec914118617ee7@huawei.com>
-From:   Deven Bowers <deven.desai@linux.microsoft.com>
-In-Reply-To: <0b4c9a91afb441b085ec914118617ee7@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20210827145819.16471-1-joao.m.martins@oracle.com> <20210827145819.16471-7-joao.m.martins@oracle.com>
+In-Reply-To: <20210827145819.16471-7-joao.m.martins@oracle.com>
+From:   Dan Williams <dan.j.williams@intel.com>
+Date:   Thu, 4 Nov 2021 17:31:47 -0700
+Message-ID: <CAPcyv4hPV9Vur1uvga7S4krQAmKZK5jrBrdOuK1AFHVE8Zk1DA@mail.gmail.com>
+Subject: Re: [PATCH v4 06/14] device-dax: ensure dev_dax->pgmap is valid for
+ dynamic devices
+To:     Joao Martins <joao.m.martins@oracle.com>
+Cc:     Linux MM <linux-mm@kvack.org>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Jane Chu <jane.chu@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Christoph Hellwig <hch@lst.de>,
+        Linux NVDIMM <nvdimm@lists.linux.dev>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-On 11/3/2021 5:28 AM, Roberto Sassu wrote:
->> From: Deven Bowers [mailto:deven.desai@linux.microsoft.com]
->> Sent: Friday, October 15, 2021 9:26 PM
->> On 10/13/2021 12:24 PM, Eric Biggers wrote:
->>> On Wed, Oct 13, 2021 at 12:06:31PM -0700,
->> deven.desai@linux.microsoft.com wrote:
->>>> From: Fan Wu <wufan@linux.microsoft.com>
->>>>
->>>> Add security_inode_setsecurity to fsverity signature verification.
->>>> This can let LSMs save the signature data and digest hashes provided
->>>> by fsverity.
->>> Can you elaborate on why LSMs need this information?
->> The proposed LSM (IPE) of this series will be the only one to need
->> this information at the  moment. IPE’s goal is to have provide
->> trust-based access control. Trust and Integrity are tied together,
->> as you cannot prove trust without proving integrity.
-> I wanted to go back on this question.
+On Fri, Aug 27, 2021 at 7:59 AM Joao Martins <joao.m.martins@oracle.com> wrote:
 >
-> It seems, at least for fsverity, that you could obtain the
-> root digest at run-time, without storing it in a security blob.
+> Right now, only static dax regions have a valid @pgmap pointer in its
+> struct dev_dax. Dynamic dax case however, do not.
 >
-> I thought I should use fsverity_get_info() but the fsverity_info
-> structure is not exported (it is defined in fs/verity/fsverity_private.h).
+> In preparation for device-dax compound devmap support, make sure that
+> dev_dax pgmap field is set after it has been allocated and initialized.
 >
-> Then, I defined a new function, fsverity_get_file_digest() to copy
-> the file_digest member of fsverity_info to a buffer and to pass
-> the associated hash algorithm.
+> dynamic dax device have the @pgmap is allocated at probe() and it's
+> managed by devm (contrast to static dax region which a pgmap is provided
+> and dax core kfrees it). So in addition to ensure a valid @pgmap, clear
+> the pgmap when the dynamic dax device is released to avoid the same
+> pgmap ranges to be re-requested across multiple region device reconfigs.
 >
-> With that, the code of evaluate() for DIGLIM becomes:
+> Suggested-by: Dan Williams <dan.j.williams@intel.com>
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> ---
+>  drivers/dax/bus.c    | 8 ++++++++
+>  drivers/dax/device.c | 2 ++
+>  2 files changed, 10 insertions(+)
 >
->          info = fsverity_get_info(file_inode(ctx->file));
->          if (info)
->                  ret = fsverity_get_file_digest(info, buffer, sizeof(buffer), &algo);
+> diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
+> index 6cc4da4c713d..49dbff9ba609 100644
+> --- a/drivers/dax/bus.c
+> +++ b/drivers/dax/bus.c
+> @@ -363,6 +363,14 @@ void kill_dev_dax(struct dev_dax *dev_dax)
 >
->          if (!strcmp(expect->data, "diglim") && ret > 0) {
->                  ret = diglim_digest_get_info(buffer, algo, COMPACT_FILE, &modifiers, &actions);
->                  if (!ret)
->                          return true;
->          }
-This would work with the digest with a bit more code in fs-verity. It
-also has benefits if there are other callers who want this information.
+>         kill_dax(dax_dev);
+>         unmap_mapping_range(inode->i_mapping, 0, 0, 1);
+> +
+> +       /*
+> +        * Dynamic dax region have the pgmap allocated via dev_kzalloc()
+> +        * and thus freed by devm. Clear the pgmap to not have stale pgmap
+> +        * ranges on probe() from previous reconfigurations of region devices.
+> +        */
+> +       if (!is_static(dev_dax->region))
+> +               dev_dax->pgmap = NULL;
+>  }
+>  EXPORT_SYMBOL_GPL(kill_dev_dax);
+>
+> diff --git a/drivers/dax/device.c b/drivers/dax/device.c
+> index 0b82159b3564..6e348b5f9d45 100644
+> --- a/drivers/dax/device.c
+> +++ b/drivers/dax/device.c
+> @@ -426,6 +426,8 @@ int dev_dax_probe(struct dev_dax *dev_dax)
+>         }
+>
+>         pgmap->type = MEMORY_DEVICE_GENERIC;
+> +       dev_dax->pgmap = pgmap;
 
-I was planning on grouping the digest and signature into 
-apublic_key_signature
-structure in v8 to pass the digest, digest algorithm,digest size, signature
-and signature size (as opposed to defining a new structfor this purpose),
-reducing the number of LSM hook calls down to one functionin fsverity.
+So I think I'd rather see a bigger patch that replaces some of the
+implicit dev_dax->pgmap == NULL checks with explicit is_static()
+checks. Something like the following only compile and boot tested...
+Note the struct_size() change probably wants to be its own cleanup,
+and the EXPORT_SYMBOL_NS_GPL(..., DAX) probably wants to be its own
+patch converting over the entirety of drivers/dax/. Thoughts?
 
-I think both approaches have merit. fsverity_get_file_digest is more useful
-if there are callers outside of LSMs that want this information. The LSM 
-hook
-is cleaner if only LSMs want this information.
 
-At least, at the moment, it seems like it's only IPE who wants this 
-information,
-and it's not like it won't be able to change later if the need arises, 
-as this
-is all implementation details that wouldn't effect the end-user.
+diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
+index 6cc4da4c713d..67ab7e05b340 100644
+--- a/drivers/dax/bus.c
++++ b/drivers/dax/bus.c
+@@ -134,6 +134,12 @@ static bool is_static(struct dax_region *dax_region)
+        return (dax_region->res.flags & IORESOURCE_DAX_STATIC) != 0;
+ }
 
-I'll defer to Eric - his opinion holds the most weight, as fsverity would be
-the main code affected in either case.
++bool static_dev_dax(struct dev_dax *dev_dax)
++{
++       return is_static(dev_dax->region);
++}
++EXPORT_SYMBOL_NS_GPL(static_dev_dax, DAX);
++
+ static u64 dev_dax_size(struct dev_dax *dev_dax)
+ {
+        u64 size = 0;
+@@ -363,6 +369,8 @@ void kill_dev_dax(struct dev_dax *dev_dax)
 
+        kill_dax(dax_dev);
+        unmap_mapping_range(inode->i_mapping, 0, 0, 1);
++       if (static_dev_dax(dev_dax))
++               dev_dax->pgmap = NULL;
+ }
+ EXPORT_SYMBOL_GPL(kill_dev_dax);
+
+diff --git a/drivers/dax/bus.h b/drivers/dax/bus.h
+index 1e946ad7780a..4acdfee7dd59 100644
+--- a/drivers/dax/bus.h
++++ b/drivers/dax/bus.h
+@@ -48,6 +48,7 @@ int __dax_driver_register(struct dax_device_driver *dax_drv,
+        __dax_driver_register(driver, THIS_MODULE, KBUILD_MODNAME)
+ void dax_driver_unregister(struct dax_device_driver *dax_drv);
+ void kill_dev_dax(struct dev_dax *dev_dax);
++bool static_dev_dax(struct dev_dax *dev_dax);
+
+ #if IS_ENABLED(CONFIG_DEV_DAX_PMEM_COMPAT)
+ int dev_dax_probe(struct dev_dax *dev_dax);
+diff --git a/drivers/dax/device.c b/drivers/dax/device.c
+index dd8222a42808..87507aff2b10 100644
+--- a/drivers/dax/device.c
++++ b/drivers/dax/device.c
+@@ -398,31 +398,43 @@ int dev_dax_probe(struct dev_dax *dev_dax)
+        void *addr;
+        int rc, i;
+
+-       pgmap = dev_dax->pgmap;
+-       if (dev_WARN_ONCE(dev, pgmap && dev_dax->nr_range > 1,
+-                       "static pgmap / multi-range device conflict\n"))
++       if (static_dev_dax(dev_dax) && dev_dax->nr_range > 1) {
++               dev_warn(dev, "static pgmap / multi-range device conflict\n");
+                return -EINVAL;
++       }
+
+-       if (!pgmap) {
+-               pgmap = devm_kzalloc(dev, sizeof(*pgmap) + sizeof(struct range)
+-                               * (dev_dax->nr_range - 1), GFP_KERNEL);
++       if (static_dev_dax(dev_dax)) {
++               pgmap = dev_dax->pgmap;
++       } else {
++               if (dev_dax->pgmap) {
++                       dev_warn(dev,
++                                "dynamic-dax with pre-populated page map!?\n");
++                       return -EINVAL;
++               }
++               pgmap = devm_kzalloc(
++                       dev, struct_size(pgmap, ranges, dev_dax->nr_range - 1),
++                       GFP_KERNEL);
+                if (!pgmap)
+                        return -ENOMEM;
+                pgmap->nr_range = dev_dax->nr_range;
++               dev_dax->pgmap = pgmap;
++               for (i = 0; i < dev_dax->nr_range; i++) {
++                       struct range *range = &dev_dax->ranges[i].range;
++
++                       pgmap->ranges[i] = *range;
++               }
+        }
+
+        for (i = 0; i < dev_dax->nr_range; i++) {
+                struct range *range = &dev_dax->ranges[i].range;
+
+-               if (!devm_request_mem_region(dev, range->start,
+-                                       range_len(range), dev_name(dev))) {
+-                       dev_warn(dev, "mapping%d: %#llx-%#llx could
+not reserve range\n",
+-                                       i, range->start, range->end);
+-                       return -EBUSY;
+-               }
+-               /* don't update the range for static pgmap */
+-               if (!dev_dax->pgmap)
+-                       pgmap->ranges[i] = *range;
++               if (devm_request_mem_region(dev, range->start, range_len(range),
++                                           dev_name(dev)))
++                       continue;
++               dev_warn(dev,
++                        "mapping%d: %#llx-%#llx could not reserve range\n", i,
++                        range->start, range->end);
++               return -EBUSY;
+        }
+
+        pgmap->type = MEMORY_DEVICE_GENERIC;
+@@ -473,3 +485,4 @@ MODULE_LICENSE("GPL v2");
+ module_init(dax_init);
+ module_exit(dax_exit);
+ MODULE_ALIAS_DAX_DEVICE(0);
++MODULE_IMPORT_NS(DAX);
+
+
+
+> +
+>         addr = devm_memremap_pages(dev, pgmap);
+>         if (IS_ERR(addr))
+>                 return PTR_ERR(addr);
+> --
+> 2.17.1
+>
