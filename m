@@ -2,72 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1170FC433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Nov 2021 10:50:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C572AC433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Nov 2021 12:03:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DF3CD61131
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Nov 2021 10:50:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A350061215
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Nov 2021 12:03:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231661AbhKEKwr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Nov 2021 06:52:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34630 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231642AbhKEKwr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 5 Nov 2021 06:52:47 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id F13A26124A;
-        Fri,  5 Nov 2021 10:50:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636109408;
-        bh=PEbAx5J23QwyAPFh+r1xwhp+zPTVbSStfq79iDXgTao=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=KJpEQ91h9wDJQzsIU4auifDCO0ji2s9VYiYHn8Iaen8f+6tBlzijpSFE+FtQ3Hi2E
-         0aJ35HcvIa6mRccEC0zca1kuBOZMUusHlOdMmhD73UY4D25ZAy1STWk298Ll6pW0aB
-         4SVjU7Aw0/euQOaTOTZDm7XyL0jWmTO/MGHiTE9EYw66yFXVMtaFVu3Ovka8+pLe+Q
-         B/oLb8/BtJa/gyJLqrbsjvYxpp8/bHESHKqbQdWb/uwcfyPyXrCbss1H+1pngLzcbl
-         M0CuVQiaNivloiDFWiZKebDT/2Rar2QE/5dk4o976uVEJl5Lf6YCifr/k09zNv8k6T
-         4HfvwZj/6FYJg==
-Content-Type: text/plain; charset="utf-8"
+        id S232832AbhKEMGM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Nov 2021 08:06:12 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:58996 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232852AbhKEMGM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Nov 2021 08:06:12 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id F016B2177B;
+        Fri,  5 Nov 2021 12:03:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1636113811; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=inLEKYY0L4MKzHSEYGhxudpIeKf0XmzB5OYXLvMub9M=;
+        b=p00arJMTIN/a6pkTG/pKlwKRnSe4W3ewg7S+Q67qpm5IsHiFd4cPqL6YOMNnMDrYkfurw3
+        xEcmMYcNO9+7DK0oR5Lp82ZoGCHISID4u1Ed9D75OU4rmg1K7o3WMgy1NxX94adWD+NS0/
+        umefJiiT2KLBvZh9Yak/E8P4x9kkMtg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1636113811;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=inLEKYY0L4MKzHSEYGhxudpIeKf0XmzB5OYXLvMub9M=;
+        b=UXSK03KxtDDnAAiGdKBdmqOs5iCLPC4qlNhd40U6r8aVI4izi++A9ptRZ17Dlekl2HN0mo
+        euNRliVZwwXlesDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B643513FF4;
+        Fri,  5 Nov 2021 12:03:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id xcLlKpMdhWEZOwAAMHmgww
+        (envelope-from <ddiss@suse.de>); Fri, 05 Nov 2021 12:03:31 +0000
+Date:   Fri, 5 Nov 2021 13:03:30 +0100
+From:   David Disseldorp <ddiss@suse.de>
+To:     linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     viro@zeniv.linux.org.uk, willy@infradead.org
+Subject: Re: [PATCH v3 0/5]: initramfs: "crc" cpio format and
+ INITRAMFS_PRESERVE_MTIME
+Message-ID: <20211105130330.49a783c6@suse.de>
+In-Reply-To: <20211001134256.5581-1-ddiss@suse.de>
+References: <20211001134256.5581-1-ddiss@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next] net: udp: correct the document for udp_mem
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <163610940791.24664.10352541983010508425.git-patchwork-notify@kernel.org>
-Date:   Fri, 05 Nov 2021 10:50:07 +0000
-References: <20211105073541.2981935-1-imagedong@tencent.com>
-In-Reply-To: <20211105073541.2981935-1-imagedong@tencent.com>
-To:     Menglong Dong <menglong8.dong@gmail.com>
-Cc:     kuba@kernel.org, davem@davemloft.net, corbet@lwn.net,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, imagedong@tencent.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+On Fri,  1 Oct 2021 15:42:51 +0200, David Disseldorp wrote:
 
-This patch was applied to netdev/net.git (master)
-by David S. Miller <davem@davemloft.net>:
+> This patchset does some minor refactoring of cpio header magic checking
+> and corrects documentation.
+> Patches 4/5 and 5/5 allow cpio entry mtime preservation to be disabled
+> via a new INITRAMFS_PRESERVE_MTIME Kconfig option.
 
-On Fri,  5 Nov 2021 15:35:41 +0800 you wrote:
-> From: Menglong Dong <imagedong@tencent.com>
-> 
-> udp_mem is a vector of 3 INTEGERs, which is used to limit the number of
-> pages allowed for queueing by all UDP sockets.
-> 
-> However, sk_has_memory_pressure() in __sk_mem_raise_allocated() always
-> return false for udp, as memory pressure is not supported by udp, which
-> means that __sk_mem_raise_allocated() will fail once pages allocated
-> for udp socket exceeds udp_mem[0].
-> 
-> [...]
+Ping again. I still think this patchset is worthwhile... Any feedback?
 
-Here is the summary with links:
-  - [net-next] net: udp: correct the document for udp_mem
-    https://git.kernel.org/netdev/net/c/69dfccbc1186
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Cheers, David
