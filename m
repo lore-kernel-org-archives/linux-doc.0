@@ -2,357 +2,189 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45AB5C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Nov 2021 12:10:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D6A9C433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Nov 2021 12:18:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 21E7361215
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Nov 2021 12:10:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7EAD46127A
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Nov 2021 12:18:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229749AbhKEMMy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Nov 2021 08:12:54 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:29438 "EHLO
+        id S231723AbhKEMVR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Nov 2021 08:21:17 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:2100 "EHLO
         mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229634AbhKEMMy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Nov 2021 08:12:54 -0400
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1A59xUZC017948;
-        Fri, 5 Nov 2021 12:09:35 GMT
+        by vger.kernel.org with ESMTP id S229468AbhKEMVR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Nov 2021 08:21:17 -0400
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1A59xO6D022776;
+        Fri, 5 Nov 2021 12:18:28 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
  subject : to : cc : references : from : in-reply-to : content-type :
  content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=H22Rnbo39fNjUFVhidfgTZjPtaJBWE1MKsq6fwDJ3Ow=;
- b=wo30eUhkEDy1Jy5YbtlST2tGmv+lFFHUURmJBT4eVFsHmZIq+ptiYS6n7dIHtYRXygur
- JbDMYrJ4bjsUwlrtaggkG9p61C3tUmnauqjXC3UXNKlciVUWeaCkso43wvMbQV2jjP4O
- Wj7ztshBmWA3LBkwJ/u3zqe4dwj+vL+/fTABqsa5CVCKeedamAJmV/6iZGm0AT6gWq18
- NnRzA8gPLWuRY9N0pkpN5QFxoIlGrZNwcNLtsVkD7xuPV8W7ql0OOdPkdoo8IAbew2Y9
- 8Tja9GhNGWAVAt9uVjOpXqwKvVoTHTVYlgAeY0HvNBZ8tuyV+nrGWE72/1EjrfDNNbrp 7Q== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3c4t7e228w-1
+ bh=x8/rz+OH4OwGFbijOPoJfOcgZgB7bM1t+vg5tMMe7xE=;
+ b=ztW/ajhUmrYMP/zRLEOypSoyr1I/SGAPAOF716bkMiuOCigPP045mxniaWP59YZyLbSZ
+ c6qDPXwlbrb8Znyqrlb36m9B8DIp2ENiHdKDRG6fgYB1cDHXRKetQTu7mugYdHP7Spfd
+ rw8DzY1Dd3KnRua7UiFUDV5P4mTjc76p/yiPYOLfOa9RB3BBWuoJPgUs5BOL9ufFerz5
+ gUcenSMBKtCH/+RJYdKsHqTAcNrcFYHLXjSoHsXugrnSbxjFYqxlxvXrKF6BR48pKM1i
+ zk6/oR2aN5+Ty4MrGg803/o0tQRNVsZyCY92N3d05R2AkfQbwZlxL1pmhuMiRo09wogU jw== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by mx0b-00069f02.pphosted.com with ESMTP id 3c4t7f24qx-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 05 Nov 2021 12:09:34 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1A5C63ib117085;
-        Fri, 5 Nov 2021 12:09:34 GMT
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2170.outbound.protection.outlook.com [104.47.58.170])
-        by aserp3020.oracle.com with ESMTP id 3c4t5saj9p-1
+        Fri, 05 Nov 2021 12:18:28 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1A5CAQnB077370;
+        Fri, 5 Nov 2021 12:18:27 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2109.outbound.protection.outlook.com [104.47.58.109])
+        by userp3020.oracle.com with ESMTP id 3c4t615jkf-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 05 Nov 2021 12:09:34 +0000
+        Fri, 05 Nov 2021 12:18:27 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TvnhiQ7EEhclHQKyNS5f51TIbKKJHLYxwDpBbka2ktK9ZdEtr63yWspnRcMOytggccq19DUOpH/FDUuAQZJtLho+IuIeYdmsdEtbEAQNVV0mdYwl/5eZQFf+YhJ+Xinozkk2LIgAiR7k2IgjlmEutorq2B36qr0NhzxteRuD71P8YhrtQ/QtJZdhBV2P6ItP7nD8UOEOCpCWveXA6E7sXOW3IIyJaeLn10NuhGdvSHC5wUxxS/Bo+NSLIMamEDt3HjV0it0xP81FvsoGsnkZ5fT5aLIzbAwbR2hvn+vfSc59Ir2k5tUEiry0dzQqA6VrpB6ESJPYBrOzt2fV5GVBQg==
+ b=JGCq5y2MTQKorvGqHlA3hhCaT6llmjosfiy89RkYEWD1/JAmQz7LtWzB02MuKd1RCcVZwLSHIMhPiupcKVPI/slycCl9kL2B2PcS1s7WNX2yH4ZLPSPa7+D1gvubhLpuf0kY+PqyFmLLjBqRWXDD4nE0UuyQ+fy7vJC5MsU43qyhMIPave9Z8y7gDlUJHfYh9Vc99U8y6pgn/MsopY6RfaCkzLO9+FTTt0r301JGxrH9T3BTg+hjDEvNh/KaJN/lBFHInAlF5ert+gle2Sa8br/onwZL7DpG+vFLGaWIBr4+tdZd1fyx/kjII/Sbdr70qrkkSVJuRTfKf9s8NdTp2g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=H22Rnbo39fNjUFVhidfgTZjPtaJBWE1MKsq6fwDJ3Ow=;
- b=XUV0A8VOShsW4rYUnESbFLn5w1By3FW/BbzmwfxHehq7ns0Mxa8U3IOcXE26Kj/uicHgFLhUw0UJyeLiGdlxrR8LJrqLIV8XHVrP9aynJteCHUwmaqpf4LWcUqSwSCg1mxAQKeQ2E/rolGymxkQy63a4EpyCK4U6AO5XRr87UxNmvsXtOhQ0VWFEk//BsiI9KVGJJZr9ryay0cgBLJNcHgLLCIFjsUNcy6N1eCiv/NuuQUMirGbdxwxCKPG6yvkUJdzp8fdhhZuX2zdCe3vH1q6ZhVbHXDPv4WVaktvT0b6No3jG2qvU5w5tAfDS3LGFz0jaJCk0n5NjyDoGBEzK/Q==
+ bh=x8/rz+OH4OwGFbijOPoJfOcgZgB7bM1t+vg5tMMe7xE=;
+ b=mxOABSZIbXdYxv90cchRUKBFAj8T8oNcMVnXi8RrGYGWjnHyoqVRwPqS8iKy4YBFVlPa2fKV3PXCrD4EP5ylCQY8DAqcj9+04/KfFlu5zMY69yVWq2GSJwfWSu35EaJ2IS2gVlxBasUiXgdrWcMuSa7ZE3SRaKSw0XEf+06HnJgXd2X4WN33qEU3HVLu1hoHDP74hNZyLTwiXUpzLgwqAujoVIF1cGkq11Ja1FXU3NBJkxCi/NLsb7nv8sfJT0gCPTZQca8UQKUhSLnfNqYl6Fuu+X9ofrLb+DsVTu1nBRdIHjK1yUqJqfZDJKqnsojC7CGc2MxltUd+bpQ2GUI6SQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H22Rnbo39fNjUFVhidfgTZjPtaJBWE1MKsq6fwDJ3Ow=;
- b=MBsz8SYvyRu47J6uSkmusjjCK2SSEy9xtm8D/t0E5NyyOpwFlg7ZbW1Ic/wrLMALAuN+/ZnGPvw0MrQIKAV2SYq0z2mpwoMiTxBM9CpWCytRX9TZI161xR8A4auHydR7Gl22c2dd2GoeguWHq16kk1sT/BREbPjXZFtvP4Gwk54=
-Authentication-Results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=oracle.com;
-Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
- by MN2PR10MB4016.namprd10.prod.outlook.com (2603:10b6:208:180::33) with
+ bh=x8/rz+OH4OwGFbijOPoJfOcgZgB7bM1t+vg5tMMe7xE=;
+ b=IEMJYHASUnKvN944aAFpvT9LMPPA7UJI4rf7nIHx1PW6vOBaWDe+j05vco3/E0gJZEjw0TlUWn9jSyJZzPX408aRkCauuH0/wrO3ZCKbaL5pFYmgoo9tCRKdsp+xr3ATknKZwbSZ7iv2CDNrMFRPFW8iT0G6fsqCvVyIZxiFkXI=
+Authentication-Results: suse.com; dkim=none (message not signed)
+ header.d=none;suse.com; dmarc=none action=none header.from=oracle.com;
+Received: from BLAPR10MB5009.namprd10.prod.outlook.com (2603:10b6:208:321::10)
+ by BLAPR10MB4916.namprd10.prod.outlook.com (2603:10b6:208:326::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.17; Fri, 5 Nov
- 2021 12:09:32 +0000
-Received: from BLAPR10MB4835.namprd10.prod.outlook.com
- ([fe80::d809:9016:4511:2bc6]) by BLAPR10MB4835.namprd10.prod.outlook.com
- ([fe80::d809:9016:4511:2bc6%8]) with mapi id 15.20.4669.013; Fri, 5 Nov 2021
- 12:09:31 +0000
-Message-ID: <f33c2037-4bee-3564-75c0-c87f99325c02@oracle.com>
-Date:   Fri, 5 Nov 2021 12:09:19 +0000
-Subject: Re: [PATCH v4 06/14] device-dax: ensure dev_dax->pgmap is valid for
- dynamic devices
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.10; Fri, 5 Nov
+ 2021 12:18:25 +0000
+Received: from BLAPR10MB5009.namprd10.prod.outlook.com
+ ([fe80::3c49:46aa:83e1:a329]) by BLAPR10MB5009.namprd10.prod.outlook.com
+ ([fe80::3c49:46aa:83e1:a329%5]) with mapi id 15.20.4669.011; Fri, 5 Nov 2021
+ 12:18:25 +0000
+Message-ID: <b3c448fe-b37d-2df4-093b-e09c8543be83@oracle.com>
+Date:   Fri, 5 Nov 2021 08:18:19 -0400
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.2.1
+Subject: Re: [PATCH v4] xen/balloon: add late_initcall_sync() for initial
+ ballooning done
 Content-Language: en-US
-To:     Dan Williams <dan.j.williams@intel.com>
-Cc:     Linux MM <linux-mm@kvack.org>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Jane Chu <jane.chu@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Christoph Hellwig <hch@lst.de>,
-        Linux NVDIMM <nvdimm@lists.linux.dev>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-References: <20210827145819.16471-1-joao.m.martins@oracle.com>
- <20210827145819.16471-7-joao.m.martins@oracle.com>
- <CAPcyv4hPV9Vur1uvga7S4krQAmKZK5jrBrdOuK1AFHVE8Zk1DA@mail.gmail.com>
-From:   Joao Martins <joao.m.martins@oracle.com>
-In-Reply-To: <CAPcyv4hPV9Vur1uvga7S4krQAmKZK5jrBrdOuK1AFHVE8Zk1DA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P123CA0074.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:190::7) To BLAPR10MB4835.namprd10.prod.outlook.com
- (2603:10b6:208:331::11)
+To:     Juergen Gross <jgross@suse.com>, xen-devel@lists.xenproject.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        stable@vger.kernel.org,
+        =?UTF-8?Q?Marek_Marczykowski-G=c3=b3recki?= 
+        <marmarek@invisiblethingslab.com>
+References: <20211102091944.17487-1-jgross@suse.com>
+From:   Boris Ostrovsky <boris.ostrovsky@oracle.com>
+In-Reply-To: <20211102091944.17487-1-jgross@suse.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SN4PR0401CA0019.namprd04.prod.outlook.com
+ (2603:10b6:803:21::29) To BLAPR10MB5009.namprd10.prod.outlook.com
+ (2603:10b6:208:321::10)
 MIME-Version: 1.0
-Received: from [10.175.160.24] (138.3.204.24) by LO4P123CA0074.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:190::7) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.11 via Frontend Transport; Fri, 5 Nov 2021 12:09:26 +0000
+Received: from [10.74.104.120] (138.3.200.56) by SN4PR0401CA0019.namprd04.prod.outlook.com (2603:10b6:803:21::29) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.10 via Frontend Transport; Fri, 5 Nov 2021 12:18:23 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e10d4316-d277-4a1d-efdf-08d9a0551fc4
-X-MS-TrafficTypeDiagnostic: MN2PR10MB4016:
-X-Microsoft-Antispam-PRVS: <MN2PR10MB4016C25CD2E237F0CB016709BB8E9@MN2PR10MB4016.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Office365-Filtering-Correlation-Id: 6268cd14-b3d4-4601-242e-08d9a0565db3
+X-MS-TrafficTypeDiagnostic: BLAPR10MB4916:
+X-Microsoft-Antispam-PRVS: <BLAPR10MB491674CFA3883408AEB995658A8E9@BLAPR10MB4916.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Ghit1jlviXQFUeeovn5EI/lUwwRqHES8k89ETdbjkNfCZlf03guD19VEB+YGyXd0Lm/9hevvOLQHvBBbBeAmidZj4wDpPK8k80XEULwrfTDreAgww78kKFzGPRwTD3u+w9IbJqIGKWBv5T+x3S0XQ2BFV0jjeZcgpEY+GLTeOWHZle+f/7iaY+rPnp3KqTpD9Spgi0dKcnY90cnWdWvimeQEUl7qxNL6hIKkVxVLIXeHrwU/3gtA+K7JfEuGCX7RQCY5GEK1iGJ+n2/UE0Nf3XBPZzSgRx9yeUojTjUdJWXKH93LrKCqUzaRdOhh4JBXnkwpPFFa69zhX8Q+ryqdfFFzizPHjbO+Xsta9QxWfcMBBkwyGuT5g4lOl9EN5YNokQ8M9Zr2mtJF1UaluaFVXvXA9EaNLZFkLU3d6RrNoUlMjuk6oHwNv5zJtJwazTsonJjjsUk53zpZv4oNM6w1rlsOrynV3br9xwl9akGN6B90Zm/8UH+7kxIpuyTdl/8tEUjeBUgmqWKBy25jTANy8nSZPZ42mxmPhXbwR/XzhRePHMdYlBSFn7aauCPDrKtFgqvfaZo3pyfJrjYCMUZEtrHSuJICewXt6DdXRyHtCBKVXnuUmyuAvdmbpFeYBgf5iVLff1dEIeo+iIiPkvM2CpkLXsp/A30kXFTEH2VMXVhpLtKtJangveM6SWFPyggd5/gV7dvU15kb24M+aufrDA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB4835.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(26005)(38100700002)(508600001)(83380400001)(4326008)(36756003)(8936002)(7416002)(66556008)(2616005)(956004)(53546011)(31696002)(66946007)(54906003)(86362001)(66476007)(8676002)(6486002)(186003)(31686004)(6666004)(316002)(16576012)(5660300002)(2906002)(6916009)(45980500001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: vDLclJIrSktbVGwjKwqWJ7n0IcRLH3rECprOZN+Q9k0dB95SI4t2E8AteglO3gxFE//nK1+wrdubGl5iayVnOBRH7eosIcbMHsxK78Fdob6oWdGQ7nT4vqHuSP9ma36ZiFdpAy8ZnyN12zRznke4yUq/0mF4rcT6rsu0/X+vqmIHlvKo1tRf7mwtPfCdthaWDUXdyCrR/ABG1FTC36I/Y+STjYEyTibSSAXJVysFMjFKjlodAJGjugLyqVFBAaHqvWdfAd+fLiM3yK6WqB8qBhEK52KTJTg+wDEKV+BsqkjV60WlY9Z0lcrFPd5Ron7PCfUfNp5hph3rKNTRwYNqWTU7bunJZzEVfgV3uVUbWq3vq/72aqEhzX19Nj3xbZjVwW8zbik+MHf+/Q0DyVLByB2mq3qrYD0Dh4qq4uzRJxBUaom0oOod8AEAZ/quw19T6oqod9lX7rbA5QwBqDN5D3qp96zO7XbKnz6Zdrk9D4v9JC1tFRm4BQjoXCbAgwEviVtVixldH0nvm9s1rii0Jdlwz6/TAUi59RhChrBVhh9wO61zP6kcvT7ABpxeYVsA36Ml9uFy7umhcc9YHsFb4tD53+C/LSvaJ+XXF9Ivn0JEiKqlNGyjw7FPDvcr2apuXn+zHcaf1TKV0hJfKUqs5fpIyoIpksgi0mYthFnvLEhbm+fNQR6xXW+OZ/PHhS7FOzHnE/doNNnrr97/EwPk0ttbteUd/QR3UUswMcxZCkk27nK+XatWGkULAnpLKScc
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB5009.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(31686004)(16576012)(83380400001)(31696002)(6666004)(2906002)(956004)(8936002)(186003)(86362001)(2616005)(5660300002)(316002)(54906003)(508600001)(26005)(44832011)(66574015)(53546011)(4326008)(66946007)(66556008)(66476007)(38100700002)(6486002)(8676002)(36756003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b0cxVml0aWpGZngvYS9VWEc4emg2M0dVNXE0Ti9xcWNyRXUreDZ1Si96QWJ6?=
- =?utf-8?B?U09qSjk2aVhqWldlYW9mOW10MUV4SWRZWS9UK01oUERUTTBxanBpRllCOVRN?=
- =?utf-8?B?VjlNOWx0dk53U3Rud2srcit5azdVZTJ1UGR3cVp3U3RKbVc0YWIxelZPR2hn?=
- =?utf-8?B?aHdMbEhKaU9pYUtOc0JPVFdwTlVDTUd5VXRtVi8wNzJzTnMrS0FTV2hpcHFz?=
- =?utf-8?B?K3lUcDZGRElEUG1ocmp6NjI5SFpvVkU1Q1F1S3praisyTncrODBMSlJPQ2ti?=
- =?utf-8?B?VEJjRG92alFKMVZIN2JHN3Jtc3hIbkZCMVVlalFPM3dOaTU3NVhJQjRiVWpU?=
- =?utf-8?B?em54MXZ1OGJrK0dzcC8vOGpCUFUvLzNINDB3eUtEb2RaOTZzNmNpWURjNzFL?=
- =?utf-8?B?ZndvRU5qektEYlRSYUgzQzc2MXJNSkNPNmVtb1kzejJBZmg2UC8zaTl4KzQw?=
- =?utf-8?B?RUVQcU5CM3pzUkZCc1pGbWdMcEJVeWRSSVd1cCsvZXhnbHJqYjU3UWRzSUFD?=
- =?utf-8?B?UFpSYm11ODdRaG1sb0FnNjRraUpxdExZcjNWaTFja2RRN09DeDloTkd5dkhu?=
- =?utf-8?B?NWhPYzZUNTVscVQ3clV6UTNNdGFhcmhtYmVYYVN1NVNWMkRIbjErZnI0OEUy?=
- =?utf-8?B?Tm1TM1IyTW96aHk5cld1UFA2czZMT1BvNXNSMWZxRi9wSnpkYXNia1ZMT3Y0?=
- =?utf-8?B?YURyNmxrSDVURlNmbHZ4Z3U4ekNVVmd2OXdhNFZhbkY0ZVMxcUVjell2TnFO?=
- =?utf-8?B?eURpMEZsWTBhNm1jUzd4YVY4TEVaNHVoNnFtdE91TnpiTzdxUUdQTXJocnNN?=
- =?utf-8?B?TnJUOWcwQmlaQStNcU5RbDBBNUx1K0JrWmZ2eUl0NHZQODNuR04vZ1kyZXd0?=
- =?utf-8?B?NFZXLzg4aFdJTnFYdmltK3Y0L0xiSHJ1b3pZSVhsN1BvYVZzeTM1bS9tMGFX?=
- =?utf-8?B?T01kd2IrYjF2N2lGNFlrd01KeWR0U0FrTXh6K2g0VFNkbzFHOWFuVGVLT2Fm?=
- =?utf-8?B?TER4eFpnelE1L2VkWnFST0NNWHlGaHVBell4Q0xWTElFeE1IMTZOcGhXd3hi?=
- =?utf-8?B?dGd2QzU1Ky9LVUEwSE4zcFRscWl0alZzRHQ0Vk5UQXdzcE1nZHhiQlFKZVUr?=
- =?utf-8?B?bE13WjVKbmZvcmtuSFF4RFBGcDVjUHYveWROUHE3TlI4KzVHaVJhdXdjVngz?=
- =?utf-8?B?TENOTGtCRlRTTzhmdzgvQUVLSzQ2QjhGNXhwMStwUCs0WGx6YisrSjFZK2k5?=
- =?utf-8?B?RVRoYVJqS2xHUGVRcHMyZFR0dFd4T0sxNFo5TExpaDZRamZLc0dIUDU5N3Zi?=
- =?utf-8?B?dkpxTURhMUNOcjdVTXZjMkdvSnNmU0xDdHlaYk1OWlhWdHdNY3czZmpzNW1x?=
- =?utf-8?B?Sk9NS25DZ29xNjFZNWErTnkyUkRvUldONFZkMkVaQXpjckRiOVR6cHRYeTF0?=
- =?utf-8?B?V0duZFRDdXZzc1pJYmhmYWlXODliMHNuUGJ1T09qb1BOWHdHMXNEM1hScXgw?=
- =?utf-8?B?QS9wMncrYTNZREdzMEFrMm56NUx2VHJpNGdCVGVNSDVIU2tzaTlUcjQzbGpm?=
- =?utf-8?B?VFRxd3lzMlc0NDd6K2xJVWhxOUgyYklKN2dEN3EySFpLc2Y4V3pZT1B4QmtY?=
- =?utf-8?B?end0bXBtYk5tRURBM0VCVEVzQU9IY0ZiM1Mwdktabk5rTm5YdWNDakpFQVRm?=
- =?utf-8?B?OHBJc3hsbXUyVktQQmZJMXUrTHdHbitvay9OTklmbUxiWmowcDlRcnpWRW04?=
- =?utf-8?B?N3h3aTF4UnhWN2wwdzN2dDN0dUxTVlpQS1N4cGdMWU5OaDBFdVdYYTlBL09i?=
- =?utf-8?B?RTdrejRwMzJXbHVsZzNsdXRTMHF4WSs3N015NEVPQldjUXRrekdmRjlzTXZl?=
- =?utf-8?B?TG1XbWtMcVUycS9FdTl5aEE5M0doZUhRc3dCdnN4MHp6OXhXck10akR0RU5I?=
- =?utf-8?B?K0FiLzA3ZjRzM1FFTVBseURDNGZ5R1B6NlMzTFh3ODc2M0V2L3pUVHhBYitZ?=
- =?utf-8?B?UmgwUnFsOG5nelRMTWpOS2tBaW9jWUU5Y1R4MXltaHcwbXF5L1Y3Nk0zMTgw?=
- =?utf-8?B?ZHNzYVZnbnA2MkpvV2srNld2ZkRrb2M4WllTM284K0Faek1PN1NDVlN6VDVh?=
- =?utf-8?B?VjBqLzlmUlZNV1B2LzNCaTBLRlJVT3A0S0NEeHJPei9Ib1oyc2dUbFZsZ1lT?=
- =?utf-8?B?V1dERGlNeDFucmh3RnZXTE1HS0NwSjQxZ2tQZDYrZDdLT2NqWlNHY3hzVG1u?=
- =?utf-8?B?cnJIQ2VMbTRnN3Nwb3dCZzFDY0pnPT0=?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Tzk3Vm96a3BGbzc0RGxDc2dwdGoyQlRveVJtbE16Mmtmellnc1NtS3N2MEhi?=
+ =?utf-8?B?L1N0eVRuRjY3a2dQVXhZVFZmempTc0YyMENiN2lIV2syZEdZUEREVjFiYVVr?=
+ =?utf-8?B?U2hOeFpCdHoySUsrWktwSkt4bGRxMnlUREJ0TXB4TzRGcGhoQ2NKNTdRSW1h?=
+ =?utf-8?B?VTJxa1BUbnpzSnFKMVJFdkRCTE1vREI3NzNrWFU3TkpuajBOb21mdW5NUEVo?=
+ =?utf-8?B?TXpYUXBBUlVwa3RheWFJRS9lK29iKzZqTm1IVlNrKzJQWkpRZUhzQVVtWWFj?=
+ =?utf-8?B?aVdsRzlVSXNnUlZ5WHhyZFdjeTNKZVE5VXZGWEtzak1xamVpSG9XZkxkY1JF?=
+ =?utf-8?B?Z3NyZ0RXYTBEMVRSd2NnblAzMjY1Uk9McXBZdEJXZnlxZkdXeHg2WmlWdVhM?=
+ =?utf-8?B?M2V5ZU9LeHRMK0UwSXNCVVNDbUYrelo0OThYazc4SFVEVjFVVVFsRVQ1eUhv?=
+ =?utf-8?B?UXFFMGltMzJMcThtbzRUSUJ3R3UxOUVDZGZPdit4SnVUQU4zaVMxaE4ySU1r?=
+ =?utf-8?B?TzVZYUJLYkFuVDVldWJSdUptdTdkczNNMitlQjVDcnNQenBFOTMzRFRCa0ZJ?=
+ =?utf-8?B?aWVaSGVqTDJCUFpBdnQrNGVBOVVKZmxWSVFEakl6dUNBeEpuaGk4ZUVndExH?=
+ =?utf-8?B?SElZQ3paVXI1U0Q3Qi9GOHo1eGc4dWFmZUVIK0hVSTFwY0E4dm1lY0xZQTNm?=
+ =?utf-8?B?UTJFT1JkNkEyek93SnRkdEgxSEFBUnJYNnMzd0xNVC9HZklLeEhHS3RQUEkw?=
+ =?utf-8?B?NUsxa3RTdVB2VXdwRWNqOFN2RFNmK0N5RDNJUnlBVG83MXFNek9nYWpWc1hU?=
+ =?utf-8?B?WHVtREdXVHZqUUp5akRseTJFb0M3dUdESDQ3WW1QTUhFYlNCUUtCOEgxN0U5?=
+ =?utf-8?B?NXo0YmJ4N1BVdldIWGczdXViSHMzT2FWY3FjSUZhSjV4M2g1ai9sOFpwQyt5?=
+ =?utf-8?B?UXB4T2czZ2ozcHdEVlNjWlJFbVprMDUyR3lQYTJrTHRWZERmbVNBMWQrdlB4?=
+ =?utf-8?B?SFdEWFNzd0JOK1ZpQTFGZTk4bnZiWnZkbm9ubW03a1NUN2ZMOTRuVkRsS0JI?=
+ =?utf-8?B?VDVCUlYvL0RpSjVQVnpzSkdmSzhmWGEyMlF1ZjRPZkI1RFpZTnFUb3kyMndx?=
+ =?utf-8?B?amZ6YWd4d2tscWt1UXBWZEliN3E2MGVQTDhKbnQyanNuRHJmM0FIN0dYbkND?=
+ =?utf-8?B?MFhicGM4YWowK0RHZlJIR3lPVUYxRS9uZVB5VWIwNUNISWZocFFtT2UrcE1D?=
+ =?utf-8?B?T1VNK2JJeVBFT2xKajVIR3M5Z21DaXpFMkVmblVOaGsxN0VKQWNHTzZBdGlF?=
+ =?utf-8?B?cDM1bS94T1E0NW5Md3lwazVqODJTNzR6eFhCeU9tYVF1ejFpMFFnT0t1WnNH?=
+ =?utf-8?B?WTF6dTJKTVR3alhaeDJ3UUhkMUJLUHp5dU13QzVnRFpIaFA3QUxBc1FZdzdn?=
+ =?utf-8?B?eTVGc3VTT2I5RnBES2RncWZKeHM4ZDlsZDFQYjJnZXVRTngwUWFyeDlldlRw?=
+ =?utf-8?B?OTlNeE00WERnZ0E4ZXFVODFNSEFGMXV6ZWgxYkl6TkNYOHc5Y3JINzUxdUhM?=
+ =?utf-8?B?Q3ovK2s1VjRBeDhGWnB6bkxjeU5uZGRkQTdyUFR4WUJOcjE4cWV6YU9sQ2Ra?=
+ =?utf-8?B?UFhRMmtRZU1XTEVHcGZnWWdxOGdqbHpsMVJMU0pnWnQxY3NCRUVvMUNiTGx2?=
+ =?utf-8?B?RnJhb2hoaGZDd2ExYnlwMHRqd2ErZ2cxUVZQWUxIRDlUaDBORDhoMGdCdkVm?=
+ =?utf-8?B?anNzdEFKSlhlR05VVFViZlVWdlI4b0lpd0RHRk5acUh2Y2ZsUXp4a0poRmNk?=
+ =?utf-8?B?YUtxMlpzUFdpbi9OQnFHaitweVFlZmNXSm9rMEIzK1Qzb1l1QTNWMk12Q1lT?=
+ =?utf-8?B?L0huaEZFN3VmWHFWV2FZMVgxb2pjb0ZCZVQwcnBBVDVITXU1cXQ2L0lMeTBF?=
+ =?utf-8?B?N3YxTHJUNjVZNk9DdmR1QkI3MFFna0ZZZFYwVHlGdG5KWFhqNkY5cnlwelI3?=
+ =?utf-8?B?ZzM2VUl4UUtMUktSOC9qWXYxNkFFakJ0QmVoOXBvU0lIOEI3NE9WZUxVaEp6?=
+ =?utf-8?B?dnNwRy9NSlNEbGZ1bnVia25JMWl0cjlsT2tSZ0JvUW9yNGtESzhzRVJaWWli?=
+ =?utf-8?B?L1VOb3lRSzZuOXhYTlJGMWRXclVhZmQyWWgyZUYyZ0xwZk5EZ013TXBKa2VG?=
+ =?utf-8?B?RkNCOE96WkErdkx3dDYzeFJuMlJRQlJveU5vaXdRRE9zRWhXam1ySTRoQ2lH?=
+ =?utf-8?Q?0/K66zyMJBX98qcVWT76ZVODETLOjy3gGQJQfzQEyM=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e10d4316-d277-4a1d-efdf-08d9a0551fc4
-X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6268cd14-b3d4-4601-242e-08d9a0565db3
+X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB5009.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2021 12:09:31.7958
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2021 12:18:25.1638
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HyVj6XfUFmlc6/jCD0NIFuKaC+07VUJrT/6vSBFn/UFpLde45Hgf4Ua2b0PANL8UWkAKoTHANWnW8MNQ1lCRdgLhMafFOYxp5XSaLDNcgPg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB4016
+X-MS-Exchange-CrossTenant-UserPrincipalName: il6hcuNbbF2DHDx+1YHdyXYwRzD70//qT5foNlexqZsJ2nTMggDNzU/ImdyRPGxXlOHKqhmKBWbggEYg/1rVQ9dbmBfHHm/lCBG94zVbMGY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB4916
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10158 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 suspectscore=0
- bulkscore=0 adultscore=0 mlxscore=0 spamscore=0 malwarescore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2111050071
-X-Proofpoint-GUID: EpC4SHTLaT5VAhRcyJxzMV99sUWJ1Dnw
-X-Proofpoint-ORIG-GUID: EpC4SHTLaT5VAhRcyJxzMV99sUWJ1Dnw
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 adultscore=0 mlxscore=0
+ spamscore=0 malwarescore=0 bulkscore=0 mlxlogscore=999 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2111050072
+X-Proofpoint-ORIG-GUID: kUhmW-FhLCPmwZMmwFtjT6B9KNv4nZgo
+X-Proofpoint-GUID: kUhmW-FhLCPmwZMmwFtjT6B9KNv4nZgo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/5/21 00:31, Dan Williams wrote:
-> On Fri, Aug 27, 2021 at 7:59 AM Joao Martins <joao.m.martins@oracle.com> wrote:
->>
->> Right now, only static dax regions have a valid @pgmap pointer in its
->> struct dev_dax. Dynamic dax case however, do not.
->>
->> In preparation for device-dax compound devmap support, make sure that
->> dev_dax pgmap field is set after it has been allocated and initialized.
->>
->> dynamic dax device have the @pgmap is allocated at probe() and it's
->> managed by devm (contrast to static dax region which a pgmap is provided
->> and dax core kfrees it). So in addition to ensure a valid @pgmap, clear
->> the pgmap when the dynamic dax device is released to avoid the same
->> pgmap ranges to be re-requested across multiple region device reconfigs.
->>
->> Suggested-by: Dan Williams <dan.j.williams@intel.com>
->> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
->> ---
->>  drivers/dax/bus.c    | 8 ++++++++
->>  drivers/dax/device.c | 2 ++
->>  2 files changed, 10 insertions(+)
->>
->> diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
->> index 6cc4da4c713d..49dbff9ba609 100644
->> --- a/drivers/dax/bus.c
->> +++ b/drivers/dax/bus.c
->> @@ -363,6 +363,14 @@ void kill_dev_dax(struct dev_dax *dev_dax)
->>
->>         kill_dax(dax_dev);
->>         unmap_mapping_range(inode->i_mapping, 0, 0, 1);
->> +
->> +       /*
->> +        * Dynamic dax region have the pgmap allocated via dev_kzalloc()
->> +        * and thus freed by devm. Clear the pgmap to not have stale pgmap
->> +        * ranges on probe() from previous reconfigurations of region devices.
->> +        */
->> +       if (!is_static(dev_dax->region))
->> +               dev_dax->pgmap = NULL;
->>  }
->>  EXPORT_SYMBOL_GPL(kill_dev_dax);
->>
->> diff --git a/drivers/dax/device.c b/drivers/dax/device.c
->> index 0b82159b3564..6e348b5f9d45 100644
->> --- a/drivers/dax/device.c
->> +++ b/drivers/dax/device.c
->> @@ -426,6 +426,8 @@ int dev_dax_probe(struct dev_dax *dev_dax)
->>         }
->>
->>         pgmap->type = MEMORY_DEVICE_GENERIC;
->> +       dev_dax->pgmap = pgmap;
-> 
-> So I think I'd rather see a bigger patch that replaces some of the
-> implicit dev_dax->pgmap == NULL checks with explicit is_static()
-> checks. Something like the following only compile and boot tested...
-> Note the struct_size() change probably wants to be its own cleanup,
-> and the EXPORT_SYMBOL_NS_GPL(..., DAX) probably wants to be its own
-> patch converting over the entirety of drivers/dax/. Thoughts?
-> 
-It's a good idea. Certainly the implicit pgmap == NULL made it harder
-than the necessary to find where the problem was. So turning those checks
-into explicit checks that differentiate static vs dynamic dax will help
 
-With respect to this series converting those pgmap == NULL is going to need
-to made me export the symbol (provided dax core and dax device can be built
-as modules). So I don't know how this can be a patch converting entirety of
-dax. Perhaps you mean that I would just EXPORT_SYMBOL() and then a bigger
-patch introduces the MODULE_NS_IMPORT() And EXPORT_SYMBOL_NS*() separately.
+On 11/2/21 5:19 AM, Juergen Gross wrote:
+> When running as PVH or HVM guest with actual memory < max memory the
+> hypervisor is using "populate on demand" in order to allow the guest
+> to balloon down from its maximum memory size. For this to work
+> correctly the guest must not touch more memory pages than its target
+> memory size as otherwise the PoD cache will be exhausted and the guest
+> is crashed as a result of that.
+>
+> In extreme cases ballooning down might not be finished today before
+> the init process is started, which can consume lots of memory.
+>
+> In order to avoid random boot crashes in such cases, add a late init
+> call to wait for ballooning down having finished for PVH/HVM guests.
+>
+> Warn on console if initial ballooning fails, panic() after stalling
+> for more than 3 minutes per default. Add a module parameter for
+> changing this timeout.
+>
+> Cc: <stable@vger.kernel.org>
+> Reported-by: Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>
+> Signed-off-by: Juergen Gross <jgross@suse.com>
 
-The struct_size, yeah, should be a separate patch much like commit 7d18dd75a8af
-("device-dax/kmem: use struct_size()").
 
-minor comment below on your snippet.
 
-> 
-> diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
-> index 6cc4da4c713d..67ab7e05b340 100644
-> --- a/drivers/dax/bus.c
-> +++ b/drivers/dax/bus.c
-> @@ -134,6 +134,12 @@ static bool is_static(struct dax_region *dax_region)
->         return (dax_region->res.flags & IORESOURCE_DAX_STATIC) != 0;
->  }
-> 
-> +bool static_dev_dax(struct dev_dax *dev_dax)
-> +{
-> +       return is_static(dev_dax->region);
-> +}
-> +EXPORT_SYMBOL_NS_GPL(static_dev_dax, DAX);
-> +
->  static u64 dev_dax_size(struct dev_dax *dev_dax)
->  {
->         u64 size = 0;
-> @@ -363,6 +369,8 @@ void kill_dev_dax(struct dev_dax *dev_dax)
-> 
->         kill_dax(dax_dev);
->         unmap_mapping_range(inode->i_mapping, 0, 0, 1);
-> +       if (static_dev_dax(dev_dax))
-> +               dev_dax->pgmap = NULL;
->  }
+Applied to for-linus-5-16b.
 
-Here you probably meant !static_dev_dax() per my patch.
 
->  EXPORT_SYMBOL_GPL(kill_dev_dax);
-> 
-> diff --git a/drivers/dax/bus.h b/drivers/dax/bus.h
-> index 1e946ad7780a..4acdfee7dd59 100644
-> --- a/drivers/dax/bus.h
-> +++ b/drivers/dax/bus.h
-> @@ -48,6 +48,7 @@ int __dax_driver_register(struct dax_device_driver *dax_drv,
->         __dax_driver_register(driver, THIS_MODULE, KBUILD_MODNAME)
->  void dax_driver_unregister(struct dax_device_driver *dax_drv);
->  void kill_dev_dax(struct dev_dax *dev_dax);
-> +bool static_dev_dax(struct dev_dax *dev_dax);
-> 
->  #if IS_ENABLED(CONFIG_DEV_DAX_PMEM_COMPAT)
->  int dev_dax_probe(struct dev_dax *dev_dax);
-> diff --git a/drivers/dax/device.c b/drivers/dax/device.c
-> index dd8222a42808..87507aff2b10 100644
-> --- a/drivers/dax/device.c
-> +++ b/drivers/dax/device.c
-> @@ -398,31 +398,43 @@ int dev_dax_probe(struct dev_dax *dev_dax)
->         void *addr;
->         int rc, i;
-> 
-> -       pgmap = dev_dax->pgmap;
-> -       if (dev_WARN_ONCE(dev, pgmap && dev_dax->nr_range > 1,
-> -                       "static pgmap / multi-range device conflict\n"))
-> +       if (static_dev_dax(dev_dax) && dev_dax->nr_range > 1) {
-> +               dev_warn(dev, "static pgmap / multi-range device conflict\n");
->                 return -EINVAL;
-> +       }
-> 
-> -       if (!pgmap) {
-> -               pgmap = devm_kzalloc(dev, sizeof(*pgmap) + sizeof(struct range)
-> -                               * (dev_dax->nr_range - 1), GFP_KERNEL);
-> +       if (static_dev_dax(dev_dax)) {
-> +               pgmap = dev_dax->pgmap;
-> +       } else {
-> +               if (dev_dax->pgmap) {
-> +                       dev_warn(dev,
-> +                                "dynamic-dax with pre-populated page map!?\n");
-> +                       return -EINVAL;
-> +               }
-> +               pgmap = devm_kzalloc(
-> +                       dev, struct_size(pgmap, ranges, dev_dax->nr_range - 1),
-> +                       GFP_KERNEL);
->                 if (!pgmap)
->                         return -ENOMEM;
->                 pgmap->nr_range = dev_dax->nr_range;
-> +               dev_dax->pgmap = pgmap;
-> +               for (i = 0; i < dev_dax->nr_range; i++) {
-> +                       struct range *range = &dev_dax->ranges[i].range;
-> +
-> +                       pgmap->ranges[i] = *range;
-> +               }
->         }
-> 
-This code move is probably not needed unless your point is to have a more clear
-separation on what's initialization versus the mem region request (that's
-applicable to both dynamic and static).
-
->         for (i = 0; i < dev_dax->nr_range; i++) {
->                 struct range *range = &dev_dax->ranges[i].range;
-> 
-> -               if (!devm_request_mem_region(dev, range->start,
-> -                                       range_len(range), dev_name(dev))) {
-> -                       dev_warn(dev, "mapping%d: %#llx-%#llx could
-> not reserve range\n",
-> -                                       i, range->start, range->end);
-> -                       return -EBUSY;
-> -               }
-> -               /* don't update the range for static pgmap */
-> -               if (!dev_dax->pgmap)
-> -                       pgmap->ranges[i] = *range;
-> +               if (devm_request_mem_region(dev, range->start, range_len(range),
-> +                                           dev_name(dev)))
-> +                       continue;
-> +               dev_warn(dev,
-> +                        "mapping%d: %#llx-%#llx could not reserve range\n", i,
-> +                        range->start, range->end);
-> +               return -EBUSY;
->         }
-> 
->         pgmap->type = MEMORY_DEVICE_GENERIC;
-> @@ -473,3 +485,4 @@ MODULE_LICENSE("GPL v2");
->  module_init(dax_init);
->  module_exit(dax_exit);
->  MODULE_ALIAS_DAX_DEVICE(0);
-> +MODULE_IMPORT_NS(DAX);
+-boris
 
