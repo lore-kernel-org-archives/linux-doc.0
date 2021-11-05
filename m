@@ -2,59 +2,60 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42590C433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Nov 2021 15:43:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE010C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Nov 2021 15:44:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2A1BF61183
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Nov 2021 15:43:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AD84461108
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Nov 2021 15:44:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231963AbhKEPqV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Nov 2021 11:46:21 -0400
-Received: from smtp-relay-internal-1.canonical.com ([185.125.188.123]:41910
+        id S230023AbhKEPrc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Nov 2021 11:47:32 -0400
+Received: from smtp-relay-internal-1.canonical.com ([185.125.188.123]:42074
         "EHLO smtp-relay-internal-1.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231892AbhKEPqU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Nov 2021 11:46:20 -0400
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com [209.85.128.70])
+        by vger.kernel.org with ESMTP id S231634AbhKEPrc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Nov 2021 11:47:32 -0400
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com [209.85.167.70])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 50F3E3F1D6
-        for <linux-doc@vger.kernel.org>; Fri,  5 Nov 2021 15:43:39 +0000 (UTC)
+        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id B53693F1D5
+        for <linux-doc@vger.kernel.org>; Fri,  5 Nov 2021 15:44:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1636127019;
-        bh=Kma2r6Cjt1RWiEDiySihOnGrp1HFvlTplV2HdiifHKA=;
-        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
-        b=Pv2s9dMT5q38F9GPg01SpNA4Yyt4qClouRXUzF5/gxS8l5bcAQXllxbIaASR8LV36
-         09z4TY4JVhcAX1yDfM4MVTml5JOAtaW8AuwNn0Ck7c7kbCrAiMDdkFvHTweXSTh/e9
-         m4cGsOPWKJjXEi7dXp/EJUCf7wa2gkWJPheJbeOoJsrJbJWY0dL0O+rcvTweNGE4cg
-         9UxD7SDNKwXX0ZubTKs2GpzBYDzC751U+d7FJ0qHl3e57i3oZ5dzsBGAhynwQqExEq
-         BZA4ut6pIT2iTutRL192dcNAxDJf5aqmgcqGcYZEmAVRGbIyMldA+XRee/9cuw+vHE
-         M1l/uJPQgJWZw==
-Received: by mail-wm1-f70.google.com with SMTP id o18-20020a05600c511200b00332fa17a02eso3371736wms.5
-        for <linux-doc@vger.kernel.org>; Fri, 05 Nov 2021 08:43:39 -0700 (PDT)
+        s=20210705; t=1636127091;
+        bh=jHLHivxStKmmA/vK1gxbQJ1JTHvdFc1nwcxGtaT2GSQ=;
+        h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+         MIME-Version;
+        b=i98P3f/1FmYQhfMC0neDZ5FaDm8x4MUKV8uKBR0obkpcAOGBvMxFlL/46DFzOY1Sq
+         Tdei5sSMMYGIOl+d4F7Jh05sq3sJf9Qmf840irPerxAdmtlvAzoxdpeJ/BiGXGRpRP
+         R1mX0n8fSxYC+gGnW55eMyMXiWNlPoLk65D6J/MpjD5OcK3QTWxXJNxJrb9ODcbuVa
+         epIGpQnpnyMwHN03SZqR400c5NgyK/xaFC4x4QCIZHUbpUZLlmnr+D8LqWkmlHkFfs
+         qWD6S3QOTkbg7b9bDs5LdgKf+RJ3b2xSyWAeFlfGHTyuUGgRxVBZVVfC3KZXBBQKc1
+         0YwnuvxlPR0rQ==
+Received: by mail-lf1-f70.google.com with SMTP id d10-20020a0565123d0a00b004002359a671so3755913lfv.10
+        for <linux-doc@vger.kernel.org>; Fri, 05 Nov 2021 08:44:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Kma2r6Cjt1RWiEDiySihOnGrp1HFvlTplV2HdiifHKA=;
-        b=Yvmd+tVzd1Q2MlIFFoA3XLlGUuf1Br5Le+PYgkTYu2mXi8SR9jsJgt2PRam+Nuxkji
-         PRg9HMFq8iI9ywFovpTiQbkZ1F0WUu5qCB8lPdckbWaHhXnvyADQ2BTEPpCIrEyoi7/G
-         W0/swpLqOYt+O31U/5JI788UvhFMSWwYtmVMLvod6Bo++AnjnjqOpQBGPCr2465V/vl0
-         aeIpef6uo3IuKczQ6YHEc6+nxO+5nXTA/lKFWUtrRmMlPEAxIQIeY5vRitIqy6CegRf8
-         rOBWH2Ei5S+JKNrToOo/1BIPs9Tve3W67XAtS5LbZ1NeeYJI/iZEDc4oJZKzkgB/jbiz
-         jBuQ==
-X-Gm-Message-State: AOAM531GW7M20SVbRVoiEKp15x/56TZQrSEQqYmPmp4qe7qDMpnhRj95
-        tVteA9xotAsAol1RogsrHQi5NOEqt7DuB8eoSixSsjeraNnEU01JS2Rcb4GfIAOb4jIJzsqaAKY
-        QccGkDbLp9gHYkEP+fasX0U3zcGIH7wKztqoWLQ==
-X-Received: by 2002:a1c:f601:: with SMTP id w1mr30738293wmc.112.1636127019052;
-        Fri, 05 Nov 2021 08:43:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyoyh8Lr4yX65exQreiyo/watjC1Mfw4IA67+fs0m2xRDqQJ5/nM+wMDOQKHo1Bn9rMO/Br/w==
-X-Received: by 2002:a1c:f601:: with SMTP id w1mr30738272wmc.112.1636127018901;
-        Fri, 05 Nov 2021 08:43:38 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=jHLHivxStKmmA/vK1gxbQJ1JTHvdFc1nwcxGtaT2GSQ=;
+        b=P4TvE56XH0uSDvcUeZ2ehqVFqIuY0BwvVkhF7gP0DZimiC8F+MYhH41eENaEVD6fjB
+         BjYXixMOJENAlZ1oIOiwe5eftx2u23Hj5aWVdsrNv9EhYP8AHKK8EExutHWvMKAQelvQ
+         Hbu/aZXfOjrbOlFtNjdEBixD6opFB6q3FMLs3TALcLiyJzCCRhE+a2BP4ZbFMVcqN+nD
+         J+5YFCRhTHOLqcigyhUl87rFRi4lGCr204kyRhAcGvrM5ZzD6TM0Yuy1B7TZ8er1s14N
+         INJ2mp+TqsHsTE2dJTEsYwE5dFmkCpIE/I+vGEg0QTfe4D7Z1KHf2GGqCpRTExPj1uww
+         UJwA==
+X-Gm-Message-State: AOAM530zjVUSR8Fl6xQnmg1D3LtRyn/lUWaSPYoiPPo7GqlSJ3aIoMPs
+        AO4J5zts+PAoVpsHGd0rIaBHAzN0CcR7BhMnXGP7UpzQ9RV7S+wvSBzPF87bsPA8Zo4eBPy1l6U
+        bobiCnNkm5fpHPH/vmQK7HisuVc4t/VBIvGOHnA==
+X-Received: by 2002:adf:fb44:: with SMTP id c4mr71913814wrs.179.1636127080684;
+        Fri, 05 Nov 2021 08:44:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwubhhFLZ1HPTor4i3ntryLRhJH9bsSukDKTrsUDEYR79CovJvijb9h2VluKlN2+0XYoTfgRg==
+X-Received: by 2002:adf:fb44:: with SMTP id c4mr71913748wrs.179.1636127080324;
+        Fri, 05 Nov 2021 08:44:40 -0700 (PDT)
 Received: from localhost.localdomain (lfbn-lyo-1-470-249.w2-7.abo.wanadoo.fr. [2.7.60.249])
-        by smtp.gmail.com with ESMTPSA id m2sm11245691wml.15.2021.11.05.08.43.37
+        by smtp.gmail.com with ESMTPSA id l11sm8178812wrp.61.2021.11.05.08.44.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Nov 2021 08:43:38 -0700 (PDT)
+        Fri, 05 Nov 2021 08:44:40 -0700 (PDT)
 From:   Alexandre Ghiti <alexandre.ghiti@canonical.com>
 To:     Steve French <sfrench@samba.org>, Jonathan Corbet <corbet@lwn.net>,
         David Howells <dhowells@redhat.com>,
@@ -82,66 +83,170 @@ To:     Steve French <sfrench@samba.org>, Jonathan Corbet <corbet@lwn.net>,
         linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
         linux-power@fi.rohmeurope.com
 Cc:     Alexandre Ghiti <alexandre.ghiti@canonical.com>
-Subject: [PATCH 0/7] Cleanup after removal of configs
-Date:   Fri,  5 Nov 2021 16:43:27 +0100
-Message-Id: <20211105154334.1841927-1-alexandre.ghiti@canonical.com>
+Subject: [PATCH 1/7] Documentation, arch: Remove leftovers from fscache/cachefiles histograms
+Date:   Fri,  5 Nov 2021 16:43:28 +0100
+Message-Id: <20211105154334.1841927-2-alexandre.ghiti@canonical.com>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20211105154334.1841927-1-alexandre.ghiti@canonical.com>
+References: <20211105154334.1841927-1-alexandre.ghiti@canonical.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-While bumping from 5.13 to 5.15, I found that a few deleted configs had
-left some pieces here and there: this patchset cleans that.
+A few references to the fscache and cachefiles histograms were left in
+the Documentation and some arch defconfigs: remove them since those
+configs do not exist anymore.
 
-Alexandre Ghiti (7):
-  Documentation, arch: Remove leftovers from fscache/cachefiles
-    histograms
-  Documentation, arch: Remove leftovers from raw device
-  Documentation, arch: Remove leftovers from CIFS_WEAK_PW_HASH
-  arch: Remove leftovers from mandatory file locking
-  Documentation, arch, fs: Remove leftovers from fscache object list
-  include: mfd: Remove leftovers from bd70528 watchdog
-  arch: Remove leftovers from prism54 wireless driver
+Fixes: 6ae9bd8bb037("fscache, cachefiles: Remove the histogram stuff")
+Signed-off-by: Alexandre Ghiti <alexandre.ghiti@canonical.com>
+---
+ .../filesystems/caching/cachefiles.rst        | 34 -------------------
+ Documentation/filesystems/caching/fscache.rst | 34 ++-----------------
+ arch/arm/configs/axm55xx_defconfig            |  2 --
+ arch/mips/configs/nlm_xlp_defconfig           |  1 -
+ arch/mips/configs/nlm_xlr_defconfig           |  1 -
+ 5 files changed, 2 insertions(+), 70 deletions(-)
 
- Documentation/admin-guide/cifs/usage.rst      |   7 +-
- Documentation/admin-guide/devices.txt         |   8 +-
- .../filesystems/caching/cachefiles.rst        |  34 -----
- Documentation/filesystems/caching/fscache.rst | 123 +-----------------
- arch/arm/configs/axm55xx_defconfig            |   3 -
- arch/arm/configs/cm_x300_defconfig            |   1 -
- arch/arm/configs/ezx_defconfig                |   1 -
- arch/arm/configs/imote2_defconfig             |   1 -
- arch/arm/configs/nhk8815_defconfig            |   1 -
- arch/arm/configs/pxa_defconfig                |   1 -
- arch/arm/configs/spear13xx_defconfig          |   1 -
- arch/arm/configs/spear3xx_defconfig           |   1 -
- arch/arm/configs/spear6xx_defconfig           |   1 -
- arch/mips/configs/decstation_64_defconfig     |   1 -
- arch/mips/configs/decstation_defconfig        |   1 -
- arch/mips/configs/decstation_r4k_defconfig    |   1 -
- arch/mips/configs/fuloong2e_defconfig         |   1 -
- arch/mips/configs/ip27_defconfig              |   1 -
- arch/mips/configs/malta_defconfig             |   1 -
- arch/mips/configs/malta_kvm_defconfig         |   1 -
- arch/mips/configs/malta_qemu_32r6_defconfig   |   1 -
- arch/mips/configs/maltaaprp_defconfig         |   1 -
- arch/mips/configs/maltasmvp_defconfig         |   1 -
- arch/mips/configs/maltasmvp_eva_defconfig     |   1 -
- arch/mips/configs/maltaup_defconfig           |   1 -
- arch/mips/configs/maltaup_xpa_defconfig       |   1 -
- arch/mips/configs/nlm_xlp_defconfig           |   2 -
- arch/mips/configs/nlm_xlr_defconfig           |   2 -
- arch/powerpc/configs/pmac32_defconfig         |   1 -
- arch/powerpc/configs/ppc6xx_defconfig         |   1 -
- arch/powerpc/configs/pseries_defconfig        |   1 -
- arch/sh/configs/titan_defconfig               |   1 -
- fs/fscache/object.c                           |   3 -
- fs/fscache/proc.c                             |  12 --
- include/linux/mfd/rohm-bd70528.h              |  24 ----
- 35 files changed, 6 insertions(+), 237 deletions(-)
-
+diff --git a/Documentation/filesystems/caching/cachefiles.rst b/Documentation/filesystems/caching/cachefiles.rst
+index e58bc1fd312a..e59861458029 100644
+--- a/Documentation/filesystems/caching/cachefiles.rst
++++ b/Documentation/filesystems/caching/cachefiles.rst
+@@ -424,40 +424,6 @@ for CacheFiles to run in a context of a specific security label, or to create
+ files and directories with another security label.
+ 
+ 
+-Statistical Information
+-=======================
+-
+-If FS-Cache is compiled with the following option enabled::
+-
+-	CONFIG_CACHEFILES_HISTOGRAM=y
+-
+-then it will gather certain statistics and display them through a proc file.
+-
+- /proc/fs/cachefiles/histogram
+-
+-     ::
+-
+-	cat /proc/fs/cachefiles/histogram
+-	JIFS  SECS  LOOKUPS   MKDIRS    CREATES
+-	===== ===== ========= ========= =========
+-
+-     This shows the breakdown of the number of times each amount of time
+-     between 0 jiffies and HZ-1 jiffies a variety of tasks took to run.  The
+-     columns are as follows:
+-
+-	=======		=======================================================
+-	COLUMN		TIME MEASUREMENT
+-	=======		=======================================================
+-	LOOKUPS		Length of time to perform a lookup on the backing fs
+-	MKDIRS		Length of time to perform a mkdir on the backing fs
+-	CREATES		Length of time to perform a create on the backing fs
+-	=======		=======================================================
+-
+-     Each row shows the number of events that took a particular range of times.
+-     Each step is 1 jiffy in size.  The JIFS column indicates the particular
+-     jiffy range covered, and the SECS field the equivalent number of seconds.
+-
+-
+ Debugging
+ =========
+ 
+diff --git a/Documentation/filesystems/caching/fscache.rst b/Documentation/filesystems/caching/fscache.rst
+index 70de86922b6a..66e31a6d1070 100644
+--- a/Documentation/filesystems/caching/fscache.rst
++++ b/Documentation/filesystems/caching/fscache.rst
+@@ -201,10 +201,9 @@ Statistical Information
+ If FS-Cache is compiled with the following options enabled::
+ 
+ 	CONFIG_FSCACHE_STATS=y
+-	CONFIG_FSCACHE_HISTOGRAM=y
+ 
+-then it will gather certain statistics and display them through a number of
+-proc files.
++then it will gather certain statistics and display them through the following
++proc file.
+ 
+ /proc/fs/fscache/stats
+ ----------------------
+@@ -413,35 +412,6 @@ proc files.
+ 
+ 
+ 
+-/proc/fs/fscache/histogram
+---------------------------
+-
+-     ::
+-
+-	cat /proc/fs/fscache/histogram
+-	JIFS  SECS  OBJ INST  OP RUNS   OBJ RUNS  RETRV DLY RETRIEVLS
+-	===== ===== ========= ========= ========= ========= =========
+-
+-     This shows the breakdown of the number of times each amount of time
+-     between 0 jiffies and HZ-1 jiffies a variety of tasks took to run.  The
+-     columns are as follows:
+-
+-	=========	=======================================================
+-	COLUMN		TIME MEASUREMENT
+-	=========	=======================================================
+-	OBJ INST	Length of time to instantiate an object
+-	OP RUNS		Length of time a call to process an operation took
+-	OBJ RUNS	Length of time a call to process an object event took
+-	RETRV DLY	Time between an requesting a read and lookup completing
+-	RETRIEVLS	Time between beginning and end of a retrieval
+-	=========	=======================================================
+-
+-     Each row shows the number of events that took a particular range of times.
+-     Each step is 1 jiffy in size.  The JIFS column indicates the particular
+-     jiffy range covered, and the SECS field the equivalent number of seconds.
+-
+-
+-
+ Object List
+ ===========
+ 
+diff --git a/arch/arm/configs/axm55xx_defconfig b/arch/arm/configs/axm55xx_defconfig
+index 46075216ee6d..b36e0b347d1f 100644
+--- a/arch/arm/configs/axm55xx_defconfig
++++ b/arch/arm/configs/axm55xx_defconfig
+@@ -204,11 +204,9 @@ CONFIG_FUSE_FS=y
+ CONFIG_CUSE=y
+ CONFIG_FSCACHE=y
+ CONFIG_FSCACHE_STATS=y
+-CONFIG_FSCACHE_HISTOGRAM=y
+ CONFIG_FSCACHE_DEBUG=y
+ CONFIG_FSCACHE_OBJECT_LIST=y
+ CONFIG_CACHEFILES=y
+-CONFIG_CACHEFILES_HISTOGRAM=y
+ CONFIG_ISO9660_FS=y
+ CONFIG_UDF_FS=y
+ CONFIG_MSDOS_FS=y
+diff --git a/arch/mips/configs/nlm_xlp_defconfig b/arch/mips/configs/nlm_xlp_defconfig
+index 32c290611723..c97f00ece828 100644
+--- a/arch/mips/configs/nlm_xlp_defconfig
++++ b/arch/mips/configs/nlm_xlp_defconfig
+@@ -420,7 +420,6 @@ CONFIG_FUSE_FS=y
+ CONFIG_CUSE=m
+ CONFIG_FSCACHE=m
+ CONFIG_FSCACHE_STATS=y
+-CONFIG_FSCACHE_HISTOGRAM=y
+ CONFIG_CACHEFILES=m
+ CONFIG_ISO9660_FS=m
+ CONFIG_JOLIET=y
+diff --git a/arch/mips/configs/nlm_xlr_defconfig b/arch/mips/configs/nlm_xlr_defconfig
+index bf9b9244929e..60ea102783d9 100644
+--- a/arch/mips/configs/nlm_xlr_defconfig
++++ b/arch/mips/configs/nlm_xlr_defconfig
+@@ -372,7 +372,6 @@ CONFIG_FUSE_FS=y
+ CONFIG_CUSE=m
+ CONFIG_FSCACHE=m
+ CONFIG_FSCACHE_STATS=y
+-CONFIG_FSCACHE_HISTOGRAM=y
+ CONFIG_CACHEFILES=m
+ CONFIG_ISO9660_FS=m
+ CONFIG_JOLIET=y
 -- 
 2.32.0
 
