@@ -2,102 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33BA5C433FE
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Nov 2021 07:52:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B2C0C433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Nov 2021 08:17:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 134B361208
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Nov 2021 07:52:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DEAA3610A0
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Nov 2021 08:17:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235843AbhKHHyo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Nov 2021 02:54:44 -0500
-Received: from mail-ua1-f43.google.com ([209.85.222.43]:36555 "EHLO
-        mail-ua1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234532AbhKHHyo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Nov 2021 02:54:44 -0500
-Received: by mail-ua1-f43.google.com with SMTP id e10so29773371uab.3;
-        Sun, 07 Nov 2021 23:52:00 -0800 (PST)
+        id S237857AbhKHIUN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Nov 2021 03:20:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40606 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234561AbhKHIUM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Nov 2021 03:20:12 -0500
+Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6EA3C061570
+        for <linux-doc@vger.kernel.org>; Mon,  8 Nov 2021 00:17:28 -0800 (PST)
+Received: by mail-yb1-xb32.google.com with SMTP id v64so41345330ybi.5
+        for <linux-doc@vger.kernel.org>; Mon, 08 Nov 2021 00:17:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=e5oR4Pjfl2f9V3U4NznnV9nmWC35FYhUexm9JqQPUc8=;
+        b=1l41nRhnO7I1eGxP/c68wJ5DBQ0XGJ8lN5DMwqlVc/7TN/zU+ltPwjk8SMVijZZr43
+         eAte3DcmoUJbVu6tTD67QKQxITk86RNdt1g3Iu9FVzXm1igJcyVg1zFefew5YtEvohju
+         DRw9pjf6fuoYB6rSQ8M9J1F9y0fyTeFEz2ORBG/PWuvC0w/4zGUxJhEHmbrSGpllYJrZ
+         GCa7cRNQl3xJL+Wissy/mStNpQzol9QX+pnfBbfBQFW7P64oOvBsmAMWOw7sNgFIt9lI
+         Ht+HHwOot42mQ0ttkylEG/2dYgeGM8ch28daWUmtADUH/XOC+9ngAAySIn3u9tAGZOms
+         lH0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=xKY+F1Oxez66TS15siDD/nDvyuOA050VB5MhJkhC4js=;
-        b=dS4E3Q/o2uDX2Y20IG2eiVT+nM4T5emZXzNaFAbZXVmxJp6olBgUXjpknAAUnqCswc
-         s5um4aIGj4wvaCZ22PmKhsVayZl/Fuma2e7HgnbXku/mSbFN2lj7NrUe649GDwL7eG48
-         9EA06Iu+AFIaR7l916gKtSkDZHAShmB8T+wfOqxoyfwOLq/CzFLJzJqjJ4iGzHb+WSZw
-         EP4ItqAzlJ6cs5IXGgRJCWpYxY6Kwnn/ErCHv+DM7xn+ety+xr1Q6El4xmLIwEVqdUHK
-         ROqH7l0D48x4Hyhcc5je1b0KznTRH8OR9quQs0OAxqcgRp2drjCQLI308pwlcfhpUoms
-         gmSQ==
-X-Gm-Message-State: AOAM533Yz2UNjF7LM9fNMUv79PHalRFGLc6se0FeEsBAqRJKMdX1RBLO
-        Gicm066+9SsYc8/T7eUmbYw+wY+WBinHFg==
-X-Google-Smtp-Source: ABdhPJy8Sgy5mQ0bQ8+gCYfiHg+QxjFLV/yedV5iZInDh2rqcNrK93e2xaaev7lEvbk5Hs3unKnchA==
-X-Received: by 2002:a67:ca92:: with SMTP id a18mr10177211vsl.11.1636357919693;
-        Sun, 07 Nov 2021 23:51:59 -0800 (PST)
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com. [209.85.222.54])
-        by smtp.gmail.com with ESMTPSA id t12sm2452517vkk.52.2021.11.07.23.51.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 07 Nov 2021 23:51:58 -0800 (PST)
-Received: by mail-ua1-f54.google.com with SMTP id q13so29786374uaq.2;
-        Sun, 07 Nov 2021 23:51:57 -0800 (PST)
-X-Received: by 2002:a67:c38f:: with SMTP id s15mr38079054vsj.50.1636357917661;
- Sun, 07 Nov 2021 23:51:57 -0800 (PST)
+        bh=e5oR4Pjfl2f9V3U4NznnV9nmWC35FYhUexm9JqQPUc8=;
+        b=fGZcBM86/p7GR904wi8t5MwFfINi8mCvKrrHswe2B4f5foc0EGGjPCQvHS0lD7dx/s
+         OOcbvLrSD2hdwaOwYo8Zp6lMxmQSjYi9GY9OK3hcZ0tE4w5+sp9NjcZ/qSoB7g4E1B7r
+         kYOCn9gKdCkcbG/Ii1MgqLTPlGezIWhaUi5umvHiNqruSG30qJE6AwUn8+qVP5zPr3DQ
+         aca1wsMy6csYbhup1LhIqkavLx1hvdFP4Wm1qP50t3h7aXzp2N8yaeoHDn8Mbqghn1gh
+         eP4elE0h/Rx8c8Cgg1KzDmjnTmwPVhSrDUfL3hpSW4acSL7M38TUgBnwQJAsXOm0HmMZ
+         lQIg==
+X-Gm-Message-State: AOAM531DfnTHqdGALyQrJJbEuqD/SWguiCFw3eZUpSafh/uoXYUyxz0R
+        n+MWymZCEhs4k67wK3o4OTx43jvYbp87h4fTy8zdIQ==
+X-Google-Smtp-Source: ABdhPJwmhfFlfIbBhUPOG+fkwXvAiAmkbEzb2MCS5TsfMgmxfcPioM+5zjlOaUdX46bcUTxs4a1OEJUOaxjqDID9e70=
+X-Received: by 2002:a05:6902:1342:: with SMTP id g2mr74674633ybu.419.1636359448098;
+ Mon, 08 Nov 2021 00:17:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20211105130338.241100-1-arnd@kernel.org>
-In-Reply-To: <20211105130338.241100-1-arnd@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 8 Nov 2021 08:51:46 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX+jb+aZHPcJ1XeEawjEwwT+VJ=YVtQnVcr=kJtnG_shw@mail.gmail.com>
-Message-ID: <CAMuHMdX+jb+aZHPcJ1XeEawjEwwT+VJ=YVtQnVcr=kJtnG_shw@mail.gmail.com>
-Subject: Re: [RFC 1/3] gpiolib: remove irq_to_gpio() definition
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-m68k <linux-m68k@lists.linux-m68k.org>,
-        Greg Ungerer <gerg@linux-m68k.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        Rich Felker <dalias@libc.org>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Fu Wei <tekkamanninja@gmail.com>, Alex Shi <alexs@kernel.org>,
-        Hu Haowen <src.res@email.cn>,
-        linux-doc-tw-discuss@lists.sourceforge.net,
+References: <20211101031651.75851-1-songmuchun@bytedance.com>
+In-Reply-To: <20211101031651.75851-1-songmuchun@bytedance.com>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Mon, 8 Nov 2021 16:16:50 +0800
+Message-ID: <CAMZfGtUeL45=WG3ceaZ_tALMGZTLtuD9jbfKEzeQv270OnaLYQ@mail.gmail.com>
+Subject: Re: [PATCH v7 0/5] Free the 2nd vmemmap page associated with each
+ HugeTLB page
+To:     Mike Kravetz <mike.kravetz@oracle.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        Michal Hocko <mhocko@suse.com>,
+        David Hildenbrand <david@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Drew Fustini <drew@beagleboard.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Matthew Wilcox <willy@infradead.org>
+Cc:     Xiongchun duan <duanxiongchun@bytedance.com>,
+        fam.zheng@bytedance.com, Muchun Song <smuchun@gmail.com>,
+        Qi Zheng <zhengqi.arch@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        Barry Song <21cnbao@gmail.com>,
+        Chen Huang <chenhuang5@huawei.com>,
+        "Bodeddula, Balasubramaniam" <bodeddub@amazon.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 5, 2021 at 2:03 PM Arnd Bergmann <arnd@kernel.org> wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+On Mon, Nov 1, 2021 at 11:22 AM Muchun Song <songmuchun@bytedance.com> wrote:
 >
-> All implementations other than coldfire have returned an error since
-> the avr32 and blackfin architectures got removed, and the last user in
-> driver code was removed in 2016, so just remove this old interface.
+> This series can minimize the overhead of struct page for 2MB HugeTLB pages
+> significantly. It further reduces the overhead of struct page by 12.5% for
+> a 2MB HugeTLB compared to the previous approach, which means 2GB per 1TB
+> HugeTLB. It is a nice gain. Comments and reviews are welcome. Thanks.
 >
-> The only reference is now in the Chinese documentation, which should be
-> changed to remove this reference as well.
->
-> Cc: Fu Wei <tekkamanninja@gmail.com>
-> Cc: Alex Shi <alexs@kernel.org>
-> Cc: Hu Haowen <src.res@email.cn>
-> Cc: linux-doc-tw-discuss@lists.sourceforge.net
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Hi,
 
-Gr{oetje,eeting}s,
+Ping guys. Does anyone have any comments or suggestions
+on this series?
 
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks.
