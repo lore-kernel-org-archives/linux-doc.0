@@ -2,137 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EE5CC433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Nov 2021 13:21:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C4BAC433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Nov 2021 13:48:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2BD1861361
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Nov 2021 13:21:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6DC7361350
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Nov 2021 13:48:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239895AbhKHNYg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Nov 2021 08:24:36 -0500
-Received: from mga02.intel.com ([134.134.136.20]:65453 "EHLO mga02.intel.com"
+        id S240077AbhKHNvW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Nov 2021 08:51:22 -0500
+Received: from vps0.lunn.ch ([185.16.172.187]:50612 "EHLO vps0.lunn.ch"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239890AbhKHNYg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Nov 2021 08:24:36 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10161"; a="219420950"
-X-IronPort-AV: E=Sophos;i="5.87,218,1631602800"; 
-   d="scan'208";a="219420950"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2021 05:21:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,218,1631602800"; 
-   d="scan'208";a="491211437"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
-  by orsmga007.jf.intel.com with ESMTP; 08 Nov 2021 05:21:37 -0800
-Received: from baltimore.igk.intel.com (baltimore.igk.intel.com [10.102.21.1])
-        by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id 1A8DLXuM005812;
-        Mon, 8 Nov 2021 13:21:33 GMT
-From:   Alexander Lobakin <alexandr.lobakin@intel.com>
-To:     =?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
-Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
-        Saeed Mahameed <saeed@kernel.org>,
-        Jakub Kicinski <kuba@kernel.org>,
+        id S238013AbhKHNvV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Nov 2021 08:51:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+        Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+        In-Reply-To:References; bh=wJ+KFiLWXSd9Yn9CEeNsZPzYPyPhxqpWIbv+1zHqmxk=; b=rj
+        G4BV9DFGE0jD9Fw+5Lc4bnd7zyJ2u1yBCjc7borAofsYd7g31Dv3BYCOw5MVBPQYf7UhQxnl5II06
+        ZFEKA8imfILSvCXPiLTS+U00pUlqDxkh/l9dSStH2iEEXLLOtRDgq4rCb7jeSsPpL0nyViV2kxAyQ
+        E+JgYaeHSpAJENc=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1mk50f-00Ctqr-DH; Mon, 08 Nov 2021 14:48:29 +0100
+Date:   Mon, 8 Nov 2021 14:48:29 +0100
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Ansuel Smith <ansuelsmth@gmail.com>
+Cc:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
         "David S. Miller" <davem@davemloft.net>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Lukasz Czapnik <lukasz.czapnik@intel.com>,
-        Marcin Kubiak <marcin.kubiak@intel.com>,
-        Michal Kubiak <michal.kubiak@intel.com>,
-        Michal Swiatkowski <michal.swiatkowski@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Netanel Belgazal <netanel@amazon.com>,
-        Arthur Kiyanovski <akiyano@amazon.com>,
-        Guy Tzalik <gtzalik@amazon.com>,
-        Saeed Bishara <saeedb@amazon.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Marcin Wojtas <mw@semihalf.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Edward Cree <ecree.xilinx@gmail.com>,
-        Martin Habets <habetsm.xilinx@gmail.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Shay Agroskin <shayagr@amazon.com>,
-        Sameeh Jubran <sameehj@amazon.com>,
-        Alexander Duyck <alexanderduyck@fb.com>,
-        Danielle Ratson <danieller@nvidia.com>,
-        Ido Schimmel <idosch@nvidia.com>, Andrew Lunn <andrew@lunn.ch>,
-        Vladyslav Tarasiuk <vladyslavt@nvidia.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jian Shen <shenjian15@huawei.com>,
-        Petr Vorel <petr.vorel@gmail.com>, Dan Murphy <dmurphy@ti.com>,
-        Yangbo Lu <yangbo.lu@nxp.com>,
-        Michal Kubecek <mkubecek@suse.cz>,
-        Zheng Yongjun <zhengyongjun3@huawei.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        YueHaibing <yuehaibing@huawei.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, bpf@vger.kernel.org
-Subject: Re: [PATCH net-next 03/21] ethtool, stats: introduce standard XDP statistics
-Date:   Mon,  8 Nov 2021 14:21:13 +0100
-Message-Id: <20211108132113.5152-1-alexandr.lobakin@intel.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <87v912ri7h.fsf@toke.dk>
-References: <20210803163641.3743-1-alexandr.lobakin@intel.com> <20210803163641.3743-4-alexandr.lobakin@intel.com> <20210803134900.578b4c37@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com> <ec0aefbc987575d1979f9102d331bd3e8f809824.camel@kernel.org> <20211026092323.165-1-alexandr.lobakin@intel.com> <20211105164453.29102-1-alexandr.lobakin@intel.com> <87v912ri7h.fsf@toke.dk>
+        Jakub Kicinski <kuba@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [RFC PATCH 2/6] leds: permit to declare supported offload
+ triggers
+Message-ID: <YYkqrbenDPpck2yO@lunn.ch>
+References: <20211107175718.9151-1-ansuelsmth@gmail.com>
+ <20211107175718.9151-3-ansuelsmth@gmail.com>
+ <20211107230624.5251eccb@thinkpad>
+ <YYhUGNs1I0RWriln@Ansuel-xps.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <YYhUGNs1I0RWriln@Ansuel-xps.localdomain>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Toke Høiland-Jørgensen <toke@redhat.com>
-Date: Mon, 08 Nov 2021 12:37:54 +0100
-
-> Alexander Lobakin <alexandr.lobakin@intel.com> writes:
+On Sun, Nov 07, 2021 at 11:32:56PM +0100, Ansuel Smith wrote:
+> On Sun, Nov 07, 2021 at 11:06:24PM +0100, Marek Beh�n wrote:
+> > On Sun,  7 Nov 2021 18:57:14 +0100
+> > Ansuel Smith <ansuelsmth@gmail.com> wrote:
+> > 
+> > > With LEDs that can be offload driven, permit to declare supported triggers
+> > > in the dts and add them to the cled struct to be used by the related
+> > > offload trigger. This is particurally useful for phy that have support
+> > > for HW blinking on tx/rx traffic or based on the speed link.
+> > > 
+> > > Signed-off-by: Ansuel Smith <ansuelsmth@gmail.com>
+> > 
+> > NAK. The device-tree shouldn't define this, only the LED's function as
+> > designated by the manufacturer of the device.
+> > 
+> > Marek
 > 
-> > From: Alexander Lobakin <alexandr.lobakin@intel.com>
-> > Date: Tue, 26 Oct 2021 11:23:23 +0200
-> >
-> >> From: Saeed Mahameed <saeed@kernel.org>
-> >> Date: Tue, 03 Aug 2021 16:57:22 -0700
-> >> 
-> >> [ snip ]
-> >> 
-> >> > XDP is going to always be eBPF based ! why not just report such stats
-> >> > to a special BPF_MAP ? BPF stack can collect the stats from the driver
-> >> > and report them to this special MAP upon user request.
-> >> 
-> >> I really dig this idea now. How do you see it?
-> >> <ifindex:channel:stat_id> as a key and its value as a value or ...?
-> >
-> > Ideas, suggestions, anyone?
-> 
-> I don't like the idea of putting statistics in a map instead of the
-> regular statistics counters. Sure, for bespoke things people want to put
-> into their XDP programs, use a map, but for regular packet/byte
-> counters, update the regular counters so XDP isn't "invisible".
+> Sure I will add a way to ask the led driver if the trigger is supported
+> and report it.
 
-I wanted to provide an `ip link` command for getting these stats
-from maps and printing them in a usual format as well, but seems
-like that's an unneeded overcomplication of things since using
-maps for "regular"/"generic" XDP stats really has no reason except
-for "XDP means eBPF means maps".
+Yes, you need some way for the PHY/MAC driver to enumerate what it can
+do.
 
-> As Jesper pointed out, batching the updates so the global counters are
-> only updated once per NAPI cycle is the way to avoid a huge performance
-> overhead of this...
+I've not looked at v2 yet...
 
-That's how I do things currently, seems to work just fine.
-
-> -Toke
-
-Thanks,
-Al
+	Andrew
