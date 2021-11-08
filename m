@@ -2,58 +2,35 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C758BC433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Nov 2021 15:19:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DF45C433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Nov 2021 16:13:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ACB676124D
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Nov 2021 15:19:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5402061352
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Nov 2021 16:13:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237690AbhKHPWB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Nov 2021 10:22:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52508 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231557AbhKHPWB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Nov 2021 10:22:01 -0500
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91C6CC061570;
-        Mon,  8 Nov 2021 07:19:16 -0800 (PST)
-Received: by mail-wr1-x436.google.com with SMTP id d24so27536245wra.0;
-        Mon, 08 Nov 2021 07:19:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=r0UgxhSO3VS7lE1Qbtzz6PCS/79bXIcN+v+cxY6Q5rY=;
-        b=N5ABK3F+wUiTUnqjYz/5cQ3pFlpJ4ZWKrIfVL543NKoSYE+u6GEsSTW21HaChwCmzQ
-         MZSycOqdEng49+sTPNdda4tPrs45AimAOyhGUpJL93G86x9nW7I8D7qQC4TI2xeTnBRN
-         LSfm7zDUcysmBizo7rTGzP4Gck+JRNBDBjpFDOIt9rl4XNxbfY+I+3o89Tf7HqZVi/HU
-         MdBTLbATJD2ojiROC/X76x0XIJ4gzkytkSR3sK4ZDfjPhPyfw/cWx47XnjVL8sQWWNa8
-         FIivBpgav0R90YNFEikDx2XB/lhUMTYWTQ/6mvFeZxq+8bQRBXfFofr1LlBleIv9q+PD
-         CzEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=r0UgxhSO3VS7lE1Qbtzz6PCS/79bXIcN+v+cxY6Q5rY=;
-        b=fodOS3dS7sHN0xGdzJtwNQ/vGUlOctZylD+00mQqHnfv0oA8s82z/4FRxOO5sPBYrx
-         ygTgzvUwX2YOXae5WSH9EQvPGT/3onEa8eIeZPgo+C6GjGl1pHk5fTj06JsZEprjVGNR
-         oOCIG4JWo6Rb2aIvYloJZjmGjWMats5irze28CS8obxnEBTsYjENTWfmOuHKXliaMHBr
-         ADmvbYetJ5udjIHTYOdkd/oCnFdTFcVRLytN+UeyOBRyHoJeKeCU2Bsf4YNxnjy0VEt9
-         I64a80AWQCq3ysXjqffKGbSVzMyY8UPfdU6SszF07Wnft2I8LR/5ovRdd52WNbm8jCID
-         8Z8Q==
-X-Gm-Message-State: AOAM5320qlxcoA42iZjgDPuYVqz72VK8eF1OzxyZJQ30GHCIX4YbgcX5
-        htoAzGeyjq17r0FRS9JwUMMQDxSlUOo=
-X-Google-Smtp-Source: ABdhPJx6wEJ0HyH3ODXf3R+ZN2UrMGtNivD7rCHS5b+2JhAR5DIP+vLbo2e1Y2BugcI3M8vNI0UjSA==
-X-Received: by 2002:adf:dc0e:: with SMTP id t14mr541769wri.277.1636384754971;
-        Mon, 08 Nov 2021 07:19:14 -0800 (PST)
-Received: from Ansuel-xps.localdomain (93-42-71-246.ip85.fastwebnet.it. [93.42.71.246])
-        by smtp.gmail.com with ESMTPSA id e18sm16976074wrs.48.2021.11.08.07.19.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Nov 2021 07:19:14 -0800 (PST)
-Date:   Mon, 8 Nov 2021 16:19:12 +0100
-From:   Ansuel Smith <ansuelsmth@gmail.com>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Vivien Didelot <vivien.didelot@gmail.com>,
+        id S238132AbhKHQQD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Nov 2021 11:16:03 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57838 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S238111AbhKHQQD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Nov 2021 11:16:03 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D4E1461107;
+        Mon,  8 Nov 2021 16:13:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1636387998;
+        bh=Ijsj68+ZcgX66on4xNvcnNeiQfAyxcdQcTHC4K5SOXI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=lG6VDp2Tre0jkggzgpKn9zvIrAhb/7shlfuxVMN99UOqioR2n7IB3e85NKwQI4CqE
+         4P5cUQQ3Kl9Cntyyla1RG7CZpkPTFZTkq7cKd8g8K2Sn+NjmqDkTOZLdotViKTJA0M
+         XxC8FX8X1cEy+Reb28kjQ/3VsEbZNzsIRS3aUl1cuPVQ2fQ6473y1oh0/WbFaqgLiO
+         z29jA75XqULm50+FN4uS8rLx2xqzVmnRs7dTetXDZAa2dsJGVD/YmDZfVjPfwyRfk3
+         AdV2zF03PBuqD4Eg1zKgsoP6EVcrX0vpx1FFQGa27vd1mibkfGag6kZhWyGN2TFJ1Y
+         rpaKnkC28UAgQ==
+Date:   Mon, 8 Nov 2021 17:13:12 +0100
+From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+To:     Ansuel Smith <ansuelsmth@gmail.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
         Florian Fainelli <f.fainelli@gmail.com>,
         Vladimir Oltean <olteanv@gmail.com>,
         "David S. Miller" <davem@davemloft.net>,
@@ -63,70 +40,95 @@ Cc:     Vivien Didelot <vivien.didelot@gmail.com>,
         John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [RFC PATCH v2 3/5] leds: trigger: add offload-phy-activity
- trigger
-Message-ID: <YYk/8IIhCYUZFcy4@Ansuel-xps.localdomain>
+Subject: Re: [RFC PATCH v2 1/5] leds: trigger: add API for HW offloading of
+ triggers
+Message-ID: <20211108171312.0318b960@thinkpad>
+In-Reply-To: <YYk/Pbm9ZZ/Ikckg@Ansuel-xps.localdomain>
 References: <20211108002500.19115-1-ansuelsmth@gmail.com>
- <20211108002500.19115-4-ansuelsmth@gmail.com>
- <YYkxfRrJ8ERaTr5x@lunn.ch>
+        <20211108002500.19115-2-ansuelsmth@gmail.com>
+        <YYkuZwQi66slgfTZ@lunn.ch>
+        <YYk/Pbm9ZZ/Ikckg@Ansuel-xps.localdomain>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YYkxfRrJ8ERaTr5x@lunn.ch>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 08, 2021 at 03:17:33PM +0100, Andrew Lunn wrote:
-> On Mon, Nov 08, 2021 at 01:24:58AM +0100, Ansuel Smith wrote:
-> > Add Offload Trigger for PHY Activity. This special trigger is used to
-> > configure and expose the different HW trigger that are provided by the
-> > PHY. Each offload trigger can be configured by sysfs and on trigger
-> > activation the offload mode is enabled.
+On Mon, 8 Nov 2021 16:16:13 +0100
+Ansuel Smith <ansuelsmth@gmail.com> wrote:
+
+> On Mon, Nov 08, 2021 at 03:04:23PM +0100, Andrew Lunn wrote:
+> > > +static inline int led_trigger_offload(struct led_classdev *led_cdev)
+> > > +{
+> > > +	int ret;
+> > > +
+> > > +	if (!led_cdev->trigger_offload)
+> > > +		return -EOPNOTSUPP;
+> > > +
+> > > +	ret = led_cdev->trigger_offload(led_cdev, true);
+> > > +	led_cdev->offloaded = !ret;
+> > > +
+> > > +	return ret;
+> > > +}
+> > > +
+> > > +static inline void led_trigger_offload_stop(struct led_classdev *led_cdev)
+> > > +{
+> > > +	if (!led_cdev->trigger_offload)
+> > > +		return;
+> > > +
+> > > +	if (led_cdev->offloaded) {
+> > > +		led_cdev->trigger_offload(led_cdev, false);
+> > > +		led_cdev->offloaded = false;
+> > > +	}
+> > > +}
+> > > +#endif  
 > > 
-> > This currently implement these hw triggers:
-> >   - blink_tx: Blink LED on tx packet receive
-> >   - blink_rx: Blink LED on rx packet receive
-> >   - blink_collision: Blink LED on collision detection
+> > I think there should be two calls into the cdev driver, not this
+> > true/false parameter. trigger_offload_start() and
+> > trigger_offload_stop().
+> >   
 > 
-> When did you last see a collision? Do you really have a 1/2 duplex
-> link? Just because the PHY can, does not mean we should support
-> it. Lets restrict this to the most useful modes.
->
+> To not add too much function to the struct, can we introduce one
+> function that both enable and disable the hw mode?
 
-Ok will drop this. In my case (qca8k) I also never see a device using it
-so I agree on the fact that should be dropped.
+Dear Ansuel,
 
-> >   - link_10m: Keep LED on with 10m link speed
-> >   - link_100m: Keep LED on with 100m link speed
-> >   - link_1000m: Keep LED on with 1000m link speed
-> >   - half_duplex: Keep LED on with half duplex link
-> >   - full_duplex: Keep LED on with full duplex link
-> >   - linkup_over: Keep LED on with link speed and blink on rx/tx traffic
-> >   - power_on_reset: Keep LED on with switch reset
-> 
-> >   - blink_2hz: Set blink speed at 2hz for every blink event
-> >   - blink_4hz: Set blink speed at 4hz for every blink event
-> >   - blink_8hz: Set blink speed at 8hz for every blink event
-> 
-> These seems like attributes, not blink modes. They need to be
-> specified somehow differently, or not at all. Do we really need them?
-> 
+what is the purpose of adding trigger_offload() methods to LED, if you
+are not going to add support to offload the netdev trigger? That was
+the entire purpose when I wrote that patch.
 
-Sorry I didn't update the commit. In sysfs they are exposed as option
-like the power_on_reset and linkup_over. So they are option on how the
-LED behave on the event.
+If you just want to create a new trigger that will make the PHY chip do
+the blinking, there is no need at all for the offloading patch.
 
-> >   - blink_auto: Set blink speed at 2hz for 10m link speed,
-> >       4hz for 100m and 8hz for 1000m
-> 
-> Another attribute, and one i've not seen any other PHY do.
-> 
+And you will also get a NACK from me and also Pavel (LED subsystem
+maintainer).
 
-Yes we can consider dropping this but I think the other 3 should be
-keeped.
+The current plan is to:
+- add support for offloading existing LED triggers to HW (LED
+  controllers (PHY chips, for example))
+- make netdev trigger try offloading itself to HW via this new API (if
+  it fails, netdev trigger will blink the LED in SW as it does now)
+- create LED classdevices in a PHY driver that have the offload()
+  methods implemented. The offload method looks at what trigger is
+  being enabled for the LED, and it if it is a netdev trigger with such
+  settings that are possible to offload, it will be offloaded.
 
-> 	Andrew
+  This whole thing makes use of the existing sysfs ABI.
+  So for example if I do
+    cd /sys/class/net/eth0/phydev/leds/<LED>
+    echo netdev >trigger
+    echo eth0 >device_name
+    echo 1 >rx
+    echo 1 >tx
+  The netdev trigger is activated, and it calls the offload() method.
+  The offload() method is implemented in the PHY driver, and it checks
+  that it can offload these settings (blink on rx/tx), and will enable
+  this.
+- extend netdev trigger to support more settings:
+  - indicate link for specific link modes only (for example 1g, 100m)
+  - ...
+- extend PHY drivers to support offloading of these new settings
 
--- 
-	Ansuel
+Marek
