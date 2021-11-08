@@ -2,90 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B2C0C433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Nov 2021 08:17:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DF77C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Nov 2021 08:48:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DEAA3610A0
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Nov 2021 08:17:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 000966125F
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Nov 2021 08:48:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237857AbhKHIUN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Nov 2021 03:20:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40606 "EHLO
+        id S231741AbhKHIuu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Nov 2021 03:50:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234561AbhKHIUM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Nov 2021 03:20:12 -0500
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6EA3C061570
-        for <linux-doc@vger.kernel.org>; Mon,  8 Nov 2021 00:17:28 -0800 (PST)
-Received: by mail-yb1-xb32.google.com with SMTP id v64so41345330ybi.5
-        for <linux-doc@vger.kernel.org>; Mon, 08 Nov 2021 00:17:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=e5oR4Pjfl2f9V3U4NznnV9nmWC35FYhUexm9JqQPUc8=;
-        b=1l41nRhnO7I1eGxP/c68wJ5DBQ0XGJ8lN5DMwqlVc/7TN/zU+ltPwjk8SMVijZZr43
-         eAte3DcmoUJbVu6tTD67QKQxITk86RNdt1g3Iu9FVzXm1igJcyVg1zFefew5YtEvohju
-         DRw9pjf6fuoYB6rSQ8M9J1F9y0fyTeFEz2ORBG/PWuvC0w/4zGUxJhEHmbrSGpllYJrZ
-         GCa7cRNQl3xJL+Wissy/mStNpQzol9QX+pnfBbfBQFW7P64oOvBsmAMWOw7sNgFIt9lI
-         Ht+HHwOot42mQ0ttkylEG/2dYgeGM8ch28daWUmtADUH/XOC+9ngAAySIn3u9tAGZOms
-         lH0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=e5oR4Pjfl2f9V3U4NznnV9nmWC35FYhUexm9JqQPUc8=;
-        b=fGZcBM86/p7GR904wi8t5MwFfINi8mCvKrrHswe2B4f5foc0EGGjPCQvHS0lD7dx/s
-         OOcbvLrSD2hdwaOwYo8Zp6lMxmQSjYi9GY9OK3hcZ0tE4w5+sp9NjcZ/qSoB7g4E1B7r
-         kYOCn9gKdCkcbG/Ii1MgqLTPlGezIWhaUi5umvHiNqruSG30qJE6AwUn8+qVP5zPr3DQ
-         aca1wsMy6csYbhup1LhIqkavLx1hvdFP4Wm1qP50t3h7aXzp2N8yaeoHDn8Mbqghn1gh
-         eP4elE0h/Rx8c8Cgg1KzDmjnTmwPVhSrDUfL3hpSW4acSL7M38TUgBnwQJAsXOm0HmMZ
-         lQIg==
-X-Gm-Message-State: AOAM531DfnTHqdGALyQrJJbEuqD/SWguiCFw3eZUpSafh/uoXYUyxz0R
-        n+MWymZCEhs4k67wK3o4OTx43jvYbp87h4fTy8zdIQ==
-X-Google-Smtp-Source: ABdhPJwmhfFlfIbBhUPOG+fkwXvAiAmkbEzb2MCS5TsfMgmxfcPioM+5zjlOaUdX46bcUTxs4a1OEJUOaxjqDID9e70=
-X-Received: by 2002:a05:6902:1342:: with SMTP id g2mr74674633ybu.419.1636359448098;
- Mon, 08 Nov 2021 00:17:28 -0800 (PST)
+        with ESMTP id S229988AbhKHIuu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Nov 2021 03:50:50 -0500
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89C7EC061570;
+        Mon,  8 Nov 2021 00:48:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=5NFnfqo73VmZa9KdPDtUR2AdqfLCRkiEPb4pbj86ui0=; b=dK/FD8/1D5AbzQUvYeuURUX7N+
+        eALUIE8ff+2lsAqGOl2JGKcmAUDzXqinHQcDViR3VU0ACxuRwFfiM1L0CMQUHQW/l94PC13ssk+hb
+        YBMwE7KwTFaYlEDKidSi2np4r00RFLym3d5sRCVk9/IMXy1rcuYSOcidlvonyO1hnOLMY4Wp9KnAF
+        tS6D7Zsc72rn95JAduzEoyI3Cmudn2zftMAqSOp2M8y+Hng1LOfDaH+CR8KvooRTeaLctT/URJ7zz
+        zA+2IO3TLT9+RQgUCdJr+tBnvU09XXK8RHRa/ll8F0Lqhbp8ojIe56XtsOVR9zjBxJ0xhO/yL7/SQ
+        9aretSnA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mk0Jp-00Er30-8q; Mon, 08 Nov 2021 08:47:57 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 378E230022C;
+        Mon,  8 Nov 2021 09:47:56 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 8975D2671B8AC; Mon,  8 Nov 2021 09:47:54 +0100 (CET)
+Date:   Mon, 8 Nov 2021 09:47:54 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        linux-pm@vger.kernel.org, x86@kernel.org,
+        linux-doc@vger.kernel.org, Len Brown <len.brown@intel.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Aubrey Li <aubrey.li@linux.intel.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Ricardo Neri <ricardo.neri@intel.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/7] thermal: intel: hfi: Minimally initialize the
+ Hardware Feedback Interface
+Message-ID: <YYjkOkFmDG9IMPHu@hirez.programming.kicks-ass.net>
+References: <20211106013312.26698-1-ricardo.neri-calderon@linux.intel.com>
+ <20211106013312.26698-4-ricardo.neri-calderon@linux.intel.com>
 MIME-Version: 1.0
-References: <20211101031651.75851-1-songmuchun@bytedance.com>
-In-Reply-To: <20211101031651.75851-1-songmuchun@bytedance.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Mon, 8 Nov 2021 16:16:50 +0800
-Message-ID: <CAMZfGtUeL45=WG3ceaZ_tALMGZTLtuD9jbfKEzeQv270OnaLYQ@mail.gmail.com>
-Subject: Re: [PATCH v7 0/5] Free the 2nd vmemmap page associated with each
- HugeTLB page
-To:     Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        Michal Hocko <mhocko@suse.com>,
-        David Hildenbrand <david@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>
-Cc:     Xiongchun duan <duanxiongchun@bytedance.com>,
-        fam.zheng@bytedance.com, Muchun Song <smuchun@gmail.com>,
-        Qi Zheng <zhengqi.arch@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        Barry Song <21cnbao@gmail.com>,
-        Chen Huang <chenhuang5@huawei.com>,
-        "Bodeddula, Balasubramaniam" <bodeddub@amazon.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211106013312.26698-4-ricardo.neri-calderon@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 1, 2021 at 11:22 AM Muchun Song <songmuchun@bytedance.com> wrote:
->
-> This series can minimize the overhead of struct page for 2MB HugeTLB pages
-> significantly. It further reduces the overhead of struct page by 12.5% for
-> a 2MB HugeTLB compared to the previous approach, which means 2GB per 1TB
-> HugeTLB. It is a nice gain. Comments and reviews are welcome. Thanks.
->
+On Fri, Nov 05, 2021 at 06:33:08PM -0700, Ricardo Neri wrote:
+> +static __init int hfi_parse_features(void)
+> +{
+> +	unsigned int nr_capabilities, reg;
+> +
 
-Hi,
+> +	/*
+> +	 * If we are here we know that CPUID_HFI_LEAF exists. Parse the
+> +	 * supported capabilities and the size of the HFI table.
+> +	 */
+> +	reg = cpuid_edx(CPUID_HFI_LEAF);
+> +
+> +	hfi_features.capabilities = reg & HFI_CAPABILITIES_MASK;
+> +	if (!(hfi_features.capabilities & HFI_CAPABILITIES_PERFORMANCE)) {
+> +		pr_err("Performance reporting not supported! Not using HFI\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	/* The number of 4KB pages required by the table */
+> +	hfi_features.nr_table_pages = ((reg & CPUID_HFI_TABLE_SIZE_MASK) >>
+> +				      CPUID_HFI_TABLE_SIZE_SHIFT) + 1;
+> +
 
-Ping guys. Does anyone have any comments or suggestions
-on this series?
+> +/* Hardware Feedback Interface Enumeration */
+> +#define CPUID_HFI_LEAF			6
+> +#define CPUID_HFI_CAP_MASK		0xff
+> +#define CPUID_HFI_TABLE_SIZE_MASK	0x0f00
+> +#define CPUID_HFI_TABLE_SIZE_SHIFT	8
+> +#define CPUID_HFI_CPU_INDEX_MASK	0xffff0000
 
-Thanks.
+Also, *if* you're going to do something like this, then at least write
+out the masks in full so you can easily see how they relate. The above
+is crap.
+
+> +#define CPUID_HFI_CPU_INDEX_SHIFT	16
+> +
+> +/* Hardware Feedback Interface Pointer */
+> +#define HFI_PTR_VALID_BIT		BIT(0)
+> +#define HFI_PTR_ADDR_SHIFT		12
+> +
+> +/* Hardware Feedback Interface Configuration */
+> +#define HFI_CONFIG_ENABLE_BIT		BIT(0)
+> +
+> +/* Hardware Feedback Interface Capabilities */
+> +#define HFI_CAPABILITIES_MASK		0xff
+> +#define HFI_CAPABILITIES_NR		8
+> +#define HFI_CAPABILITIES_PERFORMANCE	BIT(0)
+> +#define HFI_CAPABILITIES_ENERGY_EFF	BIT(1)
+
+
+So personally I prefer a bitfield union a-la cpuid10_eax, cpuid10_ebx
+cpuid10_edx etc.. Barring that, the above can also be written more
+concise using FIELD_GET() from bitfields.
+
+union cpuid6_edx {
+	struct {
+		unsigned int capabilities :  8;
+		unsigned int table_size   :  4;
+		unsigned int __reserved   :  4;
+		unsigned int cpu_index    : 16;
+	};
+	unsigned int full;
+};
+
