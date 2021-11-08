@@ -2,30 +2,30 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D66A5C433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Nov 2021 14:04:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBFB9C433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Nov 2021 14:17:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B409F61179
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Nov 2021 14:04:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BD73260F5A
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Nov 2021 14:17:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237686AbhKHOHO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Nov 2021 09:07:14 -0500
-Received: from vps0.lunn.ch ([185.16.172.187]:50640 "EHLO vps0.lunn.ch"
+        id S240312AbhKHOU1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Nov 2021 09:20:27 -0500
+Received: from vps0.lunn.ch ([185.16.172.187]:50680 "EHLO vps0.lunn.ch"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233956AbhKHOHM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Nov 2021 09:07:12 -0500
+        id S237965AbhKHOU0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Nov 2021 09:20:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
         s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
         Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
         Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=wJJrpppjSgRDTFrW+F5oEMLPyVDlFIclMKsDYZzd0Pc=; b=XjSYLHlaXLwsdK23MobXnt8pMN
-        t0m5+/o+1rvO+cz2IGsLVcTgPk0r6tz6yYzO+nwBQf3IDj7rMP9Jt3P9evizyaO35gyysrqEDy03N
-        P+aJxsoL4Gc9ib08ig32pw/ddxjlv1W/TtYfkNbqJYJ7o26jij/mZqvz+rLlA8BeUxaM=;
+        bh=gmwJXUQZZysDMClQuXxVmi498zqenZAX/qkgrMBBZ50=; b=5sED2Qlu/i1e7c6vp1/BW3d4NP
+        nV8oRFSio//MRsYm1iWPcPRPCCTxYuR0syPTB4OUGLQscihcyflEkb9CrFuX6FsvZqPqrgdKzsH7j
+        GSLDwEYIVEJHzUpGvlzvMXbBWiiBs2hUYKZ4iUzlKxuBENDaFzQRb8Lq1Im5QcsjLHdQ=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
         (envelope-from <andrew@lunn.ch>)
-        id 1mk5G3-00CtvX-4e; Mon, 08 Nov 2021 15:04:23 +0100
-Date:   Mon, 8 Nov 2021 15:04:23 +0100
+        id 1mk5Sn-00Cu1S-Sq; Mon, 08 Nov 2021 15:17:33 +0100
+Date:   Mon, 8 Nov 2021 15:17:33 +0100
 From:   Andrew Lunn <andrew@lunn.ch>
 To:     Ansuel Smith <ansuelsmth@gmail.com>
 Cc:     Vivien Didelot <vivien.didelot@gmail.com>,
@@ -37,56 +37,53 @@ Cc:     Vivien Didelot <vivien.didelot@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
         John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
-        Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
-Subject: Re: [RFC PATCH v2 1/5] leds: trigger: add API for HW offloading of
- triggers
-Message-ID: <YYkuZwQi66slgfTZ@lunn.ch>
+        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [RFC PATCH v2 3/5] leds: trigger: add offload-phy-activity
+ trigger
+Message-ID: <YYkxfRrJ8ERaTr5x@lunn.ch>
 References: <20211108002500.19115-1-ansuelsmth@gmail.com>
- <20211108002500.19115-2-ansuelsmth@gmail.com>
+ <20211108002500.19115-4-ansuelsmth@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211108002500.19115-2-ansuelsmth@gmail.com>
+In-Reply-To: <20211108002500.19115-4-ansuelsmth@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> +static inline int led_trigger_offload(struct led_classdev *led_cdev)
-> +{
-> +	int ret;
-> +
-> +	if (!led_cdev->trigger_offload)
-> +		return -EOPNOTSUPP;
-> +
-> +	ret = led_cdev->trigger_offload(led_cdev, true);
-> +	led_cdev->offloaded = !ret;
-> +
-> +	return ret;
-> +}
-> +
-> +static inline void led_trigger_offload_stop(struct led_classdev *led_cdev)
-> +{
-> +	if (!led_cdev->trigger_offload)
-> +		return;
-> +
-> +	if (led_cdev->offloaded) {
-> +		led_cdev->trigger_offload(led_cdev, false);
-> +		led_cdev->offloaded = false;
-> +	}
-> +}
-> +#endif
+On Mon, Nov 08, 2021 at 01:24:58AM +0100, Ansuel Smith wrote:
+> Add Offload Trigger for PHY Activity. This special trigger is used to
+> configure and expose the different HW trigger that are provided by the
+> PHY. Each offload trigger can be configured by sysfs and on trigger
+> activation the offload mode is enabled.
+> 
+> This currently implement these hw triggers:
+>   - blink_tx: Blink LED on tx packet receive
+>   - blink_rx: Blink LED on rx packet receive
+>   - blink_collision: Blink LED on collision detection
 
-I think there should be two calls into the cdev driver, not this
-true/false parameter. trigger_offload_start() and
-trigger_offload_stop().
+When did you last see a collision? Do you really have a 1/2 duplex
+link? Just because the PHY can, does not mean we should support
+it. Lets restrict this to the most useful modes.
 
-There are also a number of PHYs which don't allow software blinking of
-the LED. So for them, trigger_offload_stop() is going to return
--EOPNOTSUPP. And you need to handle that correctly.
+>   - link_10m: Keep LED on with 10m link speed
+>   - link_100m: Keep LED on with 100m link speed
+>   - link_1000m: Keep LED on with 1000m link speed
+>   - half_duplex: Keep LED on with half duplex link
+>   - full_duplex: Keep LED on with full duplex link
+>   - linkup_over: Keep LED on with link speed and blink on rx/tx traffic
+>   - power_on_reset: Keep LED on with switch reset
 
-It would be go to also document the expectations of
-trigger_offload_stop(). Should it leave the LED in whatever state it
-was, or force it off? 
+>   - blink_2hz: Set blink speed at 2hz for every blink event
+>   - blink_4hz: Set blink speed at 4hz for every blink event
+>   - blink_8hz: Set blink speed at 8hz for every blink event
 
-     Andrew
+These seems like attributes, not blink modes. They need to be
+specified somehow differently, or not at all. Do we really need them?
+
+>   - blink_auto: Set blink speed at 2hz for 10m link speed,
+>       4hz for 100m and 8hz for 1000m
+
+Another attribute, and one i've not seen any other PHY do.
+
+	Andrew
