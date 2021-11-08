@@ -2,170 +2,176 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DBE2C433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Nov 2021 09:10:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99EAAC433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Nov 2021 10:01:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 11B8661284
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Nov 2021 09:10:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7BBAD61177
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Nov 2021 10:01:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238308AbhKHJNC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Nov 2021 04:13:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52688 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238305AbhKHJNB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Nov 2021 04:13:01 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34A94C061570;
-        Mon,  8 Nov 2021 01:10:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=6kFwcxFlghaveiSSQY0wrstHS8UlMyex4OH/fX8J/BQ=; b=jDNtCcjnm19Ux79R+GQy7jB/Ut
-        7Jy3g2lSySdPVWvnZxpKQHxMgM2eIHLN8KqxNyqEklBY95MhpvZlK++YZQyNOmscDhGm6aHZ1Fut/
-        t3izt9PtdNSXY0aKQ7LAeAzi9AaRzJlqzot7DVwYw8alZRnSuS7YMMgRs2o5ZgIcehefGBEFIEknP
-        mHt1DquJ8BeVb1ttIu2iYkuq6NcFmwTt9OdWfY4M6udiaoWrteORaju3BnDXfCOZPwWxACwOZsEBY
-        Row4Zd62arpJ6SNnn9r4kaCUEFUqfCq1p5Mrtejzp7EGqUjuDE2ZgJDCyC3xekLWfJUr3us1vRw3E
-        8AhuiPIw==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mk0cv-008Ihl-RE; Mon, 08 Nov 2021 09:08:04 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id D99183000A3;
-        Mon,  8 Nov 2021 10:07:40 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id A0F012671B8AF; Mon,  8 Nov 2021 10:07:40 +0100 (CET)
-Date:   Mon, 8 Nov 2021 10:07:40 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        linux-pm@vger.kernel.org, x86@kernel.org,
-        linux-doc@vger.kernel.org, Len Brown <len.brown@intel.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Aubrey Li <aubrey.li@linux.intel.com>,
-        Amit Kucheria <amitk@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Tim Chen <tim.c.chen@linux.intel.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Ricardo Neri <ricardo.neri@intel.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/7] thermal: intel: hfi: Enable notification interrupt
-Message-ID: <YYjo3Jx6JosHhoHM@hirez.programming.kicks-ass.net>
-References: <20211106013312.26698-1-ricardo.neri-calderon@linux.intel.com>
- <20211106013312.26698-6-ricardo.neri-calderon@linux.intel.com>
+        id S237274AbhKHKDy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Nov 2021 05:03:54 -0500
+Received: from mail.kernel.org ([198.145.29.99]:40268 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S238529AbhKHKDt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Nov 2021 05:03:49 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 817BA61177;
+        Mon,  8 Nov 2021 10:01:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1636365664;
+        bh=XUGBCXsXy2u2IR53nZTiHERHgai0JhCJ0AWCFOaHIPw=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=HDGhMR0XcunUZTM1phfgnPAOBZJI0tnixSeUbIOH7dLH6laOQ2l+EdQVmEw5YU9V4
+         6i3Yb3rZRU4ibvZ2ra4O2HpPD8prk+ouoUDiicGUkeKf/k8Ahh5tbVGDiKE/b1PFsC
+         LeuV7ENMYxbE4zddquNv/Ez92rFQvC+T0bbmTqwW9wxa5Qfqm+XrEykL1Bqey9FJ0s
+         0IssKk1v4PK+/ffhTNK2qozH8rCrlTFFUAHkRTyLwo+z5QycUOdcs+a/7dTKLEZk0V
+         HQX6g2fN8JvzttoXHd3cuX0iVqr9bv4T4nf5unSHtn/ZY+k+C+SbzDhJpkcb5WiQwr
+         2ogrfpauvoWRA==
+Date:   Mon, 8 Nov 2021 11:00:58 +0100
+From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+To:     Ansuel Smith <ansuelsmth@gmail.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [RFC PATCH 4/6] leds: trigger: add offload-phy-activity trigger
+Message-ID: <20211108110058.2f4c1304@thinkpad>
+In-Reply-To: <YYhWmUd5FdTYwPvn@Ansuel-xps.localdomain>
+References: <20211107175718.9151-1-ansuelsmth@gmail.com>
+        <20211107175718.9151-5-ansuelsmth@gmail.com>
+        <20211107231009.7674734b@thinkpad>
+        <YYhWmUd5FdTYwPvn@Ansuel-xps.localdomain>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211106013312.26698-6-ricardo.neri-calderon@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 05, 2021 at 06:33:10PM -0700, Ricardo Neri wrote:
+On Sun, 7 Nov 2021 23:43:37 +0100
+Ansuel Smith <ansuelsmth@gmail.com> wrote:
 
-> @@ -72,6 +78,9 @@ struct hfi_instance {
->  	u16			die_id;
->  	struct cpumask		*cpus;
->  	void			*hw_table;
-> +	struct delayed_work	update_work;
-> +	raw_spinlock_t		event_lock;
-  +	raw_spinlock_t		interrupt_lock;
-> +	u64			timestamp;
->  	bool			initialized;
->  };
->  
-> @@ -114,6 +123,75 @@ static struct hfi_instance *hfi_instances;
->  static struct hfi_features hfi_features;
->  static DEFINE_MUTEX(hfi_lock);
->  
-> +#define HFI_UPDATE_INTERVAL	HZ
-> +
-> +static void hfi_update_work_fn(struct work_struct *work)
-> +{
-> +	struct hfi_instance *hfi_instance;
-> +
-> +	hfi_instance = container_of(to_delayed_work(work), struct hfi_instance,
-> +				    update_work);
-> +	if (!hfi_instance)
-> +		return;
-> +
-> +	/* TODO: Consume update here. */
+> On Sun, Nov 07, 2021 at 11:10:09PM +0100, Marek Beh=C3=BAn wrote:
+> > On Sun,  7 Nov 2021 18:57:16 +0100
+> > Ansuel Smith <ansuelsmth@gmail.com> wrote:
+> >  =20
+> > > Add Offload Trigger for PHY Activity. This special trigger is used to
+> > > configure and expose the different HW trigger that are provided by the
+> > > PHY. Each offload trigger can be configured by sysfs and on trigger
+> > > activation the offload mode is enabled.
+> > >=20
+> > > This currently implement these hw triggers:
+> > >   - blink_tx: Blink LED on tx packet receive
+> > >   - blink_rx: Blink LED on rx packet receive
+> > >   - blink_collision: Blink LED on collision detection
+> > >   - link_10m: Keep LED on with 10m link speed
+> > >   - link_100m: Keep LED on with 100m link speed
+> > >   - link_1000m: Keep LED on with 1000m link speed
+> > >   - half_duplex: Keep LED on with half duplex link
+> > >   - full_duplex: Keep LED on with full duplex link
+> > >   - linkup_over: Keep LED on with link speed and blink on rx/tx traff=
+ic
+> > >   - power_on_reset: Keep LED on with switch reset
+> > >   - blink_2hz: Set blink speed at 2hz for every blink event
+> > >   - blink_4hz: Set blink speed at 4hz for every blink event
+> > >   - blink_8hz: Set blink speed at 8hz for every blink event
+> > >   - blink_auto: Set blink speed at 2hz for 10m link speed,
+> > >       4hz for 100m and 8hz for 1000m
+> > >=20
+> > > The trigger will read the supported offload trigger in the led cdev a=
+nd
+> > > will expose the offload triggers in sysfs and then activate the offlo=
+ad
+> > > mode for the led in offload mode has it configured by default. A flag=
+ is
+> > > passed to configure_offload with the related rule from this trigger to
+> > > active or disable.
+> > > It's in the led driver interest the detection and knowing how to
+> > > elaborate the passed flags.
+> > >=20
+> > > The different hw triggers are exposed in the led sysfs dir under the
+> > > offload-phy-activity subdir. =20
+> >=20
+> > NAK. The current plan is to use netdev trigger, and if it can
+> > transparently offload the settings to HW, it will.
+> >=20
+> > Yes, netdev trigger currently does not support all these settings.
+> > But it supports indicating link and blinking on activity.
+> >=20
+> > So the plan is to start with offloading the blinking on activity, i.e.
+> > I the user does
+> >   $ cd /sys/class/leds/<LED>
+> >   $ echo netdev >trigger
+> >   $ echo 1 >rx
+> >   $ echo eth0 >device_name
+> >=20
+> > this would, instead of doing blinking in software, do it in HW instead.
+> >=20
+> > After this is implemented, we can start working on extending netdev
+> > trigger to support more complicated features.
+> >=20
+> > Marek =20
+>=20
+> Using the netdev trigger would cause some problem. Most of the switch
+> can run in SW mode (with blink controlled by software of always on) or
+> be put in HW mode and they will autonomously control blinking and how
+> the LED will operate. So we just need to provide a way to trigger this
+> mode and configure it. Why having something that gets triggered and then
+> does nothing as it's offloaded?
 
-	// this here uses ->event_lock to serialize against the
-	// interrupt below changing the data...
+Nothing gets triggered. In my last proposal, when the netdev trigger
+gets activated, it will first try to offload() itself to the LED
+controller. If the controller supports offloading, then netdev trigger
+won't be blinking the LEDs.
 
-> +}
-> +
-> +void intel_hfi_process_event(__u64 pkg_therm_status_msr_val)
-> +{
-> +	struct hfi_instance *hfi_instance;
-> +	int cpu = smp_processor_id();
-> +	struct hfi_cpu_info *info;
-> +	unsigned long flags;
-> +	u64 timestamp;
-> +
-> +	if (!pkg_therm_status_msr_val)
-> +		return;
-> +
-> +	info = &per_cpu(hfi_cpu_info, cpu);
-> +	if (!info)
-> +		return;
-> +
-> +	/*
-> +	 * It is possible that we get an HFI thermal interrupt on this CPU
-> +	 * before its HFI instance is initialized. This is not a problem. The
-> +	 * CPU that enabled the interrupt for this package will also get the
-> +	 * interrupt and is fully initialized.
-> +	 */
-> +	hfi_instance = info->hfi_instance;
-> +	if (!hfi_instance)
-> +		return;
-> +
+See my last proposal at
+https://lore.kernel.org/linux-leds/20210601005155.27997-1-kabel@kernel.org/
 
-	/*
-	 * If someone is already handling the interrupt, we shouldn't be
-	 * burning time waiting for them to then do more nothing.
-	 */
-	if (!raw_spin_trylock(&hfi_instance->interrupt_lock))
-		return;
+> The current way to configure this is very similar... Set the offload
+> trigger and use the deidcated subdir to set how the led will
+> blink/behave based on the supported trigger reported by the driver.
+>=20
+> There is no reason to set a device_name as that would be hardcoded to
+> the phy (and it should not change... again in HW we can't control that
+> part, we can just tell the switch to blink on packet tx on that port)
+>=20
+> So really the command is:
+>   $ cd /sys/class/leds/<LED>
+>   $ echo netdev > offload-phy-activity
+>   $ cd offload-phy-activity
+>   $ echo 1 > tx-blink
+>=20
+> And the PHY will blink on tx packet.
 
+So there are now 2 different ways to set a LED to blink on tx activity:
+the first one is via standard netdev trigger, the second one is this.
+That is wrong.
 
-> +	raw_spin_lock_irqsave(&hfi_instance->event_lock, flags);
-> +
-> +	/*
-> +	 * On most systems, all CPUs in the package receive a package-level
-> +	 * thermal interrupt when there is an HFI update. Since they all are
-> +	 * dealing with the same update (as indicated by the update timestamp),
-> +	 * it is sufficient to let a single CPU to acknowledge the update and
-> +	 * schedule work to process it.
-> +	 */
-> +	timestamp = *(u64 *)hfi_instance->hw_table;
-> +	if (hfi_instance->timestamp >= timestamp)
-> +		goto unlock_spinlock;
+> I understand this should be an extension of netdev as they would do
+> similar task but honestly polluting the netdev trigger of if and else to
+> disable part of it if an offload mode can be supported seems bad and
+> confusionary. At this point introduce a dedicated trigger so an user can
+> switch between them. That way we can keep the flexibility of netdev
+> trigger that will always work but also permit to support the HW mode
+> with no load on the system.
 
-This can go the way of the dodo.
+The rationale behind offloading netdev trigger is that it can use
+standard, existing sysfs ABI. If the driver finds out that it can
+offload the blinking to HW, it will.
 
-> +
-> +	hfi_instance->timestamp = timestamp;
-> +
-> +	memcpy(hfi_instance->table_base, hfi_instance->hw_table,
-> +	       hfi_features.nr_table_pages << PAGE_SHIFT);
-> +	/*
-> +	 * Let hardware and other CPUs know that we are done reading the HFI
-> +	 * table and it is free to update it again.
-> +	 */
-> +	pkg_therm_status_msr_val &= THERM_STATUS_CLEAR_PKG_MASK &
-> +				    ~PACKAGE_THERM_STATUS_HFI_UPDATED;
-> +	wrmsrl(MSR_IA32_PACKAGE_THERM_STATUS, pkg_therm_status_msr_val);
-> +	schedule_delayed_work(&hfi_instance->update_work, HFI_UPDATE_INTERVAL);
-> +
-> +unlock_spinlock:
-> +	raw_spin_unlock_irqrestore(&hfi_instance->event_lock, flags);
+This is similar to how other kernel APIs do this.
 
-	raw_spin_unlock(&hfi_instance->interrupt_lock);
+For example for an ethernet switch, we have DSA. So that we don't need
+a specific way to say to the switch which ports it should bridge. All
+ports are exported by the switch driver as standard network devices,
+and if we bridge them via standard API, the kernel, upon finding out
+that the bridging can be offloading to the switch chip, does that.
 
-> +}
+Marek
