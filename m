@@ -2,143 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F335C433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 13:58:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51CEEC433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 14:15:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 36194610A3
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 13:58:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2FCB36113D
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 14:15:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236631AbhKIOB2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Nov 2021 09:01:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50056 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236731AbhKIOB1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Nov 2021 09:01:27 -0500
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E67A7C0613F5
-        for <linux-doc@vger.kernel.org>; Tue,  9 Nov 2021 05:58:41 -0800 (PST)
-Received: by mail-pf1-x429.google.com with SMTP id g18so14816036pfk.5
-        for <linux-doc@vger.kernel.org>; Tue, 09 Nov 2021 05:58:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=from:subject:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Y30tES1mRbobBQ+m/yFfcYggfkhOFouTPN0eCLqdkac=;
-        b=Uxmdf4znCpTXGzwMRB/AMMCqss7/LZk+9jxusKZRrq3r5+Tb+7PwY3/Uz+yuixUuTc
-         a7KF+nrZAsxO0ezbYvMvahzD9nRoKh1K1Y1fhWIYzbjkVQNwkF1Ldmtg7D7xKs02Bx1I
-         +2Qzciv5ZLtEFIgXWj5hLSZStRi/GVrOhKefP5n/45RUXE4BVstirUAKlQSzaIJXE8Mq
-         vOrCFmoZzUJaJnuqw3nYonp0nWKmW4aN55IH3I6CW3GGxxPXkU8syNSvsXMgoAqw69r5
-         efJwpH4k6IteCT9DfyhNnHVnPdsfftpuObaExxMpZ/URQma3NEkYdYudn92CR7TZgE7B
-         hKqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Y30tES1mRbobBQ+m/yFfcYggfkhOFouTPN0eCLqdkac=;
-        b=srqAFlnIfRemQi2d8LV9+B2QKGjnSdDDVkJRvPYz9Lbk+KuqJ7NQeOIufrhTCxX2cO
-         dyI7xmaAlUnRWrlO2uPrz2suUcqpBVaqj1Sn9edDcyEI779YFoF25/g29Ohkv3acZ12J
-         dbRHIIDREEwlYw2qQaeEee8uvhTrxFNzxwGfUeNFCmjKVe7ivwoImL+0xJe6qVmAdNiV
-         fIZLPlGOdFdrF3wwadowxod5giS4TiPz9iEdzMLYtmSmqMJbG0r0B/C5Q+ypbtuLziz6
-         x41O6PXhprW1EsTbHFA4FcX59Ws0AOL0ooAWquJRl09qvaW6swf7KTucWSLYH36moryb
-         v9ag==
-X-Gm-Message-State: AOAM530cLZHraB7OyiFARGr4NxSKTztwD+cu1R+DgGR5nzAZeZ+UvEUN
-        V82NBA6H+yzguTSwjbtlecMNknNrWyaEYA==
-X-Google-Smtp-Source: ABdhPJzWFlZcFbzZsn65SN5dY7OVkgY7rcUmnQO3V4I/9mqB60l/OLip0qZ0tcw0tPBNnSncs09/Uw==
-X-Received: by 2002:a63:9042:: with SMTP id a63mr5939760pge.345.1636466321161;
-        Tue, 09 Nov 2021 05:58:41 -0800 (PST)
-Received: from [10.254.105.98] ([139.177.225.240])
-        by smtp.gmail.com with ESMTPSA id p3sm18854221pfb.205.2021.11.09.05.58.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Nov 2021 05:58:40 -0800 (PST)
-From:   Gang Li <ligang.bdlg@bytedance.com>
-Subject: Re: Re: Re: Re: Re: [PATCH v1] sched/numa: add per-process
- numa_balancing
-To:     Mel Gorman <mgorman@suse.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        linux-api@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20211027132633.86653-1-ligang.bdlg@bytedance.com>
- <20211028153028.GP3891@suse.de>
- <b884ad7d-48d3-fcc8-d199-9e7643552a9a@bytedance.com>
- <20211029083751.GR3891@suse.de>
- <CAMx52ARF1fVH9=YLQMjE=8ckKJ=q3X2-ovtKuQcoTyo564mQnQ@mail.gmail.com>
- <20211109091951.GW3891@suse.de>
- <7de25e1b-e548-b8b5-dda5-6a2e001f3c1a@bytedance.com>
- <20211109121222.GX3891@suse.de>
-Message-ID: <117d5b88-b62b-f50b-32ff-1a9fe35b9e2e@bytedance.com>
-Date:   Tue, 9 Nov 2021 21:58:34 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.14.0
+        id S238038AbhKIOSX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Nov 2021 09:18:23 -0500
+Received: from mga11.intel.com ([192.55.52.93]:15330 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237897AbhKIOSV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 9 Nov 2021 09:18:21 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10162"; a="229912488"
+X-IronPort-AV: E=Sophos;i="5.87,220,1631602800"; 
+   d="scan'208";a="229912488"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2021 06:15:35 -0800
+X-IronPort-AV: E=Sophos;i="5.87,220,1631602800"; 
+   d="scan'208";a="491668788"
+Received: from na1-mobl.gar.corp.intel.com ([10.213.108.242])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2021 06:15:29 -0800
+Message-ID: <94ddfd1177c3f119de2794d9fb659a6578f560c6.camel@linux.intel.com>
+Subject: Re: [PATCH 6/7] thermal: netlink: Add a new event to notify CPU
+ capabilities change
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Lukasz Luba <lukasz.luba@arm.com>
+Cc:     Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        linux-pm@vger.kernel.org, x86@kernel.org,
+        linux-doc@vger.kernel.org, Len Brown <len.brown@intel.com>,
+        Aubrey Li <aubrey.li@linux.intel.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Ricardo Neri <ricardo.neri@intel.com>,
+        linux-kernel@vger.kernel.org
+Date:   Tue, 09 Nov 2021 06:15:25 -0800
+In-Reply-To: <5e4d7661-1e91-0c72-ae02-b2c60c2ad95e@arm.com>
+References: <20211106013312.26698-1-ricardo.neri-calderon@linux.intel.com>
+         <20211106013312.26698-7-ricardo.neri-calderon@linux.intel.com>
+         <2160a0b8-59ec-03a1-1fd5-a3f98085be07@arm.com>
+         <e244e3aa9fc323973d7da8d3ebc3e1fad1fdb731.camel@linux.intel.com>
+         <5e4d7661-1e91-0c72-ae02-b2c60c2ad95e@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
-In-Reply-To: <20211109121222.GX3891@suse.de>
-Content-Type: text/plain; charset=iso-8859-15; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/9/21 8:12 PM, Mel Gorman wrote:
+On Tue, 2021-11-09 at 13:53 +0000, Lukasz Luba wrote:
+> Hi Srinivas,
 > 
-> That would be a policy decision on how existing tasks should be tuned
-> if NUMA balancing is enabled at runtime after being disabled at boot
-> (or some arbitrary time in the past). Introducing the prctl does mean
-> that there is a semantic change for the runtime enabling/disabling
-> of NUMA balancing because previously, enabling global balancing affects
-> existing tasks and with prctl, it affects only future tasks. It could
-> be handled in the sysctl to some exist
+> On 11/9/21 1:23 PM, Srinivas Pandruvada wrote:
+> > Hi Lukasz,
+> > 
+> > On Tue, 2021-11-09 at 12:39 +0000, Lukasz Luba wrote:
+> > > Hi Ricardo,
+> > > 
+> > > 
+> > > On 11/6/21 1:33 AM, Ricardo Neri wrote:
+> > > > From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> > > > 
+> > > > Add a new netlink event to notify change in CPU capabilities in
+> > > > terms of
+> > > > performance and efficiency.
+> > > 
+> > > Is this going to be handled by some 'generic' tools? If yes,
+> > > maybe
+> > > the values for 'performance' might be aligned with capacity
+> > > [0,1024] ? Or are they completely not related so the mapping is
+> > > simply impossible?
+> > > 
+> > 
+> > That would have been very useful.
+> > 
+> > The problem is that we may not know the maximum performance as
+> > system
+> > may be booting with few CPUs (using maxcpus kernel command line)
+> > and
+> > then user hot adding them. So we may need to rescale when we get a
+> > new
+> > maximum performance CPU and send to user space.
+> > 
+> > We can't just use max from HFI table at in instance as it is not
+> > necessary that HFI table contains data for all CPUs.
+> > 
+> > If HFI max performance value of 255 is a scaled value to max
+> > performance CPU value in the system, then this conversion would
+> > have
+> > been easy. But that is not.
 > 
-> 0. Disable for all but prctl specifications
-> 1. Enable for all tasks unless disabled by prctl
-> 2. Ignore all existing tasks, enable for future tasks
-> 
-> While this is more legwork, it makes more sense as an interface than
-> prctl(PR_NUMA_BALANCING,PR_SET_NUMA_BALANCING,1) failing if global
-> NUMA balancing is disabled.
-> 
+> I see. I was asking because I'm working on similar interface and
+> just wanted to understand your approach better. In my case we
+> would probably simply use 'capacity' scale, or more
+> precisely available capacity after subtracting 'thermal pressure'
+> value.
+> That might confuse a generic tool which listens to these socket
+> messages, though. So probably I would have to add a new
+> THERMAL_GENL_ATTR_CPU_CAPABILITY_* id
+> to handle this different normalized across CPUs scale.
+I can add a field capacity_scale. In HFI case it will always be 255. In
+your cases it will 1024.
 
-Why prctl(PR_NUMA_BALANCING,PR_SET_NUMA_BALANCING,1) must work while 
-global numa_balancing is disabled? No offense, I think that is a bit 
-redundant. And it's complicated to implement.
 
-It's hard for me to understand the whole vision of your idea. I'm very 
-sorry. Can you explain your full thoughts more specifically?
-
-----------------------------------------------------
-
-Also in case of misunderstanding, let me re-explain my patch using 
-circuit diagram.
-
-Before my patch, there is only one switch to control numa_balancing.
-
-             ______process1_
-...____/ __|______process2_|__...
-            |______process3_|
-
-        |
-     global numa_balancing
-
-After my patch, we can selectively disable numa_balancing for processes.
-And global switch has a high priority.
-
-             __/ __process1_
-...____/ __|__/ __process2_|__...
-            |__/ __process3_|
-
-        |       |
-     global  per-process
-
-Why global numa_balancing has high priority? There are two reasons:
-1. numa_balancing is useful to most processes, so there is no need to 
-consider how to enable numa_balancing for a few processes while 
-disabling it globally.
-2. It is easy to implement. The more we think, the more complex the code 
-becomes.
