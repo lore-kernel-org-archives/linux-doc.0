@@ -2,124 +2,145 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69B8BC433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 02:29:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 458E8C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 03:01:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 44BC461208
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 02:29:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1B35E61288
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 03:01:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233548AbhKICcV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Nov 2021 21:32:21 -0500
-Received: from mga06.intel.com ([134.134.136.31]:24758 "EHLO mga06.intel.com"
+        id S237933AbhKIDDy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Nov 2021 22:03:54 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60206 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229999AbhKICcV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Nov 2021 21:32:21 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10162"; a="293197374"
-X-IronPort-AV: E=Sophos;i="5.87,219,1631602800"; 
-   d="scan'208";a="293197374"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2021 18:29:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,219,1631602800"; 
-   d="scan'208";a="491476852"
-Received: from ranerica-svr.sc.intel.com ([172.25.110.23])
-  by orsmga007.jf.intel.com with ESMTP; 08 Nov 2021 18:29:27 -0800
-Date:   Mon, 8 Nov 2021 18:28:41 -0800
-From:   Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        linux-pm@vger.kernel.org, x86@kernel.org,
-        linux-doc@vger.kernel.org, Len Brown <len.brown@intel.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Aubrey Li <aubrey.li@linux.intel.com>,
-        Amit Kucheria <amitk@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Tim Chen <tim.c.chen@linux.intel.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Ricardo Neri <ricardo.neri@intel.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/7] thermal: intel: hfi: Minimally initialize the
- Hardware Feedback Interface
-Message-ID: <20211109022841.GB16930@ranerica-svr.sc.intel.com>
-References: <20211106013312.26698-1-ricardo.neri-calderon@linux.intel.com>
- <20211106013312.26698-4-ricardo.neri-calderon@linux.intel.com>
- <YYjkOkFmDG9IMPHu@hirez.programming.kicks-ass.net>
+        id S236778AbhKIDDx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Nov 2021 22:03:53 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DBB9C61107;
+        Tue,  9 Nov 2021 03:01:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1636426868;
+        bh=JGCXv2AMQ5ioYEbGNFcgOPV9CYI4zdThX7rRlB0J1a4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=MZJA7qTe5f89tXT4wljKt/mrRXdEEwivM9rqgy1CP8gEe0lF9u9N9gVVZWL75/1Vj
+         fLmMnZCLX4mB9MXvZNzpTWH47MiA2XH4oLI36dyQqMhKXZAJHl9cs4su2hFiayH5Rw
+         kc+JpA+7NgKhZLNC4Mnh5443KjIYu6iNn4d2nsEKJAmd43KRZwBNGit3olGdJY8kFW
+         Vr0WVofNBuKOPIf8rv4UqFzAoxjx1RU5igSqhgd/CNcYmhXNsuR32hAb2+ARSZiYaI
+         Q9qwdsViF/YSN8G+3eGZhhi5rPFx2B79rtsN8hLquWkgDATO1FjQ+I/JSNSWF2hKV+
+         uwt6SsEgTw7KA==
+Date:   Tue, 9 Nov 2021 04:01:03 +0100
+From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
+To:     Ansuel Smith <ansuelsmth@gmail.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [RFC PATCH v3 2/8] leds: add function to configure hardware
+ controlled LED
+Message-ID: <20211109040103.7b56bf82@thinkpad>
+In-Reply-To: <20211109022608.11109-3-ansuelsmth@gmail.com>
+References: <20211109022608.11109-1-ansuelsmth@gmail.com>
+        <20211109022608.11109-3-ansuelsmth@gmail.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YYjkOkFmDG9IMPHu@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 08, 2021 at 09:47:54AM +0100, Peter Zijlstra wrote:
-> On Fri, Nov 05, 2021 at 06:33:08PM -0700, Ricardo Neri wrote:
-> > +static __init int hfi_parse_features(void)
-> > +{
-> > +	unsigned int nr_capabilities, reg;
-> > +
-> 
-> > +	/*
-> > +	 * If we are here we know that CPUID_HFI_LEAF exists. Parse the
-> > +	 * supported capabilities and the size of the HFI table.
-> > +	 */
-> > +	reg = cpuid_edx(CPUID_HFI_LEAF);
-> > +
-> > +	hfi_features.capabilities = reg & HFI_CAPABILITIES_MASK;
-> > +	if (!(hfi_features.capabilities & HFI_CAPABILITIES_PERFORMANCE)) {
-> > +		pr_err("Performance reporting not supported! Not using HFI\n");
-> > +		return -ENODEV;
-> > +	}
-> > +
-> > +	/* The number of 4KB pages required by the table */
-> > +	hfi_features.nr_table_pages = ((reg & CPUID_HFI_TABLE_SIZE_MASK) >>
-> > +				      CPUID_HFI_TABLE_SIZE_SHIFT) + 1;
-> > +
-> 
-> > +/* Hardware Feedback Interface Enumeration */
-> > +#define CPUID_HFI_LEAF			6
-> > +#define CPUID_HFI_CAP_MASK		0xff
-> > +#define CPUID_HFI_TABLE_SIZE_MASK	0x0f00
-> > +#define CPUID_HFI_TABLE_SIZE_SHIFT	8
-> > +#define CPUID_HFI_CPU_INDEX_MASK	0xffff0000
-> 
-> Also, *if* you're going to do something like this, then at least write
-> out the masks in full so you can easily see how they relate. The above
-> is crap.
-> 
-> > +#define CPUID_HFI_CPU_INDEX_SHIFT	16
-> > +
-> > +/* Hardware Feedback Interface Pointer */
-> > +#define HFI_PTR_VALID_BIT		BIT(0)
-> > +#define HFI_PTR_ADDR_SHIFT		12
-> > +
-> > +/* Hardware Feedback Interface Configuration */
-> > +#define HFI_CONFIG_ENABLE_BIT		BIT(0)
-> > +
-> > +/* Hardware Feedback Interface Capabilities */
-> > +#define HFI_CAPABILITIES_MASK		0xff
-> > +#define HFI_CAPABILITIES_NR		8
-> > +#define HFI_CAPABILITIES_PERFORMANCE	BIT(0)
-> > +#define HFI_CAPABILITIES_ENERGY_EFF	BIT(1)
-> 
-> 
-> So personally I prefer a bitfield union a-la cpuid10_eax, cpuid10_ebx
-> cpuid10_edx etc.. Barring that, the above can also be written more
-> concise using FIELD_GET() from bitfields.
-> 
-> union cpuid6_edx {
-> 	struct {
-> 		unsigned int capabilities :  8;
-> 		unsigned int table_size   :  4;
-> 		unsigned int __reserved   :  4;
-> 		unsigned int cpu_index    : 16;
-> 	};
-> 	unsigned int full;
-> };
+Hello Ansuel,
 
-Sure Peter. This looks more readable. I'll implement it like this.
+On Tue,  9 Nov 2021 03:26:02 +0100
+Ansuel Smith <ansuelsmth@gmail.com> wrote:
 
-Thanks and BR,
-Ricardo
+> Add hw_control_configure helper to configure how the LED should work in
+> hardware mode. The function require to support the particular trigger and
+> will use the passed flag to elaborate the data and apply the
+> correct configuration. This function will then be used by the trigger to
+> request and update hardware configuration.
+> 
+> Signed-off-by: Ansuel Smith <ansuelsmth@gmail.com>
+> ---
+>  Documentation/leds/leds-class.rst | 25 ++++++++++++++++++++
+>  include/linux/leds.h              | 39 +++++++++++++++++++++++++++++++
+>  2 files changed, 64 insertions(+)
+> 
+> diff --git a/Documentation/leds/leds-class.rst b/Documentation/leds/leds-class.rst
+> index 645940b78d81..efd2f68c46a7 100644
+> --- a/Documentation/leds/leds-class.rst
+> +++ b/Documentation/leds/leds-class.rst
+> @@ -198,6 +198,31 @@ With HARDWARE_CONTROLLED blink_mode hw_control_status/start/stop is optional
+>  and any software only trigger will reject activation as the LED supports only
+>  hardware mode.
+>  
+> +A trigger once he declared support for hardware controlled blinks, will use the function
+> +hw_control_configure() provided by the driver to check support for a particular blink mode.
+> +This function passes as the first argument (flag) a u32 flag.
+> +The second argument (cmd) of hw_control_configure() method can be used to do various
+> +operations for the specific blink mode. We currently support ENABLE, DISABLE, READ, ZERO
+> +and SUPPORTED to enable, disable, read the state of the blink mode, ask the LED
+> +driver if it does supports the specific blink mode and to reset any blink mode active.
+> +
+> +In ENABLE/DISABLE hw_control_configure() should configure the LED to enable/disable the
+> +requested blink mode (flag).
+> +In READ hw_control_configure() should return 0 or 1 based on the status of the requested
+> +blink mode (flag).
+> +In SUPPORTED hw_control_configure() should return 0 or 1 if the LED driver supports the
+> +requested blink mode (flags) or not.
+> +In ZERO hw_control_configure() should return 0 with success operation or error.
+> +
+> +The unsigned long flag is specific to the trigger and change across them. It's in the LED
+> +driver interest know how to elaborate this flag and to declare support for a
+> +particular trigger. For this exact reason explicit support for the specific
+> +trigger is mandatory or the driver returns -EOPNOTSUPP if asked to enter offload mode
+> +with a not supported trigger.
+> +If the driver returns -EOPNOTSUPP on hw_control_configure(), the trigger activation will
+> +fail as the driver doesn't support that specific offload trigger or doesn't know
+> +how to handle the provided flags.
+> +
+>  Known Issues
+>  ============
+>  
+> diff --git a/include/linux/leds.h b/include/linux/leds.h
+> index cf0c6005c297..00bc4d6ed7ca 100644
+> --- a/include/linux/leds.h
+> +++ b/include/linux/leds.h
+> @@ -73,6 +73,16 @@ enum led_blink_modes {
+>  	SOFTWARE_HARDWARE_CONTROLLED,
+>  };
+>  
+> +#ifdef CONFIG_LEDS_HARDWARE_CONTROL
+> +enum blink_mode_cmd {
+> +	BLINK_MODE_ENABLE, /* Enable the hardware blink mode */
+> +	BLINK_MODE_DISABLE, /* Disable the hardware blink mode */
+> +	BLINK_MODE_READ, /* Read the status of the hardware blink mode */
+> +	BLINK_MODE_SUPPORTED, /* Ask the driver if the hardware blink mode is supported */
+> +	BLINK_MODE_ZERO, /* Disable any hardware blink active */
+> +};
+> +#endif
+
+this is a strange proposal for the API.
+
+Anyway, led_classdev already has the blink_set() method, which is documented as
+	/*
+	  * Activate hardware accelerated blink, delays are in milliseconds
+	  * and if both are zero then a sensible default should be chosen.
+	  * The call should adjust the timings in that case and if it can't
+	  * match the values specified exactly.
+	  * Deactivate blinking again when the brightness is set to LED_OFF
+	  * via the brightness_set() callback.
+	  */
+	int		(*blink_set)(struct led_classdev *led_cdev,
+				     unsigned long *delay_on,
+				     unsigned long *delay_off);
+
+So we already have a method to set hardware blkinking, we don't need
+another one.
+
+Marek
