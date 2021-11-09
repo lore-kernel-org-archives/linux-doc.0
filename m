@@ -2,99 +2,185 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C5EBC433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 08:28:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F4D5C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 08:48:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 67BB9611C4
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 08:28:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 247E461057
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 08:48:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236797AbhKIIb1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Nov 2021 03:31:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58740 "EHLO
+        id S241910AbhKIIvC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Nov 2021 03:51:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237465AbhKIIb1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Nov 2021 03:31:27 -0500
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F560C0613F5
-        for <linux-doc@vger.kernel.org>; Tue,  9 Nov 2021 00:28:41 -0800 (PST)
-Received: by mail-ed1-x52f.google.com with SMTP id w1so73921246edd.10
-        for <linux-doc@vger.kernel.org>; Tue, 09 Nov 2021 00:28:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AYfmttMzhsd8uEz1aHBUrg2dnF3audYy8hGqqui2EpI=;
-        b=H4a4IucMj8HDXTeG6u/Oz0ceqJbOqvSSg1DGCicM5zW8caqvUxA8hwZwgnomWSI2ju
-         jx9JawN0XSBy/yqwpwZ9Zh81+Fuo/fUQs/OxpGJUzrdHzmFxk15hlK/0iwwrXWslsuU6
-         7wBOt5AIcO4LZEe0egpWgofjLRMJxj93X5VzXOjX/SpKWhk2YBS1Y6vMA/16dUGWHzun
-         Iyl/fitIbpsVL/RWKjRNbCrsDPP65wzA3pwhqy2cyTYX/72Thm/8MkVJLN0Dm5lvdzU9
-         7H9byrChhb3YL7hLSKt3jIMjc6Cmj3XrWrUxwfmyhrS/jDWjCj02eHzhs0sTa0aeFfC+
-         SU9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AYfmttMzhsd8uEz1aHBUrg2dnF3audYy8hGqqui2EpI=;
-        b=a++Ky53wudIoZNg7HZ8BKQwjdhye5UebXoPeKTTUT82tNU66BOKymFLHBdyhpuLE96
-         gE0YUSe539OsYbNaKuJaJsP+WD/vLsVEEDLKS89iIqpk5uG39gB/6rhYttZg8EDFwU9s
-         UGU/RzY/DUrmN7VqpvgW9Ryp5G6SHVf3D7LTQ7gAxva8ZtcBwzXTPEqTKp7HSD0Z6Zn8
-         qOo7NG4BaUB/L+XBpIrw9i+BMeF3xNb9NG3Zqo3NYgwAn7IiAvZ090rpUZINmsnDpB+K
-         Xk23vqID7c3WOBO/1ZjdTZmG4kCNTon1BYyWnHuQjML6pjsbnGaGWt/t/cQbuJz8K/xm
-         Z6Sg==
-X-Gm-Message-State: AOAM533tr3q1rZAW8GABPBtfNp+eS5UODM7p5loFSfI7ztGhu3u5p2tH
-        I4XQvv+WIavqKJJk77LjfjOOxceMNGDinqKPklh0fQ==
-X-Google-Smtp-Source: ABdhPJxB/jw6V3td6QOKuKigva5CtXSzFp342x2xvFZDOKc4h+0SujvGiXQJ/XxNHUutJyV2Co4XVI+hSOLUiArgPVU=
-X-Received: by 2002:a17:906:38ce:: with SMTP id r14mr7278587ejd.268.1636446520068;
- Tue, 09 Nov 2021 00:28:40 -0800 (PST)
+        with ESMTP id S234536AbhKIIvC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Nov 2021 03:51:02 -0500
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85115C061764;
+        Tue,  9 Nov 2021 00:48:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=GGuZB0RVdPrXN4n7lBWpU1GjFO22hMBYCHctpSGrxoU=; b=e/sSyCn6ln4c+tGO1J45vHh9fT
+        yUEDqIbElO9i+rnIv0GsR9Tw1+hVZ/1MHgOCsWDnnwyZXgg/MmVEflUXifcolTv6B8eXOD55ckpXF
+        QdZZCcgH8PWhM+JVmPhyQauv3rgLUpWLO/JucGxcgxBcYRAH7KpdGf8jjZ0ea7/BFhy7o29zgTJPn
+        aEtWrgG277FhMr6if8djoZ59xQyvzOrGaCVDHgLsBCoRch+jy6QtN2ODysuxUIy0f4BjQBwMfWy1R
+        j7u9+dGRhcSFxknF6RsNmJOQvggtpNxFWpnnMeRD95mq4o0OrGqhZNB2t8577LoMVogd5R9gHPQEC
+        Qvedx83w==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mkMnZ-00F1xD-KZ; Tue, 09 Nov 2021 08:48:09 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 46C253001C7;
+        Tue,  9 Nov 2021 09:48:08 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id E449E206D9951; Tue,  9 Nov 2021 09:48:07 +0100 (CET)
+Date:   Tue, 9 Nov 2021 09:48:07 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        linux-pm@vger.kernel.org, x86@kernel.org,
+        linux-doc@vger.kernel.org, Len Brown <len.brown@intel.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Aubrey Li <aubrey.li@linux.intel.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Ricardo Neri <ricardo.neri@intel.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 5/7] thermal: intel: hfi: Enable notification interrupt
+Message-ID: <YYo1x8YLozBZbqwC@hirez.programming.kicks-ass.net>
+References: <20211106013312.26698-1-ricardo.neri-calderon@linux.intel.com>
+ <20211106013312.26698-6-ricardo.neri-calderon@linux.intel.com>
+ <YYjo3Jx6JosHhoHM@hirez.programming.kicks-ass.net>
+ <20211109022613.GA16930@ranerica-svr.sc.intel.com>
 MIME-Version: 1.0
-References: <20211027132633.86653-1-ligang.bdlg@bytedance.com>
- <20211028153028.GP3891@suse.de> <b884ad7d-48d3-fcc8-d199-9e7643552a9a@bytedance.com>
- <20211029083751.GR3891@suse.de>
-In-Reply-To: <20211029083751.GR3891@suse.de>
-From:   =?UTF-8?B?5p2O5riv?= <ligang.bdlg@bytedance.com>
-Date:   Tue, 9 Nov 2021 16:28:28 +0800
-Message-ID: <CAMx52ARF1fVH9=YLQMjE=8ckKJ=q3X2-ovtKuQcoTyo564mQnQ@mail.gmail.com>
-Subject: Re: Re: Re: [PATCH v1] sched/numa: add per-process numa_balancing
-To:     Mel Gorman <mgorman@suse.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        linux-api@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211109022613.GA16930@ranerica-svr.sc.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, sorry for the late reply.
+On Mon, Nov 08, 2021 at 06:26:13PM -0800, Ricardo Neri wrote:
+> On Mon, Nov 08, 2021 at 10:07:40AM +0100, Peter Zijlstra wrote:
+> > On Fri, Nov 05, 2021 at 06:33:10PM -0700, Ricardo Neri wrote:
 
-On Fri, Oct 29, 2021 at 4:37 PM Mel Gorman <mgorman@suse.de> wrote:
->
-> My point is that as it stands,
-> prctl(PR_NUMA_BALANCING,PR_SET_NUMA_BALANCING,1) either does nothing or
-> fails. If per-process numa balancing is to be introduced, it should have
-> meaning with the global tuning affecting default behaviour and the prctl
-> affecting specific behaviour.
->
+> > > +static void hfi_update_work_fn(struct work_struct *work)
+> > > +{
+> > > +	struct hfi_instance *hfi_instance;
+> > > +
+> > > +	hfi_instance = container_of(to_delayed_work(work), struct hfi_instance,
+> > > +				    update_work);
+> > > +	if (!hfi_instance)
+> > > +		return;
+> > > +
+> > > +	/* TODO: Consume update here. */
+> > 
+> > 	// this here uses ->event_lock to serialize against the
+> > 	// interrupt below changing the data...
+> 
+> Anyone reading the HFI table would need to take ->event_lock.
 
-If the global tuning affects default behaviour and the prctl
-affects specific behaviour.  Then when prctl specifies
-numa_balancing for a process, there is no way for the
-global tuning to affect that process. In other words, global tuning
-become a default value, not a switch for global numa_balancing.
+Right.. that implies ->event_lock can be taken while there is no
+interrupt active, which then necessitates the additional lock.
 
-My idea is that the global numa_balancning still has absolute control, and prctl
-can only optionally turn off numa_balancing for process when the global is on.
-After all, It is more common to enable global numa_balancing and disable it in
-several processes than to disable global numa_balancing and enable it in
-several processes.
+> > > +}
+> > > +
+> > > +void intel_hfi_process_event(__u64 pkg_therm_status_msr_val)
+> > > +{
+> > > +	struct hfi_instance *hfi_instance;
+> > > +	int cpu = smp_processor_id();
+> > > +	struct hfi_cpu_info *info;
+> > > +	unsigned long flags;
+> > > +	u64 timestamp;
+> > > +
+> > > +	if (!pkg_therm_status_msr_val)
+> > > +		return;
+> > > +
+> > > +	info = &per_cpu(hfi_cpu_info, cpu);
+> > > +	if (!info)
+> > > +		return;
+> > > +
+> > > +	/*
+> > > +	 * It is possible that we get an HFI thermal interrupt on this CPU
+> > > +	 * before its HFI instance is initialized. This is not a problem. The
+> > > +	 * CPU that enabled the interrupt for this package will also get the
+> > > +	 * interrupt and is fully initialized.
+> > > +	 */
+> > > +	hfi_instance = info->hfi_instance;
+> > > +	if (!hfi_instance)
+> > > +		return;
+> > > +
+> > 
+> > 	/*
+> > 	 * If someone is already handling the interrupt, we shouldn't be
+> > 	 * burning time waiting for them to then do more nothing.
+> > 	 */
+> > 	if (!raw_spin_trylock(&hfi_instance->interrupt_lock))
+> > 		return;
+> > 
+> > 
+> > > +	raw_spin_lock_irqsave(&hfi_instance->event_lock, flags);
+> 
+> The CPU who acquired ->interrupt_lock successfully now will acquire
+> ->event_lock to serialize writes and reads to the HFI table.
 
-This is my personal opinion, what do you think.
-:-)
+Right, so ->interrupt_lock is purely used to serialize interrupts, and
+only one interrupt gets to do the update, while the others can exit and
+resume with what they were doing asap, without wasting cycles spinning
+on ->event_lock only to then not do anything.
 
-Do we need the global to be a switch, or a default value?
+> > > +	/*
+> > > +	 * On most systems, all CPUs in the package receive a package-level
+> > > +	 * thermal interrupt when there is an HFI update. Since they all are
+> > > +	 * dealing with the same update (as indicated by the update timestamp),
+> > > +	 * it is sufficient to let a single CPU to acknowledge the update and
+> > > +	 * schedule work to process it.
+> > > +	 */
+> > > +	timestamp = *(u64 *)hfi_instance->hw_table;
+> > > +	if (hfi_instance->timestamp >= timestamp)
+> > > +		goto unlock_spinlock;
+> > 
+> > This can go the way of the dodo.
+> 
+> (I guess I can still check the timestamp in case buggy firmware triggers
+> updates with the same timestamp, right?)
+
+Sure..
+
+> > 
+> > > +
+> > > +	hfi_instance->timestamp = timestamp;
+> > > +
+> > > +	memcpy(hfi_instance->table_base, hfi_instance->hw_table,
+> > > +	       hfi_features.nr_table_pages << PAGE_SHIFT);
+
+I think we actually need to release ->interrupt_lock here, *before* the
+WRMSR that ACKs the HFI update. Because I think the moment that WRMSR
+goes through we can get another interrupt, and that *must* not find
+->interrupt_lock taken, otherwise it will not process the update etc..
+leading to lost interrupts.
+
+> > > +	/*
+> > > +	 * Let hardware and other CPUs know that we are done reading the HFI
+> > > +	 * table and it is free to update it again.
+> > > +	 */
+> > > +	pkg_therm_status_msr_val &= THERM_STATUS_CLEAR_PKG_MASK &
+> > > +				    ~PACKAGE_THERM_STATUS_HFI_UPDATED;
+> > > +	wrmsrl(MSR_IA32_PACKAGE_THERM_STATUS, pkg_therm_status_msr_val);
+> > > +	schedule_delayed_work(&hfi_instance->update_work, HFI_UPDATE_INTERVAL);
+> > > +
+> > > +unlock_spinlock:
+> > > +	raw_spin_unlock_irqrestore(&hfi_instance->event_lock, flags);
+> > 
+> > 	raw_spin_unlock(&hfi_instance->interrupt_lock);
+> 
+> ... and here we release both locks.
+
+See above.
