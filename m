@@ -2,31 +2,32 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A6F6C433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 12:54:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 644C7C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 13:23:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 33E6961130
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 12:54:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 30F0461159
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 13:23:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229832AbhKIM5F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Nov 2021 07:57:05 -0500
-Received: from mga14.intel.com ([192.55.52.115]:15258 "EHLO mga14.intel.com"
+        id S233756AbhKIN03 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Nov 2021 08:26:29 -0500
+Received: from mga17.intel.com ([192.55.52.151]:54047 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237847AbhKIM5E (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 9 Nov 2021 07:57:04 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10162"; a="232682281"
+        id S229917AbhKIN02 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 9 Nov 2021 08:26:28 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10162"; a="213171935"
 X-IronPort-AV: E=Sophos;i="5.87,220,1631602800"; 
-   d="scan'208";a="232682281"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2021 04:54:18 -0800
+   d="scan'208";a="213171935"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2021 05:23:42 -0800
 X-IronPort-AV: E=Sophos;i="5.87,220,1631602800"; 
-   d="scan'208";a="503491344"
+   d="scan'208";a="451912478"
 Received: from na1-mobl.gar.corp.intel.com ([10.213.108.242])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2021 04:54:12 -0800
-Message-ID: <a69360a65739ba068ff21e266638c41aeb936870.camel@linux.intel.com>
-Subject: Re: [PATCH 5/7] thermal: intel: hfi: Enable notification interrupt
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2021 05:23:35 -0800
+Message-ID: <e244e3aa9fc323973d7da8d3ebc3e1fad1fdb731.camel@linux.intel.com>
+Subject: Re: [PATCH 6/7] thermal: netlink: Add a new event to notify CPU
+ capabilities change
 From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Peter Zijlstra <peterz@infradead.org>,
+To:     Lukasz Luba <lukasz.luba@arm.com>,
         Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
         Daniel Lezcano <daniel.lezcano@linaro.org>,
@@ -39,13 +40,11 @@ Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Ricardo Neri <ricardo.neri@intel.com>,
         linux-kernel@vger.kernel.org
-Date:   Tue, 09 Nov 2021 04:54:08 -0800
-In-Reply-To: <YYo1x8YLozBZbqwC@hirez.programming.kicks-ass.net>
+Date:   Tue, 09 Nov 2021 05:23:31 -0800
+In-Reply-To: <2160a0b8-59ec-03a1-1fd5-a3f98085be07@arm.com>
 References: <20211106013312.26698-1-ricardo.neri-calderon@linux.intel.com>
-         <20211106013312.26698-6-ricardo.neri-calderon@linux.intel.com>
-         <YYjo3Jx6JosHhoHM@hirez.programming.kicks-ass.net>
-         <20211109022613.GA16930@ranerica-svr.sc.intel.com>
-         <YYo1x8YLozBZbqwC@hirez.programming.kicks-ass.net>
+         <20211106013312.26698-7-ricardo.neri-calderon@linux.intel.com>
+         <2160a0b8-59ec-03a1-1fd5-a3f98085be07@arm.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
@@ -54,98 +53,86 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2021-11-09 at 09:48 +0100, Peter Zijlstra wrote:
-> On Mon, Nov 08, 2021 at 06:26:13PM -0800, Ricardo Neri wrote:
-> > On Mon, Nov 08, 2021 at 10:07:40AM +0100, Peter Zijlstra wrote:
-> > > On Fri, Nov 05, 2021 at 06:33:10PM -0700, Ricardo Neri wrote:
+Hi Lukasz,
+
+On Tue, 2021-11-09 at 12:39 +0000, Lukasz Luba wrote:
+> Hi Ricardo,
 > 
-> > > > +static void hfi_update_work_fn(struct work_struct *work)
-> > > > +{
-> > > > +       struct hfi_instance *hfi_instance;
-> > > > +
-> > > > +       hfi_instance = container_of(to_delayed_work(work),
-> > > > struct hfi_instance,
-> > > > +                                   update_work);
-> > > > +       if (!hfi_instance)
-> > > > +               return;
-> > > > +
-> > > > +       /* TODO: Consume update here. */
-> > > 
-> > >         // this here uses ->event_lock to serialize against the
-> > >         // interrupt below changing the data...
+> 
+> On 11/6/21 1:33 AM, Ricardo Neri wrote:
+> > From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 > > 
-> > Anyone reading the HFI table would need to take ->event_lock.
+> > Add a new netlink event to notify change in CPU capabilities in
+> > terms of
+> > performance and efficiency.
 > 
-> Right.. that implies ->event_lock can be taken while there is no
-> interrupt active, which then necessitates the additional lock.
+> Is this going to be handled by some 'generic' tools? If yes, maybe
+> the values for 'performance' might be aligned with capacity
+> [0,1024] ? Or are they completely not related so the mapping is
+> simply impossible?
 > 
-Correct.
-With the raw_spin_trylock() optimization, we will need additional lock.
-So need another lock to protect hfi_instance->table_base.
 
-> > > > +}
-> > > > +
-> > > > +void intel_hfi_process_event(__u64 pkg_therm_status_msr_val)
-> > > > +{
-> > > > +       struct hfi_instance *hfi_instance;
-> > > > +       int cpu = smp_processor_id();
-> > > > +       struct hfi_cpu_info *info;
-> > > > +       unsigned long flags;
-> > > > +       u64 timestamp;
-> > > > +
-> > > > +       if (!pkg_therm_status_msr_val)
-> > > > +               return;
-> > > > +
-> > > > +       info = &per_cpu(hfi_cpu_info, cpu);
-> > > > +       if (!info)
-> > > > +               return;
-> > > > 
+That would have been very useful.
 
-[...]
+The problem is that we may not know the maximum performance as system
+may be booting with few CPUs (using maxcpus kernel command line) and
+then user hot adding them. So we may need to rescale when we get a new
+maximum performance CPU and send to user space.
 
-> > > > +       memcpy(hfi_instance->table_base, hfi_instance-
-> > > > >hw_table,
-> > > > +              hfi_features.nr_table_pages << PAGE_SHIFT);
+We can't just use max from HFI table at in instance as it is not
+necessary that HFI table contains data for all CPUs.
+
+If HFI max performance value of 255 is a scaled value to max
+performance CPU value in the system, then this conversion would have
+been easy. But that is not.
+
+
+
+> > 
+> > Firmware may change CPU capabilities as a result of thermal events
+> > in the
+> > system or to account for changes in the TDP (thermal design power)
+> > level.
+> > 
+> > This notification type will allow user space to avoid running
+> > workloads
+> > on certain CPUs or proactively adjust power limits to avoid future
+> > events.
+> > 
+> > Cc: Andi Kleen <ak@linux.intel.com>
+> > Cc: Aubrey Li <aubrey.li@linux.intel.com>
+> > Cc: Tim Chen <tim.c.chen@linux.intel.com>
+> > Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>
+> > Reviewed-by: Len Brown <len.brown@intel.com>
+> > Signed-off-by: Srinivas Pandruvada <  
+> > srinivas.pandruvada@linux.intel.com>
+> > ---
+> >   drivers/thermal/thermal_netlink.c | 52
+> > +++++++++++++++++++++++++++++++
+> >   drivers/thermal/thermal_netlink.h | 13 ++++++++
+> >   include/uapi/linux/thermal.h      |  6 +++-
+> >   3 files changed, 70 insertions(+), 1 deletion(-)
 > 
-> I think we actually need to release ->interrupt_lock here, *before*
-> the
-> WRMSR that ACKs the HFI update. Because I think the moment that WRMSR
-> goes through we can get another interrupt, and that *must* not find
-> ->interrupt_lock taken, otherwise it will not process the update
-> etc..
-> leading to lost interrupts.
+> [snip]
+> 
+> >   
+> > +struct cpu_capability {
+> > +       int cpu;
+> > +       int perf;
+> > +       int eff;
 
-Correct.
-Once we use raw_spin_trylock() change suggested above, then we need to
-release lock here.
+Good idea.
 
 Thanks,
 Srinivas
 
 > 
-
-> > > > +       /*
-> > > > +        * Let hardware and other CPUs know that we are done
-> > > > reading the HFI
-> > > > +        * table and it is free to update it again.
-> > > > +        */
-> > > > +       pkg_therm_status_msr_val &= THERM_STATUS_CLEAR_PKG_MASK
-> > > > &
-> > > > +                                  
-> > > > ~PACKAGE_THERM_STATUS_HFI_UPDATED;
-> > > > +       wrmsrl(MSR_IA32_PACKAGE_THERM_STATUS,
-> > > > pkg_therm_status_msr_val);
-> > > > +       schedule_delayed_work(&hfi_instance->update_work,
-> > > > HFI_UPDATE_INTERVAL);
-> > > > +
-> > > > +unlock_spinlock:
-> > > > +       raw_spin_unlock_irqrestore(&hfi_instance->event_lock,
-> > > > flags);
-> > > 
-> > >         raw_spin_unlock(&hfi_instance->interrupt_lock);
-> > 
-> > ... and here we release both locks.
+> Why not use the full names, instead of thse shortcuts? We use full
+> naming e.g. in cpufreq framework such as 'frequency' not 'freq'.
+> The 'eff' is really not meaningful ('perf' a bit less but it has
+> to meanings in kernel).
 > 
-> See above.
+> Regards,
+> Lukasz
 
 
