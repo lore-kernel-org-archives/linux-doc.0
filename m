@@ -2,97 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5875DC4332F
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 11:50:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1B82C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 12:12:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 46750611F0
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 11:50:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 93FBF6115A
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 12:12:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343598AbhKILw5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Nov 2021 06:52:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49088 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343590AbhKILw4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Nov 2021 06:52:56 -0500
-Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com [IPv6:2607:f8b0:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 873DAC0613F5
-        for <linux-doc@vger.kernel.org>; Tue,  9 Nov 2021 03:50:10 -0800 (PST)
-Received: by mail-ot1-x32c.google.com with SMTP id b5-20020a9d60c5000000b0055c6349ff22so19673106otk.13
-        for <linux-doc@vger.kernel.org>; Tue, 09 Nov 2021 03:50:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ALBcIFK0M2sDqjczdXHc9NoWo8sCRANOPePxtQKC6v0=;
-        b=WiNjKmsahtkj7noZ9ffdWo8zufH5fxNGTifxSgsaMThK1Bc25ubh55+CHeuGaG7dca
-         IUJu9SE+F1ZklwyVbmXyyhhwcj0fg+IcXAUeMkT2TM5AtPRpH3WjiiGM0JbYuy1FNyNo
-         W/m4prG/Qo/AI9tmUfrtEwc1xzSfJ8Q+7ZXo7dZw2gmjbx0/oFHLRnz+TXr7yb4yt4rw
-         DbpNSz1GfVi/hAHf/6iZhz37emGktf2XV99bWXojbMU9ELu6783fpV36atKSUBhOD6FP
-         qt5X3Lt9oO+YFKDBZilTPQ4bEsJUs+P+vARkfPy4jNZXysxqcTZkkSfcAc6qC7oUWOwo
-         t/8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ALBcIFK0M2sDqjczdXHc9NoWo8sCRANOPePxtQKC6v0=;
-        b=UCR3wEMAiGRTDEIbmwgwUOGAJtD6Dn2fBQZqiVeHbe2cvqpysupvf7FTMOk/UylSOv
-         pfp1t/hQ7iHnTIZXgnDUTf+Y3IcoTPOxrpZA+n/IXzcR3G/x74Tj2t4LgS1xup9CKUxQ
-         gGZ9jgSd0HR5gbbciCYkYDquWH/Ec7pbyBPqha7q9XzaZTN2DbUIhp2+8c8UZnA5fmtO
-         twl1GOXHMDHorsjWz2IAeXZkNUN/eRsyLh1Pq+7iYgQockrvkwRkyL6LPvYGoN6iC7bX
-         X3rpdkKMYABv84vroYv1MRpTtjG6hKUecyyIfSPyuBU5q9u7rwdMCbUx1JAAHauedZFG
-         NSUA==
-X-Gm-Message-State: AOAM530jjauQZM0wr5yqTcCz+701YERfsoOX4ZolYwUOCalA8WV4Rj8j
-        DNw0hyUVYe0X05vXfszUY9cqkUxdGFqiZ4vwGHirHg==
-X-Google-Smtp-Source: ABdhPJykswbjVxAwy6QccCD6a4oKxQG8ZBoSavSKVwonmEEZcj7+3DiAKXMLdnvkMbWw05xgzSkhW8FiyFJlI+8TVv8=
-X-Received: by 2002:a9d:ed6:: with SMTP id 80mr5272989otj.35.1636458609456;
- Tue, 09 Nov 2021 03:50:09 -0800 (PST)
+        id S238006AbhKIMPQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Nov 2021 07:15:16 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:51854 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236245AbhKIMPQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Nov 2021 07:15:16 -0500
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id F17EB1FD58;
+        Tue,  9 Nov 2021 12:12:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1636459948; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=kR89D7ZrZQRdZQaPTOGekyWIy76pSZM8sfCYDY4AP7s=;
+        b=dJBhGZiVxcndU7kGad1tFglxyaE9whOIVSc5X4oSrKlgOFFqOE8mGMBQgHzkOJH7wBcddz
+        8iFfQsHvBwkYx887ZytRBcYa/G0UGd0IY/ZcVQZUek3CrOajxxJiz3pASZPUxg8ySK4oFq
+        FLSm/ktLYjHn3RimRRc0aqOp5vvC4MI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1636459948;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=kR89D7ZrZQRdZQaPTOGekyWIy76pSZM8sfCYDY4AP7s=;
+        b=ZJxTwqsUWeGgSPBJlLfPpOlFsFFFGLeTRB7UpANTCWi3uFlO1xyMya1qJhleEoiN/9peS1
+        ckc1oKaIjvOrv/Cg==
+Received: from suse.de (mgorman.tcp.ovpn2.nue.suse.de [10.163.32.246])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 99194A3B87;
+        Tue,  9 Nov 2021 12:12:27 +0000 (UTC)
+Date:   Tue, 9 Nov 2021 12:12:22 +0000
+From:   Mel Gorman <mgorman@suse.de>
+To:     Gang Li <ligang.bdlg@bytedance.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        linux-api@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: Re: Re: Re: [PATCH v1] sched/numa: add per-process numa_balancing
+Message-ID: <20211109121222.GX3891@suse.de>
+References: <20211027132633.86653-1-ligang.bdlg@bytedance.com>
+ <20211028153028.GP3891@suse.de>
+ <b884ad7d-48d3-fcc8-d199-9e7643552a9a@bytedance.com>
+ <20211029083751.GR3891@suse.de>
+ <CAMx52ARF1fVH9=YLQMjE=8ckKJ=q3X2-ovtKuQcoTyo564mQnQ@mail.gmail.com>
+ <20211109091951.GW3891@suse.de>
+ <7de25e1b-e548-b8b5-dda5-6a2e001f3c1a@bytedance.com>
 MIME-Version: 1.0
-References: <20211105130338.241100-1-arnd@kernel.org>
-In-Reply-To: <20211105130338.241100-1-arnd@kernel.org>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 9 Nov 2021 12:49:58 +0100
-Message-ID: <CACRpkdYKs==og5pSsSxMXXozkexybJEnTHZWUr1ObsqAsGPuRA@mail.gmail.com>
-Subject: Re: [RFC 1/3] gpiolib: remove irq_to_gpio() definition
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     linux-gpio@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>,
-        linux-m68k@lists.linux-m68k.org, geert@linux-m68k.org,
-        gerg@linux-m68k.org, linux@armlinux.org.uk,
-        linux-arm-kernel@lists.infradead.org, linux-sh@vger.kernel.org,
-        dalias@libc.org, ysato@users.sourceforge.jp,
-        Arnd Bergmann <arnd@arndb.de>,
-        Fu Wei <tekkamanninja@gmail.com>, Alex Shi <alexs@kernel.org>,
-        Hu Haowen <src.res@email.cn>,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        Jonathan Corbet <corbet@lwn.net>,
-        Drew Fustini <drew@beagleboard.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
+In-Reply-To: <7de25e1b-e548-b8b5-dda5-6a2e001f3c1a@bytedance.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 5, 2021 at 2:03 PM Arnd Bergmann <arnd@kernel.org> wrote:
+On Tue, Nov 09, 2021 at 06:40:43PM +0800, Gang Li wrote:
+> On 11/9/21 5:19 PM, Mel Gorman wrote:
+> > On Tue, Nov 09, 2021 at 04:28:28PM +0800, Gang Li wrote:
+> > > If the global tuning affects default behaviour and the prctl
+> > > affects specific behaviour.  Then when prctl specifies
+> > > numa_balancing for a process, there is no way for the
+> > > global tuning to affect that process.
+> > 
+> > While I think it's very likely that the common case will be to disable
+> > NUMA balancing for specific processes,
+> > prctl(PR_NUMA_BALANCING,PR_SET_NUMA_BALANCING,1) should still be
+> > meaningful.
+> > 
+> 
+> I'm still a bit confused.
+> 
+> If we really want to enable/disable numa_balancing for all processes, but
+> some of them override the global numa_balancing using prctl, what should we
+> do?
+> 
+> Do we iterate through these processes to enable/disable them individually?
+> 
 
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> All implementations other than coldfire have returned an error since
-> the avr32 and blackfin architectures got removed, and the last user in
-> driver code was removed in 2016, so just remove this old interface.
->
-> The only reference is now in the Chinese documentation, which should be
-> changed to remove this reference as well.
->
-> Cc: Fu Wei <tekkamanninja@gmail.com>
-> Cc: Alex Shi <alexs@kernel.org>
-> Cc: Hu Haowen <src.res@email.cn>
-> Cc: linux-doc-tw-discuss@lists.sourceforge.net
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+That would be a policy decision on how existing tasks should be tuned
+if NUMA balancing is enabled at runtime after being disabled at boot
+(or some arbitrary time in the past). Introducing the prctl does mean
+that there is a semantic change for the runtime enabling/disabling
+of NUMA balancing because previously, enabling global balancing affects
+existing tasks and with prctl, it affects only future tasks. It could
+be handled in the sysctl to some exist
 
-Thanks for doing this Arnd. I had it on my mind some years
-ago but I think Coldfire or something was still using it and didn't
-think about it as the last user disappeared.
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+0. Disable for all but prctl specifications
+1. Enable for all tasks unless disabled by prctl
+2. Ignore all existing tasks, enable for future tasks
 
-Yours,
-Linus Walleij
+While this is more legwork, it makes more sense as an interface than
+prctl(PR_NUMA_BALANCING,PR_SET_NUMA_BALANCING,1) failing if global
+NUMA balancing is disabled.
+
+-- 
+Mel Gorman
+SUSE Labs
