@@ -2,106 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7922DC433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 10:40:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5875DC4332F
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 11:50:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 62246611CA
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 10:40:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 46750611F0
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 11:50:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245420AbhKIKnj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Nov 2021 05:43:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33092 "EHLO
+        id S1343598AbhKILw5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Nov 2021 06:52:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245421AbhKIKni (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Nov 2021 05:43:38 -0500
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 909CFC061764
-        for <linux-doc@vger.kernel.org>; Tue,  9 Nov 2021 02:40:52 -0800 (PST)
-Received: by mail-pl1-x631.google.com with SMTP id y7so3100517plp.0
-        for <linux-doc@vger.kernel.org>; Tue, 09 Nov 2021 02:40:52 -0800 (PST)
+        with ESMTP id S1343590AbhKILw4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Nov 2021 06:52:56 -0500
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com [IPv6:2607:f8b0:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 873DAC0613F5
+        for <linux-doc@vger.kernel.org>; Tue,  9 Nov 2021 03:50:10 -0800 (PST)
+Received: by mail-ot1-x32c.google.com with SMTP id b5-20020a9d60c5000000b0055c6349ff22so19673106otk.13
+        for <linux-doc@vger.kernel.org>; Tue, 09 Nov 2021 03:50:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ijkZGpaFpq6LV8Gg8reo+SGCxLMW6UmnTU/srKB0UIc=;
-        b=T3YiUPJYSknWJO0k0ZBPc+Hfc2pdbROPOfOnZ4i3Bzpubl9KUT7aLNzl70vpfrZFd4
-         S8PgbtElpzfz+ter7uV5y4U8QWPW0Md0+qantVOPX3mxmhU//7vzBGlJ7L/jxFxuU3dF
-         be45f4qIlcndP6Em8lOmWG6KHlo6gZsW20iKtn/FmXagbz8rKmwu10WBo+M3RWJo7qQC
-         LLjeIxWF61EQUqZa2aIO+rWRbG2+wVmDr6cpa9AWL16MI5lAeaPKFMjAACnqAOtmH8Xd
-         j0UA8kXzVVj+gd/r9HnVZiYnP+wKj9L9NR/RjfVPuejWnVT6CvC6rv1GPRvJ24UJPl/u
-         DUmQ==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ALBcIFK0M2sDqjczdXHc9NoWo8sCRANOPePxtQKC6v0=;
+        b=WiNjKmsahtkj7noZ9ffdWo8zufH5fxNGTifxSgsaMThK1Bc25ubh55+CHeuGaG7dca
+         IUJu9SE+F1ZklwyVbmXyyhhwcj0fg+IcXAUeMkT2TM5AtPRpH3WjiiGM0JbYuy1FNyNo
+         W/m4prG/Qo/AI9tmUfrtEwc1xzSfJ8Q+7ZXo7dZw2gmjbx0/oFHLRnz+TXr7yb4yt4rw
+         DbpNSz1GfVi/hAHf/6iZhz37emGktf2XV99bWXojbMU9ELu6783fpV36atKSUBhOD6FP
+         qt5X3Lt9oO+YFKDBZilTPQ4bEsJUs+P+vARkfPy4jNZXysxqcTZkkSfcAc6qC7oUWOwo
+         t/8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ijkZGpaFpq6LV8Gg8reo+SGCxLMW6UmnTU/srKB0UIc=;
-        b=b0iujDBCqPwGeFHWtjcCrf8H1TAEVXq1dYOZ0O7Vn2LQ6lVM/hU2fYi9vyPZJi25Ky
-         cF7ZFvUiiuoLNqCk6zmcma/0Scb6LcMwuTQWg9TTpFxzowzORKeZhMbze4Kek3fkyyA6
-         0va8UbLC+GS2AkRFGJAWUk2nv05Fa1eX/w9ZsOTV8AtTEFb4q+z+UGzdUKEJVIRFhoeN
-         td6AuhXhC/NY7z0hkIoiu1HQUMN0SjjTJiWj9SB3EckuWjVQh5Av5cJRABb4s52iy1uB
-         KqR7mrRe2zq1cTAuPETAfxnUWI8P+l652LS0w0N0Q9uqHq0h88NVG0sowLf94LQcN1FR
-         TnLg==
-X-Gm-Message-State: AOAM530K4TS6B1ad3OWwEFVJJpji0kh1JWF7Xdm+WrBlqeq5LTXKgEHC
-        /ZPIW/sOoe/5XEFmb9ieMCtqB5K0+6Zw4Q==
-X-Google-Smtp-Source: ABdhPJyh2eh8cVDZfvZs49FwaWVzUtwCEWQ1SARsnhb2KFJzuK+iPRCqbAddHfiRgdFarLhZ85oEzA==
-X-Received: by 2002:a17:90a:2fc7:: with SMTP id n7mr6006745pjm.141.1636454451646;
-        Tue, 09 Nov 2021 02:40:51 -0800 (PST)
-Received: from [10.254.105.98] ([139.177.225.240])
-        by smtp.gmail.com with ESMTPSA id s2sm8895919pfg.124.2021.11.09.02.40.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Nov 2021 02:40:51 -0800 (PST)
-Subject: Re: Re: Re: Re: [PATCH v1] sched/numa: add per-process numa_balancing
-To:     Mel Gorman <mgorman@suse.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        linux-api@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20211027132633.86653-1-ligang.bdlg@bytedance.com>
- <20211028153028.GP3891@suse.de>
- <b884ad7d-48d3-fcc8-d199-9e7643552a9a@bytedance.com>
- <20211029083751.GR3891@suse.de>
- <CAMx52ARF1fVH9=YLQMjE=8ckKJ=q3X2-ovtKuQcoTyo564mQnQ@mail.gmail.com>
- <20211109091951.GW3891@suse.de>
-From:   Gang Li <ligang.bdlg@bytedance.com>
-Message-ID: <7de25e1b-e548-b8b5-dda5-6a2e001f3c1a@bytedance.com>
-Date:   Tue, 9 Nov 2021 18:40:43 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.14.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ALBcIFK0M2sDqjczdXHc9NoWo8sCRANOPePxtQKC6v0=;
+        b=UCR3wEMAiGRTDEIbmwgwUOGAJtD6Dn2fBQZqiVeHbe2cvqpysupvf7FTMOk/UylSOv
+         pfp1t/hQ7iHnTIZXgnDUTf+Y3IcoTPOxrpZA+n/IXzcR3G/x74Tj2t4LgS1xup9CKUxQ
+         gGZ9jgSd0HR5gbbciCYkYDquWH/Ec7pbyBPqha7q9XzaZTN2DbUIhp2+8c8UZnA5fmtO
+         twl1GOXHMDHorsjWz2IAeXZkNUN/eRsyLh1Pq+7iYgQockrvkwRkyL6LPvYGoN6iC7bX
+         X3rpdkKMYABv84vroYv1MRpTtjG6hKUecyyIfSPyuBU5q9u7rwdMCbUx1JAAHauedZFG
+         NSUA==
+X-Gm-Message-State: AOAM530jjauQZM0wr5yqTcCz+701YERfsoOX4ZolYwUOCalA8WV4Rj8j
+        DNw0hyUVYe0X05vXfszUY9cqkUxdGFqiZ4vwGHirHg==
+X-Google-Smtp-Source: ABdhPJykswbjVxAwy6QccCD6a4oKxQG8ZBoSavSKVwonmEEZcj7+3DiAKXMLdnvkMbWw05xgzSkhW8FiyFJlI+8TVv8=
+X-Received: by 2002:a9d:ed6:: with SMTP id 80mr5272989otj.35.1636458609456;
+ Tue, 09 Nov 2021 03:50:09 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20211109091951.GW3891@suse.de>
-Content-Type: text/plain; charset=iso-8859-15; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20211105130338.241100-1-arnd@kernel.org>
+In-Reply-To: <20211105130338.241100-1-arnd@kernel.org>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 9 Nov 2021 12:49:58 +0100
+Message-ID: <CACRpkdYKs==og5pSsSxMXXozkexybJEnTHZWUr1ObsqAsGPuRA@mail.gmail.com>
+Subject: Re: [RFC 1/3] gpiolib: remove irq_to_gpio() definition
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     linux-gpio@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>,
+        linux-m68k@lists.linux-m68k.org, geert@linux-m68k.org,
+        gerg@linux-m68k.org, linux@armlinux.org.uk,
+        linux-arm-kernel@lists.infradead.org, linux-sh@vger.kernel.org,
+        dalias@libc.org, ysato@users.sourceforge.jp,
+        Arnd Bergmann <arnd@arndb.de>,
+        Fu Wei <tekkamanninja@gmail.com>, Alex Shi <alexs@kernel.org>,
+        Hu Haowen <src.res@email.cn>,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        Jonathan Corbet <corbet@lwn.net>,
+        Drew Fustini <drew@beagleboard.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/9/21 5:19 PM, Mel Gorman wrote:
-> On Tue, Nov 09, 2021 at 04:28:28PM +0800, Gang Li wrote:
->> If the global tuning affects default behaviour and the prctl
->> affects specific behaviour.  Then when prctl specifies
->> numa_balancing for a process, there is no way for the
->> global tuning to affect that process.
-> 
-> While I think it's very likely that the common case will be to disable
-> NUMA balancing for specific processes,
-> prctl(PR_NUMA_BALANCING,PR_SET_NUMA_BALANCING,1) should still be
-> meaningful.
-> 
+On Fri, Nov 5, 2021 at 2:03 PM Arnd Bergmann <arnd@kernel.org> wrote:
 
-I'm still a bit confused.
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> All implementations other than coldfire have returned an error since
+> the avr32 and blackfin architectures got removed, and the last user in
+> driver code was removed in 2016, so just remove this old interface.
+>
+> The only reference is now in the Chinese documentation, which should be
+> changed to remove this reference as well.
+>
+> Cc: Fu Wei <tekkamanninja@gmail.com>
+> Cc: Alex Shi <alexs@kernel.org>
+> Cc: Hu Haowen <src.res@email.cn>
+> Cc: linux-doc-tw-discuss@lists.sourceforge.net
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-If we really want to enable/disable numa_balancing for all processes, 
-but some of them override the global numa_balancing using prctl, what 
-should we do?
+Thanks for doing this Arnd. I had it on my mind some years
+ago but I think Coldfire or something was still using it and didn't
+think about it as the last user disappeared.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-Do we iterate through these processes to enable/disable them individually?
-
-
+Yours,
+Linus Walleij
