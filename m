@@ -2,114 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F4ABC433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 20:40:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68701C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 20:47:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F0A3F61131
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 20:40:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4B12A61279
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 20:47:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244550AbhKIUno (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Nov 2021 15:43:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56998 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242487AbhKIUnn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Nov 2021 15:43:43 -0500
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F471C061764;
-        Tue,  9 Nov 2021 12:40:57 -0800 (PST)
-Received: by mail-wr1-x42b.google.com with SMTP id d5so163675wrc.1;
-        Tue, 09 Nov 2021 12:40:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=mg2e7z58lDe73VgrFciCdoCrTckxjsQdMH47LIpMlD8=;
-        b=Lvp6NHOPZwHxPj+fWGq2BvF2OdAqief2GwNbnsMaefDadOSWDKKRqm4nLRL+frEpyn
-         3KxZbtgCyg5WaAc7md7R3p0k2BKSjcdVrhP1UX8HyvvL8nEyjPsN5gIKQkVZMXEjuZht
-         B9boo/vxS4NoUxhzQF06GsGAvqR63F77yGlkWa3Av52PpHn0WQBXQPFK6NqjB0mukGUl
-         e1ecdTvzm6ZXzm5okWFnbpUUl8Xv52ZoFIygwJ/p/YnYDPpxmmamQBMbyVQf4Au0VQdK
-         8VbYtJ5KUNe1E3SBSIpZfqkYRK2o+H9ydDPeJFetb8HMFLUTDwG/1l64AiNY9Yyja5oh
-         ztLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=mg2e7z58lDe73VgrFciCdoCrTckxjsQdMH47LIpMlD8=;
-        b=BMEf8quqlRyJnHb6GvhkduziGhNFEvDoqRpXO/Bc4I4n0pbvjsj/0+THCwEZfNHZ13
-         3VbetPCh7Xnnz8sWbBKVKrO9sg2IGP+uFk1qN2vRVOBthpPTqNnZJT5TTO9xET/Zx20E
-         Zlcq5xCirXYFVRbdmx0iOiqlhyCK96tXk+cN5tQ9sRZSszQqjtR7M8pa3IdQtTxX4blx
-         BZ+q2WFusV8mmGiLYe+BnaBS2uK7qNtrSF5Yb50ofLzCEmS54RlS8wTnztY+ucDikTiZ
-         9JRRwhEreoJh8SHabCERmtzNVwakcq3xsXlPAtV2LqOSsjOE09kjQxLNIbfz1PMczO15
-         v2/Q==
-X-Gm-Message-State: AOAM531920aB0Ti7Xtu0tl5iptidCk4AAcsdVmslkpF2KmXfavq3/KWE
-        RTKWddZv0gRpbZI54oLj1VKFaBhd6WU=
-X-Google-Smtp-Source: ABdhPJwHsR1gf29UiIqSs41HqAedueBMeaFCg5gVeoGSnC2EYmMxGiaTJQFQe7hvoJXGYs2R4Sx2Nw==
-X-Received: by 2002:a05:6000:23a:: with SMTP id l26mr12861034wrz.215.1636490455780;
-        Tue, 09 Nov 2021 12:40:55 -0800 (PST)
-Received: from Ansuel-xps.localdomain ([5.171.121.77])
-        by smtp.gmail.com with ESMTPSA id i17sm3675547wmq.48.2021.11.09.12.40.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Nov 2021 12:40:55 -0800 (PST)
-Date:   Tue, 9 Nov 2021 21:40:53 +0100
-From:   Ansuel Smith <ansuelsmth@gmail.com>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
-        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
-        Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
-Subject: Re: [RFC PATCH v3 1/8] leds: add support for hardware driven LEDs
-Message-ID: <YYrc1UfhVLEO/Nth@Ansuel-xps.localdomain>
-References: <20211109022608.11109-1-ansuelsmth@gmail.com>
- <20211109022608.11109-2-ansuelsmth@gmail.com>
- <YYrbT6pMGXqA2EVn@lunn.ch>
+        id S244685AbhKIUtx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Nov 2021 15:49:53 -0500
+Received: from fanzine2.igalia.com ([213.97.179.56]:33712 "EHLO
+        fanzine.igalia.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S234878AbhKIUtv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Nov 2021 15:49:51 -0500
+X-Greylist: delayed 1063 seconds by postgrey-1.27 at vger.kernel.org; Tue, 09 Nov 2021 15:49:50 EST
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; s=20170329;
+        h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From; bh=WArqkDtu5W1DQIOZg6AY0uLA7OKIXkUD3kbNB9gSEbo=;
+        b=Qzlp7TLRgXgDaisYpJr22SvCHecuDcA9IG1lh74ZDfzrJv0E7iJEhLwMlC5N8P2LZwRNWztVoV+UHoWOv2/0dT1SJccI2Au0veyf4dhxiMUmMIfP/2UwlwOxi5HwldblBtVhLjY76ETUfEPCy6RqqS1rq9YwsoN0IHJfmJ6zos6l0ySbRVM5zGBn4cSAb6raeB036ce2Oh7KimRSCGdgFpo4KaoshJsAUaV/ieZP6S0Niwdu4jhM6smh1170Tf7V7jFJvSgjY5ytFnlttOwI+1Wos35qE+becR6oXWAd7CMbWoJznnWMSqXemOG2XWblgfATmnifWUpvsF8cwlbFWw==;
+Received: from 201-95-14-182.dsl.telesp.net.br ([201.95.14.182] helo=localhost)
+        by fanzine.igalia.com with esmtpsa 
+        (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+        id 1mkXlF-0000Lh-QE; Tue, 09 Nov 2021 21:30:30 +0100
+From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+To:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, mcgrof@kernel.org,
+        keescook@chromium.org, yzaikin@google.com,
+        akpm@linux-foundation.org, feng.tang@intel.com,
+        siglesias@igalia.com, kernel@gpiccoli.net, gpiccoli@igalia.com
+Subject: [PATCH 2/3] panic: Add option to dump all CPUs backtraces in panic_print
+Date:   Tue,  9 Nov 2021 17:28:47 -0300
+Message-Id: <20211109202848.610874-3-gpiccoli@igalia.com>
+X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20211109202848.610874-1-gpiccoli@igalia.com>
+References: <20211109202848.610874-1-gpiccoli@igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YYrbT6pMGXqA2EVn@lunn.ch>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 09, 2021 at 09:34:23PM +0100, Andrew Lunn wrote:
-> On Tue, Nov 09, 2021 at 03:26:01AM +0100, Ansuel Smith wrote:
-> > Some LEDs can be driven by hardware (for example a LED connected to
-> > an ethernet PHY or an ethernet switch can be configured to blink on
-> > activity on the network, which in software is done by the netdev trigger).
-> > 
-> > To do such offloading, LED driver must support this and a supported
-> > trigger must be used.
-> > 
-> > LED driver should declare the correct blink_mode supported and should set
-> > the blink_mode parameter to one of HARDWARE_CONTROLLED or
-> > SOFTWARE_HARDWARE_CONTROLLED.
-> > The trigger will check this option and fail to activate if the blink_mode
-> > is not supported. By default if a LED driver doesn't declare blink_mode,
-> > SOFTWARE_CONTROLLED is assumed.
-> > 
-> > The LED must implement 3 main API:
-> > - trigger_offload_status(): This asks the LED driver if offload mode is
-> >     enabled or not.
-> >     Triggers will check if the offload mode is supported and will be
-> >     activated accordingly. If the trigger can't run in software mode,
-> >     return -EOPNOTSUPP as the blinking can't be simulated by software.
-> 
-> I don't understand this last part. The LED controller is not
-> implementing software mode, other than providing a method to manually
-> turn the LED on and off. And there is a well defined call for that. If
-> that call is a NULL, it is clear it is not implemented. There is no
-> need to ask the driver.
-> 
->      Andrew
+Currently the "panic_print" parameter/sysctl allows some interesting debug
+information to be printed during a panic event. This is useful for example
+in cases the user cannot kdump due to resource limits, or if the user
+collects panic logs in a serial output (or pstore) and prefers a fast
+reboot instead of a kdump.
 
-You are right I have to remove the last part as it doesn't make sense.
-We already use blink_mode. Will remove in v4.
+Happens that currently there's no way to see all CPUs backtraces in
+a panic using "panic_print" on architectures that support that. We do
+have "oops_all_cpu_backtrace" sysctl, but although partially overlapping
+in the functionality, they are orthogonal in nature: "panic_print" is
+a panic tuning (and we have panics without oopses, like direct calls to
+panic() or maybe other paths that don't go through oops_enter()
+function), and the original purpose of "oops_all_cpu_backtrace" is to
+provide more information on oopses for cases in which the users desire
+to continue running the kernel even after an oops, i.e., used in
+non-panic scenarios.
 
+So, we hereby introduce an additional bit for "panic_print" to allow
+dumping the CPUs backtraces during a panic event.
+
+Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 1 +
+ Documentation/admin-guide/sysctl/kernel.rst     | 1 +
+ kernel/panic.c                                  | 4 ++++
+ 3 files changed, 6 insertions(+)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 0905d2cdb2d5..569d035c4332 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3690,6 +3690,7 @@
+ 			bit 3: print locks info if CONFIG_LOCKDEP is on
+ 			bit 4: print ftrace buffer
+ 			bit 5: print all printk messages in buffer
++			bit 6: print all CPUs backtrace (if available in the arch)
+ 
+ 	panic_on_taint=	Bitmask for conditionally calling panic() in add_taint()
+ 			Format: <hex>[,nousertaint]
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index 70b7df9b081a..1666c1a9dbba 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -796,6 +796,7 @@ bit 2  print timer info
+ bit 3  print locks info if ``CONFIG_LOCKDEP`` is on
+ bit 4  print ftrace buffer
+ bit 5: print all printk messages in buffer
++bit 6: print all CPUs backtrace (if available in the arch)
+ =====  ============================================
+ 
+ So for example to print tasks and memory info on panic, user can::
+diff --git a/kernel/panic.c b/kernel/panic.c
+index cefd7d82366f..5da71fa4e5f1 100644
+--- a/kernel/panic.c
++++ b/kernel/panic.c
+@@ -65,6 +65,7 @@ EXPORT_SYMBOL_GPL(panic_timeout);
+ #define PANIC_PRINT_LOCK_INFO		0x00000008
+ #define PANIC_PRINT_FTRACE_INFO		0x00000010
+ #define PANIC_PRINT_ALL_PRINTK_MSG	0x00000020
++#define PANIC_PRINT_ALL_CPU_BT		0x00000040
+ unsigned long panic_print;
+ 
+ ATOMIC_NOTIFIER_HEAD(panic_notifier_list);
+@@ -151,6 +152,9 @@ static void panic_print_sys_info(void)
+ 	if (panic_print & PANIC_PRINT_ALL_PRINTK_MSG)
+ 		console_flush_on_panic(CONSOLE_REPLAY_ALL);
+ 
++	if (panic_print & PANIC_PRINT_ALL_CPU_BT)
++		trigger_all_cpu_backtrace();
++
+ 	if (panic_print & PANIC_PRINT_TASK_INFO)
+ 		show_state();
+ 
 -- 
-	Ansuel
+2.33.1
+
