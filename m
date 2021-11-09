@@ -2,138 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1028BC433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 15:06:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09898C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 16:26:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E6D2761208
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 15:06:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E6E3A60FD8
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Nov 2021 16:26:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238304AbhKIPJb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Nov 2021 10:09:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37224 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236716AbhKIPJb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Nov 2021 10:09:31 -0500
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F6D9C061764;
-        Tue,  9 Nov 2021 07:06:45 -0800 (PST)
-Received: by mail-ed1-x529.google.com with SMTP id v11so75543299edc.9;
-        Tue, 09 Nov 2021 07:06:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=8IS6UH1QtcvVYmFbF/cY65EeLfvpjF+Q9PQUnNnTH2I=;
-        b=YDogRuvSB7vifNWCOBhz7i0wJJR60jQLU1ekO5CEaBpXlQzGHmoZoB8Crz4b0ZQ6tY
-         sI8XaejfB0tK1W0/WJ67e4k0U29pqcUC5TX+qLSn3vOtley9kQaJ4jHPT34kXw3AOC6S
-         fetQLAz/nPO7g+oMluqfcK4OnF24q5azQd6bTCQbwZyHcf2402GNHRb0ncvZdKnZ1wyE
-         OCOhj7KLafDs98Lxuvcy+Y10i5YOZoYBxXKWfWjWk5mQSIW5e/yaQbBz24CKL0Ov9e5u
-         g1IhrN0WxTA2p6Y8XHiCb/4BMmv7y2Gij8Yjyz6ad91og4ED3ivqyfzE+5oAGhOlorlf
-         M3Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=8IS6UH1QtcvVYmFbF/cY65EeLfvpjF+Q9PQUnNnTH2I=;
-        b=pkwcyg+YHaJOTX4j7sZpV+du4swY0bopLbjlg7I7O6H38YtZe+kLjpSkMz7fEobUCJ
-         BXE1BaonUoiW4S/TzIWM6mZcYdMN9tC38Gd4wihwDKkKtK3Gx/VqxATrKdnhBBCFRXWd
-         J2BOX9BpYzXFO+fJeL6FfsQatyg7gs0B00elpDavi/c5MVbM/eOEGzY5FQ2zjL16vm4w
-         E3za2q+DZqFZc9I/c6DZX1ZgF/K/2hwty3EiEt77/vShWbgN/7Exjj5Qyv2EEtJvM6fN
-         6T8UFmReoXahCs6XHqNptOrNnmQew0X27S99kzOp67EHSAdmUa5RMvYRCgAQ2ea1e7eK
-         +VJA==
-X-Gm-Message-State: AOAM533AXberXdAigr2aB21BV698MHj68R1czpTLL0UMHnCyuyOLzJgZ
-        2fdJOLpGzHcjXXw5qlk5oLU=
-X-Google-Smtp-Source: ABdhPJxg/rBo/a2w+SeQaLCdemY6uOaVQyLD/JBSkjkYW8IRad8II3G7i2hXJ8NQiAc5OEEs6eG0pg==
-X-Received: by 2002:a05:6402:95b:: with SMTP id h27mr11363913edz.116.1636470403328;
-        Tue, 09 Nov 2021 07:06:43 -0800 (PST)
-Received: from Ansuel-xps.localdomain (93-42-71-246.ip85.fastwebnet.it. [93.42.71.246])
-        by smtp.gmail.com with ESMTPSA id z7sm4815344edj.51.2021.11.09.07.06.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Nov 2021 07:06:42 -0800 (PST)
-Date:   Tue, 9 Nov 2021 16:06:41 +0100
-From:   Ansuel Smith <ansuelsmth@gmail.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
-        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
-        Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
-Subject: Re: [RFC PATCH v3 6/8] leds: trigger: add hardware-phy-activity
- trigger
-Message-ID: <YYqOgTgCcRtj7KqC@Ansuel-xps.localdomain>
-References: <20211109022608.11109-1-ansuelsmth@gmail.com>
- <20211109022608.11109-7-ansuelsmth@gmail.com>
- <28048612-a7d2-19e0-a632-a5ae061819cd@infradead.org>
+        id S239741AbhKIQ3n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Nov 2021 11:29:43 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28]:38580 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238397AbhKIQ3m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Nov 2021 11:29:42 -0500
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 22DFC21B0F;
+        Tue,  9 Nov 2021 16:26:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1636475214; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=W8Yqvda4MK4hO1EoRB5r6GQpCOHroX0LfHlyY83Mevo=;
+        b=n8ph54cGxVOKEPgM+5p+AqZuytCKD7lxxc15YQWS+b1GoVVNoE7JvM7hjMyftp49vlScBU
+        f2/eNLWys935rjcfCs1KkeQk4OlCtKccHw7Gpz+zZAZKvlPMvPkKrYLmIrBn9bQnrkLEOa
+        cPl2eGrYMSNatVZji2GFhQsf56KKYgo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1636475214;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=W8Yqvda4MK4hO1EoRB5r6GQpCOHroX0LfHlyY83Mevo=;
+        b=qwFDV487ASDanqQnKIcVp/7as4MKVz9GWVpyA/v0PuOU7WIQy6b0ukq0Y9msnQ0/vN84P0
+        lHzuydjgE/8IlqDQ==
+Received: from suse.de (mgorman.tcp.ovpn2.nue.suse.de [10.163.32.246])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 818C3A3B88;
+        Tue,  9 Nov 2021 16:26:52 +0000 (UTC)
+Date:   Tue, 9 Nov 2021 16:26:47 +0000
+From:   Mel Gorman <mgorman@suse.de>
+To:     Gang Li <ligang.bdlg@bytedance.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        linux-api@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: Re: Re: Re: Re: [PATCH v1] sched/numa: add per-process
+ numa_balancing
+Message-ID: <20211109162647.GY3891@suse.de>
+References: <20211027132633.86653-1-ligang.bdlg@bytedance.com>
+ <20211028153028.GP3891@suse.de>
+ <b884ad7d-48d3-fcc8-d199-9e7643552a9a@bytedance.com>
+ <20211029083751.GR3891@suse.de>
+ <CAMx52ARF1fVH9=YLQMjE=8ckKJ=q3X2-ovtKuQcoTyo564mQnQ@mail.gmail.com>
+ <20211109091951.GW3891@suse.de>
+ <7de25e1b-e548-b8b5-dda5-6a2e001f3c1a@bytedance.com>
+ <20211109121222.GX3891@suse.de>
+ <117d5b88-b62b-f50b-32ff-1a9fe35b9e2e@bytedance.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-15
 Content-Disposition: inline
-In-Reply-To: <28048612-a7d2-19e0-a632-a5ae061819cd@infradead.org>
+In-Reply-To: <117d5b88-b62b-f50b-32ff-1a9fe35b9e2e@bytedance.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 08, 2021 at 10:02:22PM -0800, Randy Dunlap wrote:
-> On 11/8/21 6:26 PM, Ansuel Smith wrote:
-> > diff --git a/drivers/leds/trigger/Kconfig b/drivers/leds/trigger/Kconfig
-> > index dc6816d36d06..b947b238be3f 100644
-> > --- a/drivers/leds/trigger/Kconfig
-> > +++ b/drivers/leds/trigger/Kconfig
-> > @@ -154,4 +154,32 @@ config LEDS_TRIGGER_TTY
-> >   	  When build as a module this driver will be called ledtrig-tty.
-> > +config LEDS_TRIGGER_HARDWARE_PHY_ACTIVITY
-> > +	tristate "LED Trigger for PHY Activity for Hardware Controlled LED"
-> > +	depends on LEDS_HARDWARE_CONTROL
-> > +	help
-> > +	  This allows LEDs to be configured to run by hardware and offloaded
-> > +	  based on some rules. The LED will blink or be on based on the PHY
+On Tue, Nov 09, 2021 at 09:58:34PM +0800, Gang Li wrote:
+> On 11/9/21 8:12 PM, Mel Gorman wrote:
+> > 
+> > That would be a policy decision on how existing tasks should be tuned
+> > if NUMA balancing is enabled at runtime after being disabled at boot
+> > (or some arbitrary time in the past). Introducing the prctl does mean
+> > that there is a semantic change for the runtime enabling/disabling
+> > of NUMA balancing because previously, enabling global balancing affects
+> > existing tasks and with prctl, it affects only future tasks. It could
+> > be handled in the sysctl to some exist
+> > 
+> > 0. Disable for all but prctl specifications
+> > 1. Enable for all tasks unless disabled by prctl
+> > 2. Ignore all existing tasks, enable for future tasks
+> > 
+> > While this is more legwork, it makes more sense as an interface than
+> > prctl(PR_NUMA_BALANCING,PR_SET_NUMA_BALANCING,1) failing if global
+> > NUMA balancing is disabled.
+> > 
 > 
-> 	                                          or be "on" based on the PHY
-> 
-> > +	  Activity for example on packet receive or based on the link speed.
-> 
-> 	  activity
-> 
-> > +
-> > +	  The current supported offload triggers are:
-> > +	  - blink_tx: Blink LED on tx packet receive
-> > +	  - blink_rx: Blink LED on rx packet receive
-> > +	  - keep_link_10m: Keep LED on with 10m link speed
-> > +	  - keep_link_100m: Keep LED on with 100m link speed
-> > +	  - keep_link_1000m: Keep LED on with 1000m link speed
-> > +	  - keep_half_duplex: Keep LED on with half duplex link
-> > +	  - keep_full_duplex: Keep LED on with full duplex link
-> > +	  - option_linkup_over: Blink rules are ignored with absent link
-> > +	  - option_power_on_reset: Power ON Led on Switch/PHY reset
-> > +	  - option_blink_2hz: Set blink speed at 2hz for every blink event
-> > +	  - option_blink_4hz: Set blink speed at 4hz for every blink event
-> > +	  - option_blink_8hz: Set blink speed at 8hz for every blink event
-> > +
-> > +	  These blink modes are present in the LED sysfs dir under
-> > +	  hardware-phy-activity if supported by the LED driver.
-> > +
-> > +	  This trigger can be used only by LEDs that supports Hardware mode
-> 
-> 	                                             support Hardware mode.
-> 
-> 
-> Ansuel, do you read and consider these comments?
-> It's difficult to tell if you do or not.
->
+> Why prctl(PR_NUMA_BALANCING,PR_SET_NUMA_BALANCING,1) must work while global
+> numa_balancing is disabled? No offense, I think that is a bit redundant.
 
-Yes and with every new version I'm fixing the errors.
-Just we are changing implementation many times and more errors comes up.
-Thanks a lot for the comments and sorry if I'm not answering them.
+For symmetry and consistency of the tuning. Either there is per-process
+control or there is not. Right now, there is only the ability to turn
+off NUMA balancing via prctl if globally enabled. There is no option to
+turn NUMA balancing on for a single task if globally disabled.
 
-> thanks.
-> -- 
-> ~Randy
+> And
+> it's complicated to implement.
+> 
+
+That is true.
+
+> It's hard for me to understand the whole vision of your idea. I'm very
+> sorry. Can you explain your full thoughts more specifically?
+> 
+
+I'm not sure how I can be more clear.
+
+> ----------------------------------------------------
+> 
+> Also in case of misunderstanding, let me re-explain my patch using circuit
+> diagram.
+> 
+
+I understood what you are proposing. In your case, global disabling
+is an absolute -- it's disabled regardless of prctl therefore
+prctl(PR_NUMA_BALANCING,PR_SET_NUMA_BALANCING,1) has no meaning and it
+either does nothing at all or fails so why does the option even exist?
+
+> Why global numa_balancing has high priority? There are two reasons:
+> 1. numa_balancing is useful to most processes, so there is no need to
+> consider how to enable numa_balancing for a few processes while disabling it
+> globally.
+> 2. It is easy to implement. The more we think, the more complex the code
+> becomes.
+
+Of those two, I agree with the second one, it would be tricky to implement
+but the first one is less clear. This is based on an assumption. If prctl
+exists to enable/disable NUMA baalancing, it's possible that someone
+else would want to control NUMA balancing on a cgroup basis instead of
+globally which would run into the same type of concerns -- different
+semantics depending on the global tunable.
 
 -- 
-	Ansuel
+Mel Gorman
+SUSE Labs
