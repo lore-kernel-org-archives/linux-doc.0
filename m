@@ -2,103 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C30B9C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Nov 2021 11:20:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31B3CC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Nov 2021 12:02:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A044661159
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Nov 2021 11:20:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0B0C561246
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Nov 2021 12:02:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231336AbhKJLXl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Nov 2021 06:23:41 -0500
-Received: from lizzard.sbs.de ([194.138.37.39]:44290 "EHLO lizzard.sbs.de"
+        id S232024AbhKJMFX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Nov 2021 07:05:23 -0500
+Received: from mail.kernel.org ([198.145.29.99]:51858 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231325AbhKJLXi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 10 Nov 2021 06:23:38 -0500
-X-Greylist: delayed 376 seconds by postgrey-1.27 at vger.kernel.org; Wed, 10 Nov 2021 06:23:36 EST
-Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
-        by lizzard.sbs.de (8.15.2/8.15.2) with ESMTPS id 1AABDwp1011374
-        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 10 Nov 2021 12:13:58 +0100
-Received: from MD1T0KAC-VM.ad001.siemens.net (md1t0kac.ad001.siemens.net [139.25.68.224])
-        by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id 1AABDvXQ030772;
-        Wed, 10 Nov 2021 12:13:57 +0100
-From:   Felix Moessbauer <felix.moessbauer@siemens.com>
-To:     longman@redhat.com
-Cc:     akpm@linux-foundation.org, cgroups@vger.kernel.org, corbet@lwn.net,
-        frederic@kernel.org, guro@fb.com, hannes@cmpxchg.org,
-        juri.lelli@redhat.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        lizefan.x@bytedance.com, mkoutny@suse.com, mtosatti@redhat.com,
-        pauld@redhat.com, peterz@infradead.org, shuah@kernel.org,
-        tj@kernel.org, jan.kiszka@siemens.com, henning.schild@siemens.com
-Subject: Re: [PATCH v8 0/6] cgroup/cpuset: Add new cpuset partition type & empty effecitve cpus
-Date:   Wed, 10 Nov 2021 12:13:57 +0100
-Message-Id: <20211110111357.17617-1-felix.moessbauer@siemens.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211018143619.205065-1-longman@redhat.com>
-References: <20211018143619.205065-1-longman@redhat.com>
+        id S231670AbhKJMFK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 10 Nov 2021 07:05:10 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C8C596115A;
+        Wed, 10 Nov 2021 12:02:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1636545742;
+        bh=7MgLyEqQs0tsTjzVsvVzeXDQT4IirjoXUmST78bHbTA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=B/GepwNww4Qm4HiRT8hda+8Fh7FbxwlruM6NufVWoZ8ONVpBJmiT0k36DDd4refYr
+         01cjA149P8jumHXpbIpYKfZQqLAiWFOA6S/fOg6l83GhGpAM70NYzcq/OiZN8PWJkZ
+         RBUkYTpV6qRqMa1fBWdHh6+3zKbh9w9a1+3EkWj9q8KAHsV+TQnw/i5UwjFk2yFjVU
+         N2gvG4OFqK6xb6iJqiDJVPKNLmEws70eE/Ny8sSsNAuUXeToT2OJQHLo+jcaSQ40v5
+         FYTCKAk78lsI+wYq36lULZqcbQVW6NpMG+Bxq7Z707kIwtu4ZqGMznKDSpX4vfgPn0
+         iwdNnHqsRMQAg==
+From:   alexs@kernel.org
+Cc:     Alex Shi <alexs@kernel.org>, Xinyong Wang <wang.xy.chn@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] doc/zh_CN: fix a translation error in management-style
+Date:   Wed, 10 Nov 2021 20:02:13 +0800
+Message-Id: <20211110120213.134313-1-alexs@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Weiman,
+From: Alex Shi <alexs@kernel.org>
 
-> v8:
->  - Reorganize the patch series and rationalize the features and
->    constraints of a partition.
->  - Update patch descriptions and documentation accordingly.
-> 
-> v7:
->  - Simplify the documentation patch (patch 5) as suggested by Tejun.
->  - Fix a typo in patch 2 and improper commit log in patch 3.
-> 
-> v6:
->  - Remove duplicated tmpmask from update_prstate() which should fix the
->    frame size too large problem reported by kernel test robot.
-> 
-> This patchset makes four enhancements to the cpuset v2 code.
-> 
->  Patch 1: Enable partition with no task to have empty cpuset.cpus.effective.
-> 
->  Patch 2: Refining the features and constraints of a cpuset partition
->  clarifying what changes are allowed.
->
->  Patch 3: Add a new partition state "isolated" to create a partition
->  root without load balancing. This is for handling intermitten workloads
->  that have a strict low latency requirement.
+'The name of the game' means the most important part of an activity, so
+we should translate it by the meaning instead of the words.
 
+Suggested-by: Xinyong Wang <wang.xy.chn@gmail.com>
+Signed-off-by: Alex Shi <alexs@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net> 
+Cc: linux-doc@vger.kernel.org 
+Cc: linux-kernel@vger.kernel.org 
+---
+ Documentation/translations/zh_CN/process/management-style.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I just tested this patch-series and can confirm that it works on 5.15.0-rc7-rt15 (PREEMT_RT).
+diff --git a/Documentation/translations/zh_CN/process/management-style.rst b/Documentation/translations/zh_CN/process/management-style.rst
+index c6a5bb285797..8053ae474328 100644
+--- a/Documentation/translations/zh_CN/process/management-style.rst
++++ b/Documentation/translations/zh_CN/process/management-style.rst
+@@ -36,14 +36,14 @@ Linux内核管理风格
+ 每个人都认为管理者做决定，而且决策很重要。决定越大越痛苦，管理者就必须越高级。
+ 这很明显，但事实并非如此。
+ 
+-游戏的名字是 **避免** 做出决定。尤其是，如果有人告诉你“选择（a）或（b），
++最重要的是 **避免** 做出决定。尤其是，如果有人告诉你“选择（a）或（b），
+ 我们真的需要你来做决定”，你就是陷入麻烦的管理者。你管理的人比你更了解细节，
+ 所以如果他们来找你做技术决策，你完蛋了。你显然没有能力为他们做这个决定。
+ 
+ （推论：如果你管理的人不比你更了解细节，你也会被搞砸，尽管原因完全不同。
+ 也就是说，你的工作是错的，他们应该管理你的才智）
+ 
+-所以游戏的名字是 **避免** 做出决定，至少是那些大而痛苦的决定。做一些小的
++所以最重要的是 **避免** 做出决定，至少是那些大而痛苦的决定。做一些小的
+ 和非结果性的决定是很好的，并且使您看起来好像知道自己在做什么，所以内核管理者
+ 需要做的是将那些大的和痛苦的决定变成那些没有人真正关心的小事情。
+ 
+-- 
+2.27.0
 
-However, I was not able to see any latency improvements when using
-cpuset.cpus.partition=isolated.
-The test was performed with jitterdebugger on CPUs 1-3 and the following cmdline:
-rcu_nocbs=1-4 nohz_full=1-4 irqaffinity=0,5-6,11 intel_pstate=disable
-On the other cpus, stress-ng was executed to generate load.
-
-Just some more general notes:
-
-Even with this new "isolated" type, it is still very tricky to get a similar
-behavior as with isolcpus (as long as I don't miss something here):
-
-Consider an RT application that consists of a non-rt thread that should be floating
-and a rt-thread that should be placed in the isolated domain.
-This requires cgroup.type=threaded on both cgroups and changes to the application
-(threads have to be born in non-rt group and moved to rt-group).
-
-Theoretically, this could be done externally, but in case the application sets the
-affinity mask manually, you run into a timing issue (setting affinities to CPUs
-outside the current cpuset.cpus results in EINVAL).
-
-Best regards,
-Felix Moessbauer
-Siemens AG
-
-> Patch 4: Enable the "cpuset.cpus.partition" file to show the reason
->  that causes invalid partition like "root invalid (No cpu available
->  due to hotplug)".
-> 
-> Patch 5 updates the cgroup-v2.rst file accordingly. Patch 6 adds a new
-> cpuset test to test the new cpuset partition code.
