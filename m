@@ -2,54 +2,54 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 778A3C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Nov 2021 10:56:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F058C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Nov 2021 10:56:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 61B7F61353
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Nov 2021 10:56:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0935A6112D
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Nov 2021 10:56:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231511AbhKJK6w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Nov 2021 05:58:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49164 "EHLO
+        id S231514AbhKJK67 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Nov 2021 05:58:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231466AbhKJK6r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Nov 2021 05:58:47 -0500
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57A50C061766
-        for <linux-doc@vger.kernel.org>; Wed, 10 Nov 2021 02:56:00 -0800 (PST)
-Received: by mail-pg1-x52d.google.com with SMTP id n23so1906725pgh.8
-        for <linux-doc@vger.kernel.org>; Wed, 10 Nov 2021 02:56:00 -0800 (PST)
+        with ESMTP id S231509AbhKJK6w (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Nov 2021 05:58:52 -0500
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED21BC061766
+        for <linux-doc@vger.kernel.org>; Wed, 10 Nov 2021 02:56:04 -0800 (PST)
+Received: by mail-pj1-x1035.google.com with SMTP id gb13-20020a17090b060d00b001a674e2c4a8so1329873pjb.4
+        for <linux-doc@vger.kernel.org>; Wed, 10 Nov 2021 02:56:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=oACp49gXaGAjKIiwkR+ZeBWqiQkGBkUqqKqI3adW4JI=;
-        b=mYFTL8nAGfoCHW+ltxTYZYlXDGFJnMrF2VCPBAxylGRD2oFy5grbsGypUkK/thKoL5
-         +HDEBjxveBsreY4/QAXWNNN3NCUjVtlIu+dXA+sEVew8eBN/NOAYKTD8bjGwoAg4DT8P
-         nA266BKFpGTAEUchN6jo4bbemK6xw1SgSz2wcj6mmPJTV26W1ZLUbJaHy4pY4MRTLkeP
-         PkEhNjCiFFyj9cs63AMuh07LHAzL6EP1KxHwQ1DFzPXqQpKGj9BFHTcFbR/9G4aFjL09
-         ssmWBBRktXlg+M4KvdgY2ZD6i03sO0ej9Ly0sv9VqbPWsh2Hu1JFwr7baM2VV55tG4qT
-         SffQ==
+        bh=25VRZHR2Pd1VOPr3qZJqaRujj9XwfT4H1vR/Swabhf0=;
+        b=lz02LYdU8qxmCn1b6rHkpZA/GZ/O+w2Elu0uYFnq1f5iHi/0SBko9OtG0wFLIoD4yz
+         b0hWoKv/hzZ0NYjWQ/OJu9oGxhKVIOhCv+moAsqKJJKJwZ89zZvegnmx1NxOLqtQl2c5
+         hMV71i7n2eMyMCO1JHtvVw48yoi8urgDLIHg1ob7sGE3BCov3KrnzAysFU94hqOwMdXN
+         dH9vL3Z6czJou33gMPj72kQ3xO7D2Ms7T1uFWlImi+lXqu83eo+AGGO0D9StuTSabqVe
+         O0nZBwDnMViWz7EmAxIiALvpWL+dCP80ex4FwnJA1Dni3ChoPgKRtoJRcrqYQtShwBxO
+         iMjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=oACp49gXaGAjKIiwkR+ZeBWqiQkGBkUqqKqI3adW4JI=;
-        b=rZiRCbtc0UOVJK1f4iFhFgTd8cLCOd2Y0lchUhKm4aGUYnVfYww2fqz5nm+AFf4lCX
-         rlcgRdZoBOGhyAk1RlEjDA6BhMfa8CWdwjKqvlhloJ7CyMdCiIXjoE/G/rqKIy3g2CC+
-         JWLB8+XY9dV5j0s9teNO24nsO/3SPS+9DmMIl01Z60NVAMkNAuZ+TKMtySgh+g5CEicu
-         VQVg0w93CoO1AuCyXkumy2keKDG4LhOd/Nwuh0KbH0+UyAvdP3qVAsERYWAa2TMd/484
-         tz2zoxkA0dQ3pdcQMPc5pccgoyCr/FpStYlRB7M5M0Gxa4TQxD07zwKoNNy+7DSVl87M
-         sh/A==
-X-Gm-Message-State: AOAM533w+wizWCsC1y0fBEwue/eRWKuWSPGsEZQZXtTtocC8d4WyVpv0
-        jgrw3Dj0hP6hR10h9kx3PsDxVg==
-X-Google-Smtp-Source: ABdhPJxsiLB9lgCGapZu/Cp89rN/P3dimmlX2wiU05T9FeDDXf/uTbUmrVDMvDWMjGH9ivQ2d5gBsg==
-X-Received: by 2002:a63:8048:: with SMTP id j69mr11183988pgd.111.1636541759762;
-        Wed, 10 Nov 2021 02:55:59 -0800 (PST)
+        bh=25VRZHR2Pd1VOPr3qZJqaRujj9XwfT4H1vR/Swabhf0=;
+        b=0FH5Agpcm9s9axYH5pbXip6ahmfqjeepogqGS9g/01dDTaxPspkt9A3zUFaIId4xkM
+         ElKbiB83n2lrgwBeXFcSyMMkJyQbs3YfhOzhKOdCngWMrhFf9k874JJowJJtDZ1pdb5W
+         AnLzsUIpfleLyz6x4PlvxsnmPq4eBwTWOx+pFC1PulWROe0ke8yGP7h3/GoA4mMJPBhy
+         /sDQx7LqLgmwSoU9k9NescG6rSZgSyqQrIKY2/7JgSaHjv5RicpMmicFwgnWoaRg9Q06
+         ZrLz7elfv9imLVDqHQJvfRDF6mGzVai1XGJ0M49L0QjuDssED+h0JsmMABLZdFqqhJpM
+         Vl3A==
+X-Gm-Message-State: AOAM5328Cr62ZxF2nh/t3F20u41SYA6200UF+oSXFNluvmAx9JzeUEvi
+        13Aswk5TrblJEBm3srk5k5s+gQ==
+X-Google-Smtp-Source: ABdhPJwGhGqveQ+o8jACuOsGuYbmyPmdBPe4k0o2lNyqcYut9KcMuAGLX1QXE/zSG37UacD6C/vYpA==
+X-Received: by 2002:a17:902:e789:b0:140:801:1262 with SMTP id cp9-20020a170902e78900b0014008011262mr15005904plb.42.1636541764450;
+        Wed, 10 Nov 2021 02:56:04 -0800 (PST)
 Received: from C02DW0BEMD6R.bytedance.net ([139.177.225.251])
-        by smtp.gmail.com with ESMTPSA id v38sm5865829pgl.38.2021.11.10.02.55.55
+        by smtp.gmail.com with ESMTPSA id v38sm5865829pgl.38.2021.11.10.02.56.00
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 10 Nov 2021 02:55:59 -0800 (PST)
+        Wed, 10 Nov 2021 02:56:04 -0800 (PST)
 From:   Qi Zheng <zhengqi.arch@bytedance.com>
 To:     akpm@linux-foundation.org, tglx@linutronix.de,
         kirill.shutemov@linux.intel.com, mika.penttila@nextfour.com,
@@ -57,9 +57,9 @@ To:     akpm@linux-foundation.org, tglx@linutronix.de,
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, songmuchun@bytedance.com,
         zhouchengming@bytedance.com, Qi Zheng <zhengqi.arch@bytedance.com>
-Subject: [PATCH v3 14/15] Documentation: add document for pte_ref
-Date:   Wed, 10 Nov 2021 18:54:27 +0800
-Message-Id: <20211110105428.32458-15-zhengqi.arch@bytedance.com>
+Subject: [PATCH v3 15/15] mm/pte_ref: use mmu_gather to free PTE page table pages
+Date:   Wed, 10 Nov 2021 18:54:28 +0800
+Message-Id: <20211110105428.32458-16-zhengqi.arch@bytedance.com>
 X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 In-Reply-To: <20211110105428.32458-1-zhengqi.arch@bytedance.com>
 References: <20211110105428.32458-1-zhengqi.arch@bytedance.com>
@@ -69,232 +69,339 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This commit adds document for pte_ref under `Documentation/vm/`.
+In unmap_region() and other paths, we can reuse @tlb to
+free PTE page table, which can reduce the number of tlb
+flush.
 
 Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
 ---
- Documentation/vm/pte_ref.rst | 212 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 212 insertions(+)
- create mode 100644 Documentation/vm/pte_ref.rst
+ Documentation/vm/pte_ref.rst | 58 +++++++++++++++++++++++---------------------
+ arch/x86/Kconfig             |  2 +-
+ include/linux/pte_ref.h      | 34 ++++++++++++++++++++------
+ mm/madvise.c                 |  4 +--
+ mm/memory.c                  |  4 +--
+ mm/mmu_gather.c              | 40 +++++++++++++-----------------
+ mm/pte_ref.c                 | 13 +++++++---
+ 7 files changed, 90 insertions(+), 65 deletions(-)
 
 diff --git a/Documentation/vm/pte_ref.rst b/Documentation/vm/pte_ref.rst
-new file mode 100644
-index 000000000000..c5323a263464
---- /dev/null
+index c5323a263464..d304c0bfaae1 100644
+--- a/Documentation/vm/pte_ref.rst
 +++ b/Documentation/vm/pte_ref.rst
-@@ -0,0 +1,212 @@
-+.. _pte_ref:
+@@ -183,30 +183,34 @@ GUP as an example::
+ 4. Helpers
+ ==========
+ 
+-+---------------------+-------------------------------------------------+
+-| pte_ref_init        | Initialize the pte_refcount and pmd             |
+-+---------------------+-------------------------------------------------+
+-| pte_to_pmd          | Get the corresponding pmd                       |
+-+---------------------+-------------------------------------------------+
+-| pte_update_pmd      | Update the corresponding pmd                    |
+-+---------------------+-------------------------------------------------+
+-| pte_get             | Increment a pte_refcount                        |
+-+---------------------+-------------------------------------------------+
+-| pte_get_many        | Add a value to a pte_refcount                   |
+-+---------------------+-------------------------------------------------+
+-| pte_get_unless_zero | Increment a pte_refcount unless it is 0         |
+-+---------------------+-------------------------------------------------+
+-| pte_try_get         | Try to increment a pte_refcount                 |
+-+---------------------+-------------------------------------------------+
+-| pte_tryget_map      | Try to increment a pte_refcount before          |
+-|                     | pte_offset_map()                                |
+-+---------------------+-------------------------------------------------+
+-| pte_tryget_map_lock | Try to increment a pte_refcount before          |
+-|                     | pte_offset_map_lock()                           |
+-+---------------------+-------------------------------------------------+
+-| pte_put             | Decrement a pte_refcount                        |
+-+---------------------+-------------------------------------------------+
+-| pte_put_many        | Sub a value to a pte_refcount                   |
+-+---------------------+-------------------------------------------------+
+-| pte_put_vmf         | Decrement a pte_refcount in the page fault path |
+-+---------------------+-------------------------------------------------+
+++---------------------+------------------------------------------------------+
++| pte_ref_init        | Initialize the pte_refcount and pmd                  |
+++---------------------+------------------------------------------------------+
++| pte_to_pmd          | Get the corresponding pmd                            |
+++---------------------+------------------------------------------------------+
++| pte_update_pmd      | Update the corresponding pmd                         |
+++---------------------+------------------------------------------------------+
++| pte_get             | Increment a pte_refcount                             |
+++---------------------+------------------------------------------------------+
++| pte_get_many        | Add a value to a pte_refcount                        |
+++---------------------+------------------------------------------------------+
++| pte_get_unless_zero | Increment a pte_refcount unless it is 0              |
+++---------------------+------------------------------------------------------+
++| pte_try_get         | Try to increment a pte_refcount                      |
+++---------------------+------------------------------------------------------+
++| pte_tryget_map      | Try to increment a pte_refcount before               |
++|                     | pte_offset_map()                                     |
+++---------------------+------------------------------------------------------+
++| pte_tryget_map_lock | Try to increment a pte_refcount before               |
++|                     | pte_offset_map_lock()                                |
+++---------------------+------------------------------------------------------+
++| __pte_put           | Decrement a pte_refcount                             |
+++---------------------+------------------------------------------------------+
++| __pte_put_many      | Sub a value to a pte_refcount                        |
+++---------------------+------------------------------------------------------+
++| pte_put             | Decrement a pte_refcount(without tlb parameter)      |
+++---------------------+------------------------------------------------------+
++| pte_put_many        | Sub a value to a pte_refcount(without tlb parameter) |
+++---------------------+------------------------------------------------------+
++| pte_put_vmf         | Decrement a pte_refcount in the page fault path      |
+++---------------------+------------------------------------------------------+
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index ca5bfe83ec61..69ea13437947 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -233,7 +233,7 @@ config X86
+ 	select HAVE_PCI
+ 	select HAVE_PERF_REGS
+ 	select HAVE_PERF_USER_STACK_DUMP
+-	select MMU_GATHER_RCU_TABLE_FREE		if PARAVIRT
++	select MMU_GATHER_RCU_TABLE_FREE		if PARAVIRT || FREE_USER_PTE
+ 	select HAVE_POSIX_CPU_TIMERS_TASK_WORK
+ 	select HAVE_REGS_AND_STACK_ACCESS_API
+ 	select HAVE_RELIABLE_STACKTRACE		if X86_64 && (UNWINDER_FRAME_POINTER || UNWINDER_ORC) && STACK_VALIDATION
+diff --git a/include/linux/pte_ref.h b/include/linux/pte_ref.h
+index 8a26eaba83ef..dc3923bb38f6 100644
+--- a/include/linux/pte_ref.h
++++ b/include/linux/pte_ref.h
+@@ -22,7 +22,8 @@ enum pte_tryget_type pte_try_get(pmd_t *pmd);
+ bool pte_get_unless_zero(pmd_t *pmd);
+ 
+ #ifdef CONFIG_FREE_USER_PTE
+-void free_user_pte_table(struct mm_struct *mm, pmd_t *pmdp, unsigned long addr);
++void free_user_pte_table(struct mmu_gather *tlb, struct mm_struct *mm,
++			 pmd_t *pmd, unsigned long addr);
+ 
+ static inline void pte_ref_init(pgtable_t pte, pmd_t *pmd, int count)
+ {
+@@ -48,14 +49,21 @@ static inline void pte_get_many(pmd_t *pmd, unsigned int nr)
+ 	atomic_add(nr, &pte->pte_refcount);
+ }
+ 
+-static inline void pte_put_many(struct mm_struct *mm, pmd_t *pmd,
+-				unsigned long addr, unsigned int nr)
++static inline void __pte_put_many(struct mmu_gather *tlb, struct mm_struct *mm,
++				  pmd_t *pmd, unsigned long addr,
++				  unsigned int nr)
+ {
+ 	pgtable_t pte = pmd_pgtable(*pmd);
+ 
+ 	VM_BUG_ON(!PageTable(pte));
+ 	if (atomic_sub_and_test(nr, &pte->pte_refcount))
+-		free_user_pte_table(mm, pmd, addr & PMD_MASK);
++		free_user_pte_table(tlb, mm, pmd, addr & PMD_MASK);
++}
 +
-+============================================================================
-+pte_ref: Tracking about how many references to each user PTE page table page
-+============================================================================
++static inline void __pte_put(struct mmu_gather *tlb, struct mm_struct *mm,
++			     pmd_t *pmd, unsigned long addr)
++{
++	__pte_put_many(tlb, mm, pmd, addr, 1);
+ }
+ #else
+ static inline void pte_ref_init(pgtable_t pte, pmd_t *pmd, int count)
+@@ -75,8 +83,14 @@ static inline void pte_get_many(pmd_t *pmd, unsigned int nr)
+ {
+ }
+ 
+-static inline void pte_put_many(struct mm_struct *mm, pmd_t *pmd,
+-				unsigned long addr, unsigned int nr)
++static inline void __pte_put_many(struct mmu_gather *tlb, struct mm_struct *mm,
++				  pmd_t *pmd, unsigned long addr,
++				  unsigned int nr)
++{
++}
 +
-+.. contents:: :local:
++static inline void __pte_put(struct mmu_gather *tlb, struct mm_struct *mm,
++			     pmd_t *pmd, unsigned long addr)
+ {
+ }
+ #endif /* CONFIG_FREE_USER_PTE */
+@@ -110,6 +124,12 @@ static inline pte_t *pte_tryget_map_lock(struct mm_struct *mm, pmd_t *pmd,
+ 	return pte_offset_map_lock(mm, pmd, address, ptlp);
+ }
+ 
++static inline void pte_put_many(struct mm_struct *mm, pmd_t *pmd,
++				unsigned long addr, unsigned int nr)
++{
++	__pte_put_many(NULL, mm, pmd, addr, nr);
++}
 +
-+1. Preface
-+==========
+ /*
+  * pte_put - Decrement refcount for the PTE page table.
+  * @mm: the mm_struct of the target address space.
+@@ -120,7 +140,7 @@ static inline pte_t *pte_tryget_map_lock(struct mm_struct *mm, pmd_t *pmd,
+  */
+ static inline void pte_put(struct mm_struct *mm, pmd_t *pmd, unsigned long addr)
+ {
+-	pte_put_many(mm, pmd, addr, 1);
++	__pte_put(NULL, mm, pmd, addr);
+ }
+ 
+ #endif
+diff --git a/mm/madvise.c b/mm/madvise.c
+index 5cf2832abb98..b51254305bb2 100644
+--- a/mm/madvise.c
++++ b/mm/madvise.c
+@@ -477,7 +477,7 @@ static int madvise_cold_or_pageout_pte_range(pmd_t *pmd,
+ 
+ 	arch_leave_lazy_mmu_mode();
+ 	pte_unmap_unlock(orig_pte, ptl);
+-	pte_put(vma->vm_mm, pmd, start);
++	__pte_put(tlb, vma->vm_mm, pmd, start);
+ 	if (pageout)
+ 		reclaim_pages(&page_list);
+ 	cond_resched();
+@@ -710,7 +710,7 @@ static int madvise_free_pte_range(pmd_t *pmd, unsigned long addr,
+ 	arch_leave_lazy_mmu_mode();
+ 	pte_unmap_unlock(orig_pte, ptl);
+ 	if (nr_put)
+-		pte_put_many(mm, pmd, start, nr_put);
++		__pte_put_many(tlb, mm, pmd, start, nr_put);
+ 	cond_resched();
+ next:
+ 	return 0;
+diff --git a/mm/memory.c b/mm/memory.c
+index 4d1ede78d1b0..1bdae3b0f877 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -1469,7 +1469,7 @@ static unsigned long zap_pte_range(struct mmu_gather *tlb,
+ 	}
+ 
+ 	if (nr_put)
+-		pte_put_many(mm, pmd, start, nr_put);
++		__pte_put_many(tlb, mm, pmd, start, nr_put);
+ 
+ 	return addr;
+ }
+@@ -1515,7 +1515,7 @@ static inline unsigned long zap_pmd_range(struct mmu_gather *tlb,
+ 		if (pte_try_get(pmd))
+ 			goto next;
+ 		next = zap_pte_range(tlb, vma, pmd, addr, next, details);
+-		pte_put(tlb->mm, pmd, addr);
++		__pte_put(tlb, tlb->mm, pmd, addr);
+ next:
+ 		cond_resched();
+ 	} while (pmd++, addr = next, addr != end);
+diff --git a/mm/mmu_gather.c b/mm/mmu_gather.c
+index 1b9837419bf9..1bd9fa889421 100644
+--- a/mm/mmu_gather.c
++++ b/mm/mmu_gather.c
+@@ -134,42 +134,42 @@ static void __tlb_remove_table_free(struct mmu_table_batch *batch)
+  *
+  */
+ 
+-static void tlb_remove_table_smp_sync(void *arg)
++static void tlb_remove_table_rcu(struct rcu_head *head)
+ {
+-	/* Simply deliver the interrupt */
++	__tlb_remove_table_free(container_of(head, struct mmu_table_batch, rcu));
+ }
+ 
+-static void tlb_remove_table_sync_one(void)
++static void tlb_remove_table_free(struct mmu_table_batch *batch)
+ {
+-	/*
+-	 * This isn't an RCU grace period and hence the page-tables cannot be
+-	 * assumed to be actually RCU-freed.
+-	 *
+-	 * It is however sufficient for software page-table walkers that rely on
+-	 * IRQ disabling.
+-	 */
+-	smp_call_function(tlb_remove_table_smp_sync, NULL, 1);
++	call_rcu(&batch->rcu, tlb_remove_table_rcu);
+ }
+ 
+-static void tlb_remove_table_rcu(struct rcu_head *head)
++static void tlb_remove_table_one_rcu(struct rcu_head *head)
+ {
+-	__tlb_remove_table_free(container_of(head, struct mmu_table_batch, rcu));
++	struct page *page = container_of(head, struct page, rcu_head);
 +
-+Now in order to pursue high performance, applications mostly use some
-+high-performance user-mode memory allocators, such as jemalloc or tcmalloc.
-+These memory allocators use ``madvise(MADV_DONTNEED or MADV_FREE)`` to release
-+physical memory for the following reasons::
++	__tlb_remove_table(page);
+ }
+ 
+-static void tlb_remove_table_free(struct mmu_table_batch *batch)
++static void tlb_remove_table_one(void *table)
+ {
+-	call_rcu(&batch->rcu, tlb_remove_table_rcu);
++	pgtable_t page = (pgtable_t)table;
 +
-+ First of all, we should hold as few write locks of mmap_lock as possible,since
-+ the mmap_lock semaphore has long been a contention point in the memory
-+ management subsystem. The mmap()/munmap() hold the write lock, and the
-+ madvise(MADV_DONTNEED or MADV_FREE) hold the read lock, so using madvise()
-+ instead of munmap() to released physical memory can reduce the competition of
-+ the mmap_lock.
++	call_rcu(&page->rcu_head, tlb_remove_table_one_rcu);
+ }
+ 
+ #else /* !CONFIG_MMU_GATHER_RCU_TABLE_FREE */
+ 
+-static void tlb_remove_table_sync_one(void) { }
+-
+ static void tlb_remove_table_free(struct mmu_table_batch *batch)
+ {
+ 	__tlb_remove_table_free(batch);
+ }
+ 
++static void tlb_remove_table_one(void *table)
++{
++	__tlb_remove_table(table);
++}
 +
-+ Secondly, after using madvise() to release physical memory, there is no need to
-+ build vma and allocate page tables again when accessing the same virtual
-+ address again, which can also save some time.
-+
-+The following is the largest user PTE page table memory that can be allocated by
-+a single user process in a 32-bit and a 64-bit system.
-+
-++---------------------------+--------+---------+
-+|                           | 32-bit | 64-bit  |
-++===========================+========+=========+
-+| user PTE page table pages | 3 MiB  | 512 GiB |
-++---------------------------+--------+---------+
-+| user PMD page table pages | 3 KiB  | 1 GiB   |
-++---------------------------+--------+---------+
-+
-+(for 32-bit, take 3G user address space, 4K page size as an example; for 64-bit,
-+take 48-bit address width, 4K page size as an example.)
-+
-+After using ``madvise()``, everything looks good, but as can be seen from the
-+above table, a single process can create a large number of PTE page tables on a
-+64-bit system, since both of the ``MADV_DONTNEED`` and ``MADV_FREE`` will not
-+release page table memory. And before the process exits or calls ``munmap()``,
-+the kernel cannot reclaim these pages even if these PTE page tables do not map
-+anything.
-+
-+Therefore, we decided to introduce reference count to manage the PTE page table
-+life cycle, so that some free PTE page table memory in the system can be
-+dynamically released.
-+
-+2. The reference count of user PTE page table pages
-+===================================================
-+
-+We introduce two members for the ``struct page`` of the user PTE page table
-+page::
-+
-+ union {
-+	pgtable_t pmd_huge_pte; /* protected by page->ptl */
-+	pmd_t *pmd;             /* PTE page only */
-+ };
-+ union {
-+	struct mm_struct *pt_mm; /* x86 pgds only */
-+	atomic_t pt_frag_refcount; /* powerpc */
-+	atomic_t pte_refcount;  /* PTE page only */
-+ };
-+
-+The ``pmd`` member record the pmd entry that maps the user PTE page table page,
-+the ``pte_refcount`` member keep track of how many references to the user PTE
-+page table page.
-+
-+The following people will hold a reference on the user PTE page table page::
-+
-+ The !pte_none() entry, such as regular page table entry that map physical
-+ pages, or swap entry, or migrate entry, etc.
-+
-+ Visitor to the PTE page table entries, such as page table walker.
-+
-+Any ``!pte_none()`` entry and visitor can be regarded as the user of its PTE
-+page table page. When the ``pte_refcount`` is reduced to 0, it means that no one
-+is using the PTE page table page, then this free PTE page table page can be
-+released back to the system at this time.
-+
-+3. Competitive relationship
-+===========================
-+
-+Now, the user page table will only be released by calling ``free_pgtables()``
-+when the process exits or ``unmap_region()`` is called (e.g. ``munmap()`` path).
-+So other threads only need to ensure mutual exclusion with these paths to ensure
-+that the page table is not released. For example::
-+
-+	thread A			thread B
-+	page table walker		munmap
-+	=================		======
-+
-+	mmap_read_lock()
-+	if (!pte_none() && pte_present() && !pmd_trans_unstable()) {
-+		pte_offset_map_lock()
-+		*walk page table*
-+		pte_unmap_unlock()
-+	}
-+	mmap_read_unlock()
-+
-+					mmap_write_lock_killable()
-+					detach_vmas_to_be_unmapped()
-+					unmap_region()
-+					--> free_pgtables()
-+
-+But after we introduce the reference count for the user PTE page table page,
-+these existing balances will be broken. The page can be released at any time
-+when its ``pte_refcount`` is reduced to 0. Therefore, the following case may
-+happen::
-+
-+	thread A		thread B			thread C
-+	page table walker	madvise(MADV_DONTNEED)		page fault
-+	=================	======================		==========
-+
-+	mmap_read_lock()
-+	if (!pte_none() && pte_present() && !pmd_trans_unstable()) {
-+
-+				mmap_read_lock()
-+				unmap_page_range()
-+				--> zap_pte_range()
-+				    *the pte_refcount is reduced to 0*
-+				    --> *free PTE page table page*
-+
-+		/* broken!! */					mmap_read_lock()
-+		pte_offset_map_lock()
-+
-+As we can see, all of the thread A, B and C hold the read lock of mmap_lock, so
-+they can execute concurrently. When thread B releases the PTE page table page,
-+the value in the corresponding pmd entry will become unstable, which may be
-+none or huge pmd, or map a new PTE page table page again. This will cause system
-+chaos and even panic.
-+
-+So as described in the section "The reference count of user PTE page table
-+pages", we need to try to take a reference to the PTE page table page before
-+walking page table, then the system will become orderly again::
-+
-+	thread A		thread B
-+	page table walker	madvise(MADV_DONTNEED)
-+	=================	======================
-+
-+	mmap_read_lock()
-+	if (!pte_none() && pte_present() && !pmd_trans_unstable()) {
-+		pte_try_get()
-+		--> pte_get_unless_zero
-+		*if successfully, then:*
-+
-+				mmap_read_lock()
-+				unmap_page_range()
-+				--> zap_pte_range()
-+				    *the pte_refcount is reduced to 1*
-+
-+		pte_offset_map_lock()
-+		*walk page table*
-+		pte_unmap_unlock()
-+		pte_put()
-+		--> *the pte_refcount is reduced to 0*
-+		    --> *free PTE page table page*
-+
-+There is also a lock-less scenario(such as fast GUP). Fortunately, we don't need
-+to do any additional operations to ensure that the system is in order. Take fast
-+GUP as an example::
-+
-+	thread A		thread B
-+	fast GUP		madvise(MADV_DONTNEED)
-+	========		======================
-+
-+	get_user_pages_fast_only()
-+	--> local_irq_save();
-+				*free PTE page table page*
-+				--> unhook page
-+				    /* The CPU where thread A is located closed
-+				     * the local interrupt and cannot respond to
-+				     * IPI, so it will block here */
-+				    TLB invalidate page
-+	    gup_pgd_range();
-+	    local_irq_restore();
-+	    			    *free page*
-+
-+4. Helpers
-+==========
-+
-++---------------------+-------------------------------------------------+
-+| pte_ref_init        | Initialize the pte_refcount and pmd             |
-++---------------------+-------------------------------------------------+
-+| pte_to_pmd          | Get the corresponding pmd                       |
-++---------------------+-------------------------------------------------+
-+| pte_update_pmd      | Update the corresponding pmd                    |
-++---------------------+-------------------------------------------------+
-+| pte_get             | Increment a pte_refcount                        |
-++---------------------+-------------------------------------------------+
-+| pte_get_many        | Add a value to a pte_refcount                   |
-++---------------------+-------------------------------------------------+
-+| pte_get_unless_zero | Increment a pte_refcount unless it is 0         |
-++---------------------+-------------------------------------------------+
-+| pte_try_get         | Try to increment a pte_refcount                 |
-++---------------------+-------------------------------------------------+
-+| pte_tryget_map      | Try to increment a pte_refcount before          |
-+|                     | pte_offset_map()                                |
-++---------------------+-------------------------------------------------+
-+| pte_tryget_map_lock | Try to increment a pte_refcount before          |
-+|                     | pte_offset_map_lock()                           |
-++---------------------+-------------------------------------------------+
-+| pte_put             | Decrement a pte_refcount                        |
-++---------------------+-------------------------------------------------+
-+| pte_put_many        | Sub a value to a pte_refcount                   |
-++---------------------+-------------------------------------------------+
-+| pte_put_vmf         | Decrement a pte_refcount in the page fault path |
-++---------------------+-------------------------------------------------+
+ #endif /* CONFIG_MMU_GATHER_RCU_TABLE_FREE */
+ 
+ /*
+@@ -187,12 +187,6 @@ static inline void tlb_table_invalidate(struct mmu_gather *tlb)
+ 	}
+ }
+ 
+-static void tlb_remove_table_one(void *table)
+-{
+-	tlb_remove_table_sync_one();
+-	__tlb_remove_table(table);
+-}
+-
+ static void tlb_table_flush(struct mmu_gather *tlb)
+ {
+ 	struct mmu_table_batch **batch = &tlb->batch;
+diff --git a/mm/pte_ref.c b/mm/pte_ref.c
+index 728e61cea25e..f9650ad23c7c 100644
+--- a/mm/pte_ref.c
++++ b/mm/pte_ref.c
+@@ -8,6 +8,8 @@
+ #include <linux/pte_ref.h>
+ #include <linux/mm.h>
+ #include <linux/hugetlb.h>
++#include <asm/pgalloc.h>
++#include <asm/tlb.h>
+ #include <asm/tlbflush.h>
+ 
+ #ifdef CONFIG_FREE_USER_PTE
+@@ -117,7 +119,8 @@ static void pte_free_rcu(struct rcu_head *rcu)
+ 	__free_page(page);
+ }
+ 
+-void free_user_pte_table(struct mm_struct *mm, pmd_t *pmd, unsigned long addr)
++void free_user_pte_table(struct mmu_gather *tlb, struct mm_struct *mm,
++			 pmd_t *pmd, unsigned long addr)
+ {
+ 	struct vm_area_struct vma = TLB_FLUSH_VMA(mm, 0);
+ 	spinlock_t *ptl;
+@@ -125,10 +128,14 @@ void free_user_pte_table(struct mm_struct *mm, pmd_t *pmd, unsigned long addr)
+ 
+ 	ptl = pmd_lock(mm, pmd);
+ 	pmdval = pmdp_huge_get_and_clear(mm, addr, pmd);
+-	flush_tlb_range(&vma, addr, addr + PMD_SIZE);
++	if (!tlb)
++		flush_tlb_range(&vma, addr, addr + PMD_SIZE);
++	else
++		pte_free_tlb(tlb, pmd_pgtable(pmdval), addr);
+ 	spin_unlock(ptl);
+ 
+ 	pte_free_debug(pmdval);
+ 	mm_dec_nr_ptes(mm);
+-	call_rcu(&pmd_pgtable(pmdval)->rcu_head, pte_free_rcu);
++	if (!tlb)
++		call_rcu(&pmd_pgtable(pmdval)->rcu_head, pte_free_rcu);
+ }
 -- 
 2.11.0
 
