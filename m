@@ -2,95 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5E41C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Nov 2021 20:54:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F018FC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Nov 2021 22:25:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AB01260F9E
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Nov 2021 20:54:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D71366124C
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Nov 2021 22:25:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233029AbhKJU5L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Nov 2021 15:57:11 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28]:41692 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233203AbhKJU5L (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Nov 2021 15:57:11 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 05BFB212C8;
-        Wed, 10 Nov 2021 20:54:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1636577662; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=WJObDTfUExY5FRI6MpFi6mLuazgz/n5OEUDaZhA80Zg=;
-        b=N7cQV6RAA2yWsfM96jv9U4y4MKlbwEJ9iObLAEjwK34oAq0bAAtepZ8V3gd4++XW1VtBHr
-        WdlJMhHjc4wkCwrSisoPaPdzKLLc0aNIJPVRRh5MqZ0PXTn1QoF+5uNctU4g68WZE1GC0B
-        ockRZClhLnWYgOVGLbc4c6KtZOvwxPo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1636577662;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=WJObDTfUExY5FRI6MpFi6mLuazgz/n5OEUDaZhA80Zg=;
-        b=3wqDYoRitG1ubH3PjZkc29nL1ksKRsImTpJ9RtNfKpbfIJnfHtVbxzkfTXVhLqoOgHp+yl
-        iK9VGmQWj/ALT8Bw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BEBB413D0F;
-        Wed, 10 Nov 2021 20:54:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id FqByLH0xjGFSdQAAMHmgww
-        (envelope-from <ddiss@suse.de>); Wed, 10 Nov 2021 20:54:21 +0000
-Date:   Wed, 10 Nov 2021 21:54:20 +0100
-From:   David Disseldorp <ddiss@suse.de>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Martin Wilck <mwilck@suse.com>, viro@zeniv.linux.org.uk,
-        Jeff Mahoney <jeffm@suse.com>
-Subject: Re: [PATCH v4 2/4] initramfs: print helpful cpio error on "crc"
- magic
-Message-ID: <20211110215420.1ef91d86@suse.de>
-In-Reply-To: <YYwBzj0isuKOjjUe@casper.infradead.org>
-References: <20211110123850.24956-1-ddiss@suse.de>
-        <20211110123850.24956-3-ddiss@suse.de>
-        <YYwBzj0isuKOjjUe@casper.infradead.org>
+        id S233590AbhKJW14 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Nov 2021 17:27:56 -0500
+Received: from vps0.lunn.ch ([185.16.172.187]:55422 "EHLO vps0.lunn.ch"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233552AbhKJW1z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 10 Nov 2021 17:27:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=6c7O9hvf//7ub1+0PLLd9pZ0Zd9X3mBxwS7SrJoaOIw=; b=aQMlY2ZIhrflITkxdfmcBwng62
+        wFM9qpYp8HuEJd6lyYIrJXjB3i4EPMasctvzVpUopFvVd5a1dywemthxZO5ivY0/UomxgPdqFOZpy
+        grMYLlM87sH6DmRsfZHkYh7S/TeX0cr24HjK/VdzLAuR70oJz7ok54yDgvktn+eviZLk=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1mkw1a-00D937-Nb; Wed, 10 Nov 2021 23:24:58 +0100
+Date:   Wed, 10 Nov 2021 23:24:58 +0100
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Ansuel Smith <ansuelsmth@gmail.com>
+Cc:     Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [RFC PATCH v3 2/8] leds: add function to configure hardware
+ controlled LED
+Message-ID: <YYxGuloRkpsCI1oJ@lunn.ch>
+References: <20211109022608.11109-1-ansuelsmth@gmail.com>
+ <20211109022608.11109-3-ansuelsmth@gmail.com>
+ <20211109040103.7b56bf82@thinkpad>
+ <YYqEPZpGmjNgFj0L@Ansuel-xps.localdomain>
+ <YYre31rVDcs8OWre@lunn.ch>
+ <YYwisR8XLL7TnwCB@Ansuel-xps.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YYwisR8XLL7TnwCB@Ansuel-xps.localdomain>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 10 Nov 2021 17:30:54 +0000, Matthew Wilcox wrote:
-
-> On Wed, Nov 10, 2021 at 01:38:48PM +0100, David Disseldorp wrote:
-> > Contrary to the buffer-format.rst documentation, initramfs cpio
-> > extraction does not support "crc" archives, which carry "070702"
-> > header magic. Make it a little clearer that "newc" (magic="070701") is
-> > the only supported cpio format, by extending the POSIX.1 ASCII
-> > (magic="070707") specific error message to also cover "crc" magic.  
+> If we should reuse blink_set to control hw blink I need to understand 2
+> thing.
 > 
-> Wouldn't it be easier to just add support?
+> The idea to implement the function hw_control_configure was to provide
+> the triggers some way to configure the various blink_mode. (and by using
+> the cmd enum provide different info based on the return value)
+> 
+> The advised path from Marek is to make the changes in the trigger_data
+> and the LED driver will then use that to configure blink mode.
+> 
+> I need to call an example to explain my concern:
+> qca8k switch. Can both run in hardware mode and software mode (by
+> controlling the reg to trigger manual blink) and also there is an extra
+> mode to blink permanently at 4hz.
+> 
+> Now someone would declare the brightness_set to control the led
+> manually and blink_set (for the permanent 4hz blink feature)
+> So that's where my idea comes about introducting another function and
+> the fact that it wouldn't match that well with blink_set with some LED.
+> 
+> I mean if we really want to use blink_set also for this(hw_control), we
+> can consider adding a bool to understand when hw_control is active or not.
+> So blink_set can be used for both feature.
 
-Well, no, this patch already exists. :-)
+I don't see why we need the bool. The driver should know that speeds
+it supports. If asked to do something it cannot do in the current mode
+it should return either -EINVAL, or maybe -EOPNOTSUPP. Depending on
+how to the trigger works, we might want -EOPNOTSUPP when in a hardware
+offload mode, which gets returned to user space. If we are in a
+software blinking mode -EINVAL, so that the trigger does the blinking
+in software.
 
-> As far as I can tell from
-> looking at documentation, the "crc" format is the same as newc, except
-> that it uses some reserved bits to store the crc.  Since we ignore those
-> bits, we could just check for either 070701 or 070702.
-
-Sure, it'd be pretty straightforward to implement "crc" format support,
-but I'm not sure how useful a 32-bit checksum would be... If we're going
-down this route, wouldn't proper IMA/EVM support make sense via some new
-cpio variant with space for the attributes (or as header/trailer like
-bootconfig)?
-cc'ing Jeff, as I seem to recall him mentioning some work in this area.
-
-Cheers, David
+   Andrew
