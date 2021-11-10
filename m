@@ -2,184 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6811DC433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Nov 2021 15:37:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECC00C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Nov 2021 16:10:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4C37861251
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Nov 2021 15:37:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D491D60FD8
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Nov 2021 16:10:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232450AbhKJPkK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Nov 2021 10:40:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57084 "EHLO
+        id S232471AbhKJQNV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Nov 2021 11:13:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35805 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232457AbhKJPkJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Nov 2021 10:40:09 -0500
+        by vger.kernel.org with ESMTP id S231612AbhKJQNV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Nov 2021 11:13:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1636558641;
+        s=mimecast20190719; t=1636560633;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=+erTvGbViXM/hcAqiyOBnjNlThmQiYYMieKA809wTio=;
-        b=YEopqG3Txs17X8fnE/TCwmsV7XTB/lmMWT2OUOW50hxSSdjSiQ8ArX1XmhNlfnyY51EaUE
-        OSssMOSI/XcfCPZpkbZk+7BBIAdaHqXSBjYjiCOr6eHOft4nX4ePBlSVB53pgS8yXyPrGH
-        djRBXXxgTKf7BAiJnnRfyje0HmBm+9w=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-121-mtooPhbUOCekX1-5Vtm2-Q-1; Wed, 10 Nov 2021 10:37:18 -0500
-X-MC-Unique: mtooPhbUOCekX1-5Vtm2-Q-1
-Received: by mail-wm1-f71.google.com with SMTP id c185-20020a1c35c2000000b003331dc61c6cso3262677wma.6
-        for <linux-doc@vger.kernel.org>; Wed, 10 Nov 2021 07:37:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent
-         :content-language:to:cc:references:from:organization:subject
-         :in-reply-to:content-transfer-encoding;
-        bh=+erTvGbViXM/hcAqiyOBnjNlThmQiYYMieKA809wTio=;
-        b=B9k2lM8xtuGBdogC6TieISxE8msD6oVGS3UB/3CW8samoLFZsOKgUG0Sa/T+O0Az38
-         WZYU3A+7Bz3TTBlaY0GNlbGFWJNsD3T9xqgxQkLsOTVIdTBcW7YfrNEHzStAb1LK1rid
-         9UYDvWR4F6QaxqT0NuvAjxoNo7Bq9QWYHBHdwwrPkObYhjOHcoeEwi9Ey20DElozCJze
-         mTKJ0TK3EOQ8k+/aaGybT0aCZ+9WwX5Pv+779HiJ4zZ+FdPhyPEiwPB+N1QbpJRbjlWr
-         yrLs68QRsr6owV6LDzwBCHmqP05iDRUE5yWgwaCCRGtskyXGcbCRIa+H3SS/bD4C1aWj
-         ZgVA==
-X-Gm-Message-State: AOAM532msok8JDHgEN8o/p9jBfCPuhcNcT8oPNlCLV0eOPJSKDDbGObD
-        dIY5sYjkFCuR4h8k+TQni+ZPEipYIoUrClNb944TWL7z3X56ok4L8h59Emn+Vu92GymAZTMtn0R
-        Y0yNxCV6uoEdoSdH6/Eaz
-X-Received: by 2002:a1c:7c14:: with SMTP id x20mr17027519wmc.75.1636558636859;
-        Wed, 10 Nov 2021 07:37:16 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz2LQ5JcN0cXDrvYwjew6cnwoFMvhJ5Q7w+5u8XlCspgHp/gRqQ3EEVovEOZf72U3nS7PJ2TA==
-X-Received: by 2002:a1c:7c14:: with SMTP id x20mr17027483wmc.75.1636558636591;
-        Wed, 10 Nov 2021 07:37:16 -0800 (PST)
-Received: from [192.168.3.132] (p5b0c604f.dip0.t-ipconnect.de. [91.12.96.79])
-        by smtp.gmail.com with ESMTPSA id h16sm267667wrm.27.2021.11.10.07.37.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Nov 2021 07:37:15 -0800 (PST)
-Message-ID: <6ac9cc0d-7dea-0e19-51b3-625ec6561ac7@redhat.com>
-Date:   Wed, 10 Nov 2021 16:37:14 +0100
+        bh=XDYzGh+ErslybNotJBfLj6+nXZEA3Pc6sKNXxclE+as=;
+        b=iSjHsQyTypvnZIquolhdnxPfEL9Y3B1sIFJqZ/HGI0EeAapu+p4i0lUtmIzh8llm9MVHDH
+        6v3Sa5BmrCyj9/OiZklNX8EqqlvfQIMQeep+2VAmUWYJ2nPnaTVqTQvgmY6pVyoYfKS598
+        7AMiDerAJEEN1V7uxA0jyGHgnSoUnxk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-185-rnqAmoFSP_WJl-8wwYi9Ig-1; Wed, 10 Nov 2021 11:10:27 -0500
+X-MC-Unique: rnqAmoFSP_WJl-8wwYi9Ig-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E7EC100C610;
+        Wed, 10 Nov 2021 16:10:25 +0000 (UTC)
+Received: from fuller.cnet (ovpn-112-5.gru2.redhat.com [10.97.112.5])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A87410016F2;
+        Wed, 10 Nov 2021 16:10:24 +0000 (UTC)
+Received: by fuller.cnet (Postfix, from userid 1000)
+        id 33A53416CE49; Wed, 10 Nov 2021 13:10:20 -0300 (-03)
+Date:   Wed, 10 Nov 2021 13:10:20 -0300
+From:   Marcelo Tosatti <mtosatti@redhat.com>
+To:     "Moessbauer, Felix" <felix.moessbauer@siemens.com>
+Cc:     Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+        "longman@redhat.com" <longman@redhat.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "frederic@kernel.org" <frederic@kernel.org>,
+        "guro@fb.com" <guro@fb.com>,
+        "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
+        "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
+        "pauld@redhat.com" <pauld@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "tj@kernel.org" <tj@kernel.org>,
+        "jan.kiszka@siemens.com" <jan.kiszka@siemens.com>,
+        "henning.schild@siemens.com" <henning.schild@siemens.com>
+Subject: Re: [PATCH v8 0/6] cgroup/cpuset: Add new cpuset partition type &
+ empty effecitve cpus
+Message-ID: <20211110161020.GA20101@fuller.cnet>
+References: <20211018143619.205065-1-longman@redhat.com>
+ <20211110111357.17617-1-felix.moessbauer@siemens.com>
+ <20211110135653.GD20566@blackbody.suse.cz>
+ <AM9PR10MB4869C14EAE01B87C0037BF6A89939@AM9PR10MB4869.EURPRD10.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Content-Language: en-US
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     Qi Zheng <zhengqi.arch@bytedance.com>, akpm@linux-foundation.org,
-        tglx@linutronix.de, kirill.shutemov@linux.intel.com,
-        mika.penttila@nextfour.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        songmuchun@bytedance.com, zhouchengming@bytedance.com
-References: <20211110105428.32458-1-zhengqi.arch@bytedance.com>
- <20211110125601.GQ1740502@nvidia.com>
- <8d0bc258-58ba-52c5-2e0d-a588489f2572@redhat.com>
- <20211110143859.GS1740502@nvidia.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v3 00/15] Free user PTE page table pages
-In-Reply-To: <20211110143859.GS1740502@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <AM9PR10MB4869C14EAE01B87C0037BF6A89939@AM9PR10MB4869.EURPRD10.PROD.OUTLOOK.COM>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10.11.21 15:38, Jason Gunthorpe wrote:
-> On Wed, Nov 10, 2021 at 02:25:50PM +0100, David Hildenbrand wrote:
->> On 10.11.21 13:56, Jason Gunthorpe wrote:
->>> On Wed, Nov 10, 2021 at 06:54:13PM +0800, Qi Zheng wrote:
->>>
->>>> In this patch series, we add a pte_refcount field to the struct page of page
->>>> table to track how many users of PTE page table. Similar to the mechanism of
->>>> page refcount, the user of PTE page table should hold a refcount to it before
->>>> accessing. The PTE page table page will be freed when the last refcount is
->>>> dropped.
->>>
->>> So, this approach basically adds two atomics on every PTE map
->>>
->>> If I have it right the reason that zap cannot clean the PTEs today is
->>> because zap cannot obtain the mmap lock due to a lock ordering issue
->>> with the inode lock vs mmap lock.
->>
->> There are different ways to zap: madvise(DONTNEED) vs
->> fallocate(PUNCH_HOLE). It depends on "from where" we're actually
->> comming: a process page table walker or the rmap.
+On Wed, Nov 10, 2021 at 03:21:54PM +0000, Moessbauer, Felix wrote:
 > 
-> AFAIK rmap is the same issue, it can't lock the mmap_sem
 > 
->> The way locking currently works doesn't allow to remove a page table
->> just by holding the mmap lock, not even in write mode. 
+> > -----Original Message-----
+> > From: Michal Koutný <mkoutny@suse.com>
+> > Sent: Wednesday, November 10, 2021 2:57 PM
+> > To: Moessbauer, Felix (T RDA IOT SES-DE) <felix.moessbauer@siemens.com>
+> > Cc: longman@redhat.com; akpm@linux-foundation.org;
+> > cgroups@vger.kernel.org; corbet@lwn.net; frederic@kernel.org; guro@fb.com;
+> > hannes@cmpxchg.org; juri.lelli@redhat.com; linux-doc@vger.kernel.org; linux-
+> > kernel@vger.kernel.org; linux-kselftest@vger.kernel.org;
+> > lizefan.x@bytedance.com; mtosatti@redhat.com; pauld@redhat.com;
+> > peterz@infradead.org; shuah@kernel.org; tj@kernel.org; Kiszka, Jan (T RDA
+> > IOT) <jan.kiszka@siemens.com>; Schild, Henning (T RDA IOT SES-DE)
+> > <henning.schild@siemens.com>
+> > Subject: Re: [PATCH v8 0/6] cgroup/cpuset: Add new cpuset partition type &
+> > empty effecitve cpus
+> > 
+> > Hello.
+> > 
+> > On Wed, Nov 10, 2021 at 12:13:57PM +0100, Felix Moessbauer
+> > <felix.moessbauer@siemens.com> wrote:
+> > > However, I was not able to see any latency improvements when using
+> > > cpuset.cpus.partition=isolated.
+> > 
+> > Interesting. What was the baseline against which you compared it (isolcpus, no
+> > cpusets,...)?
 > 
-> I'm not sure I understand this. If the goal is to free the PTE tables
-> then the main concern is use-after free on page table walkers (which
-> this series is addressing). Ignoring bugs, we have only three ways to
-> read the page table:
-
-Yes, use-after-free and reuse-while-freeing are the two challenges AFAIKs.
-
+> For this test, I just compared both settings cpuset.cpus.partition=isolated|root.
+> There, I did not see a significant difference (but I know, RT tuning depends on a ton of things).
 > 
->  - Fully locked. Under the PTLs (gup slow is an example)
->  - Semi-locked. Under the read mmap lock and no PTLs (hmm is an example)
->  - hw-locked. Barriered with TLB flush (gup fast is an example)
-
-Three additions as far as I can tell:
-
-1. Fully locked currently needs the read mmap lock OR the rmap lock in
-   read. PTLs on their own are not sufficient AFAIKT.
-2. #1 and #2 can currently only walk within VMA ranges.
-3. We can theoretically walk page tables outside VMA ranges with the
-write mmap lock, because page tables get removed with the mmap lock in
-read mode and heavy-weight operations (VMA layout, khugepaged) are
-performed under the write mmap lock.
-
-The rmap locks protect from modifications where we want to exclude rmap
-walkers similarly to how we grab the mmap lock in write, where the PTLs
-are not sufficient.
-
-See mm/mremap.c:move_ptes() as an example which performs VMA layout +
-page table modifications. See khugepagd which doesn't perform VMA layout
-modifications but page table modifications.
-
+> > 
+> > > The test was performed with jitterdebugger on CPUs 1-3 and the following
+> > cmdline:
+> > > rcu_nocbs=1-4 nohz_full=1-4 irqaffinity=0,5-6,11 intel_pstate=disable
+> > > On the other cpus, stress-ng was executed to generate load.
+> > > [...]
+> > 
+> > > This requires cgroup.type=threaded on both cgroups and changes to the
+> > > application (threads have to be born in non-rt group and moved to rt-group).
+> > 
+> > But even with isolcpus the application would need to set affinity of threads to
+> > the selected CPUs (cf cgroup migrating). Do I miss anything?
 > 
-> #1 should be completely safe as the PTLs will protect eveything
-> #2 is safe so long as the write side is held during any layout changes
-> #3 interacts with the TLB flush, and is also safe with zap
+> Yes, that's true. But there are two differences (given that you use isolcpus):
+> 1. the application only has to set the affinity for rt threads.
+>  Threads that do not explicitly set the affinity are automatically excluded from the isolated cores.
+>  Even common rt test applications like jitterdebugger do not pin their non-rt threads.
+> 2. Threads can be started on non-rt CPUs and then bound to a specific rt CPU.
+> This binding can be specified before thread creation via pthread_create.
+> By that, you can make sure that at no point in time a thread has a "forbidden" CPU in its affinities.
 > 
-> rmap itself is a #1 page table walker, ie it gets the PTLs under
-> page_vma_mapped_walk().
+> With cgroup2, you cannot guarantee the second aspect, as thread creation and moving to a cgroup is not an atomic operation.
+> Also - please correct me if I'm wrong - you first have to create a thread before moving it into a group.
+> At creation time, you cannot set the final affinity mask (as you create it in the non-rt group and there the CPU is not in the cpuset.cpus).
+> Once you move the thread to the rt cgroup, it has a default mask and by that can be executed on other rt cores.
 
-When you talk about PTLs, do you mean only PTE-PTLs or also PMD-PTLs?
+man clone3:
 
-Because the PMD-PTLs re usually not taken in case we know there is a
-page table (nothing would currently change it without heavy locking).
-And if they are taken, they are only held while allocating/checking a
-PMDE, not while actually *using* the page table that's mapped in that entry.
+       CLONE_NEWCGROUP (since Linux 4.6)
+              Create  the  process  in  a  new cgroup namespace.  If this flag is not set, then (as with fork(2)) the
+              process is created in the same cgroup namespaces as the calling process.
 
-For example, walk_page_range() requires the mmap lock in read and grabs
-the PTE-PTLs.
+              For further information on cgroup namespaces, see cgroup_namespaces(7).
 
-> 
-> The sin we have comitted here is that both the mmap lock and the PTLs
-> are being used to protect the page table itself with a very
-> complicated dual semantic.
-> 
-> Splitting the sleeping mmap lock into 'covers vma' and 'covers page
-> tables' lets us solve the lock ordering and semi-locked can become
-> more fully locked by the new lock, instead of by abusing mmap sem.
-
-It would still be a fairly coarse-grained locking, I am not sure if that
-is a step into the right direction. If you want to modify *some* page
-table in your process you have exclude each and every page table walker.
-Or did I mis-interpret what you were saying?
-
-> 
-> I'd suggest to make this new lock a special rwsem which allows either
-> concurrent read access OR concurrent PTL access, but not both. This
-
-I looked into such a lock recently in similar context and something like
-that does not exist yet (and fairness will be challenging). You either
-have a single reader or multiple writer. I'd be interested if someone
-knows of something like that.
-
-
--- 
-Thanks,
-
-David / dhildenb
+              Only a privileged process (CAP_SYS_ADMIN) can employ CLONE_NEWCGROUP.
 
