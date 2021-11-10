@@ -2,163 +2,157 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E43FC433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Nov 2021 16:56:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F522C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Nov 2021 17:30:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0750761107
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Nov 2021 16:56:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1671F61241
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Nov 2021 17:30:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232177AbhKJQ6w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Nov 2021 11:58:52 -0500
-Received: from mail-mw2nam10on2065.outbound.protection.outlook.com ([40.107.94.65]:13088
-        "EHLO NAM10-MW2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232040AbhKJQ6v (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 10 Nov 2021 11:58:51 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iCH7THyRJm4j1JhTJTZhI9BOW5B60FTKSQjQ4ZxZU0zP/Rr5F48vJoHdjS1a8VNtoJwiTpfLwJH2f3cNUHrFPzw4HzRynDPYUsdEmAG3CS2a4r9t4yoPa5LIGQ5cjoPFqOz1f6dDo+AW4QgyFji2k9nnh6I1ZLwW4ByGaFSh5/zwppUHo00kopGVXF59hIBYAYYh/cCMTDkkUR7mFMIoBvjD8RFcQIK7/yy4tyvB+EVRlacYy/cj6ds3jISkdf6DCVypF9WG+1sNIgIS5BqJRVHQJAk5vzAvVmDDAnWKKzwQnnpGLd6V15wTNedXLLzsUyJbOt71gY6nvrxkw8AqNA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hW3apBa7p+VMp/nd7z2hvRvy36hcQZMqd5tujc42F8s=;
- b=PoZdvKPpiK4MUjpxcALm5hUxKKQdnGDq1z7yxpionLy9HikkmhAoHIQgMBL2TTqvSGbaSwzMWMEA2/Sl1mSzDLoT9rTHAUlpmfROdq+0g4+S93kmb+jyZTMhoChTc0n4INB/X+COzNq/ZueLSr1jj9l9HTW9bVBvTsb8hfkOqZDkj9Vf1+YXxiUtO39stU+b0uBKmEvM531msJFnau3sMAscB7QmTKINbP2cb5mD5uy20G73s98UDc9dLinmYvbAIQjGEtGt3sV6n7QjIWHSlWfA/iq8VWi2/P6mvALksWwIHLU/6Ynl/NP5s2rHXYFo2cFQfkJ1Nbft5+sH8hmEWg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hW3apBa7p+VMp/nd7z2hvRvy36hcQZMqd5tujc42F8s=;
- b=ghq/DzejzqA34ppjQbRyynu8gfYYoMvqRiBJ+URndeWeVvQaZ8+Ss9uM6xO/fuLMOQ/AzlbM69M+RZYstFgLe2S7iHUe0/lZgkZYmFl7ln5CLwYkpLtrVGPvQAiG7Gjvk0J2OuaAmh64YmOGy+ESwJfeb76a1hLYD5laAR9yDK2g2Ki107eWnnlMSqfflTc8c7szXMSOoWrJl0PzKBLLr2LLyD+/IMl4Sm3UKo69eqpxKuN4NHmSmcTTEmIwwDLVGPgC6IOeYMVTty8o3QIOuLzjpWGRsaQOy+7VwpgbL08mOcKCvDfvV0szABNripUVMI1oOweMYE6hP4ykAd3ygw==
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
- by BL1PR12MB5336.namprd12.prod.outlook.com (2603:10b6:208:314::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.16; Wed, 10 Nov
- 2021 16:56:01 +0000
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::5897:83b2:a704:7909]) by BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::5897:83b2:a704:7909%7]) with mapi id 15.20.4669.016; Wed, 10 Nov 2021
- 16:56:01 +0000
-Date:   Wed, 10 Nov 2021 12:56:00 -0400
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Qi Zheng <zhengqi.arch@bytedance.com>,
-        akpm@linux-foundation.org, tglx@linutronix.de,
-        kirill.shutemov@linux.intel.com, mika.penttila@nextfour.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, songmuchun@bytedance.com,
-        zhouchengming@bytedance.com
-Subject: Re: [PATCH v3 00/15] Free user PTE page table pages
-Message-ID: <20211110165600.GZ1740502@nvidia.com>
-References: <20211110105428.32458-1-zhengqi.arch@bytedance.com>
- <20211110125601.GQ1740502@nvidia.com>
- <8d0bc258-58ba-52c5-2e0d-a588489f2572@redhat.com>
- <20211110143859.GS1740502@nvidia.com>
- <6ac9cc0d-7dea-0e19-51b3-625ec6561ac7@redhat.com>
- <YYv4Msg7zVLS3KE/@casper.infradead.org>
- <b9ea9c5b-2b7e-a6a9-f1b3-241c0882197c@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b9ea9c5b-2b7e-a6a9-f1b3-241c0882197c@redhat.com>
-X-ClientProxiedBy: CH0PR03CA0112.namprd03.prod.outlook.com
- (2603:10b6:610:cd::27) To BL0PR12MB5506.namprd12.prod.outlook.com
- (2603:10b6:208:1cb::22)
+        id S232034AbhKJRdB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Nov 2021 12:33:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33231 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231129AbhKJRdA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Nov 2021 12:33:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1636565412;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=0Ujzpstdx7glfvVqivgfVsPUAxC6nAewWUKzEFliz9k=;
+        b=deOH+mmFos5mW0Ehiz1V2NR+bykIhZ2QZvXHon7T4jFb3nU42o6X2OODiB3hEPDK99LjE5
+        nG34ExtFNoy9gvl98hSSsukjMK6bV0heHm4Ki/V7+EuKzPfsR5uTZpVynjHEocZlQLjBDV
+        nks+55u72u9kCNdhXx2Tnd2DkiPT8BQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-154-_UoCJ311NQiUuFgMDupbDQ-1; Wed, 10 Nov 2021 12:30:08 -0500
+X-MC-Unique: _UoCJ311NQiUuFgMDupbDQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0F608799ED;
+        Wed, 10 Nov 2021 17:30:04 +0000 (UTC)
+Received: from fuller.cnet (ovpn-112-5.gru2.redhat.com [10.97.112.5])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id E6A6B79449;
+        Wed, 10 Nov 2021 17:29:49 +0000 (UTC)
+Received: by fuller.cnet (Postfix, from userid 1000)
+        id D2A89416CE49; Wed, 10 Nov 2021 14:29:46 -0300 (-03)
+Date:   Wed, 10 Nov 2021 14:29:46 -0300
+From:   Marcelo Tosatti <mtosatti@redhat.com>
+To:     Jan Kiszka <jan.kiszka@siemens.com>
+Cc:     "Moessbauer, Felix" <felix.moessbauer@siemens.com>,
+        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+        "longman@redhat.com" <longman@redhat.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "frederic@kernel.org" <frederic@kernel.org>,
+        "guro@fb.com" <guro@fb.com>,
+        "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
+        "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
+        "pauld@redhat.com" <pauld@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "tj@kernel.org" <tj@kernel.org>,
+        "henning.schild@siemens.com" <henning.schild@siemens.com>
+Subject: Re: [PATCH v8 0/6] cgroup/cpuset: Add new cpuset partition type &
+ empty effecitve cpus
+Message-ID: <20211110172946.GA30250@fuller.cnet>
+References: <20211018143619.205065-1-longman@redhat.com>
+ <20211110111357.17617-1-felix.moessbauer@siemens.com>
+ <20211110135653.GD20566@blackbody.suse.cz>
+ <AM9PR10MB4869C14EAE01B87C0037BF6A89939@AM9PR10MB4869.EURPRD10.PROD.OUTLOOK.COM>
+ <20211110161020.GA20101@fuller.cnet>
+ <c1e94031-a179-dc72-e5ee-3f8197bea492@siemens.com>
 MIME-Version: 1.0
-Received: from mlx.ziepe.ca (206.223.160.26) by CH0PR03CA0112.namprd03.prod.outlook.com (2603:10b6:610:cd::27) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.15 via Frontend Transport; Wed, 10 Nov 2021 16:56:01 +0000
-Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1mkqtE-0086N0-7Q; Wed, 10 Nov 2021 12:56:00 -0400
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d4db6539-dc13-40cc-2740-08d9a46af9c6
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5336:
-X-Microsoft-Antispam-PRVS: <BL1PR12MB5336D334DBCD7FB059F94EBBC2939@BL1PR12MB5336.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Shfq2KVza3Z0JRSMBrf/srrvSgIuWS/qY/aHRrHyvPaO1l9/GYDc0tl0ktr5zKxzjbf6tINJo3Cgh7gpPocMiZpDyBPIfSYShAz68y/l34PL0jskQhmHOTRSu0+yNrpVwkRhZEUz1DQFH+nYQ9RDezmJ3qA/gexI2q40YAZXq80QqUyZddQLtOkRytVHXTN2JBOwb1NVfJNOBjzKCpR8WxHJPaQDo2B7YmUf/Hu/RcUZq6SJPHVjSWMkCVM+EcIMa2BAzrtb7HPUvDgvBh89TVZWKaROumLeHs99PlMW3IQ+/ZvOOMnaxsZhbqjtVJCBukjocLgeaVBaDyXoin6pvKtPhJI4vgWyUznqTkWEKrzSz8AMRqI/Ul8RCx4HAqrg6WElJaxBJhmc5mdsgqxzc6KNBZTPFH2rOVsUeICKtzrq7QXELsFdmaBR2Z5/1O7k6y8d0U9jPZPBv9/9Q7dREDNOuXsiQ8w1jzpSilEQMN5dnSvs8WOMNWwI90ZGtPpEn9wwKXkOCF+IBatNvaTXD9TVGXfAZcjV7iAfmOdiT1bfWySyfk8kphmxCydArBsfa9cGNJVn7EJIkliDyRarixGEP75WyDpOm0+02ACFj3UHj0xQVVXJuPVu3IPCmMZGDQpF8Bca4TH6ZZCCXMGyww==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB5506.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(7416002)(1076003)(66574015)(426003)(9786002)(53546011)(8676002)(54906003)(8936002)(38100700002)(316002)(26005)(508600001)(186003)(2616005)(6916009)(4326008)(9746002)(33656002)(2906002)(66946007)(83380400001)(5660300002)(36756003)(86362001)(66556008)(66476007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?XJADxArENwv0jMf2f1vva8FBtlAX/z5LcQ8vs1a+GEk7Y2IcWzqNq9W3f/3y?=
- =?us-ascii?Q?cHkzC3BfY33sJvuDpC98wwpjIE46lp/Ukc6J8rJrePW3bnNrThjxeTwzspa7?=
- =?us-ascii?Q?9KJhsCgnLXDC0lfszbvQV/FhP/444FNJIGl2ZAhWU7PMf56KEVCjnVurRw3l?=
- =?us-ascii?Q?f5Z1Z1a1m/Vw4fmcuheDDIk9Iaw0UMoBCAifDxe4G75BSp/ytmzhPYWfWmAg?=
- =?us-ascii?Q?Iv8ExxJVLDHUqnVrNjFlE9T+OIgnifZiJBd1Pn02IXxffVWNje9P5VUxgM7r?=
- =?us-ascii?Q?s9yTjCJFmlfhRieI3CFUwbMHlK+pvcj0qEha/UI9ZSlgj6m2EirSCgX69FRK?=
- =?us-ascii?Q?+W0D9e6k9KZma4u2i90EC713JaMaMXvXd7Ws1K5cg/Uhl+Htszb519+JrkbI?=
- =?us-ascii?Q?3y7YBtpIjAnWp9e/+DnaRwH2xhrx19C8tyvqzNBtdUwERjcKLng7zt2D3jGo?=
- =?us-ascii?Q?zKkXaLfPS6k5zi85uYRnWUtNOc9MNc9YtMpBe/6uGk0GdWpvP6KyYHPUxVbt?=
- =?us-ascii?Q?9hkvG+/yXyGGur3BXxGG1GGxTId32JmMaDxeefU/8R81ejANYIErdAPqGtUs?=
- =?us-ascii?Q?w4x6GsVdxsLHWXU/Dpx0gR2T3iqLl01up2HxUfc2bprWEbDjXwy9+Ihn6hPx?=
- =?us-ascii?Q?qsxjwB2M13I71khGDGzx2puYZePD7OzJwU3WhEZo/H+WEIp2MMAthpg+vvNL?=
- =?us-ascii?Q?7ubgVyhNf+wdSAw0or660Iv2/T8lVYJ8yC/3d0t44oM/RmCPXbpadJcMgY4V?=
- =?us-ascii?Q?7cRrKy3Roau58IK7iUwKvv9n0dYAEvR20OMyGkq70jAZhX49qCpJwfVIsuK1?=
- =?us-ascii?Q?oNcEoxx4JU/qih27Yet6Z9t8iX4dBrvI4Qa8qjIReEH/4s7fPM+EHJnMqKsU?=
- =?us-ascii?Q?HrQ7qwOkBlPZU10qOr7A0sOnuHt0ozTCcKg1OvWrNw5Ye3gL0a1+cG9rod8E?=
- =?us-ascii?Q?3ip7tsRUU4thLxv3soZQxfXi+KyF9lUVeXA+hnIhVL9sj7zGnUMiXbMB0CWD?=
- =?us-ascii?Q?35tLfJrnEioeMMFDdPXiaLjmjVKjt3BMmNXJQ7oGjix2UV7O8gPkQ3W6BwpY?=
- =?us-ascii?Q?KD4isx2i/rYY96skmUzwPTblogz4vDyQIcZO/aitEPcVhO4xX4iTOVI0Nybn?=
- =?us-ascii?Q?es0605jQBkg9wFAYK3XRsE6osBXXUhMGulbzUo2ige9AdLKilfHwmWlXymbL?=
- =?us-ascii?Q?lHV0k0Ns30IzTkC8PxPn4a2aUd2i/8mR5opPHXkN9xNxiSUYC8R0Wr1UPPk5?=
- =?us-ascii?Q?cuAdWZc0GCX+yj9l6j+tmjox2+lbQvat14qCq/8W4036sCeBp8PzJYaZ+Z4x?=
- =?us-ascii?Q?lBokQV28RwzRLnuF8FBjr1TcalEn0tba+U9G4mgxk3sCdQIeyhA4f3GELRiz?=
- =?us-ascii?Q?XWufIQOIOKpQwpc9Geq3glrcL3cabfIjmCDvIHCVsHDax7TFhG8w6U7tB9kI?=
- =?us-ascii?Q?tEs1FhpojbYb9sALotOXn3p+MP2uvcxOuXCYkse/ViGS5jbY2FTeRgRZ88zn?=
- =?us-ascii?Q?cQsJHdPJKEQuOK751SrDfPQ/Qn01HkAkXDQZ63y+ky49SPVTUA3+fAkcmItR?=
- =?us-ascii?Q?YgpXN4BSFlLSGv5NLhA=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d4db6539-dc13-40cc-2740-08d9a46af9c6
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2021 16:56:01.4951
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3FAscxE8OwSgamSoWhS5FkssD1MTljDIirihIchFf0P5T3yheRTftU04TOLmxmq6
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5336
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c1e94031-a179-dc72-e5ee-3f8197bea492@siemens.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 10, 2021 at 05:53:57PM +0100, David Hildenbrand wrote:
-> On 10.11.21 17:49, Matthew Wilcox wrote:
-> > On Wed, Nov 10, 2021 at 04:37:14PM +0100, David Hildenbrand wrote:
-> >>> I'd suggest to make this new lock a special rwsem which allows either
-> >>> concurrent read access OR concurrent PTL access, but not both. This
+On Wed, Nov 10, 2021 at 05:15:41PM +0100, Jan Kiszka wrote:
+> On 10.11.21 17:10, Marcelo Tosatti wrote:
+> > On Wed, Nov 10, 2021 at 03:21:54PM +0000, Moessbauer, Felix wrote:
 > >>
-> >> I looked into such a lock recently in similar context and something like
-> >> that does not exist yet (and fairness will be challenging). You either
-> >> have a single reader or multiple writer. I'd be interested if someone
-> >> knows of something like that.
+> >>
+> >>> -----Original Message-----
+> >>> From: Michal Koutný <mkoutny@suse.com>
+> >>> Sent: Wednesday, November 10, 2021 2:57 PM
+> >>> To: Moessbauer, Felix (T RDA IOT SES-DE) <felix.moessbauer@siemens.com>
+> >>> Cc: longman@redhat.com; akpm@linux-foundation.org;
+> >>> cgroups@vger.kernel.org; corbet@lwn.net; frederic@kernel.org; guro@fb.com;
+> >>> hannes@cmpxchg.org; juri.lelli@redhat.com; linux-doc@vger.kernel.org; linux-
+> >>> kernel@vger.kernel.org; linux-kselftest@vger.kernel.org;
+> >>> lizefan.x@bytedance.com; mtosatti@redhat.com; pauld@redhat.com;
+> >>> peterz@infradead.org; shuah@kernel.org; tj@kernel.org; Kiszka, Jan (T RDA
+> >>> IOT) <jan.kiszka@siemens.com>; Schild, Henning (T RDA IOT SES-DE)
+> >>> <henning.schild@siemens.com>
+> >>> Subject: Re: [PATCH v8 0/6] cgroup/cpuset: Add new cpuset partition type &
+> >>> empty effecitve cpus
+> >>>
+> >>> Hello.
+> >>>
+> >>> On Wed, Nov 10, 2021 at 12:13:57PM +0100, Felix Moessbauer
+> >>> <felix.moessbauer@siemens.com> wrote:
+> >>>> However, I was not able to see any latency improvements when using
+> >>>> cpuset.cpus.partition=isolated.
+> >>>
+> >>> Interesting. What was the baseline against which you compared it (isolcpus, no
+> >>> cpusets,...)?
+> >>
+> >> For this test, I just compared both settings cpuset.cpus.partition=isolated|root.
+> >> There, I did not see a significant difference (but I know, RT tuning depends on a ton of things).
+> >>
+> >>>
+> >>>> The test was performed with jitterdebugger on CPUs 1-3 and the following
+> >>> cmdline:
+> >>>> rcu_nocbs=1-4 nohz_full=1-4 irqaffinity=0,5-6,11 intel_pstate=disable
+> >>>> On the other cpus, stress-ng was executed to generate load.
+> >>>> [...]
+> >>>
+> >>>> This requires cgroup.type=threaded on both cgroups and changes to the
+> >>>> application (threads have to be born in non-rt group and moved to rt-group).
+> >>>
+> >>> But even with isolcpus the application would need to set affinity of threads to
+> >>> the selected CPUs (cf cgroup migrating). Do I miss anything?
+> >>
+> >> Yes, that's true. But there are two differences (given that you use isolcpus):
+> >> 1. the application only has to set the affinity for rt threads.
+> >>  Threads that do not explicitly set the affinity are automatically excluded from the isolated cores.
+> >>  Even common rt test applications like jitterdebugger do not pin their non-rt threads.
+> >> 2. Threads can be started on non-rt CPUs and then bound to a specific rt CPU.
+> >> This binding can be specified before thread creation via pthread_create.
+> >> By that, you can make sure that at no point in time a thread has a "forbidden" CPU in its affinities.
+> >>
+> >> With cgroup2, you cannot guarantee the second aspect, as thread creation and moving to a cgroup is not an atomic operation.
+> >> Also - please correct me if I'm wrong - you first have to create a thread before moving it into a group.
+> >> At creation time, you cannot set the final affinity mask (as you create it in the non-rt group and there the CPU is not in the cpuset.cpus).
+> >> Once you move the thread to the rt cgroup, it has a default mask and by that can be executed on other rt cores.
 > > 
-> > We've talked about having such a lock before for filesystems which want
-> > to permit either many direct-IO accesses or many buffered-IO accesses, but
-> > want to exclude a mixture of direct-IO and buffered-IO.  The name we came
-> > up with for such a lock was the red-blue lock.  Either Team Red has the
-> > lock, or Team Blue has the lock (or it's free).  Indicate free with velue
-> > zero, Team Red with positive numbers and Team Blue with negative numbers.
-> > If we need to indicate an opposing team is waiting for the semaphore,
-> > we can use a high bit (1 << 30) to indicate no new team members can
-> > acquire the lock.  Not sure whether anybody ever coded it up.
+> > man clone3:
+> > 
+> >        CLONE_NEWCGROUP (since Linux 4.6)
+> >               Create  the  process  in  a  new cgroup namespace.  If this flag is not set, then (as with fork(2)) the
+> >               process is created in the same cgroup namespaces as the calling process.
+> > 
+> >               For further information on cgroup namespaces, see cgroup_namespaces(7).
+> > 
+> >               Only a privileged process (CAP_SYS_ADMIN) can employ CLONE_NEWCGROUP.
+> > 
 > 
-> Interesting, thanks for sharing!
+> Is there pthread_attr_setcgroup_np()?
 > 
-> My excessive google search didn't reveal anything back then (~3 months
-> ago) -- only questions on popular coding websites asking essentially for
-> the same thing without any helpful replies. But maybe I used the wrong
-> keywords (e.g., "multiple reader, multiple writer", I certainly didn't
-> search for "red-blue lock", but I do like the name :) ).
-> 
-> Fairness might still be the biggest issue, but I am certainly no locking
-> expert.
+> Jan
 
-Fairness could use the same basic logic as the write prefered to read
-in the rwsem.
+Don't know... Waiman? 
 
-The atomic implementation would be with atomic_dec_unless_positive()
-and atomic_inc_unless_negative(), without fairness it looks
-straightfoward.
-
-Jason
