@@ -2,21 +2,21 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E3BCC43217
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Nov 2021 10:56:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B3B7C4167D
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Nov 2021 10:56:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 658B06124B
+	by mail.kernel.org (Postfix) with ESMTP id 044B961247
 	for <linux-doc@archiver.kernel.org>; Wed, 10 Nov 2021 10:56:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231487AbhKJK7j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Nov 2021 05:59:39 -0500
-Received: from mail.ispras.ru ([83.149.199.84]:53898 "EHLO mail.ispras.ru"
+        id S231495AbhKJK7k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Nov 2021 05:59:40 -0500
+Received: from mail.ispras.ru ([83.149.199.84]:53924 "EHLO mail.ispras.ru"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231380AbhKJK7i (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231420AbhKJK7i (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 10 Nov 2021 05:59:38 -0500
 Received: from localhost.localdomain (unknown [80.240.223.29])
-        by mail.ispras.ru (Postfix) with ESMTPSA id 08A7540A2BBC;
-        Wed, 10 Nov 2021 10:46:59 +0000 (UTC)
+        by mail.ispras.ru (Postfix) with ESMTPSA id 7B58740A2BBF;
+        Wed, 10 Nov 2021 10:47:01 +0000 (UTC)
 From:   Baskov Evgeniy <baskov@ispras.ru>
 To:     Ard Biesheuvel <ardb@kernel.org>
 Cc:     Baskov Evgeniy <baskov@ispras.ru>, Borislav Petkov <bp@alien8.de>,
@@ -26,52 +26,60 @@ Cc:     Baskov Evgeniy <baskov@ispras.ru>, Borislav Petkov <bp@alien8.de>,
         Thomas Gleixner <tglx@linutronix.de>, x86@kernel.org,
         linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH RFC 0/5] Handle UEFI NX-restricted page tables
-Date:   Wed, 10 Nov 2021 13:46:08 +0300
-Message-Id: <20211110104613.23881-1-baskov@ispras.ru>
+Subject: [PATCH RFC 2/5] efi/x86_64: set page table if provided by libstub
+Date:   Wed, 10 Nov 2021 13:46:10 +0300
+Message-Id: <20211110104613.23881-3-baskov@ispras.ru>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20211110104613.23881-1-baskov@ispras.ru>
+References: <20211110104613.23881-1-baskov@ispras.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Note, that this patch series is RFC, since it is yet untested
-and possibly incompatible with AMD SEV and related extensions.
+It is desired to be able to switch pages tables before jumping
+to potentially relocated code while booting via UEFI.
+The easiest way to achieve that is to do it in assembly
+immediately after returning from efi_main().
 
-The UEFI specification states that certain memory regions may
-not have every permission, i.e. may not be writable or executable.
+Add mechanism to switch page table to one provided by libstub.
 
-Furthermore there exist some implementations (at least on i386/x86_64)
-that restrict execution of memory regions expected by the kernel to
-be executable. E.g. first megabyte of address space, where trampoline
-for switching between 4/5 level paging is placed and memory regions,
-allocated as loader data.
+Signed-off-by: Baskov Evgeniy <baskov@ispras.ru>
+---
+ arch/x86/boot/compressed/head_64.S | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-This patch series allows Linux kernel to boot on such UEFI
-implementations on i386 and x86_64.
+diff --git a/arch/x86/boot/compressed/head_64.S b/arch/x86/boot/compressed/head_64.S
+index 572c535cf45b..1e467fdefd9d 100644
+--- a/arch/x86/boot/compressed/head_64.S
++++ b/arch/x86/boot/compressed/head_64.S
+@@ -540,6 +540,17 @@ SYM_FUNC_START_ALIAS(efi_stub_entry)
+ 	movq	%rdx, %rbx			/* save boot_params pointer */
+ 	call	efi_main
+ 	movq	%rbx,%rsi
++
++	/*
++	 * Switch page table to the one constructed by libstub if provided
++	 * It is required to be done here because stack is not mapped
++	 * in new page table.
++	 */
++	movq	efi_temp_pgtable(%rip), %rbx
++	testq	%rbx, %rbx
++	jz	1f
++	movq	%rbx, %cr3
++1:
+ 	leaq	rva(startup_64)(%rax), %rax
+ 	jmp	*%rax
+ SYM_FUNC_END(efi64_stub_entry)
+@@ -736,6 +747,7 @@ SYM_DATA_END_LABEL(boot32_idt, SYM_L_GLOBAL, boot32_idt_end)
+ 
+ #ifdef CONFIG_EFI_STUB
+ SYM_DATA(image_offset, .long 0)
++SYM_DATA(efi_temp_pgtable, .quad 0)
+ #endif
+ #ifdef CONFIG_EFI_MIXED
+ SYM_DATA_LOCAL(efi32_boot_args, .long 0, 0, 0)
+-- 
+2.33.1
 
-The simplest way to achieve that on i386 is to disable paging
-before jumping to potentially relocated code.
-
-x86_64, on the other hand, does not allow disabling paging so it
-is required to build temporary page tables containing memory regions
-required for Linux kernel to boot with appropriate access permissions.
-
-Baskov Evgeniy (5):
-       Docs: document notemppt option
-       efi: Add option for handling efi memory protection
-       libstub: build temporary page table without NX-bit
-       efi/x86_64: set page table if provided by libstub
-       efi/x86: Disable paging when booting via efistub
-
- Documentation/admin-guide/kernel-parameters.txt |    7 
- arch/x86/boot/compressed/head_32.S              |   12 +
- arch/x86/boot/compressed/head_64.S              |   12 +
- drivers/firmware/efi/Kconfig                    |   17 ++
- drivers/firmware/efi/libstub/Makefile           |    2 
- drivers/firmware/efi/libstub/efi-stub-helper.c  |    3 
- drivers/firmware/efi/libstub/efistub.h          |   10 +
- drivers/firmware/efi/libstub/temp-pgtable.c     |  190 ++++++++++++++++++++++++
- drivers/firmware/efi/libstub/x86-stub.c         |    8 -
- 9 files changed, 258 insertions(+), 3 deletions(-)
