@@ -2,159 +2,180 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E556C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Nov 2021 14:02:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07628C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Nov 2021 14:39:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 34DE9610CF
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Nov 2021 14:02:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DC48C611ED
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Nov 2021 14:39:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231607AbhKJOFP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Nov 2021 09:05:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41914 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231593AbhKJOFO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Nov 2021 09:05:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1636552946;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=1TPGlDsYndtj+OjEFiCGDmUdaoybdwvNgP/PovWuwWE=;
-        b=RyBK881Jf3raMGEldVOJq+7gXMmDGzR0SMWxbVja//ikAHbnJKvMdNUVwuRwCgFIgpaNnM
-        KclAiVYRj5ATG3GsJlG7dnugo5JuJ8gombzZV/5+p2ZNcUFR0CabrtEDJtpcHdV8nt/YwE
-        glmL7zlU/lcSWOsoOQOSM3m7YmSLSpk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-495-MM8c5JeAMRmm1GLTfZmcJQ-1; Wed, 10 Nov 2021 09:02:24 -0500
-X-MC-Unique: MM8c5JeAMRmm1GLTfZmcJQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18BFE871807;
-        Wed, 10 Nov 2021 14:02:22 +0000 (UTC)
-Received: from fuller.cnet (ovpn-112-5.gru2.redhat.com [10.97.112.5])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 437915D6B1;
-        Wed, 10 Nov 2021 14:01:58 +0000 (UTC)
-Received: by fuller.cnet (Postfix, from userid 1000)
-        id A1A32416952E; Wed, 10 Nov 2021 10:21:59 -0300 (-03)
-Date:   Wed, 10 Nov 2021 10:21:59 -0300
-From:   Marcelo Tosatti <mtosatti@redhat.com>
-To:     Felix Moessbauer <felix.moessbauer@siemens.com>
-Cc:     longman@redhat.com, akpm@linux-foundation.org,
-        cgroups@vger.kernel.org, corbet@lwn.net, frederic@kernel.org,
-        guro@fb.com, hannes@cmpxchg.org, juri.lelli@redhat.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, lizefan.x@bytedance.com,
-        mkoutny@suse.com, pauld@redhat.com, peterz@infradead.org,
-        shuah@kernel.org, tj@kernel.org, jan.kiszka@siemens.com,
-        henning.schild@siemens.com
-Subject: Re: [PATCH v8 0/6] cgroup/cpuset: Add new cpuset partition type &
- empty effecitve cpus
-Message-ID: <20211110132159.GA12767@fuller.cnet>
-References: <20211018143619.205065-1-longman@redhat.com>
- <20211110111357.17617-1-felix.moessbauer@siemens.com>
-MIME-Version: 1.0
+        id S232224AbhKJOlv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Nov 2021 09:41:51 -0500
+Received: from mail-bn7nam10on2084.outbound.protection.outlook.com ([40.107.92.84]:40801
+        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S232222AbhKJOlu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 10 Nov 2021 09:41:50 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=V/tyxK20dx/4opqIMqwz8T20m11D1CQ5np8Mqi9dPZsQB0se1FXEN+J6YQBdW3NOFkBmnWLQnOuJDsYdjgQlmVEGlhVVJQKeW9EfhD5SJS45510ZF5dXMsBq4zdpykjtpmo3cvGek4/TwFqYFLPIE5pXiSbePfWh4x7lfmEL39oet3gKVPvQBRI0xfcsOkG9BxxBnazDixS3DA6uY7FnAINXQb5X0Vda6zst2vMFiWGxVEmexyqq321rJvD4MpGpPb6N9klXR35uw13uV59ZTiBDKxZgowU2nMNNLTXgiVt5FKOM0gC36e0q9TTyHSC0T+JrSH2+FffswIvM07GxNw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qlZgLgOE0DLI+pr8l/rd8zaoe2CbSAH0uAJhvW7zBsQ=;
+ b=OgIC3+o9GHl4Y3S50hnX3Q23Xw7wD5GAUlCr2E+0q1Pdn8Bd/JmOVgcQuNFnKfpPHikDegeKFIaMRDBf9GiR44wYDUKFKBaOsvcGzR6oGuZ1CZQyRVC/CksiCTmTu4vEeBwzbccJyLkV9e6ntGCjiiIUtdr9m8lQyOx9jH5yCFd55hl/jz+DXdtBgO8ABd5TvbyP+g4Ncaw0zpou10TfLNUDZYCio/xHGLcoCwH1eKFKVqAlKXfKXt2g/LVEDqW/WWmUu108kOEjLKD4lOK6wLl2tAA6jEQWt8Dtqtz4oBEYje73C15G7+7DrX/wCpJriCIBurl2ZADp74hjWsRkpg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qlZgLgOE0DLI+pr8l/rd8zaoe2CbSAH0uAJhvW7zBsQ=;
+ b=Y1AiCvzvnDPpwWcOK3/z0dsa682Fy8z8NEAKXSZfZewGh4Xc4Pk5qlZN1vVFRqkTFgdzxfhpYLXRkLOrokGwmd8KB3c+RhXki8p7UZrbihqxzKja2cRrTxkb9vwBIfh4lNaC9ub7xY7YiFopgxxyk43KqEcGT/ZImw5MPFOvNG5CwhgVHeQueU8NF0CUN9djsxRRkf/WCivxrnVFTsJl0Jpx2b8Zk7bwb0VwdBRi08Prc1qSyi6Mg2NADajSZrNs4GVLLsY0BQvVJF3jAn7euE5ZwxGGSVThS6Nyda1tKo8K+HcjR427epr93l9LeeBc5NyUifdggahd3cOj0Tc7yg==
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
+ by BL1PR12MB5062.namprd12.prod.outlook.com (2603:10b6:208:313::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.16; Wed, 10 Nov
+ 2021 14:39:01 +0000
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::5897:83b2:a704:7909]) by BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::5897:83b2:a704:7909%7]) with mapi id 15.20.4669.016; Wed, 10 Nov 2021
+ 14:39:01 +0000
+Date:   Wed, 10 Nov 2021 10:38:59 -0400
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Qi Zheng <zhengqi.arch@bytedance.com>, akpm@linux-foundation.org,
+        tglx@linutronix.de, kirill.shutemov@linux.intel.com,
+        mika.penttila@nextfour.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        songmuchun@bytedance.com, zhouchengming@bytedance.com
+Subject: Re: [PATCH v3 00/15] Free user PTE page table pages
+Message-ID: <20211110143859.GS1740502@nvidia.com>
+References: <20211110105428.32458-1-zhengqi.arch@bytedance.com>
+ <20211110125601.GQ1740502@nvidia.com>
+ <8d0bc258-58ba-52c5-2e0d-a588489f2572@redhat.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211110111357.17617-1-felix.moessbauer@siemens.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <8d0bc258-58ba-52c5-2e0d-a588489f2572@redhat.com>
+X-ClientProxiedBy: YTOPR0101CA0037.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00:14::14) To BL0PR12MB5506.namprd12.prod.outlook.com
+ (2603:10b6:208:1cb::22)
+MIME-Version: 1.0
+Received: from mlx.ziepe.ca (206.223.160.26) by YTOPR0101CA0037.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:14::14) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.18 via Frontend Transport; Wed, 10 Nov 2021 14:39:00 +0000
+Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1mkokd-007zsv-IX; Wed, 10 Nov 2021 10:38:59 -0400
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 427194ea-c918-474e-cdf9-08d9a457d5e8
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5062:
+X-Microsoft-Antispam-PRVS: <BL1PR12MB5062508415F91C169B708357C2939@BL1PR12MB5062.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /QJ5cHC8QIGXoy1uRhiO7IQFzwRhcEXJnHtCQrBPAqqvUpo29vcyzjKrpeU3qeW/vE77q14blb294IIGQUcxlwFERCUNvIX4xMsUmpXykxOwq8Bx9LfMZ068dTuiWSMAeSj80aCS9K9TOkKyuy4UjLiMnRewqG28wqTcGEN9r3Vys4lWfPfZtLe/uKs9cmi5SsA8d2rtt5H9m4Y70yxOdpPCVezhsJknHqAaAjdylncYBvvKkyUtFE6HAsV/eZTzvXugMH6vx6R8ZnooNQtaMcwyy/RE00LdodZThnkX5mxKBSoweG36I3iIPCQQGdOJV91xRMDu+N3IQ+/wU5miafn4B3Q8NOqUuv3qQELfCdyOfmuWSfnJJWhMBl5p4clCdPLDw+v/2XllxFXbHg55da1vNp7OlGFMc2qDDp2TmR23FdEulJdDvsA7g2RawmOk2il+iQ9PT+msW0gNJ6iCUbttHBuLYiHGriFRDHH5QVexU2HvHvNVBmkxYC9q/F1LFD8KgqIKfpck7JhNrKad6UoLZYVJxtNPOiG4wjTSnlaskj5edmU5LCMaXMY8VMxaSaKgaY+Rmmrkq7joNcyXk8giQ5WIh9aAkQ2McRLskv0xMBQB5L9vE25Gl2sDl2C2mnM++BMeJ2Lvn3qhLDEEHw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB5506.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(8676002)(9746002)(9786002)(5660300002)(33656002)(316002)(8936002)(2616005)(186003)(36756003)(1076003)(4326008)(508600001)(53546011)(2906002)(6916009)(83380400001)(66946007)(66476007)(86362001)(66556008)(7416002)(38100700002)(26005)(426003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?fC/eaefKFf79S2V/KEqOTGw3NFz22niZI87CaaK3VWXzn9FCpGlx3Td12hVH?=
+ =?us-ascii?Q?c82frrW80kbQaPOEV+buOsSEguXlYoHeMz9d16mIkcAfNrzeOPJysELysvDU?=
+ =?us-ascii?Q?CFLK1FBYA07issjBOkl20hUECIr/XcrAjKAomBK5Hv/n3T4R0OFlFzK8f9CS?=
+ =?us-ascii?Q?bsWogS5s7WdlVeILlsfd+PvyFz4vnwCvRp/DiZdnFBtattFQGHpVamvr3De0?=
+ =?us-ascii?Q?DGahEwsc06LvPZu/CJ48xWhoeUvNP5MlHbtwVwkmtS4Q5Op0kHXc+Lvn+6DT?=
+ =?us-ascii?Q?flYsjEQgA3Ze7wsixZjMWz0Cr7r3jRDT/yuH5wX4Vpo/irvDfj2NyEIPHx21?=
+ =?us-ascii?Q?OPye81nAFIshKKNS88gM4UkUDWryyDZ1rRwRtmljvmhhYNoc5OTGXJfv5LGI?=
+ =?us-ascii?Q?CzE2fVhHa2JO5c3rW9Vq6uMO3UEf+3uKZVhoweIOz1G20oDmD35SBIL0NCQg?=
+ =?us-ascii?Q?Ks8vi0a4frWOZutvHwz+7fbvtHQ5Mnw0aabSJK/9P4bPcJgBehnxOK8IGRdt?=
+ =?us-ascii?Q?mFQIXVsrRs5KRVukedpYLOapWJbY1r4KxIgjPQpOMhGAK/BZ+m7b4kQUFgN7?=
+ =?us-ascii?Q?POFwzaSU/YA58NwNr2IrtP+9xAjEVQGW3UXcaRdv01g9sp92/8Rxmf0oL0x+?=
+ =?us-ascii?Q?FHhhk6h6zud+JxowhJ0L1F/EI+REFBY14jJh2DgcuZZ1CnkVz6GQWamjeqBg?=
+ =?us-ascii?Q?gNGGSVYzLbxKbw2ZGslZO5I9HqnS6to3uY0zrOmOeGdfkCP03AErSW7K6a78?=
+ =?us-ascii?Q?ZqAoUmnk+OV2fdmiyZ3T5s5VpAUzVuZznhYIJvw4NBLDj7xLK1Bux/ZnrBeF?=
+ =?us-ascii?Q?rWVifzdLEkTk6SmUvBNDKP8RsAyUovvFjIFZJv3nHc4FQNOvXjW2Sf5eehcl?=
+ =?us-ascii?Q?/Oj/L1xn3bA0FdEjiKQB4wFxaIJ3V7je3INAqX6D7jNrdadIxcJjbgh9LN2u?=
+ =?us-ascii?Q?cieqxWGDR0d6EpS9BXaAh9CZNU9QLNVUTr833woF+4ewMSCfmRlxbDettfvp?=
+ =?us-ascii?Q?YhdTksP2dilkWGtWfIhksix6j7gz7C/ZOB+/dAbPVJRT4B2JIeJXTACZq+EE?=
+ =?us-ascii?Q?Evx0GJP61+AsuSzsjsIx2ipcEyQO+g7RuQGrjN3n/Xr4qRvRNWW/6LcDoPG9?=
+ =?us-ascii?Q?pSKdDVDbOVtW+Pfbue3jzI6NozaiLSo88lIj0NWGCbmtlhOVEFWPHpJ0Hd/s?=
+ =?us-ascii?Q?YUFfWRa52de7ZotWcYGRW2+ZHop0RlgqtaAIkoWcnOE3pqb4RCnwi65gA3ZL?=
+ =?us-ascii?Q?m6Jq/WQT8KDpabUf0WJRx2YYgXBh/HkqBG+BuoVLbd99eGmbZTWJqFuwIMAB?=
+ =?us-ascii?Q?4E7OEeY9BqIj2d9Vpn1gTsH5J+PM4ExKXyCHQydcbmRjec45Sz3TVefpcZ0L?=
+ =?us-ascii?Q?mIXjt0PrjD3ZEaILSV9ef/8gkHy9DKkJfsIVCUbm6AxCN420LHj+bHSG6VYZ?=
+ =?us-ascii?Q?oLHiK95Dasmas/I7wGEcx3//m9WkSuW+3i0CXMI7RDvmeilG8r9U4ZqGrjUr?=
+ =?us-ascii?Q?eSJNExmKg7E52eOk2YjZm9UQ6UqUWAC6IkYbRDX9yQeoDFw0nEKdhKXsmcs9?=
+ =?us-ascii?Q?u9WQGmHmDvg+nLsl9Yg=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 427194ea-c918-474e-cdf9-08d9a457d5e8
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2021 14:39:00.9063
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zg1eg5AYS3bf+X7xSaFlFpwrLUxfvMjKQaxNSquUfMaOQ4xbsSA/I1xS1po15G9z
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5062
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 10, 2021 at 12:13:57PM +0100, Felix Moessbauer wrote:
-> Hi Weiman,
-> 
-> > v8:
-> >  - Reorganize the patch series and rationalize the features and
-> >    constraints of a partition.
-> >  - Update patch descriptions and documentation accordingly.
+On Wed, Nov 10, 2021 at 02:25:50PM +0100, David Hildenbrand wrote:
+> On 10.11.21 13:56, Jason Gunthorpe wrote:
+> > On Wed, Nov 10, 2021 at 06:54:13PM +0800, Qi Zheng wrote:
 > > 
-> > v7:
-> >  - Simplify the documentation patch (patch 5) as suggested by Tejun.
-> >  - Fix a typo in patch 2 and improper commit log in patch 3.
+> >> In this patch series, we add a pte_refcount field to the struct page of page
+> >> table to track how many users of PTE page table. Similar to the mechanism of
+> >> page refcount, the user of PTE page table should hold a refcount to it before
+> >> accessing. The PTE page table page will be freed when the last refcount is
+> >> dropped.
 > > 
-> > v6:
-> >  - Remove duplicated tmpmask from update_prstate() which should fix the
-> >    frame size too large problem reported by kernel test robot.
+> > So, this approach basically adds two atomics on every PTE map
 > > 
-> > This patchset makes four enhancements to the cpuset v2 code.
-> > 
-> >  Patch 1: Enable partition with no task to have empty cpuset.cpus.effective.
-> > 
-> >  Patch 2: Refining the features and constraints of a cpuset partition
-> >  clarifying what changes are allowed.
-> >
-> >  Patch 3: Add a new partition state "isolated" to create a partition
-> >  root without load balancing. This is for handling intermitten workloads
-> >  that have a strict low latency requirement.
+> > If I have it right the reason that zap cannot clean the PTEs today is
+> > because zap cannot obtain the mmap lock due to a lock ordering issue
+> > with the inode lock vs mmap lock.
 > 
-> 
-> I just tested this patch-series and can confirm that it works on 5.15.0-rc7-rt15 (PREEMT_RT).
-> 
-> However, I was not able to see any latency improvements when using
-> cpuset.cpus.partition=isolated.
-> The test was performed with jitterdebugger on CPUs 1-3 and the following cmdline:
-> rcu_nocbs=1-4 nohz_full=1-4 irqaffinity=0,5-6,11 intel_pstate=disable
-> On the other cpus, stress-ng was executed to generate load.
+> There are different ways to zap: madvise(DONTNEED) vs
+> fallocate(PUNCH_HOLE). It depends on "from where" we're actually
+> comming: a process page table walker or the rmap.
 
-enum hk_flags {
-        HK_FLAG_TIMER           = 1,
-        HK_FLAG_RCU             = (1 << 1),
-        HK_FLAG_MISC            = (1 << 2),
-        HK_FLAG_SCHED           = (1 << 3),
-        HK_FLAG_TICK            = (1 << 4),
-        HK_FLAG_DOMAIN          = (1 << 5),
-        HK_FLAG_WQ              = (1 << 6),
-        HK_FLAG_MANAGED_IRQ     = (1 << 7),
-        HK_FLAG_KTHREAD         = (1 << 8),
-};
+AFAIK rmap is the same issue, it can't lock the mmap_sem
 
-static int __init housekeeping_nohz_full_setup(char *str)
-{
-        unsigned int flags;
+> The way locking currently works doesn't allow to remove a page table
+> just by holding the mmap lock, not even in write mode. 
 
-        flags = HK_FLAG_TICK | HK_FLAG_WQ | HK_FLAG_TIMER | HK_FLAG_RCU |
-                HK_FLAG_MISC | HK_FLAG_KTHREAD;
+I'm not sure I understand this. If the goal is to free the PTE tables
+then the main concern is use-after free on page table walkers (which
+this series is addressing). Ignoring bugs, we have only three ways to
+read the page table:
 
-        return housekeeping_setup(str, flags);
-}
-__setup("nohz_full=", housekeeping_nohz_full_setup);
+ - Fully locked. Under the PTLs (gup slow is an example)
+ - Semi-locked. Under the read mmap lock and no PTLs (hmm is an example)
+ - hw-locked. Barriered with TLB flush (gup fast is an example)
 
-So HK_FLAG_SCHED and HK_FLAG_MANAGED_IRQ are unset in your configuration.
-Perhaps they are affecting your latency numbers?
+#1 should be completely safe as the PTLs will protect eveything
+#2 is safe so long as the write side is held during any layout changes
+#3 interacts with the TLB flush, and is also safe with zap
 
-This tool might be handy to see what is the reason for the latency source:
+rmap itself is a #1 page table walker, ie it gets the PTLs under
+page_vma_mapped_walk().
 
-https://github.com/xzpeter/rt-trace-bpf
+The sin we have comitted here is that both the mmap lock and the PTLs
+are being used to protect the page table itself with a very
+complicated dual semantic.
 
-./rt-trace-bcc.py -c isolated-cpu
+Splitting the sleeping mmap lock into 'covers vma' and 'covers page
+tables' lets us solve the lock ordering and semi-locked can become
+more fully locked by the new lock, instead of by abusing mmap sem.
 
-> Just some more general notes:
-> 
-> Even with this new "isolated" type, it is still very tricky to get a similar
-> behavior as with isolcpus (as long as I don't miss something here):
-> 
-> Consider an RT application that consists of a non-rt thread that should be floating
-> and a rt-thread that should be placed in the isolated domain.
-> This requires cgroup.type=threaded on both cgroups and changes to the application
-> (threads have to be born in non-rt group and moved to rt-group).
-> 
-> Theoretically, this could be done externally, but in case the application sets the
-> affinity mask manually, you run into a timing issue (setting affinities to CPUs
-> outside the current cpuset.cpus results in EINVAL).
-> 
-> Best regards,
-> Felix Moessbauer
-> Siemens AG
-> 
-> > Patch 4: Enable the "cpuset.cpus.partition" file to show the reason
-> >  that causes invalid partition like "root invalid (No cpu available
-> >  due to hotplug)".
-> > 
-> > Patch 5 updates the cgroup-v2.rst file accordingly. Patch 6 adds a new
-> > cpuset test to test the new cpuset partition code.
-> 
-> 
+I'd suggest to make this new lock a special rwsem which allows either
+concurrent read access OR concurrent PTL access, but not both. This
+way we don't degrade performance of the split PTLs, *and* when
+something needs to change the page table structure it has a way to
+properly exclude all the #2 lockless readers.
 
+So evey touch to the page table starts by obtaining this new lock,
+depending on the access mode to be used. (PTL vs lockless read)
+
+We can keep the existing THP logic where a leaf PMD can be transformed
+to a non-leaf PMD in the semi-locked case, but the case where a
+non-leaf PMD is transformed to a leaf PMD has to take the lock.
+
+Jason
