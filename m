@@ -2,82 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED3E5C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Nov 2021 14:39:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8DC4C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Nov 2021 15:21:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D37E7611ED
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Nov 2021 14:39:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AA16A6115B
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Nov 2021 15:21:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232192AbhKJOmB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Nov 2021 09:42:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44514 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232193AbhKJOmB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Nov 2021 09:42:01 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 828CDC061764;
-        Wed, 10 Nov 2021 06:39:13 -0800 (PST)
-Received: from localhost (unknown [151.44.43.70])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S232111AbhKJPXt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Nov 2021 10:23:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49109 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231488AbhKJPXt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Nov 2021 10:23:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1636557661;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Lhjq4wAJfTAQzB4aUh8/HWQOCKwr9ITogKZbi8YswJA=;
+        b=i/HnP+j9EaFVfwS3UGABgU+7UWyvEboiNAwF4zoBZzulT8KFitAK+ZyIDgmKGrzpGC+vH/
+        v2ATCj14b4xuYIbwAxqAXnZ2mEIoo4WVIbzZ3j8so81xYfw/uHy4YUo8jt53n3tWqR60hA
+        aMlYuVkw7u35u2QuJZqJFuz/Ua/viXo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-105-QeCXEl5YPDetK4CXDZDdEg-1; Wed, 10 Nov 2021 10:20:57 -0500
+X-MC-Unique: QeCXEl5YPDetK4CXDZDdEg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id AB5545ECC;
-        Wed, 10 Nov 2021 14:39:11 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AB5545ECC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1636555152; bh=bhz6uOAGwgBI+FNK0TNABGLPC5xHyy5joqyJG3fY4CY=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=X5cGVqBPvZ24t4VTjC8EjU2+llJvu9LbXb0CJzZ1rg3LqyxMwagaa46P0CfHgCA3a
-         b25jBHCPXonsm/fyUoC6YtKtDKvbpBTkd4pawbYeck2mBBMFgyJGBWktPF4AVVmm5b
-         mZ3x/ijRBjJXpdCpeSYcRuEAKXpE7gp5gb9E2+Yu5k7j0cGz4nxLgSAfA07HZ25y1B
-         hTtXavVWN2ff1e3Ub/tTaARZuCAqPZ4jDmrD48qR7csorFZgQik0iWXZCVZ8vunLyH
-         8F2oPv/1UvCEx+d1tHJ4cw6/PBQRhpgkeB/H70CT/kjtWb0tYqGNhuJe3eIw9AvZso
-         r9KQ7/fhP343g==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Qi Zheng <zhengqi.arch@bytedance.com>, akpm@linux-foundation.org,
-        tglx@linutronix.de, kirill.shutemov@linux.intel.com,
-        mika.penttila@nextfour.com, david@redhat.com, jgg@nvidia.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, songmuchun@bytedance.com,
-        zhouchengming@bytedance.com, Qi Zheng <zhengqi.arch@bytedance.com>
-Subject: Re: [PATCH v3 14/15] Documentation: add document for pte_ref
-In-Reply-To: <20211110105428.32458-15-zhengqi.arch@bytedance.com>
-References: <20211110105428.32458-1-zhengqi.arch@bytedance.com>
- <20211110105428.32458-15-zhengqi.arch@bytedance.com>
-Date:   Wed, 10 Nov 2021 07:39:08 -0700
-Message-ID: <875yt0krcj.fsf@meer.lwn.net>
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE4291B18BD3;
+        Wed, 10 Nov 2021 15:20:54 +0000 (UTC)
+Received: from [10.22.11.131] (unknown [10.22.11.131])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 13BDC56A87;
+        Wed, 10 Nov 2021 15:20:30 +0000 (UTC)
+Message-ID: <e082b943-65ac-e92b-0637-6a2431830054@redhat.com>
+Date:   Wed, 10 Nov 2021 10:20:29 -0500
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v8 0/6] cgroup/cpuset: Add new cpuset partition type &
+ empty effecitve cpus
+Content-Language: en-US
+To:     Felix Moessbauer <felix.moessbauer@siemens.com>
+Cc:     akpm@linux-foundation.org, cgroups@vger.kernel.org, corbet@lwn.net,
+        frederic@kernel.org, guro@fb.com, hannes@cmpxchg.org,
+        juri.lelli@redhat.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        lizefan.x@bytedance.com, mkoutny@suse.com, mtosatti@redhat.com,
+        pauld@redhat.com, peterz@infradead.org, shuah@kernel.org,
+        tj@kernel.org, jan.kiszka@siemens.com, henning.schild@siemens.com
+References: <20211018143619.205065-1-longman@redhat.com>
+ <20211110111357.17617-1-felix.moessbauer@siemens.com>
+From:   Waiman Long <longman@redhat.com>
+In-Reply-To: <20211110111357.17617-1-felix.moessbauer@siemens.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Qi Zheng <zhengqi.arch@bytedance.com> writes:
 
-> This commit adds document for pte_ref under `Documentation/vm/`.
+On 11/10/21 06:13, Felix Moessbauer wrote:
+> Hi Weiman,
+>
+>> v8:
+>>   - Reorganize the patch series and rationalize the features and
+>>     constraints of a partition.
+>>   - Update patch descriptions and documentation accordingly.
+>>
+>> v7:
+>>   - Simplify the documentation patch (patch 5) as suggested by Tejun.
+>>   - Fix a typo in patch 2 and improper commit log in patch 3.
+>>
+>> v6:
+>>   - Remove duplicated tmpmask from update_prstate() which should fix the
+>>     frame size too large problem reported by kernel test robot.
+>>
+>> This patchset makes four enhancements to the cpuset v2 code.
+>>
+>>   Patch 1: Enable partition with no task to have empty cpuset.cpus.effective.
+>>
+>>   Patch 2: Refining the features and constraints of a cpuset partition
+>>   clarifying what changes are allowed.
+>>
+>>   Patch 3: Add a new partition state "isolated" to create a partition
+>>   root without load balancing. This is for handling intermitten workloads
+>>   that have a strict low latency requirement.
+>
+> I just tested this patch-series and can confirm that it works on 5.15.0-rc7-rt15 (PREEMT_RT).
+>
+> However, I was not able to see any latency improvements when using
+> cpuset.cpus.partition=isolated.
+> The test was performed with jitterdebugger on CPUs 1-3 and the following cmdline:
+> rcu_nocbs=1-4 nohz_full=1-4 irqaffinity=0,5-6,11 intel_pstate=disable
+> On the other cpus, stress-ng was executed to generate load.
+>
+> Just some more general notes:
+>
+> Even with this new "isolated" type, it is still very tricky to get a similar
+> behavior as with isolcpus (as long as I don't miss something here):
+>
+> Consider an RT application that consists of a non-rt thread that should be floating
+> and a rt-thread that should be placed in the isolated domain.
+> This requires cgroup.type=threaded on both cgroups and changes to the application
+> (threads have to be born in non-rt group and moved to rt-group).
+>
+> Theoretically, this could be done externally, but in case the application sets the
+> affinity mask manually, you run into a timing issue (setting affinities to CPUs
+> outside the current cpuset.cpus results in EINVAL).
 
-Thanks for documenting this work!
+I believe the "isolated" type will have more benefit on non PREEMPT_RT 
+kernel. Anyway, having the "isolated" type is just the first step. It 
+should be equivalent to "isolcpus=domain". There are other patches 
+floating that attempt to move some of the isolcpus=nohz features into 
+cpuset as well. It is not there yet, but we should be able to have 
+better dynamic cpu isolation down the road.
 
-> Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
-> ---
->  Documentation/vm/pte_ref.rst | 212 +++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 212 insertions(+)
->  create mode 100644 Documentation/vm/pte_ref.rst
+Cheers,
+Longman
 
-When you add a new RST file, you also need to add it to the associated
-index.rst file or it won't be included in the docs build.  Instead,
-you'll get the "not included in any toctree" warning that you surely saw
-when you tested the docs build with this file :)
-
-> diff --git a/Documentation/vm/pte_ref.rst b/Documentation/vm/pte_ref.rst
-> new file mode 100644
-> index 000000000000..c5323a263464
-> --- /dev/null
-> +++ b/Documentation/vm/pte_ref.rst
-> @@ -0,0 +1,212 @@
-> +.. _pte_ref:
-
-Do you need this label anywhere?  If not, I'd leave it out.
-
-Thanks,
-
-jon
