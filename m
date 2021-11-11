@@ -2,76 +2,71 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F7F6C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Nov 2021 03:58:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F09F7C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Nov 2021 05:40:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7776561261
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Nov 2021 03:58:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C2B6061264
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Nov 2021 05:40:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231169AbhKKEBJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Nov 2021 23:01:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56420 "EHLO
+        id S229629AbhKKFnJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Nov 2021 00:43:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230356AbhKKEBJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Nov 2021 23:01:09 -0500
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 329AFC061767
-        for <linux-doc@vger.kernel.org>; Wed, 10 Nov 2021 19:58:21 -0800 (PST)
-Received: by mail-pl1-x634.google.com with SMTP id p18so4646408plf.13
-        for <linux-doc@vger.kernel.org>; Wed, 10 Nov 2021 19:58:21 -0800 (PST)
+        with ESMTP id S229533AbhKKFnI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Nov 2021 00:43:08 -0500
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43586C061766
+        for <linux-doc@vger.kernel.org>; Wed, 10 Nov 2021 21:40:20 -0800 (PST)
+Received: by mail-pl1-x633.google.com with SMTP id y7so5009212plp.0
+        for <linux-doc@vger.kernel.org>; Wed, 10 Nov 2021 21:40:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20210112.gappssmtp.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:to:cc:references
          :from:in-reply-to:content-transfer-encoding;
-        bh=JTeJVgs4uMWJJ4SvicTT4FHnOZ8dZrGiRRxYTiZUitI=;
-        b=FQUaTfep7fnRf+51gBDqNzWsdCT6wVcyS5Uw3FhD6a5+/UZMukwYBPcn9K43Y5WSBS
-         fNuNJkcVYfcBvZRpEXhJc3bwpySwSysc7PuIFVZ1tsaCOGC89+KUHxqVo0ono1Gv7uJc
-         O1xuixykVvH4tZSf9zj0bnSR5uJ6iyIQ0t/cjqQKkaQfYx7VMWMfj6mPU0/BV5NfFvcJ
-         DwKk2AL/hls8o6k++lPWCylONcD1pDxPUY9g3XVU0WOpk/4VNw4V3HZTaKsLryW8QMZG
-         XIsZe0j73m1asOF7+7e+vn1qUPQC65n5QRd/avEhtXtn1PpWq6nEeIR3ExpuyOpCZ75z
-         Eu1w==
+        bh=meyjLeNOTUfo/ee3VzQRg1KbYxNfJ6VkJ/+ojTjTB4k=;
+        b=0q6iXr1gWfsI3+U1OwmmNzhJdspbuGX62qVda9lzJFerbSiIIpXwFWpmdDVHCbKTxz
+         xfa45O984MSggxxd1HewlseOG6eX2t3ilVMOzK0UdMf5F9IDPoRZZx/+LuMI1GwlXn19
+         2CLZZMKWfCONJ5ELn/9A7i3YcsPBpMwSy/MiR37wyV/lLOKWIhHRNAa0F8BAeQkQ3E2w
+         1VFXUl0Nb2jTQp8RijvBVe4fKfvsTA57xHh6fc7WDOnUi34iBT0B87jpgVDULzYqf6/a
+         SQVD6wS+Stvq7I1Ce1X97Y/DCnXBRjeVKczrhIV73oZCGWf1rPOh7x9yDIakERBXVf/y
+         xHaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :to:cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=JTeJVgs4uMWJJ4SvicTT4FHnOZ8dZrGiRRxYTiZUitI=;
-        b=z304IoVJ3T6mJONOAYKcaAOQMQ4wqMfxNghdSJoBHpc/dNzkh+CmcjJF3XL6O1DfA5
-         58w0YS+3pGgEBnJeBP8N+Cn9wbJs2piEMaXdly4ZSKTuHx5uhPhfwYysLA2myNLOtS0e
-         XkcaSyDjwdlTJ6a8XllQ8YCx57Q/NjmAOC3HQpkhA4xqnIGQRRgEBZ37WTAZRolvSKMQ
-         ypYlph30Vej1kwGp/9GAp5ULYLS8z47gtaYdCoyGTQ2E0e9SksANQRfkkY558SDi9BpT
-         rT2dojpsWugAgdg6qzj6oRtZFQPYG5V936F4Ut0YThvbHPqBGLtXCYpwKR9s8hb7d5l0
-         veVQ==
-X-Gm-Message-State: AOAM531cFWwiagntANW7tAUlkW6D6G/GkrNrC6dwyP7DE/2df5hNAJQp
-        sqJmaPUDWLhT905VNmESWJdQ+g==
-X-Google-Smtp-Source: ABdhPJzMgcHiWH3WYBvm9aLEEMeTSsBXC34tf2Q+a9uHZZ2XEf5hWlILaMRH/S45qcUd0EOYmUvyMA==
-X-Received: by 2002:a17:902:bd98:b0:13f:9ae7:54d1 with SMTP id q24-20020a170902bd9800b0013f9ae754d1mr4846798pls.15.1636603100724;
-        Wed, 10 Nov 2021 19:58:20 -0800 (PST)
+        bh=meyjLeNOTUfo/ee3VzQRg1KbYxNfJ6VkJ/+ojTjTB4k=;
+        b=s80HQLTnh8iS9/g8tJlv49Oi6dO+SfOoBJEUMjEd7Lr1vMO/a+kff4q7JyG04y4hdd
+         yw8OZ8vED6f3BFa2enMGl/e1O2s03KstJ7G63Kd8eZYhCztMZeGvGLzW5SD0QDF9Of4g
+         1Ez3g4kloX791dvzlPRVuCdwct5+0LJV7r3nruk0c/JoE2Rm3ja4xwW1/TWNmqBhGV15
+         EsSDGXuMq5+dXfE140iGSi8a0QbELIT8OxRBv2+3DJ2Bt+o+B3GXlvbUuxqHmHxpjVQH
+         PbLBxypH5NRZFXaoQ0wYQPYF6pdFe0cIDhWtk8ws8vh3nxQMtIJkNjJRZd75Q6puOb+F
+         xQ1Q==
+X-Gm-Message-State: AOAM532YJM5/lf9Dc6aOYjjIth/IKwzGRqn3O4xox8dW123xvMMAX8zk
+        yg+0E9+Lof14NgpgyqrlFVoj8w==
+X-Google-Smtp-Source: ABdhPJwgrx/NnYB9a213ApL25hip5UQURu1AsnZb8zCu64ngyBsg/8QSfliZKaJvOKT2rhze5DC6Wg==
+X-Received: by 2002:a17:902:c943:b0:142:1758:8ee7 with SMTP id i3-20020a170902c94300b0014217588ee7mr4920255pla.58.1636609219858;
+        Wed, 10 Nov 2021 21:40:19 -0800 (PST)
 Received: from [10.254.173.217] ([139.177.225.248])
-        by smtp.gmail.com with ESMTPSA id n1sm843342pgb.54.2021.11.10.19.58.16
+        by smtp.gmail.com with ESMTPSA id bt2sm7134464pjb.33.2021.11.10.21.40.14
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Nov 2021 19:58:20 -0800 (PST)
-Message-ID: <60515562-5f93-11cd-6c6a-c7cc92ff3bf8@bytedance.com>
-Date:   Thu, 11 Nov 2021 11:58:13 +0800
+        Wed, 10 Nov 2021 21:40:19 -0800 (PST)
+Message-ID: <9e630c7a-8c29-3a05-5056-a045e11c7949@bytedance.com>
+Date:   Thu, 11 Nov 2021 13:40:11 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.3.0
-Subject: Re: [PATCH v3 00/15] Free user PTE page table pages
-To:     David Hildenbrand <david@redhat.com>,
-        Jason Gunthorpe <jgg@nvidia.com>
-Cc:     akpm@linux-foundation.org, tglx@linutronix.de,
-        kirill.shutemov@linux.intel.com, mika.penttila@nextfour.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+Subject: Re: [PATCH v3 14/15] Documentation: add document for pte_ref
+To:     Jonathan Corbet <corbet@lwn.net>, akpm@linux-foundation.org,
+        tglx@linutronix.de, kirill.shutemov@linux.intel.com,
+        mika.penttila@nextfour.com, david@redhat.com, jgg@nvidia.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, songmuchun@bytedance.com,
         zhouchengming@bytedance.com
 References: <20211110105428.32458-1-zhengqi.arch@bytedance.com>
- <20211110125601.GQ1740502@nvidia.com>
- <8d0bc258-58ba-52c5-2e0d-a588489f2572@redhat.com>
- <20211110143859.GS1740502@nvidia.com>
- <6ac9cc0d-7dea-0e19-51b3-625ec6561ac7@redhat.com>
- <20211110163925.GX1740502@nvidia.com>
- <7c97d86f-57f4-f764-3e92-1660690a0f24@redhat.com>
+ <20211110105428.32458-15-zhengqi.arch@bytedance.com>
+ <875yt0krcj.fsf@meer.lwn.net>
 From:   Qi Zheng <zhengqi.arch@bytedance.com>
-In-Reply-To: <7c97d86f-57f4-f764-3e92-1660690a0f24@redhat.com>
+In-Reply-To: <875yt0krcj.fsf@meer.lwn.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
@@ -80,79 +75,44 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 
 
-On 11/11/21 1:37 AM, David Hildenbrand wrote:
->>> It would still be a fairly coarse-grained locking, I am not sure if that
->>> is a step into the right direction. If you want to modify *some* page
->>> table in your process you have exclude each and every page table walker.
->>> Or did I mis-interpret what you were saying?
->>
->> That is one possible design, it favours fast walking and penalizes
->> mutation. We could also stick a lock in the PMD (instead of a
->> refcount) and still logically be using a lock instead of a refcount
->> scheme. Remember modify here is "want to change a table pointer into a
->> leaf pointer" so it isn't an every day activity..
+On 11/10/21 10:39 PM, Jonathan Corbet wrote:
+> Qi Zheng <zhengqi.arch@bytedance.com> writes:
 > 
-> It will be if we somewhat frequent when reclaim an empty PTE page table
-> as soon as it turns empty. This not only happens when zapping, but also
-> during writeback/swapping. So while writing back / swapping you might be
-> left with empty page tables to reclaim.
+>> This commit adds document for pte_ref under `Documentation/vm/`.
 > 
-> Of course, this is the current approach. Another approach that doesn't
-> require additional refcounts is scanning page tables for empty ones and
-> reclaiming them. This scanning can either be triggered manually from
-> user space or automatically from the kernel.
+> Thanks for documenting this work!
+> 
+>> Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
+>> ---
+>>   Documentation/vm/pte_ref.rst | 212 +++++++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 212 insertions(+)
+>>   create mode 100644 Documentation/vm/pte_ref.rst
+> 
+> When you add a new RST file, you also need to add it to the associated
+> index.rst file or it won't be included in the docs build.  Instead,
+> you'll get the "not included in any toctree" warning that you surely saw
+> when you tested the docs build with this file :)
 
-Whether it is introducing a special rwsem or scanning an empty page
-table, there are two problems as follows:
-
-	#1. When to trigger the scanning or releasing?
-	#2. Every time to release a 4K page table page, 512 page table
-	    entries need to be scanned.
-
-For #1, if the scanning is triggered manually from user space, the
-kernel is relatively passive, and the user does not fully know the best
-timing to scan. If the scanning is triggered automatically from the
-kernel, that is great. But the timing is not easy to confirm, is it
-scanned and reclaimed every time zap or try_to_unmap?
-
-For #2, refcount has advantages.
+OK, I will add it to the associated index.rst in the next version.
 
 > 
->>
->> There is some advantage with this thinking because it harmonizes well
->> with the other stuff that wants to convert tables into leafs, but has
->> to deal with complicated locking.
->>
->> On the other hand, refcounts are a degenerate kind of rwsem and only
->> help with freeing pages. It also puts more atomics in normal fast
->> paths since we are refcounting each PTE, not read locking the PMD.
->>
->> Perhaps the ideal thing would be to stick a rwsem in the PMD. read
->> means a table cannot be come a leaf. I don't know if there is space
->> for another atomic in the PMD level, and we'd have to use a hitching
->> post/hashed waitq scheme too since there surely isn't room for a waitq
->> too..
->>
->> I wouldn't be so quick to say one is better than the other, but at
->> least let's have thought about a locking solution before merging
->> refcounts :)
+>> diff --git a/Documentation/vm/pte_ref.rst b/Documentation/vm/pte_ref.rst
+>> new file mode 100644
+>> index 000000000000..c5323a263464
+>> --- /dev/null
+>> +++ b/Documentation/vm/pte_ref.rst
+>> @@ -0,0 +1,212 @@
+>> +.. _pte_ref:
 > 
-> Yes, absolutely. I can see the beauty in the current approach, because
-> it just reclaims "automatically" once possible -- page table empty and
-> nobody is walking it. The downside is that it doesn't always make sense
-> to reclaim an empty page table immediately once it turns empty.
-> 
-> Also, it adds complexity for something that is only a problem in some
-> corner cases -- sparse memory mappings, especially relevant for some
-> memory allocators after freeing a lot of memory or running VMs with
-> memory ballooning after inflating the balloon. Some of these use cases
-> might be good with just triggering page table reclaim manually from user
-> space.
-> 
+> Do you need this label anywhere?  If not, I'd leave it out.
 
-Yes, this is indeed a problem. Perhaps some flags can be introduced so
-that the release of page table pages can be delayed in some cases.
-Similar to the lazyfree mechanism in MADV_FREE?
+I will remove this label in the next version.
 
 Thanks,
 Qi
+
+> 
+> Thanks,
+> 
+> jon
+> 
