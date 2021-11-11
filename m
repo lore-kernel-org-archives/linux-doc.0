@@ -2,32 +2,32 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2AF4C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Nov 2021 13:47:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 007FBC433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Nov 2021 15:17:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AD232610CB
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Nov 2021 13:47:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DAC6061252
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Nov 2021 15:17:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233482AbhKKNua (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Nov 2021 08:50:30 -0500
-Received: from mga04.intel.com ([192.55.52.120]:46172 "EHLO mga04.intel.com"
+        id S233940AbhKKPUf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Nov 2021 10:20:35 -0500
+Received: from mga01.intel.com ([192.55.52.88]:26848 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232699AbhKKNu3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 11 Nov 2021 08:50:29 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10164"; a="231635273"
+        id S232126AbhKKPUf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 11 Nov 2021 10:20:35 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10164"; a="256633520"
 X-IronPort-AV: E=Sophos;i="5.87,226,1631602800"; 
-   d="gz'50?scan'50,208,50";a="231635273"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2021 05:47:40 -0800
+   d="gz'50?scan'50,208,50";a="256633520"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2021 07:17:43 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.87,226,1631602800"; 
-   d="gz'50?scan'50,208,50";a="602618762"
+   d="gz'50?scan'50,208,50";a="583413199"
 Received: from lkp-server02.sh.intel.com (HELO c20d8bc80006) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 11 Nov 2021 05:47:36 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 11 Nov 2021 07:17:38 -0800
 Received: from kbuild by c20d8bc80006 with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1mlAQR-000GYm-H8; Thu, 11 Nov 2021 13:47:35 +0000
-Date:   Thu, 11 Nov 2021 21:46:37 +0800
+        id 1mlBpa-000GfE-0U; Thu, 11 Nov 2021 15:17:38 +0000
+Date:   Thu, 11 Nov 2021 23:17:26 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Qi Zheng <zhengqi.arch@bytedance.com>, akpm@linux-foundation.org,
         tglx@linutronix.de, kirill.shutemov@linux.intel.com,
@@ -35,20 +35,21 @@ To:     Qi Zheng <zhengqi.arch@bytedance.com>, akpm@linux-foundation.org,
 Cc:     kbuild-all@lists.01.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         songmuchun@bytedance.com
-Subject: Re: [PATCH v3 02/15] mm: introduce is_huge_pmd() helper
-Message-ID: <202111112105.ExMahDDX-lkp@intel.com>
-References: <20211110105428.32458-3-zhengqi.arch@bytedance.com>
+Subject: Re: [PATCH v3 07/15] mm/pte_ref: add support for user PTE page table
+ page allocation
+Message-ID: <202111112347.Q0hdSAwS-lkp@intel.com>
+References: <20211110105428.32458-8-zhengqi.arch@bytedance.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="qDbXVdCdHGoSgWSk"
+Content-Type: multipart/mixed; boundary="17pEHd4RhPHOinZp"
 Content-Disposition: inline
-In-Reply-To: <20211110105428.32458-3-zhengqi.arch@bytedance.com>
+In-Reply-To: <20211110105428.32458-8-zhengqi.arch@bytedance.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---qDbXVdCdHGoSgWSk
+--17pEHd4RhPHOinZp
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -57,7 +58,8 @@ Hi Qi,
 Thank you for the patch! Yet something to improve:
 
 [auto build test ERROR on hnaz-mm/master]
-[also build test ERROR on tip/perf/core tip/x86/core linus/master v5.15 next-20211111]
+[also build test ERROR on linus/master next-20211111]
+[cannot apply to tip/perf/core tip/x86/core v5.15]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch]
@@ -69,10 +71,10 @@ compiler: ia64-linux-gcc (GCC) 11.2.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/ce86336fbabb116520ad01162faf5c8d4a1ce124
+        # https://github.com/0day-ci/linux/commit/6e3cc5bb722cbd2fc4170d2f5371e52792d17d2e
         git remote add linux-review https://github.com/0day-ci/linux
         git fetch --no-tags linux-review Qi-Zheng/Free-user-PTE-page-table-pages/20211110-185837
-        git checkout ce86336fbabb116520ad01162faf5c8d4a1ce124
+        git checkout 6e3cc5bb722cbd2fc4170d2f5371e52792d17d2e
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross ARCH=ia64 
 
@@ -81,152 +83,61 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 All errors (new ones prefixed by >>):
 
-   mm/memory.c: In function 'copy_pmd_range':
->> mm/memory.c:1149:21: error: implicit declaration of function 'is_huge_pmd'; did you mean 'is_hugepd'? [-Werror=implicit-function-declaration]
-    1149 |                 if (is_huge_pmd(*src_pmd)) {
-         |                     ^~~~~~~~~~~
-         |                     is_hugepd
-   In file included from <command-line>:
-   In function 'zap_pmd_range',
-       inlined from 'zap_pud_range' at mm/memory.c:1499:10,
-       inlined from 'zap_p4d_range' at mm/memory.c:1520:10,
-       inlined from 'unmap_page_range' at mm/memory.c:1541:10:
-   include/linux/compiler_types.h:335:45: error: call to '__compiletime_assert_304' declared with attribute error: BUILD_BUG failed
-     335 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+   In file included from arch/ia64/include/uapi/asm/gcc_intrin.h:11,
+                    from arch/ia64/include/asm/gcc_intrin.h:10,
+                    from arch/ia64/include/uapi/asm/intrinsics.h:20,
+                    from arch/ia64/include/asm/intrinsics.h:11,
+                    from arch/ia64/include/asm/page.h:11,
+                    from arch/ia64/include/asm/pgtable.h:18,
+                    from include/linux/pgtable.h:6,
+                    from include/linux/pte_ref.h:10,
+                    from mm/pte_ref.c:8:
+   mm/pte_ref.c: In function 'pte_try_get':
+>> mm/pte_ref.c:37:22: error: implicit declaration of function 'is_huge_pmd'; did you mean 'zap_huge_pmd'? [-Werror=implicit-function-declaration]
+      37 |         if (unlikely(is_huge_pmd(*pmd)))
+         |                      ^~~~~~~~~~~
+   include/linux/compiler.h:78:45: note: in definition of macro 'unlikely'
+      78 | # define unlikely(x)    __builtin_expect(!!(x), 0)
          |                                             ^
-   include/linux/compiler_types.h:316:25: note: in definition of macro '__compiletime_assert'
-     316 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:335:9: note: in expansion of macro '_compiletime_assert'
-     335 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:59:21: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      59 | #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
-         |                     ^~~~~~~~~~~~~~~~
-   include/linux/huge_mm.h:328:27: note: in expansion of macro 'BUILD_BUG'
-     328 | #define HPAGE_PMD_SIZE ({ BUILD_BUG(); 0; })
-         |                           ^~~~~~~~~
-   mm/memory.c:1444:44: note: in expansion of macro 'HPAGE_PMD_SIZE'
-    1444 |                         if (next - addr != HPAGE_PMD_SIZE)
-         |                                            ^~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   mm/mprotect.c: In function 'change_pmd_range':
->> mm/mprotect.c:260:21: error: implicit declaration of function 'is_huge_pmd'; did you mean 'is_hugepd'? [-Werror=implicit-function-declaration]
-     260 |                 if (is_huge_pmd(*pmd)) {
-         |                     ^~~~~~~~~~~
-         |                     is_hugepd
-   In file included from <command-line>:
-   In function 'change_pmd_range',
-       inlined from 'change_pud_range' at mm/mprotect.c:307:12,
-       inlined from 'change_p4d_range' at mm/mprotect.c:327:12,
-       inlined from 'change_protection_range' at mm/mprotect.c:352:12:
-   include/linux/compiler_types.h:335:45: error: call to '__compiletime_assert_298' declared with attribute error: BUILD_BUG failed
-     335 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:316:25: note: in definition of macro '__compiletime_assert'
-     316 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:335:9: note: in expansion of macro '_compiletime_assert'
-     335 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:59:21: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      59 | #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
-         |                     ^~~~~~~~~~~~~~~~
-   include/linux/huge_mm.h:328:27: note: in expansion of macro 'BUILD_BUG'
-     328 | #define HPAGE_PMD_SIZE ({ BUILD_BUG(); 0; })
-         |                           ^~~~~~~~~
-   mm/mprotect.c:261:44: note: in expansion of macro 'HPAGE_PMD_SIZE'
-     261 |                         if (next - addr != HPAGE_PMD_SIZE) {
-         |                                            ^~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   mm/mremap.c: In function 'move_page_tables':
->> mm/mremap.c:535:21: error: implicit declaration of function 'is_huge_pmd'; did you mean 'is_hugepd'? [-Werror=implicit-function-declaration]
-     535 |                 if (is_huge_pmd(*old_pmd)) {
-         |                     ^~~~~~~~~~~
-         |                     is_hugepd
-   In file included from <command-line>:
-   include/linux/compiler_types.h:335:45: error: call to '__compiletime_assert_304' declared with attribute error: BUILD_BUG failed
-     335 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:316:25: note: in definition of macro '__compiletime_assert'
-     316 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:335:9: note: in expansion of macro '_compiletime_assert'
-     335 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:59:21: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      59 | #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
-         |                     ^~~~~~~~~~~~~~~~
-   include/linux/huge_mm.h:328:27: note: in expansion of macro 'BUILD_BUG'
-     328 | #define HPAGE_PMD_SIZE ({ BUILD_BUG(); 0; })
-         |                           ^~~~~~~~~
-   mm/mremap.c:536:39: note: in expansion of macro 'HPAGE_PMD_SIZE'
-     536 |                         if (extent == HPAGE_PMD_SIZE &&
-         |                                       ^~~~~~~~~~~~~~
    cc1: some warnings being treated as errors
 
 
-vim +1149 mm/memory.c
+vim +37 mm/pte_ref.c
 
-  1132	
-  1133	static inline int
-  1134	copy_pmd_range(struct vm_area_struct *dst_vma, struct vm_area_struct *src_vma,
-  1135		       pud_t *dst_pud, pud_t *src_pud, unsigned long addr,
-  1136		       unsigned long end)
-  1137	{
-  1138		struct mm_struct *dst_mm = dst_vma->vm_mm;
-  1139		struct mm_struct *src_mm = src_vma->vm_mm;
-  1140		pmd_t *src_pmd, *dst_pmd;
-  1141		unsigned long next;
-  1142	
-  1143		dst_pmd = pmd_alloc(dst_mm, dst_pud, addr);
-  1144		if (!dst_pmd)
-  1145			return -ENOMEM;
-  1146		src_pmd = pmd_offset(src_pud, addr);
-  1147		do {
-  1148			next = pmd_addr_end(addr, end);
-> 1149			if (is_huge_pmd(*src_pmd)) {
-  1150				int err;
-  1151				VM_BUG_ON_VMA(next-addr != HPAGE_PMD_SIZE, src_vma);
-  1152				err = copy_huge_pmd(dst_mm, src_mm, dst_pmd, src_pmd,
-  1153						    addr, dst_vma, src_vma);
-  1154				if (err == -ENOMEM)
-  1155					return -ENOMEM;
-  1156				if (!err)
-  1157					continue;
-  1158				/* fall through */
-  1159			}
-  1160			if (pmd_none_or_clear_bad(src_pmd))
-  1161				continue;
-  1162			if (copy_pte_range(dst_vma, src_vma, dst_pmd, src_pmd,
-  1163					   addr, next))
-  1164				return -ENOMEM;
-  1165		} while (dst_pmd++, src_pmd++, addr = next, addr != end);
-  1166		return 0;
-  1167	}
-  1168	
+e03404013f81d7 Qi Zheng 2021-11-10  20  
+e03404013f81d7 Qi Zheng 2021-11-10  21  /*
+e03404013f81d7 Qi Zheng 2021-11-10  22   * pte_try_get - Try to increment refcount for the PTE page table.
+e03404013f81d7 Qi Zheng 2021-11-10  23   * @pmd: a pointer to the pmd entry corresponding to the PTE page table.
+e03404013f81d7 Qi Zheng 2021-11-10  24   *
+e03404013f81d7 Qi Zheng 2021-11-10  25   * Return true if the increment succeeded. Otherwise return false.
+e03404013f81d7 Qi Zheng 2021-11-10  26   *
+e03404013f81d7 Qi Zheng 2021-11-10  27   * Before Operating the PTE page table, we need to hold a refcount
+e03404013f81d7 Qi Zheng 2021-11-10  28   * to protect against the concurrent release of the PTE page table.
+e03404013f81d7 Qi Zheng 2021-11-10  29   * But we will fail in the following case:
+e03404013f81d7 Qi Zheng 2021-11-10  30   * 	- The content mapped in @pmd is not a PTE page
+e03404013f81d7 Qi Zheng 2021-11-10  31   * 	- The refcount of the PTE page table is zero, it will be freed
+e03404013f81d7 Qi Zheng 2021-11-10  32   */
+e03404013f81d7 Qi Zheng 2021-11-10  33  enum pte_tryget_type pte_try_get(pmd_t *pmd)
+e03404013f81d7 Qi Zheng 2021-11-10  34  {
+e03404013f81d7 Qi Zheng 2021-11-10  35  	if (unlikely(pmd_none(*pmd)))
+e03404013f81d7 Qi Zheng 2021-11-10  36  		return TRYGET_FAILED_NONE;
+e03404013f81d7 Qi Zheng 2021-11-10 @37  	if (unlikely(is_huge_pmd(*pmd)))
+e03404013f81d7 Qi Zheng 2021-11-10  38  		return TRYGET_FAILED_HUGE_PMD;
+e03404013f81d7 Qi Zheng 2021-11-10  39  
+e03404013f81d7 Qi Zheng 2021-11-10  40  	return TRYGET_SUCCESSED;
+e03404013f81d7 Qi Zheng 2021-11-10  41  }
+e03404013f81d7 Qi Zheng 2021-11-10  42  
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
---qDbXVdCdHGoSgWSk
+--17pEHd4RhPHOinZp
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICPwWjWEAAy5jb25maWcAnDxbc+I4s+/7K6jZl92qb3aBTDJJncqDLMugg2+RbCB5cTEJ
+H4sICAcojWEAAy5jb25maWcAnDxbc+I4s+/7K6jZl92qb3aBTDJJncqDLMugg2+RbCB5cTEJ
 M0ttEqaA7OXfn27JF8mWyHxnHjKgbrWlVt/V5ueffh6Rt9P+ZXPaPW6en/8dfdu+bg+b0/Zp
 9HX3vP2fUZiN0qwYsZAXvwFyvHt9++f33ebq0+jyt8nlb+OPh8fPH19eJqPF9vC6fR7R/evX
 3bc3ILHbv/708080SyM+qyitlkxInqVVwdbF7Qck8fEZqX389vg4+mVG6a+jyeS36W/jD8Yk
@@ -599,4 +510,4 @@ WOBdyry+m3uhZKQj+E2mq3K8OPjMqbrA8hirqcXHx6cFWpNGFZ06emCxUirIVjEo1gu0P+q9
 za3LQOCZWEiOg52Yj25lak8rOfWqLs1MW5LMRHAuJ7tBiVahl10n0wjkSIsKs6xXTFFtFlle
 DkfPEHni9kH7yE+W2/8DHXKWDf9KAQA=
 
---qDbXVdCdHGoSgWSk--
+--17pEHd4RhPHOinZp--
