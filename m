@@ -2,107 +2,213 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49C4BC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Nov 2021 11:09:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E05CAC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Nov 2021 11:19:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2F0396162E
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Nov 2021 11:09:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B865D611F2
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Nov 2021 11:19:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231998AbhKKLMU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Nov 2021 06:12:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39046 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230400AbhKKLMT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Nov 2021 06:12:19 -0500
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C88FBC061766;
-        Thu, 11 Nov 2021 03:09:30 -0800 (PST)
-Received: by mail-pl1-x62c.google.com with SMTP id p18so5426593plf.13;
-        Thu, 11 Nov 2021 03:09:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=e+WCiuNRSkk481YMnkbZWRCXjrJnRPSe0i90hEzEWPQ=;
-        b=jU1zRcPgl+pNWcpgIA4xjJIRq8cKUbocnVbYLwb27bz8T2oS2S03flDr3BVkYRT2zM
-         s+HbzqmsIUYBxF9F18qTzQ8/21gEm1upKDhtLD4NzyKC03sXq3ToUaEm+oNNn0MH8Xh2
-         UTrGiHl8ptoP5ZIDxD4gFu6RMdLslD9toX/rCJDfQKKb7z27bq9Xjte3q49HjVXVvDkY
-         0MYgI4l96W6zYV8NzuX/FKtGM0E9M383kAmScy7MSx3WDgyskjmAsWxwc+LDiWHFgixc
-         rJgp53PsJwVotZbwAr9QhML7yzLD8tOJkvnXUzsqkWlIRxmYWkw6uPDLE07ahpUCnE06
-         NFXw==
+        id S233025AbhKKLWO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Nov 2021 06:22:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32922 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232968AbhKKLWO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Nov 2021 06:22:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1636629565;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=hcct+m77bB3BA7FIYH1yKziGwtFbgMvGYg90ik0HLxk=;
+        b=KlYrIsXsiUcsE+1h6Eu6pqn0I1QP9MWpXjL0imDT0fHS7huwio/Kqk4N7W96eZLb8y3JrX
+        Sb1J1kzSOox7zpMP17j2CO67o/0Du3Sjed31nz4CvvXOHRNSFxD3MJVr/xJUpyVwHYx2W6
+        OA6Mu1WPOM/yAm6iCkmfvCOYZq2UzwA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-375-5jf-qcRsN0WENL6NWB1tIQ-1; Thu, 11 Nov 2021 06:19:23 -0500
+X-MC-Unique: 5jf-qcRsN0WENL6NWB1tIQ-1
+Received: by mail-wr1-f71.google.com with SMTP id k8-20020a5d5248000000b001763e7c9ce5so958545wrc.22
+        for <linux-doc@vger.kernel.org>; Thu, 11 Nov 2021 03:19:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=e+WCiuNRSkk481YMnkbZWRCXjrJnRPSe0i90hEzEWPQ=;
-        b=HEFBDLzX4cMuzNaFyDVSRDH9Xm7F14gh1pWluLhhugppHf9x1/TpkB+DBH7wkwyL7n
-         ptD0gTOiJFq8F18ShhntOdswSjyOee+cOXEF/p+laoHXML8TT+ypTugWLqcwfpsK/TtG
-         nM5Z0JKNtVWGwlmBp4Yyf69PVkLFbUBeSNHSlOefc2CF6yQxxxQac+oC35bb+kK2x247
-         9spteE+BUFxCAmg6Jg/g8XZOE6O5p1JNxbSx+zjRWmKKcJ+xy9lGgR+ylltqTz1h3ZI4
-         bv4sbvtPO2w14ae1bIiOXeOFo9ekkxri4MW+Rq63NOzaedp+2qV00x0AoxV/I2kvShYi
-         crHQ==
-X-Gm-Message-State: AOAM5322XbFYRRxAPbDolnhMEXogGw/TH4XHUd13bAB96jq+ZSdUI9lz
-        yOOgmC+NqC9oKMDRxoxm+9InmeIGLEe+DJSwM/U=
-X-Google-Smtp-Source: ABdhPJy+fGZ/wI41SiU2eEu31GRsOdAUtr3Z/EJMLoxpU11QXPp5WRgB0rpf6EQOzAGJhhWs2VCuq3d/dbocrKZwtOQ=
-X-Received: by 2002:a17:903:248f:b0:143:8e81:4d7c with SMTP id
- p15-20020a170903248f00b001438e814d7cmr7014354plw.1.1636628970374; Thu, 11 Nov
- 2021 03:09:30 -0800 (PST)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=hcct+m77bB3BA7FIYH1yKziGwtFbgMvGYg90ik0HLxk=;
+        b=69jbM75AEBc0kBk2xRjuLI8DmjOa3sT9TLD7jzhm3jBfnQEgJA6nbpvWFXlqJyl8Lr
+         mvXRoSw5IFvmJVHl1DDyIBAx3q/wK0sfo1gWCT7Ct9FBYo7+rf69x3mhL2z7toiJTmAF
+         +BxJKhy9GFSgPYH2tne7FhT+J84vAIFkZPPXnej4Uqymwrv7fzep6Tq+h3qIWi7NxaLN
+         P6fDF4IkaGEjQBJo13gYVblmIiaIxbTbjXw4cUe7qwssF/LCaemH0swB41N+Ppi9ctbg
+         pRXFcOQvdXbFg9FQrRzyTPXtLwQwY98/HAD8UC46gZu0M/H+FuzwQsxZY86bsBVMi4hB
+         jZXg==
+X-Gm-Message-State: AOAM53191hJiDBeAaE75QxrZFrv3DynBjEGGKqATd1q//yPYN8jpD/hr
+        5qRzpbZMmIsWUnGloy+trcuvRn74hKgSDIcs0IP+d1dDBouRLvpjh2vkSkOijlFWafDJj4K/z6X
+        nMUMA7znDVrpYBZeX2QV0
+X-Received: by 2002:a05:6000:1a86:: with SMTP id f6mr7984485wry.230.1636629562712;
+        Thu, 11 Nov 2021 03:19:22 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyRkM24R3AJ++cyQ2YE83KFWcueuhjziquB4Ua9ZX6uR4pLCcr4om3xNDoflfqLqt388Odd2w==
+X-Received: by 2002:a05:6000:1a86:: with SMTP id f6mr7984453wry.230.1636629562438;
+        Thu, 11 Nov 2021 03:19:22 -0800 (PST)
+Received: from [192.168.3.132] (p4ff23ee8.dip0.t-ipconnect.de. [79.242.62.232])
+        by smtp.gmail.com with ESMTPSA id o5sm2545810wrx.83.2021.11.11.03.19.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Nov 2021 03:19:21 -0800 (PST)
+Message-ID: <27d73395-70b4-fe4a-4c8d-415b43ff9c1f@redhat.com>
+Date:   Thu, 11 Nov 2021 12:19:20 +0100
 MIME-Version: 1.0
-References: <20211110120213.134313-1-alexs@kernel.org>
-In-Reply-To: <20211110120213.134313-1-alexs@kernel.org>
-From:   teng sterling <sterlingteng@gmail.com>
-Date:   Thu, 11 Nov 2021 19:09:19 +0800
-Message-ID: <CAMU9jJr08+V7DiK140tgbLBc4WifgvcOJoDKjgq=wA8J+0y+fw@mail.gmail.com>
-Subject: Re: [PATCH] doc/zh_CN: fix a translation error in management-style
-To:     Alex Shi <alexs@kernel.org>
-Cc:     Xinyong Wang <wang.xy.chn@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v3 00/15] Free user PTE page table pages
+Content-Language: en-US
+To:     Qi Zheng <zhengqi.arch@bytedance.com>,
+        Jason Gunthorpe <jgg@nvidia.com>
+Cc:     akpm@linux-foundation.org, tglx@linutronix.de,
+        kirill.shutemov@linux.intel.com, mika.penttila@nextfour.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, songmuchun@bytedance.com,
+        zhouchengming@bytedance.com
+References: <20211110105428.32458-1-zhengqi.arch@bytedance.com>
+ <20211110125601.GQ1740502@nvidia.com>
+ <8d0bc258-58ba-52c5-2e0d-a588489f2572@redhat.com>
+ <20211110143859.GS1740502@nvidia.com>
+ <6ac9cc0d-7dea-0e19-51b3-625ec6561ac7@redhat.com>
+ <20211110163925.GX1740502@nvidia.com>
+ <7c97d86f-57f4-f764-3e92-1660690a0f24@redhat.com>
+ <60515562-5f93-11cd-6c6a-c7cc92ff3bf8@bytedance.com>
+ <a052e0ba-a22c-5df1-80b8-d847efacd66e@redhat.com>
+ <9ee06b52-4844-7996-fa34-34fc7d4fdc10@bytedance.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <9ee06b52-4844-7996-fa34-34fc7d4fdc10@bytedance.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PGFsZXhzQGtlcm5lbC5vcmc+IOS6jjIwMjHlubQxMeaciDEw5pel5ZGo5LiJIOS4i+WNiDg6MDPl
-hpnpgZPvvJoNCj4NCj4gRnJvbTogQWxleCBTaGkgPGFsZXhzQGtlcm5lbC5vcmc+DQo+DQo+ICdU
-aGUgbmFtZSBvZiB0aGUgZ2FtZScgbWVhbnMgdGhlIG1vc3QgaW1wb3J0YW50IHBhcnQgb2YgYW4g
-YWN0aXZpdHksIHNvDQo+IHdlIHNob3VsZCB0cmFuc2xhdGUgaXQgYnkgdGhlIG1lYW5pbmcgaW5z
-dGVhZCBvZiB0aGUgd29yZHMuDQo+DQo+IFN1Z2dlc3RlZC1ieTogWGlueW9uZyBXYW5nIDx3YW5n
-Lnh5LmNobkBnbWFpbC5jb20+DQo+IFNpZ25lZC1vZmYtYnk6IEFsZXggU2hpIDxhbGV4c0BrZXJu
-ZWwub3JnPg0KUmV2aWV3ZWQtYnk6IFlhbnRlbmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nvbi5jbj4N
-Cg0KVGhhbmtzLA0KWWFudGVuZw0KPiBDYzogSm9uYXRoYW4gQ29yYmV0IDxjb3JiZXRAbHduLm5l
-dD4NCj4gQ2M6IGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmcNCj4gQ2M6IGxpbnV4LWtlcm5lbEB2
-Z2VyLmtlcm5lbC5vcmcNCj4gLS0tDQo+ICBEb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9D
-Ti9wcm9jZXNzL21hbmFnZW1lbnQtc3R5bGUucnN0IHwgNCArKy0tDQo+ICAxIGZpbGUgY2hhbmdl
-ZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPg0KPiBkaWZmIC0tZ2l0IGEvRG9j
-dW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vcHJvY2Vzcy9tYW5hZ2VtZW50LXN0eWxlLnJz
-dCBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3Byb2Nlc3MvbWFuYWdlbWVudC1z
-dHlsZS5yc3QNCj4gaW5kZXggYzZhNWJiMjg1Nzk3Li44MDUzYWU0NzQzMjggMTAwNjQ0DQo+IC0t
-LSBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3Byb2Nlc3MvbWFuYWdlbWVudC1z
-dHlsZS5yc3QNCj4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vcHJvY2Vz
-cy9tYW5hZ2VtZW50LXN0eWxlLnJzdA0KPiBAQCAtMzYsMTQgKzM2LDE0IEBAIExpbnV45YaF5qC4
-566h55CG6aOO5qC8DQo+ICDmr4/kuKrkurrpg73orqTkuLrnrqHnkIbogIXlgZrlhrPlrprvvIzo
-gIzkuJTlhrPnrZblvojph43opoHjgILlhrPlrprotorlpKfotornl5voi6bvvIznrqHnkIbogIXl
-sLHlv4Xpobvotorpq5jnuqfjgIINCj4gIOi/meW+iOaYjuaYvu+8jOS9huS6i+WunuW5tumdnuWm
-guatpOOAgg0KPg0KPiAt5ri45oiP55qE5ZCN5a2X5pivICoq6YG/5YWNKiog5YGa5Ye65Yaz5a6a
-44CC5bCk5YW25piv77yM5aaC5p6c5pyJ5Lq65ZGK6K+J5L2g4oCc6YCJ5oup77yIYe+8ieaIlu+8
-iGLvvInvvIwNCj4gK+acgOmHjeimgeeahOaYryAqKumBv+WFjSoqIOWBmuWHuuWGs+WumuOAguWw
-pOWFtuaYr++8jOWmguaenOacieS6uuWRiuivieS9oOKAnOmAieaLqe+8iGHvvInmiJbvvIhi77yJ
-77yMDQo+ICDmiJHku6znnJ/nmoTpnIDopoHkvaDmnaXlgZrlhrPlrprigJ3vvIzkvaDlsLHmmK/p
-mbflhaXpurvng6bnmoTnrqHnkIbogIXjgILkvaDnrqHnkIbnmoTkurrmr5TkvaDmm7Tkuobop6Pn
-u4boioLvvIwNCj4gIOaJgOS7peWmguaenOS7luS7rOadpeaJvuS9oOWBmuaKgOacr+WGs+etlu+8
-jOS9oOWujOibi+S6huOAguS9oOaYvueEtuayoeacieiDveWKm+S4uuS7luS7rOWBmui/meS4quWG
-s+WumuOAgg0KPg0KPiAg77yI5o6o6K6677ya5aaC5p6c5L2g566h55CG55qE5Lq65LiN5q+U5L2g
-5pu05LqG6Kej57uG6IqC77yM5L2g5Lmf5Lya6KKr5pCe56C477yM5bC9566h5Y6f5Zug5a6M5YWo
-5LiN5ZCM44CCDQo+ICDkuZ/lsLHmmK/or7TvvIzkvaDnmoTlt6XkvZzmmK/plJnnmoTvvIzku5bk
-u6zlupTor6XnrqHnkIbkvaDnmoTmiY3mmbrvvIkNCj4NCj4gLeaJgOS7pea4uOaIj+eahOWQjeWt
-l+aYryAqKumBv+WFjSoqIOWBmuWHuuWGs+Wumu+8jOiHs+WwkeaYr+mCo+S6m+Wkp+iAjOeXm+iL
-pueahOWGs+WumuOAguWBmuS4gOS6m+Wwj+eahA0KPiAr5omA5Lul5pyA6YeN6KaB55qE5pivICoq
-6YG/5YWNKiog5YGa5Ye65Yaz5a6a77yM6Iez5bCR5piv6YKj5Lqb5aSn6ICM55eb6Ium55qE5Yaz
-5a6a44CC5YGa5LiA5Lqb5bCP55qEDQo+ICDlkozpnZ7nu5PmnpzmgKfnmoTlhrPlrprmmK/lvojl
-pb3nmoTvvIzlubbkuJTkvb/mgqjnnIvotbfmnaXlpb3lg4/nn6XpgZPoh6rlt7HlnKjlgZrku4Dk
-uYjvvIzmiYDku6XlhoXmoLjnrqHnkIbogIUNCj4gIOmcgOimgeWBmueahOaYr+WwhumCo+S6m+Wk
-p+eahOWSjOeXm+iLpueahOWGs+WumuWPmOaIkOmCo+S6m+ayoeacieS6uuecn+ato+WFs+W/g+ea
-hOWwj+S6i+aDheOAgg0KPg0KPiAtLQ0KPiAyLjI3LjANCj4NCg==
+On 11.11.21 12:08, Qi Zheng wrote:
+> 
+> 
+> On 11/11/21 5:22 PM, David Hildenbrand wrote:
+>> On 11.11.21 04:58, Qi Zheng wrote:
+>>>
+>>>
+>>> On 11/11/21 1:37 AM, David Hildenbrand wrote:
+>>>>>> It would still be a fairly coarse-grained locking, I am not sure if that
+>>>>>> is a step into the right direction. If you want to modify *some* page
+>>>>>> table in your process you have exclude each and every page table walker.
+>>>>>> Or did I mis-interpret what you were saying?
+>>>>>
+>>>>> That is one possible design, it favours fast walking and penalizes
+>>>>> mutation. We could also stick a lock in the PMD (instead of a
+>>>>> refcount) and still logically be using a lock instead of a refcount
+>>>>> scheme. Remember modify here is "want to change a table pointer into a
+>>>>> leaf pointer" so it isn't an every day activity..
+>>>>
+>>>> It will be if we somewhat frequent when reclaim an empty PTE page table
+>>>> as soon as it turns empty. This not only happens when zapping, but also
+>>>> during writeback/swapping. So while writing back / swapping you might be
+>>>> left with empty page tables to reclaim.
+>>>>
+>>>> Of course, this is the current approach. Another approach that doesn't
+>>>> require additional refcounts is scanning page tables for empty ones and
+>>>> reclaiming them. This scanning can either be triggered manually from
+>>>> user space or automatically from the kernel.
+>>>
+>>> Whether it is introducing a special rwsem or scanning an empty page
+>>> table, there are two problems as follows:
+>>>
+>>> 	#1. When to trigger the scanning or releasing?
+>>
+>> For example when reclaiming memory, when scanning page tables in
+>> khugepaged, or triggered by user space (note that this is the approach I
+>> originally looked into). But it certainly requires more locking thought
+>> to avoid stopping essentially any page table walker.
+>>
+>>> 	#2. Every time to release a 4K page table page, 512 page table
+>>> 	    entries need to be scanned.
+>>
+>> It would happen only when actually trigger reclaim of page tables
+>> (again, someone has to trigger it), so it's barely an issue.
+>>
+>> For example, khugepaged already scans the page tables either way.
+>>
+>>>
+>>> For #1, if the scanning is triggered manually from user space, the
+>>> kernel is relatively passive, and the user does not fully know the best
+>>> timing to scan. If the scanning is triggered automatically from the
+>>> kernel, that is great. But the timing is not easy to confirm, is it
+>>> scanned and reclaimed every time zap or try_to_unmap?
+>>>
+>>> For #2, refcount has advantages.
+>>>
+>>>>
+>>>>>
+>>>>> There is some advantage with this thinking because it harmonizes well
+>>>>> with the other stuff that wants to convert tables into leafs, but has
+>>>>> to deal with complicated locking.
+>>>>>
+>>>>> On the other hand, refcounts are a degenerate kind of rwsem and only
+>>>>> help with freeing pages. It also puts more atomics in normal fast
+>>>>> paths since we are refcounting each PTE, not read locking the PMD.
+>>>>>
+>>>>> Perhaps the ideal thing would be to stick a rwsem in the PMD. read
+>>>>> means a table cannot be come a leaf. I don't know if there is space
+>>>>> for another atomic in the PMD level, and we'd have to use a hitching
+>>>>> post/hashed waitq scheme too since there surely isn't room for a waitq
+>>>>> too..
+>>>>>
+>>>>> I wouldn't be so quick to say one is better than the other, but at
+>>>>> least let's have thought about a locking solution before merging
+>>>>> refcounts :)
+>>>>
+>>>> Yes, absolutely. I can see the beauty in the current approach, because
+>>>> it just reclaims "automatically" once possible -- page table empty and
+>>>> nobody is walking it. The downside is that it doesn't always make sense
+>>>> to reclaim an empty page table immediately once it turns empty.
+>>>>
+>>>> Also, it adds complexity for something that is only a problem in some
+>>>> corner cases -- sparse memory mappings, especially relevant for some
+>>>> memory allocators after freeing a lot of memory or running VMs with
+>>>> memory ballooning after inflating the balloon. Some of these use cases
+>>>> might be good with just triggering page table reclaim manually from user
+>>>> space.
+>>>>
+>>>
+>>> Yes, this is indeed a problem. Perhaps some flags can be introduced so
+>>> that the release of page table pages can be delayed in some cases.
+>>> Similar to the lazyfree mechanism in MADV_FREE?
+>>
+>> The issue AFAIU is that once your refcount hits 0 (no more references,
+>> no more entries), the longer you wait with reclaim, the longer others
+>> have to wait for populating a fresh page table because the "page table
+>> to be reclaimed" is still stuck around. You'd have to keep the refcount
+>> increased for a while, and only drop it after a while. But when? And
+>> how? IMHO it's not trivial, but maybe there is an easy way to achieve it.
+>>
+> 
+> For running VMs with memory ballooning after inflating the balloon, is
+> this a hot behavior? Even if it is, it is already facing the release and
+> reallocation of physical pages. The overhead after introducing
+> pte_refcount is that we need to release and re-allocate page table page.
+> But 2MB physical pages only corresponds to 4KiB of PTE page table page.
+> So maybe the overhead is not big.
+
+The cases that come to my mind are
+
+a) Swapping on shared memory with concurrent access
+b) Reclaim on file-backed memory with concurrent access
+c) Free page reporting as implemented by virtio-balloon
+
+In all of these cases, you can have someone immediately re-access the
+page table and re-populate it.
+
+For something mostly static (balloon inflation, memory allocator), it's
+not that big of a deal I guess.
+
+-- 
+Thanks,
+
+David / dhildenb
+
