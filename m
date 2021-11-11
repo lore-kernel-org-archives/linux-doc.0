@@ -2,90 +2,224 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A6E5C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Nov 2021 19:36:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2460DC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Nov 2021 20:13:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E339561269
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Nov 2021 19:36:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 079A261269
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Nov 2021 20:13:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233435AbhKKTjc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Nov 2021 14:39:32 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45564 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233406AbhKKTjc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 11 Nov 2021 14:39:32 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 66F5961264;
-        Thu, 11 Nov 2021 19:36:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636659403;
-        bh=RJPmO7S1qEyWbFcN4D+TGaOi6KTGZHLjpY2mxbQiiS0=;
-        h=Date:From:To:Subject:References:In-Reply-To:From;
-        b=h977kP+un846TuTEP3MZTu/0Z9Vt/HOwSls67XeK1T7U/dlD9H9hw0aFlVCWgDtrB
-         7M1QU4sJ46qBWIalAVshARbJQ7/I2FWkal88vLegHXIapw6eo4f8xq8adS7+JLEiOY
-         J4ez0cmQOBx27Oj4SsVSJPnCO5tk+FP0mwkaCKq0cGc5vSMkzsfVzDzJ480+WGNy9u
-         jDlUxNePU+UnDvqZpK2U4jcxRvqSg/+NFN8PVEcLLqb5dtRHMesaQt9R/382rO9B8q
-         3/OIkLhySYCqTAfBw7pj1/hvSv5hw3bDokk3OTp7SFAY0PRpKHDLz3LqkvdSLWfrbG
-         5qAeoHOhFb81g==
-Date:   Thu, 11 Nov 2021 20:36:36 +0100
-From:   Wolfram Sang <wsa@kernel.org>
-To:     linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Docs: Fixes link to I2C specification
-Message-ID: <YY1wxH7cR7Ycgveh@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>, linux-doc@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20211104060018.35570-1-deep@fastmail.in>
- <YYWqGyETMgKcIkul@kunai>
- <20211111184307.6ld75ektg6avb3wb@pop-os.localdomain>
+        id S231754AbhKKUQ1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Nov 2021 15:16:27 -0500
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133]:46578 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229539AbhKKUQ1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Nov 2021 15:16:27 -0500
+Received: from mailhost.synopsys.com (mdc-mailhost2.synopsys.com [10.225.0.210])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 463F141987;
+        Thu, 11 Nov 2021 20:13:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1636661617; bh=XseVvft9x1sew+i2e/LlGESkBdhICaqgzD46XMuqwcU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=QnQkSxonWGxZTeJEVUfug68jJ155ENOFCctPOHQHawMCEm5rv/Xq75n78ipQykCeJ
+         AVQgHE8JXRO4DnEi6yLaYJlsDPjxZJkU6avzcuXPLGvbwHknxABYIL3fBLT2LrAz+P
+         /s7xWj6k2zZo7vRJPP69yrgSM67GO/x1HZRvtxsuc9/dQ5E5eU7ogCHhN3GfPTQ3Z2
+         dVKn/D/O6A/prq5wNvak5WpPUiD1yTyNdV5TYOE1WTLsBENJZBw5iiUhyV2MS0K1d6
+         lvcaLY7FXXvggMxdxkPxm3DU8e5KWJ1khzA0drHom1n7gpWa75wjbOHUa3hkqzN01h
+         ZvwZ/RPyilvWQ==
+Received: from abrodkin-5550.internal.synopsys.com (unknown [10.121.15.17])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by mailhost.synopsys.com (Postfix) with ESMTPSA id 47A69A005D;
+        Thu, 11 Nov 2021 20:13:33 +0000 (UTC)
+X-SNPS-Relay: synopsys.com
+From:   Alexey Brodkin <Alexey.Brodkin@synopsys.com>
+To:     linux-doc@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        linux-snps-arc@lists.infradead.org,
+        Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
+        Vineet Gupta <vgupta@kernel.org>
+Subject: [PATCH] docs: Add documentation for ARC processors
+Date:   Thu, 11 Nov 2021 23:10:36 +0300
+Message-Id: <20211111201036.5692-1-abrodkin@synopsys.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="8zJiR3NH9MUTK2Mp"
-Content-Disposition: inline
-In-Reply-To: <20211111184307.6ld75ektg6avb3wb@pop-os.localdomain>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+ARC processors are supported in upstream kernel since v3.9
+and so far there was no documentation about them except some
+Device Tree bindings.
 
---8zJiR3NH9MUTK2Mp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fixing it with the simples set of docs now:
+1. Overview with pointers to other informational resources
+2. Autogenerated feature table
 
+Note though it's just the very beginning, there will be more
+for sure given time as there're many things worth documenting
+and in fact even contents itself is avaialble but just spread
+in some other places. Now we'll try to keep all here and
+then maintain it looking forward to match the state of development.
 
-> > I'd think we should have two links. One to the latest official specs,
-> > even though it is behind a login wall. And one to the latest free
-> > version. For that, I think the archieve.org address which Wikipedia uses
-> > is more stable thant the pololu address from above:
-> >=20
-> > https://web.archive.org/web/20210813122132/https://www.nxp.com/docs/en/=
-user-guide/UM10204.pdf
-> >=20
-> > What do you think?
-> >=20
-> Yes, I agree. Should I update the patch and re-send it?
+Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
+Cc: Vineet Gupta <vgupta@kernel.org>
+---
+ Documentation/arc/arc.rst      | 81 ++++++++++++++++++++++++++++++++++
+ Documentation/arc/features.rst |  3 ++
+ Documentation/arc/index.rst    | 17 +++++++
+ Documentation/arch.rst         |  1 +
+ MAINTAINERS                    |  1 +
+ 5 files changed, 103 insertions(+)
+ create mode 100644 Documentation/arc/arc.rst
+ create mode 100644 Documentation/arc/features.rst
+ create mode 100644 Documentation/arc/index.rst
 
-Yes, please.
+diff --git a/Documentation/arc/arc.rst b/Documentation/arc/arc.rst
+new file mode 100644
+index 000000000000..ab85c022cea1
+--- /dev/null
++++ b/Documentation/arc/arc.rst
+@@ -0,0 +1,81 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Linux kernel for ARC processors
++*******************************
++
++Other sources of information
++############################
++
++Below are some resources where more information can be found on
++ARC processors and relevant open source projects.
++
++1. `<https://embarc.org/>`_ - Community portal for open source on ARC.
++Good place to start to find relevant FOSS projects, toolchain releases,
++news items and more.
++
++2. `<https://github.com/foss-for-synopsys-dwc-arc-processors>`_ -
++Home for all development activities regarding open source projects for
++ARC processors. Some of the projects are forks of various upstream projects,
++where "work in progress" is hosted prior to submission to upstream projects.
++Other projects are developed by Synopsys and made available to community
++as open source for use on ARC Processors.
++
++3. `<https://www.synopsys.com/designware-ip/processor-solutions.html>`_ -
++Official Synopsys ARC Processors website location, with access to some IP
++documentation (Programmer's Reference Manuals, AKA "PRM's", see
++`<https://www.synopsys.com/dw/doc.php/ds/cc/programmers-reference-manual-ARC-HS.pdf>`_)
++and commercial tools (Free nSIM,
++`<https://www.synopsys.com/cgi-bin/dwarcnsim/req1.cgi>`_ and
++MetaWare Light Edition, `<https://www.synopsys.com/cgi-bin/arcmwtk_lite/reg1.cgi>`_)
++
++Important note on ARC processors configurability
++################################################
++
++ARC processors are highly configurable and several configurable options
++are supported in linux. Some options are transparent to software
++(i.e cache geometries, some can be detected at runtime and configured
++and used accordingly, while some need to be explicitly selected or configured
++in the kernel's configuration utility (AKA "make menuconfig").
++
++However not all configurable options are supported when an ARC processor
++is to run linux. SoC design teams should refer to "Appendix E:
++Configuration for ARC Linux" in the ARC HS Databook for configurability
++guidelines.
++
++Following these guidelines and selecting valid configuration options
++up front is critical to help prevent any unwanted issues during
++SoC bringup and software development in general.
++
++Building the Linux kernel for ARC processors
++############################################
++
++The process of kernel building for ARC processors is the same as for any other
++architecture and could be done in 2 ways:
++
++1. cross-compilation: process of compiling for ARC targets on a development
++host with a different processor architecture (generally x86_64/amd64).
++
++2. native compilation: process of compiling for ARC on a ARC platform
++(hardware board or a simulator like QEMU) with complete development environment
++(GNU toolchain, dtc, make etc) installed on the platform.
++
++In both cases, up-to-date GNU toolchain for ARC for the host is needed.
++Synopsys offers prebuilt toolchain releases which can be used for this purpose,
++available from:
++
++1. Synopsys GNU toolchain releases:
++`<https://github.com/foss-for-synopsys-dwc-arc-processors/toolchain/releases>`_
++2. Linux kernel compilers collection:
++`<https://mirrors.edge.kernel.org/pub/tools/crosstool/>`_
++3. Bootlin's toolchain collection: `<https://toolchains.bootlin.com/>`_
++
++Once the toolchain is installed in the system, make sure its "bin" folder
++is added in your ``PATH`` environment variable. Then set ``ARCH=arc`` &
++``CROSS_COMPILE=arc-linux`` (or whatever matches installed ARC toolchain prefix)
++and then as usual ``make defconfig && make``.
++
++This will produce "vmlinux" file in the root of the kernel source tree
++usable for loading on the target system via JTAG.
++If you need to get an image usable with U-Boot bootloader,
++type ``make uImage`` and ``uImage`` will be produced in ``arch/arc/boot``
++folder.
+diff --git a/Documentation/arc/features.rst b/Documentation/arc/features.rst
+new file mode 100644
+index 000000000000..b793583d688a
+--- /dev/null
++++ b/Documentation/arc/features.rst
+@@ -0,0 +1,3 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. kernel-feat:: $srctree/Documentation/features arc
+diff --git a/Documentation/arc/index.rst b/Documentation/arc/index.rst
+new file mode 100644
+index 000000000000..7b098d4a5e3e
+--- /dev/null
++++ b/Documentation/arc/index.rst
+@@ -0,0 +1,17 @@
++===================
++ARC architecture
++===================
++
++.. toctree::
++    :maxdepth: 1
++
++    arc
++
++    features
++
++.. only::  subproject and html
++
++   Indices
++   =======
++
++   * :ref:`genindex`
+diff --git a/Documentation/arch.rst b/Documentation/arch.rst
+index f10bd32a5972..14bcd8294b93 100644
+--- a/Documentation/arch.rst
++++ b/Documentation/arch.rst
+@@ -9,6 +9,7 @@ implementation.
+ .. toctree::
+    :maxdepth: 2
+ 
++   arc/index
+    arm/index
+    arm64/index
+    ia64/index
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3b79fd441dde..286a5e896be4 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -18020,6 +18020,7 @@ M:	Vineet Gupta <vgupta@kernel.org>
+ L:	linux-snps-arc@lists.infradead.org
+ S:	Supported
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git
++F:	Documentation/arc/
+ F:	Documentation/devicetree/bindings/arc/*
+ F:	Documentation/devicetree/bindings/interrupt-controller/snps,arc*
+ F:	arch/arc/
+-- 
+2.25.1
 
-
---8zJiR3NH9MUTK2Mp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmGNcMAACgkQFA3kzBSg
-KbaFGA//Vex3j/rnMJnpcOC6fSPCQBb8H4sHJhyF9c8giF9U4smMiXHCMlOTDjdK
-BVoxbKERVp9pILzSZ6Bn07EUxmYr1sCW/TGvV6hFiFjUrh7w3eKa6TwThYM2+VHm
-JPIIy2M+M9UUPNuAWHwX2E+PtYD5q78XhFfRTyl9m5BV1jXT1S3aRm2h4LCZ8VTh
-x7lajrf7HJR2vjFH4x5EVt2TyjfJmWAJS1SpIXR8KyWmpPkCHaAY1APmqGAGui3X
-4MN5Zv6n0rVSNCPv7TZ8opjaEOBRcJAmzANiKzQ01hzWNp+8bDjsRYUcJNFbWfBV
-P84frq2qYKu2y+SevpUAauw4eWcMi16+NORyqkipoLpTrEOK7DLQ109z+WIpr2Qw
-ejzCiVAg0Qju032ifnNFfHYKogQr90hN42lUKwIwFyXH88gYN8ANjHV2mPNbCLmP
-V0bbl89yJSGpcRXXXGpDir2KVu5lV1UFTdYb03L/R7Q0y6UGy0l3D9P9Qw/otT36
-jdfeSkXaf0+H8dixKxW9ZNIsh60jQySCn/cdTdZ5aKjVdX7hR/XAemI+M7QntDNF
-Qtf80Z7goVqzmjC7sCumbZXtU8Hy+Vs7qBZf6dyuUJVjpJWBiGzBqMTD/Lns4lE8
-5i7CE3OviMt8As6Jsw/4S/9yJG/DqGkOa1dzvLCVeQDQ1ECTXmg=
-=awWH
------END PGP SIGNATURE-----
-
---8zJiR3NH9MUTK2Mp--
