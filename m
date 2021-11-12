@@ -2,82 +2,285 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D6CCC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Nov 2021 21:04:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D1AAC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Nov 2021 21:24:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 13FDF61073
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Nov 2021 21:04:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3766161104
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Nov 2021 21:24:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235746AbhKLVGx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 Nov 2021 16:06:53 -0500
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:52887 "EHLO
-        wout3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235742AbhKLVGw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Nov 2021 16:06:52 -0500
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.west.internal (Postfix) with ESMTP id D495032006F5;
-        Fri, 12 Nov 2021 16:04:00 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Fri, 12 Nov 2021 16:04:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=8FPYXt
-        YY8uMK6gqNCM+Tfz9ygESeiWIujQT9sQlrWCQ=; b=jjc6aydAZiU4si6xn1cHmj
-        OV3/K2KFFqqZT9MosJWJAicnWvse2/7lciSG7tXTWtGXAVK1zYf1fdIkCfO71Qsg
-        T8j7jqThjbgQiLNGs0pwk/8nZjfGKqKzq6Vz08S5oAPL+c+58cd16VucVQ9a/DdX
-        p6XPNzfGniCErpx37tD6ChyTEwXncBiBYrH7o8rkDJU/3YOBhEPrPEfDRB822i6o
-        lnleGV/LWc01GtFPMkjG5xYCkLYCteXnbOzmTtg5euOXNDcLCK5ixwSF7aCQtuyF
-        tCgMwvC16brPiQg7cnwQ/o6/famn9pzJgwOWfy8UCXkC0kB/1ix4AEbWH3fzAFlA
-        ==
-X-ME-Sender: <xms:v9aOYVX94JxMj5_H_XJD6iyU9whVgFp9sf85c2QU825wJO9S8Du12A>
-    <xme:v9aOYVlXuHf4PStuQTu3SLUwAVnBT0pTnP9PeUPcGg1eHIWX-YjkCnKQQykMD_cHG
-    22bckA4P6FQNedUKqI>
-X-ME-Received: <xmr:v9aOYRZ_Y0PWhxfW_uP_huB7DhyvwDuiblaJNs6_uV1MXZ-Q-G98EBneV9NXehYrsI0tIOz1fPFn4HEKckgO1D1cYe3sCXltSSo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrvdefgddugeduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffujgfkfhggtgesthdtredttddtvdenucfhrhhomhephfhinhhnucfv
-    hhgrihhnuceofhhthhgrihhnsehlihhnuhigqdhmieekkhdrohhrgheqnecuggftrfgrth
-    htvghrnhepffduhfegfedvieetudfgleeugeehkeekfeevfffhieevteelvdfhtdevffet
-    uedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepfh
-    hthhgrihhnsehlihhnuhigqdhmieekkhdrohhrgh
-X-ME-Proxy: <xmx:v9aOYYVMtpZgVlgIrLY9CJbHzJgpgpTLaiGP8r77G6wcL3_c0dVYOw>
-    <xmx:v9aOYfnWPRHFR9KWh_p6Dt22zqMOXp4Z_WrD1WnWbxZRd8zJsVkZHg>
-    <xmx:v9aOYVfa6oKK3xavmdBqFJyxGOIxw34xt4H8RIdBKBx4KYg0FQYf2Q>
-    <xmx:wNaOYYCiHzIep0uKiIb0Ih0f4BSVCHSL2Mys_ukFZtXhfBo2S_bnyw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 12 Nov 2021 16:03:57 -0500 (EST)
-Date:   Sat, 13 Nov 2021 08:03:52 +1100 (AEDT)
-From:   Finn Thain <fthain@linux-m68k.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-cc:     Mike Rapoport <rppt@kernel.org>, Sam Creasey <sammy@sammy.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org
-Subject: Re: [PATCH] m68k: Enable memtest functionality
-In-Reply-To: <CAMuHMdXsVvXCbmrdukLCd-AXrqT-LmCz427BdNNCbDUw9vmL1A@mail.gmail.com>
-Message-ID: <9a70775c-25f8-a7e5-43b6-5aa385bf729f@linux-m68k.org>
-References: <1a89fd7d58f22e4817cf5bb406cc191dc0bc9325.1636677401.git.fthain@linux-m68k.org> <CAMuHMdXsVvXCbmrdukLCd-AXrqT-LmCz427BdNNCbDUw9vmL1A@mail.gmail.com>
+        id S235760AbhKLV1c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 12 Nov 2021 16:27:32 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60568 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235714AbhKLV1b (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 12 Nov 2021 16:27:31 -0500
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id AEB196108B;
+        Fri, 12 Nov 2021 21:24:35 +0000 (UTC)
+Date:   Fri, 12 Nov 2021 16:24:33 -0500
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Alexander Popov <alex.popov@linux.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Paul McKenney <paulmck@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Joerg Roedel <jroedel@suse.de>,
+        Maciej Rozycki <macro@orcam.me.uk>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Kees Cook <keescook@chromium.org>,
+        Luis Chamberlain <mcgrof@kernel.org>, Wei Liu <wl@xen.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Alexey Kardashevskiy <aik@ozlabs.ru>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Jann Horn <jannh@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Will Deacon <will@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Laura Abbott <labbott@kernel.org>,
+        David S Miller <davem@davemloft.net>,
+        Borislav Petkov <bp@alien8.de>, Arnd Bergmann <arnd@arndb.de>,
+        Andrew Scull <ascull@google.com>,
+        Marc Zyngier <maz@kernel.org>, Jessica Yu <jeyu@kernel.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Wang Qing <wangqing@vivo.com>, Mel Gorman <mgorman@suse.de>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Andrew Klychkov <andrew.a.klychkov@gmail.com>,
+        Mathieu Chouquet-Stringer <me@mathieu.digital>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Stephen Kitt <steve@sk2.org>, Stephen Boyd <sboyd@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Mike Rapoport <rppt@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        kernel-hardening@lists.openwall.com,
+        linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, notify@kernel.org
+Subject: Re: [PATCH v2 2/2] sysctl: introduce kernel.pkill_on_warn
+Message-ID: <20211112162433.3ebbd7c7@gandalf.local.home>
+In-Reply-To: <20211027233215.306111-3-alex.popov@linux.com>
+References: <20211027233215.306111-1-alex.popov@linux.com>
+        <20211027233215.306111-3-alex.popov@linux.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 12 Nov 2021, Geert Uytterhoeven wrote:
+On Thu, 28 Oct 2021 02:32:15 +0300
+Alexander Popov <alex.popov@linux.com> wrote:
 
-> > index 9f3f77785aa7..5b6575eb6d02 100644
-> > --- a/arch/m68k/mm/motorola.c
-> > +++ b/arch/m68k/mm/motorola.c
-> > @@ -455,6 +455,8 @@ void __init paging_init(void)
-> >
-> >         flush_tlb_all();
-> >
-> > +       early_memtest(min_addr, max_addr);
+> Signed-off-by: Alexander Popov <alex.popov@linux.com>
+> ---
+>  Documentation/admin-guide/sysctl/kernel.rst | 14 +++++++++++++
+>  include/asm-generic/bug.h                   | 12 ++++++++---
+>  include/linux/panic.h                       |  3 +++
+>  kernel/panic.c                              | 22 ++++++++++++++++++++-
+>  kernel/sysctl.c                             |  9 +++++++++
+>  lib/bug.c                                   |  3 +++
+>  6 files changed, 59 insertions(+), 4 deletions(-)
 > 
-> So this is available only if MMU_MOTOROLA, not for Sun-3, Coldfire, or 
-> nommu.
-> 
+> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+> index 426162009ce9..5faf395fdf8f 100644
+> --- a/Documentation/admin-guide/sysctl/kernel.rst
+> +++ b/Documentation/admin-guide/sysctl/kernel.rst
+> @@ -921,6 +921,20 @@ lives in) pid namespace. When selecting a pid for a next task on fork
+>  kernel tries to allocate a number starting from this one.
+>  
+>  
+> +pkill_on_warn
+> +=============
+> +
+> +Kills all threads in a process that provoked a kernel warning.
+> +That allows the kernel to stop the process when the first signs
+> +of wrong behavior are detected.
+> +
+> += =====================================================================
+> +0 Allows a process to proceed execution after hitting a kernel warning,
+> +  this is the default behavior.
+> +1 Kills all threads in a process that provoked a kernel warning.
+> += =====================================================================
+> +
+> +
+>  powersave-nap (PPC only)
+>  ========================
+>  
+> diff --git a/include/asm-generic/bug.h b/include/asm-generic/bug.h
+> index 881aeaf5a2d5..959000b5856a 100644
+> --- a/include/asm-generic/bug.h
+> +++ b/include/asm-generic/bug.h
+> @@ -94,8 +94,10 @@ void warn_slowpath_fmt(const char *file, const int line, unsigned taint,
+>  #ifndef WARN_ON_ONCE
+>  #define WARN_ON_ONCE(condition) ({					\
+>  	int __ret_warn_on = !!(condition);				\
+> -	if (unlikely(__ret_warn_on))					\
+> +	if (unlikely(__ret_warn_on)) {					\
+>  		DO_ONCE_LITE(__WARN_printf, TAINT_WARN, NULL);		\
+> +		do_pkill_on_warn();					\
 
-That's because I can't test the others. If anyone would be willing to test 
-a patch like this for Coldfire etc., please let me know and I'll send one.
+Should this be a config option so that those that do not want this do not
+need to have the added overhead of a function call embedded at every
+WARN*() in their code?
+
+That is, do_pkill_on_warn() should be defined as do { } while (0), and not
+add any I$ overhead when compiled out?
+
+> +	}								\
+>  	unlikely(__ret_warn_on);					\
+>  })
+>  #endif
+> @@ -151,15 +153,19 @@ void __warn(const char *file, int line, void *caller, unsigned taint,
+>  
+>  #define WARN_ONCE(condition, format...) ({				\
+>  	int __ret_warn_on = !!(condition);				\
+> -	if (unlikely(__ret_warn_on))					\
+> +	if (unlikely(__ret_warn_on)) {					\
+>  		DO_ONCE_LITE(__WARN_printf, TAINT_WARN, format);	\
+> +		do_pkill_on_warn();					\
+> +	}								\
+>  	unlikely(__ret_warn_on);					\
+>  })
+>  
+>  #define WARN_TAINT_ONCE(condition, taint, format...) ({			\
+>  	int __ret_warn_on = !!(condition);				\
+> -	if (unlikely(__ret_warn_on))					\
+> +	if (unlikely(__ret_warn_on)) {					\
+>  		DO_ONCE_LITE(__WARN_printf, taint, format);		\
+> +		do_pkill_on_warn();					\
+> +	}								\
+>  	unlikely(__ret_warn_on);					\
+>  })
+>  
+> diff --git a/include/linux/panic.h b/include/linux/panic.h
+> index f5844908a089..f79c69279859 100644
+> --- a/include/linux/panic.h
+> +++ b/include/linux/panic.h
+> @@ -27,6 +27,9 @@ extern int panic_on_oops;
+>  extern int panic_on_unrecovered_nmi;
+>  extern int panic_on_io_nmi;
+>  extern int panic_on_warn;
+> +extern int pkill_on_warn;
+> +
+> +extern void do_pkill_on_warn(void);
+>  
+>  extern unsigned long panic_on_taint;
+>  extern bool panic_on_taint_nousertaint;
+> diff --git a/kernel/panic.c b/kernel/panic.c
+> index cefd7d82366f..1323c9e2630f 100644
+> --- a/kernel/panic.c
+> +++ b/kernel/panic.c
+> @@ -53,6 +53,7 @@ static int pause_on_oops_flag;
+>  static DEFINE_SPINLOCK(pause_on_oops_lock);
+>  bool crash_kexec_post_notifiers;
+>  int panic_on_warn __read_mostly;
+> +int pkill_on_warn __read_mostly;
+>  unsigned long panic_on_taint;
+>  bool panic_on_taint_nousertaint = false;
+>  
+> @@ -625,13 +626,16 @@ void warn_slowpath_fmt(const char *file, int line, unsigned taint,
+>  	if (!fmt) {
+>  		__warn(file, line, __builtin_return_address(0), taint,
+>  		       NULL, NULL);
+> -		return;
+> +		goto out;
+>  	}
+>  
+>  	args.fmt = fmt;
+>  	va_start(args.args, fmt);
+>  	__warn(file, line, __builtin_return_address(0), taint, NULL, &args);
+>  	va_end(args.args);
+> +
+> +out:
+> +	do_pkill_on_warn();
+>  }
+>  EXPORT_SYMBOL(warn_slowpath_fmt);
+>  #else
+> @@ -732,3 +736,19 @@ static int __init panic_on_taint_setup(char *s)
+>  	return 0;
+>  }
+>  early_param("panic_on_taint", panic_on_taint_setup);
+> +
+> +void do_pkill_on_warn(void)
+> +{
+> +	if (!pkill_on_warn)
+> +		return;
+> +
+> +	if (is_global_init(current))
+> +		return;
+> +
+> +	if (current->flags & PF_KTHREAD)
+> +		return;
+> +
+> +	if (system_state >= SYSTEM_RUNNING)
+> +		do_send_sig_info(SIGKILL, SEND_SIG_PRIV, current, PIDTYPE_TGID);
+
+I believe this was mentioned before. I'm not sure how safe it is to call
+do_send_sig_info() in random areas of the kernel, as that could possibly
+cause a deadlock with the locking that is taken.
+
+Best to use irq_work() and have a irq_work interrupt handle the
+do_sig_info, because then you know you are safe to call this. Of course,
+then you need some way to pass the task to the handler.
+
+Could do some kind of clever trick, where we add a PF_KILL_ME flag to the
+task, and the irq worker just loops over all the tasks kill all those with
+it set?
+
+
+> +}
+> +EXPORT_SYMBOL(do_pkill_on_warn);
+> diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+> index 083be6af29d7..7fe6f0aaad2b 100644
+> --- a/kernel/sysctl.c
+> +++ b/kernel/sysctl.c
+> @@ -2656,6 +2656,15 @@ static struct ctl_table kern_table[] = {
+>  		.extra1		= SYSCTL_ZERO,
+>  		.extra2		= SYSCTL_ONE,
+>  	},
+> +		{
+
+extra tab?
+
+-- Steve
+
+> +		.procname	= "pkill_on_warn",
+> +		.data		= &pkill_on_warn,
+> +		.maxlen		= sizeof(int),
+> +		.mode		= 0644,
+> +		.proc_handler	= proc_dointvec_minmax,
+> +		.extra1		= SYSCTL_ZERO,
+> +		.extra2		= SYSCTL_ONE,
+> +	},
+>  #if defined(CONFIG_SMP) && defined(CONFIG_NO_HZ_COMMON)
+>  	{
+>  		.procname	= "timer_migration",
+> diff --git a/lib/bug.c b/lib/bug.c
+> index 1a91f01412b8..28cc8a5b2ee0 100644
+> --- a/lib/bug.c
+> +++ b/lib/bug.c
+> @@ -214,6 +214,9 @@ enum bug_trap_type report_bug(unsigned long bugaddr, struct pt_regs *regs)
+>  	bug_type = BUG_TRAP_TYPE_BUG;
+>  
+>  out:
+> +	if (bug_type == BUG_TRAP_TYPE_WARN)
+> +		do_pkill_on_warn();
+> +
+>  	return bug_type;
+>  }
+>  
+
