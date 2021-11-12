@@ -2,127 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 548BFC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Nov 2021 15:37:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9311C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Nov 2021 15:40:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3EDAC60F70
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Nov 2021 15:37:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9AD8261073
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Nov 2021 15:40:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235419AbhKLPj7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 Nov 2021 10:39:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56958 "EHLO
+        id S230019AbhKLPn0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 12 Nov 2021 10:43:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235448AbhKLPjY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Nov 2021 10:39:24 -0500
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01078C061766;
-        Fri, 12 Nov 2021 07:36:14 -0800 (PST)
-Received: by mail-wm1-x32c.google.com with SMTP id p3-20020a05600c1d8300b003334fab53afso7273923wms.3;
-        Fri, 12 Nov 2021 07:36:13 -0800 (PST)
+        with ESMTP id S235374AbhKLPnR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Nov 2021 10:43:17 -0500
+Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com [IPv6:2607:f8b0:4864:20::f36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3039DC06121D
+        for <linux-doc@vger.kernel.org>; Fri, 12 Nov 2021 07:40:15 -0800 (PST)
+Received: by mail-qv1-xf36.google.com with SMTP id b17so6490484qvl.9
+        for <linux-doc@vger.kernel.org>; Fri, 12 Nov 2021 07:40:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=mrT39HXhsvQIv884aQ7FKStKCV5fQEcK++rSuH4MPzo=;
-        b=VYsF1Y9o06tJw68/we3j63O01NDUIboRYOuJ5cVeqsU8EM2wMBCVrDogIoKXRIFFBn
-         EOVgI8mNXXwumFhCDDD6wGDWNmuFTZ5NqHvuezriDmrR0LBkl2zwX3byZJbqzrLEF0ni
-         L3RTA5eXfxsIlcOQuL5iW7hj3Ag4msuBPKg9JFsAGoNhJhjhwfyrdWvq25S6eBN+rREu
-         j2m+4m+vxsCyEA51oOhL1kIIuCl/j6M12s+gKTuX9Tudu+oBouWtg4Qsrln6ltwxpJLM
-         0btvhD/ad1wvaip9iRICMhQFC6YIQx4CIaiaiZeyNCOvLHVB8EPGnrrG5NWx9LTz4YOt
-         y1OA==
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=eHFem9bwQXsJyV+6JTiESgkyM4KbH6WnNIZTWfeQdQM=;
+        b=YNrl8o8/Vn1AkLLoeyYZG9B20hm49tgpE4O3wgwFJgziK30a3PCI8xmMW/3GH7F4q6
+         BCrb+c2z9Qw8YmTih2UF/NtYx6SkbMgpg5McDnMKQVwPvmrIrqWMA0T1P+r76E+hPQU7
+         vspp5Z5zqD2ZLqfib+KTnbWtZ2nMsOzbJ4SwLu4cv8m7v9SA8U+cAXRbqUUD+9Xl2Tr5
+         OBoBon+vXff3oyhGP2QE2TjyC8BXX7/bObQMaOixmqSVC7ROTUOojKNQp+E940X3GNrK
+         90vm6Oa7flbxqDFNtZiHYV4HEx/9Jq8eLboCYNs30tEJ2nBhD0HG9UJ4S25gUib9lmaj
+         uKBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=mrT39HXhsvQIv884aQ7FKStKCV5fQEcK++rSuH4MPzo=;
-        b=LG/TTAgAuYLAm068FsqLIHSgGuvrWbPPDTgwA3YHPnBHC4WZ/G+s9qtAVHbVnIgR9l
-         W3OTkjdMYd1i0Wx1nCfYi05cUsBa49kvLb9f8kvyKAw6w5nxAuGSCUWiwPrp/Nfwz6AM
-         U38QyZFpAapJbaMdnbnjG4Gx4yqu6zVrZ6lGjvojzp582nR3CiH0WSgsFQZoKHcdAojt
-         cRXmNoczfCK+SO6vZR2hdjyDgL5bSiLbO7y2h5AqB32FVYVyt6idvSLjWZkmuPl/JrPe
-         Ra3tzk1Y/VZdsyzXmuQXuvWzQTlPfOSAqEa7xzHIR1IZuxEuygNmL4SgSCzXw0koZ/2t
-         zVvA==
-X-Gm-Message-State: AOAM53316tySoJzt7LtKJCDw4nnct5Z2qQWC9VymfGS+/yndOPme5sw4
-        1gn5N/0l4NdlMook1G8+VIIh1R/0NCM=
-X-Google-Smtp-Source: ABdhPJxT2oNv5R2LyXboxFQukgKDLcGexkgECiAkaD2/42/hD7cHOv1OMa4wS1FxvCkTwEMVSa5RaA==
-X-Received: by 2002:a1c:cc19:: with SMTP id h25mr35813457wmb.57.1636731372432;
-        Fri, 12 Nov 2021 07:36:12 -0800 (PST)
-Received: from Ansuel-xps.localdomain (93-42-71-246.ip85.fastwebnet.it. [93.42.71.246])
-        by smtp.googlemail.com with ESMTPSA id az4sm4217543wmb.20.2021.11.12.07.36.11
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=eHFem9bwQXsJyV+6JTiESgkyM4KbH6WnNIZTWfeQdQM=;
+        b=uEqcKDlrXqPkdewGK9RGT1MG155DGdaHIvldpz9J1upBmkHgEWgytLMNt4vWoGvJ2O
+         N5vNiOjShuJ3Unor6wXiKVbhQwLvuMZU2/0bCAHb5Qq5SKC2xAcg9NcYywJO3l6wQGP6
+         9wyTWkVwTZJm/+dIqVbdsZhljphJmDElhC/9mKAQILSFvYX6p3YvjRL4nl1W9tj83CUh
+         6ZGfNSiGxHDfJluapXuNe2q8D4PU07c0jELsabzYQ5SnSMsm0797qL/7vAJGJMmL20kg
+         GIS6WG0kM4KvC4lWhxLbjNXLJyyfzVZtpJGI/xH4WBoO76ByjuZwkPL2CfqQUyMDA42Q
+         kOTA==
+X-Gm-Message-State: AOAM533bDqbR4ZihUvNorkfEFJ7leFbeNCqtXxma7JKwB3nKHWWfzwYi
+        DpEs//ldv09ikzIHLrHwz/vGYQ==
+X-Google-Smtp-Source: ABdhPJyk+u5C78xlis6nsI4oXFLdxJj5bzxauTbMsNW5fYwp9xLGPXNgO0ahuuvM/969OxjiMZGs4w==
+X-Received: by 2002:ad4:5c4f:: with SMTP id a15mr15582209qva.26.1636731614399;
+        Fri, 12 Nov 2021 07:40:14 -0800 (PST)
+Received: from ziepe.ca ([206.223.160.26])
+        by smtp.gmail.com with ESMTPSA id t64sm2805724qkd.71.2021.11.12.07.40.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Nov 2021 07:36:12 -0800 (PST)
-From:   Ansuel Smith <ansuelsmth@gmail.com>
-To:     Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
-        Ansuel Smith <ansuelsmth@gmail.com>,
-        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
-        =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>
-Subject: [PATCH v5 8/8] dt-bindings: net: dsa: qca8k: add LEDs definition example
-Date:   Fri, 12 Nov 2021 16:35:57 +0100
-Message-Id: <20211112153557.26941-9-ansuelsmth@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211112153557.26941-1-ansuelsmth@gmail.com>
-References: <20211112153557.26941-1-ansuelsmth@gmail.com>
+        Fri, 12 Nov 2021 07:40:14 -0800 (PST)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1mlYez-00975w-1c; Fri, 12 Nov 2021 11:40:13 -0400
+Date:   Fri, 12 Nov 2021 11:40:13 -0400
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Joao Martins <joao.m.martins@oracle.com>
+Cc:     linux-mm@kvack.org, Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Jane Chu <jane.chu@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Christoph Hellwig <hch@lst.de>, nvdimm@lists.linux.dev,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 0/8] mm, dax: Introduce compound pages in devmap
+Message-ID: <20211112154013.GE876299@ziepe.ca>
+References: <20211112150824.11028-1-joao.m.martins@oracle.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211112150824.11028-1-joao.m.martins@oracle.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add LEDs definition example for qca8k using the offload trigger as the
-default trigger and add all the supported offload triggers by the
-switch.
+On Fri, Nov 12, 2021 at 04:08:16PM +0100, Joao Martins wrote:
 
-Signed-off-by: Ansuel Smith <ansuelsmth@gmail.com>
----
- .../devicetree/bindings/net/dsa/qca8k.yaml    | 20 +++++++++++++++++++
- 1 file changed, 20 insertions(+)
+> This series converts device-dax to use compound pages, and moves away from the
+> 'struct page per basepage on PMD/PUD' that is done today. Doing so, unlocks a
+> few noticeable improvements on unpin_user_pages() and makes device-dax+altmap case
+> 4x times faster in pinning (numbers below and in last patch).
 
-diff --git a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-index 48de0ace265d..106d95adc1e8 100644
---- a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-+++ b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
-@@ -64,6 +64,8 @@ properties:
-                  internal mdio access is used.
-                  With the legacy mapping the reg corresponding to the internal
-                  mdio is the switch reg with an offset of -1.
-+                 Each phy have at least 3 LEDs connected and can be declared
-+                 using the standard LEDs structure.
- 
-     properties:
-       '#address-cells':
-@@ -340,6 +342,24 @@ examples:
- 
-                 internal_phy_port1: ethernet-phy@0 {
-                     reg = <0>;
-+
-+                    leds {
-+                        led@0 {
-+                            reg = <0>;
-+                            color = <LED_COLOR_ID_WHITE>;
-+                            function = LED_FUNCTION_LAN;
-+                            function-enumerator = <1>;
-+                            linux,default-trigger = "offload-phy-activity";
-+                        };
-+
-+                        led@1 {
-+                            reg = <1>;
-+                            color = <LED_COLOR_ID_AMBER>;
-+                            function = LED_FUNCTION_LAN;
-+                            function-enumerator = <1>;
-+                            linux,default-trigger = "offload-phy-activity";
-+                        };
-+                    };
-                 };
- 
-                 internal_phy_port2: ethernet-phy@1 {
--- 
-2.32.0
+I like it - aside from performance this series is important to clean
+up the ZONE_DEVICE refcounting mess as it means that only fsdax will
+be installing tail pages as PMD entries.
 
+Thanks,
+Jason
