@@ -2,181 +2,222 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 956DFC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Nov 2021 18:30:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3513EC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Nov 2021 18:52:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 78F2960F39
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Nov 2021 18:30:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1AA9761076
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Nov 2021 18:52:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235265AbhKLSdo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 Nov 2021 13:33:44 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57708 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235122AbhKLSdo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 12 Nov 2021 13:33:44 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BBF1E6103A;
-        Fri, 12 Nov 2021 18:30:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636741853;
-        bh=TnsJsZ5u6wSAfEYYk+ohxEusQvP6rbCeRilD0+Tc4ZI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=GW+Tel5aZWbeuKMUdv+ysaVVKstiw7b1WmjiL1L1R3eazdxj9ejLMnQ/EN3sbaUDm
-         SUcTdr2z56OYioReK4I18dm9DIJQndUgYeImwcvE7bgNU57Dmv3HSr+k3LOqvnca/G
-         u0EO57/32P7kWgJcHjkDh0ryIjlzK5AOV8osz01XaSJL90FUQdeprwCuKPWUsE9uXD
-         XYAFE5VoNp6Km1+a0TGys3fw6nJtycqP1059cOC9HrUrjuwGC3fuLkyV2XDXok5D2d
-         5Sp3+WptnLY8cCjRKBL9SD8I2O3XAa0nDCbyCDDkRG0phjZNqNunPWr/EAhDw34mkD
-         gsiiUQxVPqjuQ==
-Date:   Fri, 12 Nov 2021 19:30:47 +0100
-From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
-To:     Ansuel Smith <ansuelsmth@gmail.com>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
-        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [RFC PATCH v4 0/8] Adds support for PHY LEDs with offload
- triggers
-Message-ID: <20211112193047.0e867ed5@thinkpad>
-In-Reply-To: <YY6JufxwvXpZp6yT@Ansuel-xps.localdomain>
-References: <20211111013500.13882-1-ansuelsmth@gmail.com>
-        <20211111031608.11267828@thinkpad>
-        <YY6JufxwvXpZp6yT@Ansuel-xps.localdomain>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        id S235644AbhKLSzn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 12 Nov 2021 13:55:43 -0500
+Received: from mail-ed1-f47.google.com ([209.85.208.47]:35504 "EHLO
+        mail-ed1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235656AbhKLSzm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Nov 2021 13:55:42 -0500
+Received: by mail-ed1-f47.google.com with SMTP id g14so41444226edz.2;
+        Fri, 12 Nov 2021 10:52:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:reply-to
+         :subject:content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=Iawy8hM8eRyCMBEMC4y1moygOWRTeool6h66VnaFg/k=;
+        b=mk6+zpysjmFtbDhz3YmEP43UMP5XlulmrJiguYG+ErK5MzVXRVX53gOnKGI4PB317U
+         uLdPppJpm8GjU29VD4pDhne5ZiO0x0kLx+Y/dow1uxvTROFd+ucTzzDQUy2lH8fr4T/r
+         z5H4iR5qNzNAuLWOx/lV+ZY3gwCwPFFVGKYnaG671Vk3AUnF6usWBlCnoMBMr8tay4Bi
+         Vi2jyQkkzezG5JsT510QqM4MBoUdI6wJ3tGBwW/+SmjKgi/tYCehMwK07Z8hWHbvlD8l
+         1f4gRxcH1/bP3aJg1/dnR1CXnNRw3u63ynOuOjehIYCEkdpT/0HML6Q/2v9UrS3at8tw
+         bN3A==
+X-Gm-Message-State: AOAM531eq3J+cbVMzH722ok6FYiwOemQZ1pT0Qrr8S1wsInsN3HHpAUj
+        vgiTkz0kkEAyCp+MsE3Wexw=
+X-Google-Smtp-Source: ABdhPJwoNfruuYTvSVpxsn9iT2utV+KOqOD0XFVXh8/k9BMPHVsZUaxfTQcSxhRcSsx36Ytc7ut/oA==
+X-Received: by 2002:a50:e608:: with SMTP id y8mr23538543edm.39.1636743169660;
+        Fri, 12 Nov 2021 10:52:49 -0800 (PST)
+Received: from [10.9.0.26] ([46.166.133.199])
+        by smtp.gmail.com with ESMTPSA id cz7sm3348384edb.55.2021.11.12.10.52.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 12 Nov 2021 10:52:49 -0800 (PST)
+Message-ID: <ac989387-3359-f8da-23f9-f5f6deca4db8@linux.com>
+Date:   Fri, 12 Nov 2021 21:52:42 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Reply-To: alex.popov@linux.com
+Subject: Re: [PATCH v2 0/2] Introduce the pkill_on_warn parameter
+Content-Language: en-US
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Paul McKenney <paulmck@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Joerg Roedel <jroedel@suse.de>,
+        Maciej Rozycki <macro@orcam.me.uk>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Kees Cook <keescook@chromium.org>,
+        Luis Chamberlain <mcgrof@kernel.org>, Wei Liu <wl@xen.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Alexey Kardashevskiy <aik@ozlabs.ru>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Jann Horn <jannh@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Will Deacon <will@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Laura Abbott <labbott@kernel.org>,
+        David S Miller <davem@davemloft.net>,
+        Borislav Petkov <bp@alien8.de>, Arnd Bergmann <arnd@arndb.de>,
+        Andrew Scull <ascull@google.com>,
+        Marc Zyngier <maz@kernel.org>, Jessica Yu <jeyu@kernel.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Wang Qing <wangqing@vivo.com>, Mel Gorman <mgorman@suse.de>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Andrew Klychkov <andrew.a.klychkov@gmail.com>,
+        Mathieu Chouquet-Stringer <me@mathieu.digital>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Stephen Kitt <steve@sk2.org>, Stephen Boyd <sboyd@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Mike Rapoport <rppt@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        kernel-hardening@lists.openwall.com,
+        linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Cc:     notify@kernel.org
+References: <20211027233215.306111-1-alex.popov@linux.com>
+From:   Alexander Popov <alex.popov@linux.com>
+In-Reply-To: <20211027233215.306111-1-alex.popov@linux.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 12 Nov 2021 16:35:21 +0100
-Ansuel Smith <ansuelsmth@gmail.com> wrote:
+On 28.10.2021 02:32, Alexander Popov wrote:
+> Hello! This is the v2 of pkill_on_warn.
+> Changes from v1 and tricks for testing are described below.
 
-> On Thu, Nov 11, 2021 at 03:16:08AM +0100, Marek Beh=C3=BAn wrote:
-> > On Thu, 11 Nov 2021 02:34:52 +0100
-> > Ansuel Smith <ansuelsmth@gmail.com> wrote:
-> >  =20
-> > > This is another attempt in adding support for PHY LEDs. Most of the
-> > > times Switch/PHY have connected multiple LEDs that are controlled by =
-HW
-> > > based on some rules/event. Currently we lack any support for a generic
-> > > way to control the HW part and normally we either never implement the
-> > > feature or only add control for brightness or hw blink.
-> > >=20
-> > > This is based on Marek idea of providing some API to cled but use a
-> > > different implementation that in theory should be more generilized.
-> > >=20
-> > > The current idea is:
-> > > - LED driver implement 3 API (hw_control_status/start/stop).
-> > >   They are used to put the LED in hardware mode and to configure the
-> > >   various trigger.
-> > > - We have hardware triggers that are used to expose to userspace the
-> > >   supported hardware mode and set the hardware mode on trigger
-> > >   activation.
-> > > - We can also have triggers that both support hardware and software m=
-ode.
-> > > - The LED driver will declare each supported hardware blink mode and
-> > >   communicate with the trigger all the supported blink modes that will
-> > >   be available by sysfs.
-> > > - A trigger will use blink_set to configure the blink mode to active
-> > >   in hardware mode.
-> > > - On hardware trigger activation, only the hardware mode is enabled b=
-ut
-> > >   the blink modes are not configured. The LED driver should reset any
-> > >   link mode active by default.
-> > >=20
-> > > Each LED driver will have to declare explicit support for the offload
-> > > trigger (or return not supported error code) as we the trigger_data t=
-hat
-> > > the LED driver will elaborate and understand what is referring to (ba=
-sed
-> > > on the current active trigger).
-> > >=20
-> > > I posted a user for this new implementation that will benefit from th=
-is
-> > > and will add a big feature to it. Currently qca8k can have up to 3 LE=
-Ds
-> > > connected to each PHY port and we have some device that have only one=
- of
-> > > them connected and the default configuration won't work for that.
-> > >=20
-> > > I also posted the netdev trigger expanded with the hardware support.
-> > >=20
-> > > More polish is required but this is just to understand if I'm taking
-> > > the correct path with this implementation hoping we find a correct
-> > > implementation and we start working on the ""small details"" =20
-> >=20
-> > Hello Ansuel,
-> >=20
-> > besides other things, I am still against the idea of the
-> > `hardware-phy-activity` trigger: I think that if the user wants the LED
-> > to indicate network device's link status or activity, it should always
-> > be done via the existing netdev trigger, and with that trigger only.
-> >=20
-> > Yes, I know that netdev trigger does not currently support indicating
-> > different link modes, only whether the link is up (in any mode). That
-> > should be solved by extending the netdev trigger.
-> >=20
-> > I am going to try to revive my last attempt and send my proposal again.
-> > Hope you don't mind.
-> >=20
-> > Marek =20
->=20
-> Honestly... It's a bit sad.
-> The netdev trigger have its limitation and I see introducing an
-> additional trigger a practical way to correctly support some
-> strange/specific PHY.
-> I implemented both idea: expand netdev and introduce a dedicated
-> trigger and still this is problematic.
-> Is having an additional trigger for the specific task that bad?
->=20
-> I don't care as long as the feature is implemented but again
-> pretty sad how this LEDs proposal went.
+Hello everyone!
+Friendly ping for your feedback.
 
-Dear Ansuel,
+Thanks.
+Alexander
 
-  Is having an additional trigger for the specific task that bad?
+> Rationale
+> =========
+> 
+> Currently, the Linux kernel provides two types of reaction to kernel
+> warnings:
+>   1. Do nothing (by default),
+>   2. Call panic() if panic_on_warn is set. That's a very strong reaction,
+>      so panic_on_warn is usually disabled on production systems.
+> 
+>  From a safety point of view, the Linux kernel misses a middle way of
+> handling kernel warnings:
+>   - The kernel should stop the activity that provokes a warning,
+>   - But the kernel should avoid complete denial of service.
+> 
+>  From a security point of view, kernel warning messages provide a lot of
+> useful information for attackers. Many GNU/Linux distributions allow
+> unprivileged users to read the kernel log, so attackers use kernel
+> warning infoleak in vulnerability exploits. See the examples:
+> https://a13xp0p0v.github.io/2021/02/09/CVE-2021-26708.html
+> https://a13xp0p0v.github.io/2020/02/15/CVE-2019-18683.html
+> https://googleprojectzero.blogspot.com/2018/09/a-cache-invalidation-bug-in-linux.html
+> 
+> Let's introduce the pkill_on_warn sysctl.
+> If this parameter is set, the kernel kills all threads in a process that
+> provoked a kernel warning. This behavior is reasonable from a safety point of
+> view described above. It is also useful for kernel security hardening because
+> the system kills an exploit process that hits a kernel warning.
+> 
+> Moreover, bugs usually don't come alone, and a kernel warning may be
+> followed by memory corruption or other bad effects. So pkill_on_warn allows
+> the kernel to stop the process when the first signs of wrong behavior
+> are detected.
+> 
+> 
+> Changes from v1
+> ===============
+> 
+> 1) Introduce do_pkill_on_warn() and call it in all warning handling paths.
+> 
+> 2) Do refactoring without functional changes in a separate patch.
+> 
+> 3) Avoid killing init and kthreads.
+> 
+> 4) Use do_send_sig_info() instead of do_group_exit().
+> 
+> 5) Introduce sysctl instead of using core_param().
+> 
+> 
+> Tricks for testing
+> ==================
+> 
+> 1) This patch series was tested on x86_64 using CONFIG_LKDTM.
+> The kernel kills a process that performs this:
+>    echo WARNING > /sys/kernel/debug/provoke-crash/DIRECT
+> 
+> 2) The warn_slowpath_fmt() path was tested using this trick:
+> diff --git a/arch/x86/include/asm/bug.h b/arch/x86/include/asm/bug.h
+> index 84b87538a15d..3106c203ebb6 100644
+> --- a/arch/x86/include/asm/bug.h
+> +++ b/arch/x86/include/asm/bug.h
+> @@ -73,7 +73,7 @@ do {                                                          \
+>    * were to trigger, we'd rather wreck the machine in an attempt to get the
+>    * message out than not know about it.
+>    */
+> -#define __WARN_FLAGS(flags)                                    \
+> +#define ___WARN_FLAGS(flags)                                   \
+>   do {                                                           \
+>          instrumentation_begin();                                \
+>          _BUG_FLAGS(ASM_UD2, BUGFLAG_WARNING|(flags));           \
+> 
+> 3) Testing pkill_on_warn with kthreads was done using this trick:
+> diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
+> index bce848e50512..13c56f472681 100644
+> --- a/kernel/rcu/tree.c
+> +++ b/kernel/rcu/tree.c
+> @@ -2133,6 +2133,8 @@ static int __noreturn rcu_gp_kthread(void *unused)
+>                  WRITE_ONCE(rcu_state.gp_state, RCU_GP_CLEANUP);
+>                  rcu_gp_cleanup();
+>                  WRITE_ONCE(rcu_state.gp_state, RCU_GP_CLEANED);
+> +
+> +               WARN_ONCE(1, "hello from kthread\n");
+>          }
+>   }
+> 
+> 4) Changing drivers/misc/lkdtm/bugs.c:lkdtm_WARNING() allowed me
+> to test all warning flavours:
+>   - WARN_ON()
+>   - WARN()
+>   - WARN_TAINT()
+>   - WARN_ON_ONCE()
+>   - WARN_ONCE()
+>   - WARN_TAINT_ONCE()
+> 
+> Thanks!
+> 
+> Alexander Popov (2):
+>    bug: do refactoring allowing to add a warning handling action
+>    sysctl: introduce kernel.pkill_on_warn
+> 
+>   Documentation/admin-guide/sysctl/kernel.rst | 14 ++++++++
+>   include/asm-generic/bug.h                   | 37 +++++++++++++++------
+>   include/linux/panic.h                       |  3 ++
+>   kernel/panic.c                              | 22 +++++++++++-
+>   kernel/sysctl.c                             |  9 +++++
+>   lib/bug.c                                   | 22 ++++++++----
+>   6 files changed, 90 insertions(+), 17 deletions(-)
+> 
 
-No, for a very specific thing it is not bad. By specific I mean
-something that an existing trigger does not support and can't support
-in a reasonable way. But netdev trigger already supports blinking on rx
-and tx, and even setting blinking frequency, and indicating link. And
-it can be reasonably extended to support indicating different link
-modes and even more complex things. For example what I would like to
-see is having support for indicating different links by different
-colors with RGB LEDs. I have ideas about how it can be implemented.
-
-But a very specific thing can be implemented by a separate trigger.
-For an ethernet PHY chip this can be something like ethernet collision
-indication, or Energy Efficient Ethernet indication. But link and
-activity should be done via netdev.
-
-Note that we even have an API for such specific triggers that can only
-work with some LEDs: the LED private triggers. Look at the member
-  struct led_hw_trigger_type *trigger_type;
-of struct led_classdev and struct led_trigger.
-With this member you can make a trigger to be only visible for some
-LEDs, so that when the user does
-  cd /sys/class/leds/<LED_WITH_PRIVATE_TRIGGER>
-  cat trigger
-it will output
-  [none] netdev something something ... my-private-trigger
-but for other LEDs (all those with different trigger_type) it will omit
-the my-private-trigger.
-
-Your hardware-phy trigger should in fact use this private trigger API
-so that the user only sees the trigger for the LEDs that actually
-support it.
-
-Anyway, Ansuel, if you are willing, we can have a call about this where
-I can explain my ideas to you and you to me and we can discuss it more
-and maybe come to an understanding? I am not opposed to working on this
-together.
-
-Marek
