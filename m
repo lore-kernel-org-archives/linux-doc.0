@@ -2,168 +2,230 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F823C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Nov 2021 08:05:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 807C0C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Nov 2021 11:20:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 561C560F45
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Nov 2021 08:05:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5FED360F4F
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Nov 2021 11:20:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233189AbhKLIIg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 Nov 2021 03:08:36 -0500
-Received: from mail-ua1-f51.google.com ([209.85.222.51]:46920 "EHLO
-        mail-ua1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233441AbhKLIIe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Nov 2021 03:08:34 -0500
-Received: by mail-ua1-f51.google.com with SMTP id az37so17145471uab.13;
-        Fri, 12 Nov 2021 00:05:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CKrL2aGswaQqu3Y4OscoOg26JEi6rIvHQtas6Avt604=;
-        b=8Jkv3c5CKUjbv+BKir4RPG5+y1iUoDcgiXCc6NvCW8XYLwA5uc0E3dobUOxvyS7h7M
-         0PynA2srSeZ65nDXmI7qp2DqRra86ezb7L1CxeEp1rax0nbrJxfkzoZNitTmJhmMc3ZF
-         2T8CG5/307r8vxfcXAzWqjtAkOmFQmsX6mCNn7Tzekr0Q3JFPwOLFrmp46eXbp8My7W1
-         TYeiHlBrYLKz/Yo4igcRS/rc9WbFbFBF6cdfLDTAbjhAIvgbG/Mx+FDTWBUM5l6uESO3
-         Nv6ksECnUBDe575W7lDjiQvAlZb6afsvmKPUDs/Xqb+2xcBQ1gwCA+FtPMTSebL17qHc
-         s3CA==
-X-Gm-Message-State: AOAM530ROnvAOSg6losf489dCsYpY0meCUKcn5IkuIpwy2lPJwAzybd2
-        5OzD0f3cReTmC0fgaCYnZH9CMy88tj+35Q==
-X-Google-Smtp-Source: ABdhPJworejQznrel2T+PwgwV9MCGsQKrJ1lDLAgZV5EqRTbpkzsDAc3xryCCI9yEJiuahKRIMJuFQ==
-X-Received: by 2002:a67:f754:: with SMTP id w20mr7360740vso.3.1636704343491;
-        Fri, 12 Nov 2021 00:05:43 -0800 (PST)
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
-        by smtp.gmail.com with ESMTPSA id f7sm3569417vkm.31.2021.11.12.00.05.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Nov 2021 00:05:42 -0800 (PST)
-Received: by mail-ua1-f45.google.com with SMTP id o26so17249673uab.5;
-        Fri, 12 Nov 2021 00:05:42 -0800 (PST)
-X-Received: by 2002:a05:6102:e82:: with SMTP id l2mr7254340vst.37.1636704342222;
- Fri, 12 Nov 2021 00:05:42 -0800 (PST)
+        id S234730AbhKLLXa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 12 Nov 2021 06:23:30 -0500
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133]:50592 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233883AbhKLLX3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Nov 2021 06:23:29 -0500
+Received: from mailhost.synopsys.com (mdc-mailhost1.synopsys.com [10.225.0.209])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 39A1E419FD;
+        Fri, 12 Nov 2021 11:20:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1636716038; bh=yLvu9PKlouIQ8W+/Seq0GR+naBFWJxFxOD3NTtgZtTM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=SfAyw7NG3U3Gpk7l9R1qGpodN1s3edIg4EoDbkOOLn03Yjdbarvi4g9O12dXvW4vu
+         gRnnzA4Ji9rKDRXuj6AL0n79mAzfLNnfng+exjBktvw3aZqSj/tLcRAPKRvqiT7ZSq
+         jtrFQcgLMQfW628t8Cq1UWviF5Q0mXF88RueAq2dTcK2MwrzEGA1kUaL4EuXBcSfZE
+         qNX3MpKhOTe89IZT38alUNTJo4a4t1SeUfqx41v6TxAXZdpmkDX97Xc7EDLKQxRkjr
+         XDSfhTowwERKDyIBBi8pz4zA9+frTp1Sumjj5M4q/IefeY2rnmexqol2iW1Xv0BDKD
+         yi5pqd1rzxw0w==
+Received: from abrodkin-5550.internal.synopsys.com (unknown [10.121.15.52])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by mailhost.synopsys.com (Postfix) with ESMTPSA id D4283A005C;
+        Fri, 12 Nov 2021 11:20:34 +0000 (UTC)
+X-SNPS-Relay: synopsys.com
+From:   Alexey Brodkin <Alexey.Brodkin@synopsys.com>
+To:     linux-doc@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        linux-snps-arc@lists.infradead.org,
+        Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Vineet Gupta <vgupta@kernel.org>
+Subject: [PATCH v2] docs: Add documentation for ARC processors
+Date:   Fri, 12 Nov 2021 09:50:59 +0300
+Message-Id: <20211112065059.7273-1-abrodkin@synopsys.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <1a89fd7d58f22e4817cf5bb406cc191dc0bc9325.1636677401.git.fthain@linux-m68k.org>
-In-Reply-To: <1a89fd7d58f22e4817cf5bb406cc191dc0bc9325.1636677401.git.fthain@linux-m68k.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 12 Nov 2021 09:05:31 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXsVvXCbmrdukLCd-AXrqT-LmCz427BdNNCbDUw9vmL1A@mail.gmail.com>
-Message-ID: <CAMuHMdXsVvXCbmrdukLCd-AXrqT-LmCz427BdNNCbDUw9vmL1A@mail.gmail.com>
-Subject: Re: [PATCH] m68k: Enable memtest functionality
-To:     Finn Thain <fthain@linux-m68k.org>
-Cc:     Mike Rapoport <rppt@kernel.org>, Sam Creasey <sammy@sammy.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-m68k <linux-m68k@lists.linux-m68k.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Finn,
+ARC processors are supported in upstream kernel since v3.9
+and so far there was no documentation about them except some
+Device Tree bindings.
 
-On Fri, Nov 12, 2021 at 1:37 AM Finn Thain <fthain@linux-m68k.org> wrote:
-> Enable the memtest functionality and rearrange some code to prevent it
-> from clobbering the initrd.
->
-> The CONFIG_BLK_DEV_INITRD symbol was conditional on !defined(CONFIG_SUN3).
-> For simplicity, remove that test on the basis that m68k_ramdisk.size == 0
-> on Sun 3.
->
-> The SLIME source code at
-> http://sammy.net/sun3/ftp/pub/m68k/sun3/slime/slime-2.0.tar.gz
-> indicates that no BI_RAMDISK entry is ever passed to the kernel due
-> to #ifdef 0 around the relevant code.
->
-> Cc: Mike Rapoport <rppt@kernel.org>
-> Cc: Sam Creasey <sammy@sammy.net>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Signed-off-by: Finn Thain <fthain@linux-m68k.org>
+Fixing it with the simples set of docs now:
+1. Overview with pointers to other informational resources
+2. Autogenerated feature table
 
-Thanks for your patch!
+Note though it's just the very beginning, there will be more
+for sure given time as there're many things worth documenting
+and in fact even contents itself is avaialble but just spread
+in some other places. Now we'll try to keep all here and
+then maintain it looking forward to match the state of development.
 
-> --- a/arch/m68k/Kconfig
-> +++ b/arch/m68k/Kconfig
-> @@ -9,6 +9,7 @@ config M68K
->         select ARCH_HAVE_NMI_SAFE_CMPXCHG if RMW_INSNS
->         select ARCH_MIGHT_HAVE_PC_PARPORT if ISA
->         select ARCH_NO_PREEMPT if !COLDFIRE
-> +       select ARCH_USE_MEMTEST
+Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: Vineet Gupta <vgupta@kernel.org>
+---
 
-if MMU_MOTOROLA?
+Changes v1 -> v2:
+ * Spello "linux" -> "Linux" (Randy Dunlap)
 
->         select ARCH_WANT_IPC_PARSE_VERSION
->         select BINFMT_FLAT_ARGVP_ENVP_ON_STACK
->         select DMA_DIRECT_REMAP if HAS_DMA && MMU && !COLDFIRE
-> diff --git a/arch/m68k/kernel/setup_mm.c b/arch/m68k/kernel/setup_mm.c
-> index 4b51bfd38e5f..49e573b94326 100644
-> --- a/arch/m68k/kernel/setup_mm.c
-> +++ b/arch/m68k/kernel/setup_mm.c
-> @@ -338,13 +338,6 @@ void __init setup_arch(char **cmdline_p)
->                 panic("No configuration setup");
->         }
->
-> -       paging_init();
-> -
-> -#ifdef CONFIG_NATFEAT
-> -       nf_init();
-> -#endif
-> -
-> -#ifndef CONFIG_SUN3
->  #ifdef CONFIG_BLK_DEV_INITRD
->         if (m68k_ramdisk.size) {
->                 memblock_reserve(m68k_ramdisk.addr, m68k_ramdisk.size);
+ Documentation/arc/arc.rst      | 81 ++++++++++++++++++++++++++++++++++
+ Documentation/arc/features.rst |  3 ++
+ Documentation/arc/index.rst    | 17 +++++++
+ Documentation/arch.rst         |  1 +
+ MAINTAINERS                    |  1 +
+ 5 files changed, 103 insertions(+)
+ create mode 100644 Documentation/arc/arc.rst
+ create mode 100644 Documentation/arc/features.rst
+ create mode 100644 Documentation/arc/index.rst
 
-Does this still work, given the initrd is part of memory that used
-to be added before (in paging_init(), but now is added later?
-(I'm no memblock expert, so that might be a silly question ;-)
+diff --git a/Documentation/arc/arc.rst b/Documentation/arc/arc.rst
+new file mode 100644
+index 000000000000..249d03c6be8e
+--- /dev/null
++++ b/Documentation/arc/arc.rst
+@@ -0,0 +1,81 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Linux kernel for ARC processors
++*******************************
++
++Other sources of information
++############################
++
++Below are some resources where more information can be found on
++ARC processors and relevant open source projects.
++
++1. `<https://embarc.org/>`_ - Community portal for open source on ARC.
++Good place to start to find relevant FOSS projects, toolchain releases,
++news items and more.
++
++2. `<https://github.com/foss-for-synopsys-dwc-arc-processors>`_ -
++Home for all development activities regarding open source projects for
++ARC processors. Some of the projects are forks of various upstream projects,
++where "work in progress" is hosted prior to submission to upstream projects.
++Other projects are developed by Synopsys and made available to community
++as open source for use on ARC Processors.
++
++3. `<https://www.synopsys.com/designware-ip/processor-solutions.html>`_ -
++Official Synopsys ARC Processors website location, with access to some IP
++documentation (Programmer's Reference Manuals, AKA "PRM's", see
++`<https://www.synopsys.com/dw/doc.php/ds/cc/programmers-reference-manual-ARC-HS.pdf>`_)
++and commercial tools (Free nSIM,
++`<https://www.synopsys.com/cgi-bin/dwarcnsim/req1.cgi>`_ and
++MetaWare Light Edition, `<https://www.synopsys.com/cgi-bin/arcmwtk_lite/reg1.cgi>`_)
++
++Important note on ARC processors configurability
++################################################
++
++ARC processors are highly configurable and several configurable options
++are supported in Linux. Some options are transparent to software
++(i.e cache geometries, some can be detected at runtime and configured
++and used accordingly, while some need to be explicitly selected or configured
++in the kernel's configuration utility (AKA "make menuconfig").
++
++However not all configurable options are supported when an ARC processor
++is to run Linux. SoC design teams should refer to "Appendix E:
++Configuration for ARC Linux" in the ARC HS Databook for configurability
++guidelines.
++
++Following these guidelines and selecting valid configuration options
++up front is critical to help prevent any unwanted issues during
++SoC bringup and software development in general.
++
++Building the Linux kernel for ARC processors
++############################################
++
++The process of kernel building for ARC processors is the same as for any other
++architecture and could be done in 2 ways:
++
++1. cross-compilation: process of compiling for ARC targets on a development
++host with a different processor architecture (generally x86_64/amd64).
++
++2. native compilation: process of compiling for ARC on a ARC platform
++(hardware board or a simulator like QEMU) with complete development environment
++(GNU toolchain, dtc, make etc) installed on the platform.
++
++In both cases, up-to-date GNU toolchain for ARC for the host is needed.
++Synopsys offers prebuilt toolchain releases which can be used for this purpose,
++available from:
++
++1. Synopsys GNU toolchain releases:
++`<https://github.com/foss-for-synopsys-dwc-arc-processors/toolchain/releases>`_
++2. Linux kernel compilers collection:
++`<https://mirrors.edge.kernel.org/pub/tools/crosstool/>`_
++3. Bootlin's toolchain collection: `<https://toolchains.bootlin.com/>`_
++
++Once the toolchain is installed in the system, make sure its "bin" folder
++is added in your ``PATH`` environment variable. Then set ``ARCH=arc`` &
++``CROSS_COMPILE=arc-linux`` (or whatever matches installed ARC toolchain prefix)
++and then as usual ``make defconfig && make``.
++
++This will produce "vmlinux" file in the root of the kernel source tree
++usable for loading on the target system via JTAG.
++If you need to get an image usable with U-Boot bootloader,
++type ``make uImage`` and ``uImage`` will be produced in ``arch/arc/boot``
++folder.
+diff --git a/Documentation/arc/features.rst b/Documentation/arc/features.rst
+new file mode 100644
+index 000000000000..b793583d688a
+--- /dev/null
++++ b/Documentation/arc/features.rst
+@@ -0,0 +1,3 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. kernel-feat:: $srctree/Documentation/features arc
+diff --git a/Documentation/arc/index.rst b/Documentation/arc/index.rst
+new file mode 100644
+index 000000000000..7b098d4a5e3e
+--- /dev/null
++++ b/Documentation/arc/index.rst
+@@ -0,0 +1,17 @@
++===================
++ARC architecture
++===================
++
++.. toctree::
++    :maxdepth: 1
++
++    arc
++
++    features
++
++.. only::  subproject and html
++
++   Indices
++   =======
++
++   * :ref:`genindex`
+diff --git a/Documentation/arch.rst b/Documentation/arch.rst
+index f10bd32a5972..14bcd8294b93 100644
+--- a/Documentation/arch.rst
++++ b/Documentation/arch.rst
+@@ -9,6 +9,7 @@ implementation.
+ .. toctree::
+    :maxdepth: 2
+ 
++   arc/index
+    arm/index
+    arm64/index
+    ia64/index
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3b79fd441dde..286a5e896be4 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -18020,6 +18020,7 @@ M:	Vineet Gupta <vgupta@kernel.org>
+ L:	linux-snps-arc@lists.infradead.org
+ S:	Supported
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git
++F:	Documentation/arc/
+ F:	Documentation/devicetree/bindings/arc/*
+ F:	Documentation/devicetree/bindings/interrupt-controller/snps,arc*
+ F:	arch/arc/
+-- 
+2.25.1
 
-> @@ -354,6 +347,12 @@ void __init setup_arch(char **cmdline_p)
->         }
->  #endif
->
-> +       paging_init();
-> +
-> +#ifdef CONFIG_NATFEAT
-> +       nf_init();
-> +#endif
-> +
->  #ifdef CONFIG_ATARI
->         if (MACH_IS_ATARI)
->                 atari_stram_reserve_pages((void *)availmem);
-> @@ -364,8 +363,6 @@ void __init setup_arch(char **cmdline_p)
->         }
->  #endif
->
-> -#endif /* !CONFIG_SUN3 */
-> -
->  /* set ISA defs early as possible */
->  #if defined(CONFIG_ISA) && defined(MULTI_ISA)
->         if (MACH_IS_Q40) {
-> diff --git a/arch/m68k/mm/motorola.c b/arch/m68k/mm/motorola.c
-> index 9f3f77785aa7..5b6575eb6d02 100644
-> --- a/arch/m68k/mm/motorola.c
-> +++ b/arch/m68k/mm/motorola.c
-> @@ -455,6 +455,8 @@ void __init paging_init(void)
->
->         flush_tlb_all();
->
-> +       early_memtest(min_addr, max_addr);
-
-So this is available only if MMU_MOTOROLA, not for Sun-3, Coldfire,
-or nommu.
-
-> +
->         /*
->          * initialize the bad page table and bad page to point
->          * to a couple of allocated pages
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
