@@ -2,54 +2,54 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB90EC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Nov 2021 02:42:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87F52C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Nov 2021 02:42:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9EA6160F4B
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Nov 2021 02:42:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6A4A760F4F
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Nov 2021 02:42:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234511AbhKLCpS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Nov 2021 21:45:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52234 "EHLO
+        id S234519AbhKLCpW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Nov 2021 21:45:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234510AbhKLCpS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Nov 2021 21:45:18 -0500
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D6F9C061766
-        for <linux-doc@vger.kernel.org>; Thu, 11 Nov 2021 18:42:28 -0800 (PST)
-Received: by mail-pf1-x42c.google.com with SMTP id r130so7268677pfc.1
-        for <linux-doc@vger.kernel.org>; Thu, 11 Nov 2021 18:42:28 -0800 (PST)
+        with ESMTP id S234495AbhKLCpW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Nov 2021 21:45:22 -0500
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52D06C061766
+        for <linux-doc@vger.kernel.org>; Thu, 11 Nov 2021 18:42:32 -0800 (PST)
+Received: by mail-pj1-x102b.google.com with SMTP id fv9-20020a17090b0e8900b001a6a5ab1392so6394263pjb.1
+        for <linux-doc@vger.kernel.org>; Thu, 11 Nov 2021 18:42:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=1Yx33tAWMT+z1va2f7PYzYOuUNOqTqW97dKzYGF8AIA=;
-        b=UGinvlSILA5whIxiN7QtV+BKlBk1XUZmFu18qHVi7H2uWRQoltDLcMCUpHCeRlXpTY
-         Z6PCuZxdZIBwx7UETZr1efGocBP3BgghqD0b+6+CGKZ3XTR4IcFK6TtM/XCNw/Egv5Kb
-         uL/hdj9h0fWdHxm7cK8iDbosMUGrB0oNIFZQMYQwxuXj8e0+22QWpjB+pJLs2cJoeMWL
-         IKvaf9zoZY52rUFTM/r94HlfDt3tyCyjCJo9J/NNda3epfbCxVBgZKLzbsqlid+AALnZ
-         +nNKMeYKIP4k/lZJLSQifjyXTrkgDwBYlfwiAJ9R++q90T+J8uYalUtzZlHeUbvyuiDO
-         ydKg==
+        bh=N7EjazIU+znvx7zCIXSZJNjoqDSqGVaTQIv4TJVHCQc=;
+        b=hko9CdcJQafbbPKb0wcwtM82xPktTT9e0Ui8+Gn5XN7llCUtzdYW1P3RCMOYc+K6XV
+         ZOYJdIqsPhOTLK7bIVjIAhBuULMmpq4K72BQO+Ak3TUHibjHLcMGq+Tw2djXwUQy1L13
+         Hp85iFEPP+XCHwt8p+fvjTcdQnouxgIej3ish8+1bqnxP7J6Gf4ZeXKwpFgztAvF56NX
+         fKR41xyzapsvUmxZD2t8Tfm079z/7MQf4P159/NOYuKWtMAdmTknkmvUiFalLIHdOi9y
+         VKC0pypI+yRC8k+fTVfOr287FB/DuY8K6pm/0TVuR8T1Sa61i5H6iZoNzDCzm/ZZ8gUo
+         ZpCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=1Yx33tAWMT+z1va2f7PYzYOuUNOqTqW97dKzYGF8AIA=;
-        b=11TEJcjZuzwYTOKL4a6cFFL0ZhEDmxUSfb0UWknubB+240sEaW0i3qXBBEXDVYEMzD
-         ixms4Yhna2ycD7FqUSszOOHBTFskTuVZvqAu/ZCKrpa3UrPZX6fGjfhL1vqc4Nbvz2Tv
-         SNcWQtLYRiJfpOfQqtV2koKiSAWmahpnH7mh49UHbZPydh7rv7vGqdn9xTTqJD6VWIuf
-         RGf2kt4nW6tVvgFE7h7XoqLGj8IaPfjLngVgHh9Btr7QSxNlzpcrI4tUiCR2jrmmm3+2
-         zVU3nVtfh7UgsyprQCb/mEAD2/7NQX1n+txoWsUrvM8V6XRp38j/MJnSK69Br1jpnClB
-         Leow==
-X-Gm-Message-State: AOAM531vLfG8ZaiSOkJN8Y8HEjd9fvPZ95VwrIraG/huoUgHcmV2TheZ
-        5evsk3O9eiibgDw6SkGAr7k=
-X-Google-Smtp-Source: ABdhPJytNk4AsmeiQcT22hHI2nnIHBqnv32KuraN5XWBQBrW9ge1t7dvnP7c4Ogan/BZNHJsBJmiUQ==
-X-Received: by 2002:a05:6a00:2349:b0:49f:db1d:c378 with SMTP id j9-20020a056a00234900b0049fdb1dc378mr10883480pfj.53.1636684947807;
-        Thu, 11 Nov 2021 18:42:27 -0800 (PST)
+        bh=N7EjazIU+znvx7zCIXSZJNjoqDSqGVaTQIv4TJVHCQc=;
+        b=Hx19ZOZAN7Hs+glCXgDmHwBM4cfUxH5ySfExWX2e48BOR1SuCeImtnBYBP3OkoSdIv
+         MS5EVr0xGplCncZYWKlkQKGlsR0+qkexdU4+WFLvNUJrQ+zYy1/PELPMfO++jMNZEs9N
+         R1NMSCVcox7SgN3hTiBap+RcGYKKxYF7vd5hsNECAfqd/b7sGgJvz7zJ7Y5luTrNPyQ9
+         JnqojI6ri6lilAJcKP1vWVZrwDyxxKVBOxUHYsDb79JIeCufrXSeRzOYAqJX5x0/Vymm
+         VzuABzhWZ2fr9FpK64E0XWGPYnnvx9U5m++OAfLZ4lL5Un5aBZeS9NW6ncSe9rOKspFN
+         4szg==
+X-Gm-Message-State: AOAM5337z8zkUaGdWtqRGes3VPoE8ITZ+YtFIcIgP5vWAS1hT5srIfwc
+        Pc0XojNZ/9Wj0KJchuuGHCxdG8FTNfcw+2j/
+X-Google-Smtp-Source: ABdhPJy0xC/5s+kiRpecthzVtpK0B6iyogkZy6Egqb3lYYK/FOh0u6567SkCKGkt0sdx060HP1LDvQ==
+X-Received: by 2002:a17:902:7fc5:b0:143:6d84:88eb with SMTP id t5-20020a1709027fc500b001436d8488ebmr4239188plb.61.1636684951803;
+        Thu, 11 Nov 2021 18:42:31 -0800 (PST)
 Received: from localhost.localdomain ([8.47.69.168])
-        by smtp.gmail.com with ESMTPSA id me7sm10874261pjb.9.2021.11.11.18.42.24
+        by smtp.gmail.com with ESMTPSA id me7sm10874261pjb.9.2021.11.11.18.42.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Nov 2021 18:42:27 -0800 (PST)
+        Thu, 11 Nov 2021 18:42:31 -0800 (PST)
 From:   Yanteng Si <siyanteng01@gmail.com>
 X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
 To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
@@ -57,9 +57,9 @@ To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
 Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
         jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
         realpuyuwang@gmail.com, siyanteng01@gmail.com, src.res@email.cn
-Subject: [PATCH 1/2] docs/zh_CN: add msi-howto translation
-Date:   Fri, 12 Nov 2021 10:41:33 +0800
-Message-Id: <e27d44ee3c5276736523bd1079795dff290f8858.1636684159.git.siyanteng@loongson.cn>
+Subject: [PATCH 2/2] docs/zh_CN: add sysfs-pci trnaslation
+Date:   Fri, 12 Nov 2021 10:41:34 +0800
+Message-Id: <017cb90514ce753958489fc96b571152e6d93bcf.1636684159.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1636684159.git.siyanteng@loongson.cn>
 References: <cover.1636684159.git.siyanteng@loongson.cn>
@@ -70,38 +70,45 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate .../PCI/msi-howto.rst into Chinese.
+Translate .../PCI/sysfs-pci.rst into Chinese.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 ---
- .../translations/zh_CN/PCI/index.rst          |   1 +
- .../translations/zh_CN/PCI/msi-howto.rst      | 235 ++++++++++++++++++
- 2 files changed, 236 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/PCI/msi-howto.rst
+ .../translations/zh_CN/PCI/index.rst          |   3 +-
+ .../translations/zh_CN/PCI/sysfs-pci.rst      | 128 ++++++++++++++++++
+ 2 files changed, 130 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/PCI/sysfs-pci.rst
 
 diff --git a/Documentation/translations/zh_CN/PCI/index.rst b/Documentation/translations/zh_CN/PCI/index.rst
-index 5c96017e9f41..44418a5f57d5 100644
+index 44418a5f57d5..f51940d1ceab 100644
 --- a/Documentation/translations/zh_CN/PCI/index.rst
 +++ b/Documentation/translations/zh_CN/PCI/index.rst
-@@ -22,6 +22,7 @@ Linux PCI总线子系统
-    :numbered:
+@@ -23,13 +23,14 @@ Linux PCI总线子系统
  
     pci
-+   msi-howto
+    msi-howto
++   sysfs-pci
  
  Todolist:
  
-diff --git a/Documentation/translations/zh_CN/PCI/msi-howto.rst b/Documentation/translations/zh_CN/PCI/msi-howto.rst
+    pciebus-howto
+    pci-iov-howto
+    msi-howto
+-   sysfs-pci
++
+    acpi-info
+    pci-error-recovery
+    pcieaer-howto
+diff --git a/Documentation/translations/zh_CN/PCI/sysfs-pci.rst b/Documentation/translations/zh_CN/PCI/sysfs-pci.rst
 new file mode 100644
-index 000000000000..7a24d679c6c4
+index 000000000000..6fe6e8871219
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/PCI/msi-howto.rst
-@@ -0,0 +1,235 @@
++++ b/Documentation/translations/zh_CN/PCI/sysfs-pci.rst
+@@ -0,0 +1,128 @@
 +.. SPDX-License-Identifier: GPL-2.0
-+.. include:: <isonum.txt>
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/PCI/msi-howto.rst
++:Original: Documentation/PCI/sysfs-pci.rst
 +
 +:翻译:
 +
@@ -111,227 +118,121 @@ index 000000000000..7a24d679c6c4
 +
 +
 +
-+.. _cn_PCI_msi-howto.rst:
++.. _cn_PCI_sysfs-pci.rst:
++
++========================
++通过sysfs访问PCI设备资源
++========================
++
++sysfs，通常挂载在/sys，在支持它的平台上提供对PCI资源的访问。例如，一个特定的总线可能看起
++来像这样::
++
++     /sys/devices/pci0000:17
++     |-- 0000:17:00.0
++     |   |-- class
++     |   |-- config
++     |   |-- device
++     |   |-- enable
++     |   |-- irq
++     |   |-- local_cpus
++     |   |-- remove
++     |   |-- resource
++     |   |-- resource0
++     |   |-- resource1
++     |   |-- resource2
++     |   |-- revision
++     |   |-- rom
++     |   |-- subsystem_device
++     |   |-- subsystem_vendor
++     |   `-- vendor
++     `-- ...
++
++最上面的元素描述了PCI域和总线号码。在这种情况下，域号是0000，总线号是17（两个值都是十六进制）。
++这个总线在0号插槽中包含一个单一功能的设备。为了方便起见，我们复制了域和总线的编号。在设备目录
++下有几个文件，每个文件都有自己的功能。
++
++       =================== =====================================================
++       文件		           功能
++       =================== =====================================================
++       class		       PCI级别 (ascii, ro)
++       config		       PCI配置空间 (binary, rw)
++       device		       PCI设备 (ascii, ro)
++       enable	           设备是否被启用 (ascii, rw)
++       irq		           IRQ编号 (ascii, ro)
++       local_cpus	       临近CPU掩码(cpumask, ro)
++       remove		       从内核的列表中删除设备 (ascii, wo)
++       resource		       PCI资源主机地址 (ascii, ro)
++       resource0..N	       PCI资源N，如果存在的话 (binary, mmap, rw\ [1]_)
++       resource0_wc..N_wc  PCI WC映射资源N，如果可预取的话 (binary, mmap)
++       revision		       PCI修订版 (ascii, ro)
++       rom		           PCI ROM资源，如果存在的话 (binary, ro)
++       subsystem_device	   PCI子系统设备 (ascii, ro)
++       subsystem_vendor	   PCI子系统供应商 (ascii, ro)
++       vendor		       PCI供应商 (ascii, ro)
++       =================== =====================================================
++
++::
++
++  ro - 只读文件
++  rw - 文件是可读和可写的
++  wo - 只写文件
++  mmap - 文件是可移动的
++  ascii - 文件包含ascii文本
++  binary - 文件包含二进制数据
++  cpumask - 文件包含一个cpumask类型的
++
++.. [1] rw 仅适用于 IORESOURCE_IO（I/O 端口）区域
++
++只读文件是信息性的，对它们的写入将被忽略，但 "rom"文件除外。可写文件可以用来在设备上执
++行操作（例如，改变配置空间，分离设备）。 mmapable文件可以通过偏移量为0的文件的mmap获得，
++可以用来从用户空间进行实际的设备编程。注意，有些平台不支持某些资源的mmapping，所以一定要
++检查任何尝试的mmap的返回值。其中最值得注意的是I/O端口资源，它也提供读/写访问。
++
++”enable“文件提供了一个计数器，表明设备已经被启用了多少次。如果'enable'文件目前返回'4'，
++而一个'1'被呼入它，它将返回'5'。向它呼入一个'0'会减少计数。不过，即使它返回到0，一些初始
++化可能也不会被逆转。
++
++”rom“文件很特别，因为它提供了对设备ROM文件的只读访问，如果有的话。然而，它在默认情况下是
++禁用的，所以应用程序应该在尝试读取调用之前将字符串 "1"写入该文件以启用它，并在访问之后将
++"0"写入该文件以禁用它。请注意，设备必须被启用，才能成功返回数据。如果驱动没有被绑定到设备
++上，可以使用上面提到的”enable“文件将其启用。
++
++”remove“文件是用来移除PCI设备的，通过向该文件写入一个非零的整数。这并不涉及任何形式的热插
++拔功能，例如关闭设备的电源。该设备被从内核的PCI设备列表中移除，它的sysfs目录被移除，并且该
++设备将被从任何连接到它的驱动程序中移除。移除PCI根总线是不允许的。
++
++通过sysfs访问原有资源
++---------------------
++
++如果底层平台支持的话，传统的I/O端口和ISA内存资源也会在sysfs中提供。它们位于PCI类的层次结构
++中，例如::
++
++	/sys/class/pci_bus/0000:17/
++	|-- bridge -> ../../../devices/pci0000:17
++	|-- cpuaffinity
++	|-- legacy_io
++	`-- legacy_mem
++
++legacy_io文件是一个读/写文件，可以被应用程序用来做传统的端口I/O。应用程序应该打开该文件，寻
++找所需的端口（例如0x3e8），并进行1、2或4字节的读或写。legacy_mem文件应该被mmapped，其偏移
++量与所需的内存偏移量相对应，例如0xa0000用于VGA帧缓冲器。然后，应用程序可以简单地解除引用返回
++的指针（当然是在检查了错误之后）来访问遗留内存空间。
++
++支持新平台上的PCI访问
++---------------------
 +
-+===========
-+MSI驱动指南
-+===========
++为了支持上述的PCI资源映射，Linux平台代码最好定义ARCH_GENERIC_PCI_MMAP_RESOURCE并使用该
++功能的通用实现。为了支持通过/proc/bus/pci中的文件实现mmap()的历史接口，平台也可以设置
++HAVE_PCI_MMAP。
 +
-+:作者: Tom L Nguyen; Martine Silbermann; Matthew Wilcox
++另外，设置了 HAVE_PCI_MMAP 的平台可以提供他们自己的 pci_mmap_page_range() 实现，而不是定
++义 ARCH_GENERIC_PCI_MMAP_RESOURCE。
 +
-+:版权: 2003, 2008 Intel Corporation
++支持PCI资源的写组合映射的平台必须定义arch_can_pci_mmap_wc()，当写组合被允许时，在运行时应
++评估为非零。支持I/O资源映射的平台同样定义arch_can_pci_mmap_io()。
 +
-+关于本指南
-+==========
-+
-+本指南介绍了消息信号中断（MSI）的基本知识，使用MSI相对于传统中断机制的优势，如何
-+改变你的驱动程序以使用MSI或MSI-X，以及在设备不支持MSI时可以尝试的一些基本诊断方法。
-+
-+
-+什么是MSI?
-+==========
-+
-+信息信号中断是指从设备写到一个特殊的地址，导致CPU接收到一个中断。
-+
-+MSI能力首次在PCI 2.2中规定，后来在PCI 3.0中得到增强，允许对每个中断进行单独屏蔽。
-+MSI-X功能也随着PCI 3.0被引入。它比MSI支持每个设备更多的中断，并允许独立配置中断。
-+
-+设备可以同时支持MSI和MSI-X，但一次只能启用一个。
-+
-+
-+为什么用MSI?
-+============
-+
-+有三个原因可以说明为什么使用MSI比传统的基于针脚的中断有优势。
-+
-+基于针脚的PCI中断通常在几个设备之间共享。为了支持这一点，内核必须调用每个与中断相
-+关的中断处理程序，这导致了整个系统性能的降低。MSI从不共享，所以这个问题不会出现。
-+
-+当一个设备将数据写入内存，然后引发一个基于引脚的中断时，有可能在所有的数据到达内存
-+之前，中断就已经到达了（这在PCI-PCI桥后面的设备中变得更有可能）。为了确保所有的数
-+据已经到达内存中，中断处理程序必须在引发中断的设备上读取一个寄存器。PCI事务排序规
-+则要求所有的数据在返回寄存器的值之前到达内存。使用MSI可以避免这个问题，因为中断产
-+生的写入不能通过数据写入，所以当中断发生时，驱动程序知道所有的数据已经到达内存中。
-+
-+PCI设备每个功能只能支持一个基于引脚的中断。通常情况下，驱动程序必须查询设备以找出
-+发生了什么事件，这就减慢了对常见情况的中断处理。有了MSI，设备可以支持更多的中断，
-+允许每个中断被专门用于不同的目的。一种可能的设计是给不经常发生的情况（如错误）提供
-+自己的中断，这使得驱动程序可以更有效地处理正常的中断处理路径。其他可能的设计包括给
-+网卡的每个数据包队列或存储控制器的每个端口提供一个中断。
-+
-+
-+如何使用MSI
-+===========
-+
-+PCI设备被初始化为使用基于引脚的中断。设备驱动程序必须将设备设置为使用MSI或MSI-X。
-+并非所有的机器都能正确地支持MSI，对于这些机器，下面描述的API将简单地失败，设备将
-+继续使用基于引脚的中断。
-+
-+加入内核对MSI的支持
-+-------------------
-+
-+为了支持MSI或MSI-X，内核在构建时必须启用CONFIG_PCI_MSI选项。这个选项只在某些架
-+构上可用，而且它可能取决于其他一些选项的设置。例如，在x86上，你必须同时启用X86_UP_APIC
-+或SMP，才能看到CONFIG_PCI_MSI选项。
-+
-+使用MSI
-+-------
-+
-+大部分沉重的工作是在PCI层为驱动程序完成的。驱动程序只需要请求PCI层为这个设备设置
-+MSI功能。
-+
-+要自动使用MSI或MSI-X中断向量，请使用以下函数::
-+
-+  int pci_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
-+		unsigned int max_vecs, unsigned int flags);
-+
-+它为一个PCI设备分配最多至max_vecs的中断向量。它返回分配的向量数量或一个负的错误。
-+如果设备对最小数量的向量有要求，驱动程序可以传递一个min_vecs参数，设置为这个限制，
-+如果PCI核不能满足最小数量的向量，将返回-ENOSPC。
-+
-+flags参数用来指定设备和驱动程序可以使用哪种类型的中断（PCI_IRQ_LEGACY, PCI_IRQ_MSI,
-+PCI_IRQ_MSIX）。一个方便的短语（PCI_IRQ_ALL_TYPES）也可以用来要求任何可能的中断类型。
-+如果PCI_IRQ_AFFINITY标志被设置，pci_alloc_irq_vectors()将把中断分散到可用的CPU上。
-+
-+要获得传递给require_irq()和free_irq()的Linux IRQ号码和向量，请使用以下函数::
-+
-+  int pci_irq_vector(struct pci_dev *dev, unsigned int nr);
-+
-+在删除设备之前，应使用以下功能释放任何已分配的资源::
-+
-+  void pci_free_irq_vectors(struct pci_dev *dev);
-+
-+如果一个设备同时支持MSI-X和MSI功能，这个API将优先使用MSI-X，而不是MSI。MSI-X支
-+持1到2048之间的任何数量的中断。相比之下，MSI被限制为最多32个中断（而且必须是2的幂）。
-+此外，MSI中断向量必须连续分配，所以系统可能无法为MSI分配像MSI-X那样多的向量。在一
-+些平台上，MSI中断必须全部针对同一组CPU，而MSI-X中断可以全部针对不同的CPU。
-+
-+如果一个设备既不支持MSI-X，也不支持MSI，它就会退回到一个传统的IRQ向量。
-+
-+MSI或MSI-X中断的典型用法是分配尽可能多的向量，可能达到设备支持的极限。如果nvec大于
-+设备支持的数量，它将自动被限制在支持的限度内，所以没有必要事先查询支持的向量的数量。::
-+
-+	nvec = pci_alloc_irq_vectors(pdev, 1, nvec, PCI_IRQ_ALL_TYPES)
-+	if (nvec < 0)
-+		goto out_err;
-+
-+如果一个驱动程序不能或不愿意处理可变数量的MSI中断，它可以要求一个特定数量的中断，将该
-+数量作为“min_vecs“和“max_vecs“参数传递给pci_alloc_irq_vectors()函数。::
-+
-+	ret = pci_alloc_irq_vectors(pdev, nvec, nvec, PCI_IRQ_ALL_TYPES);
-+	if (ret < 0)
-+		goto out_err;
-+
-+上述请求类型的最臭名昭著的例子是为一个设备启用单一的MSI模式。它可以通过传递两个1作为
-+'min_vecs'和'max_vecs'来实现::
-+
-+	ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_ALL_TYPES);
-+	if (ret < 0)
-+		goto out_err;
-+
-+一些设备可能不支持使用传统的线路中断，在这种情况下，驱动程序可以指定只接受MSI或MSI-X。::
-+
-+	nvec = pci_alloc_irq_vectors(pdev, 1, nvec, PCI_IRQ_MSI | PCI_IRQ_MSIX);
-+	if (nvec < 0)
-+		goto out_err;
-+
-+传统API
-+-----------
-+
-+以下用于启用和禁用MSI或MSI-X中断的旧API不应该在新代码中使用::
-+
-+  pci_enable_msi()		/* deprecated */
-+  pci_disable_msi()		/* deprecated */
-+  pci_enable_msix_range()	/* deprecated */
-+  pci_enable_msix_exact()	/* deprecated */
-+  pci_disable_msix()		/* deprecated */
-+
-+此外，还有一些API来提供支持的MSI或MSI-X向量的数量：pci_msi_vec_count()和
-+pci_msix_vec_count()。一般来说，应该避免使用这些方法，而是让pci_alloc_irq_vectors()
-+来限制向量的数量。如果你对向量的数量有合法的特殊用例，我们可能要重新审视这个决定，
-+并增加一个pci_nr_irq_vectors()助手，透明地处理MSI和MSI-X。
-+
-+使用MSI时需要考虑的因素
-+-----------------------
-+
-+自旋锁
-+~~~~~~
-+
-+大多数设备驱动程序都有一个每的自旋锁，在中断处理程序中被占用。对于基于引脚的中断
-+或单一的MSI，没有必要禁用中断（Linux保证同一中断不会被重新输入）。如果一个设备
-+使用多个中断，驱动程序必须在锁被持有的时候禁用中断。如果设备发出一个不同的中断，
-+驱动程序将死锁，试图递归地获取自旋锁。这种死锁可以通过使用spin_lock_irqsave()
-+或spin_lock_irq()来避免，它们可以禁用本地中断并获取锁（见《不可靠的锁定指南》）。
-+
-+如何判断一个设备上是否启用了MSI/MSI-X
-+-------------------------------------
-+
-+使用“lspci -v“（以root身份）可能会显示一些具有“MSI“、“Message Signalled Interrupts“
-+或“MSI-X“功能的设备。这些功能中的每一个都有一个“启用“标志，后面是“+“（启用）
-+或“-“（禁用）。
-+
-+
-+MSI特性
-+=======
-+
-+众所周知，一些PCI芯片组或设备不支持MSI。PCI协议栈提供了三种禁用MSI的方法:
-+
-+1. 全局的
-+2. 在一个特定的桥后面的所有设备上
-+3. 在单一设备上
-+
-+全局禁用MSI
-+-----------
-+
-+一些主控芯片组根本无法正确支持MSI。如果我们幸运的话，制造商知道这一点，并在
-+ACPI FADT表中指明了它。在这种情况下，Linux会自动禁用MSI。有些板卡在表中没
-+有包括这一信息，因此我们必须自己检测它们。完整的列表可以在drivers/pci/quirks.c
-+中的quirk_disable_all_msi()函数附近找到。
-+
-+如果你有一块有MSI问题的板子，你可以在内核命令行中传递pci=nomsi来禁用所有设
-+备上的MSI。你最好把问题报告给linux-pci@vger.kernel.org，包括完整的
-+“lspci -v“，这样我们就可以把这些怪癖添加到内核中。
-+
-+禁用桥下的MSI
-+-------------
-+
-+一些PCI桥接器不能在总线之间正确地路由MSI。在这种情况下，必须在桥接器后面的所
-+有设备上禁用MSI。
-+
-+一些桥接器允许你通过改变PCI配置空间的一些位来启用MSI（特别是Hypertransport
-+芯片组，如nVidia nForce和Serverworks HT2000）。与主机芯片组一样，Linux大
-+多知道它们，如果可以的话，会自动启用MSI。如果你有一个Linux不知道的网桥，你可以
-+用你知道的任何方法在配置空间中启用MSI，然后通过以下方式在该网桥上启用MSI::
-+
-+       echo 1 > /sys/bus/pci/devices/$bridge/msi_bus
-+
-+其中$bridge是你所启用的桥的PCI地址（例如0000:00:0e.0）。
-+
-+要禁用MSI，请回显0而不是1。改变这个值应该谨慎进行，因为它可能会破坏这个桥下面所
-+有设备的中断处理。
-+
-+同样，请通知 linux-pci@vger.kernel.org 任何需要特殊处理的桥。
-+
-+在单一设备上关闭MSIs
-+--------------------
-+
-+众所周知，有些设备的MSI实现是有问题的。通常情况下，这是在单个设备驱动程序中处理的，
-+但偶尔也有必要用一个古怪的方法来处理。一些驱动程序有一个选项可以禁用MSI的使用。虽然
-+这对驱动程序的作者来说是一个方便的变通办法，但这不是一个好的做法，不应该被模仿。
-+
-+寻找设备上MSI被禁用的原因
-+-------------------------
-+
-+从以上三个部分，你可以看到有许多原因导致MSI没有在某个设备上被启用。你的第一步应该是
-+仔细检查你的dmesg以确定你的机器是否启用了MSI。你还应该检查你的.config以确定你已经
-+启用了CONFIG_PCI_MSI。
-+
-+然后，“lspci -t“给出一个设备上面的网列表。读取 ``/sys/bus/pci/devices/*/msi_bus``
-+将告诉你MSI是否被启用（1）或禁用（0）。如果在任何属于PCI根和设备之间的桥的msi_bus
-+文件中发现0，说明MSI被禁用。
-+
-+也需要检查设备驱动程序，看它是否支持MSI。例如，它可能包含对带有PCI_IRQ_MSI或
-+PCI_IRQ_MSIX标志的pci_alloc_irq_vectors（）的调用。
++传统资源由HAVE_PCI_LEGACY定义保护。希望支持传统功能的平台应该定义它并提供 pci_legacy_read,
++pci_legacy_write 和 pci_mmap_legacy_page_range 函数。
 -- 
 2.27.0
 
