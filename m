@@ -2,67 +2,67 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58BEAC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Nov 2021 15:09:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68A37C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Nov 2021 15:09:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 436A861076
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Nov 2021 15:09:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5349061078
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Nov 2021 15:09:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233128AbhKLPM1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 Nov 2021 10:12:27 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:2994 "EHLO
+        id S233303AbhKLPM3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 12 Nov 2021 10:12:29 -0500
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:10978 "EHLO
         mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231877AbhKLPMZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Nov 2021 10:12:25 -0500
+        by vger.kernel.org with ESMTP id S231553AbhKLPM2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Nov 2021 10:12:28 -0500
 Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1ACEQENp008613;
-        Fri, 12 Nov 2021 15:09:11 GMT
+        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1ACEQENk008613;
+        Fri, 12 Nov 2021 15:09:05 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2021-07-09;
- bh=XT+ISnWwYhe5gFe4TDLrao6T9ENv/t2qqtZgPA+hHcg=;
- b=Hs/NHMbJ7DmjyunD7VAfaQ7Q3gYfMiqstvZjWODT5dpTGdfQuUq8bH7v+CPp1r7c026T
- Uw89Hj/12pp8QB79mOv4f4tCA29gmQJ1vFgwQTVjxYj4iZSXlgzEWX/VlPzTxB8qgs0B
- V1iaP2vSaDwDtmtL5RaSwg+Xnr/Pg2f9p2BQWxA1zzOSzR3W6rEWblDAxeXwcKAQB4oy
- wp73HTbA9HATtRlM666rHrYa41FAmk0A8j7OUJmcmFdrQxatLwnsgDBpqyenCrUB7+TK
- 6qunpa28KJ9VWL/7apZCoDdKNnx2KOTFEpo8k2uqqWajP/0HQnlF7pFgJLRHwKqV2iyr pQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3c9kn51yag-1
+ bh=blBh2EDfpufy4WWuhG5UL/QpYFWDSu5K0S3/ZSg8MR4=;
+ b=SsEdWSdcmqD0wMH4GyoyB1+uRnR7ELyuqirQZlY2q++ICfRWFNJyh1qFc/MCTl5bnhBx
+ 31FYaXgmeYM0ABovHwcoysuFg6VbJmg5I8Zh0yHa4btPSBbWa+IWSexLTz+eIdJDLHcI
+ 07SeCLSBxbYiptGV4ByEGLF2EON0APoBlnumDryjMFP6aE8J6ctK1keW/JtJ3vjNwMhN
+ 0LEfVWQ2AX4HHvZ/P51NolV+YgQ5HKoIn8dBgIMJqc82w5daX768tXbNEzc8tW7aKDY2
+ siG380DHRtMA/EQwQUPfCqm7+6gGOLLD5wSm99BGRi7z/9xr81Cb0/Z8lqbXPSqTSm01 kQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by mx0b-00069f02.pphosted.com with ESMTP id 3c9kn51ya6-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 12 Nov 2021 15:09:10 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1ACF6E7r094536;
-        Fri, 12 Nov 2021 15:09:10 GMT
-Received: from nam02-sn1-obe.outbound.protection.outlook.com (mail-sn1anam02lp2042.outbound.protection.outlook.com [104.47.57.42])
-        by aserp3030.oracle.com with ESMTP id 3c5frjhw3m-1
+        Fri, 12 Nov 2021 15:09:04 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1ACF5w0B196349;
+        Fri, 12 Nov 2021 15:09:03 GMT
+Received: from nam02-sn1-obe.outbound.protection.outlook.com (mail-sn1anam02lp2046.outbound.protection.outlook.com [104.47.57.46])
+        by userp3030.oracle.com with ESMTP id 3c842f8x77-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 12 Nov 2021 15:09:09 +0000
+        Fri, 12 Nov 2021 15:09:03 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RRrDcBtMunGWoZSDcLJ1SlD0rbnxJph1jxD7mqOYy0aZGPHVU4YA89Ji/dk+jRX0S7fdYNmpCWahiLy2RrenE2VqjwLghyB6xJ9lNQfTvxieKCFSHq69uSz4EbNOH7qvb/7uBk4VxITZUPoy5213wmp+G1GQGfd7fJXSU21dHD0nJQYK6wpW62YWpUbuWYIjLOUN0YioLnyZbapInoeLF7Sq6y8U6BVbzmRizlwF0NAkL6gpL765TybqdjvP/AX/HcrKVBQjlZUUnhTqiDNb0Er2TrnG0xP8uYK8fnrzmhOZus/NYBf1XezuUNr14MeBav2GETnRDkv4HZh5cRp+5A==
+ b=ZYyLEf7Nmj2IEK62lY3uSCY3IM5eDZBq9QUblxKH+ltIrqGfUi6TaKZ0QX6vTnuK4wIYX43kTa4OQbWtfT0Xs1rLdq7vyiFBt8nP0+ccw+0qGNIFEmb4zeOp2EOHks1V6ra+UPEhW4kaOS0UnbWUDAYL/qIoons7vakAQYDTFBJMZzLd7z4VIpd0LR2Czw1Co2yEbKO2RQHAWe09JJ8NW8CJMQ8hgfSGgT3AUShJrXQAYTvdd/hnu4UQ7SKRZ9cQPjzfIBfrl0diyETC7jOhQK9kmF3innd+4seEMMXfyFNVYZT6YE471qMQGDpEYomSi/ZoFcD7T7QJcLT4b2aeoQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XT+ISnWwYhe5gFe4TDLrao6T9ENv/t2qqtZgPA+hHcg=;
- b=hh7uFJmVj1I6OU78722rfN+SeUpXjXlT4WPC5l8unrOEpwd0Rzc9lX/Bp7vZK1q7QWVGvamEkadey7TxqBQI7XO5EtVs950xS4Zncat06+/kJ03GYyjZ6W8n5JFLgP0DA0EZeQcbNoDiMEmC+rGKOxp17QcNIznrWZtPV/1+vgKPObEyzDtINc2lSX4QqMnQeEPuFkVXkJIMmzTHETxG1pUZEcRcoi+qxP6SeGXaSjHpdGJhXLWfTySkNOe2jlNGZaGIA6/J1uxGn3x5ZT/X0l78bsIOLw6Gv34pJKJ04dYEXN8KsE1ohdR3qUBpg8s9GQmh+qp//JNl9ziyEnIkfg==
+ bh=blBh2EDfpufy4WWuhG5UL/QpYFWDSu5K0S3/ZSg8MR4=;
+ b=BQeWXtpEBYV73M73+GCodwssjWsQjUDSASc/pLNjmSCoUBwXeJww7wWhd7FXRm0QmiRB4FEuk0JJA1PuLJh3LAmW0NWaHHWWe0OWX+XyjSVkijuIT+RctX2IR7Pj0nHOaA9YSW50OWf2ojyv8SBigixxkzkvI+BVMQsNpwOsvaM+jWkU4WHOgRC2LOgkMJPsGx9oWSmLt+TtWa9wwYwtATdh3hGOnh1LUEoDFX62arV50S+VKRWfpnkGfVtjKHQCTxiA+ScJhsb84fHyIS20kPkUQaq/d4mFXvn/J0ubkf8nWeKqGaB4QcvoaGVoI+D3XGjxbEhVee5oBbR6TZemvQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XT+ISnWwYhe5gFe4TDLrao6T9ENv/t2qqtZgPA+hHcg=;
- b=nZG7gp2ARF1rRw+6GIXkYBLibP3+n2FaM12X3gwhU21FmrXsihKl0EDm52/7TddIR61+z0X6UKUV19xYyufsUeYmzUy9b234AHZ6bJBepk6YoM06ECYFTcaIGsuKqK4mNFQZauGSoTSk8UzluCjTYfGb4NHVNN2x8RWtCYRDikc=
+ bh=blBh2EDfpufy4WWuhG5UL/QpYFWDSu5K0S3/ZSg8MR4=;
+ b=Ra0EYswM63d+EuiS4i0VXFTn2iTLxnWJA1SNdvhGqIxpKqXd4Ex8f9xU4fUA20uTInhdf9r9a0tOpVcRLX+/c/KNs4dYSzpKCdNnIkJ3BwfMU4EyndFy8JpHwhR2Gp2TSd8LuR2SqWUqLLDCjiVx7m8NiHbYndhgYkNNXbj47vI=
 Authentication-Results: kvack.org; dkim=none (message not signed)
  header.d=none;kvack.org; dmarc=none action=none header.from=oracle.com;
 Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
  by MN2PR10MB4223.namprd10.prod.outlook.com (2603:10b6:208:1dd::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.17; Fri, 12 Nov
- 2021 15:09:08 +0000
+ 2021 15:09:02 +0000
 Received: from BLAPR10MB4835.namprd10.prod.outlook.com
  ([fe80::d809:9016:4511:2bc6]) by BLAPR10MB4835.namprd10.prod.outlook.com
  ([fe80::d809:9016:4511:2bc6%8]) with mapi id 15.20.4669.016; Fri, 12 Nov 2021
- 15:09:08 +0000
+ 15:09:01 +0000
 From:   Joao Martins <joao.m.martins@oracle.com>
 To:     linux-mm@kvack.org
 Cc:     Dan Williams <dan.j.williams@intel.com>,
@@ -79,9 +79,9 @@ Cc:     Dan Williams <dan.j.williams@intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Christoph Hellwig <hch@lst.de>, nvdimm@lists.linux.dev,
         linux-doc@vger.kernel.org, Joao Martins <joao.m.martins@oracle.com>
-Subject: [PATCH v5 3/8] mm/page_alloc: refactor memmap_init_zone_device() page init
-Date:   Fri, 12 Nov 2021 16:08:19 +0100
-Message-Id: <20211112150824.11028-4-joao.m.martins@oracle.com>
+Subject: [PATCH v5 1/8] memory-failure: fetch compound_head after pgmap_pfn_valid()
+Date:   Fri, 12 Nov 2021 16:08:17 +0100
+Message-Id: <20211112150824.11028-2-joao.m.martins@oracle.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20211112150824.11028-1-joao.m.martins@oracle.com>
 References: <20211112150824.11028-1-joao.m.martins@oracle.com>
@@ -90,172 +90,102 @@ X-ClientProxiedBy: AM3PR07CA0134.eurprd07.prod.outlook.com
  (2603:10a6:207:8::20) To BLAPR10MB4835.namprd10.prod.outlook.com
  (2603:10b6:208:331::11)
 MIME-Version: 1.0
-Received: from paddy.uk.oracle.com (138.3.204.9) by AM3PR07CA0134.eurprd07.prod.outlook.com (2603:10a6:207:8::20) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.4690.12 via Frontend Transport; Fri, 12 Nov 2021 15:09:05 +0000
+Received: from paddy.uk.oracle.com (138.3.204.9) by AM3PR07CA0134.eurprd07.prod.outlook.com (2603:10a6:207:8::20) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.4690.12 via Frontend Transport; Fri, 12 Nov 2021 15:08:57 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: edee9e87-7b8a-4e85-b6e2-08d9a5ee5ffe
+X-MS-Office365-Filtering-Correlation-Id: 85a4c399-ebdf-4a2c-7665-08d9a5ee5bf2
 X-MS-TrafficTypeDiagnostic: MN2PR10MB4223:
-X-Microsoft-Antispam-PRVS: <MN2PR10MB4223C58CEFA8A6D05378C4DBBB959@MN2PR10MB4223.namprd10.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <MN2PR10MB42234B3B2D325E22B1FD5CA9BB959@MN2PR10MB4223.namprd10.prod.outlook.com>
 X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EtDS2SGrHt1GhetLPp8kv+JiXtj+PCMl+c5a4T8+U/6DscA7bjd9CO5z1/jUi7Sr1kPWdivq9AXFuCVUOwfrZrivfvTvoKjIE0ycvcjyMD9QKNB0gB5vesSy+vKDITlPbT5jXrDMkOabEvEbHw5Gl0dBcWjiTK2IAjCQREupbOXzmmYZRgVbRrI3MaOGHAjnvGIY0JR5QBCM6lBLp5b5YacErm25Cp/JlMXqhVtU+f2GRDsPEXwGps62TvJZziukekskoCVvHI8jxJarcC1QWkcgSYXGwgNbwt4rRjSVNPkb+G4xC6IpyAGhVMQllKBTXQ9btZ+J7wzVaMY8XJKk8MDgbagd6Qwzv8DmwYUs45eTXo9Gr/rzLoTYSazSdRrQnq1qwnQkd0tbzbjPM7W6Mr4+E5Z9oI7xbi7gRzov6DEbDvJ7cpEBMvmylyoez8y28PXK9ECoxo0WOVRkRs70P3VIW8pAD2YWc7wkLHgdrfzzi3CrJE684NPHNxejOEJ5kVpo/aDdEy2Xu17zuBjB2NOrx9rvy2Sb/1oM7rc00pSawc+pOzM0OC/uz+W8v6Z2QFZkbN3jORybEII4enQydO2MLYBjS4A4vOooI7f3BGcf8KZcx8qFi4DGMJHMJ3AMfc9TOYY2JUBskIXKKLYrWQyIqc5ZhkIUhowPId9aZkJ3RLY0HiJp6x3sdKm2Xjax0j1pz8D9ORT8TLrNftzEvg==
+X-Microsoft-Antispam-Message-Info: AKDjxXOFdQWpKPnxX7nL0n98chJq9NDCfWOnwqz25a5Ld+v4PJTcmcHLpbKoRT5uXTdcduokI4xBnoxnwvXZYMzwN+BjCCVJoO+pt5EaPNqrsr9qTNxMmRod1kaKpBcMsLBs6+bC3nwNFrFi8NwSL/bvuUpg5hWTbKl0ivaQa9+bZvYvAWQbmqZZtZvnXjcOdDNLwF+bQ8QnjGibeFWVTeDUJbWYY2LWEvokANO2ItjChUOQfh9RbB5UOb3e/cO5eSsL926zA8YORvyVWZFpWzQ3ek4xWPpsZF1SLwAWl3V/2gwqV7/I6kt5VbqDgSBSD9zgTGlD9ojP2tuWya06/nwdSEx3b4AjLHK9Jrmu6EwXWtR84ER3AA/THTRf9wJ3zYiAgKnGHJ0Y4Tm4oWbreGu8IO2rZxMbNOqt4Ju6QyuW6aSuDWp9Y5N8I8ocqJkJ9ju40ZdIn8st7KinDRH5UrwrnPsA5/PdUIvBchzSKDhhspdJeebV7Y97ApyaJd1z9RtPdx+VtYxiZstsN7N3egxtNJ1dk978mPrMncOLjTsLhVRFKq11+o2j/verzQX4NCaSQooZtCqEpSQWuTWgwuZA6oTinp6QL6gZZAJEKK3QRu6b/AVjASmB7Ei5h7P6njuMVV+b/cPSgXU9UPQNAkdfx7CfQfgiLPQGOvuzmy+Is0nrs2QkAJZvgCe/V+cwNGTk/TRWvAU1JwITXNB8Zw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB4835.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(7696005)(5660300002)(2616005)(107886003)(2906002)(38350700002)(38100700002)(66946007)(6916009)(6486002)(66476007)(54906003)(1076003)(66556008)(6666004)(52116002)(4326008)(8936002)(86362001)(36756003)(103116003)(186003)(316002)(26005)(956004)(83380400001)(508600001)(8676002)(7416002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?f/C01gTGxdpALRE9sDY449/FNX5nu4MM5RAL2cvK15L3ZzeBvRQbezJj/LiT?=
- =?us-ascii?Q?E+1unfLv9alOdH/37WkctMLLbjDg03DSrLm/a+hX4LjV92zxTspNNDRm50pz?=
- =?us-ascii?Q?hAcE8QML8OrrcpwnF9bFRWF1IeVfpygErRVZB7+iOP7ORZytNDbZT6vUjaUH?=
- =?us-ascii?Q?liRDCSVlv7q7xuwbBokUMeeatG9+aWmY535fU2uwk5/cqLekjDAOvrUw7xDt?=
- =?us-ascii?Q?wp8Oblz2L8G7XLztsM/fRZBIKpfddHvQi9wGM9jKJAprOpegl40m4mXR4NSL?=
- =?us-ascii?Q?VucylOCWGh18rg/G5Y1qGPXGCDZgSTYQwkIoKtlzPFrOtgmUvCqy7aryhWZE?=
- =?us-ascii?Q?96zgqcNjlRE+IIzMVjjZWAnOryFIcgPUjrvPoRIjialXDyCjTNPlIiJ+1JwH?=
- =?us-ascii?Q?oLxvpfASl+XxwuA+sfRu4WWx7i7o4SZu1A4kt/sr1XYFaBvrN1MDoA7s/Bip?=
- =?us-ascii?Q?W26jp+0F5R30jFpW4475CMTGyWyAa6NctT4g4zl3/52oj1Y2pfmGGBFzsjjv?=
- =?us-ascii?Q?ZZ6W0V78wNChqhNfnrol/7oWm77tFDG/LuPDGHxpb98/jK8WNf/hYN5X2+Yj?=
- =?us-ascii?Q?BS2m1UhDoNssU1Eej6PsjPA4wEUAcdVo0fyDE8z9T7bPL9BiRdJJxyDUSqaa?=
- =?us-ascii?Q?czK2ClKGsoU7DvQYFPn3QHK26nsk8SdjLMaWgHVBguMn3u9bQnpy26VZF5mR?=
- =?us-ascii?Q?CtKoKvemuv2GxdUWjyMgZDZze702Jvip0Ewm0h85dRYvVM9SoLy4D+SYqO6r?=
- =?us-ascii?Q?pwwT3d94CEysB7ECgJlyFcEYmTBG1FpEUcMos2cvcRkmfezUtXpjntNV4t8E?=
- =?us-ascii?Q?id5k+uKdYNuji8Kf0fyVWZcBq6dmR+GFOMBk4y7JShtlUAHHoher4VEdsHX0?=
- =?us-ascii?Q?4soujSU8nbwuMa8kKPOcWIPTSJ0c5eQOSWFkBXwQu6F9HBBjaRqlbB7XIHVe?=
- =?us-ascii?Q?+eqGOIueK/sDJXj1QKK6IBubl6ik4FtgQ6iLXe/2/nbOrK4JeWbavUnqV2Ws?=
- =?us-ascii?Q?/U43wGbeSOogTp7WqK8CQFtCD8nifylzLwvnwgIWnMq5UiKIIEREvGKU9ynp?=
- =?us-ascii?Q?MOBbmZ+4tksgdgPtwHYyFrpbnrSzCLXiHIojxs47s+AjHuK3NFcjD46psHXb?=
- =?us-ascii?Q?yPVpaV+LjatRpHSg98XxXiRLKgAeocxupwN/tXiaWNl+l5AVHBAKAcYfcno0?=
- =?us-ascii?Q?26ozTbR5mSre4qf/SpOxMn7CObdA12IGOxGhtr/jugTRGGLcVfB4ellWNfMj?=
- =?us-ascii?Q?a9imu1A9QgDO4N6bqpTFb95WHJSYzK0jey0xZVvJIOURmHfeqoq4sphR5YIo?=
- =?us-ascii?Q?V6JUFCX4o/N7gShPP2tvDs7i8SIjPCDyglThe63yyJToVzfpfY2pKyJo/Npk?=
- =?us-ascii?Q?IRA8aaByzHtFy1T5k43igQdpGAwAttsUpO7Sc0P7/H4OdlfEJ7bwQpz8qhzF?=
- =?us-ascii?Q?qLcjUPxHnHgFFQIg+UlaVCPJ7g8GBPi1Vfaw18DP43JJu1x8Fu4fEP2QjaSr?=
- =?us-ascii?Q?iYGh6MkVWkdbgBPIqkqJ+2Q9i66Ob9n5XSpppaYKPOiEGs8o2uUbAOHEtNX/?=
- =?us-ascii?Q?4CxfFqvqU0f0T7+W/SVABzUM4k8De+q9rzurB3xmo7gFmTCqnB57UCQ1/X5b?=
- =?us-ascii?Q?mm17R/Ojhz/qsDZNJ8FvhGj1gTcslu3ygkQ5678Y9KNAMbUIfllxvIxyxFM9?=
- =?us-ascii?Q?PWi9ew=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?nAqCBXgUnzBourGkMEcdi7XeGGyf8hp2EbM1MYcFJbDpfas7k0BREXv1MkxZ?=
+ =?us-ascii?Q?7K3GqJzQEN10s6ifnWiRLh5e9JuQTltIOM6mEPPyA4p8NgzSVtin1RyfKwiX?=
+ =?us-ascii?Q?Q83VnYJxK9Nod1G/tuRe2XGKOPKdF/Lbdhq1UaPTINfGWzuR4kvSKT+0Ctpg?=
+ =?us-ascii?Q?fw/casgQWGSpq4kU7eD4urgtgdIATYTQ1siNv9mrIyVyvfOIqPz4lU1q4/RH?=
+ =?us-ascii?Q?4z2tPOiXM3yxYDloP+nnIREfH2h99aRetY2t537etPOgw1ryZGOptQmbC+0d?=
+ =?us-ascii?Q?1OaZcrZ0yFCNyYYsA+mw1KUbZkRb5/zebNlft/HhPuor04he577gXbpjvHfu?=
+ =?us-ascii?Q?bp+8YyTphtNZzuWPOpmXPtauNtikOz3QftZO0CX0HWEHp2xbWZRMIoqWDr5O?=
+ =?us-ascii?Q?d4BnN2IGU0KZRNxFoeQFQYb8cYycTE45Q4yrOSeUAsV+e4Zq7rm6qFVKUBy8?=
+ =?us-ascii?Q?DMbQrb7CKISnPljPvAzaTKDHxZDaELLN0Ge3IwhPQZsev/e0zf6o2Q7HWwVh?=
+ =?us-ascii?Q?EAHuG3kff48kDYcHbN+niy33WvcVZrNc0fvCJpGP+Aq07nMfTRf1T3lvZJoY?=
+ =?us-ascii?Q?HukzCVdz95fBBaBp2T5mbKsyCLl17A/MaXur1oXgt8YtoFpazd9z6ISQPju0?=
+ =?us-ascii?Q?DjTr0RalQqwKoheY6LaOcFJHONSAaEpsykpDsrWp4NWBSEPIDcKsf0sqlqC7?=
+ =?us-ascii?Q?EiKuDHxweiG6DHAFSVgqFWwJomDt9dhy4MMJL7/JSQG3ebqY57n6zXEMp2Eq?=
+ =?us-ascii?Q?MUq68gpCZRR3YnZSt8VPMqcrzCxE1vy6uWXdZyiE7uPYWFnnYFRYniI9MN5F?=
+ =?us-ascii?Q?3qpD/Bp4jDXk231faqVP3UuGNOjKMHNQNNhSX12A0FiL0VDdjDQlrhkYFug6?=
+ =?us-ascii?Q?WTQS7bSpWMvCc3NsPguVP/s7TfmbUicjaEBP+LVFh/2NjhaVAsSzl7/BTkYT?=
+ =?us-ascii?Q?KAUVGRwL/GuH51RxT6MMm71ZqcZZTLWrY9UopaJZWu1arv3pDEnV3d4tCxbr?=
+ =?us-ascii?Q?zxOFrESTCw/FDhXCTGNKARstExMWDYoR8KGTZww93hrq+immBPGpM/9subbk?=
+ =?us-ascii?Q?lxoi7IQr6zRbDagTI8NamdfEcuhvnVjjX8xfDTVD4lkdLKMT6GK/3e7HdDlQ?=
+ =?us-ascii?Q?d+pmyRzt+muc6dLBK33fx5uZImnz8fTs5EMhoVZOlf1+MnAiUf72X1xO7gCx?=
+ =?us-ascii?Q?9anuAeIwjOxKqQrLBU8PkUToi86Gsf4oP0w7p0GC8GxLPknCUUIq5NpwOI5i?=
+ =?us-ascii?Q?Z/L9Os9xf9iY+BwcCLVuA+gXLexU8ZIaUl3Z4eFtjRZWURK7cB+VIIQ58o/r?=
+ =?us-ascii?Q?VJyBpk7t/TRVgo/sEdkGW+nTNUlJ8/+i0pHckkow4JLsfn9tcbTdFcJqLQ+W?=
+ =?us-ascii?Q?3NJLAev1bN9XbP0p9Vx3rHgUvINt6go4Js5lPMN1SN5p+9D/sz00NURY5fCG?=
+ =?us-ascii?Q?BvKDEAoUVgvGnFWRpf6kxWXFwi9QNrk5bM+V/ogQ8FxEGs1kud1paa1Rm1Z2?=
+ =?us-ascii?Q?Qj8YahZmFcqYFiBUCew78lMyp3eEokCOaoQUGyRYa/TIBbK3gRRqMfaDiilL?=
+ =?us-ascii?Q?KqJF0GcfGsr1ramJ79aHwJ5t5vx1vZ8YT7NnbFDPq7LdfQUVZXYyhV+nox5S?=
+ =?us-ascii?Q?jUPNNmUx1xnWhCfRW9w7zvJMyThl8rn/A2/UuLDRG+MknQtj+aUVyX2852n5?=
+ =?us-ascii?Q?drONRQ=3D=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: edee9e87-7b8a-4e85-b6e2-08d9a5ee5ffe
+X-MS-Exchange-CrossTenant-Network-Message-Id: 85a4c399-ebdf-4a2c-7665-08d9a5ee5bf2
 X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2021 15:09:08.3174
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2021 15:09:01.8358
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lqglSBoPOCXsTnIb1xkFJxITXijHlx0gYfHTiacHBRB7hNVe5UySBodCKe/YMxkCFNNhskZYx4VYQnHocK8J4CMtOT4YqityiUK+SnShXLY=
+X-MS-Exchange-CrossTenant-UserPrincipalName: s9fvt1VNJ5i8N/4erZFF0ae2/JyYd0/8e758iD6sn4si9QxOS0hFnfPJdDLwzUV/0NbuLdUFVdGMKBXO1NNCwz2asUwLbIztsrd2FlmU8wM=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB4223
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10165 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 mlxscore=0
- suspectscore=0 bulkscore=0 spamscore=0 phishscore=0 malwarescore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2111120087
-X-Proofpoint-ORIG-GUID: 2w9kIrxEcBcE6R3mx1NROGfNht0pAuTm
-X-Proofpoint-GUID: 2w9kIrxEcBcE6R3mx1NROGfNht0pAuTm
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 malwarescore=0 spamscore=0
+ suspectscore=0 adultscore=0 bulkscore=0 mlxlogscore=999 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2111120087
+X-Proofpoint-ORIG-GUID: b53EmZGhpguVN8bzemXtEM5n4C3GIk_i
+X-Proofpoint-GUID: b53EmZGhpguVN8bzemXtEM5n4C3GIk_i
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Move struct page init to an helper function __init_zone_device_page().
+memory_failure_dev_pagemap() at the moment assumes base pages (e.g.
+dax_lock_page()).  For devmap with compound pages fetch the
+compound_head in case a tail page memory failure is being handled.
 
-This is in preparation for sharing the storage for compound page
-metadata.
+Currently this is a nop, but in the advent of compound pages in
+dev_pagemap it allows memory_failure_dev_pagemap() to keep working.
 
+Reported-by: Jane Chu <jane.chu@oracle.com>
 Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+Reviewed-by: Naoya Horiguchi <naoya.horiguchi@nec.com>
 Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+Reviewed-by: Muchun Song <songmuchun@bytedance.com>
 ---
- mm/page_alloc.c | 74 +++++++++++++++++++++++++++----------------------
- 1 file changed, 41 insertions(+), 33 deletions(-)
+ mm/memory-failure.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 20b9db0cf97c..23045a2a1339 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -6572,6 +6572,46 @@ void __meminit memmap_init_range(unsigned long size, int nid, unsigned long zone
- }
- 
- #ifdef CONFIG_ZONE_DEVICE
-+static void __ref __init_zone_device_page(struct page *page, unsigned long pfn,
-+					  unsigned long zone_idx, int nid,
-+					  struct dev_pagemap *pgmap)
-+{
-+
-+	__init_single_page(page, pfn, zone_idx, nid);
-+
-+	/*
-+	 * Mark page reserved as it will need to wait for onlining
-+	 * phase for it to be fully associated with a zone.
-+	 *
-+	 * We can use the non-atomic __set_bit operation for setting
-+	 * the flag as we are still initializing the pages.
-+	 */
-+	__SetPageReserved(page);
-+
-+	/*
-+	 * ZONE_DEVICE pages union ->lru with a ->pgmap back pointer
-+	 * and zone_device_data.  It is a bug if a ZONE_DEVICE page is
-+	 * ever freed or placed on a driver-private list.
-+	 */
-+	page->pgmap = pgmap;
-+	page->zone_device_data = NULL;
-+
-+	/*
-+	 * Mark the block movable so that blocks are reserved for
-+	 * movable at startup. This will force kernel allocations
-+	 * to reserve their blocks rather than leaking throughout
-+	 * the address space during boot when many long-lived
-+	 * kernel allocations are made.
-+	 *
-+	 * Please note that MEMINIT_HOTPLUG path doesn't clear memmap
-+	 * because this is done early in section_activate()
-+	 */
-+	if (IS_ALIGNED(pfn, pageblock_nr_pages)) {
-+		set_pageblock_migratetype(page, MIGRATE_MOVABLE);
-+		cond_resched();
-+	}
-+}
-+
- void __ref memmap_init_zone_device(struct zone *zone,
- 				   unsigned long start_pfn,
- 				   unsigned long nr_pages,
-@@ -6600,39 +6640,7 @@ void __ref memmap_init_zone_device(struct zone *zone,
- 	for (pfn = start_pfn; pfn < end_pfn; pfn++) {
- 		struct page *page = pfn_to_page(pfn);
- 
--		__init_single_page(page, pfn, zone_idx, nid);
--
--		/*
--		 * Mark page reserved as it will need to wait for onlining
--		 * phase for it to be fully associated with a zone.
--		 *
--		 * We can use the non-atomic __set_bit operation for setting
--		 * the flag as we are still initializing the pages.
--		 */
--		__SetPageReserved(page);
--
--		/*
--		 * ZONE_DEVICE pages union ->lru with a ->pgmap back pointer
--		 * and zone_device_data.  It is a bug if a ZONE_DEVICE page is
--		 * ever freed or placed on a driver-private list.
--		 */
--		page->pgmap = pgmap;
--		page->zone_device_data = NULL;
--
--		/*
--		 * Mark the block movable so that blocks are reserved for
--		 * movable at startup. This will force kernel allocations
--		 * to reserve their blocks rather than leaking throughout
--		 * the address space during boot when many long-lived
--		 * kernel allocations are made.
--		 *
--		 * Please note that MEMINIT_HOTPLUG path doesn't clear memmap
--		 * because this is done early in section_activate()
--		 */
--		if (IS_ALIGNED(pfn, pageblock_nr_pages)) {
--			set_pageblock_migratetype(page, MIGRATE_MOVABLE);
--			cond_resched();
--		}
-+		__init_zone_device_page(page, pfn, zone_idx, nid, pgmap);
+diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+index f64ebb6226cb..0c4b08da1a02 100644
+--- a/mm/memory-failure.c
++++ b/mm/memory-failure.c
+@@ -1565,6 +1565,12 @@ static int memory_failure_dev_pagemap(unsigned long pfn, int flags,
+ 		goto out;
  	}
  
- 	pr_info("%s initialised %lu pages in %ums\n", __func__,
++	/*
++	 * Pages instantiated by device-dax (not filesystem-dax)
++	 * may be compound pages.
++	 */
++	page = compound_head(page);
++
+ 	/*
+ 	 * Prevent the inode from being freed while we are interrogating
+ 	 * the address_space, typically this would be handled by
 -- 
 2.17.2
 
