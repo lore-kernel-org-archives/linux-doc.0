@@ -2,97 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1BCFC433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 13 Nov 2021 13:37:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4789FC433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 13 Nov 2021 14:11:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D05A961073
-	for <linux-doc@archiver.kernel.org>; Sat, 13 Nov 2021 13:37:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2C79261156
+	for <linux-doc@archiver.kernel.org>; Sat, 13 Nov 2021 14:11:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232430AbhKMNkg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 13 Nov 2021 08:40:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37114 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231672AbhKMNkf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 Nov 2021 08:40:35 -0500
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3CB4C061766;
-        Sat, 13 Nov 2021 05:37:43 -0800 (PST)
-Received: by mail-pj1-x1044.google.com with SMTP id nh10-20020a17090b364a00b001a69adad5ebso9977162pjb.2;
-        Sat, 13 Nov 2021 05:37:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=IRy9ruURmvdITp6JartVAHmE1TEeRSrqEIJePZ/fx3U=;
-        b=gGH7noEByFITMs9LrNhUqLg0wTMaE/7EqHLaRncleJ88yipV6iBgRlk1WTRfHyXX/M
-         9xet7DiORH3qCJ53gAQ9q3Vf7e7urwn7oV9X/jJCQtJ9+8eMRkz4dWrcQ2YTJzu4sb+I
-         8l+s+NOjjchACvKW+UEhtRMKIRDa4I7WNJeXFO5ZgRlQw2oQAj2uizErJNWnYmkGnDvI
-         iyevRJYYbHaPcfcjogQqkEY48BhlT9h3g6ql22sWRIgR6vbqyEiCUPOHgLRYGAvgGTLK
-         wInK2DDKAhbbUkwHUOL1ZTIE6zMsCosLADpRaZXsMC7+bUyEaRkZkuIy20/vJaYtDaD/
-         QjCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=IRy9ruURmvdITp6JartVAHmE1TEeRSrqEIJePZ/fx3U=;
-        b=tViucfsYSS1RsCh6C6ebifG3NWDNToXqL5pzCvQMsTlnQ9PBwdLhN56A8BPxUJgQrr
-         AsIJGG8YLFSiiqXwe4j3uZ+hRj6Jim7VPEBZMIWEuPR4rPxESJQTQCVTW+sI91K77uvE
-         j5IUpPaZO/2ieAkW7n1eXtYRcIcd5AbG3fyyUfyDCUkZSXnPkxaT6tS0hJU2DgGLnMo+
-         quphBv7V5iXXlJD0Yreb4aIKARCy3rv5jZGSqN7YNOgON+10yuUPbmwNiW8epQ3YWOCo
-         IqElH60eRGKaiGvb/uP6lHzNTqVb9Kuw9dd4nohDKqvUioar7oYWAs1Vil9ZgRTnDCJ2
-         aZfA==
-X-Gm-Message-State: AOAM533g/izOciorq0E1kX2EIogCv+MldKiCzxZkiY0hbj/4MDMAeMul
-        MkXS0hYt0BcgGFilKRW5Yx/t5+rasyk=
-X-Google-Smtp-Source: ABdhPJygtaq31MdPjIneNzyYTHKf47oJqoRVGcLYfTh1Eyv8tjnoRl8tkLNDb15W0izhhiksA32KWA==
-X-Received: by 2002:a17:902:e0d4:b0:142:8897:94e2 with SMTP id e20-20020a170902e0d400b00142889794e2mr17361330pla.58.1636810663285;
-        Sat, 13 Nov 2021 05:37:43 -0800 (PST)
-Received: from pc ([223.197.3.99])
-        by smtp.gmail.com with ESMTPSA id h186sm7999905pfg.64.2021.11.13.05.37.40
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Sat, 13 Nov 2021 05:37:42 -0800 (PST)
-Date:   Sat, 13 Nov 2021 21:37:34 +0800
-From:   Zhaoyu Liu <zackary.liu.pro@gmail.com>
-To:     corbet@lwn.net, rostedt@goodmis.org, mingo@redhat.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: ftrace: fix the wrong path of tracefs
-Message-ID: <20211113133722.GA11656@pc>
+        id S235812AbhKMOOk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 13 Nov 2021 09:14:40 -0500
+Received: from mail.kernel.org ([198.145.29.99]:38348 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231672AbhKMOOk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 13 Nov 2021 09:14:40 -0500
+Received: from rorschach.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A28DE60E90;
+        Sat, 13 Nov 2021 14:11:47 +0000 (UTC)
+Date:   Sat, 13 Nov 2021 09:11:45 -0500
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Zhaoyu Liu <zackary.liu.pro@gmail.com>
+Cc:     corbet@lwn.net, mingo@redhat.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: ftrace: fix the wrong path of tracefs
+Message-ID: <20211113091145.05ba14b5@rorschach.local.home>
+In-Reply-To: <20211113133722.GA11656@pc>
+References: <20211113133722.GA11656@pc>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Delete "tracing" due to it has been included in /proc/mounts.
-Delete "echo nop > $tracefs/tracing/current_tracer", maybe
-this command is redundant.
+On Sat, 13 Nov 2021 21:37:34 +0800
+Zhaoyu Liu <zackary.liu.pro@gmail.com> wrote:
 
-Signed-off-by: Zhaoyu Liu <zackary.liu.pro@gmail.com>
----
- Documentation/trace/ftrace.rst | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+> Delete "tracing" due to it has been included in /proc/mounts.
+> Delete "echo nop > $tracefs/tracing/current_tracer", maybe
+> this command is redundant.
+> 
+> Signed-off-by: Zhaoyu Liu <zackary.liu.pro@gmail.com>
 
-diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-index 4e5b26f03d5b..b3166c4a7867 100644
---- a/Documentation/trace/ftrace.rst
-+++ b/Documentation/trace/ftrace.rst
-@@ -2442,11 +2442,10 @@ Or this simple script!
-   #!/bin/bash
- 
-   tracefs=`sed -ne 's/^tracefs \(.*\) tracefs.*/\1/p' /proc/mounts`
--  echo nop > $tracefs/tracing/current_tracer
--  echo 0 > $tracefs/tracing/tracing_on
--  echo $$ > $tracefs/tracing/set_ftrace_pid
--  echo function > $tracefs/tracing/current_tracer
--  echo 1 > $tracefs/tracing/tracing_on
-+  echo 0 > $tracefs/tracing_on
-+  echo $$ > $tracefs/set_ftrace_pid
-+  echo function > $tracefs/current_tracer
-+  echo 1 > $tracefs/tracing_on
-   exec "$@"
- 
- 
--- 
-2.17.1
+Acked-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
+
+Jon,
+
+Can you take this through your tree?
+
+Thanks,
+
+-- Steve
+
+
+> ---
+>  Documentation/trace/ftrace.rst | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
+> index 4e5b26f03d5b..b3166c4a7867 100644
+> --- a/Documentation/trace/ftrace.rst
+> +++ b/Documentation/trace/ftrace.rst
+> @@ -2442,11 +2442,10 @@ Or this simple script!
+>    #!/bin/bash
+>  
+>    tracefs=`sed -ne 's/^tracefs \(.*\) tracefs.*/\1/p' /proc/mounts`
+> -  echo nop > $tracefs/tracing/current_tracer
+> -  echo 0 > $tracefs/tracing/tracing_on
+> -  echo $$ > $tracefs/tracing/set_ftrace_pid
+> -  echo function > $tracefs/tracing/current_tracer
+> -  echo 1 > $tracefs/tracing/tracing_on
+> +  echo 0 > $tracefs/tracing_on
+> +  echo $$ > $tracefs/set_ftrace_pid
+> +  echo function > $tracefs/current_tracer
+> +  echo 1 > $tracefs/tracing_on
+>    exec "$@"
+>  
+>  
 
