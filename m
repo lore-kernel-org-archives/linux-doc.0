@@ -2,122 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26F29C433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 13 Nov 2021 01:04:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1BCFC433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 13 Nov 2021 13:37:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 07BC8610A8
-	for <linux-doc@archiver.kernel.org>; Sat, 13 Nov 2021 01:04:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D05A961073
+	for <linux-doc@archiver.kernel.org>; Sat, 13 Nov 2021 13:37:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230300AbhKMBHN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 Nov 2021 20:07:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43604 "EHLO
+        id S232430AbhKMNkg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 13 Nov 2021 08:40:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229524AbhKMBHN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Nov 2021 20:07:13 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FFDCC061766;
-        Fri, 12 Nov 2021 17:04:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:
-        Subject:Sender:Reply-To:Cc:Content-ID:Content-Description;
-        bh=W3pYbR+KVmnwM9kipI6oWi9/VlOqRdBW9731D/Unbls=; b=SirK07t7fUZav/KZHpehdWm2dg
-        smFKrI3HxOycN0XM7e5Z3I3VjABmpRwkJ9ojak4flvNLdePbVfQnhJu2CBAVGyJZIhjxgM/B1vjeQ
-        a2m66ITzael0Za5s9QT1rtT1CNiPhRa1ETLIofTfB/97h2Bi8wY1LfQuey1dIlJjBv7b3Ar3F+nlO
-        ZRKXc6Fb8CxrGsCMX+FEgPWoWmXwNMHah01n1yPtBDfDKb1jTvwM8ycck2w0dvtVYkixVQNdp5nAK
-        FndQ6j8iOUsGxN0821G9gIRw37/hr13KRusgBWRh4wQtcRZcQFEidlFbrdgxYXMN0XJKLb+fFCksU
-        DDu7SfhQ==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mlhSv-00BxSy-9a; Sat, 13 Nov 2021 01:04:21 +0000
-Subject: Re: [PATCH v5 1/8] leds: add support for hardware driven LEDs
-To:     Ansuel Smith <ansuelsmth@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
-        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
-        =?UTF-8?Q?Marek_Beh=c3=ban?= <kabel@kernel.org>
-References: <20211112153557.26941-1-ansuelsmth@gmail.com>
- <20211112153557.26941-2-ansuelsmth@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <523edf1d-ec7d-5915-0212-d7ab0b1ce1d6@infradead.org>
-Date:   Fri, 12 Nov 2021 17:04:20 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        with ESMTP id S231672AbhKMNkf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 Nov 2021 08:40:35 -0500
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3CB4C061766;
+        Sat, 13 Nov 2021 05:37:43 -0800 (PST)
+Received: by mail-pj1-x1044.google.com with SMTP id nh10-20020a17090b364a00b001a69adad5ebso9977162pjb.2;
+        Sat, 13 Nov 2021 05:37:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=IRy9ruURmvdITp6JartVAHmE1TEeRSrqEIJePZ/fx3U=;
+        b=gGH7noEByFITMs9LrNhUqLg0wTMaE/7EqHLaRncleJ88yipV6iBgRlk1WTRfHyXX/M
+         9xet7DiORH3qCJ53gAQ9q3Vf7e7urwn7oV9X/jJCQtJ9+8eMRkz4dWrcQ2YTJzu4sb+I
+         8l+s+NOjjchACvKW+UEhtRMKIRDa4I7WNJeXFO5ZgRlQw2oQAj2uizErJNWnYmkGnDvI
+         iyevRJYYbHaPcfcjogQqkEY48BhlT9h3g6ql22sWRIgR6vbqyEiCUPOHgLRYGAvgGTLK
+         wInK2DDKAhbbUkwHUOL1ZTIE6zMsCosLADpRaZXsMC7+bUyEaRkZkuIy20/vJaYtDaD/
+         QjCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=IRy9ruURmvdITp6JartVAHmE1TEeRSrqEIJePZ/fx3U=;
+        b=tViucfsYSS1RsCh6C6ebifG3NWDNToXqL5pzCvQMsTlnQ9PBwdLhN56A8BPxUJgQrr
+         AsIJGG8YLFSiiqXwe4j3uZ+hRj6Jim7VPEBZMIWEuPR4rPxESJQTQCVTW+sI91K77uvE
+         j5IUpPaZO/2ieAkW7n1eXtYRcIcd5AbG3fyyUfyDCUkZSXnPkxaT6tS0hJU2DgGLnMo+
+         quphBv7V5iXXlJD0Yreb4aIKARCy3rv5jZGSqN7YNOgON+10yuUPbmwNiW8epQ3YWOCo
+         IqElH60eRGKaiGvb/uP6lHzNTqVb9Kuw9dd4nohDKqvUioar7oYWAs1Vil9ZgRTnDCJ2
+         aZfA==
+X-Gm-Message-State: AOAM533g/izOciorq0E1kX2EIogCv+MldKiCzxZkiY0hbj/4MDMAeMul
+        MkXS0hYt0BcgGFilKRW5Yx/t5+rasyk=
+X-Google-Smtp-Source: ABdhPJygtaq31MdPjIneNzyYTHKf47oJqoRVGcLYfTh1Eyv8tjnoRl8tkLNDb15W0izhhiksA32KWA==
+X-Received: by 2002:a17:902:e0d4:b0:142:8897:94e2 with SMTP id e20-20020a170902e0d400b00142889794e2mr17361330pla.58.1636810663285;
+        Sat, 13 Nov 2021 05:37:43 -0800 (PST)
+Received: from pc ([223.197.3.99])
+        by smtp.gmail.com with ESMTPSA id h186sm7999905pfg.64.2021.11.13.05.37.40
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Sat, 13 Nov 2021 05:37:42 -0800 (PST)
+Date:   Sat, 13 Nov 2021 21:37:34 +0800
+From:   Zhaoyu Liu <zackary.liu.pro@gmail.com>
+To:     corbet@lwn.net, rostedt@goodmis.org, mingo@redhat.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: ftrace: fix the wrong path of tracefs
+Message-ID: <20211113133722.GA11656@pc>
 MIME-Version: 1.0
-In-Reply-To: <20211112153557.26941-2-ansuelsmth@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/12/21 7:35 AM, Ansuel Smith wrote:
-> diff --git a/Documentation/leds/leds-class.rst b/Documentation/leds/leds-class.rst
-> index cd155ead8703..e5d266919a19 100644
-> --- a/Documentation/leds/leds-class.rst
-> +++ b/Documentation/leds/leds-class.rst
-> @@ -169,6 +169,38 @@ Setting the brightness to zero with brightness_set() callback function
->   should completely turn off the LED and cancel the previously programmed
->   hardware blinking function, if any.
->   
-> +Hardware driven LEDs
-> +===================================
-> +
-> +Some LEDs can be driven by hardware (for example an LED connected to
-> +an ethernet PHY or an ethernet switch can be configured to blink on activity on
-> +the network, which in software is done by the netdev trigger).
-> +
-> +To do such offloading, LED driver must support this and a supported trigger must
-> +be used.
-> +
-> +LED driver should declare the correct control mode supported and should set
-> +the LED_SOFTWARE_CONTROLLED or LED_HARDWARE_CONTROLLED bit in the flags
-> +parameter.
-> +The trigger will check these bits and fail to activate if the control mode
-> +is not supported. By default if a LED driver doesn't declare a control mode,
+Delete "tracing" due to it has been included in /proc/mounts.
+Delete "echo nop > $tracefs/tracing/current_tracer", maybe
+this command is redundant.
 
-                                 if an LED driver
+Signed-off-by: Zhaoyu Liu <zackary.liu.pro@gmail.com>
+---
+ Documentation/trace/ftrace.rst | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-> +bit LED_SOFTWARE_CONTROLLED is assumed and set.
-> +
-> +The LED must implement 3 main APIs:
-> +- hw_control_status(): This asks the LED driver if hardware mode is enabled
-> +    or not.
-> +- hw_control_start(): This will simply enable the hardware mode for the LED
-> +    and the LED driver should reset any active blink_mode.
-> +- hw_control_stop(): This will simply disable the hardware mode for the LED.
-> +    It's advised to the driver to put the LED in the old state but this is not
-> +    enforced and putting the LED off is also accepted.
-> +
-> +If LED_HARDWARE_CONTROLLED bit is the only control mode set (LED_SOFTWARE_CONTROLLED
-> +not set) set hw_control_status/start/stop is optional as the LED supports only
-
-             ^^^ is that an extra "set"?  I can't quite read this sentence.
-
-And it would be better with a comma added, like so:
-
-   not set),
-
-
-> +hardware mode and any software only trigger will reject activation.
-
-                          software-only
-
-> +
-> +On init an LED driver that support a hardware mode should reset every blink mode
-
-                               supports
-
-> +set by default.
-
-
+diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
+index 4e5b26f03d5b..b3166c4a7867 100644
+--- a/Documentation/trace/ftrace.rst
++++ b/Documentation/trace/ftrace.rst
+@@ -2442,11 +2442,10 @@ Or this simple script!
+   #!/bin/bash
+ 
+   tracefs=`sed -ne 's/^tracefs \(.*\) tracefs.*/\1/p' /proc/mounts`
+-  echo nop > $tracefs/tracing/current_tracer
+-  echo 0 > $tracefs/tracing/tracing_on
+-  echo $$ > $tracefs/tracing/set_ftrace_pid
+-  echo function > $tracefs/tracing/current_tracer
+-  echo 1 > $tracefs/tracing/tracing_on
++  echo 0 > $tracefs/tracing_on
++  echo $$ > $tracefs/set_ftrace_pid
++  echo function > $tracefs/current_tracer
++  echo 1 > $tracefs/tracing_on
+   exec "$@"
+ 
+ 
 -- 
-~Randy
+2.17.1
+
