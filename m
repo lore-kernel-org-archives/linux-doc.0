@@ -2,234 +2,202 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B70AAC433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Nov 2021 22:55:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 377CFC433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Nov 2021 22:57:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9EA7A63253
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Nov 2021 22:55:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 207B16324A
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Nov 2021 22:57:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241162AbhKOW6w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Nov 2021 17:58:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54938 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347569AbhKOW4g (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Nov 2021 17:56:36 -0500
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72F42C0337CC
-        for <linux-doc@vger.kernel.org>; Mon, 15 Nov 2021 14:06:43 -0800 (PST)
-Received: by mail-pf1-x42e.google.com with SMTP id n26so11616993pff.3
-        for <linux-doc@vger.kernel.org>; Mon, 15 Nov 2021 14:06:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=+75pOgzRSIiee94ABsrf5glhvGlXlViH0+WT5j4L0aw=;
-        b=dS8Un6tSdNnk9Z4kmfDP4XsUZOMSVFQw3q3GTGh5sr8XmLWMkM07MuC1+dT12/ptHP
-         8r4FauaE6OQMmNCZkBtn866ZhTNqnOWvSfGwr5K3/jo8deQAcP6hs392bnEV+AReAEVH
-         V9uj6x0kL07NJEinAldy4HwU/0bSkPFxwZmfQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=+75pOgzRSIiee94ABsrf5glhvGlXlViH0+WT5j4L0aw=;
-        b=6DGJadHrsB6cGsDpTTUWyzRMqtd91b03kb45BZWuNSnvOmOvyfvUq5MjCvwg2ASoIK
-         xjj7g/Z8OE+whOxZ9fk5kumynfodmORqlndodL/jSR8Lx0NoE44RgHP2FSZYZG0DrmUC
-         JukfgHZsCN9BaNa11SIhMf9d/JsgUwBGCaxpM8FUnqNhtz2blm3raAUaq7+7tFsIynht
-         VHBLkLHJdy8Po25RkVeL7nv6STTCpsLu420Dcy/pNjcMQXTmPpoB+NJqZO6R5zJiXRyk
-         j//PGBQI3kqdw6crB6vsAfVVcYdKaJnZylxDjHgw58y0JAPCM4BTKrOnBm1wdtl+1z5a
-         /A9g==
-X-Gm-Message-State: AOAM533F4BX2cRLHKnLr977sLO6uhoOuCb1ceR9vZ7BvwMbwEPu1eGy9
-        o9Mo77IHIUCVZOKfEoFZD4p+LQ==
-X-Google-Smtp-Source: ABdhPJxbI3NOtgyO8DBjqkXVe/gYAMuaxOIkr7hH2fyzLDr8HfWh0griJts14SzHJ0idri2HBcFqDg==
-X-Received: by 2002:aa7:8151:0:b0:480:9d40:8e38 with SMTP id d17-20020aa78151000000b004809d408e38mr35382844pfn.72.1637014002929;
-        Mon, 15 Nov 2021 14:06:42 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id rm10sm277789pjb.29.2021.11.15.14.06.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Nov 2021 14:06:42 -0800 (PST)
-Date:   Mon, 15 Nov 2021 14:06:41 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Alexander Popov <alex.popov@linux.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul McKenney <paulmck@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Joerg Roedel <jroedel@suse.de>,
-        Maciej Rozycki <macro@orcam.me.uk>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Luis Chamberlain <mcgrof@kernel.org>, Wei Liu <wl@xen.org>,
-        John Ogness <john.ogness@linutronix.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Alexey Kardashevskiy <aik@ozlabs.ru>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Jann Horn <jannh@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Will Deacon <will@kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Laura Abbott <labbott@kernel.org>,
-        David S Miller <davem@davemloft.net>,
-        Borislav Petkov <bp@alien8.de>, Arnd Bergmann <arnd@arndb.de>,
-        Andrew Scull <ascull@google.com>,
-        Marc Zyngier <maz@kernel.org>, Jessica Yu <jeyu@kernel.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Wang Qing <wangqing@vivo.com>, Mel Gorman <mgorman@suse.de>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Andrew Klychkov <andrew.a.klychkov@gmail.com>,
-        Mathieu Chouquet-Stringer <me@mathieu.digital>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Stephen Kitt <steve@sk2.org>, Stephen Boyd <sboyd@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Mike Rapoport <rppt@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-hardening@vger.kernel.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>, notify@kernel.org,
-        main@lists.elisa.tech, safety-architecture@lists.elisa.tech,
-        devel@lists.elisa.tech, Shuah Khan <shuah@kernel.org>
-Subject: Re: [PATCH v2 0/2] Introduce the pkill_on_warn parameter
-Message-ID: <202111151116.933184F716@keescook>
-References: <20211027233215.306111-1-alex.popov@linux.com>
- <ac989387-3359-f8da-23f9-f5f6deca4db8@linux.com>
- <CAHk-=wgRmjkP3+32XPULMLTkv24AkA=nNLa7xxvSg-F0G1sJ9g@mail.gmail.com>
- <77b79f0c-48f2-16dd-1d00-22f3a1b1f5a6@linux.com>
- <CAKXUXMx5Oi-dNVKB+8E-pdrz+ooELMZf=oT_oGXKFrNWejz=fg@mail.gmail.com>
- <20211115110649.4f9cb390@gandalf.local.home>
+        id S1343720AbhKOXA1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Nov 2021 18:00:27 -0500
+Received: from mga04.intel.com ([192.55.52.120]:45719 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1353600AbhKOWjx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 15 Nov 2021 17:39:53 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10169"; a="232269490"
+X-IronPort-AV: E=Sophos;i="5.87,237,1631602800"; 
+   d="scan'208";a="232269490"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2021 14:35:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,237,1631602800"; 
+   d="scan'208";a="604052876"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orsmga004.jf.intel.com with ESMTP; 15 Nov 2021 14:35:25 -0800
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Mon, 15 Nov 2021 14:35:25 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Mon, 15 Nov 2021 14:35:25 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12 via Frontend Transport; Mon, 15 Nov 2021 14:35:25 -0800
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.169)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.12; Mon, 15 Nov 2021 14:35:24 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AOhNf39+O8mD2pw1WUDgs7ui29IrXkpdOR+lqpruwGb+uTb1smT7lReoilk0WmS0ukb4ShikljVvPf9x7w86SX1LOqpdkxOjei6i76Bn5P9AI9Zehjanc97vSk0oKlSzJDCt44oN7j9EA5f4FteVkDwqoTRpzFauDLWtSE+1sud8bkm3j6DG54DqsLqmSvCcrZSwOlUxYEWsOj9uoGwBJDNEr/n+Fmj4mBygWipKyVkgIEzwLkhvas1NPV/zNsog0Op++/IL+4UzdRNDD5h26mQfK59rp6oT/QLpUGhaJlE0Y+5JlmKm7DfwqkUHUuxw7hhBKWjWQpHIxRiicRg41g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=M/aW7KGgLZXg7ts3dPHP6JHaWVZ6xIEP+pkWmobE3iQ=;
+ b=WOZZZULg8yU4fKJT/vpUffKc3XNMpj5q67u3O1A2ztx7Dmu+CauHNDLLnYJpLLRTwJ7Mo8Yd4RiyXxIgVsvRyQtjxU/TfT2kU5LlxfA0/VOTT6XbCMGNsEqoU3xZzFHLKFOzTZvl/4An5U+Iv50PWXZru63qCRZULTcorTDCRvCnmvGeW3cC5BLRLOky8ujOcrHwgMH3ZzE41RbFBMc4xAYG5DWxDObCvcPZKbfmE9hj6nhD01prNDUVb8mljJIRyb3FosLm1or3mrtZm0imOixDbheqtjbeY7/acfRLjqAgg0HNr/gZbxidWMFYH+bfvNNQMdeYQnuV0Yk6Kq5cAA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=M/aW7KGgLZXg7ts3dPHP6JHaWVZ6xIEP+pkWmobE3iQ=;
+ b=hm/uFOPofm3P0DZPOVfWJKhE94O8QFGbw96q5g6H7ybN0hDAzb7z151zb4fUA2qLFy/VVTZHcNH4AvTgm++/j77undxrVvD96ndfnuIqKbn2tHe4IuHe6mOYlvyeBMcz/Fol6S9TtDJOnjxGV7hKq7rRj6A5/hIRror3cKmyuJs=
+Received: from MW4PR11MB5823.namprd11.prod.outlook.com (2603:10b6:303:186::12)
+ by CO1PR11MB5123.namprd11.prod.outlook.com (2603:10b6:303:94::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.16; Mon, 15 Nov
+ 2021 22:35:23 +0000
+Received: from MW4PR11MB5823.namprd11.prod.outlook.com
+ ([fe80::6553:c7f9:a224:cac1]) by MW4PR11MB5823.namprd11.prod.outlook.com
+ ([fe80::6553:c7f9:a224:cac1%4]) with mapi id 15.20.4690.027; Mon, 15 Nov 2021
+ 22:35:23 +0000
+From:   "Winiarska, Iwona" <iwona.winiarska@intel.com>
+To:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+CC:     "corbet@lwn.net" <corbet@lwn.net>,
+        "jae.hyun.yoo@linux.intel.com" <jae.hyun.yoo@linux.intel.com>,
+        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+        "andrew@aj.id.au" <andrew@aj.id.au>,
+        "Luck, Tony" <tony.luck@intel.com>,
+        "Hansen, Dave" <dave.hansen@intel.com>,
+        "d.mueller@elsoft.ch" <d.mueller@elsoft.ch>,
+        "jdelvare@suse.com" <jdelvare@suse.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "olof@lixom.net" <olof@lixom.net>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "linux@roeck-us.net" <linux@roeck-us.net>,
+        "zweiss@equinix.com" <zweiss@equinix.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+        "bp@alien8.de" <bp@alien8.de>, "joel@jms.id.au" <joel@jms.id.au>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "pierre-louis.bossart@linux.intel.com" 
+        <pierre-louis.bossart@linux.intel.com>,
+        "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>,
+        "Williams, Dan J" <dan.j.williams@intel.com>
+Subject: Re: [PATCH v3 06/13] peci: Add device detection
+Thread-Topic: [PATCH v3 06/13] peci: Add device detection
+Thread-Index: AQHX2k6vfpbjE6OLJ069BVykJfvHA6wE7o6AgAA++wA=
+Date:   Mon, 15 Nov 2021 22:35:23 +0000
+Message-ID: <368c990c30c5bacde15ac4bce5db8389aea3ec9c.camel@intel.com>
+References: <20211115182552.3830849-1-iwona.winiarska@intel.com>
+         <20211115182552.3830849-7-iwona.winiarska@intel.com>
+         <YZKr1Rqfx6Cmw+Ok@kroah.com>
+In-Reply-To: <YZKr1Rqfx6Cmw+Ok@kroah.com>
+Accept-Language: en-US, pl-PL
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.40.4 (3.40.4-2.fc34) 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 9fa09d48-837d-4073-d430-08d9a88836da
+x-ms-traffictypediagnostic: CO1PR11MB5123:
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr,ExtFwd
+x-microsoft-antispam-prvs: <CO1PR11MB51234E8E3EBDDE050A951841EC989@CO1PR11MB5123.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4502;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ufUTV4kj8T88980pNtkgc7PonAcLAie0IQWOWhyUNaxWwTC3G0s+XMPBHDI13rThEBQSXb0PvefRTKxNap/TYG9YQeKYh/Y0LDDzgpG8Cuu+wTPs2Ei3K2FQgVNExMUqV08RvZIkwG5jXToIvRkbkRKsBwsDyzkEeq4nx/sixnT0DLcShTyQi2WeUlCXJrS0V2IF+yapHRywF2/eDKcsf0LPCEOzbJYduiVzCP688fEs9aG0y1H4AsgTtdkTtxNXtqp78/H9lEl2oHd8W/oUh01nA9b2Lts+C9sPUtb+J9Cuak1h3ymtVrv5QlDc1jNn08V4t6SaZk+BR949uzHy7JJz5UKyclbecwJiDl2pkRIqCB9hm3QYaG8PRgCXJ11FJljMsTacb2eP2Ce6dUgJ3VsQIQiaUYnFP1CFeas8zkK6X5/y1xEYR5itAR0KbXgX3xTDxmEXdTkrEJY01WevN9C40KKzky7aHbKOCg6vx7/whMUnB003ai2IQT3Y/WIZLEhVQvSykNOyXXRhaLnWLY8CwLHUADBKb52hg87JMhRLxaf5EFIUjvhuzODS74a+awdgtxQm3F5V0HnlGAwPQKeqtqqaJ/O0Oj+aOZXYC/lH3Eonke247b1ZkUHa1ULRBx+Ps4P5k83w44dAthadTCyvOYm6QZDhBqZIp+OFFtLJXW2vUPfvaveOhBAFuvIrNNIRuLxZKweB2d7twflyQg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR11MB5823.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(66556008)(66476007)(76116006)(71200400001)(8936002)(64756008)(316002)(54906003)(4001150100001)(36756003)(5660300002)(91956017)(2906002)(38100700002)(508600001)(122000001)(82960400001)(6506007)(6916009)(83380400001)(8676002)(6486002)(6512007)(2616005)(186003)(66446008)(86362001)(7416002)(26005)(38070700005)(66946007)(4326008);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UHhlVXNHZTdkZ1hSWnlyKzU5azZkWVVvM1ZqdXRLSDNVN0tiN05OS053cDE0?=
+ =?utf-8?B?dUhrRThSM2R1TFhLL0E5Z1VYNWtDcFBuV2EzL240eEN2YzIySFAzSUROaVpp?=
+ =?utf-8?B?SmJRZExoUWFoUGpKVXppVG4zaG5kL1dRbjUwNHB5S3p0Q2RUL2VHLzJvQjNS?=
+ =?utf-8?B?ZFdZY1JoYmlCWFZpUEZyTmhMWlpOQTZwWVFBYldrT1N5T0sxZDBVS3lRQThQ?=
+ =?utf-8?B?Y3h1T04wSE5HTk1IRER4UTRTTkF1NC9KdjVyU1M1TmRpenlBRUhHY1l2T0k5?=
+ =?utf-8?B?SXVKd1g0d3NEVEVpUThYRzFTa0pVN3JBcXlIbG91T3dKcG1PZ0FQNFlQZWNQ?=
+ =?utf-8?B?Sk1meklrbm84RW1QOXNUb1lZUE15d2JRcnpTakN1QTBnOEtwMVRzZWlud05n?=
+ =?utf-8?B?VnBGYlN5dEVCTktWUnpWR1lieWJ5UkYzYkxMQ29Fc0hNdGhaUnhxRDJQMzdm?=
+ =?utf-8?B?MVRKZlZ4SzBCdlREaW5TMncxcHpvZ1lXajdsdGY3cVdaOVFZMkx5N3BXSk9I?=
+ =?utf-8?B?eXltNFBidktnMjRVODZQRlpXOVhWRW5KWDE3bmMwaXE2M2w5Z3Q2Z2VNaTFy?=
+ =?utf-8?B?WkFtSlAxd3NmL2RkMUFlMUxwNDB1ak9NYm1xNHZaT1FvQ0JZZTkyRXBNb282?=
+ =?utf-8?B?a2Z3MVo4MENLYm5mQ0ZlQm9pc0J0ZDByNkhUZkRpeGpHL2hzNmhUVkx4Q1pE?=
+ =?utf-8?B?UDNoM2t6UThzZ3oyeHM3TEkvNkYxOTVHcXdEOGJpOUtWbkZOTzBPeWJzRUxO?=
+ =?utf-8?B?TDB6d2FnOWJ3R1pEVHRQTi9zb01HbVA3ZWJJa0ozcFozdFhTcTQ3WDhML1d2?=
+ =?utf-8?B?WVZuMTRaek5vbDNTQmJYWHVKSUd1SEFVek4vekpYcE51L051YVZUYXBFNjQz?=
+ =?utf-8?B?WE9kUjk4cEJwL3JFNmdTZjFESHd6UjM0bGdzbk1qcXFqQmRqNVZOdjc2RjFI?=
+ =?utf-8?B?RCt0Y3VjUExxTmlFTXhmaFJEeHE2ZHMybEMxLzdFU1dHWko4U1hOak1yc2J1?=
+ =?utf-8?B?b2J5Njc2d1dVT0dBbnp1bEhFak45Rnd5cmgrSjNyemZmRGVVTThLbWdzSFBl?=
+ =?utf-8?B?eE1FR0EwQ1BSS243dmI5Wk5JRHd2QndERjNtMmFXUDNlcVYrTTZxTU92MmRs?=
+ =?utf-8?B?U1VkL3h4VXZiZjg5NE8zcFBmL2k2R1hPUGYwZ0JPRkNodlJMRW9iVVZWdkdo?=
+ =?utf-8?B?M2gyY3JUWTAyU2ZQR1BKTUlPSjdqUWIvVWtUekFrZThwbEpOaktiaWV2aE9u?=
+ =?utf-8?B?d2RXVWhwcUU1bmc5b2l4UDNGUUNLeTRMS2Y3OGdQcjM0RmxJUDdDc3ZPckVy?=
+ =?utf-8?B?NXdvSFc4dXFEUGphNytWbWZxRXUraUI1OW9jY2g5SHJ5UEZvSlpnTkpCcjdo?=
+ =?utf-8?B?ZDlEQ0RLdkRBdEZ4TG42WS9zRGJWQzM5TjVxOXVwTFNBb3NwcnF0bTFLNjNq?=
+ =?utf-8?B?QkpVaEd0cDJmbi9yeXFUYlg3KzdRbGFDdEVLUEI2enAySjd5TUR5M0FzcFM3?=
+ =?utf-8?B?SmhQY1phdUJjanlYUXZUM0xTTnlhSDBNd25tUU0zdHQvcDU1TFZkOHJQTHpB?=
+ =?utf-8?B?aXI2MFhVblBINllTY0Rtdk9lNWhYaDNPalZ5Q1JxZGIyYWFrUlpHbWtUU3dC?=
+ =?utf-8?B?N0hkTWY0Yng4Vzh2SlFlZVpMbVlIRG5UK3gyd3kwR09qeStmaFVvRGxMZHZk?=
+ =?utf-8?B?MG9HTlJaQkdKNzcyQmRXVUxWa1dqaGRuWkNaUyt6a1pVOWMvWmNkQTdUZmdi?=
+ =?utf-8?B?TWpLK0VZT1hZcUkwRVFmMyt1Z3B1NjRReS90VkN2aEZmc3NOOSt0R1pYSTVs?=
+ =?utf-8?B?RmlXVkRyNW1mMEhDNFd5aFNZSXN4eG82bEN0bTQ2MG93dHhRZit0TThLRTFk?=
+ =?utf-8?B?SjB1NUFVSlJTVW5sZ0dzMkdFNmZrUE11c2xNTWwrOTFET2FCcVhadDVOV2h5?=
+ =?utf-8?B?MnEzT1Q5Rm1zbkhFYTlmVnNFV3JTcHNtclN1UE5zbXlyTlNBN05yeUJoQWht?=
+ =?utf-8?B?cTQ5NitLY0ppVHU1eHdKYlM3Ti9BRXVEdFcvNW5PTHhyOWZvaGIxQUxmdmFG?=
+ =?utf-8?B?UW1ZQjZHQ2lUb2ZmM29LdkZZS3J0d0Z3WFZjaU82NmxOYUJGNjQzK3pxbGxP?=
+ =?utf-8?B?M2hrNmViaFROK3E4bVgyM3pFak1LLzdERlFubS9GemhhK0dRdVhic0VIYW9X?=
+ =?utf-8?B?ODdqbmNMdTdVakZXVGw1NmsyTnlMYWJhR3UralJZMHM0aXBoeE8rd3ZIVGdV?=
+ =?utf-8?Q?el8Zi39mO9VyTQdo/ncfc98rZxBVZioZcV9UvvUzog=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <D0753BAE25815142A6592DB1F5E78778@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211115110649.4f9cb390@gandalf.local.home>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR11MB5823.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9fa09d48-837d-4073-d430-08d9a88836da
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Nov 2021 22:35:23.6834
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: rztPXGBaWoTxNQdQrkrJItF7HZKsyIClirIsC5RW3UfrGKK3/TvSzNfJIzVns7Z6a5c4/jpIgUk5vuP8VQ0Zai0KrVMN8EIDbIqOgx588r8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB5123
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 15, 2021 at 11:06:49AM -0500, Steven Rostedt wrote:
-> On Mon, 15 Nov 2021 14:59:57 +0100
-> Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
-> 
-> > 1. Allow a reasonably configured kernel to boot and run with
-> > panic_on_warn set. Warnings should only be raised when something is
-> > not configured as the developers expect it or the kernel is put into a
-> > state that generally is _unexpected_ and has been exposed little to
-> > the critical thought of the developer, to testing efforts and use in
-> > other systems in the wild. Warnings should not be used for something
-> > informative, which still allows the kernel to continue running in a
-> > proper way in a generally expected environment. Up to my knowledge,
-> > there are some kernels in production that run with panic_on_warn; so,
-> > IMHO, this requirement is generally accepted (we might of course
-> 
-> To me, WARN*() is the same as BUG*(). If it gets hit, it's a bug in the
-> kernel and needs to be fixed. I have several WARN*() calls in my code, and
-> it's all because the algorithms used is expected to prevent the condition
-> in the warning from happening. If the warning triggers, it means either that
-> the algorithm is wrong or my assumption about the algorithm is wrong. In
-> either case, the kernel needs to be updated. All my tests fail if a WARN*()
-> gets hit (anywhere in the kernel, not just my own).
-> 
-> After reading all the replies and thinking about this more, I find the
-> pkill_on_warning actually worse than not doing anything. If you are
-> concerned about exploits from warnings, the only real solution is a
-> panic_on_warning. Yes, it brings down the system, but really, it has to be
-> brought down anyway, because it is in need of a kernel update.
-
-Hmm, yes. What it originally boiled down to, which is why Linus first
-objected to BUG(), was that we don't know what other parts of the system
-have been disrupted. The best example is just that of locking: if we
-BUG() or do_exit() in the middle of holding a lock, we'll wreck whatever
-subsystem that was attached to. Without a deterministic system state
-unwinder, there really isn't a "safe" way to just stop a kernel thread.
-
-With this pkill_on_warn, we avoid the BUG problem (since the thread of
-execution continues and stops at an 'expected' place: the signal
-handler).
-
-However, now we have the newer objection from Linus, which is one of
-attribution: the WARN might be hit during an "unrelated" thread of
-execution and "current" gets blamed, etc. And beyond that, if we take
-down a portion of userspace, what in userspace may be destabilized? In
-theory, we get a case where any required daemons would be restarted by
-init, but that's not "known".
-
-The safest version of this I can think of is for processes to opt into
-this mitigation. That would also cover the "special cases" we've seen
-exposed too. i.e. init and kthreads would not opt in.
-
-However, that's a lot to implement when Marco's tracing suggestion might
-be sufficient and policy could be entirely implemented in userspace. It
-could be as simple as this (totally untested):
-
-
-diff --git a/include/trace/events/error_report.h b/include/trace/events/error_report.h
-index 96f64bf218b2..129d22eb8b6e 100644
---- a/include/trace/events/error_report.h
-+++ b/include/trace/events/error_report.h
-@@ -16,6 +16,8 @@
- #define __ERROR_REPORT_DECLARE_TRACE_ENUMS_ONCE_ONLY
- 
- enum error_detector {
-+	ERROR_DETECTOR_WARN,
-+	ERROR_DETECTOR_BUG,
- 	ERROR_DETECTOR_KFENCE,
- 	ERROR_DETECTOR_KASAN
- };
-@@ -23,6 +25,8 @@ enum error_detector {
- #endif /* __ERROR_REPORT_DECLARE_TRACE_ENUMS_ONCE_ONLY */
- 
- #define error_detector_list	\
-+	EM(ERROR_DETECTOR_WARN, "warn")	\
-+	EM(ERROR_DETECTOR_BUG, "bug")	\
- 	EM(ERROR_DETECTOR_KFENCE, "kfence")	\
- 	EMe(ERROR_DETECTOR_KASAN, "kasan")
- /* Always end the list with an EMe. */
-diff --git a/lib/bug.c b/lib/bug.c
-index 45a0584f6541..201b4070bbbc 100644
---- a/lib/bug.c
-+++ b/lib/bug.c
-@@ -48,6 +48,7 @@
- #include <linux/sched.h>
- #include <linux/rculist.h>
- #include <linux/ftrace.h>
-+#include <trace/events/error_report.h>
- 
- extern struct bug_entry __start___bug_table[], __stop___bug_table[];
- 
-@@ -198,6 +199,7 @@ enum bug_trap_type report_bug(unsigned long bugaddr, struct pt_regs *regs)
- 		/* this is a WARN_ON rather than BUG/BUG_ON */
- 		__warn(file, line, (void *)bugaddr, BUG_GET_TAINT(bug), regs,
- 		       NULL);
-+		trace_error_report_end(ERROR_DETECTOR_WARN, bugaddr);
- 		return BUG_TRAP_TYPE_WARN;
- 	}
- 
-@@ -206,6 +208,7 @@ enum bug_trap_type report_bug(unsigned long bugaddr, struct pt_regs *regs)
- 	else
- 		pr_crit("Kernel BUG at %pB [verbose debug info unavailable]\n",
- 			(void *)bugaddr);
-+	trace_error_report_end(ERROR_DETECTOR_BUG, bugaddr);
- 
- 	return BUG_TRAP_TYPE_BUG;
- }
-
-
-Marco, is this the full version of monitoring this from the userspace
-side?
-
-	perf record -e error_report:error_report_end
-
--- 
-Kees Cook
+T24gTW9uLCAyMDIxLTExLTE1IGF0IDE5OjQ5ICswMTAwLCBHcmVnIEtyb2FoLUhhcnRtYW4gd3Jv
+dGU6DQo+IE9uIE1vbiwgTm92IDE1LCAyMDIxIGF0IDA3OjI1OjQ1UE0gKzAxMDAsIEl3b25hIFdp
+bmlhcnNrYSB3cm90ZToNCj4gPiArdm9pZCBwZWNpX2RldmljZV9kZXN0cm95KHN0cnVjdCBwZWNp
+X2RldmljZSAqZGV2aWNlKQ0KPiA+ICt7DQo+ID4gK8KgwqDCoMKgwqDCoMKgYm9vbCBraWxsZWQ7
+DQo+ID4gKw0KPiA+ICvCoMKgwqDCoMKgwqDCoGRldmljZV9sb2NrKCZkZXZpY2UtPmRldik7DQo+
+ID4gK8KgwqDCoMKgwqDCoMKga2lsbGVkID0ga2lsbF9kZXZpY2UoJmRldmljZS0+ZGV2KTsNCj4g
+DQo+IEVlZWssIHdoeSBjYWxsIHRoaXM/DQo+IA0KPiA+ICvCoMKgwqDCoMKgwqDCoGRldmljZV91
+bmxvY2soJmRldmljZS0+ZGV2KTsNCj4gPiArDQo+ID4gK8KgwqDCoMKgwqDCoMKgaWYgKCFraWxs
+ZWQpDQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybjsNCj4gDQo+IFdo
+YXQgaGFwcGVuZWQgaWYgc29tZXRoaW5nIGNoYW5nZWQgYWZ0ZXIgeW91IHVubG9ja2VkIGl0Pw0K
+DQpXZSBlaXRoZXIga2lsbGVkIGl0LCBvciB0aGUgb3RoZXIgY2FsbGVyIGtpbGxlZCBpdC4NCg0K
+PiANCj4gV2h5IGlzIGtpbGxfZGV2aWNlKCkgcmVxdWlyZWQgYXQgYWxsP8KgIFRoYXQncyBhIHZl
+cnkgcmFyZSBmdW5jdGlvbiB0bw0KPiBjYWxsLCBhbmQgb25lIHRoYXQgb25seSBvbmUgImJ1cyIg
+Y2FsbHMgdG9kYXkgYmVjYXVzZSBpdCBpcyB2ZXJ5DQo+IHNwZWNpYWwgKGkuZS4gY3JhenkgYW5k
+IGJyb2tlbi4uLikNCg0KSXQncyB1c2VkIHRvIGF2b2lkIGRvdWJsZS1kZWxldGUgaW4gY2FzZSBv
+ZiByYWNlcyBiZXR3ZWVuIHBlY2lfY29udHJvbGxlcg0KdW5yZWdpc3RlciBhbmQgIm1hbnVhbGx5
+IiByZW1vdmluZyB0aGUgZGV2aWNlIHVzaW5nIHN5c2ZzIChwb2ludGVkIG91dCBieSBEYW4gaW4N
+CnYyKS4gV2UncmUgY2FsbGluZyBwZWNpX2RldmljZV9kZXN0cm95KCkgaW4gYm90aCBjYWxsc2l0
+ZXMuDQpPdGhlciB3YXkgdG8gc29sdmUgaXQgd291bGQgYmUgdG8ganVzdCBoYXZlIGEgcGVjaS1z
+cGVjaWZpYyBsb2NrLCBidXQNCmtpbGxfZGV2aWNlIHNlZW1lZCB0byBiZSB3ZWxsIHN1aXRlZCBm
+b3IgdGhlIHByb2JsZW0gYXQgaGFuZC4NCkRvIHlvdSBzdWdnZXN0IHRvIHJlbW92ZSBpdCBhbmQg
+anVzdCBnbyB3aXRoIHRoZSBsb2NrPw0KDQpUaGFua3MNCi1Jd29uYQ0KDQo+IA0KPiB0aGFua3Ms
+DQo+IA0KPiBncmVnIGstaA0KDQo=
