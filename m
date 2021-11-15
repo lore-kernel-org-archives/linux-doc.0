@@ -2,122 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BFB7C43217
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 00:31:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50483C43219
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 00:32:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 732826115B
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 00:31:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3DACD61A07
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 00:32:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232582AbhKPAeH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Nov 2021 19:34:07 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45402 "EHLO mail.kernel.org"
+        id S1345166AbhKPAfO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Nov 2021 19:35:14 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45390 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1344826AbhKOTZe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Nov 2021 14:25:34 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1D4FF636D2;
-        Mon, 15 Nov 2021 19:05:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1637003102;
-        bh=OxbA2Dy+guUtV/oxu3huaKUI54o5bkpBbR72qWRaAfQ=;
+        id S1345112AbhKOT0e (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 15 Nov 2021 14:26:34 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E5FEC63715;
+        Mon, 15 Nov 2021 19:10:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1637003426;
+        bh=DtHrB66HXLmxewymT8yGeifJxpPVREBisB7HVDuwLYk=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FxEl08qu4dUEMgEsJFpcX25p/KAprHCVG4O2xUjklk6MvshRaaVwAbSWxfPyA3ba3
-         G5+kXBoJGUkezo7WNhBgi7qQVqg29NVjmQ/iemHcndYQvpHT/o2OusJ6ufzGCTt+X3
-         COwh9q9xxmf2+gdOCzIjNRJdYEmTDEEmGYON1C6E7fpxnhNw1Y4p/lUjcPsdYh267J
-         C3X3PW3x+ePAkJZQrUJ7enxU3FrOy4YKGrdwtzow9e996b4sFxvokIygVh8H3+jh5G
-         +nw98sTQbGfTlWDj+RTeADtMTm/qxJwgZO1jIRN9zBcTRtzn63a8XeyX6Ju7SZR0oI
-         WB07kdDfXRzhA==
-Date:   Mon, 15 Nov 2021 11:05:00 -0800
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Roberto Sassu <roberto.sassu@huawei.com>
-Cc:     "tytso@mit.edu" <tytso@mit.edu>, "corbet@lwn.net" <corbet@lwn.net>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "hughd@google.com" <hughd@google.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "linux-fscrypt@vger.kernel.org" <linux-fscrypt@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC][PATCH 5/5] shmem: Add fsverity support
-Message-ID: <YZKvXK+vX/we4GCD@gmail.com>
-References: <20211112124411.1948809-1-roberto.sassu@huawei.com>
- <20211112124411.1948809-6-roberto.sassu@huawei.com>
- <YY68iXKPWN8+rd+0@gmail.com>
- <6adb6da30b734213942f976745c456f6@huawei.com>
+        b=uWDI6azBQctDhxtdF1G9iKbhqkN2qYhQctn9Q95ee03P+8wXH7qRA3GAepSUdZg2n
+         uKk6RWow7OZupqCCke9iIi2MeT8WkPYc4AvR4GCkYQP6OBFfqIRBToDvoJHxCRdtmJ
+         raMFBms7HRLxupcaecmEaqky9XClk8sQ0odpZa3o=
+Date:   Mon, 15 Nov 2021 19:49:57 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Iwona Winiarska <iwona.winiarska@intel.com>
+Cc:     linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
+        devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+        linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Borislav Petkov <bp@alien8.de>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Zev Weiss <zweiss@equinix.com>,
+        David Muller <d.mueller@elsoft.ch>,
+        Dave Hansen <dave.hansen@intel.com>
+Subject: Re: [PATCH v3 06/13] peci: Add device detection
+Message-ID: <YZKr1Rqfx6Cmw+Ok@kroah.com>
+References: <20211115182552.3830849-1-iwona.winiarska@intel.com>
+ <20211115182552.3830849-7-iwona.winiarska@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6adb6da30b734213942f976745c456f6@huawei.com>
+In-Reply-To: <20211115182552.3830849-7-iwona.winiarska@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 15, 2021 at 08:49:41AM +0000, Roberto Sassu wrote:
-> > From: Eric Biggers [mailto:ebiggers@kernel.org]
-> > Sent: Friday, November 12, 2021 8:12 PM
-> > On Fri, Nov 12, 2021 at 01:44:11PM +0100, Roberto Sassu wrote:
-> > > Make the necessary modifications to support fsverity in tmpfs.
-> > >
-> > > First, implement the fsverity operations (in a similar way of f2fs). These
-> > > operations make use of shmem_read_mapping_page() instead of
-> > > read_mapping_page() to handle the case where the page has been swapped
-> > out.
-> > > The fsverity descriptor is placed at the end of the file and its location
-> > > is stored in an xattr.
-> > >
-> > > Second, implement the ioctl operations to enable, measure and read fsverity
-> > > metadata.
-> > >
-> > > Lastly, add calls to fsverity functions, to ensure that fsverity-relevant
-> > > operations are checked and handled by fsverity (file open, attr set, inode
-> > > evict).
-> > >
-> > > Fsverity support can be enabled through the kernel configuration and
-> > > remains enabled by default for every tmpfs filesystem instantiated (there
-> > > should be no overhead, unless fsverity is enabled for a file).
-> > >
-> > > Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
-> > 
-> > I don't see how this makes sense at all.  The point of fs-verity is to avoid
-> > having to hash the whole file when verifying it.  However, obviously the whole
-> > file still has to be hashed to build the Merkle tree in the first place.  That
-> > makes sense for a persistent filesystem where a file can be written once and
-> > verified many times.  I don't see how it makes sense for tmpfs, where files have
-> > to be re-created on every boot.  You might as well just hash the whole file.
-> 
-> The point of adding fsverity support for tmpfs was to being able to do
-> integrity enforcement with just one mechanism, given that I was
-> planning to do integrity verification with reference values loaded
-> to the kernel with DIGLIM [1].
-> 
-> With an LSM such as IPE [2], integrity verification would consist in
-> querying the fsverity digest with DIGLIM and allowing the operation
-> if the digest was found. With fsverity support in tmpfs, this can be
-> done from the very beginning of the boot process.
-> 
-> Using regular file digests would be also possible but this requires
-> loading with DIGLIM both fsverity and non-fsverity reference values.
-> It would also require two separate mechanisms for calculating
-> the file digest depending on the filesystem. It could be done, but
-> I thought it was easier to add support for fsverity in tmpfs.
-> 
-> > Also, you didn't implement actually verifying the data (by calling
-> > fsverity_verify_page()), so this patch doesn't really do anything anyway.
-> 
-> Yes, at the end I didn't add it. Probably the only place where
-> calling fsverity_verify_page() would make sense is when a page
-> is swapped in (assuming that the swap device is untrusted).
-> 
-> I tried to add a call in shmem_swapin_page() but fsverity complained
-> due to the fact that the page was already up to date, and also
-> rejected the page. I will check it better.
-> 
+On Mon, Nov 15, 2021 at 07:25:45PM +0100, Iwona Winiarska wrote:
+> +void peci_device_destroy(struct peci_device *device)
+> +{
+> +	bool killed;
+> +
+> +	device_lock(&device->dev);
+> +	killed = kill_device(&device->dev);
 
-It sounds like you really only care about calculating fs-verity file digests.
-That's just an algorithm for hashing a file, so it could just be implemented in
-generic code that operates on any file on any filesystem, like how IMA
-implemennts full file hashing for any file.  There isn't a need for any special
-filesystem support to do this.
+Eeek, why call this?
 
-- Eric
+> +	device_unlock(&device->dev);
+> +
+> +	if (!killed)
+> +		return;
+
+What happened if something changed after you unlocked it?
+
+Why is kill_device() required at all?  That's a very rare function to
+call, and one that only one "bus" calls today because it is very
+special (i.e. crazy and broken...)
+
+thanks,
+
+greg k-h
