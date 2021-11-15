@@ -2,66 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3975C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Nov 2021 09:49:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3325FC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Nov 2021 09:51:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A6C2C61BA9
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Nov 2021 09:49:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0510861BD3
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Nov 2021 09:51:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230461AbhKOJwe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Nov 2021 04:52:34 -0500
-Received: from ms.lwn.net ([45.79.88.28]:53438 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230405AbhKOJvi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Nov 2021 04:51:38 -0500
+        id S230432AbhKOJyf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Nov 2021 04:54:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48282 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230425AbhKOJyd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Nov 2021 04:54:33 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD842C061746;
+        Mon, 15 Nov 2021 01:51:37 -0800 (PST)
 Received: from localhost (unknown [151.82.209.177])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id B7ABE845;
-        Mon, 15 Nov 2021 09:48:23 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B7ABE845
+        by ms.lwn.net (Postfix) with ESMTPSA id BC20C845;
+        Mon, 15 Nov 2021 09:51:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BC20C845
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1636969704; bh=nvxcqwbMIaHIovfgqQD9sYW8j7wUwBH460Gw8oZIciA=;
+        t=1636969897; bh=Sh459AP8VB6RqU7cxvM/rkvxi9zbrKxgx4z0+VYxHjw=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=BUUG8RM+0aOhgKVsMhQjlZaCUdGkuCU7g4QdrT1O1RadArcXEg42ncziN40IHmNET
-         uAtbXaegrkzKud0J55thgLVAJm079FKgLS71OMqy4hStm4R7cT3NO8Uo9xsRN1nXoD
-         Tqu2qd74DPDe9V1iX7kRwzSiZj7Ha7nSpeGgukmf3mrVw/v+fNRbCK4+5Aunps9TTb
-         Y5fAFVcpb+NoWzp06HbLM1UNBFPxKyH8YfpqcvCqbq7hMuNuiq6bbe4SdM7gRNBD5N
-         g8jDOoo+rC851P8m3PLU/57GGodxHTPrBtz98W21KIuExDPMEjQ3JKDiYyt0c6KHv0
-         3+2ACVUvBUytg==
+        b=s+iUKMWhaE8/sBMxZ6tkwX3K2N/CZzrplqOHVT6wz+MOrSVOr8On+wmQLfXefSebL
+         M4HpLYB8Z89Fuf3dTGR6DwzyToPjHlLaFSHO3EzM/jsGNBeLbdfIOU75dlCkf8UULp
+         OIZMZGCVDfDjjIol1ilV+ixlIpIQNlrFTbP3XJgakzyi8Pr7krKWUl9UQPzkDM5uuM
+         oOjszcBbjPwgZaEdqSuJDD5z+4t9mwqX/NsZleNcQJuU5odW9iDEmcCFsQ9TSPJ0gb
+         RQy0zaqFCa2A0NjVhuu8wysvJXV3JcFjILRzIXAfYQSGUFtTOwhH1NC3i+sj578MAx
+         vFfzGITuuqvFA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.org>, linux-doc@vger.kernel.org,
+To:     Steven Rostedt <rostedt@goodmis.org>,
+        Zhaoyu Liu <zackary.liu.pro@gmail.com>
+Cc:     mingo@redhat.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: Update Sphinx requirements
-In-Reply-To: <2c704ddd-2da2-138b-4928-890e92b66f9f@gmail.com>
-References: <2c704ddd-2da2-138b-4928-890e92b66f9f@gmail.com>
-Date:   Mon, 15 Nov 2021 02:48:19 -0700
-Message-ID: <875ystn40s.fsf@meer.lwn.net>
+Subject: Re: [PATCH] docs: ftrace: fix the wrong path of tracefs
+In-Reply-To: <20211113091145.05ba14b5@rorschach.local.home>
+References: <20211113133722.GA11656@pc>
+ <20211113091145.05ba14b5@rorschach.local.home>
+Date:   Mon, 15 Nov 2021 02:51:33 -0700
+Message-ID: <87wnl9lpay.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Akira Yokosawa <akiyks@gmail.com> writes:
+Steven Rostedt <rostedt@goodmis.org> writes:
 
-> Subject: [PATCH] docs: Update Sphinx requirements
+> On Sat, 13 Nov 2021 21:37:34 +0800
+> Zhaoyu Liu <zackary.liu.pro@gmail.com> wrote:
 >
-> Commit f546ff0c0c07 ("Move our minimum Sphinx version to 1.7") raised
-> the minimum version to 1.7.
+>> Delete "tracing" due to it has been included in /proc/mounts.
+>> Delete "echo nop > $tracefs/tracing/current_tracer", maybe
+>> this command is redundant.
+>> 
+>> Signed-off-by: Zhaoyu Liu <zackary.liu.pro@gmail.com>
 >
-> For pdfdocs, sphinx_pre_install says:
+> Acked-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
 >
->     note: If you want pdf, you need at least Sphinx 2.4.4.
+> Jon,
 >
-> , and current requirements.txt installs Sphinx 2.4.4.
->
-> Update Sphinx versions mentioned in docs and remove a note on earlier
-> Sphinx versions.
+> Can you take this through your tree?
 
-It may be time to consider raising the minimum sphinx version
-overall...  meanwhile, though, I've applied this, thanks.
+Applied, thanks.
 
 jon
