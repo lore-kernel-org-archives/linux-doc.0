@@ -2,263 +2,317 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF0D0C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 00:26:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA116C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 00:28:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B3F53619E8
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 00:26:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D4F98619E3
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 00:28:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244119AbhKPA3U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Nov 2021 19:29:20 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28]:46814 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346560AbhKOTee (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Nov 2021 14:34:34 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 1243E218D6;
-        Mon, 15 Nov 2021 19:31:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1637004684; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=b4ZiiwEnz5XGSlWeT8O+jkCefoPIbeg8p3rHgDHkvM8=;
-        b=hfo7k3ahAq+4WiayhhOAps8Zu5wAe5DwJIiHDlPpeCzNbkiWPbAOOnNXVL2YcbwxT3z+aT
-        8eO9nE9fZ/TfsPOuBb0fxmigq974glS7V22iBaPiyrHPEh5gmiV+m2TBjRM/BtzH8uwgqZ
-        IkmYD5pRuYyF6FOldCIXVATt7yLJuiM=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C18F613A90;
-        Mon, 15 Nov 2021 19:31:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id nwj7LYu1kmF3dwAAMHmgww
-        (envelope-from <mkoutny@suse.com>); Mon, 15 Nov 2021 19:31:23 +0000
-Date:   Mon, 15 Nov 2021 20:31:22 +0100
-From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>
-Subject: Re: [PATCH v8 5/6] cgroup/cpuset: Update description of
- cpuset.cpus.partition in cgroup-v2.rst
-Message-ID: <20211115193122.GA16798@blackbody.suse.cz>
-References: <20211018143619.205065-1-longman@redhat.com>
- <20211018143619.205065-6-longman@redhat.com>
+        id S242045AbhKPAbW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Nov 2021 19:31:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37430 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1345678AbhKOT3C (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Nov 2021 14:29:02 -0500
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF7D9C06BCF3
+        for <linux-doc@vger.kernel.org>; Mon, 15 Nov 2021 10:59:32 -0800 (PST)
+Received: by mail-yb1-xb2a.google.com with SMTP id v7so50070348ybq.0
+        for <linux-doc@vger.kernel.org>; Mon, 15 Nov 2021 10:59:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=j9isATshRpNCp9M9I/oxCqB/tiXTLxAbh8WEspOg7HA=;
+        b=qtzEXtgjPMCcvYNyLawsdtSgDfbTOrXWIye07d/cOumHTbZQ/0YQ7IfvtQCEzWNrw7
+         ZgGvgzbIkSJmwNGdUmWAKWQGQiFf0V7yUVlpQyYU3cFffJ2yi4QWmRBlp94nrhCqbXUo
+         pbyNyRmu75Gy2dbSfYbcCeDACqy84MWea44WEoSdGfI8xT4k6Qzx24IjB5HHnT1HBPcN
+         mcuHhd1CXF2ZP/aS61+qnrHhEtnzjUKqVFQyirBIXaY5x5KwBb3B9+zRHCNXHIG81jMr
+         yHXSQL+6Gi6ZOX7+Jg5pQF/prN5kjebVxQ9pZPsMk01hkYAAzL/On8WkK/jhtAZ9ajvZ
+         jNuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=j9isATshRpNCp9M9I/oxCqB/tiXTLxAbh8WEspOg7HA=;
+        b=3Nx+8xhNzuWE8vXz2ylzBumncrWk/zBImoBC166ZyhVn+dI7ujSWxXCdRpCn7B5Cz2
+         Jx8LLGEmhnRPQLmVvHEzLI9z8loMehqcSpkSjN84MYh3jfE0bhSGXUJ4FrMVPHbsV6hj
+         lVZnAMxWRbLdP0ZdtdJD6eef/50zeLhoeKWcD9Fiv3f2EOZ9wQ6LKPODRF5MBf1K9drH
+         wRDeQPIuCzZyg2oo9hRk4J4uge4SImOpuXv1PAJRCvZqaxf3v1p5Y5MgU4jo9mU7VPDU
+         Oye7N7WGW13n8ZgDC5no3QnqT3UMh4Lu8rIyV3xDdt3x6cnEVvOvg52g97pNd0OBYoln
+         uvKA==
+X-Gm-Message-State: AOAM531NXrlH7g9OezeHbqSDtW1L3VTV3IurOTySz2qkvx3QEtFdcvtl
+        8CvCskLoTk/j7iLNzZDandM109c2loVjvk8mAv8VaQ==
+X-Google-Smtp-Source: ABdhPJwORjkE+Oy2pssuHDx7dD8a047R6Yq50CV0Ct2mHGQfqJVDqJfkC62iPCNh9yCdfFkzRQjRxFHI4npCcZKI0EY=
+X-Received: by 2002:a25:6645:: with SMTP id z5mr1370689ybm.127.1637002771688;
+ Mon, 15 Nov 2021 10:59:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211018143619.205065-6-longman@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20211019215511.3771969-1-surenb@google.com> <20211019215511.3771969-2-surenb@google.com>
+ <89664270-4B9F-45E0-AC0B-8A185ED1F531@google.com> <CAJuCfpE-fR+M_funJ4Kd+gMK9q0QHyOUD7YK0ES6En4y7E1tjg@mail.gmail.com>
+ <CAJuCfpHfnG8b4_RkkGhu+HveF-K_7o9UVGdToVuUCf-qD05Q4Q@mail.gmail.com>
+In-Reply-To: <CAJuCfpHfnG8b4_RkkGhu+HveF-K_7o9UVGdToVuUCf-qD05Q4Q@mail.gmail.com>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Mon, 15 Nov 2021 10:59:20 -0800
+Message-ID: <CAJuCfpEJuVyRfjEE-NTsVkdCZyd6P09gHu7c+tbZcipk+73rLA@mail.gmail.com>
+Subject: Re: [PATCH v11 2/3] mm: add a field to store names for private
+ anonymous memory
+To:     akpm@linux-foundation.org
+Cc:     Alexey Alexandrov <aalexand@google.com>, ccross@google.com,
+        sumit.semwal@linaro.org, mhocko@suse.com, dave.hansen@intel.com,
+        keescook@chromium.org, willy@infradead.org,
+        kirill.shutemov@linux.intel.com, vbabka@suse.cz,
+        hannes@cmpxchg.org, corbet@lwn.net, viro@zeniv.linux.org.uk,
+        rdunlap@infradead.org, kaleshsingh@google.com, peterx@redhat.com,
+        rppt@kernel.org, peterz@infradead.org, catalin.marinas@arm.com,
+        vincenzo.frascino@arm.com, chinwen.chang@mediatek.com,
+        axelrasmussen@google.com, aarcange@redhat.com, jannh@google.com,
+        apopple@nvidia.com, jhubbard@nvidia.com, yuzhao@google.com,
+        will@kernel.org, fenghua.yu@intel.com, thunder.leizhen@huawei.com,
+        hughd@google.com, feng.tang@intel.com, jgg@ziepe.ca, guro@fb.com,
+        tglx@linutronix.de, krisman@collabora.com, chris.hyser@oracle.com,
+        pcc@google.com, ebiederm@xmission.com, axboe@kernel.dk,
+        legion@kernel.org, eb@emlix.com, gorcunov@gmail.com, pavel@ucw.cz,
+        songmuchun@bytedance.com, viresh.kumar@linaro.org,
+        thomascedeno@google.com, sashal@kernel.org, cxfcosmos@gmail.com,
+        linux@rasmusvillemoes.dk, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, Oct 28, 2021 at 3:08 PM Suren Baghdasaryan <surenb@google.com> wrot=
+e:
+>
+> On Wed, Oct 27, 2021 at 1:01 PM Suren Baghdasaryan <surenb@google.com> wr=
+ote:
+> >
+> > On Wed, Oct 27, 2021 at 11:35 AM Alexey Alexandrov <aalexand@google.com=
+> wrote:
+> > >
+> > > > On Oct 19, 2021, at 2:55 PM, Suren Baghdasaryan <surenb@google.com>=
+ wrote:
+> > > >
+> > > > From: Colin Cross <ccross@google.com>
+> > > >
+> > > > In many userspace applications, and especially in VM based applicat=
+ions
+> > > > like Android uses heavily, there are multiple different allocators =
+in use.
+> > > > At a minimum there is libc malloc and the stack, and in many cases =
+there
+> > > > are libc malloc, the stack, direct syscalls to mmap anonymous memor=
+y, and
+> > > > multiple VM heaps (one for small objects, one for big objects, etc.=
+).
+> > > > Each of these layers usually has its own tools to inspect its usage=
+;
+> > > > malloc by compiling a debug version, the VM through heap inspection=
+ tools,
+> > > > and for direct syscalls there is usually no way to track them.
+> > > >
+> > > > On Android we heavily use a set of tools that use an extended versi=
+on of
+> > > > the logic covered in Documentation/vm/pagemap.txt to walk all pages=
+ mapped
+> > > > in userspace and slice their usage by process, shared (COW) vs.  un=
+ique
+> > > > mappings, backing, etc.  This can account for real physical memory =
+usage
+> > > > even in cases like fork without exec (which Android uses heavily to=
+ share
+> > > > as many private COW pages as possible between processes), Kernel Sa=
+mePage
+> > > > Merging, and clean zero pages.  It produces a measurement of the pa=
+ges
+> > > > that only exist in that process (USS, for unique), and a measuremen=
+t of
+> > > > the physical memory usage of that process with the cost of shared p=
+ages
+> > > > being evenly split between processes that share them (PSS).
+> > > >
+> > > > If all anonymous memory is indistinguishable then figuring out the =
+real
+> > > > physical memory usage (PSS) of each heap requires either a pagemap =
+walking
+> > > > tool that can understand the heap debugging of every layer, or for =
+every
+> > > > layer's heap debugging tools to implement the pagemap walking logic=
+, in
+> > > > which case it is hard to get a consistent view of memory across the=
+ whole
+> > > > system.
+> > > >
+> > > > Tracking the information in userspace leads to all sorts of problem=
+s.
+> > > > It either needs to be stored inside the process, which means every
+> > > > process has to have an API to export its current heap information u=
+pon
+> > > > request, or it has to be stored externally in a filesystem that
+> > > > somebody needs to clean up on crashes.  It needs to be readable whi=
+le
+> > > > the process is still running, so it has to have some sort of
+> > > > synchronization with every layer of userspace.  Efficiently trackin=
+g
+> > > > the ranges requires reimplementing something like the kernel vma
+> > > > trees, and linking to it from every layer of userspace.  It require=
+s
+> > > > more memory, more syscalls, more runtime cost, and more complexity =
+to
+> > > > separately track regions that the kernel is already tracking.
+> > > >
+> > > > This patch adds a field to /proc/pid/maps and /proc/pid/smaps to sh=
+ow a
+> > > > userspace-provided name for anonymous vmas.  The names of named ano=
+nymous
+> > > > vmas are shown in /proc/pid/maps and /proc/pid/smaps as [anon:<name=
+>].
+> > > >
+> > > > Userspace can set the name for a region of memory by calling
+> > > > prctl(PR_SET_VMA, PR_SET_VMA_ANON_NAME, start, len, (unsigned long)=
+name);
+> > > > Setting the name to NULL clears it. The name length limit is 80 byt=
+es
+> > > > including NUL-terminator and is checked to contain only printable a=
+scii
+> > > > characters (including space), except '[',']','\','$' and '`'. Ascii
+> > > > strings are being used to have a descriptive identifiers for vmas, =
+which
+> > > > can be understood by the users reading /proc/pid/maps or /proc/pid/=
+smaps.
+> > > > Names can be standardized for a given system and they can include s=
+ome
+> > > > variable parts such as the name of the allocator or a library, tid =
+of
+> > > > the thread using it, etc.
+> > > >
+> > > > The name is stored in a pointer in the shared union in vm_area_stru=
+ct
+> > > > that points to a null terminated string. Anonymous vmas with the sa=
+me
+> > > > name (equivalent strings) and are otherwise mergeable will be merge=
+d.
+> > > > The name pointers are not shared between vmas even if they contain =
+the
+> > > > same name. The name pointer is stored in a union with fields that a=
+re
+> > > > only used on file-backed mappings, so it does not increase memory u=
+sage.
+> > > >
+> > > > CONFIG_ANON_VMA_NAME kernel configuration is introduced to enable t=
+his
+> > > > feature. It keeps the feature disabled by default to prevent any
+> > > > additional memory overhead and to avoid confusing procfs parsers on
+> > > > systems which are not ready to support named anonymous vmas.
+> > > >
+> > > > The patch is based on the original patch developed by Colin Cross, =
+more
+> > > > specifically on its latest version [1] posted upstream by Sumit Sem=
+wal.
+> > > > It used a userspace pointer to store vma names. In that design, nam=
+e
+> > > > pointers could be shared between vmas. However during the last upst=
+reaming
+> > > > attempt, Kees Cook raised concerns [2] about this approach and sugg=
+ested
+> > > > to copy the name into kernel memory space, perform validity checks =
+[3]
+> > > > and store as a string referenced from vm_area_struct.
+> > > > One big concern is about fork() performance which would need to str=
+dup
+> > > > anonymous vma names. Dave Hansen suggested experimenting with worst=
+-case
+> > > > scenario of forking a process with 64k vmas having longest possible=
+ names
+> > > > [4]. I ran this experiment on an ARM64 Android device and recorded =
+a
+> > > > worst-case regression of almost 40% when forking such a process. Th=
+is
+> > > > regression is addressed in the followup patch which replaces the po=
+inter
+> > > > to a name with a refcounted structure that allows sharing the name =
+pointer
+> > > > between vmas of the same name. Instead of duplicating the string du=
+ring
+> > > > fork() or when splitting a vma it increments the refcount.
+> > > >
+> > > > [1] https://lore.kernel.org/linux-mm/20200901161459.11772-4-sumit.s=
+emwal@linaro.org/
+> > > > [2] https://lore.kernel.org/linux-mm/202009031031.D32EF57ED@keescoo=
+k/
+> > > > [3] https://lore.kernel.org/linux-mm/202009031022.3834F692@keescook=
+/
+> > > > [4] https://lore.kernel.org/linux-mm/5d0358ab-8c47-2f5f-8e43-23b89d=
+6a8e95@intel.com/
+> > > >
+> > > > Changes for prctl(2) manual page (in the options section):
+> > > >
+> > > > PR_SET_VMA
+> > > >       Sets an attribute specified in arg2 for virtual memory areas
+> > > >       starting from the address specified in arg3 and spanning the
+> > > >       size specified  in arg4. arg5 specifies the value of the attr=
+ibute
+> > > >       to be set. Note that assigning an attribute to a virtual memo=
+ry
+> > > >       area might prevent it from being merged with adjacent virtual
+> > > >       memory areas due to the difference in that attribute's value.
+> > > >
+> > > >       Currently, arg2 must be one of:
+> > > >
+> > > >       PR_SET_VMA_ANON_NAME
+> > > >               Set a name for anonymous virtual memory areas. arg5 s=
+hould
+> > > >               be a pointer to a null-terminated string containing t=
+he
+> > > >               name. The name length including null byte cannot exce=
+ed
+> > > >               80 bytes. If arg5 is NULL, the name of the appropriat=
+e
+> > > >               anonymous virtual memory areas will be reset. The nam=
+e
+> > > >               can contain only printable ascii characters (includin=
+g
+> > > >                space), except '[',']','\','$' and '`'.
+> > > >
+> > > >                This feature is available only if the kernel is buil=
+t with
+> > > >                the CONFIG_ANON_VMA_NAME option enabled.
+> > >
+> > > For what it=E2=80=99s worth, it=E2=80=99s definitely interesting to s=
+ee this going upstream.
+> > > In particular, we would use it for high-level grouping of the data in
+> > > production profiling when proper symbolization is not available:
+> > >
+> > > * JVM could associate a name with the memory regions it uses for the =
+JIT
+> > >   code so that Linux perf data are associated with a high level name =
+like
+> > >   "Java JIT" even if the proper Java JIT profiling is not enabled.
+> > > * Similar for other JIT engines like v8 - they could annotate the mem=
+ory
+> > >   regions they manage and use as well.
+> > > * Traditional memory allocators like tcmalloc can use this as well so
+> > >   that the associated name is used in data access profiling via Linux=
+ perf.
+> >
+> > Hi Alexey,
+> > Thanks for providing your feedback! Nice to hear that this can be
+> > useful outside of Android.
+>
+> Folks, it has been almost two weeks since I posted this v11 patchset.
+> Is there anything else I can do to advance it towards merging?
 
-Hello.
-
-On Mon, Oct 18, 2021 at 10:36:18AM -0400, Waiman Long <longman@redhat.com> wrote:
-> +	When set to "isolated", the CPUs in that partition root will
-> +	be in an isolated state without any load balancing from the
-> +	scheduler.  Tasks in such a partition must be explicitly bound
-> +	to each individual CPU.
-
-This sounds reasonable but it seems to have some usability issues as was
-raised in another thread [1]. (I could only think of the workaround of
-single-cpu cgroup leaves + CLONE_INTO_CGROUP.)
-
-TL;DR Do whatever you find suitable but (re)consider sticking to the
-delegation principle (making hotplug and ancestor changes equal).
-
-Now to the constraints and partition setups. I think it's useful to have
-a model with which the implementation can be compared with.
-I tried to condense some "simple rules" from the descriptions you posted
-in v8 plus your response to my remarks in v7 [2]. These should only be
-the "validity conditions", not "transition conditions".
-
-## Validity conditions
-
-For simplification, there's a condition called 'degraded' that tells
-whether a cpuset can host tasks (with the given config) that expands to
-two predicates:
-
-	degraded := cpus.internal_effective == ø && has_tasks
-	valid_root := !degraded && cpus_exclusive && parent.valid_root
-	(valid_member := !degraded)
-
-with a helping predicate
-	cpus_exclusive := cpus not shared by a sibling
-
-The effective CPUs basically combine configured+available CPUs
-
-	cpus.internal_effective := (cpus ∩ parent.cpus ∩ online_cpus) - passed
-
-where
-	passed := union of children cpus whose partition is not member
-
-Finally, to handle the degraded cpusets gracefully, we define
-
-	if (!degraded)
-		cpus.effective := cpus.internal_effective 
-	else
-		cpus.effective := parent.cpus.effective
-
-(In cases when there's no parent, we replace its cpus with online_cpus.)
-
----
-
-I'll try applying these conditions to your description.
-
-> +
-> +	"cpuset.cpus" must always be set up first before enabling
-> +	partition.
-
-This is just a transition condition.
-
->       Unlike "member" whose "cpuset.cpus.effective" can
-> +	contain CPUs not in "cpuset.cpus", this can never happen with a
-> +	valid partition root. In other words, "cpuset.cpus.effective"
-> +	is always a subset of "cpuset.cpus" for a valid partition root.
-
-IIUC this refers to the cgroup that is 'degraded'. (The consequences for
-a valid partition root follow from valid_root definition above.)
-
-> +
-> +	When a parent partition root cannot exclusively grant any of
-> +	the CPUs specified in "cpuset.cpus", "cpuset.cpus.effective"
-> +	becomes empty.
-
-This sounds too strict to me, perhaps you meant 'cannot grant _all_ of
-the CPUs'?
-
->       If there are tasks in the partition root, the
-> +	partition root becomes invalid and "cpuset.cpus.effective"
-> +	is reset to that of the nearest non-empty ancestor.
-
-This is captured in the definition of 'degraded'.
-
-> +
-> +        Note that a task cannot be moved to a croup with empty
-> +        "cpuset.cpus.effective".
-
-A transition condition. (Makes sense.)
-
-[With the validity conditions above, it's possible to have 'valid_root'
-with empty cpus (hence also empty cpus.internal_effective) if there are
-no tasks in there. The transition conditions so far prevented this
-corner case.]
-
-> +	There are additional constraints on where a partition root can
-> +	be enabled ("root" or "isolated").  It can only be enabled in
-> +	a cgroup if all the following conditions are met.
-
-I think the enablement (aka rewriting cpuset.cpus.partition) could be
-always possible but it'd result in "root invalid (...)" if the resulting
-config doesn't meet the validity condition.
-
-> +
-> +	1) The "cpuset.cpus" is non-empty and exclusive, i.e. they are
-> +	   not shared by any of its siblings.
-
-The emptiness here is a judgement call (in my formulation of the
-conditions it seemed simpler to allow empty cpus.internal_effective with
-no tasks).
-
-> +	2) The parent cgroup is a valid partition root.
-
-Captured in the valid_root definition.
-
-> +	3) The "cpuset.cpus" is a subset of parent's "cpuset.cpus".
-
-This is unnecessary strictness. Allow such config,
-cpus.internal_effective still can't be more than parent's cpuset.cpus.
-(Or do you have a reason to discard such configs?)
-
-> +	4) There is no child cgroups with cpuset enabled.  This avoids
-> +	   cpu migrations of multiple cgroups simultaneously which can
-> +	   be problematic.
-
-A transition condition (i.e. not relevant to validity conditions).
-
-> +	Once becoming a partition root, changes to "cpuset.cpus"
-> +	is generally allowed as long as the cpu list is exclusive,
-> +	non-empty and is a superset of children's cpu lists.
-
-Any changes should be allowed otherwise it denies the delegation
-principle of v2 (IOW a parent should be able to preempt CPUs given to
-chilren previously and not be denied because of them).
-
-(If the change results in failed validity condition the cgroup of course
-cannot be be a valid_root anymore.)
-
-> +        The constraints of a valid partition root are as follows:
-> +
-> +        1) The parent cgroup is a valid partition root.
-> +        2) "cpuset.cpus.effective" is a subset of "cpuset.cpus"
-> +        3) "cpuset.cpus.effective" is non-empty when there are tasks
-> +           in the partition.
-
-(This seem to miss the sibling exclusivity condition.)
-Here I'd simply paste the "Validity conditions" specified above instead.
-
-> +        Changing a partition root to "member" is always allowed.
-> +        If there are child partition roots underneath it, however,
-> +        they will be forced to be switched back to "member" too and
-> +        lose their partitions. So care must be taken to double check
-> +        for this condition before disabling a partition root.
-
-(Or is this how delegation is intended?) However, AFAICS, parent still
-can't remove cpuset.cpus even when the child is a "member". Otherwise,
-I agree with the back-switch.
-
-
-> +	Setting a cgroup to a valid partition root will take the CPUs
-> +	away from the effective CPUs of the parent partition.
-
-Captured in the definition of cpus.internal_effective.
-
-> +	A valid parent partition may distribute out all its CPUs to
-> +	its child partitions as long as it is not the root cgroup as
-> +	we need some house-keeping CPUs in the root cgroup.
-
-This actually applies to any root partition that's supposed to host
-tasks. (IOW, 'valid_root' cannot be 'degraded'.)
-
-> +	An invalid partition is not a real partition even though some
-> +	internal states may still be kept.
-
-Tautology? (Or new definition of "real".)
-
-> +
-> +	An invalid partition root can be reverted back to a real
-> +	partition root if none of the constraints of a valid partition
-> +        root are violated.
-
-Yes. (Also tautological.)
-
-Anyway, as I said above, I just tried to formulate the model for clearer
-understanding and the implementation may introduce transition
-constraints but it'd be good to always have the simple rules to tell
-what's a valid root in the tree and what's not.
-
-Regards,
-Michal
-
-[1] https://lore.kernel.org/r/AM9PR10MB4869C14EAE01B87C0037BF6A89939@AM9PR10MB4869.EURPRD10.PROD.OUTLOOK.COM/
-[2] https://lore.kernel.org/lkml/5eacfdcc-148b-b599-3111-4f2971e7ddc0@redhat.com/
-
+Hi Andrew,
+I haven't seen any feedback on my patchset for some time now. I think
+I addressed all the questions and comments (please correct me if I
+missed anything). Can it be accepted as is or is there something I
+should address further?
+From the feedback, I see that there are several interested parties in
+this patchset (albeit all from different teams at Google) but maybe
+when it's merged more users will start using it. I believe I've done
+everything I could to ensure no/minimal impact on the users who don't
+use this feature. Please advise.
+Thanks,
+Suren.
