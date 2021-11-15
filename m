@@ -2,120 +2,164 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9F59C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Nov 2021 16:07:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9B3CC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Nov 2021 16:49:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A897463215
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Nov 2021 16:07:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9C00361B1B
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Nov 2021 16:49:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236709AbhKOQKB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Nov 2021 11:10:01 -0500
-Received: from mail.kernel.org ([198.145.29.99]:32818 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236674AbhKOQJ4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Nov 2021 11:09:56 -0500
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8202061B95;
-        Mon, 15 Nov 2021 16:06:51 +0000 (UTC)
-Date:   Mon, 15 Nov 2021 11:06:49 -0500
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     Alexander Popov <alex.popov@linux.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul McKenney <paulmck@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Joerg Roedel <jroedel@suse.de>,
-        Maciej Rozycki <macro@orcam.me.uk>,
+        id S230254AbhKOQwO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Nov 2021 11:52:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59922 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230080AbhKOQwI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Nov 2021 11:52:08 -0500
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84239C061570
+        for <linux-doc@vger.kernel.org>; Mon, 15 Nov 2021 08:49:11 -0800 (PST)
+Received: by mail-qk1-x72b.google.com with SMTP id de30so17585737qkb.0
+        for <linux-doc@vger.kernel.org>; Mon, 15 Nov 2021 08:49:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=l+DuSZ4CW3uL8ZGrV5XvM1KJZzBkYZnjOzvV75YmFLo=;
+        b=Ay5N0s8W4b7VWIRp7+IGY+vcj52iXCNMABiaFI4BwZnlyhEKyCJAC4k8Hx+Ot61u50
+         4uxq2AvK8wylxaMUu8r+m6V3DG4HIyQ/H9RgawG6AZyRjrl7HC2vYrdzquwY089O1yB+
+         bnhD1uwhOj1aKSdRi+WIkTst+lgYZpniNkKfm8SWcV7PUyLorigOKmIsTArLChwUwjH+
+         dEw23mfdG5N3GpLCSuw7pDL22zWmw6CoxtMTa1hhP2ABh7FpLTgMagIsBk14IEIXlskz
+         sK2nWz+EgH49hitnef3sBsxKao5ga2fS5HU8laCGmr+Gm2sgulNMCYf+eTjr1IBh/cNb
+         T1+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=l+DuSZ4CW3uL8ZGrV5XvM1KJZzBkYZnjOzvV75YmFLo=;
+        b=jq3PTzfdZC58mv3U0sLTqKvnjU/4jbLGYk3px5/LmejDfTC1c0cOVErnH65Cg0iMNG
+         0goi5JOXwfKGgnSM3Y+BIax0UHtrOoncnFSYiAmQ8yekDOWhMmOpaZnXHSkS9h+JARN4
+         XSG+pmMb5i4VrHRUqXJ90AoRK96KLq5vxvuBft6bbjAy69GZxKuBrq8Y9dPL4cS8mFVV
+         FqILlMCGmBxtO/pC2ss2e/rDEWdQKL7+ZxjOCekq9htj8WIwsbqSaPVP0RLX3iJc/QaT
+         eydxAT47+1WWfUQFeWtfdleX0Iszow9GgDg3lC+/wouIBtlpvWqS7DKJ/NL1GfmUkspp
+         bxzg==
+X-Gm-Message-State: AOAM532JGzkuZVDZlGiRm1yhVtHKVTygBEegHfrqTD/+CxlwblbHt9P7
+        XzJdV5x7wNyELV+1hDf25oVUZA==
+X-Google-Smtp-Source: ABdhPJz+ALQX7Ix+Apg+9TYbsDdiwwHHM1jer6yDEsam6jfbWC1D5oVKN/IAmZrKG8fm3LwKH5O1dA==
+X-Received: by 2002:a05:620a:288c:: with SMTP id j12mr317315qkp.103.1636994950666;
+        Mon, 15 Nov 2021 08:49:10 -0800 (PST)
+Received: from ziepe.ca ([206.223.160.26])
+        by smtp.gmail.com with ESMTPSA id i16sm3334898qtx.57.2021.11.15.08.49.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Nov 2021 08:49:10 -0800 (PST)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1mmfAL-00A2Er-2M; Mon, 15 Nov 2021 12:49:09 -0400
+Date:   Mon, 15 Nov 2021 12:49:09 -0400
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Joao Martins <joao.m.martins@oracle.com>
+Cc:     linux-mm@kvack.org, Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Jane Chu <jane.chu@oracle.com>,
         Muchun Song <songmuchun@bytedance.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Kees Cook <keescook@chromium.org>,
-        Luis Chamberlain <mcgrof@kernel.org>, Wei Liu <wl@xen.org>,
-        John Ogness <john.ogness@linutronix.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Alexey Kardashevskiy <aik@ozlabs.ru>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Jann Horn <jannh@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Will Deacon <will@kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Laura Abbott <labbott@kernel.org>,
-        David S Miller <davem@davemloft.net>,
-        Borislav Petkov <bp@alien8.de>, Arnd Bergmann <arnd@arndb.de>,
-        Andrew Scull <ascull@google.com>,
-        Marc Zyngier <maz@kernel.org>, Jessica Yu <jeyu@kernel.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Wang Qing <wangqing@vivo.com>, Mel Gorman <mgorman@suse.de>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Andrew Klychkov <andrew.a.klychkov@gmail.com>,
-        Mathieu Chouquet-Stringer <me@mathieu.digital>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Stephen Kitt <steve@sk2.org>, Stephen Boyd <sboyd@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Mike Rapoport <rppt@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-hardening@vger.kernel.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>, notify@kernel.org,
-        main@lists.elisa.tech, safety-architecture@lists.elisa.tech,
-        devel@lists.elisa.tech, Shuah Khan <shuah@kernel.org>
-Subject: Re: [PATCH v2 0/2] Introduce the pkill_on_warn parameter
-Message-ID: <20211115110649.4f9cb390@gandalf.local.home>
-In-Reply-To: <CAKXUXMx5Oi-dNVKB+8E-pdrz+ooELMZf=oT_oGXKFrNWejz=fg@mail.gmail.com>
-References: <20211027233215.306111-1-alex.popov@linux.com>
-        <ac989387-3359-f8da-23f9-f5f6deca4db8@linux.com>
-        <CAHk-=wgRmjkP3+32XPULMLTkv24AkA=nNLa7xxvSg-F0G1sJ9g@mail.gmail.com>
-        <77b79f0c-48f2-16dd-1d00-22f3a1b1f5a6@linux.com>
-        <CAKXUXMx5Oi-dNVKB+8E-pdrz+ooELMZf=oT_oGXKFrNWejz=fg@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Christoph Hellwig <hch@lst.de>, nvdimm@lists.linux.dev,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 8/8] device-dax: compound devmap support
+Message-ID: <20211115164909.GF876299@ziepe.ca>
+References: <20211112150824.11028-1-joao.m.martins@oracle.com>
+ <20211112150824.11028-9-joao.m.martins@oracle.com>
+ <20211112153404.GD876299@ziepe.ca>
+ <01f36268-4010-ecea-fee5-c128dd8bb179@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <01f36268-4010-ecea-fee5-c128dd8bb179@oracle.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 15 Nov 2021 14:59:57 +0100
-Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+On Mon, Nov 15, 2021 at 01:11:32PM +0100, Joao Martins wrote:
+> On 11/12/21 16:34, Jason Gunthorpe wrote:
+> > On Fri, Nov 12, 2021 at 04:08:24PM +0100, Joao Martins wrote:
+> > 
+> >> diff --git a/drivers/dax/device.c b/drivers/dax/device.c
+> >> index a65c67ab5ee0..0c2ac97d397d 100644
+> >> +++ b/drivers/dax/device.c
+> >> @@ -192,6 +192,42 @@ static vm_fault_t __dev_dax_pud_fault(struct dev_dax *dev_dax,
+> >>  }
+> >>  #endif /* !CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD */
+> >>  
+> >> +static void set_page_mapping(struct vm_fault *vmf, pfn_t pfn,
+> >> +			     unsigned long fault_size,
+> >> +			     struct address_space *f_mapping)
+> >> +{
+> >> +	unsigned long i;
+> >> +	pgoff_t pgoff;
+> >> +
+> >> +	pgoff = linear_page_index(vmf->vma, ALIGN(vmf->address, fault_size));
+> >> +
+> >> +	for (i = 0; i < fault_size / PAGE_SIZE; i++) {
+> >> +		struct page *page;
+> >> +
+> >> +		page = pfn_to_page(pfn_t_to_pfn(pfn) + i);
+> >> +		if (page->mapping)
+> >> +			continue;
+> >> +		page->mapping = f_mapping;
+> >> +		page->index = pgoff + i;
+> >> +	}
+> >> +}
+> >> +
+> >> +static void set_compound_mapping(struct vm_fault *vmf, pfn_t pfn,
+> >> +				 unsigned long fault_size,
+> >> +				 struct address_space *f_mapping)
+> >> +{
+> >> +	struct page *head;
+> >> +
+> >> +	head = pfn_to_page(pfn_t_to_pfn(pfn));
+> >> +	head = compound_head(head);
+> >> +	if (head->mapping)
+> >> +		return;
+> >> +
+> >> +	head->mapping = f_mapping;
+> >> +	head->index = linear_page_index(vmf->vma,
+> >> +			ALIGN(vmf->address, fault_size));
+> >> +}
+> > 
+> > Should this stuff be setup before doing vmf_insert_pfn_XX?
+> > 
+> 
+> Interestingly filesystem-dax does this, but not device-dax.
 
-> 1. Allow a reasonably configured kernel to boot and run with
-> panic_on_warn set. Warnings should only be raised when something is
-> not configured as the developers expect it or the kernel is put into a
-> state that generally is _unexpected_ and has been exposed little to
-> the critical thought of the developer, to testing efforts and use in
-> other systems in the wild. Warnings should not be used for something
-> informative, which still allows the kernel to continue running in a
-> proper way in a generally expected environment. Up to my knowledge,
-> there are some kernels in production that run with panic_on_warn; so,
-> IMHO, this requirement is generally accepted (we might of course
+I think it may be a bug ?
 
-To me, WARN*() is the same as BUG*(). If it gets hit, it's a bug in the
-kernel and needs to be fixed. I have several WARN*() calls in my code, and
-it's all because the algorithms used is expected to prevent the condition
-in the warning from happening. If the warning triggers, it means either that
-the algorithm is wrong or my assumption about the algorithm is wrong. In
-either case, the kernel needs to be updated. All my tests fail if a WARN*()
-gets hit (anywhere in the kernel, not just my own).
+> set_page_mapping/set_compound_mapping() could be moved to before and
+> then torn down on @rc != VM_FAULT_NOPAGE (failure). I am not sure
+> what's the benefit in this series..  besides the ordering (that you
+> hinted below) ?
 
-After reading all the replies and thinking about this more, I find the
-pkill_on_warning actually worse than not doing anything. If you are
-concerned about exploits from warnings, the only real solution is a
-panic_on_warning. Yes, it brings down the system, but really, it has to be
-brought down anyway, because it is in need of a kernel update.
+Well, it should probably be fixed in a precursor patch.
 
--- Steve
+I think the general idea is that page->mapping/index are stable once
+the page is published in a PTE?
+
+> > In normal cases the page should be returned in the vmf and populated
+> > to the page tables by the core code after all this is done.
+>
+> So I suppose by call sites examples as 'core code' is either hugetlbfs call to
+> __filemap_add_folio() (on hugetlbfs fault handler), shmem_add_to_page_cache() or
+> anon-equivalent.
+
+I was talking more about the normal page insertion flow which is done
+by setting vmf->page and then returning. finish_fault() will install
+the PTE
+
+If this is the best way then I would expect some future where maybe
+there is a vmf->folio and finish_fault() will install a PUD/PMD/PTE
+and we don't call vmf_insert_pfnxx in DAX.
+
+Jason
