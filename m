@@ -2,109 +2,234 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DA47C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Nov 2021 22:52:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B70AAC433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Nov 2021 22:55:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1444863217
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Nov 2021 22:52:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9EA7A63253
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Nov 2021 22:55:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232504AbhKOWzb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Nov 2021 17:55:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54050 "EHLO
+        id S241162AbhKOW6w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Nov 2021 17:58:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230171AbhKOWuH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Nov 2021 17:50:07 -0500
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD3B7C03AA22;
-        Mon, 15 Nov 2021 14:01:59 -0800 (PST)
-Received: by mail-ed1-x52f.google.com with SMTP id m14so78583695edd.0;
-        Mon, 15 Nov 2021 14:01:59 -0800 (PST)
+        with ESMTP id S1347569AbhKOW4g (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Nov 2021 17:56:36 -0500
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72F42C0337CC
+        for <linux-doc@vger.kernel.org>; Mon, 15 Nov 2021 14:06:43 -0800 (PST)
+Received: by mail-pf1-x42e.google.com with SMTP id n26so11616993pff.3
+        for <linux-doc@vger.kernel.org>; Mon, 15 Nov 2021 14:06:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=I5HscGTHZr6+xi1a6alcJPyjhjUoDbOBDFHoUw2L51o=;
-        b=lIwqy+vraVBs9t40KMt6lhKFZG5nM6cLoF5A3AalVN0hTJVgNQuGGORQjwEvumUGle
-         3cBQqlcv3mrjNG4FORxmkRbj40heghE0+RhCPQKKTD6lhlmZoFqjGg4wNUp8ZnWgycRY
-         VsEQ2BtXzKXDyd4CAynzjijP4NH5DJ0zidKOLplWjaY8mm4YB8HjiZpAycdaGTsO4nsY
-         bbr8nrgw4lIoLE4KhmUO/UHtoRbNv0OEFhBv3N118wQZKlF2o0BO9mRQuLP/AXXx4Zmv
-         GNOR1UehG3cqPMbiuzhj5PziQmILouBLerjvgdVW02Pq2oPz5WfmtGT6d/ZnPTlE7xBu
-         G9Qg==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=+75pOgzRSIiee94ABsrf5glhvGlXlViH0+WT5j4L0aw=;
+        b=dS8Un6tSdNnk9Z4kmfDP4XsUZOMSVFQw3q3GTGh5sr8XmLWMkM07MuC1+dT12/ptHP
+         8r4FauaE6OQMmNCZkBtn866ZhTNqnOWvSfGwr5K3/jo8deQAcP6hs392bnEV+AReAEVH
+         V9uj6x0kL07NJEinAldy4HwU/0bSkPFxwZmfQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=I5HscGTHZr6+xi1a6alcJPyjhjUoDbOBDFHoUw2L51o=;
-        b=zpt/zCPr30PQzij03dyQc6LIOl08FJqeM5Y9pQhlv33I9YBa7SBSh+9+jwfKK84s1k
-         JQn5Q/Zd6/pL8RwVjJ2YNBUga+pFeavGLXBYeVUt1h8n8KAtdXOio5VXqbztkkISdidw
-         Whu4U9XvONGbw2o1ZpKFFrGWlsqXdUrkTsu88Abh28QymZtlD/wq9y4Nq/ZaEgL8rC+q
-         LRV187tXrZq/nxyNH740VMA3Cv6LshQs7AZCwf+ikDXpW4z6HpsLe5RuYLjcfeN8rcJ9
-         y6+jmy/HTKYDuc8HlmRUB9hGIrCKoUweHlr0G+yZS5gtXVsAxiy1GW0rlTm0NYHaG2Cz
-         dr7A==
-X-Gm-Message-State: AOAM5331GVX9yVWry9be2hHZ8IIhGWVOU+hLmsnaeNtxONzR7e9wZMGg
-        oRUvGUBLAFPTVWe72zFVgMR1ef4xt/TZAJtqzRdTR10xpfc=
-X-Google-Smtp-Source: ABdhPJz3pWyThL+n+5rrtc+iEasNam2xwC2mel1/qlNmbMzGVGsIC0sscKWK8fGf4NLo2ipGveze1EYD5q0o+3rvvGM=
-X-Received: by 2002:a05:6402:26d4:: with SMTP id x20mr745600edd.119.1637013718460;
- Mon, 15 Nov 2021 14:01:58 -0800 (PST)
-MIME-Version: 1.0
-References: <20211115210842.11972-1-pauk.denis@gmail.com>
-In-Reply-To: <20211115210842.11972-1-pauk.denis@gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 16 Nov 2021 00:01:22 +0200
-Message-ID: <CAHp75VcPHi1XyZr=CFbUhiUXK0q-10iBx5U3d==aG8pMG27k1Q@mail.gmail.com>
-Subject: Re: [PATCH v11 0/2] Update ASUS WMI supported boards
-To:     Denis Pauk <pauk.denis@gmail.com>
-Cc:     Eugene Shalygin <eugene.shalygin@gmail.com>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        thomas@weissschuh.net, Ed Brindley <kernel@maidavale.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=+75pOgzRSIiee94ABsrf5glhvGlXlViH0+WT5j4L0aw=;
+        b=6DGJadHrsB6cGsDpTTUWyzRMqtd91b03kb45BZWuNSnvOmOvyfvUq5MjCvwg2ASoIK
+         xjj7g/Z8OE+whOxZ9fk5kumynfodmORqlndodL/jSR8Lx0NoE44RgHP2FSZYZG0DrmUC
+         JukfgHZsCN9BaNa11SIhMf9d/JsgUwBGCaxpM8FUnqNhtz2blm3raAUaq7+7tFsIynht
+         VHBLkLHJdy8Po25RkVeL7nv6STTCpsLu420Dcy/pNjcMQXTmPpoB+NJqZO6R5zJiXRyk
+         j//PGBQI3kqdw6crB6vsAfVVcYdKaJnZylxDjHgw58y0JAPCM4BTKrOnBm1wdtl+1z5a
+         /A9g==
+X-Gm-Message-State: AOAM533F4BX2cRLHKnLr977sLO6uhoOuCb1ceR9vZ7BvwMbwEPu1eGy9
+        o9Mo77IHIUCVZOKfEoFZD4p+LQ==
+X-Google-Smtp-Source: ABdhPJxbI3NOtgyO8DBjqkXVe/gYAMuaxOIkr7hH2fyzLDr8HfWh0griJts14SzHJ0idri2HBcFqDg==
+X-Received: by 2002:aa7:8151:0:b0:480:9d40:8e38 with SMTP id d17-20020aa78151000000b004809d408e38mr35382844pfn.72.1637014002929;
+        Mon, 15 Nov 2021 14:06:42 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id rm10sm277789pjb.29.2021.11.15.14.06.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Nov 2021 14:06:42 -0800 (PST)
+Date:   Mon, 15 Nov 2021 14:06:41 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Alexander Popov <alex.popov@linux.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul McKenney <paulmck@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Joerg Roedel <jroedel@suse.de>,
+        Maciej Rozycki <macro@orcam.me.uk>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Luis Chamberlain <mcgrof@kernel.org>, Wei Liu <wl@xen.org>,
+        John Ogness <john.ogness@linutronix.de>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Alexey Kardashevskiy <aik@ozlabs.ru>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Jann Horn <jannh@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Will Deacon <will@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Laura Abbott <labbott@kernel.org>,
+        David S Miller <davem@davemloft.net>,
+        Borislav Petkov <bp@alien8.de>, Arnd Bergmann <arnd@arndb.de>,
+        Andrew Scull <ascull@google.com>,
+        Marc Zyngier <maz@kernel.org>, Jessica Yu <jeyu@kernel.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Wang Qing <wangqing@vivo.com>, Mel Gorman <mgorman@suse.de>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Andrew Klychkov <andrew.a.klychkov@gmail.com>,
+        Mathieu Chouquet-Stringer <me@mathieu.digital>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Stephen Kitt <steve@sk2.org>, Stephen Boyd <sboyd@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Mike Rapoport <rppt@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-hardening@vger.kernel.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>, notify@kernel.org,
+        main@lists.elisa.tech, safety-architecture@lists.elisa.tech,
+        devel@lists.elisa.tech, Shuah Khan <shuah@kernel.org>
+Subject: Re: [PATCH v2 0/2] Introduce the pkill_on_warn parameter
+Message-ID: <202111151116.933184F716@keescook>
+References: <20211027233215.306111-1-alex.popov@linux.com>
+ <ac989387-3359-f8da-23f9-f5f6deca4db8@linux.com>
+ <CAHk-=wgRmjkP3+32XPULMLTkv24AkA=nNLa7xxvSg-F0G1sJ9g@mail.gmail.com>
+ <77b79f0c-48f2-16dd-1d00-22f3a1b1f5a6@linux.com>
+ <CAKXUXMx5Oi-dNVKB+8E-pdrz+ooELMZf=oT_oGXKFrNWejz=fg@mail.gmail.com>
+ <20211115110649.4f9cb390@gandalf.local.home>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211115110649.4f9cb390@gandalf.local.home>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 15, 2021 at 11:09 PM Denis Pauk <pauk.denis@gmail.com> wrote:
->
-> Add support by WMI interface provided by Asus for B550/X570 boards:
-> * PRIME X570-PRO,
-> * ROG CROSSHAIR VIII HERO
-> * ROG CROSSHAIR VIII DARK HERO
-> * ROG CROSSHAIR VIII FORMULA
-> * ROG STRIX X570-E GAMING
-> * ROG STRIX B550-I GAMING
-> * ROG STRIX B550-E GAMING
->
-> Add support by WMI interface provided by Asus for X370/X470/
-> B450/X399 boards:
-> * ROG CROSSHAIR VI HERO,
-> * PRIME X399-A,
-> * PRIME X470-PRO,
-> * ROG CROSSHAIR VI EXTREME,
-> * ROG CROSSHAIR VI HERO (WI-FI AC),
-> * ROG CROSSHAIR VII HERO,
-> * ROG CROSSHAIR VII HERO (WI-FI),
-> * ROG STRIX Z390-F GAMING
-> * ROG STRIX B450-E GAMING,
-> * ROG STRIX B450-F GAMING,
-> * ROG STRIX B450-I GAMING,
-> * ROG STRIX X399-E GAMING,
-> * ROG STRIX X470-F GAMING,
-> * ROG STRIX X470-I GAMING,
-> * ROG ZENITH EXTREME,
-> * ROG ZENITH EXTREME ALPHA.
->
-> I have added "ROG STRIX Z390-F GAMING" to list of supported boards in
-> asus_wmi_sensors.
+On Mon, Nov 15, 2021 at 11:06:49AM -0500, Steven Rostedt wrote:
+> On Mon, 15 Nov 2021 14:59:57 +0100
+> Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+> 
+> > 1. Allow a reasonably configured kernel to boot and run with
+> > panic_on_warn set. Warnings should only be raised when something is
+> > not configured as the developers expect it or the kernel is put into a
+> > state that generally is _unexpected_ and has been exposed little to
+> > the critical thought of the developer, to testing efforts and use in
+> > other systems in the wild. Warnings should not be used for something
+> > informative, which still allows the kernel to continue running in a
+> > proper way in a generally expected environment. Up to my knowledge,
+> > there are some kernels in production that run with panic_on_warn; so,
+> > IMHO, this requirement is generally accepted (we might of course
+> 
+> To me, WARN*() is the same as BUG*(). If it gets hit, it's a bug in the
+> kernel and needs to be fixed. I have several WARN*() calls in my code, and
+> it's all because the algorithms used is expected to prevent the condition
+> in the warning from happening. If the warning triggers, it means either that
+> the algorithm is wrong or my assumption about the algorithm is wrong. In
+> either case, the kernel needs to be updated. All my tests fail if a WARN*()
+> gets hit (anywhere in the kernel, not just my own).
+> 
+> After reading all the replies and thinking about this more, I find the
+> pkill_on_warning actually worse than not doing anything. If you are
+> concerned about exploits from warnings, the only real solution is a
+> panic_on_warning. Yes, it brings down the system, but really, it has to be
+> brought down anyway, because it is in need of a kernel update.
 
-Guenter, what is your plan about this patch series? It seems it
-missed, by unknown (?) reason, the v5.16-rc1 (I remember seeing it in
-some of your tree branches at some point).
+Hmm, yes. What it originally boiled down to, which is why Linus first
+objected to BUG(), was that we don't know what other parts of the system
+have been disrupted. The best example is just that of locking: if we
+BUG() or do_exit() in the middle of holding a lock, we'll wreck whatever
+subsystem that was attached to. Without a deterministic system state
+unwinder, there really isn't a "safe" way to just stop a kernel thread.
+
+With this pkill_on_warn, we avoid the BUG problem (since the thread of
+execution continues and stops at an 'expected' place: the signal
+handler).
+
+However, now we have the newer objection from Linus, which is one of
+attribution: the WARN might be hit during an "unrelated" thread of
+execution and "current" gets blamed, etc. And beyond that, if we take
+down a portion of userspace, what in userspace may be destabilized? In
+theory, we get a case where any required daemons would be restarted by
+init, but that's not "known".
+
+The safest version of this I can think of is for processes to opt into
+this mitigation. That would also cover the "special cases" we've seen
+exposed too. i.e. init and kthreads would not opt in.
+
+However, that's a lot to implement when Marco's tracing suggestion might
+be sufficient and policy could be entirely implemented in userspace. It
+could be as simple as this (totally untested):
+
+
+diff --git a/include/trace/events/error_report.h b/include/trace/events/error_report.h
+index 96f64bf218b2..129d22eb8b6e 100644
+--- a/include/trace/events/error_report.h
++++ b/include/trace/events/error_report.h
+@@ -16,6 +16,8 @@
+ #define __ERROR_REPORT_DECLARE_TRACE_ENUMS_ONCE_ONLY
+ 
+ enum error_detector {
++	ERROR_DETECTOR_WARN,
++	ERROR_DETECTOR_BUG,
+ 	ERROR_DETECTOR_KFENCE,
+ 	ERROR_DETECTOR_KASAN
+ };
+@@ -23,6 +25,8 @@ enum error_detector {
+ #endif /* __ERROR_REPORT_DECLARE_TRACE_ENUMS_ONCE_ONLY */
+ 
+ #define error_detector_list	\
++	EM(ERROR_DETECTOR_WARN, "warn")	\
++	EM(ERROR_DETECTOR_BUG, "bug")	\
+ 	EM(ERROR_DETECTOR_KFENCE, "kfence")	\
+ 	EMe(ERROR_DETECTOR_KASAN, "kasan")
+ /* Always end the list with an EMe. */
+diff --git a/lib/bug.c b/lib/bug.c
+index 45a0584f6541..201b4070bbbc 100644
+--- a/lib/bug.c
++++ b/lib/bug.c
+@@ -48,6 +48,7 @@
+ #include <linux/sched.h>
+ #include <linux/rculist.h>
+ #include <linux/ftrace.h>
++#include <trace/events/error_report.h>
+ 
+ extern struct bug_entry __start___bug_table[], __stop___bug_table[];
+ 
+@@ -198,6 +199,7 @@ enum bug_trap_type report_bug(unsigned long bugaddr, struct pt_regs *regs)
+ 		/* this is a WARN_ON rather than BUG/BUG_ON */
+ 		__warn(file, line, (void *)bugaddr, BUG_GET_TAINT(bug), regs,
+ 		       NULL);
++		trace_error_report_end(ERROR_DETECTOR_WARN, bugaddr);
+ 		return BUG_TRAP_TYPE_WARN;
+ 	}
+ 
+@@ -206,6 +208,7 @@ enum bug_trap_type report_bug(unsigned long bugaddr, struct pt_regs *regs)
+ 	else
+ 		pr_crit("Kernel BUG at %pB [verbose debug info unavailable]\n",
+ 			(void *)bugaddr);
++	trace_error_report_end(ERROR_DETECTOR_BUG, bugaddr);
+ 
+ 	return BUG_TRAP_TYPE_BUG;
+ }
+
+
+Marco, is this the full version of monitoring this from the userspace
+side?
+
+	perf record -e error_report:error_report_end
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Kees Cook
