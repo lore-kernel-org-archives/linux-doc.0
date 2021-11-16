@@ -2,152 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DFBCC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 10:44:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A120EC43217
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 11:26:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6E83160D07
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 10:44:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 86525619E8
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 11:26:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234200AbhKPKrB convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Nov 2021 05:47:01 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:4098 "EHLO
-        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234039AbhKPKqd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Nov 2021 05:46:33 -0500
-Received: from fraeml710-chm.china.huawei.com (unknown [172.18.147.200])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4HtjHN6bskz67mLl;
-        Tue, 16 Nov 2021 18:39:44 +0800 (CST)
-Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
- fraeml710-chm.china.huawei.com (10.206.15.59) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 16 Nov 2021 11:43:27 +0100
-Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
- fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2308.020;
- Tue, 16 Nov 2021 11:43:27 +0100
-From:   Roberto Sassu <roberto.sassu@huawei.com>
-To:     Eric Biggers <ebiggers@kernel.org>
-CC:     "tytso@mit.edu" <tytso@mit.edu>, "corbet@lwn.net" <corbet@lwn.net>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "hughd@google.com" <hughd@google.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "linux-fscrypt@vger.kernel.org" <linux-fscrypt@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [RFC][PATCH 5/5] shmem: Add fsverity support
-Thread-Topic: [RFC][PATCH 5/5] shmem: Add fsverity support
-Thread-Index: AQHX18M/qVU4RXchik23Vn+neZuDEKwAMhaAgAQN/bCAAKcCAIABDzqA
-Date:   Tue, 16 Nov 2021 10:43:27 +0000
-Message-ID: <0974034ff3b6426abd89f3c6f45c6d23@huawei.com>
-References: <20211112124411.1948809-1-roberto.sassu@huawei.com>
- <20211112124411.1948809-6-roberto.sassu@huawei.com>
- <YY68iXKPWN8+rd+0@gmail.com> <6adb6da30b734213942f976745c456f6@huawei.com>
- <YZKvXK+vX/we4GCD@gmail.com>
-In-Reply-To: <YZKvXK+vX/we4GCD@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.204.63.33]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        id S234579AbhKPL3r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Nov 2021 06:29:47 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28]:49714 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235004AbhKPL3P (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Nov 2021 06:29:15 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 8EADD212B7;
+        Tue, 16 Nov 2021 11:26:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1637061977; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=5+gUcs/tjKbbk/7yjyhx4CtVWFpBne6sQR2PGyQ6344=;
+        b=ML6kzvf86bM4nnzWKFtNChdojDg87P2IrQwJmzvErHw1YCxQyy1sWz1UOQc4HC82R3OD5e
+        Y+NB9wEzQBFUNOZMjoxFNPH5cdNt+LOhsNzGjcH+CZSrbNgs2+ka8GqfMgb6D9XpsLiTXW
+        7qXbuQhrROM9fivT6OxNZc73SJdaEW0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1637061977;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=5+gUcs/tjKbbk/7yjyhx4CtVWFpBne6sQR2PGyQ6344=;
+        b=bq5Owu98dWYzz0faNGWzKmuJajz1+tkAdQOg4tXKeWJeakdNKIV0+MZWkxmVPrDSBtBoxW
+        DdcgfvYNOLswnpCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5648813C01;
+        Tue, 16 Nov 2021 11:26:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id nkATFFmVk2F1QwAAMHmgww
+        (envelope-from <vbabka@suse.cz>); Tue, 16 Nov 2021 11:26:17 +0000
+Message-ID: <037227db-c869-7d9c-65e8-8f5f8682171d@suse.cz>
+Date:   Tue, 16 Nov 2021 12:26:17 +0100
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v3] slob: add size header to all allocations
+Content-Language: en-US
+To:     Rustam Kovhaev <rkovhaev@gmail.com>, cl@linux.com,
+        penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
+        akpm@linux-foundation.org, corbet@lwn.net
+Cc:     djwong@kernel.org, david@fromorbit.com,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
+        viro@zeniv.linux.org.uk, dvyukov@google.com
+References: <be7ee3a6-9b3c-b436-f042-82bd3c416acc@suse.cz>
+ <20211029030534.3847165-1-rkovhaev@gmail.com>
+From:   Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <20211029030534.3847165-1-rkovhaev@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> From: Eric Biggers [mailto:ebiggers@kernel.org]
-> Sent: Monday, November 15, 2021 8:05 PM
-> On Mon, Nov 15, 2021 at 08:49:41AM +0000, Roberto Sassu wrote:
-> > > From: Eric Biggers [mailto:ebiggers@kernel.org]
-> > > Sent: Friday, November 12, 2021 8:12 PM
-> > > On Fri, Nov 12, 2021 at 01:44:11PM +0100, Roberto Sassu wrote:
-> > > > Make the necessary modifications to support fsverity in tmpfs.
-> > > >
-> > > > First, implement the fsverity operations (in a similar way of f2fs). These
-> > > > operations make use of shmem_read_mapping_page() instead of
-> > > > read_mapping_page() to handle the case where the page has been
-> swapped
-> > > out.
-> > > > The fsverity descriptor is placed at the end of the file and its location
-> > > > is stored in an xattr.
-> > > >
-> > > > Second, implement the ioctl operations to enable, measure and read
-> fsverity
-> > > > metadata.
-> > > >
-> > > > Lastly, add calls to fsverity functions, to ensure that fsverity-relevant
-> > > > operations are checked and handled by fsverity (file open, attr set, inode
-> > > > evict).
-> > > >
-> > > > Fsverity support can be enabled through the kernel configuration and
-> > > > remains enabled by default for every tmpfs filesystem instantiated (there
-> > > > should be no overhead, unless fsverity is enabled for a file).
-> > > >
-> > > > Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
-> > >
-> > > I don't see how this makes sense at all.  The point of fs-verity is to avoid
-> > > having to hash the whole file when verifying it.  However, obviously the
-> whole
-> > > file still has to be hashed to build the Merkle tree in the first place.  That
-> > > makes sense for a persistent filesystem where a file can be written once and
-> > > verified many times.  I don't see how it makes sense for tmpfs, where files
-> have
-> > > to be re-created on every boot.  You might as well just hash the whole file.
-> >
-> > The point of adding fsverity support for tmpfs was to being able to do
-> > integrity enforcement with just one mechanism, given that I was
-> > planning to do integrity verification with reference values loaded
-> > to the kernel with DIGLIM [1].
-> >
-> > With an LSM such as IPE [2], integrity verification would consist in
-> > querying the fsverity digest with DIGLIM and allowing the operation
-> > if the digest was found. With fsverity support in tmpfs, this can be
-> > done from the very beginning of the boot process.
-> >
-> > Using regular file digests would be also possible but this requires
-> > loading with DIGLIM both fsverity and non-fsverity reference values.
-> > It would also require two separate mechanisms for calculating
-> > the file digest depending on the filesystem. It could be done, but
-> > I thought it was easier to add support for fsverity in tmpfs.
-> >
-> > > Also, you didn't implement actually verifying the data (by calling
-> > > fsverity_verify_page()), so this patch doesn't really do anything anyway.
-> >
-> > Yes, at the end I didn't add it. Probably the only place where
-> > calling fsverity_verify_page() would make sense is when a page
-> > is swapped in (assuming that the swap device is untrusted).
-> >
-> > I tried to add a call in shmem_swapin_page() but fsverity complained
-> > due to the fact that the page was already up to date, and also
-> > rejected the page. I will check it better.
-> >
+On 10/29/21 05:05, Rustam Kovhaev wrote:
+> Let's prepend both kmalloc() and kmem_cache_alloc() allocations with the
+> size header.
+> It simplifies the slab API and guarantees that both kmem_cache_alloc()
+> and kmalloc() memory could be freed by kfree().
 > 
-> It sounds like you really only care about calculating fs-verity file digests.
-> That's just an algorithm for hashing a file, so it could just be implemented in
-> generic code that operates on any file on any filesystem, like how IMA
-> implemennts full file hashing for any file.  There isn't a need for any special
-> filesystem support to do this.
+> meminfo right after the system boot, x86-64 on xfs, without the patch:
+> Slab:              35456 kB
+> 
+> the same, with the patch:
+> Slab:              36100 kB
+> 
+> Link: https://lore.kernel.org/lkml/20210929212347.1139666-1-rkovhaev@gmail.com
+> Signed-off-by: Rustam Kovhaev <rkovhaev@gmail.com>
 
-Initially I thought the same. Then, I realized that fsverity is much more
-than that. Fsverity could be seen as a sort of property enforcer, it provides
-a property associated to the file (the fsverity digest) and ensures that
-the property remains the same while the system is running. In addition,
-it takes advantage of the page cache to avoid remeasuring an up to date
-page.
+Sorry for the late reply. I think we can further simplify this. We have:
 
-This remove some burden from LSMs. IPE would have just to compare
-the fsverity digest with that in the policy (or just query it with DIGLIM).
-Not taking into consideration the specific filesystem, not having to
-fall back to the new fsverity measurement function, and avoiding to
-preserve the fsverity property by itself, would make the LSM
-implementation very simple.
+static void *slob_alloc(size_t size, gfp_t gfp, int align,
+			int node, int align_offset)
 
-Roberto
+Previously there was one caller that passed size as unchanged, align_offset
+= 0, the other passed size + SLOB_HDR_SIZE, align_offset = SLOB_HDR_SIZE.
+Now both callers do the latter. We can drop the align_offset parameter and
+pass size unchanged. slob_alloc() can internally add SLOB_HDR_SIZE to size,
+and use SLOB_HDR_SIZE instead of align_offset.
 
-HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
-Managing Director: Li Peng, Zhong Ronghua
+Thanks,
+Vlastimil
+
