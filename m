@@ -2,128 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1428FC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 17:54:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9F08C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 18:05:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EBA6A61465
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 17:54:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9741161AAA
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 18:05:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239148AbhKPR5O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Nov 2021 12:57:14 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28]:49476 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239144AbhKPR5M (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Nov 2021 12:57:12 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id E4F61212C3;
-        Tue, 16 Nov 2021 17:54:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1637085252; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
+        id S239312AbhKPSIi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Nov 2021 13:08:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54203 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236111AbhKPSIh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Nov 2021 13:08:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1637085940;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=AQ4Vs3Ue9V/rPlPCCX2Ku26e9rOXlRcNGXZau4L0nns=;
-        b=WWKIaz/W38nsYFEg/zCDoNaH0kIwA0H6XZ/FTs4KYO6YXn8PB48U92vHHzY8eCaYtbXNAw
-        0bDRV5xqAZCLG+pNMxZJqK3emAMALV9Jw4J7trsryDzNOGA1ZVp1riAEmChz92M0DHw1cB
-        L/4UkS3yo+5VogH9yJjdHpqz3Sx7RAE=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        bh=An3R7sbO8BRoRTtSuF9+W/xtuCKLYLtDnsHgmi8nBG0=;
+        b=AHWEGM4rRYmtNJf1u1mPphzD1wFW7mzyMgwMLZIyVOWnD9Afn7SkFj8AUHCqTCdVN6EE49
+        EdIrzCeHuFf/ViuehQFs1g/u+JyayID8vkgEbJvE6q2HITdFsf+0cU6yC/H1sgIxKcEdXR
+        ElDhF6p8XmXP58z43Ivs2YnjHMSCoXI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-70-2889ANNLNnuXdKbCUVQxIw-1; Tue, 16 Nov 2021 13:05:36 -0500
+X-MC-Unique: 2889ANNLNnuXdKbCUVQxIw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B374513BA0;
-        Tue, 16 Nov 2021 17:54:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id JaE7K0Twk2G0cQAAMHmgww
-        (envelope-from <mkoutny@suse.com>); Tue, 16 Nov 2021 17:54:12 +0000
-Date:   Tue, 16 Nov 2021 18:54:11 +0100
-From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>
-Subject: Re: [PATCH v8 5/6] cgroup/cpuset: Update description of
- cpuset.cpus.partition in cgroup-v2.rst
-Message-ID: <20211116175411.GA50019@blackbody.suse.cz>
-References: <20211018143619.205065-1-longman@redhat.com>
- <20211018143619.205065-6-longman@redhat.com>
- <20211115193122.GA16798@blackbody.suse.cz>
- <8f68692b-bd8f-33fd-44ae-f6f83bf2dc00@redhat.com>
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D326D102CC41;
+        Tue, 16 Nov 2021 18:05:34 +0000 (UTC)
+Received: from [10.39.192.245] (unknown [10.39.192.245])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 0EEFE5DF56;
+        Tue, 16 Nov 2021 18:05:29 +0000 (UTC)
+Message-ID: <8a762a6b-4ad8-211f-f350-ba65f8e77b64@redhat.com>
+Date:   Tue, 16 Nov 2021 19:05:28 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8f68692b-bd8f-33fd-44ae-f6f83bf2dc00@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH 3/4] Documentation: update vcpu-requests.rst reference
+Content-Language: en-US
+To:     Anup Patel <anup@brainfault.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Anup Patel <anup.patel@wdc.com>,
+        Atish Patra <atish.patra@wdc.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        kvm-riscv@lists.infradead.org, KVM General <kvm@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>
+References: <cover.1637064577.git.mchehab+huawei@kernel.org>
+ <32b3693314f3914f10a42dea97ad6e06292fcd4a.1637064577.git.mchehab+huawei@kernel.org>
+ <34e691ec-a58d-c86b-a2ef-6fa4f0385b69@redhat.com>
+ <CAAhSdy0JRTwmr+EdSEr3ng1gfDpqnF7m3ejC2AydjAgu0mEQLw@mail.gmail.com>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <CAAhSdy0JRTwmr+EdSEr3ng1gfDpqnF7m3ejC2AydjAgu0mEQLw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 15, 2021 at 04:10:29PM -0500, Waiman Long <longman@redhat.com> wrote:
-> > On Mon, Oct 18, 2021 at 10:36:18AM -0400, Waiman Long <longman@redhat.com> wrote:
-> > > +	scheduler.  Tasks in such a partition must be explicitly bound
-> > > +	to each individual CPU.
-> [...]
+On 11/16/21 15:01, Anup Patel wrote:
+> On Tue, Nov 16, 2021 at 6:24 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>>
+>> On 11/16/21 13:11, Mauro Carvalho Chehab wrote:
+>>> Changeset 2f5947dfcaec ("Documentation: move Documentation/virtual to Documentation/virt")
+>>> renamed: Documentation/virtual/kvm/vcpu-requests.rst
+>>> to: Documentation/virt/kvm/vcpu-requests.rst.
+>>>
+>>> Update its cross-reference accordingly.
+>>>
+>>> Fixes: 2f5947dfcaec ("Documentation: move Documentation/virtual to Documentation/virt")
+>>> Reviewed-by: Anup Patel <anup.patel@wdc.com>
+>>> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+>>> ---
+>>>
+>>> To mailbombing on a large number of people, only mailing lists were C/C on the cover.
+>>> See [PATCH 0/4] at: https://lore.kernel.org/all/cover.1637064577.git.mchehab+huawei@kernel.org/
+>>>
+>>>    arch/riscv/kvm/vcpu.c | 2 +-
+>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/arch/riscv/kvm/vcpu.c b/arch/riscv/kvm/vcpu.c
+>>> index e3d3aed46184..fb84619df012 100644
+>>> --- a/arch/riscv/kvm/vcpu.c
+>>> +++ b/arch/riscv/kvm/vcpu.c
+>>> @@ -740,7 +740,7 @@ int kvm_arch_vcpu_ioctl_run(struct kvm_vcpu *vcpu)
+>>>                 * Ensure we set mode to IN_GUEST_MODE after we disable
+>>>                 * interrupts and before the final VCPU requests check.
+>>>                 * See the comment in kvm_vcpu_exiting_guest_mode() and
+>>> -              * Documentation/virtual/kvm/vcpu-requests.rst
+>>> +              * Documentation/virt/kvm/vcpu-requests.rst
+>>>                 */
+>>>                vcpu->mode = IN_GUEST_MODE;
+>>>
+>>>
+>>
+>> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 > 
-> It can be a problem when one is trying to move from one cgroup to another
-> cgroup with non-overlapping cpus laterally. However, if a task is initially
-> from a parent cgroup with affinity mask that include cpus in the isolated
-> child cgroup, I believe it should be able to move to the isolated child
-> cgroup without problem. Otherwise, it is a bug that needs to be fixed.
+> Thanks Paolo, let me know if you want me to include this patch
+> as part of the fixes I have collected.
 
-app_root	cpuset.cpus=0-3
-`- non_rt	cpuset.cpus=0-1	cpuset.cpus.partition=member
-`- rt		cpuset.cpus=2-3	cpuset.cpus.partition=isolated
+I think Mauro will handle it, but you can pick it as well.
 
-The app_root would have cpuset.cpus.effective=0-1 so even the task in
-app_root can't sched_setaffinity() to cpus 2-3.
-But AFAICS, the migration calls set_cpus_allowed_ptr() anyway, so the
-task in the isolated partition needn't to bind explicitly with
-sched_setaffinity(). (It'd have two cpus available, so one more
-sched_setaffinity() or migration into a single-cpu list is desirable.)
+Paolo
 
-All in all, I think the behavior is OK and the explicit binding of tasks
-in an isolated cpuset is optional (not a must as worded currently).
-
-
-> I think the wording may be confusing. What I meant is none of the requested
-> cpu can be granted. So if there is at least one granted, the effective cpus
-> won't be empty.
-
-Ack.
-
-> You currently cannot make change to cpuset.cpus that violates the cpu
-> exclusivity rule. The above constraints will not disallow you to make the
-> change. They just affect the validity of the partition root.
-
-Sibling exclusivity should be a validity condition regardless of whether
-transition is allowed or not. (At least it looks simpler to me.)
-
-
-> > > +        Changing a partition root to "member" is always allowed.
-> > > +        If there are child partition roots underneath it, however,
-> > > +        they will be forced to be switched back to "member" too and
-> > > +        lose their partitions. So care must be taken to double check
-> > > +        for this condition before disabling a partition root.
-> > (Or is this how delegation is intended?) However, AFAICS, parent still
-> > can't remove cpuset.cpus even when the child is a "member". Otherwise,
-> > I agree with the back-switch.
-> There are only 2 possibilities here. Either we force the child partitions to
-> be become members or invalid partition root.
-
-My point here was mostly about preempting the cpus (as a v2 specific
-feature). (I'm rather indifferent whether children turn into invalid
-roots or members.)
-
-Thanks,
-Michal
