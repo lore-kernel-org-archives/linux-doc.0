@@ -2,161 +2,164 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ACFDC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 14:11:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E78DC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 14:32:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 41E8463214
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 14:11:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 72DE261A7D
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 14:32:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237187AbhKPOOF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Nov 2021 09:14:05 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29]:40764 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237169AbhKPON6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Nov 2021 09:13:58 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 6A06A1FD37;
-        Tue, 16 Nov 2021 14:11:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1637071860; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=eUzARzMdGIdgZhKMMm7MjS/I2ys+aHQmiheFYNSahmg=;
-        b=YMdoxtQ/UmnVX7LVsdDt0A4V1t8OsHiy0lGMBX0bfIpqPZFGWSDz0+j5ISu6Wu+rcSND7z
-        ckSQQw2/BcITl6FfGtwclZEhvDBho0PdTVnhoAu7/m5Cq4S8AocdNNWhtfGq2mzjGOgZVQ
-        QyrGiPQIkFZgEszDFk3r005h9iDfAYU=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 017ED13F75;
-        Tue, 16 Nov 2021 14:10:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id qFWaOvO7k2ExEQAAMHmgww
-        (envelope-from <jgross@suse.com>); Tue, 16 Nov 2021 14:10:59 +0000
-From:   Juergen Gross <jgross@suse.com>
-To:     kvm@vger.kernel.org, x86@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Juergen Gross <jgross@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>
-Subject: [PATCH v3 4/4] x86/kvm: add boot parameter for setting max number of vcpus per guest
-Date:   Tue, 16 Nov 2021 15:10:54 +0100
-Message-Id: <20211116141054.17800-5-jgross@suse.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20211116141054.17800-1-jgross@suse.com>
-References: <20211116141054.17800-1-jgross@suse.com>
+        id S229739AbhKPOfR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Nov 2021 09:35:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40556 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231230AbhKPOfL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Nov 2021 09:35:11 -0500
+Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABB41C061570;
+        Tue, 16 Nov 2021 06:32:14 -0800 (PST)
+Received: by mail-oi1-x234.google.com with SMTP id n66so42775063oia.9;
+        Tue, 16 Nov 2021 06:32:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=rS3gt/PrpWVtv6gSE0O41JGuk3vZ4MHqtZq926OB300=;
+        b=UADwpeAkTgvpK7nOuk2G48YW3G/+Uf/gOpLQbb6XCf5oUBcx2+R5PzC3gL/evmYPNR
+         5JGfkcPldpx3SecDK//+YMFfLVk+7R+g59Iq1YxQYRbbf47MXVljhiD901x4yQ5pP1YM
+         ezrbI+jRnaHDeDU1PK0M/fRXL5ho6hnxS38cjMV2Tz45avk4O9ueFaP5p/QnJNRtJZqU
+         +r8j55qjLAT2yjYXBomt2D8uoLDuP1uqUDhs/HzuylBwUx9T9oONDe9w7YsXRR+mOv1Z
+         wu260OTIAEQ5Z0D6gIUwb/4sMhCgCI9PZ/Z6fVUv6pjZKgaxefk4xcQwbdvO+moWLFrv
+         rPVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=rS3gt/PrpWVtv6gSE0O41JGuk3vZ4MHqtZq926OB300=;
+        b=cW1Ha5jF/3csBfDunbFbnG7RtSTH1M6DI1cDvh6OIi/8rRVvUJrhK4cjKrr4nfoxsP
+         lj+9jBZVwubc75w2tftVlOC4F4Bphah0AE2z8qGKe9M+qVpl5bktyv7Ds4oq0huLRMF5
+         sHnqROFUcX/0BkGT6tSEmgf0knqPxEZ8BEL6VYK54oPcB5r0GYBTK4PjXHpzwlQzMIvs
+         ivZ+CZAxYQYq9rBRPympHOjXGf1vOreP98gJm9FpT76UDEgu+5bYiwAkz3UuF3BYx/wb
+         mII4ou6el5/mjjI6WI64lD9uAIN+Wv/hyibHVbge0eEyfgRc8o3zlkF8QKyo5i9jP8pz
+         yyZg==
+X-Gm-Message-State: AOAM5305IvYWR1L6ovfnJQ+J+lTuxnsvOtFPEeXE2oXU/qWjC6eaaGfp
+        aQOtDNYswsHeLzOhHb7byJ96qw1tQAI=
+X-Google-Smtp-Source: ABdhPJxuVAwopYOnPTh16WP55elWLlT/bUaZv8sU1w35lJhls+Z4ingK+OqWwORbeJm83MrWoKXdKw==
+X-Received: by 2002:a05:6808:e90:: with SMTP id k16mr6588480oil.166.1637073133697;
+        Tue, 16 Nov 2021 06:32:13 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id t14sm781860oth.81.2021.11.16.06.32.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Nov 2021 06:32:12 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Subject: Re: [PATCH v11 0/2] Update ASUS WMI supported boards
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Denis Pauk <pauk.denis@gmail.com>,
+        Eugene Shalygin <eugene.shalygin@gmail.com>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        thomas@weissschuh.net, Ed Brindley <kernel@maidavale.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20211115210842.11972-1-pauk.denis@gmail.com>
+ <CAHp75VcPHi1XyZr=CFbUhiUXK0q-10iBx5U3d==aG8pMG27k1Q@mail.gmail.com>
+ <c016d0ca-b8b1-fb06-50f3-06a7b1c4aaea@roeck-us.net>
+ <YZOKLDg582dQPzVN@smile.fi.intel.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Message-ID: <d2943033-e701-f719-5da6-c00dc431dff9@roeck-us.net>
+Date:   Tue, 16 Nov 2021 06:32:10 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <YZOKLDg582dQPzVN@smile.fi.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Today the maximum number of vcpus of a kvm guest is set via a #define
-in a header file.
+On 11/16/21 2:38 AM, Andy Shevchenko wrote:
+> On Mon, Nov 15, 2021 at 03:15:39PM -0800, Guenter Roeck wrote:
+>> On 11/15/21 2:01 PM, Andy Shevchenko wrote:
+>>> On Mon, Nov 15, 2021 at 11:09 PM Denis Pauk <pauk.denis@gmail.com> wrote:
+>>>>
+>>>> Add support by WMI interface provided by Asus for B550/X570 boards:
+>>>> * PRIME X570-PRO,
+>>>> * ROG CROSSHAIR VIII HERO
+>>>> * ROG CROSSHAIR VIII DARK HERO
+>>>> * ROG CROSSHAIR VIII FORMULA
+>>>> * ROG STRIX X570-E GAMING
+>>>> * ROG STRIX B550-I GAMING
+>>>> * ROG STRIX B550-E GAMING
+>>>>
+>>>> Add support by WMI interface provided by Asus for X370/X470/
+>>>> B450/X399 boards:
+>>>> * ROG CROSSHAIR VI HERO,
+>>>> * PRIME X399-A,
+>>>> * PRIME X470-PRO,
+>>>> * ROG CROSSHAIR VI EXTREME,
+>>>> * ROG CROSSHAIR VI HERO (WI-FI AC),
+>>>> * ROG CROSSHAIR VII HERO,
+>>>> * ROG CROSSHAIR VII HERO (WI-FI),
+>>>> * ROG STRIX Z390-F GAMING
+>>>> * ROG STRIX B450-E GAMING,
+>>>> * ROG STRIX B450-F GAMING,
+>>>> * ROG STRIX B450-I GAMING,
+>>>> * ROG STRIX X399-E GAMING,
+>>>> * ROG STRIX X470-F GAMING,
+>>>> * ROG STRIX X470-I GAMING,
+>>>> * ROG ZENITH EXTREME,
+>>>> * ROG ZENITH EXTREME ALPHA.
+>>>>
+>>>> I have added "ROG STRIX Z390-F GAMING" to list of supported boards in
+>>>> asus_wmi_sensors.
+>>>
+>>> Guenter, what is your plan about this patch series? It seems it
+>>> missed, by unknown (?) reason, the v5.16-rc1 (I remember seeing it in
+>>> some of your tree branches at some point).
+>>>
+>>
+>> I don't see it in my record. Earlier I was simply waiting for some
+>> Reviewed-by: tags, which I have never seen.
+> 
+> Ah, understood. Thank you for clarifications.
+> 
+>> Looking into the commit log,
+>> I do see:
+>>
+>> Signed-off-by: Denis Pauk <pauk.denis@gmail.com>
+>> Co-developed-by: Eugene Shalygin <eugene.shalygin@gmail.com>
+>> Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
+>> Co-developed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+>> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+>>
+>> Did you and Eugene indeed sign this off, ie did you write it, and
+>> Eugene and Denis signed it off ? If so, the tags are in the wrong order.
+> 
+> I'm not sure I follow. I have helped Denis with the code and according to
+> Submitting Patches documentation the order should be chronological with the
+> main author to be first in the list. Here the committer (submitter) is the
+> same as the original author IIUC. (I can't speak for Eugene, though)
+> 
 
-In order to support higher vcpu numbers for guests without generally
-increasing the memory consumption of guests on the host especially on
-very large systems add a boot parameter for specifying the number of
-allowed vcpus for guests.
+I got the patch from Denis. At the very least, Denis' signature should be
+last. It is first.
 
-The default will still be the current setting of 1024. The value 0 has
-the special meaning to limit the number of possible vcpus to the
-number of possible cpus of the host.
+Guenter
 
-Signed-off-by: Juergen Gross <jgross@suse.com>
----
-V3:
-- rebase
----
- Documentation/admin-guide/kernel-parameters.txt | 7 +++++++
- arch/x86/include/asm/kvm_host.h                 | 5 ++++-
- arch/x86/kvm/x86.c                              | 9 ++++++++-
- 3 files changed, 19 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index e269c3f66ba4..409a72c2d91b 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2445,6 +2445,13 @@
- 			feature (tagged TLBs) on capable Intel chips.
- 			Default is 1 (enabled)
- 
-+	kvm.max_vcpus=	[KVM,X86] Set the maximum allowed numbers of vcpus per
-+			guest. The special value 0 sets the limit to the number
-+			of physical cpus possible on the host (including not
-+			yet hotplugged cpus). Higher values will result in
-+			slightly higher memory consumption per guest.
-+			Default: 1024
-+
- 	kvm.vcpu_id_add_bits=
- 			[KVM,X86] The vcpu-ids of guests are sparse, as they
- 			are constructed by bit-wise concatenation of the ids of
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index 8ea03ff01c45..8566e278ca91 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -38,7 +38,8 @@
- 
- #define __KVM_HAVE_ARCH_VCPU_DEBUGFS
- 
--#define KVM_MAX_VCPUS 1024U
-+#define KVM_DEFAULT_MAX_VCPUS 1024U
-+#define KVM_MAX_VCPUS max_vcpus
- #define KVM_MAX_HYPERV_VCPUS 1024U
- #define KVM_MAX_VCPU_IDS kvm_max_vcpu_ids()
- /* memory slots that are not exposed to userspace */
-@@ -1611,6 +1612,8 @@ extern u64  kvm_max_tsc_scaling_ratio;
- extern u64  kvm_default_tsc_scaling_ratio;
- /* bus lock detection supported? */
- extern bool kvm_has_bus_lock_exit;
-+/* maximum number of vcpus per guest */
-+extern unsigned int max_vcpus;
- /* maximum vcpu-id */
- unsigned int kvm_max_vcpu_ids(void);
- 
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index a388acdc5eb0..3571ea34135b 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -190,9 +190,13 @@ module_param(pi_inject_timer, bint, S_IRUGO | S_IWUSR);
- static int __read_mostly vcpu_id_add_bits = 2;
- module_param(vcpu_id_add_bits, int, S_IRUGO);
- 
-+unsigned int __read_mostly max_vcpus = KVM_DEFAULT_MAX_VCPUS;
-+module_param(max_vcpus, uint, S_IRUGO);
-+EXPORT_SYMBOL_GPL(max_vcpus);
-+
- unsigned int kvm_max_vcpu_ids(void)
- {
--	int n_bits = fls(KVM_MAX_VCPUS - 1);
-+	int n_bits = fls(max_vcpus - 1);
- 
- 	if (vcpu_id_add_bits < -1 || vcpu_id_add_bits > (32 - n_bits)) {
- 		pr_err("Invalid value of vcpu_id_add_bits=%d parameter!\n",
-@@ -11251,6 +11255,9 @@ int kvm_arch_hardware_setup(void *opaque)
- 	if (boot_cpu_has(X86_FEATURE_XSAVES))
- 		rdmsrl(MSR_IA32_XSS, host_xss);
- 
-+	if (max_vcpus == 0)
-+		max_vcpus = num_possible_cpus();
-+
- 	kvm_pcpu_vcpu_mask = __alloc_percpu(KVM_VCPU_MASK_SZ,
- 					    sizeof(unsigned long));
- 	if (!kvm_pcpu_vcpu_mask) {
--- 
-2.26.2
+>> On the other side, if the code is ultimately from Denis, with your input,
+>> the tags should be either Acked-by: or Reviewed-by: for both Eugene
+>> and yourself.
+> 
+> I'm fine with either Co-developed-by+SoB or Reviewed-by.
+> 
+>> Note that v11 of this patch series is missing from
+>> https://patchwork.kernel.org/project/linux-hwmon/list/
+>> for some reason.
+> 
+> Hmm... Denis, please check locally how you prepare your patches.
+> 
+> 
 
