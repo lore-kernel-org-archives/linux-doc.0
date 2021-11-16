@@ -2,83 +2,133 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B09EC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 10:12:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF536C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 10:38:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 61DEE61AE3
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 10:12:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CF9B860F38
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 10:38:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233845AbhKPKPJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Nov 2021 05:15:09 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42220 "EHLO mail.kernel.org"
+        id S234190AbhKPKlo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Nov 2021 05:41:44 -0500
+Received: from mga01.intel.com ([192.55.52.88]:12433 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233869AbhKPKOt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 16 Nov 2021 05:14:49 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E57A26187F;
-        Tue, 16 Nov 2021 10:11:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1637057512;
-        bh=PfADZY/p3JqYuaRUK9dg8fuh6I4K/kUrlJWAr+qv9Aw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lzoIyIpbNKLj45yhnUIxQT2nm1rj7G63vFjn/W1rcuCXPXR91ceS3WOOdM2blZVe5
-         EeQ2+WUsSad0OOiNb7h43HaxImiPfbDX1soAaTueFchYf4N2dQ6xz5Gp6G8qatxVrY
-         KMSPYlMQnwLQ698UZx9Ju9Ggd/3fM7yMHsJHaotWUu931jsyxYIeQTFV9L9Cf1BEL8
-         xvOF/tSk2ske5ompc4AqcP7k70MmAreeKGYiY9t2Er6ZbLtZlJgExFINM//M4EcrbM
-         l/I1pJy7aXzY8QhIDbN6vhZnmz4NgyqVMSAcGuJlgzKFN2KZ/BWlqBNCgaf0W4BPBw
-         9+f+BdqmT+txQ==
-Date:   Tue, 16 Nov 2021 10:11:47 +0000
-From:   Will Deacon <will@kernel.org>
-To:     Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        chinwen.chang@mediatek.com, nicholas.tang@mediatek.com,
-        james.hsu@mediatek.com, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, mark.rutland@arm.com
-Subject: Re: [PATCH] arm64: update compiler option for PAC
-Message-ID: <20211116101147.GB9851@willie-the-truck>
-References: <20211115031810.29701-1-Kuan-Ying.Lee@mediatek.com>
+        id S234039AbhKPKlo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Nov 2021 05:41:44 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10169"; a="257422426"
+X-IronPort-AV: E=Sophos;i="5.87,238,1631602800"; 
+   d="scan'208";a="257422426"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2021 02:38:47 -0800
+X-IronPort-AV: E=Sophos;i="5.87,238,1631602800"; 
+   d="scan'208";a="592571817"
+Received: from smile.fi.intel.com ([10.237.72.184])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2021 02:38:44 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andy.shevchenko@gmail.com>)
+        id 1mmvrI-007O8b-IQ;
+        Tue, 16 Nov 2021 12:38:36 +0200
+Date:   Tue, 16 Nov 2021 12:38:36 +0200
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Denis Pauk <pauk.denis@gmail.com>,
+        Eugene Shalygin <eugene.shalygin@gmail.com>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        thomas@weissschuh.net, Ed Brindley <kernel@maidavale.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v11 0/2] Update ASUS WMI supported boards
+Message-ID: <YZOKLDg582dQPzVN@smile.fi.intel.com>
+References: <20211115210842.11972-1-pauk.denis@gmail.com>
+ <CAHp75VcPHi1XyZr=CFbUhiUXK0q-10iBx5U3d==aG8pMG27k1Q@mail.gmail.com>
+ <c016d0ca-b8b1-fb06-50f3-06a7b1c4aaea@roeck-us.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211115031810.29701-1-Kuan-Ying.Lee@mediatek.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <c016d0ca-b8b1-fb06-50f3-06a7b1c4aaea@roeck-us.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 15, 2021 at 11:18:08AM +0800, Kuan-Ying Lee wrote:
-> We pass -mbranch-protection=pac-ret+leaf to support PAC
-> when we use GCC 9 or later.
+On Mon, Nov 15, 2021 at 03:15:39PM -0800, Guenter Roeck wrote:
+> On 11/15/21 2:01 PM, Andy Shevchenko wrote:
+> > On Mon, Nov 15, 2021 at 11:09 PM Denis Pauk <pauk.denis@gmail.com> wrote:
+> > > 
+> > > Add support by WMI interface provided by Asus for B550/X570 boards:
+> > > * PRIME X570-PRO,
+> > > * ROG CROSSHAIR VIII HERO
+> > > * ROG CROSSHAIR VIII DARK HERO
+> > > * ROG CROSSHAIR VIII FORMULA
+> > > * ROG STRIX X570-E GAMING
+> > > * ROG STRIX B550-I GAMING
+> > > * ROG STRIX B550-E GAMING
+> > > 
+> > > Add support by WMI interface provided by Asus for X370/X470/
+> > > B450/X399 boards:
+> > > * ROG CROSSHAIR VI HERO,
+> > > * PRIME X399-A,
+> > > * PRIME X470-PRO,
+> > > * ROG CROSSHAIR VI EXTREME,
+> > > * ROG CROSSHAIR VI HERO (WI-FI AC),
+> > > * ROG CROSSHAIR VII HERO,
+> > > * ROG CROSSHAIR VII HERO (WI-FI),
+> > > * ROG STRIX Z390-F GAMING
+> > > * ROG STRIX B450-E GAMING,
+> > > * ROG STRIX B450-F GAMING,
+> > > * ROG STRIX B450-I GAMING,
+> > > * ROG STRIX X399-E GAMING,
+> > > * ROG STRIX X470-F GAMING,
+> > > * ROG STRIX X470-I GAMING,
+> > > * ROG ZENITH EXTREME,
+> > > * ROG ZENITH EXTREME ALPHA.
+> > > 
+> > > I have added "ROG STRIX Z390-F GAMING" to list of supported boards in
+> > > asus_wmi_sensors.
+> > 
+> > Guenter, what is your plan about this patch series? It seems it
+> > missed, by unknown (?) reason, the v5.16-rc1 (I remember seeing it in
+> > some of your tree branches at some point).
+> > 
 > 
-> Before GCC 9, we pass -msign-return-address=all to support
-> PAC.
-> 
-> Signed-off-by: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
-> ---
->  Documentation/arm64/pointer-authentication.rst | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/arm64/pointer-authentication.rst b/Documentation/arm64/pointer-authentication.rst
-> index f127666ea3a8..055d08b0d42d 100644
-> --- a/Documentation/arm64/pointer-authentication.rst
-> +++ b/Documentation/arm64/pointer-authentication.rst
-> @@ -54,8 +54,10 @@ virtual address size configured by the kernel. For example, with a
->  virtual address size of 48, the PAC is 7 bits wide.
->  
->  Recent versions of GCC can compile code with APIAKey-based return
-> -address protection when passed the -msign-return-address option. This
-> -uses instructions in the HINT space (unless -march=armv8.3-a or higher
-> +address protection when passed compiler option as following.
-> +Pass -msign-return-address when we use GCC 7, 8.
-> +Pass -mbranch-protection when we use GCC 9 or later.
-> +This uses instructions in the HINT space (unless -march=armv8.3-a or higher
->  is also passed), and such code can run on systems without the pointer
->  authentication extension.
+> I don't see it in my record. Earlier I was simply waiting for some
+> Reviewed-by: tags, which I have never seen.
 
-I think I'd be more inclined to delete this paragraph altogether. It doesn't
-really document anything to do with the kernel, and trying to document the
-behaviour of "recent" versions of GCC is futile.
+Ah, understood. Thank you for clarifications.
 
-Will
+> Looking into the commit log,
+> I do see:
+> 
+> Signed-off-by: Denis Pauk <pauk.denis@gmail.com>
+> Co-developed-by: Eugene Shalygin <eugene.shalygin@gmail.com>
+> Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
+> Co-developed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> 
+> Did you and Eugene indeed sign this off, ie did you write it, and
+> Eugene and Denis signed it off ? If so, the tags are in the wrong order.
+
+I'm not sure I follow. I have helped Denis with the code and according to
+Submitting Patches documentation the order should be chronological with the
+main author to be first in the list. Here the committer (submitter) is the
+same as the original author IIUC. (I can't speak for Eugene, though)
+
+> On the other side, if the code is ultimately from Denis, with your input,
+> the tags should be either Acked-by: or Reviewed-by: for both Eugene
+> and yourself.
+
+I'm fine with either Co-developed-by+SoB or Reviewed-by.
+
+> Note that v11 of this patch series is missing from
+> https://patchwork.kernel.org/project/linux-hwmon/list/
+> for some reason.
+
+Hmm... Denis, please check locally how you prepare your patches.
+
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
