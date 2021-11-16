@@ -2,102 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A120EC43217
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 11:26:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20B9DC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 12:11:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 86525619E8
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 11:26:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 024D2615E2
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 12:11:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234579AbhKPL3r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Nov 2021 06:29:47 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28]:49714 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235004AbhKPL3P (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Nov 2021 06:29:15 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 8EADD212B7;
-        Tue, 16 Nov 2021 11:26:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1637061977; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=5+gUcs/tjKbbk/7yjyhx4CtVWFpBne6sQR2PGyQ6344=;
-        b=ML6kzvf86bM4nnzWKFtNChdojDg87P2IrQwJmzvErHw1YCxQyy1sWz1UOQc4HC82R3OD5e
-        Y+NB9wEzQBFUNOZMjoxFNPH5cdNt+LOhsNzGjcH+CZSrbNgs2+ka8GqfMgb6D9XpsLiTXW
-        7qXbuQhrROM9fivT6OxNZc73SJdaEW0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1637061977;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=5+gUcs/tjKbbk/7yjyhx4CtVWFpBne6sQR2PGyQ6344=;
-        b=bq5Owu98dWYzz0faNGWzKmuJajz1+tkAdQOg4tXKeWJeakdNKIV0+MZWkxmVPrDSBtBoxW
-        DdcgfvYNOLswnpCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5648813C01;
-        Tue, 16 Nov 2021 11:26:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id nkATFFmVk2F1QwAAMHmgww
-        (envelope-from <vbabka@suse.cz>); Tue, 16 Nov 2021 11:26:17 +0000
-Message-ID: <037227db-c869-7d9c-65e8-8f5f8682171d@suse.cz>
-Date:   Tue, 16 Nov 2021 12:26:17 +0100
+        id S235882AbhKPMO3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Nov 2021 07:14:29 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50822 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235896AbhKPMOX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Nov 2021 07:14:23 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C1B8E61B3D;
+        Tue, 16 Nov 2021 12:11:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1637064686;
+        bh=3+EhTIUfEc1VH5uixDDqkGJAXlgO8/E7oFMAmXUNQ6A=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=DmnXcSw9GafJu8rPcR4xfJLerj1gz+Rba+SEKfcRsQzFDSmst402cDzZrmRUEGzKu
+         g0HKln+6+jyGF8TUs762ev+JMnwLVIb/fncr7kcZg3NS/BMFCjuC4MbI3g/wrNCSLG
+         rbS7yQhmYvDiU3KuXHyJm0i9DWJd7DYjYGK2UBLZ3UpmlFmvYtlIJOG6/EFO3/vlgl
+         q7UvoKl1TrF8njc18EmjAD2QhU4s1n3xlRIs0Ll99ifsffp8c56e0ceCkUuYYmGQYu
+         4xkwm0DYrLeGgT528VRMa9Az2WCpg9RzM6V1n88ojwBNm2+G9Y+QRsBuNMnPJGYIyg
+         wWFua4dJFgYwA==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1mmxJ6-00A9La-Cv; Tue, 16 Nov 2021 12:11:24 +0000
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Hannu Hartikainen <hannu@hrtk.in>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 4/4] Documentation/process: fix a cross reference
+Date:   Tue, 16 Nov 2021 12:11:23 +0000
+Message-Id: <f03c43389f024751e1056c54e240bef64ac4b2ed.1637064577.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.33.1
+In-Reply-To: <cover.1637064577.git.mchehab+huawei@kernel.org>
+References: <cover.1637064577.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v3] slob: add size header to all allocations
-Content-Language: en-US
-To:     Rustam Kovhaev <rkovhaev@gmail.com>, cl@linux.com,
-        penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
-        akpm@linux-foundation.org, corbet@lwn.net
-Cc:     djwong@kernel.org, david@fromorbit.com,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
-        viro@zeniv.linux.org.uk, dvyukov@google.com
-References: <be7ee3a6-9b3c-b436-f042-82bd3c416acc@suse.cz>
- <20211029030534.3847165-1-rkovhaev@gmail.com>
-From:   Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <20211029030534.3847165-1-rkovhaev@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/29/21 05:05, Rustam Kovhaev wrote:
-> Let's prepend both kmalloc() and kmem_cache_alloc() allocations with the
-> size header.
-> It simplifies the slab API and guarantees that both kmem_cache_alloc()
-> and kmalloc() memory could be freed by kfree().
-> 
-> meminfo right after the system boot, x86-64 on xfs, without the patch:
-> Slab:              35456 kB
-> 
-> the same, with the patch:
-> Slab:              36100 kB
-> 
-> Link: https://lore.kernel.org/lkml/20210929212347.1139666-1-rkovhaev@gmail.com
-> Signed-off-by: Rustam Kovhaev <rkovhaev@gmail.com>
+The cross-reference for the handbooks section works. However, it is
+meant to describe the path inside the Kernel's doc where the section
+is, but there's an space instead of a dash, plus it lacks the .rst at
+the end, which makes:
 
-Sorry for the late reply. I think we can further simplify this. We have:
+	./scripts/documentation-file-ref-check
 
-static void *slob_alloc(size_t size, gfp_t gfp, int align,
-			int node, int align_offset)
+to complain.
 
-Previously there was one caller that passed size as unchanged, align_offset
-= 0, the other passed size + SLOB_HDR_SIZE, align_offset = SLOB_HDR_SIZE.
-Now both callers do the latter. We can drop the align_offset parameter and
-pass size unchanged. slob_alloc() can internally add SLOB_HDR_SIZE to size,
-and use SLOB_HDR_SIZE instead of align_offset.
+Fixes: 604370e106cc ("Documentation/process: Add maintainer handbooks section")
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
 
-Thanks,
-Vlastimil
+To mailbombing on a large number of people, only mailing lists were C/C on the cover.
+See [PATCH 0/4] at: https://lore.kernel.org/all/cover.1637064577.git.mchehab+huawei@kernel.org/
+
+ Documentation/process/submitting-patches.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index a0cc96923ea7..da085d63af9b 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -22,8 +22,8 @@ use it, it will make your life as a kernel developer and in general much
+ easier.
+ 
+ Some subsystems and maintainer trees have additional information about
+-their workflow and expectations, see :ref:`Documentation/process/maintainer
+-handbooks <maintainer_handbooks_main>`.
++their workflow and expectations, see
++:ref:`Documentation/process/maintainer-handbooks.rst <maintainer_handbooks_main>`.
+ 
+ Obtain a current source tree
+ ----------------------------
+-- 
+2.33.1
 
