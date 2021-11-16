@@ -2,113 +2,134 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75D18C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 05:19:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AC82C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 05:38:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 51D0A60F6E
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 05:19:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4DAD561AF0
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 05:38:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233428AbhKPFWd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Nov 2021 00:22:33 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42120 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233403AbhKPFWF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 16 Nov 2021 00:22:05 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E471E60F6E;
-        Tue, 16 Nov 2021 05:19:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1637039948;
-        bh=0+h5I2fETKUh6GKu9bzTHSm7jqJYMvkVoBdFhY2URtE=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=jg2HkZELTf65WPyR611JRctoeh08n8+NPdKweeTf7PMvxNchHTMDvWsc/5jZuQ/5i
-         ZSHaM85TcRKSIWfX3oRQ5tTjfXwlBiVW017CXWo1I5M5IFi8nFXpWqtUBuoxXzgx65
-         HJ94E1llTJD5T6zTl3FoH9Z3y20PLI77DAK7rqnM=
-Date:   Mon, 15 Nov 2021 21:19:05 -0800
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     Colin Cross <ccross@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Kalesh Singh <kaleshsingh@google.com>,
-        Peter Xu <peterx@redhat.com>, rppt@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        vincenzo.frascino@arm.com,
-        Chinwen Chang (=?UTF-8?Q?=E5=BC=B5=E9=8C=A6?= =?UTF-8?Q?=E6=96=87?=) 
-        <chinwen.chang@mediatek.com>,
-        Axel Rasmussen <axelrasmussen@google.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Jann Horn <jannh@google.com>, apopple@nvidia.com,
-        John Hubbard <jhubbard@nvidia.com>,
-        Yu Zhao <yuzhao@google.com>, Will Deacon <will@kernel.org>,
-        fenghua.yu@intel.com, thunder.leizhen@huawei.com,
-        Hugh Dickins <hughd@google.com>, feng.tang@intel.com,
-        Jason Gunthorpe <jgg@ziepe.ca>, Roman Gushchin <guro@fb.com>,
-        Thomas Gleixner <tglx@linutronix.de>, krisman@collabora.com,
-        Chris Hyser <chris.hyser@oracle.com>,
-        Peter Collingbourne <pcc@google.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Jens Axboe <axboe@kernel.dk>, legion@kernel.org,
-        Rolf Eike Beer <eb@emlix.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Thomas Cedeno <thomascedeno@google.com>, sashal@kernel.org,
-        cxfcosmos@gmail.com, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm <linux-mm@kvack.org>,
-        kernel-team <kernel-team@android.com>
-Subject: Re: [PATCH v11 2/3] mm: add a field to store names for private
- anonymous memory
-Message-Id: <20211115211905.faef6f9db3ce4a6fb9ed66a2@linux-foundation.org>
-In-Reply-To: <CAJuCfpGG-j00eDL8p3vNDh4ye2Ja4untoA20UdTkTubm3AfMEQ@mail.gmail.com>
-References: <20211019215511.3771969-1-surenb@google.com>
-        <20211019215511.3771969-2-surenb@google.com>
-        <CAJuCfpGG-j00eDL8p3vNDh4ye2Ja4untoA20UdTkTubm3AfMEQ@mail.gmail.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+        id S235429AbhKPFlf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Nov 2021 00:41:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58424 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235364AbhKPFlK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Nov 2021 00:41:10 -0500
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79A0FC0EC8E1;
+        Mon, 15 Nov 2021 18:58:40 -0800 (PST)
+Received: by mail-pf1-x432.google.com with SMTP id x131so16748959pfc.12;
+        Mon, 15 Nov 2021 18:58:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=7xJyceCwnTp5WWpRcEMQwaxzznJ9LbCDIFxPGA0GsOU=;
+        b=O6HqemF+hZLRFMRVLyLsvbXNxHXQ92M95vr8nVPUBSLL9JrTeFM4wYJAfWFjDgroKS
+         RPqOnf1OyTGxSqZMhoLhH99F6rnjUc4ok9JBWx8Pj83/r23bWeb3ZSAzJiH0LIFysUcU
+         1ZPjZ2lRKapGLTZmbnFMrFdOFkdk3Mjyr0TKpScFvA/+fHhnNvgz65xBhZSIaPqyXOJU
+         5I4djq734KyGA6STUfstxj/3F7w0ivk7GankPRWEzW8tHOLdHVgHgHGITeLMwErERXCH
+         g6hP4yUW6j0Im6VK67Wi+71zXkmv7WVgjMDsF8kTX7BkM0tdCoLzY4GVjKuc02Z4OHr0
+         8lSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=7xJyceCwnTp5WWpRcEMQwaxzznJ9LbCDIFxPGA0GsOU=;
+        b=IaADv3KApyjUiYZAEWNrGa5cbAoSUaw1KMAv84jVdM0KaBDFmIs0OJJ1/g7xlMXmED
+         I+nmhJ5uoNDDL3C/UXDzK+b5WtK9V3fWHC0yv/73Cykq4xMYwG5hwdRkx8EW7jwZ0hNR
+         Kpi4Rxcvd2OPv0Vc6br+3Wn2Ad2xaZD3MX80bu0zMixZfEmtRwjO6sXP52uj4wVRxmHx
+         ZcdZI86ZCcZIB3C7bqG/0N3Ndsqge8wPv/3ALtHKltqN55FjIIlLQtSLs0DZvXnka/8Z
+         bKNKlaDgmD8q1CBfPtRfS+Rpo+nSqahFJFVu1bMtAjc7AYUrBvzrqcs2ESufiOCIujvA
+         APeg==
+X-Gm-Message-State: AOAM530GCKRXNCaOpYDlOx9PycFly/hnwkwxOIeaXEfcEfcw+YFaWmVO
+        4AaA3rgp7BWQ1UY0cs6IzhDN/xGVUUE=
+X-Google-Smtp-Source: ABdhPJylo814/wyoZJZmJWUBYOtJ1heHX8jvPHhnHVMuPyrf//yoad0eMoYVtYDaGjuNzfPEEQ5mfQ==
+X-Received: by 2002:aa7:8717:0:b0:4a2:967c:96b with SMTP id b23-20020aa78717000000b004a2967c096bmr19158419pfo.14.1637031520058;
+        Mon, 15 Nov 2021 18:58:40 -0800 (PST)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id mu4sm632768pjb.8.2021.11.15.18.58.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Nov 2021 18:58:39 -0800 (PST)
+Subject: Re: [PATCH] docs: Update Sphinx requirements
+From:   Akira Yokosawa <akiyks@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Federico Vaga <federico.vaga@vaga.pv.it>,
+        Alex Shi <alexs@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <2c704ddd-2da2-138b-4928-890e92b66f9f@gmail.com>
+ <875ystn40s.fsf@meer.lwn.net>
+ <550fe790-b18d-f882-4c70-477b596facc7@gmail.com>
+Message-ID: <e75633f9-3228-dd8f-d8d1-42f8b8046c9e@gmail.com>
+Date:   Tue, 16 Nov 2021 11:58:36 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+MIME-Version: 1.0
+In-Reply-To: <550fe790-b18d-f882-4c70-477b596facc7@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 19 Oct 2021 14:58:36 -0700 Suren Baghdasaryan <surenb@google.com> wrote:
+On Tue, 16 Nov 2021 10:37:31 +0900
+Akira Yokosawa wrote:
+> On Mon, 15 Nov 2021 02:48:19 -0700
+> Jonathan Corbet wrote:
+>> Akira Yokosawa <akiyks@gmail.com> writes:
+>>
+>>> Subject: [PATCH] docs: Update Sphinx requirements
+>>>
+>>> Commit f546ff0c0c07 ("Move our minimum Sphinx version to 1.7") raised
+>>> the minimum version to 1.7.
+>>>
+>>> For pdfdocs, sphinx_pre_install says:
+>>>
+>>>     note: If you want pdf, you need at least Sphinx 2.4.4.
+>>>
+>>> , and current requirements.txt installs Sphinx 2.4.4.
+>>>
+>>> Update Sphinx versions mentioned in docs and remove a note on earlier
+>>> Sphinx versions.
+>>
+>> It may be time to consider raising the minimum sphinx version
+>> overall...
+> 
+> There is one thing we need to address (you might well be aware of).
+> 
+> Our Documentation/conf.py is not compatible for hrmldocs with
+> the combination sphinx_rtd_theme 1.0.0 and Sphinx >= 3.0.
+> This issue is the same as the one reported at:
+>     https://github.com/readthedocs/sphinx_rtd_theme/issues/1240
+>     "No stylesheet after upgrading to 1.0.0"
+> 
+> I tried the fix suggested there (html_css_files option),
+> and a stylesheet can be generated.
+> But the resulting html pages look quite different from the one
+> you see at https://www.kernel.org/doc/html/latest/ with the sans
+> font for text and distracting look of monospaced strings.
+> 
+> You can see a screenshot of such a page at
+>     https://fars.ee/nkkZ
 
-> As Andrew suggested, I checked the image sizes with allnoconfig builds:
-> 
-> unpatched Linus' ToT
->    text    data     bss     dec     hex filename
-> 1324759      32   73928 1398719 1557bf vmlinux
-> 
-> After the first patch is applied (madvise refactoring)
->    text    data     bss     dec     hex filename
-> 1322346      32   73928 1396306 154e52 vmlinux
-> >>> 2413 bytes decrease vs ToT <<<
-> 
-> After all patches applied with CONFIG_ANON_VMA_NAME=n
->    text    data     bss     dec     hex filename
-> 1322337      32   73928 1396297 154e49 vmlinux
-> >>> 2422 bytes decrease vs ToT <<<
-> 
-> After all patches applied with CONFIG_ANON_VMA_NAME=y
->    text    data     bss     dec     hex filename
-> 1325228      32   73928 1399188 155994 vmlinux
-> >>> 469 bytes increase vs ToT <<<
+Having looked at https://sphinx-themes.org/sample-sites/sphinx-rtd-theme/,
+I'm wondering if the screenshot above is exactly what you'd
+expect by using the theme in the first place.
 
-Nice.  Presumably there are memory savings from no longer duplicating
-the vma names?
+Hmm??
 
-I fudged up a [0/n] changelog (please don't forget this) and merged it
-all for testing.
+        Thanks, Akira
+
+> 
+> I guess there should be some knobs of Sphinx for customizing
+> the style, but have not figured them out.
+> 
+> Thoughts?
+> 
+>         Thanks, Akira
+> 
+>>              meanwhile, though, I've applied this, thanks. 
+>>
+>> jon
+>>
