@@ -2,89 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43F75C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 12:11:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 903FCC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 12:16:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2856B61B3F
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 12:11:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6FF4361B44
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 12:16:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234594AbhKPMOi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Nov 2021 07:14:38 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50864 "EHLO mail.kernel.org"
+        id S234325AbhKPMTY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Nov 2021 07:19:24 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52578 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234468AbhKPMOX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 16 Nov 2021 07:14:23 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DD9C861B44;
-        Tue, 16 Nov 2021 12:11:26 +0000 (UTC)
+        id S232525AbhKPMTY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Nov 2021 07:19:24 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4D50E61B3D;
+        Tue, 16 Nov 2021 12:16:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1637064686;
-        bh=WLAAKJcCW/GrnGEfZiGrJFuEjwCJ0ZeSMJCGY1qmQAQ=;
+        s=k20201202; t=1637064987;
+        bh=fL8h2bzFQrA0lzfVmaVp8ZfiSOqe5iddtVdo/Hfxxhg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cbRYB8HqwIhclLp0dUm/ThDhGgLIYx8diFTDjxRJRDKFxhavM7rIB7UDGijmF3UEw
-         jfyWcaNHaVVGiiVno3w5n/SOb2bib/xcLKqm9+tO9Wz1px0V3hhQe/5Zsw29dMS4J1
-         djakfiWrpM2OXzjFfbFZkPPmDyJQ9293iPG1dGoyMGsenX0E1VwF1IKGETJZ+BHiHp
-         bpp+KffLRMn4dVFoOwgkKd6es2zNP6/NkKW5b/Zk627487T/6YyOKp8R8pPKCOLQ99
-         BOxowcxEVK36oLWV6+U/SEwMz09lwOnCSc5HigNv5eMPPBSogTzs8Jne5bVlLOVEL1
-         hzZh2ce337K4A==
+        b=ktFhykgHXRSnzl+F39TxO6efdXnEY7eBj7yl936Q1RBNAYDJkf7H9D2PpdlVe5EON
+         vMGSeS0zoy04zcffXj0akUKcaUx8QUt/BDTyi2xIf5syOqkNVMFK4vbJZ5g1C0ik4N
+         Tmdp0qtnQeGlrzEsr7KODqsIJCdlyDPQ1Rq2/gO9QN5iHqz2F3H21vzN8hps26+bkp
+         5NKI+mLaNO7F1UQyeP60QCKO2qX7E06tSFIZ9acQQJzAAPqz+ohB6tmvT5TpVuwFSq
+         X++9vsRhK3gMsdYdmKGXI3Bnk1NGL9sgYYp7A+Y+cm0kbNbhmGj8P/JUfB4oSGkSyD
+         B8flTPbyCI4+Q==
 Received: by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1mmxJ6-00A9LR-B5; Tue, 16 Nov 2021 12:11:24 +0000
+        id 1mmxNw-00A9Pu-Pr; Tue, 16 Nov 2021 12:16:24 +0000
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
+        Andrew Morton <akpm@linux-foundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Grant Seltzer <grantseltzer@gmail.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH 1/4] libbpf: update index.rst reference
-Date:   Tue, 16 Nov 2021 12:11:20 +0000
-Message-Id: <85ad6cfa0447f2e3309f709f6a9ffb00b9cbeb55.1637064577.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>,
+        David Kershner <david.kershner@unisys.com>,
+        linux-kernel@vger.kernel.org, sparmaintainer@unisys.com
+Subject: [PATCH v3 RESEND 1/1] visorbus: fix a copyright symbol that was bad encoded
+Date:   Tue, 16 Nov 2021 12:16:23 +0000
+Message-Id: <e83ef078c5235de38da07859e8cc0b39236b2cf3.1637064818.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.33.1
-In-Reply-To: <cover.1637064577.git.mchehab+huawei@kernel.org>
-References: <cover.1637064577.git.mchehab+huawei@kernel.org>
+In-Reply-To: <cover.1637064818.git.mchehab+huawei@kernel.org>
+References: <cover.1637064818.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset d20b41115ad5 ("libbpf: Rename libbpf documentation index file")
-renamed: Documentation/bpf/libbpf/libbpf.rst
-to: Documentation/bpf/libbpf/index.rst.
+The copyright symbol was badly encoded using the
+REPLACEMENT CHARACTER U+fffd ('�'), probably due to some
+bad charset conversion.
 
-Update its cross-reference accordingly.
+Fix it.
 
-Fixes: d20b41115ad5 ("libbpf: Rename libbpf documentation index file")
-Acked-by: Andrii Nakryiko <andrii@kernel.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
 
 To mailbombing on a large number of people, only mailing lists were C/C on the cover.
-See [PATCH 0/4] at: https://lore.kernel.org/all/cover.1637064577.git.mchehab+huawei@kernel.org/
+See [PATCH v3 RESEND 0/1] at: https://lore.kernel.org/all/cover.1637064818.git.mchehab+huawei@kernel.org/
 
- Documentation/bpf/index.rst | 2 +-
+ drivers/visorbus/visorbus_main.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/bpf/index.rst b/Documentation/bpf/index.rst
-index 37f273a7e8b6..610450f59e05 100644
---- a/Documentation/bpf/index.rst
-+++ b/Documentation/bpf/index.rst
-@@ -15,7 +15,7 @@ that goes into great technical depth about the BPF Architecture.
- libbpf
- ======
+diff --git a/drivers/visorbus/visorbus_main.c b/drivers/visorbus/visorbus_main.c
+index 152fd29f04f2..0aa4cff670dc 100644
+--- a/drivers/visorbus/visorbus_main.c
++++ b/drivers/visorbus/visorbus_main.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /*
+- * Copyright � 2010 - 2015 UNISYS CORPORATION
++ * Copyright © 2010 - 2015 UNISYS CORPORATION
+  * All rights reserved.
+  */
  
--Documentation/bpf/libbpf/libbpf.rst is a userspace library for loading and interacting with bpf programs.
-+Documentation/bpf/libbpf/index.rst is a userspace library for loading and interacting with bpf programs.
- 
- BPF Type Format (BTF)
- =====================
 -- 
 2.33.1
 
