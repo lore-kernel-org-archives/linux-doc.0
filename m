@@ -2,161 +2,138 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 319F9C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 15:28:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 108F5C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 16:29:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 05B9961BF9
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 15:28:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EEC4060F9C
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 16:29:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238250AbhKPPbD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Nov 2021 10:31:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53436 "EHLO
+        id S231367AbhKPQcU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Nov 2021 11:32:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238210AbhKPPbB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Nov 2021 10:31:01 -0500
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 538E0C061746;
-        Tue, 16 Nov 2021 07:28:04 -0800 (PST)
-Received: by mail-ed1-x52c.google.com with SMTP id m20so43751933edc.5;
-        Tue, 16 Nov 2021 07:28:04 -0800 (PST)
+        with ESMTP id S232505AbhKPQcU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Nov 2021 11:32:20 -0500
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDD8CC061764
+        for <linux-doc@vger.kernel.org>; Tue, 16 Nov 2021 08:29:22 -0800 (PST)
+Received: by mail-yb1-xb2d.google.com with SMTP id q74so59185894ybq.11
+        for <linux-doc@vger.kernel.org>; Tue, 16 Nov 2021 08:29:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=dIxAulZGhe8FSNRDbe6lspOQRntq7iKkrQ7YJUamTrE=;
-        b=H2dRB1tmub7FmqAf+2gPesNCCZvWpw4VPXLBEH3IyZufX087WhaOzcQvx9RRB5dhz8
-         jm6a7eG+nG58ciNzZzcPOfWA0ldnPB0I9tKH+QyF53WjqVdp3xX/anon2r3lFAH1aCat
-         Mt+VG1xt5lk/tKcbkTPTkXay5sSImHyFtoPEnvpKNIoAonqxJ8v7uYvZpYISw9RQzkwx
-         OjUHaA9/mMBNijIO+xXfMRx87bn/fq7zrY6bk8E1aNNbIK1xhR58qGmu0+8KioqVCvw2
-         gach2cQ3C1ns2QY93ng+KlhaApfHQ+Elj2e3sf93Ri5Gri9DhpWlXzFfLa8mnEghEni/
-         aEtw==
+        bh=Jo2z/sk4w5ET+TMNOU4Bv9tAqb0FTWbn//GMT837wWo=;
+        b=Bj3MQbYKuY2HSsvTHleRkzdz0dS4u/QQIFIQVLy6ihpEnMue9pCmiUT3ro8/eJQHui
+         uJYhXtGbAv55wIXPjWI9Dx/BKBAq3GHdtRIgBD3+smRb+wUDMLZJ1P9Thz2j+cPTOFlh
+         FWPlVw5XIFz1/w9V5JXJFshQsFFTfUq7/HoA3xZqUfmgZo+sEytywvzlOyQDoAB6jE+I
+         MLkxypGX8akOQxBMGvP7ZkMyuuldubtDbbwPASHgLgi0B3yrjwcMQpvGW2JQhRoj89UA
+         uR1JzkQhGJOOI5RYp+dthWzzbkZ2esiMcZgrTg/pS8atsHEt71SpMxHAgxIm4KK+XuG3
+         WrAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=dIxAulZGhe8FSNRDbe6lspOQRntq7iKkrQ7YJUamTrE=;
-        b=mrEzoK7yKUcba+sdbGKuYM8qLvhD0veQ1FOWNdfZeL3Cs1wWc2lAC+4047aXGzZ9R9
-         r4LP7HqJHZCSmgCh+F6hUebBaSC31kJezuDoFFN78b9l2O7UMZEnGJyEVCywpe/zg9rR
-         xABTK0ewx8/kapUCOos3GdZ9d8cWseNLY/c9sRXfjsxX9PPG0dU8hjloS6//jbqP/5id
-         EBrfnI2SHGRFwa2rnhqP0XwoMCmS90VpuSLtUytMBDW3MQoc3NmS0wEbGVz+V0JwlUp3
-         32wSq+EuzO7PL6FG1yLMyzYzdxXZMFFp/xRq1rbxrjUjuS4BpXJRsisxyxVvkyzT47ZT
-         RbsQ==
-X-Gm-Message-State: AOAM531i5W35lY8sSQWwzrQTPOr9qmp+O+uIGp8AKTEX7DoJrsdHxIbM
-        0rlogYrREghKjwV4uYoF7RJZ16Ox27zno4AOyWrbvPq+8kICOg==
-X-Google-Smtp-Source: ABdhPJxlCHMzmmqISOAsV2eJDLJviURmzDXeBzNZwNN8hZzEgPRRxrFwjjzdnsheotK2EQMxfb+RQN7ch3mo1H3A5O4=
-X-Received: by 2002:a17:907:60d0:: with SMTP id hv16mr10742076ejc.425.1637076482742;
- Tue, 16 Nov 2021 07:28:02 -0800 (PST)
+        bh=Jo2z/sk4w5ET+TMNOU4Bv9tAqb0FTWbn//GMT837wWo=;
+        b=yQk+pJUlWd5tmRFHSuIM5+lBMuaiNOU+OcV38sX0WhV/yKJ/2Q3QpLEU9U/zRd1iSk
+         UeNOm2QrgbP7qbPbAOG9LreoQUqwY5AIdJQ4uJRvmQ/rd+5cy7pQKTKCEN+iqtZIg+DZ
+         EBe5T5bxbYZ4nSDQlnSDFgw//GsFmxFnSANKE6WKLPb4oX77wO6Ge4LIHNk6yD1DI9vm
+         qmK8rB5uTlpxY/e/8pTPgteNm0dmJ+5qxQ20iZomHU1ldjWT9Ln4x+29Ht2jTX7W0kcB
+         1ymbu2SHV71RGGvH8agw7eQNtX3XvlEItoL5cxxhg8+SnwYnG2d5kFjbjczrhfMRBIiF
+         rqxg==
+X-Gm-Message-State: AOAM532JWstrC3DHUzkEVMw6uUqpVEGNwoz+97oMn7+wARVd483UrgBo
+        uxbvp6tbfWDtKZ3wTMkH/J2M9G4XEjXeW2RGNMjB0w==
+X-Google-Smtp-Source: ABdhPJyWGi9v6oZRY6+Aur7ihxhAeaLhwnzKpU43nXHE9UtzmOl9DYKed1QSbT413RMotAwHS4PAVJeWYYSOX5AUNN0=
+X-Received: by 2002:a25:2f58:: with SMTP id v85mr9626618ybv.487.1637080161720;
+ Tue, 16 Nov 2021 08:29:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20211115210842.11972-1-pauk.denis@gmail.com> <CAHp75VcPHi1XyZr=CFbUhiUXK0q-10iBx5U3d==aG8pMG27k1Q@mail.gmail.com>
- <c016d0ca-b8b1-fb06-50f3-06a7b1c4aaea@roeck-us.net> <YZOKLDg582dQPzVN@smile.fi.intel.com>
- <d2943033-e701-f719-5da6-c00dc431dff9@roeck-us.net>
-In-Reply-To: <d2943033-e701-f719-5da6-c00dc431dff9@roeck-us.net>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 16 Nov 2021 17:27:21 +0200
-Message-ID: <CAHp75Vdh+Fv_mV6VunzzndzXBONjbxMYKrii6We9Y+jD+NsYDQ@mail.gmail.com>
-Subject: Re: [PATCH v11 0/2] Update ASUS WMI supported boards
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Denis Pauk <pauk.denis@gmail.com>,
-        Eugene Shalygin <eugene.shalygin@gmail.com>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        thomas@weissschuh.net, Ed Brindley <kernel@maidavale.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20211019215511.3771969-1-surenb@google.com> <20211019215511.3771969-2-surenb@google.com>
+ <89664270-4B9F-45E0-AC0B-8A185ED1F531@google.com> <CAJuCfpE-fR+M_funJ4Kd+gMK9q0QHyOUD7YK0ES6En4y7E1tjg@mail.gmail.com>
+ <CAJuCfpHfnG8b4_RkkGhu+HveF-K_7o9UVGdToVuUCf-qD05Q4Q@mail.gmail.com>
+ <CAJuCfpEJuVyRfjEE-NTsVkdCZyd6P09gHu7c+tbZcipk+73rLA@mail.gmail.com> <YZN/BMImQqrK4MWm@dhcp22.suse.cz>
+In-Reply-To: <YZN/BMImQqrK4MWm@dhcp22.suse.cz>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Tue, 16 Nov 2021 08:29:10 -0800
+Message-ID: <CAJuCfpH6Cg=CDut_9vd3BcX6U_X0WR2tFkqKePLU7aPxFO0UDw@mail.gmail.com>
+Subject: Re: [PATCH v11 2/3] mm: add a field to store names for private
+ anonymous memory
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     akpm@linux-foundation.org, Alexey Alexandrov <aalexand@google.com>,
+        ccross@google.com, sumit.semwal@linaro.org, dave.hansen@intel.com,
+        keescook@chromium.org, willy@infradead.org,
+        kirill.shutemov@linux.intel.com, vbabka@suse.cz,
+        hannes@cmpxchg.org, corbet@lwn.net, viro@zeniv.linux.org.uk,
+        rdunlap@infradead.org, kaleshsingh@google.com, peterx@redhat.com,
+        rppt@kernel.org, peterz@infradead.org, catalin.marinas@arm.com,
+        vincenzo.frascino@arm.com, chinwen.chang@mediatek.com,
+        axelrasmussen@google.com, aarcange@redhat.com, jannh@google.com,
+        apopple@nvidia.com, jhubbard@nvidia.com, yuzhao@google.com,
+        will@kernel.org, fenghua.yu@intel.com, thunder.leizhen@huawei.com,
+        hughd@google.com, feng.tang@intel.com, jgg@ziepe.ca, guro@fb.com,
+        tglx@linutronix.de, krisman@collabora.com, chris.hyser@oracle.com,
+        pcc@google.com, ebiederm@xmission.com, axboe@kernel.dk,
+        legion@kernel.org, eb@emlix.com, gorcunov@gmail.com, pavel@ucw.cz,
+        songmuchun@bytedance.com, viresh.kumar@linaro.org,
+        thomascedeno@google.com, sashal@kernel.org, cxfcosmos@gmail.com,
+        linux@rasmusvillemoes.dk, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, kernel-team@android.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 16, 2021 at 4:32 PM Guenter Roeck <linux@roeck-us.net> wrote:
-> On 11/16/21 2:38 AM, Andy Shevchenko wrote:
-> > On Mon, Nov 15, 2021 at 03:15:39PM -0800, Guenter Roeck wrote:
-> >> On 11/15/21 2:01 PM, Andy Shevchenko wrote:
-> >>> On Mon, Nov 15, 2021 at 11:09 PM Denis Pauk <pauk.denis@gmail.com> wrote:
-> >>>>
-> >>>> Add support by WMI interface provided by Asus for B550/X570 boards:
-> >>>> * PRIME X570-PRO,
-> >>>> * ROG CROSSHAIR VIII HERO
-> >>>> * ROG CROSSHAIR VIII DARK HERO
-> >>>> * ROG CROSSHAIR VIII FORMULA
-> >>>> * ROG STRIX X570-E GAMING
-> >>>> * ROG STRIX B550-I GAMING
-> >>>> * ROG STRIX B550-E GAMING
-> >>>>
-> >>>> Add support by WMI interface provided by Asus for X370/X470/
-> >>>> B450/X399 boards:
-> >>>> * ROG CROSSHAIR VI HERO,
-> >>>> * PRIME X399-A,
-> >>>> * PRIME X470-PRO,
-> >>>> * ROG CROSSHAIR VI EXTREME,
-> >>>> * ROG CROSSHAIR VI HERO (WI-FI AC),
-> >>>> * ROG CROSSHAIR VII HERO,
-> >>>> * ROG CROSSHAIR VII HERO (WI-FI),
-> >>>> * ROG STRIX Z390-F GAMING
-> >>>> * ROG STRIX B450-E GAMING,
-> >>>> * ROG STRIX B450-F GAMING,
-> >>>> * ROG STRIX B450-I GAMING,
-> >>>> * ROG STRIX X399-E GAMING,
-> >>>> * ROG STRIX X470-F GAMING,
-> >>>> * ROG STRIX X470-I GAMING,
-> >>>> * ROG ZENITH EXTREME,
-> >>>> * ROG ZENITH EXTREME ALPHA.
-> >>>>
-> >>>> I have added "ROG STRIX Z390-F GAMING" to list of supported boards in
-> >>>> asus_wmi_sensors.
-> >>>
-> >>> Guenter, what is your plan about this patch series? It seems it
-> >>> missed, by unknown (?) reason, the v5.16-rc1 (I remember seeing it in
-> >>> some of your tree branches at some point).
-> >>>
-> >>
-> >> I don't see it in my record. Earlier I was simply waiting for some
-> >> Reviewed-by: tags, which I have never seen.
-> >
-> > Ah, understood. Thank you for clarifications.
-> >
-> >> Looking into the commit log,
-> >> I do see:
-> >>
-> >> Signed-off-by: Denis Pauk <pauk.denis@gmail.com>
-> >> Co-developed-by: Eugene Shalygin <eugene.shalygin@gmail.com>
-> >> Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
-> >> Co-developed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> >> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> >>
-> >> Did you and Eugene indeed sign this off, ie did you write it, and
-> >> Eugene and Denis signed it off ? If so, the tags are in the wrong order.
-> >
-> > I'm not sure I follow. I have helped Denis with the code and according to
-> > Submitting Patches documentation the order should be chronological with the
-> > main author to be first in the list. Here the committer (submitter) is the
-> > same as the original author IIUC. (I can't speak for Eugene, though)
-> >
+On Tue, Nov 16, 2021 at 1:51 AM Michal Hocko <mhocko@suse.com> wrote:
 >
-> I got the patch from Denis. At the very least, Denis' signature should be
-> last. It is first.
+> On Mon 15-11-21 10:59:20, Suren Baghdasaryan wrote:
+> [...]
+> > Hi Andrew,
+> > I haven't seen any feedback on my patchset for some time now. I think
+> > I addressed all the questions and comments (please correct me if I
+> > missed anything).
+>
+> I believe the strings vs. ids have been mostly hand waved away. The
+> biggest argument for the former was convenience for developers to have
+> something human readable. There was no actual proposal about the naming
+> convention so we are relying on some unwritten rules or knowledge of the
+> code to be debugged to make human readable string human understandable
+> ones. I believe this has never been properly resolved except for - this
+> has been used in Android and working just fine. I am not convinced TBH.
+>
+> So in the end we are adding a user interface that brings a runtime and
+> resource overhead that will be hard to change in the future. Reference
+> counting handles a part of that and that is nice but ids simply do not
+> have any of that.
 
-"...the ordering of Signed-off-by: tags should reflect the
-chronological history of the patch insofar as possible, regardless of
-whether the author is attributed via From: or Co-developed-by:.
-Notably, the last Signed-off-by: must always be that of the developer
-submitting the patch."
+I explained the way this interface is used and why ids would not work
+for us in https://lore.kernel.org/all/CAJuCfpESeM_Xd8dhCj_okNggtDUXx3Nn9FpL_f9qsKXKZzCKpA@mail.gmail.com.
+I explored all the proposed alternatives, all of which would be
+prohibitive for our needs due to performance costs compared to this
+solution. I wish I could come up with something simpler but a simpler
+solution simply does not meet our needs.
 
-Okay, "must" obviously takes precedence over the "as possible".
+It's true that this approach does not formalize how VMAs are named but
+I don't see why kernel should impose a naming convention. I can see
+some systems defining more formal conventions but I believe it should
+be up to the userspace to do that.
 
-> >> On the other side, if the code is ultimately from Denis, with your input,
-> >> the tags should be either Acked-by: or Reviewed-by: for both Eugene
-> >> and yourself.
-> >
-> > I'm fine with either Co-developed-by+SoB or Reviewed-by.
-> >
-> >> Note that v11 of this patch series is missing from
-> >> https://patchwork.kernel.org/project/linux-hwmon/list/
-> >> for some reason.
-> >
-> > Hmm... Denis, please check locally how you prepare your patches.
+>
+> > Can it be accepted as is or is there something I should address
+> > further?
+>
+> Is the above reason to nack it? No, I do not think so. I just do not
+> feel like I want to ack it either. Concerns have been expressed and I
+> have to say that I would like a minimalistic approach much more. Also
+> extending ids into string is always possible. The other way around is
+> not possible.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Unfortunately, extending ids into strings comes with the cost we can't
+afford in Android. Therefore I don't see a point for me to upstream
+such a solution which I can't use.
+Thanks,
+Suren.
+
+>
+> --
+> Michal Hocko
+> SUSE Labs
