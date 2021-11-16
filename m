@@ -2,103 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF65CC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 09:51:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B09EC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 10:12:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BE05063223
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 09:51:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 61DEE61AE3
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 10:12:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233616AbhKPJye (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Nov 2021 04:54:34 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28]:44068 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233644AbhKPJyA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Nov 2021 04:54:00 -0500
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 7B9662177B;
-        Tue, 16 Nov 2021 09:51:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1637056262; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=mDFTTIiszcWpxAylcu0QzEP9/NecXrKSzvnEd4lCTY0=;
-        b=GB3lAEhBjkXXAHEs1lirJeNVPqy3z2zGaeeafIHzWzkuIbOBGG4OX3oHnXgOr9R0pmI0q0
-        ppTDCllU68nWvHY5+YoX3fZ5R9V36CN35yD7p+q97lmf7YHaw+olPwwAwNbaPFzq1wkkR/
-        sJu2VJwgGzDfmUbWjT3btCFh7DDIvww=
-Received: from suse.cz (unknown [10.100.201.86])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id F1DC9A3B90;
-        Tue, 16 Nov 2021 09:51:00 +0000 (UTC)
-Date:   Tue, 16 Nov 2021 10:51:00 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     akpm@linux-foundation.org, Alexey Alexandrov <aalexand@google.com>,
-        ccross@google.com, sumit.semwal@linaro.org, dave.hansen@intel.com,
-        keescook@chromium.org, willy@infradead.org,
-        kirill.shutemov@linux.intel.com, vbabka@suse.cz,
-        hannes@cmpxchg.org, corbet@lwn.net, viro@zeniv.linux.org.uk,
-        rdunlap@infradead.org, kaleshsingh@google.com, peterx@redhat.com,
-        rppt@kernel.org, peterz@infradead.org, catalin.marinas@arm.com,
-        vincenzo.frascino@arm.com, chinwen.chang@mediatek.com,
-        axelrasmussen@google.com, aarcange@redhat.com, jannh@google.com,
-        apopple@nvidia.com, jhubbard@nvidia.com, yuzhao@google.com,
-        will@kernel.org, fenghua.yu@intel.com, thunder.leizhen@huawei.com,
-        hughd@google.com, feng.tang@intel.com, jgg@ziepe.ca, guro@fb.com,
-        tglx@linutronix.de, krisman@collabora.com, chris.hyser@oracle.com,
-        pcc@google.com, ebiederm@xmission.com, axboe@kernel.dk,
-        legion@kernel.org, eb@emlix.com, gorcunov@gmail.com, pavel@ucw.cz,
-        songmuchun@bytedance.com, viresh.kumar@linaro.org,
-        thomascedeno@google.com, sashal@kernel.org, cxfcosmos@gmail.com,
-        linux@rasmusvillemoes.dk, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, kernel-team@android.com
-Subject: Re: [PATCH v11 2/3] mm: add a field to store names for private
- anonymous memory
-Message-ID: <YZN/BMImQqrK4MWm@dhcp22.suse.cz>
-References: <20211019215511.3771969-1-surenb@google.com>
- <20211019215511.3771969-2-surenb@google.com>
- <89664270-4B9F-45E0-AC0B-8A185ED1F531@google.com>
- <CAJuCfpE-fR+M_funJ4Kd+gMK9q0QHyOUD7YK0ES6En4y7E1tjg@mail.gmail.com>
- <CAJuCfpHfnG8b4_RkkGhu+HveF-K_7o9UVGdToVuUCf-qD05Q4Q@mail.gmail.com>
- <CAJuCfpEJuVyRfjEE-NTsVkdCZyd6P09gHu7c+tbZcipk+73rLA@mail.gmail.com>
+        id S233845AbhKPKPJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Nov 2021 05:15:09 -0500
+Received: from mail.kernel.org ([198.145.29.99]:42220 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233869AbhKPKOt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Nov 2021 05:14:49 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E57A26187F;
+        Tue, 16 Nov 2021 10:11:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1637057512;
+        bh=PfADZY/p3JqYuaRUK9dg8fuh6I4K/kUrlJWAr+qv9Aw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=lzoIyIpbNKLj45yhnUIxQT2nm1rj7G63vFjn/W1rcuCXPXR91ceS3WOOdM2blZVe5
+         EeQ2+WUsSad0OOiNb7h43HaxImiPfbDX1soAaTueFchYf4N2dQ6xz5Gp6G8qatxVrY
+         KMSPYlMQnwLQ698UZx9Ju9Ggd/3fM7yMHsJHaotWUu931jsyxYIeQTFV9L9Cf1BEL8
+         xvOF/tSk2ske5ompc4AqcP7k70MmAreeKGYiY9t2Er6ZbLtZlJgExFINM//M4EcrbM
+         l/I1pJy7aXzY8QhIDbN6vhZnmz4NgyqVMSAcGuJlgzKFN2KZ/BWlqBNCgaf0W4BPBw
+         9+f+BdqmT+txQ==
+Date:   Tue, 16 Nov 2021 10:11:47 +0000
+From:   Will Deacon <will@kernel.org>
+To:     Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        chinwen.chang@mediatek.com, nicholas.tang@mediatek.com,
+        james.hsu@mediatek.com, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, mark.rutland@arm.com
+Subject: Re: [PATCH] arm64: update compiler option for PAC
+Message-ID: <20211116101147.GB9851@willie-the-truck>
+References: <20211115031810.29701-1-Kuan-Ying.Lee@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAJuCfpEJuVyRfjEE-NTsVkdCZyd6P09gHu7c+tbZcipk+73rLA@mail.gmail.com>
+In-Reply-To: <20211115031810.29701-1-Kuan-Ying.Lee@mediatek.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon 15-11-21 10:59:20, Suren Baghdasaryan wrote:
-[...]
-> Hi Andrew,
-> I haven't seen any feedback on my patchset for some time now. I think
-> I addressed all the questions and comments (please correct me if I
-> missed anything).
+On Mon, Nov 15, 2021 at 11:18:08AM +0800, Kuan-Ying Lee wrote:
+> We pass -mbranch-protection=pac-ret+leaf to support PAC
+> when we use GCC 9 or later.
+> 
+> Before GCC 9, we pass -msign-return-address=all to support
+> PAC.
+> 
+> Signed-off-by: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
+> ---
+>  Documentation/arm64/pointer-authentication.rst | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/arm64/pointer-authentication.rst b/Documentation/arm64/pointer-authentication.rst
+> index f127666ea3a8..055d08b0d42d 100644
+> --- a/Documentation/arm64/pointer-authentication.rst
+> +++ b/Documentation/arm64/pointer-authentication.rst
+> @@ -54,8 +54,10 @@ virtual address size configured by the kernel. For example, with a
+>  virtual address size of 48, the PAC is 7 bits wide.
+>  
+>  Recent versions of GCC can compile code with APIAKey-based return
+> -address protection when passed the -msign-return-address option. This
+> -uses instructions in the HINT space (unless -march=armv8.3-a or higher
+> +address protection when passed compiler option as following.
+> +Pass -msign-return-address when we use GCC 7, 8.
+> +Pass -mbranch-protection when we use GCC 9 or later.
+> +This uses instructions in the HINT space (unless -march=armv8.3-a or higher
+>  is also passed), and such code can run on systems without the pointer
+>  authentication extension.
 
-I believe the strings vs. ids have been mostly hand waved away. The
-biggest argument for the former was convenience for developers to have
-something human readable. There was no actual proposal about the naming
-convention so we are relying on some unwritten rules or knowledge of the
-code to be debugged to make human readable string human understandable
-ones. I believe this has never been properly resolved except for - this
-has been used in Android and working just fine. I am not convinced TBH.
+I think I'd be more inclined to delete this paragraph altogether. It doesn't
+really document anything to do with the kernel, and trying to document the
+behaviour of "recent" versions of GCC is futile.
 
-So in the end we are adding a user interface that brings a runtime and
-resource overhead that will be hard to change in the future. Reference
-counting handles a part of that and that is nice but ids simply do not
-have any of that.
-
-> Can it be accepted as is or is there something I should address
-> further?
-
-Is the above reason to nack it? No, I do not think so. I just do not
-feel like I want to ack it either. Concerns have been expressed and I
-have to say that I would like a minimalistic approach much more. Also
-extending ids into string is always possible. The other way around is
-not possible.
-
--- 
-Michal Hocko
-SUSE Labs
+Will
