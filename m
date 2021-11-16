@@ -2,115 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9F08C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 18:05:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46F46C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 18:41:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9741161AAA
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 18:05:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2C69B63231
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Nov 2021 18:41:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239312AbhKPSIi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Nov 2021 13:08:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54203 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236111AbhKPSIh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Nov 2021 13:08:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1637085940;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=An3R7sbO8BRoRTtSuF9+W/xtuCKLYLtDnsHgmi8nBG0=;
-        b=AHWEGM4rRYmtNJf1u1mPphzD1wFW7mzyMgwMLZIyVOWnD9Afn7SkFj8AUHCqTCdVN6EE49
-        EdIrzCeHuFf/ViuehQFs1g/u+JyayID8vkgEbJvE6q2HITdFsf+0cU6yC/H1sgIxKcEdXR
-        ElDhF6p8XmXP58z43Ivs2YnjHMSCoXI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-70-2889ANNLNnuXdKbCUVQxIw-1; Tue, 16 Nov 2021 13:05:36 -0500
-X-MC-Unique: 2889ANNLNnuXdKbCUVQxIw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D326D102CC41;
-        Tue, 16 Nov 2021 18:05:34 +0000 (UTC)
-Received: from [10.39.192.245] (unknown [10.39.192.245])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 0EEFE5DF56;
-        Tue, 16 Nov 2021 18:05:29 +0000 (UTC)
-Message-ID: <8a762a6b-4ad8-211f-f350-ba65f8e77b64@redhat.com>
-Date:   Tue, 16 Nov 2021 19:05:28 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 3/4] Documentation: update vcpu-requests.rst reference
-Content-Language: en-US
-To:     Anup Patel <anup@brainfault.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S233361AbhKPSou (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Nov 2021 13:44:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41972 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239589AbhKPSor (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Nov 2021 13:44:47 -0500
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9302C061766
+        for <linux-doc@vger.kernel.org>; Tue, 16 Nov 2021 10:41:50 -0800 (PST)
+Received: by mail-pf1-x435.google.com with SMTP id r130so240688pfc.1
+        for <linux-doc@vger.kernel.org>; Tue, 16 Nov 2021 10:41:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=rpZo5Ukhloxpo3t6te7xJnWQRrow3d4oIhzJ9wNY//s=;
+        b=VSNC43P14WmPSZmUrPilJ+DgGj5eVm+rYneRkINAieo4BCqCLBy5QiE+yxx4dMJHrP
+         ofgb/NWCMtHijcLBbRJZt2srQLA+UEZ3FYMnXTi4zhVU59bazntvLi1ZB9x1FOAMm3MU
+         zC1NqI7P7FvTEoA0kb6E30B9MNDZ7w/u4TNWQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=rpZo5Ukhloxpo3t6te7xJnWQRrow3d4oIhzJ9wNY//s=;
+        b=JogpBc0cEcGOWuhUGEfG7SN52ErcG6shMfC2K9iWZlJ6dSWHgykrVplF8iNHUnm0ci
+         Hqyel+Tqc7h+BD05xpssdp/Bznvs9IgmidFPY1ht/fFFQCN+6+4RHGbMuOvt2Z21VgXH
+         bz/odvpbrbr5gkeXXsKgyeDcI9GgBfIbajxuJOfxXO8FZkAMjl6WwvYXn1a9ebw6f+ds
+         BufLrM5RvhYBcEeXmChFqMLB9FvWzmD/4mkn5XQbynflR7o8xD8WFQQSX5ZKj9C54b2t
+         YfovrkaCLoYOe32cbAr8Tfk/nyTmpbekuH7n0CBsrQ+nTh3hbtIalI2DEvhAqbQtfUG+
+         lP8g==
+X-Gm-Message-State: AOAM531eThck6aQ4/93MVOQP+GHBUqAFbbBIS33BtvU3dGO92jJRqW+D
+        MDJQmRKjIWjSobf5uNJ5UEOtCg==
+X-Google-Smtp-Source: ABdhPJwwvQRQ7H1L7erOMj0WCwxaWTV8d2CBQFnkm/BoZWo9AQPZdRvAdBwwSZAEqBBMD7kMUEk6Tw==
+X-Received: by 2002:a63:b502:: with SMTP id y2mr798068pge.214.1637088110275;
+        Tue, 16 Nov 2021 10:41:50 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id m6sm14550926pgc.17.2021.11.16.10.41.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Nov 2021 10:41:49 -0800 (PST)
+Date:   Tue, 16 Nov 2021 10:41:49 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Alexander Popov <alex.popov@linux.com>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Anup Patel <anup.patel@wdc.com>,
-        Atish Patra <atish.patra@wdc.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        kvm-riscv@lists.infradead.org, KVM General <kvm@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>
-References: <cover.1637064577.git.mchehab+huawei@kernel.org>
- <32b3693314f3914f10a42dea97ad6e06292fcd4a.1637064577.git.mchehab+huawei@kernel.org>
- <34e691ec-a58d-c86b-a2ef-6fa4f0385b69@redhat.com>
- <CAAhSdy0JRTwmr+EdSEr3ng1gfDpqnF7m3ejC2AydjAgu0mEQLw@mail.gmail.com>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <CAAhSdy0JRTwmr+EdSEr3ng1gfDpqnF7m3ejC2AydjAgu0mEQLw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+        Paul McKenney <paulmck@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Joerg Roedel <jroedel@suse.de>,
+        Maciej Rozycki <macro@orcam.me.uk>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Luis Chamberlain <mcgrof@kernel.org>, Wei Liu <wl@xen.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Alexey Kardashevskiy <aik@ozlabs.ru>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Jann Horn <jannh@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Will Deacon <will@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Laura Abbott <labbott@kernel.org>,
+        David S Miller <davem@davemloft.net>,
+        Borislav Petkov <bp@alien8.de>, Arnd Bergmann <arnd@arndb.de>,
+        Andrew Scull <ascull@google.com>,
+        Marc Zyngier <maz@kernel.org>, Jessica Yu <jeyu@kernel.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Wang Qing <wangqing@vivo.com>, Mel Gorman <mgorman@suse.de>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Andrew Klychkov <andrew.a.klychkov@gmail.com>,
+        Mathieu Chouquet-Stringer <me@mathieu.digital>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Stephen Kitt <steve@sk2.org>, Stephen Boyd <sboyd@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Mike Rapoport <rppt@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-hardening@vger.kernel.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>, notify@kernel.org,
+        main@lists.elisa.tech, safety-architecture@lists.elisa.tech,
+        devel@lists.elisa.tech, Shuah Khan <shuah@kernel.org>
+Subject: Re: [PATCH v2 0/2] Introduce the pkill_on_warn parameter
+Message-ID: <202111161037.7456C981@keescook>
+References: <20211027233215.306111-1-alex.popov@linux.com>
+ <ac989387-3359-f8da-23f9-f5f6deca4db8@linux.com>
+ <CAHk-=wgRmjkP3+32XPULMLTkv24AkA=nNLa7xxvSg-F0G1sJ9g@mail.gmail.com>
+ <77b79f0c-48f2-16dd-1d00-22f3a1b1f5a6@linux.com>
+ <CAKXUXMx5Oi-dNVKB+8E-pdrz+ooELMZf=oT_oGXKFrNWejz=fg@mail.gmail.com>
+ <20211115110649.4f9cb390@gandalf.local.home>
+ <202111151116.933184F716@keescook>
+ <59534db5-b251-c0c8-791f-58aca5c00a2b@linux.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <59534db5-b251-c0c8-791f-58aca5c00a2b@linux.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/16/21 15:01, Anup Patel wrote:
-> On Tue, Nov 16, 2021 at 6:24 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
->>
->> On 11/16/21 13:11, Mauro Carvalho Chehab wrote:
->>> Changeset 2f5947dfcaec ("Documentation: move Documentation/virtual to Documentation/virt")
->>> renamed: Documentation/virtual/kvm/vcpu-requests.rst
->>> to: Documentation/virt/kvm/vcpu-requests.rst.
->>>
->>> Update its cross-reference accordingly.
->>>
->>> Fixes: 2f5947dfcaec ("Documentation: move Documentation/virtual to Documentation/virt")
->>> Reviewed-by: Anup Patel <anup.patel@wdc.com>
->>> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
->>> ---
->>>
->>> To mailbombing on a large number of people, only mailing lists were C/C on the cover.
->>> See [PATCH 0/4] at: https://lore.kernel.org/all/cover.1637064577.git.mchehab+huawei@kernel.org/
->>>
->>>    arch/riscv/kvm/vcpu.c | 2 +-
->>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/arch/riscv/kvm/vcpu.c b/arch/riscv/kvm/vcpu.c
->>> index e3d3aed46184..fb84619df012 100644
->>> --- a/arch/riscv/kvm/vcpu.c
->>> +++ b/arch/riscv/kvm/vcpu.c
->>> @@ -740,7 +740,7 @@ int kvm_arch_vcpu_ioctl_run(struct kvm_vcpu *vcpu)
->>>                 * Ensure we set mode to IN_GUEST_MODE after we disable
->>>                 * interrupts and before the final VCPU requests check.
->>>                 * See the comment in kvm_vcpu_exiting_guest_mode() and
->>> -              * Documentation/virtual/kvm/vcpu-requests.rst
->>> +              * Documentation/virt/kvm/vcpu-requests.rst
->>>                 */
->>>                vcpu->mode = IN_GUEST_MODE;
->>>
->>>
->>
->> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-> 
-> Thanks Paolo, let me know if you want me to include this patch
-> as part of the fixes I have collected.
+On Tue, Nov 16, 2021 at 12:12:16PM +0300, Alexander Popov wrote:
+> What if the Linux kernel had a LSM module responsible for error handling policy?
+> That would require adding LSM hooks to BUG*(), WARN*(), KERN_EMERG, etc.
+> In such LSM policy we can decide immediately how to react on the kernel error.
+> We can even decide depending on the subsystem and things like that.
 
-I think Mauro will handle it, but you can pick it as well.
+That would solve the "atomicity" issue the WARN tracepoint solution has,
+and it would allow for very flexible userspace policy.
 
-Paolo
+I actually wonder if the existing panic_on_* sites should serve as a
+guide for where to put the hooks. The current sysctls could be replaced
+by the hooks and a simple LSM.
 
+-- 
+Kees Cook
