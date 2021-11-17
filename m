@@ -2,258 +2,172 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74A7BC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Nov 2021 16:47:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1CB3C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Nov 2021 19:49:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5027C61BFB
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Nov 2021 16:47:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AE87F61265
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Nov 2021 19:49:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238908AbhKQQup (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Nov 2021 11:50:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60862 "EHLO
+        id S239137AbhKQTwA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Nov 2021 14:52:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232493AbhKQQup (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Nov 2021 11:50:45 -0500
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36676C061764
-        for <linux-doc@vger.kernel.org>; Wed, 17 Nov 2021 08:47:46 -0800 (PST)
-Received: by mail-ed1-x529.google.com with SMTP id g14so13934721edb.8
-        for <linux-doc@vger.kernel.org>; Wed, 17 Nov 2021 08:47:46 -0800 (PST)
+        with ESMTP id S231194AbhKQTv7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Nov 2021 14:51:59 -0500
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B18D6C061570
+        for <linux-doc@vger.kernel.org>; Wed, 17 Nov 2021 11:49:00 -0800 (PST)
+Received: by mail-yb1-xb49.google.com with SMTP id d27-20020a25addb000000b005c2355d9052so5730414ybe.3
+        for <linux-doc@vger.kernel.org>; Wed, 17 Nov 2021 11:49:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ScuePVig2+6JEGtMxOXcRDUBeyhJaT5Z7Na+LqxWaRI=;
-        b=OuPAkQjhwu1zOCBjeWzGpGZPYHqv1O5iU93TRNAUDap1urYSr4crwZ85VM/LJ45Lq9
-         RTd5nQ/dt0pvO6Q6ECsB1sVB1p2zfFSCMramPV2SHAVV7jZVSP2Bj5H+0t7D4HI7ir1P
-         RA/OHuxebKX94zZLVe6OAKGRtLcxbqxqkK4yrBnJ1W2OWwN+o3SWasHe4uQspSxq5tyO
-         xgvcqhB55OC1h5WEqEoYVeDlP/CHBzUtjmnZ1jaMjdslEhoD9VP2I+i8NyGFHOKw/jdy
-         n0QJdCqjMEoKoWHkY9qY3uNcFY6omoPIItWhQEWdlK3V2rFUPkCBoSoD67vofLnFwgDF
-         tbRw==
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=PpBiG+58AqKHL1Onxjj1GmKlritKFJFCrusKbqqq2FE=;
+        b=maTz4mTJBef5LXTAVKIznYcBVXrKhhbFl6Sjn9+9n+vlBMXlBUpILx8hnFowMWNKVR
+         D5WvRhfmcQYN9632bBuUjcDJOx0Za+nMrkTvrkrULLFOWc2kOQ3RSu585cCQti/p2JWv
+         UMg5QLlPEBP8hPnpQRW9cFEfW6yVss7tPH8vlStqQCRWpJAShgXCeKnibT1V8bMN4P2v
+         RUYNNQvus91tdcZRcsUg/JgE6h0Z1Z9++YOloTZhtQaBPg01FDrZrzt+K/BB2qqxhye5
+         qD+NIdQfbgxdJPi8SqdTS8bVBGoHQdw+pchl5ktr/ug9I7tGRBmUWsLFGspntZ9ehaKW
+         kODw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ScuePVig2+6JEGtMxOXcRDUBeyhJaT5Z7Na+LqxWaRI=;
-        b=Kce/FDpZOcVxKHHtJ91KZHTIECQ5iMDe4u4yhdJGs8m/qq4DF6EPYo5Tp7j7FCEQMK
-         m+4eMswLltWuINh9rFt2EAk1ARehgM2bx2Y96IPEPhL3QPRIdQ4QW4yi66lw8mXAIBxy
-         EqFzbIZtx7BKlC8pPdn3gdTjdj6XThpdWBbJyXlW7jFTYOy8jG7KAA93cluLovsr3n4b
-         BCKp4TTgj+f17FNgJMnIIiK4jXcuTPLh78ewUfrckeLeFyXTG1OUlHV6Of52ZDljJz7Z
-         Gv+ZBH8gBhHHPYFRmiublZPZ/egtHqCQaJWEMi0W+Tmr9MBVLqGZLslv0McJHrv1ddON
-         YJxg==
-X-Gm-Message-State: AOAM531PICqW+H2OXBHMlXWAjGtw6fdTuJOsyVYxmLWdGr42I/2NFn4P
-        6DYURMihXBxwybNUmgz1fuOinejao8//coAwCMk5Iw==
-X-Google-Smtp-Source: ABdhPJyAGNTWz9a3U4XU4978MbGu9P5P8hAtsQiHg+kzEeQtvN6JAJ7Sc1+xsI1+tr2jObUZ6jHciI3iHnf6pYUC2aA=
-X-Received: by 2002:a50:c212:: with SMTP id n18mr6606edf.211.1637167664600;
- Wed, 17 Nov 2021 08:47:44 -0800 (PST)
-MIME-Version: 1.0
-References: <20211116220038.116484-1-pasha.tatashin@soleen.com>
- <20211116220038.116484-3-pasha.tatashin@soleen.com> <878rxngq6g.fsf@meer.lwn.net>
-In-Reply-To: <878rxngq6g.fsf@meer.lwn.net>
-From:   Pasha Tatashin <pasha.tatashin@soleen.com>
-Date:   Wed, 17 Nov 2021 11:47:08 -0500
-Message-ID: <CA+CK2bCwHeodpyfHqSzqQWFTrJEYyYFeythYoMAD2eYw7BfNKg@mail.gmail.com>
-Subject: Re: [RFC 2/3] mm: page table check
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=PpBiG+58AqKHL1Onxjj1GmKlritKFJFCrusKbqqq2FE=;
+        b=L8tKvJDQk4FLONBl2oAUwJwAO+IECpB0XsuugXe0zAEktCM/A2cLeyrgsynCai+JJc
+         4SKDP334XfzWBLbSrQb1qRBexGIVv1XnxtHFwxAMKRu4kSTvZE9BDVkSwUgL4RxQSe8v
+         kEpWZA+djA9T52YvE4FueV+p506CO9FurxyAf97/O24YrVvNhQiwNAVvcRZwTWKP4hKB
+         ivp411/1L0GXi8kcCu1AoRxY0099dJhWlXUXG8ZH3+WcYdIfz0wFNW34RF0TFAywHzgA
+         p22zVgXf+1iSgJ5w0mDadw9A4wgcj1TdA7MYDfqUnGAk0J41xwiCdg2YcwfRigLmKYKW
+         uPEw==
+X-Gm-Message-State: AOAM533WgPHfHVPNsxcwx2DMAeCJT928BWk6N0IH8r3XrQC5nYNplbIa
+        cAl1J4HJYRnf9BtVcNCtLHTDXLlkfMtSFX2qBQ==
+X-Google-Smtp-Source: ABdhPJx/1FP76tKslX0j28CU2KgGpu+lsjLSgUFFLnvLWteC3/S8VHTgPQGZlFFscWKnSWSFZmyke9EFBaUr2IVJMA==
+X-Received: from almasrymina.svl.corp.google.com ([2620:15c:2cd:202:ab13:f492:fd91:a37d])
+ (user=almasrymina job=sendgmr) by 2002:a25:bfd2:: with SMTP id
+ q18mr13117865ybm.542.1637178539930; Wed, 17 Nov 2021 11:48:59 -0800 (PST)
+Date:   Wed, 17 Nov 2021 11:48:54 -0800
+Message-Id: <20211117194855.398455-1-almasrymina@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.34.0.rc2.393.gf8c9666880-goog
+Subject: [PATCH v6] mm: Add PM_THP_MAPPED to /proc/pid/pagemap
+From:   Mina Almasry <almasrymina@google.com>
 To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+Cc:     Mina Almasry <almasrymina@google.com>,
+        David Hildenbrand <david@redhat.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Paul E . McKenney" <paulmckrcu@fb.com>,
+        Yu Zhao <yuzhao@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        David Rientjes <rientjes@google.com>,
-        Paul Turner <pjt@google.com>, weixugc@google.com,
-        Greg Thelen <gthelen@google.com>,
-        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>, masahiroy@kernel.org,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        frederic@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
+        Peter Xu <peterx@redhat.com>,
+        Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
+        Florian Schmidt <florian.schmidt@nutanix.com>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> >  Documentation/vm/page_table_check.rst |  53 ++++++
->
-> Thanks for documenting this feature!  When you add a new RST file,
-> though, you need to add it to the index.rst file as well so that it is
-> included in the docs build.
+Add PM_THP_MAPPED MAPPING to allow userspace to detect whether a given virt
+address is currently mapped by a transparent huge page or not.  Example
+use case is a process requesting THPs from the kernel (via a huge tmpfs
+mount for example), for a performance critical region of memory.  The
+userspace may want to query whether the kernel is actually backing this
+memory by hugepages or not.
 
-I will add the index.rst changes.
+PM_THP_MAPPED bit is set if the virt address is mapped at the PMD
+level and the underlying page is a transparent huge page.
 
->
-> >  MAINTAINERS                           |   9 +
-> >  arch/Kconfig                          |   3 +
-> >  include/linux/page_table_check.h      | 147 ++++++++++++++
-> >  mm/Kconfig.debug                      |  24 +++
-> >  mm/Makefile                           |   1 +
-> >  mm/page_alloc.c                       |   4 +
-> >  mm/page_ext.c                         |   4 +
-> >  mm/page_table_check.c                 | 264 ++++++++++++++++++++++++++
-> >  9 files changed, 509 insertions(+)
-> >  create mode 100644 Documentation/vm/page_table_check.rst
-> >  create mode 100644 include/linux/page_table_check.h
-> >  create mode 100644 mm/page_table_check.c
-> >
-> > diff --git a/Documentation/vm/page_table_check.rst b/Documentation/vm/page_table_check.rst
-> > new file mode 100644
-> > index 000000000000..41435a45869f
-> > --- /dev/null
-> > +++ b/Documentation/vm/page_table_check.rst
-> > @@ -0,0 +1,53 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +.. _page_table_check:
->
-> Do you need this label for anything?  As-is it's just added visual
-> clutter and could come out.
+A few options were considered:
+1. Add /proc/pid/pageflags that exports the same info as
+   /proc/kpageflags.  This is not appropriate because many kpageflags are
+   inappropriate to expose to userspace processes.
+2. Simply get this info from the existing /proc/pid/smaps interface.
+   There are a couple of issues with that:
+   1. /proc/pid/smaps output is human readable and unfriendly to
+      programatically parse.
+   2. /proc/pid/smaps is slow.  The cost of reading /proc/pid/smaps into
+      userspace buffers is about ~800us per call, and this doesn't
+      include parsing the output to get the information you need. The
+      cost of querying 1 virt address in /proc/pid/pagemaps however is
+      around 5-7us.
 
-Sure, I will remove it
+Tested manually by adding logging into transhuge-stress, and by
+allocating THP and querying the PM_THP_MAPPED flag at those
+virtual addresses.
 
->
-> > +================
-> > +Page Table Check
-> > +================
-> > +
-> > +Page table check allows to hardern the kernel by ensuring that some types of
-> > +memory corruptions are prevented.
-> > +
-> > +Page table check performs extra verifications at the time when new pages become
-> > +accessible from userspace by getting their page table entries (PTEs PMDs etc.)
-> > +added into the table.
-> > +
-> > +In case of detected corruption, the kernel is crashed. There is a small
-> > +performance and memory overhead associated with page table check. Thereofre, it
-> > +is disabled by default but can be optionally enabled on systems where extra
-> > +hardening outweighs the costs. Also, because page table check is synchronous, it
-> > +can help with debugging double map memory corruption issues, by crashing kernel
-> > +at the time wrong mapping occurs instead of later which is often the case with
-> > +memory corruptions bugs.
-> > +
-> > +==============================
-> > +Double mapping detection logic
-> > +==============================
->
-> I'd use subsection markup (single "==========" line underneath) for the
-> subsections.
+Signed-off-by: Mina Almasry <almasrymina@google.com>
 
-I will change to subsection.
+Cc: David Hildenbrand <david@redhat.com>
+Cc: Matthew Wilcox <willy@infradead.org>
+Cc: David Rientjes rientjes@google.com
+Cc: Paul E. McKenney <paulmckrcu@fb.com>
+Cc: Yu Zhao <yuzhao@google.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Peter Xu <peterx@redhat.com>
+Cc: Ivan Teterevkov <ivan.teterevkov@nutanix.com>
+Cc: Florian Schmidt <florian.schmidt@nutanix.com>
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-mm@kvack.org
 
-Thanks,
-Pasha
 
-On Wed, Nov 17, 2021 at 3:08 AM Jonathan Corbet <corbet@lwn.net> wrote:
->
-> Pasha Tatashin <pasha.tatashin@soleen.com> writes:
->
-> > Check user page table entries at the time they are added and removed.
-> >
-> > Allows to synchronously catch memory corruption issues related to
-> > double mapping.
-> >
-> > When a pte for an anonymous page is added into page table, we verify
-> > that this pte does not already point to a file backed page, and vice
-> > versa if this is a file backed page that is being added we verify that
-> > this page does not have an anonymous mapping
-> >
-> > We also enforce that read-only sharing for anonymous pages is allowed
-> > (i.e. cow after fork). All other sharing must be for file pages.
-> >
-> > Page table check allows to protect and debug cases where "struct page"
-> > metadata became corrupted for some reason. For example, when refcnt or
-> > mapcount become invalid.
-> >
-> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> > ---
-> >  Documentation/vm/page_table_check.rst |  53 ++++++
->
-> Thanks for documenting this feature!  When you add a new RST file,
-> though, you need to add it to the index.rst file as well so that it is
-> included in the docs build.
->
-> >  MAINTAINERS                           |   9 +
-> >  arch/Kconfig                          |   3 +
-> >  include/linux/page_table_check.h      | 147 ++++++++++++++
-> >  mm/Kconfig.debug                      |  24 +++
-> >  mm/Makefile                           |   1 +
-> >  mm/page_alloc.c                       |   4 +
-> >  mm/page_ext.c                         |   4 +
-> >  mm/page_table_check.c                 | 264 ++++++++++++++++++++++++++
-> >  9 files changed, 509 insertions(+)
-> >  create mode 100644 Documentation/vm/page_table_check.rst
-> >  create mode 100644 include/linux/page_table_check.h
-> >  create mode 100644 mm/page_table_check.c
-> >
-> > diff --git a/Documentation/vm/page_table_check.rst b/Documentation/vm/page_table_check.rst
-> > new file mode 100644
-> > index 000000000000..41435a45869f
-> > --- /dev/null
-> > +++ b/Documentation/vm/page_table_check.rst
-> > @@ -0,0 +1,53 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +.. _page_table_check:
->
-> Do you need this label for anything?  As-is it's just added visual
-> clutter and could come out.
->
-> > +================
-> > +Page Table Check
-> > +================
-> > +
-> > +Page table check allows to hardern the kernel by ensuring that some types of
-> > +memory corruptions are prevented.
-> > +
-> > +Page table check performs extra verifications at the time when new pages become
-> > +accessible from userspace by getting their page table entries (PTEs PMDs etc.)
-> > +added into the table.
-> > +
-> > +In case of detected corruption, the kernel is crashed. There is a small
-> > +performance and memory overhead associated with page table check. Thereofre, it
-> > +is disabled by default but can be optionally enabled on systems where extra
-> > +hardening outweighs the costs. Also, because page table check is synchronous, it
-> > +can help with debugging double map memory corruption issues, by crashing kernel
-> > +at the time wrong mapping occurs instead of later which is often the case with
-> > +memory corruptions bugs.
-> > +
-> > +==============================
-> > +Double mapping detection logic
-> > +==============================
->
-> I'd use subsection markup (single "==========" line underneath) for the
-> subsections.
->
-> > ++-------------------+-------------------+-------------------+------------------+
-> > +| Current Mapping   | New mapping       | Permissions       | Rule             |
-> > ++===================+===================+===================+==================+
-> > +| Anonymous         | Anonymous         | Read              | Allow            |
-> > ++-------------------+-------------------+-------------------+------------------+
-> > +| Anonymous         | Anonymous         | Read / Write      | Prohibit         |
-> > ++-------------------+-------------------+-------------------+------------------+
-> > +| Anonymous         | Named             | Any               | Prohibit         |
-> > ++-------------------+-------------------+-------------------+------------------+
-> > +| Named             | Anonymous         | Any               | Prohibit         |
-> > ++-------------------+-------------------+-------------------+------------------+
-> > +| Named             | Named             | Any               | Allow            |
-> > ++-------------------+-------------------+-------------------+------------------+
-> > +
-> > +=========================
-> > +Enabling Page Table Check
-> > +=========================
-> > +
-> > +Build kernel with:
-> > +
-> > +- PAGE_TABLE_CHECK=y
-> > +Note, it can only be enabled on platforms where ARCH_SUPPORTS_PAGE_TABLE_CHECK
-> > +is available.
-> > +- Boot with 'page_table_check=on' kernel parameter.
-> > +
-> > +Optionally, build kernel with PAGE_TABLE_CHECK_ENFORCED in order to have page
-> > +table support without extra kernel parameter.
->
-> Thanks,
->
-> jon
+---
+
+Changes in v6:
+- Renamed to PM_THP_MAPPED
+- Removed changes to transhuge-stress
+
+Changes in v5:
+- Added justification for this interface in the commit message!
+
+Changes in v4:
+- Removed unnecessary moving of flags variable declaration
+
+Changes in v3:
+- Renamed PM_THP to PM_HUGE_THP_MAPPING
+- Fixed checks to set PM_HUGE_THP_MAPPING
+- Added PM_HUGE_THP_MAPPING docs
+---
+ Documentation/admin-guide/mm/pagemap.rst | 3 ++-
+ fs/proc/task_mmu.c                       | 3 +++
+ 2 files changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/admin-guide/mm/pagemap.rst b/Documentation/admin-guide/mm/pagemap.rst
+index fdc19fbc10839..8a0f0064ff336 100644
+--- a/Documentation/admin-guide/mm/pagemap.rst
++++ b/Documentation/admin-guide/mm/pagemap.rst
+@@ -23,7 +23,8 @@ There are four components to pagemap:
+     * Bit  56    page exclusively mapped (since 4.2)
+     * Bit  57    pte is uffd-wp write-protected (since 5.13) (see
+       :ref:`Documentation/admin-guide/mm/userfaultfd.rst <userfaultfd>`)
+-    * Bits 57-60 zero
++    * Bit  58    page is a huge (PMD size) THP mapping
++    * Bits 59-60 zero
+     * Bit  61    page is file-page or shared-anon (since 3.5)
+     * Bit  62    page swapped
+     * Bit  63    page present
+diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+index ad667dbc96f5c..d784a97aa209a 100644
+--- a/fs/proc/task_mmu.c
++++ b/fs/proc/task_mmu.c
+@@ -1302,6 +1302,7 @@ struct pagemapread {
+ #define PM_SOFT_DIRTY		BIT_ULL(55)
+ #define PM_MMAP_EXCLUSIVE	BIT_ULL(56)
+ #define PM_UFFD_WP		BIT_ULL(57)
++#define PM_THP_MAPPED		BIT_ULL(58)
+ #define PM_FILE			BIT_ULL(61)
+ #define PM_SWAP			BIT_ULL(62)
+ #define PM_PRESENT		BIT_ULL(63)
+@@ -1456,6 +1457,8 @@ static int pagemap_pmd_range(pmd_t *pmdp, unsigned long addr, unsigned long end,
+
+ 		if (page && page_mapcount(page) == 1)
+ 			flags |= PM_MMAP_EXCLUSIVE;
++		if (page && is_transparent_hugepage(page))
++			flags |= PM_THP_MAPPED;
+
+ 		for (; addr != end; addr += PAGE_SIZE) {
+ 			pagemap_entry_t pme = make_pme(frame, flags);
+--
+2.34.0.rc2.393.gf8c9666880-goog
