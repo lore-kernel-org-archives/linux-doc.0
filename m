@@ -2,127 +2,261 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4BEFC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Nov 2021 05:19:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E88B1C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Nov 2021 06:59:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A45236322C
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Nov 2021 05:19:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CAE3361BF8
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Nov 2021 06:59:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231203AbhKQFWU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Nov 2021 00:22:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43696 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230130AbhKQFWU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Nov 2021 00:22:20 -0500
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2C66C061570
-        for <linux-doc@vger.kernel.org>; Tue, 16 Nov 2021 21:19:21 -0800 (PST)
-Received: by mail-wr1-x432.google.com with SMTP id r8so2129825wra.7
-        for <linux-doc@vger.kernel.org>; Tue, 16 Nov 2021 21:19:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brainfault-org.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1d/5wtm71BxoVBGiN8Ljzm4+t2qVpUjd2wk4O1QdlZM=;
-        b=is70FHBLk+aTfX+yq501gaOQXJHxBX/bHha7TNgjAQrDphwxIgoK4Bc53VhkfQwYL+
-         ZW/d5b0vzyJ+IYLi0KnBNKGiCkB+36HIxZxwDFwRymp7y5EVdQ5Bo9owDCoRM5110bvV
-         a2kExAtzJgPUaW5Xr91KxEHQaCuMFLRgSDwZ5gksGWkPIVY3swFg4wzEoYy86SWG9cUY
-         zigjkTuLzGpEnGojvRm07sdTY2gueOOqQTBQ/5az7MVXSJnPoChlFYrpXUXcdW50jWnv
-         GOiZP6C86ssD9cXEXbcJELdOxbP0xPNUNDDxYKIHBxducQO05aPHmcXYkwLw62Jz3yoe
-         PAgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1d/5wtm71BxoVBGiN8Ljzm4+t2qVpUjd2wk4O1QdlZM=;
-        b=o/5TVZtkot4FcaujRDHQO2qUV7P4NcWThYH/x15bn2dyWQgV3U1Po9+vOYaN2kdSGN
-         0oPWixnhovI2ybE2qzt+anspH4YYrSf6UKvPZZuizGWa6cHhRBnUOT3UNWZUMPYLhTdb
-         AnAfPFeFOOgaPhZyZqP7OURrusPKhhvRor+XxQ/eguP72HQGgxmVYOUgQKb3PKQB55+6
-         IxnwVGvlscf+ICfztMmvqM/6gDsZALc4W492VucUH0OXImtqTKqKIdtNfvoLKCrAe8X3
-         BRO0L0dUPHT8nMloqgbzZmuTMGCezPSxUioTN4oNJy+1HgbJThhrxYmBR3r5nDoUCk4o
-         rC/Q==
-X-Gm-Message-State: AOAM530aRVUClVau3fAsSg4ZkW7hZqxg8PDSDygQNBv6xXYdGIncC/ca
-        Hdo+Va5q3rWCxSVESOxJTyJQWvP+EDumEbDOhPCaQQ==
-X-Google-Smtp-Source: ABdhPJyX4D/T4vRXx/HipXx4SprKAXckD0tm/8XOGI5AS8e44ypJEyDGyO3Mwf5JU3a7gaQ2ZR/pHy5q3RZ5nBLhh9A=
-X-Received: by 2002:a5d:4846:: with SMTP id n6mr15955941wrs.249.1637126360414;
- Tue, 16 Nov 2021 21:19:20 -0800 (PST)
+        id S231361AbhKQHCa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Nov 2021 02:02:30 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28]:47062 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230086AbhKQHC3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Nov 2021 02:02:29 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 9F71F218F6;
+        Wed, 17 Nov 2021 06:59:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1637132370; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=jFLry+57aO+/X2xFtkejmH6hxoRwRJTwEqp3PTJ65fU=;
+        b=fyZg/KscL4weKQwyRVsZb+k1WNjKVX+SU2srVMA0oEEOhBnvNU8LHsuoyEURitGQLDswUT
+        s5gP0A+aqbrjdeE96cWibIMLt196wVtmwTDI1T0HSun3P7ZzBkMSpuncyO3txBoABcyqwt
+        KomX+t/oi6Tm9lcEs2HtIMZHAUcthTg=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3320B13BC3;
+        Wed, 17 Nov 2021 06:59:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id GU53ClKolGG8QgAAMHmgww
+        (envelope-from <jgross@suse.com>); Wed, 17 Nov 2021 06:59:30 +0000
+To:     kvm@vger.kernel.org, x86@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>
+References: <20211116141054.17800-1-jgross@suse.com>
+ <20211116141054.17800-2-jgross@suse.com>
+From:   Juergen Gross <jgross@suse.com>
+Subject: Re: [PATCH v3 1/4] x86/kvm: add boot parameter for adding vcpu-id
+ bits
+Message-ID: <7f10b8b4-e753-c977-f201-5ef17a6e81c8@suse.com>
+Date:   Wed, 17 Nov 2021 07:59:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-References: <cover.1637064577.git.mchehab+huawei@kernel.org>
- <32b3693314f3914f10a42dea97ad6e06292fcd4a.1637064577.git.mchehab+huawei@kernel.org>
- <34e691ec-a58d-c86b-a2ef-6fa4f0385b69@redhat.com> <CAAhSdy0JRTwmr+EdSEr3ng1gfDpqnF7m3ejC2AydjAgu0mEQLw@mail.gmail.com>
- <8a762a6b-4ad8-211f-f350-ba65f8e77b64@redhat.com>
-In-Reply-To: <8a762a6b-4ad8-211f-f350-ba65f8e77b64@redhat.com>
-From:   Anup Patel <anup@brainfault.org>
-Date:   Wed, 17 Nov 2021 10:49:08 +0530
-Message-ID: <CAAhSdy1ZijNE-JDj62KU1GbNjxu4UQQbpuz4P0wK+1orOyBMKA@mail.gmail.com>
-Subject: Re: [PATCH 3/4] Documentation: update vcpu-requests.rst reference
-To:     Paolo Bonzini <pbonzini@redhat.com>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Anup Patel <anup.patel@wdc.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        kvm-riscv@lists.infradead.org, KVM General <kvm@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        Atish Patra <atishp@atishpatra.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20211116141054.17800-2-jgross@suse.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="5eo5bD3r9P3bOCT2gHXysSF26z3K2TFTi"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 16, 2021 at 11:35 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 11/16/21 15:01, Anup Patel wrote:
-> > On Tue, Nov 16, 2021 at 6:24 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
-> >>
-> >> On 11/16/21 13:11, Mauro Carvalho Chehab wrote:
-> >>> Changeset 2f5947dfcaec ("Documentation: move Documentation/virtual to Documentation/virt")
-> >>> renamed: Documentation/virtual/kvm/vcpu-requests.rst
-> >>> to: Documentation/virt/kvm/vcpu-requests.rst.
-> >>>
-> >>> Update its cross-reference accordingly.
-> >>>
-> >>> Fixes: 2f5947dfcaec ("Documentation: move Documentation/virtual to Documentation/virt")
-> >>> Reviewed-by: Anup Patel <anup.patel@wdc.com>
-> >>> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> >>> ---
-> >>>
-> >>> To mailbombing on a large number of people, only mailing lists were C/C on the cover.
-> >>> See [PATCH 0/4] at: https://lore.kernel.org/all/cover.1637064577.git.mchehab+huawei@kernel.org/
-> >>>
-> >>>    arch/riscv/kvm/vcpu.c | 2 +-
-> >>>    1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/arch/riscv/kvm/vcpu.c b/arch/riscv/kvm/vcpu.c
-> >>> index e3d3aed46184..fb84619df012 100644
-> >>> --- a/arch/riscv/kvm/vcpu.c
-> >>> +++ b/arch/riscv/kvm/vcpu.c
-> >>> @@ -740,7 +740,7 @@ int kvm_arch_vcpu_ioctl_run(struct kvm_vcpu *vcpu)
-> >>>                 * Ensure we set mode to IN_GUEST_MODE after we disable
-> >>>                 * interrupts and before the final VCPU requests check.
-> >>>                 * See the comment in kvm_vcpu_exiting_guest_mode() and
-> >>> -              * Documentation/virtual/kvm/vcpu-requests.rst
-> >>> +              * Documentation/virt/kvm/vcpu-requests.rst
-> >>>                 */
-> >>>                vcpu->mode = IN_GUEST_MODE;
-> >>>
-> >>>
-> >>
-> >> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-> >
-> > Thanks Paolo, let me know if you want me to include this patch
-> > as part of the fixes I have collected.
->
-> I think Mauro will handle it, but you can pick it as well.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--5eo5bD3r9P3bOCT2gHXysSF26z3K2TFTi
+Content-Type: multipart/mixed; boundary="np1SL7B1cJZKUl5TWNeDfs8AlCPuzlnt7";
+ protected-headers="v1"
+From: Juergen Gross <jgross@suse.com>
+To: kvm@vger.kernel.org, x86@kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ "H. Peter Anvin" <hpa@zytor.com>
+Message-ID: <7f10b8b4-e753-c977-f201-5ef17a6e81c8@suse.com>
+Subject: Re: [PATCH v3 1/4] x86/kvm: add boot parameter for adding vcpu-id
+ bits
+References: <20211116141054.17800-1-jgross@suse.com>
+ <20211116141054.17800-2-jgross@suse.com>
+In-Reply-To: <20211116141054.17800-2-jgross@suse.com>
 
-Okay, I will let Mauro handle it.
+--np1SL7B1cJZKUl5TWNeDfs8AlCPuzlnt7
+Content-Type: multipart/mixed;
+ boundary="------------9267E211171704C5A3D52120"
+Content-Language: en-US
 
-Thanks,
-Anup
+This is a multi-part message in MIME format.
+--------------9267E211171704C5A3D52120
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
->
-> Paolo
->
+On 16.11.21 15:10, Juergen Gross wrote:
+> Today the maximum vcpu-id of a kvm guest's vcpu on x86 systems is set
+> via a #define in a header file.
+>=20
+> In order to support higher vcpu-ids without generally increasing the
+> memory consumption of guests on the host (some guest structures contain=
+
+> arrays sized by KVM_MAX_VCPU_IDS) add a boot parameter for adding some
+> bits to the vcpu-id. Additional bits are needed as the vcpu-id is
+> constructed via bit-wise concatenation of socket-id, core-id, etc.
+> As those ids maximum values are not always a power of 2, the vcpu-ids
+> are sparse.
+>=20
+> The additional number of bits needed is basically the number of
+> topology levels with a non-power-of-2 maximum value, excluding the top
+> most level.
+>=20
+> The default value of the new parameter will be 2 in order to support
+> today's possible topologies. The special value of -1 will use the
+> number of bits needed for a guest with the current host's topology.
+>=20
+> Calculating the maximum vcpu-id dynamically requires to allocate the
+> arrays using KVM_MAX_VCPU_IDS as the size dynamically.
+>=20
+> Signed-of-by: Juergen Gross <jgross@suse.com>
+
+Just thought about vcpu-ids a little bit more.
+
+It would be possible to replace the topology games completely by an
+arbitrary rather high vcpu-id limit (65536?) and to allocate the memory
+depending on the max vcpu-id just as needed.
+
+Right now the only vcpu-id dependent memory is for the ioapic consisting
+of a vcpu-id indexed bitmap and a vcpu-id indexed byte array (vectors).
+
+We could start with a minimal size when setting up an ioapic and extend
+the areas in case a new vcpu created would introduce a vcpu-id outside
+the currently allocated memory. Both arrays are protected by the ioapic
+specific lock (at least I couldn't spot any unprotected usage when
+looking briefly into the code), so reallocating those arrays shouldn't
+be hard. In case of ENOMEM the related vcpu creation would just fail.
+
+Thoughts?
+
+
+Juergen
+
+--------------9267E211171704C5A3D52120
+Content-Type: application/pgp-keys;
+ name="OpenPGP_0xB0DE9DD628BF132F.asc"
+Content-Transfer-Encoding: quoted-printable
+Content-Description: OpenPGP public key
+Content-Disposition: attachment;
+ filename="OpenPGP_0xB0DE9DD628BF132F.asc"
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOBy=
+cWx
+w3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJvedYm8O=
+f8Z
+d621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJNwQpd369y=
+9bf
+IhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvxXP3FAp2pkW0xq=
+G7/
+377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEBAAHNHEp1ZXJnZW4gR=
+3Jv
+c3MgPGpnQHBmdXBmLm5ldD7CwHkEEwECACMFAlOMcBYCGwMHCwkIBwMCAQYVCAIJCgsEFgIDA=
+QIe
+AQIXgAAKCRCw3p3WKL8TL0KdB/93FcIZ3GCNwFU0u3EjNbNjmXBKDY4FUGNQH2lvWAUy+dnyT=
+hpw
+dtF/jQ6j9RwE8VP0+NXcYpGJDWlNb9/JmYqLiX2Q3TyevpB0CA3dbBQp0OW0fgCetToGIQrg0=
+MbD
+1C/sEOv8Mr4NAfbauXjZlvTj30H2jO0u+6WGM6nHwbh2l5O8ZiHkH32iaSTfN7Eu5RnNVUJbv=
+oPH
+Z8SlM4KWm8rG+lIkGurqqu5gu8q8ZMKdsdGC4bBxdQKDKHEFExLJK/nRPFmAuGlId1E3fe10v=
+5QL
++qHI3EIPtyfE7i9Hz6rVwi7lWKgh7pe0ZvatAudZ+JNIlBKptb64FaiIOAWDCx1SzR9KdWVyZ=
+2Vu
+IEdyb3NzIDxqZ3Jvc3NAc3VzZS5jb20+wsB5BBMBAgAjBQJTjHCvAhsDBwsJCAcDAgEGFQgCC=
+QoL
+BBYCAwECHgECF4AACgkQsN6d1ii/Ey/HmQf/RtI7kv5A2PS4RF7HoZhPVPogNVbC4YA6lW7Dr=
+Wf0
+teC0RR3MzXfy6pJ+7KLgkqMlrAbN/8Dvjoz78X+5vhH/rDLa9BuZQlhFmvcGtCF8eR0T1v0nC=
+/nu
+AFVGy+67q2DH8As3KPu0344TBDpAvr2uYM4tSqxK4DURx5INz4ZZ0WNFHcqsfvlGJALDeE0Lh=
+ITT
+d9jLzdDad1pQSToCnLl6SBJZjDOX9QQcyUigZFtCXFst4dlsvddrxyqT1f17+2cFSdu7+ynLm=
+XBK
+7abQ3rwJY8SbRO2iRulogc5vr/RLMMlscDAiDkaFQWLoqHHOdfO9rURssHNN8WkMnQfvUewRz=
+80h
+SnVlcmdlbiBHcm9zcyA8amdyb3NzQG5vdmVsbC5jb20+wsB5BBMBAgAjBQJTjHDXAhsDBwsJC=
+AcD
+AgEGFQgCCQoLBBYCAwECHgECF4AACgkQsN6d1ii/Ey8PUQf/ehmgCI9jB9hlgexLvgOtf7PJn=
+FOX
+gMLdBQgBlVPO3/D9R8LtF9DBAFPNhlrsfIG/SqICoRCqUcJ96Pn3P7UUinFG/I0ECGF4EvTE1=
+jnD
+kfJZr6jrbjgyoZHiw/4BNwSTL9rWASyLgqlA8u1mf+c2yUwcGhgkRAd1gOwungxcwzwqgljf0=
+N51
+N5JfVRHRtyfwq/ge+YEkDGcTU6Y0sPOuj4Dyfm8fJzdfHNQsWq3PnczLVELStJNdapwPOoE+l=
+otu
+fe3AM2vAEYJ9rTz3Cki4JFUsgLkHFqGZarrPGi1eyQcXeluldO3m91NK/1xMI3/+8jbO0tsn1=
+tqS
+EUGIJi7ox80eSnVlcmdlbiBHcm9zcyA8amdyb3NzQHN1c2UuZGU+wsB5BBMBAgAjBQJTjHDrA=
+hsD
+BwsJCAcDAgEGFQgCCQoLBBYCAwECHgECF4AACgkQsN6d1ii/Ey+LhQf9GL45eU5vOowA2u5N3=
+g3O
+ZUEBmDHVVbqMtzwlmNC4k9Kx39r5s2vcFl4tXqW7g9/ViXYuiDXb0RfUpZiIUW89siKrkzmQ5=
+dM7
+wRqzgJpJwK8Bn2MIxAKArekWpiCKvBOB/Cc+3EXE78XdlxLyOi/NrmSGRIov0karw2RzMNOu5=
+D+j
+LRZQd1Sv27AR+IP3I8U4aqnhLpwhK7MEy9oCILlgZ1QZe49kpcumcZKORmzBTNh30FVKK1Evm=
+V2x
+AKDoaEOgQB4iFQLhJCdP1I5aSgM5IVFdn7v5YgEYuJYx37IoN1EblHI//x/e2AaIHpzK5h88N=
+Eaw
+QsaNRpNSrcfbFmAg987ATQRTjHAWAQgAyzH6AOODMBjgfWE9VeCgsrwH3exNAU32gLq2xvjpW=
+nHI
+s98ndPUDpnoxWQugJ6MpMncr0xSwFmHEgnSEjK/PAjppgmyc57BwKII3sV4on+gDVFJR6Y8ZR=
+wgn
+BC5mVM6JjQ5xDk8WRXljExRfUX9pNhdE5eBOZJrDRoLUmmjDtKzWaDhIg/+1Hzz93X4fCQkNV=
+bVF
+LELU9bMaLPBG/x5q4iYZ2k2ex6d47YE1ZFdMm6YBYMOljGkZKwYde5ldM9mo45mmwe0icXKLk=
+pEd
+IXKTZeKDO+Hdv1aqFuAcccTg9RXDQjmwhC3yEmrmcfl0+rPghO0Iv3OOImwTEe4co3c1mwARA=
+QAB
+wsBfBBgBAgAJBQJTjHAWAhsMAAoJELDendYovxMvQ/gH/1ha96vm4P/L+bQpJwrZ/dneZcmEw=
+Tbe
+8YFsw2V/Buv6Z4Mysln3nQK5ZadD534CF7TDVft7fC4tU4PONxF5D+/tvgkPfDAfF77zy2AH1=
+vJz
+Q1fOU8lYFpZXTXIHb+559UqvIB8AdgR3SAJGHHt4RKA0F7f5ipYBBrC6cyXJyyoprT10EMvU8=
+VGi
+wXvTyJz3fjoYsdFzpWPlJEBRMedCot60g5dmbdrZ5DWClAr0yau47zpWj3enf1tLWaqcsuylW=
+svi
+uGjKGw7KHQd3bxALOknAp4dN3QwBYCKuZ7AddY9yjynVaD5X7nF9nO5BjR/i1DG86lem3iBDX=
+zXs
+ZDn8R38=3D
+=3D2wuH
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------9267E211171704C5A3D52120--
+
+--np1SL7B1cJZKUl5TWNeDfs8AlCPuzlnt7--
+
+--5eo5bD3r9P3bOCT2gHXysSF26z3K2TFTi
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmGUqFEFAwAAAAAACgkQsN6d1ii/Ey+7
+UQf+P6YS4A9mgfWCf4JI+ri5jUdgc5+AZzZoC5UcvZGdV5mj1WUml1G8s4W8tWNZylUDfgCNMucM
+Z/H2If/2uRvuEC0NdfrS7Zd8pbH6kNv6sUulsKFG3Ss0jjgKTYEDvj0i+SDALBkXtFIkgHnWER9T
+SYVayJQSNww4ZH3sxtHDipZh71dX9dn1Y7OTx4zHVh1RIp/0yjmocIoSYquvzdO7VivibTmUhXrF
+Ess7VX+B/4cCbcIvYX9ri78Qm1Pgh/LNgDg/KPYBaBCbyBvm1/BzWurdUf7e9oevHvNPRergTqec
+PJAa4Uq/MPZhvH3orztTxc4Zr+S1PpRNPNmGNGZvmg==
+=UeFJ
+-----END PGP SIGNATURE-----
+
+--5eo5bD3r9P3bOCT2gHXysSF26z3K2TFTi--
