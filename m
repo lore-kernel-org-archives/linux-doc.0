@@ -2,483 +2,250 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03866C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Nov 2021 20:18:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F074DC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Nov 2021 20:57:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D0CEA61A64
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Nov 2021 20:18:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C724B61AFD
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Nov 2021 20:57:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239588AbhKQUV3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Nov 2021 15:21:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52678 "EHLO
+        id S239371AbhKQVAF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Nov 2021 16:00:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239484AbhKQUV3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Nov 2021 15:21:29 -0500
-Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com [IPv6:2607:f8b0:4864:20::44a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 294A3C061570
-        for <linux-doc@vger.kernel.org>; Wed, 17 Nov 2021 12:18:30 -0800 (PST)
-Received: by mail-pf1-x44a.google.com with SMTP id f206-20020a6238d7000000b004a02dd7156bso2269550pfa.5
-        for <linux-doc@vger.kernel.org>; Wed, 17 Nov 2021 12:18:30 -0800 (PST)
+        with ESMTP id S233340AbhKQVAF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Nov 2021 16:00:05 -0500
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90A82C061764
+        for <linux-doc@vger.kernel.org>; Wed, 17 Nov 2021 12:57:06 -0800 (PST)
+Received: by mail-pj1-x102d.google.com with SMTP id h24so3326734pjq.2
+        for <linux-doc@vger.kernel.org>; Wed, 17 Nov 2021 12:57:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=date:message-id:mime-version:subject:from:to:cc
-         :content-transfer-encoding;
-        bh=O1MBWZP0gt+HyX3gR4kF20oCHY3X34xFMoS30x4+TOQ=;
-        b=HCyuPxvnDsccHswcSq8py7b/w3/edCWqAuT/irPlq3tdfyg07izoqP9cB/9D1P4zIs
-         QzXljnZqzQ5MdhGis+qBqjNfwkFZ2tNerCdcgHrG2Bi8alDfWR870Fk0umojap0W/sC1
-         X9VMm6rmTZ6/iq8SUu86cpln4Jlw51VoRs9Zy7ybkHzuPvGRXcuyKcqDnsbVbSJ8nikb
-         mmfzwbTVTJswVgjWu05VZkExaYh+aQN2qG/6isL3LbRM1qP9seWm7mJ/aiUnWfCk+LIE
-         aGFZHbYD5bWfOKc9mVC2gnx44CPIP6BdedZ8yOEF55BhtYnR6bYKlwkVapUddobMa67C
-         7ODQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=GKI+SD1yDpNp3ocje9HX9BSZ/X8pxcrXv2y7exF4+pE=;
+        b=ep7ZJDg5FFOSlfdhSeiTQ3Unj2LmsS+WN52k01x4OhN+54b+P7IQkuQoQs5li5hWW3
+         PnYytnyVUanmzvSxu4fu3+4DAfmXGEjzQCYacTvvHSz69eQ/U+PBgQpSWysqHsZiSpn/
+         lZZowSFloCKYyCwFB57cWfUZRfQze7N4KfyIR/KUijyjWARRIT91v1jRdC+Rl7/5xkaS
+         p6IDPlgMM9hfQ3Gff+6c6Q83SbUxVgtFoG3T3WOiirkjpdGVHmpQso6N1niEigbneEkZ
+         qUFSdvNIRlEaIWga5+kJHYHo2hbmHTKKD5MIL1PqiiFwr4qlsyNMcHUAb4kmLaPZvsJb
+         mg3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
-         :content-transfer-encoding;
-        bh=O1MBWZP0gt+HyX3gR4kF20oCHY3X34xFMoS30x4+TOQ=;
-        b=vxZ9EK+9oq85D5IA5iYc0eW2IPpzHx560ZgfpiLi0nJIrAQBy27lkFAW0qzygFLck9
-         tpEtgAuUddzOIfiGEYTsTxzkHawmpIfG9Y8kLo07pypvpp2XeOudTAw01IjRZKFOYbw1
-         YkHgVRXM6gA67bY3cnqz/rsGZxGl3gjVI9n2DLwbJdB5120aqNSh7GmwGRkwpMTDXYDz
-         GfdsO86tdKIShvqRZUgAJmo9Nzug7zGlTZaoaemq3YqMKEbR1DBzEpTWSamvOc7bclVn
-         MpCKJeo5rpngK5hGFXPO0Q5OOpw7SmLOAE2JmI1zH4pBb/HZ6L070gRPUvcv9KYBFweW
-         s8mw==
-X-Gm-Message-State: AOAM532kvmzxDtmBYQSTL2sju3nPM2kcpUbztMFDYKhOKHXYDf2PB5xy
-        zV40E0kLnArWGQMFXk3jdo21hy98pliliCK1fQ==
-X-Google-Smtp-Source: ABdhPJxap32fuc2coP7O/PtWU08w/OaCRAj+mDuctUf4Hr0/WOpvXSe/XFI27WjGk9oXNFKsxi4Uc6HyoNUR/omf5Q==
-X-Received: from almasrymina.svl.corp.google.com ([2620:15c:2cd:202:ab13:f492:fd91:a37d])
- (user=almasrymina job=sendgmr) by 2002:a17:902:db01:b0:141:ea12:2176 with
- SMTP id m1-20020a170902db0100b00141ea122176mr59446374plx.44.1637180309537;
- Wed, 17 Nov 2021 12:18:29 -0800 (PST)
-Date:   Wed, 17 Nov 2021 12:18:24 -0800
-Message-Id: <20211117201825.429650-1-almasrymina@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.34.0.rc2.393.gf8c9666880-goog
-Subject: [PATCH v7] hugetlb: Add hugetlb.*.numa_stat file
-From:   Mina Almasry <almasrymina@google.com>
-To:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Mina Almasry <almasrymina@google.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Michal Hocko <mhocko@suse.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        David Rientjes <rientjes@google.com>,
-        Shakeel Butt <shakeelb@google.com>, Jue Wang <juew@google.com>,
-        Yang Yao <ygyao@google.com>, Joanna Li <joannali@google.com>,
-        Cannon Matthews <cannonmatthews@google.com>,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=GKI+SD1yDpNp3ocje9HX9BSZ/X8pxcrXv2y7exF4+pE=;
+        b=Xg0SHIjAcAfxlBWOOJsqJf/WShe4pp7MVwBN35a5cZIWNdAM8152K82u2rwgSgoJWx
+         WjsLpmmu96x4lECC1n5iOLUBzBZ5DR/udzx/Mwx3bh+JStC/F9pDIXFixOrcbNxxdPtD
+         ms2bVQMHHh/K4B6M6Th5cAI3nktwgn8lHgYkEDh/IxTl1AJXCE3y/LyTwoI/MKoCIg1d
+         1cUysU5ux02/mDf25ZUSPBHL2PbYINYSPIgxrok8GkoUSX4RXcUqtRlQfbBot61av4hq
+         PE0yd4u8/KwaWhglwWxZ5aNI43ExAwb56JZ55U6ZVlUlYzsPbhfjYjItA/OItKqlDv2J
+         MAsg==
+X-Gm-Message-State: AOAM531wXcAuHLzaPPqG4tNZHKi/4Oy+eOoXawQUnPryKbHPCWKzmGTF
+        VIgzF8nq0XFYr6+ZjMPUG2Xo6A==
+X-Google-Smtp-Source: ABdhPJx59Vr421W/zCHcwsvCtDFut5od/byYarMtrpHYrCQWNjA56F+rM3W0dWLlOVqJOYrXy37b6A==
+X-Received: by 2002:a17:90a:46c9:: with SMTP id x9mr3393896pjg.183.1637182625920;
+        Wed, 17 Nov 2021 12:57:05 -0800 (PST)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id u23sm488409pfl.185.2021.11.17.12.57.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Nov 2021 12:57:05 -0800 (PST)
+Date:   Wed, 17 Nov 2021 20:57:01 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Juergen Gross <jgross@suse.com>
+Cc:     kvm@vger.kernel.org, x86@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>
+Subject: Re: [PATCH v3 4/4] x86/kvm: add boot parameter for setting max
+ number of vcpus per guest
+Message-ID: <YZVsnZ8e7cXls2P2@google.com>
+References: <20211116141054.17800-1-jgross@suse.com>
+ <20211116141054.17800-5-jgross@suse.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211116141054.17800-5-jgross@suse.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-For hugetlb backed jobs/VMs it's critical to understand the numa
-information for the memory backing these jobs to deliver optimal
-performance.
+On Tue, Nov 16, 2021, Juergen Gross wrote:
+> Today the maximum number of vcpus of a kvm guest is set via a #define
+> in a header file.
+> 
+> In order to support higher vcpu numbers for guests without generally
+> increasing the memory consumption of guests on the host especially on
+> very large systems add a boot parameter for specifying the number of
+> allowed vcpus for guests.
+> 
+> The default will still be the current setting of 1024. The value 0 has
+> the special meaning to limit the number of possible vcpus to the
+> number of possible cpus of the host.
+> 
+> Signed-off-by: Juergen Gross <jgross@suse.com>
+> ---
+> V3:
+> - rebase
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 7 +++++++
+>  arch/x86/include/asm/kvm_host.h                 | 5 ++++-
+>  arch/x86/kvm/x86.c                              | 9 ++++++++-
+>  3 files changed, 19 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index e269c3f66ba4..409a72c2d91b 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2445,6 +2445,13 @@
+>  			feature (tagged TLBs) on capable Intel chips.
+>  			Default is 1 (enabled)
+>  
+> +	kvm.max_vcpus=	[KVM,X86] Set the maximum allowed numbers of vcpus per
+> +			guest. The special value 0 sets the limit to the number
+> +			of physical cpus possible on the host (including not
+> +			yet hotplugged cpus). Higher values will result in
+> +			slightly higher memory consumption per guest.
+> +			Default: 1024
 
-Currently this technically can be queried from /proc/self/numa_maps, but
-there are significant issues with that. Namely:
-1. Memory can be mapped or unmapped.
-2. numa_maps are per process and need to be aggregated across all
-   processes in the cgroup. For shared memory this is more involved as
-   the userspace needs to make sure it doesn't double count shared
-   mappings.
-3. I believe querying numa_maps needs to hold the mmap_lock which adds
-   to the contention on this lock.
+Rather than makes this a module param, I would prefer to start with the below
+patch (originally from TDX pre-enabling) and then wire up a way for userspace to
+_lower_ the max on a per-VM basis, e.g. add a capability.
 
-For these reasons I propose simply adding hugetlb.*.numa_stat file,
-which shows the numa information of the cgroup similarly to
-memory.numa_stat.
+VMs largely fall into two categories: (1) the max number of vCPUs is known prior
+to VM creation, or (2) the max number of vCPUs is unbounded (up to KVM's hard
+limit), e.g. for container-style use cases where "vCPUs" are created on-demand in
+response to the "guest" creating a new task.
 
-On cgroup-v2:
-   cat /sys/fs/cgroup/unified/test/hugetlb.2MB.numa_stat
-   total=3D2097152 N0=3D2097152 N1=3D0
+For #1, a per-VM control lets userspace lower the limit to the bare minimum.  For
+#2, neither the module param nor the per-VM control is likely to be useful, but
+a per-VM control does let mixed environments (both #1 and #2 VMs) lower the limits
+for compatible VMs, whereas a module param must be set to the max of any potential VM.
 
-On cgroup-v1:
-   cat /sys/fs/cgroup/hugetlb/test/hugetlb.2MB.numa_stat
-   total=3D2097152 N0=3D2097152 N1=3D0
-   hierarichal_total=3D2097152 N0=3D2097152 N1=3D0
+From 0593cb4f73a6c3f0862f9411f0e14f00671f59ae Mon Sep 17 00:00:00 2001
+From: Sean Christopherson <sean.j.christopherson@intel.com>
+Date: Fri, 2 Jul 2021 15:04:27 -0700
+Subject: [PATCH] KVM: Add max_vcpus field in common 'struct kvm'
 
-This patch was tested manually by allocating hugetlb memory and querying
-the hugetlb.*.numa_stat file of the cgroup and its parents.
-=EF=BF=BC
-Cc: Mike Kravetz <mike.kravetz@oracle.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Shuah Khan <shuah@kernel.org>
-Cc: Miaohe Lin <linmiaohe@huawei.com>
-Cc: Oscar Salvador <osalvador@suse.de>
-Cc: Michal Hocko <mhocko@suse.com>
-Cc: Muchun Song <songmuchun@bytedance.com>
-Cc: David Rientjes <rientjes@google.com>
-Cc: Shakeel Butt <shakeelb@google.com>
-Cc: Jue Wang <juew@google.com>
-Cc: Yang Yao <ygyao@google.com>
-Cc: Joanna Li <joannali@google.com>
-Cc: Cannon Matthews <cannonmatthews@google.com>
-Cc: linux-mm@kvack.org
-Cc: linux-kernel@vger.kernel.org
+Move arm's per-VM max_vcpus field into the generic "struct kvm", and use
+it to check vcpus_created in the generic code instead of checking only
+the hardcoded absolute KVM-wide max.  x86 TDX guests will reuse the
+generic check verbatim, as the max number of vCPUs for a TDX guest is
+user defined at VM creation and immutable thereafter.
 
-Signed-off-by: Mina Almasry <almasrymina@google.com>
-
+Signed-off-by: Sean Christopherson <seanjc@google.com>
 ---
+ arch/arm64/include/asm/kvm_host.h | 3 ---
+ arch/arm64/kvm/arm.c              | 7 ++-----
+ arch/arm64/kvm/vgic/vgic-init.c   | 6 +++---
+ include/linux/kvm_host.h          | 1 +
+ virt/kvm/kvm_main.c               | 3 ++-
+ 5 files changed, 8 insertions(+), 12 deletions(-)
 
-Changes in v7:
-- Converted back usage to unsigned long + READ_ONCE/WRITE_ONCE rather
-than atomic_long_t
+diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+index 4be8486042a7..b51e1aa6ae27 100644
+--- a/arch/arm64/include/asm/kvm_host.h
++++ b/arch/arm64/include/asm/kvm_host.h
+@@ -108,9 +108,6 @@ struct kvm_arch {
+ 	/* VTCR_EL2 value for this VM */
+ 	u64    vtcr;
 
-Changes in v6:
-- Changed usage from unsigned long to atomic_long_t
+-	/* The maximum number of vCPUs depends on the used GIC model */
+-	int max_vcpus;
+-
+ 	/* Interrupt controller */
+ 	struct vgic_dist	vgic;
 
-Changes in v5:
-- Fixed commit message typo.
-- Fixed per node usage documentation to be in pages.
-- Removed unnecessary h_cg check.
+diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+index f5490afe1ebf..97c3b83235b4 100644
+--- a/arch/arm64/kvm/arm.c
++++ b/arch/arm64/kvm/arm.c
+@@ -153,7 +153,7 @@ int kvm_arch_init_vm(struct kvm *kvm, unsigned long type)
+ 	kvm_vgic_early_init(kvm);
 
-Changes in v4:
-- Removed unnecessary braces.
-- usage is now counted in pages instead of bytes.
-- Reverted unneeded changes to write_to_hugetlbfs.c
+ 	/* The maximum number of VCPUs is limited by the host's GIC model */
+-	kvm->arch.max_vcpus = kvm_arm_default_max_vcpus();
++	kvm->max_vcpus = kvm_arm_default_max_vcpus();
 
-Changes in v3:
-- Fixed typos (sorry!)
-- Used conventional locations for cgroups mount points in docs/commit
-message.
-- Updated docs.
-- Handle kzalloc_node failure, and proper deallocation of per node data.
-- Use struct_size() to calculate the struct size.
-- Use nr_node_ids instead of MAX_NUMNODES.
-- Updated comments per multi-line comment pattern.
+ 	set_default_spectre(kvm);
 
-Changes in v2:
-- Fix warning Reported-by: kernel test robot <lkp@intel.com>
----
- .../admin-guide/cgroup-v1/hugetlb.rst         |   4 +
- Documentation/admin-guide/cgroup-v2.rst       |   5 +
- include/linux/hugetlb.h                       |   4 +-
- include/linux/hugetlb_cgroup.h                |   7 +
- mm/hugetlb_cgroup.c                           | 132 ++++++++++++++++--
- 5 files changed, 140 insertions(+), 12 deletions(-)
+@@ -228,7 +228,7 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+ 	case KVM_CAP_MAX_VCPUS:
+ 	case KVM_CAP_MAX_VCPU_ID:
+ 		if (kvm)
+-			r = kvm->arch.max_vcpus;
++			r = kvm->max_vcpus;
+ 		else
+ 			r = kvm_arm_default_max_vcpus();
+ 		break;
+@@ -304,9 +304,6 @@ int kvm_arch_vcpu_precreate(struct kvm *kvm, unsigned int id)
+ 	if (irqchip_in_kernel(kvm) && vgic_initialized(kvm))
+ 		return -EBUSY;
 
-diff --git a/Documentation/admin-guide/cgroup-v1/hugetlb.rst b/Documentatio=
-n/admin-guide/cgroup-v1/hugetlb.rst
-index 338f2c7d7a1c..0fa724d82abb 100644
---- a/Documentation/admin-guide/cgroup-v1/hugetlb.rst
-+++ b/Documentation/admin-guide/cgroup-v1/hugetlb.rst
-@@ -29,12 +29,14 @@ Brief summary of control files::
-  hugetlb.<hugepagesize>.max_usage_in_bytes             # show max "hugepag=
-esize" hugetlb  usage recorded
-  hugetlb.<hugepagesize>.usage_in_bytes                 # show current usag=
-e for "hugepagesize" hugetlb
-  hugetlb.<hugepagesize>.failcnt                        # show the number o=
-f allocation failure due to HugeTLB usage limit
-+ hugetlb.<hugepagesize>.numa_stat                      # show the numa inf=
-ormation of the hugetlb memory charged to this cgroup
+-	if (id >= kvm->arch.max_vcpus)
+-		return -EINVAL;
+-
+ 	return 0;
+ }
 
- For a system supporting three hugepage sizes (64k, 32M and 1G), the contro=
-l
- files include::
+diff --git a/arch/arm64/kvm/vgic/vgic-init.c b/arch/arm64/kvm/vgic/vgic-init.c
+index 0a06d0648970..906aee52f2bc 100644
+--- a/arch/arm64/kvm/vgic/vgic-init.c
++++ b/arch/arm64/kvm/vgic/vgic-init.c
+@@ -97,11 +97,11 @@ int kvm_vgic_create(struct kvm *kvm, u32 type)
+ 	ret = 0;
 
-   hugetlb.1GB.limit_in_bytes
-   hugetlb.1GB.max_usage_in_bytes
-+  hugetlb.1GB.numa_stat
-   hugetlb.1GB.usage_in_bytes
-   hugetlb.1GB.failcnt
-   hugetlb.1GB.rsvd.limit_in_bytes
-@@ -43,6 +45,7 @@ files include::
-   hugetlb.1GB.rsvd.failcnt
-   hugetlb.64KB.limit_in_bytes
-   hugetlb.64KB.max_usage_in_bytes
-+  hugetlb.64KB.numa_stat
-   hugetlb.64KB.usage_in_bytes
-   hugetlb.64KB.failcnt
-   hugetlb.64KB.rsvd.limit_in_bytes
-@@ -51,6 +54,7 @@ files include::
-   hugetlb.64KB.rsvd.failcnt
-   hugetlb.32MB.limit_in_bytes
-   hugetlb.32MB.max_usage_in_bytes
-+  hugetlb.32MB.numa_stat
-   hugetlb.32MB.usage_in_bytes
-   hugetlb.32MB.failcnt
-   hugetlb.32MB.rsvd.limit_in_bytes
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-=
-guide/cgroup-v2.rst
-index 4d8c27eca96b..356847f8f008 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -2252,6 +2252,11 @@ HugeTLB Interface Files
- 	are local to the cgroup i.e. not hierarchical. The file modified event
- 	generated on this file reflects only the local events.
+ 	if (type == KVM_DEV_TYPE_ARM_VGIC_V2)
+-		kvm->arch.max_vcpus = VGIC_V2_MAX_CPUS;
++		kvm->max_vcpus = VGIC_V2_MAX_CPUS;
+ 	else
+-		kvm->arch.max_vcpus = VGIC_V3_MAX_CPUS;
++		kvm->max_vcpus = VGIC_V3_MAX_CPUS;
 
-+  hugetlb.<hugepagesize>.numa_stat
-+	Similar to memory.numa_stat, it shows the numa information of the
-+        hugetlb pages of <hugepagesize> in this cgroup.  Only active in
-+        use hugetlb pages are included.  The per-node values are in bytes.
-+
- Misc
- ----
-
-diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-index 1faebe1cd0ed..0445faaa636e 100644
---- a/include/linux/hugetlb.h
-+++ b/include/linux/hugetlb.h
-@@ -613,8 +613,8 @@ struct hstate {
- #endif
- #ifdef CONFIG_CGROUP_HUGETLB
- 	/* cgroup control files */
--	struct cftype cgroup_files_dfl[7];
--	struct cftype cgroup_files_legacy[9];
-+	struct cftype cgroup_files_dfl[8];
-+	struct cftype cgroup_files_legacy[10];
- #endif
- 	char name[HSTATE_NAME_LEN];
- };
-diff --git a/include/linux/hugetlb_cgroup.h b/include/linux/hugetlb_cgroup.=
-h
-index c137396129db..0f6cd28558d7 100644
---- a/include/linux/hugetlb_cgroup.h
-+++ b/include/linux/hugetlb_cgroup.h
-@@ -36,6 +36,11 @@ enum hugetlb_memory_event {
- 	HUGETLB_NR_MEMORY_EVENTS,
- };
-
-+struct hugetlb_cgroup_per_node {
-+	/* hugetlb usage in pages over all hstates. */
-+	unsigned long usage[HUGE_MAX_HSTATE];
-+};
-+
- struct hugetlb_cgroup {
- 	struct cgroup_subsys_state css;
-
-@@ -57,6 +62,8 @@ struct hugetlb_cgroup {
-
- 	/* Handle for "hugetlb.events.local" */
- 	struct cgroup_file events_local_file[HUGE_MAX_HSTATE];
-+
-+	struct hugetlb_cgroup_per_node *nodeinfo[];
- };
-
- static inline struct hugetlb_cgroup *
-diff --git a/mm/hugetlb_cgroup.c b/mm/hugetlb_cgroup.c
-index 5383023d0cca..9d7fcd21a6c0 100644
---- a/mm/hugetlb_cgroup.c
-+++ b/mm/hugetlb_cgroup.c
-@@ -126,29 +126,58 @@ static void hugetlb_cgroup_init(struct hugetlb_cgroup=
- *h_cgroup,
+-	if (atomic_read(&kvm->online_vcpus) > kvm->arch.max_vcpus) {
++	if (atomic_read(&kvm->online_vcpus) > kvm->max_vcpus) {
+ 		ret = -E2BIG;
+ 		goto out_unlock;
  	}
- }
+diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+index 60a35d9fe259..5f56516e2f5a 100644
+--- a/include/linux/kvm_host.h
++++ b/include/linux/kvm_host.h
+@@ -566,6 +566,7 @@ struct kvm {
+ 	 * and is accessed atomically.
+ 	 */
+ 	atomic_t online_vcpus;
++	int max_vcpus;
+ 	int created_vcpus;
+ 	int last_boosted_vcpu;
+ 	struct list_head vm_list;
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index 3f6d450355f0..e509b963651c 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -1052,6 +1052,7 @@ static struct kvm *kvm_create_vm(unsigned long type)
+ 	rcuwait_init(&kvm->mn_memslots_update_rcuwait);
 
-+static void hugetlb_cgroup_free(struct hugetlb_cgroup *h_cgroup)
-+{
-+	int node;
-+
-+	for_each_node(node)
-+		kfree(h_cgroup->nodeinfo[node]);
-+	kfree(h_cgroup);
-+}
-+
- static struct cgroup_subsys_state *
- hugetlb_cgroup_css_alloc(struct cgroup_subsys_state *parent_css)
- {
- 	struct hugetlb_cgroup *parent_h_cgroup =3D hugetlb_cgroup_from_css(parent=
-_css);
- 	struct hugetlb_cgroup *h_cgroup;
-+	int node;
-+
-+	h_cgroup =3D kzalloc(struct_size(h_cgroup, nodeinfo, nr_node_ids),
-+			   GFP_KERNEL);
+ 	INIT_LIST_HEAD(&kvm->devices);
++	kvm->max_vcpus = KVM_MAX_VCPUS;
 
--	h_cgroup =3D kzalloc(sizeof(*h_cgroup), GFP_KERNEL);
- 	if (!h_cgroup)
- 		return ERR_PTR(-ENOMEM);
+ 	BUILD_BUG_ON(KVM_MEM_SLOTS_NUM > SHRT_MAX);
 
- 	if (!parent_h_cgroup)
- 		root_h_cgroup =3D h_cgroup;
+@@ -3599,7 +3600,7 @@ static int kvm_vm_ioctl_create_vcpu(struct kvm *kvm, u32 id)
+ 		return -EINVAL;
 
-+	/*
-+	 * TODO: this routine can waste much memory for nodes which will
-+	 * never be onlined. It's better to use memory hotplug callback
-+	 * function.
-+	 */
-+	for_each_node(node) {
-+		/* Set node_to_alloc to -1 for offline nodes. */
-+		int node_to_alloc =3D
-+			node_state(node, N_NORMAL_MEMORY) ? node : -1;
-+		h_cgroup->nodeinfo[node] =3D
-+			kzalloc_node(sizeof(struct hugetlb_cgroup_per_node),
-+				     GFP_KERNEL, node_to_alloc);
-+		if (!h_cgroup->nodeinfo[node])
-+			goto fail_alloc_nodeinfo;
-+	}
-+
- 	hugetlb_cgroup_init(h_cgroup, parent_h_cgroup);
- 	return &h_cgroup->css;
-+
-+fail_alloc_nodeinfo:
-+	hugetlb_cgroup_free(h_cgroup);
-+	return ERR_PTR(-ENOMEM);
- }
-
- static void hugetlb_cgroup_css_free(struct cgroup_subsys_state *css)
- {
--	struct hugetlb_cgroup *h_cgroup;
--
--	h_cgroup =3D hugetlb_cgroup_from_css(css);
--	kfree(h_cgroup);
-+	hugetlb_cgroup_free(hugetlb_cgroup_from_css(css));
- }
-
- /*
-@@ -288,11 +317,21 @@ static void __hugetlb_cgroup_commit_charge(int idx, u=
-nsigned long nr_pages,
- 					   struct hugetlb_cgroup *h_cg,
- 					   struct page *page, bool rsvd)
- {
-+	unsigned long *usage;
-+
- 	if (hugetlb_cgroup_disabled() || !h_cg)
- 		return;
-
- 	__set_hugetlb_cgroup(page, h_cg, rsvd);
--	return;
-+	if (!rsvd) {
-+		usage =3D &h_cg->nodeinfo[page_to_nid(page)]->usage[idx];
-+		/*
-+		 * This write is not atomic due to fetching *usage and writing
-+		 * to it, but that's fine because we call this with
-+		 * hugetlb_lock held anyway.
-+		 */
-+		WRITE_ONCE(*usage, *usage + nr_pages);
-+	}
- }
-
- void hugetlb_cgroup_commit_charge(int idx, unsigned long nr_pages,
-@@ -316,6 +355,7 @@ static void __hugetlb_cgroup_uncharge_page(int idx, uns=
-igned long nr_pages,
- 					   struct page *page, bool rsvd)
- {
- 	struct hugetlb_cgroup *h_cg;
-+	unsigned long *usage;
-
- 	if (hugetlb_cgroup_disabled())
- 		return;
-@@ -331,8 +371,15 @@ static void __hugetlb_cgroup_uncharge_page(int idx, un=
-signed long nr_pages,
-
- 	if (rsvd)
- 		css_put(&h_cg->css);
--
--	return;
-+	else {
-+		usage =3D &h_cg->nodeinfo[page_to_nid(page)]->usage[idx];
-+		/*
-+		 * This write is not atomic due to fetching *usage and writing
-+		 * to it, but that's fine because we call this with
-+		 * hugetlb_lock held anyway.
-+		 */
-+		WRITE_ONCE(*usage, *usage - nr_pages);
-+	}
- }
-
- void hugetlb_cgroup_uncharge_page(int idx, unsigned long nr_pages,
-@@ -421,6 +468,59 @@ enum {
- 	RES_RSVD_FAILCNT,
- };
-
-+static int hugetlb_cgroup_read_numa_stat(struct seq_file *seq, void *dummy=
-)
-+{
-+	int nid;
-+	struct cftype *cft =3D seq_cft(seq);
-+	int idx =3D MEMFILE_IDX(cft->private);
-+	bool legacy =3D MEMFILE_ATTR(cft->private);
-+	struct hugetlb_cgroup *h_cg =3D hugetlb_cgroup_from_css(seq_css(seq));
-+	struct cgroup_subsys_state *css;
-+	unsigned long usage;
-+
-+	if (legacy) {
-+		/* Add up usage across all nodes for the non-hierarchical total. */
-+		usage =3D 0;
-+		for_each_node_state(nid, N_MEMORY)
-+			usage +=3D READ_ONCE(h_cg->nodeinfo[nid]->usage[idx]);
-+		seq_printf(seq, "total=3D%lu", usage * PAGE_SIZE);
-+
-+		/* Simply print the per-node usage for the non-hierarchical total. */
-+		for_each_node_state(nid, N_MEMORY)
-+			seq_printf(seq, " N%d=3D%lu", nid,
-+				   READ_ONCE(h_cg->nodeinfo[nid]->usage[idx]) *
-+					   PAGE_SIZE);
-+		seq_putc(seq, '\n');
-+	}
-+
-+	/*
-+	 * The hierarchical total is pretty much the value recorded by the
-+	 * counter, so use that.
-+	 */
-+	seq_printf(seq, "%stotal=3D%lu", legacy ? "hierarichal_" : "",
-+		   page_counter_read(&h_cg->hugepage[idx]) * PAGE_SIZE);
-+
-+	/*
-+	 * For each node, transverse the css tree to obtain the hierarichal
-+	 * node usage.
-+	 */
-+	for_each_node_state(nid, N_MEMORY) {
-+		usage =3D 0;
-+		rcu_read_lock();
-+		css_for_each_descendant_pre(css, &h_cg->css) {
-+			usage +=3D READ_ONCE(hugetlb_cgroup_from_css(css)
-+						   ->nodeinfo[nid]
-+						   ->usage[idx]);
-+		}
-+		rcu_read_unlock();
-+		seq_printf(seq, " N%d=3D%lu", nid, usage * PAGE_SIZE);
-+	}
-+
-+	seq_putc(seq, '\n');
-+
-+	return 0;
-+}
-+
- static u64 hugetlb_cgroup_read_u64(struct cgroup_subsys_state *css,
- 				   struct cftype *cft)
- {
-@@ -671,8 +771,14 @@ static void __init __hugetlb_cgroup_file_dfl_init(int =
-idx)
- 				    events_local_file[idx]);
- 	cft->flags =3D CFTYPE_NOT_ON_ROOT;
-
--	/* NULL terminate the last cft */
-+	/* Add the numa stat file */
- 	cft =3D &h->cgroup_files_dfl[6];
-+	snprintf(cft->name, MAX_CFTYPE_NAME, "%s.numa_stat", buf);
-+	cft->seq_show =3D hugetlb_cgroup_read_numa_stat;
-+	cft->flags =3D CFTYPE_NOT_ON_ROOT;
-+
-+	/* NULL terminate the last cft */
-+	cft =3D &h->cgroup_files_dfl[7];
- 	memset(cft, 0, sizeof(*cft));
-
- 	WARN_ON(cgroup_add_dfl_cftypes(&hugetlb_cgrp_subsys,
-@@ -742,8 +848,14 @@ static void __init __hugetlb_cgroup_file_legacy_init(i=
-nt idx)
- 	cft->write =3D hugetlb_cgroup_reset;
- 	cft->read_u64 =3D hugetlb_cgroup_read_u64;
-
-+	/* Add the numa stat file */
-+	cft =3D &h->cgroup_files_dfl[8];
-+	snprintf(cft->name, MAX_CFTYPE_NAME, "%s.numa_stat", buf);
-+	cft->private =3D MEMFILE_PRIVATE(idx, 1);
-+	cft->seq_show =3D hugetlb_cgroup_read_numa_stat;
-+
- 	/* NULL terminate the last cft */
--	cft =3D &h->cgroup_files_legacy[8];
-+	cft =3D &h->cgroup_files_legacy[9];
- 	memset(cft, 0, sizeof(*cft));
-
- 	WARN_ON(cgroup_add_legacy_cftypes(&hugetlb_cgrp_subsys,
+ 	mutex_lock(&kvm->lock);
+-	if (kvm->created_vcpus == KVM_MAX_VCPUS) {
++	if (kvm->created_vcpus >= kvm->max_vcpus) {
+ 		mutex_unlock(&kvm->lock);
+ 		return -EINVAL;
+ 	}
 --
-2.34.0.rc2.393.gf8c9666880-goog
+2.34.0.rc1.387.gb447b232ab-goog
