@@ -2,116 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A96B5C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Nov 2021 09:39:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3305C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Nov 2021 09:43:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8F6C561284
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Nov 2021 09:39:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D220961A07
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Nov 2021 09:43:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235482AbhKQJmt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Nov 2021 04:42:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46624 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235346AbhKQJl7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Nov 2021 04:41:59 -0500
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30AE2C061227
-        for <linux-doc@vger.kernel.org>; Wed, 17 Nov 2021 01:38:36 -0800 (PST)
-Received: by mail-pj1-x1032.google.com with SMTP id cq22-20020a17090af99600b001a9550a17a5so4784521pjb.2
-        for <linux-doc@vger.kernel.org>; Wed, 17 Nov 2021 01:38:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=p06wr/b9VeViK5RbDBA5PUJzTOvramSvm+dxu+M4rTE=;
-        b=pJGIqKsu10BvKRKG5LtiH7UHz0X1hSFCiqUjPWpHUJt6M3NXtqXLX3w1K/XCaEbfeH
-         tGZb/fYkxPOSnUN+cL89VU35pyfFzwzlTAoyXHIxOAvsvejjA8YZYZUhr52WdpLZ1/pQ
-         z4Ba4NOBonROMMr5b/sI+2v6mDMArk9/YyngfrsYv6bU6f7RkLjFM4n7OZg9G74Ikann
-         AKLqDY47KXHuvL8YlMz6dcnZ3WSawa1h5V4BEmqPN38nLhdd2pgLhXEvT5qrmwu/StrG
-         +X8hKLuDb47CIIkBtb3EGYT1KpBtWngdUmYluyk7wRwVG+NQA+3WAqD9X1GlL8Tq/kkb
-         DZqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=p06wr/b9VeViK5RbDBA5PUJzTOvramSvm+dxu+M4rTE=;
-        b=q85srebv4EFlkller3c/i+nkRaLhy4MWaq3JoD+MsTFanO4p86njRrODiOOTnYGOQy
-         rQlMJvYJ8KnC+mlZ7KqKpeLqSdKdAPSk/gQbYTaTTLImTxf6/kEyZyJ/DFg4+KVHUPjw
-         P4MHL6G9EiLAEZYoEZ3WXCJ5/uKKVM08sQ4VVG8apNkmZNnfQCwvc6x+wyPJ5HRvuCE+
-         +Ih7VSHj2dNcb4TvhdpVOnMPspVXILO7/7cMnHf5rmSJi2ln8mSsdJMRHIWdw7DTaRL6
-         x/4b6vCp3W6vG+TkGE03lTreMQ+2IxpTbLZf2Vp+OgHh/yF8tB/bhCey5rfXuO/AmSHO
-         lVAQ==
-X-Gm-Message-State: AOAM532y9OYcAiJe61FgNr0YUUeUdurEtbFHQr1Ze3WBPwZManjzC8OX
-        8vJJE6qXcldkDGaunhHyXy8fRQ==
-X-Google-Smtp-Source: ABdhPJxPHQRyK4iq9ZP4EhzdB2xf9ry2tIJHPSDhqUSMZ/ugxhgyKB/rglfReIByiMgp7XdeUr8heA==
-X-Received: by 2002:a17:90a:9f93:: with SMTP id o19mr7998523pjp.136.1637141915812;
-        Wed, 17 Nov 2021 01:38:35 -0800 (PST)
-Received: from [10.76.43.192] ([61.120.150.76])
-        by smtp.gmail.com with ESMTPSA id w20sm23657053pfu.146.2021.11.17.01.38.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Nov 2021 01:38:35 -0800 (PST)
-Message-ID: <816cb511-446d-11eb-ae4a-583c5a7102c4@bytedance.com>
-Date:   Wed, 17 Nov 2021 17:38:28 +0800
+        id S235280AbhKQJqN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Nov 2021 04:46:13 -0500
+Received: from verein.lst.de ([213.95.11.211]:49710 "EHLO verein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235392AbhKQJqN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 17 Nov 2021 04:46:13 -0500
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 098C468C7B; Wed, 17 Nov 2021 10:43:09 +0100 (CET)
+Date:   Wed, 17 Nov 2021 10:43:08 +0100
+From:   Christoph Hellwig <hch@lst.de>
+To:     Joao Martins <joao.m.martins@oracle.com>
+Cc:     linux-mm@kvack.org, Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Jane Chu <jane.chu@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Christoph Hellwig <hch@lst.de>, nvdimm@lists.linux.dev,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 8/8] device-dax: compound devmap support
+Message-ID: <20211117094308.GC8429@lst.de>
+References: <20211112150824.11028-1-joao.m.martins@oracle.com> <20211112150824.11028-9-joao.m.martins@oracle.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.3.1
-Subject: Re: Re: Re: Re: Re: Re: Re: [PATCH v1] sched/numa: add per-process
- numa_balancing
-Content-Language: en-US
-To:     Mel Gorman <mgorman@suse.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        linux-api@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20211028153028.GP3891@suse.de>
- <b884ad7d-48d3-fcc8-d199-9e7643552a9a@bytedance.com>
- <20211029083751.GR3891@suse.de>
- <CAMx52ARF1fVH9=YLQMjE=8ckKJ=q3X2-ovtKuQcoTyo564mQnQ@mail.gmail.com>
- <20211109091951.GW3891@suse.de>
- <7de25e1b-e548-b8b5-dda5-6a2e001f3c1a@bytedance.com>
- <20211109121222.GX3891@suse.de>
- <117d5b88-b62b-f50b-32ff-1a9fe35b9e2e@bytedance.com>
- <20211109162647.GY3891@suse.de>
- <08e95d68-7ba9-44d0-da85-41dc244b4c99@bytedance.com>
- <20211117082952.GA3301@suse.de>
-From:   Gang Li <ligang.bdlg@bytedance.com>
-In-Reply-To: <20211117082952.GA3301@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211112150824.11028-9-joao.m.martins@oracle.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/17/21 4:29 PM, Mel Gorman wrote:
+On Fri, Nov 12, 2021 at 04:08:24PM +0100, Joao Martins wrote:
+> Use the newly added compound devmap facility which maps the assigned dax
+> ranges as compound pages at a page size of @align.
 > 
-> It's a bit vague but if you wanted to put together the outline, I'd read
-> over it. Note that this was all in the context of trying to introduce an
-
-Sorry, maybe I shouldn't propose new feature in this context.
-
-> API like
+> dax devices are created with a fixed @align (huge page size) which is
+> enforced through as well at mmap() of the device. Faults, consequently
+> happen too at the specified @align specified at the creation, and those
+> don't change throughout dax device lifetime. MCEs unmap a whole dax
+> huge page, as well as splits occurring at the configured page size.
 > 
-> Disable/enable per-process numa balancing:
->          prctl(PR_NUMA_BALANCING, PR_SET_NUMA_BALANCING, 0/1);
+> Performance measured by gup_test improves considerably for
+> unpin_user_pages() and altmap with NVDIMMs:
 > 
-> i.e. one that controlled both enabling and disabling. You also have
-> the option of introducing the NUMAB equivalent of PR_SET_THP_DISABLE --
-> an API that is explicitly about disabling *only*.
+> $ gup_test -f /dev/dax1.0 -m 16384 -r 10 -S -a -n 512 -w
+> (pin_user_pages_fast 2M pages) put:~71 ms -> put:~22 ms
+> [altmap]
+> (pin_user_pages_fast 2M pages) get:~524ms put:~525 ms -> get: ~127ms put:~71ms
 > 
+>  $ gup_test -f /dev/dax1.0 -m 129022 -r 10 -S -a -n 512 -w
+> (pin_user_pages_fast 2M pages) put:~513 ms -> put:~188 ms
+> [altmap with -m 127004]
+> (pin_user_pages_fast 2M pages) get:~4.1 secs put:~4.12 secs -> get:~1sec put:~563ms
+> 
+> .. as well as unpin_user_page_range_dirty_lock() being just as effective
+> as THP/hugetlb[0] pages.
+> 
+> [0] https://lore.kernel.org/linux-mm/20210212130843.13865-5-joao.m.martins@oracle.com/
+> 
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+> ---
+>  drivers/dax/device.c | 57 ++++++++++++++++++++++++++++++++++----------
+>  1 file changed, 44 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/dax/device.c b/drivers/dax/device.c
+> index a65c67ab5ee0..0c2ac97d397d 100644
+> --- a/drivers/dax/device.c
+> +++ b/drivers/dax/device.c
+> @@ -192,6 +192,42 @@ static vm_fault_t __dev_dax_pud_fault(struct dev_dax *dev_dax,
+>  }
+>  #endif /* !CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD */
+>  
+> +static void set_page_mapping(struct vm_fault *vmf, pfn_t pfn,
+> +			     unsigned long fault_size,
+> +			     struct address_space *f_mapping)
+> +{
+> +	unsigned long i;
+> +	pgoff_t pgoff;
+> +
+> +	pgoff = linear_page_index(vmf->vma, ALIGN(vmf->address, fault_size));
+> +
+> +	for (i = 0; i < fault_size / PAGE_SIZE; i++) {
+> +		struct page *page;
+> +
+> +		page = pfn_to_page(pfn_t_to_pfn(pfn) + i);
+> +		if (page->mapping)
+> +			continue;
+> +		page->mapping = f_mapping;
+> +		page->index = pgoff + i;
+> +	}
+> +}
 
-If those APIs are ok with you, I will send v2 soon.
+No need to pass f_mapping here, it must be vmf->vma->vm_file->f_mapping.
 
-1. prctl(PR_NUMA_BALANCING, PR_SET_THP_DISABLE);
-2. prctl(PR_NUMA_BALANCING, PR_SET_THP_ENABLE);
-3. prctl(PR_NUMA_BALANCING, PR_GET_THP);
+> +static void set_compound_mapping(struct vm_fault *vmf, pfn_t pfn,
+> +				 unsigned long fault_size,
+> +				 struct address_space *f_mapping)
+> +{
+> +	struct page *head;
+> +
+> +	head = pfn_to_page(pfn_t_to_pfn(pfn));
+> +	head = compound_head(head);
+> +	if (head->mapping)
+> +		return;
+> +
+> +	head->mapping = f_mapping;
+> +	head->index = linear_page_index(vmf->vma,
+> +			ALIGN(vmf->address, fault_size));
+> +}
 
-IIUC, "THP" means "this process" or "the process".
+Same here.
 
+>  	if (rc == VM_FAULT_NOPAGE) {
+> -		unsigned long i;
+> -		pgoff_t pgoff;
+> +		struct dev_pagemap *pgmap = dev_dax->pgmap;
 
+If you're touching this anyway:  why not do an early return here for
+the error case to simplify the flow?
