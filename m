@@ -2,166 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6417C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Nov 2021 08:08:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0814C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Nov 2021 08:30:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8E23661BD3
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Nov 2021 08:08:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A354661AFB
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Nov 2021 08:30:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234402AbhKQIL1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Nov 2021 03:11:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54050 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232071AbhKQIL0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Nov 2021 03:11:26 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3FEDC061570;
-        Wed, 17 Nov 2021 00:08:28 -0800 (PST)
-Received: from localhost (unknown [151.44.20.151])
+        id S234522AbhKQIc6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Nov 2021 03:32:58 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28]:50668 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229944AbhKQIc5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Nov 2021 03:32:57 -0500
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 4C23C218F6;
+        Wed, 17 Nov 2021 08:29:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1637137798; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=0pK3KJ3GdBoScQYF4lRP70cesfMJ5sZVeDywKrYlzGI=;
+        b=xtQiMQUSEWSgjYM86BL5QZbpmMhGk4qS2LiSusLfS9WirtsT/IhplmYYNbV0dRpbL4bJc+
+        GXYGDU0Y+1B3c+d0KLn09qzQkWnuVFw6XJIjLtkI43t4vk5ywsKRMRKx+RyoORH1XkYlC4
+        kKgHSqaI3tqvhTQe8/zNqac2pupVVjI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1637137798;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=0pK3KJ3GdBoScQYF4lRP70cesfMJ5sZVeDywKrYlzGI=;
+        b=rwfEHGWn630X8LB/fsn0y4tbmvXUI2hf5j21l7EWw8SX1KCOP4kvUkDjow9ESpFMm0f5uD
+        PO9WPYfec4UJ8FAA==
+Received: from suse.de (mgorman.udp.ovpn2.nue.suse.de [10.163.43.106])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 9E0064A6;
-        Wed, 17 Nov 2021 08:08:26 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9E0064A6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1637136507; bh=WI3l1gDO1ckeyM/rewn4fHkluluKgnQPmxGdZIQcBv8=;
-        h=From:To:Subject:In-Reply-To:References:Date:From;
-        b=TslcnkXRHAjwl9HngGVriKBHCOgNyEMq5Ti0C7Bj0sujObew6iXXhL18psJXdYasx
-         Msvq9ITuU9Qu/9OHDnoRjV/R002NgCxj63ExgA/eZBfce+aW+JVws3opwiEf/1gGAI
-         b/ntpmDQMM6w0CMcbWh2aRcX4UaomljPO5QJR81asd9wNtS/6hZGnvRxyT1H97Fi0s
-         np2Qsnnyd1vihZefSA/RlkJsUIw0gBHH3hTJDP4AcZD6QQ9MnAch70xy/km4ZRI2cc
-         pV8c8XUdxsPcYaA5kLXw0nHipwGnVSEozEq3c60EOmMCCR19icPwrpnrxSzbCBcOGw
-         tFF1hL/tJauXA==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Pasha Tatashin <pasha.tatashin@soleen.com>,
-        pasha.tatashin@soleen.com, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        akpm@linux-foundation.org, rientjes@google.com, pjt@google.com,
-        weixugc@google.com, gthelen@google.com, mingo@redhat.com,
-        will@kernel.org, rppt@kernel.org, keescook@chromium.org,
-        tglx@linutronix.de, peterz@infradead.org, masahiroy@kernel.org,
-        samitolvanen@google.com, dave.hansen@linux.intel.com,
-        x86@kernel.org, frederic@kernel.org, hpa@zytor.com,
-        aneesh.kumar@linux.ibm.com
-Subject: Re: [RFC 2/3] mm: page table check
-In-Reply-To: <20211116220038.116484-3-pasha.tatashin@soleen.com>
-References: <20211116220038.116484-1-pasha.tatashin@soleen.com>
- <20211116220038.116484-3-pasha.tatashin@soleen.com>
-Date:   Wed, 17 Nov 2021 01:08:23 -0700
-Message-ID: <878rxngq6g.fsf@meer.lwn.net>
+        by relay2.suse.de (Postfix) with ESMTPS id DA665A3B83;
+        Wed, 17 Nov 2021 08:29:56 +0000 (UTC)
+Date:   Wed, 17 Nov 2021 08:29:52 +0000
+From:   Mel Gorman <mgorman@suse.de>
+To:     Gang Li <ligang.bdlg@bytedance.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        linux-api@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: Re: Re: Re: Re: Re: [PATCH v1] sched/numa: add per-process
+ numa_balancing
+Message-ID: <20211117082952.GA3301@suse.de>
+References: <20211028153028.GP3891@suse.de>
+ <b884ad7d-48d3-fcc8-d199-9e7643552a9a@bytedance.com>
+ <20211029083751.GR3891@suse.de>
+ <CAMx52ARF1fVH9=YLQMjE=8ckKJ=q3X2-ovtKuQcoTyo564mQnQ@mail.gmail.com>
+ <20211109091951.GW3891@suse.de>
+ <7de25e1b-e548-b8b5-dda5-6a2e001f3c1a@bytedance.com>
+ <20211109121222.GX3891@suse.de>
+ <117d5b88-b62b-f50b-32ff-1a9fe35b9e2e@bytedance.com>
+ <20211109162647.GY3891@suse.de>
+ <08e95d68-7ba9-44d0-da85-41dc244b4c99@bytedance.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
+In-Reply-To: <08e95d68-7ba9-44d0-da85-41dc244b4c99@bytedance.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Pasha Tatashin <pasha.tatashin@soleen.com> writes:
+On Wed, Nov 17, 2021 at 03:07:43PM +0800, Gang Li wrote:
+> On 11/10/21 12:26 AM, Mel Gorman wrote:
+> > 
+> > Of those two, I agree with the second one, it would be tricky to implement
+> > but the first one is less clear. This is based on an assumption. If prctl
+> > exists to enable/disable NUMA baalancing, it's possible that someone
+> > else would want to control NUMA balancing on a cgroup basis instead of
+> > globally which would run into the same type of concerns -- different
+> > semantics depending on the global tunable.
+> > 
+> 
+> Hi!
+> 
+> You talk about the "semantics" of NUMA balancing between global, cgroup and
+> process. While I read the kernel doc "NUMA Memory Policy", it occur to me
+> that we may have a "NUMA Balancing Policy".
+> 
+> Since you are the reviewer of CONFIG_NUMA_BALANCING. I would like to discuss
+> the need for introducing "NUMA Balancing Policy" with you. Is this worth
+> doing?
+> 
 
-> Check user page table entries at the time they are added and removed.
->
-> Allows to synchronously catch memory corruption issues related to
-> double mapping.
->
-> When a pte for an anonymous page is added into page table, we verify
-> that this pte does not already point to a file backed page, and vice
-> versa if this is a file backed page that is being added we verify that
-> this page does not have an anonymous mapping
->
-> We also enforce that read-only sharing for anonymous pages is allowed
-> (i.e. cow after fork). All other sharing must be for file pages.
->
-> Page table check allows to protect and debug cases where "struct page"
-> metadata became corrupted for some reason. For example, when refcnt or
-> mapcount become invalid.
->
-> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> ---
->  Documentation/vm/page_table_check.rst |  53 ++++++
+It's a bit vague but if you wanted to put together the outline, I'd read
+over it. Note that this was all in the context of trying to introduce an
+API like
 
-Thanks for documenting this feature!  When you add a new RST file,
-though, you need to add it to the index.rst file as well so that it is
-included in the docs build.
+Disable/enable per-process numa balancing:
+        prctl(PR_NUMA_BALANCING, PR_SET_NUMA_BALANCING, 0/1);
 
->  MAINTAINERS                           |   9 +
->  arch/Kconfig                          |   3 +
->  include/linux/page_table_check.h      | 147 ++++++++++++++
->  mm/Kconfig.debug                      |  24 +++
->  mm/Makefile                           |   1 +
->  mm/page_alloc.c                       |   4 +
->  mm/page_ext.c                         |   4 +
->  mm/page_table_check.c                 | 264 ++++++++++++++++++++++++++
->  9 files changed, 509 insertions(+)
->  create mode 100644 Documentation/vm/page_table_check.rst
->  create mode 100644 include/linux/page_table_check.h
->  create mode 100644 mm/page_table_check.c
->
-> diff --git a/Documentation/vm/page_table_check.rst b/Documentation/vm/page_table_check.rst
-> new file mode 100644
-> index 000000000000..41435a45869f
-> --- /dev/null
-> +++ b/Documentation/vm/page_table_check.rst
-> @@ -0,0 +1,53 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. _page_table_check:
+i.e. one that controlled both enabling and disabling. You also have
+the option of introducing the NUMAB equivalent of PR_SET_THP_DISABLE --
+an API that is explicitly about disabling *only*.
 
-Do you need this label for anything?  As-is it's just added visual
-clutter and could come out.
-
-> +================
-> +Page Table Check
-> +================
-> +
-> +Page table check allows to hardern the kernel by ensuring that some types of
-> +memory corruptions are prevented.
-> +
-> +Page table check performs extra verifications at the time when new pages become
-> +accessible from userspace by getting their page table entries (PTEs PMDs etc.)
-> +added into the table.
-> +
-> +In case of detected corruption, the kernel is crashed. There is a small
-> +performance and memory overhead associated with page table check. Thereofre, it
-> +is disabled by default but can be optionally enabled on systems where extra
-> +hardening outweighs the costs. Also, because page table check is synchronous, it
-> +can help with debugging double map memory corruption issues, by crashing kernel
-> +at the time wrong mapping occurs instead of later which is often the case with
-> +memory corruptions bugs.
-> +
-> +==============================
-> +Double mapping detection logic
-> +==============================
-
-I'd use subsection markup (single "==========" line underneath) for the
-subsections.
-
-> ++-------------------+-------------------+-------------------+------------------+
-> +| Current Mapping   | New mapping       | Permissions       | Rule             |
-> ++===================+===================+===================+==================+
-> +| Anonymous         | Anonymous         | Read              | Allow            |
-> ++-------------------+-------------------+-------------------+------------------+
-> +| Anonymous         | Anonymous         | Read / Write      | Prohibit         |
-> ++-------------------+-------------------+-------------------+------------------+
-> +| Anonymous         | Named             | Any               | Prohibit         |
-> ++-------------------+-------------------+-------------------+------------------+
-> +| Named             | Anonymous         | Any               | Prohibit         |
-> ++-------------------+-------------------+-------------------+------------------+
-> +| Named             | Named             | Any               | Allow            |
-> ++-------------------+-------------------+-------------------+------------------+
-> +
-> +=========================
-> +Enabling Page Table Check
-> +=========================
-> +
-> +Build kernel with:
-> +
-> +- PAGE_TABLE_CHECK=y
-> +Note, it can only be enabled on platforms where ARCH_SUPPORTS_PAGE_TABLE_CHECK
-> +is available.
-> +- Boot with 'page_table_check=on' kernel parameter.
-> +
-> +Optionally, build kernel with PAGE_TABLE_CHECK_ENFORCED in order to have page
-> +table support without extra kernel parameter.
-
-Thanks,
-
-jon
+-- 
+Mel Gorman
+SUSE Labs
