@@ -2,135 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3305C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Nov 2021 09:43:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 810D5C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Nov 2021 10:10:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D220961A07
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Nov 2021 09:43:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5822D61BA1
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Nov 2021 10:10:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235280AbhKQJqN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Nov 2021 04:46:13 -0500
-Received: from verein.lst.de ([213.95.11.211]:49710 "EHLO verein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235392AbhKQJqN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 17 Nov 2021 04:46:13 -0500
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 098C468C7B; Wed, 17 Nov 2021 10:43:09 +0100 (CET)
-Date:   Wed, 17 Nov 2021 10:43:08 +0100
-From:   Christoph Hellwig <hch@lst.de>
-To:     Joao Martins <joao.m.martins@oracle.com>
-Cc:     linux-mm@kvack.org, Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Jane Chu <jane.chu@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Christoph Hellwig <hch@lst.de>, nvdimm@lists.linux.dev,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 8/8] device-dax: compound devmap support
-Message-ID: <20211117094308.GC8429@lst.de>
-References: <20211112150824.11028-1-joao.m.martins@oracle.com> <20211112150824.11028-9-joao.m.martins@oracle.com>
+        id S236121AbhKQKNR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Nov 2021 05:13:17 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28]:56600 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235992AbhKQKNN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Nov 2021 05:13:13 -0500
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id C3E99212CC;
+        Wed, 17 Nov 2021 10:10:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1637143812; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=mhmJLrVhVIw+GLz9j0MpAB8YGPGJGnv5SXbaFK+Gc38=;
+        b=XYP3U/Mpbh/hBbiTpSeUdKXWaJyZFBtfvo7BZvfcR9WaGpitiiTVQ/H9AAn5GlJGoOfWcd
+        n6zIHdUIsGgweIMyeGwlmExXn9vQh2AB6wY4b12yNF1Jt7pTM6f9MJdENBq3JMa6aF/e4m
+        thPlfI270FoAN+qCE1FiCqWxyDVB7hg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1637143812;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=mhmJLrVhVIw+GLz9j0MpAB8YGPGJGnv5SXbaFK+Gc38=;
+        b=JFPWMr0zJZBSRfVCV3s+phhItvmsiWmJXNjfkQnnwocGhgek68agiFfCK3HBemnqgy9iIO
+        XVCpn6miAs51VVBg==
+Received: from suse.de (unknown [10.163.43.106])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 90F83A3B8A;
+        Wed, 17 Nov 2021 10:10:10 +0000 (UTC)
+Date:   Wed, 17 Nov 2021 10:10:08 +0000
+From:   Mel Gorman <mgorman@suse.de>
+To:     Gang Li <ligang.bdlg@bytedance.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        linux-api@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: Re: Re: Re: Re: Re: Re: [PATCH v1] sched/numa: add per-process
+ numa_balancing
+Message-ID: <20211117101008.GB3301@suse.de>
+References: <20211029083751.GR3891@suse.de>
+ <CAMx52ARF1fVH9=YLQMjE=8ckKJ=q3X2-ovtKuQcoTyo564mQnQ@mail.gmail.com>
+ <20211109091951.GW3891@suse.de>
+ <7de25e1b-e548-b8b5-dda5-6a2e001f3c1a@bytedance.com>
+ <20211109121222.GX3891@suse.de>
+ <117d5b88-b62b-f50b-32ff-1a9fe35b9e2e@bytedance.com>
+ <20211109162647.GY3891@suse.de>
+ <08e95d68-7ba9-44d0-da85-41dc244b4c99@bytedance.com>
+ <20211117082952.GA3301@suse.de>
+ <816cb511-446d-11eb-ae4a-583c5a7102c4@bytedance.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-15
 Content-Disposition: inline
-In-Reply-To: <20211112150824.11028-9-joao.m.martins@oracle.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <816cb511-446d-11eb-ae4a-583c5a7102c4@bytedance.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 12, 2021 at 04:08:24PM +0100, Joao Martins wrote:
-> Use the newly added compound devmap facility which maps the assigned dax
-> ranges as compound pages at a page size of @align.
+On Wed, Nov 17, 2021 at 05:38:28PM +0800, Gang Li wrote:
+> On 11/17/21 4:29 PM, Mel Gorman wrote:
+> > 
+> > It's a bit vague but if you wanted to put together the outline, I'd read
+> > over it. Note that this was all in the context of trying to introduce an
 > 
-> dax devices are created with a fixed @align (huge page size) which is
-> enforced through as well at mmap() of the device. Faults, consequently
-> happen too at the specified @align specified at the creation, and those
-> don't change throughout dax device lifetime. MCEs unmap a whole dax
-> huge page, as well as splits occurring at the configured page size.
+> Sorry, maybe I shouldn't propose new feature in this context.
 > 
-> Performance measured by gup_test improves considerably for
-> unpin_user_pages() and altmap with NVDIMMs:
+> > API like
+> > 
+> > Disable/enable per-process numa balancing:
+> >          prctl(PR_NUMA_BALANCING, PR_SET_NUMA_BALANCING, 0/1);
+> > 
+> > i.e. one that controlled both enabling and disabling. You also have
+> > the option of introducing the NUMAB equivalent of PR_SET_THP_DISABLE --
+> > an API that is explicitly about disabling *only*.
+> > 
 > 
-> $ gup_test -f /dev/dax1.0 -m 16384 -r 10 -S -a -n 512 -w
-> (pin_user_pages_fast 2M pages) put:~71 ms -> put:~22 ms
-> [altmap]
-> (pin_user_pages_fast 2M pages) get:~524ms put:~525 ms -> get: ~127ms put:~71ms
+> If those APIs are ok with you, I will send v2 soon.
 > 
->  $ gup_test -f /dev/dax1.0 -m 129022 -r 10 -S -a -n 512 -w
-> (pin_user_pages_fast 2M pages) put:~513 ms -> put:~188 ms
-> [altmap with -m 127004]
-> (pin_user_pages_fast 2M pages) get:~4.1 secs put:~4.12 secs -> get:~1sec put:~563ms
-> 
-> .. as well as unpin_user_page_range_dirty_lock() being just as effective
-> as THP/hugetlb[0] pages.
-> 
-> [0] https://lore.kernel.org/linux-mm/20210212130843.13865-5-joao.m.martins@oracle.com/
-> 
-> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-> Reviewed-by: Dan Williams <dan.j.williams@intel.com>
-> ---
->  drivers/dax/device.c | 57 ++++++++++++++++++++++++++++++++++----------
->  1 file changed, 44 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/dax/device.c b/drivers/dax/device.c
-> index a65c67ab5ee0..0c2ac97d397d 100644
-> --- a/drivers/dax/device.c
-> +++ b/drivers/dax/device.c
-> @@ -192,6 +192,42 @@ static vm_fault_t __dev_dax_pud_fault(struct dev_dax *dev_dax,
->  }
->  #endif /* !CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD */
->  
-> +static void set_page_mapping(struct vm_fault *vmf, pfn_t pfn,
-> +			     unsigned long fault_size,
-> +			     struct address_space *f_mapping)
-> +{
-> +	unsigned long i;
-> +	pgoff_t pgoff;
-> +
-> +	pgoff = linear_page_index(vmf->vma, ALIGN(vmf->address, fault_size));
-> +
-> +	for (i = 0; i < fault_size / PAGE_SIZE; i++) {
-> +		struct page *page;
-> +
-> +		page = pfn_to_page(pfn_t_to_pfn(pfn) + i);
-> +		if (page->mapping)
-> +			continue;
-> +		page->mapping = f_mapping;
-> +		page->index = pgoff + i;
-> +	}
-> +}
+> 1. prctl(PR_NUMA_BALANCING, PR_SET_THP_DISABLE);
 
-No need to pass f_mapping here, it must be vmf->vma->vm_file->f_mapping.
+It would be (PR_SET_NUMAB_DISABLE, 1) 
 
-> +static void set_compound_mapping(struct vm_fault *vmf, pfn_t pfn,
-> +				 unsigned long fault_size,
-> +				 struct address_space *f_mapping)
-> +{
-> +	struct page *head;
-> +
-> +	head = pfn_to_page(pfn_t_to_pfn(pfn));
-> +	head = compound_head(head);
-> +	if (head->mapping)
-> +		return;
-> +
-> +	head->mapping = f_mapping;
-> +	head->index = linear_page_index(vmf->vma,
-> +			ALIGN(vmf->address, fault_size));
-> +}
+> 2. prctl(PR_NUMA_BALANCING, PR_SET_THP_ENABLE);
 
-Same here.
+An enable prctl will have the same problems as
+prctl(PR_NUMA_BALANCING, PR_SET_NUMA_BALANCING, 0/1) -- it should have
+meaning if the numa_balancing sysctl is disabled.
 
->  	if (rc == VM_FAULT_NOPAGE) {
-> -		unsigned long i;
-> -		pgoff_t pgoff;
-> +		struct dev_pagemap *pgmap = dev_dax->pgmap;
+> 3. prctl(PR_NUMA_BALANCING, PR_GET_THP);
+> 
 
-If you're touching this anyway:  why not do an early return here for
-the error case to simplify the flow?
+PR_GET_NUMAB_DISABLE
+
+-- 
+Mel Gorman
+SUSE Labs
