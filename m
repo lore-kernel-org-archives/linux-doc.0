@@ -2,58 +2,58 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F05F7C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 08:11:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA386C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 08:11:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DD00A61B30
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 08:11:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B41E361B9F
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 08:11:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244272AbhKRIOG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Nov 2021 03:14:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42402 "EHLO
+        id S244274AbhKRIOH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Nov 2021 03:14:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244248AbhKRIOB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Nov 2021 03:14:01 -0500
-Received: from mail-wr1-x44a.google.com (mail-wr1-x44a.google.com [IPv6:2a00:1450:4864:20::44a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAC5AC061766
-        for <linux-doc@vger.kernel.org>; Thu, 18 Nov 2021 00:11:00 -0800 (PST)
-Received: by mail-wr1-x44a.google.com with SMTP id f3-20020a5d50c3000000b00183ce1379feso872572wrt.5
-        for <linux-doc@vger.kernel.org>; Thu, 18 Nov 2021 00:11:00 -0800 (PST)
+        with ESMTP id S244258AbhKRIOD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Nov 2021 03:14:03 -0500
+Received: from mail-wm1-x349.google.com (mail-wm1-x349.google.com [IPv6:2a00:1450:4864:20::349])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB947C061200
+        for <linux-doc@vger.kernel.org>; Thu, 18 Nov 2021 00:11:02 -0800 (PST)
+Received: by mail-wm1-x349.google.com with SMTP id 145-20020a1c0197000000b0032efc3eb9bcso4005605wmb.0
+        for <linux-doc@vger.kernel.org>; Thu, 18 Nov 2021 00:11:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=SHlXPesj/sMVN1b9WbUeHFHzMLC0KZiq0qGR6QmTL6E=;
-        b=XyT5v0i6sf9PPTqOt1kw+VpryVGt2ed80hDlnhClza3ljnElrz3vRQdJCOpTuvWDRD
-         WPs6kJ70xj/jjBVaBPnXZbT42p+8Yl8/MHwAAsB38e+tZCfOctJzbCk3kKfHqJnTyS/G
-         U8nyzozLAt7FxcyX3iMWq6oHIPb5Vc8VHuxLlUClKnPspZx1c89pWakNLM3sLcLjVIhl
-         XWl9bkN2DLBbX0fVrNT6fOggYu9frJBoBTU6lKOn70O2SDu/YPqQty/ZsbnJsHtNTZia
-         iZxjuh3CoMDQ7kq0GjxakKwrr7jR9NFnGBFQsdtaHvbLAcdExPUrDNUkatVJUKaU1n+g
-         jfIA==
+        bh=tuhyQwzlfQERbV6yctXDUlEPG1hDRNoinPlUWTt5/uo=;
+        b=D3oVfd2YW+Jp0uWnxzxNuYTct1ZYohzwg0BWZoFT76u6awgFWd2DR3ZCJl3hb6Yhvo
+         KETbEmZvuQfBxAuXqM/WJ/+3ZdiVlllEQPVNGVg3xS93MQdCnA3feBHHINUwKPhRmpG6
+         jc3pDoc/4nlId6nmxamE0Ew/EFoYnpV+tirsZqWz9ZwHwWXJ32Ue9hJVXQmYyclwQ9kH
+         HHedB/VE8nIp/Q9DxS9HcGo8hOaxQr/Tcrg5HdMkc2qsslGAY6Mf3fenb4k21me8E6fY
+         r6jTlhfCDXqdh0McMzWPlUPmEA3Tyenk6iq86GFlFsQ1xQN/TqOsb8J6B/6Sog08Mfku
+         WYjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=SHlXPesj/sMVN1b9WbUeHFHzMLC0KZiq0qGR6QmTL6E=;
-        b=Ezm97mlD0RI4a90+yvH5gBrc9Dkfg1D0fQM17zz7K7FVi7m6gu++R6VF4rDFXcrD0V
-         GJaryNB2+FgR0f8naPuyswXgAr31m+m9kiyQGqU9jFiEG32XVnLOKRJPFRe1RZ1qXwD+
-         tNDFEIH0aNZBgpkrXLFJMzsx+fewExnwbCCM+Rf4fbi18bNpzuknziK8j/xMQajAgeJ6
-         4XIIAf3Dwnto3PhzSR/eFw+dnuLn5UUmp9+MYEDo+nQLsAU5uYDTDKO1A7+z4dW0zvzi
-         r7MP+y992bt5SJQoRuMq8Yf5ALVMxxF8lDIlACzoslAYgC0DscMPgVmUL54EOxulHag/
-         bcKA==
-X-Gm-Message-State: AOAM531nMvfkW/Rg44t3EASFlYof2jMjmsxHl877viPyeCy7TqNigkIn
-        pDp9/ZMq0a7YKFpZsHWb/lxrkBZnWw==
-X-Google-Smtp-Source: ABdhPJzc+Xdp6Cr5oUM7VbNpIrtiS+7UL+jBSDnBa6TfMrhadriwd1pwXvzXZjLnGlgGS2iXEgJAb/bi7g==
+        bh=tuhyQwzlfQERbV6yctXDUlEPG1hDRNoinPlUWTt5/uo=;
+        b=YoJcFpcQwFnIsdYeXDFn1rDuHDgjcRkaxMOdejfkNu2DqdpPv+lQRfdBJp0WC1TZcp
+         4T+oU2/s1iy734+btnQQWbYlqaSbNRfpkIt0jCoENKZKvKa1UCZwmEMVeaNV+9QXem4x
+         U3q1vt5/b+Ixtwkwm40RJ+Dxs2WaMriwz5HT3ThA3KOm2NYDeqeqyNmTYb4jOAzvj3Wr
+         k2PYPjq/BdNaAnFiApUXfBujtBURWL5br/ZatgIJc2T5jLoHt1vr+m5rcfFNr98KcUaO
+         fWnx6QsXNibuV4xJYq7ynE56h5lwF7lgT63G8a8+w+XuJP6kl63fuioIXNqhcm5n0RwE
+         j8zA==
+X-Gm-Message-State: AOAM533nywCmLycClfIlvOZQvbqy2v6RfTO5jcNyvqvgVPG13YoaCDow
+        V8m/+hdMzddFhOH2IUe9FfJnQ627TQ==
+X-Google-Smtp-Source: ABdhPJzQxkm6OMNTn46m01PGy9cklfqML1hzDduv1JDdwG8tqjMXvO3kTz4l34bGEND1CfeyWVzi0Z/tfw==
 X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:7155:1b7:fca5:3926])
- (user=elver job=sendgmr) by 2002:a05:600c:24c:: with SMTP id
- 12mr7649392wmj.124.1637223058978; Thu, 18 Nov 2021 00:10:58 -0800 (PST)
-Date:   Thu, 18 Nov 2021 09:10:05 +0100
+ (user=elver job=sendgmr) by 2002:a5d:452b:: with SMTP id j11mr28008131wra.432.1637223061543;
+ Thu, 18 Nov 2021 00:11:01 -0800 (PST)
+Date:   Thu, 18 Nov 2021 09:10:06 +0100
 In-Reply-To: <20211118081027.3175699-1-elver@google.com>
-Message-Id: <20211118081027.3175699-2-elver@google.com>
+Message-Id: <20211118081027.3175699-3-elver@google.com>
 Mime-Version: 1.0
 References: <20211118081027.3175699-1-elver@google.com>
 X-Mailer: git-send-email 2.34.0.rc2.393.gf8c9666880-goog
-Subject: [PATCH v2 01/23] kcsan: Refactor reading of instrumented memory
+Subject: [PATCH v2 02/23] kcsan: Remove redundant zero-initialization of globals
 From:   Marco Elver <elver@google.com>
 To:     elver@google.com, "Paul E. McKenney" <paulmck@kernel.org>
 Cc:     Alexander Potapenko <glider@google.com>,
@@ -75,92 +75,53 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Factor out the switch statement reading instrumented memory into a
-helper read_instrumented_memory().
+They are implicitly zero-initialized, remove explicit initialization.
+It keeps the upcoming additions to kcsan_ctx consistent with the rest.
 
-No functional change.
+No functional change intended.
 
 Signed-off-by: Marco Elver <elver@google.com>
 ---
- kernel/kcsan/core.c | 51 +++++++++++++++------------------------------
- 1 file changed, 17 insertions(+), 34 deletions(-)
+ init/init_task.c    | 9 +--------
+ kernel/kcsan/core.c | 5 -----
+ 2 files changed, 1 insertion(+), 13 deletions(-)
 
+diff --git a/init/init_task.c b/init/init_task.c
+index 2d024066e27b..61700365ce58 100644
+--- a/init/init_task.c
++++ b/init/init_task.c
+@@ -181,14 +181,7 @@ struct task_struct init_task
+ 	.kasan_depth	= 1,
+ #endif
+ #ifdef CONFIG_KCSAN
+-	.kcsan_ctx = {
+-		.disable_count		= 0,
+-		.atomic_next		= 0,
+-		.atomic_nest_count	= 0,
+-		.in_flat_atomic		= false,
+-		.access_mask		= 0,
+-		.scoped_accesses	= {LIST_POISON1, NULL},
+-	},
++	.kcsan_ctx = { .scoped_accesses = {LIST_POISON1, NULL} },
+ #endif
+ #ifdef CONFIG_TRACE_IRQFLAGS
+ 	.softirqs_enabled = 1,
 diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
-index 4b84c8e7884b..6bfd3040f46b 100644
+index 6bfd3040f46b..e34a1710b7bc 100644
 --- a/kernel/kcsan/core.c
 +++ b/kernel/kcsan/core.c
-@@ -325,6 +325,21 @@ static void delay_access(int type)
- 	udelay(delay);
- }
+@@ -44,11 +44,6 @@ bool kcsan_enabled;
  
-+/*
-+ * Reads the instrumented memory for value change detection; value change
-+ * detection is currently done for accesses up to a size of 8 bytes.
-+ */
-+static __always_inline u64 read_instrumented_memory(const volatile void *ptr, size_t size)
-+{
-+	switch (size) {
-+	case 1:  return READ_ONCE(*(const u8 *)ptr);
-+	case 2:  return READ_ONCE(*(const u16 *)ptr);
-+	case 4:  return READ_ONCE(*(const u32 *)ptr);
-+	case 8:  return READ_ONCE(*(const u64 *)ptr);
-+	default: return 0; /* Ignore; we do not diff the values. */
-+	}
-+}
-+
- void kcsan_save_irqtrace(struct task_struct *task)
- {
- #ifdef CONFIG_TRACE_IRQFLAGS
-@@ -482,23 +497,7 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type, unsigned
- 	 * Read the current value, to later check and infer a race if the data
- 	 * was modified via a non-instrumented access, e.g. from a device.
- 	 */
--	old = 0;
--	switch (size) {
--	case 1:
--		old = READ_ONCE(*(const u8 *)ptr);
--		break;
--	case 2:
--		old = READ_ONCE(*(const u16 *)ptr);
--		break;
--	case 4:
--		old = READ_ONCE(*(const u32 *)ptr);
--		break;
--	case 8:
--		old = READ_ONCE(*(const u64 *)ptr);
--		break;
--	default:
--		break; /* ignore; we do not diff the values */
--	}
-+	old = read_instrumented_memory(ptr, size);
+ /* Per-CPU kcsan_ctx for interrupts */
+ static DEFINE_PER_CPU(struct kcsan_ctx, kcsan_cpu_ctx) = {
+-	.disable_count		= 0,
+-	.atomic_next		= 0,
+-	.atomic_nest_count	= 0,
+-	.in_flat_atomic		= false,
+-	.access_mask		= 0,
+ 	.scoped_accesses	= {LIST_POISON1, NULL},
+ };
  
- 	/*
- 	 * Delay this thread, to increase probability of observing a racy
-@@ -511,23 +510,7 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type, unsigned
- 	 * racy access.
- 	 */
- 	access_mask = ctx->access_mask;
--	new = 0;
--	switch (size) {
--	case 1:
--		new = READ_ONCE(*(const u8 *)ptr);
--		break;
--	case 2:
--		new = READ_ONCE(*(const u16 *)ptr);
--		break;
--	case 4:
--		new = READ_ONCE(*(const u32 *)ptr);
--		break;
--	case 8:
--		new = READ_ONCE(*(const u64 *)ptr);
--		break;
--	default:
--		break; /* ignore; we do not diff the values */
--	}
-+	new = read_instrumented_memory(ptr, size);
- 
- 	diff = old ^ new;
- 	if (access_mask)
 -- 
 2.34.0.rc2.393.gf8c9666880-goog
 
