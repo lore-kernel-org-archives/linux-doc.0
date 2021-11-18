@@ -2,58 +2,58 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09344C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3646CC4332F
 	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 08:14:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E602361B44
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 08:14:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1A43361B44
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 08:14:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244358AbhKRIRz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Nov 2021 03:17:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42434 "EHLO
+        id S244577AbhKRIRy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Nov 2021 03:17:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244345AbhKRIRQ (ORCPT
+        with ESMTP id S244358AbhKRIRQ (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Nov 2021 03:17:16 -0500
 Received: from mail-wr1-x449.google.com (mail-wr1-x449.google.com [IPv6:2a00:1450:4864:20::449])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F002C061208
-        for <linux-doc@vger.kernel.org>; Thu, 18 Nov 2021 00:11:48 -0800 (PST)
-Received: by mail-wr1-x449.google.com with SMTP id v17-20020adfedd1000000b0017c5e737b02so869753wro.18
-        for <linux-doc@vger.kernel.org>; Thu, 18 Nov 2021 00:11:48 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0968CC07978C
+        for <linux-doc@vger.kernel.org>; Thu, 18 Nov 2021 00:11:46 -0800 (PST)
+Received: by mail-wr1-x449.google.com with SMTP id f3-20020a5d50c3000000b00183ce1379feso872947wrt.5
+        for <linux-doc@vger.kernel.org>; Thu, 18 Nov 2021 00:11:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=rzdCErYR7QVJMqQ7C8iOEn+pKBOJL+BpLP2uqDT2sRI=;
-        b=lywc3NBHZZG/l/NByd9QMLrak/0JWSxz9fkaHSvQpFiu6THhd/Nji8+4etKEu/FWb1
-         DUr7dTzctJFdTqeiReLlmlOSBqRVuxOd5rYx5nJHm3aM+ZmXYgZ3vl4Ce8tFrt0Av3T1
-         bf9NeFQD3uLC7xCUpZwxhl9alcSmSnW523ahX1+J5WE1eN8IqUpB8WLaFMwKtqyVR2H5
-         VBmh+uW9lUYfpnV9Dv/+zhxWz2y1F+L14D0bQuciTgOc/C7axKYJxr+/2pkCLLBSQ4sB
-         E1t7FIYUwhm4GLpE9UPOpx8Eww9R6mgkFTE33GQnZrk37IxG6T6TO6OsAK9RCGF/iBpM
-         yZDA==
+        bh=TQFyZU0v42DaaTkISoD0OFzde9Hlzhfr9CYPS/61CiQ=;
+        b=MK2Vd4YjbDEaS4uhhlqIaoDY1M9QXC49+u0npJjk0pQSVRSj0R2jfpTqwJGYkXnYSg
+         ZMtPSof/yRprWktVdqMYdgvpsVx6ZQUJJlLswELGAWRPazAPzMqcizSADthjnvISCsuN
+         /n1yMdNWCSSQe2mO5WLugpNZDLHdOT6248Xx5n1W5CcPt4s0I0N5GiS0akJuVV/JlMwC
+         vzeF/+kKiT40V3zbMU+Jhl/QbcW9Gh/U1jQOICERskGk3AtIhxav51zndyo0kpWy7FEb
+         Dj7/2yy2mXXUxZaZEH0RM4+WkS7peFjxGJKnqohDrxd/HtH85/+daZm98XnnlX/gUBIf
+         7yAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=rzdCErYR7QVJMqQ7C8iOEn+pKBOJL+BpLP2uqDT2sRI=;
-        b=dOckqaqKeO+7LLILjyDh3CCnHSwm/iq1vqG0bnpd6Bi8sYBkUgSz+ROzrJSKmCcFlV
-         9bUyRMCgS4OrMuoXlSHwDP4plh5Zh/EcCpJB9RbnHBHZUlkxycSMPKs+m+ucf7UORWa5
-         WCf4SxxAlJ1Owv8A1rvLWGD293z/BZC0XGg2DHTuKcAJsUXcqzGeEh2LwnjwFpD6M4T1
-         N7gh8yY7jUB5bA6SDfq4EVHw2A423fjFPcAbp0MKET8k0Fut+bhejYTtSZ5kV1Sz1PZp
-         rB0j0iU7FsN8AKlbdhEymFR0sODNpkqmJvTX/HjlxYZmo9Qtnp2oSevm0zTBz+IbqDIX
-         6CTg==
-X-Gm-Message-State: AOAM53283TR3tCEwpFLOD3IbBTb/Y7MWpoDksR8EoHfiBYLguSsc4YWO
-        NcZBZ3McijHPbpVleJ+X7Ncf/MmBsw==
-X-Google-Smtp-Source: ABdhPJxAWh/BZwpokjufV74uSy9dmYvaQlEFQf441y59AQVEiD0veafOsEsU+5qgKzAWHYtjU5201SdIww==
+        bh=TQFyZU0v42DaaTkISoD0OFzde9Hlzhfr9CYPS/61CiQ=;
+        b=4uMRaUSJrT3JaMdJySKBHnjIMPhp3bUQ3Igv0rReS7zvLvPuzZ/PS4hs5GlXFKZyPo
+         l2ptT0qvlCfergFPot2FM7NU0LlBRqj18JZ1846zzpqjZRUGaxe4ObTO0UN2LUaq3h6U
+         ABgE5ihsPkw/elGuGwF+xeNrEhEZ0Hlhd7gI6Nel0n0briMJJabVKi9R/ya7Q+xb0qbZ
+         RJ27NmupK1edzGLFWkpfLAUI7LsNWlLVIaVUpjnQjcO7RxaTmCCCyiZ5xqJLHd1qPJnw
+         oMPh0BGHdWvhF+lD1r+LOS7CqgvI0FeyVueUGIP84+MrzZYKhfgkrLEw4GE+lTaSYffk
+         7R3A==
+X-Gm-Message-State: AOAM530ftltn9SWru28ZDPtA7xTscwFexQk8dW6VD5cm7mGowWYUjpVp
+        vfz/DREjUdVn5DqU5Ny//fB1bQ8haw==
+X-Google-Smtp-Source: ABdhPJyYeDMuiGGrUuyFw2pju3cXA4aPKZm0z0EkkEKVPp8TQ9/6cOOcc4ejq3nzYH027uUD8CjFPxhEPw==
 X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:7155:1b7:fca5:3926])
- (user=elver job=sendgmr) by 2002:a5d:6043:: with SMTP id j3mr28104905wrt.375.1637223106899;
- Thu, 18 Nov 2021 00:11:46 -0800 (PST)
-Date:   Thu, 18 Nov 2021 09:10:24 +0100
+ (user=elver job=sendgmr) by 2002:a05:600c:1990:: with SMTP id
+ t16mr7680724wmq.48.1637223104386; Thu, 18 Nov 2021 00:11:44 -0800 (PST)
+Date:   Thu, 18 Nov 2021 09:10:23 +0100
 In-Reply-To: <20211118081027.3175699-1-elver@google.com>
-Message-Id: <20211118081027.3175699-21-elver@google.com>
+Message-Id: <20211118081027.3175699-20-elver@google.com>
 Mime-Version: 1.0
 References: <20211118081027.3175699-1-elver@google.com>
 X-Mailer: git-send-email 2.34.0.rc2.393.gf8c9666880-goog
-Subject: [PATCH v2 20/23] mm, kcsan: Enable barrier instrumentation
+Subject: [PATCH v2 19/23] x86/qspinlock, kcsan: Instrument barrier of pv_queued_spin_unlock()
 From:   Marco Elver <elver@google.com>
 To:     elver@google.com, "Paul E. McKenney" <paulmck@kernel.org>
 Cc:     Alexander Potapenko <glider@google.com>,
@@ -75,40 +75,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some memory management calls imply memory barriers that are required to
-avoid false positives. For example, without the correct instrumentation,
-we could observe data races of the following variant:
+If CONFIG_PARAVIRT_SPINLOCKS=y, queued_spin_unlock() is implemented
+using pv_queued_spin_unlock() which is entirely inline asm based. As
+such, we do not receive any KCSAN barrier instrumentation via regular
+atomic operations.
 
-                   T0           |           T1
-        ------------------------+------------------------
-                                |
-         *a = 42;    ---+       |
-         kfree(a);      |       |
-                        |       | b = kmalloc(..); // b == a
-          <reordered> <-+       | *b = 42;         // not a data race!
-                                |
-
-Therefore, instrument memory barriers in all allocator code currently
-not being instrumented in a default build.
+Add the missing KCSAN barrier instrumentation for the
+CONFIG_PARAVIRT_SPINLOCKS case.
 
 Signed-off-by: Marco Elver <elver@google.com>
 ---
- mm/Makefile | 2 ++
- 1 file changed, 2 insertions(+)
+ arch/x86/include/asm/qspinlock.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/mm/Makefile b/mm/Makefile
-index d6c0042e3aa0..7919cd7f13f2 100644
---- a/mm/Makefile
-+++ b/mm/Makefile
-@@ -15,6 +15,8 @@ KCSAN_SANITIZE_slab_common.o := n
- KCSAN_SANITIZE_slab.o := n
- KCSAN_SANITIZE_slub.o := n
- KCSAN_SANITIZE_page_alloc.o := n
-+# But enable explicit instrumentation for memory barriers.
-+KCSAN_INSTRUMENT_BARRIERS := y
+diff --git a/arch/x86/include/asm/qspinlock.h b/arch/x86/include/asm/qspinlock.h
+index d86ab942219c..d87451df480b 100644
+--- a/arch/x86/include/asm/qspinlock.h
++++ b/arch/x86/include/asm/qspinlock.h
+@@ -53,6 +53,7 @@ static inline void queued_spin_lock_slowpath(struct qspinlock *lock, u32 val)
  
- # These files are disabled because they produce non-interesting and/or
- # flaky coverage that is not a function of syscall inputs. E.g. slab is out of
+ static inline void queued_spin_unlock(struct qspinlock *lock)
+ {
++	kcsan_release();
+ 	pv_queued_spin_unlock(lock);
+ }
+ 
 -- 
 2.34.0.rc2.393.gf8c9666880-goog
 
