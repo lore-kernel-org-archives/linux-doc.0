@@ -2,55 +2,55 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFCBFC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 15:32:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B6E5C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 15:46:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8FE31613D3
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 15:32:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 644DF61ACE
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 15:46:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232397AbhKRPfj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Nov 2021 10:35:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58852 "EHLO
+        id S232201AbhKRPtl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Nov 2021 10:49:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231459AbhKRPfj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Nov 2021 10:35:39 -0500
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1539C061574
-        for <linux-doc@vger.kernel.org>; Thu, 18 Nov 2021 07:32:38 -0800 (PST)
-Received: by mail-pj1-x102a.google.com with SMTP id w33-20020a17090a6ba400b001a722a06212so6922888pjj.0
-        for <linux-doc@vger.kernel.org>; Thu, 18 Nov 2021 07:32:38 -0800 (PST)
+        with ESMTP id S232672AbhKRPtl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Nov 2021 10:49:41 -0500
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37A4CC061748
+        for <linux-doc@vger.kernel.org>; Thu, 18 Nov 2021 07:46:41 -0800 (PST)
+Received: by mail-pg1-x52e.google.com with SMTP id 206so651945pgb.4
+        for <linux-doc@vger.kernel.org>; Thu, 18 Nov 2021 07:46:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=ooIKBw0rJzYPaIbsEt+IczztIFmaInAx2wjxzlVBBT4=;
-        b=l3J33nqrIyN6zumztnxskDXu0IXRcAbBLHSP+OW6N0yMliHKsEyHIFuHNtPiI956+y
-         9bFI8EDTEMP0UQD+otFhNSLgjtUmoR4CTigP03oLIzjL8PXxGE/KQnXyyZNOTO07/u+C
-         AAL0blwDFaePVLLKI0sYNCBfTJqfq7Y6f5Z2x37hsxZ/EzcS/a9oEcRGOmY1rb/4wGHb
-         d1dCHoVkqC+MUORT1dMAWIoXkdA5zILky4PrZFUcw9xAyK0kyPFEp5yJ03N2ligBLzvm
-         zKchwnCh1ddz0BxegcjAs3cYHm54RS4J4xxafk+uP9re4FOrapoxf8ICQyjFjX+wxKU5
-         YOCg==
+        bh=IiebZ9E+2Z6ck8HSKjoCru0FAUfEQyGySTx3U9aKbpk=;
+        b=FcTcEFs9GFXfjErwxsQU7W81QHzBiNOL/ugpZcHsuBN7XzP4U4jxy/6Tg94D43nhsK
+         JTyItoZsVZQ4pUynmDyUem/NCq/0QxjKZfDpX6G9+Zbbxp7akNcWSgWZFB5x0WNpKR1V
+         pwCbyGydwdCBq46Up8OOt3TFP4gJ9CrmIgdv0cjnW4rxbbND+ZN3HV0SeGGLreJ3CRPG
+         gDbSTqzFDPNomRWO33BjU6Jq///Edwif4i1H8PJYVIAfg8V1XC3C/iU+hOZFNW9Dn4Ga
+         N7phfTK3TSw43xF/ajB+++73o2hKmzQ9mzyfXK/q10xrIYinh+qeEYsyhq5K21f44GP/
+         sCHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=ooIKBw0rJzYPaIbsEt+IczztIFmaInAx2wjxzlVBBT4=;
-        b=4kEqMjST4qFHWRVUY9eyqcuoiPhQdaW0+QM/0f7h9Wlqh8clOa3FFSs+tNfMWwgNC0
-         x7VVAxLnjgpSTvASVp0v5oXLJtuBwxkMV379zlLpelw4EuuW4bS0+DlrGJEeMTgZocp5
-         pOoxsa0IW7j8WEuzdIs2AkRCLOPHWqTtrPcyfiaNimb3CsL9x+5qS/zBgCtLs8F/TMnW
-         U7NP+QPuYR50mZJmRtEtouVQjlOGjm/Vp4MmrbPPBqwhDgjPWViHB7h41wYJL7WWp7Md
-         l9c0dZmYTRSbqUCK2TD2/U+CEExdBAgXWrSM37o3liKyK21wgPvagEk+UcLlo74F6YG8
-         zMrg==
-X-Gm-Message-State: AOAM532a0DNJw0phU4HGmXXXYlZfqMQ2A3BLPkGTlJiaTbZCohgFSmf3
-        Bd2/89hFI1w65DLVoUUyY6DVJw==
-X-Google-Smtp-Source: ABdhPJwQrkN07XsN67RIXSJyxPcM2HgT97zNqu+ZVGDs6Xjncgez9VeTtyPa8V7QFcq9p6K8xb+/0g==
-X-Received: by 2002:a17:90b:1c8d:: with SMTP id oo13mr11797986pjb.239.1637249558350;
-        Thu, 18 Nov 2021 07:32:38 -0800 (PST)
+        bh=IiebZ9E+2Z6ck8HSKjoCru0FAUfEQyGySTx3U9aKbpk=;
+        b=tLPtBw3JK33avSjff3NM2R42WtT9DFTYuGV6aYE2QhwVDnxwEuIHts9389d3SsYFUm
+         EGgBshWwT6xFGEepMWgIRSPjkxF0+lhnbSZQti6iVtDoYeLFUmFyrP07zmnuLy1Ug6KF
+         7fqU0R04Jhb6O33+cp7O9Gkq7UYu++nctkdEbugtYCZyheeqF933qmQmjExOEWFx5D3A
+         /v1mNZQVYfw63/mHNid7c6CykP5o1qE491eO7iJDof9nrPrUXopy/CN9Wb/pSfRmwNd2
+         91VjS01CxVriloBwMcjNqNsmkeo+TVml6lyHiLaHgL+1tLHi0HLYEYq3VmxmF2tYmn+U
+         XR7g==
+X-Gm-Message-State: AOAM533K0NUVmOrik/QKFCQA0KQtNcVsL9/IBlzq0ZINwL5twqAlvjLO
+        PJ0/1dmd3f4sVcE4bLJ+O0IoLA==
+X-Google-Smtp-Source: ABdhPJziifKQY6AXb0Jp94a9CB1axsqagIZrmrDB6EkRkfwIMxX6nRcBInHESIzrt6gJVxvXTWDn9A==
+X-Received: by 2002:aa7:9acc:0:b0:4a2:b8b5:8813 with SMTP id x12-20020aa79acc000000b004a2b8b58813mr16103569pfp.4.1637250400585;
+        Thu, 18 Nov 2021 07:46:40 -0800 (PST)
 Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id t8sm58047pgk.66.2021.11.18.07.32.37
+        by smtp.gmail.com with ESMTPSA id c17sm68631pgw.83.2021.11.18.07.46.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Nov 2021 07:32:37 -0800 (PST)
-Date:   Thu, 18 Nov 2021 15:32:34 +0000
+        Thu, 18 Nov 2021 07:46:39 -0800 (PST)
+Date:   Thu, 18 Nov 2021 15:46:35 +0000
 From:   Sean Christopherson <seanjc@google.com>
 To:     Juergen Gross <jgross@suse.com>
 Cc:     kvm@vger.kernel.org, x86@kernel.org, linux-doc@vger.kernel.org,
@@ -66,7 +66,7 @@ Cc:     kvm@vger.kernel.org, x86@kernel.org, linux-doc@vger.kernel.org,
         "H. Peter Anvin" <hpa@zytor.com>
 Subject: Re: [PATCH v3 4/4] x86/kvm: add boot parameter for setting max
  number of vcpus per guest
-Message-ID: <YZZyEgvYLRFHh2iz@google.com>
+Message-ID: <YZZ1W+YxagvG1EMM@google.com>
 References: <20211116141054.17800-1-jgross@suse.com>
  <20211116141054.17800-5-jgross@suse.com>
  <YZVsnZ8e7cXls2P2@google.com>
@@ -83,9 +83,12 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Thu, Nov 18, 2021, Juergen Gross wrote:
 > On 18.11.21 16:05, Sean Christopherson wrote:
-> > the partner isn't running a vanilla distro build and could set it as they see fit.
+> > Which is a good segue into pointing out that if a module param is added, it needs
+> > to be sanity checked against a KVM-defined max.  The admin may be trusted to some
+> > extent, but there is zero reason to let userspace set max_vcspus to 4 billion.
+> > At that point, it really is just a param vs. capability question.
 > 
-> And here you are wrong. They'd like to use standard SUSE Linux (SLE).
+> I agree. Capping it at e.g. 65536 would probably be a good idea.
 
-Huh.  As in, completely off-the-shelf kernel binaries without any tweaks to the
-config?
+Any reason to choose 65536 in particular?  Why not cap it at the upper limit of
+NR_CPUS_RANGE_END / MAXSMP, which is currently 8192?
