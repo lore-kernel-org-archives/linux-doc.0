@@ -2,63 +2,63 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 628A7C4321E
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 10:11:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F30EC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 10:11:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 49F6761ABD
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 10:11:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6B9B061B29
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 10:11:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245535AbhKRKOY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Nov 2021 05:14:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41208 "EHLO
+        id S245543AbhKRKO0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Nov 2021 05:14:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245421AbhKRKNI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Nov 2021 05:13:08 -0500
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72A22C061200
-        for <linux-doc@vger.kernel.org>; Thu, 18 Nov 2021 02:10:08 -0800 (PST)
-Received: by mail-wm1-x334.google.com with SMTP id i12so4765537wmq.4
-        for <linux-doc@vger.kernel.org>; Thu, 18 Nov 2021 02:10:08 -0800 (PST)
+        with ESMTP id S245439AbhKRKNJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Nov 2021 05:13:09 -0500
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59177C061206
+        for <linux-doc@vger.kernel.org>; Thu, 18 Nov 2021 02:10:09 -0800 (PST)
+Received: by mail-wm1-x32f.google.com with SMTP id c71-20020a1c9a4a000000b0032cdcc8cbafso4351277wme.3
+        for <linux-doc@vger.kernel.org>; Thu, 18 Nov 2021 02:10:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=x3IEUZRhjbYTq3pkFmizfm4neoX81XVx2vEzIU02Q3k=;
-        b=oP1DqeytxmZkGKtLd/xGA9nOPzkVMcUvXbsdxYjlXowDSMRTTSJCEHZfNp/1klKX1K
-         4yBiyincygCMsK0e+MtlvKFmvNtlhAWvTZpByxKsNG/ktNqKesMGaAY0Xlhk/I5n2wu0
-         oYvFWzGJAL8WcxOL8uJx3ud7CyMK0BIn07ldxqlD6QHOVZPDkVcc3xdf4sgrVvLcxiIL
-         gdZ6obEQ3Hpr2xWYrA+yRoA8KufxZw3lop8B84gEWZCpEzo7u2ujEhGyCWOslkaLq2Qs
-         y4hXuCEV2M2LXWXbLg3/nNHjjwQzzbXebw3CMQpeM9QrIisSOQt33NRSPNDaHIzqZN05
-         /E6A==
+        bh=mSWch0XGdw9WQfitAuDG0nGa0+fWKH7MnIQOOP6eHa0=;
+        b=mhwGrcez7SQFjrLcUMtrR3wacB+60WOedOKv1UMCuLk1SLgWtQ4PXv8wCS+CQf0kIn
+         sNol+rWyJF5bQibbwEjUu5q7LWitxlip7qjz07FN335WBidXTapsTzuPnXtLyKWtxhPi
+         JnMZRkl00cG0PN8Ycu6vLAWcIqjfFLOdAjRjVMYROBGhmjgETUyGDM/LOEI91+dO5loG
+         qKeym2w1biDZmapDPmpSGppg/VmbyWIoHBD3DqR+FVBI0OesgQaQ0SaNZntCu+LCGKcp
+         Jo4h44c99aHXB/lHwPXrbzooLIoVE706L+k7zvkOpl3U0OlCJtiCr3nHPOgMrh1mQxV1
+         Kfrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=x3IEUZRhjbYTq3pkFmizfm4neoX81XVx2vEzIU02Q3k=;
-        b=l9AQxdD8NMv3lFf+6rk83VpiBXG5/UUl95pjaQ9N2guOwL+qRDifKx5cJcmIL2oll4
-         VynNTwY8iO61J3d27i85VHktJQlR7EJbAYrZGjK0Baxp5wUgRE7Wak8uY2D7QmqK2/IM
-         IhaolSEhBPJB7ARkNxf6JelIU6VnaPyfBvlq6/lVBroDqB7J5dcvVMNl4N2TQC65bJxI
-         5B8WwdPE8AG02nnxIRdohXR2dxuZZtgrMx7KhwgI10mDGo/B1NvrQXQSF/z9eb3RfKfB
-         tSadlcyMXWSylxcCYtzM6Zpo7T6ILi64JbRI8HrMRkZxH9dUFK7sFJdRtUHsGLneWSxj
-         PlEQ==
-X-Gm-Message-State: AOAM530+P1vBRnyey4ZqCCkCk6jB4w/v69/0CZpK9B84tynyBOtOG4Hu
-        Oz8zprHYSn0Pn6SoR1aMvC7kKA==
-X-Google-Smtp-Source: ABdhPJyUQ0azpc9/vV01uM0ChDtP2P8tkuwwB2JaSxcvaCImTHNi8cCg2zVeiKFoh6zTUFs3KNv6nw==
-X-Received: by 2002:a05:600c:1d0e:: with SMTP id l14mr8210388wms.64.1637230206900;
-        Thu, 18 Nov 2021 02:10:06 -0800 (PST)
+        bh=mSWch0XGdw9WQfitAuDG0nGa0+fWKH7MnIQOOP6eHa0=;
+        b=7PPAw0zHcPire0Hz0zM90/OVSxEhSZOsk0fQ3lez8NhTwo2ekdS31+aIYpESYfscgB
+         iYyN9OprYmoAv3kEjDc//aU0UP/ptympJSZAUa4NhrznmSMzcPxnp+yExb//r9lB3sFb
+         VxwvG2+rpJN09Zou8wI7c+0M6qQBHk2q5PujbcyoSeuz4FeOBPGcaCNLH7AaT+Lv2/hm
+         qVH9PxyTfjQ18InWP7bB8KlbaHTV/01sjH0ssH3lOnWlWyD06fgLbri9DRbNivS7vwoi
+         i+2/ObcjL4PyK4n7U0yZlbXhMRwBN+CX2ThIGu2dHBlYiLOu0T8mbPX6jykKmFs2mR3k
+         4iGQ==
+X-Gm-Message-State: AOAM531qNFLmJw92rFbrSKsRLrVUiaSQvB7bDX0tSpQblg8zOARCZYfZ
+        xl1QKZPLVt+OKqpy6RFT1r6uHg==
+X-Google-Smtp-Source: ABdhPJwmQzBp0qtPSPyB7UjYy4JS90aVhF5fASBfXtrnRETwo038+eyorpDtUHvPdbLFf2JhN5T10Q==
+X-Received: by 2002:a05:600c:2118:: with SMTP id u24mr8389385wml.0.1637230207856;
+        Thu, 18 Nov 2021 02:10:07 -0800 (PST)
 Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net. [80.7.220.175])
-        by smtp.gmail.com with ESMTPSA id z15sm2525846wrr.65.2021.11.18.02.10.05
+        by smtp.gmail.com with ESMTPSA id z15sm2525846wrr.65.2021.11.18.02.10.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Nov 2021 02:10:06 -0800 (PST)
+        Thu, 18 Nov 2021 02:10:07 -0800 (PST)
 From:   Daniel Thompson <daniel.thompson@linaro.org>
 To:     Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>
 Cc:     Daniel Thompson <daniel.thompson@linaro.org>,
         Andy Shevchenko <andy.shevchenko@gmail.com>,
         dmaengine@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, patches@linaro.org
-Subject: [PATCH 1/2] Documentation: dmaengine: Add a description of what dmatest does
-Date:   Thu, 18 Nov 2021 10:09:51 +0000
-Message-Id: <20211118100952.27268-2-daniel.thompson@linaro.org>
+Subject: [PATCH 2/2] Documentation: dmaengine: Correctly describe dmatest with channel unset
+Date:   Thu, 18 Nov 2021 10:09:52 +0000
+Message-Id: <20211118100952.27268-3-daniel.thompson@linaro.org>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211118100952.27268-1-daniel.thompson@linaro.org>
 References: <20211118100952.27268-1-daniel.thompson@linaro.org>
@@ -68,43 +68,38 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently it can difficult to determine what dmatest does without
-reading the source code. Let's add a description.
+Currently the documentation states that channels must be configured before
+running the dmatest. This has not been true since commit 6b41030fdc79
+("dmaengine: dmatest: Restore default for channel"). Fix accordingly.
 
-The description is taken mostly from the patch header of
-commit 4a776f0aa922 ("dmatest: Simple DMA memcpy test client").
-It has been edited and updated slightly. Nevertheless the new text was
-largely written by Haarvard Skinnemoen and was copied from another
-patch, already committed to the kernel, which has Haarvard's SoB:
-attached to it.
-
+Fixes: 6b41030fdc79 ("dmaengine: dmatest: Restore default for channel")
 Signed-off-by: Daniel Thompson <daniel.thompson@linaro.org>
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 ---
- Documentation/driver-api/dmaengine/dmatest.rst | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ Documentation/driver-api/dmaengine/dmatest.rst | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/Documentation/driver-api/dmaengine/dmatest.rst b/Documentation/driver-api/dmaengine/dmatest.rst
-index ee268d445d38..529cc2cbbb1b 100644
+index 529cc2cbbb1b..cf9859cd0b43 100644
 --- a/Documentation/driver-api/dmaengine/dmatest.rst
 +++ b/Documentation/driver-api/dmaengine/dmatest.rst
-@@ -6,6 +6,16 @@ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+@@ -153,13 +153,14 @@ Part 5 - Handling channel allocation
+ Allocating Channels
+ -------------------
  
- This small document introduces how to test DMA drivers using dmatest module.
+-Channels are required to be configured prior to starting the test run.
+-Attempting to run the test without configuring the channels will fail.
++Channels do not need to be configured prior to starting a test run. Attempting
++to run the test without configuring the channels will result in testing any
++channels that are available.
  
-+The dmatest module tests DMA memcpy, memset, XOR and RAID6 P+Q operations using
-+various lengths and various offsets into the source and destination buffers. It
-+will initialize both buffers with a repeatable pattern and verify that the DMA
-+engine copies the requested region and nothing more. It will also verify that
-+the bytes aren't swapped around, and that the source buffer isn't modified.
-+
-+The dmatest module can be configured to test a specific channel. It can also
-+test multiple channels at the same time, and it can start multiple threads
-+competing for the same channel.
-+
- .. note::
-   The test suite works only on the channels that have at least one
-   capability of the following: DMA_MEMCPY (memory-to-memory), DMA_MEMSET
+ Example::
+ 
+     % echo 1 > /sys/module/dmatest/parameters/run
+-    dmatest: Could not start test, no channels configured
++    dmatest: No channels configured, continue with any
+ 
+ Channels are registered using the "channel" parameter. Channels can be requested by their
+ name, once requested, the channel is registered and a pending thread is added to the test list.
 -- 
 2.33.0
 
