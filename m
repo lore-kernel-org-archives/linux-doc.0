@@ -2,45 +2,64 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA83FC433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 08:58:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D28DC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 09:50:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D686A61B7D
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 08:58:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 56C0261B29
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 09:50:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244916AbhKRJBg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Nov 2021 04:01:36 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28]:49728 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244873AbhKRJB3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Nov 2021 04:01:29 -0500
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id A9C7D21763;
-        Thu, 18 Nov 2021 08:58:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1637225908; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=DMSRHZltUhfnD0xcd/VgVm+c9gvquxAWnELVPwEVRpw=;
-        b=eTz3wXhLogtPJE0sEp1EBos0JswRTRYCM3P//c7jP4riflnr5fp5rUumfYbNWB9PowoDmV
-        1qFU8cKyDzO/A2MI5ce/ZebRzPs3Hn+45hmeHmeiES2zw1+sGmCOszTyX+6YPUvtaCfQkG
-        V1pmGP51FZBwNQ0W8aqxacp7p/Et9AM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1637225908;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=DMSRHZltUhfnD0xcd/VgVm+c9gvquxAWnELVPwEVRpw=;
-        b=yxI91LKMw5KKkwWK2zjWhuX8YRPzaYM8osTHT88mweOattB1kdAk+j+LPfU9xiTjfEm+y3
-        LQ+9rRggHIeCX6BQ==
-Received: from suse.de (unknown [10.163.43.106])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 523D2A3B84;
-        Thu, 18 Nov 2021 08:58:27 +0000 (UTC)
-Date:   Thu, 18 Nov 2021 08:58:20 +0000
-From:   Mel Gorman <mgorman@suse.de>
-To:     Gang Li <ligang.bdlg@bytedance.com>
+        id S245323AbhKRJxp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Nov 2021 04:53:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36680 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S245308AbhKRJxQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Nov 2021 04:53:16 -0500
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B765C061200
+        for <linux-doc@vger.kernel.org>; Thu, 18 Nov 2021 01:50:04 -0800 (PST)
+Received: by mail-pg1-x52f.google.com with SMTP id p17so4886149pgj.2
+        for <linux-doc@vger.kernel.org>; Thu, 18 Nov 2021 01:50:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=3HQ5IYVEiqW+9JbVKAMAdi66pgrzu4Y9QOo0iHu1JDU=;
+        b=PtudUEDeYjc1lbFt/YcrJoXefINi2/DLtR2e3eV0uycMEN4jzjuk5iUdoe/5/twlA4
+         EyZLMpRyfY1Wx3XBAseVofCGj3X0uV35THwhEG4J+FmPiLq8RqBhe3ZXXSrJxN+PbiZj
+         39sJKyzvjDyo/xjvs53RR9FQ5TKO1PA0MWlSs84Y7TnxR81S4omEkGxLB69WVR9b+bu8
+         TPgFlQjYqbr927M1DOcTw1uO7Z/ZVRxh8423WyH2a5F+ORKcJIASeR+bmH24NnXtnb7f
+         1f1xVdqxNLCBr9sXm+LDUA9OvDZ3YJPVo1MxfUq9WetnTlb+L6YawBu6nqo4iI0ZTMZ3
+         MdLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=3HQ5IYVEiqW+9JbVKAMAdi66pgrzu4Y9QOo0iHu1JDU=;
+        b=vFBOg3NfB+LI0CmO9ky6+vjugmDOyzDhnGY332ml7HQtvA+8f/eNKuYBg5DmiopXyT
+         Td+DI/8e7LrqNwZpl9+V92QkjwSPgDipL3EMTjTobn9jROPqozwYjci2hQHf3P9AS7Lk
+         IBZ3feBz1jQYs/iLT7invIELLNcZD/0ZrGLONITIHnvIcs0UVyoOHfriJOezAb5a1Plw
+         7PBge3ZvCA/Y9l/g2nGiWrDoFzEY6Zzjdqi2NO5+50hYDFCUwlu+9/GSX4xLnmf3olTg
+         yxPywydQN+xPeNdjjBKHIQ/wTrEiACqaCdMHw7a2O10djvBIY26MKOFVki1ndk1/2mtK
+         uX0g==
+X-Gm-Message-State: AOAM531kaC6oNUA44yxvz0aQBo5fOS5RjudmVpSd0EIst+Z4ub3DgQ0p
+        lw6PrCtVoLFncUZhXaQJzfn08A==
+X-Google-Smtp-Source: ABdhPJx4EMKtBe0WnpdPtMWMcYIpYkXHpyKXoHzrcv2OhxF2rykg5u9Y7Q+XOCzGlPXHjnutDYHJWQ==
+X-Received: by 2002:aa7:88d3:0:b0:49f:baac:9b51 with SMTP id k19-20020aa788d3000000b0049fbaac9b51mr13931939pff.44.1637229003752;
+        Thu, 18 Nov 2021 01:50:03 -0800 (PST)
+Received: from [10.76.43.192] ([61.120.150.76])
+        by smtp.gmail.com with ESMTPSA id e14sm2903051pfv.18.2021.11.18.01.49.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Nov 2021 01:50:03 -0800 (PST)
+Message-ID: <1d04e306-064e-b9eb-8846-2d12458988a9@bytedance.com>
+Date:   Thu, 18 Nov 2021 17:49:56 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.3.1
+Subject: Re: Re: Re: Re: Re: Re: Re: Re: Re: [PATCH v1] sched/numa: add
+ per-process numa_balancing
+Content-Language: en-US
+To:     Mel Gorman <mgorman@suse.de>
 Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
         Juri Lelli <juri.lelli@redhat.com>,
@@ -51,9 +70,6 @@ Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
         Daniel Bristot de Oliveira <bristot@redhat.com>,
         linux-api@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
         linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: Re: Re: Re: Re: Re: Re: Re: [PATCH v1] sched/numa: add
- per-process numa_balancing
-Message-ID: <20211118085819.GD3301@suse.de>
 References: <20211109091951.GW3891@suse.de>
  <7de25e1b-e548-b8b5-dda5-6a2e001f3c1a@bytedance.com>
  <20211109121222.GX3891@suse.de>
@@ -64,55 +80,26 @@ References: <20211109091951.GW3891@suse.de>
  <816cb511-446d-11eb-ae4a-583c5a7102c4@bytedance.com>
  <20211117101008.GB3301@suse.de>
  <f0193837-2f2c-b55f-cd79-b80d931e7931@bytedance.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
-Content-Disposition: inline
-In-Reply-To: <f0193837-2f2c-b55f-cd79-b80d931e7931@bytedance.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+ <20211118085819.GD3301@suse.de>
+From:   Gang Li <ligang.bdlg@bytedance.com>
+In-Reply-To: <20211118085819.GD3301@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 18, 2021 at 11:26:30AM +0800, Gang Li wrote:
-> On 11/17/21 6:10 PM, Mel Gorman wrote:
-> > On Wed, Nov 17, 2021 at 05:38:28PM +0800, Gang Li wrote:
-> > > If those APIs are ok with you, I will send v2 soon.
-> > > 
-> > > 1. prctl(PR_NUMA_BALANCING, PR_SET_THP_DISABLE);
-> > 
-> > It would be (PR_SET_NUMAB_DISABLE, 1)
-> > 
-> > > 2. prctl(PR_NUMA_BALANCING, PR_SET_THP_ENABLE);
-> > 
-> > An enable prctl will have the same problems as
-> > prctl(PR_NUMA_BALANCING, PR_SET_NUMA_BALANCING, 0/1) -- it should have
-> > meaning if the numa_balancing sysctl is disabled.
-> > 
-> > > 3. prctl(PR_NUMA_BALANCING, PR_GET_THP);
-> > > 
-> > 
-> > PR_GET_NUMAB_DISABLE
-> > 
+On 11/18/21 4:58 PM, Mel Gorman wrote:
+> On Thu, Nov 18, 2021 at 11:26:30AM +0800, Gang Li wrote:
+>> 3. prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_ENABLE);  //enable
 > 
-> How about this:
-> 
-> 1. prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_DEFAULT); //follow global
-> 2. prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_DISABLE); //disable
-> 3. prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_ENABLE);  //enable
+> If PR_SET_NUMAB_ENABLE enables numa balancing for a task when
+> kernel.numa_balancing == 0 instead of returning an error then sure.
 
-If PR_SET_NUMAB_ENABLE enables numa balancing for a task when
-kernel.numa_balancing == 0 instead of returning an error then sure.
+Of course.
 
-> 4. prctl(PR_NUMA_BALANCING, PR_GET_NUMAB);
-> 
-> PR_SET_NUMAB_DISABLE/ENABLE can always have meaning whether the
-> numa_balancing sysctl is disabled or not,
-> 
-> -- 
-> Thanks,
-> Gang Li
-> 
-
+I'll send patch v2 soon.
 -- 
-Mel Gorman
-SUSE Labs
+Thanks,
+Gang Li
+
