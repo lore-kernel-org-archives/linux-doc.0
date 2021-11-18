@@ -2,99 +2,148 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB899C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 10:29:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89F38C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 11:08:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 89DC161507
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 10:29:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7317F63212
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 11:08:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243781AbhKRKcf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Nov 2021 05:32:35 -0500
-Received: from ms.lwn.net ([45.79.88.28]:53468 "EHLO ms.lwn.net"
+        id S1343662AbhKRLLm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Nov 2021 06:11:42 -0500
+Received: from foss.arm.com ([217.140.110.172]:39486 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S243409AbhKRKcc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 18 Nov 2021 05:32:32 -0500
-Received: from localhost (unknown [151.34.20.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 2001B615E;
-        Thu, 18 Nov 2021 10:29:29 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2001B615E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1637231370; bh=e0HnsECkTvPiMDr10G2QXBJrT9qzN992w+6UgN1B/tk=;
-        h=From:To:Cc:Subject:Date:From;
-        b=HoOQanOeQLzQBPjVCwMMEFJ6g0CyQa5ZTNmP9zkCipRHZWr0+pj3awMc0RTSGonVQ
-         xZSieJB/mr5izu4a/WNywWzCD1b9bnSAS6zpuAzYD5mIK3oe6IIJwb1ELdJDIx8GBn
-         /1z8b12RheEvSBdCCvqoc5elLOpO2oqAeNMC/fzV3GWzFd4ee01zAIA6gfC31006oi
-         Vzd0L68htNF0oYrHroaWgnDstmxuOVseTBPL7CdoFUewRsS5H0hX6JLSg9xujYflyT
-         YBe/qMSwoKWmiBR1hFDkEov/g0eKb4Ru0a9XK0KRrAb9vUXpO+lupyJe16OYY/l0ok
-         rL1zymYrXaeaQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [GIT PULL] Documentation fixes for 5.16
-Date:   Thu, 18 Nov 2021 03:29:26 -0700
-Message-ID: <871r3dg3jt.fsf@meer.lwn.net>
+        id S1343604AbhKRLLW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 18 Nov 2021 06:11:22 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ACE881FB;
+        Thu, 18 Nov 2021 03:08:21 -0800 (PST)
+Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 26D7E3F5A1;
+        Thu, 18 Nov 2021 03:08:19 -0800 (PST)
+Date:   Thu, 18 Nov 2021 11:08:14 +0000
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Marco Elver <elver@google.com>
+Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
+        Alexander Potapenko <glider@google.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Waiman Long <longman@redhat.com>,
+        Will Deacon <will@kernel.org>, kasan-dev@googlegroups.com,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, x86@kernel.org
+Subject: Re: [PATCH v2 01/23] kcsan: Refactor reading of instrumented memory
+Message-ID: <20211118110813.GA5233@lakrids.cambridge.arm.com>
+References: <20211118081027.3175699-1-elver@google.com>
+ <20211118081027.3175699-2-elver@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211118081027.3175699-2-elver@google.com>
+User-Agent: Mutt/1.11.1+11 (2f07cb52) (2018-12-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The following changes since commit fa55b7dcdc43c1aa1ba12bca9d2dd4318c2a0dbf:
+On Thu, Nov 18, 2021 at 09:10:05AM +0100, Marco Elver wrote:
+> Factor out the switch statement reading instrumented memory into a
+> helper read_instrumented_memory().
+> 
+> No functional change.
+> 
+> Signed-off-by: Marco Elver <elver@google.com>
 
-  Linux 5.16-rc1 (2021-11-14 13:56:52 -0800)
+Nice cleanup!
 
-are available in the Git repository at:
+Acked-by: Mark Rutland <mark.rutland@arm.com>
 
-  git://git.lwn.net/linux.git tags/docs-5.16-2
+Mark.
 
-for you to fetch changes up to b96ff02ab2be1791248237b1bf318aaf62e8b701:
-
-  Documentation/process: fix a cross reference (2021-11-17 06:12:14 -0700)
-
-----------------------------------------------------------------
-A handful of documentation fixes for 5.16
-
-----------------------------------------------------------------
-Akira Yokosawa (1):
-      docs: Update Sphinx requirements
-
-Alex Shi (1):
-      doc/zh_CN: fix a translation error in management-style
-
-Mauro Carvalho Chehab (4):
-      libbpf: update index.rst reference
-      docs: accounting: update delay-accounting.rst reference
-      Documentation: update vcpu-requests.rst reference
-      Documentation/process: fix a cross reference
-
-Pali Roh=C3=A1r (3):
-      Documentation: arm: marvell: Add some links to homepage / product inf=
-os
-      Documentation: arm: marvell: Put Armada XP section between Armada 370=
- and 375
-      Documentation: arm: marvell: Fix link to armada_1000_pb.pdf document
-
-Wasin Thonkaew (1):
-      docs: filesystems: Fix grammatical error "with" to "which"
-
-Zhaoyu Liu (1):
-      docs: ftrace: fix the wrong path of tracefs
-
- Documentation/admin-guide/sysctl/kernel.rst        |  2 +-
- Documentation/arm/marvell.rst                      | 48 +++++++++++-------=
-----
- Documentation/bpf/index.rst                        |  2 +-
- Documentation/doc-guide/sphinx.rst                 | 22 ++++------
- Documentation/filesystems/autofs.rst               |  2 +-
- Documentation/process/changes.rst                  |  2 +-
- Documentation/process/submitting-patches.rst       |  4 +-
- Documentation/trace/ftrace.rst                     |  9 ++--
- .../translations/it_IT/doc-guide/sphinx.rst        | 23 ++++-------
- .../translations/it_IT/process/changes.rst         |  2 +-
- .../translations/zh_CN/doc-guide/sphinx.rst        | 21 ++++------
- .../zh_CN/process/management-style.rst             |  4 +-
- arch/riscv/kvm/vcpu.c                              |  2 +-
- 13 files changed, 65 insertions(+), 78 deletions(-)
+> ---
+>  kernel/kcsan/core.c | 51 +++++++++++++++------------------------------
+>  1 file changed, 17 insertions(+), 34 deletions(-)
+> 
+> diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
+> index 4b84c8e7884b..6bfd3040f46b 100644
+> --- a/kernel/kcsan/core.c
+> +++ b/kernel/kcsan/core.c
+> @@ -325,6 +325,21 @@ static void delay_access(int type)
+>  	udelay(delay);
+>  }
+>  
+> +/*
+> + * Reads the instrumented memory for value change detection; value change
+> + * detection is currently done for accesses up to a size of 8 bytes.
+> + */
+> +static __always_inline u64 read_instrumented_memory(const volatile void *ptr, size_t size)
+> +{
+> +	switch (size) {
+> +	case 1:  return READ_ONCE(*(const u8 *)ptr);
+> +	case 2:  return READ_ONCE(*(const u16 *)ptr);
+> +	case 4:  return READ_ONCE(*(const u32 *)ptr);
+> +	case 8:  return READ_ONCE(*(const u64 *)ptr);
+> +	default: return 0; /* Ignore; we do not diff the values. */
+> +	}
+> +}
+> +
+>  void kcsan_save_irqtrace(struct task_struct *task)
+>  {
+>  #ifdef CONFIG_TRACE_IRQFLAGS
+> @@ -482,23 +497,7 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type, unsigned
+>  	 * Read the current value, to later check and infer a race if the data
+>  	 * was modified via a non-instrumented access, e.g. from a device.
+>  	 */
+> -	old = 0;
+> -	switch (size) {
+> -	case 1:
+> -		old = READ_ONCE(*(const u8 *)ptr);
+> -		break;
+> -	case 2:
+> -		old = READ_ONCE(*(const u16 *)ptr);
+> -		break;
+> -	case 4:
+> -		old = READ_ONCE(*(const u32 *)ptr);
+> -		break;
+> -	case 8:
+> -		old = READ_ONCE(*(const u64 *)ptr);
+> -		break;
+> -	default:
+> -		break; /* ignore; we do not diff the values */
+> -	}
+> +	old = read_instrumented_memory(ptr, size);
+>  
+>  	/*
+>  	 * Delay this thread, to increase probability of observing a racy
+> @@ -511,23 +510,7 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type, unsigned
+>  	 * racy access.
+>  	 */
+>  	access_mask = ctx->access_mask;
+> -	new = 0;
+> -	switch (size) {
+> -	case 1:
+> -		new = READ_ONCE(*(const u8 *)ptr);
+> -		break;
+> -	case 2:
+> -		new = READ_ONCE(*(const u16 *)ptr);
+> -		break;
+> -	case 4:
+> -		new = READ_ONCE(*(const u32 *)ptr);
+> -		break;
+> -	case 8:
+> -		new = READ_ONCE(*(const u64 *)ptr);
+> -		break;
+> -	default:
+> -		break; /* ignore; we do not diff the values */
+> -	}
+> +	new = read_instrumented_memory(ptr, size);
+>  
+>  	diff = old ^ new;
+>  	if (access_mask)
+> -- 
+> 2.34.0.rc2.393.gf8c9666880-goog
+> 
