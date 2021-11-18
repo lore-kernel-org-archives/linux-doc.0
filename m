@@ -2,125 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7175DC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 10:26:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB899C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 10:29:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4B44A61B5F
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 10:26:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 89DC161507
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 10:29:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245096AbhKRK3I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Nov 2021 05:29:08 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:10124 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S243415AbhKRK3F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Nov 2021 05:29:05 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AIABPfD011744;
-        Thu, 18 Nov 2021 10:26:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=m8OGdty1aA6IVWuRNAcYSIV5uW9EeB7e1U5YtYJ+HwA=;
- b=Ztk2YE9uchCTVHvNQSI2WstTTnKC1+0Qi/6sAZExQpa0BQAsXagV/ob6kgLpJtj1LfL8
- c2grmx/D4RSCeEe26vwRNTMvirvH3zn5eOR0hW5nyehrkW2E9xCe06ZrEGLXaVXy0OnO
- 3qjGOsWpeKTZJN0J48fxrJcUQqAdElZbJGNI9DxwZB8JZb1LdZJdicY+mi8E9s3fsur/
- fAIwpl0Ec+nBNmiDU06LWiPKQZ2ZR9mRA83xEsrxGybGbMrUOf/3oapZyOW1LQsyuGT/
- P7jE1aMsE2eyG66IvDSyP+9cEAp3vSDoKRoHde95kU75eVBFxdnIMz5o8IClfDgsJGFu 4Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3cdmv008ve-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 18 Nov 2021 10:26:04 +0000
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1AIABkm7017004;
-        Thu, 18 Nov 2021 10:26:03 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com [149.81.74.108])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3cdmv008ut-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 18 Nov 2021 10:26:03 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
-        by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1AIAIddC014406;
-        Thu, 18 Nov 2021 10:26:01 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
-        by ppma05fra.de.ibm.com with ESMTP id 3ca50aj8nf-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 18 Nov 2021 10:26:01 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 1AIAPw1m32965090
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 18 Nov 2021 10:25:58 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 47BED52051;
-        Thu, 18 Nov 2021 10:25:58 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 0C02F5204F;
-        Thu, 18 Nov 2021 10:25:58 +0000 (GMT)
-From:   Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-To:     Christian Borntraeger <borntraeger@de.ibm.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] KVM: s390: Fix names of skey constants in api documentation
-Date:   Thu, 18 Nov 2021 11:25:22 +0100
-Message-Id: <20211118102522.569660-1-scgl@linux.ibm.com>
-X-Mailer: git-send-email 2.25.1
+        id S243781AbhKRKcf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Nov 2021 05:32:35 -0500
+Received: from ms.lwn.net ([45.79.88.28]:53468 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S243409AbhKRKcc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 18 Nov 2021 05:32:32 -0500
+Received: from localhost (unknown [151.34.20.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 2001B615E;
+        Thu, 18 Nov 2021 10:29:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2001B615E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1637231370; bh=e0HnsECkTvPiMDr10G2QXBJrT9qzN992w+6UgN1B/tk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=HoOQanOeQLzQBPjVCwMMEFJ6g0CyQa5ZTNmP9zkCipRHZWr0+pj3awMc0RTSGonVQ
+         xZSieJB/mr5izu4a/WNywWzCD1b9bnSAS6zpuAzYD5mIK3oe6IIJwb1ELdJDIx8GBn
+         /1z8b12RheEvSBdCCvqoc5elLOpO2oqAeNMC/fzV3GWzFd4ee01zAIA6gfC31006oi
+         Vzd0L68htNF0oYrHroaWgnDstmxuOVseTBPL7CdoFUewRsS5H0hX6JLSg9xujYflyT
+         YBe/qMSwoKWmiBR1hFDkEov/g0eKb4Ru0a9XK0KRrAb9vUXpO+lupyJe16OYY/l0ok
+         rL1zymYrXaeaQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [GIT PULL] Documentation fixes for 5.16
+Date:   Thu, 18 Nov 2021 03:29:26 -0700
+Message-ID: <871r3dg3jt.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: I-62SnQjNXul2OVFXqxtHTM-aoLhQTQP
-X-Proofpoint-ORIG-GUID: NA1tRtkHtwRKJBAmtgCga1wt-CPbO4IS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-18_04,2021-11-17_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- spamscore=0 phishscore=0 mlxscore=0 adultscore=0 bulkscore=0
- mlxlogscore=999 clxscore=1011 impostorscore=0 malwarescore=0
- lowpriorityscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2110150000 definitions=main-2111180059
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The are defined in include/uapi/linux/kvm.h as
-KVM_S390_GET_SKEYS_NONE and KVM_S390_SKEYS_MAX, but the
-api documetation talks of KVM_S390_GET_KEYS_NONE and
-KVM_S390_SKEYS_ALLOC_MAX respectively.
+The following changes since commit fa55b7dcdc43c1aa1ba12bca9d2dd4318c2a0dbf:
 
-Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
----
- Documentation/virt/kvm/api.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+  Linux 5.16-rc1 (2021-11-14 13:56:52 -0800)
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index aeeb071c7688..b86c7edae888 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -3701,7 +3701,7 @@ KVM with the currently defined set of flags.
- :Architectures: s390
- :Type: vm ioctl
- :Parameters: struct kvm_s390_skeys
--:Returns: 0 on success, KVM_S390_GET_KEYS_NONE if guest is not using storage
-+:Returns: 0 on success, KVM_S390_GET_SKEYS_NONE if guest is not using storage
-           keys, negative value on error
- 
- This ioctl is used to get guest storage key values on the s390
-@@ -3720,7 +3720,7 @@ you want to get.
- 
- The count field is the number of consecutive frames (starting from start_gfn)
- whose storage keys to get. The count field must be at least 1 and the maximum
--allowed value is defined as KVM_S390_SKEYS_ALLOC_MAX. Values outside this range
-+allowed value is defined as KVM_S390_SKEYS_MAX. Values outside this range
- will cause the ioctl to return -EINVAL.
- 
- The skeydata_addr field is the address to a buffer large enough to hold count
-@@ -3744,7 +3744,7 @@ you want to set.
- 
- The count field is the number of consecutive frames (starting from start_gfn)
- whose storage keys to get. The count field must be at least 1 and the maximum
--allowed value is defined as KVM_S390_SKEYS_ALLOC_MAX. Values outside this range
-+allowed value is defined as KVM_S390_SKEYS_MAX. Values outside this range
- will cause the ioctl to return -EINVAL.
- 
- The skeydata_addr field is the address to a buffer containing count bytes of
--- 
-2.25.1
+are available in the Git repository at:
 
+  git://git.lwn.net/linux.git tags/docs-5.16-2
+
+for you to fetch changes up to b96ff02ab2be1791248237b1bf318aaf62e8b701:
+
+  Documentation/process: fix a cross reference (2021-11-17 06:12:14 -0700)
+
+----------------------------------------------------------------
+A handful of documentation fixes for 5.16
+
+----------------------------------------------------------------
+Akira Yokosawa (1):
+      docs: Update Sphinx requirements
+
+Alex Shi (1):
+      doc/zh_CN: fix a translation error in management-style
+
+Mauro Carvalho Chehab (4):
+      libbpf: update index.rst reference
+      docs: accounting: update delay-accounting.rst reference
+      Documentation: update vcpu-requests.rst reference
+      Documentation/process: fix a cross reference
+
+Pali Roh=C3=A1r (3):
+      Documentation: arm: marvell: Add some links to homepage / product inf=
+os
+      Documentation: arm: marvell: Put Armada XP section between Armada 370=
+ and 375
+      Documentation: arm: marvell: Fix link to armada_1000_pb.pdf document
+
+Wasin Thonkaew (1):
+      docs: filesystems: Fix grammatical error "with" to "which"
+
+Zhaoyu Liu (1):
+      docs: ftrace: fix the wrong path of tracefs
+
+ Documentation/admin-guide/sysctl/kernel.rst        |  2 +-
+ Documentation/arm/marvell.rst                      | 48 +++++++++++-------=
+----
+ Documentation/bpf/index.rst                        |  2 +-
+ Documentation/doc-guide/sphinx.rst                 | 22 ++++------
+ Documentation/filesystems/autofs.rst               |  2 +-
+ Documentation/process/changes.rst                  |  2 +-
+ Documentation/process/submitting-patches.rst       |  4 +-
+ Documentation/trace/ftrace.rst                     |  9 ++--
+ .../translations/it_IT/doc-guide/sphinx.rst        | 23 ++++-------
+ .../translations/it_IT/process/changes.rst         |  2 +-
+ .../translations/zh_CN/doc-guide/sphinx.rst        | 21 ++++------
+ .../zh_CN/process/management-style.rst             |  4 +-
+ arch/riscv/kvm/vcpu.c                              |  2 +-
+ 13 files changed, 65 insertions(+), 78 deletions(-)
