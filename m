@@ -2,101 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 210A7C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 20:33:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEFCBC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 20:49:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 049E161288
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 20:33:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C1AE76128C
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 20:49:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232427AbhKRUgK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Nov 2021 15:36:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43620 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232506AbhKRUgJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Nov 2021 15:36:09 -0500
-Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EE87C06173E;
-        Thu, 18 Nov 2021 12:33:09 -0800 (PST)
-Received: by mail-il1-x133.google.com with SMTP id h23so7878400ila.4;
-        Thu, 18 Nov 2021 12:33:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qyTlozApB7Cn3WYv2QGUQ2usO+JOsj2om14zfMsi/V0=;
-        b=KIZmhLUJnxlibQakZ4sSihWlExAMKhdgIeUyFgE16sOKh3ZmI9K3yNz4RFeTY02ZMw
-         6elMv2plzKFkmTkbNvSHtsV3M8zszL7SHYt4LEIrNzVhhvXh97oLwa1I/J8Udf1QrcPX
-         nyqAZxA/hOMfTAvSyZ7lo8G5pTXBkQVUc/wLwpHSo5HlMzGlLTdIYYPaI90lgZ0kMH+0
-         1ilefnLO43msnpRwRaFCNpIOUzFEiss8WzdfHgYlUIenCOMxEP+PRJ7vjM+Y1NMb8mtG
-         WiXWZVJkBkWmuNZyRqkFmsjwlIbyJ71ASY2+BTuA8Zp2UyytvQCuL+7zAFVTC460Tf3G
-         T+7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qyTlozApB7Cn3WYv2QGUQ2usO+JOsj2om14zfMsi/V0=;
-        b=xoOjyS94QHixzUB8/OdelPL/T3UQCZccsl1Gzfw/5bpgZWs3JuEAAGLB+k26gRmnkB
-         MrbJoiU3+zCgXi3oaofWN0OlGZLlAcHNYSU6+x7VCXsRCc2GTC5PVylL/fi6MK0V1ILk
-         vS/6BvpsA+1c9ovglPbSU9I2G4iU5OTrS8dAk8I9s+f0TW4GUQhxUSWa88vI9EdBRdLQ
-         cVhqkF+PT8WLUHPGh4j+N4iNawIMY7XT35hqe7AZoM8vPsk4ok66ryvgh4U9zWyG0v66
-         zsBEAZFps6X+f/kExwPW07iAO4lCFIKwnii6upidxp1SG7JMh7KPUbmgNF8IOIzcyMGC
-         WmdQ==
-X-Gm-Message-State: AOAM533yUl+8mjgYNEEtPYtimp+H+LANvgnnGE2iiObXNzU+QoNqewXc
-        Lh2VR9la04q29q+iGTPU27OgG3f4eg5QhJA4RQU=
-X-Google-Smtp-Source: ABdhPJwiVmhqZn50FP2evjzUqOYGkWeTTM9jGCAYdFOl5EjJ3oPfcfpC2lCnXXhJxXe4tmsTnpo2D4rvFwlT5ouu/Ak=
-X-Received: by 2002:a92:cf0d:: with SMTP id c13mr147792ilo.319.1637267588832;
- Thu, 18 Nov 2021 12:33:08 -0800 (PST)
-MIME-Version: 1.0
-References: <20211117015806.2192263-1-dvander@google.com> <CAOQ4uxjjapFeOAFGLmsXObdgFVYLfNer-rnnee1RR+joxK3xYg@mail.gmail.com>
- <CA+FmFJBDwt52Z-dVGfuUcnRMiMtGPhK4cCQJ=J_fg0r3x-b6ng@mail.gmail.com>
- <CAOQ4uxjTRfwGrXuWjACZyEQTozxUHTabJsN7yH5wCJcAapm-6g@mail.gmail.com> <CA+FmFJB1MwPVeuTJ=MJxH7AV+T-3EiHZvXTzhrQBX0=EJKqC-Q@mail.gmail.com>
-In-Reply-To: <CA+FmFJB1MwPVeuTJ=MJxH7AV+T-3EiHZvXTzhrQBX0=EJKqC-Q@mail.gmail.com>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Thu, 18 Nov 2021 22:32:57 +0200
-Message-ID: <CAOQ4uxhxQfFfrpmRS6tOv5ANVug6d8dGx6Hsc7MYYe63sUOpcg@mail.gmail.com>
-Subject: Re: [PATCH v19 0/4] overlayfs override_creds=off & nested get xattr fix
-To:     David Anderson <dvander@google.com>
-Cc:     Mark Salyzyn <salyzyn@android.com>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        John Stultz <john.stultz@linaro.org>,
-        linux-doc@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        overlayfs <linux-unionfs@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        kernel-team <kernel-team@android.com>, selinux@vger.kernel.org,
-        paulmoore@microsoft.com, luca.boccassi@microsoft.com
-Content-Type: text/plain; charset="UTF-8"
+        id S233324AbhKRUwG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Nov 2021 15:52:06 -0500
+Received: from mail.kernel.org ([198.145.29.99]:34886 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233161AbhKRUwB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 18 Nov 2021 15:52:01 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPS id 4BF4461220;
+        Thu, 18 Nov 2021 20:49:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1637268541;
+        bh=wpZdYa5h0d37MIUuRUVbZvYOVjpRxGS+Y7WMEkjmAmo=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=jYnUoG3pVnUkOhF4MUO5RtYT8OJ7NmeixIAbypf+Et5kkd+dPFnYQsggHE8YLYURh
+         qlqaYJH/bzkuqqKAsa4VIZdSaf4DpY+iSd0Ja7WMyHnNHVD2N/Zwfnjf4laNiBh0c1
+         qoyaVUVFGHPFDu+AbNpByoQPcITAhkiDkFuvVVcwX9FoJXsWOB3atk7Kk9OiFe7wlt
+         rfUNh6K/yiNMBXT6LHkfOkzSo3c6aRpRKOEvIl9UKvgfdSj9jbyjqUE742SmfiRpIv
+         +L/5l2CUGZRB1cRuuDHVg2ZncG8Prr+26smZYd7MjMxbtM1F21CEZvcjEGCQ7qDzWP
+         Y2sQFA90U268A==
+Subject: Re: [GIT PULL] Documentation fixes for 5.16
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <871r3dg3jt.fsf@meer.lwn.net>
+References: <871r3dg3jt.fsf@meer.lwn.net>
+X-PR-Tracked-List-Id: <linux-doc.vger.kernel.org>
+X-PR-Tracked-Message-Id: <871r3dg3jt.fsf@meer.lwn.net>
+X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-5.16-2
+X-PR-Tracked-Commit-Id: b96ff02ab2be1791248237b1bf318aaf62e8b701
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 4ae275bc6d2fb2b399a8723fc0a0be0929e10e0d
+Message-Id: <163726854128.10311.7567293196354621521.pr-tracker-bot@kernel.org>
+Date:   Thu, 18 Nov 2021 20:49:01 +0000
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> > It is something that is not at all easy to fix.
-> > In the example above, instead of checking permissions against the
-> > overlay inode (on "incoming" readdir) will need to check permissions of every
-> > accessing user against all layers, before allowing access to the merged
-> > directory content (which is cached).
-> > A lot more work - and this is just for this one example.
->
-> I see your point. If we could implement that, behind a mount flag, would that be
-> an acceptable solution?
->
+The pull request you sent on Thu, 18 Nov 2021 03:29:26 -0700:
 
-As I wrote, this is one specific problem that I identified.
-If you propose a different behavior base on mount flag you should
-be able to argue that is cannot be exploited to circumvent security
-access policies, by peaking into cached copies of objects that the user
-has no access to, or by any other way.
+> git://git.lwn.net/linux.git tags/docs-5.16-2
 
-I have no idea how to implement what you want and prove that
-it is safe.
-Maybe if you explained the use case in greater details with some
-examples someone could help you reach a possible solution.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/4ae275bc6d2fb2b399a8723fc0a0be0929e10e0d
 
-Thanks,
-Amir.
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
