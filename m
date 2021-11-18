@@ -2,180 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8FD1C43219
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 10:21:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7175DC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 10:26:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 93C0A61ABD
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 10:21:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4B44A61B5F
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 10:26:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243186AbhKRKY2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Nov 2021 05:24:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43508 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245598AbhKRKX0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Nov 2021 05:23:26 -0500
-Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com [IPv6:2607:f8b0:4864:20::d2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B085C061570;
-        Thu, 18 Nov 2021 02:20:26 -0800 (PST)
-Received: by mail-io1-xd2a.google.com with SMTP id e144so7241138iof.3;
-        Thu, 18 Nov 2021 02:20:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=itCVI2ENrhkTTYHps6m3XQ5oUYvCnNOBSzEcX1dRLm4=;
-        b=Dfmb6C0k8WZPBVmY/ibFGC9rxZ8Lhy/SquLt0Xv9ML0bvrlyblnx0IRCmS7VXCwSWF
-         15jAMM45IjpeyO/OR4aFw2sBHxN4+6BZkLlr+TXB9zXFrFYdsi8Kt06cBlaqUQSIdJlC
-         Yn7uSyCD2rHKVyxC0tut7kil37wW8m9Ca/5kPpsMd/Kzf8MJP3sJqtazQU3ovX+muOmH
-         jcTRqAgCMqO6F72HLARp4oCvnzzrJDHbyJt+3cbR1WRfiY72/19/jIGSNU1Jnwn8RyXi
-         E585sJ2ZIEa2PncDfKNtXisgSaBz0PxJ5MwdFnvnwHiKQtFIAVnWsH65G0fc4N68QzD3
-         +zhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=itCVI2ENrhkTTYHps6m3XQ5oUYvCnNOBSzEcX1dRLm4=;
-        b=K95j6+Ogx3IsNIzdtp3vFauJOVMKqjHtJOsZDu0qYXwQRH0Ol6TG1jTwrPHK6FSkaC
-         NJ05bIwjgIEVewMmM6QTz8DDUGAwkPxqK5rdlFqa00JLnMPqFgmlm197xUovB2RXC71j
-         AUs6HVavv3jaqYhKwCccbtxgjUg7Bhu7VDqawjN7oI2xS6CpHyP7XRLV91E4IM/ZlCtt
-         ODcmf+ZGyU+iH9YrvbPCi1gD+j8e62sxLIqArHMuN5gkInqZj74mLOvSmdAmItNIgKVG
-         b2JPLM81WVCWnYgIdUG/V9Wr4EAfUkaVyZ97oKLnSt3Xh4jHIc/ql5mCD/ruiccVEgSN
-         FHXQ==
-X-Gm-Message-State: AOAM5314RQ3OevGeCYea7RJBX/Qgcf7eNSqZSS924o7X6JPPI83F+ZyK
-        lQMxg9UkEovLj+wjqZK1T7r2iQhaXhwmvc+R3i0=
-X-Google-Smtp-Source: ABdhPJyQnM3LkZ5uLvVCdeDBR0vhPZV82yI4Jj+q18fa+DAtlhzwEUs8WdW+WEH39xQX7jtO0ruQA6/9ugBzYLOm0yk=
-X-Received: by 2002:a05:6638:2727:: with SMTP id m39mr19361551jav.75.1637230825580;
- Thu, 18 Nov 2021 02:20:25 -0800 (PST)
+        id S245096AbhKRK3I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Nov 2021 05:29:08 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:10124 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S243415AbhKRK3F (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Nov 2021 05:29:05 -0500
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AIABPfD011744;
+        Thu, 18 Nov 2021 10:26:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=m8OGdty1aA6IVWuRNAcYSIV5uW9EeB7e1U5YtYJ+HwA=;
+ b=Ztk2YE9uchCTVHvNQSI2WstTTnKC1+0Qi/6sAZExQpa0BQAsXagV/ob6kgLpJtj1LfL8
+ c2grmx/D4RSCeEe26vwRNTMvirvH3zn5eOR0hW5nyehrkW2E9xCe06ZrEGLXaVXy0OnO
+ 3qjGOsWpeKTZJN0J48fxrJcUQqAdElZbJGNI9DxwZB8JZb1LdZJdicY+mi8E9s3fsur/
+ fAIwpl0Ec+nBNmiDU06LWiPKQZ2ZR9mRA83xEsrxGybGbMrUOf/3oapZyOW1LQsyuGT/
+ P7jE1aMsE2eyG66IvDSyP+9cEAp3vSDoKRoHde95kU75eVBFxdnIMz5o8IClfDgsJGFu 4Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3cdmv008ve-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 18 Nov 2021 10:26:04 +0000
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1AIABkm7017004;
+        Thu, 18 Nov 2021 10:26:03 GMT
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com [149.81.74.108])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3cdmv008ut-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 18 Nov 2021 10:26:03 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+        by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1AIAIddC014406;
+        Thu, 18 Nov 2021 10:26:01 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+        by ppma05fra.de.ibm.com with ESMTP id 3ca50aj8nf-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 18 Nov 2021 10:26:01 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 1AIAPw1m32965090
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 18 Nov 2021 10:25:58 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 47BED52051;
+        Thu, 18 Nov 2021 10:25:58 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 0C02F5204F;
+        Thu, 18 Nov 2021 10:25:58 +0000 (GMT)
+From:   Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+To:     Christian Borntraeger <borntraeger@de.ibm.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] KVM: s390: Fix names of skey constants in api documentation
+Date:   Thu, 18 Nov 2021 11:25:22 +0100
+Message-Id: <20211118102522.569660-1-scgl@linux.ibm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20211117015806.2192263-1-dvander@google.com> <CAOQ4uxjjapFeOAFGLmsXObdgFVYLfNer-rnnee1RR+joxK3xYg@mail.gmail.com>
- <CA+FmFJBDwt52Z-dVGfuUcnRMiMtGPhK4cCQJ=J_fg0r3x-b6ng@mail.gmail.com>
-In-Reply-To: <CA+FmFJBDwt52Z-dVGfuUcnRMiMtGPhK4cCQJ=J_fg0r3x-b6ng@mail.gmail.com>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Thu, 18 Nov 2021 12:20:14 +0200
-Message-ID: <CAOQ4uxjTRfwGrXuWjACZyEQTozxUHTabJsN7yH5wCJcAapm-6g@mail.gmail.com>
-Subject: Re: [PATCH v19 0/4] overlayfs override_creds=off & nested get xattr fix
-To:     David Anderson <dvander@google.com>
-Cc:     Mark Salyzyn <salyzyn@android.com>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        John Stultz <john.stultz@linaro.org>,
-        linux-doc@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        overlayfs <linux-unionfs@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        kernel-team <kernel-team@android.com>, selinux@vger.kernel.org,
-        paulmoore@microsoft.com, luca.boccassi@microsoft.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: I-62SnQjNXul2OVFXqxtHTM-aoLhQTQP
+X-Proofpoint-ORIG-GUID: NA1tRtkHtwRKJBAmtgCga1wt-CPbO4IS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-11-18_04,2021-11-17_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ spamscore=0 phishscore=0 mlxscore=0 adultscore=0 bulkscore=0
+ mlxlogscore=999 clxscore=1011 impostorscore=0 malwarescore=0
+ lowpriorityscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2110150000 definitions=main-2111180059
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 18, 2021 at 11:53 AM David Anderson <dvander@google.com> wrote:
->
-> On Tue, Nov 16, 2021 at 11:36 PM Amir Goldstein <amir73il@gmail.com> wrote:
-> > Hi David,
-> >
-> > I see that the patch set has changed hands (presumably to Android upstreaming
-> > team), but you just rebased v18 without addressing the maintainers concerns [1].
->
-> Indeed I'm carrying this forward as Mark is no longer working on it.
-> My apologies for
-> missing those comments!
->
-> > Specifically, the patch 2/4 is very wrong for unprivileged mount and
-> > I think that the very noisy patch 1/4 could be completely avoided:
-> > Can't you use -o userxattr mount option for Android use case and limit
-> > the manipulation of user.ovrelay.* xattr based on sepolicy for actors
-> > that are allowed
-> > to make changes in overlayfs mount? or not limit at all?
-> > The access to those xattr is forbidden via "incoming" xattr ops on
-> > overlay inodes.
->
-> Can you clarify a bit more? The patch is definitely super noisy and I'd love
-> to have a better solution. The problem it's trying to solve is:
->  1. Kernel-privileged init mounts /mnt/blah-lower and /mnt/blah-upper.
->  2. Kernel-privileged init mounts /blah with overlayfs using the above dirs.
->  2. Kernel-privileged init loads sepolicy off /blah/policy. Enforcing begins.
->  3. Kernel-privileged init tries to execute /blah/init to initiate a
-> domain transition.
->  4. exec() fails because the overlayfs mounter creds (kernel domain) does
->      not have getxattr permission to /blah/init.
->
-> Eg, we're hitting this problem without even making changes to the mount, and
-> without anything being written to /mnt/blah-upper.
->
+The are defined in include/uapi/linux/kvm.h as
+KVM_S390_GET_SKEYS_NONE and KVM_S390_SKEYS_MAX, but the
+api documetation talks of KVM_S390_GET_KEYS_NONE and
+KVM_S390_SKEYS_ALLOC_MAX respectively.
 
-So what is your solution?
-Remove the security check from overlayfs setting xattr?
-How does that work for the person who composed the security policy?
-You will need to grant some basic privileges to the mounter.
-If you do not want to grant the mounter privileges to set trusted.overlay xattr
-you may use mount option -o userxattr and grant it permissions to set
-user.overlay xattrs.
+Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+---
+ Documentation/virt/kvm/api.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-> > Can an unprivileged user create an overlay over a directory that they have
-> > access to and redirect an innocent looking file name to an underlying file that
-> > said the mounting user has no access to and by doing that, tricking a privileged
-> > user to modify the innocent looking file on the  mounter's behalf?
-> > Of course this could be avoided by forbidding unprivileged mount with
-> > override_creds=off, but there could be other scenarios, so a clear model
-> > would help to understand the risks.
-> >
-> > For example:
-> > If user 1 was able to read in lower dir A, now the content of overlay dir A
-> > is cached and user 2, that has permissions to read upper dir A and does
-> > not have read permissions on lower dir A will see the content of lower dir A.
->
-> I'll need to think about this more and test to verify. It's not a scenario that
-> would come up in our use case (both dirs effectively have the same permissions).
->
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index aeeb071c7688..b86c7edae888 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -3701,7 +3701,7 @@ KVM with the currently defined set of flags.
+ :Architectures: s390
+ :Type: vm ioctl
+ :Parameters: struct kvm_s390_skeys
+-:Returns: 0 on success, KVM_S390_GET_KEYS_NONE if guest is not using storage
++:Returns: 0 on success, KVM_S390_GET_SKEYS_NONE if guest is not using storage
+           keys, negative value on error
+ 
+ This ioctl is used to get guest storage key values on the s390
+@@ -3720,7 +3720,7 @@ you want to get.
+ 
+ The count field is the number of consecutive frames (starting from start_gfn)
+ whose storage keys to get. The count field must be at least 1 and the maximum
+-allowed value is defined as KVM_S390_SKEYS_ALLOC_MAX. Values outside this range
++allowed value is defined as KVM_S390_SKEYS_MAX. Values outside this range
+ will cause the ioctl to return -EINVAL.
+ 
+ The skeydata_addr field is the address to a buffer large enough to hold count
+@@ -3744,7 +3744,7 @@ you want to set.
+ 
+ The count field is the number of consecutive frames (starting from start_gfn)
+ whose storage keys to get. The count field must be at least 1 and the maximum
+-allowed value is defined as KVM_S390_SKEYS_ALLOC_MAX. Values outside this range
++allowed value is defined as KVM_S390_SKEYS_MAX. Values outside this range
+ will cause the ioctl to return -EINVAL.
+ 
+ The skeydata_addr field is the address to a buffer containing count bytes of
+-- 
+2.25.1
 
-Your argument is taking the wrong POV.
-The reason that previous posts of this patch set have been rejected
-is not because it doesn't work for your use case.
-It is because other players can exploit the feature to bypass security
-policies, so the feature cannot be merged as is.
-
-> If the answer is "yes, that can happen" - do you see this as a problem of
-> clarifying the model, or a problem of fixing that loophole?
->
-
-It is something that is not at all easy to fix.
-In the example above, instead of checking permissions against the
-overlay inode (on "incoming" readdir) will need to check permissions of every
-accessing user against all layers, before allowing access to the merged
-directory content (which is cached).
-A lot more work - and this is just for this one example.
-
-> >> I think that the core problem with the approach is using Non-uniform
-> > credentials to access underlying layers. I don't see a simple way around
-> > a big audit that checks all those cases, but maybe I'm missing some quick
-> > shortcut or maybe your use case can add some restrictions about the
-> > users that could access this overlay that would simplify the generic problem.
->
-> In a security model like ours, I think there's no way around it, that
-> we really need
-> accesses to be from the caller's credentials and not the mounter's. It's even
-> worse than earlier iterations of this patch perhaps let on: we mount
-> before sepolicy
-> is loaded (so we can overlay the policy itself), and thus the
-> mounter's creds are
-> effectively "the kernel". This domain is highly restricted in our
-> sepolicy for obvious
-> reasons. There's no way our security team will let us unrestrict it.
->
-
-Not sure what that means or what I can do with this information.
-If I had a simple suggestion on how to solve your problem I would have
-suggested it, but I cannot think of any right now.
-The best I can do is to try to make you understand the problems that your
-patch causes to others, so you can figure out a way that meets your goals
-without breaking other use cases.
-
-Thanks,
-Amir.
