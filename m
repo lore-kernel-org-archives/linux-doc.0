@@ -2,59 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5CA1C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 08:15:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DB28C43219
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 08:15:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9335D61B7D
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 08:15:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 59C1461B93
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 08:15:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244418AbhKRISi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Nov 2021 03:18:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42442 "EHLO
+        id S244430AbhKRISk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Nov 2021 03:18:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244449AbhKRIRr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Nov 2021 03:17:47 -0500
-Received: from mail-wm1-x34a.google.com (mail-wm1-x34a.google.com [IPv6:2a00:1450:4864:20::34a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75F23C0797BD
-        for <linux-doc@vger.kernel.org>; Thu, 18 Nov 2021 00:11:53 -0800 (PST)
-Received: by mail-wm1-x34a.google.com with SMTP id g81-20020a1c9d54000000b003330e488323so2010332wme.0
-        for <linux-doc@vger.kernel.org>; Thu, 18 Nov 2021 00:11:53 -0800 (PST)
+        with ESMTP id S244545AbhKRIRs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Nov 2021 03:17:48 -0500
+Received: from mail-wr1-x449.google.com (mail-wr1-x449.google.com [IPv6:2a00:1450:4864:20::449])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1C4FC0432C1
+        for <linux-doc@vger.kernel.org>; Thu, 18 Nov 2021 00:11:55 -0800 (PST)
+Received: by mail-wr1-x449.google.com with SMTP id y10-20020adffa4a000000b0017eea6cb05dso876513wrr.6
+        for <linux-doc@vger.kernel.org>; Thu, 18 Nov 2021 00:11:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=JzBhpw0Qm81Z9lbF5IGyZhQAb+5o04LDLkCFlxupKLc=;
-        b=J2dq7Bb9OTuiXP0AA252Vhhbu3XGqr3duXOucWG1csy7gyckiIiMwWpJQEOCYRYfwg
-         TwOr1g1RYTDvwt7NCN62kuwbbMTITIMaqW/1tMbjc6fKG02JBa27YgUuArEnv0YIJkNx
-         ZgKgFJdBnBFPaE9JJ5tbXXUKzcqh8R1MwYvyaiI3AjDYNW1qO+WcDTreNeP7qgt6TTMa
-         TmAWysa5UItVtnxiVujTaFnon2WiU1y5A4yb0TNwtuZf5AGWUD5xRJDzOMv5xvM1G1mG
-         NTLv0nkmv8YkQW40zZeBVY5+wh38COqeDm6813bXSXxHVwakR0+VEbNO6ltBvRsvbuwP
-         dIKA==
+        bh=PKWjAua1xn2U34SqPEegBKZB0S4U3BBHTPl/cM5EGNo=;
+        b=Qq5HBBXgLOy+uTTK9h/vtf7TEvtzH6VyvHygGU2SLhqC+8vkW9T8o1VCD208Q3w+t1
+         scyhlr8UQiTtjfFMGx6Pa0MUX0OoMhFYKvk2KoXHtPYZk2TkQDvtZPU5Y9rDQbMZUZUR
+         9RwXiTztJ48SUHOegy+RtYw7+odGXvL5Q5GUvFE8eBmiSh54gtVgbtOAkz51b5MDPX5i
+         1WOLBP6v9HjIxhTd6gDA75bB5J1Xt6LuJM4JC+Cf+Kgs40VYQdE6uMQRdi02AAY3W43N
+         R4lw8Nv4E9PvzfhsIBIrFuSuCgsIdmoM0hnoLL3HQ9JXmqLL31tOAHurGrQ8eG/xf/L0
+         9YHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=JzBhpw0Qm81Z9lbF5IGyZhQAb+5o04LDLkCFlxupKLc=;
-        b=WgQdEmBuDarFneBiOPWpTpcNa+/rustDg+UtR/3GeZmjEGLB4Y74umB8S9x3eWE2te
-         6qYsA/11eI/1NEcLsPiWg14jwoZ3LlDuIO6izxkL707sCOyc+AdGLPWi8ykAJFAkIH8A
-         iKqn3TQicCGghBH2E9xZVKEsCCiKftuh3VYrCZTC1Lvs/AEi2ZCvmSyjQi6oDMFY3nlx
-         s4NgIQ1v8h9DWJ1Bbj4C3mfr+swbd3soOkD8qaLqkmDpazzbHCY5IOKb2o6E7gxnKqDw
-         bB7YZjUvk92UoqUwqJrXL+GH6E1t8zDwblerKJNEZRD4nj5scLcg8F+G9iXpWb2pJSi2
-         AjwQ==
-X-Gm-Message-State: AOAM53385Hi3yZX6xnU4uFCPHkyNSHdzwX+em9/vbWt3s8USMJZ0mhKT
-        WhD+Lie8mv4wMwxajmmO59zhgxj6Mw==
-X-Google-Smtp-Source: ABdhPJwQusr3UKyMybjxK41hgl723BBYHi903/Jdub7L5Z2pzXQazmXFESlxDTaLwUt3upLKIKsJeviZ9w==
+        bh=PKWjAua1xn2U34SqPEegBKZB0S4U3BBHTPl/cM5EGNo=;
+        b=qDpnqSc2DROLAovbD72eec2m1n51BOGPFU68ABAqi5B30roMPrNKFwCDgHgrha7zHa
+         7CkX/Y44Bcz2Y6kLTl+Ws7x1xNpqOXTSU66PemDafrwmHZBziDRZ+fgruXhkjw2xIbr1
+         FbphLj39l+YFKwFZj8mF9ZpZeDeIcDOjbwixPacZJqwrceaSwvxT13e6CA6lY+2nRq/B
+         ANDTbQrpUDm0EnF4LIrXUTlp+50jHEz48SHx8DLdtyRC8Z9b0M0o6q4c+9gHKY4vawYj
+         Cv3VxrTrYEfybQmT7ZJeIgGdVsR8OJtkAe1YDaHl2hzFsW8vLonUb2tBhC6AI1AgOi0P
+         XdOw==
+X-Gm-Message-State: AOAM53226Moq7VgXOnXqpeh3vuPlxmfwRv165Nc+g7P4KeCGA3L6/4lq
+        TZmWk10pIr2emfWXDqfqFMmozkuUfw==
+X-Google-Smtp-Source: ABdhPJzKthNmbOLQqgVYxXXQxUry4DYDNrfOwiEu0wK+Vcy0l56yOF9N9EJA7PtQ3+5yoKs/cwhn9cVyaQ==
 X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:7155:1b7:fca5:3926])
- (user=elver job=sendgmr) by 2002:a05:600c:2c4a:: with SMTP id
- r10mr7851761wmg.125.1637223111807; Thu, 18 Nov 2021 00:11:51 -0800 (PST)
-Date:   Thu, 18 Nov 2021 09:10:26 +0100
+ (user=elver job=sendgmr) by 2002:a1c:7715:: with SMTP id t21mr7647569wmi.183.1637223114521;
+ Thu, 18 Nov 2021 00:11:54 -0800 (PST)
+Date:   Thu, 18 Nov 2021 09:10:27 +0100
 In-Reply-To: <20211118081027.3175699-1-elver@google.com>
-Message-Id: <20211118081027.3175699-23-elver@google.com>
+Message-Id: <20211118081027.3175699-24-elver@google.com>
 Mime-Version: 1.0
 References: <20211118081027.3175699-1-elver@google.com>
 X-Mailer: git-send-email 2.34.0.rc2.393.gf8c9666880-goog
-Subject: [PATCH v2 22/23] objtool, kcsan: Add memory barrier instrumentation
- to whitelist
+Subject: [PATCH v2 23/23] objtool, kcsan: Remove memory barrier
+ instrumentation from noinstr
 From:   Marco Elver <elver@google.com>
 To:     elver@google.com, "Paul E. McKenney" <paulmck@kernel.org>
 Cc:     Alexander Potapenko <glider@google.com>,
@@ -76,29 +76,98 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Adds KCSAN's memory barrier instrumentation to objtool's uaccess
-whitelist.
+Teach objtool to turn instrumentation required for memory barrier
+modeling into nops in noinstr text.
+
+The __tsan_func_entry/exit calls are still emitted by compilers even
+with the __no_sanitize_thread attribute. The memory barrier
+instrumentation will be inserted explicitly (without compiler help), and
+thus needs to also explicitly be removed.
 
 Signed-off-by: Marco Elver <elver@google.com>
 ---
- tools/objtool/check.c | 4 ++++
- 1 file changed, 4 insertions(+)
+v2:
+* Rewrite after rebase to v5.16-rc1.
+---
+ tools/objtool/check.c               | 37 ++++++++++++++++++++++-------
+ tools/objtool/include/objtool/elf.h |  2 +-
+ 2 files changed, 30 insertions(+), 9 deletions(-)
 
 diff --git a/tools/objtool/check.c b/tools/objtool/check.c
-index 21735829b860..61dfb66b30b6 100644
+index 61dfb66b30b6..2b2587e5ec69 100644
 --- a/tools/objtool/check.c
 +++ b/tools/objtool/check.c
-@@ -849,6 +849,10 @@ static const char *uaccess_safe_builtin[] = {
- 	"__asan_report_store16_noabort",
- 	/* KCSAN */
- 	"__kcsan_check_access",
-+	"__kcsan_mb",
-+	"__kcsan_wmb",
-+	"__kcsan_rmb",
-+	"__kcsan_release",
- 	"kcsan_found_watchpoint",
- 	"kcsan_setup_watchpoint",
- 	"kcsan_check_scoped_accesses",
+@@ -1071,12 +1071,7 @@ static void annotate_call_site(struct objtool_file *file,
+ 		return;
+ 	}
+ 
+-	/*
+-	 * Many compilers cannot disable KCOV with a function attribute
+-	 * so they need a little help, NOP out any KCOV calls from noinstr
+-	 * text.
+-	 */
+-	if (insn->sec->noinstr && sym->kcov) {
++	if (insn->sec->noinstr && sym->removable_instr) {
+ 		if (reloc) {
+ 			reloc->type = R_NONE;
+ 			elf_write_reloc(file->elf, reloc);
+@@ -1991,6 +1986,32 @@ static int read_intra_function_calls(struct objtool_file *file)
+ 	return 0;
+ }
+ 
++static bool is_removable_instr(const char *name)
++{
++	/*
++	 * Many compilers cannot disable KCOV with a function attribute so they
++	 * need a little help, NOP out any KCOV calls from noinstr text.
++	 */
++	if (!strncmp(name, "__sanitizer_cov_", 16))
++		return true;
++
++	/*
++	 * Compilers currently do not remove __tsan_func_entry/exit with the
++	 * __no_sanitize_thread attribute, remove them.
++	 *
++	 * Memory barrier instrumentation is not emitted by the compiler, but
++	 * inserted explicitly, so we need to also remove them.
++	 */
++	if (!strncmp(name, "__tsan_func_", 12) ||
++	    !strcmp(name, "__kcsan_mb") ||
++	    !strcmp(name, "__kcsan_wmb") ||
++	    !strcmp(name, "__kcsan_rmb") ||
++	    !strcmp(name, "__kcsan_release"))
++		return true;
++
++	return false;
++}
++
+ static int classify_symbols(struct objtool_file *file)
+ {
+ 	struct section *sec;
+@@ -2011,8 +2032,8 @@ static int classify_symbols(struct objtool_file *file)
+ 			if (!strcmp(func->name, "__fentry__"))
+ 				func->fentry = true;
+ 
+-			if (!strncmp(func->name, "__sanitizer_cov_", 16))
+-				func->kcov = true;
++			if (is_removable_instr(func->name))
++				func->removable_instr = true;
+ 		}
+ 	}
+ 
+diff --git a/tools/objtool/include/objtool/elf.h b/tools/objtool/include/objtool/elf.h
+index cdc739fa9a6f..62e790a09ad2 100644
+--- a/tools/objtool/include/objtool/elf.h
++++ b/tools/objtool/include/objtool/elf.h
+@@ -58,7 +58,7 @@ struct symbol {
+ 	u8 static_call_tramp : 1;
+ 	u8 retpoline_thunk   : 1;
+ 	u8 fentry            : 1;
+-	u8 kcov              : 1;
++	u8 removable_instr   : 1;
+ 	struct list_head pv_target;
+ };
+ 
 -- 
 2.34.0.rc2.393.gf8c9666880-goog
 
