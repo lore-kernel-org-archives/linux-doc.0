@@ -2,345 +2,177 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C858C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 07:59:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9EB7C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 08:10:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3551E61B39
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 07:59:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B05BC61B5F
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 08:10:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244154AbhKRIC2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Nov 2021 03:02:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39784 "EHLO
+        id S244241AbhKRIN6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Nov 2021 03:13:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244161AbhKRICY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Nov 2021 03:02:24 -0500
-Received: from mail-ua1-x92b.google.com (mail-ua1-x92b.google.com [IPv6:2607:f8b0:4864:20::92b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE894C0613B9
-        for <linux-doc@vger.kernel.org>; Wed, 17 Nov 2021 23:59:24 -0800 (PST)
-Received: by mail-ua1-x92b.google.com with SMTP id b17so11910299uas.0
-        for <linux-doc@vger.kernel.org>; Wed, 17 Nov 2021 23:59:24 -0800 (PST)
+        with ESMTP id S244237AbhKRIN6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Nov 2021 03:13:58 -0500
+Received: from mail-wm1-x349.google.com (mail-wm1-x349.google.com [IPv6:2a00:1450:4864:20::349])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CBF1C061766
+        for <linux-doc@vger.kernel.org>; Thu, 18 Nov 2021 00:10:58 -0800 (PST)
+Received: by mail-wm1-x349.google.com with SMTP id v62-20020a1cac41000000b0033719a1a714so2244116wme.6
+        for <linux-doc@vger.kernel.org>; Thu, 18 Nov 2021 00:10:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=NxQbOxx3ZpwH4aRXAUnKT4xbBtBALtrVRecKHEhBeTI=;
-        b=n8NnFalaUhCosKhDfSTZ/BdBwCKkHBF8lMQcbw8Azy+UHOpwIIj3TLSANd9dVE72fq
-         4k9LQTN6prVkomvhvuMFmF0ZCtkVdbFDPzTv8kn+vvYcGDISFUAW7aa4byy9iqRfb7ep
-         qs3fNPa6x+H8ivDqYGqu3oclCNLzCFl8+2ERlEXdnbmJ4+moVeChx6xsWNEgcNitDbHE
-         aDVH7diC1Zf21DReWGsXmfkmVzWPDvUyVCQ2AZoF5X3YWLTJdu4toOZMnmxHmGYRBDnq
-         BFxILhpcIG0mGqPmrptLOEP1BHLzeAsLCRpGyyAov4IS2L0osSm72B3g+I1kCmkHJKOi
-         DFEA==
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=Xzmo5mL9yKPgm1lZgxwsGIqYX+i9650OydzQnMolJjY=;
+        b=qEJtN/DkSyckbRSxlIM9urYoLsb2hj7lFIxxPrdCEa/J11GugPm++lQKPAoPPA/En1
+         HAagnvpvld0c59y1nXQoSdU28kF6v7drYbyhjp6FCwRLAsX/zbPyFI5xXRjX8rc1oGu3
+         n5feY5KpUMjB4gzg7AMoJZWwyizpAXiugdaNx2kE2ILSDG1LgPsLdzEJCucQPCrvbhqd
+         8Hkype+TRhQp2L++fjjiYl8j4BG4Hz1E9HM5WKmImoj0fMbgcitWazJ9QMo6GxkbtIlw
+         YB4XpISSa3H3WuSWwlvkFRqnezzu26Jka/PzoDc7lqgYBOcl/r+/Uc4wFXuLaCec3va2
+         H87g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NxQbOxx3ZpwH4aRXAUnKT4xbBtBALtrVRecKHEhBeTI=;
-        b=vaD1IyH92GaERhSiBty4xwtVjXiea1VgTy/PW0zzl/T2irXQtO5LvpH8CkcTLkNXIU
-         3JwZq/0n697PeJ7ntGPZs63rHKzBiDeSzfG3XwW5v7FcMDwSAS6HL/cRZjIDo/Dh/NDC
-         +UyyBHGmr9XsAYeBQQkSuu+aVe/Rcn+PkCepVhnFdv6JYJmBB5BEcURaYNU/UXSAZwYO
-         xiigzzn4LAys7XWwuu7+KUrUQEUk0cg6g9UEyJNsyWgcgOTjB2Rn5225cPT9WCG6LRUE
-         ej3HbTGsiHJAMK/7dlq42XbKxp0PBVQNDPe46vDmc6iGDGlP+VyM67gDz8Zd2wx56sGZ
-         hoZw==
-X-Gm-Message-State: AOAM532xWQOzrBMdLEKn8ArWk+B4Q5Rf+IKzvM+1Hl01DcB18kYuCtKp
-        +MEHN5MejtmWTVi3gVD7i5qewvEY9aumL4DRCF3TSw==
-X-Google-Smtp-Source: ABdhPJzMisD9vHQ3BkKJwNs23ZenX0uJVPOB9omsnLpqaIrRAKetxCQiViS00ulhfuM23ZIpUkBYlF7OxmH9y2WfFMI=
-X-Received: by 2002:ab0:2041:: with SMTP id g1mr33435500ual.131.1637222363686;
- Wed, 17 Nov 2021 23:59:23 -0800 (PST)
-MIME-Version: 1.0
-References: <20211117015806.2192263-1-dvander@google.com> <a64aa4af-67b1-536c-9bd0-7b34e6cc1abe@schaufler-ca.com>
-In-Reply-To: <a64aa4af-67b1-536c-9bd0-7b34e6cc1abe@schaufler-ca.com>
-From:   David Anderson <dvander@google.com>
-Date:   Wed, 17 Nov 2021 23:59:12 -0800
-Message-ID: <CA+FmFJCS+CnDmYw3cOCCjNVhMkq6+i6JaSjWAxjgV674_KZtLA@mail.gmail.com>
-Subject: Re: [PATCH v19 0/4] overlayfs override_creds=off & nested get xattr fix
-To:     Casey Schaufler <casey@schaufler-ca.com>
-Cc:     Mark Salyzyn <salyzyn@android.com>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        John Stultz <john.stultz@linaro.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-unionfs@vger.kernel.org,
-        linux-security-module@vger.kernel.org, kernel-team@android.com,
-        selinux@vger.kernel.org, paulmoore@microsoft.com,
-        luca.boccassi@microsoft.com
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=Xzmo5mL9yKPgm1lZgxwsGIqYX+i9650OydzQnMolJjY=;
+        b=cb9ue61BIyuH3zcvJCqPaFq5ze7p3JSV73dqB74tJBAcWdn5AVHW8aBAKoenGGfp1V
+         fg6LIhbw1TDEaeXmLkNLjj6Gp5YvVuZjWSyA7GtWsA37JxthETjgZM8gwKPV2v8SEjAV
+         UsUrKxoIvFpa+7BysSxf9HRHYYj/zZPYcRfTE8K9d9Xw6oP0CM3tLU9HYQE7rqscU14v
+         TA67DjWL2jaIE/bGohpzgMZ3q/wr4amydCy4TFPwq+Rgb5Kt7p92+2ZelFqGL5y2HKoW
+         C6Ne4INo0suq1TiHCYnbeaeDxNcZBWndJMroR0pxdsI61STnI0LNBW30SyEIHwD9n90y
+         kn6A==
+X-Gm-Message-State: AOAM531+SGYyQ8pgqX73P4d66QNawp7H5X11/J8Bfml2lPGxbwx2/SCB
+        Xjg4jgdpwwcKzDGjA1Fg+6EjoEL7VA==
+X-Google-Smtp-Source: ABdhPJzf0beCDskxs6TLI9QKNEqbgr6M0bT4DWDT314iI+YiTOIk1FtVgaYUzMPaVpD7QqDDgrzhRBUpaw==
+X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:7155:1b7:fca5:3926])
+ (user=elver job=sendgmr) by 2002:a5d:4e52:: with SMTP id r18mr26521150wrt.224.1637223056499;
+ Thu, 18 Nov 2021 00:10:56 -0800 (PST)
+Date:   Thu, 18 Nov 2021 09:10:04 +0100
+Message-Id: <20211118081027.3175699-1-elver@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.34.0.rc2.393.gf8c9666880-goog
+Subject: [PATCH v2 00/23] kcsan: Support detecting a subset of missing memory barriers
+From:   Marco Elver <elver@google.com>
+To:     elver@google.com, "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     Alexander Potapenko <glider@google.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Waiman Long <longman@redhat.com>,
+        Will Deacon <will@kernel.org>, kasan-dev@googlegroups.com,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, x86@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 16, 2021 at 6:18 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
->
-> On 11/16/2021 5:58 PM, David Anderson wrote:
-> > Mark Salyzyn (3):
-> >
-> > By default, all access to the upper, lower and work directories is the
-> > recorded mounter's MAC and DAC credentials.  The incoming accesses are
-> > checked against the caller's credentials.
->
-> This isn't very clear. Are you saying that the security attributes
-> of the upper, lower, and work directories are determined by the
-> attributes of the process that mounted the filesystem? What is an
-> "incoming access"? I'm sure that means something if you're steeped
-> in the lore of overlayfs, but it isn't obvious to me.
+Detection of some missing memory barriers has been on the KCSAN feature
+wishlist for some time: this series adds support for modeling a subset
+of weak memory as defined by the LKMM, which enables detection of a
+subset of data races due to missing memory barriers.
 
-(Sorry, hitting "Reply All" this time...)
+KCSAN's approach to detecting missing memory barriers is based on
+modeling access reordering. Each memory access for which a watchpoint is
+set up, is also selected for simulated reordering within the scope of
+its function (at most 1 in-flight access).
 
-Thanks for taking a look - Yes. An "incoming access" is the user
-application security context accessing the filesystem.
+We are limited to modeling the effects of "buffering" (delaying the
+access), since the runtime cannot "prefetch" accesses. Once an access
+has been selected for reordering, it is checked along every other access
+until the end of the function scope. If an appropriate memory barrier is
+encountered, the access will no longer be considered for reordering.
 
-> > If the principles of least privilege are applied for sepolicy, the
-> > mounter's credentials might not overlap the credentials of the caller's
-> > when accessing the overlayfs filesystem.
->
-> I'm sorry, but I've tried pretty hard, and can't puzzle that one out.
+When the result of a memory operation should be ordered by a barrier,
+KCSAN can then detect data races where the conflict only occurs as a
+result of a missing barrier due to reordering accesses.
 
-If your sepolicy is designed to give processes minimal privileges (as ours is),
-then "init" might lack privileges even though other processes have them. For
-example, init can mount /x but not access /x/y/z. But, process XYZ can access
-/x/y/z. In our system processes have no privileges to anything by default,
-and permissions are granted as needed, as narrowly as possible.
+Some more details and an example are captured in the updated
+<Documentation/dev-tools/kcsan.rst>.
 
-> DAC privileges are not hierarchical. This doesn't make any sense.
+Some light fuzzing with the feature also resulted in a discussion [1]
+around an issue which appears to be allowed, but unlikely in practice.
 
-Sorry, that was probably not the right word. The intent was to say that a
-process with minimal DAC privileges might be able to access a file, but
-a process with expansive DAC privileges might be denied access to the
-same file due to MAC restrictions.
+[1] https://lkml.kernel.org/r/YRo58c+JGOvec7tc@elver.google.com
 
-> I think I might have figured that one out, but in order to do so
-> I have to make way too many assumptions about the earlier paragraph.
-> Could you please try to explain what you're doing with more context?
 
-Hopefully the above helps explain: overlayfs uses the mounter's privileges,
-which does not work on a system where the mounter does not have a
-superset of child processes' privileges. That's the crux of the issue and
-I'll keep working on how it's communicated in the patch description.
+The first half of the series are core KCSAN changes, documentation
+updates, and test changes. The second half adds instrumentation to
+barriers, atomics, bitops, along with enabling barrier instrumentation
+for some currently uninstrumented subsystems. The last two patches are
+objtool changes to add the usual entries to the uaccess whitelist, but
+also instruct objtool to remove memory barrier instrumentation from
+noinstr code (on x86).
 
--David
+---
 
-On Tue, Nov 16, 2021 at 6:18 PM Casey Schaufler <casey@schaufler-ca.com> wrote:
->
-> On 11/16/2021 5:58 PM, David Anderson wrote:
-> > Mark Salyzyn (3):
-> >    Add flags option to get xattr method paired to __vfs_getxattr
-> >    overlayfs: handle XATTR_NOSECURITY flag for get xattr method
-> >    overlayfs: override_creds=off option bypass creator_cred
-> >
-> > Mark Salyzyn + John Stultz (1):
-> >    overlayfs: inode_owner_or_capable called during execv
-> >
-> > The first three patches address fundamental security issues that should
-> > be solved regardless of the override_creds=off feature.
-> >
-> > The fourth adds the feature depends on these other fixes.
-> >
-> > By default, all access to the upper, lower and work directories is the
-> > recorded mounter's MAC and DAC credentials.  The incoming accesses are
-> > checked against the caller's credentials.
->
-> This isn't very clear. Are you saying that the security attributes
-> of the upper, lower, and work directories are determined by the
-> attributes of the process that mounted the filesystem? What is an
-> "incoming access"? I'm sure that means something if you're steeped
-> in the lore of overlayfs, but it isn't obvious to me.
->
-> > If the principles of least privilege are applied for sepolicy, the
-> > mounter's credentials might not overlap the credentials of the caller's
-> > when accessing the overlayfs filesystem.
->
-> I'm sorry, but I've tried pretty hard, and can't puzzle that one out.
->
-> >    For example, a file that a
-> > lower DAC privileged caller can execute, is MAC denied to the
-> > generally higher DAC privileged mounter, to prevent an attack vector.
->
-> DAC privileges are not hierarchical. This doesn't make any sense.
->
-> > We add the option to turn off override_creds in the mount options; all
-> > subsequent operations after mount on the filesystem will be only the
-> > caller's credentials.
->
-> I think I might have figured that one out, but in order to do so
-> I have to make way too many assumptions about the earlier paragraph.
-> Could you please try to explain what you're doing with more context?
->
-> >    The module boolean parameter and mount option
-> > override_creds is also added as a presence check for this "feature",
-> > existence of /sys/module/overlay/parameters/overlay_creds
-> >
-> > Signed-off-by: Mark Salyzyn <salyzyn@android.com>
-> > Signed-off-by: David Anderson <dvander@google.com>
-> > Cc: Miklos Szeredi <miklos@szeredi.hu>
-> > Cc: Jonathan Corbet <corbet@lwn.net>
-> > Cc: Vivek Goyal <vgoyal@redhat.com>
-> > Cc: Eric W. Biederman <ebiederm@xmission.com>
-> > Cc: Amir Goldstein <amir73il@gmail.com>
-> > Cc: Randy Dunlap <rdunlap@infradead.org>
-> > Cc: Stephen Smalley <sds@tycho.nsa.gov>
-> > Cc: John Stultz <john.stultz@linaro.org>
-> > Cc: linux-doc@vger.kernel.org
-> > Cc: linux-kernel@vger.kernel.org
-> > Cc: linux-fsdevel@vger.kernel.org
-> > Cc: linux-unionfs@vger.kernel.org
-> > Cc: linux-security-module@vger.kernel.org
-> > Cc: kernel-team@android.com
-> > Cc: selinux@vger.kernel.org
-> > Cc: paulmoore@microsoft.com
-> > Cc: Luca.Boccassi@microsoft.com
-> >
-> > ---
-> >
-> > v19
-> > - rebase.
-> >
-> > v18
-> > - rebase + fix minor cut and paste error for inode argument in __vfs_getxattr
-> >
-> > v17
-> > - correct some zero-day build failures.
-> > - fix up documentation
-> >
-> > v16
-> > - rebase and merge of two patches.
-> > - add adjustment to deal with execv when overrides is off.
-> >
-> > v15
-> > - Revert back to v4 with fixes from on the way from v5-v14. The single
-> >    structure argument passing to address the complaints about too many
-> >    arguments was rejected by the community.
-> > - Drop the udner discussion fix for an additional CAP_DAC_READ_SEARCH
-> >    check. Can address that independently.
-> > - ToDo: upstream test frame for thes security fixes (currently testing
-> >    is all in Android).
-> >
-> > v14:
-> > - Rejoin, rebase and a few adjustments.
-> >
-> > v13:
-> > - Pull out first patch and try to get it in alone feedback, some
-> >    Acks, and then <crickets> because people forgot why we were doing i.
-> >
-> > v12:
-> > - Restore squished out patch 2 and 3 in the series,
-> >    then change algorithm to add flags argument.
-> >    Per-thread flag is a large security surface.
-> >
-> > v11:
-> > - Squish out v10 introduced patch 2 and 3 in the series,
-> >    then and use per-thread flag instead for nesting.
-> > - Switch name to ovl_do_vds_getxattr for __vds_getxattr wrapper.
-> > - Add sb argument to ovl_revert_creds to match future work.
-> >
-> > v10:
-> > - Return NULL on CAP_DAC_READ_SEARCH
-> > - Add __get xattr method to solve sepolicy logging issue
-> > - Drop unnecessary sys_admin sepolicy checking for administrative
-> >    driver internal xattr functions.
-> >
-> > v6:
-> > - Drop CONFIG_OVERLAY_FS_OVERRIDE_CREDS.
-> > - Do better with the documentation, drop rationalizations.
-> > - pr_warn message adjusted to report consequences.
-> >
-> > v5:
-> > - beefed up the caveats in the Documentation
-> > - Is dependent on
-> >    "overlayfs: check CAP_DAC_READ_SEARCH before issuing exportfs_decode_fh"
-> >    "overlayfs: check CAP_MKNOD before issuing vfs_whiteout"
-> > - Added prwarn when override_creds=off
-> >
-> > v4:
-> > - spelling and grammar errors in text
-> >
-> > v3:
-> > - Change name from caller_credentials / creator_credentials to the
-> >    boolean override_creds.
-> > - Changed from creator to mounter credentials.
-> > - Updated and fortified the documentation.
-> > - Added CONFIG_OVERLAY_FS_OVERRIDE_CREDS
-> >
-> > v2:
-> > - Forward port changed attr to stat, resulting in a build error.
-> > - altered commit message.
-> >
-> > David Anderson (4):
-> >    Add flags option to get xattr method paired to __vfs_getxattr
-> >    overlayfs: handle XATTR_NOSECURITY flag for get xattr method
-> >    overlayfs: override_creds=off option bypass creator_cred
-> >    overlayfs: inode_owner_or_capable called during execv
-> >
-> >   Documentation/filesystems/locking.rst   |  2 +-
-> >   Documentation/filesystems/overlayfs.rst | 26 ++++++++++++++-
-> >   fs/9p/acl.c                             |  3 +-
-> >   fs/9p/xattr.c                           |  3 +-
-> >   fs/afs/xattr.c                          | 10 +++---
-> >   fs/attr.c                               |  2 +-
-> >   fs/btrfs/xattr.c                        |  3 +-
-> >   fs/ceph/xattr.c                         |  3 +-
-> >   fs/cifs/xattr.c                         |  2 +-
-> >   fs/ecryptfs/inode.c                     |  6 ++--
-> >   fs/ecryptfs/mmap.c                      |  5 +--
-> >   fs/erofs/xattr.c                        |  3 +-
-> >   fs/ext2/xattr_security.c                |  2 +-
-> >   fs/ext2/xattr_trusted.c                 |  2 +-
-> >   fs/ext2/xattr_user.c                    |  2 +-
-> >   fs/ext4/xattr_hurd.c                    |  2 +-
-> >   fs/ext4/xattr_security.c                |  2 +-
-> >   fs/ext4/xattr_trusted.c                 |  2 +-
-> >   fs/ext4/xattr_user.c                    |  2 +-
-> >   fs/f2fs/xattr.c                         |  4 +--
-> >   fs/fuse/xattr.c                         |  4 +--
-> >   fs/gfs2/xattr.c                         |  3 +-
-> >   fs/hfs/attr.c                           |  2 +-
-> >   fs/hfsplus/xattr.c                      |  3 +-
-> >   fs/hfsplus/xattr_security.c             |  3 +-
-> >   fs/hfsplus/xattr_trusted.c              |  3 +-
-> >   fs/hfsplus/xattr_user.c                 |  3 +-
-> >   fs/inode.c                              |  7 +++--
-> >   fs/internal.h                           |  3 +-
-> >   fs/jffs2/security.c                     |  3 +-
-> >   fs/jffs2/xattr_trusted.c                |  3 +-
-> >   fs/jffs2/xattr_user.c                   |  3 +-
-> >   fs/jfs/xattr.c                          |  5 +--
-> >   fs/kernfs/inode.c                       |  3 +-
-> >   fs/nfs/nfs4proc.c                       |  9 ++++--
-> >   fs/ntfs3/xattr.c                        |  2 +-
-> >   fs/ocfs2/xattr.c                        |  9 ++++--
-> >   fs/open.c                               |  2 +-
-> >   fs/orangefs/xattr.c                     |  3 +-
-> >   fs/overlayfs/copy_up.c                  |  2 +-
-> >   fs/overlayfs/dir.c                      | 17 +++++-----
-> >   fs/overlayfs/file.c                     | 25 ++++++++-------
-> >   fs/overlayfs/inode.c                    | 29 ++++++++---------
-> >   fs/overlayfs/namei.c                    |  6 ++--
-> >   fs/overlayfs/overlayfs.h                |  7 +++--
-> >   fs/overlayfs/ovl_entry.h                |  1 +
-> >   fs/overlayfs/readdir.c                  |  8 ++---
-> >   fs/overlayfs/super.c                    | 34 ++++++++++++++++----
-> >   fs/overlayfs/util.c                     | 13 ++++++--
-> >   fs/posix_acl.c                          |  2 +-
-> >   fs/reiserfs/xattr_security.c            |  3 +-
-> >   fs/reiserfs/xattr_trusted.c             |  3 +-
-> >   fs/reiserfs/xattr_user.c                |  3 +-
-> >   fs/squashfs/xattr.c                     |  2 +-
-> >   fs/ubifs/xattr.c                        |  3 +-
-> >   fs/xattr.c                              | 42 +++++++++++++------------
-> >   fs/xfs/xfs_xattr.c                      |  3 +-
-> >   include/linux/lsm_hook_defs.h           |  3 +-
-> >   include/linux/security.h                |  6 ++--
-> >   include/linux/xattr.h                   |  6 ++--
-> >   include/uapi/linux/xattr.h              |  7 +++--
-> >   mm/shmem.c                              |  3 +-
-> >   net/socket.c                            |  3 +-
-> >   security/commoncap.c                    | 11 ++++---
-> >   security/integrity/evm/evm_main.c       | 13 +++++---
-> >   security/security.c                     |  5 +--
-> >   security/selinux/hooks.c                | 19 ++++++-----
-> >   security/smack/smack_lsm.c              | 18 ++++++-----
-> >   68 files changed, 289 insertions(+), 167 deletions(-)
-> >
+v2:
+* Rewrite objtool patch after rebase to v5.16-rc1.
+* Note the reason in documentation that address or control dependencies
+  do not require special handling.
+* Rename kcsan_atomic_release() to kcsan_atomic_builtin_memorder() to
+  avoid confusion.
+* Define kcsan_noinstr as noinline if we rely on objtool nop'ing out
+  calls, to avoid things like LTO inlining it.
+
+v1: https://lore.kernel.org/all/20211005105905.1994700-1-elver@google.com/
+
+Marco Elver (23):
+  kcsan: Refactor reading of instrumented memory
+  kcsan: Remove redundant zero-initialization of globals
+  kcsan: Avoid checking scoped accesses from nested contexts
+  kcsan: Add core support for a subset of weak memory modeling
+  kcsan: Add core memory barrier instrumentation functions
+  kcsan, kbuild: Add option for barrier instrumentation only
+  kcsan: Call scoped accesses reordered in reports
+  kcsan: Show location access was reordered to
+  kcsan: Document modeling of weak memory
+  kcsan: test: Match reordered or normal accesses
+  kcsan: test: Add test cases for memory barrier instrumentation
+  kcsan: Ignore GCC 11+ warnings about TSan runtime support
+  kcsan: selftest: Add test case to check memory barrier instrumentation
+  locking/barriers, kcsan: Add instrumentation for barriers
+  locking/barriers, kcsan: Support generic instrumentation
+  locking/atomics, kcsan: Add instrumentation for barriers
+  asm-generic/bitops, kcsan: Add instrumentation for barriers
+  x86/barriers, kcsan: Use generic instrumentation for non-smp barriers
+  x86/qspinlock, kcsan: Instrument barrier of pv_queued_spin_unlock()
+  mm, kcsan: Enable barrier instrumentation
+  sched, kcsan: Enable memory barrier instrumentation
+  objtool, kcsan: Add memory barrier instrumentation to whitelist
+  objtool, kcsan: Remove memory barrier instrumentation from noinstr
+
+ Documentation/dev-tools/kcsan.rst             |  76 +++-
+ arch/x86/include/asm/barrier.h                |  10 +-
+ arch/x86/include/asm/qspinlock.h              |   1 +
+ include/asm-generic/barrier.h                 |  54 ++-
+ .../asm-generic/bitops/instrumented-atomic.h  |   3 +
+ .../asm-generic/bitops/instrumented-lock.h    |   3 +
+ include/linux/atomic/atomic-instrumented.h    | 135 +++++-
+ include/linux/kcsan-checks.h                  |  51 ++-
+ include/linux/kcsan.h                         |  11 +-
+ include/linux/sched.h                         |   3 +
+ include/linux/spinlock.h                      |   2 +-
+ init/init_task.c                              |   9 +-
+ kernel/kcsan/Makefile                         |   2 +
+ kernel/kcsan/core.c                           | 326 +++++++++++---
+ kernel/kcsan/kcsan_test.c                     | 416 ++++++++++++++++--
+ kernel/kcsan/report.c                         |  51 ++-
+ kernel/kcsan/selftest.c                       | 141 ++++++
+ kernel/sched/Makefile                         |   7 +-
+ lib/Kconfig.kcsan                             |  16 +
+ mm/Makefile                                   |   2 +
+ scripts/Makefile.kcsan                        |  15 +-
+ scripts/Makefile.lib                          |   5 +
+ scripts/atomic/gen-atomic-instrumented.sh     |  41 +-
+ tools/objtool/check.c                         |  41 +-
+ tools/objtool/include/objtool/elf.h           |   2 +-
+ 25 files changed, 1248 insertions(+), 175 deletions(-)
+
+-- 
+2.34.0.rc2.393.gf8c9666880-goog
+
