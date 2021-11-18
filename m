@@ -2,124 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F4A3C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 03:26:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EDEAC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 03:55:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2F7296142A
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 03:26:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 12C0661AD0
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 03:55:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242697AbhKRD3k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Nov 2021 22:29:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35872 "EHLO
+        id S242825AbhKRD6Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Nov 2021 22:58:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242664AbhKRD3j (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Nov 2021 22:29:39 -0500
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25A0FC061764
-        for <linux-doc@vger.kernel.org>; Wed, 17 Nov 2021 19:26:40 -0800 (PST)
-Received: by mail-pf1-x431.google.com with SMTP id x131so4550201pfc.12
-        for <linux-doc@vger.kernel.org>; Wed, 17 Nov 2021 19:26:40 -0800 (PST)
+        with ESMTP id S242822AbhKRD6Q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Nov 2021 22:58:16 -0500
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8DFCC061766
+        for <linux-doc@vger.kernel.org>; Wed, 17 Nov 2021 19:55:16 -0800 (PST)
+Received: by mail-yb1-xb2f.google.com with SMTP id e136so14002056ybc.4
+        for <linux-doc@vger.kernel.org>; Wed, 17 Nov 2021 19:55:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=YgqEwSaksHCsJ2Xk3ukFf6EiHTEDT7mkEiActroWWyQ=;
-        b=hVnVE9+QsBt3sP6MbBEN8t8mleGbEOJlIYVQhZR1FgtC7MyBTk2zSA8S2cOOBFKzov
-         4io7fzgCxIC0WZX1AZ+LIBlVrkBxXYWrU2KTr4gxNAfyL3LENPXn8rjrIY+MCCVsOuto
-         gFIXUlq/E+JRoJ6y/PXDlnTwmia3VmsXdqGMht4ezVCPQFv7Fvphy87WhoNBbZYmH2GA
-         4pOFjxsVHOhDYmQNcgwGdobwiGJDYbk5HVtZyAivkVI/QkixAw4KtIPUb26hJFhp2f0w
-         7gaTmvaGY7hNGhc6/nHQYYTMHiOK8flxSyfCFv7h7jJOuAuUyM+Z3UpkPSi6Msg+tNPK
-         LN9g==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=7t2KOfThi8hwqtjS9xYJIJMpMs4r7+aUCTbqpqaQgB8=;
+        b=VegwIcpX4FTIU4RKip0IPMIg6bX57jiY+9C8sQOQlBEqaM0YS6p0Xj1UBjhlrmsTws
+         nFsgLGqhsql/oJaUZmT23eSUFDPYJKFEBLYMdg1sCfGd73WqCBwrljXGCjUDAyycs1Ui
+         KiKS2L8yF5rQ4s0DOtrMCJQyrko1gAm1Be0794OMriv4R96ZDyOQwF3Ki6qUVRKGz/zl
+         0KsMERtV0Zk2+MG1lLyY2S/d2TIpwYf99h/8vuodrpwrJIDdDDY2rSzEXyJSryp2zD9Q
+         JpMxhMN6GcLXDPQBFy86gmFjQ8pVlEXwfZzR0LT2a7bhXaOceJg0a2A/fBAKxn+o6p8k
+         5Bmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=YgqEwSaksHCsJ2Xk3ukFf6EiHTEDT7mkEiActroWWyQ=;
-        b=bVYObJ7lc72iOfohmccfQgnB2wdzqzhZcjzuhKZfK7pi/nKpjbbHgmAymHXGgxyzby
-         BSKJm0IwEmuYd1Xvl3ZHNglZ56AKM0SQHw43DW7iiWW0ffLH8xtWCI8PAHcXnz6VDnxx
-         6uAZOfs6h99YquHNyrvq6CsG+FQQmaV9yK8iZVX/lAmyFod7arGb1bNQmUGyEqf8orOS
-         fp8ZQjvX0kbJP2mVxaL3DlAN5ungDZfGtDD0X9XLn4JDMLzXQd1U5gcSz5wcmd89MUpw
-         59m6tGdNG/AlvFEw5yBS5QV0d3TMVb072Sd8GqfL9CntMcsdforFa0PemCENLL/nZSj9
-         lntQ==
-X-Gm-Message-State: AOAM532Q0ifpxxWyTjHvoLdGMtc9e4Tf7crleoxCCYf5A1OJ26fLPmex
-        wsNIrg20BPJGuyakXogcdgWFMxSpj0bLYQ==
-X-Google-Smtp-Source: ABdhPJxPC/wgO01gLT38/YulI8aGZPE5vGabnciA7zJcJTyPkzEDRPImeJCfQ5MSUJ/sxOB4b9nvJQ==
-X-Received: by 2002:aa7:811a:0:b0:44c:b9ef:f618 with SMTP id b26-20020aa7811a000000b0044cb9eff618mr12061528pfi.9.1637205999727;
-        Wed, 17 Nov 2021 19:26:39 -0800 (PST)
-Received: from [10.76.43.192] ([61.120.150.76])
-        by smtp.gmail.com with ESMTPSA id x33sm1046264pfh.133.2021.11.17.19.26.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Nov 2021 19:26:39 -0800 (PST)
-Message-ID: <f0193837-2f2c-b55f-cd79-b80d931e7931@bytedance.com>
-Date:   Thu, 18 Nov 2021 11:26:30 +0800
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7t2KOfThi8hwqtjS9xYJIJMpMs4r7+aUCTbqpqaQgB8=;
+        b=CZLg/ukUG504yagX6pb13LsvX+rmy4HYIiGeaUDN0NzZ2ev9NerSRMdjoBr8eOK2AA
+         trZiLW0qYca0KObNxYIGM1HeLkg4h8pUGHKosMh4S891IBq2u8t+2ZeC1mugWtjhOdZF
+         otIFBr1T7rXiWc0r+kXfcGy6TqOVSJ9EnuIoJRO7kp95Bkd58Miht2+MLQvcih6MT0Mv
+         tMD0JHcvTPvEUQDt330GZbLCGDZAVNh3ptZwDkPZdGd8g5FIDHzrMqVfBlx2aXqXYu/C
+         81ozc2LTe3Pnt9cPlu3DvUmGqzf8q/fPuubPkd5wZ1YIJRzH+ENq0JEMaJdmr9DSRgqA
+         V7mA==
+X-Gm-Message-State: AOAM530CtzMzSgdq/98Bk+2qW5DoaEF1s6Ze1ltkAAY9597NoC1rIfi4
+        qvOAGa6WeTLnAOAyrURPY2oD98M4OhVVMofAh7gw1A==
+X-Google-Smtp-Source: ABdhPJwDXNp4NAcyRT6V4FmOdCoZyUxOTi38EahqeDeNePoS+k/y6vFUW7lDd3FRU4FzdGYUTLVpGb8mv+7nIthpxFM=
+X-Received: by 2002:a05:6902:1149:: with SMTP id p9mr4795700ybu.404.1637207715886;
+ Wed, 17 Nov 2021 19:55:15 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.3.1
-Subject: Re: Re: Re: Re: Re: Re: Re: Re: [PATCH v1] sched/numa: add
- per-process numa_balancing
-Content-Language: en-US
-To:     Mel Gorman <mgorman@suse.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        linux-api@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20211029083751.GR3891@suse.de>
- <CAMx52ARF1fVH9=YLQMjE=8ckKJ=q3X2-ovtKuQcoTyo564mQnQ@mail.gmail.com>
- <20211109091951.GW3891@suse.de>
- <7de25e1b-e548-b8b5-dda5-6a2e001f3c1a@bytedance.com>
- <20211109121222.GX3891@suse.de>
- <117d5b88-b62b-f50b-32ff-1a9fe35b9e2e@bytedance.com>
- <20211109162647.GY3891@suse.de>
- <08e95d68-7ba9-44d0-da85-41dc244b4c99@bytedance.com>
- <20211117082952.GA3301@suse.de>
- <816cb511-446d-11eb-ae4a-583c5a7102c4@bytedance.com>
- <20211117101008.GB3301@suse.de>
-From:   Gang Li <ligang.bdlg@bytedance.com>
-In-Reply-To: <20211117101008.GB3301@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20211117201825.429650-1-almasrymina@google.com> <86d3ba7a-3706-d66c-cbf7-d2c39ad2cd4c@oracle.com>
+In-Reply-To: <86d3ba7a-3706-d66c-cbf7-d2c39ad2cd4c@oracle.com>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Thu, 18 Nov 2021 11:54:37 +0800
+Message-ID: <CAMZfGtXgYPVOsGUE8OOzkx8K14BjHoMS1hLvxXX77+5cSycrPw@mail.gmail.com>
+Subject: Re: [PATCH v7] hugetlb: Add hugetlb.*.numa_stat file
+To:     Mike Kravetz <mike.kravetz@oracle.com>,
+        Mina Almasry <almasrymina@google.com>
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Miaohe Lin <linmiaohe@huawei.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Michal Hocko <mhocko@suse.com>,
+        David Rientjes <rientjes@google.com>,
+        Shakeel Butt <shakeelb@google.com>, Jue Wang <juew@google.com>,
+        Yang Yao <ygyao@google.com>, Joanna Li <joannali@google.com>,
+        Cannon Matthews <cannonmatthews@google.com>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Cgroups <cgroups@vger.kernel.org>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/17/21 6:10 PM, Mel Gorman wrote:
-> On Wed, Nov 17, 2021 at 05:38:28PM +0800, Gang Li wrote:
->> If those APIs are ok with you, I will send v2 soon.
->>
->> 1. prctl(PR_NUMA_BALANCING, PR_SET_THP_DISABLE);
-> 
-> It would be (PR_SET_NUMAB_DISABLE, 1)
-> 
->> 2. prctl(PR_NUMA_BALANCING, PR_SET_THP_ENABLE);
-> 
-> An enable prctl will have the same problems as
-> prctl(PR_NUMA_BALANCING, PR_SET_NUMA_BALANCING, 0/1) -- it should have
-> meaning if the numa_balancing sysctl is disabled.
-> 
->> 3. prctl(PR_NUMA_BALANCING, PR_GET_THP);
->>
-> 
-> PR_GET_NUMAB_DISABLE
-> 
+On Thu, Nov 18, 2021 at 8:13 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
+>
+> On 11/17/21 12:18, Mina Almasry wrote:
+> ...
+> > diff --git a/mm/hugetlb_cgroup.c b/mm/hugetlb_cgroup.c
+> ...
+> > @@ -288,11 +317,21 @@ static void __hugetlb_cgroup_commit_charge(int idx, unsigned long nr_pages,
+> >                                          struct hugetlb_cgroup *h_cg,
+> >                                          struct page *page, bool rsvd)
+> >  {
+> > +     unsigned long *usage;
+> > +
+>
+> I assume the use of a pointer is just to make the following WRITE_ONCE
+> look better?  I prefer the suggestion by Muchun:
+>
+> unsigned long usage = h_cg->nodeinfo[page_to_nid(page)]->usage[idx];
+>
+> usage += nr_pages;
+> WRITE_ONCE(h_cg->nodeinfo[page_to_nid(page)]->usage[idx], usage);
+>
+> I had to think for just a second 'why are we using/passing a pointer?'.
+> Not insisting we use Muchun's suggestion, it just caused me to think
+> a little more than necessary.
 
-How about this:
+At least I have the same question here. For me I think it's
+unnecessary to use a pointer.
 
-1. prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_DEFAULT); //follow global
-2. prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_DISABLE); //disable
-3. prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_ENABLE);  //enable
-4. prctl(PR_NUMA_BALANCING, PR_GET_NUMAB);
-
-PR_SET_NUMAB_DISABLE/ENABLE can always have meaning whether the
-numa_balancing sysctl is disabled or not,
-
--- 
-Thanks,
-Gang Li
-
+>
+> In any case, I would move the variable usage inside the
+> 'if (!rsvd)' block.
+>
+> >       if (hugetlb_cgroup_disabled() || !h_cg)
+> >               return;
+> >
+> >       __set_hugetlb_cgroup(page, h_cg, rsvd);
+> > -     return;
+> > +     if (!rsvd) {
+> > +             usage = &h_cg->nodeinfo[page_to_nid(page)]->usage[idx];
+> > +             /*
+> > +              * This write is not atomic due to fetching *usage and writing
+> > +              * to it, but that's fine because we call this with
+> > +              * hugetlb_lock held anyway.
+> > +              */
+> > +             WRITE_ONCE(*usage, *usage + nr_pages);
+> > +     }
+> >  }
+> >
+> >  void hugetlb_cgroup_commit_charge(int idx, unsigned long nr_pages,
+> > @@ -316,6 +355,7 @@ static void __hugetlb_cgroup_uncharge_page(int idx, unsigned long nr_pages,
+> >                                          struct page *page, bool rsvd)
+> >  {
+> >       struct hugetlb_cgroup *h_cg;
+> > +     unsigned long *usage;
+>
+> Same here.
+>
+> Otherwise, looks good to me.
+> --
+> Mike Kravetz
