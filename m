@@ -2,119 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC41EC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Nov 2021 11:36:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A057BC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Nov 2021 13:03:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C645461AA3
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Nov 2021 11:36:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7D19661A55
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Nov 2021 13:03:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234547AbhKSLjQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Nov 2021 06:39:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48152 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234151AbhKSLjQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Nov 2021 06:39:16 -0500
-Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com [IPv6:2607:f8b0:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A3A9C061574;
-        Fri, 19 Nov 2021 03:36:14 -0800 (PST)
-Received: by mail-oi1-x233.google.com with SMTP id q25so21479232oiw.0;
-        Fri, 19 Nov 2021 03:36:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=K+HQ+r21ViS1zY/XFw0FQwQ4LY4L5mHZUk1SHH1fhM4=;
-        b=Cmd4vp3AW6JwSbZeWsnovSgI6by7+h5WUnQxr0lX6KC5HfvKCJMy0/JqJGfKrEh3pe
-         8YDLeyqIaxnUg6RqyqjnBAmiboE8Ny7rBm7VgmFZ44N3eUk3pQKJwtFqV4xSIiayv+he
-         oy4YNlaQktN6gMWzZtldPTF2gTbxihs1lR3QLl2+zUUkcfthMLD3nbiF+qQRwTGSvD7I
-         r/9aot3UxWwpqB1BHHsxsmlpFvDgwfcnmK5nBww+lQKwv+gYoObheOXa1fsTgieCWEJZ
-         upLP1PqkWcFpJU0h19nQnL3ieg1fFKyDOfHagap0sYsfJU61HI9m8I0J0wjLlgLJxATr
-         Omwg==
+        id S232080AbhKSNGp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Nov 2021 08:06:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49574 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S235188AbhKSNGo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Nov 2021 08:06:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1637327022;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=hKfzGk0Wpd8IGC/prDVcUoPiImNh9tLcC0HmBj731Mc=;
+        b=WwRaXgbqU78bWO6pwcPZbhOOytBcuv2QP1e817JV6IimeGoKeHGP+uUOfwsHWPMPVP+nEp
+        wC5oG0yP102S7exM7XHCjeg9LT4QAbOThm52mdD4732ALg+fjBv9QvluzFOVSEgJiMDFGS
+        sr/EVOLWev5GQOSk3SCikoLKQVmZl+Q=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-492-zxQ5PYPrOM-unBO5P2BK1w-1; Fri, 19 Nov 2021 08:03:41 -0500
+X-MC-Unique: zxQ5PYPrOM-unBO5P2BK1w-1
+Received: by mail-ed1-f71.google.com with SMTP id i19-20020a05640242d300b003e7d13ebeedso8325762edc.7
+        for <linux-doc@vger.kernel.org>; Fri, 19 Nov 2021 05:03:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=K+HQ+r21ViS1zY/XFw0FQwQ4LY4L5mHZUk1SHH1fhM4=;
-        b=Y01LdbntErVSnBigVbg0s+GmaB7bL++V6tqL/vbS8Tzd9onTdATUPEJqLn7mUMMGVz
-         pgK6UiQdI4s2Db82XMTXTZ1d9w62CVgHmzZZXEM6OzbmyJ3MySLR90uMI/vIdKlECyn1
-         +0y2GK8U2dTHMan/IjcEfKs9KAUeU+FD6KeD5ZlQqaiblU8lzEmwgdlokLL/h90F/f8Q
-         LhkryBYBVKtGvCfNyy1l3zVIPF17qWrpDwfY+HOo1TezafVaVuiK62X8cVR5/ephEBYC
-         1wPHZJ7juXJKdZ4b1WklvVspqcw9ubGDaAmAi7iKjGNeR1+T3FJV+boLeB0K1oliYt2a
-         reIw==
-X-Gm-Message-State: AOAM531TFl54fXYTzzM/e9NYk73wG0wH2ldRbiVkqxM3uYoSRMZjJ7f9
-        ekU+qaiNTvwiwKjIVJbvb/mnAwjh97g=
-X-Google-Smtp-Source: ABdhPJw+qGmW9tHCSLtWT35tqWAeN1SpSRNcGUhcL81PWpTcBO1BUPc8XRgQBJED48X+HVElDSDpkg==
-X-Received: by 2002:a05:6808:7db:: with SMTP id f27mr4345868oij.83.1637321773628;
-        Fri, 19 Nov 2021 03:36:13 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id f12sm493987ote.75.2021.11.19.03.36.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Nov 2021 03:36:13 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Subject: Re: [PATCH v12 0/2] Update ASUS WMI supported boards
-To:     Denis Pauk <pauk.denis@gmail.com>
-Cc:     eugene.shalygin@gmail.com, andy.shevchenko@gmail.com,
-        platform-driver-x86@vger.kernel.org, thomas@weissschuh.net,
-        kernel@maidavale.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20211116205744.381790-1-pauk.denis@gmail.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Message-ID: <f0bf01fa-ccd8-3a6a-8fd2-4c785fa212ef@roeck-us.net>
-Date:   Fri, 19 Nov 2021 03:36:10 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version;
+        bh=hKfzGk0Wpd8IGC/prDVcUoPiImNh9tLcC0HmBj731Mc=;
+        b=pUZpRDoL1T/bhIcpGG2Du8gVn5vpFKJ1WIWtjdGT0wCvB63mreOMXlRKLxKcWq9ueT
+         GS2eec4jKjdzPvX76e2OramTMhEHqsHhOat52MDScv6RW+tR0GKuCX5Ks6yHvFHhdeos
+         O2YJsqM7xR+AWKladE1mO6iGQ6ZVaTAX1ON9IKmokqUjvpdqHW0jFBPvop/yileaF0Vp
+         S39GQ7mTUnziclcu5GroFTfzCV50Zaabh/B8UQjykRGp9tYqhcsFeL/Qf5nkfW1G9Giw
+         v2E/pYXgceNchAf+kyHCljR+HcVOdfO0UFOHwCMtBHA/btWvlXHQddyfqBo8brMXJ9Jx
+         wQig==
+X-Gm-Message-State: AOAM531pc3YiOJ5IuAnIrZC05w3yObV4MuoEd3zRhsLebVz4FjiR2X97
+        9c6W9gZoqFH4HvKh5ZZlwH4kEeVEyyjyg2sVaGxw/SIb/tsD4lmeySot7Ec68FnArdaa2bF4kx2
+        PFZxg4WfSTLhg5U3k1+R+
+X-Received: by 2002:a05:6402:34d6:: with SMTP id w22mr24389963edc.35.1637327019607;
+        Fri, 19 Nov 2021 05:03:39 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx0iYtHfCnciVMnXitwgUqkXXZdqqWWg/E2uIeEkNqY5pWCuyejuk1lAeev+8CNOUCiai6nhA==
+X-Received: by 2002:a05:6402:34d6:: with SMTP id w22mr24389826edc.35.1637327018826;
+        Fri, 19 Nov 2021 05:03:38 -0800 (PST)
+Received: from alrua-x1.borgediget.toke.dk ([2a0c:4d80:42:443::2])
+        by smtp.gmail.com with ESMTPSA id dz18sm238310edb.74.2021.11.19.05.03.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Nov 2021 05:03:38 -0800 (PST)
+Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
+        id 87A81180270; Fri, 19 Nov 2021 14:03:37 +0100 (CET)
+From:   Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+To:     Christoph Hellwig <hch@lst.de>,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc:     Christoph Hellwig <hch@lst.de>, Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org
+Subject: Re: [PATCH 2/2] bpf, doc: split general purpose eBPF documentation
+ out of filter.rst
+In-Reply-To: <20211119061642.GB15129@lst.de>
+References: <20211115130715.121395-1-hch@lst.de>
+ <20211115130715.121395-3-hch@lst.de>
+ <20211118005613.g4sqaq2ucgykqk2m@ast-mbp> <20211119061642.GB15129@lst.de>
+X-Clacks-Overhead: GNU Terry Pratchett
+Date:   Fri, 19 Nov 2021 14:03:37 +0100
+Message-ID: <877dd4e1qu.fsf@toke.dk>
 MIME-Version: 1.0
-In-Reply-To: <20211116205744.381790-1-pauk.denis@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/16/21 12:57 PM, Denis Pauk wrote:
-> Add support by WMI interface provided by Asus for B550/X570 boards:
-> * PRIME X570-PRO,
-> * ROG CROSSHAIR VIII HERO
-> * ROG CROSSHAIR VIII DARK HERO
-> * ROG CROSSHAIR VIII FORMULA
-> * ROG STRIX X570-E GAMING
-> * ROG STRIX B550-I GAMING
-> * ROG STRIX B550-E GAMING
-> 
-> Add support by WMI interface provided by Asus for X370/X470/
-> B450/X399 boards:
-> * ROG CROSSHAIR VI HERO,
-> * PRIME X399-A,
-> * PRIME X470-PRO,
-> * ROG CROSSHAIR VI EXTREME,
-> * ROG CROSSHAIR VI HERO (WI-FI AC),
-> * ROG CROSSHAIR VII HERO,
-> * ROG CROSSHAIR VII HERO (WI-FI),
-> * ROG STRIX B450-E GAMING,
-> * ROG STRIX B450-F GAMING,
-> * ROG STRIX B450-I GAMING,
-> * ROG STRIX X399-E GAMING,
-> * ROG STRIX X470-F GAMING,
-> * ROG STRIX X470-I GAMING,
-> * ROG ZENITH EXTREME,
-> * ROG ZENITH EXTREME ALPHA.
-> 
-> I have removed "ROG STRIX Z390-F GAMING" from list of supported boards in
-> asus_wmi_sensors that I have added by mistake. I had misunderstood a
-> comment in the [1] issue.
-> 
-> I have added separate records for each of modules in MAINTAINERS file.
-> Before it was one shared recors for both of modules.
-> 
-> Could you please review?
-> 
+Christoph Hellwig <hch@lst.de> writes:
 
-Series applied to hwmon-next.
+>> In terms of followups and cleanup... please share what you have in mind.
+>
+> The prime issue I'd like to look in is to replace all the references
+> to classic BPF and instead make the document standadlone.
 
-Thanks,
-Guenter
+Yes, please, this would be awesome! :)
+
+-Toke
+
