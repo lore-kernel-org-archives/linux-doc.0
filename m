@@ -2,75 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34157C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Nov 2021 10:42:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC41EC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Nov 2021 11:36:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0E9A961037
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Nov 2021 10:42:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C645461AA3
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Nov 2021 11:36:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234493AbhKSKpf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Nov 2021 05:45:35 -0500
-Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132]:33905 "EHLO
-        out30-132.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229521AbhKSKpf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Nov 2021 05:45:35 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R281e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04395;MF=laijs@linux.alibaba.com;NM=1;PH=DS;RN=17;SR=0;TI=SMTPD_---0UxHU4z0_1637318547;
-Received: from 30.22.113.170(mailfrom:laijs@linux.alibaba.com fp:SMTPD_---0UxHU4z0_1637318547)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Fri, 19 Nov 2021 18:42:29 +0800
-Message-ID: <95ceaa12-81a0-09bf-dde3-b89179eee4cc@linux.alibaba.com>
-Date:   Fri, 19 Nov 2021 18:42:27 +0800
+        id S234547AbhKSLjQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Nov 2021 06:39:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48152 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234151AbhKSLjQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Nov 2021 06:39:16 -0500
+Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com [IPv6:2607:f8b0:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A3A9C061574;
+        Fri, 19 Nov 2021 03:36:14 -0800 (PST)
+Received: by mail-oi1-x233.google.com with SMTP id q25so21479232oiw.0;
+        Fri, 19 Nov 2021 03:36:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=K+HQ+r21ViS1zY/XFw0FQwQ4LY4L5mHZUk1SHH1fhM4=;
+        b=Cmd4vp3AW6JwSbZeWsnovSgI6by7+h5WUnQxr0lX6KC5HfvKCJMy0/JqJGfKrEh3pe
+         8YDLeyqIaxnUg6RqyqjnBAmiboE8Ny7rBm7VgmFZ44N3eUk3pQKJwtFqV4xSIiayv+he
+         oy4YNlaQktN6gMWzZtldPTF2gTbxihs1lR3QLl2+zUUkcfthMLD3nbiF+qQRwTGSvD7I
+         r/9aot3UxWwpqB1BHHsxsmlpFvDgwfcnmK5nBww+lQKwv+gYoObheOXa1fsTgieCWEJZ
+         upLP1PqkWcFpJU0h19nQnL3ieg1fFKyDOfHagap0sYsfJU61HI9m8I0J0wjLlgLJxATr
+         Omwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=K+HQ+r21ViS1zY/XFw0FQwQ4LY4L5mHZUk1SHH1fhM4=;
+        b=Y01LdbntErVSnBigVbg0s+GmaB7bL++V6tqL/vbS8Tzd9onTdATUPEJqLn7mUMMGVz
+         pgK6UiQdI4s2Db82XMTXTZ1d9w62CVgHmzZZXEM6OzbmyJ3MySLR90uMI/vIdKlECyn1
+         +0y2GK8U2dTHMan/IjcEfKs9KAUeU+FD6KeD5ZlQqaiblU8lzEmwgdlokLL/h90F/f8Q
+         LhkryBYBVKtGvCfNyy1l3zVIPF17qWrpDwfY+HOo1TezafVaVuiK62X8cVR5/ephEBYC
+         1wPHZJ7juXJKdZ4b1WklvVspqcw9ubGDaAmAi7iKjGNeR1+T3FJV+boLeB0K1oliYt2a
+         reIw==
+X-Gm-Message-State: AOAM531TFl54fXYTzzM/e9NYk73wG0wH2ldRbiVkqxM3uYoSRMZjJ7f9
+        ekU+qaiNTvwiwKjIVJbvb/mnAwjh97g=
+X-Google-Smtp-Source: ABdhPJw+qGmW9tHCSLtWT35tqWAeN1SpSRNcGUhcL81PWpTcBO1BUPc8XRgQBJED48X+HVElDSDpkg==
+X-Received: by 2002:a05:6808:7db:: with SMTP id f27mr4345868oij.83.1637321773628;
+        Fri, 19 Nov 2021 03:36:13 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id f12sm493987ote.75.2021.11.19.03.36.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 19 Nov 2021 03:36:13 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Subject: Re: [PATCH v12 0/2] Update ASUS WMI supported boards
+To:     Denis Pauk <pauk.denis@gmail.com>
+Cc:     eugene.shalygin@gmail.com, andy.shevchenko@gmail.com,
+        platform-driver-x86@vger.kernel.org, thomas@weissschuh.net,
+        kernel@maidavale.org,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20211116205744.381790-1-pauk.denis@gmail.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Message-ID: <f0bf01fa-ccd8-3a6a-8fd2-4c785fa212ef@roeck-us.net>
+Date:   Fri, 19 Nov 2021 03:36:10 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.2.1
-Subject: Re: [PATCH 15/15] KVM: X86: Always set gpte_is_8_bytes when direct
- map
+In-Reply-To: <20211116205744.381790-1-pauk.denis@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To:     Paolo Bonzini <pbonzini@redhat.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-kernel@vger.kernel.org
-Cc:     kvm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org
-References: <20211118110814.2568-1-jiangshanlai@gmail.com>
- <20211118110814.2568-16-jiangshanlai@gmail.com>
- <16b701db-e277-c4ef-e198-65a2dc6e3fdf@redhat.com>
- <bcfa0e4d-f6ab-037a-9ce1-d0cd612422a5@linux.alibaba.com>
- <65e1f2ca-5d89-d67f-2e0e-542094f89f05@redhat.com>
- <1c3d50f5-8f42-f337-cecc-3115e73703e5@linux.alibaba.com>
- <82b0cbf0-0afb-29c8-ae8c-3d302f966014@redhat.com>
-From:   Lai Jiangshan <laijs@linux.alibaba.com>
-In-Reply-To: <82b0cbf0-0afb-29c8-ae8c-3d302f966014@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 2021/11/19 18:34, Paolo Bonzini wrote:
-> On 11/19/21 11:30, Lai Jiangshan wrote:
->>>
->>
->> Hello
->>
->> Since 13, and 14 is queued, could you also queue this one and I will
->> do the rename separately in the next patchset.  I found that the
->> intent of this patch is hidden in the lengthened squashed patch (of
->> this patch and the renaming patch).
+On 11/16/21 12:57 PM, Denis Pauk wrote:
+> Add support by WMI interface provided by Asus for B550/X570 boards:
+> * PRIME X570-PRO,
+> * ROG CROSSHAIR VIII HERO
+> * ROG CROSSHAIR VIII DARK HERO
+> * ROG CROSSHAIR VIII FORMULA
+> * ROG STRIX X570-E GAMING
+> * ROG STRIX B550-I GAMING
+> * ROG STRIX B550-E GAMING
 > 
-> Then you can do the renaming first?
+> Add support by WMI interface provided by Asus for X370/X470/
+> B450/X399 boards:
+> * ROG CROSSHAIR VI HERO,
+> * PRIME X399-A,
+> * PRIME X470-PRO,
+> * ROG CROSSHAIR VI EXTREME,
+> * ROG CROSSHAIR VI HERO (WI-FI AC),
+> * ROG CROSSHAIR VII HERO,
+> * ROG CROSSHAIR VII HERO (WI-FI),
+> * ROG STRIX B450-E GAMING,
+> * ROG STRIX B450-F GAMING,
+> * ROG STRIX B450-I GAMING,
+> * ROG STRIX X399-E GAMING,
+> * ROG STRIX X470-F GAMING,
+> * ROG STRIX X470-I GAMING,
+> * ROG ZENITH EXTREME,
+> * ROG ZENITH EXTREME ALPHA.
+> 
+> I have removed "ROG STRIX Z390-F GAMING" from list of supported boards in
+> asus_wmi_sensors that I have added by mistake. I had misunderstood a
+> comment in the [1] issue.
+> 
+> I have added separate records for each of modules in MAINTAINERS file.
+> Before it was one shared recors for both of modules.
+> 
+> Could you please review?
 > 
 
-Then I would prefer to make the code match the name for the first time
-when the name is introduced, which means it would be a squashed patch.
+Series applied to hwmon-next.
 
-I will not fuss about it and will send the squashed patch.
+Thanks,
+Guenter
