@@ -2,31 +2,50 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0F48C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Nov 2021 10:30:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCD98C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Nov 2021 10:34:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 961A761A7D
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Nov 2021 10:30:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BE59561ACE
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Nov 2021 10:34:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229511AbhKSKds (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Nov 2021 05:33:48 -0500
-Received: from out30-44.freemail.mail.aliyun.com ([115.124.30.44]:47938 "EHLO
-        out30-44.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234661AbhKSKdr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Nov 2021 05:33:47 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R211e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04357;MF=laijs@linux.alibaba.com;NM=1;PH=DS;RN=17;SR=0;TI=SMTPD_---0UxIhT7W_1637317841;
-Received: from 30.22.113.170(mailfrom:laijs@linux.alibaba.com fp:SMTPD_---0UxIhT7W_1637317841)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Fri, 19 Nov 2021 18:30:42 +0800
-Message-ID: <1c3d50f5-8f42-f337-cecc-3115e73703e5@linux.alibaba.com>
-Date:   Fri, 19 Nov 2021 18:30:40 +0800
+        id S232249AbhKSKh5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Nov 2021 05:37:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55883 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231529AbhKSKh4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Nov 2021 05:37:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1637318094;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=CbGLzkjgNaEv+2n1GPe5cuw5S72/BV9iwPVdzuqnx0E=;
+        b=GteTPlUB6Yea4KnsaqPsSydb6UXIgdb3hozuSBdi1Ant08DgjxjMnDnZxkXkTnHfPpZTb5
+        OCaG2+r2ZscB/l+8wIecbSD1zOyouPGGDPF3ErjlzqE7R/+eoS6dKOOSTDFOO3v358Pzgw
+        U4YpIt4bFIVx2+Nx8tUSXdJW+G5bQKY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-264-ZmCHQHdKO4aQUyRwvYZOHQ-1; Fri, 19 Nov 2021 05:34:51 -0500
+X-MC-Unique: ZmCHQHdKO4aQUyRwvYZOHQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0541871810;
+        Fri, 19 Nov 2021 10:34:48 +0000 (UTC)
+Received: from [10.39.194.192] (unknown [10.39.194.192])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id B31846787F;
+        Fri, 19 Nov 2021 10:34:31 +0000 (UTC)
+Message-ID: <82b0cbf0-0afb-29c8-ae8c-3d302f966014@redhat.com>
+Date:   Fri, 19 Nov 2021 11:34:30 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
 Subject: Re: [PATCH 15/15] KVM: X86: Always set gpte_is_8_bytes when direct
  map
 Content-Language: en-US
-To:     Paolo Bonzini <pbonzini@redhat.com>,
+To:     Lai Jiangshan <laijs@linux.alibaba.com>,
         Lai Jiangshan <jiangshanlai@gmail.com>,
         linux-kernel@vger.kernel.org
 Cc:     kvm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
@@ -44,44 +63,27 @@ References: <20211118110814.2568-1-jiangshanlai@gmail.com>
  <16b701db-e277-c4ef-e198-65a2dc6e3fdf@redhat.com>
  <bcfa0e4d-f6ab-037a-9ce1-d0cd612422a5@linux.alibaba.com>
  <65e1f2ca-5d89-d67f-2e0e-542094f89f05@redhat.com>
-From:   Lai Jiangshan <laijs@linux.alibaba.com>
-In-Reply-To: <65e1f2ca-5d89-d67f-2e0e-542094f89f05@redhat.com>
+ <1c3d50f5-8f42-f337-cecc-3115e73703e5@linux.alibaba.com>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <1c3d50f5-8f42-f337-cecc-3115e73703e5@linux.alibaba.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 2021/11/18 23:01, Paolo Bonzini wrote:
-> On 11/18/21 15:34, Lai Jiangshan wrote:
->>
->>
->> On 2021/11/18 19:12, Paolo Bonzini wrote:
->>> On 11/18/21 12:08, Lai Jiangshan wrote:
->>>> From: Lai Jiangshan <laijs@linux.alibaba.com>
->>>>
->>>> When direct map, gpte_is_8_bytes has no meaning, but it is true for all
->>>> other cases except direct map when nonpaping.
->>>>
->>>> Setting gpte_is_8_bytes to true when nonpaping can ensure that
->>>> !gpte_is_8_bytes means 32-bit gptes for shadow paging.
->>>
->>> Then the right thing to do would be to rename it to has_4_byte_gptes and invert the direction.  But as things stand, 
->>> it's a bit more confusing to make gpte_is_8_bytes=1 if there are no guest PTEs at all.
->>>
->>
->> I will make the last 3 patches be a separated patchset and will do the rename.
+On 11/19/21 11:30, Lai Jiangshan wrote:
+>> 
 > 
-> Patches 13 and 14 are fine actually.
+> Hello
 > 
+> Since 13, and 14 is queued, could you also queue this one and I will
+> do the rename separately in the next patchset.  I found that the
+> intent of this patch is hidden in the lengthened squashed patch (of
+> this patch and the renaming patch).
 
-Hello
+Then you can do the renaming first?
 
-Since 13, and 14 is queued, could you also queue this one and I will do the rename
-separately in the next patchset.  I found that the intent of this patch is hidden
-in the lengthened squashed patch (of this patch and the renaming patch).
+Paolo
 
-Thanks
-Lai
