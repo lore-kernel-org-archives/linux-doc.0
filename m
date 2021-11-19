@@ -2,170 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73341C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 22:31:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6807BC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Nov 2021 02:03:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5245F61A79
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Nov 2021 22:31:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 46CF661AFB
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Nov 2021 02:03:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230133AbhKRWe5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Nov 2021 17:34:57 -0500
-Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:40439 "EHLO
-        wnew4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229521AbhKRWe5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Nov 2021 17:34:57 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailnew.west.internal (Postfix) with ESMTP id 9B54B2B011A3;
-        Thu, 18 Nov 2021 17:31:55 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Thu, 18 Nov 2021 17:31:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:date:from:message-id:subject:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; bh=EgttxCz67NcGqBysOvfjKjCJjUrua2/KraxC4XRjMOo=; b=MIvEX0Uw
-        CHwc8/1iR65sKpJadsaYNFN3tJsJphfdn2z17p73TeiyDaJU6YdAqNYEB5EdjrBH
-        WC7YHhV9oJFxmj03KIYsT5grO9Vy6c09y2Jno24SChu7o7fnKhbA4P4aTcvDFY6w
-        PMWk6E9OxDcS/Jt15yovQlDljvNdJMx8BxX1aNAwQfiQNP7rLNo2EoX+4fmBD5JG
-        bmziiQYeUffo48o712hQasV3Y/YU3NfW7vsiS3r9vl3lEDLMZHlF28KLgh3Vg6aZ
-        Nf2rCQBAwcik/qWBZeAqhZDFZZXMgnQMAfVkfB7k0amCX3QfAY9r3+VNRoHB2XFc
-        z1VvyhOCVlsFAg==
-X-ME-Sender: <xms:WtSWYdXLpil2AjAeZlsHq7OdZZb_y4dMiY88UjrIm0Ij-js4t0ou3w>
-    <xme:WtSWYdlDeH1hkl7U2fWdxHgTHSBC8fEMCgOY_PhIcfzZt3bLtvSJw3z9JFLNssbUK
-    CRA6JXRWB6h_IFWKMk>
-X-ME-Received: <xmr:WtSWYZYxlipmCY7YEpXnXAsdvBARFR44UJ5yrEl3WUwLcGjZjByAv2kLLZaIOP8OtYjnJHsSIFi2yFhwYIGeS6Wh9Oq_d_saNUM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfeeigdduheekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    gohfhorhgsihguuggvnhfjughrucdlhedttddmnecujfgurhepvffkhffuffestddtredt
-    tddtnecuhfhrohhmpefhihhnnhcuvfhhrghinhcuoehfthhhrghinheslhhinhhugidqmh
-    eikehkrdhorhhgqeenucfhohhrsghiugguvghnjfgurhepvffkhffuffestddtredttddt
-    pdfvkffhufffsedttdertddttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
-    epmhgrihhlfhhrohhmpehfthhhrghinheslhhinhhugidqmheikehkrdhorhhg
-X-ME-Proxy: <xmx:WtSWYQVNqyHU2m8QhyJipMxzeFT8A-anjgcnvBiexeWR5JgKlYoPnA>
-    <xmx:WtSWYXkNAtDM3whEUvHz8M_zr24WtK0gp1lm6ix07LO1_BrSU994TQ>
-    <xmx:WtSWYdcObUNCRdi522esKtha7wc0BGGpnwDVy_cdJfyWUNARow-SKA>
-    <xmx:WtSWYQDN26_AQMZij2_cnLlg0XMh8xmHcisxLizMroVCoA9wV1hP9jwdsCI>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 18 Nov 2021 17:31:52 -0500 (EST)
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     "Mike Rapoport" <rppt@kernel.org>, "Sam Creasey" <sammy@sammy.net>,
-        "Jonathan Corbet" <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org
-Message-Id: <8170fe1d1c62426d82275d36ba409ecc18754292.1637274578.git.fthain@linux-m68k.org>
-From:   Finn Thain <fthain@linux-m68k.org>
-Subject: [PATCH v3] m68k: Enable memtest functionality
-Date:   Fri, 19 Nov 2021 09:29:38 +1100
+        id S231526AbhKSCGX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Nov 2021 21:06:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32808 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230151AbhKSCGX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Nov 2021 21:06:23 -0500
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51D05C061574
+        for <linux-doc@vger.kernel.org>; Thu, 18 Nov 2021 18:03:22 -0800 (PST)
+Received: by mail-pg1-x52c.google.com with SMTP id q12so7222594pgh.5
+        for <linux-doc@vger.kernel.org>; Thu, 18 Nov 2021 18:03:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wxJqYQQ4FyDQaVyuBGQex86r8N01jeXJLu5xF+e64Rs=;
+        b=OuoT4VUcP3XUqP7AM3PdOu/KiDQ/Cb1+fgOyUoQm+P/fkUdKsSPRZ+FgBxYX3byVkE
+         mMWAFtnVJ8cgxGadBjBwoOwBFddo3kCGWDlGB5z069EMPIiAE1VtNZ+TWGMkrGWVyOLC
+         eyNDr5eaVpvBM42k/TUSpkt08UVyXV8Rmzj2lA4MUVeuF0eOKRqBx8qqRb5/+yQhPfdl
+         42yf4HvgLbrFOKGE5ztU0Lg1Iaxq2M2PJiZRdZ1yFolWYFR0xmEFhf+4ZQzU64xdVOWp
+         63G0DQzEzjH37W5mbN5hEiAugSmqBdgR5b6rfhrf2FCJZv0osSu/REOhZ/cUIlnIr807
+         urgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wxJqYQQ4FyDQaVyuBGQex86r8N01jeXJLu5xF+e64Rs=;
+        b=5KIHaeQrFCZ9/iXqzkiUYil136WaDFxt59SP1Xu2BS15sydME2ENH9rp6wknenbK4b
+         8uPHwO6JGg4wQ47uzIZtIPCbISY+8//qXZxBvGWGpN+ZSdlKqnoJTj/3iKhDEkb8ftHq
+         ZtayLCoGWW83Ru+oPSBr6YIszeZ6XenvbMzo3hTE+8bcmTZHpxHtdWLdV5R1jyqn0hU0
+         YMDZNp4vv6q8HIulwUQ7FEhOg/OSb9XOcz9IvGpRDgpqdxygf0sRTSXc4xCc/QrVEPU/
+         zuwKCXNkllNiPTqvD/YKK8QCNK0bB4OlTIiGDW1nzUVxafqFHOC1CEhFavoCQeCjlOvL
+         I98Q==
+X-Gm-Message-State: AOAM531+9TKJimlFrPUQnhv9lxBAfco9ly6yfqXYyD2yNM+quJZVNqnf
+        S/dO5TjIR/g4o4Q+uljaEMqDPPhSvxNxXA==
+X-Google-Smtp-Source: ABdhPJzm0vSVxRDUGxpFd/ko5+dm0mGb3u+IwEctjjRnibBVthr7yz/vSNSDgQdSx8Qt9z4/giaDrQ==
+X-Received: by 2002:a63:be4b:: with SMTP id g11mr14842056pgo.46.1637287401814;
+        Thu, 18 Nov 2021 18:03:21 -0800 (PST)
+Received: from localhost.localdomain ([8.26.182.175])
+        by smtp.gmail.com with ESMTPSA id na13sm743965pjb.11.2021.11.18.18.03.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Nov 2021 18:03:21 -0800 (PST)
+From:   Yanteng Si <siyanteng01@gmail.com>
+X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
+To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
+        seakeel@gmail.com
+Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
+        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
+        realpuyuwang@gmail.com, siyanteng01@gmail.com
+Subject: [PATCH 0/2] docs/zh_CN: add scheduler completion translation
+Date:   Fri, 19 Nov 2021 10:02:20 +0800
+Message-Id: <cover.1637287018.git.siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Enable the memtest functionality and rearrange some code to prevent it
-from clobbering the initrd.
+Translate .../scheduler/completion.rst and index.rst into Chinese.
 
-The code to implement CONFIG_BLK_DEV_INITRD was conditional on
-!defined(CONFIG_SUN3). For simplicity, remove that test on the basis
-that m68k_ramdisk.size == 0 on Sun 3. The SLIME source code at
-http://sammy.net/sun3/ftp/pub/m68k/sun3/slime/slime-2.0.tar.gz
-indicates that no BI_RAMDISK entry is ever passed to the kernel due
-to #ifdef 0 around the relevant code.
+Yanteng Si (2):
+  docs/zh_CN: add scheduler index translation
+  docs/zh_CN: add completion translation
 
-Cc: Mike Rapoport <rppt@kernel.org>
-Cc: Sam Creasey <sammy@sammy.net>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Signed-off-by: Finn Thain <fthain@linux-m68k.org>
----
-Is SLIME the only Linux bootloader on Sun 3?
----
-Changed since v2:
- - Made conditional on MMU_MOTOROLA.
+ Documentation/translations/zh_CN/index.rst    |   2 +-
+ .../zh_CN/scheduler/completion.rst            | 256 ++++++++++++++++++
+ .../translations/zh_CN/scheduler/index.rst    |  45 +++
+ 3 files changed, 302 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/scheduler/completion.rst
+ create mode 100644 Documentation/translations/zh_CN/scheduler/index.rst
 
-Changed since v1:
- - Updated documentation.
----
- Documentation/admin-guide/kernel-parameters.txt |  2 +-
- arch/m68k/Kconfig                               |  1 +
- arch/m68k/kernel/setup_mm.c                     | 15 ++++++---------
- arch/m68k/mm/motorola.c                         |  2 ++
- 4 files changed, 10 insertions(+), 10 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 43dc35fe5bc0..ac42b421a95c 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2924,7 +2924,7 @@
- 			both parameters are enabled, hugetlb_free_vmemmap takes
- 			precedence over memory_hotplug.memmap_on_memory.
- 
--	memtest=	[KNL,X86,ARM,PPC,RISCV] Enable memtest
-+	memtest=	[KNL,X86,ARM,M68K,PPC,RISCV] Enable memtest
- 			Format: <integer>
- 			default : 0 <disable>
- 			Specifies the number of memtest passes to be
-diff --git a/arch/m68k/Kconfig b/arch/m68k/Kconfig
-index 0b50da08a9c5..4cae3fbe7f97 100644
---- a/arch/m68k/Kconfig
-+++ b/arch/m68k/Kconfig
-@@ -9,6 +9,7 @@ config M68K
- 	select ARCH_HAVE_NMI_SAFE_CMPXCHG if RMW_INSNS
- 	select ARCH_MIGHT_HAVE_PC_PARPORT if ISA
- 	select ARCH_NO_PREEMPT if !COLDFIRE
-+	select ARCH_USE_MEMTEST if MMU_MOTOROLA
- 	select ARCH_WANT_IPC_PARSE_VERSION
- 	select BINFMT_FLAT_ARGVP_ENVP_ON_STACK
- 	select DMA_DIRECT_REMAP if HAS_DMA && MMU && !COLDFIRE
-diff --git a/arch/m68k/kernel/setup_mm.c b/arch/m68k/kernel/setup_mm.c
-index 4b51bfd38e5f..49e573b94326 100644
---- a/arch/m68k/kernel/setup_mm.c
-+++ b/arch/m68k/kernel/setup_mm.c
-@@ -338,13 +338,6 @@ void __init setup_arch(char **cmdline_p)
- 		panic("No configuration setup");
- 	}
- 
--	paging_init();
--
--#ifdef CONFIG_NATFEAT
--	nf_init();
--#endif
--
--#ifndef CONFIG_SUN3
- #ifdef CONFIG_BLK_DEV_INITRD
- 	if (m68k_ramdisk.size) {
- 		memblock_reserve(m68k_ramdisk.addr, m68k_ramdisk.size);
-@@ -354,6 +347,12 @@ void __init setup_arch(char **cmdline_p)
- 	}
- #endif
- 
-+	paging_init();
-+
-+#ifdef CONFIG_NATFEAT
-+	nf_init();
-+#endif
-+
- #ifdef CONFIG_ATARI
- 	if (MACH_IS_ATARI)
- 		atari_stram_reserve_pages((void *)availmem);
-@@ -364,8 +363,6 @@ void __init setup_arch(char **cmdline_p)
- 	}
- #endif
- 
--#endif /* !CONFIG_SUN3 */
--
- /* set ISA defs early as possible */
- #if defined(CONFIG_ISA) && defined(MULTI_ISA)
- 	if (MACH_IS_Q40) {
-diff --git a/arch/m68k/mm/motorola.c b/arch/m68k/mm/motorola.c
-index 9f3f77785aa7..5b6575eb6d02 100644
---- a/arch/m68k/mm/motorola.c
-+++ b/arch/m68k/mm/motorola.c
-@@ -455,6 +455,8 @@ void __init paging_init(void)
- 
- 	flush_tlb_all();
- 
-+	early_memtest(min_addr, max_addr);
-+
- 	/*
- 	 * initialize the bad page table and bad page to point
- 	 * to a couple of allocated pages
 -- 
-2.26.3
+2.27.0
 
