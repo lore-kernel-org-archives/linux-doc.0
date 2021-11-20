@@ -2,134 +2,221 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A2C7C433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 20 Nov 2021 04:50:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 592F9C4332F
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Nov 2021 12:17:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235997AbhKTExp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Nov 2021 23:53:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54916 "EHLO
+        id S237303AbhKTMUW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 20 Nov 2021 07:20:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236570AbhKTEx3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Nov 2021 23:53:29 -0500
-Received: from mail-pg1-x549.google.com (mail-pg1-x549.google.com [IPv6:2607:f8b0:4864:20::549])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92936C06174A
-        for <linux-doc@vger.kernel.org>; Fri, 19 Nov 2021 20:50:25 -0800 (PST)
-Received: by mail-pg1-x549.google.com with SMTP id r7-20020a63ce47000000b002a5cadd2f25so5034559pgi.9
-        for <linux-doc@vger.kernel.org>; Fri, 19 Nov 2021 20:50:25 -0800 (PST)
+        with ESMTP id S237184AbhKTMUV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 Nov 2021 07:20:21 -0500
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64DAFC061574
+        for <linux-doc@vger.kernel.org>; Sat, 20 Nov 2021 04:17:17 -0800 (PST)
+Received: by mail-wm1-x32f.google.com with SMTP id k37-20020a05600c1ca500b00330cb84834fso12569234wms.2
+        for <linux-doc@vger.kernel.org>; Sat, 20 Nov 2021 04:17:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=Iq24JeebEl5J+lwUGxaMYnGaB9XaVCl6Xy4iwtIyjvA=;
-        b=chHgb4puhIWCbXYE8Sfesk3NR0JUQxPlsgsGXteWK/zzn4p5veG4SJor/gZuL7JgX3
-         rTpfhIB3TB148ACfiYmshuzDlk8La2eFK38A6waYF1P8TDVR9KDtqC5wgu6d4MhZGzn9
-         AU/xppkCdNdEA6B7QqNnDCas+iwtGzetJMukBnFtJdRdTqKvTWX7FAcUwxCo6r8I32sf
-         bBCWBPZBvHHjBAZX3j8SS2dTcb80lzU4+UCk6gX7wrhiM6xAKdh05qROmWp4Y+SiE12o
-         V0NAZSvNAXayIFigemF54IXXzW9KOuEVLOEBm4hrqi2dGz99WYHyQdUR37wEDeW9fchV
-         D+/g==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=YaZx2Y1Vt1Ut2aTw36wNCypRpJkUbfgmQVTDZ0VmVgg=;
+        b=G0DspSlupKx4AUg5ZT7ltXNlBHPMlfmebwsWLEI0fjNTzN8FF+OAjnHjjkowTA3YTz
+         Y5DGUFU1RqZBdH04tC0xC/avnxq/1+skZ0VCOq1mgUIzCnpJtEHJO9HK7/LIwnRXoRp+
+         rQz4achBubaElapoI9/Vm6An/nbj7zuytcNNa5DhyFwX7BkkRnuS8Iy3LlaG3ID6GztZ
+         YpZ8RDsV1eLdYDx5VL7v/6AvQ5yHQGI/Q2ZK570uO4q6u0byapqvyd9zlkeZnOLpkU1l
+         Bk8c8Y3m+sCLMdxBlSNTFQ2wLo1WPxZZmXJqgWQbyyzXvjmZnY54fmRSKov6jhnyPm7k
+         mNEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=Iq24JeebEl5J+lwUGxaMYnGaB9XaVCl6Xy4iwtIyjvA=;
-        b=1EdTvY88We9ETTi7YrQY7rtclvruSHP+rx95wGWCU38wzkcilB3xMUhevbirYWRLiy
-         8MZmBtXQVNmDvznSuO5dOzyuDTqX+FyunStScPs4K8vBPjDhfAJOHyFZMdq7DfhLuBls
-         QIMl+QKQbnh59lptMpqAxFG0+GOf9zihGKVphybQHOR76dNDtyn8vziiR5hDoGlz9K9P
-         pv+huEuE+2Fb1RtHKFohVl0grxwM9roFpLqy9Iq91WvneH/uCQXPhDkHi+IWB9gmTOWO
-         L6VUs8OQYxqks+/spoknwB9eO2B8psdVtf6TRZKZN61qiv62s5HeZ67KNp17+Wt4KF+6
-         yzPg==
-X-Gm-Message-State: AOAM530cxiFRWIPXfYyeoWlqIAODJs5zZm5Ip7O/buu+P+YhhOUyrTii
-        K6eGWnpiFLp2rupKfH10B74+HZczaYGMKLoqhA==
-X-Google-Smtp-Source: ABdhPJw2LtgTcmkkzLu7IfsO7oStiwjz2hQIMktMWyDyw5d5CngJQrpTot1D+094Y6eOR3p65b1F4UncxKHZugK7JQ==
-X-Received: from almasrymina.svl.corp.google.com ([2620:15c:2cd:202:fa91:560a:d7b4:93])
- (user=almasrymina job=sendgmr) by 2002:a17:90b:4c8b:: with SMTP id
- my11mr6839565pjb.96.1637383825076; Fri, 19 Nov 2021 20:50:25 -0800 (PST)
-Date:   Fri, 19 Nov 2021 20:50:09 -0800
-In-Reply-To: <20211120045011.3074840-1-almasrymina@google.com>
-Message-Id: <20211120045011.3074840-4-almasrymina@google.com>
-Mime-Version: 1.0
-References: <20211120045011.3074840-1-almasrymina@google.com>
-X-Mailer: git-send-email 2.34.0.rc2.393.gf8c9666880-goog
-Subject: [PATCH v4 3/4] mm, shmem: add filesystem memcg= option documentation
-From:   Mina Almasry <almasrymina@google.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Mina Almasry <almasrymina@google.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=YaZx2Y1Vt1Ut2aTw36wNCypRpJkUbfgmQVTDZ0VmVgg=;
+        b=1k/YMpxamsE+XrMN02auyrgotpSYpNQLyQFKPF0Nse++osZ3nx3sBnk6tBdXOcMALl
+         /9qKa9cCiLWFs1ZO2iVPdco9NjrDqHYEBsjsKyznCffZzjglpk6ogBSS543t044GT2v2
+         chgL6q+uk9Y9LLOYscUHVulCi9TtCFGLJaJcNFr2SqjF0OuR49Ggq9vlCVxXp9LboQQ/
+         1f9zFRyKR2WUAcye8k6pBMLJjvWtWQ/EUhuKFo/8luyH0fW+GZ84OJiI0/KTCYuNBH3d
+         dBxTXKdTyiKQ4nS6hqOkHF/PvGbmdalpZJPLaf/Dr0OJVEtpp4hvkG1DgNUksFVbS6MS
+         EHCQ==
+X-Gm-Message-State: AOAM530DiVDrDIzzthYAAmeWpmkhF+akItIfSXr4Vf+bnJngSLmQK8kq
+        SVqIh39LOQI8JPzKb0mvYLSdEg==
+X-Google-Smtp-Source: ABdhPJwhl1qUNp/ARRgHBsOEZYB2zBIGB9ymLIhCgmSIMnKiuQtGzmOMF1KU2l9Kmdis+/qTqfvOjQ==
+X-Received: by 2002:a05:600c:3486:: with SMTP id a6mr9590995wmq.32.1637410635476;
+        Sat, 20 Nov 2021 04:17:15 -0800 (PST)
+Received: from elver.google.com ([2a00:79e0:15:13:847c:11cc:32b2:b152])
+        by smtp.gmail.com with ESMTPSA id az15sm2620938wmb.0.2021.11.20.04.17.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 20 Nov 2021 04:17:14 -0800 (PST)
+Date:   Sat, 20 Nov 2021 13:17:08 +0100
+From:   Marco Elver <elver@google.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Alexander Popov <alex.popov@linux.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul McKenney <paulmck@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Hugh Dickins <hughd@google.com>, Shuah Khan <shuah@kernel.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        Greg Thelen <gthelen@google.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Roman Gushchin <guro@fb.com>, "Theodore Ts'o" <tytso@mit.edu>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Joerg Roedel <jroedel@suse.de>,
+        Maciej Rozycki <macro@orcam.me.uk>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Luis Chamberlain <mcgrof@kernel.org>, Wei Liu <wl@xen.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Alexey Kardashevskiy <aik@ozlabs.ru>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Jann Horn <jannh@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Will Deacon <will@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Laura Abbott <labbott@kernel.org>,
+        David S Miller <davem@davemloft.net>,
+        Borislav Petkov <bp@alien8.de>, Arnd Bergmann <arnd@arndb.de>,
+        Andrew Scull <ascull@google.com>,
+        Marc Zyngier <maz@kernel.org>, Jessica Yu <jeyu@kernel.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Wang Qing <wangqing@vivo.com>, Mel Gorman <mgorman@suse.de>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Andrew Klychkov <andrew.a.klychkov@gmail.com>,
+        Mathieu Chouquet-Stringer <me@mathieu.digital>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Stephen Kitt <steve@sk2.org>, Stephen Boyd <sboyd@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Mike Rapoport <rppt@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-hardening@vger.kernel.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>, notify@kernel.org,
+        main@lists.elisa.tech, safety-architecture@lists.elisa.tech,
+        devel@lists.elisa.tech, Shuah Khan <shuah@kernel.org>
+Subject: Re: [PATCH v2 0/2] Introduce the pkill_on_warn parameter
+Message-ID: <YZjnREFGhEO9pX6O@elver.google.com>
+References: <20211027233215.306111-1-alex.popov@linux.com>
+ <ac989387-3359-f8da-23f9-f5f6deca4db8@linux.com>
+ <CAHk-=wgRmjkP3+32XPULMLTkv24AkA=nNLa7xxvSg-F0G1sJ9g@mail.gmail.com>
+ <77b79f0c-48f2-16dd-1d00-22f3a1b1f5a6@linux.com>
+ <CAKXUXMx5Oi-dNVKB+8E-pdrz+ooELMZf=oT_oGXKFrNWejz=fg@mail.gmail.com>
+ <20211115110649.4f9cb390@gandalf.local.home>
+ <202111151116.933184F716@keescook>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202111151116.933184F716@keescook>
+User-Agent: Mutt/2.0.5 (2021-01-21)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document the usage of the memcg= mount option, as well as permission
-restrictions of its use and caveats with remote charging.
+On Mon, Nov 15, 2021 at 02:06PM -0800, Kees Cook wrote:
+[...]
+> However, that's a lot to implement when Marco's tracing suggestion might
+> be sufficient and policy could be entirely implemented in userspace. It
+> could be as simple as this (totally untested):
+[...]
+> 
+> Marco, is this the full version of monitoring this from the userspace
+> side?
 
-Signed-off-by: Mina Almasry <almasrymina@google.com>
+Sorry I completely missed this email (I somehow wasn't Cc'd... I just
+saw it by chance re-reading this thread).
 
----
+I've sent a patch to add WARN:
 
-Changes in v4:
-- Added more info about the permissions to mount with memcg=, and the
-  importance of restricting write access to the mount point.
-- Changed documentation to describe the ENOSPC/SIGBUS behavior rather
-  than the ENOMEM behavior implemented in earlier patches.
-- I did not find a good place to put this documentation after making the
-  mount option generic. Please let me know if there is a good place to
-  add this, and if not I can add a new file. Thanks!
+	https://lkml.kernel.org/r/20211115085630.1756817-1-elver@google.com
 
----
- Documentation/filesystems/tmpfs.rst | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+Not sure how useful BUG is, but I have no objection to it also being
+traced if you think it's useful.
 
-diff --git a/Documentation/filesystems/tmpfs.rst b/Documentation/filesystems/tmpfs.rst
-index 0408c245785e3..dc1f46e16eaf4 100644
---- a/Documentation/filesystems/tmpfs.rst
-+++ b/Documentation/filesystems/tmpfs.rst
-@@ -137,6 +137,34 @@ mount options.  It can be added later, when the tmpfs is already mounted
- on MountPoint, by 'mount -o remount,mpol=Policy:NodeList MountPoint'.
+(I added it to kernel/panic.c, because lib/bug.c requires
+CONFIG_GENERIC_BUG.)
 
+> 	perf record -e error_report:error_report_end
 
-+If CONFIG_MEMCG is enabled, filesystems (including tmpfs) has a mount option to
-+specify the memory cgroup to be charged for page allocations.
-+
-+memcg=/sys/fs/cgroup/unified/test/: data page allocations are charged to
-+cgroup /sys/fs/cgroup/unified/test/.
-+
-+Only processes that have write access to
-+/sys/fs/cgroup/unified/test/cgroup.procs can mount a tmpfs with
-+memcg=/sys/fs/cgroup/unified/test. Thus, a process is able to charge memory to a
-+cgroup only if it itself is able to enter that cgroup and allocate memory
-+there. This is to prevent random processes from mounting filesystems in user
-+namespaces and intentionally DoSing random cgroups running on the system.
-+
-+Once a mount point is created with memcg=, any process that has write access to
-+this mount point is able to use this mount point and direct charges to the
-+cgroup provided. Thus, it is important to limit write access to the mount point
-+to the intended users if untrusted code is running on the machine. This is
-+generally required regardless of whether the mount is done with memcg= or not.
-+
-+When charging memory to the remote memcg (memcg specified with memcg=) and
-+hitting that memcg's limit, the oom-killer will be invoked (if enabled) and will
-+attempt to kill a process in the remote memcg. If no killable processes are
-+found, the remote charging process gets an ENOSPC error. If the remote charging
-+process is in the pagefault path, it gets a SIGBUS signal. It's recommended
-+that processes executing remote charges are able to handle a SIGBUS signal or
-+ENOSPC error that may arise during executing the remote charges.
-+
-+
- To specify the initial root directory you can use the following mount
- options:
+I think userspace would want something other than perf tool to handle it
+of course.  There are several options:
 
---
-2.34.0.rc2.393.gf8c9666880-goog
+	1. Open trace pipe to be notified (/sys/kernel/tracing/trace_pipe).
+	   This already includes the pid.
+
+	2. As you suggest, use perf events globally (but the handling
+	   would be done by some system process).
+
+	3. As of 5.13 there's actually a new perf feature to
+	   synchronously SIGTRAP the exact task where an event occurred
+	   (see perf_event_attr::sigtrap). This would very closely mimic
+	   pkill_on_warn (because the SIGTRAP is synchronous), but lets the
+	   process being SIGTRAP'd decide what to do. Not sure how to
+	   deploy this though, because a) only root user can create this
+	   perf event (because exclude_kernel=0), and b) sigtrap perf
+	   events deliberately won't propagate beyond an exec
+	   (must remove_on_exec=1 if sigtrap=1) because who knows if
+	   the exec'd process has the right SIGTRAP handler.
+
+I think #3 is hard to deploy right, but below is an example program I
+played with.
+
+Thanks,
+-- Marco
+
+------ >8 ------
+
+#define _GNU_SOURCE
+#include <assert.h>
+#include <stdio.h>
+#include <linux/perf_event.h>
+#include <signal.h>
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <sys/syscall.h>
+#include <unistd.h>
+
+static void sigtrap_handler(int signum, siginfo_t *info, void *ucontext)
+{
+	// FIXME: check event is error_report_end
+	printf("Kernel error in this task!\n");
+}
+static void generate_warning(void)
+{
+	... do something to generate a warning ...
+}
+int main()
+{
+	struct perf_event_attr attr = {
+		.type		= PERF_TYPE_TRACEPOINT,
+		.size		= sizeof(attr),
+		.config		= 189, // FIXME: error_report_end
+		.sample_period	= 1,
+		.inherit	= 1, /* Children inherit events ... */
+		.remove_on_exec = 1, /* Required by sigtrap. */
+		.sigtrap	= 1, /* Request synchronous SIGTRAP on event. */
+		.sig_data	= 189, /* FIXME: use to identify error_report_end */
+	};
+	struct sigaction action = {};
+	struct sigaction oldact;
+	int fd;
+	action.sa_flags = SA_SIGINFO | SA_NODEFER;
+	action.sa_sigaction = sigtrap_handler;
+	sigemptyset(&action.sa_mask);
+	assert(sigaction(SIGTRAP, &action, &oldact) == 0);
+	fd = syscall(__NR_perf_event_open, &attr, 0, -1, -1, PERF_FLAG_FD_CLOEXEC);
+	assert(fd != -1);
+	sleep(5); /* Try to generate a warning from elsewhere, nothing will be printed. */
+	generate_warning(); /* Warning from this process. */
+	sigaction(SIGTRAP, &oldact, NULL);
+	close(fd);
+	return 0;
+}
