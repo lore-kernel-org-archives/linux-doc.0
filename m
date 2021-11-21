@@ -2,221 +2,160 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 592F9C4332F
-	for <linux-doc@archiver.kernel.org>; Sat, 20 Nov 2021 12:17:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 820C7C433EF
+	for <linux-doc@archiver.kernel.org>; Sun, 21 Nov 2021 06:29:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237303AbhKTMUW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 20 Nov 2021 07:20:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38780 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237184AbhKTMUV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 Nov 2021 07:20:21 -0500
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64DAFC061574
-        for <linux-doc@vger.kernel.org>; Sat, 20 Nov 2021 04:17:17 -0800 (PST)
-Received: by mail-wm1-x32f.google.com with SMTP id k37-20020a05600c1ca500b00330cb84834fso12569234wms.2
-        for <linux-doc@vger.kernel.org>; Sat, 20 Nov 2021 04:17:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=YaZx2Y1Vt1Ut2aTw36wNCypRpJkUbfgmQVTDZ0VmVgg=;
-        b=G0DspSlupKx4AUg5ZT7ltXNlBHPMlfmebwsWLEI0fjNTzN8FF+OAjnHjjkowTA3YTz
-         Y5DGUFU1RqZBdH04tC0xC/avnxq/1+skZ0VCOq1mgUIzCnpJtEHJO9HK7/LIwnRXoRp+
-         rQz4achBubaElapoI9/Vm6An/nbj7zuytcNNa5DhyFwX7BkkRnuS8Iy3LlaG3ID6GztZ
-         YpZ8RDsV1eLdYDx5VL7v/6AvQ5yHQGI/Q2ZK570uO4q6u0byapqvyd9zlkeZnOLpkU1l
-         Bk8c8Y3m+sCLMdxBlSNTFQ2wLo1WPxZZmXJqgWQbyyzXvjmZnY54fmRSKov6jhnyPm7k
-         mNEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=YaZx2Y1Vt1Ut2aTw36wNCypRpJkUbfgmQVTDZ0VmVgg=;
-        b=1k/YMpxamsE+XrMN02auyrgotpSYpNQLyQFKPF0Nse++osZ3nx3sBnk6tBdXOcMALl
-         /9qKa9cCiLWFs1ZO2iVPdco9NjrDqHYEBsjsKyznCffZzjglpk6ogBSS543t044GT2v2
-         chgL6q+uk9Y9LLOYscUHVulCi9TtCFGLJaJcNFr2SqjF0OuR49Ggq9vlCVxXp9LboQQ/
-         1f9zFRyKR2WUAcye8k6pBMLJjvWtWQ/EUhuKFo/8luyH0fW+GZ84OJiI0/KTCYuNBH3d
-         dBxTXKdTyiKQ4nS6hqOkHF/PvGbmdalpZJPLaf/Dr0OJVEtpp4hvkG1DgNUksFVbS6MS
-         EHCQ==
-X-Gm-Message-State: AOAM530DiVDrDIzzthYAAmeWpmkhF+akItIfSXr4Vf+bnJngSLmQK8kq
-        SVqIh39LOQI8JPzKb0mvYLSdEg==
-X-Google-Smtp-Source: ABdhPJwhl1qUNp/ARRgHBsOEZYB2zBIGB9ymLIhCgmSIMnKiuQtGzmOMF1KU2l9Kmdis+/qTqfvOjQ==
-X-Received: by 2002:a05:600c:3486:: with SMTP id a6mr9590995wmq.32.1637410635476;
-        Sat, 20 Nov 2021 04:17:15 -0800 (PST)
-Received: from elver.google.com ([2a00:79e0:15:13:847c:11cc:32b2:b152])
-        by smtp.gmail.com with ESMTPSA id az15sm2620938wmb.0.2021.11.20.04.17.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Nov 2021 04:17:14 -0800 (PST)
-Date:   Sat, 20 Nov 2021 13:17:08 +0100
-From:   Marco Elver <elver@google.com>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Alexander Popov <alex.popov@linux.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul McKenney <paulmck@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Joerg Roedel <jroedel@suse.de>,
-        Maciej Rozycki <macro@orcam.me.uk>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Luis Chamberlain <mcgrof@kernel.org>, Wei Liu <wl@xen.org>,
-        John Ogness <john.ogness@linutronix.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Alexey Kardashevskiy <aik@ozlabs.ru>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Jann Horn <jannh@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Will Deacon <will@kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Laura Abbott <labbott@kernel.org>,
-        David S Miller <davem@davemloft.net>,
-        Borislav Petkov <bp@alien8.de>, Arnd Bergmann <arnd@arndb.de>,
-        Andrew Scull <ascull@google.com>,
-        Marc Zyngier <maz@kernel.org>, Jessica Yu <jeyu@kernel.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Wang Qing <wangqing@vivo.com>, Mel Gorman <mgorman@suse.de>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Andrew Klychkov <andrew.a.klychkov@gmail.com>,
-        Mathieu Chouquet-Stringer <me@mathieu.digital>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Stephen Kitt <steve@sk2.org>, Stephen Boyd <sboyd@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Mike Rapoport <rppt@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-hardening@vger.kernel.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>, notify@kernel.org,
-        main@lists.elisa.tech, safety-architecture@lists.elisa.tech,
-        devel@lists.elisa.tech, Shuah Khan <shuah@kernel.org>
-Subject: Re: [PATCH v2 0/2] Introduce the pkill_on_warn parameter
-Message-ID: <YZjnREFGhEO9pX6O@elver.google.com>
-References: <20211027233215.306111-1-alex.popov@linux.com>
- <ac989387-3359-f8da-23f9-f5f6deca4db8@linux.com>
- <CAHk-=wgRmjkP3+32XPULMLTkv24AkA=nNLa7xxvSg-F0G1sJ9g@mail.gmail.com>
- <77b79f0c-48f2-16dd-1d00-22f3a1b1f5a6@linux.com>
- <CAKXUXMx5Oi-dNVKB+8E-pdrz+ooELMZf=oT_oGXKFrNWejz=fg@mail.gmail.com>
- <20211115110649.4f9cb390@gandalf.local.home>
- <202111151116.933184F716@keescook>
+        id S231239AbhKUGcj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 21 Nov 2021 01:32:39 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57538 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229885AbhKUGc2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 21 Nov 2021 01:32:28 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A73C260C4A;
+        Sun, 21 Nov 2021 06:29:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1637476160;
+        bh=A2FbeRl3V1l2ksZ9wM0BVAX4t2bfqwjgHNSx9b4lWHE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RfJOlGe5boVfDciCEArB8lCo8yXqEnrsL/Qm0w1v0DAU2i00vL+jpIP+vvS5mJpOe
+         u01HUX1DEIbOZdZ8qG8PpGWdGANLMn0T05KPV2ot1Lsn3dS1B+eZCSpbAeqhRFQPHz
+         foYhfYvz/JTpBEuyc1x209Cwl2SgYmx3GSlWQotfg8GSySTnClhO42XP+F0uq97kFN
+         4jCFh2Qox/3dkoBEnxuVjSOCIkgn57zzwa81eytCWm6b45niDJNvN7F8qivxuTJRXB
+         BN0qtql4TBx8dokwWV4wUtZSBli55Fga+fQCjAtgRvDbQYcUB8JOo/0+3XQfSBaF7f
+         F6+h0TOTuDZMg==
+Date:   Sun, 21 Nov 2021 08:29:12 +0200
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Finn Thain <fthain@linux-m68k.org>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Sam Creasey <sammy@sammy.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org
+Subject: Re: [PATCH v3] m68k: Enable memtest functionality
+Message-ID: <YZnnOAoEIS1wmOyr@kernel.org>
+References: <8170fe1d1c62426d82275d36ba409ecc18754292.1637274578.git.fthain@linux-m68k.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202111151116.933184F716@keescook>
-User-Agent: Mutt/2.0.5 (2021-01-21)
+In-Reply-To: <8170fe1d1c62426d82275d36ba409ecc18754292.1637274578.git.fthain@linux-m68k.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 15, 2021 at 02:06PM -0800, Kees Cook wrote:
-[...]
-> However, that's a lot to implement when Marco's tracing suggestion might
-> be sufficient and policy could be entirely implemented in userspace. It
-> could be as simple as this (totally untested):
-[...]
+On Fri, Nov 19, 2021 at 09:29:38AM +1100, Finn Thain wrote:
+> Enable the memtest functionality and rearrange some code to prevent it
+> from clobbering the initrd.
 > 
-> Marco, is this the full version of monitoring this from the userspace
-> side?
+> The code to implement CONFIG_BLK_DEV_INITRD was conditional on
+> !defined(CONFIG_SUN3). For simplicity, remove that test on the basis
+> that m68k_ramdisk.size == 0 on Sun 3. The SLIME source code at
+> http://sammy.net/sun3/ftp/pub/m68k/sun3/slime/slime-2.0.tar.gz
+> indicates that no BI_RAMDISK entry is ever passed to the kernel due
+> to #ifdef 0 around the relevant code.
+> 
+> Cc: Mike Rapoport <rppt@kernel.org>
+> Cc: Sam Creasey <sammy@sammy.net>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Signed-off-by: Finn Thain <fthain@linux-m68k.org>
 
-Sorry I completely missed this email (I somehow wasn't Cc'd... I just
-saw it by chance re-reading this thread).
+Acked-by: Mike Rapoport <rppt@linux.ibm.com>
 
-I've sent a patch to add WARN:
+> ---
+> Is SLIME the only Linux bootloader on Sun 3?
+> ---
+> Changed since v2:
+>  - Made conditional on MMU_MOTOROLA.
+> 
+> Changed since v1:
+>  - Updated documentation.
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt |  2 +-
+>  arch/m68k/Kconfig                               |  1 +
+>  arch/m68k/kernel/setup_mm.c                     | 15 ++++++---------
+>  arch/m68k/mm/motorola.c                         |  2 ++
+>  4 files changed, 10 insertions(+), 10 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 43dc35fe5bc0..ac42b421a95c 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2924,7 +2924,7 @@
+>  			both parameters are enabled, hugetlb_free_vmemmap takes
+>  			precedence over memory_hotplug.memmap_on_memory.
+>  
+> -	memtest=	[KNL,X86,ARM,PPC,RISCV] Enable memtest
+> +	memtest=	[KNL,X86,ARM,M68K,PPC,RISCV] Enable memtest
+>  			Format: <integer>
+>  			default : 0 <disable>
+>  			Specifies the number of memtest passes to be
+> diff --git a/arch/m68k/Kconfig b/arch/m68k/Kconfig
+> index 0b50da08a9c5..4cae3fbe7f97 100644
+> --- a/arch/m68k/Kconfig
+> +++ b/arch/m68k/Kconfig
+> @@ -9,6 +9,7 @@ config M68K
+>  	select ARCH_HAVE_NMI_SAFE_CMPXCHG if RMW_INSNS
+>  	select ARCH_MIGHT_HAVE_PC_PARPORT if ISA
+>  	select ARCH_NO_PREEMPT if !COLDFIRE
+> +	select ARCH_USE_MEMTEST if MMU_MOTOROLA
+>  	select ARCH_WANT_IPC_PARSE_VERSION
+>  	select BINFMT_FLAT_ARGVP_ENVP_ON_STACK
+>  	select DMA_DIRECT_REMAP if HAS_DMA && MMU && !COLDFIRE
+> diff --git a/arch/m68k/kernel/setup_mm.c b/arch/m68k/kernel/setup_mm.c
+> index 4b51bfd38e5f..49e573b94326 100644
+> --- a/arch/m68k/kernel/setup_mm.c
+> +++ b/arch/m68k/kernel/setup_mm.c
+> @@ -338,13 +338,6 @@ void __init setup_arch(char **cmdline_p)
+>  		panic("No configuration setup");
+>  	}
+>  
+> -	paging_init();
+> -
+> -#ifdef CONFIG_NATFEAT
+> -	nf_init();
+> -#endif
+> -
+> -#ifndef CONFIG_SUN3
+>  #ifdef CONFIG_BLK_DEV_INITRD
+>  	if (m68k_ramdisk.size) {
+>  		memblock_reserve(m68k_ramdisk.addr, m68k_ramdisk.size);
+> @@ -354,6 +347,12 @@ void __init setup_arch(char **cmdline_p)
+>  	}
+>  #endif
+>  
+> +	paging_init();
+> +
+> +#ifdef CONFIG_NATFEAT
+> +	nf_init();
+> +#endif
+> +
+>  #ifdef CONFIG_ATARI
+>  	if (MACH_IS_ATARI)
+>  		atari_stram_reserve_pages((void *)availmem);
+> @@ -364,8 +363,6 @@ void __init setup_arch(char **cmdline_p)
+>  	}
+>  #endif
+>  
+> -#endif /* !CONFIG_SUN3 */
+> -
+>  /* set ISA defs early as possible */
+>  #if defined(CONFIG_ISA) && defined(MULTI_ISA)
+>  	if (MACH_IS_Q40) {
+> diff --git a/arch/m68k/mm/motorola.c b/arch/m68k/mm/motorola.c
+> index 9f3f77785aa7..5b6575eb6d02 100644
+> --- a/arch/m68k/mm/motorola.c
+> +++ b/arch/m68k/mm/motorola.c
+> @@ -455,6 +455,8 @@ void __init paging_init(void)
+>  
+>  	flush_tlb_all();
+>  
+> +	early_memtest(min_addr, max_addr);
+> +
+>  	/*
+>  	 * initialize the bad page table and bad page to point
+>  	 * to a couple of allocated pages
+> -- 
+> 2.26.3
+> 
 
-	https://lkml.kernel.org/r/20211115085630.1756817-1-elver@google.com
-
-Not sure how useful BUG is, but I have no objection to it also being
-traced if you think it's useful.
-
-(I added it to kernel/panic.c, because lib/bug.c requires
-CONFIG_GENERIC_BUG.)
-
-> 	perf record -e error_report:error_report_end
-
-I think userspace would want something other than perf tool to handle it
-of course.  There are several options:
-
-	1. Open trace pipe to be notified (/sys/kernel/tracing/trace_pipe).
-	   This already includes the pid.
-
-	2. As you suggest, use perf events globally (but the handling
-	   would be done by some system process).
-
-	3. As of 5.13 there's actually a new perf feature to
-	   synchronously SIGTRAP the exact task where an event occurred
-	   (see perf_event_attr::sigtrap). This would very closely mimic
-	   pkill_on_warn (because the SIGTRAP is synchronous), but lets the
-	   process being SIGTRAP'd decide what to do. Not sure how to
-	   deploy this though, because a) only root user can create this
-	   perf event (because exclude_kernel=0), and b) sigtrap perf
-	   events deliberately won't propagate beyond an exec
-	   (must remove_on_exec=1 if sigtrap=1) because who knows if
-	   the exec'd process has the right SIGTRAP handler.
-
-I think #3 is hard to deploy right, but below is an example program I
-played with.
-
-Thanks,
--- Marco
-
------- >8 ------
-
-#define _GNU_SOURCE
-#include <assert.h>
-#include <stdio.h>
-#include <linux/perf_event.h>
-#include <signal.h>
-#include <fcntl.h>
-#include <sys/ioctl.h>
-#include <sys/syscall.h>
-#include <unistd.h>
-
-static void sigtrap_handler(int signum, siginfo_t *info, void *ucontext)
-{
-	// FIXME: check event is error_report_end
-	printf("Kernel error in this task!\n");
-}
-static void generate_warning(void)
-{
-	... do something to generate a warning ...
-}
-int main()
-{
-	struct perf_event_attr attr = {
-		.type		= PERF_TYPE_TRACEPOINT,
-		.size		= sizeof(attr),
-		.config		= 189, // FIXME: error_report_end
-		.sample_period	= 1,
-		.inherit	= 1, /* Children inherit events ... */
-		.remove_on_exec = 1, /* Required by sigtrap. */
-		.sigtrap	= 1, /* Request synchronous SIGTRAP on event. */
-		.sig_data	= 189, /* FIXME: use to identify error_report_end */
-	};
-	struct sigaction action = {};
-	struct sigaction oldact;
-	int fd;
-	action.sa_flags = SA_SIGINFO | SA_NODEFER;
-	action.sa_sigaction = sigtrap_handler;
-	sigemptyset(&action.sa_mask);
-	assert(sigaction(SIGTRAP, &action, &oldact) == 0);
-	fd = syscall(__NR_perf_event_open, &attr, 0, -1, -1, PERF_FLAG_FD_CLOEXEC);
-	assert(fd != -1);
-	sleep(5); /* Try to generate a warning from elsewhere, nothing will be printed. */
-	generate_warning(); /* Warning from this process. */
-	sigaction(SIGTRAP, &oldact, NULL);
-	close(fd);
-	return 0;
-}
+-- 
+Sincerely yours,
+Mike.
