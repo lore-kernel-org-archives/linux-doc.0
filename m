@@ -2,125 +2,67 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32E7FC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Nov 2021 20:31:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD2E7C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Nov 2021 20:33:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230415AbhKVUeY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Nov 2021 15:34:24 -0500
-Received: from ms.lwn.net ([45.79.88.28]:53506 "EHLO ms.lwn.net"
+        id S231739AbhKVUgT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Nov 2021 15:36:19 -0500
+Received: from ms.lwn.net ([45.79.88.28]:53508 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229634AbhKVUeW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 22 Nov 2021 15:34:22 -0500
+        id S233551AbhKVUgS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 22 Nov 2021 15:36:18 -0500
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 284B46A2;
-        Mon, 22 Nov 2021 20:31:15 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 284B46A2
+        by ms.lwn.net (Postfix) with ESMTPSA id 2E2366E3;
+        Mon, 22 Nov 2021 20:33:11 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2E2366E3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1637613075; bh=38c8szBRcFhkJvxMndhYg4axlYAnQw6cjZ5m2H/eLzk=;
+        t=1637613191; bh=qBEmJndL88dvDXg002stQ64DAww/T/d4rpP21SqVrHg=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=g/9z/b1pqJDEnkOqhZDw2IV7sVt2SkZH4dLJb+0ZLKQnnoIjEj4q73l7rj6+gCjkc
-         e615DaRfdozdf2VHYLxb3RaZtSJdAdJF1EL01gptRpQd5kJRVfw0FzHggFT36Dlx9K
-         6eA1UBfjL5bu27tXaY3dlO8xnEb+LHqudGgfinzD8zWpZiXiKBR1u1ocajD0YFvJiO
-         xaC1gepYrxiCasGCYYsZOA/sZrzt5Gm+L4Yznm+Q2PdWhxqK38/bHLc5fC02EgL/tu
-         fZeGlolnHkOEPYZxIB0QiQv9A+YRpDkAexNz6DJcao5ke8Hf68Ga7HBdEeGlWnXWpv
-         9rEuza2WEKgtg==
+        b=H426KWL8q1NcssD5EOIR1dxXdO9wDO+4kATr8YkZZ1Il0Lbdkletts/tgtr4qZIjQ
+         hRA9CybJ7BwyGDqtuR0DMASxDlb3JS5jhmnmExXESmSv2C0GVCaZRqIKrsS8B6s4bU
+         ujgHTNDQTMwk0cw9TKRjGhkmEYcmd+fgExMzRf9kiZBDyGFo7YaQMMcvyQkAPZtOGT
+         Gx2PZCBpPZREjfRTKx9iZF2kRoyHd/zNqAOoGI6noPyjGrmClN7VFZHRHlRp56rQ5I
+         Bns6WBHvWnxxrtN3qU6N+P1/gPg1IwSd/4FiZerL/v0JL67Q0cnwFod4iPqyAT9jee
+         6KD9g9M4PHLvQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jason Gunthorpe <jgg@nvidia.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        linux-doc@vger.kernel.org
-Cc:     Cornelia Huck <cohuck@redhat.com>, kvm@vger.kernel.org,
-        Kirti Wankhede <kwankhede@nvidia.com>,
-        Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-        Yishai Hadas <yishaih@nvidia.com>
-Subject: Re: [PATCH RFC] vfio: Documentation for the migration region
-In-Reply-To: <0-v1-0ec87874bede+123-vfio_mig_doc_jgg@nvidia.com>
-References: <0-v1-0ec87874bede+123-vfio_mig_doc_jgg@nvidia.com>
-Date:   Mon, 22 Nov 2021 13:31:14 -0700
-Message-ID: <875yskvsod.fsf@meer.lwn.net>
+To:     Dave Tucker <dave@dtucker.co.uk>, bpf@vger.kernel.org
+Cc:     ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
+        kafai@fb.com, songliubraving@fb.com, john.fastabend@gmail.com,
+        kpsingh@kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH bpf-next 2/2] bpf, docs: document BPF_MAP_TYPE_ARRAY
+In-Reply-To: <d1ab737c-5e00-4781-90d4-495400d90b0f@www.fastmail.com>
+References: <cover.1637601045.git.dave@dtucker.co.uk>
+ <5da383bc01c66e6c1342cdb2b3dc53196214e003.1637601045.git.dave@dtucker.co.uk>
+ <87ee78vw76.fsf@meer.lwn.net>
+ <d1ab737c-5e00-4781-90d4-495400d90b0f@www.fastmail.com>
+Date:   Mon, 22 Nov 2021 13:33:10 -0700
+Message-ID: <871r38vsl5.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jason Gunthorpe <jgg@nvidia.com> writes:
+"Dave Tucker" <dave@dtucker.co.uk> writes:
 
-> Provide some more complete documentation for the migration region's
-> behavior, specifically focusing on the device_state bits and the whole
-> system view from a VMM.
+> On Mon, 22 Nov 2021, at 19:15, Jonathan Corbet wrote:
+>> Dave Tucker <dave@dtucker.co.uk> writes:
+>>
+>> When you add a new BPF file, you need to add it to the corresponding
+>> index.rst file as well.  Otherwise it won't be part of the docs build
+>> and will, instead, generate the warning you surely saw when you tested
+>> the build...:)
 >
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->  Documentation/driver-api/vfio.rst | 208 +++++++++++++++++++++++++++++-
->  1 file changed, 207 insertions(+), 1 deletion(-)
+> I did test the build and I don't think I introduced any new warnings :)
 >
-> Alex/Cornelia, here is the first draft of the requested documentation I promised
->
-> We think it includes all the feedback from hns, Intel and NVIDIA on this mechanism.
->
-> Our thinking is that NDMA would be implemented like this:
->
->    +#define VFIO_DEVICE_STATE_NDMA      (1 << 3)
->
-> And a .add_capability ops will be used to signal to userspace driver support:
->
->    +#define VFIO_REGION_INFO_CAP_MIGRATION_NDMA    6
->
-> I've described DIRTY TRACKING as a seperate concept here. With the current
-> uAPI this would be controlled by VFIO_IOMMU_DIRTY_PAGES_FLAG_START, with our
-> change in direction this would be per-tracker control, but no semantic change.
->
-> Upon some agreement we'll include this patch in the next iteration of the mlx5 driver
-> along with the NDMA bits.
->
-> Thanks,
-> Jason
->
-> diff --git a/Documentation/driver-api/vfio.rst b/Documentation/driver-api/vfio.rst
-> index c663b6f978255b..b28c6fb89ee92f 100644
-> --- a/Documentation/driver-api/vfio.rst
-> +++ b/Documentation/driver-api/vfio.rst
-> @@ -242,7 +242,213 @@ group and can access them as follows::
->  VFIO User API
->  -------------------------------------------------------------------------------
->  
-> -Please see include/linux/vfio.h for complete API documentation.
-> +Please see include/uapi/linux/vfio.h for complete API documentation.
-> +
-> +-------------------------------------------------------------------------------
-> +
-> +VFIO migration driver API
-> +-------------------------------------------------------------------------------
-> +
-> +VFIO drivers that support migration implement a migration control register
-> +called device_state in the struct vfio_device_migration_info which is in its
-> +VFIO_REGION_TYPE_MIGRATION region.
-> +
-> +The device_state triggers device action both when bits are set/cleared and
-> +continuous behavior for each bit. For VMMs they can also control if the VCPUs in
-> +a VM are executing (VCPU RUNNING) and if the IOMMU is logging DMAs (DIRTY
-> +TRACKING). These two controls are not part of the device_state register, KVM
-> +will be used to control the VCPU and VFIO_IOMMU_DIRTY_PAGES_FLAG_START on the
-> +container controls dirty tracking.
-> +
-> +Along with the device_state the migration driver provides a data window which
-> +allows streaming migration data into or out of the device.
-> +
-> +A lot of flexibility is provided to userspace in how it operates these bits. The
-> +reference flow for saving device state in a live migration, with all features:
-> +
-> +  RUNNING, VCPU_RUNNING
-> +     Normal operating state
-> +  RUNNING, DIRTY TRACKING, VCPU RUNNING
-> +     Log DMAs
-> +     Stream all memory
+> This file is included in the docs build via the glob pattern that I added to 
+> the toctree in Documentation/bpf/maps.rst, which was recently applied to
+> bpf-next [1].
 
-So I'd recommend actually building the docs and looking at the result;
-this will not render the way you expect it to.  I'd suggest using a
-literal block for preformatted sections like this.
+Interesting, I didn't know about :glob: - thanks for teaching me
+something and apologies for the noise :)
 
 Thanks,
 
