@@ -2,89 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16366C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Nov 2021 07:34:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CBECC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Nov 2021 07:39:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238812AbhKVHhv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Nov 2021 02:37:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36426 "EHLO
+        id S230142AbhKVHme (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Nov 2021 02:42:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229711AbhKVHhv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Nov 2021 02:37:51 -0500
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AD01C061714
-        for <linux-doc@vger.kernel.org>; Sun, 21 Nov 2021 23:34:45 -0800 (PST)
-Received: by mail-pg1-x52c.google.com with SMTP id r138so5007016pgr.13
-        for <linux-doc@vger.kernel.org>; Sun, 21 Nov 2021 23:34:45 -0800 (PST)
+        with ESMTP id S232847AbhKVHmd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Nov 2021 02:42:33 -0500
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 899AAC061574
+        for <linux-doc@vger.kernel.org>; Sun, 21 Nov 2021 23:39:27 -0800 (PST)
+Received: by mail-pj1-x102e.google.com with SMTP id v23so13099472pjr.5
+        for <linux-doc@vger.kernel.org>; Sun, 21 Nov 2021 23:39:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=LdaWIVV66AnYvZDioQXEttBzNC/hd0WDtpDAz2dRNNE=;
-        b=KG2WHzvKQGUkR1Z9aHB2oFXjn8rJ3UJnZjjK2dV1198tlorfoosTqH5lGGvH4dyXDw
-         QwdN/cniW2C9UyrDW8RStkY7M3MDNmHUODgdV7JvUz9kE7l8fUUzAIrM7k87eSXRG25S
-         r4MIgKsA7VZ6lpOXq5+pvgV9oLdOCSz9dpV3HibUvmzYLNVOKapBafe3ES0eY9x198nL
-         FGnLPkGyFbJTWP5wgxdZIn0XbFf7FV8XnCKGe/+2iPP448IllivFRfyBhgibE4Ci+H9N
-         4IFS5wkli/gWzgEq+gA8BNxNUEqB3V60tphTmFWvUilpV9ayVm5n1i+Oj6aRrk6N2omx
-         rsQA==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=El4EgUFISJEHsI2Fm1jq1yS25FMZPtBFKskz024n6kc=;
+        b=BJdIXTltz32FymudVjyrJ8nRjr1UM4LC3MTRE+i2k8+TF2RBOMrzMz4tdXtnXVTja6
+         ZJS/tLXujzBv9eGs/M5gCaDXLDSLAbkIg89IpMQPw2JBf3bLOA1HXdsK6Bv2a0rZ+ul8
+         pv9e1J0heFGPp1yHyZFIM1dz4MUoMqptg9B1GU+QYiRizLopcIaqU3wfL+qTGSZrNBy2
+         jI+MKMS2J7WgNzrcfX+PiMFnc3f/JBK+r7FLRTF0VXVYxZb9Dt/a+dZu0tocItAPJu4w
+         tH0mMjy1UJWW5CSh8jfDATm8P3HvrIHhEwce2k0Ja0egkD6cyEZY+5+FK5mDHN3jzZTq
+         ltwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=LdaWIVV66AnYvZDioQXEttBzNC/hd0WDtpDAz2dRNNE=;
-        b=0E9ST8stE2jOW7pzhWfQTB5HMo47lvyMf54t2SUEyxcZaaG/uOAjroMCBJn8DpDLCQ
-         rfOwl30RrUXhQWqq+8K5NwdxG0Wr/6j/nqhLDBow7dnpYZn7jnDiH3HgYUO4lmyYufC2
-         N9p72c6bC6j+jkoSZYbRpPOfKjc6MbuVCXKoJWjZ8t4U107GFL1fT9evtcVi04SXSNIU
-         Dcm3MZkmg5tsbx0f+0elThzHq0LvfYgn2Nv4rR4ByGrxU4coRAWoZ95AlKujBqWAWQ2a
-         zOejC+8bN0XEyDkL1Q4wWMD1y0Y0f/pyd3xCq0IfQ9lv1dCTrUXiZ/22c7NbxQoMGFP1
-         tqCw==
-X-Gm-Message-State: AOAM532DzanLvuA7UNfR9GBh2i5nF8crlDckspNYEwzmBG1SJ6Tk+o7a
-        QWl6+ztck/JIyxny7Rr5JtIQJw==
-X-Google-Smtp-Source: ABdhPJzG4d8nuiw8MpOKbGi5ynV93hARNi2HDnMotlUY6Rx6JOlMvw2fL9I2deYlAjhanP8kYPM4ZA==
-X-Received: by 2002:a63:f749:: with SMTP id f9mr31900558pgk.330.1637566484783;
-        Sun, 21 Nov 2021 23:34:44 -0800 (PST)
-Received: from [10.76.43.192] ([61.120.150.76])
-        by smtp.gmail.com with ESMTPSA id on6sm20781535pjb.47.2021.11.21.23.34.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 21 Nov 2021 23:34:44 -0800 (PST)
-Message-ID: <25626b34-9dd2-2e89-0c35-be40e62b6e09@bytedance.com>
-Date:   Mon, 22 Nov 2021 15:34:36 +0800
+        bh=El4EgUFISJEHsI2Fm1jq1yS25FMZPtBFKskz024n6kc=;
+        b=fPLNthGub/a2q4s3evt24Hhjk3Fet/IKnXW6egLUt3lRoIb38Ur87TdhCsccF8WCoF
+         hsdiKyYGy7qGO7jzbix8Z6IqUF2eU+/b9f3EqludAQJPLKu0jemDU2PLNIPQYh6ELlby
+         0GAx+1zEUUB0ZkufIpL/j7D10MPioARTTa2pNZ6PMhgYNftMQ45EXKg0du5qJqCzh5Xr
+         jeoNUKNOjGPQW6o/zRvE51i1ZJJAqyzuUif7E/9q0TboyZ+jeYmvbnSNesO14C+6fnzu
+         Cu1s/0M9K6WpeUicOrmQhdhU4jR4h3NwghvZztEOC09Up03ZJfYHGVzDylVQ0LqffiPe
+         ey5Q==
+X-Gm-Message-State: AOAM530mQmaWCneMvVUErAw23yG2IqxqvItaJ8BBFIE8Q9IERj3nCNBl
+        cr88Km1jxspw/nwGmgrdF5EYz7nKgFCEKA==
+X-Google-Smtp-Source: ABdhPJxq3xlWJnIrVduPJVCfnJzU2BunTPzHj80GLe3rUrUIH45AtgR0kcYuDpW+OCUNrm6jVPVuGw==
+X-Received: by 2002:a17:902:e544:b0:144:e3fa:3c2e with SMTP id n4-20020a170902e54400b00144e3fa3c2emr38073272plf.17.1637566767071;
+        Sun, 21 Nov 2021 23:39:27 -0800 (PST)
+Received: from localhost.localdomain ([8.26.182.175])
+        by smtp.gmail.com with ESMTPSA id j7sm7800671pfc.74.2021.11.21.23.39.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Nov 2021 23:39:26 -0800 (PST)
+From:   Yanteng Si <siyanteng01@gmail.com>
+X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
+To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
+        seakeel@gmail.com
+Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
+        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
+        realpuyuwang@gmail.com, siyanteng01@gmail.com
+Subject: [PATCH v3 0/2] docs/zh_CN: add pciebus-howto and pci-iov-howto translation
+Date:   Mon, 22 Nov 2021 15:38:17 +0800
+Message-Id: <cover.1637565438.git.siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.3.2
-Subject: Re: Re: [PATCH v1] sched/numa: add per-process numa_balancing
-Content-Language: en-US
-To:     Mel Gorman <mgorman@suse.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20211027132633.86653-1-ligang.bdlg@bytedance.com>
- <20211028153028.GP3891@suse.de>
-From:   Gang Li <ligang.bdlg@bytedance.com>
-In-Reply-To: <20211028153028.GP3891@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021/10/28 23:30, Mel Gorman wrote:
-> 
-> This would also need a prctl(2) patch.
-> 
+v3:
 
-Hi!
+* Testing on the next-20211118.
 
-Should prctl(2) and this patch be combined into one series?
+v2:
+
+* Pick Alex's reviewed-by tag.
+
+v1:
+
+* Translate .../PCI/pci-iov-howto.rst and .../PCI/pciebus-howto.rst into Chinese.
+
+Yanteng Si (2):
+  docs/zh_CN: add pciebus-howto translation
+  docs/zh_CN: add pci-iov-howto translation
+
+ .../translations/zh_CN/PCI/index.rst          |   5 +-
+ .../translations/zh_CN/PCI/pci-iov-howto.rst  | 170 ++++++++++++++++
+ .../translations/zh_CN/PCI/pciebus-howto.rst  | 192 ++++++++++++++++++
+ 3 files changed, 365 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/PCI/pci-iov-howto.rst
+ create mode 100644 Documentation/translations/zh_CN/PCI/pciebus-howto.rst
+
 -- 
-Thanks
-Gang Li
+2.27.0
 
