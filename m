@@ -2,103 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E51EC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Nov 2021 11:49:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8760C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Nov 2021 16:21:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239175AbhKVLwn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Nov 2021 06:52:43 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28]:47920 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239195AbhKVLwn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Nov 2021 06:52:43 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        id S239067AbhKVQYW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Nov 2021 11:24:22 -0500
+Received: from mail.kernel.org ([198.145.29.99]:36370 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233052AbhKVQYU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 22 Nov 2021 11:24:20 -0500
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 2CC7F218E0;
-        Mon, 22 Nov 2021 11:49:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1637581776; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ObHlJX+R6cBz3I2hvhUPz/10AQi87lwvc2sZDEvI3VE=;
-        b=pC9h4uErDeLn+eKrpMVExMKYRS39+xv65yzVI0iF7At5cqM0LBbBjmc3TkJG0MuTFUTrVy
-        JBQWvJ9EIO85wp4lDe/f0O+z5hc1wSLKYhhzdKvGu3pO0xNMw3fWYrhLwM6cJmBAZpbVsC
-        558EbchJHhDTZXob1EVLvW4bDhYKbfU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1637581776;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ObHlJX+R6cBz3I2hvhUPz/10AQi87lwvc2sZDEvI3VE=;
-        b=tvZlQKUCgDN60iH/W7LwC9S8/MnG7+/Kkg2Irtpv8pgupjX06mgyYD1iIACxWqO16abNyi
-        cwZ3bFJiboMpjICQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EC0A313B90;
-        Mon, 22 Nov 2021 11:49:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id X4IROc+Dm2HzIwAAMHmgww
-        (envelope-from <vbabka@suse.cz>); Mon, 22 Nov 2021 11:49:35 +0000
-Message-ID: <56c0671c-6db2-05ac-66a0-6f24101e6c5a@suse.cz>
-Date:   Mon, 22 Nov 2021 12:49:35 +0100
+        by mail.kernel.org (Postfix) with ESMTPSA id 710B160D42;
+        Mon, 22 Nov 2021 16:21:08 +0000 (UTC)
+Date:   Mon, 22 Nov 2021 11:21:06 -0500
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Marco Elver <elver@google.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Alexander Popov <alex.popov@linux.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul McKenney <paulmck@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Joerg Roedel <jroedel@suse.de>,
+        Maciej Rozycki <macro@orcam.me.uk>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Luis Chamberlain <mcgrof@kernel.org>, Wei Liu <wl@xen.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Alexey Kardashevskiy <aik@ozlabs.ru>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Jann Horn <jannh@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Will Deacon <will@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Laura Abbott <labbott@kernel.org>,
+        David S Miller <davem@davemloft.net>,
+        Borislav Petkov <bp@alien8.de>, Arnd Bergmann <arnd@arndb.de>,
+        Andrew Scull <ascull@google.com>,
+        Marc Zyngier <maz@kernel.org>, Jessica Yu <jeyu@kernel.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Wang Qing <wangqing@vivo.com>, Mel Gorman <mgorman@suse.de>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Andrew Klychkov <andrew.a.klychkov@gmail.com>,
+        Mathieu Chouquet-Stringer <me@mathieu.digital>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Stephen Kitt <steve@sk2.org>, Stephen Boyd <sboyd@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Mike Rapoport <rppt@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-hardening@vger.kernel.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>, notify@kernel.org,
+        main@lists.elisa.tech, safety-architecture@lists.elisa.tech,
+        devel@lists.elisa.tech, Shuah Khan <shuah@kernel.org>
+Subject: Re: [PATCH v2 0/2] Introduce the pkill_on_warn parameter
+Message-ID: <20211122112106.5fa656bc@gandalf.local.home>
+In-Reply-To: <YZjnREFGhEO9pX6O@elver.google.com>
+References: <20211027233215.306111-1-alex.popov@linux.com>
+        <ac989387-3359-f8da-23f9-f5f6deca4db8@linux.com>
+        <CAHk-=wgRmjkP3+32XPULMLTkv24AkA=nNLa7xxvSg-F0G1sJ9g@mail.gmail.com>
+        <77b79f0c-48f2-16dd-1d00-22f3a1b1f5a6@linux.com>
+        <CAKXUXMx5Oi-dNVKB+8E-pdrz+ooELMZf=oT_oGXKFrNWejz=fg@mail.gmail.com>
+        <20211115110649.4f9cb390@gandalf.local.home>
+        <202111151116.933184F716@keescook>
+        <YZjnREFGhEO9pX6O@elver.google.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.1
-Content-Language: en-US
-To:     Christoph Lameter <cl@gentwo.org>
-Cc:     Rustam Kovhaev <rkovhaev@gmail.com>, penberg@kernel.org,
-        rientjes@google.com, iamjoonsoo.kim@lge.com,
-        akpm@linux-foundation.org, corbet@lwn.net, djwong@kernel.org,
-        david@fromorbit.com, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        gregkh@linuxfoundation.org, viro@zeniv.linux.org.uk,
-        dvyukov@google.com
-References: <037227db-c869-7d9c-65e8-8f5f8682171d@suse.cz>
- <20211122013026.909933-1-rkovhaev@gmail.com>
- <alpine.DEB.2.22.394.2111221018070.202803@gentwo.de>
- <3c996e22-034f-1013-3978-1f786aae38fb@suse.cz>
- <alpine.DEB.2.22.394.2111221133110.204314@gentwo.de>
- <148d2774-77b9-bb25-c132-80b00e16ea06@suse.cz>
- <alpine.DEB.2.22.394.2111221239050.205511@gentwo.de>
-From:   Vlastimil Babka <vbabka@suse.cz>
-Subject: Re: [PATCH v4] slob: add size header to all allocations
-In-Reply-To: <alpine.DEB.2.22.394.2111221239050.205511@gentwo.de>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/22/21 12:40, Christoph Lameter wrote:
-> On Mon, 22 Nov 2021, Vlastimil Babka wrote:
-> 
->> It's no problem to have the real beginning of the object aligned, and the
->> prepended header not. The code already does that before this patch for the
->> kmalloc power-of-two alignments, where e.g. the object can be aligned to 256
->> bytes, but the prepended header to a smaller ARCH_KMALLOC_MINALIGN /
->> ARCH_SLAB_MINALIGN.
-> 
-> Ok but then the first object in a page may still have those issues.
+On Sat, 20 Nov 2021 13:17:08 +0100
+Marco Elver <elver@google.com> wrote:
 
-Hmm, that's right. I guess we should also distinguish ARCH_KMALLOC_MINALIGN
-for kmalloc paths, and ARCH_SLAB_MINALIGN for kmem_cache_alloc paths. Seems
-the latter is generally smaller, thus some holes left by kmalloc allocations
-could be filled later by kmem_cache_alloc allocations.
 
+> I think userspace would want something other than perf tool to handle it
+> of course.  There are several options:
 > 
->> > I dont know but it seems that making slob that sophisticated is counter
->> > productive. Remove SLOB?
->>
->> I wouldn't mind, but somebody might :)
-> 
-> Well run a space efficiency analysis after this patch. If the memory used
-> is larger than SLUB (with the configuration for minimal data footprint)
-> then there is no reason for SLOB to continue.
+> 	1. Open trace pipe to be notified (/sys/kernel/tracing/trace_pipe).
+> 	   This already includes the pid.
 
-Makes sense.
+I would suggest using /sys/kernel/tracing/per_cpu/cpu*/trace_pipe_raw
+
+and use libtracefs[1] to read it.
+
+-- Steve
+
+[1] https://git.kernel.org/pub/scm/libs/libtrace/libtracefs.git/
