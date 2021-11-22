@@ -2,433 +2,348 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38DC1C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Nov 2021 01:30:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB03AC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Nov 2021 02:29:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229870AbhKVBdy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 21 Nov 2021 20:33:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41822 "EHLO
+        id S229775AbhKVCc6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 21 Nov 2021 21:32:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229594AbhKVBdy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 21 Nov 2021 20:33:54 -0500
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCA84C061574;
-        Sun, 21 Nov 2021 17:30:48 -0800 (PST)
-Received: by mail-pg1-x52c.google.com with SMTP id r138so4298041pgr.13;
-        Sun, 21 Nov 2021 17:30:48 -0800 (PST)
+        with ESMTP id S229686AbhKVCc5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 21 Nov 2021 21:32:57 -0500
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 088EBC061574
+        for <linux-doc@vger.kernel.org>; Sun, 21 Nov 2021 18:29:51 -0800 (PST)
+Received: by mail-oi1-x235.google.com with SMTP id o4so34899656oia.10
+        for <linux-doc@vger.kernel.org>; Sun, 21 Nov 2021 18:29:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=dZKWJhZzTjmnE7DsfZ02p2XlIMa+d3z82dVT8OwB3qw=;
-        b=LDoy3Id/f1/iYFO1Z3JJlp/2QCxf/ab4EVYGcxRCH4Sb9DRFaiOHvJxqA4PtF6RP9f
-         Vtj6dE/B7mfUcJwzW7oE+iZtDfw/Vpc2reuuAx9bTKH2CAcy23Wl91TRQAm0ylsEzSU6
-         tSQEVVfCVHdJmz3HKDhqHkNT67I8AcYNoFiMb970XxKA1RBOYYNYn9eB/GZ5JWbTvc+M
-         Q5la9TRJefk+qAJKIAR5oD33zef7CIRjapo1LJv7Nuj51qzKZ61VFf8kRnthPW37cyCF
-         +sz1VfroBN7ruy/UyUjJ2gnMszzetAiq1qfkqDtFNWBmW97rYlk8N3f7TAtoCaHg7RC5
-         ff8g==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=k+Lmglr8/wZYaN8lTGQPdaXWaPdUIoTXor/JgqWwJ5U=;
+        b=kAP2weinvP25UcGbQWcJY0PRZZCueGPr6dSkA3+R9EQBhco3Rgdz893zw9hCoygxxY
+         3zjkWnBBQN+PI5jX70AgJRizwd9HaqRC6izDd3p7uX7Q55FuHqCvsEcbzIO/UwwW44V+
+         IBJHlEL+35LiSbeYljH5nVHq+8L7VQfUjIAhJKCjnxSykP6miUjdO3r3fd3X9OGsG7TS
+         x5EEiN9dw4X9PhZUG6/lxgbeI2HCVxaUAoL0xCHgMavzL+1qR+NqZkFxZjnqVxXcPA3h
+         7xV/doAXOpkLmrxcCF8f6zenUbxlFEvDo5KYGkRg4kHF9gTf2WfUXgcY2KyQV+44zr5m
+         tmdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=dZKWJhZzTjmnE7DsfZ02p2XlIMa+d3z82dVT8OwB3qw=;
-        b=gS5Fd2JhCl9YlbZmKvBdpAHxs2iDou5tkFKAZ7RVPbWxTumKAwXysUwak/0hCjXttT
-         AJ4milz2fplwtKoYPuliha4KuZfhllKOUnuVYfcOh2trvIlywffuiPY11u/R7OcJTrU1
-         nzmPxfrEXT87TJOg6Eepg/oZoUCnceFTIowMRBTBIIw058DiRRJEc1Q960f1eKTclTH7
-         TkZX/gQ1ocEy4iVf6Ufj5/24P9I6AlKMKeYqJRRAtryEVH7f8QFqWx3HLB24M41b7SGa
-         6yMag4SHAmvBxMDAvNcskQEMVNa/CC2cWrkwhT1DOVNuDvaTRFV7Va9qLJYqh/U+upj/
-         8xAQ==
-X-Gm-Message-State: AOAM533xZL+w9OBW1+9GSyHBlApcVhIysazGKouDO8RYgF92fQJC+19V
-        zkW4pigourytiKgfx0zy4HI=
-X-Google-Smtp-Source: ABdhPJyyBOG2+fLdE2HOuYg8n8vzTmgOcBE2mGOP+wpjY+QMMNPjrzDM062Ke6hNFRnhahwA2ECBtg==
-X-Received: by 2002:a62:9202:0:b0:4a4:f09e:7d75 with SMTP id o2-20020a629202000000b004a4f09e7d75mr2830562pfd.33.1637544647728;
-        Sun, 21 Nov 2021 17:30:47 -0800 (PST)
-Received: from nuc10.amust.local (d50-92-229-34.bchsia.telus.net. [50.92.229.34])
-        by smtp.gmail.com with ESMTPSA id t12sm16276874pjo.44.2021.11.21.17.30.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Nov 2021 17:30:47 -0800 (PST)
-From:   Rustam Kovhaev <rkovhaev@gmail.com>
-To:     vbabka@suse.cz, cl@linux.com, penberg@kernel.org,
-        rientjes@google.com, iamjoonsoo.kim@lge.com,
-        akpm@linux-foundation.org, corbet@lwn.net
-Cc:     djwong@kernel.org, david@fromorbit.com,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
-        viro@zeniv.linux.org.uk, dvyukov@google.com,
-        Rustam Kovhaev <rkovhaev@gmail.com>
-Subject: [PATCH v4] slob: add size header to all allocations
-Date:   Sun, 21 Nov 2021 17:30:26 -0800
-Message-Id: <20211122013026.909933-1-rkovhaev@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <037227db-c869-7d9c-65e8-8f5f8682171d@suse.cz>
-References: <037227db-c869-7d9c-65e8-8f5f8682171d@suse.cz>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=k+Lmglr8/wZYaN8lTGQPdaXWaPdUIoTXor/JgqWwJ5U=;
+        b=h07G9m6aAlJFMuHh+HzOcZ25C42j028SQ9oB6mFfJ2ga3qNAny+9rbrAgGi/jWhbRz
+         rUmDNwgSpJBb/JYjgKDeQL9l6k6YRyBWzOqgfyReRq6Xf2/5te4I5YH0ZuFwcITlPurS
+         JJ+aStMRjiyup8vof9rVDQ//XDZlDMRush/uW00bH9/Fz+v/6LxRw0gZkSSVnqSvY98O
+         ZX02W92ycMwVLOJlM8ML/ncYNY2Dh+DwfD7lH3rUNcm6diE7vOG05mlMZBpuNDIFcL3k
+         ZdVlPy82QSiRHaWXMycEvTKU4lJudWLp/7RvrITq+gxVfBTuZVuO650mAdj5sb2DknxF
+         2dKg==
+X-Gm-Message-State: AOAM533iRhRuBnFOp+nzMkLdR1D/UP3nxcm/jYr7T7kBTTyN0YhdAe9G
+        kqn4bcUpF5iObq7ttIhdkxegI66QMq8s9shBoIQ=
+X-Google-Smtp-Source: ABdhPJwgCxpXjJQHMKXFW9PRZAyL3qtqTn/G6DiBThRUeMpgRKBS3Z1mc9r1ASdLH0sADHLp1MVtHSEaHyD4tU8KX5k=
+X-Received: by 2002:aca:61c6:: with SMTP id v189mr17559561oib.103.1637548190927;
+ Sun, 21 Nov 2021 18:29:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1637287018.git.siyanteng@loongson.cn> <d1445222d911a089fd34c0790c979f3b75b828ee.1637287018.git.siyanteng@loongson.cn>
+ <CAJy-Amm78hnQLKHcZ-D5shBafst98FO8-Wu1LK4NBtcqnSN+Ww@mail.gmail.com>
+In-Reply-To: <CAJy-Amm78hnQLKHcZ-D5shBafst98FO8-Wu1LK4NBtcqnSN+Ww@mail.gmail.com>
+From:   yanteng si <siyanteng01@gmail.com>
+Date:   Mon, 22 Nov 2021 10:29:39 +0800
+Message-ID: <CAEensMxM-ahwJL2ahARZ_kF_OCf7-RrM_Ko2KD=Gh4WRSoM33w@mail.gmail.com>
+Subject: Re: [PATCH 2/2] docs/zh_CN: add completion translation
+To:     Alex Shi <seakeel@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        "Wu X.C." <bobwxc@email.cn>, Yanteng Si <siyanteng@loongson.cn>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Puyu Wang <realpuyuwang@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Let's prepend both kmalloc() and kmem_cache_alloc() allocations with the
-size header.
-It simplifies the slab API and guarantees that both kmem_cache_alloc()
-and kmalloc() memory could be freed by kfree().
-
-meminfo right after the system boot, x86-64 on xfs, without the patch:
-Slab:              34700 kB
-
-the same, with the patch:
-Slab:              35752 kB
-
-Link: https://lore.kernel.org/lkml/20210929212347.1139666-1-rkovhaev@gmail.com
-Signed-off-by: Rustam Kovhaev <rkovhaev@gmail.com>
----
-v4:
- - Drop the align_offset parameter and pass size unchanged to
-   slob_alloc()
- - Add SLOB_HDR_SIZE to size in slob_alloc()
-
-v3:
- - Add SLOB_HDR_SIZE define
- - Remove references to minalign
- - Improve documentation wording
-
-v2:
- - Allocate compound pages in slob_alloc_node()
- - Use slob_free_pages() in kfree()
- - Update documentation
----
- Documentation/core-api/memory-allocation.rst |  12 +-
- mm/slob.c                                    | 140 +++++++++----------
- 2 files changed, 72 insertions(+), 80 deletions(-)
-
-diff --git a/Documentation/core-api/memory-allocation.rst b/Documentation/core-api/memory-allocation.rst
-index 5954ddf6ee13..31806d5ebeec 100644
---- a/Documentation/core-api/memory-allocation.rst
-+++ b/Documentation/core-api/memory-allocation.rst
-@@ -170,7 +170,11 @@ should be used if a part of the cache might be copied to the userspace.
- After the cache is created kmem_cache_alloc() and its convenience
- wrappers can allocate memory from that cache.
- 
--When the allocated memory is no longer needed it must be freed. You can
--use kvfree() for the memory allocated with `kmalloc`, `vmalloc` and
--`kvmalloc`. The slab caches should be freed with kmem_cache_free(). And
--don't forget to destroy the cache with kmem_cache_destroy().
-+When the allocated memory is no longer needed it must be freed.
-+Objects allocated by `kmalloc` can be freed with `kfree` or `kvfree`.
-+Objects allocated by `kmem_cache_alloc` can be freed with `kmem_cache_free`
-+or also by `kfree` or `kvfree`.
-+Memory allocated by `vmalloc` can be freed with `vfree` or `kvfree`.
-+Memory allocated by `kvmalloc` can be freed with `kvfree`.
-+Caches created by `kmem_cache_create` should be freed with
-+`kmem_cache_destroy`.
-diff --git a/mm/slob.c b/mm/slob.c
-index 03deee1e6a94..5cc49102e070 100644
---- a/mm/slob.c
-+++ b/mm/slob.c
-@@ -25,23 +25,18 @@
-  * into the free list in address order, so this is effectively an
-  * address-ordered first fit.
-  *
-- * Above this is an implementation of kmalloc/kfree. Blocks returned
-- * from kmalloc are prepended with a 4-byte header with the kmalloc size.
-- * If kmalloc is asked for objects of PAGE_SIZE or larger, it calls
-- * alloc_pages() directly, allocating compound pages so the page order
-- * does not have to be separately tracked.
-- * These objects are detected in kfree() because PageSlab()
-- * is false for them.
-+ * Blocks that are less than (PAGE_SIZE - SLOB_HDR_SIZE) are prepended with
-+ * a 4-byte header with the size. Larger blocks do not have the header and
-+ * SLOB calls alloc_pages() directly, allocating compound pages so the
-+ * page order does not have to be separately tracked. These objects are
-+ * detected in kfree() because PageSlab() is false for them.
-  *
-  * SLAB is emulated on top of SLOB by simply calling constructors and
-  * destructors for every SLAB allocation. Objects are returned with the
-  * 4-byte alignment unless the SLAB_HWCACHE_ALIGN flag is set, in which
-  * case the low-level allocator will fragment blocks to create the proper
-- * alignment. Again, objects of page-size or greater are allocated by
-- * calling alloc_pages(). As SLAB objects know their size, no separate
-- * size bookkeeping is necessary and there is essentially no allocation
-- * space overhead, and compound pages aren't needed for multi-page
-- * allocations.
-+ * alignment. Again, objects of (PAGE_SIZE - SLOB_HDR_SIZE) or greater are
-+ * allocated by calling alloc_pages().
-  *
-  * NUMA support in SLOB is fairly simplistic, pushing most of the real
-  * logic down to the page allocator, and simply doing the node accounting
-@@ -88,6 +83,8 @@ typedef s16 slobidx_t;
- typedef s32 slobidx_t;
- #endif
- 
-+#define SLOB_HDR_SIZE max(ARCH_KMALLOC_MINALIGN, ARCH_SLAB_MINALIGN)
-+
- struct slob_block {
- 	slobidx_t units;
- };
-@@ -207,12 +204,14 @@ static void *slob_new_pages(gfp_t gfp, int order, int node)
- 	return page_address(page);
- }
- 
--static void slob_free_pages(void *b, int order)
-+static void slob_free_pages(struct page *sp, int order)
- {
--	struct page *sp = virt_to_page(b);
--
--	if (current->reclaim_state)
--		current->reclaim_state->reclaimed_slab += 1 << order;
-+	if (PageSlab(sp)) {
-+		__ClearPageSlab(sp);
-+		page_mapcount_reset(sp);
-+		if (current->reclaim_state)
-+			current->reclaim_state->reclaimed_slab += 1 << order;
-+	}
- 
- 	mod_node_page_state(page_pgdat(sp), NR_SLAB_UNRECLAIMABLE_B,
- 			    -(PAGE_SIZE << order));
-@@ -247,9 +246,7 @@ static void *slob_page_alloc(struct page *sp, size_t size, int align,
- 		/*
- 		 * 'aligned' will hold the address of the slob block so that the
- 		 * address 'aligned'+'align_offset' is aligned according to the
--		 * 'align' parameter. This is for kmalloc() which prepends the
--		 * allocated block with its size, so that the block itself is
--		 * aligned when needed.
-+		 * 'align' parameter.
- 		 */
- 		if (align) {
- 			aligned = (slob_t *)
-@@ -298,8 +295,7 @@ static void *slob_page_alloc(struct page *sp, size_t size, int align,
- /*
-  * slob_alloc: entry point into the slob allocator.
-  */
--static void *slob_alloc(size_t size, gfp_t gfp, int align, int node,
--							int align_offset)
-+static void *slob_alloc(size_t size, gfp_t gfp, int align, int node)
- {
- 	struct page *sp;
- 	struct list_head *slob_list;
-@@ -307,6 +303,7 @@ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node,
- 	unsigned long flags;
- 	bool _unused;
- 
-+	size += SLOB_HDR_SIZE;
- 	if (size < SLOB_BREAK1)
- 		slob_list = &free_slob_small;
- 	else if (size < SLOB_BREAK2)
-@@ -330,7 +327,7 @@ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node,
- 		if (sp->units < SLOB_UNITS(size))
- 			continue;
- 
--		b = slob_page_alloc(sp, size, align, align_offset, &page_removed_from_list);
-+		b = slob_page_alloc(sp, size, align, SLOB_HDR_SIZE, &page_removed_from_list);
- 		if (!b)
- 			continue;
- 
-@@ -367,31 +364,32 @@ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node,
- 		INIT_LIST_HEAD(&sp->slab_list);
- 		set_slob(b, SLOB_UNITS(PAGE_SIZE), b + SLOB_UNITS(PAGE_SIZE));
- 		set_slob_page_free(sp, slob_list);
--		b = slob_page_alloc(sp, size, align, align_offset, &_unused);
-+		b = slob_page_alloc(sp, size, align, SLOB_HDR_SIZE, &_unused);
- 		BUG_ON(!b);
- 		spin_unlock_irqrestore(&slob_lock, flags);
- 	}
- 	if (unlikely(gfp & __GFP_ZERO))
- 		memset(b, 0, size);
--	return b;
-+	/* Write size in the header */
-+	*(unsigned int *)b = size - SLOB_HDR_SIZE;
-+	return (void *)b + SLOB_HDR_SIZE;
- }
- 
- /*
-  * slob_free: entry point into the slob allocator.
-  */
--static void slob_free(void *block, int size)
-+static void slob_free(void *block)
- {
- 	struct page *sp;
--	slob_t *prev, *next, *b = (slob_t *)block;
-+	slob_t *prev, *next, *b = block - SLOB_HDR_SIZE;
-+	unsigned int size;
- 	slobidx_t units;
- 	unsigned long flags;
- 	struct list_head *slob_list;
- 
--	if (unlikely(ZERO_OR_NULL_PTR(block)))
--		return;
--	BUG_ON(!size);
--
--	sp = virt_to_page(block);
-+	size = *(unsigned int *)b + SLOB_HDR_SIZE;
-+	BUG_ON(!size || size >= PAGE_SIZE);
-+	sp = virt_to_page(b);
- 	units = SLOB_UNITS(size);
- 
- 	spin_lock_irqsave(&slob_lock, flags);
-@@ -401,9 +399,7 @@ static void slob_free(void *block, int size)
- 		if (slob_page_free(sp))
- 			clear_slob_page_free(sp);
- 		spin_unlock_irqrestore(&slob_lock, flags);
--		__ClearPageSlab(sp);
--		page_mapcount_reset(sp);
--		slob_free_pages(b, 0);
-+		slob_free_pages(sp, 0);
- 		return;
- 	}
- 
-@@ -476,36 +472,29 @@ void kmem_obj_info(struct kmem_obj_info *kpp, void *object, struct page *page)
- static __always_inline void *
- __do_kmalloc_node(size_t size, gfp_t gfp, int node, unsigned long caller)
- {
--	unsigned int *m;
--	int minalign = max_t(size_t, ARCH_KMALLOC_MINALIGN, ARCH_SLAB_MINALIGN);
- 	void *ret;
- 
- 	gfp &= gfp_allowed_mask;
- 
- 	might_alloc(gfp);
- 
--	if (size < PAGE_SIZE - minalign) {
--		int align = minalign;
-+	if (size < PAGE_SIZE - SLOB_HDR_SIZE) {
-+		int align = SLOB_HDR_SIZE;
- 
- 		/*
- 		 * For power of two sizes, guarantee natural alignment for
- 		 * kmalloc()'d objects.
- 		 */
- 		if (is_power_of_2(size))
--			align = max(minalign, (int) size);
-+			align = max(align, (int) size);
- 
- 		if (!size)
- 			return ZERO_SIZE_PTR;
- 
--		m = slob_alloc(size + minalign, gfp, align, node, minalign);
--
--		if (!m)
--			return NULL;
--		*m = size;
--		ret = (void *)m + minalign;
-+		ret = slob_alloc(size, gfp, align, node);
- 
- 		trace_kmalloc_node(caller, ret,
--				   size, size + minalign, gfp, node);
-+				   size, size + SLOB_HDR_SIZE, gfp, node);
- 	} else {
- 		unsigned int order = get_order(size);
- 
-@@ -553,26 +542,17 @@ void kfree(const void *block)
- 	kmemleak_free(block);
- 
- 	sp = virt_to_page(block);
--	if (PageSlab(sp)) {
--		int align = max_t(size_t, ARCH_KMALLOC_MINALIGN, ARCH_SLAB_MINALIGN);
--		unsigned int *m = (unsigned int *)(block - align);
--		slob_free(m, *m + align);
--	} else {
--		unsigned int order = compound_order(sp);
--		mod_node_page_state(page_pgdat(sp), NR_SLAB_UNRECLAIMABLE_B,
--				    -(PAGE_SIZE << order));
--		__free_pages(sp, order);
--
--	}
-+	if (PageSlab(sp))
-+		slob_free((void *)block);
-+	else
-+		slob_free_pages(sp, compound_order(sp));
- }
- EXPORT_SYMBOL(kfree);
- 
--/* can't use ksize for kmem_cache_alloc memory, only kmalloc */
- size_t __ksize(const void *block)
- {
- 	struct page *sp;
--	int align;
--	unsigned int *m;
-+	unsigned int size;
- 
- 	BUG_ON(!block);
- 	if (unlikely(block == ZERO_SIZE_PTR))
-@@ -582,9 +562,8 @@ size_t __ksize(const void *block)
- 	if (unlikely(!PageSlab(sp)))
- 		return page_size(sp);
- 
--	align = max_t(size_t, ARCH_KMALLOC_MINALIGN, ARCH_SLAB_MINALIGN);
--	m = (unsigned int *)(block - align);
--	return SLOB_UNITS(*m) * SLOB_UNIT;
-+	size = *(unsigned int *)(block - SLOB_HDR_SIZE);
-+	return SLOB_UNITS(size) * SLOB_UNIT;
- }
- EXPORT_SYMBOL(__ksize);
- 
-@@ -606,16 +585,19 @@ static void *slob_alloc_node(struct kmem_cache *c, gfp_t flags, int node)
- 
- 	might_alloc(flags);
- 
--	if (c->size < PAGE_SIZE) {
--		b = slob_alloc(c->size, flags, c->align, node, 0);
-+	if (c->size < PAGE_SIZE - SLOB_HDR_SIZE) {
-+		b = slob_alloc(c->size, flags, c->align, node);
- 		trace_kmem_cache_alloc_node(_RET_IP_, b, c->object_size,
--					    SLOB_UNITS(c->size) * SLOB_UNIT,
-+					    SLOB_UNITS(c->size + SLOB_HDR_SIZE) * SLOB_UNIT,
- 					    flags, node);
- 	} else {
--		b = slob_new_pages(flags, get_order(c->size), node);
-+		unsigned int order = get_order(c->size);
-+
-+		if (likely(order))
-+			flags |= __GFP_COMP;
-+		b = slob_new_pages(flags, order, node);
- 		trace_kmem_cache_alloc_node(_RET_IP_, b, c->object_size,
--					    PAGE_SIZE << get_order(c->size),
--					    flags, node);
-+					    PAGE_SIZE << order, flags, node);
- 	}
- 
- 	if (b && c->ctor) {
-@@ -647,12 +629,18 @@ void *kmem_cache_alloc_node(struct kmem_cache *cachep, gfp_t gfp, int node)
- EXPORT_SYMBOL(kmem_cache_alloc_node);
- #endif
- 
--static void __kmem_cache_free(void *b, int size)
-+static void __kmem_cache_free(void *b)
- {
--	if (size < PAGE_SIZE)
--		slob_free(b, size);
-+	struct page *sp;
-+
-+	if (unlikely(ZERO_OR_NULL_PTR(b)))
-+		return;
-+
-+	sp = virt_to_page(b);
-+	if (PageSlab(sp))
-+		slob_free(b);
- 	else
--		slob_free_pages(b, get_order(size));
-+		slob_free_pages(sp, compound_order(sp));
- }
- 
- static void kmem_rcu_free(struct rcu_head *head)
-@@ -660,7 +648,7 @@ static void kmem_rcu_free(struct rcu_head *head)
- 	struct slob_rcu *slob_rcu = (struct slob_rcu *)head;
- 	void *b = (void *)slob_rcu - (slob_rcu->size - sizeof(struct slob_rcu));
- 
--	__kmem_cache_free(b, slob_rcu->size);
-+	__kmem_cache_free(b);
- }
- 
- void kmem_cache_free(struct kmem_cache *c, void *b)
-@@ -673,7 +661,7 @@ void kmem_cache_free(struct kmem_cache *c, void *b)
- 		slob_rcu->size = c->size;
- 		call_rcu(&slob_rcu->head, kmem_rcu_free);
- 	} else {
--		__kmem_cache_free(b, c->size);
-+		__kmem_cache_free(b);
- 	}
- }
- EXPORT_SYMBOL(kmem_cache_free);
--- 
-2.30.2
-
+QWxleCBTaGkgPHNlYWtlZWxAZ21haWwuY29tPiDkuo4yMDIx5bm0MTHmnIgyMeaXpeWRqOaXpSDk
+uIvljYg5OjMx5YaZ6YGT77yaDQo+DQo+IE9uIEZyaSwgTm92IDE5LCAyMDIxIGF0IDEwOjAzIEFN
+IFlhbnRlbmcgU2kgPHNpeWFudGVuZzAxQGdtYWlsLmNvbT4gd3JvdGU6DQo+ID4NCj4gPiBUcmFu
+c2xhdGUgLi4uL3NjaGVkdWxlci9jb21wbGV0aW9uLnJzdCBpbnRvIENoaW5lc2UuDQo+ID4NCj4g
+PiBTaWduZWQtb2ZmLWJ5OiBZYW50ZW5nIFNpIDxzaXlhbnRlbmdAbG9vbmdzb24uY24+DQo+ID4g
+LS0tDQo+ID4gIC4uLi96aF9DTi9zY2hlZHVsZXIvY29tcGxldGlvbi5yc3QgICAgICAgICAgICB8
+IDI1NiArKysrKysrKysrKysrKysrKysNCj4gPiAgLi4uL3RyYW5zbGF0aW9ucy96aF9DTi9zY2hl
+ZHVsZXIvaW5kZXgucnN0ICAgIHwgICAzICstDQo+ID4gIDIgZmlsZXMgY2hhbmdlZCwgMjU4IGlu
+c2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3Vt
+ZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3NjaGVkdWxlci9jb21wbGV0aW9uLnJzdA0KPiA+
+DQo+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3NjaGVk
+dWxlci9jb21wbGV0aW9uLnJzdCBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3Nj
+aGVkdWxlci9jb21wbGV0aW9uLnJzdA0KPiA+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+ID4gaW5k
+ZXggMDAwMDAwMDAwMDAwLi40ZTg0YzkyOTI2YmQNCj4gPiAtLS0gL2Rldi9udWxsDQo+ID4gKysr
+IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vc2NoZWR1bGVyL2NvbXBsZXRpb24u
+cnN0DQo+ID4gQEAgLTAsMCArMSwyNTYgQEANCj4gPiArLi4gaW5jbHVkZTo6IC4uL2Rpc2NsYWlt
+ZXItemhfQ04ucnN0DQo+ID4gKw0KPiA+ICs6T3JpZ2luYWw6IERvY3VtZW50YXRpb24vc2NoZWR1
+bGVyL2NvbXBsZXRpb24ucnN0DQo+ID4gKw0KPiA+ICs657+76K+ROg0KPiA+ICsNCj4gPiArIOWP
+uOW7tuiFviBZYW50ZW5nIFNpIDxzaXlhbnRlbmdAbG9vbmdzb24uY24+DQo+ID4gKw0KPiA+ICs6
+5qCh6K+ROg0KPiA+ICsNCj4gPiArDQo+ID4gKw0KPiA+ICsuLiBfY25fc2NoZWR1bGVyX2NvbXBs
+ZXRpb24ucnN0Og0KPiA+ICsNCj4gPiArPT09PT09PT09PT09PT09PT09PT09PT09PT09PQ0KPiA+
+ICvlrozmiJDluqYgLSAi562J5b6F5a6M5oiQIiDlsY/pmpxBUElzDQo+DQo+IOKAnOWujOaIkOW6
+puKAnSBtYXkgY2F1c2UgbWlzdW5kZXJzdGFuZGluZywgdGhlcmUgYXJlIHNvbWUgZGVncmVlIG9m
+IGNvbXBsZXRpb24sDQo+IGxpa2UgMjAgb3IgNTAlIGNvbXBsZXRpb24uDQo+IGJ1dCBpdCdzIG5v
+dC4gU28gbGV0J3MgcmVtb3ZlIHRoZSDigJjluqYnLg0KPiBBbHNvLCBBUEkgY291bGQgYmUgdHJh
+bnNsYXRlZCBhcyDlupTnlKjnqIvluo/mjqXlj6MNCk9LLCB0aGFua3MhDQo+DQo+ID4gKz09PT09
+PT09PT09PT09PT09PT09PT09PT09PT0NCj4gPiArDQo+ID4gK+eugOS7izoNCj4gPiArLS0tLS0N
+Cj4gPiArDQo+ID4gK+WmguaenOS9oOacieS4gOS4quaIluWkmuS4que6v+eoi+W/hemhu+etieW+
+heafkOS6m+WGheaguOa0u+WKqOi+vuWIsOafkOS4queCueaIluafkOS4queJueWumueahOeKtuaA
+ge+8jOWujOaIkOW6puWPr+S7peS4uui/mQ0KPiA+ICvkuKrpl67popjmj5DkvpvkuIDkuKrml6Dn
+q57kuonnmoTop6PlhrPmlrnmoYjjgILku47or63kuYnkuIrorrLvvIzlroPku6zmnInngrnlg49w
+dGhyZWFkX2JhcnJpZXIoKe+8jOW5tuS4lOacieexuw0KPiA+ICvkvLznmoTkvb/nlKjmg4XlhrXj
+gIINCj4gPiArDQo+ID4gK+WujOaIkOW6puaYr+S4gOenjeS7o+eggeWQjOatpeacuuWItu+8jOWu
+g+avlOS7u+S9lea7peeUqOmUgS/kv6Hlj7fph4/lkozlv5nnjq/nmoTooYzkuLrpg73opoHlpb3j
+gILlvZPkvaDmg7PnlKh5aWVsZCgpDQo+ID4gK+aIluS4gOS6m+WPpOaAqueahG1zbGVlcCgxKeW+
+queOr+adpeWFgeiuuOWFtuS7luS4nOilv+e7p+e7rei/m+ihjOaXtu+8jOS9oOWPr+iDveaDs+eU
+qHdhaXRfZm9yX2NvbXBsZXRpb24qKCkNCj4gPiAr6LCD55So5ZKMY29tcGxldGlvbigp5p2l5Luj
+5pu/44CCDQo+ID4gKw0KPiA+ICvkvb/nlKjigJzlrozmiJDluqbigJ3nmoTlpb3lpITmmK/vvIzl
+roPku6zmnInkuIDkuKrmmI7noa7nmoTjgIHpm4bkuK3nmoTnm67nmoTvvIzov5nkvb/lvpfmiJHk
+u6zlvojlrrnmmJPnnIvliLDku6PnoIHnmoTmhI/lm77vvIwNCj4gPiAr5L2G5a6D5Lus5Lmf5a+8
+6Ie05LqG5pu05pyJ5pWI55qE5Luj56CB77yM5Zug5Li65omA5pyJ57q/56iL6YO95Y+v5Lul57un
+57ut5omn6KGM77yM55u05Yiw55yf5q2j6ZyA6KaB57uT5p6c77yM6ICM5LiU562J5b6FDQo+ID4g
+K+WSjOS/oeWPt+mDveaYr+mrmOaViOeahOS9v+eUqOS9jue6p+iwg+W6puWZqOeahOedoeecoC/l
+lKTphpLorr7mlr3jgIINCj4NCj4gY2hhbmdlIHRvICLpg73pq5jmlYjnmoTkvb/nlKjkuobkvY7n
+uqfosIPluqblmajnmoTnnaHnnKAv5ZSk6YaS6K6+5pa9IiA/DQpPSywgdGhhbmtzIQ0KPg0KPiA+
+ICsNCj4gPiAr5a6M5oiQ5bqm5piv5bu656uL5ZyoTGludXjosIPluqblmajnmoTnrYnlvoXpmJ/l
+iJflkozllKTphpLln7rnoYDorr7mlr3kuYvkuIrnmoTjgILnrYnlvoXpmJ/liJfkuK3nmoTnur/n
+qIvmiYDnrYnlvoXnmoQNCj4gPiAr5LqL5Lu26KKr566A5YyW5Li6IGBgc3RydWN0IGNvbXBsZXRp
+b25gYCDkuK3nmoTkuIDkuKrnroDljZXmoIflv5fvvIzooqvmgbDlvZPlnLDnp7DkuLogIuWujOaI
+kCLjgIINCj4NCj4gY2hhbmdlIHRvICLooqvmgbDlvZPlnLDnp7DkuLrigJjlrozmiJDigJkg4oCc
+77yfDQpPSywgdGhhbmtzIQ0KPg0KPiA+ICsNCj4gPiAr55Sx5LqO5a6M5oiQ5bqm5LiO6LCD5bqm
+5pyJ5YWz77yM5Luj56CB5Y+v5Lul5Zyoa2VybmVsL3NjaGVkL2NvbXBsZXRpb24uY+S4reaJvuWI
+sOOAgg0KPiA+ICsNCj4gPiArDQo+ID4gK+eUqOazlToNCj4gPiArLS0tLS0NCj4gPiArDQo+ID4g
+K+S9v+eUqOWujOaIkOW6puacieS4ieS4quS4u+imgemDqOWIhjoNCj4gPiArDQo+ID4gKyAtICdz
+dHJ1Y3QgY29tcGxldGlvbicg5ZCM5q2l5a+56LGh55qE5Yid5aeL5YyWDQo+ID4gKyAtIOmAmui/
+h+iwg+eUqHdhaXRfZm9yX2NvbXBsZXRpb24oKeeahOS4gOS4quWPmOS9k+adpeWunueOsOetieW+
+hemDqOWIhuOAgg0KPiA+ICsgLSDpgJrov4fosIPnlKhjb21wbGV0ZSgp5oiWY29tcGxldGVfYWxs
+KCnlrp7njrDkv6Hku6Tnq6/jgIINCj4NCj4g5L+h5Luk56uvIGNoYW5nZSB0byDlj5Hkv6Hnq6/v
+vJ8NCk9LLCB0aGFua3MhDQo+DQo+ID4gKw0KPiA+ICvkuZ/mnInkuIDkupvovoXliqnlh73mlbDn
+lKjkuo7mo4Dmn6XlrozmiJDnmoTnirbmgIHjgILor7fms6jmhI/vvIzomb3nhLbliJ3lp4vljJbl
+v4XpobvpppblhYjlj5HnlJ/vvIzkvYbnrYnlvoXlkozkv6Hlj7fpg6jliIYNCj4gPiAr5Y+v5Lul
+5Lul5Lu75L2V6aG65bqP5Y+R55Sf44CC5Lmf5bCx5piv6K+077yM5LiA5Liq57q/56iL5Zyo5Y+m
+5LiA5Liq57q/56iL5qOA5p+l5piv5ZCm6ZyA6KaB562J5b6F5a6D5LmL5YmN77yM5bey57uP5bCG
+5LiA5LiqDQo+ID4gK+WujOaIkOW6puagh+iusOS4uiAi5a6M5oiQIu+8jOi/meaYr+WujOWFqOat
+o+W4uOeahOOAgg0KPiA+ICsNCj4gPiAr6KaB5L2/55So5a6M5oiQ5bqm77yM5L2g6ZyA6KaBI2lu
+Y2x1ZGUgPGxpbnV4L2NvbXBsZXRpb24uaD7lubbliJvlu7rkuIDkuKrpnZnmgIHmiJbliqjmgIHn
+moQNCj4NCj4gY2hhbmdlIHRvIOS9v+eUqOWujOaIkEFQSSDvvJ8NCk9LLCB0aGFua3PvvIENCj4N
+Cj4gPiArYGBzdHJ1Y3QgY29tcGxldGlvbmBgIOexu+Wei+eahOWPmOmHj++8jOWug+WPquacieS4
+pOS4quWtl+autTo6DQo+ID4gKw0KPiA+ICsgICAgICAgc3RydWN0IGNvbXBsZXRpb24gew0KPiA+
+ICsgICAgICAgICAgICAgICB1bnNpZ25lZCBpbnQgZG9uZTsNCj4gPiArICAgICAgICAgICAgICAg
+d2FpdF9xdWV1ZV9oZWFkX3Qgd2FpdDsNCj4gPiArICAgICAgIH07DQo+ID4gKw0KPiA+ICvov5nm
+j5DkvpvkuoYtPndhaXTnrYnlvoXpmJ/liJfmnaXmlL7nva7ku7vliqHov5vooYznrYnlvoXvvIjl
+poLmnpzmnInnmoTor53vvInvvIzku6Xlj4otPmRvbmXlrozmiJDmoIflv5fmnaXooajmmI7lroMN
+Cj4gPiAr5piv5ZCm5a6M5oiQ44CCDQo+ID4gKw0KPiA+ICvlrozmiJDlupTor6Xooqvlkb3lkI3k
+uLrmjIfooqvlkIzmraXnmoTkuovku7bjgILkuIDkuKrlpb3nmoTkvovlrZDmmK86Og0KPiA+ICsN
+Cj4gPiArICAgICAgIHdhaXRfZm9yX2NvbXBsZXRpb24oJmVhcmx5X2NvbnNvbGVfYWRkZWQpOw0K
+PiA+ICsNCj4gPiArICAgICAgIGNvbXBsZXRlKCZlYXJseV9jb25zb2xlX2FkZGVkKTsNCj4gPiAr
+DQo+ID4gK+WlveeahOOAgeebtOingueahOWRveWQje+8iOWSjOS7peW+gOS4gOagt++8ieacieWK
+qeS6juS7o+eggeeahOWPr+ivu+aAp+OAguWwhuS4gOS4quWujOaIkOW6puWRveWQjeS4uiBgYGNv
+bXBsZXRlYGANCj4gPiAr5piv5rKh5pyJ5biu5Yqp55qE77yM6Zmk6Z2e5YW255uu55qE5piv6LaF
+57qn5piO5pi+55qELi4uDQo+ID4gKw0KPiA+ICsNCj4gPiAr5Yid5aeL5YyW5a6M5oiQ5bqmOg0K
+PiA+ICstLS0tLS0tLS0tLS0tDQo+ID4gKw0KPiA+ICvliqjmgIHliIbphY3nmoTlrozmiJDlr7no
+saHmnIDlpb3ooqvltYzlhaXliLDmlbDmja7nu5PmnoTkuK3vvIzku6Xnoa7kv53lnKjlh73mlbAv
+6amx5Yqo55qE55Sf5ZG95ZGo5pyf5YaF5L+d5oyB5rS75Yqb77yM5Lul6ZiyDQo+ID4gK+atouS4
+juW8guatpWNvbXBsZXRlKCnosIPnlKjlj5HnlJ/nq57kuonjgIINCj4gPiArDQo+ID4gK+WcqOS9
+v+eUqHdhaXRfZm9yX2NvbXBsZXRpb24oKeeahF90aW1lb3V0KCnmiJZfa2lsbGFibGUoKS9faW50
+ZXJydXB0aWJsZSgp5Y+Y5L2TDQo+ID4gK+aXtuW6lOeJueWIq+Wwj+W/g++8jOWboOS4uuW/hemh
+u+S/neivgeWcqOaJgOacieebuOWFs+a0u+WKqO+8iGNvbXBsZXRlKCnmiJZyZWluaXRfY29tcGxl
+dGlvbigp77yJ5Y+R55SfDQo+ID4gK+S5i+WJjeS4jeS8muWPkeeUn+WGheWtmOino+mZpOWIhumF
+je+8jOWNs+S9v+i/meS6m+etieW+heWHveaVsOeUseS6jui2heaXtuaIluS/oeWPt+inpuWPkeiA
+jOi/h+aXqei/lOWbnuOAgg0KPiA+ICsNCj4gPiAr5Yqo5oCB5YiG6YWN55qE5a6M5oiQ5a+56LGh
+55qE5Yid5aeL5YyW5piv6YCa6L+H6LCD55SoaW5pdF9jb21wbGV0aW9uKCnmnaXlrozmiJDnmoQ6
+Og0KPiA+ICsNCj4gPiArICAgICAgIGluaXRfY29tcGxldGlvbigmZHluYW1pY19vYmplY3QtPmRv
+bmUpOw0KPiA+ICsNCj4gPiAr5Zyo6L+Z5Liq6LCD55So5Lit77yM5oiR5Lus5Yid5aeL5YyWIHdh
+aXRxdWV1ZSDlubblsIYgLT5kb25lIOiuvue9ruS4uiAw77yM5Y2z4oCcbm90IGNvbXBsZXRlZOKA
+neaIlg0KPiA+ICvigJxub3QgZG9uZeKAneOAgg0KPiA+ICsNCj4gPiAr6YeN5paw5Yid5aeL5YyW
+5Ye95pWwcmVpbml0X2NvbXBsZXRpb24oKe+8jOWPquaYr+Wwhi0+ZG9uZeWtl+autemHjee9ruS4
+ujDvvIjigJxub3QgZG9uZeKAne+8ie+8jOiAjA0KPiA+ICvkuI3op6blj4rnrYnlvoXpmJ/liJfj
+gILov5nkuKrlh73mlbDnmoTosIPnlKjogIXlv4Xpobvnoa7kv53msqHmnInku7vkvZXku6Tkurro
+rqjljoznmoR3YWl0X2Zvcl9jb21wbGV0aW9uKCkNCj4gPiAr6LCD55So5Zyo5bm26KGM6L+b6KGM
+44CCDQo+ID4gKw0KPiA+ICvlnKjlkIzkuIDkuKrlrozmiJDlr7nosaHkuIrosIPnlKhpbml0X2Nv
+bXBsZXRpb24oKeS4pOasoeW+iOWPr+iDveaYr+S4gOS4qmJ1Z++8jOWboOS4uuWug+WwhumYn+WI
+l+mHjeaWsOWIneWniw0KPiA+ICvljJbkuLrkuIDkuKrnqbrpmJ/liJfvvIzmjpLpmJ/nmoTku7vl
+iqHlj6/og73kvJrigJzkuKLlpLHigJ0tLeWcqOi/meenjeaDheWGteS4i+S9v+eUqHJlaW5pdF9j
+b21wbGV0aW9uKCnvvIzkvYYNCj4gPiAr6KaB5rOo5oSP5YW25LuW56ue6LWb44CCDQo+ID4gKw0K
+PiA+ICvlr7nkuo7pnZnmgIHlo7DmmI7lkozliJ3lp4vljJbvvIzlj6/ku6Xkvb/nlKjlro/jgIIN
+Cj4gPiArDQo+ID4gK+WvueS6juaWh+S7tuiMg+WbtOWGheeahOmdmeaAge+8iOaIluWFqOWxgO+8
+ieWjsOaYju+8jOS9oOWPr+S7peS9v+eUqCBERUNMQVJFX0NPTVBMRVRJT04oKTo6DQo+ID4gKw0K
+PiA+ICsgICAgICAgc3RhdGljIERFQ0xBUkVfQ09NUExFVElPTihzZXR1cF9kb25lKTsNCj4gPiAr
+ICAgICAgIERFQ0xBUkVfQ09NUExFVElPTihzZXR1cF9kb25lKTsNCj4gPiArDQo+ID4gK+azqOaE
+j++8jOWcqOi/meenjeaDheWGteS4i++8jOWujOaIkOW6puWcqOWQr+WKqOaXtu+8iOaIluaooeWd
+l+WKoOi9veaXtu+8ieiiq+WIneWni+WMluS4uuKAnG5vdCBkb25l4oCd77yM5LiN6ZyA6KaB6LCD
+55SoDQo+ID4gK2luaXRfY29tcGxldGlvbigp44CCDQo+ID4gKw0KPiA+ICvlvZPlrozmiJDluqbo
+oqvlo7DmmI7kuLrkuIDkuKrlh73mlbDkuK3nmoTlsYDpg6jlj5jph4/ml7bvvIzpgqPkuYjlupTo
+r6XmgLvmmK/mmI7noa7lnLDkvb/nlKgNCj4gPiArREVDTEFSRV9DT01QTEVUSU9OX09OU1RBQ0so
+KeWIneWni+WMlu+8jOS4jeS7heS7heaYr+S4uuS6huiuqWxvY2tkZXDpq5jlhbTvvIzkuZ/mmK/k
+uLrkuobmmI7noa7mnInpmZDnmoTojIPlm7QNCj4gPiAr5bey57uP6KKr6ICD6JmR77yM5bm25LiU
+5piv5pyJ5oSP55qEOjoNCj4NCj4gY2hhbmdlIHRvIHRoZSBmb2xsb3dpbmc/DQo+IOmCo+S5iOW6
+lOivpeaAu+aYr+aYjuehruWcsOS9v+eUqERFQ0xBUkVfQ09NUExFVElPTl9PTlNUQUNLKCnmnaXl
+iJ3lp4vljJbvvIzov5nkuI3ku4Xku4XmmK/kuLrkuoborqlsb2NrZGVw6auY5YW077yMDQo+IOS5
+n+aYr+aYjuehruihqOWQjeWug+aciemZkOeahOS9v+eUqOiMg+WbtOaYr+acieaEj+S4uuS5i+W5
+tuiiq+S7lOe7huiAg+iZkeeahDo6DQpPSywgdGhhbmtz77yBDQo+DQo+ID4gKw0KPiA+ICsgICAg
+ICAgREVDTEFSRV9DT01QTEVUSU9OX09OU1RBQ0soc2V0dXBfZG9uZSkNCj4gPiArDQo+ID4gK+iv
+t+azqOaEj++8jOW9k+S9v+eUqOWujOaIkOW6puWvueixoeS9nOS4uuWxgOmDqOWPmOmHj+aXtu+8
+jOS9oOW/hemhu+aVj+mUkOWcsOaEj+ivhuWIsOWHveaVsOWghuagiOeahOefreaagueUn+WRveac
+n++8muWcqOaJgOaciQ0KPiA+ICvmtLvliqjvvIjlpoLnrYnlvoXnmoTnur/nqIvvvInlgZzmraLl
+ubbkuJTlrozmiJDlr7nosaHlrozlhajmnKrkvb/nlKjkuYvliY3vvIzlh73mlbDkuI3lvpfov5Tl
+m57liLDosIPnlKjkuIrkuIvmlofjgIINCj4gPiArDQo+ID4gK+WGjeasoeW8uuiwg+i/meS4gOeC
+ue+8mueJueWIq+aYr+WcqOS9v+eUqOS4gOS6m+WFt+acieabtOWkjeadgue7k+aenOeahOetieW+
+hUFQSeWPmOS9k+aXtu+8jOavlOWmgui2heaXtuaIluS/oeWPtw0KPiA+ICvvvIhfdGltZW91dCgp
+LCBfa2lsbGFibGUoKeWSjF9pbnRlcnJ1cHRpYmxlKCnvvInlj5jkvZPvvIznrYnlvoXlj6/og73k
+vJrmj5DliY3lrozmiJDvvIzogIzlr7nosaHlj68NCj4gPiAr6IO95LuN5Zyo6KKr5YW25LuW57q/
+56iL5L2/55SoIC0g5LuOd2FpdF9vbl9jb21wbGV0aW9uKigp6LCD55So6ICF5Ye95pWw55qE6L+U
+5Zue5Lya5Y+W5raI5Ye95pWw5qCI77yM5aaC5p6c5ZyoDQo+ID4gK+WFtuS7lue6v+eoi+S4rWNv
+bXBsZXRlKCnkvJrlvJXotbflvq7lppnnmoTmlbDmja7mjZ/lnY/jgILnroDljZXnmoTmtYvor5Xl
+j6/og73kuI3kvJrop6blj5Hov5nkupvnsbvlnovnmoTnq57kuonjgIINCj4gPiArDQo+ID4gK+Wm
+guaenOS4jeehruWumueahOivne+8jOS9v+eUqOWKqOaAgeWIhumFjeeahOWujOaIkOW6puWvueix
+oe+8jOacgOWlveaYr+W1jOWFpeWIsOWFtuS7luS4gOS6m+Wvv+WRvemVv+eahOWvueixoeS4re+8
+jOi/meS6m+WvueixoQ0KPiA+ICvnmoTlr7/lkb3pnZ7luLjplb/vvIzotoXov4fkuobkvb/nlKjl
+rozmiJDlr7nosaHnmoTku7vkvZXovoXliqnnur/nqIvnmoTlr7/lkb3vvIzmiJbogIXmnInkuIDk
+uKrplIHmiJblhbbku5blkIzmraXmnLrliLbmnaXnoa7kv50NCj4gPiArY29tcGxldGUoKeS4jeS8
+muiiq+iwg+eUqOWIsOS4gOS4quiiq+mHiuaUvueahOWvueixoeS4iuOAgg0KPiA+ICsNCj4gPiAr
+5aCG5qCI5LiK5LiA5Liq5aSp55yf55qEREVDTEFSRV9DT01QTEVUSU9OKCnkvJrop6blj5HkuIDk
+uKpsb2NrZGVw6K2m5ZGK44CCDQo+ID4gKw0KPiA+ICvnrYnlvoVjb21wbGV0aW9uczoNCj4NCj4g
+562J5b6FJ+WujOaIkCfvvJ8NCk9LLCB0aGFua3MhDQo+DQo+ID4gKy0tLS0tLS0tLS0tLS0tLS0N
+Cj4gPiArDQo+ID4gK+WvueS6juS4gOS4que6v+eoi+adpeivtO+8jOimgeetieW+heS4gOS6m+W5
+tuWPkea0u+WKqOeahOWujOaIkO+8jOWug+imgeWcqOWIneWni+WMlueahOWujOaIkOW6pue7k+ae
+hOS9k+S4iuiwg+eUqA0KPiA+ICt3YWl0X2Zvcl9jb21wbGV0aW9uKCk6Og0KPiA+ICsNCj4gPiAr
+ICAgICAgIHZvaWQgd2FpdF9mb3JfY29tcGxldGlvbihzdHJ1Y3QgY29tcGxldGlvbiAqZG9uZSkN
+Cj4gPiArDQo+ID4gK+S4gOS4quWFuOWei+eahOS9v+eUqOWcuuaZr+aYrzo6DQo+ID4gKw0KPiA+
+ICsgICAgICAgQ1BVIzEgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIENQVSMyDQo+
+ID4gKw0KPiA+ICsgICAgICAgc3RydWN0IGNvbXBsZXRpb24gc2V0dXBfZG9uZTsNCj4gPiArDQo+
+ID4gKyAgICAgICBpbml0X2NvbXBsZXRpb24oJnNldHVwX2RvbmUpOw0KPiA+ICsgICAgICAgaW5p
+dGlhbGl6ZV93b3JrKC4uLiwmc2V0dXBfZG9uZSwuLi4pOw0KPiA+ICsNCj4gPiArICAgICAgIC8q
+IHJ1biBub24tZGVwZW5kZW50IGNvZGUgKi8gICAgICAgICAgICAvKiBkbyBzZXR1cCAqLw0KPiA+
+ICsNCj4gPiArICAgICAgIHdhaXRfZm9yX2NvbXBsZXRpb24oJnNldHVwX2RvbmUpOyAgICAgICBj
+b21wbGV0ZShzZXR1cF9kb25lKTsNCj4gPiArDQo+ID4gK+i/meW5tuS4jeaEj+WRs+edgOWcqHdh
+aXRfZm9yX2NvbXBsZXRpb24oKeWSjOiwg+eUqGNvbXBsZXRlKCnkuYvpl7TmnInku7vkvZXnibnl
+rprnmoTpobrluo8tLeWmguaenOiwgw0KPiA+ICvnlKhjb21wbGV0ZSgp5Y+R55Sf5Zyo6LCD55So
+d2FpdF9mb3JfY29tcGxldGlvbigp5LmL5YmN77yM6YKj5LmI562J5b6F5pa55bCG56uL5Y2z57un
+57ut77yM5Zug5Li65omA5pyJDQo+ID4gK+eahOS+nei1lumDveW+l+WIsOS6hua7oei2s++8m+Wm
+guaenOayoeacie+8jOWug+WwhumYu+Whnu+8jOebtOWIsGNvbXBsZXRlKCnlj5Hlh7rlrozmiJDn
+moTkv6Hlj7fjgIINCj4gPiArDQo+ID4gK+azqOaEj++8jHdhaXRfZm9yX2NvbXBsZXRpb24oKeaY
+r+WcqOiwg+eUqHNwaW5fbG9ja19pcnEoKS9zcGluX3VubG9ja19pcnEoKe+8jOaJgOS7pQ0KPiA+
+ICvlj6rmnInlvZPkvaDnn6XpgZPkuK3mlq3ooqvlkK/nlKjml7bmiY3og73lronlhajlnLDosIPn
+lKjlroPjgILku45JUlFzLW9mZueahOWOn+WtkOS4iuS4i+aWh+S4reiwg+eUqOWug+WwhuWvvOiH
+tOmavuS7peajgA0KPiA+ICvmtYvnmoTomZrlgYfnmoTkuK3mlq3lkK/nlKjjgIINCj4gPiArDQo+
+ID4gK3dhaXRfZm9yX2NvbXBsZXRpb24oKeWPiuWFtuWPmOS9k+WPquacieWcqOi/m+eoi+S4iuS4
+i+aWh+S4reaJjeaYr+WuieWFqOeahO+8iOWboOS4uuWug+S7rOWPr+S7peS8keecoO+8ie+8jOS9
+hg0KPiA+ICvlnKjljp/lrZDkuIrkuIvmlofjgIHkuK3mlq3kuIrkuIvmlofjgIFJUlHooqvnpoHn
+lKjmiJbmiqLljaDooqvnpoHnlKjnmoTmg4XlhrXkuIvmmK/kuI3lronlhajnmoQtLeWFs+S6juWc
+qOWOn+WtkC/kuK3mlq3kuIoNCj4gPiAr5LiL5paH5Lit5aSE55CG5a6M5oiQ55qE6Zeu6aKY77yM
+6L+Y6K+355yL5LiL6Z2i55qEdHJ5X3dhaXRfZm9yX2NvbXBsZXRpb24oKeOAgg0KPiA+ICsNCj4g
+PiAr55Sx5LqOd2FpdF9mb3JfY29tcGxldGlvbigp55qE5omA5pyJ5Y+Y5L2T6YO95Y+v6IO977yI
+5b6I5piO5pi+77yJ6Zi75aGe5b6I6ZW/5pe26Ze077yM6L+Z5Y+W5Yaz5LqO5a6D5Lus5omA562J
+DQo+ID4gK+W+heeahOa0u+WKqOeahOaAp+i0qO+8jOaJgOS7peWcqOWkp+WkmuaVsOaDheWGteS4
+i++8jOS9oOWPr+iDveS4jeaDs+WcqOaMgeaciW11dGV4ZXPnmoTmg4XlhrXkuIvosIPnlKjlroPj
+gIINCj4gPiArDQo+ID4gKw0KPiA+ICt3YWl0X2Zvcl9jb21wbGV0aW9uKigp5Y+v55So55qE5Y+Y
+5L2TOg0KPiA+ICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gPiArDQo+ID4g
+K+S4i+mdoueahOWPmOS9k+mDveS8mui/lOWbnueKtuaAge+8jOWcqOWkp+WkmuaVsCgv5omA5pyJ
+KeaDheWGteS4i+mDveW6lOivpeajgOafpei/meS4queKtuaAgS0t5Zyo5pWF5oSP5LiN5qOA5p+l
+54q25oCB55qE5oOFDQo+ID4gK+WGteS4i++8jOS9oOWPr+iDveimgeWBmuS4gOS4quivtOaYjijk
+vovlpoLvvIzop4FhcmNoL2FybS9rZXJuZWwvc21wLmM6X19jcHVfdXAoKSnjgIINCj4gPiArDQo+
+ID4gK+S4gOS4quW4uOingeeahOmXrumimOaYr+Wvuei/lOWbnuexu+Wei+eahOWIhumFjeS4jeaY
+juehru+8jOaJgOS7peimgeazqOaEj+Wwhui/lOWbnuWAvOWIhumFjee7memAguW9k+exu+Wei+ea
+hOWPmOmHj+OAgg0KPiA+ICsNCj4gPiAr5qOA5p+l6L+U5Zue5YC855qE5YW35L2T5ZCr5LmJ5Lmf
+6KKr5Y+R546w5piv55u45b2T5LiN5YeG56Gu55qE77yM5L6L5aaC77yM5YOP6L+Z5qC355qE5p6E
+6YCgOjoNCj4gPiArDQo+ID4gKyAgICAgICBpZiAoIXdhaXRfZm9yX2NvbXBsZXRpb25faW50ZXJy
+dXB0aWJsZV90aW1lb3V0KC4uLikpDQo+ID4gKw0KPiA+ICsuLi7kvJrlnKjmiJDlip/lrozmiJDl
+kozkuK3mlq3nmoTmg4XlhrXkuIvmiafooYznm7jlkIznmoTku6PnoIHot6/lvoQtLei/meWPr+iD
+veS4jeaYr+S9oOaDs+imgeeahOe7k+aenDo6DQo+ID4gKw0KPiA+ICsgICAgICAgaW50IHdhaXRf
+Zm9yX2NvbXBsZXRpb25faW50ZXJydXB0aWJsZShzdHJ1Y3QgY29tcGxldGlvbiAqZG9uZSkNCj4g
+PiArDQo+ID4gK+i/meS4quWHveaVsOWcqOS7u+WKoeetieW+heaXtuagh+iusOS4ulRBU0tfSU5U
+RVJSVVBUSUJMReOAguWmguaenOWcqOetieW+heacn+mXtOaUtuWIsOS/oeWPt++8jOWug+Wwhui/
+lOWbng0KPiA+ICstRVJFU1RBUlRTWVPvvJvlkKbliJnkuLowOjoNCj4gPiArDQo+ID4gKyAgICAg
+ICB1bnNpZ25lZCBsb25nIHdhaXRfZm9yX2NvbXBsZXRpb25fdGltZW91dChzdHJ1Y3QgY29tcGxl
+dGlvbiAqZG9uZSwgdW5zaWduZWQgbG9uZyB0aW1lb3V0KQ0KPiA+ICsNCj4gPiAr6K+l5Lu75Yqh
+6KKr5qCH6K6w5Li6VEFTS19VTklOVEVSUlVQVElCTEXvvIzlubblsIbmnIDlpJrnrYnlvoXigJzo
+toXml7bigJ1qaWZmaWVz44CC5aaC5p6c6LaF5pe25Y+R55Sf77yM5YiZDQo+ID4gK+i/lOWbnjDv
+vIzlkKbliJnov5Tlm57liankvZnnmoTml7bpl7TvvIjkvYboh7PlsJHmmK8x77yJ44CCDQo+ID4g
+Kw0KPiA+ICvotoXml7bmnIDlpb3nlKhtc2Vjc190b19qaWZmaWVzKCnmiJZ1c2Vjc190b19qaWZm
+aWVzKCnorqHnrpfvvIzku6Xkvb/ku6PnoIHlnKjlvojlpKfnqIvluqbkuIrkuI3lj5cNCj4gPiAr
+SFrnmoTlvbHlk43jgIINCj4gPiArDQo+ID4gK+WmguaenOi/lOWbnueahOi2heaXtuWAvOiiq+aV
+heaEj+W/veeVpe+8jOmCo+S5iOazqOmHiuW6lOivpeino+mHiuWOn+WboA0KPiA+ICvvvIjkvovl
+poLvvIzop4Fkcml2ZXJzL21mZC93bTgzNTAtY29yZS5jIHdtODM1MF9yZWFkX2F1eGFkYygpOjoN
+Cj4gPiArDQo+ID4gKyAgICAgICBsb25nIHdhaXRfZm9yX2NvbXBsZXRpb25faW50ZXJydXB0aWJs
+ZV90aW1lb3V0KHN0cnVjdCBjb21wbGV0aW9uICpkb25lLCB1bnNpZ25lZCBsb25nIHRpbWVvdXQp
+DQo+ID4gKw0KPiA+ICvov5nkuKrlh73mlbDkvKDpgJLkuIDkuKrku6VqaWZmaWVz5Li65Y2V5L2N
+55qE6LaF5pe277yM5bm25bCG5Lu75Yqh5qCH6K6w5Li6VEFTS19JTlRFUlJVUFRJQkxF44CC5aaC
+5p6c5pS25YiwDQo+ID4gK+S/oeWPt++8jOWImei/lOWbni1FUkVTVEFSVFNZU++8m+WQpuWIme+8
+jOWmguaenOWujOaIkOi2heaXtu+8jOWImei/lOWbnjDvvJvlpoLmnpzlrozmiJDkuobvvIzliJno
+v5Tlm57liankvZnnmoTml7bpl7QNCj4gPiAr77yIamlmZmllc++8ieOAgg0KPiA+ICsNCj4gPiAr
+5pu05aSa55qE5Y+Y5L2T5YyF5ousX2tpbGxhYmxl77yM5a6D5L2/55SoVEFTS19LSUxMQUJMReS9
+nOS4uuaMh+WumueahOS7u+WKoeeKtuaAge+8jOWmguaenOWug+iiq+S4reaWre+8jOWwhui/lA0K
+PiA+ICvlm54tRVJFU1RBUlRTWVPvvIzlpoLmnpzlrozmiJDkuobvvIzliJnov5Tlm54w44CC5Lmf
+5pyJ5LiA5LiqX3RpbWVvdXTlj5jkvZM6Og0KPiA+ICsNCj4gPiArICAgICAgIGxvbmcgd2FpdF9m
+b3JfY29tcGxldGlvbl9raWxsYWJsZShzdHJ1Y3QgY29tcGxldGlvbiAqZG9uZSkNCj4gPiArICAg
+ICAgIGxvbmcgd2FpdF9mb3JfY29tcGxldGlvbl9raWxsYWJsZV90aW1lb3V0KHN0cnVjdCBjb21w
+bGV0aW9uICpkb25lLCB1bnNpZ25lZCBsb25nIHRpbWVvdXQpDQo+ID4gKw0KPiA+ICt3YWl0X2Zv
+cl9jb21wbGV0aW9uX2lvKCnnmoRfaW/lj5jkvZPnmoTooYzkuLrkuI7pnZ5faW/lj5jkvZPnm7jl
+kIzvvIzlj6rmmK/lsIbnrYnlvoXml7bpl7TorqHkuLrigJxJT+etieW+heKAne+8jA0KPiA+ICvo
+v5nlr7nku7vliqHlnKjosIPluqYvSU/nu5/orqHkuK3nmoTorqHnrpfmlrnlvI/mnInlvbHlk406
+Og0KPiA+ICsNCj4gPiArICAgICAgIHZvaWQgd2FpdF9mb3JfY29tcGxldGlvbl9pbyhzdHJ1Y3Qg
+Y29tcGxldGlvbiAqZG9uZSkNCj4gPiArICAgICAgIHVuc2lnbmVkIGxvbmcgd2FpdF9mb3JfY29t
+cGxldGlvbl9pb190aW1lb3V0KHN0cnVjdCBjb21wbGV0aW9uICpkb25lLCB1bnNpZ25lZCBsb25n
+IHRpbWVvdXQpDQo+ID4gKw0KPiA+ICsNCj4gPiAr5L+h5Y+35a6M5oiQ5bqmOg0KPg0KPiBjaGFu
+Z2UgdG8g6YCa55+l5a6M5oiQ77yfDQpPSywgdGhhbmtzIQ0KPg0KPiBUaGUgZG9jIGlzIGdlbmVy
+YWxseSBmaW5lLiBidXQgY291bGQgaXQgYmUgYmV0dGVyIHdpdGggZmV3IG1vcmUgcG9saXNoIHdv
+cms/IDopDQpTb3JyeSBmb3IgdGhlIHJlYWxseSBiYWQgdHJhbnNsYXRpb24gdGhpcyB0aW1lLCBJ
+IHdpbGwgcG9saXNoIGl0IHVwLg0KVG8gYmUgaG9uZXN0LCBzY2hlZHVsZXIgaXMgYSByZWxhdGl2
+ZWx5IG5ldyBmaWVsZCBmb3IgbWUsIGJ1dCBJJ20NCnRyeWluZyB0byB1bmRlcnN0YW5kIGl0LCB0
+aGFua3MgZm9yIGxldHRpbmcgbWUga25vdyBtb3JlIGFib3V0IGl0LiA+XzwNCg0KVGhhbmtzLA0K
+WWFudGVuZw0KPg0KPiBUaGFua3MgYSBsb3QhDQo+IEFsZXgNCj4NCj4gPiArLS0tLS0tLS0tLS0N
+Cj4gPiArDQo+ID4gK+S4gOS4que6v+eoi+aDs+imgeWPkeWHuuS/oeWPt+mAmuefpee7p+e7reea
+hOadoeS7tuW3sue7j+i+vuWIsO+8jOWwseS8muiwg+eUqGNvbXBsZXRlKCnvvIzlkJHlhbbkuK3k
+uIDkuKrnrYnlvoXogIXlj5Hlh7rkv6ENCj4gPiAr5Y+36K+05a6D5Y+v5Lul57un57utOjoNCj4g
+PiArDQo+ID4gKyAgICAgICB2b2lkIGNvbXBsZXRlKHN0cnVjdCBjb21wbGV0aW9uICpkb25lKQ0K
+PiA+ICsNCj4gPiArLi4uIG9yIGNhbGxzIGNvbXBsZXRlX2FsbCgpIHRvIHNpZ25hbCBhbGwgY3Vy
+cmVudCBhbmQgZnV0dXJlIHdhaXRlcnM6Og0KPiA+ICsNCj4gPiArICAgICAgIHZvaWQgY29tcGxl
+dGVfYWxsKHN0cnVjdCBjb21wbGV0aW9uICpkb25lKQ0KPiA+ICsNCj4gPiAr5Y2z5L2/5Zyo57q/
+56iL5byA5aeL562J5b6F5LmL5YmN5bCx5Y+R5Ye65LqG5a6M5oiQ55qE5L+h5Y+377yM5L+h5Y+3
+5Lyg6YCS5Lmf5Lya5aaC5pyf6L+b6KGM44CC6L+Z5piv6YCa6L+H562J5b6F6ICFDQo+ID4gK+KA
+nGNvbnN1bWluZ+KAne+8iOmAkuWHj++8ieKAnHN0cnVjdCBjb21wbGV0aW9u4oCdIOeahOWujOaI
+kOWtl+auteadpeWunueOsOeahOOAguetieW+heeahOe6v+eoi+WUpOmGkueahOmhuuW6jw0KPiA+
+ICvkuI7lroPku6zooqvmjpLpmJ/nmoTpobrluo/nm7jlkIzvvIhGSUZP6aG65bqP77yJ44CCDQo+
+ID4gKw0KPiA+ICvlpoLmnpzlpJrmrKHosIPnlKhjb21wbGV0ZSgp77yM6YKj5LmI6L+Z5bCG5YWB
+6K646K+l5pWw6YeP55qE562J5b6F6ICF57un57ut6L+b6KGMLS3mr4/mrKHosIPnlKhjb21wbGV0
+ZSgp5bCGDQo+ID4gK+eugOWNleWcsOWinuWKoOW3suWujOaIkOeahOWtl+auteOAguS9huWkmuas
+oeiwg+eUqGNvbXBsZXRlX2FsbCgp5piv5LiA5Liq6ZSZ6K+v44CCY29tcGxldGUoKeWSjA0KPiA+
+ICtjb21wbGV0ZV9hbGwoKemDveWPr+S7peWcqElSUS9hdG9taWPkuIrkuIvmlofkuK3lronlhajo
+sIPnlKjjgIINCj4gPiArDQo+ID4gK+WcqOS7u+S9leaXtuWAme+8jOWPquiDveacieS4gOS4que6
+v+eoi+WcqOS4gOS4queJueWumueahCDigJxzdHJ1Y3QgY29tcGxldGlvbuKAneS4iuiwg+eUqCBj
+b21wbGV0ZSgpIOaIlg0KPiA+ICtjb21wbGV0ZV9hbGwoKSAtIOmAmui/h+etieW+hemYn+WIl+iH
+quaXi+mUgei/m+ihjOW6j+WIl+WMluOAguS7u+S9leWvuSBjb21wbGV0ZSgpIOaIlg0KPiA+ICtj
+b21wbGV0ZV9hbGwoKSDnmoTlubblj5HosIPnlKjpg73lj6/og73mmK/kuIDkuKrorr7orqHplJno
+r6/jgIINCj4gPiArDQo+ID4gK+S7jklSUeS4iuS4i+aWh+S4reWPkeWHuuWujOaIkOS/oeWPt+aY
+r+WlveeahO+8jOWboOS4uuWug+WwhumAguW9k+WcsOeUqA0KPiA+ICtzcGluX2xvY2tfaXJxc2F2
+ZSgpL3NwaW5fdW5sb2NrX2lycXJlc3RvcmUoKemUgeWumu+8jOiAjOS4lOWug+awuOi/nOS4jeS8
+muedoeecoOOAgg0KPiA+ICsNCj4gPiArDQo+ID4gK3RyeV93YWl0X2Zvcl9jb21wbGV0aW9uKCkv
+Y29tcGxldGlvbl9kb25lKCk6DQo+ID4gKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tDQo+ID4gKw0KPiA+ICt0cnlfd2FpdF9mb3JfY29tcGxldGlvbigp5Ye95pWw
+5LiN5Lya5bCG57q/56iL5pS+5Zyo562J5b6F6Zif5YiX5Lit77yM6ICM5piv5Zyo6ZyA6KaB5o6S
+6Zif77yI6Zi75aGe77yJ57q/DQo+ID4gK+eoi+aXtui/lOWbnmZhbHNl77yM5ZCm5YiZ5Lya5raI
+6ICX5LiA5Liq5bey5Y+R5biD55qE5a6M5oiQ5bqm5bm26L+U5ZuedHJ1ZTo6DQo+ID4gKw0KPiA+
+ICsgICAgICAgYm9vbCB0cnlfd2FpdF9mb3JfY29tcGxldGlvbihzdHJ1Y3QgY29tcGxldGlvbiAq
+ZG9uZSkNCj4gPiArDQo+ID4gK+acgOWQju+8jOS4uuS6huWcqOS4jeS7peS7u+S9leaWueW8j+aU
+ueWPmOWujOaIkOW6pueahOaDheWGteS4i+ajgOafpeWujOaIkOW6pueahOeKtuaAge+8jOWPr+S7
+peiwg+eUqGNvbXBsZXRpb25fZG9uZSgp77yMDQo+ID4gK+WmguaenOayoeacieWPkeW4g+eahOWu
+jOaIkOW6puWwmuacquiiq+etieW+heiAhea2iOiAl++8jOWImei/lOWbnmZhbHNl77yI5oSP5ZGz
+552A5a2Y5Zyo562J5b6F6ICF77yJ77yM5ZCm5YiZ6L+U5ZuedHJ1ZTo6DQo+ID4gKw0KPiA+ICsg
+ICAgICAgYm9vbCBjb21wbGV0aW9uX2RvbmUoc3RydWN0IGNvbXBsZXRpb24gKmRvbmUpDQo+ID4g
+Kw0KPiA+ICt0cnlfd2FpdF9mb3JfY29tcGxldGlvbigp5ZKMY29tcGxldGlvbl9kb25lKCnpg73l
+j6/ku6XlnKhJUlHmiJbljp/lrZDkuIrkuIvmlofkuK3lronlhajosIPnlKjjgIINCj4gPiBkaWZm
+IC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vc2NoZWR1bGVyL2luZGV4
+LnJzdCBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3NjaGVkdWxlci9pbmRleC5y
+c3QNCj4gPiBpbmRleCA0ZmRlNWMyYTlkYjMuLjVlYzcxZTYwNDNhZSAxMDA2NDQNCj4gPiAtLS0g
+YS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9zY2hlZHVsZXIvaW5kZXgucnN0DQo+
+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vc2NoZWR1bGVyL2luZGV4
+LnJzdA0KPiA+IEBAIC0xOSwxMCArMTksMTEgQEAgTGludXjosIPluqblmagNCj4gPiAgLi4gdG9j
+dHJlZTo6DQo+ID4gICAgICA6bWF4ZGVwdGg6IDENCj4gPg0KPiA+ICsgICAgY29tcGxldGlvbg0K
+PiA+ICsNCj4gPg0KPiA+ICBUT0RPTGlzdDoNCj4gPg0KPiA+IC0gICAgY29tcGxldGlvbg0KPiA+
+ICAgICAgc2NoZWQtYXJjaA0KPiA+ICAgICAgc2NoZWQtYndjDQo+ID4gICAgICBzY2hlZC1kZWFk
+bGluZQ0KPiA+IC0tDQo+ID4gMi4yNy4wDQo+ID4NCg==
