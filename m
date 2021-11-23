@@ -2,33 +2,57 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44BB7C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Nov 2021 21:30:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88C9EC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Nov 2021 21:47:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232645AbhKWVdx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Nov 2021 16:33:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48718 "EHLO
+        id S238035AbhKWVuy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Nov 2021 16:50:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229586AbhKWVdw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Nov 2021 16:33:52 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0427C061574;
-        Tue, 23 Nov 2021 13:30:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=iO3HnBWsJ/NLxaA52RztLHbEXc3qbezCQwSQjG1Zx/M=; b=qsGcdrrxcb86GaRuvr7c46R+V0
-        Hc5/2hIoSps0xhhYrfmKeFMhNzRqW7Ge8YfRF5IukxnfV44DLP0fHjKE+CeOV3q2OvGJ2vnpAUKYY
-        kHH4rL8+6ecd9BzzhNnmu5pr3P9lOsXeu/1JufgGtIVGK+AYtu82BYq5I1s4kXB6LRmwSN14SGChX
-        InHnHV4Nm/vBl6Yca6+UGx1xM8K2hmYlCRopgX9PKQah0rZbDg5WlmVue67SJEu9qNaDlAZQHw9Xg
-        uJmRkr8vb7Qtu3szPc48E3Gbz0KFwcdLQSj/LrxgwA5ZuOj6etsXlwkJEMhZ7yETeZSMN7XTkChOY
-        tY+cwS5g==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mpdN0-00GUOj-7Q; Tue, 23 Nov 2021 21:30:30 +0000
-Date:   Tue, 23 Nov 2021 21:30:30 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Mina Almasry <almasrymina@google.com>
+        with ESMTP id S237806AbhKWVux (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Nov 2021 16:50:53 -0500
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 527C2C061714
+        for <linux-doc@vger.kernel.org>; Tue, 23 Nov 2021 13:47:45 -0800 (PST)
+Received: by mail-io1-xd32.google.com with SMTP id 14so543417ioe.2
+        for <linux-doc@vger.kernel.org>; Tue, 23 Nov 2021 13:47:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=sUEg3QUrs08YDU9iOTMIC5pKNmifc7FDR8i4cnVmNs0=;
+        b=Kqk5rqIHb4VmUjsfbj+vrwZJKE7Qq/16jkHloGZBr1jHYNXR0RQmEujqCodkmvGEGY
+         AHDXxe/tMVE6D2KiYbytml65hQvnKYqqxw5NTCd0TqeExkdH0owqk2J22cO/9pslJvzG
+         8gm53ZVBv8NQ1C2zxdNc+Vh3d5bEPmJYsBXidkNXSIQEE1cB70m1r6y5RPiVdkRMl57w
+         t1zFJibeGrSt+MlMaboYTcYXDrWcwma4z9LkNK8KsWfRAqc1iPDH44h2WkGwqPezoYFQ
+         W1ChPSI19vCnFWAe+JpExzD5SjlWle75UDVd8R0Rmg6elfFfsHHrVpa9hHGlKpd5fftO
+         XbLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=sUEg3QUrs08YDU9iOTMIC5pKNmifc7FDR8i4cnVmNs0=;
+        b=K1ic+F+6gdVaBqjUJ21fryaYaJMmmvcyLaEmMyON1yXKiDLBO53mwpHgoWY4sL46D5
+         YIvOHyI+2kj7PqBmgRBdTgHja7eqL1pL0MXJYWzF8FG3QpUKv9Yct/RYoX2eOLpDejJq
+         FbJr8lUNSr0ncjzVnMNruB1yC9LpeBTOtmh50k6HrWl4CaV4HNIsgTkltEQS87dvghHX
+         XHBdvqQ/JtkbCPt5x24iPMzgOPw/ZgntHf6gHGDEc9PLi8lSOjn5YxvOqYzErNGysBB8
+         J3owEzS5ekSVAgPx8wM5ZmrfeHVU2GT+uijWt7KkkWQMc92HZGqkcKSzUi+k8SEBICZm
+         ViGA==
+X-Gm-Message-State: AOAM533oHueUmuTepLy9gMQFyCDm2me6Ngzb69z2rCiQS0Xd3ySVLZ2Z
+        yCpp2NmmlvSt3Yz9eKfUGb4En4TTrRqYbQwPAjORlQ==
+X-Google-Smtp-Source: ABdhPJw+V82TF1qaBVXuuWYkWY+rm9HiymOEqRm4BrdYNvCzBYJJ7rbPIH8GxSbo8QMjXkLN06+9zP0krMBu6nE5ecA=
+X-Received: by 2002:a5e:cb0d:: with SMTP id p13mr8904638iom.71.1637704064568;
+ Tue, 23 Nov 2021 13:47:44 -0800 (PST)
+MIME-Version: 1.0
+References: <20211123000102.4052105-1-almasrymina@google.com>
+ <YZ1USY+zB1PP24Z1@casper.infradead.org> <CAHS8izOhi45RqCACGGXYyB8UAmMo-85TyuNX8Myzdh81xOkBTA@mail.gmail.com>
+ <YZ1ddl3FA43NijmX@casper.infradead.org>
+In-Reply-To: <YZ1ddl3FA43NijmX@casper.infradead.org>
+From:   Mina Almasry <almasrymina@google.com>
+Date:   Tue, 23 Nov 2021 13:47:33 -0800
+Message-ID: <CAHS8izMmcbXQ0xCDVYx8JW54sbbLXwNnK6pHgf9Ztn=XPFEsWA@mail.gmail.com>
+Subject: Re: [PATCH v7] mm: Add PM_THP_MAPPED to /proc/pid/pagemap
+To:     Matthew Wilcox <willy@infradead.org>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         David Hildenbrand <david@redhat.com>,
         "Paul E . McKenney" <paulmckrcu@fb.com>,
@@ -39,54 +63,81 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Florian Schmidt <florian.schmidt@nutanix.com>,
         linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-mm@kvack.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7] mm: Add PM_THP_MAPPED to /proc/pid/pagemap
-Message-ID: <YZ1ddl3FA43NijmX@casper.infradead.org>
-References: <20211123000102.4052105-1-almasrymina@google.com>
- <YZ1USY+zB1PP24Z1@casper.infradead.org>
- <CAHS8izOhi45RqCACGGXYyB8UAmMo-85TyuNX8Myzdh81xOkBTA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHS8izOhi45RqCACGGXYyB8UAmMo-85TyuNX8Myzdh81xOkBTA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 23, 2021 at 01:10:37PM -0800, Mina Almasry wrote:
-> On Tue, Nov 23, 2021 at 12:51 PM Matthew Wilcox <willy@infradead.org> wrote:
+On Tue, Nov 23, 2021 at 1:30 PM Matthew Wilcox <willy@infradead.org> wrote:
+>
+> On Tue, Nov 23, 2021 at 01:10:37PM -0800, Mina Almasry wrote:
+> > On Tue, Nov 23, 2021 at 12:51 PM Matthew Wilcox <willy@infradead.org> wrote:
+> > >
+> > > On Mon, Nov 22, 2021 at 04:01:02PM -0800, Mina Almasry wrote:
+> > > > Add PM_THP_MAPPED MAPPING to allow userspace to detect whether a given virt
+> > > > address is currently mapped by a transparent huge page or not.  Example
+> > > > use case is a process requesting THPs from the kernel (via a huge tmpfs
+> > > > mount for example), for a performance critical region of memory.  The
+> > > > userspace may want to query whether the kernel is actually backing this
+> > > > memory by hugepages or not.
+> > >
+> > > So you want this bit to be clear if the memory is backed by a hugetlb
+> > > page?
+> > >
 > >
-> > On Mon, Nov 22, 2021 at 04:01:02PM -0800, Mina Almasry wrote:
-> > > Add PM_THP_MAPPED MAPPING to allow userspace to detect whether a given virt
-> > > address is currently mapped by a transparent huge page or not.  Example
-> > > use case is a process requesting THPs from the kernel (via a huge tmpfs
-> > > mount for example), for a performance critical region of memory.  The
-> > > userspace may want to query whether the kernel is actually backing this
-> > > memory by hugepages or not.
+> > Yes I believe so. I do not see value in telling the userspace that the
+> > virt address is backed by a hugetlb page, since if the memory is
+> > mapped by MAP_HUGETLB or is backed by a hugetlb file then the memory
+> > is backed by hugetlb pages and there is no vagueness from the kernel
+> > here.
 > >
-> > So you want this bit to be clear if the memory is backed by a hugetlb
-> > page?
-> >
-> 
-> Yes I believe so. I do not see value in telling the userspace that the
-> virt address is backed by a hugetlb page, since if the memory is
-> mapped by MAP_HUGETLB or is backed by a hugetlb file then the memory
-> is backed by hugetlb pages and there is no vagueness from the kernel
-> here.
-> 
-> Additionally hugetlb interfaces are more size based rather than PMD or
-> not. arm64 for example supports 64K, 2MB, 32MB and 1G 'huge' pages and
-> it's an implementation detail that those sizes are mapped CONTIG PTE,
-> PMD, CONITG PMD, and PUD respectively, and the specific mapping
-> mechanism is typically not exposed to the userspace and might not be
-> stable. Assuming pagemap_hugetlb_range() == PMD_MAPPED would not
-> technically be correct.
+> > Additionally hugetlb interfaces are more size based rather than PMD or
+> > not. arm64 for example supports 64K, 2MB, 32MB and 1G 'huge' pages and
+> > it's an implementation detail that those sizes are mapped CONTIG PTE,
+> > PMD, CONITG PMD, and PUD respectively, and the specific mapping
+> > mechanism is typically not exposed to the userspace and might not be
+> > stable. Assuming pagemap_hugetlb_range() == PMD_MAPPED would not
+> > technically be correct.
+>
+> What I've been trying to communicate over the N reviews of this
+> patch series is that *the same thing is about to happen to THPs*.
+> Only more so.  THPs are going to be of arbitrary power-of-two size, not
+> necessarily sizes supported by the hardware.  That means that we need to
+> be extremely precise about what we mean by "is this a THP?"  Do we just
+> mean "This is a compound page?"  Do we mean "this is mapped by a PMD?"
+> Or do we mean something else?  And I feel like I haven't been able to
+> get that information out of you.
+>
 
-What I've been trying to communicate over the N reviews of this
-patch series is that *the same thing is about to happen to THPs*.
-Only more so.  THPs are going to be of arbitrary power-of-two size, not
-necessarily sizes supported by the hardware.  That means that we need to
-be extremely precise about what we mean by "is this a THP?"  Do we just
-mean "This is a compound page?"  Do we mean "this is mapped by a PMD?"
-Or do we mean something else?  And I feel like I haven't been able to
-get that information out of you.
+Yes, I'm very sorry for the trouble, but I'm also confused what the
+disconnect is. To allocate hugepages I can do like so:
 
+mount -t tmpfs -o huge=always tmpfs /mnt/mytmpfs
+
+or
+
+madvise(..., MADV_HUGEPAGE)
+
+Note I don't ask the kernel for a specific size, or a specific mapping
+mechanism (PMD/contig PTE/contig PMD/PUD), I just ask the kernel for
+'huge' pages. I would like to know whether the kernel was successful
+in allocating a hugepage or not. Today a THP hugepage AFAICT is PMD
+mapped + is_transparent_hugepage(), which is the check I have here. In
+the future, THP may become an arbitrary power of two size, and I think
+I'll need to update this querying interface once/if that gets merged
+to the kernel. I.e, if in the future I allocate pages by using:
+
+mount -t tmpfs -o huge=2MB tmpfs /mnt/mytmpfs
+
+I need the kernel to tell me whether the mapping is 2MB size or not.
+
+If I allocate pages by using:
+
+mount -t tmpfs -o huge=pmd tmpfs /mnt/mytmps,
+
+Then I need the kernel to tell me whether the pages are PMD mapped or
+not, as I'm doing here.
+
+The current implementation is based on what the current THP
+implementation is in the kernel, and depending on future changes to
+THP I may need to update it in the future. Does that make sense?
