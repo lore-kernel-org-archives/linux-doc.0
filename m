@@ -2,126 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD5C5C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Nov 2021 02:37:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F32BC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Nov 2021 03:21:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232357AbhKWCkg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Nov 2021 21:40:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42370 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229672AbhKWCkf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Nov 2021 21:40:35 -0500
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59C8FC061574
-        for <linux-doc@vger.kernel.org>; Mon, 22 Nov 2021 18:37:28 -0800 (PST)
-Received: by mail-yb1-xb33.google.com with SMTP id j2so18837299ybg.9
-        for <linux-doc@vger.kernel.org>; Mon, 22 Nov 2021 18:37:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=nTPvXtzHv6HZ++mcRaXSOv1XKXnEa9rG+SSlC7lYWhE=;
-        b=bHQq0Hd9I+/x8g1ZiZ0Z02M8FM3ZseM/4YkRg0DgwRAubOxI1F66GBSSnLposQ8q4Y
-         ZM0VPxfaLVAhZuZw4o9hBxpIt8KQSF3bp39N5GJlruPuG9tmzZGTUvjFK39kInRaraMF
-         7rwRsQKa4eu8zoZeZpq+NT+Wc6ZCWPxsHKnsf7Etw+JKv0aHa6BQ4gR3yjYGPvqRyD0r
-         lsTm+CQQZ6wOPt5sNrS35Niz2aKBkxQ82ky0RbYVnCYKTNTMVM0rLM40UaLtTSNSxU1n
-         VnqNWPUsrC9P9yN1kZh8AnqaIvybNdmzYY6Wm9B0BU9lYhN5bDHT5XVpKPD84TjCOUjU
-         HrYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=nTPvXtzHv6HZ++mcRaXSOv1XKXnEa9rG+SSlC7lYWhE=;
-        b=Xai+V7OQgmzZEXiXOQOcVEVZnL/8v8TLDFqYPEUaTd4wrI4m4WQ5JrirnGdQgnIPOY
-         dHKQiH3++9HkGykKh2/cm9ZTyaZFUAVB/pYXKijsfOmaAcbLBiSxA2vMqmkVn0IKYE/K
-         xrvqNnb+/7Rd5a9LA29oHGOAgmoO3U0ETKTbl0L8+Vekrn3j3P/KOdqRE80yYAyLPxaC
-         oOWrwsO5Px4BHwHbIEO70BCIlXYc2wyZlJMBQ52nixQuzennHJNnbWJ+sGzspxPvNmC/
-         dAaHtZ2x46UCp2Z1OX7InB3+6gWcZJozahskwB1AbDDFF+gzWXloMcff/YmTgN3v6Kch
-         u/Zg==
-X-Gm-Message-State: AOAM532NxNDCaeGRwtXAnlJuzyMPIrw3VWlWOGurwoOpQe2+8TcheURf
-        bcER+fPN2f6fCxMb41oNOZAoY6FlPgFteEFQgaXWVw==
-X-Google-Smtp-Source: ABdhPJyQuU6bla0tWR3Wxzlsd9NTbOuv/DnOYWhHE+zyUPIdWOhzHxoMxpfXFikXiLUYEMuzoAGwd/Vz1Gd5l2N773s=
-X-Received: by 2002:a05:6902:1144:: with SMTP id p4mr2434493ybu.404.1637635047527;
- Mon, 22 Nov 2021 18:37:27 -0800 (PST)
+        id S231940AbhKWDYg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Nov 2021 22:24:36 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39990 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229955AbhKWDYg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 22 Nov 2021 22:24:36 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id EA7BF61040;
+        Tue, 23 Nov 2021 03:21:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1637637689;
+        bh=uM3YE0EFKILeiI9sS9IYkVOqnYUtuahejNsRMrq//j8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=vE5f1pkhSARmEgiNQAOmDvxu+O0PTWjxOkFugVXelICnkW8tekKrlPnpkN1ZyS51r
+         wTxWXOKkclJeMtN8HAyxIKof3ojxgGYjiAJJ+NooCBAoHqKI+76m0mdcGu1MDRehnh
+         +kPLhYmFv9ppEcMSBAbOrTs9Wz0aM9InyyRmoVf79h/Gy+ZbAQh4p6ovhpXBe+lE1N
+         DR3ureDTSD397GRuuNyATCFPOEh2zbnjAIEsg1+F3k6SpHcataMx76oQp6vL3M6n3K
+         zalsm19/QtegF8+Q1ei87bfmq2zsHHrVWrFA/eDi5JPa37syoI+GSOTcyHUO5tdjGS
+         4Thl4TssJDL5g==
+Received: by mail-vk1-f181.google.com with SMTP id q21so11563937vkn.2;
+        Mon, 22 Nov 2021 19:21:28 -0800 (PST)
+X-Gm-Message-State: AOAM531jKzcNKAsQ3/9aZbuu+aGMgjMg90medbyC2cwiZ8DmivtuQvZo
+        3b2ADZ82Kifgm5nIHe8rCz/Y7YGE23bL1ZIfX1U=
+X-Google-Smtp-Source: ABdhPJy862Zsy3ulVJkjx/gF8AytwTIhCOrJMHzbKbnmG+hAJ1LiJlNdqcqMfMQe5k7uB3wZjZZehhzZEpY+am7KEws=
+X-Received: by 2002:a05:6122:1788:: with SMTP id o8mr3481188vkf.8.1637637688053;
+ Mon, 22 Nov 2021 19:21:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20211123001020.4083653-1-almasrymina@google.com>
-In-Reply-To: <20211123001020.4083653-1-almasrymina@google.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Tue, 23 Nov 2021 10:36:48 +0800
-Message-ID: <CAMZfGtVe9oeqz-E2kquodD6JPvt=2qkpU4E0T6OgSu4_3PXQhA@mail.gmail.com>
-Subject: Re: [PATCH v8] hugetlb: Add hugetlb.*.numa_stat file
-To:     Mina Almasry <almasrymina@google.com>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Michal Hocko <mhocko@suse.com>,
-        David Rientjes <rientjes@google.com>,
-        Shakeel Butt <shakeelb@google.com>, Jue Wang <juew@google.com>,
-        Yang Yao <ygyao@google.com>, Joanna Li <joannali@google.com>,
-        Cannon Matthews <cannonmatthews@google.com>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Cgroups <cgroups@vger.kernel.org>, linux-doc@vger.kernel.org
+References: <20211123015717.542631-1-guoren@kernel.org> <20211123015717.542631-4-guoren@kernel.org>
+ <ac5613d9-913e-ff07-5802-21e1771112f9@infradead.org>
+In-Reply-To: <ac5613d9-913e-ff07-5802-21e1771112f9@infradead.org>
+From:   Guo Ren <guoren@kernel.org>
+Date:   Tue, 23 Nov 2021 11:21:17 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTTeeg1Dzfi94EYmjx5cUdpm7+C77R9yOf-PfpfZVD8=nA@mail.gmail.com>
+Message-ID: <CAJF2gTTeeg1Dzfi94EYmjx5cUdpm7+C77R9yOf-PfpfZVD8=nA@mail.gmail.com>
+Subject: Re: [RFC PATCH 3/3] riscv: Add riscv.fwsz kernel parameter
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Anup Patel <anup@brainfault.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>, atishp@rivosinc.com,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        linux-doc@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>,
+        Anup Patel <anup.patel@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 23, 2021 at 8:10 AM Mina Almasry <almasrymina@google.com> wrote=
-:
+On Tue, Nov 23, 2021 at 10:34 AM Randy Dunlap <rdunlap@infradead.org> wrote:
 >
-> For hugetlb backed jobs/VMs it's critical to understand the numa
-> information for the memory backing these jobs to deliver optimal
-> performance.
+> On 11/22/21 5:57 PM, guoren@kernel.org wrote:
+> > From: Guo Ren <guoren@linux.alibaba.com>
+> >
+> > The firmware of riscv (such as opensbi) occupy 2MB(64bit) /
+> > 4MB(32bit) in Linux. It's very wasteful to small memory footprint
+> > soc chip such as Allwinner D1s/F133. The kernel parameter gives a
+> > chance to users to set the proper size of the firmware and get
+> > more than 1.5MB of memory.
+> >
+> > Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
+> > Cc: Palmer Dabbelt <palmer@dabbelt.com>
+> > Cc: Anup Patel <anup.patel@wdc.com>
+> > Cc: Atish Patra <atishp@rivosinc.com>
+> > ---
+> >   Documentation/admin-guide/kernel-parameters.txt | 3 +++
+> >   1 file changed, 3 insertions(+)
+> >
+> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> > index 9725c546a0d4..ee505743c8f4 100644
+> > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > @@ -4964,6 +4964,9 @@
+> >                       [KNL] Disable ring 3 MONITOR/MWAIT feature on supported
+> >                       CPUs.
+> >
+> > +     riscv.fwsz=nn[KMG]
+> > +                     [RISC-V] Determine firmware size to save memory
 >
-> Currently this technically can be queried from /proc/self/numa_maps, but
-> there are significant issues with that. Namely:
-> 1. Memory can be mapped or unmapped.
-> 2. numa_maps are per process and need to be aggregated across all
->    processes in the cgroup. For shared memory this is more involved as
->    the userspace needs to make sure it doesn't double count shared
->    mappings.
-> 3. I believe querying numa_maps needs to hold the mmap_lock which adds
->    to the contention on this lock.
->
-> For these reasons I propose simply adding hugetlb.*.numa_stat file,
-> which shows the numa information of the cgroup similarly to
-> memory.numa_stat.
->
-> On cgroup-v2:
->    cat /sys/fs/cgroup/unified/test/hugetlb.2MB.numa_stat
->    total=3D2097152 N0=3D2097152 N1=3D0
->
-> On cgroup-v1:
->    cat /sys/fs/cgroup/hugetlb/test/hugetlb.2MB.numa_stat
->    total=3D2097152 N0=3D2097152 N1=3D0
->    hierarichal_total=3D2097152 N0=3D2097152 N1=3D0
->
-> This patch was tested manually by allocating hugetlb memory and querying
-> the hugetlb.*.numa_stat file of the cgroup and its parents.
-> =EF=BF=BC
-> Cc: Mike Kravetz <mike.kravetz@oracle.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Shuah Khan <shuah@kernel.org>
-> Cc: Miaohe Lin <linmiaohe@huawei.com>
-> Cc: Oscar Salvador <osalvador@suse.de>
-> Cc: Michal Hocko <mhocko@suse.com>
-> Cc: Muchun Song <songmuchun@bytedance.com>
-> Cc: David Rientjes <rientjes@google.com>
-> Cc: Shakeel Butt <shakeelb@google.com>
-> Cc: Jue Wang <juew@google.com>
-> Cc: Yang Yao <ygyao@google.com>
-> Cc: Joanna Li <joannali@google.com>
-> Cc: Cannon Matthews <cannonmatthews@google.com>
-> Cc: linux-mm@kvack.org
-> Cc: linux-kernel@vger.kernel.org
->
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> Is "Determine" like "Set"?  The user is setting (telling the software)
+> the firmware size?
+I mean "Set" here, thx for pointing it out.
 
-Reviewed-by: Muchun Song <songmuchun@bytedance.com>
+>
+> "Determine" makes it sound to me like the Linux software is somehow
+> helping to determine the firmware size.
+>
+> > +
+> >       ro              [KNL] Mount root device read-only on boot
+> >
+> >       rodata=         [KNL]
+> >
+>
+>
+> --
+> ~Randy
+
+
+
+-- 
+Best Regards
+ Guo Ren
+
+ML: https://lore.kernel.org/linux-csky/
