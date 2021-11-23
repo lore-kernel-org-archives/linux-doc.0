@@ -2,118 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D4BCC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Nov 2021 10:18:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C4E8C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Nov 2021 10:23:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235049AbhKWKVj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Nov 2021 05:21:39 -0500
-Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151]:21814 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232412AbhKWKVj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Nov 2021 05:21:39 -0500
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-1-qLWDfLgOMIW-gPxbsDmEMw-1; Tue, 23 Nov 2021 10:18:28 +0000
-X-MC-Unique: qLWDfLgOMIW-gPxbsDmEMw-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.26; Tue, 23 Nov 2021 10:18:27 +0000
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.026; Tue, 23 Nov 2021 10:18:27 +0000
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Vlastimil Babka' <vbabka@suse.cz>,
-        Christoph Lameter <cl@gentwo.org>
-CC:     Rustam Kovhaev <rkovhaev@gmail.com>,
-        "penberg@kernel.org" <penberg@kernel.org>,
-        "rientjes@google.com" <rientjes@google.com>,
-        "iamjoonsoo.kim@lge.com" <iamjoonsoo.kim@lge.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "djwong@kernel.org" <djwong@kernel.org>,
-        "david@fromorbit.com" <david@fromorbit.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "dvyukov@google.com" <dvyukov@google.com>
-Subject: RE: [PATCH v4] slob: add size header to all allocations
-Thread-Topic: [PATCH v4] slob: add size header to all allocations
-Thread-Index: AQHX344YYrlQE8gw8k+1+rn2N9Qq+awQ435Q
-Date:   Tue, 23 Nov 2021 10:18:27 +0000
-Message-ID: <69fc0cead9774dfdba816a8e25f30a53@AcuMS.aculab.com>
-References: <037227db-c869-7d9c-65e8-8f5f8682171d@suse.cz>
- <20211122013026.909933-1-rkovhaev@gmail.com>
- <alpine.DEB.2.22.394.2111221018070.202803@gentwo.de>
- <3c996e22-034f-1013-3978-1f786aae38fb@suse.cz>
- <alpine.DEB.2.22.394.2111221133110.204314@gentwo.de>
- <148d2774-77b9-bb25-c132-80b00e16ea06@suse.cz>
-In-Reply-To: <148d2774-77b9-bb25-c132-80b00e16ea06@suse.cz>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        id S232307AbhKWK0d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Nov 2021 05:26:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33670 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229847AbhKWK0c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Nov 2021 05:26:32 -0500
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6B58C061574;
+        Tue, 23 Nov 2021 02:23:24 -0800 (PST)
+Received: by mail-ed1-x529.google.com with SMTP id y12so89903162eda.12;
+        Tue, 23 Nov 2021 02:23:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BLa9DhjAB06zjOMfSgJjIOKy1OBWmGUyMeBeCrxhDPM=;
+        b=Yjc2DZtoWkfYgFYqWkVHfSCSLMHFkcfkm7+pw8sL6XLkHwLuwvO8ggrni6VWY0ZRxD
+         WCWtESQLIpI0YeHSQgB62gWiNSjIggf/NCE47SX0nrpyN1eRCMmdedRqu3ksj6sGV54A
+         N84Qcm+vkmmJtyfpNQv13U9QdHT5HYpuAjR9/6Ou9R1zER9lh/yQ55un9Ea2izoRk9mr
+         E30YQaUGwdC4QSdhZNIgz3ot3jcFwtYgv15WPrhOvTmAFX4nnSJ2QIbw+N2CbGekkcXN
+         MBQtNkPcCMi09ZBiCwwEV0qCi+PC8/IRi4g8GbOgf7hJijHg01L1f6AFZ9jdeM93S+UI
+         mfew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BLa9DhjAB06zjOMfSgJjIOKy1OBWmGUyMeBeCrxhDPM=;
+        b=Tk8gJH87Yl31MSn3lrMuBJ55zlAyMuNsXzUeg/fp02cGrA/xh0cwhpYnFEUL3PfJQ9
+         ZQ5JO9mnzf24oD+8i3Sd5SuA8lXtsNyFMKOfi0M1gkQtlkROrmUbl3XkRcU1nWBvJur/
+         Oe5CckAnBqpt3accEl26DIgNKnE6eh/fJU6UdPlefQ/J8Gpk49l4QvmcYgzrIg2U58Mk
+         orF/BaNOeP3JVQrX87k0JWZg7Y4VrNhZOcucwKo9NHY13dSRoWVlSp20Gww68bGPAqcB
+         QiSj25I3ZJUsef/+yCPffXztLo6SAGCR6QiXSCAg2KDyfCVv3YBapTounD8pysP4zEmW
+         A3Og==
+X-Gm-Message-State: AOAM532PRorjCLDnr+3YvdIkmifYRe2R+zRdUkxdSq0tDetR54SjqwxI
+        8/dsjJPLyosp/4elmwC36+GYkAkQFYvnfOrdBDg=
+X-Google-Smtp-Source: ABdhPJxNzJxqvc8wlpj9WXfx7m31SDwbXPR2ckwtQG9sccF7mwI3Y+q6UybbKU4+If9J90VeQTLvwZXeRSqiKpIxUMM=
+X-Received: by 2002:a17:906:489b:: with SMTP id v27mr5964462ejq.567.1637663003409;
+ Tue, 23 Nov 2021 02:23:23 -0800 (PST)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+References: <20211116205744.381790-1-pauk.denis@gmail.com> <f0bf01fa-ccd8-3a6a-8fd2-4c785fa212ef@roeck-us.net>
+In-Reply-To: <f0bf01fa-ccd8-3a6a-8fd2-4c785fa212ef@roeck-us.net>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Tue, 23 Nov 2021 12:22:46 +0200
+Message-ID: <CAHp75Vfbh+O39C_k9zQqSqsoSro7_gv6QmsxgmdO=woA32Q0HQ@mail.gmail.com>
+Subject: Re: [PATCH v12 0/2] Update ASUS WMI supported boards
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Denis Pauk <pauk.denis@gmail.com>,
+        Eugene Shalygin <eugene.shalygin@gmail.com>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        thomas@weissschuh.net, Ed Brindley <kernel@maidavale.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-RnJvbTogVmxhc3RpbWlsIEJhYmthDQo+IFNlbnQ6IDIyIE5vdmVtYmVyIDIwMjEgMTA6NDYNCj4g
-DQo+IE9uIDExLzIyLzIxIDExOjM2LCBDaHJpc3RvcGggTGFtZXRlciB3cm90ZToNCj4gPiBPbiBN
-b24sIDIyIE5vdiAyMDIxLCBWbGFzdGltaWwgQmFia2Egd3JvdGU6DQo+ID4NCj4gPj4gQnV0IGl0
-IHNlZW1zIHRoZXJlJ3Mgbm8gcmVhc29uIHdlIGNvdWxkbid0IGRvIGJldHRlcj8gSS5lLiB1c2Ug
-dGhlIHZhbHVlIG9mDQo+ID4+IFNMT0JfSERSX1NJWkUgb25seSB0byBhbGlnbiB0aGUgYmVnaW5u
-aW5nIG9mIGFjdHVhbCBvYmplY3QgKGFuZCBuYW1lIHRoZQ0KPiA+PiBkZWZpbmUgZGlmZmVyZW50
-IHRoYW4gU0xPQl9IRFJfU0laRSkuIEJ1dCB0aGUgc2l6ZSBvZiB0aGUgaGVhZGVyLCB3aGVyZSB3
-ZQ0KPiA+PiBzdG9yZSB0aGUgb2JqZWN0IGxlbmdodCBjb3VsZCBiZSBqdXN0IGEgbmF0aXZlIHdv
-cmQgLSA0IGJ5dGVzIG9uIDMyYml0LCA4IG9uDQo+ID4+IDY0Yml0LiBUaGUgYWRkcmVzcyBvZiB0
-aGUgaGVhZGVyIHNob3VsZG4ndCBoYXZlIGEgcmVhc29uIHRvIGJlIGFsc28gYWxpZ25lZA0KPiA+
-PiB0byBBUkNIX0tNQUxMT0NfTUlOQUxJR04gLyBBUkNIX1NMQUJfTUlOQUxJR04gYXMgb25seSBT
-TE9CIGl0c2VsZiBwcm9jZXNzZXMNCj4gPj4gaXQgYW5kIG5vdCB0aGUgc2xhYiBjb25zdW1lcnMg
-d2hpY2ggcmVseSBvbiB0aG9zZSBhbGlnbm1lbnRzPw0KPiA+DQo+ID4gV2VsbCB0aGUgYmVzdCB3
-YXkgd291bGQgYmUgdG8gcHV0IGl0IGF0IHRoZSBlbmQgb2YgdGhlIG9iamVjdCBpbiBvcmRlciB0
-bw0KPiA+IGF2b2lkIHRoZSBhbGlnbm1lbnQgcHJvYmxlbS4gVGhpcyBpcyBhIHBhcnRpY3VsYXIg
-aXNzdWUgd2l0aCBTTE9CIGJlY2F1c2UNCj4gPiBpdCBhbGxvd3MgbXVsdGlwbGUgdHlwZXMgb2Yg
-b2JqZWN0cyBpbiBhIHNpbmdsZSBwYWdlIGZyYW1lLg0KPiA+DQo+ID4gSWYgb25seSBvbmUgdHlw
-ZSBvZiBvYmplY3Qgd291bGQgYmUgYWxsb3dlZCB0aGVuIHRoZSBvYmplY3Qgc2l6ZSBldGMgY2Fu
-DQo+ID4gYmUgc3RvcmVkIGluIHRoZSBwYWdlIHN0cnVjdC4NCg0KT3IganVzdCBhIHNpbmdsZSBi
-eXRlIHRoYXQgaXMgdGhlIGluZGV4IG9mIHRoZSBhc3NvY2lhdGVkIGZyZWUgbGlzdCBzdHJ1Y3R1
-cmUuDQpGb3IgMzJiaXQgYW5kIGZvciB0aGUgc21hbGxlciBrbWFsbG9jKCkgYXJlYSBpdCBtYXkg
-YmUgcmVhc29uYWJsZSB0byBoYXZlDQphIHNlcGFyYXRlIGFycmF5IGluZGV4ZWQgYnkgdGhlIHBh
-Z2Ugb2YgdGhlIGFkZHJlc3MuDQoNCj4gPiBTbyBJIGd1ZXNzIHBsYWNlbWVudCBhdCB0aGUgYmVn
-aW5uaW5nIGNhbm5vdCBiZSBhdm9pZGVkLiBUaGF0IGluIHR1cm4gcnVucw0KPiA+IGludG8gdHJv
-dWJsZSB3aXRoIHRoZSBETUEgcmVxdWlyZW1lbnRzIG9uIHNvbWUgcGxhdGZvcm1zIHdoZXJlIHRo
-ZQ0KPiA+IGJlZ2lubmluZyBvZiB0aGUgb2JqZWN0IGhhcyB0byBiZSBjYWNoZSBsaW5lIGFsaWdu
-ZWQuDQo+IA0KPiBJdCdzIG5vIHByb2JsZW0gdG8gaGF2ZSB0aGUgcmVhbCBiZWdpbm5pbmcgb2Yg
-dGhlIG9iamVjdCBhbGlnbmVkLCBhbmQgdGhlDQo+IHByZXBlbmRlZCBoZWFkZXIgbm90Lg0KDQpJ
-J20gbm90IHN1cmUgdGhhdCBoZWxwcy4NClRoZSBoZWFkZXIgY2FuJ3Qgc2hhcmUgYSBjYWNoZSBs
-aW5lIHdpdGggdGhlIHByZXZpb3VzIGl0ZW0gKGJlY2F1c2UgaXQNCm1pZ2h0IGJlIG1hcHBlZCBm
-b3IgRE1BKSBzbyB3aWxsIGFsd2F5cyB0YWtlIGEgZnVsbCBjYWNoZSBsaW5lLg0KDQpUaGVyZSBt
-aWdodCBtZSBzb21lIHN0cmFuZ2Ugc2NoZW1lIHdoZXJlIHlvdSBwdXQgdGhlIHNpemUgYXQgdGhl
-IGVuZA0KYW5kIHRoZSBvZmZzZXQgb2YgdGhlICdsYXN0IGVuZCcgaW50byB0aGUgcGFnZSBzdHJ1
-Y3QuDQpUaGUgRE1BIEFQSSBzaG91bGQgbGV0IHlvdSBzYWZlbHkgcmVhZCB0aGUgc2l6ZSBmcm9t
-IGFuIGFsbG9jYXRlZA0KYnVmZmVyIC0gYnV0IHlvdSBjYW4ndCBtb2RpZnkgaXQuDQoNClRoZXJl
-IGlzIGFsc28gYWxsIHRoZSBjb2RlIHRoYXQgYWxsb2NhdGVzICdwb3dlciBvZiAyJyBzaXplZCBi
-dWZmZXJzDQp1bmRlciB0aGUgYXNzdW1wdGlvbiB0aGV5IGFyZSBlZmZpY2llbnQgLSBhcyBzb29u
-IGFzIHlvdSBhZGQgYSBzaXplDQpmaWVsZCB0aGF0IGFzc3VtcHRpb24ganVzdCBjYXVzZXMgdGhl
-IHNpemVzIG9mIGl0ZW0gdG8gKG9mdGVuKSBkb3VibGUuDQoNCglEYXZpZA0KDQo+IFRoZSBjb2Rl
-IGFscmVhZHkgZG9lcyB0aGF0IGJlZm9yZSB0aGlzIHBhdGNoIGZvciB0aGUNCj4ga21hbGxvYyBw
-b3dlci1vZi10d28gYWxpZ25tZW50cywgd2hlcmUgZS5nLiB0aGUgb2JqZWN0IGNhbiBiZSBhbGln
-bmVkIHRvIDI1Ng0KPiBieXRlcywgYnV0IHRoZSBwcmVwZW5kZWQgaGVhZGVyIHRvIGEgc21hbGxl
-ciBBUkNIX0tNQUxMT0NfTUlOQUxJR04gLw0KPiBBUkNIX1NMQUJfTUlOQUxJR04uDQo+IA0KPiA+
-IEkgZG9udCBrbm93IGJ1dCBpdCBzZWVtcyB0aGF0IG1ha2luZyBzbG9iIHRoYXQgc29waGlzdGlj
-YXRlZCBpcyBjb3VudGVyDQo+ID4gcHJvZHVjdGl2ZS4gUmVtb3ZlIFNMT0I/DQo+IA0KPiBJIHdv
-dWxkbid0IG1pbmQsIGJ1dCBzb21lYm9keSBtaWdodCA6KQ0KPiANCg0KLQ0KUmVnaXN0ZXJlZCBB
-ZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZhcm0sIE1pbHRvbiBLZXluZXMs
-IE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYgKFdhbGVzKQ0K
+On Fri, Nov 19, 2021 at 1:36 PM Guenter Roeck <linux@roeck-us.net> wrote:
+>
+> On 11/16/21 12:57 PM, Denis Pauk wrote:
+> > Add support by WMI interface provided by Asus for B550/X570 boards:
+> > * PRIME X570-PRO,
+> > * ROG CROSSHAIR VIII HERO
+> > * ROG CROSSHAIR VIII DARK HERO
+> > * ROG CROSSHAIR VIII FORMULA
+> > * ROG STRIX X570-E GAMING
+> > * ROG STRIX B550-I GAMING
+> > * ROG STRIX B550-E GAMING
+> >
+> > Add support by WMI interface provided by Asus for X370/X470/
+> > B450/X399 boards:
+> > * ROG CROSSHAIR VI HERO,
+> > * PRIME X399-A,
+> > * PRIME X470-PRO,
+> > * ROG CROSSHAIR VI EXTREME,
+> > * ROG CROSSHAIR VI HERO (WI-FI AC),
+> > * ROG CROSSHAIR VII HERO,
+> > * ROG CROSSHAIR VII HERO (WI-FI),
+> > * ROG STRIX B450-E GAMING,
+> > * ROG STRIX B450-F GAMING,
+> > * ROG STRIX B450-I GAMING,
+> > * ROG STRIX X399-E GAMING,
+> > * ROG STRIX X470-F GAMING,
+> > * ROG STRIX X470-I GAMING,
+> > * ROG ZENITH EXTREME,
+> > * ROG ZENITH EXTREME ALPHA.
+> >
+> > I have removed "ROG STRIX Z390-F GAMING" from list of supported boards in
+> > asus_wmi_sensors that I have added by mistake. I had misunderstood a
+> > comment in the [1] issue.
+> >
+> > I have added separate records for each of modules in MAINTAINERS file.
+> > Before it was one shared recors for both of modules.
+> >
+> > Could you please review?
+> >
+>
+> Series applied to hwmon-next.
 
+What is the repository it has been applied to? I don't see it in
+neither Linux Next nor [1]. It might be that I am missing the
+workflow.
+
+[1]: https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git/log/?h=hwmon-next
+
+-- 
+With Best Regards,
+Andy Shevchenko
