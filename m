@@ -2,174 +2,352 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDC6FC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Nov 2021 17:09:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCBFEC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Nov 2021 18:47:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233863AbhKWRMd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Nov 2021 12:12:33 -0500
-Received: from mail-eopbgr00057.outbound.protection.outlook.com ([40.107.0.57]:53984
-        "EHLO EUR02-AM5-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232689AbhKWRMc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 23 Nov 2021 12:12:32 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aJwBiA8ziYMby5WKwr/gBxIyrjH93ijZ/m6ieIVNaUdm0P0RhFnWWwvfjfii1baf2jTN1RM8MttbxNDOemAPiAfRPihWU3QtsIc9EdIakS/fvUD3Da9EBmF8dgHJY6tfhwV75g/IXm9gG0r8o5SLAaLMxNQvGuOFdDFgQqDxVOOJaaIsHl0iDfxWWCFqZrGYGfEQ4jMAHs8ZKWI09/bnA6q/YRi1vbQJKFEcznTuhXiPIqehH4uS8azU0aDBsan5jpep6AZoH+HwPRe71vyoC3k621R0G5CEh1JTlci4Q1m6NihrHyskAV+17mlqN/fb4d4FHCG6xy1uhF+gaerZvQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sFz8A3wXe6ul8zGLV68nnO5cVIPwkGj77v3JaDaAJVE=;
- b=lF9nLvakRCkNKcaKVDySEB71J+3JBDcpNpPRdenBwhFJCtyrM6W0Sz9zQnaD1wTWlIR4v/ThQ9byyQSqtVxZr5u0NP1f41ZCzLwJDXeWFtXc2CZjbNtF0PypHnYn2nFBNYDgenltsH7odcvDVF/I4YhfB7HjEO4vSsUNWwOKpbY7J2iHJEaZqGb4kC2qxw/uaNRzaedLwlzDLIy/hgMN337dELeNHr8dnFmqbCfNR/kgH2P23VCyNAyYv2iSI+N0yZ/AcZ5I4VA2/qpvaD8V4lC/RyealKkyF0cryxeXLpMqikUdpk/j5cN6kGRMQGkazxBD02zbWWeiP5I91BOIJw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sFz8A3wXe6ul8zGLV68nnO5cVIPwkGj77v3JaDaAJVE=;
- b=GcHU34rBadAUTzje8qtWsYAZAK0gSnkshj/iWGAuycN/yNyLE6AK3K2o49F/2rVSztwK6MrSDS43PeUM6v1yKpnZyA0xPq/aG8TvM9b/MJBX4TGT7iDOm+m+M7V9ZLqWy2o6X4hKR+erZSx+NjpEsFXcdMm/PYGf/TJQstPX9/U=
-Received: from VI1PR04MB5136.eurprd04.prod.outlook.com (2603:10a6:803:55::19)
- by VI1PR04MB3071.eurprd04.prod.outlook.com (2603:10a6:802:3::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.24; Tue, 23 Nov
- 2021 17:09:21 +0000
-Received: from VI1PR04MB5136.eurprd04.prod.outlook.com
- ([fe80::e4ed:b009:ae4:83c5]) by VI1PR04MB5136.eurprd04.prod.outlook.com
- ([fe80::e4ed:b009:ae4:83c5%7]) with mapi id 15.20.4713.026; Tue, 23 Nov 2021
- 17:09:21 +0000
-From:   Vladimir Oltean <vladimir.oltean@nxp.com>
-To:     Alexander Lobakin <alexandr.lobakin@intel.com>
-CC:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
-        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shay Agroskin <shayagr@amazon.com>,
-        Arthur Kiyanovski <akiyano@amazon.com>,
-        David Arinzon <darinzon@amazon.com>,
-        Noam Dagan <ndagan@amazon.com>,
-        Saeed Bishara <saeedb@amazon.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Marcin Wojtas <mw@semihalf.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Saeed Mahameed <saeedm@nvidia.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        =?iso-8859-1?Q?Toke_H=F8iland-J=F8rgensen?= <toke@redhat.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Edward Cree <ecree.xilinx@gmail.com>,
-        Martin Habets <habetsm.xilinx@gmail.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Yajun Deng <yajun.deng@linux.dev>,
-        Sergey Ryazanov <ryazanov.s.a@gmail.com>,
-        David Ahern <dsahern@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Cong Wang <cong.wang@bytedance.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-        "virtualization@lists.linux-foundation.org" 
-        <virtualization@lists.linux-foundation.org>
-Subject: Re: [PATCH v2 net-next 05/26] enetc: implement generic XDP stats
- callbacks
-Thread-Topic: [PATCH v2 net-next 05/26] enetc: implement generic XDP stats
- callbacks
-Thread-Index: AQHX4Ij/XaaTEUdaCEG47cK497YtaqwRWKMA
-Date:   Tue, 23 Nov 2021 17:09:20 +0000
-Message-ID: <20211123170920.wgactazyupm32yqu@skbuf>
-References: <20211123163955.154512-1-alexandr.lobakin@intel.com>
- <20211123163955.154512-6-alexandr.lobakin@intel.com>
-In-Reply-To: <20211123163955.154512-6-alexandr.lobakin@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: e74f17ea-6e6f-4040-5d43-08d9aea3fdf3
-x-ms-traffictypediagnostic: VI1PR04MB3071:
-x-microsoft-antispam-prvs: <VI1PR04MB30719CF0A26B35757B8CBD79E0609@VI1PR04MB3071.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6430;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: RlWa2d6GjAouN0DWrAYJ2wE9bZKDQBOINPHM1T4CvfJHSGQWhJVpezsgOuMMiBW3TBGlGM1JtxMwT5d3+7zxq2HSeoepN71Kzll4xxRC67afDjofU5O49Iql5o65C39MrTyadJtQHey4o56ddamFIvlB35RT2D21MhUKTXwIvSp7Z/XKfxLZYE2dC9rw9sAszI5o/yik2BSBrBLzLyh8hSYzvLQJ1ZLkh/ZQeWmmuf4Z4bQCtFCF/uUQs8plQ9q7ZwvLtwjNnUT2Gn9wLFETa739dIg2KZMdlGJPAWiFbqi+4LX7vJdo2moCkkXVEQXEtw84uyXyJuIjpHNIAsUggN2iLqN1Khvh59fzZ4c49pTMk+gJdNyeo+L4N5AHg1IlZ+D4IdbC1hzx+bREutqm0fUuvnO+lOdAKuqGtHabZY9EDjSn5JFI9TdozjkPrKxnb+erWLEqOCVzxfH/A5PaRPX9pBLVEagGNybgQd6CGrDVb041TWX8qFUlZtUZH1kodL2ppgSGX78m1izcMIDrNJFhhJQbnMpePpORNuGXKjRG//PVtyzK5alvxYgz5SOfdYUVIYTYoFMjPVNG8OC8gbLeanVhM4v5nYdXFTwKW7euVo6pO32Y99nKxuqoajbkOp2lCaAmRlkewLpGY6IRXTC5ojV6jRc6FlUm36btBfCUtOoueygaukIN84We+3KMPCbrKd6uzp0tHN7xglouHQsEdoIx7ss03WRNS5hlc2E=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5136.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(7916004)(366004)(5660300002)(316002)(6506007)(26005)(86362001)(54906003)(122000001)(38100700002)(38070700005)(76116006)(33716001)(4744005)(4326008)(7416002)(6916009)(44832011)(2906002)(186003)(91956017)(66946007)(66446008)(64756008)(66556008)(66476007)(71200400001)(7406005)(83380400001)(1076003)(508600001)(6486002)(8676002)(8936002)(6512007)(9686003)(41533002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?JW8yOrmhlIJ9W7FBJS5OwQSrzUXEchdRLunt3XzgWBHSRd+tJnGMS7+IiM?=
- =?iso-8859-1?Q?5HGB+RE7KlZQGU/inOKrCMlBtw/JxpiIWF2KQgeVDpoxF8PfC4X/tJhgjU?=
- =?iso-8859-1?Q?+DDMx9TXwm97u2nDFphW/BY03PwcSM+UA8of3Mw7ZLvUhLbA4TVyWcdSnH?=
- =?iso-8859-1?Q?SZDYcbvvq2uXCY5ea1Nuc/Udh7ISolPYGQU+eKD2HDbFz9cYF2WV974d7j?=
- =?iso-8859-1?Q?x97KNMsvowD2TX2NQpINjIEG11hzLi+lxaUQddpnZj0DyS1CtW5CY2iWRQ?=
- =?iso-8859-1?Q?IEcUXtDS3f9GsXkNCcgJkRlmEYPlo3qj3f7uuDn+88sxfqJuRfYYzZfIZl?=
- =?iso-8859-1?Q?eFoMlHzhek4wCOe6CR5bzTmp5RcEeCza/4CCEHMZqT/BZ3PySW2TaLGwxm?=
- =?iso-8859-1?Q?0NiIQZyaz/Eg36TQYjzRtInhFVkqrNYwlMJZn11sJ3xqjWc5AnOAxueG4+?=
- =?iso-8859-1?Q?AgE1ZXzYjCsZ1Ed3ZTOlJiqkP8qkTuS1dSBvUNgsCy5TXB+0GFEca0YZm/?=
- =?iso-8859-1?Q?z0D8bnoN4eFEYpKWNdHpQbRBn2X+91QH9Ul8i5Ym3O82bJtP0YfbYraKEU?=
- =?iso-8859-1?Q?40nBLfK8FYdzlOVyeB2hIJTUX7r3rgutBFy/Tm1KqB3m+hNf36vzXstBbe?=
- =?iso-8859-1?Q?8eB/3bNG2mvhVAbTbXCD/fTTbWMxuFRloThL8ByXtzTkZiwA0hMrcAI41N?=
- =?iso-8859-1?Q?EEN1Sc1EjaxTKab8Bdrc4VLsdqNkFWPp8TF1yFwKRNR3jIEp27RrN/0wCd?=
- =?iso-8859-1?Q?J8FV/bP2b+K3+4fA0eH1NKQpxcT8uH/Y8/1R00eajGR0nYyPRxZCfGbZNC?=
- =?iso-8859-1?Q?WmxVxfeaX3/koStWP4zvZnj2Qb7Hy6YwlC1agevDaNd67UO7l8nuvvHcvd?=
- =?iso-8859-1?Q?xYrrVhYG46CjP8D7KGRXyc/7udCAPYFLsHv8vVWjyKg784f2QiFrFOUeiK?=
- =?iso-8859-1?Q?pgBtduUAiUX3XkchgfoDAIDi8btuLzh5CJn40++iyWPZr04w77/4j+fUn2?=
- =?iso-8859-1?Q?2K/OI15nlESHcSOKtSA+x+x4Rqk8iSRP+hsAo0yWJVs+6GqMr4b+jpE3UH?=
- =?iso-8859-1?Q?H0l4/r7sixxKxWa5P9LVxiGU6varfrJlegWSz1m2a7Hy1890cIBoQ3pSMT?=
- =?iso-8859-1?Q?IweZaLOoZsLNCSGFxA29sD5UQDo8Aof5O9m7feJXwUIzmUPnWaFJGeNnT8?=
- =?iso-8859-1?Q?YizqAmUVQysaH0KN4zOYwWuK+kSzNEMQoilb21lMsAZQNuxQkwwqvoXYnA?=
- =?iso-8859-1?Q?fcI/cXZ3smkT2ThfOouSlKq2voFfr03rZGwH+3k0EmmNsJ9AxMk7DTtXPO?=
- =?iso-8859-1?Q?NxflatyjrzlxPqQ8yYTpbYVsnEFt+/950jEJ7lNNOnQm6P5mV3xZhyxiWD?=
- =?iso-8859-1?Q?UnBtfKBMB78G3ip900BO7DaQGvEaaprrjrpe2iQ16HSSqrNFlteclrWANy?=
- =?iso-8859-1?Q?Js9XvNNHCZ4SLBsAr3YW5b8VhKD2EMC6aQ0xV0kpBSZwqq1+07PF83BVWy?=
- =?iso-8859-1?Q?vX14UrTRQNFybOodT887Ib+P4htGioShitSREhWu8PFFMlyTqH1GOi3PXM?=
- =?iso-8859-1?Q?sGDZe++s01TTpPYFp/nr1f5MCOTRZSepUnowI3RXnnzxxDA85H2gLP//B4?=
- =?iso-8859-1?Q?gcsxwfOrBvL5zUGUL72BooskgRqSUo6R3ekA5oEZ1U8WwS8VoIWyzsaYJP?=
- =?iso-8859-1?Q?mxhFSNWr+3ZYSG39zLE=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <2AA94709EC439448AF69418ED7F16FA2@eurprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        id S236973AbhKWSu2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Nov 2021 13:50:28 -0500
+Received: from mga01.intel.com ([192.55.52.88]:33936 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234139AbhKWSu2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Nov 2021 13:50:28 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10177"; a="258977198"
+X-IronPort-AV: E=Sophos;i="5.87,258,1631602800"; 
+   d="scan'208";a="258977198"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2021 10:46:01 -0800
+X-IronPort-AV: E=Sophos;i="5.87,258,1631602800"; 
+   d="scan'208";a="674590629"
+Received: from smile.fi.intel.com ([10.237.72.184])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2021 10:45:58 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1mpanj-009s1P-3i;
+        Tue, 23 Nov 2021 20:45:55 +0200
+Date:   Tue, 23 Nov 2021 20:45:54 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 1/1] gpio: add sloppy logic analyzer using polling
+Message-ID: <YZ024q/r7Hc3TpMt@smile.fi.intel.com>
+References: <20211123164902.35370-1-wsa+renesas@sang-engineering.com>
+ <20211123164902.35370-2-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB5136.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e74f17ea-6e6f-4040-5d43-08d9aea3fdf3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Nov 2021 17:09:21.0244
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 3QRrG693W66XYh+Xso8p+euLwEA0GaS06tX919y8ci0c/vCVmUmntDvACx4stx7kXc8M4O6Ba7tt7xIHMDa2xA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB3071
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211123164902.35370-2-wsa+renesas@sang-engineering.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 23, 2021 at 05:39:34PM +0100, Alexander Lobakin wrote:
-> Similarly to dpaa2, enetc stores 5 per-channel counters for XDP.
-> Add necessary callbacks to be able to access them using new generic
-> XDP stats infra.
->=20
-> Signed-off-by: Alexander Lobakin <alexandr.lobakin@intel.com>
-> Reviewed-by: Jesse Brandeburg <jesse.brandeburg@intel.com>
-> ---
+On Tue, Nov 23, 2021 at 05:49:02PM +0100, Wolfram Sang wrote:
+> This is a sloppy logic analyzer using GPIOs. It comes with a script to
+> isolate a CPU for polling. While this is definitely not a production
+> level analyzer, it can be a helpful first view when remote debugging.
+> Read the documentation for details.
 
-Reviewed-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+...
 
-These counters can be dropped from ethtool, nobody depends on having
-them there.
+> +Result is a .sr file to be consumed with PulseView or sigrok-cli from the free
+> +`sigrok`_ project. It is a zip file which also contains the binary sample data
+> +which may be consumed by other software. The filename is the logic analyzer
+> +instance name plus a since-epoch timestamp.
+> +
+> +.. _sigrok: https://sigrok.org/
 
-Side question: what does "nch" stand for?=
+Alas, yet another tool required... (Sad thoughts since recently has installed
+PicoScope software).
+
+...
+
+>     kgdb
+>     kselftest
+>     kunit/index
+
+> +   gpio-sloppy-logic-analyzer
+
+Above looks like ordered, do we need some groups here or so?
+
+...
+
+> +	mutex_lock(&priv->lock);
+
+> +	if (priv->blob_dent) {
+
+Redundant (i.e. duplicate).
+
+> +		debugfs_remove(priv->blob_dent);
+> +		priv->blob_dent = NULL;
+> +	}
+
+...
+
+> +gpio_err:
+
+A bit confusing name. What about
+
+enable_irq_and_free_data:
+
+?
+
+> +	preempt_enable_notrace();
+> +	local_irq_enable();
+> +	if (ret)
+> +		dev_err(priv->dev, "couldn't read GPIOs: %d\n", ret);
+> +
+> +	kfree(priv->trig_data);
+> +	priv->trig_data = NULL;
+> +	priv->trig_len = 0;
+
+...
+
+> +static int gpio_la_poll_probe(struct platform_device *pdev)
+> +{
+> +	struct gpio_la_poll_priv *priv;
+> +	struct device *dev = &pdev->dev;
+> +	const char *devname = dev_name(dev);
+> +	const char *gpio_names[GPIO_LA_MAX_PROBES];
+
+> +	char *meta = NULL;
+> +	unsigned int i, meta_len = 0;
+> +	int ret;
+
+Perhaps
+
+	unsigned int i, meta_len = 0;
+	char *meta = NULL;
+	int ret;
+
+
+...
+
+> +	ret = device_property_read_string_array(dev, "probe-names", gpio_names,
+> +						priv->descs->ndescs);
+> +	if (ret >= 0 && ret != priv->descs->ndescs)
+
+> +		ret = -ENODATA;
+
+Don't remember if we already discussed this error code, but data is there,
+it's not correct. EBADSLT? EBADR? ECHRNG?
+
+> +	if (ret < 0)
+> +		return dev_err_probe(dev, ret, "error naming the GPIOs");
+
+...
+
+> +	for (i = 0; i < priv->descs->ndescs; i++) {
+> +		unsigned int add_len;
+> +		char *new_meta, *consumer_name;
+> +
+> +		if (gpiod_cansleep(priv->descs->desc[i]))
+> +			return -EREMOTE;
+> +
+> +		consumer_name = kasprintf(GFP_KERNEL, "%s: %s", devname, gpio_names[i]);
+> +		if (!consumer_name)
+> +			return -ENOMEM;
+> +		gpiod_set_consumer_name(priv->descs->desc[i], consumer_name);
+> +		kfree(consumer_name);
+> +
+> +		/* '10' is length of 'probe00=\n\0' */
+> +		add_len = strlen(gpio_names[i]) + 10;
+> +
+> +		new_meta = devm_krealloc(dev, meta, meta_len + add_len, GFP_KERNEL);
+> +		if (!new_meta)
+> +			return -ENOMEM;
+> +
+> +		meta = new_meta;
+> +		meta_len += snprintf(meta + meta_len, add_len, "probe%02u=%s\n",
+> +				     i + 1, gpio_names[i]);
+
+Do we really need the 'probe%02u=' part? It's redundant since it may be derived
+from the line number of the output (and it always in [1..ndescs+1]).
+
+> +	}
+
+...
+
+> +	dev_info(dev, "initialized");
+
+Is it useful?
+
+...
+
+> +print_help()
+> +{
+> +	cat <<EOF
+
+	cat << EOF
+
+is slightly easier to read.
+
+> +EOF
+> +}
+
+...
+
+> +set_newmask()
+> +{
+> +	for f in $(find "$1" -iname "$2"); do echo "$newmask" > "$f" 2>/dev/null || true; done
+
+While here it's okay, the rule of thumb is never use `for` or `while` against
+the list of filenames.
+
+> +}
+
+...
+
+> +init_cpu()
+> +{
+> +	isol_cpu="$1"
+
+> +	[ -d $cpusetdir ] || mkdir $cpusetdir
+
+`mkdir -p` and drop needless test.
+
+> +	mount | grep -q $cpusetdir || mount -t cpuset cpuset $cpusetdir
+
+> +	[ -d "$lacpusetdir" ] || mkdir "$lacpusetdir"
+
+`mkdir -p` and drop needless test.
+
+> +	cur_cpu="$(cat "$lacpusetdir"/cpus)"
+> +	[ "$cur_cpu" = "$isol_cpu" ] && return
+> +	[ -z "$cur_cpu" ] || fail "CPU$isol_cpu requested but CPU$cur_cpu already isolated"
+> +
+> +	echo "$isol_cpu" > "$lacpusetdir"/cpus || fail "Could not isolate CPU$isol_cpu. Does it exist?"
+> +	echo 1 > "$lacpusetdir"/cpu_exclusive
+> +	echo 0 > "$lacpusetdir"/mems
+> +
+> +	oldmask=$(cat /proc/irq/default_smp_affinity)
+
+> +	val=$((0x$oldmask & ~(1 << isol_cpu)))
+> +	newmask=$(printf "%x" $val)
+
+Can be on one line (in a single expression).
+
+> +	set_newmask '/proc/irq' '*smp_affinity'
+> +	set_newmask '/sys/devices/virtual/workqueue/' 'cpumask'
+> +
+> +	# Move tasks away from isolated CPU
+> +	for p in $(ps -o pid | tail -n +2); do
+> +		mask=$(taskset -p "$p") || continue
+> +		# Ignore tasks with a custom mask, i.e. not equal $oldmask
+> +		[ "${mask##*: }" = "$oldmask" ] || continue
+> +		taskset -p "$newmask" "$p" || continue
+> +	done 2>/dev/null >/dev/null
+
+`> /dev/null 2>&1` is idiomatic. And I think there is actually a subtle
+difference between two.
+
+> +	echo 1 > /sys/module/rcupdate/parameters/rcu_cpu_stall_suppress
+> +
+> +	cpufreqgov="/sys/devices/system/cpu/cpu$isol_cpu/cpufreq/scaling_governor"
+> +	[ -w "$cpufreqgov" ] && echo 'performance' > "$cpufreqgov" || true
+> +}
+
+...
+
+> +parse_triggerdat()
+> +{
+> +	oldifs="$IFS"
+> +	IFS=','; for trig in $1; do
+> +		mask=0; val1=0; val2=0
+> +		IFS='+'; for elem in $trig; do
+> +			chan=${elem%[lhfrLHFR]}
+> +			mode=${elem#$chan}
+> +			# Check if we could parse something and the channel number fits
+
+> +			[ "$chan" != "$elem" ] && [ "$chan" -le $max_chans ] || fail "Trigger syntax error: $elem"
+
+No need to execute `test` twice:
+
+			[ "$chan" != "$elem" -a "$chan" -le $max_chans ] || fail "Trigger syntax error: $elem"
+
+> +			bit=$((1 << (chan - 1)))
+> +			mask=$((mask | bit))
+> +			case $mode in
+> +				[hH]) val1=$((val1 | bit)); val2=$((val2 | bit));;
+> +				[fF]) val1=$((val1 | bit));;
+> +				[rR]) val2=$((val2 | bit));;
+> +			esac
+> +		done
+
+> +		trigger_bindat="$trigger_bindat$(printf '\\%o\\%o' $mask $val1)"
+> +		[ $val1 -ne $val2 ] && trigger_bindat="$trigger_bindat$(printf '\\%o\\%o' $mask $val2)"
+
+`printf` with arguments may be split to a separate helper function.
+
+> +	done
+> +	IFS="$oldifs"
+> +}
+> +
+> +do_capture()
+> +{
+> +	taskset "$1" echo 1 > "$lasysfsdir"/capture || fail "Capture error! Check kernel log"
+
+Shouldn't this function setup signal TRAPs?
+
+> +	srtmp=$(mktemp -d)
+> +	echo 1 > "$srtmp"/version
+> +	cp "$lasysfsdir"/sample_data "$srtmp"/logic-1-1
+> +	cat > "$srtmp"/metadata <<EOF
+
+	cat > "$srtmp"/metadata << EOF
+
+> +[global]
+> +sigrok version=0.2.0
+> +
+> +[device 1]
+> +capturefile=logic-1
+> +total probes=$(wc -l < "$lasysfsdir"/meta_data)
+> +samplerate=${samplefreq}Hz
+> +unitsize=1
+> +EOF
+> +	cat "$lasysfsdir"/meta_data >> "$srtmp"/metadata
+> +
+> +	zipname="$outputdir/${lasysfsdir##*/}-$(date +%s).sr"
+> +	zip -jq "$zipname" "$srtmp"/*
+> +	rm -rf "$srtmp"
+> +	delay_ack=$(cat "$lasysfsdir"/delay_ns_acquisition)
+> +	[ "$delay_ack" -eq 0 ] && delay_ack=1
+> +	echo "Logic analyzer done. Saved '$zipname'"
+> +	echo "Max sample frequency this time: $((1000000000 / delay_ack))Hz."
+> +}
+> +
+> +rep=$(getopt -a -l cpu:,duration-us:,help,instance:,kernel-debug-dir:,num_samples:,output-dir:,sample_freq:,trigger: -o c:d:hi:k:n:o:s:t: -- "$@") || exit 1
+> +eval set -- "$rep"
+> +while true; do
+> +	case "$1" in
+> +	-c|--cpu) initcpu="$2"; shift;;
+> +	-d|--duration-us) duration="$2"; shift;;
+> +	-h|--help) print_help; exit 0;;
+> +	-i|--instance) lainstance="$2"; shift;;
+> +	-k|--kernel-debug-dir) debugdir="$2"; shift;;
+> +	-n|--num_samples) numsamples="$2"; shift;;
+> +	-o|--output-dir) outputdir="$2"; shift;;
+> +	-s|--sample_freq) samplefreq="$2"; shift;;
+> +	-t|--trigger) triggerdat="$2"; shift;;
+> +	--) break;;
+
+> +	*) fail "error parsing command line: $*";;
+
+$@ is better, actually one should never use $*.
+
+> +	esac
+> +	shift
+> +done
+
+...
+
+Wondering, shouldn't be a simple validator before start that we have commands
+present, such as zip?
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
