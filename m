@@ -2,106 +2,62 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4F52C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Nov 2021 01:50:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD728C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Nov 2021 01:57:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231666AbhKWBxz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Nov 2021 20:53:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60262 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231785AbhKWBxz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Nov 2021 20:53:55 -0500
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D572C06173E
-        for <linux-doc@vger.kernel.org>; Mon, 22 Nov 2021 17:50:47 -0800 (PST)
-Received: by mail-pj1-x102b.google.com with SMTP id gt5so15318298pjb.1
-        for <linux-doc@vger.kernel.org>; Mon, 22 Nov 2021 17:50:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:in-reply-to:message-id:references
-         :mime-version;
-        bh=HTzCF6jo65htyBDPrBpILeuvBdfXuhBAIKFNppjW8x0=;
-        b=S6zMZEH+VmGFF/xsCr6aCbyNpxx1pxYIOJuVyfkhQNaxEH5T5BMG3mtU+HtkGq0ZNf
-         MX8Fmo5U4MBHtVBCyO2WsuhFQYLk1zI3fbwn2Kn2KDKNHWA5Eifl/6ZRfDkJ1RxeWViV
-         XY/3aPlZMKgcNtF0rISzPQCt1I4M63iRdN4SxFACjhKvXWwIgXK7oKGs91ePkwJ24Pw8
-         YnKl2pDB16dO9oPqjbvqCgFUA4akW8Q5jpbD12C/Z4cf0matfKmmtSeSqF+wtf+kw8Ex
-         CcTrwDptzTTBK2GdJ/WMckd65hFkOQlnl7i0Nf2EvhRnoe+oJV1qfEwL+pHyGjf62Roj
-         /zlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
-         :references:mime-version;
-        bh=HTzCF6jo65htyBDPrBpILeuvBdfXuhBAIKFNppjW8x0=;
-        b=NHlMP6xmOxlaupqc89HOf62kIMHQMEs3/KMghUjnnscHoQAnWOn4rrZKp4N1UysKN6
-         LjUm7bIK9VrBQ6fbdbhclAt7GJ2yvGN7S72JLe94aRMe7weJ6aHxJ/ce7VhupmLDHnKl
-         2lj5X5s2is4GcrvU/rJi0JEsLNvkh4C+ulBRCH5gQrEKpTCAnAJhIcCYjCX9+qjFSFOW
-         NuuXk2WanS1VX4fl4Dfl4rsN5nGMdmuAgHgkYzgETLJLybWpHyjMRrdrdoqYDHpaRfjn
-         0R4jeRcaaXt6EzL4hWLpxacGHbl9fy9kKP1Z4yd1TULWZxJ0fXl4twwEAyuZPBwfWz47
-         aXaA==
-X-Gm-Message-State: AOAM531Kd7CuUmbbR11bCpVBBIy39SEA2KrWbqJMtdjo472OpedwB4rp
-        8QV1sN2AAlr0cE1Gqr8aYQfUww==
-X-Google-Smtp-Source: ABdhPJxQ/8pqCEDnIj+5QGwd3pdxrE9t/GxEAizWH0isuFT+ppdRZmYdF7x41Z64MCWW5JOlqy1cHw==
-X-Received: by 2002:a17:90a:17ef:: with SMTP id q102mr1899751pja.116.1637632246379;
-        Mon, 22 Nov 2021 17:50:46 -0800 (PST)
-Received: from [2620:15c:17:3:c755:32e5:ce22:b7a8] ([2620:15c:17:3:c755:32e5:ce22:b7a8])
-        by smtp.gmail.com with ESMTPSA id t4sm10307601pfj.13.2021.11.22.17.50.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Nov 2021 17:50:45 -0800 (PST)
-Date:   Mon, 22 Nov 2021 17:50:44 -0800 (PST)
-From:   David Rientjes <rientjes@google.com>
-To:     Mina Almasry <almasrymina@google.com>
-cc:     Jonathan Corbet <corbet@lwn.net>,
-        David Hildenbrand <david@redhat.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Paul E . McKenney" <paulmckrcu@fb.com>,
-        Yu Zhao <yuzhao@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Peter Xu <peterx@redhat.com>,
-        Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
-        Florian Schmidt <florian.schmidt@nutanix.com>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7] mm: Add PM_THP_MAPPED to /proc/pid/pagemap
-In-Reply-To: <20211123000102.4052105-1-almasrymina@google.com>
-Message-ID: <b34e16a-f520-ec7b-7811-6adc2e645a5@google.com>
-References: <20211123000102.4052105-1-almasrymina@google.com>
+        id S231516AbhKWCAl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Nov 2021 21:00:41 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59526 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230482AbhKWCAk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 22 Nov 2021 21:00:40 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 899AF60F70;
+        Tue, 23 Nov 2021 01:57:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1637632653;
+        bh=DiRZ07Mz/LWCX1YgwTR0bxKJ+0HA3rQ0vFZS0plyMeQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=JjyhIRa4CRbPyeqxAFKMYepicgB1u4mNGFAtvPh6M56DylmdkG5nJ1HVAIq7Tez06
+         X8RIrW5MOYPI/HNAWyVfzs0Y9pv0S7O43inZCdwzGn5zPA2rdiEFqlX1DEuLKb17oX
+         S08/2GMgJkD1exeSQbRpiSDppmFiGtGEviL5Dbb4qHRCDZpOM5gS8EipaKGjdENEhS
+         4dhrUKAr/xw3UlRMLc/h55Y7SvFM9pBSM1LtNrGOq1Qi9mBJUhZK4OIn9WPVKJDuSi
+         nEXvMTU2at9EI2VSQ2uFzpZEsKDjp/lBF++mfPdXMsVgQGyiymXPl7+4d9TKNu5htx
+         dWiLDSWbLvsFg==
+From:   guoren@kernel.org
+To:     guoren@kernel.org, anup@brainfault.org, palmer@dabbelt.com,
+        atishp@rivosinc.com
+Cc:     linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-doc@vger.kernel.org, Guo Ren <guoren@linux.alibaba.com>
+Subject: [RFC PATCH 0/3] riscv: Add riscv.fwsz kernel parameter to save memory
+Date:   Tue, 23 Nov 2021 09:57:14 +0800
+Message-Id: <20211123015717.542631-1-guoren@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 22 Nov 2021, Mina Almasry wrote:
+From: Guo Ren <guoren@linux.alibaba.com>
 
-> Add PM_THP_MAPPED MAPPING to allow userspace to detect whether a given virt
-> address is currently mapped by a transparent huge page or not.  Example
-> use case is a process requesting THPs from the kernel (via a huge tmpfs
-> mount for example), for a performance critical region of memory.  The
-> userspace may want to query whether the kernel is actually backing this
-> memory by hugepages or not.
-> 
-> PM_THP_MAPPED bit is set if the virt address is mapped at the PMD
-> level and the underlying page is a transparent huge page.
-> 
-> A few options were considered:
-> 1. Add /proc/pid/pageflags that exports the same info as
->    /proc/kpageflags.  This is not appropriate because many kpageflags are
->    inappropriate to expose to userspace processes.
-> 2. Simply get this info from the existing /proc/pid/smaps interface.
->    There are a couple of issues with that:
->    1. /proc/pid/smaps output is human readable and unfriendly to
->       programatically parse.
->    2. /proc/pid/smaps is slow because it must read the whole memory range
->       rather than a small range we care about.  The cost of reading
->       /proc/pid/smaps into userspace buffers is about ~800us per call,
->       and this doesn't include parsing the output to get the information
->       you need. The cost of querying 1 virt address in /proc/pid/pagemaps
->       however is around 5-7us.
-> 
-> Tested manually by adding logging into transhuge-stress, and by
-> allocating THP and querying the PM_THP_MAPPED flag at those
-> virtual addresses.
-> 
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
+The firmware of riscv (such as opensbi) occupy 2MB(64bit) /
+4MB(32bit) in Linux. It's very wasteful to small memory footprint
+soc chip such as Allwinner D1s/F133. The kernel parameter gives a
+chance to users to set the proper size of the firmware and get
+more than 1.5MB of memory.
 
-Acked-by: David Rientjes <rientjes@google.com>
+Guo Ren (3):
+  riscv: Remove 2MB offset in the mm layout
+  riscv: Add early_param to decrease firmware region
+  riscv: Add riscv.fwsz kernel parameter
+
+ .../admin-guide/kernel-parameters.txt         |  3 +++
+ arch/riscv/include/asm/page.h                 |  8 +++++++
+ arch/riscv/kernel/head.S                      | 10 +++-----
+ arch/riscv/kernel/vmlinux.lds.S               |  5 ++--
+ arch/riscv/mm/init.c                          | 23 ++++++++++++++++---
+ 5 files changed, 36 insertions(+), 13 deletions(-)
+
+-- 
+2.25.1
+
