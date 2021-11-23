@@ -2,172 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95683C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Nov 2021 07:22:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59445C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Nov 2021 08:36:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231577AbhKWHZ7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Nov 2021 02:25:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48634 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233965AbhKWHZ6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Nov 2021 02:25:58 -0500
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D124C061574;
-        Mon, 22 Nov 2021 23:22:51 -0800 (PST)
-Received: by mail-pj1-x1029.google.com with SMTP id n15-20020a17090a160f00b001a75089daa3so1396556pja.1;
-        Mon, 22 Nov 2021 23:22:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:cc:references:subject:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=E152euvL8xFG6VtAVAYhcexuCCdzDHvA0/ZqwvZLKFw=;
-        b=SO9zbuw+diZKTBr22YgM1YDinZbXMFBFDBKd3Lax/vvRG70Ooa3eUp7TS57a1wHgGQ
-         9w8xYbZZ/TNLehbBL18OAuuI37+sB2rnLFMbaZSdCtjYcqRKz+79upKooeCW2LL8FN5y
-         tb9N+mCo9CEV6iVDnSpRghWJFw8g6MpsccfzGOEwjasGJrqcCK0Keq/d1UIoPEEeq2+L
-         qYz8gOilk3JUWzLgOEOpZalnY800qzwWNhioDWDmEXD8+Sj4QmyNXSfclYDQbG2JzqqQ
-         8wQdEhLFOfl1wm+wAWrQlrUJ8CATRGiH1KX4Unud7EQGn2woAVVM5+eFd9sHAEsu1M/y
-         sEZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:to:cc:references:subject:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=E152euvL8xFG6VtAVAYhcexuCCdzDHvA0/ZqwvZLKFw=;
-        b=bl/OEuWGOw7zUf73btV8I9NN5VVa9xb2HYpfny18b1of4c4K1YPSDYi9OXGpzS5Tgf
-         ZuyzVVu3QIdtoju4T/PpP5FkuywAIJVPwqwrK+YNHZ+3imCnbVk2Luge7jGS8WzQJJfj
-         3uWRdzfjtCp79YRkzLnnDuikThLFokFpk3y8Lmm7jwhll98BlESagb+x8FnU4EXGygXa
-         hzhPs9mx268SFPKkbqCK9rJTEMyQ9hN48UPKawz3kAkZzxx8R/GXUhRoNPD1qVY3nwss
-         e7DgcAEkZQuPpYTkHFVbJUkm6e4gVhL33zIn+t1k4uMjRwsvgpLevrIpS2xKCR1u7RKZ
-         6CDg==
-X-Gm-Message-State: AOAM5325A4VhRHqxTyFO8Pm/dto4yo/SsZduwf98VAw1pT5D4TNZheJ4
-        wbWr9z+Mnlo6aEmNuBuxOvw=
-X-Google-Smtp-Source: ABdhPJyGKnaA+H7NrpBN2lqstj0eyHlhXCpNCfzFdZJJUs82VkCATzi6Dr3KMHEmUGe7tiJahjpy4Q==
-X-Received: by 2002:a17:90b:4a05:: with SMTP id kk5mr388499pjb.142.1637652170654;
-        Mon, 22 Nov 2021 23:22:50 -0800 (PST)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id p6sm198907pjb.48.2021.11.22.23.22.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Nov 2021 23:22:50 -0800 (PST)
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     Alex Williamson <alex.williamson@redhat.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        Kirti Wankhede <kwankhede@nvidia.com>,
-        linux-doc@vger.kernel.org, Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-        Yishai Hadas <yishaih@nvidia.com>
-References: <20211123002042.GQ2105516@nvidia.com>
-Subject: Re: [PATCH RFC] vfio: Documentation for the migration region
-From:   Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <62d331f3-ce82-dbb0-bb94-7a2ce50d231c@gmail.com>
-Date:   Tue, 23 Nov 2021 16:22:45 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        id S233112AbhKWIjt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Nov 2021 03:39:49 -0500
+Received: from mail.kernel.org ([198.145.29.99]:49672 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230176AbhKWIjs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Nov 2021 03:39:48 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0D1036023E;
+        Tue, 23 Nov 2021 08:36:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1637656600;
+        bh=8IUk2wsIqhHjOKYTSkovqz/gy4LMPoLmcGPb/RWtyL0=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:From;
+        b=pE1jnYGRnAoPijL3RZ2jXz1jQkUDvNlFpaPfiLer0TvyDtU045PYqWux5WRFke57+
+         qVRQ5sSfp2OmZS1w9El4RyvEYlNCUoH9XSJe6D6CQgMxekeH8jxb0vr//5cl+GHrWN
+         ihlpVbD+xxUnVVKD7JA4T6qZZfEHcWS5hTi3DU5PqIQV65L8bPX9l1m/xLmZ8pwgnO
+         fKkHBNh8rGdKOsA0od3w+Fjn4L9M7gLclG5v3Ji0cIYZFZvNXGjiQjZfjQvl3nEX+M
+         Tvlcn12z8FK0uRTK79ttLwrrtKgPUnuMsYnV41tvhAPNzMcERc4tIIRxm9xbqNNuDV
+         OHtxAG2PK9wpw==
+From:   SeongJae Park <sj@kernel.org>
+To:     Oleksandr Natalenko <oleksandr@natalenko.name>
+Cc:     akpm@linux-foundation.org, SeongJae Park <sj@kernel.org>,
+        Jonathan.Cameron@huawei.com, amit@kernel.org,
+        benh@kernel.crashing.org, corbet@lwn.net, david@redhat.com,
+        dwmw@amazon.com, elver@google.com, foersleo@amazon.de,
+        gthelen@google.com, markubo@amazon.de, rientjes@google.com,
+        shakeelb@google.com, shuah@kernel.org, linux-damon@amazon.com,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/15] Introduce DAMON-based Proactive Reclamation
+Date:   Tue, 23 Nov 2021 08:36:36 +0000
+Message-Id: <20211123083636.5603-1-sj@kernel.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <20211123002042.GQ2105516@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <11868371.O9o76ZdvQC@natalenko.name>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 22 Nov 2021 20:20:42 -0400, Jason Gunthorpe wrote:
-> On Mon, Nov 22, 2021 at 01:31:14PM -0700, Jonathan Corbet wrote:
->> Jason Gunthorpe <jgg@nvidia.com> writes:
->> 
->> > Provide some more complete documentation for the migration region's
->> > behavior, specifically focusing on the device_state bits and the whole
->> > system view from a VMM.
->> >
->> > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
->> >  Documentation/driver-api/vfio.rst | 208 +++++++++++++++++++++++++++++-
->> >  1 file changed, 207 insertions(+), 1 deletion(-)
->> >
->> > Alex/Cornelia, here is the first draft of the requested documentation I promised
->> >
->> > We think it includes all the feedback from hns, Intel and NVIDIA on this mechanism.
->> >
->> > Our thinking is that NDMA would be implemented like this:
->> >
->> >    +#define VFIO_DEVICE_STATE_NDMA      (1 << 3)
->> >
->> > And a .add_capability ops will be used to signal to userspace driver support:
->> >
->> >    +#define VFIO_REGION_INFO_CAP_MIGRATION_NDMA    6
->> >
->> > I've described DIRTY TRACKING as a seperate concept here. With the current
->> > uAPI this would be controlled by VFIO_IOMMU_DIRTY_PAGES_FLAG_START, with our
->> > change in direction this would be per-tracker control, but no semantic change.
->> >
->> > Upon some agreement we'll include this patch in the next iteration of the mlx5 driver
->> > along with the NDMA bits.
->> >
->> > Thanks,
->> > Jason
->> >
->> > diff --git a/Documentation/driver-api/vfio.rst b/Documentation/driver-api/vfio.rst
->> > index c663b6f978255b..b28c6fb89ee92f 100644
->> > +++ b/Documentation/driver-api/vfio.rst
->> > @@ -242,7 +242,213 @@ group and can access them as follows::
->> >  VFIO User API
->> >  
->> > -Please see include/linux/vfio.h for complete API documentation.
->> > +Please see include/uapi/linux/vfio.h for complete API documentation.
->> > +
->> > +-------------------------------------------------------------------------------
->> > +
->> > +VFIO migration driver API
->> > +-------------------------------------------------------------------------------
->> > +
->> > +VFIO drivers that support migration implement a migration control register
->> > +called device_state in the struct vfio_device_migration_info which is in its
->> > +VFIO_REGION_TYPE_MIGRATION region.
->> > +
->> > +The device_state triggers device action both when bits are set/cleared and
->> > +continuous behavior for each bit. For VMMs they can also control if the VCPUs in
->> > +a VM are executing (VCPU RUNNING) and if the IOMMU is logging DMAs (DIRTY
->> > +TRACKING). These two controls are not part of the device_state register, KVM
->> > +will be used to control the VCPU and VFIO_IOMMU_DIRTY_PAGES_FLAG_START on the
->> > +container controls dirty tracking.
->> > +
->> > +Along with the device_state the migration driver provides a data window which
->> > +allows streaming migration data into or out of the device.
->> > +
->> > +A lot of flexibility is provided to userspace in how it operates these bits. The
->> > +reference flow for saving device state in a live migration, with all features:
->> > +
->> > +  RUNNING, VCPU_RUNNING
->> > +     Normal operating state
+Hello Oleksandr,
 
-Hi.
+On Sun, 21 Nov 2021 23:32:12 +0100 Oleksandr Natalenko <oleksandr@natalenko.name> wrote:
 
-So if you'd like definition lists of ReST, adding empty lines here
-
->> > +  RUNNING, DIRTY TRACKING, VCPU RUNNING>> > +     Log DMAs
-
-and here should do the trick.
-
->> > +     Stream all memory
-
-Ditto for the rest of the lists.
-
->> 
->> So I'd recommend actually building the docs and looking at the result;
->> this will not render the way you expect it to.  
+> Hello.
 > 
-> Hum... It is really close to what I'd like, with the state names
-> bolded and in something like an enumerated list
+> On úterý 19. října 2021 17:07:16 CET SeongJae Park wrote:
+> > In short, DAMON_RECLAIM with 50ms/s time quota and regions prioritization on
+> > v5.15-rc5 Linux kernel with ZRAM swap device achieves 38.58% memory saving
+> > with only 1.94% runtime overhead.  For this, DAMON_RECLAIM consumes only
+> > 4.97% of single CPU time.
 > 
-> But on close inspection I see the text fragments have been assembled
-> together. I'd probably try to make them into sentances than go to a
-> literal block?
+> While it really consumes little CPU time, is it fine for `kdamond.0` to be in a 
+> D (uninterruptible sleep) state all the time while active, pushing loadavg 
+> over 1.0?
 
-Please see ReST documentation for further info:
+Good point, this could confuse some users using loadavg.  I will send a fix for
+this soon.
 
-    https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#definition-lists
 
-        Thanks, Akira
+Thanks,
+SJ
+
 > 
-> Thanks,
-> Jason
+> Thanks.
+> 
+> -- 
+> Oleksandr Natalenko (post-factum)
+> 
