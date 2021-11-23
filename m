@@ -2,55 +2,55 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 512CDC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Nov 2021 00:29:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA52CC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Nov 2021 01:10:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229562AbhKWAc5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Nov 2021 19:32:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44446 "EHLO
+        id S231843AbhKWBN7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Nov 2021 20:13:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58332 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230295AbhKWAc5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Nov 2021 19:32:57 -0500
+        by vger.kernel.org with ESMTP id S231276AbhKWBN6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Nov 2021 20:13:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1637627389;
+        s=mimecast20190719; t=1637629851;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=jhcOB8BH8KnNqvuiAnlE7QM1O3rOBhzq7Gqgyf6Q30M=;
-        b=THsCUFTBBdhiXIIeCGBFebADFKARsrux0zUHFLn4uo9sjgVGq0CoPM/3wO1KE6d1aCJF46
-        WY4LJBnzTXvrDGEX3JCA8UcvaiOMnZLi7NLqRmjQlHxpIz0mX5ecCG/w2RaBQBkbzaD2OT
-        /nnTd/hflAPq+PbLYxkI0DgjFgFcZMc=
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
- [209.85.215.199]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=jSNsXUxZeHRu0Q3CAyM4RATVnGjbqHemvgQDThYQQv4=;
+        b=MNaq5YQ26iZCCSh5LAtShkvSKot1HrUkqMHoxzS+v+o92qNaOrIfpuR3VXRBI9/GfRVBUE
+        j0BW8BTtRF1FFMTZQ6b/yAWh3uGqlTRz9xe2fpoc4eKEq1CrFwAJVNH8S3rSQfMIF7bjYY
+        osXEUiYBI3YZ4fRV+eug44qb1vIVEVA=
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-289-Z23tdfLJMb6M7UCBnl6n1A-1; Mon, 22 Nov 2021 19:29:48 -0500
-X-MC-Unique: Z23tdfLJMb6M7UCBnl6n1A-1
-Received: by mail-pg1-f199.google.com with SMTP id p20-20020a63fe14000000b002cc2a31eaf6so7036039pgh.6
-        for <linux-doc@vger.kernel.org>; Mon, 22 Nov 2021 16:29:48 -0800 (PST)
+ us-mta-387-IL_Y3YVvPnuDL9pxPcSsIg-1; Mon, 22 Nov 2021 20:10:50 -0500
+X-MC-Unique: IL_Y3YVvPnuDL9pxPcSsIg-1
+Received: by mail-pf1-f199.google.com with SMTP id 4-20020a621604000000b004a4ab765028so5902067pfw.13
+        for <linux-doc@vger.kernel.org>; Mon, 22 Nov 2021 17:10:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=jhcOB8BH8KnNqvuiAnlE7QM1O3rOBhzq7Gqgyf6Q30M=;
-        b=Wfhp59FyI6q56zuND8nCBD0eIAg7/ysE+Hbxa3YV/l6BPlIMGWlDQH4GerLnQD/vZK
-         H9komYaFyKXTkfx4PBygILa71x58uR7KClRNkHLbYPy9md5zZs3FSQLy9z2fjKwR4qas
-         APFgcEATZR4sTktrBqdhk/7u+Adgtd8NzTNXVMmGCfuPqOwdpbGhRG9P9+G5bXt2Nif7
-         F9+5XnTJoNTUzBgKT8gUH2Fj/b++LrTsaaeh+j2FL/RDQiyPBOXpwHE0lhNNxi899m76
-         xFI0BSaUJKgCkdN+n9X6HI8RjTUPdaJGO23NIKNb6usdlfe7z0tV2ubULAptVpJZ7JI7
-         tsBw==
-X-Gm-Message-State: AOAM532Lqh1mHIoBBZo/zXFqMAkNs8Ra4U6ujfJsEd5rNzmOMNebWFY3
-        JcuYLJyvKrlTaJ/VopJ6NHM/DoIEVyW3T7X+lv/VEo16lRTsL5Hm1hMLBl6I1tCcVHOaKjMMxXq
-        swYbCeWEm3QS0mq1CvFFn
-X-Received: by 2002:a17:902:d2cd:b0:141:fbe2:b658 with SMTP id n13-20020a170902d2cd00b00141fbe2b658mr1640061plc.49.1637627387235;
-        Mon, 22 Nov 2021 16:29:47 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxpmetXUOw/FjelCYN18jFCDbKx5Mx0EYWYDFcq013NXXWYI7dgU9YbVVZp1nzeyUp9MIPV2Q==
-X-Received: by 2002:a17:902:d2cd:b0:141:fbe2:b658 with SMTP id n13-20020a170902d2cd00b00141fbe2b658mr1640015plc.49.1637627386936;
-        Mon, 22 Nov 2021 16:29:46 -0800 (PST)
+        bh=jSNsXUxZeHRu0Q3CAyM4RATVnGjbqHemvgQDThYQQv4=;
+        b=UgH9/dBFJ3wnmUMshZftYtLEEE7vab82eXOCQIXUQQmQb+VOdbDoP+Yf6nEtDaMUaH
+         k6j3fcO9zSoR48+6U5rinkp2Wk/Jc9Bthqay4soN0+7ouBoU+Vp67zGzHzqIxU8HE2AY
+         oCNHFxHcqrtqqhdw7CZsHBUqG+RkBMBLQIIEdVaG2lueReW1gRdOxRccpG1U73xzkBdN
+         /6vmWBZyGYrSN/WFI8/hv1g+32Ng0KhckZA5igeR+xk1PAML07VVApU14X3dfFFKaMeo
+         Q+yDXho3jXCqywSmpi15BqrRlYMmwBI4Wuj/1P5cXhseMLXq3RZylzzH7yQI0C724K9w
+         l9+g==
+X-Gm-Message-State: AOAM530YuS6ZdSq2O4LBF9yPpqZRtguasXEfio7LT0jbIbV62HnagI3h
+        PfYxT1tEDG9+ZvD6tUkMfFDIeMhCvxGJkdDpGW5/z92+QXgW34+T6h9+458qoqiwqhJN8Wj4OZR
+        COl6PqSEMBNgfA3NGUrKG
+X-Received: by 2002:a05:6a00:24cd:b0:49f:bf3f:c42c with SMTP id d13-20020a056a0024cd00b0049fbf3fc42cmr1258158pfv.54.1637629848929;
+        Mon, 22 Nov 2021 17:10:48 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyr+K6p+Ta9LDXXKzVi141QLJFFFwRJJs9XYA9zCFJq4acwgirIvACPF1I3gsGqa7J5/Al6vg==
+X-Received: by 2002:a05:6a00:24cd:b0:49f:bf3f:c42c with SMTP id d13-20020a056a0024cd00b0049fbf3fc42cmr1258124pfv.54.1637629848607;
+        Mon, 22 Nov 2021 17:10:48 -0800 (PST)
 Received: from xz-m1.local ([191.101.132.71])
-        by smtp.gmail.com with ESMTPSA id e18sm7083261pgl.50.2021.11.22.16.29.41
+        by smtp.gmail.com with ESMTPSA id n1sm9671176pfj.193.2021.11.22.17.10.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Nov 2021 16:29:46 -0800 (PST)
-Date:   Tue, 23 Nov 2021 08:29:38 +0800
+        Mon, 22 Nov 2021 17:10:48 -0800 (PST)
+Date:   Tue, 23 Nov 2021 09:10:40 +0800
 From:   Peter Xu <peterx@redhat.com>
 To:     Mina Almasry <almasrymina@google.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
@@ -63,111 +63,50 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Florian Schmidt <florian.schmidt@nutanix.com>,
         linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-mm@kvack.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6] mm: Add PM_THP_MAPPED to /proc/pid/pagemap
-Message-ID: <YZw18r7w4GRAmFwV@xz-m1.local>
-References: <20211117194855.398455-1-almasrymina@google.com>
- <YZWfhsMtH8KUaEqO@xz-m1.local>
- <CAHS8izPKm3jFjpwtGwcF=UVnxYhZFkJ-NZKOyV+gjPDvzi5reQ@mail.gmail.com>
+Subject: Re: [PATCH v7] mm: Add PM_THP_MAPPED to /proc/pid/pagemap
+Message-ID: <YZw/kIl0XYdlcIUR@xz-m1.local>
+References: <20211123000102.4052105-1-almasrymina@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAHS8izPKm3jFjpwtGwcF=UVnxYhZFkJ-NZKOyV+gjPDvzi5reQ@mail.gmail.com>
+In-Reply-To: <20211123000102.4052105-1-almasrymina@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 22, 2021 at 04:00:19PM -0800, Mina Almasry wrote:
-> On Wed, Nov 17, 2021 at 4:34 PM Peter Xu <peterx@redhat.com> wrote:
-> >
-> > Hi, Mina,
-> >
-> > On Wed, Nov 17, 2021 at 11:48:54AM -0800, Mina Almasry wrote:
-> > > Add PM_THP_MAPPED MAPPING to allow userspace to detect whether a given virt
-> > > address is currently mapped by a transparent huge page or not.  Example
-> > > use case is a process requesting THPs from the kernel (via a huge tmpfs
-> > > mount for example), for a performance critical region of memory.  The
-> > > userspace may want to query whether the kernel is actually backing this
-> > > memory by hugepages or not.
-> > >
-> > > PM_THP_MAPPED bit is set if the virt address is mapped at the PMD
-> > > level and the underlying page is a transparent huge page.
-> > >
-> > > A few options were considered:
-> > > 1. Add /proc/pid/pageflags that exports the same info as
-> > >    /proc/kpageflags.  This is not appropriate because many kpageflags are
-> > >    inappropriate to expose to userspace processes.
-> > > 2. Simply get this info from the existing /proc/pid/smaps interface.
-> > >    There are a couple of issues with that:
-> > >    1. /proc/pid/smaps output is human readable and unfriendly to
-> > >       programatically parse.
-> > >    2. /proc/pid/smaps is slow.  The cost of reading /proc/pid/smaps into
-> > >       userspace buffers is about ~800us per call, and this doesn't
-> > >       include parsing the output to get the information you need. The
-> > >       cost of querying 1 virt address in /proc/pid/pagemaps however is
-> > >       around 5-7us.
-> >
-> > This does not seem to be fair...  Should the "800us" value relevant to the
-> > process memory size being mapped?  As smaps requires walking the whole memory
-> > range and provides all stat info including THP accountings.
-> >
-> > While querying 1 virt address can only account 1 single THP at most.
-> >
-> > It means if we want to do all THP accounting for the whole range from pagemap
-> > we need multiple read()s, right?  The fair comparison should compare the sum of
-> > all the read()s on the virt addr we care to a single smap call.
-> >
-> > And it's hard to be fair too, IMHO, because all these depend on size of mm.
-> >
-> > Smaps is, logically, faster because of two things:
-> >
-> >   - Smaps needs only one syscall for whatever memory range (so one
-> >     user->kernel->user switch).
-> >
-> >     Comparing to pagemap use case of yours, you'll need to read 1 virt address
-> >     for each PMD, so when the PMD mapped size is huge, it could turn out that
-> >     smaps is faster even counting in the parsing time of smaps output.
-> >
-> >   - Smaps knows how to handle things in PMD level without looping into PTEs:
-> >     see smaps_pmd_entry().
-> >
-> >     Smaps will not duplicate the PMD entry into 512 PTE entries, because smaps
-> >     is doing statistic (and that's exaxtly what your use case wants!), while
-> >     pagemap is defined in 4K page size even for huge mappings because the
-> >     structure is defined upon the offset of the pagemap fd; that's why it needs
-> >     to duplicate the 2M entry into 512 same ones; even if they're not really so
-> >     meaningful.
-> >
-> > That's also why I tried to propose the interface of smaps to allow querying
-> > partial of the memory range, because IMHO it solves the exact problem you're
-> > describing and it'll also be in the most efficient way, meanwhile I think it
-> > expose all the rest smaps data too besides THP accountings so it could help
-> > more than thp accountings.
-> >
-> > So again, no objection on this simple and working patch, but perhaps rephrasing
-> > the 2nd bullet as: "smaps is slow because it must read the whole memory range
-> > rather than a small range we care"?
-> >
+On Mon, Nov 22, 2021 at 04:01:02PM -0800, Mina Almasry wrote:
+> Add PM_THP_MAPPED MAPPING to allow userspace to detect whether a given virt
+> address is currently mapped by a transparent huge page or not.  Example
+> use case is a process requesting THPs from the kernel (via a huge tmpfs
+> mount for example), for a performance critical region of memory.  The
+> userspace may want to query whether the kernel is actually backing this
+> memory by hugepages or not.
 > 
-> Sure thing, added in v7.
+> PM_THP_MAPPED bit is set if the virt address is mapped at the PMD
+> level and the underlying page is a transparent huge page.
 > 
-> If I'm coming across as resisting a range-based smaps, I don't mean
-> to. I think it addresses my use case. I'm just warning/pointing out
-> that:
-> 1. It'll be a large(r than 2 line) patch and probably an added kernel
-> interface, and I'm not sure my use case is an acceptable justification
-> to do that given the problem can be equally addressed very simply like
-> I'm adding here, but if it is an acceptable justification then I'm
-> fine with a range-based smaps.
-> 2. I'm not 100% sure what the performance would be like. But I can
-> protype it and let you know if I have any issues with the performance.
-> I just need to know what interface you're envisioning for this.
-
-Not sure whether an ioctl upon the smaps procfs file can work.
-
+> A few options were considered:
+> 1. Add /proc/pid/pageflags that exports the same info as
+>    /proc/kpageflags.  This is not appropriate because many kpageflags are
+>    inappropriate to expose to userspace processes.
+> 2. Simply get this info from the existing /proc/pid/smaps interface.
+>    There are a couple of issues with that:
+>    1. /proc/pid/smaps output is human readable and unfriendly to
+>       programatically parse.
+>    2. /proc/pid/smaps is slow because it must read the whole memory range
+>       rather than a small range we care about.  The cost of reading
+>       /proc/pid/smaps into userspace buffers is about ~800us per call,
+>       and this doesn't include parsing the output to get the information
+>       you need. The cost of querying 1 virt address in /proc/pid/pagemaps
+>       however is around 5-7us.
 > 
-> I'll upload a v7 with the commit message change, and let me know what you think!
+> Tested manually by adding logging into transhuge-stress, and by
+> allocating THP and querying the PM_THP_MAPPED flag at those
+> virtual addresses.
+> 
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
 
-Yeah that's the only thing I'm asking for now, and sorry to be picky.  Thanks.
+Acked-by: Peter Xu <peterx@redhat.com>
 
 -- 
 Peter Xu
