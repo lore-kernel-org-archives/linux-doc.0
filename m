@@ -2,220 +2,219 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 269ABC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Nov 2021 03:54:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74612C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Nov 2021 03:56:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229764AbhKWD5H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Nov 2021 22:57:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59140 "EHLO
+        id S229764AbhKWD7b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Nov 2021 22:59:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229553AbhKWD5H (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Nov 2021 22:57:07 -0500
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC8A2C061574;
-        Mon, 22 Nov 2021 19:53:59 -0800 (PST)
-Received: by mail-yb1-xb2b.google.com with SMTP id v138so55812852ybb.8;
-        Mon, 22 Nov 2021 19:53:59 -0800 (PST)
+        with ESMTP id S229678AbhKWD7a (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Nov 2021 22:59:30 -0500
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F448C061714
+        for <linux-doc@vger.kernel.org>; Mon, 22 Nov 2021 19:56:23 -0800 (PST)
+Received: by mail-wm1-x32e.google.com with SMTP id i12so17413115wmq.4
+        for <linux-doc@vger.kernel.org>; Mon, 22 Nov 2021 19:56:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=brainfault-org.20210112.gappssmtp.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=m58MbGaKoYr9PEivJVyq/ojllCseYO0HzHz7X5Tr9K0=;
-        b=DCrBhTXm/zUawfZI3/yK2rBsQAS30dJhB5UNJ1850WuTkYlnrt0X6wH6mHvUT9jEY1
-         E/jB96g9KG0ovzQfNRYpz3rQb0fNNOLw8vSbnq+A2ASuTcA9Sg+3kkkY3EE35hLlT+rX
-         YvudamMWvSVZLYi3CmX5yJ4HRhG0Tj1z0fRxC2uJRaXE6FbCBPWgtZc7UmfG7UDwUUTl
-         6jVRvCuGebZTCWvin2z2blrjQo06fR3Z9uyGuVo3iA1PJNEZWTvKDnjEs+59Kl0AEnl3
-         kQUANj9/3eZNWQpxztWV1/xpNMWWb5jwN5UynH6LYYBT6+MaTt65X3JgzuPZjKZ8XLRj
-         23kw==
+        bh=fbYyFnbPmkgrQrlw4urINtBSHt+A48GB7ljtOsMPFgM=;
+        b=Bxy7/TU9pGrA6C4yzYaDzlDtZDzXpr6L3TXKDg6avhbUj5cv8DHux/+S2RVXuQFrCi
+         blQ8Ekg4K4TDAA5maRbVp+U5+C5Nq5ywcxso2mcgeK+lUu3ZhZFJroDnBKYj/Pe+35nj
+         ghyqJifqWLL6F1Bq37R+R6/r0xWsiOc4dEebjp5enMWSp5t4MQqQmRH9KGNmdkeqRDj7
+         r8SiF8kS5GsCDR9sjjaTwlMglcrV0Q7P5Kc4A7js1VO/BDkgm8YNWoTwbhtflT2ohsVa
+         2vjixfVQtrJvDKg8ax+LLouvcB9iOLIU+JNtskHuGU0bi+GiNww03/XVsloujTYw63wW
+         aSEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=m58MbGaKoYr9PEivJVyq/ojllCseYO0HzHz7X5Tr9K0=;
-        b=27pdpooMY+LeMhiPIYVPrhca3exfjKNTRvpnUh1tv8egLBE01QoQesLkJ2o0Wj/pBU
-         OPW2KHWrfKusF/UNLwyBCzHp3sbwKwNwWSMm9dXNVM7iIaGalgzH+Z0QHcIsLJ1Z37xY
-         MINV9Dq09Iyz6SvQrLO3DLQXgHFsdTsGTFRqMGj0Y6yoJkJJgIsDUshOJtlSR9Y+yLq1
-         feG36J0nMJNI0c+TdykpbV7kBGzLiYPrTnyLQnuDOH4/kGOttC6GTCIU47w7cNAMf4Mp
-         fVdt9rEGkzri6ntTdlVLR7jupQXpKVueOWXcY3GGSmumuod7RMR0GnQGAShWz6T3/vFH
-         Z2MQ==
-X-Gm-Message-State: AOAM530b9Rl1ad6GEQIKGbvj8ayO5fVQHCwemhJT+n/SmDxUcRTaUAko
-        5HXc7RPpXTbiglopoSXlDnDocDrLbIRfBG/0ZwJrTpOsJ0YZ2g==
-X-Google-Smtp-Source: ABdhPJyHV3ww2k8xcwvWb/5wIpgZUKzXYUbJHzAWgBCaTytnOD6cfcAdpMF4cdr3toJHmT3TcQLFYoIV7xAVczc1nf8=
-X-Received: by 2002:a25:42c1:: with SMTP id p184mr2354758yba.433.1637639638800;
- Mon, 22 Nov 2021 19:53:58 -0800 (PST)
+        bh=fbYyFnbPmkgrQrlw4urINtBSHt+A48GB7ljtOsMPFgM=;
+        b=N7I7NAf+94VOClXI3qv1+/+Dweq6GmSfqlLClcSiwOwU4Bflvfo09uMZw5TKM5XS2d
+         i160iVptFrUufyhvwX6NJGB7EW5eLDTbH8dYxKXuuY45c7dF/XcRFh+xfo9lLq1UABzf
+         a/ppFPKOANOwJWBevQ7QLuzlW9ybjQ6FRZrMxUm/CwFzHTMc82YjwcHwgnfl7DFZU/Ls
+         vER5Bd+NMxgr+23HsW5/5abOWC8XnB9t/qjvthxY8Ynu0vIey1u4H+IdrvVGvI1RCxzT
+         Kv1OBYUtFnCrblHtlehDf5R1SMKZW0FZVGWb2BD7HNmPAYWBi+DEi6qGj6VSnRtYPuHr
+         mS3Q==
+X-Gm-Message-State: AOAM530zF0UPVe+uTnkvYmxMFHj82Zk5rzl9CmU6ELVZT71Ahuw1QhkI
+        1bCOxJycrDG+z7KHpY1lI20wSp+ff0JA6BSbL1I6Eu7/RjIYkqpl
+X-Google-Smtp-Source: ABdhPJxbmLSK0FMbEk6SIjAna1Y09Eya7/is9oohFf5JdZKW95Wp9FtEFCgUvS6DRHyvIQsUlU91u230P9etWrvFcZo=
+X-Received: by 2002:a7b:c017:: with SMTP id c23mr3073023wmb.137.1637639781581;
+ Mon, 22 Nov 2021 19:56:21 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1637601045.git.dave@dtucker.co.uk> <5da383bc01c66e6c1342cdb2b3dc53196214e003.1637601045.git.dave@dtucker.co.uk>
-In-Reply-To: <5da383bc01c66e6c1342cdb2b3dc53196214e003.1637601045.git.dave@dtucker.co.uk>
-From:   Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date:   Mon, 22 Nov 2021 19:53:47 -0800
-Message-ID: <CAEf4BzYXR4hDZg_7DF9RcswM6vJ0G1xVuGLRhQjDyJWEKeYSHg@mail.gmail.com>
-Subject: Re: [PATCH bpf-next 2/2] bpf, docs: document BPF_MAP_TYPE_ARRAY
-To:     Dave Tucker <dave@dtucker.co.uk>
-Cc:     bpf <bpf@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>, Martin Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>,
-        john fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+References: <20211123015717.542631-1-guoren@kernel.org> <20211123015717.542631-2-guoren@kernel.org>
+In-Reply-To: <20211123015717.542631-2-guoren@kernel.org>
+From:   Anup Patel <anup@brainfault.org>
+Date:   Tue, 23 Nov 2021 09:26:10 +0530
+Message-ID: <CAAhSdy0LWyhgXetiXikCosSX4xasgROyua6XMd92dV8TiWp62w@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/3] riscv: Remove 2MB offset in the mm layout
+To:     Guo Ren <guoren@kernel.org>
+Cc:     Palmer Dabbelt <palmer@dabbelt.com>, atishp@rivosinc.com,
+        "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Guo Ren <guoren@linux.alibaba.com>,
+        Anup Patel <anup.patel@wdc.com>,
+        Alexandre Ghiti <alex@ghiti.fr>,
+        Alexandre Ghiti <alexandre.ghiti@canonical.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 22, 2021 at 9:19 AM Dave Tucker <dave@dtucker.co.uk> wrote:
++Alex
+
+On Tue, Nov 23, 2021 at 7:27 AM <guoren@kernel.org> wrote:
 >
-> This commit adds documentation for the BPF_MAP_TYPE_ARRAY including
-> kernel version introduced, usage and examples.
-> It also documents BPF_MAP_TYPE_PERCPU_ARRAY since this is similar.
+> From: Guo Ren <guoren@linux.alibaba.com>
 >
-> Signed-off-by: Dave Tucker <dave@dtucker.co.uk>
+> The current RISC-V's mm layout is based on a 2MB offset and wasting
+> memory. Remove 2MB offset and map PAGE_OFFSET at start_of_DRAM.
+> Then we could reduce the memory reserved for opensbi in the next
+> patch.
+
+The real problem is that the generic kernel marks memory before
+__pa(PAGE_OFFSET) as reserved which is evident from the boot
+print "OF: fdt: Ignoring memory range 0x80000000 - 0x80200000".
+
+One simple way to re-claim the first 2MB of memory is by:
+1) Not placing OpenSBI firmware at start of RAM and rather
+place it towards end/middle or RAM away from kernel and initrd
+2) Load kernel at start of the RAM
+
+The point#1 is already supported by OpenSBI firmwares using
+position independent compilation. In fact, U-Boot SPL does
+not load OpenSBI firmware at the start of RAM.
+
+I would suggest Allwinner D1 to follow U-Boot SPL and have
+the booting stage before OpenSBI to load OpenSBI firmware
+somewhere else.
+
+Regards,
+Anup
+
+>
+> Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
+> Cc: Palmer Dabbelt <palmer@dabbelt.com>
+> Cc: Anup Patel <anup.patel@wdc.com>
+> Cc: Atish Patra <atishp@rivosinc.com>
 > ---
->  Documentation/bpf/map_array.rst | 150 ++++++++++++++++++++++++++++++++
->  1 file changed, 150 insertions(+)
->  create mode 100644 Documentation/bpf/map_array.rst
+>  arch/riscv/include/asm/page.h   |  8 ++++++++
+>  arch/riscv/kernel/head.S        | 10 +++-------
+>  arch/riscv/kernel/vmlinux.lds.S |  5 ++---
+>  arch/riscv/mm/init.c            | 11 ++++++++---
+>  4 files changed, 21 insertions(+), 13 deletions(-)
 >
-> diff --git a/Documentation/bpf/map_array.rst b/Documentation/bpf/map_array.rst
-> new file mode 100644
-> index 000000000000..f9eb5473a240
-> --- /dev/null
-> +++ b/Documentation/bpf/map_array.rst
-> @@ -0,0 +1,150 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +.. Copyright (C) 2021 Red Hat, Inc.
+> diff --git a/arch/riscv/include/asm/page.h b/arch/riscv/include/asm/page.h
+> index b3e5ff0125fe..299147c78b4a 100644
+> --- a/arch/riscv/include/asm/page.h
+> +++ b/arch/riscv/include/asm/page.h
+> @@ -16,6 +16,14 @@
+>  #define PAGE_SIZE      (_AC(1, UL) << PAGE_SHIFT)
+>  #define PAGE_MASK      (~(PAGE_SIZE - 1))
+>
+> +#if __riscv_xlen == 64
+> +/* Image load offset(2MB) from start of RAM */
+> +#define LOAD_OFFSET    0x200000
+> +#else
+> +/* Image load offset(4MB) from start of RAM */
+> +#define LOAD_OFFSET    0x400000
+> +#endif
 > +
-> +================================================
-> +BPF_MAP_TYPE_ARRAY and BPF_MAP_TYPE_PERCPU_ARRAY
-> +================================================
+>  #ifdef CONFIG_64BIT
+>  #define HUGE_MAX_HSTATE                2
+>  #else
+> diff --git a/arch/riscv/kernel/head.S b/arch/riscv/kernel/head.S
+> index f52f01ecbeea..a6ac892d2ccf 100644
+> --- a/arch/riscv/kernel/head.S
+> +++ b/arch/riscv/kernel/head.S
+> @@ -61,13 +61,7 @@ ENTRY(_start)
+>         /* Image load offset (0MB) from start of RAM for M-mode */
+>         .dword 0
+>  #else
+> -#if __riscv_xlen == 64
+> -       /* Image load offset(2MB) from start of RAM */
+> -       .dword 0x200000
+> -#else
+> -       /* Image load offset(4MB) from start of RAM */
+> -       .dword 0x400000
+> -#endif
+> +       .dword LOAD_OFFSET
+>  #endif
+>         /* Effective size of kernel image */
+>         .dword _end - _start
+> @@ -94,6 +88,8 @@ relocate:
+>         la a1, kernel_map
+>         XIP_FIXUP_OFFSET a1
+>         REG_L a1, KERNEL_MAP_VIRT_ADDR(a1)
+> +       li a2, LOAD_OFFSET
+> +       add a1, a1, a2
+>         la a2, _start
+>         sub a1, a1, a2
+>         add ra, ra, a1
+> diff --git a/arch/riscv/kernel/vmlinux.lds.S b/arch/riscv/kernel/vmlinux.lds.S
+> index 5104f3a871e3..75b7c72cd4bd 100644
+> --- a/arch/riscv/kernel/vmlinux.lds.S
+> +++ b/arch/riscv/kernel/vmlinux.lds.S
+> @@ -11,10 +11,9 @@
+>  #else
+>
+>  #include <asm/pgtable.h>
+> -#define LOAD_OFFSET KERNEL_LINK_ADDR
+>
+> -#include <asm/vmlinux.lds.h>
+>  #include <asm/page.h>
+> +#include <asm/vmlinux.lds.h>
+>  #include <asm/cache.h>
+>  #include <asm/thread_info.h>
+>  #include <asm/set_memory.h>
+> @@ -32,7 +31,7 @@ PECOFF_FILE_ALIGNMENT = 0x200;
+>  SECTIONS
+>  {
+>         /* Beginning of code and text segment */
+> -       . = LOAD_OFFSET;
+> +       . = LOAD_OFFSET + KERNEL_LINK_ADDR;
+>         _start = .;
+>         HEAD_TEXT_SECTION
+>         . = ALIGN(PAGE_SIZE);
+> diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
+> index 24b2b8044602..920e78f8c3e4 100644
+> --- a/arch/riscv/mm/init.c
+> +++ b/arch/riscv/mm/init.c
+> @@ -221,6 +221,11 @@ static void __init setup_bootmem(void)
+>         if (!IS_ENABLED(CONFIG_BUILTIN_DTB))
+>                 memblock_reserve(dtb_early_pa, fdt_totalsize(dtb_early_va));
+>
+> +       /*
+> +        * Reserve OpenSBI region and depends on PMP to deny accesses.
+> +        */
+> +       memblock_reserve(__pa(PAGE_OFFSET), LOAD_OFFSET);
 > +
-> +.. note:: ``BPF_MAP_TYPE_ARRAY`` was introduced in Kernel version 3.19 and ``BPF_MAP_TYPE_PERCPU_ARRAY`` in version 4.6
-> +
-> +``BPF_MAP_TYPE_ARRAY`` and ``BPF_MAP_TYPE_PERCPU_ARRAY`` provide generic array storage.
-> +The key type is an unsigned 32-bit integer (4 bytes) and the map is of constant size.
-> +All array elements are pre-allocated and zero initialized when created.
-> +``BPF_MAP_TYPE_PERCPU_ARRAY`` uses a different memory region for each CPU whereas
-> +``BPF_MAP_TYPE_ARRAY`` uses the same memory region.
-> +The maximum size of an array, defined in max_entries, is limited to 2^32.
-> +The value stored can be of any size, however, small values will be rounded up to 8 bytes.
-> +
-> +Usage
-> +=====
-> +
-> +Array elements can be retrieved using the ``bpf_map_lookup_elem()`` helper.
-> +This helper returns a pointer into the array element, so to avoid data races with userspace reading the value,
-> +the user must use primitives like ``__sync_fetch_and_add()`` when updating the value in-place.
-> +Access from userspace uses the libbpf API of the same name.
-> +
-> +Array elements can also be added using the ``bpf_map_update_elem()`` helper or libbpf API.
-> +
-> +Since the array is of constant size, ``bpf_map_delete_elem()`` is not supported.
-> +To clear an array element, you may use ``bpf_map_update_eleme()`` to insert a zero value to that index.
-> +
-> +Values stored in ``BPF_MAP_TYPE_ARRAY`` can be accessed by multiple programs across different CPUs.
-> +To restrict storage to a single CPU, you may use a ``BPF_MAP_TYPE_PERCPU_ARRAY``.
-> +Since Kernel version 5.1, the BPF infrastructure provides ``struct bpf_spin_lock`` to synchronize access.
-> +
-
-It would be good to also mention BPF_F_MMAPABLE flag and ability to
-mmap() contents of BPF_MAP_TYPE_ARRAY created with such a flag. We
-need to double-check, but there might be also a restriction to have
-value_size be a multiple of page size in such case, we need to consult
-the code.
-
-
-> +```bpf_map_get_next_key()`` can be used to iterate over array values.
-> +
-> +Examples
-> +========
-> +
-> +Please see the `bpf/samples`_ directory for functional examples.
-
-Let's point to tools/testing/selftests/bpf for functional examples.
-It's much more complete and more actively maintained and tested.
-
-> +This sample code simply demonstrates the API.
-> +
-> +.. section links
-> +.. _bpf/samples:
-> +    https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/samples/bpf/
-> +
-> +Kernel
-> +------
-> +
-> +.. code-block:: c
-> +
-> +    struct {
-> +        __uint(type, BPF_MAP_TYPE_ARRAY);
-> +        __type(key, u32);
-> +        __type(value, long);
-> +        __uint(max_entries, 256);
-> +    } my_map SEC(".maps");
-> +
-> +    int bpf_prog(struct __sk_buff *skb)
-> +    {
-> +        int index = load_byte(skb, ETH_HLEN + offsetof(struct iphdr, protocol));
-> +        long *value;
-> +
-> +        if (skb->pkt_type != PACKET_OUTGOING)
-> +            return 0;
-> +
-> +        value = bpf_map_lookup_elem(&my_map, &index);
-> +        if (value)
-> +            __sync_fetch_and_add(value, skb->len);
-> +
-> +        return 0;
-> +    }
-> +
-> +Userspace
-> +---------
-> +
-> +BPF_MAP_TYPE_ARRAY
-> +~~~~~~~~~~~~~~~~~~
-> +
-> +.. code-block:: c
-> +
-> +    #include <assert.h>
-> +    #include <bpf/libbpf.h>
-> +    #include <bpf/bpf.h>
-> +
-> +    int main(int argc, char **argv)
-> +        {
-
-something is off with this curly brace
-
-> +
-> +            int fd = bpf_create_map(BPF_MAP_TYPE_ARRAY, sizeof(__u32), sizeof(long), 256, 0);
-> +            if (fd < 0)
-> +            return -1;
-
-return not indented
-
-and the example itself doesn't follow kernel style guide with
-C89-style variable block separate from the rest of the code. Would be
-good to stick to that in kernel documentation.
-
-> +
-> +            // fill the map with values from 0-255
-> +            for(__u32 i=0; i < 256 ; i++) {
-
-__u32 inside the for isn't C89-compatible either. Also C++-style
-comment above isn't allowed.
-
-> +                long v = i;
-> +                bpf_map_update_elem(fd, &i, &v, BPF_ANY);
-
-makes sense to do error checking for update and lookup
-
-> +            }
-> +
-> +            __u32 index = 42;
-> +            long value;
-> +            bpf_map_lookup_elem(fd, &index, &value);
-> +            assert(value == 42);
-> +            return 0;
-> +    }
-> +
-> +
-
-[...]
+>         early_init_fdt_scan_reserved_mem();
+>         dma_contiguous_reserve(dma32_phys_limit);
+>         if (IS_ENABLED(CONFIG_64BIT))
+> @@ -604,7 +609,7 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
+>
+>         kernel_map.va_kernel_xip_pa_offset = kernel_map.virt_addr - kernel_map.xiprom;
+>  #else
+> -       kernel_map.phys_addr = (uintptr_t)(&_start);
+> +       kernel_map.phys_addr = (uintptr_t)(&_start) - LOAD_OFFSET;
+>         kernel_map.size = (uintptr_t)(&_end) - kernel_map.phys_addr;
+>  #endif
+>         kernel_map.va_pa_offset = PAGE_OFFSET - kernel_map.phys_addr;
+> @@ -645,8 +650,8 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
+>         create_pmd_mapping(trampoline_pmd, kernel_map.virt_addr,
+>                            kernel_map.xiprom, PMD_SIZE, PAGE_KERNEL_EXEC);
+>  #else
+> -       create_pmd_mapping(trampoline_pmd, kernel_map.virt_addr,
+> -                          kernel_map.phys_addr, PMD_SIZE, PAGE_KERNEL_EXEC);
+> +       create_pmd_mapping(trampoline_pmd, kernel_map.virt_addr + LOAD_OFFSET,
+> +                          kernel_map.phys_addr + LOAD_OFFSET, PMD_SIZE, PAGE_KERNEL_EXEC);
+>  #endif
+>  #else
+>         /* Setup trampoline PGD */
+> --
+> 2.25.1
+>
