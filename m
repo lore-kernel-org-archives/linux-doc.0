@@ -2,159 +2,74 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 085B2C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Nov 2021 20:01:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02CA9C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Nov 2021 20:51:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239342AbhKWUEv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Nov 2021 15:04:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56890 "EHLO
+        id S233993AbhKWUyo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Nov 2021 15:54:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235024AbhKWUEu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Nov 2021 15:04:50 -0500
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27E11C061574
-        for <linux-doc@vger.kernel.org>; Tue, 23 Nov 2021 12:01:42 -0800 (PST)
-Received: by mail-yb1-xb2e.google.com with SMTP id y68so703229ybe.1
-        for <linux-doc@vger.kernel.org>; Tue, 23 Nov 2021 12:01:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=atishpatra.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=t/v+kSxz1eiji85Dg0icG/ia7nsKdb5UQNgj4yu1XbA=;
-        b=IwRqsQL5HJZ2NNAgvFIi1eoEuWD9tyK9eiN7sz6ZqH03QgbCLrTVI5ymeaYArtG3rQ
-         Y6yudwUhG/R2NCwwz3YKxhz7q/2T+Vbe0HqrQpzUKdTBIWvkTcl/GTNfZkdudMkdxRli
-         EMoiBdEhsZYYwQAByJnvzZQHmWqqoANt2vLLQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=t/v+kSxz1eiji85Dg0icG/ia7nsKdb5UQNgj4yu1XbA=;
-        b=i7esAdyeGN2vHLJ0RXlhSjHn1qtoLqa3GAvZ9UJjjf7MoSnvbKIEGiBimDaTMg10Ww
-         TecxFP7HzTMlGM1lm0b4H6pHVwadb0su3cOBeenZI6K4RsNCY9lTPb4bLmirCpx8goid
-         bo5JWYWgT9AVfLgkMMWFM4KQPEPtOb+/pnfWDB479G3GB/a0fi5rrUFtgTprB/2MfocF
-         wG4EF5kr19+MDPbML4oqSzpZUtBdv1e9mK8IXZISCIpfqy4ECY7biwgaS8OQOry7bwOF
-         3ULRM6Oym2MvQNWyBLmoGnvp/VkfAjdLXaPkjOWo/AcKF9tjqtXijNfufflkfvnRe/t5
-         3QuA==
-X-Gm-Message-State: AOAM532C16u16s9NC/YoILeeDKfl/35zJYmi28ChUglITYDUNO0KQh9P
-        sWR33WI4/RpLYsXxpk2sOQAlhZjvoIJp/r6hBrUq
-X-Google-Smtp-Source: ABdhPJxwy2lpaMGVdBaEtmzNC/OVDfQyJQupRowAmg8DGXxghxRN8N4XPTU8UHC6petkfR4neTSFZGp5e6jxHqNyij8=
-X-Received: by 2002:a25:73d0:: with SMTP id o199mr8906443ybc.87.1637697700555;
- Tue, 23 Nov 2021 12:01:40 -0800 (PST)
+        with ESMTP id S232689AbhKWUyn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Nov 2021 15:54:43 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF2F4C061574;
+        Tue, 23 Nov 2021 12:51:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=4VkUJFZfBikgHkbvPCTgubczW3p/ZjTIGcBnmCIkGFE=; b=td9GgBH3w0ndjVdL3WgxOIVa+5
+        NfglRythKi8YXAcNoDmURi3YmyUPYMS1I6SrvyElzur5JY50fe418qj0xPSpXt/gFXINy3+Y+OMxL
+        bBc1yEmoTrRrN4jRdiO35d6pCMEGlT1j9fs5H60jYEqUj/zkk+MRuIFQRyK0TZNWxorcNtzFYl3Z9
+        jBBwBgpNtTOBxgfLV+j5SVpWUB1Hl8qnu9o2pDehmnA1hqW1i8isGWdsdlqPaBdQ5VVdOa/7hBFmR
+        txqSv1CGZ/4yRKXxxRaU3zZpezR2TyZdOiv577qeuVaRzZ6Cp1odPe/K4sryaZPZ/1gRnknYuIyMV
+        ZndgfYSQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mpcl7-00GMub-Hh; Tue, 23 Nov 2021 20:51:21 +0000
+Date:   Tue, 23 Nov 2021 20:51:21 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Mina Almasry <almasrymina@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        David Hildenbrand <david@redhat.com>,
+        "Paul E . McKenney" <paulmckrcu@fb.com>,
+        Yu Zhao <yuzhao@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Peter Xu <peterx@redhat.com>,
+        Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
+        Florian Schmidt <florian.schmidt@nutanix.com>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v7] mm: Add PM_THP_MAPPED to /proc/pid/pagemap
+Message-ID: <YZ1USY+zB1PP24Z1@casper.infradead.org>
+References: <20211123000102.4052105-1-almasrymina@google.com>
 MIME-Version: 1.0
-References: <20211123015717.542631-1-guoren@kernel.org> <1913356.JkcO0Xq8vV@diego>
-In-Reply-To: <1913356.JkcO0Xq8vV@diego>
-From:   Atish Patra <atishp@atishpatra.org>
-Date:   Tue, 23 Nov 2021 12:01:29 -0800
-Message-ID: <CAOnJCU+-WCHA9vgrbcMFsLMaimwJNEXOpqMLS_0Gq_JRM5QNWQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/3] riscv: Add riscv.fwsz kernel parameter to save memory
-To:     =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>
-Cc:     Guo Ren <guoren@kernel.org>, Anup Patel <anup@brainfault.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>, atishp@rivosinc.com,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Guo Ren <guoren@linux.alibaba.com>,
-        Philipp Tomsich <philipp.tomsich@vrull.eu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211123000102.4052105-1-almasrymina@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 23, 2021 at 11:33 AM Heiko St=C3=BCbner <heiko@sntech.de> wrote=
-:
->
-> Hi Guo,
->
-> Am Dienstag, 23. November 2021, 02:57:14 CET schrieb guoren@kernel.org:
-> > From: Guo Ren <guoren@linux.alibaba.com>
-> >
-> > The firmware of riscv (such as opensbi) occupy 2MB(64bit) /
-> > 4MB(32bit) in Linux. It's very wasteful to small memory footprint
-> > soc chip such as Allwinner D1s/F133. The kernel parameter gives a
-> > chance to users to set the proper size of the firmware and get
-> > more than 1.5MB of memory.
->
-> is this kernel parameter approach a result of the T-Head Ice-SoC
-> currently loading its openSBI from inside the main u-boot via extfs-load,
-> directly before the kernel itself [0] ?
+On Mon, Nov 22, 2021 at 04:01:02PM -0800, Mina Almasry wrote:
+> Add PM_THP_MAPPED MAPPING to allow userspace to detect whether a given virt
+> address is currently mapped by a transparent huge page or not.  Example
+> use case is a process requesting THPs from the kernel (via a huge tmpfs
+> mount for example), for a performance critical region of memory.  The
+> userspace may want to query whether the kernel is actually backing this
+> memory by hugepages or not.
 
-Looking at the defconfig[1], it may be U-Boot SPL not U-Boot proper. I
-may be looking at the wrong config though.
-If U-Boot SPL is actually used, you don't even need to manually load
-OpenSBI "fw_jump" binary.
+So you want this bit to be clear if the memory is backed by a hugetlb
+page?
 
-As Heiko pointed, you should just follow how U-Boot SPL works on
-hifive unmatched (creating the FIT image)
-The standard U-Boot SPL uses with fw_dynamic which provides all the
-flexibility you want.
+>  		if (page && page_mapcount(page) == 1)
+>  			flags |= PM_MMAP_EXCLUSIVE;
+> +		if (page && is_transparent_hugepage(page))
+> +			flags |= PM_THP_MAPPED;
 
-[1] https://github.com/T-head-Semi/u-boot/blob/main/configs/ice_evb_c910_de=
-fconfig
->
-> Because that approach in general looks not ideal.
->
-> Normally you want the main u-boot already running with less privileges
-> so firmware like openSBI should've been already loaded before that.
-> Even more true when you're employing methods to protect memory regions
-> from less privileged access.
->
-> A lot of socs set u-boot as opensbi payload, but for the example the D1
-> mainline approach uses the Allwinner TOC1 image format to load both
-> opensbi and the main uboot into memory from its 1st stage loader.
->
->
-> Of course the best way would be to just mimic what a number of
-> arm64 and also riscv socs do and use already existing u-boot utilities.
->
-> U-Boot can create a FIT image containing both main u-boot, dtb and
-> firmware images that all get loaded from SPL and placed at the correct
-> addresses before having the SPL jump into opensbi and from there
-> into u-boot [1] .
->
-> And as Anup was writing, reserved-memory should then be the way
-> to go to tell the kernel what regions to omit.
->
-> And mainline u-boot has already the means to even take the reserved-memor=
-y
-> from the devicetree used by opensbi and copy it to a new devicetree,
-> if the second one is different.
->
->
-> Heiko
->
->
-> [0] https://github.com/T-head-Semi/u-boot/blob/main/include/configs/ice-c=
-910.h#L46
-> [1] see spl_invoke_opensbi() in common/spl/spl_opensbi.c
-> [2] see riscv_board_reserved_mem_fixup() in arch/riscv/lib/fdt_fixup.c
->
-> >
-> > Guo Ren (3):
-> >   riscv: Remove 2MB offset in the mm layout
-> >   riscv: Add early_param to decrease firmware region
-> >   riscv: Add riscv.fwsz kernel parameter
-> >
-> >  .../admin-guide/kernel-parameters.txt         |  3 +++
-> >  arch/riscv/include/asm/page.h                 |  8 +++++++
-> >  arch/riscv/kernel/head.S                      | 10 +++-----
-> >  arch/riscv/kernel/vmlinux.lds.S               |  5 ++--
-> >  arch/riscv/mm/init.c                          | 23 ++++++++++++++++---
-> >  5 files changed, 36 insertions(+), 13 deletions(-)
-> >
-> >
->
->
->
->
->
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+because honestly i'd expect it to be more useful to mean "This memory
+is mapped by a PMD entry" and then the code would look like:
 
+		if (page)
+			flags |= PM_PMD_MAPPED;
 
-
---=20
-Regards,
-Atish
+(and put a corresponding change in pagemap_hugetlb_range)
