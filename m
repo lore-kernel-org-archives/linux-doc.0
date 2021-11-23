@@ -2,472 +2,196 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1F41C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Nov 2021 00:10:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CA73C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Nov 2021 00:22:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231160AbhKWANb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Nov 2021 19:13:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37788 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230514AbhKWANb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Nov 2021 19:13:31 -0500
-Received: from mail-pl1-x64a.google.com (mail-pl1-x64a.google.com [IPv6:2607:f8b0:4864:20::64a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EB3DC061574
-        for <linux-doc@vger.kernel.org>; Mon, 22 Nov 2021 16:10:24 -0800 (PST)
-Received: by mail-pl1-x64a.google.com with SMTP id s16-20020a170902ea1000b00142728c2ccaso8290674plg.23
-        for <linux-doc@vger.kernel.org>; Mon, 22 Nov 2021 16:10:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:message-id:mime-version:subject:from:to:cc
-         :content-transfer-encoding;
-        bh=Wu75eSutr9igDdFIf9wsJ9DAcqgiM6dK+7xbG/f7f3o=;
-        b=YpthjRBthKdZ/hw9GWXztt64QhE1RVwXFFTbwTBO72XDL/amT7FIG5iHCppfY+CDCS
-         AgkYgrJifoYBFPIXa8SvWy47KCDmdWPuNy/Xu1afrjWlTKL8svEe2Ci6pNrBd4WFSU1n
-         t7jqVXbyXKDnetx0pVroiwT5W2Jdto7zs2XHTepd6GXD6y0oQ5D9AVlrjx/RnosvoRSS
-         dBhPuNIW0PZEuhfcmOzhQJxXCiXA21yvddvqpPH3urMTcycI6V3WDdhDlTQIgdBlK7ZA
-         H/9SFCGgJXtjfYkzMtciGj9MKFqGMtDuKfFBPt0yMEhx0LOT/jy85nLfYj5AWb3LeofJ
-         mI1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
-         :content-transfer-encoding;
-        bh=Wu75eSutr9igDdFIf9wsJ9DAcqgiM6dK+7xbG/f7f3o=;
-        b=T+O2dPBIwrWdLDmcNJm7M2JxCALhuLOmK8FuDt/m9+Lp8qUj7ukDT6lEYhUna/dJIJ
-         p7U2tNLY33NnYM3+j0D6g686NCg62zQRaohwYll6loNN1BzDy/OwA5mX5NHT3P3zYGvb
-         3jA1WA4xczhYYBkHWyld4wydFFk7V75aL9Ksy2y6pbGd0Us1YKBrjd8m9AsBEoT6oFEk
-         gHvGv1IS2smL/u4Bx7cvTObgMFB9JalfY+n6UXpYC+VsoO70Bt46y8jEQK/M3GlkQ0qu
-         1Fbgfi6v6EYUpBO1xHn5Cc/DlrjZaV0Kj4aOeqo7fy64wfDAsLWE6coqdLd8algBjz0Q
-         MEQw==
-X-Gm-Message-State: AOAM530NF8nrZc1N/n9f9qmJuFDgXHHXgbqU/BWgE6QVyA8QTtGwcgBQ
-        gffhlchfVbqPhfuuVUwbfhLlkoMI6BompFZL0Q==
-X-Google-Smtp-Source: ABdhPJwV02gCLlBEu5NSBAnTh2Cl/G2Agx5Bgsa4TJQZJxq5Cok1r3EkReYO9l4GkL8w5JWGrFa1joN/+g765+QN2A==
-X-Received: from almasrymina.svl.corp.google.com ([2620:15c:2cd:202:2c06:26c4:bf33:6d15])
- (user=almasrymina job=sendgmr) by 2002:a05:6a00:2181:b0:44d:c18d:7af9 with
- SMTP id h1-20020a056a00218100b0044dc18d7af9mr1031037pfi.16.1637626223722;
- Mon, 22 Nov 2021 16:10:23 -0800 (PST)
-Date:   Mon, 22 Nov 2021 16:10:19 -0800
-Message-Id: <20211123001020.4083653-1-almasrymina@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.34.0.rc2.393.gf8c9666880-goog
-Subject: [PATCH v8] hugetlb: Add hugetlb.*.numa_stat file
-From:   Mina Almasry <almasrymina@google.com>
-To:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Mina Almasry <almasrymina@google.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Michal Hocko <mhocko@suse.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        David Rientjes <rientjes@google.com>,
-        Shakeel Butt <shakeelb@google.com>, Jue Wang <juew@google.com>,
-        Yang Yao <ygyao@google.com>, Joanna Li <joannali@google.com>,
-        Cannon Matthews <cannonmatthews@google.com>,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        id S229955AbhKWAZO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Nov 2021 19:25:14 -0500
+Received: from mail-dm6nam10on2047.outbound.protection.outlook.com ([40.107.93.47]:12518
+        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229853AbhKWAZO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 22 Nov 2021 19:25:14 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DEkpjr0KaT3Rvir1aSS8PsV1cGw1DYeo9CZezxzgambrWclqC4flaXfHqWYMuq8dzujaLYDhkJjpneQ1btGfCbOA74LLafPkOvQyMs3+hKFkKcL0zm33DoI5ANEC228NdVNZqx9tZo3FUH/p8sIxvxXnIooPi549h0glJVPoyZ//EqkSYbyZZ9Ni7akN8qEWJDeOxQqtaLHDfwstOhCADp7Vq6fBg2gFQAd3lOjY91hWvaOTdrHHYyZ30IOb2HUCcYTNVE1iuakjyfYOSpQtqVYXHWZOHIVyqDhDKg/gFA+uLljRSL1v+ueC3rrmZtfKfvsg3MqN3D4cjLoKOlfGYg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ybc/KBnMUHIuYtpvieAyUer5LsKhNofasqSc+8x43yY=;
+ b=iSYyqx2w+G/7XwPGtF7jwXlIC3EluoWedpmrskMwd5+Vk/hb/iuVV11QWW4MkD0hkWM9ltXOH9+S10pqTh55tVfMlWrOEAhZq70gm4rAJpcn5pVi0akC5ZEsby5cQl/5iXDjjG/V/lO/EIn0pLc10Ng5PSsthOmGuyD8pJSwp8WTrqtdGSbTlYZEbHJB40Vl7EUQU4GbuxBj1aoarAPVs0KyZvFil6Frd57HTgDbjyek+GZOCdFhnl7QJDWI9nRMPh7eGDJawYj1KJwg46VBhQQltWpvJHQjNf6gXRFcsmy5KtIHpHRbK6CvZJZC7FNkrb1W/JyVjmgspxdg9pMRiw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ybc/KBnMUHIuYtpvieAyUer5LsKhNofasqSc+8x43yY=;
+ b=sm2zqh8IHPo61etiplE9qiBV6MaWaKa56O2VS0rGZBJWSUaK3SNPU3R4KySpXR5hX5phvnAgoPtGtyQMWL7Yr3utZxpEdfcdhA9/vCSahw4Mq9iak7MF8zdQb5Bj8+jHtN4ZumLJJUtF7iVLuTj0pYVH6W9pu6brEZ38OQJY1kakU6e4PXvTNBeG2wfoxsolSaW9OK/7OgZe3B0fmEj89q8Xl3M5ybPE3o8LKC+PXolbQtZ6Mzx28coJxwaFICsy7F3FEr0xRR+Ky0xDxywJzoaRo5w6bPVXuN01Doz1XpNZTDtbM/h50Fh+5FjmqcLodViNMKlgER7P/bGI3+Mo9Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
+ by BL1PR12MB5285.namprd12.prod.outlook.com (2603:10b6:208:31f::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.19; Tue, 23 Nov
+ 2021 00:22:00 +0000
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::5897:83b2:a704:7909]) by BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::5897:83b2:a704:7909%7]) with mapi id 15.20.4713.025; Tue, 23 Nov 2021
+ 00:22:00 +0000
+Date:   Mon, 22 Nov 2021 20:20:42 -0400
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Alex Williamson <alex.williamson@redhat.com>,
+        linux-doc@vger.kernel.org, Cornelia Huck <cohuck@redhat.com>,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+        Yishai Hadas <yishaih@nvidia.com>
+Subject: Re: [PATCH RFC] vfio: Documentation for the migration region
+Message-ID: <20211123002042.GQ2105516@nvidia.com>
+References: <0-v1-0ec87874bede+123-vfio_mig_doc_jgg@nvidia.com>
+ <875yskvsod.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <875yskvsod.fsf@meer.lwn.net>
+X-ClientProxiedBy: MN2PR19CA0063.namprd19.prod.outlook.com
+ (2603:10b6:208:19b::40) To BL0PR12MB5506.namprd12.prod.outlook.com
+ (2603:10b6:208:1cb::22)
+MIME-Version: 1.0
+Received: from mlx.ziepe.ca (142.162.113.129) by MN2PR19CA0063.namprd19.prod.outlook.com (2603:10b6:208:19b::40) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.20 via Frontend Transport; Tue, 23 Nov 2021 00:21:59 +0000
+Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1mpJYA-00E2Uf-Fo; Mon, 22 Nov 2021 20:20:42 -0400
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: cb1ec671-c7b9-4755-cf27-08d9ae17440a
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5285:
+X-Microsoft-Antispam-PRVS: <BL1PR12MB5285D1F57C750BD8755F5C3AC2609@BL1PR12MB5285.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 4h83Da1E7I8Q0Wbdy3SnbyRhXMyeEl0NgvjsPGIoGBX5+m/S8aqOi8EKlfZNvXAIE5rFGLy3V5Zsr8pqV+fmCETYcGPtX+s8ZyWMlIiDtm5gcw4W3UPrJhzd04+c5vbVVehGs8MlhvFgQykEwwbnbXSjo/9jRVtubDTaxrQRLETjNhSsGDCid8NFpjK5AQezQIt05w7V7zQRplG5DWpDJ3ynmIw25pB+zjQrWLyKbYNtgfF2lxnDuC0fz7n9JjTo+cYSqd2dkkcQ4GYJyRd43b4Fn7sgfMPhGokK7MU7FgYLjUjCQ90R1hE8EUEQyxrJ9YcPOGqXip64bk0EDwVu+fCPfTcDbbNYXDGc1CElB679/t9Qb2VIVLg7m2O2KoP2eHtMBGMxbYa9Ky2GBDtdq4vMAPi6ge6vPDLlncGnQRTfS1dRXXvweL+cJiGuSP8OGHFfSkr1wooN7GLwCLanUBd0bM7w9xAs/5EzQUIFMKHBpK5GreB9px0GehaXUwifZ/NZofkuFxOXJ21Rke6qYZX9cp87pIc5Xt5ijhAFiFLGmRN8qUupcZB4LZVcbmHWi0lyZckrGMcfk9NStfAqfCU3v6cPutL9zkkyX5LMZ6vmR20SQzhR+j6xJ8GeRVJDqg32mz/dQzAB27nM4h948w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB5506.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(107886003)(8676002)(33656002)(4326008)(26005)(316002)(6916009)(38100700002)(66476007)(1076003)(66946007)(2616005)(66556008)(426003)(83380400001)(186003)(5660300002)(9746002)(9786002)(2906002)(86362001)(54906003)(36756003)(8936002)(508600001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8KGHqo9lnnwuH5/nIiktKJiLe46RU8fitQZOrX+e6bALFx62psWOCO0V3tdV?=
+ =?us-ascii?Q?8+J369aBo3v35UL4kqCqWjwXwNtMSZxbCKjqDn1ZE8hECozOhrHHsYGTJTsD?=
+ =?us-ascii?Q?wExG873UzozgExV2mSvkUUDiqIEuYByxSbeAVdeCPndaP6TrKyZG8P9HUFhW?=
+ =?us-ascii?Q?NX42qOuu4lVAzE3jNU5x+RFYLe+AuJsws9GjCcVTYqDLdweat+mNiOFIRgUM?=
+ =?us-ascii?Q?L0aYScRevbpwU0+qIxJmmkDZecgdDtnfM3/D+mu2MKUtp4qgoQO71bBdslMd?=
+ =?us-ascii?Q?g4qxWyhFJtCU95vsRn5QWbY49dpsoSu6IDTOrqj3DN7ekSE6P5B35q4tdnr4?=
+ =?us-ascii?Q?dcFcBc0K9aex3gz9FxwMLVZTQA1UvHi2CdbwbMH+uH5o+Q0WpyGCkOyrRqaj?=
+ =?us-ascii?Q?roaQ2QYGQF2OcNn7KTjsSItCndprmqDrLCKf81/iRfZ9lb3avTYQQOGi4Iap?=
+ =?us-ascii?Q?aLmrM6F8/QicFB4uLCSfjF0E39xoTIzdalMJO4Czl+ehori/lRbFwp/63Rn7?=
+ =?us-ascii?Q?jnf2bYLg9J6KSIhjJaRfybPBRi/4xFP57nmmi3oN65Ftk9cT9laQ5feZoVAP?=
+ =?us-ascii?Q?8+p9EKwDAkrFmhDPiiO35i6ZWDuAXxceHVPxqESnKOvHNgLlPJQRhFYqYIiC?=
+ =?us-ascii?Q?T+0m2XmM7OwFI+OAgPrwhpPzdPMx1DjWiNFW1Kf8rUc2x2s3bkKI7p+5hW/x?=
+ =?us-ascii?Q?KqCz/fyZ7tjAM7NjLBZDAKUZISMQLRGPWM1fyxsSQFCPg2dqZ6g1ja5tnsB7?=
+ =?us-ascii?Q?ZAjNJ2xtHhadb258/9NWkvjGMC5bbSOyMW+/9WH7qD/Ebz8hdEmSEUU1Bx26?=
+ =?us-ascii?Q?Q7DtagRcIFJhx3D/L+mxAmqULK3mjeBIIjJ+2+/l1swdLhDnQgauP7gFdyzY?=
+ =?us-ascii?Q?6BA1Ah8+GqFSfQnz8rGusfvDbgWg6AYYI8kMtjYOCuHJk9LWn77WvCK/Md/p?=
+ =?us-ascii?Q?tim4IJl0O7D00hOxlRJCW/myrx5Wi0+OSQPuDfagoJQRIaxdSmHAn2AZ8vf5?=
+ =?us-ascii?Q?AUqYSN3E61MtzBxgVe7JYb3uHs814xPSuIMGoI19srXZ2Lmezm94GgEo00iw?=
+ =?us-ascii?Q?xC9bTOO4xV4eMh64ycTBZSPElIY82ruz7Y9+4ke32veZGgFzPjj4UgyuJ/cQ?=
+ =?us-ascii?Q?zvKSbQOG5tUyTOOBd0jQ7DEezOdJLH/M98hcZFpgZlJaqLe9kERWbqQU86nu?=
+ =?us-ascii?Q?QhnYmjnMyIxR3vjJyuOwEWlFsV+H5xAsIEN2Zp9fYe+lVdfT8pzDIKa3nXDW?=
+ =?us-ascii?Q?485AyeHcyEtrYnPgQQm+I5nAoswgjBhOEsmz40q/SNn0UCdrJ6hPFHng0ODV?=
+ =?us-ascii?Q?d+i6AJ6yK9MNWp8FqB0x+L4B9ObNU4kZDGdFsoRntXVf8FC2noxinbUD+5Jc?=
+ =?us-ascii?Q?gJQYVVtH2kwftUqHmDNBbAsvPMHMyVWcOJLUaoQE+vW3KuQS9tY5PCNpkVKM?=
+ =?us-ascii?Q?LGz+d7Nw8+9OI0iU0MSYd09r5GsGUVLJTJtqz0WPR1vv1w2nSvDPPZGj4+gq?=
+ =?us-ascii?Q?/5ydoqlugSEtAVNoi7QQjZGKbdqc60+CawqVpkWvwxcOgFTCVTGZHUr9wjO4?=
+ =?us-ascii?Q?i1gupcwVBztX2rm2sbI=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cb1ec671-c7b9-4755-cf27-08d9ae17440a
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2021 00:22:00.0218
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8QCpo+Rx8XxGs+sNrE+pKsNBP4Frc/oQ9EJQ88ATOWIWVQc+bz0pjIhElWtr1+8N
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5285
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-For hugetlb backed jobs/VMs it's critical to understand the numa
-information for the memory backing these jobs to deliver optimal
-performance.
+On Mon, Nov 22, 2021 at 01:31:14PM -0700, Jonathan Corbet wrote:
+> Jason Gunthorpe <jgg@nvidia.com> writes:
+> 
+> > Provide some more complete documentation for the migration region's
+> > behavior, specifically focusing on the device_state bits and the whole
+> > system view from a VMM.
+> >
+> > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> >  Documentation/driver-api/vfio.rst | 208 +++++++++++++++++++++++++++++-
+> >  1 file changed, 207 insertions(+), 1 deletion(-)
+> >
+> > Alex/Cornelia, here is the first draft of the requested documentation I promised
+> >
+> > We think it includes all the feedback from hns, Intel and NVIDIA on this mechanism.
+> >
+> > Our thinking is that NDMA would be implemented like this:
+> >
+> >    +#define VFIO_DEVICE_STATE_NDMA      (1 << 3)
+> >
+> > And a .add_capability ops will be used to signal to userspace driver support:
+> >
+> >    +#define VFIO_REGION_INFO_CAP_MIGRATION_NDMA    6
+> >
+> > I've described DIRTY TRACKING as a seperate concept here. With the current
+> > uAPI this would be controlled by VFIO_IOMMU_DIRTY_PAGES_FLAG_START, with our
+> > change in direction this would be per-tracker control, but no semantic change.
+> >
+> > Upon some agreement we'll include this patch in the next iteration of the mlx5 driver
+> > along with the NDMA bits.
+> >
+> > Thanks,
+> > Jason
+> >
+> > diff --git a/Documentation/driver-api/vfio.rst b/Documentation/driver-api/vfio.rst
+> > index c663b6f978255b..b28c6fb89ee92f 100644
+> > +++ b/Documentation/driver-api/vfio.rst
+> > @@ -242,7 +242,213 @@ group and can access them as follows::
+> >  VFIO User API
+> >  
+> > -Please see include/linux/vfio.h for complete API documentation.
+> > +Please see include/uapi/linux/vfio.h for complete API documentation.
+> > +
+> > +-------------------------------------------------------------------------------
+> > +
+> > +VFIO migration driver API
+> > +-------------------------------------------------------------------------------
+> > +
+> > +VFIO drivers that support migration implement a migration control register
+> > +called device_state in the struct vfio_device_migration_info which is in its
+> > +VFIO_REGION_TYPE_MIGRATION region.
+> > +
+> > +The device_state triggers device action both when bits are set/cleared and
+> > +continuous behavior for each bit. For VMMs they can also control if the VCPUs in
+> > +a VM are executing (VCPU RUNNING) and if the IOMMU is logging DMAs (DIRTY
+> > +TRACKING). These two controls are not part of the device_state register, KVM
+> > +will be used to control the VCPU and VFIO_IOMMU_DIRTY_PAGES_FLAG_START on the
+> > +container controls dirty tracking.
+> > +
+> > +Along with the device_state the migration driver provides a data window which
+> > +allows streaming migration data into or out of the device.
+> > +
+> > +A lot of flexibility is provided to userspace in how it operates these bits. The
+> > +reference flow for saving device state in a live migration, with all features:
+> > +
+> > +  RUNNING, VCPU_RUNNING
+> > +     Normal operating state
+> > +  RUNNING, DIRTY TRACKING, VCPU RUNNING
+> > +     Log DMAs
+> > +     Stream all memory
+> 
+> So I'd recommend actually building the docs and looking at the result;
+> this will not render the way you expect it to.  
 
-Currently this technically can be queried from /proc/self/numa_maps, but
-there are significant issues with that. Namely:
-1. Memory can be mapped or unmapped.
-2. numa_maps are per process and need to be aggregated across all
-   processes in the cgroup. For shared memory this is more involved as
-   the userspace needs to make sure it doesn't double count shared
-   mappings.
-3. I believe querying numa_maps needs to hold the mmap_lock which adds
-   to the contention on this lock.
+Hum... It is really close to what I'd like, with the state names
+bolded and in something like an enumerated list
 
-For these reasons I propose simply adding hugetlb.*.numa_stat file,
-which shows the numa information of the cgroup similarly to
-memory.numa_stat.
+But on close inspection I see the text fragments have been assembled
+together. I'd probably try to make them into sentances than go to a
+literal block?
 
-On cgroup-v2:
-   cat /sys/fs/cgroup/unified/test/hugetlb.2MB.numa_stat
-   total=3D2097152 N0=3D2097152 N1=3D0
-
-On cgroup-v1:
-   cat /sys/fs/cgroup/hugetlb/test/hugetlb.2MB.numa_stat
-   total=3D2097152 N0=3D2097152 N1=3D0
-   hierarichal_total=3D2097152 N0=3D2097152 N1=3D0
-
-This patch was tested manually by allocating hugetlb memory and querying
-the hugetlb.*.numa_stat file of the cgroup and its parents.
-=EF=BF=BC
-Cc: Mike Kravetz <mike.kravetz@oracle.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Shuah Khan <shuah@kernel.org>
-Cc: Miaohe Lin <linmiaohe@huawei.com>
-Cc: Oscar Salvador <osalvador@suse.de>
-Cc: Michal Hocko <mhocko@suse.com>
-Cc: Muchun Song <songmuchun@bytedance.com>
-Cc: David Rientjes <rientjes@google.com>
-Cc: Shakeel Butt <shakeelb@google.com>
-Cc: Jue Wang <juew@google.com>
-Cc: Yang Yao <ygyao@google.com>
-Cc: Joanna Li <joannali@google.com>
-Cc: Cannon Matthews <cannonmatthews@google.com>
-Cc: linux-mm@kvack.org
-Cc: linux-kernel@vger.kernel.org
-
-Signed-off-by: Mina Almasry <almasrymina@google.com>
-
----
-
-Changes in v8:
-- Do not use unsigned long *usage to WRITE_ONCE() new usage values.
-
-Changes in v7:
-- Converted back usage to unsigned long + READ_ONCE/WRITE_ONCE rather
-than atomic_long_t
-
-Changes in v6:
-- Changed usage from unsigned long to atomic_long_t
-
-Changes in v5:
-- Fixed commit message typo.
-- Fixed per node usage documentation to be in pages.
-- Removed unnecessary h_cg check.
-
-Changes in v4:
-- Removed unnecessary braces.
-- usage is now counted in pages instead of bytes.
-- Reverted unneeded changes to write_to_hugetlbfs.c
-
-Changes in v3:
-- Fixed typos (sorry!)
-- Used conventional locations for cgroups mount points in docs/commit
-message.
-- Updated docs.
-- Handle kzalloc_node failure, and proper deallocation of per node data.
-- Use struct_size() to calculate the struct size.
-- Use nr_node_ids instead of MAX_NUMNODES.
-- Updated comments per multi-line comment pattern.
-
-Changes in v2:
-- Fix warning Reported-by: kernel test robot <lkp@intel.com>
----
- .../admin-guide/cgroup-v1/hugetlb.rst         |   4 +
- Documentation/admin-guide/cgroup-v2.rst       |   5 +
- include/linux/hugetlb.h                       |   4 +-
- include/linux/hugetlb_cgroup.h                |   7 +
- mm/hugetlb_cgroup.c                           | 133 ++++++++++++++++--
- 5 files changed, 141 insertions(+), 12 deletions(-)
-
-diff --git a/Documentation/admin-guide/cgroup-v1/hugetlb.rst b/Documentatio=
-n/admin-guide/cgroup-v1/hugetlb.rst
-index 338f2c7d7a1c..0fa724d82abb 100644
---- a/Documentation/admin-guide/cgroup-v1/hugetlb.rst
-+++ b/Documentation/admin-guide/cgroup-v1/hugetlb.rst
-@@ -29,12 +29,14 @@ Brief summary of control files::
-  hugetlb.<hugepagesize>.max_usage_in_bytes             # show max "hugepag=
-esize" hugetlb  usage recorded
-  hugetlb.<hugepagesize>.usage_in_bytes                 # show current usag=
-e for "hugepagesize" hugetlb
-  hugetlb.<hugepagesize>.failcnt                        # show the number o=
-f allocation failure due to HugeTLB usage limit
-+ hugetlb.<hugepagesize>.numa_stat                      # show the numa inf=
-ormation of the hugetlb memory charged to this cgroup
-
- For a system supporting three hugepage sizes (64k, 32M and 1G), the contro=
-l
- files include::
-
-   hugetlb.1GB.limit_in_bytes
-   hugetlb.1GB.max_usage_in_bytes
-+  hugetlb.1GB.numa_stat
-   hugetlb.1GB.usage_in_bytes
-   hugetlb.1GB.failcnt
-   hugetlb.1GB.rsvd.limit_in_bytes
-@@ -43,6 +45,7 @@ files include::
-   hugetlb.1GB.rsvd.failcnt
-   hugetlb.64KB.limit_in_bytes
-   hugetlb.64KB.max_usage_in_bytes
-+  hugetlb.64KB.numa_stat
-   hugetlb.64KB.usage_in_bytes
-   hugetlb.64KB.failcnt
-   hugetlb.64KB.rsvd.limit_in_bytes
-@@ -51,6 +54,7 @@ files include::
-   hugetlb.64KB.rsvd.failcnt
-   hugetlb.32MB.limit_in_bytes
-   hugetlb.32MB.max_usage_in_bytes
-+  hugetlb.32MB.numa_stat
-   hugetlb.32MB.usage_in_bytes
-   hugetlb.32MB.failcnt
-   hugetlb.32MB.rsvd.limit_in_bytes
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-=
-guide/cgroup-v2.rst
-index 4d8c27eca96b..356847f8f008 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -2252,6 +2252,11 @@ HugeTLB Interface Files
- 	are local to the cgroup i.e. not hierarchical. The file modified event
- 	generated on this file reflects only the local events.
-
-+  hugetlb.<hugepagesize>.numa_stat
-+	Similar to memory.numa_stat, it shows the numa information of the
-+        hugetlb pages of <hugepagesize> in this cgroup.  Only active in
-+        use hugetlb pages are included.  The per-node values are in bytes.
-+
- Misc
- ----
-
-diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-index 1faebe1cd0ed..0445faaa636e 100644
---- a/include/linux/hugetlb.h
-+++ b/include/linux/hugetlb.h
-@@ -613,8 +613,8 @@ struct hstate {
- #endif
- #ifdef CONFIG_CGROUP_HUGETLB
- 	/* cgroup control files */
--	struct cftype cgroup_files_dfl[7];
--	struct cftype cgroup_files_legacy[9];
-+	struct cftype cgroup_files_dfl[8];
-+	struct cftype cgroup_files_legacy[10];
- #endif
- 	char name[HSTATE_NAME_LEN];
- };
-diff --git a/include/linux/hugetlb_cgroup.h b/include/linux/hugetlb_cgroup.=
-h
-index c137396129db..0f6cd28558d7 100644
---- a/include/linux/hugetlb_cgroup.h
-+++ b/include/linux/hugetlb_cgroup.h
-@@ -36,6 +36,11 @@ enum hugetlb_memory_event {
- 	HUGETLB_NR_MEMORY_EVENTS,
- };
-
-+struct hugetlb_cgroup_per_node {
-+	/* hugetlb usage in pages over all hstates. */
-+	unsigned long usage[HUGE_MAX_HSTATE];
-+};
-+
- struct hugetlb_cgroup {
- 	struct cgroup_subsys_state css;
-
-@@ -57,6 +62,8 @@ struct hugetlb_cgroup {
-
- 	/* Handle for "hugetlb.events.local" */
- 	struct cgroup_file events_local_file[HUGE_MAX_HSTATE];
-+
-+	struct hugetlb_cgroup_per_node *nodeinfo[];
- };
-
- static inline struct hugetlb_cgroup *
-diff --git a/mm/hugetlb_cgroup.c b/mm/hugetlb_cgroup.c
-index 5383023d0cca..f590e6e14fe6 100644
---- a/mm/hugetlb_cgroup.c
-+++ b/mm/hugetlb_cgroup.c
-@@ -126,29 +126,58 @@ static void hugetlb_cgroup_init(struct hugetlb_cgroup=
- *h_cgroup,
- 	}
- }
-
-+static void hugetlb_cgroup_free(struct hugetlb_cgroup *h_cgroup)
-+{
-+	int node;
-+
-+	for_each_node(node)
-+		kfree(h_cgroup->nodeinfo[node]);
-+	kfree(h_cgroup);
-+}
-+
- static struct cgroup_subsys_state *
- hugetlb_cgroup_css_alloc(struct cgroup_subsys_state *parent_css)
- {
- 	struct hugetlb_cgroup *parent_h_cgroup =3D hugetlb_cgroup_from_css(parent=
-_css);
- 	struct hugetlb_cgroup *h_cgroup;
-+	int node;
-+
-+	h_cgroup =3D kzalloc(struct_size(h_cgroup, nodeinfo, nr_node_ids),
-+			   GFP_KERNEL);
-
--	h_cgroup =3D kzalloc(sizeof(*h_cgroup), GFP_KERNEL);
- 	if (!h_cgroup)
- 		return ERR_PTR(-ENOMEM);
-
- 	if (!parent_h_cgroup)
- 		root_h_cgroup =3D h_cgroup;
-
-+	/*
-+	 * TODO: this routine can waste much memory for nodes which will
-+	 * never be onlined. It's better to use memory hotplug callback
-+	 * function.
-+	 */
-+	for_each_node(node) {
-+		/* Set node_to_alloc to -1 for offline nodes. */
-+		int node_to_alloc =3D
-+			node_state(node, N_NORMAL_MEMORY) ? node : -1;
-+		h_cgroup->nodeinfo[node] =3D
-+			kzalloc_node(sizeof(struct hugetlb_cgroup_per_node),
-+				     GFP_KERNEL, node_to_alloc);
-+		if (!h_cgroup->nodeinfo[node])
-+			goto fail_alloc_nodeinfo;
-+	}
-+
- 	hugetlb_cgroup_init(h_cgroup, parent_h_cgroup);
- 	return &h_cgroup->css;
-+
-+fail_alloc_nodeinfo:
-+	hugetlb_cgroup_free(h_cgroup);
-+	return ERR_PTR(-ENOMEM);
- }
-
- static void hugetlb_cgroup_css_free(struct cgroup_subsys_state *css)
- {
--	struct hugetlb_cgroup *h_cgroup;
--
--	h_cgroup =3D hugetlb_cgroup_from_css(css);
--	kfree(h_cgroup);
-+	hugetlb_cgroup_free(hugetlb_cgroup_from_css(css));
- }
-
- /*
-@@ -292,7 +321,17 @@ static void __hugetlb_cgroup_commit_charge(int idx, un=
-signed long nr_pages,
- 		return;
-
- 	__set_hugetlb_cgroup(page, h_cg, rsvd);
--	return;
-+	if (!rsvd) {
-+		unsigned long usage =3D
-+			h_cg->nodeinfo[page_to_nid(page)]->usage[idx];
-+		/*
-+		 * This write is not atomic due to fetching usage and writing
-+		 * to it, but that's fine because we call this with
-+		 * hugetlb_lock held anyway.
-+		 */
-+		WRITE_ONCE(h_cg->nodeinfo[page_to_nid(page)]->usage[idx],
-+			   usage + nr_pages);
-+	}
- }
-
- void hugetlb_cgroup_commit_charge(int idx, unsigned long nr_pages,
-@@ -331,8 +370,17 @@ static void __hugetlb_cgroup_uncharge_page(int idx, un=
-signed long nr_pages,
-
- 	if (rsvd)
- 		css_put(&h_cg->css);
--
--	return;
-+	else {
-+		unsigned long usage =3D
-+			h_cg->nodeinfo[page_to_nid(page)]->usage[idx];
-+		/*
-+		 * This write is not atomic due to fetching usage and writing
-+		 * to it, but that's fine because we call this with
-+		 * hugetlb_lock held anyway.
-+		 */
-+		WRITE_ONCE(h_cg->nodeinfo[page_to_nid(page)]->usage[idx],
-+			   usage - nr_pages);
-+	}
- }
-
- void hugetlb_cgroup_uncharge_page(int idx, unsigned long nr_pages,
-@@ -421,6 +469,59 @@ enum {
- 	RES_RSVD_FAILCNT,
- };
-
-+static int hugetlb_cgroup_read_numa_stat(struct seq_file *seq, void *dummy=
-)
-+{
-+	int nid;
-+	struct cftype *cft =3D seq_cft(seq);
-+	int idx =3D MEMFILE_IDX(cft->private);
-+	bool legacy =3D MEMFILE_ATTR(cft->private);
-+	struct hugetlb_cgroup *h_cg =3D hugetlb_cgroup_from_css(seq_css(seq));
-+	struct cgroup_subsys_state *css;
-+	unsigned long usage;
-+
-+	if (legacy) {
-+		/* Add up usage across all nodes for the non-hierarchical total. */
-+		usage =3D 0;
-+		for_each_node_state(nid, N_MEMORY)
-+			usage +=3D READ_ONCE(h_cg->nodeinfo[nid]->usage[idx]);
-+		seq_printf(seq, "total=3D%lu", usage * PAGE_SIZE);
-+
-+		/* Simply print the per-node usage for the non-hierarchical total. */
-+		for_each_node_state(nid, N_MEMORY)
-+			seq_printf(seq, " N%d=3D%lu", nid,
-+				   READ_ONCE(h_cg->nodeinfo[nid]->usage[idx]) *
-+					   PAGE_SIZE);
-+		seq_putc(seq, '\n');
-+	}
-+
-+	/*
-+	 * The hierarchical total is pretty much the value recorded by the
-+	 * counter, so use that.
-+	 */
-+	seq_printf(seq, "%stotal=3D%lu", legacy ? "hierarichal_" : "",
-+		   page_counter_read(&h_cg->hugepage[idx]) * PAGE_SIZE);
-+
-+	/*
-+	 * For each node, transverse the css tree to obtain the hierarichal
-+	 * node usage.
-+	 */
-+	for_each_node_state(nid, N_MEMORY) {
-+		usage =3D 0;
-+		rcu_read_lock();
-+		css_for_each_descendant_pre(css, &h_cg->css) {
-+			usage +=3D READ_ONCE(hugetlb_cgroup_from_css(css)
-+						   ->nodeinfo[nid]
-+						   ->usage[idx]);
-+		}
-+		rcu_read_unlock();
-+		seq_printf(seq, " N%d=3D%lu", nid, usage * PAGE_SIZE);
-+	}
-+
-+	seq_putc(seq, '\n');
-+
-+	return 0;
-+}
-+
- static u64 hugetlb_cgroup_read_u64(struct cgroup_subsys_state *css,
- 				   struct cftype *cft)
- {
-@@ -671,8 +772,14 @@ static void __init __hugetlb_cgroup_file_dfl_init(int =
-idx)
- 				    events_local_file[idx]);
- 	cft->flags =3D CFTYPE_NOT_ON_ROOT;
-
--	/* NULL terminate the last cft */
-+	/* Add the numa stat file */
- 	cft =3D &h->cgroup_files_dfl[6];
-+	snprintf(cft->name, MAX_CFTYPE_NAME, "%s.numa_stat", buf);
-+	cft->seq_show =3D hugetlb_cgroup_read_numa_stat;
-+	cft->flags =3D CFTYPE_NOT_ON_ROOT;
-+
-+	/* NULL terminate the last cft */
-+	cft =3D &h->cgroup_files_dfl[7];
- 	memset(cft, 0, sizeof(*cft));
-
- 	WARN_ON(cgroup_add_dfl_cftypes(&hugetlb_cgrp_subsys,
-@@ -742,8 +849,14 @@ static void __init __hugetlb_cgroup_file_legacy_init(i=
-nt idx)
- 	cft->write =3D hugetlb_cgroup_reset;
- 	cft->read_u64 =3D hugetlb_cgroup_read_u64;
-
-+	/* Add the numa stat file */
-+	cft =3D &h->cgroup_files_dfl[8];
-+	snprintf(cft->name, MAX_CFTYPE_NAME, "%s.numa_stat", buf);
-+	cft->private =3D MEMFILE_PRIVATE(idx, 1);
-+	cft->seq_show =3D hugetlb_cgroup_read_numa_stat;
-+
- 	/* NULL terminate the last cft */
--	cft =3D &h->cgroup_files_legacy[8];
-+	cft =3D &h->cgroup_files_legacy[9];
- 	memset(cft, 0, sizeof(*cft));
-
- 	WARN_ON(cgroup_add_legacy_cftypes(&hugetlb_cgrp_subsys,
---
-2.34.0.rc2.393.gf8c9666880-goog
+Thanks,
+Jason
