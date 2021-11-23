@@ -2,87 +2,219 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE601C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Nov 2021 10:37:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E6BBC4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Nov 2021 11:29:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235509AbhKWKk5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Nov 2021 05:40:57 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48674 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235412AbhKWKk4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 23 Nov 2021 05:40:56 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4415460F41;
-        Tue, 23 Nov 2021 10:37:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1637663869;
-        bh=QHPy8jN4E1B6G1qlFMQZYM3JfIS0NJHiirezl0NGSYM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qQkqrWq/91bwWfTJ+FncjNTp05bxlwjpsYHP5aGvyhnHvIH7NmNtG+Zj0r9lLJDSA
-         8rLuK2Q4htdkgoVFieW5deI9gpbedN46dWJGSxQNfv4qB0WG8KLiOMon8+jhCWp7xd
-         LFRJDrBdI6SLoaoA8R/wxWCHPQgD/r+kiRyFyoemyW/iDjRMLUqQMqlxbawmm27Pe2
-         XBVXHvBt7AG7mFu03C63x9BX/ej7KZjzepQKUHO3CVXJhZ/2F6spXnyDmKONlTZzxe
-         3vnHr6x/TUGugywrbf3y/8HG9yI3W2DAPXDOaZbS2/1zQCiDt2Fz4QthUexHkgzeua
-         MgCfqMhs332vA==
-Date:   Tue, 23 Nov 2021 11:37:45 +0100
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Deep Majumder <deep@fastmail.in>
-Cc:     linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Docs: Fixes link to I2C specification
-Message-ID: <YZzEeeVuI/8hLxD0@kunai>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Deep Majumder <deep@fastmail.in>, linux-doc@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20211119061401.19852-1-deep@fastmail.in>
+        id S234773AbhKWLc4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Nov 2021 06:32:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49228 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232333AbhKWLcz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Nov 2021 06:32:55 -0500
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F616C061714
+        for <linux-doc@vger.kernel.org>; Tue, 23 Nov 2021 03:29:47 -0800 (PST)
+Received: by mail-wm1-x334.google.com with SMTP id n33-20020a05600c502100b0032fb900951eso1909797wmr.4
+        for <linux-doc@vger.kernel.org>; Tue, 23 Nov 2021 03:29:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=RCz+vh2bGRc6vOt1cmcyty/tcvje22f5Ps81nyvaJl8=;
+        b=iORsK4eh4R+VVO0sDDWs6uTCsHBtofK80yTNi9dqOfNYeed7XHyX/ZfeH+Dt/A2Mmr
+         ibZcB9b26lSFWliz15RiW1sj9gi+8SymVg50wZHsg4kCilz1jTj457cJpB+lC0i2Jw0t
+         7zk4vqDtR4SIpE4Ak5/Ihi93S1MuMyeQh3TV/q8qcP77MzIAGUzsEhpHJvK4n3rgn5Vx
+         B1wfxE32t81OHx+/2be9ibS6Pif8hlJKRWcKJftKQ+ehU3nb+NOxk46JYSgNYRj5qr1r
+         my70BvYQfLjB6Fbt7G3JOfy+QD0RhUzJi1S7h4rogn5D8SGsHp4Ikmb4/hSnuYfHnP9x
+         ZVjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=RCz+vh2bGRc6vOt1cmcyty/tcvje22f5Ps81nyvaJl8=;
+        b=acp8r7if4sSrm6irRbhrnyLveN5q0dKSScNCg8CpXwLcjKfmCcItWmUgb9NWdzrXtg
+         12t9/MSgySka0hNRDzNauc5kY9/AYYnOVqrYm1jBFJLEkWOFT5tqt+WBGGHBy1gdDy39
+         tbaJpIFuQlGbZ7NBizlY6AtDjsNt26nPOZgEk+5SyenawH2DhXEEkaj2lroyy2jlRu8G
+         UdeRdKWhePgYql5W6NB+/VUj1ptXEPpAUAE8LiZIx0BThBw9AHXLGK0QxEnSofTWup0S
+         pu6mABOgcK9/hs6dJcnfVxz4EviOIQDEp7trIUx1w7Vxtx5U+g6/7cvLOsfSrdL/2DAA
+         sn0g==
+X-Gm-Message-State: AOAM533MhvZpUskJUVY+6dQKRTfKZforrZmKfdQxjDz6VEQL8kCWPY8s
+        CGUENXibGvhnJ9kAujeGk8gMGw==
+X-Google-Smtp-Source: ABdhPJxgNU3F5ZbiL2IqSNSUEI6y0Mv5STMnCz4bk2DhNavYM0VNX4mAmCashJwrmSsH5krcZ0V+eg==
+X-Received: by 2002:a05:600c:1c20:: with SMTP id j32mr2110302wms.1.1637666985890;
+        Tue, 23 Nov 2021 03:29:45 -0800 (PST)
+Received: from elver.google.com ([2a00:79e0:15:13:1444:3668:5c57:85cc])
+        by smtp.gmail.com with ESMTPSA id k27sm1041180wms.41.2021.11.23.03.29.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Nov 2021 03:29:44 -0800 (PST)
+Date:   Tue, 23 Nov 2021 12:29:39 +0100
+From:   Marco Elver <elver@google.com>
+To:     Josh Poimboeuf <jpoimboe@redhat.com>
+Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
+        Alexander Potapenko <glider@google.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Waiman Long <longman@redhat.com>,
+        Will Deacon <will@kernel.org>, kasan-dev@googlegroups.com,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, x86@kernel.org
+Subject: Re: [PATCH v2 23/23] objtool, kcsan: Remove memory barrier
+ instrumentation from noinstr
+Message-ID: <YZzQoz0e/oiutuq5@elver.google.com>
+References: <20211118081027.3175699-1-elver@google.com>
+ <20211118081027.3175699-24-elver@google.com>
+ <20211119203135.clplwzh3hyo5xddg@treble>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="pRh1ykX5gp1PIsDE"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211119061401.19852-1-deep@fastmail.in>
+In-Reply-To: <20211119203135.clplwzh3hyo5xddg@treble>
+User-Agent: Mutt/2.0.5 (2021-01-21)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, Nov 19, 2021 at 12:31PM -0800, Josh Poimboeuf wrote:
+> On Thu, Nov 18, 2021 at 09:10:27AM +0100, Marco Elver wrote:
+[...]
+> > +	if (insn->sec->noinstr && sym->removable_instr) {
+[...]
+> I'd love to have a clearer name than 'removable_instr', though I'm
+> having trouble coming up with something.
+[...]
 
---pRh1ykX5gp1PIsDE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+I now have the below as v3 of this patch. The naming isn't entirely
+obvious, but coming up with a short name for this is tricky, but
+hopefully the comments make it clear. We can of course still pick
+another name.
 
+Does that look reasonable?
 
-> The additional link is
-> not the Wayback Machine link since it seems that the PDF has not been
-> archived.
+Note, I'd like this series to sit in -next for a while (probably from
+some time next week after sending v3 if there are no further
+complaints). By default everything will be picked up by the -rcu tree,
+and we're targeting Linux 5.18.
 
-Sure, wikipedia uses this link
+If you feel there might be objtool conflicts coming, this patch could be
+taken through another tree as there are no hard dependencies, as long as
+this patch reaches mainline before or with the rest.
 
-https://web.archive.org/web/20210813122132/https://www.nxp.com/docs/en/user-guide/UM10204.pdf
+Thanks,
+-- Marco
 
-on this page:
+------ >8 ------
 
-https://en.wikipedia.org/wiki/I%C2%B2C
+From: Marco Elver <elver@google.com>
+Date: Mon, 9 Aug 2021 12:11:14 +0200
+Subject: [PATCH] objtool, kcsan: Remove memory barrier instrumentation from
+ noinstr
 
-And I agree with Randy about saying "cannot be easily used" in the
-commit message.
+Teach objtool to turn instrumentation required for memory barrier
+modeling into nops in noinstr text.
 
+The __tsan_func_entry/exit calls are still emitted by compilers even
+with the __no_sanitize_thread attribute. The memory barrier
+instrumentation will be inserted explicitly (without compiler help), and
+thus needs to also explicitly be removed.
 
---pRh1ykX5gp1PIsDE
-Content-Type: application/pgp-signature; name="signature.asc"
+Signed-off-by: Marco Elver <elver@google.com>
+---
+v3:
+* s/removable_instr/profiling_func/ (suggested by Josh Poimboeuf)
+* Fix and add more comments.
 
------BEGIN PGP SIGNATURE-----
+v2:
+* Rewrite after rebase to v5.16-rc1.
+---
+ tools/objtool/check.c               | 41 ++++++++++++++++++++++++-----
+ tools/objtool/include/objtool/elf.h |  2 +-
+ 2 files changed, 36 insertions(+), 7 deletions(-)
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmGcxHgACgkQFA3kzBSg
-KbanHw//eACvwAeblxDU4KVBDD9Qr8utMR7hjptP2NY0psSC7FkWGqdfnvbQ7oei
-iEl86HWQxaLGlRvEtqV9MkdLqAPeCjcWa8gdDRMEHr5QMQEpxtAmt4RqqzKsVyxG
-D3+arRkj3BjpGkWJfLclb1Y3jkdEz/hxVkTkRypDYwvCv02kco1yYP7nkMTXPXrG
-inwRRgVNTjkC9aPhKzZB8d3k59K6x+Y0aS85jcc52hIanzERU9u92iZsWKOc/PUX
-Pcc46R4Vooazyb3cd7TU3XuHoVbval1tV+p3HlfqTcUZhPUYJgE+QbEfztEXn2q6
-8ztqPvKwXzjbRimjmQmn8044edQ0YVApsYh2NhxY9Iq10lo1jAdSkHc6LvYdMJVf
-e7j78eXoRP3vA+2IiGWNzVaKxTrzQn5xfAeWvNal72AP+jVSqV1ULGk6JlADasFw
-6DIIUz3fbpT3rJMw1Qa6zYH0u9WxFmi6TKXD6z7v+F87947zI3Zd+Ez+Hy7oO039
-IHvIYYcFNgwQZ4pIHvLjiPKW8KvWzgDu+6wwK2GiBMg2CFXCVqCVYhjYbXbI1Fdu
-inr7fZDZHaoHukEDVV2QCV1noDsnFUoiH+wEZlnykXCxrH9QpCzdyDsncR7UErKL
-N8ukFeyi8JVc8sqWW2rWXR+zdA1WVzyP9WnsDCPYja6A3nrfjJg=
-=b1k5
------END PGP SIGNATURE-----
+diff --git a/tools/objtool/check.c b/tools/objtool/check.c
+index 61dfb66b30b6..a78186c583f4 100644
+--- a/tools/objtool/check.c
++++ b/tools/objtool/check.c
+@@ -1072,11 +1072,11 @@ static void annotate_call_site(struct objtool_file *file,
+ 	}
+ 
+ 	/*
+-	 * Many compilers cannot disable KCOV with a function attribute
+-	 * so they need a little help, NOP out any KCOV calls from noinstr
+-	 * text.
++	 * Many compilers cannot disable KCOV or sanitizer calls with a function
++	 * attribute so they need a little help, NOP out any such calls from
++	 * noinstr text.
+ 	 */
+-	if (insn->sec->noinstr && sym->kcov) {
++	if (insn->sec->noinstr && sym->profiling_func) {
+ 		if (reloc) {
+ 			reloc->type = R_NONE;
+ 			elf_write_reloc(file->elf, reloc);
+@@ -1991,6 +1991,35 @@ static int read_intra_function_calls(struct objtool_file *file)
+ 	return 0;
+ }
+ 
++/*
++ * Return true if name matches an instrumentation function, where calls to that
++ * function from noinstr code can safely be removed, but compilers won't do so.
++ */
++static bool is_profiling_func(const char *name)
++{
++	/*
++	 * Many compilers cannot disable KCOV with a function attribute.
++	 */
++	if (!strncmp(name, "__sanitizer_cov_", 16))
++		return true;
++
++	/*
++	 * Compilers currently do not remove __tsan_func_entry/exit with the
++	 * __no_sanitize_thread attribute, remove them.
++	 *
++	 * Memory barrier instrumentation is not emitted by the compiler, but
++	 * inserted explicitly, so we need to also remove them.
++	 */
++	if (!strncmp(name, "__tsan_func_", 12) ||
++	    !strcmp(name, "__kcsan_mb") ||
++	    !strcmp(name, "__kcsan_wmb") ||
++	    !strcmp(name, "__kcsan_rmb") ||
++	    !strcmp(name, "__kcsan_release"))
++		return true;
++
++	return false;
++}
++
+ static int classify_symbols(struct objtool_file *file)
+ {
+ 	struct section *sec;
+@@ -2011,8 +2040,8 @@ static int classify_symbols(struct objtool_file *file)
+ 			if (!strcmp(func->name, "__fentry__"))
+ 				func->fentry = true;
+ 
+-			if (!strncmp(func->name, "__sanitizer_cov_", 16))
+-				func->kcov = true;
++			if (is_profiling_func(func->name))
++				func->profiling_func = true;
+ 		}
+ 	}
+ 
+diff --git a/tools/objtool/include/objtool/elf.h b/tools/objtool/include/objtool/elf.h
+index cdc739fa9a6f..d22336781401 100644
+--- a/tools/objtool/include/objtool/elf.h
++++ b/tools/objtool/include/objtool/elf.h
+@@ -58,7 +58,7 @@ struct symbol {
+ 	u8 static_call_tramp : 1;
+ 	u8 retpoline_thunk   : 1;
+ 	u8 fentry            : 1;
+-	u8 kcov              : 1;
++	u8 profiling_func    : 1;
+ 	struct list_head pv_target;
+ };
+ 
+-- 
+2.34.0.rc2.393.gf8c9666880-goog
 
---pRh1ykX5gp1PIsDE--
