@@ -2,221 +2,172 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3845C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Nov 2021 06:18:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95683C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Nov 2021 07:22:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231682AbhKWGVn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Nov 2021 01:21:43 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42456 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230234AbhKWGVm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 23 Nov 2021 01:21:42 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0873F60FC2;
-        Tue, 23 Nov 2021 06:18:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1637648315;
-        bh=9q5PZmYIUfd5uvRnDykQ983UxaDrFCzj6jD1Sb39JZU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=gL4vlg1ZUU1waStVc3W5mTM5QuovyX7Imb9HG29o+WQnY4CFRmrqX+dc/KAxspfbu
-         Vq6CmXkNVCtiOshmodsHTr3Si7R1RoiNGxQNkZNfeGMaHamyMKRIo8I9ty1LVzvpHE
-         I0yUJED0tka8P1QGcTkCulsqTYJzNqvr0rupg6CG10ik8lXZTUyFudb8GCM9GEbT2H
-         ADSaJKLJu7C0rxoENVI0BwIOL0Mr6allKQ5SjTBdPQ+gTC/Y2989lDY/Gu9X//Ug9k
-         JdFfnkjyUJEvD9qrsVlrthBhyGJXDiilQCulLW3Qy7HV+oKAGPpa3kwg6JkqAEhpKu
-         I38lLULc5+udw==
-Received: by mail-ua1-f52.google.com with SMTP id x14so979913uao.0;
-        Mon, 22 Nov 2021 22:18:34 -0800 (PST)
-X-Gm-Message-State: AOAM530q5YcajUvsW/o2I7sZXAfS+TMj3pNAp+B9sv3LgZUa7Xv9TdGj
-        8D9o6hpgLp+lDLBmJSE5zkffS2jcHJu0PZ4syjQ=
-X-Google-Smtp-Source: ABdhPJyacyctRuRWpwxoo6qsjZpYyyLDBa+6mAN4sNblEFUBReDr/56cV/o4cDlvDGuw9EqQgIGpApkx9inD6uye9ZQ=
-X-Received: by 2002:ab0:5b59:: with SMTP id v25mr4688469uae.57.1637648314117;
- Mon, 22 Nov 2021 22:18:34 -0800 (PST)
+        id S231577AbhKWHZ7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Nov 2021 02:25:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48634 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233965AbhKWHZ6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Nov 2021 02:25:58 -0500
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D124C061574;
+        Mon, 22 Nov 2021 23:22:51 -0800 (PST)
+Received: by mail-pj1-x1029.google.com with SMTP id n15-20020a17090a160f00b001a75089daa3so1396556pja.1;
+        Mon, 22 Nov 2021 23:22:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:cc:references:subject:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=E152euvL8xFG6VtAVAYhcexuCCdzDHvA0/ZqwvZLKFw=;
+        b=SO9zbuw+diZKTBr22YgM1YDinZbXMFBFDBKd3Lax/vvRG70Ooa3eUp7TS57a1wHgGQ
+         9w8xYbZZ/TNLehbBL18OAuuI37+sB2rnLFMbaZSdCtjYcqRKz+79upKooeCW2LL8FN5y
+         tb9N+mCo9CEV6iVDnSpRghWJFw8g6MpsccfzGOEwjasGJrqcCK0Keq/d1UIoPEEeq2+L
+         qYz8gOilk3JUWzLgOEOpZalnY800qzwWNhioDWDmEXD8+Sj4QmyNXSfclYDQbG2JzqqQ
+         8wQdEhLFOfl1wm+wAWrQlrUJ8CATRGiH1KX4Unud7EQGn2woAVVM5+eFd9sHAEsu1M/y
+         sEZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:to:cc:references:subject:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=E152euvL8xFG6VtAVAYhcexuCCdzDHvA0/ZqwvZLKFw=;
+        b=bl/OEuWGOw7zUf73btV8I9NN5VVa9xb2HYpfny18b1of4c4K1YPSDYi9OXGpzS5Tgf
+         ZuyzVVu3QIdtoju4T/PpP5FkuywAIJVPwqwrK+YNHZ+3imCnbVk2Luge7jGS8WzQJJfj
+         3uWRdzfjtCp79YRkzLnnDuikThLFokFpk3y8Lmm7jwhll98BlESagb+x8FnU4EXGygXa
+         hzhPs9mx268SFPKkbqCK9rJTEMyQ9hN48UPKawz3kAkZzxx8R/GXUhRoNPD1qVY3nwss
+         e7DgcAEkZQuPpYTkHFVbJUkm6e4gVhL33zIn+t1k4uMjRwsvgpLevrIpS2xKCR1u7RKZ
+         6CDg==
+X-Gm-Message-State: AOAM5325A4VhRHqxTyFO8Pm/dto4yo/SsZduwf98VAw1pT5D4TNZheJ4
+        wbWr9z+Mnlo6aEmNuBuxOvw=
+X-Google-Smtp-Source: ABdhPJyGKnaA+H7NrpBN2lqstj0eyHlhXCpNCfzFdZJJUs82VkCATzi6Dr3KMHEmUGe7tiJahjpy4Q==
+X-Received: by 2002:a17:90b:4a05:: with SMTP id kk5mr388499pjb.142.1637652170654;
+        Mon, 22 Nov 2021 23:22:50 -0800 (PST)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id p6sm198907pjb.48.2021.11.22.23.22.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Nov 2021 23:22:50 -0800 (PST)
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     Alex Williamson <alex.williamson@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org, Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+        Yishai Hadas <yishaih@nvidia.com>
+References: <20211123002042.GQ2105516@nvidia.com>
+Subject: Re: [PATCH RFC] vfio: Documentation for the migration region
+From:   Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <62d331f3-ce82-dbb0-bb94-7a2ce50d231c@gmail.com>
+Date:   Tue, 23 Nov 2021 16:22:45 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <20211123015717.542631-1-guoren@kernel.org> <20211123015717.542631-2-guoren@kernel.org>
- <CAAhSdy0LWyhgXetiXikCosSX4xasgROyua6XMd92dV8TiWp62w@mail.gmail.com>
-In-Reply-To: <CAAhSdy0LWyhgXetiXikCosSX4xasgROyua6XMd92dV8TiWp62w@mail.gmail.com>
-From:   Guo Ren <guoren@kernel.org>
-Date:   Tue, 23 Nov 2021 14:18:23 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTRMBoCi--4V5+bgPopkLOF8+y7QBHjjENZDSr4cm5PNfw@mail.gmail.com>
-Message-ID: <CAJF2gTRMBoCi--4V5+bgPopkLOF8+y7QBHjjENZDSr4cm5PNfw@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/3] riscv: Remove 2MB offset in the mm layout
-To:     Anup Patel <anup@brainfault.org>
-Cc:     Palmer Dabbelt <palmer@dabbelt.com>, atishp@rivosinc.com,
-        "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Guo Ren <guoren@linux.alibaba.com>,
-        Anup Patel <anup.patel@wdc.com>,
-        Alexandre Ghiti <alex@ghiti.fr>,
-        Alexandre Ghiti <alexandre.ghiti@canonical.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20211123002042.GQ2105516@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 23, 2021 at 11:56 AM Anup Patel <anup@brainfault.org> wrote:
->
-> +Alex
->
-> On Tue, Nov 23, 2021 at 7:27 AM <guoren@kernel.org> wrote:
-> >
-> > From: Guo Ren <guoren@linux.alibaba.com>
-> >
-> > The current RISC-V's mm layout is based on a 2MB offset and wasting
-> > memory. Remove 2MB offset and map PAGE_OFFSET at start_of_DRAM.
-> > Then we could reduce the memory reserved for opensbi in the next
-> > patch.
->
-> The real problem is that the generic kernel marks memory before
-> __pa(PAGE_OFFSET) as reserved which is evident from the boot
-> print "OF: fdt: Ignoring memory range 0x80000000 - 0x80200000".
->
-> One simple way to re-claim the first 2MB of memory is by:
-> 1) Not placing OpenSBI firmware at start of RAM and rather
-> place it towards end/middle or RAM away from kernel and initrd
-> 2) Load kernel at start of the RAM
->
-> The point#1 is already supported by OpenSBI firmwares using
-> position independent compilation. In fact, U-Boot SPL does
-> not load OpenSBI firmware at the start of RAM.
-This deviates from the original intention of this patch. Some users
-have been used to 2MB/4MB LOAD_OFFSET and we also should save the
-memory of opensbi for them.
+On Mon, 22 Nov 2021 20:20:42 -0400, Jason Gunthorpe wrote:
+> On Mon, Nov 22, 2021 at 01:31:14PM -0700, Jonathan Corbet wrote:
+>> Jason Gunthorpe <jgg@nvidia.com> writes:
+>> 
+>> > Provide some more complete documentation for the migration region's
+>> > behavior, specifically focusing on the device_state bits and the whole
+>> > system view from a VMM.
+>> >
+>> > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+>> >  Documentation/driver-api/vfio.rst | 208 +++++++++++++++++++++++++++++-
+>> >  1 file changed, 207 insertions(+), 1 deletion(-)
+>> >
+>> > Alex/Cornelia, here is the first draft of the requested documentation I promised
+>> >
+>> > We think it includes all the feedback from hns, Intel and NVIDIA on this mechanism.
+>> >
+>> > Our thinking is that NDMA would be implemented like this:
+>> >
+>> >    +#define VFIO_DEVICE_STATE_NDMA      (1 << 3)
+>> >
+>> > And a .add_capability ops will be used to signal to userspace driver support:
+>> >
+>> >    +#define VFIO_REGION_INFO_CAP_MIGRATION_NDMA    6
+>> >
+>> > I've described DIRTY TRACKING as a seperate concept here. With the current
+>> > uAPI this would be controlled by VFIO_IOMMU_DIRTY_PAGES_FLAG_START, with our
+>> > change in direction this would be per-tracker control, but no semantic change.
+>> >
+>> > Upon some agreement we'll include this patch in the next iteration of the mlx5 driver
+>> > along with the NDMA bits.
+>> >
+>> > Thanks,
+>> > Jason
+>> >
+>> > diff --git a/Documentation/driver-api/vfio.rst b/Documentation/driver-api/vfio.rst
+>> > index c663b6f978255b..b28c6fb89ee92f 100644
+>> > +++ b/Documentation/driver-api/vfio.rst
+>> > @@ -242,7 +242,213 @@ group and can access them as follows::
+>> >  VFIO User API
+>> >  
+>> > -Please see include/linux/vfio.h for complete API documentation.
+>> > +Please see include/uapi/linux/vfio.h for complete API documentation.
+>> > +
+>> > +-------------------------------------------------------------------------------
+>> > +
+>> > +VFIO migration driver API
+>> > +-------------------------------------------------------------------------------
+>> > +
+>> > +VFIO drivers that support migration implement a migration control register
+>> > +called device_state in the struct vfio_device_migration_info which is in its
+>> > +VFIO_REGION_TYPE_MIGRATION region.
+>> > +
+>> > +The device_state triggers device action both when bits are set/cleared and
+>> > +continuous behavior for each bit. For VMMs they can also control if the VCPUs in
+>> > +a VM are executing (VCPU RUNNING) and if the IOMMU is logging DMAs (DIRTY
+>> > +TRACKING). These two controls are not part of the device_state register, KVM
+>> > +will be used to control the VCPU and VFIO_IOMMU_DIRTY_PAGES_FLAG_START on the
+>> > +container controls dirty tracking.
+>> > +
+>> > +Along with the device_state the migration driver provides a data window which
+>> > +allows streaming migration data into or out of the device.
+>> > +
+>> > +A lot of flexibility is provided to userspace in how it operates these bits. The
+>> > +reference flow for saving device state in a live migration, with all features:
+>> > +
+>> > +  RUNNING, VCPU_RUNNING
+>> > +     Normal operating state
 
->
-> I would suggest Allwinner D1 to follow U-Boot SPL and have
-> the booting stage before OpenSBI to load OpenSBI firmware
->
-> Regards,
-> Anup
->
-> >
-> > Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
-> > Cc: Palmer Dabbelt <palmer@dabbelt.com>
-> > Cc: Anup Patel <anup.patel@wdc.com>
-> > Cc: Atish Patra <atishp@rivosinc.com>
-> > ---
-> >  arch/riscv/include/asm/page.h   |  8 ++++++++
-> >  arch/riscv/kernel/head.S        | 10 +++-------
-> >  arch/riscv/kernel/vmlinux.lds.S |  5 ++---
-> >  arch/riscv/mm/init.c            | 11 ++++++++---
-> >  4 files changed, 21 insertions(+), 13 deletions(-)
-> >
-> > diff --git a/arch/riscv/include/asm/page.h b/arch/riscv/include/asm/page.h
-> > index b3e5ff0125fe..299147c78b4a 100644
-> > --- a/arch/riscv/include/asm/page.h
-> > +++ b/arch/riscv/include/asm/page.h
-> > @@ -16,6 +16,14 @@
-> >  #define PAGE_SIZE      (_AC(1, UL) << PAGE_SHIFT)
-> >  #define PAGE_MASK      (~(PAGE_SIZE - 1))
-> >
-> > +#if __riscv_xlen == 64
-> > +/* Image load offset(2MB) from start of RAM */
-> > +#define LOAD_OFFSET    0x200000
-> > +#else
-> > +/* Image load offset(4MB) from start of RAM */
-> > +#define LOAD_OFFSET    0x400000
-> > +#endif
-> > +
-> >  #ifdef CONFIG_64BIT
-> >  #define HUGE_MAX_HSTATE                2
-> >  #else
-> > diff --git a/arch/riscv/kernel/head.S b/arch/riscv/kernel/head.S
-> > index f52f01ecbeea..a6ac892d2ccf 100644
-> > --- a/arch/riscv/kernel/head.S
-> > +++ b/arch/riscv/kernel/head.S
-> > @@ -61,13 +61,7 @@ ENTRY(_start)
-> >         /* Image load offset (0MB) from start of RAM for M-mode */
-> >         .dword 0
-> >  #else
-> > -#if __riscv_xlen == 64
-> > -       /* Image load offset(2MB) from start of RAM */
-> > -       .dword 0x200000
-> > -#else
-> > -       /* Image load offset(4MB) from start of RAM */
-> > -       .dword 0x400000
-> > -#endif
-> > +       .dword LOAD_OFFSET
-> >  #endif
-> >         /* Effective size of kernel image */
-> >         .dword _end - _start
-> > @@ -94,6 +88,8 @@ relocate:
-> >         la a1, kernel_map
-> >         XIP_FIXUP_OFFSET a1
-> >         REG_L a1, KERNEL_MAP_VIRT_ADDR(a1)
-> > +       li a2, LOAD_OFFSET
-> > +       add a1, a1, a2
-> >         la a2, _start
-> >         sub a1, a1, a2
-> >         add ra, ra, a1
-> > diff --git a/arch/riscv/kernel/vmlinux.lds.S b/arch/riscv/kernel/vmlinux.lds.S
-> > index 5104f3a871e3..75b7c72cd4bd 100644
-> > --- a/arch/riscv/kernel/vmlinux.lds.S
-> > +++ b/arch/riscv/kernel/vmlinux.lds.S
-> > @@ -11,10 +11,9 @@
-> >  #else
-> >
-> >  #include <asm/pgtable.h>
-> > -#define LOAD_OFFSET KERNEL_LINK_ADDR
-> >
-> > -#include <asm/vmlinux.lds.h>
-> >  #include <asm/page.h>
-> > +#include <asm/vmlinux.lds.h>
-> >  #include <asm/cache.h>
-> >  #include <asm/thread_info.h>
-> >  #include <asm/set_memory.h>
-> > @@ -32,7 +31,7 @@ PECOFF_FILE_ALIGNMENT = 0x200;
-> >  SECTIONS
-> >  {
-> >         /* Beginning of code and text segment */
-> > -       . = LOAD_OFFSET;
-> > +       . = LOAD_OFFSET + KERNEL_LINK_ADDR;
-> >         _start = .;
-> >         HEAD_TEXT_SECTION
-> >         . = ALIGN(PAGE_SIZE);
-> > diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
-> > index 24b2b8044602..920e78f8c3e4 100644
-> > --- a/arch/riscv/mm/init.c
-> > +++ b/arch/riscv/mm/init.c
-> > @@ -221,6 +221,11 @@ static void __init setup_bootmem(void)
-> >         if (!IS_ENABLED(CONFIG_BUILTIN_DTB))
-> >                 memblock_reserve(dtb_early_pa, fdt_totalsize(dtb_early_va));
-> >
-> > +       /*
-> > +        * Reserve OpenSBI region and depends on PMP to deny accesses.
-> > +        */
-> > +       memblock_reserve(__pa(PAGE_OFFSET), LOAD_OFFSET);
-> > +
-> >         early_init_fdt_scan_reserved_mem();
-> >         dma_contiguous_reserve(dma32_phys_limit);
-> >         if (IS_ENABLED(CONFIG_64BIT))
-> > @@ -604,7 +609,7 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
-> >
-> >         kernel_map.va_kernel_xip_pa_offset = kernel_map.virt_addr - kernel_map.xiprom;
-> >  #else
-> > -       kernel_map.phys_addr = (uintptr_t)(&_start);
-> > +       kernel_map.phys_addr = (uintptr_t)(&_start) - LOAD_OFFSET;
-> >         kernel_map.size = (uintptr_t)(&_end) - kernel_map.phys_addr;
-> >  #endif
-> >         kernel_map.va_pa_offset = PAGE_OFFSET - kernel_map.phys_addr;
-> > @@ -645,8 +650,8 @@ asmlinkage void __init setup_vm(uintptr_t dtb_pa)
-> >         create_pmd_mapping(trampoline_pmd, kernel_map.virt_addr,
-> >                            kernel_map.xiprom, PMD_SIZE, PAGE_KERNEL_EXEC);
-> >  #else
-> > -       create_pmd_mapping(trampoline_pmd, kernel_map.virt_addr,
-> > -                          kernel_map.phys_addr, PMD_SIZE, PAGE_KERNEL_EXEC);
-> > +       create_pmd_mapping(trampoline_pmd, kernel_map.virt_addr + LOAD_OFFSET,
-> > +                          kernel_map.phys_addr + LOAD_OFFSET, PMD_SIZE, PAGE_KERNEL_EXEC);
-> >  #endif
-> >  #else
-> >         /* Setup trampoline PGD */
-> > --
-> > 2.25.1
-> >
+Hi.
 
+So if you'd like definition lists of ReST, adding empty lines here
 
+>> > +  RUNNING, DIRTY TRACKING, VCPU RUNNING>> > +     Log DMAs
 
--- 
-Best Regards
- Guo Ren
+and here should do the trick.
 
-ML: https://lore.kernel.org/linux-csky/
+>> > +     Stream all memory
+
+Ditto for the rest of the lists.
+
+>> 
+>> So I'd recommend actually building the docs and looking at the result;
+>> this will not render the way you expect it to.  
+> 
+> Hum... It is really close to what I'd like, with the state names
+> bolded and in something like an enumerated list
+> 
+> But on close inspection I see the text fragments have been assembled
+> together. I'd probably try to make them into sentances than go to a
+> literal block?
+
+Please see ReST documentation for further info:
+
+    https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#definition-lists
+
+        Thanks, Akira
+> 
+> Thanks,
+> Jason
