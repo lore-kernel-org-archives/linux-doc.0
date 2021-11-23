@@ -2,26 +2,26 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A50C9C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Nov 2021 12:49:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26399C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Nov 2021 12:49:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236985AbhKWMwh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Nov 2021 07:52:37 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:27285 "EHLO
+        id S237217AbhKWMwo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Nov 2021 07:52:44 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:15853 "EHLO
         szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236801AbhKWMwg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Nov 2021 07:52:36 -0500
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.55])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Hz3qn4Nttzbhtw;
-        Tue, 23 Nov 2021 20:49:25 +0800 (CST)
+        with ESMTP id S237007AbhKWMwi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Nov 2021 07:52:38 -0500
+Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.56])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Hz3qL6cK6z91K7;
+        Tue, 23 Nov 2021 20:49:02 +0800 (CST)
 Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
+ dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 23 Nov 2021 20:49:26 +0800
+ 15.1.2308.20; Tue, 23 Nov 2021 20:49:28 +0800
 Received: from thunder-town.china.huawei.com (10.174.178.55) by
  dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 23 Nov 2021 20:49:25 +0800
+ 15.1.2308.20; Tue, 23 Nov 2021 20:49:27 +0800
 From:   Zhen Lei <thunder.leizhen@huawei.com>
 To:     Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
@@ -42,9 +42,9 @@ CC:     Zhen Lei <thunder.leizhen@huawei.com>,
         Feng Zhou <zhoufeng.zf@bytedance.com>,
         Kefeng Wang <wangkefeng.wang@huawei.com>,
         Chen Zhou <dingguo.cz@antgroup.com>
-Subject: [PATCH v16 04/11] x86: kdump: move xen_pv_domain() check and insert_resource() to setup_arch()
-Date:   Tue, 23 Nov 2021 20:46:39 +0800
-Message-ID: <20211123124646.1995-5-thunder.leizhen@huawei.com>
+Subject: [PATCH v16 06/11] arm64: kdump: introduce some macros for crash kernel reservation
+Date:   Tue, 23 Nov 2021 20:46:41 +0800
+Message-ID: <20211123124646.1995-7-thunder.leizhen@huawei.com>
 X-Mailer: git-send-email 2.26.0.windows.1
 In-Reply-To: <20211123124646.1995-1-thunder.leizhen@huawei.com>
 References: <20211123124646.1995-1-thunder.leizhen@huawei.com>
@@ -61,71 +61,59 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Chen Zhou <chenzhou10@huawei.com>
 
-We will make the functions reserve_crashkernel() as generic, the
-xen_pv_domain() check in reserve_crashkernel() is relevant only to
-x86, the same as insert_resource() in reserve_crashkernel[_low]().
-So move xen_pv_domain() check and insert_resource() to setup_arch()
-to keep them in x86.
+Introduce macro CRASH_ALIGN for alignment, macro CRASH_ADDR_LOW_MAX
+for upper bound of low crash memory, macro CRASH_ADDR_HIGH_MAX for
+upper bound of high crash memory, use macros instead.
 
-Suggested-by: Mike Rapoport <rppt@kernel.org>
+Besides, keep consistent with x86, use CRASH_ALIGN as the lower bound
+of crash kernel reservation.
+
 Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
 Tested-by: John Donnelly <John.p.donnelly@oracle.com>
-Acked-by: Baoquan He <bhe@redhat.com>
 ---
- arch/x86/kernel/setup.c | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+ arch/arm64/include/asm/kexec.h | 6 ++++++
+ arch/arm64/mm/init.c           | 4 ++--
+ 2 files changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
-index 2330dcb83e8f06a..63ed089f9778fc3 100644
---- a/arch/x86/kernel/setup.c
-+++ b/arch/x86/kernel/setup.c
-@@ -456,7 +456,6 @@ static int __init reserve_crashkernel_low(void)
+diff --git a/arch/arm64/include/asm/kexec.h b/arch/arm64/include/asm/kexec.h
+index 9839bfc163d7147..1b9edc69f0244ca 100644
+--- a/arch/arm64/include/asm/kexec.h
++++ b/arch/arm64/include/asm/kexec.h
+@@ -25,6 +25,12 @@
  
- 	crashk_low_res.start = low_base;
- 	crashk_low_res.end   = low_base + low_size - 1;
--	insert_resource(&iomem_resource, &crashk_low_res);
- #endif
- 	return 0;
- }
-@@ -480,11 +479,6 @@ static void __init reserve_crashkernel(void)
- 		high = true;
- 	}
+ #define KEXEC_ARCH KEXEC_ARCH_AARCH64
  
--	if (xen_pv_domain()) {
--		pr_info("Ignoring crashkernel for a Xen PV domain\n");
--		return;
--	}
--
- 	/* 0 means: find the address automatically */
- 	if (!crash_base) {
- 		/*
-@@ -531,7 +525,6 @@ static void __init reserve_crashkernel(void)
++/* 2M alignment for crash kernel regions */
++#define CRASH_ALIGN	SZ_2M
++
++#define CRASH_ADDR_LOW_MAX	arm64_dma_phys_limit
++#define CRASH_ADDR_HIGH_MAX	MEMBLOCK_ALLOC_ACCESSIBLE
++
+ #ifndef __ASSEMBLY__
  
- 	crashk_res.start = crash_base;
- 	crashk_res.end   = crash_base + crash_size - 1;
--	insert_resource(&iomem_resource, &crashk_res);
- }
- #else
+ /**
+diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+index a8834434af99ae0..be4595dc7459115 100644
+--- a/arch/arm64/mm/init.c
++++ b/arch/arm64/mm/init.c
+@@ -75,7 +75,7 @@ phys_addr_t arm64_dma_phys_limit __ro_after_init;
  static void __init reserve_crashkernel(void)
-@@ -1143,7 +1136,17 @@ void __init setup_arch(char **cmdline_p)
- 	 * Reserve memory for crash kernel after SRAT is parsed so that it
- 	 * won't consume hotpluggable memory.
- 	 */
--	reserve_crashkernel();
-+	if (xen_pv_domain())
-+		pr_info("Ignoring crashkernel for a Xen PV domain\n");
-+	else {
-+		reserve_crashkernel();
-+#ifdef CONFIG_KEXEC_CORE
-+		if (crashk_res.end > crashk_res.start)
-+			insert_resource(&iomem_resource, &crashk_res);
-+		if (crashk_low_res.end > crashk_low_res.start)
-+			insert_resource(&iomem_resource, &crashk_low_res);
-+#endif
-+	}
+ {
+ 	unsigned long long crash_base, crash_size;
+-	unsigned long long crash_max = arm64_dma_phys_limit;
++	unsigned long long crash_max = CRASH_ADDR_LOW_MAX;
+ 	int ret;
  
- 	memblock_find_dma_reserve();
+ 	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
+@@ -91,7 +91,7 @@ static void __init reserve_crashkernel(void)
+ 		crash_max = crash_base + crash_size;
  
+ 	/* Current arm64 boot protocol requires 2MB alignment */
+-	crash_base = memblock_phys_alloc_range(crash_size, SZ_2M,
++	crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
+ 					       crash_base, crash_max);
+ 	if (!crash_base) {
+ 		pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
 -- 
 2.25.1
 
