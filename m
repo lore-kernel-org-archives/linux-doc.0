@@ -2,189 +2,148 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC90BC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Nov 2021 15:19:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEF0CC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Nov 2021 16:34:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233425AbhKXPWQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Nov 2021 10:22:16 -0500
-Received: from mail-oi1-f176.google.com ([209.85.167.176]:41523 "EHLO
-        mail-oi1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231701AbhKXPWH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Nov 2021 10:22:07 -0500
-Received: by mail-oi1-f176.google.com with SMTP id u74so5975402oie.8;
-        Wed, 24 Nov 2021 07:18:57 -0800 (PST)
+        id S1349032AbhKXQhb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Nov 2021 11:37:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49542 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233433AbhKXQhb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Nov 2021 11:37:31 -0500
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31CF5C06173E
+        for <linux-doc@vger.kernel.org>; Wed, 24 Nov 2021 08:34:21 -0800 (PST)
+Received: by mail-lf1-x12b.google.com with SMTP id b1so8677838lfs.13
+        for <linux-doc@vger.kernel.org>; Wed, 24 Nov 2021 08:34:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cloudflare.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zPOV/LNYwYTsmB7mQfhpRU+MWIN56vkkbdkQqLN+cvk=;
+        b=bJ63a2e3Wy0M/xAdLhyaS4w9SbJ0nm2ErOeirbaa8ttvAjUGrt3n+uoQrwtA8+hWfd
+         ssH9Z9lR1kI0OAKzPImESpcPZ8IZcoCaIkI8XQf5BKZmLZ7exvaa2/Mz/BeEQRf6oo0i
+         HmYXatM1v2rz+lybQ4T/PYzN4LzvdDECznQdU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=qit6Jz3QILsxBlB+d8BX6t8kVpsrltoBM47rPBs0iwg=;
-        b=jqpwwcupMl4wU2i/chzpntzERHIhpo35ThsU6ueiMNQgOEI/voKMqcRLaIQaJ8vGO1
-         34DM2HLZ29i7QJ+aD77mffiPARdUs2AnmMo/MfUZ/nwauL2qg1dv6/qa655+syfx3VA2
-         0kceWk+bEZ5QUerURcTCwisxJG2/qgKD9ugYka2EuCGgvtJYIyw5QAmYXrGEPtbKcL3k
-         5gxa2v8oxsm5t+um4oxijwmM1lia4UZPgccusOWoV1zW/psz+1TOiYsNdJH2amsqdC81
-         jai0VWSntiuMmBmm36OU1dekDoFqOgKGbFziQlRSQcq0LhyD5tfp2B9zILv+jff1tVi4
-         t2VQ==
-X-Gm-Message-State: AOAM532YAv2uuGg+aFIiEbVb/AaS0cxO0k7lFrzsKpX0ahVBrpMPJxV3
-        p4fKhRmM0as2s5qReiql/VAk6agzq+KlL9nkQQg=
-X-Google-Smtp-Source: ABdhPJxdQdCi4KvNdCX8SyvD94y9jIrYCmEDY9JM3repE7/DqtYebiGktELH63vCPHj5sYg+5V1GH0DuCoZIyBS7Qpo=
-X-Received: by 2002:a05:6808:14c2:: with SMTP id f2mr6829761oiw.154.1637767137290;
- Wed, 24 Nov 2021 07:18:57 -0800 (PST)
+        bh=zPOV/LNYwYTsmB7mQfhpRU+MWIN56vkkbdkQqLN+cvk=;
+        b=I/AI06KVkss3dexE6LCzBvAYNDPbkyyVHbmBRB/a8Vc/jFqUWUI9L61asoaHb7rCFn
+         mE+nLJM3/Tqwfd92e+MLN5f94L/2kMmK0KXJ7dIZgyEckxFdxns8ON78SN9y8/wr1f90
+         i/MI++8ShDz9bNlEVOWacPRXjTUvqHqCE18LN9IydHeYWPpPc1xRLvCfQrqA33Ywt2nf
+         SPxpBIlV2+Nb6Xwt89OjJJbPe93Cp2TMwEovXqPRS2dN2PSny99ROpxN8LA1Ed62UVDe
+         YchwqAYkStciDsgFR9Yi3Dzn8AvmxPtNdjs5rbkWTFRNs4xXdv82dV7Y+DJBbN9pKeQM
+         +hnQ==
+X-Gm-Message-State: AOAM531O8GuRjpEPDaPZ7q5byTshbRB4UXgGyOM9j5wpGpT6+207a2ci
+        herrwASTEyyFrrWveo+Px/ZBsCp9pMGkjMv/QN5jnw==
+X-Google-Smtp-Source: ABdhPJxll5plpSGM9GkzJLSlx7bxnJPHlV7QraqV5JuIj+jX+jjAxnkuvJ3L3Cz96Fx4R8waIVALa7LdANrfPhP7N5g=
+X-Received: by 2002:a19:6b08:: with SMTP id d8mr16476607lfa.39.1637771659326;
+ Wed, 24 Nov 2021 08:34:19 -0800 (PST)
 MIME-Version: 1.0
-References: <20211106013312.26698-1-ricardo.neri-calderon@linux.intel.com> <20211106013312.26698-8-ricardo.neri-calderon@linux.intel.com>
-In-Reply-To: <20211106013312.26698-8-ricardo.neri-calderon@linux.intel.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Wed, 24 Nov 2021 16:18:46 +0100
-Message-ID: <CAJZ5v0j=+QSwmwVg8chcTchPAXdbt2h1g=4+tMbLpDxstfRq6A@mail.gmail.com>
-Subject: Re: [PATCH 7/7] thermal: intel: hfi: Notify user space for HFI events
-To:     Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Len Brown <len.brown@intel.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Aubrey Li <aubrey.li@linux.intel.com>,
-        Amit Kucheria <amitk@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Tim Chen <tim.c.chen@linux.intel.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Ricardo Neri <ricardo.neri@intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20211123163955.154512-1-alexandr.lobakin@intel.com>
+ <20211123163955.154512-22-alexandr.lobakin@intel.com> <77407c26-4e32-232c-58e0-2d601d781f84@iogearbox.net>
+In-Reply-To: <77407c26-4e32-232c-58e0-2d601d781f84@iogearbox.net>
+From:   Lorenz Bauer <lmb@cloudflare.com>
+Date:   Wed, 24 Nov 2021 16:34:08 +0000
+Message-ID: <CACAyw9998vkRPX3vZxf8cC6ivVfTFDJPY11Cz08ZUSTLf_s7=A@mail.gmail.com>
+Subject: Re: [PATCH v2 net-next 21/26] ice: add XDP and XSK generic
+ per-channel statistics
+To:     Daniel Borkmann <daniel@iogearbox.net>
+Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
+        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shay Agroskin <shayagr@amazon.com>,
+        Arthur Kiyanovski <akiyano@amazon.com>,
+        David Arinzon <darinzon@amazon.com>,
+        Noam Dagan <ndagan@amazon.com>,
+        Saeed Bishara <saeedb@amazon.com>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Marcin Wojtas <mw@semihalf.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Saeed Mahameed <saeedm@nvidia.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@redhat.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        Edward Cree <ecree.xilinx@gmail.com>,
+        Martin Habets <habetsm.xilinx@gmail.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Lorenzo Bianconi <lorenzo@kernel.org>,
+        Yajun Deng <yajun.deng@linux.dev>,
+        Sergey Ryazanov <ryazanov.s.a@gmail.com>,
+        David Ahern <dsahern@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        Cong Wang <cong.wang@bytedance.com>,
+        Networking <netdev@vger.kernel.org>, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>, linux-rdma@vger.kernel.org,
+        bpf <bpf@vger.kernel.org>,
+        virtualization@lists.linux-foundation.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Nov 6, 2021 at 2:34 AM Ricardo Neri
-<ricardo.neri-calderon@linux.intel.com> wrote:
->
-> From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
->
-> When the hardware issues an HFI event, relay a notification to user space.
-> This allows user space to respond by reading performance and efficiency of
-> each CPU and take appropriate action.
->
-> For example, when performance and efficiency of a CPU is 0, user space can
-> either offline the CPU or inject idle. Also, if user space notices a
-> downward trend in performance, it may proactively adjust power limits to
-> avoid future situations in which performance drops to 0.
->
-> To avoid excessive notifications, the rate is limited by one HZ per event.
-> To limit netlink message size, parameters for only 16 CPUs at max are sent
-> in one message. If there are more than 16 CPUs, issue as many messages as
-> needed to notify the status of all CPUs.
->
-> Cc: Andi Kleen <ak@linux.intel.com>
-> Cc: Aubrey Li <aubrey.li@linux.intel.com>
-> Cc: Tim Chen <tim.c.chen@linux.intel.com>
-> Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>
-> Reviewed-by: Len Brown <len.brown@intel.com>
-> Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> ---
->  drivers/thermal/intel/Kconfig     |  1 +
->  drivers/thermal/intel/intel_hfi.c | 55 ++++++++++++++++++++++++++++++-
->  2 files changed, 55 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/thermal/intel/Kconfig b/drivers/thermal/intel/Kconfig
-> index d4c6bdcacddb..b6a1f777b8e7 100644
-> --- a/drivers/thermal/intel/Kconfig
-> +++ b/drivers/thermal/intel/Kconfig
-> @@ -104,6 +104,7 @@ config INTEL_HFI
->         bool "Intel Hardware Feedback Interface"
->         depends on CPU_SUP_INTEL
->         depends on SCHED_MC && X86_THERMAL_VECTOR
-> +       select THERMAL_NETLINK
->         help
->           Select this option to enable the Hardware Feedback Interface. If
->           selected, hardware provides guidance to the operating system on
-> diff --git a/drivers/thermal/intel/intel_hfi.c b/drivers/thermal/intel/intel_hfi.c
-> index 1df24b39f2e6..c669a037704e 100644
-> --- a/drivers/thermal/intel/intel_hfi.c
-> +++ b/drivers/thermal/intel/intel_hfi.c
-> @@ -24,6 +24,7 @@
->  #include <linux/io.h>
->  #include <linux/slab.h>
->
-> +#include "../thermal_core.h"
->  #include "intel_hfi.h"
->
->  #define THERM_STATUS_CLEAR_PKG_MASK (BIT(1) | BIT(3) | BIT(5) | BIT(7) | \
-> @@ -124,6 +125,58 @@ static struct hfi_features hfi_features;
->  static DEFINE_MUTEX(hfi_lock);
->
->  #define HFI_UPDATE_INTERVAL    HZ
-> +#define HFI_MAX_THERM_NOTIFY_COUNT     16
-> +
-> +static int get_one_hfi_cap(struct hfi_instance *hfi_instance, int cpu,
-> +                          struct hfi_cpu_data *hfi_caps)
-> +{
-> +       struct hfi_cpu_data *caps;
-> +       unsigned long flags;
-> +       s16 index;
-> +
-> +       index = per_cpu(hfi_cpu_info, cpu).index;
-> +       if (index < 0)
-> +               return -EINVAL;
+Daniel asked me to share my opinion, as Cloudflare has an XDP load
+balancer as well.
 
-When does this happen?
+On Wed, 24 Nov 2021 at 00:53, Daniel Borkmann <daniel@iogearbox.net> wrote:
 
-Can the index become negative after this check?
+> I'm just taking our XDP L4LB in Cilium as an example: there we already count errors and
+> export them via per-cpu map that eventually lead to XDP_DROP cases including the /reason/
+> which caused the XDP_DROP (e.g. Prometheus can then scrape these insights from all the
+> nodes in the cluster). Given the different action codes are very often application specific,
+> there's not much debugging that you can do when /only/ looking at `ip link xdpstats` to
+> gather insight on *why* some of these actions were triggered (e.g. fib lookup failure, etc).
 
-Could this check be done in the caller (so this function could be a void one)?
+Agreed. For our purpose we often want to know whether a specific
+program has been invoked. Per-channel or per device stats don't help
+us much since we have a chain of programs (not using libxdp though).
+My colleague Arthur has written xdpcap [1], which gives per-action,
+per-program counters. This way we can correlate an action with a
+packet and a program.
 
-> +
-> +       /* Find the capabilities of @cpu */
-> +       raw_spin_lock_irqsave(&hfi_instance->event_lock, flags);
-> +       caps = hfi_instance->data + index * hfi_features.cpu_stride;
-> +       memcpy(hfi_caps, caps, sizeof(*hfi_caps));
-> +       raw_spin_unlock_irqrestore(&hfi_instance->event_lock, flags);
-> +
-> +       return 0;
-> +}
-> +
-> +/*
-> + * Call update_capabilities() when there are changes in the HFI table.
-> + */
-> +static void update_capabilities(struct hfi_instance *hfi_instance)
-> +{
-> +       struct cpu_capability cpu_caps[HFI_MAX_THERM_NOTIFY_COUNT];
-> +       int i = 0, cpu;
-> +
-> +       for_each_cpu(cpu, hfi_instance->cpus) {
-> +               struct hfi_cpu_data caps;
-> +               int ret;
-> +
-> +               ret = get_one_hfi_cap(hfi_instance, cpu, &caps);
-> +               if (ret)
-> +                       continue;
-> +
-> +               cpu_caps[i].cpu = cpu;
-> +               cpu_caps[i].perf = caps.perf_cap;
-> +               cpu_caps[i].eff = caps.ee_cap;
-> +               ++i;
-> +               if (i >= HFI_MAX_THERM_NOTIFY_COUNT) {
-> +                       thermal_genl_cpu_capability_event(HFI_MAX_THERM_NOTIFY_COUNT,
-> +                                                         cpu_caps);
-> +                       i = 0;
-> +               }
-> +       }
-> +
-> +       if (i)
-> +               thermal_genl_cpu_capability_event(i, cpu_caps);
-> +}
->
->  static void hfi_update_work_fn(struct work_struct *work)
->  {
-> @@ -134,7 +187,7 @@ static void hfi_update_work_fn(struct work_struct *work)
->         if (!hfi_instance)
->                 return;
->
-> -       /* TODO: Consume update here. */
-> +       update_capabilities(hfi_instance);
->  }
->
->  void intel_hfi_process_event(__u64 pkg_therm_status_msr_val)
-> --
-> 2.17.1
->
+> If really of interest, then maybe libxdp could have such per-action counters as opt-in in
+> its call chain..
+
+We could also make it part of BPF_ENABLE_STATS, it's kind of coarse
+grained though.
+
+> In the case of ice_run_xdp() today, we already bump total_rx_bytes/total_rx_pkts under
+> XDP and update ice_update_rx_ring_stats(). I do see the case for XDP_TX and XDP_REDIRECT
+> where we run into driver-specific errors that are /outside of the reach/ of the BPF prog.
+> For example, we've been running into errors from XDP_TX in ice_xmit_xdp_ring() in the
+> past during testing, and were able to pinpoint the location as xdp_ring->tx_stats.tx_busy
+> was increasing. These things are useful and would make sense to standardize for XDP context.
+
+I'd like to see more tracepoints like trace_xdp_exception, personally.
+We can use things like bpftrace for exploration and ebpf_exporter [2]
+to generate alerts much more easily than something wired into
+iproute2.
+
+Best
+Lorenz
+
+1: https://github.com/cloudflare/xdpcap
+2: https://github.com/cloudflare/ebpf_exporter
+
+-- 
+Lorenz Bauer  |  Systems Engineer
+6th Floor, County Hall/The Riverside Building, SE1 7PB, UK
+
+www.cloudflare.com
