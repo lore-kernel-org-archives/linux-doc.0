@@ -2,148 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEF0CC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Nov 2021 16:34:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 353D9C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Nov 2021 16:37:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349032AbhKXQhb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Nov 2021 11:37:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49542 "EHLO
+        id S1349074AbhKXQkV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Nov 2021 11:40:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233433AbhKXQhb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Nov 2021 11:37:31 -0500
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31CF5C06173E
-        for <linux-doc@vger.kernel.org>; Wed, 24 Nov 2021 08:34:21 -0800 (PST)
-Received: by mail-lf1-x12b.google.com with SMTP id b1so8677838lfs.13
-        for <linux-doc@vger.kernel.org>; Wed, 24 Nov 2021 08:34:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cloudflare.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zPOV/LNYwYTsmB7mQfhpRU+MWIN56vkkbdkQqLN+cvk=;
-        b=bJ63a2e3Wy0M/xAdLhyaS4w9SbJ0nm2ErOeirbaa8ttvAjUGrt3n+uoQrwtA8+hWfd
-         ssH9Z9lR1kI0OAKzPImESpcPZ8IZcoCaIkI8XQf5BKZmLZ7exvaa2/Mz/BeEQRf6oo0i
-         HmYXatM1v2rz+lybQ4T/PYzN4LzvdDECznQdU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zPOV/LNYwYTsmB7mQfhpRU+MWIN56vkkbdkQqLN+cvk=;
-        b=I/AI06KVkss3dexE6LCzBvAYNDPbkyyVHbmBRB/a8Vc/jFqUWUI9L61asoaHb7rCFn
-         mE+nLJM3/Tqwfd92e+MLN5f94L/2kMmK0KXJ7dIZgyEckxFdxns8ON78SN9y8/wr1f90
-         i/MI++8ShDz9bNlEVOWacPRXjTUvqHqCE18LN9IydHeYWPpPc1xRLvCfQrqA33Ywt2nf
-         SPxpBIlV2+Nb6Xwt89OjJJbPe93Cp2TMwEovXqPRS2dN2PSny99ROpxN8LA1Ed62UVDe
-         YchwqAYkStciDsgFR9Yi3Dzn8AvmxPtNdjs5rbkWTFRNs4xXdv82dV7Y+DJBbN9pKeQM
-         +hnQ==
-X-Gm-Message-State: AOAM531O8GuRjpEPDaPZ7q5byTshbRB4UXgGyOM9j5wpGpT6+207a2ci
-        herrwASTEyyFrrWveo+Px/ZBsCp9pMGkjMv/QN5jnw==
-X-Google-Smtp-Source: ABdhPJxll5plpSGM9GkzJLSlx7bxnJPHlV7QraqV5JuIj+jX+jjAxnkuvJ3L3Cz96Fx4R8waIVALa7LdANrfPhP7N5g=
-X-Received: by 2002:a19:6b08:: with SMTP id d8mr16476607lfa.39.1637771659326;
- Wed, 24 Nov 2021 08:34:19 -0800 (PST)
+        with ESMTP id S232846AbhKXQkV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Nov 2021 11:40:21 -0500
+X-Greylist: delayed 163 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 24 Nov 2021 08:37:11 PST
+Received: from osmtp.xiscosoft.net (osmtp.xiscosoft.net [IPv6:2001:41d0:8:c16c::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1055DC061574;
+        Wed, 24 Nov 2021 08:37:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=klondike.es;
+        s=xiscosoft_net; t=1637771827; x=1638981427;
+        bh=N5twuKLqFVXVh7rfLMB4pb6X4neyvZEBmhsC0vA+0zE=;
+        h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+         Content-Language:In-Reply-To:Content-Type:
+         Content-Transfer-Encoding:From:Subject:To:Cc:Date:Reply-To:
+         Content-Type:Sender:Message-ID:References:In-Reply-To:Content-Base:
+         Content-Location:Content-features:Content-Disposition:
+         Content-Alternative:Content-MD5:Content-Duration:
+         Content-Transfer-Encoding:Content-Language:MIME-Version:Content-ID:
+         Content-Description:Autocrypt:List-Id:List-Help:List-Unsubscribe:
+         List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:
+         List-Archive:Original-Message-ID:Require-Recipient-Valid-Since:
+         Solicitation:Organization:Jabber-ID:Auto-Submitted;
+        b=JogUYb0lAg+22Z6CTo+Vmmx50CPcJ2JS+3cDn/hUTmunfVf32KQu60pQY4fVnCuZf
+         Lb+6SALw6CHw25HYHLbgNjoByorAw+eXCTBiiI9GxOlp9zh6BggJQ5JoQiVaBrT90G
+         FurVxLW2cqOS/OEnWXCDLWCJpjQ0Gibz7pJhY82mA3IT/zWE7xxHjF31WxMIg+eEin
+         hBSq/Yq8+Tl/F9kCQHL7StTdiS/XfMkGyPymjAaD2V0oFEaipkW5w3N7S6r7MWSaGq
+         qFKup424MGcqTLfE9BMRH1kCzVMv05kbPzVremR5fE8OLhrt020R16z9mQyYK6Vm5I
+         6zDJnnu+CAjcg==
+Message-ID: <07bd1d90-c95f-0685-e1a8-2211c9dac251@klondike.es>
+Date:   Wed, 24 Nov 2021 17:37:05 +0100
 MIME-Version: 1.0
-References: <20211123163955.154512-1-alexandr.lobakin@intel.com>
- <20211123163955.154512-22-alexandr.lobakin@intel.com> <77407c26-4e32-232c-58e0-2d601d781f84@iogearbox.net>
-In-Reply-To: <77407c26-4e32-232c-58e0-2d601d781f84@iogearbox.net>
-From:   Lorenz Bauer <lmb@cloudflare.com>
-Date:   Wed, 24 Nov 2021 16:34:08 +0000
-Message-ID: <CACAyw9998vkRPX3vZxf8cC6ivVfTFDJPY11Cz08ZUSTLf_s7=A@mail.gmail.com>
-Subject: Re: [PATCH v2 net-next 21/26] ice: add XDP and XSK generic
- per-channel statistics
-To:     Daniel Borkmann <daniel@iogearbox.net>
-Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
-        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shay Agroskin <shayagr@amazon.com>,
-        Arthur Kiyanovski <akiyano@amazon.com>,
-        David Arinzon <darinzon@amazon.com>,
-        Noam Dagan <ndagan@amazon.com>,
-        Saeed Bishara <saeedb@amazon.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Marcin Wojtas <mw@semihalf.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Saeed Mahameed <saeedm@nvidia.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@redhat.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Edward Cree <ecree.xilinx@gmail.com>,
-        Martin Habets <habetsm.xilinx@gmail.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Yajun Deng <yajun.deng@linux.dev>,
-        Sergey Ryazanov <ryazanov.s.a@gmail.com>,
-        David Ahern <dsahern@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        Cong Wang <cong.wang@bytedance.com>,
-        Networking <netdev@vger.kernel.org>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>, linux-rdma@vger.kernel.org,
-        bpf <bpf@vger.kernel.org>,
-        virtualization@lists.linux-foundation.org
-Content-Type: text/plain; charset="UTF-8"
+From:   "Francisco Blas Izquierdo Riera (klondike)" <klondike@klondike.es>
+Subject: [PATCH 1/2] thunderbolt: allow vendor ID override for NVM programming
+To:     linux-usb@vger.kernel.org
+Cc:     Andreas Noever <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Kranthi Kuntala <kranthi.kuntala@intel.com>,
+        Rajmohan Mani <rajmohan.mani@intel.com>,
+        Mario.Limonciello@dell.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lukas Wunner <lukas@wunner.de>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        "Francisco Blas Izquierdo Riera (klondike)" <klondike@klondike.es>
+References: <8d29b41b-3590-c4b0-a2f8-fa34063bafb3@klondike.es>
+Content-Language: en-US
+In-Reply-To: <8d29b41b-3590-c4b0-a2f8-fa34063bafb3@klondike.es>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Daniel asked me to share my opinion, as Cloudflare has an XDP load
-balancer as well.
+Currently, the vendor ID reported by the chipset is checked before to
+avoid accidentally programming devices from unsupported vendors with
+a different NVM structure.
 
-On Wed, 24 Nov 2021 at 00:53, Daniel Borkmann <daniel@iogearbox.net> wrote:
+Certain Thunderbolt devices store the vendor ID in the NVM, therefore
+if the NVM has become corrrupted the device will report an invalid
+vendor ID and reflashing will be impossible on GNU/Linux even if the
+device can boot in safe mode.
 
-> I'm just taking our XDP L4LB in Cilium as an example: there we already count errors and
-> export them via per-cpu map that eventually lead to XDP_DROP cases including the /reason/
-> which caused the XDP_DROP (e.g. Prometheus can then scrape these insights from all the
-> nodes in the cluster). Given the different action codes are very often application specific,
-> there's not much debugging that you can do when /only/ looking at `ip link xdpstats` to
-> gather insight on *why* some of these actions were triggered (e.g. fib lookup failure, etc).
+This patch adds a new parameter ``switch_nvm_vendor_override`` which
+can be used to override the vendor ID used for detecting the NVM
+structure allowing to reflash (and authenticate) a new, valid
+image on the device.
 
-Agreed. For our purpose we often want to know whether a specific
-program has been invoked. Per-channel or per device stats don't help
-us much since we have a chain of programs (not using libxdp though).
-My colleague Arthur has written xdpcap [1], which gives per-action,
-per-program counters. This way we can correlate an action with a
-packet and a program.
+Signed-off-by: Francisco Blas Izquierdo Riera (klondike) <klondike@klondike.es>
+---
+drivers/thunderbolt/switch.c | 9 ++++++++-
+1 file changed, 8 insertions(+), 1 deletion(-)
 
-> If really of interest, then maybe libxdp could have such per-action counters as opt-in in
-> its call chain..
-
-We could also make it part of BPF_ENABLE_STATS, it's kind of coarse
-grained though.
-
-> In the case of ice_run_xdp() today, we already bump total_rx_bytes/total_rx_pkts under
-> XDP and update ice_update_rx_ring_stats(). I do see the case for XDP_TX and XDP_REDIRECT
-> where we run into driver-specific errors that are /outside of the reach/ of the BPF prog.
-> For example, we've been running into errors from XDP_TX in ice_xmit_xdp_ring() in the
-> past during testing, and were able to pinpoint the location as xdp_ring->tx_stats.tx_busy
-> was increasing. These things are useful and would make sense to standardize for XDP context.
-
-I'd like to see more tracepoints like trace_xdp_exception, personally.
-We can use things like bpftrace for exploration and ebpf_exporter [2]
-to generate alerts much more easily than something wired into
-iproute2.
-
-Best
-Lorenz
-
-1: https://github.com/cloudflare/xdpcap
-2: https://github.com/cloudflare/ebpf_exporter
-
--- 
-Lorenz Bauer  |  Systems Engineer
-6th Floor, County Hall/The Riverside Building, SE1 7PB, UK
-
-www.cloudflare.com
+diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
+index 3014146081..a7959c3f3f 100644
+--- a/drivers/thunderbolt/switch.c
++++ b/drivers/thunderbolt/switch.c
+@@ -13,6 +13,7 @@
+#include <linux/sched/signal.h>
+#include <linux/sizes.h>
+#include <linux/slab.h>
++#include <linux/moduleparam.h>
+#include "tb.h"
+@@ -34,6 +35,10 @@ struct nvm_auth_status {
+static LIST_HEAD(nvm_auth_status_cache);
+static DEFINE_MUTEX(nvm_auth_status_lock);
++static short switch_nvm_vendor_override = -1;
++module_param(switch_nvm_vendor_override, short, 0440);
++MODULE_PARM_DESC(switch_nvm_vendor_override, "Override the switch vendor id on the nvm access routines");
++
+static struct nvm_auth_status *__nvm_get_auth_status(const struct tb_switch *sw)
+{
+struct nvm_auth_status *st;
+@@ -391,7 +396,9 @@ static int tb_switch_nvm_add(struct tb_switch *sw)
+* relax this in the future when we learn other NVM formats.
+*/
+if (sw->config.vendor_id != PCI_VENDOR_ID_INTEL &&
+- sw->config.vendor_id != 0x8087) {
++ sw->config.vendor_id != 0x8087 &&
++ switch_nvm_vendor_override != PCI_VENDOR_ID_INTEL &&
++ switch_nvm_vendor_override != 0x8087) {
+dev_info(&sw->dev,
+"NVM format of vendor %#x is not known, disabling NVM upgrade\n",
+sw->config.vendor_id);
