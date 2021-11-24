@@ -2,302 +2,586 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C773C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Nov 2021 00:53:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85A71C4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Nov 2021 01:59:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232479AbhKXA43 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Nov 2021 19:56:29 -0500
-Received: from www62.your-server.de ([213.133.104.62]:48646 "EHLO
-        www62.your-server.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232252AbhKXA43 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Nov 2021 19:56:29 -0500
-Received: from sslproxy06.your-server.de ([78.46.172.3])
-        by www62.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92.3)
-        (envelope-from <daniel@iogearbox.net>)
-        id 1mpgWd-000D8T-BM; Wed, 24 Nov 2021 01:52:39 +0100
-Received: from [85.1.206.226] (helo=linux.home)
-        by sslproxy06.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <daniel@iogearbox.net>)
-        id 1mpgWc-000FwW-CI; Wed, 24 Nov 2021 01:52:38 +0100
-Subject: Re: [PATCH v2 net-next 21/26] ice: add XDP and XSK generic
- per-channel statistics
-To:     Alexander Lobakin <alexandr.lobakin@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-Cc:     Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
-        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shay Agroskin <shayagr@amazon.com>,
-        Arthur Kiyanovski <akiyano@amazon.com>,
-        David Arinzon <darinzon@amazon.com>,
-        Noam Dagan <ndagan@amazon.com>,
-        Saeed Bishara <saeedb@amazon.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Marcin Wojtas <mw@semihalf.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Saeed Mahameed <saeedm@nvidia.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        =?UTF-8?Q?Toke_H=c3=b8iland-J=c3=b8rgensen?= <toke@redhat.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Edward Cree <ecree.xilinx@gmail.com>,
-        Martin Habets <habetsm.xilinx@gmail.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Yajun Deng <yajun.deng@linux.dev>,
-        Sergey Ryazanov <ryazanov.s.a@gmail.com>,
-        David Ahern <dsahern@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        Cong Wang <cong.wang@bytedance.com>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
-        virtualization@lists.linux-foundation.org
-References: <20211123163955.154512-1-alexandr.lobakin@intel.com>
- <20211123163955.154512-22-alexandr.lobakin@intel.com>
-From:   Daniel Borkmann <daniel@iogearbox.net>
-Message-ID: <77407c26-4e32-232c-58e0-2d601d781f84@iogearbox.net>
-Date:   Wed, 24 Nov 2021 01:52:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        id S239573AbhKXCCP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Nov 2021 21:02:15 -0500
+Received: from sonic306-28.consmr.mail.ne1.yahoo.com ([66.163.189.90]:36942
+        "EHLO sonic306-28.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232083AbhKXCCO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Nov 2021 21:02:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1637719145; bh=Es6Pcqg5Z1JFFJx1PN7q5y8EGZea8Hty70edLPvvNNg=; h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To; b=llgqP36cXKTaGLdit1YwwRqwvBGQdB21MiMb/OoWZQQn8i7grZMDk/iZigTFXUsqS3eZn8ltXN8g/TnL+u/A5dOe7wwAUFbImr9jzaz2Q8hn+j+8TFPEVClCtRG1MZEMPPIwIc1LcBiFVsIU4xwe+dyTtfum8TUBip9rMMv9fxdAXe5HoFLwNprmGA5E1fIdqzJMAyTFueRQDSuQ1+kwfmFXQTvEvCloI79F9lKqnUXxGA7U1IdRR673ikdwVR5duM2XhXTTp7n55NzHbmKNAKLSp6NIppXjZ3dnUCuP9OJ8DSmjymAqOGgAsQD8xEmdBi2nKAURyjQ0moEWHNSIcg==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1637719145; bh=ZGjTAY8NZeT+3i4IZsRYQRgtGV8Pkvd+dGUyVvt0DOS=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=NZHvpA59UV6QAqC0faBQs/bm2PwhMXsoYocCSzTQBMDtwzdYeG7TZNQvAeDyBWRM7vLHqDFFIrOjDjrqqh/mxwfdK1XGHQPEaw3iCC5KVhNldLtbSr5/C0iv1XyHqPLKV3eMUbNylMawK3yo+WKvNeKfKbxh39G3rqLOH24l9k2k5TLvonBklF5LJTPjkZdQfP8MTHY5R0VsaVRHFFEfy2Lf1fY1Hv0INsrYblYtTZ8XIw6JILevWYpDTC10kDiwcvqAr+58CtqmIul1RX+7PxbPpKL5NaKp+RXSRq2ebdNUvG14GKD+XShpLIGQaVVpu3BR1q//bt9N5UC98idjKw==
+X-YMail-OSG: qYUdRFUVM1l_z8Z57WOBALURZVP_auwxmWKlxuJLa4LZSeAw0Nn0UGLuDcgLP46
+ 7Il3BTezTZ18ZZ95IrrwzU_ySH.hlSK9Gu2JLsV7QhXMVImi1hugpbBoJrY8bQFZCH7CMADR2H.m
+ 9h99BeguzI8hcvEYp2nSJSRMvsrTxjT.aqXWO5l._KSc0EtJvMQalLljgWhUJMw25VRgKbdBiHjz
+ oXhvTVbCLJEOKUoPX74ayXnBCww.c7o6h4lmoZVHy6YM2dGgo1e_iiPd2ddtvq8wbpsHvcHoBr0y
+ morUUmMAx29JBYEbKmZB6taDvn084MrPuqcgGozJGDlaRFxqJB0did143v.ApIFLHMO.XKPbEpYq
+ 316gytMRLr_6RLckySWVz4jZJFKq_5skiaK96cKfE01jC26iXeVbW6c.uyRYnDIP9d3rIVigEKFK
+ 0QvLXhNoTxYsA4E2voGhqEPyoam6uvqnAwiR0S0wXff.Sb6eYebSpecELol7W1BN2gzltl.Ovjf0
+ nDjmr6EwIQTditibLooF9EnGhjwMcJi_.ZqaxETrLZGpBpRd_l_kjgL3ymg2dl88GE2FcNbiyGFo
+ tCngYo0LF3R7G_kbnxX99CManoX3Tc0X5Skg2wvxxnRRcp5q1YCXWKjOaZoRyM56tmJelgVfWp8u
+ E.umwxXKqAsFVlNjjXc32NtSgNhS4hNOBqqwIwRpXMTaiYGvcMQrKgAW94NQ1PomRmNHI9LP4G1O
+ 5__k3KzLdRWel17.r5ZHSRhJimMar_D6dbv1BrANBM9b.B9a.u2v3u0_J.bgmIL_tqJfuRYhlOpj
+ pC7Kb5HXDWhG5FkzwWPT0SCKbgr594NLNdKIfgJxUuB1DJF5jgmc2tA6Ws2DAJgCxvoMsMJFx32J
+ Xhw3mLF9AIE6sMjSj.btrtIzA6xHpE.2f9hCavJtVC84B_LviUyehj4bt298ErXSUlEW4p_YonGT
+ m4m0Of6XLd71kXBe4O5mxhWDwzt9BiMZ0mA820JHoxaVG6FJqvu50I9XnqnVP5MZQIlag0In7p2P
+ 6V5QFbFFgKQTQujPNjbWCWKMANM3V4IRrQbvJjqvri8sn.nvuNgxi7VcAmeJxWpnuMQ7E.umTjtY
+ WMCk05MvqSAnqiMGnzLhbTr5Nv.V2YL3rQyZFBwh_8uBgv1GvtIOssmqHA76zE1uMcDOF_5_3QKV
+ hCTjNJgc73N_oJlp03i1W_LAjUYjGXhHxywgLUZww1lPisNTLNKN6jytx8LhurlNEJTQVhEQBBNj
+ leVJQLi04VJwjjTnokCWMtrO.fEpzL_1BnCuSVwYQsc08qzOMd0_oeHY3e.5c5XvjdGUqkDtixTH
+ cEilblVX92J1Ylqtka_faFWidWmFEHgF_4lCJ8z3HO.IPJhnok.7elzSk5L7.s8.xlJbACSMSmRG
+ Ok2cCXwBgxty9W4A6kxVbST.R5nW08j1fjwZIOdSOCjC1ups8NYgO7uSzHftA0dIuUlY1QGPFpGd
+ s8dwkukOw6WJsr.U1a16T1ajKD2l44n5Yl4Wcfjd_bC6p8gvkAo1ED8VvrZEJx8ZLm1dQRf4CbyL
+ PWdrEXE3XmFuWc7T8rl1FKWGFQnHo9HR1.XXhvp0EGSGwIovnPQHaexqPtjDM42dYTd63TKXnzSN
+ wPxtJ7i3nlCgeQL.pVv5t.xkBHl2FQ9Mep4ib7dM61.RyN6NRmBR4TedSAntiFJXPi5.Cp_TNyjs
+ jcUU9NTCFPwR7ppB_wUb7OFrB_9qn8.W7whE0uMyOMDBeWvnYGsvDjukh3V9iCoGog6WrIuduqmz
+ 1O3O.bRpfL8M0qNXreX5iMa.kP3UkOV4ez6JlaD6RcRzwZ2Gz_ktQhWZLsLQ6PFweLqkinRpwFMB
+ yKFCkX0LaKrIdJhRJPOCqx_KmTvLZTnuhXvmyvmMjWnSiOk90ucMyd7nU3TVY02WX2L2wt4KfkKj
+ F0KMRdzCszmF4krys6MH8iKB26f0xLvFySg8hjNYwMn6q_IA7sBPSSkfjsfX4AV8GZEUMZhU2SI7
+ BWnDB3Zt7CWNEyBcFLq1tHqDNtkOu9sYtHUObuTsf7ctoDOHR9bzXRxRlceEMFnOUMMbpG_rYu9Y
+ 8eU5cDILR9OTx_MSxKAKh_WnlKBzX4gQs9V9Sh4WBkonuy6Ic9P65SXQxvjIu0W_pb0ZVLaLWkxD
+ Msm3smOM45GoXwiVaMN1UhntDDpn3o7bxuFMasJPugp4NafOhA87lw902VKROknUD5rJDb9bWfy7
+ 47TolcVYJliZNR2lmMVMx8YxYnm6_41UmzM2NN4nbakL9q0hSa_g-
+X-Sonic-MF: <casey@schaufler-ca.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic306.consmr.mail.ne1.yahoo.com with HTTP; Wed, 24 Nov 2021 01:59:05 +0000
+Received: by kubenode512.mail-prod1.omega.ne1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA ID 474b10c19bdf5902ffe481babb388f3b;
+          Wed, 24 Nov 2021 01:59:01 +0000 (UTC)
+From:   Casey Schaufler <casey@schaufler-ca.com>
+To:     casey.schaufler@intel.com, jmorris@namei.org,
+        linux-security-module@vger.kernel.org, selinux@vger.kernel.org
+Cc:     casey@schaufler-ca.com, linux-audit@redhat.com,
+        keescook@chromium.org, john.johansen@canonical.com,
+        penguin-kernel@i-love.sakura.ne.jp, paul@paul-moore.com,
+        sds@tycho.nsa.gov, linux-kernel@vger.kernel.org,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH v30 14/28] LSM: Specify which LSM to display
+Date:   Tue, 23 Nov 2021 17:43:18 -0800
+Message-Id: <20211124014332.36128-15-casey@schaufler-ca.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211124014332.36128-1-casey@schaufler-ca.com>
+References: <20211124014332.36128-1-casey@schaufler-ca.com>
 MIME-Version: 1.0
-In-Reply-To: <20211123163955.154512-22-alexandr.lobakin@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Authenticated-Sender: daniel@iogearbox.net
-X-Virus-Scanned: Clear (ClamAV 0.103.3/26362/Tue Nov 23 10:18:04 2021)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Alexander,
+Create a new entry "interface_lsm" in the procfs attr directory for
+controlling which LSM security information is displayed for a
+process. A process can only read or write its own display value.
 
-On 11/23/21 5:39 PM, Alexander Lobakin wrote:
-[...]
+The name of an active LSM that supplies hooks for
+human readable data may be written to "interface_lsm" to set the
+value. The name of the LSM currently in use can be read from
+"interface_lsm". At this point there can only be one LSM capable
+of display active. A helper function lsm_task_ilsm() is
+provided to get the interface lsm slot for a task_struct.
 
-Just commenting on ice here as one example (similar applies to other drivers):
+Setting the "interface_lsm" requires that all security modules using
+setprocattr hooks allow the action. Each security module is
+responsible for defining its policy.
 
-> diff --git a/drivers/net/ethernet/intel/ice/ice_txrx_lib.c b/drivers/net/ethernet/intel/ice/ice_txrx_lib.c
-> index 1dd7e84f41f8..7dc287bc3a1a 100644
-> --- a/drivers/net/ethernet/intel/ice/ice_txrx_lib.c
-> +++ b/drivers/net/ethernet/intel/ice/ice_txrx_lib.c
-> @@ -258,6 +258,8 @@ static void ice_clean_xdp_irq(struct ice_tx_ring *xdp_ring)
->   		xdp_ring->next_dd = ICE_TX_THRESH - 1;
->   	xdp_ring->next_to_clean = ntc;
->   	ice_update_tx_ring_stats(xdp_ring, total_pkts, total_bytes);
-> +	xdp_update_tx_drv_stats(&xdp_ring->xdp_stats->xdp_tx, total_pkts,
-> +				total_bytes);
->   }
-> 
->   /**
-> @@ -277,6 +279,7 @@ int ice_xmit_xdp_ring(void *data, u16 size, struct ice_tx_ring *xdp_ring)
->   		ice_clean_xdp_irq(xdp_ring);
-> 
->   	if (!unlikely(ICE_DESC_UNUSED(xdp_ring))) {
-> +		xdp_update_tx_drv_full(&xdp_ring->xdp_stats->xdp_tx);
->   		xdp_ring->tx_stats.tx_busy++;
->   		return ICE_XDP_CONSUMED;
->   	}
-> diff --git a/drivers/net/ethernet/intel/ice/ice_xsk.c b/drivers/net/ethernet/intel/ice/ice_xsk.c
-> index ff55cb415b11..62ef47a38d93 100644
-> --- a/drivers/net/ethernet/intel/ice/ice_xsk.c
-> +++ b/drivers/net/ethernet/intel/ice/ice_xsk.c
-> @@ -454,42 +454,58 @@ ice_construct_skb_zc(struct ice_rx_ring *rx_ring, struct xdp_buff **xdp_arr)
->    * @xdp: xdp_buff used as input to the XDP program
->    * @xdp_prog: XDP program to run
->    * @xdp_ring: ring to be used for XDP_TX action
-> + * @lrstats: onstack Rx XDP stats
->    *
->    * Returns any of ICE_XDP_{PASS, CONSUMED, TX, REDIR}
->    */
->   static int
->   ice_run_xdp_zc(struct ice_rx_ring *rx_ring, struct xdp_buff *xdp,
-> -	       struct bpf_prog *xdp_prog, struct ice_tx_ring *xdp_ring)
-> +	       struct bpf_prog *xdp_prog, struct ice_tx_ring *xdp_ring,
-> +	       struct xdp_rx_drv_stats_local *lrstats)
->   {
->   	int err, result = ICE_XDP_PASS;
->   	u32 act;
-> 
-> +	lrstats->bytes += xdp->data_end - xdp->data;
-> +	lrstats->packets++;
-> +
->   	act = bpf_prog_run_xdp(xdp_prog, xdp);
-> 
->   	if (likely(act == XDP_REDIRECT)) {
->   		err = xdp_do_redirect(rx_ring->netdev, xdp, xdp_prog);
-> -		if (err)
-> +		if (err) {
-> +			lrstats->redirect_errors++;
->   			goto out_failure;
-> +		}
-> +		lrstats->redirect++;
->   		return ICE_XDP_REDIR;
->   	}
-> 
->   	switch (act) {
->   	case XDP_PASS:
-> +		lrstats->pass++;
->   		break;
->   	case XDP_TX:
->   		result = ice_xmit_xdp_buff(xdp, xdp_ring);
-> -		if (result == ICE_XDP_CONSUMED)
-> +		if (result == ICE_XDP_CONSUMED) {
-> +			lrstats->tx_errors++;
->   			goto out_failure;
-> +		}
-> +		lrstats->tx++;
->   		break;
->   	default:
->   		bpf_warn_invalid_xdp_action(act);
-> -		fallthrough;
-> +		lrstats->invalid++;
-> +		goto out_failure;
->   	case XDP_ABORTED:
-> +		lrstats->aborted++;
->   out_failure:
->   		trace_xdp_exception(rx_ring->netdev, xdp_prog, act);
-> -		fallthrough;
-> +		result = ICE_XDP_CONSUMED;
-> +		break;
->   	case XDP_DROP:
->   		result = ICE_XDP_CONSUMED;
-> +		lrstats->drop++;
->   		break;
->   	}
+AppArmor hook provided by John Johansen <john.johansen@canonical.com>
+SELinux hook provided by Stephen Smalley <stephen.smalley.work@gmail.com>
 
-Imho, the overall approach is way too bloated. I can see the packets/bytes but now we
-have 3 counter updates with return codes included and then the additional sync of the
-on-stack counters into the ring counters via xdp_update_rx_drv_stats(). So we now need
-ice_update_rx_ring_stats() as well as xdp_update_rx_drv_stats() which syncs 10 different
-stat counters via u64_stats_add() into the per ring ones. :/
+Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Stephen Smalley <stephen.smalley.work@gmail.com>
+Cc: Paul Moore <paul@paul-moore.com>
+Cc: John Johansen <john.johansen@canonical.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-api@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+---
+ .../ABI/testing/procfs-attr-lsm_display       |  22 +++
+ Documentation/security/lsm.rst                |  14 ++
+ fs/proc/base.c                                |   1 +
+ include/linux/security.h                      |  17 ++
+ security/apparmor/include/apparmor.h          |   3 +-
+ security/apparmor/lsm.c                       |  32 ++++
+ security/security.c                           | 166 ++++++++++++++++--
+ security/selinux/hooks.c                      |  11 ++
+ security/selinux/include/classmap.h           |   2 +-
+ security/smack/smack_lsm.c                    |   7 +
+ 10 files changed, 256 insertions(+), 19 deletions(-)
+ create mode 100644 Documentation/ABI/testing/procfs-attr-lsm_display
 
-I'm just taking our XDP L4LB in Cilium as an example: there we already count errors and
-export them via per-cpu map that eventually lead to XDP_DROP cases including the /reason/
-which caused the XDP_DROP (e.g. Prometheus can then scrape these insights from all the
-nodes in the cluster). Given the different action codes are very often application specific,
-there's not much debugging that you can do when /only/ looking at `ip link xdpstats` to
-gather insight on *why* some of these actions were triggered (e.g. fib lookup failure, etc).
-If really of interest, then maybe libxdp could have such per-action counters as opt-in in
-its call chain..
-
-In the case of ice_run_xdp() today, we already bump total_rx_bytes/total_rx_pkts under
-XDP and update ice_update_rx_ring_stats(). I do see the case for XDP_TX and XDP_REDIRECT
-where we run into driver-specific errors that are /outside of the reach/ of the BPF prog.
-For example, we've been running into errors from XDP_TX in ice_xmit_xdp_ring() in the
-past during testing, and were able to pinpoint the location as xdp_ring->tx_stats.tx_busy
-was increasing. These things are useful and would make sense to standardize for XDP context.
-
-But then it also seems like above in ice_xmit_xdp_ring() we now need to bump counters
-twice just for sake of ethtool vs xdp counters which sucks a bit, would be nice to only
-having to do it once:
-
- >   	if (!unlikely(ICE_DESC_UNUSED(xdp_ring))) {
- > +		xdp_update_tx_drv_full(&xdp_ring->xdp_stats->xdp_tx);
- >   		xdp_ring->tx_stats.tx_busy++;
- >   		return ICE_XDP_CONSUMED;
- >   	}
-
-Anyway, but just to reiterate, for troubleshooting I do care about anomalous events that
-led to drops in the driver e.g. due to no space in ring or DMA errors (XDP_TX), or more
-detailed insights in xdp_do_redirect() when errors occur (XDP_REDIRECT), very much less
-about the action code given the prog has the full error context here already.
-
-One more comment/question on the last doc update patch (I presume you only have dummy
-numbers in there from testing?):
-
-+For some interfaces, standard XDP statistics are available.
-+It can be accessed the same ways, e.g. `ip`::
+diff --git a/Documentation/ABI/testing/procfs-attr-lsm_display b/Documentation/ABI/testing/procfs-attr-lsm_display
+new file mode 100644
+index 000000000000..0f60005c235c
+--- /dev/null
++++ b/Documentation/ABI/testing/procfs-attr-lsm_display
+@@ -0,0 +1,22 @@
++What:		/proc/*/attr/lsm_display
++Contact:	linux-security-module@vger.kernel.org,
++Description:	The name of the Linux security module (LSM) that will
++		provide information in the /proc/*/attr/current,
++		/proc/*/attr/prev and /proc/*/attr/exec interfaces.
++		The details of permissions required to read from
++		this interface are dependent on the LSMs active on the
++		system.
++		A process cannot write to this interface unless it
++		refers to itself.
++		The other details of permissions required to write to
++		this interface are dependent on the LSMs active on the
++		system.
++		The format of the data used by this interface is a
++		text string identifying the name of an LSM. The values
++		accepted are:
++			selinux		- the SELinux LSM
++			smack		- the Smack LSM
++			apparmor	- The AppArmor LSM
++		By convention the LSM names are lower case and do not
++		contain special characters.
++Users:		LSM user-space
+diff --git a/Documentation/security/lsm.rst b/Documentation/security/lsm.rst
+index 6a2a2e973080..b77b4a540391 100644
+--- a/Documentation/security/lsm.rst
++++ b/Documentation/security/lsm.rst
+@@ -129,3 +129,17 @@ to identify it as the first security module to be registered.
+ The capabilities security module does not use the general security
+ blobs, unlike other modules. The reasons are historical and are
+ based on overhead, complexity and performance concerns.
 +
-+  $ ip link xdpstats dev enp178s0
-+  16: enp178s0:
-+  xdp-channel0-rx_xdp_packets: 0
-+  xdp-channel0-rx_xdp_bytes: 1
-+  xdp-channel0-rx_xdp_errors: 2
++LSM External Interfaces
++=======================
++
++The LSM infrastructure does not generally provide external interfaces.
++The individual security modules provide what external interfaces they
++require.
++
++The file ``/sys/kernel/security/lsm`` provides a comma
++separated list of the active security modules.
++
++The file ``/proc/pid/attr/interface_lsm`` contains the name of the security
++module for which the ``/proc/pid/attr/current`` interface will
++apply. This interface can be written to.
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index 13eda8de2998..50dbe5612a26 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -2828,6 +2828,7 @@ static const struct pid_entry attr_dir_stuff[] = {
+ 	ATTR(NULL, "fscreate",		0666),
+ 	ATTR(NULL, "keycreate",		0666),
+ 	ATTR(NULL, "sockcreate",	0666),
++	ATTR(NULL, "interface_lsm",	0666),
+ #ifdef CONFIG_SECURITY_SMACK
+ 	DIR("smack",			0555,
+ 	    proc_smack_attr_dir_inode_ops, proc_smack_attr_dir_ops),
+diff --git a/include/linux/security.h b/include/linux/security.h
+index 5271b2f4dfca..1b82590a6a59 100644
+--- a/include/linux/security.h
++++ b/include/linux/security.h
+@@ -219,6 +219,23 @@ static inline u32 lsmblob_value(const struct lsmblob *blob)
+ 	return 0;
+ }
+ 
++/**
++ * lsm_task_ilsm - the "interface_lsm" for this task
++ * @task: The task to report on
++ *
++ * Returns the task's interface LSM slot.
++ */
++static inline int lsm_task_ilsm(struct task_struct *task)
++{
++#ifdef CONFIG_SECURITY
++	int *ilsm = task->security;
++
++	if (ilsm)
++		return *ilsm;
++#endif
++	return LSMBLOB_INVALID;
++}
++
+ /* These functions are in security/commoncap.c */
+ extern int cap_capable(const struct cred *cred, struct user_namespace *ns,
+ 		       int cap, unsigned int opts);
+diff --git a/security/apparmor/include/apparmor.h b/security/apparmor/include/apparmor.h
+index 1fbabdb565a8..b1622fcb4394 100644
+--- a/security/apparmor/include/apparmor.h
++++ b/security/apparmor/include/apparmor.h
+@@ -28,8 +28,9 @@
+ #define AA_CLASS_SIGNAL		10
+ #define AA_CLASS_NET		14
+ #define AA_CLASS_LABEL		16
++#define AA_CLASS_DISPLAY_LSM	17
+ 
+-#define AA_CLASS_LAST		AA_CLASS_LABEL
++#define AA_CLASS_LAST		AA_CLASS_DISPLAY_LSM
+ 
+ /* Control parameters settable through module/boot flags */
+ extern enum audit_mode aa_g_audit;
+diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
+index 24241db8ec54..5ed40fd93ce9 100644
+--- a/security/apparmor/lsm.c
++++ b/security/apparmor/lsm.c
+@@ -621,6 +621,25 @@ static int apparmor_getprocattr(struct task_struct *task, char *name,
+ 	return error;
+ }
+ 
++
++static int profile_interface_lsm(struct aa_profile *profile,
++				 struct common_audit_data *sa)
++{
++	struct aa_perms perms = { };
++	unsigned int state;
++
++	state = PROFILE_MEDIATES(profile, AA_CLASS_DISPLAY_LSM);
++	if (state) {
++		aa_compute_perms(profile->policy.dfa, state, &perms);
++		aa_apply_modes_to_perms(profile, &perms);
++		aad(sa)->label = &profile->label;
++
++		return aa_check_perms(profile, &perms, AA_MAY_WRITE, sa, NULL);
++	}
++
++	return 0;
++}
++
+ static int apparmor_setprocattr(const char *name, void *value,
+ 				size_t size)
+ {
+@@ -632,6 +651,19 @@ static int apparmor_setprocattr(const char *name, void *value,
+ 	if (size == 0)
+ 		return -EINVAL;
+ 
++	/* LSM infrastructure does actual setting of interface_lsm if allowed */
++	if (!strcmp(name, "interface_lsm")) {
++		struct aa_profile *profile;
++		struct aa_label *label;
++
++		aad(&sa)->info = "set interface lsm";
++		label = begin_current_label_crit_section();
++		error = fn_for_each_confined(label, profile,
++					profile_interface_lsm(profile, &sa));
++		end_current_label_crit_section(label);
++		return error;
++	}
++
+ 	/* AppArmor requires that the buffer must be null terminated atm */
+ 	if (args[size - 1] != '\0') {
+ 		/* null terminate */
+diff --git a/security/security.c b/security/security.c
+index f7af2444fcc3..cfd75659e7e6 100644
+--- a/security/security.c
++++ b/security/security.c
+@@ -78,7 +78,16 @@ static struct kmem_cache *lsm_file_cache;
+ static struct kmem_cache *lsm_inode_cache;
+ 
+ char *lsm_names;
+-static struct lsm_blob_sizes blob_sizes __lsm_ro_after_init;
++
++/*
++ * The task blob includes the "interface_lsm" slot used for
++ * chosing which module presents contexts.
++ * Using a long to avoid potential alignment issues with
++ * module assigned task blobs.
++ */
++static struct lsm_blob_sizes blob_sizes __lsm_ro_after_init = {
++	.lbs_task = sizeof(long),
++};
+ 
+ /* Boot-time LSM user choice */
+ static __initdata const char *chosen_lsm_order;
+@@ -672,6 +681,8 @@ int lsm_inode_alloc(struct inode *inode)
+  */
+ static int lsm_task_alloc(struct task_struct *task)
+ {
++	int *ilsm;
++
+ 	if (blob_sizes.lbs_task == 0) {
+ 		task->security = NULL;
+ 		return 0;
+@@ -680,6 +691,15 @@ static int lsm_task_alloc(struct task_struct *task)
+ 	task->security = kzalloc(blob_sizes.lbs_task, GFP_KERNEL);
+ 	if (task->security == NULL)
+ 		return -ENOMEM;
++
++	/*
++	 * The start of the task blob contains the "interface" LSM slot number.
++	 * Start with it set to the invalid slot number, indicating that the
++	 * default first registered LSM be displayed.
++	 */
++	ilsm = task->security;
++	*ilsm = LSMBLOB_INVALID;
++
+ 	return 0;
+ }
+ 
+@@ -1736,14 +1756,26 @@ int security_file_open(struct file *file)
+ 
+ int security_task_alloc(struct task_struct *task, unsigned long clone_flags)
+ {
++	int *oilsm = current->security;
++	int *nilsm;
+ 	int rc = lsm_task_alloc(task);
+ 
+-	if (rc)
++	if (unlikely(rc))
+ 		return rc;
++
+ 	rc = call_int_hook(task_alloc, 0, task, clone_flags);
+-	if (unlikely(rc))
++	if (unlikely(rc)) {
+ 		security_task_free(task);
+-	return rc;
++		return rc;
++	}
++
++	if (oilsm) {
++		nilsm = task->security;
++		if (nilsm)
++			*nilsm = *oilsm;
++	}
++
++	return 0;
+ }
+ 
+ void security_task_free(struct task_struct *task)
+@@ -2175,23 +2207,110 @@ int security_getprocattr(struct task_struct *p, const char *lsm, char *name,
+ 				char **value)
+ {
+ 	struct security_hook_list *hp;
++	int ilsm = lsm_task_ilsm(current);
++	int slot = 0;
++
++	if (!strcmp(name, "interface_lsm")) {
++		/*
++		 * lsm_slot will be 0 if there are no displaying modules.
++		 */
++		if (lsm_slot == 0)
++			return -EINVAL;
++
++		/*
++		 * Only allow getting the current process' interface_lsm.
++		 * There are too few reasons to get another process'
++		 * interface_lsm and too many LSM policy issues.
++		 */
++		if (current != p)
++			return -EINVAL;
++
++		ilsm = lsm_task_ilsm(p);
++		if (ilsm != LSMBLOB_INVALID)
++			slot = ilsm;
++		*value = kstrdup(lsm_slotlist[slot]->lsm, GFP_KERNEL);
++		if (*value)
++			return strlen(*value);
++		return -ENOMEM;
++	}
+ 
+ 	hlist_for_each_entry(hp, &security_hook_heads.getprocattr, list) {
+ 		if (lsm != NULL && strcmp(lsm, hp->lsmid->lsm))
+ 			continue;
++		if (lsm == NULL && ilsm != LSMBLOB_INVALID &&
++		    ilsm != hp->lsmid->slot)
++			continue;
+ 		return hp->hook.getprocattr(p, name, value);
+ 	}
+ 	return LSM_RET_DEFAULT(getprocattr);
+ }
+ 
++/**
++ * security_setprocattr - Set process attributes via /proc
++ * @lsm: name of module involved, or NULL
++ * @name: name of the attribute
++ * @value: value to set the attribute to
++ * @size: size of the value
++ *
++ * Set the process attribute for the specified security module
++ * to the specified value. Note that this can only be used to set
++ * the process attributes for the current, or "self" process.
++ * The /proc code has already done this check.
++ *
++ * Returns 0 on success, an appropriate code otherwise.
++ */
+ int security_setprocattr(const char *lsm, const char *name, void *value,
+ 			 size_t size)
+ {
+ 	struct security_hook_list *hp;
++	char *termed;
++	char *copy;
++	int *ilsm = current->security;
++	int rc = -EINVAL;
++	int slot = 0;
++
++	if (!strcmp(name, "interface_lsm")) {
++		/*
++		 * Change the "interface_lsm" value only if all the security
++		 * modules that support setting a procattr allow it.
++		 * It is assumed that all such security modules will be
++		 * cooperative.
++		 */
++		if (size == 0)
++			return -EINVAL;
++
++		hlist_for_each_entry(hp, &security_hook_heads.setprocattr,
++				     list) {
++			rc = hp->hook.setprocattr(name, value, size);
++			if (rc < 0)
++				return rc;
++		}
++
++		rc = -EINVAL;
++
++		copy = kmemdup_nul(value, size, GFP_KERNEL);
++		if (copy == NULL)
++			return -ENOMEM;
++
++		termed = strsep(&copy, " \n");
++
++		for (slot = 0; slot < lsm_slot; slot++)
++			if (!strcmp(termed, lsm_slotlist[slot]->lsm)) {
++				*ilsm = lsm_slotlist[slot]->slot;
++				rc = size;
++				break;
++			}
++
++		kfree(termed);
++		return rc;
++	}
+ 
+ 	hlist_for_each_entry(hp, &security_hook_heads.setprocattr, list) {
+ 		if (lsm != NULL && strcmp(lsm, hp->lsmid->lsm))
+ 			continue;
++		if (lsm == NULL && *ilsm != LSMBLOB_INVALID &&
++		    *ilsm != hp->lsmid->slot)
++			continue;
+ 		return hp->hook.setprocattr(name, value, size);
+ 	}
+ 	return LSM_RET_DEFAULT(setprocattr);
+@@ -2211,15 +2330,15 @@ EXPORT_SYMBOL(security_ismaclabel);
+ int security_secid_to_secctx(struct lsmblob *blob, char **secdata, u32 *seclen)
+ {
+ 	struct security_hook_list *hp;
+-	int rc;
++	int ilsm = lsm_task_ilsm(current);
+ 
+ 	hlist_for_each_entry(hp, &security_hook_heads.secid_to_secctx, list) {
+ 		if (WARN_ON(hp->lsmid->slot < 0 || hp->lsmid->slot >= lsm_slot))
+ 			continue;
+-		rc = hp->hook.secid_to_secctx(blob->secid[hp->lsmid->slot],
+-					      secdata, seclen);
+-		if (rc != LSM_RET_DEFAULT(secid_to_secctx))
+-			return rc;
++		if (ilsm == LSMBLOB_INVALID || ilsm == hp->lsmid->slot)
++			return hp->hook.secid_to_secctx(
++					blob->secid[hp->lsmid->slot],
++					secdata, seclen);
+ 	}
+ 
+ 	return LSM_RET_DEFAULT(secid_to_secctx);
+@@ -2230,16 +2349,15 @@ int security_secctx_to_secid(const char *secdata, u32 seclen,
+ 			     struct lsmblob *blob)
+ {
+ 	struct security_hook_list *hp;
+-	int rc;
++	int ilsm = lsm_task_ilsm(current);
+ 
+ 	lsmblob_init(blob, 0);
+ 	hlist_for_each_entry(hp, &security_hook_heads.secctx_to_secid, list) {
+ 		if (WARN_ON(hp->lsmid->slot < 0 || hp->lsmid->slot >= lsm_slot))
+ 			continue;
+-		rc = hp->hook.secctx_to_secid(secdata, seclen,
+-					      &blob->secid[hp->lsmid->slot]);
+-		if (rc != 0)
+-			return rc;
++		if (ilsm == LSMBLOB_INVALID || ilsm == hp->lsmid->slot)
++			return hp->hook.secctx_to_secid(secdata, seclen,
++						&blob->secid[hp->lsmid->slot]);
+ 	}
+ 	return 0;
+ }
+@@ -2247,7 +2365,14 @@ EXPORT_SYMBOL(security_secctx_to_secid);
+ 
+ void security_release_secctx(char *secdata, u32 seclen)
+ {
+-	call_void_hook(release_secctx, secdata, seclen);
++	struct security_hook_list *hp;
++	int ilsm = lsm_task_ilsm(current);
++
++	hlist_for_each_entry(hp, &security_hook_heads.release_secctx, list)
++		if (ilsm == LSMBLOB_INVALID || ilsm == hp->lsmid->slot) {
++			hp->hook.release_secctx(secdata, seclen);
++			return;
++		}
+ }
+ EXPORT_SYMBOL(security_release_secctx);
+ 
+@@ -2388,8 +2513,15 @@ EXPORT_SYMBOL(security_sock_rcv_skb);
+ int security_socket_getpeersec_stream(struct socket *sock, char __user *optval,
+ 				      int __user *optlen, unsigned len)
+ {
+-	return call_int_hook(socket_getpeersec_stream, -ENOPROTOOPT, sock,
+-				optval, optlen, len);
++	int ilsm = lsm_task_ilsm(current);
++	struct security_hook_list *hp;
++
++	hlist_for_each_entry(hp, &security_hook_heads.socket_getpeersec_stream,
++			     list)
++		if (ilsm == LSMBLOB_INVALID || ilsm == hp->lsmid->slot)
++			return hp->hook.socket_getpeersec_stream(sock, optval,
++								 optlen, len);
++	return -ENOPROTOOPT;
+ }
+ 
+ int security_socket_getpeersec_dgram(struct socket *sock, struct sk_buff *skb,
+diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
+index c295b1035bc6..824a6e4fb126 100644
+--- a/security/selinux/hooks.c
++++ b/security/selinux/hooks.c
+@@ -6441,6 +6441,17 @@ static int selinux_setprocattr(const char *name, void *value, size_t size)
+ 	/*
+ 	 * Basic control over ability to set these attributes at all.
+ 	 */
++
++	/*
++	 * For setting interface_lsm, we only perform a permission check;
++	 * the actual update to the interface_lsm value is handled by the
++	 * LSM framework.
++	 */
++	if (!strcmp(name, "interface_lsm"))
++		return avc_has_perm(&selinux_state,
++				    mysid, mysid, SECCLASS_PROCESS2,
++				    PROCESS2__SETDISPLAY, NULL);
++
+ 	if (!strcmp(name, "exec"))
+ 		error = avc_has_perm(&selinux_state,
+ 				     mysid, mysid, SECCLASS_PROCESS,
+diff --git a/security/selinux/include/classmap.h b/security/selinux/include/classmap.h
+index 35aac62a662e..46a7cfaf392d 100644
+--- a/security/selinux/include/classmap.h
++++ b/security/selinux/include/classmap.h
+@@ -53,7 +53,7 @@ struct security_class_mapping secclass_map[] = {
+ 	    "execmem", "execstack", "execheap", "setkeycreate",
+ 	    "setsockcreate", "getrlimit", NULL } },
+ 	{ "process2",
+-	  { "nnp_transition", "nosuid_transition", NULL } },
++	  { "nnp_transition", "nosuid_transition", "setdisplay", NULL } },
+ 	{ "system",
+ 	  { "ipc_info", "syslog_read", "syslog_mod",
+ 	    "syslog_console", "module_request", "module_load", NULL } },
+diff --git a/security/smack/smack_lsm.c b/security/smack/smack_lsm.c
+index 9c44327d8ea7..1069ba7abf40 100644
+--- a/security/smack/smack_lsm.c
++++ b/security/smack/smack_lsm.c
+@@ -3517,6 +3517,13 @@ static int smack_setprocattr(const char *name, void *value, size_t size)
+ 	struct smack_known_list_elem *sklep;
+ 	int rc;
+ 
++	/*
++	 * Allow the /proc/.../attr/current and SO_PEERSEC "interface_lsm"
++	 * to be reset at will.
++	 */
++	if (strcmp(name, "interface_lsm") == 0)
++		return 0;
++
+ 	if (!smack_privileged(CAP_MAC_ADMIN) && list_empty(&tsp->smk_relabel))
+ 		return -EPERM;
+ 
+-- 
+2.31.1
 
-What are the semantics on xdp_errors? Summary of xdp_redirect_errors, xdp_tx_errors and
-xdp_xmit_errors? Or driver specific defined?
-
-+  xdp-channel0-rx_xdp_aborted: 3
-+  xdp-channel0-rx_xdp_drop: 4
-+  xdp-channel0-rx_xdp_invalid: 5
-+  xdp-channel0-rx_xdp_pass: 6
-[...]
-
-+  xdp-channel0-rx_xdp_redirect: 7
-+  xdp-channel0-rx_xdp_redirect_errors: 8
-+  xdp-channel0-rx_xdp_tx: 9
-+  xdp-channel0-rx_xdp_tx_errors: 10
-+  xdp-channel0-tx_xdp_xmit_packets: 11
-+  xdp-channel0-tx_xdp_xmit_bytes: 12
-+  xdp-channel0-tx_xdp_xmit_errors: 13
-+  xdp-channel0-tx_xdp_xmit_full: 14
-
- From a user PoV to avoid confusion, maybe should be made more clear that the latter refers
-to xsk.
-
-> @@ -507,6 +523,7 @@ int ice_clean_rx_irq_zc(struct ice_rx_ring *rx_ring, int budget)
->   {
->   	unsigned int total_rx_bytes = 0, total_rx_packets = 0;
->   	u16 cleaned_count = ICE_DESC_UNUSED(rx_ring);
-> +	struct xdp_rx_drv_stats_local lrstats = { };
->   	struct ice_tx_ring *xdp_ring;
->   	unsigned int xdp_xmit = 0;
->   	struct bpf_prog *xdp_prog;
-> @@ -548,7 +565,8 @@ int ice_clean_rx_irq_zc(struct ice_rx_ring *rx_ring, int budget)
->   		xsk_buff_set_size(*xdp, size);
->   		xsk_buff_dma_sync_for_cpu(*xdp, rx_ring->xsk_pool);
-> 
-> -		xdp_res = ice_run_xdp_zc(rx_ring, *xdp, xdp_prog, xdp_ring);
-> +		xdp_res = ice_run_xdp_zc(rx_ring, *xdp, xdp_prog, xdp_ring,
-> +					 &lrstats);
->   		if (xdp_res) {
->   			if (xdp_res & (ICE_XDP_TX | ICE_XDP_REDIR))
->   				xdp_xmit |= xdp_res;
-> @@ -598,6 +616,7 @@ int ice_clean_rx_irq_zc(struct ice_rx_ring *rx_ring, int budget)
-> 
->   	ice_finalize_xdp_rx(xdp_ring, xdp_xmit);
->   	ice_update_rx_ring_stats(rx_ring, total_rx_packets, total_rx_bytes);
-> +	xdp_update_rx_drv_stats(&rx_ring->xdp_stats->xsk_rx, &lrstats);
-> 
->   	if (xsk_uses_need_wakeup(rx_ring->xsk_pool)) {
->   		if (failure || rx_ring->next_to_clean == rx_ring->next_to_use)
-> @@ -629,6 +648,7 @@ static bool ice_xmit_zc(struct ice_tx_ring *xdp_ring, int budget)
->   		struct ice_tx_buf *tx_buf;
-> 
->   		if (unlikely(!ICE_DESC_UNUSED(xdp_ring))) {
-> +			xdp_update_tx_drv_full(&xdp_ring->xdp_stats->xsk_tx);
->   			xdp_ring->tx_stats.tx_busy++;
->   			work_done = false;
->   			break;
-> @@ -686,11 +706,11 @@ ice_clean_xdp_tx_buf(struct ice_tx_ring *xdp_ring, struct ice_tx_buf *tx_buf)
->    */
->   bool ice_clean_tx_irq_zc(struct ice_tx_ring *xdp_ring, int budget)
->   {
-> -	int total_packets = 0, total_bytes = 0;
->   	s16 ntc = xdp_ring->next_to_clean;
-> +	u32 xdp_frames = 0, xdp_bytes = 0;
-> +	u32 xsk_frames = 0, xsk_bytes = 0;
->   	struct ice_tx_desc *tx_desc;
->   	struct ice_tx_buf *tx_buf;
-> -	u32 xsk_frames = 0;
->   	bool xmit_done;
-> 
->   	tx_desc = ICE_TX_DESC(xdp_ring, ntc);
-
-Thanks,
-Daniel
