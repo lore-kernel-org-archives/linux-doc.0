@@ -2,515 +2,185 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CEBDC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Nov 2021 18:40:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94D10C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Nov 2021 19:10:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350834AbhKXSng (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Nov 2021 13:43:36 -0500
-Received: from mail-bn7nam10on2089.outbound.protection.outlook.com ([40.107.92.89]:53088
-        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S243850AbhKXSnd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 24 Nov 2021 13:43:33 -0500
+        id S1350917AbhKXTOF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Nov 2021 14:14:05 -0500
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:7338 "EHLO
+        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S244127AbhKXTOF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Nov 2021 14:14:05 -0500
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AOIFNRj000722;
+        Wed, 24 Nov 2021 19:10:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : content-type :
+ mime-version; s=corp-2021-07-09;
+ bh=UeGLfalTKgxkuv18hYImqm/31GTOoGT1zdUZRd5Kn4Y=;
+ b=lLfdfUMGy7JPCWBWyzq84YMBELDNhW67rHNb0qdqc6b0BHzBoiDR0sL8oYKltC2pKUkG
+ jFvkq1kU6iI8DheGnDGf2z4JK8nfBeUyzvfCd+RftztIDsg2wcGkfr27BOvh4lVu6vlg
+ N7BDGIULgHJfILpQaRimiev6d8ko3sVa5bTnLi9JxzNTWmAaMxKVca+Rqjalris66ekE
+ +UvKATa8so6h9ACBdN9qGSw2Ic+y1mC/KD49GKGXsrJoXl2sRHtMOuvP4rwrOxBQASYd
+ kqEvm6xRgmikmRlAegofOWb5d9Rxdfbnyw87uM3z14zW2rg8Ge5ZT4CyPL+sEahM8VuE YA== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by mx0b-00069f02.pphosted.com with ESMTP id 3chkfkb0bm-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 24 Nov 2021 19:10:27 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1AOJ14fq037308;
+        Wed, 24 Nov 2021 19:10:26 GMT
+Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam07lp2041.outbound.protection.outlook.com [104.47.51.41])
+        by aserp3030.oracle.com with ESMTP id 3ceq2ghycf-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 24 Nov 2021 19:10:26 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UkiysFjmXo7Mq67UF65IhqWReC7fP3SW+wtGUWjIwiJoGz4OKYNV3PaCieKhcIht78OIl8WFKGlH606xo0U0tqZ/ZJtZpkCa5c8/ZbTeyV2pyvcTXZmM0X93drsdcXqNKEkJVh/skxI66dVEoJhHCqPLqik1fBzD4ykgtpUZynD0eqVSH7AsKeQyOx7uMlaxGiPdqQqI7QYjbm61khVw9BopMtZkbNldH0x+gIMU8GFeJoI3fcW0Gc+KwG8FW/WlVjKP681cVpoF3j+HDYG00xXPsM4qqGt+IR1viAcBpCqnsBnU+nv2rQbHDRSksZ1M4cLZ/dtX2+fBGvs/2tn6Ug==
+ b=BhFYVb80K3HwOyHvNe7EOdTb4C9FC6MciuoFmkkVsoLf9XmMX2aLMEPeZ47LMaPpnNRLXDvAXK/mfhwiYyv2kaWyfrmgQ7153YiiOjEizvCkqOMOB+O4dIiOFpbTR6zdflvVVukx3YjVQYTPI+Y+3ANTd9db7UYHVHNE+vVk+p3rSkF11FwuLB1lwbCDFppBPQQri2m/I6+LCbxcam1kxMXdP8B2OHj13Us+U9XIoCgjeb1pW28FaP9H/3OyGD2ZNe1i+XZg+E2PdquGKxq23MhQiyxxYfVvLAi+zbClqkeLL+739m1msPBtht9lH887umbC03oFQVelZZxv0U6AIw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UeDb+olG5Mm8/Zhr8lpsQLCZWYxtIT0Pqh2S1m2NRhY=;
- b=GPAdsGn/an42guBxVlOvLnXc71A1G9Wjk2lhO1GETHWH/c6e7t5wFGvQzHs0qX8Ec2NZKJFAUWESyanUwzRRBFBAisxFnBVdwikpCYNjmV5uKganSehyn3/sr8N1SensHnpIszDX/kqHGLvsTtqyM3XsVS4bCoH5repcStl/bXrYguPNrae3v0m2MUrB5p7jQBDSh3GTeb+Z9hWPldzRPBESV9sfSNgtFh+reytOv4szIn48seUfzEVofgCURZjrji9MojWOG++qQwd54peq00PIaTycq0oVx1j75fq8+FZRix57Y8kX3mS99klqfSXVRDp5qRsMWlNgWU1WVqAvew==
+ bh=UeGLfalTKgxkuv18hYImqm/31GTOoGT1zdUZRd5Kn4Y=;
+ b=JaxwNfpP4AfGxphouLfANIfLvFVrTaew+ZoaNF8YsMr/4lIJFxNXZmagv231u9tm0YjKYNuNrHspKH1eIlUplb4O1lmP/8G36QCLyN+MBtHzbF8fPmWQin6PvIuVXNLpVtnTVCnliYAeDucCPCrcBFcyafYroxoUHro5bY/6E3l2slS16NAlatV57PMfGXwO/g8+dvPlJ7hR45JPheWVA3e2tO1V5ZxoMM+rJ/o6KDFofWHiUVx37Ms8P3p2nJBpjadUVYP3PwCPzJmdaTQzDoJLA+yvcAggEJjg9Zxx/APhtVcjKldums1uKj4qNZ2UbO/kbD+vD+E8YMnRsQXV+w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UeDb+olG5Mm8/Zhr8lpsQLCZWYxtIT0Pqh2S1m2NRhY=;
- b=ClzFQbjeNRqEoEEqOyxdnl8EjZmaidtXNCL3J3HG9CkAgHrGvCkZ/AHeS8tGHEN+sAiJna/sJbU7KuLDEZKiWvUIpMXf6f+/MqTDHyrKlSUFOJUyz1oo5pIH2rl2jNUrK+HHdRqwm+QKF7baZXsvleW3IwA/sJLNKACQZVAj7YppAKAdWNvWp+dueZSjlOrBMN1hZ846G038coSxDHKfDJn5cj8It22F7b2Zl8PpfaXgafTiFta7N2zWgEHdCvcfW+xEDxeQmQwkwk/V8x76VXsLhj8T1vmjnIVnWCzHa9U8aG1T7+R2BU/wdN6rcXH5emlTkNetaOaXuP65Z8kBEA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
- by BL0PR12MB5554.namprd12.prod.outlook.com (2603:10b6:208:1cd::9) with
+ bh=UeGLfalTKgxkuv18hYImqm/31GTOoGT1zdUZRd5Kn4Y=;
+ b=EXDDk8vFhUckQFpEPS47Bpj1lWq+HQcSf7c4IdV7FXqbMowhbTFyyIUb5AB1UQciLTu1k4sOoQyJFnJzXPtf6yOHxTTz+PLjVVW5QgAQZDqscgacgYmO/1gvlUlyeW0FF+T7KKKFsnoYCnla3qkOL+lTPmrl9wXpfNCCeoarWTk=
+Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
+ by BLAPR10MB5234.namprd10.prod.outlook.com (2603:10b6:208:30c::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.22; Wed, 24 Nov
- 2021 18:40:21 +0000
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::5897:83b2:a704:7909]) by BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::5897:83b2:a704:7909%8]) with mapi id 15.20.4734.022; Wed, 24 Nov 2021
- 18:40:21 +0000
-Date:   Wed, 24 Nov 2021 14:40:20 -0400
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Cornelia Huck <cohuck@redhat.com>
-Cc:     Alex Williamson <alex.williamson@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
-        Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-        Yishai Hadas <yishaih@nvidia.com>
-Subject: Re: [PATCH RFC] vfio: Documentation for the migration region
-Message-ID: <20211124184020.GM4670@nvidia.com>
-References: <0-v1-0ec87874bede+123-vfio_mig_doc_jgg@nvidia.com>
- <87zgpvj6lp.fsf@redhat.com>
- <20211123165352.GA4670@nvidia.com>
- <87fsrljxwq.fsf@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87fsrljxwq.fsf@redhat.com>
-X-ClientProxiedBy: BL1PR13CA0144.namprd13.prod.outlook.com
- (2603:10b6:208:2bb::29) To BL0PR12MB5506.namprd12.prod.outlook.com
- (2603:10b6:208:1cb::22)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.20; Wed, 24 Nov
+ 2021 19:10:24 +0000
+Received: from BLAPR10MB4835.namprd10.prod.outlook.com
+ ([fe80::d809:9016:4511:2bc6]) by BLAPR10MB4835.namprd10.prod.outlook.com
+ ([fe80::d809:9016:4511:2bc6%7]) with mapi id 15.20.4734.021; Wed, 24 Nov 2021
+ 19:10:24 +0000
+From:   Joao Martins <joao.m.martins@oracle.com>
+To:     linux-mm@kvack.org
+Cc:     Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Jane Chu <jane.chu@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Christoph Hellwig <hch@lst.de>, nvdimm@lists.linux.dev,
+        linux-doc@vger.kernel.org, Joao Martins <joao.m.martins@oracle.com>
+Subject: [PATCH v6 01/10] memory-failure: fetch compound_head after pgmap_pfn_valid()
+Date:   Wed, 24 Nov 2021 19:09:56 +0000
+Message-Id: <20211124191005.20783-2-joao.m.martins@oracle.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20211124191005.20783-1-joao.m.martins@oracle.com>
+References: <20211124191005.20783-1-joao.m.martins@oracle.com>
+Content-Type: text/plain
+X-ClientProxiedBy: AM0PR06CA0093.eurprd06.prod.outlook.com
+ (2603:10a6:208:fa::34) To BLAPR10MB4835.namprd10.prod.outlook.com
+ (2603:10b6:208:331::11)
 MIME-Version: 1.0
-Received: from mlx.ziepe.ca (142.162.113.129) by BL1PR13CA0144.namprd13.prod.outlook.com (2603:10b6:208:2bb::29) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.6 via Frontend Transport; Wed, 24 Nov 2021 18:40:21 +0000
-Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1mpxBs-0016Vb-7D; Wed, 24 Nov 2021 14:40:20 -0400
+Received: from paddy.uk.oracle.com (138.3.204.47) by AM0PR06CA0093.eurprd06.prod.outlook.com (2603:10a6:208:fa::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.4713.20 via Frontend Transport; Wed, 24 Nov 2021 19:10:21 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4d791e90-e35a-4d62-b3d2-08d9af79deaa
-X-MS-TrafficTypeDiagnostic: BL0PR12MB5554:
-X-Microsoft-Antispam-PRVS: <BL0PR12MB55549059E36EB3D5F3E5A17EC2619@BL0PR12MB5554.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Office365-Filtering-Correlation-Id: 4127b418-f5d6-4a70-2420-08d9af7e112f
+X-MS-TrafficTypeDiagnostic: BLAPR10MB5234:
+X-Microsoft-Antispam-PRVS: <BLAPR10MB5234A95E54AA98A1A4550096BB619@BLAPR10MB5234.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HbI77sy4IXkTNsgDYpMXfJi5MKh775mjM0I+mXm1HBSPtt5mQhZyyqKFJc9QTEk+WIgkCKSROmiVbQfsaqbvUVANK+THCNdLI9VdbjZUfx2uZ+HWPxbzoFPbzSjpJyTWNyTVm/WSc7DeKo/JTIt68JS6RWkpJxnwPL/uWAHcZUxlWWsTxanK3hIiXulHF1DW/bzzcSePLF9K38Ah/+pZt/nVX3441gzCGuQI1xuP65fxqYVfLcJmLYF9uW6WEwbdk5TiGboFUS8VS7KdphGoi0eKi01ATlv6TKz3j2Fr+CcywJgaKEtfxd8LwsxHqZjgpn76fhcj5GgWW3YsOemMW3O3VRzchO0/h0MEdG/vPiclBA4fP6NiZXYACYNtweDuna0gtMvNVgqT/Ze1XChnIt+sI9EW73CPWrgrVCwLkBCIeG/16g5kgOxWfpcZzuvJ8pQBtebKLgn6ehtykc0B/HlSab7zykP1SIbwjIpAVmxiOhe1Z+lvZFgRWjzxp70sSmaGvXwhTjHRFD8tH1HH4bX+YjTIY8FoFM+gdrtyPfAngS5uZ168yfkCn2dkMLL2fswcZYPmzlG36X0KJ802ITkbCVfosJ2LUiWli9F/geC2yjxjRbdaU+1a8rjd/gpsWSSa/4AEPxMD6x67y/s1Og==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB5506.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(107886003)(8936002)(186003)(33656002)(86362001)(5660300002)(66556008)(2616005)(38100700002)(30864003)(508600001)(316002)(4326008)(6916009)(36756003)(1076003)(8676002)(426003)(66946007)(54906003)(83380400001)(9786002)(9746002)(2906002)(26005)(66476007);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: Dqg1VCiTzMRqULX0z9IOaHasJKKoNYqxI7/sQN6GvOr3n2qahvvREziuKsOYC0zlO8YQ9V/rhueckuQ0oBVG43ehohaRxSszmROxTb5pho6/8a2NBL3ItJjd5AnPuEcS+1ttFRG3BHv6ieIFKv9v5iDuPYz83VKqwW4bD00hSCLfH22w4d6fPvWoOgrCK0cL3FHB84Dw++EL5ZWnyefaTTguKfAARRXrjjRDmB+KUWHEkIfsB/Vr8Z6lM+5z3oKzgwU5O/nSqoMUjcJ40NZlc/pudFfWNK96s2WQ1KZtEPEDlViU7KqOO0M4p0hZ8YOjq1X8a5yYsT4TsYyGZxSN4yDekPDPqE9jyBU0ex1Vyqzk7R6VeLgQzGHAM+gx/EgnhNlyf3gG5ZGjAIsuVOB01yG/Q5cSBcHds/eDoliEvzOvML7WTvaukCDCAxHarUbvf/L9etnzdXheueDStLy/+BTm1RLswmEmufkpK3Hgjbra4RjcbpBzRhhI+4SblwTMsCnqkzpJKyiV9rZvnktljTDbrmxQGPnvMszj9SOl4hfp2WxaGDf/gmx4JgWMYC6xjdf7h7YN6KgwYm+LvC7YlXQ6UdMBLfyr5+cyDTYn9k870Uuc3K9nGtkO/IEgmN+oeXgHSWFhPX1d8bMHm7274Gd2Tmc+QcCr0iYWNm09cHTyvGaFWeoK1uJNYngXXyednrshqNepwgJSilrmf+CHtg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB4835.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(36756003)(1076003)(26005)(7696005)(83380400001)(186003)(6916009)(103116003)(316002)(52116002)(508600001)(5660300002)(38350700002)(38100700002)(107886003)(7416002)(54906003)(4326008)(86362001)(2906002)(6486002)(66476007)(8936002)(8676002)(66946007)(2616005)(66556008)(956004)(6666004);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TxExbav/gT26B+5frGpXlehcQV0n7ME6BdAm4ShkmbnFP1ExaFQU4pD0SJo8?=
- =?us-ascii?Q?yCkfgMSM5GIYxYnU5K6Oa6k19Dq5m5hFAqbJeOcjdzaHnbTkeshGDQ0AesQX?=
- =?us-ascii?Q?ulAj/uIip5f23yr062bTKoji9MWQcWjxrlU5b6pqtf+MhhYwF8t/uO1C+kTP?=
- =?us-ascii?Q?emIO5YVBK/jadcGgOnWTtQtwNbtUMo6Qnww5+8NwffdgfMTBfBBJ0DKBHH+D?=
- =?us-ascii?Q?fjLgwxCTOOZptg7FdxnXiyHZrKRFm21i0y1j/jZDqUtvQumWWb87R7L9gZJX?=
- =?us-ascii?Q?ICEvjAiB84/8VmeAZTeo45sjldl0FbJmFdbsJnZVEnLODnH+rfN01nNowltt?=
- =?us-ascii?Q?rGMrrcaJgzuWknlBjwOT2AGNb04ZGoQHFKjqNu+ulPxlOgQWtk/7Bcf6FDsm?=
- =?us-ascii?Q?ff7kJO1VjZ+IB1cvHgY9GpFx0yz7Z7NtadVo4E0yj3kigqegrftJSAvb3Osj?=
- =?us-ascii?Q?IP7xyGAwm8UMWXoZIaght9UxocZZ+JQL8IC8H4z9gVRFV/Lhu1WOWAd7TC6v?=
- =?us-ascii?Q?mFlS6U4fO5T29hGh9rcvd3Qef4CUJcDMA0gCbpfUfyB3lHq1K7MQkwANpCNe?=
- =?us-ascii?Q?YpZxOjO0qoZYZSQWXPiBhZnJBcGh4QHseMwCH/bIc4X/QST39tF7WT4ClASK?=
- =?us-ascii?Q?e+dOB3NS8uEawglli0tizuC08mLVD6NaQ/4nCLwI4ypXAKxaPVKT1epMAP8x?=
- =?us-ascii?Q?0Of4WAStYywKzKPctJZKYCLLEpebvlSgYLgjQcGd4KWrXShd3rlAQ/6q01gg?=
- =?us-ascii?Q?xvwhbO7qXwJMYByunslLAN1BdOTo8LX1/kfuZsxV25dIu55n9lCaMz7THWdG?=
- =?us-ascii?Q?Kg9Y/UlsRVgE94d6yVatlczaxYjX5k749ajdsZ49AxMZlmj/khZp5T12OuC+?=
- =?us-ascii?Q?guGbFo1nIPLFsKgGFySCvkPVCqqhU9jjkqhmAcAj9rkFDj1oyWEGsxLc5yWm?=
- =?us-ascii?Q?Rye4M3PawcP4KDj17CVgKUjBQtcOhE7Pl741DYtWNmWbbhIiyph1quMBDznr?=
- =?us-ascii?Q?pDRn9vaJil2FGcW+jYg88eptQq1UJ2iHlFvjcyx2Zva6Dd/q7cNbds7k54Gn?=
- =?us-ascii?Q?8AIWv0ceORtPk2TEIkmr+k5zdbImJJgL2DKSfvh1n6tovGEm5d/XFDWq2Rbd?=
- =?us-ascii?Q?CXVvPTzz0OsXMU1sHD12L/2K9ipUOjWyGy+XXo3df2IKARQwQuLFNbGWW56H?=
- =?us-ascii?Q?CowX9N2oUQe6tJMrRApIjeLy1BJvT7oodgQpJyVJVdFSC5nxxgHMzFi1Fi2x?=
- =?us-ascii?Q?NDS5KeEhoq3wYJqKe0OL1Syxsak1vcYwFbbPM7AxmPwacftJEoYNDVobLEdy?=
- =?us-ascii?Q?C24o6X2m5VCoy58JXBRhsY/crmnUZ+bJBS7YWiU0s04MViVHuP5aphUxbbaG?=
- =?us-ascii?Q?gRxeSrrU5tQBRqd1hME2KGAx2FuoyAXTPP87SM0yC8ApSZX0u/I1V6y32VEQ?=
- =?us-ascii?Q?vQwqA0gOzJwVvxZRszFGFR81Gk3c0+RI9mZO3sDspNLPLIs4PaX/WsoFHaGm?=
- =?us-ascii?Q?ocTAtrr37VUe6ofTq4GVwXgXsUkSC9ldD4Gwz+me3XZuJIAR7UKRTaLegShG?=
- =?us-ascii?Q?uUYp6ycg8Gqe2UDS1g0=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4d791e90-e35a-4d62-b3d2-08d9af79deaa
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?GnquEfHOeqb9LDA4MGa8O9RRQTxzUQaFgjpqWyvOuLTJvgp28ZiOq8L+XBND?=
+ =?us-ascii?Q?6A+/2wAOUBkTPCgx8QPZTQGIQgAJjg3A/BHG4VqWqdWn9cbpO0F4HzpAzJpr?=
+ =?us-ascii?Q?tdNlpxpC+iKSUEwRwplG6NG5lx+tXzuxrLedMedSvjed/ZZfkxFnZl8H7uBX?=
+ =?us-ascii?Q?NuefbWfRU0R40Z+9pamZaeUDIj39szT+Hd4UPy82+4gId8nP0iND9f793Qw1?=
+ =?us-ascii?Q?CGQMncJuUO4T0JW6NaxKLd7o7GfMlbPVm+Z9D9eUB9beWaK3kF+Cr6qfaE9r?=
+ =?us-ascii?Q?zcVIj7iU9SiI5eqXU+MDsxhqDrlAJyJgk2LKrgJXiGFTpfa+yUJ5s8pOHOKV?=
+ =?us-ascii?Q?6A+mXHzLiHiwIpJ5iibnDV6q5LAI3+KITAQlMHBeiWYoE+QFFdF01PPfLvaE?=
+ =?us-ascii?Q?RDDUtHexAKAu9FsEAOhTnK033mXiBg0He+MDWfz/tz/VNqN//SLYSzP2CWNn?=
+ =?us-ascii?Q?O2B0LACqaC/DEd/6ApjHVD8lH1uJXuj2tUreS9FtiFkaGX8F4oMn3MC+cZ75?=
+ =?us-ascii?Q?JmzrOfbGUNU5ZKgoVV+dXQ1qnj8MuPtOy8OYQEQiBmoRrsRnIiEzQC5gpDYm?=
+ =?us-ascii?Q?UBPrGAmVKo5uQs0/kCbEq1b3s7llWGF55l3L1ioJN2enklloGZpd0XBbGD2o?=
+ =?us-ascii?Q?m6a0ZTEaUfrGVaPO0FMgTJvIrw2ypLHLO/DNb2XooFO1dy/JSLSTnuDdtuYx?=
+ =?us-ascii?Q?VzUww9luNQBzbL0u4+taYc+yAQzN9eNeGa2Ud/bc/4Ci8Oy2QdHXwqIjEyxQ?=
+ =?us-ascii?Q?4acKN+RA+rt6j6N/nD9VOQ/eyqqHajXk8qxVGT5NQfYZ0z5Nmae8IcBCQqks?=
+ =?us-ascii?Q?Tvh1ovdpY2x7ujbmNmjL/uHTJNuty21durupdTz1cp7377nCldn5pVi2IR7N?=
+ =?us-ascii?Q?wN1o7QIv+mWN+NJqpim897AeRSHIgxEGKA2y6EP+FTFg4ak829u64qB2KYFH?=
+ =?us-ascii?Q?r3jqu94cDYklZpMKy3+qdIhrkE80oXqB2f0Hg6jGSH5Rjsrq3vxgg+VMjJ+U?=
+ =?us-ascii?Q?T4BpezPhegC+UQsQJgM5O7b0dTpudpy+QWBnGIJmejl7XH0MIFhtq6OwY+Fx?=
+ =?us-ascii?Q?ZRUocGJszYSbBmHTgAE0pZzDZAuvcj2hZg70CZQOGdEGoxX2fOJl/kOyQ19Q?=
+ =?us-ascii?Q?9+5pZF+t4Ky/+a3nOVgVAAGybC57S6VWjFfWJBg0pvN+POX8oVnB0A5XKHJA?=
+ =?us-ascii?Q?4AK3C8I/+Gnig1EJV1tpy4sGxTr/AboPyifVjPz42+fFjo1CfrmIxi4l16aO?=
+ =?us-ascii?Q?90V07N4BbEpIKUqhM0nIbN3HViBVKCRagBT78kNQb5Pt39vKyzk+HKthCcaz?=
+ =?us-ascii?Q?pHnriRjXqe/RAvC69Ps6eEwkH+JGOCQtFox5qlHAqk9A/Q21noWmJJswqm5P?=
+ =?us-ascii?Q?3Ig8VZEtaMCNlIY+vNGefxcCQkNVeN2dltXVGLow4l9MZCnFisRDrd//Qptc?=
+ =?us-ascii?Q?a6zeqMj/yrILuDI1z1t1SD4ej+XUsG3oqloE+IKXAZmZsO2iccwrRB3h3KHp?=
+ =?us-ascii?Q?+VqJnpUqKIVLHD1wF6GPaaXFsz92q3yJYMXb2g94tnQayhN8W9e+XYk/xoJJ?=
+ =?us-ascii?Q?cpnFauRBzQthhAD9XiNY01ZD4AxeIwSSNEbYRztVriTmG2Uborwqbx+nfzGW?=
+ =?us-ascii?Q?SvR4HEmlrXCZMWWSR0QaZ+Lpex3j/qGuvXM7fpuOiK4eeGH2FzgGRhtFu2hs?=
+ =?us-ascii?Q?wplSfw=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4127b418-f5d6-4a70-2420-08d9af7e112f
+X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2021 18:40:21.3050
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2021 19:10:24.2501
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: j/LzJnVLGSkeiBgswR5hKNy/R8Aklk0Pl/eslnuJ2vbJvURU/lMWSAsaZDTcVzrK
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB5554
+X-MS-Exchange-CrossTenant-UserPrincipalName: TY83AnqGWiT17BN/5PnWy5MpE589B2zOEKxPMFXjNsD0aanBZdVa3L9XzMIWrPDtAGmRUzUKQjNHHJODm7PzpoS9R8fTZ6ssbufIFfKapUg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB5234
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10178 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 adultscore=0 spamscore=0
+ bulkscore=0 suspectscore=0 mlxscore=0 mlxlogscore=999 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2111240099
+X-Proofpoint-GUID: klqb-lAVVTgCajdGzt6k8L1KWIdW7gyf
+X-Proofpoint-ORIG-GUID: klqb-lAVVTgCajdGzt6k8L1KWIdW7gyf
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 24, 2021 at 05:55:49PM +0100, Cornelia Huck wrote:
+memory_failure_dev_pagemap() at the moment assumes base pages (e.g.
+dax_lock_page()).  For devmap with compound pages fetch the
+compound_head in case a tail page memory failure is being handled.
 
-> Yes, defining what we mean by "VCPU RUNNING" and "DIRTY TRACKING" first
-> makes the most sense.
-> 
-> (It also imposes some rules on userspace, doesn't it? Whatever it does,
-> the interaction with vfio needs to be at least somewhat similar to what
-> QEMU or another VMM would do. I wonder if we need to be more concrete
-> here; but let's talk about the basic interface first.)
+Currently this is a nop, but in the advent of compound pages in
+dev_pagemap it allows memory_failure_dev_pagemap() to keep working.
 
-I don't think we need to have excessive precision here. The main
-thrust of this as a spec is to define behaviors which starts at the
-'Actions on Set/Clear' section.
+Reported-by: Jane Chu <jane.chu@oracle.com>
+Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+Reviewed-by: Naoya Horiguchi <naoya.horiguchi@nec.com>
+Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+Reviewed-by: Muchun Song <songmuchun@bytedance.com>
+---
+ mm/memory-failure.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-This part is informative so everyone has the same picture in their
-mind about what it is we are trying to accomplish. This can be a bit
-imprecise.
-
-> > I don't think I like this statement - why/where would the overall flow
-> > differ?
-> 
-> What I meant to say: If we give userspace the flexibility to operate
-> this, we also must give different device types some flexibility. While
-> subchannels will follow the general flow, they'll probably condense/omit
-> some steps, as I/O is quite different to PCI there.
-
-I would say no - migration is general, no device type should get to
-violate this spec.  Did you have something specific in mind? There is
-very little PCI specific here already
-
-> >> > +     Normal operating state
-> >> > +  RUNNING, DIRTY TRACKING, VCPU RUNNING
-> >> > +     Log DMAs
-> >> > +     Stream all memory
-> >> 
-> >> all memory accessed by the device?
-> >
-> > In this reference flow this is all VCPU memory. Ie you start global
-> > dirty tracking both in VFIO and in the VCPU and start copying all VM
-> > memory.
-> 
-> So, general migration, not just the vfio specific parts?
-
-Sure, as above precision isn't important here, the userspace doing
-migration should start streaming whatever state it has covered by
-dirty logging here.
-
-> "subtly complicated" captures this well :(
-
-Indeed. Frankly, my observation is the team here has invested a lot of
-person hours trying to make sense of this and our well-researched take
-'this is a FSM' was substantially different from Alex's version 'this
-is control bits'. For the 'control bit' model few seem to understand
-it at all, and the driver code is short but deceptively complicated.
-
-> For example, if I interpret your list correctly, the driver should
-> prioritize clearing RUNNING over setting SAVING | !RUNNING. What does
-> that mean? If RUNNING is cleared, first deal with whatever action that
-> triggers, then later check if it is actually a case of setting SAVING |
-> !RUNNING, and perform the required actions for that?
-
-Yes.
-
-Since this is not a FSM a change from any two valid device_state
-values is completely legal. Many of these involve multiple driver
-steps. So all drivers must do the actions in the same order to have a
-real ABI.
-
-> Also, does e.g. SAVING | RUNNING mean that both SAVING and RUNNING are
-> getting set, or only one of them, if the other was already set?
-
-It always refers to the requested migration_state
-
-> >   SAVING|0 -> SAVING|RUNNING
-> >   0|RUNNING -> SAVING|RUNNING
-> >   0 -> SAVING|RUNNING
-
-Are all described as userspace requesting a migration_state 
-of SAVING | RUNNING
-
-> > For clarity I didn't split things like that. All the continuous
-> > behaviors start when the given bits begins and stop when the bits
-> > end.
-> >
-> > Most of the actions talk about changes in the data window
-> 
-> This might need some better terminology, I did not understand the split
-> like that...
-> 
-> "action trigger" is basically that the driver sets certain bits and a
-> certain device action happens. "continuous" means that a certain device
-> action is done as long as certain bits are set. Sounds a bit like edge
-> triggered vs level triggered to me. What about:
-
-Yes
-
-> - event-triggered actions: bits get set/unset, an action needs to be
->   done
-
-"""Event-triggered actions happen when userspace requests a new
-migration_state that differs from the current migration_state. Actions
-happen on a bit group basis:"""
-
-> - condition-triggered actions: as long as bits are set/unset, an action
->   needs to be done
-
-"""Continuous actions are in effect so long as the below migration_state bit
-   group is active:"""
+diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+index 8f0ee5b08696..f5749db8fad3 100644
+--- a/mm/memory-failure.c
++++ b/mm/memory-failure.c
+@@ -1600,6 +1600,12 @@ static int memory_failure_dev_pagemap(unsigned long pfn, int flags,
+ 		goto out;
+ 	}
  
-
-> >> What does that mean? That the operation setting NDMA in device_state
-> >> returns? 
-> >
-> > Yes, it must be a synchronous behavior.
-> 
-> To be extra clear: the _setting_ action (e.g. a write), not the
-> condition (NDMA set)? Sorry if that sounds nitpicky, but I think we
-> should eliminate possible points of confusion early on.
-
-""Whenever the kernel returns with a migration_state of NDMA there can be no
-   in progress DMAs.""
- 
-> I'm trying to understand this document without looking at the mlx5
-> implementation: Somebody using it as a guide needs to be able to
-> implement a driver without looking at another driver (unless they prefer
-> to work with examples.) Using the mlx5 driver as the basis for
-> _writing_ this document makes sense, but it needs to stand on its own.
-
-That may be an ideal that is too hard to reach :(
-
-Thanks,
-Jason
-
-Below is where I have things now:
-
-VFIO migration driver API
--------------------------------------------------------------------------------
-
-VFIO drivers that support migration implement a migration control register
-called device_state in the struct vfio_device_migration_info which is in its
-VFIO_REGION_TYPE_MIGRATION region.
-
-The device_state controls both device action and continuous behaviour.
-Setting/clearing bit groups triggers device action, and each bit controls a
-continuous device behaviour.
-
-Along with the device_state the migration driver provides a data window which
-allows streaming migration data into or out of the device.
-
-A lot of flexibility is provided to userspace in how it operates these
-bits. What follows is a reference flow for saving device state in a live
-migration, with all features, and an illustration how other external non-VFIO
-entities (VCPU_RUNNING and DIRTY_TRACKING) the VMM controls fit in.
-
-  RUNNING, VCPU_RUNNING
-     Normal operating state
-  RUNNING, DIRTY_TRACKING, VCPU_RUNNING
-     Log DMAs
-
-     Stream all memory
-  SAVING | RUNNING, DIRTY_TRACKING, VCPU_RUNNING
-     Log internal device changes (pre-copy)
-
-     Stream device state through the migration window
-
-     While in this state repeat as desired:
-
-	Atomic Read and Clear DMA Dirty log
-
-	Stream dirty memory
-  SAVING | NDMA | RUNNING, VCPU_RUNNING
-     vIOMMU grace state
-
-     Complete all in progress IO page faults, idle the vIOMMU
-  SAVING | NDMA | RUNNING
-     Peer to Peer DMA grace state
-
-     Final snapshot of DMA dirty log (atomic not required)
-  SAVING
-     Stream final device state through the migration window
-
-     Copy final dirty data
-  0
-     Device is halted
-
-and the reference flow for resuming:
-
-  RUNNING
-     Issue VFIO_DEVICE_RESET to clear the internal device state
-  0
-     Device is halted
-  RESUMING
-     Push in migration data. Data captured during pre-copy should be
-     prepended to data captured during SAVING.
-  NDMA | RUNNING
-     Peer to Peer DMA grace state
-  RUNNING, VCPU_RUNNING
-     Normal operating state
-
-If the VMM has multiple VFIO devices undergoing migration then the grace
-states act as cross device synchronization points. The VMM must bring all
-devices to the grace state before advancing past it.
-
-The above reference flows are built around specific requirements on the
-migration driver for its implementation of the migration_state input.
-
-Event triggered actions happen when userspace requests a new migration_state
-that differs from the current migration_state. Actions happen on a bit group
-basis:
-
- - SAVING | RUNNING
-   The device clears the data window and begins streaming 'pre copy' migration
-   data through the window. Devices that cannot log internal state changes
-   return a 0 length migration stream.
-
- - SAVING | !RUNNING
-   The device captures its internal state that is not covered by internal
-   logging, as well as any logged changes.
-
-   The device clears the data window and begins streaming the captured
-   migration data through the window. Devices that cannot log internal state
-   changes stream all of their device state here.
-
- - RESUMING
-   The data window is cleared, opened and can receive the migration data
-   stream.
-
- - !RESUMING
-   All the data transferred into the data window is loaded into the device's
-   internal state. The migration driver can rely on userspace issuing a
-   VFIO_DEVICE_RESET prior to starting RESUMING.
-
-   To abort a RESUMING issue a VFIO_DEVICE_RESET.
-
-   If the migration data is invalid then the ERROR state must be set.
-
-Continuous actions are in effect when migration_state bit groups are active:
-
- - RUNNING | NDMA
-   The device is not allowed to issue new DMA operations.
-
-   Whenever the kernel returns with a migration_state of NDMA there can be no
-   in progress DMAs.
-
- - !RUNNING
-   The device should not change its internal state. Further implies the NDMA
-   behavior above.
-
- - SAVING | !RUNNING
-   RESUMING | !RUNNING
-   The device may assume there are no incoming MMIO operations.
-
-   Internal state logging can stop.
-
- - RUNNING
-   The device can alter its internal state and must respond to incoming MMIO.
-
- - SAVING | RUNNING
-   The device is logging changes to the internal state.
-
- - ERROR
-   The behavior of the device is largely undefined. The device must be
-   recovered by issuing VFIO_DEVICE_RESET or closing the device file
-   descriptor.
-
-   However, devices supporting NDMA must behave as though NDMA is asserted
-   during ERROR to avoid corrupting other devices or a VM during a failed
-   migration.
-
-When multiple bits change in the migration_state they may describe multiple
-event triggered actions, and multiple changes to continuous actions.  The
-migration driver must process them in a priority order:
-
- - SAVING | RUNNING
- - NDMA
- - !RUNNING
- - SAVING | !RUNNING
- - RESUMING
- - !RESUMING
- - RUNNING
- - !NDMA
-
-In general, userspace can issue a VFIO_DEVICE_RESET ioctl and recover the
-device back to device_state RUNNING. When a migration driver executes this
-ioctl it should discard the data window and set migration_state to RUNNING as
-part of resetting the device to a clean state. This must happen even if the
-migration_state has errored. A freshly opened device FD should always be in
-the RUNNING state.
-
-The migration driver has limitations on what device state it can affect. Any
-device state controlled by general kernel subsystems must not be changed
-during RESUME, and SAVING must tolerate mutation of this state. Change to
-externally controlled device state can happen at any time, asynchronously, to
-the migration (ie interrupt rebalancing).
-
-Some examples of externally controlled state:
- - MSI-X interrupt page
- - MSI/legacy interrupt configuration
- - Large parts of the PCI configuration space, ie common control bits
- - PCI power management
- - Changes via VFIO_DEVICE_SET_IRQS
-
-During !RUNNING, especially during SAVING and RESUMING, the device may have
-limitations on what it can tolerate. An ideal device will discard/return all
-ones to all incoming MMIO/PIO operations (exclusive of the external state
-above) in !RUNNING. However, devices are free to have undefined behavior if
-they receive MMIOs. This includes corrupting/aborting the migration, dirtying
-pages, and segfaulting userspace.
-
-However, a device may not compromise system integrity if it is subjected to a
-MMIO. It can not trigger an error TLP, it can not trigger a Machine Check, and
-it can not compromise device isolation.
-
-There are several edge cases that userspace should keep in mind when
-implementing migration:
-
-- Device Peer to Peer DMA. In this case devices are able issue DMAs to each
-  other's MMIO regions. The VMM can permit this if it maps the MMIO memory into
-  the IOMMU.
-
-  As Peer to Peer DMA is a MMIO touch like any other, it is important that
-  userspace suspend these accesses before entering any device_state where MMIO
-  is not permitted, such as !RUNNING. This can be accomplished with the NDMA
-  state. Userspace may also choose to remove MMIO mappings from the IOMMU if the
-  device does not support NDMA, and rely on that to guarantee quiet MMIO.
-
-  The Peer to Peer Grace States exist so that all devices may reach RUNNING
-  before any device is subjected to a MMIO access.
-
-  Failure to guarentee quiet MMIO may allow a hostile VM to use P2P to violate
-  the no-MMIO restriction during SAVING or RESUMING and corrupt the migration on
-  devices that cannot protect themselves.
-
-- IOMMU Page faults handled in userspace can occur at any time. A migration
-  driver is not required to serialize in-progress page faults. It can assume
-  that all page faults are completed before entering SAVING | !RUNNING. Since
-  the guest VCPU is required to complete page faults the VMM can accomplish this
-  by asserting NDMA | VCPU_RUNNING and clearing all pending page faults before
-  clearing VCPU_RUNNING.
-
-  Device that do not support NDMA cannot be configured to generate page faults
-  that require the VCPU to complete.
-
-- pre-copy allows the device to implement a dirty log for its internal state.
-  During the SAVING | RUNNING state the data window should present the device
-  state being logged and during SAVING | !RUNNING the data window should present
-  the unlogged device state as well as the changes from the internal dirty log.
-
-  On RESUME these two data streams are concatenated together.
-
-  pre-copy is only concerned with internal device state. External DMAs are
-  covered by the seperate DIRTY_TRACKING function.
-
-- Atomic Read and Clear of the DMA log is a HW feature. If the tracker
-  cannot support this, then NDMA could be used to synthesize it less
-  efficiently.
-
-- NDMA is optional, if the device does not support this then the NDMA States
-  are pushed down to the next step in the sequence and various behaviors that
-  rely on NDMA cannot be used.
-
-- Migration control registers inside the same iommu_group as the VFIO device.
-  This immediately raises a security concern as userspace can use Peer to Peer
-  DMA to manipulate these migration control registers concurrently with
-  any kernel actions.
-
-  A device driver operating such a device must ensure that kernel integrity
-  can not be broken by hostile user space operating the migration MMIO
-  registers via peer to peer, at any point in the sequence. Notably the kernel
-  cannot use DMA to transfer any migration data.
-
-  However, as discussed above in the "Device Peer to Peer DMA" section, it can
-  assume quiet MMIO as a condition to have a successful and uncorrupted
-  migration.
-
-To elaborate details on the reference flows, they assume the following details
-about the external behaviors:
-
- - !VCPU_RUNNING
-   Userspace must not generate dirty pages or issue MMIO operations to devices.
-   For a VMM this would typically be a control toward KVM.
-
- - DIRTY_TRACKING
-   Clear the DMA log and start DMA logging
-
-   DMA logs should be readable with an "atomic test and clear" to allow
-   continuous non-disruptive sampling of the log.
-
-   This is controlled by VFIO_IOMMU_DIRTY_PAGES_FLAG_START on the container
-   fd.
-
- - !DIRTY_TRACKING
-   Freeze the DMA log, stop tracking and allow userspace to read it.
-
-   If userspace is going to have any use of the dirty log it must ensure ensure
-   that all DMA is suspended before clearing DIRTY_TRACKING, for instance by
-   using NDMA or !RUNNING on all VFIO devices.
-
++	/*
++	 * Pages instantiated by device-dax (not filesystem-dax)
++	 * may be compound pages.
++	 */
++	page = compound_head(page);
++
+ 	/*
+ 	 * Prevent the inode from being freed while we are interrogating
+ 	 * the address_space, typically this would be handled by
+-- 
+2.17.2
 
