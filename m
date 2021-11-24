@@ -2,120 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD722C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Nov 2021 17:53:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8FE8C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Nov 2021 18:26:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349956AbhKXR4V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Nov 2021 12:56:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28511 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1349937AbhKXR4U (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Nov 2021 12:56:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1637776389;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=mASyT0OMl03qWDFFy00mhqeWIkZHCHpjVkFxkJ6erhk=;
-        b=gqtDLTFmO0qgymnX+dm+kwESu4jensgURt4UVaSaw6rNLuzM/MGEnbMaWizNFWTrMMXJ/Y
-        Hud6oaQwHEqv3Q2iol9JDYalR4ly5CoFzjH/EBlOEi5pklRNeLV1+/qJI68EudEOEtBR85
-        g/u1NQdFXLXYrVsUklT4G6pcjzYWE5o=
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
- [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-387-euMk6Go2MM2o-GUzzJ0rVw-1; Wed, 24 Nov 2021 12:53:08 -0500
-X-MC-Unique: euMk6Go2MM2o-GUzzJ0rVw-1
-Received: by mail-ot1-f70.google.com with SMTP id g32-20020a9d12a3000000b0056f8e5396a1so2041790otg.7
-        for <linux-doc@vger.kernel.org>; Wed, 24 Nov 2021 09:53:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=mASyT0OMl03qWDFFy00mhqeWIkZHCHpjVkFxkJ6erhk=;
-        b=ObHCeEtdJFfgOq5V5JKF+zU8Vue2XEkoZoN51chNnp8bIiEh4D18JKaeEOidCI+V3k
-         1AAQ4xglbw3v+VWoq133uzEnXpRRq0JtCLZ7cLm/5rkOiLmT1fL+V2vq6YTL9C4OJNn7
-         1zkBpzryb55iK6NZjBxDeBKWFr2iTeOegnftA1R99TjZMsa7JU+dgS3Txwxe7i/DuyuG
-         Fr4QTe8v8fn7B9OIKrMVDU0tIBI5F6lH328yWVzTAyYc2SK023p9g7flZlH3jf54vYS3
-         16PPyvIxUiO9KcKHgl3gsVKUjXoTOk6s8RuDiqfQjXwAyEq5aUJdgnmPr4kFMLlRuz/G
-         IgOQ==
-X-Gm-Message-State: AOAM5330OEMVZjbbuPRTfxUAtlNEpO5n7btM8yw0LpESHMR9k6+RTrtm
-        dZyFOyt0M07rA5tA54YW9NyfJbhgvSYT4uWYeDD3XAE77Vr4GuOT7G7JNzpTVjmkYOngFXG7TFT
-        I9BTOFIExFx0Xwj3LBEmP
-X-Received: by 2002:a54:4f1d:: with SMTP id e29mr8178818oiy.179.1637776387523;
-        Wed, 24 Nov 2021 09:53:07 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwRWB6L5DthV9JqtypnlgpgoikvWzzaSh5YU1GEzYTaFfOEcTtDdkodALrrMwzR5kHOWImEJg==
-X-Received: by 2002:a54:4f1d:: with SMTP id e29mr8178778oiy.179.1637776387316;
-        Wed, 24 Nov 2021 09:53:07 -0800 (PST)
-Received: from treble ([2600:1700:6e32:6c00::15])
-        by smtp.gmail.com with ESMTPSA id bj8sm123395oib.51.2021.11.24.09.53.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Nov 2021 09:53:06 -0800 (PST)
-Date:   Wed, 24 Nov 2021 09:53:03 -0800
-From:   Josh Poimboeuf <jpoimboe@redhat.com>
-To:     Marco Elver <elver@google.com>
-Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
-        Alexander Potapenko <glider@google.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Waiman Long <longman@redhat.com>,
-        Will Deacon <will@kernel.org>, kasan-dev@googlegroups.com,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, x86@kernel.org
-Subject: Re: [PATCH v2 23/23] objtool, kcsan: Remove memory barrier
- instrumentation from noinstr
-Message-ID: <20211124175303.nwuk2zlnwkr7fj5f@treble>
-References: <20211118081027.3175699-1-elver@google.com>
- <20211118081027.3175699-24-elver@google.com>
- <20211119203135.clplwzh3hyo5xddg@treble>
- <YZzQoz0e/oiutuq5@elver.google.com>
+        id S239205AbhKXSaH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Nov 2021 13:30:07 -0500
+Received: from mail.kernel.org ([198.145.29.99]:37676 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236712AbhKXSaG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 24 Nov 2021 13:30:06 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 14CAB60273;
+        Wed, 24 Nov 2021 18:26:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1637778416;
+        bh=YW9q8X4ARma+nIuS9mfVsGI6GvCTa0N5NXmKUehVULA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Q752ftjCrW4a7P+dfEa/1CFTb60vExEhbyp9+bewYvb1WRwYw/7lmjoJZCqJzchLU
+         a2GELODKfZD5wMOUuq2iJUpFdsl9oW2LZ1h6TqQfiLWCY7uxiSBJQ8GLModdeZtYX6
+         gv3YrjVqWpD1VDjH2K3lacnwIVrHuN60ePlMVfN4=
+Date:   Wed, 24 Nov 2021 19:26:54 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     "Francisco Blas Izquierdo Riera (klondike)" <klondike@klondike.es>
+Cc:     linux-usb@vger.kernel.org,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Kranthi Kuntala <kranthi.kuntala@intel.com>,
+        Rajmohan Mani <rajmohan.mani@intel.com>,
+        Mario.Limonciello@dell.com, Lukas Wunner <lukas@wunner.de>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] thunderbolt: allow vendor ID override for NVM
+ programming
+Message-ID: <YZ6D7vbyaf50DSCh@kroah.com>
+References: <8d29b41b-3590-c4b0-a2f8-fa34063bafb3@klondike.es>
+ <07bd1d90-c95f-0685-e1a8-2211c9dac251@klondike.es>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YZzQoz0e/oiutuq5@elver.google.com>
+In-Reply-To: <07bd1d90-c95f-0685-e1a8-2211c9dac251@klondike.es>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 23, 2021 at 12:29:39PM +0100, Marco Elver wrote:
-> On Fri, Nov 19, 2021 at 12:31PM -0800, Josh Poimboeuf wrote:
-> > On Thu, Nov 18, 2021 at 09:10:27AM +0100, Marco Elver wrote:
-> [...]
-> > > +	if (insn->sec->noinstr && sym->removable_instr) {
-> [...]
-> > I'd love to have a clearer name than 'removable_instr', though I'm
-> > having trouble coming up with something.
-> [...]
+On Wed, Nov 24, 2021 at 05:37:05PM +0100, Francisco Blas Izquierdo Riera (klondike) wrote:
+> Currently, the vendor ID reported by the chipset is checked before to
+> avoid accidentally programming devices from unsupported vendors with
+> a different NVM structure.
 > 
-> I now have the below as v3 of this patch. The naming isn't entirely
-> obvious, but coming up with a short name for this is tricky, but
-> hopefully the comments make it clear. We can of course still pick
-> another name.
+> Certain Thunderbolt devices store the vendor ID in the NVM, therefore
+> if the NVM has become corrrupted the device will report an invalid
+> vendor ID and reflashing will be impossible on GNU/Linux even if the
+> device can boot in safe mode.
 > 
-> Does that look reasonable?
+> This patch adds a new parameter ``switch_nvm_vendor_override`` which
+> can be used to override the vendor ID used for detecting the NVM
+> structure allowing to reflash (and authenticate) a new, valid
+> image on the device.
 > 
-> Note, I'd like this series to sit in -next for a while (probably from
-> some time next week after sending v3 if there are no further
-> complaints). By default everything will be picked up by the -rcu tree,
-> and we're targeting Linux 5.18.
+> Signed-off-by: Francisco Blas Izquierdo Riera (klondike) <klondike@klondike.es>
+> ---
+> drivers/thunderbolt/switch.c | 9 ++++++++-
+> 1 file changed, 8 insertions(+), 1 deletion(-)
 > 
-> If you feel there might be objtool conflicts coming, this patch could be
-> taken through another tree as there are no hard dependencies, as long as
-> this patch reaches mainline before or with the rest.
-> 
-> Thanks,
-> -- Marco
+> diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
+> index 3014146081..a7959c3f3f 100644
+> --- a/drivers/thunderbolt/switch.c
+> +++ b/drivers/thunderbolt/switch.c
+> @@ -13,6 +13,7 @@
+> #include <linux/sched/signal.h>
+> #include <linux/sizes.h>
+> #include <linux/slab.h>
+> +#include <linux/moduleparam.h>
+> #include "tb.h"
+> @@ -34,6 +35,10 @@ struct nvm_auth_status {
+> static LIST_HEAD(nvm_auth_status_cache);
+> static DEFINE_MUTEX(nvm_auth_status_lock);
+> +static short switch_nvm_vendor_override = -1;
+> +module_param(switch_nvm_vendor_override, short, 0440);
+> +MODULE_PARM_DESC(switch_nvm_vendor_override, "Override the switch vendor id on the nvm access routines");
+> +
+> static struct nvm_auth_status *__nvm_get_auth_status(const struct tb_switch *sw)
+> {
+> struct nvm_auth_status *st;
+> @@ -391,7 +396,9 @@ static int tb_switch_nvm_add(struct tb_switch *sw)
+> * relax this in the future when we learn other NVM formats.
+> */
+> if (sw->config.vendor_id != PCI_VENDOR_ID_INTEL &&
+> - sw->config.vendor_id != 0x8087) {
+> + sw->config.vendor_id != 0x8087 &&
+> + switch_nvm_vendor_override != PCI_VENDOR_ID_INTEL &&
+> + switch_nvm_vendor_override != 0x8087) {
+> dev_info(&sw->dev,
+> "NVM format of vendor %#x is not known, disabling NVM upgrade\n",
+> sw->config.vendor_id);
 
-Looks good to me.  I don't know of any upcoming conflicts, feel free to
-carry it with your series for now.
+Patch is corrupted :(
 
-Acked-by: Josh Poimboeuf <jpoimboe@redhat.com>
+Anyway, module parameters are from the 1990's and should stay there.
+Please use a per-device way to handle this instead, as trying to handle
+module parameters is very difficult over time.
 
--- 
-Josh
+thanks,
 
+greg k-h
