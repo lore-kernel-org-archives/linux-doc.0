@@ -2,384 +2,242 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71C84C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Nov 2021 02:13:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C63CC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Nov 2021 02:23:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240666AbhKXCQj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Nov 2021 21:16:39 -0500
-Received: from sonic315-27.consmr.mail.ne1.yahoo.com ([66.163.190.153]:45599
-        "EHLO sonic315-27.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231860AbhKXCQi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Nov 2021 21:16:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1637720009; bh=9CzQ9uHdy4do/PNMLqTG82ebvy/4VhJrLPLfMtCcFBQ=; h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To; b=chjqV0NlpJzct41szmGkgoYyH3DSCRdmIhyQg1OTBiWgCesfkE2pdtv5PEkxnQzsGTB0hnaeuEUTaL5Pw7Vfw3YuONmt6g5wtch9DwmLW6eWd9Dzx+wbsIlA7o3T2EisDgEU61lrT7PVE4NgwmnhcgNeWeASHPMSmJ8ybLfdEjblrjqg2AVbzP7QYr4IwaSJdZX4aFgmpA+l4Kk8KMRNdfXMDAR0tmkYplqMqCSYz5QE6ACqAfs6vjp4Q1KiuGfiwP+A6IijL5Lv+yeiP3XUTcqy5juyzK/3zcu6n+Mv1fWzrJXaAgMHJP2nGdjB54g/K2at+o8tacLXzAtT9OhICg==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1637720009; bh=8z/AzwUIY2lRskZNKaFJQUzvZAMMTCozzFrXqsPm1tm=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=YbPxhaqpxt4VVK+B+iE5D0AMbWvkc+Ko6DWmRIuAh9SR2MicROyf4xcx1GvSFjXJbU4yU7ikhyPnNy5U676DLyBcJyPWzglDtJvkOTCIAjeuhq3FyhLCBzbxRf5qqRDQ9NsuhrNLjHl1oTdBdxzPVPmkwvwUo5tP7bGO3w2PiTYkohhYrRYbrz3Op82ansvZGZoUnoCqP0YgCM5qB6gWoqJ0jnj7g4XxQ/wC+6cO8cKjBJc7OHSal1ioYdb/K0+PFaD+tfjuKvRfHD3obDnBIKQz4XpgGg/Gx6zi7cG3vc0EHqKEn4UD/FYkt6FhgyuTVcWa9/+alzT31ePVfaY+Nw==
-X-YMail-OSG: lFGB794VM1ldpuqp8mFwcE.bKpo78XErB9W6mO8sCrBmJZm7yNlMpWkQc.EhJTf
- iYt4a5eYnmEWoMAWpka05_p6Z8GrXNRuXAFKvRvdjo0MFCSg6wEoMh9ShIVWTps_5n.3BxotmtqP
- 3KR0E0ftDmPncc0I9OSSzuWPU3D4yIpLj4SnAK8wsMVSDHQeOyjaTW4Qlx7D12JprZinDebCubWl
- Uixi3U7I9vm0i03nWcm_dijFQVZHxh6VH4E5y5sVk3N1hPh_CBf_9wrOPgITwQUNhnaP54_T0ksc
- dUV4O_ywqA17oJkIOAUn_dsG0bnyB1fCZRvlj9MdDJj2hVhBkf7_UMozmh83u5v2WVrw63aOxQpV
- bMAF6i.9j0xIQZTnNcyue2jk3PdI87cmLlRTF3JC.wzPzg9rLC.DEtsEFvEPZg66EHi5sJz_m9kG
- ESPXOLyo4cZErSz_BadJhhNw9HT1EgdQ3sQpFdygPXkD3tpsXMqM3zZwVJex03MAITw5ZoT5pIIw
- bQwjF7jY9w2bG6x.9fmtYN_kWrOwLlOiHEFjWA1d92L78aR53Riewk3kYSBZK_uWieIQSpTi2Yi4
- lZ0Sb7C4Keqv._cCmztLAqk10cPV2RkIh3.fB59b6lNzwuooGIojCuOLuVx0guKGrcNf3Fi8OvCo
- vhapLJDJ2b5ypplh4ygIvTBRe8Vw5eW9YHPAS4BUyDXJjdndAJ7jIGRU9yDVWILrLgXFlw.0EDq.
- pXgfUs45JGJbKw1TLpANOmdKT7TzcBROYIpUw4IyijYub2JxNCCQ7nGwkabJUko1XO0pqL1Hp0kh
- OFiz51vaQcaTxaLWqL3ebXAhC3FO2KRa9oISFDRCy9ByBqd356TyuN3h7EHt9DH9EvXVQuMwMpqr
- zcWJXf4jsFyqhK.21wXt2Y2v0do0_De.nD2GODk3qaWMAC2JPfAxHUkrbDdUVfYD1lbl.NnnBM6e
- 2wNliEV3cCYkhWqVuYP2DmsnBcDWSeL8D80RmyWjJSM0LqRry9ECOMNN5k42ekL7d8IUYZL5XMBK
- ihwQuySoqH2oK4nBhnrDhGrfZJ1mX29fF2jcTDJxQixAn_Hq1kYZTYiPBLS2jWimd0Ysku_TYhMP
- MAZq_B3eeM_eimEoF_WC6fAcmTwWUxCsF9.66ySw.kz3gC7fjYpYAo.5xcKrqpVFARkPSQQjIBvs
- 0usFVujGfSkzsJ6AcwRrNrNI6kj9iQfBkLGOBzyBhet93v_YCQ8KriHP6L_laIXti4wu.oOGYJRz
- r8ZAIpbPtD3NOsrwkxONnxo.Bs3tsZkDaksE2cvymMyH3Tbynay2QP1QROQq4jMGgtwbl.0_EAbm
- Ok3JCn37fclLv5aN0ss8.jbz6ufsvZHhyQB6uW.56WkuDe6HSio.2_WftrN9i4DbB26UDuWUGLGf
- 4qr7N_NiW0cIe2rNargdR22WrN4zJRRS6KOTrjqcWA99nmLTbRWO8BIHyYYk07GiQfMcNlsYxmlj
- X1drG.TsTS0qhcg32f5fCwU8vFKhKduKm4PByQWjsoToYgXW2AaoBQOk0oHgzGy7I0VAJO5cOAW.
- _NuhAvujVzcFl3amF1eAh_7zin17aixcoOoDQ_NmTnaCIi2u.6k7cB7FsfX.RWiW17pFeke5aZwE
- ezHvyNq6XEeKdmkvt7M8OP6lwMBQx8wWfb8Q0rPjGLHTiNvqLQxJQT.Tv3dbK7alFNcjJ2oFwg2O
- x.9mO8tbPUDxWrSKG.sVJcYI71l59Tu323wLo1192wCsR78XogkM2B_k52aeh_Fad2K6Rzz_ErE6
- o5WH15yVbkDuiumc0qmwzDKLy1UCXDIUgRRTI5Gh7z9J5CaSk.zOsS099lVkhxForMRddNlBu33R
- bU28Hn9jMHw8Bt.ynMSDYgVZEpvXSWlNYp8U8Y2KVnH.19jkfqVfAO0unh1nbzbF9JdzPMsGjWyg
- eB2XuiMnTnNoGNHdCbHAkTVhJFm9z12CmB9U99oCSS8oxzqFILcLl4ityP2CxYNAT7wvJnPmmLl5
- zwEf7MIYAV6AmeYndf4zQdgphys1FyT_GT9s4GNRbVNsL._n2jqnUGCUw8TyUgLTx_l2ri3wr5A5
- i8vsn8U1.EdhAZh6pYE.zczs8Wk4TrwrIU3vl9hEEJQqUSgocCQGdX1.QYjrIZUpTm8MXXODefzQ
- CMmbrcY2orNacihIrXwftth.ZVC1biIvra4ig_7lghk30OJ2DIYbGRqqy7dvWp9ASy1bVXDjKWcK
- 01RRwu0PiAnq4HWh0ZkUWs5XJwtboSf7vEBVhYaU02w--
-X-Sonic-MF: <casey@schaufler-ca.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic315.consmr.mail.ne1.yahoo.com with HTTP; Wed, 24 Nov 2021 02:13:29 +0000
-Received: by kubenode524.mail-prod1.omega.gq1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA ID fef1b8bbd5fbeb140c8e00bf0e5b2b51;
-          Wed, 24 Nov 2021 02:13:24 +0000 (UTC)
-From:   Casey Schaufler <casey@schaufler-ca.com>
-To:     casey.schaufler@intel.com, jmorris@namei.org,
-        linux-security-module@vger.kernel.org, selinux@vger.kernel.org
-Cc:     casey@schaufler-ca.com, linux-audit@redhat.com,
-        keescook@chromium.org, john.johansen@canonical.com,
-        penguin-kernel@i-love.sakura.ne.jp, paul@paul-moore.com,
-        sds@tycho.nsa.gov, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH v30 27/28] LSM: Add /proc attr entry for full LSM context
-Date:   Tue, 23 Nov 2021 17:43:31 -0800
-Message-Id: <20211124014332.36128-28-casey@schaufler-ca.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211124014332.36128-1-casey@schaufler-ca.com>
-References: <20211124014332.36128-1-casey@schaufler-ca.com>
+        id S235188AbhKXC0p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Nov 2021 21:26:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57614 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233425AbhKXC0o (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Nov 2021 21:26:44 -0500
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1267DC061574;
+        Tue, 23 Nov 2021 18:23:36 -0800 (PST)
+Received: by mail-qk1-x72f.google.com with SMTP id 132so1213203qkj.11;
+        Tue, 23 Nov 2021 18:23:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bLwx3qs8zhnLc+oatgY7phMy96Tol/Pt5GFWUgzwj6E=;
+        b=oms8nynfBZcAITLfn/teV5DIl821Uhi8aX5F9KciRUNboIwv9yqQrLY3VPEcaXSYKr
+         MiRbrgx7zkM+CbHBIQmL87hFcvELYaOlWwGXjEBDH3J+78a9hC0vQxnbml5an/ZfMaz2
+         oPg3sijSk622jDOZP8Qa+Mq/TBGMnu8X6qQmHw7hvBalCfsPuNzNLUjrKME9KtI0+BkE
+         2Iue40cSPlA2sBIgfzHHTNr9S5+fHwsvvfTaY+6MXMr238qfGdm/mluTDSvrmWZB487d
+         haby/yEeXSRuhU4fGUk1bExBjIMd2ZheA0RtmxZFHry6LS6rHYL7H6/6IszUJLe1xl2K
+         Qi3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bLwx3qs8zhnLc+oatgY7phMy96Tol/Pt5GFWUgzwj6E=;
+        b=7SK3VRKjoi5degPdF1haoRKFil355cj2veZwJXICiSeAVYJsGqI/l4v+7xOsUChFz6
+         yBWtWj8SK/bUXF9WLPvLj7wmJWqhwZ14nTcunPZprz3InuI2t1W0kCnd6k8YDi9+7Iso
+         sZHWppgXV3+kpKNAITiWVnyZoNHnGDdacauZxPcU7a8jV9wPRKmGUrhnqt7v6fhhqmz6
+         tnfb+GyzPCWZqEkfpjYlYKdH5cv0898Sj32jTL5TD7f6kGG6366JF7UBPZ3Vp7PEHGR+
+         IDVwMVzEUaig0U/PUrPQWYfVxOWviFSo0UX2dKhyjChSgCBnOWFe1lA/GghGAyXRUbpw
+         uNhA==
+X-Gm-Message-State: AOAM5310jKfr6QGaehIsYd5xt9xXVB5m4JA48dmnYt3HbiSybZWtWYNM
+        2rolJxmzedA8yj53IqtsZz8=
+X-Google-Smtp-Source: ABdhPJxtWN/94Slz5HelOIC07Ucj3hc8vfCvyD4Ls6oyYNgHRDgpSLZI6XXJZWX2JOAbKg1nCiMZiA==
+X-Received: by 2002:a05:620a:4008:: with SMTP id h8mr2281913qko.302.1637720615055;
+        Tue, 23 Nov 2021 18:23:35 -0800 (PST)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id k85sm6933828qke.134.2021.11.23.18.23.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Nov 2021 18:23:34 -0800 (PST)
+From:   cgel.zte@gmail.com
+X-Google-Original-From: yang.yang29@zte.com.cn
+To:     alexs@kernel.org, corbet@lwn.net, siyanteng@loongson.cn
+Cc:     yang.yang29@zte.com.cn, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] docs/zh_CN: Add zh_CN/accounting/taskstats.rst
+Date:   Wed, 24 Nov 2021 02:23:17 +0000
+Message-Id: <20211124022316.34497-1-yang.yang29@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add an entry /proc/.../attr/context which displays the full
-process security "context" in compound format:
-        lsm1\0value\0lsm2\0value\0...
-This entry is not writable.
+From: Yang Yang <yang.yang29@zte.com.cn>
 
-A security module may decide that its policy does not allow
-this information to be displayed. In this case none of the
-information will be displayed.
+Add translation zh_CN/accounting/taskstats.rst and links it to
+zh_CN/accounting/index.rst while clean its todo entry.
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
-Cc: linux-api@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
+Signed-off-by: Yang Yang <yang.yang29@zte.com.cn>
 ---
- Documentation/security/lsm.rst       | 14 +++++
- fs/proc/base.c                       |  1 +
- include/linux/lsm_hooks.h            |  6 +++
- security/apparmor/include/procattr.h |  2 +-
- security/apparmor/lsm.c              |  8 ++-
- security/apparmor/procattr.c         | 22 ++++----
- security/security.c                  | 79 ++++++++++++++++++++++++++++
- security/selinux/hooks.c             |  2 +-
- security/smack/smack_lsm.c           |  2 +-
- 9 files changed, 121 insertions(+), 15 deletions(-)
+ .../translations/zh_CN/accounting/index.rst   |   2 +-
+ .../zh_CN/accounting/taskstats.rst            | 142 ++++++++++++++++++
+ 2 files changed, 143 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/accounting/taskstats.rst
 
-diff --git a/Documentation/security/lsm.rst b/Documentation/security/lsm.rst
-index b77b4a540391..070225ae6ceb 100644
---- a/Documentation/security/lsm.rst
-+++ b/Documentation/security/lsm.rst
-@@ -143,3 +143,17 @@ separated list of the active security modules.
- The file ``/proc/pid/attr/interface_lsm`` contains the name of the security
- module for which the ``/proc/pid/attr/current`` interface will
- apply. This interface can be written to.
+diff --git a/Documentation/translations/zh_CN/accounting/index.rst b/Documentation/translations/zh_CN/accounting/index.rst
+index 362e907b41f9..124b590fb01b 100644
+--- a/Documentation/translations/zh_CN/accounting/index.rst
++++ b/Documentation/translations/zh_CN/accounting/index.rst
+@@ -16,10 +16,10 @@
+    :maxdepth: 1
+ 
+    psi
++   taskstats
+ 
+ Todolist:
+ 
+    cgroupstats
+    delay-accounting
+-   taskstats
+    taskstats-struct
+diff --git a/Documentation/translations/zh_CN/accounting/taskstats.rst b/Documentation/translations/zh_CN/accounting/taskstats.rst
+new file mode 100644
+index 000000000000..3792983bc752
+--- /dev/null
++++ b/Documentation/translations/zh_CN/accounting/taskstats.rst
+@@ -0,0 +1,142 @@
++.. include:: ../disclaimer-zh_CN.rst
 +
-+The infrastructure does provide an interface for the special
-+case where multiple security modules provide a process context.
-+This is provided in compound context format.
++:Original: Documentation/accounting/taskstats.rst
 +
-+-  `lsm\0value\0lsm\0value\0`
++:Translator: Yang Yang <yang.yang29@zte.com.cn>
 +
-+The `lsm` and `value` fields are NUL-terminated bytestrings.
-+Each field may contain whitespace or non-printable characters.
-+The NUL bytes are included in the size of a compound context.
-+The context ``Bell\0Secret\0Biba\0Loose\0`` has a size of 23.
++.. _cn_taskstats.rst:
 +
-+The file ``/proc/pid/attr/context`` provides the security
-+context of the identified process.
-diff --git a/fs/proc/base.c b/fs/proc/base.c
-index 50dbe5612a26..c90022027357 100644
---- a/fs/proc/base.c
-+++ b/fs/proc/base.c
-@@ -2829,6 +2829,7 @@ static const struct pid_entry attr_dir_stuff[] = {
- 	ATTR(NULL, "keycreate",		0666),
- 	ATTR(NULL, "sockcreate",	0666),
- 	ATTR(NULL, "interface_lsm",	0666),
-+	ATTR(NULL, "context",		0444),
- #ifdef CONFIG_SECURITY_SMACK
- 	DIR("smack",			0555,
- 	    proc_smack_attr_dir_inode_ops, proc_smack_attr_dir_ops),
-diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
-index 490545f0db6d..b919d5ab9120 100644
---- a/include/linux/lsm_hooks.h
-+++ b/include/linux/lsm_hooks.h
-@@ -1400,6 +1400,12 @@
-  *	@pages contains the number of pages.
-  *	Return 0 if permission is granted.
-  *
-+ * @getprocattr:
-+ *	Provide the named process attribute for display in special files in
-+ *	the /proc/.../attr directory.  Attribute naming and the data displayed
-+ *	is at the discretion of the security modules.  The exception is the
-+ *	"context" attribute, which will contain the security context of the
-+ *	task as a nul terminated text string without trailing whitespace.
-  * @ismaclabel:
-  *	Check if the extended attribute specified by @name
-  *	represents a MAC label. Returns 1 if name is a MAC
-diff --git a/security/apparmor/include/procattr.h b/security/apparmor/include/procattr.h
-index 31689437e0e1..03dbfdb2f2c0 100644
---- a/security/apparmor/include/procattr.h
-+++ b/security/apparmor/include/procattr.h
-@@ -11,7 +11,7 @@
- #ifndef __AA_PROCATTR_H
- #define __AA_PROCATTR_H
- 
--int aa_getprocattr(struct aa_label *label, char **string);
-+int aa_getprocattr(struct aa_label *label, char **string, bool newline);
- int aa_setprocattr_changehat(char *args, size_t size, int flags);
- 
- #endif /* __AA_PROCATTR_H */
-diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
-index 5ed40fd93ce9..28ed41a3ffcf 100644
---- a/security/apparmor/lsm.c
-+++ b/security/apparmor/lsm.c
-@@ -602,6 +602,7 @@ static int apparmor_getprocattr(struct task_struct *task, char *name,
- 	const struct cred *cred = get_task_cred(task);
- 	struct aa_task_ctx *ctx = task_ctx(current);
- 	struct aa_label *label = NULL;
-+	bool newline = true;
- 
- 	if (strcmp(name, "current") == 0)
- 		label = aa_get_newest_label(cred_label(cred));
-@@ -609,11 +610,14 @@ static int apparmor_getprocattr(struct task_struct *task, char *name,
- 		label = aa_get_newest_label(ctx->previous);
- 	else if (strcmp(name, "exec") == 0 && ctx->onexec)
- 		label = aa_get_newest_label(ctx->onexec);
--	else
-+	else if (strcmp(name, "context") == 0) {
-+		label = aa_get_newest_label(cred_label(cred));
-+		newline = false;
-+	} else
- 		error = -EINVAL;
- 
- 	if (label)
--		error = aa_getprocattr(label, value);
-+		error = aa_getprocattr(label, value, newline);
- 
- 	aa_put_label(label);
- 	put_cred(cred);
-diff --git a/security/apparmor/procattr.c b/security/apparmor/procattr.c
-index fde332e0ea7d..172550f67fc0 100644
---- a/security/apparmor/procattr.c
-+++ b/security/apparmor/procattr.c
-@@ -20,6 +20,7 @@
-  * aa_getprocattr - Return the profile information for @profile
-  * @profile: the profile to print profile info about  (NOT NULL)
-  * @string: Returns - string containing the profile info (NOT NULL)
-+ * @newline: Should a newline be added to @string.
-  *
-  * Requires: profile != NULL
-  *
-@@ -28,20 +29,21 @@
-  *
-  * Returns: size of string placed in @string else error code on failure
-  */
--int aa_getprocattr(struct aa_label *label, char **string)
-+int aa_getprocattr(struct aa_label *label, char **string, bool newline)
- {
- 	struct aa_ns *ns = labels_ns(label);
- 	struct aa_ns *current_ns = aa_get_current_ns();
-+	int flags = FLAG_VIEW_SUBNS | FLAG_HIDDEN_UNCONFINED;
- 	int len;
- 
- 	if (!aa_ns_visible(current_ns, ns, true)) {
- 		aa_put_ns(current_ns);
- 		return -EACCES;
- 	}
-+	if (newline)
-+		flags |= FLAG_SHOW_MODE;
- 
--	len = aa_label_snxprint(NULL, 0, current_ns, label,
--				FLAG_SHOW_MODE | FLAG_VIEW_SUBNS |
--				FLAG_HIDDEN_UNCONFINED);
-+	len = aa_label_snxprint(NULL, 0, current_ns, label, flags);
- 	AA_BUG(len < 0);
- 
- 	*string = kmalloc(len + 2, GFP_KERNEL);
-@@ -50,19 +52,19 @@ int aa_getprocattr(struct aa_label *label, char **string)
- 		return -ENOMEM;
- 	}
- 
--	len = aa_label_snxprint(*string, len + 2, current_ns, label,
--				FLAG_SHOW_MODE | FLAG_VIEW_SUBNS |
--				FLAG_HIDDEN_UNCONFINED);
-+	len = aa_label_snxprint(*string, len + 2, current_ns, label, flags);
- 	if (len < 0) {
- 		aa_put_ns(current_ns);
- 		return len;
- 	}
- 
--	(*string)[len] = '\n';
--	(*string)[len + 1] = 0;
-+	if (newline) {
-+		(*string)[len] = '\n';
-+		(*string)[++len] = 0;
-+	}
- 
- 	aa_put_ns(current_ns);
--	return len + 1;
-+	return len;
- }
- 
- /**
-diff --git a/security/security.c b/security/security.c
-index 1d28d25d0ade..83b588a87de2 100644
---- a/security/security.c
-+++ b/security/security.c
-@@ -802,6 +802,57 @@ static int lsm_superblock_alloc(struct super_block *sb)
- 	return 0;
- }
- 
-+/**
-+ * append_ctx - append a lsm/context pair to a compound context
-+ * @ctx: the existing compound context
-+ * @ctxlen: size of the old context, including terminating nul byte
-+ * @lsm: new lsm name, nul terminated
-+ * @new: new context, possibly nul terminated
-+ * @newlen: maximum size of @new
-+ *
-+ * replace @ctx with a new compound context, appending @newlsm and @new
-+ * to @ctx. On exit the new data replaces the old, which is freed.
-+ * @ctxlen is set to the new size, which includes a trailing nul byte.
-+ *
-+ * Returns 0 on success, -ENOMEM if no memory is available.
-+ */
-+static int append_ctx(char **ctx, int *ctxlen, const char *lsm, char *new,
-+		      int newlen)
-+{
-+	char *final;
-+	size_t llen;
-+	size_t nlen;
-+	size_t flen;
++================
++每任务的统计接
++================
 +
-+	llen = strlen(lsm) + 1;
-+	/*
-+	 * A security module may or may not provide a trailing nul on
-+	 * when returning a security context. There is no definition
-+	 * of which it should be, and there are modules that do it
-+	 * each way.
-+	 */
-+	nlen = strnlen(new, newlen);
++Taskstats是一个基于netlink的接口，用于从内核向用户空间发送每任务及每进程的统计信息。
 +
-+	flen = *ctxlen + llen + nlen + 1;
-+	final = kzalloc(flen, GFP_KERNEL);
++Taskstats设计目的：
 +
-+	if (final == NULL)
-+		return -ENOMEM;
++- 在任务生命周期内和退出时高效的提供统计信息
++- 统一不同计数子系统的接口
++- 支持未来计数系统的扩展
 +
-+	if (*ctxlen)
-+		memcpy(final, *ctx, *ctxlen);
++术语
++----
 +
-+	memcpy(final + *ctxlen, lsm, llen);
-+	memcpy(final + *ctxlen + llen, new, nlen);
++“pid”、“tid”、“任务”互换使用，用于描述由struct task_struct定义的标准Linux任务。
++“每pid的统计数据”等价于“每任务的统计数据”。
 +
-+	kfree(*ctx);
++“tgid”、“进程”、“线程组”互换使用，用于描述共享mm_struct的任务集，也就是传统的
++Unix进程。尽管使用了tgid这个词，即使一个任务是线程组组长，对它的处理也没有什么不同。
++只要一个进程还有任何归属它的任务，它就被认为活着。
 +
-+	*ctx = final;
-+	*ctxlen = flen;
++用法
++----
 +
-+	return 0;
-+}
++为了在任务生命周期内获得统计信息，用户空间需打开一个单播的netlink套接字（NETLINK_GENERIC族）
++然后发送指定pid或tgid的命令。响应消息中包含单个任务的统计信息（若指定了pid）或进程所有任务
++汇总的统计信息（若指定了tgid）。
 +
- /*
-  * The default value of the LSM hook is defined in linux/lsm_hook_defs.h and
-  * can be accessed with:
-@@ -2207,6 +2258,10 @@ int security_getprocattr(struct task_struct *p, const char *lsm, char *name,
- 				char **value)
- {
- 	struct security_hook_list *hp;
-+	char *final = NULL;
-+	char *cp;
-+	int rc = 0;
-+	int finallen = 0;
- 	int ilsm = lsm_task_ilsm(current);
- 	int slot = 0;
- 
-@@ -2234,6 +2289,30 @@ int security_getprocattr(struct task_struct *p, const char *lsm, char *name,
- 		return -ENOMEM;
- 	}
- 
-+	if (!strcmp(name, "context")) {
-+		hlist_for_each_entry(hp, &security_hook_heads.getprocattr,
-+				     list) {
-+			rc = hp->hook.getprocattr(p, "context", &cp);
-+			if (rc == -EINVAL)
-+				continue;
-+			if (rc < 0) {
-+				kfree(final);
-+				return rc;
-+			}
-+			rc = append_ctx(&final, &finallen, hp->lsmid->lsm,
-+					cp, rc);
-+			kfree(cp);
-+			if (rc < 0) {
-+				kfree(final);
-+				return rc;
-+			}
-+		}
-+		if (final == NULL)
-+			return -EINVAL;
-+		*value = final;
-+		return finallen;
-+	}
++为了在任务退出时获取统计信息，用户空间的监听者发送一个指定cpu掩码的注册命令。
++cpu掩码内的cpu上有任务退出时，每pid的统计信息将发送给注册成功的监听者。使用
++cpu掩码可以限制一个监听者收到的数据，并有助于对netlink接口进行流量控制，后文
++将进行更详细的解释。
 +
- 	hlist_for_each_entry(hp, &security_hook_heads.getprocattr, list) {
- 		if (lsm != NULL && strcmp(lsm, hp->lsmid->lsm))
- 			continue;
-diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-index 6f790d96594d..cbacfdabbc30 100644
---- a/security/selinux/hooks.c
-+++ b/security/selinux/hooks.c
-@@ -6399,7 +6399,7 @@ static int selinux_getprocattr(struct task_struct *p,
- 			goto bad;
- 	}
- 
--	if (!strcmp(name, "current"))
-+	if (!strcmp(name, "current") || !strcmp(name, "context"))
- 		sid = __tsec->sid;
- 	else if (!strcmp(name, "prev"))
- 		sid = __tsec->osid;
-diff --git a/security/smack/smack_lsm.c b/security/smack/smack_lsm.c
-index 9832b5e5c9fd..e5437d72699b 100644
---- a/security/smack/smack_lsm.c
-+++ b/security/smack/smack_lsm.c
-@@ -3486,7 +3486,7 @@ static int smack_getprocattr(struct task_struct *p, char *name, char **value)
- 	char *cp;
- 	int slen;
- 
--	if (strcmp(name, "current") != 0)
-+	if (strcmp(name, "current") != 0 && strcmp(name, "context") != 0)
- 		return -EINVAL;
- 
- 	cp = kstrdup(skp->smk_known, GFP_KERNEL);
++如果正在退出的任务是线程组中最后一个退出的线程，额外一条包含每tgid统计信息的
++记录也将发送给用户空间。后者包含线程组中所有线程（包括过去和现在）的每pid统计
++信息总和。
++
++getdelays.c是一个简单的示例，用以演示如何使用taskstats接口获取延迟统计信息。
++用户可注册cpu掩码、发送命令和处理响应、监听每tid/tgid退出数据、将收到的数据
++写入文件、通过增大接收缓冲区进行基本的流量控制。
++
++接口
++----
++
++内核用户接口封装在include/linux/taskstats.h。
++
++为避免本文档随着接口的演进而过期，本文仅给出当前版本的概要。当本文与taskstats.h
++不一致时，以taskstats.h为准。
++
++struct taskstats是每pid和每tgid数据共用的计数结构体。它是版本化的，可在内核新增
++计数子系统时进行扩展。taskstats.h中定义了各字段及语义。
++
++用户、内核空间的数据交换是属于NETLINK_GENERIC族的netlink消息，使用netlink属性
++接口。消息格式如下::
++
++    +----------+- - -+-------------+-------------------+
++    | nlmsghdr | Pad |  genlmsghdr | taskstats payload |
++    +----------+- - -+-------------+-------------------+
++
++Taskstats载荷有三种类型：
++1. 命令：由用户发送给内核。获取指定pid/tgid数据的命令包含一个类型为TASKSTATS_CMD_ATTR_PID/TGID
++的属性，该属性包含u32的pid或tgid载荷。pid/tgid指示用户空间要统计的任务/进程。
++
++注册/注销获取指定cpu集上退出数据的命令包含一个类型为
++TASKSTATS_CMD_ATTR_REGISTER/DEREGISTER_CPUMASK的属性，该属性包含cpu掩码载荷。
++cpu掩码是以ascii码表示，用逗号分隔的cpu范围。例如若需监听1,2,3,5,7,8号cpu的退出数据，
++cpu掩码表示为"1-3,5,7-8"。若用户空间在关闭监听套接字前忘了注销监听的cpu集，随着时间
++的推移，内核会清理此监听集。但是，出于提效的目的，建议明确执行注销。
++
++2. 命令的应答：内核发出应答用户空间的命令。载荷有三类属性：
++
++a) TASKSTATS_TYPE_AGGR_PID/TGID： 本属性不包含载荷，用以指示其后为被统计对象
++的pig/tgid。
++
++b) TASKSTATS_TYPE_PID/TGID：本属性的载荷为pig/tgid，其统计信息将被返回。
++
++c) TASKSTATS_TYPE_STATS：本属性的载荷为一个struct taskstats实例。每pid和每tgid统计
++信息共用该结构体。
++
++3. 内核会在任务退出时发送新消息。其载荷包含一系列以下类型的属性：
++
++a) TASKSTATS_TYPE_AGGR_PID：指示其后两个属性为pid+stats。
++b) TASKSTATS_TYPE_PID：包含退出任务的pid。
++c) TASKSTATS_TYPE_STATS：包含退出任务的每pid统计信息
++d) TASKSTATS_TYPE_AGGR_TGID：指示其后两个属性为tgid+stats。
++e) TASKSTATS_TYPE_TGID：包含任务所属进程的tgid
++f) TASKSTATS_TYPE_STATS：包含退出任务所属进程的每tgid统计信息
++
++每tgid的统计
++------------
++
++除了每任务的统计信息，taskstats还提供每进程的统计信息，因为资源管理通常以进程
++粒度完成，并且仅在用户空间聚合任务统计信息效率低下且可能不准确（缺乏原子性）。
++
++然而，除了每任务统计信息，在内核中维护每进程统计信息存在额外的时间和空间开销。
++为解决此问题，taskstats代码将退出任务的统计信息累积到进程范围的数据结构中。
++当进程最后一个任务退出时，累积的进程级数据也会发送到用户空间（与每任务数据一起）。
++
++当用户查询每tgid数据时，内核将指定线程组中所有活动线程的统计信息相加，并添加到
++该线程组的累积总数（含之前退出的线程）。
++
++扩展taskstats
++-------------
++
++有两种方法可在未来修改内核扩展taskstats接口，以导出更多的每任务/进程统计信息：
++
++1. 在现有struct taskstats末尾增加字段。该结构体中的版本号确保了向后兼容性。
++用户空间将仅使用与其版本对应的结构体字段。
++
++2. 定义单独的统计结构体并使用netlink属性接口返回对应的数据。由于用户空间独立
++处理每个netlink属性，所以总是可以忽略其不理解类型的属性（因为使用了旧版本接口）。
++
++在1.和2.之间进行选择，属于权衡灵活性和开销的问题。若仅需增加少数字段，那么1.是首选方法，
++因为内核和用户空间无需承担处理新netlink属性的开销。但若新字段过多的扩展现有结构体，
++导致不同的用户空间计数程序不必要的接收大型结构体，而对结构体字段并不感兴趣，那么2.
++是值得的。
++
++Taskstats的流量控制
++-------------------
++
++当退出任务数速率变大，监听者可能跟不上内核发送每tid/tgid退出数据的速率，而导致
++数据丢失。taskstats结构体变大、cpu数量上升，都会导致这种可能性增加。
++
++为避免统计信息丢失，用户空间应执行以下操作中至少一项：
++
++- 增大监听者用于接收退出数据的netlink套接字接收缓存区。
++
++- 创建更多的监听者，减少每个监听者监听的cpu数量。极端情况下可为每个cpu创建
++一个监听者。用户还可考虑将监听者的cpu亲和性设置为监听cpu的子集，特别是当他们
++仅监听一个cpu。
++
++尽管采取了这些措施，若用户空间仍收到指示接收缓存区溢出的ENOBUFS错误消息，
++则应采取其他措施处理数据丢失。
 -- 
-2.31.1
-
+2.25.1
