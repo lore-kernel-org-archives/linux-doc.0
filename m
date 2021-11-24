@@ -2,421 +2,318 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B08A0C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Nov 2021 07:53:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43D28C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Nov 2021 08:24:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240890AbhKXH4w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Nov 2021 02:56:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45252 "EHLO
+        id S234155AbhKXI1M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Nov 2021 03:27:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240667AbhKXH4s (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Nov 2021 02:56:48 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09416C061714
-        for <linux-doc@vger.kernel.org>; Tue, 23 Nov 2021 23:53:39 -0800 (PST)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[127.0.0.1])
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <a.fatoum@pengutronix.de>)
-        id 1mpn5z-0000rb-9a; Wed, 24 Nov 2021 08:53:35 +0100
-Subject: Re: [PATCH v4 5/5] KEYS: trusted: Introduce support for NXP
- CAAM-based trusted keys
-To:     Jonathan Corbet <corbet@lwn.net>,
-        David Howells <dhowells@redhat.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Mimi Zohar <zohar@linux.ibm.com>
-Cc:     kernel@pengutronix.de, David Gstir <david@sigma-star.at>,
-        Tim Harvey <tharvey@gateworks.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        =?UTF-8?Q?Horia_Geant=c4=83?= <horia.geanta@nxp.com>,
-        Aymen Sghaier <aymen.sghaier@nxp.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Udit Agarwal <udit.agarwal@nxp.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Jan Luebbe <j.luebbe@pengutronix.de>,
-        Richard Weinberger <richard@nod.at>,
-        Franck LENORMAND <franck.lenormand@nxp.com>,
-        Sumit Garg <sumit.garg@linaro.org>, keyrings@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org
-References: <cover.8f40b6d1b93adc80aed2cac29a134f7a7fb5ee98.1633946449.git-series.a.fatoum@pengutronix.de>
- <a0f1d14af8ac8bae16dd29ad1073f7143ba28f26.1633946449.git-series.a.fatoum@pengutronix.de>
-From:   Ahmad Fatoum <a.fatoum@pengutronix.de>
-Message-ID: <4a3a9f12-1588-81f2-1471-5faae4b660d3@pengutronix.de>
-Date:   Wed, 24 Nov 2021 08:53:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        with ESMTP id S231624AbhKXI1M (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Nov 2021 03:27:12 -0500
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B038DC06173E
+        for <linux-doc@vger.kernel.org>; Wed, 24 Nov 2021 00:24:02 -0800 (PST)
+Received: by mail-pf1-x435.google.com with SMTP id x5so2007685pfr.0
+        for <linux-doc@vger.kernel.org>; Wed, 24 Nov 2021 00:24:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Pd3L21t6usac8YG8wguBE1VQxDXVkFkmT941urDOFp8=;
+        b=tRIxyRrfzpI8BTRuJHrhMEOxfaPvKyNq93QubZbckg1DxYITjGsJXf4kavDhoRKB4x
+         yxxoKrzE2uet5L+cQjClIhr+Wt9CyWur+EOKDYvSTYF5cIndCPF6s7VzdQvWbuqGnbmf
+         z6lJn9CyuFQJLYBrI3xJ2NBrb18FM+Q61q/kEJn/JxlmZ0DhaeWENmt4q3a23EtMWgub
+         LdasYZtUFlR8Pu2XSk5V4XOWFJFq0Ma0B2Z/ZgnfIs1hQLOMMYTAQ0vNFk3im9iaO3qs
+         5EDB8Ez0r82Od1ye+CAYrrck7MOJBex592tD+61243ypU/z0drh4SGlr2JN0qHwJiakf
+         A3dQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Pd3L21t6usac8YG8wguBE1VQxDXVkFkmT941urDOFp8=;
+        b=3T4Jc6MBU8hx/lAUZyWRQ9h91XCyJjtld7AdR8HAw6ltXoVknzD77zxmoD13+/b+U0
+         qLNNWuKMJc+yxPkKQ9vEGHUzZtJq3qt73wH4gYcms8Fuy7MbSCCWvWmP2m9LMaLjP8xE
+         DHmukic1BpGvf7kG2cC0F+STCbw9WFQhBqyjbp4SI6OMX9/J4Op/XRu3EKQj8uqsVP9v
+         EBD/yXYSIodcfBzXFAmY4NufhZlQ+7ZhIoWoPZr3NxLuXTR3UAmICdNm4/ozZ7exqWzd
+         ubi6Y/hg36+akbfsdRMbpLE4kJ7xO+0hEf4Kt0nDbSJWMZYdA2yKNfrjlYjYIusJ4NYW
+         KHxw==
+X-Gm-Message-State: AOAM532XpD07qDki2kDUX8Gt2+rWKYsy4DN3UxtKZ0Afqpm8zMWVRQx+
+        UIUyXiLbfApuvqHKT6b2jEJO2TB7ypwA/+e1
+X-Google-Smtp-Source: ABdhPJw7voXYhhphMNoIJU87/mjv7I3/1hmR/2Fhbil59GV9ksDucs9L8fJsUSvFuaEfa5i/Akr4SA==
+X-Received: by 2002:a63:2255:: with SMTP id t21mr9091123pgm.186.1637742242076;
+        Wed, 24 Nov 2021 00:24:02 -0800 (PST)
+Received: from C02FT5A6MD6R.bytedance.net ([61.120.150.76])
+        by smtp.gmail.com with ESMTPSA id k18sm10615228pfc.155.2021.11.24.00.23.55
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 24 Nov 2021 00:24:00 -0800 (PST)
+From:   Gang Li <ligang.bdlg@bytedance.com>
+To:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>
+Cc:     Gang Li <ligang.bdlg@bytedance.com>, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH v2] sched/numa: add per-process numa_balancing
+Date:   Wed, 24 Nov 2021 16:23:38 +0800
+Message-Id: <20211124082340.5496-1-ligang.bdlg@bytedance.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-In-Reply-To: <a0f1d14af8ac8bae16dd29ad1073f7143ba28f26.1633946449.git-series.a.fatoum@pengutronix.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Jarkko, Mimi and James,
+This patch add a new api PR_NUMA_BALANCING in prctl.
 
-On 11.10.21 12:02, Ahmad Fatoum wrote:
-> The Cryptographic Acceleration and Assurance Module (CAAM) is an IP core
-> built into many newer i.MX and QorIQ SoCs by NXP.
-> 
-> The CAAM does crypto acceleration, hardware number generation and
-> has a blob mechanism for encapsulation/decapsulation of sensitive material.
-> 
-> This blob mechanism depends on a device specific random 256-bit One Time
-> Programmable Master Key that is fused in each SoC at manufacturing
-> time. This key is unreadable and can only be used by the CAAM for AES
-> encryption/decryption of user data.
-> 
-> This makes it a suitable backend (source) for kernel trusted keys.
-> 
-> Previous commits generalized trusted keys to support multiple backends
-> and added an API to access the CAAM blob mechanism. Based on these,
-> provide the necessary glue to use the CAAM for trusted keys.
-> 
-> Reviewed-by: David Gstir <david@sigma-star.at>
-> Tested-By: Tim Harvey <tharvey@gateworks.com>
-> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+A large number of page faults will cause performance loss when numa balancing
+is performing. Thus those processes which care about worst-case performance
+need numa balancing disabled. Others, on the contrary, allow a temporary
+performance loss in exchange for higher average performance, so enable numa
+balancing is better for them.
 
-Is there anything I can do to make this patch more palatable to you?
+Numa balancing can only be controlled globally by /proc/sys/kernel/numa_balancing.
+Due to the above case, we want to disable/enable numa_balancing per-process
+instead.
 
-Thanks,
-Ahmad
+Add numa_balancing under mm_struct. Then use it in task_tick_numa.
 
-> ---
-> To: Jonathan Corbet <corbet@lwn.net>
-> To: David Howells <dhowells@redhat.com>
-> To: Jarkko Sakkinen <jarkko@kernel.org>
-> To: James Bottomley <jejb@linux.ibm.com>
-> To: Mimi Zohar <zohar@linux.ibm.com>
-> Cc: James Morris <jmorris@namei.org>
-> Cc: "Serge E. Hallyn" <serge@hallyn.com>
-> Cc: "Horia Geantă" <horia.geanta@nxp.com>
-> Cc: Aymen Sghaier <aymen.sghaier@nxp.com>
-> Cc: Herbert Xu <herbert@gondor.apana.org.au>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Udit Agarwal <udit.agarwal@nxp.com>
-> Cc: Eric Biggers <ebiggers@kernel.org>
-> Cc: Jan Luebbe <j.luebbe@pengutronix.de>
-> Cc: David Gstir <david@sigma-star.at>
-> Cc: Richard Weinberger <richard@nod.at>
-> Cc: Franck LENORMAND <franck.lenormand@nxp.com>
-> Cc: Sumit Garg <sumit.garg@linaro.org>
-> Cc: keyrings@vger.kernel.org
-> Cc: linux-crypto@vger.kernel.org
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-integrity@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-security-module@vger.kernel.org
-> ---
->  Documentation/admin-guide/kernel-parameters.txt   |  1 +-
->  Documentation/security/keys/trusted-encrypted.rst | 42 ++++++++-
->  MAINTAINERS                                       |  9 ++-
->  include/keys/trusted_caam.h                       | 11 ++-
->  security/keys/trusted-keys/Kconfig                | 11 +-
->  security/keys/trusted-keys/Makefile               |  2 +-
->  security/keys/trusted-keys/trusted_caam.c         | 74 ++++++++++++++++-
->  security/keys/trusted-keys/trusted_core.c         |  6 +-
->  8 files changed, 152 insertions(+), 4 deletions(-)
->  create mode 100644 include/keys/trusted_caam.h
->  create mode 100644 security/keys/trusted-keys/trusted_caam.c
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index d5969452f063..0ed1165e0f55 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -5767,6 +5767,7 @@
->  			sources:
->  			- "tpm"
->  			- "tee"
-> +			- "caam"
->  			If not specified then it defaults to iterating through
->  			the trust source list starting with TPM and assigns the
->  			first trust source as a backend which is initialized
-> diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Documentation/security/keys/trusted-encrypted.rst
-> index 1d4b4b8f12f0..ad66573ca6fd 100644
-> --- a/Documentation/security/keys/trusted-encrypted.rst
-> +++ b/Documentation/security/keys/trusted-encrypted.rst
-> @@ -35,6 +35,13 @@ safe.
->           Rooted to Hardware Unique Key (HUK) which is generally burnt in on-chip
->           fuses and is accessible to TEE only.
->  
-> +     (3) CAAM (Cryptographic Acceleration and Assurance Module: IP on NXP SoCs)
-> +
-> +         When High Assurance Boot (HAB) is enabled and the CAAM is in secure
-> +         mode, trust is rooted to the OTPMK, a never-disclosed 256-bit key
-> +         randomly generated and fused into each SoC at manufacturing time.
-> +         Otherwise, a common fixed test key is used instead.
-> +
->    *  Execution isolation
->  
->       (1) TPM
-> @@ -46,6 +53,10 @@ safe.
->           Customizable set of operations running in isolated execution
->           environment verified via Secure/Trusted boot process.
->  
-> +     (3) CAAM
-> +
-> +         Fixed set of operations running in isolated execution environment.
-> +
->    * Optional binding to platform integrity state
->  
->       (1) TPM
-> @@ -63,6 +74,11 @@ safe.
->           Relies on Secure/Trusted boot process for platform integrity. It can
->           be extended with TEE based measured boot process.
->  
-> +     (3) CAAM
-> +
-> +         Relies on the High Assurance Boot (HAB) mechanism of NXP SoCs
-> +         for platform integrity.
-> +
->    *  Interfaces and APIs
->  
->       (1) TPM
-> @@ -74,10 +90,13 @@ safe.
->           TEEs have well-documented, standardized client interface and APIs. For
->           more details refer to ``Documentation/staging/tee.rst``.
->  
-> +     (3) CAAM
-> +
-> +         Interface is specific to silicon vendor.
->  
->    *  Threat model
->  
-> -     The strength and appropriateness of a particular TPM or TEE for a given
-> +     The strength and appropriateness of a particular trust source for a given
->       purpose must be assessed when using them to protect security-relevant data.
->  
->  
-> @@ -104,8 +123,14 @@ selected trust source:
->       from platform specific hardware RNG or a software based Fortuna CSPRNG
->       which can be seeded via multiple entropy sources.
->  
-> +  *  CAAM: Kernel RNG
-> +
-> +     The normal kernel random number generator is used. To seed it from the
-> +     CAAM HWRNG, enable CRYPTO_DEV_FSL_CAAM_RNG_API and ensure the device
-> +     can be probed.
-> +
->  Optionally, users may specify ``trusted.kernel_rng=1`` on the kernel
-> -command-line to override the used RNG with the kernel's random number pool.
-> +command-line to force use of the kernel's random number pool.
->  
->  Encrypted Keys
->  --------------
-> @@ -192,6 +217,19 @@ Usage::
->  specific to TEE device implementation.  The key length for new keys is always
->  in bytes. Trusted Keys can be 32 - 128 bytes (256 - 1024 bits).
->  
-> +Trusted Keys usage: CAAM
-> +------------------------
-> +
-> +Usage::
-> +
-> +    keyctl add trusted name "new keylen" ring
-> +    keyctl add trusted name "load hex_blob" ring
-> +    keyctl print keyid
-> +
-> +"keyctl print" returns an ASCII hex copy of the sealed key, which is in format
-> +specific to CAAM device implementation.  The key length for new keys is always
-> +in bytes. Trusted Keys can be 32 - 128 bytes (256 - 1024 bits).
-> +
->  Encrypted Keys usage
->  --------------------
->  
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index a4a0c2baaf27..2c6514759222 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -10364,6 +10364,15 @@ S:	Supported
->  F:	include/keys/trusted_tee.h
->  F:	security/keys/trusted-keys/trusted_tee.c
->  
-> +KEYS-TRUSTED-CAAM
-> +M:	Ahmad Fatoum <a.fatoum@pengutronix.de>
-> +R:	Pengutronix Kernel Team <kernel@pengutronix.de>
-> +L:	linux-integrity@vger.kernel.org
-> +L:	keyrings@vger.kernel.org
-> +S:	Supported
-> +F:	include/keys/trusted_caam.h
-> +F:	security/keys/trusted-keys/trusted_caam.c
-> +
->  KEYS/KEYRINGS
->  M:	David Howells <dhowells@redhat.com>
->  M:	Jarkko Sakkinen <jarkko@kernel.org>
-> diff --git a/include/keys/trusted_caam.h b/include/keys/trusted_caam.h
-> new file mode 100644
-> index 000000000000..2fba0996b0b0
-> --- /dev/null
-> +++ b/include/keys/trusted_caam.h
-> @@ -0,0 +1,11 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (C) 2021 Pengutronix, Ahmad Fatoum <kernel@pengutronix.de>
-> + */
-> +
-> +#ifndef __CAAM_TRUSTED_KEY_H
-> +#define __CAAM_TRUSTED_KEY_H
-> +
-> +extern struct trusted_key_ops caam_trusted_key_ops;
-> +
-> +#endif
-> diff --git a/security/keys/trusted-keys/Kconfig b/security/keys/trusted-keys/Kconfig
-> index fc4abd581abb..dbfdd8536468 100644
-> --- a/security/keys/trusted-keys/Kconfig
-> +++ b/security/keys/trusted-keys/Kconfig
-> @@ -24,6 +24,15 @@ config TRUSTED_KEYS_TEE
->  	  Enable use of the Trusted Execution Environment (TEE) as trusted
->  	  key backend.
->  
-> -if !TRUSTED_KEYS_TPM && !TRUSTED_KEYS_TEE
-> +config TRUSTED_KEYS_CAAM
-> +	bool "CAAM-based trusted keys"
-> +	depends on CRYPTO_DEV_FSL_CAAM_JR >= TRUSTED_KEYS
-> +	select CRYPTO_DEV_FSL_CAAM_BLOB_GEN
-> +	default y
-> +	help
-> +	  Enable use of NXP's Cryptographic Accelerator and Assurance Module
-> +	  (CAAM) as trusted key backend.
-> +
-> +if !TRUSTED_KEYS_TPM && !TRUSTED_KEYS_TEE && !TRUSTED_KEYS_CAAM
->  comment "No trust source selected!"
->  endif
-> diff --git a/security/keys/trusted-keys/Makefile b/security/keys/trusted-keys/Makefile
-> index 2e2371eae4d5..735aa0bc08ef 100644
-> --- a/security/keys/trusted-keys/Makefile
-> +++ b/security/keys/trusted-keys/Makefile
-> @@ -12,3 +12,5 @@ trusted-$(CONFIG_TRUSTED_KEYS_TPM) += trusted_tpm2.o
->  trusted-$(CONFIG_TRUSTED_KEYS_TPM) += tpm2key.asn1.o
->  
->  trusted-$(CONFIG_TRUSTED_KEYS_TEE) += trusted_tee.o
-> +
-> +trusted-$(CONFIG_TRUSTED_KEYS_CAAM) += trusted_caam.o
-> diff --git a/security/keys/trusted-keys/trusted_caam.c b/security/keys/trusted-keys/trusted_caam.c
-> new file mode 100644
-> index 000000000000..01adfd18adda
-> --- /dev/null
-> +++ b/security/keys/trusted-keys/trusted_caam.c
-> @@ -0,0 +1,74 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (C) 2021 Pengutronix, Ahmad Fatoum <kernel@pengutronix.de>
-> + */
-> +
-> +#include <keys/trusted_caam.h>
-> +#include <keys/trusted-type.h>
-> +#include <linux/build_bug.h>
-> +#include <linux/key-type.h>
-> +#include <soc/fsl/caam-blob.h>
-> +
-> +static struct caam_blob_priv *blobifier;
-> +
-> +#define KEYMOD "kernel:trusted"
-> +
-> +static_assert(MAX_KEY_SIZE + CAAM_BLOB_OVERHEAD <= CAAM_BLOB_MAX_LEN);
-> +static_assert(MAX_BLOB_SIZE <= CAAM_BLOB_MAX_LEN);
-> +
-> +static int trusted_caam_seal(struct trusted_key_payload *p, char *datablob)
-> +{
-> +	int length = p->key_len + CAAM_BLOB_OVERHEAD;
-> +	int ret;
-> +
-> +	ret = caam_encap_blob(blobifier, KEYMOD, p->key, p->blob, length);
-> +	if (ret)
-> +		return ret;
-> +
-> +	p->blob_len = length;
-> +	return 0;
-> +}
-> +
-> +static int trusted_caam_unseal(struct trusted_key_payload *p, char *datablob)
-> +{
-> +	int length = p->blob_len;
-> +	int ret;
-> +
-> +	ret = caam_decap_blob(blobifier, KEYMOD, p->blob, p->key, length);
-> +	if (ret)
-> +		return ret;
-> +
-> +	p->key_len = length - CAAM_BLOB_OVERHEAD;
-> +	return 0;
-> +}
-> +
-> +static int trusted_caam_init(void)
-> +{
-> +	int ret;
-> +
-> +	blobifier = caam_blob_gen_init();
-> +	if (IS_ERR(blobifier)) {
-> +		pr_err("Job Ring Device allocation for transform failed\n");
-> +		return PTR_ERR(blobifier);
-> +	}
-> +
-> +	ret = register_key_type(&key_type_trusted);
-> +	if (ret)
-> +		caam_blob_gen_exit(blobifier);
-> +
-> +	return ret;
-> +}
-> +
-> +static void trusted_caam_exit(void)
-> +{
-> +	unregister_key_type(&key_type_trusted);
-> +	caam_blob_gen_exit(blobifier);
-> +}
-> +
-> +struct trusted_key_ops caam_trusted_key_ops = {
-> +	.migratable = 0, /* non-migratable */
-> +	.init = trusted_caam_init,
-> +	.seal = trusted_caam_seal,
-> +	.unseal = trusted_caam_unseal,
-> +	.exit = trusted_caam_exit,
-> +};
-> diff --git a/security/keys/trusted-keys/trusted_core.c b/security/keys/trusted-keys/trusted_core.c
-> index d2b7626cde8b..305e44651180 100644
-> --- a/security/keys/trusted-keys/trusted_core.c
-> +++ b/security/keys/trusted-keys/trusted_core.c
-> @@ -9,6 +9,7 @@
->  #include <keys/user-type.h>
->  #include <keys/trusted-type.h>
->  #include <keys/trusted_tee.h>
-> +#include <keys/trusted_caam.h>
->  #include <keys/trusted_tpm.h>
->  #include <linux/capability.h>
->  #include <linux/err.h>
-> @@ -29,7 +30,7 @@ MODULE_PARM_DESC(kernel_rng, "Generate key material from kernel RNG");
->  
->  static char *trusted_key_source;
->  module_param_named(source, trusted_key_source, charp, 0);
-> -MODULE_PARM_DESC(source, "Select trusted keys source (tpm or tee)");
-> +MODULE_PARM_DESC(source, "Select trusted keys source (tpm, tee or caam)");
->  
->  static const struct trusted_key_source trusted_key_sources[] = {
->  #if defined(CONFIG_TRUSTED_KEYS_TPM)
-> @@ -38,6 +39,9 @@ static const struct trusted_key_source trusted_key_sources[] = {
->  #if defined(CONFIG_TRUSTED_KEYS_TEE)
->  	{ "tee", &trusted_key_tee_ops },
->  #endif
-> +#if defined(CONFIG_TRUSTED_KEYS_CAAM)
-> +	{ "caam", &caam_trusted_key_ops },
-> +#endif
->  };
->  
->  DEFINE_STATIC_CALL_NULL(trusted_key_init, *trusted_key_sources[0].ops->init);
-> 
+Set per-process numa balancing:
+	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_DISABLE); //disable
+	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_ENABLE);  //enable
+	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_DEFAULT); //follow global
+Get numa_balancing state:
+	prctl(PR_NUMA_BALANCING, PR_GET_NUMAB, &ret);
+	cat /proc/<pid>/status | grep NumaB_enabled
 
+Signed-off-by: Gang Li <ligang.bdlg@bytedance.com>
+---
+ Documentation/filesystems/proc.rst   |  2 ++
+ fs/proc/task_mmu.c                   | 25 ++++++++++++++++++++
+ include/linux/mm_types.h             |  3 +++
+ include/linux/sched/numa_balancing.h |  6 +++++
+ include/uapi/linux/prctl.h           |  7 ++++++
+ kernel/fork.c                        |  3 +++
+ kernel/sched/fair.c                  |  6 +++--
+ kernel/sys.c                         | 35 ++++++++++++++++++++++++++++
+ 8 files changed, 85 insertions(+), 2 deletions(-)
 
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index 8d7f141c6fc7..fc44723a821a 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -192,6 +192,7 @@ read the file /proc/PID/status::
+   VmLib:      1412 kB
+   VmPTE:        20 kb
+   VmSwap:        0 kB
++  NumaB_enabled:  default
+   HugetlbPages:          0 kB
+   CoreDumping:    0
+   THP_enabled:	  1
+@@ -273,6 +274,7 @@ It's slow but very precise.
+  VmPTE                       size of page table entries
+  VmSwap                      amount of swap used by anonymous private data
+                              (shmem swap usage is not included)
++ NumaB_enabled               numa balancing state, set by prctl(PR_NUMA_BALANCING, ...)
+  HugetlbPages                size of hugetlb memory portions
+  CoreDumping                 process's memory is currently being dumped
+                              (killing the process may lead to a corrupted core)
+diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+index ad667dbc96f5..5f340f1c926e 100644
+--- a/fs/proc/task_mmu.c
++++ b/fs/proc/task_mmu.c
+@@ -19,6 +19,7 @@
+ #include <linux/shmem_fs.h>
+ #include <linux/uaccess.h>
+ #include <linux/pkeys.h>
++#include <linux/sched/numa_balancing.h>
+ 
+ #include <asm/elf.h>
+ #include <asm/tlb.h>
+@@ -31,10 +32,16 @@ void task_mem(struct seq_file *m, struct mm_struct *mm)
+ {
+ 	unsigned long text, lib, swap, anon, file, shmem;
+ 	unsigned long hiwater_vm, total_vm, hiwater_rss, total_rss;
++#ifdef CONFIG_NUMA_BALANCING
++	int numab_enabled;
++#endif
+ 
+ 	anon = get_mm_counter(mm, MM_ANONPAGES);
+ 	file = get_mm_counter(mm, MM_FILEPAGES);
+ 	shmem = get_mm_counter(mm, MM_SHMEMPAGES);
++#ifdef CONFIG_NUMA_BALANCING
++	numab_enabled = mm->numab_enabled;
++#endif
+ 
+ 	/*
+ 	 * Note: to minimize their overhead, mm maintains hiwater_vm and
+@@ -75,6 +82,24 @@ void task_mem(struct seq_file *m, struct mm_struct *mm)
+ 		    " kB\nVmPTE:\t", mm_pgtables_bytes(mm) >> 10, 8);
+ 	SEQ_PUT_DEC(" kB\nVmSwap:\t", swap);
+ 	seq_puts(m, " kB\n");
++#ifdef CONFIG_NUMA_BALANCING
++	seq_puts(m, "NumaB_enabled:\t");
++	switch (mm->numab_enabled) {
++	case NUMAB_DEFAULT:
++		seq_puts(m, "default");
++		break;
++	case NUMAB_DISABLED:
++		seq_puts(m, "disabled");
++		break;
++	case NUMAB_ENABLED:
++		seq_puts(m, "enabled");
++		break;
++	default:
++		seq_puts(m, "unknown");
++		break;
++	}
++	seq_putc(m, '\n');
++#endif
+ 	hugetlb_report_usage(m, mm);
+ }
+ #undef SEQ_PUT_DEC
+diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+index bb8c6f5f19bc..3f827b3c0e75 100644
+--- a/include/linux/mm_types.h
++++ b/include/linux/mm_types.h
+@@ -612,6 +612,9 @@ struct mm_struct {
+ 
+ 		/* numa_scan_seq prevents two threads setting pte_numa */
+ 		int numa_scan_seq;
++
++		/* Controls whether NUMA balancing is active for this mm. */
++		int numab_enabled;
+ #endif
+ 		/*
+ 		 * An operation with batched TLB flushing is going on. Anything
+diff --git a/include/linux/sched/numa_balancing.h b/include/linux/sched/numa_balancing.h
+index 3988762efe15..35a1c79925ea 100644
+--- a/include/linux/sched/numa_balancing.h
++++ b/include/linux/sched/numa_balancing.h
+@@ -16,6 +16,12 @@
+ #define TNF_MIGRATE_FAIL 0x10
+ 
+ #ifdef CONFIG_NUMA_BALANCING
++enum {
++	NUMAB_DISABLED,
++	NUMAB_ENABLED,
++	NUMAB_DEFAULT
++};
++DECLARE_STATIC_KEY_FALSE(sched_numa_balancing);
+ extern void task_numa_fault(int last_node, int node, int pages, int flags);
+ extern pid_t task_numa_group_id(struct task_struct *p);
+ extern void set_numabalancing_state(bool enabled);
+diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+index bb73e9a0b24f..525f174a56f5 100644
+--- a/include/uapi/linux/prctl.h
++++ b/include/uapi/linux/prctl.h
+@@ -272,4 +272,11 @@ struct prctl_mm_map {
+ # define PR_SCHED_CORE_SCOPE_THREAD_GROUP	1
+ # define PR_SCHED_CORE_SCOPE_PROCESS_GROUP	2
+ 
++/* Set/get enabled per-process numa_balancing */
++#define PR_NUMA_BALANCING		63
++# define PR_SET_NUMAB_DISABLED		NUMAB_DISABLED
++# define PR_SET_NUMAB_ENABLED		NUMAB_ENABLED
++# define PR_SET_NUMAB_DEFAULT		NUMAB_DEFAULT
++# define PR_GET_NUMAB				3
++
+ #endif /* _LINUX_PRCTL_H */
+diff --git a/kernel/fork.c b/kernel/fork.c
+index 01af6129aa38..d028822d551f 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -1110,6 +1110,9 @@ static struct mm_struct *mm_init(struct mm_struct *mm, struct task_struct *p,
+ 	init_tlb_flush_pending(mm);
+ #if defined(CONFIG_TRANSPARENT_HUGEPAGE) && !USE_SPLIT_PMD_PTLOCKS
+ 	mm->pmd_huge_pte = NULL;
++#endif
++#ifdef CONFIG_NUMA_BALANCING
++	mm->numab_enabled = NUMAB_DEFAULT;
+ #endif
+ 	mm_init_uprobes_state(mm);
+ 	hugetlb_count_init(mm);
+diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
+index 6e476f6d9435..1245be1223c8 100644
+--- a/kernel/sched/fair.c
++++ b/kernel/sched/fair.c
+@@ -11169,8 +11169,10 @@ static void task_tick_fair(struct rq *rq, struct task_struct *curr, int queued)
+ 		entity_tick(cfs_rq, se, queued);
+ 	}
+ 
+-	if (static_branch_unlikely(&sched_numa_balancing))
+-		task_tick_numa(rq, curr);
++	if (curr->mm && (curr->mm->numab_enabled == NUMAB_ENABLED \
++	    || (static_branch_unlikely(&sched_numa_balancing) \
++	    && curr->mm->numab_enabled == NUMAB_DEFAULT)))
++	    task_tick_numa(rq, curr);
+ 
+ 	update_misfit_status(curr, rq);
+ 	update_overutilized_status(task_rq(curr));
+diff --git a/kernel/sys.c b/kernel/sys.c
+index 8fdac0d90504..de3112e537b8 100644
+--- a/kernel/sys.c
++++ b/kernel/sys.c
+@@ -58,6 +58,7 @@
+ #include <linux/sched/coredump.h>
+ #include <linux/sched/task.h>
+ #include <linux/sched/cputime.h>
++#include <linux/sched/numa_balancing.h>
+ #include <linux/rcupdate.h>
+ #include <linux/uidgid.h>
+ #include <linux/cred.h>
+@@ -2081,6 +2082,23 @@ static int prctl_set_auxv(struct mm_struct *mm, unsigned long addr,
+ 	return 0;
+ }
+ 
++#ifdef CONFIG_NUMA_BALANCING
++static int prctl_pid_numa_balancing_write(int numa_balancing)
++{
++	if (numa_balancing != PR_SET_NUMAB_DEFAULT \
++	    && numa_balancing != PR_SET_NUMAB_DISABLED \
++	    && numa_balancing != PR_SET_NUMAB_ENABLED)
++		return -EINVAL;
++	current->mm->numab_enabled = numa_balancing;
++	return 0;
++}
++
++static int prctl_pid_numa_balancing_read(void)
++{
++	return current->mm->numab_enabled;
++}
++#endif
++
+ static int prctl_set_mm(int opt, unsigned long addr,
+ 			unsigned long arg4, unsigned long arg5)
+ {
+@@ -2525,6 +2543,23 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
+ 		error = set_syscall_user_dispatch(arg2, arg3, arg4,
+ 						  (char __user *) arg5);
+ 		break;
++#ifdef CONFIG_NUMA_BALANCING
++	case PR_NUMA_BALANCING:
++		switch (arg2) {
++		case PR_SET_NUMAB_DEFAULT:
++		case PR_SET_NUMAB_DISABLED:
++		case PR_SET_NUMAB_ENABLED:
++			error = prctl_pid_numa_balancing_write((int)arg2);
++			break;
++		case PR_GET_NUMAB:
++			error = put_user(prctl_pid_numa_balancing_read(), (int __user *)arg3);
++			break;
++		default:
++			error = -EINVAL;
++			break;
++		}
++		break;
++#endif
+ #ifdef CONFIG_SCHED_CORE
+ 	case PR_SCHED_CORE:
+ 		error = sched_core_share_pid(arg2, arg3, arg4, arg5);
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+2.20.1
+
