@@ -2,93 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83786C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Nov 2021 22:04:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A754C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Nov 2021 22:31:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343707AbhKXWHv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Nov 2021 17:07:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40420 "EHLO
+        id S243339AbhKXWeR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Nov 2021 17:34:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231322AbhKXWHu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Nov 2021 17:07:50 -0500
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com [IPv6:2607:f8b0:4864:20::72d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BEF5C061574
-        for <linux-doc@vger.kernel.org>; Wed, 24 Nov 2021 14:04:40 -0800 (PST)
-Received: by mail-qk1-x72d.google.com with SMTP id 193so5456437qkh.10
-        for <linux-doc@vger.kernel.org>; Wed, 24 Nov 2021 14:04:40 -0800 (PST)
+        with ESMTP id S242784AbhKXWeR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Nov 2021 17:34:17 -0500
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BC01C061574
+        for <linux-doc@vger.kernel.org>; Wed, 24 Nov 2021 14:31:07 -0800 (PST)
+Received: by mail-pj1-x1032.google.com with SMTP id n15-20020a17090a160f00b001a75089daa3so6191192pja.1
+        for <linux-doc@vger.kernel.org>; Wed, 24 Nov 2021 14:31:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
+        d=intel-com.20210112.gappssmtp.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Wnb56ZlXImyESxNGtft70OqOtQf36rXcNYeS2LPN9Hw=;
-        b=TI8Ja/xF0rPlSq0XbH+Z7yi5SswZbFWopo2KUC+FP/Iq/PcR2rlzmFLMIj4QV03dcF
-         YFUYfCfagoudNqaumEWziKMiWQsVBe/nYWESt1ElhUaQH0p2TYtI+XXrWnFxDi4JPhkn
-         J9IE4NuQF6CPpF6Ci1vk5p5mPw939HjAOacCQtJhelXJspwRORvL+V7PPRUjf2Risto8
-         4BHcTy/AhBEV/9E1wBryWAoNy5lDrTYyo38hC4OwWqxQtqKZJNOijMyqb/KzruZRt+sQ
-         PkQ+AiAtFXLi1/WQoI2Fzf6KIe4dEM3YVJ6C79I+lq6D360kEnRvX067qmAV0N2pUquu
-         c7KQ==
+        bh=ZTluUY3cfxjR9J/ibD8Q7eAgh7RLXinSzFroRqU4Dps=;
+        b=DStKIl3D31dPx51zr5q99irRZoe+Yhr00PsrXQdnlBwTNGrPhkVxm323fyvH8fWTPY
+         uCy2yJnFf871/QbrZ2TFRrrJ+kiQkR9uuevtlIhU0dSnpwSSARXBTd71IBUpZqifxm4L
+         tn2fWH/hhn97cwmhGP/WZlf9wBdK8sdSE/N7Z+ofNfAkvpBp6xYiGxGukSTR/roCiIhm
+         /uLuFlwkTc1ia5TxHKufnvnLEveTbJYV6m8zINtLhp7KFWHlmNYLtJ6GeeIgCQV//ZPX
+         eBvk6/gV84acVoPnFCLaQMx5NBHtkHg70Z0OwLbXhB1XEA81KsUCve+EQpT/ejypy5mz
+         MYXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Wnb56ZlXImyESxNGtft70OqOtQf36rXcNYeS2LPN9Hw=;
-        b=gOqQwonUIG8xBRjlBtd9+OXjByR8BFNI0Hiw3s6F6he2c/TgmjANKxjqJtcrj96Zk/
-         lsx0O8w6DQI4xjSbfQ2Ga11KpD/kB2kTI29E6x0U7aUd0U0n/170sa8/0zVNjuaGbTSh
-         NS67OQTnnvzA68fM/4vpY8OFqhq+trz12CaHpXN3SINB+H9CpOsz9Zc14feoeVQ3XYJb
-         TWaBIHQYeVry8HJyGmYj7sbGZ+FmGKM7kwMEttvO6ANeb9MERbwEdtgsCnANSIk8w3qu
-         HFx979+KQkUv3sq7aFC8SVD9x3R9CFiMVgfmJJhAgavab4mIKHCu3ax5HvsQAWZOWZFO
-         oKFQ==
-X-Gm-Message-State: AOAM533F3nrBgX1a7XzjWTrg0dsGyMHUNdKTSObXCtiUyCMq4ON8ncRI
-        mfTZA0pekhB2Xol/AdqW1ywLvm3Z9bb1x8gFXPHCgA==
-X-Google-Smtp-Source: ABdhPJyEaZfSCy9c2XfuDBLl28EATOu0ZCMDM9ldvjLGNLlmcFX5/ceoutE7bj1w59tq2T4LxJMGglhzfOaD2fWRpig=
-X-Received: by 2002:a25:2f58:: with SMTP id v85mr407870ybv.487.1637791478911;
- Wed, 24 Nov 2021 14:04:38 -0800 (PST)
+        bh=ZTluUY3cfxjR9J/ibD8Q7eAgh7RLXinSzFroRqU4Dps=;
+        b=SWLh2yYGlWs4BgHeZS0L79BRaNfBag+JKdc6ISPGt8UsXOd6QY1cupWW8Hux0Mf8WP
+         1D6D/RuPxW0KwTrsllUZ1VgHyIqKjpisGICz6hCcLu7eLmHU25O2GBCtR6cP53Rv+oqD
+         arITvTFown3Ibqkwsa0uUcApkc5tB2JBx0soLPBDekW/5sdZ1tb8PBRXE+dbOXiD8BV5
+         RMq6Add1jYZo9WExzUP81pikXueLHGqdvG9luj10mhpYEzySpYbeqp5StMwlRW5TWCK2
+         LUTmGP6OJbOXfC86hG2oCyzCNO/RLOo5FJZzIpHEMzyCXQNbWcWOtxdhjj0KMOmwKre9
+         HzjQ==
+X-Gm-Message-State: AOAM532gMnj6JwWsPBZ0bQ9pm5z/PhaejffEJn9Rp/U7DOry9/aUPmjL
+        5dUtZxTXUi1WQNMY5NjwZ4EEqRsoHhEM72xTNcTFqg==
+X-Google-Smtp-Source: ABdhPJz1ZxxqX/IeS4j0FkYYNfR0YubhWSALTSmVmxUQdkgfzkBeZXTVYWzt7kBsoct/2dA7OHXQoUJmBkF/iTIKLa0=
+X-Received: by 2002:a17:90b:1e49:: with SMTP id pi9mr689531pjb.220.1637793066752;
+ Wed, 24 Nov 2021 14:31:06 -0800 (PST)
 MIME-Version: 1.0
-References: <20211124193604.2758863-1-surenb@google.com> <YZ6wg9A5p5WUy7+k@cmpxchg.org>
-In-Reply-To: <YZ6wg9A5p5WUy7+k@cmpxchg.org>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Wed, 24 Nov 2021 14:04:28 -0800
-Message-ID: <CAJuCfpGP3ZdeqfYZJ6SUCdnputU-sEOsNYx5Pd9ckL1-zuWC2w@mail.gmail.com>
-Subject: Re: [PATCH 1/1] sysctl: change watermark_scale_factor max limit to 30%
-To:     Johannes Weiner <hannes@cmpxchg.org>
-Cc:     akpm@linux-foundation.org, mhocko@suse.com, mcgrof@kernel.org,
-        keescook@chromium.org, yzaikin@google.com,
-        dave.hansen@linux.intel.com, vbabka@suse.cz,
-        mgorman@techsingularity.net, corbet@lwn.net, yi.zhang@huawei.com,
-        xi.fengfei@h3c.com, rppt@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        kernel-team@android.com
+References: <20211124191005.20783-1-joao.m.martins@oracle.com>
+In-Reply-To: <20211124191005.20783-1-joao.m.martins@oracle.com>
+From:   Dan Williams <dan.j.williams@intel.com>
+Date:   Wed, 24 Nov 2021 14:30:56 -0800
+Message-ID: <CAPcyv4jxQTMoz7wnzzspm85o+buD2M+KKuBoHZvn7VEVsCFzsQ@mail.gmail.com>
+Subject: Re: [PATCH v6 00/10] mm, device-dax: Introduce compound pages in devmap
+To:     Joao Martins <joao.m.martins@oracle.com>
+Cc:     Linux MM <linux-mm@kvack.org>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Jane Chu <jane.chu@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Christoph Hellwig <hch@lst.de>,
+        Linux NVDIMM <nvdimm@lists.linux.dev>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 24, 2021 at 1:37 PM Johannes Weiner <hannes@cmpxchg.org> wrote:
+On Wed, Nov 24, 2021 at 11:10 AM Joao Martins <joao.m.martins@oracle.com> wrote:
 >
-> On Wed, Nov 24, 2021 at 11:36:04AM -0800, Suren Baghdasaryan wrote:
-> > For embedded systems with low total memory, having to run applications
-> > with relatively large memory requirements, 10% max limitation for
-> > watermark_scale_factor poses an issue of triggering direct reclaim
-> > every time such application is started. This results in slow application
-> > startup times and bad end-user experience.
-> > By increasing watermark_scale_factor max limit we allow vendors more
-> > flexibility to choose the right level of kswapd aggressiveness for
-> > their device and workload requirements.
-> >
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> Changes since v5[9]:
 >
-> Acked-by: Johannes Weiner <hannes@cmpxchg.org>
-
-Thanks!
-
+> * Keep @dev on the previous line to improve readability on
+> patch 5 (Christoph Hellwig)
+> * Document is_static() function to clarify what are static and
+> dynamic dax regions in patch 7 (Christoph Hellwig)
+> * Deduce @f_mapping and @pgmap from vmf->vma->vm_file to reduce
+> the number of arguments of set_{page,compound}_mapping() in last
+> patch (Christoph Hellwig)
+> * Factor out @mapping initialization to a separate helper ([new] patch 8)
+> and rename set_page_mapping() to dax_set_mapping() in the process.
+> * Remove set_compound_mapping() and instead adjust dax_set_mapping()
+> to handle @vmemmap_shift case on the last patch. This greatly
+> simplifies the last patch, and addresses a similar comment by Christoph
+> on having an earlier return. No functional change on the changes
+> to dax_set_mapping compared to its earlier version so I retained
+> Dan's Rb on last patch.
+> * Initialize the mapping prior to inserting the PTE/PMD/PUD as opposed
+> to after the fact. ([new] patch 9, Jason Gunthorpe)
 >
-> No objection from me as this limit was always totally arbitrary. But I
-> have to say I'm a bit surprised: The current maximum setting will wake
-> kswapd when free memory drops below 10% and have it reclaim until
-> 20%. This seems like quite a lot? Are there applications that really
-> want kswapd to wake at 30% and target 60% of memory free?
 
-The example I was given by a vendor was Camera application requiring
-0.25G on 1GB device. Camera apps are notoriously memory hungry on
-Android and on low-memory devices it can require more than 20% of
-total memory to run.
+Looks good Joao, I was about to ping Christoph and Jason to make sure
+their review comments are fully addressed before pulling this into my
+dax tree, but I see Andrew has already picked this up. I'm ok for this
+to go through -mm.
+
+It might end up colliding with some of the DAX cleanups that are
+brewing, but if that happens I might apply them to resolve conflicts
+and ask Andrew to drop them out of -mm. We can cross that bridge
+later.
+
+Thanks for all the effort on this Joao, it's a welcome improvement.
