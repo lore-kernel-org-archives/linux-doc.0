@@ -2,61 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95A12C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Nov 2021 22:41:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F334C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Nov 2021 23:29:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230098AbhKXWou (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Nov 2021 17:44:50 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45314 "EHLO mail.kernel.org"
+        id S243160AbhKXXcq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Nov 2021 18:32:46 -0500
+Received: from gloria.sntech.de ([185.11.138.130]:36412 "EHLO gloria.sntech.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1346602AbhKXWot (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 24 Nov 2021 17:44:49 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 309DA61059;
-        Wed, 24 Nov 2021 22:41:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1637793699;
-        bh=t6nhrqreNuM33hHGV7qFkDic+ebJMIcuLBmKnL7LpKc=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=UIzHMyTjfK7aOx71sECnjBZcg/FFu17xVhq3TzirhPfwEOLWm1td6uZ2nCjBD+Scq
-         SLfB5DPnTik6ttlCEgB2GeV6scznAs+BM+FFDjNeYlGSxgmg6G9bUSudfaNcS5TzGF
-         sgP/zl1hMm8raey4FBAELIOtqnSJA3+TPy/0EMHk=
-Date:   Wed, 24 Nov 2021 14:41:37 -0800
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Dan Williams <dan.j.williams@intel.com>
-Cc:     Joao Martins <joao.m.martins@oracle.com>,
-        Linux MM <linux-mm@kvack.org>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Jane Chu <jane.chu@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S1345993AbhKXXcq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 24 Nov 2021 18:32:46 -0500
+Received: from ip5f5b2004.dynamic.kabel-deutschland.de ([95.91.32.4] helo=diego.localnet)
+        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <heiko@sntech.de>)
+        id 1mq1ha-0000eP-BH; Thu, 25 Nov 2021 00:29:22 +0100
+From:   Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Zong Li <zong.li@sifive.com>, Anup Patel <anup@brainfault.org>,
+        Atish Patra <Atish.Patra@wdc.com>,
         Christoph Hellwig <hch@lst.de>,
-        Linux NVDIMM <nvdimm@lists.linux.dev>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v6 00/10] mm, device-dax: Introduce compound pages in
- devmap
-Message-Id: <20211124144137.e8a6fe1b8a2ab05f62e4a6a7@linux-foundation.org>
-In-Reply-To: <CAPcyv4jxQTMoz7wnzzspm85o+buD2M+KKuBoHZvn7VEVsCFzsQ@mail.gmail.com>
-References: <20211124191005.20783-1-joao.m.martins@oracle.com>
-        <CAPcyv4jxQTMoz7wnzzspm85o+buD2M+KKuBoHZvn7VEVsCFzsQ@mail.gmail.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Alexander Potapenko <glider@google.com>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Kees Cook <keescook@chromium.org>,
+        Guo Ren <guoren@linux.alibaba.com>,
+        Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
+        Mayuresh Chitale <mchitale@ventanamicro.com>,
+        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+        linux-efi@vger.kernel.org, linux-arch@vger.kernel.org,
+        Alexandre Ghiti <alexandre.ghiti@canonical.com>
+Cc:     Alexandre Ghiti <alexandre.ghiti@canonical.com>
+Subject: Re: [PATCH v2 00/10] Introduce sv48 support without relocatable kernel
+Date:   Thu, 25 Nov 2021 00:29:20 +0100
+Message-ID: <2700575.YIZvDWadBg@diego>
+In-Reply-To: <20210929145113.1935778-1-alexandre.ghiti@canonical.com>
+References: <20210929145113.1935778-1-alexandre.ghiti@canonical.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 24 Nov 2021 14:30:56 -0800 Dan Williams <dan.j.williams@intel.com> wrote:
+Am Mittwoch, 29. September 2021, 16:51:03 CET schrieb Alexandre Ghiti:
+> This patchset allows to have a single kernel for sv39 and sv48 without           
+> being relocatable.                                                               
+>                                                                                  
+> The idea comes from Arnd Bergmann who suggested to do the same as x86,           
+> that is mapping the kernel to the end of the address space, which allows         
+> the kernel to be linked at the same address for both sv39 and sv48 and           
+> then does not require to be relocated at runtime.                                
+>                                                                                  
+> This implements sv48 support at runtime. The kernel will try to                  
+> boot with 4-level page table and will fallback to 3-level if the HW does not     
+> support it. Folding the 4th level into a 3-level page table has almost no        
+> cost at runtime.                                                                 
+>                                                                                  
+> Tested on:                                                                       
+>   - qemu rv64 sv39: OK                                                           
+>   - qemu rv64 sv48: OK                                                           
+>   - qemu rv64 sv39 + kasan: OK                                                   
+>   - qemu rv64 sv48 + kasan: OK                                                   
+>   - qemu rv32: OK                                                                
+>   - Unmatched: OK
 
-> It might end up colliding with some of the DAX cleanups that are
-> brewing, but if that happens I might apply them to resolve conflicts
-> and ask Andrew to drop them out of -mm. We can cross that bridge
-> later.
+On a beagleV (which supports only sv39) I've tested both the limit via
+the mmu-type in the devicetree and also that the fallback works when
+I disable the mmu-type in the dt, so
 
-Yep, not a problem.
+Tested-by: Heiko Stuebner <heiko@sntech.de>
+
+>   
+>                                                                                  
+> Changes in v2:                                                                   
+>   - Rebase onto for-next                                                         
+>   - Fix KASAN                                                                    
+>   - Fix stack canary                                                             
+>   - Get completely rid of MAXPHYSMEM configs                                     
+>   - Add documentation
+> 
+> Alexandre Ghiti (10):
+>   riscv: Allow to dynamically define VA_BITS
+>   riscv: Get rid of MAXPHYSMEM configs
+>   asm-generic: Prepare for riscv use of pud_alloc_one and pud_free
+>   riscv: Implement sv48 support
+>   riscv: Use pgtable_l4_enabled to output mmu_type in cpuinfo
+>   riscv: Explicit comment about user virtual address space size
+>   riscv: Improve virtual kernel memory layout dump
+>   Documentation: riscv: Add sv48 description to VM layout
+>   riscv: Initialize thread pointer before calling C functions
+>   riscv: Allow user to downgrade to sv39 when hw supports sv48
+> 
+>  Documentation/riscv/vm-layout.rst             |  36 ++
+>  arch/riscv/Kconfig                            |  35 +-
+>  arch/riscv/configs/nommu_k210_defconfig       |   1 -
+>  .../riscv/configs/nommu_k210_sdcard_defconfig |   1 -
+>  arch/riscv/configs/nommu_virt_defconfig       |   1 -
+>  arch/riscv/include/asm/csr.h                  |   3 +-
+>  arch/riscv/include/asm/fixmap.h               |   1 +
+>  arch/riscv/include/asm/kasan.h                |   2 +-
+>  arch/riscv/include/asm/page.h                 |  10 +
+>  arch/riscv/include/asm/pgalloc.h              |  40 +++
+>  arch/riscv/include/asm/pgtable-64.h           | 108 +++++-
+>  arch/riscv/include/asm/pgtable.h              |  30 +-
+>  arch/riscv/include/asm/sparsemem.h            |   6 +-
+>  arch/riscv/kernel/cpu.c                       |  23 +-
+>  arch/riscv/kernel/head.S                      |   4 +-
+>  arch/riscv/mm/context.c                       |   4 +-
+>  arch/riscv/mm/init.c                          | 323 +++++++++++++++---
+>  arch/riscv/mm/kasan_init.c                    |  91 +++--
+>  drivers/firmware/efi/libstub/efi-stub.c       |   2 +
+>  include/asm-generic/pgalloc.h                 |  24 +-
+>  include/linux/sizes.h                         |   1 +
+>  21 files changed, 615 insertions(+), 131 deletions(-)
+> 
+> 
+
+
+
+
