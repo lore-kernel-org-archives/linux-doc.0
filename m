@@ -2,367 +2,219 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 736B1C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Nov 2021 14:12:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F162C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Nov 2021 14:26:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347583AbhKXOPQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Nov 2021 09:15:16 -0500
-Received: from mail-oi1-f176.google.com ([209.85.167.176]:35412 "EHLO
-        mail-oi1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348352AbhKXOMl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Nov 2021 09:12:41 -0500
-Received: by mail-oi1-f176.google.com with SMTP id m6so5600479oim.2;
-        Wed, 24 Nov 2021 06:09:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PxvgDaZzG6aG91Oqp/cEC4dselvfNvYAb6e+YILhPB8=;
-        b=maHYdHR67f4PJOxqGpF6udDyWWIpl3gv3zlsirL+M8CEGq9JzAmcoAaPVqqSOpNP8d
-         uvDBsK+05vhwBbeB8UQn6EZBm6+Z1Q7FPnHb/f0vpAIHL+F491+rbeARma/uGe+8/SJE
-         p0bXCRk6r9SGtnMI9ivVeAmENo/0aCUwLBoqMR7wBPrpCaJbfsyLsjL2iGu1r18xhzf0
-         G6s6AkKvvdG7oeVqrV69PIC7rd3mvxBor1wn5iRMZqRmUeaY/rftMThwdj9G0UQ1EUEZ
-         ZojgaC3rzKHO/b86FkMMFd2OIPMRU0dgqFuviZPbgmaC5QeOOsekJMlSO7T+t0bbmzDC
-         H32w==
-X-Gm-Message-State: AOAM530r6VZko7gRCktZpuO26IG/K832JeD4pB0e90pfCdOhyk0bWahi
-        eO8W/cJcyL+eQyEBtIAcTAF102M3HYytCduXgijaje9H97o=
-X-Google-Smtp-Source: ABdhPJzl6qxVbY+a4lKLhxm1ZCLL3A7A0CpTaQYSnChhkCuOgY1kMkoowp9B3YxLS0ze1jpI0YVGN6hgHZWC0x0+oBU=
-X-Received: by 2002:a05:6808:14c3:: with SMTP id f3mr6372368oiw.51.1637762971351;
- Wed, 24 Nov 2021 06:09:31 -0800 (PST)
+        id S1348098AbhKXO3e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Nov 2021 09:29:34 -0500
+Received: from mail.kernel.org ([198.145.29.99]:44882 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1351443AbhKXO3F (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 24 Nov 2021 09:29:05 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2782860C4A;
+        Wed, 24 Nov 2021 14:25:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1637763956;
+        bh=QqscHYC3us+qG6mNQTxspJ8dowBNw1yUl/FbwRmraTY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=MrCwFDzxO0CLUuzMtLWQhKpjY6QHChq/A2KoqAXn/Hgrrp9FgH1iYNRJJn92yc5Ln
+         XdyGCiCouQ2kLOe1M0GLywRZ6SYAhjRE2NylxsNueS9L9psSqqyw3s8LHsvX4TPiVB
+         InGGR6B+qDtzCpAwYSzGeHlzFKgMisqg+gj8/yRB9aLX5rA6hkp/+4hxiny3/lZgGD
+         zAGiP9vx1NzosH4yF5xyzuCaO5T8AIe486ydn5gifAlq0UUx0yAZHjG1OwOcVKX6q3
+         yMqVCQvHlivVZZZ6EmXpsVpClaP7AadpWUm2AupZznOuHAxrjTZ4auhe8WllzV9d4r
+         WlrA6dt5b/qpQ==
+Received: by mail-ua1-f44.google.com with SMTP id a14so5613182uak.0;
+        Wed, 24 Nov 2021 06:25:56 -0800 (PST)
+X-Gm-Message-State: AOAM532A6bX80+9b+Vugs7K+OelrcS6Cd9y3xLXh6WLY/wawWTJUcyjK
+        W+ipj4Sv5at7s9p0rHL1hEBGm/CyW9Z+3xI0Jv8=
+X-Google-Smtp-Source: ABdhPJxQWbyyPleIqFdC/QqiOC3GR7sPb0wh411KAQDVuukQlSZ3FBYxqWaDUzeYltqTljXpAV/LoOBzSiFr5h46xhU=
+X-Received: by 2002:ab0:3d87:: with SMTP id l7mr11370231uac.108.1637763955178;
+ Wed, 24 Nov 2021 06:25:55 -0800 (PST)
 MIME-Version: 1.0
-References: <20211106013312.26698-1-ricardo.neri-calderon@linux.intel.com> <20211106013312.26698-4-ricardo.neri-calderon@linux.intel.com>
-In-Reply-To: <20211106013312.26698-4-ricardo.neri-calderon@linux.intel.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Wed, 24 Nov 2021 15:09:20 +0100
-Message-ID: <CAJZ5v0gd5ZAs4nkbMA4ONt=9ULnrTPqxe_+3M78t9ZC9upEiXw@mail.gmail.com>
-Subject: Re: [PATCH 3/7] thermal: intel: hfi: Minimally initialize the
- Hardware Feedback Interface
-To:     Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Len Brown <len.brown@intel.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Aubrey Li <aubrey.li@linux.intel.com>,
-        Amit Kucheria <amitk@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Tim Chen <tim.c.chen@linux.intel.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Ricardo Neri <ricardo.neri@intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20211123015717.542631-1-guoren@kernel.org> <CAOnJCU+-WCHA9vgrbcMFsLMaimwJNEXOpqMLS_0Gq_JRM5QNWQ@mail.gmail.com>
+ <CAJF2gTQAypx=5+a84zZpj7ofs-aPpPMNZyaB+HEgD8Dfyt6TiA@mail.gmail.com> <7549655.ZlQDL8uBSY@diego>
+In-Reply-To: <7549655.ZlQDL8uBSY@diego>
+From:   Guo Ren <guoren@kernel.org>
+Date:   Wed, 24 Nov 2021 22:25:44 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTRz+SDiPQEDCM==zEDN2Z4cB=PHXRZ6+t9T947Fr5tSTQ@mail.gmail.com>
+Message-ID: <CAJF2gTRz+SDiPQEDCM==zEDN2Z4cB=PHXRZ6+t9T947Fr5tSTQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/3] riscv: Add riscv.fwsz kernel parameter to save memory
+To:     =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>
+Cc:     Atish Patra <atishp@atishpatra.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        Anup Patel <anup@brainfault.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>, atishp@rivosinc.com,
+        "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Guo Ren <guoren@linux.alibaba.com>,
+        Philipp Tomsich <philipp.tomsich@vrull.eu>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Nov 6, 2021 at 2:34 AM Ricardo Neri
-<ricardo.neri-calderon@linux.intel.com> wrote:
+On Wed, Nov 24, 2021 at 8:15 PM Heiko St=C3=BCbner <heiko@sntech.de> wrote:
 >
-> The Intel Hardware Feedback Interface provides guidance to the operating
-> system about the performance and energy efficiency capabilities of each
-> CPU in the system. Capabilities are numbers between 0 and 255 where a
-> higher number represents a higher capability. For each CPU, energy
-> efficiency and performance are reported as separate capabilities.
+> Am Mittwoch, 24. November 2021, 07:49:26 CET schrieb Guo Ren:
+> > On Wed, Nov 24, 2021 at 4:01 AM Atish Patra <atishp@atishpatra.org> wro=
+te:
+> > >
+> > > On Tue, Nov 23, 2021 at 11:33 AM Heiko St=C3=BCbner <heiko@sntech.de>=
+ wrote:
+> > > >
+> > > > Hi Guo,
+> > > >
+> > > > Am Dienstag, 23. November 2021, 02:57:14 CET schrieb guoren@kernel.=
+org:
+> > > > > From: Guo Ren <guoren@linux.alibaba.com>
+> > > > >
+> > > > > The firmware of riscv (such as opensbi) occupy 2MB(64bit) /
+> > > > > 4MB(32bit) in Linux. It's very wasteful to small memory footprint
+> > > > > soc chip such as Allwinner D1s/F133. The kernel parameter gives a
+> > > > > chance to users to set the proper size of the firmware and get
+> > > > > more than 1.5MB of memory.
+> > > >
+> > > > is this kernel parameter approach a result of the T-Head Ice-SoC
+> > > > currently loading its openSBI from inside the main u-boot via extfs=
+-load,
+> > > > directly before the kernel itself [0] ?
+> > >
+> > > Looking at the defconfig[1], it may be U-Boot SPL not U-Boot proper. =
+I
+> > > may be looking at the wrong config though.
+> > > If U-Boot SPL is actually used, you don't even need to manually load
+> > > OpenSBI "fw_jump" binary.
+> > >
+> > > As Heiko pointed, you should just follow how U-Boot SPL works on
+> > > hifive unmatched (creating the FIT image)
+> > > The standard U-Boot SPL uses with fw_dynamic which provides all the
+> > > flexibility you want.
+> > I've no right to force users' flavor of boot flow.
+> >
+> > 1) SPL -> opensbi M-mode -> u-boot S-mode -> Linux
+> > 2) SPL -> u-boot M-mode -> opensbi M-mode -> Linux
+> >
+> > All are okay for me. I think the most straightforward reason for
+> > people choosing 2) is that they want to try the newest OpenSBI & Linux
+> > and 2) is more convenient for replacing.
 >
-> Hardware computes these capabilities based on the operating conditions of
-> the system such as power and thermal limits. These capabilities are shared
-> with the operating system in a table resident in memory. Each package in
-> the system has its own HFI instance. Every logical CPU in the package is
-> represented in the table. More than one logical CPUs may be represented in
-> a single table entry. When the hardware updates the table, it generates a
-> package-level thermal interrupt.
+> Though that second option is merely a hack during development.
 >
-> The size and format of the HFI table depend on the supported features and
-> can only be determined at runtime. To minimally initialize the HFI, parse
-> its features and allocate one instance per package of a data structure with
-> the necessary parameters to read and navigate individual HFI tables.
+> Having u-boot run in M-mode creates an attack surface that is a lot
+> bigger (with it running usb, ethernet and whatnot) compared to shedding
+> privileges before that.
 >
-> A subsequent changeset will provide per-CPU initialization and interrupt
-> handling.
+> I'd consider openSBI as part of the device firmware, so that shouldn't be
+> a component you replace daily. Also U-Boot for example already provides
+> established ways to sign and verify the parts loaded by SPL, by signing
+> the created FIT image this would also include the openSBI image.
 >
-> Cc: Andi Kleen <ak@linux.intel.com>
-> Cc: Aubrey Li <aubrey.li@linux.intel.com>
-> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> Cc: Tim Chen <tim.c.chen@linux.intel.com>
-> Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>
-> Reviewed-by: Len Brown <len.brown@intel.com>
-> Co-developed by: Aubrey Li <aubrey.li@linux.intel.com>
-> Signed-off-by: Aubrey Li <aubrey.li@linux.intel.com>
-> Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-> ---
->  drivers/thermal/intel/Kconfig       |  12 +++
->  drivers/thermal/intel/Makefile      |   1 +
->  drivers/thermal/intel/intel_hfi.c   | 155 ++++++++++++++++++++++++++++
->  drivers/thermal/intel/intel_hfi.h   |  34 ++++++
->  drivers/thermal/intel/therm_throt.c |   3 +
->  5 files changed, 205 insertions(+)
->  create mode 100644 drivers/thermal/intel/intel_hfi.c
->  create mode 100644 drivers/thermal/intel/intel_hfi.h
+> So in case (1) you can add more security by simply adding the necessary
+> key references during u-boot build, where on the other hand if you _want_
+> security in case (2) you're back to hand-rolling any verification
+> [with less review and thus more prone to have issues]
 >
-> diff --git a/drivers/thermal/intel/Kconfig b/drivers/thermal/intel/Kconfig
-> index c83ea5d04a1d..d4c6bdcacddb 100644
-> --- a/drivers/thermal/intel/Kconfig
-> +++ b/drivers/thermal/intel/Kconfig
-> @@ -99,3 +99,15 @@ config INTEL_MENLOW
->           Intel Menlow platform.
->
->           If unsure, say N.
-> +
-> +config INTEL_HFI
-> +       bool "Intel Hardware Feedback Interface"
-> +       depends on CPU_SUP_INTEL
-> +       depends on SCHED_MC && X86_THERMAL_VECTOR
-> +       help
-> +         Select this option to enable the Hardware Feedback Interface. If
-> +         selected, hardware provides guidance to the operating system on
-> +         the performance and energy efficiency capabilities of each CPU.
-> +         These capabilities may change as a result of changes in the operating
-> +         conditions of the system such power and thermal limits. If selected,
-> +         the kernel relays updates in CPUs' capabilities to userspace.
-> diff --git a/drivers/thermal/intel/Makefile b/drivers/thermal/intel/Makefile
-> index 960b56268b4a..1a80bffcd699 100644
-> --- a/drivers/thermal/intel/Makefile
-> +++ b/drivers/thermal/intel/Makefile
-> @@ -13,3 +13,4 @@ obj-$(CONFIG_INTEL_PCH_THERMAL)       += intel_pch_thermal.o
->  obj-$(CONFIG_INTEL_TCC_COOLING)        += intel_tcc_cooling.o
->  obj-$(CONFIG_X86_THERMAL_VECTOR) += therm_throt.o
->  obj-$(CONFIG_INTEL_MENLOW)     += intel_menlow.o
-> +obj-$(CONFIG_INTEL_HFI) += intel_hfi.o
-> diff --git a/drivers/thermal/intel/intel_hfi.c b/drivers/thermal/intel/intel_hfi.c
-> new file mode 100644
-> index 000000000000..edfe343507b3
-> --- /dev/null
-> +++ b/drivers/thermal/intel/intel_hfi.c
-> @@ -0,0 +1,155 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Hardware Feedback Interface Driver
-> + *
-> + * Copyright (c) 2021, Intel Corporation.
-> + *
-> + * Authors: Aubrey Li <aubrey.li@linux.intel.com>
-> + *          Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-> + *
-> + *
-> + * The Hardware Feedback Interface provides a performance and energy efficiency
-> + * capability information for each CPU in the system. Depending on the processor
-> + * model, hardware may periodically update these capabilities as a result of
-> + * changes in the operating conditions (e.g., power limits or thermal
-> + * constraints). On other processor models, there is a single HFI update
-> + * at boot.
-> + *
-> + * This file provides functionality to process HFI updates and relay these
-> + * updates to userspace.
-> + */
-> +
-> +#define pr_fmt(fmt)  "intel-hfi: " fmt
-> +
-> +#include <linux/slab.h>
-> +
-> +#include "intel_hfi.h"
-> +
-> +/**
-> + * struct hfi_cpu_data - HFI capabilities per CPU
-> + * @perf_cap:          Performance capability
-> + * @ee_cap:            Energy efficiency capability
-> + *
-> + * Capabilities of a logical processor in the HFI table. These capabilities are
-> + * unitless.
-> + */
-> +struct hfi_cpu_data {
-> +       u8      perf_cap;
-> +       u8      ee_cap;
-> +} __packed;
-> +
-> +/**
-> + * struct hfi_hdr - Header of the HFI table
-> + * @perf_updated:      Hardware updated performance capabilities
-> + * @ee_updated:                Hardware updated energy efficiency capabilities
-> + *
-> + * Properties of the data in an HFI table.
-> + */
-> +struct hfi_hdr {
-> +       u8 perf_updated;
-> +       u8 ee_updated;
-> +} __packed;
-> +
-> +/**
-> + * struct hfi_instance - Representation of an HFI instance (i.e., a table)
-> + * @ts_counter:                Time stamp of the last update of the table
-> + * @hdr:               Base address of the table header
-> + * @data:              Base address of the table data
-> + *
-> + * A set of parameters to parse and navigate a specific HFI table.
-> + */
-> +struct hfi_instance {
-> +       u64                     *ts_counter;
-> +       void                    *hdr;
-> +       void                    *data;
-> +};
-> +
-> +/**
-> + * struct hfi_features - Supported HFI features
-> + * @capabilities:      Bitmask of supported capabilities
-> + * @nr_table_pages:    Size of the HFI table in 4KB pages
-> + * @cpu_stride:                Stride size to locate capability data of a logical
-> + *                     processor within the table (i.e., row stride)
-> + * @hdr_size:          Size of table header
-> + * @parsed:            True if HFI features have been parsed
-> + *
-> + * Parameters and supported features that are common to all HFI instances
-> + */
-> +struct hfi_features {
-> +       unsigned long   capabilities;
-> +       unsigned int    nr_table_pages;
-> +       unsigned int    cpu_stride;
-> +       unsigned int    hdr_size;
-> +       bool            parsed;
+> Having the _ability_ to verify the loaded firmware components can be a
+> requirement in projects, so I think the default should always case (1),
+> to not encourage insecure implementations any more than necessary ;-) .
+I think nobody would use case (2) in production.
 
-I'm not sure why this field is needed.
-
-It looks like it is only checked by hfi_parse_features() which is only
-called by intel_hfi_init() which is invoked by
-thermal_throttle_init_device() which can happen only once if I'm not
-mistaken.
-
-> +};
-> +
-> +static int max_hfi_instances;
-> +static struct hfi_instance *hfi_instances;
-> +
-> +static struct hfi_features hfi_features;
-> +
-> +static __init int hfi_parse_features(void)
-> +{
-> +       unsigned int nr_capabilities, reg;
-> +
-> +       if (!boot_cpu_has(X86_FEATURE_INTEL_HFI))
-> +               return -ENODEV;
-> +
-> +       if (hfi_features.parsed)
-> +               return 0;
-> +
-> +       /*
-> +        * If we are here we know that CPUID_HFI_LEAF exists. Parse the
-> +        * supported capabilities and the size of the HFI table.
-> +        */
-> +       reg = cpuid_edx(CPUID_HFI_LEAF);
-> +
-> +       hfi_features.capabilities = reg & HFI_CAPABILITIES_MASK;
-> +       if (!(hfi_features.capabilities & HFI_CAPABILITIES_PERFORMANCE)) {
-> +               pr_err("Performance reporting not supported! Not using HFI\n");
-
-This doesn't need to be pr_err().
-
-> +               return -ENODEV;
-> +       }
-> +
-> +       /* The number of 4KB pages required by the table */
-> +       hfi_features.nr_table_pages = ((reg & CPUID_HFI_TABLE_SIZE_MASK) >>
-> +                                     CPUID_HFI_TABLE_SIZE_SHIFT) + 1;
-> +
-> +       /*
-> +        * The number of supported capabilities determines the number of
-> +        * columns in the HFI table.
-> +        */
-> +       nr_capabilities = bitmap_weight(&hfi_features.capabilities,
-> +                                       HFI_CAPABILITIES_NR);
-> +
-> +       /*
-> +        * The header contains change indications for each supported feature.
-> +        * The size of the table header is rounded up to be a multiple of 8
-> +        * bytes.
-> +        */
-> +       hfi_features.hdr_size = DIV_ROUND_UP(nr_capabilities, 8) * 8;
-> +
-> +       /*
-> +        * Data of each logical processor is also rounded up to be a multiple
-> +        * of 8 bytes.
-> +        */
-> +       hfi_features.cpu_stride = DIV_ROUND_UP(nr_capabilities, 8) * 8;
-> +
-> +       hfi_features.parsed = true;
-> +       return 0;
-> +}
-> +
-> +void __init intel_hfi_init(void)
-> +{
-> +       if (hfi_parse_features())
-> +               return;
-> +
-> +       max_hfi_instances = topology_max_packages() *
-> +                           topology_max_die_per_package();
-> +
-> +       /*
-> +        * This allocation may fail. CPU hotplug callbacks must check
-> +        * for a null pointer.
-> +        */
-> +       hfi_instances = kcalloc(max_hfi_instances, sizeof(*hfi_instances),
-> +                               GFP_KERNEL);
-> +}
-> diff --git a/drivers/thermal/intel/intel_hfi.h b/drivers/thermal/intel/intel_hfi.h
-> new file mode 100644
-> index 000000000000..42529d3ac92d
-> --- /dev/null
-> +++ b/drivers/thermal/intel/intel_hfi.h
-> @@ -0,0 +1,34 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef _INTEL_HFI_H
-> +#define _INTEL_HFI_H
-> +
-> +#include <linux/bits.h>
-> +
-> +/* Hardware Feedback Interface Enumeration */
-> +#define CPUID_HFI_LEAF                 6
-> +#define CPUID_HFI_CAP_MASK             0xff
-> +#define CPUID_HFI_TABLE_SIZE_MASK      0x0f00
-> +#define CPUID_HFI_TABLE_SIZE_SHIFT     8
-> +#define CPUID_HFI_CPU_INDEX_MASK       0xffff0000
-> +#define CPUID_HFI_CPU_INDEX_SHIFT      16
-> +
-> +/* Hardware Feedback Interface Pointer */
-> +#define HFI_PTR_VALID_BIT              BIT(0)
-> +#define HFI_PTR_ADDR_SHIFT             12
-> +
-> +/* Hardware Feedback Interface Configuration */
-> +#define HFI_CONFIG_ENABLE_BIT          BIT(0)
-> +
-> +/* Hardware Feedback Interface Capabilities */
-> +#define HFI_CAPABILITIES_MASK          0xff
-> +#define HFI_CAPABILITIES_NR            8
-> +#define HFI_CAPABILITIES_PERFORMANCE   BIT(0)
-> +#define HFI_CAPABILITIES_ENERGY_EFF    BIT(1)
-> +
-> +#if defined(CONFIG_INTEL_HFI)
-> +void __init intel_hfi_init(void);
-> +#else
-> +static inline void intel_hfi_init(void) { }
-> +#endif
-> +
-> +#endif /* _INTEL_HFI_H */
-> diff --git a/drivers/thermal/intel/therm_throt.c b/drivers/thermal/intel/therm_throt.c
-> index dab7e8fb1059..ac408714d52b 100644
-> --- a/drivers/thermal/intel/therm_throt.c
-> +++ b/drivers/thermal/intel/therm_throt.c
-> @@ -32,6 +32,7 @@
->  #include <asm/irq.h>
->  #include <asm/msr.h>
 >
-> +#include "intel_hfi.h"
->  #include "thermal_interrupt.h"
 >
->  /* How long to wait between reporting thermal events */
-> @@ -509,6 +510,8 @@ static __init int thermal_throttle_init_device(void)
->         if (!atomic_read(&therm_throt_en))
->                 return 0;
+> Heiko
 >
-> +       intel_hfi_init();
-> +
->         ret = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "x86/therm:online",
->                                 thermal_throttle_online,
->                                 thermal_throttle_offline);
-> --
-> 2.17.1
 >
+> > >
+> > > [1] https://github.com/T-head-Semi/u-boot/blob/main/configs/ice_evb_c=
+910_defconfig
+> > > >
+> > > > Because that approach in general looks not ideal.
+> > > >
+> > > > Normally you want the main u-boot already running with less privile=
+ges
+> > > > so firmware like openSBI should've been already loaded before that.
+> > > > Even more true when you're employing methods to protect memory regi=
+ons
+> > > > from less privileged access.
+> > > >
+> > > > A lot of socs set u-boot as opensbi payload, but for the example th=
+e D1
+> > > > mainline approach uses the Allwinner TOC1 image format to load both
+> > > > opensbi and the main uboot into memory from its 1st stage loader.
+> > > >
+> > > >
+> > > > Of course the best way would be to just mimic what a number of
+> > > > arm64 and also riscv socs do and use already existing u-boot utilit=
+ies.
+> > > >
+> > > > U-Boot can create a FIT image containing both main u-boot, dtb and
+> > > > firmware images that all get loaded from SPL and placed at the corr=
+ect
+> > > > addresses before having the SPL jump into opensbi and from there
+> > > > into u-boot [1] .
+> > > >
+> > > > And as Anup was writing, reserved-memory should then be the way
+> > > > to go to tell the kernel what regions to omit.
+> > > >
+> > > > And mainline u-boot has already the means to even take the reserved=
+-memory
+> > > > from the devicetree used by opensbi and copy it to a new devicetree=
+,
+> > > > if the second one is different.
+> > > >
+> > > >
+> > > > Heiko
+> > > >
+> > > >
+> > > > [0] https://github.com/T-head-Semi/u-boot/blob/main/include/configs=
+/ice-c910.h#L46
+> > > > [1] see spl_invoke_opensbi() in common/spl/spl_opensbi.c
+> > > > [2] see riscv_board_reserved_mem_fixup() in arch/riscv/lib/fdt_fixu=
+p.c
+> > > >
+> > > > >
+> > > > > Guo Ren (3):
+> > > > >   riscv: Remove 2MB offset in the mm layout
+> > > > >   riscv: Add early_param to decrease firmware region
+> > > > >   riscv: Add riscv.fwsz kernel parameter
+> > > > >
+> > > > >  .../admin-guide/kernel-parameters.txt         |  3 +++
+> > > > >  arch/riscv/include/asm/page.h                 |  8 +++++++
+> > > > >  arch/riscv/kernel/head.S                      | 10 +++-----
+> > > > >  arch/riscv/kernel/vmlinux.lds.S               |  5 ++--
+> > > > >  arch/riscv/mm/init.c                          | 23 +++++++++++++=
++++---
+> > > > >  5 files changed, 36 insertions(+), 13 deletions(-)
+> > > > >
+> > > > >
+> > > >
+> > > >
+> > > >
+> > > >
+> > > >
+> > > > _______________________________________________
+> > > > linux-riscv mailing list
+> > > > linux-riscv@lists.infradead.org
+> > > > http://lists.infradead.org/mailman/listinfo/linux-riscv
+> > >
+> > >
+> > >
+> > > --
+> > > Regards,
+> > > Atish
+> >
+> >
+> >
+> >
+>
+>
+>
+>
+
+
+--
+Best Regards
+ Guo Ren
+
+ML: https://lore.kernel.org/linux-csky/
