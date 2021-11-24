@@ -2,242 +2,148 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C63CC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Nov 2021 02:23:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19923C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Nov 2021 02:59:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235188AbhKXC0p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Nov 2021 21:26:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57614 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233425AbhKXC0o (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Nov 2021 21:26:44 -0500
-Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1267DC061574;
-        Tue, 23 Nov 2021 18:23:36 -0800 (PST)
-Received: by mail-qk1-x72f.google.com with SMTP id 132so1213203qkj.11;
-        Tue, 23 Nov 2021 18:23:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bLwx3qs8zhnLc+oatgY7phMy96Tol/Pt5GFWUgzwj6E=;
-        b=oms8nynfBZcAITLfn/teV5DIl821Uhi8aX5F9KciRUNboIwv9yqQrLY3VPEcaXSYKr
-         MiRbrgx7zkM+CbHBIQmL87hFcvELYaOlWwGXjEBDH3J+78a9hC0vQxnbml5an/ZfMaz2
-         oPg3sijSk622jDOZP8Qa+Mq/TBGMnu8X6qQmHw7hvBalCfsPuNzNLUjrKME9KtI0+BkE
-         2Iue40cSPlA2sBIgfzHHTNr9S5+fHwsvvfTaY+6MXMr238qfGdm/mluTDSvrmWZB487d
-         haby/yEeXSRuhU4fGUk1bExBjIMd2ZheA0RtmxZFHry6LS6rHYL7H6/6IszUJLe1xl2K
-         Qi3Q==
+        id S240715AbhKXDCh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Nov 2021 22:02:37 -0500
+Received: from mail-io1-f50.google.com ([209.85.166.50]:41942 "EHLO
+        mail-io1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240073AbhKXDCh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Nov 2021 22:02:37 -0500
+Received: by mail-io1-f50.google.com with SMTP id y16so1308683ioc.8;
+        Tue, 23 Nov 2021 18:59:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bLwx3qs8zhnLc+oatgY7phMy96Tol/Pt5GFWUgzwj6E=;
-        b=7SK3VRKjoi5degPdF1haoRKFil355cj2veZwJXICiSeAVYJsGqI/l4v+7xOsUChFz6
-         yBWtWj8SK/bUXF9WLPvLj7wmJWqhwZ14nTcunPZprz3InuI2t1W0kCnd6k8YDi9+7Iso
-         sZHWppgXV3+kpKNAITiWVnyZoNHnGDdacauZxPcU7a8jV9wPRKmGUrhnqt7v6fhhqmz6
-         tnfb+GyzPCWZqEkfpjYlYKdH5cv0898Sj32jTL5TD7f6kGG6366JF7UBPZ3Vp7PEHGR+
-         IDVwMVzEUaig0U/PUrPQWYfVxOWviFSo0UX2dKhyjChSgCBnOWFe1lA/GghGAyXRUbpw
-         uNhA==
-X-Gm-Message-State: AOAM5310jKfr6QGaehIsYd5xt9xXVB5m4JA48dmnYt3HbiSybZWtWYNM
-        2rolJxmzedA8yj53IqtsZz8=
-X-Google-Smtp-Source: ABdhPJxtWN/94Slz5HelOIC07Ucj3hc8vfCvyD4Ls6oyYNgHRDgpSLZI6XXJZWX2JOAbKg1nCiMZiA==
-X-Received: by 2002:a05:620a:4008:: with SMTP id h8mr2281913qko.302.1637720615055;
-        Tue, 23 Nov 2021 18:23:35 -0800 (PST)
-Received: from localhost.localdomain ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id k85sm6933828qke.134.2021.11.23.18.23.31
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=X5nPMoox8dr33dKVv5jBLnAfhwzYs/fxVGeAdFP9yOI=;
+        b=5XmQ/o7+YMTWZXKzfKqJMozZ6kAJkLFjYjBipT+Z2ZSeAkDuzat5oUhumT39qMrwdp
+         Gcgyr1AxwdXmOrkxrNYtkegr39Yl1z/EMMg4M59fRB0DVXoTomMx7IILy9RD3l4MI6v6
+         q66o1P+pyWTzbHOpgFh/ptkSTEayOfgkNxqxLFiShJ37D67OeCpioIT2bBhgz6fTkYxx
+         qatVLU4JGq1tsf/mvGX8+BWNT2Rq+dVy7TAyePSYYyN+fsTjEcGkOEPiA1Dh4xYX5ygs
+         8isKWQMMgRHDZmshPEmcPj5CxOrJbSFjSFCuwN0CFLwvwt4O/o4HutgCbwoSimdLtlrK
+         Yc9w==
+X-Gm-Message-State: AOAM531Ghcmz4MuVf+Sj+bgnfFnikzksSfG+DYE7ht/wN8lWmZq481j0
+        ujVnU6y1Tut60renIax9qUs/dn3DuA==
+X-Google-Smtp-Source: ABdhPJwE2HXnaR9dFn/GlzP0BHlfzb/nn9RLpSxUfhFyHZGFQ+wMSzAKV3MWABhY8xNs8kY7yzRJ7A==
+X-Received: by 2002:a05:6602:2d07:: with SMTP id c7mr11117707iow.46.1637722767660;
+        Tue, 23 Nov 2021 18:59:27 -0800 (PST)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id n39sm9615024ioz.7.2021.11.23.18.59.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Nov 2021 18:23:34 -0800 (PST)
-From:   cgel.zte@gmail.com
-X-Google-Original-From: yang.yang29@zte.com.cn
-To:     alexs@kernel.org, corbet@lwn.net, siyanteng@loongson.cn
-Cc:     yang.yang29@zte.com.cn, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] docs/zh_CN: Add zh_CN/accounting/taskstats.rst
-Date:   Wed, 24 Nov 2021 02:23:17 +0000
-Message-Id: <20211124022316.34497-1-yang.yang29@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        Tue, 23 Nov 2021 18:59:27 -0800 (PST)
+Received: (nullmailer pid 888174 invoked by uid 1000);
+        Wed, 24 Nov 2021 02:59:21 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Dipen Patel <dipenp@nvidia.com>
+Cc:     thierry.reding@gmail.com, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        warthog618@gmail.com, jonathanh@nvidia.com,
+        linux-gpio@vger.kernel.org, bgolaszewski@baylibre.com,
+        linus.walleij@linaro.org
+In-Reply-To: <20211123193039.25154-5-dipenp@nvidia.com>
+References: <20211123193039.25154-1-dipenp@nvidia.com> <20211123193039.25154-5-dipenp@nvidia.com>
+Subject: Re: [RFC v3 04/12] dt-bindings: Add HTE bindings
+Date:   Tue, 23 Nov 2021 19:59:21 -0700
+Message-Id: <1637722761.026321.888173.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Yang Yang <yang.yang29@zte.com.cn>
+On Tue, 23 Nov 2021 11:30:31 -0800, Dipen Patel wrote:
+> Introduces HTE devicetree binding details for the HTE subsystem. It
+> includes examples for the consumers, binding details for the providers
+> and specific binding details for the Tegra194 based HTE providers.
+> 
+> Signed-off-by: Dipen Patel <dipenp@nvidia.com>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+> Changes in v2:
+> - Replace hte with hardware-timestamp for property names
+> - Renamed file
+> - Removed example from the common dt binding file.
+> 
+> Changes in v3:
+> - Addressed grammatical errors.
+> - Removed double plural from the respective properties.
+> - Added dual license.
+> - Prefixed "nvidia" in nvidia specific properties.
+> 
+>  .../hte/hardware-timestamps-common.yaml       | 29 +++++++
+>  .../devicetree/bindings/hte/hte-consumer.yaml | 48 +++++++++++
+>  .../bindings/hte/nvidia,tegra194-hte.yaml     | 80 +++++++++++++++++++
+>  3 files changed, 157 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hte/hardware-timestamps-common.yaml
+>  create mode 100644 Documentation/devicetree/bindings/hte/hte-consumer.yaml
+>  create mode 100644 Documentation/devicetree/bindings/hte/nvidia,tegra194-hte.yaml
+> 
 
-Add translation zh_CN/accounting/taskstats.rst and links it to
-zh_CN/accounting/index.rst while clean its todo entry.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Signed-off-by: Yang Yang <yang.yang29@zte.com.cn>
----
- .../translations/zh_CN/accounting/index.rst   |   2 +-
- .../zh_CN/accounting/taskstats.rst            | 142 ++++++++++++++++++
- 2 files changed, 143 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/accounting/taskstats.rst
+yamllint warnings/errors:
 
-diff --git a/Documentation/translations/zh_CN/accounting/index.rst b/Documentation/translations/zh_CN/accounting/index.rst
-index 362e907b41f9..124b590fb01b 100644
---- a/Documentation/translations/zh_CN/accounting/index.rst
-+++ b/Documentation/translations/zh_CN/accounting/index.rst
-@@ -16,10 +16,10 @@
-    :maxdepth: 1
- 
-    psi
-+   taskstats
- 
- Todolist:
- 
-    cgroupstats
-    delay-accounting
--   taskstats
-    taskstats-struct
-diff --git a/Documentation/translations/zh_CN/accounting/taskstats.rst b/Documentation/translations/zh_CN/accounting/taskstats.rst
-new file mode 100644
-index 000000000000..3792983bc752
---- /dev/null
-+++ b/Documentation/translations/zh_CN/accounting/taskstats.rst
-@@ -0,0 +1,142 @@
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/accounting/taskstats.rst
-+
-+:Translator: Yang Yang <yang.yang29@zte.com.cn>
-+
-+.. _cn_taskstats.rst:
-+
-+================
-+每任务的统计接
-+================
-+
-+Taskstats是一个基于netlink的接口，用于从内核向用户空间发送每任务及每进程的统计信息。
-+
-+Taskstats设计目的：
-+
-+- 在任务生命周期内和退出时高效的提供统计信息
-+- 统一不同计数子系统的接口
-+- 支持未来计数系统的扩展
-+
-+术语
-+----
-+
-+“pid”、“tid”、“任务”互换使用，用于描述由struct task_struct定义的标准Linux任务。
-+“每pid的统计数据”等价于“每任务的统计数据”。
-+
-+“tgid”、“进程”、“线程组”互换使用，用于描述共享mm_struct的任务集，也就是传统的
-+Unix进程。尽管使用了tgid这个词，即使一个任务是线程组组长，对它的处理也没有什么不同。
-+只要一个进程还有任何归属它的任务，它就被认为活着。
-+
-+用法
-+----
-+
-+为了在任务生命周期内获得统计信息，用户空间需打开一个单播的netlink套接字（NETLINK_GENERIC族）
-+然后发送指定pid或tgid的命令。响应消息中包含单个任务的统计信息（若指定了pid）或进程所有任务
-+汇总的统计信息（若指定了tgid）。
-+
-+为了在任务退出时获取统计信息，用户空间的监听者发送一个指定cpu掩码的注册命令。
-+cpu掩码内的cpu上有任务退出时，每pid的统计信息将发送给注册成功的监听者。使用
-+cpu掩码可以限制一个监听者收到的数据，并有助于对netlink接口进行流量控制，后文
-+将进行更详细的解释。
-+
-+如果正在退出的任务是线程组中最后一个退出的线程，额外一条包含每tgid统计信息的
-+记录也将发送给用户空间。后者包含线程组中所有线程（包括过去和现在）的每pid统计
-+信息总和。
-+
-+getdelays.c是一个简单的示例，用以演示如何使用taskstats接口获取延迟统计信息。
-+用户可注册cpu掩码、发送命令和处理响应、监听每tid/tgid退出数据、将收到的数据
-+写入文件、通过增大接收缓冲区进行基本的流量控制。
-+
-+接口
-+----
-+
-+内核用户接口封装在include/linux/taskstats.h。
-+
-+为避免本文档随着接口的演进而过期，本文仅给出当前版本的概要。当本文与taskstats.h
-+不一致时，以taskstats.h为准。
-+
-+struct taskstats是每pid和每tgid数据共用的计数结构体。它是版本化的，可在内核新增
-+计数子系统时进行扩展。taskstats.h中定义了各字段及语义。
-+
-+用户、内核空间的数据交换是属于NETLINK_GENERIC族的netlink消息，使用netlink属性
-+接口。消息格式如下::
-+
-+    +----------+- - -+-------------+-------------------+
-+    | nlmsghdr | Pad |  genlmsghdr | taskstats payload |
-+    +----------+- - -+-------------+-------------------+
-+
-+Taskstats载荷有三种类型：
-+1. 命令：由用户发送给内核。获取指定pid/tgid数据的命令包含一个类型为TASKSTATS_CMD_ATTR_PID/TGID
-+的属性，该属性包含u32的pid或tgid载荷。pid/tgid指示用户空间要统计的任务/进程。
-+
-+注册/注销获取指定cpu集上退出数据的命令包含一个类型为
-+TASKSTATS_CMD_ATTR_REGISTER/DEREGISTER_CPUMASK的属性，该属性包含cpu掩码载荷。
-+cpu掩码是以ascii码表示，用逗号分隔的cpu范围。例如若需监听1,2,3,5,7,8号cpu的退出数据，
-+cpu掩码表示为"1-3,5,7-8"。若用户空间在关闭监听套接字前忘了注销监听的cpu集，随着时间
-+的推移，内核会清理此监听集。但是，出于提效的目的，建议明确执行注销。
-+
-+2. 命令的应答：内核发出应答用户空间的命令。载荷有三类属性：
-+
-+a) TASKSTATS_TYPE_AGGR_PID/TGID： 本属性不包含载荷，用以指示其后为被统计对象
-+的pig/tgid。
-+
-+b) TASKSTATS_TYPE_PID/TGID：本属性的载荷为pig/tgid，其统计信息将被返回。
-+
-+c) TASKSTATS_TYPE_STATS：本属性的载荷为一个struct taskstats实例。每pid和每tgid统计
-+信息共用该结构体。
-+
-+3. 内核会在任务退出时发送新消息。其载荷包含一系列以下类型的属性：
-+
-+a) TASKSTATS_TYPE_AGGR_PID：指示其后两个属性为pid+stats。
-+b) TASKSTATS_TYPE_PID：包含退出任务的pid。
-+c) TASKSTATS_TYPE_STATS：包含退出任务的每pid统计信息
-+d) TASKSTATS_TYPE_AGGR_TGID：指示其后两个属性为tgid+stats。
-+e) TASKSTATS_TYPE_TGID：包含任务所属进程的tgid
-+f) TASKSTATS_TYPE_STATS：包含退出任务所属进程的每tgid统计信息
-+
-+每tgid的统计
-+------------
-+
-+除了每任务的统计信息，taskstats还提供每进程的统计信息，因为资源管理通常以进程
-+粒度完成，并且仅在用户空间聚合任务统计信息效率低下且可能不准确（缺乏原子性）。
-+
-+然而，除了每任务统计信息，在内核中维护每进程统计信息存在额外的时间和空间开销。
-+为解决此问题，taskstats代码将退出任务的统计信息累积到进程范围的数据结构中。
-+当进程最后一个任务退出时，累积的进程级数据也会发送到用户空间（与每任务数据一起）。
-+
-+当用户查询每tgid数据时，内核将指定线程组中所有活动线程的统计信息相加，并添加到
-+该线程组的累积总数（含之前退出的线程）。
-+
-+扩展taskstats
-+-------------
-+
-+有两种方法可在未来修改内核扩展taskstats接口，以导出更多的每任务/进程统计信息：
-+
-+1. 在现有struct taskstats末尾增加字段。该结构体中的版本号确保了向后兼容性。
-+用户空间将仅使用与其版本对应的结构体字段。
-+
-+2. 定义单独的统计结构体并使用netlink属性接口返回对应的数据。由于用户空间独立
-+处理每个netlink属性，所以总是可以忽略其不理解类型的属性（因为使用了旧版本接口）。
-+
-+在1.和2.之间进行选择，属于权衡灵活性和开销的问题。若仅需增加少数字段，那么1.是首选方法，
-+因为内核和用户空间无需承担处理新netlink属性的开销。但若新字段过多的扩展现有结构体，
-+导致不同的用户空间计数程序不必要的接收大型结构体，而对结构体字段并不感兴趣，那么2.
-+是值得的。
-+
-+Taskstats的流量控制
-+-------------------
-+
-+当退出任务数速率变大，监听者可能跟不上内核发送每tid/tgid退出数据的速率，而导致
-+数据丢失。taskstats结构体变大、cpu数量上升，都会导致这种可能性增加。
-+
-+为避免统计信息丢失，用户空间应执行以下操作中至少一项：
-+
-+- 增大监听者用于接收退出数据的netlink套接字接收缓存区。
-+
-+- 创建更多的监听者，减少每个监听者监听的cpu数量。极端情况下可为每个cpu创建
-+一个监听者。用户还可考虑将监听者的cpu亲和性设置为监听cpu的子集，特别是当他们
-+仅监听一个cpu。
-+
-+尽管采取了这些措施，若用户空间仍收到指示接收缓存区溢出的ENOBUFS错误消息，
-+则应采取其他措施处理数据丢失。
--- 
-2.25.1
+dtschema/dtc warnings/errors:
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/hte/nvidia,tegra194-hte.yaml: properties:nvidia,slices:type: 'anyOf' conditional failed, one must be fixed:
+	'int' is not one of ['array', 'boolean', 'integer', 'null', 'number', 'object', 'string']
+	'int' is not of type 'array'
+	from schema $id: http://json-schema.org/draft-07/schema#
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/hte/nvidia,tegra194-hte.yaml: properties:nvidia,slices:type: 'int' is not one of ['boolean', 'object']
+	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/hte/nvidia,tegra194-hte.yaml: properties:nvidia,slices: 'oneOf' conditional failed, one must be fixed:
+	Additional properties are not allowed ('enum' was unexpected)
+		hint: A vendor boolean property can use "type: boolean"
+	Additional properties are not allowed ('type' was unexpected)
+		hint: A vendor string property with exact values has an implicit type
+	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/hte/nvidia,tegra194-hte.yaml: properties:nvidia,slices: 'oneOf' conditional failed, one must be fixed:
+		'$ref' is a required property
+		'allOf' is a required property
+		hint: A vendor property needs a $ref to types.yaml
+		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+	3 is not of type 'string'
+		hint: A vendor string property with exact values has an implicit type
+	11 is not of type 'string'
+		hint: A vendor string property with exact values has an implicit type
+	'boolean' was expected
+		hint: A vendor boolean property can use "type: boolean"
+	hint: Vendor specific properties must have a type and description unless they have a defined, common suffix.
+	from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/hte/nvidia,tegra194-hte.yaml: properties:nvidia,int-threshold: 'oneOf' conditional failed, one must be fixed:
+	'type' is a required property
+		hint: A vendor boolean property can use "type: boolean"
+	Additional properties are not allowed ('minimum', 'maximum' were unexpected)
+		hint: A vendor boolean property can use "type: boolean"
+	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/hte/nvidia,tegra194-hte.yaml: properties:nvidia,int-threshold: 'oneOf' conditional failed, one must be fixed:
+		'enum' is a required property
+		'const' is a required property
+		hint: A vendor string property with exact values has an implicit type
+		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/hte/nvidia,tegra194-hte.yaml: properties:nvidia,int-threshold: 'oneOf' conditional failed, one must be fixed:
+		'$ref' is a required property
+		'allOf' is a required property
+		hint: A vendor property needs a $ref to types.yaml
+		from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+	hint: Vendor specific properties must have a type and description unless they have a defined, common suffix.
+	from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml#
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/hte/nvidia,tegra194-hte.yaml: ignoring, error in schema: properties: nvidia,slices: type
+warning: no schema found in file: ./Documentation/devicetree/bindings/hte/nvidia,tegra194-hte.yaml
+Documentation/devicetree/bindings/hte/nvidia,tegra194-hte.example.dt.yaml:0:0: /example-0/hardware-timestamp@c1e0000: failed to match any schema with compatible: ['nvidia,tegra194-gte-aon']
+Documentation/devicetree/bindings/hte/nvidia,tegra194-hte.example.dt.yaml:0:0: /example-1/hardware-timestamp@3aa0000: failed to match any schema with compatible: ['nvidia,tegra194-gte-lic']
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/1558766
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
