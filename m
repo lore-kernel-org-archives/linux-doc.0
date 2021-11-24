@@ -2,119 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 791ACC4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Nov 2021 20:14:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22C04C4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Nov 2021 21:37:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351568AbhKXURf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Nov 2021 15:17:35 -0500
-Received: from mga05.intel.com ([192.55.52.43]:13503 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1351528AbhKXURd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 24 Nov 2021 15:17:33 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10178"; a="321601959"
-X-IronPort-AV: E=Sophos;i="5.87,261,1631602800"; 
-   d="scan'208";a="321601959"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2021 12:14:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,261,1631602800"; 
-   d="scan'208";a="510015815"
-Received: from chang-linux-3.sc.intel.com ([172.25.66.175])
-  by orsmga008.jf.intel.com with ESMTP; 24 Nov 2021 12:14:20 -0800
-From:   "Chang S. Bae" <chang.seok.bae@intel.com>
-To:     tglx@linutronix.de, bp@suse.de, dave.hansen@linux.intel.com,
-        mingo@kernel.org, luto@kernel.org, x86@kernel.org,
-        herbert@gondor.apana.org.au
-Cc:     linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
-        dan.j.williams@intel.com, charishma1.gairuboyina@intel.com,
-        kumar.n.dwarakanath@intel.com, lalithambika.krishnakumar@intel.com,
-        ravi.v.shankar@intel.com, chang.seok.bae@intel.com,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v3 09/15] x86/cpu: Add a configuration and command line option for Key Locker
-Date:   Wed, 24 Nov 2021 12:06:54 -0800
-Message-Id: <20211124200700.15888-10-chang.seok.bae@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211124200700.15888-1-chang.seok.bae@intel.com>
-References: <20211124200700.15888-1-chang.seok.bae@intel.com>
+        id S1344759AbhKXVkW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Nov 2021 16:40:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34170 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1345125AbhKXVkU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Nov 2021 16:40:20 -0500
+Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F35A7C061748
+        for <linux-doc@vger.kernel.org>; Wed, 24 Nov 2021 13:37:09 -0800 (PST)
+Received: by mail-qk1-x736.google.com with SMTP id b67so5232967qkg.6
+        for <linux-doc@vger.kernel.org>; Wed, 24 Nov 2021 13:37:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg-org.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=PDpAUClRISPaqjyDiS/RNBX5RTYaG7TkRPK4Gm1mZss=;
+        b=QQKmwN1f0b9ElZBMcGD2e9/nw9t7oiH/45g3kCuEtZBepxzZJSaw19OVhZPnTERfRy
+         /5/53O7yHTWTGZQZ+5vtN+ZWtVwWdqewSt9wTHT2SfYgUJk6PPllXk/ewdIXQbux3S2B
+         hZtOu2GppXGlkqPJ2RimaihvTaY5/R+x/SptktA2MgEtAm6DUIeE1S60XIIZ9zhboisN
+         DYKalBnpKt52CUxfiLXXt1ukvSCUuQ9LsrWqVujGljLIvW8GRNYC2Lr3BDEVehAMey17
+         dTOmyJ8GELC5DhOO8bwy7A92mvbiHMGhwjZg6J+O0a3T6YLWY6Y44NC9ZiDEvWqrax+E
+         LKnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=PDpAUClRISPaqjyDiS/RNBX5RTYaG7TkRPK4Gm1mZss=;
+        b=ZclAcrnqtC58eWOMkxYBHPXlBWL+P441ls8+moRZXOHvh/oiBbagGSTOARfKkCFwhu
+         dWhRiLDgU80wahv1k53VPzaAlqS7aGOCWzTCooGSS9ntC9J5aqdFxs79GtFLJUyK/YP2
+         IODtGBNfzUU9WADZCWq35lvI6CBNJ1H6hd2PtdNzMYbCdxaAXQkM/YypVj7wnsGgdGoV
+         1a1AibEo6Cx/GR/kEPwWwocqb0sBPgxyIGIfa1dacSVWIlhKDwElBopGGSyfANsH1Z04
+         Uh0AFAnFy8MON58WhOEcw1G5si/+ORaJhQSGDYRcMk3Aoi0Xii2nZuSon8uREH7aKPhO
+         lgtA==
+X-Gm-Message-State: AOAM530J9mW62/TxhokmpljX8BThwuVVh3FQZlV6J8dgS/MyuNjgp7/R
+        lW21qhEYrAnBWJlgEGIr7RKSeA==
+X-Google-Smtp-Source: ABdhPJyqU1t6Y63xsf9kE/jd2e91PtTUftZ8PGSVRmaOXDKXaYwtE70W7SZPZu2R6gq+UJWAJpbz6w==
+X-Received: by 2002:a37:8945:: with SMTP id l66mr1620277qkd.776.1637789828853;
+        Wed, 24 Nov 2021 13:37:08 -0800 (PST)
+Received: from localhost (cpe-98-15-154-102.hvc.res.rr.com. [98.15.154.102])
+        by smtp.gmail.com with ESMTPSA id e20sm544451qty.14.2021.11.24.13.37.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Nov 2021 13:37:08 -0800 (PST)
+Date:   Wed, 24 Nov 2021 16:37:07 -0500
+From:   Johannes Weiner <hannes@cmpxchg.org>
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     akpm@linux-foundation.org, mhocko@suse.com, mcgrof@kernel.org,
+        keescook@chromium.org, yzaikin@google.com,
+        dave.hansen@linux.intel.com, vbabka@suse.cz,
+        mgorman@techsingularity.net, corbet@lwn.net, yi.zhang@huawei.com,
+        xi.fengfei@h3c.com, rppt@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        kernel-team@android.com
+Subject: Re: [PATCH 1/1] sysctl: change watermark_scale_factor max limit to
+ 30%
+Message-ID: <YZ6wg9A5p5WUy7+k@cmpxchg.org>
+References: <20211124193604.2758863-1-surenb@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211124193604.2758863-1-surenb@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add CONFIG_X86_KEYLOCKER to gate whether Key Locker is initialized at boot.
-The option is selected by the Key Locker cipher module CRYPTO_AES_KL (to be
-added in a later patch).
+On Wed, Nov 24, 2021 at 11:36:04AM -0800, Suren Baghdasaryan wrote:
+> For embedded systems with low total memory, having to run applications
+> with relatively large memory requirements, 10% max limitation for
+> watermark_scale_factor poses an issue of triggering direct reclaim
+> every time such application is started. This results in slow application
+> startup times and bad end-user experience.
+> By increasing watermark_scale_factor max limit we allow vendors more
+> flexibility to choose the right level of kswapd aggressiveness for
+> their device and workload requirements.
+> 
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 
-Add a new command line option "nokeylocker" to optionally override the
-default CONFIG_X86_KEYLOCKER=y behavior.
+Acked-by: Johannes Weiner <hannes@cmpxchg.org>
 
-Signed-off-by: Chang S. Bae <chang.seok.bae@intel.com>
-Reviewed-by: Dan Williams <dan.j.williams@intel.com>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
----
-Changes from RFC v2:
-* Make the option selected by CRYPTO_AES_KL. (Dan Williams)
-* Massage the changelog and the config option description.
----
- Documentation/admin-guide/kernel-parameters.txt |  2 ++
- arch/x86/Kconfig                                |  3 +++
- arch/x86/kernel/cpu/common.c                    | 16 ++++++++++++++++
- 3 files changed, 21 insertions(+)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 9725c546a0d4..336495722b12 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3399,6 +3399,8 @@
- 
- 	nohugevmalloc	[PPC] Disable kernel huge vmalloc mappings.
- 
-+	nokeylocker	[X86] Disable Key Locker hardware feature.
-+
- 	nosmt		[KNL,S390] Disable symmetric multithreading (SMT).
- 			Equivalent to smt=1.
- 
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index b9281fab4e3e..b0050e8cf723 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -1864,6 +1864,9 @@ config X86_INTEL_MEMORY_PROTECTION_KEYS
- 
- 	  If unsure, say y.
- 
-+config X86_KEYLOCKER
-+	bool
-+
- choice
- 	prompt "TSX enable mode"
- 	depends on CPU_SUP_INTEL
-diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-index 23b4aa437c1e..db1fc9ff0fe3 100644
---- a/arch/x86/kernel/cpu/common.c
-+++ b/arch/x86/kernel/cpu/common.c
-@@ -364,6 +364,22 @@ static __always_inline void setup_umip(struct cpuinfo_x86 *c)
- /* These bits should not change their value after CPU init is finished. */
- static const unsigned long cr4_pinned_mask =
- 	X86_CR4_SMEP | X86_CR4_SMAP | X86_CR4_UMIP | X86_CR4_FSGSBASE;
-+
-+static __init int x86_nokeylocker_setup(char *arg)
-+{
-+	/* Expect an exact match without trailing characters. */
-+	if (strlen(arg))
-+		return 0;
-+
-+	if (!cpu_feature_enabled(X86_FEATURE_KEYLOCKER))
-+		return 1;
-+
-+	setup_clear_cpu_cap(X86_FEATURE_KEYLOCKER);
-+	pr_info("x86/keylocker: Disabled by kernel command line.\n");
-+	return 1;
-+}
-+__setup("nokeylocker", x86_nokeylocker_setup);
-+
- static DEFINE_STATIC_KEY_FALSE_RO(cr_pinning);
- static unsigned long cr4_pinned_bits __ro_after_init;
- 
--- 
-2.17.1
-
+No objection from me as this limit was always totally arbitrary. But I
+have to say I'm a bit surprised: The current maximum setting will wake
+kswapd when free memory drops below 10% and have it reclaim until
+20%. This seems like quite a lot? Are there applications that really
+want kswapd to wake at 30% and target 60% of memory free?
