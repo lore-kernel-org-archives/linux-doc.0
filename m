@@ -2,249 +2,269 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3ED9C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Nov 2021 11:44:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AB58C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Nov 2021 11:58:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238985AbhKYLsB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Nov 2021 06:48:01 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:53446 "EHLO
-        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236186AbhKYLqA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Nov 2021 06:46:00 -0500
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1APAXupr032756;
-        Thu, 25 Nov 2021 11:42:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=WxCUOT23AsgmvEuXL5bSMEw6HIpiD8JsOSc0n2SmUJI=;
- b=w0z5Gewye3aqb9NzTn0FYOGoqYXiSPig6Eme3Y2NGV9Asw6t3xEB/WdeM6XTSBJvWasz
- FSUCW6gvL69n7ZvtwMyrDc+grBWH3aAlH64xeWihfz+7Cq0sHEi4ioJyjBFh5Nzcn0P1
- fXAHIE3MDxMP8dGO7svOUJXssE8pxErd6x2oCN4fSlCv4FxV2t/qIZkggBKpfttAJJIL
- cfvmZYCHaohzYIu0/Xvjm/EgSwS3NVSjIOL30NMR9urzxMq9aFL7VoV1lFsBnYi7+b57
- 3jdEnEv9TmNBMw5IZDBJVzQ8mGKP1PzJM22VLufBl8WAPJYcRRMxw0J7NDgPmcLmZsGj HA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3chkfkf3fy-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 25 Nov 2021 11:42:34 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1APBfRHq194645;
-        Thu, 25 Nov 2021 11:42:34 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2100.outbound.protection.outlook.com [104.47.70.100])
-        by aserp3020.oracle.com with ESMTP id 3ceru8jk6n-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 25 Nov 2021 11:42:33 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oMmbz0D7qXH/8zp4AquxsEbp87QJht4F/mjOzh1P8v8gvcrlSVfltIFAJHNqJWMMfQH7AIBKQSrPnft9GRbBVHv1Gnr6eXfW8SYuKj+UTvJp1LT3LKNr5r1WFp2K55k2YtOjSDbfyWAwc4Hdv3S8LTA9iVHXauGxn3yGiP28gwDslSwauJ4I8OYfZyxchoStoU0LuaiLQQLEi947bhPwaFnSahzYqzABSd4eUHrudWmPm1f2TmM8wloUabDEz+ZZuKiBzOy57rPr3aXXd0J353UCKWFa3m2QHPF/W8D49CtpvzCUva2wfaxgY6tY6Q7p26OI2il30gJghg9P3ZI7bQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WxCUOT23AsgmvEuXL5bSMEw6HIpiD8JsOSc0n2SmUJI=;
- b=ZW2f3CTg77mCYL9Hhad+Eu5fhINGSbyX5ROU9Oqv6EqB2x7gBpAZ0fOAbETbVvgr2FCMgq5lkhwVUc7htDiDuY5hFt+gi/jk3zi7C5LdzDGUwaaR29/Fi0kcSx1iNpzb49mSV8ozfWXLg1dfpYYtwZFEoOmAv71rTxhYxgEpiIknXsdM1OeJielCyihBn1qZ2HfXv9e1bVrMgMhq6685gyaE+JBYn/xienjVTF5WyfX0uxBhTKdwieSn3f6qEJZ77ED94onBEc8bwYbVpryXflI1eCzbMjtlkODXLxRUMuYtM9OifUFLfJ65oqtIy6D1rKVXcRaBGofhcDMGbZsEfA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WxCUOT23AsgmvEuXL5bSMEw6HIpiD8JsOSc0n2SmUJI=;
- b=I1s+Rxrdu5afcn+3FF96mStnoz+S7gbMw9f8RoL+yxD9HucfYS+s9Lo9Y1VPctLhu15rf61sYFRGqN0HZjwb5NRI0L6kDrx4J3e8ZiTXGTWP38nF5IUc53DgIvzBTiWzuFNW001V//eSCJUW8evPGvRKVpaFG2K+wIM2LAXxdoU=
-Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
- by BLAPR10MB5155.namprd10.prod.outlook.com (2603:10b6:208:320::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.19; Thu, 25 Nov
- 2021 11:42:32 +0000
-Received: from BLAPR10MB4835.namprd10.prod.outlook.com
- ([fe80::d809:9016:4511:2bc6]) by BLAPR10MB4835.namprd10.prod.outlook.com
- ([fe80::d809:9016:4511:2bc6%7]) with mapi id 15.20.4734.022; Thu, 25 Nov 2021
- 11:42:32 +0000
-Message-ID: <0439eb48-1688-a4f4-5feb-8eb2680d652f@oracle.com>
-Date:   Thu, 25 Nov 2021 11:42:22 +0000
-Subject: Re: [PATCH v6 09/10] device-dax: set mapping prior to
- vmf_insert_pfn{,_pmd,pud}()
-Content-Language: en-US
-To:     linux-mm@kvack.org
-Cc:     Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Jane Chu <jane.chu@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        id S240349AbhKYMBT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Nov 2021 07:01:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24570 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S238946AbhKYL7T (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Nov 2021 06:59:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1637841368;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Zn5qUDNHigeTHkfOIEeNHxGhyTGmOPHFVQziaWMqPvM=;
+        b=Dt8HLctoVb+AZj0yogqY9oi9RiQtPsemp73tBc4ltlt+52HjTq6buyO1QNEV9joAGzDKyr
+        /tEfuO64ztZ8u7jS76OrL/xDGHx/Gp8HXMa+cMAeH1DCDwniwlAgOOqkbEfJyEi1z0atpv
+        0+IHmB1LdamtzBqPHWauAfLGfND1gOg=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-525-a0RgsVnnOKyT_MgOSvBKVw-1; Thu, 25 Nov 2021 06:56:06 -0500
+X-MC-Unique: a0RgsVnnOKyT_MgOSvBKVw-1
+Received: by mail-ed1-f72.google.com with SMTP id a3-20020a05640213c300b003e7d12bb925so5335670edx.9
+        for <linux-doc@vger.kernel.org>; Thu, 25 Nov 2021 03:56:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version;
+        bh=Zn5qUDNHigeTHkfOIEeNHxGhyTGmOPHFVQziaWMqPvM=;
+        b=8QMZHJlmPpm2W9yjHiQG0uoaTmgJxckyPuc0QRIMX6si/AqtGP+BzyQUuIY9IzVE+Q
+         OvNknNogpGbTBYDR1DMsPG3pNqA+/lYVqstSqEiMSOR4VNAlczTLZcei4v2rHiGHOqlt
+         3TqjY5n99fLF0as07tulqSUqlqZA4tw3Jo7L3Qq0OwFS6D6jZbVNpm18v1pJV7enm4+t
+         83b05BweDWE/lfFc1p5r1j0VFbjcKFWMxOhJ6Klngd4g+msuhSR8nEim4RBNk1rzzKs7
+         eSEGC0uoCJLSQ2T+Y226QIhT5GDlgRvklqdQ7nj+iwGH5xcPGJ7zsVHBNMNVHMuP4GEW
+         xOww==
+X-Gm-Message-State: AOAM5337SH59HEcFO5T04cNcfl1Hkcekk9ZHw4aZPRBf/ha480ip+tmC
+        4AD5dAi8I2z3CZ9USCo6h18JR47cMYl8qp5Gw7yuq82I+qO7qbFYdZRfF6r4ol+qWo1mr6FdvKS
+        2NxVnGFYMDVSdAIUZh9ef
+X-Received: by 2002:a17:906:4904:: with SMTP id b4mr29488615ejq.174.1637841364381;
+        Thu, 25 Nov 2021 03:56:04 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxy2FXQerCQWL0wz8KKtmO9VIUCLeFCt/3u04ynCT2Qttsffm9/94f9BQjkCB8lwUvJzBQCww==
+X-Received: by 2002:a17:906:4904:: with SMTP id b4mr29488392ejq.174.1637841362580;
+        Thu, 25 Nov 2021 03:56:02 -0800 (PST)
+Received: from alrua-x1.borgediget.toke.dk ([2a0c:4d80:42:443::2])
+        by smtp.gmail.com with ESMTPSA id ne33sm1507828ejc.6.2021.11.25.03.56.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Nov 2021 03:56:01 -0800 (PST)
+Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
+        id 2A0F21802A0; Thu, 25 Nov 2021 12:56:01 +0100 (CET)
+From:   Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+To:     Daniel Borkmann <daniel@iogearbox.net>,
+        Alexander Lobakin <alexandr.lobakin@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+Cc:     Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
+        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Christoph Hellwig <hch@lst.de>, nvdimm@lists.linux.dev,
-        linux-doc@vger.kernel.org
-References: <20211124191005.20783-1-joao.m.martins@oracle.com>
- <20211124191005.20783-10-joao.m.martins@oracle.com>
-From:   Joao Martins <joao.m.martins@oracle.com>
-In-Reply-To: <20211124191005.20783-10-joao.m.martins@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P123CA0011.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:150::16) To BLAPR10MB4835.namprd10.prod.outlook.com
- (2603:10b6:208:331::11)
+        Shay Agroskin <shayagr@amazon.com>,
+        Arthur Kiyanovski <akiyano@amazon.com>,
+        David Arinzon <darinzon@amazon.com>,
+        Noam Dagan <ndagan@amazon.com>,
+        Saeed Bishara <saeedb@amazon.com>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Marcin Wojtas <mw@semihalf.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Saeed Mahameed <saeedm@nvidia.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        Edward Cree <ecree.xilinx@gmail.com>,
+        Martin Habets <habetsm.xilinx@gmail.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Lorenzo Bianconi <lorenzo@kernel.org>,
+        Yajun Deng <yajun.deng@linux.dev>,
+        Sergey Ryazanov <ryazanov.s.a@gmail.com>,
+        David Ahern <dsahern@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        Cong Wang <cong.wang@bytedance.com>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
+        virtualization@lists.linux-foundation.org
+Subject: Re: [PATCH v2 net-next 21/26] ice: add XDP and XSK generic
+ per-channel statistics
+In-Reply-To: <77407c26-4e32-232c-58e0-2d601d781f84@iogearbox.net>
+References: <20211123163955.154512-1-alexandr.lobakin@intel.com>
+ <20211123163955.154512-22-alexandr.lobakin@intel.com>
+ <77407c26-4e32-232c-58e0-2d601d781f84@iogearbox.net>
+X-Clacks-Overhead: GNU Terry Pratchett
+Date:   Thu, 25 Nov 2021 12:56:01 +0100
+Message-ID: <87bl28bga6.fsf@toke.dk>
 MIME-Version: 1.0
-Received: from [10.175.177.229] (138.3.204.37) by LO4P123CA0011.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:150::16) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.20 via Frontend Transport; Thu, 25 Nov 2021 11:42:28 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 964bc6ca-537f-4dde-1f85-08d9b008aa7f
-X-MS-TrafficTypeDiagnostic: BLAPR10MB5155:
-X-Microsoft-Antispam-PRVS: <BLAPR10MB5155470F6051AE28C2A5BA9ABB629@BLAPR10MB5155.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3TlGzy4ewPV3CAlD5Onri92jZDCpjnXU8otckIiL3+Jw+TwrA8rukXQBMiIbwJGM+A9LHAkVDhonIWU1y2jYVECv/OzCvSVRIuqkmQE/Uig2NmNYtA0kdz9+RmagfsdKfqRzss7J6neT08LpFzFHM7h1fi0ZhmmEkaZEj0tgT9HtYjZ8LPQtNFuu2H0KjIVxwJjdPZSijp3Zz8TE7IZ/I3KQFZTG5ZnETlv/LH3TktQDU2spJnZlAT1aQREq/K+YC9DE69d55Vo7ZawBxuI+gFcPgE8ISD0/wzdYT27wUZ4xbwEL/8+BDq1Qtj34ZWzoqkTHO/eKWXDxqunjFZUs+1htlqMfH3tn2la1P7hLTvK8Gwh/Nk6boAYNo9T509Fz1qNPyA2ecaJ5j4GuQcyJHpmxU7B6KAZc5iZh6A3qv6VDLKXyteNXSgFE+wlY7/x/9ovXwcfO0CIMODz0s4GJegCtBqCZPwV5FPZTQSeVZe77ov/STZPaAxDgVr4BvWj84RvvzaDj0UUBg2MMXW28ArJSoJRKowqPeglOzMKYOV8VUcFLHH7QOLsr4niCJ0K5E0hhNjh4VCmq7jQB19Fip/KDFakMnvQA3n37wVdwWc/O/8pd+/0sO/KCxCjwJcZzqLJzll1zW4/OI9LbBXnXnFTW7SZCEb6veLNV8O6naaR8hBm+DF9czwQeG02Ok9ESqFpsuQj4lFvm6/loWD/hyg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB4835.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(83380400001)(186003)(508600001)(31686004)(8676002)(2906002)(6916009)(5660300002)(54906003)(2616005)(31696002)(316002)(956004)(26005)(4326008)(7416002)(16576012)(53546011)(8936002)(38100700002)(86362001)(66556008)(36756003)(66946007)(66476007)(6486002)(6666004)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y0tPLzZmY2xHWGxMQkp1TktpWXdRRnNRVWVIWVVpVGord3BOTHBxK1poWWgw?=
- =?utf-8?B?OForYkpFRGIxNDFUVmxiVkVEcENPWVJDQ1FiV3I5SnNkejNhdm9QYlRVY0Fr?=
- =?utf-8?B?bzVzK1dTbnFrY2tZMDFtbDZGQk1iNzdDVHowVWpNKzN0NWNhTUFMVG44dUp1?=
- =?utf-8?B?TDZwTzNBb2RUUzAySU5NUllOM3E4bzZSV2hBS3BUaHU5NGxVMFgvNkRCY0hR?=
- =?utf-8?B?SDhFT0huamxEaWRnYVpDaDFzUHRRZERGWGdRTFliT1lhL1ZGYzBvN01JUVho?=
- =?utf-8?B?UFRDTE02bmdjK3orcU5uT3VIdE5SVnRDenVrZTZvMU1FUEpkMUp2dEx5dzd4?=
- =?utf-8?B?N0hjTDBPNXIyRU1QeVgzVksvOERMUW1GTjgzVUs3bGR3cjVXbWZCb0RTV2Rh?=
- =?utf-8?B?Z09ZOWU4VExyTTNxVlFaT0lDZDBuL01PclJQTVpmWjBlUjJ3c3ZuRTZ2TmJx?=
- =?utf-8?B?UHRGU3ZrTkZsVldoajFCVWhtRHpYUUY2amRnNlBzajZqRFdZd0E3WkM2NGxQ?=
- =?utf-8?B?d2JaaGd3UFo0TGkzcjlJVDY5SkhJUXdDeGhHU0xLYUs0enA4UWJGWlczSnZj?=
- =?utf-8?B?UG9aWktwWnVRYmt5bEw3SmwwUWVVSXNLMGh6K1FFc3FEeXdhYVkyZFFSa1Na?=
- =?utf-8?B?OGxpYllzQngwRWNHdVlMcEN4VEp6U2I0Yy8yeEdGRG9vZzlwTkxxQnd5cGRI?=
- =?utf-8?B?TzhlTWpHaFNzRkhyQmVvSCs2Z1V4U25RTlQ0S3Rra3BWRHp0TTJRVzkyblVH?=
- =?utf-8?B?dmljQW1OWm1qWjVObmlFVU9hM3poVWpubXFMazdWcVhOOEZzMVhqN29hd3Nz?=
- =?utf-8?B?ZEtJTDA2UGg2bEZ3QmdhNmlVbElaSlY5bWkzNGcwTlgvV1dSZks2UU1DeGlw?=
- =?utf-8?B?UGw0V3BNKzR0VnpoVk9TSWp6dTRnbHpUaDhLMGNJczY0aXhiWUFhNmJhSkVU?=
- =?utf-8?B?bFM5Z2hXcUNCd0hWRldERUlwUW1IWVFNclRVMy96b2dzdUdCNkJXcHl0bkpL?=
- =?utf-8?B?NENpWHJ6YkZJVktZKzVuS0hLY0NKTjFjMG00UVdlSHhvSDZ0K0RIMTNMOWgw?=
- =?utf-8?B?clhqVkZjZTUreUFXci9WN0hYK1FKejYrRG1yUHVxZHpETnh4bEZZa0w1SUg2?=
- =?utf-8?B?eDR2L0p6djBIUzhVU3BtbmE0NFZsSXRGU1JHOE1oblRGT1p1L3BrTklJeW52?=
- =?utf-8?B?M3VxWkdnYVAyc1dUMVhyTHZVdmRoalgzRWNNS0F3c3J4YTUrOWlXNmlFemwv?=
- =?utf-8?B?emdaS0FRSXNwejkzbFlOdUtCcnJtNTErN3IyaW80dEY0L05jVG11bnJ2R2RM?=
- =?utf-8?B?eXU5QUpTZzdEYm8xV0Fsc3ZJYlpFcnhsSmc5R0k0RUVxeldUQTNvTmMrbWJo?=
- =?utf-8?B?Q2xUSTVSbGxqRVJNZmo4ZnVGN2JhY0VYaSsyL0NhbFNReUNxMDVsYVFxcWZ2?=
- =?utf-8?B?akNnY29IdEh1MVl1TUhpTTVuMUZjZzRXTzZZSDZKN0pnN0FqMkd0RzNaT0Zz?=
- =?utf-8?B?cDRKTzJES1djbXZjcGhNT09EZjAyd2JWTkhqamZSWUpRVWFyeFg5cFQya3NG?=
- =?utf-8?B?OXdTTGxhOFdEZFVHeTBsZ2dzQ2ExOThGektVMlAzdXZtYVpyOWZOcnQ1S2cx?=
- =?utf-8?B?SHYyNE5mUmZieDVYa1UwdjZ6WnBsT3hxaGhiSVEwZ3R2Zm9XcXpveTRJOTdP?=
- =?utf-8?B?ZkFTakQveWFtK3h5dWN6RzdDYkxHT0NJUTN6YnVabE9xVHc1TW01RkRJTTZj?=
- =?utf-8?B?R2Roc1pHNlFWUTlvWG55NC81aUZSdkx0V1Q4V2RHdkh5SmllTmM3OWpGTWVZ?=
- =?utf-8?B?R3NYOVVQWmRwM0tjelpCaFZ4SVpCUE1WRS9QdkJtYWVmRWtabVNkcUJWMmtZ?=
- =?utf-8?B?Qmdkclg2Rk1ja3AyVnEzaGVPb0grdjBmaW9VRUU4bS9WSzZsR294Ykh4UlY5?=
- =?utf-8?B?NE1VTnFMbVNUZitIUDJ3d0ZWQjArVUpCSldtaDlrd0JzekZLSmVrUjM4R0dO?=
- =?utf-8?B?b0VCays0MVBhSE81aUprZzdPRExjQ2NKN1UxM0dNdnJudVFaMmdLUUlJdVcr?=
- =?utf-8?B?TktKcXkzV0c2RUlQVHhtMWhONTc2aWZ1M0h3VGxKWDk0alRlVVJaQk5nUWs2?=
- =?utf-8?B?dWJRMXR6cXdFL0l0S29rcGY2cUhBVE5DaHMwc25SZ3BiaGo3eHJGLzliaFJ5?=
- =?utf-8?B?ZnM2U2t0RWtwSmxnUUxqUGlHM2I3aEdGSVRxQ3FlMFk3bUYwOUhpSENzemd5?=
- =?utf-8?Q?m8OMRybC8rX+u5sC14nQuF48v35d9b4Cc2ApFf03UU=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 964bc6ca-537f-4dde-1f85-08d9b008aa7f
-X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2021 11:42:31.8491
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GfZDU0Kg9UteWV9GTD8GmmhOKKyvodrptqj8jbPGLq4SW0TlGP7mh1a0VaN5Zk1uuilZagLfP78xcjE/GC7zATuNkaPY+hYHONWE1xVBP9E=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB5155
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10178 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxscore=0 spamscore=0
- mlxlogscore=999 malwarescore=0 phishscore=0 adultscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2111250064
-X-Proofpoint-GUID: tNLKyvmKE8a6YnqaipuU_FSXBmttTfYk
-X-Proofpoint-ORIG-GUID: tNLKyvmKE8a6YnqaipuU_FSXBmttTfYk
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/24/21 19:10, Joao Martins wrote:
-> Normally, the @page mapping is set prior to inserting the page into a
-> page table entry. Make device-dax adhere to the same ordering, rather
-> than setting mapping after the PTE is inserted.
-> 
-> The address_space never changes and it is always associated with the
-> same inode and underlying pages. So, the page mapping is set once but
-> cleared when the struct pages are removed/freed (i.e. after
-> {devm_}memunmap_pages()).
-> 
-> Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
-> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-> ---
->  drivers/dax/device.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/dax/device.c b/drivers/dax/device.c
-> index 9c87927d4bc2..0ef9fecec005 100644
-> --- a/drivers/dax/device.c
-> +++ b/drivers/dax/device.c
-> @@ -121,6 +121,8 @@ static vm_fault_t __dev_dax_pte_fault(struct dev_dax *dev_dax,
->  
->  	*pfn = phys_to_pfn_t(phys, PFN_DEV|PFN_MAP);
->  
-> +	dax_set_mapping(vmf, *pfn, fault_size);
-> +
->  	return vmf_insert_mixed(vmf->vma, vmf->address, *pfn);
->  }
->  
-> @@ -161,6 +163,8 @@ static vm_fault_t __dev_dax_pmd_fault(struct dev_dax *dev_dax,
->  
->  	*pfn = phys_to_pfn_t(phys, PFN_DEV|PFN_MAP);
->  
-> +	dax_set_mapping(vmf, *pfn, fault_size);
-> +
->  	return vmf_insert_pfn_pmd(vmf, *pfn, vmf->flags & FAULT_FLAG_WRITE);
->  }
->  
-> @@ -203,6 +207,8 @@ static vm_fault_t __dev_dax_pud_fault(struct dev_dax *dev_dax,
->  
->  	*pfn = phys_to_pfn_t(phys, PFN_DEV|PFN_MAP);
->  
-> +	dax_set_mapping(vmf, *pfn, fault_size);
-> +
->  	return vmf_insert_pfn_pud(vmf, *pfn, vmf->flags & FAULT_FLAG_WRITE);
->  }
->  #else
-> @@ -245,8 +251,6 @@ static vm_fault_t dev_dax_huge_fault(struct vm_fault *vmf,
->  		rc = VM_FAULT_SIGBUS;
->  	}
->  
-> -	if (rc == VM_FAULT_NOPAGE)
-> -		dax_set_mapping(vmf, pfn, fault_size);
->  	dax_read_unlock(id);
->  
->  	return rc;
-> 
-This last chunk is going to spoof out a new warning because @fault_size in
-dev_dax_huge_fault stops being used after this patch.
-I've added below chunk for the next version (in addition to Christoph comments in
-patch 4):
+Daniel Borkmann <daniel@iogearbox.net> writes:
 
-@@ -217,7 +223,6 @@ static vm_fault_t dev_dax_huge_fault(struct vm_fault *vmf,
-                enum page_entry_size pe_size)
- {
-        struct file *filp = vmf->vma->vm_file;
--       unsigned long fault_size;
-        vm_fault_t rc = VM_FAULT_SIGBUS;
-        int id;
-        pfn_t pfn;
-@@ -230,23 +235,18 @@ static vm_fault_t dev_dax_huge_fault(struct vm_fault *vmf,
-        id = dax_read_lock();
-        switch (pe_size) {
-        case PE_SIZE_PTE:
--               fault_size = PAGE_SIZE;
-                rc = __dev_dax_pte_fault(dev_dax, vmf, &pfn);
-                break;
-        case PE_SIZE_PMD:
--               fault_size = PMD_SIZE;
-                rc = __dev_dax_pmd_fault(dev_dax, vmf, &pfn);
-                break;
-        case PE_SIZE_PUD:
--               fault_size = PUD_SIZE;
-                rc = __dev_dax_pud_fault(dev_dax, vmf, &pfn);
-                break;
-        default:
-                rc = VM_FAULT_SIGBUS;
-        }
+> Hi Alexander,
+>
+> On 11/23/21 5:39 PM, Alexander Lobakin wrote:
+> [...]
+>
+> Just commenting on ice here as one example (similar applies to other drivers):
+>
+>> diff --git a/drivers/net/ethernet/intel/ice/ice_txrx_lib.c b/drivers/net/ethernet/intel/ice/ice_txrx_lib.c
+>> index 1dd7e84f41f8..7dc287bc3a1a 100644
+>> --- a/drivers/net/ethernet/intel/ice/ice_txrx_lib.c
+>> +++ b/drivers/net/ethernet/intel/ice/ice_txrx_lib.c
+>> @@ -258,6 +258,8 @@ static void ice_clean_xdp_irq(struct ice_tx_ring *xdp_ring)
+>>   		xdp_ring->next_dd = ICE_TX_THRESH - 1;
+>>   	xdp_ring->next_to_clean = ntc;
+>>   	ice_update_tx_ring_stats(xdp_ring, total_pkts, total_bytes);
+>> +	xdp_update_tx_drv_stats(&xdp_ring->xdp_stats->xdp_tx, total_pkts,
+>> +				total_bytes);
+>>   }
+>> 
+>>   /**
+>> @@ -277,6 +279,7 @@ int ice_xmit_xdp_ring(void *data, u16 size, struct ice_tx_ring *xdp_ring)
+>>   		ice_clean_xdp_irq(xdp_ring);
+>> 
+>>   	if (!unlikely(ICE_DESC_UNUSED(xdp_ring))) {
+>> +		xdp_update_tx_drv_full(&xdp_ring->xdp_stats->xdp_tx);
+>>   		xdp_ring->tx_stats.tx_busy++;
+>>   		return ICE_XDP_CONSUMED;
+>>   	}
+>> diff --git a/drivers/net/ethernet/intel/ice/ice_xsk.c b/drivers/net/ethernet/intel/ice/ice_xsk.c
+>> index ff55cb415b11..62ef47a38d93 100644
+>> --- a/drivers/net/ethernet/intel/ice/ice_xsk.c
+>> +++ b/drivers/net/ethernet/intel/ice/ice_xsk.c
+>> @@ -454,42 +454,58 @@ ice_construct_skb_zc(struct ice_rx_ring *rx_ring, struct xdp_buff **xdp_arr)
+>>    * @xdp: xdp_buff used as input to the XDP program
+>>    * @xdp_prog: XDP program to run
+>>    * @xdp_ring: ring to be used for XDP_TX action
+>> + * @lrstats: onstack Rx XDP stats
+>>    *
+>>    * Returns any of ICE_XDP_{PASS, CONSUMED, TX, REDIR}
+>>    */
+>>   static int
+>>   ice_run_xdp_zc(struct ice_rx_ring *rx_ring, struct xdp_buff *xdp,
+>> -	       struct bpf_prog *xdp_prog, struct ice_tx_ring *xdp_ring)
+>> +	       struct bpf_prog *xdp_prog, struct ice_tx_ring *xdp_ring,
+>> +	       struct xdp_rx_drv_stats_local *lrstats)
+>>   {
+>>   	int err, result = ICE_XDP_PASS;
+>>   	u32 act;
+>> 
+>> +	lrstats->bytes += xdp->data_end - xdp->data;
+>> +	lrstats->packets++;
+>> +
+>>   	act = bpf_prog_run_xdp(xdp_prog, xdp);
+>> 
+>>   	if (likely(act == XDP_REDIRECT)) {
+>>   		err = xdp_do_redirect(rx_ring->netdev, xdp, xdp_prog);
+>> -		if (err)
+>> +		if (err) {
+>> +			lrstats->redirect_errors++;
+>>   			goto out_failure;
+>> +		}
+>> +		lrstats->redirect++;
+>>   		return ICE_XDP_REDIR;
+>>   	}
+>> 
+>>   	switch (act) {
+>>   	case XDP_PASS:
+>> +		lrstats->pass++;
+>>   		break;
+>>   	case XDP_TX:
+>>   		result = ice_xmit_xdp_buff(xdp, xdp_ring);
+>> -		if (result == ICE_XDP_CONSUMED)
+>> +		if (result == ICE_XDP_CONSUMED) {
+>> +			lrstats->tx_errors++;
+>>   			goto out_failure;
+>> +		}
+>> +		lrstats->tx++;
+>>   		break;
+>>   	default:
+>>   		bpf_warn_invalid_xdp_action(act);
+>> -		fallthrough;
+>> +		lrstats->invalid++;
+>> +		goto out_failure;
+>>   	case XDP_ABORTED:
+>> +		lrstats->aborted++;
+>>   out_failure:
+>>   		trace_xdp_exception(rx_ring->netdev, xdp_prog, act);
+>> -		fallthrough;
+>> +		result = ICE_XDP_CONSUMED;
+>> +		break;
+>>   	case XDP_DROP:
+>>   		result = ICE_XDP_CONSUMED;
+>> +		lrstats->drop++;
+>>   		break;
+>>   	}
+>
+> Imho, the overall approach is way too bloated. I can see the
+> packets/bytes but now we have 3 counter updates with return codes
+> included and then the additional sync of the on-stack counters into
+> the ring counters via xdp_update_rx_drv_stats(). So we now need
+> ice_update_rx_ring_stats() as well as xdp_update_rx_drv_stats() which
+> syncs 10 different stat counters via u64_stats_add() into the per ring
+> ones. :/
+>
+> I'm just taking our XDP L4LB in Cilium as an example: there we already
+> count errors and export them via per-cpu map that eventually lead to
+> XDP_DROP cases including the /reason/ which caused the XDP_DROP (e.g.
+> Prometheus can then scrape these insights from all the nodes in the
+> cluster). Given the different action codes are very often application
+> specific, there's not much debugging that you can do when /only/
+> looking at `ip link xdpstats` to gather insight on *why* some of these
+> actions were triggered (e.g. fib lookup failure, etc). If really of
+> interest, then maybe libxdp could have such per-action counters as
+> opt-in in its call chain..
+
+To me, standardising these counters is less about helping people debug
+their XDP programs (as you say, you can put your own telemetry into
+those), and more about making XDP less "mystical" to the system
+administrator (who may not be the same person who wrote the XDP
+programs). So at the very least, they need to indicate "where are the
+packets going", which means at least counters for DROP, REDIRECT and TX
+(+ errors for tx/redirect) in addition to the "processed by XDP" initial
+counter. Which in the above means 'pass', 'invalid' and 'aborted' could
+be dropped, I guess; but I don't mind terribly keeping them either given
+that there's no measurable performance impact.
+
+> But then it also seems like above in ice_xmit_xdp_ring() we now need
+> to bump counters twice just for sake of ethtool vs xdp counters which
+> sucks a bit, would be nice to only having to do it once:
+
+This I agree with, and while I can see the layering argument for putting
+them into 'ip' and rtnetlink instead of ethtool, I also worry that these
+counters will simply be lost in obscurity, so I do wonder if it wouldn't
+be better to accept the "layering violation" and keeping them all in the
+'ethtool -S' output?
+
+[...]
+
+> +  xdp-channel0-rx_xdp_redirect: 7
+> +  xdp-channel0-rx_xdp_redirect_errors: 8
+> +  xdp-channel0-rx_xdp_tx: 9
+> +  xdp-channel0-rx_xdp_tx_errors: 10
+> +  xdp-channel0-tx_xdp_xmit_packets: 11
+> +  xdp-channel0-tx_xdp_xmit_bytes: 12
+> +  xdp-channel0-tx_xdp_xmit_errors: 13
+> +  xdp-channel0-tx_xdp_xmit_full: 14
+>
+>  From a user PoV to avoid confusion, maybe should be made more clear that the latter refers
+> to xsk.
+
++1, these should probably be xdp-channel0-tx_xsk_* or something like
+that...
+
+-Toke
+
