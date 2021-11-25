@@ -2,149 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0390C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Nov 2021 06:04:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3347CC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Nov 2021 06:13:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347308AbhKYGHT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Nov 2021 01:07:19 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48102 "EHLO mail.kernel.org"
+        id S1347268AbhKYGQr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Nov 2021 01:16:47 -0500
+Received: from verein.lst.de ([213.95.11.211]:41013 "EHLO verein.lst.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1346423AbhKYGFR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 25 Nov 2021 01:05:17 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 36C8F6109D;
-        Thu, 25 Nov 2021 06:02:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1637820126;
-        bh=Hq2zg3G6gApQm7rRrSncgDSyVbrLu4jCluqs3U/7Weo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=G6PG0C3m0+MqEnoXBwDA4tvmsymzaaW9TSxBIAFagkwvHU3tOaAqt2vsNq95v2SvQ
-         Tjcav11hF8Fz05+0Qcji/O2mqCdv+gHi0qED3L3HgHNPFZoxKXGfDCrDxCfT3uba7h
-         M+vB/UEhDQ2xRpC2WiUGZ0pDz5UTN83ZIDnxqTjs=
-Date:   Thu, 25 Nov 2021 07:02:04 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     klondike <klondike@klondike.es>
-Cc:     linux-usb@vger.kernel.org,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Kranthi Kuntala <kranthi.kuntala@intel.com>,
-        Rajmohan Mani <rajmohan.mani@intel.com>,
-        Mario.Limonciello@dell.com, Lukas Wunner <lukas@wunner.de>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/2] thunderbolt: allow vendor ID override for NVM
- programming
-Message-ID: <YZ8m3E/06h/8lZcN@kroah.com>
-References: <8d29b41b-3590-c4b0-a2f8-fa34063bafb3@klondike.es>
- <07bd1d90-c95f-0685-e1a8-2211c9dac251@klondike.es>
- <YZ6D7vbyaf50DSCh@kroah.com>
- <9b8ea990-558b-c2ba-100f-4e06c3a10f69@klondike.es>
- <YZ6GdhKQgrFqZLyl@kroah.com>
- <6520dbb5-d842-4ce1-c1e5-ad653eb3deca@klondike.es>
+        id S1347640AbhKYGOq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 25 Nov 2021 01:14:46 -0500
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 0B8A268B05; Thu, 25 Nov 2021 07:11:31 +0100 (CET)
+Date:   Thu, 25 Nov 2021 07:11:30 +0100
+From:   Christoph Hellwig <hch@lst.de>
+To:     Joao Martins <joao.m.martins@oracle.com>
+Cc:     linux-mm@kvack.org, Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Jane Chu <jane.chu@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Christoph Hellwig <hch@lst.de>, nvdimm@lists.linux.dev,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 04/10] mm/memremap: add ZONE_DEVICE support for
+ compound pages
+Message-ID: <20211125061130.GA682@lst.de>
+References: <20211124191005.20783-1-joao.m.martins@oracle.com> <20211124191005.20783-5-joao.m.martins@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <6520dbb5-d842-4ce1-c1e5-ad653eb3deca@klondike.es>
+In-Reply-To: <20211124191005.20783-5-joao.m.martins@oracle.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 24, 2021 at 07:56:50PM +0100, klondike wrote:
-> El 24/11/21 a las 19:37, Greg Kroah-Hartman escribió:
-> > On Wed, Nov 24, 2021 at 07:32:29PM +0100, klondike wrote:
-> >> El 24/11/21 a las 19:26, Greg Kroah-Hartman escribió:
-> >>> On Wed, Nov 24, 2021 at 05:37:05PM +0100, Francisco Blas Izquierdo Riera (klondike) wrote:
-> >>>> Currently, the vendor ID reported by the chipset is checked before to
-> >>>> avoid accidentally programming devices from unsupported vendors with
-> >>>> a different NVM structure.
-> >>>>
-> >>>> Certain Thunderbolt devices store the vendor ID in the NVM, therefore
-> >>>> if the NVM has become corrrupted the device will report an invalid
-> >>>> vendor ID and reflashing will be impossible on GNU/Linux even if the
-> >>>> device can boot in safe mode.
-> >>>>
-> >>>> This patch adds a new parameter ``switch_nvm_vendor_override`` which
-> >>>> can be used to override the vendor ID used for detecting the NVM
-> >>>> structure allowing to reflash (and authenticate) a new, valid
-> >>>> image on the device.
-> >>>>
-> >>>> Signed-off-by: Francisco Blas Izquierdo Riera (klondike) <klondike@klondike.es>
-> >>>> ---
-> >>>> drivers/thunderbolt/switch.c | 9 ++++++++-
-> >>>> 1 file changed, 8 insertions(+), 1 deletion(-)
-> >>>>
-> >>>> diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-> >>>> index 3014146081..a7959c3f3f 100644
-> >>>> --- a/drivers/thunderbolt/switch.c
-> >>>> +++ b/drivers/thunderbolt/switch.c
-> >>>> @@ -13,6 +13,7 @@
-> >>>> #include <linux/sched/signal.h>
-> >>>> #include <linux/sizes.h>
-> >>>> #include <linux/slab.h>
-> >>>> +#include <linux/moduleparam.h>
-> >>>> #include "tb.h"
-> >>>> @@ -34,6 +35,10 @@ struct nvm_auth_status {
-> >>>> static LIST_HEAD(nvm_auth_status_cache);
-> >>>> static DEFINE_MUTEX(nvm_auth_status_lock);
-> >>>> +static short switch_nvm_vendor_override = -1;
-> >>>> +module_param(switch_nvm_vendor_override, short, 0440);
-> >>>> +MODULE_PARM_DESC(switch_nvm_vendor_override, "Override the switch vendor id on the nvm access routines");
-> >>>> +
-> >>>> static struct nvm_auth_status *__nvm_get_auth_status(const struct tb_switch *sw)
-> >>>> {
-> >>>> struct nvm_auth_status *st;
-> >>>> @@ -391,7 +396,9 @@ static int tb_switch_nvm_add(struct tb_switch *sw)
-> >>>> * relax this in the future when we learn other NVM formats.
-> >>>> */
-> >>>> if (sw->config.vendor_id != PCI_VENDOR_ID_INTEL &&
-> >>>> - sw->config.vendor_id != 0x8087) {
-> >>>> + sw->config.vendor_id != 0x8087 &&
-> >>>> + switch_nvm_vendor_override != PCI_VENDOR_ID_INTEL &&
-> >>>> + switch_nvm_vendor_override != 0x8087) {
-> >>>> dev_info(&sw->dev,
-> >>>> "NVM format of vendor %#x is not known, disabling NVM upgrade\n",
-> >>>> sw->config.vendor_id);
-> >>> Patch is corrupted :(
-> >>>
-> >>> Anyway, module parameters are from the 1990's and should stay there.
-> >>> Please use a per-device way to handle this instead, as trying to handle
-> >>> module parameters is very difficult over time.
-> >>>
-> >>> thanks,
-> >>>
-> >>> greg k-h
-> >> Hi Greg!
-> >>
-> >> Thanks for your feedback. I'm a bit uncertain about what you mean with
-> >> a per-device way. Do you mean through the sysfs interface? If so how
-> >> to do so on device discovery time (which is what the Thunderbolt
-> >> driver does)?
-> >>
-> >> I'm surely missing something here so I would really appreciate a
-> >> pointer in the right direction.
-> > Ah, forgot about discovery time, you want this before the device is
-> > probed...
-> >
-> > Then what about the existing "new_id" file for the driver?  That's what
-> > it is there for, right?
-> Hi again Greg!
-> 
-> "new_id" would work well if the blacklisting was for the whole driver, but currently the driver accepts the corrupted controller just fine but disables the nvm flashing functionality for any vendor IDs it considers inappropriate.
+On Wed, Nov 24, 2021 at 07:09:59PM +0000, Joao Martins wrote:
+> Add a new @vmemmap_shift property for struct dev_pagemap which specifies that a
+> devmap is composed of a set of compound pages of order @vmemmap_shift, instead of
+> base pages. When a compound page devmap is requested, all but the first
+> page are initialised as tail pages instead of order-0 pages.
 
-Then fix the devices to do not have corrupted ids!  :)
+Please wrap commit log lines after 73 characters.
 
-Seriously, what does other operating systems do with these broken
-devices?
+>  #define for_each_device_pfn(pfn, map, i) \
+> -	for (pfn = pfn_first(map, i); pfn < pfn_end(map, i); pfn = pfn_next(pfn))
+> +	for (pfn = pfn_first(map, i); pfn < pfn_end(map, i); pfn = pfn_next(map, pfn))
 
-> The only other approach I can think off is to add a sysfs entry when
-> the vendor missmatches the use can use to try force enabling flashing
-> for a specific vendor ID and have that create the nvm entries if not
-> already there. Do you think this would be better?
+It would be nice to fix up this long line while you're at it.
 
-I think it would be best to fix the firmware in the devices.  What
-prevents that from happening?
+>  static void dev_pagemap_kill(struct dev_pagemap *pgmap)
+>  {
+> @@ -315,8 +315,8 @@ static int pagemap_range(struct dev_pagemap *pgmap, struct mhp_params *params,
+>  	memmap_init_zone_device(&NODE_DATA(nid)->node_zones[ZONE_DEVICE],
+>  				PHYS_PFN(range->start),
+>  				PHYS_PFN(range_len(range)), pgmap);
+> -	percpu_ref_get_many(pgmap->ref, pfn_end(pgmap, range_id)
+> -			- pfn_first(pgmap, range_id));
+> +	percpu_ref_get_many(pgmap->ref, (pfn_end(pgmap, range_id)
+> +			- pfn_first(pgmap, range_id)) >> pgmap->vmemmap_shift);
 
-thanks,
+In the Linux coding style the - goes ointo the first line.
 
-greg k-h
+But it would be really nice to clean this up with a helper ala pfn_len
+anyway:
+
+	percpu_ref_get_many(pgmap->ref,
+			    pfn_len(pgmap, range_id) >> pgmap->vmemmap_shift);
