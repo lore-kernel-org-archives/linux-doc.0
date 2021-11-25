@@ -2,178 +2,284 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61B5EC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Nov 2021 16:16:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C7E0C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Nov 2021 17:11:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356505AbhKYQUB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Nov 2021 11:20:01 -0500
-Received: from mail-dm6nam08on2074.outbound.protection.outlook.com ([40.107.102.74]:43009
-        "EHLO NAM04-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S241521AbhKYQSB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 25 Nov 2021 11:18:01 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=m4j3njhmigYqvWUS6ho6Z15Mr6dy0G62Wm2aEztnxN1hgl3StU8jakwfgLuscl2Yy058+wVYKcVvVFS5rbfbQq6QL5EPSflwpv//GZKcMsaGpxiXcwO50sKpgdZ5JPi6bWwp7NgVzqg+jDp1O5j92my+jDqV9cHdH6dDaLhggMtJzLU/ltD9wwuNLlVM7WRWw/eViZtF9u1pxBCFCmS+zb7YplmE2aEYTsxpxfYPM38PQA0ftyCHHlJJOgeBiC+a6iGOrU2jmRXktgIRIuZxV9bcbhWjGnVUUFDnwiRTAB5VdEujG/Xrb6upYtms9OBFwWNCn8ur5DcPYUGh7IzQiQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tKNThpPsSCa6XFv0pbDtYZJElIxBPxMkHtRiQMD8zAc=;
- b=Jd79OxpkLXPVLRDDL6XUskxX5ZEVGnIaJvtOarzuql1Rb+aS6/oi20Wl2d73d9dPWp6kSp4bU9cS0PXoYKeY/BP6CBIbn/5nfCg5LPvaDfhFAy7VWkRNhntspDmYzjUI+YHLJzTUWLA744ty5ciY8c8xs3jvobiqwV8khyqFe9/GUxIXyTZeekKCwyBvOuFR6BISMIj4dHl7S6butIn77F+bbrwdYOGTb8KiqSmD2sn1UllMbXD/sPxVnTwku0Xw6Vsu/5RZmGmxmBghRddIygqTxcFmV58b7w1aRL+CxADSu2ElHrKZURP7Ny2ybY6cvMqxSYQUgzKGG0eK6J/W0A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tKNThpPsSCa6XFv0pbDtYZJElIxBPxMkHtRiQMD8zAc=;
- b=iUGYzPMp1QvXHbVpd2/T+j+z0r0aa3tl6q0yrC5PsFUmSi1AgE9qJN5XneXke4nLOxxfq0uipRqGpbQTbGf/nBIud13fey9fDXcAhZ93jP71aI7nHfxz62izbKcNAN0SbnfzN9/G7WQ4MfkayYEBWe0xurygGNbsVLgLCECWoIQTBrzMSj8Tw9mN7IE/5XTKQBfh9paY8JQk8yz8MuCaK//lqjd5tUliC49fN+Uj4bS88DpHMDXFp3Xp70wt1sfuw7x8IyLLtCF0c+Bt2kVxjr1iZSS4fqDIuiOUT3FAxVgioT+/2030K3QftESqgsVeyLyDCzpTAAslMygHF6sZvg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
- by BL1PR12MB5288.namprd12.prod.outlook.com (2603:10b6:208:314::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.19; Thu, 25 Nov
- 2021 16:14:49 +0000
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::5897:83b2:a704:7909]) by BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::5897:83b2:a704:7909%8]) with mapi id 15.20.4734.023; Thu, 25 Nov 2021
- 16:14:48 +0000
-Date:   Thu, 25 Nov 2021 12:14:47 -0400
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Cornelia Huck <cohuck@redhat.com>
-Cc:     Alex Williamson <alex.williamson@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
-        Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-        Yishai Hadas <yishaih@nvidia.com>
-Subject: Re: [PATCH RFC] vfio: Documentation for the migration region
-Message-ID: <20211125161447.GN4670@nvidia.com>
-References: <0-v1-0ec87874bede+123-vfio_mig_doc_jgg@nvidia.com>
- <87zgpvj6lp.fsf@redhat.com>
- <20211123165352.GA4670@nvidia.com>
- <87fsrljxwq.fsf@redhat.com>
- <20211124184020.GM4670@nvidia.com>
- <87a6hsju8v.fsf@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87a6hsju8v.fsf@redhat.com>
-X-ClientProxiedBy: MN2PR11CA0020.namprd11.prod.outlook.com
- (2603:10b6:208:23b::25) To BL0PR12MB5506.namprd12.prod.outlook.com
- (2603:10b6:208:1cb::22)
+        id S230142AbhKYROb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Nov 2021 12:14:31 -0500
+Received: from mga18.intel.com ([134.134.136.126]:54216 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S241954AbhKYRMb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 25 Nov 2021 12:12:31 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10179"; a="222415070"
+X-IronPort-AV: E=Sophos;i="5.87,263,1631602800"; 
+   d="scan'208";a="222415070"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2021 09:07:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,263,1631602800"; 
+   d="scan'208";a="554691064"
+Received: from irvmail001.ir.intel.com ([10.43.11.63])
+  by fmsmga008.fm.intel.com with ESMTP; 25 Nov 2021 09:07:39 -0800
+Received: from newjersey.igk.intel.com (newjersey.igk.intel.com [10.102.20.203])
+        by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id 1APH7a6a001588;
+        Thu, 25 Nov 2021 17:07:36 GMT
+From:   Alexander Lobakin <alexandr.lobakin@intel.com>
+To:     Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
+        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shay Agroskin <shayagr@amazon.com>,
+        Arthur Kiyanovski <akiyano@amazon.com>,
+        David Arinzon <darinzon@amazon.com>,
+        Noam Dagan <ndagan@amazon.com>,
+        Saeed Bishara <saeedb@amazon.com>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Marcin Wojtas <mw@semihalf.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Saeed Mahameed <saeedm@nvidia.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        Edward Cree <ecree.xilinx@gmail.com>,
+        Martin Habets <habetsm.xilinx@gmail.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Lorenzo Bianconi <lorenzo@kernel.org>,
+        Yajun Deng <yajun.deng@linux.dev>,
+        Sergey Ryazanov <ryazanov.s.a@gmail.com>,
+        David Ahern <dsahern@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        Cong Wang <cong.wang@bytedance.com>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
+        virtualization@lists.linux-foundation.org
+Subject: Re: [PATCH v2 net-next 21/26] ice: add XDP and XSK generic per-channel statistics
+Date:   Thu, 25 Nov 2021 18:07:08 +0100
+Message-Id: <20211125170708.127323-1-alexandr.lobakin@intel.com>
+X-Mailer: git-send-email 2.33.1
+In-Reply-To: <87bl28bga6.fsf@toke.dk>
+References: <20211123163955.154512-1-alexandr.lobakin@intel.com> <20211123163955.154512-22-alexandr.lobakin@intel.com> <77407c26-4e32-232c-58e0-2d601d781f84@iogearbox.net> <87bl28bga6.fsf@toke.dk>
 MIME-Version: 1.0
-Received: from mlx.ziepe.ca (142.162.113.129) by MN2PR11CA0020.namprd11.prod.outlook.com (2603:10b6:208:23b::25) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.20 via Frontend Transport; Thu, 25 Nov 2021 16:14:48 +0000
-Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1mqHOZ-0021oP-AC; Thu, 25 Nov 2021 12:14:47 -0400
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c7d1ff48-dc44-4e60-a0f1-08d9b02eb414
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5288:
-X-Microsoft-Antispam-PRVS: <BL1PR12MB5288F7270F35B878A236BAD8C2629@BL1PR12MB5288.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fZrnROGY7Ovdb9UKDohsi9J19klta9gVPereBnTJwnHlFUjURTim85hwfZCQACsFh9qacFK/XW5Az/8GVfDIn6cW/8PDjcuEUS/ueEn2p+w2YuxYYyqXSleZclAHwoX+ALpt8t+owOwUiPBSWvxoe+YoHHRGZSu1LlEGrORoghOsXg79gg6KK1OwoLnJqVgao0UbZOCWYunI/0RdDa0one4S34ZfesDX8woIsDwRodBrANBATP6WwadLXbAJHIIo0mf5gQnNxhbYHyaVSLZNf62n1ZzHpO9aojo1cAkkmRnv1S0RaZmxlcv2Uuic5d6nCf1CVyP/lgWWm7o5yZw2vYUHpKBJfPTdKXHZg+mK7CTKb4I5Onqaapk0HhXJTA2cH4K+y2Jk3v7IfCd4UhB5RcOiNZZiR3V2yEO5WBA18JjJKdWysS0TnYhRR3Bpbieasp8zRLGG3v42wSPaRBcWhHmuEARVNMH7/FPOpV6binp/H+guJicACZoxfzyOGG4VQ9m8BSv9pIlXuu9TDNmCpDaVVnto9u8NW+KqxwlKxGbRA/ESW5Fn6YLb0iZ5dqf9KZlVtFNwyk/J7K3t01Wf93F0jASh2Fz4/5cKF8KXM8fVGLQAHUBfhUoX6+XbWFngmYhrdgjz0BEyEqwauPlZSA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB5506.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(508600001)(316002)(86362001)(83380400001)(426003)(8936002)(107886003)(2906002)(8676002)(6916009)(186003)(66946007)(66556008)(66476007)(38100700002)(26005)(54906003)(36756003)(33656002)(4326008)(2616005)(5660300002)(9786002)(9746002)(1076003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?86PAxUP3bXK0h5+STeJAZwGmI67M29kRmx+tpdZvOGGUYbPU0Hd5ego+plSJ?=
- =?us-ascii?Q?ynnPsGIviCTm60Nam00/0pKUCcTlKglHXFGXZ+4usGYn0ER9uoLAXxDzM7f9?=
- =?us-ascii?Q?jNVHbaDx1eY96jF0cOXc6pG8BS3FI3os7cVlnMKsXU+f+yMYqhxonziRRW94?=
- =?us-ascii?Q?vndT3Fo4vgdb3kCwoL3CewcWsgYS0Gmir7wE5XFxp7N/obJ5btsnlCizjnsi?=
- =?us-ascii?Q?555DI37oP2MmsO6SqPf2DAM6qxv40+NN6JRaQTO9RAQtbhzeuLhcp+gotCOl?=
- =?us-ascii?Q?nA2Lig8yYOKSBzLpAVluVeGRyB8cgPy7sSWhyZIIeOGnX5+9FPBbsewU7O8Q?=
- =?us-ascii?Q?TgZPMzq8emQ+zmB1zV5wCHLpXhTQSxwqCwYohz/9rxsXJWotJH0+Vw6/xJN1?=
- =?us-ascii?Q?dg3ISRJFTu1GZVdSvjg8Q+98/MRFLjPACt/vSLF8ggP+MMc5lwwHmkSP9q9w?=
- =?us-ascii?Q?d3x4lqcsM+9arvYWnnUv4INxxOp0HIvCVMO2dHpsli+Vr5jy4v72EaekpOVP?=
- =?us-ascii?Q?6FHLlIZgrQdfR4Z7px3gVXoCNgcNzb4Uxds7Q8Bl4mwVXFJVvyg7PQguw9t1?=
- =?us-ascii?Q?fCEYYpiZaSnQivRZUwUZcze6eMtqd0Hq/epH2QMBWV6yvFFHNEY6C2GplNk/?=
- =?us-ascii?Q?GFKh6jQGDy9qHjwtxer8j/fPYKtKhdipQA6jHDrPbC5SrMuNbwwkgkS6KJqi?=
- =?us-ascii?Q?NxfLCxWr9bfLrWrguCH+znKVaM1GvwemPUl+C6OBvDXuxyxK9vyF/cBHOQue?=
- =?us-ascii?Q?lr9baX4fe8HlSiD8JwLhFqHAEDQR6ND1cG2QK5fByA+Bkyqp20x4mZpERUiI?=
- =?us-ascii?Q?KlheJwF0HZktylD31VYKzEfyE2JTQFZkGZNh/m8USPDIMTke4DJ1kx7bysnX?=
- =?us-ascii?Q?4YuHxu2lKa7IQ1y57ulmtzweoZRQrVwAs/4v40iSqbD1/cl1lbpGhk50Z5Uu?=
- =?us-ascii?Q?VcOII6+2CGO0VoqcXN4UUmIvCR1CjidnnyRkCzDIlsobAhb94w50pJiUoxuj?=
- =?us-ascii?Q?z9G4BkdEJc6qBmFnIc1c6AC1bBmqoBfTV0Lwfzvg7wRjqLx3PwyQmWVk8es2?=
- =?us-ascii?Q?t5AdtUVb3PpPVfSoSDhTUPsXEnnozOLcFzaZ87uIZBC1h7Elt8rEMiAkRKdE?=
- =?us-ascii?Q?hPZ1AnqvXM74NJZzA77609NFjbsAuaD5zosESpmtRkBJNfYHrT9qtK09F/16?=
- =?us-ascii?Q?yAN0RTiBm4wPhbC777yJXGeWEjENzlUJK+r4JsUH6whMeYAls2pZKvmJ+kjX?=
- =?us-ascii?Q?noWp6/Efqov5WhHbOZ5CXQFfFQAvlWs7d9NvDy88N6akPoUDhVKn2D3kU0hx?=
- =?us-ascii?Q?/G9TqviVUTVVnQfPYREpM8JMS+lHKF/Oaq8UcvY/0kSt/H9POkupSD36kr1u?=
- =?us-ascii?Q?QU9TIcdYaJt5WcKEphvaGCSTkqotG2M0jkmF0BDdiFK6GrrBjYzZxlxl6/2p?=
- =?us-ascii?Q?a7ioLqkkLMzv0lA1Ev0hhFZM15QsCZE2sKVyW0gQEasgSng1R741cIOdzCJo?=
- =?us-ascii?Q?JEoJIFnk1Xlg8T9PF6ecEVHHM7EFbJOlFBF9/YFoyLKsM6tNLBZ9zBUNY/3T?=
- =?us-ascii?Q?SbrBhHIHbZ5GDQENvew=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c7d1ff48-dc44-4e60-a0f1-08d9b02eb414
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2021 16:14:48.8788
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wzWveEfbinyZMmhpdkeKgcQNyV/YdN4OBFPBVGt1vYnrvH7LxhCs7sWl2XmAiTTy
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5288
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 25, 2021 at 01:27:12PM +0100, Cornelia Huck wrote:
-> On Wed, Nov 24 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
+From: Toke Høiland-Jørgensen <toke@redhat.com>
+Date: Thu, 25 Nov 2021 12:56:01 +0100
+
+> Daniel Borkmann <daniel@iogearbox.net> writes:
 > 
-> > On Wed, Nov 24, 2021 at 05:55:49PM +0100, Cornelia Huck wrote:
-> 
-> >> What I meant to say: If we give userspace the flexibility to operate
-> >> this, we also must give different device types some flexibility. While
-> >> subchannels will follow the general flow, they'll probably condense/omit
-> >> some steps, as I/O is quite different to PCI there.
+> > Hi Alexander,
 > >
-> > I would say no - migration is general, no device type should get to
-> > violate this spec.  Did you have something specific in mind? There is
-> > very little PCI specific here already
+> > On 11/23/21 5:39 PM, Alexander Lobakin wrote:
+> > [...]
+> >
+> > Just commenting on ice here as one example (similar applies to other drivers):
+> >
+> >> diff --git a/drivers/net/ethernet/intel/ice/ice_txrx_lib.c b/drivers/net/ethernet/intel/ice/ice_txrx_lib.c
+> >> index 1dd7e84f41f8..7dc287bc3a1a 100644
+> >> --- a/drivers/net/ethernet/intel/ice/ice_txrx_lib.c
+> >> +++ b/drivers/net/ethernet/intel/ice/ice_txrx_lib.c
+> >> @@ -258,6 +258,8 @@ static void ice_clean_xdp_irq(struct ice_tx_ring *xdp_ring)
+> >>   		xdp_ring->next_dd = ICE_TX_THRESH - 1;
+> >>   	xdp_ring->next_to_clean = ntc;
+> >>   	ice_update_tx_ring_stats(xdp_ring, total_pkts, total_bytes);
+> >> +	xdp_update_tx_drv_stats(&xdp_ring->xdp_stats->xdp_tx, total_pkts,
+> >> +				total_bytes);
+> >>   }
+> >> 
+> >>   /**
+> >> @@ -277,6 +279,7 @@ int ice_xmit_xdp_ring(void *data, u16 size, struct ice_tx_ring *xdp_ring)
+> >>   		ice_clean_xdp_irq(xdp_ring);
+> >> 
+> >>   	if (!unlikely(ICE_DESC_UNUSED(xdp_ring))) {
+> >> +		xdp_update_tx_drv_full(&xdp_ring->xdp_stats->xdp_tx);
+> >>   		xdp_ring->tx_stats.tx_busy++;
+> >>   		return ICE_XDP_CONSUMED;
+> >>   	}
+> >> diff --git a/drivers/net/ethernet/intel/ice/ice_xsk.c b/drivers/net/ethernet/intel/ice/ice_xsk.c
+> >> index ff55cb415b11..62ef47a38d93 100644
+> >> --- a/drivers/net/ethernet/intel/ice/ice_xsk.c
+> >> +++ b/drivers/net/ethernet/intel/ice/ice_xsk.c
+> >> @@ -454,42 +454,58 @@ ice_construct_skb_zc(struct ice_rx_ring *rx_ring, struct xdp_buff **xdp_arr)
+> >>    * @xdp: xdp_buff used as input to the XDP program
+> >>    * @xdp_prog: XDP program to run
+> >>    * @xdp_ring: ring to be used for XDP_TX action
+> >> + * @lrstats: onstack Rx XDP stats
+> >>    *
+> >>    * Returns any of ICE_XDP_{PASS, CONSUMED, TX, REDIR}
+> >>    */
+> >>   static int
+> >>   ice_run_xdp_zc(struct ice_rx_ring *rx_ring, struct xdp_buff *xdp,
+> >> -	       struct bpf_prog *xdp_prog, struct ice_tx_ring *xdp_ring)
+> >> +	       struct bpf_prog *xdp_prog, struct ice_tx_ring *xdp_ring,
+> >> +	       struct xdp_rx_drv_stats_local *lrstats)
+> >>   {
+> >>   	int err, result = ICE_XDP_PASS;
+> >>   	u32 act;
+> >> 
+> >> +	lrstats->bytes += xdp->data_end - xdp->data;
+> >> +	lrstats->packets++;
+> >> +
+> >>   	act = bpf_prog_run_xdp(xdp_prog, xdp);
+> >> 
+> >>   	if (likely(act == XDP_REDIRECT)) {
+> >>   		err = xdp_do_redirect(rx_ring->netdev, xdp, xdp_prog);
+> >> -		if (err)
+> >> +		if (err) {
+> >> +			lrstats->redirect_errors++;
+> >>   			goto out_failure;
+> >> +		}
+> >> +		lrstats->redirect++;
+> >>   		return ICE_XDP_REDIR;
+> >>   	}
+> >> 
+> >>   	switch (act) {
+> >>   	case XDP_PASS:
+> >> +		lrstats->pass++;
+> >>   		break;
+> >>   	case XDP_TX:
+> >>   		result = ice_xmit_xdp_buff(xdp, xdp_ring);
+> >> -		if (result == ICE_XDP_CONSUMED)
+> >> +		if (result == ICE_XDP_CONSUMED) {
+> >> +			lrstats->tx_errors++;
+> >>   			goto out_failure;
+> >> +		}
+> >> +		lrstats->tx++;
+> >>   		break;
+> >>   	default:
+> >>   		bpf_warn_invalid_xdp_action(act);
+> >> -		fallthrough;
+> >> +		lrstats->invalid++;
+> >> +		goto out_failure;
+> >>   	case XDP_ABORTED:
+> >> +		lrstats->aborted++;
+> >>   out_failure:
+> >>   		trace_xdp_exception(rx_ring->netdev, xdp_prog, act);
+> >> -		fallthrough;
+> >> +		result = ICE_XDP_CONSUMED;
+> >> +		break;
+> >>   	case XDP_DROP:
+> >>   		result = ICE_XDP_CONSUMED;
+> >> +		lrstats->drop++;
+> >>   		break;
+> >>   	}
+> >
+> > Imho, the overall approach is way too bloated. I can see the
+> > packets/bytes but now we have 3 counter updates with return codes
+> > included and then the additional sync of the on-stack counters into
+> > the ring counters via xdp_update_rx_drv_stats(). So we now need
+> > ice_update_rx_ring_stats() as well as xdp_update_rx_drv_stats() which
+> > syncs 10 different stat counters via u64_stats_add() into the per ring
+> > ones. :/
+> >
+> > I'm just taking our XDP L4LB in Cilium as an example: there we already
+> > count errors and export them via per-cpu map that eventually lead to
+> > XDP_DROP cases including the /reason/ which caused the XDP_DROP (e.g.
+> > Prometheus can then scrape these insights from all the nodes in the
+> > cluster). Given the different action codes are very often application
+> > specific, there's not much debugging that you can do when /only/
+> > looking at `ip link xdpstats` to gather insight on *why* some of these
+> > actions were triggered (e.g. fib lookup failure, etc). If really of
+> > interest, then maybe libxdp could have such per-action counters as
+> > opt-in in its call chain..
 > 
-> I'm not really thinking about violating the spec, but more omitting
-> things that do not really apply to the hardware. For example, it is
-> really easy to shut up a subchannel, we don't really need to wait until
-> nothing happens anymore, and it doesn't even have MMIO. 
+> To me, standardising these counters is less about helping people debug
+> their XDP programs (as you say, you can put your own telemetry into
+> those), and more about making XDP less "mystical" to the system
+> administrator (who may not be the same person who wrote the XDP
+> programs). So at the very least, they need to indicate "where are the
+> packets going", which means at least counters for DROP, REDIRECT and TX
+> (+ errors for tx/redirect) in addition to the "processed by XDP" initial
+> counter. Which in the above means 'pass', 'invalid' and 'aborted' could
+> be dropped, I guess; but I don't mind terribly keeping them either given
+> that there's no measurable performance impact.
 
-I've never really looked closely at the s390 mdev drivers..
+Right.
 
-What does something like AP even do anyhow? The ioctl handler doesn't
-do anything, there is no mmap hook, how does the VFIO userspace
-interact with this thing?
+The other reason is that I want to continue the effort of
+standardizing widely-implemented statistics. Ethtool private stats
+approach is neither scalable (you can't rely on any fields which may
+be not exposed in other drivers) nor good for code hygiene (code
+duplication, differences in naming and logics etc.).
+Let's say if only mlx5 driver has 'cache_waive' stats, then it's
+okay to export it using private stats, but if 10 drivers has
+'xdp_drop' field it's better to uniform it, isn't it?
 
-> > In general, userspace can issue a VFIO_DEVICE_RESET ioctl and recover the
-> > device back to device_state RUNNING. When a migration driver executes this
-> > ioctl it should discard the data window and set migration_state to RUNNING as
-> > part of resetting the device to a clean state. This must happen even if the
-> > migration_state has errored. A freshly opened device FD should always be in
-> > the RUNNING state.
+> > But then it also seems like above in ice_xmit_xdp_ring() we now need
+> > to bump counters twice just for sake of ethtool vs xdp counters which
+> > sucks a bit, would be nice to only having to do it once:
+
+We'll remove such duplication in the nearest future, as well as some
+of duplications between Ethtool private and this XDP stats. I wanted
+this series to be as harmless as possible.
+
+> This I agree with, and while I can see the layering argument for putting
+> them into 'ip' and rtnetlink instead of ethtool, I also worry that these
+> counters will simply be lost in obscurity, so I do wonder if it wouldn't
+> be better to accept the "layering violation" and keeping them all in the
+> 'ethtool -S' output?
+
+I don't think we should harm the code and the logics in favor of
+'some of the users can face something'. We don't control anything
+related to XDP using Ethtool at all, but there is some XDP-related
+stuff inside iproute2 code, so for me it's even more intuitive to
+have them there.
+Jakub, may be you'd like to add something at this point?
+
+> [...]
 > 
-> Can the state immediately change from RUNNING to ERROR again?
-
-Immediately? State change can only happen in response to the ioctl or
-the reset.
-
-""The migration_state cannot change asynchronously, upon writing the
-migration_state the driver will either keep the current state and return
-failure, return failure and go to ERROR, or succeed and go to the new state.""
-
-> > However, a device may not compromise system integrity if it is subjected to a
-> > MMIO. It can not trigger an error TLP, it can not trigger a Machine Check, and
-> > it can not compromise device isolation.
+> > +  xdp-channel0-rx_xdp_redirect: 7
+> > +  xdp-channel0-rx_xdp_redirect_errors: 8
+> > +  xdp-channel0-rx_xdp_tx: 9
+> > +  xdp-channel0-rx_xdp_tx_errors: 10
+> > +  xdp-channel0-tx_xdp_xmit_packets: 11
+> > +  xdp-channel0-tx_xdp_xmit_bytes: 12
+> > +  xdp-channel0-tx_xdp_xmit_errors: 13
+> > +  xdp-channel0-tx_xdp_xmit_full: 14
+> >
+> >  From a user PoV to avoid confusion, maybe should be made more clear that the latter refers
+> > to xsk.
 > 
-> "Machine Check" may be confusing to readers coming from s390; there, the
-> device does not trigger the machine check, but the channel subsystem
-> does, and we cannot prevent it. Maybe we can word it more as an example,
-> so readers get an idea what the limits in this state are?
+> +1, these should probably be xdp-channel0-tx_xsk_* or something like
+> that...
 
-Lets say x86 machine check then which is a kernel-fatal event.
+I think I should expand this example in Docs a bit. For XSK, there's
+a separate set of the same counters, and they differ as follows:
 
-> Although I would like to see some more feedback from others, I think
-> this is already a huge step in the right direction.
+xdp-channel0-rx_xdp_packets: 0
+xdp-channel0-rx_xdp_bytes: 1
+xdp-channel0-rx_xdp_errors: 2
+[ ... ]
+xsk-channel0-rx_xdp_packets: 256
+xsk-channel0-rx_xdp_bytes: 257
+xsk-channel0-rx_xdp_errors: 258
+[ ... ]
 
-Thanks, I made all your other changes
+The only semantic difference is that 'tx_xdp_xmit' for XDP is a
+counter for the packets gone through .ndo_xdp_xmit(), and in
+case of XSK it's a counter for the packets gone through XSK
+ZC xmit.
 
-Will send a v2 next week
+> -Toke
 
-Jason 
+Thanks,
+Al
