@@ -2,76 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3347CC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Nov 2021 06:13:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B214AC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Nov 2021 06:19:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347268AbhKYGQr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Nov 2021 01:16:47 -0500
-Received: from verein.lst.de ([213.95.11.211]:41013 "EHLO verein.lst.de"
+        id S1346462AbhKYGWP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Nov 2021 01:22:15 -0500
+Received: from mga06.intel.com ([134.134.136.31]:3233 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1347640AbhKYGOq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 25 Nov 2021 01:14:46 -0500
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 0B8A268B05; Thu, 25 Nov 2021 07:11:31 +0100 (CET)
-Date:   Thu, 25 Nov 2021 07:11:30 +0100
-From:   Christoph Hellwig <hch@lst.de>
-To:     Joao Martins <joao.m.martins@oracle.com>
-Cc:     linux-mm@kvack.org, Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Jane Chu <jane.chu@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Christoph Hellwig <hch@lst.de>, nvdimm@lists.linux.dev,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 04/10] mm/memremap: add ZONE_DEVICE support for
- compound pages
-Message-ID: <20211125061130.GA682@lst.de>
-References: <20211124191005.20783-1-joao.m.martins@oracle.com> <20211124191005.20783-5-joao.m.martins@oracle.com>
+        id S1346804AbhKYGUN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 25 Nov 2021 01:20:13 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10178"; a="296258536"
+X-IronPort-AV: E=Sophos;i="5.87,262,1631602800"; 
+   d="scan'208";a="296258536"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2021 22:17:02 -0800
+X-IronPort-AV: E=Sophos;i="5.87,262,1631602800"; 
+   d="scan'208";a="457278789"
+Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2021 22:16:58 -0800
+Received: by lahna (sSMTP sendmail emulation); Thu, 25 Nov 2021 08:16:55 +0200
+Date:   Thu, 25 Nov 2021 08:16:55 +0200
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     "Francisco Blas Izquierdo Riera (klondike)" <klondike@klondike.es>
+Cc:     linux-usb@vger.kernel.org,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Kranthi Kuntala <kranthi.kuntala@intel.com>,
+        Rajmohan Mani <rajmohan.mani@intel.com>,
+        Mario.Limonciello@dell.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lukas Wunner <lukas@wunner.de>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] thunderbolt: allow vendor ID override for NVM
+ programming
+Message-ID: <YZ8qVwt9k6Y8cSq+@lahna>
+References: <8d29b41b-3590-c4b0-a2f8-fa34063bafb3@klondike.es>
+ <07bd1d90-c95f-0685-e1a8-2211c9dac251@klondike.es>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211124191005.20783-5-joao.m.martins@oracle.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <07bd1d90-c95f-0685-e1a8-2211c9dac251@klondike.es>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 24, 2021 at 07:09:59PM +0000, Joao Martins wrote:
-> Add a new @vmemmap_shift property for struct dev_pagemap which specifies that a
-> devmap is composed of a set of compound pages of order @vmemmap_shift, instead of
-> base pages. When a compound page devmap is requested, all but the first
-> page are initialised as tail pages instead of order-0 pages.
+Hi,
 
-Please wrap commit log lines after 73 characters.
+On Wed, Nov 24, 2021 at 05:37:05PM +0100, Francisco Blas Izquierdo Riera (klondike) wrote:
+> Currently, the vendor ID reported by the chipset is checked before to
+> avoid accidentally programming devices from unsupported vendors with
+> a different NVM structure.
+> 
+> Certain Thunderbolt devices store the vendor ID in the NVM, therefore
+> if the NVM has become corrrupted the device will report an invalid
+> vendor ID and reflashing will be impossible on GNU/Linux even if the
+> device can boot in safe mode.
 
->  #define for_each_device_pfn(pfn, map, i) \
-> -	for (pfn = pfn_first(map, i); pfn < pfn_end(map, i); pfn = pfn_next(pfn))
-> +	for (pfn = pfn_first(map, i); pfn < pfn_end(map, i); pfn = pfn_next(map, pfn))
+How this can happen? The NVM upgrade verifies the signature of the new
+NVM and does not allow upgrade if it does not match. Only way I can see
+this happens is that the NVM is flashed directly to the flash chip
+through some external tool like dediprog, or the NVM was corrupted
+before it was signed at Intel which should not happen either (but OK,
+mistakes can happen).
 
-It would be nice to fix up this long line while you're at it.
-
->  static void dev_pagemap_kill(struct dev_pagemap *pgmap)
->  {
-> @@ -315,8 +315,8 @@ static int pagemap_range(struct dev_pagemap *pgmap, struct mhp_params *params,
->  	memmap_init_zone_device(&NODE_DATA(nid)->node_zones[ZONE_DEVICE],
->  				PHYS_PFN(range->start),
->  				PHYS_PFN(range_len(range)), pgmap);
-> -	percpu_ref_get_many(pgmap->ref, pfn_end(pgmap, range_id)
-> -			- pfn_first(pgmap, range_id));
-> +	percpu_ref_get_many(pgmap->ref, (pfn_end(pgmap, range_id)
-> +			- pfn_first(pgmap, range_id)) >> pgmap->vmemmap_shift);
-
-In the Linux coding style the - goes ointo the first line.
-
-But it would be really nice to clean this up with a helper ala pfn_len
-anyway:
-
-	percpu_ref_get_many(pgmap->ref,
-			    pfn_len(pgmap, range_id) >> pgmap->vmemmap_shift);
+Can you give some more details about the issue? Which device it is and
+how did the NVM ended being invalid?
