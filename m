@@ -2,87 +2,168 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74990C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Nov 2021 15:09:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52129C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Nov 2021 15:41:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237757AbhKYPML (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Nov 2021 10:12:11 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52536 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230167AbhKYPKL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 25 Nov 2021 10:10:11 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3B6A3610FB;
-        Thu, 25 Nov 2021 15:07:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1637852820;
-        bh=NBk2ZywPpR9zMd+czkeAb2gbQb8w/M83yM/9BZa1Zpc=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=W4ynoImd8V5wyJAe1zeOiRqEL2YIvlDymE5z3roFVcRqL8MpbGJUFUIw+/RThZVLF
-         4Lk6R4FME68Cgb44BkKW3WwTPzvDvt5tkD5A7/NOIkI9vdFkE6dclI5NxXvf8nwUQp
-         njW6oB8gEj+Pr8gPhU98O9zvk+uw1aiMTnK8YITJVhnR+3FLxIbZ7RBqwDVVNfZ31H
-         2x2cCpr86o0LubhfZf/wQsMEGtqejad+5jjxnBLeGS7aXsGOSrMUZnrz5ZPv7MFSS0
-         QB9pgZT0VolC9ygIWPrp0G8eBCMD7gGzJxT/JaSJLJgQ+ZPES3cetqPlbLXW5T3vo5
-         dLWQab2E9vHUg==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id F2B755C04B0; Thu, 25 Nov 2021 07:06:59 -0800 (PST)
-Date:   Thu, 25 Nov 2021 07:06:59 -0800
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Frederic Weisbecker <frederic@kernel.org>
-Cc:     Yury Norov <yury.norov@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Uladzislau Rezki <urezki@gmail.com>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Joel Fernandes <joel@joelfernandes.org>, rcu@vger.kernel.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 5/6] rcu/nocb: Allow empty "rcu_nocbs" kernel parameter
-Message-ID: <20211125150659.GE641268@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <20211123003708.468409-1-frederic@kernel.org>
- <20211123003708.468409-6-frederic@kernel.org>
- <20211125004720.GV641268@paulmck-ThinkPad-P17-Gen-1>
- <20211125044132.GA105778@lapt>
- <20211125132853.GA509134@lothringen>
+        id S1356116AbhKYPos (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Nov 2021 10:44:48 -0500
+Received: from mail-dm6nam12on2050.outbound.protection.outlook.com ([40.107.243.50]:33696
+        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S241419AbhKYPmr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 25 Nov 2021 10:42:47 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VWfhY8rq1eYyEojiw+LUlShxSYeCIH1/Om7xxYdGNMXn4AA3kmkpg63TA+g4AQNJCQOx5I4oZx+4glEge7qZObVviy7VoNSZLR684A8vm4INhqChtvtmUTwrz9yVK1SrXdIyrXSf+f1ZFR5ZOwAPn4i0MINnq+tyl+sGx/6HYHT/G1J4qZLGXQNWWlViFt/ECSRrKdpTGRF/qPxNoQwPXhT2SMKIW/O8gO2woHaQU+MMcn5BWmR2mw8M6uFclWGjU63XKifb0JPlmq4LBVFvY3nIQCZAIEummhCGNn9ig61x1jpaDO/2FtLsdpq9HoY4KBZT6vCgHGWC2JOvWuPEXg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gxP4RnWr0nUV+m7Ry8/qHnAZjW3mPvTijhXhqgc08Xg=;
+ b=lFyZtLAdhe4L28wAroAnEWuetbFqiZow3FDFihBlUcj8fibGjEEvxc95zSzFwvjhGqx1drAdLMBDDo1+5S9SRtD5QOWO057iZ1Of3Fd5+2yXbSbZr99IG3I4X+apdRgWV4ejK3auRzc6pmUl0Di890YZ3VvvfFV+VxZvrcji9HAmcL/RRIxL44UPNWpRCUKdKu56xDJZ2FgN3LY1b5CrrDk/GGIDI3UKBp7LV4BAeVJe2A+Af2sAZsReckaHunAlNkrKnzxUAjRzBjtHy1hVxXZcGoXt2sBoxhUlk0ykCjyvp7mw2jUfb8b348t9dCRGUaiTZjXsyzcwyTiqT1cLDQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=emersion.fr smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gxP4RnWr0nUV+m7Ry8/qHnAZjW3mPvTijhXhqgc08Xg=;
+ b=kQOv8EtVJzs5jy40+jJdVf7DoRftGymKuFhfEezAvZXuYfOBR6BTNWVt31tXj0tOjPj5UaihXuAlGW16hV89o5y6bVtx3rzfMddFDj9lRiKBf+PID7n0vwXT2OnqM12d62JQOMB28AS0MKVuirF8tUYmnas1WL0NdSljkgGF+xc=
+Received: from BN1PR13CA0007.namprd13.prod.outlook.com (2603:10b6:408:e2::12)
+ by MWHPR1201MB0015.namprd12.prod.outlook.com (2603:10b6:300:df::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.22; Thu, 25 Nov
+ 2021 15:39:33 +0000
+Received: from BN8NAM11FT037.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:e2:cafe::7b) by BN1PR13CA0007.outlook.office365.com
+ (2603:10b6:408:e2::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.13 via Frontend
+ Transport; Thu, 25 Nov 2021 15:39:33 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT037.mail.protection.outlook.com (10.13.177.182) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4734.22 via Frontend Transport; Thu, 25 Nov 2021 15:39:33 +0000
+Received: from atma2.hitronhub.home (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Thu, 25 Nov
+ 2021 09:39:31 -0600
+From:   Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+To:     Simon Ser <contact@emersion.fr>,
+        =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>,
+        Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
+        =?UTF-8?q?Marek=20Ol=C5=A1=C3=A1k?= <marek.olsak@amd.com>,
+        Roman Gilg <subdiff@gmail.com>,
+        Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+        "Harry Wentland" <Harry.Wentland@amd.com>,
+        Mark Yacoub <markyacoub@chromium.org>,
+        Sean Paul <seanpaul@chromium.org>,
+        Pekka Paalanen <ppaalanen@gmail.com>
+CC:     Alex Deucher <alexander.deucher@amd.com>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        <aurabindo.pillai@amd.com>, <qingqing.zhuo@amd.com>,
+        <roman.li@amd.com>, <nicholas.choi@amd.com>,
+        <bhawanpreet.lakha@amd.com>, <linux-doc@vger.kernel.org>,
+        <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+Subject: [PATCH 0/6] Expand display core documentation
+Date:   Thu, 25 Nov 2021 10:38:24 -0500
+Message-ID: <20211125153830.1352994-1-Rodrigo.Siqueira@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211125132853.GA509134@lothringen>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9ce683bb-992c-4eb5-0715-08d9b029c736
+X-MS-TrafficTypeDiagnostic: MWHPR1201MB0015:
+X-Microsoft-Antispam-PRVS: <MWHPR1201MB0015CAA7BDD5BCD38F11609D98629@MWHPR1201MB0015.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: F0YFS3gd3JivMI4UKNAfxlEBOOdwh7YhAmlpse+wNrDi4OMFUm3DzbX/nyTLD4Az3FMXjAs2oi1ZCrx1qFiJTwfjflQ5zQTrrtSbYP4PUqwUNVI6ma8I3vAYmdCLIvOPqbtvv2ZsubbhkI/H+htxWSdZXO5WfGrexibCYKOARFyr5X3Y0ks8YERoZzal2bcPVByzT6V0bptygec8lfjh1ZzGAJS/le2W5Igt5QVVk2dFeSmIgQ/pHBf1dlt64EgnlS61P9fBDsFN4v2W/4NmE67UK5krewyyJQu1Pdi7pTgXAV69L9DqMAGiYfFjbeX3dckv3VMpRjmiAS0/4s6RbQEeNGB//hOZI+N0NkU1gKGcZkH3o4XRqlCma0slYvlarQ6+TaK46gtgwJEenT8e9NuSXboUpvKezuNnhSzDMv7rfZtkWF1TrivNiERMvn8LRmhJrYZCtGz0LfJKwN38aJ5qBqbl/+JvgWS420s8BFVAsvI4isrqBrA+idRtUO90t2gxHgnm7IU8LwaazTOETUjmMgNnlI+YXsXss0lkU9St2+4JWRoWX1VAOcsoul2zQ1NQdV99jdKPvDEbdH9WP94cO433+nZ8EY/2MYtmLp0VOzGTM4V7RmkY9dadCk146tIrfJGARgY2/PgrlRpPpsGeFZtQe3PryK/eSx2TAX0iDnFWdCC9RyjXGE2DDf7r8bXEDZBNh9Q2w1yRpjaEv+2hvOfs0d3mIrfynAUndZjn+ppjOrATuzaZFJ/nFk9a
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(4636009)(46966006)(36840700001)(508600001)(8936002)(36860700001)(426003)(7416002)(110136005)(81166007)(1076003)(82310400004)(86362001)(83380400001)(47076005)(16526019)(70586007)(921005)(336012)(54906003)(4326008)(6666004)(26005)(356005)(5660300002)(316002)(8676002)(2616005)(36756003)(70206006)(2906002)(186003)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2021 15:39:33.1546
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ce683bb-992c-4eb5-0715-08d9b029c736
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT037.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1201MB0015
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 25, 2021 at 02:28:53PM +0100, Frederic Weisbecker wrote:
-> On Wed, Nov 24, 2021 at 08:41:32PM -0800, Yury Norov wrote:
-> > On Wed, Nov 24, 2021 at 04:47:20PM -0800, Paul E. McKenney wrote:
-> > > On Tue, Nov 23, 2021 at 01:37:07AM +0100, Frederic Weisbecker wrote:
-> > > > If a user wants to boot without any CPU in offloaded mode initially but
-> > > > with the possibility to offload them later using cpusets, provide a way
-> > > > to simply pass an empty "rcu_nocbs" kernel parameter which will enforce
-> > > > the creation of dormant nocb kthreads.
-> > > 
-> > > Huh.  This would have been a use for Yury Norov's "none" bitmask
-> > > specifier.  ;-)
-> > > 
-> > > I pulled this one in with the usual wordsmithing.
-> > > 
-> > > 							Thanx, Paul
-> > 
-> > I think 'rcu_nocbs=,' should work as 'none'. But I admit that it looks
-> > awkward. The following patch adds clear 'none' semantics to the parser.
-> > If you like it, I think you may drop non-documentation part of this
-> > patch.
-> 
-> I don't have real objection, but I fear that "rcu_nocbs=none" might be
-> interpretated as rcu_nocbs is entirely deactivated, whereas "rcu_nocbs"
-> alone makes it clear that we are turning something on.
+Display Core (DC) is one of the components under amdgpu, and it has
+multiple features directly related to the KMS API. Unfortunately, we
+don't have enough documentation about DC in the upstream, which makes
+the life of some external contributors a little bit more challenging.
+For these reasons, this patchset reworks part of the DC documentation
+and introduces a new set of details on how the display core works on DCN
+IP. Another improvement that this documentation effort tries to bring is
+making explicit some of our hardware-specific details to guide
+user-space developers better.
 
-How about "rcu_nocbs=,"?  ;-)
+In my view, it is easier to review this series if you apply it in your
+local kernel and build the HTML version (make htmldocs). I'm suggesting
+this approach because I added a few SVG diagrams that will be easier to
+see in the HTML version. If you cannot build the documentation, try to
+open the SVG images while reviewing the content. In summary, in this
+series, you will find:
 
-							Thanx, Paul
+1. Patch 1: Re-arrange of display core documentation. This is
+   preparation work for the other patches, but it is also a way to expand
+   this documentation.
+2. Patch 2 to 4: Document some common debug options related to display.
+3. Patch 5: This patch provides an overview of how our display core next
+   works and a brief explanation of each component.
+4. Patch 6: We use a lot of acronyms in our driver; for this reason, we
+   exposed a glossary with common terms used by display core.
 
-> We can support both though.
-> 
-> Thanks.
+Please let us know what you think we can improve in this series and what
+kind of content you want to see for the next series.
+
+Thanks
+Siqueira
+
+Rodrigo Siqueira (6):
+  Documentation/gpu: Reorganize DC documentation
+  Documentation/gpu: Document amdgpu_dm_visual_confirm debugfs entry
+  Documentation/gpu: Document pipe split visual confirmation
+  Documentation/gpu: How to collect DTN log
+  Documentation/gpu: Add basic overview of DC pipeline
+  Documentation/gpu: Add DC glossary
+
+ Documentation/gpu/amdgpu-dc.rst               |   74 --
+ .../gpu/amdgpu-dc/amdgpu-dc-debug.rst         |   77 ++
+ Documentation/gpu/amdgpu-dc/amdgpu-dc.rst     |   29 +
+ .../gpu/amdgpu-dc/amdgpu-dcn-overview.rst     |  168 +++
+ Documentation/gpu/amdgpu-dc/amdgpu-dm.rst     |   42 +
+ .../gpu/amdgpu-dc/config_example.svg          |  414 ++++++
+ Documentation/gpu/amdgpu-dc/dc-glossary.rst   |  257 ++++
+ .../gpu/amdgpu-dc/dc_pipeline_overview.svg    | 1125 +++++++++++++++++
+ .../gpu/amdgpu-dc/global_sync_vblank.svg      |  485 +++++++
+ Documentation/gpu/drivers.rst                 |    2 +-
+ 10 files changed, 2598 insertions(+), 75 deletions(-)
+ delete mode 100644 Documentation/gpu/amdgpu-dc.rst
+ create mode 100644 Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst
+ create mode 100644 Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
+ create mode 100644 Documentation/gpu/amdgpu-dc/amdgpu-dcn-overview.rst
+ create mode 100644 Documentation/gpu/amdgpu-dc/amdgpu-dm.rst
+ create mode 100644 Documentation/gpu/amdgpu-dc/config_example.svg
+ create mode 100644 Documentation/gpu/amdgpu-dc/dc-glossary.rst
+ create mode 100644 Documentation/gpu/amdgpu-dc/dc_pipeline_overview.svg
+ create mode 100644 Documentation/gpu/amdgpu-dc/global_sync_vblank.svg
+
+-- 
+2.25.1
+
