@@ -2,78 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27802C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Nov 2021 13:30:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB53FC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Nov 2021 14:19:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242306AbhKYNeH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Nov 2021 08:34:07 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52256 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1348505AbhKYNcH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 25 Nov 2021 08:32:07 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 60F3A604DC;
-        Thu, 25 Nov 2021 13:28:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1637846935;
-        bh=yqiqGbuyTjJTG0oblRRU3rs5NLfBTBZCOCZce5YSkZo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uhyd8RgHCVgmy0Y/SxVKJ60pGso4EW0WK5oEJH3gkMsgsfmzBrBo/4hIvGb1jCI7D
-         efSli2X2qafiyBWijtRCk3QoDt9qruAKO+Y6US2FdDbez5K1Nx6/H0pK46QLQ0ry3V
-         WNznP8n5gmDfyJ3SDtlbZbDeV12Hk6EGUSweVee1BI60TK53+xOvHF0894AwpYzQsN
-         R9QCzwpZ+cYXEDRXv6qR7gqlsvJHHXNdfja2j+dyOdh5mvJLnQ84PwvGXj7FClGizI
-         6UJUL4milykd9zr/Gm/m9r5TBTe9863Zbhx4jZE7TDPCbsfLHoZEWSnS8BHASSULRi
-         54M+FmhXTDS7Q==
-Date:   Thu, 25 Nov 2021 14:28:53 +0100
-From:   Frederic Weisbecker <frederic@kernel.org>
-To:     Yury Norov <yury.norov@gmail.com>
-Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Uladzislau Rezki <urezki@gmail.com>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Joel Fernandes <joel@joelfernandes.org>, rcu@vger.kernel.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 5/6] rcu/nocb: Allow empty "rcu_nocbs" kernel parameter
-Message-ID: <20211125132853.GA509134@lothringen>
-References: <20211123003708.468409-1-frederic@kernel.org>
- <20211123003708.468409-6-frederic@kernel.org>
- <20211125004720.GV641268@paulmck-ThinkPad-P17-Gen-1>
- <20211125044132.GA105778@lapt>
+        id S1344097AbhKYOWM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Nov 2021 09:22:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57466 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1355582AbhKYOUa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Nov 2021 09:20:30 -0500
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 503A6C061763;
+        Thu, 25 Nov 2021 06:16:53 -0800 (PST)
+Received: by mail-pj1-x1035.google.com with SMTP id gt5so5287484pjb.1;
+        Thu, 25 Nov 2021 06:16:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=nbJO0TeFQmYmuVHT0afGRmY2VMRSYyjVVUuSvy6vry4=;
+        b=R/+pPmvxZKazNC9VpGI/Ub1tLtIw7hk6dj7F++0F1ffWvwSWysicVwADa6F7MdUkXn
+         SkgqZQR2Op9qmzanbxOXGigb4sUJHH5jBmMy2Og3dzlzihUNCX0e3iNYu1lY/3lmg7QF
+         3UhFGbu26RbUqmH1ec/2dkmcf9+/YOkmEL25PhuZrMVbI0jASm0ug+iILgdFwyoZqRst
+         7hplj1mktAh/69VF22roC6t6LaQonh5BCE65ZL9jgQLU9I5dLFBt9ZgSIjI+Q8JV4k/v
+         na6VePuplRi9GhveDMJV+DWLHZrZnvX3TJOwl8RZJp5MOgKoIMcHQYVUQfHaXbmcSyMa
+         p1TA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=nbJO0TeFQmYmuVHT0afGRmY2VMRSYyjVVUuSvy6vry4=;
+        b=6xEx1+Ipb65GNHY4oB0TnQpb52UyVpB/APFITXrzgJ0KlFwg25w7VNC2PtFMnQFRqO
+         xECWG8Q84GcOWpivoinzS4Oj4Jl70gKHIZb+yOZPM28lyuhPlFCnN9HvOR50EzBDQy6Y
+         fSYQFPaW+xpNtd07cY630qlTAUSo964rfDnJ1KVVh1yysT3qAniQc2TucF+e9idhWm8J
+         qTMlwVEH7141TKLZmQUMpVPTI6YjtwuajM5nJ9B/B1WKUMoUuPlQS1zhaYbET1cxJljQ
+         ot8HEdS3rrMWJ2HT2vrbm6ExDD3B3jMCQr5a2cvitK9J1MYSJ0LJrLrvOkQf+X+BZvOq
+         YAVQ==
+X-Gm-Message-State: AOAM533Iwu0Qo7CI05s3E1ZGkjc/YOaCLhYhd1Dmb8h0iQRHcOM4Fz1v
+        uC2h/pDUIc3jUuO5/wNw8ss=
+X-Google-Smtp-Source: ABdhPJxzsSncFOIq4QNYKLSO5EyeJW+dKGjX7ILl5gnI8yiv/Yl0ERxLCbUEz1Z/VaiKrze7S52NwQ==
+X-Received: by 2002:a17:90b:1650:: with SMTP id il16mr7303788pjb.242.1637849812919;
+        Thu, 25 Nov 2021 06:16:52 -0800 (PST)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id j1sm3641724pfu.47.2021.11.25.06.16.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Nov 2021 06:16:52 -0800 (PST)
+Subject: Re: [PATCH] docs: admin-guide/blockdev: Use subgraphs in
+ node-states-8.dot
+From:   Akira Yokosawa <akiyks@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        drbd-dev@lists.linbit.com,
+        Philipp Reisner <philipp.reisner@linbit.com>,
+        Lars Ellenberg <lars.ellenberg@linbit.com>
+References: <3cbff170-582b-b6cf-0988-e0d0c9b47505@gmail.com>
+Message-ID: <3c0ffc75-0e0f-1701-267b-1bedb6481b79@gmail.com>
+Date:   Thu, 25 Nov 2021 23:16:48 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211125044132.GA105778@lapt>
+In-Reply-To: <3cbff170-582b-b6cf-0988-e0d0c9b47505@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 24, 2021 at 08:41:32PM -0800, Yury Norov wrote:
-> On Wed, Nov 24, 2021 at 04:47:20PM -0800, Paul E. McKenney wrote:
-> > On Tue, Nov 23, 2021 at 01:37:07AM +0100, Frederic Weisbecker wrote:
-> > > If a user wants to boot without any CPU in offloaded mode initially but
-> > > with the possibility to offload them later using cpusets, provide a way
-> > > to simply pass an empty "rcu_nocbs" kernel parameter which will enforce
-> > > the creation of dormant nocb kthreads.
-> > 
-> > Huh.  This would have been a use for Yury Norov's "none" bitmask
-> > specifier.  ;-)
-> > 
-> > I pulled this one in with the usual wordsmithing.
-> > 
-> > 							Thanx, Paul
+On Wed, 17 Nov 2021 18:38:14 +0900, Akira Yokosawa wrote:
+> While node-states-8.dot has two digraphs, dot(1) command can not
+> properly handle multiple graphs in a DOT file.
 > 
-> I think 'rcu_nocbs=,' should work as 'none'. But I admit that it looks
-> awkward. The following patch adds clear 'none' semantics to the parser.
-> If you like it, I think you may drop non-documentation part of this
-> patch.
+> Use subgraphs and merge them into a single graph.
+> 
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> Cc: Philipp Reisner <philipp.reisner@linbit.com>
+> Cc: Lars Ellenberg <lars.ellenberg@linbit.com>
+> ---
+> Hi Jon,
+> 
+> I happened to spot a broken DOT script at the bottom of
+> 
+>     https://www.kernel.org/doc/html/latest/admin-guide/blockdev/drbd/figures.html
+> 
+> and managed to fix it.
 
-I don't have real objection, but I fear that "rcu_nocbs=none" might be
-interpretated as rcu_nocbs is entirely deactivated, whereas "rcu_nocbs"
-alone makes it clear that we are turning something on.
+Gentle ping?
 
-We can support both though.
+        Thanks, Akira
 
-Thanks.
+> 
+> DRBD DRIVER maintainers,
+> If I'm missing something here, please let me know.
+> 
+>         Thanks, Akira
+> --
+>  .../blockdev/drbd/node-states-8.dot           | 25 +++++++++++--------
+>  1 file changed, 14 insertions(+), 11 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/blockdev/drbd/node-states-8.dot b/Documentation/admin-guide/blockdev/drbd/node-states-8.dot
+> index bfa54e1f8016..993f0c152ead 100644
+> --- a/Documentation/admin-guide/blockdev/drbd/node-states-8.dot
+> +++ b/Documentation/admin-guide/blockdev/drbd/node-states-8.dot
+> @@ -1,13 +1,16 @@
+> -digraph node_states {
+> -	Secondary -> Primary           [ label = "ioctl_set_state()" ]
+> -	Primary   -> Secondary 	       [ label = "ioctl_set_state()" ]
+> -}
+> +digraph G {
+> +	compound=true;
+> +	subgraph node_states {
+> +		Secondary -> Primary           [ label = "ioctl_set_state()" ]
+> +		Primary   -> Secondary 	       [ label = "ioctl_set_state()" ]
+> +	}
+>  
+> -digraph peer_states {
+> -	Secondary -> Primary           [ label = "recv state packet" ]
+> -	Primary   -> Secondary 	       [ label = "recv state packet" ]
+> -	Primary   -> Unknown 	       [ label = "connection lost" ]
+> -	Secondary  -> Unknown  	       [ label = "connection lost" ]
+> -	Unknown   -> Primary           [ label = "connected" ]
+> -	Unknown   -> Secondary         [ label = "connected" ]
+> +	subgraph peer_states {
+> +		Secondary -> Primary           [ label = "recv state packet" ]
+> +		Primary   -> Secondary 	       [ label = "recv state packet" ]
+> +		Primary   -> Unknown 	       [ label = "connection lost" ]
+> +		Secondary  -> Unknown  	       [ label = "connection lost" ]
+> +		Unknown   -> Primary           [ label = "connected" ]
+> +		Unknown   -> Secondary         [ label = "connected" ]
+> +	}
+>  }
+> 
+> base-commit: 53b606fa29e321352a105978726b975b42b292a4
+> 
