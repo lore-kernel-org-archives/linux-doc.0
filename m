@@ -2,222 +2,149 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02DFBC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Nov 2021 04:43:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0390C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Nov 2021 06:04:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230129AbhKYEqr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Nov 2021 23:46:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43012 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231646AbhKYEoq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Nov 2021 23:44:46 -0500
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1CEEC061574;
-        Wed, 24 Nov 2021 20:41:35 -0800 (PST)
-Received: by mail-qk1-x729.google.com with SMTP id b67so8434642qkg.6;
-        Wed, 24 Nov 2021 20:41:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=UyUuOkxYpdVnZCGRGmG6yNWotEFjjwbnIhu+eCTBlDk=;
-        b=HGfRVguEdswibJgeC/mhhfoRWmne+mY9m4t6/mr2Onmr0G+8CwJ05NMkmIr5dx8gxh
-         MO3SH98fITQAXv6Fi6IPn0Omwjc2c1Kn9yT7cLF/0Y382hhJdvYvNza8VrtTW8TN0RTo
-         dwQPdElQuRU/ZTNadLK1dK155Lyi02HMR/qDwO4ZrH3QU6U4REvg2WGqtwLV+P7sh8en
-         E4PrxBk3zcBknjiJdr1D3LUMl7MnvHGjFmo2ty2ItdSfsXR8wBmh3gVpq64PTHK0BLgL
-         xzhojCKYz4HHA2+hpLlunCkcM6aHQdB+Dea6Ex7nlGXnUXtnZB46BsdEsSG5h3jnMvvx
-         SmaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=UyUuOkxYpdVnZCGRGmG6yNWotEFjjwbnIhu+eCTBlDk=;
-        b=Fnd1SqfL0J68dJV5h/BXaSVEDruyRD7rLAv9sjE0QZ/X8W5sKnwg/sZulqF4T306HM
-         K1hNujVXbA22QA5/WfN77a4OFWhufJ9iMX7WbsapxKjvdJq4VBip9DMYjEfXjSWCAvJ8
-         Z0tZhfqsNlwrHEkCF+VzQISiZMB4f/pJLnFB3NrwD9JkCK6dl91vCr4EYODlluLfku9m
-         S+aLqWfYzvbd/DpgTV+nsYvGamcugoO9gQzwOpPCeYilwq0/HT1d5MNS8Et/Lq1LmXAC
-         H5qBRjm2kgb8cZN0agx5UWmJwREsGVPzzMx7vdz/eKNuEjpEquSBtj7T0XGx37aQ2zqp
-         xcXw==
-X-Gm-Message-State: AOAM532o9vvpV3mZ4wrYDw3M92fykuKRFtX8zU4sBivuoOvG0l8eiwqk
-        22VzPfw/xhq9s7PR3E/2TYsMxv0boI8=
-X-Google-Smtp-Source: ABdhPJy7qfimOxSr4/fMIE7a2D4KDer/6cV3LsKxzuCkCEJlgsMJJHGEPQorNf5S0C16PETlewJPqw==
-X-Received: by 2002:a37:6682:: with SMTP id a124mr12157869qkc.110.1637815294759;
-        Wed, 24 Nov 2021 20:41:34 -0800 (PST)
-Received: from localhost ([66.216.211.25])
-        by smtp.gmail.com with ESMTPSA id l25sm857260qkk.48.2021.11.24.20.41.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Nov 2021 20:41:34 -0800 (PST)
-Date:   Wed, 24 Nov 2021 20:41:32 -0800
-From:   Yury Norov <yury.norov@gmail.com>
-To:     "Paul E. McKenney" <paulmck@kernel.org>
-Cc:     Frederic Weisbecker <frederic@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Uladzislau Rezki <urezki@gmail.com>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Joel Fernandes <joel@joelfernandes.org>, rcu@vger.kernel.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 5/6] rcu/nocb: Allow empty "rcu_nocbs" kernel parameter
-Message-ID: <20211125044132.GA105778@lapt>
-References: <20211123003708.468409-1-frederic@kernel.org>
- <20211123003708.468409-6-frederic@kernel.org>
- <20211125004720.GV641268@paulmck-ThinkPad-P17-Gen-1>
+        id S1347308AbhKYGHT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Nov 2021 01:07:19 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48102 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1346423AbhKYGFR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 25 Nov 2021 01:05:17 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 36C8F6109D;
+        Thu, 25 Nov 2021 06:02:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1637820126;
+        bh=Hq2zg3G6gApQm7rRrSncgDSyVbrLu4jCluqs3U/7Weo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=G6PG0C3m0+MqEnoXBwDA4tvmsymzaaW9TSxBIAFagkwvHU3tOaAqt2vsNq95v2SvQ
+         Tjcav11hF8Fz05+0Qcji/O2mqCdv+gHi0qED3L3HgHNPFZoxKXGfDCrDxCfT3uba7h
+         M+vB/UEhDQ2xRpC2WiUGZ0pDz5UTN83ZIDnxqTjs=
+Date:   Thu, 25 Nov 2021 07:02:04 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     klondike <klondike@klondike.es>
+Cc:     linux-usb@vger.kernel.org,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Kranthi Kuntala <kranthi.kuntala@intel.com>,
+        Rajmohan Mani <rajmohan.mani@intel.com>,
+        Mario.Limonciello@dell.com, Lukas Wunner <lukas@wunner.de>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] thunderbolt: allow vendor ID override for NVM
+ programming
+Message-ID: <YZ8m3E/06h/8lZcN@kroah.com>
+References: <8d29b41b-3590-c4b0-a2f8-fa34063bafb3@klondike.es>
+ <07bd1d90-c95f-0685-e1a8-2211c9dac251@klondike.es>
+ <YZ6D7vbyaf50DSCh@kroah.com>
+ <9b8ea990-558b-c2ba-100f-4e06c3a10f69@klondike.es>
+ <YZ6GdhKQgrFqZLyl@kroah.com>
+ <6520dbb5-d842-4ce1-c1e5-ad653eb3deca@klondike.es>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20211125004720.GV641268@paulmck-ThinkPad-P17-Gen-1>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6520dbb5-d842-4ce1-c1e5-ad653eb3deca@klondike.es>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 24, 2021 at 04:47:20PM -0800, Paul E. McKenney wrote:
-> On Tue, Nov 23, 2021 at 01:37:07AM +0100, Frederic Weisbecker wrote:
-> > If a user wants to boot without any CPU in offloaded mode initially but
-> > with the possibility to offload them later using cpusets, provide a way
-> > to simply pass an empty "rcu_nocbs" kernel parameter which will enforce
-> > the creation of dormant nocb kthreads.
+On Wed, Nov 24, 2021 at 07:56:50PM +0100, klondike wrote:
+> El 24/11/21 a las 19:37, Greg Kroah-Hartman escribió:
+> > On Wed, Nov 24, 2021 at 07:32:29PM +0100, klondike wrote:
+> >> El 24/11/21 a las 19:26, Greg Kroah-Hartman escribió:
+> >>> On Wed, Nov 24, 2021 at 05:37:05PM +0100, Francisco Blas Izquierdo Riera (klondike) wrote:
+> >>>> Currently, the vendor ID reported by the chipset is checked before to
+> >>>> avoid accidentally programming devices from unsupported vendors with
+> >>>> a different NVM structure.
+> >>>>
+> >>>> Certain Thunderbolt devices store the vendor ID in the NVM, therefore
+> >>>> if the NVM has become corrrupted the device will report an invalid
+> >>>> vendor ID and reflashing will be impossible on GNU/Linux even if the
+> >>>> device can boot in safe mode.
+> >>>>
+> >>>> This patch adds a new parameter ``switch_nvm_vendor_override`` which
+> >>>> can be used to override the vendor ID used for detecting the NVM
+> >>>> structure allowing to reflash (and authenticate) a new, valid
+> >>>> image on the device.
+> >>>>
+> >>>> Signed-off-by: Francisco Blas Izquierdo Riera (klondike) <klondike@klondike.es>
+> >>>> ---
+> >>>> drivers/thunderbolt/switch.c | 9 ++++++++-
+> >>>> 1 file changed, 8 insertions(+), 1 deletion(-)
+> >>>>
+> >>>> diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
+> >>>> index 3014146081..a7959c3f3f 100644
+> >>>> --- a/drivers/thunderbolt/switch.c
+> >>>> +++ b/drivers/thunderbolt/switch.c
+> >>>> @@ -13,6 +13,7 @@
+> >>>> #include <linux/sched/signal.h>
+> >>>> #include <linux/sizes.h>
+> >>>> #include <linux/slab.h>
+> >>>> +#include <linux/moduleparam.h>
+> >>>> #include "tb.h"
+> >>>> @@ -34,6 +35,10 @@ struct nvm_auth_status {
+> >>>> static LIST_HEAD(nvm_auth_status_cache);
+> >>>> static DEFINE_MUTEX(nvm_auth_status_lock);
+> >>>> +static short switch_nvm_vendor_override = -1;
+> >>>> +module_param(switch_nvm_vendor_override, short, 0440);
+> >>>> +MODULE_PARM_DESC(switch_nvm_vendor_override, "Override the switch vendor id on the nvm access routines");
+> >>>> +
+> >>>> static struct nvm_auth_status *__nvm_get_auth_status(const struct tb_switch *sw)
+> >>>> {
+> >>>> struct nvm_auth_status *st;
+> >>>> @@ -391,7 +396,9 @@ static int tb_switch_nvm_add(struct tb_switch *sw)
+> >>>> * relax this in the future when we learn other NVM formats.
+> >>>> */
+> >>>> if (sw->config.vendor_id != PCI_VENDOR_ID_INTEL &&
+> >>>> - sw->config.vendor_id != 0x8087) {
+> >>>> + sw->config.vendor_id != 0x8087 &&
+> >>>> + switch_nvm_vendor_override != PCI_VENDOR_ID_INTEL &&
+> >>>> + switch_nvm_vendor_override != 0x8087) {
+> >>>> dev_info(&sw->dev,
+> >>>> "NVM format of vendor %#x is not known, disabling NVM upgrade\n",
+> >>>> sw->config.vendor_id);
+> >>> Patch is corrupted :(
+> >>>
+> >>> Anyway, module parameters are from the 1990's and should stay there.
+> >>> Please use a per-device way to handle this instead, as trying to handle
+> >>> module parameters is very difficult over time.
+> >>>
+> >>> thanks,
+> >>>
+> >>> greg k-h
+> >> Hi Greg!
+> >>
+> >> Thanks for your feedback. I'm a bit uncertain about what you mean with
+> >> a per-device way. Do you mean through the sysfs interface? If so how
+> >> to do so on device discovery time (which is what the Thunderbolt
+> >> driver does)?
+> >>
+> >> I'm surely missing something here so I would really appreciate a
+> >> pointer in the right direction.
+> > Ah, forgot about discovery time, you want this before the device is
+> > probed...
+> >
+> > Then what about the existing "new_id" file for the driver?  That's what
+> > it is there for, right?
+> Hi again Greg!
 > 
-> Huh.  This would have been a use for Yury Norov's "none" bitmask
-> specifier.  ;-)
-> 
-> I pulled this one in with the usual wordsmithing.
-> 
-> 							Thanx, Paul
+> "new_id" would work well if the blacklisting was for the whole driver, but currently the driver accepts the corrupted controller just fine but disables the nvm flashing functionality for any vendor IDs it considers inappropriate.
 
-I think 'rcu_nocbs=,' should work as 'none'. But I admit that it looks
-awkward. The following patch adds clear 'none' semantics to the parser.
-If you like it, I think you may drop non-documentation part of this
-patch.
+Then fix the devices to do not have corrupted ids!  :)
 
-From e3a9cfe4830141c88aa5d8a93eae3512b2ae2882 Mon Sep 17 00:00:00 2001
-From: Yury Norov <yury.norov@gmail.com>
-Date: Wed, 24 Nov 2021 19:34:05 -0800
-Subject: [PATCH] lib/bitmap: add 'none' specifier for bitmap_parselist()
+Seriously, what does other operating systems do with these broken
+devices?
 
-Currently bitmap_parselist() has no clear notation to specify empty bitmap.
-The format allows ',' or '0:0-N' for doing this, but it looks hacky.
+> The only other approach I can think off is to add a sysfs entry when
+> the vendor missmatches the use can use to try force enabling flashing
+> for a specific vendor ID and have that create the nvm entries if not
+> already there. Do you think this would be better?
 
-Frederic Weisbecker needs to pass an empty rcu_nocbs to the kernel, and
-without such a notation has to hack his own code:
+I think it would be best to fix the firmware in the devices.  What
+prevents that from happening?
 
-https://lore.kernel.org/rcu/20211125005526.GA490855@lothringen/
+thanks,
 
-This patch adds 'none' to the bitmap_parselist, so that no such hacks would
-be needed. 'None' is case-insensitive and doesn't support group semantics
-('none:1/2' is meaningless and wouldn't work).
-
-Signed-off-by: Yury Norov <yury.norov@gmail.com>
----
- Documentation/admin-guide/kernel-parameters.rst |  7 +++++--
- lib/bitmap.c                                    | 12 +++++++++++-
- lib/test_bitmap.c                               | 13 +++++++++++++
- 3 files changed, 29 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.rst b/Documentation/admin-guide/kernel-parameters.rst
-index 01ba293a2d70..af261018bab5 100644
---- a/Documentation/admin-guide/kernel-parameters.rst
-+++ b/Documentation/admin-guide/kernel-parameters.rst
-@@ -76,11 +76,14 @@ to change, such as less cores in the CPU list, then N and any ranges using N
- will also change.  Use the same on a small 4 core system, and "16-N" becomes
- "16-3" and now the same boot input will be flagged as invalid (start > end).
- 
-+The special case-tolerant group name "none" has a meaning of selecting no CPUs,
-+so that "rcu_nocps=none" would allow to disable offloading mode for all CPUs.
-+
- The special case-tolerant group name "all" has a meaning of selecting all CPUs,
- so that "nohz_full=all" is the equivalent of "nohz_full=0-N".
- 
--The semantics of "N" and "all" is supported on a level of bitmaps and holds for
--all users of bitmap_parse().
-+The semantics of "none", "N" and "all" is supported on a level of bitmaps and
-+holds for all users of bitmap_parse().
- 
- This document may not be entirely up to date and comprehensive. The command
- "modinfo -p ${modulename}" shows a current list of all parameters of a loadable
-diff --git a/lib/bitmap.c b/lib/bitmap.c
-index d7b80a069819..bcb38d055ec1 100644
---- a/lib/bitmap.c
-+++ b/lib/bitmap.c
-@@ -771,6 +771,16 @@ static const char *bitmap_parse_region(const char *str, struct region *r)
- 		goto check_pattern;
- 	}
- 
-+	if (!strncasecmp(str, "none", 4)) {
-+		r->start = 0;
-+		r->end = 0;
-+		r->off = 0;
-+		r->group_len = r->nbits;
-+		str += 4;
-+
-+		goto out;
-+	}
-+
- 	str = bitmap_getnum(str, &r->start, lastbit);
- 	if (IS_ERR(str))
- 		return str;
-@@ -806,7 +816,7 @@ static const char *bitmap_parse_region(const char *str, struct region *r)
- no_pattern:
- 	r->off = r->end + 1;
- 	r->group_len = r->end + 1;
--
-+out:
- 	return end_of_str(*str) ? NULL : str;
- }
- 
-diff --git a/lib/test_bitmap.c b/lib/test_bitmap.c
-index 0c82f07f74fc..1111d0d0df5f 100644
---- a/lib/test_bitmap.c
-+++ b/lib/test_bitmap.c
-@@ -351,18 +351,26 @@ static const struct test_bitmap_parselist parselist_tests[] __initconst = {
- 	{0, ",,  ,,  , ,  ,",		&exp1[12 * step], 8, 0},
- 	{0, " ,  ,,  , ,   ",		&exp1[12 * step], 8, 0},
- 	{0, " ,  ,,  , ,   \n",		&exp1[12 * step], 8, 0},
-+	{0, "none",             	&exp1[12 * step], 8, 0},
-+	{0, " , NONE ,,  , ,   \n",	&exp1[12 * step], 8, 0},
-+	{0, " ,  ,none,  , ,   \n",	&exp1[12 * step], 8, 0},
-+	{0, " ,  ,,  , ,none   \n",	&exp1[12 * step], 8, 0},
- 
- 	{0, "0-0",			&exp1[0], 32, 0},
- 	{0, "1-1",			&exp1[1 * step], 32, 0},
- 	{0, "15-15",			&exp1[13 * step], 32, 0},
- 	{0, "31-31",			&exp1[14 * step], 32, 0},
-+	{0, "31-31,none",		&exp1[14 * step], 32, 0},
- 
- 	{0, "0-0:0/1",			&exp1[12 * step], 32, 0},
-+	{0, "0-0:0/1,none",		&exp1[12 * step], 32, 0},
- 	{0, "0-0:1/1",			&exp1[0], 32, 0},
- 	{0, "0-0:1/31",			&exp1[0], 32, 0},
- 	{0, "0-0:31/31",		&exp1[0], 32, 0},
- 	{0, "1-1:1/1",			&exp1[1 * step], 32, 0},
- 	{0, "0-15:16/31",		&exp1[2 * step], 32, 0},
-+	{0, "0-15:16/31,none",		&exp1[2 * step], 32, 0},
-+	{0, "none,0-15:16/31",		&exp1[2 * step], 32, 0},
- 	{0, "15-15:1/2",		&exp1[13 * step], 32, 0},
- 	{0, "15-15:31/31",		&exp1[13 * step], 32, 0},
- 	{0, "15-31:1/31",		&exp1[13 * step], 32, 0},
-@@ -381,6 +389,7 @@ static const struct test_bitmap_parselist parselist_tests[] __initconst = {
- 	{0, "0-N:1/3,1-N:1/3,2-N:1/3",		&exp1[8 * step], 32, 0},
- 	{0, "0-31:1/3,1-31:1/3,2-31:1/3",	&exp1[8 * step], 32, 0},
- 	{0, "1-10:8/12,8-31:24/29,0-31:0/3",	&exp1[9 * step], 32, 0},
-+	{0, "1-10:8/12,none,8-31:24/29,0-31:0/3",	&exp1[9 * step], 32, 0},
- 
- 	{0,	  "all",		&exp1[8 * step], 32, 0},
- 	{0,	  "0, 1, all,  ",	&exp1[8 * step], 32, 0},
-@@ -388,6 +397,10 @@ static const struct test_bitmap_parselist parselist_tests[] __initconst = {
- 	{0,	  "ALL:1/2",		&exp1[4 * step], 32, 0},
- 	{-EINVAL, "al", NULL, 8, 0},
- 	{-EINVAL, "alll", NULL, 8, 0},
-+	{-EINVAL, "non", NULL, 8, 0},
-+	{-EINVAL, "one", NULL, 8, 0},
-+	{-EINVAL, "NONEE", NULL, 8, 0},
-+	{-EINVAL, "NONE:1/2", NULL, 8, 0},
- 
- 	{-EINVAL, "-1",	NULL, 8, 0},
- 	{-EINVAL, "-0",	NULL, 8, 0},
--- 
-2.25.1
-
-
+greg k-h
