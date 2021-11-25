@@ -2,497 +2,171 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95B9AC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Nov 2021 09:39:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D9AFC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Nov 2021 10:21:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354124AbhKYJnG convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Nov 2021 04:43:06 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:4166 "EHLO
-        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345599AbhKYJlF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Nov 2021 04:41:05 -0500
-Received: from fraeml713-chm.china.huawei.com (unknown [172.18.147.207])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4J0CTC59hfz67yHr;
-        Thu, 25 Nov 2021 17:37:19 +0800 (CST)
-Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
- fraeml713-chm.china.huawei.com (10.206.15.32) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Thu, 25 Nov 2021 10:37:52 +0100
-Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
- fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2308.020;
- Thu, 25 Nov 2021 10:37:52 +0100
-From:   Roberto Sassu <roberto.sassu@huawei.com>
-To:     "deven.desai@linux.microsoft.com" <deven.desai@linux.microsoft.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "axboe@kernel.dk" <axboe@kernel.dk>,
-        "agk@redhat.com" <agk@redhat.com>,
-        "snitzer@redhat.com" <snitzer@redhat.com>,
-        "ebiggers@kernel.org" <ebiggers@kernel.org>,
-        "tytso@mit.edu" <tytso@mit.edu>,
-        "paul@paul-moore.com" <paul@paul-moore.com>,
-        "eparis@redhat.com" <eparis@redhat.com>,
-        "jmorris@namei.org" <jmorris@namei.org>,
-        "serge@hallyn.com" <serge@hallyn.com>
-CC:     "jannh@google.com" <jannh@google.com>,
-        "dm-devel@redhat.com" <dm-devel@redhat.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-fscrypt@vger.kernel.org" <linux-fscrypt@vger.kernel.org>,
-        "linux-audit@redhat.com" <linux-audit@redhat.com>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "tusharsu@linux.microsoft.com" <tusharsu@linux.microsoft.com>
-Subject: RE: [RFC PATCH v7 11/16] ipe: add support for dm-verity as a trust
- provider
-Thread-Topic: [RFC PATCH v7 11/16] ipe: add support for dm-verity as a trust
- provider
-Thread-Index: AQHXwGWKgSExirn2CUCoXyZKYCfiOKwUOhXA
-Date:   Thu, 25 Nov 2021 09:37:51 +0000
-Message-ID: <721462c3da064d359ca3c83845298ccf@huawei.com>
-References: <1634151995-16266-1-git-send-email-deven.desai@linux.microsoft.com>
- <1634151995-16266-12-git-send-email-deven.desai@linux.microsoft.com>
-In-Reply-To: <1634151995-16266-12-git-send-email-deven.desai@linux.microsoft.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.204.63.33]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        id S1345347AbhKYKYq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Nov 2021 05:24:46 -0500
+Received: from mailgw02.mediatek.com ([210.61.82.184]:60562 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1354630AbhKYKWp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Nov 2021 05:22:45 -0500
+X-UUID: 26fc32c3237e44a29d9bf0d5a4d95a41-20211125
+X-UUID: 26fc32c3237e44a29d9bf0d5a4d95a41-20211125
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+        (envelope-from <yee.lee@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 2036478998; Thu, 25 Nov 2021 18:19:31 +0800
+Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 25 Nov 2021 18:19:30 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb01.mediatek.inc
+ (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 25 Nov
+ 2021 18:19:30 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 25 Nov 2021 18:19:29 +0800
+Message-ID: <e055e71f0ca7bcb351b9097ba8f8f4a9d324623c.camel@mediatek.com>
+Subject: Re: [PATCH v3 1/1] arm64/cpufeature: Optionally disable MTE via
+ command-line
+From:   Yee Lee <yee.lee@mediatek.com>
+To:     Catalin Marinas <catalin.marinas@arm.com>
+CC:     <linux-kernel@vger.kernel.org>, <nicholas.Tang@mediatek.com>,
+        <Kuan-Ying.lee@mediatek.com>, <chinwen.chang@mediatek.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        "Randy Dunlap" <rdunlap@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Maciej W. Rozycki" <macro@orcam.me.uk>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Marc Zyngier <maz@kernel.org>,
+        David Brazdil <dbrazdil@google.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Fuad Tabba <tabba@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "moderated list:ARM64 PORT (AARCH64 ARCHITECTURE)" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>
+Date:   Thu, 25 Nov 2021 18:19:29 +0800
+In-Reply-To: <20210802153036.GH18685@arm.com>
+References: <20210730144957.30938-1-yee.lee@mediatek.com>
+         <20210730144957.30938-2-yee.lee@mediatek.com>
+         <20210802153036.GH18685@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 7bit
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> From: deven.desai@linux.microsoft.com
-> [mailto:deven.desai@linux.microsoft.com]
-> Sent: Wednesday, October 13, 2021 9:07 PM
-> From: Deven Bowers <deven.desai@linux.microsoft.com>
+On Mon, 2021-08-02 at 16:30 +0100, Catalin Marinas wrote:
+> On Fri, Jul 30, 2021 at 10:49:53PM +0800, yee.lee@mediatek.com wrote:
+> > From: Yee Lee <yee.lee@mediatek.com>
+> > 
+> > For some low-end devices with limited resources,
+> > MTE needs to be optionally disabled to save system
+> > costs such as tag memory and firmware controls.
 > 
-> Allows author of IPE policy to indicate trust for a singular dm-verity
-> volume, identified by roothash, through "dmverity_roothash" and all
-> signed dm-verity volumes, through "dmverity_signature".
+> I understand the cost of using MTE but I don't fully get what you
+> mean
+> by firmware controls. If the ID_AA64PFR1_EL1.MTE reports that MTE is
+> present, the firmware should have initialised MTE correctly (e.g. tag
+> allocation storage, SCR_EL3.ATA) and not rely on a kernel command
+> line
+> argument that may or may not be present.
 > 
-> Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
-> ---
+> > This allows ID_AA64PFR1_EL1.MTE to be overridden on 
+> > its shadow value by giving "arm64.nomte" on cmdline,
+> > and to suppress MTE feature.
+> > 
+> > Suggested-by: Marc Zyngier <maz@kernel.org>
+> > Suggested-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+> > Signed-off-by: Yee Lee <yee.lee@mediatek.com>
 > 
-> Relevant changes since v6:
->   * Squash patch 08/12, 10/12 to [11/16]
+> While this patch appears to disable MTE, I don't think it can fully
+> prevent the access to the allocation tag storage, so the firmware
+> must
+> still initialise it correctly.
 > 
-> ---
->  security/ipe/eval.c                       |  5 ++
->  security/ipe/eval.h                       | 10 +++
->  security/ipe/hooks.c                      | 48 ++++++++++++++
->  security/ipe/hooks.h                      |  6 ++
->  security/ipe/ipe.c                        |  9 +++
->  security/ipe/ipe.h                        |  3 +
->  security/ipe/modules/Kconfig              | 23 +++++++
->  security/ipe/modules/Makefile             |  2 +
->  security/ipe/modules/dmverity_roothash.c  | 80 +++++++++++++++++++++++
->  security/ipe/modules/dmverity_signature.c | 25 +++++++
->  10 files changed, 211 insertions(+)
->  create mode 100644 security/ipe/modules/dmverity_roothash.c
->  create mode 100644 security/ipe/modules/dmverity_signature.c
+> The issue is that __cpu_setup already configures the MAIR_EL1
+> register
+> to use Normal Tagged memory for the kernel mapping and SCTLR_EL1.ATA
+> is
+> set. The TCF field is zero, so no tag checking, but I couldn't figure
+> out from the ARM ARM whether this also prevents LDR/STR from
+> attempting
+> to fetch the allocation tags. I think it's only the ATA bit and the
+> MAIR
+> configuration.
 > 
-> diff --git a/security/ipe/eval.c b/security/ipe/eval.c
-> index 361efccebad4..facc05c753f4 100644
-> --- a/security/ipe/eval.c
-> +++ b/security/ipe/eval.c
-> @@ -23,6 +23,7 @@ static struct super_block *pinned_sb;
->  static DEFINE_SPINLOCK(pin_lock);
+> With this patch, KASAN_HW_TAGS (if configured) won't be used and MTE
+> will not be presented to user applications, if that's what you want,
+> but
+> does not fully disable MTE.
 > 
->  #define FILE_SUPERBLOCK(f) ((f)->f_path.mnt->mnt_sb)
-> +#define FILE_BLOCK_DEV(f) (FILE_SUPERBLOCK(f)->s_bdev)
+
+As pointed out earlier, the hardware has been verified that still has
+transaction sending to DRAM due to mair_el1(Normal_tagged) is
+setup.  That means the override in this patch would be incompleted and
+cannot achieve to avoid undesired hardware confliction by disabling
+MTE.
+
+Do we have other options to delay the configuration on MAIR_EL1 after
+the override? Or maybe another CONFIG to bypass the init in
+__cpu_setup?
+
+
+> Since May this year, the ARM ARM was updated so that
+> SCTLR_EL1.ATA/ATA0
+> are not permitted to be cached in the TLB. We could therefore move
+> the
+> setting to cpu_enable_mte(). Something like below, untested (to be
+> folded into your patch):
 > 
->  /**
->   * pin_sb: pin the underlying superblock of @f, marking it as trusted
-> @@ -95,6 +96,10 @@ static struct ipe_eval_ctx *build_ctx(const struct file *file,
->  	ctx->hook = hook;
->  	ctx->ci_ctx = ipe_current_ctx();
->  	ctx->from_init_sb = from_pinned(file);
-> +	if (file) {
-> +		if (FILE_BLOCK_DEV(file))
-> +			ctx->ipe_bdev = ipe_bdev(FILE_BLOCK_DEV(file));
-> +	}
+> diff --git a/arch/arm64/include/asm/sysreg.h
+> b/arch/arm64/include/asm/sysreg.h
+> index aa53954c2f6b..cac23455a2b5 100644
+> --- a/arch/arm64/include/asm/sysreg.h
+> +++ b/arch/arm64/include/asm/sysreg.h
+> @@ -698,8 +698,7 @@
+>  	(SCTLR_ELx_M    | SCTLR_ELx_C    | SCTLR_ELx_SA   |
+> SCTLR_EL1_SA0   | \
+>  	 SCTLR_EL1_SED  | SCTLR_ELx_I    | SCTLR_EL1_DZE  |
+> SCTLR_EL1_UCT   | \
+>  	 SCTLR_EL1_NTWE | SCTLR_ELx_IESB | SCTLR_EL1_SPAN |
+> SCTLR_ELx_ITFSB | \
+> -	 SCTLR_ELx_ATA  | SCTLR_EL1_ATA0 | ENDIAN_SET_EL1 |
+> SCTLR_EL1_UCI   | \
+> -	 SCTLR_EL1_EPAN | SCTLR_EL1_RES1)
+> +	 ENDIAN_SET_EL1 | SCTLR_EL1_UCI  | SCTLR_EL1_EPAN |
+> SCTLR_EL1_RES1)
 > 
->  	return ctx;
->  }
-> diff --git a/security/ipe/eval.h b/security/ipe/eval.h
-> index 42fb7fdf2599..25d2d8d55702 100644
-> --- a/security/ipe/eval.h
-> +++ b/security/ipe/eval.h
-> @@ -13,6 +13,14 @@
->  #include "hooks.h"
->  #include "policy.h"
-> 
-> +struct ipe_bdev {
-> +	const u8       *sigdata;
-> +	size_t		siglen;
-> +
-> +	const u8       *hash;
-> +	size_t		hashlen;
-> +};
-> +
->  struct ipe_eval_ctx {
->  	enum ipe_hook hook;
->  	enum ipe_operation op;
-> @@ -20,6 +28,8 @@ struct ipe_eval_ctx {
->  	const struct file *file;
->  	struct ipe_context *ci_ctx;
-> 
-> +	const struct ipe_bdev *ipe_bdev;
-> +
->  	bool from_init_sb;
->  };
-> 
-> diff --git a/security/ipe/hooks.c b/security/ipe/hooks.c
-> index 2d4a4f0eead0..470fb48e490c 100644
-> --- a/security/ipe/hooks.c
-> +++ b/security/ipe/hooks.c
-> @@ -13,6 +13,7 @@
->  #include <linux/types.h>
->  #include <linux/refcount.h>
->  #include <linux/rcupdate.h>
-> +#include <linux/blk_types.h>
->  #include <linux/binfmts.h>
->  #include <linux/mman.h>
-> 
-> @@ -219,3 +220,50 @@ void ipe_sb_free_security(struct super_block *mnt_sb)
+>  /* MAIR_ELx memory attributes (used by Linux) */
+>  #define MAIR_ATTR_DEVICE_nGnRnE		UL(0x00)
+> diff --git a/arch/arm64/kernel/cpufeature.c
+> b/arch/arm64/kernel/cpufeature.c
+> index 9035c367d08b..23b1e3d83603 100644
+> --- a/arch/arm64/kernel/cpufeature.c
+> +++ b/arch/arm64/kernel/cpufeature.c
+> @@ -1841,6 +1841,9 @@ static void bti_enable(const struct
+> arm64_cpu_capabilities *__unused)
+>  #ifdef CONFIG_ARM64_MTE
+>  static void cpu_enable_mte(struct arm64_cpu_capabilities const *cap)
 >  {
->  	ipe_invalidate_pinned_sb(mnt_sb);
->  }
+> +	sysreg_clear_set(sctlr_el1, 0, SCTLR_ELx_ATA | SCTLR_EL1_ATA0);
+> +	isb();
 > +
-> +/**
-> + * ipe_bdev_free_security: free nested structures within IPE's LSM blob
-> + *			   in block_devices
-> + * @bdev: Supplies a pointer to a block_device that contains the structure
-> + *	  to free.
-> + */
-> +void ipe_bdev_free_security(struct block_device *bdev)
-> +{
-> +	struct ipe_bdev *blob = ipe_bdev(bdev);
-> +
-> +	kfree(blob->sigdata);
-> +}
-> +
-> +/**
-> + * ipe_bdev_setsecurity: associate some data from the block device layer
-> + *			 with IPE's LSM blob.
-> + * @bdev: Supplies a pointer to a block_device that contains the LSM blob.
-> + * @key: Supplies the string key that uniquely identifies the value.
-> + * @value: Supplies the value to store.
-> + * @len: The length of @value.
-> + */
-> +int ipe_bdev_setsecurity(struct block_device *bdev, const char *key,
-> +			 const void *value, size_t len)
-> +{
-> +	struct ipe_bdev *blob = ipe_bdev(bdev);
-> +
-> +	if (!strcmp(key, DM_VERITY_SIGNATURE_SEC_NAME)) {
-> +		blob->siglen = len;
-> +		blob->sigdata = kmemdup(value, len, GFP_KERNEL);
-> +		if (!blob->sigdata)
-> +			return -ENOMEM;
-> +
-> +		return 0;
-> +	}
-> +
-> +	if (!strcmp(key, DM_VERITY_ROOTHASH_SEC_NAME)) {
-> +		blob->hashlen = len;
-> +		blob->hash = kmemdup(value, len, GFP_KERNEL);
-> +		if (!blob->hash)
-> +			return -ENOMEM;
-> +
-> +		return 0;
-> +	}
-> +
-> +	return -ENOSYS;
-> +}
-> diff --git a/security/ipe/hooks.h b/security/ipe/hooks.h
-> index e7f107ab5620..285f35187188 100644
-> --- a/security/ipe/hooks.h
-> +++ b/security/ipe/hooks.h
-> @@ -10,6 +10,7 @@
->  #include <linux/sched.h>
->  #include <linux/binfmts.h>
->  #include <linux/security.h>
-> +#include <linux/device-mapper.h>
+>  	/*
+>  	 * Clear the tags in the zero page. This needs to be done via
+> the
+>  	 * linear map which has the Tagged attribute.
 > 
->  enum ipe_hook {
->  	ipe_hook_exec = 0,
-> @@ -40,4 +41,9 @@ int ipe_on_kernel_load_data(enum kernel_load_data_id
-> id, bool contents);
-> 
->  void ipe_sb_free_security(struct super_block *mnt_sb);
-> 
-> +void ipe_bdev_free_security(struct block_device *bdev);
-> +
-> +int ipe_bdev_setsecurity(struct block_device *bdev, const char *key,
-> +			 const void *value, size_t len);
-> +
->  #endif /* IPE_HOOKS_H */
-> diff --git a/security/ipe/ipe.c b/security/ipe/ipe.c
-> index 1382d50078ec..215936cb4574 100644
-> --- a/security/ipe/ipe.c
-> +++ b/security/ipe/ipe.c
-> @@ -9,6 +9,7 @@
->  #include "ipe_parser.h"
->  #include "modules/ipe_module.h"
->  #include "modules.h"
-> +#include "eval.h"
-> 
->  #include <linux/fs.h>
->  #include <linux/sched.h>
-> @@ -20,8 +21,14 @@
-> 
->  struct lsm_blob_sizes ipe_blobs __lsm_ro_after_init = {
->  	.lbs_task = sizeof(struct ipe_context __rcu *),
-> +	.lbs_bdev = sizeof(struct ipe_bdev),
->  };
-> 
-> +struct ipe_bdev *ipe_bdev(struct block_device *b)
-> +{
-> +	return b->security + ipe_blobs.lbs_bdev;
-> +}
-> +
->  static struct security_hook_list ipe_hooks[] __lsm_ro_after_init = {
->  	LSM_HOOK_INIT(task_alloc, ipe_task_alloc),
->  	LSM_HOOK_INIT(task_free, ipe_task_free),
-> @@ -31,6 +38,8 @@ static struct security_hook_list ipe_hooks[]
-> __lsm_ro_after_init = {
->  	LSM_HOOK_INIT(kernel_read_file, ipe_on_kernel_read),
->  	LSM_HOOK_INIT(kernel_load_data, ipe_on_kernel_load_data),
->  	LSM_HOOK_INIT(sb_free_security, ipe_sb_free_security),
-> +	LSM_HOOK_INIT(bdev_free_security, ipe_bdev_free_security),
-> +	LSM_HOOK_INIT(bdev_setsecurity, ipe_bdev_setsecurity),
->  };
-> 
->  /**
-> diff --git a/security/ipe/ipe.h b/security/ipe/ipe.h
-> index ad16d2bebfec..6b4c7e07f204 100644
-> --- a/security/ipe/ipe.h
-> +++ b/security/ipe/ipe.h
-> @@ -14,10 +14,13 @@
-> 
->  #include <linux/types.h>
->  #include <linux/sched.h>
-> +#include <linux/blk_types.h>
->  #include <linux/lsm_hooks.h>
-> 
->  extern struct lsm_blob_sizes ipe_blobs;
->  extern struct ipe_parser __start_ipe_parsers[], __end_ipe_parsers[];
->  extern struct ipe_module __start_ipe_modules[], __end_ipe_modules[];
-> 
-> +struct ipe_bdev *ipe_bdev(struct block_device *b);
-> +
->  #endif /* IPE_H */
-> diff --git a/security/ipe/modules/Kconfig b/security/ipe/modules/Kconfig
-> index fad96ba534e2..a6ea06cf0737 100644
-> --- a/security/ipe/modules/Kconfig
-> +++ b/security/ipe/modules/Kconfig
-> @@ -16,5 +16,28 @@ config IPE_PROP_BOOT_VERIFIED
-> 
->  	  If unsure, answer N.
-> 
-> +config IPE_PROP_DM_VERITY_SIGNATURE
-> +	bool "Enable support for signed dm-verity volumes"
-> +	depends on DM_VERITY_VERIFY_ROOTHASH_SIG
-> +	default Y
-> +	help
-> +	  This option enables the property 'dmverity_signature' in
-> +	  IPE policy. This property evaluates to TRUE when a file
-> +	  is evaluated against a dm-verity volume that was mounted
-> +	  with a signed root-hash.
-> +
-> +	  If unsure, answer Y.
-> +
-> +config IPE_PROP_DM_VERITY_ROOTHASH
-> +	bool "Enable support for dm-verity volumes"
-> +	depends on DM_VERITY
-> +	default Y
-> +	help
-> +	  This option enables the property 'dmverity_roothash' in
-> +	  IPE policy. This property evaluates to TRUE when a file
-> +	  is evaluated against a dm-verity volume whose root hash
-> +	  matches the supplied value.
-> +
-> +	  If unsure, answer Y.
-> 
->  endmenu
-> diff --git a/security/ipe/modules/Makefile b/security/ipe/modules/Makefile
-> index e0045ec65434..84fadce85193 100644
-> --- a/security/ipe/modules/Makefile
-> +++ b/security/ipe/modules/Makefile
-> @@ -6,3 +6,5 @@
->  #
-> 
->  obj-$(CONFIG_IPE_PROP_BOOT_VERIFIED) += boot_verified.o
-> +obj-$(CONFIG_IPE_PROP_DM_VERITY_SIGNATURE) += dmverity_signature.o
-> +obj-$(CONFIG_IPE_PROP_DM_VERITY_ROOTHASH) += dmverity_roothash.o
-> diff --git a/security/ipe/modules/dmverity_roothash.c
-> b/security/ipe/modules/dmverity_roothash.c
-> new file mode 100644
-> index 000000000000..0f82bec3b842
-> --- /dev/null
-> +++ b/security/ipe/modules/dmverity_roothash.c
-> @@ -0,0 +1,80 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (C) Microsoft Corporation. All rights reserved.
-> + */
-> +
-> +#include "ipe_module.h"
-> +
-> +#include <linux/fs.h>
-> +#include <linux/types.h>
-> +
-> +struct counted_array {
-> +	size_t	len;
-> +	u8     *data;
-> +};
-> +
-> +static int dvrh_parse(const char *valstr, void **value)
-> +{
-> +	int rv = 0;
-> +	struct counted_array *arr;
-> +
-> +	arr = kzalloc(sizeof(*arr), GFP_KERNEL);
-> +	if (!arr) {
-> +		rv = -ENOMEM;
-> +		goto err;
-> +	}
-> +
-> +	arr->len = (strlen(valstr) / 2);
-> +
-> +	arr->data = kzalloc(arr->len, GFP_KERNEL);
-> +	if (!arr->data) {
-> +		rv = -ENOMEM;
-> +		goto err;
-> +	}
-> +
-> +	rv = hex2bin(arr->data, valstr, arr->len);
-> +	if (rv != 0)
-> +		goto err2;
-> +
-> +	*value = arr;
-> +	return rv;
-> +err2:
-> +	kfree(arr->data);
-> +err:
-> +	kfree(arr);
-> +	return rv;
-> +}
-> +
-> +static bool dvrh_eval(const struct ipe_eval_ctx *ctx, const void *val)
-> +{
-> +	const u8 *src;
-> +	struct counted_array *expect = (struct counted_array *)val;
-> +
-> +	if (!ctx->ipe_bdev)
-> +		return false;
-> +
-> +	if (ctx->ipe_bdev->hashlen != expect->len)
-> +		return false;
-> +
-> +	src = ctx->ipe_bdev->hash;
-> +
-> +	return !memcmp(expect->data, src, expect->len);
-
-Hi Deven
-
-I was curious to see if determining the property at run-time
-could apply also to dm-verity. It seems it could be done
-(I omit some checks, I also keep the expected value in hex
-format):
-
----
-        md = dm_get_md(file_inode(ctx->file)->i_sb->s_dev);
-        table = dm_get_live_table(md, &srcu_idx);
-        num_targets = dm_table_get_num_targets(table);
-
-        for (i = 0; i < num_targets; i++) {
-                struct dm_target *ti = dm_table_get_target(table, i);
-
-                if (strcmp(ti->type->name, "verity"))
-                        continue;
-
-                ti->type->status(ti, STATUSTYPE_IMA, 0, result, sizeof(result));
-        }
-
-        dm_put_live_table(md, srcu_idx);
-        dm_put(md);
-
-        root_digest_ptr = strstr(result, "root_digest=");
-        return !strncmp(expect->data, root_digest_ptr + 12, expect->len);
----
-
-Only dm_table_get_target() is not exported yet, but I guess it could
-be. dm_table_get_num_targets() is exported.
-
-With this code, you would not have to manage security blobs
-outside IPE. Maybe you could add a blob for the super block, so
-that you verify the dm-verity property just once per filesystem.
-
-Roberto
-
-HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
-Managing Director: Li Peng, Zhong Ronghua
-
-> +}
-> +
-> +static int dvrh_free(void **val)
-> +{
-> +	struct counted_array *expect = (struct counted_array *)val;
-> +
-> +	kfree(expect->data);
-> +	kfree(expect);
-> +
-> +	return 0;
-> +}
-> +
-> +IPE_MODULE(dvrh) = {
-> +	.name = "dmverity_roothash",
-> +	.version = 1,
-> +	.parse = dvrh_parse,
-> +	.free = dvrh_free,
-> +	.eval = dvrh_eval,
-> +};
-> diff --git a/security/ipe/modules/dmverity_signature.c
-> b/security/ipe/modules/dmverity_signature.c
-> new file mode 100644
-> index 000000000000..08746fcbcb3e
-> --- /dev/null
-> +++ b/security/ipe/modules/dmverity_signature.c
-> @@ -0,0 +1,25 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (C) Microsoft Corporation. All rights reserved.
-> + */
-> +
-> +#include "ipe_module.h"
-> +
-> +#include <linux/fs.h>
-> +#include <linux/types.h>
-> +
-> +static bool dvv_eval(const struct ipe_eval_ctx *ctx, const void *val)
-> +{
-> +	bool expect = (bool)val;
-> +	bool eval = ctx->ipe_bdev && (!!ctx->ipe_bdev->sigdata);
-> +
-> +	return expect == eval;
-> +}
-> +
-> +IPE_MODULE(dvv) = {
-> +	.name = "dmverity_signature",
-> +	.version = 1,
-> +	.parse = ipe_bool_parse,
-> +	.free = NULL,
-> +	.eval = dvv_eval,
-> +};
-> --
-> 2.33.0
 
