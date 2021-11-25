@@ -2,393 +2,178 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEE65C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Nov 2021 15:41:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61B5EC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Nov 2021 16:16:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235890AbhKYPo6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Nov 2021 10:44:58 -0500
-Received: from mail-dm6nam08on2061.outbound.protection.outlook.com ([40.107.102.61]:61729
+        id S1356505AbhKYQUB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Nov 2021 11:20:01 -0500
+Received: from mail-dm6nam08on2074.outbound.protection.outlook.com ([40.107.102.74]:43009
         "EHLO NAM04-DM6-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1356143AbhKYPm6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 25 Nov 2021 10:42:58 -0500
+        id S241521AbhKYQSB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 25 Nov 2021 11:18:01 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gmKWtdgXafL8ElFrvAiQlYCzNA0rdajP7vq5NgnvzPBemEFvsp3d67Djr1Zv77hfJ+3b1SSfuGqY1gULrnjqor52Csbj9lO2XPbgD3KJ8L4omDhL5wN/dGWmYYgakx1GsBgjAGquVAddnsWyde0YHqnigLW55PyrOO8g1jz2KZ1caK9yb7tZmlfSuoLTkot3zmDw2n5mMaX6ADBiOHpXFHxw5c/u5cC5x4Uh59YU1ZS2MiGU3bp5o8AegqT6ul4P6GfHzPPhgb1n70rlZ3GcNjR5XAY2q/pgxf/gDbSVoNXFOw+xw0sXD/Lt4/yvQB59H9F4bbd09B1vI9Bl7sWKCA==
+ b=m4j3njhmigYqvWUS6ho6Z15Mr6dy0G62Wm2aEztnxN1hgl3StU8jakwfgLuscl2Yy058+wVYKcVvVFS5rbfbQq6QL5EPSflwpv//GZKcMsaGpxiXcwO50sKpgdZ5JPi6bWwp7NgVzqg+jDp1O5j92my+jDqV9cHdH6dDaLhggMtJzLU/ltD9wwuNLlVM7WRWw/eViZtF9u1pxBCFCmS+zb7YplmE2aEYTsxpxfYPM38PQA0ftyCHHlJJOgeBiC+a6iGOrU2jmRXktgIRIuZxV9bcbhWjGnVUUFDnwiRTAB5VdEujG/Xrb6upYtms9OBFwWNCn8ur5DcPYUGh7IzQiQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=teXe7xsG9s3DyEDrBq7uUgxzUFjwEwKXcwGZV8sHmJs=;
- b=TUKzoysPBE1iFhHd638cvhzXpnm0AhRUA6xm3n8aETS/bzvzDJ/vdOsQroIlk5wZ4A5EbIGbvAlrP3fFQhFReUCW7xzgn60HlAzvkAM3NdU/wsfFS1oDDh8ljhq7HlT3Wtoeq0KnwRPw/sYmUdO43xL6y2na9l8FihHwaoioc7j2mKBCtAHlZ37GENcfjsqx8yFM5Xi3B8r8K1yE3ocgdeRzWLxT0dFnbhRTW0O5P0QwREGG25dpuQhtYLLw7ZfsprtLeMng8zwyaelbyxSZZotA6Tn1xX4DPuDAAXMRdvo/4RN2LuajsOXlz+wToQWbL93BOawQ/lyIStoi8PkZwg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=emersion.fr smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ bh=tKNThpPsSCa6XFv0pbDtYZJElIxBPxMkHtRiQMD8zAc=;
+ b=Jd79OxpkLXPVLRDDL6XUskxX5ZEVGnIaJvtOarzuql1Rb+aS6/oi20Wl2d73d9dPWp6kSp4bU9cS0PXoYKeY/BP6CBIbn/5nfCg5LPvaDfhFAy7VWkRNhntspDmYzjUI+YHLJzTUWLA744ty5ciY8c8xs3jvobiqwV8khyqFe9/GUxIXyTZeekKCwyBvOuFR6BISMIj4dHl7S6butIn77F+bbrwdYOGTb8KiqSmD2sn1UllMbXD/sPxVnTwku0Xw6Vsu/5RZmGmxmBghRddIygqTxcFmV58b7w1aRL+CxADSu2ElHrKZURP7Ny2ybY6cvMqxSYQUgzKGG0eK6J/W0A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=teXe7xsG9s3DyEDrBq7uUgxzUFjwEwKXcwGZV8sHmJs=;
- b=gWV/+Iu7FryLVYdv/mMtpfyrzzwPpzCiHFIvBCI1sONQA41sYVp+mf8HdfZUhNFUeH/I/jYTBqqtUCqWhuV2C9o5hCUUtgTplizTrNabjm1IuoNL1tKgdou2Dhryq5K5mAKuAZEGjG/eVkFJoUtQnLq8j0kI/xe1toy0hPn53nI=
-Received: from BN9P221CA0006.NAMP221.PROD.OUTLOOK.COM (2603:10b6:408:10a::33)
- by BN8PR12MB3521.namprd12.prod.outlook.com (2603:10b6:408:9f::26) with
+ bh=tKNThpPsSCa6XFv0pbDtYZJElIxBPxMkHtRiQMD8zAc=;
+ b=iUGYzPMp1QvXHbVpd2/T+j+z0r0aa3tl6q0yrC5PsFUmSi1AgE9qJN5XneXke4nLOxxfq0uipRqGpbQTbGf/nBIud13fey9fDXcAhZ93jP71aI7nHfxz62izbKcNAN0SbnfzN9/G7WQ4MfkayYEBWe0xurygGNbsVLgLCECWoIQTBrzMSj8Tw9mN7IE/5XTKQBfh9paY8JQk8yz8MuCaK//lqjd5tUliC49fN+Uj4bS88DpHMDXFp3Xp70wt1sfuw7x8IyLLtCF0c+Bt2kVxjr1iZSS4fqDIuiOUT3FAxVgioT+/2030K3QftESqgsVeyLyDCzpTAAslMygHF6sZvg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
+ by BL1PR12MB5288.namprd12.prod.outlook.com (2603:10b6:208:314::23) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.20; Thu, 25 Nov
- 2021 15:39:41 +0000
-Received: from BN8NAM11FT048.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:10a:cafe::63) by BN9P221CA0006.outlook.office365.com
- (2603:10b6:408:10a::33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.23 via Frontend
- Transport; Thu, 25 Nov 2021 15:39:41 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT048.mail.protection.outlook.com (10.13.177.117) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4734.22 via Frontend Transport; Thu, 25 Nov 2021 15:39:41 +0000
-Received: from atma2.hitronhub.home (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Thu, 25 Nov
- 2021 09:39:39 -0600
-From:   Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-To:     Simon Ser <contact@emersion.fr>,
-        =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>,
-        Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
-        =?UTF-8?q?Marek=20Ol=C5=A1=C3=A1k?= <marek.olsak@amd.com>,
-        Roman Gilg <subdiff@gmail.com>,
-        Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
-        "Harry Wentland" <Harry.Wentland@amd.com>,
-        Mark Yacoub <markyacoub@chromium.org>,
-        Sean Paul <seanpaul@chromium.org>,
-        Pekka Paalanen <ppaalanen@gmail.com>
-CC:     Alex Deucher <alexander.deucher@amd.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        <aurabindo.pillai@amd.com>, <qingqing.zhuo@amd.com>,
-        <roman.li@amd.com>, <nicholas.choi@amd.com>,
-        <bhawanpreet.lakha@amd.com>, <linux-doc@vger.kernel.org>,
-        <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 6/6] Documentation/gpu: Add DC glossary
-Date:   Thu, 25 Nov 2021 10:38:30 -0500
-Message-ID: <20211125153830.1352994-7-Rodrigo.Siqueira@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211125153830.1352994-1-Rodrigo.Siqueira@amd.com>
-References: <20211125153830.1352994-1-Rodrigo.Siqueira@amd.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.19; Thu, 25 Nov
+ 2021 16:14:49 +0000
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::5897:83b2:a704:7909]) by BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::5897:83b2:a704:7909%8]) with mapi id 15.20.4734.023; Thu, 25 Nov 2021
+ 16:14:48 +0000
+Date:   Thu, 25 Nov 2021 12:14:47 -0400
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Cornelia Huck <cohuck@redhat.com>
+Cc:     Alex Williamson <alex.williamson@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+        Yishai Hadas <yishaih@nvidia.com>
+Subject: Re: [PATCH RFC] vfio: Documentation for the migration region
+Message-ID: <20211125161447.GN4670@nvidia.com>
+References: <0-v1-0ec87874bede+123-vfio_mig_doc_jgg@nvidia.com>
+ <87zgpvj6lp.fsf@redhat.com>
+ <20211123165352.GA4670@nvidia.com>
+ <87fsrljxwq.fsf@redhat.com>
+ <20211124184020.GM4670@nvidia.com>
+ <87a6hsju8v.fsf@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87a6hsju8v.fsf@redhat.com>
+X-ClientProxiedBy: MN2PR11CA0020.namprd11.prod.outlook.com
+ (2603:10b6:208:23b::25) To BL0PR12MB5506.namprd12.prod.outlook.com
+ (2603:10b6:208:1cb::22)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
+Received: from mlx.ziepe.ca (142.162.113.129) by MN2PR11CA0020.namprd11.prod.outlook.com (2603:10b6:208:23b::25) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.20 via Frontend Transport; Thu, 25 Nov 2021 16:14:48 +0000
+Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1mqHOZ-0021oP-AC; Thu, 25 Nov 2021 12:14:47 -0400
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f530cb89-cee4-497b-e68b-08d9b029cc4a
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3521:
-X-Microsoft-Antispam-PRVS: <BN8PR12MB35210B8DA2D850299272721198629@BN8PR12MB3521.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:901;
+X-MS-Office365-Filtering-Correlation-Id: c7d1ff48-dc44-4e60-a0f1-08d9b02eb414
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5288:
+X-Microsoft-Antispam-PRVS: <BL1PR12MB5288F7270F35B878A236BAD8C2629@BL1PR12MB5288.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: aKPF3ux+fGiB/WTcVmxIUyxtoGk/isXFc+zdFN2Kz+b+RCWWLKOjuu7Rlz0rD1DV924cm4WOYa45foxK32CieLpdmZTtZCcDa8GQv11Y3/4X+aj0z3yhfEDJ9ULqUkR3qm0NAqK0huwWZXYnjK5O6TA++pHYniSFa4dry933WQw5pfopgi3r8rujeQqyXwOll79hknRWjXOJLura3gU9zpcCukIUT5Q/EitadWoz+XlUTM2EN6Vh/EE8Ar/iZpjvdXxGJfBnUO7TuS8PFelr/CB7kl+rO+ZP9els8tMywrw4WMIEutrOQCHFnKbYu7aSC0y5TgXiVurXCbcj4ePmmLJ+JLT2iFaxE2wwsZSuhDY+x40eTdrFlThpBmYU6BEC40wH2PlsvPIarP0KYhxEiXP7kapjVyuLsOzwsJPQ4RNO3eZM55R5PiMnIlna62FEAXQauxgR99jtp2V1UleY+LfhJUDGY3Ot9rqZvJUPKuHriSywDulBVxskY8+FBNjJG6yAfUBTf1EVIynKI+N1u9uk2VKVevurd5Vii2kqU7SF4hhrlSZd57HxtGa3+VUf1WmbWhHwC/7kkrKt0ID8Pj+c47wV9Pe2XdtrPPZt4EZms6BHajRh/q3oSsd+Ckps/N6zfEndr8D37a1L3rJ0XYGOB2mUEiu2v9658XHjXNPOuhB2rKd/Y91N6WHCs31dAoGQ5kBhGHrCB7rivYFkEoDKbHOb/ahn8b9bDztSqI+6D3Znzp2kBD4pzCBLLSOa
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(4636009)(36840700001)(46966006)(110136005)(316002)(54906003)(82310400004)(921005)(81166007)(4326008)(2616005)(36860700001)(426003)(7416002)(2906002)(26005)(16526019)(186003)(336012)(47076005)(8936002)(70206006)(36756003)(356005)(83380400001)(86362001)(70586007)(8676002)(6666004)(5660300002)(508600001)(1076003)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2021 15:39:41.6795
+X-Microsoft-Antispam-Message-Info: fZrnROGY7Ovdb9UKDohsi9J19klta9gVPereBnTJwnHlFUjURTim85hwfZCQACsFh9qacFK/XW5Az/8GVfDIn6cW/8PDjcuEUS/ueEn2p+w2YuxYYyqXSleZclAHwoX+ALpt8t+owOwUiPBSWvxoe+YoHHRGZSu1LlEGrORoghOsXg79gg6KK1OwoLnJqVgao0UbZOCWYunI/0RdDa0one4S34ZfesDX8woIsDwRodBrANBATP6WwadLXbAJHIIo0mf5gQnNxhbYHyaVSLZNf62n1ZzHpO9aojo1cAkkmRnv1S0RaZmxlcv2Uuic5d6nCf1CVyP/lgWWm7o5yZw2vYUHpKBJfPTdKXHZg+mK7CTKb4I5Onqaapk0HhXJTA2cH4K+y2Jk3v7IfCd4UhB5RcOiNZZiR3V2yEO5WBA18JjJKdWysS0TnYhRR3Bpbieasp8zRLGG3v42wSPaRBcWhHmuEARVNMH7/FPOpV6binp/H+guJicACZoxfzyOGG4VQ9m8BSv9pIlXuu9TDNmCpDaVVnto9u8NW+KqxwlKxGbRA/ESW5Fn6YLb0iZ5dqf9KZlVtFNwyk/J7K3t01Wf93F0jASh2Fz4/5cKF8KXM8fVGLQAHUBfhUoX6+XbWFngmYhrdgjz0BEyEqwauPlZSA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB5506.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(508600001)(316002)(86362001)(83380400001)(426003)(8936002)(107886003)(2906002)(8676002)(6916009)(186003)(66946007)(66556008)(66476007)(38100700002)(26005)(54906003)(36756003)(33656002)(4326008)(2616005)(5660300002)(9786002)(9746002)(1076003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?86PAxUP3bXK0h5+STeJAZwGmI67M29kRmx+tpdZvOGGUYbPU0Hd5ego+plSJ?=
+ =?us-ascii?Q?ynnPsGIviCTm60Nam00/0pKUCcTlKglHXFGXZ+4usGYn0ER9uoLAXxDzM7f9?=
+ =?us-ascii?Q?jNVHbaDx1eY96jF0cOXc6pG8BS3FI3os7cVlnMKsXU+f+yMYqhxonziRRW94?=
+ =?us-ascii?Q?vndT3Fo4vgdb3kCwoL3CewcWsgYS0Gmir7wE5XFxp7N/obJ5btsnlCizjnsi?=
+ =?us-ascii?Q?555DI37oP2MmsO6SqPf2DAM6qxv40+NN6JRaQTO9RAQtbhzeuLhcp+gotCOl?=
+ =?us-ascii?Q?nA2Lig8yYOKSBzLpAVluVeGRyB8cgPy7sSWhyZIIeOGnX5+9FPBbsewU7O8Q?=
+ =?us-ascii?Q?TgZPMzq8emQ+zmB1zV5wCHLpXhTQSxwqCwYohz/9rxsXJWotJH0+Vw6/xJN1?=
+ =?us-ascii?Q?dg3ISRJFTu1GZVdSvjg8Q+98/MRFLjPACt/vSLF8ggP+MMc5lwwHmkSP9q9w?=
+ =?us-ascii?Q?d3x4lqcsM+9arvYWnnUv4INxxOp0HIvCVMO2dHpsli+Vr5jy4v72EaekpOVP?=
+ =?us-ascii?Q?6FHLlIZgrQdfR4Z7px3gVXoCNgcNzb4Uxds7Q8Bl4mwVXFJVvyg7PQguw9t1?=
+ =?us-ascii?Q?fCEYYpiZaSnQivRZUwUZcze6eMtqd0Hq/epH2QMBWV6yvFFHNEY6C2GplNk/?=
+ =?us-ascii?Q?GFKh6jQGDy9qHjwtxer8j/fPYKtKhdipQA6jHDrPbC5SrMuNbwwkgkS6KJqi?=
+ =?us-ascii?Q?NxfLCxWr9bfLrWrguCH+znKVaM1GvwemPUl+C6OBvDXuxyxK9vyF/cBHOQue?=
+ =?us-ascii?Q?lr9baX4fe8HlSiD8JwLhFqHAEDQR6ND1cG2QK5fByA+Bkyqp20x4mZpERUiI?=
+ =?us-ascii?Q?KlheJwF0HZktylD31VYKzEfyE2JTQFZkGZNh/m8USPDIMTke4DJ1kx7bysnX?=
+ =?us-ascii?Q?4YuHxu2lKa7IQ1y57ulmtzweoZRQrVwAs/4v40iSqbD1/cl1lbpGhk50Z5Uu?=
+ =?us-ascii?Q?VcOII6+2CGO0VoqcXN4UUmIvCR1CjidnnyRkCzDIlsobAhb94w50pJiUoxuj?=
+ =?us-ascii?Q?z9G4BkdEJc6qBmFnIc1c6AC1bBmqoBfTV0Lwfzvg7wRjqLx3PwyQmWVk8es2?=
+ =?us-ascii?Q?t5AdtUVb3PpPVfSoSDhTUPsXEnnozOLcFzaZ87uIZBC1h7Elt8rEMiAkRKdE?=
+ =?us-ascii?Q?hPZ1AnqvXM74NJZzA77609NFjbsAuaD5zosESpmtRkBJNfYHrT9qtK09F/16?=
+ =?us-ascii?Q?yAN0RTiBm4wPhbC777yJXGeWEjENzlUJK+r4JsUH6whMeYAls2pZKvmJ+kjX?=
+ =?us-ascii?Q?noWp6/Efqov5WhHbOZ5CXQFfFQAvlWs7d9NvDy88N6akPoUDhVKn2D3kU0hx?=
+ =?us-ascii?Q?/G9TqviVUTVVnQfPYREpM8JMS+lHKF/Oaq8UcvY/0kSt/H9POkupSD36kr1u?=
+ =?us-ascii?Q?QU9TIcdYaJt5WcKEphvaGCSTkqotG2M0jkmF0BDdiFK6GrrBjYzZxlxl6/2p?=
+ =?us-ascii?Q?a7ioLqkkLMzv0lA1Ev0hhFZM15QsCZE2sKVyW0gQEasgSng1R741cIOdzCJo?=
+ =?us-ascii?Q?JEoJIFnk1Xlg8T9PF6ecEVHHM7EFbJOlFBF9/YFoyLKsM6tNLBZ9zBUNY/3T?=
+ =?us-ascii?Q?SbrBhHIHbZ5GDQENvew=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c7d1ff48-dc44-4e60-a0f1-08d9b02eb414
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2021 16:14:48.8788
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f530cb89-cee4-497b-e68b-08d9b029cc4a
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT048.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3521
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wzWveEfbinyZMmhpdkeKgcQNyV/YdN4OBFPBVGt1vYnrvH7LxhCs7sWl2XmAiTTy
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5288
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In the DC driver, we have multiple acronyms that are not obvious most of
-the time. This commit introduces a DC glossary in order to make it
-easier to navigate through our driver.
+On Thu, Nov 25, 2021 at 01:27:12PM +0100, Cornelia Huck wrote:
+> On Wed, Nov 24 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
+> 
+> > On Wed, Nov 24, 2021 at 05:55:49PM +0100, Cornelia Huck wrote:
+> 
+> >> What I meant to say: If we give userspace the flexibility to operate
+> >> this, we also must give different device types some flexibility. While
+> >> subchannels will follow the general flow, they'll probably condense/omit
+> >> some steps, as I/O is quite different to PCI there.
+> >
+> > I would say no - migration is general, no device type should get to
+> > violate this spec.  Did you have something specific in mind? There is
+> > very little PCI specific here already
+> 
+> I'm not really thinking about violating the spec, but more omitting
+> things that do not really apply to the hardware. For example, it is
+> really easy to shut up a subchannel, we don't really need to wait until
+> nothing happens anymore, and it doesn't even have MMIO. 
 
-Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
----
- Documentation/gpu/amdgpu-dc/amdgpu-dc.rst   |   2 +-
- Documentation/gpu/amdgpu-dc/dc-glossary.rst | 257 ++++++++++++++++++++
- 2 files changed, 258 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/gpu/amdgpu-dc/dc-glossary.rst
+I've never really looked closely at the s390 mdev drivers..
 
-diff --git a/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst b/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
-index 2e45e83d9a2a..15405c43786a 100644
---- a/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
-+++ b/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
-@@ -26,4 +26,4 @@ table of content:
-    amdgpu-dcn-overview.rst
-    amdgpu-dm.rst
-    amdgpu-dc-debug.rst
--
-+   dc-glossary.rst
-diff --git a/Documentation/gpu/amdgpu-dc/dc-glossary.rst b/Documentation/gpu/amdgpu-dc/dc-glossary.rst
-new file mode 100644
-index 000000000000..48698fc1799f
---- /dev/null
-+++ b/Documentation/gpu/amdgpu-dc/dc-glossary.rst
-@@ -0,0 +1,257 @@
-+===========
-+DC Glossary
-+===========
-+
-+.. glossary::
-+
-+    ABM
-+      Adaptive Backlight Modulation
-+
-+    APU
-+      Accelerated Processing Unit
-+
-+    ASIC
-+      Application-Specific Integrated Circuit
-+
-+    ASSR
-+      Alternate Scrambler Seed Reset
-+
-+    AZ
-+      Azalia (HD audio DMA engine)
-+
-+    BPC
-+      Bits Per Colour/Component
-+
-+    BPP
-+      Bits Per Pixel
-+
-+    Clocks
-+      * PCLK: Pixel Clock
-+      * SYMCLK: Symbol Clock
-+      * SOCCLK: GPU Engine Clock
-+      * DISPCLK: Display Clock
-+      * DPPCLK: DPP Clock
-+      * DCFCLK: Display Controller Fabric Clock
-+      * REFCLK: Real Time Reference Clock
-+      * PPLL: Pixel PLL
-+      * FCLK: Fabric Clock
-+      * MCLK: Memory Clock
-+      * CPLIB: Content Protection Library
-+
-+    CRC
-+      Cyclic Redundancy Check
-+
-+    CRTC
-+      Cathode Ray Tube Controller - commonly called "Controller" - Generates
-+      raw stream of pixels, clocked at pixel clock
-+
-+    CVT
-+      Coordinated Video Timings
-+
-+    DAL
-+      Display Abstraction layer
-+
-+    DC (Software)
-+      Display Core
-+
-+    DC (Hardware)
-+      Display Controller
-+
-+    DCC
-+      Delta Colour Compression
-+
-+    DCE
-+      Display Controller Engine
-+
-+    DCHUB
-+      Display Controller Hub
-+
-+    ARB
-+      Arbiter
-+
-+    VTG
-+      Vertical Timing Generator
-+
-+    DCN
-+      Display Core Next
-+
-+    DCCG
-+      Display Clock Generator block
-+
-+    DDC
-+      Display Data Channel
-+
-+    DFS
-+      Digital Frequency Synthesizer
-+
-+    DIO
-+      Display IO
-+
-+    DPP
-+      Display Pipes and Planes
-+
-+    DSC
-+      Display Stream Compression (Reduce the amount of bits to represent pixel
-+      count while at the same pixel clock)
-+
-+    dGPU
-+      discrete GPU
-+
-+    DMIF
-+      Display Memory Interface
-+
-+    DML
-+      Display Mode Library
-+
-+    DMCU
-+      Display Micro Controller Unit
-+
-+    DMCUB
-+      Display Micro-Controller Unit, version B
-+
-+    DPCD
-+      DisplayPort Configuration Data
-+
-+    DPM(S)
-+      Display Power Management (Signaling)
-+
-+    DRR
-+      Dynamic Refresh Rate
-+
-+    DWB
-+      Display writeback
-+
-+    ECP
-+      Enhanced Content Protection
-+
-+    FB
-+      Frame Buffer
-+
-+    FBC
-+      Frame Buffer Compression
-+
-+    FEC
-+      Forward Error Correction
-+
-+    FRL
-+      Fixed Rate Link
-+
-+    GCO
-+      Graphical Controller Object
-+
-+    GMC
-+      Graphic Memory Controller
-+
-+    GSL
-+      Global Swap Lock
-+
-+    iGPU
-+      integrated GPU
-+
-+    IH
-+      Interrupt Handler
-+
-+    ISR
-+      Interrupt Service Request
-+
-+    ISV
-+      Independent Software Vendor
-+
-+    KMD
-+      Kernel Mode Driver
-+
-+    LB
-+      Line Buffer
-+
-+    LFC
-+      Low Framerate Compensation
-+
-+    LTTPR
-+      Link Training Tunable Phy Repeater
-+
-+    LUT
-+      Lookup Table
-+
-+    MALL
-+      Memory Access at Last Level
-+
-+    MC
-+      Memory Controller
-+
-+    MPC
-+      Multiple pipes and plane combine
-+
-+    MPO
-+      Multi Plane Overlay
-+
-+    MST
-+      Multi Stream Transport
-+
-+    NBP State
-+      Northbridge Power State
-+
-+    NBIO
-+      North Bridge Input/Output
-+
-+    ODM
-+      Output Data Mapping
-+
-+    OPM
-+      Output Protection Manager
-+
-+    OPP
-+      Output Plane Processor
-+
-+    OPTC
-+      Output Pipe Timing Combiner
-+
-+    OTG
-+      Output Timing Generator
-+
-+    PCON
-+      Power Controller
-+
-+    PGFSM
-+      Power Gate Finite State Machine
-+
-+    PPLib
-+      PowerPlay Library
-+
-+    PSR
-+      Panel Self Refresh
-+
-+    SCL
-+      Scaler
-+
-+    SDP
-+      Scalable Data Port
-+
-+    SMU
-+      System Management Unit
-+
-+    SLS
-+      Single Large Surface
-+
-+    SST
-+      Single Stream Transport
-+
-+    TMDS
-+      Transition-Minimized Differential Signaling
-+
-+    TMZ
-+      Trusted Memory Zone
-+
-+    TTU
-+      Time to Underflow
-+
-+    VRR
-+      Variable Refresh Rate
-+
-+    UVD
-+      Unified Video Decoder
-+
-+    VCE
-+      Video Compression Engine
-+
-+    VCN
-+      Video Codec Next
--- 
-2.25.1
+What does something like AP even do anyhow? The ioctl handler doesn't
+do anything, there is no mmap hook, how does the VFIO userspace
+interact with this thing?
 
+> > In general, userspace can issue a VFIO_DEVICE_RESET ioctl and recover the
+> > device back to device_state RUNNING. When a migration driver executes this
+> > ioctl it should discard the data window and set migration_state to RUNNING as
+> > part of resetting the device to a clean state. This must happen even if the
+> > migration_state has errored. A freshly opened device FD should always be in
+> > the RUNNING state.
+> 
+> Can the state immediately change from RUNNING to ERROR again?
+
+Immediately? State change can only happen in response to the ioctl or
+the reset.
+
+""The migration_state cannot change asynchronously, upon writing the
+migration_state the driver will either keep the current state and return
+failure, return failure and go to ERROR, or succeed and go to the new state.""
+
+> > However, a device may not compromise system integrity if it is subjected to a
+> > MMIO. It can not trigger an error TLP, it can not trigger a Machine Check, and
+> > it can not compromise device isolation.
+> 
+> "Machine Check" may be confusing to readers coming from s390; there, the
+> device does not trigger the machine check, but the channel subsystem
+> does, and we cannot prevent it. Maybe we can word it more as an example,
+> so readers get an idea what the limits in this state are?
+
+Lets say x86 machine check then which is a kernel-fatal event.
+
+> Although I would like to see some more feedback from others, I think
+> this is already a huge step in the right direction.
+
+Thanks, I made all your other changes
+
+Will send a v2 next week
+
+Jason 
