@@ -2,120 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1BEFC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Nov 2021 14:57:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C65A2C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Nov 2021 15:04:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353370AbhKZPA2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Nov 2021 10:00:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41194 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242685AbhKZO6Z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Nov 2021 09:58:25 -0500
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E841EC0619F2;
-        Fri, 26 Nov 2021 06:33:43 -0800 (PST)
-Received: by mail-pf1-x42f.google.com with SMTP id n85so9117104pfd.10;
-        Fri, 26 Nov 2021 06:33:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:cc:references:subject:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=YX75Xm+1AS7y1jBvySQK8BxyX1jnK7N8WeJaX2rpj0o=;
-        b=qJMJY5rkDlRLMAZAM35ZfZdQhahnF6C94D2/N8SgjoCYWxZpJ0IN0VBKJomH0SCJ02
-         SLYd9zl6zA3jRwyucOp7PLb029i3QiwZxgnFQaQCeubnEZuICwpLMZ4qRS0O+/MdPoeH
-         awo127bqomqxUy46GKjSPd2nHZdilYQtQPXaHhJs/D7B+ONY9qOMJZ+aYSXfR350jMJs
-         RIdFyCqjv5D1HcLKgEz3ieQXY3LL32IgDVxDvVdzprt+Zfi8vfkIgrL40TEgBNboU3tg
-         Sl8YK94w5KYDKfjYdAI0MsEZRM+qZHzW+LvclwDKnzaeObFPL1XmfM9VYE5YZnxhmTdv
-         sDXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:to:cc:references:subject:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=YX75Xm+1AS7y1jBvySQK8BxyX1jnK7N8WeJaX2rpj0o=;
-        b=3Ssp7BadPL5D044TUUJqAM6yQ/AsZSnVmHBtG3cypsLVyNuDfH5n/8an3WtYXq83tg
-         1FXYP3umneyAWZTWpN74ywPkzAotlWmRV8s0VQTSRJxOsw2siaOFl0v6y/IIJLTSjIyW
-         laU5axBr5/gVtwFksgvktg4cBEMo0TmpUlijbS7RrtDbRK/KA60fQ969uzjp0S0UddKe
-         LCsMeOShK8Lx3z+Jv2nZClP5xtoWPtpORMCcrev7s3pC1nLNSpoNdhwkqBDYt5KJResO
-         gCaSGH8bMKCYDSj6dSA6CrgLdELMwJ+KJ/kVY5+W+6M6GGJ3eeHRSKkzlrbNiUdRhh6m
-         DZXg==
-X-Gm-Message-State: AOAM5302zmgb2gXYFtxrQ0mnx+HaB/EF3YVgKP53F7U6brBU0x+LVOhY
-        b/O0hUeXOY0FUEfbqU5tC8w=
-X-Google-Smtp-Source: ABdhPJzuoh1S6Am/7fW3VVWnDqsXEBLM46Q1V78Q/NyQv9iX+xsyxxVet3kyEMlWf5kErzz9un9mGA==
-X-Received: by 2002:a63:f94c:: with SMTP id q12mr7763826pgk.617.1637937223381;
-        Fri, 26 Nov 2021 06:33:43 -0800 (PST)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id ne22sm5806373pjb.18.2021.11.26.06.33.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Nov 2021 06:33:42 -0800 (PST)
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <f0660b1d24bc9bc07b13fe9a25ccb69ca14e916d.1637923850.git.mchehab+huawei@kernel.org>
-Subject: Re: [PATCH] docs: conf.py: fix support for Readthedocs v 1.0.0
-From:   Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <13c40ed9-a51f-7496-7224-03b563bb6695@gmail.com>
-Date:   Fri, 26 Nov 2021 23:33:39 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        id S239892AbhKZPHQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Nov 2021 10:07:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32597 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1354044AbhKZPFP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Nov 2021 10:05:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1637938922;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=vUXFsZM+dBRxCP7qT6gtQFvAKsiW/+avV4Igsyr1Zgg=;
+        b=a50wauq2caU+UsQcmYTierBm0tAyRzAvtA90pqka2SFJjsXkqond4JtEM182A4hHc1xZxK
+        BhEwqZXdcdyPXVTf+lnP4cYuF16YnOXzcLg57TlT7RPEVzM/NyVNB8JfP7ljP2ebXSe303
+        fZnSXzOiWTCPiibsQW4EmGnmiONvNXA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-481-RTz40yPlPT6Ic5C6zR73BQ-1; Fri, 26 Nov 2021 10:01:59 -0500
+X-MC-Unique: RTz40yPlPT6Ic5C6zR73BQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7D5D85B663;
+        Fri, 26 Nov 2021 15:01:57 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.82])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C1BE5D9C0;
+        Fri, 26 Nov 2021 15:01:51 +0000 (UTC)
+From:   Cornelia Huck <cohuck@redhat.com>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     Alex Williamson <alex.williamson@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+        Yishai Hadas <yishaih@nvidia.com>
+Subject: Re: [PATCH RFC] vfio: Documentation for the migration region
+In-Reply-To: <20211126130608.GR4670@nvidia.com>
+Organization: Red Hat GmbH
+References: <0-v1-0ec87874bede+123-vfio_mig_doc_jgg@nvidia.com>
+ <87zgpvj6lp.fsf@redhat.com> <20211123165352.GA4670@nvidia.com>
+ <87fsrljxwq.fsf@redhat.com> <20211124184020.GM4670@nvidia.com>
+ <87a6hsju8v.fsf@redhat.com> <20211125161447.GN4670@nvidia.com>
+ <87pmqnhy85.fsf@redhat.com> <20211126130608.GR4670@nvidia.com>
+User-Agent: Notmuch/0.33.1 (https://notmuchmail.org)
+Date:   Fri, 26 Nov 2021 16:01:49 +0100
+Message-ID: <87mtlrhsf6.fsf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <f0660b1d24bc9bc07b13fe9a25ccb69ca14e916d.1637923850.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mauro,
+On Fri, Nov 26 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-On Fri, Nov 26, 2021 at 11:50:53AM +0100, Mauro Carvalho Chehab wrote:
-> As described at:
-> 	https://stackoverflow.com/questions/23211695/modifying-content-width-of-the-sphinx-theme-read-the-docs
-> 
-> since Sphinx 1.8, the standard way to setup a custom theme is
-> to use html_css_files. While using html_context is OK with RTD
-> 0.5.2, it doesn't work with 1.0.0, causing the theme to not load,
-> producing a very weird html.
-> 
-> Tested with:
-> 	- Sphinx 2.4.4 + sphinx-rtd-theme 0.5.2
-> 	- Sphinx 2.4.4 + sphinx-rtd-theme 1.0.0
-> 	- Sphinx 4.3.0 + sphinx-rtd-theme 1.0.0
-> 
-> Reported-by: Hans Verkuil <hverkuil@xs4all.nl>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/conf.py | 13 +++++++++----
->  1 file changed, 9 insertions(+), 4 deletions(-)
+> On Fri, Nov 26, 2021 at 01:56:26PM +0100, Cornelia Huck wrote:
+>> On Thu, Nov 25 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
+>> 
+>> > On Thu, Nov 25, 2021 at 01:27:12PM +0100, Cornelia Huck wrote:
+>> >> On Wed, Nov 24 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
+>> >> 
+>> >> > On Wed, Nov 24, 2021 at 05:55:49PM +0100, Cornelia Huck wrote:
+>> >> 
+>> >> >> What I meant to say: If we give userspace the flexibility to operate
+>> >> >> this, we also must give different device types some flexibility. While
+>> >> >> subchannels will follow the general flow, they'll probably condense/omit
+>> >> >> some steps, as I/O is quite different to PCI there.
+>> >> >
+>> >> > I would say no - migration is general, no device type should get to
+>> >> > violate this spec.  Did you have something specific in mind? There is
+>> >> > very little PCI specific here already
+>> >> 
+>> >> I'm not really thinking about violating the spec, but more omitting
+>> >> things that do not really apply to the hardware. For example, it is
+>> >> really easy to shut up a subchannel, we don't really need to wait until
+>> >> nothing happens anymore, and it doesn't even have MMIO. 
+>> >
+>> > I've never really looked closely at the s390 mdev drivers..
+>> >
+>> > What does something like AP even do anyhow? The ioctl handler doesn't
+>> > do anything, there is no mmap hook, how does the VFIO userspace
+>> > interact with this thing?
+>> 
+>> For AP, the magic is in the hardware/firmware; the vfio parts are needed
+>> to configure what is exposed to a given guest, not for operation. Once
+>> it is up, the hardware will handle any instructions directly, the
+>> hypervisor will not see them. (Unfortunately, none of the details have
+>> public documentation.) I have no idea how this would play with migration.
+>
+> That is kind of what I thought..
+>
+> VFIO is all about exposing a device to userspace control, sounds like
+> the S390 drivers skipped that step.
 
-So I have an issue with this simple change.
-As I said to Jon in another thread [1], in which Jon didn't show any
-interest, this update changes the look of generated HTML pages
-(I should say) rather drastically, and it looks quite distracting
-for my eyes.  The style might be acceptable for API documentations,
-but kernel-doc has abundant natural language contents.
+Note that what I wrote above is about AP; CCW does indeed trigger
+operations like start subchannel from userspace and relays interrupts
+back to userspace. AP is just very dissimilar to basically anything
+else.
 
-[1]: https://lkml.kernel.org/r/550fe790-b18d-f882-4c70-477b596facc7@gmail.com
+>
+> KVM is all about taking what userspace can already control and giving
+> it to a guest, in an accelerated way.
+>
+> Making a bypass where a KVM guest has more capability than the user
+> process because VFIO and KVM have been directly coupled completely
+> upends the whole logical model.
+>
+> As we talked with Intel's wbinvd stuff you should have a mental model
+> where the VFIO userspace process can do anything the KVM guest can do
+> via ioctls on the mdev. KVM is just an accelerated way to do that same
+> stuff. Maybe S390 doesn't implement those ioctls, but they are
+> logically part of the model.
 
-I think there should be some knobs for customizing the styles.
-But I don't know much about css.
+FWIW, AP had been a pain to model in a way that we could hand the
+devices to the guest; if we are supposed to use vfio for this purpose,
+the current design is probably the best we can get, at least nobody has
+been able to come up with a better way to interact with the interfaces
+that we have.
 
-Can anybody restore the current look of kernel-doc HTML pages
-in a sphinx-rtd-theme-1.0.0-compatible way?
+CCW needs a kernel part for translations, as it doesn't have an iommu,
+and the I/O instructions are of course privileged (but so are the
+instructions for s390 PCI); I think it is quite close to other devices
+in other respects, only that it has a more transaction-based model.
 
-Sidenote:
+> So, for the migration doc, imagine some non-accelerated KVM that was
+> intercepting the guest operations and calling the logical ioctls on
+> the mdev instead. When we talk about MMIO/PIO/etc it also includes
+> mdev operation ioctls too, and by extension any ioctl accelerated
+> inside KVM.
 
-The change (html_css_files) actually works with
-   - Sphinx 1.7.9 + sphinx-rtd-theme 1.0.0
-
-This contradicts the Sphinx documentation saying that html_css_files
-was new to Sphinx 1.8.  This might be related to the changes in
-sphinx-rtd-theme side, but I have no evidence.
-
-Any suggestion is welcome!
-
-Regards, Akira
+I think only AP is the really odd one out here; CCW will likely differ
+in some details... I just wanted to make sure that this will not run
+counter to the documentation.
 
