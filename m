@@ -2,118 +2,223 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ABD9C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Nov 2021 06:19:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5B76C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Nov 2021 06:25:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231645AbhKZGXB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Nov 2021 01:23:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41416 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352430AbhKZGVB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Nov 2021 01:21:01 -0500
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47F91C06174A
-        for <linux-doc@vger.kernel.org>; Thu, 25 Nov 2021 22:17:49 -0800 (PST)
-Received: by mail-io1-xd30.google.com with SMTP id y16so10103392ioc.8
-        for <linux-doc@vger.kernel.org>; Thu, 25 Nov 2021 22:17:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JgASxAioWMfqPmVngMuG9C0OsrcDbAPUOJlpE/ZHZfY=;
-        b=BvkCpE3YWuzwbzXn3cggm+tQjm7jV1uBoIPhkNkCcS6/NR/buMcsVypSxV+rP9ebWz
-         fc+ZXxR+ExNTVHdnThnmeDXcwGjqgamEXEkRNvJCXUKuIHEFN8RdvnYuqajNOgvck9yF
-         Scdcj2JqO5aX+RPD6i+1TMFkwoF8x0/tC+xR93rhnjC8rbydxerGGR1kjnJ8cQvdxlu3
-         gBSJo/nYUfHwhhEIosoJsBk+Iizk3L3C/Frer0F9E8igT4Zwb/QKV30rl8j/NOQiHg4T
-         NV5Dfr2QpiOk2HH7geZNmMvYajH2vP5uOe4vDDzMTAorWqyg614BhMcwYQ76Fywq7zyA
-         K0cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JgASxAioWMfqPmVngMuG9C0OsrcDbAPUOJlpE/ZHZfY=;
-        b=H2oTXgZbcuwiANpFrErguyPYYxV0JpAg/3XN0ntQZoOVcjncm59XF7Kthh6o64iEEL
-         nrGVAPBd/ceBfeGQsOKUxVPGzcIJKGR9M7uWIlYPosHXu4nKM6DdmFPgTrUIflEzV4oR
-         /ZgeOld1JEAhg2z2WyboPaiIeQqCxkJeu66q2bu767EHGD0bHVaT3VJtZRVHkD2Xhou3
-         zQ8JYPzxm8m7uNxTdXZavxmyfWne3flfZLIZRPs+napr7bPKDsRwkuoJDFmlQsDRs+QU
-         W3hUk2fnpCtTmOF/3jx9trqHJ9lEiY9xGGTq/PdIFgRCIq3xfLWThqds2j0sNuNsnXT0
-         qscQ==
-X-Gm-Message-State: AOAM532sECC0DIrds6LrtwWlCPwWTrf4bImlsoKlMXj145YlJrEP4pyu
-        h8hIZDb/Jy+SKQMomtwME5+FwCksI6Zse+CASqk=
-X-Google-Smtp-Source: ABdhPJwmeIfr6Z5KCrdM3q6hKKQaw6jCqbD4ifzim6E/Tt2/KsW47RgFCrI7bKH+iIrS+1y8/ey9ix8CJuBSDdZLFH0=
-X-Received: by 2002:a05:6602:140d:: with SMTP id t13mr30769533iov.176.1637907468795;
- Thu, 25 Nov 2021 22:17:48 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1637843107.git.siyanteng@loongson.cn> <434b1a86545b393bfa764d6ae310c77408367e08.1637843107.git.siyanteng@loongson.cn>
-In-Reply-To: <434b1a86545b393bfa764d6ae310c77408367e08.1637843107.git.siyanteng@loongson.cn>
-From:   Alex Shi <seakeel@gmail.com>
-Date:   Fri, 26 Nov 2021 14:17:13 +0800
-Message-ID: <CAJy-Am=wEVjxJO-328-px7MWcua04WYEkW=A89A95XKQSU+aSQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] docs/scheduler: fix typo and warning in sched-bwc
-To:     Yanteng Si <siyanteng01@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        "Wu X.C." <bobwxc@email.cn>, Yanteng Si <siyanteng@loongson.cn>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Puyu Wang <realpuyuwang@gmail.com>, kolyshkin@gmail.com,
-        changhuaixin@linux.alibaba.com
+        id S1358754AbhKZG2e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Nov 2021 01:28:34 -0500
+Received: from mga05.intel.com ([192.55.52.43]:37939 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S244228AbhKZG0d (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 26 Nov 2021 01:26:33 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10179"; a="321850750"
+X-IronPort-AV: E=Sophos;i="5.87,265,1631602800"; 
+   d="scan'208";a="321850750"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2021 22:23:21 -0800
+X-IronPort-AV: E=Sophos;i="5.87,265,1631602800"; 
+   d="scan'208";a="458080324"
+Received: from spaul5-mobl1.gar.corp.intel.com ([10.213.66.246])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2021 22:23:15 -0800
+Message-ID: <db11c70c0e04cfa5f3c0fb6d49543e9f1971f3d4.camel@linux.intel.com>
+Subject: Re: [PATCH 7/7] thermal: intel: hfi: Notify user space for HFI
+ events
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Len Brown <len.brown@intel.com>,
+        Aubrey Li <aubrey.li@linux.intel.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Ricardo Neri <ricardo.neri@intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Thu, 25 Nov 2021 22:23:12 -0800
+In-Reply-To: <CAJZ5v0j=+QSwmwVg8chcTchPAXdbt2h1g=4+tMbLpDxstfRq6A@mail.gmail.com>
+References: <20211106013312.26698-1-ricardo.neri-calderon@linux.intel.com>
+         <20211106013312.26698-8-ricardo.neri-calderon@linux.intel.com>
+         <CAJZ5v0j=+QSwmwVg8chcTchPAXdbt2h1g=4+tMbLpDxstfRq6A@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.0-1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 25, 2021 at 8:55 PM Yanteng Si <siyanteng01@gmail.com> wrote:
->
-> a) since d73df887b6b8 ("sched/fair: Add document for burstable CFS bandwidth")
-> [cpu.cfs_quota_us: the total available run-time within a period (in] shoud be removed,
-> let's delete it.
->
-> b) Add a period.
->
-> c) fix a build warning:
->
->    linux-next/Documentation/scheduler/sched-bwc.rst:243: WARNING: Inline emphasis
->    start-string without end-string.
->
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+On Wed, 2021-11-24 at 16:18 +0100, Rafael J. Wysocki wrote:
+> On Sat, Nov 6, 2021 at 2:34 AM Ricardo Neri
+> <ricardo.neri-calderon@linux.intel.com> wrote:
+> > 
+> > From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> > 
+> > When the hardware issues an HFI event, relay a notification to user
+> > space.
+> > This allows user space to respond by reading performance and
+> > efficiency of
+> > each CPU and take appropriate action.
+> > 
+> > For example, when performance and efficiency of a CPU is 0, user
+> > space can
+> > either offline the CPU or inject idle. Also, if user space notices
+> > a
+> > downward trend in performance, it may proactively adjust power
+> > limits to
+> > avoid future situations in which performance drops to 0.
+> > 
+> > To avoid excessive notifications, the rate is limited by one HZ per
+> > event.
+> > To limit netlink message size, parameters for only 16 CPUs at max
+> > are sent
+> > in one message. If there are more than 16 CPUs, issue as many
+> > messages as
+> > needed to notify the status of all CPUs.
+> > 
+> > Cc: Andi Kleen <ak@linux.intel.com>
+> > Cc: Aubrey Li <aubrey.li@linux.intel.com>
+> > Cc: Tim Chen <tim.c.chen@linux.intel.com>
+> > Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>
+> > Reviewed-by: Len Brown <len.brown@intel.com>
+> > Signed-off-by: Srinivas Pandruvada < 
+> > srinivas.pandruvada@linux.intel.com>
+> > ---
+> >  drivers/thermal/intel/Kconfig     |  1 +
+> >  drivers/thermal/intel/intel_hfi.c | 55
+> > ++++++++++++++++++++++++++++++-
+> >  2 files changed, 55 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/thermal/intel/Kconfig
+> > b/drivers/thermal/intel/Kconfig
+> > index d4c6bdcacddb..b6a1f777b8e7 100644
+> > --- a/drivers/thermal/intel/Kconfig
+> > +++ b/drivers/thermal/intel/Kconfig
+> > @@ -104,6 +104,7 @@ config INTEL_HFI
+> >         bool "Intel Hardware Feedback Interface"
+> >         depends on CPU_SUP_INTEL
+> >         depends on SCHED_MC && X86_THERMAL_VECTOR
+> > +       select THERMAL_NETLINK
+> >         help
+> >           Select this option to enable the Hardware Feedback
+> > Interface. If
+> >           selected, hardware provides guidance to the operating
+> > system on
+> > diff --git a/drivers/thermal/intel/intel_hfi.c
+> > b/drivers/thermal/intel/intel_hfi.c
+> > index 1df24b39f2e6..c669a037704e 100644
+> > --- a/drivers/thermal/intel/intel_hfi.c
+> > +++ b/drivers/thermal/intel/intel_hfi.c
+> > @@ -24,6 +24,7 @@
+> >  #include <linux/io.h>
+> >  #include <linux/slab.h>
+> > 
+> > +#include "../thermal_core.h"
+> >  #include "intel_hfi.h"
+> > 
+> >  #define THERM_STATUS_CLEAR_PKG_MASK (BIT(1) | BIT(3) | BIT(5) |
+> > BIT(7) | \
+> > @@ -124,6 +125,58 @@ static struct hfi_features hfi_features;
+> >  static DEFINE_MUTEX(hfi_lock);
+> > 
+> >  #define HFI_UPDATE_INTERVAL    HZ
+> > +#define HFI_MAX_THERM_NOTIFY_COUNT     16
+> > +
+> > +static int get_one_hfi_cap(struct hfi_instance *hfi_instance, int
+> > cpu,
+> > +                          struct hfi_cpu_data *hfi_caps)
+> > +{
+> > +       struct hfi_cpu_data *caps;
+> > +       unsigned long flags;
+> > +       s16 index;
+> > +
+> > +       index = per_cpu(hfi_cpu_info, cpu).index;
+> > +       if (index < 0)
+> > +               return -EINVAL;
+> 
+> When does this happen?
+Highly unlikely. This can happen if somehow CPUID_HFI_LEAF is
+programmed negative for a CPU, which shouldn't happen.
 
-Reviewed-by: Alex Shi <alexs@kernel.org>
+> 
+> Can the index become negative after this check?
+No. This is programmed only one time during online CPU and never
+changed after that. If this is in hfi_instance->cpus, then the leaf is
+already read.
 
-> ---
->  Documentation/scheduler/sched-bwc.rst | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/scheduler/sched-bwc.rst b/Documentation/scheduler/sched-bwc.rst
-> index 173c14110c85..f166b182ff95 100644
-> --- a/Documentation/scheduler/sched-bwc.rst
-> +++ b/Documentation/scheduler/sched-bwc.rst
-> @@ -74,7 +74,6 @@ Quota, period and burst are managed within the cpu subsystem via cgroupfs.
->     to cgroup v1. For cgroup v2, see
->     :ref:`Documentation/admin-guide/cgroup-v2.rst <cgroup-v2-cpu>`.
->
-> -- cpu.cfs_quota_us: the total available run-time within a period (in
->  - cpu.cfs_quota_us: run-time replenished within a period (in microseconds)
->  - cpu.cfs_period_us: the length of a period (in microseconds)
->  - cpu.stat: exports throttling statistics [explained further below]
-> @@ -135,7 +134,7 @@ cpu.stat:
->    of the group have been throttled.
->  - nr_bursts: Number of periods burst occurs.
->  - burst_time: Cumulative wall-time (in nanoseconds) that any CPUs has used
-> -  above quota in respective periods
-> +  above quota in respective periods.
->
->  This interface is read-only.
->
-> @@ -238,7 +237,7 @@ Examples
->     additionally, in case accumulation has been done.
->
->     With 50ms period, 20ms quota will be equivalent to 40% of 1 CPU.
-> -   And 10ms burst will be equivalent to 20% of 1 CPU.
-> +   And 10ms burst will be equivalent to 20% of 1 CPU::
->
->         # echo 20000 > cpu.cfs_quota_us /* quota = 20ms */
->         # echo 50000 > cpu.cfs_period_us /* period = 50ms */
-> --
-> 2.27.0
->
+> 
+> Could this check be done in the caller (so this function could be a
+> void one)?
+Can be done.
+
+Thanks,
+Srinivas
+
+> 
+> > +
+> > +       /* Find the capabilities of @cpu */
+> > +       raw_spin_lock_irqsave(&hfi_instance->event_lock, flags);
+> > +       caps = hfi_instance->data + index *
+> > hfi_features.cpu_stride;
+> > +       memcpy(hfi_caps, caps, sizeof(*hfi_caps));
+> > +       raw_spin_unlock_irqrestore(&hfi_instance->event_lock,
+> > flags);
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +/*
+> > + * Call update_capabilities() when there are changes in the HFI
+> > table.
+> > + */
+> > +static void update_capabilities(struct hfi_instance *hfi_instance)
+> > +{
+> > +       struct cpu_capability cpu_caps[HFI_MAX_THERM_NOTIFY_COUNT];
+> > +       int i = 0, cpu;
+> > +
+> > +       for_each_cpu(cpu, hfi_instance->cpus) {
+> > +               struct hfi_cpu_data caps;
+> > +               int ret;
+> > +
+> > +               ret = get_one_hfi_cap(hfi_instance, cpu, &caps);
+> > +               if (ret)
+> > +                       continue;
+> > +
+> > +               cpu_caps[i].cpu = cpu;
+> > +               cpu_caps[i].perf = caps.perf_cap;
+> > +               cpu_caps[i].eff = caps.ee_cap;
+> > +               ++i;
+> > +               if (i >= HFI_MAX_THERM_NOTIFY_COUNT) {
+> > +                      
+> > thermal_genl_cpu_capability_event(HFI_MAX_THERM_NOTIFY_COUNT,
+> > +                                                        
+> > cpu_caps);
+> > +                       i = 0;
+> > +               }
+> > +       }
+> > +
+> > +       if (i)
+> > +               thermal_genl_cpu_capability_event(i, cpu_caps);
+> > +}
+> > 
+> >  static void hfi_update_work_fn(struct work_struct *work)
+> >  {
+> > @@ -134,7 +187,7 @@ static void hfi_update_work_fn(struct
+> > work_struct *work)
+> >         if (!hfi_instance)
+> >                 return;
+> > 
+> > -       /* TODO: Consume update here. */
+> > +       update_capabilities(hfi_instance);
+> >  }
+> > 
+> >  void intel_hfi_process_event(__u64 pkg_therm_status_msr_val)
+> > --
+> > 2.17.1
+> > 
+
+
