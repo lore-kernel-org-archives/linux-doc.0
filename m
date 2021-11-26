@@ -2,79 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DFFEC433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Nov 2021 10:01:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C097FC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Nov 2021 10:52:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376436AbhKZKEO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Nov 2021 05:04:14 -0500
-Received: from mga14.intel.com ([192.55.52.115]:36697 "EHLO mga14.intel.com"
+        id S236020AbhKZK4K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Nov 2021 05:56:10 -0500
+Received: from mail.kernel.org ([198.145.29.99]:40724 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1376643AbhKZKCM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 26 Nov 2021 05:02:12 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10179"; a="235881215"
-X-IronPort-AV: E=Sophos;i="5.87,265,1631602800"; 
-   d="scan'208";a="235881215"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2021 01:56:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,265,1631602800"; 
-   d="scan'208";a="457619479"
-Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 26 Nov 2021 01:56:23 -0800
-Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1mqXxv-0007vz-3M; Fri, 26 Nov 2021 09:56:23 +0000
-Date:   Fri, 26 Nov 2021 17:55:25 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Atish Patra <atishp@rivosinc.com>
-Cc:     kbuild-all@lists.01.org, Atish Patra <Atish.Patra@wdc.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [atishp04:sparse_hartid_support 3/9]
- arch/riscv/kernel/cpu_ops_sbi.c:24: warning: This comment starts with '/**',
- but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202111261703.e95Tql2Z-lkp@intel.com>
+        id S239865AbhKZKyK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 26 Nov 2021 05:54:10 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 55B8C61052;
+        Fri, 26 Nov 2021 10:50:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1637923857;
+        bh=G3vMPca04ZK7HxL85YF0sdjtoWv7Xp9VblHZYnndAxk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=JBuymLfdKV5IiF3m+BbdnNxs/+JfUTx1bG/Dgv+zCFL93+jKnIJI8l4EGVeg2QRPr
+         mC8EpuW+N/QquKsypA1dCdcrCWhU+rmQIxHL2PcrzKDJ+U+SKq/1yU2MC/hs7oSSn4
+         laH26vbwIJ4NFvYtIH6DComPtrAkNBkUynnCBy7q2x0CIXkXKGuJbJ0UVCpRFi23e8
+         tRkTNRwKagK3Z+cu/+dSz+OvqIUEtNW+CZf3+UU1QXH64MjW3Z0fZDh58LGEL8kYHy
+         ZrIhIMk+JmkU9HWIPFcXPBjhMB3/PCZmANZn379lQ6AxyjsnNrp2+wB4R3nU3vTK5h
+         uJ6a0QH3sGnpA==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1mqYog-0003ta-5v; Fri, 26 Nov 2021 11:50:54 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Hans Verkuil" <hverkuil@xs4all.nl>, linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: conf.py: fix support for Readthedocs v 1.0.0
+Date:   Fri, 26 Nov 2021 11:50:53 +0100
+Message-Id: <f0660b1d24bc9bc07b13fe9a25ccb69ca14e916d.1637923850.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/atishp04/linux sparse_hartid_support
-head:   b85b7fd1f4028c3e1a895cfe163555241ae742fa
-commit: b9432952c1b228a156c1a5959bce4c23c834f1f5 [3/9] RISC-V: Avoid using per cpu array for ordered booting
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20211126/202111261703.e95Tql2Z-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/atishp04/linux/commit/b9432952c1b228a156c1a5959bce4c23c834f1f5
-        git remote add atishp04 https://github.com/atishp04/linux
-        git fetch --no-tags atishp04 sparse_hartid_support
-        git checkout b9432952c1b228a156c1a5959bce4c23c834f1f5
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross ARCH=riscv 
+As described at:
+	https://stackoverflow.com/questions/23211695/modifying-content-width-of-the-sphinx-theme-read-the-docs
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+since Sphinx 1.8, the standard way to setup a custom theme is
+to use html_css_files. While using html_context is OK with RTD
+0.5.2, it doesn't work with 1.0.0, causing the theme to not load,
+producing a very weird html.
 
-All warnings (new ones prefixed by >>):
+Tested with:
+	- Sphinx 2.4.4 + sphinx-rtd-theme 0.5.2
+	- Sphinx 2.4.4 + sphinx-rtd-theme 1.0.0
+	- Sphinx 4.3.0 + sphinx-rtd-theme 1.0.0
 
->> arch/riscv/kernel/cpu_ops_sbi.c:24: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Ordered booting via HSM brings one cpu at a time. Per cpu data strucutre is
-
-
-vim +24 arch/riscv/kernel/cpu_ops_sbi.c
-
-    22	
-    23	/**
-  > 24	 * Ordered booting via HSM brings one cpu at a time. Per cpu data strucutre is
-    25	 * not required.
-    26	 */
-    27	static struct sbi_sec_boot_data bdata __section(".data");
-    28	
-
+Reported-by: Hans Verkuil <hverkuil@xs4all.nl>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ Documentation/conf.py | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 17f7cee56987..7bc72be63fd2 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -249,11 +249,16 @@ except ImportError:
+ 
+ html_static_path = ['sphinx-static']
+ 
+-html_context = {
+-    'css_files': [
++if major <= 1 and (minor < 8):
++    html_context = {
++        'css_files': [
++            '_static/theme_overrides.css',
++        ],
++    }
++else:
++    html_css_files = [
+         '_static/theme_overrides.css',
+-    ],
+-}
++    ]
+ 
+ # Add any extra paths that contain custom files (such as robots.txt or
+ # .htaccess) here, relative to this directory. These files are copied
+-- 
+2.33.1
+
