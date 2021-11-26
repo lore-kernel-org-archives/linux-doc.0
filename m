@@ -2,178 +2,274 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34CEDC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Nov 2021 18:13:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B39CC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Nov 2021 18:42:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238306AbhKZSQv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Nov 2021 13:16:51 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:38440 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238907AbhKZSOv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Nov 2021 13:14:51 -0500
-X-Greylist: delayed 319 seconds by postgrey-1.27 at vger.kernel.org; Fri, 26 Nov 2021 13:14:49 EST
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id EFDB9B82861;
-        Fri, 26 Nov 2021 18:06:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB1D4C93056;
-        Fri, 26 Nov 2021 18:06:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1637949974;
-        bh=+d8OmlaKhMRiU+4CBcffEdG0k6jZCzzMDxT/LnP/MGU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=vJwIVdwCaQKtJRhphr3nXbScrfpfdclV/AYjnvi15Of+T36WHf2/Hiyc44KohWx5r
-         Ycr2De+15ptRvu37tHJVUA/o2YHZ8snq9oZSpS3wLxHSoQET3XkVkz61kVM/pXSc55
-         +f1lVtMcaWC6aGx0KnrJB9NCmqrxDfnOuU+Wf/ID/FVyKy503XNTGfByS/QtcHUqf7
-         m4cCwIxfVanVpRLBF5NGqln6ZB1dz9yQrlAzxdTRCc8qM4YORYix0tCT/+3dhqubxT
-         +LCraC7J8RSARSy614o6gutnzMVUMXy6or1wy9R9ZEyGN9ZQUJrNwA4g1cMp5rL2NW
-         HX6ZyQeYFGtqQ==
-Date:   Fri, 26 Nov 2021 10:06:11 -0800
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Toke =?UTF-8?B?SMO4aWxhbmQtSsO4cmdlbnNlbg==?= <toke@redhat.com>
-Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
-        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+        id S244258AbhKZSpm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Nov 2021 13:45:42 -0500
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:61982 "EHLO
+        mx0a-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S237460AbhKZSnl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Nov 2021 13:43:41 -0500
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AQHAutE016596;
+        Fri, 26 Nov 2021 18:39:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
+ subject : from : to : cc : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2021-07-09;
+ bh=PHX1ZTkSNqk/4DEkUchojA2oF5lK6rm0iWj0fSOo9/0=;
+ b=D3+OSY/XHoT0tAE4MtFv4ILO5lATSijTP+zh4UKwX/OmEaTB+YppOC2j9QpsNkz5D8Jc
+ jg6S6DAy/tSXG9bH644nL2GamT37L6n8Yi+s3Zv9YvgFyms2K/KLMm3gZjlKxTkmNN/p
+ I9ccKEtlwv3Qdmn9ypkFULHFVyFRnkwPQ/6Bf3tFW7RudFCdQ+DeCma277HDPE8xbX/4
+ wJQeFjjbIYe/UzDSvxsCO6KmN6VfgTQroKWH5Z3P/Jlw8CldVTIFrKV8fxbcf6eV5msW
+ nz5qqpih18ZGQxRoSL4AXEXkilcoOjTeswgm4vEBlt+yQlIAxcKXjKIQsh6cas/IIKe1 LA== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by mx0b-00069f02.pphosted.com with ESMTP id 3ck1vsgnsk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 26 Nov 2021 18:39:56 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1AQIZUUh129388;
+        Fri, 26 Nov 2021 18:39:55 GMT
+Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam07lp2040.outbound.protection.outlook.com [104.47.51.40])
+        by aserp3020.oracle.com with ESMTP id 3cerua9j4q-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 26 Nov 2021 18:39:54 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DDO+yWHxLtIrOxFmr2hukuZjjJuoJ7cjlb2QhCsH6mDo+J4zBaO35/rV8YIQ0MM6vqke3GopJdMvNi8oFsHaB7kPfTur+3761R3g679ZnhQshHHFDGC8W8NmTUB3Fjf9r6n/myXn7xpzaqCUc3fBj3lIXfMLCHAvlorEMr7Ww2FazkGtXrXglfFrk2d5AMkdoyfPRLyev3iwTJzd4JTWQwEtdX+3V3Fk/GsAryajmmNhOwSi4Pehnc6CTLhGF/rdvYX8cr23PmHWWgCIwr8lNyoIXooijwCqFUfkwL1hvrylB/cxp1gksSu6IJTQW0gKoQm1RromLLpGk+DMNrgItg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PHX1ZTkSNqk/4DEkUchojA2oF5lK6rm0iWj0fSOo9/0=;
+ b=GGI5pSpuiLqVIc1ySMD4ot8yLkEQafMPABKfJDpCKXZWARjTUItp5XRlsDOgPG3o5rPD0hg4XGtsYG4j/A/1/n7V1gaxz1yIH2//HR6qcOa9YabzePI4swBZBYtNXGbGb6JHCRrKM/fChxRZK0y0pPhK9AQE4oiHht2yQzh6o3EVgqxevAdmMHxxsG9wxg7zL45qd2ln4VEIGqyti7MTr6gXQHKP4O9nrn3eh1F3M6qTK6H/QXQ3f9ysn/jLFpdxhSKkBkL4W9WyHqPqi8I/TvohpxhnSGW+JMMPIkiAJMgyJfOXA37HRPERSqKT1v9r9uFNpgWbQiYDAmD/nr/9/g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PHX1ZTkSNqk/4DEkUchojA2oF5lK6rm0iWj0fSOo9/0=;
+ b=iU0OO1swhmLT881p1aE9zHqLomSjulZqBvjxlomoBSIdIdq6Z4154+c7S2iaPbQtB3FjvftS1dcTKWaCDmlmK2k4WzgCNhjtmyyoqAwNq0sw87+DCWhB7WPCNpsSevOhWzkd5toBCmaYvPzVLzeKyirmM2WLHPD/NWLzRNNaPqo=
+Received: from DS7PR10MB4846.namprd10.prod.outlook.com (2603:10b6:5:38c::24)
+ by DM6PR10MB3050.namprd10.prod.outlook.com (2603:10b6:5:67::31) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.22; Fri, 26 Nov
+ 2021 18:39:52 +0000
+Received: from DS7PR10MB4846.namprd10.prod.outlook.com
+ ([fe80::6026:4ded:66a9:cbd6]) by DS7PR10MB4846.namprd10.prod.outlook.com
+ ([fe80::6026:4ded:66a9:cbd6%9]) with mapi id 15.20.4713.026; Fri, 26 Nov 2021
+ 18:39:52 +0000
+Message-ID: <96b53b3c-5c18-5f93-c595-a7d509d58f92@oracle.com>
+Date:   Fri, 26 Nov 2021 18:39:39 +0000
+Subject: Re: [PATCH v6 09/10] device-dax: set mapping prior to
+ vmf_insert_pfn{,_pmd,pud}()
+Content-Language: en-US
+From:   Joao Martins <joao.m.martins@oracle.com>
+To:     linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>
+Cc:     Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Jane Chu <jane.chu@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Shay Agroskin <shayagr@amazon.com>,
-        Arthur Kiyanovski <akiyano@amazon.com>,
-        David Arinzon <darinzon@amazon.com>,
-        Noam Dagan <ndagan@amazon.com>,
-        Saeed Bishara <saeedb@amazon.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Marcin Wojtas <mw@semihalf.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Saeed Mahameed <saeedm@nvidia.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Edward Cree <ecree.xilinx@gmail.com>,
-        Martin Habets <habetsm.xilinx@gmail.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Yajun Deng <yajun.deng@linux.dev>,
-        Sergey Ryazanov <ryazanov.s.a@gmail.com>,
-        David Ahern <dsahern@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        Cong Wang <cong.wang@bytedance.com>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
-        virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH v2 net-next 21/26] ice: add XDP and XSK generic
- per-channel statistics
-Message-ID: <20211126100611.514df099@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <87sfvj9k13.fsf@toke.dk>
-References: <20211123163955.154512-1-alexandr.lobakin@intel.com>
-        <20211123163955.154512-22-alexandr.lobakin@intel.com>
-        <77407c26-4e32-232c-58e0-2d601d781f84@iogearbox.net>
-        <87bl28bga6.fsf@toke.dk>
-        <20211125170708.127323-1-alexandr.lobakin@intel.com>
-        <20211125094440.6c402d63@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-        <20211125204007.133064-1-alexandr.lobakin@intel.com>
-        <87sfvj9k13.fsf@toke.dk>
-MIME-Version: 1.0
+        Christoph Hellwig <hch@lst.de>, nvdimm@lists.linux.dev,
+        linux-doc@vger.kernel.org
+References: <20211124191005.20783-1-joao.m.martins@oracle.com>
+ <20211124191005.20783-10-joao.m.martins@oracle.com>
+ <0439eb48-1688-a4f4-5feb-8eb2680d652f@oracle.com>
+In-Reply-To: <0439eb48-1688-a4f4-5feb-8eb2680d652f@oracle.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO2P123CA0085.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:138::18) To DS7PR10MB4846.namprd10.prod.outlook.com
+ (2603:10b6:5:38c::24)
+MIME-Version: 1.0
+Received: from [10.175.171.211] (138.3.204.19) by LO2P123CA0085.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:138::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.19 via Frontend Transport; Fri, 26 Nov 2021 18:39:49 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 14a84b16-eb37-4cea-37cb-08d9b10c2254
+X-MS-TrafficTypeDiagnostic: DM6PR10MB3050:
+X-Microsoft-Antispam-PRVS: <DM6PR10MB30500CFD45CA9FA15A483C2FBB639@DM6PR10MB3050.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: aBbWbzpIvH1wqyoLgYAcmpwIiyIjZTnOZie3YcHTLsX7pj36YgGx88vEqn4wsUaoVXU4X+oJSR8jmc6Q0budYvtmapoIYRc8MdX1MhNIaRPTlCYrF3DPO0/9pGBiGtx/c5oBFTrEFDYoRuSnbtc9GyEAiQXgeLhGff0J97AeXeebHjMoQSZhsZS783WEoAz/PAZpz5HYzNhLXRKQA4ruvTqiyXzDgmwmFVCTRNrwQv25eKpZIj4lg9cjLEuoxuHF57LSHACMrvntvbPxWSZ5BFgnHi5/Vjb3n7OVLXKcLh3EmCORXieGGtYOTSMrO2TPT0oppuy6rLD3n78b2+zKbGKrsjlIEkzuI0rIMF/AzlWBvRClh40fi3w+rmQnjDfS1yNVSgrYAt7chaIT/4wvnF1Sixecs313BufdKFIAXPwWTvzr988PescBJmbE7FbQ3B3C/mQHABpU0WhE+/I000LiLDe4TgPxUZ1AzGYHKkNSSuNbZtf9W0i1FjZd0b/GxOspTFbYJCwq8OVxAOMh4Cgw7oce/mbPL0tAs4doGsb7lVS5+TVgc8BjX2783JAd7Auf7xbbFo3RMfYJCQLPyPe6RKjpmhGvPtcP4GqdKiy8YIAcJ0GOZ7ZYiY2ChWAqWDhxfHogWmqVu0mKMlxCn8ZaGdINgW6c7DPdb9extpFhR+Pz3ywNFNHyU3/2eAtOhrJknkwNtLaevrkeoXUbqg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR10MB4846.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(53546011)(8936002)(86362001)(54906003)(6486002)(956004)(2616005)(26005)(186003)(31696002)(16576012)(6666004)(36756003)(7416002)(316002)(66946007)(4326008)(5660300002)(2906002)(508600001)(83380400001)(6916009)(66476007)(8676002)(31686004)(38100700002)(66556008)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VnFoMERTOEord1I2QXJ2WXhIZ1o3d0lHOTQ3OFpiZnI3V1htZTNNNXVUOGZG?=
+ =?utf-8?B?VlZpQ0c4UXhRQXlNVUJGNnk3b29hb1JLTm0yU0Q0STU5Ni9LaEcrWWVyUElC?=
+ =?utf-8?B?eFNoVk55OEpTUDZlR0x6RzBxd0k1NUNQTWYxQSsyZ0xuOHdWbWFxWSthNjQ5?=
+ =?utf-8?B?cHpFaTExYm5NeXdwV1FvMXJwTFYxQ3FPaEFXWmRvclBxS3ZMTFNTQ25BY0x1?=
+ =?utf-8?B?dktPNmhMMlAxanZobDYrUzROblVqNGs5QXN0dStiL1ZwM2tPcEJGK21teUhT?=
+ =?utf-8?B?NFE2eEQzd1NzTDR5Nm9iVW94ZGxmUllhQ0pMU1Jxb1ZCVm4zb3VjWG0yUmxu?=
+ =?utf-8?B?L2U4K3VMMnltbFB1eGVBZEwxS21xeklPbFJ1dmtINGFUdFMrVGx0Wkx0aWVP?=
+ =?utf-8?B?UDBBVlpYdkNWOFZ3NzlYUGdLVkdVZklJSk5GMk93WVVXcWQ0VkZvcjNkaFhG?=
+ =?utf-8?B?OGpOZElOU2IwaEUxQzBsS0JLUS9WT2ZJQ1N4ZnRvSnVsQ3JZVkcrdlhQUktx?=
+ =?utf-8?B?cjNTdTNEMFRpSEdpL0poTWZlTWp3OUZwNm8zLzY2ZXd4STdmWFpxbVRVUklm?=
+ =?utf-8?B?bld4UUxwaG5vaUhua3NuWTlhSlY0WE93cmtSYkI4U1ZOSms2UGRrMEkwVXhv?=
+ =?utf-8?B?VytmcmVhTFl2RElxdXRIOFRkQXAreVRrajltUkNLVkl5b3dUU0J6djE5aWpL?=
+ =?utf-8?B?SlczemZOZ2hQUXFJQTFoalNuY1pBRHRMd1dUejZub1NqSVAvUDFYck93VWxx?=
+ =?utf-8?B?RzhFdFV2UVJuSlVGSXZVRTM2VjBJR3NyMnFoWlZvNytRRnlhL0xXWkNuN1BB?=
+ =?utf-8?B?NjJzR2ZBenpycm11bHg1Q2x1U3RrVnhlSUIvV2oyMlFyRzhQMStwOU5zTnBj?=
+ =?utf-8?B?TGtOMUJscjFDbHRUdWd2V1UyaUYzNitmbVk1RjVmbUcxa0EzNko5RmhRZFpW?=
+ =?utf-8?B?QVBwWEJHSXNFeUlKVERxNjVzenpmSFZQSDVvS0h4bnV3YUJyZUdlanRtUjJE?=
+ =?utf-8?B?T1ZCc3l2OFZ2bVFnZHh1VlBOQ2dvVW0wMEJPaWlGQitNZjE2cWtoM0pHbmEx?=
+ =?utf-8?B?bXZTeFhGblRKRDZHZG9MR3MrcDJjZENicmV2SVlmc1FRa0JWYk84YS82S3dt?=
+ =?utf-8?B?MGs3QW9jTXFxZXFhaUlNTWZjZ3Q0TEJNUkpwNW1jazRWWUQyS3p3ZHFvV1Qz?=
+ =?utf-8?B?WWRoUG90ZlpBZU1qQW12dFBQVUN4NUtmZHpqSFlZNkNDVXo4ZDMvR3lyek9h?=
+ =?utf-8?B?Q0ZXN2t2RWFORWdsaVdQN0tIejlqUzhCaFJ3R2Z2d2N2U0lsQnpTOU5UcytZ?=
+ =?utf-8?B?NkhPRmpaajE3Y2R1QzhJQU1MMUtsamVqRmVBeTJoeFY3WVRhaXFBaDdKZ01E?=
+ =?utf-8?B?SnJnR3NkcHIrTGlvQWN6K0VSWjA5WUpjVks2eWdyYk5kdDU0ZmtsZzEwaGRv?=
+ =?utf-8?B?WUhXdEg0N3VuRHh6SVZWZ3k4bHJDS0N1YUJOS1A1TjlBOG4xYW5aY1R1SzhC?=
+ =?utf-8?B?RGNpU2xobHVTVnNwbTBQYTZpS2p6NXlzUk5mOWRNMEFyRXJUU2FEQzNmWDFR?=
+ =?utf-8?B?dmFRUy8zRndFOEJITk81ZFc5Q0lpallONTlGaHNpK0pBWGR1amEwKzN5cWdz?=
+ =?utf-8?B?eVdHWmhwTEJITVNJRmROUXJqdkJzRXQ4UDV3VTNPWXQ2a1RjUXRhMDl1NmFL?=
+ =?utf-8?B?WjBzN0pMQnBIcnFXb1ZGcVlwWTZlTkM1cjF1VjhOcGE2UmhVZFN6alZiV3pH?=
+ =?utf-8?B?YWNtMTZhZERyTW5iRHdwVTRkeG9UYTlOSzA0a0IvamkyWGRYelcxbGFoOUtT?=
+ =?utf-8?B?MURyZXVPbjJpRHNrRTRYQWQ5RktaaW9tNVk3RXFmTHBTZmFMeG8wVjFWSjdz?=
+ =?utf-8?B?WGxOTzFSMDVudjhrRXErTjdLbzRmQXRHRnM3c3hBWFZDMmlZMTFNWEtaNW92?=
+ =?utf-8?B?SVl3T3U5VSswVzRCeWdHY2o2aWpWTkM0Wm81TlcrekhyNlNUL2hOaCtvTDhG?=
+ =?utf-8?B?aml3SC9SeUlDTDhTeHRBdEtHWFI0SUZuSWxlU0I5a0FLS0NLOXdnbFdkZllW?=
+ =?utf-8?B?TWV4QjM3ejNSRXZJLzVOTUZLeUd5eVpSUWg5MDdhMVJmSEVSdmUvc0hndUhT?=
+ =?utf-8?B?Q0FaTzRKVFpQaS9HNUZEazVGSTdGZTR3L1E4bERyYkNyUFdITVZpaHM3UmlM?=
+ =?utf-8?B?L0luR1RnZDRZZjE5c0pjVmNIWUtEZnN5elQveGhJRlNYc25wNzl1Z09kM1F5?=
+ =?utf-8?B?L0ZKZE9NVmxpOHVCZ3dpMFB6cG1RPT0=?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 14a84b16-eb37-4cea-37cb-08d9b10c2254
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR10MB4846.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2021 18:39:52.6281
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NGn3nyLyxjkOmVClnLXziwC7aK/CWH4IXF9GL9jh5G1cW17n6xf07bNTH17GSpA7/jOU6QDaRcKYzoIEoK7cI2+dUTXz+GdNREB+Mck5Pzg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB3050
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10180 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxscore=0 spamscore=0
+ mlxlogscore=999 malwarescore=0 phishscore=0 adultscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2111260107
+X-Proofpoint-GUID: pQHC9xmw8A2oetfdlxQ4EfT1atcHR64J
+X-Proofpoint-ORIG-GUID: pQHC9xmw8A2oetfdlxQ4EfT1atcHR64J
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 26 Nov 2021 13:30:16 +0100 Toke H=C3=B8iland-J=C3=B8rgensen wrote:
-> >> TBH I wasn't following this thread too closely since I saw Daniel
-> >> nacked it already. I do prefer rtnl xstats, I'd just report them=20
-> >> in -s if they are non-zero. But doesn't sound like we have an agreement
-> >> whether they should exist or not. =20
-> >
-> > Right, just -s is fine, if we drop the per-channel approach. =20
->=20
-> I agree that adding them to -s is fine (and that resolves my "no one
-> will find them" complain as well). If it crowds the output we could also
-> default to only output'ing a subset, and have the more detailed
-> statistics hidden behind a verbose switch (or even just in the JSON
-> output)?
->=20
-> >> Can we think of an approach which would make cloudflare and cilium
-> >> happy? Feels like we're trying to make the slightly hypothetical=20
-> >> admin happy while ignoring objections of very real users. =20
-> >
-> > The initial idea was to only uniform the drivers. But in general
-> > you are right, 10 drivers having something doesn't mean it's
-> > something good. =20
->=20
-> I don't think it's accurate to call the admin use case "hypothetical".
-> We're expending a significant effort explaining to people that XDP can
-> "eat" your packets, and not having any standard statistics makes this
-> way harder. We should absolutely cater to our "early adopters", but if
-> we want XDP to see wider adoption, making it "less weird" is critical!
+On 11/25/21 11:42, Joao Martins wrote:
+> On 11/24/21 19:10, Joao Martins wrote:
+>> @@ -245,8 +251,6 @@ static vm_fault_t dev_dax_huge_fault(struct vm_fault *vmf,
+>>  		rc = VM_FAULT_SIGBUS;
+>>  	}
+>>  
+>> -	if (rc == VM_FAULT_NOPAGE)
+>> -		dax_set_mapping(vmf, pfn, fault_size);
+>>  	dax_read_unlock(id);
+>>  
+>>  	return rc;
+>>
+> This last chunk is going to spoof out a new warning because @fault_size in
+> dev_dax_huge_fault stops being used after this patch.
+> I've added below chunk for the next version (in addition to Christoph comments in
+> patch 4):
+> 
 
-Fair. In all honesty I said that hoping to push for a more flexible
-approach hidden entirely in BPF, and not involving driver changes.
-Assuming the XDP program has more fine grained stats we should be able
-to extract those instead of double-counting. Hence my vague "let's work
-with apps" comment.
+Re-attached as a replacement patch below scissors line.
 
-For example to a person familiar with the workload it'd be useful to
-know if program returned XDP_DROP because of configured policy or
-failure to parse a packet. I don't think that sort distinction is
-achievable at the level of standard stats.
+As mentioned earlier, I'll be respinning v7 series with the comments I got on patch 4 and
+this replacement below. But given the build warning yesterday&today, figured I
+preemptively attach a replacement for it.
 
-The information required by the admin is higher level. As you say the
-primary concern there is "how many packets did XDP eat".
+----->8-----
 
-Speaking of which, one thing that badly needs clarification is our
-expectation around XDP packets getting counted towards the interface
-stats.
+From 2f4cb25c0a6546a27ced4981f0963546f386caec Mon Sep 17 00:00:00 2001
+From: Joao Martins <joao.m.martins@oracle.com>
+Date: Tue, 23 Nov 2021 06:00:38 -0500
+Subject: [PATCH] device-dax: set mapping prior to vmf_insert_pfn{,_pmd,pud}()
 
-> > Maciej, I think you were talking about Cilium asking for those stats
-> > in Intel drivers? Could you maybe provide their exact usecases/needs
-> > so I'll orient myself? I certainly remember about XSK Tx packets and
-> > bytes.
-> > And speaking of XSK Tx, we have per-socket stats, isn't that enough? =20
->=20
-> IMO, as long as the packets are accounted for in the regular XDP stats,
-> having a whole separate set of stats only for XSK is less important.
->=20
-> >> Please leave the per-channel stats out. They make a precedent for
-> >> channel stats which should be an attribute of a channel. Working for=20
-> >> a large XDP user for a couple of years now I can tell you from my own
-> >> experience I've not once found them useful. In fact per-queue stats are
-> >> a major PITA as they crowd the output. =20
-> >
-> > Oh okay. My very first iterations were without this, but then I
-> > found most of the drivers expose their XDP stats per-channel. Since
-> > I didn't plan to degrade the functionality, they went that way. =20
->=20
-> I personally find the per-channel stats quite useful. One of the primary
-> reasons for not achieving full performance with XDP is broken
-> configuration of packet steering to CPUs, and having per-channel stats
-> is a nice way of seeing this.
+Normally, the @page mapping is set prior to inserting the page into a
+page table entry. Make device-dax adhere to the same ordering, rather
+than setting mapping after the PTE is inserted.
 
-Right, that's about the only thing I use it for as well. "Is the load
-evenly distributed?"  But that's not XDP specific and not worth
-standardizing for, yet, IMO, because..
+The address_space never changes and it is always associated with the
+same inode and underlying pages. So, the page mapping is set once but
+cleared when the struct pages are removed/freed (i.e. after
+{devm_}memunmap_pages()).
 
-> I can see the point about them being way too verbose in the default
-> output, though, and I do generally filter the output as well when
-> viewing them. But see my point above about only printing a subset of
-> the stats by default; per-channel stats could be JSON-only, for
-> instance?
+Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
+Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+---
+ drivers/dax/device.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-we don't even know what constitutes a channel today. And that will
-become increasingly problematic as importance of application specific
-queues increases (zctap etc). IMO until the ontological gaps around
-queues are filled we should leave per-queue stats in ethtool -S.
+diff --git a/drivers/dax/device.c b/drivers/dax/device.c
+index 9c87927d4bc2..19a6b86486ce 100644
+--- a/drivers/dax/device.c
++++ b/drivers/dax/device.c
+@@ -121,6 +121,8 @@ static vm_fault_t __dev_dax_pte_fault(struct dev_dax *dev_dax,
+
+ 	*pfn = phys_to_pfn_t(phys, PFN_DEV|PFN_MAP);
+
++	dax_set_mapping(vmf, *pfn, fault_size);
++
+ 	return vmf_insert_mixed(vmf->vma, vmf->address, *pfn);
+ }
+
+@@ -161,6 +163,8 @@ static vm_fault_t __dev_dax_pmd_fault(struct dev_dax *dev_dax,
+
+ 	*pfn = phys_to_pfn_t(phys, PFN_DEV|PFN_MAP);
+
++	dax_set_mapping(vmf, *pfn, fault_size);
++
+ 	return vmf_insert_pfn_pmd(vmf, *pfn, vmf->flags & FAULT_FLAG_WRITE);
+ }
+
+@@ -203,6 +207,8 @@ static vm_fault_t __dev_dax_pud_fault(struct dev_dax *dev_dax,
+
+ 	*pfn = phys_to_pfn_t(phys, PFN_DEV|PFN_MAP);
+
++	dax_set_mapping(vmf, *pfn, fault_size);
++
+ 	return vmf_insert_pfn_pud(vmf, *pfn, vmf->flags & FAULT_FLAG_WRITE);
+ }
+ #else
+@@ -217,7 +223,6 @@ static vm_fault_t dev_dax_huge_fault(struct vm_fault *vmf,
+ 		enum page_entry_size pe_size)
+ {
+ 	struct file *filp = vmf->vma->vm_file;
+-	unsigned long fault_size;
+ 	vm_fault_t rc = VM_FAULT_SIGBUS;
+ 	int id;
+ 	pfn_t pfn;
+@@ -230,23 +235,18 @@ static vm_fault_t dev_dax_huge_fault(struct vm_fault *vmf,
+ 	id = dax_read_lock();
+ 	switch (pe_size) {
+ 	case PE_SIZE_PTE:
+-		fault_size = PAGE_SIZE;
+ 		rc = __dev_dax_pte_fault(dev_dax, vmf, &pfn);
+ 		break;
+ 	case PE_SIZE_PMD:
+-		fault_size = PMD_SIZE;
+ 		rc = __dev_dax_pmd_fault(dev_dax, vmf, &pfn);
+ 		break;
+ 	case PE_SIZE_PUD:
+-		fault_size = PUD_SIZE;
+ 		rc = __dev_dax_pud_fault(dev_dax, vmf, &pfn);
+ 		break;
+ 	default:
+ 		rc = VM_FAULT_SIGBUS;
+ 	}
+
+-	if (rc == VM_FAULT_NOPAGE)
+-		dax_set_mapping(vmf, pfn, fault_size);
+ 	dax_read_unlock(id);
+
+ 	return rc;
+-- 
+2.17.2
+
+
