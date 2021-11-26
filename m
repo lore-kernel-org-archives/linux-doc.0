@@ -2,70 +2,67 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFF6BC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Nov 2021 06:43:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBC2CC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Nov 2021 07:18:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345512AbhKZGqe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Nov 2021 01:46:34 -0500
-Received: from mail.kernel.org ([198.145.29.99]:43340 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1345984AbhKZGod (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 26 Nov 2021 01:44:33 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0C15C6115B;
-        Fri, 26 Nov 2021 06:41:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1637908881;
-        bh=AUXyQOGOWNAzps8KIoh/n32oJ/jyu+SFPv0P+hCkpkA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=pXoxpA0Z6gGvKjcDt6+gT6TR2RTSMcmL1Na8bx34P91wwn7yKujTWwohzxw3ZwB3S
-         QCj04fh/VlIwyT4eBJMYcVrpYJSk2yyG3CemuWtS3R7Yw1Ve5SkNxZr1/quM1UjWCq
-         9aUpLUAQ2GS7MO/idSra+jyatM+9QpZrESiP+XJAHoFyLcR1NSy+MW76Kt2gn4sfrG
-         6lJfBtC7AkOy6jBaqgnvvkvKGe113ANBOo4bRvbBOebz5gJVO3CPYlTzalIqz0+2xa
-         IIrDHN1oqG9pjxKCvZR652Mi8n9nnxETZR+JRRsIQZ4cpsxeGKclzfF7KncmT8lkKd
-         3dAK8wccmJofA==
-Received: by mail-yb1-f174.google.com with SMTP id g17so17517378ybe.13;
-        Thu, 25 Nov 2021 22:41:21 -0800 (PST)
-X-Gm-Message-State: AOAM533vbYJ1IWnyvuY1mH74nCSeYQg78vHlflbuuvtm8Tq+/vHgNiAW
-        5ouh4pQdxCG1bVeex3QkSRUyVq9A88sQHNyEsyA=
-X-Google-Smtp-Source: ABdhPJxlpUsnFBSc8Rfq5LfioaeutmMDqCDcv5lcgpfQz9zptDwIgOmOdob7MBfDuX9yy+hd3Sxr2A/vm8ZqGCBn6v8=
-X-Received: by 2002:a25:bfca:: with SMTP id q10mr13234674ybm.68.1637908880328;
- Thu, 25 Nov 2021 22:41:20 -0800 (PST)
+        id S1359208AbhKZHWE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Nov 2021 02:22:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53820 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1359220AbhKZHUE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Nov 2021 02:20:04 -0500
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35CA9C0613E1
+        for <linux-doc@vger.kernel.org>; Thu, 25 Nov 2021 23:16:44 -0800 (PST)
+Received: by mail-ed1-x52c.google.com with SMTP id e3so34938121edu.4
+        for <linux-doc@vger.kernel.org>; Thu, 25 Nov 2021 23:16:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linbit-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=tszJl3nRrOBevJxO8tAz11+YJXfp2nVs65aqfAK7OeE=;
+        b=ItPWoq8OOtt+ENwFjKXv6Iku99UMURX/FYI1SFTacqs2+qJFsbGKH0vsirTSwKeihA
+         CGNdCPG7ZXoWPXT7VxgRV2IrjwYSB0/02/k+p/vunK7KRsy2OCgKdV5ja1LVKOTG8Dwm
+         U2lVS65Uw8QfC1Zf1TLc2Pr5kN3qfER/WsJXq9iljPLBqY/FNPhhYIPXRl0j5q8pZUn8
+         220vE19DkXjLXqTjIJj2Nd1m6WTvh3prxskaR/1QdHgpppgvtpOuU3TDyw+VDWO6dH/6
+         U6+bQ7XlO2Cb8qyi0nRw8BXbUrBxLI8QyiIymMwXawKBQOSONFNSeXJNq3qpK8ZH2nVo
+         +MpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=tszJl3nRrOBevJxO8tAz11+YJXfp2nVs65aqfAK7OeE=;
+        b=i1U1r/g31Fl+IIkC3JxK0uWNhhuF02yFg1MJmiZ/RcmyjzcUmkeKcsD8pIAFrCpGUN
+         X8otgK3cQBv4gSjY6d1V2SDp+SxVIpgUq2VRNp4Qawas4mAYUGnPsRjWqnzad6Qhqwm1
+         5dnN0ClDuW7XfT25lgzwtrTnAeUBJCgZX8GQHVzQuvJxtRFubRtf6SIRrIrDVsoAlf0t
+         UKG0fwboZL2yp7H8n1z4k3dayNbbdUTuF1FpVMvNnH4i+WcIHKRqcxgBhquz2voxkoG7
+         Ad0zDzWpSBjPuPiI4/jT2x6H8Tn3t1N4ke4iUiemA3qsLQygMmEFUk1v/ksyHjXcEX0x
+         ygIw==
+X-Gm-Message-State: AOAM530AAqWZmiMcqImWuyXhTOahiYMO83b50xE7CVgVmoWBIJ+JqC3e
+        wBiq4Gqbuco34dWq0RfDz9Lqzr2L/+W831ReLhzFtAkFAAN6Fg==
+X-Google-Smtp-Source: ABdhPJxr+mgQO/tGGWGLCgVfXM57lHwgCuStOtBvO+BkRLqSdhcZQgx/wmlYjWPThHxA/Amw5eONTAX4fSbMtwP8eVQ=
+X-Received: by 2002:a05:6402:147:: with SMTP id s7mr45728798edu.8.1637911002824;
+ Thu, 25 Nov 2021 23:16:42 -0800 (PST)
 MIME-Version: 1.0
-References: <20211119163215.971383-1-hch@lst.de> <20211119163215.971383-6-hch@lst.de>
-In-Reply-To: <20211119163215.971383-6-hch@lst.de>
-From:   Song Liu <song@kernel.org>
-Date:   Thu, 25 Nov 2021 22:41:09 -0800
-X-Gmail-Original-Message-ID: <CAPhsuW4fG7hUTFaC6Ht4Ae9m_1N-LXYHxSH4QZZhHcOMundjAA@mail.gmail.com>
-Message-ID: <CAPhsuW4fG7hUTFaC6Ht4Ae9m_1N-LXYHxSH4QZZhHcOMundjAA@mail.gmail.com>
-Subject: Re: [PATCH 5/5] bpf, docs: split general purpose eBPF documentation
- out of filter.rst
-To:     Christoph Hellwig <hch@lst.de>
+References: <7df04f45-8746-e666-1a9d-a998f1ab1f91@gmail.com>
+In-Reply-To: <7df04f45-8746-e666-1a9d-a998f1ab1f91@gmail.com>
+From:   Joel Colledge <joel.colledge@linbit.com>
+Date:   Fri, 26 Nov 2021 08:16:32 +0100
+Message-ID: <CAGNP_+WRohG5BMPvJUM1gAm8gOk=b1jn0_+TMr3FyqxnP+_EmA@mail.gmail.com>
+Subject: Re: [PATCH v2] docs: admin-guide/blockdev: Remove digraph of node-states
+To:     Akira Yokosawa <akiyks@gmail.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>
+        Philipp Reisner <philipp.reisner@linbit.com>,
+        Lars Ellenberg <lars.ellenberg@linbit.com>,
+        drbd-dev@lists.linbit.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 19, 2021 at 8:32 AM Christoph Hellwig <hch@lst.de> wrote:
->
-> filter.rst starts out documenting the classic BPF and then spills into
-> introducing and documentating eBPF.  Move the eBPF documentation into
-> rwo new files under Documentation/bpf/ for the instruction set and
-> the verifier and link to the BPF documentation from filter.rst.
->
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Joel, are you OK with this change going through the -doc tree?
 
-Acked-by: Song Liu <songliubraving@fb.com>
+Yes. This has my ack. Thanks!
 
-[...]
+Joel
