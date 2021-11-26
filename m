@@ -2,141 +2,308 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C65A2C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Nov 2021 15:04:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD2DCC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Nov 2021 15:46:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239892AbhKZPHQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Nov 2021 10:07:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32597 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1354044AbhKZPFP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Nov 2021 10:05:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1637938922;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=vUXFsZM+dBRxCP7qT6gtQFvAKsiW/+avV4Igsyr1Zgg=;
-        b=a50wauq2caU+UsQcmYTierBm0tAyRzAvtA90pqka2SFJjsXkqond4JtEM182A4hHc1xZxK
-        BhEwqZXdcdyPXVTf+lnP4cYuF16YnOXzcLg57TlT7RPEVzM/NyVNB8JfP7ljP2ebXSe303
-        fZnSXzOiWTCPiibsQW4EmGnmiONvNXA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-481-RTz40yPlPT6Ic5C6zR73BQ-1; Fri, 26 Nov 2021 10:01:59 -0500
-X-MC-Unique: RTz40yPlPT6Ic5C6zR73BQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7D5D85B663;
-        Fri, 26 Nov 2021 15:01:57 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.82])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C1BE5D9C0;
-        Fri, 26 Nov 2021 15:01:51 +0000 (UTC)
-From:   Cornelia Huck <cohuck@redhat.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     Alex Williamson <alex.williamson@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
-        Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-        Yishai Hadas <yishaih@nvidia.com>
-Subject: Re: [PATCH RFC] vfio: Documentation for the migration region
-In-Reply-To: <20211126130608.GR4670@nvidia.com>
-Organization: Red Hat GmbH
-References: <0-v1-0ec87874bede+123-vfio_mig_doc_jgg@nvidia.com>
- <87zgpvj6lp.fsf@redhat.com> <20211123165352.GA4670@nvidia.com>
- <87fsrljxwq.fsf@redhat.com> <20211124184020.GM4670@nvidia.com>
- <87a6hsju8v.fsf@redhat.com> <20211125161447.GN4670@nvidia.com>
- <87pmqnhy85.fsf@redhat.com> <20211126130608.GR4670@nvidia.com>
-User-Agent: Notmuch/0.33.1 (https://notmuchmail.org)
-Date:   Fri, 26 Nov 2021 16:01:49 +0100
-Message-ID: <87mtlrhsf6.fsf@redhat.com>
+        id S1378096AbhKZPtp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Nov 2021 10:49:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51972 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1349558AbhKZPro (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Nov 2021 10:47:44 -0500
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20CE4C061394
+        for <linux-doc@vger.kernel.org>; Fri, 26 Nov 2021 07:40:06 -0800 (PST)
+Received: by mail-wr1-x434.google.com with SMTP id t9so2540713wrx.7
+        for <linux-doc@vger.kernel.org>; Fri, 26 Nov 2021 07:40:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=gk6ngc1YSakHN/S+Y1kpLPOKsTaZw6Pt23dIyMoroN8=;
+        b=Xh+p2xR0fDlc2JddvMzdhaIiesVnTxJ9N3t1t8hKG8rzWhOwc70VeiqlE06C/SaU9t
+         evMNj9w0mPhMHUK/vhQUSXKHE/W2OZKBV3sUs81JEkZs8kmXq0g77u4ZiVhtzq2L7cyh
+         cm00zoL8aZY6UKXnYYvQlDOFzDpSMHI/OljIQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=gk6ngc1YSakHN/S+Y1kpLPOKsTaZw6Pt23dIyMoroN8=;
+        b=KsP/VWxh2EItqDI7ZNnzIODeWYtCl0cbaZTKNjodplQm9W76we42e7O68NWvYTpTrs
+         XCJWWuOtcs94eHupIFrv0TzYMspWl4dCQEWqPZNWwypvxw1OpFtVIhUjbY8VPazWT7MG
+         HzfplQW3NjGgBQfbV05CNZlV66xz2r8izFS7ff5zd/xMpl5zj4cSeRvdanUbbk4/fhS8
+         QT7EdGaMUH5ArZ8Qo1tci21MrYMZWaE+9zTE9ySMWw5U9dtnF/8H3UG6emD2jiznMoTs
+         dm2vGtecRTIWrSyOyg5x9YWnf0BzqdRBaMlX/L3VtmDdwsuV9DKN5H7Qqxr8ruR6VWHZ
+         unTg==
+X-Gm-Message-State: AOAM530VpfX0TIUufKGDk4ZYFUON5wW+s+bP6gf6hZVmn21s61JMOFOD
+        SJRlOuTV3JY4Z2FG9EVKr/iIHQ==
+X-Google-Smtp-Source: ABdhPJxbHn743HpAai3gIe+eQ+BSOuNwnJnmv+uu5WioVEpwlxBV04HpXAGj7vqTjHFCbkd54ZsKfQ==
+X-Received: by 2002:adf:ef84:: with SMTP id d4mr14217900wro.175.1637941204596;
+        Fri, 26 Nov 2021 07:40:04 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id a9sm5913472wrt.66.2021.11.26.07.40.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Nov 2021 07:40:04 -0800 (PST)
+Date:   Fri, 26 Nov 2021 16:40:02 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>
+Cc:     Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+        Simon Ser <contact@emersion.fr>,
+        Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
+        Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
+        Marek =?utf-8?B?T2zFocOhaw==?= <marek.olsak@amd.com>,
+        Roman Gilg <subdiff@gmail.com>,
+        Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+        Harry Wentland <Harry.Wentland@amd.com>,
+        Mark Yacoub <markyacoub@chromium.org>,
+        Sean Paul <seanpaul@chromium.org>,
+        Pekka Paalanen <ppaalanen@gmail.com>,
+        linux-doc@vger.kernel.org, qingqing.zhuo@amd.com, roman.li@amd.com,
+        amd-gfx@lists.freedesktop.org, aurabindo.pillai@amd.com,
+        nicholas.choi@amd.com, dri-devel@lists.freedesktop.org,
+        Alex Deucher <alexander.deucher@amd.com>,
+        bhawanpreet.lakha@amd.com,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH 1/6] Documentation/gpu: Reorganize DC documentation
+Message-ID: <YaD/0kLNe6WhuoVF@phenom.ffwll.local>
+References: <20211125153830.1352994-1-Rodrigo.Siqueira@amd.com>
+ <20211125153830.1352994-2-Rodrigo.Siqueira@amd.com>
+ <aa16c8ca-1126-0f6f-c201-362a2abc2341@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aa16c8ca-1126-0f6f-c201-362a2abc2341@gmail.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 26 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
+On Fri, Nov 26, 2021 at 11:35:03AM +0100, Christian König wrote:
+> Just a general comment. Could you name the new subdirectory "amdgpu"
+> instead?
+> 
+> DC is just a component of the amdgpu driver and I think it would sooner or
+> later make sense to group together the amdgpu documentation in one folder.
 
-> On Fri, Nov 26, 2021 at 01:56:26PM +0100, Cornelia Huck wrote:
->> On Thu, Nov 25 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
->> 
->> > On Thu, Nov 25, 2021 at 01:27:12PM +0100, Cornelia Huck wrote:
->> >> On Wed, Nov 24 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
->> >> 
->> >> > On Wed, Nov 24, 2021 at 05:55:49PM +0100, Cornelia Huck wrote:
->> >> 
->> >> >> What I meant to say: If we give userspace the flexibility to operate
->> >> >> this, we also must give different device types some flexibility. While
->> >> >> subchannels will follow the general flow, they'll probably condense/omit
->> >> >> some steps, as I/O is quite different to PCI there.
->> >> >
->> >> > I would say no - migration is general, no device type should get to
->> >> > violate this spec.  Did you have something specific in mind? There is
->> >> > very little PCI specific here already
->> >> 
->> >> I'm not really thinking about violating the spec, but more omitting
->> >> things that do not really apply to the hardware. For example, it is
->> >> really easy to shut up a subchannel, we don't really need to wait until
->> >> nothing happens anymore, and it doesn't even have MMIO. 
->> >
->> > I've never really looked closely at the s390 mdev drivers..
->> >
->> > What does something like AP even do anyhow? The ioctl handler doesn't
->> > do anything, there is no mmap hook, how does the VFIO userspace
->> > interact with this thing?
->> 
->> For AP, the magic is in the hardware/firmware; the vfio parts are needed
->> to configure what is exposed to a given guest, not for operation. Once
->> it is up, the hardware will handle any instructions directly, the
->> hypervisor will not see them. (Unfortunately, none of the details have
->> public documentation.) I have no idea how this would play with migration.
->
-> That is kind of what I thought..
->
-> VFIO is all about exposing a device to userspace control, sounds like
-> the S390 drivers skipped that step.
+Seconded, I think when driver docs get too big for the single file
+approach a directory matching the driver name sounds best. Also at that
+point maybe just drop the amdgpu prefix in the .rst files, it's kinda
+redundant?
+-Daniel
 
-Note that what I wrote above is about AP; CCW does indeed trigger
-operations like start subchannel from userspace and relays interrupts
-back to userspace. AP is just very dissimilar to basically anything
-else.
+> 
+> Regards,
+> Christian.
+> 
+> Am 25.11.21 um 16:38 schrieb Rodrigo Siqueira:
+> > Display core documentation is not well organized, and it is hard to find
+> > information due to the lack of sections. This commit reorganizes the
+> > documentation layout, and it is preparation work for future changes.
+> > 
+> > Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+> > ---
+> >   Documentation/gpu/amdgpu-dc.rst               | 74 -------------------
+> >   .../gpu/amdgpu-dc/amdgpu-dc-debug.rst         |  4 +
+> >   Documentation/gpu/amdgpu-dc/amdgpu-dc.rst     | 29 ++++++++
+> >   Documentation/gpu/amdgpu-dc/amdgpu-dm.rst     | 42 +++++++++++
+> >   Documentation/gpu/drivers.rst                 |  2 +-
+> >   5 files changed, 76 insertions(+), 75 deletions(-)
+> >   delete mode 100644 Documentation/gpu/amdgpu-dc.rst
+> >   create mode 100644 Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst
+> >   create mode 100644 Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
+> >   create mode 100644 Documentation/gpu/amdgpu-dc/amdgpu-dm.rst
+> > 
+> > diff --git a/Documentation/gpu/amdgpu-dc.rst b/Documentation/gpu/amdgpu-dc.rst
+> > deleted file mode 100644
+> > index f7ff7e1309de..000000000000
+> > --- a/Documentation/gpu/amdgpu-dc.rst
+> > +++ /dev/null
+> > @@ -1,74 +0,0 @@
+> > -===================================
+> > -drm/amd/display - Display Core (DC)
+> > -===================================
+> > -
+> > -*placeholder - general description of supported platforms, what dc is, etc.*
+> > -
+> > -Because it is partially shared with other operating systems, the Display Core
+> > -Driver is divided in two pieces.
+> > -
+> > -1. **Display Core (DC)** contains the OS-agnostic components. Things like
+> > -   hardware programming and resource management are handled here.
+> > -2. **Display Manager (DM)** contains the OS-dependent components. Hooks to the
+> > -   amdgpu base driver and DRM are implemented here.
+> > -
+> > -It doesn't help that the entire package is frequently referred to as DC. But
+> > -with the context in mind, it should be clear.
+> > -
+> > -When CONFIG_DRM_AMD_DC is enabled, DC will be initialized by default for
+> > -supported ASICs. To force disable, set `amdgpu.dc=0` on kernel command line.
+> > -Likewise, to force enable on unsupported ASICs, set `amdgpu.dc=1`.
+> > -
+> > -To determine if DC is loaded, search dmesg for the following entry:
+> > -
+> > -``Display Core initialized with <version number here>``
+> > -
+> > -AMDgpu Display Manager
+> > -======================
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > -   :doc: overview
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> > -   :internal:
+> > -
+> > -Lifecycle
+> > ----------
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > -   :doc: DM Lifecycle
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > -   :functions: dm_hw_init dm_hw_fini
+> > -
+> > -Interrupts
+> > -----------
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
+> > -   :doc: overview
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
+> > -   :internal:
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > -   :functions: register_hpd_handlers dm_crtc_high_irq dm_pflip_high_irq
+> > -
+> > -Atomic Implementation
+> > ----------------------
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > -   :doc: atomic
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > -   :functions: amdgpu_dm_atomic_check amdgpu_dm_atomic_commit_tail
+> > -
+> > -Display Core
+> > -============
+> > -
+> > -**WIP**
+> > -
+> > -FreeSync Video
+> > ---------------
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > -   :doc: FreeSync Video
+> > diff --git a/Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst b/Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst
+> > new file mode 100644
+> > index 000000000000..bbb8c3fc8eee
+> > --- /dev/null
+> > +++ b/Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst
+> > @@ -0,0 +1,4 @@
+> > +Display Core Debug tools
+> > +========================
+> > +
+> > +TODO
+> > diff --git a/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst b/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
+> > new file mode 100644
+> > index 000000000000..3685b3b1ad64
+> > --- /dev/null
+> > +++ b/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
+> > @@ -0,0 +1,29 @@
+> > +===================================
+> > +drm/amd/display - Display Core (DC)
+> > +===================================
+> > +
+> > +*placeholder - general description of supported platforms, what dc is, etc.*
+> > +
+> > +Because it is partially shared with other operating systems, the Display Core
+> > +Driver is divided in two pieces.
+> > +
+> > +1. **Display Core (DC)** contains the OS-agnostic components. Things like
+> > +   hardware programming and resource management are handled here.
+> > +2. **Display Manager (DM)** contains the OS-dependent components. Hooks to the
+> > +   amdgpu base driver and DRM are implemented here.
+> > +
+> > +It doesn't help that the entire package is frequently referred to as DC. But
+> > +with the context in mind, it should be clear.
+> > +
+> > +When CONFIG_DRM_AMD_DC is enabled, DC will be initialized by default for
+> > +supported ASICs. To force disable, set `amdgpu.dc=0` on kernel command line.
+> > +Likewise, to force enable on unsupported ASICs, set `amdgpu.dc=1`.
+> > +
+> > +To determine if DC is loaded, search dmesg for the following entry:
+> > +
+> > +.. toctree::
+> > +
+> > +   amdgpu-dm.rst
+> > +   amdgpu-dc-debug.rst
+> > +
+> > +``Display Core initialized with <version number here>``
+> > diff --git a/Documentation/gpu/amdgpu-dc/amdgpu-dm.rst b/Documentation/gpu/amdgpu-dc/amdgpu-dm.rst
+> > new file mode 100644
+> > index 000000000000..7ce31f89d9a0
+> > --- /dev/null
+> > +++ b/Documentation/gpu/amdgpu-dc/amdgpu-dm.rst
+> > @@ -0,0 +1,42 @@
+> > +======================
+> > +AMDgpu Display Manager
+> > +======================
+> > +
+> > +.. contents:: Table of Contents
+> > +    :depth: 3
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > +   :doc: overview
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> > +   :internal:
+> > +
+> > +Lifecycle
+> > +=========
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > +   :doc: DM Lifecycle
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > +   :functions: dm_hw_init dm_hw_fini
+> > +
+> > +Interrupts
+> > +==========
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
+> > +   :doc: overview
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
+> > +   :internal:
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > +   :functions: register_hpd_handlers dm_crtc_high_irq dm_pflip_high_irq
+> > +
+> > +Atomic Implementation
+> > +=====================
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > +   :doc: atomic
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > +   :functions: amdgpu_dm_atomic_check amdgpu_dm_atomic_commit_tail
+> > diff --git a/Documentation/gpu/drivers.rst b/Documentation/gpu/drivers.rst
+> > index b4a0ed3ca961..dffe52d837cd 100644
+> > --- a/Documentation/gpu/drivers.rst
+> > +++ b/Documentation/gpu/drivers.rst
+> > @@ -5,7 +5,7 @@ GPU Driver Documentation
+> >   .. toctree::
+> >      amdgpu
+> > -   amdgpu-dc
+> > +   amdgpu-dc/amdgpu-dc
+> >      i915
+> >      mcde
+> >      meson
+> 
 
->
-> KVM is all about taking what userspace can already control and giving
-> it to a guest, in an accelerated way.
->
-> Making a bypass where a KVM guest has more capability than the user
-> process because VFIO and KVM have been directly coupled completely
-> upends the whole logical model.
->
-> As we talked with Intel's wbinvd stuff you should have a mental model
-> where the VFIO userspace process can do anything the KVM guest can do
-> via ioctls on the mdev. KVM is just an accelerated way to do that same
-> stuff. Maybe S390 doesn't implement those ioctls, but they are
-> logically part of the model.
-
-FWIW, AP had been a pain to model in a way that we could hand the
-devices to the guest; if we are supposed to use vfio for this purpose,
-the current design is probably the best we can get, at least nobody has
-been able to come up with a better way to interact with the interfaces
-that we have.
-
-CCW needs a kernel part for translations, as it doesn't have an iommu,
-and the I/O instructions are of course privileged (but so are the
-instructions for s390 PCI); I think it is quite close to other devices
-in other respects, only that it has a more transaction-based model.
-
-> So, for the migration doc, imagine some non-accelerated KVM that was
-> intercepting the guest operations and calling the logical ioctls on
-> the mdev instead. When we talk about MMIO/PIO/etc it also includes
-> mdev operation ioctls too, and by extension any ioctl accelerated
-> inside KVM.
-
-I think only AP is the really odd one out here; CCW will likely differ
-in some details... I just wanted to make sure that this will not run
-counter to the documentation.
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
