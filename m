@@ -2,84 +2,71 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9100C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Nov 2021 16:40:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2E29C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Nov 2021 16:52:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239821AbhKZQnq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Nov 2021 11:43:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35530 "EHLO
+        id S236662AbhKZQzs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Nov 2021 11:55:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378651AbhKZQlq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Nov 2021 11:41:46 -0500
-X-Greylist: delayed 449 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 26 Nov 2021 08:26:30 PST
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C9DAC0613B3
-        for <linux-doc@vger.kernel.org>; Fri, 26 Nov 2021 08:26:30 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 526BD622E1;
-        Fri, 26 Nov 2021 16:16:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F206C9305F;
-        Fri, 26 Nov 2021 16:16:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1637943417;
-        bh=N15suIuxWgr1KyMACv0zVzLXpDxzRFxTfYvJFDF1ZIU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JqxCwj9gOUZDwUpQ24qGeTFrk5cj14f8cgJdRwAL/us15pH28Gljzu8jRJFXAk/mf
-         yebVGUOxOpUWYwM+d7ScCChT/QpYfjoOm5XZSK+VK9w1xi6BO/aVKFUABJBO2mE0Jm
-         kLI24DV98TxnsqXGOqw3VhKFTiDeY0jKoPew/rOA=
-Date:   Fri, 26 Nov 2021 17:16:54 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     ira.weiny@intel.com
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Dan Williams <dan.j.williams@intel.com>,
-        linux-kernel@vger.kernel.org, Dave Jiang <dave.jiang@intel.com>,
+        with ESMTP id S1350033AbhKZQxr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Nov 2021 11:53:47 -0500
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF008C061A30;
+        Fri, 26 Nov 2021 08:36:11 -0800 (PST)
+Received: by mail-pl1-x62a.google.com with SMTP id v19so7029727plo.7;
+        Fri, 26 Nov 2021 08:36:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=UIAMYZphiediKm1iUagoWKS9HwT1nKaBzibHVok6Up8=;
+        b=SMhfKvTiH5Xk52WFxWryJoxwnQPSCEHuGUEbzDYp+ioWIltf5bJ1ea7oUPlsjLUN5F
+         +/v4hC8G0iaiKx9UhiMvhw3/4/av72R27S3KdkQe1KDW9w8caf3So+6c+f3Lcg4Gy+D1
+         ZeW+w6vGhHkZa6t3tExnayFOUKNCWeWOKYZTzuM5ClpQvxGLZaw2r+q2VngVZzEoz0zg
+         etvMmHmRlU0MKRoZoXAMSoxRjbRLTyOweK+MJngPVAh8pNxuxuT8dpbmBmXPxvPY64Re
+         huf7kA5WOU3W9baZPFLugQCuI9RsM6adX53yf/0D4w75L6jqbrF2VjKVeKMH8vW9RyIo
+         IKiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=UIAMYZphiediKm1iUagoWKS9HwT1nKaBzibHVok6Up8=;
+        b=JaDxnaRzQWHXpLBAeKVgrl4Y6XI5PyUzTlBpkw68FhXkUuRoru+kHgElh+tRnn1rqJ
+         r/XReTlU61Eyj0ftNPsjenxonszh+KvjTfE/n6EjGqMEKtVDDkHofklgw3z4affBhY9u
+         Sv1O8rNAaVPwNS9u6hWRMveGtRrU/UAxhmX/VbbRvoIh5RQXrMMLOEWb3jnxOH5bBUat
+         LfcOfP9DAkB8HqoXslwjGatGgsYIgQ34dFuqM8XWgh1XXVvqtbrVWD7RzetBoj1wiMhi
+         22Q6vP01K2hbWgcTnNW2h0j0537r+10VADWBdYbAgFZMArmg5RV10EiDYW+gbPdyIXgt
+         UPSQ==
+X-Gm-Message-State: AOAM5334vrlKr5yJiu0YdyIjlDlm2DpSOOk/cFKxZCpnCVx0btouKO7z
+        zYTWZIY4tyS8dJ1xauOAgoVJhikOxJo=
+X-Google-Smtp-Source: ABdhPJyYOtPbS8kYXbeUx6unszpl/1+UzaDwRXbLf7EVVLcThBnfE12piJ69tltyiYbJ5B/PeO93Xg==
+X-Received: by 2002:a17:90b:4c51:: with SMTP id np17mr16706315pjb.213.1637944571455;
+        Fri, 26 Nov 2021 08:36:11 -0800 (PST)
+Received: from hoboy.vegasvil.org ([2601:645:c000:2163:e2d5:5eff:fea5:802f])
+        by smtp.gmail.com with ESMTPSA id a23sm5465827pgl.37.2021.11.26.08.36.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Nov 2021 08:36:11 -0800 (PST)
+Date:   Fri, 26 Nov 2021 08:36:09 -0800
+From:   Richard Cochran <richardcochran@gmail.com>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     davem@davemloft.net, corbet@lwn.net, netdev@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] Documentation/auxiliary_bus: Clarify auxiliary_device
- creation
-Message-ID: <YaEIdmRV2A1yclub@kroah.com>
-References: <87k0hq2oxc.fsf@meer.lwn.net>
- <20211102225310.3677785-1-ira.weiny@intel.com>
+Subject: Re: [PATCH net] ptp: fix filter names in the documentation
+Message-ID: <20211126163609.GB27081@hoboy.vegasvil.org>
+References: <20211126031921.2466944-1-kuba@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211102225310.3677785-1-ira.weiny@intel.com>
+In-Reply-To: <20211126031921.2466944-1-kuba@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 02, 2021 at 03:53:10PM -0700, ira.weiny@intel.com wrote:
-> From: Ira Weiny <ira.weiny@intel.com>
+On Thu, Nov 25, 2021 at 07:19:21PM -0800, Jakub Kicinski wrote:
+> All the filter names are missing _PTP in them.
 > 
-> The documentation for creating an auxiliary device is a 3 step not a 2
-> step process.  Specifically the requirements of setting the name, id,
-> dev.release, and dev.parent fields was not clear as a precursor to the '2
-> step' process documented.
-> 
-> Clarify by declaring this a 3 step process starting with setting the
-> fields of struct auxiliary_device correctly.
-> 
-> Also add some sample code and tie the change into the rest of the
-> documentation.
-> 
-> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> 
-> ---
-> Changes from V1:
-> 	From Jonathan
-> 		Fix auxiliary spelling
-> ---
->  Documentation/driver-api/auxiliary_bus.rst | 77 +++++++++++++++++-----
->  1 file changed, 59 insertions(+), 18 deletions(-)
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 
-Can you please resend the whole series, trying to just resend one patch
-in the middle is horrible for our tools and to try to figure this out.
-
-Would you like to have to unwind this?  Please make it simple for
-maintainers to review and if ok, apply your changes.
-
-thanks,
-
-greg k-h
+Acked-by: Richard Cochran <richardcochran@gmail.com>
