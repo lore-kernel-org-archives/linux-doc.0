@@ -2,45 +2,74 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06BBFC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Nov 2021 13:09:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1BEFC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Nov 2021 14:57:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233747AbhKZNMZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Nov 2021 08:12:25 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:52536 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237804AbhKZNKX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Nov 2021 08:10:23 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 63C61340;
-        Fri, 26 Nov 2021 14:07:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1637932029;
-        bh=l4FMeCVerc2PEX9cpgk4Euxcw3uzZpp4U3PzawrM6Gs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AbQEzhZTFd0YMHIQj5HTWMo0/AV1KrfjQBfLO4L1Ysgg1WM308Ar6ulu2wWFMVRHe
-         0g+qWcw5NPtnOTTvG9cDoFCI8kpj/vZm8bXX+EcA8KSpo/cXpdbz8qR5LpFNDjGPZP
-         ICyxtBWx5uPBXaHwB0UAY4Q7IzwisIJfl9/fCpa8=
-Date:   Fri, 26 Nov 2021 15:06:46 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        id S1353370AbhKZPA2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Nov 2021 10:00:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41194 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242685AbhKZO6Z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Nov 2021 09:58:25 -0500
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E841EC0619F2;
+        Fri, 26 Nov 2021 06:33:43 -0800 (PST)
+Received: by mail-pf1-x42f.google.com with SMTP id n85so9117104pfd.10;
+        Fri, 26 Nov 2021 06:33:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:cc:references:subject:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=YX75Xm+1AS7y1jBvySQK8BxyX1jnK7N8WeJaX2rpj0o=;
+        b=qJMJY5rkDlRLMAZAM35ZfZdQhahnF6C94D2/N8SgjoCYWxZpJ0IN0VBKJomH0SCJ02
+         SLYd9zl6zA3jRwyucOp7PLb029i3QiwZxgnFQaQCeubnEZuICwpLMZ4qRS0O+/MdPoeH
+         awo127bqomqxUy46GKjSPd2nHZdilYQtQPXaHhJs/D7B+ONY9qOMJZ+aYSXfR350jMJs
+         RIdFyCqjv5D1HcLKgEz3ieQXY3LL32IgDVxDvVdzprt+Zfi8vfkIgrL40TEgBNboU3tg
+         Sl8YK94w5KYDKfjYdAI0MsEZRM+qZHzW+LvclwDKnzaeObFPL1XmfM9VYE5YZnxhmTdv
+         sDXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:to:cc:references:subject:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=YX75Xm+1AS7y1jBvySQK8BxyX1jnK7N8WeJaX2rpj0o=;
+        b=3Ssp7BadPL5D044TUUJqAM6yQ/AsZSnVmHBtG3cypsLVyNuDfH5n/8an3WtYXq83tg
+         1FXYP3umneyAWZTWpN74ywPkzAotlWmRV8s0VQTSRJxOsw2siaOFl0v6y/IIJLTSjIyW
+         laU5axBr5/gVtwFksgvktg4cBEMo0TmpUlijbS7RrtDbRK/KA60fQ969uzjp0S0UddKe
+         LCsMeOShK8Lx3z+Jv2nZClP5xtoWPtpORMCcrev7s3pC1nLNSpoNdhwkqBDYt5KJResO
+         gCaSGH8bMKCYDSj6dSA6CrgLdELMwJ+KJ/kVY5+W+6M6GGJ3eeHRSKkzlrbNiUdRhh6m
+         DZXg==
+X-Gm-Message-State: AOAM5302zmgb2gXYFtxrQ0mnx+HaB/EF3YVgKP53F7U6brBU0x+LVOhY
+        b/O0hUeXOY0FUEfbqU5tC8w=
+X-Google-Smtp-Source: ABdhPJzuoh1S6Am/7fW3VVWnDqsXEBLM46Q1V78Q/NyQv9iX+xsyxxVet3kyEMlWf5kErzz9un9mGA==
+X-Received: by 2002:a63:f94c:: with SMTP id q12mr7763826pgk.617.1637937223381;
+        Fri, 26 Nov 2021 06:33:43 -0800 (PST)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id ne22sm5806373pjb.18.2021.11.26.06.33.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Nov 2021 06:33:42 -0800 (PST)
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: conf.py: fix support for Readthedocs v 1.0.0
-Message-ID: <YaDb5nMm88NwDOiF@pendragon.ideasonboard.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 References: <f0660b1d24bc9bc07b13fe9a25ccb69ca14e916d.1637923850.git.mchehab+huawei@kernel.org>
+Subject: Re: [PATCH] docs: conf.py: fix support for Readthedocs v 1.0.0
+From:   Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <13c40ed9-a51f-7496-7224-03b563bb6695@gmail.com>
+Date:   Fri, 26 Nov 2021 23:33:39 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 In-Reply-To: <f0660b1d24bc9bc07b13fe9a25ccb69ca14e916d.1637923850.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 Hi Mauro,
-
-Thank you for the patch.
 
 On Fri, Nov 26, 2021 at 11:50:53AM +0100, Mauro Carvalho Chehab wrote:
 > As described at:
@@ -61,53 +90,32 @@ On Fri, Nov 26, 2021 at 11:50:53AM +0100, Mauro Carvalho Chehab wrote:
 > ---
 >  Documentation/conf.py | 13 +++++++++----
 >  1 file changed, 9 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/conf.py b/Documentation/conf.py
-> index 17f7cee56987..7bc72be63fd2 100644
-> --- a/Documentation/conf.py
-> +++ b/Documentation/conf.py
-> @@ -249,11 +249,16 @@ except ImportError:
->  
->  html_static_path = ['sphinx-static']
->  
-> -html_context = {
-> -    'css_files': [
-> +if major <= 1 and (minor < 8):
 
-No need for parentheses.
+So I have an issue with this simple change.
+As I said to Jon in another thread [1], in which Jon didn't show any
+interest, this update changes the look of generated HTML pages
+(I should say) rather drastically, and it looks quite distracting
+for my eyes.  The style might be acceptable for API documentations,
+but kernel-doc has abundant natural language contents.
 
-> +    html_context = {
-> +        'css_files': [
-> +            '_static/theme_overrides.css',
-> +        ],
-> +    }
-> +else:
-> +    html_css_files = [
->          '_static/theme_overrides.css',
-> -    ],
-> -}
-> +    ]
+[1]: https://lkml.kernel.org/r/550fe790-b18d-f882-4c70-477b596facc7@gmail.com
 
-You could also write
+I think there should be some knobs for customizing the styles.
+But I don't know much about css.
 
-html_css_files = [
-    '_static/theme_overrides.css',
-]
+Can anybody restore the current look of kernel-doc HTML pages
+in a sphinx-rtd-theme-1.0.0-compatible way?
 
-if major <= 1 and minor < 8:
-    html_context = {
-        'css_files': html_css_files,
-    }
+Sidenote:
 
-which would be slightly easier to drop when support for sphinx 1.7
-(which is the minimum required version) is removed.
+The change (html_css_files) actually works with
+   - Sphinx 1.7.9 + sphinx-rtd-theme 1.0.0
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+This contradicts the Sphinx documentation saying that html_css_files
+was new to Sphinx 1.8.  This might be related to the changes in
+sphinx-rtd-theme side, but I have no evidence.
 
->  # Add any extra paths that contain custom files (such as robots.txt or
->  # .htaccess) here, relative to this directory. These files are copied
+Any suggestion is welcome!
 
--- 
-Regards,
+Regards, Akira
 
-Laurent Pinchart
