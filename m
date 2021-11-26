@@ -2,223 +2,65 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5B76C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Nov 2021 06:25:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F08C4C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Nov 2021 06:41:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358754AbhKZG2e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Nov 2021 01:28:34 -0500
-Received: from mga05.intel.com ([192.55.52.43]:37939 "EHLO mga05.intel.com"
+        id S1358910AbhKZGof (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Nov 2021 01:44:35 -0500
+Received: from mail.kernel.org ([198.145.29.99]:42718 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S244228AbhKZG0d (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 26 Nov 2021 01:26:33 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10179"; a="321850750"
-X-IronPort-AV: E=Sophos;i="5.87,265,1631602800"; 
-   d="scan'208";a="321850750"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2021 22:23:21 -0800
-X-IronPort-AV: E=Sophos;i="5.87,265,1631602800"; 
-   d="scan'208";a="458080324"
-Received: from spaul5-mobl1.gar.corp.intel.com ([10.213.66.246])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2021 22:23:15 -0800
-Message-ID: <db11c70c0e04cfa5f3c0fb6d49543e9f1971f3d4.camel@linux.intel.com>
-Subject: Re: [PATCH 7/7] thermal: intel: hfi: Notify user space for HFI
- events
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Len Brown <len.brown@intel.com>,
-        Aubrey Li <aubrey.li@linux.intel.com>,
-        Amit Kucheria <amitk@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Tim Chen <tim.c.chen@linux.intel.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Ricardo Neri <ricardo.neri@intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Date:   Thu, 25 Nov 2021 22:23:12 -0800
-In-Reply-To: <CAJZ5v0j=+QSwmwVg8chcTchPAXdbt2h1g=4+tMbLpDxstfRq6A@mail.gmail.com>
-References: <20211106013312.26698-1-ricardo.neri-calderon@linux.intel.com>
-         <20211106013312.26698-8-ricardo.neri-calderon@linux.intel.com>
-         <CAJZ5v0j=+QSwmwVg8chcTchPAXdbt2h1g=4+tMbLpDxstfRq6A@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.0-1 
+        id S1358954AbhKZGmf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 26 Nov 2021 01:42:35 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D09C36113E;
+        Fri, 26 Nov 2021 06:39:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1637908762;
+        bh=3loIOsbjaVBjUIw0XjrFpdVXb/TakqQHsVPt7HrW8YA=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=qFy9w5PDWuQQWDXcJFnSnFPQbDw/LurZdC+vq3iJoCahs4Ql0wQ7mSglFj3UKQKC3
+         QVrBteW76ll4j/Dp45Ioh2nzTBeMZzjkQ3LTqxGAgyJWyAJwSf9PKsvN0QWlnaiYHq
+         O1mdRrIk+lFvLANkqhkEGYHJah8kP89RKxIi6nW0IoAfKzs1MuyvqYsbfnj+4D+xE/
+         XrXDmWBSKVzuNSzjcULwl8Rk9Pjz9YzPsHakflcEDf6dMKJbGPeqM5Wt3WQr47Kn5l
+         Rr1ltTj/9HTa/Dy8gWSbUlKNcTPRdJkLzAyvQ6rpMCWgNzfEP565GvG9IJFtbBt8o4
+         hUX/3jU/e8FJg==
+Received: by mail-yb1-f170.google.com with SMTP id e136so17563196ybc.4;
+        Thu, 25 Nov 2021 22:39:22 -0800 (PST)
+X-Gm-Message-State: AOAM530SlL9FepySK4CpMhkwvUz15LGEg/p0L7olOicVLsbM9oNBML2R
+        ux4KwB6lwolgMQxUXCZ2Jevhw6PkmHI0FEXVRA8=
+X-Google-Smtp-Source: ABdhPJwLMI+8JEW9OLSm+cclY2jOEC3aCuhIHZVnimU7p8AXdqgH+7ahfHWK8BiEEiBsdZYtk7NAF/GDIP4iG+3ykNM=
+X-Received: by 2002:a25:bfca:: with SMTP id q10mr13225711ybm.68.1637908762059;
+ Thu, 25 Nov 2021 22:39:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211119163215.971383-1-hch@lst.de> <20211119163215.971383-2-hch@lst.de>
+In-Reply-To: <20211119163215.971383-2-hch@lst.de>
+From:   Song Liu <song@kernel.org>
+Date:   Thu, 25 Nov 2021 22:39:11 -0800
+X-Gmail-Original-Message-ID: <CAPhsuW5i9iniGoLKK4D4dArs7jkgscNBxOPLeSZNpZ3v1dWj6A@mail.gmail.com>
+Message-ID: <CAPhsuW5i9iniGoLKK4D4dArs7jkgscNBxOPLeSZNpZ3v1dWj6A@mail.gmail.com>
+Subject: Re: [PATCH 1/5] x86, bpf: cleanup the top of file header in bpf_jit_comp.c
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2021-11-24 at 16:18 +0100, Rafael J. Wysocki wrote:
-> On Sat, Nov 6, 2021 at 2:34 AM Ricardo Neri
-> <ricardo.neri-calderon@linux.intel.com> wrote:
-> > 
-> > From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> > 
-> > When the hardware issues an HFI event, relay a notification to user
-> > space.
-> > This allows user space to respond by reading performance and
-> > efficiency of
-> > each CPU and take appropriate action.
-> > 
-> > For example, when performance and efficiency of a CPU is 0, user
-> > space can
-> > either offline the CPU or inject idle. Also, if user space notices
-> > a
-> > downward trend in performance, it may proactively adjust power
-> > limits to
-> > avoid future situations in which performance drops to 0.
-> > 
-> > To avoid excessive notifications, the rate is limited by one HZ per
-> > event.
-> > To limit netlink message size, parameters for only 16 CPUs at max
-> > are sent
-> > in one message. If there are more than 16 CPUs, issue as many
-> > messages as
-> > needed to notify the status of all CPUs.
-> > 
-> > Cc: Andi Kleen <ak@linux.intel.com>
-> > Cc: Aubrey Li <aubrey.li@linux.intel.com>
-> > Cc: Tim Chen <tim.c.chen@linux.intel.com>
-> > Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>
-> > Reviewed-by: Len Brown <len.brown@intel.com>
-> > Signed-off-by: Srinivas Pandruvada < 
-> > srinivas.pandruvada@linux.intel.com>
-> > ---
-> >  drivers/thermal/intel/Kconfig     |  1 +
-> >  drivers/thermal/intel/intel_hfi.c | 55
-> > ++++++++++++++++++++++++++++++-
-> >  2 files changed, 55 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/thermal/intel/Kconfig
-> > b/drivers/thermal/intel/Kconfig
-> > index d4c6bdcacddb..b6a1f777b8e7 100644
-> > --- a/drivers/thermal/intel/Kconfig
-> > +++ b/drivers/thermal/intel/Kconfig
-> > @@ -104,6 +104,7 @@ config INTEL_HFI
-> >         bool "Intel Hardware Feedback Interface"
-> >         depends on CPU_SUP_INTEL
-> >         depends on SCHED_MC && X86_THERMAL_VECTOR
-> > +       select THERMAL_NETLINK
-> >         help
-> >           Select this option to enable the Hardware Feedback
-> > Interface. If
-> >           selected, hardware provides guidance to the operating
-> > system on
-> > diff --git a/drivers/thermal/intel/intel_hfi.c
-> > b/drivers/thermal/intel/intel_hfi.c
-> > index 1df24b39f2e6..c669a037704e 100644
-> > --- a/drivers/thermal/intel/intel_hfi.c
-> > +++ b/drivers/thermal/intel/intel_hfi.c
-> > @@ -24,6 +24,7 @@
-> >  #include <linux/io.h>
-> >  #include <linux/slab.h>
-> > 
-> > +#include "../thermal_core.h"
-> >  #include "intel_hfi.h"
-> > 
-> >  #define THERM_STATUS_CLEAR_PKG_MASK (BIT(1) | BIT(3) | BIT(5) |
-> > BIT(7) | \
-> > @@ -124,6 +125,58 @@ static struct hfi_features hfi_features;
-> >  static DEFINE_MUTEX(hfi_lock);
-> > 
-> >  #define HFI_UPDATE_INTERVAL    HZ
-> > +#define HFI_MAX_THERM_NOTIFY_COUNT     16
-> > +
-> > +static int get_one_hfi_cap(struct hfi_instance *hfi_instance, int
-> > cpu,
-> > +                          struct hfi_cpu_data *hfi_caps)
-> > +{
-> > +       struct hfi_cpu_data *caps;
-> > +       unsigned long flags;
-> > +       s16 index;
-> > +
-> > +       index = per_cpu(hfi_cpu_info, cpu).index;
-> > +       if (index < 0)
-> > +               return -EINVAL;
-> 
-> When does this happen?
-Highly unlikely. This can happen if somehow CPUID_HFI_LEAF is
-programmed negative for a CPU, which shouldn't happen.
+On Fri, Nov 19, 2021 at 8:32 AM Christoph Hellwig <hch@lst.de> wrote:
+>
+> Don't bother mentioning the file name as it is implied, and remove the
+> reference to internal BPF.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-> 
-> Can the index become negative after this check?
-No. This is programmed only one time during online CPU and never
-changed after that. If this is in hfi_instance->cpus, then the leaf is
-already read.
-
-> 
-> Could this check be done in the caller (so this function could be a
-> void one)?
-Can be done.
-
-Thanks,
-Srinivas
-
-> 
-> > +
-> > +       /* Find the capabilities of @cpu */
-> > +       raw_spin_lock_irqsave(&hfi_instance->event_lock, flags);
-> > +       caps = hfi_instance->data + index *
-> > hfi_features.cpu_stride;
-> > +       memcpy(hfi_caps, caps, sizeof(*hfi_caps));
-> > +       raw_spin_unlock_irqrestore(&hfi_instance->event_lock,
-> > flags);
-> > +
-> > +       return 0;
-> > +}
-> > +
-> > +/*
-> > + * Call update_capabilities() when there are changes in the HFI
-> > table.
-> > + */
-> > +static void update_capabilities(struct hfi_instance *hfi_instance)
-> > +{
-> > +       struct cpu_capability cpu_caps[HFI_MAX_THERM_NOTIFY_COUNT];
-> > +       int i = 0, cpu;
-> > +
-> > +       for_each_cpu(cpu, hfi_instance->cpus) {
-> > +               struct hfi_cpu_data caps;
-> > +               int ret;
-> > +
-> > +               ret = get_one_hfi_cap(hfi_instance, cpu, &caps);
-> > +               if (ret)
-> > +                       continue;
-> > +
-> > +               cpu_caps[i].cpu = cpu;
-> > +               cpu_caps[i].perf = caps.perf_cap;
-> > +               cpu_caps[i].eff = caps.ee_cap;
-> > +               ++i;
-> > +               if (i >= HFI_MAX_THERM_NOTIFY_COUNT) {
-> > +                      
-> > thermal_genl_cpu_capability_event(HFI_MAX_THERM_NOTIFY_COUNT,
-> > +                                                        
-> > cpu_caps);
-> > +                       i = 0;
-> > +               }
-> > +       }
-> > +
-> > +       if (i)
-> > +               thermal_genl_cpu_capability_event(i, cpu_caps);
-> > +}
-> > 
-> >  static void hfi_update_work_fn(struct work_struct *work)
-> >  {
-> > @@ -134,7 +187,7 @@ static void hfi_update_work_fn(struct
-> > work_struct *work)
-> >         if (!hfi_instance)
-> >                 return;
-> > 
-> > -       /* TODO: Consume update here. */
-> > +       update_capabilities(hfi_instance);
-> >  }
-> > 
-> >  void intel_hfi_process_event(__u64 pkg_therm_status_msr_val)
-> > --
-> > 2.17.1
-> > 
-
-
+Acked-by: Song Liu <songliubraving@fb.com>
