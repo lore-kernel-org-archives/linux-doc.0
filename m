@@ -2,156 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38B01C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Nov 2021 23:03:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7254C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 27 Nov 2021 03:00:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238991AbhKZXGs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Nov 2021 18:06:48 -0500
-Received: from www62.your-server.de ([213.133.104.62]:48638 "EHLO
-        www62.your-server.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229866AbhKZXEs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Nov 2021 18:04:48 -0500
-Received: from sslproxy06.your-server.de ([78.46.172.3])
-        by www62.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92.3)
-        (envelope-from <daniel@iogearbox.net>)
-        id 1mqkDP-000F4Y-20; Sat, 27 Nov 2021 00:01:11 +0100
-Received: from [85.1.206.226] (helo=linux.home)
-        by sslproxy06.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <daniel@iogearbox.net>)
-        id 1mqkDN-0007l0-Uv; Sat, 27 Nov 2021 00:01:09 +0100
-Subject: Re: [PATCH v2 net-next 21/26] ice: add XDP and XSK generic
- per-channel statistics
-From:   Daniel Borkmann <daniel@iogearbox.net>
-To:     Jakub Kicinski <kuba@kernel.org>,
-        =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vu?= =?UTF-8?Q?sen?= 
-        <toke@redhat.com>
-Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
-        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shay Agroskin <shayagr@amazon.com>,
-        Arthur Kiyanovski <akiyano@amazon.com>,
-        David Arinzon <darinzon@amazon.com>,
-        Noam Dagan <ndagan@amazon.com>,
-        Saeed Bishara <saeedb@amazon.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Marcin Wojtas <mw@semihalf.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Saeed Mahameed <saeedm@nvidia.com>,
-        Leon Romanovsky <leon@kernel.org>,
+        id S1351136AbhK0DEK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Nov 2021 22:04:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57506 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233665AbhK0DCK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Nov 2021 22:02:10 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABEBAC09B133;
+        Fri, 26 Nov 2021 17:53:22 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id AEE4BB829B3;
+        Sat, 27 Nov 2021 01:53:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48E65C53FC9;
+        Sat, 27 Nov 2021 01:53:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1637977998;
+        bh=pngvY9BmN7/mTvr7zxnHowe65NC+KzPQJX8BHpNymIM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Kuo80bvd8GcQTmOi6KcZ6W37cHytQz025Uk9jW0RyBHP2EgNci5ra7iIOST/d6AVA
+         Hmqv772HvMRjv665YIpNHJhCzLYBX2hUcV+TGOQsziJcAX2SFm0cQLblMcra9x7/uG
+         T8+JdlqbMa6u9hE84PGVBDUKYrDObjg03KAh8SHNcETzTugb5Ua8ynHXqQvSCy9EPp
+         PZa8CzMEKZo2u3FpJIMI1iXKbdH0IT9SH7IXlMXqSrkasoYsc2OcJx5FdcccWBnV+s
+         u6gqkIYwG/WA7yppN3hhO108j15XJ/mUr4ZwxhWK9lQVBsjM95S6ZTAlpyQmRGw5v8
+         B4u0NTH8T4m+g==
+Received: by mail-yb1-f182.google.com with SMTP id g17so24444430ybe.13;
+        Fri, 26 Nov 2021 17:53:18 -0800 (PST)
+X-Gm-Message-State: AOAM531sBISKXolKmZ3MAMQgM4m8Ijfk+5XUYww6K6ksRaFQQusB80q1
+        1zv1HqgUB27qjoU3d07vamFewIV0CGeSBlNHaxI=
+X-Google-Smtp-Source: ABdhPJx8JDPiOft5BZu0DjN7blNEA873efOWUHc1bP58SyR86fCSnlbM2C1c/u0ZPE3JLRerHlpmbzQ/TX3jgONq6Sk=
+X-Received: by 2002:a25:69cc:: with SMTP id e195mr19853758ybc.456.1637977997463;
+ Fri, 26 Nov 2021 17:53:17 -0800 (PST)
+MIME-Version: 1.0
+References: <cover.1637682120.git.dave@dtucker.co.uk> <fb36291f5998c98faa1bd02ce282d940813c8efd.1637684071.git.dave@dtucker.co.uk>
+In-Reply-To: <fb36291f5998c98faa1bd02ce282d940813c8efd.1637684071.git.dave@dtucker.co.uk>
+From:   Song Liu <song@kernel.org>
+Date:   Fri, 26 Nov 2021 17:53:06 -0800
+X-Gmail-Original-Message-ID: <CAPhsuW4jbVn2FQCDob2bUW1OTnG2P_Rqw-y5mKe9SmzezeF9gA@mail.gmail.com>
+Message-ID: <CAPhsuW4jbVn2FQCDob2bUW1OTnG2P_Rqw-y5mKe9SmzezeF9gA@mail.gmail.com>
+Subject: Re: [PATCH v2 bpf-next 1/2] bpf, docs: add kernel version to map_cgroup_storage
+To:     Dave Tucker <dave@dtucker.co.uk>
+Cc:     bpf <bpf@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
         Alexei Starovoitov <ast@kernel.org>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Edward Cree <ecree.xilinx@gmail.com>,
-        Martin Habets <habetsm.xilinx@gmail.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
         Andrii Nakryiko <andrii@kernel.org>,
         Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        Song Liu <songliubraving@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
         KP Singh <kpsingh@kernel.org>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Yajun Deng <yajun.deng@linux.dev>,
-        Sergey Ryazanov <ryazanov.s.a@gmail.com>,
-        David Ahern <dsahern@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        Cong Wang <cong.wang@bytedance.com>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
-        Paolo Abeni <pabeni@redhat.com>
-References: <20211123163955.154512-1-alexandr.lobakin@intel.com>
- <20211123163955.154512-22-alexandr.lobakin@intel.com>
- <77407c26-4e32-232c-58e0-2d601d781f84@iogearbox.net> <87bl28bga6.fsf@toke.dk>
- <20211125170708.127323-1-alexandr.lobakin@intel.com>
- <20211125094440.6c402d63@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <20211125204007.133064-1-alexandr.lobakin@intel.com> <87sfvj9k13.fsf@toke.dk>
- <20211126100611.514df099@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <871ae82a-3d5b-2693-2f77-7c86d725a056@iogearbox.net>
-Message-ID: <3c2fd51e-96c4-d500-bb4c-1972bb0fa3d6@iogearbox.net>
-Date:   Sat, 27 Nov 2021 00:01:08 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
-MIME-Version: 1.0
-In-Reply-To: <871ae82a-3d5b-2693-2f77-7c86d725a056@iogearbox.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Authenticated-Sender: daniel@iogearbox.net
-X-Virus-Scanned: Clear (ClamAV 0.103.3/26365/Fri Nov 26 10:23:49 2021)
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/26/21 11:27 PM, Daniel Borkmann wrote:
-> On 11/26/21 7:06 PM, Jakub Kicinski wrote:
-[...]
->> The information required by the admin is higher level. As you say the
->> primary concern there is "how many packets did XDP eat".
-> 
-> Agree. Above said, for XDP_DROP I would see one use case where you compare
-> different drivers or bond vs no bond as we did in the past in [0] when
-> testing against a packet generator (although I don't see bond driver covered
-> in this series here yet where it aggregates the XDP stats from all bond slave
-> devs).
-> 
-> On a higher-level wrt "how many packets did XDP eat", it would make sense
-> to have the stats for successful XDP_{TX,REDIRECT} given these are out
-> of reach from a BPF prog PoV - we can only count there how many times we
-> returned with XDP_TX but not whether the pkt /successfully made it/.
-> 
-> In terms of error cases, could we just standardize all drivers on the behavior
-> of e.g. mlx5e_xdp_handle(), meaning, a failure from XDP_{TX,REDIRECT} will
-> hit the trace_xdp_exception() and then fallthrough to bump a drop counter
-> (same as we bump in XDP_DROP then). So the drop counter will account for
-> program drops but also driver-related drops.
-> 
-> At some later point the trace_xdp_exception() could be extended with an error
-> code that the driver would propagate (given some of them look quite similar
-> across drivers, fwiw), and then whoever wants to do further processing with
-> them can do so via bpftrace or other tooling.
+On Tue, Nov 23, 2021 at 8:24 AM Dave Tucker <dave@dtucker.co.uk> wrote:
+>
+> This adds the version at which this map became available to use in the
+> documentation
+>
+> Signed-off-by: Dave Tucker <dave@dtucker.co.uk>
 
-Just thinking out loud, one straight forward example we could start out with
-that is also related to Paolo's series [1] ...
-
-enum xdp_error {
-	XDP_UNKNOWN,
-	XDP_ACTION_INVALID,
-	XDP_ACTION_UNSUPPORTED,
-};
-
-... and then bpf_warn_invalid_xdp_action() returns one of the latter two
-which we pass to trace_xdp_exception(). Later there could be XDP_DRIVER_*
-cases e.g. propagated from XDP_TX error exceptions.
-
-         [...]
-         default:
-                 err = bpf_warn_invalid_xdp_action(act);
-                 fallthrough;
-         case XDP_ABORTED:
-xdp_abort:
-                 trace_xdp_exception(rq->netdev, prog, act, err);
-                 fallthrough;
-         case XDP_DROP:
-                 lrstats->xdp_drop++;
-                 break;
-         }
-         [...]
-
-   [1] https://lore.kernel.org/netdev/cover.1637924200.git.pabeni@redhat.com/
-
-> So overall wrt this series: from the lrstats we'd be /dropping/ the pass,
-> tx_errors, redirect_errors, invalid, aborted counters. And we'd be /keeping/
-> bytes & packets counters that XDP sees, (driver-)successful tx & redirect
-> counters as well as drop counter. Also, XDP bytes & packets counters should
-> not be counted twice wrt ethtool stats.
-> 
->    [0] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=9e2ee5c7e7c35d195e2aa0692a7241d47a433d1e
+Acked-by: Song Liu <songliubraving@fb.com>
