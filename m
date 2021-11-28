@@ -2,94 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19337C433EF
-	for <linux-doc@archiver.kernel.org>; Sun, 28 Nov 2021 08:01:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B4E8C433F5
+	for <linux-doc@archiver.kernel.org>; Sun, 28 Nov 2021 08:16:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356215AbhK1IEm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 28 Nov 2021 03:04:42 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:40968 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356225AbhK1ICl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Nov 2021 03:02:41 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id F3C7C60F77;
-        Sun, 28 Nov 2021 07:59:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D599C004E1;
-        Sun, 28 Nov 2021 07:59:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1638086365;
-        bh=a6PoP6w0dgSMozFtEq44fxJ8Ll3TFph3OgWy0g2LLbs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=v6qvUQbbjmF5H2dbKK0P9k5OB7LibOO2EI/uXwqyOsfKrWobgZ+UfMRokHR55G7+R
-         5/r6FAbLPdw0BV3bRgc5PSw4E/IMCLBDRB5IDHiHO9uCSqa0yl30Yq1H3OFaZigMiZ
-         pc7ViY8586+Kw2IycziZ3k45aZs2BZQpOwA/K3Vc=
-Date:   Sun, 28 Nov 2021 08:59:19 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Ira Weiny <ira.weiny@intel.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Dan Williams <dan.j.williams@intel.com>,
-        linux-kernel@vger.kernel.org, Dave Jiang <dave.jiang@intel.com>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] Documentation/auxiliary_bus: Clarify auxiliary_device
- creation
-Message-ID: <YaM21w8V46v33VOd@kroah.com>
-References: <87k0hq2oxc.fsf@meer.lwn.net>
- <20211102225310.3677785-1-ira.weiny@intel.com>
- <YaEIdmRV2A1yclub@kroah.com>
- <20211128053224.GU3538886@iweiny-DESK2.sc.intel.com>
+        id S234241AbhK1ITs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 28 Nov 2021 03:19:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40446 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1356945AbhK1IRs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Nov 2021 03:17:48 -0500
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D16D3C0613F7;
+        Sun, 28 Nov 2021 00:14:14 -0800 (PST)
+Received: by mail-wr1-x434.google.com with SMTP id a18so29286497wrn.6;
+        Sun, 28 Nov 2021 00:14:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=JPdu/MwrlQhTPRIOqqddF7qUaoIy6oyGEzbM7B0SRMM=;
+        b=Ek2+YONlt98jRkEQLJuGscjMRdaQP7ve0NhCBsjAtQLiIezLPifq5ALv3JMQftk3lF
+         lJA2qbssuNwgL2Z8LKsVfZQO1uTIyD1LGZeT4PZueCpubW0LLV8W08cWJFJMonCIhsg+
+         SMnmbpXRJmCo8EnPWDnWyNUWjNClnJUXE2fdIPEvF+IG6kwbXxa6LsbSWB459wfvmxbG
+         5wZFcg+WqxTmJrYPNfy//95dL3MtNNfBOZsAv+EMoT4ZO/LfBoVQaGa90p8qf4/DY55P
+         X9KhNQWcEn9RyVg1IkKvSou4CiLN4yGCRMSY0uuv2r+VMTlpSkSNYqkvhbPUmqj44NDl
+         tYyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=JPdu/MwrlQhTPRIOqqddF7qUaoIy6oyGEzbM7B0SRMM=;
+        b=K55mZTrkP9df8ocxeDJbJOq6VfBfyKPiHaGrtTg4pA9Bt3BmQfB5cUaxyBnqi5ZHuC
+         EjCjx4Ct4BgGoZGqCH58X6cH4ZvKjkT6BwPDrOKzdu/Mgn5XrHYd0GURa/xvoX+b9qFR
+         j58EAAuuvAOP0RYE+MJZROFsVmYSwGPQ3olwGAmRvXpIa7FD7T7WXeshsPmrqk4gVdtb
+         JhWV9wpwkRllebHvFIl8wQu27uDj2UnRZFNwyCUQXzqPe/4xeh9pDJEoaKfx7VpLVH5f
+         /PEZdN4yF6MdOfaaIT9SIZo5iOFXgNMNDYQ8kYvvldw6NwZF98xXEsM+XWiidwGjtYQ2
+         fIlw==
+X-Gm-Message-State: AOAM533893gNCw2xYRzEmUdYe3VyRJYpR8+Wg3umm/SEFfZI056Hjela
+        wq8C3LksGINMPx0LiPJDjA4=
+X-Google-Smtp-Source: ABdhPJw93XbQNaNAGK3Owx80LTelI1SHiOIqAPj+GZcDM5hGvKiR0GQVklYL4VCabXQJt3br41nnZA==
+X-Received: by 2002:a5d:61cf:: with SMTP id q15mr25690774wrv.623.1638087253507;
+        Sun, 28 Nov 2021 00:14:13 -0800 (PST)
+Received: from [192.168.123.240] (static.235.156.203.116.clients.your-server.de. [116.203.156.235])
+        by smtp.gmail.com with ESMTPSA id l21sm10446875wrb.38.2021.11.28.00.14.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 28 Nov 2021 00:14:13 -0800 (PST)
+Message-ID: <c7818253-44b0-777b-669a-ec950e1b2570@gmail.com>
+Date:   Sun, 28 Nov 2021 16:13:00 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211128053224.GU3538886@iweiny-DESK2.sc.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:95.0) Gecko/20100101
+ Thunderbird/95.0
+Subject: Re: [PATCH 2/3] mm: page table check
+Content-Language: en-US
+To:     Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Paul Turner <pjt@google.com>, weixugc@google.com,
+        Greg Thelen <gthelen@google.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>, masahiroy@kernel.org,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        frederic@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
+References: <20211123214814.3756047-1-pasha.tatashin@soleen.com>
+ <20211123214814.3756047-3-pasha.tatashin@soleen.com>
+ <6d82e674-76dc-f3b0-2e53-a92eeb249eff@gmail.com>
+ <CA+CK2bAX2XmMrt9RBGiUV7LG_sbpB7ov6bxMVjr5FSBVirE1CA@mail.gmail.com>
+From:   Fusion Future <qydwhotmail@gmail.com>
+In-Reply-To: <CA+CK2bAX2XmMrt9RBGiUV7LG_sbpB7ov6bxMVjr5FSBVirE1CA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Nov 27, 2021 at 09:32:24PM -0800, Ira Weiny wrote:
-> On Fri, Nov 26, 2021 at 05:16:54PM +0100, Greg Kroah-Hartman wrote:
-> > On Tue, Nov 02, 2021 at 03:53:10PM -0700, ira.weiny@intel.com wrote:
-> > > From: Ira Weiny <ira.weiny@intel.com>
-> > > 
-> > > The documentation for creating an auxiliary device is a 3 step not a 2
-> > > step process.  Specifically the requirements of setting the name, id,
-> > > dev.release, and dev.parent fields was not clear as a precursor to the '2
-> > > step' process documented.
-> > > 
-> > > Clarify by declaring this a 3 step process starting with setting the
-> > > fields of struct auxiliary_device correctly.
-> > > 
-> > > Also add some sample code and tie the change into the rest of the
-> > > documentation.
-> > > 
-> > > Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-> > > Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> > > 
-> > > ---
-> > > Changes from V1:
-> > > 	From Jonathan
-> > > 		Fix auxiliary spelling
-> > > ---
-> > >  Documentation/driver-api/auxiliary_bus.rst | 77 +++++++++++++++++-----
-> > >  1 file changed, 59 insertions(+), 18 deletions(-)
-> > 
-> > Can you please resend the whole series, trying to just resend one patch
-> > in the middle is horrible for our tools and to try to figure this out.
-> 
-> Sorry I did not realize this was an issue.  Other maintainers have been ok with
-> this because I think B4 works fine with this?
-> 
-> > 
-> > Would you like to have to unwind this?  Please make it simple for
-> > maintainers to review and if ok, apply your changes.
-> 
-> Regardless, I was planning on resending this as part of the c files as you
-> requested before.  Did you still want me to make that conversion?
+Here is the config:
 
-Yes.
+https://pastebin.com/AsLukrbE
 
-> Or I can resend this and make the c conversion as a follow on patch?
+I can't stably reproduce the bug, but it seems it's likely to happen 
+when a music is playing in the background or there is a file operation.
 
-That is up to you.
-
+I encountered it again on linux-next-20211126 when I was trying to 
+extract a rar file, and the sound is constantly repeating when my system 
+freezes, but nothing useful in journalctl.
