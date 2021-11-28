@@ -2,160 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17639C43217
-	for <linux-doc@archiver.kernel.org>; Sun, 28 Nov 2021 22:26:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3BD8C433EF
+	for <linux-doc@archiver.kernel.org>; Sun, 28 Nov 2021 23:14:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359469AbhK1W3x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 28 Nov 2021 17:29:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54710 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1359430AbhK1W1w (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Nov 2021 17:27:52 -0500
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F4DAC061763;
-        Sun, 28 Nov 2021 14:23:53 -0800 (PST)
-Received: by mail-oi1-x22d.google.com with SMTP id bj13so30910962oib.4;
-        Sun, 28 Nov 2021 14:23:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=M5rtFSgsWKzafi8Cs4A/snez2F9siOW7EyMGKMlf5GI=;
-        b=hq9071HUdLZ2TaOnDWMrUmkEjmGHPPdTYkA47Un8OgZrB6yRF/DDW8F2TRjD1Te19u
-         iwz7IofjNHmeoxPcYl7UCdDln5AfF+oBejaZnHIFQwTg+gm1U9+1Rb0P0GWb/NR69e4e
-         HeUhV/KFKLd9XUXKFJVmgeC4J0r5TQnv1NJ+2Bx+oe5ZCTpFo0EJ7t29VyUgLvsKBoqI
-         /u1OO+yD8J5oRDDhs/6UAFhdL1gR7NeF9utMME7xbGZnk7Dwf0OIocm2klvolQJMDSs2
-         1QegL3fy+FKj/LJwCCf6vQ7+wg9TQOQVwwqfaZxdwTR7sSWQu8DzfoZ1VoZlEQJGdoFg
-         yLaQ==
+        id S1359425AbhK1XRU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 28 Nov 2021 18:17:20 -0500
+Received: from mail-ot1-f54.google.com ([209.85.210.54]:45008 "EHLO
+        mail-ot1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235189AbhK1XPT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Nov 2021 18:15:19 -0500
+Received: by mail-ot1-f54.google.com with SMTP id u18-20020a9d7212000000b00560cb1dc10bso22910749otj.11;
+        Sun, 28 Nov 2021 15:12:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=M5rtFSgsWKzafi8Cs4A/snez2F9siOW7EyMGKMlf5GI=;
-        b=BHMNg+OBT2fBeuD/ovlMpqWsxOQNR4hFGdeZh9pM7EFgXY69dipXA016diHw1dG2x5
-         lOyhSiJaDqPI6/DOrzN06rad97jRizdNRGK7ndG4wZ/3JDcLRHADL72LtdYVV8sJYSBf
-         Wa4865mBuqDV9KqEsCVOuLZI891ulPOzJRyzUwlGyWORtLFuQtfi8oMd93cDQn+ouIan
-         pcivrbf2Q/uJojQH1MLX6oWCBqMVrq0OC73RepFWX9+WRHfToKP6OCKINPqFsUGu66Vq
-         nizVSYldwQFNQMVQhqPfnxQJZIEuRs6caihngz+HKf+BUqGOpM3pREZqsEhJ4+Teu0BR
-         +XVQ==
-X-Gm-Message-State: AOAM531EBglsM8L1fEWMGLYYoVAFUPL9817Q3pfJePARhrsKMtQUIeQG
-        JYtmvWQp+7AaUN1MVbPs6PE=
-X-Google-Smtp-Source: ABdhPJzDpxaefKBU6oCHFFQgwoEO9P28FUz/LwlZRp8iIlHj4Qp+gFDBjfKDrMFg6OvgX+VjCyPvHw==
-X-Received: by 2002:a54:4614:: with SMTP id p20mr38321110oip.39.1638138232614;
-        Sun, 28 Nov 2021 14:23:52 -0800 (PST)
-Received: from [172.16.0.2] ([8.48.134.30])
-        by smtp.googlemail.com with ESMTPSA id l9sm2021123oom.4.2021.11.28.14.23.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 28 Nov 2021 14:23:52 -0800 (PST)
-Message-ID: <2b9c3c1f-159f-f7c0-d4cb-1159e17e0dd4@gmail.com>
-Date:   Sun, 28 Nov 2021 15:23:41 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.3.1
-Subject: Re: [PATCH v2 net-next 00/26] net: introduce and use generic XDP
- stats
-Content-Language: en-US
-To:     Alexander Lobakin <alexandr.lobakin@intel.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=JLhPhE/vqeyhzLIFVNAra68Ko84ibz16Pik9DMMX/dw=;
+        b=bdWWSWIJsDZLuaU2J1kSGM/iD7Ik6e81jU38OOHq1GIr+OZEV6qBqhJLURFlpuUHED
+         jDP/+1CqlLzhvFQEjcLrCbosD5/5TnHIwPTfZUbL0G99IheTZOCEyxhtnKjqYkuZehmg
+         YwXSuyM4/JhTN7UYjlz+tFqTtzX9eCIvz94sGsDb3fgjrtobnIjo/KupfQaK+DRaM/mB
+         BvWiGY30W36Dysty8T3OeBteyn/H8V2QqS4CSae+GhURRPWthDWpS1VPeJbAAbJzizgr
+         AoE/wHsmg56TCJSWLP08on7GWcfSf3Ni8DkfRlTNJNpCdOmG3QHUp4y1hxNl/NsUAVz6
+         MfDA==
+X-Gm-Message-State: AOAM5332NYKK9mVhgSKK/5O8zwzzhMnVKpH2UyEWE8UY7H7Ha2o9pZzg
+        sa/pfkPpnMsveunCXLvjUQ==
+X-Google-Smtp-Source: ABdhPJxnoaCUiUDnWSQD8mFyahvMWj6jz9E+kBryiWl4VWlE+blEDR0rRJf4SpaDjOSW8IgqQXVboA==
+X-Received: by 2002:a9d:6b87:: with SMTP id b7mr42246123otq.204.1638141122497;
+        Sun, 28 Nov 2021 15:12:02 -0800 (PST)
+Received: from robh.at.kernel.org ([2607:fb90:5fe7:4487:4f99:dbc0:75d1:3e27])
+        by smtp.gmail.com with ESMTPSA id t18sm2346542ott.2.2021.11.28.15.11.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Nov 2021 15:12:01 -0800 (PST)
+Received: (nullmailer pid 2790419 invoked by uid 1000);
+        Sun, 28 Nov 2021 23:11:57 -0000
+Date:   Sun, 28 Nov 2021 17:11:57 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Ansuel Smith <ansuelsmth@gmail.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
         "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-Cc:     Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
-        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shay Agroskin <shayagr@amazon.com>,
-        Arthur Kiyanovski <akiyano@amazon.com>,
-        David Arinzon <darinzon@amazon.com>,
-        Noam Dagan <ndagan@amazon.com>,
-        Saeed Bishara <saeedb@amazon.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Marcin Wojtas <mw@semihalf.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Saeed Mahameed <saeedm@nvidia.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        =?UTF-8?Q?Toke_H=c3=b8iland-J=c3=b8rgensen?= <toke@redhat.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Edward Cree <ecree.xilinx@gmail.com>,
-        Martin Habets <habetsm.xilinx@gmail.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Yajun Deng <yajun.deng@linux.dev>,
-        Sergey Ryazanov <ryazanov.s.a@gmail.com>,
-        David Ahern <dsahern@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        Cong Wang <cong.wang@bytedance.com>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
-        virtualization@lists.linux-foundation.org
-References: <20211123163955.154512-1-alexandr.lobakin@intel.com>
-From:   David Ahern <dsahern@gmail.com>
-In-Reply-To: <20211123163955.154512-1-alexandr.lobakin@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        Jakub Kicinski <kuba@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@ucw.cz>,
+        John Crispin <john@phrozen.org>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-leds@vger.kernel.org,
+        Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
+Subject: Re: [PATCH v5 8/8] dt-bindings: net: dsa: qca8k: add LEDs definition
+ example
+Message-ID: <YaQMvSEEFu2AW1Pk@robh.at.kernel.org>
+References: <20211112153557.26941-1-ansuelsmth@gmail.com>
+ <20211112153557.26941-9-ansuelsmth@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211112153557.26941-9-ansuelsmth@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/23/21 9:39 AM, Alexander Lobakin wrote:
-> This is an almost complete rework of [0].
+On Fri, Nov 12, 2021 at 04:35:57PM +0100, Ansuel Smith wrote:
+> Add LEDs definition example for qca8k using the offload trigger as the
+> default trigger and add all the supported offload triggers by the
+> switch.
 > 
-> This series introduces generic XDP statistics infra based on rtnl
-> xstats (Ethtool standard stats previously), and wires up the drivers
-> which collect appropriate statistics to this new interface. Finally,
-> it introduces XDP/XSK statistics to all XDP-capable Intel drivers.
+> Signed-off-by: Ansuel Smith <ansuelsmth@gmail.com>
+> ---
+>  .../devicetree/bindings/net/dsa/qca8k.yaml    | 20 +++++++++++++++++++
+>  1 file changed, 20 insertions(+)
 > 
-> Those counters are:
-> * packets: number of frames passed to bpf_prog_run_xdp().
-> * bytes: number of bytes went through bpf_prog_run_xdp().
-> * errors: number of general XDP errors, if driver has one unified
->   counter.
-> * aborted: number of XDP_ABORTED returns.
-> * drop: number of XDP_DROP returns.
-> * invalid: number of returns of unallowed values (i.e. not XDP_*).
-> * pass: number of XDP_PASS returns.
-> * redirect: number of successfully performed XDP_REDIRECT requests.
-> * redirect_errors: number of failed XDP_REDIRECT requests.
-> * tx: number of successfully performed XDP_TX requests.
-> * tx_errors: number of failed XDP_TX requests.
-> * xmit_packets: number of successfully transmitted XDP/XSK frames.
-> * xmit_bytes: number of successfully transmitted XDP/XSK frames.
-> * xmit_errors: of XDP/XSK frames failed to transmit.
-> * xmit_full: number of XDP/XSK queue being full at the moment of
->   transmission.
+> diff --git a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
+> index 48de0ace265d..106d95adc1e8 100644
+> --- a/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
+> +++ b/Documentation/devicetree/bindings/net/dsa/qca8k.yaml
+> @@ -64,6 +64,8 @@ properties:
+>                   internal mdio access is used.
+>                   With the legacy mapping the reg corresponding to the internal
+>                   mdio is the switch reg with an offset of -1.
+> +                 Each phy have at least 3 LEDs connected and can be declared
+> +                 using the standard LEDs structure.
+
+at most 3? As the example only has 2...
+
+>  
+>      properties:
+>        '#address-cells':
+> @@ -340,6 +342,24 @@ examples:
+>  
+>                  internal_phy_port1: ethernet-phy@0 {
+>                      reg = <0>;
+> +
+> +                    leds {
+> +                        led@0 {
+> +                            reg = <0>;
+> +                            color = <LED_COLOR_ID_WHITE>;
+> +                            function = LED_FUNCTION_LAN;
+> +                            function-enumerator = <1>;
+> +                            linux,default-trigger = "offload-phy-activity";
+
+function is intended to replace 'linux,default-trigger'.
+
+> +                        };
+> +
+> +                        led@1 {
+> +                            reg = <1>;
+> +                            color = <LED_COLOR_ID_AMBER>;
+> +                            function = LED_FUNCTION_LAN;
+> +                            function-enumerator = <1>;
+
+Should be a different value than led@0?
+
+> +                            linux,default-trigger = "offload-phy-activity";
+> +                        };
+> +                    };
+>                  };
+>  
+>                  internal_phy_port2: ethernet-phy@1 {
+> -- 
+> 2.32.0
 > 
-> To provide them, developers need to implement .ndo_get_xdp_stats()
-> and, if they want to expose stats on a per-channel basis,
-> .ndo_get_xdp_stats_nch(). include/net/xdp.h contains some helper
-
-Why the tie to a channel? There are Rx queues and Tx queues and no
-requirement to link them into a channel. It would be better (more
-flexible) to allow them to be independent. Rather than ask the driver
-"how many channels", ask 'how many Rx queues' and 'how many Tx queues'
-for which xdp stats are reported.
-
-From there, allow queue numbers or queue id's to be non-consecutive and
-add a queue id or number as an attribute. e.g.,
-
-[XDP stats]
-	[ Rx queue N]
-		counters
-
-
-	[ Tx queue N]
-		counters
-
-This would allow a follow on patch set to do something like "Give me XDP
-stats for Rx queue N" instead of doing a full dump.
+> 
