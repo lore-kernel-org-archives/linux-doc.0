@@ -2,61 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C45BC433F5
-	for <linux-doc@archiver.kernel.org>; Sun, 28 Nov 2021 04:21:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 777BCC433F5
+	for <linux-doc@archiver.kernel.org>; Sun, 28 Nov 2021 05:34:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350079AbhK1EY1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 27 Nov 2021 23:24:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45796 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243700AbhK1EW0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 Nov 2021 23:22:26 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B08EC061757;
-        Sat, 27 Nov 2021 20:10:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=Ck+FaDnoeTtSYbJ567N4WEPz2AxsL6omNDpZ2NQqJFA=; b=afW5+8q9nlh1wdvcDjeYmoeAH1
-        fX4yvxNZFTCi02bJSjeI8oiW0vCFli14y/9NIQ+2/RhTLh0CH2X1bExtej3GWFeZJpcmwIB5xfNBs
-        IsZ40VmPSkz6EOQPodaMoj2zn7U1trQ9CtkM3NQ6GRUAtr2RXNAOdnoBy9B4Hp8QbAneLilW1Thfj
-        hPQShpvUYTvi0X5mIgooVxCccU5ujOUtAFtZ0Dv8NQYuCWY/2+W3vXVeWT4HPhvw6kcpgRHthenTl
-        GcuOi7GFHR0w9XuUISgaP5Rq0QXLCdYKFUZjEaipkMFQT4zAgUqsMvZjj3jZQjVFSJC0gm3fJIEzQ
-        gejxXqlQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mrBVp-000afT-2n; Sun, 28 Nov 2021 04:10:01 +0000
-Date:   Sun, 28 Nov 2021 04:10:01 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Mina Almasry <almasrymina@google.com>
+        id S230333AbhK1Fhl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 28 Nov 2021 00:37:41 -0500
+Received: from mga07.intel.com ([134.134.136.100]:36791 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229682AbhK1Ffk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 28 Nov 2021 00:35:40 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10181"; a="299208807"
+X-IronPort-AV: E=Sophos;i="5.87,270,1631602800"; 
+   d="scan'208";a="299208807"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2021 21:32:25 -0800
+X-IronPort-AV: E=Sophos;i="5.87,270,1631602800"; 
+   d="scan'208";a="458707260"
+Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2021 21:32:25 -0800
+Date:   Sat, 27 Nov 2021 21:32:24 -0800
+From:   Ira Weiny <ira.weiny@intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
-        David Hildenbrand <david@redhat.com>,
-        "Paul E . McKenney" <paulmckrcu@fb.com>,
-        Yu Zhao <yuzhao@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Peter Xu <peterx@redhat.com>,
-        Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
-        Florian Schmidt <florian.schmidt@nutanix.com>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7] mm: Add PM_THP_MAPPED to /proc/pid/pagemap
-Message-ID: <YaMBGQGNLqPd6D6f@casper.infradead.org>
-References: <20211123000102.4052105-1-almasrymina@google.com>
+        Dan Williams <dan.j.williams@intel.com>,
+        linux-kernel@vger.kernel.org, Dave Jiang <dave.jiang@intel.com>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation/auxiliary_bus: Clarify auxiliary_device
+ creation
+Message-ID: <20211128053224.GU3538886@iweiny-DESK2.sc.intel.com>
+References: <87k0hq2oxc.fsf@meer.lwn.net>
+ <20211102225310.3677785-1-ira.weiny@intel.com>
+ <YaEIdmRV2A1yclub@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211123000102.4052105-1-almasrymina@google.com>
+In-Reply-To: <YaEIdmRV2A1yclub@kroah.com>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 22, 2021 at 04:01:02PM -0800, Mina Almasry wrote:
-> Add PM_THP_MAPPED MAPPING to allow userspace to detect whether a given virt
-> address is currently mapped by a transparent huge page or not.  Example
-> use case is a process requesting THPs from the kernel (via a huge tmpfs
-> mount for example), for a performance critical region of memory.  The
-> userspace may want to query whether the kernel is actually backing this
-> memory by hugepages or not.
+On Fri, Nov 26, 2021 at 05:16:54PM +0100, Greg Kroah-Hartman wrote:
+> On Tue, Nov 02, 2021 at 03:53:10PM -0700, ira.weiny@intel.com wrote:
+> > From: Ira Weiny <ira.weiny@intel.com>
+> > 
+> > The documentation for creating an auxiliary device is a 3 step not a 2
+> > step process.  Specifically the requirements of setting the name, id,
+> > dev.release, and dev.parent fields was not clear as a precursor to the '2
+> > step' process documented.
+> > 
+> > Clarify by declaring this a 3 step process starting with setting the
+> > fields of struct auxiliary_device correctly.
+> > 
+> > Also add some sample code and tie the change into the rest of the
+> > documentation.
+> > 
+> > Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+> > Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+> > 
+> > ---
+> > Changes from V1:
+> > 	From Jonathan
+> > 		Fix auxiliary spelling
+> > ---
+> >  Documentation/driver-api/auxiliary_bus.rst | 77 +++++++++++++++++-----
+> >  1 file changed, 59 insertions(+), 18 deletions(-)
+> 
+> Can you please resend the whole series, trying to just resend one patch
+> in the middle is horrible for our tools and to try to figure this out.
 
-But what is userspace going to _do_ differently if the kernel hasn't
-backed the memory with huge pages?
+Sorry I did not realize this was an issue.  Other maintainers have been ok with
+this because I think B4 works fine with this?
+
+> 
+> Would you like to have to unwind this?  Please make it simple for
+> maintainers to review and if ok, apply your changes.
+
+Regardless, I was planning on resending this as part of the c files as you
+requested before.  Did you still want me to make that conversion?
+
+Or I can resend this and make the c conversion as a follow on patch?
+
+Ira
+
+> 
+> thanks,
+> 
+> greg k-h
