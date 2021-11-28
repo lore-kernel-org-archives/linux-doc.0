@@ -2,58 +2,64 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0C4DC433EF
-	for <linux-doc@archiver.kernel.org>; Sun, 28 Nov 2021 17:57:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17639C43217
+	for <linux-doc@archiver.kernel.org>; Sun, 28 Nov 2021 22:26:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359090AbhK1SAQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 28 Nov 2021 13:00:16 -0500
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:42821 "EHLO
-        new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S239305AbhK1R6P (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Nov 2021 12:58:15 -0500
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 5B9425802EE;
-        Sun, 28 Nov 2021 12:54:58 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Sun, 28 Nov 2021 12:54:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm1; bh=UUHBKcGQTfc55BryKks38P9q1VVkigTZnH+REkQ6S
-        Co=; b=iYiN+YmWJhZj5r+gfNGtNnX5WxIBt9yrnzuHllXQ5/GUOrZwgE+2B6kqq
-        v1LacLeZi5zTVMsNqmYhaoCVMmR7ErWb/6IMezfXpj4u51pcnQtnt5/PL1NDm5AK
-        d9CZlDHePScIbPZ7dXxmGzpUDRkVmvPH5Em/yqEQ5o71cDbP6BJlajUs4CRXojAc
-        LzDVEKJNK78Vz3a45eafY2sJ76R61tmWYjTYc4AtkcIHMr9qmajW5sqDYL0fpYei
-        h6Pe7CTiBbD0MbI7zqJGjx+gCDQ2nW3O0Uo+4yN6QuRPMxk6JKI8Svoa6WW0kNuo
-        tVzHESLM+PoWuo8LTnmU9cpdyMP3A==
-X-ME-Sender: <xms:cMKjYWPd5DduNFfJjqZGpi_Wq71dAWE-J_wxpNXVNN7XTVtZ_QJQOw>
-    <xme:cMKjYU9Rk6Tqx55hmFgiPLQKDLq2WNdabM2IbEvkxdvab2oCAl8BYbJpTf3_rCUOp
-    53xpJsCz_pSqq8>
-X-ME-Received: <xmr:cMKjYdTw-ttGcSarl-eU2ZcZwmqsKK1hsatFaqZGuF6YohTU7eyzmsq4leif>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrheeigddutdekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtugfgjgesthekrodttddtudenucfhrhhomhepkfguohcu
-    ufgthhhimhhmvghluceoihguohhstghhsehiughoshgthhdrohhrgheqnecuggftrfgrth
-    htvghrnhepieevhfevtdejhfethedvkefgudetudegudethfdtfeefleektdekkeefjeel
-    tedtnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpghhithhhuhgsrdgtohhmnecuve
-    hluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihguohhstghh
-    sehiughoshgthhdrohhrgh
-X-ME-Proxy: <xmx:cMKjYWtuij49OVBZsOZ08kX7vOuYx2zKXpEQngCdpqkooYt8LbI4gQ>
-    <xmx:cMKjYefpDNGR53rK7VKwO17_5hlV0ErgOrbjeks77FFLX_bPwm1JjA>
-    <xmx:cMKjYa29fxDeX6UVEYihZVEcU-Ns9Ce4QLuSS0jmtGkEHd2vzlMc1w>
-    <xmx:csKjYbWeDFzgpl2GEEg_ew_X8_3slLF376ZQh0yCCLJ9kVNpVD_Ylw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 28 Nov 2021 12:54:55 -0500 (EST)
-Date:   Sun, 28 Nov 2021 19:54:53 +0200
-From:   Ido Schimmel <idosch@idosch.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@redhat.com>,
-        Alexander Lobakin <alexandr.lobakin@intel.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
+        id S1359469AbhK1W3x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 28 Nov 2021 17:29:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54710 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1359430AbhK1W1w (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Nov 2021 17:27:52 -0500
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F4DAC061763;
+        Sun, 28 Nov 2021 14:23:53 -0800 (PST)
+Received: by mail-oi1-x22d.google.com with SMTP id bj13so30910962oib.4;
+        Sun, 28 Nov 2021 14:23:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=M5rtFSgsWKzafi8Cs4A/snez2F9siOW7EyMGKMlf5GI=;
+        b=hq9071HUdLZ2TaOnDWMrUmkEjmGHPPdTYkA47Un8OgZrB6yRF/DDW8F2TRjD1Te19u
+         iwz7IofjNHmeoxPcYl7UCdDln5AfF+oBejaZnHIFQwTg+gm1U9+1Rb0P0GWb/NR69e4e
+         HeUhV/KFKLd9XUXKFJVmgeC4J0r5TQnv1NJ+2Bx+oe5ZCTpFo0EJ7t29VyUgLvsKBoqI
+         /u1OO+yD8J5oRDDhs/6UAFhdL1gR7NeF9utMME7xbGZnk7Dwf0OIocm2klvolQJMDSs2
+         1QegL3fy+FKj/LJwCCf6vQ7+wg9TQOQVwwqfaZxdwTR7sSWQu8DzfoZ1VoZlEQJGdoFg
+         yLaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=M5rtFSgsWKzafi8Cs4A/snez2F9siOW7EyMGKMlf5GI=;
+        b=BHMNg+OBT2fBeuD/ovlMpqWsxOQNR4hFGdeZh9pM7EFgXY69dipXA016diHw1dG2x5
+         lOyhSiJaDqPI6/DOrzN06rad97jRizdNRGK7ndG4wZ/3JDcLRHADL72LtdYVV8sJYSBf
+         Wa4865mBuqDV9KqEsCVOuLZI891ulPOzJRyzUwlGyWORtLFuQtfi8oMd93cDQn+ouIan
+         pcivrbf2Q/uJojQH1MLX6oWCBqMVrq0OC73RepFWX9+WRHfToKP6OCKINPqFsUGu66Vq
+         nizVSYldwQFNQMVQhqPfnxQJZIEuRs6caihngz+HKf+BUqGOpM3pREZqsEhJ4+Teu0BR
+         +XVQ==
+X-Gm-Message-State: AOAM531EBglsM8L1fEWMGLYYoVAFUPL9817Q3pfJePARhrsKMtQUIeQG
+        JYtmvWQp+7AaUN1MVbPs6PE=
+X-Google-Smtp-Source: ABdhPJzDpxaefKBU6oCHFFQgwoEO9P28FUz/LwlZRp8iIlHj4Qp+gFDBjfKDrMFg6OvgX+VjCyPvHw==
+X-Received: by 2002:a54:4614:: with SMTP id p20mr38321110oip.39.1638138232614;
+        Sun, 28 Nov 2021 14:23:52 -0800 (PST)
+Received: from [172.16.0.2] ([8.48.134.30])
+        by smtp.googlemail.com with ESMTPSA id l9sm2021123oom.4.2021.11.28.14.23.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 28 Nov 2021 14:23:52 -0800 (PST)
+Message-ID: <2b9c3c1f-159f-f7c0-d4cb-1159e17e0dd4@gmail.com>
+Date:   Sun, 28 Nov 2021 15:23:41 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.3.1
+Subject: Re: [PATCH v2 net-next 00/26] net: introduce and use generic XDP
+ stats
+Content-Language: en-US
+To:     Alexander Lobakin <alexandr.lobakin@intel.com>,
         "David S. Miller" <davem@davemloft.net>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Jakub Kicinski <kuba@kernel.org>
+Cc:     Jesse Brandeburg <jesse.brandeburg@intel.com>,
         Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
         Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -71,7 +77,9 @@ Cc:     Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@redhat.com>,
         Saeed Mahameed <saeedm@nvidia.com>,
         Leon Romanovsky <leon@kernel.org>,
         Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
         Jesper Dangaard Brouer <hawk@kernel.org>,
+        =?UTF-8?Q?Toke_H=c3=b8iland-J=c3=b8rgensen?= <toke@redhat.com>,
         John Fastabend <john.fastabend@gmail.com>,
         Edward Cree <ecree.xilinx@gmail.com>,
         Martin Habets <habetsm.xilinx@gmail.com>,
@@ -91,105 +99,63 @@ Cc:     Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@redhat.com>,
         Cong Wang <cong.wang@bytedance.com>, netdev@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, petrm@nvidia.com,
-        nikolay@nvidia.com
-Subject: Re: [PATCH v2 net-next 21/26] ice: add XDP and XSK generic
- per-channel statistics
-Message-ID: <YaPCbaMVaVlxXcHC@shredder>
-References: <20211123163955.154512-22-alexandr.lobakin@intel.com>
- <77407c26-4e32-232c-58e0-2d601d781f84@iogearbox.net>
- <87bl28bga6.fsf@toke.dk>
- <20211125170708.127323-1-alexandr.lobakin@intel.com>
- <20211125094440.6c402d63@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <20211125204007.133064-1-alexandr.lobakin@intel.com>
- <87sfvj9k13.fsf@toke.dk>
- <20211126100611.514df099@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <87ee72ah56.fsf@toke.dk>
- <20211126111431.4a2ed007@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211126111431.4a2ed007@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+        virtualization@lists.linux-foundation.org
+References: <20211123163955.154512-1-alexandr.lobakin@intel.com>
+From:   David Ahern <dsahern@gmail.com>
+In-Reply-To: <20211123163955.154512-1-alexandr.lobakin@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-+Petr, Nik
-
-On Fri, Nov 26, 2021 at 11:14:31AM -0800, Jakub Kicinski wrote:
-> On Fri, 26 Nov 2021 19:47:17 +0100 Toke Høiland-Jørgensen wrote:
-> > > Fair. In all honesty I said that hoping to push for a more flexible
-> > > approach hidden entirely in BPF, and not involving driver changes.
-> > > Assuming the XDP program has more fine grained stats we should be able
-> > > to extract those instead of double-counting. Hence my vague "let's work
-> > > with apps" comment.
-> > >
-> > > For example to a person familiar with the workload it'd be useful to
-> > > know if program returned XDP_DROP because of configured policy or
-> > > failure to parse a packet. I don't think that sort distinction is
-> > > achievable at the level of standard stats.
-> > >
-> > > The information required by the admin is higher level. As you say the
-> > > primary concern there is "how many packets did XDP eat".  
-> > 
-> > Right, sure, I am also totally fine with having only a somewhat
-> > restricted subset of stats available at the interface level and make
-> > everything else be BPF-based. I'm hoping we can converge of a common
-> > understanding of what this "minimal set" should be :)
-> > 
-> > > Speaking of which, one thing that badly needs clarification is our
-> > > expectation around XDP packets getting counted towards the interface
-> > > stats.  
-> > 
-> > Agreed. My immediate thought is that "XDP packets are interface packets"
-> > but that is certainly not what we do today, so not sure if changing it
-> > at this point would break things?
+On 11/23/21 9:39 AM, Alexander Lobakin wrote:
+> This is an almost complete rework of [0].
 > 
-> I'd vote for taking the risk and trying to align all the drivers.
+> This series introduces generic XDP statistics infra based on rtnl
+> xstats (Ethtool standard stats previously), and wires up the drivers
+> which collect appropriate statistics to this new interface. Finally,
+> it introduces XDP/XSK statistics to all XDP-capable Intel drivers.
+> 
+> Those counters are:
+> * packets: number of frames passed to bpf_prog_run_xdp().
+> * bytes: number of bytes went through bpf_prog_run_xdp().
+> * errors: number of general XDP errors, if driver has one unified
+>   counter.
+> * aborted: number of XDP_ABORTED returns.
+> * drop: number of XDP_DROP returns.
+> * invalid: number of returns of unallowed values (i.e. not XDP_*).
+> * pass: number of XDP_PASS returns.
+> * redirect: number of successfully performed XDP_REDIRECT requests.
+> * redirect_errors: number of failed XDP_REDIRECT requests.
+> * tx: number of successfully performed XDP_TX requests.
+> * tx_errors: number of failed XDP_TX requests.
+> * xmit_packets: number of successfully transmitted XDP/XSK frames.
+> * xmit_bytes: number of successfully transmitted XDP/XSK frames.
+> * xmit_errors: of XDP/XSK frames failed to transmit.
+> * xmit_full: number of XDP/XSK queue being full at the moment of
+>   transmission.
+> 
+> To provide them, developers need to implement .ndo_get_xdp_stats()
+> and, if they want to expose stats on a per-channel basis,
+> .ndo_get_xdp_stats_nch(). include/net/xdp.h contains some helper
 
-I agree. I think IFLA_STATS64 in RTM_NEWLINK should contain statistics
-of all the packets seen by the netdev. The breakdown into software /
-hardware / XDP should be reported via RTM_NEWSTATS.
+Why the tie to a channel? There are Rx queues and Tx queues and no
+requirement to link them into a channel. It would be better (more
+flexible) to allow them to be independent. Rather than ask the driver
+"how many channels", ask 'how many Rx queues' and 'how many Tx queues'
+for which xdp stats are reported.
 
-Currently, for soft devices such as VLANs, bridges and GRE, user space
-only sees statistics of packets forwarded by software, which is quite
-useless when forwarding is offloaded from the kernel to hardware.
+From there, allow queue numbers or queue id's to be non-consecutive and
+add a queue id or number as an attribute. e.g.,
 
-Petr is working on exposing hardware statistics for such devices via
-rtnetlink. Unlike XDP (?), we need to be able to let user space enable /
-disable hardware statistics as we have a limited number of hardware
-counters and they can also reduce the bandwidth when enabled. We are
-thinking of adding a new RTM_SETSTATS for that:
+[XDP stats]
+	[ Rx queue N]
+		counters
 
-# ip stats set dev swp1 hw_stats on
 
-For query, something like (under discussion):
+	[ Tx queue N]
+		counters
 
-# ip stats show dev swp1 // all groups
-# ip stats show dev swp1 group link
-# ip stats show dev swp1 group offload // all sub-groups
-# ip stats show dev swp1 group offload sub-group cpu
-# ip stats show dev swp1 group offload sub-group hw
-
-Like other iproute2 commands, these follow the nesting of the
-RTM_{NEW,GET}STATS uAPI.
-
-Looking at patch #1 [1], I think that whatever you decide to expose for
-XDP can be queried via:
-
-# ip stats show dev swp1 group xdp
-# ip stats show dev swp1 group xdp sub-group regular
-# ip stats show dev swp1 group xdp sub-group xsk
-
-Regardless, the following command should show statistics of all the
-packets seen by the netdev:
-
-# ip -s link show dev swp1
-
-There is a PR [2] for node_exporter to use rtnetlink to fetch netdev
-statistics instead of the old proc interface. It should be possible to
-extend it to use RTM_*STATS for more fine-grained statistics.
-
-[1] https://lore.kernel.org/netdev/20211123163955.154512-2-alexandr.lobakin@intel.com/
-[2] https://github.com/prometheus/node_exporter/pull/2074
+This would allow a follow on patch set to do something like "Give me XDP
+stats for Rx queue N" instead of doing a full dump.
