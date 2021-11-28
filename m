@@ -2,94 +2,61 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC2D7C433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 27 Nov 2021 19:53:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C45BC433F5
+	for <linux-doc@archiver.kernel.org>; Sun, 28 Nov 2021 04:21:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230416AbhK0T4e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 27 Nov 2021 14:56:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50368 "EHLO
+        id S1350079AbhK1EY1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 27 Nov 2021 23:24:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244117AbhK0Tye (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 Nov 2021 14:54:34 -0500
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70014C0613DD
-        for <linux-doc@vger.kernel.org>; Sat, 27 Nov 2021 11:48:37 -0800 (PST)
-Received: by mail-ed1-x52b.google.com with SMTP id y13so53372562edd.13
-        for <linux-doc@vger.kernel.org>; Sat, 27 Nov 2021 11:48:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=k+WD13DnrXMzqv5sT4ElYQPrredLdicNs7FcvpypMvw=;
-        b=ggD12LSgQGpOuKA978T0sePFYeQGzUd++Kya77nHEr8H2Y5U3s7Zev6jYWlM8g15zO
-         5Nx2G7t6c+rf7GGAFSCpQZHxkt5OsQEtBXocSqZLsTflKlP069Y6vTvdom+R8sqCaKUw
-         raWaWu426UTiqy4O9nfelPn8PFHOxakZIgTU2W7kcNGQpO0/++2YRvyDr2I3SrXmDQDu
-         1WXMLGMEZkRCaF0fcMj7B97yK/UvWka83ZyeYu2k+zh5GsHFtnmwVVhil+n7bNYTEFKF
-         X7uNLZtrn4UGiqMgjSrR41qUhKmTbXBfSPwcJban6ogspnPTMJr2I3EqiFsJEdHq0nAW
-         GO1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=k+WD13DnrXMzqv5sT4ElYQPrredLdicNs7FcvpypMvw=;
-        b=T3mUQcBpYwjd7TXngX6pWXBKuszdLrpgkZgurWrgf0JPE4sKpJQR34drcdQeKlI5an
-         1LgUu4CaQ0DELJe3uwpt1b0oDc+ees0N3L2n4V/nLlI27FuIlH5OBoCeZqgWSNgjjW41
-         GFbeCVFUgp60vKZt+5zwOr49pZCXsD3WW/UF7LjuDQDGWOD4hlUnn9AEtI58L9pry6wI
-         Wy2Ftc1Er9AbyDbsNKGZRlWuoU4POPRV4kLRxzWDzpLSYFjFXLkbsGbKaOgrXz0WRzdQ
-         vsO7FE0nqEh7zFJ0yQtJnoxBjL+xmDgDdt19u1WjwomEeMM04nlqy5rxd84FrIh2+nZR
-         gq2A==
-X-Gm-Message-State: AOAM531ZqMvMelR7xVcMdwITKVkP9bpEpyfis/TgJt4jlcJuMOpt3inM
-        eberkfeL/ivK8YTOA9V+M6pYMUC++hc47/upw4q84A==
-X-Google-Smtp-Source: ABdhPJw0is2PzWlMWDR3TZyj9QAnUHxP4u+3yMhqpCEGNgRGps4GUpD1lk/8f8bPRqTYXYiiKhXliWlL2FAx25XiMY4=
-X-Received: by 2002:a17:906:58ce:: with SMTP id e14mr46457043ejs.525.1638042515857;
- Sat, 27 Nov 2021 11:48:35 -0800 (PST)
-MIME-Version: 1.0
-References: <20211123214814.3756047-1-pasha.tatashin@soleen.com>
- <20211123214814.3756047-3-pasha.tatashin@soleen.com> <6d82e674-76dc-f3b0-2e53-a92eeb249eff@gmail.com>
-In-Reply-To: <6d82e674-76dc-f3b0-2e53-a92eeb249eff@gmail.com>
-From:   Pasha Tatashin <pasha.tatashin@soleen.com>
-Date:   Sat, 27 Nov 2021 14:48:00 -0500
-Message-ID: <CA+CK2bAX2XmMrt9RBGiUV7LG_sbpB7ov6bxMVjr5FSBVirE1CA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] mm: page table check
-To:     Fusion Future <qydwhotmail@gmail.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        with ESMTP id S243700AbhK1EW0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 Nov 2021 23:22:26 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B08EC061757;
+        Sat, 27 Nov 2021 20:10:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=Ck+FaDnoeTtSYbJ567N4WEPz2AxsL6omNDpZ2NQqJFA=; b=afW5+8q9nlh1wdvcDjeYmoeAH1
+        fX4yvxNZFTCi02bJSjeI8oiW0vCFli14y/9NIQ+2/RhTLh0CH2X1bExtej3GWFeZJpcmwIB5xfNBs
+        IsZ40VmPSkz6EOQPodaMoj2zn7U1trQ9CtkM3NQ6GRUAtr2RXNAOdnoBy9B4Hp8QbAneLilW1Thfj
+        hPQShpvUYTvi0X5mIgooVxCccU5ujOUtAFtZ0Dv8NQYuCWY/2+W3vXVeWT4HPhvw6kcpgRHthenTl
+        GcuOi7GFHR0w9XuUISgaP5Rq0QXLCdYKFUZjEaipkMFQT4zAgUqsMvZjj3jZQjVFSJC0gm3fJIEzQ
+        gejxXqlQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mrBVp-000afT-2n; Sun, 28 Nov 2021 04:10:01 +0000
+Date:   Sun, 28 Nov 2021 04:10:01 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Mina Almasry <almasrymina@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        David Hildenbrand <david@redhat.com>,
+        "Paul E . McKenney" <paulmckrcu@fb.com>,
+        Yu Zhao <yuzhao@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        David Rientjes <rientjes@google.com>,
-        Paul Turner <pjt@google.com>, weixugc@google.com,
-        Greg Thelen <gthelen@google.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>, masahiroy@kernel.org,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        frederic@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
+        Peter Xu <peterx@redhat.com>,
+        Ivan Teterevkov <ivan.teterevkov@nutanix.com>,
+        Florian Schmidt <florian.schmidt@nutanix.com>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v7] mm: Add PM_THP_MAPPED to /proc/pid/pagemap
+Message-ID: <YaMBGQGNLqPd6D6f@casper.infradead.org>
+References: <20211123000102.4052105-1-almasrymina@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211123000102.4052105-1-almasrymina@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Nov 27, 2021 at 3:41 AM Fusion Future <qydwhotmail@gmail.com> wrote:
->
-> It seems after updating to linux-next-20211125, my system is crashing
-> frequently due to "kernel BUG at mm/page_table_check.c:101".
+On Mon, Nov 22, 2021 at 04:01:02PM -0800, Mina Almasry wrote:
+> Add PM_THP_MAPPED MAPPING to allow userspace to detect whether a given virt
+> address is currently mapped by a transparent huge page or not.  Example
+> use case is a process requesting THPs from the kernel (via a huge tmpfs
+> mount for example), for a performance critical region of memory.  The
+> userspace may want to query whether the kernel is actually backing this
+> memory by hugepages or not.
 
-Thank you for reporting this issue:
-
- 99                 if (anon) {
-100                         BUG_ON(atomic_read(&ptc->file_map_count));
-101                         BUG_ON(atomic_dec_return(&ptc->anon_map_count) < 0);
-
-This BUG_ON checks that during unmap anon map counter (cleared in
-ptep_clear_flush()) does not become negative. If it becomes negative
-it means that we missed accounting for this anon mapping during
-set_pte(). Is there a config and environment that I could use to repro
-this problem?
-
-Thank you,
-Pasha
+But what is userspace going to _do_ differently if the kernel hasn't
+backed the memory with huge pages?
