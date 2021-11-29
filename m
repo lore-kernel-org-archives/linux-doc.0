@@ -2,196 +2,306 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7894FC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Nov 2021 17:10:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B893C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Nov 2021 17:23:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344604AbhK2RNt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Nov 2021 12:13:49 -0500
-Received: from mail-bn8nam11on2050.outbound.protection.outlook.com ([40.107.236.50]:32353
-        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233837AbhK2RLt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 29 Nov 2021 12:11:49 -0500
+        id S1346471AbhK2R0U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Nov 2021 12:26:20 -0500
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:19728 "EHLO
+        mx0a-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1348055AbhK2RYR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Nov 2021 12:24:17 -0500
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1ATHEhh8025169;
+        Mon, 29 Nov 2021 17:20:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
+ subject : from : to : cc : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2021-07-09;
+ bh=z2mXQHaZN/dBWzFXb4SOG+ANGzeeNjA4ZwGiXpvgu8k=;
+ b=C49enFRM7UYkLneoF9wfdgnp9qYJnnp0/g1D5CMjYEBKn/PxivFxZapRsEolxNaDsM/G
+ aaB9SFngXEFmLh9tpsEcZ08vV4wfrvrNAt7nMGlsNP5IUIjGvo+BkEB0//q7oAuoIyQk
+ NoOV7QBXuuhlH2hw8yWmmMO/CfIAc2XvdyMXzjTfKMrClt1WbIGGWQ1/C4BSpXmS8L2e
+ 9kPP5XdMMURVJ/8Lu3rV9aqPRb7wVBkeOdl/ysCiWCmTUT6E/g84+GGcG51BzD9hxthv
+ mJXN2E0I0WyvA7lapQtBFXtmvtQxQj2AOB3/5RmLDParxxNLWh8rLOeEWuVeJZfCMq4J zA== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by mx0b-00069f02.pphosted.com with ESMTP id 3cmrt7uj8y-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 29 Nov 2021 17:20:28 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1ATGtg0u187376;
+        Mon, 29 Nov 2021 17:20:21 GMT
+Received: from nam02-sn1-obe.outbound.protection.outlook.com (mail-sn1anam02lp2044.outbound.protection.outlook.com [104.47.57.44])
+        by userp3030.oracle.com with ESMTP id 3ck9swr28w-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 29 Nov 2021 17:20:21 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IuTOaxvpPOT27APLLACjpUR1oPwcxYT4IYISuC1l5qErxzimTF8+j98p+KWScZlzVQcriETZQzkjUZlDwWdkc3QrR+JqsB1MGJRjTyY3G3SXW2bwEKD0+Ipdwh6WKHZ5mgnAzlHhCP2mqtTqfMp6U07KtTZV3MyQjtSqBAepLVjixmwQiC40JtMDJT/sX1CiEavQJW8zAlFFEP2PeKHjGgjceznhHjkeAJ7UoaJYnXQhKAzb5NkMdWX1u8PIiWHjO/YBF6qQwBzD8PGp2XXWWti5R1DQ/vwz523Uy1IbIRZW9Uq/eflfg5L7YrfkLBuPpH7PsMzzVs0b/rYjz9RD2w==
+ b=iaKPnFcM0Is/JQkrZddbKlWHZ6TSvgzcWvZvbm7ES5Wcs1gVoBy7BoAdrLiRaKrqXBXCfYvIfjAdG8RKXbebfmd8F644qenZgiZ9bGJbjl5GorFQTDR1LHcxb+wXHMFZvTJb5qN8pHAP8z/AoLActirVQRIjhvDnyG03HVqv3bxLBoxQJjATeElG0aXcfHYR4YgAk44dSrxfEzj1fQ4newti1zi7fAfq4kAsFbCe+oEwzJom4A9y6EDce8HgSYQMUgGD2ROgrpW24NlAg7KB62YcbxCDWt84l2VSF5RUGFXHP9+eTbKHZ3rURrhgjgbGljriUsXVwfzZIPIPFivCDQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lyBqx02PFyxR62KCHS6bSeaWgSgXL1F8Cp86rnw26Nw=;
- b=SbPqm0NTsVhiCgmjSEGIDtFIHXv/Nbxq1iG6VOAUxvNbEfpiYA9VQidFeIUUho8wGDQDbnbc+x7iz4SYk5Eh38JjOERma2+z+A86tVBGnEn9iDYmvyk2Ncdm27uTyGQvyDh2eSOkX2qDmbMso1PnXZNW3aVXzwYWMsWjR6GQuOl+6PqHCrJC0hz148Bv3nl3cch18QjtIW19jVh5ce8l0bi+cvTiksBYBgm1zKpDX1ZBqvQpYUx+u713pH+KsC76dCEj+fyVu2kOCpGJnCUMD6oLeMQdZowE9mdI5YqlL+LzaW+aCJz5qBmridR6ZMsOOmHXQY/s08p3XPA+TjX4Vw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=intel.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ bh=z2mXQHaZN/dBWzFXb4SOG+ANGzeeNjA4ZwGiXpvgu8k=;
+ b=Vwl1QuEqWwSHolJqiH0Lr9ocGQPMIcOuxs+JY5wCgdix2ItEtUuphfmr0OprCtDCT25LwId3RA4nUOA7gFQsMBugidxiwMxPDLDimzzQ0Kg/yXv8zJOXyvYsBkoQefgdtRYyin3v0CxovJExf9L861sjlESjaMOC70jYuy82tMrbMFgl+9nveLNUSuK7iPeB88epjEIgCZ03s9+B1k+4YQdaHK4Ka4tnBrs/GIuVf9ANg7I3Pn7+UwMAxQ5F8+RoFfpSHvS5fTcNyMyAiacZChkmtXNpueJ5lx5n1bmk0nEfYQMqt7Thzp1jux+MUzhFd4JWZZeV9B//g5bS2XRIsA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lyBqx02PFyxR62KCHS6bSeaWgSgXL1F8Cp86rnw26Nw=;
- b=JMIMKoMc6JbnCaUm8USpFplMBx8l/hLK4mWHPPaFuvxM22EbglUMIXBlMc2PTHaKujAeyOcz2TTekUK4IOJcigIKdANJ/9MOvfQIzhqW0oNve34DEqWVxaDdl2R0YbDros3wFjS55AJzx1I27uTx1IF1laiKVnFdFDIbwgG++7POOLjzdVUic+mXH9Zx1SNbCw8M5E37kckxP8j1QRsxysCnKw72lID5n2sXTkxkCZPFxj8KBmkLteBO4uq2ZEDN5uLHsW3hRZUjGU/D+FHjZ9z9CNlNaWgwG/tVx32weZ7l+DX7mIRwKXliCxjcef213UD0UXmKn1V8lPFDHuaBew==
-Received: from MW2PR16CA0007.namprd16.prod.outlook.com (2603:10b6:907::20) by
- MN2PR12MB3086.namprd12.prod.outlook.com (2603:10b6:208:c7::14) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4734.24; Mon, 29 Nov 2021 17:08:29 +0000
-Received: from CO1NAM11FT067.eop-nam11.prod.protection.outlook.com
- (2603:10b6:907:0:cafe::ee) by MW2PR16CA0007.outlook.office365.com
- (2603:10b6:907::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.23 via Frontend
- Transport; Mon, 29 Nov 2021 17:08:29 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- CO1NAM11FT067.mail.protection.outlook.com (10.13.174.212) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4734.22 via Frontend Transport; Mon, 29 Nov 2021 17:08:28 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Mon, 29 Nov
- 2021 17:08:28 +0000
-Received: from yaviefel (172.20.187.6) by rnnvmail201.nvidia.com (10.129.68.8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.5; Mon, 29 Nov 2021
- 09:08:15 -0800
-References: <20211123163955.154512-22-alexandr.lobakin@intel.com>
- <77407c26-4e32-232c-58e0-2d601d781f84@iogearbox.net>
- <87bl28bga6.fsf@toke.dk>
- <20211125170708.127323-1-alexandr.lobakin@intel.com>
- <20211125094440.6c402d63@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <20211125204007.133064-1-alexandr.lobakin@intel.com>
- <87sfvj9k13.fsf@toke.dk>
- <20211126100611.514df099@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <87ee72ah56.fsf@toke.dk>
- <20211126111431.4a2ed007@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <YaPCbaMVaVlxXcHC@shredder>
- <20211129064755.539099c0@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <874k7vq7tl.fsf@nvidia.com>
- <20211129080502.53f7d316@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-User-agent: mu4e 1.4.15; emacs 27.2
-From:   Petr Machata <petrm@nvidia.com>
-To:     Jakub Kicinski <kuba@kernel.org>
-CC:     Petr Machata <petrm@nvidia.com>, Ido Schimmel <idosch@idosch.org>,
-        Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>,
-        "Alexander Lobakin" <alexandr.lobakin@intel.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        "Jesse Brandeburg" <jesse.brandeburg@intel.com>,
-        Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
-        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Shay Agroskin" <shayagr@amazon.com>,
-        Arthur Kiyanovski <akiyano@amazon.com>,
-        "David Arinzon" <darinzon@amazon.com>,
-        Noam Dagan <ndagan@amazon.com>,
-        "Saeed Bishara" <saeedb@amazon.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        "Claudiu Manoil" <claudiu.manoil@nxp.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Marcin Wojtas <mw@semihalf.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Saeed Mahameed <saeedm@nvidia.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Edward Cree <ecree.xilinx@gmail.com>,
-        "Martin Habets" <habetsm.xilinx@gmail.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        "Martin KaFai Lau" <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Yajun Deng <yajun.deng@linux.dev>,
-        Sergey Ryazanov <ryazanov.s.a@gmail.com>,
-        David Ahern <dsahern@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        "Vladimir Oltean" <vladimir.oltean@nxp.com>,
-        Cong Wang <cong.wang@bytedance.com>, <netdev@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-rdma@vger.kernel.org>, <bpf@vger.kernel.org>,
-        <virtualization@lists.linux-foundation.org>, <nikolay@nvidia.com>
-Subject: Re: [PATCH v2 net-next 21/26] ice: add XDP and XSK generic
- per-channel statistics
-In-Reply-To: <20211129080502.53f7d316@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-Date:   Mon, 29 Nov 2021 18:08:12 +0100
-Message-ID: <87sfveq48z.fsf@nvidia.com>
+ bh=z2mXQHaZN/dBWzFXb4SOG+ANGzeeNjA4ZwGiXpvgu8k=;
+ b=fR0bKok1wDCuDypDqgnSNJpSwEwhu6yJ56PZLGf7c9mkq8ILlU4ixvpwEe8rCGPWzjZYMLGC4LE5mL/RRr2uFETpnwh7y/eL/krB5zFghZcYvN/u1P9TPpnjaQidVMgwbX/v7S33+/2XfzA3ce+Hmj8fFZvTqh/aQnh2XGrMNyk=
+Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
+ by MN2PR10MB3775.namprd10.prod.outlook.com (2603:10b6:208:186::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.22; Mon, 29 Nov
+ 2021 17:20:19 +0000
+Received: from BLAPR10MB4835.namprd10.prod.outlook.com
+ ([fe80::d809:9016:4511:2bc6]) by BLAPR10MB4835.namprd10.prod.outlook.com
+ ([fe80::d809:9016:4511:2bc6%7]) with mapi id 15.20.4734.024; Mon, 29 Nov 2021
+ 17:20:18 +0000
+Message-ID: <a3e8da96-2895-753a-4d4c-61e86a4306e0@oracle.com>
+Date:   Mon, 29 Nov 2021 17:20:07 +0000
+Subject: Re: [PATCH v6 09/10] device-dax: set mapping prior to
+ vmf_insert_pfn{,_pmd,pud}()
+Content-Language: en-US
+From:   Joao Martins <joao.m.martins@oracle.com>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Jane Chu <jane.chu@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>, nvdimm@lists.linux.dev,
+        linux-doc@vger.kernel.org
+References: <20211124191005.20783-1-joao.m.martins@oracle.com>
+ <20211124191005.20783-10-joao.m.martins@oracle.com>
+ <0439eb48-1688-a4f4-5feb-8eb2680d652f@oracle.com>
+ <96b53b3c-5c18-5f93-c595-a7d509d58f92@oracle.com>
+ <20211129073235.GA23843@lst.de>
+ <b8056071-d0fe-b8ef-5fe3-85ab639f4bf7@oracle.com>
+In-Reply-To: <b8056071-d0fe-b8ef-5fe3-85ab639f4bf7@oracle.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO4P123CA0214.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:1a5::21) To BLAPR10MB4835.namprd10.prod.outlook.com
+ (2603:10b6:208:331::11)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.20.187.6]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
+Received: from [10.175.187.247] (138.3.204.55) by LO4P123CA0214.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:1a5::21) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.19 via Frontend Transport; Mon, 29 Nov 2021 17:20:16 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1c9c2dd5-6395-4204-cb7d-08d9b35add3f
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3086:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB3086A71EFF94466D7385A030D6669@MN2PR12MB3086.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Office365-Filtering-Correlation-Id: 59d4df88-3669-4229-b562-08d9b35c8438
+X-MS-TrafficTypeDiagnostic: MN2PR10MB3775:
+X-Microsoft-Antispam-PRVS: <MN2PR10MB3775052380B348C98306FEC8BB669@MN2PR10MB3775.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2582;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: gHZWiMyMV8qZ8ARMtRO3jjwtpaqws6zwOnx3PlUjKnIbiwk6PfySOfSddZ6Xcd8HRU4BJvlpbbEl19TxPmU0JWgjo0HehGq82hemi/xjdA7jcLjPxuxu9Zs5Wt1qJMVdLmnk45vveWsixAqYI8GNngOQk8mEetx/xBGRf9NmXacVk2p4PA0TWhp59TzZbyxjNuJUDnrGWUN9a6Rk3mougKuZalgel4Q86UthKn1n5IJkSXRrzachYkmJHnitOxXrCMx1XOoKxoRGdB8TSPq4hjXp4hFAy7tLKyFrfpNya/+jSusYdx4xc1a6mQ64JNUwNYoKlKj/uO17sNpX9tPhY4YwnjUud4y5uSet7yvg33TEBQL/YOHKhsLV5qWQYNkdGqSuA5AJPevqZmmMDR9xJ/w04+wwEEeDByLvhBOQDhaufTMgK2BJMqsWZ3zCmFAp5NU6i4Hh+79oISe4slFE7HbLX7aAevROj5xSun/UtGsVhboGdrP4fVsetFITVaxINc8HBbsRJQyyAxDtbJ1rYsb68jN5M20Z+Iw3HjBfj+VsR3rNcjJc0n8mRWB/ZybHO1GIMOMLxSz+jqIDkzh+5G1Eshds0f8lMEOdfCoNcZvLnZMJqXymfIMrQYzXxIVngwP9Z9kSasiurNaQPu/5rDRN7mHqIjFM/1bTx1gcYNqirfQQ0pHRbZU4CqLuOqtrx4PhaUGBe5ugY65RU5oyPdIfjD1Ux53wwP+8gZukP3M=
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(36840700001)(46966006)(426003)(4326008)(508600001)(2616005)(8936002)(8676002)(7406005)(47076005)(107886003)(6916009)(6666004)(36860700001)(86362001)(336012)(36756003)(54906003)(16526019)(82310400004)(186003)(26005)(83380400001)(2906002)(356005)(316002)(70206006)(7636003)(7416002)(5660300002)(70586007)(41533002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Nov 2021 17:08:28.9336
+X-Microsoft-Antispam-Message-Info: cVN0PFHNrsq/hoCrxWDgSULFJMr+e85RkbiH/bU0cdJVvsjCQui/l9XTjLRuoS9IrHCOLKd+NxWP7fA+5x5tdy7O+8KUWg1XlZYCzEN0QzGAo4XEXOvGzaBNf+aATqw7zaOriDSn6J73iS8/5rs5LgkBdol/L6yNOTD81SjvKWlXaLD0eoph8Qn+thROJuou7GqByhbhviq+0+XAC7zteqq9panRbxgIedO6kG9Rhip5h0aLJB0Q2wUJuXFh0OZIGQrBhtgUti7mxswKsAQ+0N00UM7tvRWh0IQYgaOj/nhlLjDc9ZulOSH8Zus98QsXbQq5+Ahv6DbuuUlvgF7bzKGenpVz+sIAFzltEkEbvCOStYqk41nn7HXQ3jkrIzhhigjfMMBLXhWXtzHWEcGERkm3wVpIJ1lh7jJfRhI2hJBD9GiaOniztRvoD3KZT0ZBTfoFU+NUqw6KTX4dLQKEonxeAM3E1d1UvKQ/0TkhDdd6SfxS0N+FMx090YuH1z1tMSjSMG2Kqj8rB05CpDfc2knDOpLdtzOjm/wimySws2DpF8VganUbIj6dQSbhvv02m1ayadenIwH4d0jP/zcct7Ru+H+KNplFiIkUdZeJKunRzGJMpYwWF7rSUAaTwf/D6+QeUf6cROD1WRXlbSDWue5ein8q8ZQBo0Z464ascBj3rN1FKiJg1qGrA0EmxkEk5fXncnIfuSklZy+WGmg9mQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB4835.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(186003)(2616005)(4326008)(508600001)(956004)(7416002)(8676002)(66556008)(6666004)(66946007)(31696002)(86362001)(316002)(66476007)(16576012)(54906003)(38100700002)(8936002)(83380400001)(2906002)(36756003)(31686004)(6916009)(6486002)(53546011)(26005)(5660300002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SjI0OC9sMFVnT0RXVWVtWFJTdlNqQS93YnBXMXl4TzhoamMvT2ZUR1lSVFVO?=
+ =?utf-8?B?MVRCc2Qrak9LMmQyUkhzaUMzNzJLdUhIazRIT0tLVWJvVjBKTkJXRE9TQytU?=
+ =?utf-8?B?RGxRZnFLMHVvcmlteExVSE4rSkhSbHRPYjdQSnlWaHJkZEpJeHFaRkZlOUdI?=
+ =?utf-8?B?WFFUdzVyUjdBcUNYWlA1azVRbTlBak1yc01GYWtsODZyYnNBRU91T2l3TjF5?=
+ =?utf-8?B?dEYzTUFqbEFvREQ0V2FwSzB0OVVQTmFGTXlaUzdBM3FvdXZFakI2WElUaS90?=
+ =?utf-8?B?SDVFa1FoYkxOMS80T3NqWUlWMHowd0Z1Qm5zQUFmMVBteVM4UHpQS0pacnVW?=
+ =?utf-8?B?YmVlUlV1Qm9lczJIbTZYSlNQazg0RUFIZEtaVHExQTY2bmlBMDJvLzJaamRD?=
+ =?utf-8?B?cjdaTE82dnUzUzQ0MFQxRjNrT21mNUt0Qy8zQU9nZEhpWmRVOUFDSWpha0Fo?=
+ =?utf-8?B?SHJBWGlZV0VOTllUN2lJQkdOOGoxNUxFS0ZSZE41aU5naWxxcUo0UWlUM2RG?=
+ =?utf-8?B?VUZSYnp5aGUzM01oS3F5Q3BVUmpibHB3SnVwRjBycFdtaUsza0VHMFRaNk5W?=
+ =?utf-8?B?OE1uc1Q3VnBXQkNBL2NGcEg4U0tScWlqZUtBMzhsa25GUlVFU0tIL3J3b3Vm?=
+ =?utf-8?B?Y01UU1VMZGNaOW5WeEtOenFHL012UlNrQXNkR090YkhyRXFWNjBkUXJLaGpZ?=
+ =?utf-8?B?RWNPb2RZUjlGb2Q1NGJyc2k2bkdlczBMdXFSMkNaRlRIZjVISjdidjkxS3B4?=
+ =?utf-8?B?LzZ0Tm9IZ0tFckxEeXZRQ0krSFNNSWtwTmVIby8yUzdmK3VzM2EzK1NlcjR3?=
+ =?utf-8?B?eTZEV01lRWxUN1duWlQzNUJRZXBraml0OHpLenI1ZTk3NXBmeFF1R1YvT0do?=
+ =?utf-8?B?SDJHblhPcVRlNHJWZ2VrTkJ6TVpWMnJvVEFDLzRmZjhrdUJFNVRQSXFVd3l1?=
+ =?utf-8?B?akdsMkVwVGNyeG9FU2lLS0d4RkVURG1tMVB6N3FsNGZxYjNPaS93cVZ4aENJ?=
+ =?utf-8?B?bjBzdWJiRlczUGdkQ3hUVFgwYmwrQkx4cWpBeG9XdFdkMkZxaHBzNFBPcFZP?=
+ =?utf-8?B?LzI2MVkrcHozSEQrb21iU2FvaG42eHlkalViSUMwNUtIOXpSNkJhcUJwTFRr?=
+ =?utf-8?B?aWk0cGcrbEpXU2RoeXd3VW92Y3BmdzNndFBWd000OWxreWsxaWV4N3ZYckJS?=
+ =?utf-8?B?WWMvWUZ6YlV4cHM2NGRvS001TmJZU3B1OXBCMXFGS0hjNktaU2hWYk15bHF4?=
+ =?utf-8?B?SVpZU1dLTlg1NGJsSDMvYjNMdS90Uzh3dTlmTjM1Zi84aGh6NlR5cVFOamoy?=
+ =?utf-8?B?QzBaQm1hWEdtanN4ZnV3WTRDbmY1QVRJTlFaUUlqZUlUaWE0UnFMOE5nc0Jm?=
+ =?utf-8?B?ZitkRG5ya01iNzQ2MFZnNXM3MTJabnBMcG9ZWm9sbzI0aXF4bFN0TiszN0hl?=
+ =?utf-8?B?VXpaTHZpR3JpeHpyZmFMV1dSZUFRd1Y4SWNKUW8wVzBITzhUT0w4ODJyeCsx?=
+ =?utf-8?B?bHp4ci9HbGtTQ3dmdFJTUnhLbEVNRXhnZ0xxamZtdWNiUS82Y1FEaXl2aE1h?=
+ =?utf-8?B?TnZqLzJHeWRteTByQ1ZDN2FlM1lrRHEyWVFTOGRhQ08wSzY0L21uY1htYXNv?=
+ =?utf-8?B?em1qbDZJeFlweTJZbnp2SkFwVGg3bnZnVGZ4MldxNmcwQmVvVFRUREw1V3Bj?=
+ =?utf-8?B?dXpqY25FQTZIZUtJMkh2cGxyNVYxUDc5QlNjemFjeWJneFBxVE42MmhaNnpP?=
+ =?utf-8?B?MzRKYmJjYU1qNVBXVU9nTVlYa0FuWkVpUURRSE4wbVByY2krcFNLb05kanF5?=
+ =?utf-8?B?NlZIQ2RaakJiZEF4ZXZQeElZNHlVQUJQV1dyQnBBUVNUaldRc2Q4T1dERHNV?=
+ =?utf-8?B?ajdsMW41THM2MlpwN0pPWkJRUnRHdFhESlV3TGR0RkowL00zMFFzSnVheGF0?=
+ =?utf-8?B?NDEvWnNsb3llVXZxQjJjL05zSnZDREY1QmNvUUJKUzFNREUvN2Z0dXAvNTBN?=
+ =?utf-8?B?bGVjSFlVeVpadDE0MHFlcEF5YUJnV3V6NURtYWl6TW1IYU84MWtSb0Y0YTUx?=
+ =?utf-8?B?M1FoR2dKRGJ1UWFCclRpNlg2Qy9NUWJDcTI0cTJWQzVFYVBqVEY4Wk1KamNG?=
+ =?utf-8?B?NjNySWFmYjc2TnFMdTQ5dmhjYnVBK0tXeUxSMWRNUm5tTEM0aVlUMlF3b0lt?=
+ =?utf-8?B?OHZYWVY0LzVvak0rODN0dWZoZ0pVZFBNL3JQODZ2bDdWcU1EZUhxbXpiV3lh?=
+ =?utf-8?B?SVUvd0FFbW9pRnk1bk5JbjNsNExBPT0=?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 59d4df88-3669-4229-b562-08d9b35c8438
+X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Nov 2021 17:20:18.8388
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1c9c2dd5-6395-4204-cb7d-08d9b35add3f
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT067.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3086
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: x9RgxlRh+tRN1dDBMQDIUH9Mb3iBvG6iecOXtlpRZby4ScyMxvzMnSxkwCr0ZmHHlSzhmquffglvfFN2MG9vbgHmDUrzdITVM9gLkjpEKSQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB3775
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10183 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxscore=0 malwarescore=0
+ spamscore=0 bulkscore=0 mlxlogscore=999 suspectscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2111290081
+X-Proofpoint-ORIG-GUID: u_QwepFdWgINkawH-4ufcYuAu4rfoBXx
+X-Proofpoint-GUID: u_QwepFdWgINkawH-4ufcYuAu4rfoBXx
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 11/29/21 15:49, Joao Martins wrote:
+> On 11/29/21 07:32, Christoph Hellwig wrote:
+>> On Fri, Nov 26, 2021 at 06:39:39PM +0000, Joao Martins wrote:
+>> Aso it seems like pfn is only an input
+>> parameter now and doesn't need to be passed by reference.
+>>
+> It's actually just an output parameter (that dax_set_mapping would then use).
+> 
+> The fault handlers in device-dax use vmf->address to calculate pfn that they
+> insert in the page table entry. After this patch we can actually just remove
+> @pfn argument.
 
-Jakub Kicinski <kuba@kernel.org> writes:
+I've added your suggestion as a cleanup patch between 9 and current 10 (11 in v7):
 
-> On Mon, 29 Nov 2021 16:51:02 +0100 Petr Machata wrote:
->> Jakub Kicinski <kuba@kernel.org> writes:
->> > On Sun, 28 Nov 2021 19:54:53 +0200 Ido Schimmel wrote:  
->> >> For query, something like (under discussion):
->> >> 
->> >> # ip stats show dev swp1 // all groups
->> >> # ip stats show dev swp1 group link
->> >> # ip stats show dev swp1 group offload // all sub-groups
->> >> # ip stats show dev swp1 group offload sub-group cpu
->> >> # ip stats show dev swp1 group offload sub-group hw
->> >> 
->> >> Like other iproute2 commands, these follow the nesting of the
->> >> RTM_{NEW,GET}STATS uAPI.  
->> >
->> > But we do have IFLA_STATS_LINK_OFFLOAD_XSTATS, isn't it effectively 
->> > the same use case?  
->> 
->> IFLA_STATS_LINK_OFFLOAD_XSTATS is a nest. Currently it carries just
->> CPU_HIT stats. The idea is to carry HW stats as well in that group.
->
-> Hm, the expectation was that the HW stats == total - SW. I believe that
-> still holds true for you, even if HW stats are not "complete" (e.g.
-> user enabled them after device was already forwarding for a while).
-> Is the concern about backward compat or such?
+---->8----
 
-I guess you could call it backward compat. But not only. I think a
-typical user doing "ip -s l sh", including various scripts, wants to see
-the full picture and not worry what's going on where. Physical
-netdevices already do that, and by extension bond and team of physical
-netdevices. It also makes sense from the point of view of an offloaded
-datapath as an implementation detail that you would ideally not notice.
+From 999cec9efa757b82f435124518b042caeb51bde6 Mon Sep 17 00:00:00 2001
+From: Joao Martins <joao.m.martins@oracle.com>
+Date: Mon, 29 Nov 2021 11:12:00 -0500
+Subject: [PATCH] device-dax: remove pfn from __dev_dax_{pte,pmd,pud}_fault()
 
-For those who care to know about the offloaded datapath, it would be
-nice to have the option to request either just the SW stats, or just the
-HW stats. A logical place to put these would be under the OFFLOAD_XSTATS
-nest of the RTM_GETSTATS message, but maybe the SW ones should be up
-there next to IFLA_STATS_LINK_64. (After all it's going to be
-independent from not only offload datapath, but also XDP.)
+After moving the page mapping to be set prior to pte insertion, the pfn
+in dev_dax_huge_fault() no longer is necessary.  Remove it, as well as
+the @pfn argument passed to the internal fault handler helpers.
 
-This way you get the intuitive default behavior, but still have a way to
-e.g. request just the SW stats without hitting the HW, or just request
-the HW stats if that's what you care about.
+Suggested-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+---
+ drivers/dax/device.c | 34 ++++++++++++++++++----------------
+ 1 file changed, 18 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/dax/device.c b/drivers/dax/device.c
+index 19a6b86486ce..914368164e05 100644
+--- a/drivers/dax/device.c
++++ b/drivers/dax/device.c
+@@ -95,10 +95,11 @@ static void dax_set_mapping(struct vm_fault *vmf, pfn_t pfn,
+ }
+
+ static vm_fault_t __dev_dax_pte_fault(struct dev_dax *dev_dax,
+-                               struct vm_fault *vmf, pfn_t *pfn)
++                               struct vm_fault *vmf)
+ {
+        struct device *dev = &dev_dax->dev;
+        phys_addr_t phys;
++       pfn_t pfn;
+        unsigned int fault_size = PAGE_SIZE;
+
+        if (check_vma(dev_dax, vmf->vma, __func__))
+@@ -119,20 +120,21 @@ static vm_fault_t __dev_dax_pte_fault(struct dev_dax *dev_dax,
+                return VM_FAULT_SIGBUS;
+        }
+
+-       *pfn = phys_to_pfn_t(phys, PFN_DEV|PFN_MAP);
++       pfn = phys_to_pfn_t(phys, PFN_DEV|PFN_MAP);
+
+-       dax_set_mapping(vmf, *pfn, fault_size);
++       dax_set_mapping(vmf, pfn, fault_size);
+
+-       return vmf_insert_mixed(vmf->vma, vmf->address, *pfn);
++       return vmf_insert_mixed(vmf->vma, vmf->address, pfn);
+ }
+
+ static vm_fault_t __dev_dax_pmd_fault(struct dev_dax *dev_dax,
+-                               struct vm_fault *vmf, pfn_t *pfn)
++                               struct vm_fault *vmf)
+ {
+        unsigned long pmd_addr = vmf->address & PMD_MASK;
+        struct device *dev = &dev_dax->dev;
+        phys_addr_t phys;
+        pgoff_t pgoff;
++       pfn_t pfn;
+        unsigned int fault_size = PMD_SIZE;
+
+        if (check_vma(dev_dax, vmf->vma, __func__))
+@@ -161,21 +163,22 @@ static vm_fault_t __dev_dax_pmd_fault(struct dev_dax *dev_dax,
+                return VM_FAULT_SIGBUS;
+        }
+
+-       *pfn = phys_to_pfn_t(phys, PFN_DEV|PFN_MAP);
++       pfn = phys_to_pfn_t(phys, PFN_DEV|PFN_MAP);
+
+-       dax_set_mapping(vmf, *pfn, fault_size);
++       dax_set_mapping(vmf, pfn, fault_size);
+
+-       return vmf_insert_pfn_pmd(vmf, *pfn, vmf->flags & FAULT_FLAG_WRITE);
++       return vmf_insert_pfn_pmd(vmf, pfn, vmf->flags & FAULT_FLAG_WRITE);
+ }
+ #ifdef CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD
+ static vm_fault_t __dev_dax_pud_fault(struct dev_dax *dev_dax,
+-                               struct vm_fault *vmf, pfn_t *pfn)
++                               struct vm_fault *vmf)
+ {
+        unsigned long pud_addr = vmf->address & PUD_MASK;
+        struct device *dev = &dev_dax->dev;
+        phys_addr_t phys;
+        pgoff_t pgoff;
++       pfn_t pfn;
+        unsigned int fault_size = PUD_SIZE;
+
+
+@@ -205,11 +208,11 @@ static vm_fault_t __dev_dax_pud_fault(struct dev_dax *dev_dax,
+                return VM_FAULT_SIGBUS;
+        }
+
+-       *pfn = phys_to_pfn_t(phys, PFN_DEV|PFN_MAP);
++       pfn = phys_to_pfn_t(phys, PFN_DEV|PFN_MAP);
+
+-       dax_set_mapping(vmf, *pfn, fault_size);
++       dax_set_mapping(vmf, pfn, fault_size);
+
+-       return vmf_insert_pfn_pud(vmf, *pfn, vmf->flags & FAULT_FLAG_WRITE);
++       return vmf_insert_pfn_pud(vmf, pfn, vmf->flags & FAULT_FLAG_WRITE);
+ }
+ #else
+ static vm_fault_t __dev_dax_pud_fault(struct dev_dax *dev_dax,
+@@ -225,7 +228,6 @@ static vm_fault_t dev_dax_huge_fault(struct vm_fault *vmf,
+        struct file *filp = vmf->vma->vm_file;
+        vm_fault_t rc = VM_FAULT_SIGBUS;
+        int id;
+-       pfn_t pfn;
+        struct dev_dax *dev_dax = filp->private_data;
+
+        dev_dbg(&dev_dax->dev, "%s: %s (%#lx - %#lx) size = %d\n", current->comm,
+@@ -235,13 +237,13 @@ static vm_fault_t dev_dax_huge_fault(struct vm_fault *vmf,
+        id = dax_read_lock();
+        switch (pe_size) {
+        case PE_SIZE_PTE:
+-               rc = __dev_dax_pte_fault(dev_dax, vmf, &pfn);
++               rc = __dev_dax_pte_fault(dev_dax, vmf);
+                break;
+        case PE_SIZE_PMD:
+-               rc = __dev_dax_pmd_fault(dev_dax, vmf, &pfn);
++               rc = __dev_dax_pmd_fault(dev_dax, vmf);
+                break;
+        case PE_SIZE_PUD:
+-               rc = __dev_dax_pud_fault(dev_dax, vmf, &pfn);
++               rc = __dev_dax_pud_fault(dev_dax, vmf);
+                break;
+        default:
+                rc = VM_FAULT_SIGBUS;
+--
+2.17.2
