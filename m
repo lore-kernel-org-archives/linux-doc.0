@@ -2,82 +2,175 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B419BC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Nov 2021 22:53:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D105CC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Nov 2021 22:56:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235138AbhK2W5C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Nov 2021 17:57:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37710 "EHLO
+        id S235597AbhK2W7n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Nov 2021 17:59:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235385AbhK2W4d (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Nov 2021 17:56:33 -0500
+        with ESMTP id S235799AbhK2W7J (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Nov 2021 17:59:09 -0500
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C8F7C061D73
-        for <linux-doc@vger.kernel.org>; Mon, 29 Nov 2021 14:02:46 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74DD5C061A17
+        for <linux-doc@vger.kernel.org>; Mon, 29 Nov 2021 13:59:02 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 07E152CD;
-        Mon, 29 Nov 2021 22:02:45 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 07E152CD
+        by ms.lwn.net (Postfix) with ESMTPSA id 0F0752D3;
+        Mon, 29 Nov 2021 21:59:02 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0F0752D3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1638223366; bh=r0M+Dh8Xj1aqpvWY3kYeso5oa3aMlBR0puKXdY4K+98=;
+        t=1638223142; bh=Lj5RLnSCWzy6Mu2SbVwIEwUbaMwVgT5GO0EA8fW/XPk=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=QiWWsczjvZ1ZYVMKzwN8uFqiYzb+kZDgE5eTYZAX9Ttd3sXJVjmZ/A9BulV35Wy/f
-         F/pZ4o9F35NmZ0/drNaOZrXN7R/CcadF1iru2r9KFWeg1PXWY6PUMtZRSPPnXU4IkT
-         ddWdqcMOkw8WW521qzaMqI8HpzCQSUu5bKpBUPiYvswyyjRNi9o02rOPXEQAjQYgqC
-         c+SdHia6UrgClpi3xncsjrnqHVwvisCo3ipcPFS+OjOvNtL4bIwI6jx/CqlLS4L8GM
-         hMKkrwD2lkCkLtT3BCbAK5+UEuC0fzYCLqWBWNq5w/tMkNXtj4YO7pmf9AS3fsCR2/
-         E7pORdOPwMhbw==
+        b=aoK1C7XM7/Rf0bPnomwmA+oa1AXk9qm+Y54NqdLQ3I/FdUL/F/jjv18ayn/CqJfOf
+         U6VgU4eCcRzzUKaSVGS0knyWbBL/vvcNGMDCK6t6xtc7oxZ/JVpJEC2YTj+LO/mK0H
+         /kFybj4rw18xYyx7aU+3k2O72UA+ivOCprtwSFeYOeQFiyQaZghsntHLdxnpWH9pCn
+         +V0E1IV41N35JmxXN2wlZMpqUs50+FYgeJ362v1lwxPZoXDHfHjktJHBDKYOki8Rx7
+         dzi9o8GQBFmABkPMuvxHiYlzokkf0AjKydtdHEN/632Ms6LKGvZqB+UfW6+pI+6CtK
+         YZyZ77oPqSQvQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Yanteng Si <siyanteng01@gmail.com>, alexs@kernel.org,
-        bobwxc@email.cn, seakeel@gmail.com, leoyang.li@nxp.com
-Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
-        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
-        realpuyuwang@gmail.com, siyanteng01@gmail.com, src.res@email.cn,
-        wanjiabing@vivo.com, bernard@vivo.com
-Subject: Re: [PATCH v3 0/2] docs/zh_CN: move and update sparse
-In-Reply-To: <cover.1636078637.git.siyanteng@loongson.cn>
-References: <cover.1636078637.git.siyanteng@loongson.cn>
-Date:   Mon, 29 Nov 2021 15:02:45 -0700
-Message-ID: <877dcqsjqy.fsf@meer.lwn.net>
+To:     Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
+        linux-doc@vger.kernel.org
+Cc:     linux-snps-arc@lists.infradead.org,
+        Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Vineet Gupta <vgupta@kernel.org>
+Subject: Re: [PATCH v2] docs: Add documentation for ARC processors
+In-Reply-To: <20211112065059.7273-1-abrodkin@synopsys.com>
+References: <20211112065059.7273-1-abrodkin@synopsys.com>
+Date:   Mon, 29 Nov 2021 14:59:01 -0700
+Message-ID: <87fsresjx6.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Yanteng Si <siyanteng01@gmail.com> writes:
+Alexey Brodkin <Alexey.Brodkin@synopsys.com> writes:
 
-> v3:
+> ARC processors are supported in upstream kernel since v3.9
+> and so far there was no documentation about them except some
+> Device Tree bindings.
 >
-> * Pick Alex's Reviewed-by tag.
-> * Replace *=E6=98=AF* with **=E6=98=AF** at the suggestion of Leo Li.
-> * Fix a build warning.
+> Fixing it with the simples set of docs now:
+> 1. Overview with pointers to other informational resources
+> 2. Autogenerated feature table
 >
-> v2:
+> Note though it's just the very beginning, there will be more
+> for sure given time as there're many things worth documenting
+> and in fact even contents itself is avaialble but just spread
+> in some other places. Now we'll try to keep all here and
+> then maintain it looking forward to match the state of development.
 >
-> At the suggestion of Leo Li:
->
-> * typo fix.
-> * recovert `` `` to =E2=80=9C =E2=80=9D.
->
-> v1:
->
-> The Chinese sparse documentation is too old, so let's update it to
-> the latest version and move it to ../zh_CN/dev-tools/.
->
-> Yanteng Si (2):
->   docs/zh_CN: move sparse into dev-tools
->   docs/zh_CN: update sparse translation
->
->  .../translations/zh_CN/dev-tools/index.rst    |  2 +-
->  .../{sparse.txt =3D> dev-tools/sparse.rst}      | 67 ++++++++++++-------
->  2 files changed, 43 insertions(+), 26 deletions(-)
->  rename Documentation/translations/zh_CN/{sparse.txt =3D> dev-tools/spars=
-e.rst} (58%)
+> Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Vineet Gupta <vgupta@kernel.org>
 
-Set applied, thanks.
+I've applied this set, but I have a couple of quibbles that it would be
+nice to see addressed...
+
+> Changes v1 -> v2:
+>  * Spello "linux" -> "Linux" (Randy Dunlap)
+>
+>  Documentation/arc/arc.rst      | 81 ++++++++++++++++++++++++++++++++++
+>  Documentation/arc/features.rst |  3 ++
+>  Documentation/arc/index.rst    | 17 +++++++
+>  Documentation/arch.rst         |  1 +
+>  MAINTAINERS                    |  1 +
+>  5 files changed, 103 insertions(+)
+>  create mode 100644 Documentation/arc/arc.rst
+>  create mode 100644 Documentation/arc/features.rst
+>  create mode 100644 Documentation/arc/index.rst
+>
+> diff --git a/Documentation/arc/arc.rst b/Documentation/arc/arc.rst
+> new file mode 100644
+> index 000000000000..249d03c6be8e
+> --- /dev/null
+> +++ b/Documentation/arc/arc.rst
+> @@ -0,0 +1,81 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +Linux kernel for ARC processors
+> +*******************************
+> +
+> +Other sources of information
+> +############################
+> +
+> +Below are some resources where more information can be found on
+> +ARC processors and relevant open source projects.
+> +
+> +1. `<https://embarc.org/>`_ - Community portal for open source on ARC.
+> +Good place to start to find relevant FOSS projects, toolchain releases,
+> +news items and more.
+> +
+> +2. `<https://github.com/foss-for-synopsys-dwc-arc-processors>`_ -
+> +Home for all development activities regarding open source projects for
+> +ARC processors. Some of the projects are forks of various upstream projects,
+> +where "work in progress" is hosted prior to submission to upstream projects.
+> +Other projects are developed by Synopsys and made available to community
+> +as open source for use on ARC Processors.
+> +
+> +3. `<https://www.synopsys.com/designware-ip/processor-solutions.html>`_ -
+> +Official Synopsys ARC Processors website location, with access to some IP
+> +documentation (Programmer's Reference Manuals, AKA "PRM's", see
+> +`<https://www.synopsys.com/dw/doc.php/ds/cc/programmers-reference-manual-ARC-HS.pdf>`_)
+
+This manual requires registration (with a fair amount of information
+required) to get.  That should at least be mentioned if we can't find a
+less obnoxious version out there.
+
+> +and commercial tools (Free nSIM,
+> +`<https://www.synopsys.com/cgi-bin/dwarcnsim/req1.cgi>`_ and
+> +MetaWare Light Edition, `<https://www.synopsys.com/cgi-bin/arcmwtk_lite/reg1.cgi>`_)
+> +
+> +Important note on ARC processors configurability
+> +################################################
+> +
+> +ARC processors are highly configurable and several configurable options
+> +are supported in Linux. Some options are transparent to software
+> +(i.e cache geometries, some can be detected at runtime and configured
+> +and used accordingly, while some need to be explicitly selected or configured
+> +in the kernel's configuration utility (AKA "make menuconfig").
+> +
+> +However not all configurable options are supported when an ARC processor
+> +is to run Linux. SoC design teams should refer to "Appendix E:
+> +Configuration for ARC Linux" in the ARC HS Databook for configurability
+> +guidelines.
+> +
+> +Following these guidelines and selecting valid configuration options
+> +up front is critical to help prevent any unwanted issues during
+> +SoC bringup and software development in general.
+> +
+> +Building the Linux kernel for ARC processors
+> +############################################
+> +
+> +The process of kernel building for ARC processors is the same as for any other
+> +architecture and could be done in 2 ways:
+> +
+> +1. cross-compilation: process of compiling for ARC targets on a development
+> +host with a different processor architecture (generally x86_64/amd64).
+> +
+> +2. native compilation: process of compiling for ARC on a ARC platform
+> +(hardware board or a simulator like QEMU) with complete development environment
+> +(GNU toolchain, dtc, make etc) installed on the platform.
+
+These enumerated lists would render a lot more pleasantly if you
+actually formatted them as RST enumerated lists - with lines after the
+first indented.
+
+> +In both cases, up-to-date GNU toolchain for ARC for the host is needed.
+> +Synopsys offers prebuilt toolchain releases which can be used for this purpose,
+> +available from:
+> +
+> +1. Synopsys GNU toolchain releases:
+> +`<https://github.com/foss-for-synopsys-dwc-arc-processors/toolchain/releases>`_
+> +2. Linux kernel compilers collection:
+> +`<https://mirrors.edge.kernel.org/pub/tools/crosstool/>`_
+> +3. Bootlin's toolchain collection: `<https://toolchains.bootlin.com/>`_
+
+These, in particular, render in a pretty ugly way.
+
+Thanks,
 
 jon
