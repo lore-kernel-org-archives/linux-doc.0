@@ -2,231 +2,255 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80846C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Nov 2021 03:17:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4A7AC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Nov 2021 06:56:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243799AbhK2DUr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 28 Nov 2021 22:20:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33666 "EHLO
+        id S232490AbhK2HAM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Nov 2021 02:00:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244927AbhK2DSr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Nov 2021 22:18:47 -0500
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 984C5C06174A;
-        Sun, 28 Nov 2021 19:15:30 -0800 (PST)
-Received: by mail-pl1-x633.google.com with SMTP id o14so11012274plg.5;
-        Sun, 28 Nov 2021 19:15:30 -0800 (PST)
+        with ESMTP id S236032AbhK2G6M (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Nov 2021 01:58:12 -0500
+Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8868C061758;
+        Sun, 28 Nov 2021 22:51:50 -0800 (PST)
+Received: by mail-qt1-x836.google.com with SMTP id z9so15600125qtj.9;
+        Sun, 28 Nov 2021 22:51:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=93XZyPxbpEaffAuR16sRnBcj4PQHor5vQ/LkS8fj+ZE=;
-        b=elQcINHDVYnB6H8qDoqGJGG8SP/0di96MpaKAoDoVLprQaFYqIEyWnx1SiWiH/17IZ
-         CyR3rixdR7eJI1s8wcTfTN4sGo/csQtKc8997poyTyVLqCZroU1XbvKdiLvJU15XVDm8
-         Kz6XTKFH6ttbjGvyHJxEH/YxH6BeXFhvnmqE+Zavua0ozRWUJf1Wqeqf1Y+udnH0xqOt
-         DPau6VqbeQHR937kdmkuhV6/4/Td60CTdUJPn4w6oI5YpjVSXtLmjeHyBYnLMP/Me9e/
-         yQeUAv2YvsYrhPkGBzy1F2nApFxj9vQD9cn8aSt6hhlkWTwqLdRZ/sTxXQQpzlhcuCsV
-         eHUA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jX1PdfZQrepYZSd1Km2MxfCByhVbFu5b8QU3N9v3GO8=;
+        b=ijkWPIcK+WeoWwqfCjfS1IU/lol3NK5BT5txuTm447JVndmdWF+axARQAUUOFoWl3l
+         VwyKYBSvpKPuNx8JMg6CltnSArdXKTMBnOjPph4Sk0KwPd/hQeg9iS1KcUUj0E0me1Rl
+         QrCtT8L9SF2MwdOB/kP/qhcXUobAVnZoA414hX/QywnOXSS3OTylmJqZZb5yXRIG5aVP
+         mr92RelEMpH4fv1shKZDM+SeBnY6EtfOMvXw8lA130S0K5KHdGh/CBUiUBDvom9NkEFJ
+         RWs6nFzmRHwbQif1vu/MNqPAjshdBg5M/pNWR6a+d9uaiYARMC2psIwttnuRY2JTYgqI
+         2M7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=93XZyPxbpEaffAuR16sRnBcj4PQHor5vQ/LkS8fj+ZE=;
-        b=hvbezxUiDV0yI5cwvLhGN42GPUfdXkBR3o0jfzYfAjp5vc/oFscuoVYHu5Fh42yFr+
-         u8BMPGnHIa0VJvy3KhwlSrLtccNiDCNBzQbggV7bfP4i0UrIW30NadRe5+2JvtrRYmOi
-         9+fQkzEW4HHWwbRQVkbEKL8ctlIM+lGI5ZW9qelWcLhlESgUwoZM5KMzX8KQRgX0mijd
-         JrxRqZsviyQ/o3wzWHutobctWyocNMh2hrAvBXBqh0YNNhfqWD3oJYRTBdfVPTm/ZoNg
-         H7XkkjiJ7o7fVgtw4zS28AS4Ndjo09E3c5rlxPJSnIIXHxfXPpmSet/pvcK5sI7S+Jti
-         Vqsw==
-X-Gm-Message-State: AOAM532HZAARzGFnXslq90M/CobFoEwZxvnKr/YvrJYsO4Zw0eXDX2Du
-        XBlwBQEbGDYAghcn8nXbNr2EeVssW+jU7280TDM=
-X-Google-Smtp-Source: ABdhPJym3wrm0AQcPH3xK0a9p5CzB/BdYuVEo5fLOMQ5RntiTUPzVJM1TccT4fxwhb5AmWpGS5U33Q4Le9K5GGL6iak=
-X-Received: by 2002:a17:902:76c4:b0:143:6f27:391b with SMTP id
- j4-20020a17090276c400b001436f27391bmr57215085plt.76.1638155729962; Sun, 28
- Nov 2021 19:15:29 -0800 (PST)
-MIME-Version: 1.0
-References: <20211126093754.76784-1-yang.yang29@zte.com.cn>
-In-Reply-To: <20211126093754.76784-1-yang.yang29@zte.com.cn>
-From:   teng sterling <sterlingteng@gmail.com>
-Date:   Mon, 29 Nov 2021 11:15:18 +0800
-Message-ID: <CAMU9jJpbhpeuo58Aia_MiQEanKPn0+LnJOJu-LUH1O=iRmEZnA@mail.gmail.com>
-Subject: Re: [PATCH v2] docs/zh_CN: Add zh_CN/accounting/taskstats.rst
-To:     CGEL <cgel.zte@gmail.com>
-Cc:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Alex Shi <seakeel@gmail.com>, yang.yang29@zte.com.cn,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jX1PdfZQrepYZSd1Km2MxfCByhVbFu5b8QU3N9v3GO8=;
+        b=II3MT3eN5tetYEdY0XVqKYEhlxxeyhA6Uoc00rEJx0vnjuGbNMFK2LSpGfBm8RUEaF
+         a7nllWu1cJxNDefe/oaYIYklAfFDZtceACu6tSASxdmQjPzgzjIJGtL41WnrLcbS3y72
+         PtT6mC+w/lo2TwQt8eUh8J2X3eZvdwZMBOneOxjln5YcdENGVRKDAmCW/3ex2VgSyIAF
+         DmjpTT0PHSiZxAqc7hk0b+8RSE80NUBxtV6flkvV6iaY4CHEE7vDbTJ0+L4Twro+8y8X
+         fsnEcjuXaHr8Ffk5FUVSvI11PaIzeH63aTEWRWNSr9Uo+EEXBKFkHucmujSZMkzyfF8O
+         HENg==
+X-Gm-Message-State: AOAM532eab9tO1DkTq5Hj2r8sWSRefAsv82+FNtr3CgvQMcrBkF6eFuc
+        FmOE4rX3JkRkzE8wwfu33+Y=
+X-Google-Smtp-Source: ABdhPJwm/85Fslv11z0fojGzC3pwFGLhG8rkIpudX1xmRpmNEuHf9/n69F14+lNeqWd60HAXFetlKw==
+X-Received: by 2002:ac8:5c91:: with SMTP id r17mr44854444qta.18.1638168709774;
+        Sun, 28 Nov 2021 22:51:49 -0800 (PST)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id k18sm8396492qta.24.2021.11.28.22.51.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Nov 2021 22:51:49 -0800 (PST)
+From:   cgel.zte@gmail.com
+X-Google-Original-From: yang.yang29@zte.com.cn
+To:     alexs@kernel.org, corbet@lwn.net, siyanteng@loongson.cn,
+        seakeel@gmail.com
+Cc:     yang.yang29@zte.com.cn, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Subject: [PATCH v3] docs/zh_CN: Add zh_CN/accounting/taskstats.rst
+Date:   Mon, 29 Nov 2021 06:51:14 +0000
+Message-Id: <20211129065113.306748-1-yang.yang29@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PGNnZWwuenRlQGdtYWlsLmNvbT4g5LqOMjAyMeW5tDEx5pyIMjnml6XlkajkuIAg5LiK5Y2IMjoy
-M+WGmemBk++8mg0KPg0KPiBGcm9tOiBZYW5nIFlhbmcgPHlhbmcueWFuZzI5QHp0ZS5jb20uY24+
-DQo+DQo+IEFkZCB0cmFuc2xhdGlvbiB6aF9DTi9hY2NvdW50aW5nL3Rhc2tzdGF0cy5yc3QgYW5k
-IGxpbmtzIGl0IHRvDQo+IHpoX0NOL2FjY291bnRpbmcvaW5kZXgucnN0IHdoaWxlIGNsZWFuIGl0
-cyB0b2RvIGVudHJ5Lg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBZYW5nIFlhbmcgPHlhbmcueWFuZzI5
-QHp0ZS5jb20uY24+DQo+IFJldmlld2VkLWJ5OiBBbGV4IFNoaSA8YWxleHNAa2VybmVsLm9yZz4N
-CldoZW4gSSBidWlsdCBpdCwgYSB3YXJuaW5nIHdhcyByZXBvcnRlZO+8mg0KRG9jdW1lbnRhdGlv
-bi90cmFuc2xhdGlvbnMvemhfQ04vYWNjb3VudGluZy90YXNrc3RhdHMucnN0OjE0MzoNCldBUk5J
-Tkc6IEJ1bGxldCBsaXN0IGVuZHMgd2l0aG91dCBhIGJsYW5rIGxpbmU7IHVuZXhwZWN0ZWQgdW5p
-bmRlbnQuDQoNCklmIHlvdSBmaXggaXTvvIwNClJldmlld2VkLWJ5OiBZYW50ZW5nIFNpIDxzaXlh
-bnRlbmdAbG9vbmdzb24uY24+DQo+IC0tLQ0KPiB2MjoNCj4gLSBmaXggaW5jb21wbGV0ZSB3b3Jk
-cyBhbmQgbG9uZyBzZW50ZW5jZXMuDQo+IC0tLQ0KPiAgLi4uL3RyYW5zbGF0aW9ucy96aF9DTi9h
-Y2NvdW50aW5nL2luZGV4LnJzdCAgIHwgICAyICstDQo+ICAuLi4vemhfQ04vYWNjb3VudGluZy90
-YXNrc3RhdHMucnN0ICAgICAgICAgICAgfCAxNDcgKysrKysrKysrKysrKysrKysrDQo+ICAyIGZp
-bGVzIGNoYW5nZWQsIDE0OCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+ICBjcmVhdGUg
-bW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vYWNjb3VudGluZy90
-YXNrc3RhdHMucnN0DQo+DQo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9u
-cy96aF9DTi9hY2NvdW50aW5nL2luZGV4LnJzdCBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25z
-L3poX0NOL2FjY291bnRpbmcvaW5kZXgucnN0DQo+IGluZGV4IDM2MmU5MDdiNDFmOS4uMTI0YjU5
-MGZiMDFiIDEwMDY0NA0KPiAtLS0gYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9h
-Y2NvdW50aW5nL2luZGV4LnJzdA0KPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96
-aF9DTi9hY2NvdW50aW5nL2luZGV4LnJzdA0KPiBAQCAtMTYsMTAgKzE2LDEwIEBADQo+ICAgICA6
-bWF4ZGVwdGg6IDENCj4NCj4gICAgIHBzaQ0KPiArICAgdGFza3N0YXRzDQo+DQo+ICBUb2RvbGlz
-dDoNCj4NCj4gICAgIGNncm91cHN0YXRzDQo+ICAgICBkZWxheS1hY2NvdW50aW5nDQo+IC0gICB0
-YXNrc3RhdHMNCj4gICAgIHRhc2tzdGF0cy1zdHJ1Y3QNCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50
-YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2FjY291bnRpbmcvdGFza3N0YXRzLnJzdCBiL0RvY3Vt
-ZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2FjY291bnRpbmcvdGFza3N0YXRzLnJzdA0KPiBu
-ZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCAwMDAwMDAwMDAwMDAuLjlkMDRhZmEwM2M2Yw0K
-PiAtLS0gL2Rldi9udWxsDQo+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NO
-L2FjY291bnRpbmcvdGFza3N0YXRzLnJzdA0KPiBAQCAtMCwwICsxLDE0NyBAQA0KPiArLi4gaW5j
-bHVkZTo6IC4uL2Rpc2NsYWltZXItemhfQ04ucnN0DQo+ICsNCj4gKzpPcmlnaW5hbDogRG9jdW1l
-bnRhdGlvbi9hY2NvdW50aW5nL3Rhc2tzdGF0cy5yc3QNCj4gKw0KPiArOlRyYW5zbGF0b3I6IFlh
-bmcgWWFuZyA8eWFuZy55YW5nMjlAenRlLmNvbS5jbj4NCj4gKw0KPiArLi4gX2NuX3Rhc2tzdGF0
-cy5yc3Q6DQo+ICsNCj4gKz09PT09PT09PT09PT09PT0NCj4gK+avj+S7u+WKoeeahOe7n+iuoeaO
-peWPow0KPiArPT09PT09PT09PT09PT09PQ0KPiArDQo+ICtUYXNrc3RhdHPmmK/kuIDkuKrln7rk
-uo5uZXRsaW5r55qE5o6l5Y+j77yM55So5LqO5LuO5YaF5qC45ZCR55So5oi356m66Ze05Y+R6YCB
-5q+P5Lu75Yqh5Y+K5q+P6L+b56iL55qEDQo+ICvnu5/orqHkv6Hmga/jgIINCj4gKw0KPiArVGFz
-a3N0YXRz6K6+6K6h55uu55qE77yaDQo+ICsNCj4gKy0g5Zyo5Lu75Yqh55Sf5ZG95ZGo5pyf5YaF
-5ZKM6YCA5Ye65pe26auY5pWI55qE5o+Q5L6b57uf6K6h5L+h5oGvDQo+ICstIOe7n+S4gOS4jeWQ
-jOiuoeaVsOWtkOezu+e7n+eahOaOpeWPow0KPiArLSDmlK/mjIHmnKrmnaXorqHmlbDns7vnu5/n
-moTmianlsZUNCj4gKw0KPiAr5pyv6K+tDQo+ICstLS0tDQo+ICsNCj4gK+KAnHBpZOKAneOAgeKA
-nHRpZOKAneOAgeKAnOS7u+WKoeKAneS6kuaNouS9v+eUqO+8jOeUqOS6juaPj+i/sOeUsXN0cnVj
-dCB0YXNrX3N0cnVjdOWumuS5ieeahOagh+WHhg0KPiArTGludXjku7vliqHjgILigJzmr49waWTn
-moTnu5/orqHmlbDmja7igJ3nrYnku7fkuo7igJzmr4/ku7vliqHnmoTnu5/orqHmlbDmja7igJ3j
-gIINCj4gKw0KPiAr4oCcdGdpZOKAneOAgeKAnOi/m+eoi+KAneOAgeKAnOe6v+eoi+e7hOKAneS6
-kuaNouS9v+eUqO+8jOeUqOS6juaPj+i/sOWFseS6q21tX3N0cnVjdOeahOS7u+WKoembhu+8jA0K
-PiAr5Lmf5bCx5piv5Lyg57uf55qEVW5peOi/m+eoi+OAguWwveeuoeS9v+eUqOS6hnRnaWTov5nk
-uKror43vvIzljbPkvb/kuIDkuKrku7vliqHmmK/nur/nqIvnu4Tnu4Tplb/vvIwNCj4gK+WvueWu
-g+eahOWkhOeQhuS5n+ayoeacieS7gOS5iOS4jeWQjOOAguWPquimgeS4gOS4qui/m+eoi+i/mOac
-ieS7u+S9leW9kuWxnuWug+eahOS7u+WKoe+8jOWug+Wwseiiq+iupOS4ug0KPiAr5rS7552A44CC
-DQo+ICsNCj4gK+eUqOazlQ0KPiArLS0tLQ0KPiArDQo+ICvkuLrkuoblnKjku7vliqHnlJ/lkb3l
-kajmnJ/lhoXojrflvpfnu5/orqHkv6Hmga/vvIznlKjmiLfnqbrpl7TpnIDmiZPlvIDkuIDkuKrl
-jZXmkq3nmoRuZXRsaW5r5aWX5o6l5a2XDQo+ICvvvIhORVRMSU5LX0dFTkVSSUPml4/vvInnhLbl
-kI7lj5HpgIHmjIflrppwaWTmiJZ0Z2lk55qE5ZG95Luk44CC5ZON5bqU5raI5oGv5Lit5YyF5ZCr
-5Y2V5LiqDQo+ICvku7vliqHnmoTnu5/orqHkv6Hmga/vvIjoi6XmjIflrprkuoZwaWTvvInmiJbo
-v5vnqIvmiYDmnInku7vliqHmsYfmgLvnmoTnu5/orqHkv6Hmga/vvIjoi6XmjIflrprkuoZ0Z2lk
-77yJ44CCDQo+ICsNCj4gK+S4uuS6huWcqOS7u+WKoemAgOWHuuaXtuiOt+WPlue7n+iuoeS/oeaB
-r++8jOeUqOaIt+epuumXtOeahOebkeWQrOiAheWPkemAgeS4gOS4quaMh+WummNwdeaOqeeggeea
-hOazqOWGjOWRveS7pOOAgg0KPiArY3B15o6p56CB5YaF55qEY3B15LiK5pyJ5Lu75Yqh6YCA5Ye6
-5pe277yM5q+PcGlk55qE57uf6K6h5L+h5oGv5bCG5Y+R6YCB57uZ5rOo5YaM5oiQ5Yqf55qE55uR
-5ZCs6ICF44CC5L2/55SoDQo+ICtjcHXmjqnnoIHlj6/ku6XpmZDliLbkuIDkuKrnm5HlkKzogIXm
-lLbliLDnmoTmlbDmja7vvIzlubbmnInliqnkuo7lr7luZXRsaW5r5o6l5Y+j6L+b6KGM5rWB6YeP
-5o6n5Yi277yM5ZCO5paHDQo+ICvlsIbov5vooYzmm7Tor6bnu4bnmoTop6Pph4rjgIINCj4gKw0K
-PiAr5aaC5p6c5q2j5Zyo6YCA5Ye655qE5Lu75Yqh5piv57q/56iL57uE5Lit5pyA5ZCO5LiA5Liq
-6YCA5Ye655qE57q/56iL77yM6aKd5aSW5LiA5p2h5YyF5ZCr5q+PdGdpZOe7n+iuoeS/oeaBr+ea
-hA0KPiAr6K6w5b2V5Lmf5bCG5Y+R6YCB57uZ55So5oi356m66Ze044CC5ZCO6ICF5YyF5ZCr57q/
-56iL57uE5Lit5omA5pyJ57q/56iL77yI5YyF5ous6L+H5Y675ZKM546w5Zyo77yJ55qE5q+PcGlk
-57uf6K6hDQo+ICvkv6Hmga/mgLvlkozjgIINCj4gKw0KPiArZ2V0ZGVsYXlzLmPmmK/kuIDkuKrn
-roDljZXnmoTnpLrkvovvvIznlKjku6XmvJTnpLrlpoLkvZXkvb/nlKh0YXNrc3RhdHPmjqXlj6Po
-jrflj5blu7bov5/nu5/orqHkv6Hmga/jgIINCj4gK+eUqOaIt+WPr+azqOWGjGNwdeaOqeeggeOA
-geWPkemAgeWRveS7pOWSjOWkhOeQhuWTjeW6lOOAgeebkeWQrOavj3RpZC90Z2lk6YCA5Ye65pWw
-5o2u44CB5bCG5pS25Yiw55qE5pWw5o2uDQo+ICvlhpnlhaXmlofku7bjgIHpgJrov4flop7lpKfm
-jqXmlLbnvJPlhrLljLrov5vooYzln7rmnKznmoTmtYHph4/mjqfliLbjgIINCj4gKw0KPiAr5o6l
-5Y+jDQo+ICstLS0tDQo+ICsNCj4gK+WGheaguOeUqOaIt+aOpeWPo+WwgeijheWcqGluY2x1ZGUv
-bGludXgvdGFza3N0YXRzLmjjgIINCj4gKw0KPiAr5Li66YG/5YWN5pys5paH5qGj6ZqP552A5o6l
-5Y+j55qE5ryU6L+b6ICM6L+H5pyf77yM5pys5paH5LuF57uZ5Ye65b2T5YmN54mI5pys55qE5qaC
-6KaB44CC5b2T5pys5paH5LiOdGFza3N0YXRzLmgNCj4gK+S4jeS4gOiHtOaXtu+8jOS7pXRhc2tz
-dGF0cy5o5Li65YeG44CCDQo+ICsNCj4gK3N0cnVjdCB0YXNrc3RhdHPmmK/mr49waWTlkozmr490
-Z2lk5pWw5o2u5YWx55So55qE6K6h5pWw57uT5p6E5L2T44CC5a6D5piv54mI5pys5YyW55qE77yM
-5Y+v5Zyo5YaF5qC45paw5aKeDQo+ICvorqHmlbDlrZDns7vnu5/ml7bov5vooYzmianlsZXjgIJ0
-YXNrc3RhdHMuaOS4reWumuS5ieS6huWQhOWtl+auteWPiuivreS5ieOAgg0KPiArDQo+ICvnlKjm
-iLfjgIHlhoXmoLjnqbrpl7TnmoTmlbDmja7kuqTmjaLmmK/lsZ7kuo5ORVRMSU5LX0dFTkVSSUPm
-l4/nmoRuZXRsaW5r5raI5oGv77yM5L2/55SobmV0bGlua+WxnuaApw0KPiAr5o6l5Y+j44CC5raI
-5oGv5qC85byP5aaC5LiLOjoNCj4gKw0KPiArICAgICstLS0tLS0tLS0tKy0gLSAtKy0tLS0tLS0t
-LS0tLS0rLS0tLS0tLS0tLS0tLS0tLS0tLSsNCj4gKyAgICB8IG5sbXNnaGRyIHwgUGFkIHwgIGdl
-bmxtc2doZHIgfCB0YXNrc3RhdHMgcGF5bG9hZCB8DQo+ICsgICAgKy0tLS0tLS0tLS0rLSAtIC0r
-LS0tLS0tLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tLS0tKw0KPiArDQo+ICtUYXNrc3RhdHPovb3o
-jbfmnInkuInnp43nsbvlnovvvJoNCj4gKw0KPiArMS4g5ZG95Luk77ya55Sx55So5oi35Y+R6YCB
-57uZ5YaF5qC444CC6I635Y+W5oyH5a6acGlkL3RnaWTmlbDmja7nmoTlkb3ku6TljIXlkKvkuIDk
-uKrnsbvlnovkuLoNCj4gK1RBU0tTVEFUU19DTURfQVRUUl9QSUQvVEdJROeahOWxnuaAp++8jOiv
-peWxnuaAp+WMheWQq3UzMueahHBpZOaIlnRnaWTovb3ojbfjgIINCj4gK3BpZC90Z2lk5oyH56S6
-55So5oi356m66Ze06KaB57uf6K6h55qE5Lu75YqhL+i/m+eoi+OAgg0KPiArDQo+ICvms6jlhowv
-5rOo6ZSA6I635Y+W5oyH5a6aY3B16ZuG5LiK6YCA5Ye65pWw5o2u55qE5ZG95Luk5YyF5ZCr5LiA
-5Liq57G75Z6L5Li6DQo+ICtUQVNLU1RBVFNfQ01EX0FUVFJfUkVHSVNURVIvREVSRUdJU1RFUl9D
-UFVNQVNL55qE5bGe5oCn77yM6K+l5bGe5oCn5YyF5ZCrY3B15o6p56CB6L296I2344CCDQo+ICtj
-cHXmjqnnoIHmmK/ku6Vhc2NpaeeggeihqOekuu+8jOeUqOmAl+WPt+WIhumalOeahGNwdeiMg+Wb
-tOOAguS+i+WmguiLpemcgOebkeWQrDEsMiwzLDUsNyw45Y+3Y3B155qEDQo+ICvpgIDlh7rmlbDm
-ja7vvIxjcHXmjqnnoIHooajnpLrkuLoiMS0zLDUsNy04IuOAguiLpeeUqOaIt+epuumXtOWcqOWF
-s+mXreebkeWQrOWll+aOpeWtl+WJjeW/mOS6huazqOmUgOebkeWQrA0KPiAr55qEY3B16ZuG77yM
-6ZqP552A5pe26Ze055qE5o6o56e777yM5YaF5qC45Lya5riF55CG5q2k55uR5ZCs6ZuG44CC5L2G
-5piv77yM5Ye65LqO5o+Q5pWI55qE55uu55qE77yM5bu66K6u5piO56GuDQo+ICvmiafooYzms6jp
-lIDjgIINCj4gKw0KPiArMi4g5ZG95Luk55qE5bqU562U77ya5YaF5qC45Y+R5Ye65bqU562U55So
-5oi356m66Ze055qE5ZG95Luk44CC6L296I235pyJ5LiJ57G75bGe5oCn77yaDQo+ICsNCj4gK2Ep
-IFRBU0tTVEFUU19UWVBFX0FHR1JfUElEL1RHSUTvvJog5pys5bGe5oCn5LiN5YyF5ZCr6L296I23
-77yM55So5Lul5oyH56S65YW25ZCO5Li66KKr57uf6K6h5a+56LGhDQo+ICvnmoRwaWcvdGdpZOOA
-gg0KPiArDQo+ICtiKSBUQVNLU1RBVFNfVFlQRV9QSUQvVEdJRO+8muacrOWxnuaAp+eahOi9veiN
-t+S4unBpZy90Z2lk77yM5YW257uf6K6h5L+h5oGv5bCG6KKr6L+U5Zue44CCDQo+ICsNCj4gK2Mp
-IFRBU0tTVEFUU19UWVBFX1NUQVRT77ya5pys5bGe5oCn55qE6L296I235Li65LiA5Liqc3RydWN0
-IHRhc2tzdGF0c+WunuS+i+OAguavj3BpZOWSjA0KPiAr5q+PdGdpZOe7n+iuoeS/oeaBr+WFseeU
-qOivpee7k+aehOS9k+OAgg0KPiArDQo+ICszLiDlhoXmoLjkvJrlnKjku7vliqHpgIDlh7rml7bl
-j5HpgIHmlrDmtojmga/jgILlhbbovb3ojbfljIXlkKvkuIDns7vliJfku6XkuIvnsbvlnovnmoTl
-sZ7mgKfvvJoNCj4gKw0KPiArYSkgVEFTS1NUQVRTX1RZUEVfQUdHUl9QSUTvvJrmjIfnpLrlhbbl
-kI7kuKTkuKrlsZ7mgKfkuLpwaWQrc3RhdHPjgIINCj4gK2IpIFRBU0tTVEFUU19UWVBFX1BJRO+8
-muWMheWQq+mAgOWHuuS7u+WKoeeahHBpZOOAgg0KPiArYykgVEFTS1NUQVRTX1RZUEVfU1RBVFPv
-vJrljIXlkKvpgIDlh7rku7vliqHnmoTmr49waWTnu5/orqHkv6Hmga8NCj4gK2QpIFRBU0tTVEFU
-U19UWVBFX0FHR1JfVEdJRO+8muaMh+ekuuWFtuWQjuS4pOS4quWxnuaAp+S4unRnaWQrc3RhdHPj
-gIINCj4gK2UpIFRBU0tTVEFUU19UWVBFX1RHSUTvvJrljIXlkKvku7vliqHmiYDlsZ7ov5vnqIvn
-moR0Z2lkDQo+ICtmKSBUQVNLU1RBVFNfVFlQRV9TVEFUU++8muWMheWQq+mAgOWHuuS7u+WKoeaJ
-gOWxnui/m+eoi+eahOavj3RnaWTnu5/orqHkv6Hmga8NCj4gKw0KPiAr5q+PdGdpZOeahOe7n+iu
-oQ0KPiArLS0tLS0tLS0tLS0tDQo+ICsNCj4gK+mZpOS6huavj+S7u+WKoeeahOe7n+iuoeS/oeaB
-r++8jHRhc2tzdGF0c+i/mOaPkOS+m+avj+i/m+eoi+eahOe7n+iuoeS/oeaBr++8jOWboOS4uui1
-hOa6kOeuoeeQhumAmuW4uOS7pei/m+eoiw0KPiAr57KS5bqm5a6M5oiQ77yM5bm25LiU5LuF5Zyo
-55So5oi356m66Ze06IGa5ZCI5Lu75Yqh57uf6K6h5L+h5oGv5pWI546H5L2O5LiL5LiU5Y+v6IO9
-5LiN5YeG56Gu77yI57y65LmP5Y6f5a2Q5oCn77yJ44CCDQo+ICsNCj4gK+eEtuiAjO+8jOmZpOS6
-huavj+S7u+WKoee7n+iuoeS/oeaBr++8jOWcqOWGheaguOS4ree7tOaKpOavj+i/m+eoi+e7n+iu
-oeS/oeaBr+WtmOWcqOmineWklueahOaXtumXtOWSjOepuumXtOW8gOmUgOOAgg0KPiAr5Li66Kej
-5Yaz5q2k6Zeu6aKY77yMdGFza3N0YXRz5Luj56CB5bCG6YCA5Ye65Lu75Yqh55qE57uf6K6h5L+h
-5oGv57Sv56ev5Yiw6L+b56iL6IyD5Zu055qE5pWw5o2u57uT5p6E5Lit44CCDQo+ICvlvZPov5vn
-qIvmnIDlkI7kuIDkuKrku7vliqHpgIDlh7rml7bvvIzntK/np6/nmoTov5vnqIvnuqfmlbDmja7k
-uZ/kvJrlj5HpgIHliLDnlKjmiLfnqbrpl7TvvIjkuI7mr4/ku7vliqHmlbDmja7kuIDotbfvvInj
-gIINCj4gKw0KPiAr5b2T55So5oi35p+l6K+i5q+PdGdpZOaVsOaNruaXtu+8jOWGheaguOWwhuaM
-h+Wumue6v+eoi+e7hOS4reaJgOaciea0u+WKqOe6v+eoi+eahOe7n+iuoeS/oeaBr+ebuOWKoO+8
-jOW5tua3u+WKoOWIsA0KPiAr6K+l57q/56iL57uE55qE57Sv56ev5oC75pWw77yI5ZCr5LmL5YmN
-6YCA5Ye655qE57q/56iL77yJ44CCDQo+ICsNCj4gK+aJqeWxlXRhc2tzdGF0cw0KPiArLS0tLS0t
-LS0tLS0tLQ0KPiArDQo+ICvmnInkuKTnp43mlrnms5Xlj6/lnKjmnKrmnaXkv67mlLnlhoXmoLjm
-ianlsZV0YXNrc3RhdHPmjqXlj6PvvIzku6Xlr7zlh7rmm7TlpJrnmoTmr4/ku7vliqEv6L+b56iL
-57uf6K6h5L+h5oGv77yaDQo+ICsNCj4gKzEuIOWcqOeOsOaciXN0cnVjdCB0YXNrc3RhdHPmnKvl
-sL7lop7liqDlrZfmrrXjgILor6Xnu5PmnoTkvZPkuK3nmoTniYjmnKzlj7fnoa7kv53kuoblkJHl
-kI7lhbzlrrnmgKfjgIINCj4gK+eUqOaIt+epuumXtOWwhuS7heS9v+eUqOS4juWFtueJiOacrOWv
-ueW6lOeahOe7k+aehOS9k+Wtl+auteOAgg0KPiArDQo+ICsyLiDlrprkuYnljZXni6znmoTnu5/o
-rqHnu5PmnoTkvZPlubbkvb/nlKhuZXRsaW5r5bGe5oCn5o6l5Y+j6L+U5Zue5a+55bqU55qE5pWw
-5o2u44CC55Sx5LqO55So5oi356m66Ze054us56uLDQo+ICvlpITnkIbmr4/kuKpuZXRsaW5r5bGe
-5oCn77yM5omA5Lul5oC75piv5Y+v5Lul5b+955Wl5YW25LiN55CG6Kej57G75Z6L55qE5bGe5oCn
-77yI5Zug5Li65L2/55So5LqG5pen54mI5pys5o6l5Y+j77yJ44CCDQo+ICsNCj4gK+WcqDEu5ZKM
-Mi7kuYvpl7Tov5vooYzpgInmi6nvvIzlsZ7kuo7mnYPooaHngbXmtLvmgKflkozlvIDplIDnmoTp
-l67popjjgILoi6Xku4XpnIDlop7liqDlsJHmlbDlrZfmrrXvvIzpgqPkuYgxLuaYrw0KPiAr6aaW
-6YCJ5pa55rOV77yM5Zug5Li65YaF5qC45ZKM55So5oi356m66Ze05peg6ZyA5om/5ouF5aSE55CG
-5pawbmV0bGlua+WxnuaAp+eahOW8gOmUgOOAguS9huiLpeaWsOWtl+autei/h+WkmueahA0KPiAr
-5omp5bGV546w5pyJ57uT5p6E5L2T77yM5a+86Ie05LiN5ZCM55qE55So5oi356m66Ze06K6h5pWw
-56iL5bqP5LiN5b+F6KaB55qE5o6l5pS25aSn5Z6L57uT5p6E5L2T77yM6ICM5a+557uT5p6E5L2T
-DQo+ICvlrZfmrrXlubbkuI3mhJ/lhbTotqPvvIzpgqPkuYgyLuaYr+WAvOW+l+eahOOAgg0KPiAr
-DQo+ICtUYXNrc3RhdHPnmoTmtYHph4/mjqfliLYNCj4gKy0tLS0tLS0tLS0tLS0tLS0tLS0NCj4g
-Kw0KPiAr5b2T6YCA5Ye65Lu75Yqh5pWw6YCf546H5Y+Y5aSn77yM55uR5ZCs6ICF5Y+v6IO96Lef
-5LiN5LiK5YaF5qC45Y+R6YCB5q+PdGlkL3RnaWTpgIDlh7rmlbDmja7nmoTpgJ/njofvvIzogIzl
-r7zoh7QNCj4gK+aVsOaNruS4ouWkseOAgnRhc2tzdGF0c+e7k+aehOS9k+WPmOWkp+OAgWNwdeaV
-sOmHj+S4iuWNh++8jOmDveS8muWvvOiHtOi/meenjeWPr+iDveaAp+WinuWKoOOAgg0KPiArDQo+
-ICvkuLrpgb/lhY3nu5/orqHkv6Hmga/kuKLlpLHvvIznlKjmiLfnqbrpl7TlupTmiafooYzku6Xk
-uIvmk43kvZzkuK3oh7PlsJHkuIDpobnvvJoNCj4gKw0KPiArLSDlop7lpKfnm5HlkKzogIXnlKjk
-uo7mjqXmlLbpgIDlh7rmlbDmja7nmoRuZXRsaW5r5aWX5o6l5a2X5o6l5pS257yT5a2Y5Yy644CC
-DQo+ICsNCj4gKy0g5Yib5bu65pu05aSa55qE55uR5ZCs6ICF77yM5YeP5bCR5q+P5Liq55uR5ZCs
-6ICF55uR5ZCs55qEY3B15pWw6YeP44CC5p6B56uv5oOF5Ya15LiL5Y+v5Li65q+P5LiqY3B15Yib
-5bu6DQo+ICvkuIDkuKrnm5HlkKzogIXjgILnlKjmiLfov5jlj6/ogIPomZHlsIbnm5HlkKzogIXn
-moRjcHXkurLlkozmgKforr7nva7kuLrnm5HlkKxjcHXnmoTlrZDpm4bvvIznibnliKvmmK/lvZPk
-u5bku6wNCj4gK+S7heebkeWQrOS4gOS4qmNwdeOAgg0KPiArDQo+ICvlsL3nrqHph4flj5bkuobo
-v5nkupvmjqrmlr3vvIzoi6XnlKjmiLfnqbrpl7Tku43mlLbliLDmjIfnpLrmjqXmlLbnvJPlrZjl
-jLrmuqLlh7rnmoRFTk9CVUZT6ZSZ6K+v5raI5oGv77yMDQo+ICvliJnlupTph4flj5blhbbku5bm
-jqrmlr3lpITnkIbmlbDmja7kuKLlpLHjgIINCj4gLS0NCj4gMi4yNS4xDQo=
+From: Yang Yang <yang.yang29@zte.com.cn>
+
+Add translation zh_CN/accounting/taskstats.rst and links it to
+zh_CN/accounting/index.rst while clean its todo entry.
+
+Signed-off-by: Yang Yang <yang.yang29@zte.com.cn>
+Reviewed-by: Alex Shi <alexs@kernel.org>
+Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+---
+v3:
+- add necessary blank line for bullet list.
+v2:
+- fix incomplete words and long sentences.
+---
+ .../translations/zh_CN/accounting/index.rst   |   2 +-
+ .../zh_CN/accounting/taskstats.rst            | 147 ++++++++++++++++++
+ 2 files changed, 148 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/accounting/taskstats.rst
+
+diff --git a/Documentation/translations/zh_CN/accounting/index.rst b/Documentation/translations/zh_CN/accounting/index.rst
+index 362e907b41f9..124b590fb01b 100644
+--- a/Documentation/translations/zh_CN/accounting/index.rst
++++ b/Documentation/translations/zh_CN/accounting/index.rst
+@@ -16,10 +16,10 @@
+    :maxdepth: 1
+ 
+    psi
++   taskstats
+ 
+ Todolist:
+ 
+    cgroupstats
+    delay-accounting
+-   taskstats
+    taskstats-struct
+diff --git a/Documentation/translations/zh_CN/accounting/taskstats.rst b/Documentation/translations/zh_CN/accounting/taskstats.rst
+new file mode 100644
+index 000000000000..f88a8d58ec69
+--- /dev/null
++++ b/Documentation/translations/zh_CN/accounting/taskstats.rst
+@@ -0,0 +1,147 @@
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/accounting/taskstats.rst
++
++:Translator: Yang Yang <yang.yang29@zte.com.cn>
++
++.. _cn_taskstats.rst:
++
++================
++每任务的统计接口
++================
++
++Taskstats是一个基于netlink的接口，用于从内核向用户空间发送每任务及每进程的
++统计信息。
++
++Taskstats设计目的：
++
++- 在任务生命周期内和退出时高效的提供统计信息
++- 统一不同计数子系统的接口
++- 支持未来计数系统的扩展
++
++术语
++----
++
++“pid”、“tid”、“任务”互换使用，用于描述由struct task_struct定义的标准
++Linux任务。“每pid的统计数据”等价于“每任务的统计数据”。
++
++“tgid”、“进程”、“线程组”互换使用，用于描述共享mm_struct的任务集，
++也就是传统的Unix进程。尽管使用了tgid这个词，即使一个任务是线程组组长，
++对它的处理也没有什么不同。只要一个进程还有任何归属它的任务，它就被认为
++活着。
++
++用法
++----
++
++为了在任务生命周期内获得统计信息，用户空间需打开一个单播的netlink套接字
++（NETLINK_GENERIC族）然后发送指定pid或tgid的命令。响应消息中包含单个
++任务的统计信息（若指定了pid）或进程所有任务汇总的统计信息（若指定了tgid）。
++
++为了在任务退出时获取统计信息，用户空间的监听者发送一个指定cpu掩码的注册命令。
++cpu掩码内的cpu上有任务退出时，每pid的统计信息将发送给注册成功的监听者。使用
++cpu掩码可以限制一个监听者收到的数据，并有助于对netlink接口进行流量控制，后文
++将进行更详细的解释。
++
++如果正在退出的任务是线程组中最后一个退出的线程，额外一条包含每tgid统计信息的
++记录也将发送给用户空间。后者包含线程组中所有线程（包括过去和现在）的每pid统计
++信息总和。
++
++getdelays.c是一个简单的示例，用以演示如何使用taskstats接口获取延迟统计信息。
++用户可注册cpu掩码、发送命令和处理响应、监听每tid/tgid退出数据、将收到的数据
++写入文件、通过增大接收缓冲区进行基本的流量控制。
++
++接口
++----
++
++内核用户接口封装在include/linux/taskstats.h。
++
++为避免本文档随着接口的演进而过期，本文仅给出当前版本的概要。当本文与taskstats.h
++不一致时，以taskstats.h为准。
++
++struct taskstats是每pid和每tgid数据共用的计数结构体。它是版本化的，可在内核新增
++计数子系统时进行扩展。taskstats.h中定义了各字段及语义。
++
++用户、内核空间的数据交换是属于NETLINK_GENERIC族的netlink消息，使用netlink属性
++接口。消息格式如下::
++
++    +----------+- - -+-------------+-------------------+
++    | nlmsghdr | Pad |  genlmsghdr | taskstats payload |
++    +----------+- - -+-------------+-------------------+
++
++Taskstats载荷有三种类型：
++
++1. 命令：由用户发送给内核。获取指定pid/tgid数据的命令包含一个类型为
++TASKSTATS_CMD_ATTR_PID/TGID的属性，该属性包含u32的pid或tgid载荷。
++pid/tgid指示用户空间要统计的任务/进程。
++
++注册/注销获取指定cpu集上退出数据的命令包含一个类型为
++TASKSTATS_CMD_ATTR_REGISTER/DEREGISTER_CPUMASK的属性，该属性包含cpu掩码载荷。
++cpu掩码是以ascii码表示，用逗号分隔的cpu范围。例如若需监听1,2,3,5,7,8号cpu的
++退出数据，cpu掩码表示为"1-3,5,7-8"。若用户空间在关闭监听套接字前忘了注销监听
++的cpu集，随着时间的推移，内核会清理此监听集。但是，出于提效的目的，建议明确
++执行注销。
++
++2. 命令的应答：内核发出应答用户空间的命令。载荷有三类属性：
++
++a) TASKSTATS_TYPE_AGGR_PID/TGID： 本属性不包含载荷，用以指示其后为被统计对象
++的pig/tgid。
++
++b) TASKSTATS_TYPE_PID/TGID：本属性的载荷为pig/tgid，其统计信息将被返回。
++
++c) TASKSTATS_TYPE_STATS：本属性的载荷为一个struct taskstats实例。每pid和
++每tgid统计信息共用该结构体。
++
++3. 内核会在任务退出时发送新消息。其载荷包含一系列以下类型的属性：
++
++a) TASKSTATS_TYPE_AGGR_PID：指示其后两个属性为pid+stats。
++b) TASKSTATS_TYPE_PID：包含退出任务的pid。
++c) TASKSTATS_TYPE_STATS：包含退出任务的每pid统计信息
++d) TASKSTATS_TYPE_AGGR_TGID：指示其后两个属性为tgid+stats。
++e) TASKSTATS_TYPE_TGID：包含任务所属进程的tgid
++f) TASKSTATS_TYPE_STATS：包含退出任务所属进程的每tgid统计信息
++
++每tgid的统计
++------------
++
++除了每任务的统计信息，taskstats还提供每进程的统计信息，因为资源管理通常以进程
++粒度完成，并且仅在用户空间聚合任务统计信息效率低下且可能不准确（缺乏原子性）。
++
++然而，除了每任务统计信息，在内核中维护每进程统计信息存在额外的时间和空间开销。
++为解决此问题，taskstats代码将退出任务的统计信息累积到进程范围的数据结构中。
++当进程最后一个任务退出时，累积的进程级数据也会发送到用户空间（与每任务数据一起）。
++
++当用户查询每tgid数据时，内核将指定线程组中所有活动线程的统计信息相加，并添加到
++该线程组的累积总数（含之前退出的线程）。
++
++扩展taskstats
++-------------
++
++有两种方法可在未来修改内核扩展taskstats接口，以导出更多的每任务/进程统计信息：
++
++1. 在现有struct taskstats末尾增加字段。该结构体中的版本号确保了向后兼容性。
++用户空间将仅使用与其版本对应的结构体字段。
++
++2. 定义单独的统计结构体并使用netlink属性接口返回对应的数据。由于用户空间独立
++处理每个netlink属性，所以总是可以忽略其不理解类型的属性（因为使用了旧版本接口）。
++
++在1.和2.之间进行选择，属于权衡灵活性和开销的问题。若仅需增加少数字段，那么1.是
++首选方法，因为内核和用户空间无需承担处理新netlink属性的开销。但若新字段过多的
++扩展现有结构体，导致不同的用户空间计数程序不必要的接收大型结构体，而对结构体
++字段并不感兴趣，那么2.是值得的。
++
++Taskstats的流量控制
++-------------------
++
++当退出任务数速率变大，监听者可能跟不上内核发送每tid/tgid退出数据的速率，而导致
++数据丢失。taskstats结构体变大、cpu数量上升，都会导致这种可能性增加。
++
++为避免统计信息丢失，用户空间应执行以下操作中至少一项：
++
++- 增大监听者用于接收退出数据的netlink套接字接收缓存区。
++
++- 创建更多的监听者，减少每个监听者监听的cpu数量。极端情况下可为每个cpu创建
++  一个监听者。用户还可考虑将监听者的cpu亲和性设置为监听cpu的子集，特别是当他们
++  仅监听一个cpu。
++
++尽管采取了这些措施，若用户空间仍收到指示接收缓存区溢出的ENOBUFS错误消息，
++则应采取其他措施处理数据丢失。
+-- 
+2.25.1
