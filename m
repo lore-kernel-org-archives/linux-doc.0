@@ -2,186 +2,177 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC259C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Nov 2021 11:54:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A9C6C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Nov 2021 12:08:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241153AbhK2L5j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Nov 2021 06:57:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60416 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230232AbhK2Lzj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Nov 2021 06:55:39 -0500
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65AE8C0698DE
-        for <linux-doc@vger.kernel.org>; Mon, 29 Nov 2021 02:57:38 -0800 (PST)
-Received: by mail-wr1-x429.google.com with SMTP id a18so35832134wrn.6
-        for <linux-doc@vger.kernel.org>; Mon, 29 Nov 2021 02:57:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=7vafQL9VRNu9gFf/4mCpAetbH+x6q7yQT0LZFBgrIEY=;
-        b=FpAGCEzpMCHDlrye0BEfBwWwvSDdjJvOXWO1p1/HTeFUBw51K/pUg7ZN8+2hhZV2HV
-         22JTf8MK/JHZYUDXEZbC+03TcrFop82Q+qtsYPzjpgh0a2kz2Tyj31pCNAlSo0pVU0EN
-         1s2wOz2tBmMVxpJwr8CJDRVHdSqJ9GcDNjGn9KsDQYIjSjL3pOQzcOX38J8iZtCO7cVf
-         1VsNFoQ43N5HhmH8x/M4In50SZ0JugEpRq/2UnLc5Mhi5/l/XYzd/9rvORCsTXUtfH9K
-         hKbSLcZgq5l3o1EzWNRfQzE9J6l1tKsCqXva0OANeH17ADW9gxG5Ur3Js5eQVOUl0wJ0
-         lk7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=7vafQL9VRNu9gFf/4mCpAetbH+x6q7yQT0LZFBgrIEY=;
-        b=rBrMxWINqfGPq3VU1wruvkpb7crLpkNx4YG5hX/CY+wlM8GD7l7geqoaa9NGjY07qM
-         x8AxM9ULDJ4xV1Cp51jcVXES0UuuKjcfQ3cRAtbi26OwwBDq1tb6ImLawhtMwoPkEWWz
-         kZjt4clnhN9nSR/puGhf+7M6hpVDDl/bAj+Rxcg5E9S0Yk1+YjILHXqL4UiaXoHdANOn
-         eIYNEtdVQjgZGQDKhmHaa1rpauLl/dDXrconjAqlQFdePyjn4Mazvucsm+NIZ1EDIHas
-         oCQj/bQMo/YjiJ2cvUJ57t4hyjVR5Uxz9f5SomJmp7dDXri46gCym/seyedav/MXKqXo
-         +muw==
-X-Gm-Message-State: AOAM530BaPP9ypUUCvMEOrvHnLWn4pZjfOFiKlZOcIs+4/x8psk02lLH
-        CECPbA9IG9UF5XnkcHTbw7HH5w==
-X-Google-Smtp-Source: ABdhPJwAU8YPWeu2RrOY2XQ41C34yLkIywEO8EJrMwhVry4Q5OSTPeXL1PW8RxfOB2Xl3zforekjfA==
-X-Received: by 2002:adf:d082:: with SMTP id y2mr32476986wrh.214.1638183456845;
-        Mon, 29 Nov 2021 02:57:36 -0800 (PST)
-Received: from elver.google.com ([2a00:79e0:15:13:aaf:77c4:3d2:af75])
-        by smtp.gmail.com with ESMTPSA id n1sm16528943wmq.6.2021.11.29.02.57.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Nov 2021 02:57:36 -0800 (PST)
-Date:   Mon, 29 Nov 2021 11:57:30 +0100
-From:   Marco Elver <elver@google.com>
-To:     Boqun Feng <boqun.feng@gmail.com>
-Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
-        Alexander Potapenko <glider@google.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Waiman Long <longman@redhat.com>,
-        Will Deacon <will@kernel.org>, kasan-dev@googlegroups.com,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, x86@kernel.org
-Subject: Re: [PATCH v2 03/23] kcsan: Avoid checking scoped accesses from
- nested contexts
-Message-ID: <YaSyGr4vW3yifWWC@elver.google.com>
-References: <20211118081027.3175699-1-elver@google.com>
- <20211118081027.3175699-4-elver@google.com>
- <YaSTn3JbkHsiV5Tm@boqun-archlinux>
+        id S235996AbhK2MLg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Nov 2021 07:11:36 -0500
+Received: from mga07.intel.com ([134.134.136.100]:58595 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S243074AbhK2MJf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 29 Nov 2021 07:09:35 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10182"; a="299346248"
+X-IronPort-AV: E=Sophos;i="5.87,273,1631602800"; 
+   d="scan'208";a="299346248"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2021 04:06:16 -0800
+X-IronPort-AV: E=Sophos;i="5.87,273,1631602800"; 
+   d="scan'208";a="511659335"
+Received: from mkabdel-mobl.ger.corp.intel.com (HELO localhost) ([10.252.11.182])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2021 04:06:11 -0800
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Daniel Vetter <daniel@ffwll.ch>,
+        Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Cc:     Mark Yacoub <markyacoub@chromium.org>, bhawanpreet.lakha@amd.com,
+        nicholas.choi@amd.com, linux-doc@vger.kernel.org,
+        Michel =?utf-8?Q?D?= =?utf-8?Q?=C3=A4nzer?= 
+        <michel@daenzer.net>, roman.li@amd.com,
+        amd-gfx@lists.freedesktop.org,
+        Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+        Marek =?utf-8?B?T2w=?= =?utf-8?B?xaHDoWs=?= 
+        <marek.olsak@amd.com>, aurabindo.pillai@amd.com,
+        Sean Paul <seanpaul@chromium.org>,
+        dri-devel@lists.freedesktop.org,
+        Alex Deucher <alexander.deucher@amd.com>,
+        qingqing.zhuo@amd.com,
+        Christian =?utf-8?Q?K?= =?utf-8?Q?=C3=B6nig?= 
+        <christian.koenig@amd.com>, Roman Gilg <subdiff@gmail.com>
+Subject: Re: [PATCH 1/6] Documentation/gpu: Reorganize DC documentation
+In-Reply-To: <YaEAVV3Ka2lG/iOh@phenom.ffwll.local>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20211125153830.1352994-1-Rodrigo.Siqueira@amd.com>
+ <20211125153830.1352994-2-Rodrigo.Siqueira@amd.com>
+ <YaEAVV3Ka2lG/iOh@phenom.ffwll.local>
+Date:   Mon, 29 Nov 2021 14:06:02 +0200
+Message-ID: <87k0grjhed.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YaSTn3JbkHsiV5Tm@boqun-archlinux>
-User-Agent: Mutt/2.0.5 (2021-01-21)
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 29, 2021 at 04:47PM +0800, Boqun Feng wrote:
-> Hi Marco,
-> 
-> On Thu, Nov 18, 2021 at 09:10:07AM +0100, Marco Elver wrote:
-> > Avoid checking scoped accesses from nested contexts (such as nested
-> > interrupts or in scheduler code) which share the same kcsan_ctx.
-> > 
-> > This is to avoid detecting false positive races of accesses in the same
-> 
-> Could you provide an example for a false positive?
-> 
-> I think we do want to detect the following race:
-> 
-> 	static int v = SOME_VALUE; // a percpu variable.
-> 	static int other_v = ... ;
-> 
-> 	void foo(..)
-> 	{
-> 		int tmp;
-> 		int other_tmp;
-> 
-> 		preempt_disable();
-> 		{
-> 			ASSERT_EXCLUSIVE_ACCESSS_SCOPED(v);
-> 			tmp = v;
-> 			
-> 			other_tmp = other_v; // int_handler() may run here
-> 			
-> 			v = tmp + 2;
-> 		}
-> 		preempt_enabled();
-> 	}
-> 
-> 	void int_handler() // an interrupt handler
-> 	{
-> 		v++;
-> 	}
-> 
-> , if I understand correctly, we can detect this currently, but with this
-> patch, we cannot detect this if the interrupt happens while we're doing
-> the check for "other_tmp = other_v;", right? Of course, running tests
-> multiple times may eventually catch this, but I just want to understand
-> what's this patch for, thanks!
+On Fri, 26 Nov 2021, Daniel Vetter <daniel@ffwll.ch> wrote:
+> On Thu, Nov 25, 2021 at 10:38:25AM -0500, Rodrigo Siqueira wrote:
+>> Display core documentation is not well organized, and it is hard to find
+>> information due to the lack of sections. This commit reorganizes the
+>> documentation layout, and it is preparation work for future changes.
+>> 
+>> Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+>> ---
+>>  Documentation/gpu/amdgpu-dc.rst               | 74 -------------------
+>>  .../gpu/amdgpu-dc/amdgpu-dc-debug.rst         |  4 +
+>>  Documentation/gpu/amdgpu-dc/amdgpu-dc.rst     | 29 ++++++++
+>>  Documentation/gpu/amdgpu-dc/amdgpu-dm.rst     | 42 +++++++++++
+>>  Documentation/gpu/drivers.rst                 |  2 +-
+>>  5 files changed, 76 insertions(+), 75 deletions(-)
+>>  delete mode 100644 Documentation/gpu/amdgpu-dc.rst
+>>  create mode 100644 Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst
+>>  create mode 100644 Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
+>>  create mode 100644 Documentation/gpu/amdgpu-dc/amdgpu-dm.rst
+>> 
+>> diff --git a/Documentation/gpu/amdgpu-dc.rst b/Documentation/gpu/amdgpu-dc.rst
+>> deleted file mode 100644
+>> index f7ff7e1309de..000000000000
+>> --- a/Documentation/gpu/amdgpu-dc.rst
+>> +++ /dev/null
+>> @@ -1,74 +0,0 @@
+>> -===================================
+>> -drm/amd/display - Display Core (DC)
+>> -===================================
+>> -
+>> -*placeholder - general description of supported platforms, what dc is, etc.*
+>> -
+>> -Because it is partially shared with other operating systems, the Display Core
+>> -Driver is divided in two pieces.
+>> -
+>> -1. **Display Core (DC)** contains the OS-agnostic components. Things like
+>> -   hardware programming and resource management are handled here.
+>> -2. **Display Manager (DM)** contains the OS-dependent components. Hooks to the
+>> -   amdgpu base driver and DRM are implemented here.
+>> -
+>> -It doesn't help that the entire package is frequently referred to as DC. But
+>> -with the context in mind, it should be clear.
+>> -
+>> -When CONFIG_DRM_AMD_DC is enabled, DC will be initialized by default for
+>> -supported ASICs. To force disable, set `amdgpu.dc=0` on kernel command line.
+>> -Likewise, to force enable on unsupported ASICs, set `amdgpu.dc=1`.
+>> -
+>> -To determine if DC is loaded, search dmesg for the following entry:
+>> -
+>> -``Display Core initialized with <version number here>``
+>> -
+>> -AMDgpu Display Manager
+>> -======================
+>> -
+>> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>> -   :doc: overview
+>> -
+>> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+>> -   :internal:
+>> -
+>> -Lifecycle
+>> ----------
+>> -
+>> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>> -   :doc: DM Lifecycle
+>> -
+>> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>> -   :functions: dm_hw_init dm_hw_fini
+>> -
+>> -Interrupts
+>> -----------
+>> -
+>> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
+>> -   :doc: overview
+>> -
+>> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
+>> -   :internal:
+>> -
+>> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>> -   :functions: register_hpd_handlers dm_crtc_high_irq dm_pflip_high_irq
+>> -
+>> -Atomic Implementation
+>> ----------------------
+>> -
+>> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>> -   :doc: atomic
+>> -
+>> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>> -   :functions: amdgpu_dm_atomic_check amdgpu_dm_atomic_commit_tail
+>> -
+>> -Display Core
+>> -============
+>> -
+>> -**WIP**
+>> -
+>> -FreeSync Video
+>> ---------------
+>> -
+>> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>> -   :doc: FreeSync Video
+>> diff --git a/Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst b/Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst
+>> new file mode 100644
+>> index 000000000000..bbb8c3fc8eee
+>> --- /dev/null
+>> +++ b/Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst
+>> @@ -0,0 +1,4 @@
+>> +Display Core Debug tools
+>> +========================
+>> +
+>> +TODO
+>> diff --git a/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst b/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
+>> new file mode 100644
+>> index 000000000000..3685b3b1ad64
+>> --- /dev/null
+>> +++ b/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
+>
+> While we bikeshed names, I think it'd would make sense to call this
+> overview.rst or intro.rst or similar, since it's meant to contain the
+> overall toctree for everything amdgpu related (maybe there will be more in
+> the future).
 
-The above will still be detected. Task and interrupt contexts in this
-case are distinct, i.e. kcsan_ctx differ (see get_ctx()).
+index.rst?
 
-But there are rare cases where kcsan_ctx is shared, such as nested
-interrupts (NMI?), or when entering scheduler code -- which currently
-has a KCSAN_SANITIZE := n, but I occasionally test it, which is how I
-found this problem. The problem occurs frequently when enabling KCSAN in
-kernel/sched and placing a random ASSERT_EXCLUSIVE_ACCESS_SCOPED() in
-task context, or just enable "weak memory modeling" without this fix.
-You also need CONFIG_PREEMPT=y + CONFIG_KCSAN_INTERRUPT_WATCHER=y.
 
-The emphasis here really is on _shared kcsan_ctx_, which is not too
-common. As noted in the commit description, we need to "[...] setting up
-a watchpoint for a non-scoped (normal) access that also "conflicts" with
-a current scoped access."
-
-Consider this:
-
-	static int v;
-	int foo(..)
-	{
-		ASSERT_EXCLUSIVE_ACCESS_SCOPED(v);
-		v++; // preempted during watchpoint for 'v++'
-	}
-
-Here we set up a scoped_access to be checked for v. Then on v++, a
-watchpoint is set up for the normal access. While the watchpoint is set
-up, the task is preempted and upon entering scheduler code, we're still
-in_task() and 'current' is still the same, thus get_ctx() returns a
-kcsan_ctx where the scoped_accesses list is non-empty containing the
-scoped access for foo()'s ASSERT_EXCLUSIVE.
-
-That means, when instrumenting scheduler code or any other code called
-by scheduler code or nested interrupts (anything where get_ctx() still
-returns the same as parent context), it'd now perform checks based on
-the parent context's scoped access, and because the parent context also
-has a watchpoint set up on the variable that conflicts with the scoped
-access we'd report a nonsensical race.
-
-This case is also possible:
-
-	static int v;
-	static int x;
-	int foo(..)
-	{
-		ASSERT_EXCLUSIVE_ACCESS_SCOPED(v);
-		x++; // preempted during watchpoint for 'v' after checking x++
-	}
-
-Here, all we need is for the scoped access to be checked after x++, end
-up with a watchpoint for it, then enter scheduler code, which then
-checked 'v', sees the conflicting watchpoint, and reports a nonsensical
-race again.
-
-By disallowing scoped access checking for a kcsan_ctx, we simply make
-sure that in such nested contexts where kcsan_ctx is shared, none of
-these nonsensical races would be detected nor reported.
-
-Hopefully that clarifies what this is about.
-
-Thanks,
--- Marco
+-- 
+Jani Nikula, Intel Open Source Graphics Center
