@@ -2,73 +2,286 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FF58C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Nov 2021 13:03:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8245C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Nov 2021 13:44:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241621AbhK2NG7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Nov 2021 08:06:59 -0500
-Received: from out4436.biz.mail.alibaba.com ([47.88.44.36]:43210 "EHLO
-        out4436.biz.mail.alibaba.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S241779AbhK2NE7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Nov 2021 08:04:59 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R311e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04357;MF=tianjia.zhang@linux.alibaba.com;NM=1;PH=DS;RN=19;SR=0;TI=SMTPD_---0UyjobXv_1638190885;
-Received: from 30.240.100.124(mailfrom:tianjia.zhang@linux.alibaba.com fp:SMTPD_---0UyjobXv_1638190885)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Mon, 29 Nov 2021 21:01:27 +0800
-Message-ID: <cc3cf5e6-8946-65fc-014f-6641619fb2dc@linux.alibaba.com>
-Date:   Mon, 29 Nov 2021 21:01:24 +0800
+        id S243209AbhK2NsD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Nov 2021 08:48:03 -0500
+Received: from smtp-fw-9103.amazon.com ([207.171.188.200]:54059 "EHLO
+        smtp-fw-9103.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233864AbhK2NqD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Nov 2021 08:46:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1638193366; x=1669729366;
+  h=references:from:to:cc:subject:date:in-reply-to:
+   message-id:mime-version;
+  bh=l3Vd2FTMtFtZXp/Facb53CtPcmlcKwfaaP4IcJhGKLs=;
+  b=LpPFi2aHIVBZf56QvenWBakhe4ClAU/mA0hadBh+kn7jLcfksVR7fEFr
+   IncSJhgv79wPViNvOtwDmu1r3C643i7w+Aiz70GlZk/ExUvizGuddn7Yn
+   L2godYUOVM9Rs3oXpybPBL5i4mheZT/hUGhk0Lp0ppUspLD89vh8NDyvk
+   g=;
+X-IronPort-AV: E=Sophos;i="5.87,273,1631577600"; 
+   d="scan'208";a="974812256"
+Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO email-inbound-relay-pdx-2a-6435a935.us-west-2.amazon.com) ([10.25.36.210])
+  by smtp-border-fw-9103.sea19.amazon.com with ESMTP; 29 Nov 2021 13:42:30 +0000
+Received: from EX13D28EUC001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
+        by email-inbound-relay-pdx-2a-6435a935.us-west-2.amazon.com (Postfix) with ESMTPS id CBDB04215C;
+        Mon, 29 Nov 2021 13:42:29 +0000 (UTC)
+Received: from u570694869fb251.ant.amazon.com.amazon.com (10.43.162.100) by
+ EX13D28EUC001.ant.amazon.com (10.43.164.4) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.26; Mon, 29 Nov 2021 13:42:11 +0000
+References: <20211123163955.154512-1-alexandr.lobakin@intel.com>
+ <20211123163955.154512-4-alexandr.lobakin@intel.com>
+User-agent: mu4e 1.7.5; emacs 28.0.50
+From:   Shay Agroskin <shayagr@amazon.com>
+To:     Alexander Lobakin <alexandr.lobakin@intel.com>
+CC:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        "Michal Swiatkowski" <michal.swiatkowski@linux.intel.com>,
+        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Arthur Kiyanovski" <akiyano@amazon.com>,
+        David Arinzon <darinzon@amazon.com>,
+        "Noam Dagan" <ndagan@amazon.com>,
+        Saeed Bishara <saeedb@amazon.com>,
+        "Ioana Ciornei" <ioana.ciornei@nxp.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Marcin Wojtas <mw@semihalf.com>,
+        "Russell King" <linux@armlinux.org.uk>,
+        Saeed Mahameed <saeedm@nvidia.com>,
+        "Leon Romanovsky" <leon@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        "Daniel Borkmann" <daniel@iogearbox.net>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>,
+        "John Fastabend" <john.fastabend@gmail.com>,
+        Edward Cree <ecree.xilinx@gmail.com>,
+        "Martin Habets" <habetsm.xilinx@gmail.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        KP Singh <kpsingh@kernel.org>,
+        "Lorenzo Bianconi" <lorenzo@kernel.org>,
+        Yajun Deng <yajun.deng@linux.dev>,
+        "Sergey Ryazanov" <ryazanov.s.a@gmail.com>,
+        David Ahern <dsahern@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        Cong Wang <cong.wang@bytedance.com>, <netdev@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-rdma@vger.kernel.org>, <bpf@vger.kernel.org>,
+        <virtualization@lists.linux-foundation.org>
+Subject: Re: [PATCH v2 net-next 03/26] ena: implement generic XDP statistics
+ callbacks
+Date:   Mon, 29 Nov 2021 15:34:19 +0200
+In-Reply-To: <20211123163955.154512-4-alexandr.lobakin@intel.com>
+Message-ID: <pj41zlh7bvyt75.fsf@u570694869fb251.ant.amazon.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.3.2
-Subject: Re: [PATCH v3 0/2] use SM3 instead of SM3_256
-Content-Language: en-US
-To:     Ard Biesheuvel <ardb@kernel.org>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>
-Cc:     Mimi Zohar <zohar@linux.ibm.com>, Jonathan Corbet <corbet@lwn.net>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Peter Huewe <peterhuewe@gmx.de>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Jerry Snitselaar <jsnitsel@redhat.com>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
-        keyrings@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        linux-security-module@vger.kernel.org
-References: <20211026075626.61975-1-tianjia.zhang@linux.alibaba.com>
- <CAMj1kXGiC-LCc-50cfddJxJ-mezO=fcLqhJHiK110CgxKusy9w@mail.gmail.com>
-From:   Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
-In-Reply-To: <CAMj1kXGiC-LCc-50cfddJxJ-mezO=fcLqhJHiK110CgxKusy9w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; format=flowed
+X-Originating-IP: [10.43.162.100]
+X-ClientProxiedBy: EX13D01UWA002.ant.amazon.com (10.43.160.74) To
+ EX13D28EUC001.ant.amazon.com (10.43.164.4)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+Alexander Lobakin <alexandr.lobakin@intel.com> writes:
 
-On 10/27/21 12:08 AM, Ard Biesheuvel wrote:
-> On Tue, 26 Oct 2021 at 09:56, Tianjia Zhang
-> <tianjia.zhang@linux.alibaba.com> wrote:
->>
->> According to https://tools.ietf.org/id/draft-oscca-cfrg-sm3-01.html,
->> SM3 always produces a 256-bit hash value and there are no plans for
->> other length development, so there is no ambiguity in the name of sm3.
->>
-> 
-> What is the point of these changes? Having '256' in the identifiers is
-> merely redundant and not factually incorrect, so why can't we just
-> leave these as they are?
-> 
+> ena driver has 6 XDP counters collected per-channel. Add 
+> callbacks
+> for getting the number of channels and those counters using 
+> generic
+> XDP stats infra.
+>
+> Signed-off-by: Alexander Lobakin <alexandr.lobakin@intel.com>
+> Reviewed-by: Jesse Brandeburg <jesse.brandeburg@intel.com>
+> ---
+>  drivers/net/ethernet/amazon/ena/ena_netdev.c | 53 
+>  ++++++++++++++++++++
+>  1 file changed, 53 insertions(+)
+>
+> diff --git a/drivers/net/ethernet/amazon/ena/ena_netdev.c 
+> b/drivers/net/ethernet/amazon/ena/ena_netdev.c
+> index 7d5d885d85d5..83e9b85cc998 100644
+> --- a/drivers/net/ethernet/amazon/ena/ena_netdev.c
+> +++ b/drivers/net/ethernet/amazon/ena/ena_netdev.c
+> @@ -3313,12 +3313,65 @@ static void ena_get_stats64(struct 
+> net_device *netdev,
+>  	stats->tx_errors = 0;
+>  }
+>
+> +static int ena_get_xdp_stats_nch(const struct net_device 
+> *netdev, u32 attr_id)
+> +{
+> +	const struct ena_adapter *adapter = netdev_priv(netdev);
+> +
+> +	switch (attr_id) {
+> +	case IFLA_XDP_XSTATS_TYPE_XDP:
+> +		return adapter->num_io_queues;
+> +	default:
+> +		return -EOPNOTSUPP;
+> +	}
+> +}
+> +
+> +static int ena_get_xdp_stats(const struct net_device *netdev, 
+> u32 attr_id,
+> +			     void *attr_data)
+> +{
+> +	const struct ena_adapter *adapter = netdev_priv(netdev);
+> +	struct ifla_xdp_stats *xdp_stats = attr_data;
+> +	u32 i;
+> +
+> +	switch (attr_id) {
+> +	case IFLA_XDP_XSTATS_TYPE_XDP:
+> +		break;
+> +	default:
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+> +	for (i = 0; i < adapter->num_io_queues; i++) {
+> +		const struct u64_stats_sync *syncp;
+> +		const struct ena_stats_rx *stats;
+> +		u32 start;
+> +
+> +		stats = &adapter->rx_ring[i].rx_stats;
+> +		syncp = &adapter->rx_ring[i].syncp;
+> +
+> +		do {
+> +			start = u64_stats_fetch_begin_irq(syncp);
+> +
+> +			xdp_stats->drop = stats->xdp_drop;
+> +			xdp_stats->pass = stats->xdp_pass;
+> +			xdp_stats->tx = stats->xdp_tx;
+> +			xdp_stats->redirect = stats->xdp_redirect;
+> +			xdp_stats->aborted = stats->xdp_aborted;
+> +			xdp_stats->invalid = stats->xdp_invalid;
+> +		} while (u64_stats_fetch_retry_irq(syncp, start));
+> +
+> +		xdp_stats++;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
 
-Sorry for the late reply. This is just to fix the ambiguity that may be 
-caused by the macro name. It seems that there is no need to modify it. 
-Please ignore this patch.
+Hi,
+thank you for the time you took in adding ENA support, this code 
+doesn't update the XDP TX queues (which only available when an XDP 
+program is loaded).
 
-Kind regards,
-Tianjia
+In theory the following patch should fix it, but I was unable to 
+compile your version of iproute2 and test the patch properly. Can 
+you please let me know if I need to do anything special to bring 
+up your version of iproute2 and test this patch?
+
+diff --git a/drivers/net/ethernet/amazon/ena/ena_netdev.c 
+b/drivers/net/ethernet/amazon/ena/ena_netdev.c
+index 7d5d885d8..4e89a7d60 100644
+--- a/drivers/net/ethernet/amazon/ena/ena_netdev.c
++++ b/drivers/net/ethernet/amazon/ena/ena_netdev.c
+@@ -3313,12 +3313,85 @@ static void ena_get_stats64(struct 
+net_device *netdev,
+ 	stats->tx_errors = 0;
+ }
+ 
++static int ena_get_xdp_stats_nch(const struct net_device *netdev, 
+u32 attr_id)
++{
++	const struct ena_adapter *adapter = netdev_priv(netdev);
++
++	switch (attr_id) {
++	case IFLA_XDP_XSTATS_TYPE_XDP:
++		return adapter->num_io_queues;
++	default:
++		return -EOPNOTSUPP;
++	}
++}
++
++static int ena_get_xdp_stats(const struct net_device *netdev, u32 
+attr_id,
++			     void *attr_data)
++{
++	const struct ena_adapter *adapter = netdev_priv(netdev);
++	struct ifla_xdp_stats *xdp_stats = attr_data;
++	const struct u64_stats_sync *syncp;
++	u32 start;
++	u32 i;
++
++	switch (attr_id) {
++	case IFLA_XDP_XSTATS_TYPE_XDP:
++		break;
++	default:
++		return -EOPNOTSUPP;
++	}
++
++	for (i = 0; i < adapter->num_io_queues; i++) {
++		const struct ena_stats_rx *rx_stats;
++
++		rx_stats = &adapter->rx_ring[i].rx_stats;
++		syncp = &adapter->rx_ring[i].syncp;
++
++		do {
++			start = u64_stats_fetch_begin_irq(syncp);
++
++			xdp_stats->drop = rx_stats->xdp_drop;
++			xdp_stats->pass = rx_stats->xdp_pass;
++			xdp_stats->tx = rx_stats->xdp_tx;
++			xdp_stats->redirect = 
+rx_stats->xdp_redirect;
++			xdp_stats->aborted = 
+rx_stats->xdp_aborted;
++			xdp_stats->invalid = 
+rx_stats->xdp_invalid;
++		} while (u64_stats_fetch_retry_irq(syncp, start));
++
++		xdp_stats++;
++	}
++
++	xdp_stats = attr_data;
++	/* xdp_num_queues can be 0 if an XDP program isn't loaded 
+*/
++	for (i = 0; i < adapter->xdp_num_queues; i++) {
++		const struct ena_stats_tx *tx_stats;
++
++		tx_stats = 
+&adapter->rx_ring[i].xdp_ring->tx_stats;
++		syncp = &adapter->rx_ring[i].xdp_ring->syncp;
++
++		do {
++			start = u64_stats_fetch_begin_irq(syncp);
++
++			xdp_stats->xmit_packets = tx_stats->cnt;
++			xdp_stats->xmit_bytes = tx_stats->bytes;
++			xdp_stats->xmit_errors = 
+tx_stats->dma_mapping_err +
++ 
+tx_stats->prepare_ctx_err;
++		} while (u64_stats_fetch_retry_irq(syncp, start));
++
++		xdp_stats++;
++	}
++
++	return 0;
++}
++
+ static const struct net_device_ops ena_netdev_ops = {
+ 	.ndo_open		= ena_open,
+ 	.ndo_stop		= ena_close,
+ 	.ndo_start_xmit		= ena_start_xmit,
+ 	.ndo_select_queue	= ena_select_queue,
+ 	.ndo_get_stats64	= ena_get_stats64,
++	.ndo_get_xdp_stats_nch	= ena_get_xdp_stats_nch,
++	.ndo_get_xdp_stats	= ena_get_xdp_stats,
+ 	.ndo_tx_timeout		= ena_tx_timeout,
+ 	.ndo_change_mtu		= ena_change_mtu,
+ 	.ndo_set_mac_address	= NULL,
+
+
