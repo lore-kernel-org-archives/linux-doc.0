@@ -2,308 +2,231 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06482C4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Nov 2021 03:04:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80846C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Nov 2021 03:17:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245333AbhK2DIN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 28 Nov 2021 22:08:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59162 "EHLO
+        id S243799AbhK2DUr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 28 Nov 2021 22:20:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245317AbhK2DGM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Nov 2021 22:06:12 -0500
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 179AEC06175B
-        for <linux-doc@vger.kernel.org>; Sun, 28 Nov 2021 19:01:47 -0800 (PST)
-Received: by mail-pg1-x52d.google.com with SMTP id k4so4365663pgb.8
-        for <linux-doc@vger.kernel.org>; Sun, 28 Nov 2021 19:01:47 -0800 (PST)
+        with ESMTP id S244927AbhK2DSr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Nov 2021 22:18:47 -0500
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 984C5C06174A;
+        Sun, 28 Nov 2021 19:15:30 -0800 (PST)
+Received: by mail-pl1-x633.google.com with SMTP id o14so11012274plg.5;
+        Sun, 28 Nov 2021 19:15:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=9fgvuvQU20ft8dV4zUQpmVH9tJgoHoldmeOY0gNZhBY=;
-        b=Kwfx1XyDnl42IWKz+9fWDf5dpr4P7CB4yQQf1tK+h9NU+XU71Onz9cSwvvnd8w7dup
-         otH80aau+MxHIBZe9P3w9F9ps8NyBSQm02HuG5NVVIoCDs20Xnan+uWkfmQzoaTmF/lZ
-         Da4c1bV+MqHEB8Mm24UQqDtpY+J+Rz8D/7Pq2t87TVQvUxvK+1u4emfRZsgbg82rVZ8D
-         2wqeGky7H7gK9KCv9i11MYWTMnXe4f1I0Udc9volifUHnpk4BH1UcL36JrxI/ZpZNlQA
-         OhNaHEfNIauuGqYLAZ59HpyW25kznhO8ZF828yD1CLxFUiBnWhEHAlhRYcA1Z+TibyOp
-         oNYw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=93XZyPxbpEaffAuR16sRnBcj4PQHor5vQ/LkS8fj+ZE=;
+        b=elQcINHDVYnB6H8qDoqGJGG8SP/0di96MpaKAoDoVLprQaFYqIEyWnx1SiWiH/17IZ
+         CyR3rixdR7eJI1s8wcTfTN4sGo/csQtKc8997poyTyVLqCZroU1XbvKdiLvJU15XVDm8
+         Kz6XTKFH6ttbjGvyHJxEH/YxH6BeXFhvnmqE+Zavua0ozRWUJf1Wqeqf1Y+udnH0xqOt
+         DPau6VqbeQHR937kdmkuhV6/4/Td60CTdUJPn4w6oI5YpjVSXtLmjeHyBYnLMP/Me9e/
+         yQeUAv2YvsYrhPkGBzy1F2nApFxj9vQD9cn8aSt6hhlkWTwqLdRZ/sTxXQQpzlhcuCsV
+         eHUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=9fgvuvQU20ft8dV4zUQpmVH9tJgoHoldmeOY0gNZhBY=;
-        b=c9YnOIvte+4dKnD4t72zWKrCTBRBTBxoejJ+DFprpjr3lTWG0yJsbc5bDKj09rrjyZ
-         qew7xDhfDIoppRPjOLY1pNgumPLyHudH9Bw3AaCGqfGQ9dwbNtya+u8R7gTAVSRBGSYX
-         BKe7NP55gJLx0qZjkv9bzvh9UXny81XQhRmSwGw5Nlfh85Qal3gNB4VV4ismEHk1Dg8W
-         VTiRGcT05jtijeefhYaAVUfBVvav6Vi6Dz/FuJURmaDet/Xs0IMrEwPk4pYWFzEx/nUX
-         G/JUSunjnnP802Q4Fb/j4pL0HQOjT31BxGjwpAlvld4Tg3oisSECJD0jOyYqwzoVaDla
-         9bcQ==
-X-Gm-Message-State: AOAM533GPKl2GPwb6gL0OkGWx2oeqwI3LSmxIW3y/CemfgJieBkVmoo/
-        k2AhoBJvgNN7HVSBMZjJQVk=
-X-Google-Smtp-Source: ABdhPJychoh2eIP1PMoR78FTG4ngFoTCkFJPruxFf7UmTBwBGZVBMXjhY1niiwDCsnaE9IDtwNtgvg==
-X-Received: by 2002:a05:6a00:1816:b0:49f:cd0d:b51b with SMTP id y22-20020a056a00181600b0049fcd0db51bmr36656929pfa.6.1638154906331;
-        Sun, 28 Nov 2021 19:01:46 -0800 (PST)
-Received: from localhost.localdomain ([8.26.182.90])
-        by smtp.gmail.com with ESMTPSA id y23sm10066271pgf.86.2021.11.28.19.01.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Nov 2021 19:01:45 -0800 (PST)
-From:   Yanteng Si <siyanteng01@gmail.com>
-X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
-To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
-        seakeel@gmail.com
-Cc:     Yanteng Si <siyanteng01@gmail.com>, chenhuacai@kernel.org,
-        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
-        realpuyuwang@gmail.com, kolyshkin@gmail.com,
-        changhuaixin@linux.alibaba.com, Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH v2 2/3] docs/zh_CN: add scheduler sched-bwc translation
-Date:   Mon, 29 Nov 2021 11:00:22 +0800
-Message-Id: <92dbb08d26e108b1677aa6cdb3f7a74a9733429b.1638154485.git.siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1638154485.git.siyanteng@loongson.cn>
-References: <cover.1638154485.git.siyanteng@loongson.cn>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=93XZyPxbpEaffAuR16sRnBcj4PQHor5vQ/LkS8fj+ZE=;
+        b=hvbezxUiDV0yI5cwvLhGN42GPUfdXkBR3o0jfzYfAjp5vc/oFscuoVYHu5Fh42yFr+
+         u8BMPGnHIa0VJvy3KhwlSrLtccNiDCNBzQbggV7bfP4i0UrIW30NadRe5+2JvtrRYmOi
+         9+fQkzEW4HHWwbRQVkbEKL8ctlIM+lGI5ZW9qelWcLhlESgUwoZM5KMzX8KQRgX0mijd
+         JrxRqZsviyQ/o3wzWHutobctWyocNMh2hrAvBXBqh0YNNhfqWD3oJYRTBdfVPTm/ZoNg
+         H7XkkjiJ7o7fVgtw4zS28AS4Ndjo09E3c5rlxPJSnIIXHxfXPpmSet/pvcK5sI7S+Jti
+         Vqsw==
+X-Gm-Message-State: AOAM532HZAARzGFnXslq90M/CobFoEwZxvnKr/YvrJYsO4Zw0eXDX2Du
+        XBlwBQEbGDYAghcn8nXbNr2EeVssW+jU7280TDM=
+X-Google-Smtp-Source: ABdhPJym3wrm0AQcPH3xK0a9p5CzB/BdYuVEo5fLOMQ5RntiTUPzVJM1TccT4fxwhb5AmWpGS5U33Q4Le9K5GGL6iak=
+X-Received: by 2002:a17:902:76c4:b0:143:6f27:391b with SMTP id
+ j4-20020a17090276c400b001436f27391bmr57215085plt.76.1638155729962; Sun, 28
+ Nov 2021 19:15:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20211126093754.76784-1-yang.yang29@zte.com.cn>
+In-Reply-To: <20211126093754.76784-1-yang.yang29@zte.com.cn>
+From:   teng sterling <sterlingteng@gmail.com>
+Date:   Mon, 29 Nov 2021 11:15:18 +0800
+Message-ID: <CAMU9jJpbhpeuo58Aia_MiQEanKPn0+LnJOJu-LUH1O=iRmEZnA@mail.gmail.com>
+Subject: Re: [PATCH v2] docs/zh_CN: Add zh_CN/accounting/taskstats.rst
+To:     CGEL <cgel.zte@gmail.com>
+Cc:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Alex Shi <seakeel@gmail.com>, yang.yang29@zte.com.cn,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Yanteng Si <siyanteng01@gmail.com>
-
-Translate .../scheduler/sched-bwc.rst into Chinese.
-
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-Reviewed-by: Alex Shi <alexs@kernel.org>
----
- .../translations/zh_CN/scheduler/index.rst    |   1 +
- .../zh_CN/scheduler/sched-bwc.rst             | 206 ++++++++++++++++++
- 2 files changed, 207 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/scheduler/sched-bwc.rst
-
-diff --git a/Documentation/translations/zh_CN/scheduler/index.rst b/Documentation/translations/zh_CN/scheduler/index.rst
-index 797df3a9c66f..aba11e561ec3 100644
---- a/Documentation/translations/zh_CN/scheduler/index.rst
-+++ b/Documentation/translations/zh_CN/scheduler/index.rst
-@@ -21,6 +21,7 @@ Linux调度器
- 
-     completion
-     sched-arch
-+    sched-bwc
- 
- 
- TODOList:
-diff --git a/Documentation/translations/zh_CN/scheduler/sched-bwc.rst b/Documentation/translations/zh_CN/scheduler/sched-bwc.rst
-new file mode 100644
-index 000000000000..4fb18db54655
---- /dev/null
-+++ b/Documentation/translations/zh_CN/scheduler/sched-bwc.rst
-@@ -0,0 +1,206 @@
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/scheduler/sched-bwc.rst
-+
-+:翻译:
-+
-+ 司延腾 Yanteng Si <siyanteng@loongson.cn>
-+
-+:校译:
-+
-+
-+
-+.. _cn_scheduler_sched-bwc.rst:
-+
-+============
-+CFS 带宽控制
-+============
-+
-+.. note::
-+   本文只讨论了SCHED_NORMAL的CPU带宽控制。
-+   SCHED_RT的情况在Documentation/scheduler/sched-rt-group.rst中有涉及。
-+
-+CFS带宽控制是一个CONFIG_FAIR_GROUP_SCHED扩展，它允许指定一个组或层次的最大CPU带宽。
-+
-+一个组允许的带宽是用配额和周期指定的。在每个给定的”周期“（微秒）内，一个任务组被分配多
-+达“配额”微秒的CPU时间。当cgroup中的线程可运行时，该配额以时间片段的方式被分配到每个cpu
-+运行队列中。一旦所有的配额被分配，任何额外的配额请求将导致这些线程被限流。被限流的线程将不
-+能再次运行，直到下一个时期的配额得到补充。
-+
-+一个组的未分配配额是全局跟踪的，在每个周期边界被刷新为cfs_quota单元。当线程消耗这个带宽时，
-+它以需求为基础被转移到cpu-local“筒仓”，在每次更新中转移的数量是可调整的，被描述为“片“（时
-+间片）。
-+
-+突发特性
-+--------
-+现在这个功能借来的时间是用于防范我们对未来的低估，代价是对其他系统用户的干扰增加。所有这些都
-+有很好的限制。
-+
-+传统的（UP-EDF）带宽控制是这样的:
-+
-+  (U = \Sum u_i) <= 1
-+
-+这既保证了每个最后期限的实现，也保证了系统的稳定。毕竟，如果U>1，那么每一秒钟的壁钟时间，我
-+们就必须运行超过一秒钟的程序时间，显然会错过我们的最后期限，但下一个最后期限会更远，永远没有
-+时间赶上，无边无界的失败。
-+
-+突发特性观察到工作负载并不总是执行全部配额；这使得人们可以将u_i描述为一个统计分布。
-+
-+例如，让u_i = {x,e}_i，其中x是p(95)和x+e p(100)（传统的WCET）。这实际上允许u更小，提
-+高了效率（我们可以在系统中打包更多的任务），但代价是当所有的概率都一致时，会错过最后期限。然
-+而，它确实保持了稳定性，因为只要我们的x高于平均水平，每一次超限都必须与低估相匹配。
-+
-+也就是说，假设我们有两个任务，都指定了一个p(95)值，那么我们有一个p(95)*p(95)=90.25%的机
-+会，两个任务都在他们的配额内，一切都很好。同时，我们有一个p(5)p(5)=0.25%的机会，两个任务同
-+时超过他们的配额（保证最后期限失败）。在这两者之间有一个阈值，其中一个超过了，而另一个没有不足，
-+无法补偿；这取决于具体的CDFs。
-+
-+同时，我们可以说，最坏的情况下的截止日期失败，将是Sum e_i；也就是说，有一个有界的迟延（在假
-+设x+e确实是WCET的情况下）。
-+
-+使用突发时的干扰是由错过最后期限的可能性和平均WCET来评价的。测试结果表明，当有许多cgroup或
-+CPU未被充分利用时，干扰是有限的。更多的细节显示在：
-+https://lore.kernel.org/lkml/5371BD36-55AE-4F71-B9D7-B86DC32E3D2B@linux.alibaba.com/
-+
-+管理
-+----
-+配额、周期和突发是在cpu子系统内通过cgroupfs管理的。
-+
-+.. note::
-+   本节描述的cgroupfs文件只适用于cgroup v1.对于cgroup v2，请参阅Control Group v2。
-+   :ref:`Documentation/admin-guide/cgroup-v2.rst <cgroup-v2-cpu>`.
-+
-+- cpu.cfs_quota_us：在一个时期内补充的运行时间（微秒）。
-+- cpu.cfs_period_us：一个周期的长度（微秒）。
-+- cpu.stat: 输出节流统计数据[下面进一步解释]
-+- cpu.cfs_burst_us：最大累积运行时间（微秒）。
-+
-+默认值是::
-+
-+	cpu.cfs_period_us=100ms
-+	cpu.cfs_quota_us=-1
-+	cpu.cfs_burst_us=0
-+
-+cpu.cfs_quota_us的值为-1表示该组没有任何带宽限制，这样的组被描述为无限制的带宽组。这代表
-+了CFS的传统工作保护行为。
-+
-+写入不小于cpu.cfs_burst_us的任何（有效的）正值将配发指定的带宽限制。该配额或周期允许的最
-+小配额是1ms。周期长度也有一个1s的上限。当带宽限制以分层方式使用时，存在额外的限制，这些在下
-+面有更详细的解释。
-+
-+向cpu.cfs_quota_us写入任何负值都会移除带宽限制，并使组再次回到无限制的状态。
-+
-+cpu.cfs_burst_us的值为0表示该组不能积累任何未使用的带宽。它使得CFS的传统带宽控制行为没有
-+改变。将不大于 cpu.cfs_quota_us 的任何(有效的)正值写入 cpu.cfs_burst_us 将配发未使用
-+带宽累积的上限。
-+
-+如果一个组处于受限状态，对该组带宽规格的任何更新都将导致其成为无限流状态。
-+
-+系统范围设置
-+------------
-+为了提高效率，运行时间在全局池和CPU本地“筒仓”之间以批处理方式转移。这大大减少了大型系统的全
-+局核算压力。每次需要进行这种更新时，传输的数量被描述为 "片"。
-+
-+这是可以通过procfs调整的::
-+
-+	/proc/sys/kernel/sched_cfs_bandwidth_slice_us (default=5ms)
-+
-+较大的时间片段值将减少传输开销，而较小的值则允许更精细的消费。
-+
-+统计
-+----
-+一个组的带宽统计数据通过cpu.stat的5个字段导出。
-+
-+cpu.stat:
-+
-+- nr_periods：已经过去的执行间隔的数量。
-+- nr_throttled: 该组已被节流/限制的次数。
-+- throttled_time: 该组的实体被限流的总时间长度（纳秒）。
-+- nr_bursts：突发发生的周期数。
-+- burst_time: 任何CPU在各个时期使用超过配额的累计壁钟时间（纳秒）。
-+
-+这个接口是只读的。
-+
-+分层考虑
-+--------
-+该接口强制要求单个实体的带宽总是可以达到的，即：max(c_i) <= C。然而，在总体情况下，是明确
-+允许过度订阅的，以便在一个层次结构中实现工作保护语义:
-+
-+  例如，Sum (c_i)可能超过C
-+
-+[ 其中C是父方的带宽，c_i是其子方的带宽。 ]
-+
-+.. note::
-+   译文中的父亲/孩子指的是cgroup parent, cgroup children。
-+
-+有两种方式可以使一个组变得限流:
-+
-+	a. 它在一段时期内完全消耗自己的配额
-+	b. 父方的配额在其期间内全部用完
-+
-+在上述b)情况下，即使孩子可能有剩余的运行时间，它也不会被允许，直到父亲的运行时间被刷新。
-+
-+CFS带宽配额的注意事项
-+---------------------
-+一旦一个片断被分配给一个cpu，它就不会过期。然而，如果该cpu上的所有线程都无法运行，那么除了
-+1ms以外的所有时间片都可以返回到全局池中。这是在编译时由min_cfs_rq_runtime变量配置的。这
-+是一个性能调整，有助于防止对全局锁的额外争夺。
-+
-+cpu-local分片不会过期的事实导致了一些有趣的罕见案例，应该被理解。
-+
-+对于cgroup cpu限制的应用程序来说，这是一个相对有意义的问题，因为他们自然会消耗他们的全部配
-+额，以及每个cpu-本地片在每个时期的全部。因此，预计nr_periods大致等于nr_throttled，并且
-+cpuacct.用量的增加大致等于cfs_quota_us在每个周期的增加。
-+
-+对于高线程、非cpu绑定的应用程序，这种非过期的细微差别允许应用程序短暂地突破他们的配额限制，
-+即任务组正在运行的每个cpu上未使用的片断量（通常每个cpu最多1ms或由min_cfs_rq_runtime定
-+义）。这种轻微的突发只适用于配额已经分配给cpu，然后没有完全使用或在以前的时期返回。这个突发
-+量不会在核心之间转移。因此，这种机制仍然严格限制任务组的配额平均使用量，尽管是在比单一时期更
-+长的时间窗口。这也限制了突发能力，每个cpu不超过1ms。这为在高核数机器上有小配额限制的高线程
-+应用提供了更好的更可预测的用户体验。它还消除了在使用低于配额的cpu时对这些应用进行节流的倾向。
-+另一种说法是，通过允许一个片断的未使用部分在不同时期保持有效，我们减少了在不需要整个片断的cpu
-+时间的cpu-local 筒仓上浪费配额的可能性。
-+
-+绑定cpu和非绑定cpu的交互式应用之间的互动也应该被考虑，特别是当单核使用率达到100%时。如果你
-+给了这些应用程序一半的cpu-core，并且它们都被安排在同一个CPU上，理论上非cpu绑定的应用程序有
-+可能在某些时期使用多达1ms的额外配额，从而阻止cpu绑定的应用程序完全使用其配额，这也是同样的数
-+量。在这些情况下，将由CFS算法（见CFS调度器）来决定选择哪个应用程序来运行，因为它们都是可运行
-+的，并且有剩余的配额。这个运行时间的差异将在接下来的交互式应用程序空闲期间得到弥补。
-+
-+例子
-+----
-+1. 限制一个组的运行时间为1个CPU的价值::
-+
-+	如果周期是250ms，配额也是250ms，那么该组将每250ms获得价值1个CPU的运行时间。
-+
-+	# echo 250000 > cpu.cfs_quota_us /* quota = 250ms */
-+	# echo 250000 > cpu.cfs_period_us /* period = 250ms */
-+
-+2. 在多CPU机器上，将一个组的运行时间限制为2个CPU的价值
-+
-+   在500ms周期和1000ms配额的情况下，该组每500ms可以获得2个CPU的运行时间::
-+
-+	# echo 1000000 > cpu.cfs_quota_us /* quota = 1000ms */
-+	# echo 500000 > cpu.cfs_period_us /* period = 500ms */
-+
-+	这里较大的周期允许增加突发能力。
-+
-+3. 将一个组限制在1个CPU的20%。
-+
-+   在50ms周期内，10ms配额将相当于1个CPU的20%。::
-+
-+	# echo 10000 > cpu.cfs_quota_us /* quota = 10ms */
-+	# echo 50000 > cpu.cfs_period_us /* period = 50ms */
-+
-+   通过在这里使用一个小的周期，我们以牺牲突发容量为代价来确保稳定的延迟响应。
-+
-+4. 将一个组限制在1个CPU的40%，并允许累积到1个CPU的20%，如果已经累积了的话。
-+
-+   在50ms周期内，20ms配额将相当于1个CPU的40%。而10毫秒的突发将相当于1个
-+   CPU的20%::
-+
-+	# echo 20000 > cpu.cfs_quota_us /* quota = 20ms */
-+	# echo 50000 > cpu.cfs_period_us /* period = 50ms */
-+	# echo 10000 > cpu.cfs_burst_us /* burst = 10ms */
-+
-+   较大的缓冲区设置（不大于配额）允许更大的突发容量。
--- 
-2.27.0
-
+PGNnZWwuenRlQGdtYWlsLmNvbT4g5LqOMjAyMeW5tDEx5pyIMjnml6XlkajkuIAg5LiK5Y2IMjoy
+M+WGmemBk++8mg0KPg0KPiBGcm9tOiBZYW5nIFlhbmcgPHlhbmcueWFuZzI5QHp0ZS5jb20uY24+
+DQo+DQo+IEFkZCB0cmFuc2xhdGlvbiB6aF9DTi9hY2NvdW50aW5nL3Rhc2tzdGF0cy5yc3QgYW5k
+IGxpbmtzIGl0IHRvDQo+IHpoX0NOL2FjY291bnRpbmcvaW5kZXgucnN0IHdoaWxlIGNsZWFuIGl0
+cyB0b2RvIGVudHJ5Lg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBZYW5nIFlhbmcgPHlhbmcueWFuZzI5
+QHp0ZS5jb20uY24+DQo+IFJldmlld2VkLWJ5OiBBbGV4IFNoaSA8YWxleHNAa2VybmVsLm9yZz4N
+CldoZW4gSSBidWlsdCBpdCwgYSB3YXJuaW5nIHdhcyByZXBvcnRlZO+8mg0KRG9jdW1lbnRhdGlv
+bi90cmFuc2xhdGlvbnMvemhfQ04vYWNjb3VudGluZy90YXNrc3RhdHMucnN0OjE0MzoNCldBUk5J
+Tkc6IEJ1bGxldCBsaXN0IGVuZHMgd2l0aG91dCBhIGJsYW5rIGxpbmU7IHVuZXhwZWN0ZWQgdW5p
+bmRlbnQuDQoNCklmIHlvdSBmaXggaXTvvIwNClJldmlld2VkLWJ5OiBZYW50ZW5nIFNpIDxzaXlh
+bnRlbmdAbG9vbmdzb24uY24+DQo+IC0tLQ0KPiB2MjoNCj4gLSBmaXggaW5jb21wbGV0ZSB3b3Jk
+cyBhbmQgbG9uZyBzZW50ZW5jZXMuDQo+IC0tLQ0KPiAgLi4uL3RyYW5zbGF0aW9ucy96aF9DTi9h
+Y2NvdW50aW5nL2luZGV4LnJzdCAgIHwgICAyICstDQo+ICAuLi4vemhfQ04vYWNjb3VudGluZy90
+YXNrc3RhdHMucnN0ICAgICAgICAgICAgfCAxNDcgKysrKysrKysrKysrKysrKysrDQo+ICAyIGZp
+bGVzIGNoYW5nZWQsIDE0OCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+ICBjcmVhdGUg
+bW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vYWNjb3VudGluZy90
+YXNrc3RhdHMucnN0DQo+DQo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9u
+cy96aF9DTi9hY2NvdW50aW5nL2luZGV4LnJzdCBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25z
+L3poX0NOL2FjY291bnRpbmcvaW5kZXgucnN0DQo+IGluZGV4IDM2MmU5MDdiNDFmOS4uMTI0YjU5
+MGZiMDFiIDEwMDY0NA0KPiAtLS0gYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9h
+Y2NvdW50aW5nL2luZGV4LnJzdA0KPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96
+aF9DTi9hY2NvdW50aW5nL2luZGV4LnJzdA0KPiBAQCAtMTYsMTAgKzE2LDEwIEBADQo+ICAgICA6
+bWF4ZGVwdGg6IDENCj4NCj4gICAgIHBzaQ0KPiArICAgdGFza3N0YXRzDQo+DQo+ICBUb2RvbGlz
+dDoNCj4NCj4gICAgIGNncm91cHN0YXRzDQo+ICAgICBkZWxheS1hY2NvdW50aW5nDQo+IC0gICB0
+YXNrc3RhdHMNCj4gICAgIHRhc2tzdGF0cy1zdHJ1Y3QNCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50
+YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2FjY291bnRpbmcvdGFza3N0YXRzLnJzdCBiL0RvY3Vt
+ZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2FjY291bnRpbmcvdGFza3N0YXRzLnJzdA0KPiBu
+ZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCAwMDAwMDAwMDAwMDAuLjlkMDRhZmEwM2M2Yw0K
+PiAtLS0gL2Rldi9udWxsDQo+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NO
+L2FjY291bnRpbmcvdGFza3N0YXRzLnJzdA0KPiBAQCAtMCwwICsxLDE0NyBAQA0KPiArLi4gaW5j
+bHVkZTo6IC4uL2Rpc2NsYWltZXItemhfQ04ucnN0DQo+ICsNCj4gKzpPcmlnaW5hbDogRG9jdW1l
+bnRhdGlvbi9hY2NvdW50aW5nL3Rhc2tzdGF0cy5yc3QNCj4gKw0KPiArOlRyYW5zbGF0b3I6IFlh
+bmcgWWFuZyA8eWFuZy55YW5nMjlAenRlLmNvbS5jbj4NCj4gKw0KPiArLi4gX2NuX3Rhc2tzdGF0
+cy5yc3Q6DQo+ICsNCj4gKz09PT09PT09PT09PT09PT0NCj4gK+avj+S7u+WKoeeahOe7n+iuoeaO
+peWPow0KPiArPT09PT09PT09PT09PT09PQ0KPiArDQo+ICtUYXNrc3RhdHPmmK/kuIDkuKrln7rk
+uo5uZXRsaW5r55qE5o6l5Y+j77yM55So5LqO5LuO5YaF5qC45ZCR55So5oi356m66Ze05Y+R6YCB
+5q+P5Lu75Yqh5Y+K5q+P6L+b56iL55qEDQo+ICvnu5/orqHkv6Hmga/jgIINCj4gKw0KPiArVGFz
+a3N0YXRz6K6+6K6h55uu55qE77yaDQo+ICsNCj4gKy0g5Zyo5Lu75Yqh55Sf5ZG95ZGo5pyf5YaF
+5ZKM6YCA5Ye65pe26auY5pWI55qE5o+Q5L6b57uf6K6h5L+h5oGvDQo+ICstIOe7n+S4gOS4jeWQ
+jOiuoeaVsOWtkOezu+e7n+eahOaOpeWPow0KPiArLSDmlK/mjIHmnKrmnaXorqHmlbDns7vnu5/n
+moTmianlsZUNCj4gKw0KPiAr5pyv6K+tDQo+ICstLS0tDQo+ICsNCj4gK+KAnHBpZOKAneOAgeKA
+nHRpZOKAneOAgeKAnOS7u+WKoeKAneS6kuaNouS9v+eUqO+8jOeUqOS6juaPj+i/sOeUsXN0cnVj
+dCB0YXNrX3N0cnVjdOWumuS5ieeahOagh+WHhg0KPiArTGludXjku7vliqHjgILigJzmr49waWTn
+moTnu5/orqHmlbDmja7igJ3nrYnku7fkuo7igJzmr4/ku7vliqHnmoTnu5/orqHmlbDmja7igJ3j
+gIINCj4gKw0KPiAr4oCcdGdpZOKAneOAgeKAnOi/m+eoi+KAneOAgeKAnOe6v+eoi+e7hOKAneS6
+kuaNouS9v+eUqO+8jOeUqOS6juaPj+i/sOWFseS6q21tX3N0cnVjdOeahOS7u+WKoembhu+8jA0K
+PiAr5Lmf5bCx5piv5Lyg57uf55qEVW5peOi/m+eoi+OAguWwveeuoeS9v+eUqOS6hnRnaWTov5nk
+uKror43vvIzljbPkvb/kuIDkuKrku7vliqHmmK/nur/nqIvnu4Tnu4Tplb/vvIwNCj4gK+WvueWu
+g+eahOWkhOeQhuS5n+ayoeacieS7gOS5iOS4jeWQjOOAguWPquimgeS4gOS4qui/m+eoi+i/mOac
+ieS7u+S9leW9kuWxnuWug+eahOS7u+WKoe+8jOWug+Wwseiiq+iupOS4ug0KPiAr5rS7552A44CC
+DQo+ICsNCj4gK+eUqOazlQ0KPiArLS0tLQ0KPiArDQo+ICvkuLrkuoblnKjku7vliqHnlJ/lkb3l
+kajmnJ/lhoXojrflvpfnu5/orqHkv6Hmga/vvIznlKjmiLfnqbrpl7TpnIDmiZPlvIDkuIDkuKrl
+jZXmkq3nmoRuZXRsaW5r5aWX5o6l5a2XDQo+ICvvvIhORVRMSU5LX0dFTkVSSUPml4/vvInnhLbl
+kI7lj5HpgIHmjIflrppwaWTmiJZ0Z2lk55qE5ZG95Luk44CC5ZON5bqU5raI5oGv5Lit5YyF5ZCr
+5Y2V5LiqDQo+ICvku7vliqHnmoTnu5/orqHkv6Hmga/vvIjoi6XmjIflrprkuoZwaWTvvInmiJbo
+v5vnqIvmiYDmnInku7vliqHmsYfmgLvnmoTnu5/orqHkv6Hmga/vvIjoi6XmjIflrprkuoZ0Z2lk
+77yJ44CCDQo+ICsNCj4gK+S4uuS6huWcqOS7u+WKoemAgOWHuuaXtuiOt+WPlue7n+iuoeS/oeaB
+r++8jOeUqOaIt+epuumXtOeahOebkeWQrOiAheWPkemAgeS4gOS4quaMh+WummNwdeaOqeeggeea
+hOazqOWGjOWRveS7pOOAgg0KPiArY3B15o6p56CB5YaF55qEY3B15LiK5pyJ5Lu75Yqh6YCA5Ye6
+5pe277yM5q+PcGlk55qE57uf6K6h5L+h5oGv5bCG5Y+R6YCB57uZ5rOo5YaM5oiQ5Yqf55qE55uR
+5ZCs6ICF44CC5L2/55SoDQo+ICtjcHXmjqnnoIHlj6/ku6XpmZDliLbkuIDkuKrnm5HlkKzogIXm
+lLbliLDnmoTmlbDmja7vvIzlubbmnInliqnkuo7lr7luZXRsaW5r5o6l5Y+j6L+b6KGM5rWB6YeP
+5o6n5Yi277yM5ZCO5paHDQo+ICvlsIbov5vooYzmm7Tor6bnu4bnmoTop6Pph4rjgIINCj4gKw0K
+PiAr5aaC5p6c5q2j5Zyo6YCA5Ye655qE5Lu75Yqh5piv57q/56iL57uE5Lit5pyA5ZCO5LiA5Liq
+6YCA5Ye655qE57q/56iL77yM6aKd5aSW5LiA5p2h5YyF5ZCr5q+PdGdpZOe7n+iuoeS/oeaBr+ea
+hA0KPiAr6K6w5b2V5Lmf5bCG5Y+R6YCB57uZ55So5oi356m66Ze044CC5ZCO6ICF5YyF5ZCr57q/
+56iL57uE5Lit5omA5pyJ57q/56iL77yI5YyF5ous6L+H5Y675ZKM546w5Zyo77yJ55qE5q+PcGlk
+57uf6K6hDQo+ICvkv6Hmga/mgLvlkozjgIINCj4gKw0KPiArZ2V0ZGVsYXlzLmPmmK/kuIDkuKrn
+roDljZXnmoTnpLrkvovvvIznlKjku6XmvJTnpLrlpoLkvZXkvb/nlKh0YXNrc3RhdHPmjqXlj6Po
+jrflj5blu7bov5/nu5/orqHkv6Hmga/jgIINCj4gK+eUqOaIt+WPr+azqOWGjGNwdeaOqeeggeOA
+geWPkemAgeWRveS7pOWSjOWkhOeQhuWTjeW6lOOAgeebkeWQrOavj3RpZC90Z2lk6YCA5Ye65pWw
+5o2u44CB5bCG5pS25Yiw55qE5pWw5o2uDQo+ICvlhpnlhaXmlofku7bjgIHpgJrov4flop7lpKfm
+jqXmlLbnvJPlhrLljLrov5vooYzln7rmnKznmoTmtYHph4/mjqfliLbjgIINCj4gKw0KPiAr5o6l
+5Y+jDQo+ICstLS0tDQo+ICsNCj4gK+WGheaguOeUqOaIt+aOpeWPo+WwgeijheWcqGluY2x1ZGUv
+bGludXgvdGFza3N0YXRzLmjjgIINCj4gKw0KPiAr5Li66YG/5YWN5pys5paH5qGj6ZqP552A5o6l
+5Y+j55qE5ryU6L+b6ICM6L+H5pyf77yM5pys5paH5LuF57uZ5Ye65b2T5YmN54mI5pys55qE5qaC
+6KaB44CC5b2T5pys5paH5LiOdGFza3N0YXRzLmgNCj4gK+S4jeS4gOiHtOaXtu+8jOS7pXRhc2tz
+dGF0cy5o5Li65YeG44CCDQo+ICsNCj4gK3N0cnVjdCB0YXNrc3RhdHPmmK/mr49waWTlkozmr490
+Z2lk5pWw5o2u5YWx55So55qE6K6h5pWw57uT5p6E5L2T44CC5a6D5piv54mI5pys5YyW55qE77yM
+5Y+v5Zyo5YaF5qC45paw5aKeDQo+ICvorqHmlbDlrZDns7vnu5/ml7bov5vooYzmianlsZXjgIJ0
+YXNrc3RhdHMuaOS4reWumuS5ieS6huWQhOWtl+auteWPiuivreS5ieOAgg0KPiArDQo+ICvnlKjm
+iLfjgIHlhoXmoLjnqbrpl7TnmoTmlbDmja7kuqTmjaLmmK/lsZ7kuo5ORVRMSU5LX0dFTkVSSUPm
+l4/nmoRuZXRsaW5r5raI5oGv77yM5L2/55SobmV0bGlua+WxnuaApw0KPiAr5o6l5Y+j44CC5raI
+5oGv5qC85byP5aaC5LiLOjoNCj4gKw0KPiArICAgICstLS0tLS0tLS0tKy0gLSAtKy0tLS0tLS0t
+LS0tLS0rLS0tLS0tLS0tLS0tLS0tLS0tLSsNCj4gKyAgICB8IG5sbXNnaGRyIHwgUGFkIHwgIGdl
+bmxtc2doZHIgfCB0YXNrc3RhdHMgcGF5bG9hZCB8DQo+ICsgICAgKy0tLS0tLS0tLS0rLSAtIC0r
+LS0tLS0tLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tLS0tKw0KPiArDQo+ICtUYXNrc3RhdHPovb3o
+jbfmnInkuInnp43nsbvlnovvvJoNCj4gKw0KPiArMS4g5ZG95Luk77ya55Sx55So5oi35Y+R6YCB
+57uZ5YaF5qC444CC6I635Y+W5oyH5a6acGlkL3RnaWTmlbDmja7nmoTlkb3ku6TljIXlkKvkuIDk
+uKrnsbvlnovkuLoNCj4gK1RBU0tTVEFUU19DTURfQVRUUl9QSUQvVEdJROeahOWxnuaAp++8jOiv
+peWxnuaAp+WMheWQq3UzMueahHBpZOaIlnRnaWTovb3ojbfjgIINCj4gK3BpZC90Z2lk5oyH56S6
+55So5oi356m66Ze06KaB57uf6K6h55qE5Lu75YqhL+i/m+eoi+OAgg0KPiArDQo+ICvms6jlhowv
+5rOo6ZSA6I635Y+W5oyH5a6aY3B16ZuG5LiK6YCA5Ye65pWw5o2u55qE5ZG95Luk5YyF5ZCr5LiA
+5Liq57G75Z6L5Li6DQo+ICtUQVNLU1RBVFNfQ01EX0FUVFJfUkVHSVNURVIvREVSRUdJU1RFUl9D
+UFVNQVNL55qE5bGe5oCn77yM6K+l5bGe5oCn5YyF5ZCrY3B15o6p56CB6L296I2344CCDQo+ICtj
+cHXmjqnnoIHmmK/ku6Vhc2NpaeeggeihqOekuu+8jOeUqOmAl+WPt+WIhumalOeahGNwdeiMg+Wb
+tOOAguS+i+WmguiLpemcgOebkeWQrDEsMiwzLDUsNyw45Y+3Y3B155qEDQo+ICvpgIDlh7rmlbDm
+ja7vvIxjcHXmjqnnoIHooajnpLrkuLoiMS0zLDUsNy04IuOAguiLpeeUqOaIt+epuumXtOWcqOWF
+s+mXreebkeWQrOWll+aOpeWtl+WJjeW/mOS6huazqOmUgOebkeWQrA0KPiAr55qEY3B16ZuG77yM
+6ZqP552A5pe26Ze055qE5o6o56e777yM5YaF5qC45Lya5riF55CG5q2k55uR5ZCs6ZuG44CC5L2G
+5piv77yM5Ye65LqO5o+Q5pWI55qE55uu55qE77yM5bu66K6u5piO56GuDQo+ICvmiafooYzms6jp
+lIDjgIINCj4gKw0KPiArMi4g5ZG95Luk55qE5bqU562U77ya5YaF5qC45Y+R5Ye65bqU562U55So
+5oi356m66Ze055qE5ZG95Luk44CC6L296I235pyJ5LiJ57G75bGe5oCn77yaDQo+ICsNCj4gK2Ep
+IFRBU0tTVEFUU19UWVBFX0FHR1JfUElEL1RHSUTvvJog5pys5bGe5oCn5LiN5YyF5ZCr6L296I23
+77yM55So5Lul5oyH56S65YW25ZCO5Li66KKr57uf6K6h5a+56LGhDQo+ICvnmoRwaWcvdGdpZOOA
+gg0KPiArDQo+ICtiKSBUQVNLU1RBVFNfVFlQRV9QSUQvVEdJRO+8muacrOWxnuaAp+eahOi9veiN
+t+S4unBpZy90Z2lk77yM5YW257uf6K6h5L+h5oGv5bCG6KKr6L+U5Zue44CCDQo+ICsNCj4gK2Mp
+IFRBU0tTVEFUU19UWVBFX1NUQVRT77ya5pys5bGe5oCn55qE6L296I235Li65LiA5Liqc3RydWN0
+IHRhc2tzdGF0c+WunuS+i+OAguavj3BpZOWSjA0KPiAr5q+PdGdpZOe7n+iuoeS/oeaBr+WFseeU
+qOivpee7k+aehOS9k+OAgg0KPiArDQo+ICszLiDlhoXmoLjkvJrlnKjku7vliqHpgIDlh7rml7bl
+j5HpgIHmlrDmtojmga/jgILlhbbovb3ojbfljIXlkKvkuIDns7vliJfku6XkuIvnsbvlnovnmoTl
+sZ7mgKfvvJoNCj4gKw0KPiArYSkgVEFTS1NUQVRTX1RZUEVfQUdHUl9QSUTvvJrmjIfnpLrlhbbl
+kI7kuKTkuKrlsZ7mgKfkuLpwaWQrc3RhdHPjgIINCj4gK2IpIFRBU0tTVEFUU19UWVBFX1BJRO+8
+muWMheWQq+mAgOWHuuS7u+WKoeeahHBpZOOAgg0KPiArYykgVEFTS1NUQVRTX1RZUEVfU1RBVFPv
+vJrljIXlkKvpgIDlh7rku7vliqHnmoTmr49waWTnu5/orqHkv6Hmga8NCj4gK2QpIFRBU0tTVEFU
+U19UWVBFX0FHR1JfVEdJRO+8muaMh+ekuuWFtuWQjuS4pOS4quWxnuaAp+S4unRnaWQrc3RhdHPj
+gIINCj4gK2UpIFRBU0tTVEFUU19UWVBFX1RHSUTvvJrljIXlkKvku7vliqHmiYDlsZ7ov5vnqIvn
+moR0Z2lkDQo+ICtmKSBUQVNLU1RBVFNfVFlQRV9TVEFUU++8muWMheWQq+mAgOWHuuS7u+WKoeaJ
+gOWxnui/m+eoi+eahOavj3RnaWTnu5/orqHkv6Hmga8NCj4gKw0KPiAr5q+PdGdpZOeahOe7n+iu
+oQ0KPiArLS0tLS0tLS0tLS0tDQo+ICsNCj4gK+mZpOS6huavj+S7u+WKoeeahOe7n+iuoeS/oeaB
+r++8jHRhc2tzdGF0c+i/mOaPkOS+m+avj+i/m+eoi+eahOe7n+iuoeS/oeaBr++8jOWboOS4uui1
+hOa6kOeuoeeQhumAmuW4uOS7pei/m+eoiw0KPiAr57KS5bqm5a6M5oiQ77yM5bm25LiU5LuF5Zyo
+55So5oi356m66Ze06IGa5ZCI5Lu75Yqh57uf6K6h5L+h5oGv5pWI546H5L2O5LiL5LiU5Y+v6IO9
+5LiN5YeG56Gu77yI57y65LmP5Y6f5a2Q5oCn77yJ44CCDQo+ICsNCj4gK+eEtuiAjO+8jOmZpOS6
+huavj+S7u+WKoee7n+iuoeS/oeaBr++8jOWcqOWGheaguOS4ree7tOaKpOavj+i/m+eoi+e7n+iu
+oeS/oeaBr+WtmOWcqOmineWklueahOaXtumXtOWSjOepuumXtOW8gOmUgOOAgg0KPiAr5Li66Kej
+5Yaz5q2k6Zeu6aKY77yMdGFza3N0YXRz5Luj56CB5bCG6YCA5Ye65Lu75Yqh55qE57uf6K6h5L+h
+5oGv57Sv56ev5Yiw6L+b56iL6IyD5Zu055qE5pWw5o2u57uT5p6E5Lit44CCDQo+ICvlvZPov5vn
+qIvmnIDlkI7kuIDkuKrku7vliqHpgIDlh7rml7bvvIzntK/np6/nmoTov5vnqIvnuqfmlbDmja7k
+uZ/kvJrlj5HpgIHliLDnlKjmiLfnqbrpl7TvvIjkuI7mr4/ku7vliqHmlbDmja7kuIDotbfvvInj
+gIINCj4gKw0KPiAr5b2T55So5oi35p+l6K+i5q+PdGdpZOaVsOaNruaXtu+8jOWGheaguOWwhuaM
+h+Wumue6v+eoi+e7hOS4reaJgOaciea0u+WKqOe6v+eoi+eahOe7n+iuoeS/oeaBr+ebuOWKoO+8
+jOW5tua3u+WKoOWIsA0KPiAr6K+l57q/56iL57uE55qE57Sv56ev5oC75pWw77yI5ZCr5LmL5YmN
+6YCA5Ye655qE57q/56iL77yJ44CCDQo+ICsNCj4gK+aJqeWxlXRhc2tzdGF0cw0KPiArLS0tLS0t
+LS0tLS0tLQ0KPiArDQo+ICvmnInkuKTnp43mlrnms5Xlj6/lnKjmnKrmnaXkv67mlLnlhoXmoLjm
+ianlsZV0YXNrc3RhdHPmjqXlj6PvvIzku6Xlr7zlh7rmm7TlpJrnmoTmr4/ku7vliqEv6L+b56iL
+57uf6K6h5L+h5oGv77yaDQo+ICsNCj4gKzEuIOWcqOeOsOaciXN0cnVjdCB0YXNrc3RhdHPmnKvl
+sL7lop7liqDlrZfmrrXjgILor6Xnu5PmnoTkvZPkuK3nmoTniYjmnKzlj7fnoa7kv53kuoblkJHl
+kI7lhbzlrrnmgKfjgIINCj4gK+eUqOaIt+epuumXtOWwhuS7heS9v+eUqOS4juWFtueJiOacrOWv
+ueW6lOeahOe7k+aehOS9k+Wtl+auteOAgg0KPiArDQo+ICsyLiDlrprkuYnljZXni6znmoTnu5/o
+rqHnu5PmnoTkvZPlubbkvb/nlKhuZXRsaW5r5bGe5oCn5o6l5Y+j6L+U5Zue5a+55bqU55qE5pWw
+5o2u44CC55Sx5LqO55So5oi356m66Ze054us56uLDQo+ICvlpITnkIbmr4/kuKpuZXRsaW5r5bGe
+5oCn77yM5omA5Lul5oC75piv5Y+v5Lul5b+955Wl5YW25LiN55CG6Kej57G75Z6L55qE5bGe5oCn
+77yI5Zug5Li65L2/55So5LqG5pen54mI5pys5o6l5Y+j77yJ44CCDQo+ICsNCj4gK+WcqDEu5ZKM
+Mi7kuYvpl7Tov5vooYzpgInmi6nvvIzlsZ7kuo7mnYPooaHngbXmtLvmgKflkozlvIDplIDnmoTp
+l67popjjgILoi6Xku4XpnIDlop7liqDlsJHmlbDlrZfmrrXvvIzpgqPkuYgxLuaYrw0KPiAr6aaW
+6YCJ5pa55rOV77yM5Zug5Li65YaF5qC45ZKM55So5oi356m66Ze05peg6ZyA5om/5ouF5aSE55CG
+5pawbmV0bGlua+WxnuaAp+eahOW8gOmUgOOAguS9huiLpeaWsOWtl+autei/h+WkmueahA0KPiAr
+5omp5bGV546w5pyJ57uT5p6E5L2T77yM5a+86Ie05LiN5ZCM55qE55So5oi356m66Ze06K6h5pWw
+56iL5bqP5LiN5b+F6KaB55qE5o6l5pS25aSn5Z6L57uT5p6E5L2T77yM6ICM5a+557uT5p6E5L2T
+DQo+ICvlrZfmrrXlubbkuI3mhJ/lhbTotqPvvIzpgqPkuYgyLuaYr+WAvOW+l+eahOOAgg0KPiAr
+DQo+ICtUYXNrc3RhdHPnmoTmtYHph4/mjqfliLYNCj4gKy0tLS0tLS0tLS0tLS0tLS0tLS0NCj4g
+Kw0KPiAr5b2T6YCA5Ye65Lu75Yqh5pWw6YCf546H5Y+Y5aSn77yM55uR5ZCs6ICF5Y+v6IO96Lef
+5LiN5LiK5YaF5qC45Y+R6YCB5q+PdGlkL3RnaWTpgIDlh7rmlbDmja7nmoTpgJ/njofvvIzogIzl
+r7zoh7QNCj4gK+aVsOaNruS4ouWkseOAgnRhc2tzdGF0c+e7k+aehOS9k+WPmOWkp+OAgWNwdeaV
+sOmHj+S4iuWNh++8jOmDveS8muWvvOiHtOi/meenjeWPr+iDveaAp+WinuWKoOOAgg0KPiArDQo+
+ICvkuLrpgb/lhY3nu5/orqHkv6Hmga/kuKLlpLHvvIznlKjmiLfnqbrpl7TlupTmiafooYzku6Xk
+uIvmk43kvZzkuK3oh7PlsJHkuIDpobnvvJoNCj4gKw0KPiArLSDlop7lpKfnm5HlkKzogIXnlKjk
+uo7mjqXmlLbpgIDlh7rmlbDmja7nmoRuZXRsaW5r5aWX5o6l5a2X5o6l5pS257yT5a2Y5Yy644CC
+DQo+ICsNCj4gKy0g5Yib5bu65pu05aSa55qE55uR5ZCs6ICF77yM5YeP5bCR5q+P5Liq55uR5ZCs
+6ICF55uR5ZCs55qEY3B15pWw6YeP44CC5p6B56uv5oOF5Ya15LiL5Y+v5Li65q+P5LiqY3B15Yib
+5bu6DQo+ICvkuIDkuKrnm5HlkKzogIXjgILnlKjmiLfov5jlj6/ogIPomZHlsIbnm5HlkKzogIXn
+moRjcHXkurLlkozmgKforr7nva7kuLrnm5HlkKxjcHXnmoTlrZDpm4bvvIznibnliKvmmK/lvZPk
+u5bku6wNCj4gK+S7heebkeWQrOS4gOS4qmNwdeOAgg0KPiArDQo+ICvlsL3nrqHph4flj5bkuobo
+v5nkupvmjqrmlr3vvIzoi6XnlKjmiLfnqbrpl7Tku43mlLbliLDmjIfnpLrmjqXmlLbnvJPlrZjl
+jLrmuqLlh7rnmoRFTk9CVUZT6ZSZ6K+v5raI5oGv77yMDQo+ICvliJnlupTph4flj5blhbbku5bm
+jqrmlr3lpITnkIbmlbDmja7kuKLlpLHjgIINCj4gLS0NCj4gMi4yNS4xDQo=
