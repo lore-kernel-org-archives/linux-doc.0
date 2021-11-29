@@ -2,109 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BFBEC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Nov 2021 03:00:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B68BC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Nov 2021 03:03:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233236AbhK2DED (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 28 Nov 2021 22:04:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57822 "EHLO
+        id S239137AbhK2DGY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 28 Nov 2021 22:06:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244829AbhK2DCD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Nov 2021 22:02:03 -0500
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18443C061759;
-        Sun, 28 Nov 2021 18:57:12 -0800 (PST)
-Received: by mail-wm1-x32c.google.com with SMTP id d72-20020a1c1d4b000000b00331140f3dc8so11348998wmd.1;
-        Sun, 28 Nov 2021 18:57:12 -0800 (PST)
+        with ESMTP id S1346034AbhK2DEX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Nov 2021 22:04:23 -0500
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9D6AC061756
+        for <linux-doc@vger.kernel.org>; Sun, 28 Nov 2021 19:01:05 -0800 (PST)
+Received: by mail-pj1-x102c.google.com with SMTP id h24so11509553pjq.2
+        for <linux-doc@vger.kernel.org>; Sun, 28 Nov 2021 19:01:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=9AsJNoK7rAciESn25LHlxP2wCJ43zmCSYQcAT99BBd4=;
-        b=htvwyxeWFujBvpV38LdgUriE31SgAwI4A6ut9fRWCTcnco0y1zb/hHmGxyzBW+2waO
-         0QXXYRoBIGdsVIU2l2juztuHrFYtKlnAviVM8fyp9vUrNrHky+T1et0lT//KCq5tVfCg
-         XAA0aTHyPI/j7adUHsIyq5GQ03aLeRX4ArhoY0umSYJRQLy2QZTXMXHdAEWkgfhv189A
-         QpORCdpX+UvE/Zte0nIKMn13OFukv1x6Tfmo8dP0WaLCsv5DbeD41HKsEpVioMYz4HW2
-         1Azkylfj7chjrrBZQ5kUq650UuT3jfTRIV5ZAHZu7i3wbGG8SyNXmKbY1RISrnZXRSQI
-         Bcsw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=loOtrxpiU0DbfJGLBSacaCV+bT9DzOr2V8JkCTZzs8E=;
+        b=hcrfgFXfiDnBo++kDbRmr5S9Aowy5ufsClZArVEscXdoVSaSYO/f6PAgze2bZt0iBy
+         ig1bDVZZAHYOES6bD3On/jEcUjxoVjsuHYWbRRF5x2+KWLSsqJuXlLAe/CV8o5XPtkAQ
+         pIxHtuVZxFGxZovZLwGj2N9ZuU1G84n1f218L3+NNfsJ2RcFruFZzdNGr9wqgG96wCjm
+         j1lRKk7l3r15Iod8zCWW35CEzcn8EOKU6xXCBIy9NC5QVAyzBxjOIJ3OW3BrYUbgJl92
+         ROyYjvTnot/akIz8N460T5+nILVlTptK8+hCUIqrb/YkczqAZpXFAqYi/UvwXqKPsHMq
+         XBng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=9AsJNoK7rAciESn25LHlxP2wCJ43zmCSYQcAT99BBd4=;
-        b=5CxKN5QJ7ira6EE7xl+SuFjPOIvTTJyGGl4xwBbk52JFmnuLPLUrtsOkADS+PRwnfj
-         zpuPNl+d18tmAdeJgs9yzR/UlbQLtSjEOww3xRkSkLXFrGB6Yi0kO/Z6m6gZVT4D8HbQ
-         jYSroeLrDjKryc9mMAf6Fv/dM70E0hHKF1pth4f8qw0DBk+TYystr2xPQljvupWTvsgL
-         +Izg0O8HO+zT71OlJOONfrBrpjQbFRv6G+Pa2a6hKTpj1v9tPvIMehCq0r6DIN0Vz7kw
-         11EZed1MYW9FE3eOQKpZ+BOhHISXycZtlmZ0pO5caJg1tkHCuSP7UIUgYh1rGLGiZaYT
-         6/Bg==
-X-Gm-Message-State: AOAM530pIdGrlmcxNuDq3kn/lkzpcrLifVkdJp4bLII0b9vCO2m5xtUj
-        be7/YOLSCzEMZZjkS3fE9VMrf+fu9FdXyw==
-X-Google-Smtp-Source: ABdhPJyeVYyegMaoemnDktJuPvMIAA8nNsXhR7d0KP0KX9y4TS0Kk1Qh6YBr9tQBppAwiNHh5JRk0w==
-X-Received: by 2002:a05:600c:a55:: with SMTP id c21mr33724060wmq.191.1638154630689;
-        Sun, 28 Nov 2021 18:57:10 -0800 (PST)
-Received: from [192.168.123.240] (static.235.156.203.116.clients.your-server.de. [116.203.156.235])
-        by smtp.gmail.com with ESMTPSA id n2sm18220351wmi.36.2021.11.28.18.57.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 28 Nov 2021 18:57:10 -0800 (PST)
-Message-ID: <aee858af-f0f7-1da6-5976-cf0057092afa@gmail.com>
-Date:   Mon, 29 Nov 2021 10:55:58 +0800
+        bh=loOtrxpiU0DbfJGLBSacaCV+bT9DzOr2V8JkCTZzs8E=;
+        b=2ovN88jikcijV6KjIzz9bKA9ByQ1So261UJufHxOnWjdHle6o+3jNgV4WADiZReCbl
+         f9LX8fH6qUyYeNB8PTawS3jsZh4c6dpjxj24cY1YkZleLrbEnjJPLJDhJ8v0g7C7TScQ
+         029wVNgOBb/cvOW3i7QbW612k+oeBubVT8Hzj1GClY8cXs9w/xa9eI+QY04rXEiFpDbd
+         miOA/bUgMe01lpezKu/PNe7TZqNYIL1Cc3q4HFRp0HqX5kmmNoYo67XV9Zl54kndcn5K
+         d/vhVIKVw/TYImYKID/mT2l8CR3JaV/gi/Fq7sRg5fLnNcPBp+O0cEWTxSGCFtk/Su3D
+         hBkQ==
+X-Gm-Message-State: AOAM531tNYBNzYTpQdpMeYQoc97TFabdnPsc58GczCNj9l97KWqoyO6j
+        anSrYPHtdan+e8Bo0lQCLUpC5FdYceNcrMtV
+X-Google-Smtp-Source: ABdhPJxYpVLPunjgSSAX3KTKiesWh9/JRt3u/ATcecEQrMo3/IGwhw+22Ef1dmEiDxxadZyVon65Vg==
+X-Received: by 2002:a17:902:b48f:b0:143:bbf0:81d9 with SMTP id y15-20020a170902b48f00b00143bbf081d9mr56810601plr.5.1638154865422;
+        Sun, 28 Nov 2021 19:01:05 -0800 (PST)
+Received: from localhost.localdomain ([8.26.182.90])
+        by smtp.gmail.com with ESMTPSA id k1sm15513284pfu.31.2021.11.28.19.01.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Nov 2021 19:01:04 -0800 (PST)
+From:   Yanteng Si <siyanteng01@gmail.com>
+X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
+To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
+        seakeel@gmail.com
+Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
+        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
+        realpuyuwang@gmail.com, siyanteng01@gmail.com
+Subject: [PATCH v3 0/2] docs/zh_CN: add scheduler completion translation
+Date:   Mon, 29 Nov 2021 10:59:50 +0800
+Message-Id: <cover.1638154307.git.siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:95.0) Gecko/20100101
- Thunderbird/95.0
-Subject: Re: [PATCH 2/3] mm: page table check
-Content-Language: en-US
-To:     Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Rientjes <rientjes@google.com>,
-        Paul Turner <pjt@google.com>, weixugc@google.com,
-        Greg Thelen <gthelen@google.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>, masahiroy@kernel.org,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "maintainer:X86 ARCHITECTURE" <x86@kernel.org>,
-        frederic@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
-References: <20211123214814.3756047-1-pasha.tatashin@soleen.com>
- <20211123214814.3756047-3-pasha.tatashin@soleen.com>
- <6d82e674-76dc-f3b0-2e53-a92eeb249eff@gmail.com>
- <CA+CK2bAX2XmMrt9RBGiUV7LG_sbpB7ov6bxMVjr5FSBVirE1CA@mail.gmail.com>
- <7d339956-27fb-4eb6-bd73-791807ddef56@gmail.com>
- <9e0014e8-e251-360c-ad82-334ad0f28303@gmail.com>
- <CA+CK2bDiWc2y=CW6d=6raaf9Haq2vuWQDTQZ-aAyLDdpq5aQPQ@mail.gmail.com>
-From:   Fusion Future <qydwhotmail@gmail.com>
-In-Reply-To: <CA+CK2bDiWc2y=CW6d=6raaf9Haq2vuWQDTQZ-aAyLDdpq5aQPQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021/11/29 00:57, Pasha Tatashin wrote:
-> This commit by itself would not cause the freeze or BUG_ON(), but the
-> next commit which enables it on x86 arch might.
+v3:
 
-Yes, you are right. At the commit 
-"[1e67abff1820489435aad3fcf258708c21c283ef] x86: mm: add x86_64 support 
-for page table check" my system starts to experience the freeze.
+* Pick Reviewed-by tag.
 
-I can now reproduce the freeze by following the steps below:
+v2:
 
-1. Open 20 YouTube video pages, and a YouTube Music page.
-2. Play music in the background. (The step can be omitted)
-3. Run `git clone 
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git ln`
+* Modified some words under Alex's advices.
 
-git will never successfully clone the repo because the system will 
-freeze during the operation.
+v1:
 
-I also tried adding `page_table_check=off` to the boot option but still 
-experienced the freeze. Perhaps the option is of no use.
+* Translate .../scheduler/completion.rst and index.rst into Chinese.
+
+Yanteng Si (2):
+  docs/zh_CN: add scheduler index translation
+  docs/zh_CN: add completion translation
+
+ Documentation/translations/zh_CN/index.rst    |   2 +-
+ .../zh_CN/scheduler/completion.rst            | 256 ++++++++++++++++++
+ .../translations/zh_CN/scheduler/index.rst    |  45 +++
+ 3 files changed, 302 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/scheduler/completion.rst
+ create mode 100644 Documentation/translations/zh_CN/scheduler/index.rst
+
+-- 
+2.27.0
+
