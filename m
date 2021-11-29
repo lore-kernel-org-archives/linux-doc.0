@@ -2,91 +2,153 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B68BC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Nov 2021 03:03:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26AD5C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Nov 2021 03:04:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239137AbhK2DGY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 28 Nov 2021 22:06:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58764 "EHLO
+        id S1343860AbhK2DIH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 28 Nov 2021 22:08:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346034AbhK2DEX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Nov 2021 22:04:23 -0500
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9D6AC061756
-        for <linux-doc@vger.kernel.org>; Sun, 28 Nov 2021 19:01:05 -0800 (PST)
-Received: by mail-pj1-x102c.google.com with SMTP id h24so11509553pjq.2
-        for <linux-doc@vger.kernel.org>; Sun, 28 Nov 2021 19:01:05 -0800 (PST)
+        with ESMTP id S231278AbhK2DGH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Nov 2021 22:06:07 -0500
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBA1BC061757
+        for <linux-doc@vger.kernel.org>; Sun, 28 Nov 2021 19:01:09 -0800 (PST)
+Received: by mail-pl1-x62f.google.com with SMTP id b11so10958223pld.12
+        for <linux-doc@vger.kernel.org>; Sun, 28 Nov 2021 19:01:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=loOtrxpiU0DbfJGLBSacaCV+bT9DzOr2V8JkCTZzs8E=;
-        b=hcrfgFXfiDnBo++kDbRmr5S9Aowy5ufsClZArVEscXdoVSaSYO/f6PAgze2bZt0iBy
-         ig1bDVZZAHYOES6bD3On/jEcUjxoVjsuHYWbRRF5x2+KWLSsqJuXlLAe/CV8o5XPtkAQ
-         pIxHtuVZxFGxZovZLwGj2N9ZuU1G84n1f218L3+NNfsJ2RcFruFZzdNGr9wqgG96wCjm
-         j1lRKk7l3r15Iod8zCWW35CEzcn8EOKU6xXCBIy9NC5QVAyzBxjOIJ3OW3BrYUbgJl92
-         ROyYjvTnot/akIz8N460T5+nILVlTptK8+hCUIqrb/YkczqAZpXFAqYi/UvwXqKPsHMq
-         XBng==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=EDysAnYE8F1w+t1wi6FDqby5P27CvW3DQkkIqEEoZmY=;
+        b=YPkP6LskahLlCgx/cP6YWfBYFXEv4aIekmnE4Ti3suXfsyqboNfVFXIdNpb1rZ76ED
+         i1sWn5oEQldnuI1gUpZidoyH2mT8UHV+ul+RWBUdk95P6kD5NhczFjYbjthRLH+c8yLR
+         +vADjO1gxt5+D0rznCaBzGP+nowlb3zhD3QQtZQt74TVxyqXqqHAc18B9uKYCq+jX5LI
+         jYiWcI4/K2ZtD707LZODwgM0gSQ2+S+hrIozrYllrp/wTODbuObb/szx4dMptR9D566D
+         LrpyxOzGayBBy4+h+xm+4VAYF4IGRRbK1Hu7TqPZ1OrSSO0fNhzI/ubOYIEOFPgzXtGm
+         WjqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=loOtrxpiU0DbfJGLBSacaCV+bT9DzOr2V8JkCTZzs8E=;
-        b=2ovN88jikcijV6KjIzz9bKA9ByQ1So261UJufHxOnWjdHle6o+3jNgV4WADiZReCbl
-         f9LX8fH6qUyYeNB8PTawS3jsZh4c6dpjxj24cY1YkZleLrbEnjJPLJDhJ8v0g7C7TScQ
-         029wVNgOBb/cvOW3i7QbW612k+oeBubVT8Hzj1GClY8cXs9w/xa9eI+QY04rXEiFpDbd
-         miOA/bUgMe01lpezKu/PNe7TZqNYIL1Cc3q4HFRp0HqX5kmmNoYo67XV9Zl54kndcn5K
-         d/vhVIKVw/TYImYKID/mT2l8CR3JaV/gi/Fq7sRg5fLnNcPBp+O0cEWTxSGCFtk/Su3D
-         hBkQ==
-X-Gm-Message-State: AOAM531tNYBNzYTpQdpMeYQoc97TFabdnPsc58GczCNj9l97KWqoyO6j
-        anSrYPHtdan+e8Bo0lQCLUpC5FdYceNcrMtV
-X-Google-Smtp-Source: ABdhPJxYpVLPunjgSSAX3KTKiesWh9/JRt3u/ATcecEQrMo3/IGwhw+22Ef1dmEiDxxadZyVon65Vg==
-X-Received: by 2002:a17:902:b48f:b0:143:bbf0:81d9 with SMTP id y15-20020a170902b48f00b00143bbf081d9mr56810601plr.5.1638154865422;
-        Sun, 28 Nov 2021 19:01:05 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=EDysAnYE8F1w+t1wi6FDqby5P27CvW3DQkkIqEEoZmY=;
+        b=S2xiENfGRIAhNH72gXGf4IZQo+2fbVPGGfbhbWVW2ZM1vdzvjSO/R4RB2oxlNjS9uz
+         voHnWoa2c/CMasHdsW+DLpn6frSN2e8nRuPqSMbqEIsI4vyP1wnCslgi+LFdGIK1kZKS
+         IOfzrotHS1Romd04+Sjexn0WX2AMhObEu5vkuH++3V+vbaF0FkihK6wX8Jl5xMX4mgHY
+         oju7iwtJEMAZrcuNA1e4PcTssQWNP32dIwy+ZT1qqSGTcQMmAOul+wp2O9b4HddPtU4O
+         0PcsiAD5Fvl8teze3P8d3s20bmmVDRBp5Rs/JErFjos7zjqYZgAvTZSyFvUxLAeoEyqK
+         +cTA==
+X-Gm-Message-State: AOAM533j3u2ZUN7uHQNgqFW/dZa3PTuy6PTPqHXa4VoUsBp0nA+rtgDx
+        VQA8XhMiciDoI8iW6NNKEek=
+X-Google-Smtp-Source: ABdhPJyqLlLuxOo8aAevR1OpUc4tV69OMhL+nBvWNeIDtInlybMyloMd/eKBLj8KCwvqyRb9yMbaEQ==
+X-Received: by 2002:a17:90a:c58d:: with SMTP id l13mr35203332pjt.189.1638154869310;
+        Sun, 28 Nov 2021 19:01:09 -0800 (PST)
 Received: from localhost.localdomain ([8.26.182.90])
-        by smtp.gmail.com with ESMTPSA id k1sm15513284pfu.31.2021.11.28.19.01.01
+        by smtp.gmail.com with ESMTPSA id k1sm15513284pfu.31.2021.11.28.19.01.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Nov 2021 19:01:04 -0800 (PST)
+        Sun, 28 Nov 2021 19:01:09 -0800 (PST)
 From:   Yanteng Si <siyanteng01@gmail.com>
 X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
 To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
         seakeel@gmail.com
-Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
+Cc:     Yanteng Si <siyanteng01@gmail.com>, chenhuacai@kernel.org,
         jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
-        realpuyuwang@gmail.com, siyanteng01@gmail.com
-Subject: [PATCH v3 0/2] docs/zh_CN: add scheduler completion translation
-Date:   Mon, 29 Nov 2021 10:59:50 +0800
-Message-Id: <cover.1638154307.git.siyanteng@loongson.cn>
+        realpuyuwang@gmail.com, Yanteng Si <siyanteng@loongson.cn>
+Subject: [PATCH v3 1/2] docs/zh_CN: add scheduler index translation
+Date:   Mon, 29 Nov 2021 10:59:51 +0800
+Message-Id: <8825a5b91f881bbb3223bb82ca6ccda8376b8913.1638154307.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <cover.1638154307.git.siyanteng@loongson.cn>
+References: <cover.1638154307.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-v3:
+From: Yanteng Si <siyanteng01@gmail.com>
 
-* Pick Reviewed-by tag.
+Translate .../scheduler/index.rst into Chinese.
 
-v2:
-
-* Modified some words under Alex's advices.
-
-v1:
-
-* Translate .../scheduler/completion.rst and index.rst into Chinese.
-
-Yanteng Si (2):
-  docs/zh_CN: add scheduler index translation
-  docs/zh_CN: add completion translation
-
- Documentation/translations/zh_CN/index.rst    |   2 +-
- .../zh_CN/scheduler/completion.rst            | 256 ++++++++++++++++++
- .../translations/zh_CN/scheduler/index.rst    |  45 +++
- 3 files changed, 302 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/scheduler/completion.rst
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+Reviewed-by: Alex Shi <alexs@kernel.org>
+---
+ Documentation/translations/zh_CN/index.rst    |  2 +-
+ .../translations/zh_CN/scheduler/index.rst    | 44 +++++++++++++++++++
+ 2 files changed, 45 insertions(+), 1 deletion(-)
  create mode 100644 Documentation/translations/zh_CN/scheduler/index.rst
 
+diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
+index a34e58733ac8..aebe336ab538 100644
+--- a/Documentation/translations/zh_CN/index.rst
++++ b/Documentation/translations/zh_CN/index.rst
+@@ -106,6 +106,7 @@ TODOList:
+    virt/index
+    infiniband/index
+    accounting/index
++   scheduler/index
+ 
+ TODOList:
+ 
+@@ -140,7 +141,6 @@ TODOList:
+ * PCI/index
+ * scsi/index
+ * misc-devices/index
+-* scheduler/index
+ * mhi/index
+ 
+ 体系结构无关文档
+diff --git a/Documentation/translations/zh_CN/scheduler/index.rst b/Documentation/translations/zh_CN/scheduler/index.rst
+new file mode 100644
+index 000000000000..4fde5c2a9db3
+--- /dev/null
++++ b/Documentation/translations/zh_CN/scheduler/index.rst
+@@ -0,0 +1,44 @@
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/scheduler/index.rst
++
++:翻译:
++
++ 司延腾 Yanteng Si <siyanteng@loongson.cn>
++
++:校译:
++
++
++
++.. _cn_scheduler_index.rst:
++
++===============
++Linux调度器
++===============
++
++.. toctree::
++    :maxdepth: 1
++
++
++TODOList:
++
++    completion
++    sched-arch
++    sched-bwc
++    sched-deadline
++    sched-design-CFS
++    sched-domains
++    sched-capacity
++    sched-energy
++    sched-nice-design
++    sched-rt-group
++    sched-stats
++
++    text_files
++
++.. only::  subproject and html
++
++   Indices
++   =======
++
++   * :ref:`genindex`
 -- 
 2.27.0
 
