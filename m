@@ -2,221 +2,186 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54F59C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Nov 2021 11:53:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC259C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Nov 2021 11:54:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239165AbhK2L4t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Nov 2021 06:56:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56468 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S239346AbhK2Lys (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Nov 2021 06:54:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1638186690;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=o1hbT83UZyzEpMcYnWEfjfHejJ/ev9mdgbjpKbK1VxE=;
-        b=jPSCvnH3AmIEJgnraLey8Z5aFFc8AIeOcFcsX+DzhdtTb0SAGz8twzNMycBFyTfseM1MSS
-        8w+KBStygLCLMuokWtNVxaJiSfRKO+isstyAF4hpUsR6KCkexSxNid9nv4QxiUG0bDtO4c
-        Kw91vHSrw0dewmGQCdIUe1mphja4ZQA=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-556-_yJYyLmCMEm3z3kMBrYJpA-1; Mon, 29 Nov 2021 06:51:29 -0500
-X-MC-Unique: _yJYyLmCMEm3z3kMBrYJpA-1
-Received: by mail-ed1-f69.google.com with SMTP id v1-20020aa7cd41000000b003e80973378aso13442410edw.14
-        for <linux-doc@vger.kernel.org>; Mon, 29 Nov 2021 03:51:29 -0800 (PST)
+        id S241153AbhK2L5j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Nov 2021 06:57:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60416 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230232AbhK2Lzj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Nov 2021 06:55:39 -0500
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65AE8C0698DE
+        for <linux-doc@vger.kernel.org>; Mon, 29 Nov 2021 02:57:38 -0800 (PST)
+Received: by mail-wr1-x429.google.com with SMTP id a18so35832134wrn.6
+        for <linux-doc@vger.kernel.org>; Mon, 29 Nov 2021 02:57:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=7vafQL9VRNu9gFf/4mCpAetbH+x6q7yQT0LZFBgrIEY=;
+        b=FpAGCEzpMCHDlrye0BEfBwWwvSDdjJvOXWO1p1/HTeFUBw51K/pUg7ZN8+2hhZV2HV
+         22JTf8MK/JHZYUDXEZbC+03TcrFop82Q+qtsYPzjpgh0a2kz2Tyj31pCNAlSo0pVU0EN
+         1s2wOz2tBmMVxpJwr8CJDRVHdSqJ9GcDNjGn9KsDQYIjSjL3pOQzcOX38J8iZtCO7cVf
+         1VsNFoQ43N5HhmH8x/M4In50SZ0JugEpRq/2UnLc5Mhi5/l/XYzd/9rvORCsTXUtfH9K
+         hKbSLcZgq5l3o1EzWNRfQzE9J6l1tKsCqXva0OANeH17ADW9gxG5Ur3Js5eQVOUl0wJ0
+         lk7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version:content-transfer-encoding;
-        bh=o1hbT83UZyzEpMcYnWEfjfHejJ/ev9mdgbjpKbK1VxE=;
-        b=Pf/TLHdJCAfXoK0U1THJydSMHOWxbMQe+fOumIlh3gkq7iwtE3UlgFrz3C0nj+V26a
-         UZ0dqolzHvWc4l3IUMg2u/pLdvSwo1FEHC5FmXMkP3ihX1TklE89hr0qZ6EPN57iQTZ6
-         xXDlf6nlseRkzsyajTLJZqdIQWYkTpMy5A2XUjIowguGoA1jeHVdHPy3kdh7oo3aMtsg
-         PJkQ5UoO5xO7jkVy6dxOnIip5qO8ES3yBHLRJPHzMSnFDsoiCaA6l3R59Rs2DQWkwDVj
-         kG5DE+NoxC7bX8/9MEgZR5r3bF5WID82XDc6KKjJWt5EYdYrJ0qG+37AbaFoibSUEI6B
-         hrTw==
-X-Gm-Message-State: AOAM532K0oUV23MEYtMVdX6wrOz65e4JnOXA/S+awyWonVvQP5H0K7zj
-        jiAiLssSndcMvAmpgKZoVO76eC0LjD7JOFgiCoc9V7fv8hPycukCnpSFnBJ/nXh6X7EOq2lg+Qe
-        MPZLNQ/XGzMWvLq7pm8qp
-X-Received: by 2002:a05:6402:90c:: with SMTP id g12mr72820108edz.36.1638186688015;
-        Mon, 29 Nov 2021 03:51:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy//h6DqzMZ3cIjns1ItOPHoyCEI8XwGnDfYQ/w255YG7ez18OJaBJc76mESug2RLwzmhwD5w==
-X-Received: by 2002:a05:6402:90c:: with SMTP id g12mr72820014edz.36.1638186687643;
-        Mon, 29 Nov 2021 03:51:27 -0800 (PST)
-Received: from alrua-x1.borgediget.toke.dk ([45.145.92.2])
-        by smtp.gmail.com with ESMTPSA id z1sm9056421edq.54.2021.11.29.03.51.26
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=7vafQL9VRNu9gFf/4mCpAetbH+x6q7yQT0LZFBgrIEY=;
+        b=rBrMxWINqfGPq3VU1wruvkpb7crLpkNx4YG5hX/CY+wlM8GD7l7geqoaa9NGjY07qM
+         x8AxM9ULDJ4xV1Cp51jcVXES0UuuKjcfQ3cRAtbi26OwwBDq1tb6ImLawhtMwoPkEWWz
+         kZjt4clnhN9nSR/puGhf+7M6hpVDDl/bAj+Rxcg5E9S0Yk1+YjILHXqL4UiaXoHdANOn
+         eIYNEtdVQjgZGQDKhmHaa1rpauLl/dDXrconjAqlQFdePyjn4Mazvucsm+NIZ1EDIHas
+         oCQj/bQMo/YjiJ2cvUJ57t4hyjVR5Uxz9f5SomJmp7dDXri46gCym/seyedav/MXKqXo
+         +muw==
+X-Gm-Message-State: AOAM530BaPP9ypUUCvMEOrvHnLWn4pZjfOFiKlZOcIs+4/x8psk02lLH
+        CECPbA9IG9UF5XnkcHTbw7HH5w==
+X-Google-Smtp-Source: ABdhPJwAU8YPWeu2RrOY2XQ41C34yLkIywEO8EJrMwhVry4Q5OSTPeXL1PW8RxfOB2Xl3zforekjfA==
+X-Received: by 2002:adf:d082:: with SMTP id y2mr32476986wrh.214.1638183456845;
+        Mon, 29 Nov 2021 02:57:36 -0800 (PST)
+Received: from elver.google.com ([2a00:79e0:15:13:aaf:77c4:3d2:af75])
+        by smtp.gmail.com with ESMTPSA id n1sm16528943wmq.6.2021.11.29.02.57.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Nov 2021 03:51:27 -0800 (PST)
-Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
-        id 6858F1802A0; Mon, 29 Nov 2021 12:51:26 +0100 (CET)
-From:   Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
-To:     Daniel Borkmann <daniel@iogearbox.net>,
-        Jakub Kicinski <kuba@kernel.org>
-Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
-        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shay Agroskin <shayagr@amazon.com>,
-        Arthur Kiyanovski <akiyano@amazon.com>,
-        David Arinzon <darinzon@amazon.com>,
-        Noam Dagan <ndagan@amazon.com>,
-        Saeed Bishara <saeedb@amazon.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Marcin Wojtas <mw@semihalf.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Saeed Mahameed <saeedm@nvidia.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Edward Cree <ecree.xilinx@gmail.com>,
-        Martin Habets <habetsm.xilinx@gmail.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Yajun Deng <yajun.deng@linux.dev>,
-        Sergey Ryazanov <ryazanov.s.a@gmail.com>,
-        David Ahern <dsahern@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        Cong Wang <cong.wang@bytedance.com>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
-        virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH v2 net-next 21/26] ice: add XDP and XSK generic
- per-channel statistics
-In-Reply-To: <871ae82a-3d5b-2693-2f77-7c86d725a056@iogearbox.net>
-References: <20211123163955.154512-1-alexandr.lobakin@intel.com>
- <20211123163955.154512-22-alexandr.lobakin@intel.com>
- <77407c26-4e32-232c-58e0-2d601d781f84@iogearbox.net>
- <87bl28bga6.fsf@toke.dk>
- <20211125170708.127323-1-alexandr.lobakin@intel.com>
- <20211125094440.6c402d63@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <20211125204007.133064-1-alexandr.lobakin@intel.com>
- <87sfvj9k13.fsf@toke.dk>
- <20211126100611.514df099@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <871ae82a-3d5b-2693-2f77-7c86d725a056@iogearbox.net>
-X-Clacks-Overhead: GNU Terry Pratchett
-Date:   Mon, 29 Nov 2021 12:51:26 +0100
-Message-ID: <878rx79o3l.fsf@toke.dk>
+        Mon, 29 Nov 2021 02:57:36 -0800 (PST)
+Date:   Mon, 29 Nov 2021 11:57:30 +0100
+From:   Marco Elver <elver@google.com>
+To:     Boqun Feng <boqun.feng@gmail.com>
+Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
+        Alexander Potapenko <glider@google.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Waiman Long <longman@redhat.com>,
+        Will Deacon <will@kernel.org>, kasan-dev@googlegroups.com,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, x86@kernel.org
+Subject: Re: [PATCH v2 03/23] kcsan: Avoid checking scoped accesses from
+ nested contexts
+Message-ID: <YaSyGr4vW3yifWWC@elver.google.com>
+References: <20211118081027.3175699-1-elver@google.com>
+ <20211118081027.3175699-4-elver@google.com>
+ <YaSTn3JbkHsiV5Tm@boqun-archlinux>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YaSTn3JbkHsiV5Tm@boqun-archlinux>
+User-Agent: Mutt/2.0.5 (2021-01-21)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Daniel Borkmann <daniel@iogearbox.net> writes:
+On Mon, Nov 29, 2021 at 04:47PM +0800, Boqun Feng wrote:
+> Hi Marco,
+> 
+> On Thu, Nov 18, 2021 at 09:10:07AM +0100, Marco Elver wrote:
+> > Avoid checking scoped accesses from nested contexts (such as nested
+> > interrupts or in scheduler code) which share the same kcsan_ctx.
+> > 
+> > This is to avoid detecting false positive races of accesses in the same
+> 
+> Could you provide an example for a false positive?
+> 
+> I think we do want to detect the following race:
+> 
+> 	static int v = SOME_VALUE; // a percpu variable.
+> 	static int other_v = ... ;
+> 
+> 	void foo(..)
+> 	{
+> 		int tmp;
+> 		int other_tmp;
+> 
+> 		preempt_disable();
+> 		{
+> 			ASSERT_EXCLUSIVE_ACCESSS_SCOPED(v);
+> 			tmp = v;
+> 			
+> 			other_tmp = other_v; // int_handler() may run here
+> 			
+> 			v = tmp + 2;
+> 		}
+> 		preempt_enabled();
+> 	}
+> 
+> 	void int_handler() // an interrupt handler
+> 	{
+> 		v++;
+> 	}
+> 
+> , if I understand correctly, we can detect this currently, but with this
+> patch, we cannot detect this if the interrupt happens while we're doing
+> the check for "other_tmp = other_v;", right? Of course, running tests
+> multiple times may eventually catch this, but I just want to understand
+> what's this patch for, thanks!
 
-> On 11/26/21 7:06 PM, Jakub Kicinski wrote:
->> On Fri, 26 Nov 2021 13:30:16 +0100 Toke H=C3=B8iland-J=C3=B8rgensen wrot=
-e:
->>>>> TBH I wasn't following this thread too closely since I saw Daniel
->>>>> nacked it already. I do prefer rtnl xstats, I'd just report them
->>>>> in -s if they are non-zero. But doesn't sound like we have an agreeme=
-nt
->>>>> whether they should exist or not.
->>>>
->>>> Right, just -s is fine, if we drop the per-channel approach.
->>>
->>> I agree that adding them to -s is fine (and that resolves my "no one
->>> will find them" complain as well). If it crowds the output we could also
->>> default to only output'ing a subset, and have the more detailed
->>> statistics hidden behind a verbose switch (or even just in the JSON
->>> output)?
->>>
->>>>> Can we think of an approach which would make cloudflare and cilium
->>>>> happy? Feels like we're trying to make the slightly hypothetical
->>>>> admin happy while ignoring objections of very real users.
->>>>
->>>> The initial idea was to only uniform the drivers. But in general
->>>> you are right, 10 drivers having something doesn't mean it's
->>>> something good.
->>>
->>> I don't think it's accurate to call the admin use case "hypothetical".
->>> We're expending a significant effort explaining to people that XDP can
->>> "eat" your packets, and not having any standard statistics makes this
->>> way harder. We should absolutely cater to our "early adopters", but if
->>> we want XDP to see wider adoption, making it "less weird" is critical!
->>=20
->> Fair. In all honesty I said that hoping to push for a more flexible
->> approach hidden entirely in BPF, and not involving driver changes.
->> Assuming the XDP program has more fine grained stats we should be able
->> to extract those instead of double-counting. Hence my vague "let's work
->> with apps" comment.
->>=20
->> For example to a person familiar with the workload it'd be useful to
->> know if program returned XDP_DROP because of configured policy or
->> failure to parse a packet. I don't think that sort distinction is
->> achievable at the level of standard stats.
->
-> Agree on the additional context. How often have you looked at tc clsact
-> /dropped/ stats specifically when you debug a more complex BPF program
-> there?
->
->    # tc -s qdisc show clsact dev foo
->    qdisc clsact ffff: parent ffff:fff1
->     Sent 6800 bytes 120 pkt (dropped 0, overlimits 0 requeues 0)
->     backlog 0b 0p requeues 0
->
-> Similarly, XDP_PASS counters may be of limited use as well for same reason
-> (and I think we might not even have a tc counter equivalent for it).
->
->> The information required by the admin is higher level. As you say the
->> primary concern there is "how many packets did XDP eat".
->
-> Agree. Above said, for XDP_DROP I would see one use case where you compare
-> different drivers or bond vs no bond as we did in the past in [0] when
-> testing against a packet generator (although I don't see bond driver cove=
-red
-> in this series here yet where it aggregates the XDP stats from all bond s=
-lave
-> devs).
->
-> On a higher-level wrt "how many packets did XDP eat", it would make sense
-> to have the stats for successful XDP_{TX,REDIRECT} given these are out
-> of reach from a BPF prog PoV - we can only count there how many times we
-> returned with XDP_TX but not whether the pkt /successfully made it/.
->
-> In terms of error cases, could we just standardize all drivers on the beh=
-avior
-> of e.g. mlx5e_xdp_handle(), meaning, a failure from XDP_{TX,REDIRECT} will
-> hit the trace_xdp_exception() and then fallthrough to bump a drop counter
-> (same as we bump in XDP_DROP then). So the drop counter will account for
-> program drops but also driver-related drops.
->
-> At some later point the trace_xdp_exception() could be extended with an e=
-rror
-> code that the driver would propagate (given some of them look quite simil=
-ar
-> across drivers, fwiw), and then whoever wants to do further processing wi=
-th
-> them can do so via bpftrace or other tooling.
->
-> So overall wrt this series: from the lrstats we'd be /dropping/ the pass,
-> tx_errors, redirect_errors, invalid, aborted counters. And we'd be /keepi=
-ng/
-> bytes & packets counters that XDP sees, (driver-)successful tx & redirect
-> counters as well as drop counter. Also, XDP bytes & packets counters shou=
-ld
-> not be counted twice wrt ethtool stats.
+The above will still be detected. Task and interrupt contexts in this
+case are distinct, i.e. kcsan_ctx differ (see get_ctx()).
 
-This sounds reasonable to me, and I also like the error code to
-tracepoint idea :)
+But there are rare cases where kcsan_ctx is shared, such as nested
+interrupts (NMI?), or when entering scheduler code -- which currently
+has a KCSAN_SANITIZE := n, but I occasionally test it, which is how I
+found this problem. The problem occurs frequently when enabling KCSAN in
+kernel/sched and placing a random ASSERT_EXCLUSIVE_ACCESS_SCOPED() in
+task context, or just enable "weak memory modeling" without this fix.
+You also need CONFIG_PREEMPT=y + CONFIG_KCSAN_INTERRUPT_WATCHER=y.
 
--Toke
+The emphasis here really is on _shared kcsan_ctx_, which is not too
+common. As noted in the commit description, we need to "[...] setting up
+a watchpoint for a non-scoped (normal) access that also "conflicts" with
+a current scoped access."
 
+Consider this:
+
+	static int v;
+	int foo(..)
+	{
+		ASSERT_EXCLUSIVE_ACCESS_SCOPED(v);
+		v++; // preempted during watchpoint for 'v++'
+	}
+
+Here we set up a scoped_access to be checked for v. Then on v++, a
+watchpoint is set up for the normal access. While the watchpoint is set
+up, the task is preempted and upon entering scheduler code, we're still
+in_task() and 'current' is still the same, thus get_ctx() returns a
+kcsan_ctx where the scoped_accesses list is non-empty containing the
+scoped access for foo()'s ASSERT_EXCLUSIVE.
+
+That means, when instrumenting scheduler code or any other code called
+by scheduler code or nested interrupts (anything where get_ctx() still
+returns the same as parent context), it'd now perform checks based on
+the parent context's scoped access, and because the parent context also
+has a watchpoint set up on the variable that conflicts with the scoped
+access we'd report a nonsensical race.
+
+This case is also possible:
+
+	static int v;
+	static int x;
+	int foo(..)
+	{
+		ASSERT_EXCLUSIVE_ACCESS_SCOPED(v);
+		x++; // preempted during watchpoint for 'v' after checking x++
+	}
+
+Here, all we need is for the scoped access to be checked after x++, end
+up with a watchpoint for it, then enter scheduler code, which then
+checked 'v', sees the conflicting watchpoint, and reports a nonsensical
+race again.
+
+By disallowing scoped access checking for a kcsan_ctx, we simply make
+sure that in such nested contexts where kcsan_ctx is shared, none of
+these nonsensical races would be detected nor reported.
+
+Hopefully that clarifies what this is about.
+
+Thanks,
+-- Marco
