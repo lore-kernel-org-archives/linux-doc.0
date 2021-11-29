@@ -2,377 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55033C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Nov 2021 22:37:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2E37C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Nov 2021 22:38:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234041AbhK2WlH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Nov 2021 17:41:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33636 "EHLO
+        id S234434AbhK2Wlq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Nov 2021 17:41:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230478AbhK2WkZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Nov 2021 17:40:25 -0500
-Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com [IPv6:2607:f8b0:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A971C093B5E
-        for <linux-doc@vger.kernel.org>; Mon, 29 Nov 2021 12:09:07 -0800 (PST)
-Received: by mail-ot1-x32c.google.com with SMTP id u18-20020a9d7212000000b00560cb1dc10bso27093412otj.11
-        for <linux-doc@vger.kernel.org>; Mon, 29 Nov 2021 12:09:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EuI2cChVvE6zgamPFlSyZnNuvIW/4yZ/lDHIRhEQpvE=;
-        b=lKq1yMLaXpb2ZgEms17e/ODenZsGC7ET+B7PxdBu+CIZTFKQgmvfpnjbTeTg2VP7eB
-         SbBH+AaT1OORBHNeOWzZRma1H3/EuvSR2blRXAzyFqHwdQs+esNdUl7sn9Hcd6UOwJe7
-         sdeIMtf0bewp7wKcL4B0Ah0vaNuXgZpRnWDxWFShCnkrAd18c5iSTt0PQZ80EnDI0oXu
-         +fWUh2GbzCAkCLauAbdaKdNqXSkXhNLFAMp3BlOokB1ynwrkbNMyo9+uY7YS5Serwgw9
-         Z9OKrB7CiWOaW622m2HuS8c/lAhJgB4LblUYcdkQghWJyGAT8a4DY8Sp8ALDiPGsk0Rm
-         074Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EuI2cChVvE6zgamPFlSyZnNuvIW/4yZ/lDHIRhEQpvE=;
-        b=Ac88LorSyY2QGIEakvzUP2L8HrfEtUi6xSsetEpN33/sDj8JjhnWu+nrSoNcVSa6mT
-         aEshzV/XE3H4do7OnlVVvX/6WLmYxVbqn+FpdgFbv0bji8qC9DHQeOnSo0CmNtUkElTK
-         SbaoGkbxK53Mk7ytn5dt63d3J+bfdMHvUoW2eoxEPtJe5Lhn+jIROJfqVckyCW6Ohm2j
-         P/7DgjY5hwoxyCPwPzC3u87nuQnVToLxya5/JKuDA1FG68Kk+O4oT0l1/7HDAboLF6cU
-         wPRc2hvaGDSm0Xf5Ix4bEOVKOOHNG1s0y9FK5yw7ozOAPQ9eChEFr2f8Ww+ZLNw28adx
-         /6uQ==
-X-Gm-Message-State: AOAM531Yrz9WGZDcaTdaheiUVFw6xrRUi+p/5JAClFn1bIfOgZEAWKa5
-        JmP/eSVaeExqFPYt2ARnHK05LU3wEhp9xNJgrbQ=
-X-Google-Smtp-Source: ABdhPJybJNhP30NO8iC6nFg8fWwvBXS8z2cGTZnjb3rWI/Au30aYxL5DQtZ8NHjFiqiTIB83WR98Y8ZUXEhwyiSq92g=
-X-Received: by 2002:a9d:6855:: with SMTP id c21mr48268083oto.357.1638216546543;
- Mon, 29 Nov 2021 12:09:06 -0800 (PST)
+        with ESMTP id S232363AbhK2Wks (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Nov 2021 17:40:48 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23EC5C201452
+        for <linux-doc@vger.kernel.org>; Mon, 29 Nov 2021 13:17:03 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 20C332CD;
+        Mon, 29 Nov 2021 21:17:02 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 20C332CD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1638220622; bh=glE+rWEyPSkXK6pg/6fWmsGU1/sNzhgk5h7ZYGO+99w=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=MC8IQm04EI6C8B8Ak6klaSMqa9/vBMj5J5ABDTVCTNuE/JypVbKBTCsirve/OHRAb
+         QFeXD8UaLoiz94dV2C7t9eEvL77z4c4ylUDwasExRxaFXBfXjsRdLKLYiFw/pZU40D
+         Tva3NB9Zj142J+X2HAjckmt2tOW1iTbArM59xFwd4Yxz3e7HNder2ovUyAnjqCOj69
+         eC48enpHUzz0ygChrSvRpE53HyigFhORhUPpoo1cGwc1l3IXi2n4esy36lL4UhFdeW
+         KrS5hqhYzAD4WjOXsQrg6mdR+XzwLgLLgoV3esFTQInp77mglXH2eN9Y8ddkDrBTfZ
+         H5RMSBa2txtyA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Yanteng Si <siyanteng01@gmail.com>, alexs@kernel.org,
+        bobwxc@email.cn, seakeel@gmail.com
+Cc:     Yanteng Si <siyanteng01@gmail.com>, chenhuacai@kernel.org,
+        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
+        realpuyuwang@gmail.com, kolyshkin@gmail.com,
+        changhuaixin@linux.alibaba.com, Yanteng Si <siyanteng@loongson.cn>
+Subject: Re: [PATCH v2 2/3] docs/zh_CN: add scheduler sched-bwc translation
+In-Reply-To: <92dbb08d26e108b1677aa6cdb3f7a74a9733429b.1638154485.git.siyanteng@loongson.cn>
+References: <cover.1638154485.git.siyanteng@loongson.cn>
+ <92dbb08d26e108b1677aa6cdb3f7a74a9733429b.1638154485.git.siyanteng@loongson.cn>
+Date:   Mon, 29 Nov 2021 14:17:01 -0700
+Message-ID: <871r2yu0fm.fsf@meer.lwn.net>
 MIME-Version: 1.0
-References: <20211125153830.1352994-1-Rodrigo.Siqueira@amd.com> <20211125153830.1352994-7-Rodrigo.Siqueira@amd.com>
-In-Reply-To: <20211125153830.1352994-7-Rodrigo.Siqueira@amd.com>
-From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Mon, 29 Nov 2021 15:08:55 -0500
-Message-ID: <CADnq5_NVcHizoY_xRM4d09B2s9DzWwDhn=YrgJ-3COXNANzE3A@mail.gmail.com>
-Subject: Re: [PATCH 6/6] Documentation/gpu: Add DC glossary
-To:     Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Cc:     Simon Ser <contact@emersion.fr>,
-        =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
-        Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
-        =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>,
-        Roman Gilg <subdiff@gmail.com>,
-        Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
-        Harry Wentland <Harry.Wentland@amd.com>,
-        Mark Yacoub <markyacoub@chromium.org>,
-        Sean Paul <seanpaul@chromium.org>,
-        Pekka Paalanen <ppaalanen@gmail.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Qingqing Zhuo <qingqing.zhuo@amd.com>,
-        Roman Li <roman.li@amd.com>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Aurabindo Pillai <aurabindo.pillai@amd.com>,
-        nicholas.choi@amd.com,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Bhawanpreet Lakha <bhawanpreet.lakha@amd.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 25, 2021 at 10:40 AM Rodrigo Siqueira
-<Rodrigo.Siqueira@amd.com> wrote:
+Yanteng Si <siyanteng01@gmail.com> writes:
+
+> From: Yanteng Si <siyanteng01@gmail.com>
 >
-> In the DC driver, we have multiple acronyms that are not obvious most of
-> the time. This commit introduces a DC glossary in order to make it
-> easier to navigate through our driver.
+> Translate .../scheduler/sched-bwc.rst into Chinese.
 >
-> Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> Reviewed-by: Alex Shi <alexs@kernel.org>
 > ---
->  Documentation/gpu/amdgpu-dc/amdgpu-dc.rst   |   2 +-
->  Documentation/gpu/amdgpu-dc/dc-glossary.rst | 257 ++++++++++++++++++++
->  2 files changed, 258 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/gpu/amdgpu-dc/dc-glossary.rst
->
-> diff --git a/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst b/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
-> index 2e45e83d9a2a..15405c43786a 100644
-> --- a/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
-> +++ b/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
-> @@ -26,4 +26,4 @@ table of content:
->     amdgpu-dcn-overview.rst
->     amdgpu-dm.rst
->     amdgpu-dc-debug.rst
-> -
-> +   dc-glossary.rst
-> diff --git a/Documentation/gpu/amdgpu-dc/dc-glossary.rst b/Documentation/gpu/amdgpu-dc/dc-glossary.rst
+>  .../translations/zh_CN/scheduler/index.rst    |   1 +
+>  .../zh_CN/scheduler/sched-bwc.rst             | 206 ++++++++++++++++++
+>  2 files changed, 207 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/scheduler/sched-bwc.=
+rst
+
+One quick question:
+
+> diff --git a/Documentation/translations/zh_CN/scheduler/index.rst b/Docum=
+entation/translations/zh_CN/scheduler/index.rst
+> index 797df3a9c66f..aba11e561ec3 100644
+> --- a/Documentation/translations/zh_CN/scheduler/index.rst
+> +++ b/Documentation/translations/zh_CN/scheduler/index.rst
+> @@ -21,6 +21,7 @@ Linux=E8=B0=83=E5=BA=A6=E5=99=A8
+>=20=20
+>      completion
+>      sched-arch
+> +    sched-bwc
+>=20=20
+>=20=20
+>  TODOList:
+> diff --git a/Documentation/translations/zh_CN/scheduler/sched-bwc.rst b/D=
+ocumentation/translations/zh_CN/scheduler/sched-bwc.rst
 > new file mode 100644
-> index 000000000000..48698fc1799f
+> index 000000000000..4fb18db54655
 > --- /dev/null
-> +++ b/Documentation/gpu/amdgpu-dc/dc-glossary.rst
-> @@ -0,0 +1,257 @@
-> +===========
-> +DC Glossary
-> +===========
+> +++ b/Documentation/translations/zh_CN/scheduler/sched-bwc.rst
+> @@ -0,0 +1,206 @@
+> +.. include:: ../disclaimer-zh_CN.rst
 > +
-> +.. glossary::
+> +:Original: Documentation/scheduler/sched-bwc.rst
 > +
-> +    ABM
-> +      Adaptive Backlight Modulation
+> +:=E7=BF=BB=E8=AF=91:
 > +
-> +    APU
-> +      Accelerated Processing Unit
+> + =E5=8F=B8=E5=BB=B6=E8=85=BE Yanteng Si <siyanteng@loongson.cn>
 > +
-> +    ASIC
-> +      Application-Specific Integrated Circuit
+> +:=E6=A0=A1=E8=AF=91:
 > +
-> +    ASSR
-> +      Alternate Scrambler Seed Reset
 > +
-> +    AZ
-> +      Azalia (HD audio DMA engine)
 > +
-> +    BPC
-> +      Bits Per Colour/Component
-> +
-> +    BPP
-> +      Bits Per Pixel
-> +
-> +    Clocks
-> +      * PCLK: Pixel Clock
-> +      * SYMCLK: Symbol Clock
-> +      * SOCCLK: GPU Engine Clock
-> +      * DISPCLK: Display Clock
-> +      * DPPCLK: DPP Clock
-> +      * DCFCLK: Display Controller Fabric Clock
-> +      * REFCLK: Real Time Reference Clock
-> +      * PPLL: Pixel PLL
-> +      * FCLK: Fabric Clock
-> +      * MCLK: Memory Clock
-> +      * CPLIB: Content Protection Library
+> +.. _cn_scheduler_sched-bwc.rst:
 
-CPLIB is not a clock.  It should be split out as its own item.
+Is there a reason for adding all of these labels?  They are generally
+not used and just clutter up the documents.  I think I would prefer to
+not see them unless they are needed, but if there's a reason to have
+them that I'm not seeing ... ?
 
-> +
-> +    CRC
-> +      Cyclic Redundancy Check
-> +
-> +    CRTC
-> +      Cathode Ray Tube Controller - commonly called "Controller" - Generates
-> +      raw stream of pixels, clocked at pixel clock
-> +
-> +    CVT
-> +      Coordinated Video Timings
-> +
-> +    DAL
-> +      Display Abstraction layer
-> +
-> +    DC (Software)
-> +      Display Core
-> +
-> +    DC (Hardware)
-> +      Display Controller
-> +
-> +    DCC
-> +      Delta Colour Compression
-> +
-> +    DCE
-> +      Display Controller Engine
-> +
-> +    DCHUB
-> +      Display Controller Hub
-> +
-> +    ARB
-> +      Arbiter
-> +
-> +    VTG
-> +      Vertical Timing Generator
-> +
-> +    DCN
-> +      Display Core Next
-> +
-> +    DCCG
-> +      Display Clock Generator block
-> +
-> +    DDC
-> +      Display Data Channel
-> +
-> +    DFS
-> +      Digital Frequency Synthesizer
-> +
-> +    DIO
-> +      Display IO
-> +
-> +    DPP
-> +      Display Pipes and Planes
-> +
-> +    DSC
-> +      Display Stream Compression (Reduce the amount of bits to represent pixel
-> +      count while at the same pixel clock)
-> +
-> +    dGPU
-> +      discrete GPU
-> +
-> +    DMIF
-> +      Display Memory Interface
-> +
-> +    DML
-> +      Display Mode Library
-> +
-> +    DMCU
-> +      Display Micro Controller Unit
-> +
-> +    DMCUB
-> +      Display Micro-Controller Unit, version B
+Otherwise this set seems about ready to go.
 
-Make Micro Controller vs. Micro-Controller consistent for these.
+Thanks,
 
-> +
-> +    DPCD
-> +      DisplayPort Configuration Data
-> +
-> +    DPM(S)
-> +      Display Power Management (Signaling)
-> +
-> +    DRR
-> +      Dynamic Refresh Rate
-> +
-> +    DWB
-> +      Display writeback
-> +
-> +    ECP
-> +      Enhanced Content Protection
-> +
-> +    FB
-> +      Frame Buffer
-> +
-> +    FBC
-> +      Frame Buffer Compression
-> +
-> +    FEC
-> +      Forward Error Correction
-> +
-> +    FRL
-> +      Fixed Rate Link
-> +
-> +    GCO
-> +      Graphical Controller Object
-> +
-> +    GMC
-> +      Graphic Memory Controller
-> +
-> +    GSL
-> +      Global Swap Lock
-> +
-> +    iGPU
-> +      integrated GPU
-> +
-> +    IH
-> +      Interrupt Handler
-> +
-> +    ISR
-> +      Interrupt Service Request
-> +
-> +    ISV
-> +      Independent Software Vendor
-> +
-> +    KMD
-> +      Kernel Mode Driver
-> +
-> +    LB
-> +      Line Buffer
-> +
-> +    LFC
-> +      Low Framerate Compensation
-> +
-> +    LTTPR
-> +      Link Training Tunable Phy Repeater
-> +
-> +    LUT
-> +      Lookup Table
-> +
-> +    MALL
-> +      Memory Access at Last Level
-> +
-> +    MC
-> +      Memory Controller
-> +
-> +    MPC
-> +      Multiple pipes and plane combine
-> +
-> +    MPO
-> +      Multi Plane Overlay
-> +
-> +    MST
-> +      Multi Stream Transport
-> +
-> +    NBP State
-> +      Northbridge Power State
-> +
-> +    NBIO
-> +      North Bridge Input/Output
-> +
-> +    ODM
-> +      Output Data Mapping
-> +
-> +    OPM
-> +      Output Protection Manager
-> +
-> +    OPP
-> +      Output Plane Processor
-> +
-> +    OPTC
-> +      Output Pipe Timing Combiner
-> +
-> +    OTG
-> +      Output Timing Generator
-> +
-> +    PCON
-> +      Power Controller
-> +
-> +    PGFSM
-> +      Power Gate Finite State Machine
-> +
-> +    PPLib
-> +      PowerPlay Library
-
-Maybe say that powerplay is the power management component.
-
-> +
-> +    PSR
-> +      Panel Self Refresh
-> +
-> +    SCL
-> +      Scaler
-> +
-> +    SDP
-> +      Scalable Data Port
-> +
-> +    SMU
-> +      System Management Unit
-> +
-> +    SLS
-> +      Single Large Surface
-> +
-> +    SST
-> +      Single Stream Transport
-> +
-> +    TMDS
-> +      Transition-Minimized Differential Signaling
-> +
-> +    TMZ
-> +      Trusted Memory Zone
-> +
-> +    TTU
-> +      Time to Underflow
-> +
-> +    VRR
-> +      Variable Refresh Rate
-> +
-> +    UVD
-> +      Unified Video Decoder
-> +
-> +    VCE
-> +      Video Compression Engine
-> +
-> +    VCN
-> +      Video Codec Next
-> --
-> 2.25.1
->
+jon
