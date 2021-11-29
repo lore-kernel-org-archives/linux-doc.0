@@ -2,175 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D105CC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Nov 2021 22:56:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EE1EC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Nov 2021 22:59:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235597AbhK2W7n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Nov 2021 17:59:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38836 "EHLO
+        id S236661AbhK2XC2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Nov 2021 18:02:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235799AbhK2W7J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Nov 2021 17:59:09 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74DD5C061A17
-        for <linux-doc@vger.kernel.org>; Mon, 29 Nov 2021 13:59:02 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        with ESMTP id S236549AbhK2XBD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Nov 2021 18:01:03 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5624DC201FA7;
+        Mon, 29 Nov 2021 11:16:10 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 0F0752D3;
-        Mon, 29 Nov 2021 21:59:02 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0F0752D3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1638223142; bh=Lj5RLnSCWzy6Mu2SbVwIEwUbaMwVgT5GO0EA8fW/XPk=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=aoK1C7XM7/Rf0bPnomwmA+oa1AXk9qm+Y54NqdLQ3I/FdUL/F/jjv18ayn/CqJfOf
-         U6VgU4eCcRzzUKaSVGS0knyWbBL/vvcNGMDCK6t6xtc7oxZ/JVpJEC2YTj+LO/mK0H
-         /kFybj4rw18xYyx7aU+3k2O72UA+ivOCprtwSFeYOeQFiyQaZghsntHLdxnpWH9pCn
-         +V0E1IV41N35JmxXN2wlZMpqUs50+FYgeJ362v1lwxPZoXDHfHjktJHBDKYOki8Rx7
-         dzi9o8GQBFmABkPMuvxHiYlzokkf0AjKydtdHEN/632Ms6LKGvZqB+UfW6+pI+6CtK
-         YZyZ77oPqSQvQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
-        linux-doc@vger.kernel.org
-Cc:     linux-snps-arc@lists.infradead.org,
-        Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Vineet Gupta <vgupta@kernel.org>
-Subject: Re: [PATCH v2] docs: Add documentation for ARC processors
-In-Reply-To: <20211112065059.7273-1-abrodkin@synopsys.com>
-References: <20211112065059.7273-1-abrodkin@synopsys.com>
-Date:   Mon, 29 Nov 2021 14:59:01 -0700
-Message-ID: <87fsresjx6.fsf@meer.lwn.net>
+        by sin.source.kernel.org (Postfix) with ESMTPS id A2F71CE13D9;
+        Mon, 29 Nov 2021 19:16:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FA6EC53FCD;
+        Mon, 29 Nov 2021 19:16:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1638213366;
+        bh=wIrJH7fD/ii2c8bMaSD6S8JEizqscQz6lVSTyBzI8JU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=kx47l5OTKg1vN9r/MTLjkmfBpazKuqqCw1/hRJP0s4/Xhh31ZmPsa/7NYZ2qXzIsu
+         E4IhWrDJA8WYEOftKtN6Nxp29XOAbupPGw6abuFcHLauggK1hGsR5w7mUAyPmh5qXP
+         Y1i7DJsIdMcOciQvA6pPzfiNwKrYLxafVDvNIj/5YV6sP0kxm+YF9gblUl/czG3KcY
+         2zPj8mtWc75nzspLe17V2cSD5fjqsgoE33/sNCp/QHcB3srg/J+z8iV8yPqKGkkzWD
+         E8lEJDV4PYMCOY50peAoUdZLe2MJimyg72g96HQNvXG+NY6ZHO6cYxGAH2CPukm1mU
+         x2JL3vH2t91nA==
+Date:   Mon, 29 Nov 2021 20:16:03 +0100
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Dejin Zheng <zhengdejin5@gmail.com>
+Cc:     helgaas@kernel.org, corbet@lwn.net, jarkko.nikula@linux.intel.com,
+        andriy.shevchenko@linux.intel.com, mika.westerberg@linux.intel.com,
+        rric@kernel.org, bhelgaas@google.com, Sanket.Goswami@amd.com,
+        linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 4/4] i2c: thunderx: Use pcim_alloc_irq_vectors() to
+ allocate IRQ vectors
+Message-ID: <YaUm84z9SFnsMrj3@kunai>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        Dejin Zheng <zhengdejin5@gmail.com>, helgaas@kernel.org,
+        corbet@lwn.net, jarkko.nikula@linux.intel.com,
+        andriy.shevchenko@linux.intel.com, mika.westerberg@linux.intel.com,
+        rric@kernel.org, bhelgaas@google.com, Sanket.Goswami@amd.com,
+        linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210607153916.1021016-1-zhengdejin5@gmail.com>
+ <20210607153916.1021016-5-zhengdejin5@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="OwiRqPXW8G2p85nK"
+Content-Disposition: inline
+In-Reply-To: <20210607153916.1021016-5-zhengdejin5@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Alexey Brodkin <Alexey.Brodkin@synopsys.com> writes:
 
-> ARC processors are supported in upstream kernel since v3.9
-> and so far there was no documentation about them except some
-> Device Tree bindings.
->
-> Fixing it with the simples set of docs now:
-> 1. Overview with pointers to other informational resources
-> 2. Autogenerated feature table
->
-> Note though it's just the very beginning, there will be more
-> for sure given time as there're many things worth documenting
-> and in fact even contents itself is avaialble but just spread
-> in some other places. Now we'll try to keep all here and
-> then maintain it looking forward to match the state of development.
->
-> Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
-> Cc: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Vineet Gupta <vgupta@kernel.org>
+--OwiRqPXW8G2p85nK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I've applied this set, but I have a couple of quibbles that it would be
-nice to see addressed...
+On Mon, Jun 07, 2021 at 11:39:16PM +0800, Dejin Zheng wrote:
+> The pcim_alloc_irq_vectors() function, an explicit device-managed version
+> of pci_alloc_irq_vectors(). If pcim_enable_device() has been called
+> before, then pci_alloc_irq_vectors() is actually a device-managed
+> function. It is used here as a device-managed function, So replace it
+> with pcim_alloc_irq_vectors().
+>=20
+> Acked-by: Robert Richter <rric@kernel.org>
+> Signed-off-by: Dejin Zheng <zhengdejin5@gmail.com>
 
-> Changes v1 -> v2:
->  * Spello "linux" -> "Linux" (Randy Dunlap)
->
->  Documentation/arc/arc.rst      | 81 ++++++++++++++++++++++++++++++++++
->  Documentation/arc/features.rst |  3 ++
->  Documentation/arc/index.rst    | 17 +++++++
->  Documentation/arch.rst         |  1 +
->  MAINTAINERS                    |  1 +
->  5 files changed, 103 insertions(+)
->  create mode 100644 Documentation/arc/arc.rst
->  create mode 100644 Documentation/arc/features.rst
->  create mode 100644 Documentation/arc/index.rst
->
-> diff --git a/Documentation/arc/arc.rst b/Documentation/arc/arc.rst
-> new file mode 100644
-> index 000000000000..249d03c6be8e
-> --- /dev/null
-> +++ b/Documentation/arc/arc.rst
-> @@ -0,0 +1,81 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Linux kernel for ARC processors
-> +*******************************
-> +
-> +Other sources of information
-> +############################
-> +
-> +Below are some resources where more information can be found on
-> +ARC processors and relevant open source projects.
-> +
-> +1. `<https://embarc.org/>`_ - Community portal for open source on ARC.
-> +Good place to start to find relevant FOSS projects, toolchain releases,
-> +news items and more.
-> +
-> +2. `<https://github.com/foss-for-synopsys-dwc-arc-processors>`_ -
-> +Home for all development activities regarding open source projects for
-> +ARC processors. Some of the projects are forks of various upstream projects,
-> +where "work in progress" is hosted prior to submission to upstream projects.
-> +Other projects are developed by Synopsys and made available to community
-> +as open source for use on ARC Processors.
-> +
-> +3. `<https://www.synopsys.com/designware-ip/processor-solutions.html>`_ -
-> +Official Synopsys ARC Processors website location, with access to some IP
-> +documentation (Programmer's Reference Manuals, AKA "PRM's", see
-> +`<https://www.synopsys.com/dw/doc.php/ds/cc/programmers-reference-manual-ARC-HS.pdf>`_)
+Acked-by: Wolfram Sang <wsa@kernel.org> # for I2C
 
-This manual requires registration (with a fair amount of information
-required) to get.  That should at least be mentioned if we can't find a
-less obnoxious version out there.
 
-> +and commercial tools (Free nSIM,
-> +`<https://www.synopsys.com/cgi-bin/dwarcnsim/req1.cgi>`_ and
-> +MetaWare Light Edition, `<https://www.synopsys.com/cgi-bin/arcmwtk_lite/reg1.cgi>`_)
-> +
-> +Important note on ARC processors configurability
-> +################################################
-> +
-> +ARC processors are highly configurable and several configurable options
-> +are supported in Linux. Some options are transparent to software
-> +(i.e cache geometries, some can be detected at runtime and configured
-> +and used accordingly, while some need to be explicitly selected or configured
-> +in the kernel's configuration utility (AKA "make menuconfig").
-> +
-> +However not all configurable options are supported when an ARC processor
-> +is to run Linux. SoC design teams should refer to "Appendix E:
-> +Configuration for ARC Linux" in the ARC HS Databook for configurability
-> +guidelines.
-> +
-> +Following these guidelines and selecting valid configuration options
-> +up front is critical to help prevent any unwanted issues during
-> +SoC bringup and software development in general.
-> +
-> +Building the Linux kernel for ARC processors
-> +############################################
-> +
-> +The process of kernel building for ARC processors is the same as for any other
-> +architecture and could be done in 2 ways:
-> +
-> +1. cross-compilation: process of compiling for ARC targets on a development
-> +host with a different processor architecture (generally x86_64/amd64).
-> +
-> +2. native compilation: process of compiling for ARC on a ARC platform
-> +(hardware board or a simulator like QEMU) with complete development environment
-> +(GNU toolchain, dtc, make etc) installed on the platform.
+--OwiRqPXW8G2p85nK
+Content-Type: application/pgp-signature; name="signature.asc"
 
-These enumerated lists would render a lot more pleasantly if you
-actually formatted them as RST enumerated lists - with lines after the
-first indented.
+-----BEGIN PGP SIGNATURE-----
 
-> +In both cases, up-to-date GNU toolchain for ARC for the host is needed.
-> +Synopsys offers prebuilt toolchain releases which can be used for this purpose,
-> +available from:
-> +
-> +1. Synopsys GNU toolchain releases:
-> +`<https://github.com/foss-for-synopsys-dwc-arc-processors/toolchain/releases>`_
-> +2. Linux kernel compilers collection:
-> +`<https://mirrors.edge.kernel.org/pub/tools/crosstool/>`_
-> +3. Bootlin's toolchain collection: `<https://toolchains.bootlin.com/>`_
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmGlJvMACgkQFA3kzBSg
+KbbUzRAAg4FkJV3NdbfTuOvW90Qq50SYxY3w65NGScNrrk21HxeJ2jWBDKxecXU6
+mj9B4z7tU+3WL8PVl9vnuiBebFtT6LpWZSLpLga3OdA5fD73F5BXH0HyVda1Defn
+CtnjmWVzc6CVuHYkV5dfhBhYusuaewMDGQDfiWycnMnawT3vAWfePZ7ThjBfx2Ab
+eaCEujtgRdM6DjnNrvJxcmBiLCrAgxvlawjLzDKjaP9RWHPUtSrtwBxVjhfJMhsF
+BMEiT4nlSwYLuavxAZrfOCWAyI7Dz7zknLgdb9arcDQrmwGvjuc69UEdgNeEzmvB
+P6i91j6Pe51nWRnxfRt6y7UPrsZCjwnglrJmhgeCk8I+sVM+aFr7rDM8Pqvz3MS5
+qbC5KoP6chJgr5yLaXSOyBgwFhyDoG+pb+7zupOnQShiywtu0fC57qrqMZk66+lD
++LJOyXFZGNp5N0ngUVPHxqUQVBkHYjK3bfCJWHCvbODvR5gwcLpR8FfB7C52QrjB
+TbVzWLj/qItlGdPwyf8IpbEHf5zWD3/u90n4q/gh8HRXgQabo72cGBjfqdNbtunA
+kpmDoE8XX5JIG2FgPaczXTnteAnEI/H4j6ZwxBVuQTvakQtIX9ek46wamZDyEywF
+fQc7gs0FIrJgQ3heVy555h2TXB5tJRTEdsfza8RKepwG9G0zif0=
+=Ailw
+-----END PGP SIGNATURE-----
 
-These, in particular, render in a pretty ugly way.
-
-Thanks,
-
-jon
+--OwiRqPXW8G2p85nK--
