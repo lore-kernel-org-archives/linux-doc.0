@@ -2,32 +2,36 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05B4BC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 16:35:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CAC3C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 17:05:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244015AbhK3Qij (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Nov 2021 11:38:39 -0500
-Received: from mga02.intel.com ([134.134.136.20]:32903 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S243583AbhK3Qii (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 30 Nov 2021 11:38:38 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10183"; a="223482950"
-X-IronPort-AV: E=Sophos;i="5.87,276,1631602800"; 
-   d="scan'208";a="223482950"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2021 08:35:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,276,1631602800"; 
-   d="scan'208";a="458897866"
-Received: from irvmail001.ir.intel.com ([10.43.11.63])
-  by orsmga003.jf.intel.com with ESMTP; 30 Nov 2021 08:35:08 -0800
-Received: from newjersey.igk.intel.com (newjersey.igk.intel.com [10.102.20.203])
-        by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id 1AUGZ5mt017295;
-        Tue, 30 Nov 2021 16:35:05 GMT
-From:   Alexander Lobakin <alexandr.lobakin@intel.com>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
+        id S242384AbhK3RIR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Nov 2021 12:08:17 -0500
+Received: from sin.source.kernel.org ([145.40.73.55]:46448 "EHLO
+        sin.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229547AbhK3RIO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Nov 2021 12:08:14 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 3B837CE1864;
+        Tue, 30 Nov 2021 17:04:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1551BC53FC1;
+        Tue, 30 Nov 2021 17:04:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1638291891;
+        bh=OwidfSW2eyYiSRE2to5Ao1OE7NiUkBX8Dsp7SyFe8H4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=GZ9FpobHR1VenCoBsv/N04Ey8CaA+XLa/SidDhpPRqdva1X1mznwA5OsEEGRpqR+Q
+         SeFfPmxpx0gigYWwqyPb/vuY0NDxkSk7NacHoQeLYuxMohzEJHBRH9Sw1M3p0jjZjC
+         liK2qf+T8orhAxpshfA4uwCgibJJqkGRXgHc81d/BZg9Bo0xJ+B9Yhm2+3uxRmcAqx
+         BfqDz0qHEB8T4dqB+Ehc29rFx0nAYtr/ly+d6xAfKobI5io9ZzMGxfaMAmfOFtFjoR
+         Qo7oMK6XtqTvenGIaPH4kA926lvz1sO0/7ISs7IsdAhoxCVOzA9XZmZKuHT5jKTyh3
+         7dns1uhjvqbqg==
+Date:   Tue, 30 Nov 2021 09:04:49 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Alexander Lobakin <alexandr.lobakin@intel.com>
+Cc:     "David S. Miller" <davem@davemloft.net>,
         Jesse Brandeburg <jesse.brandeburg@intel.com>,
         Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
         Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
@@ -69,63 +73,32 @@ Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
         virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH v2 net-next 00/26] net: introduce and use generic XDP stats
-Date:   Tue, 30 Nov 2021 17:34:54 +0100
-Message-Id: <20211130163454.595897-1-alexandr.lobakin@intel.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211130081207.228f42ba@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-References: <20211123163955.154512-1-alexandr.lobakin@intel.com> <20211130155612.594688-1-alexandr.lobakin@intel.com> <20211130081207.228f42ba@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+Subject: Re: [PATCH v2 net-next 00/26] net: introduce and use generic XDP
+ stats
+Message-ID: <20211130090449.58a8327d@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <20211130163454.595897-1-alexandr.lobakin@intel.com>
+References: <20211123163955.154512-1-alexandr.lobakin@intel.com>
+        <20211130155612.594688-1-alexandr.lobakin@intel.com>
+        <20211130081207.228f42ba@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+        <20211130163454.595897-1-alexandr.lobakin@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Jakub Kicinski <kuba@kernel.org>
-Date: Tue, 30 Nov 2021 08:12:07 -0800
-
-> On Tue, 30 Nov 2021 16:56:12 +0100 Alexander Lobakin wrote:
-> > 3. XDP and XSK ctrs separately or not.
-> > 
-> > My PoV is that those are two quite different worlds.
-> > However, stats for actions on XSK really make a little sense since
-> > 99% of time we have xskmap redirect. So I think it'd be fine to just
-> > expand stats structure with xsk_{rx,tx}_{packets,bytes} and count
-> > the rest (actions, errors) together with XDP.
-> > 
-> > 
-> > Rest:
-> >  - don't create a separate `ip` command and report under `-s`;
-> >  - save some RTNL skb space by skipping zeroed counters.
+On Tue, 30 Nov 2021 17:34:54 +0100 Alexander Lobakin wrote:
+> > Another thought on this patch: with individual attributes you could save
+> > some overhead by not sending 0 counters to userspace. e.g., define a
+> > helper that does:  
 > 
-> Let me ruin this point of clarity for you. I think that stats should 
-> be skipped when they are not collected (see ETHTOOL_STAT_NOT_SET).
-> If messages get large user should use the GETSTATS call and avoid 
-> the problem more effectively.
+> I know about ETHTOOL_STAT_NOT_SET, but RTNL xstats doesn't use this,
+> does it?
 
-Well, it was Dave's thought here: [0]
-
-> Another thought on this patch: with individual attributes you could save
-> some overhead by not sending 0 counters to userspace. e.g., define a
-> helper that does:
-
-I know about ETHTOOL_STAT_NOT_SET, but RTNL xstats doesn't use this,
-does it?
-GETSTATS is another thing, and I'll use it, thanks.
-
-> 
-> > Also, regarding that I count all on the stack and then add to the
-> > storage once in a polling cycle -- most drivers don't do that and
-> > just increment the values in the storage directly, but this can be
-> > less performant for frequently updated stats (or it's just my
-> > embedded past).
-> > Re u64 vs u64_stats_t -- the latter is more universal and
-> > architecture-friendly, the former is used directly in most of the
-> > drivers primarily because those drivers and the corresponding HW
-> > are being run on 64-bit systems in the vast majority of cases, and
-> > Ethtools stats themselves are not so critical to guard them with
-> > anti-tearing. Anyways, local64_t is cheap on ARM64/x86_64 I guess?
-
-[0] https://lore.kernel.org/netdev/a4602b15-25b1-c388-73b4-1f97f6f0e555@gmail.com/
-
-Al
+Not sure if you're asking me or Dave but no, to my knowledge RTNL does
+not use such semantics today. But the reason is mostly because there
+weren't many driver stats added there. Knowing if an error counter is
+not supported or supporter and 0 is important for monitoring. Even if
+XDP stats don't have a counter which may not be supported today it's
+not a good precedent to make IMO.
