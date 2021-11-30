@@ -2,258 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62DD4C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 20:38:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64E54C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 22:05:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235389AbhK3Ul7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Nov 2021 15:41:59 -0500
-Received: from smtp2-g21.free.fr ([212.27.42.2]:20172 "EHLO smtp2-g21.free.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233340AbhK3Ul5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 30 Nov 2021 15:41:57 -0500
-Received: from zimbra39-e7.priv.proxad.net (unknown [172.20.243.189])
-        by smtp2-g21.free.fr (Postfix) with ESMTP id 8402220039C;
-        Tue, 30 Nov 2021 21:38:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
-        s=smtp-20201208; t=1638304716;
-        bh=BSi4guHsEM8mlRKzJG+rTT+blmvXiTQLuDQjWIB0UOs=;
-        h=Date:From:To:Cc:In-Reply-To:Subject:From;
-        b=iK9ykl4PVoM3GAtmNfi8BdFSL5PCEmCG3rMzyjwqmF5f4ghaXd3olEtOEb2BHE7G+
-         wW3mPsC8FLYcqmnDMAf7UU/7skpQWwGDrJQjv5Ok5SsgaR+B2itmIY2z9BMVntdFHI
-         1R4r7vMyUFBWzYn3BVCuib9XwbzpznYCJ4Wde1NyzKPhEVZIpacP93xenL+SFxip/Q
-         A7AV1Wa2i9ynwE8BF8dOdFJ3rcdUYLcMwziEOCAsJsK7uxrw8D6/r3g23ZFuUWPipk
-         Ge2FdDkLCXBfb94MhpAuA0r47CJnBIMvNAtERPkX3z//JeFW8bN00sNtKukjovX9Cb
-         sMukj480GMjTA==
-Date:   Tue, 30 Nov 2021 21:38:35 +0100 (CET)
-From:   Yann Dirson <ydirson@free.fr>
-To:     Rodrigo Siqueira Jordao <rjordrigo@amd.com>
-Cc:     linux-doc@vger.kernel.org, Mark Yacoub <markyacoub@chromium.org>,
-        Marek =?utf-8?B?T2zFocOhaw==?= <marek.olsak@amd.com>,
-        roman li <roman.li@amd.com>, amd-gfx@lists.freedesktop.org,
-        Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
-        Michel =?utf-8?Q?D=C3=A4nzer?= <michel@daenzer.net>,
-        aurabindo pillai <aurabindo.pillai@amd.com>,
-        nicholas choi <nicholas.choi@amd.com>,
-        dri-devel@lists.freedesktop.org,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Sean Paul <seanpaul@chromium.org>,
-        qingqing zhuo <qingqing.zhuo@amd.com>,
-        bhawanpreet lakha <bhawanpreet.lakha@amd.com>,
-        Roman Gilg <subdiff@gmail.com>,
-        Harry Wentland <harry.wentland@amd.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
-        Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>
-Message-ID: <394109792.1928055.1638304715452.JavaMail.root@zimbra39-e7>
-In-Reply-To: <24a1be4c-0186-96ac-b238-059754a9f856@amd.com>
-Subject: Re: [PATCH 1/6] Documentation/gpu: Reorganize DC documentation
+        id S1344400AbhK3WIt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Nov 2021 17:08:49 -0500
+Received: from mail-ot1-f43.google.com ([209.85.210.43]:41931 "EHLO
+        mail-ot1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229837AbhK3WIs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Nov 2021 17:08:48 -0500
+Received: by mail-ot1-f43.google.com with SMTP id n17-20020a9d64d1000000b00579cf677301so32245627otl.8;
+        Tue, 30 Nov 2021 14:05:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=17xD67r1Po50dKFrN6zPSs2unPvmO1WfBjCX12oxOdY=;
+        b=1Sy3TOka/6xcf7Du2aw1fD7G70c5zY8hC9HihFZW4XCAtzINQOqc9i0MBirAFDEibD
+         2ukB/xeUhkimHO+lGsh8AFN9ZFIM8+LNn7Kj29PF7NM3z17nAFfr5xzDiDBEiLOQIr77
+         VZ+7q2WDIa01FE13F9zBy8rT6UPJGRX9LikoHbKi6Mr6iShEyi5RNGxATTkJ8LWKgM01
+         uBlYAoZ8Xlze9D9CzAkXxY6eEGHqyJcjsceWdj6sXwUSCNQ4oQo9Jayme10jmTwPM/0e
+         jFTVLVnadS5Ql5JXc6TWXdFoo9qFgz9Z+N8+IohtkL7xAItyQ0d62NcIw9HVwzZH/dPZ
+         EvuQ==
+X-Gm-Message-State: AOAM533gPSQIbuFYrjE6lh6S1XrJ9mn46Eg7IfO/1ESBLB5uJ7kC8xaV
+        0JxNTRwGWXyRUjVjFJy2vQ==
+X-Google-Smtp-Source: ABdhPJyj4IRd5mFpSXJj1d5bjNj+dfT6nlMA5FsUuzkeuwrS0n3omP/gEosMzBWySdeTy8h7PGCUyw==
+X-Received: by 2002:a9d:7855:: with SMTP id c21mr1891595otm.167.1638309928423;
+        Tue, 30 Nov 2021 14:05:28 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id m12sm3348035ots.59.2021.11.30.14.05.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Nov 2021 14:05:27 -0800 (PST)
+Received: (nullmailer pid 3093201 invoked by uid 1000);
+        Tue, 30 Nov 2021 22:05:25 -0000
+Date:   Tue, 30 Nov 2021 16:05:25 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Zhen Lei <thunder.leizhen@huawei.com>
+Cc:     Vivek Goyal <vgoyal@redhat.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        linux-doc@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
+        devicetree@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
+        Borislav Petkov <bp@alien8.de>, x86@kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Baoquan He <bhe@redhat.com>, kexec@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Will Deacon <will@kernel.org>, Dave Young <dyoung@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH v16 09/11] of: fdt: Aggregate the processing of
+ "linux,usable-memory-range"
+Message-ID: <YaagJQqq2Cx2zyVw@robh.at.kernel.org>
+References: <20211123124646.1995-1-thunder.leizhen@huawei.com>
+ <20211123124646.1995-10-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [88.120.44.86]
-X-Mailer: Zimbra 7.2.0-GA2598 (ZimbraWebClient - FF3.0 (Linux)/7.2.0-GA2598)
-X-Authenticated-User: ydirson@free.fr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211123124646.1995-10-thunder.leizhen@huawei.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> On 2021-11-30 10:48 a.m., Harry Wentland wrote:
-> > On 2021-11-30 10:46, Rodrigo Siqueira Jordao wrote:
-> >>
-> >>
-> >> On 2021-11-29 7:06 a.m., Jani Nikula wrote:
-> >>> On Fri, 26 Nov 2021, Daniel Vetter <daniel@ffwll.ch> wrote:
-> >>>> On Thu, Nov 25, 2021 at 10:38:25AM -0500, Rodrigo Siqueira
-> >>>> wrote:
-> >>>>> Display core documentation is not well organized, and it is
-> >>>>> hard to find
-> >>>>> information due to the lack of sections. This commit
-> >>>>> reorganizes the
-> >>>>> documentation layout, and it is preparation work for future
-> >>>>> changes.
-> >>>>>
-> >>>>> Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-> >>>>> ---
-> >>>>>  =C2=A0 Documentation/gpu/amdgpu-dc.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 74
-> >>>>>  =C2=A0 -------------------
-> >>>>>  =C2=A0 .../gpu/amdgpu-dc/amdgpu-dc-debug.rst=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 4 +
-> >>>>>  =C2=A0 Documentation/gpu/amdgpu-dc/amdgpu-dc.rst=C2=A0=C2=A0=C2=A0=
-=C2=A0 | 29 ++++++++
-> >>>>>  =C2=A0 Documentation/gpu/amdgpu-dc/amdgpu-dm.rst=C2=A0=C2=A0=C2=A0=
-=C2=A0 | 42
-> >>>>>  =C2=A0 +++++++++++
-> >>>>>  =C2=A0 Documentation/gpu/drivers.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 =
-2 +-
-> >>>>>  =C2=A0 5 files changed, 76 insertions(+), 75 deletions(-)
-> >>>>>  =C2=A0 delete mode 100644 Documentation/gpu/amdgpu-dc.rst
-> >>>>>  =C2=A0 create mode 100644
-> >>>>>  =C2=A0 Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst
-> >>>>>  =C2=A0 create mode 100644 Documentation/gpu/amdgpu-dc/amdgpu-dc.rs=
-t
-> >>>>>  =C2=A0 create mode 100644 Documentation/gpu/amdgpu-dc/amdgpu-dm.rs=
-t
-> >>>>>
-> >>>>> diff --git a/Documentation/gpu/amdgpu-dc.rst
-> >>>>> b/Documentation/gpu/amdgpu-dc.rst
-> >>>>> deleted file mode 100644
-> >>>>> index f7ff7e1309de..000000000000
-> >>>>> --- a/Documentation/gpu/amdgpu-dc.rst
-> >>>>> +++ /dev/null
-> >>>>> @@ -1,74 +0,0 @@
-> >>>>> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >>>>> -drm/amd/display - Display Core (DC)
-> >>>>> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >>>>> -
-> >>>>> -*placeholder - general description of supported platforms,
-> >>>>> what dc is, etc.*
-> >>>>> -
-> >>>>> -Because it is partially shared with other operating systems,
-> >>>>> the Display Core
-> >>>>> -Driver is divided in two pieces.
-> >>>>> -
-> >>>>> -1. **Display Core (DC)** contains the OS-agnostic components.
-> >>>>> Things like
-> >>>>> -=C2=A0=C2=A0 hardware programming and resource management are hand=
-led
-> >>>>> here.
-> >>>>> -2. **Display Manager (DM)** contains the OS-dependent
-> >>>>> components. Hooks to the
-> >>>>> -=C2=A0=C2=A0 amdgpu base driver and DRM are implemented here.
-> >>>>> -
-> >>>>> -It doesn't help that the entire package is frequently referred
-> >>>>> to as DC. But
-> >>>>> -with the context in mind, it should be clear.
-> >>>>> -
-> >>>>> -When CONFIG_DRM_AMD_DC is enabled, DC will be initialized by
-> >>>>> default for
-> >>>>> -supported ASICs. To force disable, set `amdgpu.dc=3D0` on kernel
-> >>>>> command line.
-> >>>>> -Likewise, to force enable on unsupported ASICs, set
-> >>>>> `amdgpu.dc=3D1`.
-> >>>>> -
-> >>>>> -To determine if DC is loaded, search dmesg for the following
-> >>>>> entry:
-> >>>>> -
-> >>>>> -``Display Core initialized with <version number here>``
-> >>>>> -
-> >>>>> -AMDgpu Display Manager
-> >>>>> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >>>>> -
-> >>>>> -.. kernel-doc::
-> >>>>> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> >>>>> -=C2=A0=C2=A0 :doc: overview
-> >>>>> -
-> >>>>> -.. kernel-doc::
-> >>>>> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> >>>>> -=C2=A0=C2=A0 :internal:
-> >>>>> -
-> >>>>> -Lifecycle
-> >>>>> ----------
-> >>>>> -
-> >>>>> -.. kernel-doc::
-> >>>>> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> >>>>> -=C2=A0=C2=A0 :doc: DM Lifecycle
-> >>>>> -
-> >>>>> -.. kernel-doc::
-> >>>>> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> >>>>> -=C2=A0=C2=A0 :functions: dm_hw_init dm_hw_fini
-> >>>>> -
-> >>>>> -Interrupts
-> >>>>> -----------
-> >>>>> -
-> >>>>> -.. kernel-doc::
-> >>>>> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
-> >>>>> -=C2=A0=C2=A0 :doc: overview
-> >>>>> -
-> >>>>> -.. kernel-doc::
-> >>>>> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
-> >>>>> -=C2=A0=C2=A0 :internal:
-> >>>>> -
-> >>>>> -.. kernel-doc::
-> >>>>> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> >>>>> -=C2=A0=C2=A0 :functions: register_hpd_handlers dm_crtc_high_irq
-> >>>>> dm_pflip_high_irq
-> >>>>> -
-> >>>>> -Atomic Implementation
-> >>>>> ----------------------
-> >>>>> -
-> >>>>> -.. kernel-doc::
-> >>>>> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> >>>>> -=C2=A0=C2=A0 :doc: atomic
-> >>>>> -
-> >>>>> -.. kernel-doc::
-> >>>>> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> >>>>> -=C2=A0=C2=A0 :functions: amdgpu_dm_atomic_check
-> >>>>> amdgpu_dm_atomic_commit_tail
-> >>>>> -
-> >>>>> -Display Core
-> >>>>> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >>>>> -
-> >>>>> -**WIP**
-> >>>>> -
-> >>>>> -FreeSync Video
-> >>>>> ---------------
-> >>>>> -
-> >>>>> -.. kernel-doc::
-> >>>>> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> >>>>> -=C2=A0=C2=A0 :doc: FreeSync Video
-> >>>>> diff --git a/Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst
-> >>>>> b/Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst
-> >>>>> new file mode 100644
-> >>>>> index 000000000000..bbb8c3fc8eee
-> >>>>> --- /dev/null
-> >>>>> +++ b/Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst
-> >>>>> @@ -0,0 +1,4 @@
-> >>>>> +Display Core Debug tools
-> >>>>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-> >>>>> +
-> >>>>> +TODO
-> >>>>> diff --git a/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
-> >>>>> b/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
-> >>>>> new file mode 100644
-> >>>>> index 000000000000..3685b3b1ad64
-> >>>>> --- /dev/null
-> >>>>> +++ b/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
-> >>>>
-> >>>> While we bikeshed names, I think it'd would make sense to call
-> >>>> this
-> >>>> overview.rst or intro.rst or similar, since it's meant to
-> >>>> contain the
-> >>>> overall toctree for everything amdgpu related (maybe there will
-> >>>> be more in
-> >>>> the future).
-> >>>
-> >>> index.rst?
-> >>>
-> >>>
-> >>
-> >> Hi,
-> >>
-> >> Thanks a lot for the suggestions; I will prepare a V2 that
-> >> addresses all your comments.
-> >>
-> >> Ps.: If there is no objection, I'll rename amdgpu-dc to index as
-> >> Jani suggested.
-> >>
-> >=20
-> > SGTM, you mean amdgpu/index.rst, right?
->=20
-> Yeah, but I'm also thinking about this new organization:
->=20
-> 1. Create an amdgpu folder.
-> 2. Inside amdgpu folder, I want to create a display folder.
-> 3. Move all display documentation to the display folder and keep
-> other
-> amdgpu generic things under amdgpu.
-> 4. Finally, inside the amdgpu folder, I'll create the index.rst for
-> amdgpu, and inside the display folder, I will create a similar file.
+On Tue, 23 Nov 2021 20:46:44 +0800, Zhen Lei wrote:
+> Currently, we parse the "linux,usable-memory-range" property in
+> early_init_dt_scan_chosen(), to obtain the specified memory range of the
+> crash kernel. We then reserve the required memory after
+> early_init_dt_scan_memory() has identified all available physical memory.
+> Because the two pieces of code are separated far, the readability and
+> maintainability are reduced. So bring them together.
+> 
+> Suggested-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+> ---
+>  drivers/of/fdt.c | 15 +++++++++++----
+>  1 file changed, 11 insertions(+), 4 deletions(-)
+> 
 
-Since the source tree has amd/amdgpu/ and amd/display/, wouldn't it
-be useful to mirror that layout ?
+Reviewed-by: Rob Herring <robh@kernel.org>
