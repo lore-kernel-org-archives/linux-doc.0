@@ -2,76 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F2DBC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 15:26:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1EC9C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 15:28:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232686AbhK3P3a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Nov 2021 10:29:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41034 "EHLO
+        id S230022AbhK3PcH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Nov 2021 10:32:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231327AbhK3P3a (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Nov 2021 10:29:30 -0500
-Received: from gentwo.de (gentwo.de [IPv6:2a02:c206:2048:5042::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6E5DC061574;
-        Tue, 30 Nov 2021 07:26:10 -0800 (PST)
-Received: by gentwo.de (Postfix, from userid 1001)
-        id 328F4B001EC; Tue, 30 Nov 2021 16:26:09 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-        by gentwo.de (Postfix) with ESMTP id 30B5DB0006D;
-        Tue, 30 Nov 2021 16:26:09 +0100 (CET)
-Date:   Tue, 30 Nov 2021 16:26:09 +0100 (CET)
-From:   Christoph Lameter <cl@gentwo.org>
-X-X-Sender: cl@gentwo.de
-To:     Vlastimil Babka <vbabka@suse.cz>
-cc:     David Laight <David.Laight@ACULAB.COM>,
-        Rustam Kovhaev <rkovhaev@gmail.com>,
-        "penberg@kernel.org" <penberg@kernel.org>,
-        "rientjes@google.com" <rientjes@google.com>,
-        "iamjoonsoo.kim@lge.com" <iamjoonsoo.kim@lge.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "djwong@kernel.org" <djwong@kernel.org>,
-        "david@fromorbit.com" <david@fromorbit.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "dvyukov@google.com" <dvyukov@google.com>
-Subject: Re: [PATCH v4] slob: add size header to all allocations
-In-Reply-To: <d0927ca6-1710-5b2b-3682-6a80eb4e48d1@suse.cz>
-Message-ID: <alpine.DEB.2.22.394.2111301621140.6112@gentwo.de>
-References: <037227db-c869-7d9c-65e8-8f5f8682171d@suse.cz> <20211122013026.909933-1-rkovhaev@gmail.com> <alpine.DEB.2.22.394.2111221018070.202803@gentwo.de> <3c996e22-034f-1013-3978-1f786aae38fb@suse.cz> <alpine.DEB.2.22.394.2111221133110.204314@gentwo.de>
- <148d2774-77b9-bb25-c132-80b00e16ea06@suse.cz> <69fc0cead9774dfdba816a8e25f30a53@AcuMS.aculab.com> <d0927ca6-1710-5b2b-3682-6a80eb4e48d1@suse.cz>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        with ESMTP id S229865AbhK3PcH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Nov 2021 10:32:07 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A495C061574;
+        Tue, 30 Nov 2021 07:28:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=Kl4jDrt0lTZq8RUWESr9jq2BAnd24QRKSF504zE02jo=; b=PDeElGOGe02xxIEM4OTY/z1eeE
+        UqJah6JaGsMTL9IegoCL/cu1eG9mCexMh+NrtVLBhed22f+XD91RoQDOFkFeeWVicS4p4Kus4Ow1k
+        1O5NrIA4i07/Uh+baufG8mhZr2Cr4Y6memj4iL4Iwvw9j3U/BPcTtxU0vbuUHJlV+4cOAxxMFk3d8
+        N+Imw5Hcx2uMhmVzSVL7gBSWIfVjbuoLB1xDpEjckFxXHW74+Tnz32aJ2Ds3SVXVJu5ZdPiNIkgva
+        FjX/fcyNSYcUctN8YPjNzzSsxhI3vBlPkx5ax+/ZYdrUWdNQNigHm3znOJ2+2NG4R02HCT8jFT7O5
+        4cFvN7zw==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1ms53g-005tZl-8x; Tue, 30 Nov 2021 15:28:40 +0000
+Date:   Tue, 30 Nov 2021 07:28:40 -0800
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Alexey Avramov <hakavlad@inbox.lv>
+Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        corbet@lwn.net, akpm@linux-foundation.org, keescook@chromium.org,
+        yzaikin@google.com, oleksandr@natalenko.name, kernel@xanmod.org,
+        aros@gmx.com, iam@valdikss.org.ru, hakavlad@gmail.com
+Subject: Re: [PATCH] mm/vmscan: add sysctl knobs for protecting the working
+ set
+Message-ID: <YaZDKLzWBLdcnok7@bombadil.infradead.org>
+References: <20211130201652.2218636d@mail.inbox.lv>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211130201652.2218636d@mail.inbox.lv>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 30 Nov 2021, Vlastimil Babka wrote:
+On Tue, Nov 30, 2021 at 08:16:52PM +0900, Alexey Avramov wrote:
+> diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+> index 083be6af2..65fc38756 100644
+> --- a/kernel/sysctl.c
+> +++ b/kernel/sysctl.c
+> @@ -3132,6 +3132,27 @@ static struct ctl_table vm_table[] = {
+>  	},
+>  #endif
+>  	{
+> +		.procname	= "anon_min_kbytes",
+> +		.data		= &sysctl_anon_min_kbytes,
+> +		.maxlen		= sizeof(unsigned long),
+> +		.mode		= 0644,
+> +		.proc_handler	= proc_doulongvec_minmax,
+> +	},
+> +	{
+> +		.procname	= "clean_low_kbytes",
+> +		.data		= &sysctl_clean_low_kbytes,
+> +		.maxlen		= sizeof(unsigned long),
+> +		.mode		= 0644,
+> +		.proc_handler	= proc_doulongvec_minmax,
+> +	},
+> +	{
+> +		.procname	= "clean_min_kbytes",
+> +		.data		= &sysctl_clean_min_kbytes,
+> +		.maxlen		= sizeof(unsigned long),
+> +		.mode		= 0644,
+> +		.proc_handler	= proc_doulongvec_minmax,
+> +	},
+> +	{
+>  		.procname	= "user_reserve_kbytes",
+>  		.data		= &sysctl_user_reserve_kbytes,
+>  		.maxlen		= sizeof(sysctl_user_reserve_kbytes),
 
-> So either I missed something or we violate the rule that kmalloc() provides
-> blocks where ARCH_KMALLOC_MINALIGN is not just the alignment of their
-> beginning but also nothing else touches the N*ARCH_KMALLOC_MINALIGN area
-> containing the allocated object.
+Please don't clutter this file anymore than what we have with random
+sysctls, as otherwise it becomes a pain to deal with merge conficts.
+You can use register_sysctl_init("vm", whatever_your_local_table_name)
+within the file you are adding your sysctl.
 
-Indeed.... The DMA API documentation in the kernel states:
-
-Documentation/DMA-API-HOWTO.rst
-
-2) ARCH_KMALLOC_MINALIGN
-
-+   Architectures must ensure that kmalloc'ed buffer is
-+   DMA-safe. Drivers and subsystems depend on it. If an architecture
-+   isn't fully DMA-coherent (i.e. hardware doesn't ensure that data in
-+   the CPU cache is identical to data in main memory),
-+   ARCH_KMALLOC_MINALIGN must be set so that the memory allocator
-+   makes sure that kmalloc'ed buffer doesn't share a cache line with
-+   the others. See arch/arm/include/asm/cache.h as an example.
-
-
-Note that this is only the case for kmalloc. Not for a slab cache setup
-separately from the kmalloc array. That is why ARCH_KMALLOC_MINALIGN
-exists.
+ Luis
