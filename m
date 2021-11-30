@@ -2,458 +2,208 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C93AEC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 11:23:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECA4CC4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 11:45:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236674AbhK3L0n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Nov 2021 06:26:43 -0500
-Received: from shark4.inbox.lv ([194.152.32.84]:36338 "EHLO shark4.inbox.lv"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235958AbhK3L0m (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 30 Nov 2021 06:26:42 -0500
-X-Greylist: delayed 378 seconds by postgrey-1.27 at vger.kernel.org; Tue, 30 Nov 2021 06:26:42 EST
-Received: from shark4.inbox.lv (localhost [127.0.0.1])
-        by shark4-out.inbox.lv (Postfix) with ESMTP id DCD63C01AF;
-        Tue, 30 Nov 2021 13:17:03 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=inbox.lv; s=30062014;
-        t=1638271023; bh=ox0oF6RresLUTP2rT28UzFMENVQVHDTEF9p61VuoVho=;
-        h=Date:From:To:Cc:Subject;
-        b=rdOl6dbKZfQqhC5m8RL+3o57aURnBfQENq0Q3YwsW0iEJx9zfmoslvs9QA0hG4RU8
-         Uh6chFIIRr8rvrWVQPT3GxXSshg3hiOlxMWbV2Pj2RfpI3yu1+e71eNTNHbR99538n
-         df3s9hHNJtGYq1Qlx9XkKxWHOIEwW/MMDiNgX934=
-Received: from localhost (localhost [127.0.0.1])
-        by shark4-in.inbox.lv (Postfix) with ESMTP id BE5A5C01AA;
-        Tue, 30 Nov 2021 13:17:03 +0200 (EET)
-Received: from shark4.inbox.lv ([127.0.0.1])
-        by localhost (shark4.inbox.lv [127.0.0.1]) (spamfilter, port 35)
-        with ESMTP id Qmfkse0NcGJL; Tue, 30 Nov 2021 13:17:02 +0200 (EET)
-Received: from mail.inbox.lv (pop1 [127.0.0.1])
-        by shark4-in.inbox.lv (Postfix) with ESMTP id BB828C019B;
-        Tue, 30 Nov 2021 13:17:02 +0200 (EET)
-Date:   Tue, 30 Nov 2021 20:16:52 +0900
-From:   Alexey Avramov <hakavlad@inbox.lv>
-To:     linux-mm@kvack.org
-Cc:     linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, corbet@lwn.net,
-        akpm@linux-foundation.org, mcgrof@kernel.org,
-        keescook@chromium.org, yzaikin@google.com,
-        oleksandr@natalenko.name, kernel@xanmod.org, aros@gmx.com,
-        iam@valdikss.org.ru, hakavlad@inbox.lv, hakavlad@gmail.com
-Subject: [PATCH] mm/vmscan: add sysctl knobs for protecting the working set
-Message-ID: <20211130201652.2218636d@mail.inbox.lv>
-X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: OK
-X-ESPOL: G4mERXADmHlDpsG9Ippu5OH4pKK+V1wivi79xrsz7G4qyL6B7J5pAxyYeeHze3G0c2bD
+        id S233057AbhK3LsZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Nov 2021 06:48:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44902 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232723AbhK3LsX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Nov 2021 06:48:23 -0500
+Received: from mail-wm1-x349.google.com (mail-wm1-x349.google.com [IPv6:2a00:1450:4864:20::349])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C926AC061746
+        for <linux-doc@vger.kernel.org>; Tue, 30 Nov 2021 03:45:03 -0800 (PST)
+Received: by mail-wm1-x349.google.com with SMTP id j25-20020a05600c1c1900b00332372c252dso12716076wms.1
+        for <linux-doc@vger.kernel.org>; Tue, 30 Nov 2021 03:45:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=bYDosMGyIXEijQF2/XlnbLPYOrdGKyrE1hTUivhL4CU=;
+        b=IL7CAFvV6MtE2OUgCCV8gKKrIRN0WWgpmR+A9AiWqxQ9V07X4YbGspXtC5Hd1Y2PBx
+         D56r1S35xreiSdxVc7okaLumpKcw9ekhsDPEZzvnsFxcAB/1fGP6xe6vCSOp5uZpTEYm
+         V8auU9N5p5ITPQoGMY9SXWAC+bv3a2JXvpTRuW2dbPcZSHECt2QH4YQ7NmDVpaOwhxby
+         N60ovNQ0ZF78ST/emszDmXo/s4EY+JaEW98RwrKa+ZGzLKp7tVPM5NSIU/FJSZizz2+N
+         NkpHpEsWEVdTqVhcbsYdV0IghKGuBDGKbjH/qvuS0kBUt3A6YJrbWASj5vSoOFjTMx7v
+         YM4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=bYDosMGyIXEijQF2/XlnbLPYOrdGKyrE1hTUivhL4CU=;
+        b=5RF5q6nGCrbOURzHofz5iPO0zkHD+ujNGTr2NuY5ucp0efIxd3eOl+Q00CaJZYdOCX
+         AZpHJRWDfHLpzQccKbi/hGHEJ6hytp3Hl2xDnVokNHcUi9rtDw2SCbP/gG+TQaMHeSYH
+         QSXtiCuh0+XaP411dk1ncNlSgQQ8c/eroODssaEV74iNu8bDjoPKch4Pj39rBuloHswc
+         OSgqmrzW+RCFyLffY2FE+ZjA68JJFuNZMcrs4qpCI/AL6TO/yZvPxCswnzGEn8Ae8m8F
+         DyeUiuB4v/qiv4YZxWPkyOhn49jgs5zwlBLdHBmtYXJzZjy3dlbnnO1ueUOPCLxNGV37
+         fIcw==
+X-Gm-Message-State: AOAM531N/TJKivm/bsq3q7GyY3tGwvyqSoUp5fERWVccRzRONXBhHCXn
+        NI5uaeHRxsGUlBX/BAPs6XbOzWIzQg==
+X-Google-Smtp-Source: ABdhPJxo37bMpbLJAv1RXHu3LO+qFm4HjYlDQ0I+/1FSDhE4J1p/G9WrWi0KsSeZbN76Kzr82TRPoUL1zA==
+X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:86b7:11e9:7797:99f0])
+ (user=elver job=sendgmr) by 2002:a05:600c:1990:: with SMTP id
+ t16mr4315850wmq.48.1638272702321; Tue, 30 Nov 2021 03:45:02 -0800 (PST)
+Date:   Tue, 30 Nov 2021 12:44:08 +0100
+Message-Id: <20211130114433.2580590-1-elver@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.34.0.rc2.393.gf8c9666880-goog
+Subject: [PATCH v3 00/25] kcsan: Support detecting a subset of missing memory barriers
+From:   Marco Elver <elver@google.com>
+To:     elver@google.com, "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     Alexander Potapenko <glider@google.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Waiman Long <longman@redhat.com>,
+        Will Deacon <will@kernel.org>, kasan-dev@googlegroups.com,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, llvm@lists.linux.dev, x86@kernel.org,
+        Josh Poimboeuf <jpoimboe@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The kernel does not provide a way to protect the working set under memory
-pressure. A certain amount of anonymous and clean file pages is required by
-the userspace for normal operation. First of all, the userspace needs a
-cache of shared libraries and executable binaries. If the amount of the
-clean file pages falls below a certain level, then thrashing and even
-livelock can take place.
+Detection of some missing memory barriers has been on the KCSAN feature
+wishlist for some time: this series adds support for modeling a subset
+of weak memory as defined by the LKMM, which enables detection of a
+subset of data races due to missing memory barriers.
 
-The patch provides sysctl knobs for protecting the working set (anonymous
-and clean file pages) under memory pressure.
+KCSAN's approach to detecting missing memory barriers is based on
+modeling access reordering. Each memory access for which a watchpoint is
+set up, is also selected for simulated reordering within the scope of
+its function (at most 1 in-flight access).
 
-The vm.anon_min_kbytes sysctl knob provides *hard* protection of anonymous
-pages. The anonymous pages on the current node won't be reclaimed under any
-conditions when their amount is below vm.anon_min_kbytes. This knob may be
-used to prevent excessive swap thrashing when anonymous memory is low (for
-example, when memory is going to be overfilled by compressed data of zram
-module). The default value is defined by CONFIG_ANON_MIN_KBYTES (suggested
-0 in Kconfig).
+We are limited to modeling the effects of "buffering" (delaying the
+access), since the runtime cannot "prefetch" accesses. Once an access
+has been selected for reordering, it is checked along every other access
+until the end of the function scope. If an appropriate memory barrier is
+encountered, the access will no longer be considered for reordering.
 
-The vm.clean_low_kbytes sysctl knob provides *best-effort* protection of
-clean file pages. The file pages on the current node won't be reclaimed
-under memory pressure when the amount of clean file pages is below
-vm.clean_low_kbytes *unless* we threaten to OOM. Protection of clean file
-pages using this knob may be used when swapping is still possible to
-  - prevent disk I/O thrashing under memory pressure;
-  - improve performance in disk cache-bound tasks under memory pressure.
-The default value is defined by CONFIG_CLEAN_LOW_KBYTES (suggested 0 in
-Kconfig).
+When the result of a memory operation should be ordered by a barrier,
+KCSAN can then detect data races where the conflict only occurs as a
+result of a missing barrier due to reordering accesses.
 
-The vm.clean_min_kbytes sysctl knob provides *hard* protection of clean
-file pages. The file pages on the current node won't be reclaimed under
-memory pressure when the amount of clean file pages is below
-vm.clean_min_kbytes. Hard protection of clean file pages using this knob
-may be used to
-  - prevent disk I/O thrashing under memory pressure even with no free swap
-    space;
-  - improve performance in disk cache-bound tasks under memory pressure;
-  - avoid high latency and prevent livelock in near-OOM conditions.
-The default value is defined by CONFIG_CLEAN_MIN_KBYTES (suggested 0 in
-Kconfig).
+Some more details and an example are captured in the updated
+<Documentation/dev-tools/kcsan.rst>.
 
-Signed-off-by: Alexey Avramov <hakavlad@inbox.lv>
-Reported-by: Artem S. Tashkinov <aros@gmx.com>
+Some light fuzzing with the feature also resulted in a discussion [1]
+around an issue which appears to be allowed, but unlikely in practice.
+
+[1] https://lkml.kernel.org/r/YRo58c+JGOvec7tc@elver.google.com
+
+
+The first half of the series are core KCSAN changes, documentation
+updates, and test changes. The second half adds instrumentation to
+barriers, atomics, bitops, along with enabling barrier instrumentation
+for some currently uninstrumented subsystems.
+
+Followed by objtool changes to add the usual entries to the uaccess
+whitelist, but also instruct objtool to remove memory barrier
+instrumentation from noinstr code (on x86), given not all versions of
+Clang currently respect __no_kcsan (== __no_sanitize_thread) for the new
+instrumentation.
+
+The last 2 patches (new in v3) fix up __no_kcsan for newer versions of
+Clang, so that non-x86 architectures can enable weak memory modeling
+with Clang 14.0 or newer.
+
+Changelog
+---------
+
+v3:
+* Rework to avoid kcsan_noinstr hackery, because it is unclear if
+  this works on architectures like arm64. A better alternative exists
+  where we can get __no_kcsan to work for barrier instrumentation, too.
+  Clang's and GCC's __no_kcsan (== __no_sanitize_thread) behave slightly
+  differently, which is reflected in KCSAN_WEAK_MEMORY's dependencies
+  (either STACK_VALIDATION for older Clang, or GCC which works as-is).
+* Rework to avoid inserting explicit calls for barrier instrumentation,
+  and instead repurpose __atomic_signal_fence (see comment at
+  __tsan_atomic_signal_fence), which is handled by fsanitize=thread
+  instrumentation and can therefore be removed via __no_kcsan.
+* objtool: s/removable_instr/profiling_func/, and more comments per
+  Josh's suggestion.
+* Minimize diff in patch removing zero-initialization of globals.
+* Don't define kcsan_weak_memory bool if !KCSAN_WEAK_MEMORY.
+* Apply Acks.
+* 2 new patches to make it work with Clang >= 14.0 without objtool,
+  which will be required on non-x86 architectures.
+
+v2: https://lkml.kernel.org/r/20211118081027.3175699-1-elver@google.com
+* Rewrite objtool patch after rebase to v5.16-rc1.
+* Note the reason in documentation that address or control dependencies
+  do not require special handling.
+* Rename kcsan_atomic_release() to kcsan_atomic_builtin_memorder() to
+  avoid confusion.
+* Define kcsan_noinstr as noinline if we rely on objtool nop'ing out
+  calls, to avoid things like LTO inlining it.
+
+v1: https://lore.kernel.org/all/20211005105905.1994700-1-elver@google.com/
 ---
- Repo:
- https://github.com/hakavlad/le9-patch
 
- Documentation/admin-guide/sysctl/vm.rst | 66 ++++++++++++++++++++++++
- include/linux/mm.h                      |  4 ++
- kernel/sysctl.c                         | 21 ++++++++
- mm/Kconfig                              | 63 +++++++++++++++++++++++
- mm/vmscan.c                             | 91 +++++++++++++++++++++++++++++++++
- 5 files changed, 245 insertions(+)
+Alexander Potapenko (1):
+  compiler_attributes.h: Add __disable_sanitizer_instrumentation
 
-diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-index 5e7952021..2f606e23b 100644
---- a/Documentation/admin-guide/sysctl/vm.rst
-+++ b/Documentation/admin-guide/sysctl/vm.rst
-@@ -25,6 +25,9 @@ files can be found in mm/swap.c.
- Currently, these files are in /proc/sys/vm:
+Marco Elver (24):
+  kcsan: Refactor reading of instrumented memory
+  kcsan: Remove redundant zero-initialization of globals
+  kcsan: Avoid checking scoped accesses from nested contexts
+  kcsan: Add core support for a subset of weak memory modeling
+  kcsan: Add core memory barrier instrumentation functions
+  kcsan, kbuild: Add option for barrier instrumentation only
+  kcsan: Call scoped accesses reordered in reports
+  kcsan: Show location access was reordered to
+  kcsan: Document modeling of weak memory
+  kcsan: test: Match reordered or normal accesses
+  kcsan: test: Add test cases for memory barrier instrumentation
+  kcsan: Ignore GCC 11+ warnings about TSan runtime support
+  kcsan: selftest: Add test case to check memory barrier instrumentation
+  locking/barriers, kcsan: Add instrumentation for barriers
+  locking/barriers, kcsan: Support generic instrumentation
+  locking/atomics, kcsan: Add instrumentation for barriers
+  asm-generic/bitops, kcsan: Add instrumentation for barriers
+  x86/barriers, kcsan: Use generic instrumentation for non-smp barriers
+  x86/qspinlock, kcsan: Instrument barrier of pv_queued_spin_unlock()
+  mm, kcsan: Enable barrier instrumentation
+  sched, kcsan: Enable memory barrier instrumentation
+  objtool, kcsan: Add memory barrier instrumentation to whitelist
+  objtool, kcsan: Remove memory barrier instrumentation from noinstr
+  kcsan: Support WEAK_MEMORY with Clang where no objtool support exists
 
- - admin_reserve_kbytes
-+- anon_min_kbytes
-+- clean_low_kbytes
-+- clean_min_kbytes
- - compact_memory
- - compaction_proactiveness
- - compact_unevictable_allowed
-@@ -105,6 +108,61 @@ On x86_64 this is about 128MB.
- Changing this takes effect whenever an application requests memory.
+ Documentation/dev-tools/kcsan.rst             |  76 +++-
+ arch/x86/include/asm/barrier.h                |  10 +-
+ arch/x86/include/asm/qspinlock.h              |   1 +
+ include/asm-generic/barrier.h                 |  54 ++-
+ .../asm-generic/bitops/instrumented-atomic.h  |   3 +
+ .../asm-generic/bitops/instrumented-lock.h    |   3 +
+ include/linux/atomic/atomic-instrumented.h    | 135 +++++-
+ include/linux/compiler_attributes.h           |  18 +
+ include/linux/compiler_types.h                |  13 +-
+ include/linux/kcsan-checks.h                  |  81 +++-
+ include/linux/kcsan.h                         |  11 +-
+ include/linux/sched.h                         |   3 +
+ include/linux/spinlock.h                      |   2 +-
+ init/init_task.c                              |   5 -
+ kernel/kcsan/Makefile                         |   2 +
+ kernel/kcsan/core.c                           | 345 ++++++++++++---
+ kernel/kcsan/kcsan_test.c                     | 415 ++++++++++++++++--
+ kernel/kcsan/report.c                         |  51 ++-
+ kernel/kcsan/selftest.c                       | 141 ++++++
+ kernel/sched/Makefile                         |   7 +-
+ lib/Kconfig.kcsan                             |  20 +
+ mm/Makefile                                   |   2 +
+ scripts/Makefile.kcsan                        |  15 +-
+ scripts/Makefile.lib                          |   5 +
+ scripts/atomic/gen-atomic-instrumented.sh     |  41 +-
+ tools/objtool/check.c                         |  41 +-
+ tools/objtool/include/objtool/elf.h           |   2 +-
+ 27 files changed, 1330 insertions(+), 172 deletions(-)
 
+-- 
+2.34.0.rc2.393.gf8c9666880-goog
 
-+anon_min_kbytes
-+===============
-+
-+This knob provides *hard* protection of anonymous pages. The anonymous pages
-+on the current node won't be reclaimed under any conditions when their amount
-+is below vm.anon_min_kbytes.
-+
-+This knob may be used to prevent excessive swap thrashing when anonymous
-+memory is low (for example, when memory is going to be overfilled by
-+compressed data of zram module).
-+
-+Setting this value too high (close to MemTotal) can result in inability to
-+swap and can lead to early OOM under memory pressure.
-+
-+The default value is defined by CONFIG_ANON_MIN_KBYTES.
-+
-+
-+clean_low_kbytes
-+================
-+
-+This knob provides *best-effort* protection of clean file pages. The file pages
-+on the current node won't be reclaimed under memory pressure when the amount of
-+clean file pages is below vm.clean_low_kbytes *unless* we threaten to OOM.
-+
-+Protection of clean file pages using this knob may be used when swapping is
-+still possible to
-+  - prevent disk I/O thrashing under memory pressure;
-+  - improve performance in disk cache-bound tasks under memory pressure.
-+
-+Setting it to a high value may result in a early eviction of anonymous pages
-+into the swap space by attempting to hold the protected amount of clean file
-+pages in memory.
-+
-+The default value is defined by CONFIG_CLEAN_LOW_KBYTES.
-+
-+
-+clean_min_kbytes
-+================
-+
-+This knob provides *hard* protection of clean file pages. The file pages on the
-+current node won't be reclaimed under memory pressure when the amount of clean
-+file pages is below vm.clean_min_kbytes.
-+
-+Hard protection of clean file pages using this knob may be used to
-+  - prevent disk I/O thrashing under memory pressure even with no free swap space;
-+  - improve performance in disk cache-bound tasks under memory pressure;
-+  - avoid high latency and prevent livelock in near-OOM conditions.
-+
-+Setting it to a high value may result in a early out-of-memory condition due to
-+the inability to reclaim the protected amount of clean file pages when other
-+types of pages cannot be reclaimed.
-+
-+The default value is defined by CONFIG_CLEAN_MIN_KBYTES.
-+
-+
- compact_memory
- ==============
-
-@@ -864,6 +922,14 @@ be 133 (x + 2x = 200, 2x = 133.33).
- At 0, the kernel will not initiate swap until the amount of free and
- file-backed pages is less than the high watermark in a zone.
-
-+This knob has no effect if the amount of clean file pages on the current
-+node is below vm.clean_low_kbytes or vm.clean_min_kbytes. In this case,
-+only anonymous pages can be reclaimed.
-+
-+If the number of anonymous pages on the current node is below
-+vm.anon_min_kbytes, then only file pages can be reclaimed with
-+any vm.swappiness value.
-+
-
- unprivileged_userfaultfd
- ========================
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index a7e4a9e7d..bee9807d5 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -200,6 +200,10 @@ static inline void __mm_zero_struct_page(struct page *page)
-
- extern int sysctl_max_map_count;
-
-+extern unsigned long sysctl_anon_min_kbytes;
-+extern unsigned long sysctl_clean_low_kbytes;
-+extern unsigned long sysctl_clean_min_kbytes;
-+
- extern unsigned long sysctl_user_reserve_kbytes;
- extern unsigned long sysctl_admin_reserve_kbytes;
-
-diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-index 083be6af2..65fc38756 100644
---- a/kernel/sysctl.c
-+++ b/kernel/sysctl.c
-@@ -3132,6 +3132,27 @@ static struct ctl_table vm_table[] = {
- 	},
- #endif
- 	{
-+		.procname	= "anon_min_kbytes",
-+		.data		= &sysctl_anon_min_kbytes,
-+		.maxlen		= sizeof(unsigned long),
-+		.mode		= 0644,
-+		.proc_handler	= proc_doulongvec_minmax,
-+	},
-+	{
-+		.procname	= "clean_low_kbytes",
-+		.data		= &sysctl_clean_low_kbytes,
-+		.maxlen		= sizeof(unsigned long),
-+		.mode		= 0644,
-+		.proc_handler	= proc_doulongvec_minmax,
-+	},
-+	{
-+		.procname	= "clean_min_kbytes",
-+		.data		= &sysctl_clean_min_kbytes,
-+		.maxlen		= sizeof(unsigned long),
-+		.mode		= 0644,
-+		.proc_handler	= proc_doulongvec_minmax,
-+	},
-+	{
- 		.procname	= "user_reserve_kbytes",
- 		.data		= &sysctl_user_reserve_kbytes,
- 		.maxlen		= sizeof(sysctl_user_reserve_kbytes),
-diff --git a/mm/Kconfig b/mm/Kconfig
-index 28edafc82..dea0806d7 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -89,6 +89,69 @@ config SPARSEMEM_VMEMMAP
- 	  pfn_to_page and page_to_pfn operations.  This is the most
- 	  efficient option when sufficient kernel resources are available.
-
-+config ANON_MIN_KBYTES
-+	int "Default value for vm.anon_min_kbytes"
-+	depends on SYSCTL
-+	range 0 4294967295
-+	default 0
-+	help
-+	  This option sets the default value for vm.anon_min_kbytes sysctl knob.
-+
-+	  The vm.anon_min_kbytes sysctl knob provides *hard* protection of
-+	  anonymous pages. The anonymous pages on the current node won't be
-+	  reclaimed under any conditions when their amount is below
-+	  vm.anon_min_kbytes. This knob may be used to prevent excessive swap
-+	  thrashing when anonymous memory is low (for example, when memory is
-+	  going to be overfilled by compressed data of zram module).
-+
-+	  Setting this value too high (close to MemTotal) can result in
-+	  inability to swap and can lead to early OOM under memory pressure.
-+
-+config CLEAN_LOW_KBYTES
-+	int "Default value for vm.clean_low_kbytes"
-+	depends on SYSCTL
-+	range 0 4294967295
-+	default 0
-+	help
-+	  This option sets the default value for vm.clean_low_kbytes sysctl knob.
-+
-+	  The vm.clean_low_kbytes sysctl knob provides *best-effort*
-+	  protection of clean file pages. The file pages on the current node
-+	  won't be reclaimed under memory pressure when the amount of clean file
-+	  pages is below vm.clean_low_kbytes *unless* we threaten to OOM.
-+	  Protection of clean file pages using this knob may be used when
-+	  swapping is still possible to
-+	    - prevent disk I/O thrashing under memory pressure;
-+	    - improve performance in disk cache-bound tasks under memory
-+	      pressure.
-+
-+	  Setting it to a high value may result in a early eviction of anonymous
-+	  pages into the swap space by attempting to hold the protected amount
-+	  of clean file pages in memory.
-+
-+config CLEAN_MIN_KBYTES
-+	int "Default value for vm.clean_min_kbytes"
-+	depends on SYSCTL
-+	range 0 4294967295
-+	default 0
-+	help
-+	  This option sets the default value for vm.clean_min_kbytes sysctl knob.
-+
-+	  The vm.clean_min_kbytes sysctl knob provides *hard* protection of
-+	  clean file pages. The file pages on the current node won't be
-+	  reclaimed under memory pressure when the amount of clean file pages is
-+	  below vm.clean_min_kbytes. Hard protection of clean file pages using
-+	  this knob may be used to
-+	    - prevent disk I/O thrashing under memory pressure even with no free
-+	      swap space;
-+	    - improve performance in disk cache-bound tasks under memory
-+	      pressure;
-+	    - avoid high latency and prevent livelock in near-OOM conditions.
-+
-+	  Setting it to a high value may result in a early out-of-memory condition
-+	  due to the inability to reclaim the protected amount of clean file pages
-+	  when other types of pages cannot be reclaimed.
-+
- config HAVE_MEMBLOCK_PHYS_MAP
- 	bool
-
-diff --git a/mm/vmscan.c b/mm/vmscan.c
-index fb9584641..928f3371d 100644
---- a/mm/vmscan.c
-+++ b/mm/vmscan.c
-@@ -122,6 +122,15 @@ struct scan_control {
- 	/* The file pages on the current node are dangerously low */
- 	unsigned int file_is_tiny:1;
-
-+	/* The anonymous pages on the current node are below vm.anon_min_kbytes */
-+	unsigned int anon_below_min:1;
-+
-+	/* The clean file pages on the current node are below vm.clean_low_kbytes */
-+	unsigned int clean_below_low:1;
-+
-+	/* The clean file pages on the current node are below vm.clean_min_kbytes */
-+	unsigned int clean_below_min:1;
-+
- 	/* Always discard instead of demoting to lower tier memory */
- 	unsigned int no_demotion:1;
-
-@@ -171,6 +180,10 @@ struct scan_control {
- #define prefetchw_prev_lru_page(_page, _base, _field) do { } while (0)
- #endif
-
-+unsigned long sysctl_anon_min_kbytes __read_mostly = CONFIG_ANON_MIN_KBYTES;
-+unsigned long sysctl_clean_low_kbytes __read_mostly = CONFIG_CLEAN_LOW_KBYTES;
-+unsigned long sysctl_clean_min_kbytes __read_mostly = CONFIG_CLEAN_MIN_KBYTES;
-+
- /*
-  * From 0 .. 200.  Higher means more swappy.
-  */
-@@ -2734,6 +2747,15 @@ static void get_scan_count(struct lruvec *lruvec, struct scan_control *sc,
- 	}
-
- 	/*
-+	 * Force-scan anon if clean file pages is under vm.clean_low_kbytes
-+	 * or vm.clean_min_kbytes.
-+	 */
-+	if (sc->clean_below_low || sc->clean_below_min) {
-+		scan_balance = SCAN_ANON;
-+		goto out;
-+	}
-+
-+	/*
- 	 * If there is enough inactive page cache, we do not reclaim
- 	 * anything from the anonymous working right now.
- 	 */
-@@ -2877,6 +2899,25 @@ static void get_scan_count(struct lruvec *lruvec, struct scan_control *sc,
- 			BUG();
- 		}
-
-+		/*
-+		 * Hard protection of the working set.
-+		 */
-+		if (file) {
-+			/*
-+			 * Don't reclaim file pages when the amount of
-+			 * clean file pages is below vm.clean_min_kbytes.
-+			 */
-+			if (sc->clean_below_min)
-+				scan = 0;
-+		} else {
-+			/*
-+			 * Don't reclaim anonymous pages when their
-+			 * amount is below vm.anon_min_kbytes.
-+			 */
-+			if (sc->anon_below_min)
-+				scan = 0;
-+		}
-+
- 		nr[lru] = scan;
- 	}
- }
-@@ -3082,6 +3123,54 @@ static inline bool should_continue_reclaim(struct pglist_data *pgdat,
- 	return inactive_lru_pages > pages_for_compaction;
- }
-
-+static void prepare_workingset_protection(pg_data_t *pgdat, struct scan_control *sc)
-+{
-+	/*
-+	 * Check the number of anonymous pages to protect them from
-+	 * reclaiming if their amount is below the specified.
-+	 */
-+	if (sysctl_anon_min_kbytes) {
-+		unsigned long reclaimable_anon;
-+
-+		reclaimable_anon =
-+			node_page_state(pgdat, NR_ACTIVE_ANON) +
-+			node_page_state(pgdat, NR_INACTIVE_ANON) +
-+			node_page_state(pgdat, NR_ISOLATED_ANON);
-+		reclaimable_anon <<= (PAGE_SHIFT - 10);
-+
-+		sc->anon_below_min = reclaimable_anon < sysctl_anon_min_kbytes;
-+	} else
-+		sc->anon_below_min = 0;
-+
-+	/*
-+	 * Check the number of clean file pages to protect them from
-+	 * reclaiming if their amount is below the specified.
-+	 */
-+	if (sysctl_clean_low_kbytes || sysctl_clean_min_kbytes) {
-+		unsigned long reclaimable_file, dirty, clean;
-+
-+		reclaimable_file =
-+			node_page_state(pgdat, NR_ACTIVE_FILE) +
-+			node_page_state(pgdat, NR_INACTIVE_FILE) +
-+			node_page_state(pgdat, NR_ISOLATED_FILE);
-+		dirty = node_page_state(pgdat, NR_FILE_DIRTY);
-+		/*
-+		 * node_page_state() sum can go out of sync since
-+		 * all the values are not read at once.
-+		 */
-+		if (likely(reclaimable_file > dirty))
-+			clean = (reclaimable_file - dirty) << (PAGE_SHIFT - 10);
-+		else
-+			clean = 0;
-+
-+		sc->clean_below_low = clean < sysctl_clean_low_kbytes;
-+		sc->clean_below_min = clean < sysctl_clean_min_kbytes;
-+	} else {
-+		sc->clean_below_low = 0;
-+		sc->clean_below_min = 0;
-+	}
-+}
-+
- static void shrink_node_memcgs(pg_data_t *pgdat, struct scan_control *sc)
- {
- 	struct mem_cgroup *target_memcg = sc->target_mem_cgroup;
-@@ -3249,6 +3338,8 @@ static void shrink_node(pg_data_t *pgdat, struct scan_control *sc)
- 			anon >> sc->priority;
- 	}
-
-+	prepare_workingset_protection(pgdat, sc);
-+
- 	shrink_node_memcgs(pgdat, sc);
-
- 	if (reclaim_state) {
-
-base-commit: d58071a8a76d779eedab38033ae4c821c30295a5
---
-2.11.0
