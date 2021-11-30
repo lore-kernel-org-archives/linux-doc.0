@@ -2,126 +2,214 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83CD8C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 09:23:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB578C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 09:24:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240114AbhK3J0x convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Nov 2021 04:26:53 -0500
-Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151]:46748 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S240113AbhK3J0x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Nov 2021 04:26:53 -0500
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-13-Ag_JXOyjMBuSXQrxBjFzkA-1; Tue, 30 Nov 2021 09:23:32 +0000
-X-MC-Unique: Ag_JXOyjMBuSXQrxBjFzkA-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.26; Tue, 30 Nov 2021 09:23:30 +0000
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.026; Tue, 30 Nov 2021 09:23:30 +0000
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Rustam Kovhaev' <rkovhaev@gmail.com>
-CC:     'Vlastimil Babka' <vbabka@suse.cz>,
-        Christoph Lameter <cl@gentwo.org>,
-        "penberg@kernel.org" <penberg@kernel.org>,
-        "rientjes@google.com" <rientjes@google.com>,
-        "iamjoonsoo.kim@lge.com" <iamjoonsoo.kim@lge.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "djwong@kernel.org" <djwong@kernel.org>,
-        "david@fromorbit.com" <david@fromorbit.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "dvyukov@google.com" <dvyukov@google.com>
-Subject: RE: [PATCH v4] slob: add size header to all allocations
-Thread-Topic: [PATCH v4] slob: add size header to all allocations
-Thread-Index: AQHX344YYrlQE8gw8k+1+rn2N9Qq+awQ435QgArNSACAACX/IA==
-Date:   Tue, 30 Nov 2021 09:23:30 +0000
-Message-ID: <d8bbbf07698948bd99fff9da1198a1e6@AcuMS.aculab.com>
-References: <037227db-c869-7d9c-65e8-8f5f8682171d@suse.cz>
- <20211122013026.909933-1-rkovhaev@gmail.com>
- <alpine.DEB.2.22.394.2111221018070.202803@gentwo.de>
- <3c996e22-034f-1013-3978-1f786aae38fb@suse.cz>
- <alpine.DEB.2.22.394.2111221133110.204314@gentwo.de>
- <148d2774-77b9-bb25-c132-80b00e16ea06@suse.cz>
- <69fc0cead9774dfdba816a8e25f30a53@AcuMS.aculab.com> <YaXMBm4zUSTRUGx1@nuc10>
-In-Reply-To: <YaXMBm4zUSTRUGx1@nuc10>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        id S240141AbhK3J2B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Nov 2021 04:28:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40288 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240139AbhK3J2A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Nov 2021 04:28:00 -0500
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AF1CC061748
+        for <linux-doc@vger.kernel.org>; Tue, 30 Nov 2021 01:24:41 -0800 (PST)
+Received: by mail-wr1-x432.google.com with SMTP id i5so42907777wrb.2
+        for <linux-doc@vger.kernel.org>; Tue, 30 Nov 2021 01:24:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=yB0eWfE4eeemBgIkAqSMbGTWDerG7jyNQ2dFqY6J6Iw=;
+        b=aWaKTO/tUiOdel7w7i49eEDCCTHBWt76TvmKCMvsR0kJu1ICOrGglzBYV7sJ4wAEVV
+         HEu4abOrsMHg7WjvjE5Alvwiiulpoo8fHfKhhon/0fexy5E3gSah9RWGYHELAuIWxuLM
+         9BC7mJ5eu/7hmjSfvd+XFgWCdfi0g6xqjUleWTfXKLx/FgfJSgGezhwwOFuAUzOAW6gK
+         rXHhJNN1ElK3jYJhK7mRTk6Cp3M6YVde80PMT1j66j5bpYhalj2l1b3faPPgnQP6ZGnW
+         fNLLpQaOU3Q6N0kJjWzOZEKmAey3XZ60BOnjgoeEDzW60NGNei/ApL0Jmh4oeWGdEYHS
+         JVVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=yB0eWfE4eeemBgIkAqSMbGTWDerG7jyNQ2dFqY6J6Iw=;
+        b=4jyDTTz1k8iouk7QafrhGS5cR6V8hGiKLIPFh+n8qloe0UKIkhTA4osMg/PiYABQP4
+         GvfLWovmIkp3Wk1afpciIMvii1hssI6JmRt8HwN3SExwLUqkrJyCuWd4xGd2qrA7BfKL
+         hIS30XKuqdX7YwUVZicAiqAJCUXMsXlh/hysi2eVlzBKb8QMZBoJfHALmRP4pA/i7yKn
+         x9L0iM+TPNp+VndEDW0a4Is5+BTKpRvOsBhQ5P49BWHr/WUG0fd/qYrMPAW9tAt738v5
+         mGeqnr3tIHRqi2qgboBTJf0/lYeF7qtnx22VSVoP6a6vjk9t4VLDBxZF8jU55I4SvhSe
+         14IQ==
+X-Gm-Message-State: AOAM533CQVacNgxAjeSfV/sqOIV/NB8EtT/2MMuEZ0Ucp/TpQYW2Mubh
+        fETd5dLj/lxBnLBoluQm1+mxUw==
+X-Google-Smtp-Source: ABdhPJwtkbhBHUtQ/K6qf88p2EgqL4dRD3bgO+PKHEoiEabkzpxApR+DYjMi2jEb7cv2c7pNk4pFrw==
+X-Received: by 2002:adf:f151:: with SMTP id y17mr39346595wro.153.1638264279264;
+        Tue, 30 Nov 2021 01:24:39 -0800 (PST)
+Received: from ?IPv6:2a01:e34:ed2f:f020:7880:daae:2d50:bb5e? ([2a01:e34:ed2f:f020:7880:daae:2d50:bb5e])
+        by smtp.googlemail.com with ESMTPSA id r8sm20090958wrz.43.2021.11.30.01.24.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Nov 2021 01:24:38 -0800 (PST)
+Subject: Re: [PATCH 1/7] x86/Documentation: Describe the Intel Hardware
+ Feedback Interface
+To:     Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        linux-pm@vger.kernel.org
+Cc:     x86@kernel.org, linux-doc@vger.kernel.org,
+        Len Brown <len.brown@intel.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Aubrey Li <aubrey.li@linux.intel.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Ricardo Neri <ricardo.neri@intel.com>,
+        linux-kernel@vger.kernel.org
+References: <20211106013312.26698-1-ricardo.neri-calderon@linux.intel.com>
+ <20211106013312.26698-2-ricardo.neri-calderon@linux.intel.com>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <81bca26d-eac8-31ed-e5ec-81812664d671@linaro.org>
+Date:   Tue, 30 Nov 2021 10:24:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
+In-Reply-To: <20211106013312.26698-2-ricardo.neri-calderon@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Rustam Kovhaev
-> Sent: 30 November 2021 07:00
+Hi Ricardo,
+
+On 06/11/2021 02:33, Ricardo Neri wrote:
+> Start a documentation file to describe the purpose and operation of Intel's
+> Hardware Feedback Interface. Describe how this interface is used in Linux
+> to relay performance and energy efficiency updates to userspace.
 > 
-> On Tue, Nov 23, 2021 at 10:18:27AM +0000, David Laight wrote:
-> > From: Vlastimil Babka
-> > > Sent: 22 November 2021 10:46
-> > >
-> > > On 11/22/21 11:36, Christoph Lameter wrote:
-> > > > On Mon, 22 Nov 2021, Vlastimil Babka wrote:
-> > > >
-> > > >> But it seems there's no reason we couldn't do better? I.e. use the value of
-> > > >> SLOB_HDR_SIZE only to align the beginning of actual object (and name the
-> > > >> define different than SLOB_HDR_SIZE). But the size of the header, where we
-> > > >> store the object lenght could be just a native word - 4 bytes on 32bit, 8 on
-> > > >> 64bit. The address of the header shouldn't have a reason to be also aligned
-> > > >> to ARCH_KMALLOC_MINALIGN / ARCH_SLAB_MINALIGN as only SLOB itself processes
-> > > >> it and not the slab consumers which rely on those alignments?
-> > > >
-> > > > Well the best way would be to put it at the end of the object in order to
-> > > > avoid the alignment problem. This is a particular issue with SLOB because
-> > > > it allows multiple types of objects in a single page frame.
-> > > >
-...
-> >
-> > > > So I guess placement at the beginning cannot be avoided. That in turn runs
-> > > > into trouble with the DMA requirements on some platforms where the
-> > > > beginning of the object has to be cache line aligned.
-> > >
-> > > It's no problem to have the real beginning of the object aligned, and the
-> > > prepended header not.
-> >
-> > I'm not sure that helps.
-> > The header can't share a cache line with the previous item (because it
-> > might be mapped for DMA) so will always take a full cache line.
+> Cc: Andi Kleen <ak@linux.intel.com>
+> Cc: Aubrey Li <aubrey.li@linux.intel.com>
+> Cc: Tim Chen <tim.c.chen@linux.intel.com>
+> Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>
+> Reviewed-by: Len Brown <len.brown@intel.com>
+> Suggested-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+> ---
+>  Documentation/x86/index.rst     |  1 +
+>  Documentation/x86/intel-hfi.rst | 68 +++++++++++++++++++++++++++++++++
+>  2 files changed, 69 insertions(+)
+>  create mode 100644 Documentation/x86/intel-hfi.rst
 > 
-> I thought that DMA API allocates buffers that are larger than page size.
-> DMA pool seems to be able to give out smaller buffers, but underneath it
-> seems to be calling page allocator.
-> The SLOB objects that have this header are all less than page size, and
-> they cannot end up in DMA code paths, or can they?
+> diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
+> index 383048396336..f103821ee095 100644
+> --- a/Documentation/x86/index.rst
+> +++ b/Documentation/x86/index.rst
+> @@ -21,6 +21,7 @@ x86-specific Documentation
+>     tlb
+>     mtrr
+>     pat
+> +   intel-hfi
+>     intel-iommu
+>     intel_txt
+>     amd-memory-encryption
+> diff --git a/Documentation/x86/intel-hfi.rst b/Documentation/x86/intel-hfi.rst
+> new file mode 100644
+> index 000000000000..f5cb738170a5
+> --- /dev/null
+> +++ b/Documentation/x86/intel-hfi.rst
+> @@ -0,0 +1,68 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +============================================================
+> +Hardware-Feedback Interface for scheduling on Intel Hardware
+> +============================================================
+> +
+> +Overview
+> +--------
+> +
+> +Intel has described the Hardware Feedback Interface (HFI) in the Intel 64 and
+> +IA-32 Architectures Software Developer's Manual (Intel SDM) Volume 3 Section
+> +14.6 [1]_.
+> +
+> +The HFI gives the operating system a performance and energy efficiency
+> +capability data for each CPU in the system. Linux can use the information from
+> +the HFI to influence task placement decisions.
+> +
+> +The Hardware Feedback Interface
+> +-------------------------------
+> +
+> +The Hardware Feedback Interface provides to the operating system information
+> +about the performance and energy efficiency of each CPU in the system. Each
+> +capability is given as a unit-less quantity in the range [0-255]. Higher values
+> +indicate higher capability. Energy efficiency and performance are reported in
+> +separate capabilities.
 
-The problem isn't dma_alloc_coherent() it is when memory allocated
-elsewhere is used for DMA.
-On systems with non-coherent DMA accesses the data cache has to be
-flushed before all and invalidated after read DMA transfers.
-The cpu must not dirty any of the cache lines associated with a read DMA.
+Are they linked together (eg. higher energy efficiency => lower
+performance)?
 
-This is on top of any requirements for the alignment of the returned address.
+> +These capabilities may change at runtime as a result of changes in the
+> +operating conditions of the system or the action of external factors.
 
-	David
+Is it possible to give examples?
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
+> The rate
+> +at which these capabilities are updated is specific to each processor model. On
+> +some models, capabilities are set at boot time and never change. On others,
+> +capabilities may change every tens of milliseconds.
+> +
+> +The kernel or a userspace policy daemon can use these capabilities to modify
+> +task placement decisions. For instance, if either the performance or energy
+> +capabilities of a given logical processor becomes zero, it is an indication that
+> +the hardware recommends to the operating system to not schedule any tasks on
+> +that processor for performance or energy efficiency reasons, respectively.
 
+How the userspace can be involved in these decisions? If the performance
+is impacted then that should be reflected in the CPU capacity. The
+scheduler will prevent to put task on CPU with a low capacity, no?
+
+I'm also worried about the overhead of the userspace notifications.
+
+That sounds like similar to the thermal pressure? Wouldn't make sense to
+create a generic component where HFI, cpufreq cooling, LMh, etc ... are
+the backend?
+
+
+
+> +Implementation details for Linux
+> +--------------------------------
+> +
+> +The infrastructure to handle thermal event interrupts has two parts. In the
+> +Local Vector Table of a CPU's local APIC, there exists a register for the
+> +Thermal Monitor Register. This register controls how interrupts are delivered
+> +to a CPU when the thermal monitor generates and interrupt. Further details
+> +can be found in the Intel SDM Vol. 3 Section 10.5 [1]_.
+> +
+> +The thermal monitor may generate interrupts per CPU or per package. The HFI
+> +generates package-level interrupts. This monitor is configured and initialized
+> +via a set of machine-specific registers. Specifically, the HFI interrupt and
+> +status are controlled via designated bits in the IA32_PACKAGE_THERM_INTERRUPT
+> +and IA32_PACKAGE_THERM_STATUS registers, respectively. There exists one HFI
+> +table per package. Further details can be found in the Intel SDM Vol. 3
+> +Section 14.9 [1]_.
+> +
+> +The hardware issues an HFI interrupt after updating the HFI table and is ready
+> +for the operating system to consume it. CPUs receive such interrupt via the
+> +thermal entry in the Local APIC's Local Vector Table.
+> +
+> +When servicing such interrupt, the HFI driver parses the updated table and
+> +relays the update to userspace using the thermal notification framework. Given
+> +that there may be many HFI updates every second, the updates relayed to
+> +userspace are throttled at a rate of CONFIG_HZ jiffies.
+> +
+> +References
+> +----------
+> +
+> +.. [1] https://www.intel.com/sdm
+> 
+
+
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
