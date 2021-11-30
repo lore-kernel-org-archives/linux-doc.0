@@ -2,250 +2,197 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF57CC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 15:36:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC42DC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 15:39:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237788AbhK3Pjg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Nov 2021 10:39:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44138 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237755AbhK3Pjf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Nov 2021 10:39:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1638286575;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+        id S238807AbhK3Pmu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Nov 2021 10:42:50 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:57564 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234909AbhK3Pmt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Nov 2021 10:42:49 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 7419A1FD58;
+        Tue, 30 Nov 2021 15:39:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1638286769; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=mYdDpVKE6HMENU0IWcdSWHpUYx2GYwvXy4Yo3zA0Sdg=;
-        b=IkrOAQwittZrM4GoIkjxpTsUcHnaLPGf5pNlxdqpVC1e0TVNQr/bdsUPyfEkpUqdz/EyAb
-        FoQCtmFmNp/tNtbe88l5O4kma07ZoeIwBerXwgg2KVfowHUhK/YytAhgWtFFKgWmHh0jzS
-        3cKIuJ5JbYLEE1y3KaRLAPEbRNSWnFE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-503-9fv7N_W3MjKGUuwsqBjjlg-1; Tue, 30 Nov 2021 10:36:13 -0500
-X-MC-Unique: 9fv7N_W3MjKGUuwsqBjjlg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        bh=khmf46apnivc3rCeZIcafDkb2T/c/9M5GdnPaCE3bn8=;
+        b=NfREQeTLTbuZnKajctFLJiZDGy1q930Z0dbkjKXRLJd2IuU2XnXKlr7FKAPCSKS074SSP0
+        /AaW3s5EOOT6UgNXc2eTOD+yQp7h8hBKdtBO3WrCO0at1sppLKa1a6k41gmridS24w4v3y
+        Pt1BI1RJ8becE6ZS32RzvDDPx60p/3Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1638286769;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=khmf46apnivc3rCeZIcafDkb2T/c/9M5GdnPaCE3bn8=;
+        b=f+8zvaHsFv6F6UQ6tZGcRyIOSueiHJ4BNz4UWIKEjK80IQIAD08pUcuKXHl7r+Ek9SAUhY
+        UmfRDNJh2h0m/EBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C1E2F10E5CA;
-        Tue, 30 Nov 2021 15:35:23 +0000 (UTC)
-Received: from [10.22.34.203] (unknown [10.22.34.203])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 5463679595;
-        Tue, 30 Nov 2021 15:35:20 +0000 (UTC)
-Message-ID: <293d7abf-aff6-fcd8-c999-b1dbda1cffb8@redhat.com>
-Date:   Tue, 30 Nov 2021 10:35:19 -0500
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3658E13D5A;
+        Tue, 30 Nov 2021 15:39:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id QFKBDLFFpmHWWwAAMHmgww
+        (envelope-from <vbabka@suse.cz>); Tue, 30 Nov 2021 15:39:29 +0000
+Message-ID: <b01c9f31-4336-dfe7-9042-41339ea9cc0d@suse.cz>
+Date:   Tue, 30 Nov 2021 16:39:28 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v8 5/6] cgroup/cpuset: Update description of
- cpuset.cpus.partition in cgroup-v2.rst
+ Thunderbird/91.3.2
 Content-Language: en-US
-To:     =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>
-References: <20211018143619.205065-1-longman@redhat.com>
- <20211018143619.205065-6-longman@redhat.com>
- <20211115193122.GA16798@blackbody.suse.cz>
- <8f68692b-bd8f-33fd-44ae-f6f83bf2dc00@redhat.com>
- <20211116175411.GA50019@blackbody.suse.cz>
-From:   Waiman Long <longman@redhat.com>
-In-Reply-To: <20211116175411.GA50019@blackbody.suse.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+To:     David Laight <David.Laight@ACULAB.COM>,
+        Christoph Lameter <cl@gentwo.org>
+Cc:     Rustam Kovhaev <rkovhaev@gmail.com>,
+        "penberg@kernel.org" <penberg@kernel.org>,
+        "rientjes@google.com" <rientjes@google.com>,
+        "iamjoonsoo.kim@lge.com" <iamjoonsoo.kim@lge.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "djwong@kernel.org" <djwong@kernel.org>,
+        "david@fromorbit.com" <david@fromorbit.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "dvyukov@google.com" <dvyukov@google.com>
+References: <037227db-c869-7d9c-65e8-8f5f8682171d@suse.cz>
+ <20211122013026.909933-1-rkovhaev@gmail.com>
+ <alpine.DEB.2.22.394.2111221018070.202803@gentwo.de>
+ <3c996e22-034f-1013-3978-1f786aae38fb@suse.cz>
+ <alpine.DEB.2.22.394.2111221133110.204314@gentwo.de>
+ <148d2774-77b9-bb25-c132-80b00e16ea06@suse.cz>
+ <69fc0cead9774dfdba816a8e25f30a53@AcuMS.aculab.com>
+ <d0927ca6-1710-5b2b-3682-6a80eb4e48d1@suse.cz>
+ <e79cd6da011a412f8c68e132ba74dc5c@AcuMS.aculab.com>
+From:   Vlastimil Babka <vbabka@suse.cz>
+Subject: Re: [PATCH v4] slob: add size header to all allocations
+In-Reply-To: <e79cd6da011a412f8c68e132ba74dc5c@AcuMS.aculab.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/16/21 12:54, Michal Koutný wrote:
-> On Mon, Nov 15, 2021 at 04:10:29PM -0500, Waiman Long <longman@redhat.com> wrote:
->>> On Mon, Oct 18, 2021 at 10:36:18AM -0400, Waiman Long <longman@redhat.com> wrote:
->>>> +	scheduler.  Tasks in such a partition must be explicitly bound
->>>> +	to each individual CPU.
->>>> [...]
->>>>
->>>> It can be a problem when one is trying to move from one cgroup to another
->>>> cgroup with non-overlapping cpus laterally. However, if a task is initially
->>>> from a parent cgroup with affinity mask that include cpus in the isolated
->>>> child cgroup, I believe it should be able to move to the isolated child
->>>> cgroup without problem. Otherwise, it is a bug that needs to be fixed.
-> app_root	cpuset.cpus=0-3
-> `- non_rt	cpuset.cpus=0-1	cpuset.cpus.partition=member
-> `- rt		cpuset.cpus=2-3	cpuset.cpus.partition=isolated
->
-> The app_root would have cpuset.cpus.effective=0-1 so even the task in
-> app_root can't sched_setaffinity() to cpus 2-3.
-> But AFAICS, the migration calls set_cpus_allowed_ptr() anyway, so the
-> task in the isolated partition needn't to bind explicitly with
-> sched_setaffinity(). (It'd have two cpus available, so one more
-> sched_setaffinity() or migration into a single-cpu list is desirable.)
->
-> All in all, I think the behavior is OK and the explicit binding of tasks
-> in an isolated cpuset is optional (not a must as worded currently).
->
->
->> I think the wording may be confusing. What I meant is none of the requested
->> cpu can be granted. So if there is at least one granted, the effective cpus
->> won't be empty.
-> Ack.
->
->> You currently cannot make change to cpuset.cpus that violates the cpu
->> exclusivity rule. The above constraints will not disallow you to make the
->> change. They just affect the validity of the partition root.
-> Sibling exclusivity should be a validity condition regardless of whether
-> transition is allowed or not. (At least it looks simpler to me.)
->
->
->>>> +        Changing a partition root to "member" is always allowed.
->>>> +        If there are child partition roots underneath it, however,
->>>> +        they will be forced to be switched back to "member" too and
->>>> +        lose their partitions. So care must be taken to double check
->>>> +        for this condition before disabling a partition root.
->>> (Or is this how delegation is intended?) However, AFAICS, parent still
->>> can't remove cpuset.cpus even when the child is a "member". Otherwise,
->>> I agree with the back-switch.
->> There are only 2 possibilities here. Either we force the child partitions to
->> be become members or invalid partition root.
-> My point here was mostly about preempting the cpus (as a v2 specific
-> feature). (I'm rather indifferent whether children turn into invalid
-> roots or members.)
+On 11/30/21 16:21, David Laight wrote:
+> From: Vlastimil Babka
+>> Sent: 30 November 2021 14:56
+>> 
+>> On 11/23/21 11:18, David Laight wrote:
+>> > From: Vlastimil Babka
+>> >
+>> > Or just a single byte that is the index of the associated free list structure.
+>> > For 32bit and for the smaller kmalloc() area it may be reasonable to have
+>> > a separate array indexed by the page of the address.
+>> >
+>> >> > So I guess placement at the beginning cannot be avoided. That in turn runs
+>> >> > into trouble with the DMA requirements on some platforms where the
+>> >> > beginning of the object has to be cache line aligned.
+>> >>
+>> >> It's no problem to have the real beginning of the object aligned, and the
+>> >> prepended header not.
+>> >
+>> > I'm not sure that helps.
+>> > The header can't share a cache line with the previous item (because it
+>> > might be mapped for DMA) so will always take a full cache line.
+>> 
+>> So if this is true, then I think we already have a problem with SLOB today
+>> (and AFAICS it's not even due to changes done by my 2019 commit 59bb47985c1d
+>> ("mm, sl[aou]b: guarantee natural alignment for kmalloc(power-of-two)" but
+>> older).
+>> 
+>> Let's say we are on arm64 where (AFAICS):
+>> ARCH_KMALLOC_MINALIGN = ARCH_DMA_MINALIGN = 128
+>> ARCH_SLAB_MINALIGN = 64
+> 
+> Is that valid?
+> Isn't SLAB being used to implement kmalloc() so the architecture
+> defined alignment must apply?
 
-Below is my latest iterations of the cpuset.cpus.partition 
-documentation. If there is no objection or other suggestion for 
-improvement, I am going to send out another iteration of the patch 
-series with the updated documentation.
+SLAB is used to implement kmalloc() yes, but that's an implementation
+detail. I assume that we provide these DMA guarantees to all kmalloc() users
+as we don't know which will use it for DMA and which not, but if somebody
+creates their specific SLAB cache, they have to decide explicitly if they
+are going to use DMA with those objects, and request such alignment if yes.
+If not, we can use smaller alignment that's only required by e.g. the CPU.
 
-Cheers,
-Longman
+>> The point is that ARCH_SLAB_MINALIGN is smaller than ARCH_DMA_MINALIGN.
+>> 
+>> Let's say we call kmalloc(64) and get a completely fresh page.
+>> In SLOB, alloc() or rather __do_kmalloc_node() will calculate minalign to
+>> max(ARCH_KMALLOC_MINALIGN, ARCH_SLAB_MINALIGN) thus 128.
+>> It will call slob_alloc() for size of size+minalign=64+128=192, align and
+>> align_offset = 128
+>> Thus the allocation will use 128 bytes for the header, 64 for the object.
+>> Both the header and object aligned to 128 bytes.
+>> But the remaining 64 bytes of the second 128 bytes will remain free, as the
+>> allocated size is 192 bytes:
+>> 
+>> | 128B header, aligned | 64B object | 64B free | rest also free |
+> 
+> That is horribly wasteful on memory :-)
 
---------------------------------------------------------------
+Yes. I don't know how this historically came to be for SLOB, which was
+supposed to minimize memory usage (at the expense of cpu efficiency). But
+the point raised in this thread that if we extend this to all
+kmem_cache_alloc() allocations to make them possible to free with kfree(),
+we'll make it a lot worse :/
 
-   cpuset.cpus.partition
-     A read-write single value file which exists on non-root
-     cpuset-enabled cgroups.  This flag is owned by the parent cgroup
-     and is not delegatable.
+>> If there's another kmalloc allocation, the 128 bytes aligment due to
+>> ARCH_KMALLOC_MINALIGN will avoid it from using these 64 bytes, so that's
+>> fine. But if there's a kmem_cache_alloc() from a cache serving <=64B
+>> objects, it will be aligned to ARCH_SLAB_MINALIGN and happily use those 64
+>> bytes that share the 128 block where the previous kmalloc allocation lies.
+> 
+> If the memory returned by kmem_cache_alloc() can be used for DMA then
+> ARCH_DMA_MINALIGN has to apply to the returned buffers.
+> So, maybe, that cache can't exist?
 
-     It accepts only the following input values when written to.
+See above, I assume that cache cannot be used for DMA. But if we are trying
+to protect the kmalloc(64) DMA guarantees, then that shouldn't depend on the
+guarantees of the second, unrelated allocation?
 
-       ========    ================================
-       "member"    Non-root member of a partition
-       "root"    Partition root
-       "isolated"    Partition root without load balancing
-       ========    ================================
+> I'd expect that ARCH_DMA_MINALIGN forces allocations to be a multiple
+> of that size.
 
-     The root cgroup is always a partition root and its state
-     cannot be changed.  All other non-root cgroups start out as
-     "member".
+Doesn't seem so. That would indeed fix the problem, assuming it really is a
+problem (yet seems nobody reported it occuring in practice).
 
-     When set to "root", the current cgroup is the root of a new
-     partition or scheduling domain that comprises itself and
-     all its descendants except those that are separate partition
-     roots themselves and their descendants.
+> More particularly the rest of the area can't be allocated to anything else.
+> So it ought to be valid to return the 2nd half of a 128 byte cache line
+> provided the first half isn't written while the allocation is active.
 
-     The value shown in "cpuset.cpus.effective" of a partition root is
-     the CPUs that the parent partition root can dedicate to the new
-     partition root.  They are subtracted from "cpuset.cpus.effective"
-     of the parent and may be different from "cpuset.cpus"
+As the allocator cannot know when the first half will be used for DMA by
+whoever allocated it, we can only assume it can happen at any time, and not
+return the 2nd half, ever?
 
-     When set to "isolated", the CPUs in that partition root will
-     be in an isolated state without any load balancing from the
-     scheduler.  Tasks placed in such a partition with multiple
-     CPUs should be carefully distributed and bound to each of the
-     individual CPUs for optimal performance.
+> But that ARCH_KMALLOC_MINALIGN only applies to 'large' items?
+> Small items only need aligning to the power of 2 below their size.
+> So 8 bytes items only need 8 byte alignment even though a larger
+> item might need (say) 64 byte alignment.
 
-     A partition root ("root" or "isolated") can be in one of the
-     two possible states - valid or invalid.  An invalid partition
-     root is in a degraded state where some state information are
-     retained, but behaves more like a "member".
+But if we never defined such threshold (that would probably have to be arch
+independent) then we can't start making such assumptions today, as we don't
+know which kmalloc() users do expect DMA and which not? It would have to be
+a flag or something. And yeah there is already a __GFP_DMA flag, but it
+means something a bit different...
 
-     On read, the "cpuset.cpus.partition" file can show the following
-     values.
-
-       ======================    ==============================
-       "member"            Non-root member of a partition
-       "root"            Partition root
-       "isolated"            Partition root without load balancing
-       "root invalid (<reason>)"    Invalid partition root
-       ======================    ==============================
-
-     In the case of an invalid partition root, a descriptive string on
-     why the partition is invalid is included within parentheses.
-
-     Almost all possible state transitions among "member", valid
-     and invalid partition roots are allowed except from "member"
-     to invalid partition root.
-
-     Before the "member" to partition root transition can happen,
-     the following conditions must be met or the transition will
-     not be allowed.
-
-     1) The "cpuset.cpus" is non-empty and exclusive, i.e. they are
-        not shared by any of its siblings.
-     2) The parent cgroup is a valid partition root.
-     3) The "cpuset.cpus" is a subset of parent's "cpuset.cpus".
-     4) There is no child cgroups with cpuset enabled.  This avoids
-        cpu migrations of multiple cgroups simultaneously which can
-        be problematic.
-
-     Once becoming a partition root, the following two rules restrict
-     what changes can be made to "cpuset.cpus".
-
-     1) The value must be exclusive.
-     2) If child cpusets exist, the value must be a superset of what
-        are defined in the child cpusets.
-
-     The second rule applies even for "member". Other changes to
-     "cpuset.cpus" that do not violate the above rules are always
-     allowed.
-
-     External events like hotplug or inappropriate changes to
-     "cpuset.cpus" can cause a valid partition root to become invalid.
-     Besides the constraints on changing "cpuset.cpus" listed above,
-     the other conditions required to maintain the validity of a
-     partition root are as follows:
-
-     1) The parent cgroup is a valid partition root.
-     2) If "cpuset.cpus.effective" is empty, the partition must have
-        no task associated with it. Otherwise, the partition becomes
-        invalid and "cpuset.cpus.effective" will fall back to that
-        of the nearest non-empty ancestor.
-
-     A corollary of a valid partition root is that
-     "cpuset.cpu.effective" is always a subset of "cpuset.cpus".
-     Note that a task cannot be moved to a cgroup with empty
-     "cpuset.cpus.effective".
-
-     Changing a partition root (valid or invalid) to "member" is
-     always allowed.  If there are child partition roots underneath
-     it, however, they will be forced to be switched back to "member"
-     too and lose their partitions. So care must be taken to double
-     check for this condition before disabling a partition root.
-
-     A valid parent partition may distribute out all its CPUs to
-     its child partitions as long as it is not the root cgroup and
-     there is no task associated with it.
-
-     An invalid partition root can be reverted back to a valid one
-     if none of the validity constraints of a valid partition root
-     are violated.
-
-     Poll and inotify events are triggered whenever the state of
-     "cpuset.cpus.partition" changes.  That includes changes caused by
-     write to "cpuset.cpus.partition", cpu hotplug and other changes
-     that make the partition invalid.  This will allow user space
-     agents to monitor unexpected changes to "cpuset.cpus.partition"
-     without the need to do continuous polling.
-
+> 
+> 	David
+> 
+> -
+> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+> Registration No: 1397386 (Wales)
+> 
 
