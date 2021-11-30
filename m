@@ -2,197 +2,271 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC42DC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 15:39:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C971DC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 15:46:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238807AbhK3Pmu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Nov 2021 10:42:50 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29]:57564 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234909AbhK3Pmt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Nov 2021 10:42:49 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 7419A1FD58;
-        Tue, 30 Nov 2021 15:39:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1638286769; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=khmf46apnivc3rCeZIcafDkb2T/c/9M5GdnPaCE3bn8=;
-        b=NfREQeTLTbuZnKajctFLJiZDGy1q930Z0dbkjKXRLJd2IuU2XnXKlr7FKAPCSKS074SSP0
-        /AaW3s5EOOT6UgNXc2eTOD+yQp7h8hBKdtBO3WrCO0at1sppLKa1a6k41gmridS24w4v3y
-        Pt1BI1RJ8becE6ZS32RzvDDPx60p/3Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1638286769;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=khmf46apnivc3rCeZIcafDkb2T/c/9M5GdnPaCE3bn8=;
-        b=f+8zvaHsFv6F6UQ6tZGcRyIOSueiHJ4BNz4UWIKEjK80IQIAD08pUcuKXHl7r+Ek9SAUhY
-        UmfRDNJh2h0m/EBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3658E13D5A;
-        Tue, 30 Nov 2021 15:39:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id QFKBDLFFpmHWWwAAMHmgww
-        (envelope-from <vbabka@suse.cz>); Tue, 30 Nov 2021 15:39:29 +0000
-Message-ID: <b01c9f31-4336-dfe7-9042-41339ea9cc0d@suse.cz>
-Date:   Tue, 30 Nov 2021 16:39:28 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
+        id S237750AbhK3Ptj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Nov 2021 10:49:39 -0500
+Received: from mail-dm6nam11on2088.outbound.protection.outlook.com ([40.107.223.88]:27489
+        "EHLO NAM11-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230354AbhK3Pti (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 30 Nov 2021 10:49:38 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=l4v0m6/eweViJSfdhjDWldjObcfj3m2pV2oaPUyTQ2gGKfiQIO9vw10xrer9yn2am+1C7MEi+xldeWpMwMdM3s60UdKmPlg6r+9kD5SziSbJgnTndRUJzBXkSwZ0Bmksso6IDLD+YSHARcbAOjLnZ1JeEp7nLeulIDEPr558jiAERXf75VSiAsmYOiuuDJtj0l9HkFA7PGSZjxxLLrB7yjAT9ImcLCHlTVhXFGKuDgEGqQf7OMngRJ0TLUOhq9EyIthlWh4txlKcCfOygfiEp7Mud+wtI5jw2ob+kO0qlr0GcofKhtZwwdjyR25oB6NjLyM/Kg3CB7x5mFy08iUYxQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uz6pgVAmIhcvHu5ClBjonVP5/5yGC6FMgCQPDa2t4OI=;
+ b=UGqlxC6w1Lwm93MJ6Gsb7j+7S/Zs748G4oG+/n15ESGlDDoVmSGTXmBTPXv13cCO/QsaF+r9s6uVQ7mtT88rLPzalGPCzVpO6v97wINWNB2s2vdDOVe95aiZ152ApwfbtBH/a++MruI9kFxbl2QQCI8Lyh4NoLhPBJGUC65udeQTVuoNaXI7sFzvTNvZTcP3EhaQxNe6hUKtyf6FGsXK3jgENWGZnTqkfdGT0quq+H9Yj2uXoK01WFGupIfHHtOkjtVcOB07M3VfEj5KPevDA0WjLfsyjm9rTuWz3q+GYEymjrt0VEiH3f01fUggPRKDRLPo3yHXk5w08vbMQ6wkQg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uz6pgVAmIhcvHu5ClBjonVP5/5yGC6FMgCQPDa2t4OI=;
+ b=ylyG3cpmOJcKrfwKEQ0//UMOr94DjApl+vyTidgzvBdT/Q15YrAdpKKjRCHC++EOX6FDXC9iif9+h0iycceCgZ+m+KbnNZZ4hkL8v64OGXk4BYOX64zbxqlqcH/wskAH0ywzNsFwmlrw6jsjUMif36RLaHRdSegCQ4Ez9WgyxkA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB2896.namprd12.prod.outlook.com (2603:10b6:208:ab::22)
+ by MN2PR12MB3280.namprd12.prod.outlook.com (2603:10b6:208:ad::29) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.23; Tue, 30 Nov
+ 2021 15:46:16 +0000
+Received: from MN2PR12MB2896.namprd12.prod.outlook.com
+ ([fe80::44f7:66fe:4419:d8d3]) by MN2PR12MB2896.namprd12.prod.outlook.com
+ ([fe80::44f7:66fe:4419:d8d3%6]) with mapi id 15.20.4734.024; Tue, 30 Nov 2021
+ 15:46:16 +0000
+Subject: Re: [PATCH 1/6] Documentation/gpu: Reorganize DC documentation
+To:     Jani Nikula <jani.nikula@linux.intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc:     linux-doc@vger.kernel.org, Mark Yacoub <markyacoub@chromium.org>,
+        =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+        roman.li@amd.com, amd-gfx@lists.freedesktop.org,
+        =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>,
+        aurabindo.pillai@amd.com, nicholas.choi@amd.com,
+        dri-devel@lists.freedesktop.org,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Sean Paul <seanpaul@chromium.org>, qingqing.zhuo@amd.com,
+        Roman Gilg <subdiff@gmail.com>, bhawanpreet.lakha@amd.com,
+        Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+References: <20211125153830.1352994-1-Rodrigo.Siqueira@amd.com>
+ <20211125153830.1352994-2-Rodrigo.Siqueira@amd.com>
+ <YaEAVV3Ka2lG/iOh@phenom.ffwll.local> <87k0grjhed.fsf@intel.com>
+From:   Rodrigo Siqueira Jordao <rjordrigo@amd.com>
+Message-ID: <254992f1-9f40-b756-b324-8f45726ef823@amd.com>
+Date:   Tue, 30 Nov 2021 10:46:14 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+In-Reply-To: <87k0grjhed.fsf@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To:     David Laight <David.Laight@ACULAB.COM>,
-        Christoph Lameter <cl@gentwo.org>
-Cc:     Rustam Kovhaev <rkovhaev@gmail.com>,
-        "penberg@kernel.org" <penberg@kernel.org>,
-        "rientjes@google.com" <rientjes@google.com>,
-        "iamjoonsoo.kim@lge.com" <iamjoonsoo.kim@lge.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "djwong@kernel.org" <djwong@kernel.org>,
-        "david@fromorbit.com" <david@fromorbit.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "dvyukov@google.com" <dvyukov@google.com>
-References: <037227db-c869-7d9c-65e8-8f5f8682171d@suse.cz>
- <20211122013026.909933-1-rkovhaev@gmail.com>
- <alpine.DEB.2.22.394.2111221018070.202803@gentwo.de>
- <3c996e22-034f-1013-3978-1f786aae38fb@suse.cz>
- <alpine.DEB.2.22.394.2111221133110.204314@gentwo.de>
- <148d2774-77b9-bb25-c132-80b00e16ea06@suse.cz>
- <69fc0cead9774dfdba816a8e25f30a53@AcuMS.aculab.com>
- <d0927ca6-1710-5b2b-3682-6a80eb4e48d1@suse.cz>
- <e79cd6da011a412f8c68e132ba74dc5c@AcuMS.aculab.com>
-From:   Vlastimil Babka <vbabka@suse.cz>
-Subject: Re: [PATCH v4] slob: add size header to all allocations
-In-Reply-To: <e79cd6da011a412f8c68e132ba74dc5c@AcuMS.aculab.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MN2PR05CA0009.namprd05.prod.outlook.com
+ (2603:10b6:208:c0::22) To MN2PR12MB2896.namprd12.prod.outlook.com
+ (2603:10b6:208:ab::22)
+MIME-Version: 1.0
+Received: from [IPv6:2607:fea8:56e0:6d60:d1f5:d5c:27fc:61c] (2607:fea8:56e0:6d60:d1f5:d5c:27fc:61c) by MN2PR05CA0009.namprd05.prod.outlook.com (2603:10b6:208:c0::22) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.11 via Frontend Transport; Tue, 30 Nov 2021 15:46:15 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 54874929-c34e-459b-140d-08d9b4188b7f
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3280:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB328061E8C9857A09F5CCD22F98679@MN2PR12MB3280.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: sPYnQOuoHPBiy75L49avh2RzJd3u17d/P0k1Aq/O7UEwqd2rG+UVS8hQFaYJtYNn8pq/jyCsMqRjNes8jJL6d2kKJfsfkEpr5RXrtzl1FrCEYvbm6ScGEDATM+JB5M7XkWUYgrDfytnbBP7qy4lTaf6B+oAGpxs540IOpD7Sd0ymZ6DhOCu42ablTvLU1fYYDlXiMvq4gJmVqSjafucvwRQdgumkjaYMTtsc5dH8lqiZxyZF/hbXBQs6pBjs5PLqEMUCIXu+ZTCTnGVxmzwIQboNg7vCOyNjsZ12CE259l/5D1Bh21KzjmO6iXlXMpikCztzPNildM2mbGxim+w7gqNFCA1i0/TZmuie0X0g5vCKuWFq9iABDm6rB+8m7iZYycGEwuP5+7CJJgk3+VNsIIppJCxMOelAOLdmXczII/WFWx36wXJ//S4jykcC8BFwyLVXt6eH1uWIglCZ99FYT1nLOW3DMljrD5TMrCGN3jO4EGUgweMjoJ3G4iw32AjeTE952X3wp9aqbcD+oJT0LICcdP5ovk2UmV/GPHQr1CBWbYRRJH1a8RhIH7DskgZ6DxbwWbywGbbfzxUipGyjZXTQtuihOYYvYFZoJcBajNGZXxvsOQwBiJRcKZSE3dwtrCKiYYimLnBgiYT3W6JtDZYaLZvUAy0H5I36zwvOuwT2j9c6FXW9i9Qb1QOxVUgDMWoZMFowIUKU8M4w4sMnJc0e/igNar3k+6J12RA+f2xxEtO6k7h193rZZyG6h/yG
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB2896.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(8676002)(186003)(83380400001)(31696002)(8936002)(66556008)(53546011)(38100700002)(5660300002)(66476007)(66946007)(2616005)(316002)(4001150100001)(2906002)(36756003)(31686004)(4326008)(508600001)(6636002)(54906003)(110136005)(6486002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bDdtU01aWS9tWnJJQWFHVHloeThKemJHNklGcU83YStZTCtjV1ViU0x6UjFa?=
+ =?utf-8?B?aTg3a09YR3dNeW9EUWRzVy95SmdSWncvV3Z6cUp5VVo5aUNSa2VRSDFhcWM4?=
+ =?utf-8?B?TGZmTVNRSlhjdWJTSHhkc1RkbDEvbFR3cXJJT1lUaHVmaGZ5Mk1PTHVSdHM5?=
+ =?utf-8?B?VEw0ZUk4Ly9uSWJvMUNvdXdrMSs5dXZyZnQweGJHdUNobmJxSzg5S0lWY2ow?=
+ =?utf-8?B?SFlxUXEzK3dvaGw0VVVjSVZrVkhVdWIrNkI1emgvMnVOV1RPeWRmVGRoTkJm?=
+ =?utf-8?B?ZllaN0NVMXFoT2R0dklIMHd1N0NaQTFuTEdXeXFoaDM2ek9WdCtJYlE1NHAy?=
+ =?utf-8?B?MjN3NVlZQ2YzSWRCK0hPbVlQbHVBYjdYWTNBaUNhMTViYUloS2haTUROWjdU?=
+ =?utf-8?B?dWlqRG5xR3JGMVRCdERWL3RWUnhMODBMT0l0OFIyUVJuaWkvT0ZzekhBdXlv?=
+ =?utf-8?B?RkR5eldtTVp4ckZJSnMxbXVnOHJFc3A3WmZlTGlBR3BaK2pyK01TUUl0dUhR?=
+ =?utf-8?B?RlJXKy91WjR3UEUzSjEzcDRFcXl1emJkc1drZE5vc2NIMmk5cUhlYnNBU0pC?=
+ =?utf-8?B?TTRDZUlPcWxZR0hRaDYzQ3hKY1ZwWE5QUTExM2Jtc3lubTBlSVBSZDdpMURj?=
+ =?utf-8?B?ZitWVWwrREZyK0w4cDdvbzNFd2hYMnlCcjF2WW9UbGNubUk4ZWlHRDY4QWpz?=
+ =?utf-8?B?d2hqam5KS08wSHFaQlFjOHU5R0ZzM2JDM1R3aWNXbFBVRTJIY05hV3NrQ3pk?=
+ =?utf-8?B?UnloQ3pTMlZhQkMxUkIwR1dxYmxYTGVTNHUySXgyVHUybmFaV3pnOHNidlFs?=
+ =?utf-8?B?blFJN2VBeGZsenZYajdsajU5YWp4YkZwRjdrYlY4T1grRWprckQyVDhiWndw?=
+ =?utf-8?B?MVpIM01OWFRpdWUrMTNCLzAxeTYybWdVNTUvNnVOZHl1ZTYrL3EwVnFLTGpK?=
+ =?utf-8?B?VWRmTXhTdy9IY3NyK2h3N0JHemVXM0x5NlI3TXRUTlhxUU5vQzQ1Y21mUklZ?=
+ =?utf-8?B?dVM0R2d6ZU5Mc3pON0xneDJmc2Q1UTZ3N0NPRG1PU2VjT0d4dEFwNS9LUTVz?=
+ =?utf-8?B?MURyN1VlSUlQOWtUNG15bjNpWjRwS1pPN2lmVTg2SFRHQzFnSFZ3U2hGMnQw?=
+ =?utf-8?B?VDR4WUg4VUF5Q0g5b0xBckJBaUFmcnRjc2lFcmgvU3NPdTlyM3ZTUEM4QXhj?=
+ =?utf-8?B?cFp0MXlzNWtVcWkvOHlRWWxvam94ZjNoamMvalRySWxUWlB0S3B4UzVrMlkr?=
+ =?utf-8?B?S2hCT09mcm9Bck5PbUl2OGwzcjZCcU1yVXdBSDFyTkIzLy8xSjJVaWpXN25y?=
+ =?utf-8?B?NExteXZwZm0yL014SjlVbXIvVnR3RHdxVmNrL21EcDNZRjBKc1N6QjYzeHFO?=
+ =?utf-8?B?aVlkVHRvS0JYdDNFdjVBNnVWeVAzNi9WWVJadEtxZWsyTGZCR09UdnNVMVpU?=
+ =?utf-8?B?ZjdlaDRLRTdicVFMWjVKZVBEekhTSzJHZzh2cklFOTZPSDcydGh4TllYVTJP?=
+ =?utf-8?B?M0NibktXSmtZVzRWNjZ1OGZaUDZuWWg4UnYwUVlrVEtTTEw4WDRVeFVDb1No?=
+ =?utf-8?B?UDdNbm11ekQ5VysyMjBpdXphNXhjN3YwVCtWUU9RQkg3L3I1UU5hTkpZbi9a?=
+ =?utf-8?B?RUt6eXdFVzJzUlRjZndyT29kcDR3Zk1taTFOU3NlN21aMFVBTWVHOGpxa1dG?=
+ =?utf-8?B?KzFLbVhNbi85cTkwUmVKelQraFA1dGk0ZzZRRVc1aXNPWkY0c3pWVkwxSjU2?=
+ =?utf-8?B?bHU1VDIxRnlYaFBZK0ZSd0JxN2Jka21IcU4rZk9yVDFKQWFQcG5oS2l0U2sx?=
+ =?utf-8?B?aUtZUFUwQ1FORk92a2RGaDFUV01hR1A3MVZ2aUM4eXV0RWNZV0NBUTJZbVV4?=
+ =?utf-8?B?K2hhUEtVQ2hta1F4NkVTcGhSR2VwZk5kenRtNEw0NTBreVZYRElMQmVwTGE1?=
+ =?utf-8?B?c2hSQ0lMcVdQalRwY05mUWtLNUpvbVV4ZkZ5d3E3TGxIVzZ1RlRYVGo5YlAr?=
+ =?utf-8?B?RFQyMHp2QlVsTERIb2Q1aGd6WEMzdU44NzJGMkJXMUJrMWw0K1k0Zk4vRDFX?=
+ =?utf-8?B?ZjZOd09QWjA0bklTRU83QTdBand4WUI2dzlXRXlSa2dTQVdrSnVQa0M1SDAy?=
+ =?utf-8?B?VHZHN2FSTFAvWmNmZ21ib0ZSWmZ4S1kzbzZyWHJjczl6bHR2MEgvUU5ENzNZ?=
+ =?utf-8?B?R25acmFXM2RwQ0ZaTElKVzVGaDdiL1kycHo5VUlEMGEzUVZOdlE5TmNtZ05Q?=
+ =?utf-8?Q?IRf+nY5vulxSs9tL2OQ52rdFkg6cgemVj+wLTcikjg=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 54874929-c34e-459b-140d-08d9b4188b7f
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB2896.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2021 15:46:16.4000
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XbAEgDXJpGvgsmVcU3MP2lzKeFkFKV1EFyLvEi5i3jaShwBrTcRgX8G36Wfc+YXD7LxLCTr7lh+lCxN44MJmhw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3280
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/30/21 16:21, David Laight wrote:
-> From: Vlastimil Babka
->> Sent: 30 November 2021 14:56
->> 
->> On 11/23/21 11:18, David Laight wrote:
->> > From: Vlastimil Babka
->> >
->> > Or just a single byte that is the index of the associated free list structure.
->> > For 32bit and for the smaller kmalloc() area it may be reasonable to have
->> > a separate array indexed by the page of the address.
->> >
->> >> > So I guess placement at the beginning cannot be avoided. That in turn runs
->> >> > into trouble with the DMA requirements on some platforms where the
->> >> > beginning of the object has to be cache line aligned.
->> >>
->> >> It's no problem to have the real beginning of the object aligned, and the
->> >> prepended header not.
->> >
->> > I'm not sure that helps.
->> > The header can't share a cache line with the previous item (because it
->> > might be mapped for DMA) so will always take a full cache line.
->> 
->> So if this is true, then I think we already have a problem with SLOB today
->> (and AFAICS it's not even due to changes done by my 2019 commit 59bb47985c1d
->> ("mm, sl[aou]b: guarantee natural alignment for kmalloc(power-of-two)" but
->> older).
->> 
->> Let's say we are on arm64 where (AFAICS):
->> ARCH_KMALLOC_MINALIGN = ARCH_DMA_MINALIGN = 128
->> ARCH_SLAB_MINALIGN = 64
+
+
+On 2021-11-29 7:06 a.m., Jani Nikula wrote:
+> On Fri, 26 Nov 2021, Daniel Vetter <daniel@ffwll.ch> wrote:
+>> On Thu, Nov 25, 2021 at 10:38:25AM -0500, Rodrigo Siqueira wrote:
+>>> Display core documentation is not well organized, and it is hard to find
+>>> information due to the lack of sections. This commit reorganizes the
+>>> documentation layout, and it is preparation work for future changes.
+>>>
+>>> Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+>>> ---
+>>>   Documentation/gpu/amdgpu-dc.rst               | 74 -------------------
+>>>   .../gpu/amdgpu-dc/amdgpu-dc-debug.rst         |  4 +
+>>>   Documentation/gpu/amdgpu-dc/amdgpu-dc.rst     | 29 ++++++++
+>>>   Documentation/gpu/amdgpu-dc/amdgpu-dm.rst     | 42 +++++++++++
+>>>   Documentation/gpu/drivers.rst                 |  2 +-
+>>>   5 files changed, 76 insertions(+), 75 deletions(-)
+>>>   delete mode 100644 Documentation/gpu/amdgpu-dc.rst
+>>>   create mode 100644 Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst
+>>>   create mode 100644 Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
+>>>   create mode 100644 Documentation/gpu/amdgpu-dc/amdgpu-dm.rst
+>>>
+>>> diff --git a/Documentation/gpu/amdgpu-dc.rst b/Documentation/gpu/amdgpu-dc.rst
+>>> deleted file mode 100644
+>>> index f7ff7e1309de..000000000000
+>>> --- a/Documentation/gpu/amdgpu-dc.rst
+>>> +++ /dev/null
+>>> @@ -1,74 +0,0 @@
+>>> -===================================
+>>> -drm/amd/display - Display Core (DC)
+>>> -===================================
+>>> -
+>>> -*placeholder - general description of supported platforms, what dc is, etc.*
+>>> -
+>>> -Because it is partially shared with other operating systems, the Display Core
+>>> -Driver is divided in two pieces.
+>>> -
+>>> -1. **Display Core (DC)** contains the OS-agnostic components. Things like
+>>> -   hardware programming and resource management are handled here.
+>>> -2. **Display Manager (DM)** contains the OS-dependent components. Hooks to the
+>>> -   amdgpu base driver and DRM are implemented here.
+>>> -
+>>> -It doesn't help that the entire package is frequently referred to as DC. But
+>>> -with the context in mind, it should be clear.
+>>> -
+>>> -When CONFIG_DRM_AMD_DC is enabled, DC will be initialized by default for
+>>> -supported ASICs. To force disable, set `amdgpu.dc=0` on kernel command line.
+>>> -Likewise, to force enable on unsupported ASICs, set `amdgpu.dc=1`.
+>>> -
+>>> -To determine if DC is loaded, search dmesg for the following entry:
+>>> -
+>>> -``Display Core initialized with <version number here>``
+>>> -
+>>> -AMDgpu Display Manager
+>>> -======================
+>>> -
+>>> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>>> -   :doc: overview
+>>> -
+>>> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+>>> -   :internal:
+>>> -
+>>> -Lifecycle
+>>> ----------
+>>> -
+>>> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>>> -   :doc: DM Lifecycle
+>>> -
+>>> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>>> -   :functions: dm_hw_init dm_hw_fini
+>>> -
+>>> -Interrupts
+>>> -----------
+>>> -
+>>> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
+>>> -   :doc: overview
+>>> -
+>>> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
+>>> -   :internal:
+>>> -
+>>> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>>> -   :functions: register_hpd_handlers dm_crtc_high_irq dm_pflip_high_irq
+>>> -
+>>> -Atomic Implementation
+>>> ----------------------
+>>> -
+>>> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>>> -   :doc: atomic
+>>> -
+>>> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>>> -   :functions: amdgpu_dm_atomic_check amdgpu_dm_atomic_commit_tail
+>>> -
+>>> -Display Core
+>>> -============
+>>> -
+>>> -**WIP**
+>>> -
+>>> -FreeSync Video
+>>> ---------------
+>>> -
+>>> -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>>> -   :doc: FreeSync Video
+>>> diff --git a/Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst b/Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst
+>>> new file mode 100644
+>>> index 000000000000..bbb8c3fc8eee
+>>> --- /dev/null
+>>> +++ b/Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst
+>>> @@ -0,0 +1,4 @@
+>>> +Display Core Debug tools
+>>> +========================
+>>> +
+>>> +TODO
+>>> diff --git a/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst b/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
+>>> new file mode 100644
+>>> index 000000000000..3685b3b1ad64
+>>> --- /dev/null
+>>> +++ b/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
+>>
+>> While we bikeshed names, I think it'd would make sense to call this
+>> overview.rst or intro.rst or similar, since it's meant to contain the
+>> overall toctree for everything amdgpu related (maybe there will be more in
+>> the future).
 > 
-> Is that valid?
-> Isn't SLAB being used to implement kmalloc() so the architecture
-> defined alignment must apply?
-
-SLAB is used to implement kmalloc() yes, but that's an implementation
-detail. I assume that we provide these DMA guarantees to all kmalloc() users
-as we don't know which will use it for DMA and which not, but if somebody
-creates their specific SLAB cache, they have to decide explicitly if they
-are going to use DMA with those objects, and request such alignment if yes.
-If not, we can use smaller alignment that's only required by e.g. the CPU.
-
->> The point is that ARCH_SLAB_MINALIGN is smaller than ARCH_DMA_MINALIGN.
->> 
->> Let's say we call kmalloc(64) and get a completely fresh page.
->> In SLOB, alloc() or rather __do_kmalloc_node() will calculate minalign to
->> max(ARCH_KMALLOC_MINALIGN, ARCH_SLAB_MINALIGN) thus 128.
->> It will call slob_alloc() for size of size+minalign=64+128=192, align and
->> align_offset = 128
->> Thus the allocation will use 128 bytes for the header, 64 for the object.
->> Both the header and object aligned to 128 bytes.
->> But the remaining 64 bytes of the second 128 bytes will remain free, as the
->> allocated size is 192 bytes:
->> 
->> | 128B header, aligned | 64B object | 64B free | rest also free |
+> index.rst?
 > 
-> That is horribly wasteful on memory :-)
-
-Yes. I don't know how this historically came to be for SLOB, which was
-supposed to minimize memory usage (at the expense of cpu efficiency). But
-the point raised in this thread that if we extend this to all
-kmem_cache_alloc() allocations to make them possible to free with kfree(),
-we'll make it a lot worse :/
-
->> If there's another kmalloc allocation, the 128 bytes aligment due to
->> ARCH_KMALLOC_MINALIGN will avoid it from using these 64 bytes, so that's
->> fine. But if there's a kmem_cache_alloc() from a cache serving <=64B
->> objects, it will be aligned to ARCH_SLAB_MINALIGN and happily use those 64
->> bytes that share the 128 block where the previous kmalloc allocation lies.
 > 
-> If the memory returned by kmem_cache_alloc() can be used for DMA then
-> ARCH_DMA_MINALIGN has to apply to the returned buffers.
-> So, maybe, that cache can't exist?
 
-See above, I assume that cache cannot be used for DMA. But if we are trying
-to protect the kmalloc(64) DMA guarantees, then that shouldn't depend on the
-guarantees of the second, unrelated allocation?
+Hi,
 
-> I'd expect that ARCH_DMA_MINALIGN forces allocations to be a multiple
-> of that size.
+Thanks a lot for the suggestions; I will prepare a V2 that addresses all 
+your comments.
 
-Doesn't seem so. That would indeed fix the problem, assuming it really is a
-problem (yet seems nobody reported it occuring in practice).
+Ps.: If there is no objection, I'll rename amdgpu-dc to index as Jani 
+suggested.
 
-> More particularly the rest of the area can't be allocated to anything else.
-> So it ought to be valid to return the 2nd half of a 128 byte cache line
-> provided the first half isn't written while the allocation is active.
-
-As the allocator cannot know when the first half will be used for DMA by
-whoever allocated it, we can only assume it can happen at any time, and not
-return the 2nd half, ever?
-
-> But that ARCH_KMALLOC_MINALIGN only applies to 'large' items?
-> Small items only need aligning to the power of 2 below their size.
-> So 8 bytes items only need 8 byte alignment even though a larger
-> item might need (say) 64 byte alignment.
-
-But if we never defined such threshold (that would probably have to be arch
-independent) then we can't start making such assumptions today, as we don't
-know which kmalloc() users do expect DMA and which not? It would have to be
-a flag or something. And yeah there is already a __GFP_DMA flag, but it
-means something a bit different...
-
-> 
-> 	David
-> 
-> -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-> Registration No: 1397386 (Wales)
-> 
+Thanks.
 
