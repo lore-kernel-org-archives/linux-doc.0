@@ -2,273 +2,168 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FAA3C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 02:12:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99474C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 02:36:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237364AbhK3CPk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Nov 2021 21:15:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31221 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237352AbhK3CPg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Nov 2021 21:15:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1638238337;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=sCeBnHcCdexUghBmGOQRsKTh1Dzh8Ni6xuNJuelYjvg=;
-        b=YNqMvG8DP6z3sVzFM7s1y/3zHsLIxfiZqPzUj9jBYoe2pD30iUfpyCKknRVnJct9YPhxW3
-        NLKe3MA8YZXowRy9XG5u/Hx7d1xxG4wwHcyTQiyKIh5Uq9aBo0FENh3jG3VFKBh5JkWLz/
-        ZjAUKHhsrfqVBoeWs1U2C4mEu1nmGis=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-367-EePJFDdvNJafoxJ8ehC3LA-1; Mon, 29 Nov 2021 21:12:14 -0500
-X-MC-Unique: EePJFDdvNJafoxJ8ehC3LA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BB891006AA1;
-        Tue, 30 Nov 2021 02:12:11 +0000 (UTC)
-Received: from localhost (ovpn-13-215.pek2.redhat.com [10.72.13.215])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id D4EE019D9F;
-        Tue, 30 Nov 2021 02:12:04 +0000 (UTC)
-Date:   Tue, 30 Nov 2021 10:12:01 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     Zhen Lei <thunder.leizhen@huawei.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        kexec@lists.infradead.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>
-Subject: Re: [PATCH v16 00/11] support reserving crashkernel above 4G on
- arm64 kdump
-Message-ID: <20211130021201.GM21646@MiWiFi-R3L-srv>
-References: <20211123124646.1995-1-thunder.leizhen@huawei.com>
+        id S237654AbhK3CkK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Nov 2021 21:40:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33598 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237668AbhK3CkJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Nov 2021 21:40:09 -0500
+Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com [IPv6:2607:f8b0:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11500C061746;
+        Mon, 29 Nov 2021 18:36:51 -0800 (PST)
+Received: by mail-ot1-x336.google.com with SMTP id v15-20020a9d604f000000b0056cdb373b82so28240748otj.7;
+        Mon, 29 Nov 2021 18:36:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=D5Qw61WmuAj/yZDhi/A0/VNyCBrtN87SU10VbO44er4=;
+        b=SLylTV1/Dr/0glxOCuNvB4fRMnD9BGxXeIIOHxWZK64w7G3XgItLJqZdpP+qSZmfSD
+         S5dkB6jiCPz+DppG6cti58VcdaW8vVdhxPFOVUcAetqVc0Hni3wi0MowxGUNY27+JOMG
+         owALRhUgLgmswLCPVu0sQYwGG4Qv540iZZ49Oj8UbQxyffuonqioQvCtE+2EjqR/qsfT
+         AQWD3Vj7qbOZa0z41HMkSvsdVPC4qqUYxOqcSi9QOK2Tiy0Y35+YcJY6IaneYO/RpcC4
+         jGrj5IOfY5tAaK/I+/FLlQw4m7pgFfSxGktcaPLugOvQM5YTMY5rEQa7bgjEKlfWbkut
+         4Rlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=D5Qw61WmuAj/yZDhi/A0/VNyCBrtN87SU10VbO44er4=;
+        b=lnJ0AYyKYeWXhj8do8VbtW15LO8FVqkYq8sNQMJzpb1BSBBVk0i7twl/782obUem+f
+         b+SlJXiWcHzA+90VGtlsr1tgQyYupbmazoDbzkyuoLKLe6u6z7PRiyLEvvGyVfvq2tan
+         4UR0scGJEgwx6VcRtGnFoBFFOsTnCEqXDZIYwSvOp6pg/sAMRRKxrA5vbdcjuuvW2JTh
+         T3K+CIs0MByk85EqegzMgqqRgyMRJiHlF2XFO9maR96FqgIzjb73I52AWMWjXD/0jBF3
+         SLfMEa1rg7734rpD8FOtl/fGEhdJaNKcGEq/TQeoNxv1mK3F/jrfDVGCq44suA+UWqq2
+         gB0g==
+X-Gm-Message-State: AOAM531BFL0j0GIoSCT97ujMzRSakNwM2QqGXHUyX3QBlGU5yO58ZyMr
+        3QLU9bhypyKOBodszDmLp80=
+X-Google-Smtp-Source: ABdhPJwAB8aer13liJpqkRyfHbeZSflBDN+Fnw2AzwkjsdSAtn1sPGJsHlQ3ZEokrCc1yFs+5fXVgA==
+X-Received: by 2002:a9d:6084:: with SMTP id m4mr35205706otj.324.1638239810501;
+        Mon, 29 Nov 2021 18:36:50 -0800 (PST)
+Received: from [172.16.0.2] ([8.48.134.30])
+        by smtp.googlemail.com with ESMTPSA id s9sm3056211otg.42.2021.11.29.18.36.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Nov 2021 18:36:49 -0800 (PST)
+Message-ID: <a4602b15-25b1-c388-73b4-1f97f6f0e555@gmail.com>
+Date:   Mon, 29 Nov 2021 19:36:46 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211123124646.1995-1-thunder.leizhen@huawei.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.3.1
+Subject: Re: [PATCH v2 net-next 01/26] rtnetlink: introduce generic XDP
+ statistics
+Content-Language: en-US
+To:     Alexander Lobakin <alexandr.lobakin@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+Cc:     Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
+        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shay Agroskin <shayagr@amazon.com>,
+        Arthur Kiyanovski <akiyano@amazon.com>,
+        David Arinzon <darinzon@amazon.com>,
+        Noam Dagan <ndagan@amazon.com>,
+        Saeed Bishara <saeedb@amazon.com>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Marcin Wojtas <mw@semihalf.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Saeed Mahameed <saeedm@nvidia.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        =?UTF-8?Q?Toke_H=c3=b8iland-J=c3=b8rgensen?= <toke@redhat.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        Edward Cree <ecree.xilinx@gmail.com>,
+        Martin Habets <habetsm.xilinx@gmail.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Lorenzo Bianconi <lorenzo@kernel.org>,
+        Yajun Deng <yajun.deng@linux.dev>,
+        Sergey Ryazanov <ryazanov.s.a@gmail.com>,
+        David Ahern <dsahern@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        Cong Wang <cong.wang@bytedance.com>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
+        virtualization@lists.linux-foundation.org
+References: <20211123163955.154512-1-alexandr.lobakin@intel.com>
+ <20211123163955.154512-2-alexandr.lobakin@intel.com>
+From:   David Ahern <dsahern@gmail.com>
+In-Reply-To: <20211123163955.154512-2-alexandr.lobakin@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Lei,
+On 11/23/21 9:39 AM, Alexander Lobakin wrote:
+> +static bool rtnl_get_xdp_stats_xdpxsk(struct sk_buff *skb, u32 ch,
+> +				      const void *attr_data)
+> +{
+> +	const struct ifla_xdp_stats *xstats = attr_data;
+> +
+> +	xstats += ch;
+> +
+> +	if (nla_put_u64_64bit(skb, IFLA_XDP_XSTATS_PACKETS, xstats->packets,
+> +			      IFLA_XDP_XSTATS_UNSPEC) ||
+> +	    nla_put_u64_64bit(skb, IFLA_XDP_XSTATS_BYTES, xstats->bytes,
+> +			      IFLA_XDP_XSTATS_UNSPEC) ||
+> +	    nla_put_u64_64bit(skb, IFLA_XDP_XSTATS_ERRORS, xstats->errors,
+> +			      IFLA_XDP_XSTATS_UNSPEC) ||
+> +	    nla_put_u64_64bit(skb, IFLA_XDP_XSTATS_ABORTED, xstats->aborted,
+> +			      IFLA_XDP_XSTATS_UNSPEC) ||
+> +	    nla_put_u64_64bit(skb, IFLA_XDP_XSTATS_DROP, xstats->drop,
+> +			      IFLA_XDP_XSTATS_UNSPEC) ||
+> +	    nla_put_u64_64bit(skb, IFLA_XDP_XSTATS_INVALID, xstats->invalid,
+> +			      IFLA_XDP_XSTATS_UNSPEC) ||
+> +	    nla_put_u64_64bit(skb, IFLA_XDP_XSTATS_PASS, xstats->pass,
+> +			      IFLA_XDP_XSTATS_UNSPEC) ||
+> +	    nla_put_u64_64bit(skb, IFLA_XDP_XSTATS_REDIRECT, xstats->redirect,
+> +			      IFLA_XDP_XSTATS_UNSPEC) ||
+> +	    nla_put_u64_64bit(skb, IFLA_XDP_XSTATS_REDIRECT_ERRORS,
+> +			      xstats->redirect_errors,
+> +			      IFLA_XDP_XSTATS_UNSPEC) ||
+> +	    nla_put_u64_64bit(skb, IFLA_XDP_XSTATS_TX, xstats->tx,
+> +			      IFLA_XDP_XSTATS_UNSPEC) ||
+> +	    nla_put_u64_64bit(skb, IFLA_XDP_XSTATS_TX_ERRORS,
+> +			      xstats->tx_errors, IFLA_XDP_XSTATS_UNSPEC) ||
+> +	    nla_put_u64_64bit(skb, IFLA_XDP_XSTATS_XMIT_PACKETS,
+> +			      xstats->xmit_packets, IFLA_XDP_XSTATS_UNSPEC) ||
+> +	    nla_put_u64_64bit(skb, IFLA_XDP_XSTATS_XMIT_BYTES,
+> +			      xstats->xmit_bytes, IFLA_XDP_XSTATS_UNSPEC) ||
+> +	    nla_put_u64_64bit(skb, IFLA_XDP_XSTATS_XMIT_ERRORS,
+> +			      xstats->xmit_errors, IFLA_XDP_XSTATS_UNSPEC) ||
+> +	    nla_put_u64_64bit(skb, IFLA_XDP_XSTATS_XMIT_FULL,
+> +			      xstats->xmit_full, IFLA_XDP_XSTATS_UNSPEC))
+> +		return false;
+> +
+> +	return true;
+> +}
+> +
 
-On 11/23/21 at 08:46pm, Zhen Lei wrote:
-> There are following issues in arm64 kdump:
-> 1. We use crashkernel=X to reserve crashkernel below 4G, which
-> will fail when there is no enough low memory.
-> 2. If reserving crashkernel above 4G, in this case, crash dump
-> kernel will boot failure because there is no low memory available
-> for allocation.
-> 
-> To solve these issues, change the behavior of crashkernel=X.
-> crashkernel=X tries low allocation in DMA zone and fall back to high
-> allocation if it fails.
+Another thought on this patch: with individual attributes you could save
+some overhead by not sending 0 counters to userspace. e.g., define a
+helper that does:
 
-Thanks for this round of posting, I will review the patch series this
-week.
+static inline int nla_put_u64_if_set(struct sk_buff *skb, int attrtype,
+                                     u64 value, int padattr)
+{
+	if (value)
+		return nla_put_u64_64bit(skb, attrtype, value, padattr);
 
-Thanks
-Baoquan
-
-> 
-> We can also use "crashkernel=X,high" to select a high region above
-> DMA zone, which also tries to allocate at least 256M low memory in
-> DMA zone automatically and "crashkernel=Y,low" can be used to allocate
-> specified size low memory.
-> 
-> When reserving crashkernel in high memory, some low memory is reserved
-> for crash dump kernel devices. So there may be two regions reserved for
-> crash dump kernel.
-> In order to distinct from the high region and make no effect to the use
-> of existing kexec-tools, rename the low region as "Crash kernel (low)",
-> and pass the low region by reusing DT property
-> "linux,usable-memory-range". We made the low memory region as the last
-> range of "linux,usable-memory-range" to keep compatibility with existing
-> user-space and older kdump kernels.
-> 
-> Besides, we need to modify kexec-tools:
-> arm64: support more than one crash kernel regions(see [1])
-> 
-> Another update is document about DT property 'linux,usable-memory-range':
-> schemas: update 'linux,usable-memory-range' node schema(see [2])
-> 
-> This patchset contains the following 11 patches:
-> 
-> 0001-0004 are some x86 cleanups which prepares for making functionsreserve_crashkernel[_low]() generic.
-> 0005 makes functions reserve_crashkernel[_low]() generic.
-> 0006-0008 reimplements arm64 crashkernel=X.
-> 0009-0010 adds memory for devices by DT property linux,usable-memory-range.
-> 0011 updates the doc.
-> 
-> Changes since [v15]
-> -  Aggregate the processing of "linux,usable-memory-range" into one function.
->    Only patch 9-10 have been updated.
-> 
-> Changes since [v14]
-> - Recovering the requirement that the CrashKernel memory regions on X86
->   only requires 1 MiB alignment.
-> - Combine patches 5 and 6 in v14 into one. The compilation warning fixed
->   by patch 6 was introduced by patch 5 in v14.
-> - As with crashk_res, crashk_low_res is also processed by
->   crash_exclude_mem_range() in patch 7.
-> - Due to commit b261dba2fdb2 ("arm64: kdump: Remove custom linux,usable-memory-range handling")
->   has removed the architecture-specific code, extend the property "linux,usable-memory-range"
->   in the platform-agnostic FDT core code. See patch 9.
-> - Discard the x86 description update in the document, because the description
->   has been updated by commit b1f4c363666c ("Documentation: kdump: update kdump guide").
-> - Change "arm64" to "ARM64" in Doc.
-> 
-> 
-> Changes since [v13]
-> - Rebased on top of 5.11-rc5.
-> - Introduce config CONFIG_ARCH_WANT_RESERVE_CRASH_KERNEL.
-> Since reserve_crashkernel[_low]() implementations are quite similar on
-> other architectures, so have CONFIG_ARCH_WANT_RESERVE_CRASH_KERNEL in
-> arch/Kconfig and select this by X86 and ARM64.
-> - Some minor cleanup.
-> 
-> Changes since [v12]
-> - Rebased on top of 5.10-rc1.
-> - Keep CRASH_ALIGN as 16M suggested by Dave.
-> - Drop patch "kdump: add threshold for the required memory".
-> - Add Tested-by from John.
-> 
-> Changes since [v11]
-> - Rebased on top of 5.9-rc4.
-> - Make the function reserve_crashkernel() of x86 generic.
-> Suggested by Catalin, make the function reserve_crashkernel() of x86 generic
-> and arm64 use the generic version to reimplement crashkernel=X.
-> 
-> Changes since [v10]
-> - Reimplement crashkernel=X suggested by Catalin, Many thanks to Catalin.
-> 
-> Changes since [v9]
-> - Patch 1 add Acked-by from Dave.
-> - Update patch 5 according to Dave's comments.
-> - Update chosen schema.
-> 
-> Changes since [v8]
-> - Reuse DT property "linux,usable-memory-range".
-> Suggested by Rob, reuse DT property "linux,usable-memory-range" to pass the low
-> memory region.
-> - Fix kdump broken with ZONE_DMA reintroduced.
-> - Update chosen schema.
-> 
-> Changes since [v7]
-> - Move x86 CRASH_ALIGN to 2M
-> Suggested by Dave and do some test, move x86 CRASH_ALIGN to 2M.
-> - Update Documentation/devicetree/bindings/chosen.txt.
-> Add corresponding documentation to Documentation/devicetree/bindings/chosen.txt
-> suggested by Arnd.
-> - Add Tested-by from Jhon and pk.
-> 
-> Changes since [v6]
-> - Fix build errors reported by kbuild test robot.
-> 
-> Changes since [v5]
-> - Move reserve_crashkernel_low() into kernel/crash_core.c.
-> - Delete crashkernel=X,high.
-> - Modify crashkernel=X,low.
-> If crashkernel=X,low is specified simultaneously, reserve spcified size low
-> memory for crash kdump kernel devices firstly and then reserve memory above 4G.
-> In addition, rename crashk_low_res as "Crash kernel (low)" for arm64, and then
-> pass to crash dump kernel by DT property "linux,low-memory-range".
-> - Update Documentation/admin-guide/kdump/kdump.rst.
-> 
-> Changes since [v4]
-> - Reimplement memblock_cap_memory_ranges for multiple ranges by Mike.
-> 
-> Changes since [v3]
-> - Add memblock_cap_memory_ranges back for multiple ranges.
-> - Fix some compiling warnings.
-> 
-> Changes since [v2]
-> - Split patch "arm64: kdump: support reserving crashkernel above 4G" as
-> two. Put "move reserve_crashkernel_low() into kexec_core.c" in a separate
-> patch.
-> 
-> Changes since [v1]:
-> - Move common reserve_crashkernel_low() code into kernel/kexec_core.c.
-> - Remove memblock_cap_memory_ranges() i added in v1 and implement that
-> in fdt_enforce_memory_region().
-> There are at most two crash kernel regions, for two crash kernel regions
-> case, we cap the memory range [min(regs[*].start), max(regs[*].end)]
-> and then remove the memory range in the middle.
-> 
-> [1]: http://lists.infradead.org/pipermail/kexec/2020-June/020737.html
-> [2]: https://github.com/robherring/dt-schema/pull/19 
-> [v1]: https://lkml.org/lkml/2019/4/2/1174
-> [v2]: https://lkml.org/lkml/2019/4/9/86
-> [v3]: https://lkml.org/lkml/2019/4/9/306
-> [v4]: https://lkml.org/lkml/2019/4/15/273
-> [v5]: https://lkml.org/lkml/2019/5/6/1360
-> [v6]: https://lkml.org/lkml/2019/8/30/142
-> [v7]: https://lkml.org/lkml/2019/12/23/411
-> [v8]: https://lkml.org/lkml/2020/5/21/213
-> [v9]: https://lkml.org/lkml/2020/6/28/73
-> [v10]: https://lkml.org/lkml/2020/7/2/1443
-> [v11]: https://lkml.org/lkml/2020/8/1/150
-> [v12]: https://lkml.org/lkml/2020/9/7/1037
-> [v13]: https://lkml.org/lkml/2020/10/31/34
-> [v14]: https://lkml.org/lkml/2021/1/30/53
-> [v15]: https://lkml.org/lkml/2021/10/19/1405
-> 
-> Chen Zhou (10):
->   x86: kdump: replace the hard-coded alignment with macro CRASH_ALIGN
->   x86: kdump: make the lower bound of crash kernel reservation
->     consistent
->   x86: kdump: use macro CRASH_ADDR_LOW_MAX in functions
->     reserve_crashkernel()
->   x86: kdump: move xen_pv_domain() check and insert_resource() to
->     setup_arch()
->   x86: kdump: move reserve_crashkernel[_low]() into crash_core.c
->   arm64: kdump: introduce some macros for crash kernel reservation
->   arm64: kdump: reimplement crashkernel=X
->   x86, arm64: Add ARCH_WANT_RESERVE_CRASH_KERNEL config
->   of: fdt: Add memory for devices by DT property
->     "linux,usable-memory-range"
->   kdump: update Documentation about crashkernel
-> 
-> Zhen Lei (1):
->   of: fdt: Aggregate the processing of "linux,usable-memory-range"
-> 
->  Documentation/admin-guide/kdump/kdump.rst     |  11 +-
->  .../admin-guide/kernel-parameters.txt         |  11 +-
->  arch/Kconfig                                  |   3 +
->  arch/arm64/Kconfig                            |   1 +
->  arch/arm64/include/asm/kexec.h                |  10 ++
->  arch/arm64/kernel/machine_kexec_file.c        |  12 +-
->  arch/arm64/kernel/setup.c                     |  13 +-
->  arch/arm64/mm/init.c                          |  59 ++-----
->  arch/x86/Kconfig                              |   2 +
->  arch/x86/include/asm/elf.h                    |   3 +
->  arch/x86/include/asm/kexec.h                  |  31 +++-
->  arch/x86/kernel/setup.c                       | 163 ++----------------
->  drivers/of/fdt.c                              |  45 +++--
->  include/linux/crash_core.h                    |   3 +
->  include/linux/kexec.h                         |   2 -
->  kernel/crash_core.c                           | 156 +++++++++++++++++
->  kernel/kexec_core.c                           |  17 --
->  17 files changed, 304 insertions(+), 238 deletions(-)
-> 
-> -- 
-> 2.25.1
-> 
-
+	return 0;
+}
