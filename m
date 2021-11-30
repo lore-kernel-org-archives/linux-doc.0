@@ -2,55 +2,55 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAD03C4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 11:45:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2AF9C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 11:45:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241070AbhK3Lsv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Nov 2021 06:48:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45008 "EHLO
+        id S240996AbhK3Ls4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Nov 2021 06:48:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240955AbhK3Lsp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Nov 2021 06:48:45 -0500
+        with ESMTP id S240997AbhK3Lsl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Nov 2021 06:48:41 -0500
 Received: from mail-wm1-x349.google.com (mail-wm1-x349.google.com [IPv6:2a00:1450:4864:20::349])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7978EC061574
-        for <linux-doc@vger.kernel.org>; Tue, 30 Nov 2021 03:45:26 -0800 (PST)
-Received: by mail-wm1-x349.google.com with SMTP id g11-20020a1c200b000000b003320d092d08so10285006wmg.9
-        for <linux-doc@vger.kernel.org>; Tue, 30 Nov 2021 03:45:26 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB50BC06175A
+        for <linux-doc@vger.kernel.org>; Tue, 30 Nov 2021 03:45:21 -0800 (PST)
+Received: by mail-wm1-x349.google.com with SMTP id j25-20020a05600c1c1900b00332372c252dso12716574wms.1
+        for <linux-doc@vger.kernel.org>; Tue, 30 Nov 2021 03:45:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=rG1xNdPiM+b/19SfERFIEiLMABj+g1AA81VAk56ezfY=;
-        b=P81cETHjfxAPwcXjxLEZoAKIClsMw0V0wD96HhwxcWsW+J35pjN4VZotJ0h51Pevyb
-         G+wsHCsj6PaNbXpEzOb+mwsLQcl2U089MyHL5XWXa0CuIbGa89sbqWRlYWYT+qYvMhrF
-         OQdjMifbE8i9BvuU784f2inF6Z6ZkIaBuprMWhQC/UYSsgI3wtWUrwHOwIa/Leqtefqq
-         sJWWJfRoQx4l/22qMAsurBMJur+PevDjruCtLeW8hjawcRo+ERNcdhJWQv9EgGpMpM5H
-         QtYhGhCW2Is32Dsg/YCLDxGCqA2Rh3TbFJUS8FeoHPV7CTCKP6M5fnXqNhK7KJioPWII
-         h1CQ==
+        bh=j+xGmYJ7a6naxsOgId4/Y5ehX22eJTAnRqZAmnKJeqk=;
+        b=BIT8VeP6OqlyivV/xY4OJ8catpXBR2IJSu8XREWcZg71WaAQIG5+hSM4qIocXAFjTH
+         gRBCk6dzWkb5Ke0XMnBRGHcxF+p8r7eNgJsjXXBnQa3KuFdDeGf9PY/FWud8Z5tGk0Dx
+         TMS5WC/YyCMQ4Kco5Sz4NOLsAIYw94zsal4vqc8G0xrQL4bEF/N60XkvMzDgctYFiQVI
+         w2/tGq06afI4dtOL8NvZqEN4Mr+YXm2ckISYsl33DE1TvSuMEVl4UjqaYZZVgMqRPAO1
+         l6LV3jYTi2PS2YN1bmf1XuSMpmIqz92ZQjvfQsvKif8oMYkkNTrZf5xUTmuLXSRM453W
+         WdYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=rG1xNdPiM+b/19SfERFIEiLMABj+g1AA81VAk56ezfY=;
-        b=EAco52AWN9v0wyb58gE1+HZaVNxmm6NSw06XQgfzM6UJMKGlxiTnrv7Vj6thc0Iz5M
-         mujQZzrvlW8XJwECUarBCOiDZWgdGjePDdAOxyZYW/xik/rJJyqPPtaTom9mTCNMnCj8
-         8GkEWmHMUYqD58AdfZ4+Bjray+9BMrPGGtPg2YZf+woNoQhv2AmOsEKFab9ll4dou2av
-         ZeCebgzfh592s6l4s7+je351Ic2QTemxx1Olqa3bVODEmzDAd2xySoOXHb7vT42qO87H
-         D9PwlFF0o2ySe+kvj9cK2b/faM4OYedYGHRX+peRDxU9Yif756Z3QMGUL4mbbuB/Xt37
-         ObhA==
-X-Gm-Message-State: AOAM530+3AROiCM95EVuzvN2wnRkuBXlHO/mpqUlGSIiBPe8mrNMvluS
-        9WxqWGRsqvknGqLPyUj83kvLeoDLqw==
-X-Google-Smtp-Source: ABdhPJxbkloraurf0oEulH3ag6+7yY6BzRbHK2TeZCzdaSdJW7S6qqAtdeXCdcM3HaCBmlZIxfVSP6YzOA==
+        bh=j+xGmYJ7a6naxsOgId4/Y5ehX22eJTAnRqZAmnKJeqk=;
+        b=4/+SXo0o8S4BMYXb+hoKcDWfyfBQDEl8IuZainUSUivCtCNFyFK+D1ThHkilcaOToI
+         8+LeCOUNqnlGqWweykaFd2ra4hGsdn0ZmF2WHul/BFZqxYWiRqm2B7DYt7D3+H7Ej+hL
+         dzsTCgI/nPTKT9aDqAkCiFLIAB/L88Q9VdPAi3OU+2epu4f22VdMfX6aOX2yn4ThJp+v
+         vjkZyE5qLkcwiij9WdOcSJxA4P2K0OYem6TbiohVT6NpOKEqEhRU/QzQfnKzGVfvnreG
+         jrheDY4kvb9iipyCFfznjArz2gzUexKfvO+a+wPMYI3jCV0zHZ6WbpniWBfV3bI4Mrbc
+         izWg==
+X-Gm-Message-State: AOAM530oX+Prm0M0NAnQBMsEvkP+B1nLrviRcGkMEF32TPeBefz3Hnip
+        eOnIp7PoXCfY0bP6Cq4s9F3AUmJCEg==
+X-Google-Smtp-Source: ABdhPJxMKVacuR9XDxyJLMVa2EiD6d4veLO+QybAaMsXncBxd+AFabcdu3YiPCN9Nl29f+z7+XhyR+Y0JA==
 X-Received: from elver.muc.corp.google.com ([2a00:79e0:15:13:86b7:11e9:7797:99f0])
- (user=elver job=sendgmr) by 2002:adf:f0c8:: with SMTP id x8mr41133135wro.290.1638272725050;
- Tue, 30 Nov 2021 03:45:25 -0800 (PST)
-Date:   Tue, 30 Nov 2021 12:44:17 +0100
+ (user=elver job=sendgmr) by 2002:a05:600c:1d1b:: with SMTP id
+ l27mr624069wms.1.1638272720147; Tue, 30 Nov 2021 03:45:20 -0800 (PST)
+Date:   Tue, 30 Nov 2021 12:44:15 +0100
 In-Reply-To: <20211130114433.2580590-1-elver@google.com>
-Message-Id: <20211130114433.2580590-10-elver@google.com>
+Message-Id: <20211130114433.2580590-8-elver@google.com>
 Mime-Version: 1.0
 References: <20211130114433.2580590-1-elver@google.com>
 X-Mailer: git-send-email 2.34.0.rc2.393.gf8c9666880-goog
-Subject: [PATCH v3 09/25] kcsan: Document modeling of weak memory
+Subject: [PATCH v3 07/25] kcsan: Call scoped accesses reordered in reports
 From:   Marco Elver <elver@google.com>
 To:     elver@google.com, "Paul E. McKenney" <paulmck@kernel.org>
 Cc:     Alexander Potapenko <glider@google.com>,
@@ -71,119 +71,72 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document how KCSAN models a subset of weak memory and the subset of
-missing memory barriers it can detect as a result.
+The scoping of an access simply denotes the scope in which it may be
+reordered. However, in reports, it'll be less confusing to say the
+access is "reordered". This is more accurate when the race occurred.
 
 Signed-off-by: Marco Elver <elver@google.com>
 ---
-v2:
-* Note the reason that address or control dependencies do not require
-  special handling.
----
- Documentation/dev-tools/kcsan.rst | 76 +++++++++++++++++++++++++------
- 1 file changed, 63 insertions(+), 13 deletions(-)
+ kernel/kcsan/kcsan_test.c |  4 ++--
+ kernel/kcsan/report.c     | 16 ++++++++--------
+ 2 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/Documentation/dev-tools/kcsan.rst b/Documentation/dev-tools/kcsan.rst
-index 7db43c7c09b8..3ae866dcc924 100644
---- a/Documentation/dev-tools/kcsan.rst
-+++ b/Documentation/dev-tools/kcsan.rst
-@@ -204,17 +204,17 @@ Ultimately this allows to determine the possible executions of concurrent code,
- and if that code is free from data races.
+diff --git a/kernel/kcsan/kcsan_test.c b/kernel/kcsan/kcsan_test.c
+index 660729238588..6e3c2b8bc608 100644
+--- a/kernel/kcsan/kcsan_test.c
++++ b/kernel/kcsan/kcsan_test.c
+@@ -213,9 +213,9 @@ static bool report_matches(const struct expect_report *r)
+ 		const bool is_atomic = (ty & KCSAN_ACCESS_ATOMIC);
+ 		const bool is_scoped = (ty & KCSAN_ACCESS_SCOPED);
+ 		const char *const access_type_aux =
+-				(is_atomic && is_scoped)	? " (marked, scoped)"
++				(is_atomic && is_scoped)	? " (marked, reordered)"
+ 				: (is_atomic			? " (marked)"
+-				   : (is_scoped			? " (scoped)" : ""));
++				   : (is_scoped			? " (reordered)" : ""));
  
- KCSAN is aware of *marked atomic operations* (``READ_ONCE``, ``WRITE_ONCE``,
--``atomic_*``, etc.), but is oblivious of any ordering guarantees and simply
--assumes that memory barriers are placed correctly. In other words, KCSAN
--assumes that as long as a plain access is not observed to race with another
--conflicting access, memory operations are correctly ordered.
--
--This means that KCSAN will not report *potential* data races due to missing
--memory ordering. Developers should therefore carefully consider the required
--memory ordering requirements that remain unchecked. If, however, missing
--memory ordering (that is observable with a particular compiler and
--architecture) leads to an observable data race (e.g. entering a critical
--section erroneously), KCSAN would report the resulting data race.
-+``atomic_*``, etc.), and a subset of ordering guarantees implied by memory
-+barriers. With ``CONFIG_KCSAN_WEAK_MEMORY=y``, KCSAN models load or store
-+buffering, and can detect missing ``smp_mb()``, ``smp_wmb()``, ``smp_rmb()``,
-+``smp_store_release()``, and all ``atomic_*`` operations with equivalent
-+implied barriers.
-+
-+Note, KCSAN will not report all data races due to missing memory ordering,
-+specifically where a memory barrier would be required to prohibit subsequent
-+memory operation from reordering before the barrier. Developers should
-+therefore carefully consider the required memory ordering requirements that
-+remain unchecked.
- 
- Race Detection Beyond Data Races
- --------------------------------
-@@ -268,6 +268,56 @@ marked operations, if all accesses to a variable that is accessed concurrently
- are properly marked, KCSAN will never trigger a watchpoint and therefore never
- report the accesses.
- 
-+Modeling Weak Memory
-+~~~~~~~~~~~~~~~~~~~~
-+
-+KCSAN's approach to detecting data races due to missing memory barriers is
-+based on modeling access reordering (with ``CONFIG_KCSAN_WEAK_MEMORY=y``).
-+Each plain memory access for which a watchpoint is set up, is also selected for
-+simulated reordering within the scope of its function (at most 1 in-flight
-+access).
-+
-+Once an access has been selected for reordering, it is checked along every
-+other access until the end of the function scope. If an appropriate memory
-+barrier is encountered, the access will no longer be considered for simulated
-+reordering.
-+
-+When the result of a memory operation should be ordered by a barrier, KCSAN can
-+then detect data races where the conflict only occurs as a result of a missing
-+barrier. Consider the example::
-+
-+    int x, flag;
-+    void T1(void)
-+    {
-+        x = 1;                  // data race!
-+        WRITE_ONCE(flag, 1);    // correct: smp_store_release(&flag, 1)
-+    }
-+    void T2(void)
-+    {
-+        while (!READ_ONCE(flag));   // correct: smp_load_acquire(&flag)
-+        ... = x;                    // data race!
-+    }
-+
-+When weak memory modeling is enabled, KCSAN can consider ``x`` in ``T1`` for
-+simulated reordering. After the write of ``flag``, ``x`` is again checked for
-+concurrent accesses: because ``T2`` is able to proceed after the write of
-+``flag``, a data race is detected. With the correct barriers in place, ``x``
-+would not be considered for reordering after the proper release of ``flag``,
-+and no data race would be detected.
-+
-+Deliberate trade-offs in complexity but also practical limitations mean only a
-+subset of data races due to missing memory barriers can be detected. With
-+currently available compiler support, the implementation is limited to modeling
-+the effects of "buffering" (delaying accesses), since the runtime cannot
-+"prefetch" accesses. Also recall that watchpoints are only set up for plain
-+accesses, and the only access type for which KCSAN simulates reordering. This
-+means reordering of marked accesses is not modeled.
-+
-+A consequence of the above is that acquire operations do not require barrier
-+instrumentation (no prefetching). Furthermore, marked accesses introducing
-+address or control dependencies do not require special handling (the marked
-+access cannot be reordered, later dependent accesses cannot be prefetched).
-+
- Key Properties
- ~~~~~~~~~~~~~~
- 
-@@ -290,8 +340,8 @@ Key Properties
- 4. **Detects Racy Writes from Devices:** Due to checking data values upon
-    setting up watchpoints, racy writes from devices can also be detected.
- 
--5. **Memory Ordering:** KCSAN is *not* explicitly aware of the LKMM's ordering
--   rules; this may result in missed data races (false negatives).
-+5. **Memory Ordering:** KCSAN is aware of only a subset of LKMM ordering rules;
-+   this may result in missed data races (false negatives).
- 
- 6. **Analysis Accuracy:** For observed executions, due to using a sampling
-    strategy, the analysis is *unsound* (false negatives possible), but aims to
+ 		if (i == 1) {
+ 			/* Access 2 */
+diff --git a/kernel/kcsan/report.c b/kernel/kcsan/report.c
+index fc15077991c4..1b0e050bdf6a 100644
+--- a/kernel/kcsan/report.c
++++ b/kernel/kcsan/report.c
+@@ -215,9 +215,9 @@ static const char *get_access_type(int type)
+ 	if (type & KCSAN_ACCESS_ASSERT) {
+ 		if (type & KCSAN_ACCESS_SCOPED) {
+ 			if (type & KCSAN_ACCESS_WRITE)
+-				return "assert no accesses (scoped)";
++				return "assert no accesses (reordered)";
+ 			else
+-				return "assert no writes (scoped)";
++				return "assert no writes (reordered)";
+ 		} else {
+ 			if (type & KCSAN_ACCESS_WRITE)
+ 				return "assert no accesses";
+@@ -240,17 +240,17 @@ static const char *get_access_type(int type)
+ 	case KCSAN_ACCESS_COMPOUND | KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ATOMIC:
+ 		return "read-write (marked)";
+ 	case KCSAN_ACCESS_SCOPED:
+-		return "read (scoped)";
++		return "read (reordered)";
+ 	case KCSAN_ACCESS_SCOPED | KCSAN_ACCESS_ATOMIC:
+-		return "read (marked, scoped)";
++		return "read (marked, reordered)";
+ 	case KCSAN_ACCESS_SCOPED | KCSAN_ACCESS_WRITE:
+-		return "write (scoped)";
++		return "write (reordered)";
+ 	case KCSAN_ACCESS_SCOPED | KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ATOMIC:
+-		return "write (marked, scoped)";
++		return "write (marked, reordered)";
+ 	case KCSAN_ACCESS_SCOPED | KCSAN_ACCESS_COMPOUND | KCSAN_ACCESS_WRITE:
+-		return "read-write (scoped)";
++		return "read-write (reordered)";
+ 	case KCSAN_ACCESS_SCOPED | KCSAN_ACCESS_COMPOUND | KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ATOMIC:
+-		return "read-write (marked, scoped)";
++		return "read-write (marked, reordered)";
+ 	default:
+ 		BUG();
+ 	}
 -- 
 2.34.0.rc2.393.gf8c9666880-goog
 
