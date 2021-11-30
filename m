@@ -2,112 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1206C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 19:25:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8670EC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 19:46:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245721AbhK3T3N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Nov 2021 14:29:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40144 "EHLO
+        id S234171AbhK3Ttv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Nov 2021 14:49:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244892AbhK3T3I (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Nov 2021 14:29:08 -0500
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07CEDC061574
-        for <linux-doc@vger.kernel.org>; Tue, 30 Nov 2021 11:25:47 -0800 (PST)
-Received: by mail-ed1-x534.google.com with SMTP id e3so91269945edu.4
-        for <linux-doc@vger.kernel.org>; Tue, 30 Nov 2021 11:25:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mUe1etHTeAh3A2xC3mRSG89zpXC1bCrhy9fylkJ/lXk=;
-        b=l7SSwJJsh3Dg1tolC6JDaZE65vqBeF+DWW4JEX7SK8u/Bc5JOX45lyYGuxXNt4ohmt
-         dzLJRk/olbLvNfAQAuAaisTAxYTL4LSzmKlMzxpWU3KQMq+cWhyVPpQ0aR/x+V0GF9F+
-         D1dTINT6K6t9wQL4kIUh7i4XMhHNMubDqTsYP+/nmsYJ3GUryuRtov5FeXoBhCCjbYMe
-         YlGIFHCLGRvsejevuXFXpcGY/Ij9cn8Q+cGhIsaCcu6Y8gAqEsZS5FRxoKBVtoqZ6JgB
-         hxmNrIdNUtvqmi2U+QHr6lsXfqQuJDHMS6WValSK1DBjBemRLAvx6QNEeB35xWNZaIid
-         snkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mUe1etHTeAh3A2xC3mRSG89zpXC1bCrhy9fylkJ/lXk=;
-        b=h9Bcxe8xQuxsde1MViuDRHd2TOb0xw9JSPYwXHPHAsjtXi2fX2KnzemcTH6hnNpLj3
-         H1Q/z3qxp48Xcf0gbOwihh/vMWlRrpserr89VYhyJoizUt24VyoHvl/DiQdRb7VQQhzj
-         Ki7ycUB4LG4CactStUtFN57NjqJFDVe6M8v4hKO6WSRIE5S8SsGyGJAoTvZCOwL65hlo
-         iabhiC4hVPwBW8bXblFQuylh3tSdmaDwqUxJDDMnvi299AGuyZqGtNVKhgwCCFEoZ4XJ
-         C/H+v/h1e90eqoib1Z7v2clQGI2CbhUoqVXu5rBqqANXDE14e7mLwuoK9FtKDd0pUu2I
-         aYRQ==
-X-Gm-Message-State: AOAM5316BlnxK3JNwvdLmMl7WMrBtkNMQEHHPXtBH/8Jr7WXOMwvtsee
-        ox+pTj8pV4n5l2ngfFSZeDF0nAwJO78PMbftBmN3gA==
-X-Google-Smtp-Source: ABdhPJxTaOkNeqHy63NuVfX5HVhSVZk5X1GCRN36lztXyJE++faH21KWi2lLIRlKAgTyh5rggcRNpmE6mEV6Y+GzSlA=
-X-Received: by 2002:a17:906:2b12:: with SMTP id a18mr1206115ejg.254.1638300345509;
- Tue, 30 Nov 2021 11:25:45 -0800 (PST)
-MIME-Version: 1.0
-References: <20211123214814.3756047-1-pasha.tatashin@soleen.com>
- <20211123214814.3756047-3-pasha.tatashin@soleen.com> <6d82e674-76dc-f3b0-2e53-a92eeb249eff@gmail.com>
- <CA+CK2bAX2XmMrt9RBGiUV7LG_sbpB7ov6bxMVjr5FSBVirE1CA@mail.gmail.com>
- <7d339956-27fb-4eb6-bd73-791807ddef56@gmail.com> <9e0014e8-e251-360c-ad82-334ad0f28303@gmail.com>
- <CA+CK2bDiWc2y=CW6d=6raaf9Haq2vuWQDTQZ-aAyLDdpq5aQPQ@mail.gmail.com> <aee858af-f0f7-1da6-5976-cf0057092afa@gmail.com>
-In-Reply-To: <aee858af-f0f7-1da6-5976-cf0057092afa@gmail.com>
-From:   Pasha Tatashin <pasha.tatashin@soleen.com>
-Date:   Tue, 30 Nov 2021 14:25:09 -0500
-Message-ID: <CA+CK2bBQE0-Tw0XhAyPm0R3hsCkUqN7Oij4vNEDfut80KBxGZA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] mm: page table check
-To:     Fusion Future <qydwhotmail@gmail.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Rientjes <rientjes@google.com>,
-        Paul Turner <pjt@google.com>, weixugc@google.com,
-        Greg Thelen <gthelen@google.com>,
-        Ingo Molnar <mingo@redhat.com>,
+        with ESMTP id S229905AbhK3Ttu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Nov 2021 14:49:50 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B48BC061574;
+        Tue, 30 Nov 2021 11:46:30 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id DD2F5CE1AF9;
+        Tue, 30 Nov 2021 19:46:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 740A3C53FC7;
+        Tue, 30 Nov 2021 19:46:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1638301586;
+        bh=ApZc1+OcZnLq0/E95Na9o4zYk/Nz5een41TdSnFrjdQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=UJX2bh+4xhNCn2QNWlJFipczmrFgKctmhXJ7Nz17F+8gO7gray2WfXcyTAilE0wBQ
+         49r2iTfeFnSSMq06q5ZgOg8ReXMaZLeRad2GqxdGlfXzlz6iIfRif/j2l+aJffEjmt
+         juOonOC8+vT9yjmM48WOyBIWl71TjKGBv+iay+GDPe+l28AcZ08clUbPWqvSNruXVI
+         xbvE+ucHkDg1hAIMV9mzO/873wdfxJm5ga/BfgDsyiB9bPsSC2nE5xPQZEjaoIBywm
+         AXzPCwrR//xXsBrnHzWd3ZMncm4gkZdXrMNyIuRFi4GMdhIfLfKYqP1aBCvMeVFWcq
+         z7VjsQNHR/1+A==
+Date:   Tue, 30 Nov 2021 11:46:24 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     David Ahern <dsahern@gmail.com>
+Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
+        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>, masahiroy@kernel.org,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "maintainer:X86 ARCHITECTURE" <x86@kernel.org>,
-        frederic@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
+        Shay Agroskin <shayagr@amazon.com>,
+        Arthur Kiyanovski <akiyano@amazon.com>,
+        David Arinzon <darinzon@amazon.com>,
+        Noam Dagan <ndagan@amazon.com>,
+        Saeed Bishara <saeedb@amazon.com>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Marcin Wojtas <mw@semihalf.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Saeed Mahameed <saeedm@nvidia.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        Toke =?UTF-8?B?SMO4aWxhbmQtSsO4cmdlbnNlbg==?= <toke@redhat.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        Edward Cree <ecree.xilinx@gmail.com>,
+        Martin Habets <habetsm.xilinx@gmail.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Lorenzo Bianconi <lorenzo@kernel.org>,
+        Yajun Deng <yajun.deng@linux.dev>,
+        Sergey Ryazanov <ryazanov.s.a@gmail.com>,
+        David Ahern <dsahern@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        Cong Wang <cong.wang@bytedance.com>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
+        virtualization@lists.linux-foundation.org
+Subject: Re: [PATCH v2 net-next 00/26] net: introduce and use generic XDP
+ stats
+Message-ID: <20211130114624.5b1f5f61@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <18655462-c72e-1d26-5b59-d03eb993d832@gmail.com>
+References: <20211123163955.154512-1-alexandr.lobakin@intel.com>
+        <20211130155612.594688-1-alexandr.lobakin@intel.com>
+        <20211130081207.228f42ba@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+        <20211130163454.595897-1-alexandr.lobakin@intel.com>
+        <20211130090449.58a8327d@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+        <18655462-c72e-1d26-5b59-d03eb993d832@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Nov 28, 2021 at 9:57 PM Fusion Future <qydwhotmail@gmail.com> wrote:
->
-> On 2021/11/29 00:57, Pasha Tatashin wrote:
-> > This commit by itself would not cause the freeze or BUG_ON(), but the
-> > next commit which enables it on x86 arch might.
->
-> Yes, you are right. At the commit
-> "[1e67abff1820489435aad3fcf258708c21c283ef] x86: mm: add x86_64 support
-> for page table check" my system starts to experience the freeze.
->
-> I can now reproduce the freeze by following the steps below:
->
-> 1. Open 20 YouTube video pages, and a YouTube Music page.
-> 2. Play music in the background. (The step can be omitted)
-> 3. Run `git clone
-> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git ln`
+On Tue, 30 Nov 2021 10:38:14 -0700 David Ahern wrote:
+> On 11/30/21 10:04 AM, Jakub Kicinski wrote:
+> > On Tue, 30 Nov 2021 17:34:54 +0100 Alexander Lobakin wrote:  
+> >> I know about ETHTOOL_STAT_NOT_SET, but RTNL xstats doesn't use this,
+> >> does it?  
+> > 
+> > Not sure if you're asking me or Dave but no, to my knowledge RTNL does
+> > not use such semantics today. But the reason is mostly because there
+> > weren't many driver stats added there. Knowing if an error counter is
+> > not supported or supporter and 0 is important for monitoring. Even if
+> > XDP stats don't have a counter which may not be supported today it's
+> > not a good precedent to make IMO.
+> 
+> Today, stats are sent as a struct so skipping stats whose value is 0 is
+> not an option. When using individual attributes for the counters this
+> becomes an option. Given there is no value in sending '0' why do it?
 
-Thanks, I found a reliable way to reproduce this problem on my workstation:
-reduce the amount of physical memory to 4G via memmap kernel
-parameter,  and use a script that starts chrome browser with 20 tabs
-each pointing to a youtube.com page.
+To establish semantics of what it means that the statistic is not
+reported. If we need to save space we'd need an extra attr with 
+a bitmap of "these stats were skipped because they were zero".
+Or conversely some way of querying supported stats.
 
-I will send an update after root cause.
+> Is your pushback that there should be a uapi to opt-in to this behavior?
 
-> git will never successfully clone the repo because the system will
-> freeze during the operation.
->
-> I also tried adding `page_table_check=off` to the boot option but still
-
-I will add support for page_table_check=off even when
-CONFIG_PAGE_TABLE_CHECK_ENFORCED is set
-
-Thanks,
-Pasha
+Not where I was going with it, but it is an option. If skipping 0s was
+controlled by a flag a dump without such flag set would basically serve
+as a way to query supported stats.
