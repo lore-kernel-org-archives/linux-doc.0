@@ -2,106 +2,177 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C985C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 17:07:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 098A5C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 17:12:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244633AbhK3RKm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Nov 2021 12:10:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36994 "EHLO
+        id S236974AbhK3RPS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Nov 2021 12:15:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244619AbhK3RKl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Nov 2021 12:10:41 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51CF6C061574;
-        Tue, 30 Nov 2021 09:07:22 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id A51CECE1A95;
-        Tue, 30 Nov 2021 17:07:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BD39C53FC1;
-        Tue, 30 Nov 2021 17:07:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1638292038;
-        bh=gXB8rDIFW0PtguRogFlBo25h9dW+PPZpU4PIMjQ3mh4=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Xzn4oBr1FcLMAR7S/89+TY/MtXp2SkTV/0yRAhajm8HHztZHFY5XQzAbdnGqFUAJy
-         nrQrHRTvsgGaHTXg7TP/VFDSdu/xfHbT9dUJs7P7JfXlv9ls5uw2lD/HGI5LN0L+W4
-         OOirquVHI7R6IU5DjG6l+1bJDX2a+Gh5aSX+htcGtvVAiPw5M2AnH+f+2lLMPY4W8F
-         bZ7S9/eoWwi/ibNsbeuSk3BqSiRs4fV0gmipNT5yO40vnX+sIOtkRLZCotF+YnCQvC
-         o79bum8ajEd8K1Ke5XYs5Uy6Ish6yIdq+Yti+UiVHWdflbNpQtJcEU75xkXLxonflB
-         +pK1tQrFJJUiA==
-Date:   Tue, 30 Nov 2021 09:07:16 -0800
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Toke =?UTF-8?B?SMO4aWxhbmQtSsO4cmdlbnNlbg==?= <toke@redhat.com>
-Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
-        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+        with ESMTP id S230456AbhK3RPS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Nov 2021 12:15:18 -0500
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEA24C061574;
+        Tue, 30 Nov 2021 09:11:58 -0800 (PST)
+Received: by mail-pf1-x433.google.com with SMTP id g19so21257936pfb.8;
+        Tue, 30 Nov 2021 09:11:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=ONrE5/Qkw4zkh7Cw4Mc/Cvd1DgPGRMMe+Dlw1qGvx2E=;
+        b=lpdHoZHC+hlX1FXzDNnODOfKuB01wlK9cDytInDrRCRM5d3sfeu8SIa+VNjEXczz0j
+         Kdgx0UH7nlKa7P1zxooslo/0wQ4o1ukUWRAmG10vy3ESoetmfvl4p9HWMi92xbZeMYnT
+         vIjw4wdIX/HCptVJCo7lF9oiI6NfKd3Z/DYQ3MhttwzjqKTuI2BPOHDJKcdkm1NrwGv1
+         9W11Fc3bo1OurBtgoGvBJyIPAN3+88Kq+f1R9BOP/tMQoNN3CZxklVpF3NSAtICcQk9x
+         /63gjcPTtrTdoyUBcKAhQ4nclxtO+zT/Fg4ZsEmIrvKlTZSWFFeMRbrVwEJzbojAZnF1
+         N7kQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=ONrE5/Qkw4zkh7Cw4Mc/Cvd1DgPGRMMe+Dlw1qGvx2E=;
+        b=kMmQtAuS2/Ta9FV+dlSuc6Mr5LFzUM6FsUSxlbwiGaeG3wNKdSu12WaGq9zwkHyXG5
+         ejnVMM2NK0HdyqwrOu2txvwWTnLMWqfFeBmJ08LAWQlJ/yueEXGNDMgFNnOSAyxvIZpS
+         I2xBJyJdlaRDtI6pTM7ZqGBWGp4pYsj9cA/504GhaKylH9/FRLb/EjZfMIkgOa5Sd15/
+         lGzvyDkK1hOSNvOxnUGKOdnqAJ+EcicTsEK1samQG0i9E6PZgeux7jlQU9kWrH0Ph59M
+         StB8R9afBYha5B5qdmCnC8YxxWNUDwrZNuziruo8sWUHPt1lQVkDixxE6RLslebmuIAm
+         1y3A==
+X-Gm-Message-State: AOAM531a9SoRS4Nr3Kzfpm/8zJ1L/if1zF4Qd7c+Zswkz2QoyckBFnU/
+        LLwbRQ5eX4Nfkekeb1Wcil8YxjxzMDoYyA==
+X-Google-Smtp-Source: ABdhPJzTltZrAXhlp/9DAXKJXPxxdsqgylUo5rbnrEQJRj+rwSNyZbvo2vr+Un2olnmmNc1HCZyYDw==
+X-Received: by 2002:a63:c:: with SMTP id 12mr355760pga.492.1638292318116;
+        Tue, 30 Nov 2021 09:11:58 -0800 (PST)
+Received: from localhost (2603-800c-1a02-1bae-e24f-43ff-fee6-449f.res6.spectrum.com. [2603:800c:1a02:1bae:e24f:43ff:fee6:449f])
+        by smtp.gmail.com with ESMTPSA id l6sm3538098pfu.129.2021.11.30.09.11.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Nov 2021 09:11:57 -0800 (PST)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Tue, 30 Nov 2021 07:11:56 -1000
+From:   Tejun Heo <tj@kernel.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Shay Agroskin <shayagr@amazon.com>,
-        Arthur Kiyanovski <akiyano@amazon.com>,
-        David Arinzon <darinzon@amazon.com>,
-        Noam Dagan <ndagan@amazon.com>,
-        Saeed Bishara <saeedb@amazon.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Marcin Wojtas <mw@semihalf.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Saeed Mahameed <saeedm@nvidia.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Edward Cree <ecree.xilinx@gmail.com>,
-        Martin Habets <habetsm.xilinx@gmail.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Yajun Deng <yajun.deng@linux.dev>,
-        Sergey Ryazanov <ryazanov.s.a@gmail.com>,
-        David Ahern <dsahern@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        Cong Wang <cong.wang@bytedance.com>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
-        virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH v2 net-next 00/26] net: introduce and use generic XDP
- stats
-Message-ID: <20211130090716.4a557036@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <871r2x8vor.fsf@toke.dk>
-References: <20211123163955.154512-1-alexandr.lobakin@intel.com>
-        <20211130155612.594688-1-alexandr.lobakin@intel.com>
-        <871r2x8vor.fsf@toke.dk>
+        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>
+Subject: Re: [PATCH v8 5/6] cgroup/cpuset: Update description of
+ cpuset.cpus.partition in cgroup-v2.rst
+Message-ID: <YaZbXArNIMNvwJD/@slm.duckdns.org>
+References: <20211018143619.205065-1-longman@redhat.com>
+ <20211018143619.205065-6-longman@redhat.com>
+ <20211115193122.GA16798@blackbody.suse.cz>
+ <8f68692b-bd8f-33fd-44ae-f6f83bf2dc00@redhat.com>
+ <20211116175411.GA50019@blackbody.suse.cz>
+ <293d7abf-aff6-fcd8-c999-b1dbda1cffb8@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <293d7abf-aff6-fcd8-c999-b1dbda1cffb8@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 30 Nov 2021 17:17:24 +0100 Toke H=C3=B8iland-J=C3=B8rgensen wrote:
-> > 1. Channels vs queues vs global.
-> >
-> > Jakub: no per-channel.
-> > David (Ahern): it's worth it to separate as Rx/Tx.
-> > Toke is fine with globals at the end I think? =20
->=20
-> Well, I don't like throwing data away, so in that sense I do like
-> per-queue stats, but it's not a very strong preference (i.e., I can live
-> with either)...
+Hello, Waiman.
 
-We don't even have a clear definition of a queue in Linux.
+On Tue, Nov 30, 2021 at 10:35:19AM -0500, Waiman Long wrote:
+>     On read, the "cpuset.cpus.partition" file can show the following
+>     values.
+> 
+>       ======================    ==============================
+>       "member"            Non-root member of a partition
+>       "root"            Partition root
+>       "isolated"            Partition root without load balancing
+>       "root invalid (<reason>)"    Invalid partition root
+>       ======================    ==============================
 
-As I said, adding this API today without a strong user and letting
-drivers diverge in behavior would be a mistake.
+What happens if an isolated domain becomes invalid and then valid again due
+to cpu hotplug? Does it go "root invalid" and then back to "isolated"?
+
+...
+>     Before the "member" to partition root transition can happen,
+>     the following conditions must be met or the transition will
+>     not be allowed.
+> 
+>     1) The "cpuset.cpus" is non-empty and exclusive, i.e. they are
+>        not shared by any of its siblings.
+>     2) The parent cgroup is a valid partition root.
+>     3) The "cpuset.cpus" is a subset of parent's "cpuset.cpus".
+>     4) There is no child cgroups with cpuset enabled.  This avoids
+>        cpu migrations of multiple cgroups simultaneously which can
+>        be problematic.
+
+So, I still have a hard time justifying the above restrictions. 1) can be
+broken through hotplug anyway. 2) can be broken by the parent switching to
+member. 3) would mean that we'd need to restrict parent's config changes
+depending on what children are doing. 4) is more understandable but it's an
+implementation detail that we can address in the future.
+
+>     Once becoming a partition root, the following two rules restrict
+>     what changes can be made to "cpuset.cpus".
+> 
+>     1) The value must be exclusive.
+>     2) If child cpusets exist, the value must be a superset of what
+>        are defined in the child cpusets.
+>
+>     The second rule applies even for "member". Other changes to
+>     "cpuset.cpus" that do not violate the above rules are always
+>     allowed.
+
+While it isn't necessarily tied to this series, it's a big no-no to restrict
+what a parent can do depending on what its descendants are doing. A cgroup
+higher up in the hierarchy should be able to change configuration however it
+sees fit as deligation breaks down otherwise.
+
+Maybe you can argue that cpuset is special and shouldn't be subject to such
+convention but I can't see strong enough justifications especially given
+that most of these restrictions can be broken by hotplug operations anyway
+and thus need code to handle those situations.
+
+>     Changing a partition root (valid or invalid) to "member" is
+>     always allowed.  If there are child partition roots underneath
+>     it, however, they will be forced to be switched back to "member"
+>     too and lose their partitions. So care must be taken to double
+>     check for this condition before disabling a partition root.
+
+Wouldn't it make more sense for them to retain their configuration and turn
+invalid? Why is this special?
+
+>     A valid parent partition may distribute out all its CPUs to
+>     its child partitions as long as it is not the root cgroup and
+>     there is no task associated with it.
+
+A valid parent partition which isn't root never has tasks in them to begin
+with.
+
+>     An invalid partition root can be reverted back to a valid one
+>     if none of the validity constraints of a valid partition root
+>     are violated.
+> 
+>     Poll and inotify events are triggered whenever the state of
+>     "cpuset.cpus.partition" changes.  That includes changes caused by
+>     write to "cpuset.cpus.partition", cpu hotplug and other changes
+>     that make the partition invalid.  This will allow user space
+>     agents to monitor unexpected changes to "cpuset.cpus.partition"
+>     without the need to do continuous polling.
+
+Unfortunately, my sense is still that both the restrictions and behaviors
+are pretty arbitrary. I can somewhat see how the restrictions may make sense
+in a specific frame of mind but am having a hard time finding strong enough
+justifications for them. There are many really specific rules and it isn't
+clear why they are the way they are.
+
+Thanks.
+
+-- 
+tejun
