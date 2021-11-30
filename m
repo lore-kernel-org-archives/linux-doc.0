@@ -2,105 +2,258 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B07CC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 20:10:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62DD4C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 20:38:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343597AbhK3UNt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Nov 2021 15:13:49 -0500
-Received: from netrider.rowland.org ([192.131.102.5]:54907 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S240100AbhK3UNt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Nov 2021 15:13:49 -0500
-Received: (qmail 337320 invoked by uid 1000); 30 Nov 2021 15:10:28 -0500
-Date:   Tue, 30 Nov 2021 15:10:28 -0500
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 1/4] Docs: usb: update usb_bulk_msg receiving example
-Message-ID: <YaaFNO1t3GIaGFPI@rowland.harvard.edu>
-References: <cover.1638152984.git.philipp.g.hortmann@gmail.com>
- <28a76eedad7027277754cef84ca34810b0cfe6f4.1638152984.git.philipp.g.hortmann@gmail.com>
+        id S235389AbhK3Ul7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Nov 2021 15:41:59 -0500
+Received: from smtp2-g21.free.fr ([212.27.42.2]:20172 "EHLO smtp2-g21.free.fr"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233340AbhK3Ul5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 30 Nov 2021 15:41:57 -0500
+Received: from zimbra39-e7.priv.proxad.net (unknown [172.20.243.189])
+        by smtp2-g21.free.fr (Postfix) with ESMTP id 8402220039C;
+        Tue, 30 Nov 2021 21:38:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
+        s=smtp-20201208; t=1638304716;
+        bh=BSi4guHsEM8mlRKzJG+rTT+blmvXiTQLuDQjWIB0UOs=;
+        h=Date:From:To:Cc:In-Reply-To:Subject:From;
+        b=iK9ykl4PVoM3GAtmNfi8BdFSL5PCEmCG3rMzyjwqmF5f4ghaXd3olEtOEb2BHE7G+
+         wW3mPsC8FLYcqmnDMAf7UU/7skpQWwGDrJQjv5Ok5SsgaR+B2itmIY2z9BMVntdFHI
+         1R4r7vMyUFBWzYn3BVCuib9XwbzpznYCJ4Wde1NyzKPhEVZIpacP93xenL+SFxip/Q
+         A7AV1Wa2i9ynwE8BF8dOdFJ3rcdUYLcMwziEOCAsJsK7uxrw8D6/r3g23ZFuUWPipk
+         Ge2FdDkLCXBfb94MhpAuA0r47CJnBIMvNAtERPkX3z//JeFW8bN00sNtKukjovX9Cb
+         sMukj480GMjTA==
+Date:   Tue, 30 Nov 2021 21:38:35 +0100 (CET)
+From:   Yann Dirson <ydirson@free.fr>
+To:     Rodrigo Siqueira Jordao <rjordrigo@amd.com>
+Cc:     linux-doc@vger.kernel.org, Mark Yacoub <markyacoub@chromium.org>,
+        Marek =?utf-8?B?T2zFocOhaw==?= <marek.olsak@amd.com>,
+        roman li <roman.li@amd.com>, amd-gfx@lists.freedesktop.org,
+        Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+        Michel =?utf-8?Q?D=C3=A4nzer?= <michel@daenzer.net>,
+        aurabindo pillai <aurabindo.pillai@amd.com>,
+        nicholas choi <nicholas.choi@amd.com>,
+        dri-devel@lists.freedesktop.org,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Sean Paul <seanpaul@chromium.org>,
+        qingqing zhuo <qingqing.zhuo@amd.com>,
+        bhawanpreet lakha <bhawanpreet.lakha@amd.com>,
+        Roman Gilg <subdiff@gmail.com>,
+        Harry Wentland <harry.wentland@amd.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+        Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>
+Message-ID: <394109792.1928055.1638304715452.JavaMail.root@zimbra39-e7>
+In-Reply-To: <24a1be4c-0186-96ac-b238-059754a9f856@amd.com>
+Subject: Re: [PATCH 1/6] Documentation/gpu: Reorganize DC documentation
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <28a76eedad7027277754cef84ca34810b0cfe6f4.1638152984.git.philipp.g.hortmann@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [88.120.44.86]
+X-Mailer: Zimbra 7.2.0-GA2598 (ZimbraWebClient - FF3.0 (Linux)/7.2.0-GA2598)
+X-Authenticated-User: ydirson@free.fr
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 29, 2021 at 09:21:41PM +0100, Philipp Hortmann wrote:
-> Clarification that this example is not in the driver template anymore.
-> Update code example so that it fits best to usb-skeleton.c
-> 
-> Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-> ---
->  .../driver-api/usb/writing_usb_driver.rst     | 30 +++++++++----------
->  1 file changed, 15 insertions(+), 15 deletions(-)
-> 
-> diff --git a/Documentation/driver-api/usb/writing_usb_driver.rst b/Documentation/driver-api/usb/writing_usb_driver.rst
-> index b43e1ce49f0e..a9608ad18d77 100644
-> --- a/Documentation/driver-api/usb/writing_usb_driver.rst
-> +++ b/Documentation/driver-api/usb/writing_usb_driver.rst
-> @@ -218,36 +218,36 @@ do very much processing at that time. Our implementation of
->  ``skel_write_bulk_callback`` merely reports if the urb was completed
->  successfully or not and then returns.
->  
-> -The read function works a bit differently from the write function in
-> +This read function works a bit differently from the write function in
->  that we do not use an urb to transfer data from the device to the
-> -driver. Instead we call the :c:func:`usb_bulk_msg` function, which can be used
-> +driver. Instead we call `usb_bulk_msg` function, which can be used
->  to send or receive data from a device without having to create urbs and
-> -handle urb completion callback functions. We call the :c:func:`usb_bulk_msg`
-> +handle urb completion callback functions. We call `usb_bulk_msg`
->  function, giving it a buffer into which to place any data received from
+> On 2021-11-30 10:48 a.m., Harry Wentland wrote:
+> > On 2021-11-30 10:46, Rodrigo Siqueira Jordao wrote:
+> >>
+> >>
+> >> On 2021-11-29 7:06 a.m., Jani Nikula wrote:
+> >>> On Fri, 26 Nov 2021, Daniel Vetter <daniel@ffwll.ch> wrote:
+> >>>> On Thu, Nov 25, 2021 at 10:38:25AM -0500, Rodrigo Siqueira
+> >>>> wrote:
+> >>>>> Display core documentation is not well organized, and it is
+> >>>>> hard to find
+> >>>>> information due to the lack of sections. This commit
+> >>>>> reorganizes the
+> >>>>> documentation layout, and it is preparation work for future
+> >>>>> changes.
+> >>>>>
+> >>>>> Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+> >>>>> ---
+> >>>>>  =C2=A0 Documentation/gpu/amdgpu-dc.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 74
+> >>>>>  =C2=A0 -------------------
+> >>>>>  =C2=A0 .../gpu/amdgpu-dc/amdgpu-dc-debug.rst=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 4 +
+> >>>>>  =C2=A0 Documentation/gpu/amdgpu-dc/amdgpu-dc.rst=C2=A0=C2=A0=C2=A0=
+=C2=A0 | 29 ++++++++
+> >>>>>  =C2=A0 Documentation/gpu/amdgpu-dc/amdgpu-dm.rst=C2=A0=C2=A0=C2=A0=
+=C2=A0 | 42
+> >>>>>  =C2=A0 +++++++++++
+> >>>>>  =C2=A0 Documentation/gpu/drivers.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 =
+2 +-
+> >>>>>  =C2=A0 5 files changed, 76 insertions(+), 75 deletions(-)
+> >>>>>  =C2=A0 delete mode 100644 Documentation/gpu/amdgpu-dc.rst
+> >>>>>  =C2=A0 create mode 100644
+> >>>>>  =C2=A0 Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst
+> >>>>>  =C2=A0 create mode 100644 Documentation/gpu/amdgpu-dc/amdgpu-dc.rs=
+t
+> >>>>>  =C2=A0 create mode 100644 Documentation/gpu/amdgpu-dc/amdgpu-dm.rs=
+t
+> >>>>>
+> >>>>> diff --git a/Documentation/gpu/amdgpu-dc.rst
+> >>>>> b/Documentation/gpu/amdgpu-dc.rst
+> >>>>> deleted file mode 100644
+> >>>>> index f7ff7e1309de..000000000000
+> >>>>> --- a/Documentation/gpu/amdgpu-dc.rst
+> >>>>> +++ /dev/null
+> >>>>> @@ -1,74 +0,0 @@
+> >>>>> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >>>>> -drm/amd/display - Display Core (DC)
+> >>>>> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >>>>> -
+> >>>>> -*placeholder - general description of supported platforms,
+> >>>>> what dc is, etc.*
+> >>>>> -
+> >>>>> -Because it is partially shared with other operating systems,
+> >>>>> the Display Core
+> >>>>> -Driver is divided in two pieces.
+> >>>>> -
+> >>>>> -1. **Display Core (DC)** contains the OS-agnostic components.
+> >>>>> Things like
+> >>>>> -=C2=A0=C2=A0 hardware programming and resource management are hand=
+led
+> >>>>> here.
+> >>>>> -2. **Display Manager (DM)** contains the OS-dependent
+> >>>>> components. Hooks to the
+> >>>>> -=C2=A0=C2=A0 amdgpu base driver and DRM are implemented here.
+> >>>>> -
+> >>>>> -It doesn't help that the entire package is frequently referred
+> >>>>> to as DC. But
+> >>>>> -with the context in mind, it should be clear.
+> >>>>> -
+> >>>>> -When CONFIG_DRM_AMD_DC is enabled, DC will be initialized by
+> >>>>> default for
+> >>>>> -supported ASICs. To force disable, set `amdgpu.dc=3D0` on kernel
+> >>>>> command line.
+> >>>>> -Likewise, to force enable on unsupported ASICs, set
+> >>>>> `amdgpu.dc=3D1`.
+> >>>>> -
+> >>>>> -To determine if DC is loaded, search dmesg for the following
+> >>>>> entry:
+> >>>>> -
+> >>>>> -``Display Core initialized with <version number here>``
+> >>>>> -
+> >>>>> -AMDgpu Display Manager
+> >>>>> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >>>>> -
+> >>>>> -.. kernel-doc::
+> >>>>> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> >>>>> -=C2=A0=C2=A0 :doc: overview
+> >>>>> -
+> >>>>> -.. kernel-doc::
+> >>>>> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> >>>>> -=C2=A0=C2=A0 :internal:
+> >>>>> -
+> >>>>> -Lifecycle
+> >>>>> ----------
+> >>>>> -
+> >>>>> -.. kernel-doc::
+> >>>>> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> >>>>> -=C2=A0=C2=A0 :doc: DM Lifecycle
+> >>>>> -
+> >>>>> -.. kernel-doc::
+> >>>>> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> >>>>> -=C2=A0=C2=A0 :functions: dm_hw_init dm_hw_fini
+> >>>>> -
+> >>>>> -Interrupts
+> >>>>> -----------
+> >>>>> -
+> >>>>> -.. kernel-doc::
+> >>>>> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
+> >>>>> -=C2=A0=C2=A0 :doc: overview
+> >>>>> -
+> >>>>> -.. kernel-doc::
+> >>>>> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
+> >>>>> -=C2=A0=C2=A0 :internal:
+> >>>>> -
+> >>>>> -.. kernel-doc::
+> >>>>> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> >>>>> -=C2=A0=C2=A0 :functions: register_hpd_handlers dm_crtc_high_irq
+> >>>>> dm_pflip_high_irq
+> >>>>> -
+> >>>>> -Atomic Implementation
+> >>>>> ----------------------
+> >>>>> -
+> >>>>> -.. kernel-doc::
+> >>>>> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> >>>>> -=C2=A0=C2=A0 :doc: atomic
+> >>>>> -
+> >>>>> -.. kernel-doc::
+> >>>>> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> >>>>> -=C2=A0=C2=A0 :functions: amdgpu_dm_atomic_check
+> >>>>> amdgpu_dm_atomic_commit_tail
+> >>>>> -
+> >>>>> -Display Core
+> >>>>> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >>>>> -
+> >>>>> -**WIP**
+> >>>>> -
+> >>>>> -FreeSync Video
+> >>>>> ---------------
+> >>>>> -
+> >>>>> -.. kernel-doc::
+> >>>>> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> >>>>> -=C2=A0=C2=A0 :doc: FreeSync Video
+> >>>>> diff --git a/Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst
+> >>>>> b/Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst
+> >>>>> new file mode 100644
+> >>>>> index 000000000000..bbb8c3fc8eee
+> >>>>> --- /dev/null
+> >>>>> +++ b/Documentation/gpu/amdgpu-dc/amdgpu-dc-debug.rst
+> >>>>> @@ -0,0 +1,4 @@
+> >>>>> +Display Core Debug tools
+> >>>>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+> >>>>> +
+> >>>>> +TODO
+> >>>>> diff --git a/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
+> >>>>> b/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
+> >>>>> new file mode 100644
+> >>>>> index 000000000000..3685b3b1ad64
+> >>>>> --- /dev/null
+> >>>>> +++ b/Documentation/gpu/amdgpu-dc/amdgpu-dc.rst
+> >>>>
+> >>>> While we bikeshed names, I think it'd would make sense to call
+> >>>> this
+> >>>> overview.rst or intro.rst or similar, since it's meant to
+> >>>> contain the
+> >>>> overall toctree for everything amdgpu related (maybe there will
+> >>>> be more in
+> >>>> the future).
+> >>>
+> >>> index.rst?
+> >>>
+> >>>
+> >>
+> >> Hi,
+> >>
+> >> Thanks a lot for the suggestions; I will prepare a V2 that
+> >> addresses all your comments.
+> >>
+> >> Ps.: If there is no objection, I'll rename amdgpu-dc to index as
+> >> Jani suggested.
+> >>
+> >=20
+> > SGTM, you mean amdgpu/index.rst, right?
+>=20
+> Yeah, but I'm also thinking about this new organization:
+>=20
+> 1. Create an amdgpu folder.
+> 2. Inside amdgpu folder, I want to create a display folder.
+> 3. Move all display documentation to the display folder and keep
+> other
+> amdgpu generic things under amdgpu.
+> 4. Finally, inside the amdgpu folder, I'll create the index.rst for
+> amdgpu, and inside the display folder, I will create a similar file.
 
-The reason for the last two changes above isn't clear.  You removed some of the 
-markup indicators and made the text ungrammatical.  This does not seem like an 
-improvement.
-
-Alan Stern
-
->  the device and a timeout value. If the timeout period expires without
->  receiving any data from the device, the function will fail and return an
->  error message. This can be shown with the following code::
->  
->      /* do an immediate bulk read to get data from the device */
-> -    retval = usb_bulk_msg (skel->dev,
-> -			   usb_rcvbulkpipe (skel->dev,
-> -			   skel->bulk_in_endpointAddr),
-> -			   skel->bulk_in_buffer,
-> -			   skel->bulk_in_size,
-> -			   &count, 5000);
-> +    rv = usb_bulk_msg(dev->udev,
-> +		      usb_rcvbulkpipe (dev->udev,
-> +		      dev->bulk_in_endpointAddr),
-> +		      dev->bulk_in_buffer,
-> +	              dev->bulk_in_size,
-> +		      &len, 5000);
->      /* if the read was successful, copy the data to user space */
-> -    if (!retval) {
-> -	    if (copy_to_user (buffer, skel->bulk_in_buffer, count))
-> -		    retval = -EFAULT;
-> +    if (!rv) {
-> +	    if (copy_to_user (buffer, dev->bulk_in_buffer, len))
-> +		    rv = -EFAULT;
->  	    else
-> -		    retval = count;
-> +		    rv = len;
->      }
->  
->  
-> -The :c:func:`usb_bulk_msg` function can be very useful for doing single reads
-> +Function `usb_bulk_msg` can be very useful for doing single reads
->  or writes to a device; however, if you need to read or write constantly to
->  a device, it is recommended to set up your own urbs and submit them to
-> -the USB subsystem.
-> +the USB subsystem. The template uses urbs for read and write.
->  
->  When the user program releases the file handle that it has been using to
->  talk to the device, the release function in the driver is called. In
-> -- 
-> 2.25.1
-> 
+Since the source tree has amd/amdgpu/ and amd/display/, wouldn't it
+be useful to mirror that layout ?
