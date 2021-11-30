@@ -2,256 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81D5CC433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 18:55:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 927BCC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 18:55:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239859AbhK3S6m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Nov 2021 13:58:42 -0500
-Received: from linux.microsoft.com ([13.77.154.182]:43938 "EHLO
-        linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235387AbhK3S6k (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Nov 2021 13:58:40 -0500
-Received: from [10.137.106.139] (unknown [131.107.159.11])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 7526020DEE27;
-        Tue, 30 Nov 2021 10:55:20 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7526020DEE27
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1638298520;
-        bh=jdJ3O+n/LkBO98hWieh7dVs9KitCGmYhprvFZHk6PLk=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=YTILtOkEbTZwRWJmewl5mN87VA4st2CE3JZSd1WYfYEJdIZP+2VlG0gesXwp7zu93
-         U4SIdob24AcRoO3d4ZbxVLSIXo1q87l8Bym8UI+NOSDnq5yuPhNCBqBjZh0AtrS7o1
-         Kqk712gvF4+URWAA4SG1WmlXi3FTLbeZsZ0VmM9c=
-Message-ID: <81d5e825-1ee2-8f6b-cd9d-07b0f8bd36d3@linux.microsoft.com>
-Date:   Tue, 30 Nov 2021 10:55:20 -0800
+        id S239924AbhK3S7F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Nov 2021 13:59:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33544 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239907AbhK3S7E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Nov 2021 13:59:04 -0500
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C4B4C061574;
+        Tue, 30 Nov 2021 10:55:45 -0800 (PST)
+Received: by mail-pl1-x632.google.com with SMTP id b13so15683982plg.2;
+        Tue, 30 Nov 2021 10:55:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Qv79wVTcK+nZ5LSvR3T9ntnRBhY6KehuqGBysRBPuRE=;
+        b=fNUaEzNSlII0Vfa59e+1be7oMLK8TQ7us7zeZxsLaU9dikgRXmTDdr1un4Eh3cwvuL
+         NABoPv86mfNDNV31zgWBztC5ZmiULBzdT53duK9FNI5G4JMR63bUgeiGc9E5HdK86ndo
+         zVOfiXoLajoPQSj97S8aNISyNTY6tQ0j4veaRKrQDUTsQCSTBikgoNwWo4/1JLYDnvJI
+         aPCRVuS86eY39RI0Jxny1nlohMCgeCfr/F88nOLJ4LPywgk3mLJDQikYGuv7Ul/g6cSe
+         OZf/3MVt1K33FmGUc86Mi3s2Pmru22CKasp02I56eLLmvd1vovHJKbn2Pd0TRQRnzYVS
+         o7OA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Qv79wVTcK+nZ5LSvR3T9ntnRBhY6KehuqGBysRBPuRE=;
+        b=YP6qCgw06zkH5gAq+L6gAhS070OWlAkcv45dcm+Ufg+hxdAUs7G/HQgoioOqaeiJuo
+         esGPlvSV48B6/mvQlYQSTIrbMZZiYOCJ2E5X5mcGzk6AhY8UtjGHxOJtNHjJ98K6uPKL
+         94Bnw1XBeaFwA7T8NUwX0pGBMTegJ8/zs2mZviQYa+Gddmcxsl/d4jf4rFlgDQLN61qo
+         /4+lwRZbT+HKEvM6QqNZf0W5aVfec8Aosn5KkghxaGA4z+mVobwdanOWyXGdyFqeLyiG
+         3bDYmq3DyEnIfIE8ql/bvsyVy7dUA0aPu7PMqnA6C/E4fZOj55LdjxW+WJZ1ZuO3exhJ
+         Uigw==
+X-Gm-Message-State: AOAM531FO41M/8lUHDXfWiV2r+Jvz64/f3Mqyd6jUckFO8PikMrUCaGb
+        MoLauoPU3mZB26xrY8QVWvuBuL/Fe4uppEyo978=
+X-Google-Smtp-Source: ABdhPJyNnukIlGCEjBI/qU6SfJP5DjYZ5pJQl8SyGBTZLU+zruRWUvFKNCWKti6h2p/r8e103Xphua89ismzUHqqSuc=
+X-Received: by 2002:a17:90a:17a5:: with SMTP id q34mr972516pja.122.1638298544945;
+ Tue, 30 Nov 2021 10:55:44 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [RFC PATCH v7 11/16] ipe: add support for dm-verity as a trust
- provider
-Content-Language: en-US
-To:     Roberto Sassu <roberto.sassu@huawei.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "axboe@kernel.dk" <axboe@kernel.dk>,
-        "agk@redhat.com" <agk@redhat.com>,
-        "snitzer@redhat.com" <snitzer@redhat.com>,
-        "ebiggers@kernel.org" <ebiggers@kernel.org>,
-        "tytso@mit.edu" <tytso@mit.edu>,
-        "paul@paul-moore.com" <paul@paul-moore.com>,
-        "eparis@redhat.com" <eparis@redhat.com>,
-        "jmorris@namei.org" <jmorris@namei.org>,
-        "serge@hallyn.com" <serge@hallyn.com>
-Cc:     "jannh@google.com" <jannh@google.com>,
-        "dm-devel@redhat.com" <dm-devel@redhat.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-fscrypt@vger.kernel.org" <linux-fscrypt@vger.kernel.org>,
-        "linux-audit@redhat.com" <linux-audit@redhat.com>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "tusharsu@linux.microsoft.com" <tusharsu@linux.microsoft.com>
-References: <1634151995-16266-1-git-send-email-deven.desai@linux.microsoft.com>
- <1634151995-16266-12-git-send-email-deven.desai@linux.microsoft.com>
- <721462c3da064d359ca3c83845298ccf@huawei.com>
-From:   Deven Bowers <deven.desai@linux.microsoft.com>
-In-Reply-To: <721462c3da064d359ca3c83845298ccf@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20211119163215.971383-1-hch@lst.de>
+In-Reply-To: <20211119163215.971383-1-hch@lst.de>
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date:   Tue, 30 Nov 2021 10:55:33 -0800
+Message-ID: <CAADnVQKymbNQw3U5YhO_f8Aecon4KXbx9HvuZz=syc1LgOCT1w@mail.gmail.com>
+Subject: Re: split up filter.rst v2
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
+        bpf <bpf@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, Nov 19, 2021 at 8:32 AM Christoph Hellwig <hch@lst.de> wrote:
+>
+> Hi all,
+>
+> for historical reasons filter.rst not only documents the classic Berkely
+> Packet Filter, but also contains some of the most fundamental eBPF
+> documentation.  This series moves the actual eBPF documentation into newly
+> created files under Documentation/bpf/ instead.  Note that the instruction
+> set document is still a bit of a mess due to all the references to classic
+> BPF, but if this split goes through I plan to start on working to clean
+> that up as well.
+>
+> Changes since v1:
+>  - rebased to the latest bpf-next
+>  - just refernence BPF instead of eBPF in most code
+>  - split the patches further up
+>  - better link the BPF documentation from filter.rst
 
-On 11/25/2021 1:37 AM, Roberto Sassu wrote:
->> From: deven.desai@linux.microsoft.com
->> [mailto:deven.desai@linux.microsoft.com]
->> Sent: Wednesday, October 13, 2021 9:07 PM
->> From: Deven Bowers <deven.desai@linux.microsoft.com>
-
-..snip
-
->> diff --git a/security/ipe/modules/Makefile b/security/ipe/modules/Makefile
->> index e0045ec65434..84fadce85193 100644
->> --- a/security/ipe/modules/Makefile
->> +++ b/security/ipe/modules/Makefile
->> @@ -6,3 +6,5 @@
->>   #
->>
->>   obj-$(CONFIG_IPE_PROP_BOOT_VERIFIED) += boot_verified.o
->> +obj-$(CONFIG_IPE_PROP_DM_VERITY_SIGNATURE) += dmverity_signature.o
->> +obj-$(CONFIG_IPE_PROP_DM_VERITY_ROOTHASH) += dmverity_roothash.o
->> diff --git a/security/ipe/modules/dmverity_roothash.c
->> b/security/ipe/modules/dmverity_roothash.c
->> new file mode 100644
->> index 000000000000..0f82bec3b842
->> --- /dev/null
->> +++ b/security/ipe/modules/dmverity_roothash.c
->> @@ -0,0 +1,80 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * Copyright (C) Microsoft Corporation. All rights reserved.
->> + */
->> +
->> +#include "ipe_module.h"
->> +
->> +#include <linux/fs.h>
->> +#include <linux/types.h>
->> +
->> +struct counted_array {
->> +	size_t	len;
->> +	u8     *data;
->> +};
->> +
->> +static int dvrh_parse(const char *valstr, void **value)
->> +{
->> +	int rv = 0;
->> +	struct counted_array *arr;
->> +
->> +	arr = kzalloc(sizeof(*arr), GFP_KERNEL);
->> +	if (!arr) {
->> +		rv = -ENOMEM;
->> +		goto err;
->> +	}
->> +
->> +	arr->len = (strlen(valstr) / 2);
->> +
->> +	arr->data = kzalloc(arr->len, GFP_KERNEL);
->> +	if (!arr->data) {
->> +		rv = -ENOMEM;
->> +		goto err;
->> +	}
->> +
->> +	rv = hex2bin(arr->data, valstr, arr->len);
->> +	if (rv != 0)
->> +		goto err2;
->> +
->> +	*value = arr;
->> +	return rv;
->> +err2:
->> +	kfree(arr->data);
->> +err:
->> +	kfree(arr);
->> +	return rv;
->> +}
->> +
->> +static bool dvrh_eval(const struct ipe_eval_ctx *ctx, const void *val)
->> +{
->> +	const u8 *src;
->> +	struct counted_array *expect = (struct counted_array *)val;
->> +
->> +	if (!ctx->ipe_bdev)
->> +		return false;
->> +
->> +	if (ctx->ipe_bdev->hashlen != expect->len)
->> +		return false;
->> +
->> +	src = ctx->ipe_bdev->hash;
->> +
->> +	return !memcmp(expect->data, src, expect->len);
-> Hi Deven
->
-> I was curious to see if determining the property at run-time
-> could apply also to dm-verity. It seems it could be done
-> (I omit some checks, I also keep the expected value in hex
-> format):
->
-> ---
->          md = dm_get_md(file_inode(ctx->file)->i_sb->s_dev);
->          table = dm_get_live_table(md, &srcu_idx);
->          num_targets = dm_table_get_num_targets(table);
->
->          for (i = 0; i < num_targets; i++) {
->                  struct dm_target *ti = dm_table_get_target(table, i);
->
->                  if (strcmp(ti->type->name, "verity"))
->                          continue;
->
->                  ti->type->status(ti, STATUSTYPE_IMA, 0, result, sizeof(result));
->          }
->
->          dm_put_live_table(md, srcu_idx);
->          dm_put(md);
->
->          root_digest_ptr = strstr(result, "root_digest=");
->          return !strncmp(expect->data, root_digest_ptr + 12, expect->len);
-> ---
->
-> Only dm_table_get_target() is not exported yet, but I guess it could
-> be. dm_table_get_num_targets() is exported.
-
-I had tried something similar in a very early draft of IPE. The issue
-that comes with this is that when you compile device-mapper as a module
-(CONFIG_BLK_DEV_DM=m) you start to get linking errors with this
-approach.
-
-Obviously, we can fix this in the IPE's module Kconfig by setting the
-dependency to be =y, but it's something to highlight. My general
-preference is to support the =m configuration by using these blobs.
-
-The runtime approach does work with fs-verity, because fs-verity is a
-file-system level feature that cannot be compiled as a module.
-
-> With this code, you would not have to manage security blobs
-> outside IPE. Maybe you could add a blob for the super block, so
-> that you verify the dm-verity property just once per filesystem.
->
-> Roberto
->
-> HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
-> Managing Director: Li Peng, Zhong Ronghua
->
->> +}
->> +
->> +static int dvrh_free(void **val)
->> +{
->> +	struct counted_array *expect = (struct counted_array *)val;
->> +
->> +	kfree(expect->data);
->> +	kfree(expect);
->> +
->> +	return 0;
->> +}
->> +
->> +IPE_MODULE(dvrh) = {
->> +	.name = "dmverity_roothash",
->> +	.version = 1,
->> +	.parse = dvrh_parse,
->> +	.free = dvrh_free,
->> +	.eval = dvrh_eval,
->> +};
->> diff --git a/security/ipe/modules/dmverity_signature.c
->> b/security/ipe/modules/dmverity_signature.c
->> new file mode 100644
->> index 000000000000..08746fcbcb3e
->> --- /dev/null
->> +++ b/security/ipe/modules/dmverity_signature.c
->> @@ -0,0 +1,25 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * Copyright (C) Microsoft Corporation. All rights reserved.
->> + */
->> +
->> +#include "ipe_module.h"
->> +
->> +#include <linux/fs.h>
->> +#include <linux/types.h>
->> +
->> +static bool dvv_eval(const struct ipe_eval_ctx *ctx, const void *val)
->> +{
->> +	bool expect = (bool)val;
->> +	bool eval = ctx->ipe_bdev && (!!ctx->ipe_bdev->sigdata);
->> +
->> +	return expect == eval;
->> +}
->> +
->> +IPE_MODULE(dvv) = {
->> +	.name = "dmverity_signature",
->> +	.version = 1,
->> +	.parse = ipe_bool_parse,
->> +	.free = NULL,
->> +	.eval = dvv_eval,
->> +};
->> --
->> 2.33.0
+Applied. Thanks
