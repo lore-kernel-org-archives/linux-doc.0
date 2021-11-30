@@ -2,134 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9B6BC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 08:14:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83CD8C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 09:23:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236888AbhK3ISC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Nov 2021 03:18:02 -0500
-Received: from out30-43.freemail.mail.aliyun.com ([115.124.30.43]:36120 "EHLO
-        out30-43.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234251AbhK3ISB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Nov 2021 03:18:01 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04423;MF=jkchen@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0UyrajG9_1638260080;
-Received: from localhost(mailfrom:jkchen@linux.alibaba.com fp:SMTPD_---0UyrajG9_1638260080)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Tue, 30 Nov 2021 16:14:41 +0800
-From:   Jay Chen <jkchen@linux.alibaba.com>
-To:     will@kernel.org, robin.murphy@arm.com, joro@8bytes.org,
-        inux-arm-kernel@lists.infradead.org,
-        iommu@lists.linux-foundation.org, linux-doc@vger.kernel.org
-Cc:     zhangliguang@linux.alibaba.com
-Subject: [RFC PATCH] per device enable smmu whem iommu passthrough
-Date:   Tue, 30 Nov 2021 16:14:40 +0800
-Message-Id: <20211130081440.12397-1-jkchen@linux.alibaba.com>
-X-Mailer: git-send-email 2.27.0
+        id S240114AbhK3J0x convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Nov 2021 04:26:53 -0500
+Received: from eu-smtp-delivery-151.mimecast.com ([185.58.86.151]:46748 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S240113AbhK3J0x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Nov 2021 04:26:53 -0500
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-13-Ag_JXOyjMBuSXQrxBjFzkA-1; Tue, 30 Nov 2021 09:23:32 +0000
+X-MC-Unique: Ag_JXOyjMBuSXQrxBjFzkA-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.26; Tue, 30 Nov 2021 09:23:30 +0000
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.026; Tue, 30 Nov 2021 09:23:30 +0000
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Rustam Kovhaev' <rkovhaev@gmail.com>
+CC:     'Vlastimil Babka' <vbabka@suse.cz>,
+        Christoph Lameter <cl@gentwo.org>,
+        "penberg@kernel.org" <penberg@kernel.org>,
+        "rientjes@google.com" <rientjes@google.com>,
+        "iamjoonsoo.kim@lge.com" <iamjoonsoo.kim@lge.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "djwong@kernel.org" <djwong@kernel.org>,
+        "david@fromorbit.com" <david@fromorbit.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+        "dvyukov@google.com" <dvyukov@google.com>
+Subject: RE: [PATCH v4] slob: add size header to all allocations
+Thread-Topic: [PATCH v4] slob: add size header to all allocations
+Thread-Index: AQHX344YYrlQE8gw8k+1+rn2N9Qq+awQ435QgArNSACAACX/IA==
+Date:   Tue, 30 Nov 2021 09:23:30 +0000
+Message-ID: <d8bbbf07698948bd99fff9da1198a1e6@AcuMS.aculab.com>
+References: <037227db-c869-7d9c-65e8-8f5f8682171d@suse.cz>
+ <20211122013026.909933-1-rkovhaev@gmail.com>
+ <alpine.DEB.2.22.394.2111221018070.202803@gentwo.de>
+ <3c996e22-034f-1013-3978-1f786aae38fb@suse.cz>
+ <alpine.DEB.2.22.394.2111221133110.204314@gentwo.de>
+ <148d2774-77b9-bb25-c132-80b00e16ea06@suse.cz>
+ <69fc0cead9774dfdba816a8e25f30a53@AcuMS.aculab.com> <YaXMBm4zUSTRUGx1@nuc10>
+In-Reply-To: <YaXMBm4zUSTRUGx1@nuc10>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently, when iommu.passthrough=1 is set,
-all arm smmu peripherals are bypassed. This
-patch allows specific peripherals to use smmu translate.
+From: Rustam Kovhaev
+> Sent: 30 November 2021 07:00
+> 
+> On Tue, Nov 23, 2021 at 10:18:27AM +0000, David Laight wrote:
+> > From: Vlastimil Babka
+> > > Sent: 22 November 2021 10:46
+> > >
+> > > On 11/22/21 11:36, Christoph Lameter wrote:
+> > > > On Mon, 22 Nov 2021, Vlastimil Babka wrote:
+> > > >
+> > > >> But it seems there's no reason we couldn't do better? I.e. use the value of
+> > > >> SLOB_HDR_SIZE only to align the beginning of actual object (and name the
+> > > >> define different than SLOB_HDR_SIZE). But the size of the header, where we
+> > > >> store the object lenght could be just a native word - 4 bytes on 32bit, 8 on
+> > > >> 64bit. The address of the header shouldn't have a reason to be also aligned
+> > > >> to ARCH_KMALLOC_MINALIGN / ARCH_SLAB_MINALIGN as only SLOB itself processes
+> > > >> it and not the slab consumers which rely on those alignments?
+> > > >
+> > > > Well the best way would be to put it at the end of the object in order to
+> > > > avoid the alignment problem. This is a particular issue with SLOB because
+> > > > it allows multiple types of objects in a single page frame.
+> > > >
+...
+> >
+> > > > So I guess placement at the beginning cannot be avoided. That in turn runs
+> > > > into trouble with the DMA requirements on some platforms where the
+> > > > beginning of the object has to be cache line aligned.
+> > >
+> > > It's no problem to have the real beginning of the object aligned, and the
+> > > prepended header not.
+> >
+> > I'm not sure that helps.
+> > The header can't share a cache line with the previous item (because it
+> > might be mapped for DMA) so will always take a full cache line.
+> 
+> I thought that DMA API allocates buffers that are larger than page size.
+> DMA pool seems to be able to give out smaller buffers, but underneath it
+> seems to be calling page allocator.
+> The SLOB objects that have this header are all less than page size, and
+> they cannot end up in DMA code paths, or can they?
 
-Signed-off-by: Jay Chen <jkchen@linux.alibaba.com>
----
- .../admin-guide/kernel-parameters.txt         |  6 +++
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   | 41 +++++++++++++++++++
- 2 files changed, 47 insertions(+)
+The problem isn't dma_alloc_coherent() it is when memory allocated
+elsewhere is used for DMA.
+On systems with non-coherent DMA accesses the data cache has to be
+flushed before all and invalidated after read DMA transfers.
+The cpu must not dirty any of the cache lines associated with a read DMA.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 91ba391f9b32..7ecc7a4c84d7 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2076,6 +2076,12 @@
- 			1 - Bypass the IOMMU for DMA.
- 			unset - Use value of CONFIG_IOMMU_DEFAULT_PASSTHROUGH.
- 
-+	smmuv3_no_passthrough=
-+			[ARM64] enable smmu for devices when iommu.passthrough=1.
-+			Format: {83:00.0,84:00.0,devname}
-+			83:00.0 - the bdf for one pci devices
-+			devname - the name for the platform device
-+
- 	io7=		[HW] IO7 for Marvel-based Alpha systems
- 			See comment before marvel_specify_io7 in
- 			arch/alpha/kernel/core_marvel.c.
-diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-index a388e318f86e..e2a57bd37f32 100644
---- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-+++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-@@ -76,6 +76,8 @@ struct arm_smmu_option_prop {
- DEFINE_XARRAY_ALLOC1(arm_smmu_asid_xa);
- DEFINE_MUTEX(arm_smmu_asid_lock);
- 
-+char *smmuv3_nopt;
-+
- /*
-  * Special value used by SVA when a process dies, to quiesce a CD without
-  * disabling it.
-@@ -102,6 +104,17 @@ static void parse_driver_options(struct arm_smmu_device *smmu)
- 	} while (arm_smmu_options[++i].opt);
- }
- 
-+static int __init arm_smmu_no_passthrough_setup(char *str)
-+{
-+	if (!str)
-+		return -EINVAL;
-+
-+	smmuv3_nopt = str;
-+
-+	return 0;
-+}
-+__setup("smmuv3_no_passthrough=", arm_smmu_no_passthrough_setup);
-+
- /* Low-level queue manipulation functions */
- static bool queue_has_space(struct arm_smmu_ll_queue *q, u32 n)
- {
-@@ -2831,6 +2844,33 @@ static int arm_smmu_dev_disable_feature(struct device *dev,
- 	}
- }
- 
-+static int arm_smmu_def_domain_type(struct device *dev)
-+{
-+	char *str = smmuv3_nopt;
-+	const char *tmp;
-+
-+	if (!dev || !str)
-+		return 0;
-+
-+	if (dev_is_pci(dev)) {
-+		tmp = dev_name(dev);
-+		tmp += strcspn(tmp, ":") + 1;
-+	} else {
-+		tmp = dev_name(dev);
-+	}
-+
-+	while (*str) {
-+		if (!strncmp(str, tmp, strlen(tmp)))
-+			return IOMMU_DOMAIN_DMA;
-+
-+		str += strcspn(str, ",");
-+		while (*str == ',')
-+			str++;
-+	}
-+
-+	return 0;
-+}
-+
- static struct iommu_ops arm_smmu_ops = {
- 	.capable		= arm_smmu_capable,
- 	.domain_alloc		= arm_smmu_domain_alloc,
-@@ -2856,6 +2896,7 @@ static struct iommu_ops arm_smmu_ops = {
- 	.sva_unbind		= arm_smmu_sva_unbind,
- 	.sva_get_pasid		= arm_smmu_sva_get_pasid,
- 	.page_response		= arm_smmu_page_response,
-+	.def_domain_type	= arm_smmu_def_domain_type,
- 	.pgsize_bitmap		= -1UL, /* Restricted during device attach */
- 	.owner			= THIS_MODULE,
- };
--- 
-2.27.0
+This is on top of any requirements for the alignment of the returned address.
+
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
 
