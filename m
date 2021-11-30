@@ -2,136 +2,256 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB094C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 17:56:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81D5CC433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 18:55:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243486AbhK3R7u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Nov 2021 12:59:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48264 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238677AbhK3R7t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Nov 2021 12:59:49 -0500
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C6ADC061574;
-        Tue, 30 Nov 2021 09:56:30 -0800 (PST)
-Received: by mail-ot1-x32f.google.com with SMTP id a23-20020a9d4717000000b0056c15d6d0caso31304953otf.12;
-        Tue, 30 Nov 2021 09:56:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=sP3a2w9TIAvowtRsPrZvQyg1T33o3v6kWhUG+u0tLlE=;
-        b=b4upmZcT1t7xQzyUYE8KQU475W7lJjkGOOYfS1joYDLLcIERbWMU/rYjx7209HwrNK
-         algIH55puJuHwwc10ZxvR1AEIiK4O2PxuSQVc8xC3OZkhiAusKoWmtGw0R/JSagg5hqj
-         KOOgnN/EGXChaY7ZmP60oildRx3fhZZhcDhel4GtuG1xIv6nTDwuRXVJkksQZWh1IagO
-         omft/vl1YWdZRzgivXLMgLiuDzpHzGrF4WSVr4AH6Usp1IBVbxoh9j+cH1ov3fP5ziir
-         rRlrtvtaHkZ2YdiEPHMCzm8vwp+Gotsvw/4NMmw20OEne3Yob3RGtquWPRUGJqLVs4fO
-         gfmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=sP3a2w9TIAvowtRsPrZvQyg1T33o3v6kWhUG+u0tLlE=;
-        b=XgDoTK2KdmgGZOKfCcXH8MppavQ5Cnv27XeWrioO8OTXLx/e+zkM1B/+ik55tAaaEX
-         nx9hy+94HYdvcHt8kp3IGejG1p/113RDYLcpKt+dxha063E53oW+0FNpfgJWTNiYtU5N
-         FLJLfLthwU2i6lpg2FKWShQMDN3+wUsL5b+XoS5msMSXqWfiuMpyeP7NNMetdcYf7PFt
-         RxBj9pJccork6BWb215fURx7oTjvZobC0Nw0BOliYAp28dhPKowRi1QkjlDLMswwaczZ
-         a+OM2kDIUDkzqAbUDHEzKjTM9xizty8nf/nbttfmM8/KPsAjaiID25bPdADVXqmYRe7F
-         SHbg==
-X-Gm-Message-State: AOAM5321Ve7HOpKNAyaa01KJ73i40OjiDL4xjf9WjM+j7LdnL8bAQu0G
-        BF13+PMwQkNKy6JtgWyjmYU=
-X-Google-Smtp-Source: ABdhPJzy2Yq4AwU02waQ4hZbuxHokWD5+Xy6wCmmsKNJziTS72PXddbDdSp6ndvI+xhGOJyxmVEkkA==
-X-Received: by 2002:a9d:67d5:: with SMTP id c21mr733642otn.128.1638294989887;
-        Tue, 30 Nov 2021 09:56:29 -0800 (PST)
-Received: from [172.16.0.2] ([8.48.134.30])
-        by smtp.googlemail.com with ESMTPSA id r5sm3859326oiw.20.2021.11.30.09.56.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Nov 2021 09:56:29 -0800 (PST)
-Message-ID: <d9be528c-af35-6c10-c458-9e2f7759bbb3@gmail.com>
-Date:   Tue, 30 Nov 2021 10:56:26 -0700
+        id S239859AbhK3S6m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Nov 2021 13:58:42 -0500
+Received: from linux.microsoft.com ([13.77.154.182]:43938 "EHLO
+        linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235387AbhK3S6k (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Nov 2021 13:58:40 -0500
+Received: from [10.137.106.139] (unknown [131.107.159.11])
+        by linux.microsoft.com (Postfix) with ESMTPSA id 7526020DEE27;
+        Tue, 30 Nov 2021 10:55:20 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7526020DEE27
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1638298520;
+        bh=jdJ3O+n/LkBO98hWieh7dVs9KitCGmYhprvFZHk6PLk=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=YTILtOkEbTZwRWJmewl5mN87VA4st2CE3JZSd1WYfYEJdIZP+2VlG0gesXwp7zu93
+         U4SIdob24AcRoO3d4ZbxVLSIXo1q87l8Bym8UI+NOSDnq5yuPhNCBqBjZh0AtrS7o1
+         Kqk712gvF4+URWAA4SG1WmlXi3FTLbeZsZ0VmM9c=
+Message-ID: <81d5e825-1ee2-8f6b-cd9d-07b0f8bd36d3@linux.microsoft.com>
+Date:   Tue, 30 Nov 2021 10:55:20 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.3.1
-Subject: Re: [PATCH v2 net-next 00/26] net: introduce and use generic XDP
- stats
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [RFC PATCH v7 11/16] ipe: add support for dm-verity as a trust
+ provider
 Content-Language: en-US
-To:     Jakub Kicinski <kuba@kernel.org>,
-        =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vu?= =?UTF-8?Q?sen?= 
-        <toke@redhat.com>
-Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
-        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shay Agroskin <shayagr@amazon.com>,
-        Arthur Kiyanovski <akiyano@amazon.com>,
-        David Arinzon <darinzon@amazon.com>,
-        Noam Dagan <ndagan@amazon.com>,
-        Saeed Bishara <saeedb@amazon.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Marcin Wojtas <mw@semihalf.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Saeed Mahameed <saeedm@nvidia.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Edward Cree <ecree.xilinx@gmail.com>,
-        Martin Habets <habetsm.xilinx@gmail.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Yajun Deng <yajun.deng@linux.dev>,
-        Sergey Ryazanov <ryazanov.s.a@gmail.com>,
-        David Ahern <dsahern@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        Cong Wang <cong.wang@bytedance.com>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
-        virtualization@lists.linux-foundation.org
-References: <20211123163955.154512-1-alexandr.lobakin@intel.com>
- <20211130155612.594688-1-alexandr.lobakin@intel.com> <871r2x8vor.fsf@toke.dk>
- <20211130090716.4a557036@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-From:   David Ahern <dsahern@gmail.com>
-In-Reply-To: <20211130090716.4a557036@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+To:     Roberto Sassu <roberto.sassu@huawei.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "axboe@kernel.dk" <axboe@kernel.dk>,
+        "agk@redhat.com" <agk@redhat.com>,
+        "snitzer@redhat.com" <snitzer@redhat.com>,
+        "ebiggers@kernel.org" <ebiggers@kernel.org>,
+        "tytso@mit.edu" <tytso@mit.edu>,
+        "paul@paul-moore.com" <paul@paul-moore.com>,
+        "eparis@redhat.com" <eparis@redhat.com>,
+        "jmorris@namei.org" <jmorris@namei.org>,
+        "serge@hallyn.com" <serge@hallyn.com>
+Cc:     "jannh@google.com" <jannh@google.com>,
+        "dm-devel@redhat.com" <dm-devel@redhat.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+        "linux-fscrypt@vger.kernel.org" <linux-fscrypt@vger.kernel.org>,
+        "linux-audit@redhat.com" <linux-audit@redhat.com>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "tusharsu@linux.microsoft.com" <tusharsu@linux.microsoft.com>
+References: <1634151995-16266-1-git-send-email-deven.desai@linux.microsoft.com>
+ <1634151995-16266-12-git-send-email-deven.desai@linux.microsoft.com>
+ <721462c3da064d359ca3c83845298ccf@huawei.com>
+From:   Deven Bowers <deven.desai@linux.microsoft.com>
+In-Reply-To: <721462c3da064d359ca3c83845298ccf@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/30/21 10:07 AM, Jakub Kicinski wrote:
-> On Tue, 30 Nov 2021 17:17:24 +0100 Toke Høiland-Jørgensen wrote:
->>> 1. Channels vs queues vs global.
->>>
->>> Jakub: no per-channel.
->>> David (Ahern): it's worth it to separate as Rx/Tx.
->>> Toke is fine with globals at the end I think?  
+
+On 11/25/2021 1:37 AM, Roberto Sassu wrote:
+>> From: deven.desai@linux.microsoft.com
+>> [mailto:deven.desai@linux.microsoft.com]
+>> Sent: Wednesday, October 13, 2021 9:07 PM
+>> From: Deven Bowers <deven.desai@linux.microsoft.com>
+
+..snip
+
+>> diff --git a/security/ipe/modules/Makefile b/security/ipe/modules/Makefile
+>> index e0045ec65434..84fadce85193 100644
+>> --- a/security/ipe/modules/Makefile
+>> +++ b/security/ipe/modules/Makefile
+>> @@ -6,3 +6,5 @@
+>>   #
 >>
->> Well, I don't like throwing data away, so in that sense I do like
->> per-queue stats, but it's not a very strong preference (i.e., I can live
->> with either)...
-> 
-> We don't even have a clear definition of a queue in Linux.
-> 
+>>   obj-$(CONFIG_IPE_PROP_BOOT_VERIFIED) += boot_verified.o
+>> +obj-$(CONFIG_IPE_PROP_DM_VERITY_SIGNATURE) += dmverity_signature.o
+>> +obj-$(CONFIG_IPE_PROP_DM_VERITY_ROOTHASH) += dmverity_roothash.o
+>> diff --git a/security/ipe/modules/dmverity_roothash.c
+>> b/security/ipe/modules/dmverity_roothash.c
+>> new file mode 100644
+>> index 000000000000..0f82bec3b842
+>> --- /dev/null
+>> +++ b/security/ipe/modules/dmverity_roothash.c
+>> @@ -0,0 +1,80 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * Copyright (C) Microsoft Corporation. All rights reserved.
+>> + */
+>> +
+>> +#include "ipe_module.h"
+>> +
+>> +#include <linux/fs.h>
+>> +#include <linux/types.h>
+>> +
+>> +struct counted_array {
+>> +	size_t	len;
+>> +	u8     *data;
+>> +};
+>> +
+>> +static int dvrh_parse(const char *valstr, void **value)
+>> +{
+>> +	int rv = 0;
+>> +	struct counted_array *arr;
+>> +
+>> +	arr = kzalloc(sizeof(*arr), GFP_KERNEL);
+>> +	if (!arr) {
+>> +		rv = -ENOMEM;
+>> +		goto err;
+>> +	}
+>> +
+>> +	arr->len = (strlen(valstr) / 2);
+>> +
+>> +	arr->data = kzalloc(arr->len, GFP_KERNEL);
+>> +	if (!arr->data) {
+>> +		rv = -ENOMEM;
+>> +		goto err;
+>> +	}
+>> +
+>> +	rv = hex2bin(arr->data, valstr, arr->len);
+>> +	if (rv != 0)
+>> +		goto err2;
+>> +
+>> +	*value = arr;
+>> +	return rv;
+>> +err2:
+>> +	kfree(arr->data);
+>> +err:
+>> +	kfree(arr);
+>> +	return rv;
+>> +}
+>> +
+>> +static bool dvrh_eval(const struct ipe_eval_ctx *ctx, const void *val)
+>> +{
+>> +	const u8 *src;
+>> +	struct counted_array *expect = (struct counted_array *)val;
+>> +
+>> +	if (!ctx->ipe_bdev)
+>> +		return false;
+>> +
+>> +	if (ctx->ipe_bdev->hashlen != expect->len)
+>> +		return false;
+>> +
+>> +	src = ctx->ipe_bdev->hash;
+>> +
+>> +	return !memcmp(expect->data, src, expect->len);
+> Hi Deven
+>
+> I was curious to see if determining the property at run-time
+> could apply also to dm-verity. It seems it could be done
+> (I omit some checks, I also keep the expected value in hex
+> format):
+>
+> ---
+>          md = dm_get_md(file_inode(ctx->file)->i_sb->s_dev);
+>          table = dm_get_live_table(md, &srcu_idx);
+>          num_targets = dm_table_get_num_targets(table);
+>
+>          for (i = 0; i < num_targets; i++) {
+>                  struct dm_target *ti = dm_table_get_target(table, i);
+>
+>                  if (strcmp(ti->type->name, "verity"))
+>                          continue;
+>
+>                  ti->type->status(ti, STATUSTYPE_IMA, 0, result, sizeof(result));
+>          }
+>
+>          dm_put_live_table(md, srcu_idx);
+>          dm_put(md);
+>
+>          root_digest_ptr = strstr(result, "root_digest=");
+>          return !strncmp(expect->data, root_digest_ptr + 12, expect->len);
+> ---
+>
+> Only dm_table_get_target() is not exported yet, but I guess it could
+> be. dm_table_get_num_targets() is exported.
 
-The summary above says "Jakub: no per-channel", and then you have this
-comment about a clear definition of a queue. What is your preference
-here, Jakub? I think I have gotten lost in all of the coments.
+I had tried something similar in a very early draft of IPE. The issue
+that comes with this is that when you compile device-mapper as a module
+(CONFIG_BLK_DEV_DM=m) you start to get linking errors with this
+approach.
 
-My request was just to not lump Rx and Tx together under a 'channel'
-definition as a new API. Proposals like zctap and 'queues as a first
-class citizen' are examples of intentions / desires to move towards Rx
-and Tx queues beyond what exists today.
+Obviously, we can fix this in the IPE's module Kconfig by setting the
+dependency to be =y, but it's something to highlight. My general
+preference is to support the =m configuration by using these blobs.
+
+The runtime approach does work with fs-verity, because fs-verity is a
+file-system level feature that cannot be compiled as a module.
+
+> With this code, you would not have to manage security blobs
+> outside IPE. Maybe you could add a blob for the super block, so
+> that you verify the dm-verity property just once per filesystem.
+>
+> Roberto
+>
+> HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
+> Managing Director: Li Peng, Zhong Ronghua
+>
+>> +}
+>> +
+>> +static int dvrh_free(void **val)
+>> +{
+>> +	struct counted_array *expect = (struct counted_array *)val;
+>> +
+>> +	kfree(expect->data);
+>> +	kfree(expect);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +IPE_MODULE(dvrh) = {
+>> +	.name = "dmverity_roothash",
+>> +	.version = 1,
+>> +	.parse = dvrh_parse,
+>> +	.free = dvrh_free,
+>> +	.eval = dvrh_eval,
+>> +};
+>> diff --git a/security/ipe/modules/dmverity_signature.c
+>> b/security/ipe/modules/dmverity_signature.c
+>> new file mode 100644
+>> index 000000000000..08746fcbcb3e
+>> --- /dev/null
+>> +++ b/security/ipe/modules/dmverity_signature.c
+>> @@ -0,0 +1,25 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * Copyright (C) Microsoft Corporation. All rights reserved.
+>> + */
+>> +
+>> +#include "ipe_module.h"
+>> +
+>> +#include <linux/fs.h>
+>> +#include <linux/types.h>
+>> +
+>> +static bool dvv_eval(const struct ipe_eval_ctx *ctx, const void *val)
+>> +{
+>> +	bool expect = (bool)val;
+>> +	bool eval = ctx->ipe_bdev && (!!ctx->ipe_bdev->sigdata);
+>> +
+>> +	return expect == eval;
+>> +}
+>> +
+>> +IPE_MODULE(dvv) = {
+>> +	.name = "dmverity_signature",
+>> +	.version = 1,
+>> +	.parse = ipe_bool_parse,
+>> +	.free = NULL,
+>> +	.eval = dvv_eval,
+>> +};
+>> --
+>> 2.33.0
