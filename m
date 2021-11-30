@@ -2,180 +2,367 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 749EAC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 11:57:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93232C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 13:22:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241111AbhK3MAk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Nov 2021 07:00:40 -0500
-Received: from mail-mw2nam08on2045.outbound.protection.outlook.com ([40.107.101.45]:58086
-        "EHLO NAM04-MW2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S241234AbhK3L7Y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 30 Nov 2021 06:59:24 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CBztgWDkpPsJtttDKJnC7MqTDHoN+OudBdm2ozyuRx5lQ8ITl8NGfmMmcOxEgIalR57VhL/OqtXIkSMjKINORzGp7LyuquUuxUSQ95la5kDKK3xTd5DArQD559f8f3zHzu3SMf0/K155mVvQe5YtVBwGmJGWDQf5K+XNENfEqkrEpKDUhHanOvEjs8cL6T1EtT6Ce+wSDgVLeqyxVA5TlXh+hWW71cIH2rxfcMFIoTm4cZynIVdzCq8LkhmEAjgw9zhDaj5WOhqvhiwxSAQASaC4tODpIHd17tPYnawyYYnt8qRkt+yHIkmZ+ZyZ11z6E93EPF+uSCDBnJ90Ly0opA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/UV5jGAM8nykz5JaNZNxdaIYXv4GwUIcQmDKA21C4kQ=;
- b=EFdtp7LDcDQY3HcSpVcZ4FbOIDvOtiHrIdAU8P+VfI3bBaIl4DPAFZz+yAh27xQ2dvGjj7fPCw7RBs3ItXm6EbOOnvBfOPc7kOky6/R7nQOYfTELZD7+bDI7gDb0msib5AyRObE1RZdnDhJMj8teIRaQ2Ysv5wVGafTFaAlBV6HAkAS1D+v6OrX6dq7bophV5jN8MZotMF2sr0jwLDNchgwXlOzULtuMEF054SI0fQiPsXb0bwUYB6qcMwHkkWdvvFlGIR6uPYNNSj8Oe9A84HVBaF3S9DohgMkL1SPPzlY3kUypjK6ytLn/CgkzdpqiDrrObJukkDQZw6+/WcEyGw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.35) smtp.rcpttodomain=intel.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/UV5jGAM8nykz5JaNZNxdaIYXv4GwUIcQmDKA21C4kQ=;
- b=VrHV+mnjPfqdmKMve2jKi3pofFtaVPddiVAdLoXj3s0+bW99HqDbR2rbSTH481JU4f4JdyBB0gXzNdy1MLSqSWPggU6GuX2jpUo0IVAhsoaKBhJL30J2mcJmFoREvxy/uPB/PEe2+PcZKHiuTW3jJdyrDNHkbaYa0lz0b8luBGFzTAg5sLJtwnEcIfSScn9+LVhCL7VJJghzmrDvfC7326y7DpdcV2v+TtYjrM3Y5fyP6RRr2SnJgXD7C8fByc8juRTFykEofzy1Xftv4bsIw/a9FcF07IKk/0f6ibUuwLRdBh/OLRwvffO3xYMO+TS85P3/3tDUUnbiPG8YaczH2Q==
-Received: from MWHPR2201CA0042.namprd22.prod.outlook.com
- (2603:10b6:301:16::16) by MW5PR12MB5569.namprd12.prod.outlook.com
- (2603:10b6:303:196::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.14; Tue, 30 Nov
- 2021 11:56:03 +0000
-Received: from CO1NAM11FT048.eop-nam11.prod.protection.outlook.com
- (2603:10b6:301:16:cafe::f3) by MWHPR2201CA0042.outlook.office365.com
- (2603:10b6:301:16::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.22 via Frontend
- Transport; Tue, 30 Nov 2021 11:56:03 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.35)
- smtp.mailfrom=nvidia.com; intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.35 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.35; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.35) by
- CO1NAM11FT048.mail.protection.outlook.com (10.13.175.148) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4734.22 via Frontend Transport; Tue, 30 Nov 2021 11:56:03 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Tue, 30 Nov
- 2021 11:56:02 +0000
-Received: from yaviefel (172.20.187.5) by rnnvmail201.nvidia.com (10.129.68.8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.5; Tue, 30 Nov 2021
- 03:55:49 -0800
-References: <20211123163955.154512-22-alexandr.lobakin@intel.com>
- <77407c26-4e32-232c-58e0-2d601d781f84@iogearbox.net>
- <87bl28bga6.fsf@toke.dk>
- <20211125170708.127323-1-alexandr.lobakin@intel.com>
- <20211125094440.6c402d63@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <20211125204007.133064-1-alexandr.lobakin@intel.com>
- <87sfvj9k13.fsf@toke.dk>
- <20211126100611.514df099@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <87ee72ah56.fsf@toke.dk>
- <20211126111431.4a2ed007@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <YaPCbaMVaVlxXcHC@shredder>
- <20211129064755.539099c0@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <874k7vq7tl.fsf@nvidia.com>
- <20211129080502.53f7d316@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <87sfveq48z.fsf@nvidia.com>
- <20211129091713.2dc8462f@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-User-agent: mu4e 1.4.15; emacs 27.2
-From:   Petr Machata <petrm@nvidia.com>
-To:     Jakub Kicinski <kuba@kernel.org>
-CC:     Petr Machata <petrm@nvidia.com>, Ido Schimmel <idosch@idosch.org>,
-        Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>,
-        "Alexander Lobakin" <alexandr.lobakin@intel.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        "Jesse Brandeburg" <jesse.brandeburg@intel.com>,
-        Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
-        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Shay Agroskin" <shayagr@amazon.com>,
-        Arthur Kiyanovski <akiyano@amazon.com>,
-        "David Arinzon" <darinzon@amazon.com>,
-        Noam Dagan <ndagan@amazon.com>,
-        "Saeed Bishara" <saeedb@amazon.com>,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        "Claudiu Manoil" <claudiu.manoil@nxp.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Marcin Wojtas <mw@semihalf.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Saeed Mahameed <saeedm@nvidia.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Edward Cree <ecree.xilinx@gmail.com>,
-        "Martin Habets" <habetsm.xilinx@gmail.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        "Martin KaFai Lau" <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Yajun Deng <yajun.deng@linux.dev>,
-        Sergey Ryazanov <ryazanov.s.a@gmail.com>,
-        David Ahern <dsahern@kernel.org>,
-        Andrei Vagin <avagin@gmail.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        "Vladimir Oltean" <vladimir.oltean@nxp.com>,
-        Cong Wang <cong.wang@bytedance.com>, <netdev@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-rdma@vger.kernel.org>, <bpf@vger.kernel.org>,
-        <virtualization@lists.linux-foundation.org>, <nikolay@nvidia.com>
-Subject: Re: [PATCH v2 net-next 21/26] ice: add XDP and XSK generic
- per-channel statistics
-In-Reply-To: <20211129091713.2dc8462f@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-Message-ID: <87o861q2m4.fsf@nvidia.com>
-Date:   Tue, 30 Nov 2021 12:55:47 +0100
+        id S239846AbhK3N0C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Nov 2021 08:26:02 -0500
+Received: from mga18.intel.com ([134.134.136.126]:43368 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229492AbhK3N0B (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 30 Nov 2021 08:26:01 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10183"; a="223093636"
+X-IronPort-AV: E=Sophos;i="5.87,275,1631602800"; 
+   d="scan'208";a="223093636"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2021 05:22:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,275,1631602800"; 
+   d="scan'208";a="654174419"
+Received: from ranerica-svr.sc.intel.com ([172.25.110.23])
+  by fmsmga001.fm.intel.com with ESMTP; 30 Nov 2021 05:22:41 -0800
+Date:   Tue, 30 Nov 2021 05:21:37 -0800
+From:   Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Len Brown <len.brown@intel.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Aubrey Li <aubrey.li@linux.intel.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Ricardo Neri <ricardo.neri@intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 4/7] thermal: intel: hfi: Handle CPU hotplug events
+Message-ID: <20211130132137.GA25524@ranerica-svr.sc.intel.com>
+References: <20211106013312.26698-1-ricardo.neri-calderon@linux.intel.com>
+ <20211106013312.26698-5-ricardo.neri-calderon@linux.intel.com>
+ <CAJZ5v0gemmV1Lz3+9iKz1eiXtkyDc3+4+po4Eidchzk+J2=ceA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.20.187.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b5f96cce-8bec-426e-6b13-08d9b3f8628a
-X-MS-TrafficTypeDiagnostic: MW5PR12MB5569:
-X-Microsoft-Antispam-PRVS: <MW5PR12MB556900652589D899CA4FE743D6679@MW5PR12MB5569.namprd12.prod.outlook.com>
-X-MS-Exchange-Transport-Forked: True
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +UJhJXBWd/Na8clRxS5hb5jfQewiLZUHfz+JYrRbbaaw8wwSFUgadCS3c8AIZGT7VfPAzqu9jb3VC3DGI02RDOzU/Yj/EmON/VwWdR9ZXqkw2uKIMUg0PKGHUuYl8f1GQwmYXE4jH89hun2aN2Efl2VtdMWDxkRvVoZqo4irrdwspHHbLZhaDAR5yZLPPfIwNnt/4PHajAeRUGxIFAx69qTlvyLATWWg0o8OLyg4W/ZntifhCburz8hdLB79+8GHLVU/b+3UlNt9cczjI7kzCY5B0jhkHgG7l4IoSmCHf7UdDdD7K+9r5AnY9FDK3zqrZrNimuLRLkZK+IBwZztkMSMoh3RS41mbL9ywxN245KU5VvESUgxMiSs8kIacSjHDowwplXYLiMxS4S0Rt4xGv7lM8Uc41/KOTjUwSFRYZaik9j/5C8LS6yYT0egvJM/4vBm4lskYAi0P59T7ROuhZHmBL0hOJox2GxIA2JmNkvQ4GL8EWmadMpVmr9cnwO2Yu5QSA9hlqJmbJUAJzmIPrmfOvtDzyoNkCuDphSuR0BJbJ1x1HBpdv3lK9SFl8swfemqhAjVZuw3EPwNmmXJvXAvpKcHyYDNYldvo7V3LjAkPOY+bzqst4u6Vh/04/C193YiPXWolOLOA7L/89SWb5eXfJNuWly98LU0SQePJQk0v+fKMCWv4ErSgg6KLlNdLSXyNUQ3DieAdkbqvhQJjL574Ryt5dU0bayy/fOaaWgCVE6GV1bt10vI+R9Oc65a3ls62NYhF6seyleqYLwRlfM/jolw5epc2dCC/qzbFEiI=
-X-Forefront-Antispam-Report: CIP:216.228.112.35;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid04.nvidia.com;CAT:NONE;SFS:(4636009)(46966006)(36840700001)(40470700001)(107886003)(508600001)(82310400004)(83380400001)(7636003)(7406005)(40460700001)(356005)(316002)(7416002)(54906003)(36756003)(4326008)(5660300002)(2616005)(336012)(426003)(8676002)(70586007)(70206006)(2906002)(6916009)(26005)(8936002)(186003)(16526019)(86362001)(47076005)(36860700001)(41533002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2021 11:56:03.5027
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b5f96cce-8bec-426e-6b13-08d9b3f8628a
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.35];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT048.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR12MB5569
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJZ5v0gemmV1Lz3+9iKz1eiXtkyDc3+4+po4Eidchzk+J2=ceA@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Nov 24, 2021 at 03:48:49PM +0100, Rafael J. Wysocki wrote:
+> On Sat, Nov 6, 2021 at 2:34 AM Ricardo Neri
+> <ricardo.neri-calderon@linux.intel.com> wrote:
+> >
+> > All CPUs in a package are represented in an HFI table. There exists an
+> > HFI table per package. Thus, CPUs in a package need to coordinate to
+> > initialize and access the table. Do such coordination during CPU hotplug.
+> > Use the first CPU to come online in a package to initialize the HFI table
+> > and the data structure representing it. Other CPUs in the same package need
+> > only to register or unregister themselves in that data structure.
+> >
+> > The HFI depends on both the package-level thermal management and the local
+> > APIC thermal local vector. Thus, ensure that both are properly configured
+> > before calling intel_hfi_online(). The CPU hotplug callbacks of the thermal
+> > throttle events code already meet these conditions. Enable the HFI from
+> > thermal_throttle_online().
+> >
+> > Cc: Andi Kleen <ak@linux.intel.com>
+> > Cc: Aubrey Li <aubrey.li@linux.intel.com>
+> > Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> > Cc: Tim Chen <tim.c.chen@linux.intel.com>
+> > Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>
+> > Reviewed-by: Len Brown <len.brown@intel.com>
+> > Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+> > ---
+> >  drivers/thermal/intel/intel_hfi.c   | 211 ++++++++++++++++++++++++++++
+> >  drivers/thermal/intel/intel_hfi.h   |   4 +
+> >  drivers/thermal/intel/therm_throt.c |   8 ++
+> >  3 files changed, 223 insertions(+)
+> >
+> > diff --git a/drivers/thermal/intel/intel_hfi.c b/drivers/thermal/intel/intel_hfi.c
+> > index edfe343507b3..6a3adfd57d72 100644
+> > --- a/drivers/thermal/intel/intel_hfi.c
+> > +++ b/drivers/thermal/intel/intel_hfi.c
+> > @@ -21,6 +21,7 @@
+> >
+> >  #define pr_fmt(fmt)  "intel-hfi: " fmt
+> >
+> > +#include <linux/io.h>
+> >  #include <linux/slab.h>
+> >
+> >  #include "intel_hfi.h"
+> > @@ -52,16 +53,26 @@ struct hfi_hdr {
+> >
+> >  /**
+> >   * struct hfi_instance - Representation of an HFI instance (i.e., a table)
+> > + * @table_base:                Base of the local copy of the HFI table
+> >   * @ts_counter:                Time stamp of the last update of the table
+> >   * @hdr:               Base address of the table header
+> >   * @data:              Base address of the table data
+> > + * @die_id:            Logical die ID this HFI table instance
+> > + * @cpus:              CPUs represented in this HFI table instance
+> > + * @hw_table:          Pointer to the HFI table of this instance
+> > + * @initialized:       True if this HFI instance has bee initialized
+> >   *
+> >   * A set of parameters to parse and navigate a specific HFI table.
+> >   */
+> >  struct hfi_instance {
+> > +       void                    *table_base;
+> >         u64                     *ts_counter;
+> >         void                    *hdr;
+> >         void                    *data;
+> > +       u16                     die_id;
+> > +       struct cpumask          *cpus;
+> > +       void                    *hw_table;
+> > +       bool                    initialized;
+> >  };
+> >
+> >  /**
+> > @@ -83,10 +94,210 @@ struct hfi_features {
+> >         bool            parsed;
+> >  };
+> >
+> > +/**
+> > + * struct hfi_cpu_info - Per-CPU attributes to consume HFI data
+> > + * @index:             Row of this CPU in its HFI table
+> > + * @hfi_instance:      Attributes of the HFI table to which this CPU belongs
+> > + *
+> > + * Parameters to link a logical processor to an HFI table and a row within it.
+> > + */
+> > +struct hfi_cpu_info {
+> > +       s16                     index;
+> > +       struct hfi_instance     *hfi_instance;
+> > +};
+> > +
+> > +static DEFINE_PER_CPU(struct hfi_cpu_info, hfi_cpu_info) = { .index = -1 };
+> > +
+> >  static int max_hfi_instances;
+> >  static struct hfi_instance *hfi_instances;
+> >
+> >  static struct hfi_features hfi_features;
+> > +static DEFINE_MUTEX(hfi_lock);
+> > +
+> > +static void init_hfi_cpu_index(unsigned int cpu)
+> 
+> I would make this function take a (struct hfi_cpu_info *) argument
+> instead of the CPU number.  It would be more concise then.
 
-Jakub Kicinski <kuba@kernel.org> writes:
+Sure Rafael, it would be more concise. I will make the change.
+> 
+> > +{
+> > +       s16 hfi_idx;
+> > +       u32 edx;
+> > +
+> > +       /* Do not re-read @cpu's index if it has already been initialized. */
+> > +       if (per_cpu(hfi_cpu_info, cpu).index > -1)
+> > +               return;
+> > +
+> > +       edx = cpuid_edx(CPUID_HFI_LEAF);
+> > +       hfi_idx = (edx & CPUID_HFI_CPU_INDEX_MASK) >> CPUID_HFI_CPU_INDEX_SHIFT;
+> > +
+> > +       per_cpu(hfi_cpu_info, cpu).index = hfi_idx;
+> > +}
+> > +
+> > +/*
+> > + * The format of the HFI table depends on the number of capabilities that the
+> > + * hardware supports. Keep a data structure to navigate the table.
+> > + */
+> > +static void init_hfi_instance(struct hfi_instance *hfi_instance)
+> > +{
+> > +       /* The HFI time-stamp is located at the base of the table. */
+> > +       hfi_instance->ts_counter = hfi_instance->table_base;
+> > +
+> > +       /* The HFI header is below the time-stamp. */
+> > +       hfi_instance->hdr = hfi_instance->table_base +
+> > +                           sizeof(*hfi_instance->ts_counter);
+> > +
+> > +       /* The HFI data starts below the header. */
+> > +       hfi_instance->data = hfi_instance->hdr + hfi_features.hdr_size;
+> > +}
+> > +
+> > +/**
+> > + * intel_hfi_online() - Enable HFI on @cpu
+> > + * @cpu:       CPU in which the HFI will be enabled
+> > + *
+> > + * Enable the HFI to be used in @cpu. The HFI is enabled at the die/package
+> > + * level. The first CPU in the die/package to come online does the full HFI
+> > + * initialization. Subsequent CPUs will just link themselves to the HFI
+> > + * instance of their die/package.
+> > + */
+> > +void intel_hfi_online(unsigned int cpu)
+> > +{
+> > +       struct hfi_cpu_info *info = &per_cpu(hfi_cpu_info, cpu);
+> > +       u16 die_id = topology_logical_die_id(cpu);
+> > +       struct hfi_instance *hfi_instance;
+> > +       phys_addr_t hw_table_pa;
+> > +       u64 msr_val;
+> > +
+> > +       if (!boot_cpu_has(X86_FEATURE_INTEL_HFI))
+> > +               return;
+> 
+> IMO it is not useful to do anything below in this function if
+> hfi_instances is NULL, so I would check it along with the above.
 
-> On Mon, 29 Nov 2021 18:08:12 +0100 Petr Machata wrote:
->> For those who care to know about the offloaded datapath, it would be
->> nice to have the option to request either just the SW stats, or just the
->> HW stats. A logical place to put these would be under the OFFLOAD_XSTATS
->> nest of the RTM_GETSTATS message, but maybe the SW ones should be up
->> there next to IFLA_STATS_LINK_64. (After all it's going to be
->> independent from not only offload datapath, but also XDP.)
+Indeed, there is no point on keep going it we didn't find memory for
+hfi_instances. I will make the change.
+
+> > +
+> > +       init_hfi_cpu_index(cpu);
+> > +
+> > +       /*
+> > +        * The HFI instance of this @cpu may exist already but they have not
+> > +        * been linked to @cpu.
+> > +        */
+> > +       hfi_instance = info->hfi_instance;
+> > +       if (!hfi_instance) {
+> > +               if (!hfi_instances)
+> > +                       return;
+> > +
+> > +               if (die_id >= 0 && die_id < max_hfi_instances)
+> > +                       hfi_instance = &hfi_instances[die_id];
+> > +
+> > +               if (!hfi_instance)
+> > +                       return;
+> 
+> And here I would do
+> 
+> if (die_id < 0 || die_id >= max_hfi_instances)
+>         return;
+> 
+> hfi_instance = &hfi_instances[die_id];
+> 
+> which is one branch less and fewer LOC.
 >
-> What I'm getting at is that I thought IFLA_OFFLOAD_XSTATS_CPU_HIT
-> should be sufficient from uAPI perspective in terms of reporting.
-> User space can do the simple math to calculate the "SW stats" if 
-> it wants to. We may well be talking about the same thing, so maybe
-> let's wait for the code?
 
-Ha, OK, now I understand. Yeah, CPU_HIT actually does fit the bill for
-the traffic that took place in SW. We can reuse it.
+Thanks Rafael, this looks better.
 
-I still think it would be better to report HW_STATS explicitly as well
-though. One reason is simply convenience. The other is that OK, now we
-have SW stats, and XDP stats, and total stats, and I (as a client) don't
-necessarily know how it all fits together. But the contract for HW_STATS
-is very clear.
+> > +       }
+> > +
+> > +       /*
+> > +        * Now check if the HFI instance of the package/die of this CPU has
+> > +        * been initialized. In such case, all we have to do is link @cpu's info
+> > +        * to the HFI instance of its die/package.
+> > +        */
+> > +       mutex_lock(&hfi_lock);
+> > +       if (hfi_instance->initialized) {
+> > +               info->hfi_instance = hfi_instance;
+> > +
+> > +               /*
+> > +                * @cpu is the first one in its die/package to come back online.
+> > +                * Use it to track the CPUs in the die/package.
+> > +                */
+> > +               if (!hfi_instance->cpus)
+> > +                       hfi_instance->cpus = topology_core_cpumask(cpu);
+> > +
+> > +               mutex_unlock(&hfi_lock);
+> > +               return;
+> > +       }
+> > +
+> > +       /*
+> > +        * Hardware is programmed with the physical address of the first page
+> > +        * frame of the table. Hence, the allocated memory must be page-aligned.
+> > +        */
+> > +       hfi_instance->hw_table = alloc_pages_exact(hfi_features.nr_table_pages,
+> > +                                                  GFP_KERNEL | __GFP_ZERO);
+> > +       if (!hfi_instance->hw_table)
+> > +               goto err_out;
+> > +
+> > +       hw_table_pa = virt_to_phys(hfi_instance->hw_table);
+> > +
+> > +       hfi_instance->table_base = kzalloc(hfi_features.nr_table_pages << PAGE_SHIFT,
+> > +                                          GFP_KERNEL);
+> > +       if (!hfi_instance->table_base)
+> > +               goto free_hw_table;
+> > +
+> > +       /*
+> > +        * Program the address of the feedback table of this die/package. On
+> > +        * some processors, hardware remembers the old address of the HFI table
+> > +        * even after having been reprogrammed and re-enabled. Thus, do not free
+> > +        * pages allocated for the table or reprogram the hardware with a new
+> > +        * base address. Namely, program the hardware only once.
+> > +        */
+> > +       msr_val = hw_table_pa | HFI_PTR_VALID_BIT;
+> > +       wrmsrl(MSR_IA32_HW_FEEDBACK_PTR, msr_val);
+> > +
+> > +       init_hfi_instance(hfi_instance);
+> > +
+> > +       hfi_instance->die_id = die_id;
+> > +
+> > +       /*
+> > +        * We can use the core cpumask of any cpu in the die/package. Any of
+> > +        * them will reflect all the CPUs the same package that are online.
+> > +        */
+> > +       hfi_instance->cpus = topology_core_cpumask(cpu);
+> > +       info->hfi_instance = hfi_instance;
+> > +       hfi_instance->initialized = true;
+> > +
+> > +       mutex_unlock(&hfi_lock);
+> > +
+> > +       return;
+> > +
+> > +free_hw_table:
+> > +       free_pages_exact(hfi_instance->hw_table, hfi_features.nr_table_pages);
+> > +err_out:
+> > +       mutex_unlock(&hfi_lock);
+> > +}
+> > +
+> > +/**
+> > + * intel_hfi_offline() - Disable HFI on @cpu
+> > + * @cpu:       CPU in which the HFI will be disabled
+> > + *
+> > + * Remove @cpu from those covered by its HFI instance.
+> > + *
+> > + * On some processors, hardware remembers previous programming settings even
+> > + * after being reprogrammed. Thus, keep HFI enabled even if all CPUs in the
+> > + * die/package of @cpu are offline. See note in intel_hfi_online().
+> > + */
+> > +void intel_hfi_offline(unsigned int cpu)
+> > +{
+> > +       struct cpumask *die_cpumask = topology_core_cpumask(cpu);
+> > +       struct hfi_cpu_info *info = &per_cpu(hfi_cpu_info, cpu);
+> > +       struct hfi_instance *hfi_instance;
+> > +
+> > +       if (!boot_cpu_has(X86_FEATURE_INTEL_HFI))
+> > +               return;
+> > +
+> > +       hfi_instance = info->hfi_instance;
+> > +       if (!hfi_instance)
+> > +               return;
+> > +
+> > +       if (!hfi_instance->initialized)
+> > +               return;
+> > +
+> > +       mutex_lock(&hfi_lock);
+> > +
+> > +       /*
+> > +        * We were using the core cpumask of @cpu to track CPUs in the same
+> > +        * die/package. Now it is going offline and we need to find another
+> > +        * CPU we can use.
+> > +        */
+> > +       if (die_cpumask == hfi_instance->cpus) {
+> > +               int new_cpu;
+> > +
+> > +               new_cpu = cpumask_any_but(hfi_instance->cpus, cpu);
+> > +               if (new_cpu >= nr_cpu_ids)
+> > +                       /* All other CPUs in the package are offline. */
+> > +                       hfi_instance->cpus = NULL;
+> > +               else
+> > +                       hfi_instance->cpus = topology_core_cpumask(new_cpu);
+> 
+> Hmmm.  Is topology_core_cpumask() updated when CPUs go offline and online?
+
+Yes. A CPU going offline is cleared from its siblings' cpumask [1] and its own [2]
+in remove_siblinginfo() via cpu_disable_common(). A CPU going online is set
+in its siblings' cpumask and its own in set_cpu_sibling_map() [3].
+
+
+Thanks and BR,
+Ricardo
+
+[1]. https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/x86/kernel/smpboot.c?h=v5.16-rc3#n1592
+[2]. https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/x86/kernel/smpboot.c?h=v5.16-rc3#n1617
+[3]. https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/x86/kernel/smpboot.c?h=v5.16-rc3#n657
+> 
