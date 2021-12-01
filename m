@@ -2,62 +2,225 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68562C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Dec 2021 15:52:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72B59C433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Dec 2021 16:37:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231537AbhLAPzV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Dec 2021 10:55:21 -0500
-Received: from shark1.inbox.lv ([194.152.32.81]:43022 "EHLO shark1.inbox.lv"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239899AbhLAPzU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 1 Dec 2021 10:55:20 -0500
-Received: from shark1.inbox.lv (localhost [127.0.0.1])
-        by shark1-out.inbox.lv (Postfix) with ESMTP id 09C7E1118103;
-        Wed,  1 Dec 2021 17:51:57 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=inbox.lv; s=30062014;
-        t=1638373917; bh=DBfB7y8pPY3KAltewDz2cj6cinq0sN7Zdb2vGSCE1T0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References;
-        b=TxSnwzclMOzIUsHdCvZDhm/tj6BBdjHlUvUBIQnmlCPLPgc5maRCAfm54W9MqL+Tx
-         7rovCadWp8iR0OmLRQ1HKAgyAjSlwtCMLsxG7POx9fdPg84GrZ/CPZhQ2D4opLso7J
-         DaX3paZC3WfW/eOEBAP7rJpPk3QHkiob1tpLrXH4=
-Received: from localhost (localhost [127.0.0.1])
-        by shark1-in.inbox.lv (Postfix) with ESMTP id 028F51118102;
-        Wed,  1 Dec 2021 17:51:57 +0200 (EET)
-Received: from shark1.inbox.lv ([127.0.0.1])
-        by localhost (shark1.inbox.lv [127.0.0.1]) (spamfilter, port 35)
-        with ESMTP id cCml6AnNr4Wy; Wed,  1 Dec 2021 17:51:56 +0200 (EET)
-Received: from mail.inbox.lv (pop1 [127.0.0.1])
-        by shark1-in.inbox.lv (Postfix) with ESMTP id BE9491118100;
-        Wed,  1 Dec 2021 17:51:56 +0200 (EET)
-Date:   Thu, 2 Dec 2021 00:51:46 +0900
-From:   Alexey Avramov <hakavlad@inbox.lv>
-To:     Oleksandr Natalenko <oleksandr@natalenko.name>
-Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        corbet@lwn.net, akpm@linux-foundation.org, mcgrof@kernel.org,
-        keescook@chromium.org, yzaikin@google.com, kernel@xanmod.org,
-        aros@gmx.com, iam@valdikss.org.ru, hakavlad@gmail.com
-Subject: Re: [PATCH] mm/vmscan: add sysctl knobs for protecting the working
- set
-Message-ID: <20211202005146.6ecdfeba@mail.inbox.lv>
-In-Reply-To: <11873851.O9o76ZdvQC@natalenko.name>
-References: <20211130201652.2218636d@mail.inbox.lv>
-        <11873851.O9o76ZdvQC@natalenko.name>
-X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+        id S1347953AbhLAQlQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Dec 2021 11:41:16 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:4186 "EHLO
+        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1351287AbhLAQlQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Dec 2021 11:41:16 -0500
+Received: from fraeml714-chm.china.huawei.com (unknown [172.18.147.226])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4J44Vk07Fjz67ts3;
+        Thu,  2 Dec 2021 00:37:02 +0800 (CST)
+Received: from roberto-ThinkStation-P620.huawei.com (10.204.63.22) by
+ fraeml714-chm.china.huawei.com (10.206.15.33) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Wed, 1 Dec 2021 17:37:51 +0100
+From:   Roberto Sassu <roberto.sassu@huawei.com>
+To:     <deven.desai@linux.microsoft.com>, <corbet@lwn.net>,
+        <axboe@kernel.dk>, <agk@redhat.com>, <snitzer@redhat.com>,
+        <ebiggers@kernel.org>, <tytso@mit.edu>, <paul@paul-moore.com>,
+        <eparis@redhat.com>, <jmorris@namei.org>, <serge@hallyn.com>
+CC:     <jannh@google.com>, <dm-devel@redhat.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-fscrypt@vger.kernel.org>,
+        <linux-audit@redhat.com>, <linux-security-module@vger.kernel.org>,
+        <linux-integrity@vger.kernel.org>, <tusharsu@linux.microsoft.com>,
+        Roberto Sassu <roberto.sassu@huawei.com>
+Subject: [RFC][PATCH] device mapper: Add builtin function dm_get_status()
+Date:   Wed, 1 Dec 2021 17:37:08 +0100
+Message-ID: <20211201163708.3578176-1-roberto.sassu@huawei.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <81d5e825-1ee2-8f6b-cd9d-07b0f8bd36d3@linux.microsoft.com>
+References: <81d5e825-1ee2-8f6b-cd9d-07b0f8bd36d3@linux.microsoft.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: OK
-X-ESPOL: EZeEAiZdhQo1taLbN+Yf6uLg2rTHW1slvCTzybU26ndFz9PMtNdrcW+QBYXsEBy7cWHD
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.204.63.22]
+X-ClientProxiedBy: lhreml751-chm.china.huawei.com (10.201.108.201) To
+ fraeml714-chm.china.huawei.com (10.206.15.33)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->Although this is a definitely system-wide knob, wouldn't it make sense to 
->implement this also on a per-cgroup basis?
+Users of the device mapper driver might want to obtain a device status,
+with status types defined in the status_type_t enumerator.
 
-memory.min and memory.low are alreary exist.
+If a function to get the status is exported by the device mapper, when
+compiled as a module, it is not suitable to use by callers compiled builtin
+in the kernel.
 
-Regarding the protection of file pages, we are primarily interested in
-shared libraries. I don't see the point of creating such tunables
-for cgroups.
+Introduce the real function to get the status, _dm_get_status(), in the
+device mapper module, and add the stub dm_get_status() in dm-builtin.c, so
+that it can be invoked by builtin callers.
+
+The stub calls the real function if the device mapper is compiled builtin
+or the module has been loaded. Calls to the real function are safely
+disabled if the module is unloaded. The race condition is avoided by
+incrementing the reference count of the module.
+
+_dm_get_status() invokes the status() method for each device mapper table,
+which writes a string to the supplied buffer as output. The buffer might
+contain multiple strings concatenated together. If there is not enough
+space available, the string is truncated and a termination character is put
+at the end.
+
+Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+---
+ drivers/md/dm-builtin.c       | 13 +++++++
+ drivers/md/dm-core.h          |  5 +++
+ drivers/md/dm.c               | 71 +++++++++++++++++++++++++++++++++++
+ include/linux/device-mapper.h |  3 ++
+ 4 files changed, 92 insertions(+)
+
+diff --git a/drivers/md/dm-builtin.c b/drivers/md/dm-builtin.c
+index 8eb52e425141..cc1e9c27ab41 100644
+--- a/drivers/md/dm-builtin.c
++++ b/drivers/md/dm-builtin.c
+@@ -47,3 +47,16 @@ void dm_kobject_release(struct kobject *kobj)
+ }
+ 
+ EXPORT_SYMBOL(dm_kobject_release);
++
++dm_get_status_fn status_fn;
++EXPORT_SYMBOL(status_fn);
++
++ssize_t dm_get_status(dev_t dev, status_type_t type, const char *target_name,
++		      u8 *buf, size_t buf_len)
++{
++	if (status_fn)
++		return status_fn(dev, type, target_name, buf, buf_len);
++
++	return -EOPNOTSUPP;
++}
++EXPORT_SYMBOL(dm_get_status);
+diff --git a/drivers/md/dm-core.h b/drivers/md/dm-core.h
+index b855fef4f38a..6600ec260558 100644
+--- a/drivers/md/dm-core.h
++++ b/drivers/md/dm-core.h
+@@ -259,4 +259,9 @@ extern atomic_t dm_global_event_nr;
+ extern wait_queue_head_t dm_global_eventq;
+ void dm_issue_global_event(void);
+ 
++typedef ssize_t (*dm_get_status_fn)(dev_t dev, status_type_t type,
++				    const char *target_name, u8 *buf,
++				    size_t buf_len);
++
++extern dm_get_status_fn status_fn;
+ #endif
+diff --git a/drivers/md/dm.c b/drivers/md/dm.c
+index 662742a310cb..55e59a4e3661 100644
+--- a/drivers/md/dm.c
++++ b/drivers/md/dm.c
+@@ -192,6 +192,74 @@ static unsigned dm_get_numa_node(void)
+ 					 DM_NUMA_NODE, num_online_nodes() - 1);
+ }
+ 
++static ssize_t _dm_get_status(dev_t dev, status_type_t type,
++			      const char *target_name, u8 *buf, size_t buf_len)
++{
++	struct mapped_device *md;
++	struct dm_table *table;
++	u8 *buf_ptr = buf;
++	ssize_t len, res = 0;
++	int srcu_idx, num_targets, i;
++
++	if (buf_len > INT_MAX)
++		return -EINVAL;
++
++	if (!buf_len)
++		return buf_len;
++
++	if (!try_module_get(THIS_MODULE))
++		return -EBUSY;
++
++	md = dm_get_md(dev);
++	if (!md) {
++		res = -ENOENT;
++		goto out_module;
++	}
++
++	table = dm_get_live_table(md, &srcu_idx);
++	if (!table) {
++		res = -ENOENT;
++		goto out_md;
++	}
++
++	memset(buf, 0, buf_len);
++
++	num_targets = dm_table_get_num_targets(table);
++
++	for (i = 0; i < num_targets; i++) {
++		struct dm_target *ti = dm_table_get_target(table, i);
++
++		if (!ti)
++			continue;
++
++		if (target_name && strcmp(ti->type->name, target_name))
++			continue;
++
++		if (!ti->type->status)
++			continue;
++
++		ti->type->status(ti, type, 0, buf_ptr, buf + buf_len - buf_ptr);
++
++		if (!*buf_ptr)
++			continue;
++
++		len = strlen(buf_ptr);
++		buf_ptr += len + 1;
++
++		if (buf_ptr == buf + buf_len)
++			break;
++
++		res += len + 1;
++	}
++
++	dm_put_live_table(md, srcu_idx);
++out_md:
++	dm_put(md);
++out_module:
++	module_put(THIS_MODULE);
++	return res;
++}
++
+ static int __init local_init(void)
+ {
+ 	int r;
+@@ -275,6 +343,7 @@ static int __init dm_init(void)
+ 			goto bad;
+ 	}
+ 
++	status_fn = _dm_get_status;
+ 	return 0;
+ bad:
+ 	while (i--)
+@@ -287,6 +356,8 @@ static void __exit dm_exit(void)
+ {
+ 	int i = ARRAY_SIZE(_exits);
+ 
++	status_fn = NULL;
++
+ 	while (i--)
+ 		_exits[i]();
+ 
+diff --git a/include/linux/device-mapper.h b/include/linux/device-mapper.h
+index a7df155ea49b..d97b296d3104 100644
+--- a/include/linux/device-mapper.h
++++ b/include/linux/device-mapper.h
+@@ -487,6 +487,9 @@ int dm_report_zones(struct block_device *bdev, sector_t start, sector_t sector,
+ 		    struct dm_report_zones_args *args, unsigned int nr_zones);
+ #endif /* CONFIG_BLK_DEV_ZONED */
+ 
++ssize_t dm_get_status(dev_t dev, status_type_t type, const char *target_name,
++		      u8 *buf, size_t buf_len);
++
+ /*
+  * Device mapper functions to parse and create devices specified by the
+  * parameter "dm-mod.create="
+-- 
+2.32.0
+
