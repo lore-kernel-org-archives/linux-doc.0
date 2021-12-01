@@ -2,497 +2,326 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3CD6C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Dec 2021 20:03:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 171EEC433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Dec 2021 20:32:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242466AbhLAUG5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Dec 2021 15:06:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36210 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234761AbhLAUGw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Dec 2021 15:06:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1638389010;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Ag6o3qWiphpDzkPzIBfXt4euxxU79mdkDF5dIV66Mxw=;
-        b=MlATiaNCVsUOE7rzY9zJhmhtqFeOXBlEMV3v1GtcELKsB9H87uzeKJy+G/hh4eEjOswLqp
-        tAqlN2zcdykp0Kg036ixehqDGbSjXNGdC8nH4/VSlgcmfUlbLtA+ZaNZGzVPo/aTw+tGkW
-        UWAZIFjhs3RC2LvrYrxS9n8u2bgpeqw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-471-LNrPyZ2_MSmiOiK7Z9ieIg-1; Wed, 01 Dec 2021 15:03:26 -0500
-X-MC-Unique: LNrPyZ2_MSmiOiK7Z9ieIg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD95283DEAB;
-        Wed,  1 Dec 2021 20:03:16 +0000 (UTC)
-Received: from omen (unknown [10.2.17.225])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 6A5205DF2B;
-        Wed,  1 Dec 2021 20:03:15 +0000 (UTC)
-Date:   Wed, 1 Dec 2021 13:03:14 -0700
-From:   Alex Williamson <alex.williamson@redhat.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Cornelia Huck <cohuck@redhat.com>, kvm@vger.kernel.org,
-        Kirti Wankhede <kwankhede@nvidia.com>,
-        Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-        Yishai Hadas <yishaih@nvidia.com>
-Subject: Re: [PATCH RFC v2] vfio: Documentation for the migration region
-Message-ID: <20211201130314.69ed679c@omen>
-In-Reply-To: <20211201031407.GG4670@nvidia.com>
-References: <0-v2-45a95932a4c6+37-vfio_mig_doc_jgg@nvidia.com>
- <20211130102611.71394253.alex.williamson@redhat.com>
- <20211130185910.GD4670@nvidia.com>
- <20211130153541.131c9729.alex.williamson@redhat.com>
- <20211201031407.GG4670@nvidia.com>
+        id S232415AbhLAUfn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Dec 2021 15:35:43 -0500
+Received: from smtprelay-out1.synopsys.com ([149.117.87.133]:52510 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230376AbhLAUfn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Dec 2021 15:35:43 -0500
+Received: from mailhost.synopsys.com (us03-mailhost2.synopsys.com [10.4.17.18])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id C292EC506A;
+        Wed,  1 Dec 2021 20:32:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1638390742; bh=CD0G7b2xNnaVEWo2QMfU/CiAedg8nvdVf9XX3FPBufw=;
+        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+        b=Y3VXUVAD2/yPOmfWqNeprVOFUbxy/bTG7QpGS+SrBvJmbvPJnEbdFyftObPbeiqGM
+         OHGC3+wp6fd8v0fKvUDRmmAyGpzppqZYUJyBbJ2fNXLI1CQ0Q48Beg6Omp9weR51ei
+         /1o310SL6+B2GwQoN/5edLJQOFB633BmM8su/4nYKy393VVNXENor6BUQQBr7EmTly
+         Hx+Xt/y5rr8/AtwLp9WwPEvpXRx28BPg1g5Vqg1tKiLiEaVx6onxp8PmzyTHQ/ZBty
+         NO3vtKjfQo9VOLIgAHeCSUUCUns7STYwZC4wR7zJLoBUsWotNrmbWfMBiIfIl99Nn8
+         LeL7ChfWEHt0w==
+Received: from o365relay-in.synopsys.com (us03-o365relay1.synopsys.com [10.4.161.137])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (Client CN "o365relay-in.synopsys.com", Issuer "Entrust Certification Authority - L1K" (verified OK))
+        by mailhost.synopsys.com (Postfix) with ESMTPS id 3C1FEA0081;
+        Wed,  1 Dec 2021 20:32:19 +0000 (UTC)
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1anam02lp2045.outbound.protection.outlook.com [104.47.57.45])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client CN "mail.protection.outlook.com", Issuer "DigiCert Cloud Services CA-1" (verified OK))
+        by o365relay-in.synopsys.com (Postfix) with ESMTPS id 6B1C580056;
+        Wed,  1 Dec 2021 20:32:17 +0000 (UTC)
+Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=abrodkin@synopsys.com
+Authentication-Results: o365relay-in.synopsys.com;
+        dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="KusSkh04";
+        dkim-atps=neutral
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=i1x2Mr5BA8Abya3B+S6XC3XZPihxh+mQmWWeKiKskPZGlRk/c0VF+eRmQWL3DTgHZQH9try909mfHomGbBim+KBsoC6fS0ixuimM5Uh3hRBFoUSwu5dnJA/GbUHyOw91LZNH9FeXiAIrvBDIDDB6UW5I9pwiLomMVg4zOXoRGJyMqNHvRx3C6R4+Qk8zWjt1S4rAvGrPMG4M1V86kqpCEoRjlY4aZMfFgzBHKzMn7yywM+NhtgjG5kZbAeDzD3us/uCdNdsAXb2s6MsUhsbJ9SXObp2Xj+pYuPTnfutye9MD5U5/2f7YDPzHD6BE3ql/4pvWW3Wpe689IIrRWOvxkg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=S+lhztOxWi0vQHm7dlBZJNE36dya6Iwj+aCJoamGbuQ=;
+ b=T7PTxnyIyL5SuAjOZpaVcs34rAM1vT7DV87rn7MjkC+yYZUrlPBkcD3+jP8WguSFFqfAib4W05OMRpNdmROE5Y7RJ4TEP4LNPFvqgJxbud1l///vn5xh5U2q24q6zTnheEBNNTBRwzZMolBagUOAE5ftKvSP53G5cfvFy1ycEhxEwJKR0rCXGeN3Owtf2xPIJP8c4qgqzGkXU3YVNBo3l4gWbuZMRQEXg8fCURqSog+AqKbk/K7V1FIQKaKI4z4Qa64ZWdZVUX72KMleUpOchMWhfSTdKqTAENMIXeV93PLczzYQ0okO4b9CfdUhvZvq+oQtFBVaTa5k1DyrQ4VjVw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=S+lhztOxWi0vQHm7dlBZJNE36dya6Iwj+aCJoamGbuQ=;
+ b=KusSkh04ryLPttohH0yBdZ+6g0VLjtc2f/2x7ijCGSTAAYtMUSQ5V+o6ZSxtz7BdCjd6mgTQs6vkI3YiBwCza5xFUt2tz/YamHl6MvtzMsI7amCB/OSTWc+OSLNi8IX7LOP26Qpg9JwV1uArLlb6chG1tex7oN85DXgMvlQBt1Q=
+Received: from PH0PR12MB5401.namprd12.prod.outlook.com (2603:10b6:510:d4::13)
+ by PH0PR12MB5466.namprd12.prod.outlook.com (2603:10b6:510:d7::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.14; Wed, 1 Dec
+ 2021 20:32:15 +0000
+Received: from PH0PR12MB5401.namprd12.prod.outlook.com
+ ([fe80::95bf:94a4:e746:d70c]) by PH0PR12MB5401.namprd12.prod.outlook.com
+ ([fe80::95bf:94a4:e746:d70c%6]) with mapi id 15.20.4734.024; Wed, 1 Dec 2021
+ 20:32:15 +0000
+X-SNPS-Relay: synopsys.com
+From:   Alexey Brodkin <Alexey.Brodkin@synopsys.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+CC:     "linux-snps-arc@lists.infradead.org" 
+        <linux-snps-arc@lists.infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Vineet Gupta <vgupta@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2] docs: Add documentation for ARC processors
+Thread-Topic: [PATCH v2] docs: Add documentation for ARC processors
+Thread-Index: AQHX17dUyYYH0jdSEE6Xa5YniPzLXKwbKTOAgAMMOK4=
+Date:   Wed, 1 Dec 2021 20:32:15 +0000
+Message-ID: <PH0PR12MB5401E55A4E8D1D7360C02E68A1689@PH0PR12MB5401.namprd12.prod.outlook.com>
+References: <20211112065059.7273-1-abrodkin@synopsys.com>
+ <87fsresjx6.fsf@meer.lwn.net>
+In-Reply-To: <87fsresjx6.fsf@meer.lwn.net>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+suggested_attachment_session_id: ea871cac-4543-e287-b8f3-01aa4487fbf7
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=synopsys.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 9f175df6-cb11-4e8e-26b7-08d9b509a96d
+x-ms-traffictypediagnostic: PH0PR12MB5466:
+x-microsoft-antispam-prvs: <PH0PR12MB54669D5E1510C0C3AFD8D936A1689@PH0PR12MB5466.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: jDDfZUYz0iuPwPvmyzynbdoHKXxJUbRjBB/84Af8RRoAtpWYQcFbx09EN1RQy+ncQKCt2uZkNpcdgH3YwAPo3PiUfXt0E7rDNxaMoD6I/E5ENl1BHKMdvsvsUffFbu/UfFZAab4ibnX9Ga6ZZL1NdNoJ2s+NiJdlvMi2/0L/NND+rwTTCaKVySZjOd15iKVusFUd6i7ToyVyqN69sE+dISpwgM9BttAXUV5vL+qsQHbUCIn9rw/alGsCrOW7OO1sr0y7kakjuyPaMLy3NI1oIZM3rGSJIGVe9Xlri8v1H0xFhPNZuy2fHmGQDpTwA3X7B3JEMpw5FdhgsiX6XxXIbrWCymWFx2C9uaZQrUf9uwQU7KdncN6xzSUGFHA6/fSFdSgs7II/X74wHN4IREvw90mon+feSj9BkjHobEhf4rZMC3tk9s0eCPCh0i3gruQPe8FMdJKVXF2IlvllqW/rvMloWLeLLE5b2fzR9gtaBio1JDuNlWwngW8TFS+FSInIqd1nv5VqGV6EZHYmRHSwP/wBOQhHF7bhTBqxZhtXFvykg8hI4qNW9FCtJ8qazMwSXA2B7sJQCsdLytRwV929YsUPX1A3sG4Hx9Y21sJYFygvF48F83NeBCXPB92lHdI6ezBznuuU1/x1PXj6jxPAKcnr/0SdAFk+HSyBgfRzZrV0Bh7aU5n+GJECJ2yU7YAfP7NPay95sCdgwqro9iDbunZRwnT9FfrhxUIISUKNEnoyE9QccLTC0c3ncfVRITc4onZk+fQhbx4xYrGd0X+loHrEAwnyZeFLt/ci3BIZpe8OeNo+OQtoRv4ETunm2pVG1nDKMsCfu9021BnAzEzxPg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR12MB5401.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(55016003)(76116006)(33656002)(7696005)(4326008)(6916009)(508600001)(8676002)(8936002)(38100700002)(6506007)(5660300002)(9686003)(66556008)(64756008)(186003)(26005)(54906003)(66446008)(2906002)(16799955002)(66476007)(66946007)(71200400001)(52536014)(316002)(86362001)(38070700005)(83380400001)(91956017)(122000001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?QY+muklPZ8WFaFx8MYMel2FdcfYmjuAmpFjsu28orvzxiZhmc6uDBAjpYH?=
+ =?iso-8859-1?Q?kxbF0ZWqm20Z/UwXm8Otd37QvRDqi3GWJNhO9wcHnixjjl6Xc8EVsqJgcR?=
+ =?iso-8859-1?Q?cMd45uO7+Sf1O2xtbdXUxkM9pp9LpE4+yj+aC6zb5xRSgs05KqSZexdYJ0?=
+ =?iso-8859-1?Q?gawAj0DV0Bi29ylYewxr0j4HctNyyy77GTWicbPuCLQD903/izT8sQe7G5?=
+ =?iso-8859-1?Q?Mni0XVwLWZD47aR9lS+/jGSmm895u++ocuPKTMTpIV2LITiSD2At/4xsBY?=
+ =?iso-8859-1?Q?d93BE/4fxvPMlZSHbzIq4jUqIZdjyJ+h2biUnmCI6iGzFTYkAtD1fS6i2B?=
+ =?iso-8859-1?Q?KHUCevTcL4lj0dFN4XzV+rI64Bt93Dq+s4e9K76Xfyw6PUdNlOcwZPn98Z?=
+ =?iso-8859-1?Q?Ij+HfOWygsKPLsOicv5ZomYtNQRtvizlgUWhWjPxU/C7ALB0Oi7jKriafS?=
+ =?iso-8859-1?Q?OehnGtO36IgwIuE+wPx0WIPvKorKH+o3NG2Z4TQXfGhzNhZ0fun4Zn6agB?=
+ =?iso-8859-1?Q?3dP6NCZWmrBBqJ+TbCNRi83Py9aWH4L1yFFa2TQI888htVuPkCs7djqf8g?=
+ =?iso-8859-1?Q?e3k91roJyoNYV2HkucPmsXTjAOBR5Ck/2GAlz23+FMc41ixhfjESvWjUj1?=
+ =?iso-8859-1?Q?QIbRsreLtoSz5Z2dl2fjy185YF7Rwyr7eB/J85HZz1osCBTSwlRdu3G8u+?=
+ =?iso-8859-1?Q?3dmuuocEZGXGiwDqQMYg8felIEEbCvDklkLeW2CIswl6ngIHAmusYvr9zp?=
+ =?iso-8859-1?Q?wiizo/wUIt+ztLs1n0vKikhd2h+GF7BoDaawBz9Pv9sSUML6SPNa+5iFwP?=
+ =?iso-8859-1?Q?ZmQIQchrT/7tZKiZytN5Ialn2i1areJRJ6w5K9iqELL76WfqeJbB6UG6O6?=
+ =?iso-8859-1?Q?gg8o0Efu5KcRIXr65yFoABFRdtUPg5BxJTteOmDaNBelkTSCBkLBV4boAT?=
+ =?iso-8859-1?Q?fXImjOeUetM/Nb41D74U7iqtuXXeMPfRkgmxoVCUaDWglrzGoj/pyunmMx?=
+ =?iso-8859-1?Q?vAof+v7u3+EiA+UoAYD7LG0VrZs6eeVdx2QutWU4Hyzrv5o81oSN2T/13i?=
+ =?iso-8859-1?Q?0Gd59WQgHIEswdoFVYcN20kpJPf0sFT5ndNReR22OaS/Jq9re771Cb2Yef?=
+ =?iso-8859-1?Q?oOlJhNIAN4WdbRjHSgnaXW2jqbtwufaU3ACQxa8Sau8mwDKssLxJT/WhLf?=
+ =?iso-8859-1?Q?7bodsfVexnvlbSuVEYUtDTHC7oOjSwzyKYYq5C09uSLkuSHc1nvyky7/wl?=
+ =?iso-8859-1?Q?zmwNQTf93oQlcv4NLuXjWfnNqE/ZfouEDCufs6UlUJ3W03yNwau7VKivPV?=
+ =?iso-8859-1?Q?fMzdl4rSBq355IRJ+C/2ThtlwMeXhrkmZChbCVXK5cmknSk2i0BTSPfo7h?=
+ =?iso-8859-1?Q?swxmIAifUU674FhPFBOqtIpRtxYoVn02TY+r77C0x+24Cgj+H/qLE7lydN?=
+ =?iso-8859-1?Q?A3BjyDl3FLbiStSE7IA0ADFaPsnA13B3KzaNo+X4quFedpcEJ3X/F0dVvC?=
+ =?iso-8859-1?Q?BRSw68NrOZvtEA/6Yei7JM/5FJCIm0U1N9Ei4u1+/rOYAyxfiW06bgnEvi?=
+ =?iso-8859-1?Q?ffD1I17eipVNeaKGIf5FRE6kX6wZ8uep4Ub/aiYuUG3bMNVk5pFf0eWuXx?=
+ =?iso-8859-1?Q?CEFwbmcJ6Zknyp12zf7q8HRB7YPe9PIU0ocjbL9yEmZGYR7tgF7bwMqQ?=
+ =?iso-8859-1?Q?=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-OriginatorOrg: synopsys.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR12MB5401.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9f175df6-cb11-4e8e-26b7-08d9b509a96d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Dec 2021 20:32:15.0725
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: DBeYz9Wn3Tm45kuJxyofGER5rZpEjaQzDoHwqK9P/RqFSrhMZ6bi2+Y7A5vZtXWnEm18pcSqLaE/3PSpCe63zg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB5466
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 30 Nov 2021 23:14:07 -0400
-Jason Gunthorpe <jgg@nvidia.com> wrote:
-
-> On Tue, Nov 30, 2021 at 03:35:41PM -0700, Alex Williamson wrote:
-> 
-> > > From what HNS said the device driver would have to trap every MMIO to
-> > > implement NDMA as it must prevent touches to the physical HW MMIO to
-> > > maintain the NDMA state.
-> > > 
-> > > The issue is that the HW migration registers can stop processing the
-> > > queue and thus enter NDMA but a MMIO touch can resume queue
-> > > processing, so NDMA cannot be sustained.
-> > > 
-> > > Trapping every MMIO would have a huge negative performance impact.  So
-> > > it doesn't make sense to do so for a device that is not intended to be
-> > > used in any situation where NDMA is required.  
-> > 
-> > But migration is a cooperative activity with userspace.  If necessary
-> > we can impose a requirement that mmap access to regions (other than the
-> > migration region itself) are dropped when we're in the NDMA or !RUNNING
-> > device_state.    
-> 
-> It is always NDMA|RUNNING, so we can't fully drop access to
-> MMIO. Userspace would have to transfer from direct MMIO to
-> trapping. With enough new kernel infrastructure and qemu support it
-> could be done.
-
-This is simply toggling whether the mmap MemoryRegion in QEMU is
-enabled, when not enabled access falls through to the read/write access
-functions.  We already have this functionality for unmasking INTx
-interrupts when we don't have EOI support.
- 
-> Even so, we can't trap accesses through the IOMMU so such a scheme
-> would still require removing IOMMU acess to the device. Given that the
-> basic qemu mitigation for no NDMA support is to eliminate P2P cases by
-> removing the IOMMU mappings this doesn't seem to advance anything and
-> only creates complexity.
-
-NDMA only requires that the device cease initiating DMA, so I suppose
-you're suggesting that the MMIO of a device that doesn't expect to make
-use of p2p DMA could be poked through DMA, which might cause the device
-to initiate a DMA and potentially lose sync with mediation.  That would
-be bad, but seems like a non-issue for hns.
-
-> At least I'm not going to insist that hns do all kinds of work like
-> this for a edge case they don't care about as a precondition to get a
-> migration driver.
-
-I wonder if we need a region flag to opt-out of IOMMU mappings for
-devices that do not support p2p use cases.  If there were no IOMMU
-mappings and mediation handled CPU driven MMIO accesses, then we'd have
-a viable NDMA mode for hns.
-
-> > There's no reason that mediation while in the NDMA state needs to
-> > impose any performance penalty against the default RUNNING state.   
-> 
-> Eh? Mitigation of no NDMA support would have to mediate the MMIO on a
-> a performance doorbell path, there is no escaping a performance
-> hit. I'm not sure what you mean
-
-Read it again, I'm suggesting that mediation during NDMA doesn't need
-to carry over any performance penalty to the default run state.  We
-don't care if mediation imposes a performance penalty while NDMA is set,
-we're specifically attempting to quiesce the device.  The slower it
-runs the better ;)
-
-> > > > Some discussion of this requirement would be useful in the doc,
-> > > > otherwise it seems easier to deprecate the v1 migration region
-> > > > sub-type, and increment to a v2 where NDMA is a required feature.    
-> > > 
-> > > I can add some words a the bottom, but since NDMA is a completely
-> > > transparent optional feature I don't see any reason to have v2.  
-> > 
-> > It's hardly transparent, aiui userspace is going to need to impose a
-> > variety of loosely defined restrictions for devices without NDMA
-> > support.  It would be far easier if we could declare NDMA support to be
-> > a requirement.  
-> 
-> It would make userspace a bit simpler at the cost of excluding or
-> complicating devices like hns for a use case they don't care about.
-> 
-> On the other hand, the simple solution in qemu is when there is no
-> universal NDMA it simply doesn't include any MMIO ranges in the
-> IOMMU.
-
-That leads to mysterious performance penalties when a VM was previously
-able to make use of (ex.) GPUDirect, but adds an hns device and suddenly
-can no longer use p2p.  Or rejected hotplugs if a device has existing
-NDMA capable devices, p2p might be active, but the new device does not
-support NDMA.  This all makes it really complicated to get
-deterministic behavior for devices.  I don't know how to make QEMU
-behavior predictable and supportable in such an environment.
-
-> > As I think Connie also had trouble with, combining device_state with
-> > IOMMU migration features and VMM state, without any preceding context
-> > and visual cues makes the section confusing.  I did gain context as I
-> > read further though the doc, but I also had the advantage of being
-> > rather familiar with the topic.  Maybe a table format would help to
-> > segment the responsibilities?  
-> 
-> I moved the context to the bottom exactly because Connie said it was
-> confusing at the start. :)
-> 
-> This is a RST document so I not keen to make huge formatting
-> adventures for minimal readability gain.
-> 
-> I view this as something that probably needs to be read a few times,
-> along with the code and header files for someone brand new to
-> understand. I'm Ok with that, it is about consistent with kernel docs
-> of this level.
-> 
-> What I would like is if userspace focused readers can get their
-> important bits of information with less work.
-> 
-> > > It is exsisting behavior of qemu - which is why we documented it.  
-> > 
-> > QEMU resets devices as part of initializing the VM, but I don't see
-> > that QEMU specifically resets a device in order to transition it to
-> > the RESUMING device_state.   
-> 
-> We instrumented the kernel and monitored qemu, it showed up on the
-> resume traces.
-
-Exactly, it's part of the standard VM initialization sequence, not
-specific to the device entering the RESUMING state.
-
-> > > Either qemu shouldn't do it as devices must fully self-reset, or we
-> > > should have it part of the canonical flow and devices may as well
-> > > expect it. It is useful because post VFIO_DEVICE_RESET all DMA is
-> > > quiet, no outstanding PRIs exist, etc etc.  
-> > 
-> > It's valid for QEMU to reset the device any time it wants, saying that
-> > it cannot perform a reset before transitioning to the RESUMING state is
-> > absurd.  Userspace can do redundant things for their own convenience.  
-> 
-> I didn't say cannot, I said it shouldn't.
-
-Redundant perhaps, but not dis-recommended other than for overhead.
-
-> Since qemu is the only implementation it would be easy for drivers to
-> rely on the implicit reset it seems to do, it seems an important point
-> that should be written either way.
-> 
-> I don't have a particular requirement to have the reset, but it does
-> seem like a good idea. If you feel strongly, then let's say the
-> opposite that the driver must enter RESUME with no preconditions,
-> doing an internal reset if required.
-
-It seems cleaner to me than unnecessarily requiring userspace to pass
-through an ioctl in order to get to the next device_state.
-
-> > We don't currently specify any precondition for a device to enter the
-> > RESUMING state.  The driver can of course nak the state change with an
-> > errno, or hard nak it with an errno and ERROR device_state, which would
-> > require userspace to make use of VFIO_DEVICE_RESET.  
-> 
-> I don't think we should be relying on every driver doing something
-> totally differnt on the standard path. That is only going to hurt
-> interoperability.
-
-I agree, the above is the exception path, devices should typically
-allow a transition to RESUMING with no precondition, which is why I
-suggest an internal reset as necessary.
-
-> > > > As with the previous flows, it seems like there's a ton of implicit
-> > > > knowledge here.  Why are we documenting these here rather than in the
-> > > > uAPI header?    
-> > > 
-> > > Because this is 300 lines already and is too complicated/long to
-> > > properly live in a uapi header.  
-> > 
-> > Minimally we need to resolve that this document must be consistent with
-> > the uAPI.  I'm not sure that's entirely the case in this draft.  
-> 
-> Can you point to something please? I can't work with "I'm not sure"
-
-The reset behavior that I'm trying to clarify above is the primary
-offender, but "I'm not sure" I understand the bit prioritization enough
-to know that there isn't something there as well.  I'm also not sure if
-the "end of stream" phrasing below matches the uAPI.
-
-> IMO the header file doesn't really say much and can be read in a way
-> that is consistent with this more specific document.
-
-But if this document is suggesting the mlx5/QEMU interpretation is the
-only valid interpretations for driver authors, those clarifications
-should be pushed back into the uAPI header.
-
-> > >  - qemu doesn't support P2P cases due to the NDMA topic  
-> > 
-> > Or rather QEMU does support p2p cases regardless of the NDMA topic.  
-> 
-> I mean support in a way that is actually usable as without NDMA it
-> corrupts the VM when it migrates it.
-
-I think we're in agreement, I'm just pointing out that QEMU currently
-has no NDMA support nor does anything to prevent p2p with non-NDMA
-devices.
-
-> > >  - simple devices like HNS will work, but not robustly in the face of
-> > >    a hostile VM and multiple VFIO devices.  
-> > 
-> > So what's the goal here, are we trying to make the one currently
-> > implemented and unsupported userspace be the gold standard to which
-> > drivers should base their implementation?    
-> 
-> I have no idea anymore. You asked for docs and complete picture as a
-> percondition for merging a driver. Here it is.
-> 
-> What do you want?
-
-Looking through past conversations, I definitely asked that we figure
-out how NDMA is going to work.  Are you thinking of a different request
-from me?
-
-The restriction implied by lack of NDMA support are pretty significant.
-Maybe a given device like hns doesn't care because they don't intend to
-support p2p, but they should care if it means we can't hot-add their
-device to a VM in the presences of devices that can support p2p and if
-cold plugging their device into an existing configuration implies loss
-of functionality or performance elsewhere.
-
-I'd tend to expect though that we'd incorporate NDMA documentation into
-the uAPI with a formal proposal for discovery and outline a number of
-those usage implications.
-
-> > We've tried to define a specification that's more flexible than a
-> > single implementation and by these standards we seem to be flipping
-> > that implementation back into the specification.  
-> 
-> What specification!?! All we have is a couple lines in a header file
-> that is no where near detailed enough for multi-driver
-> interoperability with userspace. You have no idea how much effort has
-> been expended to get this far based on the few breadcrumbs that were
-> left, and we have access to the team that made the only other
-> implementation!
-> 
-> *flexible* is not a specification.
-
-There are approximately 220 lines of the uAPI header file dealing
-specifically with the migration region.  A bit more than a couple.
-
-We've tried to define it by looking at the device requirements to
-support migration rather than tailor it specifically to the current QEMU
-implementation of migration.  Attempting to undo that generality by
-suggesting only current usage patterns are relevant is therefore going
-to generate friction.
-
-> > Userspace can attempt RESUMING -> RUNNING regardless of what we specify,
-> > so a driver needs to be prepared for such an attempted state change
-> > either way.  So what's the advantage to telling a driver author that
-> > they can expect a given behavior?  
-> 
-> The above didn't tell a driver author to expect a certain behavior, it
-> tells userspace what to do.
-
-  "The migration driver can rely on user-space issuing a
-   VFIO_DEVICE_RESET prior to starting RESUMING."
-
-> > It doesn't make much sense to me to glue two separate userspace
-> > operations together to say these must be done in this sequence, back to
-> > back.  If we want the device to be reset in order to enter RESUMING, the
-> > driver should simply reset the device as necessary during the state
-> > transition.  The outward effect to the user is to specify that device
-> > internal state may not be retained on transition from RUNNING ->
-> > RESUMING.  
-> 
-> Maybe, and I'm happy if you want to specify this instead. It just
-> doesn't match what we observe qemu to be doing.
-
-Tracing that shows a reset preceding entering RESUMING doesn't suggest
-to me that QEMU is performing a reset for the specific purpose of
-entering RESUMING.  Correlation != causation.
-
-> > > Do you have an alternative language? This is quite complicated, I
-> > > advise people to refer to mlx5's implementation.  
-> > 
-> > I agree with Connie on this, if the reader of the documentation needs
-> > to look at a specific driver implementation to understand the
-> > reasoning, the documentation has failed.    
-> 
-> Lets agree on some objective here, this is not trying to be fully
-> comprehensive, or fully standalone. It is intended to drive agreement,
-> be informative to userspace, and be supplemental to the actual code.
-> 
-> > If it can be worked out by looking at the device_state write
-> > function of the mlx5 driver, then surely a sentence or two for each
-> > priority item can be added here.  
-> 
-> Please give me a suggestion then, because I don't know what will help
-> here?
-
-I'm trying... thus the suggesting just below
-
-> > Part of the problem is that the nomenclature is unclear, we're listing
-> > bit combinations, but not the changed bit(s) and we need to infer the
-> > state.  
-> 
-> Each line lists the new state, the changed bits are thus any bits that
-> make up the new state.
-> 
-> If you look at how mlx5 is constructed each if has a 'did it change'
-> test followed by 'what state is it in now'
-> 
-> So the document is read as listing the order the driver enters the new
-> states. I clarified it as ""must process the new device_state bits in
-> a priority order""
-
-The order I see in the v5 mlx5 post is:
-
-if RUNNING 1->0
-  quiesce + freeze
-if RUNNING or SAVING change && state == !RUNNING | SAVING
-  save device state
-if RESUMING 0->1
-  reset device state
-if RESUMING 1->0
-  load device state
-if RUNNING 0->1
-  unfreeze + unquiesce
-
-So maybe part of my confusion stems from the fact that the mlx5 driver
-doesn't support pre-copy, which by the provided list is the highest
-priority.  But what actually makes that the highest priority?  Any
-combination of SAVING and RESUMING is invalid, so we can eliminate
-those.  We obviously can't have RUNNING and !RUNNING, so we can
-eliminate all cases of !RUNNING, so we can shorten the list relativeto
-prioritizing SAVING|RUNNING to:
-
- - SAVING | RUNNING
- - NDMA
- - !RESUMING
- - RUNNING
- - !NDMA
-
-It seems like a transition from RESUMING -> SAVING | RUNNING is valid
-and RESUMING(1->0) triggers the device state to be loaded from the
-migration area, but SAVING(0->1) clears the data window, so I think
-this priority scheme means a non-intuitive thing just happened.  SAVING
-| RUNNING would need to be processed after !RESUMING, but maybe before
-RUNNING itself.
-
-NDMA only requires that the device cease initiating DMA before the call
-returns and it only has meaning if RUNNING, so I'm not sure why setting
-NDMA is given any priority.  I guess maybe we're trying
-(unnecessarily?) to preempt any DMA that might occur as a result of
-setting RUNNING (so why is it above cases including !RUNNING?)?
-
-Obviously presenting a priority scheme without a discussion of the
-associativity of the states and a barely sketched out nomenclature is
-really not inviting an actual understanding how this is reasoned (imo).
-
-> > flips in the presence of an existing state.  I'm not able to obviously
-> > map the listing above to the latest posted version of the mlx5 driver.  
-> 
-> One of the things we've done is align mlx5 more clearly to this. For
-> instance it no longer has a mixture of state and old state in the if
-> statements, it always tests the new state so the tests logically
-> follow what is written here
-> 
-> Stripping away the excess the expressions now look like this:
-> 
->  !(state & VFIO_DEVICE_STATE_RUNNING)
->  ((state & (VFIO_DEVICE_STATE_RUNNING | VFIO_DEVICE_STATE_SAVING)) == VFIO_DEVICE_STATE_SAVING))
->  (state & VFIO_DEVICE_STATE_RESUMING)
-> 
-> Which mirror what is written here.
-
-I'm feeling like there's a bit of a chicken and egg problem here to
-decide if this is sufficiently clear documentation before a new posting
-of the mlx5 driver where the mlx5 driver is the authoritative source
-for the reasoning of the priority scheme documented here (and doesn't
-make use of pre-copy).
-
-> > > > > +  As Peer to Peer DMA is a MMIO touch like any other, it is important that
-> > > > > +  userspace suspend these accesses before entering any device_state where MMIO
-> > > > > +  is not permitted, such as !RUNNING. This can be accomplished with the NDMA
-> > > > > +  state. Userspace may also choose to remove MMIO mappings from the IOMMU if the
-> > > > > +  device does not support NDMA and rely on that to guarantee quiet MMIO.    
-> > > > 
-> > > > Seems that would have its own set of consequences.    
-> > > 
-> > > Sure, userspace has to make choices here.  
-> > 
-> > It seems a bit loaded to suggest an alternative choice if it's not
-> > practical or equivalent.  Maybe it's largely the phrasing, I read
-> > "remove MMIO mappings" as to drop them dynamically, when I think we've
-> > discussed that userspace might actually preclude these mappings for
-> > non-NDMA devices such that p2p DMA cannot exist, ever.  
-> 
-> I mean the latter. How about "never install MMIO mappings" ?
-
-Yup.
-
-> > > Overall it must work in this basic way, and devices have freedom about
-> > > what internal state they can/will log. There is just a clear division
-> > > that every internal state in the first step is either immutable or
-> > > logged, and that the second step is a delta over the first.  
-> > 
-> > I agree that it's a reasonable approach, though as I read the proposed
-> > text, there's no mention of immutable state and no reason a driver
-> > would implement a dirty log for immutable state, therefore we seem to
-> > be suggesting such data for the stop-and-copy phase when it would
-> > actually be preferable to include it in pre-copy.  
-> 
-> I'd say that is a detail we don't need to discuss/define, it has no
-> user space visible consequence.
-
-The migration data stream is entirely opaque to userspace, so what's
-the benefit to userspace to suggest anything about the content in each
-phase?  This is presented in a userspace edge concerns section, but the
-description is much more relevant to a driver author.
-
-> > I think the fact that a user is not required to run the pre-copy
-> > phase until completion is also noteworthy.  
-> 
-> This text doesn't try to detail how the migration window works, that
-> is a different large task. The intention is that the migration window
-> must be fully drained to be successful.
-
-Clarification, the *!RUNNING* migration window must be fully drained.
-
-> I added this for some clarity ""The entire migration data, up to each
-> end of stream must be transported from the saving to resuming side.""
-
-Per the uAPI regarding pre-copy:
-
-  "The user must not be required to consume all migration data before
-  the device transitions to a new state, including the stop-and-copy
-  state."
-
-If "end of stream" suggests the driver defined end of the data stream
-for pre-copy rather than simply the end of the user accumulated data
-stream, that conflicts with the uAPI.  Thanks,
-
-Alex
-
+Hi Jonathan,=0A=
+ =0A=
+> > Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>=0A=
+> > Cc: Randy Dunlap <rdunlap@infradead.org>=0A=
+> > Cc: Vineet Gupta <vgupta@kernel.org>=0A=
+> =0A=
+> I've applied this set, but I have a couple of quibbles that it would be=
+=0A=
+> nice to see addressed...=0A=
+=0A=
+Thanks for taking care of that!=0A=
+=0A=
+> > +3. `<https://www.synopsys.com/designware-ip/processor-solutions.html>`=
+_ -=0A=
+> > +Official Synopsys ARC Processors website location, with access to some=
+ IP=0A=
+> > +documentation (Programmer's Reference Manuals, AKA "PRM's", see=0A=
+> > +`<https://www.synopsys.com/dw/doc.php/ds/cc/programmers-reference-manu=
+al-ARC-HS.pdf>`_)=0A=
+> =0A=
+> This manual requires registration (with a fair amount of information=0A=
+> required) to get.  That should at least be mentioned if we can't find a=
+=0A=
+> less obnoxious version out there.=0A=
+=0A=
+Well, I'm afraid that's the best we may get as of now. I wish is was availa=
+ble=0A=
+with no registration whatsoever, but at least it could be easily had now by=
+=0A=
+wide audience.=0A=
+=0A=
+Anyways, I'm wondering what kind of mention do you think is appropriate her=
+e?=0A=
+Somehting like: "note, registration is required"?=0A=
+ =0A=
+> > +Building the Linux kernel for ARC processors=0A=
+> > +############################################=0A=
+> > +=0A=
+> > +The process of kernel building for ARC processors is the same as for a=
+ny other=0A=
+> > +architecture and could be done in 2 ways:=0A=
+> > +=0A=
+> > +1. cross-compilation: process of compiling for ARC targets on a develo=
+pment=0A=
+> > +host with a different processor architecture (generally x86_64/amd64).=
+=0A=
+> > +=0A=
+> > +2. native compilation: process of compiling for ARC on a ARC platform=
+=0A=
+> > +(hardware board or a simulator like QEMU) with complete development en=
+vironment=0A=
+> > +(GNU toolchain, dtc, make etc) installed on the platform.=0A=
+> =0A=
+> These enumerated lists would render a lot more pleasantly if you=0A=
+> actually formatted them as RST enumerated lists - with lines after the=0A=
+> first indented.=0A=
+=0A=
+Indeed, I'm much more used to Markdown and there it works ;)=0A=
+So should I send a re-spin with fixed version?=0A=
+=0A=
+ =0A=
+> > +In both cases, up-to-date GNU toolchain for ARC for the host is needed=
+.=0A=
+> > +Synopsys offers prebuilt toolchain releases which can be used for this=
+ purpose,=0A=
+> > +available from:=0A=
+> > +=0A=
+> > +1. Synopsys GNU toolchain releases:=0A=
+> > +`<https://urldefense.com/v3/__https://github.com/foss-for-synopsys-dwc=
+-arc-processors/toolchain/releases__;!!A4F2R9G_pg!N40JBI0hlr_f_ZX-pTGEO-vBv=
+xNaA6NF4WYKA3yamILtuUOhgiEsFqRLfdx9VfetWmy7or8$ >`_=0A=
+> > +2. Linux kernel compilers collection:=0A=
+> > +`<https://urldefense.com/v3/__https://mirrors.edge.kernel.org/pub/tool=
+s/crosstool/__;!!A4F2R9G_pg!N40JBI0hlr_f_ZX-pTGEO-vBvxNaA6NF4WYKA3yamILtuUO=
+hgiEsFqRLfdx9VfetayTOVRo$ >`_=0A=
+> > +3. Bootlin's toolchain collection: `<https://urldefense.com/v3/__https=
+://toolchains.bootlin.com/__;!!A4F2R9G_pg!N40JBI0hlr_f_ZX-pTGEO-vBvxNaA6NF4=
+WYKA3yamILtuUOhgiEsFqRLfdx9Vfet7I-6RoI$ >`_=0A=
+> =0A=
+> These, in particular, render in a pretty ugly way.=0A=
+=0A=
+Right, here it gets even worse due to missing newlines. Again, fixed by:=0A=
+-------------------------->8----------------------------=0A=
+diff --git a/Documentation/arc/arc.rst b/Documentation/arc/arc.rst=0A=
+index 249d03c6be8e..4dbd107f02e6 100644=0A=
+--- a/Documentation/arc/arc.rst=0A=
++++ b/Documentation/arc/arc.rst=0A=
+@@ -10,23 +10,23 @@ Below are some resources where more information can be =
+found on=0A=
+ ARC processors and relevant open source projects.=0A=
+=0A=
+ 1. `<https://embarc.org/>`_ - Community portal for open source on ARC.=0A=
+-Good place to start to find relevant FOSS projects, toolchain releases,=0A=
+-news items and more.=0A=
++   Good place to start to find relevant FOSS projects, toolchain releases,=
+=0A=
++   news items and more.=0A=
+=0A=
+ 2. `<https://github.com/foss-for-synopsys-dwc-arc-processors>`_ -=0A=
+-Home for all development activities regarding open source projects for=0A=
+-ARC processors. Some of the projects are forks of various upstream project=
+s,=0A=
+-where "work in progress" is hosted prior to submission to upstream project=
+s.=0A=
+-Other projects are developed by Synopsys and made available to community=
+=0A=
+-as open source for use on ARC Processors.=0A=
++   Home for all development activities regarding open source projects for=
+=0A=
++   ARC processors. Some of the projects are forks of various upstream proj=
+ects,=0A=
++   where "work in progress" is hosted prior to submission to upstream proj=
+ects.=0A=
++   Other projects are developed by Synopsys and made available to communit=
+y=0A=
++   as open source for use on ARC Processors.=0A=
+=0A=
+ 3. `<https://www.synopsys.com/designware-ip/processor-solutions.html>`_ -=
+=0A=
+-Official Synopsys ARC Processors website location, with access to some IP=
+=0A=
+-documentation (Programmer's Reference Manuals, AKA "PRM's", see=0A=
+-`<https://www.synopsys.com/dw/doc.php/ds/cc/programmers-reference-manual-A=
+RC-HS.pdf>`_)=0A=
+-and commercial tools (Free nSIM,=0A=
+-`<https://www.synopsys.com/cgi-bin/dwarcnsim/req1.cgi>`_ and=0A=
+-MetaWare Light Edition, `<https://www.synopsys.com/cgi-bin/arcmwtk_lite/re=
+g1.cgi>`_)=0A=
++   Official Synopsys ARC Processors website location, with access to some =
+IP=0A=
++   documentation (Programmer's Reference Manuals, AKA "PRM's", see=0A=
++   `<https://www.synopsys.com/dw/doc.php/ds/cc/programmers-reference-manua=
+l-ARC-HS.pdf>`_)=0A=
++   and commercial tools (Free nSIM,=0A=
++   `<https://www.synopsys.com/cgi-bin/dwarcnsim/req1.cgi>`_ and=0A=
++   MetaWare Light Edition, `<https://www.synopsys.com/cgi-bin/arcmwtk_lite=
+/reg1.cgi>`_)=0A=
+=0A=
+ Important note on ARC processors configurability=0A=
+ ################################################=0A=
+@@ -53,20 +53,22 @@ The process of kernel building for ARC processors is th=
+e same as for any other=0A=
+ architecture and could be done in 2 ways:=0A=
+=0A=
+ 1. cross-compilation: process of compiling for ARC targets on a developmen=
+t=0A=
+-host with a different processor architecture (generally x86_64/amd64).=0A=
++   host with a different processor architecture (generally x86_64/amd64).=
+=0A=
+=0A=
+ 2. native compilation: process of compiling for ARC on a ARC platform=0A=
+-(hardware board or a simulator like QEMU) with complete development enviro=
+nment=0A=
+-(GNU toolchain, dtc, make etc) installed on the platform.=0A=
++   (hardware board or a simulator like QEMU) with complete development env=
+ironment=0A=
++   (GNU toolchain, dtc, make etc) installed on the platform.=0A=
+=0A=
+ In both cases, up-to-date GNU toolchain for ARC for the host is needed.=0A=
+ Synopsys offers prebuilt toolchain releases which can be used for this pur=
+pose,=0A=
+ available from:=0A=
+=0A=
+ 1. Synopsys GNU toolchain releases:=0A=
+-`<https://github.com/foss-for-synopsys-dwc-arc-processors/toolchain/releas=
+es>`_=0A=
++   `<https://github.com/foss-for-synopsys-dwc-arc-processors/toolchain/rel=
+eases>`_=0A=
++=0A=
+ 2. Linux kernel compilers collection:=0A=
+-`<https://mirrors.edge.kernel.org/pub/tools/crosstool/>`_=0A=
++   `<https://mirrors.edge.kernel.org/pub/tools/crosstool/>`_=0A=
++=0A=
+ 3. Bootlin's toolchain collection: `<https://toolchains.bootlin.com/>`_=0A=
+=0A=
+ Once the toolchain is installed in the system, make sure its "bin" folder=
+=0A=
+-------------------------->8----------------------------=0A=
+=0A=
+-Alexey=
