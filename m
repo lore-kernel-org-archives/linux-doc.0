@@ -2,54 +2,52 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40697C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB14BC433EF
 	for <linux-doc@archiver.kernel.org>; Wed,  1 Dec 2021 13:50:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349805AbhLANxs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Dec 2021 08:53:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36110 "EHLO
+        id S1349717AbhLANxu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Dec 2021 08:53:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349705AbhLANxi (ORCPT
+        with ESMTP id S1349781AbhLANxi (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Dec 2021 08:53:38 -0500
 Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D666FC0613FD;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCE43C0613FE;
         Wed,  1 Dec 2021 05:50:10 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 2D625CE1ECA;
+        by sin.source.kernel.org (Postfix) with ESMTPS id 34AC5CE1ECC;
         Wed,  1 Dec 2021 13:50:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5ABC6C53FD1;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63020C56747;
         Wed,  1 Dec 2021 13:50:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1638366607;
-        bh=KgT8MZyyZTB9atKNORLUb1HZx3CjIv+yR6zou4vpou8=;
-        h=From:To:Cc:Subject:Date:From;
-        b=XP9cSSDUy4T8b8D6kPl5w0KDd+xrrIl5sl3oZ6qai7EZxlXwH2rxh4JYnl+CDsEeg
-         mz9cjFWctjUaJDEPb2+K8UavQFcTzqEUgNQgdGKpdJJT/9GGKTrapK4pAkro6uPhbN
-         hafF0f4rE3n3USJb4lvREyCiS/tY4F1o9QddlAWVBy86R+mMUExtBk4+xSSdl3XZCt
-         mBgA/7zGfgHLTasnuDQmXJ1HiwrGDUY3eslySw0a4snLz07yeisWDIcazE81/Q+VV7
-         cYQ/lzSsWHiB9IuJV/FwUqFPBSdHjfYV/AR6b5RMCJy5/gI1JPWStHcYRTp4Yh9Tt+
-         UURt/D7YB1/ug==
+        bh=O9XB83k43ShQ+oYzndg4tONz+XgrUUa4toHw6ZWPXcE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=TBTt6OpakLguOzFneL77znkRcWWYUPGv2kuA7vTD6F+RsO4Gmy/DpHCW2wHKDc2FS
+         lUhiQjwPHi1BOr8kFyk+M/mhOJ9d+iNpouZcx69/OGyFhqsplMcMS+gWHDse8t1X4R
+         IHrTPf9olrZu7eNmPTRklAdShcAtC5RjklonWG21fzQFBZ5f1An7qTlyO+RL9NnU3z
+         1UFAxmIHp8vr/qpItXs8J1/ljB06AE6hyEjzZNlkXhx7iUDwUGprVHm5iSl7Eu15Ty
+         VAlrU8hfTSYkd9TFv6FQ13y8Jqrx+d7f2nfhH0Wb7S39ca18rCcf4pkVpTc4sAIUMw
+         rANWKf+MmCnuA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1msPzp-004F89-2B; Wed, 01 Dec 2021 14:50:05 +0100
+        id 1msPzp-004F8S-8h; Wed, 01 Dec 2021 14:50:05 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= 
-        <nfraprado@protonmail.com>,
-        Andrew Klychkov <andrew.a.klychkov@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>
-Subject: [PATCH v2 0/4] docs: add better support for Sphinx themes and CSS
-Date:   Wed,  1 Dec 2021 14:50:00 +0100
-Message-Id: <cover.1638366497.git.mchehab+huawei@kernel.org>
+        "Akira Yokosawa" <akiyks@gmail.com>,
+        "Jani Nikula" <jani.nikula@linux.intel.com>,
+        "Randy Dunlap" <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 4/4] docs: add support for RTD dark mode
+Date:   Wed,  1 Dec 2021 14:50:04 +0100
+Message-Id: <78b01e87f40ae27eec9c6ce7a3132e86f0039871.1638366497.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <cover.1638366497.git.mchehab+huawei@kernel.org>
+References: <cover.1638366497.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -57,59 +55,154 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jon,
+This is actually an overlay on the top of the RTD theme, which
+requires to include first the RTD theme.
 
-This series comes after my patch fixing Sphinx support for RTD 1.0.0:
+While the CSS overlay file for RTD can be used here, the color
+settings can't be applied, as they would do weird things. So,
+we need to split the color-dependent logic in order to place it
+into a separate file.
 
-   https://lore.kernel.org/lkml/80009f0d17ea0840d81e7e16fff6e7677919fdfc.1638004294.git.mchehab+huawei@kernel.org/
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
 
-It provides, IMHO, a nice improvement on themes selection. This series
-is a v2 of the other theme-related patches I sent today.
+See [PATCH v2 0/4] at: https://lore.kernel.org/all/cover.1638366497.git.mchehab+huawei@kernel.org/
 
--
-
-Sphinx allows using different output templates for HTML (and e-pub).
-
-Right now, the Kernel was hardcoded to use the Read the Docs theme,
-falling back to whatever default is setup on a given Sphinx version.
-
-Well, themes and templates are actually an user preference.
-
-This patch set allows selecting different themes and even provide
-extra CSS override files.
-
-With that, one could, for instance, do things like:
-
-$ echo "body { color: darkgreen; } div.body { color: darkgreen; } " >my_css.css && make SPHINXDIRS=input CSS=my_css.css THEME=nature htmldocs
-
-In order to use the Sphinx nature theme with the normal font in green.
-
-patch 1 adds a theme selection make variable (THEME);
-patch 2 adds a css selection variable (CSS);
-patch 3 sets the classic theme to look a little better;
-patch 4 adds support for the RTD dark mode theme.
-
-It should be noticed that the RTD dark mode currently has some issues,
-as it is actually an override on the top of the original RTD theme.
-I suspect it needs to be updated to properly support Sphinx 4.3.0 and
-RTD 1.0.0 theme. Yet, it seems useful, as one can always switch to daylight
-mode in runtime, if something looks odd with it enabled.
-
-Mauro Carvalho Chehab (4):
-  docs: allow selecting a Sphinx theme
-  docs: allow to pass extra CSS themes via make
-  docs: set format for the classic mode
-  docs: add support for RTD dark mode
-
- Documentation/Makefile                        |   9 +-
- Documentation/conf.py                         | 102 ++++++++++++++----
- Documentation/doc-guide/sphinx.rst            |  11 ++
- .../sphinx-static/theme_overrides.css         |  16 +--
- .../sphinx-static/theme_rtd_colors.css        |  37 +++++++
- 5 files changed, 138 insertions(+), 37 deletions(-)
+ Documentation/conf.py                         | 15 +++++++-
+ .../sphinx-static/theme_overrides.css         | 16 +-------
+ .../sphinx-static/theme_rtd_colors.css        | 37 +++++++++++++++++++
+ 3 files changed, 53 insertions(+), 15 deletions(-)
  create mode 100644 Documentation/sphinx-static/theme_rtd_colors.css
 
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index d1b6f602b34d..6f4b35bccf3a 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -215,7 +215,7 @@ html_css_files = []
+ if "THEME" in os.environ:
+     html_theme = os.environ["THEME"]
+ 
+-if html_theme == 'sphinx_rtd_theme':
++if html_theme == 'sphinx_rtd_theme' or html_theme == 'sphinx_rtd_dark_mode':
+     # Read the Docs theme
+     try:
+         import sphinx_rtd_theme
+@@ -227,6 +227,19 @@ if html_theme == 'sphinx_rtd_theme':
+         html_css_files = [
+             'theme_overrides.css',
+         ]
++
++        # Read the Docs dark mode override theme
++        if html_theme == 'sphinx_rtd_dark_mode':
++            try:
++                import sphinx_rtd_dark_mode
++                extensions.append('sphinx_rtd_dark_mode')
++            except ImportError:
++                html_theme == 'sphinx_rtd_theme'
++
++        if html_theme == 'sphinx_rtd_theme':
++                # Add color-specific RTD normal mode
++                html_css_files.append('theme_rtd_colors.css')
++
+     except ImportError:
+         html_theme = 'classic'
+ 
+diff --git a/Documentation/sphinx-static/theme_overrides.css b/Documentation/sphinx-static/theme_overrides.css
+index 459ec5b29d68..f6f2b941a5d6 100644
+--- a/Documentation/sphinx-static/theme_overrides.css
++++ b/Documentation/sphinx-static/theme_overrides.css
+@@ -1,14 +1,14 @@
+ /* -*- coding: utf-8; mode: css -*-
+  *
+  * Sphinx HTML theme customization: read the doc
+- *
++ * Please don't add any color definition here, as the theme should
++ * work for both normal and dark modes.
+  */
+ 
+ /* Improve contrast and increase size for easier reading. */
+ 
+ body {
+ 	font-family: serif;
+-	color: black;
+ 	font-size: 100%;
+ }
+ 
+@@ -16,17 +16,8 @@ h1, h2, .rst-content .toctree-wrapper p.caption, h3, h4, h5, h6, legend {
+ 	font-family: sans-serif;
+ }
+ 
+-.wy-menu-vertical li.current a {
+-	color: #505050;
+-}
+-
+-.wy-menu-vertical li.on a, .wy-menu-vertical li.current > a {
+-	color: #303030;
+-}
+-
+ div[class^="highlight"] pre {
+ 	font-family: monospace;
+-	color: black;
+ 	font-size: 100%;
+ }
+ 
+@@ -104,13 +95,10 @@ div[class^="highlight"] pre {
+     /* Menu selection and keystrokes */
+ 
+     span.menuselection {
+-	color: blue;
+ 	font-family: "Courier New", Courier, monospace
+     }
+ 
+     code.kbd, code.kbd span {
+-	color: white;
+-	background-color: darkblue;
+ 	font-weight: bold;
+ 	font-family: "Courier New", Courier, monospace
+     }
+diff --git a/Documentation/sphinx-static/theme_rtd_colors.css b/Documentation/sphinx-static/theme_rtd_colors.css
+new file mode 100644
+index 000000000000..55b6e1c3664b
+--- /dev/null
++++ b/Documentation/sphinx-static/theme_rtd_colors.css
+@@ -0,0 +1,37 @@
++/* -*- coding: utf-8; mode: css -*-
++ *
++ * Sphinx HTML theme customization: color settings for RTD (non-dark) theme
++ *
++ */
++
++/* Improve contrast and increase size for easier reading. */
++
++body {
++	color: black;
++}
++
++.wy-menu-vertical li.current a {
++	color: #505050;
++}
++
++.wy-menu-vertical li.on a, .wy-menu-vertical li.current > a {
++	color: #303030;
++}
++
++div[class^="highlight"] pre {
++	color: black;
++}
++
++@media screen {
++
++    /* Menu selection and keystrokes */
++
++    span.menuselection {
++	color: blue;
++    }
++
++    code.kbd, code.kbd span {
++	color: white;
++	background-color: darkblue;
++    }
++}
 -- 
 2.33.1
-
 
