@@ -2,317 +2,402 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AECEC433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Dec 2021 03:13:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08F74C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Dec 2021 03:14:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241421AbhLADRA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Nov 2021 22:17:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33916 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229881AbhLADQ7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Nov 2021 22:16:59 -0500
-Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com [IPv6:2607:f8b0:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98C15C061574
-        for <linux-doc@vger.kernel.org>; Tue, 30 Nov 2021 19:13:39 -0800 (PST)
-Received: by mail-ot1-x331.google.com with SMTP id 47-20020a9d0332000000b005798ac20d72so33126485otv.9
-        for <linux-doc@vger.kernel.org>; Tue, 30 Nov 2021 19:13:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=Slh0KhQVLqQshB3JPvFokYKJFP8/IRIe+R8B19Or++Q=;
-        b=pt7l1QAWRgnSrqFiwOvklYhwrhNiXAYU23M9jFe+BXtg82RF65Tg+StKOF0C/Bpy4c
-         2AykJi/dr+Bnp2pkdO+gVzwIF5wbAcSso3ir368KVPTIrXVnDlh71yzNKCZ4nDadT5fB
-         7lsMuCSTaB7cLkhSE5KZiQ6muFXqgzg97tHXl6yhrhYARJ2prh1Idxl/q1V5PgUOwIKf
-         a4x/OG8JO3V7ZwC1LFvQc/YB5JsKJ0p5mXVO41LNRjcNBxYVHb7WkL5FbOhL+7WjGuyp
-         6L3r1mn+gJYkeP6OlnTe50YbApoHhA+kNDTtkb0Jne/CgQG5kwSYSl1c/v29ET0+7X+t
-         IYbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Slh0KhQVLqQshB3JPvFokYKJFP8/IRIe+R8B19Or++Q=;
-        b=4uK3Uk7JWpAjpYk0GCRuVdhLgutCVercYOQjMjt2Kr9i3lprFKh4zOCUrO36iVQZHO
-         c5WP6+7pzpRrikgCQ7EbXAsZcAbJgTpaXnAVdn8cnC4ndcmMCw+sgDyTxlsi/HhhyAyX
-         tzmVA3H0X8NvdOyTfocFQXsElSkZ3wG8pxNYML8RPw3ktlcCw+4O8ArEM06h1YsrzkfQ
-         t7SUbNMKYE1vjy59ViGbPfA7LDz/8BWV7Lqlcy2HXprCevLOkwtDMx4y6mpZzGHvmerA
-         8FYF/2eRCtF+NbX4YCrrJ9lXtzsf4xFRRVcKTRm9qfyizNg+oeyfgVOZBRxsqmvruX2k
-         Yr8Q==
-X-Gm-Message-State: AOAM533ii1AckcPgXHBccMHMEm5HPr+SyoZOb1ceW7UCgW1HsLukoQ0L
-        rM+rhYl8o52mMpSAX4CEFKcTRPpUHK7lETuNZ5U=
-X-Google-Smtp-Source: ABdhPJx6MTxEdBbMH9C9bw0LvWs6BxHswmxWe+ZeUj643Dtloj+pxaUEkOOhn62TWoJhscAAY9HU9jAifGxvySItDEs=
-X-Received: by 2002:a05:6830:22f1:: with SMTP id t17mr3383243otc.39.1638328418680;
- Tue, 30 Nov 2021 19:13:38 -0800 (PST)
+        id S241448AbhLADRb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Nov 2021 22:17:31 -0500
+Received: from mail-dm6nam12on2050.outbound.protection.outlook.com ([40.107.243.50]:21056
+        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229881AbhLADRa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 30 Nov 2021 22:17:30 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=drRe+Z1LvWy5IwA55jwjhMlFupQZeZ+DUCKrVq3teQ0uVCCSADMZZFsjEC7My9jJvkrYwDrgEuJqmxqFvax5sSUJUS8x0l5jvyvvmj3z73JOBpOCQQOrgHopFPq+vIXgFl5UhBs21EA4oNpnt6YOr3jhyIWR8ogprBhG4yHw2C4vMTC9jMd9S4UatgNfmWFqtVurIlZtL2sWOL0OlERxAM/wkP+MLD4OEsnjKXZRCk7Tyz1CXYNS60vsf++MUSOKHhMHC3KJvvuRHS7GltQxAKONpwce4W3s/jRCOfu88Fvam7b2lBSpeUsTxZAJfuWFauYplp686ql0OAI6uRvNvA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SLA3qIkN+vYWGjTU8jSq8d49kBpJaU82PgRkkeK3o98=;
+ b=PU+FtTbK9bAZjU93hBIZpdA3UkrP8uKxntv9oo4jJ3UhywZrEINJzqwCjkSWtECW+fjvNRZfpL+vVSB4kdQ3FojtavtD5dh8u2Pd7NKgnA65WeR3rJV1xuU9XEzyPeUXCF4oz4Si927fPO5IegIoOi0AA8zBuV5EBEAGXBOsW+qqWQ5GT23x4JhrbJM4B63z0CvrUwuQpJ94iLHCLMo/7thrTl4CwYrn9Q3t2DSiWxRLv+VGvF54CUUhUfRR0WaJZtcLZ6E4oe9b0AjNukqHwqHwZWhbKM3ThdSz7cDwiw7M/jgwdIV8tt/3Dc+8Dkww2X49/WuHsDdenNOnLM+nTw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SLA3qIkN+vYWGjTU8jSq8d49kBpJaU82PgRkkeK3o98=;
+ b=B+KzAXb+sHr29g0gUNI6Qny4rWtzbMO3RrdFMoBwc+lEiyCf5W/v2xz/7SdEPHk9ROhh2b+2C7+OR5MIi38xMaIQTLg0v9eh/OQibpzsOS7sgW9AyS9gkjdqGS8Kh8cdGBOAQOfrbVH64Ybisw+5P1TrvV9a/qaL6DasyBhhHjpPmHHiw8EWul5iMeE6ojf85kaBywDsY3qfyKWCoDQuoThGDAcbsvr2fGbQEXYxuUINImgkkCZoI8b5rQdbkWkcnGSnDVRBn6lgWEbYDrby2E/1j1Dm06KMMj98AiHLKJ/opE9WDWF8Vf5bYMTZagQDP8YSvWl3fc0mXnWfy/zDMA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
+ by BL1PR12MB5378.namprd12.prod.outlook.com (2603:10b6:208:31d::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.23; Wed, 1 Dec
+ 2021 03:14:08 +0000
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::5897:83b2:a704:7909]) by BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::5897:83b2:a704:7909%8]) with mapi id 15.20.4734.024; Wed, 1 Dec 2021
+ 03:14:08 +0000
+Date:   Tue, 30 Nov 2021 23:14:07 -0400
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Alex Williamson <alex.williamson@redhat.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Cornelia Huck <cohuck@redhat.com>, kvm@vger.kernel.org,
+        Kirti Wankhede <kwankhede@nvidia.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+        Yishai Hadas <yishaih@nvidia.com>
+Subject: Re: [PATCH RFC v2] vfio: Documentation for the migration region
+Message-ID: <20211201031407.GG4670@nvidia.com>
+References: <0-v2-45a95932a4c6+37-vfio_mig_doc_jgg@nvidia.com>
+ <20211130102611.71394253.alex.williamson@redhat.com>
+ <20211130185910.GD4670@nvidia.com>
+ <20211130153541.131c9729.alex.williamson@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211130153541.131c9729.alex.williamson@redhat.com>
+X-ClientProxiedBy: MN2PR08CA0006.namprd08.prod.outlook.com
+ (2603:10b6:208:239::11) To BL0PR12MB5506.namprd12.prod.outlook.com
+ (2603:10b6:208:1cb::22)
 MIME-Version: 1.0
-References: <cover.1638154307.git.siyanteng@loongson.cn> <22c9238c65007a31b4adc8bac0ba39b3d112023c.1638154307.git.siyanteng@loongson.cn>
-In-Reply-To: <22c9238c65007a31b4adc8bac0ba39b3d112023c.1638154307.git.siyanteng@loongson.cn>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Wed, 1 Dec 2021 11:13:27 +0800
-Message-ID: <CAEensMwpDtGat2oFSeHrA+Acg+S-oeh=DXYdSguocECx6zq2gw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] docs/zh_CN: add completion translation
-To:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Wu XiangCheng <bobwxc@email.cn>, Alex Shi <seakeel@gmail.com>
-Cc:     Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Puyu Wang <realpuyuwang@gmail.com>,
-        Yanteng Si <siyanteng@loongson.cn>, tangyeechou@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Received: from mlx.ziepe.ca (142.162.113.129) by MN2PR08CA0006.namprd08.prod.outlook.com (2603:10b6:208:239::11) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.20 via Frontend Transport; Wed, 1 Dec 2021 03:14:08 +0000
+Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1msG4N-0064Df-Bq; Tue, 30 Nov 2021 23:14:07 -0400
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 06540dcc-4633-4d03-6d5f-08d9b478a39d
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5378:
+X-Microsoft-Antispam-PRVS: <BL1PR12MB5378277B1F177EA8F972CCBAC2689@BL1PR12MB5378.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: +q1oxyIlMBVFaaLMHr/uscLJz+Dme/foDs/+3G1a+T2obA/UqWQBzaPG9P5qcqe8x0l55gOTy32sGN8pSv3kTNA2GIDtf/jEt0eSRy4GVeCQiET3XCwLbcnKn9YMbPhx2dy2XJ1z2ZhUEWlse6oHs9lNozP71yND0X0kXqkSY0QleN8UOrR1p30bWNK7ff94k3h7vh/y04gHjB2M2fUG9FSMZxdgOHkob88SCStbNfNPk7vKmNaRjycrn+qQLNl4LKVj7FnIFWPUEYbPKgcSEs9byhTOWAS+HgR5h843IwyHV3LM0FVjOSN1g8c4tC/bZMXCstN0Dfcraj6oBBSr+AOL87t1c7cT7FZFSxp9Kr5h7DdjuB6Mhy5k7T3Iiuo18wsChVdWevAdQZt92PpdffUoFBIhyQspFoMN6IAZv54vwjJq4EvyrA7gNzhUweum41V1C1VGvsffLFScThFW53ZzFBqlFisp7bn/8rj2FPHtfKzGZ1ZRc/0UKcRa1zO+nm1ENQbeZBLAQpJwgKrjMi0DwCNM6GOdc0WIPZBjZba6Ke+IgFaJQakOkGZaLccMOMT6rnrtmD0n6T1sVhnljZctdUeOq2op/tTbG1qctTGb45MZ+gNPlOCWL9Vxa6zj5nOHaCTAcm0uXWj6hdgPWQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB5506.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(66946007)(66476007)(66556008)(1076003)(33656002)(4326008)(36756003)(54906003)(107886003)(8676002)(6916009)(2616005)(9786002)(426003)(316002)(508600001)(38100700002)(9746002)(8936002)(30864003)(2906002)(83380400001)(186003)(86362001)(5660300002)(26005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?UhNlb7W+Y4NjOBrTop0++Y+4En9twsyWI8/akAlqQ69saa1mWDaMaIZ7fUTm?=
+ =?us-ascii?Q?YUhD2rukWzv/cH2V/8MWGZAWdq5W5V0H9Sxspb9ugOay8oE/1uMq9R88Qhgb?=
+ =?us-ascii?Q?1d0pM5bOh4/xLwC1vZa18F+IyySwa4giOIRm9N56vEg73s4xbAGpEX3wmqoD?=
+ =?us-ascii?Q?wVdx3efiyjvUJbpFcNV0yQNh1Gz8tm8YL6KclD18fQbQtz4nw35rr0E+QoXT?=
+ =?us-ascii?Q?enf/4X2dya6GMluiBKK3DsvHWDykwTryJqtwMb/Z718ZWRSwe+yGwFkEWKUF?=
+ =?us-ascii?Q?SkyIqLCX/G1dghIfqOM+DVHSo8yEvH4pabEuZCUbFthr0F98dXI+zL9TZHKI?=
+ =?us-ascii?Q?dxrghlG7uz4ik8/+ypUAKmxgDcjeHSHLuzF4CxvHWC8Bb1OheH83t+4KQeZi?=
+ =?us-ascii?Q?r7VFKvqj8de/R4uj15tvNJZDVRTEjqvgQoZoXfRAGHCys5AFKF43o2XgUEIH?=
+ =?us-ascii?Q?RjI7nyGRwB0kMOUcmzYn2evoAtFy/B1QQwWSs1nHlRZpo48xv7crQoSStCQj?=
+ =?us-ascii?Q?SAonyO4JcWeM6zLRowu/54JmdcrWc/fgmviE6YvDig/b1w/2b1zf4IsPYZIS?=
+ =?us-ascii?Q?5u8TTtIhogfEpR+kSJgAAsXdgzMisTyonoffVT0cbPyMx/UAky46bcD9Ihel?=
+ =?us-ascii?Q?46xmBQ+AIMJ4k+75DqEehBsmYWuPOuN1+IIv6jSTXrRJfx5Ksoe7lhuh4JE8?=
+ =?us-ascii?Q?xuCOYlw8Pd9AWlEseYHPfrci0Tr0bJBqK+Es147CuPdpMHwLQKwhiY8uQNn9?=
+ =?us-ascii?Q?s4JbHnGmwaoXnnpuiTRFk96wRg47nV3oatk0Ad2i2NDUXePPVPQrV+5k4kp6?=
+ =?us-ascii?Q?g/dGTcX+/rjcCkqvfpEaybVCs+WjTYRy83v43Ci5zwEITTM4xpYJM//FEH/P?=
+ =?us-ascii?Q?+1HF66DvR7y6jRKl6ekWeVYdipmOwGxS0tuHrcrHj6jm0wnOuCv8BZ7a42Rc?=
+ =?us-ascii?Q?P4//L1bMv6/87Sk3pqS+FAe9Ito6CDx+5v5Cr0V1kuxdzDqGhxC9BXQG5qsB?=
+ =?us-ascii?Q?phltO3A9DTdiTnlm8770UrXu1c7CAGNRXm5f9wHFZJAksWznrr116p9IZTTo?=
+ =?us-ascii?Q?e8RWHXEUD3KmUAHAn3LmavomHAzlHomnKXZ/x+bj+P9mhJbeWqlKFTQKU9cj?=
+ =?us-ascii?Q?hDmUwVJy+S5IMrVOX5AaMLCt7Xaq/TORrV9ko6Hq7H32Id6TOqcvSNRZ5AIG?=
+ =?us-ascii?Q?6ek1c9GhRuBMffjmKlMuebJH9dchUPEv55OERujicMQ+OmSdO8wO7jKeEk76?=
+ =?us-ascii?Q?opbESnlUdQybe+dr0w6FUHQMGwZlaRUM9jdZQqzCP4AJEZh/zmhqyB1bWME7?=
+ =?us-ascii?Q?57gj6gsX9DMgfwK02sNR1AsgQxccr/NQQiCkwntO4cZRUdJJcA+UmXGD9GnL?=
+ =?us-ascii?Q?baToPQD6d0QBW+SYCOnoy94g76Pzrk3uzirJPNvP8i90xTRv3pEjFhFZpEzI?=
+ =?us-ascii?Q?3oAEI3XasjS8KEJiqZmTibv/YwyH3a9KWJ2/iPiQwhirHWpmY6ntdS3zCG3V?=
+ =?us-ascii?Q?lofYDrLGVOvyWs84s8aN3P3/xKjpCDNdoGRPWC48pbWBJpH7bwyRsAEH0Cl1?=
+ =?us-ascii?Q?k7/hB5rApv572uLbg2U=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 06540dcc-4633-4d03-6d5f-08d9b478a39d
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2021 03:14:08.6223
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SIVdbAsNkZxB/OCvDerGVPOdioWYZx4cmLkNcM9biqMbShweSG7yA/aFagaCwcuf
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5378
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-WWFudGVuZyBTaSA8c2l5YW50ZW5nMDFAZ21haWwuY29tPiDkuo4yMDIx5bm0MTHmnIgyOeaXpeWR
-qOS4gCDkuIrljYgxMTowMeWGmemBk++8mg0KPg0KPiBGcm9tOiBZYW50ZW5nIFNpIDxzaXlhbnRl
-bmcwMUBnbWFpbC5jb20+DQo+DQo+IFRyYW5zbGF0ZSAuLi4vc2NoZWR1bGVyL2NvbXBsZXRpb24u
-cnN0IGludG8gQ2hpbmVzZS4NCj4NCj4gU2lnbmVkLW9mZi1ieTogWWFudGVuZyBTaSA8c2l5YW50
-ZW5nQGxvb25nc29uLmNuPg0KPiBSZXZpZXdlZC1ieTogQWxleCBTaGkgPGFsZXhzQGtlcm5lbC5v
-cmc+DQo+IC0tLQ0KPiAgLi4uL3poX0NOL3NjaGVkdWxlci9jb21wbGV0aW9uLnJzdCAgICAgICAg
-ICAgIHwgMjU2ICsrKysrKysrKysrKysrKysrKw0KPiAgLi4uL3RyYW5zbGF0aW9ucy96aF9DTi9z
-Y2hlZHVsZXIvaW5kZXgucnN0ICAgIHwgICAzICstDQo+ICAyIGZpbGVzIGNoYW5nZWQsIDI1OCBp
-bnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1l
-bnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vc2NoZWR1bGVyL2NvbXBsZXRpb24ucnN0DQo+DQo+
-IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9zY2hlZHVsZXIv
-Y29tcGxldGlvbi5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9zY2hlZHVs
-ZXIvY29tcGxldGlvbi5yc3QNCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gaW5kZXggMDAwMDAw
-MDAwMDAwLi5jMDcwNzVhMjc0NDMNCj4gLS0tIC9kZXYvbnVsbA0KPiArKysgYi9Eb2N1bWVudGF0
-aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9zY2hlZHVsZXIvY29tcGxldGlvbi5yc3QNCj4gQEAgLTAs
-MCArMSwyNTYgQEANCj4gKy4uIGluY2x1ZGU6OiAuLi9kaXNjbGFpbWVyLXpoX0NOLnJzdA0KPiAr
-DQo+ICs6T3JpZ2luYWw6IERvY3VtZW50YXRpb24vc2NoZWR1bGVyL2NvbXBsZXRpb24ucnN0DQo+
-ICsNCj4gKzrnv7vor5E6DQo+ICsNCj4gKyDlj7jlu7bohb4gWWFudGVuZyBTaSA8c2l5YW50ZW5n
-QGxvb25nc29uLmNuPg0KPiArDQo+ICs65qCh6K+ROg0KPiArDQo+ICsNCj4gKw0KPiArLi4gX2Nu
-X3NjaGVkdWxlcl9jb21wbGV0aW9uLnJzdDoNCj4gKw0KPiArPT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09DQo+ICvlrozmiJAgLSAi562J5b6F5a6M5oiQIiDlsY/pmpzlupTn
-lKjnqIvluo/mjqXlj6MoQVBJKQ0KPiArPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09DQo+ICsNCj4gK+eugOS7izoNCj4gKy0tLS0tDQo+ICsNCj4gK+WmguaenOS9oOacieS4
-gOS4quaIluWkmuS4que6v+eoi+W/hemhu+etieW+heafkOS6m+WGheaguOa0u+WKqOi+vuWIsOaf
-kOS4queCueaIluafkOS4queJueWumueahOeKtuaAge+8jOWujOaIkOWPr+S7peS4uui/mQ0KPiAr
-5Liq6Zeu6aKY5o+Q5L6b5LiA5Liq5peg56ue5LqJ55qE6Kej5Yaz5pa55qGI44CC5LuO6K+t5LmJ
-5LiK6K6y77yM5a6D5Lus5pyJ54K55YOPcHRocmVhZF9iYXJyaWVyKCnvvIzlubbkuJTmnInnsbsN
-Cj4gK+S8vOeahOS9v+eUqOaDheWGteOAgg0KPiArDQo+ICvlrozmiJDmmK/kuIDnp43ku6PnoIHl
-kIzmraXmnLrliLbvvIzlroPmr5Tku7vkvZXmu6XnlKjplIEv5L+h5Y+36YeP5ZKM5b+Z546v55qE
-6KGM5Li66YO96KaB5aW944CC5b2T5L2g5oOz55SoeWllbGQoKQ0KPiAr5oiW5LiA5Lqb5Y+k5oCq
-55qEbXNsZWVwKDEp5b6q546v5p2l5YWB6K645YW25LuW5Lic6KW/57un57ut6L+b6KGM5pe277yM
-5L2g5Y+v6IO95oOz55Sod2FpdF9mb3JfY29tcGxldGlvbiooKQ0KPiAr6LCD55So5ZKMY29tcGxl
-dGlvbigp5p2l5Luj5pu/44CCDQo+ICsNCj4gK+S9v+eUqOKAnOWujOaIkOKAneeahOWlveWkhOaY
-r++8jOWug+S7rOacieS4gOS4quaYjuehrueahOOAgembhuS4reeahOebrueahO+8jOi/meS9v+W+
-l+aIkeS7rOW+iOWuueaYk+eci+WIsOS7o+eggeeahOaEj+Wbvu+8jA0KPiAr5L2G5a6D5Lus5Lmf
-5a+86Ie05LqG5pu05pyJ5pWI55qE5Luj56CB77yM5Zug5Li65omA5pyJ57q/56iL6YO95Y+v5Lul
-57un57ut5omn6KGM77yM55u05Yiw55yf5q2j6ZyA6KaB57uT5p6c77yM6ICM5LiU562J5b6FDQo+
-ICvlkozkv6Hlj7fpg73pq5jmlYjnmoTkvb/nlKjkuobkvY7nuqfosIPluqblmajnmoTnnaHnnKAv
-5ZSk6YaS6K6+5pa944CCDQo+ICsNCj4gK+WujOaIkOaYr+W7uueri+WcqExpbnV46LCD5bqm5Zmo
-55qE562J5b6F6Zif5YiX5ZKM5ZSk6YaS5Z+656GA6K6+5pa95LmL5LiK55qE44CC562J5b6F6Zif
-5YiX5Lit55qE57q/56iL5omA562J5b6F55qEDQo+ICvkuovku7booqvnroDljJbkuLogYGBzdHJ1
-Y3QgY29tcGxldGlvbmBgIOS4reeahOS4gOS4queugOWNleagh+W/l++8jOiiq+aBsOW9k+WcsOen
-sOS4uuKAmOWujOaIkOKAmeOAgg0KPiArDQo+ICvnlLHkuo7lrozmiJDkuI7osIPluqbmnInlhbPv
-vIzku6PnoIHlj6/ku6XlnKhrZXJuZWwvc2NoZWQvY29tcGxldGlvbi5j5Lit5om+5Yiw44CCDQo+
-ICsNCj4gKw0KPiAr55So5rOVOg0KPiArLS0tLS0NCj4gKw0KPiAr5L2/55So5a6M5oiQ5pyJ5LiJ
-5Liq5Li76KaB6YOo5YiGOg0KPiArDQo+ICsgLSAnc3RydWN0IGNvbXBsZXRpb24nIOWQjOatpeWv
-ueixoeeahOWIneWni+WMlg0KPiArIC0g6YCa6L+H6LCD55Sod2FpdF9mb3JfY29tcGxldGlvbigp
-55qE5LiA5Liq5Y+Y5L2T5p2l5a6e546w562J5b6F6YOo5YiG44CCDQo+ICsgLSDpgJrov4fosIPn
-lKhjb21wbGV0ZSgp5oiWY29tcGxldGVfYWxsKCnlrp7njrDlj5Hkv6Hnq6/jgIINCj4gKw0KPiAr
-5Lmf5pyJ5LiA5Lqb6L6F5Yqp5Ye95pWw55So5LqO5qOA5p+l5a6M5oiQ55qE54q25oCB44CC6K+3
-5rOo5oSP77yM6Jm954S25Yid5aeL5YyW5b+F6aG76aaW5YWI5Y+R55Sf77yM5L2G562J5b6F5ZKM
-5L+h5Y+36YOo5YiGDQo+ICvlj6/ku6Xku6Xku7vkvZXpobrluo/lj5HnlJ/jgILkuZ/lsLHmmK/o
-r7TvvIzkuIDkuKrnur/nqIvlnKjlj6bkuIDkuKrnur/nqIvmo4Dmn6XmmK/lkKbpnIDopoHnrYnl
-voXlroPkuYvliY3vvIzlt7Lnu4/lsIbkuIDkuKoNCj4gK+WujOaIkOagh+iusOS4uiAi5a6M5oiQ
-Iu+8jOi/meaYr+WujOWFqOato+W4uOeahOOAgg0KPiArDQo+ICvopoHkvb/nlKjlrozmiJBBUEnv
-vIzkvaDpnIDopoEjaW5jbHVkZSA8bGludXgvY29tcGxldGlvbi5oPuW5tuWIm+W7uuS4gOS4qumd
-meaAgeaIluWKqOaAgeeahA0KPiArYGBzdHJ1Y3QgY29tcGxldGlvbmBgIOexu+Wei+eahOWPmOmH
-j++8jOWug+WPquacieS4pOS4quWtl+autTo6DQo+ICsNCj4gKyAgICAgICBzdHJ1Y3QgY29tcGxl
-dGlvbiB7DQo+ICsgICAgICAgICAgICAgICB1bnNpZ25lZCBpbnQgZG9uZTsNCj4gKyAgICAgICAg
-ICAgICAgIHdhaXRfcXVldWVfaGVhZF90IHdhaXQ7DQo+ICsgICAgICAgfTsNCj4gKw0KPiAr6L+Z
-5o+Q5L6b5LqGLT53YWl0562J5b6F6Zif5YiX5p2l5pS+572u5Lu75Yqh6L+b6KGM562J5b6F77yI
-5aaC5p6c5pyJ55qE6K+d77yJ77yM5Lul5Y+KLT5kb25l5a6M5oiQ5qCH5b+X5p2l6KGo5piO5a6D
-DQo+ICvmmK/lkKblrozmiJDjgIINCj4gKw0KPiAr5a6M5oiQ5bqU6K+l6KKr5ZG95ZCN5Li65oyH
-6KKr5ZCM5q2l55qE5LqL5Lu244CC5LiA5Liq5aW955qE5L6L5a2Q5pivOjoNCj4gKw0KPiArICAg
-ICAgIHdhaXRfZm9yX2NvbXBsZXRpb24oJmVhcmx5X2NvbnNvbGVfYWRkZWQpOw0KPiArDQo+ICsg
-ICAgICAgY29tcGxldGUoJmVhcmx5X2NvbnNvbGVfYWRkZWQpOw0KPiArDQo+ICvlpb3nmoTjgIHn
-m7Top4LnmoTlkb3lkI3vvIjlkozku6XlvoDkuIDmoLfvvInmnInliqnkuo7ku6PnoIHnmoTlj6/o
-r7vmgKfjgILlsIbkuIDkuKrlrozmiJDlkb3lkI3kuLogYGBjb21wbGV0ZWBgDQo+ICvmmK/msqHm
-nInluK7liqnnmoTvvIzpmaTpnZ7lhbbnm67nmoTmmK/otoXnuqfmmI7mmL7nmoQuLi4NCj4gKw0K
-PiArDQo+ICvliJ3lp4vljJblrozmiJA6DQo+ICstLS0tLS0tLS0tLQ0KPiArDQo+ICvliqjmgIHl
-iIbphY3nmoTlrozmiJDlr7nosaHmnIDlpb3ooqvltYzlhaXliLDmlbDmja7nu5PmnoTkuK3vvIzk
-u6Xnoa7kv53lnKjlh73mlbAv6amx5Yqo55qE55Sf5ZG95ZGo5pyf5YaF5L+d5oyB5rS75Yqb77yM
-5Lul6ZiyDQo+ICvmraLkuI7lvILmraVjb21wbGV0ZSgp6LCD55So5Y+R55Sf56ue5LqJ44CCDQo+
-ICsNCj4gK+WcqOS9v+eUqHdhaXRfZm9yX2NvbXBsZXRpb24oKeeahF90aW1lb3V0KCnmiJZfa2ls
-bGFibGUoKS9faW50ZXJydXB0aWJsZSgp5Y+Y5L2TDQo+ICvml7blupTnibnliKvlsI/lv4PvvIzl
-m6DkuLrlv4Xpobvkv53or4HlnKjmiYDmnInnm7jlhbPmtLvliqjvvIhjb21wbGV0ZSgp5oiWcmVp
-bml0X2NvbXBsZXRpb24oKe+8ieWPkeeUnw0KPiAr5LmL5YmN5LiN5Lya5Y+R55Sf5YaF5a2Y6Kej
-6Zmk5YiG6YWN77yM5Y2z5L2/6L+Z5Lqb562J5b6F5Ye95pWw55Sx5LqO6LaF5pe25oiW5L+h5Y+3
-6Kem5Y+R6ICM6L+H5pep6L+U5Zue44CCDQo+ICsNCj4gK+WKqOaAgeWIhumFjeeahOWujOaIkOWv
-ueixoeeahOWIneWni+WMluaYr+mAmui/h+iwg+eUqGluaXRfY29tcGxldGlvbigp5p2l5a6M5oiQ
-55qEOjoNCj4gKw0KPiArICAgICAgIGluaXRfY29tcGxldGlvbigmZHluYW1pY19vYmplY3QtPmRv
-bmUpOw0KPiArDQo+ICvlnKjov5nkuKrosIPnlKjkuK3vvIzmiJHku6zliJ3lp4vljJYgd2FpdHF1
-ZXVlIOW5tuWwhiAtPmRvbmUg6K6+572u5Li6IDDvvIzljbPigJxub3QgY29tcGxldGVk4oCd5oiW
-DQo+ICvigJxub3QgZG9uZeKAneOAgg0KPiArDQo+ICvph43mlrDliJ3lp4vljJblh73mlbByZWlu
-aXRfY29tcGxldGlvbigp77yM5Y+q5piv5bCGLT5kb25l5a2X5q616YeN572u5Li6MO+8iOKAnG5v
-dCBkb25l4oCd77yJ77yM6ICMDQo+ICvkuI3op6blj4rnrYnlvoXpmJ/liJfjgILov5nkuKrlh73m
-lbDnmoTosIPnlKjogIXlv4Xpobvnoa7kv53msqHmnInku7vkvZXku6TkurrorqjljoznmoR3YWl0
-X2Zvcl9jb21wbGV0aW9uKCkNCj4gK+iwg+eUqOWcqOW5tuihjOi/m+ihjOOAgg0KPiArDQo+ICvl
-nKjlkIzkuIDkuKrlrozmiJDlr7nosaHkuIrosIPnlKhpbml0X2NvbXBsZXRpb24oKeS4pOasoeW+
-iOWPr+iDveaYr+S4gOS4qmJ1Z++8jOWboOS4uuWug+WwhumYn+WIl+mHjeaWsOWIneWniw0KPiAr
-5YyW5Li65LiA5Liq56m66Zif5YiX77yM5o6S6Zif55qE5Lu75Yqh5Y+v6IO95Lya4oCc5Lii5aSx
-4oCdLS3lnKjov5nnp43mg4XlhrXkuIvkvb/nlKhyZWluaXRfY29tcGxldGlvbigp77yM5L2GDQo+
-ICvopoHms6jmhI/lhbbku5bnq57otZvjgIINCj4gKw0KPiAr5a+55LqO6Z2Z5oCB5aOw5piO5ZKM
-5Yid5aeL5YyW77yM5Y+v5Lul5L2/55So5a6P44CCDQo+ICsNCj4gK+WvueS6juaWh+S7tuiMg+Wb
-tOWGheeahOmdmeaAge+8iOaIluWFqOWxgO+8ieWjsOaYju+8jOS9oOWPr+S7peS9v+eUqCBERUNM
-QVJFX0NPTVBMRVRJT04oKTo6DQo+ICsNCj4gKyAgICAgICBzdGF0aWMgREVDTEFSRV9DT01QTEVU
-SU9OKHNldHVwX2RvbmUpOw0KPiArICAgICAgIERFQ0xBUkVfQ09NUExFVElPTihzZXR1cF9kb25l
-KTsNCj4gKw0KPiAr5rOo5oSP77yM5Zyo6L+Z56eN5oOF5Ya15LiL77yM5a6M5oiQ5Zyo5ZCv5Yqo
-5pe277yI5oiW5qih5Z2X5Yqg6L295pe277yJ6KKr5Yid5aeL5YyW5Li64oCcbm90IGRvbmXigJ3v
-vIzkuI3pnIDopoHosIPnlKgNCj4gK2luaXRfY29tcGxldGlvbigp44CCDQo+ICsNCj4gK+W9k+Wu
-jOaIkOiiq+WjsOaYjuS4uuS4gOS4quWHveaVsOS4reeahOWxgOmDqOWPmOmHj+aXtu+8jOmCo+S5
-iOW6lOivpeaAu+aYr+aYjuehruWcsOS9v+eUqA0KPiArREVDTEFSRV9DT01QTEVUSU9OX09OU1RB
-Q0soKeadpeWIneWni+WMlu+8jOi/meS4jeS7heS7heaYr+S4uuS6huiuqWxvY2tkZXDpq5jlhbTv
-vIzkuZ/mmK/mmI7noa7ooagNCj4gK+WQjeWug+aciemZkOeahOS9v+eUqOiMg+WbtOaYr+acieaE
-j+S4uuS5i+W5tuiiq+S7lOe7huiAg+iZkeeahDo6DQo+ICsNCj4gKyAgICAgICBERUNMQVJFX0NP
-TVBMRVRJT05fT05TVEFDSyhzZXR1cF9kb25lKQ0KPiArDQo+ICvor7fms6jmhI/vvIzlvZPkvb/n
-lKjlrozmiJDlr7nosaHkvZzkuLrlsYDpg6jlj5jph4/ml7bvvIzkvaDlv4XpobvmlY/plJDlnLDm
-hI/or4bliLDlh73mlbDloIbmoIjnmoTnn63mmoLnlJ/lkb3mnJ/vvJrlnKjmiYDmnIkNCj4gK+a0
-u+WKqO+8iOWmguetieW+heeahOe6v+eoi++8ieWBnOatouW5tuS4lOWujOaIkOWvueixoeWujOWF
-qOacquS9v+eUqOS5i+WJje+8jOWHveaVsOS4jeW+l+i/lOWbnuWIsOiwg+eUqOS4iuS4i+aWh+OA
-gg0KPiArDQo+ICvlho3mrKHlvLrosIPov5nkuIDngrnvvJrnibnliKvmmK/lnKjkvb/nlKjkuIDk
-upvlhbfmnInmm7TlpI3mnYLnu5PmnpznmoTnrYnlvoVBUEnlj5jkvZPml7bvvIzmr5TlpoLotoXm
-l7bmiJbkv6Hlj7cNCj4gK++8iF90aW1lb3V0KCksIF9raWxsYWJsZSgp5ZKMX2ludGVycnVwdGli
-bGUoKe+8ieWPmOS9k++8jOetieW+heWPr+iDveS8muaPkOWJjeWujOaIkO+8jOiAjOWvueixoeWP
-rw0KPiAr6IO95LuN5Zyo6KKr5YW25LuW57q/56iL5L2/55SoIC0g5LuOd2FpdF9vbl9jb21wbGV0
-aW9uKigp6LCD55So6ICF5Ye95pWw55qE6L+U5Zue5Lya5Y+W5raI5Ye95pWw5qCI77yM5aaC5p6c
-5ZyoDQo+ICvlhbbku5bnur/nqIvkuK1jb21wbGV0ZSgp5Lya5byV6LW35b6u5aaZ55qE5pWw5o2u
-5o2f5Z2P44CC566A5Y2V55qE5rWL6K+V5Y+v6IO95LiN5Lya6Kem5Y+R6L+Z5Lqb57G75Z6L55qE
-56ue5LqJ44CCDQo+ICsNCj4gK+WmguaenOS4jeehruWumueahOivne+8jOS9v+eUqOWKqOaAgeWI
-humFjeeahOWujOaIkOWvueixoe+8jOacgOWlveaYr+W1jOWFpeWIsOWFtuS7luS4gOS6m+Wvv+WR
-vemVv+eahOWvueixoeS4re+8jOi/meS6m+WvueixoQ0KPiAr55qE5a+/5ZG96Z2e5bi46ZW/77yM
-6LaF6L+H5LqG5L2/55So5a6M5oiQ5a+56LGh55qE5Lu75L2V6L6F5Yqp57q/56iL55qE5a+/5ZG9
-77yM5oiW6ICF5pyJ5LiA5Liq6ZSB5oiW5YW25LuW5ZCM5q2l5py65Yi25p2l56Gu5L+dDQo+ICtj
-b21wbGV0ZSgp5LiN5Lya6KKr6LCD55So5Yiw5LiA5Liq6KKr6YeK5pS+55qE5a+56LGh5LiK44CC
-DQo+ICsNCj4gK+WghuagiOS4iuS4gOS4quWkqeecn+eahERFQ0xBUkVfQ09NUExFVElPTigp5Lya
-6Kem5Y+R5LiA5LiqbG9ja2RlcOitpuWRiuOAgg0KPiArDQo+ICvnrYnlvoXlrozmiJA6DQo+ICst
-LS0tLS0tLS0NCj4gKw0KPiAr5a+55LqO5LiA5Liq57q/56iL5p2l6K+077yM6KaB562J5b6F5LiA
-5Lqb5bm25Y+R5rS75Yqo55qE5a6M5oiQ77yM5a6D6KaB5Zyo5Yid5aeL5YyW55qE5a6M5oiQ57uT
-5p6E5L2T5LiK6LCD55SoDQo+ICt3YWl0X2Zvcl9jb21wbGV0aW9uKCk6Og0KPiArDQo+ICsgICAg
-ICAgdm9pZCB3YWl0X2Zvcl9jb21wbGV0aW9uKHN0cnVjdCBjb21wbGV0aW9uICpkb25lKQ0KPiAr
-DQo+ICvkuIDkuKrlhbjlnovnmoTkvb/nlKjlnLrmma/mmK86Og0KPiArDQo+ICsgICAgICAgQ1BV
-IzEgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIENQVSMyDQo+ICsNCj4gKyAgICAg
-ICBzdHJ1Y3QgY29tcGxldGlvbiBzZXR1cF9kb25lOw0KPiArDQo+ICsgICAgICAgaW5pdF9jb21w
-bGV0aW9uKCZzZXR1cF9kb25lKTsNCj4gKyAgICAgICBpbml0aWFsaXplX3dvcmsoLi4uLCZzZXR1
-cF9kb25lLC4uLik7DQo+ICsNCj4gKyAgICAgICAvKiBydW4gbm9uLWRlcGVuZGVudCBjb2RlICov
-ICAgICAgICAgICAgLyogZG8gc2V0dXAgKi8NCj4gKw0KPiArICAgICAgIHdhaXRfZm9yX2NvbXBs
-ZXRpb24oJnNldHVwX2RvbmUpOyAgICAgICBjb21wbGV0ZShzZXR1cF9kb25lKTsNCj4gKw0KPiAr
-6L+Z5bm25LiN5oSP5ZGz552A5Zyod2FpdF9mb3JfY29tcGxldGlvbigp5ZKM6LCD55SoY29tcGxl
-dGUoKeS5i+mXtOacieS7u+S9leeJueWumueahOmhuuW6jy0t5aaC5p6c6LCDDQo+ICvnlKhjb21w
-bGV0ZSgp5Y+R55Sf5Zyo6LCD55Sod2FpdF9mb3JfY29tcGxldGlvbigp5LmL5YmN77yM6YKj5LmI
-562J5b6F5pa55bCG56uL5Y2z57un57ut77yM5Zug5Li65omA5pyJDQo+ICvnmoTkvp3otZbpg73l
-vpfliLDkuobmu6HotrPvvJvlpoLmnpzmsqHmnInvvIzlroPlsIbpmLvloZ7vvIznm7TliLBjb21w
-bGV0ZSgp5Y+R5Ye65a6M5oiQ55qE5L+h5Y+344CCDQo+ICsNCj4gK+azqOaEj++8jHdhaXRfZm9y
-X2NvbXBsZXRpb24oKeaYr+WcqOiwg+eUqHNwaW5fbG9ja19pcnEoKS9zcGluX3VubG9ja19pcnEo
-Ke+8jOaJgOS7pQ0KPiAr5Y+q5pyJ5b2T5L2g55+l6YGT5Lit5pat6KKr5ZCv55So5pe25omN6IO9
-5a6J5YWo5Zyw6LCD55So5a6D44CC5LuOSVJRcy1vZmbnmoTljp/lrZDkuIrkuIvmlofkuK3osIPn
-lKjlroPlsIblr7zoh7Tpmr7ku6Xmo4ANCj4gK+a1i+eahOiZmuWBh+eahOS4reaWreWQr+eUqOOA
-gg0KPiArDQo+ICt3YWl0X2Zvcl9jb21wbGV0aW9uKCnlj4rlhbblj5jkvZPlj6rmnInlnKjov5vn
-qIvkuIrkuIvmlofkuK3miY3mmK/lronlhajnmoTvvIjlm6DkuLrlroPku6zlj6/ku6XkvJHnnKDv
-vInvvIzkvYYNCj4gK+WcqOWOn+WtkOS4iuS4i+aWh+OAgeS4reaWreS4iuS4i+aWh+OAgUlSUeii
-q+emgeeUqOaIluaKouWNoOiiq+emgeeUqOeahOaDheWGteS4i+aYr+S4jeWuieWFqOeahC0t5YWz
-5LqO5Zyo5Y6f5a2QL+S4reaWreS4ig0KPiAr5LiL5paH5Lit5aSE55CG5a6M5oiQ55qE6Zeu6aKY
-77yM6L+Y6K+355yL5LiL6Z2i55qEdHJ5X3dhaXRfZm9yX2NvbXBsZXRpb24oKeOAgg0KPiArDQo+
-ICvnlLHkuo53YWl0X2Zvcl9jb21wbGV0aW9uKCnnmoTmiYDmnInlj5jkvZPpg73lj6/og73vvIjl
-vojmmI7mmL7vvInpmLvloZ7lvojplb/ml7bpl7TvvIzov5nlj5blhrPkuo7lroPku6zmiYDnrYkN
-Cj4gK+W+heeahOa0u+WKqOeahOaAp+i0qO+8jOaJgOS7peWcqOWkp+WkmuaVsOaDheWGteS4i++8
-jOS9oOWPr+iDveS4jeaDs+WcqOaMgeaciW11dGV4ZXPnmoTmg4XlhrXkuIvosIPnlKjlroPjgIIN
-Cj4gKw0KPiArDQo+ICt3YWl0X2Zvcl9jb21wbGV0aW9uKigp5Y+v55So55qE5Y+Y5L2TOg0KPiAr
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+ICsNCj4gK+S4i+mdoueahOWPmOS9
-k+mDveS8mui/lOWbnueKtuaAge+8jOWcqOWkp+WkmuaVsCgv5omA5pyJKeaDheWGteS4i+mDveW6
-lOivpeajgOafpei/meS4queKtuaAgS0t5Zyo5pWF5oSP5LiN5qOA5p+l54q25oCB55qE5oOFDQo+
-ICvlhrXkuIvvvIzkvaDlj6/og73opoHlgZrkuIDkuKror7TmmI4o5L6L5aaC77yM6KeBYXJjaC9h
-cm0va2VybmVsL3NtcC5jOl9fY3B1X3VwKCkp44CCDQo+ICsNCj4gK+S4gOS4quW4uOingeeahOmX
-rumimOaYr+Wvuei/lOWbnuexu+Wei+eahOWIhumFjeS4jeaYjuehru+8jOaJgOS7peimgeazqOaE
-j+Wwhui/lOWbnuWAvOWIhumFjee7memAguW9k+exu+Wei+eahOWPmOmHj+OAgg0KPiArDQo+ICvm
-o4Dmn6Xov5Tlm57lgLznmoTlhbfkvZPlkKvkuYnkuZ/ooqvlj5HnjrDmmK/nm7jlvZPkuI3lh4bn
-oa7nmoTvvIzkvovlpoLvvIzlg4/ov5nmoLfnmoTmnoTpgKA6Og0KPiArDQo+ICsgICAgICAgaWYg
-KCF3YWl0X2Zvcl9jb21wbGV0aW9uX2ludGVycnVwdGlibGVfdGltZW91dCguLi4pKQ0KPiArDQo+
-ICsuLi7kvJrlnKjmiJDlip/lrozmiJDlkozkuK3mlq3nmoTmg4XlhrXkuIvmiafooYznm7jlkIzn
-moTku6PnoIHot6/lvoQtLei/meWPr+iDveS4jeaYr+S9oOaDs+imgeeahOe7k+aenDo6DQo+ICsN
-Cj4gKyAgICAgICBpbnQgd2FpdF9mb3JfY29tcGxldGlvbl9pbnRlcnJ1cHRpYmxlKHN0cnVjdCBj
-b21wbGV0aW9uICpkb25lKQ0KPiArDQo+ICvov5nkuKrlh73mlbDlnKjku7vliqHnrYnlvoXml7bm
-oIforrDkuLpUQVNLX0lOVEVSUlVQVElCTEXjgILlpoLmnpzlnKjnrYnlvoXmnJ/pl7TmlLbliLDk
-v6Hlj7fvvIzlroPlsIbov5Tlm54NCj4gKy1FUkVTVEFSVFNZU++8m+WQpuWImeS4ujA6Og0KPiAr
-DQo+ICsgICAgICAgdW5zaWduZWQgbG9uZyB3YWl0X2Zvcl9jb21wbGV0aW9uX3RpbWVvdXQoc3Ry
-dWN0IGNvbXBsZXRpb24gKmRvbmUsIHVuc2lnbmVkIGxvbmcgdGltZW91dCkNCj4gKw0KPiAr6K+l
-5Lu75Yqh6KKr5qCH6K6w5Li6VEFTS19VTklOVEVSUlVQVElCTEXvvIzlubblsIbmnIDlpJrnrYnl
-voXigJzotoXml7bigJ1qaWZmaWVz44CC5aaC5p6c6LaF5pe25Y+R55Sf77yM5YiZDQo+ICvov5Tl
-m54w77yM5ZCm5YiZ6L+U5Zue5Ymp5L2Z55qE5pe26Ze077yI5L2G6Iez5bCR5pivMe+8ieOAgg0K
-PiArDQo+ICvotoXml7bmnIDlpb3nlKhtc2Vjc190b19qaWZmaWVzKCnmiJZ1c2Vjc190b19qaWZm
-aWVzKCnorqHnrpfvvIzku6Xkvb/ku6PnoIHlnKjlvojlpKfnqIvluqbkuIrkuI3lj5cNCj4gK0ha
-55qE5b2x5ZON44CCDQo+ICsNCj4gK+WmguaenOi/lOWbnueahOi2heaXtuWAvOiiq+aVheaEj+W/
-veeVpe+8jOmCo+S5iOazqOmHiuW6lOivpeino+mHiuWOn+WboA0KPiAr77yI5L6L5aaC77yM6KeB
-ZHJpdmVycy9tZmQvd204MzUwLWNvcmUuYyB3bTgzNTBfcmVhZF9hdXhhZGMoKTo6DQo+ICsNCj4g
-KyAgICAgICBsb25nIHdhaXRfZm9yX2NvbXBsZXRpb25faW50ZXJydXB0aWJsZV90aW1lb3V0KHN0
-cnVjdCBjb21wbGV0aW9uICpkb25lLCB1bnNpZ25lZCBsb25nIHRpbWVvdXQpDQo+ICsNCj4gK+i/
-meS4quWHveaVsOS8oOmAkuS4gOS4quS7pWppZmZpZXPkuLrljZXkvY3nmoTotoXml7bvvIzlubbl
-sIbku7vliqHmoIforrDkuLpUQVNLX0lOVEVSUlVQVElCTEXjgILlpoLmnpzmlLbliLANCj4gK+S/
-oeWPt++8jOWImei/lOWbni1FUkVTVEFSVFNZU++8m+WQpuWIme+8jOWmguaenOWujOaIkOi2heaX
-tu+8jOWImei/lOWbnjDvvJvlpoLmnpzlrozmiJDkuobvvIzliJnov5Tlm57liankvZnnmoTml7bp
-l7QNCj4gK++8iGppZmZpZXPvvInjgIINCj4gKw0KPiAr5pu05aSa55qE5Y+Y5L2T5YyF5ousX2tp
-bGxhYmxl77yM5a6D5L2/55SoVEFTS19LSUxMQUJMReS9nOS4uuaMh+WumueahOS7u+WKoeeKtuaA
-ge+8jOWmguaenOWug+iiq+S4reaWre+8jOWwhui/lA0KPiAr5ZueLUVSRVNUQVJUU1lT77yM5aaC
-5p6c5a6M5oiQ5LqG77yM5YiZ6L+U5ZueMOOAguS5n+acieS4gOS4ql90aW1lb3V05Y+Y5L2TOjoN
-Cj4gKw0KPiArICAgICAgIGxvbmcgd2FpdF9mb3JfY29tcGxldGlvbl9raWxsYWJsZShzdHJ1Y3Qg
-Y29tcGxldGlvbiAqZG9uZSkNCj4gKyAgICAgICBsb25nIHdhaXRfZm9yX2NvbXBsZXRpb25fa2ls
-bGFibGVfdGltZW91dChzdHJ1Y3QgY29tcGxldGlvbiAqZG9uZSwgdW5zaWduZWQgbG9uZyB0aW1l
-b3V0KQ0KPiArDQo+ICt3YWl0X2Zvcl9jb21wbGV0aW9uX2lvKCnnmoRfaW/lj5jkvZPnmoTooYzk
-uLrkuI7pnZ5faW/lj5jkvZPnm7jlkIzvvIzlj6rmmK/lsIbnrYnlvoXml7bpl7TorqHkuLrigJxJ
-T+etieW+heKAne+8jA0KPiAr6L+Z5a+55Lu75Yqh5Zyo6LCD5bqmL0lP57uf6K6h5Lit55qE6K6h
-566X5pa55byP5pyJ5b2x5ZONOjoNCj4gKw0KPiArICAgICAgIHZvaWQgd2FpdF9mb3JfY29tcGxl
-dGlvbl9pbyhzdHJ1Y3QgY29tcGxldGlvbiAqZG9uZSkNCj4gKyAgICAgICB1bnNpZ25lZCBsb25n
-IHdhaXRfZm9yX2NvbXBsZXRpb25faW9fdGltZW91dChzdHJ1Y3QgY29tcGxldGlvbiAqZG9uZSwg
-dW5zaWduZWQgbG9uZyB0aW1lb3V0KQ0KPiArDQo+ICsNCj4gK+mAmuefpeWujOaIkDoNCj4gKy0t
-LS0tLS0tLQ0KPiArDQo+ICvkuIDkuKrnur/nqIvmg7PopoHlj5Hlh7rkv6Hlj7fpgJrnn6Xnu6fn
-u63nmoTmnaHku7blt7Lnu4/ovr7liLDvvIzlsLHkvJrosIPnlKhjb21wbGV0ZSgp77yM5ZCR5YW2
-5Lit5LiA5Liq562J5b6F6ICF5Y+R5Ye65L+hDQo+ICvlj7for7TlroPlj6/ku6Xnu6fnu606Og0K
-PiArDQo+ICsgICAgICAgdm9pZCBjb21wbGV0ZShzdHJ1Y3QgY29tcGxldGlvbiAqZG9uZSkNCj4g
-Kw0KPiArLi4uIG9yIGNhbGxzIGNvbXBsZXRlX2FsbCgpIHRvIHNpZ25hbCBhbGwgY3VycmVudCBh
-bmQgZnV0dXJlIHdhaXRlcnM6Og0KPiArDQo+ICsgICAgICAgdm9pZCBjb21wbGV0ZV9hbGwoc3Ry
-dWN0IGNvbXBsZXRpb24gKmRvbmUpDQo+ICsNCj4gK+WNs+S9v+WcqOe6v+eoi+W8gOWni+etieW+
-heS5i+WJjeWwseWPkeWHuuS6huWujOaIkOeahOS/oeWPt++8jOS/oeWPt+S8oOmAkuS5n+S8muWm
-guacn+i/m+ihjOOAgui/meaYr+mAmui/h+etieW+heiAhQ0KPiAr4oCcY29uc3VtaW5n4oCd77yI
-6YCS5YeP77yJ4oCcc3RydWN0IGNvbXBsZXRpb27igJ0g55qE5a6M5oiQ5a2X5q615p2l5a6e546w
-55qE44CC562J5b6F55qE57q/56iL5ZSk6YaS55qE6aG65bqPDQo+ICvkuI7lroPku6zooqvmjpLp
-mJ/nmoTpobrluo/nm7jlkIzvvIhGSUZP6aG65bqP77yJ44CCDQo+ICsNCj4gK+WmguaenOWkmuas
-oeiwg+eUqGNvbXBsZXRlKCnvvIzpgqPkuYjov5nlsIblhYHorrjor6XmlbDph4/nmoTnrYnlvoXo
-gIXnu6fnu63ov5vooYwtLeavj+asoeiwg+eUqGNvbXBsZXRlKCnlsIYNCj4gK+eugOWNleWcsOWi
-nuWKoOW3suWujOaIkOeahOWtl+auteOAguS9huWkmuasoeiwg+eUqGNvbXBsZXRlX2FsbCgp5piv
-5LiA5Liq6ZSZ6K+v44CCY29tcGxldGUoKeWSjA0KPiArY29tcGxldGVfYWxsKCnpg73lj6/ku6Xl
-nKhJUlEvYXRvbWlj5LiK5LiL5paH5Lit5a6J5YWo6LCD55So44CCDQo+ICsNCj4gK+WcqOS7u+S9
-leaXtuWAme+8jOWPquiDveacieS4gOS4que6v+eoi+WcqOS4gOS4queJueWumueahCDigJxzdHJ1
-Y3QgY29tcGxldGlvbuKAneS4iuiwg+eUqCBjb21wbGV0ZSgpIOaIlg0KPiArY29tcGxldGVfYWxs
-KCkgLSDpgJrov4fnrYnlvoXpmJ/liJfoh6rml4vplIHov5vooYzluo/liJfljJbjgILku7vkvZXl
-r7kgY29tcGxldGUoKSDmiJYNCj4gK2NvbXBsZXRlX2FsbCgpIOeahOW5tuWPkeiwg+eUqOmDveWP
-r+iDveaYr+S4gOS4quiuvuiuoemUmeivr+OAgg0KPiArDQo+ICvku45JUlHkuIrkuIvmlofkuK3l
-j5Hlh7rlrozmiJDkv6Hlj7fmmK/lpb3nmoTvvIzlm6DkuLrlroPlsIbpgILlvZPlnLDnlKgNCj4g
-K3NwaW5fbG9ja19pcnFzYXZlKCkvc3Bpbl91bmxvY2tfaXJxcmVzdG9yZSgp6ZSB5a6a77yM6ICM
-5LiU5a6D5rC46L+c5LiN5Lya552h55yg44CCDQo+ICsNCj4gKw0KPiArdHJ5X3dhaXRfZm9yX2Nv
-bXBsZXRpb24oKS9jb21wbGV0aW9uX2RvbmUoKToNCj4gKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+ICsNCj4gK3RyeV93YWl0X2Zvcl9jb21wbGV0aW9uKCnl
-h73mlbDkuI3kvJrlsIbnur/nqIvmlL7lnKjnrYnlvoXpmJ/liJfkuK3vvIzogIzmmK/lnKjpnIDo
-poHmjpLpmJ/vvIjpmLvloZ7vvInnur8NCj4gK+eoi+aXtui/lOWbnmZhbHNl77yM5ZCm5YiZ5Lya
-5raI6ICX5LiA5Liq5bey5Y+R5biD55qE5a6M5oiQ5bm26L+U5ZuedHJ1ZTo6DQo+ICsNCj4gKyAg
-ICAgICBib29sIHRyeV93YWl0X2Zvcl9jb21wbGV0aW9uKHN0cnVjdCBjb21wbGV0aW9uICpkb25l
-KQ0KPiArDQo+ICvmnIDlkI7vvIzkuLrkuoblnKjkuI3ku6Xku7vkvZXmlrnlvI/mlLnlj5jlrozm
-iJDnmoTmg4XlhrXkuIvmo4Dmn6XlrozmiJDnmoTnirbmgIHvvIzlj6/ku6XosIPnlKhjb21wbGV0
-aW9uX2RvbmUoKe+8jA0KPiAr5aaC5p6c5rKh5pyJ5Y+R5biD55qE5a6M5oiQ5bCa5pyq6KKr562J
-5b6F6ICF5raI6ICX77yM5YiZ6L+U5ZueZmFsc2XvvIjmhI/lkbPnnYDlrZjlnKjnrYnlvoXogIXv
-vInvvIzlkKbliJnov5Tlm550cnVlOjoNCj4gKw0KPiArICAgICAgIGJvb2wgY29tcGxldGlvbl9k
-b25lKHN0cnVjdCBjb21wbGV0aW9uICpkb25lKQ0KPiArDQo+ICt0cnlfd2FpdF9mb3JfY29tcGxl
-dGlvbigp5ZKMY29tcGxldGlvbl9kb25lKCnpg73lj6/ku6XlnKhJUlHmiJbljp/lrZDkuIrkuIvm
-lofkuK3lronlhajosIPnlKjjgIINCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNs
-YXRpb25zL3poX0NOL3NjaGVkdWxlci9pbmRleC5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0
-aW9ucy96aF9DTi9zY2hlZHVsZXIvaW5kZXgucnN0DQo+IGluZGV4IDRmZGU1YzJhOWRiMy4uNWVj
-NzFlNjA0M2FlIDEwMDY0NA0KPiAtLS0gYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9D
-Ti9zY2hlZHVsZXIvaW5kZXgucnN0DQo+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25z
-L3poX0NOL3NjaGVkdWxlci9pbmRleC5yc3QNCj4gQEAgLTE5LDEwICsxOSwxMSBAQCBMaW51eOiw
-g+W6puWZqA0KPiAgLi4gdG9jdHJlZTo6DQo+ICAgICAgOm1heGRlcHRoOiAxDQo+DQo+ICsgICAg
-Y29tcGxldGlvbg0KPiArDQo+DQo+ICBUT0RPTGlzdDoNCj4NCj4gLSAgICBjb21wbGV0aW9uDQo+
-ICAgICAgc2NoZWQtYXJjaA0KPiAgICAgIHNjaGVkLWJ3Yw0KPiAgICAgIHNjaGVkLWRlYWRsaW5l
-DQo+IC0tDQo+IDIuMjcuMA0KPg0KDQpDQyAgIFllZWNob3UgIDx0YW5neWVlY2hvdUBnbWFpbC5j
-b20+DQoNClRoYW5rcywNCllhbnRlbmcNCg==
+On Tue, Nov 30, 2021 at 03:35:41PM -0700, Alex Williamson wrote:
+
+> > From what HNS said the device driver would have to trap every MMIO to
+> > implement NDMA as it must prevent touches to the physical HW MMIO to
+> > maintain the NDMA state.
+> > 
+> > The issue is that the HW migration registers can stop processing the
+> > queue and thus enter NDMA but a MMIO touch can resume queue
+> > processing, so NDMA cannot be sustained.
+> > 
+> > Trapping every MMIO would have a huge negative performance impact.  So
+> > it doesn't make sense to do so for a device that is not intended to be
+> > used in any situation where NDMA is required.
+> 
+> But migration is a cooperative activity with userspace.  If necessary
+> we can impose a requirement that mmap access to regions (other than the
+> migration region itself) are dropped when we're in the NDMA or !RUNNING
+> device_state.  
+
+It is always NDMA|RUNNING, so we can't fully drop access to
+MMIO. Userspace would have to transfer from direct MMIO to
+trapping. With enough new kernel infrastructure and qemu support it
+could be done.
+
+Even so, we can't trap accesses through the IOMMU so such a scheme
+would still require removing IOMMU acess to the device. Given that the
+basic qemu mitigation for no NDMA support is to eliminate P2P cases by
+removing the IOMMU mappings this doesn't seem to advance anything and
+only creates complexity.
+
+At least I'm not going to insist that hns do all kinds of work like
+this for a edge case they don't care about as a precondition to get a
+migration driver.
+
+> There's no reason that mediation while in the NDMA state needs to
+> impose any performance penalty against the default RUNNING state. 
+
+Eh? Mitigation of no NDMA support would have to mediate the MMIO on a
+a performance doorbell path, there is no escaping a performance
+hit. I'm not sure what you mean
+
+> > > Some discussion of this requirement would be useful in the doc,
+> > > otherwise it seems easier to deprecate the v1 migration region
+> > > sub-type, and increment to a v2 where NDMA is a required feature.  
+> > 
+> > I can add some words a the bottom, but since NDMA is a completely
+> > transparent optional feature I don't see any reason to have v2.
+> 
+> It's hardly transparent, aiui userspace is going to need to impose a
+> variety of loosely defined restrictions for devices without NDMA
+> support.  It would be far easier if we could declare NDMA support to be
+> a requirement.
+
+It would make userspace a bit simpler at the cost of excluding or
+complicating devices like hns for a use case they don't care about.
+
+On the other hand, the simple solution in qemu is when there is no
+universal NDMA it simply doesn't include any MMIO ranges in the
+IOMMU.
+
+> As I think Connie also had trouble with, combining device_state with
+> IOMMU migration features and VMM state, without any preceding context
+> and visual cues makes the section confusing.  I did gain context as I
+> read further though the doc, but I also had the advantage of being
+> rather familiar with the topic.  Maybe a table format would help to
+> segment the responsibilities?
+
+I moved the context to the bottom exactly because Connie said it was
+confusing at the start. :)
+
+This is a RST document so I not keen to make huge formatting
+adventures for minimal readability gain.
+
+I view this as something that probably needs to be read a few times,
+along with the code and header files for someone brand new to
+understand. I'm Ok with that, it is about consistent with kernel docs
+of this level.
+
+What I would like is if userspace focused readers can get their
+important bits of information with less work.
+
+> > It is exsisting behavior of qemu - which is why we documented it.
+> 
+> QEMU resets devices as part of initializing the VM, but I don't see
+> that QEMU specifically resets a device in order to transition it to
+> the RESUMING device_state. 
+
+We instrumented the kernel and monitored qemu, it showed up on the
+resume traces.
+
+> > Either qemu shouldn't do it as devices must fully self-reset, or we
+> > should have it part of the canonical flow and devices may as well
+> > expect it. It is useful because post VFIO_DEVICE_RESET all DMA is
+> > quiet, no outstanding PRIs exist, etc etc.
+> 
+> It's valid for QEMU to reset the device any time it wants, saying that
+> it cannot perform a reset before transitioning to the RESUMING state is
+> absurd.  Userspace can do redundant things for their own convenience.
+
+I didn't say cannot, I said it shouldn't.
+
+Since qemu is the only implementation it would be easy for drivers to
+rely on the implicit reset it seems to do, it seems an important point
+that should be written either way.
+
+I don't have a particular requirement to have the reset, but it does
+seem like a good idea. If you feel strongly, then let's say the
+opposite that the driver must enter RESUME with no preconditions,
+doing an internal reset if required.
+
+> We don't currently specify any precondition for a device to enter the
+> RESUMING state.  The driver can of course nak the state change with an
+> errno, or hard nak it with an errno and ERROR device_state, which would
+> require userspace to make use of VFIO_DEVICE_RESET.
+
+I don't think we should be relying on every driver doing something
+totally differnt on the standard path. That is only going to hurt
+interoperability.
+
+> > > As with the previous flows, it seems like there's a ton of implicit
+> > > knowledge here.  Why are we documenting these here rather than in the
+> > > uAPI header?  
+> > 
+> > Because this is 300 lines already and is too complicated/long to
+> > properly live in a uapi header.
+> 
+> Minimally we need to resolve that this document must be consistent with
+> the uAPI.  I'm not sure that's entirely the case in this draft.
+
+Can you point to something please? I can't work with "I'm not sure"
+
+IMO the header file doesn't really say much and can be read in a way
+that is consistent with this more specific document.
+
+> >  - qemu doesn't support P2P cases due to the NDMA topic
+> 
+> Or rather QEMU does support p2p cases regardless of the NDMA topic.
+
+I mean support in a way that is actually usable as without NDMA it
+corrupts the VM when it migrates it.
+
+> >  - simple devices like HNS will work, but not robustly in the face of
+> >    a hostile VM and multiple VFIO devices.
+> 
+> So what's the goal here, are we trying to make the one currently
+> implemented and unsupported userspace be the gold standard to which
+> drivers should base their implementation?  
+
+I have no idea anymore. You asked for docs and complete picture as a
+percondition for merging a driver. Here it is.
+
+What do you want?
+
+> We've tried to define a specification that's more flexible than a
+> single implementation and by these standards we seem to be flipping
+> that implementation back into the specification.
+
+What specification!?! All we have is a couple lines in a header file
+that is no where near detailed enough for multi-driver
+interoperability with userspace. You have no idea how much effort has
+been expended to get this far based on the few breadcrumbs that were
+left, and we have access to the team that made the only other
+implementation!
+
+*flexible* is not a specification.
+
+> Userspace can attempt RESUMING -> RUNNING regardless of what we specify,
+> so a driver needs to be prepared for such an attempted state change
+> either way.  So what's the advantage to telling a driver author that
+> they can expect a given behavior?
+
+The above didn't tell a driver author to expect a certain behavior, it
+tells userspace what to do.
+
+> It doesn't make much sense to me to glue two separate userspace
+> operations together to say these must be done in this sequence, back to
+> back.  If we want the device to be reset in order to enter RESUMING, the
+> driver should simply reset the device as necessary during the state
+> transition.  The outward effect to the user is to specify that device
+> internal state may not be retained on transition from RUNNING ->
+> RESUMING.
+
+Maybe, and I'm happy if you want to specify this instead. It just
+doesn't match what we observe qemu to be doing.
+
+> > Do you have an alternative language? This is quite complicated, I
+> > advise people to refer to mlx5's implementation.
+> 
+> I agree with Connie on this, if the reader of the documentation needs
+> to look at a specific driver implementation to understand the
+> reasoning, the documentation has failed.  
+
+Lets agree on some objective here, this is not trying to be fully
+comprehensive, or fully standalone. It is intended to drive agreement,
+be informative to userspace, and be supplemental to the actual code.
+
+> If it can be worked out by looking at the device_state write
+> function of the mlx5 driver, then surely a sentence or two for each
+> priority item can be added here.
+
+Please give me a suggestion then, because I don't know what will help
+here?
+
+> Part of the problem is that the nomenclature is unclear, we're listing
+> bit combinations, but not the changed bit(s) and we need to infer the
+> state.
+
+Each line lists the new state, the changed bits are thus any bits that
+make up the new state.
+
+If you look at how mlx5 is constructed each if has a 'did it change'
+test followed by 'what state is it in now'
+
+So the document is read as listing the order the driver enters the new
+states. I clarified it as ""must process the new device_state bits in
+a priority order""
+
+> flips in the presence of an existing state.  I'm not able to obviously
+> map the listing above to the latest posted version of the mlx5 driver.
+
+One of the things we've done is align mlx5 more clearly to this. For
+instance it no longer has a mixture of state and old state in the if
+statements, it always tests the new state so the tests logically
+follow what is written here
+
+Stripping away the excess the expressions now look like this:
+
+ !(state & VFIO_DEVICE_STATE_RUNNING)
+ ((state & (VFIO_DEVICE_STATE_RUNNING | VFIO_DEVICE_STATE_SAVING)) == VFIO_DEVICE_STATE_SAVING))
+ (state & VFIO_DEVICE_STATE_RESUMING)
+
+Which mirror what is written here.
+
+> > > > +  As Peer to Peer DMA is a MMIO touch like any other, it is important that
+> > > > +  userspace suspend these accesses before entering any device_state where MMIO
+> > > > +  is not permitted, such as !RUNNING. This can be accomplished with the NDMA
+> > > > +  state. Userspace may also choose to remove MMIO mappings from the IOMMU if the
+> > > > +  device does not support NDMA and rely on that to guarantee quiet MMIO.  
+> > > 
+> > > Seems that would have its own set of consequences.  
+> > 
+> > Sure, userspace has to make choices here.
+> 
+> It seems a bit loaded to suggest an alternative choice if it's not
+> practical or equivalent.  Maybe it's largely the phrasing, I read
+> "remove MMIO mappings" as to drop them dynamically, when I think we've
+> discussed that userspace might actually preclude these mappings for
+> non-NDMA devices such that p2p DMA cannot exist, ever.
+
+I mean the latter. How about "never install MMIO mappings" ?
+
+> > Overall it must work in this basic way, and devices have freedom about
+> > what internal state they can/will log. There is just a clear division
+> > that every internal state in the first step is either immutable or
+> > logged, and that the second step is a delta over the first.
+> 
+> I agree that it's a reasonable approach, though as I read the proposed
+> text, there's no mention of immutable state and no reason a driver
+> would implement a dirty log for immutable state, therefore we seem to
+> be suggesting such data for the stop-and-copy phase when it would
+> actually be preferable to include it in pre-copy.
+
+I'd say that is a detail we don't need to discuss/define, it has no
+user space visible consequence.
+
+> I think the fact that a user is not required to run the pre-copy
+> phase until completion is also noteworthy.
+
+This text doesn't try to detail how the migration window works, that
+is a different large task. The intention is that the migration window
+must be fully drained to be successful.
+
+I added this for some clarity ""The entire migration data, up to each
+end of stream must be transported from the saving to resuming side.""
+
+> > Yishai has a patch already to add NDMA to mlx5, it will come in the
+> > next iteration once we can agree on this document. qemu will follow
+> > sometime later.
+> 
+> So it's not really a TBD, it's resolved in a uAPI update that will be
+> included with the next revision?  Thanks,
+
+There is a patch yes, the TBD here is to include a few words about how
+to detect NDMA
+
+Jason
