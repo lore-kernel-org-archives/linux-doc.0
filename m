@@ -2,143 +2,199 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 114CAC433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Dec 2021 01:07:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8980BC433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Dec 2021 02:50:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236782AbhLABKX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Nov 2021 20:10:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33986 "EHLO
+        id S234237AbhLACx6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Nov 2021 21:53:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232426AbhLABKV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Nov 2021 20:10:21 -0500
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C17EC061746
-        for <linux-doc@vger.kernel.org>; Tue, 30 Nov 2021 17:07:01 -0800 (PST)
-Received: by mail-ed1-x52f.google.com with SMTP id r11so94587207edd.9
-        for <linux-doc@vger.kernel.org>; Tue, 30 Nov 2021 17:07:01 -0800 (PST)
+        with ESMTP id S1346269AbhLACx6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Nov 2021 21:53:58 -0500
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com [IPv6:2607:f8b0:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D736DC061574
+        for <linux-doc@vger.kernel.org>; Tue, 30 Nov 2021 18:50:37 -0800 (PST)
+Received: by mail-ot1-x32c.google.com with SMTP id w6-20020a9d77c6000000b0055e804fa524so33090830otl.3
+        for <linux-doc@vger.kernel.org>; Tue, 30 Nov 2021 18:50:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=dDTZQO1s0l0nQ4okwAIdEoHQ0YiyLaeFzWFpDGXURhI=;
-        b=aKNAM/hTD2iyToIfqhdvNElGlNz9s4c/KoEOloKnsDnBEqXyqyhwYtC2k4V2Z29Ggn
-         +lCXAtuOpk0iQ5eDzn4kskDCc8OBWFvZ9JqVFA5JLxu1TSSG/YxssrYsCO8FWCfa6qcM
-         +z4U//Z4fsc3N5DwKeNMvUZdr2y6nHv+6d8iEYXb8tGncg6XmtgLZVXqK39wY3N63duR
-         HCle84xmK41sYwEp0AQj2ovjVB2X/++iufFILpVt1GA9iC5em/e6g1rjyY9bf2VgSG5T
-         vWocu4b0nzqES5H+XLSYywAOR/GNZYkfeYyv13c2VG30g6TdJDNddeC+wgPeuRcm45/o
-         PBSQ==
+         :cc:content-transfer-encoding;
+        bh=UmNIvAXwWEHZ3NVPAvbbPfShwzXvnibiH1VJwlmayQw=;
+        b=BslMhAih40GZFmxllfSvff1v5MeNh8uUxVg8y3ttYmy22YBSmSAXnIcG6MionZa4a0
+         zYZhesh2aPnYj8TMUvkU5wBiAD5rwCkas/s3Me+Wn6xWLzqp8/raEI5ZhmgqKOnPMZqS
+         wyLrc67ZAeKozakfuG05MRrdgcAhNUp+XuzGdD6Zg9NIMRbeNCC4y4qYAs9i2atG+UJ/
+         Cs0MfW7uuWEHm2w8I6fLaLBvO2yn6KaTr5+Z8ocnxM3JaulwY1KtTkcv3g7x+aM+5sp8
+         /0jxaLrVXxdQx0ZAW3FN7yozTzng3sXTnmW+vaDbO2wkdaZ3hrR+gDAjH34I7ro2Q27R
+         3bvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dDTZQO1s0l0nQ4okwAIdEoHQ0YiyLaeFzWFpDGXURhI=;
-        b=Y8Kyy2rWfjC1EXGv31HC2ehuiqjcCFEXuTC8vSaEASPNg5XC7EcN9TQU6C4WG+HRxl
-         rywhNhgBOBBcieZF2ANnCN8bfe3UvXjNiRZbafKNHSAd61LzQnpJKCQYtKtlE9RRehzv
-         keEzT6zoNavc6aLnaZ2fmuKKSsfN1BpCigucXQdbbfIahxHXnHzvdCKBs18PKfYN9ra2
-         L4GI4yYjADhNTSBALLIzRgLgWg2nsYcXYgtQAjOL61h+I1JJZL0d6unKHCHzcOSxK3BT
-         X9Opjyf6h1VCASb1QPFD1wcAlfeDZCKjOdUzz3C3Ms0cwOgpXvpXmjF1Ph4JGoHw+d6w
-         nbEg==
-X-Gm-Message-State: AOAM532eyuOeptP2BMcJTOqLeHQyoPMVkIG4qaWuRTh+8zbH/4zHmb3s
-        eEVT4lw8rba6vxPWqAKx1KoF48SuOleUCqn2EJqb
-X-Google-Smtp-Source: ABdhPJxty9SzAkb0v8cwbtS2kkFtq94PrIqZjihhoj6I/Aj1LVnCBLmzhnBqErP0r0YUKFdEbazwCMhiZXkezaGEjsU=
-X-Received: by 2002:a17:906:d96e:: with SMTP id rp14mr3105756ejb.104.1638320819895;
- Tue, 30 Nov 2021 17:06:59 -0800 (PST)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=UmNIvAXwWEHZ3NVPAvbbPfShwzXvnibiH1VJwlmayQw=;
+        b=Zm2O35b6WIFs8u/4HZDv9ZH/cNctprcPCRL7qISOVb0nhHZ/eewtKcw2yaj77zzqUX
+         aSL54qyGPY/2MM/G3K56y9ki8kthManJvrvO6oY6itqBEyrPbNsjfOzFfP57FywPQ7QI
+         4kYGtgRkxE9vxG1PSEdJkQuHLhwJIITpMeA4HiGgqciDEkRkVOa0wAKlOvdbcEsCZaGL
+         IKVqnTcODTYP2u38QrXC/mAExEz5MFJILbq0Be9B6DBLD4G/xIchMeby7yKiGyeQ0rw0
+         ua7VvEDWLTVVNY5r6GflwDHTheHF/whG5kSGh2kHREv+iA6YjSWbLpBtzEIyKtUGEpMr
+         Ns+g==
+X-Gm-Message-State: AOAM531/ujbodwgMfhr0qatKWWdRK2xXHI8ki13Wv1xs6FR51p2pTA/Y
+        fi78qWQLhSL9F4D/smhyBZE3NcZHcTUKL4lRYJc=
+X-Google-Smtp-Source: ABdhPJwSNJfTfuvNXtVjRT95oz/BoWzqPS7U+WMYEwajcVr6JgFVonJ7KIFUoN0so8b8260RrH73mDas5a8hlXPtrJo=
+X-Received: by 2002:a05:6830:2aa7:: with SMTP id s39mr3278882otu.151.1638327037113;
+ Tue, 30 Nov 2021 18:50:37 -0800 (PST)
 MIME-Version: 1.0
-References: <1630070917-9896-1-git-send-email-ross.philipson@oracle.com>
-In-Reply-To: <1630070917-9896-1-git-send-email-ross.philipson@oracle.com>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Tue, 30 Nov 2021 20:06:49 -0500
-Message-ID: <CAHC9VhTJG24iG=U0geO-ZhC6OogxOu4icBrNY22+qRNpWd5PBQ@mail.gmail.com>
-Subject: Re: [PATCH v4 00/14] x86: Trenchboot secure dynamic launch Linux
- kernel support
-To:     Ross Philipson <ross.philipson@oracle.com>,
-        trenchboot-devel@googlegroups.com
-Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
-        iommu@lists.linux-foundation.org, linux-integrity@vger.kernel.org,
-        linux-doc@vger.kernel.org, dpsmith@apertussolutions.com,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        luto@amacapital.net, kanth.ghatraju@oracle.com
+References: <cover.1638154485.git.siyanteng@loongson.cn> <92dbb08d26e108b1677aa6cdb3f7a74a9733429b.1638154485.git.siyanteng@loongson.cn>
+ <871r2yu0fm.fsf@meer.lwn.net>
+In-Reply-To: <871r2yu0fm.fsf@meer.lwn.net>
+From:   yanteng si <siyanteng01@gmail.com>
+Date:   Wed, 1 Dec 2021 10:50:25 +0800
+Message-ID: <CAEensMxV+aPjxLYOPU2wtYcacDVa5KEpoBOyHbwifEqmXUU42A@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] docs/zh_CN: add scheduler sched-bwc translation
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Alex Shi <alexs@kernel.org>, Wu XiangCheng <bobwxc@email.cn>,
+        Alex Shi <seakeel@gmail.com>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Puyu Wang <realpuyuwang@gmail.com>, kolyshkin@gmail.com,
+        changhuaixin@linux.alibaba.com, Yanteng Si <siyanteng@loongson.cn>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 27, 2021 at 9:20 AM Ross Philipson
-<ross.philipson@oracle.com> wrote:
+Jonathan Corbet <corbet@lwn.net> =E4=BA=8E2021=E5=B9=B411=E6=9C=8830=E6=97=
+=A5=E5=91=A8=E4=BA=8C =E4=B8=8A=E5=8D=885:17=E5=86=99=E9=81=93=EF=BC=9A
 >
-> The larger focus of the Trechboot project (https://github.com/TrenchBoot) is to
-> enhance the boot security and integrity in a unified manner. The first area of
-> focus has been on the Trusted Computing Group's Dynamic Launch for establishing
-> a hardware Root of Trust for Measurement, also know as DRTM (Dynamic Root of
-> Trust for Measurement).
-
-My apologies for such a late reply, but I'm just getting around to
-looking at this and I have a few questions on the basic design/flow
-(below) ...
-
-> The basic flow is:
+> Yanteng Si <siyanteng01@gmail.com> writes:
 >
->  - Entry from the dynamic launch jumps to the SL stub
+> > From: Yanteng Si <siyanteng01@gmail.com>
+> >
+> > Translate .../scheduler/sched-bwc.rst into Chinese.
+> >
+> > Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> > Reviewed-by: Alex Shi <alexs@kernel.org>
+> > ---
+> >  .../translations/zh_CN/scheduler/index.rst    |   1 +
+> >  .../zh_CN/scheduler/sched-bwc.rst             | 206 ++++++++++++++++++
+> >  2 files changed, 207 insertions(+)
+> >  create mode 100644 Documentation/translations/zh_CN/scheduler/sched-bw=
+c.rst
+>
+> One quick question:
+>
+> > diff --git a/Documentation/translations/zh_CN/scheduler/index.rst b/Doc=
+umentation/translations/zh_CN/scheduler/index.rst
+> > index 797df3a9c66f..aba11e561ec3 100644
+> > --- a/Documentation/translations/zh_CN/scheduler/index.rst
+> > +++ b/Documentation/translations/zh_CN/scheduler/index.rst
+> > @@ -21,6 +21,7 @@ Linux=E8=B0=83=E5=BA=A6=E5=99=A8
+> >
+> >      completion
+> >      sched-arch
+> > +    sched-bwc
+> >
+> >
+> >  TODOList:
+> > diff --git a/Documentation/translations/zh_CN/scheduler/sched-bwc.rst b=
+/Documentation/translations/zh_CN/scheduler/sched-bwc.rst
+> > new file mode 100644
+> > index 000000000000..4fb18db54655
+> > --- /dev/null
+> > +++ b/Documentation/translations/zh_CN/scheduler/sched-bwc.rst
+> > @@ -0,0 +1,206 @@
+> > +.. include:: ../disclaimer-zh_CN.rst
+> > +
+> > +:Original: Documentation/scheduler/sched-bwc.rst
+> > +
+> > +:=E7=BF=BB=E8=AF=91:
+> > +
+> > + =E5=8F=B8=E5=BB=B6=E8=85=BE Yanteng Si <siyanteng@loongson.cn>
+> > +
+> > +:=E6=A0=A1=E8=AF=91:
+> > +
+> > +
+> > +
+> > +.. _cn_scheduler_sched-bwc.rst:
+>
+> Is there a reason for adding all of these labels?  They are generally
+> not used and just clutter up the documents.  I think I would prefer to
+> not see them unless they are needed, but if there's a reason to have
+> them that I'm not seeing ... ?
+OK=EF=BC=81let's remove it.
 
-So I'm clear, at this point the combined stub+kernel+initramfs+cmdline
-image has already been loaded into memory and the SL stub is
-executing, yes?
+Thanks,
+Yanteng
+>
+> Otherwise this set seems about ready to go.
+>
+> Thanks,
+>
+> jon
 
-As TrenchBoot seems to be focused on boot measurement and not
-enforcing policy, I'm guessing this is considered out-of-scope (not to
-mention that the combined stub+kernel image makes this less
-interesting), but has any thought been given to leveraging the TXT
-launch control policy, or is it simply an empty run-everything policy?
-
->  - SL stub fixes up the world on the BSP
->  - For TXT, SL stub wakes the APs, fixes up their worlds
->  - For TXT, APs are left halted waiting for an NMI to wake them
->  - SL stub jumps to startup_32
->  - SL main locates the TPM event log and writes the measurements of
->    configuration and module information into it.
-
-Since the stub+kernel image are combined it looks like the kernel
-measurement comes from the ACM via the MLE measurement into PCR 18,
-while the stub generated measurements are extended into PCR 19 or 20
-depending on the configuration, yes?
-
-I realize that moving the TXT code into the kernel makes this
-difficult (not possible?), but one of the things that was nice about
-the tboot based approach (dynamic, early launch) was that it could be
-extended to do different types of measurements, e.g. a signing
-authority measurement similar to UEFI Secure Boot and PCR 7.  If that
-is possible, I think it is something worth including in the design,
-even if it isn't initially implemented.  The only thing that
-immediately comes to mind would be a section/region based approach
-similar to systemd-boot/gummiboot where the (signed) kernel is kept in
-a well known region and verified/measured by the stub prior to jumping
-into its start point.
-
->  - Kernel boot proceeds normally from this point.
->  - During early setup, slaunch_setup() runs to finish some validation
->    and setup tasks.
->  - The SMP bringup code is modified to wake the waiting APs. APs vector
->    to rmpiggy and start up normally from that point.
->  - SL platform module is registered as a late initcall module. It reads
->    the TPM event log and extends the measurements taken into the TPM PCRs.
-
-I'm sure there is some issue with passing data across boundaries, but
-is there any reason why the TPM event log needs to be updated
-out-of-sync with the TPM PCRs?  Is is possible to pass the
-measurements to the SL platform module which would both extend the
-PCRs and update the TPM event log at the same time?
-
->  - SL platform module initializes the securityfs interface to allow
->    asccess to the TPM event log and TXT public registers.
->  - Kernel boot finishes booting normally
->  - SEXIT support to leave SMX mode is present on the kexec path and
->    the various reboot paths (poweroff, reset, halt).
-
-It doesn't look like it's currently implemented, but it looks like
-eventually you plan to support doing a new DRTM measurement on kexec,
-is that correct?  I'm sure that is something a *lot* of people
-(including myself) would like to see happen.
-
--- 
-paul moore
-www.paul-moore.com
+Jonathan Corbet <corbet@lwn.net> =E4=BA=8E2021=E5=B9=B411=E6=9C=8830=E6=97=
+=A5=E5=91=A8=E4=BA=8C =E4=B8=8A=E5=8D=885:17=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Yanteng Si <siyanteng01@gmail.com> writes:
+>
+> > From: Yanteng Si <siyanteng01@gmail.com>
+> >
+> > Translate .../scheduler/sched-bwc.rst into Chinese.
+> >
+> > Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> > Reviewed-by: Alex Shi <alexs@kernel.org>
+> > ---
+> >  .../translations/zh_CN/scheduler/index.rst    |   1 +
+> >  .../zh_CN/scheduler/sched-bwc.rst             | 206 ++++++++++++++++++
+> >  2 files changed, 207 insertions(+)
+> >  create mode 100644 Documentation/translations/zh_CN/scheduler/sched-bw=
+c.rst
+>
+> One quick question:
+>
+> > diff --git a/Documentation/translations/zh_CN/scheduler/index.rst b/Doc=
+umentation/translations/zh_CN/scheduler/index.rst
+> > index 797df3a9c66f..aba11e561ec3 100644
+> > --- a/Documentation/translations/zh_CN/scheduler/index.rst
+> > +++ b/Documentation/translations/zh_CN/scheduler/index.rst
+> > @@ -21,6 +21,7 @@ Linux=E8=B0=83=E5=BA=A6=E5=99=A8
+> >
+> >      completion
+> >      sched-arch
+> > +    sched-bwc
+> >
+> >
+> >  TODOList:
+> > diff --git a/Documentation/translations/zh_CN/scheduler/sched-bwc.rst b=
+/Documentation/translations/zh_CN/scheduler/sched-bwc.rst
+> > new file mode 100644
+> > index 000000000000..4fb18db54655
+> > --- /dev/null
+> > +++ b/Documentation/translations/zh_CN/scheduler/sched-bwc.rst
+> > @@ -0,0 +1,206 @@
+> > +.. include:: ../disclaimer-zh_CN.rst
+> > +
+> > +:Original: Documentation/scheduler/sched-bwc.rst
+> > +
+> > +:=E7=BF=BB=E8=AF=91:
+> > +
+> > + =E5=8F=B8=E5=BB=B6=E8=85=BE Yanteng Si <siyanteng@loongson.cn>
+> > +
+> > +:=E6=A0=A1=E8=AF=91:
+> > +
+> > +
+> > +
+> > +.. _cn_scheduler_sched-bwc.rst:
+>
+> Is there a reason for adding all of these labels?  They are generally
+> not used and just clutter up the documents.  I think I would prefer to
+> not see them unless they are needed, but if there's a reason to have
+> them that I'm not seeing ... ?
+>
+> Otherwise this set seems about ready to go.
+>
+> Thanks,
+>
+> jon
