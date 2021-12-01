@@ -2,131 +2,178 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AFD1C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Dec 2021 09:54:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA9F4C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Dec 2021 10:06:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242400AbhLAJ5x convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Dec 2021 04:57:53 -0500
-Received: from szxga03-in.huawei.com ([45.249.212.189]:28211 "EHLO
-        szxga03-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232736AbhLAJ5w (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Dec 2021 04:57:52 -0500
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.56])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4J3vWz6sJ1z8vhN;
-        Wed,  1 Dec 2021 17:52:31 +0800 (CST)
-Received: from kwepemm600005.china.huawei.com (7.193.23.191) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Wed, 1 Dec 2021 17:54:30 +0800
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- kwepemm600005.china.huawei.com (7.193.23.191) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Wed, 1 Dec 2021 17:54:29 +0800
-Received: from lhreml710-chm.china.huawei.com ([169.254.81.184]) by
- lhreml710-chm.china.huawei.com ([169.254.81.184]) with mapi id
- 15.01.2308.020; Wed, 1 Dec 2021 09:54:27 +0000
-From:   Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>,
-        Alex Williamson <alex.williamson@redhat.com>
-CC:     Jonathan Corbet <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Cornelia Huck <cohuck@redhat.com>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        Kirti Wankhede <kwankhede@nvidia.com>,
-        Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Yishai Hadas <yishaih@nvidia.com>,
-        "Zengtao (B)" <prime.zeng@hisilicon.com>,
-        liulongfang <liulongfang@huawei.com>
-Subject: RE: [PATCH RFC v2] vfio: Documentation for the migration region
-Thread-Topic: [PATCH RFC v2] vfio: Documentation for the migration region
-Thread-Index: AQHX5S/pH80pYVu+o0az8lQb+t8Cn6wcVFyAgAAZ+wCAADx+gIAATcuAgABn8BA=
-Date:   Wed, 1 Dec 2021 09:54:27 +0000
-Message-ID: <90226a3c13a2404086dc555e4aced7cb@huawei.com>
-References: <0-v2-45a95932a4c6+37-vfio_mig_doc_jgg@nvidia.com>
- <20211130102611.71394253.alex.williamson@redhat.com>
- <20211130185910.GD4670@nvidia.com>
- <20211130153541.131c9729.alex.williamson@redhat.com>
- <20211201031407.GG4670@nvidia.com>
-In-Reply-To: <20211201031407.GG4670@nvidia.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.202.227.178]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        id S1348457AbhLAKJu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Dec 2021 05:09:50 -0500
+Received: from sin.source.kernel.org ([145.40.73.55]:44488 "EHLO
+        sin.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229950AbhLAKJu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Dec 2021 05:09:50 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 16C03CE1DB2;
+        Wed,  1 Dec 2021 10:06:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B13DC53FAD;
+        Wed,  1 Dec 2021 10:06:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1638353186;
+        bh=0C75OUzsuOvjSjHVd8BAkQdTaXENoTUBSRzSPj6bc1w=;
+        h=From:To:Cc:Subject:Date:From;
+        b=USPZ621+99LFm+lyH6JTHHOp9Zong9H5/GVuykxLum+M7vQIqDA66tauOi7hGWV6D
+         9NYXUrbmtwZxqU7Q86KC2H7PffO/Tq6YajJ+4POZ6X2XRu+dkBNHLG7vjmIwnPFQ1w
+         q/mkjpWyW16sYm0KDPKJv8fO3TAIpSIF7vCVULO99B5Ug9Qlf8mKHhEuuGdPBDwOYo
+         mNSfxUHWGM2m23vH196MdlFrafUrPicIG663xjwhv3KwBO7PKv0caBnEF5Tcae+biq
+         2krr6nBynrZv7N/fOgpIf9Y2w3jEJitmU0IJFFu7Hcwe/zTON/BfxT1Hls1UeN6mi2
+         i1oXun0mW882w==
+Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1msMVL-0045wd-VP; Wed, 01 Dec 2021 11:06:24 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Akira Yokosawa" <akiyks@gmail.com>,
+        "Jani Nikula" <jani.nikula@linux.intel.com>,
+        =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= 
+        <nfraprado@protonmail.com>, "Randy Dunlap" <rdunlap@infradead.org>,
+        Andrew Klychkov <andrew.a.klychkov@gmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: allow selecting a Sphinx theme
+Date:   Wed,  1 Dec 2021 11:06:22 +0100
+Message-Id: <8a33f4516c937556b9a38157e236b2f55ef67540.1638353179.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Instead of having RTD as an almost mandatory theme, allow the
+user to select other themes via a THEMES environment var.
 
+There's a catch, though: as the current theme override logic is
+dependent of the RTD theme, we need to move the code which
+adds the CSS overrides to be inside the RTD theme logic.
 
-> -----Original Message-----
-> From: Jason Gunthorpe [mailto:jgg@nvidia.com]
-> Sent: 01 December 2021 03:14
-> To: Alex Williamson <alex.williamson@redhat.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>; linux-doc@vger.kernel.org; Cornelia
-> Huck <cohuck@redhat.com>; kvm@vger.kernel.org; Kirti Wankhede
-> <kwankhede@nvidia.com>; Max Gurtovoy <mgurtovoy@nvidia.com>;
-> Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>; Yishai
-> Hadas <yishaih@nvidia.com>
-> Subject: Re: [PATCH RFC v2] vfio: Documentation for the migration region
-> 
-> On Tue, Nov 30, 2021 at 03:35:41PM -0700, Alex Williamson wrote:
-> 
-> > > From what HNS said the device driver would have to trap every MMIO to
-> > > implement NDMA as it must prevent touches to the physical HW MMIO to
-> > > maintain the NDMA state.
-> > >
-> > > The issue is that the HW migration registers can stop processing the
-> > > queue and thus enter NDMA but a MMIO touch can resume queue
-> > > processing, so NDMA cannot be sustained.
-> > >
-> > > Trapping every MMIO would have a huge negative performance impact.
-> So
-> > > it doesn't make sense to do so for a device that is not intended to be
-> > > used in any situation where NDMA is required.
-> >
-> > But migration is a cooperative activity with userspace.  If necessary
-> > we can impose a requirement that mmap access to regions (other than the
-> > migration region itself) are dropped when we're in the NDMA or !RUNNING
-> > device_state.
-> 
-> It is always NDMA|RUNNING, so we can't fully drop access to
-> MMIO. Userspace would have to transfer from direct MMIO to
-> trapping. With enough new kernel infrastructure and qemu support it
-> could be done.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/Makefile             |  1 +
+ Documentation/conf.py              | 59 ++++++++++++++++--------------
+ Documentation/doc-guide/sphinx.rst |  8 ++++
+ 3 files changed, 41 insertions(+), 27 deletions(-)
 
-As far as our devices are concerned we put the dev queue into a PAUSE state
-in the !RUNNUNG state. And since we don't have any P2P support, is it ok
-to put the onus on userspace here that it won't try to access the MMIO during
-!RUNNUNG state?
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index c3feb657b654..c8d8067b647a 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -19,6 +19,7 @@ endif
+ SPHINXBUILD   = sphinx-build
+ SPHINXOPTS    =
+ SPHINXDIRS    = .
++THEME         =
+ _SPHINXDIRS   = $(sort $(patsubst $(srctree)/Documentation/%/index.rst,%,$(wildcard $(srctree)/Documentation/*/index.rst)))
+ SPHINX_CONF   = conf.py
+ PAPER         =
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 76e5eb5cb62b..9e0020fb4f40 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -208,16 +208,38 @@ highlight_language = 'none'
+ # The theme to use for HTML and HTML Help pages.  See the documentation for
+ # a list of builtin themes.
+ 
+-# The Read the Docs theme is available from
+-# - https://github.com/snide/sphinx_rtd_theme
+-# - https://pypi.python.org/pypi/sphinx_rtd_theme
+-# - python-sphinx-rtd-theme package (on Debian)
+-try:
+-    import sphinx_rtd_theme
+-    html_theme = 'sphinx_rtd_theme'
+-    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+-except ImportError:
+-    sys.stderr.write('Warning: The Sphinx \'sphinx_rtd_theme\' HTML theme was not found. Make sure you have the theme installed to produce pretty HTML output. Falling back to the default theme.\n')
++# Default theme
++html_theme = 'sphinx_rtd_theme'
++
++if "THEME" in os.environ:
++    html_theme = os.environ["THEME"]
++
++if html_theme == 'sphinx_rtd_theme':
++    # Read the Docs theme
++    try:
++        import sphinx_rtd_theme
++        html_theme = 'sphinx_rtd_theme'
++        html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
++
++        # Add any paths that contain custom static files (such as style sheets) here,
++        # relative to this directory. They are copied after the builtin static files,
++        # so a file named "default.css" will overwrite the builtin "default.css".
++        html_css_files = [
++            'theme_overrides.css',
++        ]
++
++        if major <= 1 and minor < 8:
++            html_context = {
++                'css_files': [
++                    '_static/theme_overrides.css',
++                ],
++            }
++    except:
++        html_theme = 'classic'
++
++sys.stderr.write("Using %s theme\n" % html_theme)
++
++html_static_path = ['sphinx-static']
+ 
+ # Theme options are theme-specific and customize the look and feel of a theme
+ # further.  For a list of options available for each theme, see the
+@@ -243,23 +265,6 @@ except ImportError:
+ # pixels large.
+ #html_favicon = None
+ 
+-# Add any paths that contain custom static files (such as style sheets) here,
+-# relative to this directory. They are copied after the builtin static files,
+-# so a file named "default.css" will overwrite the builtin "default.css".
+-
+-html_static_path = ['sphinx-static']
+-
+-html_css_files = [
+-    'theme_overrides.css',
+-]
+-
+-if major <= 1 and minor < 8:
+-    html_context = {
+-        'css_files': [
+-            '_static/theme_overrides.css',
+-        ],
+-    }
+-
+ # Add any extra paths that contain custom files (such as robots.txt or
+ # .htaccess) here, relative to this directory. These files are copied
+ # directly to the root of the documentation.
+diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
+index e445cb146efe..33a527f5ae64 100644
+--- a/Documentation/doc-guide/sphinx.rst
++++ b/Documentation/doc-guide/sphinx.rst
+@@ -138,6 +138,14 @@ To pass extra options to Sphinx, you can use the ``SPHINXOPTS`` make
+ variable. For example, use ``make SPHINXOPTS=-v htmldocs`` to get more verbose
+ output.
+ 
++By default, the build will try to use the Read the Docs sphinx theme:
++
++    https://github.com/readthedocs/sphinx_rtd_theme
++
++If the theme is not available, it will fall-back to the classic one.
++
++The Sphinx theme can be overriden by using the ``THEME`` make variable.
++
+ To remove the generated documentation, run ``make cleandocs``.
+ 
+ Writing Documentation
+-- 
+2.33.1
 
-So just to make it clear , if a device declares that it doesn't support NDMA
-and P2P, is the v1 version of the spec good enough or we still need to take
-care the case that a malicious user might try MMIO access in !RUNNING
-state and should have kernel infrastructure in place to safe guard that?
-
-> 
-> Even so, we can't trap accesses through the IOMMU so such a scheme
-> would still require removing IOMMU acess to the device. Given that the
-> basic qemu mitigation for no NDMA support is to eliminate P2P cases by
-> removing the IOMMU mappings this doesn't seem to advance anything and
-> only creates complexity.
-> 
-> At least I'm not going to insist that hns do all kinds of work like
-> this for a edge case they don't care about as a precondition to get a
-> migration driver.
-
-Yes. That's our concern too.
-
-(Just a note to clarify that these are not HNS devices per se. HNS actually
-stands for HiSilicon Network Subsystem and doesn't currently have live
-migration capability. The devices capable of live migration are HiSilicon
-Accelerator devices).
-
-Thanks,
-Shameer
