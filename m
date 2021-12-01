@@ -2,140 +2,138 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BE10C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Dec 2021 18:06:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 732F6C433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Dec 2021 18:30:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244832AbhLASJ3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Dec 2021 13:09:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37533 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S244103AbhLASJ1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Dec 2021 13:09:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1638381966;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=nL9jEjCjXMQ2Hi/cW7zIosXzbREOuqBP0onxXEUO1oE=;
-        b=L5tMByqn55FmaeUN6J3XAHc/I77vQ6gnDRW9hza4w1EeV2jkq2t0UeAb1rT4Slvsj598MI
-        5YmaABozTemAtOKvjBJ1IsOLUa7JzMp+qx5+mff7JOe1FC31/eUPqeDxW4uObx//QBwqlK
-        36CpwZP09Ip/nMFygfns0hk+R/bJjWQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-597-EIqUcEKVNQ6Va99TdOtV3w-1; Wed, 01 Dec 2021 13:06:02 -0500
-X-MC-Unique: EIqUcEKVNQ6Va99TdOtV3w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S244943AbhLASdk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Dec 2021 13:33:40 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:47176 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244805AbhLASdj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Dec 2021 13:33:39 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D2561006AA0;
-        Wed,  1 Dec 2021 18:05:59 +0000 (UTC)
-Received: from [10.22.10.179] (unknown [10.22.10.179])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id AF03845D71;
-        Wed,  1 Dec 2021 18:05:49 +0000 (UTC)
-Message-ID: <4a021678-1896-2d16-4075-f626c7ab8513@redhat.com>
-Date:   Wed, 1 Dec 2021 13:05:44 -0500
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v8 5/6] cgroup/cpuset: Update description of
- cpuset.cpus.partition in cgroup-v2.rst
-Content-Language: en-US
-To:     Tejun Heo <tj@kernel.org>
-Cc:     =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
-        Zefan Li <lizefan.x@bytedance.com>,
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 1DD761FD58;
+        Wed,  1 Dec 2021 18:30:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1638383417; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=6YNK4361Ad+JUdZKL6SG8udr8ARQK6U9vpURkxKNy8I=;
+        b=jZW868ItkaDd9TWV/11V3TrkD14HcP17JeJjYnMMJcgv/NgD3c3ibyBrvNKGuI5fbU7DDW
+        S68adx2gDkvU96tYj6tUJlTtpSQA8NqzUfzr7Yzf8nujkrGlMCQRhubX0xmyF4OJKbG2l8
+        UwOGZvkVU13DXQTwVUy8helCukN7UUg=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id ECB9513DA2;
+        Wed,  1 Dec 2021 18:30:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id TOQaOTi/p2FPTgAAMHmgww
+        (envelope-from <mkoutny@suse.com>); Wed, 01 Dec 2021 18:30:16 +0000
+From:   =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>
+To:     Jens Axboe <axboe@kernel.dk>
+Cc:     Paolo Valente <paolo.valente@linaro.org>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>
-References: <20211018143619.205065-1-longman@redhat.com>
- <20211018143619.205065-6-longman@redhat.com>
- <20211115193122.GA16798@blackbody.suse.cz>
- <8f68692b-bd8f-33fd-44ae-f6f83bf2dc00@redhat.com>
- <20211116175411.GA50019@blackbody.suse.cz>
- <293d7abf-aff6-fcd8-c999-b1dbda1cffb8@redhat.com>
- <YaZbXArNIMNvwJD/@slm.duckdns.org>
- <2347fe66-dc68-6d58-e63b-7ed2b8077b48@redhat.com>
- <Yaem+r/YZ9BNXv9R@slm.duckdns.org>
-From:   Waiman Long <longman@redhat.com>
-In-Reply-To: <Yaem+r/YZ9BNXv9R@slm.duckdns.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+        Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3] block, bfq: Accept symmetric weight adjustments
+Date:   Wed,  1 Dec 2021 19:29:09 +0100
+Message-Id: <20211201182909.44271-1-mkoutny@suse.com>
+X-Mailer: git-send-email 2.33.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+The allowed range for BFQ weights is currently 1..1000 with 100 being
+the default. There is no apparent reason to not accept weight
+adjustments of same ratio on both sides of the default. This change
+makes the attribute domain consistent with other cgroup (v2) knobs with
+the weight semantics.
 
-On 12/1/21 11:46, Tejun Heo wrote:
-> Hello, Waiman.
->
-> On Tue, Nov 30, 2021 at 10:56:34PM -0500, Waiman Long wrote:
->>> What happens if an isolated domain becomes invalid and then valid again due
->>> to cpu hotplug? Does it go "root invalid" and then back to "isolated"?
->> Yes, the current code allow recovering from an invalid state. In this
->> particular case, the transition will be "isolated" --> "root invalid" -->
->> "isolated".
-> Wouldn't it be clearer if it became "isolated invalid"?
+This extension of the range does not restrict existing configurations
+(quite the opposite). This may affect setups where weights >1000 were
+attempted to be set but failed with the default 100. Such cgroups would
+attain their intended weight now. This is a changed behavior but it
+rectifies the situation (similar intention to the
+commit 69d7fde5909b ("blkcg: use CGROUP_WEIGHT_* scale for io.weight on
+the unified hierarchy") for CFQ formerly (and v2 only)).
 
-You are right. I have overlooked that. Will make the change.
+Additionally, the changed range does not imply all IO workloads can be
+really controlled to achieve the widest possible ratio 1:10^4.
 
+Signed-off-by: Michal Koutný <mkoutny@suse.com>
+Acked-by: Tejun Heo <tj@kernel.org>
+Acked-by: Paolo Valente <paolo.valente@linaro.org>
+---
+ Documentation/admin-guide/cgroup-v1/blkio-controller.rst | 2 +-
+ Documentation/block/bfq-iosched.rst                      | 2 +-
+ block/bfq-iosched.h                                      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
->
->>> While it isn't necessarily tied to this series, it's a big no-no to restrict
->>> what a parent can do depending on what its descendants are doing. A cgroup
->>> higher up in the hierarchy should be able to change configuration however it
->>> sees fit as deligation breaks down otherwise.
->>>
->>> Maybe you can argue that cpuset is special and shouldn't be subject to such
->>> convention but I can't see strong enough justifications especially given
->>> that most of these restrictions can be broken by hotplug operations anyway
->>> and thus need code to handle those situations.
->> These are all pre-existing restrictions before the introduction of
->> partition. These are checks done in validate_change(). I am just saying out
->> loud the existing behavior. If you think that needs to be changed, I am fine
->> with that. However, it will be a separate patch as it is not a behavior that
->> is introduced by this series.
-> I see. It looks more problematic now with the addtion of the state
-> transition error reporting, more possible state transitions and, well,
-> actual documentation.
+Changes since v2 https://lore.kernel.org/r/20211015135352.57245-1-mkoutny@suse.com/
+- rebase on v5.16-rc3 (+master)
+- effectively a re-resend
 
-I am going to add a patch to take out the child superset limitation for 
-the default hierarchy as I believe it is probably an oversight that we 
-were not aware of before. I would like to keep the exclusivity rule 
-though as I think it makes sense.
+Changes since v1 https://lore.kernel.org/r/20210826131212.GE4520@blackbody.suse.cz/
+- collect acks, reformat commit message
+- effectively a resend
 
->
->> Once an invalid partition is changed to "member", there is no way for a
->> child invalid partition root to recover and become valid again. There is why
->> I force them to become "member" also. I am OK if you believe it is better to
->> keep them in the invalid state forever until we explicitly changed them to
->> "member" eventually.
-> That's because we don't allow turning a cgroup with descendants into a
-> partition, right?
-Yes, that is a major part of it.
->
-> So, when we were first adding the partition support, the thinking was that
-> as it's pretty niche anyway, we can take some aberrations and restrictions,
-> but I don't think it's a good direction to be building up on top of those
-> like this and would much prefer to clean up the rules and restrictions. I
-> know that this has been going on for quite a while and am sorry that am
-> coming back to the same issue repeatedly which isn't necessarily caused by
-> the proposed change. What do you think?
+Hello Jens,
+could you please merge this via your tree (unless there are objections,
+I saw none so far)?
 
-I think I can relax some of the restrictions, but probably not all of 
-them at this time. We can certainly working on removing as much 
-restriction and limitations as possible in future update to the 
-partition code.
+Thanks,
+Michal
 
-Cheers,
-Longman
+diff --git a/Documentation/admin-guide/cgroup-v1/blkio-controller.rst b/Documentation/admin-guide/cgroup-v1/blkio-controller.rst
+index 16253eda192e..48559541c9d8 100644
+--- a/Documentation/admin-guide/cgroup-v1/blkio-controller.rst
++++ b/Documentation/admin-guide/cgroup-v1/blkio-controller.rst
+@@ -102,7 +102,7 @@ Proportional weight policy files
+ 	  on all the devices until and unless overridden by per device rule
+ 	  (see `blkio.bfq.weight_device` below).
+ 
+-	  Currently allowed range of weights is from 1 to 1000. For more details,
++	  Currently allowed range of weights is from 1 to 10000. For more details,
+           see Documentation/block/bfq-iosched.rst.
+ 
+   blkio.bfq.weight_device
+diff --git a/Documentation/block/bfq-iosched.rst b/Documentation/block/bfq-iosched.rst
+index df3a8a47f58c..88b5251734ce 100644
+--- a/Documentation/block/bfq-iosched.rst
++++ b/Documentation/block/bfq-iosched.rst
+@@ -560,7 +560,7 @@ For each group, the following parameters can be set:
+ 
+   weight
+         This specifies the default weight for the cgroup inside its parent.
+-        Available values: 1..1000 (default: 100).
++        Available values: 1..10000 (default: 100).
+ 
+         For cgroup v1, it is set by writing the value to `blkio.bfq.weight`.
+ 
+diff --git a/block/bfq-iosched.h b/block/bfq-iosched.h
+index a73488eec8a4..f1abb8b90091 100644
+--- a/block/bfq-iosched.h
++++ b/block/bfq-iosched.h
+@@ -16,7 +16,7 @@
+ #define BFQ_CL_IDLE_TIMEOUT	(HZ/5)
+ 
+ #define BFQ_MIN_WEIGHT			1
+-#define BFQ_MAX_WEIGHT			1000
++#define BFQ_MAX_WEIGHT			10000
+ #define BFQ_WEIGHT_CONVERSION_COEFF	10
+ 
+ #define BFQ_DEFAULT_QUEUE_IOPRIO	4
+-- 
+2.33.1
 
