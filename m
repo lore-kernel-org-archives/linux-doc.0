@@ -2,406 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52FD9C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Nov 2021 22:35:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 114CAC433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Dec 2021 01:07:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234349AbhK3WjJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Nov 2021 17:39:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56825 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233640AbhK3WjI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Nov 2021 17:39:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1638311747;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=aehA/LyWSA8yjoOnZsODq8zQuC97nuUVPDCPz8dLdpg=;
-        b=hf84C/wzfKvl6ShJoOkFH3xpAGPnDPgSWDvu4HXabVTiufllMeZaZiEZANxlkUalVyo8Wn
-        vCmKY51EvEgx2wlS5xGpNzVbhzCrSJFfOfbMpZTAQQxYTrzr991aTQgiQkcMqQJl8JUrUO
-        IYu2HnRF2kD3BHCPUyjJMFAq3HxRr+s=
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
- [209.85.167.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-240-brCbnjjRN5OZvcRn8CDA3w-1; Tue, 30 Nov 2021 17:35:46 -0500
-X-MC-Unique: brCbnjjRN5OZvcRn8CDA3w-1
-Received: by mail-oi1-f200.google.com with SMTP id r65-20020aca4444000000b002bce52a8122so14892117oia.14
-        for <linux-doc@vger.kernel.org>; Tue, 30 Nov 2021 14:35:45 -0800 (PST)
+        id S236782AbhLABKX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Nov 2021 20:10:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33986 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232426AbhLABKV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Nov 2021 20:10:21 -0500
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C17EC061746
+        for <linux-doc@vger.kernel.org>; Tue, 30 Nov 2021 17:07:01 -0800 (PST)
+Received: by mail-ed1-x52f.google.com with SMTP id r11so94587207edd.9
+        for <linux-doc@vger.kernel.org>; Tue, 30 Nov 2021 17:07:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dDTZQO1s0l0nQ4okwAIdEoHQ0YiyLaeFzWFpDGXURhI=;
+        b=aKNAM/hTD2iyToIfqhdvNElGlNz9s4c/KoEOloKnsDnBEqXyqyhwYtC2k4V2Z29Ggn
+         +lCXAtuOpk0iQ5eDzn4kskDCc8OBWFvZ9JqVFA5JLxu1TSSG/YxssrYsCO8FWCfa6qcM
+         +z4U//Z4fsc3N5DwKeNMvUZdr2y6nHv+6d8iEYXb8tGncg6XmtgLZVXqK39wY3N63duR
+         HCle84xmK41sYwEp0AQj2ovjVB2X/++iufFILpVt1GA9iC5em/e6g1rjyY9bf2VgSG5T
+         vWocu4b0nzqES5H+XLSYywAOR/GNZYkfeYyv13c2VG30g6TdJDNddeC+wgPeuRcm45/o
+         PBSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=aehA/LyWSA8yjoOnZsODq8zQuC97nuUVPDCPz8dLdpg=;
-        b=svEv3JEPppCZmD5+4q478R3YihGGtPb8zMwT+s82RlpPJyIfXuRJqamjq407sQ6cW2
-         qJxYnzqJ9mDrtU2IJixMZLuul++/57oe4ZuamKuWolSor/zfYEUO91qt8X1QDwMBnfT7
-         C6TyIn5v331sH24R679VeQ958tW6PAjWULE0OkiBl8kUnSnP3PaeC/H5ATlKgQ5pcPtr
-         smCPQNe9JsTt8/ZD8ZokS6IhE3/l4LCaquRCuqlDOylEC7dEhqViyYlOujDRpRA7MBBw
-         IWxCv3d2lSTAnffVW06Weav4OG9nI+lKucUG9bx3tOi5TvZMtisQTfisCEYaPC8bIFJT
-         KanQ==
-X-Gm-Message-State: AOAM532ktFynV9SrJbgy/VEb1eWmBdEnxs7EQjp6r+FE8aUO3GLM9fHh
-        33VPF0sNnNZMaB5r/Ig9epzUkEkKPuFaJ4CdrJubrtA4FeQy3DSfae0gH/dIL1BWBAiF/V5yFjH
-        AhUOVKjHmzRmywA6iiMOG
-X-Received: by 2002:a9d:20a1:: with SMTP id x30mr2039796ota.44.1638311744815;
-        Tue, 30 Nov 2021 14:35:44 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxUA40o4VxHQgEcKf6j7upM+X29sYaRycFjGleV4PlyLhGyA0XVNon2/IwIESM2PW/fI5latQ==
-X-Received: by 2002:a9d:20a1:: with SMTP id x30mr2039754ota.44.1638311744412;
-        Tue, 30 Nov 2021 14:35:44 -0800 (PST)
-Received: from redhat.com ([38.15.36.239])
-        by smtp.gmail.com with ESMTPSA id n23sm3977198oic.26.2021.11.30.14.35.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Nov 2021 14:35:43 -0800 (PST)
-Date:   Tue, 30 Nov 2021 15:35:41 -0700
-From:   Alex Williamson <alex.williamson@redhat.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Cornelia Huck <cohuck@redhat.com>, kvm@vger.kernel.org,
-        Kirti Wankhede <kwankhede@nvidia.com>,
-        Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-        Yishai Hadas <yishaih@nvidia.com>
-Subject: Re: [PATCH RFC v2] vfio: Documentation for the migration region
-Message-ID: <20211130153541.131c9729.alex.williamson@redhat.com>
-In-Reply-To: <20211130185910.GD4670@nvidia.com>
-References: <0-v2-45a95932a4c6+37-vfio_mig_doc_jgg@nvidia.com>
-        <20211130102611.71394253.alex.williamson@redhat.com>
-        <20211130185910.GD4670@nvidia.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dDTZQO1s0l0nQ4okwAIdEoHQ0YiyLaeFzWFpDGXURhI=;
+        b=Y8Kyy2rWfjC1EXGv31HC2ehuiqjcCFEXuTC8vSaEASPNg5XC7EcN9TQU6C4WG+HRxl
+         rywhNhgBOBBcieZF2ANnCN8bfe3UvXjNiRZbafKNHSAd61LzQnpJKCQYtKtlE9RRehzv
+         keEzT6zoNavc6aLnaZ2fmuKKSsfN1BpCigucXQdbbfIahxHXnHzvdCKBs18PKfYN9ra2
+         L4GI4yYjADhNTSBALLIzRgLgWg2nsYcXYgtQAjOL61h+I1JJZL0d6unKHCHzcOSxK3BT
+         X9Opjyf6h1VCASb1QPFD1wcAlfeDZCKjOdUzz3C3Ms0cwOgpXvpXmjF1Ph4JGoHw+d6w
+         nbEg==
+X-Gm-Message-State: AOAM532eyuOeptP2BMcJTOqLeHQyoPMVkIG4qaWuRTh+8zbH/4zHmb3s
+        eEVT4lw8rba6vxPWqAKx1KoF48SuOleUCqn2EJqb
+X-Google-Smtp-Source: ABdhPJxty9SzAkb0v8cwbtS2kkFtq94PrIqZjihhoj6I/Aj1LVnCBLmzhnBqErP0r0YUKFdEbazwCMhiZXkezaGEjsU=
+X-Received: by 2002:a17:906:d96e:: with SMTP id rp14mr3105756ejb.104.1638320819895;
+ Tue, 30 Nov 2021 17:06:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <1630070917-9896-1-git-send-email-ross.philipson@oracle.com>
+In-Reply-To: <1630070917-9896-1-git-send-email-ross.philipson@oracle.com>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Tue, 30 Nov 2021 20:06:49 -0500
+Message-ID: <CAHC9VhTJG24iG=U0geO-ZhC6OogxOu4icBrNY22+qRNpWd5PBQ@mail.gmail.com>
+Subject: Re: [PATCH v4 00/14] x86: Trenchboot secure dynamic launch Linux
+ kernel support
+To:     Ross Philipson <ross.philipson@oracle.com>,
+        trenchboot-devel@googlegroups.com
+Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
+        iommu@lists.linux-foundation.org, linux-integrity@vger.kernel.org,
+        linux-doc@vger.kernel.org, dpsmith@apertussolutions.com,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+        luto@amacapital.net, kanth.ghatraju@oracle.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 30 Nov 2021 14:59:10 -0400
-Jason Gunthorpe <jgg@nvidia.com> wrote:
+On Fri, Aug 27, 2021 at 9:20 AM Ross Philipson
+<ross.philipson@oracle.com> wrote:
+>
+> The larger focus of the Trechboot project (https://github.com/TrenchBoot) is to
+> enhance the boot security and integrity in a unified manner. The first area of
+> focus has been on the Trusted Computing Group's Dynamic Launch for establishing
+> a hardware Root of Trust for Measurement, also know as DRTM (Dynamic Root of
+> Trust for Measurement).
 
-> On Tue, Nov 30, 2021 at 10:26:11AM -0700, Alex Williamson wrote:
-> > On Mon, 29 Nov 2021 10:45:52 -0400
-> > Jason Gunthorpe <jgg@nvidia.com> wrote:
-> >   
-> > > Provide some more complete documentation for the migration regions
-> > > behavior, specifically focusing on the device_state bits and the whole
-> > > system view from a VMM.
-> > > 
-> > > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> > >  Documentation/driver-api/vfio.rst | 277 +++++++++++++++++++++++++++++-
-> > >  1 file changed, 276 insertions(+), 1 deletion(-)
-> > > 
-> > > Alex/Cornelia, here is the second draft of the requested documentation I promised
-> > > 
-> > > We think it includes all the feedback from hns, Intel and NVIDIA on this mechanism.
-> > > 
-> > > Our thinking is that NDMA would be implemented like this:
-> > > 
-> > >    +#define VFIO_DEVICE_STATE_NDMA      (1 << 3)
-> > > 
-> > > And a .add_capability ops will be used to signal to userspace driver support:
-> > > 
-> > >    +#define VFIO_REGION_INFO_CAP_MIGRATION_NDMA    6  
-> > 
-> > So based on this and the discussion later in the doc, NDMA is an
-> > optional device feature, is this specifically to support HNS?   
-> 
-> Yes. It is not trivial to implement NDMA in a device, we already have
-> HNS as a public existing example that cannot do it, so it is a
-> permanent optional feature.
-> 
-> > IIRC, this is a simple queue based device, but is it the fact that
-> > the queue lives in non-device memory that makes it such that the
-> > driver cannot mediate queue entries and simply add them to the to
-> > migration stream?  
-> 
-> From what HNS said the device driver would have to trap every MMIO to
-> implement NDMA as it must prevent touches to the physical HW MMIO to
-> maintain the NDMA state.
-> 
-> The issue is that the HW migration registers can stop processing the
-> queue and thus enter NDMA but a MMIO touch can resume queue
-> processing, so NDMA cannot be sustained.
-> 
-> Trapping every MMIO would have a huge negative performance impact.  So
-> it doesn't make sense to do so for a device that is not intended to be
-> used in any situation where NDMA is required.
+My apologies for such a late reply, but I'm just getting around to
+looking at this and I have a few questions on the basic design/flow
+(below) ...
 
-But migration is a cooperative activity with userspace.  If necessary
-we can impose a requirement that mmap access to regions (other than the
-migration region itself) are dropped when we're in the NDMA or !RUNNING
-device_state.  We can define additional sparse mmap capabilities for
-regions for various device states if we need more fine grained control.
-There's no reason that mediation while in the NDMA state needs to
-impose any performance penalty against the default RUNNING state.  In
-fact, it seems rather the migration driver's job to provide such
-mediation.
+> The basic flow is:
+>
+>  - Entry from the dynamic launch jumps to the SL stub
 
-> > Some discussion of this requirement would be useful in the doc,
-> > otherwise it seems easier to deprecate the v1 migration region
-> > sub-type, and increment to a v2 where NDMA is a required feature.  
-> 
-> I can add some words a the bottom, but since NDMA is a completely
-> transparent optional feature I don't see any reason to have v2.
+So I'm clear, at this point the combined stub+kernel+initramfs+cmdline
+image has already been loaded into memory and the SL stub is
+executing, yes?
 
-It's hardly transparent, aiui userspace is going to need to impose a
-variety of loosely defined restrictions for devices without NDMA
-support.  It would be far easier if we could declare NDMA support to be
-a requirement.
+As TrenchBoot seems to be focused on boot measurement and not
+enforcing policy, I'm guessing this is considered out-of-scope (not to
+mention that the combined stub+kernel image makes this less
+interesting), but has any thought been given to leveraging the TXT
+launch control policy, or is it simply an empty run-everything policy?
 
-> > There are so many implicit concepts here, I'm not sure I'm making a
-> > correct interpretation, let alone someone coming to this document for
-> > understanding.  
-> 
-> That isn't really helpful feedback..
-> 
-> The above is something like a summary to give context to the below
-> which provides a lot of detail to each step.
-> 
-> If you read the above/below together and find stuff is lacking, then
-> please point to it and let's add it
+>  - SL stub fixes up the world on the BSP
+>  - For TXT, SL stub wakes the APs, fixes up their worlds
+>  - For TXT, APs are left halted waiting for an NMI to wake them
+>  - SL stub jumps to startup_32
+>  - SL main locates the TPM event log and writes the measurements of
+>    configuration and module information into it.
 
-As I think Connie also had trouble with, combining device_state with
-IOMMU migration features and VMM state, without any preceding context
-and visual cues makes the section confusing.  I did gain context as I
-read further though the doc, but I also had the advantage of being
-rather familiar with the topic.  Maybe a table format would help to
-segment the responsibilities?
+Since the stub+kernel image are combined it looks like the kernel
+measurement comes from the ACM via the MLE measurement into PCR 18,
+while the stub generated measurements are extended into PCR 19 or 20
+depending on the configuration, yes?
 
-> > > +If the VMM has multiple VFIO devices undergoing migration then the grace
-> > > +states act as cross device synchronization points. The VMM must bring all
-> > > +devices to the grace state before advancing past it.
-> > > +
-> > > +The above reference flows are built around specific requirements on the
-> > > +migration driver for its implementation of the migration_state input.  
-> > 
-> > I can't glean any meaning from this sentence.  "device_state" here and
-> > throughout?  We don't have a "migration_state".  
-> 
-> Yes, migration_state is a spello for device_state, I'll fix them all
-> 
-> > > + !RESUMING
-> > > +   All the data transferred into the data window is loaded into the device's
-> > > +   internal state. The migration driver can rely on user-space issuing a
-> > > +   VFIO_DEVICE_RESET prior to starting RESUMING.  
-> > 
-> > We can't really rely on userspace to do anything, nor has this sequence
-> > been part of the specified protocol.  
-> 
-> It is exsisting behavior of qemu - which is why we documented it.
+I realize that moving the TXT code into the kernel makes this
+difficult (not possible?), but one of the things that was nice about
+the tboot based approach (dynamic, early launch) was that it could be
+extended to do different types of measurements, e.g. a signing
+authority measurement similar to UEFI Secure Boot and PCR 7.  If that
+is possible, I think it is something worth including in the design,
+even if it isn't initially implemented.  The only thing that
+immediately comes to mind would be a section/region based approach
+similar to systemd-boot/gummiboot where the (signed) kernel is kept in
+a well known region and verified/measured by the stub prior to jumping
+into its start point.
 
-QEMU resets devices as part of initializing the VM, but I don't see
-that QEMU specifically resets a device in order to transition it to
-the RESUMING device_state. 
+>  - Kernel boot proceeds normally from this point.
+>  - During early setup, slaunch_setup() runs to finish some validation
+>    and setup tasks.
+>  - The SMP bringup code is modified to wake the waiting APs. APs vector
+>    to rmpiggy and start up normally from that point.
+>  - SL platform module is registered as a late initcall module. It reads
+>    the TPM event log and extends the measurements taken into the TPM PCRs.
 
-> Either qemu shouldn't do it as devices must fully self-reset, or we
-> should have it part of the canonical flow and devices may as well
-> expect it. It is useful because post VFIO_DEVICE_RESET all DMA is
-> quiet, no outstanding PRIs exist, etc etc.
+I'm sure there is some issue with passing data across boundaries, but
+is there any reason why the TPM event log needs to be updated
+out-of-sync with the TPM PCRs?  Is is possible to pass the
+measurements to the SL platform module which would both extend the
+PCRs and update the TPM event log at the same time?
 
-It's valid for QEMU to reset the device any time it wants, saying that
-it cannot perform a reset before transitioning to the RESUMING state is
-absurd.  Userspace can do redundant things for their own convenience.
+>  - SL platform module initializes the securityfs interface to allow
+>    asccess to the TPM event log and TXT public registers.
+>  - Kernel boot finishes booting normally
+>  - SEXIT support to leave SMX mode is present on the kexec path and
+>    the various reboot paths (poweroff, reset, halt).
 
-We don't currently specify any precondition for a device to enter the
-RESUMING state.  The driver can of course nak the state change with an
-errno, or hard nak it with an errno and ERROR device_state, which would
-require userspace to make use of VFIO_DEVICE_RESET.  I think I would
-also consider if valid if the driver internally performed a reset on a
-RUNNING -> RESUMING state change, but we've never previously expressed
-any linkage of a userspace requirement to reset the device here. 
+It doesn't look like it's currently implemented, but it looks like
+eventually you plan to support doing a new DRTM measurement on kexec,
+is that correct?  I'm sure that is something a *lot* of people
+(including myself) would like to see happen.
 
-> > As with the previous flows, it seems like there's a ton of implicit
-> > knowledge here.  Why are we documenting these here rather than in the
-> > uAPI header?  
-> 
-> Because this is 300 lines already and is too complicated/long to
-> properly live in a uapi header.
-
-Minimally we need to resolve that this document must be consistent with
-the uAPI.  I'm not sure that's entirely the case in this draft.
-
-> >  I'm having a difficult time trying to understand what are
-> > proposals to modify the uAPI and what are interpretations of the
-> > existing protocol.  
-> 
-> As far as we know this describes what current qemu does in the success
-> path with a single VFIO device. ie we think mlx5 conforms to this spec
-> and we see it works as-is with qemu, up to qemu's limitations:
-> 
->  - qemu has no support for errors or error recovery, it just calls
->    abort()
->  - qemu does not stress the device_state and only does a few
->    transition patterns
->  - qemu doesn't support P2P cases due to the NDMA topic
-
-Or rather QEMU does support p2p cases regardless of the NDMA topic.
-
->  - simple devices like HNS will work, but not robustly in the face of
->    a hostile VM and multiple VFIO devices.
-
-So what's the goal here, are we trying to make the one currently
-implemented and unsupported userspace be the gold standard to which
-drivers should base their implementation?  We've tried to define a
-specification that's more flexible than a single implementation and by
-these standards we seem to be flipping that implementation back into
-the specification.
-
-> > > +   To abort a RESUMING issue a VFIO_DEVICE_RESET.  
-> >
-> > Any use of VFIO_DEVICE_RESET should return the device to the default
-> > state, but a user is free to try to use device_state to transition
-> > from RESUMING to any other state.    
-> 
-> Userspace can attempt all transitions, of course. 
-> 
-> However, notice this spec doesn't specify what happens on non-success
-> RESUMING->RUNNING. So, I'm calling that undefined behavior.
-> 
-> As you say:
-> 
-> > The driver can choose to fail that transition and even make use of
-> > the error device_state, but there's no expectation that a  
-> 
-> Thus, the above advice. To reliably abort RESUMING use DEVICE_RESET,
-> do not use ->RUNNING.
-
-Userspace can attempt RESUMING -> RUNNING regardless of what we specify,
-so a driver needs to be prepared for such an attempted state change
-either way.  So what's the advantage to telling a driver author that
-they can expect a given behavior?
-
-It doesn't make much sense to me to glue two separate userspace
-operations together to say these must be done in this sequence, back to
-back.  If we want the device to be reset in order to enter RESUMING, the
-driver should simply reset the device as necessary during the state
-transition.  The outward effect to the user is to specify that device
-internal state may not be retained on transition from RUNNING ->
-RESUMING.
- 
-> > > +Continuous actions are in effect when migration_state bit groups are active:
-> > > +
-> > > + RUNNING | NDMA
-> > > +   The device is not allowed to issue new DMA operations.
-> > > +
-> > > +   Whenever the kernel returns with a migration_state of NDMA there can be no
-> > > +   in progress DMAs.
-> > > +  
-> > 
-> > There are certainly event triggered actions based on setting NDMA as
-> > well, ex. completion of outstanding DMA.  
-> 
-> I'm leaving it implied that there is always some work required to
-> begin/end these continuous behaviors
-> 
-> > > + !RUNNING
-> > > +   The device should not change its internal state. Further implies the NDMA
-> > > +   behavior above.  
-> > 
-> > Does this also imply other device regions cannot be accessed as has
-> > previously been suggested?  Which?  
-> 
-> This question is discussed/answered below
-> 
-> > > + - SAVING | RUNNING
-> > > + - NDMA
-> > > + - !RUNNING
-> > > + - SAVING | !RUNNING
-> > > + - RESUMING
-> > > + - !RESUMING
-> > > + - RUNNING
-> > > + - !NDMA  
-> > 
-> > Lots of deduction left to the reader...  
-> 
-> Do you have an alternative language? This is quite complicated, I
-> advise people to refer to mlx5's implementation.
-
-I agree with Connie on this, if the reader of the documentation needs
-to look at a specific driver implementation to understand the
-reasoning, the documentation has failed.  If it can be worked out by
-looking at the device_state write function of the mlx5 driver, then
-surely a sentence or two for each priority item can be added here.
-
-Part of the problem is that the nomenclature is unclear, we're listing
-bit combinations, but not the changed bit(s) and we need to infer the
-state.  The mlx5 driver specifically looks for individual state bit
-flips in the presence of an existing state.  I'm not able to obviously
-map the listing above to the latest posted version of the mlx5 driver.
-
-> > > +  As Peer to Peer DMA is a MMIO touch like any other, it is important that
-> > > +  userspace suspend these accesses before entering any device_state where MMIO
-> > > +  is not permitted, such as !RUNNING. This can be accomplished with the NDMA
-> > > +  state. Userspace may also choose to remove MMIO mappings from the IOMMU if the
-> > > +  device does not support NDMA and rely on that to guarantee quiet MMIO.  
-> > 
-> > Seems that would have its own set of consequences.  
-> 
-> Sure, userspace has to make choices here.
-
-It seems a bit loaded to suggest an alternative choice if it's not
-practical or equivalent.  Maybe it's largely the phrasing, I read
-"remove MMIO mappings" as to drop them dynamically, when I think we've
-discussed that userspace might actually preclude these mappings for
-non-NDMA devices such that p2p DMA cannot exist, ever.
-
-> > > +  Device that do not support NDMA cannot be configured to generate page faults
-> > > +  that require the VCPU to complete.  
-> > 
-> > So the VMM is required to hide features like PRI based on NDMA support?  
-> 
-> Yep, looks like.
-> 
-> > > +- pre-copy allows the device to implement a dirty log for its internal state.
-> > > +  During the SAVING | RUNNING state the data window should present the device
-> > > +  state being logged and during SAVING | !RUNNING the data window should present
-> > > +  the unlogged device state as well as the changes from the internal dirty log.  
-> > 
-> > This is getting a bit close to specifying an implementation.  
-> 
-> Bit close, but not too close :) I think it is clarifying to
-> describe the general working of pre-copy - at least people here raised
-> questions about what it is doing.
-> 
-> Overall it must work in this basic way, and devices have freedom about
-> what internal state they can/will log. There is just a clear division
-> that every internal state in the first step is either immutable or
-> logged, and that the second step is a delta over the first.
-
-I agree that it's a reasonable approach, though as I read the proposed
-text, there's no mention of immutable state and no reason a driver
-would implement a dirty log for immutable state, therefore we seem to
-be suggesting such data for the stop-and-copy phase when it would
-actually be preferable to include it in pre-copy.  I think the fact
-that a user is not required to run the pre-copy phase until completion
-is also noteworthy.
-
-> > > +- Migration control registers inside the same iommu_group as the VFIO device.  
-> > 
-> > Not a complete sentence, is this meant as a topic header?  
-> 
-> Sure
->  
-> > > +  This immediately raises a security concern as user-space can use Peer to Peer
-> > > +  DMA to manipulate these migration control registers concurrently with
-> > > +  any kernel actions.
-> > > +  
-> > 
-> > We haven't defined "migration control registers" beyond device_state,
-> > which is software defined "register".  What physical registers that are
-> > subject to p2p DMA is this actually referring to?  
-> 
-> Here this is talking about the device's physical HW control registers.
-> 
-> > > +TDB - discoverable feature flag for NDMA  
-> > 
-> > Is the goal to release mlx5 support without the NDMA feature and add it
-> > later?    
-> 
-> Yishai has a patch already to add NDMA to mlx5, it will come in the
-> next iteration once we can agree on this document. qemu will follow
-> sometime later.
-
-So it's not really a TBD, it's resolved in a uAPI update that will be
-included with the next revision?  Thanks,
-
-Alex
-
+-- 
+paul moore
+www.paul-moore.com
