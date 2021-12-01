@@ -2,199 +2,214 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8980BC433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Dec 2021 02:50:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33EC4C433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Dec 2021 02:55:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234237AbhLACx6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Nov 2021 21:53:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56912 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346269AbhLACx6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Nov 2021 21:53:58 -0500
-Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com [IPv6:2607:f8b0:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D736DC061574
-        for <linux-doc@vger.kernel.org>; Tue, 30 Nov 2021 18:50:37 -0800 (PST)
-Received: by mail-ot1-x32c.google.com with SMTP id w6-20020a9d77c6000000b0055e804fa524so33090830otl.3
-        for <linux-doc@vger.kernel.org>; Tue, 30 Nov 2021 18:50:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=UmNIvAXwWEHZ3NVPAvbbPfShwzXvnibiH1VJwlmayQw=;
-        b=BslMhAih40GZFmxllfSvff1v5MeNh8uUxVg8y3ttYmy22YBSmSAXnIcG6MionZa4a0
-         zYZhesh2aPnYj8TMUvkU5wBiAD5rwCkas/s3Me+Wn6xWLzqp8/raEI5ZhmgqKOnPMZqS
-         wyLrc67ZAeKozakfuG05MRrdgcAhNUp+XuzGdD6Zg9NIMRbeNCC4y4qYAs9i2atG+UJ/
-         Cs0MfW7uuWEHm2w8I6fLaLBvO2yn6KaTr5+Z8ocnxM3JaulwY1KtTkcv3g7x+aM+5sp8
-         /0jxaLrVXxdQx0ZAW3FN7yozTzng3sXTnmW+vaDbO2wkdaZ3hrR+gDAjH34I7ro2Q27R
-         3bvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=UmNIvAXwWEHZ3NVPAvbbPfShwzXvnibiH1VJwlmayQw=;
-        b=Zm2O35b6WIFs8u/4HZDv9ZH/cNctprcPCRL7qISOVb0nhHZ/eewtKcw2yaj77zzqUX
-         aSL54qyGPY/2MM/G3K56y9ki8kthManJvrvO6oY6itqBEyrPbNsjfOzFfP57FywPQ7QI
-         4kYGtgRkxE9vxG1PSEdJkQuHLhwJIITpMeA4HiGgqciDEkRkVOa0wAKlOvdbcEsCZaGL
-         IKVqnTcODTYP2u38QrXC/mAExEz5MFJILbq0Be9B6DBLD4G/xIchMeby7yKiGyeQ0rw0
-         ua7VvEDWLTVVNY5r6GflwDHTheHF/whG5kSGh2kHREv+iA6YjSWbLpBtzEIyKtUGEpMr
-         Ns+g==
-X-Gm-Message-State: AOAM531/ujbodwgMfhr0qatKWWdRK2xXHI8ki13Wv1xs6FR51p2pTA/Y
-        fi78qWQLhSL9F4D/smhyBZE3NcZHcTUKL4lRYJc=
-X-Google-Smtp-Source: ABdhPJwSNJfTfuvNXtVjRT95oz/BoWzqPS7U+WMYEwajcVr6JgFVonJ7KIFUoN0so8b8260RrH73mDas5a8hlXPtrJo=
-X-Received: by 2002:a05:6830:2aa7:: with SMTP id s39mr3278882otu.151.1638327037113;
- Tue, 30 Nov 2021 18:50:37 -0800 (PST)
+        id S230089AbhLAC7L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Nov 2021 21:59:11 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:15000 "EHLO
+        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241503AbhLAC7K (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Nov 2021 21:59:10 -0500
+Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.53])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4J3kD31TKCzZdDZ;
+        Wed,  1 Dec 2021 10:53:07 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Wed, 1 Dec 2021 10:55:48 +0800
+Received: from [10.174.178.55] (10.174.178.55) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Wed, 1 Dec 2021 10:55:47 +0800
+Subject: Re: [PATCH v16 10/11] of: fdt: Add memory for devices by DT property
+ "linux,usable-memory-range"
+To:     Rob Herring <robh@kernel.org>
+CC:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+        <linux-kernel@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
+        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        <kexec@lists.infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Will Deacon" <will@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        "Frank Rowand" <frowand.list@gmail.com>,
+        <devicetree@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>
+References: <20211123124646.1995-1-thunder.leizhen@huawei.com>
+ <20211123124646.1995-11-thunder.leizhen@huawei.com>
+ <YaaitPTArUZEriob@robh.at.kernel.org>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <0dc664f7-65ae-767c-3fe6-d1bcf50d41e1@huawei.com>
+Date:   Wed, 1 Dec 2021 10:55:46 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-References: <cover.1638154485.git.siyanteng@loongson.cn> <92dbb08d26e108b1677aa6cdb3f7a74a9733429b.1638154485.git.siyanteng@loongson.cn>
- <871r2yu0fm.fsf@meer.lwn.net>
-In-Reply-To: <871r2yu0fm.fsf@meer.lwn.net>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Wed, 1 Dec 2021 10:50:25 +0800
-Message-ID: <CAEensMxV+aPjxLYOPU2wtYcacDVa5KEpoBOyHbwifEqmXUU42A@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] docs/zh_CN: add scheduler sched-bwc translation
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Alex Shi <alexs@kernel.org>, Wu XiangCheng <bobwxc@email.cn>,
-        Alex Shi <seakeel@gmail.com>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Puyu Wang <realpuyuwang@gmail.com>, kolyshkin@gmail.com,
-        changhuaixin@linux.alibaba.com, Yanteng Si <siyanteng@loongson.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <YaaitPTArUZEriob@robh.at.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jonathan Corbet <corbet@lwn.net> =E4=BA=8E2021=E5=B9=B411=E6=9C=8830=E6=97=
-=A5=E5=91=A8=E4=BA=8C =E4=B8=8A=E5=8D=885:17=E5=86=99=E9=81=93=EF=BC=9A
->
-> Yanteng Si <siyanteng01@gmail.com> writes:
->
-> > From: Yanteng Si <siyanteng01@gmail.com>
-> >
-> > Translate .../scheduler/sched-bwc.rst into Chinese.
-> >
-> > Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> > Reviewed-by: Alex Shi <alexs@kernel.org>
-> > ---
-> >  .../translations/zh_CN/scheduler/index.rst    |   1 +
-> >  .../zh_CN/scheduler/sched-bwc.rst             | 206 ++++++++++++++++++
-> >  2 files changed, 207 insertions(+)
-> >  create mode 100644 Documentation/translations/zh_CN/scheduler/sched-bw=
-c.rst
->
-> One quick question:
->
-> > diff --git a/Documentation/translations/zh_CN/scheduler/index.rst b/Doc=
-umentation/translations/zh_CN/scheduler/index.rst
-> > index 797df3a9c66f..aba11e561ec3 100644
-> > --- a/Documentation/translations/zh_CN/scheduler/index.rst
-> > +++ b/Documentation/translations/zh_CN/scheduler/index.rst
-> > @@ -21,6 +21,7 @@ Linux=E8=B0=83=E5=BA=A6=E5=99=A8
-> >
-> >      completion
-> >      sched-arch
-> > +    sched-bwc
-> >
-> >
-> >  TODOList:
-> > diff --git a/Documentation/translations/zh_CN/scheduler/sched-bwc.rst b=
-/Documentation/translations/zh_CN/scheduler/sched-bwc.rst
-> > new file mode 100644
-> > index 000000000000..4fb18db54655
-> > --- /dev/null
-> > +++ b/Documentation/translations/zh_CN/scheduler/sched-bwc.rst
-> > @@ -0,0 +1,206 @@
-> > +.. include:: ../disclaimer-zh_CN.rst
-> > +
-> > +:Original: Documentation/scheduler/sched-bwc.rst
-> > +
-> > +:=E7=BF=BB=E8=AF=91:
-> > +
-> > + =E5=8F=B8=E5=BB=B6=E8=85=BE Yanteng Si <siyanteng@loongson.cn>
-> > +
-> > +:=E6=A0=A1=E8=AF=91:
-> > +
-> > +
-> > +
-> > +.. _cn_scheduler_sched-bwc.rst:
->
-> Is there a reason for adding all of these labels?  They are generally
-> not used and just clutter up the documents.  I think I would prefer to
-> not see them unless they are needed, but if there's a reason to have
-> them that I'm not seeing ... ?
-OK=EF=BC=81let's remove it.
 
-Thanks,
-Yanteng
->
-> Otherwise this set seems about ready to go.
->
-> Thanks,
->
-> jon
 
-Jonathan Corbet <corbet@lwn.net> =E4=BA=8E2021=E5=B9=B411=E6=9C=8830=E6=97=
-=A5=E5=91=A8=E4=BA=8C =E4=B8=8A=E5=8D=885:17=E5=86=99=E9=81=93=EF=BC=9A
->
-> Yanteng Si <siyanteng01@gmail.com> writes:
->
-> > From: Yanteng Si <siyanteng01@gmail.com>
-> >
-> > Translate .../scheduler/sched-bwc.rst into Chinese.
-> >
-> > Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> > Reviewed-by: Alex Shi <alexs@kernel.org>
-> > ---
-> >  .../translations/zh_CN/scheduler/index.rst    |   1 +
-> >  .../zh_CN/scheduler/sched-bwc.rst             | 206 ++++++++++++++++++
-> >  2 files changed, 207 insertions(+)
-> >  create mode 100644 Documentation/translations/zh_CN/scheduler/sched-bw=
-c.rst
->
-> One quick question:
->
-> > diff --git a/Documentation/translations/zh_CN/scheduler/index.rst b/Doc=
-umentation/translations/zh_CN/scheduler/index.rst
-> > index 797df3a9c66f..aba11e561ec3 100644
-> > --- a/Documentation/translations/zh_CN/scheduler/index.rst
-> > +++ b/Documentation/translations/zh_CN/scheduler/index.rst
-> > @@ -21,6 +21,7 @@ Linux=E8=B0=83=E5=BA=A6=E5=99=A8
-> >
-> >      completion
-> >      sched-arch
-> > +    sched-bwc
-> >
-> >
-> >  TODOList:
-> > diff --git a/Documentation/translations/zh_CN/scheduler/sched-bwc.rst b=
-/Documentation/translations/zh_CN/scheduler/sched-bwc.rst
-> > new file mode 100644
-> > index 000000000000..4fb18db54655
-> > --- /dev/null
-> > +++ b/Documentation/translations/zh_CN/scheduler/sched-bwc.rst
-> > @@ -0,0 +1,206 @@
-> > +.. include:: ../disclaimer-zh_CN.rst
-> > +
-> > +:Original: Documentation/scheduler/sched-bwc.rst
-> > +
-> > +:=E7=BF=BB=E8=AF=91:
-> > +
-> > + =E5=8F=B8=E5=BB=B6=E8=85=BE Yanteng Si <siyanteng@loongson.cn>
-> > +
-> > +:=E6=A0=A1=E8=AF=91:
-> > +
-> > +
-> > +
-> > +.. _cn_scheduler_sched-bwc.rst:
->
-> Is there a reason for adding all of these labels?  They are generally
-> not used and just clutter up the documents.  I think I would prefer to
-> not see them unless they are needed, but if there's a reason to have
-> them that I'm not seeing ... ?
->
-> Otherwise this set seems about ready to go.
->
-> Thanks,
->
-> jon
+On 2021/12/1 6:16, Rob Herring wrote:
+> On Tue, Nov 23, 2021 at 08:46:45PM +0800, Zhen Lei wrote:
+>> From: Chen Zhou <chenzhou10@huawei.com>
+>>
+>> When reserving crashkernel in high memory, some low memory is reserved
+>> for crash dump kernel devices and never mapped by the first kernel.
+>> This memory range is advertised to crash dump kernel via DT property
+>> under /chosen,
+>>         linux,usable-memory-range = <BASE1 SIZE1 [BASE2 SIZE2]>
+>>
+>> We reused the DT property linux,usable-memory-range and made the low
+>> memory region as the second range "BASE2 SIZE2", which keeps compatibility
+>> with existing user-space and older kdump kernels.
+>>
+>> Crash dump kernel reads this property at boot time and call memblock_add()
+>> to add the low memory region after memblock_cap_memory_range() has been
+>> called.
+>>
+>> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+>> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+>> ---
+>>  drivers/of/fdt.c | 36 ++++++++++++++++++++++++++----------
+>>  1 file changed, 26 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/of/fdt.c b/drivers/of/fdt.c
+>> index 37b477a51175359..1ea2a0b1657e3a9 100644
+>> --- a/drivers/of/fdt.c
+>> +++ b/drivers/of/fdt.c
+>> @@ -967,6 +967,15 @@ static void __init early_init_dt_check_for_elfcorehdr(unsigned long node)
+>>  
+>>  static unsigned long chosen_node_offset = -FDT_ERR_NOTFOUND;
+>>  
+>> +/*
+>> + * The main usage of linux,usable-memory-range is for crash dump kernel.
+>> + * Originally, the number of usable-memory regions is one. Now there may
+>> + * be two regions, low region and high region.
+>> + * To make compatibility with existing user-space and older kdump, the low
+>> + * region is always the last range of linux,usable-memory-range if exist.
+>> + */
+>> +#define MAX_USABLE_RANGES		2
+>> +
+>>  /**
+>>   * early_init_dt_check_for_usable_mem_range - Decode usable memory range
+>>   * location from flat tree
+>> @@ -974,10 +983,9 @@ static unsigned long chosen_node_offset = -FDT_ERR_NOTFOUND;
+>>   */
+>>  static void __init early_init_dt_check_for_usable_mem_range(unsigned long node)
+>>  {
+>> -	const __be32 *prop;
+>> -	int len;
+>> -	phys_addr_t cap_mem_addr;
+>> -	phys_addr_t cap_mem_size;
+>> +	struct memblock_region rgn[MAX_USABLE_RANGES] = {0};
+>> +	const __be32 *prop, *endp;
+>> +	int len, i = 0;
+>>  
+>>  	if ((long)node < 0)
+>>  		return;
+>> @@ -985,16 +993,24 @@ static void __init early_init_dt_check_for_usable_mem_range(unsigned long node)
+>>  	pr_debug("Looking for usable-memory-range property... ");
+>>  
+>>  	prop = of_get_flat_dt_prop(node, "linux,usable-memory-range", &len);
+>> -	if (!prop || (len < (dt_root_addr_cells + dt_root_size_cells)))
+>> +	if (!prop)
+> 
+> if (!prop || (len % (dt_root_addr_cells + dt_root_size_cells)))
+
+OK.
+
+> 
+>>  		return;
+>>  
+>> -	cap_mem_addr = dt_mem_next_cell(dt_root_addr_cells, &prop);
+>> -	cap_mem_size = dt_mem_next_cell(dt_root_size_cells, &prop);
+>> +	endp = prop + (len / sizeof(__be32));
+>> +	while ((endp - prop) >= (dt_root_addr_cells + dt_root_size_cells)) {
+> 
+> for (i = 0; i < MAX_USABLE_RANGES, prop < endp; i++) {
+> 
+>> +		rgn[i].base = dt_mem_next_cell(dt_root_addr_cells, &prop);
+>> +		rgn[i].size = dt_mem_next_cell(dt_root_size_cells, &prop);
+>> +
+>> +		pr_debug("cap_mem_regions[%d]: base=%pa, size=%pa\n",
+>> +			 i, &rgn[i].base, &rgn[i].size);
+>>  
+>> -	pr_debug("cap_mem_start=%pa cap_mem_size=%pa\n", &cap_mem_addr,
+>> -		 &cap_mem_size);
+>> +		if (++i >= MAX_USABLE_RANGES)
+>> +			break;
+> 
+> And drop this if.
+
+OK.
+
+> 
+>> +	}
+>>  
+>> -	memblock_cap_memory_range(cap_mem_addr, cap_mem_size);
+>> +	memblock_cap_memory_range(rgn[0].base, rgn[0].size);
+>> +	for (i = 1; i < MAX_USABLE_RANGES && rgn[i].size; i++)
+> 
+> s/ &&/,/
+
+Hi Rob:
+
+The comma operator may not be suitable for logical judgment. The logical judgment
+before commas (,) is ignored.
+
+Here's my test：
+
+C code：
+int main()
+{
+        int i, j;
+
+        printf("&&:\n");
+        for (i = 0, j = 0; i < 2 && j < 3; i++, j++)
+                printf("i=%d, j=%d\n", i, j);
+
+        printf("\ncomma:\n");
+        for (i = 0, j = 0; i < 2, j < 3; i++, j++)	//(i < 2） before comma is ignored
+                printf("i=%d, j=%d\n", i, j);
+
+        return 0;
+}
+
+Output：
+&&:
+i=0, j=0
+i=1, j=1
+
+comma:
+i=0, j=0
+i=1, j=1
+i=2, j=2
+
+
+> 
+>> +		memblock_add(rgn[i].base, rgn[i].size);
+>>  }
+>>  
+>>  #ifdef CONFIG_SERIAL_EARLYCON
+>> -- 
+>> 2.25.1
+>>
+>>
+> 
+> .
+> 
