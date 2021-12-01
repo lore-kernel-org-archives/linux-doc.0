@@ -2,110 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F099CC433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Dec 2021 08:38:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6514DC433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Dec 2021 08:41:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232833AbhLAIlk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Dec 2021 03:41:40 -0500
-Received: from mail-wr1-f50.google.com ([209.85.221.50]:35829 "EHLO
-        mail-wr1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230433AbhLAIlk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Dec 2021 03:41:40 -0500
-Received: by mail-wr1-f50.google.com with SMTP id i5so50422780wrb.2;
-        Wed, 01 Dec 2021 00:38:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=spAN/Hm6eyYQRpVZG0bxWXSe/+KMWx87QIzxMeC45pg=;
-        b=tCorrFmZG71Rn5Sqk6ssEfUy6sWkvyP0BS0pAUxEIYo+hM1bHWApTUGh6glavjWMWz
-         xNOlf155stDKikVci4gH3cYeAb77dfyGNVhhqlidkXaw5Ro/ARpMd9OgVTUKRPofM1PE
-         3yCkg867i73HJlJI6aoxs3IncCFD2yR+EuE0DQiuUrKA6hK6KOWhH93GNCdzR8o0iwb/
-         tXtii8YD99JcGqCF83bnGnZcL3Wf8fbfzy7a9XFfcB0K49cpDceFO/ab/aH+oWcXVmtk
-         NO5vJDeOcAtw+KoEA0iocKQpfyOmzQFMoPY0oCOmcDwv97C7SYE9hBn+5CI6/OFPZ1j/
-         om3g==
-X-Gm-Message-State: AOAM530HaaXE2DpjvnNeXYLm0zQS7Fsh6342yM8exN2f3XbHM3SsUC+Y
-        K3Gb3A1FkEPbNir9E132NVw=
-X-Google-Smtp-Source: ABdhPJx22R0stTBem73oFqWNt/SE3yZ0IWIfzf02NhKlROqRQhHBNhMtD/P1c4bhO2ni4XDioecBIQ==
-X-Received: by 2002:a05:6000:15c7:: with SMTP id y7mr5128929wry.424.1638347898932;
-        Wed, 01 Dec 2021 00:38:18 -0800 (PST)
-Received: from ?IPV6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
-        by smtp.gmail.com with ESMTPSA id d15sm25530187wri.50.2021.12.01.00.38.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Dec 2021 00:38:18 -0800 (PST)
-Message-ID: <37511fa2-baed-c387-150c-3fa6b5b1c64f@kernel.org>
-Date:   Wed, 1 Dec 2021 09:38:16 +0100
+        id S242076AbhLAIpP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Dec 2021 03:45:15 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:41774 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236352AbhLAIou (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Dec 2021 03:44:50 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 9E04AB81E04;
+        Wed,  1 Dec 2021 08:41:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B864C53FAD;
+        Wed,  1 Dec 2021 08:41:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1638348087;
+        bh=dqdvLjyoOUa1sngUFu49cqxJu8V+OCGrT79b+MUdVIM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=n6Yc0wgn7PMYwpmhoqox6qEZK/4Z8AbMv1EAVzPCMDleSlypRwU5C4sJQTOYFufUZ
+         zW+mji2cNR2rWrNqeVML0GnL5uJaEzUEDK/VXGdq0CSq05l+ez9SboCCPuKBZuysq3
+         1j1lS85MbUHuWa+qinezYxUNPlS2/GIBITGeuSmgaSjbMZpszsVfc/U3BDlrZKKpn/
+         D0Tl2X+t0oXJUMZ9pmMf5/hQVS7/Z0Ys8N83Q096xQVn+59qzpvPJ6Q/TK5fcu5dbV
+         ulzl/yy9w90W98oCiWy1y61EA/oYSU7SZ73N9ir3O7fGpk+bgEk54ZhSlC6ItaWXBW
+         pM9DPnoueZVjg==
+Date:   Wed, 1 Dec 2021 09:41:22 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kernel@vger.kernel.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH 0/1] Docs: use RTD dark mode if available
+Message-ID: <20211201094122.1c6fd83d@coco.lan>
+In-Reply-To: <cover.1638346585.git.mchehab+huawei@kernel.org>
+References: <cover.1638346585.git.mchehab+huawei@kernel.org>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH 2/3] mm: page table check
-Content-Language: en-US
-To:     Pasha Tatashin <pasha.tatashin@soleen.com>,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, akpm@linux-foundation.org,
-        rientjes@google.com, pjt@google.com, weixugc@google.com,
-        gthelen@google.com, mingo@redhat.com, corbet@lwn.net,
-        will@kernel.org, rppt@kernel.org, keescook@chromium.org,
-        tglx@linutronix.de, peterz@infradead.org, masahiroy@kernel.org,
-        samitolvanen@google.com, dave.hansen@linux.intel.com,
-        x86@kernel.org, frederic@kernel.org, hpa@zytor.com,
-        aneesh.kumar@linux.ibm.com
-References: <20211123214814.3756047-1-pasha.tatashin@soleen.com>
- <20211123214814.3756047-3-pasha.tatashin@soleen.com>
-From:   Jiri Slaby <jirislaby@kernel.org>
-In-Reply-To: <20211123214814.3756047-3-pasha.tatashin@soleen.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 23. 11. 21, 22:48, Pasha Tatashin wrote:
-> Check user page table entries at the time they are added and removed.
-> 
-> Allows to synchronously catch memory corruption issues related to
-> double mapping.
-> 
-> When a pte for an anonymous page is added into page table, we verify
-> that this pte does not already point to a file backed page, and vice
-> versa if this is a file backed page that is being added we verify that
-> this page does not have an anonymous mapping
-> 
-> We also enforce that read-only sharing for anonymous pages is allowed
-> (i.e. cow after fork). All other sharing must be for file pages.
-> 
-> Page table check allows to protect and debug cases where "struct page"
-> metadata became corrupted for some reason. For example, when refcnt or
-> mapcount become invalid.
-> 
-> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-...
-> --- a/mm/Kconfig.debug
-> +++ b/mm/Kconfig.debug
-> @@ -62,6 +62,30 @@ config PAGE_OWNER
->   
->   	  If unsure, say N.
->   
-> +config PAGE_TABLE_CHECK
-> +	bool "Check for invalid mappings in user page tables"
-> +	depends on ARCH_SUPPORTS_PAGE_TABLE_CHECK
-> +	select PAGE_EXTENSION
-> +	help
-> +	  Check that anonymous page is not being mapped twice with read write
-> +	  permissions. Check that anonymous and file pages are not being
-> +	  erroneously shared. Since the checking is performed at the time
-> +	  entries are added and removed to user page tables, leaking, corruption
-> +	  and double mapping problems are detected synchronously.
-> +
-> +	  If unsure say "n".
-> +
-> +config PAGE_TABLE_CHECK_ENFORCED
-> +	bool "Enforce the page table checking by defauled"
+Em Wed,  1 Dec 2021 09:22:02 +0100
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-s/defauled/default/
+> Hi Jon,
+> 
+> As we're analyzing some theme alternatives, one of the things that annoys
+> me more at our theme is that it doesn't come with a dark mode.
+> 
+> At least here, I strongly prefer dark themes, as it seems to be a lot more
+> comfortable to my eyes, specially in the morning.
+> 
+> There's an extension to the RTD theme that allows building the docs with a
+> dark theme, with a button to select normal mode.
+> 
+> As this comes almost for free, optionally enable the dark mode extension if
+> such theme is installed at the machine.
 
-regards,
--- 
-js
-suse labs
+Too good to be true... It won't work properly, as:
+
+1. Some of the css custom configs at sphinx-static define colors;
+2. It sounds that this overlay to RTD theme is missing some classes,
+   as, at least here, function prototypes from driver-api/media/v4l2-async.html
+   are written with a black color over a dark gray background.
+
+I'll do more tests. If I find a solution, I'll submit another version.
+
+Thanks,
+Mauro
