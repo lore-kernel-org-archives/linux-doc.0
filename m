@@ -2,102 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20198C433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Dec 2021 14:57:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF5DEC433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Dec 2021 15:21:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240381AbhLAPAd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Dec 2021 10:00:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31146 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1350148AbhLAPAd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Dec 2021 10:00:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1638370632;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=nD9oVnkdNcgwBlZTLCOet/WJtrrHTgH+O1SlF9BlPpQ=;
-        b=Me4O9JkuhDcSx1OCWDG8pbHOaUHrHmRtxt23dD1iBx91h2F+8dCfvS7mPYZdw2HhCDgcNE
-        Y3GzPo6okk01ynkW8KNi0LL6XpQHEWnslzJoNf1CheIkxF6tkpsRXMvXtv/qnc++AW3S3z
-        Sl2eDBkkOJqbgLwXMtvhWcgNjPwrMp0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-227-3u8mdrDTOn6rm3VialThZg-1; Wed, 01 Dec 2021 09:57:09 -0500
-X-MC-Unique: 3u8mdrDTOn6rm3VialThZg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 094FF8042F6;
-        Wed,  1 Dec 2021 14:56:24 +0000 (UTC)
-Received: from [10.22.10.179] (unknown [10.22.10.179])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 1C07760C05;
-        Wed,  1 Dec 2021 14:56:21 +0000 (UTC)
-Message-ID: <ec6e2b89-385a-fcc7-7cfa-7e9119fc34bc@redhat.com>
-Date:   Wed, 1 Dec 2021 09:56:21 -0500
+        id S1350801AbhLAPYs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Dec 2021 10:24:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57808 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243694AbhLAPYr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Dec 2021 10:24:47 -0500
+Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 681F6C06174A
+        for <linux-doc@vger.kernel.org>; Wed,  1 Dec 2021 07:21:26 -0800 (PST)
+Received: by mail-io1-xd2b.google.com with SMTP id w22so31355845ioa.1
+        for <linux-doc@vger.kernel.org>; Wed, 01 Dec 2021 07:21:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mojatatu-com.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=MLUZwUEBzklOGib2Zk3PFAvxb+CbG+R1DuoQKaGE8gw=;
+        b=ZuxaIRAQw9xvNctBz60Nfj9NhxbsQHjyNOETRPbMvYnh6f1pkkzEwYLKASKsQkDBsX
+         cLxgvj4lcCVQwhetojQ9xZKtNbfvIHUUHXRXIUaDp7jCRfr9SAOQc+gyl9xFKXCnPeGQ
+         H9NZep0ZvpgVihUy0KR8fIAAvJ1Mqn+ZN01E17kxyRlAXR/wrc5tVVh2RqcsrvC7lTt0
+         TiyuS7VCsRmAr544lvRG/0BJNv1hD5xuPcyVZDknUo4F2sG8YNDlIhFfNWDQLJymasS6
+         +009TxLuUtj/Vy51v2ws2aP4nFTf0va4FAhv8hFG4z4HZq3b5/zTF8SFjy9h4JUhyXM/
+         l+wA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=MLUZwUEBzklOGib2Zk3PFAvxb+CbG+R1DuoQKaGE8gw=;
+        b=rdEpj4GRxfy9i5inIcfYuhzN+2T8WFTuOuR95vxdRjAFu71qwYuRbbf3PsVDrRgeKH
+         NAJ0Oa+iSYlKAW8+VVEgxfv/Ko3coY+rAhCWhQ4E2qLR8zwnVeYVpZjiycTC1P2sga2w
+         LS+9NDe303MjCEl+NkSXqjVTf23SbVtV8OHrpIJJKWS7Q9DBMPcaiPCX/MXTAHFJzvId
+         LLBtmnxeJKfmI57qq/QWldmFNZBfLJ5hEaiBeh43c2x77e/o4hd8sxqnWkJNy77hf+Az
+         Pragau54FSMwhiKPPI7xZI8Qm9oBLOux4QFxDHPVPTgdxl+6zVL6EHG2+KCMFYW6/GkM
+         11kw==
+X-Gm-Message-State: AOAM531Ejq9/m6wvUJIyBZDviSopUVh4SV3hLPrIXUEjU8hot+QcoCza
+        jxPwxqa6XJ/DSaRjwNmd6/O3fA==
+X-Google-Smtp-Source: ABdhPJxtrTLI1AMMf1O0aIqny9q8Vj3DCKNibLPnD2qvc7DdypU9Rl593ilbA+ms0w9jlf6eGN7WkA==
+X-Received: by 2002:a05:6638:3711:: with SMTP id k17mr10967372jav.72.1638372085289;
+        Wed, 01 Dec 2021 07:21:25 -0800 (PST)
+Received: from [192.168.1.173] (bras-base-kntaon1617w-grc-33-142-112-185-132.dsl.bell.ca. [142.112.185.132])
+        by smtp.googlemail.com with ESMTPSA id y15sm117996iow.44.2021.12.01.07.21.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Dec 2021 07:21:24 -0800 (PST)
+Message-ID: <8f9faf42-8a78-f383-3b93-a17fab4ed79b@mojatatu.com>
+Date:   Wed, 1 Dec 2021 10:21:21 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v8 5/6] cgroup/cpuset: Update description of
- cpuset.cpus.partition in cgroup-v2.rst
+ Thunderbird/91.3.2
+Subject: Re: [PATCH v2 net-next 00/26] net: introduce and use generic XDP
+ stats
 Content-Language: en-US
-To:     =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+To:     David Ahern <dsahern@gmail.com>, Jakub Kicinski <kuba@kernel.org>,
+        Alexander Lobakin <alexandr.lobakin@intel.com>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
+        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>
-References: <20211018143619.205065-1-longman@redhat.com>
- <20211018143619.205065-6-longman@redhat.com>
- <20211115193122.GA16798@blackbody.suse.cz>
- <8f68692b-bd8f-33fd-44ae-f6f83bf2dc00@redhat.com>
- <20211116175411.GA50019@blackbody.suse.cz>
- <293d7abf-aff6-fcd8-c999-b1dbda1cffb8@redhat.com>
- <YaZbXArNIMNvwJD/@slm.duckdns.org>
- <2347fe66-dc68-6d58-e63b-7ed2b8077b48@redhat.com>
- <20211201141350.GA54766@blackbody.suse.cz>
-From:   Waiman Long <longman@redhat.com>
-In-Reply-To: <20211201141350.GA54766@blackbody.suse.cz>
+        Shay Agroskin <shayagr@amazon.com>,
+        Arthur Kiyanovski <akiyano@amazon.com>,
+        David Arinzon <darinzon@amazon.com>,
+        Noam Dagan <ndagan@amazon.com>,
+        Saeed Bishara <saeedb@amazon.com>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Marcin Wojtas <mw@semihalf.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Saeed Mahameed <saeedm@nvidia.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        =?UTF-8?Q?Toke_H=c3=b8iland-J=c3=b8rgensen?= <toke@redhat.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        Edward Cree <ecree.xilinx@gmail.com>,
+        Martin Habets <habetsm.xilinx@gmail.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Lorenzo Bianconi <lorenzo@kernel.org>,
+        Yajun Deng <yajun.deng@linux.dev>,
+        Sergey Ryazanov <ryazanov.s.a@gmail.com>,
+        David Ahern <dsahern@kernel.org>,
+        Andrei Vagin <avagin@gmail.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Vladimir Oltean <vladimir.oltean@nxp.com>,
+        Cong Wang <cong.wang@bytedance.com>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
+        virtualization@lists.linux-foundation.org
+References: <20211123163955.154512-1-alexandr.lobakin@intel.com>
+ <20211130155612.594688-1-alexandr.lobakin@intel.com>
+ <20211130081207.228f42ba@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <20211130163454.595897-1-alexandr.lobakin@intel.com>
+ <20211130090449.58a8327d@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <18655462-c72e-1d26-5b59-d03eb993d832@gmail.com>
+From:   Jamal Hadi Salim <jhs@mojatatu.com>
+In-Reply-To: <18655462-c72e-1d26-5b59-d03eb993d832@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/1/21 09:13, Michal Koutný wrote:
-> On Tue, Nov 30, 2021 at 10:56:34PM -0500, Waiman Long <longman@redhat.com> wrote:
->>>>       A valid parent partition may distribute out all its CPUs to
->>>>       its child partitions as long as it is not the root cgroup and
->>>>       there is no task associated with it.
->>> A valid parent partition which isn't root never has tasks in them to begin
->>> with.
->> I believe there is some corner cases where it is possible to put task in an
->> intermediate partition. That is why I put down this statement.
-> Just mind the threads -- cpuset controller is threaded and having tasks
-> in inner cgroup nodes is a real scenario. I wouldn't consider it a
-> corner case.
->
-> [ Actually, the paragraph could IMO be simplified:
-Right, I shouldn't say corner cases. Having task in an intermediate 
-partition is possible depending on event sequence. I am aware that there 
-are code in the cpuset code to prevent that, but it didn't block all cases.
->> A valid parent partition may distribute out all its CPUs to
->>   its child partitions as long as there is no task associated with it.
-> Assuming there's always at least one kernel thread in the root cgroup
-> that can't be migrated anyway.]
+On 2021-11-30 12:38, David Ahern wrote:
+> Today, stats are sent as a struct so skipping stats whose value is 0 is
+> not an option. When using individual attributes for the counters this
+> becomes an option. Given there is no value in sending '0' why do it?
+> 
+> Is your pushback that there should be a uapi to opt-in to this behavior?
 
-I am aware of that. That is why I said root cgroup must have at least 
-one cpu in its "cpuset.cpus.effective".
+A filter in the netlink request should help pick what is user-preferred.
+You can default to not sending zeros.
 
-Cheers,
-Longman
-
+cheers,
+jamal
