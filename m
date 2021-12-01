@@ -2,52 +2,51 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10668C433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 801EEC433FE
 	for <linux-doc@archiver.kernel.org>; Wed,  1 Dec 2021 17:59:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352130AbhLASC5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S1352091AbhLASC5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Wed, 1 Dec 2021 13:02:57 -0500
-Received: from sin.source.kernel.org ([145.40.73.55]:48032 "EHLO
-        sin.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244531AbhLASCf (ORCPT
+Received: from ams.source.kernel.org ([145.40.68.75]:38476 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244500AbhLASCf (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Dec 2021 13:02:35 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 38062CE204D;
-        Wed,  1 Dec 2021 17:59:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 785B1C53FCD;
+        by ams.source.kernel.org (Postfix) with ESMTPS id DD6AFB8206B;
+        Wed,  1 Dec 2021 17:59:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F652C53FCF;
         Wed,  1 Dec 2021 17:59:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1638381551;
-        bh=y+N1ZF8MrQsIvf88S/+6Ah0F2a8HV+X0HZA1R2daOWU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=lNywv1CWFBgAkTGr89TrC2S8/nl0v9csdHkmfeI+9HVqf24w5X/Pp+wkwD/gD3OJV
-         0i+SGCTphyDoGljYBZJS5yH0uPNgf6bNSZVdXrJNzo7Qebs/RMRFRFxtP0Yzmoiqf6
-         SUpAvlKVgqWkRRDUPuJNL6JejdPbkOZqfLHxJ/GHR5V83DXNb6IbO4sxg1ey/08GQi
-         s5AN7CkCjneACeV11pcA/uMGF8Y4zn//50GEEzHBf5C8LZjTyhK8IgAOcep8nZtxTS
-         jXpkJVBy4bvecI9WEjNOdbagTbTQvjVyH9CZxMXoKT3jJCWzzKCTycXaehoBniy9bj
-         2YM1IK5h9m0og==
+        bh=pyTtgt77BWW0zJYMdiBNfZhN445Jrn3OiB1TvEnvV40=;
+        h=From:To:Cc:Subject:Date:From;
+        b=l5GxVJZo7T1TE0IiFejhV5bRzNDhGczB8I53VCoNcycFCviE+i/FkMwK7PLkSQ/MN
+         tTwUEVvsS2b67geCITyzJcl+p2PHZLOVvhrezeUrFXlQLv4jFp42ZHgqvJTm/cT0d6
+         HCTou5BvrBk1WXY8tmze8NuaRQRV878YP5JL1uiuVJ/sMY3zCgjpnLEQQKi4mfPXmj
+         jDLsmVmiN6S4nUXF4dUwyioteijrOqTCWt/mSFRQIC/PTbPA4FZcVyJ1Zt4BNQ9vM0
+         H+GIdFEQPPWltzJt70I8+EGoMH7FIg3yAXPYWFLTIPCEaWl3ulCKxjRhkG40xVictM
+         oYd/eAASLMCfA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1msTsr-004I6l-Dv; Wed, 01 Dec 2021 18:59:09 +0100
+        id 1msTsr-004I6f-B4; Wed, 01 Dec 2021 18:59:09 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Akira Yokosawa" <akiyks@gmail.com>,
-        "Jani Nikula" <jani.nikula@linux.intel.com>,
+        linux-kernel@vger.kernel.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Akira Yokosawa <akiyks@gmail.com>,
         =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= 
-        <nfraprado@protonmail.com>, "Randy Dunlap" <rdunlap@infradead.org>,
-        Alex Shi <alexs@kernel.org>,
+        <nfraprado@protonmail.com>, Alex Shi <alexs@kernel.org>,
         Andrew Klychkov <andrew.a.klychkov@gmail.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/4] docs: allow to pass extra CSS themes via make
-Date:   Wed,  1 Dec 2021 18:59:06 +0100
-Message-Id: <77038995f9cc3205bc1c694ef71848a83d979744.1638369365.git.mchehab+huawei@kernel.org>
+        Miguel Ojeda <ojeda@kernel.org>
+Subject: [PATCH v3 0/4] docs: add better support for Sphinx themes and CSS
+Date:   Wed,  1 Dec 2021 18:59:04 +0100
+Message-Id: <cover.1638369365.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.33.1
-In-Reply-To: <cover.1638369365.git.mchehab+huawei@kernel.org>
-References: <cover.1638369365.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -55,89 +54,64 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Specially when the RTD theme is not used, it makes sense to
-allow specifying extra CSS files via a make variable.
+Hi Jon,
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+This series comes after my patch fixing Sphinx support for RTD 1.0.0:
+
+   https://lore.kernel.org/lkml/80009f0d17ea0840d81e7e16fff6e7677919fdfc.1638004294.git.mchehab+huawei@kernel.org/
+
+It provides, IMHO, a nice improvement on themes selection. This series
+is a v2 of the other theme-related patches I sent today.
+
+-
+
+Sphinx allows using different output templates for HTML (and e-pub).
+
+Right now, the Kernel was hardcoded to use the Read the Docs theme,
+falling back to whatever default is setup on a given Sphinx version.
+
+Well, themes and templates are actually an user preference.
+
+This patch set allows selecting different themes and even provide
+extra CSS override files.
+
+With that, one could, for instance, do things like:
+
+$ echo "body { color: darkgreen; } div.body { color: darkgreen; } " >my_css.css && make SPHINXDIRS=input CSS=my_css.css THEME=nature htmldocs
+
+In order to use the Sphinx nature theme with the normal font in green.
+
+patch 1 adds a theme selection make variable (THEME);
+patch 2 adds a css selection variable (CSS);
+patch 3 sets the classic theme to look a little better;
+patch 4 adds support for the RTD dark mode theme.
+
+It should be noticed that the RTD dark mode currently has some issues,
+as it is actually an override on the top of the original RTD theme.
+I suspect it needs to be updated to properly support Sphinx 4.3.0 and
+RTD 1.0.0 theme. Yet, it seems useful, as one can always switch to daylight
+mode in runtime, if something looks odd with it enabled.
+
 ---
 
-See [PATCH v3 0/4] at: https://lore.kernel.org/all/cover.1638369365.git.mchehab+huawei@kernel.org/
+v3:
+   - Fixed an issue at the logic which copies the extra CSS files on patch 2.
 
- Documentation/Makefile             | 8 +++++++-
- Documentation/conf.py              | 7 +++++++
- Documentation/doc-guide/sphinx.rst | 3 +++
- 3 files changed, 17 insertions(+), 1 deletion(-)
+Mauro Carvalho Chehab (4):
+  docs: allow selecting a Sphinx theme
+  docs: allow to pass extra CSS themes via make
+  docs: set format for the classic mode
+  docs: add support for RTD dark mode
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index d4039d77b32a..b3ccd1925cd3 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -20,6 +20,7 @@ SPHINXBUILD   = sphinx-build
- SPHINXOPTS    =
- SPHINXDIRS    = .
- THEME         =
-+CSS           =
- _SPHINXDIRS   = $(sort $(patsubst $(srctree)/Documentation/%/index.rst,%,$(wildcard $(srctree)/Documentation/*/index.rst)))
- SPHINX_CONF   = conf.py
- PAPER         =
-@@ -85,7 +86,10 @@ quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
- 	-D version=$(KERNELVERSION) -D release=$(KERNELRELEASE) \
- 	$(ALLSPHINXOPTS) \
- 	$(abspath $(srctree)/$(src)/$5) \
--	$(abspath $(BUILDDIR)/$3/$4)
-+	$(abspath $(BUILDDIR)/$3/$4) && \
-+	if [ "x$(CSS)" != "x" ]; then \
-+		cp $(CSS) $(BUILDDIR)/$3/_static/; \
-+	fi
- 
- htmldocs:
- 	@$(srctree)/scripts/sphinx-pre-install --version-check
-@@ -157,4 +161,6 @@ dochelp:
- 	@echo
- 	@echo '   make THEME={sphinx-theme} selects a different Sphinx theme.'
- 	@echo
-+	@echo '   make CSS={a .css file} adds a CSS override file for html/epub output.'
-+	@echo
- 	@echo  '  Default location for the generated documents is Documentation/output'
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 082c3ac9dd33..0e2593e4d357 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -210,6 +210,7 @@ highlight_language = 'none'
- 
- # Default theme
- html_theme = 'sphinx_rtd_theme'
-+html_css_files = []
- 
- if "THEME" in os.environ:
-     html_theme = os.environ["THEME"]
-@@ -229,6 +230,12 @@ if html_theme == 'sphinx_rtd_theme':
-     except ImportError:
-         html_theme = 'classic'
- 
-+if "CSS" in os.environ:
-+    css = os.environ["CSS"].split(" ")
-+
-+    for l in css:
-+        html_css_files.append(l)
-+
- if major <= 1 and minor < 8:
-     html_context = {
-         'css_files': [],
-diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
-index 33a527f5ae64..e25bc033aad3 100644
---- a/Documentation/doc-guide/sphinx.rst
-+++ b/Documentation/doc-guide/sphinx.rst
-@@ -138,6 +138,9 @@ To pass extra options to Sphinx, you can use the ``SPHINXOPTS`` make
- variable. For example, use ``make SPHINXOPTS=-v htmldocs`` to get more verbose
- output.
- 
-+It is also possible to pass an extra CSS overlay file, in order to customize
-+the html layout, by using the ``CSS`` make variable.
-+
- By default, the build will try to use the Read the Docs sphinx theme:
- 
-     https://github.com/readthedocs/sphinx_rtd_theme
+ Documentation/Makefile                        |  11 +-
+ Documentation/conf.py                         | 102 ++++++++++++++----
+ Documentation/doc-guide/sphinx.rst            |  11 ++
+ .../sphinx-static/theme_overrides.css         |  16 +--
+ .../sphinx-static/theme_rtd_colors.css        |  37 +++++++
+ 5 files changed, 140 insertions(+), 37 deletions(-)
+ create mode 100644 Documentation/sphinx-static/theme_rtd_colors.css
+
 -- 
 2.33.1
+
 
