@@ -2,178 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA9F4C433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Dec 2021 10:06:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7789EC433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  1 Dec 2021 10:16:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348457AbhLAKJu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Dec 2021 05:09:50 -0500
-Received: from sin.source.kernel.org ([145.40.73.55]:44488 "EHLO
+        id S1348512AbhLAKUO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Dec 2021 05:20:14 -0500
+Received: from sin.source.kernel.org ([145.40.73.55]:47334 "EHLO
         sin.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229950AbhLAKJu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Dec 2021 05:09:50 -0500
+        with ESMTP id S1348501AbhLAKUN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Dec 2021 05:20:13 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 16C03CE1DB2;
-        Wed,  1 Dec 2021 10:06:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B13DC53FAD;
-        Wed,  1 Dec 2021 10:06:26 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 7717CCE1D91;
+        Wed,  1 Dec 2021 10:16:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92ECDC53FCC;
+        Wed,  1 Dec 2021 10:16:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1638353186;
-        bh=0C75OUzsuOvjSjHVd8BAkQdTaXENoTUBSRzSPj6bc1w=;
-        h=From:To:Cc:Subject:Date:From;
-        b=USPZ621+99LFm+lyH6JTHHOp9Zong9H5/GVuykxLum+M7vQIqDA66tauOi7hGWV6D
-         9NYXUrbmtwZxqU7Q86KC2H7PffO/Tq6YajJ+4POZ6X2XRu+dkBNHLG7vjmIwnPFQ1w
-         q/mkjpWyW16sYm0KDPKJv8fO3TAIpSIF7vCVULO99B5Ug9Qlf8mKHhEuuGdPBDwOYo
-         mNSfxUHWGM2m23vH196MdlFrafUrPicIG663xjwhv3KwBO7PKv0caBnEF5Tcae+biq
-         2krr6nBynrZv7N/fOgpIf9Y2w3jEJitmU0IJFFu7Hcwe/zTON/BfxT1Hls1UeN6mi2
-         i1oXun0mW882w==
-Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
-        (envelope-from <mchehab@kernel.org>)
-        id 1msMVL-0045wd-VP; Wed, 01 Dec 2021 11:06:24 +0100
+        s=k20201202; t=1638353809;
+        bh=XzomCRP9HPlFxXOWu7bb++tXZ9myJAhOlLcfqQbpG+4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=CZA5FA1HX2UPH43QHdlVh+5ONMbpWWHw+lcnTkpQKHudSQbwEM2U6Bo8e2cM9jWaF
+         pPmBmfQuQfvI2Rr7fOAxSIP1OqJTPFwE7DDkoiaJtak1+yAWn1HN7u23s1f5F8RraF
+         prK7Q3qh3nP8E+4/iX58bJWqUAsXhtg0z101WJsAkffzwT2T1rTNQUrMm4rcpApmTE
+         17OMKHjP4SrnrxocQE0QFvIuzfd0TI7PkKzwuIYHBJSKxzv6DY5DuHPkCVg1zPGzKS
+         EI5XEnzFCnsEBAGqDvvzPQ9KMteNdZ/9Z7Go6cib94jir4yb52sTaGl38NjO/YytB7
+         Ihf15/SOmo6sg==
+Date:   Wed, 1 Dec 2021 11:16:44 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Akira Yokosawa" <akiyks@gmail.com>,
-        "Jani Nikula" <jani.nikula@linux.intel.com>,
-        =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= 
-        <nfraprado@protonmail.com>, "Randy Dunlap" <rdunlap@infradead.org>,
-        Andrew Klychkov <andrew.a.klychkov@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: allow selecting a Sphinx theme
-Date:   Wed,  1 Dec 2021 11:06:22 +0100
-Message-Id: <8a33f4516c937556b9a38157e236b2f55ef67540.1638353179.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.33.1
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Jani Nikula <jani.nikula@linux.intel.com>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH] docs: conf.py: fix support for Readthedocs v 1.0.0
+Message-ID: <20211201111644.218b510a@coco.lan>
+In-Reply-To: <4c6fe1f6-1a81-1181-f23a-df3f1b538cdf@infradead.org>
+References: <f0660b1d24bc9bc07b13fe9a25ccb69ca14e916d.1637923850.git.mchehab+huawei@kernel.org>
+        <13c40ed9-a51f-7496-7224-03b563bb6695@gmail.com>
+        <59f64802-c3dc-74cd-8f35-878e3fac64e2@infradead.org>
+        <87sfvik21z.fsf@intel.com>
+        <20211127102518.6e715036@coco.lan>
+        <4c6fe1f6-1a81-1181-f23a-df3f1b538cdf@infradead.org>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Instead of having RTD as an almost mandatory theme, allow the
-user to select other themes via a THEMES environment var.
+Em Sat, 27 Nov 2021 07:59:13 -0800
+Randy Dunlap <rdunlap@infradead.org> escreveu:
 
-There's a catch, though: as the current theme override logic is
-dependent of the RTD theme, we need to move the code which
-adds the CSS overrides to be inside the RTD theme logic.
+> > Perhaps one alternative to help with themes maintenance would be to
+> > select one of the builtin themes from:
+> > 
+> > 	https://sphinx-themes.org/  
+> 
+> Looks to me like those are external to sphinx-doc.org. It says that
+> they are maintained by @pradyunsg and @shirou. (don't know who they are)
+> There are over 40 themes shown there.
+> 
+> OTOH, there is https://www.sphinx-doc.org/en/master/usage/theming.html#builtin-themes,
+> which shows about 12 builtin themes to choose from. Pretty much like the
+> list the you show just below here...
+> 
+> > 
+> > if they're good enough and are present at the minimal Sphinx version
+> > supported by Kernel documentation. The ones available on 1.7.9 are:
+> > 
+> > 	$ ls sphinx_1.7.9/lib/python3.10/site-packages/sphinx/themes
+> > 	agogo  bizstyle  default  haiku   nonav    scrolls    traditional
+> > 	basic  classic   epub     nature  pyramid  sphinxdoc
+> > 
+> > They all are also the same themes available at the latest version.
+> > 
+> > If we're willing to do so, I did a quick test here. Those seems to
+> > produce a reasonable output:
+> > 
+> > 	- bizstyle
+> > 	- nature
+> > 	- classic  
+> 
+> Thanks for checking.
+> 
+> > If something would still be needed to change, the css override file could
+> > still be used, but keeping it minimal helps to avoid the need of too
+> > drastic changes.  
+> 
+> I'll take a look...
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/Makefile             |  1 +
- Documentation/conf.py              | 59 ++++++++++++++++--------------
- Documentation/doc-guide/sphinx.rst |  8 ++++
- 3 files changed, 41 insertions(+), 27 deletions(-)
+Just sent a patch to help testing/using a different theme:
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index c3feb657b654..c8d8067b647a 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -19,6 +19,7 @@ endif
- SPHINXBUILD   = sphinx-build
- SPHINXOPTS    =
- SPHINXDIRS    = .
-+THEME         =
- _SPHINXDIRS   = $(sort $(patsubst $(srctree)/Documentation/%/index.rst,%,$(wildcard $(srctree)/Documentation/*/index.rst)))
- SPHINX_CONF   = conf.py
- PAPER         =
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 76e5eb5cb62b..9e0020fb4f40 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -208,16 +208,38 @@ highlight_language = 'none'
- # The theme to use for HTML and HTML Help pages.  See the documentation for
- # a list of builtin themes.
- 
--# The Read the Docs theme is available from
--# - https://github.com/snide/sphinx_rtd_theme
--# - https://pypi.python.org/pypi/sphinx_rtd_theme
--# - python-sphinx-rtd-theme package (on Debian)
--try:
--    import sphinx_rtd_theme
--    html_theme = 'sphinx_rtd_theme'
--    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
--except ImportError:
--    sys.stderr.write('Warning: The Sphinx \'sphinx_rtd_theme\' HTML theme was not found. Make sure you have the theme installed to produce pretty HTML output. Falling back to the default theme.\n')
-+# Default theme
-+html_theme = 'sphinx_rtd_theme'
-+
-+if "THEME" in os.environ:
-+    html_theme = os.environ["THEME"]
-+
-+if html_theme == 'sphinx_rtd_theme':
-+    # Read the Docs theme
-+    try:
-+        import sphinx_rtd_theme
-+        html_theme = 'sphinx_rtd_theme'
-+        html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
-+
-+        # Add any paths that contain custom static files (such as style sheets) here,
-+        # relative to this directory. They are copied after the builtin static files,
-+        # so a file named "default.css" will overwrite the builtin "default.css".
-+        html_css_files = [
-+            'theme_overrides.css',
-+        ]
-+
-+        if major <= 1 and minor < 8:
-+            html_context = {
-+                'css_files': [
-+                    '_static/theme_overrides.css',
-+                ],
-+            }
-+    except:
-+        html_theme = 'classic'
-+
-+sys.stderr.write("Using %s theme\n" % html_theme)
-+
-+html_static_path = ['sphinx-static']
- 
- # Theme options are theme-specific and customize the look and feel of a theme
- # further.  For a list of options available for each theme, see the
-@@ -243,23 +265,6 @@ except ImportError:
- # pixels large.
- #html_favicon = None
- 
--# Add any paths that contain custom static files (such as style sheets) here,
--# relative to this directory. They are copied after the builtin static files,
--# so a file named "default.css" will overwrite the builtin "default.css".
--
--html_static_path = ['sphinx-static']
--
--html_css_files = [
--    'theme_overrides.css',
--]
--
--if major <= 1 and minor < 8:
--    html_context = {
--        'css_files': [
--            '_static/theme_overrides.css',
--        ],
--    }
--
- # Add any extra paths that contain custom files (such as robots.txt or
- # .htaccess) here, relative to this directory. These files are copied
- # directly to the root of the documentation.
-diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
-index e445cb146efe..33a527f5ae64 100644
---- a/Documentation/doc-guide/sphinx.rst
-+++ b/Documentation/doc-guide/sphinx.rst
-@@ -138,6 +138,14 @@ To pass extra options to Sphinx, you can use the ``SPHINXOPTS`` make
- variable. For example, use ``make SPHINXOPTS=-v htmldocs`` to get more verbose
- output.
- 
-+By default, the build will try to use the Read the Docs sphinx theme:
-+
-+    https://github.com/readthedocs/sphinx_rtd_theme
-+
-+If the theme is not available, it will fall-back to the classic one.
-+
-+The Sphinx theme can be overriden by using the ``THEME`` make variable.
-+
- To remove the generated documentation, run ``make cleandocs``.
- 
- Writing Documentation
--- 
-2.33.1
+	https://lore.kernel.org/lkml/8a33f4516c937556b9a38157e236b2f55ef67540.1638353179.git.mchehab+huawei@kernel.org/T/#u
 
+After such patch, you could easily select a different theme during
+documentation build, like:
+
+	$ make cleandocs
+        $ make SPHINXDIRS=input THEME=classic htmldocs
+	$ make SPHINXDIRS=i2c THEME=nature htmldocs
+
+The patch disables the CSS overrides when a theme different than RTD
+is used, as the CSS changes there may not be the best with other
+themes. It probably make sense to split the contents of the
+CSS override to a generic theme, which contains only things that
+would apply to all themes (like font selection) from other things
+that are theme-dependent, like colors.
+
+Thanks,
+Mauro
