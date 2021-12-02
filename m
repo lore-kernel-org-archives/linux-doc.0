@@ -2,41 +2,41 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 734FCC433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Dec 2021 16:02:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57ADBC433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Dec 2021 16:02:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234946AbhLBQF0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Dec 2021 11:05:26 -0500
-Received: from mail-mw2nam12on2050.outbound.protection.outlook.com ([40.107.244.50]:60056
-        "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
+        id S1347748AbhLBQF3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Dec 2021 11:05:29 -0500
+Received: from mail-dm3nam07on2049.outbound.protection.outlook.com ([40.107.95.49]:61760
+        "EHLO NAM02-DM3-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229817AbhLBQFZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 2 Dec 2021 11:05:25 -0500
+        id S1347669AbhLBQF3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 2 Dec 2021 11:05:29 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eUfqtl3307O4icVHh05vYcKdkjHzCfWyM0hyLgTE1daRADhswJNTDwW9DfDyf1XaAk8s2vItNom6Q7TNYcTgvRDkHJ4f+aJZkpMvvAQsoNvUoDkW5oriSGzZbL7tavc/wfcB7i8vBN5hMblaUqcNl+ZDOoLkic/mEbjsssTOHHH5AU2mdFQcSSAPKJKhWCMUDGRQJpb22eq5ntFDWcAaFIEd7WqBmtvMKrnQS49dIQEgiVFLXjEh3X+Xcds6SCE+IwFlgvJ1SfdeALNH4GtUGLQMAxw0N8xMFKJFLwVzxgVJAiH9fDTC2jtVdZSYp3SpfS4LM6xzHFwr+2lRlJXuxA==
+ b=ngigZN6cIoafF9UwRFaqQeQHlhCTDIB1W2zmdtHvkkSAXffI9HeJ7skoE/NgvNUXPjVuSQqzY83M1CT02JK3sfVtCbHclLRnUM4XRKlRcApc960o0Nm68lKMkdhvyoJemoX7EobBArDlSqFADKLDvnZVbH2YPfHnhXQREew+BElVrJmf1ohZZuIRSrkR165G/QjWObbfNuoLkiqcFyIwaO+n5UYE6KIfrm4vbEYJbo/n9AvC29E5tD9s+znbJChPHII91IBINFCpT5lV+0qd87UIwibi8oU7BeW/bU38d/BjhAiPspegsdz/NuGyTt3vwh/o6MEb4g1fsQqAXkGU3A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rT9ROmAR99PLuiKB7Oxk5jxmrXpBeCpeFmz0Hb+kMFQ=;
- b=aDKijc59HJwC3ic0UUWQFo7JVBxP8ZtC0FNTU44u6YGVr6RcREdDvytNcDYx1/pd7kxunscBsVhIm+kp3RjRRcYIFGzprqaRmtsmSTBxJ8W7swdNvF5N1D58nUF+vjmA8QmbaRzfMU+I19+GC9dHCIiGGmIZKg0MR44dkYi6yjXbpAO/JOWnh4TFf2aMjuG5MSBqHt3Hl9qb0bX5m/mB5RcEF+EjKEI/gfULQJNevwyn9kXsBoWuN9fMtyqbrVW64Vv7S372/7OThG8jVDaph4PWihtp0yVERL6uBFAqZE7IWDW9ejKc5IIX2XNKVrdNx2+p7qNhZGB4M0rW6/Kveg==
+ bh=kBJRzHf4EEYvbBlN69lj+XARmY75Y09a7w0uPKpww+w=;
+ b=MN6Uy51R7tn7Ty/J6nXrak2Bo6ifxAD40JoMxQLFf02pDpTkSp52A8QgttPGYIG8EsQjAowyPi+/IskUQmzUOkODMF573cHR/JZRP1yHS2sGcziSLoRlAqjo8wQvSanYbxw7fZHDdh7/yZIqX+RgPA6NAGr9lX9OpNqrkOZ7qgbZYSyQX3ywbJ1USmpl7Pm+1ris40+74S77kAgDtr2ijb4z195cOTOoS8llFouzSytrHAMN2Atfx+79QvRB8XJRcP2zPe2OmypqprXZMN1+0XT4xltVX7qd8WLJ6mQAU+8u0trbgOIvhaQInBSgjn2KRKYLt++C9oW0oPgBNHH+JA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=emersion.fr smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rT9ROmAR99PLuiKB7Oxk5jxmrXpBeCpeFmz0Hb+kMFQ=;
- b=rN/c7Bnql8aaMQpo1WHF1b2PX4xzarCa9vvI6sr8JjYmKj3WeTMpwUpSqdwNEF7LCgn7J2+NJsRgcWHpZ6aP9qLsJ9AtqfeNpqPbY4dKylf6j0+Pkh09Vleza/WDiax/Al1rU0mbimv4Eh8IyGEtOBt4/cpseCFimQ9Zvclb7XM=
-Received: from BN9PR03CA0137.namprd03.prod.outlook.com (2603:10b6:408:fe::22)
- by CO6PR12MB5428.namprd12.prod.outlook.com (2603:10b6:5:35c::19) with
+ bh=kBJRzHf4EEYvbBlN69lj+XARmY75Y09a7w0uPKpww+w=;
+ b=4g1kL8/wB/MR7KlbE+hkAMJpbIIiU6cqTDr+13fE1yyU0Vd48xHrDmLt3mOhRWa8phLjVfRINNf+La6yZxu4WCfgCtuSVzWgVPKKhN3c4x3sDMPv28/I0fR4ayBkTy7JQ1cz4265T59ZOCn+JHxnu2BPalOrkWYbAEdMW41ogy4=
+Received: from BN9PR03CA0138.namprd03.prod.outlook.com (2603:10b6:408:fe::23)
+ by BY5PR12MB4885.namprd12.prod.outlook.com (2603:10b6:a03:1de::20) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.23; Thu, 2 Dec
- 2021 16:02:00 +0000
+ 2021 16:02:03 +0000
 Received: from BN8NAM11FT039.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:fe:cafe::83) by BN9PR03CA0137.outlook.office365.com
- (2603:10b6:408:fe::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.23 via Frontend
- Transport; Thu, 2 Dec 2021 16:02:00 +0000
+ (2603:10b6:408:fe:cafe::90) by BN9PR03CA0138.outlook.office365.com
+ (2603:10b6:408:fe::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.14 via Frontend
+ Transport; Thu, 2 Dec 2021 16:02:03 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -46,11 +46,11 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
  BN8NAM11FT039.mail.protection.outlook.com (10.13.177.169) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4755.13 via Frontend Transport; Thu, 2 Dec 2021 16:02:00 +0000
+ 15.20.4755.13 via Frontend Transport; Thu, 2 Dec 2021 16:02:03 +0000
 Received: from atma2.hitronhub.home (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Thu, 2 Dec
- 2021 10:01:56 -0600
+ 2021 10:02:00 -0600
 From:   Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 To:     Simon Ser <contact@emersion.fr>,
         Michel Daenzer <michel@daenzer.net>,
@@ -70,10 +70,12 @@ CC:     <linux-doc@vger.kernel.org>, <qingqing.zhuo@amd.com>,
         Alex Deucher <alexander.deucher@amd.com>,
         <bhawanpreet.lakha@amd.com>,
         Christian Koenig <christian.koenig@amd.com>
-Subject: [PATCH v2 0/6] Expand display core documentation
-Date:   Thu, 2 Dec 2021 11:01:26 -0500
-Message-ID: <20211202160132.2263330-1-Rodrigo.Siqueira@amd.com>
+Subject: [PATCH v2 3/6] Documentation/gpu: Document pipe split visual confirmation
+Date:   Thu, 2 Dec 2021 11:01:29 -0500
+Message-ID: <20211202160132.2263330-4-Rodrigo.Siqueira@amd.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211202160132.2263330-1-Rodrigo.Siqueira@amd.com>
+References: <20211202160132.2263330-1-Rodrigo.Siqueira@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -82,102 +84,80 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 37133ba5-6d6b-462f-2283-08d9b5ad1343
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5428:
-X-Microsoft-Antispam-PRVS: <CO6PR12MB542800CC1456BC62B6C23C5398699@CO6PR12MB5428.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Office365-Filtering-Correlation-Id: cd905799-1004-4a8b-1b37-08d9b5ad1508
+X-MS-TrafficTypeDiagnostic: BY5PR12MB4885:
+X-Microsoft-Antispam-PRVS: <BY5PR12MB488539BFCF16A492DDF92E4898699@BY5PR12MB4885.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: DhhZ9WkVAiz7BWPWhFPnbF4WrSSuAuR3xWoKm8Z/qM2TavGsy0ta4yECZVkkR9EkVi7iUEaqwoCXNoqz+zak8kMep8xGh/itEc0jPTmusoQaK3JtRhvX9UOaqlrLdAbFK3O7NMOgya83HLeHYLCe50hOFCeerHYP6NKMD8IhhikRoUdZSuAc855Fu7E0pdTmZGoYeCmmBMWvd2EnzeihMKjFj1531lvaDx6PDUierbY87mTBliWinu2u28owJB8MJrwFekVAjg3kwXYL/dMb5NX6fE+THbHsO9TJHU4TfFe8TI0dAnCew//V4OeznCJHm4zV2TuhqhAiKkNHWXgpsMk9mvxjMIYD9ER9418rpvSwJL8ZaAZ8fXIC+O5MNbaNEwd1DjmAimLVX9d2Sv+QSktOLLEnHoKirPeVLDTTMjgqZQ2u1f//JzbWlDgnrDD4m7PHAawolVSdFg29GysTbg5mU5gGWT3pNm3z79wpwAT1sSUpM9YL9tfyb1Tfro+988ceoh5Meu8HdAYUC8FDhpE8NVo3q5dZT6wrXsgf/zQ8ACspOVktV3Qu7M1HWv172uELaDbZ39Dx6aR9RxL/k2kcnByvz/H+vXm2boiTjBPu+S9SdyvnLV4xhniGpXxZkc7wXtm7VpXoKsqRlu5TrReiXHCnZk6gP6Dx67eSuIkCnr+TVM8aF9v+JJrw+7Wjwo+evkqKWwLR9PEngqmg/Btunl6a1B+LhDCrodjYwZpO777z/3MWgIPKROY8wgj3nxi9p80R3BcMksoSKk6ava7l1XN/iO3gXc/7px1BnlJyvqCrPEB3Ne9i59ioLvmr
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(4636009)(46966006)(36840700001)(40470700001)(70206006)(1076003)(8936002)(186003)(7416002)(2906002)(336012)(508600001)(40460700001)(82310400004)(54906003)(70586007)(316002)(86362001)(8676002)(426003)(83380400001)(36860700001)(356005)(2616005)(921005)(81166007)(36756003)(6666004)(5660300002)(26005)(110136005)(4326008)(47076005)(16526019)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: 7URWu3jJpmfLEys3SMQdMrdElXfZpJE09lmItX6hcb19qJQHDvCOzkMNWSJ0A0glQbJOxlgdsedi+zIni4aZ9w13deGnwKMhL0Mh4FKMbO6Rw6uIgXtvmBHFJJiQJs6IMtgJvsThKjVtAFdPxBU+rMZLKEZbkSsn7gJVCE2khakIX2rJ7s5Oy56zYEH//Lf+F7sG0YsJ4HEFbrQ2u5RzlJ9mozyA90qjNvmH/RewvqsMnLSR7QZP8DqR4lNbfh73P6Eencr+j7Y23kczHUPCYUpylJIKCNj/uTPS6DvPTCfU1g9aXoImCb1//8UguMv2+8vejM0HrGnI1vBbSJB7ffDomROKITReAs2eGzcsc8tFpCjm57f4vZSh4y0I9yvVVML189j+FvztwQSyM6HCrynbzwZemgK8m4T0cK8pGjOZ3dDy0+cDpg1OIx+zvUC6DE4L/7p8+lW/v7bzUxvI4767KfOgaEAjtrSqUDRQIKxo+h8w64DFxEJwDhGvgR0HLQvhv1QlHLNkezgluZNM3oHDA4TAkyW00uRUr/luZqX0PpAETe81wi4fLNxPejU4m3z8n7Iqr/xLoKGuMcd66/+SRFbDOTaeVoJ8MWhrgeNVzOp8P+vwUE9EmT7LAJ28IdSMGp/RXtgCy1BMWweUbRg2druoEdAkFwjlcL2V3ej2Y0LU9ObRyFVJjH/NirUk4oqDQgX6sdklrrazyHwTsB7LofIo/Vqk98j5+WjzI7FmR5hawZ59yGfFoa0syywd86dyiTa3muVgHx9FGAtwJbWiTRhCo+vwdaKOYA9j33PC0QfyfNkRePRcUDqnt1D0
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(4636009)(36840700001)(46966006)(40470700001)(70206006)(36860700001)(86362001)(110136005)(8936002)(1076003)(70586007)(508600001)(921005)(54906003)(356005)(316002)(47076005)(82310400004)(5660300002)(83380400001)(26005)(2906002)(6666004)(8676002)(4326008)(2616005)(426003)(336012)(7416002)(186003)(16526019)(81166007)(36756003)(40460700001)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2021 16:02:00.6303
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2021 16:02:03.5989
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 37133ba5-6d6b-462f-2283-08d9b5ad1343
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd905799-1004-4a8b-1b37-08d9b5ad1508
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT039.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR12MB5428
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4885
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Display Core (DC) is one of the components under amdgpu, and it has
-multiple features directly related to the KMS API. Unfortunately, we
-don't have enough documentation about DC in the upstream, which makes
-the life of some external contributors a little bit more challenging.
-For these reasons, this patchset reworks part of the DC documentation
-and introduces a new set of details on how the display core works on DCN
-IP. Another improvement that this documentation effort tries to bring is
-making explicit some of our hardware-specific details to guide
-user-space developers better.
+Display core provides a feature that makes it easy for users to debug
+Pipe Split. This commit introduces how to use such a debug option.
 
-In my view, it is easier to review this series if you apply it in your
-local kernel and build the HTML version (make htmldocs). I'm suggesting
-this approach because I added a few SVG diagrams that will be easier to
-see in the HTML version. If you cannot build the documentation, try to
-open the SVG images while reviewing the content. In summary, in this
-series, you will find:
+Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+---
+ Documentation/gpu/amdgpu/display/dc-debug.rst | 28 +++++++++++++++++--
+ 1 file changed, 26 insertions(+), 2 deletions(-)
 
-1. Patch 1: Re-arrange of display core documentation. This is
-   preparation work for the other patches, but it is also a way to expand
-   this documentation.
-2. Patch 2 to 4: Document some common debug options related to display.
-3. Patch 5: This patch provides an overview of how our display core next
-   works and a brief explanation of each component.
-4. Patch 6: We use a lot of acronyms in our driver; for this reason, we
-   exposed a glossary with common terms used by display core.
-
-Please let us know what you think we can improve in this series and what
-kind of content you want to see for the next series.
-
-Changes since V1:
- - Group amdgpu documentation together.
- - Create index pages.
- - Mirror display folder in the documentation.
- - Divide glossary based on driver context.
- - Make terms more consistent and update CPLIB
- - Add new acronyms to the glossary
-
-Thanks
-Siqueira
-
-Rodrigo Siqueira (6):
-  Documentation/gpu: Reorganize DC documentation
-  Documentation/gpu: Document amdgpu_dm_visual_confirm debugfs entry
-  Documentation/gpu: Document pipe split visual confirmation
-  Documentation/gpu: How to collect DTN log
-  Documentation/gpu: Add basic overview of DC pipeline
-  Documentation/gpu: Add amdgpu and dc glossary
-
- Documentation/gpu/amdgpu-dc.rst               |   74 --
- Documentation/gpu/amdgpu/amdgpu-glossary.rst  |   47 +
- .../gpu/amdgpu/display/config_example.svg     |  414 ++++++
- Documentation/gpu/amdgpu/display/dc-debug.rst |   77 ++
- .../gpu/amdgpu/display/dc-glossary.rst        |  243 ++++
- .../amdgpu/display/dc_pipeline_overview.svg   | 1125 +++++++++++++++++
- .../gpu/amdgpu/display/dcn-overview.rst       |  168 +++
- .../gpu/amdgpu/display/display-manager.rst    |   42 +
- .../gpu/amdgpu/display/global_sync_vblank.svg |  485 +++++++
- Documentation/gpu/amdgpu/display/index.rst    |   29 +
- .../gpu/{amdgpu.rst => amdgpu/index.rst}      |   25 +-
- Documentation/gpu/drivers.rst                 |    3 +-
- 12 files changed, 2653 insertions(+), 79 deletions(-)
- delete mode 100644 Documentation/gpu/amdgpu-dc.rst
- create mode 100644 Documentation/gpu/amdgpu/amdgpu-glossary.rst
- create mode 100644 Documentation/gpu/amdgpu/display/config_example.svg
- create mode 100644 Documentation/gpu/amdgpu/display/dc-debug.rst
- create mode 100644 Documentation/gpu/amdgpu/display/dc-glossary.rst
- create mode 100644 Documentation/gpu/amdgpu/display/dc_pipeline_overview.svg
- create mode 100644 Documentation/gpu/amdgpu/display/dcn-overview.rst
- create mode 100644 Documentation/gpu/amdgpu/display/display-manager.rst
- create mode 100644 Documentation/gpu/amdgpu/display/global_sync_vblank.svg
- create mode 100644 Documentation/gpu/amdgpu/display/index.rst
- rename Documentation/gpu/{amdgpu.rst => amdgpu/index.rst} (95%)
-
+diff --git a/Documentation/gpu/amdgpu/display/dc-debug.rst b/Documentation/gpu/amdgpu/display/dc-debug.rst
+index 532cbbd64863..6dbd21f7f59e 100644
+--- a/Documentation/gpu/amdgpu/display/dc-debug.rst
++++ b/Documentation/gpu/amdgpu/display/dc-debug.rst
+@@ -2,8 +2,18 @@
+ Display Core Debug tools
+ ========================
+ 
+-DC Debugfs
+-==========
++DC Visual Confirmation
++======================
++
++Display core provides a feature named visual confirmation, which is a set of
++bars added at the scanout time by the driver to convey some specific
++information. In general, you can enable this debug option by using::
++
++  echo <N> > /sys/kernel/debug/dri/0/amdgpu_dm_visual_confirm
++
++Where `N` is an integer number for some specific scenarios that the developer
++wants to enable, you will see some of these debug cases in the following
++subsection.
+ 
+ Multiple Planes Debug
+ ---------------------
+@@ -34,3 +44,17 @@ split configuration.
+ * There should **not** be any cursor corruption
+ * Multiple plane **may** be briefly disabled during window transitions or
+   resizing but should come back after the action has finished
++
++Pipe Split Debug
++----------------
++
++Sometimes we need to debug if DCN is splitting pipes correctly, and visual
++confirmation is also handy for this case. Similar to the MPO case, you can use
++the below command to enable visual confirmation::
++
++  echo 1 > /sys/kernel/debug/dri/0/amdgpu_dm_visual_confirm
++
++In this case, if you have a pipe split, you will see one small red bar at the
++bottom of the display covering the entire display width and another bar
++covering the second pipe. In other words, you will see a bit high bar in the
++second pipe.
 -- 
 2.25.1
 
