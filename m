@@ -2,684 +2,706 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 091BEC433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  1 Dec 2021 23:25:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA5C3C433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Dec 2021 00:53:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240562AbhLAX22 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 1 Dec 2021 18:28:28 -0500
-Received: from mail-bn8nam12on2049.outbound.protection.outlook.com ([40.107.237.49]:59616
-        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232038AbhLAX21 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 1 Dec 2021 18:28:27 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LroNM9eu1NmCCQgrxTPYqtEdyT+1R+rWh/61Vm9xd9wfgqefsMnEEmU3nfJ5nM2Hb1Jh8dwR4q7BKdGouQLU6UD114QyvYb1x8iQaNssFFljbpfKCasa2qPyMkrgYKAgHbELqkSadt+Y16Egq45HQWvxkaD+wjtqhLsokgYxNkEg/g4nMTzrrKFUjbJP4gOhZakMB7mj5OhDdb/dXmj4RcTm/SlyH85uwoYK6s2TybHnCITn97XI9Fgdyg3DiD8Tm8SS+4hFQ0ABdSoVmSITjImGXM/6+3d2MSBek7F054d6/cd1e6/j2wWw6ntDrBrphTP0C4NzE3tmDukX/PmVdA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rbTJULDyJyYbRkWI2S+GIS2hKSLWpO7rNTv1ob4JEkM=;
- b=MM12gMpY+JF9Kmr3NnETYYSJa9Wz7Bf/sNg7uZgVgXrJe9VK2uZYiMOpASlsGYjtvA8xNnJsj0UWNmEm8O1ZKVVYAUAI/730BTFvXAsBoPh2GXtEnrrHrRcZm9iZ1vE5xe05HXsl5Pajh6XX2cSVgwtdHdBgtoLQGKOACfmZECI/QNtmQgICq+Z3ZeclJU4ztu8CdlIkAAkwVXSA510OmkkGJne51iNFrrtqIoWYf7XbfvyRXCKVa7Py6HFzfCdLNtwb8KIIU0S79yOsk3Rg/6x+sC0iPTcR/eKL7J8534Y1+k4SQPcPnUEttj/kOF7Fkvq94hIuF7dUtf+L4zoRfQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rbTJULDyJyYbRkWI2S+GIS2hKSLWpO7rNTv1ob4JEkM=;
- b=aTFZCQRqH/awimYiTyj1yJHvPMfZtMgHQZw3uBGKNB5Sdip1PgBvAAY1pmJl9RiEcdhGItHjWNVZZj35zda6JCoPKpJ+UW32oxRb6Dty5tUHdCI5MHo6P4+4BewKyKpT4t/746XQuVKfbArT14MU4t7quc5MCZS5euURrHe/V1iC91qmyWqhSc1PFUI5bIRzlb+qWDARF9zlDmx+vAnzo/VQPZNdHiUfSydnBQDlaltHDM/mFrJZSguzWAeOtMDFtFxM3/R1sSEe+xK2x1ykmwbLxZaE1qGAOWnbyG9Le7l8YwM8v0cM/V9KzO/kNmsVRuKhSQD/mV9MRab17mkW7g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM6PR12MB5520.namprd12.prod.outlook.com (2603:10b6:5:208::9) by
- DM4PR12MB5261.namprd12.prod.outlook.com (2603:10b6:5:398::22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4734.23; Wed, 1 Dec 2021 23:25:04 +0000
-Received: from DM6PR12MB5520.namprd12.prod.outlook.com
- ([fe80::1569:38dd:26fb:bf87]) by DM6PR12MB5520.namprd12.prod.outlook.com
- ([fe80::1569:38dd:26fb:bf87%8]) with mapi id 15.20.4734.024; Wed, 1 Dec 2021
- 23:25:04 +0000
-Date:   Wed, 1 Dec 2021 19:25:02 -0400
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Alex Williamson <alex.williamson@redhat.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Cornelia Huck <cohuck@redhat.com>, kvm@vger.kernel.org,
-        Kirti Wankhede <kwankhede@nvidia.com>,
-        Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-        Yishai Hadas <yishaih@nvidia.com>
-Subject: Re: [PATCH RFC v2] vfio: Documentation for the migration region
-Message-ID: <20211201232502.GO4670@nvidia.com>
-References: <0-v2-45a95932a4c6+37-vfio_mig_doc_jgg@nvidia.com>
- <20211130102611.71394253.alex.williamson@redhat.com>
- <20211130185910.GD4670@nvidia.com>
- <20211130153541.131c9729.alex.williamson@redhat.com>
- <20211201031407.GG4670@nvidia.com>
- <20211201130314.69ed679c@omen>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211201130314.69ed679c@omen>
-X-ClientProxiedBy: BL0PR03CA0012.namprd03.prod.outlook.com
- (2603:10b6:208:2d::25) To DM6PR12MB5520.namprd12.prod.outlook.com
- (2603:10b6:5:208::9)
+        id S1344780AbhLBA5U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 1 Dec 2021 19:57:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50232 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1344592AbhLBA5T (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 Dec 2021 19:57:19 -0500
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52306C061574;
+        Wed,  1 Dec 2021 16:53:58 -0800 (PST)
+Received: by mail-pg1-x52d.google.com with SMTP id f125so12102564pgc.0;
+        Wed, 01 Dec 2021 16:53:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=5MPLJUPFnjkdsMjufuYjZTNM1kkkwdwdThI7+r/x9G4=;
+        b=LeDD51BSiR6MGX4t41PfwO5l0Jnp/rLUXZihN1CqrsqCjeUN+vcrtsbUW4ELBOLQPF
+         6oS5C7FMHns3qFkPMZfHRCuOAoLXniliVjMnOQZmKS+qbiD4mWuYOjahdpBwQz7UWxDM
+         gklgSBZ7q/q+o7biE447A+lTCUi5l4Gb+2bDK8lOeZEGOPrtwuibPWOJCE/i4ZSBYrwU
+         OAeN/nT7TpvYa9yPHrTGTW+DZek6vfMEAxv2b8QGhamODIQ2wg8p7YZnoecNFe4vJvDl
+         nc9kbybrVs4HfL6ve8E3juj4z3d2iUPbzHS1Q2deUoNhgvKcWDBvNCTAORs217cbLeve
+         +Plg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=5MPLJUPFnjkdsMjufuYjZTNM1kkkwdwdThI7+r/x9G4=;
+        b=AlqJDdI+REBdr8UEIJTax5VW4MeNLBtJDlJjs8CqaJtxKSZ2gey06ukP1fMYJkbtUe
+         Aqae6KvOmbNDziRTUzy2LVGDUfAb6rA+HfV0hK5IpIz6dnbwNFD8CemfQh/jUJRs7Ayh
+         fQebwD3Yi5Cb7v76yryavKX+4eJj3xSkwu/sM+VHGJKzSD2rpxyGk6ih6I+4GcRFIDy3
+         8CfSkAD2v2jeGS09n8VwL+0poWwo3q1jnCJ+ffIQR0if3vJ4JlcaeA95NP/LGGdIIiXP
+         6A301vxRgIzMHG+5NTO2yiG1xawkVKqU1q3zEmY1B73je3JDybHjLg/h7dY14TKc4R7x
+         otlQ==
+X-Gm-Message-State: AOAM531cgQrFFMnKb2eTXmv2UPN7ouGhvqc2vUhKCKUH5zn1izFSepF/
+        sr3hpoq9N9qT62rxPrguFoMAwzq4m6httA==
+X-Google-Smtp-Source: ABdhPJwA6Qybwh2N4a02EDBWO46Fj7gEGUATxZDg6hdPrnTODfzGUqTmIYn4tr9t6JTumssaE6o8og==
+X-Received: by 2002:a63:8c1b:: with SMTP id m27mr468646pgd.399.1638406437261;
+        Wed, 01 Dec 2021 16:53:57 -0800 (PST)
+Received: from sol (14-201-12-235.tpgi.com.au. [14.201.12.235])
+        by smtp.gmail.com with ESMTPSA id j127sm1040713pfg.14.2021.12.01.16.53.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Dec 2021 16:53:56 -0800 (PST)
+Date:   Thu, 2 Dec 2021 08:53:49 +0800
+From:   Kent Gibson <warthog618@gmail.com>
+To:     Dipen Patel <dipenp@nvidia.com>
+Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linus.walleij@linaro.org,
+        brgl@bgdev.pl, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, robh+dt@kernel.org
+Subject: Re: [RFC v3 09/12] gpiolib: cdev: Add hardware timestamp clock type
+Message-ID: <20211202005349.GA7007@sol>
+References: <20211123193039.25154-1-dipenp@nvidia.com>
+ <20211123193039.25154-10-dipenp@nvidia.com>
+ <20211126013137.GC10380@sol>
+ <9ad666ec-eedd-8075-73e6-1e47a1eb228b@nvidia.com>
+ <20211201171638.GA31045@sol>
+ <4c7c3db1-a1b3-1944-4278-cb37e8a4f373@nvidia.com>
 MIME-Version: 1.0
-Received: from mlx.ziepe.ca (142.162.113.129) by BL0PR03CA0012.namprd03.prod.outlook.com (2603:10b6:208:2d::25) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.11 via Frontend Transport; Wed, 1 Dec 2021 23:25:03 +0000
-Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1msYyE-006cx0-Mq; Wed, 01 Dec 2021 19:25:02 -0400
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b63fd9d3-4046-45af-3a73-08d9b521cd9b
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5261:
-X-Microsoft-Antispam-PRVS: <DM4PR12MB5261F2C7666503468E8DEA02C2689@DM4PR12MB5261.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EUdPNKeWfsOjTrMeGKPnzfVMHwSR6qVMYcHutXRFqjbn0mfzHaIssZu/dT0zH8fv8VG2vzMdtRoB9J7+XPvKl5uxFp5FYwoTZyWsD+TKQb0M+9H5DiNEud4U7ZKO2tQ87snwiGcd2s0Tkp2X6tyu+EM8ywfbh29D6BhoV4jk1TYu+Cu15cJySnlqnl6y9CL8/rB+MYD64fIQX1O/T2qc3erP6UE9k1ilr/2d1xpd8sPOQm4P3kPWFtyno0mL1PGtwaFOJZOfvMoC+AQ8kPsrV3EFppna+hpGPPEDJxBOq2pH+hgm0LPYthGKBo0a1q0MUiiEnZnLEzYl62MLpzgLxtMXvtLVkBBG9qg9YAoS+VWJV/nCzjmt/HgfySSfdGoXAE+oDLeD3XYYzb+W8nY+HgZGNe0OSGDh6IWjdJ0fY1VVXXURydXWhhIAu+B4ZyPFtRYnh/Adi+lpoDR6yb3qvzXMhdlPbShmZbl1h5Gr/6yhH9d0fhBEAso7SeMqkJx6k/SdeeRXqCwG30IXkr2pI79py/psavBZqtX+0FOERkrXrrYPT0Pt5a7XtCrsS0ulTl1G97+CdoVEI9SOH45b8j8vqWVzSOZ7USqfm2UDBtmn5sSJ4yHC6Wf/P1MEkakYlzeP3VJFhTgjD8gogv4kYQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB5520.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(38100700002)(186003)(1076003)(66946007)(8676002)(86362001)(508600001)(26005)(2906002)(36756003)(4326008)(426003)(316002)(54906003)(9746002)(83380400001)(6916009)(5660300002)(107886003)(2616005)(8936002)(66556008)(66476007)(9786002)(30864003)(33656002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0YQb3l7OTYBoH+HJPxbTCV1f1KMpZcAvxU+TK7bveyWbx9nbQlpfynb80PKH?=
- =?us-ascii?Q?a80ybeQN9501OjGMeqwO8I8xaSo0awy8XpePInxDwS6erX8hyTN4QP1ExmYc?=
- =?us-ascii?Q?tL1qtfLGOqq+v0/GUvWX4GhM6lXuqat/7ZpoIRQag+EKYyM1H1JYaqKjqnt0?=
- =?us-ascii?Q?4d0m0LOKhhqaw/Yedy5T2+0/GJu68UrJFYWl7r9wjCFGQHjYv4env1q5OQHN?=
- =?us-ascii?Q?W9LEW5J9+dcGjWjV+v+sdAwKGkVXL2LTgYr4j/cdUr6uOAR7KVXR8hNZMd1y?=
- =?us-ascii?Q?enqTChtpcd6dMVa3DIUmjw5lfIwzLU54dBIVRuZUYdMwVFkBZIPe00rYG/Bk?=
- =?us-ascii?Q?vjdy97TYFJZkahis5/RX5LZWaGJGXXt4XS4eGpUioG/l+D1JWKWR/z0+hU+8?=
- =?us-ascii?Q?3FM4VdJjXJoD5var6oH6Bdc00/nAGFV1PSg/KRLGXCUY7ussiezbD5yF95wV?=
- =?us-ascii?Q?JAw6QfCHlEt67aviLAKijJb86BBnc9xN2TZx9a7b3fgx7dkb3yDWL+hp6Pa+?=
- =?us-ascii?Q?l3WWnOicsfCTXgluEAtcB9jnNwH1mVbR3uvKSq0919c20pt3GfWKOqVsy438?=
- =?us-ascii?Q?icKGOc4r/auoZsgEfy69cE4Ga6oOER9FgoyKo/AK4HTJvkXkCVw8XAURZx9T?=
- =?us-ascii?Q?8SzXNeyMYskuUlrVxf21OjbyF4MghOgGW2+6MZMDq8STlALVNRydyHa2YKXq?=
- =?us-ascii?Q?EHaRXls9v37BgC2ef/rkKOreELLHili4L83aK65GzVYsW5nTl/tQZMvpLDIo?=
- =?us-ascii?Q?etUoCwFHIJCz8fXxsz8Cfrh0oFzTxX50Gq5LPgKZL4yU+5DarlIiNdDycDu4?=
- =?us-ascii?Q?MyafjVkCfOgp9ZCaV6Nnj1nzZxEP5/T8kHCdEHK2b2jI+S6XHw+fOXw0exNh?=
- =?us-ascii?Q?CNQccNb8f+FFb22/DKtaHFgXiPVBW6LeZUBpKLrziqeekMHV7OqGCCQVkfqX?=
- =?us-ascii?Q?dMYaDVrEbfAjreiLoS1ldLheZ9fMfKMiK8PUXtlGbC4ygtGe4dB8Aiqnp65T?=
- =?us-ascii?Q?Qb7yKrPQzWrUgqNNgMEfz9O/Ae9aINPVt14LLDQgwS7/Jn202vpdihjr3J4G?=
- =?us-ascii?Q?Uv7Wqu0Iz20z30lSv9b9syo0pvru7wdVEeQgdyNSKlwD31doGz4DxybIbDrD?=
- =?us-ascii?Q?UBd6iv8if8ZMT33/WnpHqUKIpv3cDEOBAodtCqPfvtaKb5SsyJ+Z6udUPFcf?=
- =?us-ascii?Q?wt1Exd1hUcmzQk0vPS1TbiNcrGsxToikVcrah0wFtWS4qQMTYdzf7Fovi3VQ?=
- =?us-ascii?Q?6F6+iA306eER5zAGVsmws6/6ks1hbDm6BltMN/anGOqTE3pM2kTWT/bLQ2th?=
- =?us-ascii?Q?A+OR/h5NDZ+M2Z0YpuLNjFKB8cA+9mjd5mkwmOzcAyXntqMQe/xOChKzwBAs?=
- =?us-ascii?Q?UVIrLCiulhtediztKHyuaUmVLsSvf9rcAy5WwLbSxTpEslgAtXOqlae0+myh?=
- =?us-ascii?Q?aMGBVH18+R00dTSzeRXb3TPDSSTQTUTPZjjwZHvUp3kqxmRB4lRUth1IB6Yh?=
- =?us-ascii?Q?1xawCdenRHvKpDlU94HPssHfZWEZ8ExnOQQbAb15kwSOrhZgk/zwxNI6Ex6I?=
- =?us-ascii?Q?uwB91XA21eAyFPymrHI=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b63fd9d3-4046-45af-3a73-08d9b521cd9b
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB5520.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2021 23:25:04.0573
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DAwlTGG8GTph5ycjB8oxhyBHKwIWN47zQG0F+1i7ud1DAA0Rn0XId66GV/wprapE
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5261
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4c7c3db1-a1b3-1944-4278-cb37e8a4f373@nvidia.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 01, 2021 at 01:03:14PM -0700, Alex Williamson wrote:
-> On Tue, 30 Nov 2021 23:14:07 -0400
-> Jason Gunthorpe <jgg@nvidia.com> wrote:
+On Wed, Dec 01, 2021 at 10:01:46AM -0800, Dipen Patel wrote:
+> Hi,
 > 
-> > On Tue, Nov 30, 2021 at 03:35:41PM -0700, Alex Williamson wrote:
-> > 
-> > > > From what HNS said the device driver would have to trap every MMIO to
-> > > > implement NDMA as it must prevent touches to the physical HW MMIO to
-> > > > maintain the NDMA state.
-> > > > 
-> > > > The issue is that the HW migration registers can stop processing the
-> > > > queue and thus enter NDMA but a MMIO touch can resume queue
-> > > > processing, so NDMA cannot be sustained.
-> > > > 
-> > > > Trapping every MMIO would have a huge negative performance impact.  So
-> > > > it doesn't make sense to do so for a device that is not intended to be
-> > > > used in any situation where NDMA is required.  
-> > > 
-> > > But migration is a cooperative activity with userspace.  If necessary
-> > > we can impose a requirement that mmap access to regions (other than the
-> > > migration region itself) are dropped when we're in the NDMA or !RUNNING
-> > > device_state.    
-> > 
-> > It is always NDMA|RUNNING, so we can't fully drop access to
-> > MMIO. Userspace would have to transfer from direct MMIO to
-> > trapping. With enough new kernel infrastructure and qemu support it
-> > could be done.
 > 
-> This is simply toggling whether the mmap MemoryRegion in QEMU is
-> enabled, when not enabled access falls through to the read/write access
-> functions.  We already have this functionality for unmasking INTx
-> interrupts when we don't have EOI support.
->
-> > Even so, we can't trap accesses through the IOMMU so such a scheme
-> > would still require removing IOMMU acess to the device. Given that the
-> > basic qemu mitigation for no NDMA support is to eliminate P2P cases by
-> > removing the IOMMU mappings this doesn't seem to advance anything and
-> > only creates complexity.
+> On 12/1/21 9:16 AM, Kent Gibson wrote:
+> > On Tue, Nov 30, 2021 at 07:29:20PM -0800, Dipen Patel wrote:
+> >> Hi,
+> >>
+> >> On 11/25/21 5:31 PM, Kent Gibson wrote:
+> >>> On Tue, Nov 23, 2021 at 11:30:36AM -0800, Dipen Patel wrote:
+> >>>> This patch adds new clock type for the GPIO controller which can
+> >>>> timestamp gpio lines in realtime using hardware means. To expose such
+> >>>> functionalities to the userspace, code has been added in this patch
+> >>>> where during line create call, it checks for new clock type and if
+> >>>> requested, calls hardware timestamp related API from gpiolib.c.
+> >>>> During line change event, the HTE subsystem pushes timestamp data
+> >>>> through callbacks.
+> >>>>
+> >>>> Signed-off-by: Dipen Patel <dipenp@nvidia.com>
+> >>>> Acked-by: Linus Walleij <linus.walleij@linaro.org>
+> >>>> ---
+> >>>> Changes in v2:
+> >>>> - Added hte_dir and static structure hte_ts_desc.
+> >>>> - Added callbacks which get invoked by HTE when new data is available.
+> >>>> - Better use of hte_dir and seq from hte_ts_desc.
+> >>>> - Modified sw debounce function to accommodate hardware timestamping.
+> >>>>
+> >>>>  drivers/gpio/gpiolib-cdev.c | 161 ++++++++++++++++++++++++++++++++++--
+> >>>>  include/uapi/linux/gpio.h   |   1 +
+> >>>>  2 files changed, 153 insertions(+), 9 deletions(-)
+> >>>>
+> >>>> diff --git a/drivers/gpio/gpiolib-cdev.c b/drivers/gpio/gpiolib-cdev.c
+> >>>> index c7b5446d01fd..1736ad54e3ec 100644
+> >>>> --- a/drivers/gpio/gpiolib-cdev.c
+> >>>> +++ b/drivers/gpio/gpiolib-cdev.c
+> >>>> @@ -464,6 +464,12 @@ struct line {
+> >>>>  	 * stale value.
+> >>>>  	 */
+> >>>>  	unsigned int level;
+> >>>> +	/*
+> >>>> +	 * dir will be touched in HTE callbacks hte_ts_cb_t and
+> >>>> +	 * hte_ts_threaded_cb_t and they are mutually exclusive. This will be
+> >>>> +	 * unused when HTE is not supported/disabled.
+> >>>> +	 */
+> >>>> +	enum hte_dir dir;
+> >>>>  };
+> >>>>  
+> >>> Documentation should be in present tense, so 
+> >>>
+> >>> s/will be/is/g
+> >>>
+> >>> Same applies to other patches.
+> >>>
+> >>> Also
+> >>>
+> >>> s/touched/accessed/
+> >>>
+> >>> dir is a poor name for the field.  It is the hte edge direction and
+> >>> effectively the line level, so call it hte_edge_dirn or
+> >>> hte_edge_direction or hte_level.
+> >>>
+> >>> And it is placed in a section of the struct documented as "debouncer specific
+> >>> fields", but it is not specfic to the debouncer.  Add a "hte specific
+> >>> fields" section if nothing else is suitable.
+> >>>
+> >>>>  /**
+> >>>> @@ -518,6 +524,7 @@ struct linereq {
+> >>>>  	 GPIO_V2_LINE_DRIVE_FLAGS | \
+> >>>>  	 GPIO_V2_LINE_EDGE_FLAGS | \
+> >>>>  	 GPIO_V2_LINE_FLAG_EVENT_CLOCK_REALTIME | \
+> >>>> +	 GPIO_V2_LINE_FLAG_EVENT_CLOCK_HARDWARE | \
+> >>>>  	 GPIO_V2_LINE_BIAS_FLAGS)
+> >>>>  
+> >>>>  static void linereq_put_event(struct linereq *lr,
+> >>>> @@ -546,6 +553,94 @@ static u64 line_event_timestamp(struct line *line)
+> >>>>  	return ktime_get_ns();
+> >>>>  }
+> >>>>  
+> >>>> +static hte_return_t process_hw_ts_thread(void *p)
+> >>>> +{
+> >>>> +	struct line *line = p;
+> >>>> +	struct linereq *lr = line->req;
+> >>>> +	struct gpio_v2_line_event le;
+> >>>> +	u64 eflags;
+> >>>> +
+> >>>> +	memset(&le, 0, sizeof(le));
+> >>>> +
+> >>>> +	le.timestamp_ns = line->timestamp_ns;
+> >>>> +	line->timestamp_ns = 0;
+> >>>> +
+> >>> What is the purpose of this zeroing?
+> >>>
+> >>>> +	if (line->dir >= HTE_DIR_NOSUPP) {
+> >>>> +		eflags = READ_ONCE(line->eflags);
+> >>>> +		if (eflags == GPIO_V2_LINE_FLAG_EDGE_BOTH) {
+> >>>> +			int level = gpiod_get_value_cansleep(line->desc);
+> >>>> +
+> >>>> +			if (level)
+> >>>> +				/* Emit low-to-high event */
+> >>>> +				le.id = GPIO_V2_LINE_EVENT_RISING_EDGE;
+> >>>> +			else
+> >>>> +				/* Emit high-to-low event */
+> >>>> +				le.id = GPIO_V2_LINE_EVENT_FALLING_EDGE;
+> >>>> +		} else if (eflags == GPIO_V2_LINE_FLAG_EDGE_RISING) {
+> >>>> +			/* Emit low-to-high event */
+> >>>> +			le.id = GPIO_V2_LINE_EVENT_RISING_EDGE;
+> >>>> +		} else if (eflags == GPIO_V2_LINE_FLAG_EDGE_FALLING) {
+> >>>> +			/* Emit high-to-low event */
+> >>>> +			le.id = GPIO_V2_LINE_EVENT_FALLING_EDGE;
+> >>>> +		} else {
+> >>>> +			return HTE_CB_ERROR;
+> >>>> +		}
+> >>>> +	} else {
+> >>>> +		if (line->dir == HTE_RISING_EDGE_TS)
+> >>>> +			le.id = GPIO_V2_LINE_EVENT_RISING_EDGE;
+> >>>> +		else
+> >>>> +			le.id = GPIO_V2_LINE_EVENT_FALLING_EDGE;
+> >>>> +	}
+> >>> The mapping from line->dir to le.id needs to take into account the active
+> >>> low setting for the line.
+> >>>
+> >>> And it might be simpler if the hte_ts_data provided the level, equivalent
+> >>> to gpiod_get_raw_value_cansleep(), rather than an edge direction, so you
+> >>> can provide a common helper to determine the edge given the raw level.
+> >> (So from the level determine the edge?) that sound right specially when
+> >>
+> >> HTE provider has capability to record the edge in that case why bother
+> >>
+> >> getting the level and determine edge?
+> >>
+> >> Calculating the edge from the level makes sense when hte provider does not
+> >>
+> >> have that feature and that is what if (line->dir >= HTE_DIR_NOSUPP) does.
+> >>
+> > As asked in the review of patch 02, do you have an example of hardware that
+> > reports an edge direction rather than NOSUPP?
+> No...
+
+So you are adding an interface that nothing will currently use.
+Are there plans for hardware that will report the edge, and you are
+laying the groundwork here?
+
+> >
+> > Anyway, this is just a naming thing - the information content being passed
+> > is the the same, be it high/low/unknown or rising/falling/unknown.
+> >
+> > If the hardware does report edge direction then it is just one bit, and
+> > that also corresponds to the physical level immediately following the
+> > edge, so no additional conversion required there.
+> >
+> > It would be clearer to pass a level than an edge, as
+> >  - a hte edge (hte_dir) could be confused with a cdev edge
+> >    (gpio_v2_line_event_id), in mails like this if not in the code.
+> >  - cdev will fallback to using the physical level to determine the edge
+> >    if the hte can't provide it
+> I believe I have retained all the fallback logic in such case.
+> >  - cdev has to perform inversion if active low and it already does that
+> >    based on levels
+> >
+> >>>> +
+> >>>> +	le.line_seqno = line->line_seqno;
+> >>>> +	le.seqno = (lr->num_lines == 1) ? le.line_seqno : line->req_seqno;
+> >>>> +	le.offset = gpio_chip_hwgpio(line->desc);
+> >>>> +
+> >>>> +	linereq_put_event(lr, &le);
+> >>>> +
+> >>>> +	return HTE_CB_HANDLED;
+> >>>> +}
+> >>>> +
+> >>>> +static hte_return_t process_hw_ts(struct hte_ts_data *ts, void *p)
+> >>>> +{
+> >>>> +	struct line *line = p;
+> >>>> +	struct linereq *lr = line->req;
+> >>>> +
+> >>>> +	if (!ts)
+> >>>> +		return HTE_CB_ERROR;
+> >>>> +
+> >>>> +	line->timestamp_ns = ts->tsc;
+> >>>> +	line->dir = ts->dir;
+> >>>> +
+> >>> The doc for timestamp_ns states:
+> >>>
+> >>> 	 * timestamp_ns and req_seqno are accessed only by
+> >>> 	 * edge_irq_handler() and edge_irq_thread(), which are themselves
+> >>> 	 * mutually exclusive, so no additional protection is necessary.
+> >>>
+> >>> That no longer holds.  It is now also accessed here, and in
+> >>> process_hw_ts_thread(), which wont run concurrently with each other or
+> >>> the edge_irq_* handlers, but also in debounce_work_func() which may run
+> >>> concurrently with the others.
+> >>> So timestamp_ns now requires protection from concurrent access.
+> >>>
+> >>>> +	/*
+> >>>> +	 * It is possible that HTE engine detects spurious edges for the
+> >>>> +	 * lines where software debounce is enabled. This primary callback
+> >>>> +	 * will be called multiple times in that case. It will be better to
+> >>>> +	 * let debounce_work_func handle instead of process_hw_ts_thread.
+> >>>> +	 * The timestamp_ns will be overwritten here which is fine as we are
+> >>>> +	 * interested in the last value anyway. The debounce_work_func will
+> >>>> +	 * then just read whatever last line->timestamp_ns is stored. Because
+> >>>> +	 * this callback can be called multiple times, we are not really
+> >>>> +	 * interested in ts->seq.
+> >>>> +	 */
+> >>> Not sure what this is trying to say.
+> >>> Is this the primary callback? Or debounce_irq_handler()?
+> >> This is primary callback called from HTE when it pushes new TS data per line, it
+> >>
+> >> also says so in the second line.
+> >>
+> > Yeah, I probably read that as "The primary callback", but it is
+> > confusing anyway. "This primary callback" implies there is another
+> > primary callback. 
+> > Just say "This handler" instead of "This primary callback".
+> Noted...
+> >
+> >>> You say you really aren't interested in ts->seq, but the code immediately
+> >>> uses it.
+> >> That is when sw_debounced is not set and whole paragraph is about when
+> >>
+> >> sw_debounced is set.
+> >>
+> > So your whole comment here is about the else case?
+> > Then either put the comment where the else would be, or better yet invert
+> > the logic and return immediately if sw_debounced.
+> Sure...
+
+Understand, you wont be maintaining this code, even if you intend to.
+Consider the poor unfortunate who will have to deal with your code in
+the future.  This is not and should not be a minor consideration.
+
+Sometimes long winded comments only add confusion rather than clarity.
+If the code alone is confusing and requires more than a line or two of
+explanatory comments, excluding function documentation, then you might
+want to rethink your code.
+
+In this case the clearest is probably to restructure the if condition as
+I suggested and simplify or even drop the comment.
+
+> >
+> >>> Reword to clarify.
+> >>> And add braces after function names to highlight them, so
+> >>> debounce_work_func().
+> >> Will do.
+> >>>> +	if (!READ_ONCE(line->sw_debounced)) {
+> >>>> +		line->line_seqno = ts->seq;
+> >>>> +
+> >>>> +		/*
+> >>>> +		 * Increment in this callback incase all the lines in linereq
+> >>>> +		 * are enabled for hw timestamping. This will work even if
+> >>>> +		 * subset of lines are enabled for hw timestamping as
+> >>>> +		 * edge_irq_* callbacks will proceed as usual for them.
+> >>>> +		 */
+> >>> s/incase/in case/
+> >>>
+> >>> Not sure what the comment is trying to say. There is no check here that
+> >>> the other lines have HTE enabled.  And that is not relevant anyway.
+> >>> The edge_irq_* handlers will proceed as usual for those lines NOT
+> >>> enabled for hw timestamping.
+> >>>
+> >>> To clarify, the line_seqno indicates where this event lies in the
+> >>> sequence of events for the line.
+> >>> The request seqno indicates where this event lines in the sequence of
+> >>> events for the request.
+> >>> For a single line request these are the same, hence the minor
+> >>> optimisation of not updating lr->seqno below.
+> >>>
+> >>>> +		if (lr->num_lines != 1)
+> >>>> +			line->req_seqno = atomic_inc_return(&lr->seqno);
+> >>>> +
+> >>> The req_seqno should be updated corresponding to the change in the
+> >>> line_reqno.  That always used to be 1, but no longer if hte can discard
+> >>> events, i.e. skip over line_seqnos.
+> >> HTE does not discard any events, it pushes to clients as soon as its
+> >>
+> >> available through primary callback.
+> > The discarding of events that I am referring to is from your previous
+> > answers that indicated, to me anyway, that there could be gaps in the
+> > ts->seq numbers if the hardware event FIFO overflowed.
+> > Is that not the case?
 > 
-> NDMA only requires that the device cease initiating DMA, so I suppose
-> you're suggesting that the MMIO of a device that doesn't expect to make
-> use of p2p DMA could be poked through DMA, which might cause the device
-> to initiate a DMA and potentially lose sync with mediation.  That would
-> be bad, but seems like a non-issue for hns.
-
-Yes, not sure how you get to a non-issue though? If the IOMMU map is
-present the huawei device can be attacked by a hostile VM and forced
-to exit NDMA. All this takes is any two DMA capable devices to be
-plugged in?
-
-> > At least I'm not going to insist that hns do all kinds of work like
-> > this for a edge case they don't care about as a precondition to get a
-> > migration driver.
+> Not in this patch series as the provider I have dealt with does not such
 > 
-> I wonder if we need a region flag to opt-out of IOMMU mappings for
-> devices that do not support p2p use cases.  If there were no IOMMU
-> mappings and mediation handled CPU driven MMIO accesses, then we'd have
-> a viable NDMA mode for hns.
-
-This is a good idea, if we want to make huawei support NDMA then
-flagging it to never be in the iommu map in the first place is a great
-solution. Then they can use CPU mmio trapping get the rest of the way.
-
-> > > There's no reason that mediation while in the NDMA state needs to
-> > > impose any performance penalty against the default RUNNING state.   
-> > 
-> > Eh? Mitigation of no NDMA support would have to mediate the MMIO on a
-> > a performance doorbell path, there is no escaping a performance
-> > hit. I'm not sure what you mean
+> feature. ts->seq is software counter in that case.
 > 
-> Read it again, I'm suggesting that mediation during NDMA doesn't need
-> to carry over any performance penalty to the default run state.  We
-> don't care if mediation imposes a performance penalty while NDMA is set,
-> we're specifically attempting to quiesce the device.  The slower it
-> runs the better ;)
 
-OK, I don't read it like that. It seems OK to have a performance hit
-in NDMA since it is only a short grace state.
+The code here has to deal with the general case, not just the one example
+driver you have provided.  So in general there COULD be gaps in the
+ts->seq, right?
 
-> > It would make userspace a bit simpler at the cost of excluding or
-> > complicating devices like hns for a use case they don't care about.
-> > 
-> > On the other hand, the simple solution in qemu is when there is no
-> > universal NDMA it simply doesn't include any MMIO ranges in the
-> > IOMMU.
+I do see that using the ts-seq for sw debounced lines is problematic
+though. The debouncer itself will be discarding hte events, but that
+shouldn't be considered a lost event to the user.  You could track
+how many events are discarded by the debouncer and subtract those from
+the sequence numbers reported to userspace?
+
+> >
+> > And when you say "primary callback", both here and elsewhere, you mean the
+> > cb parameter to gpiod_req_hw_timestamp_ns() and gc->req_hw_timestamp()?
+> yes, cb is primary and tcb (threaded cb) is optional secondary.
+> > Either way, be specific and name the function or parameter, or find a
+> > better term than "primary callback".
+> > In this case "the client's event handler" would be much clearer.
+> Noted...
+> >
+> >>> To be consistent, i.e. if events were lost for this line then they were
+> >>> also lost for the requested lines, the lr->seqno should be incremented by
+> >>> the change in line_seqno.  Probably with some sanity checks.
+> >>>
+> >>>> +		return HTE_RUN_THREADED_CB;
+> >>>> +	}
+> >>>> +
+> >>>> +	return HTE_CB_HANDLED;
+> >>>> +}
+> >>>> +
+> >>>>  static irqreturn_t edge_irq_thread(int irq, void *p)
+> >>>>  {
+> >>>>  	struct line *line = p;
+> >>>> @@ -553,6 +648,10 @@ static irqreturn_t edge_irq_thread(int irq, void *p)
+> >>>>  	struct gpio_v2_line_event le;
+> >>>>  	u64 eflags;
+> >>>>  
+> >>>> +	/* Let process_hw_ts_thread handle */
+> >>>> +	if (test_bit(FLAG_EVENT_CLOCK_HARDWARE, &line->desc->flags))
+> >>>> +		return IRQ_HANDLED;
+> >>>> +
+> >>> This adds pointless runtime overhead, and for everyone not just hte users.
+> >>> Don't stub out a handler in the handler - stub it out where it is
+> >>> registered by registering a stub handler.  Or don't request it at all.
+> >>>
+> >>> So why would gpiolib-cdev be requesting the irq, only to stub out
+> >>> the handlers?
+> >>> If that has a side-effect that hte requires then hte should be taking
+> >>> care of it - it is not gpiolib-cdev's problem.
+> >> - Why stop at moving irq and debounce related stuff to hte then?
+> >>
+> > How about you answer my question before asking your own?
+> > Here I am only questioning why gpiolib-cdev is requesting an interrupt
+> > for a hte line at all.  It has no reason to, so hte must have?
 > 
-> That leads to mysterious performance penalties when a VM was previously
-> able to make use of (ex.) GPUDirect, 
-
-Not a penalty it will just explode somehow. There is no way right now
-for a VM to know P2P doesn't work. It is one of these annoying things
-that leaks to the VMM like the no-snoop mess. A VMM installing a
-device combination that is commonly used with P2P, like a GPU and a
-NIC, had a better make sure P2P works :)
-
-> but adds an hns device and suddenly can no longer use p2p.  Or
-> rejected hotplugs if a device has existing NDMA capable devices, p2p
-> might be active, but the new device does not support NDMA.  
-
-I don't think qemu can go back on what it already did, so rejected
-hotplug seems the only choice.
-
-> This all makes it really complicated to get deterministic behavior
-> for devices.  I don't know how to make QEMU behavior predictable and
-> supportable in such an environment.
-
-And this is the thing that gives me pause to think maybe the huawei
-device should do the extra work?
-
-On the other hand I suspect their use case is fine with qemu set to
-disable P2P completely.
-
-OTOH "supportable" qemu could certainly make the default choice to
-require devices for simplicity.
-
-> > Since qemu is the only implementation it would be easy for drivers to
-> > rely on the implicit reset it seems to do, it seems an important point
-> > that should be written either way.
-> > 
-> > I don't have a particular requirement to have the reset, but it does
-> > seem like a good idea. If you feel strongly, then let's say the
-> > opposite that the driver must enter RESUME with no preconditions,
-> > doing an internal reset if required.
+> Commented below in "separation of concern" paragraph.
 > 
-> It seems cleaner to me than unnecessarily requiring userspace to pass
-> through an ioctl in order to get to the next device_state.
-
-Ok, I'll add something like this.
-
-> > Can you point to something please? I can't work with "I'm not sure"
+> > And where did I suggest moving the "debounce stuff" to hte?
 > 
-> The reset behavior that I'm trying to clarify above is the primary
-> offender, but "I'm not sure" I understand the bit prioritization enough
-> to know that there isn't something there as well.  I'm also not sure if
-> the "end of stream" phrasing below matches the uAPI.
-
-Realistically I think userspace should not make use of the bit
-prioritization. It is more as something driver implementors should
-follow for consistent behavior.
- 
-> > IMO the header file doesn't really say much and can be read in a way
-> > that is consistent with this more specific document.
+> Perhaps I misunderstood "That includes the sw debouncer - more on that
 > 
-> But if this document is suggesting the mlx5/QEMU interpretation is the
-> only valid interpretations for driver authors, those clarifications
-> should be pushed back into the uAPI header.
-
-Can we go the other way and move more of the uAPI header text here?
-
-> > I have no idea anymore. You asked for docs and complete picture as a
-> > percondition for merging a driver. Here it is.
-> > 
-> > What do you want?
+> below." comment.
 > 
-> Looking through past conversations, I definitely asked that we figure
-> out how NDMA is going to work.  Are you thinking of a different request
-> from me?
 
-It was part of the whole etherpad thing. This was what we said we'd do
-to resolve the discussion.
+The point I was trying to make there was that, for hte enabled lines, the
+sw debouncer should be driven by hte events, not irq events.
+That does not imply nor require moving the debouncer to hte.
 
-I expect to come to some agreement with you and Connie on this text
-and we will go ahead.
- 
-> The restriction implied by lack of NDMA support are pretty significant.
-> Maybe a given device like hns doesn't care because they don't intend to
-> support p2p, but they should care if it means we can't hot-add their
-> device to a VM in the presences of devices that can support p2p and if
-> cold plugging their device into an existing configuration implies loss
-> of functionality or performance elsewhere.
+> >
+> > What I am suggesting is called separation of concerns.  In this context
+> > the intent is to look towards abstracting the edge event generation.
+> > Having hte and irq entangled for no apparent reason makes doing that more
 > 
-> I'd tend to expect though that we'd incorporate NDMA documentation into
-> the uAPI with a formal proposal for discovery and outline a number of
-> those usage implications.
-
-Yishai made a patch, but we have put the discussion of NDMA here, not
-hidden in a commit message
- 
-> > > We've tried to define a specification that's more flexible than a
-> > > single implementation and by these standards we seem to be flipping
-> > > that implementation back into the specification.  
-> > 
-> > What specification!?! All we have is a couple lines in a header file
-> > that is no where near detailed enough for multi-driver
-> > interoperability with userspace. You have no idea how much effort has
-> > been expended to get this far based on the few breadcrumbs that were
-> > left, and we have access to the team that made the only other
-> > implementation!
-> > 
-> > *flexible* is not a specification.
+> But in this patch series (i.e. HTE provider), they are entangled as hte provider
 > 
-> There are approximately 220 lines of the uAPI header file dealing
-> specifically with the migration region.  A bit more than a couple.
-
-Unfortunately more than half of that describes how the data window
-works, and half of the rest is kind of obvious statements.
-
-> We've tried to define it by looking at the device requirements to
-> support migration rather than tailor it specifically to the current QEMU
-> implementation of migration.  Attempting to undo that generality by
-> suggesting only current usage patterns are relevant is therefore going
-> to generate friction.
-
-In your mind you see generality, in our mind we want to know how to
-write an inter operable driver and there is no documention saying how
-to do that.
-
-> > > Userspace can attempt RESUMING -> RUNNING regardless of what we specify,
-> > > so a driver needs to be prepared for such an attempted state change
-> > > either way.  So what's the advantage to telling a driver author that
-> > > they can expect a given behavior?  
-> > 
-> > The above didn't tell a driver author to expect a certain behavior, it
-> > tells userspace what to do.
+> will only ts the GPIO line which is configured as input irq. That is why I have
 > 
->   "The migration driver can rely on user-space issuing a
->    VFIO_DEVICE_RESET prior to starting RESUMING."
-
-I trimmed too much, the original text you quoted was
-
-"To abort a RESUMING issue a VFIO_DEVICE_RESET."
-
-Which I still think is fine.
-
-> Tracing that shows a reset preceding entering RESUMING doesn't suggest
-> to me that QEMU is performing a reset for the specific purpose of
-> entering RESUMING.  Correlation != causation.
-
-Kernel doesn't care why qemu did it - it was done. Intent doesn't
-matter :)
-
-> The order I see in the v5 mlx5 post is:
+> separated GPIO line config part and TS part. In other words, let cdev handle
 > 
-> if RUNNING 1->0
->   quiesce + freeze
-> if RUNNING or SAVING change && state == !RUNNING | SAVING
->   save device state
-> if RESUMING 0->1
->   reset device state
-> if RESUMING 1->0
->   load device state
-> if RUNNING 0->1
->   unfreeze + unquiesce
-
-Right, which matches the text:
-
- - !RUNNING
- - SAVING | !RUNNING
- - RESUMING
- - !RESUMING
- - RUNNING
- 
-> So maybe part of my confusion stems from the fact that the mlx5 driver
-> doesn't support pre-copy, which by the provided list is the highest
-> priority.  
-
-Right.
-
-> But what actually makes that the highest priority?  Any
-> combination of SAVING and RESUMING is invalid, so we can eliminate
-> those.  We obviously can't have RUNNING and !RUNNING, so we can
-> eliminate all cases of !RUNNING, so we can shorten the list relativeto
-> prioritizing SAVING|RUNNING to:
-
-There are several orders that can make sense. What we've found is
-following the reference flow order has given something workable for
-precedence.
-
-> SAVING | RUNNING would need to be processed after !RESUMING, but
-> maybe before RUNNING itself.
-
-It is a good point, it does make more sense after RUNNING as a device
-should be already RUNNING before entering pre-copy. I moved it to
-before !NDMA
-
-> NDMA only requires that the device cease initiating DMA before the call
-> returns and it only has meaning if RUNNING, so I'm not sure why setting
-> NDMA is given any priority.  I guess maybe we're trying
-> (unnecessarily?) to preempt any DMA that might occur as a result of
-> setting RUNNING (so why is it above cases including !RUNNING?)?
-
-Everything was given priority so there is no confusing omission. For
-the order, as NDMA has no meaning outside RUNNING, it makes sense you'd
-do a NDMA before making it meaningless / after making it meaningful.
-
-This is made concrete by mlx5's scheme that always requires quiesce
-(NDMA) to happen before freeze (!RUNNING) and viceversa, so we get to
-this order. mlx5 implicitly does NDMA on !RUNNING 
-
-> Obviously presenting a priority scheme without a discussion of the
-> associativity of the states and a barely sketched out nomenclature is
-> really not inviting an actual understanding how this is reasoned (imo).
-
-Sure, but how we got here isn't really important to the intent of the
-document to guide implementors.
-
-Well, you wrote a lot, and found a correction, but I haven't been left
-with a way to write this more clearly? Now that you obviously
-understand what it is saying, what do you think?
-
-> I'm feeling like there's a bit of a chicken and egg problem here to
-> decide if this is sufficiently clear documentation before a new posting
-> of the mlx5 driver where the mlx5 driver is the authoritative source
-> for the reasoning of the priority scheme documented here (and doesn't
-> make use of pre-copy).
-
-I wouldn't fixate on the ordering, it is a small part of the
-document..
-
-> The migration data stream is entirely opaque to userspace, so what's
-> the benefit to userspace to suggest anything about the content in each
-> phase?  This is presented in a userspace edge concerns section, but the
-> description is much more relevant to a driver author.
-
-It is informative for the device driver author to understand what
-device functionality to map to this.
-
-> > > I think the fact that a user is not required to run the pre-copy
-> > > phase until completion is also noteworthy.  
-> > 
-> > This text doesn't try to detail how the migration window works, that
-> > is a different large task. The intention is that the migration window
-> > must be fully drained to be successful.
+> any line config that userspace has asked and let hte handle ts part if the
 > 
-> Clarification, the *!RUNNING* migration window must be fully drained.
+> line config is supported (If line config is not suitable, it will not enable hte, see
 > 
-> > I added this for some clarity ""The entire migration data, up to each
-> > end of stream must be transported from the saving to resuming side.""
+> gpio-tegra186.c function tegra186_gpio_req_hw_ts() in this patch series where
 > 
-> Per the uAPI regarding pre-copy:
+> check happens for the tegra hte provider).
 > 
->   "The user must not be required to consume all migration data before
->   the device transitions to a new state, including the stop-and-copy
->   state."
+
+Can you explain "hte provider will only ts the GPIO line which is
+configured as input irq"?  That sounds like a hte concern to me, or even
+worse a particular hte provider problem.
+
+The user requests a line with edge event detection enabled and with hte
+timestamps.
+Nothing in that requires irq from gpiolib-cdev.
+gpiolib-cdev should use hte as the event source where it would usually
+use irq. If hte requires irq to allow it to generate those events then
+hte should be responsible for requesting the irq.
+In a hypothetical extreme case where gpiolib-cdev only supported hte
+lines there should be no reference to irq in gpiolib-cdev.
+Yet you continue to insist that gpiolib-cdev should request the irq for
+hte.
+What am I missing here?
+
+> > difficult than it needs to be, whereas keeping them separate greatly
+> > simplifies identification of common code suitable for refactoring
+> > subsequently.
+> >
+> > Not sure what to call what you are suggesting.
+> >
+> >> I mean if there is hte provider which can TS GPIO output/input
+> >>
+> >> does it mean hte is responsible for parsing the GPIO line configs, setting them up
+> >>
+> >> (i.e. input or output) as well? Are we not duplicating logic instead of
+> >>
+> >> leveraging gpio-cdev? Does it make sense for the HTE subsystem which not
+> >>
+> >> only TS the GPIOs but other SoC lines?
+> >>
+> >> - What happens to in kernel GPIO HTE client (for example, hte-tegra194-gpio-test.c)?
+> >>
+> >> some clients do more in their IRQ handler than what edge_irq_handler does in which
+> >>
+> >> case it would make sense to have them request irq in their code than through HTE.
+> >>
+> >>> And speaking as to how the whole hte/gpiolib-cdev interface should work,
+> >>> hte should be an edge event generator alternative to irq.  So lines with
+> >>> hte enabled should work without any irq calls from gpiolib-cdev.
+> >>> That includes the sw debouncer - more on that below.
+> >>>
+> >>>>  	/* Do not leak kernel stack to userspace */
+> >>>>  	memset(&le, 0, sizeof(le));
+> >>>>  
+> >>>> @@ -604,6 +703,10 @@ static irqreturn_t edge_irq_handler(int irq, void *p)
+> >>>>  	struct line *line = p;
+> >>>>  	struct linereq *lr = line->req;
+> >>>>  
+> >>>> +	/* Let HTE supplied callbacks handle */
+> >>>> +	if (test_bit(FLAG_EVENT_CLOCK_HARDWARE, &line->desc->flags))
+> >>>> +		return IRQ_HANDLED;
+> >>>> +
+> >>>>  	/*
+> >>>>  	 * Just store the timestamp in hardirq context so we get it as
+> >>>>  	 * close in time as possible to the actual event.
+> >>>> @@ -682,14 +785,6 @@ static void debounce_work_func(struct work_struct *work)
+> >>>>  	/* Do not leak kernel stack to userspace */
+> >>>>  	memset(&le, 0, sizeof(le));
+> >>>>  
+> >>>> -	lr = line->req;
+> >>>> -	le.timestamp_ns = line_event_timestamp(line);
+> >>>> -	le.offset = gpio_chip_hwgpio(line->desc);
+> >>>> -	line->line_seqno++;
+> >>>> -	le.line_seqno = line->line_seqno;
+> >>>> -	le.seqno = (lr->num_lines == 1) ?
+> >>>> -		le.line_seqno : atomic_inc_return(&lr->seqno);
+> >>>> -
+> >>>>  	if (level)
+> >>>>  		/* Emit low-to-high event */
+> >>>>  		le.id = GPIO_V2_LINE_EVENT_RISING_EDGE;
+> >>>> @@ -697,6 +792,23 @@ static void debounce_work_func(struct work_struct *work)
+> >>>>  		/* Emit high-to-low event */
+> >>>>  		le.id = GPIO_V2_LINE_EVENT_FALLING_EDGE;
+> >>>>  
+> >>>> +	if (test_bit(FLAG_EVENT_CLOCK_HARDWARE, &line->desc->flags)) {
+> >>>> +		le.timestamp_ns = line->timestamp_ns;
+> >>>> +		if (line->dir < HTE_DIR_NOSUPP)
+> >>>> +			le.id = (line->dir == HTE_RISING_EDGE_TS) ?
+> >>>> +				 GPIO_V2_LINE_EVENT_RISING_EDGE :
+> >>>> +				 GPIO_V2_LINE_EVENT_FALLING_EDGE;
+> >>>> +	} else {
+> >>>> +		le.timestamp_ns = line_event_timestamp(line);
+> >>>> +	}
+> >>>> +
+> >>> Move the FLAG_EVENT_CLOCK_HARDWARE check into line_event_timestamp().
+> >>>
+> >>> And the id fudging is necessary because the level returned by
+> >>> gpiod_get_raw_value_cansleep() can disagree with the level from hte?
+> >>> So you are still trying to synchronise events from two streams.
+> >>> And that is still broken.
+> >>> If a hte event occurs between the level being sampled by
+> >>> gpiod_get_raw_value_cansleep() and the line->dir being read then the line
+> >>> will have toggled and you will be reporting the opposite state than the
+> >>> one the debouncer determined was stable.  And maybe the wrong timestamp as
+> >>> well.
+> >>>
+> >>> For lines where hte is enabled, the hte should be the source of level for
+> >>> the debouncer, not the raw value.  And the mod_delayed_work() that
+> >>> drives the debouncer should be called by a hte handler, not an irq handler.
+> >>>
+> >>> There is also a race on reading the hte timestamp (line->timestamp_ns) and
+> >>> the hte level (line->dir), such that you can get the level from one event
+> >>> the timestamp from another.
+> >>>
+> >>>> +	lr = line->req;
+> >>>> +	le.offset = gpio_chip_hwgpio(line->desc);
+> >>>> +	line->line_seqno++;
+> >>>> +	le.line_seqno = line->line_seqno;
+> >>>> +	le.seqno = (lr->num_lines == 1) ?
+> >>>> +		le.line_seqno : atomic_inc_return(&lr->seqno);
+> >>>> +
+> >>> What is the purpose of moving this block of code moved from before the
+> >>> if (level)?
+> >>>
+> >>>
+> >>>>  	linereq_put_event(lr, &le);
+> >>>>  }
+> >>>>  
+> >>>> @@ -891,7 +1003,6 @@ static int gpio_v2_line_flags_validate(u64 flags)
+> >>>>  	/* Return an error if an unknown flag is set */
+> >>>>  	if (flags & ~GPIO_V2_LINE_VALID_FLAGS)
+> >>>>  		return -EINVAL;
+> >>>> -
+> >>> Gratuitous whitespace change.
+> >>>
+> >>>>  	/*
+> >>>>  	 * Do not allow both INPUT and OUTPUT flags to be set as they are
+> >>>>  	 * contradictory.
+> >>>> @@ -900,6 +1011,11 @@ static int gpio_v2_line_flags_validate(u64 flags)
+> >>>>  	    (flags & GPIO_V2_LINE_FLAG_OUTPUT))
+> >>>>  		return -EINVAL;
+> >>>>  
+> >>>> +	/* Only allow one event clock source */
+> >>>> +	if ((flags & GPIO_V2_LINE_FLAG_EVENT_CLOCK_REALTIME) &&
+> >>>> +	    (flags & GPIO_V2_LINE_FLAG_EVENT_CLOCK_HARDWARE))
+> >>>> +		return -EINVAL;
+> >>>> +
+> >>>>  	/* Edge detection requires explicit input. */
+> >>>>  	if ((flags & GPIO_V2_LINE_EDGE_FLAGS) &&
+> >>>>  	    !(flags & GPIO_V2_LINE_FLAG_INPUT))
+> >>>> @@ -992,6 +1108,8 @@ static void gpio_v2_line_config_flags_to_desc_flags(u64 flags,
+> >>>>  
+> >>>>  	assign_bit(FLAG_EVENT_CLOCK_REALTIME, flagsp,
+> >>>>  		   flags & GPIO_V2_LINE_FLAG_EVENT_CLOCK_REALTIME);
+> >>>> +	assign_bit(FLAG_EVENT_CLOCK_HARDWARE, flagsp,
+> >>>> +		   flags & GPIO_V2_LINE_FLAG_EVENT_CLOCK_HARDWARE);
+> >>>>  }
+> >>>>  
+> >>>>  static long linereq_get_values(struct linereq *lr, void __user *ip)
+> >>>> @@ -1154,6 +1272,21 @@ static long linereq_set_config_unlocked(struct linereq *lr,
+> >>>>  				return ret;
+> >>>>  		}
+> >>>>  
+> >>>> +		/* Check if new config sets hardware assisted clock */
+> >>>> +		if (flags & GPIO_V2_LINE_FLAG_EVENT_CLOCK_HARDWARE) {
+> >>>> +			ret = gpiod_req_hw_timestamp_ns(desc, process_hw_ts,
+> >>>> +							process_hw_ts_thread,
+> >>>> +							&lr->lines[i]);
+> >>>> +			if (ret)
+> >>>> +				return ret;
+> >>> Note that the line config is the complete line config, not a delta.
+> >>>
+> >>> What happens when a line that already has hte enabled is reconfigured
+> >>> and still has hte enabled?  i.e. what happens when
+> >>> gpiod_req_hw_timestamp_ns() is called for the second time?
+> >> HTE will return without doing anything with error code.
+> >>
+> > But this is not an error case, it is a normal reconfigure of an
+> > attribute other than the hte flag.
 > 
-> If "end of stream" suggests the driver defined end of the data stream
-> for pre-copy rather than simply the end of the user accumulated data
-> stream, that conflicts with the uAPI.  Thanks,
+> I assumed when this function is called it will "reset" and not  update the configs.
+> 
+> If this assumption is wrong, I will correct the logic here.
+> 
 
-Hmm, yes. I can try to clarify how this all works better. We don't
-implement pre-copy but it should still be described better than it has
-been.
+The set_config does whatever is required to change the line request
+config from the old to the new.  Both old and new are complete snapshots
+of the line request config.
 
-I'm still not sure how this works. 
+The change should be seamless except for the attributes being changed.
+We certainly do not reset the config and start from scratch - that would
+be little better than the user releasing and re-requesting the lines.
 
-We are in SAVING|RUNNING and we dump all the dirty data and return end
-of stream.
+For many attributes we can just apply the new config.  But some cases,
+such as a change to active low polarity, are a lot more involved.
+And if hte considers re-requesting the line to be an error then you
+should only make the hte request when the hte flag changes to set.
 
-We stay in SAVING|RUNNING and some more device state became dirty. How
-does userspace know? Should it poll and see if the stream got longer?
+Cheers,
+Kent.
 
-Below is what I collected from your feedback so far
-
-Thanks,
-Jason
-
-diff --git a/Documentation/driver-api/vfio.rst b/Documentation/driver-api/vfio.rst
-index d9be47570f878c..2ff47823a889b4 100644
---- a/Documentation/driver-api/vfio.rst
-+++ b/Documentation/driver-api/vfio.rst
-@@ -258,7 +258,9 @@ Setting/clearing bit groups triggers device action, and each bit controls a
- continuous device behavior.
- 
- Along with the device_state the migration driver provides a data window which
--allows streaming migration data into or out of the device.
-+allows streaming migration data into or out of the device. The entire
-+migration data, up to the end of stream must be transported from the saving to
-+resuming side.
- 
- A lot of flexibility is provided to user-space in how it operates these
- bits. What follows is a reference flow for saving device state in a live
-@@ -299,12 +301,9 @@ entities (VCPU_RUNNING and DIRTY_TRACKING) the VMM controls fit in.
- and the reference flow for resuming:
- 
-   RUNNING
--     Issue VFIO_DEVICE_RESET to clear the internal device state
--  0
--     Device is halted
-+     Use ioctl(VFIO_GROUP_GET_DEVICE_FD) to obtain a fresh device
-   RESUMING
--     Push in migration data. Data captured during pre-copy should be
--     prepended to data captured during SAVING.
-+     Push in migration data.
-   NDMA | RUNNING
-      Peer to Peer DMA grace state
-   RUNNING, VCPU_RUNNING
-@@ -315,48 +314,73 @@ states act as cross device synchronization points. The VMM must bring all
- devices to the grace state before advancing past it.
- 
- The above reference flows are built around specific requirements on the
--migration driver for its implementation of the migration_state input.
-+migration driver for its implementation of the device_state input.
- 
--The migration_state cannot change asynchronously, upon writing the
--migration_state the driver will either keep the current state and return
-+The device_state cannot change asynchronously, upon writing the
-+device_state the driver will either keep the current state and return
- failure, return failure and go to ERROR, or succeed and go to the new state.
- 
--Event triggered actions happen when user-space requests a new migration_state
--that differs from the current migration_state. Actions happen on a bit group
-+Event triggered actions happen when user-space requests a new device_state
-+that differs from the current device_state. Actions happen on a bit group
- basis:
- 
-+ SAVING
-+   The device clears the data window and prepares to stream migration data.
-+   The entire data from the start of SAVING to the end of stream is transfered
-+   to the other side to execute a resume.
-+
-  SAVING | RUNNING
--   The device clears the data window and begins streaming 'pre copy' migration
--   data through the window. Devices that cannot log internal state changes
--   return a 0 length migration stream.
-+   The device beings streaming 'pre copy' migration data through the window.
-+
-+   A device that does not support internal state logging should return a 0
-+   length stream.
-+
-+   The migration window may reach an end of stream, this can be a permanent or
-+   temporary condition.
-+
-+   User space can do SAVING | !RUNNING at any time, any in progress transfer
-+   through the migration window is carried forward.
-+
-+   This allows the device to implement a dirty log for its internal state.
-+   During this state the data window should present the device state being
-+   logged and during SAVING | !RUNNING the data window should transfer the
-+   dirtied state and conclude the migration data.
-+
-+   The state is only concerned with internal device state. External DMAs are
-+   covered by the separate DIRTY_TRACKING function.
- 
-  SAVING | !RUNNING
--   The device captures its internal state that is not covered by internal
--   logging, as well as any logged changes.
-+   The device captures its internal state and streams it through the
-+   migration window.
- 
--   The device clears the data window and begins streaming the captured
--   migration data through the window. Devices that cannot log internal state
--   changes stream all their device state here.
-+   When the migration window reaches an end of stream the saving is concluded
-+   and there is no further data. All of the migration data streamed from the
-+   time SAVING starts to this final end of stream is concatenated together
-+   and provided to RESUMING.
-+
-+   Devices that cannot log internal state changes stream all their device
-+   state here.
- 
-  RESUMING
-    The data window is cleared, opened, and can receive the migration data
--   stream.
-+   stream. The device must always be able to enter resuming and it may reset
-+   the device to do so.
- 
-  !RESUMING
-    All the data transferred into the data window is loaded into the device's
--   internal state. The migration driver can rely on user-space issuing a
--   VFIO_DEVICE_RESET prior to starting RESUMING.
-+   internal state.
- 
--   To abort a RESUMING issue a VFIO_DEVICE_RESET.
-+   The internal state of a device is undefined while in RESUMING. To abort a
-+   RESUMING and return to a known state issue a VFIO_DEVICE_RESET.
- 
-    If the migration data is invalid then the ERROR state must be set.
- 
--Continuous actions are in effect when migration_state bit groups are active:
-+Continuous actions are in effect when device_state bit groups are active:
- 
-  RUNNING | NDMA
-    The device is not allowed to issue new DMA operations.
- 
--   Whenever the kernel returns with a migration_state of NDMA there can be no
-+   Whenever the kernel returns with a device_state of NDMA there can be no
-    in progress DMAs.
- 
-  !RUNNING
-@@ -384,24 +408,24 @@ Continuous actions are in effect when migration_state bit groups are active:
-    during ERROR to avoid corrupting other devices or a VM during a failed
-    migration.
- 
--When multiple bits change in the migration_state they may describe multiple
--event triggered actions, and multiple changes to continuous actions.  The
--migration driver must process them in a priority order:
-+When multiple bits change in the device_state they may describe multiple event
-+triggered actions, and multiple changes to continuous actions.  The migration
-+driver must process the new device_state bits in a priority order:
- 
-- - SAVING | RUNNING
-  - NDMA
-  - !RUNNING
-  - SAVING | !RUNNING
-  - RESUMING
-  - !RESUMING
-  - RUNNING
-+ - SAVING | RUNNING
-  - !NDMA
- 
- In general, userspace can issue a VFIO_DEVICE_RESET ioctl and recover the
- device back to device_state RUNNING. When a migration driver executes this
--ioctl it should discard the data window and set migration_state to RUNNING as
-+ioctl it should discard the data window and set device_state to RUNNING as
- part of resetting the device to a clean state. This must happen even if the
--migration_state has errored. A freshly opened device FD should always be in
-+device_state has errored. A freshly opened device FD should always be in
- the RUNNING state.
- 
- The migration driver has limitations on what device state it can affect. Any
-@@ -438,8 +462,9 @@ implementing migration:
-   As Peer to Peer DMA is a MMIO touch like any other, it is important that
-   userspace suspend these accesses before entering any device_state where MMIO
-   is not permitted, such as !RUNNING. This can be accomplished with the NDMA
--  state. Userspace may also choose to remove MMIO mappings from the IOMMU if the
--  device does not support NDMA and rely on that to guarantee quiet MMIO.
-+  state. Userspace may also choose to never install MMIO mappings into the
-+  IOMMU if devices do not support NDMA and rely on that to guarantee quiet
-+  MMIO.
- 
-   The Peer to Peer Grace States exist so that all devices may reach RUNNING
-   before any device is subjected to a MMIO access.
-@@ -458,16 +483,6 @@ implementing migration:
-   Device that do not support NDMA cannot be configured to generate page faults
-   that require the VCPU to complete.
- 
--- pre-copy allows the device to implement a dirty log for its internal state.
--  During the SAVING | RUNNING state the data window should present the device
--  state being logged and during SAVING | !RUNNING the data window should present
--  the unlogged device state as well as the changes from the internal dirty log.
--
--  On RESUME these two data streams are concatenated together.
--
--  pre-copy is only concerned with internal device state. External DMAs are
--  covered by the separate DIRTY_TRACKING function.
--
- - Atomic Read and Clear of the DMA log is a HW feature. If the tracker
-   cannot support this, then NDMA could be used to synthesize it less
-   efficiently.
-@@ -476,14 +491,23 @@ implementing migration:
-   are pushed down to the next step in the sequence and various behaviors that
-   rely on NDMA cannot be used.
- 
--- Migration control registers inside the same iommu_group as the VFIO device.
--  This immediately raises a security concern as user-space can use Peer to Peer
--  DMA to manipulate these migration control registers concurrently with
-+  NDMA is made optional to support simple HW implementations that either just
-+  cannot do NDMA, or cannot do NDMA without a performance cost. NDMA is only
-+  necessary for special features like P2P and PRI, so devices can omit it in
-+  exchange for limitations on the guest.
-+
-+- Devices that have their HW migration control MMIO registers inside the same
-+  iommu_group as the VFIO device have some special considerations. In this
-+  case a driver will be operating HW registers from kernel space that are also
-+  subjected to userspace controlled DMA due to the iommu_group.
-+
-+  This immediately raises a security concern as user-space can use Peer to
-+  Peer DMA to manipulate these migration control registers concurrently with
-   any kernel actions.
- 
-   A device driver operating such a device must ensure that kernel integrity
-   cannot be broken by hostile user space operating the migration MMIO
--  registers via peer to peer, at any point in the sequence. Notably the kernel
-+  registers via peer to peer, at any point in the sequence. Further the kernel
-   cannot use DMA to transfer any migration data.
- 
-   However, as discussed above in the "Device Peer to Peer DMA" section, it can
+> > And that will now return an error to userspace?
+> >
+> > Cheers,
+> > Kent.
+> >
+> >>> You provide a comment for the release case below, what of the request
+> >>> case?
+> >>>
+> >>> If you need to check for change then compare the old and new flags, as
+> >>> the polarity_change check does (not visible in the diff here).
+> >>>
+> >>>> +		} else {
+> >>>> +			/*
+> >>>> +			 * HTE subsys will do nothing if there is nothing to
+> >>>> +			 * release.
+> >>>> +			 */
+> >>>> +			gpiod_rel_hw_timestamp_ns(desc);
+> >>>> +		}
+> >>>> +
+> >>> Comment will fit on one line.
+> >>>
+> >>> And it would be better to document that the function is idempotent in the
+> >>> function documentation, not everywhere it is used.
+> >>>
+> >>>>  		blocking_notifier_call_chain(&desc->gdev->notifier,
+> >>>>  					     GPIO_V2_LINE_CHANGED_CONFIG,
+> >>>>  					     desc);
+> >>>> @@ -1409,6 +1542,14 @@ static int linereq_create(struct gpio_device *gdev, void __user *ip)
+> >>>>  					flags & GPIO_V2_LINE_EDGE_FLAGS);
+> >>>>  			if (ret)
+> >>>>  				goto out_free_linereq;
+> >>>> +
+> >>>> +			if (flags & GPIO_V2_LINE_FLAG_EVENT_CLOCK_HARDWARE) {
+> >>>> +				ret = gpiod_req_hw_timestamp_ns(desc, process_hw_ts,
+> >>>> +							process_hw_ts_thread,
+> >>>> +							&lr->lines[i]);
+> >>>> +				if (ret)
+> >>>> +					goto out_free_linereq;
+> >>>> +			}
+> >>>>  		}
+> >>>>  
+> >>>>  		blocking_notifier_call_chain(&desc->gdev->notifier,
+> >>>> @@ -1959,6 +2100,8 @@ static void gpio_desc_to_lineinfo(struct gpio_desc *desc,
+> >>>>  
+> >>>>  	if (test_bit(FLAG_EVENT_CLOCK_REALTIME, &desc->flags))
+> >>>>  		info->flags |= GPIO_V2_LINE_FLAG_EVENT_CLOCK_REALTIME;
+> >>>> +	else if (test_bit(FLAG_EVENT_CLOCK_HARDWARE, &desc->flags))
+> >>>> +		info->flags |= GPIO_V2_LINE_FLAG_EVENT_CLOCK_HARDWARE;
+> >>>>  
+> >>>>  	debounce_period_us = READ_ONCE(desc->debounce_period_us);
+> >>>>  	if (debounce_period_us) {
+> >>>> diff --git a/include/uapi/linux/gpio.h b/include/uapi/linux/gpio.h
+> >>>> index eaaea3d8e6b4..d360545b4c21 100644
+> >>>> --- a/include/uapi/linux/gpio.h
+> >>>> +++ b/include/uapi/linux/gpio.h
+> >>>> @@ -80,6 +80,7 @@ enum gpio_v2_line_flag {
+> >>>>  	GPIO_V2_LINE_FLAG_BIAS_PULL_DOWN	= _BITULL(9),
+> >>>>  	GPIO_V2_LINE_FLAG_BIAS_DISABLED		= _BITULL(10),
+> >>>>  	GPIO_V2_LINE_FLAG_EVENT_CLOCK_REALTIME	= _BITULL(11),
+> >>>> +	GPIO_V2_LINE_FLAG_EVENT_CLOCK_HARDWARE	= _BITULL(12),
+> >>>>  };
+> >>>>  
+> >>> I'm now thinking this name, "HARDWARE" is too vague, in case other
+> >>> timestamp source alternatives join the fray, and so should be "HTE".
+> >>>
+> >>> Cheers,
+> >>> Kent.
