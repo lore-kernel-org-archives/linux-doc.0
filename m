@@ -2,457 +2,222 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9618C4332F
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Dec 2021 16:02:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 759E0C43217
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Dec 2021 16:26:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229817AbhLBQFj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Dec 2021 11:05:39 -0500
-Received: from mail-dm6nam11on2046.outbound.protection.outlook.com ([40.107.223.46]:50754
-        "EHLO NAM11-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1347669AbhLBQFf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 2 Dec 2021 11:05:35 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QH1hNBYdND6KKNAJUw8h0hPO1FRUkT/JjrtF2mKMdz16Uex+vJa4gzbuV4tmd+CFs71bOIsRfQuU4aAWpH2EXiGFA8y0+aKJuu0mLEgsTqQTnbPI88tr0gAQ946TwSv4oBNISY7hli1aAcp1G0A0tRSokwErjePcVVYTWyMEfYbfXDNMIyjQhUAoc7Rc7EwYRuXIIdIiBGTZNv6oaXe0ctxIbvRpkL9yG4JD+xz9G1mNmaZmZvsDHQk86hxWNGqo23JRt9khJTnuhM464qDFce1RkjgOXjYqpzbfGfMsJ0oXumycSqdOuXODtl2UuCiiL4ukbesAT6XK51LpWDycRQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7ppMgoI3tAVIQx5GbsEm1RLdD9sOfUNShpp7EvD4s6g=;
- b=X3GQfUtIhFxfq/M4zYW6pJDJ2iNNaCOnk6SjhAbhQzBG3TSpJdVtloD79837jh7qmOdfYTnjBODR8ZS/s4Go6uRUSFVtN9moBu+x79T1t99GJ0iGZkJWOTYP5VeAUSDZZQ+YYWE9fi7uHLvRvbG2YjUObPKDrPiucScXq0AAq1etI8e9A/RGcy6zbc70ur3Fi9d4HDY2ee7XqHVLqCLcgUpX8i4vSetpp7Zqi0xGPkGiEMsOQgZghxN1oqvPyBUCnwWvEPRpVr++IDVuiB5r1HChKxrBMFPnDNv4KpQuuN7wpiIlKxQPntoBDRJmNaI7AZFI19luW3gWOjEHzYTCeA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=emersion.fr smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7ppMgoI3tAVIQx5GbsEm1RLdD9sOfUNShpp7EvD4s6g=;
- b=gyuhHWeJGJ+S9Mj+Wb7W6Iyx/yEVoNkfvVh4MqcynlnXRe55o5RHT7yFTrK7mKAtz+x/lMK7N/xQA/YXedfd/qRFLHtfr1LlzVQsDzqqLO51RD/M6iiuZwFK8ga+HmtSXMFgWV4NcKsRd27PHVWvxtr+iq3qzBbS3IfgvMZA5XM=
-Received: from BN1PR12CA0023.namprd12.prod.outlook.com (2603:10b6:408:e1::28)
- by BYAPR12MB3461.namprd12.prod.outlook.com (2603:10b6:a03:da::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.23; Thu, 2 Dec
- 2021 16:02:08 +0000
-Received: from BN8NAM11FT016.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:e1:cafe::61) by BN1PR12CA0023.outlook.office365.com
- (2603:10b6:408:e1::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.22 via Frontend
- Transport; Thu, 2 Dec 2021 16:02:07 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT016.mail.protection.outlook.com (10.13.176.97) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4755.13 via Frontend Transport; Thu, 2 Dec 2021 16:02:07 +0000
-Received: from atma2.hitronhub.home (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Thu, 2 Dec
- 2021 10:02:05 -0600
-From:   Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-To:     Simon Ser <contact@emersion.fr>,
-        Michel Daenzer <michel@daenzer.net>,
-        "Bas Nieuwenhuizen" <bas@basnieuwenhuizen.nl>,
-        Marek Olsak <marek.olsak@amd.com>,
-        Roman Gilg <subdiff@gmail.com>,
-        Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
-        Harry Wentland <Harry.Wentland@amd.com>,
-        "Mark Yacoub" <markyacoub@chromium.org>,
-        Sean Paul <seanpaul@chromium.org>,
-        "Pekka Paalanen" <ppaalanen@gmail.com>,
-        Yann Dirson <ydirson@free.fr>, Daniel Vetter <daniel@ffwll.ch>
-CC:     <linux-doc@vger.kernel.org>, <qingqing.zhuo@amd.com>,
-        <roman.li@amd.com>, <amd-gfx@lists.freedesktop.org>,
-        <aurabindo.pillai@amd.com>, <nicholas.choi@amd.com>,
-        <dri-devel@lists.freedesktop.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        <bhawanpreet.lakha@amd.com>,
-        Christian Koenig <christian.koenig@amd.com>
-Subject: [PATCH v2 6/6] Documentation/gpu: Add amdgpu and dc glossary
-Date:   Thu, 2 Dec 2021 11:01:32 -0500
-Message-ID: <20211202160132.2263330-7-Rodrigo.Siqueira@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211202160132.2263330-1-Rodrigo.Siqueira@amd.com>
-References: <20211202160132.2263330-1-Rodrigo.Siqueira@amd.com>
+        id S1359571AbhLBQaR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Dec 2021 11:30:17 -0500
+Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21179 "EHLO
+        sender4-of-o51.zoho.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1347932AbhLBQ3r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Dec 2021 11:29:47 -0500
+X-Greylist: delayed 905 seconds by postgrey-1.27 at vger.kernel.org; Thu, 02 Dec 2021 11:29:47 EST
+ARC-Seal: i=1; a=rsa-sha256; t=1638461440; cv=none; 
+        d=zohomail.com; s=zohoarc; 
+        b=Ef7/5KndNWTutWFlInIcn49PUdwFroAcNIVI7T1nYeb8Pe7cwRm0UMhiRJbIfJDrEGbWsXrVmwS2K2YAqqS+tiwmrH4Ahgk7IIlFcySQzasFv0FTsvKeqmMmeSHADU4ra7sWRyTFZCqS1TwA5i3nQpc8P8ukmzEMhP4Avd5TWcE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+        t=1638461440; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+        bh=lMSNaC8iHTZb79U0vyTj0xLlOB+ewHNQ8YYULYg6ndY=; 
+        b=G8avNwaERXHBVta7/GOP+xxNti1Kca9EgBOmQgh4K5E5wop+LfQMRmehlWTLqvbKyX1YFk/ZQGyTg6UXGWd9HKeRC8c6K+4bXY8BhZZEs7Ja6y3Ydb9j/oSVt9HsAeqTfUxnuaVDrw4Skh2brupK+8ULeCUyQyrYd1MLMfO19M8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+        dkim=pass  header.i=apertussolutions.com;
+        spf=pass  smtp.mailfrom=dpsmith@apertussolutions.com;
+        dmarc=pass header.from=<dpsmith@apertussolutions.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1638461440;
+        s=zoho; d=apertussolutions.com; i=dpsmith@apertussolutions.com;
+        h=From:To:Cc:References:Subject:Message-ID:Date:MIME-Version:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+        bh=lMSNaC8iHTZb79U0vyTj0xLlOB+ewHNQ8YYULYg6ndY=;
+        b=ZDhAHqpdCvwT8O5SVL4rT5hzDc0tFNRwrWO/x7qrfascQu4XC7ag6pjHeLC90XwO
+        92OGdjmhJjqgX0ZuM6YF6fgmCXA7OnVzW4+LiTwMmt1qAKy5dcJmM1UU13chMCZklAo
+        C2bP/fO3KHN0F2SYobN5q9X8eE5HGLByzkL9xDM0=
+Received: from [10.10.1.138] (static-72-81-132-2.bltmmd.fios.verizon.net [72.81.132.2]) by mx.zohomail.com
+        with SMTPS id 1638461437855136.63909149380606; Thu, 2 Dec 2021 08:10:37 -0800 (PST)
+From:   "Daniel P. Smith" <dpsmith@apertussolutions.com>
+To:     Paul Moore <paul@paul-moore.com>,
+        Ross Philipson <ross.philipson@oracle.com>,
+        trenchboot-devel@googlegroups.com
+Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
+        iommu@lists.linux-foundation.org, linux-integrity@vger.kernel.org,
+        linux-doc@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, hpa@zytor.com, luto@amacapital.net,
+        kanth.ghatraju@oracle.com
+References: <1630070917-9896-1-git-send-email-ross.philipson@oracle.com>
+ <CAHC9VhTJG24iG=U0geO-ZhC6OogxOu4icBrNY22+qRNpWd5PBQ@mail.gmail.com>
+Subject: Re: [PATCH v4 00/14] x86: Trenchboot secure dynamic launch Linux
+ kernel support
+Message-ID: <456caf8c-b79a-e8b0-581f-3504240466ff@apertussolutions.com>
+Date:   Thu, 2 Dec 2021 11:09:55 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <CAHC9VhTJG24iG=U0geO-ZhC6OogxOu4icBrNY22+qRNpWd5PBQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f295b4a5-c809-4cb3-2b08-08d9b5ad1765
-X-MS-TrafficTypeDiagnostic: BYAPR12MB3461:
-X-Microsoft-Antispam-PRVS: <BYAPR12MB34615D87D0C24315B087FF4098699@BYAPR12MB3461.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2331;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: uT8SXwyvDpRiy34FfmStuFiauniJGEXixI2MVTuTspoihGNhjZvMc1U150Dc9LFWhSXpqEdd43vsKelUpIMOt/AeRaj5V/tmm57U/EXq82jJ2au3nT8dlBKx2GIuaeje6cLHBiT4MHz1omhWQC5tMPV0k2KpiPuoBhtcXAVIup2Zl2xKgo1P9qq4naE4vYTciBDz90mJBVrlsiPtxl50vS9syp1Y18joMCCwsGH8+sIcJV+oUhS9E+xrCzAcby3Fgh3IU0BpUIvfwnLcDuvpEO0M4ckboQcyJZuP/q4mb0YF2utJahzGOiEBv56W6UJPirYUST5LHd0nDdrgD/UPvVYatq5IVkdL6AMBAqq0vM/U8fbLpkmOQkvrHTxTmPiBMyxZUvYbuduvPgC4LijulLw8nGOxZHEt9fMAFGEgqtn5TrrmJ3oBa0BzIPYewShRzl/btnHbVmf6cimIlFNBcJqdTKhHdGZqpfejcSw58EqFQwP8FnixRqEAQXWRjZg8KJp/uQ5IxpMfjj7QE98ddz6xWERybC2AV+J3itnFKJNMgAym5H7Miv5Y1J8pqmsko3C6aRbQxljAvPxa66pPIY7lJAHHMFoOeF0dcuCzHW8e5QiOMORcYcrkTWjlb6zWN4WYz389y1LfaKfItzcKCTqHSpbaJ4B+Qbqpser5QgcBz/SUBsmfPskrxut4dmY7h7hnhHhKd4lrkVfmlW5KtZI3fC8P9fVuZ5W/8MbFtRyAiMHLyPfnqyksTUmhabDWfBEmILLU3KvckR6FFdioFp4EInNP7L/n87TZnMgrAFyJjBAwjtkam5PvIrsp4u4+
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(4636009)(46966006)(36840700001)(40470700001)(36860700001)(2616005)(921005)(70206006)(1076003)(36756003)(8676002)(186003)(2906002)(70586007)(6666004)(508600001)(110136005)(5660300002)(16526019)(426003)(8936002)(54906003)(336012)(47076005)(26005)(7416002)(356005)(4326008)(82310400004)(316002)(86362001)(83380400001)(81166007)(40460700001)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2021 16:02:07.5642
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f295b4a5-c809-4cb3-2b08-08d9b5ad1765
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT016.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3461
+X-ZohoMailClient: External
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In the DC driver, we have multiple acronyms that are not obvious most of
-the time; the same idea is valid for amdgpu. This commit introduces a DC
-and amdgpu glossary in order to make it easier to navigate through our
-driver.
+Hi Paul!
 
-Changes since V1:
- - Yann: Divide glossary based on driver context.
- - Alex: Make terms more consistent and update CPLIB
- - Add new acronyms to the glossary
+On 11/30/21 8:06 PM, Paul Moore wrote:
+> On Fri, Aug 27, 2021 at 9:20 AM Ross Philipson
+> <ross.philipson@oracle.com> wrote:
+>>
+>> The larger focus of the Trechboot project (https://github.com/TrenchBoot) is to
+>> enhance the boot security and integrity in a unified manner. The first area of
+>> focus has been on the Trusted Computing Group's Dynamic Launch for establishing
+>> a hardware Root of Trust for Measurement, also know as DRTM (Dynamic Root of
+>> Trust for Measurement).
+> 
+> My apologies for such a late reply, but I'm just getting around to
+> looking at this and I have a few questions on the basic design/flow
+> (below) ...
 
-Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
----
- Documentation/gpu/amdgpu/amdgpu-glossary.rst  |  47 ++++
- .../gpu/amdgpu/display/dc-glossary.rst        | 243 ++++++++++++++++++
- Documentation/gpu/amdgpu/display/index.rst    |   1 +
- Documentation/gpu/amdgpu/index.rst            |   7 +
- 4 files changed, 298 insertions(+)
- create mode 100644 Documentation/gpu/amdgpu/amdgpu-glossary.rst
- create mode 100644 Documentation/gpu/amdgpu/display/dc-glossary.rst
+No worries, thank you so much for taking the time to review.
 
-diff --git a/Documentation/gpu/amdgpu/amdgpu-glossary.rst b/Documentation/gpu/amdgpu/amdgpu-glossary.rst
-new file mode 100644
-index 000000000000..e635851025e7
---- /dev/null
-+++ b/Documentation/gpu/amdgpu/amdgpu-glossary.rst
-@@ -0,0 +1,47 @@
-+===============
-+AMDGPU Glossary
-+===============
-+
-+Here you can find some generic acronyms used in the amdgpu driver. Notice that
-+we have a dedicated glossary for Display Core.
-+
-+.. glossary::
-+
-+    CPLIB
-+      Content Protection Library
-+
-+    DFS
-+      Digital Frequency Synthesizer
-+
-+    ECP
-+      Enhanced Content Protection
-+
-+    EOP
-+      End Of Pipe/Pipeline
-+
-+    HQD
-+      Hardware Queue Descriptor
-+
-+    KCQ
-+      Kernel Compute Queue
-+
-+    KGQ
-+      Kernel Graphics Queue
-+
-+    KIQ
-+      Kernel Interface Queue
-+
-+    MQD
-+      Memory Queue Descriptor
-+
-+    PPLib
-+      PowerPlay Library - PowerPlay is the power management component.
-+
-+    SMU
-+      System Management Unit
-+
-+    VCE
-+      Video Compression Engine
-+
-+    VCN
-+      Video Codec Next
-diff --git a/Documentation/gpu/amdgpu/display/dc-glossary.rst b/Documentation/gpu/amdgpu/display/dc-glossary.rst
-new file mode 100644
-index 000000000000..547c0bfbb3e2
---- /dev/null
-+++ b/Documentation/gpu/amdgpu/display/dc-glossary.rst
-@@ -0,0 +1,243 @@
-+===========
-+DC Glossary
-+===========
-+
-+On this page, we try to keep track of acronyms related to the display
-+component. If you do not find what you are looking for, look at the amdgpu
-+glossary; if you cannot find it anywhere, consider asking in the amdgfx and
-+update this page.
-+
-+.. glossary::
-+
-+    ABM
-+      Adaptive Backlight Modulation
-+
-+    APU
-+      Accelerated Processing Unit
-+
-+    ASIC
-+      Application-Specific Integrated Circuit
-+
-+    ASSR
-+      Alternate Scrambler Seed Reset
-+
-+    AZ
-+      Azalia (HD audio DMA engine)
-+
-+    BPC
-+      Bits Per Colour/Component
-+
-+    BPP
-+      Bits Per Pixel
-+
-+    Clocks
-+      * PCLK: Pixel Clock
-+      * SYMCLK: Symbol Clock
-+      * SOCCLK: GPU Engine Clock
-+      * DISPCLK: Display Clock
-+      * DPPCLK: DPP Clock
-+      * DCFCLK: Display Controller Fabric Clock
-+      * REFCLK: Real Time Reference Clock
-+      * PPLL: Pixel PLL
-+      * FCLK: Fabric Clock
-+      * MCLK: Memory Clock
-+
-+    CRC
-+      Cyclic Redundancy Check
-+
-+    CRTC
-+      Cathode Ray Tube Controller - commonly called "Controller" - Generates
-+      raw stream of pixels, clocked at pixel clock
-+
-+    CVT
-+      Coordinated Video Timings
-+
-+    DAL
-+      Display Abstraction layer
-+
-+    DC (Software)
-+      Display Core
-+
-+    DC (Hardware)
-+      Display Controller
-+
-+    DCC
-+      Delta Colour Compression
-+
-+    DCE
-+      Display Controller Engine
-+
-+    DCHUB
-+      Display Controller HUB
-+
-+    ARB
-+      Arbiter
-+
-+    VTG
-+      Vertical Timing Generator
-+
-+    DCN
-+      Display Core Next
-+
-+    DCCG
-+      Display Clock Generator block
-+
-+    DDC
-+      Display Data Channel
-+
-+    DIO
-+      Display IO
-+
-+    DPP
-+      Display Pipes and Planes
-+
-+    DSC
-+      Display Stream Compression (Reduce the amount of bits to represent pixel
-+      count while at the same pixel clock)
-+
-+    dGPU
-+      discrete GPU
-+
-+    DMIF
-+      Display Memory Interface
-+
-+    DML
-+      Display Mode Library
-+
-+    DMCU
-+      Display Micro-Controller Unit
-+
-+    DMCUB
-+      Display Micro-Controller Unit, version B
-+
-+    DPCD
-+      DisplayPort Configuration Data
-+
-+    DPM(S)
-+      Display Power Management (Signaling)
-+
-+    DRR
-+      Dynamic Refresh Rate
-+
-+    DWB
-+      Display Writeback
-+
-+    FB
-+      Frame Buffer
-+
-+    FBC
-+      Frame Buffer Compression
-+
-+    FEC
-+      Forward Error Correction
-+
-+    FRL
-+      Fixed Rate Link
-+
-+    GCO
-+      Graphical Controller Object
-+
-+    GMC
-+      Graphic Memory Controller
-+
-+    GSL
-+      Global Swap Lock
-+
-+    iGPU
-+      integrated GPU
-+
-+    IH
-+      Interrupt Handler
-+
-+    ISR
-+      Interrupt Service Request
-+
-+    ISV
-+      Independent Software Vendor
-+
-+    KMD
-+      Kernel Mode Driver
-+
-+    LB
-+      Line Buffer
-+
-+    LFC
-+      Low Framerate Compensation
-+
-+    LTTPR
-+      Link Training Tunable Phy Repeater
-+
-+    LUT
-+      Lookup Table
-+
-+    MALL
-+      Memory Access at Last Level
-+
-+    MC
-+      Memory Controller
-+
-+    MPC
-+      Multiple pipes and plane combine
-+
-+    MPO
-+      Multi Plane Overlay
-+
-+    MST
-+      Multi Stream Transport
-+
-+    NBP State
-+      Northbridge Power State
-+
-+    NBIO
-+      North Bridge Input/Output
-+
-+    ODM
-+      Output Data Mapping
-+
-+    OPM
-+      Output Protection Manager
-+
-+    OPP
-+      Output Plane Processor
-+
-+    OPTC
-+      Output Pipe Timing Combiner
-+
-+    OTG
-+      Output Timing Generator
-+
-+    PCON
-+      Power Controller
-+
-+    PGFSM
-+      Power Gate Finite State Machine
-+
-+    PSR
-+      Panel Self Refresh
-+
-+    SCL
-+      Scaler
-+
-+    SDP
-+      Scalable Data Port
-+
-+    SLS
-+      Single Large Surface
-+
-+    SST
-+      Single Stream Transport
-+
-+    TMDS
-+      Transition-Minimized Differential Signaling
-+
-+    TMZ
-+      Trusted Memory Zone
-+
-+    TTU
-+      Time to Underflow
-+
-+    VRR
-+      Variable Refresh Rate
-+
-+    UVD
-+      Unified Video Decoder
-diff --git a/Documentation/gpu/amdgpu/display/index.rst b/Documentation/gpu/amdgpu/display/index.rst
-index fe2ecad8df81..e23c752ee5f5 100644
---- a/Documentation/gpu/amdgpu/display/index.rst
-+++ b/Documentation/gpu/amdgpu/display/index.rst
-@@ -26,3 +26,4 @@ table of content:
-    display-manager.rst
-    dc-debug.rst
-    dcn-overview.rst
-+   dc-glossary.rst
-diff --git a/Documentation/gpu/amdgpu/index.rst b/Documentation/gpu/amdgpu/index.rst
-index 5c8cbf514097..ff38c360b04e 100644
---- a/Documentation/gpu/amdgpu/index.rst
-+++ b/Documentation/gpu/amdgpu/index.rst
-@@ -334,3 +334,10 @@ smartshift_bias
- 
- .. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-    :doc: smartshift_bias
-+
-+AMDGPU Glossary
-+===============
-+
-+.. toctree::
-+
-+   amdgpu-glossary.rst
--- 
-2.25.1
+>> The basic flow is:
+>>
+>>  - Entry from the dynamic launch jumps to the SL stub
+> 
+> So I'm clear, at this point the combined stub+kernel+initramfs+cmdline
+> image has already been loaded into memory and the SL stub is
+> executing, yes?
+
+That is correct.
+
+> As TrenchBoot seems to be focused on boot measurement and not
+> enforcing policy, I'm guessing this is considered out-of-scope (not to
+> mention that the combined stub+kernel image makes this less
+> interesting), but has any thought been given to leveraging the TXT
+> launch control policy, or is it simply an empty run-everything policy?
+
+The TrenchBoot model is a bit different and takes a more flexible
+approach to allow users to build tailored solutions. For instance Secure
+Launch is able to be used in a configuration that is similar to tboot.
+Consider the functions of tboot, it has a portion that is the
+post-launch kernel that handles the handover from the ACM and a portion
+that provides the Verified Launch policy engine, which is only capable
+of enforcing policy on what is contained in the Multiboot chain. The
+TrenchBoot approach is to introduce the Secure Launch capability into a
+kernel, in this case Linux, to handle the handover from the ACM, and
+then transition to a running user space that can contain a distribution
+specific policy enforcement. As an example, the TrenchBoot project
+contributed to the uroot project a Secure Launch policy engine which
+enables the creation of an initramfs image which can then be embedded
+into a minimal configuration Secure Launch Linux kernel. This results in
+a single binary that functions like tboot but with a far richer and more
+extensible policy engine.
+
+With regard to TXT's Launch Control Policy, it is a function of SINIT
+ACM and so it is still very much possible to be used with Secure Launch.
+In fact such a configuration has been tested and used. Now it is out of
+scope in the sense that the tboot project already maintains and provides
+the lcptools suite for managing LCPs. If there is a requirement to use
+an LCP, then the lcptools can be used to create a policy to only allow
+the specific instance(s) of a Secure Launch kernel.
+
+>>  - SL stub fixes up the world on the BSP
+>>  - For TXT, SL stub wakes the APs, fixes up their worlds
+>>  - For TXT, APs are left halted waiting for an NMI to wake them
+>>  - SL stub jumps to startup_32
+>>  - SL main locates the TPM event log and writes the measurements of
+>>    configuration and module information into it.
+> 
+> Since the stub+kernel image are combined it looks like the kernel
+> measurement comes from the ACM via the MLE measurement into PCR 18,
+> while the stub generated measurements are extended into PCR 19 or 20
+> depending on the configuration, yes?
+
+If TXT is launched in Legacy PCR usage mode, then the bzImage, as loaded
+into memory by the bootloader (GRUB), will be hashed into PCR 18. If it
+is launched in the default Details and Authorities (DA) PCR usage mode,
+then the bzImage will be hashed into PCR 17. This is because the kernel
+has been promoted to being the MLE.
+
+> I realize that moving the TXT code into the kernel makes this
+> difficult (not possible?), but one of the things that was nice about
+> the tboot based approach (dynamic, early launch) was that it could be
+> extended to do different types of measurements, e.g. a signing
+> authority measurement similar to UEFI Secure Boot and PCR 7.  If that
+> is possible, I think it is something worth including in the design,
+> even if it isn't initially implemented.  The only thing that
+> immediately comes to mind would be a section/region based approach
+> similar to systemd-boot/gummiboot where the (signed) kernel is kept in
+> a well known region and verified/measured by the stub prior to jumping
+> into its start point.
+
+Revisiting the tboot-like configuration: the Secure Launch kernel, its
+configuration (cmdline), and uroot initramfs (which may be embedded or
+separate) are all part of the MLE started by the ACM. For tboot there is
+the tboot binary and the VL policy, though uncertain if it was
+configurable where the policy hash would be extended. Like the tboot VL
+policy engine, the u-root policy engine is configurable where the
+measurements are stored.
+
+As highlighted, more components are measured as part of Secure Launch
+than for tboot. The approach taken was to model after DA and put
+binaries into 17 and configuration into 18. Later there were
+requirements to isolate certain measurements. For the time this is
+provided through kconfig to move config to 19 and initrd to 20. In the
+future if/when additional measurements are incorporated, such as signing
+keys that are embedded into the kernel, then it may be necessary to
+provide a means to configure PCR usage at runtime.
+
+>>  - Kernel boot proceeds normally from this point.
+>>  - During early setup, slaunch_setup() runs to finish some validation
+>>    and setup tasks.
+>>  - The SMP bringup code is modified to wake the waiting APs. APs vector
+>>    to rmpiggy and start up normally from that point.
+>>  - SL platform module is registered as a late initcall module. It reads
+>>    the TPM event log and extends the measurements taken into the TPM PCRs.
+> 
+> I'm sure there is some issue with passing data across boundaries, but
+> is there any reason why the TPM event log needs to be updated
+> out-of-sync with the TPM PCRs?  Is is possible to pass the
+> measurements to the SL platform module which would both extend the
+> PCRs and update the TPM event log at the same time?
+
+Without rehashing the issues around TPM usage from the stub, the core
+issue is that measurements need to be collected before usage which is at
+a time when access to the TPM is not possible at this time. Thus the
+measurements need to be collected and persisted in a location where they
+can be retrieved when the main kernel is in control. It was felt using
+the DRTM TPM log was a natural place as it persists all the info
+necessary to record the measurements by the SL platform module. Though
+it does result in there being two non-event entries to exist in the log
+but those are standardized such that any TCG compliant log parser should
+ignore them.
+
+With the explanation of why it was done aside, if there is another
+location that is preferred which can provide the necessary guarantees,
+then there is no reason why they could not be switched to that location.
+
+>>  - SL platform module initializes the securityfs interface to allow
+>>    asccess to the TPM event log and TXT public registers.
+>>  - Kernel boot finishes booting normally
+>>  - SEXIT support to leave SMX mode is present on the kexec path and
+>>    the various reboot paths (poweroff, reset, halt).
+> 
+> It doesn't look like it's currently implemented, but it looks like
+> eventually you plan to support doing a new DRTM measurement on kexec,
+> is that correct?  I'm sure that is something a *lot* of people
+> (including myself) would like to see happen.
+
+Correct, relaunch is not currently implemented but has always been
+planned as relaunch enables DRTM late-launch use cases. For a few
+reasons this is being elevated in priority and as a result there is a
+short-term solution to quickly enable relaunch with longer term direct
+integration into kexec.
+
+Finally if your schedule allows it and it is not too much to ask, it
+would be greatly appreciated if some code review could be provided.
+Otherwise thank you for taking the time that you have to review the
+approach.
+
+V/r,
+Daniel P. Smith
+Apertus Solutions, LLC
+
 
