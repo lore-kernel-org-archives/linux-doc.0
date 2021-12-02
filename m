@@ -2,97 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ABEFC433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Dec 2021 21:58:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BA3CC433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Dec 2021 23:44:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349131AbhLBWBx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Dec 2021 17:01:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53998 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242771AbhLBWBw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Dec 2021 17:01:52 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1244DC06174A;
-        Thu,  2 Dec 2021 13:58:30 -0800 (PST)
-Received: from mail.kernel.org (unknown [198.145.29.99])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A6338B823B7;
-        Thu,  2 Dec 2021 21:58:28 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9F1B760E0B;
-        Thu,  2 Dec 2021 21:58:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1638482307;
-        bh=u54M8TvqFCoqyWizAXfj0p458N8cswh37sQPhuz+PE8=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=gRmuD2cdMj0JpWJeCh8p6a6Bco8m3d04KtZ8Kd+lRiv0KNpbc5QDnURexbd5oeFqK
-         hjvtOIAthwV4+RummH/wrQf59WNK6NBbdnu+FVNXQ+164xA8DRwsskjqDPshxg9uKX
-         zMEACX/Rr8Fh+5Fwymwac7m8oa/bN1rwC0xjXqbU=
-Date:   Thu, 2 Dec 2021 13:58:24 -0800
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     ValdikSS <iam@valdikss.org.ru>
-Cc:     Alexey Avramov <hakavlad@inbox.lv>, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, corbet@lwn.net, mcgrof@kernel.org,
-        keescook@chromium.org, yzaikin@google.com,
-        oleksandr@natalenko.name, kernel@xanmod.org, aros@gmx.com,
-        hakavlad@gmail.com, Yu Zhao <yuzhao@google.com>
-Subject: Re: [PATCH] mm/vmscan: add sysctl knobs for protecting the working
- set
-Message-Id: <20211202135824.33d2421bf5116801cfa2040d@linux-foundation.org>
-In-Reply-To: <2dc51fc8-f14e-17ed-a8c6-0ec70423bf54@valdikss.org.ru>
-References: <20211130201652.2218636d@mail.inbox.lv>
-        <2dc51fc8-f14e-17ed-a8c6-0ec70423bf54@valdikss.org.ru>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1377585AbhLBXro (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Dec 2021 18:47:44 -0500
+Received: from mga18.intel.com ([134.134.136.126]:54125 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232981AbhLBXro (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 2 Dec 2021 18:47:44 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10186"; a="223745010"
+X-IronPort-AV: E=Sophos;i="5.87,283,1631602800"; 
+   d="scan'208";a="223745010"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2021 15:44:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,283,1631602800"; 
+   d="scan'208";a="561399309"
+Received: from ranerica-svr.sc.intel.com ([172.25.110.23])
+  by fmsmga008.fm.intel.com with ESMTP; 02 Dec 2021 15:44:13 -0800
+Date:   Thu, 2 Dec 2021 15:43:07 -0800
+From:   Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Len Brown <len.brown@intel.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Aubrey Li <aubrey.li@linux.intel.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Ricardo Neri <ricardo.neri@intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 4/7] thermal: intel: hfi: Handle CPU hotplug events
+Message-ID: <20211202234307.GA334@ranerica-svr.sc.intel.com>
+References: <20211106013312.26698-1-ricardo.neri-calderon@linux.intel.com>
+ <20211106013312.26698-5-ricardo.neri-calderon@linux.intel.com>
+ <CAJZ5v0gemmV1Lz3+9iKz1eiXtkyDc3+4+po4Eidchzk+J2=ceA@mail.gmail.com>
+ <20211130132137.GA25524@ranerica-svr.sc.intel.com>
+ <CAJZ5v0iXBn1o9ZFzNaYU4ft=JcRfNv7AJ8Sq-9HbBJbp60LpWQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJZ5v0iXBn1o9ZFzNaYU4ft=JcRfNv7AJ8Sq-9HbBJbp60LpWQ@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2 Dec 2021 21:05:01 +0300 ValdikSS <iam@valdikss.org.ru> wrote:
-
-> This patchset is surprisingly effective and very useful for low-end PC 
-> with slow HDD, single-board ARM boards with slow storage, cheap Android 
-> smartphones with limited amount of memory. It almost completely prevents 
-> thrashing condition and aids in fast OOM killer invocation.
+On Tue, Nov 30, 2021 at 02:32:42PM +0100, Rafael J. Wysocki wrote:
+> On Tue, Nov 30, 2021 at 2:22 PM Ricardo Neri
+> <ricardo.neri-calderon@linux.intel.com> wrote:
+> >
+> > On Wed, Nov 24, 2021 at 03:48:49PM +0100, Rafael J. Wysocki wrote:
+> > > On Sat, Nov 6, 2021 at 2:34 AM Ricardo Neri
+> > > <ricardo.neri-calderon@linux.intel.com> wrote:
 > 
-> The similar file-locking patch is used in ChromeOS for nearly 10 years 
-> but not on stock Linux or Android. It would be very beneficial for 
-> lower-performance Android phones, SBCs, old PCs and other devices.
+> [cut]
 > 
-> With this patch, combined with zram, I'm able to run the following 
-> software on an old office PC from 2007 with __only 2GB of RAM__ 
-> simultaneously:
+> > > > +/**
+> > > > + * intel_hfi_offline() - Disable HFI on @cpu
+> > > > + * @cpu:       CPU in which the HFI will be disabled
+> > > > + *
+> > > > + * Remove @cpu from those covered by its HFI instance.
+> > > > + *
+> > > > + * On some processors, hardware remembers previous programming settings even
+> > > > + * after being reprogrammed. Thus, keep HFI enabled even if all CPUs in the
+> > > > + * die/package of @cpu are offline. See note in intel_hfi_online().
+> > > > + */
+> > > > +void intel_hfi_offline(unsigned int cpu)
+> > > > +{
+> > > > +       struct cpumask *die_cpumask = topology_core_cpumask(cpu);
+> > > > +       struct hfi_cpu_info *info = &per_cpu(hfi_cpu_info, cpu);
+> > > > +       struct hfi_instance *hfi_instance;
+> > > > +
+> > > > +       if (!boot_cpu_has(X86_FEATURE_INTEL_HFI))
+> > > > +               return;
+> > > > +
+> > > > +       hfi_instance = info->hfi_instance;
+> > > > +       if (!hfi_instance)
+> > > > +               return;
+> > > > +
+> > > > +       if (!hfi_instance->initialized)
+> > > > +               return;
+> > > > +
+> > > > +       mutex_lock(&hfi_lock);
+> > > > +
+> > > > +       /*
+> > > > +        * We were using the core cpumask of @cpu to track CPUs in the same
+> > > > +        * die/package. Now it is going offline and we need to find another
+> > > > +        * CPU we can use.
+> > > > +        */
+> > > > +       if (die_cpumask == hfi_instance->cpus) {
+> > > > +               int new_cpu;
+> > > > +
+> > > > +               new_cpu = cpumask_any_but(hfi_instance->cpus, cpu);
+> > > > +               if (new_cpu >= nr_cpu_ids)
+> > > > +                       /* All other CPUs in the package are offline. */
+> > > > +                       hfi_instance->cpus = NULL;
+> > > > +               else
+> > > > +                       hfi_instance->cpus = topology_core_cpumask(new_cpu);
+> > >
+> > > Hmmm.  Is topology_core_cpumask() updated when CPUs go offline and online?
+> >
+> > Yes. A CPU going offline is cleared from its siblings' cpumask [1] and its own [2]
+> > in remove_siblinginfo() via cpu_disable_common(). A CPU going online is set
+> > in its siblings' cpumask and its own in set_cpu_sibling_map() [3].
 > 
->   * Firefox with 37 active tabs (all data in RAM, no tab unloading)
->   * Discord
->   * Skype
->   * LibreOffice with the document opened
->   * Two PDF files (14 and 47 megabytes in size)
-> 
-> And the PC doesn't crawl like a snail, even with 2+ GB in zram!
-> Without the patch, this PC is barely usable.
-> Please watch the video:
-> https://notes.valdikss.org.ru/linux-for-old-pc-from-2007/en/
-> 
+> OK, so it is necessary to ensure that intel_hfi_offline() will always
+> run after remove_siblinginfo() so it sees the updated mask.  How do we
+> ensure that?
 
-This is quite a condemnation of the current VM.  It shouldn't crawl
-like a snail.
+I don't think that is possible. remove_siblinginfo() is called from
+CPUHP_TEARDOWN_CPU, which always happens after CPUHP_AP_OFFLINE, if I
+understand correctly.
 
-The patch simply sets hard limits on page reclaim's malfunctioning. 
-I'd prefer that reclaim not malfunction :(
+I guess that I will need to use a local cpumask as other drivers do.
 
-That being said, I can see that a blunt instrument like this would be
-useful.
-
-I don't think that the limits should be "N bytes on the current node". 
-Nodes can have different amounts of memory so I expect it should scale
-the hard limits on a per-node basis.  And of course, the various zones
-have different size as well.
-
-We do already have a lot of sysctls for controlling these sort of
-things.  Was much work put into attempting to utilize the existing
-sysctls to overcome these issues?
-
+Thanks and BR,
+Ricardo
