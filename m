@@ -2,78 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A9D2C433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Dec 2021 11:50:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19241C433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Dec 2021 12:27:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241625AbhLBLyB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Dec 2021 06:54:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56474 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243919AbhLBLyA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Dec 2021 06:54:00 -0500
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD20FC061757;
-        Thu,  2 Dec 2021 03:50:37 -0800 (PST)
-Received: by mail-io1-xd30.google.com with SMTP id c3so34874023iob.6;
-        Thu, 02 Dec 2021 03:50:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=aZISskjc5oXX2lYsdOdBbcSsQiG48S/v64w/aU2Vkts=;
-        b=G35r2bFRGVPnMAAuMBKGadKvHYo8/Y6sbRXIdZ5LUKeuE4Ib01CKZdAFlXwWKwc1kH
-         DvNFQIXAGfSstyhlA9CgIFJM4DA46Ta9fCCVivRknnStzOiXjBiRnMBtHc4YDxlQ/VPG
-         OYlfvD4nnp5lq0yHOux6CwhLSrbXkXtmYUAh09EBufr9hEAfjfSS2txIaxApxJrprt8R
-         wSU0bqAHcYxASJCzlwbgou5u3WjlrlPxUZcTMx+JgsmmrdAy6tkthiLKic5CIQx+A6qS
-         zH6cGb68KDreW7bDDoh8V9xWVbWyYJTQ9NVlXRdY2K/9ZsYQ9VNLXwKeGs0uYS0zPd0J
-         Fviw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=aZISskjc5oXX2lYsdOdBbcSsQiG48S/v64w/aU2Vkts=;
-        b=H/EEmvVlvWTUpJ4IrFC3g+6Bvfm0+44qUV4CQy3idLZtIQyy38Y28jxXwK2uRhhOnw
-         N1B/cuEgDKxzh6kk2J3XhQZL6BkMgBQE73KxF3FNBZbXMWSJY7qzEDMNAn3xCZrezbV9
-         yeuN4arPDPFN/80ZmTd5Tzc1udSv01N/vjTJBQXIp0sLPEYtIj5txNyfLSNEnbSTEL26
-         nKVv7FAtRwzU2MgNyn/78/ldTBbUa03YNNXe2vHTodBAV5Hss/TIBn3THCcbCk1k6X7K
-         fRHi4r/fmtJNXL0zkUBLH23FlEJelFaM8kaH+J5xVTlssxRoK0Sv3cI/7Zlr4tKuyZAg
-         /bUQ==
-X-Gm-Message-State: AOAM5309FK0soEfjPiYH8USClVFZuNtVl9VEpO3srMDMakUDAFbtfqTm
-        SHCidOyH1LNpMlxT0CqSL/O82+RdjMa40gOlxeQ=
-X-Google-Smtp-Source: ABdhPJxcgyA+9Lafi669c+KxxrDP4+zJQpI89maaFyMYPCCP4+Nksn032jwjJA0X6w+d5G9wV7oCkzXf0ldZCDJv7B4=
-X-Received: by 2002:a05:6602:1581:: with SMTP id e1mr15176090iow.64.1638445837371;
- Thu, 02 Dec 2021 03:50:37 -0800 (PST)
+        id S1347000AbhLBMaW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Dec 2021 07:30:22 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:15005 "EHLO
+        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1346840AbhLBMaN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Dec 2021 07:30:13 -0500
+Received: from dggpeml500025.china.huawei.com (unknown [172.30.72.54])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4J4ZrM2rQkzZdT6;
+        Thu,  2 Dec 2021 20:24:03 +0800 (CST)
+Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
+ dggpeml500025.china.huawei.com (7.185.36.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Thu, 2 Dec 2021 20:26:46 +0800
+Received: from [10.174.177.232] (10.174.177.232) by
+ dggpeml500006.china.huawei.com (7.185.36.76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Thu, 2 Dec 2021 20:26:45 +0800
+Subject: Re: [PATCH] doc/zh-CN: Update cpu-freq/core.rst to make it more
+ readable
+To:     teng sterling <sterlingteng@gmail.com>
+CC:     Yanteng Si <siyanteng@loongson.cn>, Alex Shi <alexs@kernel.org>,
+        "Linux Doc Mailing List" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, <zhengbin13@huawei.com>,
+        <tangyeechou@gmail.com>
+References: <20211130153400.6409-1-tangyizhou@huawei.com>
+ <CAMU9jJpVH3aX--zfOhWuT3taS3MPQ37LT_FS6FREr45yA+Li2Q@mail.gmail.com>
+From:   Tang Yizhou <tangyizhou@huawei.com>
+Message-ID: <284a4410-51f9-ff54-b903-9cae7ec17f6e@huawei.com>
+Date:   Thu, 2 Dec 2021 20:26:45 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.1.1
 MIME-Version: 1.0
-References: <cover.1638369365.git.mchehab+huawei@kernel.org>
- <eb4e49b9a701643b07a56f1863005ba8216ef694.1638369365.git.mchehab+huawei@kernel.org>
- <CANiq72nu9TvLzxxj64b+EwFicwGexT7VTmVYVnVDzQgwkk+9ZA@mail.gmail.com> <20211202124700.7e395897@coco.lan>
-In-Reply-To: <20211202124700.7e395897@coco.lan>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Thu, 2 Dec 2021 12:50:26 +0100
-Message-ID: <CANiq72=JVG3kVcsfQJx-owBfSpL=OY+O8jhJ7WXBLciiDfJWQQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/4] docs: allow selecting a Sphinx theme
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
-        <nfraprado@protonmail.com>, Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Klychkov <andrew.a.klychkov@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAMU9jJpVH3aX--zfOhWuT3taS3MPQ37LT_FS6FREr45yA+Li2Q@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.177.232]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpeml500006.china.huawei.com (7.185.36.76)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 2, 2021 at 12:47 PM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
->
-> The RTD dark theme allows that. It basically places a <sun>/<moon>
-> icon. When such icon is clicked, it switches between light/dark.
+On 2021/12/2 17:53, teng sterling wrote:
+> Tang Yizhou <tangyizhou@huawei.com> 于2021年12月1日周三 下午9:51写道：
+>>
+>> Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
+>> ---
+>>  .../translations/zh_CN/cpu-freq/core.rst      | 20 +++++++++----------
+>>  1 file changed, 10 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/Documentation/translations/zh_CN/cpu-freq/core.rst b/Documentation/translations/zh_CN/cpu-freq/core.rst
+>> index 0c6fd447ced6..bf83cad70b68 100644
+>> --- a/Documentation/translations/zh_CN/cpu-freq/core.rst
+>> +++ b/Documentation/translations/zh_CN/cpu-freq/core.rst
+>> @@ -29,10 +29,10 @@ CPUFreq核心和CPUFreq通知器的通用说明
+>>  ======================
+>>
+>>  cpufreq核心代码位于drivers/cpufreq/cpufreq.c中。这些cpufreq代码为CPUFreq架构的驱
+>> -动程序（那些操作硬件切换频率的代码）以及 "通知器 "提供了一个标准化的接口。
+>> -这些是设备驱动程序或需要了解策略变化的其它内核部分（如 ACPI 热量管理）或所有频率更改（除
+>> -计时代码外），甚至需要强制确定速度限制的通知器（如 ARM 架构上的 LCD 驱动程序）。
+>> -此外， 内核 "常数" loops_per_jiffy会根据频率变化而更新。
+>> +动程序（那些执行硬件频率切换的代码）以及 "通知器" 提供了一个标准化的接口。
+>> +包括设备驱动程序；需要了解策略变化（如 ACPI 热量管理），或所有频率变化（如计时代码），
+>> +甚至需要强制限制为指定频率（如 ARM 架构上的 LCD 驱动程序）的其它内核组件。
+>> +此外，内核 "常数" loops_per_jiffy 会根据频率变化而更新。
+>>
+>>  cpufreq策略的引用计数由 cpufreq_cpu_get 和 cpufreq_cpu_put 来完成，以确保 cpufreq 驱
+>>  动程序被正确地注册到核心中，并且驱动程序在 cpufreq_put_cpu 被调用之前不会被卸载。这也保证
+>> @@ -41,7 +41,7 @@ cpufreq策略的引用计数由 cpufreq_cpu_get 和 cpufreq_cpu_put 来完成，
+>>  2. CPUFreq 通知器
+>>  ====================
+>>
+>> -CPUFreq通知器符合标准的内核通知器接口。
+>> +CPUFreq通知器遵循标准的内核通知器接口。
+>>  关于通知器的细节请参阅 linux/include/linux/notifier.h。
+>>
+>>  这里有两个不同的CPUfreq通知器 - 策略通知器和转换通知器。
+>> @@ -69,20 +69,20 @@ CPUFreq通知器符合标准的内核通知器接口。
+>>
+>>  第三个参数是一个包含如下值的结构体cpufreq_freqs：
+>>
+>> -=====  ====================
+>> -cpu    受影响cpu的编号
+>> +====== ===============================
+>> +policy 指向struct cpufreq_policy的指针
+>>  old    旧频率
+>>  new    新频率
+>>  flags  cpufreq驱动的标志
+>> -=====  ====================
+>> +====== ===============================
+>>
+>>  3. 含有Operating Performance Point (OPP)的CPUFreq表的生成
+>>  ==================================================================
+>>  关于OPP的细节请参阅 Documentation/power/opp.rst
+>>
+>>  dev_pm_opp_init_cpufreq_table -
+>> -       这个功能提供了一个随时可用的转换程序，用来将OPP层关于可用频率的内部信息翻译成一种容易提供给
+>> -       cpufreq的格式。
+>> +       这个函数提供了一个随时可用的转换例程，用来将OPP层关于可用频率的内部信息翻译成一种
+>> +       cpufreq易于理解格式。
+> cpufreq易于理解的格式？
 
-Ah, that is great! Thanks!
+改成“易于处理的格式”吧
 
-Cheers,
-Miguel
+> 
+> Others part looks fine to me.
+> Acked-by: Yanteng Si <siyanteng@loongson.cn>
+>>
+>>         .. Warning::
+>>
+>> --
+>> 2.17.1
+>>
