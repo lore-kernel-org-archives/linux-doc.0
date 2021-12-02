@@ -2,89 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA7E6C433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Dec 2021 19:32:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 073C1C433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Dec 2021 19:49:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239645AbhLBTgK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Dec 2021 14:36:10 -0500
-Received: from mail-pg1-f171.google.com ([209.85.215.171]:45927 "EHLO
-        mail-pg1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235481AbhLBTgK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Dec 2021 14:36:10 -0500
-Received: by mail-pg1-f171.google.com with SMTP id 133so719316pgc.12;
-        Thu, 02 Dec 2021 11:32:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=CuO9SlAMyySc2N7/ycy5VD46Nz+8cG+KHA0nnkbmkHc=;
-        b=T0Da/RnwA5q6xNMFJx73ePeDRsWsnmeCnH/DWkxxLz+MNDuGjZyU7piUq1KFZBRZaz
-         LJm7ENMiV1jwSey+BXuNAFFVrnFzs6qVgYYKPTNh0AbQd3PYmbkj1Qt1tSeA5apKfUmH
-         9LM41+zXybxG+JLYTWN6ZUcFehBcjOv05Sh3kFuabS1+V0H03/axWUZTs5r4K6ui2cW4
-         KsoSXfVvjfBlyl7XG8FL829L5hdDxjS/L9xFR8GVGmSst5g8F05qOdsTc8D/usT4rNoO
-         hlHh9h72qYa3SrL7a1Rzx+pnHZQNtHcPm4xHnvbbVynhE5oY+8WINX1A5RK6H87nDpY6
-         0lOg==
-X-Gm-Message-State: AOAM530dhG3QE6O2dubf6FX8ixrxCUe0v+v6gAXT8KNyz5LCtbwxDvh0
-        9tplpNDwvVSMhsUwjFzdIXWafRgTufo=
-X-Google-Smtp-Source: ABdhPJybkg0jKh/Q6ZJqyLfjyFgX8JgM9tzmXPG2O7rRG6t2vjJ5+cthEcId8+b+3rzJLlcKtHqafw==
-X-Received: by 2002:a63:5c05:: with SMTP id q5mr892811pgb.599.1638473566667;
-        Thu, 02 Dec 2021 11:32:46 -0800 (PST)
-Received: from bvanassche-linux.mtv.corp.google.com ([2620:15c:211:201:fac5:b2eb:ef0d:f30b])
-        by smtp.gmail.com with ESMTPSA id f15sm561950pfe.171.2021.12.02.11.32.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Dec 2021 11:32:45 -0800 (PST)
-Subject: Re: [PATCH 0/7] docs: consolidate sysfs-block into Documentation/ABI/
-To:     Eric Biggers <ebiggers@kernel.org>, linux-block@vger.kernel.org,
-        Jens Axboe <axboe@kernel.dk>
-Cc:     linux-doc@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org
-References: <20211201084524.25660-1-ebiggers@kernel.org>
-From:   Bart Van Assche <bvanassche@acm.org>
-Message-ID: <0bf11301-4085-f4a1-eeed-c65d0e5563b4@acm.org>
-Date:   Thu, 2 Dec 2021 11:32:45 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        id S242895AbhLBTwc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Dec 2021 14:52:32 -0500
+Received: from netrider.rowland.org ([192.131.102.5]:54861 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S242715AbhLBTwb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Dec 2021 14:52:31 -0500
+Received: (qmail 399327 invoked by uid 1000); 2 Dec 2021 14:49:08 -0500
+Date:   Thu, 2 Dec 2021 14:49:08 -0500
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH 1/4] Docs: usb: update usb_bulk_msg receiving example
+Message-ID: <YakjNGEBFKm9pHCw@rowland.harvard.edu>
+References: <cover.1638152984.git.philipp.g.hortmann@gmail.com>
+ <28a76eedad7027277754cef84ca34810b0cfe6f4.1638152984.git.philipp.g.hortmann@gmail.com>
+ <YaaFNO1t3GIaGFPI@rowland.harvard.edu>
+ <ad2fcdfa-5688-4d09-2c82-c405adeae4ee@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20211201084524.25660-1-ebiggers@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ad2fcdfa-5688-4d09-2c82-c405adeae4ee@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/1/21 12:45 AM, Eric Biggers wrote:
-> This series consolidates the documentation for /sys/block/<disk>/queue/
-> into Documentation/ABI/, where it is supposed to go (as per Greg KH:
-> https://lore.kernel.org/r/YaXXpEAwVGTLjp1e@kroah.com).
+On Thu, Dec 02, 2021 at 05:49:47AM +0100, Philipp Hortmann wrote:
+> On 11/30/21 9:10 PM, Alan Stern wrote:
+> > On Mon, Nov 29, 2021 at 09:21:41PM +0100, Philipp Hortmann wrote:
+> > > Clarification that this example is not in the driver template anymore.
+> > > Update code example so that it fits best to usb-skeleton.c
+> > > 
+> > > Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+> > > ---
+> > >   .../driver-api/usb/writing_usb_driver.rst     | 30 +++++++++----------
+> > >   1 file changed, 15 insertions(+), 15 deletions(-)
+> > > 
+> > > diff --git a/Documentation/driver-api/usb/writing_usb_driver.rst b/Documentation/driver-api/usb/writing_usb_driver.rst
+> > > index b43e1ce49f0e..a9608ad18d77 100644
+> > > --- a/Documentation/driver-api/usb/writing_usb_driver.rst
+> > > +++ b/Documentation/driver-api/usb/writing_usb_driver.rst
+> > > @@ -218,36 +218,36 @@ do very much processing at that time. Our implementation of
+> > >   ``skel_write_bulk_callback`` merely reports if the urb was completed
+> > >   successfully or not and then returns.
+> > > -The read function works a bit differently from the write function in
+> > > +This read function works a bit differently from the write function in
+> > >   that we do not use an urb to transfer data from the device to the
+> > > -driver. Instead we call the :c:func:`usb_bulk_msg` function, which can be used
+> > > +driver. Instead we call `usb_bulk_msg` function, which can be used
+> > >   to send or receive data from a device without having to create urbs and
+> > > -handle urb completion callback functions. We call the :c:func:`usb_bulk_msg`
+> > > +handle urb completion callback functions. We call `usb_bulk_msg`
+> > >   function, giving it a buffer into which to place any data received from
+> > 
+> > The reason for the last two changes above isn't clear.  You removed some of the
+> > markup indicators and made the text ungrammatical.  This does not seem like an
+> > improvement.
+> > 
+> > Alan Stern
+> > 
+> This two changes were made because of an earlier comment to the same
+> document, but may be I understood this wrong:
+> On 10/19/21 11:17 PM, Jonathan Corbet wrote:
+> ...
+> We shouldn't be using :c:func: anymore; just say usb_register() and the
+> right things will happen.  Definitely worth fixing while you are in the
+> neighborhood.
+> ...
+> If you're making this change, take out "the" (as well as :c:func:).
+> ...
+> ___
+> Please find the full email under the link:
+> https://lore.kernel.org/linux-usb/87h7dcsohs.fsf@meer.lwn.net/T/
 > 
-> This series also updates MAINTAINERS to associate the block
-> documentation with the block layer.
-> 
-> This series applies to linux-block/for-next.
-> 
-> Eric Biggers (7):
->    docs: sysfs-block: sort alphabetically
->    docs: sysfs-block: add contact for nomerges
->    docs: sysfs-block: fill in missing documentation from queue-sysfs.rst
->    docs: sysfs-block: document stable_writes
->    docs: sysfs-block: document virt_boundary_mask
->    docs: block: remove queue-sysfs.rst
->    MAINTAINERS: add entries for block layer documentation
-> 
->   Documentation/ABI/testing/sysfs-block | 766 ++++++++++++++++++--------
->   Documentation/block/index.rst         |   1 -
->   Documentation/block/queue-sysfs.rst   | 321 -----------
->   MAINTAINERS                           |   2 +
->   4 files changed, 545 insertions(+), 545 deletions(-)
->   delete mode 100644 Documentation/block/queue-sysfs.rst
+> Please give me an example for the right wording. I am not a native English
+> speaker. Is the article in this case required?
 
-How about adding a patch that moves Documentation/ABI/testing/sysfs-block
-to Documentation/ABI/stable/sysfs-block? The block layer sysfs ABI is used
-widely by user space software and is considered stable.
+Okay, now I see what's going on.  You should change it like this:
 
-Thanks,
+-driver. Instead we call the :c:func:`usb_bulk_msg` function, which can be used
++driver. Instead we call `usb_bulk_msg`, which can be used
+ to send or receive data from a device without having to create urbs and
+-handle urb completion callback functions. We call the :c:func:`usb_bulk_msg`
++handle urb completion callback functions. We call `usb_bulk_msg`,
+ giving it a buffer into which to place any data received from
 
-Bart.
+Alan Stern
