@@ -2,62 +2,62 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2497EC433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Dec 2021 20:47:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD781C433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Dec 2021 20:47:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242563AbhLBUvK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Dec 2021 15:51:10 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:30406 "EHLO
+        id S229890AbhLBUvJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Dec 2021 15:51:09 -0500
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:28262 "EHLO
         mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1349007AbhLBUuo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Dec 2021 15:50:44 -0500
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B2KODxZ006894;
-        Thu, 2 Dec 2021 20:45:07 GMT
+        by vger.kernel.org with ESMTP id S1349006AbhLBUun (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Dec 2021 15:50:43 -0500
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1B2KOOi7009455;
+        Thu, 2 Dec 2021 20:44:53 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2021-07-09;
- bh=/nhO1hp5r7T4ndz30RLhGRKUHSmXEH+wbvbCgGKJltI=;
- b=VEKOqR9X26FdohOYW92mF/UoBBQ/5QqvONjUpuMltkQ8UDHOHoOUHdi84w/cY8zgs/UM
- psnCIk3LJco+MLRk7YAY1Kka7KAve/TnBvlE+7HeTLk8rhBqHOTQN/jqKfNc68WKje46
- OattRGnPkjoo6KM2WBKLS6A0vVHxtgAdeCVHoHmUzYzsGcc1H+5sxddMVoa89ZEQjQYL
- zLuK9LqYn4XcPR6j+2UOfvbPMm0HLlGFVmDX/pNfZRu1kEbG7QjyIvuX2C1jDb266PKI
- Emd4v+TLLZ80ActgKVTravGSWsKgS+vIqwoSkYjSqlYdjB2JUHuhO2Kmip035NdbOjRH Vw== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3cp9gku3wg-1
+ bh=uTLYKEkYQvMOzaFUCKSxv8ku0oYdToHJNLmK7s3USEw=;
+ b=CW68oSny6EBwpdQoNmaosRy7ejywvEKqwyB9aXfgGoEUVH7PhE0hf3UIr+5iSKzfeqAk
+ ej163PYoNjcIaenxl5wOcgGTMVc4WKzRs1vQqApYZlSZ4r/jx5z8uA0RpZ2zHsNoZIyF
+ O+DghtFdwHaE+cqSnwx5mJNWfXjXP8avvJH2lkBtdjpO6TBbL/OBhmuDLjny6qLRSRz3
+ Wlfcm1jl+un2sz5xQEj5thulwfMLaUWODYnAoYQwGDbbyb6L9ScdUK23H4aI9AwFCfXe
+ aiMIsl2ZdyknuROXK74/an3bAuBUTHTLmJ4Rc/99bgQnLlL7VLLqOAti9JzmxqZDg4hF uQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by mx0b-00069f02.pphosted.com with ESMTP id 3cp9r5b1a2-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 02 Dec 2021 20:45:06 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1B2Kfoco167559;
-        Thu, 2 Dec 2021 20:45:06 GMT
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2168.outbound.protection.outlook.com [104.47.56.168])
-        by aserp3020.oracle.com with ESMTP id 3cnhvhc0qe-1
+        Thu, 02 Dec 2021 20:44:52 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1B2Kfgtc026318;
+        Thu, 2 Dec 2021 20:44:52 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2170.outbound.protection.outlook.com [104.47.56.170])
+        by aserp3030.oracle.com with ESMTP id 3ckaqk6htu-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 02 Dec 2021 20:45:05 +0000
+        Thu, 02 Dec 2021 20:44:51 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DRAryt1TdTEyg9JXgDC7tTInHJNphk92Hys+W+32UF2m9fpljIqR8Lp8Ot/jT8RgrKNRqD9hxN9fdFdL2p3/gIysM4WXjqwDPM+u6eUSqkPRPKmNNTpvqvL2TI/qcvNjTTM2S3j9baFwZmB1fSW+9Y73HI8coFmqn+dDsgDgh6qRrx8VYuxM8S8dVaSZtMEtQeVpQm9mQPaijxRRUkp+kxtjZ/PHfmwB0+ECkPIV/vaLg9AB4jtKq5A2JVdeV/RfSdMeRQ8CFWZ8srwUr4ZmOiVPbgkNDocOXECQ83McftiLcfBJhjXApfMF3mn/OSYv1DsLBJZWXQ7Z+HXIl6H4Wg==
+ b=QK0fpsqwAuUVVSTkGBU9pH2nXk0pXDxNrINzF24ptS/aIN/fZtDP3hRTniNvKgI0kxPeY7/SBDFeCvyU1b/U+qb0zl7WsoYTxmHFDoSviYJiB1+OTO8NBLGX5hR80LLlSPl7Wke06k8a2uEdrEgHSdADHtDix+pTw1316lBTN835s8vuJJR3mc3oM0uyY+TXvvHGy4d8ZF1nyVb1mPZHUsVNldJDWXFQ62qYVODL+QIHHLquwQ9y4WIelhKBq3k0K19IJHg5YaJrXEUgRNiexJpL3PgjjWDerTn2qWpkfzSoHREleQfnby6m3Ntz2O4fMF/KkeEa9yylMfM89lOemw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/nhO1hp5r7T4ndz30RLhGRKUHSmXEH+wbvbCgGKJltI=;
- b=afOkw0qSrqOC9B7F26mPvLQn6YbvkVLoLAlwfPPOSMnWPEBbwAgLPVf7uzBJecMzg6JCfMEFff9y/F1y1YuBDXSyyCw16jSolU1P+GkwRUjtoJFcVoLgiwdE38IXs5/mXwKgVSCysqsr95bMIO5Gizyh1P7hi3jlzgG+WjG7fYrKbf4Wg1+GheGeHD0pd0LVSrbBaTb0gtp1OBveeTurH24+++doF4oPNwe7aRQm0oSawEdGvDcfd20O6nNNHPEbiZXKnvwXsoRmjq6KU7ywRzIb8vSajd9dZrHr5dbF9D63Ec703jZQUm7725bovAGC6OhSFFo6FF7NqyhZU3XuOA==
+ bh=uTLYKEkYQvMOzaFUCKSxv8ku0oYdToHJNLmK7s3USEw=;
+ b=Hb26mINXfKgMLS2mpfAGv0+oAArqKPpfxXqg5ZfRThqf9ELLtU8SZiqSoVoN80fLPYIdhBOymNtABafhvJ4CZLNy2idKatXQqN+SGF/jvlR6JUPp3yuU/Nh3w92+Ef9H4dfpiPStmPK3r5etlQ/fSsef4UCYCwlZaoQ98e7t4zT0dq7/RhcIXJHR4rl/En11tIhFJp5NSbUrZIOQRRPc6YsSEOY3gGiSEG5GrF9FsGDJwfiWk7w3WXQDqyOhK8BcCuVYhvcZ5/bReJ8qqQj13E33D9wmJsklEHxby+PSbB7gXlvOfqNKiQsXZgHIV+BhSpd5L0P4ZQTicdck67BNFA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/nhO1hp5r7T4ndz30RLhGRKUHSmXEH+wbvbCgGKJltI=;
- b=E5sMIp7L7B5JiXqS+jPi1cx8GMIg//0bmOvjTsw3o8xf4mmaEPLivApJdA/x32/d7sDySB25zI8w2mP0JatS90376YmqUEqtmxXEn3145PT+0GHICOrDxVvDcshVaYsHuM6p5pzVkb2FKu+n0v31ZYvHGmYExPI7bj+a7ln4fEM=
+ bh=uTLYKEkYQvMOzaFUCKSxv8ku0oYdToHJNLmK7s3USEw=;
+ b=dID6idbMHlEfVpimX7wDO8dq6IyzWuGkYlScHoa8gS0ikXlYjL7HvQm0buQM2ieQ7x6ePCEI/Yg9bsq2QWxQ1656xDpZLWtfzX5OXKIpp5eqoNP6qRk6C2NRuDYFw+1gmt8Wu2RpujmIYpf5yeOlbHVs3pElMs7G6EPuSWV1Lto=
 Received: from BLAPR10MB4835.namprd10.prod.outlook.com (2603:10b6:208:331::11)
- by BLAPR10MB5186.namprd10.prod.outlook.com (2603:10b6:208:321::16) with
+ by BL0PR10MB2913.namprd10.prod.outlook.com (2603:10b6:208:31::31) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.11; Thu, 2 Dec
- 2021 20:45:03 +0000
+ 2021 20:44:49 +0000
 Received: from BLAPR10MB4835.namprd10.prod.outlook.com
  ([fe80::693f:564:30a5:2b09]) by BLAPR10MB4835.namprd10.prod.outlook.com
  ([fe80::693f:564:30a5:2b09%5]) with mapi id 15.20.4755.016; Thu, 2 Dec 2021
- 20:45:03 +0000
+ 20:44:49 +0000
 From:   Joao Martins <joao.m.martins@oracle.com>
 To:     linux-mm@kvack.org
 Cc:     Dan Williams <dan.j.williams@intel.com>,
@@ -74,9 +74,9 @@ Cc:     Dan Williams <dan.j.williams@intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Christoph Hellwig <hch@lst.de>, nvdimm@lists.linux.dev,
         linux-doc@vger.kernel.org, Joao Martins <joao.m.martins@oracle.com>
-Subject: [PATCH v7 07/11] device-dax: ensure dev_dax->pgmap is valid for dynamic devices
-Date:   Thu,  2 Dec 2021 20:44:18 +0000
-Message-Id: <20211202204422.26777-8-joao.m.martins@oracle.com>
+Subject: [PATCH v7 03/11] mm/page_alloc: refactor memmap_init_zone_device() page init
+Date:   Thu,  2 Dec 2021 20:44:14 +0000
+Message-Id: <20211202204422.26777-4-joao.m.martins@oracle.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20211202204422.26777-1-joao.m.martins@oracle.com>
 References: <20211202204422.26777-1-joao.m.martins@oracle.com>
@@ -85,217 +85,172 @@ X-ClientProxiedBy: AM0PR10CA0049.EURPRD10.PROD.OUTLOOK.COM
  (2603:10a6:20b:150::29) To BLAPR10MB4835.namprd10.prod.outlook.com
  (2603:10b6:208:331::11)
 MIME-Version: 1.0
-Received: from paddy.uk.oracle.com (138.3.204.24) by AM0PR10CA0049.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:150::29) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.4755.16 via Frontend Transport; Thu, 2 Dec 2021 20:45:00 +0000
+Received: from paddy.uk.oracle.com (138.3.204.24) by AM0PR10CA0049.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:150::29) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.4755.16 via Frontend Transport; Thu, 2 Dec 2021 20:44:45 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2e6614e0-5e9d-4ff0-1351-08d9b5d49d52
-X-MS-TrafficTypeDiagnostic: BLAPR10MB5186:
-X-Microsoft-Antispam-PRVS: <BLAPR10MB5186AEE3C3569D9A8DF5259FBB699@BLAPR10MB5186.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-MS-Office365-Filtering-Correlation-Id: 3af51407-0693-4197-d39d-08d9b5d494fd
+X-MS-TrafficTypeDiagnostic: BL0PR10MB2913:
+X-Microsoft-Antispam-PRVS: <BL0PR10MB29138C678960C03BC0AE4072BB699@BL0PR10MB2913.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5ce/tU01/yS16STO4xoosdYM5BZ5lufTz+gJ8XYfXdv63CpeY2MDckF+5fZoZzfkUIpIANFzSemhvkBXHfiionpYp2kSdDy9ttNusuXL9Sjk+uMIl2RJZXYKQoLimRXqOPJ7XojrfS0hh2cAw2o2HsoZagLhDN4wLl1khUShfs/4rrqJS8T9P0jUvwAR75z7z3U9cJcKicNn2lH++Uq/tj731W8qe9xkq5W3PQly9ckrCnUBmGh2LB9hTVyjMyMRpDrZ+EUWXCSD86Y9DQNakZdpN7BjieDv0uyrwdcEwqHv8KHJyqpDEUUruCnwQgN0IBN19K4d+uE100UiSRwk3ADR5ou04W4kwacSNw3mBzO/Yf9BXx+dpUxxgX7MQ3kNfKEzOM2Nn1x6MLH8SGWeed6VkhwwbRztwZ62Po3VanFQsfp/oafeK1LRv0MU4ITiYhcFtR6g3rmDHwVgHeeRvhCfiDjLjF6lxOWkqtPWqKszGAbNisD8Q8NjnF7OzoWNhNbcxAjs69LNkcvyhfVpO5ffyT6u2Dkqd/2MkpMk7w9UX/okny5y1JVHhg+M1x9F2ozGdM2nnCZq08fedOv6GUnh7Xsu/S+lOdGBWJsxXm5otgHIA8Mk4aTXuPLu20a4P2BPbPr+W0/Wqy4iVK6gR8AN8bdIPpmP9rBK/Xa4qPSWs8sIxZV7MCLBkLylYUF95ncO9PkMdeMJu38JNOZb/w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB4835.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(2906002)(52116002)(7696005)(186003)(66556008)(36756003)(8936002)(26005)(6666004)(1076003)(8676002)(83380400001)(6486002)(107886003)(86362001)(2616005)(38350700002)(5660300002)(6916009)(38100700002)(103116003)(4326008)(7416002)(508600001)(54906003)(66476007)(956004)(66946007)(316002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: BwgpkjVZhIzYI8zO9gnNA+yy+r5JPGGscgHEQ7UktvlZ22UyCWslxAbI8BJCrqQsdGH1txCvpixkrtX7vERQdWQ6zdsiQ8UWSIdpEOqD6SQrtqA3YV1/SUd0J1bECilnl6bJCHhKQ6oWDjtSw10nYr4B5V0r1DnwlAVmdI3aMDtppKK9OQET3SKSz5TIM+AxeQV6wTHUvCpqALwp+x9c+CPGVgp1uwl23dcyYdlfUWEQfxwEwcRSBqL0FxvmddliKc8INi83XrjcIrLZih1duKf8BvZpZp9m66L5GExjf60KmDVZSTqmFl/I4cm7qI3uyUB2mXyt8B1Si+2RoutdgB58OCOHcRI7QaIWLOabiSMY3yZS+BF9HPt5BXyC6LSICzkezQwzmnekfUzftwTlChWC+w2P4ENoRJBY3VZKTihM4K4AT3WpmAVnrHLVq7z68BssGg7IA4wdnNTSIjfwcgzqfSfYkWQ0S1nN0iDSGIcFbKd4zfYIbay6sIrcnqQEwTHOhR9RvmMSfoSEN2TWbaEDA8W2K9al11MIFcc8ZH/+TjmFVL1GlrPGpt2OU54HHY3YlvKTfTxHhgZRMnFCcJhPNfmCJa7/G7EvOSoUMTGvsxxwu3fJ90PZaD/xk+niZbnf7fwG877dnjEKbhnTi+w0WCTwrb8BUzL/z1hv/AvWHXhduZPohkHzognvyIWY76d69U0Jhf/IeRuLAwvoBA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB4835.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(36756003)(66556008)(38100700002)(1076003)(2616005)(956004)(83380400001)(38350700002)(66476007)(107886003)(6666004)(8936002)(66946007)(6916009)(103116003)(508600001)(7696005)(54906003)(52116002)(4326008)(186003)(7416002)(6486002)(26005)(2906002)(316002)(8676002)(86362001)(5660300002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zO4XXTOD+RSivhRcEmPVQv0fjln3PaT9Dok4CcRHH7YzF90Jy01YLHDhzPu3?=
- =?us-ascii?Q?eHu7VgHC0B3bmEI+kAesey+Y7HIqR5umuaf615j3Tb6vZbWUWWhbbwuYso4B?=
- =?us-ascii?Q?qgNWJV3PJuU5yEODAsu3XxEC7ly203UPNL9sbWS1OANmpnFZXx/pyEiauY8K?=
- =?us-ascii?Q?Gg98Nn04YrsdOgbWeftasd1sSXWQhobU5lsoZXqAwyox9SWZ89x4SoBImyxZ?=
- =?us-ascii?Q?uWEsLcVz2fV9IL1qVN9lJLWhZMs+/RMcP8NIx6IkaPVlTSGfYy8As6i6Sfzg?=
- =?us-ascii?Q?7Ixukmtrrn/uMKLI0dY94kqBFZj1qozHnD6bIstPWvxccx3aVbinj7MTmKCQ?=
- =?us-ascii?Q?K4E+MSQkrwxFX0Dh9dmGXv3pUUPLTB+6/APoGurBYM8N+ZXBsk2WnmWX4FeG?=
- =?us-ascii?Q?RdS6E7TULvNS0tIA4PcsSIDnVgNwkEyeDhLZBezp+esnxbtuiGvPPEuMUMkt?=
- =?us-ascii?Q?4YrBaXL+jZ2jfc2rHtfvWh6p99bFoK5zjTwv4Cnd4eg/oJf4vVQvQWYe6mcU?=
- =?us-ascii?Q?km+sKbxGx26ooXf00IiqsllRxJY/8ZO+hdk0xfu7cQR5Ck7v3XN/AuRHjbP7?=
- =?us-ascii?Q?byhaRXfhlGVxt0LjanX8XDzVgo3flB+6fjsItkkee9Mi8pHe/izo/qLs3EKZ?=
- =?us-ascii?Q?YoRRyCWU06Z/nbYdnhooXJUk3/2ZWGWb+0OtWN5+I+WPFtTjl6vAGhRsn/Wd?=
- =?us-ascii?Q?pKyw0mwFjiyfFj65jVRqmVcGyOagGOCDXn6SdKTmzPK5r/WhoG8Hw3Zn/32B?=
- =?us-ascii?Q?m/abzFwj9Dt5x3x5HqSf8x1N7LvR1JhVDY2JnsBVdXwUf9M5cgos5nbF+sW2?=
- =?us-ascii?Q?GgLTPc/N4+MdxfZYGRhsuBQEmDw83pzLnzDFRGahdsRrfUHtKZlmSIPqWJLa?=
- =?us-ascii?Q?MyQbb+LXB14e02ZXj3k+rU+RWxK26s03JeJE2RejaTepOYZg9peh28jOkch+?=
- =?us-ascii?Q?iVpyVyZplypkGFNxlJrxILXDNuNbyKQtee1R/MzSeYipqwSQZbeuxYDY3Hae?=
- =?us-ascii?Q?D9At9bZLG+0HVlfCr6t+gDWrPXnZCmSgqw/g8ylR/Ymli60VjqqsrIkxG379?=
- =?us-ascii?Q?QBUFflYQ+Viwg6XN7kW3gjVYJcoM0Xv/93AouxP2Ad7E4M9yieWwpah7fFdI?=
- =?us-ascii?Q?Co6sLhsbI53xadhyeW+swjRjFfQSrBRKmhvSIxkPynS19zAqrwd8ayDnE6l3?=
- =?us-ascii?Q?NwF1qjR9zltlFwrvm27wqG4GHBY3HlgUl2E80n3Gtmq/wXsSBgfcUEFV4wwX?=
- =?us-ascii?Q?Lpvcsm2z3gVCUhj9DA5mp8HNjkPABoCvCV3gGYqUcbhaIgKU8KqDrcgkcZTU?=
- =?us-ascii?Q?XpkvghPMk3et1KKcXRkaIPHmyjSvtVK/VEOAg+yM7s5ni4wGw8ezO7tSKkpi?=
- =?us-ascii?Q?sxjuyDgRmzOmaD29oTfncIKvLCMYGl/NH5iv2vkOUY/0PJxnOFOrr6Myfb1q?=
- =?us-ascii?Q?ozYM8iso4SFdPqZdMQDkPivUgLuImt81quWBEZ4dw6Npto4TF8AOpXcDHPaJ?=
- =?us-ascii?Q?zhCEw9uOqOxsuRm1e5U1/8R+qSdDJE5PARm4YJfdI5mU6OHAA0llVQgZCNqs?=
- =?us-ascii?Q?NkOrsdi4oQ2SKtCs1QmStfb8z0QV7zjr4NIxyrM4zhm4XZXE7T2CYGOl4hJW?=
- =?us-ascii?Q?b3WrQ/XgQWMhmOky/oKPVxjh9eWSI69kUWgyJiHhOKq4wmLdDatTdLGLvhEw?=
- =?us-ascii?Q?KpE+6Q=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?m4LhYTfNclhs0Shk0ZtBQI0jPP9/CVfq6POzemhXoR2758nnJFjPDIF7TLwl?=
+ =?us-ascii?Q?UuKHHRc6ZmkKvJFuD31VdBHA3SI1yZxcTkS0Z+XL3CQBbvAViGpWoc/0tqDr?=
+ =?us-ascii?Q?Tju7spwKFir4VWoGXmuVOBwhz1Mj+PFYQXvduo1AGecNb2JAgcdySr/EGcHJ?=
+ =?us-ascii?Q?u2dSPjMfumvmby6eRLRRYKp+d25C5Scw676rtnur7JcSIGnQnQmfQ7j0uJsi?=
+ =?us-ascii?Q?E9p21AHPYikIrvTWKOmShNtE3dCiceOW6/cDWhjil4CXoVqNZHJurgnauzBK?=
+ =?us-ascii?Q?9Fh1agTvUBf7NtZetaN+RBuvbURK0MJy7CYPZm5rWWFNp6jxqJK5GtFc3wy2?=
+ =?us-ascii?Q?Qtq4aDTQPlvxkMr2aSFR7W6kTCgG7VffOjqKb1MXaLUKYKKP0byY13M6+g7L?=
+ =?us-ascii?Q?ektIZM8CsLBbSSSpgL40wy+aiIIZ4DjvIo/HTpkutWexknLkWZOvV9oYPu9N?=
+ =?us-ascii?Q?mE9e+Jz84902aNXE0WCVBJF4RX2LsGuXXi2FaPhA/yH8rstZfcTN64ZkGe0q?=
+ =?us-ascii?Q?ht4uVKwozX9+Ox7DKeUgrR+aWVq/r6sb9JyQpRnfXBGY/HAXrinEEWxgu49b?=
+ =?us-ascii?Q?avm2XsPQEoKFe7YQvoOEMhrGl0pRL+Cn6Y7VdJdjgjemd8ynQAlT4f8ccT+h?=
+ =?us-ascii?Q?VDHnDlMOqztb5Yrmt8FbEyVZaUEm/mqU8SfQG/03qQZehku/b26Uly1b1ZsF?=
+ =?us-ascii?Q?hZlID9I1uZXCjMkxo43lRCLOgqlxxsmJ71l/Jdt5CW8w0V3JozGJqRftxOeu?=
+ =?us-ascii?Q?ZxIiREIQnZvreAMYHsbY1+bR0V++bnWTwimjYODUlpAFXYnnikiNDlQMt/b/?=
+ =?us-ascii?Q?9YQBFH0V7covkDOzoY7ZFBPN8WuVgYrG1xfbQzsvJrccg7GRhZ68mHdT1bJr?=
+ =?us-ascii?Q?NmCkYDxlz2ja5TbyxXIQLmaw3+wqmQd7K7XakkTjFiXYvo5uGPezXZ2tChqo?=
+ =?us-ascii?Q?bpq3SRT0Ii+/eTBjdsGuakyr31R0PzUGLpfBwqeBaOJQGsIZjcYl4dEJqciY?=
+ =?us-ascii?Q?UlP+QTJmO0wTb47u2h0aaXvArg/Kiv6g/SrG1YO1mX/SE0ow43FWi0OrmtWV?=
+ =?us-ascii?Q?YhtTiNtV3QD3mCxn9o7zajm61/sKG00E6wiIRsiEMJwrqIbTr/Nh6HyVBxEf?=
+ =?us-ascii?Q?HUd7PuuEPn5IApTs55B5pXqaZH+gj6OWxTzbQq+SS/tNhjwe+aRHYa3X+E5T?=
+ =?us-ascii?Q?qzFKCjuXDImgq8INs5AJWaLZEbdyK3ehCOR7CZdPWxLTPDddAVMgjIjIAR7L?=
+ =?us-ascii?Q?FWMIobA7RGDud+bJbxnjGT4HhQ6E1mYtWUGYfLUtfxxAyt6Af8Z5/WdJZ7ok?=
+ =?us-ascii?Q?BRHZzJ3BSfBMSoIy5X6SSQxWfgbi90dAbTMC6YZi2kdcYZd+Pm26Oaj4m/V0?=
+ =?us-ascii?Q?4tAPw6M0FwUeZfm/BW0bTTVrVZ6AlEONordivTdals8LQNrNJZSUwwGD5kRr?=
+ =?us-ascii?Q?AGOqMxnC5Y7R4i9bex7cU9bNupRJ8/T9jQpwIWiGqVh4fn6+jbaXMZNKsNyz?=
+ =?us-ascii?Q?OasRJhXXku0EYpFqbZwR3FpLyT3ElJUpnLen6PLcVYhi1Dy/KB36rtiQE5ms?=
+ =?us-ascii?Q?pj8CG+ZUs/VTYh76sQ7DzN+DDv2qcZTSc3tuIe58qiN94lrV1Q4slBgGc1ze?=
+ =?us-ascii?Q?hRhjIGBiLR0JiIBJlpru4HH8Z0OS/sT/uKIIDm4hnZ/5mVW7ZsQwUkTPsLfI?=
+ =?us-ascii?Q?s7KtCA=3D=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2e6614e0-5e9d-4ff0-1351-08d9b5d49d52
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3af51407-0693-4197-d39d-08d9b5d494fd
 X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB4835.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2021 20:45:03.0950
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2021 20:44:49.3710
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QpVE3z/Bf+OPUN4aKXciPX3U0/xj9PVa9kJv2I3CVyDu0Y+o0Vb1S3cAaC3tXQu0xWS2XttSwzBHXriZV+7LuHpyc3jeHi5FDZZX2FheFSQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB5186
+X-MS-Exchange-CrossTenant-UserPrincipalName: ayTD2vA2V4VRlNZ6iXJDBSH3uaR4MEE6KPKuxjOdlzlT2nBqjWOyUXeJiwkx3Ubq9PK1lWtwEgxk5OtQTARoXRGIrT546nkKoWSUMpcX7bk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR10MB2913
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10186 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 spamscore=0 adultscore=0
- bulkscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0 phishscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 malwarescore=0 mlxscore=0
+ suspectscore=0 mlxlogscore=999 spamscore=0 phishscore=0 bulkscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
  definitions=main-2112020131
-X-Proofpoint-ORIG-GUID: sO-ZT9QjA_Kx5YM33a1uoO_lOgpzDxWm
-X-Proofpoint-GUID: sO-ZT9QjA_Kx5YM33a1uoO_lOgpzDxWm
+X-Proofpoint-ORIG-GUID: jNyjN9QVs1yxH-dB3s-beZ31OBH2_ynu
+X-Proofpoint-GUID: jNyjN9QVs1yxH-dB3s-beZ31OBH2_ynu
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Right now, only static dax regions have a valid @pgmap pointer in its
-struct dev_dax. Dynamic dax case however, do not.
+Move struct page init to an helper function __init_zone_device_page().
 
-In preparation for device-dax compound devmap support, make sure that
-dev_dax pgmap field is set after it has been allocated and initialized.
+This is in preparation for sharing the storage for compound page
+metadata.
 
-dynamic dax device have the @pgmap is allocated at probe() and it's
-managed by devm (contrast to static dax region which a pgmap is provided
-and dax core kfrees it). So in addition to ensure a valid @pgmap, clear
-the pgmap when the dynamic dax device is released to avoid the same
-pgmap ranges to be re-requested across multiple region device reconfigs.
-
-Add a static_dev_dax() and use that helper in dev_dax_probe() to ensure
-the initialization differences between dynamic and static regions are
-more explicit. While at it, consolidate the ranges initialization when we
-allocate the @pgmap for the dynamic dax region case. Also take the
-opportunity to document the differences between static and dynamic da
-regions.
-
-Suggested-by: Dan Williams <dan.j.williams@intel.com>
 Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+Reviewed-by: Dan Williams <dan.j.williams@intel.com>
 ---
- drivers/dax/bus.c    | 32 ++++++++++++++++++++++++++++++++
- drivers/dax/bus.h    |  1 +
- drivers/dax/device.c | 29 +++++++++++++++++++++--------
- 3 files changed, 54 insertions(+), 8 deletions(-)
+ mm/page_alloc.c | 74 +++++++++++++++++++++++++++----------------------
+ 1 file changed, 41 insertions(+), 33 deletions(-)
 
-diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
-index 6cc4da4c713d..a22350e822fa 100644
---- a/drivers/dax/bus.c
-+++ b/drivers/dax/bus.c
-@@ -129,11 +129,35 @@ ATTRIBUTE_GROUPS(dax_drv);
- 
- static int dax_bus_match(struct device *dev, struct device_driver *drv);
- 
-+/*
-+ * Static dax regions are regions created by an external subsystem
-+ * nvdimm where a single range is assigned. Its boundaries are by the external
-+ * subsystem and are usually limited to one physical memory range. For example,
-+ * for PMEM it is usually defined by NVDIMM Namespace boundaries (i.e. a
-+ * single contiguous range)
-+ *
-+ * On dynamic dax regions, the assigned region can be partitioned by dax core
-+ * into multiple subdivisions. A subdivision is represented into one
-+ * /dev/daxN.M device composed by one or more potentially discontiguous ranges.
-+ *
-+ * When allocating a dax region, drivers must set whether it's static
-+ * (IORESOURCE_DAX_STATIC).  On static dax devices, the @pgmap is pre-assigned
-+ * to dax core when calling devm_create_dev_dax(), whereas in dynamic dax
-+ * devices it is NULL but afterwards allocated by dax core on device ->probe().
-+ * Care is needed to make sure that dynamic dax devices are torn down with a
-+ * cleared @pgmap field (see kill_dev_dax()).
-+ */
- static bool is_static(struct dax_region *dax_region)
- {
- 	return (dax_region->res.flags & IORESOURCE_DAX_STATIC) != 0;
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index ba096f731e36..f7f33c83222f 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -6565,6 +6565,46 @@ void __meminit memmap_init_range(unsigned long size, int nid, unsigned long zone
  }
  
-+bool static_dev_dax(struct dev_dax *dev_dax)
+ #ifdef CONFIG_ZONE_DEVICE
++static void __ref __init_zone_device_page(struct page *page, unsigned long pfn,
++					  unsigned long zone_idx, int nid,
++					  struct dev_pagemap *pgmap)
 +{
-+	return is_static(dev_dax->region);
-+}
-+EXPORT_SYMBOL_GPL(static_dev_dax);
 +
- static u64 dev_dax_size(struct dev_dax *dev_dax)
- {
- 	u64 size = 0;
-@@ -363,6 +387,14 @@ void kill_dev_dax(struct dev_dax *dev_dax)
- 
- 	kill_dax(dax_dev);
- 	unmap_mapping_range(inode->i_mapping, 0, 0, 1);
++	__init_single_page(page, pfn, zone_idx, nid);
 +
 +	/*
-+	 * Dynamic dax region have the pgmap allocated via dev_kzalloc()
-+	 * and thus freed by devm. Clear the pgmap to not have stale pgmap
-+	 * ranges on probe() from previous reconfigurations of region devices.
++	 * Mark page reserved as it will need to wait for onlining
++	 * phase for it to be fully associated with a zone.
++	 *
++	 * We can use the non-atomic __set_bit operation for setting
++	 * the flag as we are still initializing the pages.
 +	 */
-+	if (!static_dev_dax(dev_dax))
-+		dev_dax->pgmap = NULL;
- }
- EXPORT_SYMBOL_GPL(kill_dev_dax);
- 
-diff --git a/drivers/dax/bus.h b/drivers/dax/bus.h
-index 1e946ad7780a..4acdfee7dd59 100644
---- a/drivers/dax/bus.h
-+++ b/drivers/dax/bus.h
-@@ -48,6 +48,7 @@ int __dax_driver_register(struct dax_device_driver *dax_drv,
- 	__dax_driver_register(driver, THIS_MODULE, KBUILD_MODNAME)
- void dax_driver_unregister(struct dax_device_driver *dax_drv);
- void kill_dev_dax(struct dev_dax *dev_dax);
-+bool static_dev_dax(struct dev_dax *dev_dax);
- 
- #if IS_ENABLED(CONFIG_DEV_DAX_PMEM_COMPAT)
- int dev_dax_probe(struct dev_dax *dev_dax);
-diff --git a/drivers/dax/device.c b/drivers/dax/device.c
-index 038816b91af6..630de5a795b0 100644
---- a/drivers/dax/device.c
-+++ b/drivers/dax/device.c
-@@ -398,18 +398,34 @@ int dev_dax_probe(struct dev_dax *dev_dax)
- 	void *addr;
- 	int rc, i;
- 
--	pgmap = dev_dax->pgmap;
--	if (dev_WARN_ONCE(dev, pgmap && dev_dax->nr_range > 1,
--			"static pgmap / multi-range device conflict\n"))
--		return -EINVAL;
-+	if (static_dev_dax(dev_dax))  {
-+		if (dev_dax->nr_range > 1) {
-+			dev_warn(dev,
-+				"static pgmap / multi-range device conflict\n");
-+			return -EINVAL;
-+		}
++	__SetPageReserved(page);
 +
-+		pgmap = dev_dax->pgmap;
-+	} else {
-+		if (dev_dax->pgmap) {
-+			dev_warn(dev,
-+				 "dynamic-dax with pre-populated page map\n");
-+			return -EINVAL;
-+		}
++	/*
++	 * ZONE_DEVICE pages union ->lru with a ->pgmap back pointer
++	 * and zone_device_data.  It is a bug if a ZONE_DEVICE page is
++	 * ever freed or placed on a driver-private list.
++	 */
++	page->pgmap = pgmap;
++	page->zone_device_data = NULL;
++
++	/*
++	 * Mark the block movable so that blocks are reserved for
++	 * movable at startup. This will force kernel allocations
++	 * to reserve their blocks rather than leaking throughout
++	 * the address space during boot when many long-lived
++	 * kernel allocations are made.
++	 *
++	 * Please note that MEMINIT_HOTPLUG path doesn't clear memmap
++	 * because this is done early in section_activate()
++	 */
++	if (IS_ALIGNED(pfn, pageblock_nr_pages)) {
++		set_pageblock_migratetype(page, MIGRATE_MOVABLE);
++		cond_resched();
++	}
++}
++
+ void __ref memmap_init_zone_device(struct zone *zone,
+ 				   unsigned long start_pfn,
+ 				   unsigned long nr_pages,
+@@ -6593,39 +6633,7 @@ void __ref memmap_init_zone_device(struct zone *zone,
+ 	for (pfn = start_pfn; pfn < end_pfn; pfn++) {
+ 		struct page *page = pfn_to_page(pfn);
  
--	if (!pgmap) {
- 		pgmap = devm_kzalloc(dev,
-                        struct_size(pgmap, ranges, dev_dax->nr_range - 1),
-                        GFP_KERNEL);
- 		if (!pgmap)
- 			return -ENOMEM;
-+
- 		pgmap->nr_range = dev_dax->nr_range;
-+		dev_dax->pgmap = pgmap;
-+
-+		for (i = 0; i < dev_dax->nr_range; i++) {
-+			struct range *range = &dev_dax->ranges[i].range;
-+			pgmap->ranges[i] = *range;
-+		}
+-		__init_single_page(page, pfn, zone_idx, nid);
+-
+-		/*
+-		 * Mark page reserved as it will need to wait for onlining
+-		 * phase for it to be fully associated with a zone.
+-		 *
+-		 * We can use the non-atomic __set_bit operation for setting
+-		 * the flag as we are still initializing the pages.
+-		 */
+-		__SetPageReserved(page);
+-
+-		/*
+-		 * ZONE_DEVICE pages union ->lru with a ->pgmap back pointer
+-		 * and zone_device_data.  It is a bug if a ZONE_DEVICE page is
+-		 * ever freed or placed on a driver-private list.
+-		 */
+-		page->pgmap = pgmap;
+-		page->zone_device_data = NULL;
+-
+-		/*
+-		 * Mark the block movable so that blocks are reserved for
+-		 * movable at startup. This will force kernel allocations
+-		 * to reserve their blocks rather than leaking throughout
+-		 * the address space during boot when many long-lived
+-		 * kernel allocations are made.
+-		 *
+-		 * Please note that MEMINIT_HOTPLUG path doesn't clear memmap
+-		 * because this is done early in section_activate()
+-		 */
+-		if (IS_ALIGNED(pfn, pageblock_nr_pages)) {
+-			set_pageblock_migratetype(page, MIGRATE_MOVABLE);
+-			cond_resched();
+-		}
++		__init_zone_device_page(page, pfn, zone_idx, nid, pgmap);
  	}
  
- 	for (i = 0; i < dev_dax->nr_range; i++) {
-@@ -421,9 +437,6 @@ int dev_dax_probe(struct dev_dax *dev_dax)
- 					i, range->start, range->end);
- 			return -EBUSY;
- 		}
--		/* don't update the range for static pgmap */
--		if (!dev_dax->pgmap)
--			pgmap->ranges[i] = *range;
- 	}
- 
- 	pgmap->type = MEMORY_DEVICE_GENERIC;
+ 	pr_info("%s initialised %lu pages in %ums\n", __func__,
 -- 
 2.17.2
 
