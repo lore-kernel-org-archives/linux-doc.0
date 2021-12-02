@@ -2,166 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6209EC433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Dec 2021 21:58:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ABEFC433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Dec 2021 21:58:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349121AbhLBWBY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Dec 2021 17:01:24 -0500
-Received: from smtprelay-out1.synopsys.com ([149.117.73.133]:38722 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S242771AbhLBWBY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Dec 2021 17:01:24 -0500
-Received: from mailhost.synopsys.com (mdc-mailhost1.synopsys.com [10.225.0.209])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id A249A459CC;
-        Thu,  2 Dec 2021 21:58:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1638482281; bh=ZVPpzB6rSNcngrIBnZii0uhQIavPsuCgmP8/mOzVavE=;
-        h=From:To:Cc:Subject:Date:From;
-        b=L7YnaS0vQx3fTlAeYVedMHwNa1hkBi4fleITEWzhP2SG+y2Yx439NI8KpvTxGdgjk
-         y8/9UIirG9DLGDdioVh8a7CcKCaGoCM1R7aukYyYzi04cUNFae4mP/rbDwoeFOZPyh
-         FBL70ll4iHRikjdWjF8nqa5iXcQNPPW27ZLZ1SeiEC+AhFVgkrMP0hdonlGqlrH5sw
-         oUR7rEfyrNDFHbvaR4265VgRbG6bDVNq6rJ+/nGCHSQr84Jy0AYzWgquo8O9s+lqcX
-         pb84HmH+0anL5KeOGzehq8phcNrhwh/YfKK4VJhhb3iiVulk6TnKIvAUN7cOT19843
-         8BmPLnwZg1kYQ==
-Received: from abrodkin-5550.internal.synopsys.com (unknown [10.225.48.86])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by mailhost.synopsys.com (Postfix) with ESMTPSA id EC080A005C;
-        Thu,  2 Dec 2021 21:57:56 +0000 (UTC)
-X-SNPS-Relay: synopsys.com
-From:   Alexey Brodkin <Alexey.Brodkin@synopsys.com>
-To:     linux-doc@vger.kernel.org
-Cc:     linux-snps-arc@lists.infradead.org,
-        Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vineet Gupta <vgupta@kernel.org>
-Subject: [PATCH] docs: ARC: Improve readability
-Date:   Fri,  3 Dec 2021 00:57:47 +0300
-Message-Id: <20211202215747.19923-1-abrodkin@synopsys.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1349131AbhLBWBx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Dec 2021 17:01:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53998 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242771AbhLBWBw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Dec 2021 17:01:52 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1244DC06174A;
+        Thu,  2 Dec 2021 13:58:30 -0800 (PST)
+Received: from mail.kernel.org (unknown [198.145.29.99])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id A6338B823B7;
+        Thu,  2 Dec 2021 21:58:28 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9F1B760E0B;
+        Thu,  2 Dec 2021 21:58:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1638482307;
+        bh=u54M8TvqFCoqyWizAXfj0p458N8cswh37sQPhuz+PE8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=gRmuD2cdMj0JpWJeCh8p6a6Bco8m3d04KtZ8Kd+lRiv0KNpbc5QDnURexbd5oeFqK
+         hjvtOIAthwV4+RummH/wrQf59WNK6NBbdnu+FVNXQ+164xA8DRwsskjqDPshxg9uKX
+         zMEACX/Rr8Fh+5Fwymwac7m8oa/bN1rwC0xjXqbU=
+Date:   Thu, 2 Dec 2021 13:58:24 -0800
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     ValdikSS <iam@valdikss.org.ru>
+Cc:     Alexey Avramov <hakavlad@inbox.lv>, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, corbet@lwn.net, mcgrof@kernel.org,
+        keescook@chromium.org, yzaikin@google.com,
+        oleksandr@natalenko.name, kernel@xanmod.org, aros@gmx.com,
+        hakavlad@gmail.com, Yu Zhao <yuzhao@google.com>
+Subject: Re: [PATCH] mm/vmscan: add sysctl knobs for protecting the working
+ set
+Message-Id: <20211202135824.33d2421bf5116801cfa2040d@linux-foundation.org>
+In-Reply-To: <2dc51fc8-f14e-17ed-a8c6-0ec70423bf54@valdikss.org.ru>
+References: <20211130201652.2218636d@mail.inbox.lv>
+        <2dc51fc8-f14e-17ed-a8c6-0ec70423bf54@valdikss.org.ru>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There were some things which made rendered document
-look not very elegant. That was because:
+On Thu, 2 Dec 2021 21:05:01 +0300 ValdikSS <iam@valdikss.org.ru> wrote:
 
-1. Numbered lists were formatted in more of Markdown way
-   rather than true reStructuredText and so were displayed
-   as a plain text with leading numbers.
+> This patchset is surprisingly effective and very useful for low-end PC 
+> with slow HDD, single-board ARM boards with slow storage, cheap Android 
+> smartphones with limited amount of memory. It almost completely prevents 
+> thrashing condition and aids in fast OOM killer invocation.
+> 
+> The similar file-locking patch is used in ChromeOS for nearly 10 years 
+> but not on stock Linux or Android. It would be very beneficial for 
+> lower-performance Android phones, SBCs, old PCs and other devices.
+> 
+> With this patch, combined with zram, I'm able to run the following 
+> software on an old office PC from 2007 with __only 2GB of RAM__ 
+> simultaneously:
+> 
+>   * Firefox with 37 active tabs (all data in RAM, no tab unloading)
+>   * Discord
+>   * Skype
+>   * LibreOffice with the document opened
+>   * Two PDF files (14 and 47 megabytes in size)
+> 
+> And the PC doesn't crawl like a snail, even with 2+ GB in zram!
+> Without the patch, this PC is barely usable.
+> Please watch the video:
+> https://notes.valdikss.org.ru/linux-for-old-pc-from-2007/en/
+> 
 
-   Well, moreover numbered lists were not needed as in all cases
-   we were just listing a couple of options w/o any intention to
-   follow any particular order, so a simpler unordered list fits
-   better and looks cleaner.
+This is quite a condemnation of the current VM.  It shouldn't crawl
+like a snail.
 
-2. URL's of external resources were added as they are
-   (which is OK in a plain text, but make not much sense in
-   a HTML where we may use more human-friendly link names
-   with URL's hidden.
+The patch simply sets hard limits on page reclaim's malfunctioning. 
+I'd prefer that reclaim not malfunction :(
 
-3. Some URL's had trailing slashes which were not really needed
+That being said, I can see that a blunt instrument like this would be
+useful.
 
-Fix all items from above!
+I don't think that the limits should be "N bytes on the current node". 
+Nodes can have different amounts of memory so I expect it should scale
+the hard limits on a per-node basis.  And of course, the various zones
+have different size as well.
 
-Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Vineet Gupta <vgupta@kernel.org>
----
- Documentation/arc/arc.rst | 62 +++++++++++++++++++++------------------
- 1 file changed, 33 insertions(+), 29 deletions(-)
-
-diff --git a/Documentation/arc/arc.rst b/Documentation/arc/arc.rst
-index 249d03c6be8e..6c4d978f3f4e 100644
---- a/Documentation/arc/arc.rst
-+++ b/Documentation/arc/arc.rst
-@@ -9,24 +9,27 @@ Other sources of information
- Below are some resources where more information can be found on
- ARC processors and relevant open source projects.
- 
--1. `<https://embarc.org/>`_ - Community portal for open source on ARC.
--Good place to start to find relevant FOSS projects, toolchain releases,
--news items and more.
--
--2. `<https://github.com/foss-for-synopsys-dwc-arc-processors>`_ -
--Home for all development activities regarding open source projects for
--ARC processors. Some of the projects are forks of various upstream projects,
--where "work in progress" is hosted prior to submission to upstream projects.
--Other projects are developed by Synopsys and made available to community
--as open source for use on ARC Processors.
--
--3. `<https://www.synopsys.com/designware-ip/processor-solutions.html>`_ -
--Official Synopsys ARC Processors website location, with access to some IP
--documentation (Programmer's Reference Manuals, AKA "PRM's", see
--`<https://www.synopsys.com/dw/doc.php/ds/cc/programmers-reference-manual-ARC-HS.pdf>`_)
--and commercial tools (Free nSIM,
--`<https://www.synopsys.com/cgi-bin/dwarcnsim/req1.cgi>`_ and
--MetaWare Light Edition, `<https://www.synopsys.com/cgi-bin/arcmwtk_lite/reg1.cgi>`_)
-+- `<https://embarc.org>`_ - Community portal for open source on ARC.
-+  Good place to start to find relevant FOSS projects, toolchain releases,
-+  news items and more.
-+
-+- `<https://github.com/foss-for-synopsys-dwc-arc-processors>`_ -
-+  Home for all development activities regarding open source projects for
-+  ARC processors. Some of the projects are forks of various upstream projects,
-+  where "work in progress" is hosted prior to submission to upstream projects.
-+  Other projects are developed by Synopsys and made available to community
-+  as open source for use on ARC Processors.
-+
-+- `Official Synopsys ARC Processors website
-+  <https://www.synopsys.com/designware-ip/processor-solutions.html>`_ -
-+  location, with access to some IP documentation (`Programmer's Reference
-+  Manual, AKA PRM for ARC HS processors
-+  <https://www.synopsys.com/dw/doc.php/ds/cc/programmers-reference-manual-ARC-HS.pdf>`_)
-+  and free versions of some commercial tools (`Free nSIM
-+  <https://www.synopsys.com/cgi-bin/dwarcnsim/req1.cgi>`_ and
-+  `MetaWare Light Edition <https://www.synopsys.com/cgi-bin/arcmwtk_lite/reg1.cgi>`_).
-+  Please note though, registration is required to access both the documentation and
-+  the tools.
- 
- Important note on ARC processors configurability
- ################################################
-@@ -52,22 +55,23 @@ Building the Linux kernel for ARC processors
- The process of kernel building for ARC processors is the same as for any other
- architecture and could be done in 2 ways:
- 
--1. cross-compilation: process of compiling for ARC targets on a development
--host with a different processor architecture (generally x86_64/amd64).
--
--2. native compilation: process of compiling for ARC on a ARC platform
--(hardware board or a simulator like QEMU) with complete development environment
--(GNU toolchain, dtc, make etc) installed on the platform.
-+- Cross-compilation: process of compiling for ARC targets on a development
-+  host with a different processor architecture (generally x86_64/amd64).
-+- Native compilation: process of compiling for ARC on a ARC platform
-+  (hardware board or a simulator like QEMU) with complete development environment
-+  (GNU toolchain, dtc, make etc) installed on the platform.
- 
- In both cases, up-to-date GNU toolchain for ARC for the host is needed.
- Synopsys offers prebuilt toolchain releases which can be used for this purpose,
- available from:
- 
--1. Synopsys GNU toolchain releases:
--`<https://github.com/foss-for-synopsys-dwc-arc-processors/toolchain/releases>`_
--2. Linux kernel compilers collection:
--`<https://mirrors.edge.kernel.org/pub/tools/crosstool/>`_
--3. Bootlin's toolchain collection: `<https://toolchains.bootlin.com/>`_
-+- Synopsys GNU toolchain releases:
-+  `<https://github.com/foss-for-synopsys-dwc-arc-processors/toolchain/releases>`_
-+
-+- Linux kernel compilers collection:
-+  `<https://mirrors.edge.kernel.org/pub/tools/crosstool>`_
-+
-+- Bootlin's toolchain collection: `<https://toolchains.bootlin.com>`_
- 
- Once the toolchain is installed in the system, make sure its "bin" folder
- is added in your ``PATH`` environment variable. Then set ``ARCH=arc`` &
--- 
-2.25.1
+We do already have a lot of sysctls for controlling these sort of
+things.  Was much work put into attempting to utilize the existing
+sysctls to overcome these issues?
 
