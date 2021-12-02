@@ -2,93 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 073C1C433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Dec 2021 19:49:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7738FC433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Dec 2021 20:09:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242895AbhLBTwc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Dec 2021 14:52:32 -0500
-Received: from netrider.rowland.org ([192.131.102.5]:54861 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S242715AbhLBTwb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Dec 2021 14:52:31 -0500
-Received: (qmail 399327 invoked by uid 1000); 2 Dec 2021 14:49:08 -0500
-Date:   Thu, 2 Dec 2021 14:49:08 -0500
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 1/4] Docs: usb: update usb_bulk_msg receiving example
-Message-ID: <YakjNGEBFKm9pHCw@rowland.harvard.edu>
-References: <cover.1638152984.git.philipp.g.hortmann@gmail.com>
- <28a76eedad7027277754cef84ca34810b0cfe6f4.1638152984.git.philipp.g.hortmann@gmail.com>
- <YaaFNO1t3GIaGFPI@rowland.harvard.edu>
- <ad2fcdfa-5688-4d09-2c82-c405adeae4ee@gmail.com>
+        id S243007AbhLBUMa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Dec 2021 15:12:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58072 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242416AbhLBUMa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Dec 2021 15:12:30 -0500
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 658C1C06174A;
+        Thu,  2 Dec 2021 12:09:07 -0800 (PST)
+Received: by mail-yb1-xb35.google.com with SMTP id v64so2827154ybi.5;
+        Thu, 02 Dec 2021 12:09:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=CoVbhq6s5tCP8FAuR3nfitUe1jUjFsGTnmv4eKJnELo=;
+        b=Kb/IwSerDzjZbTnkxe499mxNj9bWyt3wnHCLUhwEHJiYmHfKkrTeoyrS0WZKjXHz6f
+         zwPgVmXEgTuXXzqd/iR07DRuIdLFilFEGS+886fv6Zi6IvtBMaILSwG/3QUVhUwHD70q
+         9Up9H4jdDsxZiutufdfuummLiMfx5Fu0RiGlr3UWpC6PJ+NU0UbM2b2OdSpr5A49dRrU
+         dl4cWRtON96Er/11WMYCGC5Qteun6VgYpcRzPLRyswH61j55q/LO3jH5uVoGzaPHB0jw
+         ABeGvAOj5Nqq8ks6UJfyDp49nn8b6daFRsHfFLKjYXXrR1z2dhZimF5WwoE5boGpLbWV
+         +yew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CoVbhq6s5tCP8FAuR3nfitUe1jUjFsGTnmv4eKJnELo=;
+        b=ovG3miZVIKcEbHevGDBnFsmnMOOFjsGa07ae6pjTLACUls/zPim+piVcZefH+taD4g
+         H4w7yZuGx6sQXIoqUee+lM+0XXzbKfHJ/chkEs8C61wSPTTyNl2QzYcuPGPMCMH9E0a3
+         /jsFmku72khIY3IvsXgYKlpH0puatAulCDzZ2YWescLp5hAFsLU14UNoSNbODwiCmdvV
+         yzU2b5AmSfUJitU1ZcdwKAFTPX4AbmUTjovWqO/XWqVNSey2AdvwbyNKYXnUxaw2+KSB
+         APhf1/t04GybUxxoJRgrphttlPjL9ICo14zhWzsEvps+pUmC/JnsAmFgmxcdTbWHZdcM
+         1EOA==
+X-Gm-Message-State: AOAM530BBLkgFX4IB4AZa3hvUND+Y5j0LoFc2wi8S+NqXhCq9ILc325q
+        schvPSV/0V/+xtT36Z0Qep/8Yb+b3/Pxeh46+N8=
+X-Google-Smtp-Source: ABdhPJxwUsgpO1tyhqmnR0hgupBuctu6p4tQ304M0T+bAp0TxDtibZ0B/l0ABOXM88YWS9hE6u++JvAkD04rWuc+ERw=
+X-Received: by 2002:a25:54e:: with SMTP id 75mr16942774ybf.393.1638475746518;
+ Thu, 02 Dec 2021 12:09:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ad2fcdfa-5688-4d09-2c82-c405adeae4ee@gmail.com>
+References: <fb36291f5998c98faa1bd02ce282d940813c8efd.1637684071.git.dave@dtucker.co.uk>
+ <9b20a6e558008b8d422db1008dd2b5c8ff18ce46.1637684071.git.dave@dtucker.co.uk>
+In-Reply-To: <9b20a6e558008b8d422db1008dd2b5c8ff18ce46.1637684071.git.dave@dtucker.co.uk>
+From:   Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date:   Thu, 2 Dec 2021 12:08:55 -0800
+Message-ID: <CAEf4BzYYMwGZ10NuZZCYVb=e8bpf3vkLYn_g0B7Roi5cPJRrCw@mail.gmail.com>
+Subject: Re: [PATCH v2 bpf-next 2/2] bpf, docs: document BPF_MAP_TYPE_ARRAY
+To:     Dave Tucker <dave@dtucker.co.uk>
+Cc:     bpf <bpf@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>, Martin Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>,
+        john fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 02, 2021 at 05:49:47AM +0100, Philipp Hortmann wrote:
-> On 11/30/21 9:10 PM, Alan Stern wrote:
-> > On Mon, Nov 29, 2021 at 09:21:41PM +0100, Philipp Hortmann wrote:
-> > > Clarification that this example is not in the driver template anymore.
-> > > Update code example so that it fits best to usb-skeleton.c
-> > > 
-> > > Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-> > > ---
-> > >   .../driver-api/usb/writing_usb_driver.rst     | 30 +++++++++----------
-> > >   1 file changed, 15 insertions(+), 15 deletions(-)
-> > > 
-> > > diff --git a/Documentation/driver-api/usb/writing_usb_driver.rst b/Documentation/driver-api/usb/writing_usb_driver.rst
-> > > index b43e1ce49f0e..a9608ad18d77 100644
-> > > --- a/Documentation/driver-api/usb/writing_usb_driver.rst
-> > > +++ b/Documentation/driver-api/usb/writing_usb_driver.rst
-> > > @@ -218,36 +218,36 @@ do very much processing at that time. Our implementation of
-> > >   ``skel_write_bulk_callback`` merely reports if the urb was completed
-> > >   successfully or not and then returns.
-> > > -The read function works a bit differently from the write function in
-> > > +This read function works a bit differently from the write function in
-> > >   that we do not use an urb to transfer data from the device to the
-> > > -driver. Instead we call the :c:func:`usb_bulk_msg` function, which can be used
-> > > +driver. Instead we call `usb_bulk_msg` function, which can be used
-> > >   to send or receive data from a device without having to create urbs and
-> > > -handle urb completion callback functions. We call the :c:func:`usb_bulk_msg`
-> > > +handle urb completion callback functions. We call `usb_bulk_msg`
-> > >   function, giving it a buffer into which to place any data received from
-> > 
-> > The reason for the last two changes above isn't clear.  You removed some of the
-> > markup indicators and made the text ungrammatical.  This does not seem like an
-> > improvement.
-> > 
-> > Alan Stern
-> > 
-> This two changes were made because of an earlier comment to the same
-> document, but may be I understood this wrong:
-> On 10/19/21 11:17 PM, Jonathan Corbet wrote:
-> ...
-> We shouldn't be using :c:func: anymore; just say usb_register() and the
-> right things will happen.  Definitely worth fixing while you are in the
-> neighborhood.
-> ...
-> If you're making this change, take out "the" (as well as :c:func:).
-> ...
-> ___
-> Please find the full email under the link:
-> https://lore.kernel.org/linux-usb/87h7dcsohs.fsf@meer.lwn.net/T/
-> 
-> Please give me an example for the right wording. I am not a native English
-> speaker. Is the article in this case required?
+On Tue, Nov 23, 2021 at 8:24 AM Dave Tucker <dave@dtucker.co.uk> wrote:
+>
+> This commit adds documentation for the BPF_MAP_TYPE_ARRAY including
+> kernel version introduced, usage and examples.
+> It also documents BPF_MAP_TYPE_PERCPU_ARRAY since this is similar.
+>
+> Signed-off-by: Dave Tucker <dave@dtucker.co.uk>
+> ---
 
-Okay, now I see what's going on.  You should change it like this:
+It looks good, thanks for the update. But it seems like all the
+Documentation/bpf/*.rst are 80-char wrapped, can you please wrap the
+lines to fit within 80 characters for consistency? It also helps
+immensely when reading source text files and not the HTML-rendered
+version.
 
--driver. Instead we call the :c:func:`usb_bulk_msg` function, which can be used
-+driver. Instead we call `usb_bulk_msg`, which can be used
- to send or receive data from a device without having to create urbs and
--handle urb completion callback functions. We call the :c:func:`usb_bulk_msg`
-+handle urb completion callback functions. We call `usb_bulk_msg`,
- giving it a buffer into which to place any data received from
+>  Documentation/bpf/map_array.rst | 172 ++++++++++++++++++++++++++++++++
+>  1 file changed, 172 insertions(+)
+>  create mode 100644 Documentation/bpf/map_array.rst
+>
 
-Alan Stern
+[...]
