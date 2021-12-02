@@ -2,135 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46E27C433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Dec 2021 09:30:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0312C433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Dec 2021 09:31:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356465AbhLBJdY convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Dec 2021 04:33:24 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:4190 "EHLO
-        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356461AbhLBJdS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Dec 2021 04:33:18 -0500
-Received: from fraeml715-chm.china.huawei.com (unknown [172.18.147.200])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4J4Vtg2HNKz67YrM;
-        Thu,  2 Dec 2021 17:25:47 +0800 (CST)
-Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
- fraeml715-chm.china.huawei.com (10.206.15.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Thu, 2 Dec 2021 10:29:52 +0100
-Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
- fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2308.020;
- Thu, 2 Dec 2021 10:29:52 +0100
-From:   Roberto Sassu <roberto.sassu@huawei.com>
-To:     Christoph Hellwig <hch@infradead.org>
-CC:     "deven.desai@linux.microsoft.com" <deven.desai@linux.microsoft.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "axboe@kernel.dk" <axboe@kernel.dk>,
-        "agk@redhat.com" <agk@redhat.com>,
-        "snitzer@redhat.com" <snitzer@redhat.com>,
-        "ebiggers@kernel.org" <ebiggers@kernel.org>,
-        "tytso@mit.edu" <tytso@mit.edu>,
-        "paul@paul-moore.com" <paul@paul-moore.com>,
-        "eparis@redhat.com" <eparis@redhat.com>,
-        "jmorris@namei.org" <jmorris@namei.org>,
-        "serge@hallyn.com" <serge@hallyn.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dm-devel@redhat.com" <dm-devel@redhat.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-fscrypt@vger.kernel.org" <linux-fscrypt@vger.kernel.org>,
-        "linux-audit@redhat.com" <linux-audit@redhat.com>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "tusharsu@linux.microsoft.com" <tusharsu@linux.microsoft.com>
-Subject: RE: [RFC][PATCH] device mapper: Add builtin function dm_get_status()
-Thread-Topic: [RFC][PATCH] device mapper: Add builtin function dm_get_status()
-Thread-Index: AQHX5tHI6VSZDPA0J0GM0KIP7fuaeKweu+CAgAAaFvD///01gIAAEg9Q
-Date:   Thu, 2 Dec 2021 09:29:52 +0000
-Message-ID: <b4bf4a384b334cdab1522b3b082bd088@huawei.com>
-References: <81d5e825-1ee2-8f6b-cd9d-07b0f8bd36d3@linux.microsoft.com>
- <20211201163708.3578176-1-roberto.sassu@huawei.com>
- <Yahz1SYRG1CQIh0z@infradead.org>
- <e57d2d23ec7845febb79ca4476c73fcb@huawei.com>
- <YaiHX+dWNUlmsNac@infradead.org>
-In-Reply-To: <YaiHX+dWNUlmsNac@infradead.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.204.63.33]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        id S1346031AbhLBJej (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Dec 2021 04:34:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52164 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240976AbhLBJei (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Dec 2021 04:34:38 -0500
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96749C06174A
+        for <linux-doc@vger.kernel.org>; Thu,  2 Dec 2021 01:31:16 -0800 (PST)
+Received: by mail-pj1-x1035.google.com with SMTP id iq11so20110682pjb.3
+        for <linux-doc@vger.kernel.org>; Thu, 02 Dec 2021 01:31:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=SoknoP58lfTefhPic/InEtJ7lAsohw87fhlIuwYrrKo=;
+        b=kbmT2PmaVoGUcxYc22QC2y7WHDyH7VgMfO3rgseqM9O5nPbxD8ejoghG3IoGXoTm0g
+         58k+tKBUt32ysG1nUz3y6EzrMY6A8V4Odq5YSUHUW37ZMSi5tRaCbbo9bAd/ecnv7sjJ
+         Lq1JeSa1dczIJqnRPefeOumL0zw4xB8XDBXlzFtaKpZg1De9+OnK5u7DDqeeegOZOtpg
+         L0DJ5dWdts2ZqCCEsZjly39+P/YxcldmIX2vgC/j9YsCTvj2QBvNDcMuyvfbt68iNEGV
+         kd/N28uW/WfRU3x7AILaVWYk/NQeRF8XRYRXjFoywJj+Uzwha77BB7t2UEJD+wivGPSL
+         ew9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=SoknoP58lfTefhPic/InEtJ7lAsohw87fhlIuwYrrKo=;
+        b=0NG8E73BZGTtjJCyeESK0Ft70l0cwvZxQ+jHTP9/BZgCuoul6xgMFKEFgtWepZdecT
+         X+hOqm4zKTuQkYbc7HfYQZ8gOu2Y3UZV7lPv8u6869Se3EqrCGsGzlHiZN/NIvKEs8Ef
+         vO92N29BhnUvWnZfges4GKR8ts1n4EspaGR/aSZxYWVDO5XP7Xt+24pWZIuN+bk591ie
+         ySEtSoYd/mgHF3WbmKKGzHNaHtnMepvAKj/R1U3ZUQsqyG7Dv6Cg2v5ttjZuwqOID/kx
+         G8Yd7bkjtm4cxFnEYQg+WVI0vKYbBO+zzpIW7XWVlj40rZlQ0KwMxY8y8kTVOtf1yrMe
+         W+2A==
+X-Gm-Message-State: AOAM5321ckqAXb1OwM13as9qj5dWev6tngajP9kJVhLx01TXeXqSE3eO
+        67qLGYqJh1aFqQ9ELa+qhj6YuTuygV9aADvA19g=
+X-Google-Smtp-Source: ABdhPJyQkP+QIG+x6qgokm8MZ9THNyUUpBGz4yBm8I73a7V+0pI+7RVHSWNCRNGxTtBKE9UEZYp27Bjtlhsz2lo1kPE=
+X-Received: by 2002:a17:90b:155:: with SMTP id em21mr4886325pjb.12.1638437476162;
+ Thu, 02 Dec 2021 01:31:16 -0800 (PST)
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+References: <1c883061-e538-757e-d3fe-df8f6d201e1e@huawei.com>
+In-Reply-To: <1c883061-e538-757e-d3fe-df8f6d201e1e@huawei.com>
+From:   teng sterling <sterlingteng@gmail.com>
+Date:   Thu, 2 Dec 2021 17:31:04 +0800
+Message-ID: <CAMU9jJoBqHJu7hu_U3nBSO5i+GxDWdeNa2-8sC3Z92VB0RsKcw@mail.gmail.com>
+Subject: Re: [DISCUSSION] Want to participate in Chinese translation
+To:     Tang Yizhou <tangyizhou@huawei.com>
+Cc:     Yanteng Si <siyanteng@loongson.cn>, Alex Shi <alexs@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> From: Christoph Hellwig [mailto:hch@infradead.org]
-> Sent: Thursday, December 2, 2021 9:44 AM
-> On Thu, Dec 02, 2021 at 07:59:38AM +0000, Roberto Sassu wrote:
-> > ok, I will send it together with a patch for a not yet accepted
-> > software, Integrity Policy Enforcement (IPE), that will be
-> > the primary user of the introduced functionality.
-> >
-> > Regarding the patch itself, could you please provide a more
-> > detailed explanation?
-> 
-> We don't build things into the kernel just as hooks.  So in doubt you
-> need to restructured the code.  And that a security module pokes into
-> a random block driver is a big hint that whatever you're trying to do is
-> completely broken.
+Tang Yizhou <tangyizhou@huawei.com> =E4=BA=8E2021=E5=B9=B411=E6=9C=8830=E6=
+=97=A5=E5=91=A8=E4=BA=8C =E4=B8=8B=E5=8D=8811:03=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Hi, I'm glad to see you are contributing to the Chinese translations of t=
+he documents.
+>
+> I have translated scheduler/sched-capacity for a in-company technical tal=
+king and I want to contribute it to the community. I'll send the patch soon=
+.
+Welcome! I can't wait to see your translation!
 
-I will add more context to the discussion.
-
-The problem being solved is how to grant access to files
-which satisfy a property defined in the policy.
-
-For example, a policy enforced by IPE could be:
-
-policy_name="AllowDMVerityKmodules" policy_version=0.0.1
-DEFAULT action=ALLOW
-DEFAULT op=KMODULE action=DENY
-op=KMODULE dmverity_roothash=3c64aae64ae5e8ca781df4d1fbff7c02cb78c4f18a79198263db192cc7f7ba11 action=ALLOW
-
-This would require IPE to obtain somehow this property.
-
-So far, there are two different approaches. The first one,
-proposed by the IPE authors was to define a new LSM hook
-for block devices, to append a security blob for those devices,
-and to store the dm-verity root digest as soon as this information
-can be determined. IPE will then access the security blob at
-run-time and will match the blob content with the property
-value in the policy.
-
-The second one I'm proposing is to directly retrieve the
-information at run-time, when files are accessed, and to
-possibly cache the result of the evaluation per filesystem.
-This would avoid to the introduction of a new LSM hook
-and to append a security blob for the purpose of passing
-information from the device mapper driver to IPE.
-
-Security blobs are usually used to store LSM-specific
-information such as a label (or a reference of it). Sometimes,
-when the label must be stored persistently, the subsystem
-responsible for this task, such as the VFS, uses subsystem-defined
-methods to retrieve the label from the storage and copy it to
-the security blob.
-
-In this case, it is not an LSM-specific information but rather
-an existing property of another subsystem IPE is interested in.
-Since LSMs need anyway to inspect the object before making
-the security decision, they could directly retrieve the information
-that is already available, instead of making it redundant.
-
-Even if I would prefer the second option, it would be fine for
-me if the first is adopted.
-
-Roberto
-
-HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
-Managing Director: Li Peng, Zhong Ronghua
+Thanks,
+Yanteng
+>
+> Also, I will take part in the reviewing for the subjects I'm interested i=
+n, such as scheduling and CPU power management.
+>
+> Thanks,
+> Tang
