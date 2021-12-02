@@ -2,138 +2,162 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6113C433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  2 Dec 2021 15:02:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A11C4C4332F
+	for <linux-doc@archiver.kernel.org>; Thu,  2 Dec 2021 16:02:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358080AbhLBPFW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 2 Dec 2021 10:05:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44236 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358172AbhLBPFV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 Dec 2021 10:05:21 -0500
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 568BFC061757
-        for <linux-doc@vger.kernel.org>; Thu,  2 Dec 2021 07:01:58 -0800 (PST)
-Received: by mail-ed1-x532.google.com with SMTP id t5so117347895edd.0
-        for <linux-doc@vger.kernel.org>; Thu, 02 Dec 2021 07:01:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=FYZ7pWgwTOlBPwdzrVeymAp5SE5b/mIikVc6NSRBjCw=;
-        b=HRnTKCfbWner7J+VmRmLdy1476/grLkVshDTtXe7fezto/zYKSM+ddX/zHJHcLPMb7
-         BIzAPfa9pDaQydC7Bz2V+xcQ5SJ27hzrnhvB9LJ34I1jkanZhb3DE678CX+nw5gw+F7g
-         Ags3PFyEFvujKFZQzZYsqYlHgW+pJQbwMqZO+PlJJJXTrpgFQgZY998hw1E87G0ChqEh
-         0mIirNv2W2xWNZZzl+fDcAY1R4pEebH+DegaDYcd4upmMvqCMvIatEMadjkbayqdJD9K
-         DwQ6e3PB6BYmseF1ND0D5R7Wa3d1xiJD7qOYHTP336A7rX7tIBU6oH2ahziEumyAkLwd
-         qqvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=FYZ7pWgwTOlBPwdzrVeymAp5SE5b/mIikVc6NSRBjCw=;
-        b=Vwoq9Ksw9yVK02Ofm9y0MPWwnTPVlGcQ4hiZ6QtNeAteMLWI+GustY0I/tbM+VluAN
-         6xMcbBMeCjx2Ah68NpIUlFyhu8j4YE6+Z1metVeUaMgOffpi7oJ3+7IaNMG2ct+EyLRQ
-         BZmSklm+KEYGSka/3lBAw+Y0yAGb7tpeeRuaKytn2B+t+qg+B0u47vT/cwyH9cl7SVaQ
-         XXKuU5CVSpnylRfUGfeXYwiNWYO6exWPWH9Zd/8q9tTNGCnT3vq3ip6jF+6s/BeUOu9X
-         JQ7XoSoe1pUjJnUtro0/1FoOpY6dgxq+MbmpNCWROcsej3YFRjWck8xsvjeUPlN698t3
-         zx5g==
-X-Gm-Message-State: AOAM530RveFBFBLK/Pi0s3zRJ8kbh8miCeXEErSgA7fOL+C/Tmayezeh
-        bHnyhsPts7EikhfgkI/OqVc7tQ683xcmgEesQO6Lgw==
-X-Google-Smtp-Source: ABdhPJzISUJXAYYlwt7qgLHvDKRCxJBIRO2E6l4Dwkxhcg2vX2iO31Xme1Hbgi7zcirqWaPFG5JzLfERq/4QuJTctqE=
-X-Received: by 2002:a17:906:58ce:: with SMTP id e14mr15259368ejs.525.1638457306497;
- Thu, 02 Dec 2021 07:01:46 -0800 (PST)
+        id S242066AbhLBQF1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 2 Dec 2021 11:05:27 -0500
+Received: from mail-co1nam11on2052.outbound.protection.outlook.com ([40.107.220.52]:63240
+        "EHLO NAM11-CO1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229817AbhLBQF1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 2 Dec 2021 11:05:27 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=K4vZnCYZ9GFryHtbADG4Id212ZPmbHu/vIvnFmPU5MjKtt0krk0zrl9plzcuRbkjx3MpWtVjXG/1pMFWX0QDdoq1jJe6nOPq1yImua7WgFytFM0QWPqmOpv9uQJiATZ53eIg545+ZS+qjVKF+EgRxxXXolNohaDzpSOaLfhjkW743+tdw+S7TPstPvg5zHNr6NmIX/Lb5m02lD4nTg1qvlX0M8nG84oKJG6Fz0huI4um7c1uEfjjFgaChXNfeK19U2PPdATXa2sRHh4f9ZzKVrm3cwg/Ba5afe2Jizj70giJZ7zdlwoli9BDTwdpGR+ZuG0lN1rG34yo6lVK1NlwZg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+mjlovj+UAEX9x+cMvz7GKL6/foenGzy2pc9MGyqZto=;
+ b=ADclaSXw1B7QNBsGhxOCZCsgb5ZsBMdtcKQipFUSTjPjEIxV95/FNkpa7TiMv5WfF0K+AH0i0afqM6hYa4EhCa96z0N+GPE9MntyZMTeJn1E3D9ZwZMouLxWvFE0ygW0UVm6KCIaaMSUeJhs6zkfvR4jjUTocjuHXR655ITyx4ApxpGoPsJS7Hz0SNlV3ZDiGJHuEwcVz+Wd534Yee6LwPIlnhorTKs9yhduevMMPi1VjArhR6fTuZj6aZIfwHk12B3qCGYDnVn9dhatc4lTO4nCzHgXKnBxktnGb3C3/L5cvw7f/GlZ9jh42FdX6USqyVBSm1dmy0DvmJWgblKx7Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=emersion.fr smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+mjlovj+UAEX9x+cMvz7GKL6/foenGzy2pc9MGyqZto=;
+ b=sydOTsCaWDXV7BZjKna5eysr/0eXjCuEUP/5JmaifjBVgIQ89q/c5PGJBeat+cchYVs4Yz1q48faSoH5OU7M7cgbB+4tG+bRXWkP47FFA+RHYUDH3xcCkVaHi7VPXOS3Ape6CxfzAX0d9mmJM+riv8tLYozXlMl0BJIGFIasv9Y=
+Received: from BN9PR03CA0142.namprd03.prod.outlook.com (2603:10b6:408:fe::27)
+ by CY4PR12MB1525.namprd12.prod.outlook.com (2603:10b6:910:11::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.20; Thu, 2 Dec
+ 2021 16:02:03 +0000
+Received: from BN8NAM11FT039.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:fe:cafe::4) by BN9PR03CA0142.outlook.office365.com
+ (2603:10b6:408:fe::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.23 via Frontend
+ Transport; Thu, 2 Dec 2021 16:02:03 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT039.mail.protection.outlook.com (10.13.177.169) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4755.13 via Frontend Transport; Thu, 2 Dec 2021 16:02:02 +0000
+Received: from atma2.hitronhub.home (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Thu, 2 Dec
+ 2021 10:01:59 -0600
+From:   Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+To:     Simon Ser <contact@emersion.fr>,
+        Michel Daenzer <michel@daenzer.net>,
+        "Bas Nieuwenhuizen" <bas@basnieuwenhuizen.nl>,
+        Marek Olsak <marek.olsak@amd.com>,
+        Roman Gilg <subdiff@gmail.com>,
+        Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+        Harry Wentland <Harry.Wentland@amd.com>,
+        "Mark Yacoub" <markyacoub@chromium.org>,
+        Sean Paul <seanpaul@chromium.org>,
+        "Pekka Paalanen" <ppaalanen@gmail.com>,
+        Yann Dirson <ydirson@free.fr>, Daniel Vetter <daniel@ffwll.ch>
+CC:     <linux-doc@vger.kernel.org>, <qingqing.zhuo@amd.com>,
+        <roman.li@amd.com>, <amd-gfx@lists.freedesktop.org>,
+        <aurabindo.pillai@amd.com>, <nicholas.choi@amd.com>,
+        <dri-devel@lists.freedesktop.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        <bhawanpreet.lakha@amd.com>,
+        Christian Koenig <christian.koenig@amd.com>
+Subject: [PATCH v2 2/6] Documentation/gpu: Document amdgpu_dm_visual_confirm debugfs entry
+Date:   Thu, 2 Dec 2021 11:01:28 -0500
+Message-ID: <20211202160132.2263330-3-Rodrigo.Siqueira@amd.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211202160132.2263330-1-Rodrigo.Siqueira@amd.com>
+References: <20211202160132.2263330-1-Rodrigo.Siqueira@amd.com>
 MIME-Version: 1.0
-References: <20211123214814.3756047-1-pasha.tatashin@soleen.com>
- <20211123214814.3756047-4-pasha.tatashin@soleen.com> <f81a6434-9f38-947e-02a8-9a9191285e52@kernel.org>
- <cadf2582-3004-92b9-ab5a-cb39259fa36c@kernel.org> <CA+CK2bBfcrxDyxnV+xc680AP+sJGHSpong6a+b_vvWcRsB2CcA@mail.gmail.com>
- <a0968570-a25a-a7e3-3ee5-b7275286c9d1@kernel.org> <172f894c-01ab-cd9f-3292-1ba811f7222a@kernel.org>
-In-Reply-To: <172f894c-01ab-cd9f-3292-1ba811f7222a@kernel.org>
-From:   Pasha Tatashin <pasha.tatashin@soleen.com>
-Date:   Thu, 2 Dec 2021 10:01:10 -0500
-Message-ID: <CA+CK2bCGHBCO8+y_4E9LwV2C0bE_c0o3P4-9BXBASYFSYMpVrg@mail.gmail.com>
-Subject: Re: [PATCH 3/3] x86: mm: add x86_64 support for page table check
-To:     Jiri Slaby <jirislaby@kernel.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Rientjes <rientjes@google.com>,
-        Paul Turner <pjt@google.com>, weixugc@google.com,
-        Greg Thelen <gthelen@google.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>, masahiroy@kernel.org,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        frederic@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d5341d9a-d01e-4b6a-d45b-08d9b5ad149c
+X-MS-TrafficTypeDiagnostic: CY4PR12MB1525:
+X-Microsoft-Antispam-PRVS: <CY4PR12MB152570C50F610A29FC8E7D7F98699@CY4PR12MB1525.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3276;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Zvi5brsKPO1oaWnFBDhNTL+s65ZVC6BPc7RqN0gIXt3YCkYqVD0x4cxkIFLefsBzvbJPxwyXKdE3RLx2YafUl2zERbWqZX+EKUy192ysFemQi7N2K5R7Q1dmNb33I0Pc4KFaX00TUoU4zj7rRULfQYeW9OYxUcpPzptkwOqLU/OCnKnJoe4iNER+4CeA8MnCpiq5Jq4OwIBZ/P+VTW0AqfybQ32kcPu2MY3f5DDtRV8MZIKgcEfGZi6UzNGsrziIOmSWtYNboPVOuA10tPdlGB25v7PsfI3iZd/x6tov96CJYt/QkIEyOjXGNOQHMnPWzaG8YPsLn5BNIvr7mI/e0if/IJWjj2AWlWcSPeHDNc74q7vu6BsHuICPARORaNvAURsB6kEZ/sG+mwWj0kk5c1dL/36B48GYU6CVatu1hLMSTNss2KQo6V7zcDkilrsHHV3wQeYGw4/wktGUQwNNdj99gw9SGFzWtULvjEHOwR7wTkAlS+LM5m6SiJGWX9DCn33y6fxRqKzcyeyeZacQkMs7Yzs6TbgMLIZlfVFejveIGn/dnEbU9byqKqPQ8SA6NwxDsWEMD32Wbo4xEiLb/rQmqTcN4ODm1MGFcNPZPnlOkkEmIEso9+4VenNMSR9x2TTIqBnpqWjHesghgOOtiEci/rGFE2l+oAlGipvlcDFEOnjUVEc/oli4AGtTcb785OMq4oBEyzA8wLDaH9CFv/PJTglupWlDT7Irg88UlGW1Zo0+2lKcwAH+S82O0F978wizzIg/YNbXXWWNbllfE77dV1FbNkXp712KXTIxXTH60XM2wxnr4wBjrq2YNP6t
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(4636009)(36840700001)(46966006)(40470700001)(6666004)(86362001)(54906003)(36756003)(1076003)(70586007)(2616005)(336012)(110136005)(70206006)(82310400004)(7416002)(16526019)(356005)(81166007)(26005)(508600001)(426003)(83380400001)(2906002)(5660300002)(316002)(8676002)(36860700001)(8936002)(40460700001)(47076005)(921005)(186003)(4326008)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2021 16:02:02.8958
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d5341d9a-d01e-4b6a-d45b-08d9b5ad149c
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT039.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1525
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 2, 2021 at 5:05 AM Jiri Slaby <jirislaby@kernel.org> wrote:
->
-> On 02. 12. 21, 10:59, Jiri Slaby wrote:
-> > On 01. 12. 21, 14:55, Pasha Tatashin wrote:
-> >> On Wed, Dec 1, 2021 at 3:44 AM Jiri Slaby <jirislaby@kernel.org> wrote:
-> >>>
-> >>> On 01. 12. 21, 9:00, Jiri Slaby wrote:
-> >>>> On 23. 11. 21, 22:48, Pasha Tatashin wrote:
-> >>>>> Add page table check hooks into routines that modify user page tables.
-> >>>>
-> >>>> Hi,
-> >>>>
-> >>>> I bisected to this as this causes crashes during modules load:
-> >>>
-> >>> And it's not enough to unset CONFIG_PAGE_TABLE_CHECK_ENFORCED. I had to
-> >>> unset CONFIG_PAGE_TABLE_CHECK completely to get rid of this.
-> >>
-> >> Hi,
-> >>
-> >> Thanks for reporting this. Seems like module load for some reasons
-> >> does not like the static branches. However, I was not able to repro
-> >> this. Could you please share your config and the module that you were
-> >> loading?
-> >
-> > It's the openSUSE's -next config:
-> > https://raw.githubusercontent.com/openSUSE/kernel-source/linux-next/config/x86_64/vanilla
-> >
-> >
-> > But with CONFIG_IWLMEI=n (as that fails to link).
-> >
-> > One has to load i915, other modules (71 on my system) are apparently fine.
-> >
-> > i915 tries to patch your `page_table_check_disabled' which is defined as
-> > `DEFINE_STATIC_KEY_TRUE_RO':
-> >  > jump_label_add_module: key=__tracepoint_mmap_lock_released
-> > (ffffffff93f36d88) mod=0000000000000000
-> >  > jump_label_add_module: key=hugetlb_free_vmemmap_enabled_key
-> > (ffffffff94873560) mod=0000000000000000
-> >  > jump_label_add_module: key=devmap_managed_key (ffffffff94902700)
-> > mod=0000000000000000
-> >  > jump_label_add_module: key=page_table_check_disabled
-> > (ffffffff939da760) mod=0000000000000000
-> >  > BUG: unable to handle page fault for address: ffffffff939da768
->
-> Provided you EXPORT page_table_check_disabled and it can be used from
-> modules, it can be barely marked as RO. So the below indeed fixes the
-> problem for me:
->
-> --- a/mm/page_table_check.c
-> +++ b/mm/page_table_check.c
-> @@ -18,7 +18,7 @@ struct page_table_check {
->   static bool __page_table_check_enabled __initdata =
->
-> IS_ENABLED(CONFIG_PAGE_TABLE_CHECK_ENFORCED);
->
-> -DEFINE_STATIC_KEY_TRUE_RO(page_table_check_disabled);
-> +DEFINE_STATIC_KEY_TRUE(page_table_check_disabled);
+Display core provides a feature that makes it easy for users to debug
+Multiple planes by enabling a visual notification at the bottom of each
+plane. This commit introduces how to use such a feature.
 
-Makes sense, thanks! I will remove _RO in the next version.
+Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+---
+ Documentation/gpu/amdgpu/display/dc-debug.rst | 34 ++++++++++++++++++-
+ 1 file changed, 33 insertions(+), 1 deletion(-)
 
-Pasha
+diff --git a/Documentation/gpu/amdgpu/display/dc-debug.rst b/Documentation/gpu/amdgpu/display/dc-debug.rst
+index bbb8c3fc8eee..532cbbd64863 100644
+--- a/Documentation/gpu/amdgpu/display/dc-debug.rst
++++ b/Documentation/gpu/amdgpu/display/dc-debug.rst
+@@ -1,4 +1,36 @@
++========================
+ Display Core Debug tools
+ ========================
+ 
+-TODO
++DC Debugfs
++==========
++
++Multiple Planes Debug
++---------------------
++
++If you want to enable or debug multiple planes in a specific user-space
++application, you can leverage a debug feature named visual confirm. For
++enabling it, you will need::
++
++  echo 1 > /sys/kernel/debug/dri/0/amdgpu_dm_visual_confirm
++
++You need to reload your GUI to see the visual confirmation. When the plane
++configuration changes or a full update occurs there will be a colored bar at
++the bottom of each hardware plane being drawn on the screen.
++
++* The color indicates the format - For example, red is AR24 and green is NV12
++* The height of the bar indicates the index of the plane
++* Pipe split can be observed if there are two bars with a difference in height
++  covering the same plane
++
++Consider the video playback case in which a video is played in a specific
++plane, and the desktop is drawn in another plane. The video plane should
++feature one or two green bars at the bottom of the video depending on pipe
++split configuration.
++
++* There should **not** be any visual corruption
++* There should **not** be any underflow or screen flashes
++* There should **not** be any black screens
++* There should **not** be any cursor corruption
++* Multiple plane **may** be briefly disabled during window transitions or
++  resizing but should come back after the action has finished
+-- 
+2.25.1
+
