@@ -2,109 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35C23C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Dec 2021 14:01:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1133CC433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Dec 2021 14:08:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1381315AbhLCOEo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Dec 2021 09:04:44 -0500
-Received: from vulcan.natalenko.name ([104.207.131.136]:52038 "EHLO
-        vulcan.natalenko.name" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352843AbhLCOEm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Dec 2021 09:04:42 -0500
-Received: from spock.localnet (unknown [83.148.33.151])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        id S1352504AbhLCOLy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Dec 2021 09:11:54 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:45940 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1352478AbhLCOLx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Dec 2021 09:11:53 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by vulcan.natalenko.name (Postfix) with ESMTPSA id 64524CD725E;
-        Fri,  3 Dec 2021 15:01:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
-        s=dkim-20170712; t=1638540070;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=2nhD4zra9xotXQb3VuD0lCqOmyZLq0VjR4YeA+r1z2U=;
-        b=p7usrMbkAXabAriuPUDQkjnERX7qsoPkVejZuXN+DdzWEpWdfyHLcO6qkUqkFMhnj5fWMK
-        g66TAHWHFLc18LHnjInRbw7WyLAuSo/fnTveYakx8m58uVKZmWFIpcOnW8JY9Mr3uKhP+O
-        Zs/RPt/7vIiOPfz0lzdddNeDYdZJLZA=
-From:   Oleksandr Natalenko <oleksandr@natalenko.name>
-To:     ValdikSS <iam@valdikss.org.ru>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Alexey Avramov <hakavlad@inbox.lv>, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, corbet@lwn.net, mcgrof@kernel.org,
-        keescook@chromium.org, yzaikin@google.com, kernel@xanmod.org,
-        aros@gmx.com, hakavlad@gmail.com, Yu Zhao <yuzhao@google.com>
-Subject: Re: [PATCH] mm/vmscan: add sysctl knobs for protecting the working set
-Date:   Fri, 03 Dec 2021 15:01:08 +0100
-Message-ID: <4776971.31r3eYUQgx@natalenko.name>
-In-Reply-To: <20211202135824.33d2421bf5116801cfa2040d@linux-foundation.org>
-References: <20211130201652.2218636d@mail.inbox.lv> <2dc51fc8-f14e-17ed-a8c6-0ec70423bf54@valdikss.org.ru> <20211202135824.33d2421bf5116801cfa2040d@linux-foundation.org>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6F93A62B10;
+        Fri,  3 Dec 2021 14:08:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F7F4C53FC7;
+        Fri,  3 Dec 2021 14:08:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1638540508;
+        bh=eDoEsNNsQZ17vVQwvSAUdLea63vK4M1VwU4kJH81afU=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=ON2iTtZ47aa327omlPy9Dxj9VtrvSjufKZu/0XOqeeu6GIw1GTDJ3tWa8P0G3u0A5
+         VcioyuqtlHNPOkjJNoq00rTvwP8EFCz04GkxzhTVTF1MEl+j6DI8gvV2OiW1uAZBIq
+         aFCb7L7OxkXlzlx+HXSo+AbeqGT33iPWAOe0+Id7tt+bU9RVpduAz0PV1ne0LkDl42
+         NdD7tJ1ZqjjgocXZd1lVUkNekDirvPjQv3gsKWUG6PoJtVSjYZYQfll7IbFi/HAQTk
+         pTaWPSnHW1XRTulExZMYqj1klEb3xyYpS+NowLdWQJhLiCu6rt8t+dmubXDF1byx4L
+         Wf71u5K63W9zw==
+Date:   Fri, 3 Dec 2021 15:08:22 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        "=?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <nfraprado@protonmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Andrew Klychkov <andrew.a.klychkov@gmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 1/4] docs: allow selecting a Sphinx theme
+Message-ID: <20211203150822.54a81cbb@coco.lan>
+In-Reply-To: <20211202124700.7e395897@coco.lan>
+References: <cover.1638369365.git.mchehab+huawei@kernel.org>
+        <eb4e49b9a701643b07a56f1863005ba8216ef694.1638369365.git.mchehab+huawei@kernel.org>
+        <CANiq72nu9TvLzxxj64b+EwFicwGexT7VTmVYVnVDzQgwkk+9ZA@mail.gmail.com>
+        <20211202124700.7e395897@coco.lan>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello.
+Em Thu, 2 Dec 2021 12:47:00 +0100
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-On =C4=8Dtvrtek 2. prosince 2021 22:58:24 CET Andrew Morton wrote:
-> On Thu, 2 Dec 2021 21:05:01 +0300 ValdikSS <iam@valdikss.org.ru> wrote:
-> > This patchset is surprisingly effective and very useful for low-end PC
-> > with slow HDD, single-board ARM boards with slow storage, cheap Android
-> > smartphones with limited amount of memory. It almost completely prevents
-> > thrashing condition and aids in fast OOM killer invocation.
-> >=20
-> > The similar file-locking patch is used in ChromeOS for nearly 10 years
-> > but not on stock Linux or Android. It would be very beneficial for
-> > lower-performance Android phones, SBCs, old PCs and other devices.
-> >=20
-> > With this patch, combined with zram, I'm able to run the following
-> > software on an old office PC from 2007 with __only 2GB of RAM__
-> >=20
-> > simultaneously:
-> >   * Firefox with 37 active tabs (all data in RAM, no tab unloading)
-> >   * Discord
-> >   * Skype
-> >   * LibreOffice with the document opened
-> >   * Two PDF files (14 and 47 megabytes in size)
-> >=20
-> > And the PC doesn't crawl like a snail, even with 2+ GB in zram!
-> > Without the patch, this PC is barely usable.
-> > Please watch the video:
-> > https://notes.valdikss.org.ru/linux-for-old-pc-from-2007/en/
->=20
-> This is quite a condemnation of the current VM.  It shouldn't crawl
-> like a snail.
->=20
-> The patch simply sets hard limits on page reclaim's malfunctioning.
-> I'd prefer that reclaim not malfunction :(
->=20
-> That being said, I can see that a blunt instrument like this would be
-> useful.
->=20
-> I don't think that the limits should be "N bytes on the current node".
-> Nodes can have different amounts of memory so I expect it should scale
-> the hard limits on a per-node basis.  And of course, the various zones
-> have different size as well.
+> Em Thu, 2 Dec 2021 12:24:53 +0100
+> Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> escreveu:
+> 
+> > On Wed, Dec 1, 2021 at 6:59 PM Mauro Carvalho Chehab
+> > <mchehab+huawei@kernel.org> wrote:  
+> > >
+> > > Instead of having RTD as an almost mandatory theme, allow the
+> > > user to select other themes via a THEMES environment var.
+> > >
+> > > There's a catch, though: as the current theme override logic is
+> > > dependent of the RTD theme, we need to move the code which
+> > > adds the CSS overrides to be inside the RTD theme logic.    
+> > 
+> > Does Sphinx support leaving the selection of the theme to "runtime",
+> > i.e. to let users pick a theme from a few from a combobox (e.g.
+> > light/dark)?
+> > 
+> > I assume not, but asking just in case.  
+> 
+> The RTD dark theme allows that. It basically places a <sun>/<moon>
+> icon. When such icon is clicked, it switches between light/dark.
 
-Probably not. To my understanding, the limits should roughly correspond to=
-=20
-what you see after executing this:
+Btw, I'm now using it at:
 
-```
-$ echo 1 | sudo tee /proc/sys/vm/drop_caches; grep -F 'Active(file)' /proc/
-meminfo
-```
+	https://linuxtv.org/downloads/v4l-dvb-apis-new/index.html
 
-IMO, this has nothing to do with the size of the node.
+As we use a dark theme at linuxtv.org since ever.
 
-> We do already have a lot of sysctls for controlling these sort of
-> things.  Was much work put into attempting to utilize the existing
-> sysctls to overcome these issues?
+It was built with the following script:
 
-=2D-=20
-Oleksandr Natalenko (post-factum)
+	CSS=linuxtv.css
+	THEME=sphinx_rtd_dark_mode
 
+	cat << EOF > $CSS
+	  html body {
+	    font-family: arial,helvetica,sans-serif;
+	    margin: 0px;
+	    padding: 0px;
+	  }
+	  html[data-theme='dark'] body {
+	    color: white !important;
+	  }
+	  html[data-theme='dark'] .sig-name {
+	    color: green !important;
+	  }
+	  html[data-theme='dark'] .wy-menu-vertical a {
+	    color: #ffcc00 !important;
+	  }
+	  html[data-theme="dark"] h1, html[data-theme="dark"] h2, html[data-theme="dark"] h3 {
+	    color: #ffcc00 !important;
+	  }
+	  html[data-theme="dark"] h4, html[data-theme="dark"] h5, html[data-theme="dark"] h6 {
+	    color: #ffcc00 !important;
+	  }
+	  html[data-theme="dark"] h7, html[data-theme="dark"] h8, html[data-theme="dark"] h9 {
+	    color: #ffcc00 !important;
+	  }
+	  html[data-theme="dark"] .wy-nav-content a, html[data-theme="dark"] .wy-nav-content a:visited {
+	    color: #ffcc00 !important;
+	  }
+	EOF
 
+	make SPHINXDIRS='media' CSS='$CSS' THEME='$THEME' htmldocs
+
+Thanks,
+Mauro
