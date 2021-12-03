@@ -2,168 +2,213 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B00CC433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Dec 2021 16:24:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9363C433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Dec 2021 16:31:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352920AbhLCQ2K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Dec 2021 11:28:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51866 "EHLO
+        id S1358282AbhLCQei (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Dec 2021 11:34:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235455AbhLCQ2K (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Dec 2021 11:28:10 -0500
-Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5335AC061751;
-        Fri,  3 Dec 2021 08:24:46 -0800 (PST)
-Received: by mail-qt1-x831.google.com with SMTP id l8so3808891qtk.6;
-        Fri, 03 Dec 2021 08:24:46 -0800 (PST)
+        with ESMTP id S1352984AbhLCQeh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Dec 2021 11:34:37 -0500
+Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A10B9C061751;
+        Fri,  3 Dec 2021 08:31:13 -0800 (PST)
+Received: by mail-il1-x136.google.com with SMTP id a11so3253566ilj.6;
+        Fri, 03 Dec 2021 08:31:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=mMA0FwRsbKa8XEHQlou/tMRVIbGFsiozFUia1lQqx44=;
-        b=JotK5rB5Id9ulOqmD/Pexs4DElrQW0yz1r8/r8rqXgtNglR0/3hIzYN7yHHRL330Xd
-         cQQxNRjJQEzk6th5Kqrtx7HInxeu+M0Mum8gIkXD34G9KDJ62e50rBYkGxswmx5dgUee
-         /kVFvzGHuZP62d6aBDM/G8FJQkngESqd5CVz7RA8lhGB/u3dV5ywDc9u6KzQiwDVczLP
-         1bc75km9MsBJWzTVM8s+n5v2z5lbi8eNdvECP9abcgvmikohlmnXoDoEmiZc82bvDlJ5
-         JXh434sWhWSjpEZctJHdknmRXFKTm6Z0cX01THb6hRtuFwNZAwPAb+PcbD4mMnnFpam8
-         uNJQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=VkuP0/IYglzLHQH3LqznH+bbxsL03I8CCKw6nfJS4uQ=;
+        b=NyHs3cD/45x7BO3po9KtdoYOrrfO2R1lTXX/Li2KQpeDZ74TaLj3r9UuY+by31nl9c
+         BXwdwa6FhVq30Xm0mhyAB9Gfw80Xtv7QZkx8PxeX+4gjfcJRlVEHr+kaTUbzWgURL67D
+         C9x1jnubMaB+XkB2YUgtDyBc8JA53sFwOAOxTuKQdtFkZgd3Gj7/tmqwAz3tBBn/O2c9
+         2UpBiXgUTpC2WwWAgH0q1hNq4x2DMhcHghIXfe6Jx4LbdYbQVfU9MkKctIRnQ/2W9kpe
+         ngTIhcsi3TitBU1JcyIyDNyziMq5I2p8aUFXYR4fZb8IUXJ7SLrEz1LJOYiC0DLMzORY
+         AiCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=mMA0FwRsbKa8XEHQlou/tMRVIbGFsiozFUia1lQqx44=;
-        b=VpxwyrXsiI1tIerfL/lH9WQ2skUU0pbfTwBSLsXBoUvyMTfm/+luUkFrF5d9UJUcTt
-         fxzLNzW6V3GlJop/oeNP6wNoRcjaVjTCBh6ebA5u26PHbIXLb3wNKNTzlJLnIChhw2GF
-         AV0KIW0gjh3RWmar1fNbdbbksKwyF2zs6bi/YcKelXr6Xuhk7D/aRzYOBZbPoEQ5GJKS
-         AgMxbyrn08D/mmSb8u0uwZzZrnBEX5SGQpoZQhr/GznvXhjkA54u77x0nx5S2PtQpqsU
-         TNE0Gr9pjupYQuHxHDa2ljK6C+feikf3alvrrViuqguKQD3Ck42+Is1CWnqZdSofkvnz
-         fblQ==
-X-Gm-Message-State: AOAM530JCTh66SiMJNpf7IWXWtibbUuELj2T7+pHt2r62iwl+7TPtTjc
-        97RMbM1b/huA/dhklcibExw=
-X-Google-Smtp-Source: ABdhPJx9hBtUy3zW+sJpdntlHvakHD04U0OiGAx1hflDTQiL3DarIPQF0IWxK8s8/cqFeF67zmvt6A==
-X-Received: by 2002:a05:622a:307:: with SMTP id q7mr21839822qtw.330.1638548685441;
-        Fri, 03 Dec 2021 08:24:45 -0800 (PST)
-Received: from localhost ([2620:10d:c091:480::1:285c])
-        by smtp.gmail.com with ESMTPSA id g14sm2435522qko.55.2021.12.03.08.24.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Dec 2021 08:24:44 -0800 (PST)
-From:   Dan Schatzberg <schatzberg.dan@gmail.com>
-To:     Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <guro@fb.com>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Hocko <mhocko@kernel.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Alex Shi <alexs@kernel.org>,
-        Wei Yang <richard.weiyang@gmail.com>,
-        cgroups@vger.kernel.org (open list:CONTROL GROUP (CGROUP)),
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list),
-        linux-mm@kvack.org (open list:CONTROL GROUP - MEMORY RESOURCE
-        CONTROLLER (MEMCG))
-Subject: [PATCH] mm: add group_oom_kill memory event
-Date:   Fri,  3 Dec 2021 08:24:23 -0800
-Message-Id: <20211203162426.3375036-1-schatzberg.dan@gmail.com>
-X-Mailer: git-send-email 2.30.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VkuP0/IYglzLHQH3LqznH+bbxsL03I8CCKw6nfJS4uQ=;
+        b=Y15DlkIVEVP2bH0jwE1zOcW4+y198je8B7CVaTcRrvAZopHX7uAUcHtOFQTlzJugVQ
+         R0thW824goDPzvLys4PAo1iAT906NkCSvCFLwbUngh29we8ytqqS6waU2Qk8QY5GDd1I
+         xxyLSH9ipGC30C9cFawKbhzeSz17L4K3/3HQA/OD/Sp+TNI9sNoCP1dGjVRqcTKubii6
+         dI/mPrZV1c0S+fBi3a0pWixu2PU0s05V5R2+XyPPsO9SILAW4xwt8jwPfO1HXyKeXIRx
+         mtbRt3aEapeektyfzHJM2/HjXNDBOUArrpdr3WsacoGCnVjlE66QLhD9T9ngIQ+ZyZys
+         G6fg==
+X-Gm-Message-State: AOAM530HT1GiDlhz5s4MKGZ0hLLt8c9/LpT7684ARh1g7nTtnQGnMSO2
+        7+j+yTdnRZ/4QpNsHB0uJVWATuJ9y8dyPqrh3lE=
+X-Google-Smtp-Source: ABdhPJxkKaaqmP1yD5KkT1WDGPhrs4U093UJFle+O8eEAxczRSvS3cNUQHrli4Wg3ThB1a7h6iPIJY6gFYSC+ira9KQ=
+X-Received: by 2002:a05:6e02:1ba8:: with SMTP id n8mr21448557ili.254.1638549072984;
+ Fri, 03 Dec 2021 08:31:12 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211117015806.2192263-1-dvander@google.com> <CAOQ4uxjjapFeOAFGLmsXObdgFVYLfNer-rnnee1RR+joxK3xYg@mail.gmail.com>
+ <Yao51m9EXszPsxNN@redhat.com>
+In-Reply-To: <Yao51m9EXszPsxNN@redhat.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Fri, 3 Dec 2021 18:31:01 +0200
+Message-ID: <CAOQ4uxjk4piLyx67Ena-FfypDVWzRqVN0xmFUXXPYa+SC4Q-vQ@mail.gmail.com>
+Subject: Re: [PATCH v19 0/4] overlayfs override_creds=off & nested get xattr fix
+To:     Vivek Goyal <vgoyal@redhat.com>
+Cc:     David Anderson <dvander@google.com>,
+        Mark Salyzyn <salyzyn@android.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        John Stultz <john.stultz@linaro.org>,
+        linux-doc@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        overlayfs <linux-unionfs@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        kernel-team <kernel-team@android.com>, selinux@vger.kernel.org,
+        paulmoore@microsoft.com, Luca.Boccassi@microsoft.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Our container agent wants to know when a container exits if it was OOM
-killed or not to report to the user. We use memory.oom.group = 1 to
-ensure that OOM kills within the container's cgroup kill
-everything. Existing memory.events are insufficient for knowing if
-this triggered:
+On Fri, Dec 3, 2021 at 5:38 PM Vivek Goyal <vgoyal@redhat.com> wrote:
+>
+> On Wed, Nov 17, 2021 at 09:36:42AM +0200, Amir Goldstein wrote:
+> > On Wed, Nov 17, 2021 at 3:58 AM David Anderson <dvander@google.com> wrote:
+> > >
+> > > Mark Salyzyn (3):
+> > >   Add flags option to get xattr method paired to __vfs_getxattr
+> > >   overlayfs: handle XATTR_NOSECURITY flag for get xattr method
+> > >   overlayfs: override_creds=off option bypass creator_cred
+> > >
+> > > Mark Salyzyn + John Stultz (1):
+> > >   overlayfs: inode_owner_or_capable called during execv
+> > >
+> > > The first three patches address fundamental security issues that should
+> > > be solved regardless of the override_creds=off feature.
+> > >
+> > > The fourth adds the feature depends on these other fixes.
+> > >
+> > > By default, all access to the upper, lower and work directories is the
+> > > recorded mounter's MAC and DAC credentials.  The incoming accesses are
+> > > checked against the caller's credentials.
+> > >
+> > > If the principles of least privilege are applied for sepolicy, the
+> > > mounter's credentials might not overlap the credentials of the caller's
+> > > when accessing the overlayfs filesystem.  For example, a file that a
+> > > lower DAC privileged caller can execute, is MAC denied to the
+> > > generally higher DAC privileged mounter, to prevent an attack vector.
+> > >
+> > > We add the option to turn off override_creds in the mount options; all
+> > > subsequent operations after mount on the filesystem will be only the
+> > > caller's credentials.  The module boolean parameter and mount option
+> > > override_creds is also added as a presence check for this "feature",
+> > > existence of /sys/module/overlay/parameters/overlay_creds
+> > >
+> > > Signed-off-by: Mark Salyzyn <salyzyn@android.com>
+> > > Signed-off-by: David Anderson <dvander@google.com>
+> > > Cc: Miklos Szeredi <miklos@szeredi.hu>
+> > > Cc: Jonathan Corbet <corbet@lwn.net>
+> > > Cc: Vivek Goyal <vgoyal@redhat.com>
+> > > Cc: Eric W. Biederman <ebiederm@xmission.com>
+> > > Cc: Amir Goldstein <amir73il@gmail.com>
+> > > Cc: Randy Dunlap <rdunlap@infradead.org>
+> > > Cc: Stephen Smalley <sds@tycho.nsa.gov>
+> > > Cc: John Stultz <john.stultz@linaro.org>
+> > > Cc: linux-doc@vger.kernel.org
+> > > Cc: linux-kernel@vger.kernel.org
+> > > Cc: linux-fsdevel@vger.kernel.org
+> > > Cc: linux-unionfs@vger.kernel.org
+> > > Cc: linux-security-module@vger.kernel.org
+> > > Cc: kernel-team@android.com
+> > > Cc: selinux@vger.kernel.org
+> > > Cc: paulmoore@microsoft.com
+> > > Cc: Luca.Boccassi@microsoft.com
+> > >
+> > > ---
+> > >
+> > > v19
+> > > - rebase.
+> > >
+> >
+> > Hi David,
+> >
+> > I see that the patch set has changed hands (presumably to Android upstreaming
+> > team), but you just rebased v18 without addressing the maintainers concerns [1].
+> >
+>
+> BTW, where is patch 1 of the series. I can't seem to find it.
+>
+> I think I was running into issues with getxattr() on underlying filesystem
+> as well (if mounter did not have sufficient privileges) and tried to fix
+> it. But did not find a good solution at that point of time.
+>
+> https://lore.kernel.org/linux-unionfs/1467733854-6314-6-git-send-email-vgoyal@redhat.com/
+>
+> So basically when overlay inode is being initialized, code will try to
+> query "security.selinux" xattr on underlying file to initialize selinux
+> label on the overlay inode. For regular filesystems, they bypass the
+> security check by calling __vfs_getxattr() when trying to initialize
+> this selinux security label. But with layered filesystem, it still
+> ends up calling vfs_getxattr() on underlying filesyste. Which means
+> it checks for caller's creds and if caller is not priviliged enough,
+> access will be denied.
+>
+> To solve this problem, looks like this patch set is passing a flag
+> XATTR_NOSECUROTY so that permission checks are skipped in getxattr()
+> path in underlying filesystem. As long as this information is
+> not leaked to user space (and remains in overlayfs), it probably is
+> fine? And if information is not going to user space, then it probably
+> is fine for unprivileged overlayfs mounts as well?
+>
+> I see a comment from Miklos as well as you that it is not safe to
+> do for unprivileged mounts. Can you help me understand why that's
+> the case.
+>
+>
+> > Specifically, the patch 2/4 is very wrong for unprivileged mount and
+>
+> Can you help me understand why it is wrong. (/me should spend more
+> time reading the patch. But I am taking easy route of asking you. :-)).
+>
 
-1) Our current approach reads memory.events oom_kill and reports the
-container was killed if the value is non-zero. This is erroneous in
-some cases where containers create their children cgroups with
-memory.oom.group=1 as such OOM kills will get counted against the
-container cgroup's oom_kill counter despite not actually OOM killing
-the entire container.
+I should have spent more time reading the patch too :-)
+I was not referring to the selinux part. That looks fine I guess.
 
-2) Reading memory.events.local will fail to identify OOM kills in leaf
-cgroups (that don't set memory.oom.group) within the container cgroup.
+I was referring to the part of:
+"Check impure, opaque, origin & meta xattr with no sepolicy audit
+(using __vfs_getxattr) since these operations are internal to
+overlayfs operations and do not disclose any data."
+I don't know how safe that really is to ignore the security checks
+for reading trusted xattr and allow non-privileged mounts to do that.
+Certainly since non privileged mounts are likely to use userxattr
+anyway, so what's the reason to bypass security?
 
-This patch adds a new oom_group_kill event when memory.oom.group
-triggers to allow userspace to cleanly identify when an entire cgroup
-is oom killed.
+> > I think that the very noisy patch 1/4 could be completely avoided:
+>
+> How can it completely avoided. If mounter is not privileged then
+> vfs_getxattr() on underlying filesystem will fail. Or if
+> override_creds=off, then caller might not be privileged enough to
+> do getxattr() but we still should be able to initialize overlay
+> inode security label.
+>
 
-Signed-off-by: Dan Schatzberg <schatzberg.dan@gmail.com>
----
- Documentation/admin-guide/cgroup-v2.rst | 4 ++++
- include/linux/memcontrol.h              | 1 +
- mm/memcontrol.c                         | 5 +++++
- mm/oom_kill.c                           | 1 +
- 4 files changed, 11 insertions(+)
+My bad. I didn't read the description of the selinux problem
+with the re-post and forgot about it.
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 2aeb7ae8b393..eec830ce2068 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1268,6 +1268,10 @@ PAGE_SIZE multiple when read back.
- 		The number of processes belonging to this cgroup
- 		killed by any kind of OOM killer.
- 
-+          oom_group_kill
-+                The number of times all tasks in the cgroup were killed
-+                due to memory.oom.group.
-+
-   memory.events.local
- 	Similar to memory.events but the fields in the file are local
- 	to the cgroup i.e. not hierarchical. The file modified event
-diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
-index 0c5c403f4be6..951f24f42147 100644
---- a/include/linux/memcontrol.h
-+++ b/include/linux/memcontrol.h
-@@ -42,6 +42,7 @@ enum memcg_memory_event {
- 	MEMCG_MAX,
- 	MEMCG_OOM,
- 	MEMCG_OOM_KILL,
-+	MEMCG_OOM_GROUP_KILL,
- 	MEMCG_SWAP_HIGH,
- 	MEMCG_SWAP_MAX,
- 	MEMCG_SWAP_FAIL,
-diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-index 6863a834ed42..5ab3b9ce90de 100644
---- a/mm/memcontrol.c
-+++ b/mm/memcontrol.c
-@@ -4390,6 +4390,9 @@ static int mem_cgroup_oom_control_read(struct seq_file *sf, void *v)
- 	seq_printf(sf, "under_oom %d\n", (bool)memcg->under_oom);
- 	seq_printf(sf, "oom_kill %lu\n",
- 		   atomic_long_read(&memcg->memory_events[MEMCG_OOM_KILL]));
-+	seq_printf(sf, "oom_group_kill %lu\n",
-+		   atomic_long_read(
-+			&memcg->memory_events[MEMCG_OOM_GROUP_KILL]));
- 	return 0;
- }
- 
-@@ -6307,6 +6310,8 @@ static void __memory_events_show(struct seq_file *m, atomic_long_t *events)
- 	seq_printf(m, "oom %lu\n", atomic_long_read(&events[MEMCG_OOM]));
- 	seq_printf(m, "oom_kill %lu\n",
- 		   atomic_long_read(&events[MEMCG_OOM_KILL]));
-+	seq_printf(m, "oom_group_kill %lu\n",
-+		   atomic_long_read(&events[MEMCG_OOM_GROUP_KILL]));
- }
- 
- static int memory_events_show(struct seq_file *m, void *v)
-diff --git a/mm/oom_kill.c b/mm/oom_kill.c
-index 1ddabefcfb5a..e52ce0b1465d 100644
---- a/mm/oom_kill.c
-+++ b/mm/oom_kill.c
-@@ -994,6 +994,7 @@ static void oom_kill_process(struct oom_control *oc, const char *message)
- 	 * If necessary, kill all tasks in the selected memory cgroup.
- 	 */
- 	if (oom_group) {
-+		memcg_memory_event(oom_group, MEMCG_OOM_GROUP_KILL);
- 		mem_cgroup_print_oom_group(oom_group);
- 		mem_cgroup_scan_tasks(oom_group, oom_kill_memcg_member,
- 				      (void *)message);
--- 
-2.30.2
+> > Can't you use -o userxattr mount option
+>
+> user xattrs done't work for device nodes and symlinks.
+>
+> BTW, how will userxattr solve the problem completely. It can be used
+> to store overlay specific xattrs but accessing security xattrs on
+> underlying filesystem will still be a problem?
 
+It cannot.
+As long as the patch sticks with passing through the
+getxattr flags, it looks fine to me.
+passing security for trusted.overlay seems dodgy.
+
+Thanks,
+Amir.
