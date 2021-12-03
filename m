@@ -2,233 +2,641 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54BD8C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Dec 2021 08:06:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6C1DC4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Dec 2021 08:56:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351129AbhLCIJZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Dec 2021 03:09:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49990 "EHLO
+        id S1379393AbhLCJAS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Dec 2021 04:00:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242383AbhLCIJY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Dec 2021 03:09:24 -0500
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3478C06173E
-        for <linux-doc@vger.kernel.org>; Fri,  3 Dec 2021 00:06:00 -0800 (PST)
-Received: by mail-pf1-x430.google.com with SMTP id n26so2161392pff.3
-        for <linux-doc@vger.kernel.org>; Fri, 03 Dec 2021 00:06:00 -0800 (PST)
+        with ESMTP id S1379388AbhLCJAR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Dec 2021 04:00:17 -0500
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8FA3C06174A
+        for <linux-doc@vger.kernel.org>; Fri,  3 Dec 2021 00:56:53 -0800 (PST)
+Received: by mail-wr1-x42d.google.com with SMTP id d9so4234421wrw.4
+        for <linux-doc@vger.kernel.org>; Fri, 03 Dec 2021 00:56:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ZdLrkF6kJfImFft6C52Atw16YrsOPgGB+OfUAGgzRpA=;
-        b=mpRVGbZqFx8TSwbv/SXBrrNUDYoNB9qP09o6zcVo95mgZjDF8grLdie2JMkdC13d8q
-         Zf3XBLsXsQu9Ca9pPk+rduZwPu1F1ewSx1sHvUkoaKzthcp8/sgvFWQFojWwlzlM26As
-         0dgfKRZJ6jeLQ1LGrR3aB/d5WI3HuMyBU4keH/Gpmxcq6Mo5QNXXbG0Ixcq3GOPzgjU9
-         tL6UaCZaygLtyEdmPPus3WIPMI8vxHdubY4r/OJE3SItVvstmzxJA4Pfuz+V0dMT45kK
-         3RnFwWuu9tPoSoljn0XuwMZLd2qITyr3O1HAoudawA8jaBvDEObS9ARweuZqE9Ip4x13
-         RJGw==
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=qx5PvmkFVYZqETai/jK/rfHutzbtJKEAqXwvuGBVDPE=;
+        b=fFM0awD/G0twvuNnk+xyenuecQLDk12/Y1c49lDM84wCDXFqSu4Pe35DJljkPB1Wnk
+         uKVxwYDVQtipVII3BWUFujpB5XLBW6ljMWfxuPrZuixtA2oJmoCR8JQzn8XscRjB8tYA
+         gZBbtKu3Z/Y39CXNvrCPxB6rlqUhRIiM3oQMFmuQna7W3kXpS7AEs6DiqWs4toYL5otW
+         cdkRiVzjqhOJFD1AjNFowO6ixAyGBgog/44WRwm7jB/UbzFc7hPnt/WgfTU2Ddnq2p5K
+         txBg16OaBMvF2xL6K+nnk4YQNORluxvQR2pqDxrk3HpCQwWPKwCMrn7HHoWx6coOKFS4
+         bSwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ZdLrkF6kJfImFft6C52Atw16YrsOPgGB+OfUAGgzRpA=;
-        b=zPbA16kVPbjEddvngv+8DdVpDRvT2FbEPE1zT1JZu6U3E2C+Iq2yIQcJC0RxcA7ZJI
-         aFK591L0tva7n2zK098KCta7I8EGbCD6hcJbuonCyU0ANcF6b8cTjTBH4Ezt/Q+YtaG5
-         EHqadPBB1hSqtnUnJNBUn7ae8dyrJcLiHVDyLSr774gArX6a8pkZn/AN9NBZxLjv0dlc
-         dYvNR3CWRJrJDwj0qo17APGsgJUPyEX0zMCe7UjzA9sszGiCbEUIIDF5sA8uLIYKpSLV
-         IzspxGIS/LPiSZ2Dx990cJrw9H3BYq4Nbz6KSBoWkv9gLLhGDV3rK0VxqEd9GwHnwaBF
-         pUQg==
-X-Gm-Message-State: AOAM532paiSclnhYpCDXaPlWZe0VuqxrYb6EMXcMhOzXFcVPSbq+5Gw8
-        sdLDlB4vyKxDfyPyQ+6njek=
-X-Google-Smtp-Source: ABdhPJymWRv0eFYW0yx9CUqa85l0PdcqsJUVokMNOjl1rbPOKWiqCAtZxIo/tvUO3CVirv4wjuJBYA==
-X-Received: by 2002:a63:3805:: with SMTP id f5mr3449242pga.111.1638518760189;
-        Fri, 03 Dec 2021 00:06:00 -0800 (PST)
-Received: from localhost.localdomain ([8.26.182.175])
-        by smtp.gmail.com with ESMTPSA id g189sm1671593pgc.3.2021.12.03.00.05.56
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=qx5PvmkFVYZqETai/jK/rfHutzbtJKEAqXwvuGBVDPE=;
+        b=K8L1NpB6JdtWJ7LDxAK4+OhdYvXtUq8jPN01mA4AT9s694I8OJu78y1AAv4i4KDhi7
+         FS4SrmYO101xZtTLVjf6G/vue1SFO62ItRrPX3posPBbMe4CJGKm1mull62rEXWovWTt
+         4sWVA2+lo9q+S74cXtLR5TDMfWM025Z88yHgyGSxnutl/EFnGq+1dMndfXXHrt2abenQ
+         kYs9+DDyxS64wTRLI3sY+ck5r0JF4tjf4d/ItmexzjGKYZSXrnjQ2LPTRIqBWbpKDQy/
+         rQx8WiQLD9HuJn5Xg/cA9SXzL7v7MN9krkNdDpY3IjXzaIVvI2CGMR4ItnjVGgmq4EL3
+         gwgA==
+X-Gm-Message-State: AOAM533UQHG/UlHMe44wyX5+JrdzDov/8SwjrVJvA5QPv02Vvi3kBjg6
+        YAYlHbCkdzaiHt2PqDbW9+/NXg==
+X-Google-Smtp-Source: ABdhPJwgEQ+x1HVk5rgMo4Y8f18ccd80rvTZD8VVrB0/Nz8Qdd/IKIHocHTvb96+66k5BCmPq6AveA==
+X-Received: by 2002:a5d:6e82:: with SMTP id k2mr20186167wrz.147.1638521812022;
+        Fri, 03 Dec 2021 00:56:52 -0800 (PST)
+Received: from elver.google.com ([2a00:79e0:15:13:cb5f:d3e:205e:c7c4])
+        by smtp.gmail.com with ESMTPSA id z7sm4272542wmi.33.2021.12.03.00.56.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Dec 2021 00:05:59 -0800 (PST)
-From:   Yanteng Si <siyanteng01@gmail.com>
-X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
-To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
-        seakeel@gmail.com
-Cc:     Yanteng Si <siyanteng01@gmail.com>, chenhuacai@kernel.org,
-        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
-        realpuyuwang@gmail.com, kolyshkin@gmail.com,
-        changhuaixin@linux.alibaba.com, Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH v3 2/2] docs/zh_CN: add sysfs-pci trnaslation
-Date:   Fri,  3 Dec 2021 16:04:31 +0800
-Message-Id: <61188c17b48cceb4c73d48fbcc31e71ab3dd8be9.1638517487.git.siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1638517487.git.siyanteng@loongson.cn>
-References: <cover.1638517487.git.siyanteng@loongson.cn>
+        Fri, 03 Dec 2021 00:56:50 -0800 (PST)
+Date:   Fri, 3 Dec 2021 09:56:45 +0100
+From:   Marco Elver <elver@google.com>
+To:     "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     Alexander Potapenko <glider@google.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Waiman Long <longman@redhat.com>,
+        Will Deacon <will@kernel.org>, kasan-dev@googlegroups.com,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, llvm@lists.linux.dev, x86@kernel.org
+Subject: Re: [PATCH v3 04/25] kcsan: Add core support for a subset of weak
+ memory modeling
+Message-ID: <YanbzWyhR0LwdinE@elver.google.com>
+References: <20211130114433.2580590-1-elver@google.com>
+ <20211130114433.2580590-5-elver@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/mixed; boundary="oIcY7JcqTshlMZ0y"
+Content-Disposition: inline
+In-Reply-To: <20211130114433.2580590-5-elver@google.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Yanteng Si <siyanteng01@gmail.com>
 
-Translate .../PCI/sysfs-pci.rst into Chinese.
+--oIcY7JcqTshlMZ0y
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-Reviewed-by: Alex Shi <alexs@kernel.org>
+On Tue, Nov 30, 2021 at 12:44PM +0100, Marco Elver wrote:
+[...]
+> v3:
+> * Remove kcsan_noinstr hackery, since we now try to avoid adding any
+>   instrumentation to .noinstr.text in the first place.
+[...]
+
+I missed some cleanups after changes from v2 to v3 -- the below cleanup
+is missing.
+
+Full replacement patch attached.
+
+Thanks,
+-- Marco
+
+------ >8 ------
+
+diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
+index 2254cb75cbb0..916060913966 100644
+--- a/kernel/kcsan/core.c
++++ b/kernel/kcsan/core.c
+@@ -12,7 +12,6 @@
+ #include <linux/delay.h>
+ #include <linux/export.h>
+ #include <linux/init.h>
+-#include <linux/instrumentation.h>
+ #include <linux/kernel.h>
+ #include <linux/list.h>
+ #include <linux/moduleparam.h>
+@@ -21,8 +20,6 @@
+ #include <linux/sched.h>
+ #include <linux/uaccess.h>
+ 
+-#include <asm/sections.h>
+-
+ #include "encoding.h"
+ #include "kcsan.h"
+ #include "permissive.h"
+@@ -1086,9 +1083,7 @@ noinline void __tsan_func_entry(void *call_pc)
+ 	if (!IS_ENABLED(CONFIG_KCSAN_WEAK_MEMORY))
+ 		return;
+ 
+-	instrumentation_begin();
+ 	add_kcsan_stack_depth(1);
+-	instrumentation_end();
+ }
+ EXPORT_SYMBOL(__tsan_func_entry);
+ 
+@@ -1100,7 +1095,6 @@ noinline void __tsan_func_exit(void)
+ 	if (!IS_ENABLED(CONFIG_KCSAN_WEAK_MEMORY))
+ 		return;
+ 
+-	instrumentation_begin();
+ 	reorder_access = get_reorder_access(get_ctx());
+ 	if (!reorder_access)
+ 		goto out;
+@@ -1120,7 +1114,6 @@ noinline void __tsan_func_exit(void)
+ 	}
+ out:
+ 	add_kcsan_stack_depth(-1);
+-	instrumentation_end();
+ }
+ EXPORT_SYMBOL(__tsan_func_exit);
+ 
+
+--oIcY7JcqTshlMZ0y
+Content-Type: text/x-diff; charset=us-ascii
+Content-Disposition: attachment;
+	filename="v4-0004-kcsan-Add-core-support-for-a-subset-of-weak-memor.patch"
+
+From 7ac337afb7bec3cc5c5bd5e4155b08bdb554bc7d Mon Sep 17 00:00:00 2001
+From: Marco Elver <elver@google.com>
+Date: Thu, 5 Aug 2021 14:57:45 +0200
+Subject: [PATCH v4 04/25] kcsan: Add core support for a subset of weak memory
+ modeling
+
+Add support for modeling a subset of weak memory, which will enable
+detection of a subset of data races due to missing memory barriers.
+
+KCSAN's approach to detecting missing memory barriers is based on
+modeling access reordering, and enabled if `CONFIG_KCSAN_WEAK_MEMORY=y`,
+which depends on `CONFIG_KCSAN_STRICT=y`. The feature can be enabled or
+disabled at boot and runtime via the `kcsan.weak_memory` boot parameter.
+
+Each memory access for which a watchpoint is set up, is also selected
+for simulated reordering within the scope of its function (at most 1
+in-flight access).
+
+We are limited to modeling the effects of "buffering" (delaying the
+access), since the runtime cannot "prefetch" accesses (therefore no
+acquire modeling). Once an access has been selected for reordering, it
+is checked along every other access until the end of the function scope.
+If an appropriate memory barrier is encountered, the access will no
+longer be considered for reordering.
+
+When the result of a memory operation should be ordered by a barrier,
+KCSAN can then detect data races where the conflict only occurs as a
+result of a missing barrier due to reordering accesses.
+
+Suggested-by: Dmitry Vyukov <dvyukov@google.com>
+Signed-off-by: Marco Elver <elver@google.com>
 ---
- .../translations/zh_CN/PCI/index.rst          |   2 +-
- .../translations/zh_CN/PCI/sysfs-pci.rst      | 126 ++++++++++++++++++
- 2 files changed, 127 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/PCI/sysfs-pci.rst
+v4:
+* Remove redundant instrumentation_begin/end() now that kcsan_noinstr no
+  longer exists.
 
-diff --git a/Documentation/translations/zh_CN/PCI/index.rst b/Documentation/translations/zh_CN/PCI/index.rst
-index 7e2c830b0148..16acb2bd9b58 100644
---- a/Documentation/translations/zh_CN/PCI/index.rst
-+++ b/Documentation/translations/zh_CN/PCI/index.rst
-@@ -25,11 +25,11 @@ Linux PCI总线子系统
-    pciebus-howto
-    pci-iov-howto
-    msi-howto
-+   sysfs-pci
+v3:
+* Remove kcsan_noinstr hackery, since we now try to avoid adding any
+  instrumentation to .noinstr.text in the first place.
+* Restrict config WEAK_MEMORY to only be enabled with tooling where
+  we actually remove instrumentation from noinstr.
+* Don't define kcsan_weak_memory bool if !KCSAN_WEAK_MEMORY.
+
+v2:
+* Define kcsan_noinstr as noinline if we rely on objtool nop'ing out
+  calls, to avoid things like LTO inlining it.
+---
+ include/linux/kcsan-checks.h |  10 +-
+ include/linux/kcsan.h        |  10 +-
+ include/linux/sched.h        |   3 +
+ kernel/kcsan/core.c          | 202 ++++++++++++++++++++++++++++++++---
+ lib/Kconfig.kcsan            |  20 ++++
+ scripts/Makefile.kcsan       |   9 +-
+ 6 files changed, 235 insertions(+), 19 deletions(-)
+
+diff --git a/include/linux/kcsan-checks.h b/include/linux/kcsan-checks.h
+index 5f5965246877..a1c6a89fde71 100644
+--- a/include/linux/kcsan-checks.h
++++ b/include/linux/kcsan-checks.h
+@@ -99,7 +99,15 @@ void kcsan_set_access_mask(unsigned long mask);
  
+ /* Scoped access information. */
+ struct kcsan_scoped_access {
+-	struct list_head list;
++	union {
++		struct list_head list; /* scoped_accesses list */
++		/*
++		 * Not an entry in scoped_accesses list; stack depth from where
++		 * the access was initialized.
++		 */
++		int stack_depth;
++	};
++
+ 	/* Access information. */
+ 	const volatile void *ptr;
+ 	size_t size;
+diff --git a/include/linux/kcsan.h b/include/linux/kcsan.h
+index 13cef3458fed..c07c71f5ba4f 100644
+--- a/include/linux/kcsan.h
++++ b/include/linux/kcsan.h
+@@ -49,8 +49,16 @@ struct kcsan_ctx {
+ 	 */
+ 	unsigned long access_mask;
  
- Todolist:
+-	/* List of scoped accesses. */
++	/* List of scoped accesses; likely to be empty. */
+ 	struct list_head scoped_accesses;
++
++#ifdef CONFIG_KCSAN_WEAK_MEMORY
++	/*
++	 * Scoped access for modeling access reordering to detect missing memory
++	 * barriers; only keep 1 to keep fast-path complexity manageable.
++	 */
++	struct kcsan_scoped_access reorder_access;
++#endif
+ };
  
--   sysfs-pci
-    acpi-info
-    pci-error-recovery
-    pcieaer-howto
-diff --git a/Documentation/translations/zh_CN/PCI/sysfs-pci.rst b/Documentation/translations/zh_CN/PCI/sysfs-pci.rst
-new file mode 100644
-index 000000000000..0d75c2e99d52
---- /dev/null
-+++ b/Documentation/translations/zh_CN/PCI/sysfs-pci.rst
-@@ -0,0 +1,126 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
+ /**
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 78c351e35fec..0cd40b010487 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -1339,6 +1339,9 @@ struct task_struct {
+ #ifdef CONFIG_TRACE_IRQFLAGS
+ 	struct irqtrace_events		kcsan_save_irqtrace;
+ #endif
++#ifdef CONFIG_KCSAN_WEAK_MEMORY
++	int				kcsan_stack_depth;
++#endif
+ #endif
+ 
+ #if IS_ENABLED(CONFIG_KUNIT)
+diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
+index bd359f8ee63a..481f8a524089 100644
+--- a/kernel/kcsan/core.c
++++ b/kernel/kcsan/core.c
+@@ -40,6 +40,13 @@ module_param_named(udelay_interrupt, kcsan_udelay_interrupt, uint, 0644);
+ module_param_named(skip_watch, kcsan_skip_watch, long, 0644);
+ module_param_named(interrupt_watcher, kcsan_interrupt_watcher, bool, 0444);
+ 
++#ifdef CONFIG_KCSAN_WEAK_MEMORY
++static bool kcsan_weak_memory = true;
++module_param_named(weak_memory, kcsan_weak_memory, bool, 0644);
++#else
++#define kcsan_weak_memory false
++#endif
 +
-+:Original: Documentation/PCI/sysfs-pci.rst
+ bool kcsan_enabled;
+ 
+ /* Per-CPU kcsan_ctx for interrupts */
+@@ -351,6 +358,67 @@ void kcsan_restore_irqtrace(struct task_struct *task)
+ #endif
+ }
+ 
++static __always_inline int get_kcsan_stack_depth(void)
++{
++#ifdef CONFIG_KCSAN_WEAK_MEMORY
++	return current->kcsan_stack_depth;
++#else
++	BUILD_BUG();
++	return 0;
++#endif
++}
 +
-+:翻译:
++static __always_inline void add_kcsan_stack_depth(int val)
++{
++#ifdef CONFIG_KCSAN_WEAK_MEMORY
++	current->kcsan_stack_depth += val;
++#else
++	BUILD_BUG();
++#endif
++}
 +
-+ 司延腾 Yanteng Si <siyanteng@loongson.cn>
++static __always_inline struct kcsan_scoped_access *get_reorder_access(struct kcsan_ctx *ctx)
++{
++#ifdef CONFIG_KCSAN_WEAK_MEMORY
++	return ctx->disable_scoped ? NULL : &ctx->reorder_access;
++#else
++	return NULL;
++#endif
++}
 +
-+:校译:
++static __always_inline bool
++find_reorder_access(struct kcsan_ctx *ctx, const volatile void *ptr, size_t size,
++		    int type, unsigned long ip)
++{
++	struct kcsan_scoped_access *reorder_access = get_reorder_access(ctx);
 +
++	if (!reorder_access)
++		return false;
 +
++	/*
++	 * Note: If accesses are repeated while reorder_access is identical,
++	 * never matches the new access, because !(type & KCSAN_ACCESS_SCOPED).
++	 */
++	return reorder_access->ptr == ptr && reorder_access->size == size &&
++	       reorder_access->type == type && reorder_access->ip == ip;
++}
 +
-+========================
-+通过sysfs访问PCI设备资源
-+========================
++static inline void
++set_reorder_access(struct kcsan_ctx *ctx, const volatile void *ptr, size_t size,
++		   int type, unsigned long ip)
++{
++	struct kcsan_scoped_access *reorder_access = get_reorder_access(ctx);
 +
-+sysfs，通常挂载在/sys，在支持它的平台上提供对PCI资源的访问。例如，一个特定的总线可能看起
-+来像这样::
++	if (!reorder_access || !kcsan_weak_memory)
++		return;
 +
-+     /sys/devices/pci0000:17
-+     |-- 0000:17:00.0
-+     |   |-- class
-+     |   |-- config
-+     |   |-- device
-+     |   |-- enable
-+     |   |-- irq
-+     |   |-- local_cpus
-+     |   |-- remove
-+     |   |-- resource
-+     |   |-- resource0
-+     |   |-- resource1
-+     |   |-- resource2
-+     |   |-- revision
-+     |   |-- rom
-+     |   |-- subsystem_device
-+     |   |-- subsystem_vendor
-+     |   `-- vendor
-+     `-- ...
++	reorder_access->ptr		= ptr;
++	reorder_access->size		= size;
++	reorder_access->type		= type | KCSAN_ACCESS_SCOPED;
++	reorder_access->ip		= ip;
++	reorder_access->stack_depth	= get_kcsan_stack_depth();
++}
 +
-+最上面的元素描述了PCI域和总线号码。在这种情况下，域号是0000，总线号是17（两个值都是十六进制）。
-+这个总线在0号插槽中包含一个单一功能的设备。为了方便起见，我们复制了域和总线的编号。在设备目录
-+下有几个文件，每个文件都有自己的功能。
+ /*
+  * Pull everything together: check_access() below contains the performance
+  * critical operations; the fast-path (including check_access) functions should
+@@ -389,8 +457,10 @@ static noinline void kcsan_found_watchpoint(const volatile void *ptr,
+ 	 * The access_mask check relies on value-change comparison. To avoid
+ 	 * reporting a race where e.g. the writer set up the watchpoint, but the
+ 	 * reader has access_mask!=0, we have to ignore the found watchpoint.
++	 *
++	 * reorder_access is never created from an access with access_mask set.
+ 	 */
+-	if (ctx->access_mask)
++	if (ctx->access_mask && !find_reorder_access(ctx, ptr, size, type, ip))
+ 		return;
+ 
+ 	/*
+@@ -440,11 +510,13 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type, unsigned
+ 	const bool is_assert = (type & KCSAN_ACCESS_ASSERT) != 0;
+ 	atomic_long_t *watchpoint;
+ 	u64 old, new, diff;
+-	unsigned long access_mask;
+ 	enum kcsan_value_change value_change = KCSAN_VALUE_CHANGE_MAYBE;
++	bool interrupt_watcher = kcsan_interrupt_watcher;
+ 	unsigned long ua_flags = user_access_save();
+ 	struct kcsan_ctx *ctx = get_ctx();
++	unsigned long access_mask = ctx->access_mask;
+ 	unsigned long irq_flags = 0;
++	bool is_reorder_access;
+ 
+ 	/*
+ 	 * Always reset kcsan_skip counter in slow-path to avoid underflow; see
+@@ -467,6 +539,17 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type, unsigned
+ 		goto out;
+ 	}
+ 
++	/*
++	 * The local CPU cannot observe reordering of its own accesses, and
++	 * therefore we need to take care of 2 cases to avoid false positives:
++	 *
++	 *	1. Races of the reordered access with interrupts. To avoid, if
++	 *	   the current access is reorder_access, disable interrupts.
++	 *	2. Avoid races of scoped accesses from nested interrupts (below).
++	 */
++	is_reorder_access = find_reorder_access(ctx, ptr, size, type, ip);
++	if (is_reorder_access)
++		interrupt_watcher = false;
+ 	/*
+ 	 * Avoid races of scoped accesses from nested interrupts (or scheduler).
+ 	 * Assume setting up a watchpoint for a non-scoped (normal) access that
+@@ -482,7 +565,7 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type, unsigned
+ 	 * information is lost if dirtied by KCSAN.
+ 	 */
+ 	kcsan_save_irqtrace(current);
+-	if (!kcsan_interrupt_watcher)
++	if (!interrupt_watcher)
+ 		local_irq_save(irq_flags);
+ 
+ 	watchpoint = insert_watchpoint((unsigned long)ptr, size, is_write);
+@@ -503,7 +586,7 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type, unsigned
+ 	 * Read the current value, to later check and infer a race if the data
+ 	 * was modified via a non-instrumented access, e.g. from a device.
+ 	 */
+-	old = read_instrumented_memory(ptr, size);
++	old = is_reorder_access ? 0 : read_instrumented_memory(ptr, size);
+ 
+ 	/*
+ 	 * Delay this thread, to increase probability of observing a racy
+@@ -515,8 +598,17 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type, unsigned
+ 	 * Re-read value, and check if it is as expected; if not, we infer a
+ 	 * racy access.
+ 	 */
+-	access_mask = ctx->access_mask;
+-	new = read_instrumented_memory(ptr, size);
++	if (!is_reorder_access) {
++		new = read_instrumented_memory(ptr, size);
++	} else {
++		/*
++		 * Reordered accesses cannot be used for value change detection,
++		 * because the memory location may no longer be accessible and
++		 * could result in a fault.
++		 */
++		new = 0;
++		access_mask = 0;
++	}
+ 
+ 	diff = old ^ new;
+ 	if (access_mask)
+@@ -585,11 +677,20 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type, unsigned
+ 	 */
+ 	remove_watchpoint(watchpoint);
+ 	atomic_long_dec(&kcsan_counters[KCSAN_COUNTER_USED_WATCHPOINTS]);
 +
-+       =================== =====================================================
-+       文件		           功能
-+       =================== =====================================================
-+       class		       PCI级别 (ascii, ro)
-+       config		       PCI配置空间 (binary, rw)
-+       device		       PCI设备 (ascii, ro)
-+       enable	           设备是否被启用 (ascii, rw)
-+       irq		           IRQ编号 (ascii, ro)
-+       local_cpus	       临近CPU掩码(cpumask, ro)
-+       remove		       从内核的列表中删除设备 (ascii, wo)
-+       resource		       PCI资源主机地址 (ascii, ro)
-+       resource0..N	       PCI资源N，如果存在的话 (binary, mmap, rw\ [1]_)
-+       resource0_wc..N_wc  PCI WC映射资源N，如果可预取的话 (binary, mmap)
-+       revision		       PCI修订版 (ascii, ro)
-+       rom		           PCI ROM资源，如果存在的话 (binary, ro)
-+       subsystem_device	   PCI子系统设备 (ascii, ro)
-+       subsystem_vendor	   PCI子系统供应商 (ascii, ro)
-+       vendor		       PCI供应商 (ascii, ro)
-+       =================== =====================================================
+ out_unlock:
+-	if (!kcsan_interrupt_watcher)
++	if (!interrupt_watcher)
+ 		local_irq_restore(irq_flags);
+ 	kcsan_restore_irqtrace(current);
+ 	ctx->disable_scoped--;
 +
-+::
++	/*
++	 * Reordered accesses cannot be used for value change detection,
++	 * therefore never consider for reordering if access_mask is set.
++	 * ASSERT_EXCLUSIVE are not real accesses, ignore them as well.
++	 */
++	if (!access_mask && !is_assert)
++		set_reorder_access(ctx, ptr, size, type, ip);
+ out:
+ 	user_access_restore(ua_flags);
+ }
+@@ -597,7 +698,6 @@ kcsan_setup_watchpoint(const volatile void *ptr, size_t size, int type, unsigned
+ static __always_inline void
+ check_access(const volatile void *ptr, size_t size, int type, unsigned long ip)
+ {
+-	const bool is_write = (type & KCSAN_ACCESS_WRITE) != 0;
+ 	atomic_long_t *watchpoint;
+ 	long encoded_watchpoint;
+ 
+@@ -608,12 +708,14 @@ check_access(const volatile void *ptr, size_t size, int type, unsigned long ip)
+ 	if (unlikely(size == 0))
+ 		return;
+ 
++again:
+ 	/*
+ 	 * Avoid user_access_save in fast-path: find_watchpoint is safe without
+ 	 * user_access_save, as the address that ptr points to is only used to
+ 	 * check if a watchpoint exists; ptr is never dereferenced.
+ 	 */
+-	watchpoint = find_watchpoint((unsigned long)ptr, size, !is_write,
++	watchpoint = find_watchpoint((unsigned long)ptr, size,
++				     !(type & KCSAN_ACCESS_WRITE),
+ 				     &encoded_watchpoint);
+ 	/*
+ 	 * It is safe to check kcsan_is_enabled() after find_watchpoint in the
+@@ -627,9 +729,42 @@ check_access(const volatile void *ptr, size_t size, int type, unsigned long ip)
+ 	else {
+ 		struct kcsan_ctx *ctx = get_ctx(); /* Call only once in fast-path. */
+ 
+-		if (unlikely(should_watch(ctx, ptr, size, type)))
++		if (unlikely(should_watch(ctx, ptr, size, type))) {
+ 			kcsan_setup_watchpoint(ptr, size, type, ip);
+-		else if (unlikely(ctx->scoped_accesses.prev))
++			return;
++		}
 +
-+  ro - 只读文件
-+  rw - 文件是可读和可写的
-+  wo - 只写文件
-+  mmap - 文件是可移动的
-+  ascii - 文件包含ascii文本
-+  binary - 文件包含二进制数据
-+  cpumask - 文件包含一个cpumask类型的
++		if (!(type & KCSAN_ACCESS_SCOPED)) {
++			struct kcsan_scoped_access *reorder_access = get_reorder_access(ctx);
 +
-+.. [1] rw 仅适用于 IORESOURCE_IO（I/O 端口）区域
++			if (reorder_access) {
++				/*
++				 * reorder_access check: simulates reordering of
++				 * the access after subsequent operations.
++				 */
++				ptr = reorder_access->ptr;
++				type = reorder_access->type;
++				ip = reorder_access->ip;
++				/*
++				 * Upon a nested interrupt, this context's
++				 * reorder_access can be modified (shared ctx).
++				 * We know that upon return, reorder_access is
++				 * always invalidated by setting size to 0 via
++				 * __tsan_func_exit(). Therefore we must read
++				 * and check size after the other fields.
++				 */
++				barrier();
++				size = READ_ONCE(reorder_access->size);
++				if (size)
++					goto again;
++			}
++		}
 +
-+只读文件是信息性的，对它们的写入将被忽略，但 "rom "文件除外。可写文件可以用来在设备上执
-+行操作（例如，改变配置空间，分离设备）。 mmapable文件可以通过偏移量为0的文件的mmap获得，
-+可以用来从用户空间进行实际的设备编程。注意，有些平台不支持某些资源的mmapping，所以一定要
-+检查任何尝试的mmap的返回值。其中最值得注意的是I/O端口资源，它也提供读/写访问。
++		/*
++		 * Always checked last, right before returning from runtime;
++		 * if reorder_access is valid, checked after it was checked.
++		 */
++		if (unlikely(ctx->scoped_accesses.prev))
+ 			kcsan_check_scoped_accesses();
+ 	}
+ }
+@@ -916,19 +1051,56 @@ DEFINE_TSAN_VOLATILE_READ_WRITE(8);
+ DEFINE_TSAN_VOLATILE_READ_WRITE(16);
+ 
+ /*
+- * The below are not required by KCSAN, but can still be emitted by the
+- * compiler.
++ * Function entry and exit are used to determine the validty of reorder_access.
++ * Reordering of the access ends at the end of the function scope where the
++ * access happened. This is done for two reasons:
++ *
++ *	1. Artificially limits the scope where missing barriers are detected.
++ *	   This minimizes false positives due to uninstrumented functions that
++ *	   contain the required barriers but were missed.
++ *
++ *	2. Simplifies generating the stack trace of the access.
+  */
+ void __tsan_func_entry(void *call_pc);
+-void __tsan_func_entry(void *call_pc)
++noinline void __tsan_func_entry(void *call_pc)
+ {
++	if (!IS_ENABLED(CONFIG_KCSAN_WEAK_MEMORY))
++		return;
 +
-+enable "文件提供了一个计数器，表明设备已经被启用了多少次。如果'enable'文件目前返回'4'，
-+而一个'1'被呼入它，它将返回'5'。向它呼入一个'0'会减少计数。不过，即使它返回到0，一些初始
-+化可能也不会被逆转。
++	add_kcsan_stack_depth(1);
+ }
+ EXPORT_SYMBOL(__tsan_func_entry);
 +
-+rom "文件很特别，因为它提供了对设备ROM文件的只读访问，如果有的话。然而，它在默认情况下是
-+禁用的，所以应用程序应该在尝试读取调用之前将字符串 "1 "写入该文件以启用它，并在访问之后将
-+"0 "写入该文件以禁用它。请注意，设备必须被启用，才能成功返回数据。如果驱动没有被绑定到设备
-+上，可以使用上面提到的 "enable "文件将其启用。
+ void __tsan_func_exit(void);
+-void __tsan_func_exit(void)
++noinline void __tsan_func_exit(void)
+ {
++	struct kcsan_scoped_access *reorder_access;
 +
-+remove "文件是用来移除PCI设备的，通过向该文件写入一个非零的整数。这并不涉及任何形式的热插
-+拔功能，例如关闭设备的电源。该设备被从内核的PCI设备列表中移除，它的sysfs目录被移除，并且该
-+设备将被从任何连接到它的驱动程序中移除。移除PCI根总线是不允许的。
++	if (!IS_ENABLED(CONFIG_KCSAN_WEAK_MEMORY))
++		return;
 +
-+通过sysfs访问原有资源
-+---------------------
++	reorder_access = get_reorder_access(get_ctx());
++	if (!reorder_access)
++		goto out;
 +
-+如果底层平台支持的话，传统的I/O端口和ISA内存资源也会在sysfs中提供。它们位于PCI类的层次结构
-+中，例如::
++	if (get_kcsan_stack_depth() <= reorder_access->stack_depth) {
++		/*
++		 * Access check to catch cases where write without a barrier
++		 * (supposed release) was last access in function: because
++		 * instrumentation is inserted before the real access, a data
++		 * race due to the write giving up a c-s would only be caught if
++		 * we do the conflicting access after.
++		 */
++		check_access(reorder_access->ptr, reorder_access->size,
++			     reorder_access->type, reorder_access->ip);
++		reorder_access->size = 0;
++		reorder_access->stack_depth = INT_MIN;
++	}
++out:
++	add_kcsan_stack_depth(-1);
+ }
+ EXPORT_SYMBOL(__tsan_func_exit);
 +
-+	/sys/class/pci_bus/0000:17/
-+	|-- bridge -> ../../../devices/pci0000:17
-+	|-- cpuaffinity
-+	|-- legacy_io
-+	`-- legacy_mem
+ void __tsan_init(void);
+ void __tsan_init(void)
+ {
+diff --git a/lib/Kconfig.kcsan b/lib/Kconfig.kcsan
+index e0a93ffdef30..e4394ea8068b 100644
+--- a/lib/Kconfig.kcsan
++++ b/lib/Kconfig.kcsan
+@@ -191,6 +191,26 @@ config KCSAN_STRICT
+ 	  closely aligns with the rules defined by the Linux-kernel memory
+ 	  consistency model (LKMM).
+ 
++config KCSAN_WEAK_MEMORY
++	bool "Enable weak memory modeling to detect missing memory barriers"
++	default y
++	depends on KCSAN_STRICT
++	# We can either let objtool nop __tsan_func_{entry,exit}() and builtin
++	# atomics instrumentation in .noinstr.text, or use a compiler that can
++	# implement __no_kcsan to really remove all instrumentation.
++	depends on STACK_VALIDATION || CC_IS_GCC
++	help
++	  Enable support for modeling a subset of weak memory, which allows
++	  detecting a subset of data races due to missing memory barriers.
 +
-+legacy_io文件是一个读/写文件，可以被应用程序用来做传统的端口I/O。应用程序应该打开该文件，寻
-+找所需的端口（例如0x3e8），并进行1、2或4字节的读或写。legacy_mem文件应该被mmapped，其偏移
-+量与所需的内存偏移量相对应，例如0xa0000用于VGA帧缓冲器。然后，应用程序可以简单地解除引用返回
-+的指针（当然是在检查了错误之后）来访问遗留内存空间。
++	  Depends on KCSAN_STRICT, because the options strenghtening certain
++	  plain accesses by default (depending on !KCSAN_STRICT) reduce the
++	  ability to detect any data races invoving reordered accesses, in
++	  particular reordered writes.
 +
-+支持新平台上的PCI访问
-+---------------------
++	  Weak memory modeling relies on additional instrumentation and may
++	  affect performance.
 +
-+为了支持上述的PCI资源映射，Linux平台代码最好定义ARCH_GENERIC_PCI_MMAP_RESOURCE并使用该
-+功能的通用实现。为了支持通过/proc/bus/pci中的文件实现mmap()的历史接口，平台也可以设置
-+HAVE_PCI_MMAP。
+ config KCSAN_REPORT_VALUE_CHANGE_ONLY
+ 	bool "Only report races where watcher observed a data value change"
+ 	default y
+diff --git a/scripts/Makefile.kcsan b/scripts/Makefile.kcsan
+index 37cb504c77e1..4c7f0d282e42 100644
+--- a/scripts/Makefile.kcsan
++++ b/scripts/Makefile.kcsan
+@@ -9,7 +9,12 @@ endif
+ 
+ # Keep most options here optional, to allow enabling more compilers if absence
+ # of some options does not break KCSAN nor causes false positive reports.
+-export CFLAGS_KCSAN := -fsanitize=thread \
+-	$(call cc-option,$(call cc-param,tsan-instrument-func-entry-exit=0) -fno-optimize-sibling-calls) \
++kcsan-cflags := -fsanitize=thread -fno-optimize-sibling-calls \
+ 	$(call cc-option,$(call cc-param,tsan-compound-read-before-write=1),$(call cc-option,$(call cc-param,tsan-instrument-read-before-write=1))) \
+ 	$(call cc-param,tsan-distinguish-volatile=1)
 +
-+另外，设置了 HAVE_PCI_MMAP 的平台可以提供他们自己的 pci_mmap_page_range() 实现，而不是定
-+义 ARCH_GENERIC_PCI_MMAP_RESOURCE。
++ifndef CONFIG_KCSAN_WEAK_MEMORY
++kcsan-cflags += $(call cc-option,$(call cc-param,tsan-instrument-func-entry-exit=0))
++endif
 +
-+支持PCI资源的写组合映射的平台必须定义arch_can_pci_mmap_wc()，当写组合被允许时，在运行时应
-+评估为非零。支持I/O资源映射的平台同样定义arch_can_pci_mmap_io()。
-+
-+遗留资源由HAVE_PCI_LEGACY定义保护。希望支持遗留功能的平台应该定义它并提供 pci_legacy_read,
-+pci_legacy_write 和 pci_mmap_legacy_page_range 函数。
++export CFLAGS_KCSAN := $(kcsan-cflags)
 -- 
-2.27.0
+2.34.0.384.gca35af8252-goog
 
+
+--oIcY7JcqTshlMZ0y--
