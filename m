@@ -2,130 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7C5CC433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Dec 2021 10:21:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 412EDC433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Dec 2021 10:57:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379836AbhLCKYc convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Dec 2021 05:24:32 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:4193 "EHLO
-        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379862AbhLCKXz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Dec 2021 05:23:55 -0500
-Received: from fraeml707-chm.china.huawei.com (unknown [172.18.147.206])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4J582D1KjQz67wM9;
-        Fri,  3 Dec 2021 18:19:32 +0800 (CST)
-Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
- fraeml707-chm.china.huawei.com (10.206.15.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Fri, 3 Dec 2021 11:20:27 +0100
-Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
- fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2308.020;
- Fri, 3 Dec 2021 11:20:27 +0100
-From:   Roberto Sassu <roberto.sassu@huawei.com>
-To:     Christoph Hellwig <hch@infradead.org>
-CC:     "deven.desai@linux.microsoft.com" <deven.desai@linux.microsoft.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "axboe@kernel.dk" <axboe@kernel.dk>,
-        "agk@redhat.com" <agk@redhat.com>,
-        "snitzer@redhat.com" <snitzer@redhat.com>,
-        "ebiggers@kernel.org" <ebiggers@kernel.org>,
-        "tytso@mit.edu" <tytso@mit.edu>,
-        "paul@paul-moore.com" <paul@paul-moore.com>,
-        "eparis@redhat.com" <eparis@redhat.com>,
-        "jmorris@namei.org" <jmorris@namei.org>,
-        "serge@hallyn.com" <serge@hallyn.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dm-devel@redhat.com" <dm-devel@redhat.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-fscrypt@vger.kernel.org" <linux-fscrypt@vger.kernel.org>,
-        "linux-audit@redhat.com" <linux-audit@redhat.com>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "tusharsu@linux.microsoft.com" <tusharsu@linux.microsoft.com>
-Subject: RE: [RFC][PATCH] device mapper: Add builtin function dm_get_status()
-Thread-Topic: [RFC][PATCH] device mapper: Add builtin function dm_get_status()
-Thread-Index: AQHX5tHI6VSZDPA0J0GM0KIP7fuaeKweu+CAgAAaFvD///01gIAAEg9QgAFg9oCAAC4FMA==
-Date:   Fri, 3 Dec 2021 10:20:27 +0000
-Message-ID: <28208b7f142f4295ac5c857af5cffe07@huawei.com>
-References: <81d5e825-1ee2-8f6b-cd9d-07b0f8bd36d3@linux.microsoft.com>
- <20211201163708.3578176-1-roberto.sassu@huawei.com>
- <Yahz1SYRG1CQIh0z@infradead.org>
- <e57d2d23ec7845febb79ca4476c73fcb@huawei.com>
- <YaiHX+dWNUlmsNac@infradead.org>
- <b4bf4a384b334cdab1522b3b082bd088@huawei.com>
- <Yam+m9eiLxIamGXm@infradead.org>
-In-Reply-To: <Yam+m9eiLxIamGXm@infradead.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.204.63.33]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        id S1357125AbhLCLAc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Dec 2021 06:00:32 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:37690 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237898AbhLCLAb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Dec 2021 06:00:31 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C5FA7B82673;
+        Fri,  3 Dec 2021 10:57:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6DA6C53FAD;
+        Fri,  3 Dec 2021 10:57:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1638529025;
+        bh=oYaJo1Ljpj1D25TR5IWvgEZUmozCy40bktxa1GNxoOQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=LgEvRm6l7hODRETS9vKWL2VumlmoVkQq6LFOAsdg572/oDXnA2mkXO2g67Uhhs1tA
+         F80573jAk3nb6aY5N/lWRlK24TdZgt2nx2qNRtPeHVwaPpwno8F8D4NpirAHQGqVPT
+         dxoEY/V+xENz32WIIYl+90EZWMQuDNuG9QlHpTjw=
+Date:   Fri, 3 Dec 2021 11:57:02 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH 3/4] Docs: usb: update comment and code of function
+ skel_delete
+Message-ID: <Yan3/slVnl+tKk1o@kroah.com>
+References: <cover.1638152984.git.philipp.g.hortmann@gmail.com>
+ <76757c4fc1f5001c3285a9a071055e8715985604.1638152984.git.philipp.g.hortmann@gmail.com>
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <76757c4fc1f5001c3285a9a071055e8715985604.1638152984.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> From: Christoph Hellwig [mailto:hch@infradead.org]
-> Sent: Friday, December 3, 2021 7:52 AM
-> On Thu, Dec 02, 2021 at 09:29:52AM +0000, Roberto Sassu wrote:
-> > The problem being solved is how to grant access to files
-> > which satisfy a property defined in the policy.
+On Mon, Nov 29, 2021 at 09:21:52PM +0100, Philipp Hortmann wrote:
+> Put skel_delete function in the document typical form
+> Update code according to usb-skeleton.c
 > 
-> If you have want to enforce access to files in the block layer using
-> a specific stacking block driver you don't just have one layering
-> violation but a bunch of them.  Please go back to the drawing board.
+> Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+> ---
+>  .../driver-api/usb/writing_usb_driver.rst     | 19 +++++++++----------
+>  1 file changed, 9 insertions(+), 10 deletions(-)
+> 
+> diff --git a/Documentation/driver-api/usb/writing_usb_driver.rst b/Documentation/driver-api/usb/writing_usb_driver.rst
+> index b16e4e76d472..74bb72a2f0ac 100644
+> --- a/Documentation/driver-api/usb/writing_usb_driver.rst
+> +++ b/Documentation/driver-api/usb/writing_usb_driver.rst
+> @@ -263,18 +263,17 @@ handle smoothly is the fact that the USB device may be removed from the
+>  system at any point in time, even if a program is currently talking to
+>  it. It needs to be able to shut down any current reads and writes and
+>  notify the user-space programs that the device is no longer there. The
+> -following code (function ``skel_delete``) is an example of how to do
+> -this::
+> +`skel_delete` function is an example of how to do this::
 
-Ok. I write my thoughts here, so that it is easier to align.
+As pointed out elsewhere this should be:
 
-dm-verity provides block-level integrity, which means that
-the block layer itself is responsible to not pass data to the
-upper layer, the filesystem, if a block is found corrupted.
+	skel_delete() is an example of how to do this::
 
-The dm-verity root digest represents the immutable state
-of the block device. dm-verity is still responsible to enforce
-accesses to the block device according to the root digest
-passed at device setup time. Nothing changes, the block
-layer still detects data corruption against the passed
-reference value.
+thanks,
 
-The task of the security layer is to decide whether or not
-the root digest passed at device setup time is acceptable,
-e.g. it represents a device containing genuine files coming
-from a software vendor.
-
-The mandatory policy can be enforced at different layers,
-depending on whether the security controls are placed.
-A possibility would be to deny mounting block devices that
-don't satisfy the mandatory policy.
-
-However, if the mandatory policy wants only to restrict
-execution of approved files and allowing the rest, making
-the decision at the block layer is too coarse and restrictive.
-It would force the user to mount only approved block
-devices. The security layer must operate on files to enforce
-this policy.
-
-Now probably there is the part where there is no agreement.
-
-The integrity property of a block device applies also to the
-files on the filesystem mounted from that device. User space
-programs cannot access files in that filesystem coming from a
-device with a different dm-verity root digest, or files stored
-in a corrupted block device.
-
-If what I wrote is correct, that the integrity property is preserved
-across the layers, this would give enough flexibility to enforce
-policies at a higher layer, although that property is guaranteed
-by a lower layer.
-
-Roberto
-
-HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
-Managing Director: Li Peng, Zhong Ronghua
+greg k-h
