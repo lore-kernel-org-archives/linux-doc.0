@@ -2,153 +2,242 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1395CC433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Dec 2021 18:25:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1620EC433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  3 Dec 2021 18:34:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353151AbhLCS22 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Dec 2021 13:28:28 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29]:48796 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241688AbhLCS21 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Dec 2021 13:28:27 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 259FA1FD3C;
-        Fri,  3 Dec 2021 18:25:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1638555902; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
+        id S1353271AbhLCSiG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Dec 2021 13:38:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55688 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S239932AbhLCSiD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Dec 2021 13:38:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1638556478;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=eV3OmMVm/NWdly/P2YCXm8g5vG08JX/vYpooIV4zaHM=;
-        b=P7zR711xL2stvUGx6l6vVCieltuwJ7iV6UsAhFInFLaRmH8OJdSujjmdkyf4YrNrIT79E/
-        ZYuQCHGjcPMPXVGMFoAqnhbzDrq9e3ZueDbczIi9W0+stZnoOhH7yqYmjT3d7uzr/o4F3D
-        ArNTust0WbmyWA/ziUPunMb3o5HF4ds=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        bh=WUI79xqNEENMen9B3CXBnLIKWOQn9yjmbJ/XPxVuasQ=;
+        b=cb2K2eK+q9+JiBNASD5jf1yehhnz2WF2oaUSNjLMOMCAEvQ7o45yxhdAfGS5nCLHe8kLfA
+        HPUY/iM7dRJU8tJwDmJranPgL++QzoQV8bUeP4bRBo4c2k/7b95RHe355IYbN9MRZPk88x
+        7cWlnkBCakDvpXetmEmNjqq/Vf9xQwc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-512-HEje0DGGMamEpzA9R28HJQ-1; Fri, 03 Dec 2021 13:34:33 -0500
+X-MC-Unique: HEje0DGGMamEpzA9R28HJQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DEC8D13EC7;
-        Fri,  3 Dec 2021 18:25:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id kezINP1gqmHYYQAAMHmgww
-        (envelope-from <mkoutny@suse.com>); Fri, 03 Dec 2021 18:25:01 +0000
-Date:   Fri, 3 Dec 2021 19:25:00 +0100
-From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2C1594EE1;
+        Fri,  3 Dec 2021 18:34:30 +0000 (UTC)
+Received: from horse.redhat.com (unknown [10.22.33.83])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id F249A5C643;
+        Fri,  3 Dec 2021 18:34:29 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+        id 8A4F1225EC0; Fri,  3 Dec 2021 13:34:29 -0500 (EST)
+Date:   Fri, 3 Dec 2021 13:34:29 -0500
+From:   Vivek Goyal <vgoyal@redhat.com>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     David Anderson <dvander@google.com>,
+        Mark Salyzyn <salyzyn@android.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
         Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>
-Subject: Re: [PATCH v8 5/6] cgroup/cpuset: Update description of
- cpuset.cpus.partition in cgroup-v2.rst
-Message-ID: <20211203182500.GD16798@blackbody.suse.cz>
-References: <20211018143619.205065-6-longman@redhat.com>
- <20211115193122.GA16798@blackbody.suse.cz>
- <8f68692b-bd8f-33fd-44ae-f6f83bf2dc00@redhat.com>
- <20211116175411.GA50019@blackbody.suse.cz>
- <293d7abf-aff6-fcd8-c999-b1dbda1cffb8@redhat.com>
- <YaZbXArNIMNvwJD/@slm.duckdns.org>
- <2347fe66-dc68-6d58-e63b-7ed2b8077b48@redhat.com>
- <Yaem+r/YZ9BNXv9R@slm.duckdns.org>
- <4a021678-1896-2d16-4075-f626c7ab8513@redhat.com>
- <8f56f7a3-1d4b-679b-7348-d8ecb4ef3d6c@redhat.com>
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        John Stultz <john.stultz@linaro.org>,
+        linux-doc@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        overlayfs <linux-unionfs@vger.kernel.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        kernel-team <kernel-team@android.com>, selinux@vger.kernel.org,
+        paulmoore@microsoft.com, Luca.Boccassi@microsoft.com
+Subject: Re: [PATCH v19 0/4] overlayfs override_creds=off & nested get xattr
+ fix
+Message-ID: <YapjNRrjpDu2a5qQ@redhat.com>
+References: <20211117015806.2192263-1-dvander@google.com>
+ <CAOQ4uxjjapFeOAFGLmsXObdgFVYLfNer-rnnee1RR+joxK3xYg@mail.gmail.com>
+ <Yao51m9EXszPsxNN@redhat.com>
+ <CAOQ4uxjk4piLyx67Ena-FfypDVWzRqVN0xmFUXXPYa+SC4Q-vQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="ctP54qlpMx3WjD+/"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8f56f7a3-1d4b-679b-7348-d8ecb4ef3d6c@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CAOQ4uxjk4piLyx67Ena-FfypDVWzRqVN0xmFUXXPYa+SC4Q-vQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, Dec 03, 2021 at 06:31:01PM +0200, Amir Goldstein wrote:
+> On Fri, Dec 3, 2021 at 5:38 PM Vivek Goyal <vgoyal@redhat.com> wrote:
+> >
+> > On Wed, Nov 17, 2021 at 09:36:42AM +0200, Amir Goldstein wrote:
+> > > On Wed, Nov 17, 2021 at 3:58 AM David Anderson <dvander@google.com> wrote:
+> > > >
+> > > > Mark Salyzyn (3):
+> > > >   Add flags option to get xattr method paired to __vfs_getxattr
+> > > >   overlayfs: handle XATTR_NOSECURITY flag for get xattr method
+> > > >   overlayfs: override_creds=off option bypass creator_cred
+> > > >
+> > > > Mark Salyzyn + John Stultz (1):
+> > > >   overlayfs: inode_owner_or_capable called during execv
+> > > >
+> > > > The first three patches address fundamental security issues that should
+> > > > be solved regardless of the override_creds=off feature.
+> > > >
+> > > > The fourth adds the feature depends on these other fixes.
+> > > >
+> > > > By default, all access to the upper, lower and work directories is the
+> > > > recorded mounter's MAC and DAC credentials.  The incoming accesses are
+> > > > checked against the caller's credentials.
+> > > >
+> > > > If the principles of least privilege are applied for sepolicy, the
+> > > > mounter's credentials might not overlap the credentials of the caller's
+> > > > when accessing the overlayfs filesystem.  For example, a file that a
+> > > > lower DAC privileged caller can execute, is MAC denied to the
+> > > > generally higher DAC privileged mounter, to prevent an attack vector.
+> > > >
+> > > > We add the option to turn off override_creds in the mount options; all
+> > > > subsequent operations after mount on the filesystem will be only the
+> > > > caller's credentials.  The module boolean parameter and mount option
+> > > > override_creds is also added as a presence check for this "feature",
+> > > > existence of /sys/module/overlay/parameters/overlay_creds
+> > > >
+> > > > Signed-off-by: Mark Salyzyn <salyzyn@android.com>
+> > > > Signed-off-by: David Anderson <dvander@google.com>
+> > > > Cc: Miklos Szeredi <miklos@szeredi.hu>
+> > > > Cc: Jonathan Corbet <corbet@lwn.net>
+> > > > Cc: Vivek Goyal <vgoyal@redhat.com>
+> > > > Cc: Eric W. Biederman <ebiederm@xmission.com>
+> > > > Cc: Amir Goldstein <amir73il@gmail.com>
+> > > > Cc: Randy Dunlap <rdunlap@infradead.org>
+> > > > Cc: Stephen Smalley <sds@tycho.nsa.gov>
+> > > > Cc: John Stultz <john.stultz@linaro.org>
+> > > > Cc: linux-doc@vger.kernel.org
+> > > > Cc: linux-kernel@vger.kernel.org
+> > > > Cc: linux-fsdevel@vger.kernel.org
+> > > > Cc: linux-unionfs@vger.kernel.org
+> > > > Cc: linux-security-module@vger.kernel.org
+> > > > Cc: kernel-team@android.com
+> > > > Cc: selinux@vger.kernel.org
+> > > > Cc: paulmoore@microsoft.com
+> > > > Cc: Luca.Boccassi@microsoft.com
+> > > >
+> > > > ---
+> > > >
+> > > > v19
+> > > > - rebase.
+> > > >
+> > >
+> > > Hi David,
+> > >
+> > > I see that the patch set has changed hands (presumably to Android upstreaming
+> > > team), but you just rebased v18 without addressing the maintainers concerns [1].
+> > >
+> >
+> > BTW, where is patch 1 of the series. I can't seem to find it.
+> >
+> > I think I was running into issues with getxattr() on underlying filesystem
+> > as well (if mounter did not have sufficient privileges) and tried to fix
+> > it. But did not find a good solution at that point of time.
+> >
+> > https://lore.kernel.org/linux-unionfs/1467733854-6314-6-git-send-email-vgoyal@redhat.com/
+> >
+> > So basically when overlay inode is being initialized, code will try to
+> > query "security.selinux" xattr on underlying file to initialize selinux
+> > label on the overlay inode. For regular filesystems, they bypass the
+> > security check by calling __vfs_getxattr() when trying to initialize
+> > this selinux security label. But with layered filesystem, it still
+> > ends up calling vfs_getxattr() on underlying filesyste. Which means
+> > it checks for caller's creds and if caller is not priviliged enough,
+> > access will be denied.
+> >
+> > To solve this problem, looks like this patch set is passing a flag
+> > XATTR_NOSECUROTY so that permission checks are skipped in getxattr()
+> > path in underlying filesystem. As long as this information is
+> > not leaked to user space (and remains in overlayfs), it probably is
+> > fine? And if information is not going to user space, then it probably
+> > is fine for unprivileged overlayfs mounts as well?
+> >
+> > I see a comment from Miklos as well as you that it is not safe to
+> > do for unprivileged mounts. Can you help me understand why that's
+> > the case.
+> >
+> >
+> > > Specifically, the patch 2/4 is very wrong for unprivileged mount and
+> >
+> > Can you help me understand why it is wrong. (/me should spend more
+> > time reading the patch. But I am taking easy route of asking you. :-)).
+> >
+> 
+> I should have spent more time reading the patch too :-)
+> I was not referring to the selinux part. That looks fine I guess.
+> 
+> I was referring to the part of:
+> "Check impure, opaque, origin & meta xattr with no sepolicy audit
+> (using __vfs_getxattr) since these operations are internal to
+> overlayfs operations and do not disclose any data."
+> I don't know how safe that really is to ignore the security checks
+> for reading trusted xattr and allow non-privileged mounts to do that.
 
---ctP54qlpMx3WjD+/
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I am also concerned about this.
 
-Hello Longman.
+> Certainly since non privileged mounts are likely to use userxattr
+> anyway, so what's the reason to bypass security?
 
-On Wed, Dec 01, 2021 at 08:28:09PM -0500, Waiman Long <longman@redhat.com> =
-wrote:
-> 1) The limitation that "cpuset.cpus" has to be a superset of child's
-> "cpuset.cpus" has been removed as a new patch to remove that limitation w=
-ill
-> be added.
+I am not sure. In the early version of patches I think argument was
+that do not switch to mounter's creds and use caller's creds on 
+underlying filesystem as well. And each caller will be privileged
+enough to be able to perform the operation.
 
-Superb!
+Our take was that how is this model better because in current model
+only mounter needs to be privileged while in this new model each
+caller will have to be privileged. But Android guys seemed to be ok
+with that. So has this assumption changed since early days. If callers
+are privileged, then vfs_getxattr() on underlying filesystem for
+overaly internal xattrs should succeed and there is no need for this
+change.
 
-> 2) The initial transition from "member" to partition root now requires th=
-at
-> "cpuset.cpus" overlap with that of the parent's "cpuset.cpus" instead of
-> being a superset.
+I suspect patches have evolved since then and callers are not as
+privileged as we expect them to and that's why we are bypassing this
+check on all overlayfs internal trusted xattrs? This definitely requires
+much close scrutiny. My initial reaction is that this sounds very scary.
 
-That's sensible.
+In general I would think overlayfs should not bypass the check on
+underlying fs. Either checks should be done in mounter's context or
+caller's context (depending on override_creds=on/off).
 
-> For the transition back to "member", I haven't changed the current wording
-> of forcing child partition roots to become "member" yet. If you think
-> keeping them as invalid partition root is better, I can made that change
-> too.
+Thanks
+Vivek
 
-I wrote I was indifferent about this in a previous mail but when I think
-about it now, switching to invalid root is perhaps better than switching
-to member since it'd effectively mean that modifications of the parent
-config propagate (permanently) also to a descendant config, which is
-an undesired v1-ism.
+> 
+> > > I think that the very noisy patch 1/4 could be completely avoided:
+> >
+> > How can it completely avoided. If mounter is not privileged then
+> > vfs_getxattr() on underlying filesystem will fail. Or if
+> > override_creds=off, then caller might not be privileged enough to
+> > do getxattr() but we still should be able to initialize overlay
+> > inode security label.
+> >
+> 
+> My bad. I didn't read the description of the selinux problem
+> with the re-post and forgot about it.
+> 
+> > > Can't you use -o userxattr mount option
+> >
+> > user xattrs done't work for device nodes and symlinks.
+> >
+> > BTW, how will userxattr solve the problem completely. It can be used
+> > to store overlay specific xattrs but accessing security xattrs on
+> > underlying filesystem will still be a problem?
+> 
+> It cannot.
+> As long as the patch sticks with passing through the
+> getxattr flags, it looks fine to me.
+> passing security for trusted.overlay seems dodgy.
+> 
+> Thanks,
+> Amir.
+> 
 
-
-> Please let me know what other changes you would like to see.
-
-I hope my remarks below are just clarifications and not substantial
-changes. Besides that I find your new draft good. Thanks!
-
-> [...]
-
-> =A0=A0 =A0An invalid partition root can be reverted back to a valid one
-> =A0=A0 =A0if none of the validity constraints of a valid partition root
-> =A0=A0 =A0are violated.
-
-s/can be/will be/=20
-
-(I understand the intention is to make it asynchronously and
-automatically, i.e. without writing into the affected descendant(s)
-cpuset.partition again.)
-
-> =A0=A0 =A0Poll and inotify events are triggered whenever the state of
-> =A0=A0 =A0"cpuset.cpus.partition" changes.=A0 That includes changes cause=
-d by
-> =A0=A0 =A0write to "cpuset.cpus.partition", cpu hotplug and other changes
-> =A0=A0 =A0that make the partition invalid.
-
--> that change validity status
-
-(In accordance with the comment above.)
-
-
-Michal
-
---ctP54qlpMx3WjD+/
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYIAB0WIQTiq06H1IhXbF2mqzsiXqxkP0JkRwUCYapg+AAKCRAiXqxkP0Jk
-R60gAQCV8E8cIvOn/Hr5KboWD+7obSggVivpR3LxikBIuT9raQD+OptMUIwAN0Mk
-MnWqFSlaobxSAqN0VorYNkJ17mv9dAc=
-=q7Dx
------END PGP SIGNATURE-----
-
---ctP54qlpMx3WjD+/--
