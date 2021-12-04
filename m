@@ -2,103 +2,202 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 440ABC433FE
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Dec 2021 16:35:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC5D7C433F5
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Dec 2021 17:30:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355503AbhLDQjD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 4 Dec 2021 11:39:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33336 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355531AbhLDQjC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 4 Dec 2021 11:39:02 -0500
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BB5DC061A83;
-        Sat,  4 Dec 2021 08:35:36 -0800 (PST)
-Received: by mail-wr1-x42b.google.com with SMTP id l16so12585749wrp.11;
-        Sat, 04 Dec 2021 08:35:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=DlUMJFNyNRj/XgYSHRvRQioo+7kkX6yRCyniuTQc4VM=;
-        b=jZr2sPuj+uvl+MV3O56PzBkPpoH5fkRGRfzTs5PbxVeFuwsCDTP5cdKWhYWLZ9SIRX
-         C39FECrQIlSwB8QcvVH45d2QrNw2bE4bjAmlLSBetZHiDsR7Df2nHk3q6WHG12ZsgRaB
-         Q9LB7jnKcJae5Ov0Ysjn22hYTZqel2pjQZ/hH/dU0GHS1NHC6ddF0jvvGKJv0p3e2w6G
-         Wrn+iyuGEYUTvrt4g1VgsY1L2nk6jqMW+WO30+t4P+qBmPQeRf4tUT0UCwnNh2b3+qgT
-         TA+FQ6CEgTEK9yeo7iGl4UljZfcCT46PlR4PE3mS89/RopdFTttHb/9g9SGJlasEKcRI
-         cNfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=DlUMJFNyNRj/XgYSHRvRQioo+7kkX6yRCyniuTQc4VM=;
-        b=Lai526kqlWvUFpzVXGgEeepYuHNBSDz/9m9qp1Vk9CqCLs0kFfMEuLOOGJ4Un20Hlw
-         ysC+hZ9vggZ9HXNV+oj0SG55YHcRPewTPlp0rsDpycSTd3M76pGhjac5P/XRitbXvJJO
-         XKy1IGUSFhS32cmwD+yTXZQmEZkpvDsKN5tKniQNRVsmkkEcPOhfD3Oj9W8viaGOqs06
-         0d55D4DjVimhywAsEUfvOsruZzA1wRDVL7XzKWFkW1csfWKwo+9d/enQMhRHC/TqVQDZ
-         kwXFjuznciAxxMmikrIb7f49Yq9xEGGBUd14eF08ShT1OkvMSIH7cXs+28Bjq9aVI9GW
-         3YSg==
-X-Gm-Message-State: AOAM530RZKfnUGESAr0zWI0hYOOfppJLXMLjyBZvE+mjTfat34PqUuXW
-        oHRh03un26z/4RC7v1wG5gRvM7Bs+FJqCQ==
-X-Google-Smtp-Source: ABdhPJxLD784pITzSQYTE5Vbf4jwLGCG0AGUN3aGvj8DMKQz18NvHFEeh+AhUFEF/LNxrcrpnXcJpw==
-X-Received: by 2002:a5d:604b:: with SMTP id j11mr31016436wrt.22.1638635734714;
-        Sat, 04 Dec 2021 08:35:34 -0800 (PST)
-Received: from matrix-ESPRIMO-P710 (p200300c78f4e0685b3447c22a42fc55e.dip0.t-ipconnect.de. [2003:c7:8f4e:685:b344:7c22:a42f:c55e])
-        by smtp.gmail.com with ESMTPSA id j17sm7229172wmq.41.2021.12.04.08.35.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Dec 2021 08:35:33 -0800 (PST)
-Date:   Sat, 4 Dec 2021 17:35:32 +0100
-From:   Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     linux-usb@vger.kernel.org
-Subject: [PATCH v2 4/4] Docs: usb: update explanation for device_present to
- disconnected
-Message-ID: <41cc6dbe6a97b7e5bff08a81a6e2fec3561cda76.1638630342.git.philipp.g.hortmann@gmail.com>
-References: <cover.1638630342.git.philipp.g.hortmann@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1638630342.git.philipp.g.hortmann@gmail.com>
+        id S1377972AbhLDRda (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 4 Dec 2021 12:33:30 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:39408 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1345154AbhLDRda (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 4 Dec 2021 12:33:30 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7DCD960EBE;
+        Sat,  4 Dec 2021 17:30:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90A64C341C0;
+        Sat,  4 Dec 2021 17:30:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1638639003;
+        bh=DwkAMiWPSSim7I98y5KceSbox18Jr0xqyzxRp2VfsUM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=d55+TIFV18tDmSYppsjXNyN6HBn9PsDenkBdnmA2uQ4FMOFVlpa3v8stooBszNN/l
+         qKW+r/Goip7i50Ll6IYI7mIcZ0wvAwjv46xR8D7hek5aZnQMa5V7SkkUCkVOJn/j5f
+         uQorj2/JGZ/6cVcvIEjuaojy/RdyZSS5pXuST4+fchz5aSpS1YnlCrW4bX/zLbqAL/
+         Rc8/HR8CcSow/ysDw/oPMm5BSoNfpRyo3wxhavxICxFC16PiVohYZCU9en8QdA6oWm
+         Ao+A+MZO/cWfGDiAob3KfKd1/Xdvj9pQEDCszrBF0XXekm/nE03budDm13xVo1OVUF
+         44jUUShnt1Vdg==
+Received: from ip-185-104-136-29.ptr.icomera.net ([185.104.136.29] helo=wait-a-minute.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <maz@kernel.org>)
+        id 1mtYrJ-009rxd-7Q; Sat, 04 Dec 2021 17:30:01 +0000
+Date:   Sat, 04 Dec 2021 17:30:05 +0000
+Message-ID: <87zgpgqnvm.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Hikaru Nishida <hikalium@chromium.org>
+Cc:     linux-kernel@vger.kernel.org, dme@dme.org, tglx@linutronix.de,
+        mlevitsk@redhat.com, linux@roeck-us.net, pbonzini@redhat.com,
+        vkuznets@redhat.com, will@kernel.org, suleiman@google.com,
+        senozhatsky@google.com, kvmarm@lists.cs.columbia.edu,
+        linux-arm-kernel@lists.infradead.org,
+        Andy Lutomirski <luto@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        John Stultz <john.stultz@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Juergen Gross <jgross@suse.com>,
+        Kees Cook <keescook@chromium.org>,
+        Lai Jiangshan <laijs@linux.alibaba.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Sean Christopherson <seanjc@google.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Wanpeng Li <wanpengli@tencent.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, x86@kernel.org
+Subject: Re: [RFC PATCH v3 0/5] x86/kvm: Virtual suspend time injection support
+In-Reply-To: <CACTzKb+vVU0Ymh2Nx5B6kSydBsJ6AgrbQMF39RFvqoHpvL_riw@mail.gmail.com>
+References: <20211020120431.776494-1-hikalium@chromium.org>
+        <874k9bdcrk.wl-maz@kernel.org>
+        <CACTzKb+vVU0Ymh2Nx5B6kSydBsJ6AgrbQMF39RFvqoHpvL_riw@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.104.136.29
+X-SA-Exim-Rcpt-To: hikalium@chromium.org, linux-kernel@vger.kernel.org, dme@dme.org, tglx@linutronix.de, mlevitsk@redhat.com, linux@roeck-us.net, pbonzini@redhat.com, vkuznets@redhat.com, will@kernel.org, suleiman@google.com, senozhatsky@google.com, kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org, luto@kernel.org, arnd@arndb.de, bp@alien8.de, dave.hansen@linux.intel.com, geert@linux-m68k.org, hpa@zytor.com, mingo@kernel.org, mingo@redhat.com, jmattson@google.com, joro@8bytes.org, john.stultz@linaro.org, corbet@lwn.net, jgross@suse.com, keescook@chromium.org, laijs@linux.alibaba.com, linus.walleij@linaro.org, peterz@infradead.org, seanjc@google.com, sboyd@kernel.org, wanpengli@tencent.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org, x86@kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update text for `device_present` flag to `disconnected` flag
+Hi Hikaru,
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
-V1 -> V2: Corrected format of function name to skel_disconnect()
----
- .../driver-api/usb/writing_usb_driver.rst          | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+Apologies for the much delayed reply.
 
-diff --git a/Documentation/driver-api/usb/writing_usb_driver.rst b/Documentation/driver-api/usb/writing_usb_driver.rst
-index b459f9e089e0..fa795b8d7eac 100644
---- a/Documentation/driver-api/usb/writing_usb_driver.rst
-+++ b/Documentation/driver-api/usb/writing_usb_driver.rst
-@@ -277,15 +277,13 @@ skel_delete() is an example of how to do this::
-     }
- 
- 
--If a program currently has an open handle to the device, we reset the
--flag ``device_present``. For every read, write, release and other
-+If the driver probed the device successfully, the flag ``disconnected``
-+is initialized and set to false. For every read, write and other
- functions that expect a device to be present, the driver first checks
--this flag to see if the device is still present. If not, it releases
--that the device has disappeared, and a ``-ENODEV`` error is returned to the
--user-space program. When the release function is eventually called, it
--determines if there is no device and if not, it does the cleanup that
--the ``skel_disconnect`` function normally does if there are no open files
--on the device (see Listing 5).
-+this flag to see if the device is still present. If not, a ``-ENODEV``
-+error is returned to the user-space program. When the device is
-+disconnected, skel_disconnect() is called. It sets ``disconnected``
-+to true and cleans up.
- 
- Isochronous Data
- ================
+> The problems described by Thomas in the thread was:
+> - User space or kernel space can observe the stale timestamp before
+> the adjustment
+>   - Moving CLOCK_MONOTONIC forward will trigger all sorts of timeouts,
+> watchdogs, etc...
+> - The last attempt to make CLOCK_MONOTONIC behave like CLOCK_BOOTTIME
+> was reverted within 3 weeks. a3ed0e4393d6 ("Revert: Unify
+> CLOCK_MONOTONIC and CLOCK_BOOTTIME")
+>   - CLOCK_MONOTONIC correctness (stops during the suspend) should be maintained.
+> 
+> I agree with the points above. And, the current CLOCK_MONOTONIC
+> behavior in the KVM guest is not aligned with the statements above.
+> (it advances during the host's suspension.)
+> This causes the problems described above (triggering watchdog
+> timeouts, etc...) so my patches are going to fix this by 2 steps
+> roughly:
+> 1. Stopping the guest's clocks during the host's suspension
+> 2. Adjusting CLOCK_BOOTTIME later
+> This will make the clocks behave like the host does, not making
+> CLOCK_MONOTONIC behave like CLOCK_BOOTTIME.
+> 
+> First one is a bit tricky since the guest can use a timestamp counter
+> in each CPUs (TSC in x86) and we need to adjust it without stale
+> values are observed by the guest kernel to prevent rewinding of
+> CLOCK_MONOTONIC (which is our top priority to make the kernel happy).
+> To achieve this, my patch adjusts TSCs (and a kvm-clock) before the
+> first vcpu runs of each vcpus after the resume.
+> 
+> Second one is relatively safe: since jumping CLOCK_BOOTTIME forward
+> can happen even before my patches when suspend/resume happens, and
+> that will not break the monotonicity of the clocks, we can do that
+> through IRQ.
+> 
+> [1] shows the flow of the adjustment logic, and [2] shows how the
+> clocks behave in the guest and the host before/after my patches.
+> The numbers on each step in [1] corresponds to the timing shown in [2].
+> The left side of [2] is showing the behavior of the clocks before the
+> patches, and the right side shows after the patches. Also, upper
+> charts show the guest clocks, and bottom charts are host clocks.
+> 
+> Before the patches(left side), CLOCK_MONOTONIC seems to be jumped from
+> the guest's perspective after the host's suspension. As Thomas says,
+> large jumps of CLOCK_MONOTONIC may lead to watchdog timeouts and other
+> bad things that we want to avoid.
+> With the patches(right side), both clocks will be adjusted (t=4,5) as
+> if they are stopped during the suspension. This adjustment is done by
+> the host side and invisible to the guest since it is done before the
+> first vcpu run after the resume. After that, CLOCK_BOOTTIME will be
+> adjusted from the guest side, triggered by the IRQ sent from the host.
+> 
+> [1]: https://hikalium.com/files/kvm_virt_suspend_time_seq.png
+> [2]: https://hikalium.com/files/kvm_virt_suspend_time_clocks.png
+
+Thanks for the very detailed explanation. You obviously have though
+about this, and it makes sense.
+
+My worry is that this looks to be designed for the needs of Linux on
+x86, and does not match the reality of KVM on arm64, where there is no
+KVM clock (there is no need for it, and I have no plan to support it),
+and there is more than a single counter visible to the guest (at least
+two, and up to four with NV, all with various offsets). This also
+deals with concepts that are Linux-specific. How would it work for
+another (arbitrary) guest operating system?
+
+Can we please take a step back and look at what we want to expose from
+a hypervisor PoV? It seems to me that all we want is:
+
+(1) tell the guest that time has moved forward
+(2) tell the guest by how much time has moved forward
+
+In a way, this isn't different from stolen time, only that it affects
+the whole VM and not just a single CPU (and for a much longer quantum
+of time).
+
+How the event is handled by the guest (what it means for its clocks
+and all that) is a guest problem. Why should KVM itself adjust the
+counters? This goes against what the architecture specifies (the
+counter is in an always-on domain that keeps counting when suspended),
+and KVM must preserve the architectural guarantees instead of
+deviating from them.
+
+> > Assuming you solve these, you should model the guest memory access
+> > similarly to what we do for stolen time. As for injecting an
+> > interrupt, why can't this be a userspace thing?
+> 
+> Since CLOCK_BOOTTIME is calculated by adding a gap
+> (tk->monotonic_to_boot) to CLOCK_MONOTONIC, and there are no way to
+> change the value from the outside of the guest kernel, we should
+> implement some mechanism in the kernel to adjust it.
+> (Actually, I tried to add a sysfs interface to modify the gap [3], but
+> I learned that that is not a good idea...)
+
+It is not what I was suggesting.
+
+My suggestion was to have a shared memory between the VMM and the
+guest again, similar to the way we handle stolen time), let the VMM
+expose the drift in this shared memory, and inject an interrupt from
+userspace to signify a wake-up. All this requires is that on suspend,
+you force the vcpus to exit. On resume, the VMM update the guest
+visible drift, posts an interrupt, and let things rip.
+
+This requires very minimal KVM support, and squarely places the logic
+in the guest. Why doesn't this work?
+
+Another question is maybe even more naive: on bare metal, we don't
+need any of this. The system suspends, resumes, and recovers well
+enough. Nobody hides anything, and yet everything works just fine.
+That's because the kernel knows it is being suspended, and it acts
+accordingly. It looks to me that there is some value in following the
+same principles, even if this means that the host suspend has to
+synchronise with the guest being suspended.
+
+Thanks,
+
+	M.
+
 -- 
-2.25.1
-
+Without deviation from the norm, progress is not possible.
