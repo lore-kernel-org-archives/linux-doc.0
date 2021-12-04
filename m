@@ -2,97 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23E62C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  3 Dec 2021 23:45:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECB97C433F5
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Dec 2021 00:46:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230023AbhLCXtH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Dec 2021 18:49:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38768 "EHLO
+        id S1354681AbhLDAtd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 3 Dec 2021 19:49:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354427AbhLCXtH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Dec 2021 18:49:07 -0500
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9F83C061354
-        for <linux-doc@vger.kernel.org>; Fri,  3 Dec 2021 15:45:42 -0800 (PST)
-Received: by mail-ot1-x334.google.com with SMTP id 35-20020a9d08a6000000b00579cd5e605eso5513526otf.0
-        for <linux-doc@vger.kernel.org>; Fri, 03 Dec 2021 15:45:42 -0800 (PST)
+        with ESMTP id S1354612AbhLDAtc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Dec 2021 19:49:32 -0500
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6AACC061354
+        for <linux-doc@vger.kernel.org>; Fri,  3 Dec 2021 16:46:07 -0800 (PST)
+Received: by mail-lj1-x236.google.com with SMTP id 13so9221778ljj.11
+        for <linux-doc@vger.kernel.org>; Fri, 03 Dec 2021 16:46:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=60reH7R0DIOnYiDzjJxXKxDAKSmQYMrrZWuqMItQwS0=;
-        b=lwLR59toSKg0d3DkxASJYGkZ8L16glxKUaDTTvF+88eWEDzjr4kjtxvRl33PVBnKDD
-         htg85jvk5miIto3O0oC10nexmnVRUMkm0LPTObzhAaHdC9pSe7CF2JCNF75x/WGIkOG3
-         PM1RuTN6Nhu5/g4qGlmgmqHRM2UZSR8UXi8+g/rcskGP7alvFuGEMFDeGahQ1pLEjsrX
-         Z6EFmUfQjhtG/4rRPSVC1kWoUh+nSdz2aRIUoHXdKW8VYEFiDZIrfgmJAN7aC4i78hhh
-         MVVhyQh/Hs2vmX+fTK9085aBpBW56vEUhxfheI0Ytpw8QrKAGkDBvIXT/x3LUmzXzWvU
-         D5eA==
+        bh=84mOUp3LokD6J3j/XPGM8Gdyu0TNZ1hY1SXnt8ueQl0=;
+        b=W00VL1dQdtqB96CSXr76uDShRNGRcJZoc5gxPBZH6JD2lO3sXg/MbNgoIepxvjgy/v
+         1ngl4zAcaMGNYSSMFZUmcTZGNuuO8BREoXOAvrLF1NuaG6twbr/BvF8zVlA2WCvc2n+s
+         3atBTFjXpvf1BSw+xfGON8yWnXNLilAs33nqQ3TOiIIAryw8JTfFkO7b1WoJAv3zh/vW
+         q1r05yy7mWaFNdo7OI46VANrC5cGCWMoG3EInP4CFFm8+Q/q39qu7nPEsJ9jSHTc3IgO
+         oyiqNf62GHUrdj+I5THRVlKdw6jqwGTlCFLYmU1q+05R2IZ7CtOuatZgdbmNpnfUpW6C
+         1BoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=60reH7R0DIOnYiDzjJxXKxDAKSmQYMrrZWuqMItQwS0=;
-        b=R5VrJnqC9YuVa5h7Ke1bHSRdBg/kixMUc23JqWGlCLcXNKl8/5dr7Qezl2WzEiy0sa
-         A++Sn1ns9KMOQ3deCp+S/2sx79b3SDEQcvSsnHxmVNgVfSEQoaQO6ijyueeRFDYTKguN
-         XNPE9gXYd8MEyrKr7Y9pBD3Be25Pd3CDXmBM7a6+wsPG1h5sOjq8Q784QTQZ5fYv2ly5
-         N077dZFxuo8r0+tARz2byWHCg8WzGMvU2vsvcfeoNIriW/2WtnqNswB0l+uZkSZ6J7Vi
-         oi99IyeM7/o6P4iXzI8PvAJ1J1NOQHTi6CwpwrqEkBHNj9OUejyEF8xa0u8bYjDWLT/4
-         BuUw==
-X-Gm-Message-State: AOAM533EtRVOkpBVjEqkHUj4zCwYd19KnQSRtmGc6+CN+JiC60dVXXic
-        p5/yzOO7Wy/uHl6mjKobViMFq9AQyCoCL+wEE2eLyw==
-X-Google-Smtp-Source: ABdhPJwprIsuAE81kQhNwY2u7JUyLZ0Gf1lKN54zx/jf0D8m6dhbAAqy4FkFq551WfGByrnkVKj8Umhm/PE2NQckFns=
-X-Received: by 2002:a9d:77d1:: with SMTP id w17mr18546120otl.329.1638575142007;
- Fri, 03 Dec 2021 15:45:42 -0800 (PST)
+        bh=84mOUp3LokD6J3j/XPGM8Gdyu0TNZ1hY1SXnt8ueQl0=;
+        b=BSKTPAFyXWuyKJctJQ1SZBWjYtWvoTdnONLROkBeDz9xrbN46f5Ph7Rox0KYUHZhVY
+         M/PAXxVBRX+qkjtMy8Sdy0qNWbA+ifaJ15skpi1JWIRKNXMFctcS7f32UMgJLVuTaxQS
+         hPwEsJURwp95mAbD1BCPX54UVR8RO1G1N0JeEN5U81VHHnsaFfN+ncpuHWj9PBchledP
+         CgB0aP3KZkwrD5hd5LzzSA49EUIS7Lly8TpschmzXJuqYORRomwtuph6+VH/nyyMswPY
+         sgf29C0ptBQ17RgDunb2aluzsaBANDgOhuYXtElXw8rTipF1ZjL8PhsREZ4v0M8MLiSH
+         o3Uw==
+X-Gm-Message-State: AOAM532MkD8nO3OU36f5bKvWXYnbE8pHQecWNAZ0jPSxLWLvaxSCQTK8
+        wfD5Rjcq3cEBuEW5x99PT8JQ98zFw2EGkKn22/8AUw==
+X-Google-Smtp-Source: ABdhPJzLV+ZZmoda/NgcR2Lu4eylwVG/7x4I9dAzKn8K8L/25X9VSHMV6CmA5i65Wuva7AzCKFziwlqii0mxLRX3B38=
+X-Received: by 2002:a05:651c:545:: with SMTP id q5mr20684058ljp.202.1638578765757;
+ Fri, 03 Dec 2021 16:46:05 -0800 (PST)
 MIME-Version: 1.0
-References: <20211130114433.2580590-1-elver@google.com> <20211130114433.2580590-5-elver@google.com>
- <YanbzWyhR0LwdinE@elver.google.com> <20211203165020.GR641268@paulmck-ThinkPad-P17-Gen-1>
- <20211203210856.GA712591@paulmck-ThinkPad-P17-Gen-1> <20211203234218.GA3308268@paulmck-ThinkPad-P17-Gen-1>
-In-Reply-To: <20211203234218.GA3308268@paulmck-ThinkPad-P17-Gen-1>
-From:   Marco Elver <elver@google.com>
-Date:   Sat, 4 Dec 2021 00:45:30 +0100
-Message-ID: <CANpmjNNUinNdBBOVbAgQQYCJVftgUfQQZyPSchWhyVRyjWpedA@mail.gmail.com>
-Subject: Re: [PATCH v3 04/25] kcsan: Add core support for a subset of weak
- memory modeling
-To:     paulmck@kernel.org
-Cc:     Alexander Potapenko <glider@google.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Waiman Long <longman@redhat.com>,
-        Will Deacon <will@kernel.org>, kasan-dev@googlegroups.com,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, llvm@lists.linux.dev, x86@kernel.org
+References: <20211203162426.3375036-1-schatzberg.dan@gmail.com>
+In-Reply-To: <20211203162426.3375036-1-schatzberg.dan@gmail.com>
+From:   Shakeel Butt <shakeelb@google.com>
+Date:   Fri, 3 Dec 2021 16:45:54 -0800
+Message-ID: <CALvZod6y+_O49jzuD9wLXncCEGCgun4f-uf_yBzYcsfEiH1WOQ@mail.gmail.com>
+Subject: Re: [PATCH] mm: add group_oom_kill memory event
+To:     Dan Schatzberg <schatzberg.dan@gmail.com>
+Cc:     Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <guro@fb.com>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Hocko <mhocko@kernel.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Alex Shi <alexs@kernel.org>,
+        Wei Yang <richard.weiyang@gmail.com>,
+        "open list:CONTROL GROUP (CGROUP)" <cgroups@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" 
+        <linux-mm@kvack.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 4 Dec 2021 at 00:42, Paul E. McKenney <paulmck@kernel.org> wrote:
-[...]
-> And to further extend this bug report, the following patch suppresses
-> the error.
+On Fri, Dec 3, 2021 at 8:24 AM Dan Schatzberg <schatzberg.dan@gmail.com> wrote:
 >
->                                                         Thanx, Paul
+> Our container agent wants to know when a container exits if it was OOM
+> killed or not to report to the user. We use memory.oom.group = 1 to
+> ensure that OOM kills within the container's cgroup kill
+> everything. Existing memory.events are insufficient for knowing if
+> this triggered:
 >
-> ------------------------------------------------------------------------
+> 1) Our current approach reads memory.events oom_kill and reports the
+> container was killed if the value is non-zero. This is erroneous in
+> some cases where containers create their children cgroups with
+> memory.oom.group=1 as such OOM kills will get counted against the
+> container cgroup's oom_kill counter despite not actually OOM killing
+> the entire container.
 >
-> commit d157b802f05bd12cf40bef7a73ca6914b85c865e
-> Author: Paul E. McKenney <paulmck@kernel.org>
-> Date:   Fri Dec 3 15:35:29 2021 -0800
+> 2) Reading memory.events.local will fail to identify OOM kills in leaf
+> cgroups (that don't set memory.oom.group) within the container cgroup.
 >
->     kcsan: selftest: Move test spinlock to static global
+> This patch adds a new oom_group_kill event when memory.oom.group
+> triggers to allow userspace to cleanly identify when an entire cgroup
+> is oom killed.
+>
+> Signed-off-by: Dan Schatzberg <schatzberg.dan@gmail.com>
 
-Indeed, that will fix the selftest. The kcsan_test has the same
-problem (+1 extra problem).
+So, with this patch, will you be watching oom_group_kill from
+memory.events or memory.events.local file for your use-case?
 
-We raced sending the fix. :-)
-I hope this patch works for you:
-https://lkml.kernel.org/r/20211203233817.2815340-1-elver@google.com
-
-Thanks,
--- Marco
+Reviewed-by: Shakeel Butt <shakeelb@google.com>
