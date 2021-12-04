@@ -2,131 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73083C433EF
-	for <linux-doc@archiver.kernel.org>; Sat,  4 Dec 2021 03:37:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C8B4C433EF
+	for <linux-doc@archiver.kernel.org>; Sat,  4 Dec 2021 09:36:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354798AbhLDDlG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 3 Dec 2021 22:41:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33216 "EHLO
+        id S1384481AbhLDJkP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 4 Dec 2021 04:40:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354735AbhLDDlG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 Dec 2021 22:41:06 -0500
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B3B0C061751;
-        Fri,  3 Dec 2021 19:37:41 -0800 (PST)
-Received: by mail-pj1-x1034.google.com with SMTP id h24so3753721pjq.2;
-        Fri, 03 Dec 2021 19:37:41 -0800 (PST)
+        with ESMTP id S1384477AbhLDJkP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 4 Dec 2021 04:40:15 -0500
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29D04C061359
+        for <linux-doc@vger.kernel.org>; Sat,  4 Dec 2021 01:36:50 -0800 (PST)
+Received: by mail-wm1-x332.google.com with SMTP id 133so4311075wme.0
+        for <linux-doc@vger.kernel.org>; Sat, 04 Dec 2021 01:36:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:cc:from:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=tR3k6WsOi2KAxsqU3J3bcHIMbZA+YBg7HU4EgK5M5dE=;
-        b=SLfUz7WBySnqdrbkNcUuyPWvBp5Dr60NvKjO3bafkg2cW78DEALMeEelsIBg2Kbg3q
-         8H43cme7jMpgxRF2ALQy/PT4ogq614zx5BpmHTVtbiGZaS8df6Hj93FJSY99CdxjmO5D
-         Ehc1pv+rAFRLSkGoZZffi6FXNuZuGkXn7smXNpFTDN7TTXKrD2y+eiu7p4390IbLoJEj
-         NbnSaoVW6Bihr02u8nOuPKFPu4L10UEcmQFKBC7eIYY0NOh23BjH2+h2s9mJRXafFZS0
-         xuvrMOwVdzylNzKzyz3G+tNZnuKecsevhFnHLN5XqUfgCui9XhXn5XKuxKkaAmmPo1Hi
-         Djew==
+        d=chrisdown.name; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=Fa6xeDSp50/P8rOL+C54lxIGIVulHb+9yCsfNo1/Wpw=;
+        b=FWWeWvzsX0lVcVoLsRisdgMqOjZy/JOgW6iYDCzNR3aS7WRsMEBPIai+ZFNIuMynAr
+         BT2jMNkIswwTyxFGrp3xMLb/eXReYAVYgdBy/v3oHKfoEgRChUczwjAU2SBhL9tXhriA
+         MJOvZgEQz3GgTo7U+U9Zs7ICijCpUjoRP6E8g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
-         :mime-version:content-language:content-transfer-encoding;
-        bh=tR3k6WsOi2KAxsqU3J3bcHIMbZA+YBg7HU4EgK5M5dE=;
-        b=EK+U9a7l4nWmYESqN7zm4Bwp7i1sSkINwuVwmRMoK2uQ1ahnOAih9NbnoUEl5pl7dL
-         Za5qZEr64FxJKtFM+IVegPciEjw6d6/xHDwtrXHNGTmyDbvw0wWd7bi4yiQLnYAOwtIT
-         55r4i4KEFp+XPUOeskBsYN6c9W6JzgXg0JFS8n1xtRa4+eGTRKjTPTp/h2Qx2m9O5SbH
-         hg4ya0NO+uqeVKNEbmK7nGZj+zBzJ5h7oL2Fi4bbZs/uzFhIlbhY43AQ+eieHJS6fcdM
-         l5EIdW0M0UCtP5MPPfF4kRtkjSc8I90s8V/qu5WUKExR1ILukGDIYYjcVSPB1mQTugjt
-         77GQ==
-X-Gm-Message-State: AOAM531WurVTljneNWnaErWgHBeuTWpjMeu9zqBzmBoBjaVbZE6S6VTW
-        LM19NMfFHd/WvAqaX4t6hjtf44MwNQ8=
-X-Google-Smtp-Source: ABdhPJxWZw9DqfpJFRLL3s38XVFCBjIXMCQnySgt8vXzziNjrqkvnvBcFRqvFPNLukN5TAnqprhTZQ==
-X-Received: by 2002:a17:903:1210:b0:143:a088:7932 with SMTP id l16-20020a170903121000b00143a0887932mr27793180plh.11.1638589060733;
-        Fri, 03 Dec 2021 19:37:40 -0800 (PST)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id 67sm3724587pgd.0.2021.12.03.19.37.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Dec 2021 19:37:40 -0800 (PST)
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-media@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-From:   Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH] docs: media: Fix imbalance of LaTeX group
-Message-ID: <b3eeec4d-1a34-0a1a-3097-1ddea3b5f1c8@gmail.com>
-Date:   Sat, 4 Dec 2021 12:37:35 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Fa6xeDSp50/P8rOL+C54lxIGIVulHb+9yCsfNo1/Wpw=;
+        b=JuJw6R6+GQGVHilAAEFmF0V03qpL5QZrck8Cg7SOEIBO6fWOgcNUcDNg5a2rxvbZHN
+         rKctGrgTH1NqwsZgkjsExQyv0EakiedF7BoVWSMHU3oGWBGrKfhXWX5zASyiFjuQEQit
+         Qt5pjaAUeawWhoeyxBNWBWfTUrwfT5mrAf/BZjjTu0gd3vf1DMDo1bQGTSCI2LkjACp0
+         T//1Q09BhJzLkgvHt5hhl4t+wR5l8lSgDQIlu+uxh8MuAsdMH61t3YSztAFVCcg2gEjR
+         rrhrooM5UB3ZUQyk4mb80T+xdFtVol4rsyqDWkPEhjcOYhwAvhtugCq8B0V25oF+y4EL
+         T9kw==
+X-Gm-Message-State: AOAM530r3aEQ00jDcl6zz4+USiyB65qD0qvZkGFEs6kmg9Rs3pJg8Aq0
+        sCZNMQfnPnJXhTzmvWMe4AwxbA==
+X-Google-Smtp-Source: ABdhPJwiOTmQCn38xCf3cLyyJfvN07htPUbre2qVQ4wfsE4L4QKy64fvmr02+djFj6Wlf0GKZ/75tw==
+X-Received: by 2002:a7b:c301:: with SMTP id k1mr22029998wmj.36.1638610608329;
+        Sat, 04 Dec 2021 01:36:48 -0800 (PST)
+Received: from localhost ([2a01:4b00:8432:8a00:5ee4:2aff:fe50:f48d])
+        by smtp.gmail.com with ESMTPSA id i17sm5622892wmq.48.2021.12.04.01.36.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Dec 2021 01:36:47 -0800 (PST)
+Date:   Sat, 4 Dec 2021 09:36:46 +0000
+From:   Chris Down <chris@chrisdown.name>
+To:     Dan Schatzberg <schatzberg.dan@gmail.com>
+Cc:     Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <guro@fb.com>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Hocko <mhocko@kernel.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shakeel Butt <shakeelb@google.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Alex Shi <alexs@kernel.org>,
+        Wei Yang <richard.weiyang@gmail.com>,
+        "open list:CONTROL GROUP (CGROUP)" <cgroups@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" 
+        <linux-mm@kvack.org>
+Subject: Re: [PATCH] mm: add group_oom_kill memory event
+Message-ID: <Yas2ro/NCDY+1n09@chrisdown.name>
+References: <20211203162426.3375036-1-schatzberg.dan@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20211203162426.3375036-1-schatzberg.dan@gmail.com>
+User-Agent: Mutt/2.1.3 (987dde4c) (2021-09-10)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The beginning part of the "existing HSV/HSL formats" table (line 7742)
-reads:
+Dan Schatzberg writes:
+>Our container agent wants to know when a container exits if it was OOM
+>killed or not to report to the user. We use memory.oom.group = 1 to
+>ensure that OOM kills within the container's cgroup kill
+>everything. Existing memory.events are insufficient for knowing if
+>this triggered:
+>
+>1) Our current approach reads memory.events oom_kill and reports the
+>container was killed if the value is non-zero. This is erroneous in
+>some cases where containers create their children cgroups with
+>memory.oom.group=1 as such OOM kills will get counted against the
+>container cgroup's oom_kill counter despite not actually OOM killing
+>the entire container.
+>
+>2) Reading memory.events.local will fail to identify OOM kills in leaf
+>cgroups (that don't set memory.oom.group) within the container cgroup.
+>
+>This patch adds a new oom_group_kill event when memory.oom.group
+>triggers to allow userspace to cleanly identify when an entire cgroup
+>is oom killed.
+>
+>Signed-off-by: Dan Schatzberg <schatzberg.dan@gmail.com>
 
-  .. raw:: latex
+Thanks! Acking with one minor point on the documentation front.
 
-      \begingroup
-      \tiny
-      \setlength{\tabcolsep}{2pt}
+Acked-by: Chris Down <chris@chrisdown.name>
 
-However, the ending part (line 7834) reads:
+>---
+> Documentation/admin-guide/cgroup-v2.rst | 4 ++++
+> include/linux/memcontrol.h              | 1 +
+> mm/memcontrol.c                         | 5 +++++
+> mm/oom_kill.c                           | 1 +
+> 4 files changed, 11 insertions(+)
+>
+>diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+>index 2aeb7ae8b393..eec830ce2068 100644
+>--- a/Documentation/admin-guide/cgroup-v2.rst
+>+++ b/Documentation/admin-guide/cgroup-v2.rst
+>@@ -1268,6 +1268,10 @@ PAGE_SIZE multiple when read back.
+> 		The number of processes belonging to this cgroup
+> 		killed by any kind of OOM killer.
+>
+>+          oom_group_kill
+>+                The number of times all tasks in the cgroup were killed
+>+                due to memory.oom.group.
 
-  .. raw:: latex
+Maybe pedantic, but this reads as unclear to me whether in cgroup with 3 tasks 
+we get the value "3" or "1" when a group kill occurs.
 
-      \normalsize
-
-
-Fix the imbalance by replacing the \normalsize with \endgroup.
-
-Note:
-    Actually, the imbalance is harmless and just results in an
-    informative message near the bottom of userspace-api.log:
-
-      (\end occurred inside a group at level 1)
-
-      ### semi simple group (level 1) entered at line 70696 (\begingroup)
-      ### bottom level 
-
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
----
-Hi,
-
-This imbalance has existed ever since commit 70b074df4ed1 ("media:
-fix pdf build with Spinx 1.6") authored by Mauro.
-As it has no visible effect in the generated PDF, I'm not putting
-a Fixes: tag.
-
-Mauro, are you OK with this fix going through the -doc tree?
-Otherwise, feel free to carry it through the -media tree.
-Either is fine by me.
-
-        Thanks, Akira
---
- Documentation/userspace-api/media/v4l/subdev-formats.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-index bd68588b2683..0cbc045d5df6 100644
---- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
-+++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-@@ -7833,7 +7833,7 @@ The following table lists existing HSV/HSL formats.
- 
- .. raw:: latex
- 
--    \normalsize
-+    \endgroup
- 
- 
- JPEG Compressed Formats
-
-base-commit: 065db2d90c6b8384c9072fe55f01c3eeda16c3c0
--- 
-2.17.1
-
+Maybe rephrase to not make be about tasks and just say "number of times a group 
+OOM occurred"?
