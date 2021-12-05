@@ -2,111 +2,145 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59215C433EF
-	for <linux-doc@archiver.kernel.org>; Sun,  5 Dec 2021 14:25:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9AD3C433EF
+	for <linux-doc@archiver.kernel.org>; Sun,  5 Dec 2021 15:33:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234905AbhLEO3V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 5 Dec 2021 09:29:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34668 "EHLO
+        id S235529AbhLEPhS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 5 Dec 2021 10:37:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234842AbhLEO3V (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Dec 2021 09:29:21 -0500
-Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com [IPv6:2607:f8b0:4864:20::c35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D18BC061714;
-        Sun,  5 Dec 2021 06:25:54 -0800 (PST)
-Received: by mail-oo1-xc35.google.com with SMTP id d1-20020a4a3c01000000b002c2612c8e1eso3598819ooa.6;
-        Sun, 05 Dec 2021 06:25:54 -0800 (PST)
+        with ESMTP id S235449AbhLEPhR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Dec 2021 10:37:17 -0500
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 881DAC061714;
+        Sun,  5 Dec 2021 07:33:50 -0800 (PST)
+Received: by mail-pj1-x102a.google.com with SMTP id np6-20020a17090b4c4600b001a90b011e06so6356339pjb.5;
+        Sun, 05 Dec 2021 07:33:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=TXH4Vib3A0y/lG/pTpdUQ6nm+J2heVtS+E8cHBm/Eso=;
-        b=KeV4QfYAQJsvhaKHDcbVSYqKkFDZ1Uuy9I2RWRGmLuoIFIziudejTUQSYl4FVJDHyo
-         mNZLNRDskJdnxI4nghzuDv16WzYCesXBCcXKlgQJa7ddN3FmOgm10KcHiPwz9QluMJD9
-         FDcOnaX6h3P++moN4vkyqJWsFmnfOoM/zKquR6SymmDv1fc97o1WTTrJt0lLQX4xnYWw
-         fB4PwFHDL+FNpbKLMGXEG6jCT0eRPVZivgaF6Xyj/foMfiQTz3vzUqD+1Gfc75QgPC75
-         F2lSyu9Ha6nWoaki0wZsSimgAVC49IlC56ttjfzj/3NkaMUSg9H8miAnT8UKLJ+i3mR0
-         TDyg==
+        h=to:cc:references:subject:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=BfVQ341r1HL0CwbS+QuTV/gqbtW2ay4ttScIrn2iNUs=;
+        b=LOYtUx1JbMJDzcmIU7d9yn3n0N8vVrqU+CtMScHaWDK1p/zGBUFKIF90FBjBdpxcDc
+         WHL4gwQxCD8vi64Z+c3vg5bmuHDjAW66BRyj9KnYfunPdplutveKsLigh/MT0wDIMRgh
+         1HP0O8glrcdwuY40UjZsFSRWrnP+6NeRU7S8nFdQowl0Lz+gXyN+vVBYWXvpYNMNP3vD
+         qlA1u/56J+rW9HNss2r2iBdkH8QTsTIK9U0lHEU6tYch43Utzhsy1gLIl6wr5L+Ql9fK
+         DEC30htUHx2mnD2dmLFVFmZVBxdOPjYn9U9JCSgdHpzaHpANrDMu757AkHK97OA4k3+S
+         zPew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=TXH4Vib3A0y/lG/pTpdUQ6nm+J2heVtS+E8cHBm/Eso=;
-        b=DvfmcowXKfqf/DB2N7WY9IOlAsByYzyxxbdrXc22CMyMa1kxyTaTY2IsaP/Di+FXjI
-         azAFCcbFBysdfG1yLwNRAXpdwxaUNMKoFGcETENMgtVOzdXlau+Cs39vT2+nzXrHfsz1
-         oobtlZF4eE2fakgZNfgdSHu7h1AXL//LughZm0u5YTAXaiSD+qisKtwYxvP4AIH5gPGb
-         vQVTZK+S1uHZsmYxj8p10lIp3O8/pvVij3QwifnOouUBYJHbWFAR0ugaVjZR7b9PKpwW
-         tVzzZrLvEPREg2qPjvMUjTYgUFIfI9DZJvzP3ti8mdR98n4zc0M2T7CdrNPUj6KOkEj5
-         MJxA==
-X-Gm-Message-State: AOAM532lxkEi9f20DWmlBe23gT7jOpse2mjqD6L3cBYOd3HOUlRoW3+T
-        FoA7zxA+fLKBy7RhJrGu2OGRDt4w41GeUbblAw0=
-X-Google-Smtp-Source: ABdhPJyJOoXt1tnSHKyS9V4waxZmHFu97XT0amw/R/d7BrQo+dtNctVhlL1wLStbyrsgO1zi1rH1ztuAXNyjtKJiV8Y=
-X-Received: by 2002:a4a:cb83:: with SMTP id y3mr19402428ooq.56.1638714353609;
- Sun, 05 Dec 2021 06:25:53 -0800 (PST)
-MIME-Version: 1.0
-References: <20211205132141.4124145-1-siyanteng@loongson.cn> <YazChnNvaEMHzCQG@shell.armlinux.org.uk>
-In-Reply-To: <YazChnNvaEMHzCQG@shell.armlinux.org.uk>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Sun, 5 Dec 2021 22:25:13 +0800
-Message-ID: <CAEensMyfThZf=yGwh9Ex_kO51bLJO+KL02xixW-RGuc9YPvRBw@mail.gmail.com>
+        h=x-gm-message-state:to:cc:references:subject:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=BfVQ341r1HL0CwbS+QuTV/gqbtW2ay4ttScIrn2iNUs=;
+        b=e4zzoifeWOywgMbvOR4JW1hTCBglI7j6kNMWm6MsdCMwgblBoyqnEsQKYhlW1NNgPy
+         U8EafogS0J7tAv/x6PmWivtmdM9zNLfMGTMJJVQRyuxjdleCKozYSs/XlAwP3TbFwiRo
+         YvEVgn1bG9q+qwCg4UBKSKJlz0exHxZfRS5GgG2qioqUwjzAFengvMe6kXy2WjOyegTD
+         qq1fEvjpF86zF6w+MLJV0IPOOlA2LinoNkjC+iQxjkyfY9bmxySjrLmlNI19VRbOzCO0
+         qRYdcLAqas7e9w6IGdsiMdGxqaI/SvTR0iHV7285Jm/TtShDCNDsvS1wZ3hM/4O9dgBF
+         I/Zw==
+X-Gm-Message-State: AOAM530/bKetVPzG6NcPDQ5SKwejoYOIEI+CoL0NUD8def2tXcJZW7Ch
+        II3eVAeBl3I0jFeiQZvrDk4=
+X-Google-Smtp-Source: ABdhPJwtAWORSdbSUeDCQcRTFc2KVVEfK501eeF6E8YQT3uEAYZ2rHW5C9OemdMCprBgLOT3iimOlg==
+X-Received: by 2002:a17:902:a40f:b0:143:d470:d66d with SMTP id p15-20020a170902a40f00b00143d470d66dmr37394472plq.52.1638718429949;
+        Sun, 05 Dec 2021 07:33:49 -0800 (PST)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id d195sm7501739pga.41.2021.12.05.07.33.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 05 Dec 2021 07:33:49 -0800 (PST)
+To:     "Russell King (Oracle)" <linux@armlinux.org.uk>,
+        Yanteng Si <siyanteng01@gmail.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>, chenhuacai@kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+        Yanteng Si <siyanteng@loongson.cn>
+References: <YazChnNvaEMHzCQG@shell.armlinux.org.uk>
 Subject: Re: [PATCH] net: phy: Remove unnecessary indentation in the comments
  of phy_device
-To:     "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc:     andrew@lunn.ch, hkallweit1@gmail.com, netdev@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From:   Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <431bf51d-9ed5-a235-99e1-99dee50f7925@gmail.com>
+Date:   Mon, 6 Dec 2021 00:33:45 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+MIME-Version: 1.0
+In-Reply-To: <YazChnNvaEMHzCQG@shell.armlinux.org.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Russell King (Oracle) <linux@armlinux.org.uk> =E4=BA=8E2021=E5=B9=B412=E6=
-=9C=885=E6=97=A5=E5=91=A8=E6=97=A5 21:45=E5=86=99=E9=81=93=EF=BC=9A
->
+Hi,
+On Sun, 5 Dec 2021 13:45:42 +0000, Russell King wrote:
 > On Sun, Dec 05, 2021 at 09:21:41PM +0800, Yanteng Si wrote:
-> > Fix warning as:
-> >
-> > linux-next/Documentation/networking/kapi:122: ./include/linux/phy.h:543=
-: WARNING: Unexpected indentation.
-> > linux-next/Documentation/networking/kapi:122: ./include/linux/phy.h:544=
-: WARNING: Block quote ends without a blank line; unexpected unindent.
-> > linux-next/Documentation/networking/kapi:122: ./include/linux/phy.h:546=
-: WARNING: Unexpected indentation.
->
+>> Fix warning as:
+>> 
+>> linux-next/Documentation/networking/kapi:122: ./include/linux/phy.h:543: WARNING: Unexpected indentation.
+>> linux-next/Documentation/networking/kapi:122: ./include/linux/phy.h:544: WARNING: Block quote ends without a blank line; unexpected unindent.
+>> linux-next/Documentation/networking/kapi:122: ./include/linux/phy.h:546: WARNING: Unexpected indentation.
+> 
 > This seems to be at odds with the documentation in
 > Documentation/doc-guide/kernel-doc.rst.
->
+> 
 > The warning refers to lines 543, 544 and 546.
->
+> 
 > 543: *              Bits [23:16] are currently reserved for future use.
 > 544: *              Bits [31:24] are reserved for defining generic
 > 545: *                           PHY driver behavior.
 > 546: * @irq: IRQ number of the PHY's interrupt (-1 if none)
->
+> 
 > This doesn't look quite right with the warning messages above, because
 > 544 doesn't unindent, and I've checked net-next, net, and mainline
 > trees, and they're all the same.
-They are not always precise.
+> 
 > So, I think we first need to establish exactly which lines you are
 > seeing this warning for before anyone can make a suggestion.
-Dear Russell
 
-My configuration environment and operation steps are as follows=EF=BC=9A
+Just a hint of kernel-doc comment format, which is not fully covered
+in Documentation/doc-guide/kernel-doc.rst.
 
-[siyanteng@sterling]$ cd linux-next
-[siyanteng@sterling]$ ./scripts/sphinx-pre-install
-Detected OS: CentOS Linux release 8.5.2111.
-Sphinx version: 2.4.4
+I think the diff below is what you'd like:
 
+----8<-----
+diff --git a/include/linux/phy.h b/include/linux/phy.h
+index 96e43fbb2dd8..1e180f3186d5 100644
+--- a/include/linux/phy.h
++++ b/include/linux/phy.h
+@@ -538,11 +538,12 @@ struct macsec_ops;
+  * @mac_managed_pm: Set true if MAC driver takes of suspending/resuming PHY
+  * @state: State of the PHY for management purposes
+  * @dev_flags: Device-specific flags used by the PHY driver.
+- *		Bits [15:0] are free to use by the PHY driver to communicate
+- *			    driver specific behavior.
+- *		Bits [23:16] are currently reserved for future use.
+- *		Bits [31:24] are reserved for defining generic
+- *			     PHY driver behavior.
++ *
++ *	 - Bits [15:0] are free to use by the PHY driver to communicate
++ *	   driver specific behavior.
++ *	 - Bits [23:16] are currently reserved for future use.
++ *	 - Bits [31:24] are reserved for defining generic
++ *	   PHY driver behavior.
+  * @irq: IRQ number of the PHY's interrupt (-1 if none)
+  * @phy_timer: The timer for handling the state machine
+  * @phylink: Pointer to phylink instance for this PHY
 
-All optional dependencies are met.
-Needed package dependencies are met.
-[siyanteng@sterling]$ . sphinx_2.4.4/bin/activate
-(sphinx_2.4.4) [siyanteng@sterling]$ make cleandocs
-(sphinx_2.4.4) [siyanteng@sterling]$ make htmldocs
+base-commit: 065db2d90c6b8384c9072fe55f01c3eeda16c3c0
+----8<-----
 
-Thanks=EF=BC=8C
-Yanteng
+Using bullet lists for bit fields is a reasonable approach,
+I guess.
+
+For bullet lists in ReST, which kernel-doc is based on, see
+https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#bullet-lists
+
+Just my 2c.
+
+BR, Akira
+
+> 
+> -- 
+> RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+> FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
