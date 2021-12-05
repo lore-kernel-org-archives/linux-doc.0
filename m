@@ -2,59 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92CF3C433EF
-	for <linux-doc@archiver.kernel.org>; Sun,  5 Dec 2021 13:45:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A732EC433EF
+	for <linux-doc@archiver.kernel.org>; Sun,  5 Dec 2021 13:45:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234248AbhLENtB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 5 Dec 2021 08:49:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53952 "EHLO
+        id S234255AbhLENtD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 5 Dec 2021 08:49:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234250AbhLENtA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Dec 2021 08:49:00 -0500
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C347C061714
-        for <linux-doc@vger.kernel.org>; Sun,  5 Dec 2021 05:45:33 -0800 (PST)
-Received: by mail-pg1-x530.google.com with SMTP id 137so7912477pgg.3
-        for <linux-doc@vger.kernel.org>; Sun, 05 Dec 2021 05:45:33 -0800 (PST)
+        with ESMTP id S234251AbhLENtC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Dec 2021 08:49:02 -0500
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD14EC061714
+        for <linux-doc@vger.kernel.org>; Sun,  5 Dec 2021 05:45:35 -0800 (PST)
+Received: by mail-pj1-x1034.google.com with SMTP id gt5so5796185pjb.1
+        for <linux-doc@vger.kernel.org>; Sun, 05 Dec 2021 05:45:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=zMuVD0TWQTA5Y8LGMslSEVwymZfpOrrh0wVfdWaQVpA=;
-        b=UBH5NwQWGUWJ8vUPPQqYdKhKu9/0K6Tz5TCAKzFHOTsu7J/zirDvrwvOqDJLbsWMl7
-         k/aH4hvblkKqmi8rsknsnVm5/Rtx9oxYzVyY+P9I9h0rExT5suqh1RuZtba7OP9PkHAg
-         2t08exkqKcXsztX+m5b1GvbAVxcGdAwHhR8iMyaLRlhvL7n/szQo/O2kzjyj8xWtSCF6
-         lIYJGz+zB8UFhle5SWBwwfQqeFhNSi1HnNmkV7Cj09MjeaZz7ApTbAkLCy3i11etOHwB
-         uxu1i+R4ahwY5YkmSyGGdudGepm+KcMziQCKAWHqIgN7WI3fsCnruWX6dBLz9JrCt02o
-         RFqg==
+        bh=MPYrBQHPudA2q8FkVv3LU+pDiDnMD5JotvTJvdYrXjo=;
+        b=mvqdgeybzGGh/JXQbqxXzF7y7883PuED+RpbCI4EViB917sa3lFT+n4fbU6V1sGhC8
+         bn7/soKmTB6n0AMPfNyL7SbxMY2s6z5H3d5449tbiZVj84/EeV660agrtEpN7zIZ/AMX
+         WqlxP1kL8nzNtrPAicHqBcPS1drC+MxVwqpPxCqpOw9UIJ90YP1moA3KXN6nfz7JD6m7
+         2PSPUTZpjcsset+uOzIvJaA9oX1z7+7BxKafwMQeLMGBb3XXblCMa0DH449Z6jUEU9fm
+         txxmTUhhlGqy0nQ62J4myLdobeK19QuIXhcnYk4Ng4egFFAuzBwkU5digzhEHnW4j+8L
+         rzHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=zMuVD0TWQTA5Y8LGMslSEVwymZfpOrrh0wVfdWaQVpA=;
-        b=WXMH5/3PxLhyIV12qOdMb+Q8BVAbmuQ4nufbkhGAYZ9O6W1col60orVqANHJUXpcc/
-         0A7NKJmakKUfB4nRZBHIRUgz48RS19LisknT9WouWRvwaMcMQWHZjxeGiIapdTwEoX4U
-         0VtPSPepBgrepef+MsDlG4u/p2K+EK/eOmF3egU3EGrkrRN0wg0rJVFhtOCcMNoRNtLo
-         o0ERa2DOIMQgctCSKGf7RcUyL0OW+MDlehgdCdEP5nbhC9agdLk52I2JsGAdbVy/h8qu
-         E4GJlg0s7GnDzNSIZLNWwrOxMMkU4wd2iKrPujs73lkSH4cFfMRGyYahJTXK7HRS8DFm
-         Mp5Q==
-X-Gm-Message-State: AOAM531PuoG4dVGw4fQ823ATWi5APmdwOVL4LGrZrmbcEk8dT6u32muw
-        wUgaCQY0Ne3GJL5dNPF/B/73G9GK9bD38Q==
-X-Google-Smtp-Source: ABdhPJxRl1waVai/nIFqLCycml3DrNfkXexkuPGR55Xsc6Kb9g++jJu4t177OJQ7jqZIwGwP4EwetQ==
-X-Received: by 2002:a63:4a42:: with SMTP id j2mr13963354pgl.113.1638711932556;
-        Sun, 05 Dec 2021 05:45:32 -0800 (PST)
+        bh=MPYrBQHPudA2q8FkVv3LU+pDiDnMD5JotvTJvdYrXjo=;
+        b=IHSbDwHhjLH52sO0qUJgdN19cHMvWLihzlfyMBV/RqoGcOrTSB7YP3+gfm7WFlzl5s
+         RHLnvOxCnQMCqCr2jKP4xTnC4jcv/SXGT2Q4ZmHHaTUPql3yZWn1EEVemKl6yg8Wq4pA
+         fIg5iXw8sqs2OPcyXQ0k8QK2qB3Z2Q7sFpiqq8FED2nFi4aJsSJGQcgxY3ymGrdain3o
+         FNVksex/JmvzBcXs07dyv/LoqFYlaKb2iMbB2f7WNpZ3onMv7NG+UiSHJNeVOXpOnbQT
+         palQ6RwaGbpE2yxubERTGAfUTJ05J/PBAUgzoLuBPj6CClwqQZXRVgw9UsoXkmaqRzQm
+         TlOA==
+X-Gm-Message-State: AOAM533T8OQehp7MiIn/BDe8U4KhOnZN+ni7bGno7INHDhECDe+kKqVY
+        8ry8e+gBsSfURqoIq6A9ZAc=
+X-Google-Smtp-Source: ABdhPJwqaBbn/JzNTiiaz+MKBd0PyETNLpDneljtNX/MbkgpKCdZISKWEaPIcRobyl5pf1XhSv4Ssw==
+X-Received: by 2002:a17:902:b581:b0:144:e601:de7 with SMTP id a1-20020a170902b58100b00144e6010de7mr36921896pls.71.1638711935290;
+        Sun, 05 Dec 2021 05:45:35 -0800 (PST)
 Received: from localhost.localdomain ([8.26.182.175])
-        by smtp.gmail.com with ESMTPSA id g19sm4265114pfc.145.2021.12.05.05.45.29
+        by smtp.gmail.com with ESMTPSA id g19sm4265114pfc.145.2021.12.05.05.45.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Dec 2021 05:45:32 -0800 (PST)
+        Sun, 05 Dec 2021 05:45:35 -0800 (PST)
 From:   Yanteng Si <siyanteng01@gmail.com>
 X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
 To:     corbet@lwn.net
 Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
         linux-doc@vger.kernel.org, siyanteng01@gmail.com
-Subject: [PATCH 04/11] docs/vm: delele three spaces from page_owner
-Date:   Sun,  5 Dec 2021 21:43:53 +0800
-Message-Id: <761f674199f426431c894c3a2eeda2e57ced925f.1638706875.git.siyanteng@loongson.cn>
+Subject: [PATCH 05/11] docs/filesystems: add four apostrophes to _start and _len
+Date:   Sun,  5 Dec 2021 21:43:54 +0800
+Message-Id: <61ac8efc45e28b661e4f81595a65dd804e3b13e8.1638706875.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1638706875.git.siyanteng@loongson.cn>
 References: <cover.1638706875.git.siyanteng@loongson.cn>
@@ -66,42 +66,27 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Fix warning as:
 
-linux-next/Documentation/vm/page_owner.rst:92: WARNING: Unexpected indentation.
-linux-next/Documentation/vm/page_owner.rst:96: WARNING: Unexpected indentation.
-linux-next/Documentation/vm/page_owner.rst:107: WARNING: Unexpected indentation.
+linux-next/Documentation/filesystems/netfs_library.rst:519: WARNING: Inline emphasis start-string without end-string.
+linux-next/Documentation/filesystems/netfs_library.rst:519: WARNING: Inline emphasis start-string without end-string.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 ---
- Documentation/vm/page_owner.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ Documentation/filesystems/netfs_library.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
-index 9837fc8147dd..9a3af6aafa09 100644
---- a/Documentation/vm/page_owner.rst
-+++ b/Documentation/vm/page_owner.rst
-@@ -89,11 +89,11 @@ Usage
+diff --git a/Documentation/filesystems/netfs_library.rst b/Documentation/filesystems/netfs_library.rst
+index 732139d58e74..10d97b87de2a 100644
+--- a/Documentation/filesystems/netfs_library.rst
++++ b/Documentation/filesystems/netfs_library.rst
+@@ -518,7 +518,7 @@ The methods defined in the table are:
  
- 	Page allocated via order XXX, ...
- 	PFN XXX ...
--	 // Detailed stack
-+	// Detailed stack
- 
- 	Page allocated via order XXX, ...
- 	PFN XXX ...
--	 // Detailed stack
-+	// Detailed stack
- 
-    The ``page_owner_sort`` tool ignores ``PFN`` rows, puts the remaining rows
-    in buf, uses regexp to extract the page order value, counts the times
-@@ -104,7 +104,7 @@ Usage
- 
- 	XXX times, XXX pages:
- 	Page allocated via order XXX, ...
--	 // Detailed stack
-+	// Detailed stack
- 
-    By default, ``page_owner_sort`` is sorted according to the times of buf.
-    If you want to sort by the pages nums of buf, use the ``-m`` parameter.
+    [Required] Called to prepare a write to the cache to take place.  This
+    involves checking to see whether the cache has sufficient space to honour
+-   the write.  *_start and *_len indicate the region to be written; the region
++   the write.  ``*_start`` and ``*_len`` indicate the region to be written; the region
+    can be shrunk or it can be expanded to a page boundary either way as
+    necessary to align for direct I/O.  i_size holds the size of the object and
+    is provided for reference.  no_space_allocated_yet is set to true if the
 -- 
 2.27.0
 
