@@ -2,82 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BC3CC433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Dec 2021 17:58:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A465C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Dec 2021 18:07:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239290AbhLFSCD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Dec 2021 13:02:03 -0500
-Received: from ms.lwn.net ([45.79.88.28]:53596 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236253AbhLFSCD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 6 Dec 2021 13:02:03 -0500
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1346530AbhLFSKb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Dec 2021 13:10:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29898 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229880AbhLFSKb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Dec 2021 13:10:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1638814022;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=PBGplgX21hKu/O0vqc5DMO4mb2aatMiYVoGa3cXoCCE=;
+        b=SgYP3kcv7OAPNMX4f790i9erlUHFvHt3IWGwsC1MW2REeXPXTc8Vgpy7qHbHs7h6d3X6Ad
+        7zcT9GYD/fD9d6RvK0NUslY5aw9qdFI8E95WgRGY328shQwaIFPYSF9KlmlrvItmMW9M8p
+        TLErz430JxovJeEa3J6imZqodZ7o8tM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-561-IP9VbVaBP3iQQmqwPCsydQ-1; Mon, 06 Dec 2021 13:06:57 -0500
+X-MC-Unique: IP9VbVaBP3iQQmqwPCsydQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 6FEB72E6;
-        Mon,  6 Dec 2021 17:58:34 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6FEB72E6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1638813514; bh=sywxED8ASzDJ/8ewyqQkB0gvjhrcELYubizZ/BagrVg=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=YPhoBGOaUJo3cxFLVoUmZ/J2t1+/LuwFkXVHdinoW4az2fLRZzOMxs6/+kcPWiMrZ
-         EcbIvjmwlQBrfBn8H8oEUS2yQj690Fyi0ztO1YKn+omV3coqT2i9g2K1ai9uwyH8Qz
-         xfp9hglJLHjnLm6HJdsN7Ptcxrfuzwvoj4EQaF7twd6ucQ4GLNPDUyZkJBXgf6QRB2
-         0JyDbQYf4Oxmf0sbolIMc5OLHCoT9e42CZeT1c4/+u7LTuqLVhsWNWf4LanHt0RtVK
-         K8MiXvwLN/m20E4bf5zymRHH7wZX1PXxPeeXtZEwLNn4kdMA+/MQtTMUgIuaP7C+nW
-         D9HzPWxYaGecQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Yanteng Si <siyanteng01@gmail.com>
-Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
-        linux-doc@vger.kernel.org, siyanteng01@gmail.com
-Subject: Re: [PATCH 04/11] docs/vm: delele three spaces from page_owner
-In-Reply-To: <761f674199f426431c894c3a2eeda2e57ced925f.1638706875.git.siyanteng@loongson.cn>
-References: <cover.1638706875.git.siyanteng@loongson.cn>
- <761f674199f426431c894c3a2eeda2e57ced925f.1638706875.git.siyanteng@loongson.cn>
-Date:   Mon, 06 Dec 2021 10:58:33 -0700
-Message-ID: <87pmq9399y.fsf@meer.lwn.net>
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F19E6190D37A;
+        Mon,  6 Dec 2021 18:06:37 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.91])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 0772C19EF9;
+        Mon,  6 Dec 2021 18:06:36 +0000 (UTC)
+From:   Cornelia Huck <cohuck@redhat.com>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     Alex Williamson <alex.williamson@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+        Yishai Hadas <yishaih@nvidia.com>
+Subject: Re: [PATCH RFC v2] vfio: Documentation for the migration region
+In-Reply-To: <20211206173422.GK4670@nvidia.com>
+Organization: Red Hat GmbH
+References: <0-v2-45a95932a4c6+37-vfio_mig_doc_jgg@nvidia.com>
+ <20211130102611.71394253.alex.williamson@redhat.com>
+ <20211130185910.GD4670@nvidia.com>
+ <20211130153541.131c9729.alex.williamson@redhat.com>
+ <20211201031407.GG4670@nvidia.com> <20211201130314.69ed679c@omen>
+ <20211201232502.GO4670@nvidia.com>
+ <20211203110619.1835e584.alex.williamson@redhat.com>
+ <87zgpdu3ez.fsf@redhat.com> <20211206173422.GK4670@nvidia.com>
+User-Agent: Notmuch/0.34 (https://notmuchmail.org)
+Date:   Mon, 06 Dec 2021 19:06:35 +0100
+Message-ID: <87tufltxp0.fsf@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Yanteng Si <siyanteng01@gmail.com> writes:
+On Mon, Dec 06 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-> Fix warning as:
+> On Mon, Dec 06, 2021 at 05:03:00PM +0100, Cornelia Huck wrote:
 >
-> linux-next/Documentation/vm/page_owner.rst:92: WARNING: Unexpected indentation.
-> linux-next/Documentation/vm/page_owner.rst:96: WARNING: Unexpected indentation.
-> linux-next/Documentation/vm/page_owner.rst:107: WARNING: Unexpected indentation.
-
-A general comment: "fixed a warning" is almost never a useful changelog
-entry.  Instead, talk about what you fixed that was causing the warning;
-that, not the warning itself, is the real problem.
-
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> ---
->  Documentation/vm/page_owner.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>> > If we're writing a specification, that's really a MAY statement,
+>> > userspace MAY issue a reset to abort the RESUMING process and return
+>> > the device to RUNNING.  They MAY also write the device_state directly,
+>> > which MAY return an error depending on various factors such as whether
+>> > data has been written to the migration state and whether that data is
+>> > complete.  If a failed transitions results in an ERROR device_state,
+>> > the user MUST issue a reset in order to return it to a RUNNING state
+>> > without closing the interface.
+>> 
+>> Are we actually writing a specification? If yes, we need to be more
+>> clear on what is mandatory (MUST), advised (SHOULD), or allowed
+>> (MAY). If I look at the current proposal, I'm not sure into which
+>> category some of the statements fall.
 >
-> diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
-> index 9837fc8147dd..9a3af6aafa09 100644
-> --- a/Documentation/vm/page_owner.rst
-> +++ b/Documentation/vm/page_owner.rst
-> @@ -89,11 +89,11 @@ Usage
->  
->  	Page allocated via order XXX, ...
->  	PFN XXX ...
-> -	 // Detailed stack
-> +	// Detailed stack
->  
->  	Page allocated via order XXX, ...
->  	PFN XXX ...
-> -	 // Detailed stack
-> +	// Detailed stack
+> I deliberately didn't use such formal language because this is far
+> from what I'd consider an acceptable spec. It is more words about how
+> things work and some kind of basis for agreement between user and
+> kernel.
 
-I don't think this is the right fix; instead, this text should be in a
-literal block.
+We don't really need formal language, but there are too many unclear
+statements, as the discussion above showed. Therefore my question: What
+are we actually writing? Even if it is not a formal specification, it
+still needs to be clear.
 
-Thanks,
+>
+> Under Linus's "don't break userspace" guideline whatever userspace
+> ends up doing becomes the spec the kernel is wedded to, regardless of
+> what we write down here.
 
-jon
+All the more important that we actually agree before this is merged! I
+don't want choices hidden deep inside the mlx5 driver dictating what
+other drivers should do, it must be reasonably easy to figure out
+(including what is mandatory, and what is flexible.)
+
+> Which basically means whatever mlx5 and qemu does after we go forward
+> is the definitive spec and we cannot change qemu in a way that is
+> incompatible with mlx5 or introduce a new driver that is incompatible
+> with qemu.
+
+TBH, I'm not too happy with the current QEMU state, either. We need to
+take a long, hard look first and figure out what we need to do to make
+the QEMU support non-experimental.
+
+We're discussing a complex topic here, and we really don't want to
+perpetuate an unclear uAPI. This is where my push for more precise
+statements is coming from.
+
