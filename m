@@ -2,151 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2B5BC433FE
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Dec 2021 11:17:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BBDAC433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Dec 2021 12:24:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242243AbhLFLU7 convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Dec 2021 06:20:59 -0500
-Received: from gloria.sntech.de ([185.11.138.130]:53836 "EHLO gloria.sntech.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234845AbhLFLU6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 6 Dec 2021 06:20:58 -0500
-Received: from [77.23.162.171] (helo=diego.localnet)
-        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <heiko@sntech.de>)
-        id 1muBzU-0003Gp-KA; Mon, 06 Dec 2021 12:17:04 +0100
-From:   Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Zong Li <zong.li@sifive.com>, Anup Patel <anup@brainfault.org>,
-        Atish Patra <Atish.Patra@wdc.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Alexander Potapenko <glider@google.com>,
-        Andrey Konovalov <andreyknvl@gmail.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Kees Cook <keescook@chromium.org>,
-        Guo Ren <guoren@linux.alibaba.com>,
-        Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
-        Mayuresh Chitale <mchitale@ventanamicro.com>,
-        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-        linux-efi@vger.kernel.org, linux-arch@vger.kernel.org,
-        Alexandre Ghiti <alexandre.ghiti@canonical.com>
-Cc:     Alexandre ghiti <alex@ghiti.fr>
-Subject: Re: [PATCH v2 00/10] Introduce sv48 support without relocatable kernel
-Date:   Mon, 06 Dec 2021 12:17:02 +0100
-Message-ID: <16228030.BXmPpbjjvJ@diego>
-In-Reply-To: <3283761f-0506-464b-d351-af8ddecafa9b@ghiti.fr>
-References: <20210929145113.1935778-1-alexandre.ghiti@canonical.com> <2700575.YIZvDWadBg@diego> <3283761f-0506-464b-d351-af8ddecafa9b@ghiti.fr>
+        id S235464AbhLFM2N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Dec 2021 07:28:13 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:36126 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234735AbhLFM2M (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Dec 2021 07:28:12 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 383C8B81095;
+        Mon,  6 Dec 2021 12:24:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4AB5C341C1;
+        Mon,  6 Dec 2021 12:24:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1638793482;
+        bh=NNkn8ZrC39abBKgNUEvj2xA272IAcSVlpr7eRH+++DU=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Z9HEgfvfOnMrwGZ8vMCrWWV5DBXuJO0hTcSeii4be/s5bSyhY4KDdRw7cJGwQq1Fl
+         egkEGy9TcrmCmd6FG9EpJ8QosMNK/94QijddMKjrWS8idmei+n9eMZP8SSCSaoWF9R
+         sSm7xFwjMUb0giS9M+AhVvQn5q6a98xGq9ga6h3MQ5S3f/hi9Qo1bsz3zAh+wesgcx
+         KDZ2277qsEXsuVgObFwbxG2c8f7mO0dZHgsln7r525HhLumEQUgTOFo1LrBxIQRnmu
+         X9uqz+Gn7fCiwkSwyrEgIx3Ig/FDLil+MRGLld9M+ECXRc2mT3ABikk5HcJ+dMdk8n
+         ANHwuarXGTr8w==
+Date:   Mon, 6 Dec 2021 13:24:38 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-media@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: media: Fix imbalance of LaTeX group
+Message-ID: <20211206132438.206f2474@coco.lan>
+In-Reply-To: <b3eeec4d-1a34-0a1a-3097-1ddea3b5f1c8@gmail.com>
+References: <b3eeec4d-1a34-0a1a-3097-1ddea3b5f1c8@gmail.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am Montag, 6. Dezember 2021, 11:49:55 CET schrieb Alexandre ghiti:
-> On 11/25/21 00:29, Heiko Stübner wrote:
-> > Am Mittwoch, 29. September 2021, 16:51:03 CET schrieb Alexandre Ghiti:
-> >> This patchset allows to have a single kernel for sv39 and sv48 without
-> >> being relocatable.
-> >>                                                                                   
-> >> The idea comes from Arnd Bergmann who suggested to do the same as x86,
-> >> that is mapping the kernel to the end of the address space, which allows
-> >> the kernel to be linked at the same address for both sv39 and sv48 and
-> >> then does not require to be relocated at runtime.
-> >>                                                                                   
-> >> This implements sv48 support at runtime. The kernel will try to
-> >> boot with 4-level page table and will fallback to 3-level if the HW does not
-> >> support it. Folding the 4th level into a 3-level page table has almost no
-> >> cost at runtime.
-> >>                                                                                   
-> >> Tested on:
-> >>    - qemu rv64 sv39: OK
-> >>    - qemu rv64 sv48: OK
-> >>    - qemu rv64 sv39 + kasan: OK
-> >>    - qemu rv64 sv48 + kasan: OK
-> >>    - qemu rv32: OK
-> >>    - Unmatched: OK
-> > On a beagleV (which supports only sv39) I've tested both the limit via
-> > the mmu-type in the devicetree and also that the fallback works when
-> > I disable the mmu-type in the dt, so
-> >
-> > Tested-by: Heiko Stuebner <heiko@sntech.de>
-> >
+Em Sat, 4 Dec 2021 12:37:35 +0900
+Akira Yokosawa <akiyks@gmail.com> escreveu:
+
+> The beginning part of the "existing HSV/HSL formats" table (line 7742)
+> reads:
 > 
-> Thanks Heiko for testing this, unfortunately I could not add this tag to 
-> the latest version as significant changes came up.
+>   .. raw:: latex
 > 
-> Thanks again for taking the time to test this,
-
-No worries, I can repeat that with your new version :-)
-
-Heiko
-
-
-> >>    
-> >>                                                                                   
-> >> Changes in v2:
-> >>    - Rebase onto for-next
-> >>    - Fix KASAN
-> >>    - Fix stack canary
-> >>    - Get completely rid of MAXPHYSMEM configs
-> >>    - Add documentation
-> >>
-> >> Alexandre Ghiti (10):
-> >>    riscv: Allow to dynamically define VA_BITS
-> >>    riscv: Get rid of MAXPHYSMEM configs
-> >>    asm-generic: Prepare for riscv use of pud_alloc_one and pud_free
-> >>    riscv: Implement sv48 support
-> >>    riscv: Use pgtable_l4_enabled to output mmu_type in cpuinfo
-> >>    riscv: Explicit comment about user virtual address space size
-> >>    riscv: Improve virtual kernel memory layout dump
-> >>    Documentation: riscv: Add sv48 description to VM layout
-> >>    riscv: Initialize thread pointer before calling C functions
-> >>    riscv: Allow user to downgrade to sv39 when hw supports sv48
-> >>
-> >>   Documentation/riscv/vm-layout.rst             |  36 ++
-> >>   arch/riscv/Kconfig                            |  35 +-
-> >>   arch/riscv/configs/nommu_k210_defconfig       |   1 -
-> >>   .../riscv/configs/nommu_k210_sdcard_defconfig |   1 -
-> >>   arch/riscv/configs/nommu_virt_defconfig       |   1 -
-> >>   arch/riscv/include/asm/csr.h                  |   3 +-
-> >>   arch/riscv/include/asm/fixmap.h               |   1 +
-> >>   arch/riscv/include/asm/kasan.h                |   2 +-
-> >>   arch/riscv/include/asm/page.h                 |  10 +
-> >>   arch/riscv/include/asm/pgalloc.h              |  40 +++
-> >>   arch/riscv/include/asm/pgtable-64.h           | 108 +++++-
-> >>   arch/riscv/include/asm/pgtable.h              |  30 +-
-> >>   arch/riscv/include/asm/sparsemem.h            |   6 +-
-> >>   arch/riscv/kernel/cpu.c                       |  23 +-
-> >>   arch/riscv/kernel/head.S                      |   4 +-
-> >>   arch/riscv/mm/context.c                       |   4 +-
-> >>   arch/riscv/mm/init.c                          | 323 +++++++++++++++---
-> >>   arch/riscv/mm/kasan_init.c                    |  91 +++--
-> >>   drivers/firmware/efi/libstub/efi-stub.c       |   2 +
-> >>   include/asm-generic/pgalloc.h                 |  24 +-
-> >>   include/linux/sizes.h                         |   1 +
-> >>   21 files changed, 615 insertions(+), 131 deletions(-)
-> >>
-> >>
-> >
-> >
-> >
+>       \begingroup
+>       \tiny
+>       \setlength{\tabcolsep}{2pt}
 > 
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+> However, the ending part (line 7834) reads:
 > 
+>   .. raw:: latex
+> 
+>       \normalsize
+> 
+> 
+> Fix the imbalance by replacing the \normalsize with \endgroup.
+> 
+> Note:
+>     Actually, the imbalance is harmless and just results in an
+>     informative message near the bottom of userspace-api.log:
+> 
+>       (\end occurred inside a group at level 1)
+> 
+>       ### semi simple group (level 1) entered at line 70696 (\begingroup)
+>       ### bottom level 
+> 
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> ---
+> Hi,
+> 
+> This imbalance has existed ever since commit 70b074df4ed1 ("media:
+> fix pdf build with Spinx 1.6") authored by Mauro.
+> As it has no visible effect in the generated PDF, I'm not putting
+> a Fixes: tag.
+> 
+> Mauro, are you OK with this fix going through the -doc tree?
+> Otherwise, feel free to carry it through the -media tree.
+> Either is fine by me.
+
+I'm picking this one. It is usually easier this way, as it avoids the
+risk of merge conflicts, as we update media API documentation together
+with any patches touching the API itself.
+
+Regards,
+Mauro
+
+> 
+>         Thanks, Akira
+> --
+>  Documentation/userspace-api/media/v4l/subdev-formats.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> index bd68588b2683..0cbc045d5df6 100644
+> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> @@ -7833,7 +7833,7 @@ The following table lists existing HSV/HSL formats.
+>  
+>  .. raw:: latex
+>  
+> -    \normalsize
+> +    \endgroup
+>  
+>  
+>  JPEG Compressed Formats
+> 
+> base-commit: 065db2d90c6b8384c9072fe55f01c3eeda16c3c0
 
 
 
-
+Thanks,
+Mauro
