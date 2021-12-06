@@ -2,147 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 395D4C433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Dec 2021 20:56:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00C95C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Dec 2021 20:57:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349862AbhLFVAZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Dec 2021 16:00:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54420 "EHLO
+        id S239110AbhLFVBT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Dec 2021 16:01:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349924AbhLFVAO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Dec 2021 16:00:14 -0500
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75D3CC0613F8
-        for <linux-doc@vger.kernel.org>; Mon,  6 Dec 2021 12:56:45 -0800 (PST)
-Received: by mail-ed1-x536.google.com with SMTP id g14so47695842edb.8
-        for <linux-doc@vger.kernel.org>; Mon, 06 Dec 2021 12:56:45 -0800 (PST)
+        with ESMTP id S235310AbhLFVBT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Dec 2021 16:01:19 -0500
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EE64C061746;
+        Mon,  6 Dec 2021 12:57:49 -0800 (PST)
+Received: by mail-wm1-x333.google.com with SMTP id d72-20020a1c1d4b000000b00331140f3dc8so752621wmd.1;
+        Mon, 06 Dec 2021 12:57:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=SPIEvU27nJzVjEldPndh6AIS3bn8rbbKEjqvujfESAs=;
-        b=sqwrKYiuzMi5dmssg4GlXv9w5rXRuhpdynng6r31rrdUObFVM64iPlAGLY+IA6nJ/m
-         1gWVgyo7h8UJSqiNk8kHnQBl3DslIrDGeQY/YI4e8xSZwdJRLRPILwtK2RvxOIlaDPjC
-         OBpGK2HLI8rTM8NspupF8U0OMeFFkOlxbGDEdtu/HKjDnBfhz0fkSnyY621D4Xsbi4/b
-         3ST5UtyYqeWW1cHbeOb480Uy4eW1eKVVgbiLR6jyCICedfyJJmGjtpyRESSiCOiDt3JU
-         DhRelVF98isI2imEImS6IZhbw31inMErIQFNgiZw9xj2I71NmXJtHWWx+Lg6R3ctNEeU
-         pQ1Q==
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=XqvFWwjigRYg/qDFlCbBpyfLDh6E1UzrKYM9j3gZVCQ=;
+        b=Ftn5O0PU35wFEBXLBVckAjE27WQTY4606alcTMJFw3R6Vqf/E2xVyLz9SW3QS+uFLt
+         lMz1uKf3x8dEnG6ez+3zfNwb4Yqim+B+rpAE9KxmrLHxzlyz70gAB5dcHR4vZ4GHX1zz
+         uGtAzitVp4YfLTMOZ9heQs4sIwotW/A/kZDeFCl9ao0S+36882dFXcS1epO+5rSAoTI4
+         tuD43xtEdk0XAmqAoXxIvA5we40SCHpm/+d2jj53MtxP7Y0z9KEst6zHGSd6mSAYUMOX
+         P9ZW3n4m27UibC8C9keBnE6aUY4pyyBlCMQl7g8r8PDghYnwON4MQyZpMgPpY4kjgqF3
+         PjTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=SPIEvU27nJzVjEldPndh6AIS3bn8rbbKEjqvujfESAs=;
-        b=VNFzpe0e+WBlzDvTKXWw31qM4XKZNqNvXqHIYQRofHi7U/tr0VFQnE+R9nBn42PM3r
-         UXFuO8zElnsf4FbAmIf4b07ULFsVTj7IOyYttZmbjPccxA9Zh+JGPvZYoVyn8z3uAxVJ
-         hZhdqCcF9U2xnnuRIGA4Yx9MJUay/dsj5kEXVLa1wA85M1uzomoNFhS2BMt7x1qKHeOn
-         W3xs4vaVDQLQ4ThV7aG3Eh0ogg5LS/uTv70dc55v03zbc3NxkGh8yDWj2E9DvDszHAOc
-         7DWC9UXtuyc4J6PI2ptyk4VZ+cM9IOah5wH5z/RbW1YDe8i6+7CkQYKibhefcoo0EEDL
-         rduA==
-X-Gm-Message-State: AOAM530FkTWRAJPgQrkMnvMF+NUCCnmwSqsgkhIfvNtk1cpX99OZ688J
-        lmewm991y/DQhf8cGuGLrJMkEUN7k3Q3Us5dr9wq
-X-Google-Smtp-Source: ABdhPJyGSChgdU/2qHILkiKTMa1sAUYPNsA9phsLkYfr2JydqmXGaS1LTwjvs5zpRZPdPLscuqOdPR5Q9zocilnkoek=
-X-Received: by 2002:a17:907:9196:: with SMTP id bp22mr46000620ejb.69.1638824203940;
- Mon, 06 Dec 2021 12:56:43 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=XqvFWwjigRYg/qDFlCbBpyfLDh6E1UzrKYM9j3gZVCQ=;
+        b=DoMQ3bY+oiHnktB5W1LNSMG98ehu8zWHfvQm0hRcFf9boq9Gxq41bSwFTNINKolPz3
+         rRvVCTEeQoXH0I4RBlpfAU0AqgfD69SUY0UVmEui6R8CGG3zasKKwLdvwMy07CTozBpp
+         FUuj1Un1wVrdfON5Za4g6sAiLdnYUn9SqGV5weeCXOpSITSyNR8shgwkKOtqFzrR2wM/
+         zdlyPt+zad/S9ZcDAMwnf5xgKMX1tbpN+48Lsn9dpNA+R63slrGA3SgB8V9g2cpng3CI
+         NYQ3sWLjXbsQaByVFKqnNudrc2ZVbkWyS3necEeCBGWpYoGNSmrZAmR834Mk0zhkLVtg
+         z47A==
+X-Gm-Message-State: AOAM530r6Q8IikvQkBaZ0SWgb4UziHIyahx3C2+mw00FU6qU6jZXVRVt
+        Bdywo85bk8wFYXDmrENvAcM=
+X-Google-Smtp-Source: ABdhPJwTKNdFslxk89avHLfOJP4PsaFEJtAuBbfAqlcBTpeq/8UaSuhpyxREzNwU+lFpuFPTsPg1BA==
+X-Received: by 2002:a05:600c:19cc:: with SMTP id u12mr1293915wmq.24.1638824268224;
+        Mon, 06 Dec 2021 12:57:48 -0800 (PST)
+Received: from matrix-ESPRIMO-P710 (p200300c78f4e06972f325cc5fe1c0146.dip0.t-ipconnect.de. [2003:c7:8f4e:697:2f32:5cc5:fe1c:146])
+        by smtp.gmail.com with ESMTPSA id e3sm12696754wrp.8.2021.12.06.12.57.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Dec 2021 12:57:47 -0800 (PST)
+Date:   Mon, 6 Dec 2021 21:57:45 +0100
+From:   Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     linux-usb@vger.kernel.org, gregkh@linuxfoundation.org
+Subject: [PATCH v3 0/5] Docs: usb: Code and text updates from usb-skeleton
+Message-ID: <cover.1638771720.git.philipp.g.hortmann@gmail.com>
 MIME-Version: 1.0
-References: <1630070917-9896-1-git-send-email-ross.philipson@oracle.com>
- <CAHC9VhTJG24iG=U0geO-ZhC6OogxOu4icBrNY22+qRNpWd5PBQ@mail.gmail.com> <456caf8c-b79a-e8b0-581f-3504240466ff@apertussolutions.com>
-In-Reply-To: <456caf8c-b79a-e8b0-581f-3504240466ff@apertussolutions.com>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Mon, 6 Dec 2021 15:56:33 -0500
-Message-ID: <CAHC9VhSZx7j2sEs1H3ON-eDoeWdtXPC7XNQcv5D1WbnP=4Lchg@mail.gmail.com>
-Subject: Re: [PATCH v4 00/14] x86: Trenchboot secure dynamic launch Linux
- kernel support
-To:     "Daniel P. Smith" <dpsmith@apertussolutions.com>
-Cc:     Ross Philipson <ross.philipson@oracle.com>,
-        trenchboot-devel@googlegroups.com, linux-kernel@vger.kernel.org,
-        x86@kernel.org, iommu@lists.linux-foundation.org,
-        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        luto@amacapital.net, kanth.ghatraju@oracle.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 2, 2021 at 11:11 AM Daniel P. Smith
-<dpsmith@apertussolutions.com> wrote:
-> Hi Paul!
+Explanation and example code updates from usb-skeleton
 
-/me waves
+v2: update patch #1 to #4
+    - corrected format of function names like the following example:
+      "`usb_bulk_msg` function" to "usb_bulk_msg()"
+v3: update patch #1 to #4 and created patch #5
+    - moved correction of format of function names to own patch #5
+    - reverted change of variable from retval to rv in patch #1
 
-> On 11/30/21 8:06 PM, Paul Moore wrote:
-> > On Fri, Aug 27, 2021 at 9:20 AM Ross Philipson
-> > <ross.philipson@oracle.com> wrote:
-> >>
-> >> The larger focus of the Trechboot project (https://github.com/TrenchBoot) is to
-> >> enhance the boot security and integrity in a unified manner. The first area of
-> >> focus has been on the Trusted Computing Group's Dynamic Launch for establishing
-> >> a hardware Root of Trust for Measurement, also know as DRTM (Dynamic Root of
-> >> Trust for Measurement).
-> >
-> > My apologies for such a late reply, but I'm just getting around to
-> > looking at this and I have a few questions on the basic design/flow
-> > (below) ...
->
-> No worries, thank you so much for taking the time to review.
->
-> >> The basic flow is:
-> >>
-> >>  - Entry from the dynamic launch jumps to the SL stub
-> >
-> > So I'm clear, at this point the combined stub+kernel+initramfs+cmdline
-> > image has already been loaded into memory and the SL stub is
-> > executing, yes?
->
-> That is correct.
->
-> > As TrenchBoot seems to be focused on boot measurement and not
-> > enforcing policy, I'm guessing this is considered out-of-scope (not to
-> > mention that the combined stub+kernel image makes this less
-> > interesting), but has any thought been given to leveraging the TXT
-> > launch control policy, or is it simply an empty run-everything policy?
->
-> The TrenchBoot model is a bit different and takes a more flexible
-> approach to allow users to build tailored solutions. For instance Secure
-> Launch is able to be used in a configuration that is similar to tboot.
-> Consider the functions of tboot, it has a portion that is the
-> post-launch kernel that handles the handover from the ACM and a portion
-> that provides the Verified Launch policy engine, which is only capable
-> of enforcing policy on what is contained in the Multiboot chain. The
-> TrenchBoot approach is to introduce the Secure Launch capability into a
-> kernel, in this case Linux, to handle the handover from the ACM, and
-> then transition to a running user space that can contain a distribution
-> specific policy enforcement. As an example, the TrenchBoot project
-> contributed to the uroot project a Secure Launch policy engine which
-> enables the creation of an initramfs image which can then be embedded
-> into a minimal configuration Secure Launch Linux kernel ...
+Philipp Hortmann (5):
+  Docs: usb: update usb_bulk_msg receiving example
+  Docs: usb: update comment and code near decrement our usage count for
+    the device
+  Docs: usb: update comment and code of function skel_delete
+  Docs: usb: update explanation for device_present to disconnected
+  Docs: usb: correct format of function names in the explanations
 
-Thank you for the answers, that was helpful.
-
-I think I initially misunderstood TrenchBoot, thinking that a Secure
-Launch'd kernel/userspace would be the "normal" OS that would
-transition to multi-user mode and be available for users and
-applications.  However, on reading your response it appears that the
-Secure Launch'd kernel/initramfs exists only to verify a secondary
-kernel/initramfs/userspace and then kexec() into that once verified.
-
-> Finally if your schedule allows it and it is not too much to ask, it
-> would be greatly appreciated if some code review could be provided.
-> Otherwise thank you for taking the time that you have to review the
-> approach.
-
-I have to admit that I'm not sure I'm the most appropriate person to
-review all of the Intel TXT related assembly, but I could give it a
-shot as time allows.  I would think Intel would be willing to help out
-here if one were to ask nicely :)
-
-Beyond that, and with my new understanding of how TrenchBoot is
-supposed to work, I guess my only other concern is how one might
-verify the integrity of the Secure Launch environment on the local
-system during boot.  My apologies if I missed some details about that
-in your docs, responses, etc. but is this something that TrenchBoot is
-planning on addressing (or has already addressed)?
+ .../driver-api/usb/writing_usb_driver.rst     | 69 +++++++++----------
+ 1 file changed, 33 insertions(+), 36 deletions(-)
 
 -- 
-paul moore
-www.paul-moore.com
+2.25.1
+
