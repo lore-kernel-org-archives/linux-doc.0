@@ -2,39 +2,39 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69C7CC433FE
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Dec 2021 14:52:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EAE7C433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Dec 2021 14:52:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344646AbhLFOzx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Dec 2021 09:55:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50462 "EHLO
+        id S1344657AbhLFOz5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Dec 2021 09:55:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344574AbhLFOzw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Dec 2021 09:55:52 -0500
+        with ESMTP id S1344662AbhLFOzz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Dec 2021 09:55:55 -0500
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84789C061354;
-        Mon,  6 Dec 2021 06:52:23 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D859C061746;
+        Mon,  6 Dec 2021 06:52:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
         References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
         Content-Type:Content-ID:Content-Description;
-        bh=aTX+GBheE+5rfH17iX8gNpId+mdnU8gPL4X6MEzfC+8=; b=E6vwOnNHKBEoc1va/tvLA68UM8
-        KfnYs+cSe8YbLZmTgkga719UdkowD4fjC+lX5oGzLFG1GMMCtywmuM0nHOxfL3FWDenPoN7Skg/Gy
-        rfITOofauLgS69jl8lBaj0DhMgHXfzSJboHZWl+i2u2psJQlv7T8rfLxHPnuMwvcueqUzVmp1Fy+l
-        x/pcK+f1eIK04tXMz9Z3cVXv0OOWF/9C9rl5w82rKsDR+Cta6DDw56RxbiA9dYP9TPVDzeYVoh5DJ
-        NVpKYHgleMyaU8PEcYmHAZQ3l4yo19nYW+zAqZRPU4beUZ1Y1ONT3eIVkTkNFV0Jst9qE2SMvJHbI
-        +akQNTlg==;
+        bh=HVyPhoN0G0V8pPJN7QDvhgJ8VtoOcDZqLE/8FLH58Wg=; b=bzbuHVnLiBiirVEcYDdGSmHeHX
+        WIrODQpx0Coyjl3oql6uVoCHPyI3XesuHAG7wTU5HdYXGHC6Ir3oLtSjC6XUEx9GG+fLjTajyhaJr
+        1II9GxiXv+blSdZusiMaq5oLCx2Z311UlTQEROIXbYZai6BQQUa7vNN67bbsg9FViiIaQBqwhG2QX
+        60/5nlP5oYDsms1LNlzXoBIpH7F9q7fvryPHD738VZ0oSU7zaadb299hEL3fHaSJbD7Cstu/84b1M
+        hkaaI6e4ScCa/1dB1fgmVd8un/I4bcDSMIKIC7+XhOK0dNnAyxQG8S7kxhmZ+1n3SJBT0wvTMDeFm
+        +tnoNWOw==;
 Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1muFLp-004vkS-RR; Mon, 06 Dec 2021 14:52:21 +0000
+        id 1muFLp-004vkH-J5; Mon, 06 Dec 2021 14:52:21 +0000
 From:   "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To:     linux-doc@vger.kernel.org,
         Alexander Viro <viro@zeniv.linux.org.uk>,
         Christoph Hellwig <hch@lst.de>
 Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
         linux-fsdevel@vger.kernel.org
-Subject: [PATCH 3/3] iov_iter: Move internal documentation
-Date:   Mon,  6 Dec 2021 14:52:20 +0000
-Message-Id: <20211206145220.1175209-4-willy@infradead.org>
+Subject: [PATCH 1/3] iov_iter: Add skeleton documentation
+Date:   Mon,  6 Dec 2021 14:52:18 +0000
+Message-Id: <20211206145220.1175209-2-willy@infradead.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211206145220.1175209-1-willy@infradead.org>
 References: <20211206145220.1175209-1-willy@infradead.org>
@@ -44,133 +44,54 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document the interfaces we want users to call (ie copy_mc_to_iter()
-and copy_from_iter_flushcache()), not the internal interfaces.
+This is just somewhere to include the kernel-doc from for now.
 
 Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 ---
- include/linux/uio.h | 41 +++++++++++++++++++++++++++++++++++++++++
- lib/iov_iter.c      | 41 -----------------------------------------
- 2 files changed, 41 insertions(+), 41 deletions(-)
+ Documentation/core-api/index.rst    |  1 +
+ Documentation/core-api/iov_iter.rst | 21 +++++++++++++++++++++
+ 2 files changed, 22 insertions(+)
+ create mode 100644 Documentation/core-api/iov_iter.rst
 
-diff --git a/include/linux/uio.h b/include/linux/uio.h
-index 9fbce8c92545..4e5ad9053c97 100644
---- a/include/linux/uio.h
-+++ b/include/linux/uio.h
-@@ -244,6 +244,22 @@ size_t _copy_mc_to_iter(const void *addr, size_t bytes, struct iov_iter *i);
- #define _copy_mc_to_iter _copy_to_iter
- #endif
+diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
+index 5de2c7a4b1b3..082143baa983 100644
+--- a/Documentation/core-api/index.rst
++++ b/Documentation/core-api/index.rst
+@@ -43,6 +43,7 @@ Library functionality that is used throughout the kernel.
+    this_cpu_ops
+    timekeeping
+    errseq
++   iov_iter
  
-+/**
-+ * copy_from_iter_flushcache() - Write destination through cpu cache.
-+ * @addr: destination kernel address
-+ * @bytes: total transfer length
-+ * @i: source iterator
-+ *
-+ * The pmem driver arranges for filesystem-dax to use this facility via
-+ * dax_copy_from_iter() for ensuring that writes to persistent memory
-+ * are flushed through the CPU cache. It is differentiated from
-+ * _copy_from_iter_nocache() in that guarantees all data is flushed for
-+ * all iterator types. The _copy_from_iter_nocache() only attempts to
-+ * bypass the cache for the ITER_IOVEC case, and on some archs may use
-+ * instructions that strand dirty-data in the cache.
-+ *
-+ * Return: Number of bytes copied (may be %0).
-+ */
- static __always_inline __must_check
- size_t copy_from_iter_flushcache(void *addr, size_t bytes, struct iov_iter *i)
- {
-@@ -253,6 +269,31 @@ size_t copy_from_iter_flushcache(void *addr, size_t bytes, struct iov_iter *i)
- 		return _copy_from_iter_flushcache(addr, bytes, i);
- }
- 
-+/**
-+ * copy_mc_to_iter() - Copy to iter with source memory error exception handling.
-+ * @addr: source kernel address
-+ * @bytes: total transfer length
-+ * @i: destination iterator
-+ *
-+ * The pmem driver deploys this for the dax operation
-+ * (dax_copy_to_iter()) for dax reads (bypass page-cache and the
-+ * block-layer). Upon #MC read(2) aborts and returns EIO or the bytes
-+ * successfully copied.
-+ *
-+ * The main differences between this and typical _copy_to_iter().
-+ *
-+ * * Typical tail/residue handling after a fault retries the copy
-+ *   byte-by-byte until the fault happens again. Re-triggering machine
-+ *   checks is potentially fatal so the implementation uses source
-+ *   alignment and poison alignment assumptions to avoid re-triggering
-+ *   hardware exceptions.
-+ *
-+ * * ITER_KVEC, ITER_PIPE, and ITER_BVEC can return short copies.
-+ *   Compare to copy_to_iter() where only ITER_IOVEC attempts might return
-+ *   a short copy.
-+ *
-+ * Return: Number of bytes copied (may be %0).
-+ */
- static __always_inline __must_check
- size_t copy_mc_to_iter(void *addr, size_t bytes, struct iov_iter *i)
- {
-diff --git a/lib/iov_iter.c b/lib/iov_iter.c
-index 66a740e6e153..03b0e1dac27e 100644
---- a/lib/iov_iter.c
-+++ b/lib/iov_iter.c
-@@ -715,31 +715,6 @@ static size_t copy_mc_pipe_to_iter(const void *addr, size_t bytes,
- 	return xfer;
- }
- 
--/**
-- * _copy_mc_to_iter - copy to iter with source memory error exception handling
-- * @addr: source kernel address
-- * @bytes: total transfer length
-- * @i: destination iterator
-- *
-- * The pmem driver deploys this for the dax operation
-- * (dax_copy_to_iter()) for dax reads (bypass page-cache and the
-- * block-layer). Upon #MC read(2) aborts and returns EIO or the bytes
-- * successfully copied.
-- *
-- * The main differences between this and typical _copy_to_iter().
-- *
-- * * Typical tail/residue handling after a fault retries the copy
-- *   byte-by-byte until the fault happens again. Re-triggering machine
-- *   checks is potentially fatal so the implementation uses source
-- *   alignment and poison alignment assumptions to avoid re-triggering
-- *   hardware exceptions.
-- *
-- * * ITER_KVEC, ITER_PIPE, and ITER_BVEC can return short copies.
-- *   Compare to copy_to_iter() where only ITER_IOVEC attempts might return
-- *   a short copy.
-- *
-- * Return: number of bytes copied (may be %0)
-- */
- size_t _copy_mc_to_iter(const void *addr, size_t bytes, struct iov_iter *i)
- {
- 	if (unlikely(iov_iter_is_pipe(i)))
-@@ -789,22 +764,6 @@ size_t _copy_from_iter_nocache(void *addr, size_t bytes, struct iov_iter *i)
- EXPORT_SYMBOL(_copy_from_iter_nocache);
- 
- #ifdef CONFIG_ARCH_HAS_UACCESS_FLUSHCACHE
--/**
-- * _copy_from_iter_flushcache - write destination through cpu cache
-- * @addr: destination kernel address
-- * @bytes: total transfer length
-- * @i: source iterator
-- *
-- * The pmem driver arranges for filesystem-dax to use this facility via
-- * dax_copy_from_iter() for ensuring that writes to persistent memory
-- * are flushed through the CPU cache. It is differentiated from
-- * _copy_from_iter_nocache() in that guarantees all data is flushed for
-- * all iterator types. The _copy_from_iter_nocache() only attempts to
-- * bypass the cache for the ITER_IOVEC case, and on some archs may use
-- * instructions that strand dirty-data in the cache.
-- *
-- * Return: number of bytes copied (may be %0)
-- */
- size_t _copy_from_iter_flushcache(void *addr, size_t bytes, struct iov_iter *i)
- {
- 	if (unlikely(iov_iter_is_pipe(i))) {
+ Concurrency primitives
+ ======================
+diff --git a/Documentation/core-api/iov_iter.rst b/Documentation/core-api/iov_iter.rst
+new file mode 100644
+index 000000000000..541c16caf958
+--- /dev/null
++++ b/Documentation/core-api/iov_iter.rst
+@@ -0,0 +1,21 @@
++.. SPDX-License-Identifier: GPL-2.0+
++
++========
++iov_iter
++========
++
++:Author: Matthew Wilcox
++
++Overview
++========
++
++The iov_iter is used to represent the source or destination for a read or
++write.  It can point to many different kinds of memory, including user
++memory, kernel memory, pipes and biovecs.
++
++Functions and structures
++========================
++
++.. kernel-doc:: include/linux/uio.h
++.. kernel-doc:: lib/iov_iter.c
++   :export:
 -- 
 2.33.0
 
