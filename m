@@ -2,141 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6E2DC4332F
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Dec 2021 10:57:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6072C4332F
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Dec 2021 10:58:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241986AbhLFLBR convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Dec 2021 06:01:17 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:4201 "EHLO
-        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241972AbhLFLBN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Dec 2021 06:01:13 -0500
-Received: from fraeml711-chm.china.huawei.com (unknown [172.18.147.200])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4J70hy1Svhz67wK2;
-        Mon,  6 Dec 2021 18:56:02 +0800 (CST)
-Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
- fraeml711-chm.china.huawei.com (10.206.15.60) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Mon, 6 Dec 2021 11:57:41 +0100
-Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
- fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2308.020;
- Mon, 6 Dec 2021 11:57:41 +0100
-From:   Roberto Sassu <roberto.sassu@huawei.com>
-To:     Roberto Sassu <roberto.sassu@huawei.com>,
-        Christoph Hellwig <hch@infradead.org>
-CC:     "deven.desai@linux.microsoft.com" <deven.desai@linux.microsoft.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "axboe@kernel.dk" <axboe@kernel.dk>,
-        "agk@redhat.com" <agk@redhat.com>,
-        "snitzer@redhat.com" <snitzer@redhat.com>,
-        "ebiggers@kernel.org" <ebiggers@kernel.org>,
-        "tytso@mit.edu" <tytso@mit.edu>,
-        "paul@paul-moore.com" <paul@paul-moore.com>,
-        "eparis@redhat.com" <eparis@redhat.com>,
-        "jmorris@namei.org" <jmorris@namei.org>,
-        "serge@hallyn.com" <serge@hallyn.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dm-devel@redhat.com" <dm-devel@redhat.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-fscrypt@vger.kernel.org" <linux-fscrypt@vger.kernel.org>,
-        "linux-audit@redhat.com" <linux-audit@redhat.com>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "tusharsu@linux.microsoft.com" <tusharsu@linux.microsoft.com>
-Subject: RE: [RFC][PATCH] device mapper: Add builtin function dm_get_status()
-Thread-Topic: [RFC][PATCH] device mapper: Add builtin function dm_get_status()
-Thread-Index: AQHX5tHI6VSZDPA0J0GM0KIP7fuaeKweu+CAgAAaFvD///01gIAAEg9QgAFg9oCAAC4FMIAE3cYA
-Date:   Mon, 6 Dec 2021 10:57:41 +0000
-Message-ID: <e38392762299459890eee792a3a7cb09@huawei.com>
-References: <81d5e825-1ee2-8f6b-cd9d-07b0f8bd36d3@linux.microsoft.com>
- <20211201163708.3578176-1-roberto.sassu@huawei.com>
- <Yahz1SYRG1CQIh0z@infradead.org>
- <e57d2d23ec7845febb79ca4476c73fcb@huawei.com>
- <YaiHX+dWNUlmsNac@infradead.org>
- <b4bf4a384b334cdab1522b3b082bd088@huawei.com>
- <Yam+m9eiLxIamGXm@infradead.org>
- <28208b7f142f4295ac5c857af5cffe07@huawei.com>
-In-Reply-To: <28208b7f142f4295ac5c857af5cffe07@huawei.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.204.63.33]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        id S242028AbhLFLCC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Dec 2021 06:02:02 -0500
+Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122]:46492
+        "EHLO smtp-relay-internal-0.canonical.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S242013AbhLFLCA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Dec 2021 06:02:00 -0500
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com [209.85.221.70])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id BF63C3F1EE
+        for <linux-doc@vger.kernel.org>; Mon,  6 Dec 2021 10:58:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1638788311;
+        bh=vaFAezChlajkTZ7fI5kVmIBThbHyfEUEZ5Atc7Q1k0c=;
+        h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+         MIME-Version;
+        b=Jj3xp2pW1fRZUx8KDqhW4jW2QZA+5uRtR7dSuwpcPTTohZJMjHKBgIiIHRB67GUCY
+         Jxej48s/iZHFIW2LUke5xPC9m2ugMLKWHIBk6B9DJoYjHR6Q7YV3FGRiq6dnXA4jj5
+         ikaEFj9fO/PZgeShQQpHVk+POvt/z99tExSPwSeNmUOetPed4ay0wyDha8RdsqXU09
+         ExrQYjR8dH2zM4Vb/4Yh684+HP1bCX74PEKAUaoC89gLRqeerQU69c9BuOU79mlxru
+         DqOVDnRfC5frcPYeXtqEmVHHuScj3oTOqTpMP46jjhwcDgisxFAfm2u5vU9s5YTguR
+         iU2ZCoRls3gUA==
+Received: by mail-wr1-f70.google.com with SMTP id h13-20020adfa4cd000000b001883fd029e8so1908216wrb.11
+        for <linux-doc@vger.kernel.org>; Mon, 06 Dec 2021 02:58:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=vaFAezChlajkTZ7fI5kVmIBThbHyfEUEZ5Atc7Q1k0c=;
+        b=YANhazXwCzbCOxwToplL9AsNI1Wp+A4kXFKxHGeOGXU88FWgzW55ZnGkfzZb1r9BYf
+         sbay6jtZjOUHjjVtfF5UBeVI/EP5/RxQxkSh/rjl0MGnd4ZV1Lt10L1c4DvZuZUHp9uM
+         Fr2iXgedydjH2P69P8I8pvMaPnzrUIxhj5pbRth2eQKAzwIOO+hN7M4wp+PG/Cj2hj1E
+         U8xiYK2KnLgEP0RggNh0Cvqk5Mr0HbzxMAPUheo4bShcru7+mpdcXVThgEZmz67AHZw/
+         U7ZqWU48xQcyffJUNpddPcaa0V0a6DN+Rvwj904H6nvsNmq9bHsmVbOZ5w1Br7gCUbAN
+         OFGA==
+X-Gm-Message-State: AOAM531pKHP2CEcpnyUIyA2rCh+R8X0CvqXtJn7tCt9WHE6pmdqEsEcE
+        3vJtbwsb6wSNSzFpJyal6gvWWeMf3wR5OLlKa8ywYLoATwyC3M6K9o+k7mohnuCNY0AIKvcG4q1
+        5Zrn44SrIDMqkZ96GqoSeX20WDvwWFcS0KlXXPQ==
+X-Received: by 2002:a5d:4c87:: with SMTP id z7mr42470476wrs.108.1638788310551;
+        Mon, 06 Dec 2021 02:58:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxTo58Hg1PMnpuTdwL1M+XagtJxq1YdEIKgI5MBOpZMxGV21fm3kTBfxG4m0nNb6mKYd2DewQ==
+X-Received: by 2002:a5d:4c87:: with SMTP id z7mr42470463wrs.108.1638788310400;
+        Mon, 06 Dec 2021 02:58:30 -0800 (PST)
+Received: from localhost.localdomain (lfbn-lyo-1-470-249.w2-7.abo.wanadoo.fr. [2.7.60.249])
+        by smtp.gmail.com with ESMTPSA id p27sm10378487wmi.28.2021.12.06.02.58.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Dec 2021 02:58:30 -0800 (PST)
+From:   Alexandre Ghiti <alexandre.ghiti@canonical.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Zong Li <zong.li@sifive.com>, Anup Patel <anup@brainfault.org>,
+        Atish Patra <Atish.Patra@rivosinc.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Alexander Potapenko <glider@google.com>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Kees Cook <keescook@chromium.org>,
+        Guo Ren <guoren@linux.alibaba.com>,
+        Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
+        Mayuresh Chitale <mchitale@ventanamicro.com>,
+        panqinglin2020@iscas.ac.cn, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kasan-dev@googlegroups.com, linux-efi@vger.kernel.org,
+        linux-arch@vger.kernel.org
+Cc:     Alexandre Ghiti <alexandre.ghiti@canonical.com>
+Subject: [PATCH v3 11/13] Documentation: riscv: Add sv48 description to VM layout
+Date:   Mon,  6 Dec 2021 11:46:55 +0100
+Message-Id: <20211206104657.433304-12-alexandre.ghiti@canonical.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20211206104657.433304-1-alexandre.ghiti@canonical.com>
+References: <20211206104657.433304-1-alexandre.ghiti@canonical.com>
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> From: Roberto Sassu [mailto:roberto.sassu@huawei.com]
-> Sent: Friday, December 3, 2021 11:20 AM
-> > From: Christoph Hellwig [mailto:hch@infradead.org]
-> > Sent: Friday, December 3, 2021 7:52 AM
-> > On Thu, Dec 02, 2021 at 09:29:52AM +0000, Roberto Sassu wrote:
-> > > The problem being solved is how to grant access to files
-> > > which satisfy a property defined in the policy.
-> >
-> > If you have want to enforce access to files in the block layer using
-> > a specific stacking block driver you don't just have one layering
-> > violation but a bunch of them.  Please go back to the drawing board.
-> 
-> Ok. I write my thoughts here, so that it is easier to align.
-> 
-> dm-verity provides block-level integrity, which means that
-> the block layer itself is responsible to not pass data to the
-> upper layer, the filesystem, if a block is found corrupted.
-> 
-> The dm-verity root digest represents the immutable state
-> of the block device. dm-verity is still responsible to enforce
-> accesses to the block device according to the root digest
-> passed at device setup time. Nothing changes, the block
-> layer still detects data corruption against the passed
-> reference value.
-> 
-> The task of the security layer is to decide whether or not
-> the root digest passed at device setup time is acceptable,
-> e.g. it represents a device containing genuine files coming
-> from a software vendor.
-> 
-> The mandatory policy can be enforced at different layers,
-> depending on whether the security controls are placed.
-> A possibility would be to deny mounting block devices that
-> don't satisfy the mandatory policy.
-> 
-> However, if the mandatory policy wants only to restrict
-> execution of approved files and allowing the rest, making
-> the decision at the block layer is too coarse and restrictive.
-> It would force the user to mount only approved block
-> devices. The security layer must operate on files to enforce
-> this policy.
-> 
-> Now probably there is the part where there is no agreement.
-> 
-> The integrity property of a block device applies also to the
-> files on the filesystem mounted from that device. User space
-> programs cannot access files in that filesystem coming from a
-> device with a different dm-verity root digest, or files stored
-> in a corrupted block device.
-> 
-> If what I wrote is correct, that the integrity property is preserved
-> across the layers, this would give enough flexibility to enforce
-> policies at a higher layer, although that property is guaranteed
-> by a lower layer.
+sv48 was just introduced, so add its virtual memory layout to the
+documentation.
 
-Hi Christoph
+Signed-off-by: Alexandre Ghiti <alexandre.ghiti@canonical.com>
+---
+ Documentation/riscv/vm-layout.rst | 36 +++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
-did I address your concerns? If yes, I could send the new patch
-set, including the patch that uses the new functionality.
+diff --git a/Documentation/riscv/vm-layout.rst b/Documentation/riscv/vm-layout.rst
+index 1bd687b97104..5b36e45fef60 100644
+--- a/Documentation/riscv/vm-layout.rst
++++ b/Documentation/riscv/vm-layout.rst
+@@ -61,3 +61,39 @@ RISC-V Linux Kernel SV39
+    ffffffff00000000 |   -4    GB | ffffffff7fffffff |    2 GB | modules, BPF
+    ffffffff80000000 |   -2    GB | ffffffffffffffff |    2 GB | kernel
+   __________________|____________|__________________|_________|____________________________________________________________
++
++
++RISC-V Linux Kernel SV48
++------------------------
++
++::
++
++ ========================================================================================================================
++      Start addr    |   Offset   |     End addr     |  Size   | VM area description
++ ========================================================================================================================
++                    |            |                  |         |
++   0000000000000000 |    0       | 00007fffffffffff |  128 TB | user-space virtual memory, different per mm
++  __________________|____________|__________________|_________|___________________________________________________________
++                    |            |                  |         |
++   0000800000000000 | +128    TB | ffff7fffffffffff | ~16M TB | ... huge, almost 64 bits wide hole of non-canonical
++                    |            |                  |         | virtual memory addresses up to the -128 TB
++                    |            |                  |         | starting offset of kernel mappings.
++  __________________|____________|__________________|_________|___________________________________________________________
++                                                              |
++                                                              | Kernel-space virtual memory, shared between all processes:
++  ____________________________________________________________|___________________________________________________________
++                    |            |                  |         |
++   ffff8d7ffee00000 |  -114.5 TB | ffff8d7ffeffffff |    2 MB | fixmap
++   ffff8d7fff000000 |  -114.5 TB | ffff8d7fffffffff |   16 MB | PCI io
++   ffff8d8000000000 |  -114.5 TB | ffff8f7fffffffff |    2 TB | vmemmap
++   ffff8f8000000000 |  -112.5 TB | ffffaf7fffffffff |   32 TB | vmalloc/ioremap space
++   ffffaf8000000000 |  -80.5  TB | ffffef7fffffffff |   64 TB | direct mapping of all physical memory
++   ffffef8000000000 |  -16.5  TB | fffffffeffffffff | 16.5 TB | kasan
++  __________________|____________|__________________|_________|____________________________________________________________
++                                                              |
++                                                              | Identical layout to the 39-bit one from here on:
++  ____________________________________________________________|____________________________________________________________
++                    |            |                  |         |
++   ffffffff00000000 |   -4    GB | ffffffff7fffffff |    2 GB | modules, BPF
++   ffffffff80000000 |   -2    GB | ffffffffffffffff |    2 GB | kernel
++  __________________|____________|__________________|_________|____________________________________________________________
+-- 
+2.32.0
 
-Thanks
-
-Roberto
-
-HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
-Managing Director: Li Peng, Zhong Ronghua
