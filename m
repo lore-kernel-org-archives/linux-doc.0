@@ -2,80 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E1D6C433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Dec 2021 19:36:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EDD0C4332F
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Dec 2021 19:52:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345766AbhLFTjc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Dec 2021 14:39:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35328 "EHLO
+        id S1348747AbhLFTzw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Dec 2021 14:55:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240539AbhLFTjc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Dec 2021 14:39:32 -0500
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65994C061746
-        for <linux-doc@vger.kernel.org>; Mon,  6 Dec 2021 11:36:03 -0800 (PST)
-Received: by mail-ed1-x529.google.com with SMTP id t5so47436045edd.0
-        for <linux-doc@vger.kernel.org>; Mon, 06 Dec 2021 11:36:03 -0800 (PST)
+        with ESMTP id S1348728AbhLFTzw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Dec 2021 14:55:52 -0500
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7823C061359
+        for <linux-doc@vger.kernel.org>; Mon,  6 Dec 2021 11:52:22 -0800 (PST)
+Received: by mail-lf1-x131.google.com with SMTP id m27so27940118lfj.12
+        for <linux-doc@vger.kernel.org>; Mon, 06 Dec 2021 11:52:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
+        d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=1WZbGUI2jgxA10QTAICPwSg3f480L4ADSnktyOVLe2k=;
-        b=GngTKpgvPeiX/nUFKS+/vZnjYQHy0JwjnyeBTrCSICMt+OObJuz/ZY47Ab5zOCNTZk
-         UNj/aJtmFS+GluXZPxqGJ5qZbuC7A0P8k3vbJ11Oz2fUgr7DYKTirs+rbaAUrk8ZURxu
-         zErFOsaHNkR15LzUr0E7qwxHEJNdkLaKcmwSM=
+        bh=qCi545GbK80p7g1dOndZmxZ1t+GhgtzglTvcr5pYytw=;
+        b=BeOKbti2cLjxynXRhm3uVU/EUMQvrRDofJNFCXD70PoFjKCjIkViJzExWINqSM41cT
+         M3tsA3XXX728I+CF7b3WuTC0hZCo4DzYk8wCuxW+yfH1IbsWDO6KfXuxH856xk/DZp20
+         M/2ExrQz6BX6H1dHggEaZL0QsDljVu9i6MJ7TyyNCkY1DmLrISnlMjca/mU3gdYAx8JE
+         szTRQLeSZHqYxNJnAXaAufrUUJaMbKSAGtqmRgl/MhABVM+32IMpOkIoPswXlcRGDxTJ
+         /Y3Qj26Hg4ihT90ZPGsVrFNHbEEs9VKWfvpu4BBLkMgCmwB5zY+fyhgq1R/3NqABjo2C
+         bE+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=1WZbGUI2jgxA10QTAICPwSg3f480L4ADSnktyOVLe2k=;
-        b=HO+Ha8XKOM3TaKFjf39FjMoWtPqHZ73N/K2eyDrsc4rycaLVD9XBFJTQyZxW+PaxCT
-         FocYvcTrT6gDBv7AtSCbSgbmdXkZYlCDFXk2UWshsrMp0IGaule9v5NhKmOdQ1SGd2rx
-         pkj74roYGwpGW2CtT6BJ89feABhvNcBYETVu6JoGIo+cVggx23TUEm5B7RogfEQCrEsh
-         qFkU0qtMCI+iw7YPRnIsox6oB2nn5b/1LpilbYn/p9BKfzon9C+CqUa8ap6R1K2Bhdrz
-         fpPVq6GdwNLnQ2d5IUVY5gvqXi9z10Jld96khHEZuMrKJMuatdxJMxjVxR+/ie1sp/xv
-         SM1w==
-X-Gm-Message-State: AOAM530YEbt85Jv5Qq+CmlHiEDGiEEMr+Y5hsMBRzETNI8GhrQdHz/ot
-        B609rj8IwYn4pe0CmyG/7B8pUwAttxJk2CUD
-X-Google-Smtp-Source: ABdhPJz30czbMYGH5xqSf/1JsIAMFXxzxYLz64qMr8BNBOcWltRO2Xf9aBfSBx144iQTp673oPvPsQ==
-X-Received: by 2002:a17:906:2788:: with SMTP id j8mr46658360ejc.203.1638819361782;
-        Mon, 06 Dec 2021 11:36:01 -0800 (PST)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com. [209.85.221.46])
-        by smtp.gmail.com with ESMTPSA id hs8sm7301133ejc.53.2021.12.06.11.36.01
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Dec 2021 11:36:01 -0800 (PST)
-Received: by mail-wr1-f46.google.com with SMTP id t18so734004wrg.11
-        for <linux-doc@vger.kernel.org>; Mon, 06 Dec 2021 11:36:01 -0800 (PST)
-X-Received: by 2002:adf:9d88:: with SMTP id p8mr47263440wre.140.1638819360971;
- Mon, 06 Dec 2021 11:36:00 -0800 (PST)
+        bh=qCi545GbK80p7g1dOndZmxZ1t+GhgtzglTvcr5pYytw=;
+        b=dwdJcZkWqEGawX02tWrUi/zNoW7vI+Y8NeOhW3lWzB2sUYPPpKYp+mZCD/uadqWaPK
+         5f5IodD2aLGeSOTzKkLR+lVgXBxDdJxqK9USa6TjKP59CirX1ZEA2MLgfv+fbI+Z+Ut1
+         ZtG3S1zdLfzfEeYM6hn6chGEdfJB0SrrX9AGbca1pv3s3x3wsSLGZeqdCKH1IneeRiDY
+         TXt/8gfiEil6onhx7tUR1QHpZMkfyeakvCoJJmSwR4goptSAdjJdBOc2Uw+ffLP2xxbW
+         VjlFxMUv0sMIreOjFkp/EWxJeCFu74WNkKUEqbfNIAsj3UMvYRcoAU48FD5C5Xi9DwSb
+         +NlQ==
+X-Gm-Message-State: AOAM531SExHQN0qjxIrbi9SZ7SMOpk7d5SrvJYcrT/YGZvbY+zWkhHzH
+        x/LEQhuMAqORigvQyjT6f0ClnE4p2LjLxTpYo0AjE1fa31MpmQ==
+X-Google-Smtp-Source: ABdhPJzxQx0rWjWRUrzzOUFgjYLY+vk8jRMLZ9DjSV/X+VNkcdE4K2MaupeR9XFTfer1Qnc8G4Woge338nytB1DpSxE=
+X-Received: by 2002:a05:6512:1506:: with SMTP id bq6mr37711959lfb.444.1638820340271;
+ Mon, 06 Dec 2021 11:52:20 -0800 (PST)
 MIME-Version: 1.0
-References: <87y24x39wi.fsf@meer.lwn.net> <874k7l35t5.fsf@meer.lwn.net>
-In-Reply-To: <874k7l35t5.fsf@meer.lwn.net>
-From:   Linus Torvalds <torvalds@linuxfoundation.org>
-Date:   Mon, 6 Dec 2021 11:35:45 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wjPc=K6J39Gw7TasXd0QWthG7WFHxZPGofYteJYmyx+yg@mail.gmail.com>
-Message-ID: <CAHk-=wjPc=K6J39Gw7TasXd0QWthG7WFHxZPGofYteJYmyx+yg@mail.gmail.com>
-Subject: Re: [GIT PULL] Documentation fixes for 5.16
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <20211206140313.5653-1-ojeda@kernel.org> <20211206140313.5653-12-ojeda@kernel.org>
+ <Ya4mAqoOa8zIeZGZ@kroah.com> <CANiq72kCmLgrv++mFygR6dt0xOhfv04o9j6jYLQ1N+zLNvqohQ@mail.gmail.com>
+ <Ya40Bcv+eFkqc9jv@kroah.com>
+In-Reply-To: <Ya40Bcv+eFkqc9jv@kroah.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Mon, 6 Dec 2021 11:52:09 -0800
+Message-ID: <CAKwvOdkLF_DPP1FF60720q3zxZG2qaSNTthxJPxLb4Bj=AFE=Q@mail.gmail.com>
+Subject: Re: [PATCH 11/19] vsprintf: add new `%pA` format specifier
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Gary Guo <gary@garyguo.net>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 6, 2021 at 11:13 AM Jonathan Corbet <corbet@lwn.net> wrote:
+On Mon, Dec 6, 2021 at 8:14 AM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
 >
-> Somehow I managed to not CC the usual lists on this one, so, for the
-> record...
+> On Mon, Dec 06, 2021 at 04:56:32PM +0100, Miguel Ojeda wrote:
+> > On Mon, Dec 6, 2021 at 4:46 PM Greg Kroah-Hartman
+> > <gregkh@linuxfoundation.org> wrote:
+> > >
+> > > That should be in a .h file somewhere.  Remember, don't put #ifdef in .c
+> > > files please.
 
-.. and now that it was sent quoted (instead of re-sending the original
-email), pr-tracker-bot doesn't recognize it as a pull request any more
-and doesn't react to it.
+Why not put #ifdef in .c files?
 
-So no pr-tracker-bot replies for you.
+> > Will do, thanks for reviewing!
+> >
+> > > Same here, this should not be needed if you put it in a .h file
+> > > correctly.
 
-Only this manual one.
+I guess IS_ENABLED could be used in the .c code, but I don't see how
+they could move the dispatch to rust_fmt_argument to a header without
+moving the definition of pointer() to a header, which they probably
+_cant_ do because it's noinline_for_stack.
 
-             Linus
+> >
+> > This one is mimicking the `CONFIG_BLOCK` one (`case 'g'` a bit above)
+> > -- but we can change it, of course.
+>
+> That should be changed as well :)
+
+Isn't the point to minimize code that's unused for certain configurations?
+
+-- 
+Thanks,
+~Nick Desaulniers
