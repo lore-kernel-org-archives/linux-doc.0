@@ -2,68 +2,191 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A771C4332F
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Dec 2021 16:05:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0A0AC433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Dec 2021 16:05:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1385761AbhLFQIe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Dec 2021 11:08:34 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:38706 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351129AbhLFQG2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Dec 2021 11:06:28 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1388072AbhLFQIv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Dec 2021 11:08:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26864 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1356033AbhLFQGm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Dec 2021 11:06:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1638806592;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=02KFbQkcvarDRNu3NjO4Zr3Tz4ybPNYjJAuDB4XSJ38=;
+        b=EeOMi5AQ9FEzXFkL8V5ELtMw2YNqXkOJ5lWlI6UfZMTlopXYJSDcWdjlOuoZuaJu9+iq/d
+        pEX9+RMdsOrvUZDaIeS5O20chveEHvFSDp0iEQsUSPTHZGDQKYxGiqykh5x5Kkh7Jo67Z4
+        oAXBYEIiifVfAkhO/AXuvBItIBNbrIU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-459-yvQJioNhMX-1cSUx6IT8Bw-1; Mon, 06 Dec 2021 11:03:09 -0500
+X-MC-Unique: yvQJioNhMX-1cSUx6IT8Bw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 094C6B8106E;
-        Mon,  6 Dec 2021 16:02:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EA70C341C1;
-        Mon,  6 Dec 2021 16:02:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1638806572;
-        bh=aEA+zbr/2e313qxCZtQKliOVh8taWZktVYjisW7n1q4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=x+5mcrelHG21G3wg59PiRl6Pb88/oJBV5tjSfEMSuAJalPJCVrKAvdCCqdo2oI1Ex
-         /KZ3nPGhhvEWAxgSGriUQln7i+Ue5cYxybNvxFGyo4Eiq3/1rliLDLoqSx6YD/WRZC
-         0VrX+xkj/rmQWzUL9qkv01hUGoSIGLkiPbaLeLXo=
-Date:   Mon, 6 Dec 2021 17:02:13 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Gary Guo <gary@garyguo.net>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>
-Subject: Re: [PATCH 11/19] vsprintf: add new `%pA` format specifier
-Message-ID: <Ya40Bcv+eFkqc9jv@kroah.com>
-References: <20211206140313.5653-1-ojeda@kernel.org>
- <20211206140313.5653-12-ojeda@kernel.org>
- <Ya4mAqoOa8zIeZGZ@kroah.com>
- <CANiq72kCmLgrv++mFygR6dt0xOhfv04o9j6jYLQ1N+zLNvqohQ@mail.gmail.com>
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC40880292C;
+        Mon,  6 Dec 2021 16:03:02 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.91])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 107C260C13;
+        Mon,  6 Dec 2021 16:03:01 +0000 (UTC)
+From:   Cornelia Huck <cohuck@redhat.com>
+To:     Alex Williamson <alex.williamson@redhat.com>,
+        Jason Gunthorpe <jgg@nvidia.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+        Yishai Hadas <yishaih@nvidia.com>
+Subject: Re: [PATCH RFC v2] vfio: Documentation for the migration region
+In-Reply-To: <20211203110619.1835e584.alex.williamson@redhat.com>
+Organization: Red Hat GmbH
+References: <0-v2-45a95932a4c6+37-vfio_mig_doc_jgg@nvidia.com>
+ <20211130102611.71394253.alex.williamson@redhat.com>
+ <20211130185910.GD4670@nvidia.com>
+ <20211130153541.131c9729.alex.williamson@redhat.com>
+ <20211201031407.GG4670@nvidia.com> <20211201130314.69ed679c@omen>
+ <20211201232502.GO4670@nvidia.com>
+ <20211203110619.1835e584.alex.williamson@redhat.com>
+User-Agent: Notmuch/0.34 (https://notmuchmail.org)
+Date:   Mon, 06 Dec 2021 17:03:00 +0100
+Message-ID: <87zgpdu3ez.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANiq72kCmLgrv++mFygR6dt0xOhfv04o9j6jYLQ1N+zLNvqohQ@mail.gmail.com>
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 06, 2021 at 04:56:32PM +0100, Miguel Ojeda wrote:
-> On Mon, Dec 6, 2021 at 4:46 PM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> >
-> > That should be in a .h file somewhere.  Remember, don't put #ifdef in .c
-> > files please.
-> 
-> Will do, thanks for reviewing!
-> 
-> > Same here, this should not be needed if you put it in a .h file
-> > correctly.
-> 
-> This one is mimicking the `CONFIG_BLOCK` one (`case 'g'` a bit above)
-> -- but we can change it, of course.
+On Fri, Dec 03 2021, Alex Williamson <alex.williamson@redhat.com> wrote:
 
-That should be changed as well :)
+> On Wed, 1 Dec 2021 19:25:02 -0400
+> Jason Gunthorpe <jgg@nvidia.com> wrote:
+>
+>> On Wed, Dec 01, 2021 at 01:03:14PM -0700, Alex Williamson wrote:
+>> > On Tue, 30 Nov 2021 23:14:07 -0400
+>> > Jason Gunthorpe <jgg@nvidia.com> wrote:
+>> >   
+>> > > On Tue, Nov 30, 2021 at 03:35:41PM -0700, Alex Williamson wrote:
+
+>> OTOH "supportable" qemu could certainly make the default choice to
+>> require devices for simplicity.
+>
+> I get a bit lost every time I try to sketch out how QEMU would
+> implement it.  Forgive the stream of consciousness and rhetorical
+> discussion below...
+>
+>  - Does it make sense that a device itself can opt-out of p2p mappings?
+>    This is simply an MMIO access from another device rather than from
+>    the CPU.  Vendors cannot preclude this use case on bare metal,
+>    should they be able to in a VM?  We create heterogeneous p2p maps,
+>    device A can access device B, but device B maybe can't access device
+>    A.  Seems troublesome.
+>
+>  - If we can't have a per-device policy, then we'd need a per VM
+>    policy, likely some way to opt-out of all p2p mappings for vfio
+>    devices.  We need to support hotplug of devices though, so is it a
+>    per VM policy or is it a per device policy which needs to be
+>    consistent among all attached devices?  Perhaps a
+>    "enable_p2p=on/off" option on the vfio-pci device, default [on] to
+>    match current behavior.  For any case of this option being set to
+>    non-default, all devices would need to set it to the same value,
+>    non-compliant devices rejected.
+>
+>  - We could possibly allow migration=on,enable_p2p=on for a non-NDMA
+>    device, but the rules change if additional devices are added, they
+>    need to be rejected or migration support implicitly disappears.  That
+>    seems hard to document, non-deterministic as far as a user is
+>    concerned. So maybe for a non-NDMA device we'd require
+>    enable_p2p=off in order to set migration=on.  That means we could
+>    never enable migration on non-NDMA devices by default, which
+>    probably means we also cannot enable it by default on NDMA devices
+>    or we get user confusion/inconsistency.
+>
+>  - Can a user know which devices will require enable_p2p=off in order
+>    to set migration=on?  "Read the error log" is a poor user experience
+>    and difficult hurdle for libvirt.
+>
+> So in order to create a predictable QEMU experience in the face of
+> optional NDMA per device, I think we preclude being able to enable
+> migration support for any vfio device by default and we have an
+> exercise to determine how a user or management tool could easily
+> determine NDMA compatibility :-\
+
+Hm, maybe we can take a page out of the confidential guest support book
+and control this like we do for the virtio iommu flag?
+
+I'm not sure whether there is a pressing need to support p2p for
+non-NDMA devices?
+
+> There's a fine line between writing an inter-operable driver and
+> writing a driver for the current QEMU implementation.  Obviously we want
+> to support the current QEMU implementation, but we want an interface
+> that can accommodate how that implementation might evolve.  Once we
+> start telling driver authors to expect specific flows rather than
+> looking at the operation of each bit, then our implementations become
+> more fragile, less versatile relative to the user.
+
+What is actually on the table regarding the current QEMU implementation?
+The interface is still marked as experimental, so we have some room for
+changes, but we probably don't want to throw everything away.
+
+>
+>> > > > Userspace can attempt RESUMING -> RUNNING regardless of what we specify,
+>> > > > so a driver needs to be prepared for such an attempted state change
+>> > > > either way.  So what's the advantage to telling a driver author that
+>> > > > they can expect a given behavior?    
+>> > > 
+>> > > The above didn't tell a driver author to expect a certain behavior, it
+>> > > tells userspace what to do.  
+>> > 
+>> >   "The migration driver can rely on user-space issuing a
+>> >    VFIO_DEVICE_RESET prior to starting RESUMING."  
+>> 
+>> I trimmed too much, the original text you quoted was
+>> 
+>> "To abort a RESUMING issue a VFIO_DEVICE_RESET."
+>> 
+>> Which I still think is fine.
+>
+> If we're writing a specification, that's really a MAY statement,
+> userspace MAY issue a reset to abort the RESUMING process and return
+> the device to RUNNING.  They MAY also write the device_state directly,
+> which MAY return an error depending on various factors such as whether
+> data has been written to the migration state and whether that data is
+> complete.  If a failed transitions results in an ERROR device_state,
+> the user MUST issue a reset in order to return it to a RUNNING state
+> without closing the interface.
+
+Are we actually writing a specification? If yes, we need to be more
+clear on what is mandatory (MUST), advised (SHOULD), or allowed
+(MAY). If I look at the current proposal, I'm not sure into which
+category some of the statements fall.
+
+>
+> A recommendation to use reset to skip over potential error conditions
+> when the goal is simply a new, clean RUNNING state irrespective of data
+> written to the migration region, is fine.  But drivers shouldn't be
+> written with only that expectation, just like they shouldn't expect a
+> reset precondition to entering RESUMING.
+>  
+>> > Tracing that shows a reset preceding entering RESUMING doesn't suggest
+>> > to me that QEMU is performing a reset for the specific purpose of
+>> > entering RESUMING.  Correlation != causation.  
+>> 
+>> Kernel doesn't care why qemu did it - it was done. Intent doesn't
+>> matter :)
+>
+> This is exactly the sort of "designed for QEMU implementation"
+> inter-operability that I want to avoid.  It doesn't take much of a
+> crystal ball to guess that gratuitous and redundant device resets slow
+> VM instantiation and are a likely target for optimization.
+
+Which brings me back to my question above: Are we wedded to all details
+of the current QEMU implementation? Should we consider some of them more
+as a MAY? Can we change QEMU to do things differently, given the
+experimental nature of the support?
+
