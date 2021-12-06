@@ -2,159 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29DAAC433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Dec 2021 07:33:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34BABC433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Dec 2021 07:47:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234654AbhLFHhL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Dec 2021 02:37:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33632 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229652AbhLFHhL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Dec 2021 02:37:11 -0500
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com [IPv6:2607:f8b0:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2132AC0613F8;
-        Sun,  5 Dec 2021 23:33:43 -0800 (PST)
-Received: by mail-oi1-x22e.google.com with SMTP id t19so19954178oij.1;
-        Sun, 05 Dec 2021 23:33:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=qbQOEnp7jKLZani9Wx1QX+x+WkgHU+tLTxDI3J7bzuI=;
-        b=ROribbjD5fxJf1MFXwniwLkjwmwC8+ub60xi/nyvrN3OKldETxJSC0F4nY/4JvklD2
-         aWhYXWCVI3XcmHFQv+ZDgHwIS0Tsjf5/gIaMg5OvT/xCV46Dm3eaxXNPf/OoC91KXjLY
-         EnpoIjKDTEZByQJ5ABmbmmAHSIiy4K5bOYoRdBL5TkutMAnYJt98yniWRBAclrjksvC3
-         vbG19YmwqW+3vdRMOoOIr2X/DCS6D4ie+/vynZzTS9R9UjD5BWY5swYHkQhwm0WKFo6g
-         OBY0Heo5U3Hs2xibGKCE1bFFsuk1+f87HbTE+pGADV/+kI3KgMQGOo2YEIqpORX4yw/J
-         AjVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=qbQOEnp7jKLZani9Wx1QX+x+WkgHU+tLTxDI3J7bzuI=;
-        b=T9fA52xjMecFtRpx9jyb9tk/kRmzqsyg1ABxlogNbOEBwyEnRUTIxqFDM32ujrkAUa
-         a8EhmeWuQYvPKADsUhDvSF4ACIInHvH4PyIRKR2CLJDS0mm+nrpOsr0V8Z07Q28YM9Dr
-         xAGnUuz5yPNgs+dhOuDdegcPXheSL1kHbn33TjCCHJ2dNbli6vPtMn7mA0MD0H7889Bk
-         idUdce88rRSxqqKgfZMn+ZtJOI2iW2lOHo8xVMRTs3IcOLzM0ESjF1SpyKwDz2uOd604
-         M8a+kYVdld13B6l3KL2tHiDWA9ecGhQWczdYRoSY7jTFGN8I06kIOJHN4ZRRPIFNjye+
-         C2pw==
-X-Gm-Message-State: AOAM531oYA038K+w/DwgV3R9gYgNWNLDn25bhk6eztdYWbtTAFkWs9+v
-        Hhr+fopjTSMbl5tVVvh0U+UcFmMuHoY1IXYx0rUqr8xzfYo2/wsRvKTAvA==
-X-Google-Smtp-Source: ABdhPJxI5DBy/Fy+Kke48ATG6vvyfO3nqVb4GfutvgIYoPR8fdG4jQw00z+tQLnbp+/vLfFZniat+S2seT1yyaPpnlc=
-X-Received: by 2002:a05:6808:1709:: with SMTP id bc9mr22375987oib.130.1638776022420;
- Sun, 05 Dec 2021 23:33:42 -0800 (PST)
+        id S238557AbhLFHvR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Dec 2021 02:51:17 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:57328 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237150AbhLFHvR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Dec 2021 02:51:17 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1F51C6117B;
+        Mon,  6 Dec 2021 07:47:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EEDAC341C1;
+        Mon,  6 Dec 2021 07:47:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1638776868;
+        bh=1tjNuHEY1D3f4gT+xgEa586VTk6XmE+eqdouKLZ1O7A=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=M7mLgCm6BrAps0JqDF3QLloUkkK/2qsSBCWVCOxZ3GuNCd1EK5Z7JD8JOD/YrDHEO
+         zfhq1z4IMOiEDXPitP7fwLwNJt6J93jcfW7BmDzXrOlGdnhsXQ1jOQkSrg23w2GR2y
+         aY/btjL6KDNuCy281Xi0bUPLDB7Jf9GoKEsaeSD4=
+Date:   Mon, 6 Dec 2021 08:47:43 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] Docs: usb: update usb_bulk_msg receiving example
+Message-ID: <Ya3AHxw48/T3XnPv@kroah.com>
+References: <cover.1638630342.git.philipp.g.hortmann@gmail.com>
+ <0bd9336e18abad338b4967664a4667b96dae6be6.1638630342.git.philipp.g.hortmann@gmail.com>
+ <Yayb6+SrQKUG4bDl@kroah.com>
+ <f3a1b2ba-85fe-e829-0d11-07a4bc4d8756@gmail.com>
 MIME-Version: 1.0
-References: <YazChnNvaEMHzCQG@shell.armlinux.org.uk> <431bf51d-9ed5-a235-99e1-99dee50f7925@gmail.com>
-In-Reply-To: <431bf51d-9ed5-a235-99e1-99dee50f7925@gmail.com>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Mon, 6 Dec 2021 15:33:31 +0800
-Message-ID: <CAEensMxA=-wWV_38SyKH07SREKPwpEHRkEmbqZ64+iTXn+S=ug@mail.gmail.com>
-Subject: Re: [PATCH] net: phy: Remove unnecessary indentation in the comments
- of phy_device
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     "Russell King (Oracle)" <linux@armlinux.org.uk>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        netdev@vger.kernel.org, Yanteng Si <siyanteng@loongson.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f3a1b2ba-85fe-e829-0d11-07a4bc4d8756@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Akira Yokosawa <akiyks@gmail.com> =E4=BA=8E2021=E5=B9=B412=E6=9C=885=E6=97=
-=A5=E5=91=A8=E6=97=A5 23:33=E5=86=99=E9=81=93=EF=BC=9A
->
-> Hi,
-> On Sun, 5 Dec 2021 13:45:42 +0000, Russell King wrote:
-> > On Sun, Dec 05, 2021 at 09:21:41PM +0800, Yanteng Si wrote:
-> >> Fix warning as:
-> >>
-> >> linux-next/Documentation/networking/kapi:122: ./include/linux/phy.h:54=
-3: WARNING: Unexpected indentation.
-> >> linux-next/Documentation/networking/kapi:122: ./include/linux/phy.h:54=
-4: WARNING: Block quote ends without a blank line; unexpected unindent.
-> >> linux-next/Documentation/networking/kapi:122: ./include/linux/phy.h:54=
-6: WARNING: Unexpected indentation.
-> >
-> > This seems to be at odds with the documentation in
-> > Documentation/doc-guide/kernel-doc.rst.
-> >
-> > The warning refers to lines 543, 544 and 546.
-> >
-> > 543: *              Bits [23:16] are currently reserved for future use.
-> > 544: *              Bits [31:24] are reserved for defining generic
-> > 545: *                           PHY driver behavior.
-> > 546: * @irq: IRQ number of the PHY's interrupt (-1 if none)
-> >
-> > This doesn't look quite right with the warning messages above, because
-> > 544 doesn't unindent, and I've checked net-next, net, and mainline
-> > trees, and they're all the same.
-> >
-> > So, I think we first need to establish exactly which lines you are
-> > seeing this warning for before anyone can make a suggestion.
->
-> Just a hint of kernel-doc comment format, which is not fully covered
-> in Documentation/doc-guide/kernel-doc.rst.
->
-> I think the diff below is what you'd like:
-Yeah! Thank you very much!
->
-> ----8<-----
-> diff --git a/include/linux/phy.h b/include/linux/phy.h
-> index 96e43fbb2dd8..1e180f3186d5 100644
-> --- a/include/linux/phy.h
-> +++ b/include/linux/phy.h
-> @@ -538,11 +538,12 @@ struct macsec_ops;
->   * @mac_managed_pm: Set true if MAC driver takes of suspending/resuming =
-PHY
->   * @state: State of the PHY for management purposes
->   * @dev_flags: Device-specific flags used by the PHY driver.
-> - *             Bits [15:0] are free to use by the PHY driver to communic=
-ate
-> - *                         driver specific behavior.
-> - *             Bits [23:16] are currently reserved for future use.
-> - *             Bits [31:24] are reserved for defining generic
-> - *                          PHY driver behavior.
-> + *
-> + *      - Bits [15:0] are free to use by the PHY driver to communicate
-> + *        driver specific behavior.
-> + *      - Bits [23:16] are currently reserved for future use.
-> + *      - Bits [31:24] are reserved for defining generic
-> + *        PHY driver behavior.
->   * @irq: IRQ number of the PHY's interrupt (-1 if none)
->   * @phy_timer: The timer for handling the state machine
->   * @phylink: Pointer to phylink instance for this PHY
->
-> base-commit: 065db2d90c6b8384c9072fe55f01c3eeda16c3c0
-> ----8<-----
->
-> Using bullet lists for bit fields is a reasonable approach,
-> I guess.
->
-> For bullet lists in ReST, which kernel-doc is based on, see
-> https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#bullet=
--lists
-I think I can fix the following two warnings:
+On Sun, Dec 05, 2021 at 06:04:48PM +0100, Philipp Hortmann wrote:
+> On 12/5/21 12:00 PM, Greg KH wrote:
+> > On Sat, Dec 04, 2021 at 05:35:11PM +0100, Philipp Hortmann wrote:
+> > > Clarification that this example is not in the driver template anymore.
+> > > Update code example so that it fits best to usb-skeleton.c
+> > > Update format of function names
+> > > 
+> > > Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+> > > ---
+> > > V1 -> V2: Added "Update format of function names" to patch description
+> > >            Corrected format of function names like the following example:
+> > >            "`usb_bulk_msg` function" to "usb_bulk_msg()"
+> > > ---
+> > >   .../driver-api/usb/writing_usb_driver.rst     | 32 +++++++++----------
+> > >   1 file changed, 16 insertions(+), 16 deletions(-)
+> > > 
+> > > diff --git a/Documentation/driver-api/usb/writing_usb_driver.rst b/Documentation/driver-api/usb/writing_usb_driver.rst
+> > > index b43e1ce49f0e..ed11398837e5 100644
+> > > --- a/Documentation/driver-api/usb/writing_usb_driver.rst
+> > > +++ b/Documentation/driver-api/usb/writing_usb_driver.rst
+> > > @@ -218,36 +218,36 @@ do very much processing at that time. Our implementation of
+> > >   ``skel_write_bulk_callback`` merely reports if the urb was completed
+> > >   successfully or not and then returns.
+> > > -The read function works a bit differently from the write function in
+> > > +This read function works a bit differently from the write function in
+> > >   that we do not use an urb to transfer data from the device to the
+> > > -driver. Instead we call the :c:func:`usb_bulk_msg` function, which can be used
+> > > +driver. Instead we call usb_bulk_msg(), which can be used
+> > >   to send or receive data from a device without having to create urbs and
+> > > -handle urb completion callback functions. We call the :c:func:`usb_bulk_msg`
+> > > -function, giving it a buffer into which to place any data received from
+> > > +handle urb completion callback functions. We call usb_bulk_msg(),
+> > > +giving it a buffer into which to place any data received from
+> > >   the device and a timeout value. If the timeout period expires without
+> > >   receiving any data from the device, the function will fail and return an
+> > >   error message. This can be shown with the following code::
+> > >       /* do an immediate bulk read to get data from the device */
+> > > -    retval = usb_bulk_msg (skel->dev,
+> > > -			   usb_rcvbulkpipe (skel->dev,
+> > > -			   skel->bulk_in_endpointAddr),
+> > > -			   skel->bulk_in_buffer,
+> > > -			   skel->bulk_in_size,
+> > > -			   &count, 5000);
+> > > +    rv = usb_bulk_msg(dev->udev,
+> > 
+> > Why are you changing the varible name?  That seems unnecessary.
+> Reason is that retval does not exist in skel_read().
 
-Documentation/networking/kapi:147: ./drivers/net/phy/phylink.c:1657:
-WARNING: Unexpected indentation.
-Documentation/networking/kapi:147: ./drivers/net/phy/phylink.c:1658:
-WARNING: Block quote ends without a blank line; unexpected unindent.
+Neither does any call to usb_bulk_msg().  So this is not code that is
+from that file at all.  "retval" is easier to understand than "rv".
 
-I will send-email it  together in v2, Thank you very much!
+> > Also, any reason you aren't cc:ing the USB maintainer on these changes?  :)
+> According to:
+> perl scripts/get_maintainer.pl --separator , --nokeywords --nogit
+> --nogit-fallback --norolestats -f
+> Documentation/driver-api/usb/writing_usb_driver.rst
+> Jonathan Corbet
+> <corbet@lwn.net>,linux-doc@vger.kernel.org,linux-kernel@vger.kernel.org
+> you are not in charge.
 
-Thanks,
-Yanteng
->
-> Just my 2c.
->
-> BR, Akira
->
-> >
-> > --
-> > RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-> > FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+Ah, documentation isn't added to the maintainers entry for USB, I'll go
+fix that up...
+
+But note, my name is at the top of that file still, right?
+
+thanks,
+
+greg k-h
