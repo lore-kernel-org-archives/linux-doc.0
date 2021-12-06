@@ -2,143 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C928C433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Dec 2021 19:19:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E1D6C433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Dec 2021 19:36:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348054AbhLFTXF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Dec 2021 14:23:05 -0500
-Received: from mail-dm3nam07on2041.outbound.protection.outlook.com ([40.107.95.41]:64897
-        "EHLO NAM02-DM3-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1348367AbhLFTXF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 6 Dec 2021 14:23:05 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bTBhWCTNcDEx8GswSifHrpSP1G9yDTMTLhrAvY+q5LjTVPBrkmAQmPz1GU5P2hMTlBvglbseFSUXL8ERDDVSYkvmFQro9wGoGOWZaffkKytt9k4C8+VFhgQlpofGK2JRye9O/G3o3Sr+iSfv73tGVf8MU1qHza06wCRlYkOSIFqcQAWPcfbNm6RGLzS3OK3s1GofV+2WY6N+5uGRIzjekkhkot0LrqQRX9P/y7O1XlpwogAp57VdSBp+pg4pg9OqkIJB7isDaH1m5ou7hCJwyBbiuDy+0Hm4UGLxZdqsgv9OOvwKgz7zmLaQ9TkXn1Z5TQSJmdAYjbReUSk3qxRSNQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6qu0e1hi/Z0UEZbJMHhRJEiexsSCdyK0Ojk+6P1+5F8=;
- b=SQQiqTvxQVhwTuhAfUOCIS0k0+flSBGIdrdEkJNEM6Vb+71uwNtXWmh/3zMY6gqXz59UqS1qT9SJPpv55EYga0Noz2jomwhVQ4aWzcAXTGWYzXJI+algNKa4Ixg2ct+PeEQm/3/rgn/jVUqMCWpVK8zXzV3CfbcHI9H4+4oi4xR7QVT/ziQlo8Z0FDXO7L0BdNed34+qhlF/+MApxB06IyIZ6mcZhXNhkibZNP5WbsZ03EPAvDAm4XrJpLgIE09mg+hlVp9i6Nelu3qgYtVOlwRdJR8ZaYXQ3XneTb6OCRTf4ZIxhnQaKFhOfFBSe3F1k843nGopG6P7W+IZm2qviA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6qu0e1hi/Z0UEZbJMHhRJEiexsSCdyK0Ojk+6P1+5F8=;
- b=F8ztIgDxyhDiBveHwV/tFZ/dRUHJ0KVWIAh18X+jlO1gpsawxdeC4HxUd/U9aGIkw7A3sqscefvqSS+AmzMs80+aWf53edLUcbqIGVuiu5gH0kgbqlYwkIj/n+JoEuQeoS2Z+OAYhNEEHA9OuNJEDjIbnZX2v2LSTWrpuy/jmgjPPhXL5Lo99jMApjals6Lk2GagOIVz2UcCd466k4AEO/6AJTMUClhL8i5Fx22TiorAd8tODxi+mOjX5P17I6wealAoO+b67Helx5Suno7pEOepfjSYDJ63GpxrJ1aE2aIN8+5GwqofR29ufTuZwwlK/kcgRLJjF0C4WnyDyAjqjw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
- by BL1PR12MB5189.namprd12.prod.outlook.com (2603:10b6:208:308::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.23; Mon, 6 Dec
- 2021 19:19:34 +0000
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::d8be:e4e4:ce53:6d11]) by BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::d8be:e4e4:ce53:6d11%5]) with mapi id 15.20.4755.021; Mon, 6 Dec 2021
- 19:19:34 +0000
-Date:   Mon, 6 Dec 2021 15:19:33 -0400
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Cornelia Huck <cohuck@redhat.com>
-Cc:     Alex Williamson <alex.williamson@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
-        Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-        Yishai Hadas <yishaih@nvidia.com>
-Subject: Re: [PATCH RFC v2] vfio: Documentation for the migration region
-Message-ID: <20211206191933.GM4670@nvidia.com>
-References: <20211130102611.71394253.alex.williamson@redhat.com>
- <20211130185910.GD4670@nvidia.com>
- <20211130153541.131c9729.alex.williamson@redhat.com>
- <20211201031407.GG4670@nvidia.com>
- <20211201130314.69ed679c@omen>
- <20211201232502.GO4670@nvidia.com>
- <20211203110619.1835e584.alex.williamson@redhat.com>
- <87zgpdu3ez.fsf@redhat.com>
- <20211206173422.GK4670@nvidia.com>
- <87tufltxp0.fsf@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87tufltxp0.fsf@redhat.com>
-X-ClientProxiedBy: MN2PR12CA0033.namprd12.prod.outlook.com
- (2603:10b6:208:a8::46) To BL0PR12MB5506.namprd12.prod.outlook.com
- (2603:10b6:208:1cb::22)
+        id S1345766AbhLFTjc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Dec 2021 14:39:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35328 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240539AbhLFTjc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Dec 2021 14:39:32 -0500
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65994C061746
+        for <linux-doc@vger.kernel.org>; Mon,  6 Dec 2021 11:36:03 -0800 (PST)
+Received: by mail-ed1-x529.google.com with SMTP id t5so47436045edd.0
+        for <linux-doc@vger.kernel.org>; Mon, 06 Dec 2021 11:36:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1WZbGUI2jgxA10QTAICPwSg3f480L4ADSnktyOVLe2k=;
+        b=GngTKpgvPeiX/nUFKS+/vZnjYQHy0JwjnyeBTrCSICMt+OObJuz/ZY47Ab5zOCNTZk
+         UNj/aJtmFS+GluXZPxqGJ5qZbuC7A0P8k3vbJ11Oz2fUgr7DYKTirs+rbaAUrk8ZURxu
+         zErFOsaHNkR15LzUr0E7qwxHEJNdkLaKcmwSM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1WZbGUI2jgxA10QTAICPwSg3f480L4ADSnktyOVLe2k=;
+        b=HO+Ha8XKOM3TaKFjf39FjMoWtPqHZ73N/K2eyDrsc4rycaLVD9XBFJTQyZxW+PaxCT
+         FocYvcTrT6gDBv7AtSCbSgbmdXkZYlCDFXk2UWshsrMp0IGaule9v5NhKmOdQ1SGd2rx
+         pkj74roYGwpGW2CtT6BJ89feABhvNcBYETVu6JoGIo+cVggx23TUEm5B7RogfEQCrEsh
+         qFkU0qtMCI+iw7YPRnIsox6oB2nn5b/1LpilbYn/p9BKfzon9C+CqUa8ap6R1K2Bhdrz
+         fpPVq6GdwNLnQ2d5IUVY5gvqXi9z10Jld96khHEZuMrKJMuatdxJMxjVxR+/ie1sp/xv
+         SM1w==
+X-Gm-Message-State: AOAM530YEbt85Jv5Qq+CmlHiEDGiEEMr+Y5hsMBRzETNI8GhrQdHz/ot
+        B609rj8IwYn4pe0CmyG/7B8pUwAttxJk2CUD
+X-Google-Smtp-Source: ABdhPJz30czbMYGH5xqSf/1JsIAMFXxzxYLz64qMr8BNBOcWltRO2Xf9aBfSBx144iQTp673oPvPsQ==
+X-Received: by 2002:a17:906:2788:: with SMTP id j8mr46658360ejc.203.1638819361782;
+        Mon, 06 Dec 2021 11:36:01 -0800 (PST)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com. [209.85.221.46])
+        by smtp.gmail.com with ESMTPSA id hs8sm7301133ejc.53.2021.12.06.11.36.01
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Dec 2021 11:36:01 -0800 (PST)
+Received: by mail-wr1-f46.google.com with SMTP id t18so734004wrg.11
+        for <linux-doc@vger.kernel.org>; Mon, 06 Dec 2021 11:36:01 -0800 (PST)
+X-Received: by 2002:adf:9d88:: with SMTP id p8mr47263440wre.140.1638819360971;
+ Mon, 06 Dec 2021 11:36:00 -0800 (PST)
 MIME-Version: 1.0
-Received: from mlx.ziepe.ca (142.162.113.129) by MN2PR12CA0033.namprd12.prod.outlook.com (2603:10b6:208:a8::46) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.20 via Frontend Transport; Mon, 6 Dec 2021 19:19:34 +0000
-Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1muJWP-0091YU-38; Mon, 06 Dec 2021 15:19:33 -0400
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 716f9e0a-ae68-4797-4567-08d9b8ed5652
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5189:EE_
-X-Microsoft-Antispam-PRVS: <BL1PR12MB5189FF78A6045634967B2BA7C26D9@BL1PR12MB5189.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZkzZ1j20Q2Xq8HZFaCmF9bHmcJq0ZDisp5+iZ2iMb9GC7eyeCe7OXjmDorOrHrFKtrm/uCMOcPWpoGKRMnx0F8oi/dUjr7rEUAfmluXKSn4gSfpNJnTrKcRynVWom6+lWUS3OsAw68h/tu/0TPOVIlPRQPb4h1/8vyL++iJvGf472cOq5X042QTNcBLC23iY5nHQK2JKkdlqXDKoYyBEMmXf8PFk7lArPeqNRKy7BJom1rOw+oQDqpUiNYy3h75/VQ5sOww1t7M3ZxtJsBvj+DohSZTf98YurbPzFDEUgYkCJVyXZ6mD01zH77J0UF1sU2iwTqdLHUMi7V5U+u3yvUuKI8VgLmHZLZpUg1oinXnRPFbUeHH1CKVCnpAiEUiYBQArVX7mGcqH4xYDbL4j47w+Wh/EzFlNDENGwijGEd4vOR4T45F6rCj5KyfycCl1ooQRrjZOzZnLwAivkXnBd0gG6Z3v1cMyHw/cy5Ujul8XH9TAmk7T2mRAmzRE7XxsTRebJXOYzGV0+55VjwcI69UTG1i55FnjqDAidVS+bpa9RHv/ZaTCz65eJbQXeOxyHtrEx/16/Zg9+JARWNrzdktwbWSciaXAdf9N54Aso+XamxwLk0G34B6DYJfPfO6n8aoxkDq3btr1qC/eZEgzXQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB5506.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(186003)(508600001)(66476007)(2906002)(66556008)(107886003)(66946007)(316002)(426003)(4744005)(26005)(33656002)(8676002)(5660300002)(6916009)(9786002)(38100700002)(9746002)(36756003)(2616005)(4326008)(8936002)(83380400001)(1076003)(86362001)(54906003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?FhMSdpbWOqdpOsbZFj0VQBKdJFK7h3y4O/sblO5mUdgelrnJ4UsBIs3wHzl/?=
- =?us-ascii?Q?ZdOuXNH0uco5vcYdQzcj7rUodrE8cB0F3W6vKFs1ZEsnlETtqt+kk925kz6O?=
- =?us-ascii?Q?caAgrWSW188JbwMl/iE1TxrLaq4Amx7QheN/kjuiU+yzQMPbmfzhv9rzl4U/?=
- =?us-ascii?Q?mWl/VwIUnrlX9Gwthj4Lc6ExSR7vey+eS2PG/ktSPYfNsKON+RLAoR3+Hkcy?=
- =?us-ascii?Q?rLJwJWr69+DDmFrJNttW2/HHvuiarZtigASnXxDtl8ou9/Trq9BVn3lMYhtZ?=
- =?us-ascii?Q?jZjzT7uISTwCCGK8FkGhb5VhFaI/9tAQNLKB0HP8Q8UqBnEaNyuDkZcTiRmw?=
- =?us-ascii?Q?AdWXweXvq2z55olhjCH1XqSlj7ZbfRuIlBmoGUxLqwThqcMN5XidDRpylobz?=
- =?us-ascii?Q?aqcAptwQ510kh/oTAJkUEa9dOSWJqshWOloN3A7MRxJ+GVMnZo8jA84lL2PL?=
- =?us-ascii?Q?22MOhPPlLafQq+V5FlUeMH+xtAzyRmY3Tb0xQIPRAenxKEiBU91af8Fgvoci?=
- =?us-ascii?Q?r/Ai/smWAgJI9G5v7SgwE26I3UDICucEXkYJ5dgrLIoFBkWfeXbP9edtIIoN?=
- =?us-ascii?Q?qQAW5Zstoof9WPnIoycWQy+QLtHdGC3fO6inTqx9FdO/3/877EZQUJDAkeO9?=
- =?us-ascii?Q?025nrkKrO+Xsm2KxorGGytnLzRZXaGRXZe7wfJzoe5be7B0ugNyfX1e2zXUM?=
- =?us-ascii?Q?jI4PlPZLFBdwO4BatOr3ButUuCXB6Wna2TxPWr9cwP+LZltVMdpB/MoCDFHn?=
- =?us-ascii?Q?Fhz4yMGYWKUgbpJ/EDCa08CGcpNpl/L+YkVKtNAQaAMzEM/9Kog6wxYe0GVU?=
- =?us-ascii?Q?zfxzsIsoPBfLt+vfq8Cd5fpAFq0zhqcVUq/LFTD1ntDEAtlyROBZjXjCwNhf?=
- =?us-ascii?Q?Lvl2P6nUG1z3l1QUXYCmH1fGjCggRt4DAI68iHaGENUjTsxsBkYVvVYElRyw?=
- =?us-ascii?Q?qN8uRpY255GDKv/5E18ozUSdOQ4z3VtaVXCEHGkaivxL6gNuBb2JROFcivRy?=
- =?us-ascii?Q?+/RmNBNG8h0E1n9Zbfx8Z/vCN8bnIVRCSIABTUb/8EYsAoYg/Dv4+cbQp38f?=
- =?us-ascii?Q?iDaO2u5Q2YT2EHbZtZSEJaq1byorgIylmpLl1UemSRurDiOPnmihtfEcSAd8?=
- =?us-ascii?Q?o+Y7WfXmCZ+kUotK5O59jx6Fd26qRpS2OvRjmUC57sUZ+/sl3Maq/wnXtt1Q?=
- =?us-ascii?Q?yT/ql8R1rf4hq0T5yTPTMZUMFDa8GWDVZZ/aOPn+kn0z0+8wG/i02TBzNDgq?=
- =?us-ascii?Q?aTdiZ+KopVcZZ+QyYYR+jNbi+4+gZiAch7MMK/YuRFEjazdeMJkygru9grBX?=
- =?us-ascii?Q?H8NrRZuc4Ky5K2cPVP0A5dKqbzpcF1GzQ9wD/oKLFMjvUhEgqtc3ZCrzg/iH?=
- =?us-ascii?Q?0KH0I3qZJzc7Ox9WAEQp5GaAEV4GDcIeb0IUdVH2E52bWZ/N3gDV7oBX79ME?=
- =?us-ascii?Q?EIcFoRw8oCDLvBu+pviUW5NsLq5UTfyLZEOCKZ+6T8DQLnxenVtGB10oW+oC?=
- =?us-ascii?Q?ajykXyIWwSY8bHFiiwylkCHXaDkL8Lqm+XekZFe8Sbmn712iEHE62ELW1UIr?=
- =?us-ascii?Q?gHX8Uyr76brEW8VFEpI=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 716f9e0a-ae68-4797-4567-08d9b8ed5652
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2021 19:19:34.6179
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Uy/KUCBITFxQQqAJmQwVTXv+pok2TroPXwAb9uckXhM3ZzT8MvnGENa5QxNk5kUq
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5189
+References: <87y24x39wi.fsf@meer.lwn.net> <874k7l35t5.fsf@meer.lwn.net>
+In-Reply-To: <874k7l35t5.fsf@meer.lwn.net>
+From:   Linus Torvalds <torvalds@linuxfoundation.org>
+Date:   Mon, 6 Dec 2021 11:35:45 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wjPc=K6J39Gw7TasXd0QWthG7WFHxZPGofYteJYmyx+yg@mail.gmail.com>
+Message-ID: <CAHk-=wjPc=K6J39Gw7TasXd0QWthG7WFHxZPGofYteJYmyx+yg@mail.gmail.com>
+Subject: Re: [GIT PULL] Documentation fixes for 5.16
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 06, 2021 at 07:06:35PM +0100, Cornelia Huck wrote:
+On Mon, Dec 6, 2021 at 11:13 AM Jonathan Corbet <corbet@lwn.net> wrote:
+>
+> Somehow I managed to not CC the usual lists on this one, so, for the
+> record...
 
-> We're discussing a complex topic here, and we really don't want to
-> perpetuate an unclear uAPI. This is where my push for more precise
-> statements is coming from.
+.. and now that it was sent quoted (instead of re-sending the original
+email), pr-tracker-bot doesn't recognize it as a pull request any more
+and doesn't react to it.
 
-I appreciate that, and I think we've made a big effort toward that
-direction.
+So no pr-tracker-bot replies for you.
 
-Can we have some crisp feedback which statements need SHOULD/MUST/MUST
-NOT and come to something?
+Only this manual one.
 
-The world needs to move forward, we can't debate this endlessly
-forever. It is already another 6 weeks past since the last mlx5 driver
-posting.
-
-I don't feel like this is really converging, you two are the
-maintainers, can you please drive to something acceptable, whatever it
-is?
-
-Jason
+             Linus
