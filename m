@@ -2,96 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C55FC433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Dec 2021 15:34:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90C63C4321E
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Dec 2021 15:43:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357519AbhLFPiJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Dec 2021 10:38:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58528 "EHLO
+        id S1356555AbhLFPqx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Dec 2021 10:46:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1388235AbhLFPc3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Dec 2021 10:32:29 -0500
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 453DCC09B06D
-        for <linux-doc@vger.kernel.org>; Mon,  6 Dec 2021 07:19:31 -0800 (PST)
-Received: by mail-qt1-x82d.google.com with SMTP id p19so11046946qtw.12
-        for <linux-doc@vger.kernel.org>; Mon, 06 Dec 2021 07:19:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=nefXY9GnrKTvs8NuB1vTMpAOilGrkfP6qgHIvnqCGyA=;
-        b=HzYh2WxY8Q+EgOkB2smBNZ25CT3P5TCbZA91IuxwSLyZw7X7AbSYLmJEljM3LlDwFx
-         lY8VvbF9xOM4Psmx2Kh9WX8lRdwFEMYfS6mr3MXhAhkjeVWwSXTdCzxNGP0M8Eqaa7dN
-         D+lH/ekiFAwEukjTTKRP3Q43Qqa54gnyAeHmk61hhdv8zarhymwU5U6GvAoB4ZZ+K3ZH
-         bQKCen1R+8SJvC0WKy2eNUOCPB9kXlRoY1KVCNh7vY0q+agMYnkTfCD5Ao7FANJOiaWD
-         HzvM+F48qhwpHiZkY/rH7viLoFAKAMa+9dHA6Pkfvuzu/pW7n45fUfXm6CSS0BFdRnbs
-         B7NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=nefXY9GnrKTvs8NuB1vTMpAOilGrkfP6qgHIvnqCGyA=;
-        b=Dp4xuSpzh54eUsoG5D06aBlNYfLtllw5lHOoJLV0xkqZeNML3SxwJ2THfT1Pe2BgS0
-         8zHKk3or84Q1+VIj8XzBxWu6Tv6FljKDPaLEhQURR+lzWTd8TP4TpgxCKjMA4vjmnwW8
-         1YnB3Wb/1fj0VHdkBHh/StI4DzwHTZql/lQ1qjCmmwORFWOArWUBvqpr0C10hYtZWQRG
-         swDvG4cNdyYURUxJSTMoC0QQQveQ+aOvRVsOcpZbVbAkk5k8IvH98RHXb2/270Kfat9d
-         k5/eUsfrqJ8E4JgUzGRgKj1aFCvvcRi9ZiONQcrLfQ0fWs5YKKIcjCZtlAvVUupgNok+
-         CNbQ==
-X-Gm-Message-State: AOAM533Rbn4O3FOMwav3DNVFt8qcYMmOpQ3WQf6+lFegMr4qvh08C+Nk
-        +kk0EAQcBf1WuucH85yaQaGDfw==
-X-Google-Smtp-Source: ABdhPJxSYyh4j4Ckh7jks6r8W3wi3f74t9J4HYT3qkHXAcm2NbLDr0ElmK/TnADyXfHBrmWGl7cp9w==
-X-Received: by 2002:ac8:7d84:: with SMTP id c4mr40411114qtd.94.1638803970478;
-        Mon, 06 Dec 2021 07:19:30 -0800 (PST)
-Received: from localhost (cpe-98-15-154-102.hvc.res.rr.com. [98.15.154.102])
-        by smtp.gmail.com with ESMTPSA id b6sm7721017qtk.91.2021.12.06.07.19.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Dec 2021 07:19:29 -0800 (PST)
-Date:   Mon, 6 Dec 2021 10:19:29 -0500
-From:   Johannes Weiner <hannes@cmpxchg.org>
-To:     Dan Schatzberg <schatzberg.dan@gmail.com>
-Cc:     Roman Gushchin <guro@fb.com>, Tejun Heo <tj@kernel.org>,
-        Zefan Li <lizefan.x@bytedance.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Hocko <mhocko@kernel.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shakeel Butt <shakeelb@google.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Alex Shi <alexs@kernel.org>,
-        Wei Yang <richard.weiyang@gmail.com>,
-        "open list:CONTROL GROUP (CGROUP)" <cgroups@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" 
-        <linux-mm@kvack.org>
-Subject: Re: [PATCH] mm: add group_oom_kill memory event
-Message-ID: <Ya4qAWzz6Ozq07Sl@cmpxchg.org>
-References: <20211203162426.3375036-1-schatzberg.dan@gmail.com>
+        with ESMTP id S1390069AbhLFPlv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Dec 2021 10:41:51 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B77A3C0698CB
+        for <linux-doc@vger.kernel.org>; Mon,  6 Dec 2021 07:25:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=9zaj0vvOAuaqeJVKcN9fLCO3atOJhN+jBhvKBL3Oadw=; b=C3AzfweDa/y0Nuk6n5G7NXTZSs
+        SEdzwVUvoKfEX/FyKuHovFA7pPrVuTXvBOyb69l67bprCli9x1DFRS5kWcRfu3sZaj7KSbSKhF6Lo
+        2UhiziWZ2nSHbvKXwE8MmSsOeJojkmSX6SVPc845jRZyPHga9SKVHjj/JMTeyHXnXZRhOrV9/WQyt
+        /pMCOsn0AsYrmL0pOdt71e0ChU8v+0K8IXEM5FR2bBEpL8/spXoTMKBBceLds4VlFSrGuhaYYyk+n
+        wmxxcjTYAKN/bT9wXHzyZ9trEh5WocTYMR857vdyJiR24E+2+1RgUHKN9Id0zJDBmCsfLznjRL2Hu
+        3+gF6Nrg==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1muFrx-00545o-Qz; Mon, 06 Dec 2021 15:25:33 +0000
+Date:   Mon, 6 Dec 2021 15:25:33 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: css missing
+Message-ID: <Ya4rbTf5fZm6xG7o@casper.infradead.org>
+References: <Ya4YvBcsxXLhjwRj@casper.infradead.org>
+ <b4db5978-c6cd-edf0-fcd8-bb20aa0e2cbf@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211203162426.3375036-1-schatzberg.dan@gmail.com>
+In-Reply-To: <b4db5978-c6cd-edf0-fcd8-bb20aa0e2cbf@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This makes perfect sense, just one minor point:
+On Tue, Dec 07, 2021 at 12:08:44AM +0900, Akira Yokosawa wrote:
+> Hi,
+> 
+> On Mon, 6 Dec 2021 14:05:48 +0000, Matthew Wilcox wrote:
+> > I don't know what changed to cause this (could be something in Debian,
+> > could be something in the kernel).
+> > 
+> > On August 16th, I generated a 'make htmldocs' that looks fine.
+> > Yesterday, I generated one and it's missing these two crucial lines
+> > (there are many other changes, but restoring these two lines to any
+> > given file makes it look fine):
+> > 
+> >    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+> >    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+> > 
+> > I can't find any commits that look relevant.  I have sphinx 4.3.1-1
+> > installed.  I also tried with 4.2.0-5 with the same result.
+> 
+> I guess you have sphinx-rtd-theme 1.0.0 installed along the way.
 
-On Fri, Dec 03, 2021 at 08:24:23AM -0800, Dan Schatzberg wrote:
-> @@ -4390,6 +4390,9 @@ static int mem_cgroup_oom_control_read(struct seq_file *sf, void *v)
->  	seq_printf(sf, "under_oom %d\n", (bool)memcg->under_oom);
->  	seq_printf(sf, "oom_kill %lu\n",
->  		   atomic_long_read(&memcg->memory_events[MEMCG_OOM_KILL]));
-> +	seq_printf(sf, "oom_group_kill %lu\n",
-> +		   atomic_long_read(
-> +			&memcg->memory_events[MEMCG_OOM_GROUP_KILL]));
->  	return 0;
->  }
+I do!
 
-oom_control is a cgroup1 file, but group-oom is a cgroup2-only
-feature. Best to drop this hunk.
+Package: python3-sphinx-rtd-theme
+Source: sphinx-rtd-theme
+Version: 1.0.0+dfsg-1
 
-With that, please add:
-Acked-by: Johannes Weiner <hannes@cmpxchg.org>
+> It lost compatibility with Documentation/conf.py.
+> 
+> It has been fixed by commit d69dab7de208 ("docs: conf.py: fix support
+> for Readthedocs v 1.0.0") in docs-next branch of the -doc tree.
+> It is not merged upstream yet, though.
+
+Thanks!  Tried it and the css are indeed back:
+
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+
+Jon, do you want to hurry that patch into Linus' tree before 5.17?
