@@ -2,96 +2,38 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EAE7C433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Dec 2021 14:52:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0476C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Dec 2021 14:54:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344657AbhLFOz5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Dec 2021 09:55:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50476 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344662AbhLFOzz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Dec 2021 09:55:55 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D859C061746;
-        Mon,  6 Dec 2021 06:52:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-        Content-Type:Content-ID:Content-Description;
-        bh=HVyPhoN0G0V8pPJN7QDvhgJ8VtoOcDZqLE/8FLH58Wg=; b=bzbuHVnLiBiirVEcYDdGSmHeHX
-        WIrODQpx0Coyjl3oql6uVoCHPyI3XesuHAG7wTU5HdYXGHC6Ir3oLtSjC6XUEx9GG+fLjTajyhaJr
-        1II9GxiXv+blSdZusiMaq5oLCx2Z311UlTQEROIXbYZai6BQQUa7vNN67bbsg9FViiIaQBqwhG2QX
-        60/5nlP5oYDsms1LNlzXoBIpH7F9q7fvryPHD738VZ0oSU7zaadb299hEL3fHaSJbD7Cstu/84b1M
-        hkaaI6e4ScCa/1dB1fgmVd8un/I4bcDSMIKIC7+XhOK0dNnAyxQG8S7kxhmZ+1n3SJBT0wvTMDeFm
-        +tnoNWOw==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1muFLp-004vkH-J5; Mon, 06 Dec 2021 14:52:21 +0000
-From:   "Matthew Wilcox (Oracle)" <willy@infradead.org>
-To:     linux-doc@vger.kernel.org,
+        id S1344647AbhLFO6Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Dec 2021 09:58:16 -0500
+Received: from verein.lst.de ([213.95.11.211]:50944 "EHLO verein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S245556AbhLFO6Q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 6 Dec 2021 09:58:16 -0500
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 613D468B05; Mon,  6 Dec 2021 15:54:45 +0100 (CET)
+Date:   Mon, 6 Dec 2021 15:54:45 +0100
+From:   Christoph Hellwig <hch@lst.de>
+To:     "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc:     linux-doc@vger.kernel.org,
         Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@lst.de>
-Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        linux-fsdevel@vger.kernel.org
-Subject: [PATCH 1/3] iov_iter: Add skeleton documentation
-Date:   Mon,  6 Dec 2021 14:52:18 +0000
-Message-Id: <20211206145220.1175209-2-willy@infradead.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211206145220.1175209-1-willy@infradead.org>
-References: <20211206145220.1175209-1-willy@infradead.org>
+        Christoph Hellwig <hch@lst.de>, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 2/3] iov_iter: Add kernel-doc
+Message-ID: <20211206145445.GB8794@lst.de>
+References: <20211206145220.1175209-1-willy@infradead.org> <20211206145220.1175209-3-willy@infradead.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211206145220.1175209-3-willy@infradead.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is just somewhere to include the kernel-doc from for now.
+On Mon, Dec 06, 2021 at 02:52:19PM +0000, Matthew Wilcox (Oracle) wrote:
+> Document enum iter_type, copy_to_iter() and copy_from_iter()
 
-Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
----
- Documentation/core-api/index.rst    |  1 +
- Documentation/core-api/iov_iter.rst | 21 +++++++++++++++++++++
- 2 files changed, 22 insertions(+)
- create mode 100644 Documentation/core-api/iov_iter.rst
+Looks good,
 
-diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
-index 5de2c7a4b1b3..082143baa983 100644
---- a/Documentation/core-api/index.rst
-+++ b/Documentation/core-api/index.rst
-@@ -43,6 +43,7 @@ Library functionality that is used throughout the kernel.
-    this_cpu_ops
-    timekeeping
-    errseq
-+   iov_iter
- 
- Concurrency primitives
- ======================
-diff --git a/Documentation/core-api/iov_iter.rst b/Documentation/core-api/iov_iter.rst
-new file mode 100644
-index 000000000000..541c16caf958
---- /dev/null
-+++ b/Documentation/core-api/iov_iter.rst
-@@ -0,0 +1,21 @@
-+.. SPDX-License-Identifier: GPL-2.0+
-+
-+========
-+iov_iter
-+========
-+
-+:Author: Matthew Wilcox
-+
-+Overview
-+========
-+
-+The iov_iter is used to represent the source or destination for a read or
-+write.  It can point to many different kinds of memory, including user
-+memory, kernel memory, pipes and biovecs.
-+
-+Functions and structures
-+========================
-+
-+.. kernel-doc:: include/linux/uio.h
-+.. kernel-doc:: lib/iov_iter.c
-+   :export:
--- 
-2.33.0
-
+Reviewed-by: Christoph Hellwig <hch@lst.de>
