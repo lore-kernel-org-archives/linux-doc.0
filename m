@@ -2,860 +2,310 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A081C433FE
-	for <linux-doc@archiver.kernel.org>; Sun,  5 Dec 2021 18:33:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 610F4C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Dec 2021 02:37:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237380AbhLESgu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 5 Dec 2021 13:36:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50878 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237496AbhLESgs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Dec 2021 13:36:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1638729200;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=srW5FvViVNlgVQPZi0XRS0cVWIEUmnmolBehdDs0pR8=;
-        b=C2/LhR0IpaGYj9q7mQ15XAccqJAk2ebeM9KjFBqVjtdwDKqzdClx2jswjWmLa+lwoRU7w3
-        A7YAuPPYexYoyTWT269V8H7BHcDSMhQg1k/4zIRSdUaDrfvp6WdDIzWjYBtu95ZRcaUhoT
-        lQD7r6rfCO2Jo0Pqsa7oF6laR00r6d0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-500-VvFj3pxvPwSdcHcCpqrG0w-1; Sun, 05 Dec 2021 13:33:17 -0500
-X-MC-Unique: VvFj3pxvPwSdcHcCpqrG0w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2123C18A0F1B;
-        Sun,  5 Dec 2021 18:33:15 +0000 (UTC)
-Received: from llong.com (unknown [10.22.32.89])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 2EBD3694C0;
-        Sun,  5 Dec 2021 18:33:08 +0000 (UTC)
-From:   Waiman Long <longman@redhat.com>
-To:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
-Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
-        Waiman Long <longman@redhat.com>
-Subject: [PATCH v9 7/7] kselftest/cgroup: Add cpuset v2 partition root state test
-Date:   Sun,  5 Dec 2021 13:32:20 -0500
-Message-Id: <20211205183220.818872-8-longman@redhat.com>
-In-Reply-To: <20211205183220.818872-1-longman@redhat.com>
-References: <20211205183220.818872-1-longman@redhat.com>
+        id S234801AbhLFCkf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 5 Dec 2021 21:40:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53598 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234509AbhLFCkf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Dec 2021 21:40:35 -0500
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69ADFC061354
+        for <linux-doc@vger.kernel.org>; Sun,  5 Dec 2021 18:37:07 -0800 (PST)
+Received: by mail-pf1-x436.google.com with SMTP id r130so8837179pfc.1
+        for <linux-doc@vger.kernel.org>; Sun, 05 Dec 2021 18:37:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=HdipfFWE5L1TBuGUJqMZc2KjiM4MZn3nnBWWoOeP5fY=;
+        b=EKyup6s3FgHVZZ1ci+2vfIqrjySW49nVXxPldlN8i8GKMdAskrBHZozrY6W/0a7RAB
+         A+LuJIMKhNg5S87nyr0v7i9U70m0xKSf0f/28DNwkpciTnSexXbcBTRHgp2PEE7FDzSy
+         QQM8ptS7o/vobSUbR8UdK1Jgzp02azkqQ6/u074kc8Zqf4ceqyie/MM4Fi5kE+FHvBMo
+         tpjjVHWSsGCT4c5JcQdEEFeH9m8ebiZ9jKo5FIiDC4NAy9oXgj3thXMXgTorwXt7ERmo
+         wwlVHTXp6SrI9flv7KEnpmvFUhGchad6GdxSypSksZgi4gSSvTfG6B+9maD47eBIEhJG
+         labw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=HdipfFWE5L1TBuGUJqMZc2KjiM4MZn3nnBWWoOeP5fY=;
+        b=NwcERdQc1d2uRJY8MtQ9gz6CG0GuYFCFjy1YhEYFRGcfNk7PcVKbBnu1lnWrUj9ran
+         Ov6v73oqGhnsojLcYmKyVWsWNbs0CGMgg9VL49Q9O1qPvpR73vvxxeh/aJdTUe5f7llb
+         a7F+EJ0ghZ7bhgXTR/eQBkJ5xLAVYcDfrS0Qn63TzsH2wWu3zFHJ42+F/s5tPNzhkYN+
+         AgDpTAbWhR+UJhyueWg+UdCqk8DLARE208jOOg0W9FtX/yTCE6nZk07k29DR3sT9bjqR
+         C2hZ6gplchFUCpf9lXP1MTkFNbBV4mcR29g5llgo80Mq3Gn9t7mqzI8oxhzQW1r80Ef/
+         OXBg==
+X-Gm-Message-State: AOAM533eFwzL7uHdHDrsB7fV7HAoDqL1gWu7FK7w4mTn0Gj266BTI88l
+        U5MYcMvm0yo95rwS6gZOUIv2AZs8qhwATjJ0/WQ=
+X-Google-Smtp-Source: ABdhPJztMxv8Ifol1N+DIWLV6/WIz1p4Kut9VdvqFKokwz4nQMFF+AwVbOTIAFLjPtDhdXfegEk1SLVPaapOFAQ0iZU=
+X-Received: by 2002:a63:24c2:: with SMTP id k185mr10213795pgk.149.1638758226739;
+ Sun, 05 Dec 2021 18:37:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+References: <20211201100807.13240-1-tangyizhou@huawei.com>
+In-Reply-To: <20211201100807.13240-1-tangyizhou@huawei.com>
+From:   teng sterling <sterlingteng@gmail.com>
+Date:   Mon, 6 Dec 2021 10:36:55 +0800
+Message-ID: <CAMU9jJpG344NVGhNbyyGGMhwJiYuqivxQSS=vtjVE-X1sp_Hjg@mail.gmail.com>
+Subject: Re: [PATCH] doc/zh-CN: Update cpu-freq/cpu-drivers.rst to make it
+ more readable
+To:     Tang Yizhou <tangyizhou@huawei.com>
+Cc:     Yanteng Si <siyanteng@loongson.cn>, Alex Shi <alexs@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, zhengbin13@huawei.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a test script test_cpuset_prs.sh with a helper program wait_inotify
-for exercising the cpuset v2 partition root state code.
-
-Signed-off-by: Waiman Long <longman@redhat.com>
----
- tools/testing/selftests/cgroup/Makefile       |   5 +-
- .../selftests/cgroup/test_cpuset_prs.sh       | 667 ++++++++++++++++++
- tools/testing/selftests/cgroup/wait_inotify.c |  87 +++
- 3 files changed, 757 insertions(+), 2 deletions(-)
- create mode 100755 tools/testing/selftests/cgroup/test_cpuset_prs.sh
- create mode 100644 tools/testing/selftests/cgroup/wait_inotify.c
-
-diff --git a/tools/testing/selftests/cgroup/Makefile b/tools/testing/selftests/cgroup/Makefile
-index 59e222460581..3f1fd3f93f41 100644
---- a/tools/testing/selftests/cgroup/Makefile
-+++ b/tools/testing/selftests/cgroup/Makefile
-@@ -1,10 +1,11 @@
- # SPDX-License-Identifier: GPL-2.0
- CFLAGS += -Wall -pthread
- 
--all:
-+all: ${HELPER_PROGS}
- 
- TEST_FILES     := with_stress.sh
--TEST_PROGS     := test_stress.sh
-+TEST_PROGS     := test_stress.sh test_cpuset_prs.sh
-+TEST_GEN_FILES := wait_inotify
- TEST_GEN_PROGS = test_memcontrol
- TEST_GEN_PROGS += test_kmem
- TEST_GEN_PROGS += test_core
-diff --git a/tools/testing/selftests/cgroup/test_cpuset_prs.sh b/tools/testing/selftests/cgroup/test_cpuset_prs.sh
-new file mode 100755
-index 000000000000..cf8d20e3c544
---- /dev/null
-+++ b/tools/testing/selftests/cgroup/test_cpuset_prs.sh
-@@ -0,0 +1,667 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Test for cpuset v2 partition root state (PRS)
-+#
-+# The sched verbose flag is set, if available, so that the console log
-+# can be examined for the correct setting of scheduling domain.
-+#
-+
-+skip_test() {
-+	echo "$1"
-+	echo "Test SKIPPED"
-+	exit 0
-+}
-+
-+[[ $(id -u) -eq 0 ]] || skip_test "Test must be run as root!"
-+
-+# Set sched verbose flag, if available
-+[[ -d /sys/kernel/debug/sched ]] && echo Y > /sys/kernel/debug/sched/verbose
-+
-+# Get wait_inotify location
-+WAIT_INOTIFY=$(cd $(dirname $0); pwd)/wait_inotify
-+
-+# Find cgroup v2 mount point
-+CGROUP2=$(mount -t cgroup2 | head -1 | awk -e '{print $3}')
-+[[ -n "$CGROUP2" ]] || skip_test "Cgroup v2 mount point not found!"
-+
-+CPUS=$(lscpu | grep "^CPU(s)" | sed -e "s/.*:[[:space:]]*//")
-+[[ $CPUS -lt 8 ]] && skip_test "Test needs at least 8 cpus available!"
-+
-+# Set verbose flag and delay factor
-+PROG=$1
-+VERBOSE=
-+DELAY_FACTOR=1
-+while [[ "$1" = -* ]]
-+do
-+	case "$1" in
-+		-v) VERBOSE=1
-+		    break
-+		    ;;
-+		-d) DELAY_FACTOR=$2
-+		    shift
-+		    break
-+		    ;;
-+		*)  echo "Usage: $PROG [-v] [-d <delay-factor>"
-+		    exit
-+		    ;;
-+	esac
-+	shift
-+done
-+
-+cd $CGROUP2
-+echo +cpuset > cgroup.subtree_control
-+[[ -d test ]] || mkdir test
-+cd test
-+
-+# Pause in ms
-+pause()
-+{
-+	DELAY=$1
-+	LOOP=0
-+	while [[ $LOOP -lt $DELAY_FACTOR ]]
-+	do
-+		sleep $DELAY
-+		((LOOP++))
-+	done
-+	return 0
-+}
-+
-+console_msg()
-+{
-+	MSG=$1
-+	echo "$MSG"
-+	echo "" > /dev/console
-+	echo "$MSG" > /dev/console
-+	pause 0.01
-+}
-+
-+test_partition()
-+{
-+	EXPECTED_VAL=$1
-+	echo $EXPECTED_VAL > cpuset.cpus.partition
-+	[[ $? -eq 0 ]] || exit 1
-+	ACTUAL_VAL=$(cat cpuset.cpus.partition)
-+	[[ $ACTUAL_VAL != $EXPECTED_VAL ]] && {
-+		echo "cpuset.cpus.partition: expect $EXPECTED_VAL, found $EXPECTED_VAL"
-+		echo "Test FAILED"
-+		exit 1
-+	}
-+}
-+
-+test_effective_cpus()
-+{
-+	EXPECTED_VAL=$1
-+	ACTUAL_VAL=$(cat cpuset.cpus.effective)
-+	[[ "$ACTUAL_VAL" != "$EXPECTED_VAL" ]] && {
-+		echo "cpuset.cpus.effective: expect '$EXPECTED_VAL', found '$EXPECTED_VAL'"
-+		echo "Test FAILED"
-+		exit 1
-+	}
-+}
-+
-+# Adding current process to cgroup.procs as a test
-+test_add_proc()
-+{
-+	OUTSTR="$1"
-+	ERRMSG=$((echo $$ > cgroup.procs) |& cat)
-+	echo $ERRMSG | grep -q "$OUTSTR"
-+	[[ $? -ne 0 ]] && {
-+		echo "cgroup.procs: expect '$OUTSTR', got '$ERRMSG'"
-+		echo "Test FAILED"
-+		exit 1
-+	}
-+	echo $$ > $CGROUP2/cgroup.procs	# Move out the task
-+}
-+
-+#
-+# Testing the new "isolated" partition root type
-+#
-+test_isolated()
-+{
-+	echo 2-3 > cpuset.cpus
-+	TYPE=$(cat cpuset.cpus.partition)
-+	[[ $TYPE = member ]] || echo member > cpuset.cpus.partition
-+
-+	console_msg "Change from member to root"
-+	test_partition root
-+
-+	console_msg "Change from root to isolated"
-+	test_partition isolated
-+
-+	console_msg "Change from isolated to member"
-+	test_partition member
-+
-+	console_msg "Change from member to isolated"
-+	test_partition isolated
-+
-+	console_msg "Change from isolated to root"
-+	test_partition root
-+
-+	console_msg "Change from root to member"
-+	test_partition member
-+
-+	#
-+	# Testing partition root with no cpu
-+	#
-+	console_msg "Distribute all cpus to child partition"
-+	echo +cpuset > cgroup.subtree_control
-+	test_partition root
-+
-+	mkdir A1
-+	cd A1
-+	echo 2-3 > cpuset.cpus
-+	test_partition root
-+	test_effective_cpus 2-3
-+	cd ..
-+	test_effective_cpus ""
-+
-+	console_msg "Moving task to partition test"
-+	test_add_proc "No space left"
-+	cd A1
-+	test_add_proc ""
-+	cd ..
-+
-+	console_msg "Shrink and expand child partition"
-+	cd A1
-+	echo 2 > cpuset.cpus
-+	cd ..
-+	test_effective_cpus 3
-+	cd A1
-+	echo 2-3 > cpuset.cpus
-+	cd ..
-+	test_effective_cpus ""
-+
-+	# Cleaning up
-+	console_msg "Cleaning up"
-+	echo $$ > $CGROUP2/cgroup.procs
-+	[[ -d A1 ]] && rmdir A1
-+}
-+
-+#
-+# Cpuset controller state transition test matrix.
-+#
-+# Cgroup test hierarchy
-+#
-+# test -- A1 -- A2 -- A3
-+#      \- B1
-+#
-+#  P<v> = set cpus.partition (0:member, 1:root, 2:isolated, -1:root invalid)
-+#  C<l> = add cpu-list
-+#  S<p> = use prefix in subtree_control
-+#  T    = put a task into cgroup
-+#  O<c>-<v> = Write <v> to CPU online file of <c>
-+#
-+SETUP_A123_PARTITIONS="C1-3:P1:S+ C2-3:P1:S+ C3:P1"
-+TEST_MATRIX=(
-+	# test  old-A1 old-A2 old-A3 old-B1 new-A1 new-A2 new-A3 new-B1 fail ECPUs Pstate
-+	# ----  ------ ------ ------ ------ ------ ------ ------ ------ ---- ----- ------
-+	"  S+    C0-1     .      .    C2-3    S+    C4-5     .      .     0 A2:0-1"
-+	"  S+    C0-1     .      .    C2-3    P1      .      .      .     0 "
-+	"  S+    C0-1     .      .    C2-3   P1:S+ C0-1:P1   .      .     0 "
-+	"  S+    C0-1     .      .    C2-3   P1:S+  C1:P1    .      .     0 "
-+	"  S+   C0-1:S+   .      .    C2-3     .      .      .     P1     0 "
-+	"  S+   C0-1:P1   .      .    C2-3    S+     C1      .      .     0 "
-+	"  S+   C0-1:P1   .      .    C2-3    S+    C1:P1    .      .     0 "
-+	"  S+   C0-1:P1   .      .    C2-3    S+    C1:P1    .     P1     0 "
-+	"  S+   C0-1:P1   .      .    C2-3   C4-5     .      .      .     0 A1:4-5"
-+	"  S+   C0-1:P1   .      .    C2-3  S+:C4-5   .      .      .     0 A1:4-5"
-+	"  S+    C0-1     .      .   C2-3:P1   .      .      .     C2     0 "
-+	"  S+    C0-1     .      .   C2-3:P1   .      .      .    C4-5    0 B1:4-5"
-+	"  S+ C0-3:P1:S+ C2-3:P1 .      .      .      .      .      .     0 A1:0-1,A2:2-3"
-+	"  S+ C0-3:P1:S+ C2-3:P1 .      .     C1-3    .      .      .     0 A1:1,A2:2-3"
-+	"  S+ C2-3:P1:S+  C3:P1  .      .     C3      .      .      .     0 A1:,A2:3 A1:P1,A2:P1"
-+	"  S+ C2-3:P1:S+  C3:P1  .      .     C3      P0     .      .     0 A1:3,A2:3 A1:P1,A2:P0"
-+	"  S+ C2-3:P1:S+  C2:P1  .      .     C2-4    .      .      .     0 A1:3-4,A2:2"
-+	"  S+ C2-3:P1:S+  C3:P1  .      .     C3      .      .     C0-2   0 A1:,B1:0-2 A1:P1,A2:P1"
-+	"  S+ $SETUP_A123_PARTITIONS    .     C2-3    .      .      .     0 A1:,A2:2,A3:3 A1:P1,A2:P1,A3:P1"
-+
-+	# CPU offlining cases:
-+	"  S+    C0-1     .      .    C2-3    S+    C4-5     .     O2-0   0 A1:0-1,B1:3"
-+	"  S+ C0-3:P1:S+ C2-3:P1 .      .     O2-0    .      .      .     0 A1:0-1,A2:3"
-+	"  S+ C0-3:P1:S+ C2-3:P1 .      .     O2-0   O2-1    .      .     0 A1:0-1,A2:2-3"
-+	"  S+ C0-3:P1:S+ C2-3:P1 .      .     O1-0    .      .      .     0 A1:0,A2:2-3"
-+	"  S+ C0-3:P1:S+ C2-3:P1 .      .     O1-0   O1-1    .      .     0 A1:0-1,A2:2-3"
-+	"  S+ C2-3:P1:S+  C3:P1  .      .     O3-0   O3-1    .      .     0 A1:2,A2:3 A1:P1,A2:P1"
-+	"  S+ C2-3:P1:S+  C3:P2  .      .     O3-0   O3-1    .      .     0 A1:2,A2:3 A1:P1,A2:P2"
-+	"  S+ C2-3:P1:S+  C3:P1  .      .     O2-0   O2-1    .      .     0 A1:2,A2:3 A1:P1,A2:P1"
-+	"  S+ C2-3:P1:S+  C3:P2  .      .     O2-0   O2-1    .      .     0 A1:2,A2:3 A1:P1,A2:P2"
-+	"  S+ C2-3:P1:S+  C3:P1  .      .     O2-0    .      .      .     0 A1:,A2:3 A1:P1,A2:P1"
-+	"  S+ C2-3:P1:S+  C3:P1  .      .     O3-0    .      .      .     0 A1:2,A2: A1:P1,A2:P1"
-+	"  S+ C2-3:P1:S+  C3:P1  .      .    T:O2-0   .      .      .     0 A1:3,A2:3 A1:P1,A2:P-1"
-+	"  S+ C2-3:P1:S+  C3:P1  .      .      .    T:O3-0   .      .     0 A1:2,A2:2 A1:P1,A2:P-1"
-+	"  S+ $SETUP_A123_PARTITIONS    .     O1-0    .      .      .     0 A1:,A2:2,A3:3 A1:P1,A2:P1,A3:P1"
-+	"  S+ $SETUP_A123_PARTITIONS    .     O2-0    .      .      .     0 A1:1,A2:,A3:3 A1:P1,A2:P1,A3:P1"
-+	"  S+ $SETUP_A123_PARTITIONS    .     O3-0    .      .      .     0 A1:1,A2:2,A3: A1:P1,A2:P1,A3:P1"
-+	"  S+ $SETUP_A123_PARTITIONS    .    T:O1-0   .      .      .     0 A1:2-3,A2:2-3,A3:3 A1:P1,A2:P-1,A3:P-1"
-+	"  S+ $SETUP_A123_PARTITIONS    .      .    T:O2-0   .      .     0 A1:1,A2:3,A3:3 A1:P1,A2:P1,A3:P-1"
-+	"  S+ $SETUP_A123_PARTITIONS    .      .      .    T:O3-0   .     0 A1:1,A2:2,A3:2 A1:P1,A2:P1,A3:P-1"
-+	"  S+ $SETUP_A123_PARTITIONS    .    T:O1-0  O1-1    .      .     0 A1:1,A2:2,A3:3 A1:P1,A2:P1,A3:P1"
-+	"  S+ $SETUP_A123_PARTITIONS    .      .    T:O2-0  O2-1    .     0 A1:1,A2:2,A3:3 A1:P1,A2:P1,A3:P1"
-+	"  S+ $SETUP_A123_PARTITIONS    .      .      .    T:O3-0  O3-1   0 A1:1,A2:2,A3:3 A1:P1,A2:P1,A3:P1"
-+	"  S+ $SETUP_A123_PARTITIONS    .    T:O1-0  O2-0   O1-1    .     0 A1:1,A2:,A3:3 A1:P1,A2:P1,A3:P1"
-+	"  S+ $SETUP_A123_PARTITIONS    .    T:O1-0  O2-0   O2-1    .     0 A1:2-3,A2:2-3,A3:3 A1:P1,A2:P-1,A3:P-1"
-+
-+	# test  old-A1 old-A2 old-A3 old-B1 new-A1 new-A2 new-A3 new-B1 fail ECPUs Pstate
-+	# ----  ------ ------ ------ ------ ------ ------ ------ ------ ---- ----- ------
-+	#
-+	# Incorrect change to cpuset.cpus invalidates partition root
-+	#
-+	# Adding CPUs to partition root that are not in parent's
-+	# cpuset.cpus is allowed, but those extra CPUs are ignored.
-+	"  S+ C2-3:P1:S+ C3:P1   .      .      .     C2-4    .      .     0 A1:,A2:2-3 A1:P1,A2:P1"
-+
-+	# Taking away all CPUs from parent or itself if there are tasks
-+	# will make the partition invalid.
-+	"  S+ C2-3:P1:S+  C3:P1  .      .      T     C2-3    .      .     0 A1:2-3,A2:2-3 A1:P1,A2:P-1"
-+	"  S+ $SETUP_A123_PARTITIONS    .    T:C2-3   .      .      .     0 A1:2-3,A2:2-3,A3:3 A1:P1,A2:P-1,A3:P-1"
-+	"  S+ $SETUP_A123_PARTITIONS    . T:C2-3:C1-3 .      .      .     0 A1:1,A2:2,A3:3 A1:P1,A2:P1,A3:P1"
-+
-+	# Changing a partition root to member makes child partitions invalid
-+	"  S+ C2-3:P1:S+  C3:P1  .      .      P0     .      .      .     0 A1:2-3,A2:3 A1:P0,A2:P-1"
-+	"  S+ $SETUP_A123_PARTITIONS    .     C2-3    P0     .      .     0 A1:2-3,A2:2-3,A3:3 A1:P1,A2:P0,A3:P-1"
-+
-+	# cpuset.cpus can contains cpus not in parent's cpuset.cpus as long
-+	# as they overlap.
-+	"  S+ C2-3:P1:S+  .      .      .      .   C3-4:P1   .      .     0 A1:2,A2:3 A1:P1,A2:P1"
-+
-+	# Deletion of CPUs distributed to child cgroup is allowed.
-+	"  S+ C0-1:P1:S+ C1      .    C2-3   C4-5     .      .      .     0 A1:4-5,A2:4-5"
-+
-+	# test  old-A1 old-A2 old-A3 old-B1 new-A1 new-A2 new-A3 new-B1 fail ECPUs Pstate
-+	# ----  ------ ------ ------ ------ ------ ------ ------ ------ ---- ----- ------
-+	# Failure cases:
-+
-+	# To become a partition root, cpuset.cpus must overlap parent's
-+	# cpuset.cpus.
-+	"  S+    C0-1     .      .    C2-3    S+   C4-5:P1   .      .     1 "
-+
-+	# A cpuset cannot become a partition root if it has child cpusets
-+	# with non-empty cpuset.cpus.
-+	"  S+   C0-1:S+   C1     .    C2-3    P1      .      .      .     1 "
-+
-+	# Any change to cpuset.cpus of a partition root must be exclusive.
-+	"  S+   C0-1:P1   .      .    C2-3   C0-2     .      .      .     1 "
-+	"  S+    C0-1     .      .   C2-3:P1   .      .      .     C1     1 "
-+	"  S+ C2-3:P1:S+  C2:P1  .     C1    C1-3     .      .      .     1 "
-+
-+	# A task cannot be added to a partition with no cpu
-+	"  S+ C2-3:P1:S+  C3:P1  .      .    O2-0:T   .      .      .     1 A1:,A2:3 A1:P1,A2:P1"
-+)
-+
-+#
-+# Write to the cpu online file
-+#  $1 - <c>-<v> where <c> = cpu number, <v> value to be written
-+#
-+write_cpu_online()
-+{
-+	CPU=${1%-*}
-+	VAL=${1#*-}
-+	CPUFILE=//sys/devices/system/cpu/cpu${CPU}/online
-+	if [[ $VAL -eq 0 ]]
-+	then
-+		OFFLINE_CPUS="$OFFLINE_CPUS $CPU"
-+	else
-+		[[ -n "$OFFLINE_CPUS" ]] && {
-+			OFFLINE_CPUS=$(echo $CPU $CPU $OFFLINE_CPUS | fmt -1 |\
-+					sort | uniq -u)
-+		}
-+	fi
-+	echo $VAL > $CPUFILE
-+	pause 0.01
-+}
-+
-+#
-+# Set controller state
-+#  $1 - cgroup directory
-+#  $2 - state
-+#  $3 - showerr
-+#
-+# The presence of ":" in state means transition from one to the next.
-+#
-+set_ctrl_state()
-+{
-+	TMPMSG=/tmp/.msg_$$
-+	CGRP=$1
-+	STATE=$2
-+	SHOWERR=${3}${VERBOSE}
-+	CTRL=${CTRL:=$CONTROLLER}
-+	HASERR=0
-+	REDIRECT="2> $TMPMSG"
-+	[[ -z "$STATE" || "$STATE" = '.' ]] && return 0
-+
-+	rm -f $TMPMSG
-+	for CMD in $(echo $STATE | sed -e "s/:/ /g")
-+	do
-+		TFILE=$CGRP/cgroup.procs
-+		SFILE=$CGRP/cgroup.subtree_control
-+		PFILE=$CGRP/cpuset.cpus.partition
-+		CFILE=$CGRP/cpuset.cpus
-+		S=$(expr substr $CMD 1 1)
-+		if [[ $S = S ]]
-+		then
-+			PREFIX=${CMD#?}
-+			COMM="echo ${PREFIX}${CTRL} > $SFILE"
-+			eval $COMM $REDIRECT
-+		elif [[ $S = C ]]
-+		then
-+			CPUS=${CMD#?}
-+			COMM="echo $CPUS > $CFILE"
-+			eval $COMM $REDIRECT
-+		elif [[ $S = P ]]
-+		then
-+			VAL=${CMD#?}
-+			case $VAL in
-+			0)  VAL=member
-+			    ;;
-+			1)  VAL=root
-+			    ;;
-+			2)  VAL=isolated
-+			    ;;
-+			*)
-+			    echo "Invalid partition state - $VAL"
-+			    exit 1
-+			    ;;
-+			esac
-+			COMM="echo $VAL > $PFILE"
-+			eval $COMM $REDIRECT
-+		elif [[ $S = O ]]
-+		then
-+			VAL=${CMD#?}
-+			write_cpu_online $VAL
-+		elif [[ $S = T ]]
-+		then
-+			COMM="echo 0 > $TFILE"
-+			eval $COMM $REDIRECT
-+		fi
-+		RET=$?
-+		[[ $RET -ne 0 ]] && {
-+			[[ -n "$SHOWERR" ]] && {
-+				echo "$COMM"
-+				cat $TMPMSG
-+			}
-+			HASERR=1
-+		}
-+		pause 0.01
-+		rm -f $TMPMSG
-+	done
-+	return $HASERR
-+}
-+
-+set_ctrl_state_noerr()
-+{
-+	CGRP=$1
-+	STATE=$2
-+	[[ -d $CGRP ]] || mkdir $CGRP
-+	set_ctrl_state $CGRP $STATE 1
-+	[[ $? -ne 0 ]] && {
-+		echo "ERROR: Failed to set $2 to cgroup $1!"
-+		exit 1
-+	}
-+}
-+
-+online_cpus()
-+{
-+	[[ -n "OFFLINE_CPUS" ]] && {
-+		for C in $OFFLINE_CPUS
-+		do
-+			write_cpu_online ${C}-1
-+		done
-+	}
-+}
-+
-+#
-+# Return 1 if the list of effective cpus isn't the same as the initial list.
-+#
-+reset_cgroup_states()
-+{
-+	echo 0 > $CGROUP2/cgroup.procs
-+	online_cpus
-+	rmdir A1/A2/A3 A1/A2 A1 B1 > /dev/null 2>&1
-+	set_ctrl_state . S-
-+	pause 0.01
-+}
-+
-+dump_states()
-+{
-+	for DIR in A1 A1/A2 A1/A2/A3 B1
-+	do
-+		ECPUS=$DIR/cpuset.cpus.effective
-+		PRS=$DIR/cpuset.cpus.partition
-+		[[ -e $ECPUS ]] && echo "$ECPUS: $(cat $ECPUS)"
-+		[[ -e $PRS   ]] && echo "$PRS: $(cat $PRS)"
-+	done
-+}
-+
-+#
-+# Check effective cpus
-+# $1 - check string, format: <cgroup>:<cpu-list>[,<cgroup>:<cpu-list>]*
-+#
-+check_effective_cpus()
-+{
-+	CHK_STR=$1
-+	for CHK in $(echo $CHK_STR | sed -e "s/,/ /g")
-+	do
-+		set -- $(echo $CHK | sed -e "s/:/ /g")
-+		CGRP=$1
-+		CPUS=$2
-+		[[ $CGRP = A2 ]] && CGRP=A1/A2
-+		[[ $CGRP = A3 ]] && CGRP=A1/A2/A3
-+		FILE=$CGRP/cpuset.cpus.effective
-+		[[ -e $FILE ]] || return 1
-+		[[ $CPUS = $(cat $FILE) ]] || return 1
-+	done
-+}
-+
-+#
-+# Check cgroup states
-+#  $1 - check string, format: <cgroup>:<state>[,<cgroup>:<state>]*
-+#
-+check_cgroup_states()
-+{
-+	CHK_STR=$1
-+	for CHK in $(echo $CHK_STR | sed -e "s/,/ /g")
-+	do
-+		set -- $(echo $CHK | sed -e "s/:/ /g")
-+		CGRP=$1
-+		STATE=$2
-+		FILE=
-+		EVAL=$(expr substr $STATE 2 2)
-+		[[ $CGRP = A2 ]] && CGRP=A1/A2
-+		[[ $CGRP = A3 ]] && CGRP=A1/A2/A3
-+
-+		case $STATE in
-+			P*) FILE=$CGRP/cpuset.cpus.partition
-+			    ;;
-+			*)  echo "Unknown state: $STATE!"
-+			    exit 1
-+			    ;;
-+		esac
-+		VAL=$(cat $FILE)
-+
-+		case "$VAL" in
-+			member) VAL=0
-+				;;
-+			root)	VAL=1
-+				;;
-+			isolated)
-+				VAL=2
-+				;;
-+			"root invalid"*)
-+				VAL=-1
-+				;;
-+		esac
-+		[[ $EVAL != $VAL ]] && return 1
-+	done
-+	return 0
-+}
-+
-+#
-+# Run cpuset state transition test
-+#  $1 - test matrix name
-+#
-+# This test is somewhat fragile as delays (sleep x) are added in various
-+# places to make sure state changes are fully propagated before the next
-+# action. These delays may need to be adjusted if running in a slower machine.
-+#
-+run_state_test()
-+{
-+	TEST=$1
-+	CONTROLLER=cpuset
-+	CPULIST=0-6
-+	I=0
-+	eval CNT="\${#$TEST[@]}"
-+
-+	reset_cgroup_states
-+	echo $CPULIST > cpuset.cpus
-+	echo root > cpuset.cpus.partition
-+	console_msg "Running state transition test ..."
-+
-+	while [[ $I -lt $CNT ]]
-+	do
-+		echo "Running test $I ..." > /dev/console
-+		eval set -- "\${$TEST[$I]}"
-+		ROOT=$1
-+		OLD_A1=$2
-+		OLD_A2=$3
-+		OLD_A3=$4
-+		OLD_B1=$5
-+		NEW_A1=$6
-+		NEW_A2=$7
-+		NEW_A3=$8
-+		NEW_B1=$9
-+		RESULT=${10}
-+		ECPUS=${11}
-+		STATES=${12}
-+
-+		set_ctrl_state_noerr .        $ROOT
-+		set_ctrl_state_noerr A1       $OLD_A1
-+		set_ctrl_state_noerr A1/A2    $OLD_A2
-+		set_ctrl_state_noerr A1/A2/A3 $OLD_A3
-+		set_ctrl_state_noerr B1       $OLD_B1
-+		RETVAL=0
-+		set_ctrl_state A1       $NEW_A1; ((RETVAL += $?))
-+		set_ctrl_state A1/A2    $NEW_A2; ((RETVAL += $?))
-+		set_ctrl_state A1/A2/A3 $NEW_A3; ((RETVAL += $?))
-+		set_ctrl_state B1       $NEW_B1; ((RETVAL += $?))
-+
-+		[[ $RETVAL -ne $RESULT ]] && {
-+			echo "Test $TEST[$I] failed result check!"
-+			eval echo \"\${$TEST[$I]}\"
-+			dump_states
-+			online_cpus
-+			exit 1
-+		}
-+
-+		[[ -n "$ECPUS" && "$ECPUS" != . ]] && {
-+			check_effective_cpus $ECPUS
-+			[[ $? -ne 0 ]] && {
-+				echo "Test $TEST[$I] failed effective CPU check!"
-+				eval echo \"\${$TEST[$I]}\"
-+				echo
-+				dump_states
-+				online_cpus
-+				exit 1
-+			}
-+		}
-+
-+		[[ -n "$STATES" ]] && {
-+			check_cgroup_states $STATES
-+			[[ $? -ne 0 ]] && {
-+				echo "FAILED: Test $TEST[$I] failed states check!"
-+				eval echo \"\${$TEST[$I]}\"
-+				echo
-+				dump_states
-+				online_cpus
-+				exit 1
-+			}
-+		}
-+
-+		reset_cgroup_states
-+		#
-+		# Check to see if effective cpu list changes
-+		#
-+		pause 0.05
-+		NEWLIST=$(cat cpuset.cpus.effective)
-+		[[ $NEWLIST != $CPULIST ]] && {
-+			echo "Effective cpus changed to $NEWLIST after test $I!"
-+			exit 1
-+		}
-+		[[ -n "$VERBOSE" ]] && echo "Test $I done."
-+		((I++))
-+	done
-+	echo "All $I tests of $TEST PASSED."
-+
-+	echo member > cpuset.cpus.partition
-+}
-+
-+#
-+# Wait for inotify event for the given file and read it
-+# $1: cgroup file to wait for
-+# $2: file to store the read result
-+#
-+wait_inotify()
-+{
-+	CGROUP_FILE=$1
-+	OUTPUT_FILE=$2
-+
-+	$WAIT_INOTIFY $CGROUP_FILE
-+	cat $CGROUP_FILE > $OUTPUT_FILE
-+}
-+
-+#
-+# Test if inotify events are properly generated when going into and out of
-+# invalid partition state.
-+#
-+test_inotify()
-+{
-+	ERR=0
-+	PRS=/tmp/.prs_$$
-+	[[ -f $WAIT_INOTIFY ]] || {
-+		echo "wait_inotify not found, inotify test SKIPPED."
-+		return
-+	}
-+
-+	pause 0.01
-+	echo 1 > cpuset.cpus
-+	echo 0 > cgroup.procs
-+	echo root > cpuset.cpus.partition
-+	pause 0.01
-+	rm -f $PRS
-+	wait_inotify $PWD/cpuset.cpus.partition $PRS &
-+	pause 0.01
-+	set_ctrl_state . "O1-0"
-+	pause 0.01
-+	check_cgroup_states ".:P-1"
-+	if [[ $? -ne 0 ]]
-+	then
-+		echo "FAILED: Inotify test - partition not invalid"
-+		ERR=1
-+	elif [[ ! -f $PRS ]]
-+	then
-+		echo "FAILED: Inotify test - event not generated"
-+		ERR=1
-+		kill %1
-+	elif [[ $(cat $PRS) != "root invalid"* ]]
-+	then
-+		echo "FAILED: Inotify test - incorrect state"
-+		cat $PRS
-+		ERR=1
-+	fi
-+	online_cpus
-+	echo member > cpuset.cpus.partition
-+	echo 0 > ../cgroup.procs
-+	if [[ $ERR -ne 0 ]]
-+	then
-+		exit 1
-+	else
-+		echo "Inotify test PASSED"
-+	fi
-+}
-+
-+run_state_test TEST_MATRIX
-+test_isolated
-+test_inotify
-+echo "All tests PASSED."
-+cd ..
-+rmdir test
-diff --git a/tools/testing/selftests/cgroup/wait_inotify.c b/tools/testing/selftests/cgroup/wait_inotify.c
-new file mode 100644
-index 000000000000..e11b431e1b62
---- /dev/null
-+++ b/tools/testing/selftests/cgroup/wait_inotify.c
-@@ -0,0 +1,87 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Wait until an inotify event on the given cgroup file.
-+ */
-+#include <linux/limits.h>
-+#include <sys/inotify.h>
-+#include <sys/mman.h>
-+#include <sys/ptrace.h>
-+#include <sys/stat.h>
-+#include <sys/types.h>
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <poll.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <unistd.h>
-+
-+static const char usage[] = "Usage: %s [-v] <cgroup_file>\n";
-+static char *file;
-+static int verbose;
-+
-+static inline void fail_message(char *msg)
-+{
-+	fprintf(stderr, msg, file);
-+	exit(1);
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	char *cmd = argv[0];
-+	int c, fd;
-+	struct pollfd fds = { .events = POLLIN, };
-+
-+	while ((c = getopt(argc, argv, "v")) != -1) {
-+		switch (c) {
-+		case 'v':
-+			verbose++;
-+			break;
-+		}
-+		argv++, argc--;
-+	}
-+
-+	if (argc != 2) {
-+		fprintf(stderr, usage, cmd);
-+		return -1;
-+	}
-+	file = argv[1];
-+	fd = open(file, O_RDONLY);
-+	if (fd < 0)
-+		fail_message("Cgroup file %s not found!\n");
-+	close(fd);
-+
-+	fd = inotify_init();
-+	if (fd < 0)
-+		fail_message("inotify_init() fails on %s!\n");
-+	if (inotify_add_watch(fd, file, IN_MODIFY) < 0)
-+		fail_message("inotify_add_watch() fails on %s!\n");
-+	fds.fd = fd;
-+
-+	/*
-+	 * poll waiting loop
-+	 */
-+	for (;;) {
-+		int ret = poll(&fds, 1, 10000);
-+
-+		if (ret < 0) {
-+			if (errno == EINTR)
-+				continue;
-+			perror("poll");
-+			exit(1);
-+		}
-+		if ((ret > 0) && (fds.revents & POLLIN))
-+			break;
-+	}
-+	if (verbose) {
-+		struct inotify_event events[10];
-+		long len;
-+
-+		usleep(1000);
-+		len = read(fd, events, sizeof(events));
-+		printf("Number of events read = %ld\n",
-+			len/sizeof(struct inotify_event));
-+	}
-+	close(fd);
-+	return 0;
-+}
--- 
-2.27.0
-
+VGFuZyBZaXpob3UgPHRhbmd5aXpob3VAaHVhd2VpLmNvbT4g5LqOMjAyMeW5tDEy5pyIM+aXpeWR
+qOS6lCAwMTozN+WGmemBk++8mg0KPg0KPiBUaGVyZSBhcmUgc29tZSBzeW50YXggZXJyb3JzIGlu
+IHRoaXMgZG9jdW1lbnQuDQo+IEFsc28gbWFrZSBpdCBtb3JlIHJlYWRhYmxlLg0KPg0KPiBTaWdu
+ZWQtb2ZmLWJ5OiBUYW5nIFlpemhvdSA8dGFuZ3lpemhvdUBodWF3ZWkuY29tPg0KQWNrZWQtYnk6
+IFlhbnRlbmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nvbi5jbj4NCg0KVGhhbmtzLA0KWWFudGVuZw0K
+PiAtLS0NCj4gIC4uLi96aF9DTi9jcHUtZnJlcS9jcHUtZHJpdmVycy5yc3QgICAgICAgICAgICB8
+IDgzICsrKysrKysrKystLS0tLS0tLS0NCj4gIDEgZmlsZSBjaGFuZ2VkLCA0MyBpbnNlcnRpb25z
+KCspLCA0MCBkZWxldGlvbnMoLSkNCj4NCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJh
+bnNsYXRpb25zL3poX0NOL2NwdS1mcmVxL2NwdS1kcml2ZXJzLnJzdCBiL0RvY3VtZW50YXRpb24v
+dHJhbnNsYXRpb25zL3poX0NOL2NwdS1mcmVxL2NwdS1kcml2ZXJzLnJzdA0KPiBpbmRleCAwZmM1
+ZDE0OTU3ODkuLjcwMWViYjk2NGNiNCAxMDA2NDQNCj4gLS0tIGEvRG9jdW1lbnRhdGlvbi90cmFu
+c2xhdGlvbnMvemhfQ04vY3B1LWZyZXEvY3B1LWRyaXZlcnMucnN0DQo+ICsrKyBiL0RvY3VtZW50
+YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2NwdS1mcmVxL2NwdS1kcml2ZXJzLnJzdA0KPiBAQCAt
+MzgsNyArMzgsNyBAQA0KPiAgMS4g5oCO5LmI5YGa77yfDQo+ICA9PT09PT09PT09PQ0KPg0KPiAt
+5aaC5q2k77yM5L2g5Yia5Yia5b6X5Yiw5LqG5LiA5Liq5YWo5paw55qEQ1BVL+iKr+eJh+e7hOWP
+iuWFtuaVsOaNruaJi+WGjO+8jOW5tuW4jOacm+S4uui/meS4qkNQVS/oiq/niYfnu4Tmt7vliqBj
+cHVmcmVxDQo+ICvlpoLmnpzvvIzkvaDliJrliJrlvpfliLDkuobkuIDkuKrlhajmlrDnmoRDUFUv
+6Iqv54mH57uE5Y+K5YW25pWw5o2u5omL5YaM77yM5bm25biM5pyb5Li66L+Z5LiqQ1BVL+iKr+eJ
+h+e7hOa3u+WKoGNwdWZyZXENCj4gIOaUr+aMge+8n+W+iOWlve+8jOi/memHjOacieS4gOS6m+iH
+s+WFs+mHjeimgeeahOaPkOekuu+8mg0KPg0KPg0KPiBAQCAtNjAsOSArNjAsOSBAQCBDUFVmcmVx
+5qC45b+D5bGC5rOo5YaM5LiA5LiqY3B1ZnJlcV9kcml2ZXLnu5PmnoTkvZPjgIINCj4gICAuc2V0
+cG9saWN5IOaIliAuZmFzdF9zd2l0Y2gg5oiWIC50YXJnZXQg5oiWIC50YXJnZXRfaW5kZXggLSDl
+t67lvILop4ENCj4gICDkuIvmlofjgIINCj4NCj4gLeW5tuS4lOWPr+mAieaLqQ0KPiAr5YW25a6D
+5Y+v6YCJ5oiQ5ZGYDQo+DQo+IC0gLmZsYWdzIC0gY3B1ZnJlceaguOeahOaPkOekuuOAgg0KPiAr
+IC5mbGFncyAtIOe7mWNwdWZyZXHmoLjlv4PnmoTmj5DnpLrjgIINCj4NCj4gICAuZHJpdmVyX2Rh
+dGEgLSBjcHVmcmVx6amx5Yqo56iL5bqP55qE54m55a6a5pWw5o2u44CCDQo+DQo+IEBAIC04Miw3
+ICs4Miw3IEBAIENQVWZyZXHmoLjlv4PlsYLms6jlhozkuIDkuKpjcHVmcmVxX2RyaXZlcue7k+ae
+hOS9k+OAgg0KPiAgIC5yZXN1bWUgLSDkuIDkuKrmjIflkJFwZXItcG9saWN55oGi5aSN5Ye95pWw
+55qE5oyH6ZKI77yM6K+l5Ye95pWw5Zyo5YWz5Lit5pat5LiU5Zyo6LCD6IqC5Zmo5YaN5LiA5qyh
+5byA5aeL5YmN6KKrDQo+ICAg6LCD55So44CCDQo+DQo+IC0gLmF0dHIgLSDkuIDkuKrmjIflkJFO
+VUxM57uT5bC+55qEInN0cnVjdCBmcmVxX2F0dHIi5YiX6KGo55qE5oyH6ZKI77yM6K+l5Ye95pWw
+5YWB6K645a+85Ye65YC85YiwDQo+ICsgLmF0dHIgLSDkuIDkuKrmjIflkJFOVUxM57uT5bC+55qE
+InN0cnVjdCBmcmVxX2F0dHIi5YiX6KGo55qE5oyH6ZKI77yM6K+l5YiX6KGo5YWB6K645a+85Ye6
+5YC85YiwDQo+ICAgc3lzZnPjgIINCj4NCj4gICAuYm9vc3RfZW5hYmxlZCAtIOWmguaenOiuvue9
+ru+8jOWImeWQr+eUqOaPkOWNhyhib29zdCnpopHnjofjgIINCj4gQEAgLTEwMCw3ICsxMDAsNyBA
+QCBDUFVmcmVx5qC45b+D5bGC5rOo5YaM5LiA5LiqY3B1ZnJlcV9kcml2ZXLnu5PmnoTkvZPjgIIN
+Cj4NCj4gIOWmguaenOacieW/heimge+8jOivt+WcqOS9oOeahENQVeS4iua/gOa0u0NQVWZyZXHl
+ip/og73mlK/mjIHjgIINCj4NCj4gLeeEtuWQju+8jOmpseWKqOeoi+W6j+W/hemhu+Whq+WGmeS7
+peS4i+aVsOWAvDoNCj4gK+eEtuWQju+8jOmpseWKqOeoi+W6j+W/hemhu+Whq+WGmeS7peS4i+WA
+vDoNCj4NCj4gICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSstLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSsNCj4gIHxwb2xpY3ktPmNwdWluZm8ubWluX2Zy
+ZXEg5ZKMICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwNCj4g
+QEAgLTExMCw3ICsxMTAsNyBAQCBDUFVmcmVx5qC45b+D5bGC5rOo5YaM5LiA5LiqY3B1ZnJlcV9k
+cml2ZXLnu5PmnoTkvZPjgIINCj4gICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LSstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSsNCj4gIHxwb2xpY3ktPmNw
+dWluZm8udHJhbnNpdGlvbl9sYXRlbmN5IHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIHwNCj4gIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCBDUFXlnKjk
+uKTkuKrpopHnjofkuYvpl7TliIfmjaLmiYDpnIDnmoTml7bpl7TvvIzku6UgIHwNCj4gLXwgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCDnurPnp5LkuLrljZXkvY3vvIjlpoLpgILn
+lKjvvIzlkKbliJnmjIflrpogICAgICAgICB8DQo+ICt8ICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIHwg57qz56eS5Li65Y2V5L2N77yI5aaC5LiN6YCC55So77yM6K6+5a6a5Li6ICAg
+ICAgICAgfA0KPiAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8IENQVUZSRVFf
+RVRFUk5BTO+8iSAgICAgICAgICAgICAgICAgICAgfA0KPiAgKy0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKw0K
+PiAgfHBvbGljeS0+Y3VyICAgICAgICAgICAgICAgICAgICAgICB8IOivpUNQVeW9k+WJjeeahOW3
+peS9nOmikeeOhyjlpoLpgILnlKgpICAgICAgICAgIHwNCj4gQEAgLTExOSwzMCArMTE5LDMxIEBA
+IENQVWZyZXHmoLjlv4PlsYLms6jlhozkuIDkuKpjcHVmcmVxX2RyaXZlcue7k+aehOS9k+OAgg0K
+PiAgfHBvbGljeS0+bWluLCAgICAgICAgICAgICAgICAgICAgICB8ICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICB8DQo+ICB8cG9saWN5LT5tYXgsICAgICAgICAgICAgICAgICAg
+ICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwNCj4gIHxwb2xpY3kt
+PnBvbGljeSBhbmQsIGlmIG5lY2Vzc2FyeSwgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgfA0KPiAtfHBvbGljeS0+Z292ZXJub3IgICAgICAgICAgICAgICAgICB8IOW/hemh
+u+WMheWQq+ivpWNwdeeahCDigJzpu5jorqTnrZbnlaXigJ3jgILnqI3lkI4gICAgIHwNCj4gK3xw
+b2xpY3ktPmdvdmVybm9yICAgICAgICAgICAgICAgICAgfCDlv4XpobvljIXlkKvor6VDUFXnmoQg
+Ium7mOiupOetlueVpSLjgILnqI3lkI4gICAgIHwNCj4gIHwgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgfCDkvJrnlKjov5nkupvlgLzosIPnlKggICAgICAgICAgICAgICAgICAgICAg
+IHwNCj4gLXwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCBjcHVmcmVxX2RyaXZl
+ci52ZXJpZnkgYW5kIGVpdGhlciAgICAgfA0KPiAtfCAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICB8IGNwdWZyZXFfZHJpdmVyLnNldHBvbGljeSBvciAgICAgICAgICB8DQo+ICt8ICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgY3B1ZnJlcV9kcml2ZXIudmVyaWZ55ZKM
+5LiL6Z2i5Ye95pWwICAgICAgfA0KPiArfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICB8IOS5i+S4gO+8mmNwdWZyZXFfZHJpdmVyLnNldHBvbGljeeaIliAgICAgfA0KPiAgfCAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8IGNwdWZyZXFfZHJpdmVyLnRhcmdldC90YXJn
+ZXRfaW5kZXggICB8DQo+ICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwNCj4gICstLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LSsNCj4gLXxwb2xpY3ktPmNwdXMgICAgICAgICAgICAgICAgICAgICAgfCDnlKjkuI7ov5nkuKpD
+UFXkuIDotbflgZpEVkZT55qEKOWcqOe6vyvnprvnur8pICAgfA0KPiAtfCAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICB8IENQVSjljbPkuI7lroPlhbHkuqvml7bpkp8v55S15Y6L6L2o
+KeeahOaOqeeggeabtOaWsCB8DQo+IC18ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IHwg6L+Z5LiqICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfA0KPiArfHBvbGljeS0+
+Y3B1cyAgICAgICAgICAgICAgICAgICAgICB8IOivpXBvbGljeemAmui/h0RWRlPmoYbmnrblvbHl
+k43nmoTlhajpg6hDUFUgICAgfA0KPiArfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICB8ICjljbPkuI7mnKxDUFXlhbHkuqsgIuaXtumSny/nlLXljosiIOWvuSnmnoTmiJAgICB8DQo+
+ICt8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwg5o6p56CBKOWQjOaXtuWMheWQ
+q+WcqOe6v+WSjOemu+e6v0NQVSnvvIznlKjmjqnnoIEgIHwNCj4gK3wgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgfCDmm7TmlrDmnKzlrZfmrrUgICAgICAgICAgICAgICAgICAgICAg
+ICAgICB8DQo+ICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwNCj4gICstLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSsNCj4N
+Cj4gLeWvueS6juiuvue9ruWFtuS4reeahOS4gOS6m+WAvChjcHVpbmZvLm1pblttYXhdX2ZyZXEs
+IHBvbGljeS0+bWluW21heF0p77yM6aKR546H6KGo5Yqp5omL5Y+v6IO95Lya5pyJ5biuDQo+ICvl
+r7nkuo7orr7nva7lhbbkuK3nmoTkuIDkupvlgLwoY3B1aW5mby5taW5bbWF4XV9mcmVxLCBwb2xp
+Y3ktPm1pblttYXhdKe+8jOmikeeOh+ihqOi+heWKqeWHveaVsOWPr+iDveS8muacieW4rg0KPiAg
+5Yqp44CC5YWz5LqO5a6D5Lus55qE5pu05aSa5L+h5oGv77yM6K+35Y+C6KeB56ysMuiKguOAgg0K
+Pg0KPg0KPiAgMS4zIOmqjOivgQ0KPiAgLS0tLS0tLS0NCj4NCj4gLeW9k+eUqOaIt+WGs+Wumuiu
+vue9ruS4gOS4quaWsOeahOetlueVpSjnlLEg4oCccG9saWN5LGdvdmVybm9yLG1pbixtYXjnu4Tm
+iJDigJ0p5pe277yM5b+F6aG75a+56L+Z5Liq562W55Wl6L+b6KGM6aqM6K+B77yMDQo+ICvlvZPn
+lKjmiLflhrPlrprorr7nva7kuIDkuKrmlrDnmoTnrZbnlaUo55SxICJwb2xpY3ksZ292ZXJub3Is
+bWluLG1heOe7hOaIkCIgKeaXtu+8jOW/hemhu+Wvuei/meS4quetlueVpei/m+ihjOmqjOivge+8
+jA0KPiAg5Lul5L6/57qg5q2j5LiN5YW85a6555qE5YC844CC5Li65LqG6aqM6K+B6L+Z5Lqb5YC8
+77yMY3B1ZnJlcV92ZXJpZnlfd2l0aGluX2xpbWl0cyhgYHN0cnVjdCBjcHVmcmVxX3BvbGljeQ0K
+PiAgKnBvbGljeWBgLCBgYHVuc2lnbmVkIGludCBtaW5fZnJlcWBgLCBgYHVuc2lnbmVkIGludCBt
+YXhfZnJlcWBgKeWHveaVsOWPr+iDveS8muacieW4ruWKqeOAgg0KPiAt5YWz5LqO6aKR546H6KGo
+5Yqp5omL55qE6K+m57uG5YaF5a656K+35Y+C6KeB56ysMuiKguOAgg0KPiAr5YWz5LqO6aKR546H
+6KGo6L6F5Yqp5Ye95pWw55qE6K+m57uG5YaF5a656K+35Y+C6KeB56ysMuiKguOAgg0KPg0KPiAg
+5oKo6ZyA6KaB56Gu5L+d6Iez5bCR5pyJ5LiA5Liq5pyJ5pWI6aKR546H77yI5oiW5bel5L2c6IyD
+5Zu077yJ5ZyoIHBvbGljeS0+bWluIOWSjCBwb2xpY3ktPm1heCDojIPlm7TlhoXjgILlpoLmnpzm
+nInlv4UNCj4gIOimge+8jOWFiOWinuWKoHBvbGljeS0+bWF477yM5Y+q5pyJ5Zyo5rKh5pyJ5Yqe
+5rOV55qE5oOF5Ya15LiL77yM5omN5YeP5bCRcG9saWN5LT5taW7jgIINCj4gQEAgLTE1NCwyMiAr
+MTU1LDIzIEBAIENQVWZyZXHmoLjlv4PlsYLms6jlhozkuIDkuKpjcHVmcmVxX2RyaXZlcue7k+ae
+hOS9k+OAgg0KPiAg5aSn5aSa5pWwY3B1ZnJlcempseWKqOeUmuiHs+Wkp+WkmuaVsGNwdemikeeO
+h+WNh+mZjeeul+azleWPquWFgeiuuOWwhkNQVemikeeOh+iuvue9ruS4uumihOWumuS5ieeahOWb
+uuWumuWAvOOAguWvueS6jui/meS6m++8jOS9oA0KPiAg5Y+v5Lul5L2/55SoLT50YXJnZXQoKe+8
+jC0+dGFyZ2V0X2luZGV4KCnmiJYtPmZhc3Rfc3dpdGNoKCnlm57osIPjgIINCj4NCj4gLeacieS6
+m2NwdWZyZXHlip/og73nmoTlpITnkIblmajlj6/ku6Xoh6rlt7HlnKjmn5DkupvpmZDliLbkuYvp
+l7TliIfmjaLpopHnjofjgILov5nkupvlupTkvb/nlKgtPnNldHBvbGljeSgp5Zue6LCD44CCDQo+
+ICvmnInkuptjcHVmcmVx5Yqf6IO955qE5aSE55CG5Zmo5Y+v5Lul6Ieq6KGM5Zyo5p+Q5Lqb6ZmQ
+5Yi25LmL6Ze05YiH5o2i6aKR546H44CC5a6D5Lus5bqU5L2/55SoLT5zZXRwb2xpY3koKeWbnuiw
+g+OAgg0KPg0KPg0KPiAgMS41LiB0YXJnZXQvdGFyZ2V0X2luZGV4DQo+ICAtLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0NCj4NCj4gLXRhcmdldF9pbmRleOiwg+eUqOacieS4pOS4quWPguaVsO+8mmBg
+c3RydWN0IGNwdWZyZXFfcG9saWN5ICogcG9saWN5YGDlkoxgYHVuc2lnbmVkIGludGBgDQo+IC3n
+tKLlvJUo5LqO5YiX5Ye655qE6aKR546H6KGoKeOAgg0KPiArdGFyZ2V0X2luZGV46LCD55So5pyJ
+5Lik5Liq5Y+C5pWw77yaYGBzdHJ1Y3QgY3B1ZnJlcV9wb2xpY3kgKiBwb2xpY3lgYCDlkowgYGB1
+bnNpZ25lZCBpbnRgYA0KPiAr57Si5byVKOeUqOS6jue0ouW8lemikeeOh+ihqOmhuSnjgIINCj4N
+Cj4gIOW9k+iwg+eUqOi/memHjOaXtu+8jENQVWZyZXHpqbHliqjlv4Xpobvorr7nva7mlrDnmoTp
+opHnjofjgILlrp7pmYXpopHnjoflv4XpobvnlLFmcmVxX3RhYmxlW2luZGV4XS5mcmVxdWVuY3nl
+hrPlrprjgIINCj4NCj4gLeWug+W6lOivpeaAu+aYr+WcqOmUmeivr+eahOaDheWGteS4i+aBouWk
+jeWIsOS5i+WJjeeahOmikeeOhyjljbNwb2xpY3ktPnJlc3RvcmVfZnJlcSnvvIzljbPkvb/miJHk
+u6zkuYvliY3liIfmjaLliLDkuK3pl7TpopHnjofjgIINCj4gK+aAu+aYr+W6lOivpeWcqOWPkeeU
+n+mUmeivr+eahOaDheWGteS4i+aBouWkjeWIsOS5i+WJjeeahOmikeeOhyjljbNwb2xpY3ktPnJl
+c3RvcmVfZnJlcSnvvIzljbPkvb/miJHku6zlt7Lnu4/liIfmjaLliLDkuoYNCj4gK+S4remXtOmi
+keeOh+OAgg0KPg0KPiAg5bey5byD55SoDQo+ICAtLS0tLS0tLS0tDQo+IC3nm67moIfosIPnlKjm
+nInkuInkuKrlj4LmlbDjgIJgYHN0cnVjdCBjcHVmcmVxX3BvbGljeSAqIHBvbGljeWBgLCB1bnNp
+Z25lZCBpbnQgdGFyZ2V0X2ZyZXF1ZW5jeSwNCj4gK3RhcmdldOiwg+eUqOacieS4ieS4quWPguaV
+sOOAgmBgc3RydWN0IGNwdWZyZXFfcG9saWN5ICogcG9saWN5YGAsIHVuc2lnbmVkIGludCB0YXJn
+ZXRfZnJlcXVlbmN5LA0KPiAgdW5zaWduZWQgaW50IHJlbGF0aW9uLg0KPg0KPiAgQ1BVZnJlcemp
+seWKqOWcqOiwg+eUqOi/memHjOaXtuW/hemhu+iuvue9ruaWsOeahOmikeeOh+OAguWunumZheea
+hOmikeeOh+W/hemhu+S9v+eUqOS7peS4i+inhOWImeadpeehruWumuOAgg0KPiBAQCAtMTgxLDcg
+KzE4Myw3IEBAIENQVWZyZXHpqbHliqjlnKjosIPnlKjov5nph4zml7blv4Xpobvorr7nva7mlrDn
+moTpopHnjofjgILlrp7pmYXnmoTpopHnjoflv4XpobsNCj4gIC0g5aaC5p6cIHJlbGF0aW9uPT1D
+UFVGUkVRX1JFTF9I77yM5bCd6K+V6YCJ5oup5LiA5Liq5L2O5LqO5oiW562J5LqOIHRhcmdldF9m
+cmVxIOeahCBuZXdfZnJlceOAgigiSOS7o+ihqA0KPiAgICDmnIDpq5jvvIzkvYbkuI3og73pq5jk
+uo4iKQ0KPg0KPiAt6L+Z6YeM77yM6aKR546H6KGo5Yqp5omL5Y+v6IO95Lya5biu5Yqp5L2gLS3o
+r6bop4HnrKwy6IqC44CCDQo+ICvov5nph4zvvIzpopHnjofooajovoXliqnlh73mlbDlj6/og73k
+vJrluK7liqnkvaAtLeivpuingeesrDLoioLjgIINCj4NCj4gIDEuNi4gZmFzdF9zd2l0Y2gNCj4g
+IC0tLS0tLS0tLS0tLS0tLS0NCj4gQEAgLTE5NSw5ICsxOTcsOSBAQCBDUFVmcmVx6amx5Yqo5Zyo
+6LCD55So6L+Z6YeM5pe25b+F6aG76K6+572u5paw55qE6aKR546H44CC5a6e6ZmF55qE6aKR546H
+5b+F6aG7DQo+ICAxLjcgc2V0cG9saWN5DQo+ICAtLS0tLS0tLS0tLS0tDQo+DQo+IC1zZXRwb2xp
+Y3nosIPnlKjlj6rpnIDopoHkuIDkuKpgYHN0cnVjdCBjcHVmcmVxX3BvbGljeSAqIHBvbGljeWBg
+5L2c5Li65Y+C5pWw44CC6ZyA6KaB5bCG5aSE55CG5Zmo5YaF5oiW6Iqv54mH57uE5YaF5Yqo5oCB
+6aKRDQo+ICtzZXRwb2xpY3nosIPnlKjlj6rpnIDopoHkuIDkuKogYGBzdHJ1Y3QgY3B1ZnJlcV9w
+b2xpY3kgKiBwb2xpY3lgYCDkvZzkuLrlj4LmlbDjgILpnIDopoHlsIblpITnkIblmajlhoXmiJbo
+iq/niYfnu4TlhoXliqjmgIHpopENCj4gIOeOh+WIh+aNoueahOS4i+mZkOiuvue9ruS4unBvbGlj
+eS0+bWlu77yM5LiK6ZmQ6K6+572u5Li6cG9saWN5LT5tYXjvvIzlpoLmnpzmlK/mjIHnmoTor53v
+vIzlvZNwb2xpY3ktPnBvbGljeeS4ug0KPiAtQ1BVRlJFUV9QT0xJQ1lfUEVSRk9STUFOQ0Xml7bp
+gInmi6npnaLlkJHmgKfog73nmoTorr7nva7vvIzlvZNDUFVGUkVRX1BPTElDWV9QT1dFUlNBVkXm
+l7bpgInmi6npnaLlkJHnnIHnlLXnmoTorr7nva7jgIINCj4gK0NQVUZSRVFfUE9MSUNZX1BFUkZP
+Uk1BTkNF5pe26YCJ5oup6Z2i5ZCR5oCn6IO955qE6K6+572u77yM5Li6Q1BVRlJFUV9QT0xJQ1lf
+UE9XRVJTQVZF5pe26YCJ5oup6Z2i5ZCR55yB55S155qE6K6+572u44CCDQo+ICDkuZ/lj6/ku6Xm
+n6XnnItkcml2ZXJzL2NwdWZyZXEvbG9uZ3J1bi5j5Lit55qE5Y+C6ICD5a6e546w44CCDQo+DQo+
+ICAxLjggZ2V0X2ludGVybWVkaWF0ZSDlkowgdGFyZ2V0X2ludGVybWVkaWF0ZQ0KPiBAQCAtMjA2
+LDMxICsyMDgsMzIgQEAgQ1BVRlJFUV9QT0xJQ1lfUEVSRk9STUFOQ0Xml7bpgInmi6npnaLlkJHm
+gKfog73nmoTorr7nva7vvIzlvZNDUFVGUkVRX1BPTElDWV9QT1cNCj4gIOS7hemAgueUqOS6jiB0
+YXJnZXRfaW5kZXgoKSDlkowgQ1BVRlJFUV9BU1lOQ19OT1RJRklDQVRJT04g5pyq6K6+572u55qE
+6amx5Yqo44CCDQo+DQo+ICBnZXRfaW50ZXJtZWRpYXRl5bqU6K+l6L+U5Zue5LiA5Liq5bmz5Y+w
+5oOz6KaB5YiH5o2i5Yiw55qE56iz5a6a55qE5Lit6Ze06aKR546H77yMdGFyZ2V0X2ludGVybWVk
+aWF0ZSgp5bqU6K+l5bCGQ1BV6K6+572u5Li6DQo+IC3or6XpopHnjofvvIznhLblkI7lho3ot7Po
+vazliLAnaW5kZXgn5a+55bqU55qE6aKR546H44CC5qC45b+D5Lya6LSf6LSj5Y+R6YCB6YCa55+l
+77yM6amx5Yqo5LiN5b+F5ZyodGFyZ2V0X2ludGVybWVkaWF0ZSgp5oiWDQo+IC10YXJnZXRfaW5k
+ZXgoKeS4reWkhOeQhuOAgg0KPiAr6K+l6aKR546H77yM54S25ZCO5YaN6Lez6L2s5YiwICdpbmRl
+eCcg5a+55bqU55qE6aKR546H44CCY3B1ZnJlceaguOW/g+S8mui0n+i0o+WPkemAgemAmuefpe+8
+jOmpseWKqOS4jeW/heWcqA0KPiArdGFyZ2V0X2ludGVybWVkaWF0ZSgp5oiWdGFyZ2V0X2luZGV4
+KCnkuK3lpITnkIblroPku6zjgIINCj4NCj4gLeWcqOmpseWKqOeoi+W6j+S4jeaDs+WboOS4uuaf
+kOS4quebruagh+mikeeOh+WIh+aNouWIsOS4remXtOmikeeOh+eahOaDheWGteS4i++8jOWug+S7
+rOWPr+S7peS7jmdldF9pbnRlcm1lZGlhdGUoKeS4rei/lOWbnicwJ+OAguWcqOi/meenjeaDheWG
+tQ0KPiAt5LiL77yM5qC45b+D5bCG55u05o6l6LCD55SoLT50YXJnZXRfaW5kZXgoKeOAgg0KPiAr
+5Zyo6amx5Yqo56iL5bqP5LiN5oOz5Zug5Li65p+Q5Liq55uu5qCH6aKR546H5YiH5o2i5Yiw5Lit
+6Ze06aKR546H55qE5oOF5Ya15LiL77yM5a6D5Lus5Y+v5Lul5LuOZ2V0X2ludGVybWVkaWF0ZSgp
+5Lit6L+U5ZueICcwJyDjgIINCj4gK+WcqOi/meenjeaDheWGteS4i++8jGNwdWZyZXHmoLjlv4Pl
+sIbnm7TmjqXosIPnlKgtPnRhcmdldF9pbmRleCgp44CCDQo+DQo+IC3ms6jmhI/vvJotPnRhcmdl
+dF9pbmRleCgp5bqU6K+l5Zyo5aSx6LSl55qE5oOF5Ya15LiL5oGi5aSN5YiwcG9saWN5LT5yZXN0
+b3JlX2ZyZXHvvIzlm6DkuLpjb3Jl5Lya5Li65q2k5Y+R6YCB6YCa55+l44CCDQo+ICvms6jmhI/v
+vJotPnRhcmdldF9pbmRleCgp5bqU6K+l5Zyo5Y+R55Sf5aSx6LSl55qE5oOF5Ya15LiL5bCG6aKR
+546H5oGi5aSN5YiwcG9saWN5LT5yZXN0b3JlX2ZyZXHvvIwNCj4gK+WboOS4umNwdWZyZXHmoLjl
+v4PkvJrkuLrmraTlj5HpgIHpgJrnn6XjgIINCj4NCj4NCj4gLTIuIOmikeeOh+ihqOWKqeaJiw0K
+PiAtPT09PT09PT09PT09PQ0KPiArMi4g6aKR546H6KGo6L6F5Yqp5Ye95pWwDQo+ICs9PT09PT09
+PT09PT09PT09PQ0KPg0KPiAt55Sx5LqO5aSn5aSa5pWwY3B1ZnJlceWkhOeQhuWZqOWPquWFgeiu
+uOiiq+iuvue9ruS4uuWHoOS4queJueWumueahOmikeeOh++8jOWboOatpO+8jOS4gOS4quW4puac
+ieS4gOS6m+WHveaVsOeahCDigJzpopHnjofooajigJ3lj6/og73kvJrovoXliqnlpITnkIblmajp
+qbHliqgNCj4gLeeoi+W6j+eahOS4gOS6m+W3peS9nOOAgui/meagt+eahCAi6aKR546H6KGoIiDn
+lLHkuIDkuKpjcHVmcmVxX2ZyZXF1ZW5jeV90YWJsZeadoeebruaehOaIkOeahOaVsOe7hOe7hOaI
+kO+8jCJkcml2ZXJfZGF0YSIg5Lit5YyFDQo+IC3lkKvkuobpqbHliqjnqIvluo/nmoTlhbfkvZPm
+lbDlgLzvvIwiZnJlcXVlbmN5IiDkuK3ljIXlkKvkuobnm7jlupTnmoTpopHnjofvvIzlubborr7n
+va7kuobmoIflv5fjgILlnKjooajnmoTmnIDlkI7vvIzpnIDopoHmt7vliqDkuIDkuKoNCj4gK+eU
+seS6juWkp+WkmuaVsGNwdWZyZXHlpITnkIblmajlj6rlhYHorrjooqvorr7nva7kuLrlh6DkuKrn
+ibnlrprnmoTpopHnjofvvIzlm6DmraTvvIwi6aKR546H6KGoIiDlkozkuIDkupvnm7jlhbPlh73m
+lbDlj6/og73kvJrovoXliqnlpITnkIblmajpqbHliqgNCj4gK+eoi+W6j+eahOS4gOS6m+W3peS9
+nOOAgui/meagt+eahCAi6aKR546H6KGoIiDmmK/kuIDkuKrnlLFzdHJ1Y3QgY3B1ZnJlcV9mcmVx
+dWVuY3lfdGFibGXnmoTmnaHnm67mnoTmiJDnmoTmlbDnu4TvvIwiZHJpdmVyX2RhdGEiIOaIkOWR
+mOWMhQ0KPiAr5ZCr6amx5Yqo56iL5bqP55qE5LiT55So5YC877yMImZyZXF1ZW5jeSIg5oiQ5ZGY
+5YyF5ZCr5LqG55u45bqU55qE6aKR546H77yM5q2k5aSW6L+Y5pyJ5qCH5b+X5oiQ5ZGY44CC5Zyo
+6KGo55qE5pyA5ZCO77yM6ZyA6KaB5re75Yqg5LiA5LiqDQo+ICBjcHVmcmVxX2ZyZXF1ZW5jeV90
+YWJsZeadoeebru+8jOmikeeOh+iuvue9ruS4ukNQVUZSRVFfVEFCTEVfRU5E44CC6ICM5aaC5p6c
+5oOz6Lez6L+H6KGo5Lit55qE5LiA5Liq5p2h55uu77yM5YiZ5bCG6aKR546H6K6+572u5Li6DQo+
+IC1DUFVGUkVRX0VOVFJZX0lOVkFMSUTjgILov5nkupvmnaHnm67kuI3pnIDopoHmjInnhafku7vk
+vZXnibnlrprnmoTpobrluo/mjpLluo/vvIzkvYblpoLmnpzlroPku6zmmK9jcHVmcmVxIOaguOW/
+g+S8muWvueWug+S7rOi/m+ihjOW/q+mAn+eahERWRlPvvIwNCj4gK0NQVUZSRVFfRU5UUllfSU5W
+QUxJROOAgui/meS6m+adoeebruS4jemcgOimgeaMieeFp+S7u+S9leeJueWumueahOmhuuW6j+aO
+kuW6j++8jOWmguaenOaOkuW6j+S6hu+8jGNwdWZyZXHmoLjlv4PmiafooYxEVkZT5Lya5pu05b+r
+5LiA54K577yMDQo+ICDlm6DkuLrmkJzntKLmnIDkvbPljLnphY3kvJrmm7Tlv6vjgIINCj4NCj4g
+LeWmguaenOetlueVpeWcqOWFtnBvbGljeS0+ZnJlcV90YWJsZeWtl+auteS4reWMheWQq+S4gOS4
+quacieaViOeahOaMh+mSiO+8jGNwdWZyZXHooajlsLHkvJrooqvmoLjlv4Poh6rliqjpqozor4Hj
+gIINCj4gK+WmguaenOWcqHBvbGljeS0+ZnJlcV90YWJsZeWtl+auteS4reWMheWQq+S4gOS4quac
+ieaViOeahOmikeeOh+ihqOaMh+mSiO+8jOmikeeOh+ihqOWwseS8muiiq2NwdWZyZXHmoLjlv4Po
+h6rliqjpqozor4HjgIINCj4NCj4gIGNwdWZyZXFfZnJlcXVlbmN5X3RhYmxlX3ZlcmlmeSgp5L+d
+6K+B6Iez5bCR5pyJ5LiA5Liq5pyJ5pWI55qE6aKR546H5ZyocG9saWN5LT5taW7lkoxwb2xpY3kt
+Pm1heOiMg+WbtOWGhe+8jOW5tuS4lOaJgOacieWFtuS7lg0KPiAt5qCH5YeG6YO96KKr5ruh6Laz
+44CC6L+Z5a+5LT52ZXJpZnnosIPnlKjlvojmnInluK7liqnjgIINCj4gK+WHhuWImemDveiiq+a7
+oei2s+OAgui/meWvuS0+dmVyaWZ56LCD55So5b6I5pyJ5biu5Yqp44CCDQo+DQo+IC1jcHVmcmVx
+X2ZyZXF1ZW5jeV90YWJsZV90YXJnZXQoKeaYr+WvueW6lOS6ji0+dGFyZ2V06Zi25q6155qE6aKR
+546H6KGo5Yqp5omL44CC5Y+q6KaB5oqK5pWw5YC85Lyg6YCS57uZ6L+Z5Liq5Ye95pWw77yM6L+Z
+5Liq5Ye95pWw5bCx5Lya6L+UDQo+ICtjcHVmcmVxX2ZyZXF1ZW5jeV90YWJsZV90YXJnZXQoKeaY
+r+WvueW6lOS6ji0+dGFyZ2V06Zi25q6155qE6aKR546H6KGo6L6F5Yqp5Ye95pWw44CC5Y+q6KaB
+5oqK5YC85Lyg6YCS57uZ6L+Z5Liq5Ye95pWw77yM6L+Z5Liq5Ye95pWw5bCx5Lya6L+UDQo+ICDl
+m57ljIXlkKtDUFXopoHorr7nva7nmoTpopHnjofnmoTpopHnjofooajmnaHnm67jgIINCj4NCj4g
+IOS7peS4i+Wuj+WPr+S7peS9nOS4umNwdWZyZXFfZnJlcXVlbmN5X3RhYmxl55qE6L+t5Luj5Zmo
+44CCDQo+IEBAIC0yMzgsOCArMjQxLDggQEAgY3B1ZnJlcV9mcmVxdWVuY3lfdGFibGVfdGFyZ2V0
+KCnmmK/lr7nlupTkuo4tPnRhcmdldOmYtuauteeahOmikeeOh+ihqOWKqeaJi+OAgg0KPiAgY3B1
+ZnJlcV9mb3JfZWFjaF9lbnRyeShwb3MsIHRhYmxlKSAtIOmBjeWOhumikeeOh+ihqOeahOaJgOac
+ieadoeebruOAgg0KPg0KPiAgY3B1ZnJlcV9mb3JfZWFjaF92YWxpZF9lbnRyeShwb3MsIHRhYmxl
+KSAtIOivpeWHveaVsOmBjeWOhuaJgOacieadoeebru+8jOS4jeWMheaLrENQVUZSRVFfRU5UUllf
+SU5WQUxJROmikeeOh+OAgg0KPiAt5L2/55So5Y+C5pWwICJwb3MiLeS4gOS4qmBgY3B1ZnJlcV9m
+cmVxdWVuY3lfdGFibGUgKiBgYCDkvZzkuLrlvqrnjq/lj5jph4/vvIzkvb/nlKjlj4LmlbAgInRh
+YmxlIi3kvZzkuLrkvaDmg7Pov63ku6MNCj4gLeeahGBgY3B1ZnJlcV9mcmVxdWVuY3lfdGFibGUg
+KiBgYCDjgIINCj4gK+S9v+eUqOWPguaVsCAicG9zIi3kuIDkuKogYGBjcHVmcmVxX2ZyZXF1ZW5j
+eV90YWJsZSAqYGAg5L2c5Li65b6q546v5oyH6ZKI77yM5L2/55So5Y+C5pWwICJ0YWJsZSIt5L2c
+5Li65L2g5oOz6L+t5LujDQo+ICvnmoQgYGBjcHVmcmVxX2ZyZXF1ZW5jeV90YWJsZSAqYGAg44CC
+DQo+DQo+ICDkvovlpoI6Og0KPg0KPiBAQCAtMjUwLDUgKzI1Myw1IEBAIGNwdWZyZXFfZm9yX2Vh
+Y2hfdmFsaWRfZW50cnkocG9zLCB0YWJsZSkgLSDor6Xlh73mlbDpgY3ljobmiYDmnInmnaHnm67v
+vIzkuI3ljIUNCj4gICAgICAgICAgICAgICAgIHBvcy0+ZnJlcXVlbmN5ID0gLi4uDQo+ICAgICAg
+ICAgfQ0KPg0KPiAt5aaC5p6c5L2g6ZyA6KaB5ZyoZHJpdmVyX2ZyZXFfdGFibGXkuK3lpITnkIZw
+b3PnmoTkvY3nva7vvIzkuI3opoHlh4/ljrvmjIfpkojvvIzlm6DkuLrlroPnmoTku6Pku7fnm7jl
+vZPpq5jjgILnm7jlj43vvIzkvb/nlKjlro8NCj4gK+WmguaenOS9oOmcgOimgeWcqGRyaXZlcl9m
+cmVxX3RhYmxl5Lit5aSE55CGcG9z55qE5L2N572u77yM5LiN6KaB5YGa5oyH6ZKI5YeP5rOV77yM
+5Zug5Li65a6D55qE5Luj5Lu355u45b2T6auY44CC5L2c5Li65pu/5Luj77yM5L2/55So5a6PDQo+
+ICBjcHVmcmVxX2Zvcl9lYWNoX2VudHJ5X2lkeCgpIOWSjCBjcHVmcmVxX2Zvcl9lYWNoX3ZhbGlk
+X2VudHJ5X2lkeCgpIOOAgg0KPiAtLQ0KPiAyLjE3LjENCj4NCg==
