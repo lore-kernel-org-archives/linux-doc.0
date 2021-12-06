@@ -2,310 +2,313 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 610F4C433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Dec 2021 02:37:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B06D8C43217
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Dec 2021 02:46:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234801AbhLFCkf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 5 Dec 2021 21:40:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53598 "EHLO
+        id S235189AbhLFCt0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 5 Dec 2021 21:49:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234509AbhLFCkf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Dec 2021 21:40:35 -0500
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69ADFC061354
-        for <linux-doc@vger.kernel.org>; Sun,  5 Dec 2021 18:37:07 -0800 (PST)
-Received: by mail-pf1-x436.google.com with SMTP id r130so8837179pfc.1
-        for <linux-doc@vger.kernel.org>; Sun, 05 Dec 2021 18:37:07 -0800 (PST)
+        with ESMTP id S235166AbhLFCtY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 Dec 2021 21:49:24 -0500
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1D6DC0611F7
+        for <linux-doc@vger.kernel.org>; Sun,  5 Dec 2021 18:45:55 -0800 (PST)
+Received: by mail-pj1-x1032.google.com with SMTP id gx15-20020a17090b124f00b001a695f3734aso7184328pjb.0
+        for <linux-doc@vger.kernel.org>; Sun, 05 Dec 2021 18:45:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=HdipfFWE5L1TBuGUJqMZc2KjiM4MZn3nnBWWoOeP5fY=;
-        b=EKyup6s3FgHVZZ1ci+2vfIqrjySW49nVXxPldlN8i8GKMdAskrBHZozrY6W/0a7RAB
-         A+LuJIMKhNg5S87nyr0v7i9U70m0xKSf0f/28DNwkpciTnSexXbcBTRHgp2PEE7FDzSy
-         QQM8ptS7o/vobSUbR8UdK1Jgzp02azkqQ6/u074kc8Zqf4ceqyie/MM4Fi5kE+FHvBMo
-         tpjjVHWSsGCT4c5JcQdEEFeH9m8ebiZ9jKo5FIiDC4NAy9oXgj3thXMXgTorwXt7ERmo
-         wwlVHTXp6SrI9flv7KEnpmvFUhGchad6GdxSypSksZgi4gSSvTfG6B+9maD47eBIEhJG
-         labw==
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rc/TsbWnd0eH/qb4JVzBc6sjmVgafYMjpP2Yzhzs994=;
+        b=AZx9M2CcDIuwgCDoJNMyVhBkCE5hvOr4yG57oDF60uFMJjL3MCXkL4YRBoerR8mT9s
+         Dtycd1DKtRlHqS+iT04dmO1PMJnfgQ3/8pEJXa/f0VT6M/LUF5p6YOH8qth//dRJSHst
+         1HwE/1EwOJTAoY0m1+7H7PJl22jI0PeSR+EU3j3xKNV0mYBGOULI1NQQPALIJWsU60x9
+         9Ls75hNsbtl+MsJc0QGyyDu7Ahn2m2Ha6IsmVJffO6ZHj2J3rBHWliKt1vzFusvEmZHf
+         NzgKLlOMfoiLFxayd1ehqmnFKIMAnBJfR32ccoGGuPxEyxgKFWcXwe9HzMZZccLSaOkh
+         GixQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=HdipfFWE5L1TBuGUJqMZc2KjiM4MZn3nnBWWoOeP5fY=;
-        b=NwcERdQc1d2uRJY8MtQ9gz6CG0GuYFCFjy1YhEYFRGcfNk7PcVKbBnu1lnWrUj9ran
-         Ov6v73oqGhnsojLcYmKyVWsWNbs0CGMgg9VL49Q9O1qPvpR73vvxxeh/aJdTUe5f7llb
-         a7F+EJ0ghZ7bhgXTR/eQBkJ5xLAVYcDfrS0Qn63TzsH2wWu3zFHJ42+F/s5tPNzhkYN+
-         AgDpTAbWhR+UJhyueWg+UdCqk8DLARE208jOOg0W9FtX/yTCE6nZk07k29DR3sT9bjqR
-         C2hZ6gplchFUCpf9lXP1MTkFNbBV4mcR29g5llgo80Mq3Gn9t7mqzI8oxhzQW1r80Ef/
-         OXBg==
-X-Gm-Message-State: AOAM533eFwzL7uHdHDrsB7fV7HAoDqL1gWu7FK7w4mTn0Gj266BTI88l
-        U5MYcMvm0yo95rwS6gZOUIv2AZs8qhwATjJ0/WQ=
-X-Google-Smtp-Source: ABdhPJztMxv8Ifol1N+DIWLV6/WIz1p4Kut9VdvqFKokwz4nQMFF+AwVbOTIAFLjPtDhdXfegEk1SLVPaapOFAQ0iZU=
-X-Received: by 2002:a63:24c2:: with SMTP id k185mr10213795pgk.149.1638758226739;
- Sun, 05 Dec 2021 18:37:06 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rc/TsbWnd0eH/qb4JVzBc6sjmVgafYMjpP2Yzhzs994=;
+        b=V7Ix3+HTSWFiEV0ChqoUV9+fTs2guODDcuBE66X01AI8rVMrpMQi0ft2v6tAgmru6i
+         r11Y9oWLvJOTUBCP4cIXXai8RAdzWS9fr1HqKZyJUl+g9OepGWauSzvwWLT6QiIloCRf
+         8nLFzgS/OpU4E9+LOa/j/JJioBk128NEs5FGo8MtV/+P3r5GF6gEZOo+Lzj8ihue/RQQ
+         /bhx60+vcIXqZYBpJUoZ7JUhYJ23LDzE9ExsAlFfPCCy23KXTLXuY388BzABhNAm8FI5
+         9cmMYu+WLCTe2CiiGXN6oi5sfPmP7cBtisj5LXshwgH2XLfmqgziTNS3DOT1/GQ7OjtG
+         iaDg==
+X-Gm-Message-State: AOAM5323uyVNxCVVWCaT2V3OX1ai9Oo6lb58U9zhqdXlmcwWCm0+uFNn
+        pYdQUEEDZCbkxfhEe4bVfyNB2w==
+X-Google-Smtp-Source: ABdhPJx/osn+ke9DUI89o2r1DwYWqj69Gnygrg4CjJI+5IbZVTkGraG+h3CGQqgQVhlK6sN7hk1JJQ==
+X-Received: by 2002:a17:90a:3045:: with SMTP id q5mr33714094pjl.58.1638758755335;
+        Sun, 05 Dec 2021 18:45:55 -0800 (PST)
+Received: from C02FT5A6MD6R.tiktokd.org ([139.177.225.235])
+        by smtp.gmail.com with ESMTPSA id a2sm8040722pgn.20.2021.12.05.18.45.49
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 05 Dec 2021 18:45:54 -0800 (PST)
+From:   Gang Li <ligang.bdlg@bytedance.com>
+To:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>
+Cc:     Gang Li <ligang.bdlg@bytedance.com>, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v3] sched/numa: add per-process numa_balancing
+Date:   Mon,  6 Dec 2021 10:45:28 +0800
+Message-Id: <20211206024530.11336-1-ligang.bdlg@bytedance.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <20211201100807.13240-1-tangyizhou@huawei.com>
-In-Reply-To: <20211201100807.13240-1-tangyizhou@huawei.com>
-From:   teng sterling <sterlingteng@gmail.com>
-Date:   Mon, 6 Dec 2021 10:36:55 +0800
-Message-ID: <CAMU9jJpG344NVGhNbyyGGMhwJiYuqivxQSS=vtjVE-X1sp_Hjg@mail.gmail.com>
-Subject: Re: [PATCH] doc/zh-CN: Update cpu-freq/cpu-drivers.rst to make it
- more readable
-To:     Tang Yizhou <tangyizhou@huawei.com>
-Cc:     Yanteng Si <siyanteng@loongson.cn>, Alex Shi <alexs@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, zhengbin13@huawei.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-VGFuZyBZaXpob3UgPHRhbmd5aXpob3VAaHVhd2VpLmNvbT4g5LqOMjAyMeW5tDEy5pyIM+aXpeWR
-qOS6lCAwMTozN+WGmemBk++8mg0KPg0KPiBUaGVyZSBhcmUgc29tZSBzeW50YXggZXJyb3JzIGlu
-IHRoaXMgZG9jdW1lbnQuDQo+IEFsc28gbWFrZSBpdCBtb3JlIHJlYWRhYmxlLg0KPg0KPiBTaWdu
-ZWQtb2ZmLWJ5OiBUYW5nIFlpemhvdSA8dGFuZ3lpemhvdUBodWF3ZWkuY29tPg0KQWNrZWQtYnk6
-IFlhbnRlbmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nvbi5jbj4NCg0KVGhhbmtzLA0KWWFudGVuZw0K
-PiAtLS0NCj4gIC4uLi96aF9DTi9jcHUtZnJlcS9jcHUtZHJpdmVycy5yc3QgICAgICAgICAgICB8
-IDgzICsrKysrKysrKystLS0tLS0tLS0NCj4gIDEgZmlsZSBjaGFuZ2VkLCA0MyBpbnNlcnRpb25z
-KCspLCA0MCBkZWxldGlvbnMoLSkNCj4NCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJh
-bnNsYXRpb25zL3poX0NOL2NwdS1mcmVxL2NwdS1kcml2ZXJzLnJzdCBiL0RvY3VtZW50YXRpb24v
-dHJhbnNsYXRpb25zL3poX0NOL2NwdS1mcmVxL2NwdS1kcml2ZXJzLnJzdA0KPiBpbmRleCAwZmM1
-ZDE0OTU3ODkuLjcwMWViYjk2NGNiNCAxMDA2NDQNCj4gLS0tIGEvRG9jdW1lbnRhdGlvbi90cmFu
-c2xhdGlvbnMvemhfQ04vY3B1LWZyZXEvY3B1LWRyaXZlcnMucnN0DQo+ICsrKyBiL0RvY3VtZW50
-YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2NwdS1mcmVxL2NwdS1kcml2ZXJzLnJzdA0KPiBAQCAt
-MzgsNyArMzgsNyBAQA0KPiAgMS4g5oCO5LmI5YGa77yfDQo+ICA9PT09PT09PT09PQ0KPg0KPiAt
-5aaC5q2k77yM5L2g5Yia5Yia5b6X5Yiw5LqG5LiA5Liq5YWo5paw55qEQ1BVL+iKr+eJh+e7hOWP
-iuWFtuaVsOaNruaJi+WGjO+8jOW5tuW4jOacm+S4uui/meS4qkNQVS/oiq/niYfnu4Tmt7vliqBj
-cHVmcmVxDQo+ICvlpoLmnpzvvIzkvaDliJrliJrlvpfliLDkuobkuIDkuKrlhajmlrDnmoRDUFUv
-6Iqv54mH57uE5Y+K5YW25pWw5o2u5omL5YaM77yM5bm25biM5pyb5Li66L+Z5LiqQ1BVL+iKr+eJ
-h+e7hOa3u+WKoGNwdWZyZXENCj4gIOaUr+aMge+8n+W+iOWlve+8jOi/memHjOacieS4gOS6m+iH
-s+WFs+mHjeimgeeahOaPkOekuu+8mg0KPg0KPg0KPiBAQCAtNjAsOSArNjAsOSBAQCBDUFVmcmVx
-5qC45b+D5bGC5rOo5YaM5LiA5LiqY3B1ZnJlcV9kcml2ZXLnu5PmnoTkvZPjgIINCj4gICAuc2V0
-cG9saWN5IOaIliAuZmFzdF9zd2l0Y2gg5oiWIC50YXJnZXQg5oiWIC50YXJnZXRfaW5kZXggLSDl
-t67lvILop4ENCj4gICDkuIvmlofjgIINCj4NCj4gLeW5tuS4lOWPr+mAieaLqQ0KPiAr5YW25a6D
-5Y+v6YCJ5oiQ5ZGYDQo+DQo+IC0gLmZsYWdzIC0gY3B1ZnJlceaguOeahOaPkOekuuOAgg0KPiAr
-IC5mbGFncyAtIOe7mWNwdWZyZXHmoLjlv4PnmoTmj5DnpLrjgIINCj4NCj4gICAuZHJpdmVyX2Rh
-dGEgLSBjcHVmcmVx6amx5Yqo56iL5bqP55qE54m55a6a5pWw5o2u44CCDQo+DQo+IEBAIC04Miw3
-ICs4Miw3IEBAIENQVWZyZXHmoLjlv4PlsYLms6jlhozkuIDkuKpjcHVmcmVxX2RyaXZlcue7k+ae
-hOS9k+OAgg0KPiAgIC5yZXN1bWUgLSDkuIDkuKrmjIflkJFwZXItcG9saWN55oGi5aSN5Ye95pWw
-55qE5oyH6ZKI77yM6K+l5Ye95pWw5Zyo5YWz5Lit5pat5LiU5Zyo6LCD6IqC5Zmo5YaN5LiA5qyh
-5byA5aeL5YmN6KKrDQo+ICAg6LCD55So44CCDQo+DQo+IC0gLmF0dHIgLSDkuIDkuKrmjIflkJFO
-VUxM57uT5bC+55qEInN0cnVjdCBmcmVxX2F0dHIi5YiX6KGo55qE5oyH6ZKI77yM6K+l5Ye95pWw
-5YWB6K645a+85Ye65YC85YiwDQo+ICsgLmF0dHIgLSDkuIDkuKrmjIflkJFOVUxM57uT5bC+55qE
-InN0cnVjdCBmcmVxX2F0dHIi5YiX6KGo55qE5oyH6ZKI77yM6K+l5YiX6KGo5YWB6K645a+85Ye6
-5YC85YiwDQo+ICAgc3lzZnPjgIINCj4NCj4gICAuYm9vc3RfZW5hYmxlZCAtIOWmguaenOiuvue9
-ru+8jOWImeWQr+eUqOaPkOWNhyhib29zdCnpopHnjofjgIINCj4gQEAgLTEwMCw3ICsxMDAsNyBA
-QCBDUFVmcmVx5qC45b+D5bGC5rOo5YaM5LiA5LiqY3B1ZnJlcV9kcml2ZXLnu5PmnoTkvZPjgIIN
-Cj4NCj4gIOWmguaenOacieW/heimge+8jOivt+WcqOS9oOeahENQVeS4iua/gOa0u0NQVWZyZXHl
-ip/og73mlK/mjIHjgIINCj4NCj4gLeeEtuWQju+8jOmpseWKqOeoi+W6j+W/hemhu+Whq+WGmeS7
-peS4i+aVsOWAvDoNCj4gK+eEtuWQju+8jOmpseWKqOeoi+W6j+W/hemhu+Whq+WGmeS7peS4i+WA
-vDoNCj4NCj4gICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSstLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSsNCj4gIHxwb2xpY3ktPmNwdWluZm8ubWluX2Zy
-ZXEg5ZKMICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwNCj4g
-QEAgLTExMCw3ICsxMTAsNyBAQCBDUFVmcmVx5qC45b+D5bGC5rOo5YaM5LiA5LiqY3B1ZnJlcV9k
-cml2ZXLnu5PmnoTkvZPjgIINCj4gICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LSstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSsNCj4gIHxwb2xpY3ktPmNw
-dWluZm8udHJhbnNpdGlvbl9sYXRlbmN5IHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIHwNCj4gIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCBDUFXlnKjk
-uKTkuKrpopHnjofkuYvpl7TliIfmjaLmiYDpnIDnmoTml7bpl7TvvIzku6UgIHwNCj4gLXwgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCDnurPnp5LkuLrljZXkvY3vvIjlpoLpgILn
-lKjvvIzlkKbliJnmjIflrpogICAgICAgICB8DQo+ICt8ICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIHwg57qz56eS5Li65Y2V5L2N77yI5aaC5LiN6YCC55So77yM6K6+5a6a5Li6ICAg
-ICAgICAgfA0KPiAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8IENQVUZSRVFf
-RVRFUk5BTO+8iSAgICAgICAgICAgICAgICAgICAgfA0KPiAgKy0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKw0K
-PiAgfHBvbGljeS0+Y3VyICAgICAgICAgICAgICAgICAgICAgICB8IOivpUNQVeW9k+WJjeeahOW3
-peS9nOmikeeOhyjlpoLpgILnlKgpICAgICAgICAgIHwNCj4gQEAgLTExOSwzMCArMTE5LDMxIEBA
-IENQVWZyZXHmoLjlv4PlsYLms6jlhozkuIDkuKpjcHVmcmVxX2RyaXZlcue7k+aehOS9k+OAgg0K
-PiAgfHBvbGljeS0+bWluLCAgICAgICAgICAgICAgICAgICAgICB8ICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICB8DQo+ICB8cG9saWN5LT5tYXgsICAgICAgICAgICAgICAgICAg
-ICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwNCj4gIHxwb2xpY3kt
-PnBvbGljeSBhbmQsIGlmIG5lY2Vzc2FyeSwgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgfA0KPiAtfHBvbGljeS0+Z292ZXJub3IgICAgICAgICAgICAgICAgICB8IOW/hemh
-u+WMheWQq+ivpWNwdeeahCDigJzpu5jorqTnrZbnlaXigJ3jgILnqI3lkI4gICAgIHwNCj4gK3xw
-b2xpY3ktPmdvdmVybm9yICAgICAgICAgICAgICAgICAgfCDlv4XpobvljIXlkKvor6VDUFXnmoQg
-Ium7mOiupOetlueVpSLjgILnqI3lkI4gICAgIHwNCj4gIHwgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgfCDkvJrnlKjov5nkupvlgLzosIPnlKggICAgICAgICAgICAgICAgICAgICAg
-IHwNCj4gLXwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCBjcHVmcmVxX2RyaXZl
-ci52ZXJpZnkgYW5kIGVpdGhlciAgICAgfA0KPiAtfCAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICB8IGNwdWZyZXFfZHJpdmVyLnNldHBvbGljeSBvciAgICAgICAgICB8DQo+ICt8ICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgY3B1ZnJlcV9kcml2ZXIudmVyaWZ55ZKM
-5LiL6Z2i5Ye95pWwICAgICAgfA0KPiArfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICB8IOS5i+S4gO+8mmNwdWZyZXFfZHJpdmVyLnNldHBvbGljeeaIliAgICAgfA0KPiAgfCAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8IGNwdWZyZXFfZHJpdmVyLnRhcmdldC90YXJn
-ZXRfaW5kZXggICB8DQo+ICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwNCj4gICstLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LSsNCj4gLXxwb2xpY3ktPmNwdXMgICAgICAgICAgICAgICAgICAgICAgfCDnlKjkuI7ov5nkuKpD
-UFXkuIDotbflgZpEVkZT55qEKOWcqOe6vyvnprvnur8pICAgfA0KPiAtfCAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICB8IENQVSjljbPkuI7lroPlhbHkuqvml7bpkp8v55S15Y6L6L2o
-KeeahOaOqeeggeabtOaWsCB8DQo+IC18ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IHwg6L+Z5LiqICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfA0KPiArfHBvbGljeS0+
-Y3B1cyAgICAgICAgICAgICAgICAgICAgICB8IOivpXBvbGljeemAmui/h0RWRlPmoYbmnrblvbHl
-k43nmoTlhajpg6hDUFUgICAgfA0KPiArfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICB8ICjljbPkuI7mnKxDUFXlhbHkuqsgIuaXtumSny/nlLXljosiIOWvuSnmnoTmiJAgICB8DQo+
-ICt8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwg5o6p56CBKOWQjOaXtuWMheWQ
-q+WcqOe6v+WSjOemu+e6v0NQVSnvvIznlKjmjqnnoIEgIHwNCj4gK3wgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgfCDmm7TmlrDmnKzlrZfmrrUgICAgICAgICAgICAgICAgICAgICAg
-ICAgICB8DQo+ICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwNCj4gICstLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSsNCj4N
-Cj4gLeWvueS6juiuvue9ruWFtuS4reeahOS4gOS6m+WAvChjcHVpbmZvLm1pblttYXhdX2ZyZXEs
-IHBvbGljeS0+bWluW21heF0p77yM6aKR546H6KGo5Yqp5omL5Y+v6IO95Lya5pyJ5biuDQo+ICvl
-r7nkuo7orr7nva7lhbbkuK3nmoTkuIDkupvlgLwoY3B1aW5mby5taW5bbWF4XV9mcmVxLCBwb2xp
-Y3ktPm1pblttYXhdKe+8jOmikeeOh+ihqOi+heWKqeWHveaVsOWPr+iDveS8muacieW4rg0KPiAg
-5Yqp44CC5YWz5LqO5a6D5Lus55qE5pu05aSa5L+h5oGv77yM6K+35Y+C6KeB56ysMuiKguOAgg0K
-Pg0KPg0KPiAgMS4zIOmqjOivgQ0KPiAgLS0tLS0tLS0NCj4NCj4gLeW9k+eUqOaIt+WGs+Wumuiu
-vue9ruS4gOS4quaWsOeahOetlueVpSjnlLEg4oCccG9saWN5LGdvdmVybm9yLG1pbixtYXjnu4Tm
-iJDigJ0p5pe277yM5b+F6aG75a+56L+Z5Liq562W55Wl6L+b6KGM6aqM6K+B77yMDQo+ICvlvZPn
-lKjmiLflhrPlrprorr7nva7kuIDkuKrmlrDnmoTnrZbnlaUo55SxICJwb2xpY3ksZ292ZXJub3Is
-bWluLG1heOe7hOaIkCIgKeaXtu+8jOW/hemhu+Wvuei/meS4quetlueVpei/m+ihjOmqjOivge+8
-jA0KPiAg5Lul5L6/57qg5q2j5LiN5YW85a6555qE5YC844CC5Li65LqG6aqM6K+B6L+Z5Lqb5YC8
-77yMY3B1ZnJlcV92ZXJpZnlfd2l0aGluX2xpbWl0cyhgYHN0cnVjdCBjcHVmcmVxX3BvbGljeQ0K
-PiAgKnBvbGljeWBgLCBgYHVuc2lnbmVkIGludCBtaW5fZnJlcWBgLCBgYHVuc2lnbmVkIGludCBt
-YXhfZnJlcWBgKeWHveaVsOWPr+iDveS8muacieW4ruWKqeOAgg0KPiAt5YWz5LqO6aKR546H6KGo
-5Yqp5omL55qE6K+m57uG5YaF5a656K+35Y+C6KeB56ysMuiKguOAgg0KPiAr5YWz5LqO6aKR546H
-6KGo6L6F5Yqp5Ye95pWw55qE6K+m57uG5YaF5a656K+35Y+C6KeB56ysMuiKguOAgg0KPg0KPiAg
-5oKo6ZyA6KaB56Gu5L+d6Iez5bCR5pyJ5LiA5Liq5pyJ5pWI6aKR546H77yI5oiW5bel5L2c6IyD
-5Zu077yJ5ZyoIHBvbGljeS0+bWluIOWSjCBwb2xpY3ktPm1heCDojIPlm7TlhoXjgILlpoLmnpzm
-nInlv4UNCj4gIOimge+8jOWFiOWinuWKoHBvbGljeS0+bWF477yM5Y+q5pyJ5Zyo5rKh5pyJ5Yqe
-5rOV55qE5oOF5Ya15LiL77yM5omN5YeP5bCRcG9saWN5LT5taW7jgIINCj4gQEAgLTE1NCwyMiAr
-MTU1LDIzIEBAIENQVWZyZXHmoLjlv4PlsYLms6jlhozkuIDkuKpjcHVmcmVxX2RyaXZlcue7k+ae
-hOS9k+OAgg0KPiAg5aSn5aSa5pWwY3B1ZnJlcempseWKqOeUmuiHs+Wkp+WkmuaVsGNwdemikeeO
-h+WNh+mZjeeul+azleWPquWFgeiuuOWwhkNQVemikeeOh+iuvue9ruS4uumihOWumuS5ieeahOWb
-uuWumuWAvOOAguWvueS6jui/meS6m++8jOS9oA0KPiAg5Y+v5Lul5L2/55SoLT50YXJnZXQoKe+8
-jC0+dGFyZ2V0X2luZGV4KCnmiJYtPmZhc3Rfc3dpdGNoKCnlm57osIPjgIINCj4NCj4gLeacieS6
-m2NwdWZyZXHlip/og73nmoTlpITnkIblmajlj6/ku6Xoh6rlt7HlnKjmn5DkupvpmZDliLbkuYvp
-l7TliIfmjaLpopHnjofjgILov5nkupvlupTkvb/nlKgtPnNldHBvbGljeSgp5Zue6LCD44CCDQo+
-ICvmnInkuptjcHVmcmVx5Yqf6IO955qE5aSE55CG5Zmo5Y+v5Lul6Ieq6KGM5Zyo5p+Q5Lqb6ZmQ
-5Yi25LmL6Ze05YiH5o2i6aKR546H44CC5a6D5Lus5bqU5L2/55SoLT5zZXRwb2xpY3koKeWbnuiw
-g+OAgg0KPg0KPg0KPiAgMS41LiB0YXJnZXQvdGFyZ2V0X2luZGV4DQo+ICAtLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0NCj4NCj4gLXRhcmdldF9pbmRleOiwg+eUqOacieS4pOS4quWPguaVsO+8mmBg
-c3RydWN0IGNwdWZyZXFfcG9saWN5ICogcG9saWN5YGDlkoxgYHVuc2lnbmVkIGludGBgDQo+IC3n
-tKLlvJUo5LqO5YiX5Ye655qE6aKR546H6KGoKeOAgg0KPiArdGFyZ2V0X2luZGV46LCD55So5pyJ
-5Lik5Liq5Y+C5pWw77yaYGBzdHJ1Y3QgY3B1ZnJlcV9wb2xpY3kgKiBwb2xpY3lgYCDlkowgYGB1
-bnNpZ25lZCBpbnRgYA0KPiAr57Si5byVKOeUqOS6jue0ouW8lemikeeOh+ihqOmhuSnjgIINCj4N
-Cj4gIOW9k+iwg+eUqOi/memHjOaXtu+8jENQVWZyZXHpqbHliqjlv4Xpobvorr7nva7mlrDnmoTp
-opHnjofjgILlrp7pmYXpopHnjoflv4XpobvnlLFmcmVxX3RhYmxlW2luZGV4XS5mcmVxdWVuY3nl
-hrPlrprjgIINCj4NCj4gLeWug+W6lOivpeaAu+aYr+WcqOmUmeivr+eahOaDheWGteS4i+aBouWk
-jeWIsOS5i+WJjeeahOmikeeOhyjljbNwb2xpY3ktPnJlc3RvcmVfZnJlcSnvvIzljbPkvb/miJHk
-u6zkuYvliY3liIfmjaLliLDkuK3pl7TpopHnjofjgIINCj4gK+aAu+aYr+W6lOivpeWcqOWPkeeU
-n+mUmeivr+eahOaDheWGteS4i+aBouWkjeWIsOS5i+WJjeeahOmikeeOhyjljbNwb2xpY3ktPnJl
-c3RvcmVfZnJlcSnvvIzljbPkvb/miJHku6zlt7Lnu4/liIfmjaLliLDkuoYNCj4gK+S4remXtOmi
-keeOh+OAgg0KPg0KPiAg5bey5byD55SoDQo+ICAtLS0tLS0tLS0tDQo+IC3nm67moIfosIPnlKjm
-nInkuInkuKrlj4LmlbDjgIJgYHN0cnVjdCBjcHVmcmVxX3BvbGljeSAqIHBvbGljeWBgLCB1bnNp
-Z25lZCBpbnQgdGFyZ2V0X2ZyZXF1ZW5jeSwNCj4gK3RhcmdldOiwg+eUqOacieS4ieS4quWPguaV
-sOOAgmBgc3RydWN0IGNwdWZyZXFfcG9saWN5ICogcG9saWN5YGAsIHVuc2lnbmVkIGludCB0YXJn
-ZXRfZnJlcXVlbmN5LA0KPiAgdW5zaWduZWQgaW50IHJlbGF0aW9uLg0KPg0KPiAgQ1BVZnJlcemp
-seWKqOWcqOiwg+eUqOi/memHjOaXtuW/hemhu+iuvue9ruaWsOeahOmikeeOh+OAguWunumZheea
-hOmikeeOh+W/hemhu+S9v+eUqOS7peS4i+inhOWImeadpeehruWumuOAgg0KPiBAQCAtMTgxLDcg
-KzE4Myw3IEBAIENQVWZyZXHpqbHliqjlnKjosIPnlKjov5nph4zml7blv4Xpobvorr7nva7mlrDn
-moTpopHnjofjgILlrp7pmYXnmoTpopHnjoflv4XpobsNCj4gIC0g5aaC5p6cIHJlbGF0aW9uPT1D
-UFVGUkVRX1JFTF9I77yM5bCd6K+V6YCJ5oup5LiA5Liq5L2O5LqO5oiW562J5LqOIHRhcmdldF9m
-cmVxIOeahCBuZXdfZnJlceOAgigiSOS7o+ihqA0KPiAgICDmnIDpq5jvvIzkvYbkuI3og73pq5jk
-uo4iKQ0KPg0KPiAt6L+Z6YeM77yM6aKR546H6KGo5Yqp5omL5Y+v6IO95Lya5biu5Yqp5L2gLS3o
-r6bop4HnrKwy6IqC44CCDQo+ICvov5nph4zvvIzpopHnjofooajovoXliqnlh73mlbDlj6/og73k
-vJrluK7liqnkvaAtLeivpuingeesrDLoioLjgIINCj4NCj4gIDEuNi4gZmFzdF9zd2l0Y2gNCj4g
-IC0tLS0tLS0tLS0tLS0tLS0NCj4gQEAgLTE5NSw5ICsxOTcsOSBAQCBDUFVmcmVx6amx5Yqo5Zyo
-6LCD55So6L+Z6YeM5pe25b+F6aG76K6+572u5paw55qE6aKR546H44CC5a6e6ZmF55qE6aKR546H
-5b+F6aG7DQo+ICAxLjcgc2V0cG9saWN5DQo+ICAtLS0tLS0tLS0tLS0tDQo+DQo+IC1zZXRwb2xp
-Y3nosIPnlKjlj6rpnIDopoHkuIDkuKpgYHN0cnVjdCBjcHVmcmVxX3BvbGljeSAqIHBvbGljeWBg
-5L2c5Li65Y+C5pWw44CC6ZyA6KaB5bCG5aSE55CG5Zmo5YaF5oiW6Iqv54mH57uE5YaF5Yqo5oCB
-6aKRDQo+ICtzZXRwb2xpY3nosIPnlKjlj6rpnIDopoHkuIDkuKogYGBzdHJ1Y3QgY3B1ZnJlcV9w
-b2xpY3kgKiBwb2xpY3lgYCDkvZzkuLrlj4LmlbDjgILpnIDopoHlsIblpITnkIblmajlhoXmiJbo
-iq/niYfnu4TlhoXliqjmgIHpopENCj4gIOeOh+WIh+aNoueahOS4i+mZkOiuvue9ruS4unBvbGlj
-eS0+bWlu77yM5LiK6ZmQ6K6+572u5Li6cG9saWN5LT5tYXjvvIzlpoLmnpzmlK/mjIHnmoTor53v
-vIzlvZNwb2xpY3ktPnBvbGljeeS4ug0KPiAtQ1BVRlJFUV9QT0xJQ1lfUEVSRk9STUFOQ0Xml7bp
-gInmi6npnaLlkJHmgKfog73nmoTorr7nva7vvIzlvZNDUFVGUkVRX1BPTElDWV9QT1dFUlNBVkXm
-l7bpgInmi6npnaLlkJHnnIHnlLXnmoTorr7nva7jgIINCj4gK0NQVUZSRVFfUE9MSUNZX1BFUkZP
-Uk1BTkNF5pe26YCJ5oup6Z2i5ZCR5oCn6IO955qE6K6+572u77yM5Li6Q1BVRlJFUV9QT0xJQ1lf
-UE9XRVJTQVZF5pe26YCJ5oup6Z2i5ZCR55yB55S155qE6K6+572u44CCDQo+ICDkuZ/lj6/ku6Xm
-n6XnnItkcml2ZXJzL2NwdWZyZXEvbG9uZ3J1bi5j5Lit55qE5Y+C6ICD5a6e546w44CCDQo+DQo+
-ICAxLjggZ2V0X2ludGVybWVkaWF0ZSDlkowgdGFyZ2V0X2ludGVybWVkaWF0ZQ0KPiBAQCAtMjA2
-LDMxICsyMDgsMzIgQEAgQ1BVRlJFUV9QT0xJQ1lfUEVSRk9STUFOQ0Xml7bpgInmi6npnaLlkJHm
-gKfog73nmoTorr7nva7vvIzlvZNDUFVGUkVRX1BPTElDWV9QT1cNCj4gIOS7hemAgueUqOS6jiB0
-YXJnZXRfaW5kZXgoKSDlkowgQ1BVRlJFUV9BU1lOQ19OT1RJRklDQVRJT04g5pyq6K6+572u55qE
-6amx5Yqo44CCDQo+DQo+ICBnZXRfaW50ZXJtZWRpYXRl5bqU6K+l6L+U5Zue5LiA5Liq5bmz5Y+w
-5oOz6KaB5YiH5o2i5Yiw55qE56iz5a6a55qE5Lit6Ze06aKR546H77yMdGFyZ2V0X2ludGVybWVk
-aWF0ZSgp5bqU6K+l5bCGQ1BV6K6+572u5Li6DQo+IC3or6XpopHnjofvvIznhLblkI7lho3ot7Po
-vazliLAnaW5kZXgn5a+55bqU55qE6aKR546H44CC5qC45b+D5Lya6LSf6LSj5Y+R6YCB6YCa55+l
-77yM6amx5Yqo5LiN5b+F5ZyodGFyZ2V0X2ludGVybWVkaWF0ZSgp5oiWDQo+IC10YXJnZXRfaW5k
-ZXgoKeS4reWkhOeQhuOAgg0KPiAr6K+l6aKR546H77yM54S25ZCO5YaN6Lez6L2s5YiwICdpbmRl
-eCcg5a+55bqU55qE6aKR546H44CCY3B1ZnJlceaguOW/g+S8mui0n+i0o+WPkemAgemAmuefpe+8
-jOmpseWKqOS4jeW/heWcqA0KPiArdGFyZ2V0X2ludGVybWVkaWF0ZSgp5oiWdGFyZ2V0X2luZGV4
-KCnkuK3lpITnkIblroPku6zjgIINCj4NCj4gLeWcqOmpseWKqOeoi+W6j+S4jeaDs+WboOS4uuaf
-kOS4quebruagh+mikeeOh+WIh+aNouWIsOS4remXtOmikeeOh+eahOaDheWGteS4i++8jOWug+S7
-rOWPr+S7peS7jmdldF9pbnRlcm1lZGlhdGUoKeS4rei/lOWbnicwJ+OAguWcqOi/meenjeaDheWG
-tQ0KPiAt5LiL77yM5qC45b+D5bCG55u05o6l6LCD55SoLT50YXJnZXRfaW5kZXgoKeOAgg0KPiAr
-5Zyo6amx5Yqo56iL5bqP5LiN5oOz5Zug5Li65p+Q5Liq55uu5qCH6aKR546H5YiH5o2i5Yiw5Lit
-6Ze06aKR546H55qE5oOF5Ya15LiL77yM5a6D5Lus5Y+v5Lul5LuOZ2V0X2ludGVybWVkaWF0ZSgp
-5Lit6L+U5ZueICcwJyDjgIINCj4gK+WcqOi/meenjeaDheWGteS4i++8jGNwdWZyZXHmoLjlv4Pl
-sIbnm7TmjqXosIPnlKgtPnRhcmdldF9pbmRleCgp44CCDQo+DQo+IC3ms6jmhI/vvJotPnRhcmdl
-dF9pbmRleCgp5bqU6K+l5Zyo5aSx6LSl55qE5oOF5Ya15LiL5oGi5aSN5YiwcG9saWN5LT5yZXN0
-b3JlX2ZyZXHvvIzlm6DkuLpjb3Jl5Lya5Li65q2k5Y+R6YCB6YCa55+l44CCDQo+ICvms6jmhI/v
-vJotPnRhcmdldF9pbmRleCgp5bqU6K+l5Zyo5Y+R55Sf5aSx6LSl55qE5oOF5Ya15LiL5bCG6aKR
-546H5oGi5aSN5YiwcG9saWN5LT5yZXN0b3JlX2ZyZXHvvIwNCj4gK+WboOS4umNwdWZyZXHmoLjl
-v4PkvJrkuLrmraTlj5HpgIHpgJrnn6XjgIINCj4NCj4NCj4gLTIuIOmikeeOh+ihqOWKqeaJiw0K
-PiAtPT09PT09PT09PT09PQ0KPiArMi4g6aKR546H6KGo6L6F5Yqp5Ye95pWwDQo+ICs9PT09PT09
-PT09PT09PT09PQ0KPg0KPiAt55Sx5LqO5aSn5aSa5pWwY3B1ZnJlceWkhOeQhuWZqOWPquWFgeiu
-uOiiq+iuvue9ruS4uuWHoOS4queJueWumueahOmikeeOh++8jOWboOatpO+8jOS4gOS4quW4puac
-ieS4gOS6m+WHveaVsOeahCDigJzpopHnjofooajigJ3lj6/og73kvJrovoXliqnlpITnkIblmajp
-qbHliqgNCj4gLeeoi+W6j+eahOS4gOS6m+W3peS9nOOAgui/meagt+eahCAi6aKR546H6KGoIiDn
-lLHkuIDkuKpjcHVmcmVxX2ZyZXF1ZW5jeV90YWJsZeadoeebruaehOaIkOeahOaVsOe7hOe7hOaI
-kO+8jCJkcml2ZXJfZGF0YSIg5Lit5YyFDQo+IC3lkKvkuobpqbHliqjnqIvluo/nmoTlhbfkvZPm
-lbDlgLzvvIwiZnJlcXVlbmN5IiDkuK3ljIXlkKvkuobnm7jlupTnmoTpopHnjofvvIzlubborr7n
-va7kuobmoIflv5fjgILlnKjooajnmoTmnIDlkI7vvIzpnIDopoHmt7vliqDkuIDkuKoNCj4gK+eU
-seS6juWkp+WkmuaVsGNwdWZyZXHlpITnkIblmajlj6rlhYHorrjooqvorr7nva7kuLrlh6DkuKrn
-ibnlrprnmoTpopHnjofvvIzlm6DmraTvvIwi6aKR546H6KGoIiDlkozkuIDkupvnm7jlhbPlh73m
-lbDlj6/og73kvJrovoXliqnlpITnkIblmajpqbHliqgNCj4gK+eoi+W6j+eahOS4gOS6m+W3peS9
-nOOAgui/meagt+eahCAi6aKR546H6KGoIiDmmK/kuIDkuKrnlLFzdHJ1Y3QgY3B1ZnJlcV9mcmVx
-dWVuY3lfdGFibGXnmoTmnaHnm67mnoTmiJDnmoTmlbDnu4TvvIwiZHJpdmVyX2RhdGEiIOaIkOWR
-mOWMhQ0KPiAr5ZCr6amx5Yqo56iL5bqP55qE5LiT55So5YC877yMImZyZXF1ZW5jeSIg5oiQ5ZGY
-5YyF5ZCr5LqG55u45bqU55qE6aKR546H77yM5q2k5aSW6L+Y5pyJ5qCH5b+X5oiQ5ZGY44CC5Zyo
-6KGo55qE5pyA5ZCO77yM6ZyA6KaB5re75Yqg5LiA5LiqDQo+ICBjcHVmcmVxX2ZyZXF1ZW5jeV90
-YWJsZeadoeebru+8jOmikeeOh+iuvue9ruS4ukNQVUZSRVFfVEFCTEVfRU5E44CC6ICM5aaC5p6c
-5oOz6Lez6L+H6KGo5Lit55qE5LiA5Liq5p2h55uu77yM5YiZ5bCG6aKR546H6K6+572u5Li6DQo+
-IC1DUFVGUkVRX0VOVFJZX0lOVkFMSUTjgILov5nkupvmnaHnm67kuI3pnIDopoHmjInnhafku7vk
-vZXnibnlrprnmoTpobrluo/mjpLluo/vvIzkvYblpoLmnpzlroPku6zmmK9jcHVmcmVxIOaguOW/
-g+S8muWvueWug+S7rOi/m+ihjOW/q+mAn+eahERWRlPvvIwNCj4gK0NQVUZSRVFfRU5UUllfSU5W
-QUxJROOAgui/meS6m+adoeebruS4jemcgOimgeaMieeFp+S7u+S9leeJueWumueahOmhuuW6j+aO
-kuW6j++8jOWmguaenOaOkuW6j+S6hu+8jGNwdWZyZXHmoLjlv4PmiafooYxEVkZT5Lya5pu05b+r
-5LiA54K577yMDQo+ICDlm6DkuLrmkJzntKLmnIDkvbPljLnphY3kvJrmm7Tlv6vjgIINCj4NCj4g
-LeWmguaenOetlueVpeWcqOWFtnBvbGljeS0+ZnJlcV90YWJsZeWtl+auteS4reWMheWQq+S4gOS4
-quacieaViOeahOaMh+mSiO+8jGNwdWZyZXHooajlsLHkvJrooqvmoLjlv4Poh6rliqjpqozor4Hj
-gIINCj4gK+WmguaenOWcqHBvbGljeS0+ZnJlcV90YWJsZeWtl+auteS4reWMheWQq+S4gOS4quac
-ieaViOeahOmikeeOh+ihqOaMh+mSiO+8jOmikeeOh+ihqOWwseS8muiiq2NwdWZyZXHmoLjlv4Po
-h6rliqjpqozor4HjgIINCj4NCj4gIGNwdWZyZXFfZnJlcXVlbmN5X3RhYmxlX3ZlcmlmeSgp5L+d
-6K+B6Iez5bCR5pyJ5LiA5Liq5pyJ5pWI55qE6aKR546H5ZyocG9saWN5LT5taW7lkoxwb2xpY3kt
-Pm1heOiMg+WbtOWGhe+8jOW5tuS4lOaJgOacieWFtuS7lg0KPiAt5qCH5YeG6YO96KKr5ruh6Laz
-44CC6L+Z5a+5LT52ZXJpZnnosIPnlKjlvojmnInluK7liqnjgIINCj4gK+WHhuWImemDveiiq+a7
-oei2s+OAgui/meWvuS0+dmVyaWZ56LCD55So5b6I5pyJ5biu5Yqp44CCDQo+DQo+IC1jcHVmcmVx
-X2ZyZXF1ZW5jeV90YWJsZV90YXJnZXQoKeaYr+WvueW6lOS6ji0+dGFyZ2V06Zi25q6155qE6aKR
-546H6KGo5Yqp5omL44CC5Y+q6KaB5oqK5pWw5YC85Lyg6YCS57uZ6L+Z5Liq5Ye95pWw77yM6L+Z
-5Liq5Ye95pWw5bCx5Lya6L+UDQo+ICtjcHVmcmVxX2ZyZXF1ZW5jeV90YWJsZV90YXJnZXQoKeaY
-r+WvueW6lOS6ji0+dGFyZ2V06Zi25q6155qE6aKR546H6KGo6L6F5Yqp5Ye95pWw44CC5Y+q6KaB
-5oqK5YC85Lyg6YCS57uZ6L+Z5Liq5Ye95pWw77yM6L+Z5Liq5Ye95pWw5bCx5Lya6L+UDQo+ICDl
-m57ljIXlkKtDUFXopoHorr7nva7nmoTpopHnjofnmoTpopHnjofooajmnaHnm67jgIINCj4NCj4g
-IOS7peS4i+Wuj+WPr+S7peS9nOS4umNwdWZyZXFfZnJlcXVlbmN5X3RhYmxl55qE6L+t5Luj5Zmo
-44CCDQo+IEBAIC0yMzgsOCArMjQxLDggQEAgY3B1ZnJlcV9mcmVxdWVuY3lfdGFibGVfdGFyZ2V0
-KCnmmK/lr7nlupTkuo4tPnRhcmdldOmYtuauteeahOmikeeOh+ihqOWKqeaJi+OAgg0KPiAgY3B1
-ZnJlcV9mb3JfZWFjaF9lbnRyeShwb3MsIHRhYmxlKSAtIOmBjeWOhumikeeOh+ihqOeahOaJgOac
-ieadoeebruOAgg0KPg0KPiAgY3B1ZnJlcV9mb3JfZWFjaF92YWxpZF9lbnRyeShwb3MsIHRhYmxl
-KSAtIOivpeWHveaVsOmBjeWOhuaJgOacieadoeebru+8jOS4jeWMheaLrENQVUZSRVFfRU5UUllf
-SU5WQUxJROmikeeOh+OAgg0KPiAt5L2/55So5Y+C5pWwICJwb3MiLeS4gOS4qmBgY3B1ZnJlcV9m
-cmVxdWVuY3lfdGFibGUgKiBgYCDkvZzkuLrlvqrnjq/lj5jph4/vvIzkvb/nlKjlj4LmlbAgInRh
-YmxlIi3kvZzkuLrkvaDmg7Pov63ku6MNCj4gLeeahGBgY3B1ZnJlcV9mcmVxdWVuY3lfdGFibGUg
-KiBgYCDjgIINCj4gK+S9v+eUqOWPguaVsCAicG9zIi3kuIDkuKogYGBjcHVmcmVxX2ZyZXF1ZW5j
-eV90YWJsZSAqYGAg5L2c5Li65b6q546v5oyH6ZKI77yM5L2/55So5Y+C5pWwICJ0YWJsZSIt5L2c
-5Li65L2g5oOz6L+t5LujDQo+ICvnmoQgYGBjcHVmcmVxX2ZyZXF1ZW5jeV90YWJsZSAqYGAg44CC
-DQo+DQo+ICDkvovlpoI6Og0KPg0KPiBAQCAtMjUwLDUgKzI1Myw1IEBAIGNwdWZyZXFfZm9yX2Vh
-Y2hfdmFsaWRfZW50cnkocG9zLCB0YWJsZSkgLSDor6Xlh73mlbDpgY3ljobmiYDmnInmnaHnm67v
-vIzkuI3ljIUNCj4gICAgICAgICAgICAgICAgIHBvcy0+ZnJlcXVlbmN5ID0gLi4uDQo+ICAgICAg
-ICAgfQ0KPg0KPiAt5aaC5p6c5L2g6ZyA6KaB5ZyoZHJpdmVyX2ZyZXFfdGFibGXkuK3lpITnkIZw
-b3PnmoTkvY3nva7vvIzkuI3opoHlh4/ljrvmjIfpkojvvIzlm6DkuLrlroPnmoTku6Pku7fnm7jl
-vZPpq5jjgILnm7jlj43vvIzkvb/nlKjlro8NCj4gK+WmguaenOS9oOmcgOimgeWcqGRyaXZlcl9m
-cmVxX3RhYmxl5Lit5aSE55CGcG9z55qE5L2N572u77yM5LiN6KaB5YGa5oyH6ZKI5YeP5rOV77yM
-5Zug5Li65a6D55qE5Luj5Lu355u45b2T6auY44CC5L2c5Li65pu/5Luj77yM5L2/55So5a6PDQo+
-ICBjcHVmcmVxX2Zvcl9lYWNoX2VudHJ5X2lkeCgpIOWSjCBjcHVmcmVxX2Zvcl9lYWNoX3ZhbGlk
-X2VudHJ5X2lkeCgpIOOAgg0KPiAtLQ0KPiAyLjE3LjENCj4NCg==
+This patch add a new api PR_NUMA_BALANCING in prctl.
+
+A large number of page faults will cause performance loss when numa
+balancing is performing. Thus those processes which care about worst-case
+performance need numa balancing disabled. Others, on the contrary, allow a
+temporary performance loss in exchange for higher average performance, so
+enable numa balancing is better for them.
+
+Numa balancing can only be controlled globally by
+/proc/sys/kernel/numa_balancing. Due to the above case, we want to
+disable/enable numa_balancing per-process instead.
+
+Add numa_balancing under mm_struct. Then use it in task_tick_fair.
+
+Set per-process numa balancing:
+	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_DISABLE); //disable
+	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_ENABLE);  //enable
+	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_DEFAULT); //follow global
+Get numa_balancing state:
+	prctl(PR_NUMA_BALANCING, PR_GET_NUMAB, &ret);
+	cat /proc/<pid>/status | grep NumaB_enabled
+
+Cc: linux-api@vger.kernel.org
+Signed-off-by: Gang Li <ligang.bdlg@bytedance.com>
+---
+
+Changes in v3:
+- Fix compile error.
+
+Changes in v2:
+- Now PR_NUMA_BALANCING support three states: enabled, disabled, default.
+  enabled and disabled will ignore global setting, and default will follow
+  global setting.
+---
+ Documentation/filesystems/proc.rst   |  2 ++
+ fs/proc/task_mmu.c                   | 19 +++++++++++++++
+ include/linux/mm_types.h             |  3 +++
+ include/linux/sched/numa_balancing.h |  6 +++++
+ include/uapi/linux/prctl.h           |  7 ++++++
+ kernel/fork.c                        |  3 +++
+ kernel/sched/fair.c                  |  6 ++++-
+ kernel/sys.c                         | 35 ++++++++++++++++++++++++++++
+ 8 files changed, 80 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index 061744c436d9..767e8d893fb5 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -192,6 +192,7 @@ read the file /proc/PID/status::
+   VmLib:      1412 kB
+   VmPTE:        20 kb
+   VmSwap:        0 kB
++  NumaB_enabled:  default
+   HugetlbPages:          0 kB
+   CoreDumping:    0
+   THP_enabled:	  1
+@@ -273,6 +274,7 @@ It's slow but very precise.
+  VmPTE                       size of page table entries
+  VmSwap                      amount of swap used by anonymous private data
+                              (shmem swap usage is not included)
++ NumaB_enabled               numa balancing state, set by prctl(PR_NUMA_BALANCING, ...)
+  HugetlbPages                size of hugetlb memory portions
+  CoreDumping                 process's memory is currently being dumped
+                              (killing the process may lead to a corrupted core)
+diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+index e6998652fd67..c5bc00ab0460 100644
+--- a/fs/proc/task_mmu.c
++++ b/fs/proc/task_mmu.c
+@@ -19,6 +19,7 @@
+ #include <linux/shmem_fs.h>
+ #include <linux/uaccess.h>
+ #include <linux/pkeys.h>
++#include <linux/sched/numa_balancing.h>
+ 
+ #include <asm/elf.h>
+ #include <asm/tlb.h>
+@@ -75,6 +76,24 @@ void task_mem(struct seq_file *m, struct mm_struct *mm)
+ 		    " kB\nVmPTE:\t", mm_pgtables_bytes(mm) >> 10, 8);
+ 	SEQ_PUT_DEC(" kB\nVmSwap:\t", swap);
+ 	seq_puts(m, " kB\n");
++#ifdef CONFIG_NUMA_BALANCING
++	seq_puts(m, "NumaB_enabled:\t");
++	switch (mm->numab_enabled) {
++	case NUMAB_DEFAULT:
++		seq_puts(m, "default");
++		break;
++	case NUMAB_DISABLED:
++		seq_puts(m, "disabled");
++		break;
++	case NUMAB_ENABLED:
++		seq_puts(m, "enabled");
++		break;
++	default:
++		seq_puts(m, "unknown");
++		break;
++	}
++	seq_putc(m, '\n');
++#endif
+ 	hugetlb_report_usage(m, mm);
+ }
+ #undef SEQ_PUT_DEC
+diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+index 850e71986b9d..96607e43e00f 100644
+--- a/include/linux/mm_types.h
++++ b/include/linux/mm_types.h
+@@ -638,6 +638,9 @@ struct mm_struct {
+ 
+ 		/* numa_scan_seq prevents two threads setting pte_numa */
+ 		int numa_scan_seq;
++
++		/* Controls whether NUMA balancing is active for this mm. */
++		int numab_enabled;
+ #endif
+ 		/*
+ 		 * An operation with batched TLB flushing is going on. Anything
+diff --git a/include/linux/sched/numa_balancing.h b/include/linux/sched/numa_balancing.h
+index 3988762efe15..35a1c79925ea 100644
+--- a/include/linux/sched/numa_balancing.h
++++ b/include/linux/sched/numa_balancing.h
+@@ -16,6 +16,12 @@
+ #define TNF_MIGRATE_FAIL 0x10
+ 
+ #ifdef CONFIG_NUMA_BALANCING
++enum {
++	NUMAB_DISABLED,
++	NUMAB_ENABLED,
++	NUMAB_DEFAULT
++};
++DECLARE_STATIC_KEY_FALSE(sched_numa_balancing);
+ extern void task_numa_fault(int last_node, int node, int pages, int flags);
+ extern pid_t task_numa_group_id(struct task_struct *p);
+ extern void set_numabalancing_state(bool enabled);
+diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+index e998764f0262..d120cdde5d27 100644
+--- a/include/uapi/linux/prctl.h
++++ b/include/uapi/linux/prctl.h
+@@ -275,4 +275,11 @@ struct prctl_mm_map {
+ #define PR_SET_VMA		0x53564d41
+ # define PR_SET_VMA_ANON_NAME		0
+ 
++/* Set/get enabled per-process numa_balancing */
++#define PR_NUMA_BALANCING		63
++# define PR_SET_NUMAB_DISABLED		NUMAB_DISABLED
++# define PR_SET_NUMAB_ENABLED		NUMAB_ENABLED
++# define PR_SET_NUMAB_DEFAULT		NUMAB_DEFAULT
++# define PR_GET_NUMAB			3
++
+ #endif /* _LINUX_PRCTL_H */
+diff --git a/kernel/fork.c b/kernel/fork.c
+index 7c06be0ca31b..5d4f876b588b 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -1061,6 +1061,9 @@ static struct mm_struct *mm_init(struct mm_struct *mm, struct task_struct *p,
+ 	init_tlb_flush_pending(mm);
+ #if defined(CONFIG_TRANSPARENT_HUGEPAGE) && !USE_SPLIT_PMD_PTLOCKS
+ 	mm->pmd_huge_pte = NULL;
++#endif
++#ifdef CONFIG_NUMA_BALANCING
++	mm->numab_enabled = NUMAB_DEFAULT;
+ #endif
+ 	mm_init_uprobes_state(mm);
+ 	hugetlb_count_init(mm);
+diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
+index 884f29d07963..2980f33ac61f 100644
+--- a/kernel/sched/fair.c
++++ b/kernel/sched/fair.c
+@@ -11169,8 +11169,12 @@ static void task_tick_fair(struct rq *rq, struct task_struct *curr, int queued)
+ 		entity_tick(cfs_rq, se, queued);
+ 	}
+ 
+-	if (static_branch_unlikely(&sched_numa_balancing))
++#ifdef CONFIG_NUMA_BALANCING
++	if (curr->mm && (curr->mm->numab_enabled == NUMAB_ENABLED
++	    || (static_branch_unlikely(&sched_numa_balancing)
++	    && curr->mm->numab_enabled == NUMAB_DEFAULT)))
+ 		task_tick_numa(rq, curr);
++#endif
+ 
+ 	update_misfit_status(curr, rq);
+ 	update_overutilized_status(task_rq(curr));
+diff --git a/kernel/sys.c b/kernel/sys.c
+index 2450a9f33cb0..4a5a2bd57248 100644
+--- a/kernel/sys.c
++++ b/kernel/sys.c
+@@ -58,6 +58,7 @@
+ #include <linux/sched/coredump.h>
+ #include <linux/sched/task.h>
+ #include <linux/sched/cputime.h>
++#include <linux/sched/numa_balancing.h>
+ #include <linux/rcupdate.h>
+ #include <linux/uidgid.h>
+ #include <linux/cred.h>
+@@ -2081,6 +2082,23 @@ static int prctl_set_auxv(struct mm_struct *mm, unsigned long addr,
+ 	return 0;
+ }
+ 
++#ifdef CONFIG_NUMA_BALANCING
++static int prctl_pid_numa_balancing_write(int numa_balancing)
++{
++	if (numa_balancing != PR_SET_NUMAB_DEFAULT
++	    && numa_balancing != PR_SET_NUMAB_DISABLED
++	    && numa_balancing != PR_SET_NUMAB_ENABLED)
++		return -EINVAL;
++	current->mm->numab_enabled = numa_balancing;
++	return 0;
++}
++
++static int prctl_pid_numa_balancing_read(void)
++{
++	return current->mm->numab_enabled;
++}
++#endif
++
+ static int prctl_set_mm(int opt, unsigned long addr,
+ 			unsigned long arg4, unsigned long arg5)
+ {
+@@ -2585,6 +2603,23 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
+ 		error = set_syscall_user_dispatch(arg2, arg3, arg4,
+ 						  (char __user *) arg5);
+ 		break;
++#ifdef CONFIG_NUMA_BALANCING
++	case PR_NUMA_BALANCING:
++		switch (arg2) {
++		case PR_SET_NUMAB_DEFAULT:
++		case PR_SET_NUMAB_DISABLED:
++		case PR_SET_NUMAB_ENABLED:
++			error = prctl_pid_numa_balancing_write((int)arg2);
++			break;
++		case PR_GET_NUMAB:
++			error = put_user(prctl_pid_numa_balancing_read(), (int __user *)arg3);
++			break;
++		default:
++			error = -EINVAL;
++			break;
++		}
++		break;
++#endif
+ #ifdef CONFIG_SCHED_CORE
+ 	case PR_SCHED_CORE:
+ 		error = sched_core_share_pid(arg2, arg3, arg4, arg5);
+-- 
+2.20.1
+
