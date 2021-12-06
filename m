@@ -2,133 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 546BCC433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  6 Dec 2021 20:58:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68C2EC433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  6 Dec 2021 22:55:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230394AbhLFVBz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Dec 2021 16:01:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54840 "EHLO
+        id S1351168AbhLFW7U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 6 Dec 2021 17:59:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350115AbhLFVBr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Dec 2021 16:01:47 -0500
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B411C061D60;
-        Mon,  6 Dec 2021 12:58:18 -0800 (PST)
-Received: by mail-wr1-x42b.google.com with SMTP id i5so25092035wrb.2;
-        Mon, 06 Dec 2021 12:58:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=DK4hAvvrL0g/m+zIiQELRMmxA9g3fGN68aSymQFpmw4=;
-        b=ns+q3Q5a/YFhnnV6OVF+Mt3rUmr9uxUqqFynmSsthxdw9baWp1zLvrtmq2p5CHftOV
-         M+7f1l6wrmMQyHblMftzJnSeGXh++0iiymEaqZ9TkqnGyxzpdhZGU7rEj1Zyp5H2FLDc
-         grQd1lN/zGijD2p+r8brP/JZaAB49ZhBkfWIiB+KcQphK2LpzrY9G8XFFQHD8tZqwXY+
-         hycl6tWZMSPLYXpqGHZWA0AJtaIShzSKUmQg917UdzCOe1aMKmUAxc2dhWvVthKSDIkK
-         5em8JyL+2RhW7hQHDVGp1JPG6WVvTXoOM1YqCEvD9GOtMQjEAreFdRs8vAWksKSoQcqu
-         Cmyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=DK4hAvvrL0g/m+zIiQELRMmxA9g3fGN68aSymQFpmw4=;
-        b=KvDoR4ODh5Frgnx0+h0+6JSO1xNYp/1qz9U2HzZALkgJ48eGgS4KrBNoUwMFR8oPSF
-         UoK+/MRRwmwMiO2gyl5nW/mxyrWlvLoD8xxpgaLRpqYczjJ0+l3XWULGc7PDlybfApky
-         EFFElAojwFBSDSr/wmOk+4H93qAozaoQ0JOue/MENVaHnO3zvKiUCuVyyYJtJPfR3ZAC
-         Hwg/eGQWGLy+ZDNj66JJnVbx71Rm6IckenHDmgmNMsSgO9ss5q106lA4cSkj4rxFuS5U
-         K8crGVjE3GSB8cRXD5lZjseR4uxbJboSyzXAu3OFH1qfvW34d9odeRwJs/Jn5Ovw+7Ub
-         5GcQ==
-X-Gm-Message-State: AOAM533zOXXq8WepcHatAaaFOGpCVZyWfomh9/PFQ9a1JI8Y9h2T7h1y
-        G+wvgpfRUOxQ+we5AbtVofE=
-X-Google-Smtp-Source: ABdhPJwnO0TTqOoGSYCkB3lOmDvLnLodImOh+yQ3A1lfhP6Q0C/PqnUKVp5NE/Atd4UObejQZ5WWlA==
-X-Received: by 2002:adf:e747:: with SMTP id c7mr46458155wrn.38.1638824297093;
-        Mon, 06 Dec 2021 12:58:17 -0800 (PST)
-Received: from matrix-ESPRIMO-P710 (p200300c78f4e06972f325cc5fe1c0146.dip0.t-ipconnect.de. [2003:c7:8f4e:697:2f32:5cc5:fe1c:146])
-        by smtp.gmail.com with ESMTPSA id az15sm454600wmb.0.2021.12.06.12.58.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Dec 2021 12:58:16 -0800 (PST)
-Date:   Mon, 6 Dec 2021 21:58:14 +0100
-From:   Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     linux-usb@vger.kernel.org, gregkh@linuxfoundation.org
-Subject: [PATCH v3 5/5] Docs: usb: correct format of function names in the
- explanations
-Message-ID: <6ef296c812baabd973e5ae7b661b1620d5fd45be.1638771720.git.philipp.g.hortmann@gmail.com>
-References: <cover.1638771720.git.philipp.g.hortmann@gmail.com>
+        with ESMTP id S1347563AbhLFW7U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Dec 2021 17:59:20 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5387AC061746;
+        Mon,  6 Dec 2021 14:55:51 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id F284A60A;
+        Mon,  6 Dec 2021 22:55:50 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net F284A60A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1638831351; bh=LuBhzR7FOxfb7YPaVwP4X0uDjEZMXDsoXzc1WIvbeL8=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=Qrb6Zk02LqufGsjRjhPu0aeP7eCYhJnT596rWdLQDdjBphOWEUscArze6XEy0Ptnk
+         VfcZKpn708HfzPOM24AAx6CYF72wUUmwa8koTRACt2L2lHJCMXbu26L0CXFslRkNBf
+         ImbYVOQ4+z+2MgoZIfB+kbnnQJrkSNXkfq3EF6dMTHQj1LX3PJHgdvWGTdEtpKFFox
+         plC5Em5rijZCs8FQqxfc3NFF/PUnxLuiMBRUumhqWrBYSv/ApWQCwQO8wI70mwfbWa
+         QRZObkfx5BczodKv3ze6qPJ6yPvDf3jEAQFYbjwcBf3OwnI11umI92PalFB0gXjHyr
+         X5qGkwQBLtCbA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
+        <nfraprado@protonmail.com>, Randy Dunlap <rdunlap@infradead.org>,
+        Andrew Klychkov <andrew.a.klychkov@gmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/4] docs: allow selecting a Sphinx theme
+In-Reply-To: <20211206211421.6eeb990d@coco.lan>
+References: <cover.1638369365.git.mchehab+huawei@kernel.org>
+ <eb4e49b9a701643b07a56f1863005ba8216ef694.1638369365.git.mchehab+huawei@kernel.org>
+ <878rwx35v7.fsf@meer.lwn.net> <20211206211421.6eeb990d@coco.lan>
+Date:   Mon, 06 Dec 2021 15:55:50 -0700
+Message-ID: <87mtld1gy1.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1638771720.git.philipp.g.hortmann@gmail.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Correct format of function names like the following example:
-      "`usb_bulk_msg` function" to "usb_bulk_msg()"
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
- .../driver-api/usb/writing_usb_driver.rst     | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+> Em Mon, 06 Dec 2021 12:12:12 -0700
+> Jonathan Corbet <corbet@lwn.net> escreveu:
+>
+>> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+>> 
+>> > Instead of having RTD as an almost mandatory theme, allow the
+>> > user to select other themes via a THEMES environment var.
+>> >
+>> > There's a catch, though: as the current theme override logic is
+>> > dependent of the RTD theme, we need to move the code which
+>> > adds the CSS overrides to be inside the RTD theme logic.
+>> >
+>> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+>> > ---
+>> >
+>> > See [PATCH v3 0/4] at: https://lore.kernel.org/all/cover.1638369365.git.mchehab+huawei@kernel.org/
+>> >
+>> >  Documentation/Makefile             |  3 ++
+>> >  Documentation/conf.py              | 52 +++++++++++++++++-------------
+>> >  Documentation/doc-guide/sphinx.rst |  8 +++++
+>> >  3 files changed, 41 insertions(+), 22 deletions(-)  
+>> 
+>> So I'm playing with this now, and definitely want to apply it.  I do
+>> have one little worry, though...  THEME seems like an overly general
+>> name to use here, and seems relatively likely to conflict with other
+>> uses.  THEME= on the command line is fine, but what do you think about
+>> something like DOCS_THEME for the environment variable?  Or even
+>> HTML_THEME as Sphinx uses?
+>
+> I'm not sure if we will ever consider a "THEME" environment var for anything
+> but docs and html stuff. That's why I ended taking the shortest name (for
+> both THEME and CSS make vars).
+>
+> Yet, I'm OK if to use whatever name you think it would work best.
 
-diff --git a/Documentation/driver-api/usb/writing_usb_driver.rst b/Documentation/driver-api/usb/writing_usb_driver.rst
-index 1968cf5c55f6..9f4181cafc41 100644
---- a/Documentation/driver-api/usb/writing_usb_driver.rst
-+++ b/Documentation/driver-api/usb/writing_usb_driver.rst
-@@ -220,10 +220,10 @@ successfully or not and then returns.
- 
- This read function works a bit differently from the write function in
- that we do not use an urb to transfer data from the device to the
--driver. Instead we call the :c:func:`usb_bulk_msg` function, which can be used
-+driver. Instead we call usb_bulk_msg(), which can be used
- to send or receive data from a device without having to create urbs and
--handle urb completion callback functions. We call the :c:func:`usb_bulk_msg`
--function, giving it a buffer into which to place any data received from
-+handle urb completion callback functions. We call usb_bulk_msg(),
-+giving it a buffer into which to place any data received from
- the device and a timeout value. If the timeout period expires without
- receiving any data from the device, the function will fail and return an
- error message. This can be shown with the following code::
-@@ -244,13 +244,13 @@ error message. This can be shown with the following code::
-     }
- 
- 
--The :c:func:`usb_bulk_msg` function can be very useful for doing single reads
-+usb_bulk_msg() can be very useful for doing single reads
- or writes to a device; however, if you need to read or write constantly to
- a device, it is recommended to set up your own urbs and submit them to
- the USB subsystem. The template uses urbs for read and write.
- 
- When the user program releases the file handle that it has been using to
--talk to the device, the release function in the driver is called. In
-+talk to the device, skel_release() in the driver is called. In
- this function we decrement our private usage count and wait for possible
- pending writes::
- 
-@@ -262,9 +262,8 @@ One of the more difficult problems that USB drivers must be able to
- handle smoothly is the fact that the USB device may be removed from the
- system at any point in time, even if a program is currently talking to
- it. It needs to be able to shut down any current reads and writes and
--notify the user-space programs that the device is no longer there. The
--following code (function ``skel_delete``) is an example of how to do
--this::
-+notify the user-space programs that the device is no longer there.
-+skel_delete() is an example of how to do this::
- 
-     static void skel_delete(struct kref *kref)
-     {
-@@ -283,8 +282,8 @@ is initialized and set to false. For every read, write and other
- functions that expect a device to be present, the driver first checks
- this flag to see if the device is still present. If not, a ``-ENODEV``
- error is returned to the user-space program. When the device is
--disconnected, the ``skel_disconnect`` function is called. It sets
--``disconnected`` to true and cleans up.
-+disconnected, skel_disconnect() is called. It sets ``disconnected``
-+to true and cleans up.
- 
- Isochronous Data
- ================
--- 
-2.25.1
+I don't doubt we'll have BPF themes one of these years...:)
 
+Seriously, though, I was thinking about uses beyond building kernels.
+If I, say, always want to build with the alabaster theme, and so set
+THEME to effect that, will it then mess with my desktop environment or
+some such?
+
+A quick search doesn't turn up anything, so probably I'm worrying too
+much.  Maybe I should just apply it as-is, and we can change it if a
+conflict turns up.
+
+Thanks,
+
+jon
