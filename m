@@ -2,151 +2,438 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8798C433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Dec 2021 18:09:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0F38C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Dec 2021 18:19:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240432AbhLGSNP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Dec 2021 13:13:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41846 "EHLO
+        id S236040AbhLGSWm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Dec 2021 13:22:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240423AbhLGSNO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Dec 2021 13:13:14 -0500
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D347C061746
-        for <linux-doc@vger.kernel.org>; Tue,  7 Dec 2021 10:09:43 -0800 (PST)
-Received: by mail-wr1-x432.google.com with SMTP id u1so31184744wru.13
-        for <linux-doc@vger.kernel.org>; Tue, 07 Dec 2021 10:09:43 -0800 (PST)
+        with ESMTP id S231712AbhLGSWm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Dec 2021 13:22:42 -0500
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E97BC061574
+        for <linux-doc@vger.kernel.org>; Tue,  7 Dec 2021 10:19:11 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id i5so31336327wrb.2
+        for <linux-doc@vger.kernel.org>; Tue, 07 Dec 2021 10:19:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
+        d=ffwll.ch; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=fY/jHtU/GYMXorfTVFXQ30fSTwFEiSufcpsSR+/W5Kc=;
-        b=oI1q+SaXW973wDODj5VSLnY4R5m0cWsQkAQuYIcPg3DKkAMoojt/knseSDNTDqENsf
-         UdDOHM0R3Z9CLyS8C+ASL4XRmDO/R1QBMi/eC0s0uHjZQrpfOCPNmhRSJMv03Sqf6K1Z
-         LETtkDTeKz15GCJee+Z7OHnm2xZTwatuZQAVG3+i0flHS+rxIbXFpcth4WNY/59ZQGDU
-         Qmva6z88oFYJFGk0sb0kyPiqRrsciI686yrtnWLzSzIJ3MAc9Xoh/ORsWTGfOaipU14c
-         OuvEGCSP8BeRsJHVD2IBS+sozdTVDJMu23teEWofNR+oYnfBvw8/jZnkyss6hyNewoNT
-         qXoA==
+        bh=ryBB1dJoJAjwQetkQUG1CkdXjTwGO2uIq3Be4erfjLI=;
+        b=GkieuRCAxWKFS03VV9C6Bquc4bDeerCOXSoIFakdnaM7ADQo9mPtOFZAaiYO5pe1zJ
+         N9Vrb1Pe+MdDqFqIE9ivzVkr98Y7WZRvw/f2e8+tobjY82al+y5Y8O6uMahnUXVGikU8
+         D3/G5zcSlX2AKONlLp775RfJ9rbYEAGp7rdOM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=fY/jHtU/GYMXorfTVFXQ30fSTwFEiSufcpsSR+/W5Kc=;
-        b=NbdHvG7ZKbFw/+XUP8gWDXlm3iOQTRU1QYIjLSF2LhlXtVc5xbGTArN2k8SSAc44FE
-         JDpoZzqHtGydWPJIOFcFDgpDlpXBCh9Sfrvo9nCkcoOL5Z1NOiBu2To7RPSVPE4KxdFr
-         hNooBi/QzLHjENzuuY6beVh2ICzA+qbzBHmfKUp61YuvI2R2Yk3N34xV/GX3p7ZPjdw1
-         uKo1tbqGgc3PyUooQtlUUgo8g81IafordH3K0L9vhZdwrutO0ldD97WE26fdq+OUdXQY
-         8BNLr8wmiDbjvKOWG/z3c3d57spUvzfgpaWpHGSKSeYtrBZHKssl+EyOaQTkVrJW1GvN
-         HKHg==
-X-Gm-Message-State: AOAM533H1YzB3hjQFmZ9oa+BoN8MTOfnG3sK2CKqTK5QZQkvoh9O6mS5
-        X9ykGQx2a8kW7rEaypvtFcXZ8A==
-X-Google-Smtp-Source: ABdhPJyye2Hjazi9nHZZCKQzQZScll/sBT42r8LwSccet9VbL9oK2W7DyQh0tW2+zvoSZ/urhTWRZg==
-X-Received: by 2002:adf:f80f:: with SMTP id s15mr53192966wrp.542.1638900581687;
-        Tue, 07 Dec 2021 10:09:41 -0800 (PST)
-Received: from google.com ([2a00:79e0:d:209:cb8b:b013:316d:b2f1])
-        by smtp.gmail.com with ESMTPSA id t17sm3741660wmq.15.2021.12.07.10.09.40
+        bh=ryBB1dJoJAjwQetkQUG1CkdXjTwGO2uIq3Be4erfjLI=;
+        b=5TXLxKBYG0tR2QLadRay3cMtqmbUck60PQBfrZU1RKpPgJgHDebY752UJ8JMmhTTTR
+         1r6mtAElI5GuzXPgXUnRy1YBjChUWqCbvixC2qVdR/7umNt6VN3rBYoo48EGA1jJb4G5
+         3yQJpnV73iI3/x6AKbqoYBmr5arE5xWQvnNjozbrA2QTivKLgu8caTHounJIU3Tx79uu
+         b9wEVp47s3Dfafw5wSGg7QuA8X+PMxp/gtv/q1nu3uQhA+Sny0wH0Oah5kOB1bMX48O6
+         YADVTqir56PB2Ez7UJJDgSJLAcd1cV6xyTE+flGQNMScrBdgBIlJIwwd/Up0YnF9BjOX
+         514w==
+X-Gm-Message-State: AOAM530f+qnPfRcMmhtSqanoJkqzm5zH2plAuMZWDHJJpdaBSk19+kuE
+        Ri/Qgnf7UeVHgaQZhRjul6DyWA==
+X-Google-Smtp-Source: ABdhPJys+7fkflB/7uVRaDXSUkVakrY1E7ZzZ4ixrqIvd1ejF0OBx2V85+mJtPAb8y/5g4keFYmJng==
+X-Received: by 2002:a5d:68d2:: with SMTP id p18mr53846531wrw.21.1638901150128;
+        Tue, 07 Dec 2021 10:19:10 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id y6sm3346625wma.37.2021.12.07.10.19.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Dec 2021 10:09:40 -0800 (PST)
-Date:   Tue, 7 Dec 2021 18:09:37 +0000
-From:   David Brazdil <dbrazdil@google.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Rob Herring <robh+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Hans de Goede <hdegoede@redhat.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Andrew Scull <ascull@google.com>,
-        Will Deacon <will@kernel.org>
-Subject: Re: [PATCH 2/2] misc: dice: Add driver to forward secrets to
- userspace
-Message-ID: <Ya+jYcynLTxfdtON@google.com>
-References: <20211207123617.3040177-1-dbrazdil@google.com>
- <20211207123617.3040177-3-dbrazdil@google.com>
- <Ya9cwZ94QatewwIc@kroah.com>
- <Ya+PYiP43YxfLS4x@google.com>
- <Ya+W4YpxtB08F1sd@kroah.com>
+        Tue, 07 Dec 2021 10:19:09 -0800 (PST)
+Date:   Tue, 7 Dec 2021 19:19:07 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Cc:     Simon Ser <contact@emersion.fr>,
+        Michel Daenzer <michel@daenzer.net>,
+        Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
+        Marek Olsak <marek.olsak@amd.com>,
+        Roman Gilg <subdiff@gmail.com>,
+        Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+        Harry Wentland <Harry.Wentland@amd.com>,
+        Mark Yacoub <markyacoub@chromium.org>,
+        Sean Paul <seanpaul@chromium.org>,
+        Pekka Paalanen <ppaalanen@gmail.com>,
+        Yann Dirson <ydirson@free.fr>, Daniel Vetter <daniel@ffwll.ch>,
+        linux-doc@vger.kernel.org, qingqing.zhuo@amd.com, roman.li@amd.com,
+        amd-gfx@lists.freedesktop.org, aurabindo.pillai@amd.com,
+        nicholas.choi@amd.com, dri-devel@lists.freedesktop.org,
+        Alex Deucher <alexander.deucher@amd.com>,
+        bhawanpreet.lakha@amd.com,
+        Christian Koenig <christian.koenig@amd.com>
+Subject: Re: [PATCH v2 6/6] Documentation/gpu: Add amdgpu and dc glossary
+Message-ID: <Ya+lm9B8opSSkHsu@phenom.ffwll.local>
+References: <20211202160132.2263330-1-Rodrigo.Siqueira@amd.com>
+ <20211202160132.2263330-7-Rodrigo.Siqueira@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Ya+W4YpxtB08F1sd@kroah.com>
+In-Reply-To: <20211202160132.2263330-7-Rodrigo.Siqueira@amd.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 07, 2021 at 06:16:17PM +0100, Greg Kroah-Hartman wrote:
-> On Tue, Dec 07, 2021 at 04:44:18PM +0000, David Brazdil wrote:
-> > Hi Greg,
-> > 
-> > On Tue, Dec 07, 2021 at 02:08:17PM +0100, Greg Kroah-Hartman wrote:
-> > > On Tue, Dec 07, 2021 at 12:36:17PM +0000, David Brazdil wrote:
-> > > > Open Profile for DICE is a protocol for deriving unique secrets at boot,
-> > > > used by some Android devices. The firmware/bootloader hands over secrets
-> > > > in a reserved memory region, this driver takes ownership of the memory
-> > > > region and exposes it to userspace via a character device that
-> > > > lets userspace mmap the memory region into its process.
-> > > > 
-> > > > The character device can only be opened once at any given time.
-> > > 
-> > > Why?  That should not matter.  And your code (correctly), does not check
-> > > for that.  So why say that here?
-> > 
-> > It does check - open() returns -EBUSY if cmpxchg of the state from READY
-> > to BUSY fails. I agree this is a bit unconventional but it makes things
-> > easier to reason about. With multiple open FDs the driver would have to
-> > wait for all of them to get released before wiping, so one user could
-> > block the wiping requested by others by holding the FD indefinitely.
-> > And wiping despite other open FDs seems wrong, too. Is there a better
-> > way of doing this?
+On Thu, Dec 02, 2021 at 11:01:32AM -0500, Rodrigo Siqueira wrote:
+> In the DC driver, we have multiple acronyms that are not obvious most of
+> the time; the same idea is valid for amdgpu. This commit introduces a DC
+> and amdgpu glossary in order to make it easier to navigate through our
+> driver.
 > 
-> Yes, totally ignore it from the kernel point of view.  You don't know
-> what userspace just did with that FD the kernel gave it, it could have
-> sent it across a pipe, run dup() on it, or any sort of other things.
-> Just rely on open/release to know when the device is opened, and then
-> when that instance is released.  If userspace wants to do looney things,
-> and oddities happen, that's userspace's problem, not yours :)
+> Changes since V1:
+>  - Yann: Divide glossary based on driver context.
+>  - Alex: Make terms more consistent and update CPLIB
+>  - Add new acronyms to the glossary
 > 
-Fair point.
-
-> > > > +#include <linux/cdev.h>
-> > > > +#include <linux/dice.h>
-> > > > +#include <linux/io.h>
-> > > > +#include <linux/mm.h>
-> > > > +#include <linux/module.h>
-> > > > +#include <linux/of_reserved_mem.h>
-> > > > +#include <linux/platform_device.h>
-> > > > +
-> > > > +#define DICE_MKDEV		MKDEV(MAJOR(dice_devt), 0)
-> > > > +#define DICE_MINOR_COUNT	1
-> > > 
-> > > Please just use the misc_device api, no need to try to claim a major
-> > > number for just one device node.  That will simplify your code a lot as
-> > > well.
-> > 
-> > Ok, I'll look into it.
-> > 
-> > > > +static int dice_open(struct inode *inode, struct file *filp)
-> > > > +{
-> > > > +	struct dice_data *data;
-> > > > +
-> > > > +	data = container_of(inode->i_cdev, struct dice_data, cdev);
-> > > > +
-> > > > +	/* Never allow write access. */
-> > > > +	if (filp->f_mode & FMODE_WRITE)
-> > > > +		return -EROFS;
-> > > 
-> > > Why do you care?  Writes just will not work anyway, right?
-> > 
-> > There is nothing else preventing writes, the reserved memory is just plain
-> > old RAM.
+> Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+> ---
+>  Documentation/gpu/amdgpu/amdgpu-glossary.rst  |  47 ++++
+>  .../gpu/amdgpu/display/dc-glossary.rst        | 243 ++++++++++++++++++
+>  Documentation/gpu/amdgpu/display/index.rst    |   1 +
+>  Documentation/gpu/amdgpu/index.rst            |   7 +
+>  4 files changed, 298 insertions(+)
+>  create mode 100644 Documentation/gpu/amdgpu/amdgpu-glossary.rst
+>  create mode 100644 Documentation/gpu/amdgpu/display/dc-glossary.rst
 > 
-> And you can rely on this check only?  Nothing else needed with mmap?
-> And why can't userspace write to this?  What's wrong with that
-> happening?
+> diff --git a/Documentation/gpu/amdgpu/amdgpu-glossary.rst b/Documentation/gpu/amdgpu/amdgpu-glossary.rst
+> new file mode 100644
+> index 000000000000..e635851025e7
+> --- /dev/null
+> +++ b/Documentation/gpu/amdgpu/amdgpu-glossary.rst
+> @@ -0,0 +1,47 @@
+> +===============
+> +AMDGPU Glossary
+> +===============
+> +
+> +Here you can find some generic acronyms used in the amdgpu driver. Notice that
+> +we have a dedicated glossary for Display Core.
 
-AFAICT vm_iomap_memory takes care of it. It will allow a MAP_PRIVATE
-mapping of a read-only FD but not a MAP_SHARED one. I think that gives
-nice guarantees to userspace that if a process opens the char device itself,
-it's getting the original data, not something another process wrote there.
+Maybe add a link to that here so it's easier to find? sphinx autogenerates
+header targets so pretty easy (if the heading is unique at least).
+-Daniel
 
--David
+> +
+> +.. glossary::
+> +
+> +    CPLIB
+> +      Content Protection Library
+> +
+> +    DFS
+> +      Digital Frequency Synthesizer
+> +
+> +    ECP
+> +      Enhanced Content Protection
+> +
+> +    EOP
+> +      End Of Pipe/Pipeline
+> +
+> +    HQD
+> +      Hardware Queue Descriptor
+> +
+> +    KCQ
+> +      Kernel Compute Queue
+> +
+> +    KGQ
+> +      Kernel Graphics Queue
+> +
+> +    KIQ
+> +      Kernel Interface Queue
+> +
+> +    MQD
+> +      Memory Queue Descriptor
+> +
+> +    PPLib
+> +      PowerPlay Library - PowerPlay is the power management component.
+> +
+> +    SMU
+> +      System Management Unit
+> +
+> +    VCE
+> +      Video Compression Engine
+> +
+> +    VCN
+> +      Video Codec Next
+> diff --git a/Documentation/gpu/amdgpu/display/dc-glossary.rst b/Documentation/gpu/amdgpu/display/dc-glossary.rst
+> new file mode 100644
+> index 000000000000..547c0bfbb3e2
+> --- /dev/null
+> +++ b/Documentation/gpu/amdgpu/display/dc-glossary.rst
+> @@ -0,0 +1,243 @@
+> +===========
+> +DC Glossary
+> +===========
+> +
+> +On this page, we try to keep track of acronyms related to the display
+> +component. If you do not find what you are looking for, look at the amdgpu
+> +glossary; if you cannot find it anywhere, consider asking in the amdgfx and
+> +update this page.
+> +
+> +.. glossary::
+> +
+> +    ABM
+> +      Adaptive Backlight Modulation
+> +
+> +    APU
+> +      Accelerated Processing Unit
+> +
+> +    ASIC
+> +      Application-Specific Integrated Circuit
+> +
+> +    ASSR
+> +      Alternate Scrambler Seed Reset
+> +
+> +    AZ
+> +      Azalia (HD audio DMA engine)
+> +
+> +    BPC
+> +      Bits Per Colour/Component
+> +
+> +    BPP
+> +      Bits Per Pixel
+> +
+> +    Clocks
+> +      * PCLK: Pixel Clock
+> +      * SYMCLK: Symbol Clock
+> +      * SOCCLK: GPU Engine Clock
+> +      * DISPCLK: Display Clock
+> +      * DPPCLK: DPP Clock
+> +      * DCFCLK: Display Controller Fabric Clock
+> +      * REFCLK: Real Time Reference Clock
+> +      * PPLL: Pixel PLL
+> +      * FCLK: Fabric Clock
+> +      * MCLK: Memory Clock
+> +
+> +    CRC
+> +      Cyclic Redundancy Check
+> +
+> +    CRTC
+> +      Cathode Ray Tube Controller - commonly called "Controller" - Generates
+> +      raw stream of pixels, clocked at pixel clock
+> +
+> +    CVT
+> +      Coordinated Video Timings
+> +
+> +    DAL
+> +      Display Abstraction layer
+> +
+> +    DC (Software)
+> +      Display Core
+> +
+> +    DC (Hardware)
+> +      Display Controller
+> +
+> +    DCC
+> +      Delta Colour Compression
+> +
+> +    DCE
+> +      Display Controller Engine
+> +
+> +    DCHUB
+> +      Display Controller HUB
+> +
+> +    ARB
+> +      Arbiter
+> +
+> +    VTG
+> +      Vertical Timing Generator
+> +
+> +    DCN
+> +      Display Core Next
+> +
+> +    DCCG
+> +      Display Clock Generator block
+> +
+> +    DDC
+> +      Display Data Channel
+> +
+> +    DIO
+> +      Display IO
+> +
+> +    DPP
+> +      Display Pipes and Planes
+> +
+> +    DSC
+> +      Display Stream Compression (Reduce the amount of bits to represent pixel
+> +      count while at the same pixel clock)
+> +
+> +    dGPU
+> +      discrete GPU
+> +
+> +    DMIF
+> +      Display Memory Interface
+> +
+> +    DML
+> +      Display Mode Library
+> +
+> +    DMCU
+> +      Display Micro-Controller Unit
+> +
+> +    DMCUB
+> +      Display Micro-Controller Unit, version B
+> +
+> +    DPCD
+> +      DisplayPort Configuration Data
+> +
+> +    DPM(S)
+> +      Display Power Management (Signaling)
+> +
+> +    DRR
+> +      Dynamic Refresh Rate
+> +
+> +    DWB
+> +      Display Writeback
+> +
+> +    FB
+> +      Frame Buffer
+> +
+> +    FBC
+> +      Frame Buffer Compression
+> +
+> +    FEC
+> +      Forward Error Correction
+> +
+> +    FRL
+> +      Fixed Rate Link
+> +
+> +    GCO
+> +      Graphical Controller Object
+> +
+> +    GMC
+> +      Graphic Memory Controller
+> +
+> +    GSL
+> +      Global Swap Lock
+> +
+> +    iGPU
+> +      integrated GPU
+> +
+> +    IH
+> +      Interrupt Handler
+> +
+> +    ISR
+> +      Interrupt Service Request
+> +
+> +    ISV
+> +      Independent Software Vendor
+> +
+> +    KMD
+> +      Kernel Mode Driver
+> +
+> +    LB
+> +      Line Buffer
+> +
+> +    LFC
+> +      Low Framerate Compensation
+> +
+> +    LTTPR
+> +      Link Training Tunable Phy Repeater
+> +
+> +    LUT
+> +      Lookup Table
+> +
+> +    MALL
+> +      Memory Access at Last Level
+> +
+> +    MC
+> +      Memory Controller
+> +
+> +    MPC
+> +      Multiple pipes and plane combine
+> +
+> +    MPO
+> +      Multi Plane Overlay
+> +
+> +    MST
+> +      Multi Stream Transport
+> +
+> +    NBP State
+> +      Northbridge Power State
+> +
+> +    NBIO
+> +      North Bridge Input/Output
+> +
+> +    ODM
+> +      Output Data Mapping
+> +
+> +    OPM
+> +      Output Protection Manager
+> +
+> +    OPP
+> +      Output Plane Processor
+> +
+> +    OPTC
+> +      Output Pipe Timing Combiner
+> +
+> +    OTG
+> +      Output Timing Generator
+> +
+> +    PCON
+> +      Power Controller
+> +
+> +    PGFSM
+> +      Power Gate Finite State Machine
+> +
+> +    PSR
+> +      Panel Self Refresh
+> +
+> +    SCL
+> +      Scaler
+> +
+> +    SDP
+> +      Scalable Data Port
+> +
+> +    SLS
+> +      Single Large Surface
+> +
+> +    SST
+> +      Single Stream Transport
+> +
+> +    TMDS
+> +      Transition-Minimized Differential Signaling
+> +
+> +    TMZ
+> +      Trusted Memory Zone
+> +
+> +    TTU
+> +      Time to Underflow
+> +
+> +    VRR
+> +      Variable Refresh Rate
+> +
+> +    UVD
+> +      Unified Video Decoder
+> diff --git a/Documentation/gpu/amdgpu/display/index.rst b/Documentation/gpu/amdgpu/display/index.rst
+> index fe2ecad8df81..e23c752ee5f5 100644
+> --- a/Documentation/gpu/amdgpu/display/index.rst
+> +++ b/Documentation/gpu/amdgpu/display/index.rst
+> @@ -26,3 +26,4 @@ table of content:
+>     display-manager.rst
+>     dc-debug.rst
+>     dcn-overview.rst
+> +   dc-glossary.rst
+> diff --git a/Documentation/gpu/amdgpu/index.rst b/Documentation/gpu/amdgpu/index.rst
+> index 5c8cbf514097..ff38c360b04e 100644
+> --- a/Documentation/gpu/amdgpu/index.rst
+> +++ b/Documentation/gpu/amdgpu/index.rst
+> @@ -334,3 +334,10 @@ smartshift_bias
+>  
+>  .. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+>     :doc: smartshift_bias
+> +
+> +AMDGPU Glossary
+> +===============
+> +
+> +.. toctree::
+> +
+> +   amdgpu-glossary.rst
+> -- 
+> 2.25.1
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
