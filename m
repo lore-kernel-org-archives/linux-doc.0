@@ -2,94 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E555C433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Dec 2021 10:51:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A49F9C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Dec 2021 11:10:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230388AbhLGKyd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Dec 2021 05:54:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30180 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230181AbhLGKyc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Dec 2021 05:54:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1638874262;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=udL9WKP2yNriabxFxnKxM2IL53s1SHalsTV+LJUtcUQ=;
-        b=jN9uIBdio3CfaK3OsnpeZakJsIFDZMI5Ds9xFc90gz3bO2wcOZa+h5tU2VY96Fhd7QYPHN
-        W1vXJUytJiLpFyBBo4B7Lhth/Mgict3wJ2dfgmG81Bjpj6i7Ftf8J77IMSDLu1nygqGYQD
-        nO7/h7/ul6s7TAXBHIRjJmLDl4r1LW4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-98-L3Fcw3SIPDeL9M_juCXa0Q-1; Tue, 07 Dec 2021 05:50:59 -0500
-X-MC-Unique: L3Fcw3SIPDeL9M_juCXa0Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8857F101F000;
-        Tue,  7 Dec 2021 10:50:57 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.160])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 2847F5D6BA;
-        Tue,  7 Dec 2021 10:50:48 +0000 (UTC)
-From:   Cornelia Huck <cohuck@redhat.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>,
-        Alex Williamson <alex.williamson@redhat.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
-        Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-        Yishai Hadas <yishaih@nvidia.com>
-Subject: Re: [PATCH RFC v2] vfio: Documentation for the migration region
-In-Reply-To: <20211206191500.GL4670@nvidia.com>
-Organization: Red Hat GmbH
-References: <0-v2-45a95932a4c6+37-vfio_mig_doc_jgg@nvidia.com>
- <20211130102611.71394253.alex.williamson@redhat.com>
- <20211130185910.GD4670@nvidia.com>
- <20211130153541.131c9729.alex.williamson@redhat.com>
- <20211201031407.GG4670@nvidia.com> <20211201130314.69ed679c@omen>
- <20211201232502.GO4670@nvidia.com>
- <20211203110619.1835e584.alex.williamson@redhat.com>
- <20211206191500.GL4670@nvidia.com>
-User-Agent: Notmuch/0.34 (https://notmuchmail.org)
-Date:   Tue, 07 Dec 2021 11:50:47 +0100
-Message-ID: <87r1aou1rs.fsf@redhat.com>
+        id S230498AbhLGLNm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Dec 2021 06:13:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54406 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230496AbhLGLNm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Dec 2021 06:13:42 -0500
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com [IPv6:2607:f8b0:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80E2BC061574;
+        Tue,  7 Dec 2021 03:10:12 -0800 (PST)
+Received: by mail-ot1-x329.google.com with SMTP id i5-20020a05683033e500b0057a369ac614so17570632otu.10;
+        Tue, 07 Dec 2021 03:10:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=8SWjF/mvYUi96YW/yOYz6zpmbfKxdf4QHUyiOXcjlos=;
+        b=kb7KrexBhhpj/qI91b9j0cz8UR21yiE0Pi4E/oW4PnaRAygMAqGN6k0932ze0Kx+y1
+         rbrK8yWDf8hlakNmXLDrvHWvQ61BShN83pVxuYVk59jT/64/AA44RkOl0TXYdIUtw4jW
+         txQCeyPSYWQ9IoJVTJzYLcJgNQPLCpLOyDE0nnaCat/I9V368n1gC//XJsHIRLEb57UX
+         QsaBxTiigmvT2DM/9EUMFujg2XbwjtSThfP95pwLCN34z/kjpSubee7HhjhIGbLMk+5P
+         1sxUgUZwvkg6XWq7rhWohb0rvD8vs7AMCyi49OnKpmgVSpacIY8Oa6Z8Js6YN7MgP6cW
+         oIzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=8SWjF/mvYUi96YW/yOYz6zpmbfKxdf4QHUyiOXcjlos=;
+        b=OFenA4iAfdU2HmWpOnO5VRJXwlUgIsY2TUEBGRNuoHukZiDOR8I+mWTGOPujHvlgv/
+         egq4T3teYSBUGOeq8GTX6+8TSJQS7a5Eom/6pOwj/bShKvJHTWVSyY5kypyQO397A7zl
+         KFlYCcIE/3oi8BRoTGz00D9+mK8aUHxgJnwMCbosaYtdMxY1n/1VrN21vyoQF4cHiSUS
+         0LP0P+bgWTvltVcCiToRjeKZR20CmdvFOgzRY3OIKS4kb4Ov1szl7VO6fDlb3GvfKp9c
+         FzhHv+1Z4kJTSeaB24CMNf/x/4m9bswoE2TwltuN1x/Ve1XtqdzhYyEBaAyP2ucxkfcg
+         9G/A==
+X-Gm-Message-State: AOAM532cJ9HSPlrIyuc+ilDPS770nWy9CfShYIl2BnCYWTD0mxypiRe2
+        9K2cj+ZCfru+PyPF12wtN7oh/iExuvEiEwahk0KIklpWWvm9vr9T3qk=
+X-Google-Smtp-Source: ABdhPJwWDhc8eCX1v5p+Mwb0dVGvvKvjNkUFLyoptJyzJwQTf/6PU0lOjh0PWm0v10cjeNzJHb93rfG6h46dMXehGs0=
+X-Received: by 2002:a05:6830:22f1:: with SMTP id t17mr34798633otc.39.1638875411810;
+ Tue, 07 Dec 2021 03:10:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+References: <20211205131503.4122955-1-siyanteng@loongson.cn> <Ya4PBDWwnZ89/xqO@sirena.org.uk>
+In-Reply-To: <Ya4PBDWwnZ89/xqO@sirena.org.uk>
+From:   yanteng si <siyanteng01@gmail.com>
+Date:   Tue, 7 Dec 2021 19:10:00 +0800
+Message-ID: <CAEensMyMf=x7xv4AiOf+NQWF5e4BVQ5+1-0dufm+vnKNx4XW2A@mail.gmail.com>
+Subject: Re: [PATCH] regulato: remove unnecessary indentation from driver.h's comments
+To:     Mark Brown <broonie@kernel.org>
+Cc:     lgirdwood@gmail.com, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 06 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
-
-> On Fri, Dec 03, 2021 at 11:06:19AM -0700, Alex Williamson wrote:
-
->> This is exactly the sort of "designed for QEMU implementation"
->> inter-operability that I want to avoid.  It doesn't take much of a
->> crystal ball to guess that gratuitous and redundant device resets
->> slow VM instantiation and are a likely target for optimization.
+Mark Brown <broonie@kernel.org> =E4=BA=8E2021=E5=B9=B412=E6=9C=886=E6=97=A5=
+=E5=91=A8=E4=B8=80 21:24=E5=86=99=E9=81=93=EF=BC=9A
 >
-> Sorry, but Linus's "don't break userspace" forces us to this world.
+> On Sun, Dec 05, 2021 at 09:15:03PM +0800, Yanteng Si wrote:
 >
-> It does not matter what is written in text files, only what userspace
-> actually does and the kernel must accommodate existing userspace going
-> forward. So once released qemu forms some definitive spec and the
-> guardrails that limit what we can do going forward.
+> >   *   REGULATOR_SEVERITY_PROT should automatically shut down the regula=
+tor(s).
+> >   *   REGULATOR_SEVERITY_ERR should indicate that over-current situatio=
+n is
+> > - *           caused by an unrecoverable error but HW does not perform
+> > - *           automatic shut down.
+> > - *   REGULATOR_SEVERITY_WARN should indicate situation where hardware =
+is
+> > - *           still believed to not be damaged but that a board sepcifi=
+c
+> > - *           recovery action is needed. If lim_uA is 0 the limit shoul=
+d not
+> > - *           be changed but the detection should just be enabled/disab=
+led as
+> > - *           is requested.
+> > + *   caused by an unrecoverable error but HW does not perform automati=
+c shut
+> > + *   down.
+> > + *   REGULATOR_SEVERITY_WARN should indicate situation where hardware =
+is still
+>
+> This is obviously making things worse - it's creating inconsistent
+> indentation within the list.
+Sorry, I will try to fix it in the right way=E3=80=82
 
-But QEMU support is *experimental*, i.e. if it breaks, you get to keep
-the pieces, things may change in incompatible ways. And it is
-experimental for good reason! I don't want something that we don't
-support in QEMU lock us into a bad kernel interface, that's just utterly
-broken. It would mean that we must never introduce experimental
-interfaces in QEMU that may need some rework of the kernel interface,
-but need to keep those out of the tree -- and that can't be in the best
-interest of implementing things requiring interaction between the kernel
-and QEMU.
-
-If you really think we cannot make changes, I vote for declaring the
-current interface legacy and not further developed, and introduce a new,
-separate one that doesn't carry all of the baggage that this one
-does. We could even end up with a QEMU part that looks better!
-
+Thanks,
+Yanteng
