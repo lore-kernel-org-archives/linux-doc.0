@@ -2,70 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD62DC433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Dec 2021 10:24:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E555C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Dec 2021 10:51:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235042AbhLGK2E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Dec 2021 05:28:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43596 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229528AbhLGK2E (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Dec 2021 05:28:04 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2412C061574;
-        Tue,  7 Dec 2021 02:24:33 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S230388AbhLGKyd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Dec 2021 05:54:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30180 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230181AbhLGKyc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Dec 2021 05:54:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1638874262;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=udL9WKP2yNriabxFxnKxM2IL53s1SHalsTV+LJUtcUQ=;
+        b=jN9uIBdio3CfaK3OsnpeZakJsIFDZMI5Ds9xFc90gz3bO2wcOZa+h5tU2VY96Fhd7QYPHN
+        W1vXJUytJiLpFyBBo4B7Lhth/Mgict3wJ2dfgmG81Bjpj6i7Ftf8J77IMSDLu1nygqGYQD
+        nO7/h7/ul6s7TAXBHIRjJmLDl4r1LW4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-98-L3Fcw3SIPDeL9M_juCXa0Q-1; Tue, 07 Dec 2021 05:50:59 -0500
+X-MC-Unique: L3Fcw3SIPDeL9M_juCXa0Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 21D8DB81745;
-        Tue,  7 Dec 2021 10:24:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72707C341C1;
-        Tue,  7 Dec 2021 10:24:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1638872670;
-        bh=9ahqiQnK+XUhA9EIIT/TGdrSy4tuZAx3uq1IwEm+5tM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jPWOdYp5+K1lNv7qDqGhsu/fJ01du1Bjn7fIwNU2xSbeQHLuhRArQA5weqX/ymHtl
-         1e10HIzATbAwtKnLFO9UO8QGazGbkq0aLV1pERsdqJfvJZfHRuIjcUOE+jvPT50tx+
-         TJK5dHHrNC/BHvAhv5Qa35T2HKhcoewrVOVHGXYc=
-Date:   Tue, 7 Dec 2021 11:24:28 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Oliver Neukum <oneukum@suse.com>
-Cc:     linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
-        Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Subject: Re: proposal to delete the skeleton driver
-Message-ID: <Ya82XJcTPD2Dj605@kroah.com>
-References: <df5bb0a6-e5f5-e062-5c02-e1de612058e2@suse.com>
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8857F101F000;
+        Tue,  7 Dec 2021 10:50:57 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.160])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 2847F5D6BA;
+        Tue,  7 Dec 2021 10:50:48 +0000 (UTC)
+From:   Cornelia Huck <cohuck@redhat.com>
+To:     Jason Gunthorpe <jgg@nvidia.com>,
+        Alex Williamson <alex.williamson@redhat.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+        Yishai Hadas <yishaih@nvidia.com>
+Subject: Re: [PATCH RFC v2] vfio: Documentation for the migration region
+In-Reply-To: <20211206191500.GL4670@nvidia.com>
+Organization: Red Hat GmbH
+References: <0-v2-45a95932a4c6+37-vfio_mig_doc_jgg@nvidia.com>
+ <20211130102611.71394253.alex.williamson@redhat.com>
+ <20211130185910.GD4670@nvidia.com>
+ <20211130153541.131c9729.alex.williamson@redhat.com>
+ <20211201031407.GG4670@nvidia.com> <20211201130314.69ed679c@omen>
+ <20211201232502.GO4670@nvidia.com>
+ <20211203110619.1835e584.alex.williamson@redhat.com>
+ <20211206191500.GL4670@nvidia.com>
+User-Agent: Notmuch/0.34 (https://notmuchmail.org)
+Date:   Tue, 07 Dec 2021 11:50:47 +0100
+Message-ID: <87r1aou1rs.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <df5bb0a6-e5f5-e062-5c02-e1de612058e2@suse.com>
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 07, 2021 at 11:16:37AM +0100, Oliver Neukum wrote:
-> Hi,
-> 
-> it seems to me that the method of maintaining an example driver
-> does not work because it will inevitably be
-> 
-> * untested
-> 
-> * out of date
-> 
-> Thus our documentation would be improved by replacing its examples
-> with code from drivers for real hardware. Such code wouldn't be pretty
-> or written for text books, but it would be tested.
-> I could do it this week in a first proposal. But I don't want to start
-> if somebody feels that the skeleton driver absolutely has to stay.
+On Mon, Dec 06 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-As the author of the skeleton driver, I have no objections to removing
-it as it is showing its age and all of the problems that you mention
-here are real.
+> On Fri, Dec 03, 2021 at 11:06:19AM -0700, Alex Williamson wrote:
 
-So sure, delete away!
+>> This is exactly the sort of "designed for QEMU implementation"
+>> inter-operability that I want to avoid.  It doesn't take much of a
+>> crystal ball to guess that gratuitous and redundant device resets
+>> slow VM instantiation and are a likely target for optimization.
+>
+> Sorry, but Linus's "don't break userspace" forces us to this world.
+>
+> It does not matter what is written in text files, only what userspace
+> actually does and the kernel must accommodate existing userspace going
+> forward. So once released qemu forms some definitive spec and the
+> guardrails that limit what we can do going forward.
 
-thanks,
+But QEMU support is *experimental*, i.e. if it breaks, you get to keep
+the pieces, things may change in incompatible ways. And it is
+experimental for good reason! I don't want something that we don't
+support in QEMU lock us into a bad kernel interface, that's just utterly
+broken. It would mean that we must never introduce experimental
+interfaces in QEMU that may need some rework of the kernel interface,
+but need to keep those out of the tree -- and that can't be in the best
+interest of implementing things requiring interaction between the kernel
+and QEMU.
 
-greg k-h
+If you really think we cannot make changes, I vote for declaring the
+current interface legacy and not further developed, and introduce a new,
+separate one that doesn't carry all of the baggage that this one
+does. We could even end up with a QEMU part that looks better!
+
