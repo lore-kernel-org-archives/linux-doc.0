@@ -2,488 +2,426 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08AE2C433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Dec 2021 07:46:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5312C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Dec 2021 08:34:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231301AbhLGHtu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Dec 2021 02:49:50 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:28281 "EHLO
-        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231256AbhLGHtt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Dec 2021 02:49:49 -0500
-Received: from dggpeml500025.china.huawei.com (unknown [172.30.72.55])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4J7XRL1plNzbjP4;
-        Tue,  7 Dec 2021 15:46:06 +0800 (CST)
-Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
- dggpeml500025.china.huawei.com (7.185.36.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 7 Dec 2021 15:46:12 +0800
-Received: from [10.174.177.232] (10.174.177.232) by
- dggpeml500006.china.huawei.com (7.185.36.76) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 7 Dec 2021 15:46:11 +0800
+        id S233004AbhLGIht (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Dec 2021 03:37:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45372 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231997AbhLGIhs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Dec 2021 03:37:48 -0500
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C41FFC061746
+        for <linux-doc@vger.kernel.org>; Tue,  7 Dec 2021 00:34:18 -0800 (PST)
+Received: by mail-oi1-x22c.google.com with SMTP id o4so26467467oia.10
+        for <linux-doc@vger.kernel.org>; Tue, 07 Dec 2021 00:34:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=rnDUsA/Fo+F53G71EWzzN5si0hnFRonzab8389zqr6M=;
+        b=cBOmO6Iei1cXQ1vQFK4bwzTIsccbVl/Jugz6AobUOSmRT4GmMTWGFWko0e1lPyJRK8
+         BtbRZ8AfGtNIZDFbt6oLOBC4Gm1OyszHg+UiokMpkSkmFsGppZ9QxSRO9naIQsFmwE9J
+         wUPi2b43eKmh2iTmnBxMOpXQ7NkT2IQI2PsE1DuCM/cZcQF/5vqiuFizzAL4OxTIeLDc
+         GS2UaIXgnLUWqHLCtG5Nc6CIgErejjir6YrOZHd5v+Tm8lSxw6Opw441gJVMCb2re/XC
+         eX6LqBUP/76kd8B6BrqcdDEBY2rprU7CSvT8Os+TaVoLEhHyp3QaaZ7tZkBJYg0vRcsU
+         Yggw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=rnDUsA/Fo+F53G71EWzzN5si0hnFRonzab8389zqr6M=;
+        b=wwLF6V7eM69q4qF6DFxNoGOmZE0vaA0ShtuO/q1PBVa8CbrtCC697iV6FWcerJw07j
+         bMaEUDlBo0kFt7F2zFqLukACbvkDlqVFpGa8dhhCBMs3T4YOsPXVQ0PipCEClv9Frtfc
+         jlmE6jElfUs9MaoMt3LT5YApYRI7vc9lvXExpFfkoqUdKMmlXTWR3Atm4+DlYIg7/nUx
+         LuxIIp0PXhh+gSA0VGTzpScrKGInQgd0EHFhMwkWZNeO/7bTWccDsH+BQ3nxp4Eop8ym
+         fjnKv9u7YLTedN8cdpOctm7kLTFU4tohXniL9rktucrN1s+PMXJ1p97xdVj3PDz/5EiL
+         2t+A==
+X-Gm-Message-State: AOAM531x03+8W7p/3YNRfFIZDcX4BrcElsfvo/GZqCV3icX3UNypRfL6
+        sLI6cWr8enPDqCW4Hb9sU/HA08YK7Iw0JWSo0WU=
+X-Google-Smtp-Source: ABdhPJy6OtI/Qib2K5i9W486aORY4jZsO3PMk9c8U0pRaw23YAkk9Kn4hOnnf3ymj5w9n3Hgbwao13df0LC27I0l2gM=
+X-Received: by 2002:aca:61c6:: with SMTP id v189mr3655449oib.103.1638866057843;
+ Tue, 07 Dec 2021 00:34:17 -0800 (PST)
+MIME-Version: 1.0
+References: <20211206090911.26487-1-tangyizhou@huawei.com> <20211206090911.26487-2-tangyizhou@huawei.com>
+ <CAJy-Am=C4A6FBV2P4nB3zPsP7NbFn6nyhqT2wB9+dgEa2V-0pQ@mail.gmail.com> <f01d3083-c1d6-54c1-fb5a-2d00b2357762@huawei.com>
+In-Reply-To: <f01d3083-c1d6-54c1-fb5a-2d00b2357762@huawei.com>
+From:   yanteng si <siyanteng01@gmail.com>
+Date:   Tue, 7 Dec 2021 16:34:06 +0800
+Message-ID: <CAEensMzWJB0VsbK4XVq5X7AAdn_RiJUGffu_9eMoFyyAUGc7nA@mail.gmail.com>
 Subject: Re: [PATCH 1/1] docs/zh_CN: Add sched-capacity translation
-To:     Alex Shi <seakeel@gmail.com>
-CC:     Yanteng Si <siyanteng@loongson.cn>,
-        yanteng si <siyanteng01@gmail.com>,
+To:     Tang Yizhou <tangyizhou@huawei.com>
+Cc:     Alex Shi <seakeel@gmail.com>, Yanteng Si <siyanteng@loongson.cn>,
         Alex Shi <alexs@kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, <zhengbin13@huawei.com>,
-        <tangyeechou@gmail.com>
-References: <20211206090911.26487-1-tangyizhou@huawei.com>
- <20211206090911.26487-2-tangyizhou@huawei.com>
- <CAJy-Am=C4A6FBV2P4nB3zPsP7NbFn6nyhqT2wB9+dgEa2V-0pQ@mail.gmail.com>
-From:   Tang Yizhou <tangyizhou@huawei.com>
-Message-ID: <f01d3083-c1d6-54c1-fb5a-2d00b2357762@huawei.com>
-Date:   Tue, 7 Dec 2021 15:46:11 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.1.1
-MIME-Version: 1.0
-In-Reply-To: <CAJy-Am=C4A6FBV2P4nB3zPsP7NbFn6nyhqT2wB9+dgEa2V-0pQ@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.177.232]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpeml500006.china.huawei.com (7.185.36.76)
-X-CFilter-Loop: Reflected
+        Jonathan Corbet <corbet@lwn.net>, zhengbin13@huawei.com,
+        Yeechou Tang <tangyeechou@gmail.com>,
+        =?UTF-8?B?6ZmI6aOe5oms?= <chris.chenfeiyang@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021/12/7 13:37, Alex Shi wrote:
-> On Mon, Dec 6, 2021 at 4:41 PM Tang Yizhou <tangyizhou@huawei.com> wrote:
->>
->> Translate scheduler/sched-capacity.rst into Chinese.
->>
->> Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
->> ---
->>  .../translations/zh_CN/sched-capacity.rst     | 383 ++++++++++++++++++
->>  1 file changed, 383 insertions(+)
->>  create mode 100644 Documentation/translations/zh_CN/sched-capacity.rst
->>
->> diff --git a/Documentation/translations/zh_CN/sched-capacity.rst b/Documentation/translations/zh_CN/sched-capacity.rst
->> new file mode 100644
->> index 000000000000..30c258144881
->> --- /dev/null
->> +++ b/Documentation/translations/zh_CN/sched-capacity.rst
->> @@ -0,0 +1,383 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +.. include:: ../disclaimer-zh_CN.rst
->> +
->> +:Original: Documentation/scheduler/sched-capacity.rst
->> +
->> +:翻译:
->> +
->> +       唐艺舟 Tang Yizhou <tangyeechou@gmail.com>
->> +
->> +================
->> +capacity感知调度
->> +================
->> +
->> +1. CPU Capacity
->> +===============
->> +
->> +1.1 简介
->> +--------
->> +
->> +一般来说，同构的SMP平台由完全相同的CPU构成。异构的平台则由性能特征不同的CPU构成，
->> +在这样的平台中，CPU不能被认为是相同的。
->> +
->> +我们引入CPU capacity的概念来测量每个CPU能达到的性能，它的值相对系统中性能最强的CPU做过归一化处理。
->> +异构系统也被称为非对称CPU capacity系统，因为它们由不同capacity的CPU组成。
->> +
->> +最大可达性能（换言之，最大CPU capacity）的差异有两个主要来源:
->> +
->> +- 不是所有CPU的微架构都相同。
->> +- 在动态电压频率升降（Dynamic Voltage and Frequency Scaling ，DVFS）框架中，
->> +  不是所有的CPU都能达到一样高的可操作性能点（Operating Performance Points，OPP。译注，也就是“频率-电压”对）。
->> +
->> +Arm big.LITTLE系统是同时具有两种差异的一个例子。相较LITTLE CPUs，big CPUs面向性能
->> +（拥有更多的pipeline stages，更大的cache，更智能的predictors等），通常可以达到更高的OPP。
->> +
->> +一般来说，同构的SMP平台由完全相同的CPU构成。异构的平台则由性能特征不同的CPU构成，在这样的平台中，CPU不能被认为是相同的。
-> 
-> Good job!
-> Just the line is too long. Enghlish word should leass than 80 chars,
-> for Chinese should less than 40 chars.
-
-After reading some English documents, I find the length of a single line
-usually is 80 columns. But sometimes this rule is not followed.
-
-As Linus mentioned earlier this year, perhaps we can apply a longer
-length limit. I suggest 60 chars for Chinese (120 chars for English).
-
-This document is written without exceeding 60 columns at most times.
-I will fix the lines which are too long.
-
-> 
-> with the change
-> 
-> Reviewed-by: Alex Shi <alexs@kernel.org>
-> 
->> +（比如终端设备的ARM CPU可能包含大、中、小三个性能不同的cluster，每个cluster中的CPU性能相同）::
-> 
-> I see 'sluster' was translated as 集 or 簇， could we change to them? or
-> keep the English, it's up to you.
-
-This tranlation is added by me. There isn't a corresponding sentence in
-the English version. I'll delete it in the next patch.
- 
-> 
-> Thanks
-> Alex
-> 
->> +
->> +  capacity(cpu) = work_per_hz(cpu) * max_freq(cpu)
->> +
->> +1.2 调度器术语
->> +--------------
->> +
->> +调度器使用了两种不同的capacity值。CPU的 ``capacity_orig`` 是它的最大可达capacity，即最大可达性能等级。
->> +CPU的 ``capacity`` 是 ``capacity_orig`` 扣除了一些性能损失（比如处理中断的耗时）的值。
->> +
->> +注意CPU的 ``capacity`` 仅仅被设计用于CFS调度类，而 ``capacity_orig`` 是不感知调度类的。
->> +为简洁起见，本文档的剩余部分将不加区分的使用术语 ``capacity`` 和 ``capacity_orig`` 。
->> +
->> +1.3 平台示例
->> +------------
->> +
->> +1.3.1 OPP相同
->> +~~~~~~~~~~~~~
->> +
->> +考虑一个假想的双核非对称CPU capacity系统，其中
->> +
->> +- work_per_hz(CPU0) = W
->> +- work_per_hz(CPU1) = W/2
->> +- 所有CPU以相同的固定频率运行
->> +
->> +根据上文对capacity的定义:
->> +
->> +- capacity(CPU0) = C
->> +- capacity(CPU1) = C/2
->> +
->> +若这是Arm big.LITTLE系统，CPU0是big CPU，而CPU1是LITTLE CPU。
->> +
->> +考虑一种周期性产生固定工作量的工作负载，你将会得到类似下图的执行轨迹::
->> +
->> + CPU0 work ^
->> +           |     ____                ____                ____
->> +           |    |    |              |    |              |    |
->> +           +----+----+----+----+----+----+----+----+----+----+-> time
->> +
->> + CPU1 work ^
->> +           |     _________           _________           ____
->> +           |    |         |         |         |         |
->> +           +----+----+----+----+----+----+----+----+----+----+-> time
->> +
->> +CPU0在系统中具有最高capacity（C），它使用T个单位时间完成固定工作量W。
->> +另一方面，CPU1只有CPU0一半capacity，因此在T个单位时间内仅完成工作量W/2。
->> +
->> +1.3.2 最大OPP不同
->> +~~~~~~~~~~~~~~~~~
->> +
->> +具有不同capacity值的CPU，通常来说最大OPP也不同。考虑上一小节提到的CPU（也就是说，work_per_hz()相同）:
->> +
->> +- max_freq(CPU0) = F
->> +- max_freq(CPU1) = 2/3 * F
->> +
->> +这将推出：
->> +
->> +- capacity(CPU0) = C
->> +- capacity(CPU1) = C/3
->> +
->> +执行1.3.1节描述的工作负载，每个CPU按最大频率运行，结果为::
->> +
->> + CPU0 work ^
->> +           |     ____                ____                ____
->> +           |    |    |              |    |              |    |
->> +           +----+----+----+----+----+----+----+----+----+----+-> time
->> +
->> +                            workload on CPU1
->> + CPU1 work ^
->> +           |     ______________      ______________      ____
->> +           |    |              |    |              |    |
->> +           +----+----+----+----+----+----+----+----+----+----+-> time
->> +
->> +1.4 关于计算方式的注意事项
->> +--------------------------
->> +
->> +需要注意的是，使用单一值来表示CPU性能的差异是有些争议的。
->> +两个不同的微架构的相对性能差异应该描述为：X%整数运算差异，Y%浮点数运算差异，Z%分支跳转差异，等等。
->> +尽管如此，使用简单计算方式的结果目前还是令人满意的。
->> +
->> +2. 任务使用率 Task utilization
->> +==============================
->> +
->> +2.1 简介
->> +--------
->> +
->> +capacity感知调度要求描述任务需求，描述方式要和CPU capacity相关。
->> +每个调度类可以用不同的方式描述它。任务使用率是CFS独有的描述方式，不过在这里介绍它有助于引入更多一般性的概念。
->> +
->> +任务使用率是一种用百分比来描述任务吞吐率需求的方式。一个简单的近似是任务的占空比，也就是说::
->> +
->> +  task_util(p) = duty_cycle(p)
->> +
->> +在频率固定的SMP系统中，100%的利用率意味着任务是忙等待循环。反之，10%的利用率暗示这是一个小周期任务，
->> +它在睡眠上花费的时间比执行更多。
->> +
->> +2.2 频率不变性 Frequency invariance
->> +-----------------------------------
->> +
->> +一个需要考虑的议题是，工作负载的占空比受CPU正在运行的OPP直接影响。考虑以给定的频率F执行周期性工作负载::
->> +
->> +  CPU work ^
->> +           |     ____                ____                ____
->> +           |    |    |              |    |              |    |
->> +           +----+----+----+----+----+----+----+----+----+----+-> time
->> +
->> +可以算出 duty_cycle(p) == 25%。
->> +
->> +现在，考虑以给定频率F/2执行 *同一个* 工作负载::
->> +
->> +  CPU work ^
->> +           |     _________           _________           ____
->> +           |    |         |         |         |         |
->> +           +----+----+----+----+----+----+----+----+----+----+-> time
->> +
->> +可以算出 duty_cycle(p) == 50%，尽管两次执行中，任务的行为完全一致（也就是说，执行的工作量相同）。
->> +
->> +任务利用率信号可按下面公式处理成频率不变的（译注：这里的术语用到了信号与系统的概念）::
->> +
->> +  task_util_freq_inv(p) = duty_cycle(p) * (curr_frequency(cpu) / max_frequency(cpu))
->> +
->> +对上面两个例子运用该公式，可以算出频率不变的任务利用率均为25%。
->> +
->> +2.3 CPU不变性 CPU invariance
->> +----------------------------
->> +
->> +CPU capacity与任务利用率具有类型的效应，在capacity不同的CPU上执行完全相同的工作负载，
->> +将算出不同的占空比。
->> +
->> +考虑1.3.2节提到的系统，也就是说::
->> +
->> +- capacity(CPU0) = C
->> +- capacity(CPU1) = C/3
->> +
->> +每个CPU按最大频率执行指定周期性工作负载，结果为::
->> +
->> + CPU0 work ^
->> +           |     ____                ____                ____
->> +           |    |    |              |    |              |    |
->> +           +----+----+----+----+----+----+----+----+----+----+-> time
->> +
->> + CPU1 work ^
->> +           |     ______________      ______________      ____
->> +           |    |              |    |              |    |
->> +           +----+----+----+----+----+----+----+----+----+----+-> time
->> +
->> +也就是说，
->> +
->> +- duty_cycle(p) == 25%，如果任务p在CPU0上按最大频率运行。
->> +- duty_cycle(p) == 75%，如果任务p在CPU1上按最大频率运行。
->> +
->> +任务利用率信号可按下面公式处理成CPU容量不变的::
->> +
->> +  task_util_cpu_inv(p) = duty_cycle(p) * (capacity(cpu) / max_capacity)
->> +
->> +其中 ``max_capacity`` 是系统中最高的CPU capacity。对上面的例子运用该公式，
->> +可以算出CPU capacity不变的任务利用率均为25%。
->> +
->> +2.4 任务利用率不变量 Invariant task utilization
->> +-----------------------------------------------
->> +
->> +频率和CPU capacity不变性都需要被应用到任务利用率的计算中，以便求出真正的不变信号。
->> +任务利用率的伪计算公式是同时具备CPU和频率不变性的，也就是说，对于指定任务p::
->> +
->> +                                     curr_frequency(cpu)   capacity(cpu)
->> +  task_util_inv(p) = duty_cycle(p) * ------------------- * -------------
->> +                                     max_frequency(cpu)    max_capacity
->> +
->> +也就是说，任务利用率不变量假定任务在系统中最高capacity CPU上以最高频率运行，以此描述任务的行为。
->> +
->> +在接下来的章节中提到的任何任务利用率，均是不变量的形式。
->> +
->> +2.5 利用率估算
->> +--------------
->> +
->> +由于预测未来的水晶球不存在，当任务第一次变成可运行时，任务的行为和任务利用率均不能被准确预测。
->> +CFS调度类基于实体负载跟踪机制（Per-Entity Load Tracking, PELT）维护了少量CPU和任务信号，
->> +其中之一可以算出平均利用率（与瞬时相反）。
->> +
->> +这意味着，尽管运用“真实的”任务利用率（凭借水晶球）写出capacity感知调度的准则，
->> +但是它的实现将只能用任务利用率的估算值。
->> +
->> +3. capacity感知调度的需求
->> +=========================
->> +
->> +3.1 CPU capacity
->> +----------------
->> +
->> +当前，Linux无法凭自身算出CPU capacity，因此必须要有把这个信息传递给Linux的方式。
->> +每个架构必须为此定义arch_scale_cpu_capacity()函数。
->> +
->> +arm和arm64架构直接把这个信息映射到arch_topology驱动的CPU scaling数据中
->> +（译注：参考arch_topology.h的percpu变量cpu_scale），
->> +它是从capacity-dmips-mhz CPU binding中衍生计算出来的。参见
->> +Documentation/devicetree/bindings/arm/cpu-capacity.txt。
->> +
->> +3.2 Frequency invariance
->> +------------------------
->> +
->> +如2.2节所述，capacity感知调度需要频率不变的任务利用率。
->> +每个架构必须为此定义arch_scale_freq_capacity(cpu)函数。
->> +
->> +实现该函数要求计算出每个CPU当前以什么频率在运行。实现它的一种方式是利用硬件计数器
->> +（x86的APERF/MPERF，arm64的AMU），它能按CPU当前频率动态可扩展地升降递增计数器的速率。
->> +另一种方式是在cpufreq频率变化时直接使用钩子函数，内核此时感知到将要被切换的频率（也被arm/arm64实现了）。
->> +
->> +4. 调度器拓扑结构
->> +=================
->> +
->> +在构建调度域时，调度器将会发现系统是否表现为非对称CPU capacity。如果是，那么：
->> +
->> +- sched_asym_cpucapacity static key将使能。
->> +- SD_ASYM_CPUCAPACITY_FULL标志位将在尽量最低调度域层级中被设置，同时要满足条件：
->> +  调度域恰好完整包含某个CPU capacity值的全部CPU。
->> +- SD_ASYM_CPUCAPACITY标志将在所有包含非对称CPU的调度域中被设置。
->> +
->> +sched_asym_cpucapacity static key的设计意图是，保护为非对称CPU capacity系统所准备的代码。
->> +不过要注意的是，这个key是系统范围可见的。想象下面使用了cpuset的步骤::
->> +
->> +  capacity    C/2          C
->> +            ________    ________
->> +           /        \  /        \
->> +  CPUs     0  1  2  3  4  5  6  7
->> +           \__/  \______________/
->> +  cpusets   cs0         cs1
->> +
->> +可以通过下面的方式创建：
->> +
->> +.. code-block:: sh
->> +
->> +  mkdir /sys/fs/cgroup/cpuset/cs0
->> +  echo 0-1 > /sys/fs/cgroup/cpuset/cs0/cpuset.cpus
->> +  echo 0 > /sys/fs/cgroup/cpuset/cs0/cpuset.mems
->> +
->> +  mkdir /sys/fs/cgroup/cpuset/cs1
->> +  echo 2-7 > /sys/fs/cgroup/cpuset/cs1/cpuset.cpus
->> +  echo 0 > /sys/fs/cgroup/cpuset/cs1/cpuset.mems
->> +
->> +  echo 0 > /sys/fs/cgroup/cpuset/cpuset.sched_load_balance
->> +
->> +由于“这是”非对称CPU capacity系统，sched_asym_cpucapacity static key将使能。
->> +然而，CPU 0--1对应的调度域层级，capacity值仅有一个，该层级中SD_ASYM_CPUCAPACITY未被设置，
->> +它描述的是一个SMP区域，也应该被以此处理。
->> +
->> +因此，“典型的”保护非对称CPU capacity代码路径的代码模式是：
->> +
->> +- 检查sched_asym_cpucapacity static key
->> +- 如果它被使能，接着检查调度域层级中SD_ASYM_CPUCAPACITY标志位是否出现
->> +
->> +5. capacity感知调度的实现
->> +=========================
->> +
->> +5.1 CFS
->> +-------
->> +
->> +5.1.1 capacity适应性（fitness）
->> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> +
->> +CFS最主要的capacity调度准则是::
->> +
->> +  task_util(p) < capacity(task_cpu(p))
->> +
->> +它通常被称为capacity适应性准则。也就是说，CFS必须保证任务“适合”在某个CPU上运行。
->> +如果准则被违反，任务将要更长地消耗该CPU，任务是CPU受限的（CPU-bound）。
->> +
->> +此外，uclamp允许用户空间指定任务的最小和最大利用率，要么以sched_setattr()的方式，
->> +要么以cgroup接口的方式（参阅Documentation/admin-guide/cgroup-v2.rst）。
->> +如其名字所暗示，uclamp可以被用在前一条准则中限制task_util()。
->> +
->> +5.1.2 被唤醒任务的CPU选择
->> +~~~~~~~~~~~~~~~~~~~~~~~~~
->> +
->> +CFS任务唤醒的CPU选择，遵循上面描述的capacity适应性准则。在此之上，uclamp被用来限制任务利用率，
->> +这令用户空间对CFS任务的CPU选择有更多的控制。也就是说，CFS被唤醒任务的CPU选择，搜索满足以下条件的CPU::
->> +
->> +  clamp(task_util(p), task_uclamp_min(p), task_uclamp_max(p)) < capacity(cpu)
->> +
->> +通过使用uclamp，举例来说，用户空间可以允许忙等待循环（100%使用率）在任意CPU上运行，
->> +只要给它设置低的uclamp.max值。相反，uclamp能强制一个小的周期性任务（比如，10%利用率）
->> +在最高性能的CPU上运行，只要给它设置高的uclamp.min值。
->> +
->> +.. note::
->> +
->> +  CFS的被唤醒的任务的CPU选择，可被能耗感知调度（Energy Aware Scheduling，EAS）
->> +  覆盖，在Documentation/scheduler/sched-energy.rst中描述。
->> +
->> +5.1.3 负载均衡
->> +~~~~~~~~~~~~~~
->> +
->> +被唤醒任务的CPU选择的一个病理性的例子是，任务几乎不睡眠，那么也几乎不发生唤醒。考虑::
->> +
->> +  w == wakeup event
->> +
->> +  capacity(CPU0) = C
->> +  capacity(CPU1) = C / 3
->> +
->> +                           workload on CPU0
->> +  CPU work ^
->> +           |     _________           _________           ____
->> +           |    |         |         |         |         |
->> +           +----+----+----+----+----+----+----+----+----+----+-> time
->> +                w                   w                   w
->> +
->> +                           workload on CPU1
->> +  CPU work ^
->> +           |     ____________________________________________
->> +           |    |
->> +           +----+----+----+----+----+----+----+----+----+----+->
->> +                w
->> +
->> +该工作负载应该在CPU0上运行，不过如果任务满足以下条件之一：
->> +
->> +- 一开始发生不合适的调度（不准确的初始利用率估计）
->> +- 一开始调度正确，但突然需要更多的处理器功率
->> +
->> +则任务可能变为CPU受限的，也就是说 ``task_util(p) > capacity(task_cpu(p))``；
->> +CPU capacity调度准则被违反，将不会有任何唤醒事件来修复这个错误的CPU选择。
->> +
->> +这种场景下的任务被称为“不合适的”（misfit）任务，处理这个场景的机制同样也以此命名。
->> +Misfit任务迁移借助CFS负载均衡器，更明确的说，是主动负载均衡的部分（用来迁移正在运行的任务）。
->> +当发生负载均衡时，如果一个misfit任务可以被迁移到一个相较当前运行的CPU具有更高capacity的CPU上，
->> +那么misfit任务的主动负载均衡将被触发。
->> +
->> +5.2 RT
->> +------
->> +
->> +5.2.1 被唤醒任务的CPU选择
->> +~~~~~~~~~~~~~~~~~~~~~~~~~
->> +
->> +RT任务唤醒时的CPU选择，搜索满足以下条件的CPU::
->> +
->> +  task_uclamp_min(p) <= capacity(task_cpu(cpu))
->> +
->> +同时仍然允许接着使用常规的优先级限制。如果没有CPU能满足这个capacity准则，那么将使用基于严格优先级的调度，
->> +CPU capacity将被忽略。
->> +
->> +5.3 DL
->> +------
->> +
->> +5.3.1 被唤醒任务的CPU选择
->> +~~~~~~~~~~~~~~~~~~~~~~~~~
->> +
->> +DL任务唤醒时的CPU选择，搜索满足以下条件的CPU::
->> +
->> +  task_bandwidth(p) < capacity(task_cpu(p))
->> +
->> +同时仍然允许接着使用常规的带宽和截止期限限制。如果没有CPU能满足这个capacity准则，
->> +那么任务依然在当前CPU队列中。
->> --
->> 2.17.1
->>
-
-Thanks,
-Tang
+VGFuZyBZaXpob3UgPHRhbmd5aXpob3VAaHVhd2VpLmNvbT4g5LqOMjAyMeW5tDEy5pyIN+aXpeWR
+qOS6jCAxNTo0NuWGmemBk++8mg0KPg0KPiBPbiAyMDIxLzEyLzcgMTM6MzcsIEFsZXggU2hpIHdy
+b3RlOg0KPiA+IE9uIE1vbiwgRGVjIDYsIDIwMjEgYXQgNDo0MSBQTSBUYW5nIFlpemhvdSA8dGFu
+Z3lpemhvdUBodWF3ZWkuY29tPiB3cm90ZToNCj4gPj4NCj4gPj4gVHJhbnNsYXRlIHNjaGVkdWxl
+ci9zY2hlZC1jYXBhY2l0eS5yc3QgaW50byBDaGluZXNlLg0KPiA+Pg0KPiA+PiBTaWduZWQtb2Zm
+LWJ5OiBUYW5nIFlpemhvdSA8dGFuZ3lpemhvdUBodWF3ZWkuY29tPg0KPiA+PiAtLS0NCj4gPj4g
+IC4uLi90cmFuc2xhdGlvbnMvemhfQ04vc2NoZWQtY2FwYWNpdHkucnN0ICAgICB8IDM4MyArKysr
+KysrKysrKysrKysrKysNCj4gPj4gIDEgZmlsZSBjaGFuZ2VkLCAzODMgaW5zZXJ0aW9ucygrKQ0K
+PiA+PiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NO
+L3NjaGVkLWNhcGFjaXR5LnJzdA0KPiA+Pg0KPiA+PiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlv
+bi90cmFuc2xhdGlvbnMvemhfQ04vc2NoZWQtY2FwYWNpdHkucnN0IGIvRG9jdW1lbnRhdGlvbi90
+cmFuc2xhdGlvbnMvemhfQ04vc2NoZWQtY2FwYWNpdHkucnN0DQo+ID4+IG5ldyBmaWxlIG1vZGUg
+MTAwNjQ0DQo+ID4+IGluZGV4IDAwMDAwMDAwMDAwMC4uMzBjMjU4MTQ0ODgxDQo+ID4+IC0tLSAv
+ZGV2L251bGwNCj4gPj4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vc2No
+ZWQtY2FwYWNpdHkucnN0DQo+ID4+IEBAIC0wLDAgKzEsMzgzIEBADQo+ID4+ICsuLiBTUERYLUxp
+Y2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMA0KPiA+PiArLi4gaW5jbHVkZTo6IC4uL2Rpc2NsYWlt
+ZXItemhfQ04ucnN0DQo+ID4+ICsNCj4gPj4gKzpPcmlnaW5hbDogRG9jdW1lbnRhdGlvbi9zY2hl
+ZHVsZXIvc2NoZWQtY2FwYWNpdHkucnN0DQo+ID4+ICsNCj4gPj4gKzrnv7vor5E6DQo+ID4+ICsN
+Cj4gPj4gKyAgICAgICDllJDoibroiJ8gVGFuZyBZaXpob3UgPHRhbmd5ZWVjaG91QGdtYWlsLmNv
+bT4NCj4gPj4gKw0KPiA+PiArPT09PT09PT09PT09PT09PQ0KPiA+PiArY2FwYWNpdHnmhJ/nn6Xo
+sIPluqYNCj4gPj4gKz09PT09PT09PT09PT09PT0NCj4gPj4gKw0KPiA+PiArMS4gQ1BVIENhcGFj
+aXR5DQo+ID4+ICs9PT09PT09PT09PT09PT0NCj4gPj4gKw0KPiA+PiArMS4xIOeugOS7iw0KPiA+
+PiArLS0tLS0tLS0NCj4gPj4gKw0KPiA+PiAr5LiA6Iis5p2l6K+077yM5ZCM5p6E55qEU01Q5bmz
+5Y+w55Sx5a6M5YWo55u45ZCM55qEQ1BV5p6E5oiQ44CC5byC5p6E55qE5bmz5Y+w5YiZ55Sx5oCn
+6IO954m55b6B5LiN5ZCM55qEQ1BV5p6E5oiQ77yMDQo+ID4+ICvlnKjov5nmoLfnmoTlubPlj7Dk
+uK3vvIxDUFXkuI3og73ooqvorqTkuLrmmK/nm7jlkIznmoTjgIINCj4gPj4gKw0KPiA+PiAr5oiR
+5Lus5byV5YWlQ1BVIGNhcGFjaXR555qE5qaC5b+15p2l5rWL6YeP5q+P5LiqQ1BV6IO96L6+5Yiw
+55qE5oCn6IO977yM5a6D55qE5YC855u45a+557O757uf5Lit5oCn6IO95pyA5by655qEQ1BV5YGa
+6L+H5b2S5LiA5YyW5aSE55CG44CCDQo+ID4+ICvlvILmnoTns7vnu5/kuZ/ooqvnp7DkuLrpnZ7l
+r7nnp7BDUFUgY2FwYWNpdHnns7vnu5/vvIzlm6DkuLrlroPku6znlLHkuI3lkIxjYXBhY2l0eeea
+hENQVee7hOaIkOOAgg0KPiA+PiArDQo+ID4+ICvmnIDlpKflj6/ovr7mgKfog73vvIjmjaLoqIDk
+uYvvvIzmnIDlpKdDUFUgY2FwYWNpdHnvvInnmoTlt67lvILmnInkuKTkuKrkuLvopoHmnaXmupA6
+DQo+ID4+ICsNCj4gPj4gKy0g5LiN5piv5omA5pyJQ1BV55qE5b6u5p625p6E6YO955u45ZCM44CC
+DQo+ID4+ICstIOWcqOWKqOaAgeeUteWOi+mikeeOh+WNh+mZje+8iER5bmFtaWMgVm9sdGFnZSBh
+bmQgRnJlcXVlbmN5IFNjYWxpbmcg77yMRFZGU++8ieahhuaetuS4re+8jA0KPiA+PiArICDkuI3m
+mK/miYDmnInnmoRDUFXpg73og73ovr7liLDkuIDmoLfpq5jnmoTlj6/mk43kvZzmgKfog73ngrnv
+vIhPcGVyYXRpbmcgUGVyZm9ybWFuY2UgUG9pbnRz77yMT1BQ44CC6K+R5rOo77yM5Lmf5bCx5piv
+4oCc6aKR546HLeeUteWOi+KAneWvue+8ieOAgg0KPiA+PiArDQo+ID4+ICtBcm0gYmlnLkxJVFRM
+Reezu+e7n+aYr+WQjOaXtuWFt+acieS4pOenjeW3ruW8gueahOS4gOS4quS+i+WtkOOAguebuOi+
+g0xJVFRMRSBDUFVz77yMYmlnIENQVXPpnaLlkJHmgKfog70NCj4gPj4gK++8iOaLpeacieabtOWk
+mueahHBpcGVsaW5lIHN0YWdlc++8jOabtOWkp+eahGNhY2hl77yM5pu05pm66IO955qEcHJlZGlj
+dG9yc+etie+8ie+8jOmAmuW4uOWPr+S7pei+vuWIsOabtOmrmOeahE9QUOOAgg0KPiA+PiArDQo+
+ID4+ICvkuIDoiKzmnaXor7TvvIzlkIzmnoTnmoRTTVDlubPlj7DnlLHlrozlhajnm7jlkIznmoRD
+UFXmnoTmiJDjgILlvILmnoTnmoTlubPlj7DliJnnlLHmgKfog73nibnlvoHkuI3lkIznmoRDUFXm
+noTmiJDvvIzlnKjov5nmoLfnmoTlubPlj7DkuK3vvIxDUFXkuI3og73ooqvorqTkuLrmmK/nm7jl
+kIznmoTjgIINCj4gPg0KPiA+IEdvb2Qgam9iIQ0KPiA+IEp1c3QgdGhlIGxpbmUgaXMgdG9vIGxv
+bmcuIEVuZ2hsaXNoIHdvcmQgc2hvdWxkIGxlYXNzIHRoYW4gODAgY2hhcnMsDQo+ID4gZm9yIENo
+aW5lc2Ugc2hvdWxkIGxlc3MgdGhhbiA0MCBjaGFycy4NCj4NCj4gQWZ0ZXIgcmVhZGluZyBzb21l
+IEVuZ2xpc2ggZG9jdW1lbnRzLCBJIGZpbmQgdGhlIGxlbmd0aCBvZiBhIHNpbmdsZSBsaW5lDQo+
+IHVzdWFsbHkgaXMgODAgY29sdW1ucy4gQnV0IHNvbWV0aW1lcyB0aGlzIHJ1bGUgaXMgbm90IGZv
+bGxvd2VkLg0KPg0KPiBBcyBMaW51cyBtZW50aW9uZWQgZWFybGllciB0aGlzIHllYXIsIHBlcmhh
+cHMgd2UgY2FuIGFwcGx5IGEgbG9uZ2VyDQo+IGxlbmd0aCBsaW1pdC4gSSBzdWdnZXN0IDYwIGNo
+YXJzIGZvciBDaGluZXNlICgxMjAgY2hhcnMgZm9yIEVuZ2xpc2gpLg0KV2h5IDYwIGNoYXJzIHBl
+ciBsaW5lPyBXaGF0J3Mgd3Jvbmcgd2l0aCA0MCBjaGFycz8gOikNCg0KRmVpeWFuZyBpcyBteSBj
+b2xsZWFndWUgYW5kIGhlIGFncmVlcyB3aXRoIHRoZSA2MCBjaGFycyBwZXIgbGluZSwgc28NCmxl
+dCdzIGRpc2N1c3MgaXQuDQpDQyBGZWl5YW5nIGNocmlzLmNoZW5mZWl5YW5nQGdtYWlsLmNvbQ0K
+DQpUaGFua3MsDQpZYW50ZW5nDQo+DQo+IFRoaXMgZG9jdW1lbnQgaXMgd3JpdHRlbiB3aXRob3V0
+IGV4Y2VlZGluZyA2MCBjb2x1bW5zIGF0IG1vc3QgdGltZXMuDQo+IEkgd2lsbCBmaXggdGhlIGxp
+bmVzIHdoaWNoIGFyZSB0b28gbG9uZy4NCj4NCj4gPg0KPiA+IHdpdGggdGhlIGNoYW5nZQ0KPiA+
+DQo+ID4gUmV2aWV3ZWQtYnk6IEFsZXggU2hpIDxhbGV4c0BrZXJuZWwub3JnPg0KPiA+DQo+ID4+
+ICvvvIjmr5TlpoLnu4jnq6/orr7lpIfnmoRBUk0gQ1BV5Y+v6IO95YyF5ZCr5aSn44CB5Lit44CB
+5bCP5LiJ5Liq5oCn6IO95LiN5ZCM55qEY2x1c3Rlcu+8jOavj+S4qmNsdXN0ZXLkuK3nmoRDUFXm
+gKfog73nm7jlkIzvvIk6Og0KPiA+DQo+ID4gSSBzZWUgJ3NsdXN0ZXInIHdhcyB0cmFuc2xhdGVk
+IGFzIOmbhiBvciDnsIfvvIwgY291bGQgd2UgY2hhbmdlIHRvIHRoZW0/IG9yDQo+ID4ga2VlcCB0
+aGUgRW5nbGlzaCwgaXQncyB1cCB0byB5b3UuDQo+DQo+IFRoaXMgdHJhbmxhdGlvbiBpcyBhZGRl
+ZCBieSBtZS4gVGhlcmUgaXNuJ3QgYSBjb3JyZXNwb25kaW5nIHNlbnRlbmNlIGluDQo+IHRoZSBF
+bmdsaXNoIHZlcnNpb24uIEknbGwgZGVsZXRlIGl0IGluIHRoZSBuZXh0IHBhdGNoLg0KPg0KPiA+
+DQo+ID4gVGhhbmtzDQo+ID4gQWxleA0KPiA+DQo+ID4+ICsNCj4gPj4gKyAgY2FwYWNpdHkoY3B1
+KSA9IHdvcmtfcGVyX2h6KGNwdSkgKiBtYXhfZnJlcShjcHUpDQo+ID4+ICsNCj4gPj4gKzEuMiDo
+sIPluqblmajmnK/or60NCj4gPj4gKy0tLS0tLS0tLS0tLS0tDQo+ID4+ICsNCj4gPj4gK+iwg+W6
+puWZqOS9v+eUqOS6huS4pOenjeS4jeWQjOeahGNhcGFjaXR55YC844CCQ1BV55qEIGBgY2FwYWNp
+dHlfb3JpZ2BgIOaYr+Wug+eahOacgOWkp+WPr+i+vmNhcGFjaXR577yM5Y2z5pyA5aSn5Y+v6L6+
+5oCn6IO9562J57qn44CCDQo+ID4+ICtDUFXnmoQgYGBjYXBhY2l0eWBgIOaYryBgYGNhcGFjaXR5
+X29yaWdgYCDmiaPpmaTkuobkuIDkupvmgKfog73mjZ/lpLHvvIjmr5TlpoLlpITnkIbkuK3mlq3n
+moTogJfml7bvvInnmoTlgLzjgIINCj4gPj4gKw0KPiA+PiAr5rOo5oSPQ1BV55qEIGBgY2FwYWNp
+dHlgYCDku4Xku4Xooqvorr7orqHnlKjkuo5DRlPosIPluqbnsbvvvIzogIwgYGBjYXBhY2l0eV9v
+cmlnYGAg5piv5LiN5oSf55+l6LCD5bqm57G755qE44CCDQo+ID4+ICvkuLrnroDmtIHotbfop4Hv
+vIzmnKzmlofmoaPnmoTliankvZnpg6jliIblsIbkuI3liqDljLrliIbnmoTkvb/nlKjmnK/or60g
+YGBjYXBhY2l0eWBgIOWSjCBgYGNhcGFjaXR5X29yaWdgYCDjgIINCj4gPj4gKw0KPiA+PiArMS4z
+IOW5s+WPsOekuuS+iw0KPiA+PiArLS0tLS0tLS0tLS0tDQo+ID4+ICsNCj4gPj4gKzEuMy4xIE9Q
+UOebuOWQjA0KPiA+PiArfn5+fn5+fn5+fn5+fg0KPiA+PiArDQo+ID4+ICvogIPomZHkuIDkuKrl
+gYfmg7PnmoTlj4zmoLjpnZ7lr7nnp7BDUFUgY2FwYWNpdHnns7vnu5/vvIzlhbbkuK0NCj4gPj4g
+Kw0KPiA+PiArLSB3b3JrX3Blcl9oeihDUFUwKSA9IFcNCj4gPj4gKy0gd29ya19wZXJfaHooQ1BV
+MSkgPSBXLzINCj4gPj4gKy0g5omA5pyJQ1BV5Lul55u45ZCM55qE5Zu65a6a6aKR546H6L+Q6KGM
+DQo+ID4+ICsNCj4gPj4gK+agueaNruS4iuaWh+WvuWNhcGFjaXR555qE5a6a5LmJOg0KPiA+PiAr
+DQo+ID4+ICstIGNhcGFjaXR5KENQVTApID0gQw0KPiA+PiArLSBjYXBhY2l0eShDUFUxKSA9IEMv
+Mg0KPiA+PiArDQo+ID4+ICvoi6Xov5nmmK9Bcm0gYmlnLkxJVFRMReezu+e7n++8jENQVTDmmK9i
+aWcgQ1BV77yM6ICMQ1BVMeaYr0xJVFRMRSBDUFXjgIINCj4gPj4gKw0KPiA+PiAr6ICD6JmR5LiA
+56eN5ZGo5pyf5oCn5Lqn55Sf5Zu65a6a5bel5L2c6YeP55qE5bel5L2c6LSf6L2977yM5L2g5bCG
+5Lya5b6X5Yiw57G75Ly85LiL5Zu+55qE5omn6KGM6L2o6L+5OjoNCj4gPj4gKw0KPiA+PiArIENQ
+VTAgd29yayBeDQo+ID4+ICsgICAgICAgICAgIHwgICAgIF9fX18gICAgICAgICAgICAgICAgX19f
+XyAgICAgICAgICAgICAgICBfX19fDQo+ID4+ICsgICAgICAgICAgIHwgICAgfCAgICB8ICAgICAg
+ICAgICAgICB8ICAgIHwgICAgICAgICAgICAgIHwgICAgfA0KPiA+PiArICAgICAgICAgICArLS0t
+LSstLS0tKy0tLS0rLS0tLSstLS0tKy0tLS0rLS0tLSstLS0tKy0tLS0rLS0tLSstPiB0aW1lDQo+
+ID4+ICsNCj4gPj4gKyBDUFUxIHdvcmsgXg0KPiA+PiArICAgICAgICAgICB8ICAgICBfX19fX19f
+X18gICAgICAgICAgIF9fX19fX19fXyAgICAgICAgICAgX19fXw0KPiA+PiArICAgICAgICAgICB8
+ICAgIHwgICAgICAgICB8ICAgICAgICAgfCAgICAgICAgIHwgICAgICAgICB8DQo+ID4+ICsgICAg
+ICAgICAgICstLS0tKy0tLS0rLS0tLSstLS0tKy0tLS0rLS0tLSstLS0tKy0tLS0rLS0tLSstLS0t
+Ky0+IHRpbWUNCj4gPj4gKw0KPiA+PiArQ1BVMOWcqOezu+e7n+S4reWFt+acieacgOmrmGNhcGFj
+aXR577yIQ++8ie+8jOWug+S9v+eUqFTkuKrljZXkvY3ml7bpl7TlrozmiJDlm7rlrprlt6XkvZzp
+h49X44CCDQo+ID4+ICvlj6bkuIDmlrnpnaLvvIxDUFUx5Y+q5pyJQ1BVMOS4gOWNimNhcGFjaXR5
+77yM5Zug5q2k5ZyoVOS4quWNleS9jeaXtumXtOWGheS7heWujOaIkOW3peS9nOmHj1cvMuOAgg0K
+PiA+PiArDQo+ID4+ICsxLjMuMiDmnIDlpKdPUFDkuI3lkIwNCj4gPj4gK35+fn5+fn5+fn5+fn5+
+fn5+DQo+ID4+ICsNCj4gPj4gK+WFt+acieS4jeWQjGNhcGFjaXR55YC855qEQ1BV77yM6YCa5bi4
+5p2l6K+05pyA5aSnT1BQ5Lmf5LiN5ZCM44CC6ICD6JmR5LiK5LiA5bCP6IqC5o+Q5Yiw55qEQ1BV
+77yI5Lmf5bCx5piv6K+077yMd29ya19wZXJfaHooKeebuOWQjO+8iToNCj4gPj4gKw0KPiA+PiAr
+LSBtYXhfZnJlcShDUFUwKSA9IEYNCj4gPj4gKy0gbWF4X2ZyZXEoQ1BVMSkgPSAyLzMgKiBGDQo+
+ID4+ICsNCj4gPj4gK+i/meWwhuaOqOWHuu+8mg0KPiA+PiArDQo+ID4+ICstIGNhcGFjaXR5KENQ
+VTApID0gQw0KPiA+PiArLSBjYXBhY2l0eShDUFUxKSA9IEMvMw0KPiA+PiArDQo+ID4+ICvmiafo
+oYwxLjMuMeiKguaPj+i/sOeahOW3peS9nOi0n+i9ve+8jOavj+S4qkNQVeaMieacgOWkp+mikeeO
+h+i/kOihjO+8jOe7k+aenOS4ujo6DQo+ID4+ICsNCj4gPj4gKyBDUFUwIHdvcmsgXg0KPiA+PiAr
+ICAgICAgICAgICB8ICAgICBfX19fICAgICAgICAgICAgICAgIF9fX18gICAgICAgICAgICAgICAg
+X19fXw0KPiA+PiArICAgICAgICAgICB8ICAgIHwgICAgfCAgICAgICAgICAgICAgfCAgICB8ICAg
+ICAgICAgICAgICB8ICAgIHwNCj4gPj4gKyAgICAgICAgICAgKy0tLS0rLS0tLSstLS0tKy0tLS0r
+LS0tLSstLS0tKy0tLS0rLS0tLSstLS0tKy0tLS0rLT4gdGltZQ0KPiA+PiArDQo+ID4+ICsgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgd29ya2xvYWQgb24gQ1BVMQ0KPiA+PiArIENQVTEgd29y
+ayBeDQo+ID4+ICsgICAgICAgICAgIHwgICAgIF9fX19fX19fX19fX19fICAgICAgX19fX19fX19f
+X19fX18gICAgICBfX19fDQo+ID4+ICsgICAgICAgICAgIHwgICAgfCAgICAgICAgICAgICAgfCAg
+ICB8ICAgICAgICAgICAgICB8ICAgIHwNCj4gPj4gKyAgICAgICAgICAgKy0tLS0rLS0tLSstLS0t
+Ky0tLS0rLS0tLSstLS0tKy0tLS0rLS0tLSstLS0tKy0tLS0rLT4gdGltZQ0KPiA+PiArDQo+ID4+
+ICsxLjQg5YWz5LqO6K6h566X5pa55byP55qE5rOo5oSP5LqL6aG5DQo+ID4+ICstLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLQ0KPiA+PiArDQo+ID4+ICvpnIDopoHms6jmhI/nmoTmmK/vvIzkvb/n
+lKjljZXkuIDlgLzmnaXooajnpLpDUFXmgKfog73nmoTlt67lvILmmK/mnInkupvkuonorq7nmoTj
+gIINCj4gPj4gK+S4pOS4quS4jeWQjOeahOW+ruaetuaehOeahOebuOWvueaAp+iDveW3ruW8guW6
+lOivpeaPj+i/sOS4uu+8mlgl5pW05pWw6L+Q566X5beu5byC77yMWSXmta7ngrnmlbDov5Dnrpfl
+t67lvILvvIxaJeWIhuaUr+i3s+i9rOW3ruW8gu+8jOetieetieOAgg0KPiA+PiAr5bC9566h5aaC
+5q2k77yM5L2/55So566A5Y2V6K6h566X5pa55byP55qE57uT5p6c55uu5YmN6L+Y5piv5Luk5Lq6
+5ruh5oSP55qE44CCDQo+ID4+ICsNCj4gPj4gKzIuIOS7u+WKoeS9v+eUqOeOhyBUYXNrIHV0aWxp
+emF0aW9uDQo+ID4+ICs9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0NCj4gPj4gKw0KPiA+
+PiArMi4xIOeugOS7iw0KPiA+PiArLS0tLS0tLS0NCj4gPj4gKw0KPiA+PiArY2FwYWNpdHnmhJ/n
+n6XosIPluqbopoHmsYLmj4/ov7Dku7vliqHpnIDmsYLvvIzmj4/ov7DmlrnlvI/opoHlkoxDUFUg
+Y2FwYWNpdHnnm7jlhbPjgIINCj4gPj4gK+avj+S4quiwg+W6puexu+WPr+S7peeUqOS4jeWQjOea
+hOaWueW8j+aPj+i/sOWug+OAguS7u+WKoeS9v+eUqOeOh+aYr0NGU+eLrOacieeahOaPj+i/sOaW
+ueW8j++8jOS4jei/h+WcqOi/memHjOS7i+e7jeWug+acieWKqeS6juW8leWFpeabtOWkmuS4gOiI
+rOaAp+eahOamguW/teOAgg0KPiA+PiArDQo+ID4+ICvku7vliqHkvb/nlKjnjofmmK/kuIDnp43n
+lKjnmb7liIbmr5TmnaXmj4/ov7Dku7vliqHlkJ7lkJDnjofpnIDmsYLnmoTmlrnlvI/jgILkuIDk
+uKrnroDljZXnmoTov5HkvLzmmK/ku7vliqHnmoTljaDnqbrmr5TvvIzkuZ/lsLHmmK/or7Q6Og0K
+PiA+PiArDQo+ID4+ICsgIHRhc2tfdXRpbChwKSA9IGR1dHlfY3ljbGUocCkNCj4gPj4gKw0KPiA+
+PiAr5Zyo6aKR546H5Zu65a6a55qEU01Q57O757uf5Lit77yMMTAwJeeahOWIqeeUqOeOh+aEj+WR
+s+edgOS7u+WKoeaYr+W/meetieW+heW+queOr+OAguWPjeS5i++8jDEwJeeahOWIqeeUqOeOh+aa
+l+ekuui/meaYr+S4gOS4quWwj+WRqOacn+S7u+WKoe+8jA0KPiA+PiAr5a6D5Zyo552h55yg5LiK
+6Iqx6LS555qE5pe26Ze05q+U5omn6KGM5pu05aSa44CCDQo+ID4+ICsNCj4gPj4gKzIuMiDpopHn
+jofkuI3lj5jmgKcgRnJlcXVlbmN5IGludmFyaWFuY2UNCj4gPj4gKy0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tDQo+ID4+ICsNCj4gPj4gK+S4gOS4qumcgOimgeiAg+iZkeeahOiu
+rumimOaYr++8jOW3peS9nOi0n+i9veeahOWNoOepuuavlOWPl0NQVeato+WcqOi/kOihjOeahE9Q
+UOebtOaOpeW9seWTjeOAguiAg+iZkeS7pee7meWumueahOmikeeOh0bmiafooYzlkajmnJ/mgKfl
+t6XkvZzotJ/ovb06Og0KPiA+PiArDQo+ID4+ICsgIENQVSB3b3JrIF4NCj4gPj4gKyAgICAgICAg
+ICAgfCAgICAgX19fXyAgICAgICAgICAgICAgICBfX19fICAgICAgICAgICAgICAgIF9fX18NCj4g
+Pj4gKyAgICAgICAgICAgfCAgICB8ICAgIHwgICAgICAgICAgICAgIHwgICAgfCAgICAgICAgICAg
+ICAgfCAgICB8DQo+ID4+ICsgICAgICAgICAgICstLS0tKy0tLS0rLS0tLSstLS0tKy0tLS0rLS0t
+LSstLS0tKy0tLS0rLS0tLSstLS0tKy0+IHRpbWUNCj4gPj4gKw0KPiA+PiAr5Y+v5Lul566X5Ye6
+IGR1dHlfY3ljbGUocCkgPT0gMjUl44CCDQo+ID4+ICsNCj4gPj4gK+eOsOWcqO+8jOiAg+iZkeS7
+pee7meWumumikeeOh0YvMuaJp+ihjCAq5ZCM5LiA5LiqKiDlt6XkvZzotJ/ovb06Og0KPiA+PiAr
+DQo+ID4+ICsgIENQVSB3b3JrIF4NCj4gPj4gKyAgICAgICAgICAgfCAgICAgX19fX19fX19fICAg
+ICAgICAgICBfX19fX19fX18gICAgICAgICAgIF9fX18NCj4gPj4gKyAgICAgICAgICAgfCAgICB8
+ICAgICAgICAgfCAgICAgICAgIHwgICAgICAgICB8ICAgICAgICAgfA0KPiA+PiArICAgICAgICAg
+ICArLS0tLSstLS0tKy0tLS0rLS0tLSstLS0tKy0tLS0rLS0tLSstLS0tKy0tLS0rLS0tLSstPiB0
+aW1lDQo+ID4+ICsNCj4gPj4gK+WPr+S7peeul+WHuiBkdXR5X2N5Y2xlKHApID09IDUwJe+8jOWw
+veeuoeS4pOasoeaJp+ihjOS4re+8jOS7u+WKoeeahOihjOS4uuWujOWFqOS4gOiHtO+8iOS5n+Ww
+seaYr+ivtO+8jOaJp+ihjOeahOW3peS9nOmHj+ebuOWQjO+8ieOAgg0KPiA+PiArDQo+ID4+ICvk
+u7vliqHliKnnlKjnjofkv6Hlj7flj6/mjInkuIvpnaLlhazlvI/lpITnkIbmiJDpopHnjofkuI3l
+j5jnmoTvvIjor5Hms6jvvJrov5nph4znmoTmnK/or63nlKjliLDkuobkv6Hlj7fkuI7ns7vnu5/n
+moTmpoLlv7XvvIk6Og0KPiA+PiArDQo+ID4+ICsgIHRhc2tfdXRpbF9mcmVxX2ludihwKSA9IGR1
+dHlfY3ljbGUocCkgKiAoY3Vycl9mcmVxdWVuY3koY3B1KSAvIG1heF9mcmVxdWVuY3koY3B1KSkN
+Cj4gPj4gKw0KPiA+PiAr5a+55LiK6Z2i5Lik5Liq5L6L5a2Q6L+Q55So6K+l5YWs5byP77yM5Y+v
+5Lul566X5Ye66aKR546H5LiN5Y+Y55qE5Lu75Yqh5Yip55So546H5Z2H5Li6MjUl44CCDQo+ID4+
+ICsNCj4gPj4gKzIuMyBDUFXkuI3lj5jmgKcgQ1BVIGludmFyaWFuY2UNCj4gPj4gKy0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gPj4gKw0KPiA+PiArQ1BVIGNhcGFjaXR55LiO5Lu75Yqh
+5Yip55So546H5YW35pyJ57G75Z6L55qE5pWI5bqU77yM5ZyoY2FwYWNpdHnkuI3lkIznmoRDUFXk
+uIrmiafooYzlrozlhajnm7jlkIznmoTlt6XkvZzotJ/ovb3vvIwNCj4gPj4gK+Wwhueul+WHuuS4
+jeWQjOeahOWNoOepuuavlOOAgg0KPiA+PiArDQo+ID4+ICvogIPomZExLjMuMuiKguaPkOWIsOea
+hOezu+e7n++8jOS5n+WwseaYr+ivtDo6DQo+ID4+ICsNCj4gPj4gKy0gY2FwYWNpdHkoQ1BVMCkg
+PSBDDQo+ID4+ICstIGNhcGFjaXR5KENQVTEpID0gQy8zDQo+ID4+ICsNCj4gPj4gK+avj+S4qkNQ
+VeaMieacgOWkp+mikeeOh+aJp+ihjOaMh+WumuWRqOacn+aAp+W3peS9nOi0n+i9ve+8jOe7k+ae
+nOS4ujo6DQo+ID4+ICsNCj4gPj4gKyBDUFUwIHdvcmsgXg0KPiA+PiArICAgICAgICAgICB8ICAg
+ICBfX19fICAgICAgICAgICAgICAgIF9fX18gICAgICAgICAgICAgICAgX19fXw0KPiA+PiArICAg
+ICAgICAgICB8ICAgIHwgICAgfCAgICAgICAgICAgICAgfCAgICB8ICAgICAgICAgICAgICB8ICAg
+IHwNCj4gPj4gKyAgICAgICAgICAgKy0tLS0rLS0tLSstLS0tKy0tLS0rLS0tLSstLS0tKy0tLS0r
+LS0tLSstLS0tKy0tLS0rLT4gdGltZQ0KPiA+PiArDQo+ID4+ICsgQ1BVMSB3b3JrIF4NCj4gPj4g
+KyAgICAgICAgICAgfCAgICAgX19fX19fX19fX19fX18gICAgICBfX19fX19fX19fX19fXyAgICAg
+IF9fX18NCj4gPj4gKyAgICAgICAgICAgfCAgICB8ICAgICAgICAgICAgICB8ICAgIHwgICAgICAg
+ICAgICAgIHwgICAgfA0KPiA+PiArICAgICAgICAgICArLS0tLSstLS0tKy0tLS0rLS0tLSstLS0t
+Ky0tLS0rLS0tLSstLS0tKy0tLS0rLS0tLSstPiB0aW1lDQo+ID4+ICsNCj4gPj4gK+S5n+WwseaY
+r+ivtO+8jA0KPiA+PiArDQo+ID4+ICstIGR1dHlfY3ljbGUocCkgPT0gMjUl77yM5aaC5p6c5Lu7
+5YqhcOWcqENQVTDkuIrmjInmnIDlpKfpopHnjofov5DooYzjgIINCj4gPj4gKy0gZHV0eV9jeWNs
+ZShwKSA9PSA3NSXvvIzlpoLmnpzku7vliqFw5ZyoQ1BVMeS4iuaMieacgOWkp+mikeeOh+i/kOih
+jOOAgg0KPiA+PiArDQo+ID4+ICvku7vliqHliKnnlKjnjofkv6Hlj7flj6/mjInkuIvpnaLlhazl
+vI/lpITnkIbmiJBDUFXlrrnph4/kuI3lj5jnmoQ6Og0KPiA+PiArDQo+ID4+ICsgIHRhc2tfdXRp
+bF9jcHVfaW52KHApID0gZHV0eV9jeWNsZShwKSAqIChjYXBhY2l0eShjcHUpIC8gbWF4X2NhcGFj
+aXR5KQ0KPiA+PiArDQo+ID4+ICvlhbbkuK0gYGBtYXhfY2FwYWNpdHlgYCDmmK/ns7vnu5/kuK3m
+nIDpq5jnmoRDUFUgY2FwYWNpdHnjgILlr7nkuIrpnaLnmoTkvovlrZDov5DnlKjor6XlhazlvI/v
+vIwNCj4gPj4gK+WPr+S7peeul+WHukNQVSBjYXBhY2l0eeS4jeWPmOeahOS7u+WKoeWIqeeUqOeO
+h+Wdh+S4ujI1JeOAgg0KPiA+PiArDQo+ID4+ICsyLjQg5Lu75Yqh5Yip55So546H5LiN5Y+Y6YeP
+IEludmFyaWFudCB0YXNrIHV0aWxpemF0aW9uDQo+ID4+ICstLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiA+PiArDQo+ID4+ICvpopHnjoflkoxDUFUgY2Fw
+YWNpdHnkuI3lj5jmgKfpg73pnIDopoHooqvlupTnlKjliLDku7vliqHliKnnlKjnjofnmoTorqHn
+rpfkuK3vvIzku6Xkvr/msYLlh7rnnJ/mraPnmoTkuI3lj5jkv6Hlj7fjgIINCj4gPj4gK+S7u+WK
+oeWIqeeUqOeOh+eahOS8quiuoeeul+WFrOW8j+aYr+WQjOaXtuWFt+Wkh0NQVeWSjOmikeeOh+S4
+jeWPmOaAp+eahO+8jOS5n+WwseaYr+ivtO+8jOWvueS6juaMh+WumuS7u+WKoXA6Og0KPiA+PiAr
+DQo+ID4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgY3Vycl9mcmVxdWVu
+Y3koY3B1KSAgIGNhcGFjaXR5KGNwdSkNCj4gPj4gKyAgdGFza191dGlsX2ludihwKSA9IGR1dHlf
+Y3ljbGUocCkgKiAtLS0tLS0tLS0tLS0tLS0tLS0tICogLS0tLS0tLS0tLS0tLQ0KPiA+PiArICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG1heF9mcmVxdWVuY3koY3B1KSAgICBt
+YXhfY2FwYWNpdHkNCj4gPj4gKw0KPiA+PiAr5Lmf5bCx5piv6K+077yM5Lu75Yqh5Yip55So546H
+5LiN5Y+Y6YeP5YGH5a6a5Lu75Yqh5Zyo57O757uf5Lit5pyA6auYY2FwYWNpdHkgQ1BV5LiK5Lul
+5pyA6auY6aKR546H6L+Q6KGM77yM5Lul5q2k5o+P6L+w5Lu75Yqh55qE6KGM5Li644CCDQo+ID4+
+ICsNCj4gPj4gK+WcqOaOpeS4i+adpeeahOeroOiKguS4reaPkOWIsOeahOS7u+S9leS7u+WKoeWI
+qeeUqOeOh++8jOWdh+aYr+S4jeWPmOmHj+eahOW9ouW8j+OAgg0KPiA+PiArDQo+ID4+ICsyLjUg
+5Yip55So546H5Lyw566XDQo+ID4+ICstLS0tLS0tLS0tLS0tLQ0KPiA+PiArDQo+ID4+ICvnlLHk
+uo7pooTmtYvmnKrmnaXnmoTmsLTmmbbnkIPkuI3lrZjlnKjvvIzlvZPku7vliqHnrKzkuIDmrKHl
+j5jmiJDlj6/ov5DooYzml7bvvIzku7vliqHnmoTooYzkuLrlkozku7vliqHliKnnlKjnjoflnYfk
+uI3og73ooqvlh4bnoa7pooTmtYvjgIINCj4gPj4gK0NGU+iwg+W6puexu+WfuuS6juWunuS9k+i0
+n+i9vei3n+i4quacuuWItu+8iFBlci1FbnRpdHkgTG9hZCBUcmFja2luZywgUEVMVO+8iee7tOaK
+pOS6huWwkemHj0NQVeWSjOS7u+WKoeS/oeWPt++8jA0KPiA+PiAr5YW25Lit5LmL5LiA5Y+v5Lul
+566X5Ye65bmz5Z2H5Yip55So546H77yI5LiO556s5pe255u45Y+N77yJ44CCDQo+ID4+ICsNCj4g
+Pj4gK+i/meaEj+WRs+edgO+8jOWwveeuoei/kOeUqOKAnOecn+WunueahOKAneS7u+WKoeWIqeeU
+qOeOh++8iOWHreWAn+awtOaZtueQg++8ieWGmeWHumNhcGFjaXR55oSf55+l6LCD5bqm55qE5YeG
+5YiZ77yMDQo+ID4+ICvkvYbmmK/lroPnmoTlrp7njrDlsIblj6rog73nlKjku7vliqHliKnnlKjn
+jofnmoTkvLDnrpflgLzjgIINCj4gPj4gKw0KPiA+PiArMy4gY2FwYWNpdHnmhJ/nn6XosIPluqbn
+moTpnIDmsYINCj4gPj4gKz09PT09PT09PT09PT09PT09PT09PT09PT0NCj4gPj4gKw0KPiA+PiAr
+My4xIENQVSBjYXBhY2l0eQ0KPiA+PiArLS0tLS0tLS0tLS0tLS0tLQ0KPiA+PiArDQo+ID4+ICvl
+vZPliY3vvIxMaW51eOaXoOazleWHreiHqui6q+eul+WHukNQVSBjYXBhY2l0ee+8jOWboOatpOW/
+hemhu+imgeacieaKiui/meS4quS/oeaBr+S8oOmAkue7mUxpbnV455qE5pa55byP44CCDQo+ID4+
+ICvmr4/kuKrmnrbmnoTlv4XpobvkuLrmraTlrprkuYlhcmNoX3NjYWxlX2NwdV9jYXBhY2l0eSgp
+5Ye95pWw44CCDQo+ID4+ICsNCj4gPj4gK2FybeWSjGFybTY05p625p6E55u05o6l5oqK6L+Z5Liq
+5L+h5oGv5pig5bCE5YiwYXJjaF90b3BvbG9neempseWKqOeahENQVSBzY2FsaW5n5pWw5o2u5Lit
+DQo+ID4+ICvvvIjor5Hms6jvvJrlj4LogINhcmNoX3RvcG9sb2d5LmjnmoRwZXJjcHXlj5jph49j
+cHVfc2NhbGXvvInvvIwNCj4gPj4gK+Wug+aYr+S7jmNhcGFjaXR5LWRtaXBzLW1oeiBDUFUgYmlu
+ZGluZ+S4reihjeeUn+iuoeeul+WHuuadpeeahOOAguWPguingQ0KPiA+PiArRG9jdW1lbnRhdGlv
+bi9kZXZpY2V0cmVlL2JpbmRpbmdzL2FybS9jcHUtY2FwYWNpdHkudHh044CCDQo+ID4+ICsNCj4g
+Pj4gKzMuMiBGcmVxdWVuY3kgaW52YXJpYW5jZQ0KPiA+PiArLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tDQo+ID4+ICsNCj4gPj4gK+WmgjIuMuiKguaJgOi/sO+8jGNhcGFjaXR55oSf55+l6LCD5bqm
+6ZyA6KaB6aKR546H5LiN5Y+Y55qE5Lu75Yqh5Yip55So546H44CCDQo+ID4+ICvmr4/kuKrmnrbm
+noTlv4XpobvkuLrmraTlrprkuYlhcmNoX3NjYWxlX2ZyZXFfY2FwYWNpdHkoY3B1KeWHveaVsOOA
+gg0KPiA+PiArDQo+ID4+ICvlrp7njrDor6Xlh73mlbDopoHmsYLorqHnrpflh7rmr4/kuKpDUFXl
+vZPliY3ku6Xku4DkuYjpopHnjoflnKjov5DooYzjgILlrp7njrDlroPnmoTkuIDnp43mlrnlvI/m
+mK/liKnnlKjnoazku7borqHmlbDlmagNCj4gPj4gK++8iHg4NueahEFQRVJGL01QRVJG77yMYXJt
+NjTnmoRBTVXvvInvvIzlroPog73mjIlDUFXlvZPliY3popHnjofliqjmgIHlj6/mianlsZXlnLDl
+jYfpmY3pgJLlop7orqHmlbDlmajnmoTpgJ/njofjgIINCj4gPj4gK+WPpuS4gOenjeaWueW8j+aY
+r+WcqGNwdWZyZXHpopHnjoflj5jljJbml7bnm7TmjqXkvb/nlKjpkqnlrZDlh73mlbDvvIzlhoXm
+oLjmraTml7bmhJ/nn6XliLDlsIbopoHooqvliIfmjaLnmoTpopHnjofvvIjkuZ/ooqthcm0vYXJt
+NjTlrp7njrDkuobvvInjgIINCj4gPj4gKw0KPiA+PiArNC4g6LCD5bqm5Zmo5ouT5omR57uT5p6E
+DQo+ID4+ICs9PT09PT09PT09PT09PT09PQ0KPiA+PiArDQo+ID4+ICvlnKjmnoTlu7rosIPluqbl
+n5/ml7bvvIzosIPluqblmajlsIbkvJrlj5HnjrDns7vnu5/mmK/lkKbooajnjrDkuLrpnZ7lr7nn
+p7BDUFUgY2FwYWNpdHnjgILlpoLmnpzmmK/vvIzpgqPkuYjvvJoNCj4gPj4gKw0KPiA+PiArLSBz
+Y2hlZF9hc3ltX2NwdWNhcGFjaXR5IHN0YXRpYyBrZXnlsIbkvb/og73jgIINCj4gPj4gKy0gU0Rf
+QVNZTV9DUFVDQVBBQ0lUWV9GVUxM5qCH5b+X5L2N5bCG5Zyo5bC96YeP5pyA5L2O6LCD5bqm5Z+f
+5bGC57qn5Lit6KKr6K6+572u77yM5ZCM5pe26KaB5ruh6Laz5p2h5Lu277yaDQo+ID4+ICsgIOiw
+g+W6puWfn+aBsOWlveWujOaVtOWMheWQq+afkOS4qkNQVSBjYXBhY2l0eeWAvOeahOWFqOmDqENQ
+VeOAgg0KPiA+PiArLSBTRF9BU1lNX0NQVUNBUEFDSVRZ5qCH5b+X5bCG5Zyo5omA5pyJ5YyF5ZCr
+6Z2e5a+556ewQ1BV55qE6LCD5bqm5Z+f5Lit6KKr6K6+572u44CCDQo+ID4+ICsNCj4gPj4gK3Nj
+aGVkX2FzeW1fY3B1Y2FwYWNpdHkgc3RhdGljIGtleeeahOiuvuiuoeaEj+WbvuaYr++8jOS/neaK
+pOS4uumdnuWvueensENQVSBjYXBhY2l0eeezu+e7n+aJgOWHhuWkh+eahOS7o+eggeOAgg0KPiA+
+PiAr5LiN6L+H6KaB5rOo5oSP55qE5piv77yM6L+Z5Liqa2V55piv57O757uf6IyD5Zu05Y+v6KeB
+55qE44CC5oOz6LGh5LiL6Z2i5L2/55So5LqGY3B1c2V055qE5q2l6aqkOjoNCj4gPj4gKw0KPiA+
+PiArICBjYXBhY2l0eSAgICBDLzIgICAgICAgICAgQw0KPiA+PiArICAgICAgICAgICAgX19fX19f
+X18gICAgX19fX19fX18NCj4gPj4gKyAgICAgICAgICAgLyAgICAgICAgXCAgLyAgICAgICAgXA0K
+PiA+PiArICBDUFVzICAgICAwICAxICAyICAzICA0ICA1ICA2ICA3DQo+ID4+ICsgICAgICAgICAg
+IFxfXy8gIFxfX19fX19fX19fX19fXy8NCj4gPj4gKyAgY3B1c2V0cyAgIGNzMCAgICAgICAgIGNz
+MQ0KPiA+PiArDQo+ID4+ICvlj6/ku6XpgJrov4fkuIvpnaLnmoTmlrnlvI/liJvlu7rvvJoNCj4g
+Pj4gKw0KPiA+PiArLi4gY29kZS1ibG9jazo6IHNoDQo+ID4+ICsNCj4gPj4gKyAgbWtkaXIgL3N5
+cy9mcy9jZ3JvdXAvY3B1c2V0L2NzMA0KPiA+PiArICBlY2hvIDAtMSA+IC9zeXMvZnMvY2dyb3Vw
+L2NwdXNldC9jczAvY3B1c2V0LmNwdXMNCj4gPj4gKyAgZWNobyAwID4gL3N5cy9mcy9jZ3JvdXAv
+Y3B1c2V0L2NzMC9jcHVzZXQubWVtcw0KPiA+PiArDQo+ID4+ICsgIG1rZGlyIC9zeXMvZnMvY2dy
+b3VwL2NwdXNldC9jczENCj4gPj4gKyAgZWNobyAyLTcgPiAvc3lzL2ZzL2Nncm91cC9jcHVzZXQv
+Y3MxL2NwdXNldC5jcHVzDQo+ID4+ICsgIGVjaG8gMCA+IC9zeXMvZnMvY2dyb3VwL2NwdXNldC9j
+czEvY3B1c2V0Lm1lbXMNCj4gPj4gKw0KPiA+PiArICBlY2hvIDAgPiAvc3lzL2ZzL2Nncm91cC9j
+cHVzZXQvY3B1c2V0LnNjaGVkX2xvYWRfYmFsYW5jZQ0KPiA+PiArDQo+ID4+ICvnlLHkuo7igJzo
+v5nmmK/igJ3pnZ7lr7nnp7BDUFUgY2FwYWNpdHnns7vnu5/vvIxzY2hlZF9hc3ltX2NwdWNhcGFj
+aXR5IHN0YXRpYyBrZXnlsIbkvb/og73jgIINCj4gPj4gK+eEtuiAjO+8jENQVSAwLS0x5a+55bqU
+55qE6LCD5bqm5Z+f5bGC57qn77yMY2FwYWNpdHnlgLzku4XmnInkuIDkuKrvvIzor6XlsYLnuqfk
+uK1TRF9BU1lNX0NQVUNBUEFDSVRZ5pyq6KKr6K6+572u77yMDQo+ID4+ICvlroPmj4/ov7DnmoTm
+mK/kuIDkuKpTTVDljLrln5/vvIzkuZ/lupTor6Xooqvku6XmraTlpITnkIbjgIINCj4gPj4gKw0K
+PiA+PiAr5Zug5q2k77yM4oCc5YW45Z6L55qE4oCd5L+d5oqk6Z2e5a+556ewQ1BVIGNhcGFjaXR5
+5Luj56CB6Lev5b6E55qE5Luj56CB5qih5byP5piv77yaDQo+ID4+ICsNCj4gPj4gKy0g5qOA5p+l
+c2NoZWRfYXN5bV9jcHVjYXBhY2l0eSBzdGF0aWMga2V5DQo+ID4+ICstIOWmguaenOWug+iiq+S9
+v+iDve+8jOaOpeedgOajgOafpeiwg+W6puWfn+Wxgue6p+S4rVNEX0FTWU1fQ1BVQ0FQQUNJVFnm
+oIflv5fkvY3mmK/lkKblh7rnjrANCj4gPj4gKw0KPiA+PiArNS4gY2FwYWNpdHnmhJ/nn6XosIPl
+uqbnmoTlrp7njrANCj4gPj4gKz09PT09PT09PT09PT09PT09PT09PT09PT0NCj4gPj4gKw0KPiA+
+PiArNS4xIENGUw0KPiA+PiArLS0tLS0tLQ0KPiA+PiArDQo+ID4+ICs1LjEuMSBjYXBhY2l0eemA
+guW6lOaAp++8iGZpdG5lc3PvvIkNCj4gPj4gK35+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
+fn4NCj4gPj4gKw0KPiA+PiArQ0ZT5pyA5Li76KaB55qEY2FwYWNpdHnosIPluqblh4bliJnmmK86
+Og0KPiA+PiArDQo+ID4+ICsgIHRhc2tfdXRpbChwKSA8IGNhcGFjaXR5KHRhc2tfY3B1KHApKQ0K
+PiA+PiArDQo+ID4+ICvlroPpgJrluLjooqvnp7DkuLpjYXBhY2l0eemAguW6lOaAp+WHhuWImeOA
+guS5n+WwseaYr+ivtO+8jENGU+W/hemhu+S/neivgeS7u+WKoeKAnOmAguWQiOKAneWcqOafkOS4
+qkNQVeS4iui/kOihjOOAgg0KPiA+PiAr5aaC5p6c5YeG5YiZ6KKr6L+d5Y+N77yM5Lu75Yqh5bCG
+6KaB5pu06ZW/5Zyw5raI6ICX6K+lQ1BV77yM5Lu75Yqh5pivQ1BV5Y+X6ZmQ55qE77yIQ1BVLWJv
+dW5k77yJ44CCDQo+ID4+ICsNCj4gPj4gK+atpOWklu+8jHVjbGFtcOWFgeiuuOeUqOaIt+epuumX
+tOaMh+WumuS7u+WKoeeahOacgOWwj+WSjOacgOWkp+WIqeeUqOeOh++8jOimgeS5iOS7pXNjaGVk
+X3NldGF0dHIoKeeahOaWueW8j++8jA0KPiA+PiAr6KaB5LmI5LulY2dyb3Vw5o6l5Y+j55qE5pa5
+5byP77yI5Y+C6ZiFRG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9jZ3JvdXAtdjIucnN077yJ44CC
+DQo+ID4+ICvlpoLlhbblkI3lrZfmiYDmmpfnpLrvvIx1Y2xhbXDlj6/ku6XooqvnlKjlnKjliY3k
+uIDmnaHlh4bliJnkuK3pmZDliLZ0YXNrX3V0aWwoKeOAgg0KPiA+PiArDQo+ID4+ICs1LjEuMiDo
+oqvllKTphpLku7vliqHnmoRDUFXpgInmi6kNCj4gPj4gK35+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
+fn4NCj4gPj4gKw0KPiA+PiArQ0ZT5Lu75Yqh5ZSk6YaS55qEQ1BV6YCJ5oup77yM6YG15b6q5LiK
+6Z2i5o+P6L+w55qEY2FwYWNpdHnpgILlupTmgKflh4bliJnjgILlnKjmraTkuYvkuIrvvIx1Y2xh
+bXDooqvnlKjmnaXpmZDliLbku7vliqHliKnnlKjnjofvvIwNCj4gPj4gK+i/meS7pOeUqOaIt+ep
+uumXtOWvuUNGU+S7u+WKoeeahENQVemAieaLqeacieabtOWkmueahOaOp+WItuOAguS5n+WwseaY
+r+ivtO+8jENGU+iiq+WUpOmGkuS7u+WKoeeahENQVemAieaLqe+8jOaQnOe0oua7oei2s+S7peS4
+i+adoeS7tueahENQVTo6DQo+ID4+ICsNCj4gPj4gKyAgY2xhbXAodGFza191dGlsKHApLCB0YXNr
+X3VjbGFtcF9taW4ocCksIHRhc2tfdWNsYW1wX21heChwKSkgPCBjYXBhY2l0eShjcHUpDQo+ID4+
+ICsNCj4gPj4gK+mAmui/h+S9v+eUqHVjbGFtcO+8jOS4vuS+i+adpeivtO+8jOeUqOaIt+epuumX
+tOWPr+S7peWFgeiuuOW/meetieW+heW+queOr++8iDEwMCXkvb/nlKjnjofvvInlnKjku7vmhI9D
+UFXkuIrov5DooYzvvIwNCj4gPj4gK+WPquimgee7meWug+iuvue9ruS9jueahHVjbGFtcC5tYXjl
+gLzjgILnm7jlj43vvIx1Y2xhbXDog73lvLrliLbkuIDkuKrlsI/nmoTlkajmnJ/mgKfku7vliqHv
+vIjmr5TlpoLvvIwxMCXliKnnlKjnjofvvIkNCj4gPj4gK+WcqOacgOmrmOaAp+iDveeahENQVeS4
+iui/kOihjO+8jOWPquimgee7meWug+iuvue9rumrmOeahHVjbGFtcC5taW7lgLzjgIINCj4gPj4g
+Kw0KPiA+PiArLi4gbm90ZTo6DQo+ID4+ICsNCj4gPj4gKyAgQ0ZT55qE6KKr5ZSk6YaS55qE5Lu7
+5Yqh55qEQ1BV6YCJ5oup77yM5Y+v6KKr6IO96ICX5oSf55+l6LCD5bqm77yIRW5lcmd5IEF3YXJl
+IFNjaGVkdWxpbmfvvIxFQVPvvIkNCj4gPj4gKyAg6KaG55uW77yM5ZyoRG9jdW1lbnRhdGlvbi9z
+Y2hlZHVsZXIvc2NoZWQtZW5lcmd5LnJzdOS4reaPj+i/sOOAgg0KPiA+PiArDQo+ID4+ICs1LjEu
+MyDotJ/ovb3lnYfooaENCj4gPj4gK35+fn5+fn5+fn5+fn5+DQo+ID4+ICsNCj4gPj4gK+iiq+WU
+pOmGkuS7u+WKoeeahENQVemAieaLqeeahOS4gOS4queXheeQhuaAp+eahOS+i+WtkOaYr++8jOS7
+u+WKoeWHoOS5juS4jeedoeecoO+8jOmCo+S5iOS5n+WHoOS5juS4jeWPkeeUn+WUpOmGkuOAguiA
+g+iZkTo6DQo+ID4+ICsNCj4gPj4gKyAgdyA9PSB3YWtldXAgZXZlbnQNCj4gPj4gKw0KPiA+PiAr
+ICBjYXBhY2l0eShDUFUwKSA9IEMNCj4gPj4gKyAgY2FwYWNpdHkoQ1BVMSkgPSBDIC8gMw0KPiA+
+PiArDQo+ID4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICB3b3JrbG9hZCBvbiBDUFUwDQo+
+ID4+ICsgIENQVSB3b3JrIF4NCj4gPj4gKyAgICAgICAgICAgfCAgICAgX19fX19fX19fICAgICAg
+ICAgICBfX19fX19fX18gICAgICAgICAgIF9fX18NCj4gPj4gKyAgICAgICAgICAgfCAgICB8ICAg
+ICAgICAgfCAgICAgICAgIHwgICAgICAgICB8ICAgICAgICAgfA0KPiA+PiArICAgICAgICAgICAr
+LS0tLSstLS0tKy0tLS0rLS0tLSstLS0tKy0tLS0rLS0tLSstLS0tKy0tLS0rLS0tLSstPiB0aW1l
+DQo+ID4+ICsgICAgICAgICAgICAgICAgdyAgICAgICAgICAgICAgICAgICB3ICAgICAgICAgICAg
+ICAgICAgIHcNCj4gPj4gKw0KPiA+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgd29ya2xv
+YWQgb24gQ1BVMQ0KPiA+PiArICBDUFUgd29yayBeDQo+ID4+ICsgICAgICAgICAgIHwgICAgIF9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQo+ID4+ICsgICAgICAg
+ICAgIHwgICAgfA0KPiA+PiArICAgICAgICAgICArLS0tLSstLS0tKy0tLS0rLS0tLSstLS0tKy0t
+LS0rLS0tLSstLS0tKy0tLS0rLS0tLSstPg0KPiA+PiArICAgICAgICAgICAgICAgIHcNCj4gPj4g
+Kw0KPiA+PiAr6K+l5bel5L2c6LSf6L295bqU6K+l5ZyoQ1BVMOS4iui/kOihjO+8jOS4jei/h+Wm
+guaenOS7u+WKoea7oei2s+S7peS4i+adoeS7tuS5i+S4gO+8mg0KPiA+PiArDQo+ID4+ICstIOS4
+gOW8gOWni+WPkeeUn+S4jeWQiOmAgueahOiwg+W6pu+8iOS4jeWHhuehrueahOWIneWni+WIqeeU
+qOeOh+S8sOiuoe+8iQ0KPiA+PiArLSDkuIDlvIDlp4vosIPluqbmraPnoa7vvIzkvYbnqoHnhLbp
+nIDopoHmm7TlpJrnmoTlpITnkIblmajlip/njocNCj4gPj4gKw0KPiA+PiAr5YiZ5Lu75Yqh5Y+v
+6IO95Y+Y5Li6Q1BV5Y+X6ZmQ55qE77yM5Lmf5bCx5piv6K+0IGBgdGFza191dGlsKHApID4gY2Fw
+YWNpdHkodGFza19jcHUocCkpYGDvvJsNCj4gPj4gK0NQVSBjYXBhY2l0eeiwg+W6puWHhuWImeii
+q+i/neWPje+8jOWwhuS4jeS8muacieS7u+S9leWUpOmGkuS6i+S7tuadpeS/ruWkjei/meS4qumU
+meivr+eahENQVemAieaLqeOAgg0KPiA+PiArDQo+ID4+ICvov5nnp43lnLrmma/kuIvnmoTku7vl
+iqHooqvnp7DkuLrigJzkuI3lkIjpgILnmoTigJ3vvIhtaXNmaXTvvInku7vliqHvvIzlpITnkIbo
+v5nkuKrlnLrmma/nmoTmnLrliLblkIzmoLfkuZ/ku6XmraTlkb3lkI3jgIINCj4gPj4gK01pc2Zp
+dOS7u+WKoei/geenu+WAn+WKqUNGU+i0n+i9veWdh+ihoeWZqO+8jOabtOaYjuehrueahOivtO+8
+jOaYr+S4u+WKqOi0n+i9veWdh+ihoeeahOmDqOWIhu+8iOeUqOadpei/geenu+ato+WcqOi/kOih
+jOeahOS7u+WKoe+8ieOAgg0KPiA+PiAr5b2T5Y+R55Sf6LSf6L295Z2H6KGh5pe277yM5aaC5p6c
+5LiA5LiqbWlzZml05Lu75Yqh5Y+v5Lul6KKr6L+B56e75Yiw5LiA5Liq55u46L6D5b2T5YmN6L+Q
+6KGM55qEQ1BV5YW35pyJ5pu06auYY2FwYWNpdHnnmoRDUFXkuIrvvIwNCj4gPj4gK+mCo+S5iG1p
+c2ZpdOS7u+WKoeeahOS4u+WKqOi0n+i9veWdh+ihoeWwhuiiq+inpuWPkeOAgg0KPiA+PiArDQo+
+ID4+ICs1LjIgUlQNCj4gPj4gKy0tLS0tLQ0KPiA+PiArDQo+ID4+ICs1LjIuMSDooqvllKTphpLk
+u7vliqHnmoRDUFXpgInmi6kNCj4gPj4gK35+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4NCj4gPj4g
+Kw0KPiA+PiArUlTku7vliqHllKTphpLml7bnmoRDUFXpgInmi6nvvIzmkJzntKLmu6HotrPku6Xk
+uIvmnaHku7bnmoRDUFU6Og0KPiA+PiArDQo+ID4+ICsgIHRhc2tfdWNsYW1wX21pbihwKSA8PSBj
+YXBhY2l0eSh0YXNrX2NwdShjcHUpKQ0KPiA+PiArDQo+ID4+ICvlkIzml7bku43nhLblhYHorrjm
+jqXnnYDkvb/nlKjluLjop4TnmoTkvJjlhYjnuqfpmZDliLbjgILlpoLmnpzmsqHmnIlDUFXog73m
+u6HotrPov5nkuKpjYXBhY2l0eeWHhuWIme+8jOmCo+S5iOWwhuS9v+eUqOWfuuS6juS4peagvOS8
+mOWFiOe6p+eahOiwg+W6pu+8jA0KPiA+PiArQ1BVIGNhcGFjaXR55bCG6KKr5b+955Wl44CCDQo+
+ID4+ICsNCj4gPj4gKzUuMyBETA0KPiA+PiArLS0tLS0tDQo+ID4+ICsNCj4gPj4gKzUuMy4xIOii
+q+WUpOmGkuS7u+WKoeeahENQVemAieaLqQ0KPiA+PiArfn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
+fg0KPiA+PiArDQo+ID4+ICtETOS7u+WKoeWUpOmGkuaXtueahENQVemAieaLqe+8jOaQnOe0oua7
+oei2s+S7peS4i+adoeS7tueahENQVTo6DQo+ID4+ICsNCj4gPj4gKyAgdGFza19iYW5kd2lkdGgo
+cCkgPCBjYXBhY2l0eSh0YXNrX2NwdShwKSkNCj4gPj4gKw0KPiA+PiAr5ZCM5pe25LuN54S25YWB
+6K645o6l552A5L2/55So5bi46KeE55qE5bim5a695ZKM5oiq5q2i5pyf6ZmQ6ZmQ5Yi244CC5aaC
+5p6c5rKh5pyJQ1BV6IO95ruh6Laz6L+Z5LiqY2FwYWNpdHnlh4bliJnvvIwNCj4gPj4gK+mCo+S5
+iOS7u+WKoeS+neeEtuWcqOW9k+WJjUNQVemYn+WIl+S4reOAgg0KPiA+PiAtLQ0KPiA+PiAyLjE3
+LjENCj4gPj4NCj4NCj4gVGhhbmtzLA0KPiBUYW5nDQo=
