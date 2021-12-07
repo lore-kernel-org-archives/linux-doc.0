@@ -2,92 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5323C433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Dec 2021 11:25:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDFD2C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Dec 2021 12:33:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231256AbhLGL3C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Dec 2021 06:29:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57892 "EHLO
+        id S236319AbhLGMhZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Dec 2021 07:37:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231221AbhLGL3B (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Dec 2021 06:29:01 -0500
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com [IPv6:2607:f8b0:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFAA3C061574
-        for <linux-doc@vger.kernel.org>; Tue,  7 Dec 2021 03:25:31 -0800 (PST)
-Received: by mail-oi1-x22f.google.com with SMTP id u74so27146068oie.8
-        for <linux-doc@vger.kernel.org>; Tue, 07 Dec 2021 03:25:31 -0800 (PST)
+        with ESMTP id S230264AbhLGMhY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Dec 2021 07:37:24 -0500
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3A6BC061574
+        for <linux-doc@vger.kernel.org>; Tue,  7 Dec 2021 04:33:54 -0800 (PST)
+Received: by mail-pf1-x42f.google.com with SMTP id 8so13350486pfo.4
+        for <linux-doc@vger.kernel.org>; Tue, 07 Dec 2021 04:33:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=x5wO0G+tehA3S+yfe0XuwRR8DeW1wZ5UR3a1pHKoHws=;
-        b=XLfO7ScOsGf9swrtIsDEV6bU8rszIkoDKALSHV+Bz1IJ9yKxBvLpA0LGuazEqYyzsH
-         OLyDGj0CPG7kis3OZNGeDA50orqw0tl9vxLZWL9WFMT4bNDkB/YL8I1STKfwKQLXByCe
-         1yz+O0WEdjzsVuXqqQAwhFbzdPBuh2bLgHKbzksdNS5UJH68pEypptLyMdsyGTyJrDaH
-         XfeaIdsOrOeGhgA3wJw+7a6pWqbLN89iFi6eNP6VHR0V3Vjvo3988x/9N/e6yaMsyu6P
-         zvSJ88/HDLNXQ705Ctvw3xlX2L1prpFGTP/bPfVlsjRInoUgHTsGJU3JxyBns4JNOpWw
-         RYLQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xJbaQ99qibYphgyzjubtU/OGIhjqPuwvSJDoYYgyMQ8=;
+        b=FL4yxKQi8Jtk5lvTs1rv1np84ivtWmrugDV6n0d39a+up5Ev/0hB/ZfDdBRkzAajCB
+         4xOS/ck4V2jHVzcdR3vEqlekUbSXUYeQStms7hDlhtYIWQ1vOgKWjmy58Eax7ZWH2sHc
+         d9ZHAWU+fMAfNBasFdu5fuswoJOZM9ZfWQkUy2VoDNnx1oRhg5EmEvZjG0jb1nQi869P
+         DCX8SJcsUB94fOS2rxNqABWudGxfzAoJK2Dcy5XrXK6F0l7M8sOpEpmDKevTKE6yZUMZ
+         18t7w9VCMSFUEqV4I4U0psa6Spa6zi9TCQCtHz1ZRP+bOGXntQPAGAmLdpmoZJhShS//
+         KfTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=x5wO0G+tehA3S+yfe0XuwRR8DeW1wZ5UR3a1pHKoHws=;
-        b=AwsvdhT7TtGR8KOEQYqV4NEaJ5J1x6GLlEVaetO5GC39+gWwSn+8LjPeBtEls9fLNh
-         ih7WeaGITo3Gtrfh6JAoXOV9PLlO7MCz7RAUOtSmMhkdH8O/Yh+IrT4oubHLWJTd2V+1
-         cWFSDu2H3nkx3Zmxhdbc4X1kqfCn0u4VQtlgMIvPJsChgMBbL8pM9VXEw1QnHUYZmaLt
-         AifraaDINXbwK3+ryvosRsPQ6oHTqzHmk+6haSFD3J7BEHdxaAgpymS0B30Nvh3jv4o6
-         m9kxA/WkpLBgZGD1k20vCGbqK68Q2+jWkf8l3ukagy5pz9w/MtFbmP637Zru35cJNq5o
-         KPoA==
-X-Gm-Message-State: AOAM533MylOmzxUu0nriqrwgYg87qnv0U1HQQVcLCH4Wbih6qfZ7ChIc
-        lfLSZHWsLEFM/n/7g7tOgOJyjQYrqpn9q4c48nR9QEZpxSzR6ObT
-X-Google-Smtp-Source: ABdhPJze2Af6PabBQz2gqbdn7wRDUCFRq45zyfEpn5lX0FDxgIMvaROgU6i8/oJRBF9U4bZ6KEDVU2GQ9UBxJe/YfO4=
-X-Received: by 2002:a54:4701:: with SMTP id k1mr4483888oik.37.1638876331135;
- Tue, 07 Dec 2021 03:25:31 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xJbaQ99qibYphgyzjubtU/OGIhjqPuwvSJDoYYgyMQ8=;
+        b=PGfj7Uk/9WrkbZTk+7jCXpEuiLwGXdWd3omuaSsBjdxZbn9/CsFeFPw1AhtK6rIZal
+         HXgK4RUHEL0P8TAXKFUxgwn9yVcP9t0AN1Xa2LvILD+Y0XRtNudiM80kJxdXOjXno0Yx
+         jz4fMLE5vL6Ffh1H7mBvR6bGrVTalmUsTiOeTF0vrGl5spF93/m7oBrazPrGryF0S9bk
+         LudriqQ+GXqLMPHpwSrnmEKswbYZob96rrhgPY0ZcyIfQYzgK4XUmap7jN4b1vFC0EDn
+         gt7yJh3w+4NbQtctnELBdDxbrNT5Jw/4t2Viv9HnqtUlKvMd3OJdf3PyNkKLvOrYK1Du
+         +NWw==
+X-Gm-Message-State: AOAM530R5GgtMSkE3Vh2ZbbQ33u9BTKa7W4LF7BF9dKBefpNzmRM5mev
+        piXawQKXU4tkDkMIeVIknjU=
+X-Google-Smtp-Source: ABdhPJzHiX+IRmLcfZG020HYDsFgmXEOPuLyU2ZhPky0p844mvRMEP0Nibd1dG/+KVpZOIx8JHax/A==
+X-Received: by 2002:a05:6a00:2444:b0:4ab:15b9:20e5 with SMTP id d4-20020a056a00244400b004ab15b920e5mr27483414pfj.0.1638880434211;
+        Tue, 07 Dec 2021 04:33:54 -0800 (PST)
+Received: from localhost.localdomain ([8.45.42.185])
+        by smtp.gmail.com with ESMTPSA id q18sm15165028pfn.83.2021.12.07.04.33.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Dec 2021 04:33:53 -0800 (PST)
+From:   Yanteng Si <siyanteng01@gmail.com>
+X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
+To:     broonie@kernel.org
+Cc:     Yanteng Si <siyanteng@loongson.cn>, lgirdwood@gmail.com,
+        siyanteng01@gmail.com, corbet@lwn.net, chenhuacai@kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v2] regulato: fix bullet lists of regulator_ops comment
+Date:   Tue,  7 Dec 2021 20:32:30 +0800
+Message-Id: <20211207123230.2262047-1-siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <cover.1638706875.git.siyanteng@loongson.cn> <87lf0x38s6.fsf@meer.lwn.net>
-In-Reply-To: <87lf0x38s6.fsf@meer.lwn.net>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Tue, 7 Dec 2021 19:25:20 +0800
-Message-ID: <CAEensMzFa0HO0NDfjvGRcgDU1n_AcF9CGwqLLB2Ma_7zN-vq9g@mail.gmail.com>
-Subject: Re: [PATCH 00/11] docs: fix build warning
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Yanteng Si <siyanteng@loongson.cn>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jonathan Corbet <corbet@lwn.net> =E4=BA=8E2021=E5=B9=B412=E6=9C=887=E6=97=
-=A5=E5=91=A8=E4=BA=8C 02:09=E5=86=99=E9=81=93=EF=BC=9A
->
-> Yanteng Si <siyanteng01@gmail.com> writes:
->
-> > I can't stand these red warnings anymore, especially when I'm testing m=
-y
-> > patches and looking for my own warnings in a sea of warnings. so, let's
-> > fix them!
->
-> So I totally approve of fixing docs build warnings, so thanks for doing
-> this work.  As I was working through the patches, though, I noticed that
-> these patches are against linux-next, so I can't take them into the docs
-> tree.  Instead, each fix needs to go into the tree that has introduced
-> the problem.
->
-> Thus, I encourage you to separate out this patch set, add an appropriate
-> Fixes tag to each, then send each separately to the same places where
-> the original patch went.  That should get these problems fixed before
-> they go into mainline.
-OK, will do!
+Since 89a6a5e56c82("regulator: add property parsing and callbacks to set protection limits")
+which introduced a warning:
 
-Thanks,
-Yanteng
->
-> Sorry to make more work, but I'd like to see these changes get in.  I've
-> commented on a couple of the individual patches as well.
->
-> Thanks,
->
-> jon
+Documentation/driver-api/regulator:166: ./include/linux/regulator/driver.h:96: WARNING: Unexpected indentation.
+Documentation/driver-api/regulator:166: ./include/linux/regulator/driver.h:98: WARNING: Block quote ends without a blank line; unexpected unindent.
+
+Let's fix them.
+
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+---
+v2:
+* Add blankline.
+* a text Block which should begins with a "-", followd by whitespace.
+
+v1:
+* regulato: remove unnecessary indentation from driver.h's comments
+
+ include/linux/regulator/driver.h | 22 +++++++++++++---------
+ 1 file changed, 13 insertions(+), 9 deletions(-)
+
+diff --git a/include/linux/regulator/driver.h b/include/linux/regulator/driver.h
+index 66219b174a8a..0228caaa6741 100644
+--- a/include/linux/regulator/driver.h
++++ b/include/linux/regulator/driver.h
+@@ -90,15 +90,19 @@ enum regulator_detection_severity {
+  * @set_over_current_protection: Support enabling of and setting limits for over
+  *	current situation detection. Detection can be configured for three
+  *	levels of severity.
+- *	REGULATOR_SEVERITY_PROT should automatically shut down the regulator(s).
+- *	REGULATOR_SEVERITY_ERR should indicate that over-current situation is
+- *		caused by an unrecoverable error but HW does not perform
+- *		automatic shut down.
+- *	REGULATOR_SEVERITY_WARN should indicate situation where hardware is
+- *		still believed to not be damaged but that a board sepcific
+- *		recovery action is needed. If lim_uA is 0 the limit should not
+- *		be changed but the detection should just be enabled/disabled as
+- *		is requested.
++ *
++ *	- REGULATOR_SEVERITY_PROT should automatically shut down the regulator(s).
++ *
++ *	- REGULATOR_SEVERITY_ERR should indicate that over-current situation is
++ *		  caused by an unrecoverable error but HW does not perform
++ *		  automatic shut down.
++ *
++ *	- REGULATOR_SEVERITY_WARN should indicate situation where hardware is
++ *		  still believed to not be damaged but that a board sepcific
++ *		  recovery action is needed. If lim_uA is 0 the limit should not
++ *		  be changed but the detection should just be enabled/disabled as
++ *		  is requested.
++ *
+  * @set_over_voltage_protection: Support enabling of and setting limits for over
+  *	voltage situation detection. Detection can be configured for same
+  *	severities as over current protection. Units of uV.
+-- 
+2.27.0
+
