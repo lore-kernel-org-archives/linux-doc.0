@@ -2,135 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75B06C433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Dec 2021 03:24:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41694C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Dec 2021 05:16:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234096AbhLGD1m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 6 Dec 2021 22:27:42 -0500
-Received: from szxga08-in.huawei.com ([45.249.212.255]:29095 "EHLO
-        szxga08-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233910AbhLGD1l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 Dec 2021 22:27:41 -0500
-Received: from dggpeml500022.china.huawei.com (unknown [172.30.72.56])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4J7QYs65YVz1DK10;
-        Tue,  7 Dec 2021 11:21:21 +0800 (CST)
-Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
- dggpeml500022.china.huawei.com (7.185.36.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 7 Dec 2021 11:24:10 +0800
-Received: from [10.174.177.232] (10.174.177.232) by
- dggpeml500006.china.huawei.com (7.185.36.76) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 7 Dec 2021 11:24:08 +0800
-Subject: Re: [PATCH -next v2] doc/zh-CN: Update cpu-freq/core.rst to make it
- more readable
-To:     <siyanteng@loongson.cn>, <alexs@kernel.org>, <seakeel@gmail.com>,
-        "yanteng si" <siyanteng01@gmail.com>, <corbet@lwn.net>
-CC:     <linux-doc@vger.kernel.org>, <zhengbin13@huawei.com>,
-        <tangyeechou@gmail.com>
-References: <20211202130240.27942-1-tangyizhou@huawei.com>
-From:   Tang Yizhou <tangyizhou@huawei.com>
-Message-ID: <0ec7c579-1495-d102-ff5f-07ba089ca47e@huawei.com>
-Date:   Tue, 7 Dec 2021 11:24:05 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.1.1
+        id S231802AbhLGFUE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Dec 2021 00:20:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55940 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231685AbhLGFUE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Dec 2021 00:20:04 -0500
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1F7DC061746
+        for <linux-doc@vger.kernel.org>; Mon,  6 Dec 2021 21:16:34 -0800 (PST)
+Received: by mail-io1-xd2f.google.com with SMTP id m9so15752131iop.0
+        for <linux-doc@vger.kernel.org>; Mon, 06 Dec 2021 21:16:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=qW2P0wCopTvNDp6ptqhrHKepT4Nhi83PA02TJ3HBsz0=;
+        b=oZeOHj16ATRA6HqzDkxZe+9XCsmg0uztVw8Nrwzn1E3SP/6T+SBFyv0xKrOKJmle11
+         KMLHYdW1yl2enuZ47NtugjX0Cz4a4uSqu+vVMXAVx6jNHtDmytUUYwATuGLhDIaW29G/
+         9/2zNVgaFvbbmHE34LtduDmNDvdCXkOinYkPKKvXDeVt5eJbtJmOdnfc0ed4OYj/UXkl
+         yvzcb+HNsFQw75VC7Rke8gCAdgDLXMtCuo/D1NfA/8CL+blRY9u/9ZYb2PmR3Gi7kDgP
+         4z2Pa3HjDTCZMcGklTr2QiEf8MQYSxZvcN5wEiQvcWdpQoU8l+P+yQXNiMW+ilfELXut
+         /KEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=qW2P0wCopTvNDp6ptqhrHKepT4Nhi83PA02TJ3HBsz0=;
+        b=CbEgdhRGkzlh+bOi4N2d3i6n5euK90gchhVKsmaGIKjK7Ve1ZkJnJqhaHLdq4mHfOV
+         3xgLdu+meaa2vqATXTVmWLe2FB7mz+VJ+157wg0fU/BA5c8YhItYhcMWLplEG0n/5PCI
+         zsM1hn2aTPVDFsxJG1mZfMR+csszbkgcJ8l9fjpe8b+zesxzpYKKDycVanHNnJHy31oz
+         rsqaOAeWp9R2QnNQyia50EmcLzc3SfjjuoiC/4NxBXut2dAZ6Mo+8BXvCdoL5vG5u69N
+         kv0RuQCnWv30lIL7x6NUz/J56B+eAq3+EvLb8CihQTgbjlJLdSGOnAgdCweuWN/x2hdW
+         bukg==
+X-Gm-Message-State: AOAM533ZNi/js+kycaUO2bogcx9DG2HQr2/ONrO0mo0AVav0HNaroSoO
+        Vk6Rr38CYzyXvHfexp1XsnoUtejswAMyJQWqHsQ=
+X-Google-Smtp-Source: ABdhPJzPer0K0l2IHOC1vvedXtnWZFiIEPsyrN1YCjhN3bK7X33ZpZn+GJhQMb/BCkLjgdJ7S6h59bQ2nZQKMK9/psg=
+X-Received: by 2002:a05:6602:1813:: with SMTP id t19mr37436528ioh.135.1638854194151;
+ Mon, 06 Dec 2021 21:16:34 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20211202130240.27942-1-tangyizhou@huawei.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.177.232]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpeml500006.china.huawei.com (7.185.36.76)
-X-CFilter-Loop: Reflected
+References: <20211202142312.20052-1-tangyizhou@huawei.com>
+In-Reply-To: <20211202142312.20052-1-tangyizhou@huawei.com>
+From:   Alex Shi <seakeel@gmail.com>
+Date:   Tue, 7 Dec 2021 13:15:58 +0800
+Message-ID: <CAJy-AmkY8AomcT6ZAv=8bsmxutsZt0VfiOhfYrY6P3zT29oewQ@mail.gmail.com>
+Subject: Re: [PATCH] doc/zh-CN: Update cpufreq-stats.rst to make it more readable
+To:     Tang Yizhou <tangyizhou@huawei.com>
+Cc:     Yanteng Si <siyanteng@loongson.cn>, Alex Shi <alexs@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, zhengbin13@huawei.com,
+        tangyeechou@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021/12/2 21:02, Tang Yizhou wrote:
-> These Chinese translations are easier to understand.
-> 
-> Also update the first memeber of struct cpufreq_freqs.
-> 
-> Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
-> Acked-by: Yanteng Si <siyanteng@loongson.cn>
-> Reviewed-by: Alex Shi <alexs@kernel.org>
-> ---
-> v2:
-> 1. Take Yangteng's advice.
-> 2. Add proofreader.
-> 3. Add Acked-by and Reviewed-by tag.
-> 
->  .../translations/zh_CN/cpu-freq/core.rst      | 24 ++++++++++---------
->  1 file changed, 13 insertions(+), 11 deletions(-)
-> 
-> diff --git a/Documentation/translations/zh_CN/cpu-freq/core.rst b/Documentation/translations/zh_CN/cpu-freq/core.rst
-> index 0c6fd447ced6..b3c095306ffe 100644
-> --- a/Documentation/translations/zh_CN/cpu-freq/core.rst
-> +++ b/Documentation/translations/zh_CN/cpu-freq/core.rst
-> @@ -7,7 +7,9 @@
->  
->   司延腾 Yanteng Si <siyanteng@loongson.cn>
->  
-> -.. _cn_core.rst:
-> +:校译:
-> +
-> + 唐艺舟 Tang Yizhou <tangyeechou@gmail.com>
->  
->  ====================================
->  CPUFreq核心和CPUFreq通知器的通用说明
-> @@ -29,10 +31,10 @@ CPUFreq核心和CPUFreq通知器的通用说明
->  ======================
->  
->  cpufreq核心代码位于drivers/cpufreq/cpufreq.c中。这些cpufreq代码为CPUFreq架构的驱
-> -动程序（那些操作硬件切换频率的代码）以及 "通知器 "提供了一个标准化的接口。
-> -这些是设备驱动程序或需要了解策略变化的其它内核部分（如 ACPI 热量管理）或所有频率更改（除
-> -计时代码外），甚至需要强制确定速度限制的通知器（如 ARM 架构上的 LCD 驱动程序）。
-> -此外， 内核 "常数" loops_per_jiffy会根据频率变化而更新。
-> +动程序（那些执行硬件频率切换的代码）以及 "通知器" 提供了一个标准化的接口。
-> +包括设备驱动程序；需要了解策略变化（如 ACPI 热量管理），或所有频率变化（如计时代码），
-> +甚至需要强制限制为指定频率（如 ARM 架构上的 LCD 驱动程序）的其它内核组件。
-> +此外，内核 "常数" loops_per_jiffy 会根据频率变化而更新。
->  
->  cpufreq策略的引用计数由 cpufreq_cpu_get 和 cpufreq_cpu_put 来完成，以确保 cpufreq 驱
->  动程序被正确地注册到核心中，并且驱动程序在 cpufreq_put_cpu 被调用之前不会被卸载。这也保证
-> @@ -41,7 +43,7 @@ cpufreq策略的引用计数由 cpufreq_cpu_get 和 cpufreq_cpu_put 来完成，
->  2. CPUFreq 通知器
->  ====================
->  
-> -CPUFreq通知器符合标准的内核通知器接口。
-> +CPUFreq通知器遵循标准的内核通知器接口。
->  关于通知器的细节请参阅 linux/include/linux/notifier.h。
->  
->  这里有两个不同的CPUfreq通知器 - 策略通知器和转换通知器。
-> @@ -69,20 +71,20 @@ CPUFreq通知器符合标准的内核通知器接口。
->  
->  第三个参数是一个包含如下值的结构体cpufreq_freqs：
->  
-> -=====	====================
-> -cpu	受影响cpu的编号
-> +======	===============================
-> +policy	指向struct cpufreq_policy的指针
->  old	旧频率
->  new	新频率
->  flags	cpufreq驱动的标志
-> -=====	====================
-> +======	===============================
->  
->  3. 含有Operating Performance Point (OPP)的CPUFreq表的生成
->  ==================================================================
->  关于OPP的细节请参阅 Documentation/power/opp.rst
->  
->  dev_pm_opp_init_cpufreq_table -
-> -	这个功能提供了一个随时可用的转换程序，用来将OPP层关于可用频率的内部信息翻译成一种容易提供给
-> -	cpufreq的格式。
-> +	这个函数提供了一个随时可用的转换例程，用来将OPP层关于可用频率的内部信息翻译成一种
-> +	cpufreq易于处理的格式。
->  
->  	.. Warning::
->  
-> 
+On Thu, Dec 2, 2021 at 9:55 PM Tang Yizhou <tangyizhou@huawei.com> wrote:
 
-Hi, jon! Could you please apply this patch? Thanks.
+>
+> -2. =E6=8F=90=E4=BE=9B=E7=9A=84=E7=BB=9F=E8=AE=A1=E6=95=B0=E6=8D=AE(=E4=
+=B8=BE=E4=BE=8B=E8=AF=B4=E6=98=8E)
+> +2. =E5=B7=B2=E6=8F=90=E4=BE=9B=E7=9A=84=E7=BB=9F=E8=AE=A1=E6=95=B0=E6=8D=
+=AE(=E6=9C=89=E4=BE=8B=E5=AD=90)
 
-Tang
+The new one is more oral, the original version seems slightly better
+for a document.
+Such trivial change has no much help for understanding.  IMHO, that's
+not worth for
+correction while there are much of more meaningful document isn't
+translated, like
+Documentation/admin-guide/ etc. Shall we pay more attention on them?
+
+Thanks
+Alex
