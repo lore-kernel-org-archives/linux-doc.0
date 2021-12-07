@@ -2,192 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC0AFC433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Dec 2021 16:30:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA22EC433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Dec 2021 16:44:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234951AbhLGQeI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Dec 2021 11:34:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59241 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231720AbhLGQeH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Dec 2021 11:34:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1638894637;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=ZI8DDXBtMcsQTTWl4J78FS+UoJsIi2WLN7f77nuHbQY=;
-        b=i549l7lYkdVRxvJCN4gMTnyd0QAzH72xWj0aiUWrjI+tpRiu8fcKlblDDGbcUPwem2wa3O
-        Xsln0/00rJIdMcNrFIXiqMK7XwVbUosKytJv1y9mXdDKhYHMUIgS9y0hczieQHtfFFeWnb
-        8/Wci/0kkQ/f2qOPVD6U+VQ8HYnYdbw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-73-egm9lRoFPte4-rOzsNnBVA-1; Tue, 07 Dec 2021 11:30:34 -0500
-X-MC-Unique: egm9lRoFPte4-rOzsNnBVA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5068B8015B7;
-        Tue,  7 Dec 2021 16:30:32 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.160])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 7BE6E60BF1;
-        Tue,  7 Dec 2021 16:30:31 +0000 (UTC)
-From:   Cornelia Huck <cohuck@redhat.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     Alex Williamson <alex.williamson@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
-        Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-        Yishai Hadas <yishaih@nvidia.com>
-Subject: Re: [PATCH RFC v2] vfio: Documentation for the migration region
-In-Reply-To: <20211207155145.GD6385@nvidia.com>
-Organization: Red Hat GmbH
-References: <20211130153541.131c9729.alex.williamson@redhat.com>
- <20211201031407.GG4670@nvidia.com> <20211201130314.69ed679c@omen>
- <20211201232502.GO4670@nvidia.com>
- <20211203110619.1835e584.alex.williamson@redhat.com>
- <87zgpdu3ez.fsf@redhat.com> <20211206173422.GK4670@nvidia.com>
- <87tufltxp0.fsf@redhat.com> <20211206191933.GM4670@nvidia.com>
- <87o85su0kv.fsf@redhat.com> <20211207155145.GD6385@nvidia.com>
-User-Agent: Notmuch/0.34 (https://notmuchmail.org)
-Date:   Tue, 07 Dec 2021 17:30:29 +0100
-Message-ID: <87ilw0tm1m.fsf@redhat.com>
+        id S238729AbhLGQrz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Dec 2021 11:47:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49790 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238722AbhLGQrz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Dec 2021 11:47:55 -0500
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 567C6C061748
+        for <linux-doc@vger.kernel.org>; Tue,  7 Dec 2021 08:44:24 -0800 (PST)
+Received: by mail-wm1-x329.google.com with SMTP id j140-20020a1c2392000000b003399ae48f58so2179124wmj.5
+        for <linux-doc@vger.kernel.org>; Tue, 07 Dec 2021 08:44:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Evtwdp0F9CASt8s98IiNqsHnMJqbM0dH0j742Zmjcgs=;
+        b=QcY/o/w1adog/4VwTjHK+e+xcsur2NL0TkmoVhLdYf2dtij241TiNUyCMyNjaWNH8m
+         2MZzhgX0qRWGIELKj91clucc8g3YsBw86gXyS1TKG2ajPJxZFzIobEnwCE1stUQniy/q
+         +Z3gyoIPtr8ijXRKkyz8B11PoR/vUOfJbv2f65SyT1BiUyIeHRMULGt8al3f6dDvcmle
+         ID44FVG10fmCM/5jkq5S6wOtzVWZuR4fAROko5qeH4FUqyU1dOpInscGp3vS9Tx7qvCo
+         yHCr3XntZd+fU3oMukBaovWt3dAy7RLlx2GPVnV3ORjpjQxstCTTiX2SX1+W3Apmu0CS
+         tONA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Evtwdp0F9CASt8s98IiNqsHnMJqbM0dH0j742Zmjcgs=;
+        b=KA61O0J4Yv6RQuQK5WdO5Q5APr6gt6huKug4Vwk6n2UCVAd/XeRIFjwXdsnAWKVe9P
+         zyLTsSOqvmTrtgfUDhDKti2z/dMx6MBTtrCQdtpYjkLyc+mzQElPIptTzvO12+wK8dXJ
+         6gI2iP5NogGasEWpo4i6GuMJOwWe/X1VDJrMSOKEAydzQ/Af+qKqyAx8M57TToFlyZgu
+         gutcy+G5p0OWguyn0trLwUca+MTOfBXZleIeSWfsNGqUDQaA8aFntK/Q5J3IU35xYxZA
+         eFRk8KMnwaM/4sjznTFhskZHasJk7DHB8W1ze6vHmp8fBTE4ei9QKVNh6jsIX9qmE/G8
+         7SQQ==
+X-Gm-Message-State: AOAM530sxxzjUND+1241U6MpT3XAKL+fxDRsAZabGojy2s3OCQAZqMAa
+        7WKXJ+/Bjwvp/ZVV+1+p+xzlDg==
+X-Google-Smtp-Source: ABdhPJyJxH1wEpFMJ2iJ8B3H7fwk5UFk46IyfHNTSGcmnwxnz1fR7flpDgHrqJfGkPsvrVwJ2i2syQ==
+X-Received: by 2002:a05:600c:2dc1:: with SMTP id e1mr8407723wmh.170.1638895462695;
+        Tue, 07 Dec 2021 08:44:22 -0800 (PST)
+Received: from google.com ([2a00:79e0:d:209:cb8b:b013:316d:b2f1])
+        by smtp.gmail.com with ESMTPSA id z14sm191565wrp.70.2021.12.07.08.44.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Dec 2021 08:44:22 -0800 (PST)
+Date:   Tue, 7 Dec 2021 16:44:18 +0000
+From:   David Brazdil <dbrazdil@google.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Rob Herring <robh+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Hans de Goede <hdegoede@redhat.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Andrew Scull <ascull@google.com>,
+        Will Deacon <will@kernel.org>
+Subject: Re: [PATCH 2/2] misc: dice: Add driver to forward secrets to
+ userspace
+Message-ID: <Ya+PYiP43YxfLS4x@google.com>
+References: <20211207123617.3040177-1-dbrazdil@google.com>
+ <20211207123617.3040177-3-dbrazdil@google.com>
+ <Ya9cwZ94QatewwIc@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Ya9cwZ94QatewwIc@kroah.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 07 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
+Hi Greg,
 
-> On Tue, Dec 07, 2021 at 12:16:32PM +0100, Cornelia Huck wrote:
->> On Mon, Dec 06 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
->> 
->> > On Mon, Dec 06, 2021 at 07:06:35PM +0100, Cornelia Huck wrote:
->> >
->> >> We're discussing a complex topic here, and we really don't want to
->> >> perpetuate an unclear uAPI. This is where my push for more precise
->> >> statements is coming from.
->> >
->> > I appreciate that, and I think we've made a big effort toward that
->> > direction.
->> >
->> > Can we have some crisp feedback which statements need SHOULD/MUST/MUST
->> > NOT and come to something?
->> 
->> I'm not sure what I should actually comment on, some general remarks:
->
-> You should comment on the paragraphs that prevent you from adding a
-> reviewed-by.
+On Tue, Dec 07, 2021 at 02:08:17PM +0100, Greg Kroah-Hartman wrote:
+> On Tue, Dec 07, 2021 at 12:36:17PM +0000, David Brazdil wrote:
+> > Open Profile for DICE is a protocol for deriving unique secrets at boot,
+> > used by some Android devices. The firmware/bootloader hands over secrets
+> > in a reserved memory region, this driver takes ownership of the memory
+> > region and exposes it to userspace via a character device that
+> > lets userspace mmap the memory region into its process.
+> > 
+> > The character device can only be opened once at any given time.
+> 
+> Why?  That should not matter.  And your code (correctly), does not check
+> for that.  So why say that here?
 
-On which copy? There have been updates, and I haven't found a conchise
-email to reply to.
+It does check - open() returns -EBUSY if cmpxchg of the state from READY
+to BUSY fails. I agree this is a bit unconventional but it makes things
+easier to reason about. With multiple open FDs the driver would have to
+wait for all of them to get released before wiping, so one user could
+block the wiping requested by others by holding the FD indefinitely.
+And wiping despite other open FDs seems wrong, too. Is there a better
+way of doing this?
 
->
->> - If we consider a possible vfio-ccw implementation that will quiesce
->>   the device and not rely on tracking I/O, we need to make the parts
->>   that talk about tracking non-mandatory.
->
-> I'm not sure what you mean by 'tracking I/O'?
+> > +#include <linux/cdev.h>
+> > +#include <linux/dice.h>
+> > +#include <linux/io.h>
+> > +#include <linux/mm.h>
+> > +#include <linux/module.h>
+> > +#include <linux/of_reserved_mem.h>
+> > +#include <linux/platform_device.h>
+> > +
+> > +#define DICE_MKDEV		MKDEV(MAJOR(dice_devt), 0)
+> > +#define DICE_MINOR_COUNT	1
+> 
+> Please just use the misc_device api, no need to try to claim a major
+> number for just one device node.  That will simplify your code a lot as
+> well.
 
-MMIO.
+Ok, I'll look into it.
 
->
-> I thought we were good on ccw?
+> > +static int dice_open(struct inode *inode, struct file *filp)
+> > +{
+> > +	struct dice_data *data;
+> > +
+> > +	data = container_of(inode->i_cdev, struct dice_data, cdev);
+> > +
+> > +	/* Never allow write access. */
+> > +	if (filp->f_mode & FMODE_WRITE)
+> > +		return -EROFS;
+> 
+> Why do you care?  Writes just will not work anyway, right?
 
-We are, if we don't make things mandatory that are not needed for
-non-MMIO.
+There is nothing else preventing writes, the reserved memory is just plain
+old RAM.
 
->
->> - NDMA sounds like something that needs to be non-mandatory as well.
->
-> I agree, Alex are we agreed now ?
->
->> - The discussion regarding bit group changes has me confused. You seem
->>   to be saying that mlx5 needs that, so it needs to have some mandatory
->>   component; but are actually all devices able to deal with those bits
->>   changing as a group?
->
-> Yes, all devices can support this as written.
->
-> If you think of the device_state as initiating some action pre bit
-> group then we have multiple bit group that can change at once and thus
-> multiple actions that can be triggered.
->
-> All devices must support userspace initiating actions one by one in a
-> manner that supports the reference flow. 
->
-> Thus, every driver can decompose a request for multiple actions into
-> an ordered list of single actions and execute those actions exactly as
-> if userspace had issued single actions.
->
-> The precedence follows the reference flow so that any conflicts
-> resolve along the path that already has defined behaviors.
-
-Well, yes. I'm just wondering where bit groups are coming in
-then. That's where I'm confused (by the discussion).
-
->
-> I honestly don't know why this is such a discussion point, beyond
-> being a big oversight of the original design.
->
->> - In particular, the flow needs definitive markings about what is
->>   mandatory to implement, what is strongly suggested, and what is
->>   optional. It is unclear to me what is really expected, and what is
->>   simply one way to implement it.
->
-> I'm not sure either, this hasn't been clear at all to me. Alex has
-> asked for things to be general and left undefined, but we need some
-> minimum definition to actually implement driver/VMM interoperability
-> for what we need to do.
->
-> Really what qemu does will set the mandatory to implement.
-
-We really, really need to revisit QEMU before that. I'm staring at the
-code and I'm not quite sure if that really is what we want. We might
-have been too tired after years of review cycles when merging that.
-
->
->> > The world needs to move forward, we can't debate this endlessly
->> > forever. It is already another 6 weeks past since the last mlx5 driver
->> > posting.
->> 
->> 6 weeks is already blazingly fast in any vfio migration discussion. /s
->
-> We've invested a lot of engineer months in this project, it is
-> disrespectful to all of this effort to leave us hanging with no clear
-> path forward and no actionable review comments after so much
-> time. This is another kernel cycle lost.
-
-Well... it's not only you who are spending time on this. I'm trying to
-follow the discussion, which is not easy, and try to come up with
-feedback, which is not easy, either. This is using up a huge chunk of my
-time. Compared with the long and tedious discussions that led to the
-initial code being merged, we're really going very fast. And expecting
-people to drop everything and make a definite desicion quickly when
-there are still open questions on a complex topic does not strike me as
-particularly respectful, either.
-
->
->> Remember that we have other things to do as well, not all of which will
->> be visible to you.
->
-> As do we all, but your name is in the maintainer file, and that comes
-> with some responsibility.
-
-It, however, does not mean that someone listed in MAINTAINERS must
-immediately deal with anything that is thrown at them to the detriment
-of everything else. It *especially* does not mean that someone listed in
-MAINTAINERS is neglecting their responsibilies if things are not going
-as well as you'd hope them to go.
-
-[There is a reason why I have dropped out of some maintainership entries
-recently, the asymmetry of people requiring feedback and merging and
-people actually giving feedback and merging seems to have gotten worse
-over the last years. I can certainly delist myself as a vfio reviewer as
-well, and while that would certainly help my wellbeing, I'm not sure
-whether that is what you want.]
-
+Thanks,
+David
