@@ -2,46 +2,47 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECFF2C433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Dec 2021 09:53:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F116C4332F
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Dec 2021 09:53:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234562AbhLGJ4k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Dec 2021 04:56:40 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:41802 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234557AbhLGJ4j (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Dec 2021 04:56:39 -0500
+        id S234569AbhLGJ4l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Dec 2021 04:56:41 -0500
+Received: from sin.source.kernel.org ([145.40.73.55]:49950 "EHLO
+        sin.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234543AbhLGJ4k (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Dec 2021 04:56:40 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C076EB816FB;
-        Tue,  7 Dec 2021 09:53:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D2D4C341CF;
+        by sin.source.kernel.org (Postfix) with ESMTPS id 325E4CE19B7;
+        Tue,  7 Dec 2021 09:53:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5825AC341C7;
         Tue,  7 Dec 2021 09:53:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1638870787;
-        bh=0PytsfrVRdv9iy/InB8to/JIZPOk8wHLvV5YqU/qYHA=;
+        bh=LEGFpAQA+3z6jGzQpKdJ6GEqmt46E4mEudOvD7V41t4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PE1W76Q5UJSuPHURKKGn+/lSqNbvL6yJUyeUSbr+sWUWpEi+inK4kJPAxifPfrcnM
-         2/KaaGy2RHlMj9ap65jSk1kFmsky+H+6b5B3J6wa2eNJxt1RbZfAGPHeebwsOvOyNI
-         kqFCByEbbk5jXsf7SpJGJdBCklaS+CsM43L9rcWK6lhm9EHPA+m+8Hn1mR4F7m1Zs+
-         fcpF2S/ghwjeSrZ9enGzD+3iccGxwNcI3cIIB+CWABLOZkO2R1xxZVkUbQ3ol4x3tU
-         YCE1YBfyd65yLH5K4khdjw+NK3TVt6ccsSaqKZNf+au8/hBEzmt4nlFYYuqUB3cuIR
-         3a5nG0YWAk70w==
+        b=R3+HiLSYocA36sj7QmWQOBwPG7SO43+DIlzPTGFzcCdHmV3Ldd1kEEclC3JwNNSFM
+         Wyyjf1h01wVl2owP63JpPbIPFj6lmkyEPhgn+7EURjJUtfXWUN2uOvjy+MhgFX/Kg0
+         IvooV8Ws7IS1Swrd/DJ0clO7gazOCe9ZZisuJ5iKEIlRJ3MygZQo8X1fiUULYs8bVW
+         qHsGdjbE9N1rMDPELgvsbYjw9RRHEirjy/86AzTYf+ugae99zndp4MGD+Y/Qm5dreC
+         NF77kLqP0ODragjVY+KYA4yZUMsMwRvBoxgmUvfTHw/Jxg4wU2oijbxHDpTaOFcgv6
+         Ft9tgrqN2Qk1w==
 Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
         (envelope-from <mchehab@kernel.org>)
-        id 1muX9l-00BVtN-B5; Tue, 07 Dec 2021 10:53:05 +0100
+        id 1muX9l-00BVtE-7X; Tue, 07 Dec 2021 10:53:05 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Akira Yokosawa" <akiyks@gmail.com>,
         "Jani Nikula" <jani.nikula@linux.intel.com>,
-        "Randy Dunlap" <rdunlap@infradead.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v4 4/4] docs: add support for RTD dark mode
-Date:   Tue,  7 Dec 2021 10:53:02 +0100
-Message-Id: <90d316e055ef7f4c9021b9eada8f8d3b2e750a66.1638870323.git.mchehab+huawei@kernel.org>
+        =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= 
+        <nfraprado@protonmail.com>, "Randy Dunlap" <rdunlap@infradead.org>,
+        Alex Shi <alexs@kernel.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH v4 1/4] docs: allow selecting a Sphinx theme
+Date:   Tue,  7 Dec 2021 10:52:59 +0100
+Message-Id: <bd20adabfd428fd3cd0e69c2cf146aa354932936.1638870323.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <cover.1638870323.git.mchehab+huawei@kernel.org>
 References: <cover.1638870323.git.mchehab+huawei@kernel.org>
@@ -52,187 +53,133 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is actually an overlay on the top of the RTD theme, which
-requires to include first the RTD theme.
+Instead of having RTD as an almost mandatory theme, allow the
+user to select other themes via DOCS_THEME environment var.
 
-It should be noticed that, when the dark theme is used, the
-DOCS_CSS files won't be the last CSS themes. So, it won't
-override the dark.css style by default. So, it is needed
-to force the them override with "!important".
-
-This small script, for instance, produces a nice output with
-the RTD dark theme:
-
-	DOCS_THEME=sphinx_rtd_dark_mode
-	cat << EOF > dark_override.css
-	  html body {
-	    font-family: arial,helvetica,sans-serif;
-	  }
-	  html[data-theme='dark'] body {
-	    color: white !important;
-	  }
-	  html[data-theme='dark'] .sig-name {
-	    color: green !important;
-	  }
-	  html[data-theme='dark'] .wy-menu-vertical a {
-	    color: #ffcc00 !important;
-	  }
-	  html[data-theme="dark"] h1, html[data-theme="dark"] h2, html[data-theme="dark"] h3 {
-	    color: #ffcc00 !important;
-	  }
-	  html[data-theme="dark"] h4, html[data-theme="dark"] h5, html[data-theme="dark"] h6 {
-	    color: #ffcc00 !important;
-	  }
-	  html[data-theme="dark"] h7, html[data-theme="dark"] h8, html[data-theme="dark"] h9 {
-	    color: #ffcc00 !important;
-	  }
-	  html[data-theme="dark"] .wy-nav-content a, html[data-theme="dark"] .wy-nav-content a:visited {
-	    color: #ffcc00 !important;
-	  }
-	EOF
-
-	make DOCS_CSS=dark_override.css DOCS_THEME=sphinx_rtd_dark_mode htmldocs
+There's a catch, though: as the current theme override logic is
+dependent of the RTD theme, we need to move the code which
+adds the CSS overrides to be inside the RTD theme logic.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
 
 See [PATCH v4 0/4] at: https://lore.kernel.org/all/cover.1638870323.git.mchehab+huawei@kernel.org/
 
- Documentation/conf.py                         | 15 +++++++-
- .../sphinx-static/theme_overrides.css         | 16 +-------
- .../sphinx-static/theme_rtd_colors.css        | 37 +++++++++++++++++++
- 3 files changed, 53 insertions(+), 15 deletions(-)
- create mode 100644 Documentation/sphinx-static/theme_rtd_colors.css
+ Documentation/Makefile             |  3 ++
+ Documentation/conf.py              | 52 +++++++++++++++++-------------
+ Documentation/doc-guide/sphinx.rst |  8 +++++
+ 3 files changed, 41 insertions(+), 22 deletions(-)
 
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index c3feb657b654..11f8b3b9a7ef 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -19,6 +19,7 @@ endif
+ SPHINXBUILD   = sphinx-build
+ SPHINXOPTS    =
+ SPHINXDIRS    = .
++DOCS_THEME    =
+ _SPHINXDIRS   = $(sort $(patsubst $(srctree)/Documentation/%/index.rst,%,$(wildcard $(srctree)/Documentation/*/index.rst)))
+ SPHINX_CONF   = conf.py
+ PAPER         =
+@@ -154,4 +155,6 @@ dochelp:
+ 	@echo  '  make SPHINX_CONF={conf-file} [target] use *additional* sphinx-build'
+ 	@echo  '  configuration. This is e.g. useful to build with nit-picking config.'
+ 	@echo
++	@echo '   make DOCS_THEME={sphinx-theme} selects a different Sphinx theme.'
++	@echo
+ 	@echo  '  Default location for the generated documents is Documentation/output'
 diff --git a/Documentation/conf.py b/Documentation/conf.py
-index c8efe82d1404..f07f2e9b9f2c 100644
+index 76e5eb5cb62b..9a6a1009c2c4 100644
 --- a/Documentation/conf.py
 +++ b/Documentation/conf.py
-@@ -215,7 +215,7 @@ html_css_files = []
- if "DOCS_THEME" in os.environ:
-     html_theme = os.environ["DOCS_THEME"]
+@@ -208,16 +208,36 @@ highlight_language = 'none'
+ # The theme to use for HTML and HTML Help pages.  See the documentation for
+ # a list of builtin themes.
  
--if html_theme == 'sphinx_rtd_theme':
-+if html_theme == 'sphinx_rtd_theme' or html_theme == 'sphinx_rtd_dark_mode':
-     # Read the Docs theme
-     try:
-         import sphinx_rtd_theme
-@@ -227,6 +227,19 @@ if html_theme == 'sphinx_rtd_theme':
-         html_css_files = [
-             'theme_overrides.css',
-         ]
+-# The Read the Docs theme is available from
+-# - https://github.com/snide/sphinx_rtd_theme
+-# - https://pypi.python.org/pypi/sphinx_rtd_theme
+-# - python-sphinx-rtd-theme package (on Debian)
+-try:
+-    import sphinx_rtd_theme
+-    html_theme = 'sphinx_rtd_theme'
+-    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+-except ImportError:
+-    sys.stderr.write('Warning: The Sphinx \'sphinx_rtd_theme\' HTML theme was not found. Make sure you have the theme installed to produce pretty HTML output. Falling back to the default theme.\n')
++# Default theme
++html_theme = 'sphinx_rtd_theme'
 +
-+        # Read the Docs dark mode override theme
-+        if html_theme == 'sphinx_rtd_dark_mode':
-+            try:
-+                import sphinx_rtd_dark_mode
-+                extensions.append('sphinx_rtd_dark_mode')
-+            except ImportError:
-+                html_theme == 'sphinx_rtd_theme'
++if "DOCS_THEME" in os.environ:
++    html_theme = os.environ["DOCS_THEME"]
 +
-+        if html_theme == 'sphinx_rtd_theme':
-+                # Add color-specific RTD normal mode
-+                html_css_files.append('theme_rtd_colors.css')
++if html_theme == 'sphinx_rtd_theme':
++    # Read the Docs theme
++    try:
++        import sphinx_rtd_theme
++        html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 +
-     except ImportError:
-         html_theme = 'classic'
- 
-diff --git a/Documentation/sphinx-static/theme_overrides.css b/Documentation/sphinx-static/theme_overrides.css
-index 459ec5b29d68..f6f2b941a5d6 100644
---- a/Documentation/sphinx-static/theme_overrides.css
-+++ b/Documentation/sphinx-static/theme_overrides.css
-@@ -1,14 +1,14 @@
- /* -*- coding: utf-8; mode: css -*-
-  *
-  * Sphinx HTML theme customization: read the doc
-- *
-+ * Please don't add any color definition here, as the theme should
-+ * work for both normal and dark modes.
-  */
- 
- /* Improve contrast and increase size for easier reading. */
- 
- body {
- 	font-family: serif;
--	color: black;
- 	font-size: 100%;
- }
- 
-@@ -16,17 +16,8 @@ h1, h2, .rst-content .toctree-wrapper p.caption, h3, h4, h5, h6, legend {
- 	font-family: sans-serif;
- }
- 
--.wy-menu-vertical li.current a {
--	color: #505050;
--}
--
--.wy-menu-vertical li.on a, .wy-menu-vertical li.current > a {
--	color: #303030;
--}
--
- div[class^="highlight"] pre {
- 	font-family: monospace;
--	color: black;
- 	font-size: 100%;
- }
- 
-@@ -104,13 +95,10 @@ div[class^="highlight"] pre {
-     /* Menu selection and keystrokes */
- 
-     span.menuselection {
--	color: blue;
- 	font-family: "Courier New", Courier, monospace
-     }
- 
-     code.kbd, code.kbd span {
--	color: white;
--	background-color: darkblue;
- 	font-weight: bold;
- 	font-family: "Courier New", Courier, monospace
-     }
-diff --git a/Documentation/sphinx-static/theme_rtd_colors.css b/Documentation/sphinx-static/theme_rtd_colors.css
-new file mode 100644
-index 000000000000..55b6e1c3664b
---- /dev/null
-+++ b/Documentation/sphinx-static/theme_rtd_colors.css
-@@ -0,0 +1,37 @@
-+/* -*- coding: utf-8; mode: css -*-
-+ *
-+ * Sphinx HTML theme customization: color settings for RTD (non-dark) theme
-+ *
-+ */
++        # Add any paths that contain custom static files (such as style sheets) here,
++        # relative to this directory. They are copied after the builtin static files,
++        # so a file named "default.css" will overwrite the builtin "default.css".
++        html_css_files = [
++            'theme_overrides.css',
++        ]
++    except ImportError:
++        html_theme = 'classic'
 +
-+/* Improve contrast and increase size for easier reading. */
-+
-+body {
-+	color: black;
-+}
-+
-+.wy-menu-vertical li.current a {
-+	color: #505050;
-+}
-+
-+.wy-menu-vertical li.on a, .wy-menu-vertical li.current > a {
-+	color: #303030;
-+}
-+
-+div[class^="highlight"] pre {
-+	color: black;
-+}
-+
-+@media screen {
-+
-+    /* Menu selection and keystrokes */
-+
-+    span.menuselection {
-+	color: blue;
++if major <= 1 and minor < 8:
++    html_context = {
++        'css_files': [],
 +    }
 +
-+    code.kbd, code.kbd span {
-+	color: white;
-+	background-color: darkblue;
-+    }
-+}
++    for l in html_css_files:
++        html_context['css_files'].append('_static/' + l)
++
++sys.stderr.write("Using %s theme\n" % html_theme)
+ 
+ # Theme options are theme-specific and customize the look and feel of a theme
+ # further.  For a list of options available for each theme, see the
+@@ -246,20 +266,8 @@ except ImportError:
+ # Add any paths that contain custom static files (such as style sheets) here,
+ # relative to this directory. They are copied after the builtin static files,
+ # so a file named "default.css" will overwrite the builtin "default.css".
+-
+ html_static_path = ['sphinx-static']
+ 
+-html_css_files = [
+-    'theme_overrides.css',
+-]
+-
+-if major <= 1 and minor < 8:
+-    html_context = {
+-        'css_files': [
+-            '_static/theme_overrides.css',
+-        ],
+-    }
+-
+ # Add any extra paths that contain custom files (such as robots.txt or
+ # .htaccess) here, relative to this directory. These files are copied
+ # directly to the root of the documentation.
+diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
+index e445cb146efe..bef276c58ebe 100644
+--- a/Documentation/doc-guide/sphinx.rst
++++ b/Documentation/doc-guide/sphinx.rst
+@@ -138,6 +138,14 @@ To pass extra options to Sphinx, you can use the ``SPHINXOPTS`` make
+ variable. For example, use ``make SPHINXOPTS=-v htmldocs`` to get more verbose
+ output.
+ 
++By default, the build will try to use the Read the Docs sphinx theme:
++
++    https://github.com/readthedocs/sphinx_rtd_theme
++
++If the theme is not available, it will fall-back to the classic one.
++
++The Sphinx theme can be overriden by using the ``DOCS_THEME`` make variable.
++
+ To remove the generated documentation, run ``make cleandocs``.
+ 
+ Writing Documentation
 -- 
 2.33.1
 
