@@ -2,462 +2,488 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6CAEC433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Dec 2021 05:53:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08AE2C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Dec 2021 07:46:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229487AbhLGF5C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Dec 2021 00:57:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35952 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231454AbhLGF5B (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Dec 2021 00:57:01 -0500
-Received: from mail-ua1-x935.google.com (mail-ua1-x935.google.com [IPv6:2607:f8b0:4864:20::935])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03DD3C061354
-        for <linux-doc@vger.kernel.org>; Mon,  6 Dec 2021 21:53:31 -0800 (PST)
-Received: by mail-ua1-x935.google.com with SMTP id p37so24342139uae.8
-        for <linux-doc@vger.kernel.org>; Mon, 06 Dec 2021 21:53:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=aqHDZyVf7fgTG+ga4HpiYWXkGhE03mIlODLJWPiIug8=;
-        b=J2Jkd1scsl/Ir3tRrbckF2npsOaQqjjAW/UmvV0ujnObQrY1FjXxwDKXiAKRGKxzeY
-         HXiJjSIHsvffAy3OvO8RIS0a8m7E7a6GaW7K3UU+n75FP2/aJD9Uk85fbaxrOL5hwMbi
-         5qnUenhP/SQZDN5H1b3Q7OHd2i8y2/DLRjQ5NOULxwugwP3iV/48n4IJJtDqBsq0vA2n
-         wIi5Ngwcm8aenTWCS72CcjSGw6hRaLz2NSx6EGIKnhKQsR/WnD/4rfwMbiCSgAOhG6qF
-         FlgRN2t2VQ8ge8ABMiChNed0a5Z3uZhjmgFxXwrRaIkzaT4mfrccOhscyaEDXAumKCvg
-         NQcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=aqHDZyVf7fgTG+ga4HpiYWXkGhE03mIlODLJWPiIug8=;
-        b=5B9WUi1uAezAawG6He4t6IEHt25VWW/mOq00W0AIMxa54tXbTFeLhgLIzLuTvNPKYU
-         lNqIMvjbkROIFiTQnUVMO8sTzmLWV54+Ywa4Eu4WUrC8tRVrEIIFQN2v0/zK9I5Gv0jJ
-         za/UoPpWtOQOvRtMpXauihHWhFK4mMiluwxqR43ZRPJWdNvf03S/4yTvT+4BQzgrK6c9
-         XY+e+PVbcsgkYSRFjiMzbeX2Eyr8XWI3c6p+I6D8WRZfhSY9MzeCodk0KdHYl4y+tGHv
-         QaV6derNAblioiPBbPOOTycfa5aDj0B8uM233LK3JQUbXUC6Rt4xq15Ca9p9T4bajBL9
-         OmPQ==
-X-Gm-Message-State: AOAM533KTjoG6bSA3BlvSDDmPCTcezTzTv/rS0gpTVLd/Q7i6ChpuHJ8
-        22/hK0/xAzN5ROLsLTqL+qBLjt2YmpM+/aXJLfSuyg==
-X-Google-Smtp-Source: ABdhPJx5tzzHjJaJCjXh6SUaHfrTZx90R4esWq2ZOoRDdPHClFW0Ma69W24nkEyg16IBMm0PQWepsiaB2BRjQzWVc8I=
-X-Received: by 2002:a05:6102:a4a:: with SMTP id i10mr42041933vss.47.1638856410752;
- Mon, 06 Dec 2021 21:53:30 -0800 (PST)
+        id S231301AbhLGHtu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Dec 2021 02:49:50 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:28281 "EHLO
+        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231256AbhLGHtt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Dec 2021 02:49:49 -0500
+Received: from dggpeml500025.china.huawei.com (unknown [172.30.72.55])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4J7XRL1plNzbjP4;
+        Tue,  7 Dec 2021 15:46:06 +0800 (CST)
+Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
+ dggpeml500025.china.huawei.com (7.185.36.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Tue, 7 Dec 2021 15:46:12 +0800
+Received: from [10.174.177.232] (10.174.177.232) by
+ dggpeml500006.china.huawei.com (7.185.36.76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Tue, 7 Dec 2021 15:46:11 +0800
+Subject: Re: [PATCH 1/1] docs/zh_CN: Add sched-capacity translation
+To:     Alex Shi <seakeel@gmail.com>
+CC:     Yanteng Si <siyanteng@loongson.cn>,
+        yanteng si <siyanteng01@gmail.com>,
+        Alex Shi <alexs@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, <zhengbin13@huawei.com>,
+        <tangyeechou@gmail.com>
+References: <20211206090911.26487-1-tangyizhou@huawei.com>
+ <20211206090911.26487-2-tangyizhou@huawei.com>
+ <CAJy-Am=C4A6FBV2P4nB3zPsP7NbFn6nyhqT2wB9+dgEa2V-0pQ@mail.gmail.com>
+From:   Tang Yizhou <tangyizhou@huawei.com>
+Message-ID: <f01d3083-c1d6-54c1-fb5a-2d00b2357762@huawei.com>
+Date:   Tue, 7 Dec 2021 15:46:11 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.1.1
 MIME-Version: 1.0
-References: <20211203042437.740255-1-sharinder@google.com> <20211203042437.740255-3-sharinder@google.com>
- <BYAPR13MB25033EC6C480D74E59D6DE75FD6A9@BYAPR13MB2503.namprd13.prod.outlook.com>
-In-Reply-To: <BYAPR13MB25033EC6C480D74E59D6DE75FD6A9@BYAPR13MB2503.namprd13.prod.outlook.com>
-From:   Harinder Singh <sharinder@google.com>
-Date:   Tue, 7 Dec 2021 11:23:20 +0530
-Message-ID: <CAHLZCaEqr-0OipzKhDRXgtqrYqxNT6rNWpk5orFY0m5mYFdb2Q@mail.gmail.com>
-Subject: Re: [PATCH v1 2/7] Documentation: KUnit: Rewrite getting started
-To:     tim.bird@sony.com
-Cc:     davidgow@google.com, brendanhiggins@google.com, shuah@kernel.org,
-        corbet@lwn.net, linux-kselftest@vger.kernel.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAJy-Am=C4A6FBV2P4nB3zPsP7NbFn6nyhqT2wB9+dgEa2V-0pQ@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.177.232]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpeml500006.china.huawei.com (7.185.36.76)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Tim,
+On 2021/12/7 13:37, Alex Shi wrote:
+> On Mon, Dec 6, 2021 at 4:41 PM Tang Yizhou <tangyizhou@huawei.com> wrote:
+>>
+>> Translate scheduler/sched-capacity.rst into Chinese.
+>>
+>> Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
+>> ---
+>>  .../translations/zh_CN/sched-capacity.rst     | 383 ++++++++++++++++++
+>>  1 file changed, 383 insertions(+)
+>>  create mode 100644 Documentation/translations/zh_CN/sched-capacity.rst
+>>
+>> diff --git a/Documentation/translations/zh_CN/sched-capacity.rst b/Documentation/translations/zh_CN/sched-capacity.rst
+>> new file mode 100644
+>> index 000000000000..30c258144881
+>> --- /dev/null
+>> +++ b/Documentation/translations/zh_CN/sched-capacity.rst
+>> @@ -0,0 +1,383 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +.. include:: ../disclaimer-zh_CN.rst
+>> +
+>> +:Original: Documentation/scheduler/sched-capacity.rst
+>> +
+>> +:翻译:
+>> +
+>> +       唐艺舟 Tang Yizhou <tangyeechou@gmail.com>
+>> +
+>> +================
+>> +capacity感知调度
+>> +================
+>> +
+>> +1. CPU Capacity
+>> +===============
+>> +
+>> +1.1 简介
+>> +--------
+>> +
+>> +一般来说，同构的SMP平台由完全相同的CPU构成。异构的平台则由性能特征不同的CPU构成，
+>> +在这样的平台中，CPU不能被认为是相同的。
+>> +
+>> +我们引入CPU capacity的概念来测量每个CPU能达到的性能，它的值相对系统中性能最强的CPU做过归一化处理。
+>> +异构系统也被称为非对称CPU capacity系统，因为它们由不同capacity的CPU组成。
+>> +
+>> +最大可达性能（换言之，最大CPU capacity）的差异有两个主要来源:
+>> +
+>> +- 不是所有CPU的微架构都相同。
+>> +- 在动态电压频率升降（Dynamic Voltage and Frequency Scaling ，DVFS）框架中，
+>> +  不是所有的CPU都能达到一样高的可操作性能点（Operating Performance Points，OPP。译注，也就是“频率-电压”对）。
+>> +
+>> +Arm big.LITTLE系统是同时具有两种差异的一个例子。相较LITTLE CPUs，big CPUs面向性能
+>> +（拥有更多的pipeline stages，更大的cache，更智能的predictors等），通常可以达到更高的OPP。
+>> +
+>> +一般来说，同构的SMP平台由完全相同的CPU构成。异构的平台则由性能特征不同的CPU构成，在这样的平台中，CPU不能被认为是相同的。
+> 
+> Good job!
+> Just the line is too long. Enghlish word should leass than 80 chars,
+> for Chinese should less than 40 chars.
 
-Thanks for the review comments.
+After reading some English documents, I find the length of a single line
+usually is 80 columns. But sometimes this rule is not followed.
 
-I incorporated your comments in v2 here:
-https://lore.kernel.org/linux-kselftest/20211207054019.1455054-3-sharinder@google.com/
+As Linus mentioned earlier this year, perhaps we can apply a longer
+length limit. I suggest 60 chars for Chinese (120 chars for English).
 
-Please see my comments below.
+This document is written without exceeding 60 columns at most times.
+I will fix the lines which are too long.
 
-On Sat, Dec 4, 2021 at 12:04 AM <Tim.Bird@sony.com> wrote:
->
->
->
-> > -----Original Message-----
-> > From: Harinder Singh <sharinder@google.com>
-> > Sent: Thursday, December 2, 2021 9:25 PM
-> > To: davidgow@google.com; brendanhiggins@google.com; shuah@kernel.org; corbet@lwn.net
-> > Cc: linux-kselftest@vger.kernel.org; kunit-dev@googlegroups.com; linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org; Harinder
-> > Singh <sharinder@google.com>
-> > Subject: [PATCH v1 2/7] Documentation: KUnit: Rewrite getting started
-> >
-> > Clarify the purpose of kunit_tool and fixed consistency issues
-> >
-> > Signed-off-by: Harinder Singh <sharinder@google.com>
-> > ---
-> >  Documentation/dev-tools/kunit/start.rst | 192 ++++++++++++------------
-> >  1 file changed, 98 insertions(+), 94 deletions(-)
-> >
-> > diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-tools/kunit/start.rst
-> > index 1e00f9226f74..04b6b6a37488 100644
-> > --- a/Documentation/dev-tools/kunit/start.rst
-> > +++ b/Documentation/dev-tools/kunit/start.rst
-> > @@ -4,132 +4,131 @@
-> >  Getting Started
-> >  ===============
-> >
-> > -Installing dependencies
-> > +Installing Dependencies
-> >  =======================
-> > -KUnit has the same dependencies as the Linux kernel. As long as you can build
-> > -the kernel, you can run KUnit.
-> > +KUnit has the same dependencies as the Linux kernel. As long as you can
-> > +build the kernel, you can run KUnit.
-> >
-> > -Running tests with the KUnit Wrapper
-> > -====================================
-> > -Included with KUnit is a simple Python wrapper which runs tests under User Mode
-> > -Linux, and formats the test results.
-> > -
-> > -The wrapper can be run with:
-> > +Running tests with kunit_tool
-> > +=============================
-> > +kunit_tool is a Python script, which configures and build a kernel, runs
->
-> build -> builds
+> 
+> with the change
+> 
+> Reviewed-by: Alex Shi <alexs@kernel.org>
+> 
+>> +（比如终端设备的ARM CPU可能包含大、中、小三个性能不同的cluster，每个cluster中的CPU性能相同）::
+> 
+> I see 'sluster' was translated as 集 or 簇， could we change to them? or
+> keep the English, it's up to you.
 
-Done
+This tranlation is added by me. There isn't a corresponding sentence in
+the English version. I'll delete it in the next patch.
+ 
+> 
+> Thanks
+> Alex
+> 
+>> +
+>> +  capacity(cpu) = work_per_hz(cpu) * max_freq(cpu)
+>> +
+>> +1.2 调度器术语
+>> +--------------
+>> +
+>> +调度器使用了两种不同的capacity值。CPU的 ``capacity_orig`` 是它的最大可达capacity，即最大可达性能等级。
+>> +CPU的 ``capacity`` 是 ``capacity_orig`` 扣除了一些性能损失（比如处理中断的耗时）的值。
+>> +
+>> +注意CPU的 ``capacity`` 仅仅被设计用于CFS调度类，而 ``capacity_orig`` 是不感知调度类的。
+>> +为简洁起见，本文档的剩余部分将不加区分的使用术语 ``capacity`` 和 ``capacity_orig`` 。
+>> +
+>> +1.3 平台示例
+>> +------------
+>> +
+>> +1.3.1 OPP相同
+>> +~~~~~~~~~~~~~
+>> +
+>> +考虑一个假想的双核非对称CPU capacity系统，其中
+>> +
+>> +- work_per_hz(CPU0) = W
+>> +- work_per_hz(CPU1) = W/2
+>> +- 所有CPU以相同的固定频率运行
+>> +
+>> +根据上文对capacity的定义:
+>> +
+>> +- capacity(CPU0) = C
+>> +- capacity(CPU1) = C/2
+>> +
+>> +若这是Arm big.LITTLE系统，CPU0是big CPU，而CPU1是LITTLE CPU。
+>> +
+>> +考虑一种周期性产生固定工作量的工作负载，你将会得到类似下图的执行轨迹::
+>> +
+>> + CPU0 work ^
+>> +           |     ____                ____                ____
+>> +           |    |    |              |    |              |    |
+>> +           +----+----+----+----+----+----+----+----+----+----+-> time
+>> +
+>> + CPU1 work ^
+>> +           |     _________           _________           ____
+>> +           |    |         |         |         |         |
+>> +           +----+----+----+----+----+----+----+----+----+----+-> time
+>> +
+>> +CPU0在系统中具有最高capacity（C），它使用T个单位时间完成固定工作量W。
+>> +另一方面，CPU1只有CPU0一半capacity，因此在T个单位时间内仅完成工作量W/2。
+>> +
+>> +1.3.2 最大OPP不同
+>> +~~~~~~~~~~~~~~~~~
+>> +
+>> +具有不同capacity值的CPU，通常来说最大OPP也不同。考虑上一小节提到的CPU（也就是说，work_per_hz()相同）:
+>> +
+>> +- max_freq(CPU0) = F
+>> +- max_freq(CPU1) = 2/3 * F
+>> +
+>> +这将推出：
+>> +
+>> +- capacity(CPU0) = C
+>> +- capacity(CPU1) = C/3
+>> +
+>> +执行1.3.1节描述的工作负载，每个CPU按最大频率运行，结果为::
+>> +
+>> + CPU0 work ^
+>> +           |     ____                ____                ____
+>> +           |    |    |              |    |              |    |
+>> +           +----+----+----+----+----+----+----+----+----+----+-> time
+>> +
+>> +                            workload on CPU1
+>> + CPU1 work ^
+>> +           |     ______________      ______________      ____
+>> +           |    |              |    |              |    |
+>> +           +----+----+----+----+----+----+----+----+----+----+-> time
+>> +
+>> +1.4 关于计算方式的注意事项
+>> +--------------------------
+>> +
+>> +需要注意的是，使用单一值来表示CPU性能的差异是有些争议的。
+>> +两个不同的微架构的相对性能差异应该描述为：X%整数运算差异，Y%浮点数运算差异，Z%分支跳转差异，等等。
+>> +尽管如此，使用简单计算方式的结果目前还是令人满意的。
+>> +
+>> +2. 任务使用率 Task utilization
+>> +==============================
+>> +
+>> +2.1 简介
+>> +--------
+>> +
+>> +capacity感知调度要求描述任务需求，描述方式要和CPU capacity相关。
+>> +每个调度类可以用不同的方式描述它。任务使用率是CFS独有的描述方式，不过在这里介绍它有助于引入更多一般性的概念。
+>> +
+>> +任务使用率是一种用百分比来描述任务吞吐率需求的方式。一个简单的近似是任务的占空比，也就是说::
+>> +
+>> +  task_util(p) = duty_cycle(p)
+>> +
+>> +在频率固定的SMP系统中，100%的利用率意味着任务是忙等待循环。反之，10%的利用率暗示这是一个小周期任务，
+>> +它在睡眠上花费的时间比执行更多。
+>> +
+>> +2.2 频率不变性 Frequency invariance
+>> +-----------------------------------
+>> +
+>> +一个需要考虑的议题是，工作负载的占空比受CPU正在运行的OPP直接影响。考虑以给定的频率F执行周期性工作负载::
+>> +
+>> +  CPU work ^
+>> +           |     ____                ____                ____
+>> +           |    |    |              |    |              |    |
+>> +           +----+----+----+----+----+----+----+----+----+----+-> time
+>> +
+>> +可以算出 duty_cycle(p) == 25%。
+>> +
+>> +现在，考虑以给定频率F/2执行 *同一个* 工作负载::
+>> +
+>> +  CPU work ^
+>> +           |     _________           _________           ____
+>> +           |    |         |         |         |         |
+>> +           +----+----+----+----+----+----+----+----+----+----+-> time
+>> +
+>> +可以算出 duty_cycle(p) == 50%，尽管两次执行中，任务的行为完全一致（也就是说，执行的工作量相同）。
+>> +
+>> +任务利用率信号可按下面公式处理成频率不变的（译注：这里的术语用到了信号与系统的概念）::
+>> +
+>> +  task_util_freq_inv(p) = duty_cycle(p) * (curr_frequency(cpu) / max_frequency(cpu))
+>> +
+>> +对上面两个例子运用该公式，可以算出频率不变的任务利用率均为25%。
+>> +
+>> +2.3 CPU不变性 CPU invariance
+>> +----------------------------
+>> +
+>> +CPU capacity与任务利用率具有类型的效应，在capacity不同的CPU上执行完全相同的工作负载，
+>> +将算出不同的占空比。
+>> +
+>> +考虑1.3.2节提到的系统，也就是说::
+>> +
+>> +- capacity(CPU0) = C
+>> +- capacity(CPU1) = C/3
+>> +
+>> +每个CPU按最大频率执行指定周期性工作负载，结果为::
+>> +
+>> + CPU0 work ^
+>> +           |     ____                ____                ____
+>> +           |    |    |              |    |              |    |
+>> +           +----+----+----+----+----+----+----+----+----+----+-> time
+>> +
+>> + CPU1 work ^
+>> +           |     ______________      ______________      ____
+>> +           |    |              |    |              |    |
+>> +           +----+----+----+----+----+----+----+----+----+----+-> time
+>> +
+>> +也就是说，
+>> +
+>> +- duty_cycle(p) == 25%，如果任务p在CPU0上按最大频率运行。
+>> +- duty_cycle(p) == 75%，如果任务p在CPU1上按最大频率运行。
+>> +
+>> +任务利用率信号可按下面公式处理成CPU容量不变的::
+>> +
+>> +  task_util_cpu_inv(p) = duty_cycle(p) * (capacity(cpu) / max_capacity)
+>> +
+>> +其中 ``max_capacity`` 是系统中最高的CPU capacity。对上面的例子运用该公式，
+>> +可以算出CPU capacity不变的任务利用率均为25%。
+>> +
+>> +2.4 任务利用率不变量 Invariant task utilization
+>> +-----------------------------------------------
+>> +
+>> +频率和CPU capacity不变性都需要被应用到任务利用率的计算中，以便求出真正的不变信号。
+>> +任务利用率的伪计算公式是同时具备CPU和频率不变性的，也就是说，对于指定任务p::
+>> +
+>> +                                     curr_frequency(cpu)   capacity(cpu)
+>> +  task_util_inv(p) = duty_cycle(p) * ------------------- * -------------
+>> +                                     max_frequency(cpu)    max_capacity
+>> +
+>> +也就是说，任务利用率不变量假定任务在系统中最高capacity CPU上以最高频率运行，以此描述任务的行为。
+>> +
+>> +在接下来的章节中提到的任何任务利用率，均是不变量的形式。
+>> +
+>> +2.5 利用率估算
+>> +--------------
+>> +
+>> +由于预测未来的水晶球不存在，当任务第一次变成可运行时，任务的行为和任务利用率均不能被准确预测。
+>> +CFS调度类基于实体负载跟踪机制（Per-Entity Load Tracking, PELT）维护了少量CPU和任务信号，
+>> +其中之一可以算出平均利用率（与瞬时相反）。
+>> +
+>> +这意味着，尽管运用“真实的”任务利用率（凭借水晶球）写出capacity感知调度的准则，
+>> +但是它的实现将只能用任务利用率的估算值。
+>> +
+>> +3. capacity感知调度的需求
+>> +=========================
+>> +
+>> +3.1 CPU capacity
+>> +----------------
+>> +
+>> +当前，Linux无法凭自身算出CPU capacity，因此必须要有把这个信息传递给Linux的方式。
+>> +每个架构必须为此定义arch_scale_cpu_capacity()函数。
+>> +
+>> +arm和arm64架构直接把这个信息映射到arch_topology驱动的CPU scaling数据中
+>> +（译注：参考arch_topology.h的percpu变量cpu_scale），
+>> +它是从capacity-dmips-mhz CPU binding中衍生计算出来的。参见
+>> +Documentation/devicetree/bindings/arm/cpu-capacity.txt。
+>> +
+>> +3.2 Frequency invariance
+>> +------------------------
+>> +
+>> +如2.2节所述，capacity感知调度需要频率不变的任务利用率。
+>> +每个架构必须为此定义arch_scale_freq_capacity(cpu)函数。
+>> +
+>> +实现该函数要求计算出每个CPU当前以什么频率在运行。实现它的一种方式是利用硬件计数器
+>> +（x86的APERF/MPERF，arm64的AMU），它能按CPU当前频率动态可扩展地升降递增计数器的速率。
+>> +另一种方式是在cpufreq频率变化时直接使用钩子函数，内核此时感知到将要被切换的频率（也被arm/arm64实现了）。
+>> +
+>> +4. 调度器拓扑结构
+>> +=================
+>> +
+>> +在构建调度域时，调度器将会发现系统是否表现为非对称CPU capacity。如果是，那么：
+>> +
+>> +- sched_asym_cpucapacity static key将使能。
+>> +- SD_ASYM_CPUCAPACITY_FULL标志位将在尽量最低调度域层级中被设置，同时要满足条件：
+>> +  调度域恰好完整包含某个CPU capacity值的全部CPU。
+>> +- SD_ASYM_CPUCAPACITY标志将在所有包含非对称CPU的调度域中被设置。
+>> +
+>> +sched_asym_cpucapacity static key的设计意图是，保护为非对称CPU capacity系统所准备的代码。
+>> +不过要注意的是，这个key是系统范围可见的。想象下面使用了cpuset的步骤::
+>> +
+>> +  capacity    C/2          C
+>> +            ________    ________
+>> +           /        \  /        \
+>> +  CPUs     0  1  2  3  4  5  6  7
+>> +           \__/  \______________/
+>> +  cpusets   cs0         cs1
+>> +
+>> +可以通过下面的方式创建：
+>> +
+>> +.. code-block:: sh
+>> +
+>> +  mkdir /sys/fs/cgroup/cpuset/cs0
+>> +  echo 0-1 > /sys/fs/cgroup/cpuset/cs0/cpuset.cpus
+>> +  echo 0 > /sys/fs/cgroup/cpuset/cs0/cpuset.mems
+>> +
+>> +  mkdir /sys/fs/cgroup/cpuset/cs1
+>> +  echo 2-7 > /sys/fs/cgroup/cpuset/cs1/cpuset.cpus
+>> +  echo 0 > /sys/fs/cgroup/cpuset/cs1/cpuset.mems
+>> +
+>> +  echo 0 > /sys/fs/cgroup/cpuset/cpuset.sched_load_balance
+>> +
+>> +由于“这是”非对称CPU capacity系统，sched_asym_cpucapacity static key将使能。
+>> +然而，CPU 0--1对应的调度域层级，capacity值仅有一个，该层级中SD_ASYM_CPUCAPACITY未被设置，
+>> +它描述的是一个SMP区域，也应该被以此处理。
+>> +
+>> +因此，“典型的”保护非对称CPU capacity代码路径的代码模式是：
+>> +
+>> +- 检查sched_asym_cpucapacity static key
+>> +- 如果它被使能，接着检查调度域层级中SD_ASYM_CPUCAPACITY标志位是否出现
+>> +
+>> +5. capacity感知调度的实现
+>> +=========================
+>> +
+>> +5.1 CFS
+>> +-------
+>> +
+>> +5.1.1 capacity适应性（fitness）
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +CFS最主要的capacity调度准则是::
+>> +
+>> +  task_util(p) < capacity(task_cpu(p))
+>> +
+>> +它通常被称为capacity适应性准则。也就是说，CFS必须保证任务“适合”在某个CPU上运行。
+>> +如果准则被违反，任务将要更长地消耗该CPU，任务是CPU受限的（CPU-bound）。
+>> +
+>> +此外，uclamp允许用户空间指定任务的最小和最大利用率，要么以sched_setattr()的方式，
+>> +要么以cgroup接口的方式（参阅Documentation/admin-guide/cgroup-v2.rst）。
+>> +如其名字所暗示，uclamp可以被用在前一条准则中限制task_util()。
+>> +
+>> +5.1.2 被唤醒任务的CPU选择
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +CFS任务唤醒的CPU选择，遵循上面描述的capacity适应性准则。在此之上，uclamp被用来限制任务利用率，
+>> +这令用户空间对CFS任务的CPU选择有更多的控制。也就是说，CFS被唤醒任务的CPU选择，搜索满足以下条件的CPU::
+>> +
+>> +  clamp(task_util(p), task_uclamp_min(p), task_uclamp_max(p)) < capacity(cpu)
+>> +
+>> +通过使用uclamp，举例来说，用户空间可以允许忙等待循环（100%使用率）在任意CPU上运行，
+>> +只要给它设置低的uclamp.max值。相反，uclamp能强制一个小的周期性任务（比如，10%利用率）
+>> +在最高性能的CPU上运行，只要给它设置高的uclamp.min值。
+>> +
+>> +.. note::
+>> +
+>> +  CFS的被唤醒的任务的CPU选择，可被能耗感知调度（Energy Aware Scheduling，EAS）
+>> +  覆盖，在Documentation/scheduler/sched-energy.rst中描述。
+>> +
+>> +5.1.3 负载均衡
+>> +~~~~~~~~~~~~~~
+>> +
+>> +被唤醒任务的CPU选择的一个病理性的例子是，任务几乎不睡眠，那么也几乎不发生唤醒。考虑::
+>> +
+>> +  w == wakeup event
+>> +
+>> +  capacity(CPU0) = C
+>> +  capacity(CPU1) = C / 3
+>> +
+>> +                           workload on CPU0
+>> +  CPU work ^
+>> +           |     _________           _________           ____
+>> +           |    |         |         |         |         |
+>> +           +----+----+----+----+----+----+----+----+----+----+-> time
+>> +                w                   w                   w
+>> +
+>> +                           workload on CPU1
+>> +  CPU work ^
+>> +           |     ____________________________________________
+>> +           |    |
+>> +           +----+----+----+----+----+----+----+----+----+----+->
+>> +                w
+>> +
+>> +该工作负载应该在CPU0上运行，不过如果任务满足以下条件之一：
+>> +
+>> +- 一开始发生不合适的调度（不准确的初始利用率估计）
+>> +- 一开始调度正确，但突然需要更多的处理器功率
+>> +
+>> +则任务可能变为CPU受限的，也就是说 ``task_util(p) > capacity(task_cpu(p))``；
+>> +CPU capacity调度准则被违反，将不会有任何唤醒事件来修复这个错误的CPU选择。
+>> +
+>> +这种场景下的任务被称为“不合适的”（misfit）任务，处理这个场景的机制同样也以此命名。
+>> +Misfit任务迁移借助CFS负载均衡器，更明确的说，是主动负载均衡的部分（用来迁移正在运行的任务）。
+>> +当发生负载均衡时，如果一个misfit任务可以被迁移到一个相较当前运行的CPU具有更高capacity的CPU上，
+>> +那么misfit任务的主动负载均衡将被触发。
+>> +
+>> +5.2 RT
+>> +------
+>> +
+>> +5.2.1 被唤醒任务的CPU选择
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +RT任务唤醒时的CPU选择，搜索满足以下条件的CPU::
+>> +
+>> +  task_uclamp_min(p) <= capacity(task_cpu(cpu))
+>> +
+>> +同时仍然允许接着使用常规的优先级限制。如果没有CPU能满足这个capacity准则，那么将使用基于严格优先级的调度，
+>> +CPU capacity将被忽略。
+>> +
+>> +5.3 DL
+>> +------
+>> +
+>> +5.3.1 被唤醒任务的CPU选择
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +DL任务唤醒时的CPU选择，搜索满足以下条件的CPU::
+>> +
+>> +  task_bandwidth(p) < capacity(task_cpu(p))
+>> +
+>> +同时仍然允许接着使用常规的带宽和截止期限限制。如果没有CPU能满足这个capacity准则，
+>> +那么任务依然在当前CPU队列中。
+>> --
+>> 2.17.1
+>>
 
-> > +tests, and formats the test results. From the kernel repository, you
-> > +can run kunit_tool:
-> >
-> >  .. code-block:: bash
-> >
-> >       ./tools/testing/kunit/kunit.py run
-> >
-> > -For more information on this wrapper (also called kunit_tool) check out the
-> > -Documentation/dev-tools/kunit/kunit-tool.rst page.
-> > +For more information on this wrapper, see:
-> > +Documentation/dev-tools/kunit/kunit-tool.rst.
-> > +
-> > +Creating a ``.kunitconfig``
-> > +---------------------------
-> > +If you want to run a specific set of tests (rather than those listed in
-> > +the KUnit ``defconfig``), you can provide Kconfig options in the
-> > +``.kunitconfig`` file.
->
-> I know you didn't change this sentence, but it never made sense to me.
-> If we're in here changing the format, can we rewrite this to be more clear?
->
-> What is the purpose of .kunitconfig?
->
-> Here's an alternative wording (which I'm not sure is correct):
->
-> By default, KUnit provides a ``defconfig`` which runs all of the unit
-> tests.  However, you can control which set of unit tests to run by creating
-> a ``.kunitconfig`` file with kernel config options that enable only a specific
-> set of tests and their dependencies.
-
-Rewrote the paragraph.
-
-> > This file contains the regular
-> > +Kernel config with the specific test targets. The
->
-> What does "This file contains the regular Kernel config" mean?
-> Does it have all the entries from a standard .config file?
-
-Rewrote the paragraph.
-
-> My kunit default.config looks like this:
-> CONFIG_KUNIT=y
-> CONFIG_KUNIT_EXAMPLE_TEST=y
-> CONFIG_KUNIT_ALL_TESTS=y
->
-> I think it would be better to say something like:
-> "This file contains the default configuration for KUnit, which is to run an example
-> test and all unit tests"
-
-I am not sure what you mean. This part is not talking about the
-default.config. We reworded the section in the next version. If it is
-not clear please elaborate.
-
-> > +``.kunitconfig`` also contains any other test specific config options,
-> > +such as test dependencies. For
-> > +example: the ``FAT_FS`` tests - ``FAT_KUNIT_TEST``, depends on
-> > +``FAT_FS``. ``FAT_FS`` can be enabled by selecting either ``MSDOS_FS``
-> > +or ``VFAT_FS``. To run ``FAT_KUNIT_TEST``, the ``.kunitconfig`` has:
-> > +
-> > +.. code-block:: none
-> >
-> > -Creating a .kunitconfig
-> > ------------------------
-> > -If you want to run a specific set of tests (rather than those listed in the
-> > -KUnit defconfig), you can provide Kconfig options in the ``.kunitconfig`` file.
-> > -This file essentially contains the regular Kernel config, with the specific
-> > -test targets as well. The ``.kunitconfig`` should also contain any other config
-> > -options required by the tests.
-> > +     CONFIG_KUNIT=y
-> > +     CONFIG_MSDOS_FS=y
-> > +     CONFIG_FAT_KUNIT_TEST=y
-> >
-> > -A good starting point for a ``.kunitconfig`` is the KUnit defconfig:
-> > +1. A good starting point for the ``.kunitconfig``, is the KUnit default
-> > +   config. Run the command:
-> >
-> >  .. code-block:: bash
-> >
-> >       cd $PATH_TO_LINUX_REPO
-> >       cp tools/testing/kunit/configs/default.config .kunitconfig
-> >
-> > -You can then add any other Kconfig options you wish, e.g.:
-> > +2. You can then add any other Kconfig options, for example:
->
-> Don't you also need to also remove CONFIG_KUNIT_ALL_TESTS?
-
-Added a note in version 2. Also removing an option for .kunitconfig
-would take effect immediately without this patch:
-https://lore.kernel.org/linux-kselftest/20211119232316.2246034-1-dlatypov@google.com/
-
-> >
-> >  .. code-block:: none
-> >
-> >       CONFIG_LIST_KUNIT_TEST=y
-> >
-> > -:doc:`kunit_tool <kunit-tool>` will ensure that all config options set in
-> > -``.kunitconfig`` are set in the kernel ``.config`` before running the tests.
-> > -It'll warn you if you haven't included the dependencies of the options you're
-> > -using.
-> > -
-> > -.. note::
-> > -   Note that removing something from the ``.kunitconfig`` will not trigger a
-> > -   rebuild of the ``.config`` file: the configuration is only updated if the
-> > -   ``.kunitconfig`` is not a subset of ``.config``. This means that you can use
-> > -   other tools (such as make menuconfig) to adjust other config options.
-> > -
-> > +Before running the tests, kunit_tool ensures that all config options
-> > +set in ``.kunitconfig`` are set in the kernel ``.config``. It will warn
-> > +you if you have not included dependencies for the options used.
-> >
-> > -Running the tests (KUnit Wrapper)
-> > ----------------------------------
-> > +.. note ::
-> > +   The configuration is only updated if the ``.kunitconfig`` is not a
-> > +   subset of ``.config``. You can use tools (for example:
-> > +   make menuconfig) to adjust other config options.
-> >
-> > -To make sure that everything is set up correctly, simply invoke the Python
-> > -wrapper from your kernel repo:
-> > +Running Tests (KUnit Wrapper)
-> > +-----------------------------
-> > +1. To make sure that everything is set up correctly, invoke the Python
-> > +   wrapper from your kernel repository:
-> >
-> >  .. code-block:: bash
-> >
-> >       ./tools/testing/kunit/kunit.py run
-> >
-> > -.. note::
-> > -   You may want to run ``make mrproper`` first.
-> > -
-> >  If everything worked correctly, you should see the following:
-> >
-> > -.. code-block:: bash
-> > +.. code-block::
-> >
-> >       Generating .config ...
-> >       Building KUnit Kernel ...
-> >       Starting KUnit Kernel ...
-> >
-> > -followed by a list of tests that are run. All of them should be passing.
-> > +The tests will pass or fail.
-> >
-> > -.. note::
-> > -     Because it is building a lot of sources for the first time, the
-> > -     ``Building KUnit kernel`` step may take a while.
-> > +.. note ::
-> > +   Because it is building a lot of sources for the first time, the
-> > +   ``Building KUnit kernel`` may take a while.
-> >
-> > -Running tests without the KUnit Wrapper
-> > +Running Tests without the KUnit Wrapper
-> >  =======================================
-> > -
-> > -If you'd rather not use the KUnit Wrapper (if, for example, you need to
-> > -integrate with other systems, or use an architecture other than UML), KUnit can
-> > -be included in any kernel, and the results read out and parsed manually.
-> > -
-> > -.. note::
-> > -   KUnit is not designed for use in a production system, and it's possible that
-> > -   tests may reduce the stability or security of the system.
-> > -
-> > -
-> > -
-> > -Configuring the kernel
-> > +If you do not want to use the KUnit Wrapper (for example: you want code
-> > +under test to integrate with other systems, or use a different/
-> > +unsupported architecture or configuration), KUnit can be included in
-> > +any kernel, and the results are read out and parsed manually.
-> > +
-> > +.. note ::
-> > +   ``CONFIG_KUNIT`` should not be enabled in a production environment.
-> > +   Enabling KUnit disables Kernel Address-Space Layout Randomization
-> > +   (KASLR), and tests may affect the state of the kernel not
->
-> kernel not -> kernel in ways not
-
-Done.
-
-> > +   suitable for production.
-> > +
-> > +Configuring the Kernel
-> >  ----------------------
-> > +To enable KUnit itself, you need to enable the ``CONFIG_KUNIT`` Kconfig
-> > +option (under Kernel Hacking/Kernel Testing and Coverage in
-> > +``menuconfig``). From there, you can enable any KUnit tests. They
-> > +usually have config options ending in ``_KUNIT_TEST``.
-> >
-> > -In order to enable KUnit itself, you simply need to enable the ``CONFIG_KUNIT``
-> > -Kconfig option (it's under Kernel Hacking/Kernel Testing and Coverage in
-> > -menuconfig). From there, you can enable any KUnit tests you want: they usually
-> > -have config options ending in ``_KUNIT_TEST``.
-> > -
-> > -KUnit and KUnit tests can be compiled as modules: in this case the tests in a
-> > -module will be run when the module is loaded.
-> > -
-> > +KUnit and KUnit tests can be compiled as modules. The tests in a module
-> > +will run when the module is loaded.
-> >
-> > -Running the tests (w/o KUnit Wrapper)
-> > +Running Tests (without KUnit Wrapper)
-> >  -------------------------------------
-> > +Build and run your kernel. In the kernel log, the test output is printed
-> > +out in the TAP format. This will only happen by default if KUnit/tests
-> > +are built-in. Otherwise the module will need to be loaded.
-> >
-> > -Build and run your kernel as usual. Test output will be written to the kernel
-> > -log in `TAP <https://testanything.org/>`_ format.
-> > +.. note ::
-> > +   Some lines and/or data may get interspersed in the TAP output.
-> >
-> > -.. note::
-> > -   It's possible that there will be other lines and/or data interspersed in the
-> > -   TAP output.
-> > -
-> > -
-> > -Writing your first test
-> > +Writing Your First Test
-> >  =======================
-> > +In your kernel repository, let's add some code that we can test.
-> >
-> > -In your kernel repo let's add some code that we can test. Create a file
-> > -``drivers/misc/example.h`` with the contents:
-> > +1. Create a file ``drivers/misc/example.h``, which includes:
-> >
-> >  .. code-block:: c
-> >
-> >       int misc_example_add(int left, int right);
-> >
-> > -create a file ``drivers/misc/example.c``:
-> > +2. Create a file ``drivers/misc/example.c``, which includes:
-> >
-> >  .. code-block:: c
-> >
-> > @@ -142,21 +141,22 @@ create a file ``drivers/misc/example.c``:
-> >               return left + right;
-> >       }
-> >
-> > -Now add the following lines to ``drivers/misc/Kconfig``:
-> > +3. Add the following lines to ``drivers/misc/Kconfig``:
-> >
-> >  .. code-block:: kconfig
-> >
-> >       config MISC_EXAMPLE
-> >               bool "My example"
-> >
-> > -and the following lines to ``drivers/misc/Makefile``:
-> > +4. Add the following lines to ``drivers/misc/Makefile``:
-> >
-> >  .. code-block:: make
-> >
-> >       obj-$(CONFIG_MISC_EXAMPLE) += example.o
-> >
-> > -Now we are ready to write the test. The test will be in
-> > -``drivers/misc/example-test.c``:
-> > +Now we are ready to write the test cases.
-> > +
-> > +1. Add the below test case in ``drivers/misc/example_test.c``:
-> >
-> >  .. code-block:: c
-> >
-> > @@ -191,7 +191,7 @@ Now we are ready to write the test. The test will be in
-> >       };
-> >       kunit_test_suite(misc_example_test_suite);
-> >
-> > -Now add the following to ``drivers/misc/Kconfig``:
-> > +2. Add the following lines to ``drivers/misc/Kconfig``:
-> >
-> >  .. code-block:: kconfig
-> >
-> > @@ -200,26 +200,26 @@ Now add the following to ``drivers/misc/Kconfig``:
-> >               depends on MISC_EXAMPLE && KUNIT=y
-> >               default KUNIT_ALL_TESTS
-> >
-> > -and the following to ``drivers/misc/Makefile``:
-> > +3. Add the following lines to ``drivers/misc/Makefile``:
-> >
-> >  .. code-block:: make
-> >
-> > -     obj-$(CONFIG_MISC_EXAMPLE_TEST) += example-test.o
-> > +     obj-$(CONFIG_MISC_EXAMPLE_TEST) += example_test.o
-> >
-> > -Now add it to your ``.kunitconfig``:
-> > +4. Add the following lines to ``.kunitconfig``:
-> >
-> >  .. code-block:: none
-> >
-> >       CONFIG_MISC_EXAMPLE=y
-> >       CONFIG_MISC_EXAMPLE_TEST=y
-> >
-> > -Now you can run the test:
-> > +5. Run the test:
-> >
-> >  .. code-block:: bash
-> >
-> >       ./tools/testing/kunit/kunit.py run
-> >
-> > -You should see the following failure:
-> > +You should see the following failiure:
->
-> failiure -> failure
-
-Done.
-
-
-> >
-> >  .. code-block:: none
-> >
-> > @@ -227,16 +227,20 @@ You should see the following failure:
-> >       [16:08:57] [PASSED] misc-example:misc_example_add_test_basic
-> >       [16:08:57] [FAILED] misc-example:misc_example_test_failure
-> >       [16:08:57] EXPECTATION FAILED at drivers/misc/example-test.c:17
-> > -     [16:08:57]      This test never passes.
-> > +     [16:08:57]      This test never passes.
-> >       ...
-> >
-> > -Congrats! You just wrote your first KUnit test!
-> > +Congrats! You just wrote your first KUnit test.
-> >
-> >  Next Steps
-> >  ==========
-> > -*   Check out the Documentation/dev-tools/kunit/tips.rst page for tips on
-> > -    writing idiomatic KUnit tests.
-> > -*   Check out the :doc:`running_tips` page for tips on
-> > -    how to make running KUnit tests easier.
-> > -*   Optional: see the :doc:`usage` page for a more
-> > -    in-depth explanation of KUnit.
-> > +
-> > +*   Documentation/dev-tools/kunit/usage.rst - KUnit features.
-> > +*   Documentation/dev-tools/kunit/tips.rst - best practices with
-> > +    examples.
-> > +*   Documentation/dev-tools/kunit/api/index.rst - KUnit APIs
-> > +    used for testing.
-> > +*   Documentation/dev-tools/kunit/kunit-tool.rst - kunit_tool helper
-> > +    script.
-> > +*   Documentation/dev-tools/kunit/faq.rst - KUnit common questions and
-> > +    answers.
-> > --
-> > 2.34.0.384.gca35af8252-goog
->
-Regards,
-Harinder Singh
+Thanks,
+Tang
