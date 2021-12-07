@@ -2,107 +2,183 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3628FC433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Dec 2021 14:53:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E356EC433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Dec 2021 14:54:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237692AbhLGO5F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Dec 2021 09:57:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50584 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229455AbhLGO5F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Dec 2021 09:57:05 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AA21C061574;
-        Tue,  7 Dec 2021 06:53:35 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 67432378;
-        Tue,  7 Dec 2021 14:53:34 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 67432378
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1638888814; bh=wayKIOlvZG2QBsp3ZRtkCrYw504nU7EjmonG3mZVOTc=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=VeEEssypgMUGoGPG8l1XEXFOJj4WXIYk0W92h1TgjQgQCtfS93wizLFDP5pfQWqOM
-         uVpnLhAYnEFVJZmGBd6rTiiMRhw8emxJvNlYU1kkyKPTzWzQzvKPQ7jgl62Jpc/G+b
-         chkfbWDJ7hWu91nMZeh8FCpcP0wtSpoDXiBNeyDLZmCr6dsE50UQn5Ej34fnw+ZdyX
-         dsFqI9SrhT4AmwA8oPnGCX0B52gG66Z5c2BCj+LigyHdXIr9MPwxEQUXuU244qjqkX
-         mZUGG0ej0+YrFIBOjvy6zOosS7FMeAWUnC3jjtnSQIRKZDHCQi7jVhRAD3QTC2qyjT
-         DuT/NXLdAjFXw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Dave Tucker <dave@dtucker.co.uk>, bpf@vger.kernel.org
-Cc:     ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
-        kafai@fb.com, songliubraving@fb.com, john.fastabend@gmail.com,
-        kpsingh@kernel.org, linux-doc@vger.kernel.org,
-        Dave Tucker <dave@dtucker.co.uk>
-Subject: Re: [PATCH v3 bpf-next 2/2] bpf, docs: document BPF_MAP_TYPE_ARRAY
-In-Reply-To: <9010b4d5fa1b25410a34f2954f272cce7dca0c99.1638883067.git.dave@dtucker.co.uk>
-References: <cover.1638883067.git.dave@dtucker.co.uk>
- <9010b4d5fa1b25410a34f2954f272cce7dca0c99.1638883067.git.dave@dtucker.co.uk>
-Date:   Tue, 07 Dec 2021 07:53:33 -0700
-Message-ID: <87ilw01n6a.fsf@meer.lwn.net>
+        id S238271AbhLGO5o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Dec 2021 09:57:44 -0500
+Received: from mail-dm6nam10on2083.outbound.protection.outlook.com ([40.107.93.83]:19489
+        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230088AbhLGO5n (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 7 Dec 2021 09:57:43 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CzgDr8c7zNX5MEvL+yc19xPD2ZjeIH/WDFsm7thmRAcfdZ/bXD4nj8NK+53VHrkKzRehM8G2v3jHamGUVF+kXOIgVy/LueKBKBIYSITpQXtejwdAIL6ah4zVS333fA7tjHEooSZB1J7QsfZbdv5FM2BGWrmqWQQfL989GqeX5WkHW4VVfH50O89JejD+3XKKeXjapmSJHpFkmHKmqcLYYGH1qMeyWEKH0BokLbqsXn6rUodBvpHUxAq8xdD6mdkBClQfO9/wSrk7FWUcsjhhHni5fh5cqOGwcymbDBJtPBAribAwAKGZ/aM69wrcL0+pz5P4r7PsQDVsq8bHCICC6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GFNkJzTdHpyTpYertNaeUyGecr4jOAncPcOvhdpbR7Q=;
+ b=YmZL2vMR42+cB9DeY1DBlY/X3gbKTWIiieoyT1YM86PB+EKIm2ACeDGDU5SVYeATGIQ7u63/ENEMCgQuiyaGE5bWDebyBorXvFfFR4M49h8wAILNxQDLAMg1hseVKZqmEuwoz/Qu6JwsHdQKAcDKUVTP3yb/pKkkCXoMWvrVGeS9aBAUh1GwTbNTzXkMi7Fs/QQd96BlSWW60dFkYr5FeZ+dC23djquWDmFGOHSEM4mRPVIDo/82LMwc/j29RGp5Sg3aaTnLXmOpHhCvBx3bVYd4ZDgR2Dx29KnH2CM7EeLZN9sLbTex+zHQ3CwEuNAVw+FaHCtPCUvcLrpTUhGiHw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=emersion.fr smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GFNkJzTdHpyTpYertNaeUyGecr4jOAncPcOvhdpbR7Q=;
+ b=x6LpXyea2v81mSsLvP05bVOtMRMGdD5HMu5izVRwyoXAbq6FmxpLsP6op2368NJEdmTYzsn74N3IljDbRKlXORYo2H3QiyJOXZO8B4IHjcceukipA097Cj5ARsElvRhYJt76Q1Endrs1ZJwWYJ4S4ob1ZFzsHEk4/x/6vUWEI34=
+Received: from DM5PR16CA0030.namprd16.prod.outlook.com (2603:10b6:4:15::16) by
+ DM6PR12MB3946.namprd12.prod.outlook.com (2603:10b6:5:1cb::27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4755.21; Tue, 7 Dec 2021 14:54:10 +0000
+Received: from DM6NAM11FT032.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:4:15:cafe::66) by DM5PR16CA0030.outlook.office365.com
+ (2603:10b6:4:15::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.16 via Frontend
+ Transport; Tue, 7 Dec 2021 14:54:10 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT032.mail.protection.outlook.com (10.13.173.93) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4755.13 via Frontend Transport; Tue, 7 Dec 2021 14:54:10 +0000
+Received: from atma2.hitronhub.home (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Tue, 7 Dec
+ 2021 08:54:08 -0600
+From:   Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+To:     Simon Ser <contact@emersion.fr>,
+        Michel Daenzer <michel@daenzer.net>,
+        "Bas Nieuwenhuizen" <bas@basnieuwenhuizen.nl>,
+        Marek Olsak <marek.olsak@amd.com>,
+        Roman Gilg <subdiff@gmail.com>,
+        Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+        Harry Wentland <Harry.Wentland@amd.com>,
+        "Mark Yacoub" <markyacoub@chromium.org>,
+        Sean Paul <seanpaul@chromium.org>,
+        "Pekka Paalanen" <ppaalanen@gmail.com>,
+        Yann Dirson <ydirson@free.fr>, Daniel Vetter <daniel@ffwll.ch>
+CC:     <linux-doc@vger.kernel.org>, <qingqing.zhuo@amd.com>,
+        <roman.li@amd.com>, <amd-gfx@lists.freedesktop.org>,
+        <aurabindo.pillai@amd.com>, <nicholas.choi@amd.com>,
+        <dri-devel@lists.freedesktop.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        <bhawanpreet.lakha@amd.com>,
+        Christian Koenig <christian.koenig@amd.com>
+Subject: [PATCH v3 0/6] Expand display core documentation
+Date:   Tue, 7 Dec 2021 09:53:44 -0500
+Message-ID: <20211207145350.286037-1-Rodrigo.Siqueira@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 2926432b-1044-48f1-b771-08d9b9916d6c
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3946:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR12MB3946976545BFC0874C8945C5986E9@DM6PR12MB3946.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: hzlSAfaQsUwXVSGbBxu208daJ0A3CapN2JsAgNrU0bOqc5u8LOxUlTCVh4a0a2A3zopgediN1csSArETfOszJB5VVeYmti+alhuOnsaxxkmVvhEBOJjjrsdOxFxJq6Pd2+yq3hT/TooBDtXyXLH1ZUXHsBZrEWauHU5NLkzB0pAd6rRMewTl5Yq2VBD8H41kRpwaRSi2I3Kae1kNHAu62g+JEM7kEsLSpOg3j1I+pZ1hID4RkF22EOwEXWyw4dCblU7J1G7D3nKgQVc3bOjw+A4Frq/7MJYfZW4o7BrSGm0vBAAvpgbUulRpYLw2sR4QjhfzBs9VRE2iFky9PExHM+JY0py2Itt0diTrYJpqmgwXFX9zKo2U4yzZFgh44gkzMZxPKrKRc0HkUF9UEgnLcCUKh2/id3AM/DjNdmig5HpMMjvbO/Sxy6bw/qoqlT4GpKdOSUKnr0vMJiwAIEDbI4dBBWc+TMKZbEGJAv85Cm7fOBe3MEsVn4mb+ByICLOiFqMuxzQbXEN7iL02yQZd5YZpNnR5QCMYrMXWMZLuWqGTjdI1q5sI+mpWeRr2xaafHZoV28Rtjsl7/YDk+wWJOvigOcW0rQBPMbYaJLSDTiF+wh7r4+zTeT8gVOt/0vIboHuFhWq6Lt3gQDQs7YrZReaBesXypeTs6biGCHJpTpxJP2IEcJ4eqacPgzBffYi00tsCWE2zLZqHtlQL3wACTZPTKIlFcDGuRwrLzjktXLfvzjHHChZpX8vSYVBcYF/8OVl3Nz+KemE9lw+VzksLXADrg/MRzydPRlfXmeK7lw36OkL1c+xr5yBmV/wbmi66
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(4636009)(36840700001)(46966006)(40470700001)(54906003)(82310400004)(8676002)(2906002)(508600001)(426003)(5660300002)(2616005)(4326008)(8936002)(110136005)(81166007)(316002)(6666004)(1076003)(40460700001)(47076005)(83380400001)(70586007)(16526019)(70206006)(26005)(36860700001)(86362001)(186003)(7416002)(921005)(336012)(356005)(36756003)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Dec 2021 14:54:10.6092
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2926432b-1044-48f1-b771-08d9b9916d6c
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT032.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3946
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Dave Tucker <dave@dtucker.co.uk> writes:
+Display Core (DC) is one of the components under amdgpu, and it has
+multiple features directly related to the KMS API. Unfortunately, we
+don't have enough documentation about DC in the upstream, which makes
+the life of some external contributors a little bit more challenging.
+For these reasons, this patchset reworks part of the DC documentation
+and introduces a new set of details on how the display core works on DCN
+IP. Another improvement that this documentation effort tries to bring is
+making explicit some of our hardware-specific details to guide
+user-space developers better.
 
-> This commit adds documentation for the BPF_MAP_TYPE_ARRAY including
-> kernel version introduced, usage and examples.
-> It also documents BPF_MAP_TYPE_PERCPU_ARRAY since this is similar.
->
-> Signed-off-by: Dave Tucker <dave@dtucker.co.uk>
-> ---
->  Documentation/bpf/map_array.rst | 182 ++++++++++++++++++++++++++++++++
->  1 file changed, 182 insertions(+)
->  create mode 100644 Documentation/bpf/map_array.rst
+In my view, it is easier to review this series if you apply it in your
+local kernel and build the HTML version (make htmldocs). I'm suggesting
+this approach because I added a few SVG diagrams that will be easier to
+see in the HTML version. If you cannot build the documentation, try to
+open the SVG images while reviewing the content. In summary, in this
+series, you will find:
 
-When you add a new file, you need to add it to index.rst as well to
-bring it into the docs build.
+1. Patch 1: Re-arrange of display core documentation. This is
+   preparation work for the other patches, but it is also a way to expand
+   this documentation.
+2. Patch 2 to 4: Document some common debug options related to display.
+3. Patch 5: This patch provides an overview of how our display core next
+   works and a brief explanation of each component.
+4. Patch 6: We use a lot of acronyms in our driver; for this reason, we
+   exposed a glossary with common terms used by display core.
 
-> diff --git a/Documentation/bpf/map_array.rst b/Documentation/bpf/map_array.rst
-> new file mode 100644
-> index 000000000000..7ed5f7654ee8
-> --- /dev/null
-> +++ b/Documentation/bpf/map_array.rst
-> @@ -0,0 +1,182 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +.. Copyright (C) 2021 Red Hat, Inc.
-> +
-> +================================================
-> +BPF_MAP_TYPE_ARRAY and BPF_MAP_TYPE_PERCPU_ARRAY
-> +================================================
-> +
-> +.. note:: ``BPF_MAP_TYPE_ARRAY`` was introduced in Kernel version 3.19 and
-> +   ``BPF_MAP_TYPE_PERCPU_ARRAY`` in version 4.6
-> +
-> +``BPF_MAP_TYPE_ARRAY`` and ``BPF_MAP_TYPE_PERCPU_ARRAY`` provide generic array
-> +storage.  The key type is an unsigned 32-bit integer (4 bytes) and the map is of
-> +constant size. All array elements are pre-allocated and zero initialized when
-> +created. ``BPF_MAP_TYPE_PERCPU_ARRAY`` uses a different memory region for each
-> +CPU whereas ``BPF_MAP_TYPE_ARRAY`` uses the same memory region. The maximum
-> +size of an array, defined in max_entries, is limited to 2^32. The value stored
-> +can be of any size, however, small values will be rounded up to 8 bytes.
-> +
-> +Since Kernel 5.4, memory mapping may be enabled for ``BPF_MAP_TYPE_ARRAY`` by
-> +setting the flag ``BPF_F_MMAPABLE``.  The map definition is page-aligned and
-> +starts on the first page.  Sufficient page-sized and page-aligned blocks of
-> +memory are allocated to store all array values, starting on the second page,
-> +which in some cases will result in over-allocation of memory. The benefit of
-> +using this is increased performance and ease of use since userspace programs
-> +would not be required to use helper functions to access and mutate data.
-> +
-> +Usage
-> +=====
-> +
-> +Array elements can be retrieved using the ``bpf_map_lookup_elem()`` helper.
+Please let us know what you think we can improve this series and what
+kind of content you want to see for the next series.
 
-It's really better not to use ``literal markup`` for function names.
-Just write function() and the right thing will happen, including
-cross-reference links to the kerneldoc for that function if it exists.
+Changes since V2:
+ - Add a comment about MMHUBBUB
+Changes since V1:
+ - Group amdgpu documentation together.
+ - Create index pages.
+ - Mirror display folder in the documentation.
+ - Divide glossary based on driver context.
+ - Make terms more consistent and update CPLIB
+ - Add new acronyms to the glossary
 
-Thanks,
+Thanks
+Siqueira
 
-jon
+Rodrigo Siqueira (6):
+  Documentation/gpu: Reorganize DC documentation
+  Documentation/gpu: Document amdgpu_dm_visual_confirm debugfs entry
+  Documentation/gpu: Document pipe split visual confirmation
+  Documentation/gpu: How to collect DTN log
+  Documentation/gpu: Add basic overview of DC pipeline
+  Documentation/gpu: Add amdgpu and dc glossary
+
+ Documentation/gpu/amdgpu-dc.rst               |   74 --
+ Documentation/gpu/amdgpu/amdgpu-glossary.rst  |   50 +
+ .../gpu/amdgpu/display/config_example.svg     |  414 ++++++
+ Documentation/gpu/amdgpu/display/dc-debug.rst |   77 ++
+ .../gpu/amdgpu/display/dc-glossary.rst        |  243 ++++
+ .../amdgpu/display/dc_pipeline_overview.svg   | 1125 +++++++++++++++++
+ .../gpu/amdgpu/display/dcn-overview.rst       |  171 +++
+ .../gpu/amdgpu/display/display-manager.rst    |   42 +
+ .../gpu/amdgpu/display/global_sync_vblank.svg |  485 +++++++
+ Documentation/gpu/amdgpu/display/index.rst    |   29 +
+ .../gpu/{amdgpu.rst => amdgpu/index.rst}      |   25 +-
+ Documentation/gpu/drivers.rst                 |    3 +-
+ 12 files changed, 2659 insertions(+), 79 deletions(-)
+ delete mode 100644 Documentation/gpu/amdgpu-dc.rst
+ create mode 100644 Documentation/gpu/amdgpu/amdgpu-glossary.rst
+ create mode 100644 Documentation/gpu/amdgpu/display/config_example.svg
+ create mode 100644 Documentation/gpu/amdgpu/display/dc-debug.rst
+ create mode 100644 Documentation/gpu/amdgpu/display/dc-glossary.rst
+ create mode 100644 Documentation/gpu/amdgpu/display/dc_pipeline_overview.svg
+ create mode 100644 Documentation/gpu/amdgpu/display/dcn-overview.rst
+ create mode 100644 Documentation/gpu/amdgpu/display/display-manager.rst
+ create mode 100644 Documentation/gpu/amdgpu/display/global_sync_vblank.svg
+ create mode 100644 Documentation/gpu/amdgpu/display/index.rst
+ rename Documentation/gpu/{amdgpu.rst => amdgpu/index.rst} (95%)
+
+-- 
+2.25.1
+
