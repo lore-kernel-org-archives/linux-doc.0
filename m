@@ -2,102 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0476AC433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Dec 2021 11:16:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5323C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Dec 2021 11:25:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235458AbhLGLUI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Dec 2021 06:20:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32790 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235631AbhLGLUI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Dec 2021 06:20:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1638875797;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=E5VGewCEz4fmcYf4Xe+YasUAuTzVOfztXoWjA/QsgxY=;
-        b=KHjkJ7bSuEQBvNBcjL67DYZHEPRXnhpUVO+YtxUFHD1g/OGZ/X1sKECKkwpjm3MqMz5p+F
-        H2ZEy0j1ITYvFhT66/52MZaRJgJkrHHSfj0Ko5wmGZdTCqqIKBOpLz6xiQJRzSX+A7y0ab
-        F41mh6m0PeGjiuGPx+nEgZHP7XjXIOg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-260-2qrI2RQoP4ykCg57d5Zf0w-1; Tue, 07 Dec 2021 06:16:36 -0500
-X-MC-Unique: 2qrI2RQoP4ykCg57d5Zf0w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E6FAB8042E1;
-        Tue,  7 Dec 2021 11:16:34 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.160])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 438B219C59;
-        Tue,  7 Dec 2021 11:16:34 +0000 (UTC)
-From:   Cornelia Huck <cohuck@redhat.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     Alex Williamson <alex.williamson@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
-        Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-        Yishai Hadas <yishaih@nvidia.com>
-Subject: Re: [PATCH RFC v2] vfio: Documentation for the migration region
-In-Reply-To: <20211206191933.GM4670@nvidia.com>
-Organization: Red Hat GmbH
-References: <20211130102611.71394253.alex.williamson@redhat.com>
- <20211130185910.GD4670@nvidia.com>
- <20211130153541.131c9729.alex.williamson@redhat.com>
- <20211201031407.GG4670@nvidia.com> <20211201130314.69ed679c@omen>
- <20211201232502.GO4670@nvidia.com>
- <20211203110619.1835e584.alex.williamson@redhat.com>
- <87zgpdu3ez.fsf@redhat.com> <20211206173422.GK4670@nvidia.com>
- <87tufltxp0.fsf@redhat.com> <20211206191933.GM4670@nvidia.com>
-User-Agent: Notmuch/0.34 (https://notmuchmail.org)
-Date:   Tue, 07 Dec 2021 12:16:32 +0100
-Message-ID: <87o85su0kv.fsf@redhat.com>
+        id S231256AbhLGL3C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Dec 2021 06:29:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57892 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231221AbhLGL3B (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Dec 2021 06:29:01 -0500
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com [IPv6:2607:f8b0:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFAA3C061574
+        for <linux-doc@vger.kernel.org>; Tue,  7 Dec 2021 03:25:31 -0800 (PST)
+Received: by mail-oi1-x22f.google.com with SMTP id u74so27146068oie.8
+        for <linux-doc@vger.kernel.org>; Tue, 07 Dec 2021 03:25:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=x5wO0G+tehA3S+yfe0XuwRR8DeW1wZ5UR3a1pHKoHws=;
+        b=XLfO7ScOsGf9swrtIsDEV6bU8rszIkoDKALSHV+Bz1IJ9yKxBvLpA0LGuazEqYyzsH
+         OLyDGj0CPG7kis3OZNGeDA50orqw0tl9vxLZWL9WFMT4bNDkB/YL8I1STKfwKQLXByCe
+         1yz+O0WEdjzsVuXqqQAwhFbzdPBuh2bLgHKbzksdNS5UJH68pEypptLyMdsyGTyJrDaH
+         XfeaIdsOrOeGhgA3wJw+7a6pWqbLN89iFi6eNP6VHR0V3Vjvo3988x/9N/e6yaMsyu6P
+         zvSJ88/HDLNXQ705Ctvw3xlX2L1prpFGTP/bPfVlsjRInoUgHTsGJU3JxyBns4JNOpWw
+         RYLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=x5wO0G+tehA3S+yfe0XuwRR8DeW1wZ5UR3a1pHKoHws=;
+        b=AwsvdhT7TtGR8KOEQYqV4NEaJ5J1x6GLlEVaetO5GC39+gWwSn+8LjPeBtEls9fLNh
+         ih7WeaGITo3Gtrfh6JAoXOV9PLlO7MCz7RAUOtSmMhkdH8O/Yh+IrT4oubHLWJTd2V+1
+         cWFSDu2H3nkx3Zmxhdbc4X1kqfCn0u4VQtlgMIvPJsChgMBbL8pM9VXEw1QnHUYZmaLt
+         AifraaDINXbwK3+ryvosRsPQ6oHTqzHmk+6haSFD3J7BEHdxaAgpymS0B30Nvh3jv4o6
+         m9kxA/WkpLBgZGD1k20vCGbqK68Q2+jWkf8l3ukagy5pz9w/MtFbmP637Zru35cJNq5o
+         KPoA==
+X-Gm-Message-State: AOAM533MylOmzxUu0nriqrwgYg87qnv0U1HQQVcLCH4Wbih6qfZ7ChIc
+        lfLSZHWsLEFM/n/7g7tOgOJyjQYrqpn9q4c48nR9QEZpxSzR6ObT
+X-Google-Smtp-Source: ABdhPJze2Af6PabBQz2gqbdn7wRDUCFRq45zyfEpn5lX0FDxgIMvaROgU6i8/oJRBF9U4bZ6KEDVU2GQ9UBxJe/YfO4=
+X-Received: by 2002:a54:4701:: with SMTP id k1mr4483888oik.37.1638876331135;
+ Tue, 07 Dec 2021 03:25:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+References: <cover.1638706875.git.siyanteng@loongson.cn> <87lf0x38s6.fsf@meer.lwn.net>
+In-Reply-To: <87lf0x38s6.fsf@meer.lwn.net>
+From:   yanteng si <siyanteng01@gmail.com>
+Date:   Tue, 7 Dec 2021 19:25:20 +0800
+Message-ID: <CAEensMzFa0HO0NDfjvGRcgDU1n_AcF9CGwqLLB2Ma_7zN-vq9g@mail.gmail.com>
+Subject: Re: [PATCH 00/11] docs: fix build warning
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Yanteng Si <siyanteng@loongson.cn>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 06 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
-
-> On Mon, Dec 06, 2021 at 07:06:35PM +0100, Cornelia Huck wrote:
+Jonathan Corbet <corbet@lwn.net> =E4=BA=8E2021=E5=B9=B412=E6=9C=887=E6=97=
+=A5=E5=91=A8=E4=BA=8C 02:09=E5=86=99=E9=81=93=EF=BC=9A
 >
->> We're discussing a complex topic here, and we really don't want to
->> perpetuate an unclear uAPI. This is where my push for more precise
->> statements is coming from.
+> Yanteng Si <siyanteng01@gmail.com> writes:
 >
-> I appreciate that, and I think we've made a big effort toward that
-> direction.
+> > I can't stand these red warnings anymore, especially when I'm testing m=
+y
+> > patches and looking for my own warnings in a sea of warnings. so, let's
+> > fix them!
 >
-> Can we have some crisp feedback which statements need SHOULD/MUST/MUST
-> NOT and come to something?
-
-I'm not sure what I should actually comment on, some general remarks:
-
-- If we consider a possible vfio-ccw implementation that will quiesce
-  the device and not rely on tracking I/O, we need to make the parts
-  that talk about tracking non-mandatory.
-- NDMA sounds like something that needs to be non-mandatory as well.
-- The discussion regarding bit group changes has me confused. You seem
-  to be saying that mlx5 needs that, so it needs to have some mandatory
-  component; but are actually all devices able to deal with those bits
-  changing as a group?
-- In particular, the flow needs definitive markings about what is
-  mandatory to implement, what is strongly suggested, and what is
-  optional. It is unclear to me what is really expected, and what is
-  simply one way to implement it.
-
+> So I totally approve of fixing docs build warnings, so thanks for doing
+> this work.  As I was working through the patches, though, I noticed that
+> these patches are against linux-next, so I can't take them into the docs
+> tree.  Instead, each fix needs to go into the tree that has introduced
+> the problem.
 >
-> The world needs to move forward, we can't debate this endlessly
-> forever. It is already another 6 weeks past since the last mlx5 driver
-> posting.
+> Thus, I encourage you to separate out this patch set, add an appropriate
+> Fixes tag to each, then send each separately to the same places where
+> the original patch went.  That should get these problems fixed before
+> they go into mainline.
+OK, will do!
 
-6 weeks is already blazingly fast in any vfio migration discussion. /s
-
-Remember that we have other things to do as well, not all of which will
-be visible to you.
-
+Thanks,
+Yanteng
+>
+> Sorry to make more work, but I'd like to see these changes get in.  I've
+> commented on a couple of the individual patches as well.
+>
+> Thanks,
+>
+> jon
