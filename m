@@ -2,40 +2,40 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EBB2C43217
-	for <linux-doc@archiver.kernel.org>; Tue,  7 Dec 2021 14:54:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FC47C433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  7 Dec 2021 14:54:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230088AbhLGO5z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Dec 2021 09:57:55 -0500
-Received: from mail-bn8nam12on2089.outbound.protection.outlook.com ([40.107.237.89]:9665
-        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
+        id S238282AbhLGO54 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Dec 2021 09:57:56 -0500
+Received: from mail-co1nam11on2041.outbound.protection.outlook.com ([40.107.220.41]:3361
+        "EHLO NAM11-CO1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S238282AbhLGO5y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 7 Dec 2021 09:57:54 -0500
+        id S238280AbhLGO54 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 7 Dec 2021 09:57:56 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lb/bCQ1A49OW/+ic0nXCNiTOtanFmdBBwUcZIHjPq7suiY3yQ/ANYYM6U/f9zmjPdErqHdm+oSd87K9VezvgAxXc3kRjW3n5UoDQ8HDNyVvwc9XOGMebKSmBlcAk66rUnOzkpVTvjpiExl8It7HYmqqnstvwzS0zvVw1Ni6sQ3eFpVA4mVUuLTUun9+zHcl0v1Rjbaee3e5GX24PNGVXnrpFTaZQqK1JO2epWZ49eHTep8xURnduDTtCSxkv0eu7LsOBn6Dm39JmGjlo6P9iIM9keOLB32YiOSB+Dfw2mK+m1rpzhjbuPLItLXMnAPf2O4rVsXWTrpcqn2buEsY18Q==
+ b=hJ12MVc1gkKsthOQDEsZGLT5qPgw6/3hTaHr4LE27QHdGkkIMV4oLUnhpaMqtObO4STN+vWr0kGrFULj2JWKScS7WShlFlQJm1FvWij1TcMwANf+scvTjULnawzf5smDUxeUMqa2TEgTJ0Re76sH5LRlRp4pBaIK5iDNgACg+DBp/T1qGZwGydWORqOuFxItGfU7uWo5mNqU6SytveocsdHZdAzoQbKOADzmJae1arEDHe8UOA7Tq1uBlKlfBgu58KYusAmbdxm7pyO5iH55UfktZGzjG06G39+BDvUGG4sz1Uqo6A6xwDzGb1p8mi1xrGknioGT5Gfk/Nl3MNG3Pg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=udUHp7cOVfN39epaKhTDE6ZCY+Q3pzyowQiKKO19vbc=;
- b=Cr05SVhp1HKBqz4Mie95PN48vbXH9gXK8qt96IRpqwde0LicJ1eoJqKZR+y7xFAJ5A54H4RN7uZZ7Q8G2Sr+4On96CacUpOXGartD/TW/DnZ8UF/qP/hT6FlNAIwd+mRjqH1M67zUv5Ga5K/6lZoehUKb9BNWXxBaPVfkz/7sEC78BWx+PB1q157yj4sKQD094SVI/TUVtWqvIslh4y4OSSCFieXzRNiDVuf6viDsCoX5bIIo+aRRwKdzvlemwqWOJeWDwDE4/aPHO6ZRptpbyqG0nUUzyroDHtz2JYqJqABZVjgmiP5AjOpX9iZ8FleJKZpwKMte8pfZFm6dmDcAA==
+ bh=d7qFq29uFmiCZ/7vZ+ZqzCVgNHbmyngG/bI5/kFd/MA=;
+ b=GmcZJ4qbGGoq8M8GiGbvaR4gHg90Xb7kLp5iev3i0VX4hwZwX9f0N+MRe7s/BB28rBAenZcaitTESkB5bsZKAHADP+sorEuNU3Fuo2srjmo8YR8H9ghNdvwx5UIJVqg5sbFMKrPlIRtSj516dyb+TdmzR7fRJbSwGSldvYpp22NCNZ2negZaDretyh5HVsKYM1g63et/GUgzL6ttavWh9907T7nRwL5XgpUTUxpsI81/hSGYtdooo2ZomdcXlV8ACE5qG6fnBckJf4m8kNYbna6ooSyx3nO325AdkEhBUr5yBd1lWEjSNtqVlUvKydZy9U2A/OxxlgF9KLnPDEesbg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=emersion.fr smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=udUHp7cOVfN39epaKhTDE6ZCY+Q3pzyowQiKKO19vbc=;
- b=KGbVbd9bRmaclkbgttEPrref4SPjk4n9HNU539zvuVzKwu2EDge1YxrO6hAAxTms+SZvUUWh4dU9bcL1axOcg4jWezwno7/7BzmNMZfh0tXcsAL6cl/SlkyTZkmwURENyJ7ceh6TdWXAr/36rBLEqi6mpdiast33HGeY+/7PF+U=
-Received: from DM6PR13CA0011.namprd13.prod.outlook.com (2603:10b6:5:bc::24) by
- MN2PR12MB3502.namprd12.prod.outlook.com (2603:10b6:208:c9::10) with Microsoft
+ bh=d7qFq29uFmiCZ/7vZ+ZqzCVgNHbmyngG/bI5/kFd/MA=;
+ b=jrXcQ0baSufcpw0TFoXMpfoK0fwMC8Hm1bjfQFX+eflbr9A3SH/jdq/rJtC6fBkSoeqYbwMxwxNfdqe8ckkvFkKTQV4QABiFWDDmggLfdeUGlJIfLhzQ50OBgZErXyCjumNINCzrmqxU0ist+scHi5JGD0UgerJgrZsoyAbqfwY=
+Received: from DM6PR13CA0010.namprd13.prod.outlook.com (2603:10b6:5:bc::23) by
+ DM6PR12MB3451.namprd12.prod.outlook.com (2603:10b6:5:11d::11) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4755.22; Tue, 7 Dec 2021 14:54:12 +0000
+ 15.20.4755.21; Tue, 7 Dec 2021 14:54:23 +0000
 Received: from DM6NAM11FT025.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:bc:cafe::71) by DM6PR13CA0011.outlook.office365.com
- (2603:10b6:5:bc::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.7 via Frontend
- Transport; Tue, 7 Dec 2021 14:54:12 +0000
+ (2603:10b6:5:bc:cafe::6e) by DM6PR13CA0010.outlook.office365.com
+ (2603:10b6:5:bc::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.10 via Frontend
+ Transport; Tue, 7 Dec 2021 14:54:23 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -45,11 +45,11 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
  DM6NAM11FT025.mail.protection.outlook.com (10.13.172.197) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4755.13 via Frontend Transport; Tue, 7 Dec 2021 14:54:12 +0000
+ 15.20.4755.13 via Frontend Transport; Tue, 7 Dec 2021 14:54:22 +0000
 Received: from atma2.hitronhub.home (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Tue, 7 Dec
- 2021 08:54:10 -0600
+ 2021 08:54:18 -0600
 From:   Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 To:     Simon Ser <contact@emersion.fr>,
         Michel Daenzer <michel@daenzer.net>,
@@ -69,9 +69,9 @@ CC:     <linux-doc@vger.kernel.org>, <qingqing.zhuo@amd.com>,
         Alex Deucher <alexander.deucher@amd.com>,
         <bhawanpreet.lakha@amd.com>,
         Christian Koenig <christian.koenig@amd.com>
-Subject: [PATCH v3 1/6] Documentation/gpu: Reorganize DC documentation
-Date:   Tue, 7 Dec 2021 09:53:45 -0500
-Message-ID: <20211207145350.286037-2-Rodrigo.Siqueira@amd.com>
+Subject: [PATCH v3 6/6] Documentation/gpu: Add amdgpu and dc glossary
+Date:   Tue, 7 Dec 2021 09:53:50 -0500
+Message-ID: <20211207145350.286037-7-Rodrigo.Siqueira@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211207145350.286037-1-Rodrigo.Siqueira@amd.com>
 References: <20211207145350.286037-1-Rodrigo.Siqueira@amd.com>
@@ -83,285 +83,381 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c34107ab-43f9-44a9-703d-08d9b9916e63
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3502:EE_
-X-Microsoft-Antispam-PRVS: <MN2PR12MB3502BA8EF7E35A1B3EFD3D2A986E9@MN2PR12MB3502.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2000;
+X-MS-Office365-Filtering-Correlation-Id: 77d3dab2-f06d-44e3-7838-08d9b99174c4
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3451:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR12MB345173C109362262408705B3986E9@DM6PR12MB3451.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2331;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1kZnTcFXJduIUwpFPkwQV4YJLele2u9lOplmPW65m2Lb8P9h7fl+i9g3ST91c1zVIMd1qeZ+EcnCac+JX4lwubSFo7gMlMnFFGksRJugO1RHcIRKCQOCAXCnIItrGqT+JpSai2gE38IOL93WvecMA4bhOc35CFou/hssM/KPSspWdxeytajlv7q479fq90WJNuzEn//bH04aEYIe1aTIfg8KQHTBuokYJRUfp/LfxgQtiqPW7Gzs6nplepyGSO1MzpVk+dr6MhCj2dgS72IF+SEpJOdvh70u0GKYwgaNIJIdsPzcpEYtj2MO1T3O8UoZXx4QJxuebI+zRxaKuC3WV8cPVvk1J/FgTpLLkQnuxo7Ii5CsLCwovlmsS+fOorulVGkS3GFIBkjFuq5Rzi+gm7NR6vUwZnbsLX5xap5G+3OgMrFX6jybyPtwS9MXAf96r7GrsIX6vl9tOqVCgjDqrHwCzpnYgAza7QhN6rE6hOVICir2h7l9ll14xnLqicysHhfTBhlF0e2/PZTONYA7BZAXpXelFueU4HKCeERkSrtv0gkk7rVXPtJNZgdCQTiz1dXFjCrK98e2jDBfsLL6+O3OTgk26Oy+l+kYtawn7pseNurYVJWcCa+dktgW/CIuQ10G7Gn7dyEh0bw/Qm9sXGBuCPOBhtwub8paDrtOs7ZsP2mqBjyhbY/nVF4x7kZkA0rEJ+DVOd/5qFaVL4EyUer/YO5zqwTDGK5FnYwCu7Cr6CxeA9/E2D815CNQNV3mjWvc/QeEYzTHs75JMbJj6uzG6nXW5WdHnEH1v4QHqm+WJWJhKRvfVxI0wJ7Q3yAT
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(4636009)(36840700001)(46966006)(40470700001)(70586007)(47076005)(81166007)(36756003)(70206006)(54906003)(921005)(36860700001)(316002)(110136005)(8676002)(8936002)(356005)(2906002)(7416002)(6666004)(4326008)(82310400004)(426003)(2616005)(508600001)(83380400001)(1076003)(5660300002)(16526019)(186003)(336012)(26005)(86362001)(40460700001)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: 4NACHdleTvkO/OVN6N9kg/dJaccTk0624f9xSCf/hKZajvpP522vPfEt4Dsz80ycDIkNVVH4JbPRo+uT8FrEH+q+lP371RtEHVdvQcdl0+rAALlAwbdSDbx8nv5N/Nm7xB9fiO/oh/NGFkX1dPIF0AsMCjaOF3fpZtmh5zjEO/XeWk3S2Eam8JdrmqXIJMGlL1enxrXOvV2jhINpqOJxAcRxrzi4TFetDQLkeTtU7juNrya0SlgfJoZxrPofwgne3LSjXrGzbmb0sdXPh1tixh5zHswuMf6sJk1P3IHaqsU8OuG1/dYQWC3vGr5qmUUsUW58mZxnsD/+qKQZve2cGdXYhRdCdr7Yug/aYiRgxweV3/r/d/Ze7S32rz8eijM4BlPPbzTbO7mLefu5UF6fOD/A7MyG0SuvnjgNyIDYuj/l5pciMFFyBKZ1FhYEZPEtmC3shJnlceBQogRHDZORJsMYJq9OOHgpkf9jeMqpVA8JndRJrFdLleYuC9SXO8GR+deISS+Qj8C4OCXdbSN81eFC/5dvYWj86V/o7PXE3FIPs9p7CWzWwD7LfqpSAZPS7/vu/opYq/s+qJp++T8KaJ3wBnWpYT+PNNRJuZL6gZ6GIgG0RVHm6sk7ZtA5UEjr080+7C8cIk3fQgCE/VQtCYaSNjaETdhdLBJQQivZYCPHLo6H48YHztWXORXYUe1NMao9rXLYPZPK91a+ss4WrE7DsB/2HatDtVgO4zL+TW4cQrtNO8eOolbtTAiQlyq4aDnB22mHe2L4tDppw/NuTGq85rL9uG4sxMKUP1inadfghyuzr1TCTGQEOpcNiz9g
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(4636009)(46966006)(36840700001)(40470700001)(81166007)(2906002)(86362001)(921005)(83380400001)(316002)(1076003)(26005)(356005)(70586007)(8936002)(47076005)(110136005)(70206006)(54906003)(186003)(16526019)(4326008)(36860700001)(5660300002)(2616005)(6666004)(36756003)(508600001)(40460700001)(426003)(82310400004)(8676002)(336012)(7416002)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Dec 2021 14:54:12.2105
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Dec 2021 14:54:22.9127
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c34107ab-43f9-44a9-703d-08d9b9916e63
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77d3dab2-f06d-44e3-7838-08d9b99174c4
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT025.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3502
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3451
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Display core documentation is not well organized, and it is hard to find
-information due to the lack of sections. This commit reorganizes the
-documentation layout, and it is preparation work for future changes.
+In the DC driver, we have multiple acronyms that are not obvious most of
+the time; the same idea is valid for amdgpu. This commit introduces a DC
+and amdgpu glossary in order to make it easier to navigate through our
+driver.
+
+Changes since V2:
+ - Add MMHUB
 
 Changes since V1:
-- Christian: Group amdgpu documentation together.
-- Daniel: Drop redundant amdgpu prefix.
-- Jani: Create index pages.
-- Yann: Mirror display folder in the documentation.
+ - Yann: Divide glossary based on driver context.
+ - Alex: Make terms more consistent and update CPLIB
+ - Add new acronyms to the glossary
 
 Signed-off-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 ---
- Documentation/gpu/amdgpu-dc.rst               | 74 -------------------
- Documentation/gpu/amdgpu/display/dc-debug.rst |  4 +
- .../gpu/amdgpu/display/display-manager.rst    | 42 +++++++++++
- Documentation/gpu/amdgpu/display/index.rst    | 29 ++++++++
- .../gpu/{amdgpu.rst => amdgpu/index.rst}      | 18 ++++-
- Documentation/gpu/drivers.rst                 |  3 +-
- 6 files changed, 91 insertions(+), 79 deletions(-)
- delete mode 100644 Documentation/gpu/amdgpu-dc.rst
- create mode 100644 Documentation/gpu/amdgpu/display/dc-debug.rst
- create mode 100644 Documentation/gpu/amdgpu/display/display-manager.rst
- create mode 100644 Documentation/gpu/amdgpu/display/index.rst
- rename Documentation/gpu/{amdgpu.rst => amdgpu/index.rst} (96%)
+ Documentation/gpu/amdgpu/amdgpu-glossary.rst  |  50 ++++
+ .../gpu/amdgpu/display/dc-glossary.rst        | 243 ++++++++++++++++++
+ Documentation/gpu/amdgpu/display/index.rst    |   1 +
+ Documentation/gpu/amdgpu/index.rst            |   7 +
+ 4 files changed, 301 insertions(+)
+ create mode 100644 Documentation/gpu/amdgpu/amdgpu-glossary.rst
+ create mode 100644 Documentation/gpu/amdgpu/display/dc-glossary.rst
 
-diff --git a/Documentation/gpu/amdgpu-dc.rst b/Documentation/gpu/amdgpu-dc.rst
-deleted file mode 100644
-index f7ff7e1309de..000000000000
---- a/Documentation/gpu/amdgpu-dc.rst
-+++ /dev/null
-@@ -1,74 +0,0 @@
--===================================
--drm/amd/display - Display Core (DC)
--===================================
--
--*placeholder - general description of supported platforms, what dc is, etc.*
--
--Because it is partially shared with other operating systems, the Display Core
--Driver is divided in two pieces.
--
--1. **Display Core (DC)** contains the OS-agnostic components. Things like
--   hardware programming and resource management are handled here.
--2. **Display Manager (DM)** contains the OS-dependent components. Hooks to the
--   amdgpu base driver and DRM are implemented here.
--
--It doesn't help that the entire package is frequently referred to as DC. But
--with the context in mind, it should be clear.
--
--When CONFIG_DRM_AMD_DC is enabled, DC will be initialized by default for
--supported ASICs. To force disable, set `amdgpu.dc=0` on kernel command line.
--Likewise, to force enable on unsupported ASICs, set `amdgpu.dc=1`.
--
--To determine if DC is loaded, search dmesg for the following entry:
--
--``Display Core initialized with <version number here>``
--
--AMDgpu Display Manager
--======================
--
--.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
--   :doc: overview
--
--.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
--   :internal:
--
--Lifecycle
-----------
--
--.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
--   :doc: DM Lifecycle
--
--.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
--   :functions: dm_hw_init dm_hw_fini
--
--Interrupts
------------
--
--.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
--   :doc: overview
--
--.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
--   :internal:
--
--.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
--   :functions: register_hpd_handlers dm_crtc_high_irq dm_pflip_high_irq
--
--Atomic Implementation
-----------------------
--
--.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
--   :doc: atomic
--
--.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
--   :functions: amdgpu_dm_atomic_check amdgpu_dm_atomic_commit_tail
--
--Display Core
--============
--
--**WIP**
--
--FreeSync Video
----------------
--
--.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
--   :doc: FreeSync Video
-diff --git a/Documentation/gpu/amdgpu/display/dc-debug.rst b/Documentation/gpu/amdgpu/display/dc-debug.rst
+diff --git a/Documentation/gpu/amdgpu/amdgpu-glossary.rst b/Documentation/gpu/amdgpu/amdgpu-glossary.rst
 new file mode 100644
-index 000000000000..bbb8c3fc8eee
+index 000000000000..65803bfac776
 --- /dev/null
-+++ b/Documentation/gpu/amdgpu/display/dc-debug.rst
-@@ -0,0 +1,4 @@
-+Display Core Debug tools
-+========================
++++ b/Documentation/gpu/amdgpu/amdgpu-glossary.rst
+@@ -0,0 +1,50 @@
++===============
++AMDGPU Glossary
++===============
 +
-+TODO
-diff --git a/Documentation/gpu/amdgpu/display/display-manager.rst b/Documentation/gpu/amdgpu/display/display-manager.rst
++Here you can find some generic acronyms used in the amdgpu driver. Notice that
++we have a dedicated glossary for Display Core.
++
++.. glossary::
++
++    CPLIB
++      Content Protection Library
++
++    DFS
++      Digital Frequency Synthesizer
++
++    ECP
++      Enhanced Content Protection
++
++    EOP
++      End Of Pipe/Pipeline
++
++    HQD
++      Hardware Queue Descriptor
++
++    KCQ
++      Kernel Compute Queue
++
++    KGQ
++      Kernel Graphics Queue
++
++    KIQ
++      Kernel Interface Queue
++
++    MMHUB
++      Multi-Media HUB
++
++    MQD
++      Memory Queue Descriptor
++
++    PPLib
++      PowerPlay Library - PowerPlay is the power management component.
++
++    SMU
++      System Management Unit
++
++    VCE
++      Video Compression Engine
++
++    VCN
++      Video Codec Next
+diff --git a/Documentation/gpu/amdgpu/display/dc-glossary.rst b/Documentation/gpu/amdgpu/display/dc-glossary.rst
 new file mode 100644
-index 000000000000..7ce31f89d9a0
+index 000000000000..547c0bfbb3e2
 --- /dev/null
-+++ b/Documentation/gpu/amdgpu/display/display-manager.rst
-@@ -0,0 +1,42 @@
-+======================
-+AMDgpu Display Manager
-+======================
++++ b/Documentation/gpu/amdgpu/display/dc-glossary.rst
+@@ -0,0 +1,243 @@
++===========
++DC Glossary
++===========
 +
-+.. contents:: Table of Contents
-+    :depth: 3
++On this page, we try to keep track of acronyms related to the display
++component. If you do not find what you are looking for, look at the amdgpu
++glossary; if you cannot find it anywhere, consider asking in the amdgfx and
++update this page.
 +
-+.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+   :doc: overview
++.. glossary::
 +
-+.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-+   :internal:
++    ABM
++      Adaptive Backlight Modulation
 +
-+Lifecycle
-+=========
++    APU
++      Accelerated Processing Unit
 +
-+.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+   :doc: DM Lifecycle
++    ASIC
++      Application-Specific Integrated Circuit
 +
-+.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+   :functions: dm_hw_init dm_hw_fini
++    ASSR
++      Alternate Scrambler Seed Reset
 +
-+Interrupts
-+==========
++    AZ
++      Azalia (HD audio DMA engine)
 +
-+.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
-+   :doc: overview
++    BPC
++      Bits Per Colour/Component
 +
-+.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c
-+   :internal:
++    BPP
++      Bits Per Pixel
 +
-+.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+   :functions: register_hpd_handlers dm_crtc_high_irq dm_pflip_high_irq
++    Clocks
++      * PCLK: Pixel Clock
++      * SYMCLK: Symbol Clock
++      * SOCCLK: GPU Engine Clock
++      * DISPCLK: Display Clock
++      * DPPCLK: DPP Clock
++      * DCFCLK: Display Controller Fabric Clock
++      * REFCLK: Real Time Reference Clock
++      * PPLL: Pixel PLL
++      * FCLK: Fabric Clock
++      * MCLK: Memory Clock
 +
-+Atomic Implementation
-+=====================
++    CRC
++      Cyclic Redundancy Check
 +
-+.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+   :doc: atomic
++    CRTC
++      Cathode Ray Tube Controller - commonly called "Controller" - Generates
++      raw stream of pixels, clocked at pixel clock
 +
-+.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+   :functions: amdgpu_dm_atomic_check amdgpu_dm_atomic_commit_tail
++    CVT
++      Coordinated Video Timings
++
++    DAL
++      Display Abstraction layer
++
++    DC (Software)
++      Display Core
++
++    DC (Hardware)
++      Display Controller
++
++    DCC
++      Delta Colour Compression
++
++    DCE
++      Display Controller Engine
++
++    DCHUB
++      Display Controller HUB
++
++    ARB
++      Arbiter
++
++    VTG
++      Vertical Timing Generator
++
++    DCN
++      Display Core Next
++
++    DCCG
++      Display Clock Generator block
++
++    DDC
++      Display Data Channel
++
++    DIO
++      Display IO
++
++    DPP
++      Display Pipes and Planes
++
++    DSC
++      Display Stream Compression (Reduce the amount of bits to represent pixel
++      count while at the same pixel clock)
++
++    dGPU
++      discrete GPU
++
++    DMIF
++      Display Memory Interface
++
++    DML
++      Display Mode Library
++
++    DMCU
++      Display Micro-Controller Unit
++
++    DMCUB
++      Display Micro-Controller Unit, version B
++
++    DPCD
++      DisplayPort Configuration Data
++
++    DPM(S)
++      Display Power Management (Signaling)
++
++    DRR
++      Dynamic Refresh Rate
++
++    DWB
++      Display Writeback
++
++    FB
++      Frame Buffer
++
++    FBC
++      Frame Buffer Compression
++
++    FEC
++      Forward Error Correction
++
++    FRL
++      Fixed Rate Link
++
++    GCO
++      Graphical Controller Object
++
++    GMC
++      Graphic Memory Controller
++
++    GSL
++      Global Swap Lock
++
++    iGPU
++      integrated GPU
++
++    IH
++      Interrupt Handler
++
++    ISR
++      Interrupt Service Request
++
++    ISV
++      Independent Software Vendor
++
++    KMD
++      Kernel Mode Driver
++
++    LB
++      Line Buffer
++
++    LFC
++      Low Framerate Compensation
++
++    LTTPR
++      Link Training Tunable Phy Repeater
++
++    LUT
++      Lookup Table
++
++    MALL
++      Memory Access at Last Level
++
++    MC
++      Memory Controller
++
++    MPC
++      Multiple pipes and plane combine
++
++    MPO
++      Multi Plane Overlay
++
++    MST
++      Multi Stream Transport
++
++    NBP State
++      Northbridge Power State
++
++    NBIO
++      North Bridge Input/Output
++
++    ODM
++      Output Data Mapping
++
++    OPM
++      Output Protection Manager
++
++    OPP
++      Output Plane Processor
++
++    OPTC
++      Output Pipe Timing Combiner
++
++    OTG
++      Output Timing Generator
++
++    PCON
++      Power Controller
++
++    PGFSM
++      Power Gate Finite State Machine
++
++    PSR
++      Panel Self Refresh
++
++    SCL
++      Scaler
++
++    SDP
++      Scalable Data Port
++
++    SLS
++      Single Large Surface
++
++    SST
++      Single Stream Transport
++
++    TMDS
++      Transition-Minimized Differential Signaling
++
++    TMZ
++      Trusted Memory Zone
++
++    TTU
++      Time to Underflow
++
++    VRR
++      Variable Refresh Rate
++
++    UVD
++      Unified Video Decoder
 diff --git a/Documentation/gpu/amdgpu/display/index.rst b/Documentation/gpu/amdgpu/display/index.rst
-new file mode 100644
-index 000000000000..a443866332ac
---- /dev/null
+index fe2ecad8df81..e23c752ee5f5 100644
+--- a/Documentation/gpu/amdgpu/display/index.rst
 +++ b/Documentation/gpu/amdgpu/display/index.rst
-@@ -0,0 +1,29 @@
-+===================================
-+drm/amd/display - Display Core (DC)
-+===================================
-+
-+*placeholder - general description of supported platforms, what dc is, etc.*
-+
-+Because it is partially shared with other operating systems, the Display Core
-+Driver is divided in two pieces.
-+
-+1. **Display Core (DC)** contains the OS-agnostic components. Things like
-+   hardware programming and resource management are handled here.
-+2. **Display Manager (DM)** contains the OS-dependent components. Hooks to the
-+   amdgpu base driver and DRM are implemented here.
-+
-+It doesn't help that the entire package is frequently referred to as DC. But
-+with the context in mind, it should be clear.
-+
-+When CONFIG_DRM_AMD_DC is enabled, DC will be initialized by default for
-+supported ASICs. To force disable, set `amdgpu.dc=0` on kernel command line.
-+Likewise, to force enable on unsupported ASICs, set `amdgpu.dc=1`.
-+
-+To determine if DC is loaded, search dmesg for the following entry:
-+
-+.. toctree::
-+
-+   display-manager.rst
-+   dc-debug.rst
-+
-+``Display Core initialized with <version number here>``
-diff --git a/Documentation/gpu/amdgpu.rst b/Documentation/gpu/amdgpu/index.rst
-similarity index 96%
-rename from Documentation/gpu/amdgpu.rst
-rename to Documentation/gpu/amdgpu/index.rst
-index 8ba72e898099..5c8cbf514097 100644
---- a/Documentation/gpu/amdgpu.rst
+@@ -26,3 +26,4 @@ table of content:
+    display-manager.rst
+    dc-debug.rst
+    dcn-overview.rst
++   dc-glossary.rst
+diff --git a/Documentation/gpu/amdgpu/index.rst b/Documentation/gpu/amdgpu/index.rst
+index 5c8cbf514097..ff38c360b04e 100644
+--- a/Documentation/gpu/amdgpu/index.rst
 +++ b/Documentation/gpu/amdgpu/index.rst
-@@ -1,6 +1,6 @@
--=========================
-+==========================
-  drm/amdgpu AMDgpu driver
--=========================
-+==========================
+@@ -334,3 +334,10 @@ smartshift_bias
  
- The drm/amdgpu driver supports all AMD Radeon GPUs based on the Graphics Core
- Next (GCN) architecture.
-@@ -71,7 +71,7 @@ Interrupt Handling
-    :internal:
- 
- IP Blocks
--------------------
-+---------
- 
- .. kernel-doc:: drivers/gpu/drm/amd/include/amd_shared.h
-    :doc: IP Blocks
-@@ -79,6 +79,18 @@ IP Blocks
- .. kernel-doc:: drivers/gpu/drm/amd/include/amd_shared.h
-    :identifiers: amd_ip_block_type amd_ip_funcs
- 
-+Display Core
-+============
+ .. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+    :doc: smartshift_bias
 +
-+This section covers Display core.
++AMDGPU Glossary
++===============
 +
 +.. toctree::
 +
-+  display/index
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+   :doc: overview
-+
- AMDGPU XGMI Support
- ===================
- 
-diff --git a/Documentation/gpu/drivers.rst b/Documentation/gpu/drivers.rst
-index b4a0ed3ca961..3a52f48215a3 100644
---- a/Documentation/gpu/drivers.rst
-+++ b/Documentation/gpu/drivers.rst
-@@ -4,8 +4,7 @@ GPU Driver Documentation
- 
- .. toctree::
- 
--   amdgpu
--   amdgpu-dc
-+   amdgpu/index
-    i915
-    mcde
-    meson
++   amdgpu-glossary.rst
 -- 
 2.25.1
 
