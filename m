@@ -2,75 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42F21C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Dec 2021 18:01:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7E56C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Dec 2021 18:14:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238495AbhLHSEr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Dec 2021 13:04:47 -0500
-Received: from mail-pl1-f170.google.com ([209.85.214.170]:39650 "EHLO
-        mail-pl1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238424AbhLHSEp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Dec 2021 13:04:45 -0500
-Received: by mail-pl1-f170.google.com with SMTP id z6so2037662plk.6;
-        Wed, 08 Dec 2021 10:01:12 -0800 (PST)
+        id S235042AbhLHSRe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Dec 2021 13:17:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38370 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231643AbhLHSRe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Dec 2021 13:17:34 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 693F7C061746;
+        Wed,  8 Dec 2021 10:14:01 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id u1so5481818wru.13;
+        Wed, 08 Dec 2021 10:14:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=YAH0/us2xqzbXq7gp3ubTBdl9r4CUX/dnOqdJ3pk+RQ=;
+        b=qbxZaTgi/Gu+bhtDm8OHW7GAQTYAld/WqcbE8s71ZDsGqOQ+pijf4khIqhrz53oGnx
+         mbp9adL26lvJ9O4iFRxiVD50W1AoBGqHWQlEXt8W/Gib83xk9K+IsJFzW9XUomCXqAcH
+         ar0dsw7ZAMq3Rn1y2OQy0MqhMi1urhq6T5GPlP/orMM0z2mlvXj51PK98d7/+BGf+JmW
+         eDOfegbjecwOc+NMa8h2a+S0eolWIsTmt2PQADCl2okC5FeDW3zio6s3i4DSL/nbla+2
+         q1KezWjeJZryk9T+JU0p6qqj54G27z5a/HX6UwLloIVqxXGR+0GgwCrr3n2oPzrHSIVJ
+         +ZsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=VYwIdPbXqoC3VUlE+dykVHDfu7/qH13P4YyQqv994k8=;
-        b=g5v1npGG5wthz4l3XhB/Df72E6Q/mUpWz9cfiIeqsO20RXqDqf4I/I9RhKDmLOHN2B
-         yPJVCGm+b8NJA7vcWzKr/ww28hIZjJc6AOEqILZPwsq3AEYTvGk6kpT3zWRNAViGS0RP
-         mQzppJj5FV4POBgF50LcyrfvylMs/qLF2qTQr2Og2XQMfFdoPWFj/Vrb6EmFZTZzZRfo
-         v7BHaKG2yrGqq/8CCr6qwLLZYEfyDJyAsFQFoSJPWa5fHJ/YOHh4pjQ2fjIFCGUPnHz5
-         9UCJlGPTWI4sygCTUMnSwoI5Kg1WtoltG5caA24yNj0Zty2WScKNc1WLdm7caT6jme6D
-         2apg==
-X-Gm-Message-State: AOAM5302Tlp+RZ+I9TsKW+raLYrpcHzmzQSOfqkuvZFJeOChF6fYAWtN
-        iHEMOhHn2cg1HMMfSPV1Koo=
-X-Google-Smtp-Source: ABdhPJyWdTR1kukLPFUc0+bEuKxPPtofXhY2WCTKmse6N7kuXe3PckkHVGq6KGpHI2ncIc/5oy7tsA==
-X-Received: by 2002:a17:902:e550:b0:142:2673:d873 with SMTP id n16-20020a170902e55000b001422673d873mr61255635plf.5.1638986472328;
-        Wed, 08 Dec 2021 10:01:12 -0800 (PST)
-Received: from bvanassche-linux.mtv.corp.google.com ([2620:15c:211:201:18af:8865:db7e:6769])
-        by smtp.gmail.com with ESMTPSA id pg13sm3577873pjb.8.2021.12.08.10.01.10
+        bh=YAH0/us2xqzbXq7gp3ubTBdl9r4CUX/dnOqdJ3pk+RQ=;
+        b=SYi3hoI4wk1SJ1ZczHee6AbV82O73zy61frqSbqiz7nI0lDsz9wbftmS93L80GRuK4
+         MkbjdwFamA/Ec0G4N9+tVbUtEgoQBDw+WYggzFGYSe2BfO8qkQwc0ERFLBzC8WxkaDi8
+         0eqZ4M+g+9FneLFve31oLCSVrN1kBU+uaXkxcjM8nETo8Y7JWh5ZbkKBmXurkjg9s5F2
+         K3S0LMDWHSiZSvpospc/K9DIO6B6HgLbhbQYhD/NnwNS/c7UTow171ARZChsy631m/PG
+         G5xkfOwoNf9YejUD8LKIfpNREEv9HAbJHx9J2XN150hQIEOunr7+4LTdz7mNifgd/a/1
+         wV9g==
+X-Gm-Message-State: AOAM53117HdrdJ3x0F1kcw3aprxq9oHn4AG0vYJf6Y/2V5SmKR+AsOEs
+        heP87OZbFl7HPvK9XFezuBKz7hjFBnBKjQ==
+X-Google-Smtp-Source: ABdhPJy5CAcukXKPiW4E0q9abTqbPf5N/EaEhK5Tn4S/yK0gIWmcpmpG8W/eyRzbXzbe5YsfmjS1bg==
+X-Received: by 2002:a05:6000:82:: with SMTP id m2mr358251wrx.202.1638987240071;
+        Wed, 08 Dec 2021 10:14:00 -0800 (PST)
+Received: from ?IPv6:2003:c7:8f4e:636:1c76:d6f:eb4:9f5b? (p200300c78f4e06361c760d6f0eb49f5b.dip0.t-ipconnect.de. [2003:c7:8f4e:636:1c76:d6f:eb4:9f5b])
+        by smtp.gmail.com with ESMTPSA id z8sm3532839wrh.54.2021.12.08.10.13.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Dec 2021 10:01:11 -0800 (PST)
-Subject: Re: [PATCH v2 5/8] docs: sysfs-block: document stable_writes
-To:     Eric Biggers <ebiggers@kernel.org>, linux-block@vger.kernel.org,
-        Jens Axboe <axboe@kernel.dk>
-Cc:     linux-doc@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, Hannes Reinecke <hare@suse.de>
-References: <20211208005640.102814-1-ebiggers@kernel.org>
- <20211208005640.102814-6-ebiggers@kernel.org>
-From:   Bart Van Assche <bvanassche@acm.org>
-Message-ID: <7d9f9469-5347-780a-c560-77fca6e7008b@acm.org>
-Date:   Wed, 8 Dec 2021 10:01:10 -0800
+        Wed, 08 Dec 2021 10:13:59 -0800 (PST)
+Subject: Re: proposal to delete the skeleton driver
+To:     Oliver Neukum <oneukum@suse.com>, linux-usb@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, tytso@mit.edu,
+        Greg KH <gregkh@linuxfoundation.org>
+References: <df5bb0a6-e5f5-e062-5c02-e1de612058e2@suse.com>
+From:   Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Message-ID: <d1797628-9782-ba76-9eff-f400f9aa2446@gmail.com>
+Date:   Wed, 8 Dec 2021 19:13:58 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211208005640.102814-6-ebiggers@kernel.org>
+In-Reply-To: <df5bb0a6-e5f5-e062-5c02-e1de612058e2@suse.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/7/21 4:56 PM, Eric Biggers wrote:
-> +What:		/sys/block/<disk>/queue/stable_writes
-> +Date:		September 2020
-> +Contact:	linux-block@vger.kernel.org
-> +Description:
-> +		[RW] If the device requires that memory must not be modified
-> +		while it is being written out to disk, this file will contain
-> +		'1'.  Otherwise it will contain '0'.  This file is writable for
-> +		testing purposes.
+On 12/7/21 11:16 AM, Oliver Neukum wrote:
+> Hi,
+> 
+> it seems to me that the method of maintaining an example driver
+> does not work because it will inevitably be
+> 
+> * untested
+> 
+> * out of date
+> 
+> Thus our documentation would be improved by replacing its examples
+> with code from drivers for real hardware. Such code wouldn't be pretty
+> or written for text books, but it would be tested.
+> I could do it this week in a first proposal. But I don't want to start
+> if somebody feels that the skeleton driver absolutely has to stay.
+> 
+>      Regards
+> 
+>          Oliver
+> 
 
-Hmm ... doesn't this attribute apply to the process of transferring data from
-host memory to the device instead of to writing to the disk? Whether data goes
-to the storage device cache or to the storage medium itself depends on attributes
-like FUA.
+My wish is that it is only deleted when you have something similar as 
+proposed by Ted.
 
-Thanks,
+I have tested the driver during the last three month. I used different 
+devices. The best one was a USB to serial adapter, as it has the by the 
+driver expected bulk in and out endpoints. In the skel_open() I was 
+putting in an initialization and was able to set RTS and other signals 
+on the RS232 side. I was also able to test the usb_bulk_msg() receiving 
+example for my patch…
 
-Bart.
+I truly believe that it has issues. But it is usable.
+
+I liked that it is a character device and that it is one file and not 
+distributed among many files.
+
+Regards
+Philipp
