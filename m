@@ -2,154 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CA02C433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Dec 2021 07:12:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10FA2C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Dec 2021 11:13:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236160AbhLHHPi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Dec 2021 02:15:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52902 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240004AbhLHHPi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Dec 2021 02:15:38 -0500
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A97BC061574
-        for <linux-doc@vger.kernel.org>; Tue,  7 Dec 2021 23:12:07 -0800 (PST)
-Received: by mail-ot1-x32a.google.com with SMTP id x3-20020a05683000c300b0057a5318c517so1756893oto.13
-        for <linux-doc@vger.kernel.org>; Tue, 07 Dec 2021 23:12:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=+YQ1n7ePMjBMmDW7mHsdOnpmqb+l1Az3AOeSRzCd7qc=;
-        b=O4TH8dB0MvLP83IRPUpDnamZxOE9K6u/px0NJpUEUBrD0kg6uUP38BUCcLuIt8V3jG
-         UDqV0fz33jsSCxhiYZVjH9SYWAysjIqtPN+NkKHkcBIAbLwg0WgQvpzoD12t7EWW4uN7
-         U83JdU+P9isTuXTcCj+SRgzOJw9qtOf+50MoVwe+qBavG3lXvNCSGPtB38iuyWj16dsV
-         tdk0rBY7+UrHEnd5KBdEy4HUFCUD2Z2fpbJuv3IGYw/WzohkCSTje3MsDd7Nd9cdkaWw
-         cnYSyOwy9k4QJjvYYaQVrcVzueV3bpWQAPbLWgP64Lqci6s5T7ZEytVCsmcG0pkiLJl/
-         7QBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=+YQ1n7ePMjBMmDW7mHsdOnpmqb+l1Az3AOeSRzCd7qc=;
-        b=26lYK+2LZe+m2BRYM0faN0NBbL+Te84vsTT5D1QMH6NFbHsi+jor8+bV72nzE53LTd
-         4YzTTo7jUz37XmvETGxzvG+wrR9FIdOjJVHpIjKdy5y1EXChaeVeSoXTqkSFhfqIgLVM
-         bbwHReB+y3U3RARWN3wRSTCd85IF0DzMxn7CzOGb6OSUINbfBAW2u3CqcvjYNxVOvjq9
-         kqiiA4KNvz8eYM3us+Mrysm+q6lZEauzqsfxF+R8K95ytPbgtCofVQpZz8yl/9iOMEAy
-         bakehzjqyh2yDfG/6YT8fBvHTeQFq4lt0BgWxWE8F9FWAF/srOp6MfCVLQNVruUHw2kd
-         QRdA==
-X-Gm-Message-State: AOAM532z93pvTqu6suxvYjXlD8S5aTX39ir246J0+Gulh9/eWhfe4SRR
-        pdROhBX09v4aUb0hCDjL83ZWPXsyfR6YZvzqsP0BO6Bqrnmxl6wu
-X-Google-Smtp-Source: ABdhPJxo6DWq/oRxp1/x0wrR+dJatlUepTAs6rIl4JesdveTpjNCRSD3brvDAT8w1bJ3GM9/JM91JQTzzIZXUaU1T+k=
-X-Received: by 2002:a05:6830:2aa7:: with SMTP id s39mr40055815otu.151.1638947525318;
- Tue, 07 Dec 2021 23:12:05 -0800 (PST)
-MIME-Version: 1.0
-References: <20211206090911.26487-1-tangyizhou@huawei.com> <20211206090911.26487-2-tangyizhou@huawei.com>
- <CAJy-Am=C4A6FBV2P4nB3zPsP7NbFn6nyhqT2wB9+dgEa2V-0pQ@mail.gmail.com>
- <f01d3083-c1d6-54c1-fb5a-2d00b2357762@huawei.com> <CAJy-AmmdGQndsx3MDhYCgqawc-JRib7-YGm1oDit2hW1otbjuQ@mail.gmail.com>
- <87ee6o1mzf.fsf@meer.lwn.net> <CAJy-AmkmwxWcbn6AuT738RFng+aH87Ph7VW69X75nV4+ynQYvA@mail.gmail.com>
- <87bba6bf-1746-eed7-c5e3-619ae2a0cdb8@huawei.com> <CAEensMx2OwMNszCJpCCtahsC3CLdSP0KRq_jPDPeZAjKtmz6PQ@mail.gmail.com>
- <CAJy-AmmfSX14XgXgb5edvL1A40KeaUZ1wWYsfz=N43zdQrKuJg@mail.gmail.com>
-In-Reply-To: <CAJy-AmmfSX14XgXgb5edvL1A40KeaUZ1wWYsfz=N43zdQrKuJg@mail.gmail.com>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Wed, 8 Dec 2021 15:11:53 +0800
-Message-ID: <CAEensMwQoSRHn0kxa02fnjOi1+kOsi5=UJBSLHZqEndnknF4Qg@mail.gmail.com>
-Subject: Re: [PATCH 1/1] docs/zh_CN: Add sched-capacity translation
-To:     Alex Shi <seakeel@gmail.com>
-Cc:     Tang Yizhou <tangyizhou@huawei.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Alex Shi <alexs@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        zhengbin13@huawei.com, Yeechou Tang <tangyeechou@gmail.com>,
-        Feiyang Chen <chris.chenfeiyang@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S232210AbhLHLRI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Dec 2021 06:17:08 -0500
+Received: from de-smtp-delivery-102.mimecast.com ([194.104.111.102]:27622 "EHLO
+        de-smtp-delivery-102.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232208AbhLHLRH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Dec 2021 06:17:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=mimecast20200619;
+        t=1638962014;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=g0nNwrk9+CnD14yD1+gHbl/tWSRhsJJJUC4jNP05mHs=;
+        b=VJAywUDH/CRTwAog1PWMoH8mM6C2ujqwE2LFYT3qCjEfvt/Ge/bCOmoZoqcf5P3T3KCvFW
+        enV+mb/SyJ83B4p1K80zfC0yE9RoLXyy+CGwZ2LAxEXZt4rHVmW+GvNuMKKouDzZ+UCcLh
+        Xd2W/kQt5/qBD2BDsgyw0/UowhrR1lQ=
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com
+ (mail-db3eur04lp2058.outbound.protection.outlook.com [104.47.12.58]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ de-mta-30-j4ToE9ZCPgmIt_b2k798FA-1; Wed, 08 Dec 2021 12:13:33 +0100
+X-MC-Unique: j4ToE9ZCPgmIt_b2k798FA-1
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=H7i1gjW8otlS45Ndd5vqtnk9hmh0KM01aaOsb2kaD0MRUyqZTVHbSkK2RouulBjB/Poo7cpLlYaqkqDoa0o0TpxzGwVX4tg1ylWZu9MTSFhrSgavWPZW+6biiA490cMZvg+bRhIfAJogzpuqTLdsgGyLa90zM7gFcOVlsL8b7YvfthFZ6yO5Ao7M7eQ7ciUiVlC2BJ7fgjkDQFpeVDYVK/NOnXdjJuoKzQWdzEmBJo/L4LuWFe4JaTlfY5QsCpl68FpDN0CxZR1DmM8OhsPoZEjUm34uKaidbDu7vYbuxFtWcyr9NLO9EhEmaImRh1OCerw3+brwevqcqzx7+qyJZg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=e25rnSpEp2Yii01hmPdkxEtyMjM3eHdawqiyU00T608=;
+ b=Gs/h3lB+JWpX8oLrM0OIy64OqRtghMqyz98YEkcyivgjmVBKVo3qjjsVYzG5rKfuEUdw+6ekcLGj91uKT+LhjSAthozTxC9xrKUKHhpyyL8y41NuBEkrZhJYmMaPIaz8cq2bXVeR3DMwVBr0zSXSTQctljWEHHcCJcT3WinER0jGi6TNCmuI/PKOViKTv07AOXwVm20ZoKp0OpqTCFigd0dBr1FKq7V+qmbkhIflriQjocBYnWa9ODJ+D6dQU1uh+iEbtFhpL3wHWJMFRfb8dlg5VD9x1ole2ZQMh7gkVOnkAAdti2HBNqaW+6UZM58tB1Ur1heyVSN2OwDF/oBApA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
+ dkim=pass header.d=suse.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=suse.com;
+Received: from DB7PR04MB5050.eurprd04.prod.outlook.com (2603:10a6:10:22::23)
+ by DB7PR04MB4844.eurprd04.prod.outlook.com (2603:10a6:10:16::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.21; Wed, 8 Dec
+ 2021 11:13:32 +0000
+Received: from DB7PR04MB5050.eurprd04.prod.outlook.com
+ ([fe80::e9d6:1be9:d046:af1]) by DB7PR04MB5050.eurprd04.prod.outlook.com
+ ([fe80::e9d6:1be9:d046:af1%7]) with mapi id 15.20.4755.022; Wed, 8 Dec 2021
+ 11:13:32 +0000
+Subject: Re: proposal to delete the skeleton driver
+To:     "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Oliver Neukum <oneukum@suse.com>
+CC:     linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+        Philipp Hortmann <philipp.g.hortmann@gmail.com>
+References: <df5bb0a6-e5f5-e062-5c02-e1de612058e2@suse.com>
+ <Ya/jrm59Ai226JtE@mit.edu>
+From:   Oliver Neukum <oneukum@suse.com>
+Message-ID: <9b33445d-7bf9-684a-bf53-f472bb928b96@suse.com>
+Date:   Wed, 8 Dec 2021 12:13:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
+In-Reply-To: <Ya/jrm59Ai226JtE@mit.edu>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+X-ClientProxiedBy: AM6PR08CA0012.eurprd08.prod.outlook.com
+ (2603:10a6:20b:b2::24) To DB7PR04MB5050.eurprd04.prod.outlook.com
+ (2603:10a6:10:22::23)
+MIME-Version: 1.0
+Received: from localhost.localdomain (2001:a61:3b82:1901:9d6b:5ffd:1b6b:2163) by AM6PR08CA0012.eurprd08.prod.outlook.com (2603:10a6:20b:b2::24) with Microsoft SMTP Server (version=TLS1_2, cipher=) via Frontend Transport; Wed, 8 Dec 2021 11:13:32 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5556494a-b549-4f15-6aca-08d9ba3bc547
+X-MS-TrafficTypeDiagnostic: DB7PR04MB4844:EE_
+X-LD-Processed: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba,ExtFwd
+X-Microsoft-Antispam-PRVS: <DB7PR04MB4844F15937FB9994B22A98E4C76F9@DB7PR04MB4844.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: f21iZuY5DSQH44dHxUVJ35z6QswGqvjrr2/Aw6MLXNL9qrhkMhK2+yv5j7Ec0uTwEPPDH4U1TcuW+1v8y9BO69F8OqUxHOUYh74/1+flufeMvYa8XWlpXe8n7keGD7BYGddmJmrKhdg3U3PRtdGa21S9kFHWVmyB5Kv+4/Pxpe8CrXmEOA82yQY/rASRZB5WWm9A31nO1/cdtMmWJSAh9LTvOJH4RBklgSb0PuaVqdlk56xQL6gQiQpjSH+4dH++C23TstfBQNl0Cf8OQ6Jof59nkwRD51Lbm280yIkbosycbZu0o/ImsQ5YDCTvz+/N/tq7+MrwKs3h4U0N6Ke/ZxYDj93Qe5RPmmkj5X68COINAdh/sNSfaCJ7XhtQmCX2czmwvY2rv6VW6nqq/TduYYnaxpkyXX4AALp3SFfBgdax5zOrvzQYyPB6bmhm9OwpQfeajff9t7rVsL70OlQ1QHcltJpUicF1F9Hm/9CTS5+JLrjAEapd018EEg1aDeGfmleBZgiZPWUXXAdnqmS+4zD444L9tQ7h9lv3bzLbrw9u1NhQ9PEJEzFMIKkbEbDsjr2l9rr0w7St8IbCnlmlveGTeHk4wAbgivPVOLjRlz16RZQaholWAiJOVZLcPeWioIJUC7qxsyvCEj4DWOE1jwD61uHqH41SfaYmXCEB3H8MV+fIE0vqkGm47U+WnYsblyO7pHyBiwlfqPQebfLkDL61HdG+ak36pyyMW5ODw/w=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR04MB5050.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(2616005)(31686004)(6486002)(5660300002)(4326008)(36756003)(66556008)(66946007)(66476007)(110136005)(31696002)(38100700002)(316002)(83380400001)(8936002)(508600001)(6512007)(86362001)(186003)(6506007)(8676002)(2906002)(4744005)(53546011)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?UcNqPFsKMSJGWvtcEpzP+JymJA6gqCftosogBqh986/slhTPsVZHPLhEXDYe?=
+ =?us-ascii?Q?c4w+NwM/2O9CksJFY2TrFLWjLn+BUB1Z8nhHU0LShG9MMPmkhU4uG1RWDOUt?=
+ =?us-ascii?Q?n54CXFxNqOeL6qg7KP+auUkpxToGLPkLS562ZLB9PmMDjLo9leh2v8uFljYX?=
+ =?us-ascii?Q?9/x8lrOKNcHvgKa9wcnKXlZmZiY1LWY3v0datZ9+J/7OHo2jBqZ0wPp7ASGU?=
+ =?us-ascii?Q?k6ZuvMmZFKrJ909Kxy0fyMHYGXOqgFOninX5l9/THCC2umvUvVilSh1QNQA9?=
+ =?us-ascii?Q?NQinbBIsbsKOAmIphuopukIPmKtT2dISkblpte2WDQCtLf53Dm9mdy7ZtAJ+?=
+ =?us-ascii?Q?Xj2dSqVzbKQUEyoRl6x9WTLO9x2a6K/s0IFipAfxnnK/cdMKodXcl1XhPhTQ?=
+ =?us-ascii?Q?RqP5iqUtvPSDSpdV8eUwwPGuL76LPdXHSeLufk/WRkgWqDvlk7dEVvaf4LVy?=
+ =?us-ascii?Q?GHW0qWpeUasAuRfcES4sgzB5KqZyQRpxfomvz5SfPRBzvBAM/82xdcfx59eq?=
+ =?us-ascii?Q?mMn393UVud0q4GK0W9iF6XxFzuI5GtEKLxcCysGbUahIzoqBPejlzpSF8OO5?=
+ =?us-ascii?Q?idyAvbfZoiP/xzoZGln5QR6V7+XopXqawAJdU/n0/hS2iISB3OQYYcUtkkJO?=
+ =?us-ascii?Q?a2m9uv+JRmFfTpwbucIO9WX1gYQxJ8RcmTLLkopVNE2pEYWNQsAW2i7P0C3p?=
+ =?us-ascii?Q?+0SJ0oQ/xBdGLBoMlaffDnkjl+bH6mb19OW1Hl6UY8iFs3oT5bMWjxgV1vlT?=
+ =?us-ascii?Q?gpkw4RjUV+LKjdt90WnRVIZ+c49yY7NaVvWmxYtCZDr7K5Jyz7XfHt9xWwNI?=
+ =?us-ascii?Q?H5eMEjJaXQ0mZddsRGbWvDRODvEnX2ObJfADkz53cxWdfsqFgO6k2K6AzP8D?=
+ =?us-ascii?Q?DSqPshAL5CZ294DB202zklXQV7Uxu3JRv1bRrdVQsavpyDwd7zF4fdRKw4f9?=
+ =?us-ascii?Q?Aj45R+KQ3/ESAvE0BPbJ8UZSab2UR2/8VRqrUMWzNEZdC7LrUxw8cF7pRxM7?=
+ =?us-ascii?Q?VYq1Xmq/4HZzGKi0VvCIkt+AHgpfomB/u3Cya5lrMgu4Oe+Yf0HfbWI9xse9?=
+ =?us-ascii?Q?IF2XWf5kCSW8G6vgdhlDW4M/BXcd9xs3ltsDINo7aDwzDbAsPOKMrha4E848?=
+ =?us-ascii?Q?lhsrBgwWtV93GJDradBjNguxeD7WsPTsAFOSlgTil72xv5Nw95rLYFeetuTI?=
+ =?us-ascii?Q?yI/9yBX1zKFPnlYHVZMZsFN45VuuCRjaBaZnAoJe5zoenlx8FYVuIS9uiO7d?=
+ =?us-ascii?Q?AEoXjvCcGbSCrV7Y1EByQZsJxWBBkQQhI5+S5g8xy1/zLhNt+dopmtvzBOax?=
+ =?us-ascii?Q?i/uZ1WbNPovQdfWbAD684jdc9Bsl/9O7Yj5l3ZcFbrvOzJiQRgy4p8R3Xn8R?=
+ =?us-ascii?Q?QsMZi7OUY9HPCtycNT5wpY4wgf4giUMAuIuqtgLkYx1xKP40BFoDM/7lBdxm?=
+ =?us-ascii?Q?K9RrClCe7rLM0Eq8U8HREA05N3QfRVznPWpFEEzZ6Mj+oChpC+PM1tClL/jr?=
+ =?us-ascii?Q?Y2qIvdXgcMjUKGfK23W8J8O2MKPiql+mYSH/ktY0s8S23bcueEckINTyUENY?=
+ =?us-ascii?Q?eXRbR6RkArIDuzZiAUOOvoJw/sK8gZHU3SEbnaqxeiEQZFh5QGjKdOa6jxm3?=
+ =?us-ascii?Q?IxR+o24bKwxnmiasYO0IHRosLwHSDZm2Rf6jj5/ZfI6FN3jOTNXkVG5buWrw?=
+ =?us-ascii?Q?hmmS8BCblFJx2Z8YNPjUZqnGeFw=3D?=
+X-OriginatorOrg: suse.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5556494a-b549-4f15-6aca-08d9ba3bc547
+X-MS-Exchange-CrossTenant-AuthSource: DB7PR04MB5050.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2021 11:13:32.7543
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BC5FHIM8at1RKrjTVmkLA/zryuwwRewb4kE2k3Eshh1Z+WNT/8m5tNXLNIJzEKa4GpIxOqVDjKOUqvnBg2ztKg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR04MB4844
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Alex Shi <seakeel@gmail.com> =E4=BA=8E2021=E5=B9=B412=E6=9C=888=E6=97=A5=E5=
-=91=A8=E4=B8=89 14:16=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Wed, Dec 8, 2021 at 12:55 PM yanteng si <siyanteng01@gmail.com> wrote:
-> >
-> > Tang Yizhou <tangyizhou@huawei.com> =E4=BA=8E2021=E5=B9=B412=E6=9C=888=
-=E6=97=A5=E5=91=A8=E4=B8=89 12:35=E5=86=99=E9=81=93=EF=BC=9A
-> > >
-> > > On 2021/12/8 11:16, Alex Shi wrote:
-> > > > On Tue, Dec 7, 2021 at 10:57 PM Jonathan Corbet <corbet@lwn.net> wr=
-ote:
-> > > >>
-> > > >> Alex Shi <seakeel@gmail.com> writes:
-> > > >>
-> > > >>> What the result of scripts/checkpatch.pl or make htmldocs say?
-> > > >>> Let's tame these tools and follow the regluar styles of kernel.
-> > > >>
-> > > >> checkpatch knows nothing about different languages, and "make html=
-docs"
-> > > >> doesn't do that sort of stylistic checking.
-> > > >
-> > > > Thanks for the info!
-> > > >
-> > > >>
-> > > >> I don't know enough (i.e. anything :) to have an opinion on the be=
-st
-> > > >> length for lines of Chinese text.  Surely there must be some conve=
-ntions
-> > > >> out there?
-> > > >
-> > > > The only reason I know is to remove extra spaces char in 'rendered
-> > > > documentation'
-> > > > which is generated by line break. For this purpose, 40 or 60 line c=
-hars limit
-> > > > can't fulfill it obviously.
-> > > >
-> > > > Yizhou's suggestion has no line break unless a punctuation hitted, =
-so the
-> > > > space will happen with the punctuation.   This makes the rendered d=
-ocument look
-> > > > good, but will lead to toooo long and never alignment lines in the
-> > > > source document.
-> > > > It looks like we have no good way to resolve this issue by style
-> > > > change. Also the '60'
-> > > > number seems an arbitrary number? If we have to relief this problem=
- from coding
-> > > > style change, why not follow the new rule after checkpatch's change=
-:
-> > > > from 80 to 100,
-> > > > let's say about 50 Chinese chars plus breaking after a meaningful C=
-hinese word?
-> > >
-> > > Agreed.
-> > >
-> > > Now I prefer 50 Chinese chars plus breaking after a meaningful Chines=
-e word.
-> > All guys:
-> >
-> > ref <https://stackoverflow.com/questions/8550112/prevent-browser-conver=
-ting-n-between-lines-into-space-for-chinese-characters>
->
-> Nice finding!
->
-> >
-> > I have tested that firefox has no space problem. Looks like some
-> > browser issues, But I still think it's because rst didn't consider
-> > Chinese support when it was originally designed.
-> >
-> > I'm sure there are many ways to solve the space problem elegantly, but
-> > changing the document source code is definitely not one of them.
->
-> Right.
->
-> Just since checkpatch has changed, so let's move on...
-> And of cause, 40 chars width is also acceptable if someone like it.
 
-OK! I agree with 50 chars.
+On 07.12.21 23:43, Theodore Y. Ts'o wrote:
+> In addition to your idea, I wonder if we could point people at some
+> simple "real world" drivers that people could look at which are (a)
+> simple, and (b) relatively clean and free of anti-patterns that we
+> don't want driver authors to copy pasta into their drivers.
+I will try to. It may come as a surprise but if we want to limit
+ourselves to drivers implementing a classical character device,
+the number of recent examples dwindles rapidly.
 
-We need to take care of the kernel developers who don't have a GUI,
-and the doc developers who use vi. So I still insist that the Chinese
-document should be as neat as the original one=EF=BC=88English doc).
+And I think we should stick to such devices to give examples
+comprehensible and relevant to as many people as possible.
 
-Thanks,
-Yanteng
+=C2=A0=C2=A0=C2=A0 Regards
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 Oliver
+
+
