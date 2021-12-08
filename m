@@ -2,69 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E35A2C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Dec 2021 18:35:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECAB2C433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Dec 2021 18:40:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235259AbhLHSjC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Dec 2021 13:39:02 -0500
-Received: from mail-pj1-f42.google.com ([209.85.216.42]:43597 "EHLO
-        mail-pj1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231196AbhLHSjB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Dec 2021 13:39:01 -0500
-Received: by mail-pj1-f42.google.com with SMTP id nh10-20020a17090b364a00b001a69adad5ebso2805954pjb.2;
-        Wed, 08 Dec 2021 10:35:29 -0800 (PST)
+        id S239158AbhLHSoS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Dec 2021 13:44:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44714 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230040AbhLHSoR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Dec 2021 13:44:17 -0500
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2A81C0617A2
+        for <linux-doc@vger.kernel.org>; Wed,  8 Dec 2021 10:40:45 -0800 (PST)
+Received: by mail-pl1-x631.google.com with SMTP id n8so2122430plf.4
+        for <linux-doc@vger.kernel.org>; Wed, 08 Dec 2021 10:40:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=2esW1PgwMW/uPgw9HwrxttsSErnSmH0L2IFPbegvGZ0=;
+        b=JMOFGrTmIpVxHPJ19wMiBSNYvcNn4mkwdiP01+P4qAv6w5oI848W7a5nKo+HHiDamf
+         CgyZySrRXpQx35cciVcOAxORaZROKTbyhnq+6dGXPeuaQ9G8lTZTcs/HqoYeQzXCeexR
+         aC9M7oj8N1uyoTJ22SaBHVyL5KYIF8eEEza3rwrcm0tUVNfMiPP2T3MGPsbj1wRgZt7U
+         yInbZBE080qCbZs6+hPqLbNUFvRWtbFpScL2EaazzzSdx7i0fnJJduDEOJ63fYHIBkTj
+         9yUVsVEvoODMCxiJ70Aa8yw9QZ5ML8PdSzvcy2YO1vi25xxf+y5wlWSsG9EhFMRNTiWO
+         oeyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=iRb91wcfGIDc8fcHqi52mmmZ+5JRO93HKexzRfoxhTw=;
-        b=0sbGFfynF9CJ/gGBKFUUmN5nV2uCaw8VHIT6oPg+JkKmB7/izD8FT6eQSc+Ji3+fgh
-         zD4HMFYmzYyECpyQf4G1E6XE/uJ7aZCyEMKO0i0Ovh1QiirHne8jRVSb60ETqFlFh+CO
-         ecjJ+IJkDC1tQvlAeG7V9ndRdgNOqAJHbofArWgfJ67YU5RKKf+KlilcxbfLfcXEiqC0
-         7HyoWDf9fZ19nBKZMqLT9qQGJOEpS0XPfTC5xAQQ/hu1Qf3f5mcli6hIjZRFAVnEA3Iq
-         oLv/CGXevjI7FS3/YddtQSPiTFdTROJhxcTBSOU9r79fqjSEi9pZyx7/MvJ1VTz5XvLf
-         KuoQ==
-X-Gm-Message-State: AOAM533AlR/ceYpQ2iVcsyvI1xpsV2ZNeT/vpCpblCoA9ILy+ckN1IOE
-        DiTS/BVDf+5ZpYgUVEaVk2tkse1hNpY=
-X-Google-Smtp-Source: ABdhPJwWKyyuwJcPF6t+KrhFcMVvum6dWIO1YIUA1g4+Vz2/S5LJBnBRkyx80vYcDtc89Z3yF1erJQ==
-X-Received: by 2002:a17:90a:bf8a:: with SMTP id d10mr9110777pjs.67.1638988529056;
-        Wed, 08 Dec 2021 10:35:29 -0800 (PST)
-Received: from bvanassche-linux.mtv.corp.google.com ([2620:15c:211:201:18af:8865:db7e:6769])
-        by smtp.gmail.com with ESMTPSA id h8sm4633810pfh.10.2021.12.08.10.35.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Dec 2021 10:35:28 -0800 (PST)
-Subject: Re: [PATCH v2 0/8] docs: consolidate sysfs-block into
- Documentation/ABI/
-To:     Eric Biggers <ebiggers@kernel.org>, linux-block@vger.kernel.org,
-        Jens Axboe <axboe@kernel.dk>
-Cc:     linux-doc@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org
-References: <20211208005640.102814-1-ebiggers@kernel.org>
-From:   Bart Van Assche <bvanassche@acm.org>
-Message-ID: <32b52a87-7616-a128-bb97-b73e2125d84a@acm.org>
-Date:   Wed, 8 Dec 2021 10:35:27 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=2esW1PgwMW/uPgw9HwrxttsSErnSmH0L2IFPbegvGZ0=;
+        b=2us1Y8QsHvhNfZIcejz0XMqw8JuEcyqqFg9cYc9/j14gv5BLw/HljgT9PrcV6P3jzx
+         3g6I7v7b9ULkiWZ742smoveFfr3Z7O0NTlrfRU2L/ibYn4RXh0Y1bWhgTITErLU9m7Tt
+         PZDuUN7WTNzMf6hainTH7PYhXb0MMHgSoqGrxGfepHhpM6aQlBrFizlfRyL8xIXNCltN
+         5WwHiKymAaj2wPm2aI0qOSGbYPtxi2OqLSv8vuUTM1R6TIxKonbeG6c6e0bTpNRYEzIP
+         VL9hULRHcnh1H0iHgwKENLYcbtwYGNR65OShEl5y1GJM3VIfZaYJgT7I+Mc7SXzCqn0H
+         qDVg==
+X-Gm-Message-State: AOAM530lL2iPGaF5uRZrHC3t3LU6aypaJaD5mfwCQ1umzkgMYoqPuleD
+        rPf+ED4bYGpIxLNznnNiXKtzGg==
+X-Google-Smtp-Source: ABdhPJzClCXWnuOKDKj88Rz4E8jDDb4uaV82hAB72j9+tDfCTT3P2Gq1tWJQXULxbEHjlyKhl7uk0Q==
+X-Received: by 2002:a17:902:e302:b0:141:af98:b5ea with SMTP id q2-20020a170902e30200b00141af98b5eamr60821172plc.53.1638988845033;
+        Wed, 08 Dec 2021 10:40:45 -0800 (PST)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id r16sm3294860pgk.45.2021.12.08.10.40.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Dec 2021 10:40:44 -0800 (PST)
+Date:   Wed, 8 Dec 2021 18:40:40 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Li Yu <liyu.yukiteru@bytedance.com>
+Cc:     pbonzini@redhat.com, Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        "Maciej W. Rozycki" <macro@orcam.me.uk>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kvm@vger.kernel.org
+Subject: Re: [PATCH v3] KVM: x86/mmu: Warn on iTLB multi-hit for possible
+ problems
+Message-ID: <YbD8KFaY+emLQR+d@google.com>
+References: <YW7w8g+65PjGs2wc@google.com>
+ <20211020043131.1222542-1-liyu.yukiteru@bytedance.com>
 MIME-Version: 1.0
-In-Reply-To: <20211208005640.102814-1-ebiggers@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211020043131.1222542-1-liyu.yukiteru@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/7/21 4:56 PM, Eric Biggers wrote:
-> This series consolidates the documentation for /sys/block/<disk>/queue/
-> into Documentation/ABI/, where it is supposed to go (as per Greg KH:
-> https://lore.kernel.org/r/YaXXpEAwVGTLjp1e@kroah.com).
+On Wed, Oct 20, 2021, Li Yu wrote:
+> Warn for guest huge pages split if iTLB multi-hit bug is present
+> and CPU mitigations is enabled.
 > 
-> This series also updates MAINTAINERS to associate the block
-> documentation with the block layer.
+> Warn for possible CPU lockup if iTLB multi-hit bug is present but
+> CPU mitigations is disabled.
+> 
+> Signed-off-by: Li Yu <liyu.yukiteru@bytedance.com>
+> ---
 
-Thank you for having done this work! Once my two comments are addressed,
-feel free to add the following to all patches in this series:
+Gah, my last reply in the previous version was offlist.  I would like an answer
+to the below question before we complicate KVM just to log a message.
 
-Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+On Wed, Oct 20, 2021 at 12:51 PM Sean Christopherson <seanjc@google.com> wrote:
+>
+> On Wed, Oct 20, 2021, Li Yu wrote:
+> > On 2021/10/20 00:23, Sean Christopherson wrote:
+> > I think it is necessary to log something when `nx_huge_pages` is `auto` or
+> > `off`, and the bug is present.
+>
+> Why is it necessary?  Specifically, what action can be taken based on KVM logging
+> that can't reasonably be taken based on all the other information provided by the
+> kernel?  We should teach userspace to go look at the vulnerabilites info, not to
+> scrape the kernel log.
