@@ -2,23 +2,26 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B346AC433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Dec 2021 17:09:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9226C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Dec 2021 17:13:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237586AbhLHRNG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Dec 2021 12:13:06 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:35964 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234407AbhLHRNF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Dec 2021 12:13:05 -0500
+        id S237626AbhLHRRU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Dec 2021 12:17:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52140 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234579AbhLHRRT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Dec 2021 12:17:19 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AAB0C061746;
+        Wed,  8 Dec 2021 09:13:47 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 99CC9B8219C;
-        Wed,  8 Dec 2021 17:09:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90B11C00446;
-        Wed,  8 Dec 2021 17:09:27 +0000 (UTC)
-Date:   Wed, 8 Dec 2021 17:09:24 +0000
+        by ams.source.kernel.org (Postfix) with ESMTPS id 64C7DB821DC;
+        Wed,  8 Dec 2021 17:13:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63ACAC00446;
+        Wed,  8 Dec 2021 17:13:41 +0000 (UTC)
+Date:   Wed, 8 Dec 2021 17:13:38 +0000
 From:   Catalin Marinas <catalin.marinas@arm.com>
 To:     Zhen Lei <thunder.leizhen@huawei.com>
 Cc:     Thomas Gleixner <tglx@linutronix.de>,
@@ -36,95 +39,51 @@ Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Feng Zhou <zhoufeng.zf@bytedance.com>,
         Kefeng Wang <wangkefeng.wang@huawei.com>,
         Chen Zhou <dingguo.cz@antgroup.com>
-Subject: Re: [PATCH v16 08/11] x86, arm64: Add ARCH_WANT_RESERVE_CRASH_KERNEL
- config
-Message-ID: <YbDmxIPdk7TKIKAU@arm.com>
+Subject: Re: [PATCH v16 00/11] support reserving crashkernel above 4G on
+ arm64 kdump
+Message-ID: <YbDnwol20HrRl4uL@arm.com>
 References: <20211123124646.1995-1-thunder.leizhen@huawei.com>
- <20211123124646.1995-9-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211123124646.1995-9-thunder.leizhen@huawei.com>
+In-Reply-To: <20211123124646.1995-1-thunder.leizhen@huawei.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 23, 2021 at 08:46:43PM +0800, Zhen Lei wrote:
-> diff --git a/arch/Kconfig b/arch/Kconfig
-> index 26b8ed11639da46..19256aa924c3b2c 100644
-> --- a/arch/Kconfig
-> +++ b/arch/Kconfig
-> @@ -24,6 +24,9 @@ config KEXEC_ELF
->  config HAVE_IMA_KEXEC
->  	bool
->  
-> +config ARCH_WANT_RESERVE_CRASH_KERNEL
-> +	bool
-> +
->  config SET_FS
->  	bool
->  
-> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> index c4207cf9bb17ffb..4b99efa36da3793 100644
-> --- a/arch/arm64/Kconfig
-> +++ b/arch/arm64/Kconfig
-> @@ -95,6 +95,7 @@ config ARM64
->  	select ARCH_WANT_FRAME_POINTERS
->  	select ARCH_WANT_HUGE_PMD_SHARE if ARM64_4K_PAGES || (ARM64_16K_PAGES && !ARM64_VA_BITS_36)
->  	select ARCH_WANT_LD_ORPHAN_WARN
-> +	select ARCH_WANT_RESERVE_CRASH_KERNEL if KEXEC_CORE
->  	select ARCH_WANTS_NO_INSTR
->  	select ARCH_HAS_UBSAN_SANITIZE_ALL
->  	select ARM_AMBA
-> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-> index 7399327d1eff79d..528034b4276ecf8 100644
-> --- a/arch/x86/Kconfig
-> +++ b/arch/x86/Kconfig
-> @@ -12,6 +12,7 @@ config X86_32
->  	depends on !64BIT
->  	# Options that are inherently 32-bit kernel only:
->  	select ARCH_WANT_IPC_PARSE_VERSION
-> +	select ARCH_WANT_RESERVE_CRASH_KERNEL if KEXEC_CORE
->  	select CLKSRC_I8253
->  	select CLONE_BACKWARDS
->  	select GENERIC_VDSO_32
-> @@ -28,6 +29,7 @@ config X86_64
->  	select ARCH_HAS_GIGANTIC_PAGE
->  	select ARCH_SUPPORTS_INT128 if CC_HAS_INT128
->  	select ARCH_USE_CMPXCHG_LOCKREF
-> +	select ARCH_WANT_RESERVE_CRASH_KERNEL if KEXEC_CORE
->  	select HAVE_ARCH_SOFT_DIRTY
->  	select MODULES_USE_ELF_RELA
->  	select NEED_DMA_MAP_STATE
-> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
-> index 4dc2643fcbccf99..b23cfc0ca8905fd 100644
-> --- a/kernel/crash_core.c
-> +++ b/kernel/crash_core.c
-> @@ -321,9 +321,7 @@ int __init parse_crashkernel_low(char *cmdline,
->   * --------- Crashkernel reservation ------------------------------
->   */
->  
-> -#ifdef CONFIG_KEXEC_CORE
-> -
-> -#if defined(CONFIG_X86) || defined(CONFIG_ARM64)
-> +#ifdef CONFIG_ARCH_WANT_RESERVE_CRASH_KERNEL
->  static int __init reserve_crashkernel_low(void)
->  {
->  #ifdef CONFIG_64BIT
-> @@ -451,8 +449,7 @@ void __init reserve_crashkernel(void)
->  	crashk_res.start = crash_base;
->  	crashk_res.end   = crash_base + crash_size - 1;
->  }
-> -#endif
-> -#endif /* CONFIG_KEXEC_CORE */
-> +#endif /* CONFIG_ARCH_WANT_RESERVE_CRASH_KERNEL */
+On Tue, Nov 23, 2021 at 08:46:35PM +0800, Zhen Lei wrote:
+> Chen Zhou (10):
+>   x86: kdump: replace the hard-coded alignment with macro CRASH_ALIGN
+>   x86: kdump: make the lower bound of crash kernel reservation
+>     consistent
+>   x86: kdump: use macro CRASH_ADDR_LOW_MAX in functions
+>     reserve_crashkernel()
+>   x86: kdump: move xen_pv_domain() check and insert_resource() to
+>     setup_arch()
+>   x86: kdump: move reserve_crashkernel[_low]() into crash_core.c
+>   arm64: kdump: introduce some macros for crash kernel reservation
+>   arm64: kdump: reimplement crashkernel=X
+>   x86, arm64: Add ARCH_WANT_RESERVE_CRASH_KERNEL config
+>   of: fdt: Add memory for devices by DT property
+>     "linux,usable-memory-range"
+>   kdump: update Documentation about crashkernel
+> 
+> Zhen Lei (1):
+>   of: fdt: Aggregate the processing of "linux,usable-memory-range"
 
-Nitpick mostly but it may simplify the patches if the x86, arch/Kconfig
-and crash_core.c changes here could be moved to patch 5. The remaining
-select for arm64 should be moved to patch 7 and drop the #if change in
-that patch.
+Apart from a minor comment I made on patch 8 and some comments from Rob
+that need addressing, the rest looks fine to me.
 
-This way we can keep the x86 patches on a separate branch.
+Ingo stated in the past that he's happy to ack the x86 changes as long
+as there's no functional change (and that's the case AFAICT). Ingo, does
+your conditional ack still stand?
+
+In terms of merging, I'm happy to take it all through the arm64 tree
+with acks from the x86 maintainers. Alternatively, with the change I
+mentioned for patch 8, the first 5 patches could be queued via the tip
+tree on a stable branch and I can base the rest of the arm64 on top.
+
+Thomas, Ingo, Peter, any preference?
 
 Thanks.
 
