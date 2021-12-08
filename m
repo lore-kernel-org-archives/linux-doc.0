@@ -2,90 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9226C433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Dec 2021 17:13:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95BE7C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Dec 2021 17:35:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237626AbhLHRRU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Dec 2021 12:17:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52140 "EHLO
+        id S235160AbhLHRjN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Dec 2021 12:39:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234579AbhLHRRT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Dec 2021 12:17:19 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AAB0C061746;
-        Wed,  8 Dec 2021 09:13:47 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 64C7DB821DC;
-        Wed,  8 Dec 2021 17:13:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63ACAC00446;
-        Wed,  8 Dec 2021 17:13:41 +0000 (UTC)
-Date:   Wed, 8 Dec 2021 17:13:38 +0000
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Zhen Lei <thunder.leizhen@huawei.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
-        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        kexec@lists.infradead.org, Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>
-Subject: Re: [PATCH v16 00/11] support reserving crashkernel above 4G on
- arm64 kdump
-Message-ID: <YbDnwol20HrRl4uL@arm.com>
-References: <20211123124646.1995-1-thunder.leizhen@huawei.com>
+        with ESMTP id S235127AbhLHRjN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Dec 2021 12:39:13 -0500
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37988C061746
+        for <linux-doc@vger.kernel.org>; Wed,  8 Dec 2021 09:35:41 -0800 (PST)
+Received: by mail-ed1-x529.google.com with SMTP id z5so10975860edd.3
+        for <linux-doc@vger.kernel.org>; Wed, 08 Dec 2021 09:35:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+Ckibsje4Fnd3VY4SP1aED1W0LwwcbRPFpcYTanTTjQ=;
+        b=enTUXU/e68+ySvnKJb/1GHyj4UVaV7OmU+vMxb/UK4v+JppxeTCBTukW3Xl7q+pd93
+         XEwYEcchfKiFKmmzAgmXDudTVKUpUgL4Nm2/EozStJQ/7z6Rnw3WtBEsIH3rXytLa8ag
+         FBmrkAhHTJJtcP0SQb7fzFD50hNhpaBo4WssVoYDJ02np4SGajxqv0jUNt9pjNpkx9PO
+         /V57V/cG0Qq2A1t5ksgJAtjCchc/v2qRybRN8ikKgW73/vaZOhJrtobKUoAgzFwk/Ffp
+         SWwIYOR0BhQapaV4f+YnSliF5YFYxbRmZhGrrKswP2vKFzzg3vvZ2dNorKvIvnOayALL
+         urJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+Ckibsje4Fnd3VY4SP1aED1W0LwwcbRPFpcYTanTTjQ=;
+        b=j9Foiw3VpwGmlDux9vPc1dXjggz3MTjXcvdz5nxA/TgTo6lg0toG8F1M3g9KWVrhju
+         kWkZhPyoEQkIp9tmRrVQpI3/G60a8ovsKt5yriM09xMKrvJ74Q4Qv9HkjvH47Y4leFTV
+         FIq9ROoGZ2h2KFeGWwBoRiINgZBHj1W1mTYy7OSHZT3IvoLsLMRWh55N/G6zEHnMrrzQ
+         +LQpqS03sqFB6rQEOyxpUkIw5AEjAy4u5Wfh3DWYbCpPW2ZYJ0ppwfE03IeYjv54z+Wi
+         CTyJgi1K63dvDedujMzVG9eTOOyg9kHg0p9tGa1rCncnNsdhUl8+++05VCN/Tfa+eTGx
+         9n2A==
+X-Gm-Message-State: AOAM533XZuPklaNq/iZpfhr23tmiqZXNs1J0D9sgbsf/G3TtJb5uJ6aJ
+        fKrYnhoAGASjbeekW989yx7RAzUEqKH1PR35b+i1dQ==
+X-Google-Smtp-Source: ABdhPJxDn+3oG2kajdaXYIT7+4MrjY5A2Tbh/5sjaO7xfTGiXHZv73W078zOwbCjUIuzDoViD65s1US3GEIGqaBK13U=
+X-Received: by 2002:a17:906:2cd5:: with SMTP id r21mr9218020ejr.435.1638984939594;
+ Wed, 08 Dec 2021 09:35:39 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211123124646.1995-1-thunder.leizhen@huawei.com>
+References: <20211204182314.1470076-1-pasha.tatashin@soleen.com>
+ <20211204182314.1470076-4-pasha.tatashin@soleen.com> <20211207160508.6ef48f273c1ae14c0d02c6ac@linux-foundation.org>
+In-Reply-To: <20211207160508.6ef48f273c1ae14c0d02c6ac@linux-foundation.org>
+From:   Pasha Tatashin <pasha.tatashin@soleen.com>
+Date:   Wed, 8 Dec 2021 12:35:02 -0500
+Message-ID: <CA+CK2bBanZtit4Ck3wy_9bPha-Frw-SsV4UV4+GneTrcp4qN1A@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] mm: page table check
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Paul Turner <pjt@google.com>, weixugc@google.com,
+        Greg Thelen <gthelen@google.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>, masahiroy@kernel.org,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        frederic@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Fusion Future <qydwhotmail@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 23, 2021 at 08:46:35PM +0800, Zhen Lei wrote:
-> Chen Zhou (10):
->   x86: kdump: replace the hard-coded alignment with macro CRASH_ALIGN
->   x86: kdump: make the lower bound of crash kernel reservation
->     consistent
->   x86: kdump: use macro CRASH_ADDR_LOW_MAX in functions
->     reserve_crashkernel()
->   x86: kdump: move xen_pv_domain() check and insert_resource() to
->     setup_arch()
->   x86: kdump: move reserve_crashkernel[_low]() into crash_core.c
->   arm64: kdump: introduce some macros for crash kernel reservation
->   arm64: kdump: reimplement crashkernel=X
->   x86, arm64: Add ARCH_WANT_RESERVE_CRASH_KERNEL config
->   of: fdt: Add memory for devices by DT property
->     "linux,usable-memory-range"
->   kdump: update Documentation about crashkernel
-> 
-> Zhen Lei (1):
->   of: fdt: Aggregate the processing of "linux,usable-memory-range"
+On Tue, Dec 7, 2021 at 7:05 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+>
+> On Sat,  4 Dec 2021 18:23:13 +0000 Pasha Tatashin <pasha.tatashin@soleen.com> wrote:
+>
+> > Check user page table entries at the time they are added and removed.
+> >
+> > Allows to synchronously catch memory corruption issues related to double
+> > mapping.
+> >
+> > When a pte for an anonymous page is added into page table, we verify that
+> > this pte does not already point to a file backed page, and vice versa if
+> > this is a file backed page that is being added we verify that this page
+> > does not have an anonymous mapping
+> >
+> > We also enforce that read-only sharing for anonymous pages is allowed
+> > (i.e.  cow after fork).  All other sharing must be for file pages.
+> >
+> > Page table check allows to protect and debug cases where "struct page"
+> > metadata became corrupted for some reason.  For example, when refcnt or
+> > mapcount become invalid.
+> >
+> > ...
+> >
+> > --- a/arch/Kconfig
+> > +++ b/arch/Kconfig
+> > @@ -1307,6 +1307,9 @@ config HAVE_ARCH_PFN_VALID
+> >  config ARCH_SUPPORTS_DEBUG_PAGEALLOC
+> >       bool
+> >
+> > +config ARCH_SUPPORTS_PAGE_TABLE_CHECK
+> > +     bool
+> > +
+>
+> I guess a dependency on CONFIG_DEBUG_VM would be appropriate?
 
-Apart from a minor comment I made on patch 8 and some comments from Rob
-that need addressing, the rest looks fine to me.
+I do not think CONFIG_DEBUG_VM is needed here. We would like to have
+page table check enabled on some production machines to ensure there
+are no double mappings. With CONFIG_DEBUG_VM enabled that would not be
+possible. For example, CONFIG_PAGE_OWNER, also uses extended struct
+page entries and does not depend on CONFIG_DEBUG_VM
 
-Ingo stated in the past that he's happy to ack the x86 changes as long
-as there's no functional change (and that's the case AFAICT). Ingo, does
-your conditional ack still stand?
-
-In terms of merging, I'm happy to take it all through the arm64 tree
-with acks from the x86 maintainers. Alternatively, with the change I
-mentioned for patch 8, the first 5 patches could be queued via the tip
-tree on a stable branch and I can base the rest of the arm64 on top.
-
-Thomas, Ingo, Peter, any preference?
-
-Thanks.
-
--- 
-Catalin
+Pasha
