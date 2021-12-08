@@ -2,119 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95BE7C433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Dec 2021 17:35:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42F21C433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Dec 2021 18:01:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235160AbhLHRjN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Dec 2021 12:39:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57276 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235127AbhLHRjN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Dec 2021 12:39:13 -0500
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37988C061746
-        for <linux-doc@vger.kernel.org>; Wed,  8 Dec 2021 09:35:41 -0800 (PST)
-Received: by mail-ed1-x529.google.com with SMTP id z5so10975860edd.3
-        for <linux-doc@vger.kernel.org>; Wed, 08 Dec 2021 09:35:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+Ckibsje4Fnd3VY4SP1aED1W0LwwcbRPFpcYTanTTjQ=;
-        b=enTUXU/e68+ySvnKJb/1GHyj4UVaV7OmU+vMxb/UK4v+JppxeTCBTukW3Xl7q+pd93
-         XEwYEcchfKiFKmmzAgmXDudTVKUpUgL4Nm2/EozStJQ/7z6Rnw3WtBEsIH3rXytLa8ag
-         FBmrkAhHTJJtcP0SQb7fzFD50hNhpaBo4WssVoYDJ02np4SGajxqv0jUNt9pjNpkx9PO
-         /V57V/cG0Qq2A1t5ksgJAtjCchc/v2qRybRN8ikKgW73/vaZOhJrtobKUoAgzFwk/Ffp
-         SWwIYOR0BhQapaV4f+YnSliF5YFYxbRmZhGrrKswP2vKFzzg3vvZ2dNorKvIvnOayALL
-         urJQ==
+        id S238495AbhLHSEr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Dec 2021 13:04:47 -0500
+Received: from mail-pl1-f170.google.com ([209.85.214.170]:39650 "EHLO
+        mail-pl1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238424AbhLHSEp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Dec 2021 13:04:45 -0500
+Received: by mail-pl1-f170.google.com with SMTP id z6so2037662plk.6;
+        Wed, 08 Dec 2021 10:01:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+Ckibsje4Fnd3VY4SP1aED1W0LwwcbRPFpcYTanTTjQ=;
-        b=j9Foiw3VpwGmlDux9vPc1dXjggz3MTjXcvdz5nxA/TgTo6lg0toG8F1M3g9KWVrhju
-         kWkZhPyoEQkIp9tmRrVQpI3/G60a8ovsKt5yriM09xMKrvJ74Q4Qv9HkjvH47Y4leFTV
-         FIq9ROoGZ2h2KFeGWwBoRiINgZBHj1W1mTYy7OSHZT3IvoLsLMRWh55N/G6zEHnMrrzQ
-         +LQpqS03sqFB6rQEOyxpUkIw5AEjAy4u5Wfh3DWYbCpPW2ZYJ0ppwfE03IeYjv54z+Wi
-         CTyJgi1K63dvDedujMzVG9eTOOyg9kHg0p9tGa1rCncnNsdhUl8+++05VCN/Tfa+eTGx
-         9n2A==
-X-Gm-Message-State: AOAM533XZuPklaNq/iZpfhr23tmiqZXNs1J0D9sgbsf/G3TtJb5uJ6aJ
-        fKrYnhoAGASjbeekW989yx7RAzUEqKH1PR35b+i1dQ==
-X-Google-Smtp-Source: ABdhPJxDn+3oG2kajdaXYIT7+4MrjY5A2Tbh/5sjaO7xfTGiXHZv73W078zOwbCjUIuzDoViD65s1US3GEIGqaBK13U=
-X-Received: by 2002:a17:906:2cd5:: with SMTP id r21mr9218020ejr.435.1638984939594;
- Wed, 08 Dec 2021 09:35:39 -0800 (PST)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=VYwIdPbXqoC3VUlE+dykVHDfu7/qH13P4YyQqv994k8=;
+        b=g5v1npGG5wthz4l3XhB/Df72E6Q/mUpWz9cfiIeqsO20RXqDqf4I/I9RhKDmLOHN2B
+         yPJVCGm+b8NJA7vcWzKr/ww28hIZjJc6AOEqILZPwsq3AEYTvGk6kpT3zWRNAViGS0RP
+         mQzppJj5FV4POBgF50LcyrfvylMs/qLF2qTQr2Og2XQMfFdoPWFj/Vrb6EmFZTZzZRfo
+         v7BHaKG2yrGqq/8CCr6qwLLZYEfyDJyAsFQFoSJPWa5fHJ/YOHh4pjQ2fjIFCGUPnHz5
+         9UCJlGPTWI4sygCTUMnSwoI5Kg1WtoltG5caA24yNj0Zty2WScKNc1WLdm7caT6jme6D
+         2apg==
+X-Gm-Message-State: AOAM5302Tlp+RZ+I9TsKW+raLYrpcHzmzQSOfqkuvZFJeOChF6fYAWtN
+        iHEMOhHn2cg1HMMfSPV1Koo=
+X-Google-Smtp-Source: ABdhPJyWdTR1kukLPFUc0+bEuKxPPtofXhY2WCTKmse6N7kuXe3PckkHVGq6KGpHI2ncIc/5oy7tsA==
+X-Received: by 2002:a17:902:e550:b0:142:2673:d873 with SMTP id n16-20020a170902e55000b001422673d873mr61255635plf.5.1638986472328;
+        Wed, 08 Dec 2021 10:01:12 -0800 (PST)
+Received: from bvanassche-linux.mtv.corp.google.com ([2620:15c:211:201:18af:8865:db7e:6769])
+        by smtp.gmail.com with ESMTPSA id pg13sm3577873pjb.8.2021.12.08.10.01.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Dec 2021 10:01:11 -0800 (PST)
+Subject: Re: [PATCH v2 5/8] docs: sysfs-block: document stable_writes
+To:     Eric Biggers <ebiggers@kernel.org>, linux-block@vger.kernel.org,
+        Jens Axboe <axboe@kernel.dk>
+Cc:     linux-doc@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, Hannes Reinecke <hare@suse.de>
+References: <20211208005640.102814-1-ebiggers@kernel.org>
+ <20211208005640.102814-6-ebiggers@kernel.org>
+From:   Bart Van Assche <bvanassche@acm.org>
+Message-ID: <7d9f9469-5347-780a-c560-77fca6e7008b@acm.org>
+Date:   Wed, 8 Dec 2021 10:01:10 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <20211204182314.1470076-1-pasha.tatashin@soleen.com>
- <20211204182314.1470076-4-pasha.tatashin@soleen.com> <20211207160508.6ef48f273c1ae14c0d02c6ac@linux-foundation.org>
-In-Reply-To: <20211207160508.6ef48f273c1ae14c0d02c6ac@linux-foundation.org>
-From:   Pasha Tatashin <pasha.tatashin@soleen.com>
-Date:   Wed, 8 Dec 2021 12:35:02 -0500
-Message-ID: <CA+CK2bBanZtit4Ck3wy_9bPha-Frw-SsV4UV4+GneTrcp4qN1A@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] mm: page table check
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Paul Turner <pjt@google.com>, weixugc@google.com,
-        Greg Thelen <gthelen@google.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>, masahiroy@kernel.org,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        frederic@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Fusion Future <qydwhotmail@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20211208005640.102814-6-ebiggers@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 7, 2021 at 7:05 PM Andrew Morton <akpm@linux-foundation.org> wrote:
->
-> On Sat,  4 Dec 2021 18:23:13 +0000 Pasha Tatashin <pasha.tatashin@soleen.com> wrote:
->
-> > Check user page table entries at the time they are added and removed.
-> >
-> > Allows to synchronously catch memory corruption issues related to double
-> > mapping.
-> >
-> > When a pte for an anonymous page is added into page table, we verify that
-> > this pte does not already point to a file backed page, and vice versa if
-> > this is a file backed page that is being added we verify that this page
-> > does not have an anonymous mapping
-> >
-> > We also enforce that read-only sharing for anonymous pages is allowed
-> > (i.e.  cow after fork).  All other sharing must be for file pages.
-> >
-> > Page table check allows to protect and debug cases where "struct page"
-> > metadata became corrupted for some reason.  For example, when refcnt or
-> > mapcount become invalid.
-> >
-> > ...
-> >
-> > --- a/arch/Kconfig
-> > +++ b/arch/Kconfig
-> > @@ -1307,6 +1307,9 @@ config HAVE_ARCH_PFN_VALID
-> >  config ARCH_SUPPORTS_DEBUG_PAGEALLOC
-> >       bool
-> >
-> > +config ARCH_SUPPORTS_PAGE_TABLE_CHECK
-> > +     bool
-> > +
->
-> I guess a dependency on CONFIG_DEBUG_VM would be appropriate?
+On 12/7/21 4:56 PM, Eric Biggers wrote:
+> +What:		/sys/block/<disk>/queue/stable_writes
+> +Date:		September 2020
+> +Contact:	linux-block@vger.kernel.org
+> +Description:
+> +		[RW] If the device requires that memory must not be modified
+> +		while it is being written out to disk, this file will contain
+> +		'1'.  Otherwise it will contain '0'.  This file is writable for
+> +		testing purposes.
 
-I do not think CONFIG_DEBUG_VM is needed here. We would like to have
-page table check enabled on some production machines to ensure there
-are no double mappings. With CONFIG_DEBUG_VM enabled that would not be
-possible. For example, CONFIG_PAGE_OWNER, also uses extended struct
-page entries and does not depend on CONFIG_DEBUG_VM
+Hmm ... doesn't this attribute apply to the process of transferring data from
+host memory to the device instead of to writing to the disk? Whether data goes
+to the storage device cache or to the storage medium itself depends on attributes
+like FUA.
 
-Pasha
+Thanks,
+
+Bart.
