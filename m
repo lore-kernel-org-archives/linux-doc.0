@@ -2,106 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80ABCC433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Dec 2021 03:17:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 777D9C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Dec 2021 04:35:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243801AbhLHDVB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 7 Dec 2021 22:21:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56948 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232839AbhLHDVB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Dec 2021 22:21:01 -0500
-Received: from mail-il1-x132.google.com (mail-il1-x132.google.com [IPv6:2607:f8b0:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6083CC061574
-        for <linux-doc@vger.kernel.org>; Tue,  7 Dec 2021 19:17:30 -0800 (PST)
-Received: by mail-il1-x132.google.com with SMTP id h16so996233ila.4
-        for <linux-doc@vger.kernel.org>; Tue, 07 Dec 2021 19:17:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=M7Ht/ZprtWnCXFOTm+uU8InHF+ileMEpQj39wE06jAY=;
-        b=kCg7z2j/flGHGrvHxQGYtcwB/FoGY7RkfNneNnalNvkEF16aJVe4azMmVDh7SW3CZB
-         q1xpdHeg+/JMAkbAw1KquzMJ2O7tzNd7oxQgbXZ5T8cw24R+91E6RSpUPGVOIdIb9zS2
-         OjLY+1sDdWDGWl1VEoqqj5FtdMaTGMBzBNxaLNyhp4zNvMyKa5TkZNJRxUcIpofAWRui
-         qjU3kf8kQoLyzXZg+M4VOFA70YzB8LOXk5/XE43NRMeSkSgQlHmrHwpMcBnyRlGmKIdb
-         7FOJVcKbGNd7swgerY6shzkzjmmixZXQjWpI19I5ySx9xHOVbaVz+heeEN+SYvIoHjT9
-         6rPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=M7Ht/ZprtWnCXFOTm+uU8InHF+ileMEpQj39wE06jAY=;
-        b=rDVUrVC1KELxp0TuNoVe+c/vmnu/ZlPbjFJg3bjMOKooa3gX9lt0ZJfUuthtpGzJWP
-         MM8H2XaeWNBCp04L42zla5K8+4xbdN1r3Im0ga5iorYlnZfEr8mRWBesYaURQHE/OXEQ
-         pCnWvCNLwxyMVrQ38Ud2cnhyvhPBY29xnRnEDZF7vH/J2SMPgK+OunKiLixA88qG8O68
-         ZD+lg2L/QLaWurDqSs261ZFSC6vqetiexOLfw1KoVw7WuMiTR3ecI0M/oK2zpijKrjNw
-         LrEICcF8Bhh5oK66wiVFIzsXa2QqUm2GnHc5JaMxqW6bVWR/YpjMNj+G0I1agsrKuN5r
-         XT5g==
-X-Gm-Message-State: AOAM5330ljHpfxgZdjUsTdEJ43MierSIFGXa3v1ZRflMeOUEMnJ9GjKX
-        a8uRggWCIR9H5bEE/gMLAX2vWfVi3/f5wRCVJQY=
-X-Google-Smtp-Source: ABdhPJxzJA049AF/W0dXsf8A+UR56aVY7Bez7SLB/Vpur2oYfHcy3NUE3tZfQaWHshVk2LgJ2hGq+dkz2fntXbR7KPQ=
-X-Received: by 2002:a92:4a04:: with SMTP id m4mr3055317ilf.103.1638933449890;
- Tue, 07 Dec 2021 19:17:29 -0800 (PST)
-MIME-Version: 1.0
-References: <20211206090911.26487-1-tangyizhou@huawei.com> <20211206090911.26487-2-tangyizhou@huawei.com>
- <CAJy-Am=C4A6FBV2P4nB3zPsP7NbFn6nyhqT2wB9+dgEa2V-0pQ@mail.gmail.com>
- <f01d3083-c1d6-54c1-fb5a-2d00b2357762@huawei.com> <CAJy-AmmdGQndsx3MDhYCgqawc-JRib7-YGm1oDit2hW1otbjuQ@mail.gmail.com>
- <87ee6o1mzf.fsf@meer.lwn.net>
-In-Reply-To: <87ee6o1mzf.fsf@meer.lwn.net>
-From:   Alex Shi <seakeel@gmail.com>
-Date:   Wed, 8 Dec 2021 11:16:54 +0800
-Message-ID: <CAJy-AmkmwxWcbn6AuT738RFng+aH87Ph7VW69X75nV4+ynQYvA@mail.gmail.com>
+        id S244225AbhLHEiu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 7 Dec 2021 23:38:50 -0500
+Received: from szxga08-in.huawei.com ([45.249.212.255]:29100 "EHLO
+        szxga08-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240064AbhLHEiu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 Dec 2021 23:38:50 -0500
+Received: from dggpeml500022.china.huawei.com (unknown [172.30.72.55])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4J845Q5tGLz1DJyq;
+        Wed,  8 Dec 2021 12:32:26 +0800 (CST)
+Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
+ dggpeml500022.china.huawei.com (7.185.36.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Wed, 8 Dec 2021 12:35:16 +0800
+Received: from [10.174.177.232] (10.174.177.232) by
+ dggpeml500006.china.huawei.com (7.185.36.76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Wed, 8 Dec 2021 12:35:15 +0800
 Subject: Re: [PATCH 1/1] docs/zh_CN: Add sched-capacity translation
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Tang Yizhou <tangyizhou@huawei.com>,
-        Yanteng Si <siyanteng@loongson.cn>,
+To:     Alex Shi <seakeel@gmail.com>, Jonathan Corbet <corbet@lwn.net>
+CC:     Yanteng Si <siyanteng@loongson.cn>,
         yanteng si <siyanteng01@gmail.com>,
         Alex Shi <alexs@kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        zhengbin13@huawei.com, Yeechou Tang <tangyeechou@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+        <zhengbin13@huawei.com>, Yeechou Tang <tangyeechou@gmail.com>,
+        Feiyang Chen <chris.chenfeiyang@gmail.com>
+References: <20211206090911.26487-1-tangyizhou@huawei.com>
+ <20211206090911.26487-2-tangyizhou@huawei.com>
+ <CAJy-Am=C4A6FBV2P4nB3zPsP7NbFn6nyhqT2wB9+dgEa2V-0pQ@mail.gmail.com>
+ <f01d3083-c1d6-54c1-fb5a-2d00b2357762@huawei.com>
+ <CAJy-AmmdGQndsx3MDhYCgqawc-JRib7-YGm1oDit2hW1otbjuQ@mail.gmail.com>
+ <87ee6o1mzf.fsf@meer.lwn.net>
+ <CAJy-AmkmwxWcbn6AuT738RFng+aH87Ph7VW69X75nV4+ynQYvA@mail.gmail.com>
+From:   Tang Yizhou <tangyizhou@huawei.com>
+Message-ID: <87bba6bf-1746-eed7-c5e3-619ae2a0cdb8@huawei.com>
+Date:   Wed, 8 Dec 2021 12:35:14 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.1.1
+MIME-Version: 1.0
+In-Reply-To: <CAJy-AmkmwxWcbn6AuT738RFng+aH87Ph7VW69X75nV4+ynQYvA@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.177.232]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpeml500006.china.huawei.com (7.185.36.76)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 7, 2021 at 10:57 PM Jonathan Corbet <corbet@lwn.net> wrote:
->
-> Alex Shi <seakeel@gmail.com> writes:
->
-> > What the result of scripts/checkpatch.pl or make htmldocs say?
-> > Let's tame these tools and follow the regluar styles of kernel.
->
-> checkpatch knows nothing about different languages, and "make htmldocs"
-> doesn't do that sort of stylistic checking.
+On 2021/12/8 11:16, Alex Shi wrote:
+> On Tue, Dec 7, 2021 at 10:57 PM Jonathan Corbet <corbet@lwn.net> wrote:
+>>
+>> Alex Shi <seakeel@gmail.com> writes:
+>>
+>>> What the result of scripts/checkpatch.pl or make htmldocs say?
+>>> Let's tame these tools and follow the regluar styles of kernel.
+>>
+>> checkpatch knows nothing about different languages, and "make htmldocs"
+>> doesn't do that sort of stylistic checking.
+> 
+> Thanks for the info!
+> 
+>>
+>> I don't know enough (i.e. anything :) to have an opinion on the best
+>> length for lines of Chinese text.  Surely there must be some conventions
+>> out there?
+> 
+> The only reason I know is to remove extra spaces char in 'rendered
+> documentation'
+> which is generated by line break. For this purpose, 40 or 60 line chars limit
+> can't fulfill it obviously.
+> 
+> Yizhou's suggestion has no line break unless a punctuation hitted, so the
+> space will happen with the punctuation.   This makes the rendered document look
+> good, but will lead to toooo long and never alignment lines in the
+> source document.
+> It looks like we have no good way to resolve this issue by style
+> change. Also the '60'
+> number seems an arbitrary number? If we have to relief this problem from coding
+> style change, why not follow the new rule after checkpatch's change:
+> from 80 to 100,
+> let's say about 50 Chinese chars plus breaking after a meaningful Chinese word?
 
-Thanks for the info!
+Agreed. 
 
->
-> I don't know enough (i.e. anything :) to have an opinion on the best
-> length for lines of Chinese text.  Surely there must be some conventions
-> out there?
+Now I prefer 50 Chinese chars plus breaking after a meaningful Chinese word.
 
-The only reason I know is to remove extra spaces char in 'rendered
-documentation'
-which is generated by line break. For this purpose, 40 or 60 line chars limit
-can't fulfill it obviously.
+Thanks,
+Tang
 
-Yizhou's suggestion has no line break unless a punctuation hitted, so the
-space will happen with the punctuation.   This makes the rendered document look
-good, but will lead to toooo long and never alignment lines in the
-source document.
-It looks like we have no good way to resolve this issue by style
-change. Also the '60'
-number seems an arbitrary number? If we have to relief this problem from coding
-style change, why not follow the new rule after checkpatch's change:
-from 80 to 100,
-let's say about 50 Chinese chars plus breaking after a meaningful Chinese word?
-
-Thanks
-Alex
-
->
-> Thanks,
->
-> jon
+> 
+> Thanks
+> Alex
+> 
+>>
+>> Thanks,
+>>
+>> jon
+> .
+> 
