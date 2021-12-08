@@ -2,114 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4867C433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Dec 2021 22:57:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9703C433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Dec 2021 22:59:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240867AbhLHXAp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Dec 2021 18:00:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46722 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240847AbhLHXAp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Dec 2021 18:00:45 -0500
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3199C061746
-        for <linux-doc@vger.kernel.org>; Wed,  8 Dec 2021 14:57:12 -0800 (PST)
-Received: by mail-yb1-xb4a.google.com with SMTP id l145-20020a25cc97000000b005c5d04a1d52so6947002ybf.23
-        for <linux-doc@vger.kernel.org>; Wed, 08 Dec 2021 14:57:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=nCfxssMPsD1q0PyBbkNGtQFLjh9qoKfE83Oexh+AmmA=;
-        b=YBx3RFczyrcSsixyAF7h7KOLkaoHrPZWobhhDnkGZnOHeqQ6N4k1n+eDUypoARW6XS
-         pxFCSN7KMfB4y0z+nkNJC1Sw6sKPfrZlXmQDBYhp2uyDjiRz62ARepwRcOZ2lj3JbdUs
-         lOhrILxaVoaJ3uKiB1jHMD80dciECooXdDtlAapvBze31ztONDK7y0jFlWUB7eVuKtq5
-         MEE6IdKwYhSit6NQC/M9W3sgmnMt9r34YwCtXwPgzNulKJWmXxXxHhrLH7jjt3OXVizp
-         J2g/mDnypmNG5cezxnaw9YSQxVwqorYiWVeC7ACovkrC6hggHrW5e2sp7gkFp2IseH5n
-         2m4A==
+        id S240911AbhLHXCj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Dec 2021 18:02:39 -0500
+Received: from mail-pj1-f43.google.com ([209.85.216.43]:41592 "EHLO
+        mail-pj1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240729AbhLHXCj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Dec 2021 18:02:39 -0500
+Received: by mail-pj1-f43.google.com with SMTP id gx15-20020a17090b124f00b001a695f3734aso3385929pjb.0;
+        Wed, 08 Dec 2021 14:59:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=nCfxssMPsD1q0PyBbkNGtQFLjh9qoKfE83Oexh+AmmA=;
-        b=bI+oKNsf92MshEAjgg6s2R5FRDMKD6wH0pnGGHM/LsANuoYt9i8Xhxo4LvmOsYoyBI
-         pAe19XWthGjngNyUHnW80VCpW2D3JOwGaPO/wXrx/QflzbXO+6763KyjXw74dzTOJ8YO
-         4n/WqcjoAnZrdQ9yTXUfRgVB+JeKvI7ncpMLZ++Vp72XTAJ0q1pBR4BXEF7CpH2XDs+o
-         YVJeA3Wm6zPgkWO5lBJHkyfAs0E3gI9DLs54zfquabVQrP4Lto2XBAmcyWVE6QX7TTEy
-         ymMPosA2v1NkHvDHtxMfetse8df7F4cJIB3rDeBmcyzsIFV5qjQnkjnWKVw8hXijg3ty
-         zNuw==
-X-Gm-Message-State: AOAM532qHn9LCMmibl6m+FTgo9Qsl5+XtSXR5wwtwx2H8AvAXFh5ZTEG
-        JcU3Q2MCfeZtfs0Y5QvuUkFJopsk/Yo=
-X-Google-Smtp-Source: ABdhPJwhWwgj5Q80ol/VS55EsbWI8O4643ncWp8nGwhdNJDuYwgHDsQcQforxY1tB0qDeeSnSsbP39mGtc0=
-X-Received: from khazhy-linux.svl.corp.google.com ([2620:15c:2cd:202:5e01:df39:4a79:a13])
- (user=khazhy job=sendgmr) by 2002:a25:e090:: with SMTP id x138mr1877571ybg.501.1639004232010;
- Wed, 08 Dec 2021 14:57:12 -0800 (PST)
-Date:   Wed,  8 Dec 2021 14:56:37 -0800
-Message-Id: <20211208225637.1054164-1-khazhy@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.34.1.400.ga245620fadb-goog
-Subject: [PATCH] scsi: docs: update notes about scsi_times_out
-From:   Khazhismel Kumykov <khazhy@google.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc:     linux-doc@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, bvanassche@acm.org,
-        Hannes Reinecke <hare@suse.com>,
-        Khazhismel Kumykov <khazhy@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=upn5pCTEbLoqxAzE9pPLnLbRKo8NrWejD9fWmOQQq6A=;
+        b=7zMqCwD7Ixt/qAdGJHw6eGNfXKeZf+LiYnjD4bS2xXr+aFtPikIbFY5zUOlRQUcJte
+         Bl1xp4K9LOXtcVsM5+SM87h9SqoNI1sCVENx4WWbsy4ekkpZjDYNPJSOkEyuJr20C4X7
+         X38wTnhYBidQP5rzWbJY4WLZTeDumq+o1hSNI5cRFzTN28RDrm7pMecEm+/dgBkpUK2L
+         4MdB+6z1poLfhUX2+ytvZ5tgXnPkU9ggVXfYKJvVs+TcwUF0xHmi8CncMTOFJc01BMfe
+         Cw0DHAJpfW98kTrlxtFVD9LB73XXUfakOl97FPlEo4gHRtJ9L9q6xallRJPnoBFEIPYM
+         31/g==
+X-Gm-Message-State: AOAM532i3UokRhJ6SsXw/ROgzlfnnhGPsHrG0s9gcV/l/tKw1eSHp/cK
+        Kjijx2nXQjE/RKpJMfeXGYs=
+X-Google-Smtp-Source: ABdhPJzC6On7oHVJPBngf8TPLy2ERLA7zL/IiPmRnpomSCFak06QwtXDRgh7S5Y0l35e++5qLMRWfw==
+X-Received: by 2002:a17:902:c643:b0:141:cf6b:6999 with SMTP id s3-20020a170902c64300b00141cf6b6999mr63193988pls.80.1639004346367;
+        Wed, 08 Dec 2021 14:59:06 -0800 (PST)
+Received: from ?IPv6:2620:0:1000:2514:2f89:deb4:72f3:8a11? ([2620:0:1000:2514:2f89:deb4:72f3:8a11])
+        by smtp.gmail.com with ESMTPSA id mz7sm7261715pjb.7.2021.12.08.14.59.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Dec 2021 14:59:05 -0800 (PST)
+Subject: Re: [PATCH v2 5/8] docs: sysfs-block: document stable_writes
+To:     Eric Biggers <ebiggers@kernel.org>
+Cc:     linux-block@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+        linux-doc@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, Hannes Reinecke <hare@suse.de>
+References: <20211208005640.102814-1-ebiggers@kernel.org>
+ <20211208005640.102814-6-ebiggers@kernel.org>
+ <7d9f9469-5347-780a-c560-77fca6e7008b@acm.org> <YbEy9tKDwf5Jthl1@gmail.com>
+From:   Bart Van Assche <bvanassche@acm.org>
+Message-ID: <b8422f2f-b9cb-7914-b94a-559de8315371@acm.org>
+Date:   Wed, 8 Dec 2021 14:59:03 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+MIME-Version: 1.0
+In-Reply-To: <YbEy9tKDwf5Jthl1@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-eh_timed_out() is not limited by scmd->allowed, and can reset timer
-forever, and retries happen in the abort handler.
+On 12/8/21 2:34 PM, Eric Biggers wrote:
+> Yes, I meant "written out to disk" in the general sense of writeback, not in the
+> sense of when the data reaches its final destination.  I'm not sure what the
+> best way to explain it is.  I think it's more than just "the process of
+> transferring data from host memory to the device", as that is just part of a
+> write request, whereas stable_writes applies to whole requests.  How about:
+> 
+> 		[RW] This file will contain '1' if memory must not be modified
+> 		while it is being used in a write request to this device.  When
+> 		this is the case and the kernel is performing writeback of a
+> 		page, the kernel will wait for writeback to complete before
+> 		allowing the page to be modified again, rather than allowing
+> 		immediate modification as is normally the case.  This
+> 		restriction arises when the device accesses the memory multiple
+> 		times where the same data must be seen every time -- for
+> 		example, once to calculate a checksum and once to actually write
+> 		the data.  If no such restriction exists, this file will contain
+> 		'0'.  This file is writable for testing purposes.
 
-Fixes: c829c394165f ("[SCSI] FC transport : Avoid device offline cases by stalling aborts until device unblocked")
+The above sounds good to me.
 
-Signed-off-by: Khazhismel Kumykov <khazhy@google.com>
----
- Documentation/scsi/scsi_eh.rst | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+Thanks,
 
-I'm by no means a scsi expert, but this section didn't seem to line up
-with the code that's actually written. Aiming to at least save the
-confusion for the next person :) As written, it seems like scsi drivers
-implementing eh_timed_out can only issue RESET_TIMER a finite number of
-times, but e.g. virtio_scsi relies on being able to reset indefinitely.
-
-(thanks bart for the pointer to where the RESET_TIMER change happened!)
-
-
-diff --git a/Documentation/scsi/scsi_eh.rst b/Documentation/scsi/scsi_eh.rst
-index 7d78c2475615..4c56a33a716f 100644
---- a/Documentation/scsi/scsi_eh.rst
-+++ b/Documentation/scsi/scsi_eh.rst
-@@ -95,19 +95,18 @@ function
- 
-     - BLK_EH_RESET_TIMER
- 	This indicates that more time is required to finish the
--	command.  Timer is restarted.  This action is counted as a
--	retry and only allowed scmd->allowed + 1(!) times.  Once the
--	limit is reached, action for BLK_EH_DONE is taken instead.
-+	command.  Timer is restarted.
- 
-     - BLK_EH_DONE
-         eh_timed_out() callback did not handle the command.
- 	Step #2 is taken.
- 
-- 2. scsi_abort_command() is invoked to schedule an asynchrous abort.
--    Asynchronous abort are not invoked for commands which the
--    SCSI_EH_ABORT_SCHEDULED flag is set (this indicates that the command
--    already had been aborted once, and this is a retry which failed),
--    or when the EH deadline is expired. In these case Step #3 is taken.
-+ 2. scsi_abort_command() is invoked to schedule an asynchrous abort. which may
-+    issue a retry scmd->allowed + 1 times.  Asynchronous abort are not invoked
-+    for commands which the SCSI_EH_ABORT_SCHEDULED flag is set (this indicates
-+    that the command already had been aborted once, and this is a retry which
-+    failed), when retries are exceeded, or when the EH deadline is expired. In
-+    these case Step #3 is taken.
- 
-  3. scsi_eh_scmd_add(scmd, SCSI_EH_CANCEL_CMD) is invoked for the
-     command.  See [1-4] for more information.
--- 
-2.34.1.400.ga245620fadb-goog
-
+Bart.
