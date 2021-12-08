@@ -2,107 +2,186 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECAB2C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Dec 2021 18:40:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C430C433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Dec 2021 20:12:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239158AbhLHSoS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Dec 2021 13:44:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44714 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230040AbhLHSoR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Dec 2021 13:44:17 -0500
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2A81C0617A2
-        for <linux-doc@vger.kernel.org>; Wed,  8 Dec 2021 10:40:45 -0800 (PST)
-Received: by mail-pl1-x631.google.com with SMTP id n8so2122430plf.4
-        for <linux-doc@vger.kernel.org>; Wed, 08 Dec 2021 10:40:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=2esW1PgwMW/uPgw9HwrxttsSErnSmH0L2IFPbegvGZ0=;
-        b=JMOFGrTmIpVxHPJ19wMiBSNYvcNn4mkwdiP01+P4qAv6w5oI848W7a5nKo+HHiDamf
-         CgyZySrRXpQx35cciVcOAxORaZROKTbyhnq+6dGXPeuaQ9G8lTZTcs/HqoYeQzXCeexR
-         aC9M7oj8N1uyoTJ22SaBHVyL5KYIF8eEEza3rwrcm0tUVNfMiPP2T3MGPsbj1wRgZt7U
-         yInbZBE080qCbZs6+hPqLbNUFvRWtbFpScL2EaazzzSdx7i0fnJJduDEOJ63fYHIBkTj
-         9yUVsVEvoODMCxiJ70Aa8yw9QZ5ML8PdSzvcy2YO1vi25xxf+y5wlWSsG9EhFMRNTiWO
-         oeyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=2esW1PgwMW/uPgw9HwrxttsSErnSmH0L2IFPbegvGZ0=;
-        b=2us1Y8QsHvhNfZIcejz0XMqw8JuEcyqqFg9cYc9/j14gv5BLw/HljgT9PrcV6P3jzx
-         3g6I7v7b9ULkiWZ742smoveFfr3Z7O0NTlrfRU2L/ibYn4RXh0Y1bWhgTITErLU9m7Tt
-         PZDuUN7WTNzMf6hainTH7PYhXb0MMHgSoqGrxGfepHhpM6aQlBrFizlfRyL8xIXNCltN
-         5WwHiKymAaj2wPm2aI0qOSGbYPtxi2OqLSv8vuUTM1R6TIxKonbeG6c6e0bTpNRYEzIP
-         VL9hULRHcnh1H0iHgwKENLYcbtwYGNR65OShEl5y1GJM3VIfZaYJgT7I+Mc7SXzCqn0H
-         qDVg==
-X-Gm-Message-State: AOAM530lL2iPGaF5uRZrHC3t3LU6aypaJaD5mfwCQ1umzkgMYoqPuleD
-        rPf+ED4bYGpIxLNznnNiXKtzGg==
-X-Google-Smtp-Source: ABdhPJzClCXWnuOKDKj88Rz4E8jDDb4uaV82hAB72j9+tDfCTT3P2Gq1tWJQXULxbEHjlyKhl7uk0Q==
-X-Received: by 2002:a17:902:e302:b0:141:af98:b5ea with SMTP id q2-20020a170902e30200b00141af98b5eamr60821172plc.53.1638988845033;
-        Wed, 08 Dec 2021 10:40:45 -0800 (PST)
-Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id r16sm3294860pgk.45.2021.12.08.10.40.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Dec 2021 10:40:44 -0800 (PST)
-Date:   Wed, 8 Dec 2021 18:40:40 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Li Yu <liyu.yukiteru@bytedance.com>
-Cc:     pbonzini@redhat.com, Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kvm@vger.kernel.org
-Subject: Re: [PATCH v3] KVM: x86/mmu: Warn on iTLB multi-hit for possible
- problems
-Message-ID: <YbD8KFaY+emLQR+d@google.com>
-References: <YW7w8g+65PjGs2wc@google.com>
- <20211020043131.1222542-1-liyu.yukiteru@bytedance.com>
+        id S236655AbhLHUQI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Dec 2021 15:16:08 -0500
+Received: from mail-dm6nam10on2088.outbound.protection.outlook.com ([40.107.93.88]:15360
+        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229656AbhLHUQI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 8 Dec 2021 15:16:08 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iynJ/Iu75Cf7drJzPCdXdo0xtzkJLr7LcKTWMoAdyJHjeV/51/alBxdfQ3ajQ4JKeznJ/PgVDDj/ZXK9ZycfPDq1hIU9zp+OyKDm73QXqmRr/x4KJmibF8NO4SjyKhxT9w4IObuL/kCZpCqhu9ZesNltmnft4fn6dWAFn2OO5/Hd68gfAESLg/KnI//KrQqbOeivYpxBb3uAYGWW98oh+/UUC4uv9BFn1ieCdjvU6hgtZO7V1akTNcU3o4XTCE6OGOO2lcSoxVSnHSwQOnfy5EDaF/GMK+3Vb6FQuoBkK66iDbJdjykO34vq0ROLB+nlqanSEGOSy1BEmHrS+w1n/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Sz7Zd0rz8zzz/vbMHckCTnl/eEg111NdvyIQkTwwZ28=;
+ b=gF/60h4M/EVmmSoO5W1isN7KqqSqxaISnO0x7WkbIDWzCyhuJ4r+ZShixDcr/ixoHVOYwSnsUhkSlgqDylRVsuJ0H0FXo9hS+WKCoEoiSN6Q7c/VnuOfRMVwFC1+EyDgnTb1mJx6e4GIjWox7kDeMVAvjkB+B1YOd5TgFZgkNZUN+CuGMzzCgxNxe8gRm48LptYKB8Gf03FXkeGYNUN5OQttmQq/g/8vFuwCLpSOhevRFqIL6Y6wfw4MFE2sKENGUUy4ZVm4eC68V4Oh7N+XoNyI1R2P8mrSANUd4AnkDRw3KzlIufn39zYSMyAMQaNUx61Y5E/xuhtetIWcFjn5DA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 203.18.50.13) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Sz7Zd0rz8zzz/vbMHckCTnl/eEg111NdvyIQkTwwZ28=;
+ b=qmE1CnJhkpIo040GNdWXrhvn5PKdbWoIFRBsUr7RK+knlJKYOoKtmppnqBroMKS5KdtdNm1rUqp1ybFTGHCVt9XSz07QxZUsK4gnDZ4kYUFKXRRk4+TJNcvVt1dwvlAnTyKQkwvGpi6VM5ykf7Ke087N5KqC9Cpm+6wquCfpCRHcmdtcVSXdNnKj7gELtJ8K0DpC7dzLIHvqWFa/LDUroD9rFNDWRKm23Rx+H5wmvLQl23TMc7ezZEoU8FZXDJftvP5SBZ9VpbX8L0DpD6hphHTpiN0tieRLo/Dd9TKxr72ipZq4ZmHlFoW6SbKWk7b/kt2C6XCgQSojq3vi6/N98A==
+Received: from BN0PR04CA0183.namprd04.prod.outlook.com (2603:10b6:408:e9::8)
+ by MN2PR12MB4063.namprd12.prod.outlook.com (2603:10b6:208:1dc::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.21; Wed, 8 Dec
+ 2021 20:12:32 +0000
+Received: from BN8NAM11FT065.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:e9:cafe::a0) by BN0PR04CA0183.outlook.office365.com
+ (2603:10b6:408:e9::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.12 via Frontend
+ Transport; Wed, 8 Dec 2021 20:12:32 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 203.18.50.13)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 203.18.50.13 as permitted sender) receiver=protection.outlook.com;
+ client-ip=203.18.50.13; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (203.18.50.13) by
+ BN8NAM11FT065.mail.protection.outlook.com (10.13.177.63) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.4755.13 via Frontend Transport; Wed, 8 Dec 2021 20:12:31 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by HKMAIL102.nvidia.com
+ (10.18.16.11) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Wed, 8 Dec
+ 2021 20:12:27 +0000
+Received: from [172.17.173.69] (172.20.187.6) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.9; Wed, 8 Dec 2021
+ 12:12:24 -0800
+Subject: Re: [RFC v3 09/12] gpiolib: cdev: Add hardware timestamp clock type
+From:   Dipen Patel <dipenp@nvidia.com>
+To:     Kent Gibson <warthog618@gmail.com>
+CC:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-gpio@vger.kernel.org>, <linus.walleij@linaro.org>,
+        <brgl@bgdev.pl>, <devicetree@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <robh+dt@kernel.org>
+References: <20211123193039.25154-1-dipenp@nvidia.com>
+ <20211123193039.25154-10-dipenp@nvidia.com> <20211126013137.GC10380@sol>
+ <9ad666ec-eedd-8075-73e6-1e47a1eb228b@nvidia.com>
+ <20211201171638.GA31045@sol>
+ <4c7c3db1-a1b3-1944-4278-cb37e8a4f373@nvidia.com> <20211202005349.GA7007@sol>
+ <395ba111-d620-f302-d0e7-8f20f39e6485@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <9e53c30f-63e5-b2ca-a2ef-f85dab596b3c@nvidia.com>
+Date:   Wed, 8 Dec 2021 12:14:36 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211020043131.1222542-1-liyu.yukiteru@bytedance.com>
+In-Reply-To: <395ba111-d620-f302-d0e7-8f20f39e6485@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [172.20.187.6]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 816c92af-7ba2-44b4-cdbc-08d9ba87111a
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4063:EE_
+X-Microsoft-Antispam-PRVS: <MN2PR12MB406312C92A94E7D86CB0C460AE6F9@MN2PR12MB4063.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: V8lvQ/kXbUQI2ra0sELa5JgCDYE9nX4xjQXaKZalSjVtZnHtOLKKp/LATm4ljXTWrV3LONjXRBA4Z6nC5l436BRiNuloEj9ECuNMF5bRJRC1KLtahQAUyDdBuF/EAQ+3z4VmWwhgOJZd49DuxMb+twCP9KQJyjV0KgOaO5zEoKyjOmiKZHhkHvFDo+ZmTiCot132Z3X3lpIHh7qTn7Lai2mz9sKOinbsRS/4w4287UgYxTVYY9aorHCwabSDivSkpYPOIT4VoSKqx0ewcO7x+4B7WYhC7+wk2ULPwj5LUiZ3BsmIOTgO6dLW0qX/Dx/iY9MC1I2GAu3l1gwTqZFecrG+443+ATsp6A/fP6qvBqgUXGqMn1gGTPORQbQpxUcDIMlQF5SLcci8KcAIldTmnbGw7TQi7Tq3btle+0QsSdrwPQyl37YK5dNXsT7OUMMslXMVHL8SjqsRybDj7YCxqC1jm4Y/5LOFJ6DfjNQ+IWTA7GxryWVlhMQyqsXb5iX0qSvQDQ3t83G8dxSm46TXDX50CfLT8+3r+sUS9usFDRcN8OKhk65t9vMs/Ds9rEm+UEFN15j0GAXUv9it5QsIOQM8vlSnpFPLWqScGfhE6ziJsRUINDmBxq6IcrlUldy1eVB3B7JI5jB+RReEd0NNYq3BxFGos8sqskBfYEuydpe8oFVh4TJdBD2h9OubbhVjFQVWpgSHiTxRwD2mXm3AuF2y4fYosgyS6GAkUAOL6o5z6hFFqzEQm0/bQRrvcbGYQlX7RUMejvjHUEsGMflc0zW3jOux0BGijpERpR5upKQTOO7Tv5jHFVHDZXK4L4Rt67B/eTma+Prb17VPNPZTxg==
+X-Forefront-Antispam-Report: CIP:203.18.50.13;CTRY:HK;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:hkhybrid02.nvidia.com;CAT:NONE;SFS:(4636009)(36840700001)(46966006)(40470700001)(426003)(8936002)(86362001)(26005)(8676002)(5660300002)(336012)(31686004)(31696002)(7416002)(4326008)(70586007)(16526019)(34070700002)(186003)(36756003)(2906002)(2616005)(70206006)(40460700001)(316002)(16576012)(54906003)(82310400004)(6916009)(7636003)(36860700001)(356005)(47076005)(508600001)(53546011)(83380400001)(6666004)(43740500002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2021 20:12:31.4956
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 816c92af-7ba2-44b4-cdbc-08d9ba87111a
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[203.18.50.13];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT065.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4063
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 20, 2021, Li Yu wrote:
-> Warn for guest huge pages split if iTLB multi-hit bug is present
-> and CPU mitigations is enabled.
-> 
-> Warn for possible CPU lockup if iTLB multi-hit bug is present but
-> CPU mitigations is disabled.
-> 
-> Signed-off-by: Li Yu <liyu.yukiteru@bytedance.com>
-> ---
+Hi,
 
-Gah, my last reply in the previous version was offlist.  I would like an answer
-to the below question before we complicate KVM just to log a message.
+On 12/7/21 5:42 PM, Dipen Patel wrote:
+> On 12/1/21 4:53 PM, Kent Gibson wrote:
+>> On Wed, Dec 01, 2021 at 10:01:46AM -0800, Dipen Patel wrote:
+>>> Hi,
+>>>
+>>>
+>>> On 12/1/21 9:16 AM, Kent Gibson wrote:
+>>>> On Tue, Nov 30, 2021 at 07:29:20PM -0800, Dipen Patel wrote:
+>>>>>
+>>>>>> [snip]
+>>>>>>> +	if (line->dir >= HTE_DIR_NOSUPP) {
+>>>>>>> +		eflags = READ_ONCE(line->eflags);
+>>>>>>> +		if (eflags == GPIO_V2_LINE_FLAG_EDGE_BOTH) {
+>>>>>>> +			int level = gpiod_get_value_cansleep(line->desc);
+>>>>>>> +
+>>>>>>> +			if (level)
+>>>>>>> +				/* Emit low-to-high event */
+>>>>>>> +				le.id = GPIO_V2_LINE_EVENT_RISING_EDGE;
+>>>>>>> +			else
+>>>>>>> +				/* Emit high-to-low event */
+>>>>>>> +				le.id = GPIO_V2_LINE_EVENT_FALLING_EDGE;
+>>>>>>> +		} else if (eflags == GPIO_V2_LINE_FLAG_EDGE_RISING) {
+>>>>>>> +			/* Emit low-to-high event */
+>>>>>>> +			le.id = GPIO_V2_LINE_EVENT_RISING_EDGE;
+>>>>>>> +		} else if (eflags == GPIO_V2_LINE_FLAG_EDGE_FALLING) {
+>>>>>>> +			/* Emit high-to-low event */
+>>>>>>> +			le.id = GPIO_V2_LINE_EVENT_FALLING_EDGE;
+>>>>>>> +		} else {
+>>>>>>> +			return HTE_CB_ERROR;
+>>>>>>> +		}
+>>>>>>> +	} else {
+>>>>>>> +		if (line->dir == HTE_RISING_EDGE_TS)
+>>>>>>> +			le.id = GPIO_V2_LINE_EVENT_RISING_EDGE;
+>>>>>>> +		else
+>>>>>>> +			le.id = GPIO_V2_LINE_EVENT_FALLING_EDGE;
+>>>>>>> +	}
+>>>>>> The mapping from line->dir to le.id needs to take into account the active
+>>>>>> low setting for the line.
+>>>>>>
+>>>>>> And it might be simpler if the hte_ts_data provided the level, equivalent
+>>>>>> to gpiod_get_raw_value_cansleep(), rather than an edge direction, so you
+>>>>>> can provide a common helper to determine the edge given the raw level.
+>>>>> (So from the level determine the edge?) that sound right specially when
+>>>>>
+>>>>> HTE provider has capability to record the edge in that case why bother
+>>>>>
+>>>>> getting the level and determine edge?
+>>>>>
+>>>>> Calculating the edge from the level makes sense when hte provider does not
+>>>>>
+>>>>> have that feature and that is what if (line->dir >= HTE_DIR_NOSUPP) does.
+>>>>>
+>>>> As asked in the review of patch 02, do you have an example of hardware that
+>>>> reports an edge direction rather than NOSUPP?
+>>> No...
+>> So you are adding an interface that nothing will currently use.
+>> Are there plans for hardware that will report the edge, and you are
+>> laying the groundwork here?
+> Adding here for the general case should there be provider
+>
+> available with such feature.
 
-On Wed, Oct 20, 2021 at 12:51 PM Sean Christopherson <seanjc@google.com> wrote:
+I have a doubt as below on how edge_irq_thread calculates le.id (Only for
+
+gpiod_get_value_cansleep case), i believe clearing that doubt will help me properly
+
+address this issue:
+
+- Does it have potential to read level which might have changed by the time thread is run?
+
+- Does it make sense to read it in edge_irq_handler instead at least of the chip which can
+
+fetch the level without needing to sleep?
+
 >
-> On Wed, Oct 20, 2021, Li Yu wrote:
-> > On 2021/10/20 00:23, Sean Christopherson wrote:
-> > I think it is necessary to log something when `nx_huge_pages` is `auto` or
-> > `off`, and the bug is present.
->
-> Why is it necessary?  Specifically, what action can be taken based on KVM logging
-> that can't reasonably be taken based on all the other information provided by the
-> kernel?  We should teach userspace to go look at the vulnerabilites info, not to
-> scrape the kernel log.
+>>
