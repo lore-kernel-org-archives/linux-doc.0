@@ -2,73 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08DF7C433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Dec 2021 22:59:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB314C433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Dec 2021 23:07:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240965AbhLHXD0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Dec 2021 18:03:26 -0500
-Received: from mail-pj1-f46.google.com ([209.85.216.46]:34596 "EHLO
-        mail-pj1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240729AbhLHXD0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Dec 2021 18:03:26 -0500
-Received: by mail-pj1-f46.google.com with SMTP id j5-20020a17090a318500b001a6c749e697so4893565pjb.1;
-        Wed, 08 Dec 2021 14:59:53 -0800 (PST)
+        id S231137AbhLHXLI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Dec 2021 18:11:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49082 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229453AbhLHXLH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Dec 2021 18:11:07 -0500
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C7CEC061746;
+        Wed,  8 Dec 2021 15:07:35 -0800 (PST)
+Received: by mail-io1-xd30.google.com with SMTP id m9so4715230iop.0;
+        Wed, 08 Dec 2021 15:07:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=GvxS1qroTD61QT/EFi3iPjXiqfPMtu/AfLzP0j5oWl8=;
+        b=A716lHua5S8Q0I6LxK8EbL72dqrwmaFOaGZWKh8i2V6ZCefvzwrlTpqmZbofBkji3o
+         eTcY11faHhDvzaWnlyJPjD7MAItParYA6jFITwEW1GmuBNmQpivoeP+lvJXzQFzoRt4o
+         KrRJYahvYIy5j7BOUkX/gYL9MMLme5cBDW81kzuBpbmOLzqNYjLQEj7lfLjINBTl62tu
+         6LKR4U7ia3Uft+usQCy2zYjuO84q0t57aRNsJGok6UcRGOFTAq8e022/6KwyGFU2QJ0w
+         XRDya9VZc8Wt9YttyS8IJyQLAL9LeHUiAnj73F7pRVE9OPVsxiUNFKczmtlJ85+QhuBd
+         +20g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=7lUQRqweKeMiFosOOSe3Fkngs2maTghHnb/E/B7/xHc=;
-        b=PerpDaCme8ai/f+szB8h7o6w4WYgfh/O8Q3IzxGttQ1s9ON4lhZLOT1T1+1AaDhtRp
-         1Lbnjv2NBVz4mAgot6Mr6PdAQ8ZfkjfUYm25jWdDXDUe2LHgLwV8Sljc1l51Yhq6k9op
-         vxbOVc9l1DFgOUl+RLGCwjtq05dT8YlcgnDUu4/myV4nXXeXD1sxUBJpm7cttYLd1XPP
-         cVQa9ukEfRCuhLX9zNUHlkPkIRIqbsQiA0rwigNKh83pkJsKQJpb0yeojHI0SRligcTI
-         AWrjjyZaM5JlYF7b3AysS51+WiAh7e5VWyAkqpLFt7tN1KAUciiUwNk2/4nZa2LSI1wX
-         o2Kw==
-X-Gm-Message-State: AOAM533kkRxLB71psDCGPcv8Y6fZZRAef3XFpDOVXOXE7TXy+z+1P8kq
-        /CSN8M8nSaK6r1qIMBMbWvU=
-X-Google-Smtp-Source: ABdhPJydR/005NsaekppzKyVoRvAikrLCJBOO01sSVi56aX9BXHj7oZSMSduTbDSMhnZm5BbWHrTZw==
-X-Received: by 2002:a17:902:b210:b0:143:789a:7418 with SMTP id t16-20020a170902b21000b00143789a7418mr62680540plr.38.1639004393588;
-        Wed, 08 Dec 2021 14:59:53 -0800 (PST)
-Received: from ?IPv6:2620:0:1000:2514:2f89:deb4:72f3:8a11? ([2620:0:1000:2514:2f89:deb4:72f3:8a11])
-        by smtp.gmail.com with ESMTPSA id lr6sm3965507pjb.0.2021.12.08.14.59.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Dec 2021 14:59:53 -0800 (PST)
-Subject: Re: [PATCH v2 6/8] docs: sysfs-block: document virt_boundary_mask
-To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     linux-block@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-        linux-doc@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, Hannes Reinecke <hare@suse.de>
-References: <20211208005640.102814-1-ebiggers@kernel.org>
- <20211208005640.102814-7-ebiggers@kernel.org>
- <13462e59-82f3-d6fc-a84e-2cf3083e0cc7@acm.org> <YbEz4pq2xMfAufwJ@gmail.com>
-From:   Bart Van Assche <bvanassche@acm.org>
-Message-ID: <ac1cefeb-d0f1-3cfc-ffb4-e5ac37b46bcf@acm.org>
-Date:   Wed, 8 Dec 2021 14:59:51 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=GvxS1qroTD61QT/EFi3iPjXiqfPMtu/AfLzP0j5oWl8=;
+        b=0r/oyFZmwd46PgC/k+pk3QFzxDVuUmqv6gfWtQc4FbQ/LrCEKSpgHOIG7bPo21LoEI
+         Z+WybU/tv6ZCw9A8SgHf5IeXvjVITAFV1iyoZYltsCE4pwNHWjxF6VqKfyPizQQK7LzR
+         syeiSCGijbFObQSght9SFNX3CAvUPR38vChkaTzNAmflEfL+77eJXQpoBvF8yxqfKJlF
+         LzPmLVJtH750Dm9DiUcQFtnBVO59YlV2BqRV/MO+fIA9AJjBMU1ugIDqY6JzCYEiuhmn
+         lxMEEXMGbxWeGvD1BGGMIgOe8zie/5uVU0bhVoHbfNLx4KiEcQ6TXu4kwmOhEMw/vVDE
+         8Flw==
+X-Gm-Message-State: AOAM530W2QdisLTdEge3nn2PAYxMyJCT9/sblgcX6TIJBnXEgB+I7VWC
+        97dRcgLGiKRw1DmMNE6IFwzfYz1Tf2x+UOr2VD4=
+X-Google-Smtp-Source: ABdhPJy5PjPkLmDXdBa8v9cvnb0J8BYP4vtPofj3T3hO/HPtklP9pPvbbe0+0XmfCKfw0H5ANish9+gJVfHa7ILR6mI=
+X-Received: by 2002:a02:c78e:: with SMTP id n14mr3798423jao.40.1639004854486;
+ Wed, 08 Dec 2021 15:07:34 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <YbEz4pq2xMfAufwJ@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20211206140313.5653-1-ojeda@kernel.org> <20211206140313.5653-15-ojeda@kernel.org>
+ <CAKwvOdnA+XU9u+dJ6NfmVFDTxdkCH4v04nMVaieuzauWZtBUpw@mail.gmail.com>
+In-Reply-To: <CAKwvOdnA+XU9u+dJ6NfmVFDTxdkCH4v04nMVaieuzauWZtBUpw@mail.gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Thu, 9 Dec 2021 00:07:24 +0100
+Message-ID: <CANiq72n1DehytS+n2_RbJf0uAROTD2c48voDWVGEWPaPr_V4qQ@mail.gmail.com>
+Subject: Re: [PATCH 14/19] docs: add Rust documentation
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Finn Behrens <me@kloenk.de>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Sven Van Asbroeck <thesven73@gmail.com>,
+        Wu XiangCheng <bobwxc@email.cn>, Gary Guo <gary@garyguo.net>,
+        Boris-Chengbiao Zhou <bobo1239@web.de>,
+        Yuki Okushi <jtitor@2k36.org>, Wei Liu <wei.liu@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/8/21 2:38 PM, Eric Biggers wrote:
-> Sure, I meant for it to be talking about the memory addresses.  How about this:
-> 
-> 		[RO] This file shows the I/O segment memory alignment mask for
-> 		the block device.  I/O requests to this device will be split
-> 		between segments wherever either the memory address of the end
-> 		of the previous segment or the memory address of the beginning
-> 		of the current segment is not aligned to virt_boundary_mask + 1
-> 		bytes.
+On Wed, Dec 8, 2021 at 2:30 AM Nick Desaulniers <ndesaulniers@google.com> wrote:
+>
+> I'm sure Documentation/rust/ will grow over time; there's certainly
+> more that can be added and core kernel devs will have more questions
 
-That also sounds good to me.
+Indeed -- the comment is only trying to emphasize (or explain) that
+this might be a difference with respect to C, i.e. that we should try
+to put as much of the documentation as possible closer to the code,
+rather than create "far" files in `Documentation/rust`. I will try to
+clarify the comment.
 
-Thanks,
+> But I read through all that was added here and didn't find anything
+> problematic IMO.  I didn't verify the png's are actually the logo...
 
-Bart.
+Thanks for reading through all of it!
+
+> I don't think `make htmldocs` produced any new warnings, though it's
+> not exactly warning free at the moment (pre-existing before this
+> series).
+
+Yeah, I also run `make htmldocs` before submitting the patch series
+rounds. And indeed, there are quite a few warnings (20+?), but none
+coming from `Documentation/rust` that I could see.
+
+> How is rust-logo.png being included in the docs? Is there something
+> with RST that isn't grep'able for rust-logo.png?
+
+At the moment, the assets are simply copied to the output folder, in
+the `rust/Makefile`. (I should provide an SVG too or remove the
+reference to it, by the way).
+
+Cheers,
+Miguel
