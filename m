@@ -2,106 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7E56C433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  8 Dec 2021 18:14:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AD3DC433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  8 Dec 2021 18:33:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235042AbhLHSRe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 8 Dec 2021 13:17:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38370 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231643AbhLHSRe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Dec 2021 13:17:34 -0500
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 693F7C061746;
-        Wed,  8 Dec 2021 10:14:01 -0800 (PST)
-Received: by mail-wr1-x436.google.com with SMTP id u1so5481818wru.13;
-        Wed, 08 Dec 2021 10:14:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=YAH0/us2xqzbXq7gp3ubTBdl9r4CUX/dnOqdJ3pk+RQ=;
-        b=qbxZaTgi/Gu+bhtDm8OHW7GAQTYAld/WqcbE8s71ZDsGqOQ+pijf4khIqhrz53oGnx
-         mbp9adL26lvJ9O4iFRxiVD50W1AoBGqHWQlEXt8W/Gib83xk9K+IsJFzW9XUomCXqAcH
-         ar0dsw7ZAMq3Rn1y2OQy0MqhMi1urhq6T5GPlP/orMM0z2mlvXj51PK98d7/+BGf+JmW
-         eDOfegbjecwOc+NMa8h2a+S0eolWIsTmt2PQADCl2okC5FeDW3zio6s3i4DSL/nbla+2
-         q1KezWjeJZryk9T+JU0p6qqj54G27z5a/HX6UwLloIVqxXGR+0GgwCrr3n2oPzrHSIVJ
-         +ZsA==
+        id S238958AbhLHSgy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 8 Dec 2021 13:36:54 -0500
+Received: from mail-pj1-f52.google.com ([209.85.216.52]:40837 "EHLO
+        mail-pj1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238954AbhLHSgy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 Dec 2021 13:36:54 -0500
+Received: by mail-pj1-f52.google.com with SMTP id gf14-20020a17090ac7ce00b001a7a2a0b5c3so4958890pjb.5;
+        Wed, 08 Dec 2021 10:33:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=YAH0/us2xqzbXq7gp3ubTBdl9r4CUX/dnOqdJ3pk+RQ=;
-        b=SYi3hoI4wk1SJ1ZczHee6AbV82O73zy61frqSbqiz7nI0lDsz9wbftmS93L80GRuK4
-         MkbjdwFamA/Ec0G4N9+tVbUtEgoQBDw+WYggzFGYSe2BfO8qkQwc0ERFLBzC8WxkaDi8
-         0eqZ4M+g+9FneLFve31oLCSVrN1kBU+uaXkxcjM8nETo8Y7JWh5ZbkKBmXurkjg9s5F2
-         K3S0LMDWHSiZSvpospc/K9DIO6B6HgLbhbQYhD/NnwNS/c7UTow171ARZChsy631m/PG
-         G5xkfOwoNf9YejUD8LKIfpNREEv9HAbJHx9J2XN150hQIEOunr7+4LTdz7mNifgd/a/1
-         wV9g==
-X-Gm-Message-State: AOAM53117HdrdJ3x0F1kcw3aprxq9oHn4AG0vYJf6Y/2V5SmKR+AsOEs
-        heP87OZbFl7HPvK9XFezuBKz7hjFBnBKjQ==
-X-Google-Smtp-Source: ABdhPJy5CAcukXKPiW4E0q9abTqbPf5N/EaEhK5Tn4S/yK0gIWmcpmpG8W/eyRzbXzbe5YsfmjS1bg==
-X-Received: by 2002:a05:6000:82:: with SMTP id m2mr358251wrx.202.1638987240071;
-        Wed, 08 Dec 2021 10:14:00 -0800 (PST)
-Received: from ?IPv6:2003:c7:8f4e:636:1c76:d6f:eb4:9f5b? (p200300c78f4e06361c760d6f0eb49f5b.dip0.t-ipconnect.de. [2003:c7:8f4e:636:1c76:d6f:eb4:9f5b])
-        by smtp.gmail.com with ESMTPSA id z8sm3532839wrh.54.2021.12.08.10.13.59
+        bh=0Ul403YxVr/GYiftUiCG88hiiZr2s1PeGaJxvBdtsT8=;
+        b=waOTwsqIlHCwDEtIDB3KWcTvg/u19QLAOeY1PXovzEZzZqOQ7PY7Oe7T6v2Oyxo+HV
+         VszBg6XtrVgBIVDBjnXEZhF/0lXSbc6nOIm8n0fwWoHCVhy6Th+PZW+0D1dVVNmFZA75
+         Qoqfcnc0HrviC31T/1qUOVq6B1tNqWNj9Yr2SmaIocNWx2Fr+Ih7n+XQ2AbrjP11cGIn
+         oW9ZSVcopp/2X4Vvkv/2E5kkphxhvuEio+6NwnqnKmajgyEypg4fUORFAky2XlZHNCnr
+         6wJfKMrEUbTW0BoSq4EM71aEvjzOWad0p+aFGwZMiBEYKfNlO3XCIQ1PiaRgtlX5Jq9w
+         B4ig==
+X-Gm-Message-State: AOAM533di1mprs6xpQPSaQbTDhDRNp9zFYPcEBx47L5iB4fRSmnXDn2a
+        RTj/hjCPxUOeTBJu2qjWgZE=
+X-Google-Smtp-Source: ABdhPJwtZaHD65Ey7j2mBc/tceKRoVjtndShk4+nAhyRh6rjPUEY9qXnLiu0tO8JWWe/JkawlVxYpA==
+X-Received: by 2002:a17:90b:3b82:: with SMTP id pc2mr9383862pjb.120.1638988401779;
+        Wed, 08 Dec 2021 10:33:21 -0800 (PST)
+Received: from bvanassche-linux.mtv.corp.google.com ([2620:15c:211:201:18af:8865:db7e:6769])
+        by smtp.gmail.com with ESMTPSA id n15sm3248400pgs.59.2021.12.08.10.33.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Dec 2021 10:13:59 -0800 (PST)
-Subject: Re: proposal to delete the skeleton driver
-To:     Oliver Neukum <oneukum@suse.com>, linux-usb@vger.kernel.org
-Cc:     linux-doc@vger.kernel.org, tytso@mit.edu,
-        Greg KH <gregkh@linuxfoundation.org>
-References: <df5bb0a6-e5f5-e062-5c02-e1de612058e2@suse.com>
-From:   Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Message-ID: <d1797628-9782-ba76-9eff-f400f9aa2446@gmail.com>
-Date:   Wed, 8 Dec 2021 19:13:58 +0100
+        Wed, 08 Dec 2021 10:33:20 -0800 (PST)
+Subject: Re: [PATCH v2 6/8] docs: sysfs-block: document virt_boundary_mask
+To:     Eric Biggers <ebiggers@kernel.org>, linux-block@vger.kernel.org,
+        Jens Axboe <axboe@kernel.dk>
+Cc:     linux-doc@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, Hannes Reinecke <hare@suse.de>
+References: <20211208005640.102814-1-ebiggers@kernel.org>
+ <20211208005640.102814-7-ebiggers@kernel.org>
+From:   Bart Van Assche <bvanassche@acm.org>
+Message-ID: <13462e59-82f3-d6fc-a84e-2cf3083e0cc7@acm.org>
+Date:   Wed, 8 Dec 2021 10:33:19 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <df5bb0a6-e5f5-e062-5c02-e1de612058e2@suse.com>
+In-Reply-To: <20211208005640.102814-7-ebiggers@kernel.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/7/21 11:16 AM, Oliver Neukum wrote:
-> Hi,
-> 
-> it seems to me that the method of maintaining an example driver
-> does not work because it will inevitably be
-> 
-> * untested
-> 
-> * out of date
-> 
-> Thus our documentation would be improved by replacing its examples
-> with code from drivers for real hardware. Such code wouldn't be pretty
-> or written for text books, but it would be tested.
-> I could do it this week in a first proposal. But I don't want to start
-> if somebody feels that the skeleton driver absolutely has to stay.
-> 
->      Regards
-> 
->          Oliver
-> 
+On 12/7/21 4:56 PM, Eric Biggers wrote:
+> +What:		/sys/block/<disk>/queue/virt_boundary_mask
+> +Date:		April 2021
+> +Contact:	linux-block@vger.kernel.org
+> +Description:
+> +		[RO] This file shows the I/O segment alignment mask for the
+> +		block device.  I/O requests to this device will be split between
+> +		segments wherever either the end of the previous segment or the
+> +		beginning of the current segment is not aligned to
+> +		virt_boundary_mask + 1 bytes.
 
-My wish is that it is only deleted when you have something similar as 
-proposed by Ted.
+"I/O segment alignment" looks confusing to me. My understanding is that this
+attribute refers to the alignment of the internal data buffer boundaries and not
+to the alignment of the offset on the storage medium. The name "virt_boundary"
+refers to the property that if all internal boundaries are a multiple of
+(virt_boundary_mask + 1) then an MMU with page size (virt_boundary_mask + 1) can
+map the entire data buffer onto a contiguous range of virtual addresses. E.g.
+RDMA adapters have an MMU that can do this. Several drivers that set this
+attribute support a storage controller that does not have an internal MMU. As an
+example, the NVMe core sets this mask since the NVMe specification requires that
+only the first element in a PRP list has a non-zero offset. From the NVMe
+specification: "PRP entries contained within a PRP List shall have a memory page
+offset of 0h. If a second PRP entry is present within a command, it shall have a
+memory page offset of 0h. In both cases, the entries are memory".
 
-I have tested the driver during the last three month. I used different 
-devices. The best one was a USB to serial adapter, as it has the by the 
-driver expected bulk in and out endpoints. In the skel_open() I was 
-putting in an initialization and was able to set RTS and other signals 
-on the RS232 side. I was also able to test the usb_bulk_msg() receiving 
-example for my patch…
-
-I truly believe that it has issues. But it is usable.
-
-I liked that it is a character device and that it is one file and not 
-distributed among many files.
-
-Regards
-Philipp
+Bart.
