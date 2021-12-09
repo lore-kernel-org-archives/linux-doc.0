@@ -2,273 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C92CC433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Dec 2021 15:32:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6643DC433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Dec 2021 15:40:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239539AbhLIPff (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Dec 2021 10:35:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48514 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234403AbhLIPfe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Dec 2021 10:35:34 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E03ECC061746;
-        Thu,  9 Dec 2021 07:32:00 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S235557AbhLIPnj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Dec 2021 10:43:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30665 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S235060AbhLIPni (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Dec 2021 10:43:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1639064404;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=QT9+Eto76AQyhw6YgaOC53MIX23XQDyrz/FUT+QNKSA=;
+        b=dYjylCBIokIyQKxgJ1aSna9N1EbyiHGqWDSQHiIv2r+S3ugqP70v3LYBWJh0+D8FqJ/ln/
+        b0RI2zTGOiDY7Z//JWGZduwFgDaF8C0DvtvPqVkSrl1Zh9IGp8nAXWu4RDvqICPaJ0Ohd5
+        zAgP906+XSGnxNUc4OUq8u0RdmipaEk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-153-aqBLroqWND6umz035CDTRg-1; Thu, 09 Dec 2021 10:40:00 -0500
+X-MC-Unique: aqBLroqWND6umz035CDTRg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 26920CE263B;
-        Thu,  9 Dec 2021 15:31:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE5A4C341C7;
-        Thu,  9 Dec 2021 15:31:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1639063916;
-        bh=XJZ9cwEeYKby397oPMzkS4mNndByzjaGPBQj8+qFo0c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qVc4nepasWXyOe5r5l4I8q0dyJmQkzV7ZNeTpm2VbwRNM+vFQ+zRrfqfIKjFo/Znj
-         Xzv+hwRky65m+rMiqHyN3vNuK85kFLD5SlYJXa1KQmT9hL+jCRC35EyQ+4WzTE7QPH
-         YShIEsfw8mx67Tobn231iT+gPvDNFfmsUBqjUob0=
-Date:   Thu, 9 Dec 2021 16:31:53 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     David Brazdil <dbrazdil@google.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Hans de Goede <hdegoede@redhat.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Andrew Scull <ascull@google.com>,
-        Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v2 2/2] misc: dice: Add driver to forward secrets to
- userspace
-Message-ID: <YbIhaWC8b2DV5C7Y@kroah.com>
-References: <20211209151123.3759999-1-dbrazdil@google.com>
- <20211209151123.3759999-3-dbrazdil@google.com>
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6AE9A100CCCB;
+        Thu,  9 Dec 2021 15:39:58 +0000 (UTC)
+Received: from [10.22.10.109] (unknown [10.22.10.109])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id AE0E04ABB5;
+        Thu,  9 Dec 2021 15:39:55 +0000 (UTC)
+Message-ID: <f74efd4a-eee8-3927-f975-92b4c457cb9c@redhat.com>
+Date:   Thu, 9 Dec 2021 10:39:55 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211209151123.3759999-3-dbrazdil@google.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v9 0/7] cgroup/cpuset: Add new cpuset partition type &
+ empty effecitve cpus
+Content-Language: en-US
+To:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
+Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>
+References: <20211205183220.818872-1-longman@redhat.com>
+From:   Waiman Long <longman@redhat.com>
+In-Reply-To: <20211205183220.818872-1-longman@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 09, 2021 at 03:11:23PM +0000, David Brazdil wrote:
-> Open Profile for DICE is a protocol for deriving unique secrets at boot
-> used by some Android devices. The firmware/bootloader hands over secrets
-> in a reserved memory region, which this driver takes ownership of and
-> exposes it to userspace via a misc device.
-> 
-> Userspace obtains the region's size using an ioctl and mmaps the memory
-> to its address space. This mapping cannot be write+shared, giving
-> userspace a guarantee that the secrets have not been overwritten by
-> another process.
-> 
-> Userspace can also issue an ioctl requesting that the memory be wiped by
-> the driver. Because both the kernel and userspace mappings use
-> write-combine semantics, all clients will observe the memory as zeroed
-> after the ioctl has returned.
-> 
-> Cc: Andrew Scull <ascull@google.com>
-> Cc: Will Deacon <will@kernel.org>
-> Signed-off-by: David Brazdil <dbrazdil@google.com>
-> ---
->  .../userspace-api/ioctl/ioctl-number.rst      |   1 +
->  drivers/misc/Kconfig                          |   8 +
->  drivers/misc/Makefile                         |   1 +
->  drivers/misc/dice.c                           | 161 ++++++++++++++++++
+On 12/5/21 13:32, Waiman Long wrote:
+> v9:
+>   - Add a new patch 1 to remove the child cpuset restriction on parent's
+>     "cpuset.cpus".
+>   - Relax initial root partition entry limitation to allow cpuset.cpus to
+>     overlap that of parent's.
+>   - An "isolated invalid" displayed type is added to
+>     cpuset.cpus.partition.
+>   - Resetting partition root to "member" will leave child partition root
+>     as invalid.
+>   - Update documentation and test accordingly.
+>
+> v8:
+>   - Reorganize the patch series and rationalize the features and
+>     constraints of a partition.
+>   - Update patch descriptions and documentation accordingly.
+>
+> v7:
+>   - Simplify the documentation patch (patch 5) as suggested by Tejun.
+>   - Fix a typo in patch 2 and improper commit log in patch 3.
+>
+> This patchset includes one bug fix and four enhancements to the cpuset v2 code.
+>
+>   Patch 1: Allow parent to set "cpuset.cpus" that may not be a superset
+>   of children's "cpuset.cpus" for default hierarchy.
+>
+>   Patch 2: Enable partition with no task to have empty cpuset.cpus.effective.
+>
+>   Patch 3: Refining the features and constraints of a cpuset partition
+>   clarifying what changes are allowed.
+>
+>   Patch 4: Add a new partition state "isolated" to create a partition
+>   root without load balancing. This is for handling intermitten workloads
+>   that have a strict low latency requirement.
+>
+>   Patch 5: Enable the "cpuset.cpus.partition" file to show the reason
+>   that causes invalid partition like "root invalid (No cpu available
+>   due to hotplug)".
+>
+> Patch 6 updates the cgroup-v2.rst file accordingly. Patch 7 adds a new
+> cpuset test to test the new cpuset partition code.
+>
+> Waiman Long (7):
+>    cgroup/cpuset: Don't let child cpusets restrict parent in default
+>      hierarchy
+>    cgroup/cpuset: Allow no-task partition to have empty
+>      cpuset.cpus.effective
+>    cgroup/cpuset: Refining features and constraints of a partition
+>    cgroup/cpuset: Add a new isolated cpus.partition type
+>    cgroup/cpuset: Show invalid partition reason string
+>    cgroup/cpuset: Update description of cpuset.cpus.partition in
+>      cgroup-v2.rst
+>    kselftest/cgroup: Add cpuset v2 partition root state test
+>
+>   Documentation/admin-guide/cgroup-v2.rst       | 168 +++--
+>   kernel/cgroup/cpuset.c                        | 440 +++++++-----
+>   tools/testing/selftests/cgroup/Makefile       |   5 +-
+>   .../selftests/cgroup/test_cpuset_prs.sh       | 667 ++++++++++++++++++
+>   tools/testing/selftests/cgroup/wait_inotify.c |  87 +++
+>   5 files changed, 1142 insertions(+), 225 deletions(-)
+>   create mode 100755 tools/testing/selftests/cgroup/test_cpuset_prs.sh
+>   create mode 100644 tools/testing/selftests/cgroup/wait_inotify.c
+>
+Hi,
 
-Nice, almost 100 lines shorter than before!
+Is this patch series good enough or is there other changes you would 
+still like to make in this series?
 
-Much better, thanks for the changes, but it can be made simpler, see
-comments below:
+Cheers,
+Longman
 
->  include/uapi/linux/dice.h                     |  14 ++
->  5 files changed, 185 insertions(+)
->  create mode 100644 drivers/misc/dice.c
->  create mode 100644 include/uapi/linux/dice.h
-> 
-> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> index cfe6cccf0f44..4b8bee2ffd1e 100644
-> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> @@ -341,6 +341,7 @@ Code  Seq#    Include File                                           Comments
->  0xAE  40-FF  linux/kvm.h                                             Kernel-based Virtual Machine
->                                                                       <mailto:kvm@vger.kernel.org>
->  0xAE  20-3F  linux/nitro_enclaves.h                                  Nitro Enclaves
-> +0xAE  40-5F  uapi/linux/dice.h                                       Open Profile for DICE driver
-
-Why the huge range?  You are only really using 40 and 41.  Stick to that
-please.
-
->  0xAF  00-1F  linux/fsl_hypervisor.h                                  Freescale hypervisor
->  0xB0  all                                                            RATIO devices in development:
->                                                                       <mailto:vgo@ratio.de>
-> diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
-> index 0f5a49fc7c9e..7165f4b6c41b 100644
-> --- a/drivers/misc/Kconfig
-> +++ b/drivers/misc/Kconfig
-> @@ -470,6 +470,14 @@ config HISI_HIKEY_USB
->  	  switching between the dual-role USB-C port and the USB-A host ports
->  	  using only one USB controller.
-> 
-> +config DICE
-> +	tristate "Open Profile for DICE driver"
-> +	depends on OF_RESERVED_MEM
-> +	help
-> +	  This driver allows to ownership of a reserved memory region
-> +	  containing DICE secrets and expose them to userspace via
-> +	  a character device.
-
-What is the module name, please add that here.
-
-And "dice" is a very generic name.  I don't mind, but if you want to
-name it a bit more specific, that might be better.
-
-> +
->  source "drivers/misc/c2port/Kconfig"
->  source "drivers/misc/eeprom/Kconfig"
->  source "drivers/misc/cb710/Kconfig"
-> diff --git a/drivers/misc/Makefile b/drivers/misc/Makefile
-> index a086197af544..f73c6bb23ccd 100644
-> --- a/drivers/misc/Makefile
-> +++ b/drivers/misc/Makefile
-> @@ -59,3 +59,4 @@ obj-$(CONFIG_UACCE)		+= uacce/
->  obj-$(CONFIG_XILINX_SDFEC)	+= xilinx_sdfec.o
->  obj-$(CONFIG_HISI_HIKEY_USB)	+= hisi_hikey_usb.o
->  obj-$(CONFIG_HI6421V600_IRQ)	+= hi6421v600-irq.o
-> +obj-$(CONFIG_DICE)		+= dice.o
-> diff --git a/drivers/misc/dice.c b/drivers/misc/dice.c
-> new file mode 100644
-> index 000000000000..06f3754feb71
-> --- /dev/null
-> +++ b/drivers/misc/dice.c
-> @@ -0,0 +1,161 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (C) 2021 - Google LLC
-> + * Author: David Brazdil <dbrazdil@google.com>
-> + *
-> + * Driver for Open Profile for DICE.
-> + *
-> + * This driver takes ownership of a reserved memory region containing secrets
-> + * derived following the Open Profile for DICE. The contents of the memory
-> + * region are not interpreted by the kernel but can be mapped into a userspace
-> + * process via a misc device. The memory region can also be wiped, removing
-> + * the secrets from memory.
-> + *
-> + * Userspace can access the data by (w/o error handling):
-> + *
-> + *     int fd = open("/dev/dice", O_RDONLY | O_CLOEXEC);
-> + *     size_t size = ioctl(fd, DICE_GET_SIZE);
-> + *     void *data = mmap(NULL, size, PROT_READ, MAP_PRIVATE, fd, 0);
-> + *     ioctl(fd, DICE_WIPE);
-> + *     close(fd);
-> + */
-> +
-> +#include <linux/dice.h>
-> +#include <linux/io.h>
-> +#include <linux/miscdevice.h>
-> +#include <linux/mm.h>
-> +#include <linux/module.h>
-> +#include <linux/of_reserved_mem.h>
-> +#include <linux/platform_device.h>
-> +
-> +static int dice_mmap(struct file *filp, struct vm_area_struct *vma);
-> +static long dice_ioctl(struct file *filp, unsigned int cmd, unsigned long arg);
-> +
-> +static const struct file_operations dice_fops = {
-> +	.mmap = dice_mmap,
-> +	.unlocked_ioctl = dice_ioctl,
-> +};
-> +
-> +static struct miscdevice dice_misc = {
-> +	.name	= "dice",
-> +	.minor	= MISC_DYNAMIC_MINOR,
-> +	.fops	= &dice_fops,
-> +	.mode	= 0400,
-> +};
-> +
-> +static struct reserved_mem *dice_rmem;
-> +static DEFINE_SPINLOCK(dice_lock);
-
-These should be per-device, not global, right?  Please put them in a
-local structure that lives off of the platform device.  Then everything
-is dynamic and nothing is static making it all much simpler again.
-
-Do that and you can get rid of the pre-definitions of dice_mmap() and
-dice_ioctl() above as well.
-
-> +
-> +static int dice_mmap(struct file *filp, struct vm_area_struct *vma)
-> +{
-> +	/* Do not allow userspace to modify the underlying data. */
-> +	if ((vma->vm_flags & VM_WRITE) && (vma->vm_flags & VM_SHARED))
-> +		return -EPERM;
-> +
-> +	/* Create write-combine mapping so all clients observe a wipe. */
-> +	vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
-> +	vma->vm_flags |= VM_DONTCOPY | VM_DONTDUMP;
-> +	return vm_iomap_memory(vma, dice_rmem->base, dice_rmem->size);
-> +}
-> +
-> +static int dice_wipe(void)
-> +{
-> +	void *kaddr;
-> +
-> +	spin_lock(&dice_lock);
-> +	kaddr = devm_memremap(dice_misc.this_device, dice_rmem->base,
-> +			      dice_rmem->size, MEMREMAP_WC);
-> +	if (IS_ERR(kaddr)) {
-> +		spin_unlock(&dice_lock);
-> +		return PTR_ERR(kaddr);
-> +	}
-> +
-> +	memzero_explicit(kaddr, dice_rmem->size);
-> +	devm_memunmap(dice_misc.this_device, kaddr);
-
-Do you really need to call memzero_explicit()?  This isn't "local"
-memory, if the compiler "optimizes away" a normal call, it would be
-_VERY_ broken.
-
-> +	spin_unlock(&dice_lock);
-> +	return 0;
-> +}
-> +
-> +static long dice_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
-> +{
-> +	switch (cmd) {
-> +	case DICE_GET_SIZE:
-> +		/* Checked against INT_MAX in dice_probe(). */
-> +		return dice_rmem->size;
-> +	case DICE_WIPE:
-> +		return dice_wipe();
-> +	}
-> +
-> +	return -ENOIOCTLCMD;
-
--ENOTTY please.
-
-As you only have 2 ioctls, why not just use read/write for this?  Write
-would cause dice_wipe() to happen, and read would return the size in the
-buffer provided.  Then no ioctl is needed at all.
-
-> +}
-> +
-> +static int __init dice_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct device_node *rmem_np;
-> +	struct reserved_mem *rmem;
-> +	int ret;
-> +
-> +	if (dice_rmem) {
-> +		dev_err(dev, "only one instance of device allowed\n");
-
-Why?  That's a device-specific thing, not a driver-specific thing.  Make
-this all dynamic and you don't need to care about it at all.
-
-Again, simplification :)
-
-thanks,
-
-greg k-h
