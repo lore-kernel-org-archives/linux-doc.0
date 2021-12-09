@@ -2,59 +2,61 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4486DC433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Dec 2021 09:02:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7CD3C433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Dec 2021 09:06:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233408AbhLIJFd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Dec 2021 04:05:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41748 "EHLO
+        id S233716AbhLIJKA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Dec 2021 04:10:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231602AbhLIJFd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Dec 2021 04:05:33 -0500
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EA8BC061746
-        for <linux-doc@vger.kernel.org>; Thu,  9 Dec 2021 01:02:00 -0800 (PST)
-Received: by mail-pl1-x62d.google.com with SMTP id z6so3397002plk.6
-        for <linux-doc@vger.kernel.org>; Thu, 09 Dec 2021 01:02:00 -0800 (PST)
+        with ESMTP id S233755AbhLIJJo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Dec 2021 04:09:44 -0500
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6A64C07E5C4
+        for <linux-doc@vger.kernel.org>; Thu,  9 Dec 2021 01:06:08 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id w33-20020a17090a6ba400b001a722a06212so5750898pjj.0
+        for <linux-doc@vger.kernel.org>; Thu, 09 Dec 2021 01:06:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=9eP7ojGx+d4skddjEFevXKgn9UuJjx0QvIejnKRsFzk=;
-        b=Pb3Di6ftMP4EagvtFEh2gw3vpXB4plshT5uETdqSMwiWth05zZXpsg2+mx+Mj4mbTb
-         pwQw1fMQ19RaDt2AlR1K5cF67u02UOpzdv1VvLUxghYsQIGcDV5U31+zxLhLKr9ABlSd
-         hFRJ1jJN0WSP/A+Wb3dmcAbnetiv2QpUh1w1qpDJmD9ZgPAXnJd/uuG6m7zmFKsxolNn
-         tm+WDDkU6+XOSDFQusrYJ3eqlXcOztUr6KhOBAlUn2WySq5asvjqKy9ciRIpDJxirqpz
-         3saq79h9dUi/4ipi2ipwEehwhuDXgIJm9kHeCmavZEwLIoyPVup1rJGfR/Bd4tM0btnq
-         7bWA==
+        bh=xRXCyhw4wkhxfGMgjYl9BWVJU1I5JFOqnfHVC0lq1XQ=;
+        b=NfAOJ0F7mzT/QBhXi19KwcewCbxHD5TSOaiy7k+W68jPJMvjKLZMk6CwL8oGTXYKnr
+         +gZLJe3i+fCtZZKTtGWDlsfHWDSg7eBBCDKTqwVUfGlJA/5z3ejPJ+FPrymgBoWP11Ye
+         ml4rHG5DtVCy4TZF3qlCVRfwatDrdWkX2Lm7oVZtXXBzmfk2+/ZJmNpkCzKcWE0FhWt5
+         KrxegnGCgyfxfbN7wpZONV936OBE/tzJ0bE949947l4i2J7k9CGfemmnjVPZr2uNqokT
+         a6znZ2+CeJ8zwRkty1ljcB93GYqpMJZwFC9RqL++dTBqNGcTXmTdNk4NQgtx0K9t+jU2
+         h57Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=9eP7ojGx+d4skddjEFevXKgn9UuJjx0QvIejnKRsFzk=;
-        b=PNSXGV5Expx9oAs6txi2jV0uVs5waVaaaAfqY2vS+v3Bbg9/b5HMI+J3Dwu86rN8jK
-         Sd+YdAWHQvgUEvsi4XB58aBNty+Vmg4gmWX/eKH1d6KWipw9EB4xnrXkfNe+tBZRdztp
-         VUHjyUPpC9MerkS8+uLC4RVchB2hE8DyOaYp2fMUcgeb7jIIRQKA+QZV+Tf/x45Xmy8h
-         U2xl4aI0vRFi/1dXGcqbzRpDh+ozgY+/sfUWRLMcItoLC7P3/qUd2RuYSsapAxyeIjoG
-         x/pOemRyO89f9jkYTn1g1MIZhL8c+0zSrt3Xdi2gXGEg9rjrrFocsMxA2x6oxkH5BA88
-         muwA==
-X-Gm-Message-State: AOAM5323gLQ6BZO2zyndxJY4N7NaR5SB28XspywbP0NwLaIp4o1jW0MZ
-        x/qznEf4bZ+rkwPYIXzf4xo=
-X-Google-Smtp-Source: ABdhPJyH/2+kj8NdalOrS2q/ZMpUZCTvufebyw5PktW9G4ZgM0j/qI1WCNCuYB/KnZhgHXG+wNegAg==
-X-Received: by 2002:a17:90b:4d85:: with SMTP id oj5mr13892703pjb.188.1639040519847;
-        Thu, 09 Dec 2021 01:01:59 -0800 (PST)
+        bh=xRXCyhw4wkhxfGMgjYl9BWVJU1I5JFOqnfHVC0lq1XQ=;
+        b=1DgChMXpZWtqc80iYPDkIeP1YZTirobw8YaFpGLt286EepAGBe0uHba7QhsljxW0Cq
+         zT88A1281LD3IqvVH1FyzZi/HSNo1m4kJywAX6isVhaP0vaIvCdozXepUft8n+K0IHbT
+         odkpLyxVqG7Jkbr8E1S8bN28R6gceQc54NBTtfCr7OcJsD5zSV2ZH+J1Z3AXlYhdlVr9
+         07/m2C2JmOGoAR39/C1f+6LG6tbAEa8+9HKFfnScnR+UKbW8O/C0eNOEvlT8xtcrU+fG
+         xbZCDJIwq64jJHF1VENJgKzt4uyI+ZXl+qqOtFzff2ln/2xvSBPrqSqBVIEAWslMLLzV
+         gNfg==
+X-Gm-Message-State: AOAM530708JYYe+l2iGCx3ehtV2KE11aBBN+WwLqtJybbL1lqMJhiGch
+        v/Lz5jPGNQSPSF9NE8ueNSk=
+X-Google-Smtp-Source: ABdhPJyILqYAPuXRLRTBz7Np3Bg946bWe8RjOjHLiwXDxNu66AbjK1+pbiKC4mtf1xDriLzeOeoQUA==
+X-Received: by 2002:a17:90b:1806:: with SMTP id lw6mr13996766pjb.59.1639040768292;
+        Thu, 09 Dec 2021 01:06:08 -0800 (PST)
 Received: from localhost.localdomain ([8.31.2.21])
-        by smtp.gmail.com with ESMTPSA id u5sm4892879pgm.60.2021.12.09.01.01.56
+        by smtp.gmail.com with ESMTPSA id ne7sm8953874pjb.36.2021.12.09.01.06.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Dec 2021 01:01:59 -0800 (PST)
+        Thu, 09 Dec 2021 01:06:07 -0800 (PST)
 From:   Yanteng Si <siyanteng01@gmail.com>
 X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
-To:     weizhenliang@huawei.com
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org, siyanteng01@gmail.com,
+To:     heiko.stuebner@theobroma-systems.com
+Cc:     dafna.hirschfeld@collabora.com, hverkuil-cisco@xs4all.nl,
+        mchehab+huawei@kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, siyanteng01@gmail.com,
         Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH] docs/zh_CN: add two colons to page_owner_sort
-Date:   Thu,  9 Dec 2021 17:00:31 +0800
-Message-Id: <20211209090031.537846-1-siyanteng@loongson.cn>
+Subject: [PATCH] docs/bpf: Add rkisp1 into index
+Date:   Thu,  9 Dec 2021 17:04:40 +0800
+Message-Id: <20211209090440.544128-1-siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -62,42 +64,30 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since f7df2b1cf03a ("tools/vm/page_owner_sort.c: count and sort by mem") which
-introduce a warning:
+Since cd42f8023f1 ("media: rockchip: rkisp1: add support for v12 isp variants") which
+introduced a warning:
 
-linux/Documentation/vm/page_owner.rst:92: WARNING: Unexpected indentation.
-linux/Documentation/vm/page_owner.rst:96: WARNING: Unexpected indentation.
-linux/Documentation/vm/page_owner.rst:107: WARNING: Unexpected indentation.
+linux/Documentation/driver-api/media/drivers/rkisp1.rst
 
-A paragraph consisting of two colons ("::") signifies that the following text block(s) comprise a literal block.
+Add it into index.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 ---
- Documentation/vm/page_owner.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/driver-api/media/drivers/index.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
-index 9837fc8147dd..14b5c45f43a3 100644
---- a/Documentation/vm/page_owner.rst
-+++ b/Documentation/vm/page_owner.rst
-@@ -85,7 +85,7 @@ Usage
- 	cat /sys/kernel/debug/page_owner > page_owner_full.txt
- 	./page_owner_sort page_owner_full.txt sorted_page_owner.txt
+diff --git a/Documentation/driver-api/media/drivers/index.rst b/Documentation/driver-api/media/drivers/index.rst
+index 426cda633bf0..9631115a710e 100644
+--- a/Documentation/driver-api/media/drivers/index.rst
++++ b/Documentation/driver-api/media/drivers/index.rst
+@@ -27,6 +27,7 @@ Video4Linux (V4L) drivers
+ 	vimc-devel
+ 	zoran
+ 	ccs/ccs
++	rkisp1
  
--   The general output of ``page_owner_full.txt`` is as follows:
-+   The general output of ``page_owner_full.txt`` is as follows::
  
- 	Page allocated via order XXX, ...
- 	PFN XXX ...
-@@ -100,7 +100,7 @@ Usage
-    and pages of buf, and finally sorts them according to the times.
- 
-    See the result about who allocated each page
--   in the ``sorted_page_owner.txt``. General output:
-+   in the ``sorted_page_owner.txt``. General output::
- 
- 	XXX times, XXX pages:
- 	Page allocated via order XXX, ...
+ Digital TV drivers
 -- 
 2.27.0
 
