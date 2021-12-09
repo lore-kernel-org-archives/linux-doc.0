@@ -2,115 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3483FC433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BC75C433FE
 	for <linux-doc@archiver.kernel.org>; Thu,  9 Dec 2021 13:18:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237833AbhLINVz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S237844AbhLINVz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 9 Dec 2021 08:21:55 -0500
-Received: from sin.source.kernel.org ([145.40.73.55]:43772 "EHLO
+Received: from sin.source.kernel.org ([145.40.73.55]:43808 "EHLO
         sin.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229803AbhLINVw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Dec 2021 08:21:52 -0500
+        with ESMTP id S237797AbhLINVx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Dec 2021 08:21:53 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 6FFC0CE25C2;
+        by sin.source.kernel.org (Postfix) with ESMTPS id 3AF41CE25C6;
+        Thu,  9 Dec 2021 13:18:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56D6EC341CC;
         Thu,  9 Dec 2021 13:18:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AF58C004DD;
-        Thu,  9 Dec 2021 13:18:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1639055895;
-        bh=cGjJG9Y0KtC0r7X3ZCwpLsoPwAqXqoEmtJZuLNlHnrk=;
+        s=k20201202; t=1639055897;
+        bh=9y13d4UGVte5kVTshQHjYNu0Pvs+CgZxzC/70rI3BNo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=h7bFRd/As9m73q7wHv4PpLWzBczRGv9MAL2AS3ibo7KcdBVMtZTyqTitJUQmL0PQy
-         +9bv3h4Kfv9wOWUJDJw+l/gfD47w1E3skhWe9G6oB9eAUyMebM92iu6VsHAjmGkL4+
-         OjZyBpEar984+3hUYGAaSfstkQSoLjklfDKK4zlkSM/ba5IhvVEs7bOP+lYHIeAW7+
-         GTxi1cM/e7JFTHN50gWV2J3ffE6RWhM+6wTSCm5T1h2lD/GH6R9BxC5AWRzaIAd7HV
-         /0KgGdgoknomCIE8uTe/x8oixSecaCSDtjvdrmAGETKEykwguzc87v5SO3zBgjxpd1
-         OXD5iIOPbTFbg==
+        b=n24cV9uSApZ0x1t+Y3NW1RtTEtQ7UKbI9RPdc+2hYAh/VekpFo9L+cghjOz5e70B4
+         sDfNp0r6Tg9wMJWjXHViRCfJOHy/N9MbF15q0LFEyt77bK2p2wYTpL1HCiUKPMNGRj
+         k8KKB01OoOgIk+MPjoh7U9djNnLlAlvjL3hlnnked0dkveyDOom20wSvG8jXSE2VuV
+         J8ZD8vshn36sIfJFq7dPmTivzp3riEzkwgItYWF0DwMgL4bAN/qkPzXWmfxKfakUHs
+         +uU0czXojcnhMNfLM7e9+Pt2+ET2swg9BQO6rlqnjJid97VHyxfvognO4NYaMj1vKE
+         OhawgWj7FsZHg==
 From:   SeongJae Park <sj@kernel.org>
 To:     akpm@linux-foundation.org
 Cc:     corbet@lwn.net, linux-mm@kvack.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, SeongJae Park <sj@kernel.org>
-Subject: [PATCH 3/6] Docs/admin-guide/mm/damon/usage: Remove redundant information
-Date:   Thu,  9 Dec 2021 13:18:03 +0000
-Message-Id: <20211209131806.19317-4-sj@kernel.org>
+Subject: [PATCH 6/6] mm/damon: Remove a mistakenly added comment for a future feature
+Date:   Thu,  9 Dec 2021 13:18:06 +0000
+Message-Id: <20211209131806.19317-7-sj@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20211209131806.19317-1-sj@kernel.org>
 References: <20211209131806.19317-1-sj@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-DAMON usage document mentions DAMON user space tool and programming
-interface twice.  This commit integrates those and remove unnecessary
-part.
+Due to a mistake in patches reordering, a comment for a future feature
+called 'arbitrary monitoring target support'[1], which is still under
+development, has added.  Because it only introduces confusion and we
+don't have a plan to post the patches soon, this commit removes the
+mistakenly added part.
 
+[1] https://lore.kernel.org/linux-mm/20201215115448.25633-3-sjpark@amazon.com/
+
+Fixes: 1f366e421c8f ("mm/damon/core: implement DAMON-based Operation Schemes (DAMOS)")
 Signed-off-by: SeongJae Park <sj@kernel.org>
 ---
- Documentation/admin-guide/mm/damon/usage.rst | 44 ++++++++++----------
- 1 file changed, 22 insertions(+), 22 deletions(-)
+ include/linux/damon.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index 1ab9b714fca2..24137312f601 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -7,30 +7,30 @@ Detailed Usages
- DAMON provides below three interfaces for different users.
- 
- - *DAMON user space tool.*
--  This is for privileged people such as system administrators who want a
--  just-working human-friendly interface.  Using this, users can use the DAMON’s
--  major features in a human-friendly way.  It may not be highly tuned for
--  special cases, though.  It supports both virtual and physical address spaces
--  monitoring.
-+  `This <https://github.com/awslabs/damo>`_ is for privileged people such as
-+  system administrators who want a just-working human-friendly interface.
-+  Using this, users can use the DAMON’s major features in a human-friendly way.
-+  It may not be highly tuned for special cases, though.  It supports both
-+  virtual and physical address spaces monitoring.  For more detail, please
-+  refer to its `usage document
-+  <https://github.com/awslabs/damo/blob/next/USAGE.md>`_.
- - *debugfs interface.*
--  This is for privileged user space programmers who want more optimized use of
--  DAMON.  Using this, users can use DAMON’s major features by reading
--  from and writing to special debugfs files.  Therefore, you can write and use
--  your personalized DAMON debugfs wrapper programs that reads/writes the
--  debugfs files instead of you.  The DAMON user space tool is also a reference
--  implementation of such programs.  It supports both virtual and physical
--  address spaces monitoring.
-+  :ref:`This <debugfs_interface>` is for privileged user space programmers who
-+  want more optimized use of DAMON.  Using this, users can use DAMON’s major
-+  features by reading from and writing to special debugfs files.  Therefore,
-+  you can write and use your personalized DAMON debugfs wrapper programs that
-+  reads/writes the debugfs files instead of you.  The `DAMON user space tool
-+  <https://github.com/awslabs/damo>`_ is one example of such programs.  It
-+  supports both virtual and physical address spaces monitoring.
- - *Kernel Space Programming Interface.*
--  This is for kernel space programmers.  Using this, users can utilize every
--  feature of DAMON most flexibly and efficiently by writing kernel space
--  DAMON application programs for you.  You can even extend DAMON for various
--  address spaces.
--
--Nevertheless, you could write your own user space tool using the debugfs
--interface.  A reference implementation is available at
--https://github.com/awslabs/damo.  If you are a kernel programmer, you could
--refer to :doc:`/vm/damon/api` for the kernel space programming interface.  For
--the reason, this document describes only the debugfs interface
-+  :doc:`This </vm/damon/api>` is for kernel space programmers.  Using this,
-+  users can utilize every feature of DAMON most flexibly and efficiently by
-+  writing kernel space DAMON application programs for you.  You can even extend
-+  DAMON for various address spaces.  For detail, please refer to the interface
-+  :doc:`document </vm/damon/api>`.
-+
-+
-+.. _debugfs_interface:
- 
- debugfs Interface
- =================
+diff --git a/include/linux/damon.h b/include/linux/damon.h
+index 2dbc1f545da2..97f4a224e950 100644
+--- a/include/linux/damon.h
++++ b/include/linux/damon.h
+@@ -281,7 +281,7 @@ struct damon_ctx;
+  * as an integer in [0, &DAMOS_MAX_SCORE].
+  * @apply_scheme is called from @kdamond when a region for user provided
+  * DAMON-based operation scheme is found.  It should apply the scheme's action
+- * to the region.  This is not used for &DAMON_ARBITRARY_TARGET case.
++ * to the region.
+  * @target_valid should check whether the target is still valid for the
+  * monitoring.
+  * @cleanup is called from @kdamond just before its termination.
 -- 
 2.17.1
 
