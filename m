@@ -2,43 +2,43 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B1FDC433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Dec 2021 09:55:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E69DC433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Dec 2021 09:56:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230108AbhLIJ7M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Dec 2021 04:59:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54410 "EHLO
+        id S230410AbhLIJ7s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Dec 2021 04:59:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229952AbhLIJ7M (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Dec 2021 04:59:12 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEDC6C061746;
-        Thu,  9 Dec 2021 01:55:38 -0800 (PST)
+        with ESMTP id S229952AbhLIJ7q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Dec 2021 04:59:46 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2E12C061746;
+        Thu,  9 Dec 2021 01:56:13 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 95264B82411;
-        Thu,  9 Dec 2021 09:55:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9EE5C004DD;
-        Thu,  9 Dec 2021 09:55:34 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 1F7ECCE2502;
+        Thu,  9 Dec 2021 09:56:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E76D0C004DD;
+        Thu,  9 Dec 2021 09:56:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1639043736;
+        s=k20201202; t=1639043770;
         bh=W7pXooK1kVAIY+RLt1VIpEkQiuX45GNgfUBx3j8LOw4=;
         h=From:To:Cc:Subject:Date:From;
-        b=jr61v5g/Tr2SVx2Qb+qDaI6TyL6azG6o2chCU6Rmoel6iyGYtIWG/OqZoA7UrpuiK
-         fJOgAhNVLPT7KYNNdHD2DLkC6U+Z1r31Ll8EuJmoZfb3nKadzS1UqOuIOIQ6oQArTK
-         6SMlNaNv9kMYjSwQeOWn0JkElJdmMkk8RCPr3CiK+K+NlSyYO6EdkKoHA6wjLcJks+
-         H7p6iZ8Di44CG2gAGZN4K/XrX7hbHcdYZa4EEN46HHEfbPaqc+8R6WMu/1EBT023dP
-         E5ExyOieZvkVFrSOmPuKVhPzSYjW0D+KRAmPcSFzG+8Ov0SARf3pk8ltlOkKZ924vw
-         Qv6cRuTz1ZEGg==
+        b=ZLz5ZkkMpNLhQ5Nr7/y0eDTi6Bs4+DBDbjwdu0XuvJO/DoVXOp5ufLxdOm29d60c5
+         2enmS6Q8VhkTAZQLiGjSeyv1pKIbk8FaQD/OuRC8RhoZqPCxRyag9Put3d6tr0jkN8
+         vbk1iUo+wvxgnRlHkIrz/TKK4W6yzidJp2bQDpdTGo1B3wt7xOTBY84576vO7svxd3
+         JC4l1laNWXmJPyd7O77VCz3OJ8fDK2STrxS6RKEcRPHmFDP+BDGk+v7mUmLmcg0Zjy
+         7ZRb9m3wAzo03AkWckBLGBHOMO2llrFE+JmJ2oSK9njj/M0HHddJtnXlvBxRQ8HB7S
+         Vak5JCer3Vs+A==
 From:   alexs@kernel.org
 Cc:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng01@gmail.com>,
         Tang Yizhou <tangyizhou@huawei.com>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] doc/zh_CN: add Chinese document coding style reminder
-Date:   Thu,  9 Dec 2021 17:55:28 +0800
-Message-Id: <20211209095528.68875-1-alexs@kernel.org>
+Subject: [PATCH v2] doc/zh_CN: add Chinese document coding style reminder
+Date:   Thu,  9 Dec 2021 17:56:04 +0800
+Message-Id: <20211209095604.68954-1-alexs@kernel.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
