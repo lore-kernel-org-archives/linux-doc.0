@@ -2,83 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F97EC433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Dec 2021 16:11:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB909C433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Dec 2021 16:18:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231481AbhLIQPR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Dec 2021 11:15:17 -0500
-Received: from mga06.intel.com ([134.134.136.31]:40656 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230177AbhLIQPR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 9 Dec 2021 11:15:17 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10193"; a="298924660"
-X-IronPort-AV: E=Sophos;i="5.88,192,1635231600"; 
-   d="scan'208";a="298924660"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2021 08:04:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,192,1635231600"; 
-   d="scan'208";a="463291598"
-Received: from ranerica-svr.sc.intel.com ([172.25.110.23])
-  by orsmga006.jf.intel.com with ESMTP; 09 Dec 2021 08:04:58 -0800
-Date:   Thu, 9 Dec 2021 08:03:46 -0800
-From:   Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        linux-pm@vger.kernel.org, x86@kernel.org,
-        linux-doc@vger.kernel.org, Len Brown <len.brown@intel.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Aubrey Li <aubrey.li@linux.intel.com>,
-        Amit Kucheria <amitk@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Tim Chen <tim.c.chen@linux.intel.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Ricardo Neri <ricardo.neri@intel.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 6/7] thermal: netlink: Add a new event to notify CPU
- capabilities change
-Message-ID: <20211209160346.GA7692@ranerica-svr.sc.intel.com>
-References: <20211106013312.26698-1-ricardo.neri-calderon@linux.intel.com>
- <20211106013312.26698-7-ricardo.neri-calderon@linux.intel.com>
- <b51c9b2a-40d2-6575-7746-3059eec53519@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b51c9b2a-40d2-6575-7746-3059eec53519@linaro.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        id S240948AbhLIQVj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Dec 2021 11:21:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60188 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241000AbhLIQVi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Dec 2021 11:21:38 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 212E4C061353
+        for <linux-doc@vger.kernel.org>; Thu,  9 Dec 2021 08:18:05 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id D5CC2B82563
+        for <linux-doc@vger.kernel.org>; Thu,  9 Dec 2021 16:18:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24527C004DD;
+        Thu,  9 Dec 2021 16:18:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1639066682;
+        bh=zCwncriJUBKlbUe2XtLliZsKicOmCM2PH2+pDQvZAY0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Gir/3ij8RW+r/tjxR9g+8XYeHDmfyVuXHaopfTdUMNIUm+YWrddlmg9kCrN0ag1kC
+         PolfVbcJJCm2ImeFNf2Fun0xFxBhXneEd5JPKQ9OvjcXtvaHofIEnaBi8QshX9hfXh
+         nusabQZevpmdpm3na0CXbQVnlCefVJnc+dVbip+vABquDXz26DvpcAbGH+hpX/26ly
+         Ck6x23ekTfD/IDdwJqNSCVoSOfU6p8UoMz3Aavl+/JqsPaeoYCne81rzxw6xIIqmsi
+         cuh3hKnwnA4xTo158Nwjbi0A9Lp1Z9yfqLV4xopqlgV3tHIg20YgHwAFYlA7/+LdiA
+         W4yox4Sucw0gA==
+Date:   Fri, 10 Dec 2021 01:17:58 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Yanteng Si <siyanteng01@gmail.com>, mhiramat@kernel.org,
+        rostedt@goodmis.org, linux-doc@vger.kernel.org,
+        Yanteng Si <siyanteng@loongson.cn>
+Subject: Re: [PATCH] docs/trace: fix a label of boottime-trace
+Message-Id: <20211210011758.0963cbb51a7d4752ccbfe957@kernel.org>
+In-Reply-To: <87y24tvnmo.fsf@meer.lwn.net>
+References: <20211209091133.558744-1-siyanteng@loongson.cn>
+        <87y24tvnmo.fsf@meer.lwn.net>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 30, 2021 at 10:29:46AM +0100, Daniel Lezcano wrote:
-> On 06/11/2021 02:33, Ricardo Neri wrote:
-> > From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> > 
-> > Add a new netlink event to notify change in CPU capabilities in terms of
-> > performance and efficiency.
-> > 
-> > Firmware may change CPU capabilities as a result of thermal events in the
-> > system or to account for changes in the TDP (thermal design power) level.
-> > 
-> > This notification type will allow user space to avoid running workloads
-> > on certain CPUs or proactively adjust power limits to avoid future events.
-> > 
-> 
-> [ ... ]
-> 
-> > +	[THERMAL_GENL_ATTR_CPU_CAPABILITY_ID]	= { .type = NLA_U32 },
-> > +	[THERMAL_GENL_ATTR_CPU_CAPABILITY_PERF]	= { .type = NLA_U32 },
-> > +	[THERMAL_GENL_ATTR_CPU_CAPABILITY_EFF]	= { .type = NLA_U32 },
-> >  };
-> 
-> AFAIU, 0 <= perf < 256 and 0 <= eff < 256, right?
-> 
-> Is the following true?
-> 
-> 	0 <= perf + eff < 256
+On Thu, 09 Dec 2021 07:50:07 -0700
+Jonathan Corbet <corbet@lwn.net> wrote:
 
-No, they are not. They are set independently.
+> Yanteng Si <siyanteng01@gmail.com> writes:
+> 
+> > Since 559789539255 ("Documentation: tracing: Add histogram syntax to boot-time tracing") which
+> > introduced a warning:
+> >
+> > linux/Documentation/trace/boottime-trace.rst:136: WARNING: undefined label: histogram (if the link has no caption the label must precede a section header)
+> >
+> > Replace with:
+> >               :xxx: path
+> >
+> > Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> > ---
+> >  Documentation/trace/boottime-trace.rst | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/trace/boottime-trace.rst b/Documentation/trace/boottime-trace.rst
+> > index 6dcfbc64014d..efb75ec5bf48 100644
+> > --- a/Documentation/trace/boottime-trace.rst
+> > +++ b/Documentation/trace/boottime-trace.rst
+> > @@ -133,7 +133,7 @@ action option, there are tree-style options under per-event 'hist' subkey
+> >  for the histogram actions. For the detail of the each parameter,
+> >  please read the event histogram document [3]_.
+> >  
+> > -.. [3] See :ref:`Documentation/trace/histogram.rst <histogram>`
+> > +.. [3] See :histogram: Documentation/trace/histogram.rst
+> 
+> I don't see that this is going to work either.  Is there any reason not
+> to just make the text read:
+> 
+>    please read the event histogram document Documentation/trace/histogram.rst
+> 
+> and let automarkup link it in?
 
-Thanks and BR,
-Ricardo
+Hmm, I think we need the following change instead of this.
+(the label is not in this document, but in the target document.)
 
+diff --git a/Documentation/trace/histogram.rst b/Documentation/trace/histogram.rst
+index 859fd1b76c63..ea722eae2810 100644
+--- a/Documentation/trace/histogram.rst
++++ b/Documentation/trace/histogram.rst
+@@ -1,3 +1,5 @@
++.. _histogram:
++
+ ================
+ Event Histograms
+ ================
+
+-- 
+Masami Hiramatsu <mhiramat@kernel.org>
