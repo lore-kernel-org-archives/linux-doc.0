@@ -2,132 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE6A1C433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Dec 2021 17:44:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B062C433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Dec 2021 19:34:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236008AbhLIRrs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Dec 2021 12:47:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54268 "EHLO
+        id S230309AbhLIThr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Dec 2021 14:37:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235370AbhLIRrs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Dec 2021 12:47:48 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E253C061746;
-        Thu,  9 Dec 2021 09:44:14 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id C9514CE2788;
-        Thu,  9 Dec 2021 17:44:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA10FC004DD;
-        Thu,  9 Dec 2021 17:44:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1639071851;
-        bh=LrhoCgwHK5aNa/je1bFGkrzamyGORwE0jAi/o+7cq0M=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=h+Und83WPf689ACgYKD8KAU8iKmz/AfKjHjnZbrlXN2RPAdq6HHZsBtNtAl3vIon+
-         hp/dLz6qerzservK6Wm3Kr17j+nJY1Z3Y3/Xp59E9tsxOloZsLflMHp+hxm21GOHPv
-         IhnaDeYwOQOkdmrcn23ALacGdGWfnfkiVcyZlgvA5ZpE/5VeHQ34eAycra0wfupezK
-         BbzJmpqD+cxVaQRwIIrzdYDeDyzSPZRcOnbXHFTo+H/a+uOx2dsobBXrHgpUhO/Zp2
-         kECgO8iNdaVXXeFukO/VUOUjcV2G3g+zbKyQ4QZoKljkwFzgfgxtqtMk467H5ofmE+
-         Hrp5g0xyQsA9A==
-Received: by mail-ed1-f53.google.com with SMTP id x10so4736301edd.5;
-        Thu, 09 Dec 2021 09:44:10 -0800 (PST)
-X-Gm-Message-State: AOAM532nfiX0VmU5DmdaIVybZoJtd1nl9gN5waO6N9DW43wX1t1b2H3f
-        WibNy5uJHPeftSw+MOG9xduEAIQGv1OGPLQ9bg==
-X-Google-Smtp-Source: ABdhPJxap0Qok1U7I64dLvD5c+qEPGQ3YzYlUS5GiU4rvfeVx52ezhzIk8JVKlHaoAWcLEY/BvtlX2hLDzjNdj873WE=
-X-Received: by 2002:a17:906:5e14:: with SMTP id n20mr17330757eju.466.1639071644253;
- Thu, 09 Dec 2021 09:40:44 -0800 (PST)
+        with ESMTP id S229710AbhLIThq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Dec 2021 14:37:46 -0500
+Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com [IPv6:2607:f8b0:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 681BEC061746;
+        Thu,  9 Dec 2021 11:34:12 -0800 (PST)
+Received: by mail-il1-x12c.google.com with SMTP id h16so6388229ila.4;
+        Thu, 09 Dec 2021 11:34:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=rjbF/e4IPr6w41XoeHe90MU9VqeA6wWtIu93GK+U99I=;
+        b=VxpxA7pazg4J0Uw2yrJ468h9XVbHM3XC98y1oSNtayeUNncaxTuWP3jLdrD3yPYz+8
+         Cy4PYzhBRe0bh4+o4TschXKyCc8S69143NLLw9MzbpyvMoRnfrPHP+JSH0ykpU5/80oj
+         fK6gHhR7FpIG8HPoKD/LF8IgGl0RXhGMMkSJUcr0CkSGPhzgONrudJK9g8YVgLeh9OMn
+         9O6ylG6WRFFWwsnPafiv/kTzFa9jwbsPp1nMBjHF+R8s1lt0YatXp+31bjmds+WwZEm6
+         dlD7OQbNrYfwqYvrB4RkhIChnfiWB0Xi9ohc9ABKI/qvOzA3TvRdUimv+78J82ejERa2
+         JF9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=rjbF/e4IPr6w41XoeHe90MU9VqeA6wWtIu93GK+U99I=;
+        b=lSUOOxn29z58gasOOazz+Qm1U7mTsuQEeku8orxk/HiWt8fwbJtfJNgDF3vwSZHePX
+         UkD5zVwVszoiiUYUE7FoQC85wpCvwBb2HBrLdlA+dwp02SUhfvHKfaN+GefLJTWkKiIP
+         aO3IgY+K/4mCyk/jhwIaKD+DAkl9onf6yt27sZnw16ivXvvDp7nJUEhlZJiY3G17LHqT
+         FBYpUXhVtO2fK7bJCGLF/gfEmmcZZ7SuOo3ejBZzW1a4MpPzj5iA9hqHY7GLVA+XNQjU
+         /W9WMmpu0cXjFrU6ya+e2Sl1zOHD+VrompDPkmDFPpOYl0pTIZmmvOvA8RNVWOSlSoul
+         6Y9g==
+X-Gm-Message-State: AOAM531EiJx9Qg4puTIMEbu8YxZ5Gqb/5KdGLunuuo1c2SzZd/GaflBI
+        MOK8udxIWM/UQxqdRCsoQ68kEkVqHPOyQd58xlg=
+X-Google-Smtp-Source: ABdhPJwbf4BStyul78aoixIbYXeNPT+vDDvVw180IUPyJAQY1AyTHLV4ByxbrJlu+3wi4eYKD/VfG1dO2Wq/7usImKU=
+X-Received: by 2002:a05:6e02:1ca1:: with SMTP id x1mr17110581ill.72.1639078451722;
+ Thu, 09 Dec 2021 11:34:11 -0800 (PST)
 MIME-Version: 1.0
-References: <20211123124646.1995-1-thunder.leizhen@huawei.com>
- <20211123124646.1995-11-thunder.leizhen@huawei.com> <YaaitPTArUZEriob@robh.at.kernel.org>
- <0dc664f7-65ae-767c-3fe6-d1bcf50d41e1@huawei.com> <281c8196-2a5c-28cf-346a-0ae2f7182f1b@huawei.com>
-In-Reply-To: <281c8196-2a5c-28cf-346a-0ae2f7182f1b@huawei.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Thu, 9 Dec 2021 11:40:32 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+2nt0Kr9jykq-SELk-6E4BAyFCVrRaNRC01Uz5Jqf-Jw@mail.gmail.com>
-Message-ID: <CAL_Jsq+2nt0Kr9jykq-SELk-6E4BAyFCVrRaNRC01Uz5Jqf-Jw@mail.gmail.com>
-Subject: Re: [PATCH v16 10/11] of: fdt: Add memory for devices by DT property "linux,usable-memory-range"
-To:     "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        X86 ML <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        kexec@lists.infradead.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+References: <20211206140313.5653-1-ojeda@kernel.org> <20211206140313.5653-6-ojeda@kernel.org>
+ <CAKwvOdk+A2PBdjSFVUhj4xyCGCKujtej1uPgywQgrKPiK2ksPw@mail.gmail.com>
+In-Reply-To: <CAKwvOdk+A2PBdjSFVUhj4xyCGCKujtej1uPgywQgrKPiK2ksPw@mail.gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Thu, 9 Dec 2021 20:34:00 +0100
+Message-ID: <CANiq72kUBy64D_psB2YsBs4evfyGUJO6g2eb5-5xZYg2rVETsw@mail.gmail.com>
+Subject: Re: [PATCH 05/19] rust: add `compiler_builtins` crate
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Sven Van Asbroeck <thesven73@gmail.com>,
+        Gary Guo <gary@garyguo.net>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 8, 2021 at 7:59 PM Leizhen (ThunderTown)
-<thunder.leizhen@huawei.com> wrote:
+On Wed, Dec 8, 2021 at 12:02 AM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
 >
->
->
-> On 2021/12/1 10:55, Leizhen (ThunderTown) wrote:
-> >>> +   }
-> >>>
-> >>> -   memblock_cap_memory_range(cap_mem_addr, cap_mem_size);
-> >>> +   memblock_cap_memory_range(rgn[0].base, rgn[0].size);
-> >>> +   for (i =3D 1; i < MAX_USABLE_RANGES && rgn[i].size; i++)
-> >> s/ &&/,/
->
-> Hi Rob:
->   I want to keep "&&" unchanged, do you mind? I'm going to post an
-> updated version tomorrow, hopefully the last.
+> Rather than panic at runtime, could we do some binary post processing
+> in Kbuild with $(NM) to error the build if any of the below symbols
+> are referenced from .o files produced by .rs sources?
 
-Looks like that was obviously correct, so no objections.
+To error the build, we only need to not define them; i.e. the issue is
+passing the build. Eventually, we should be able to avoid defining
+them (this is what the comment is referring to).
 
-Rob
+There are other ways around, like providing an in-tree `core`, but it
+is best to see if upstream Rust can do it.
 
->
-> > Hi Rob:
-> >
-> > The comma operator may not be suitable for logical judgment. The logica=
-l judgment
-> > before commas (,) is ignored.
-> >
-> > Here's my test=EF=BC=9A
-> >
-> > C code=EF=BC=9A
-> > int main()
-> > {
-> >         int i, j;
-> >
-> >         printf("&&:\n");
-> >         for (i =3D 0, j =3D 0; i < 2 && j < 3; i++, j++)
-> >                 printf("i=3D%d, j=3D%d\n", i, j);
-> >
-> >         printf("\ncomma:\n");
-> >         for (i =3D 0, j =3D 0; i < 2, j < 3; i++, j++)    //(i < 2=EF=
-=BC=89 before comma is ignored
-> >                 printf("i=3D%d, j=3D%d\n", i, j);
-> >
-> >         return 0;
-> > }
-> >
-> > Output=EF=BC=9A
-> > &&:
-> > i=3D0, j=3D0
-> > i=3D1, j=3D1
-> >
-> > comma:
-> > i=3D0, j=3D0
-> > i=3D1, j=3D1
-> > i=3D2, j=3D2
-> >
-> >
+> If we provide definitions of these symbols, then I worry about C code
+> that previously would have failed to link at build time when
+> referencing these will now succeed at linking when CONFIG_RUST=y is
+> enabled, but may panic at runtime IF we happen to hit those code
+> paths.
+
+It should be fine -- by the time we consider the Rust support
+non-experimental, we should not be defining them.
+
+Cheers,
+Miguel
