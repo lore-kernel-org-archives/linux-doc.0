@@ -2,136 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6643DC433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Dec 2021 15:40:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F97EC433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Dec 2021 16:11:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235557AbhLIPnj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Dec 2021 10:43:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30665 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235060AbhLIPni (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Dec 2021 10:43:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1639064404;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=QT9+Eto76AQyhw6YgaOC53MIX23XQDyrz/FUT+QNKSA=;
-        b=dYjylCBIokIyQKxgJ1aSna9N1EbyiHGqWDSQHiIv2r+S3ugqP70v3LYBWJh0+D8FqJ/ln/
-        b0RI2zTGOiDY7Z//JWGZduwFgDaF8C0DvtvPqVkSrl1Zh9IGp8nAXWu4RDvqICPaJ0Ohd5
-        zAgP906+XSGnxNUc4OUq8u0RdmipaEk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-153-aqBLroqWND6umz035CDTRg-1; Thu, 09 Dec 2021 10:40:00 -0500
-X-MC-Unique: aqBLroqWND6umz035CDTRg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6AE9A100CCCB;
-        Thu,  9 Dec 2021 15:39:58 +0000 (UTC)
-Received: from [10.22.10.109] (unknown [10.22.10.109])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id AE0E04ABB5;
-        Thu,  9 Dec 2021 15:39:55 +0000 (UTC)
-Message-ID: <f74efd4a-eee8-3927-f975-92b4c457cb9c@redhat.com>
-Date:   Thu, 9 Dec 2021 10:39:55 -0500
+        id S231481AbhLIQPR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Dec 2021 11:15:17 -0500
+Received: from mga06.intel.com ([134.134.136.31]:40656 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230177AbhLIQPR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 9 Dec 2021 11:15:17 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10193"; a="298924660"
+X-IronPort-AV: E=Sophos;i="5.88,192,1635231600"; 
+   d="scan'208";a="298924660"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2021 08:04:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,192,1635231600"; 
+   d="scan'208";a="463291598"
+Received: from ranerica-svr.sc.intel.com ([172.25.110.23])
+  by orsmga006.jf.intel.com with ESMTP; 09 Dec 2021 08:04:58 -0800
+Date:   Thu, 9 Dec 2021 08:03:46 -0800
+From:   Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        linux-pm@vger.kernel.org, x86@kernel.org,
+        linux-doc@vger.kernel.org, Len Brown <len.brown@intel.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Aubrey Li <aubrey.li@linux.intel.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Ricardo Neri <ricardo.neri@intel.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 6/7] thermal: netlink: Add a new event to notify CPU
+ capabilities change
+Message-ID: <20211209160346.GA7692@ranerica-svr.sc.intel.com>
+References: <20211106013312.26698-1-ricardo.neri-calderon@linux.intel.com>
+ <20211106013312.26698-7-ricardo.neri-calderon@linux.intel.com>
+ <b51c9b2a-40d2-6575-7746-3059eec53519@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v9 0/7] cgroup/cpuset: Add new cpuset partition type &
- empty effecitve cpus
-Content-Language: en-US
-To:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
-Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>
-References: <20211205183220.818872-1-longman@redhat.com>
-From:   Waiman Long <longman@redhat.com>
-In-Reply-To: <20211205183220.818872-1-longman@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b51c9b2a-40d2-6575-7746-3059eec53519@linaro.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/5/21 13:32, Waiman Long wrote:
-> v9:
->   - Add a new patch 1 to remove the child cpuset restriction on parent's
->     "cpuset.cpus".
->   - Relax initial root partition entry limitation to allow cpuset.cpus to
->     overlap that of parent's.
->   - An "isolated invalid" displayed type is added to
->     cpuset.cpus.partition.
->   - Resetting partition root to "member" will leave child partition root
->     as invalid.
->   - Update documentation and test accordingly.
->
-> v8:
->   - Reorganize the patch series and rationalize the features and
->     constraints of a partition.
->   - Update patch descriptions and documentation accordingly.
->
-> v7:
->   - Simplify the documentation patch (patch 5) as suggested by Tejun.
->   - Fix a typo in patch 2 and improper commit log in patch 3.
->
-> This patchset includes one bug fix and four enhancements to the cpuset v2 code.
->
->   Patch 1: Allow parent to set "cpuset.cpus" that may not be a superset
->   of children's "cpuset.cpus" for default hierarchy.
->
->   Patch 2: Enable partition with no task to have empty cpuset.cpus.effective.
->
->   Patch 3: Refining the features and constraints of a cpuset partition
->   clarifying what changes are allowed.
->
->   Patch 4: Add a new partition state "isolated" to create a partition
->   root without load balancing. This is for handling intermitten workloads
->   that have a strict low latency requirement.
->
->   Patch 5: Enable the "cpuset.cpus.partition" file to show the reason
->   that causes invalid partition like "root invalid (No cpu available
->   due to hotplug)".
->
-> Patch 6 updates the cgroup-v2.rst file accordingly. Patch 7 adds a new
-> cpuset test to test the new cpuset partition code.
->
-> Waiman Long (7):
->    cgroup/cpuset: Don't let child cpusets restrict parent in default
->      hierarchy
->    cgroup/cpuset: Allow no-task partition to have empty
->      cpuset.cpus.effective
->    cgroup/cpuset: Refining features and constraints of a partition
->    cgroup/cpuset: Add a new isolated cpus.partition type
->    cgroup/cpuset: Show invalid partition reason string
->    cgroup/cpuset: Update description of cpuset.cpus.partition in
->      cgroup-v2.rst
->    kselftest/cgroup: Add cpuset v2 partition root state test
->
->   Documentation/admin-guide/cgroup-v2.rst       | 168 +++--
->   kernel/cgroup/cpuset.c                        | 440 +++++++-----
->   tools/testing/selftests/cgroup/Makefile       |   5 +-
->   .../selftests/cgroup/test_cpuset_prs.sh       | 667 ++++++++++++++++++
->   tools/testing/selftests/cgroup/wait_inotify.c |  87 +++
->   5 files changed, 1142 insertions(+), 225 deletions(-)
->   create mode 100755 tools/testing/selftests/cgroup/test_cpuset_prs.sh
->   create mode 100644 tools/testing/selftests/cgroup/wait_inotify.c
->
-Hi,
+On Tue, Nov 30, 2021 at 10:29:46AM +0100, Daniel Lezcano wrote:
+> On 06/11/2021 02:33, Ricardo Neri wrote:
+> > From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> > 
+> > Add a new netlink event to notify change in CPU capabilities in terms of
+> > performance and efficiency.
+> > 
+> > Firmware may change CPU capabilities as a result of thermal events in the
+> > system or to account for changes in the TDP (thermal design power) level.
+> > 
+> > This notification type will allow user space to avoid running workloads
+> > on certain CPUs or proactively adjust power limits to avoid future events.
+> > 
+> 
+> [ ... ]
+> 
+> > +	[THERMAL_GENL_ATTR_CPU_CAPABILITY_ID]	= { .type = NLA_U32 },
+> > +	[THERMAL_GENL_ATTR_CPU_CAPABILITY_PERF]	= { .type = NLA_U32 },
+> > +	[THERMAL_GENL_ATTR_CPU_CAPABILITY_EFF]	= { .type = NLA_U32 },
+> >  };
+> 
+> AFAIU, 0 <= perf < 256 and 0 <= eff < 256, right?
+> 
+> Is the following true?
+> 
+> 	0 <= perf + eff < 256
 
-Is this patch series good enough or is there other changes you would 
-still like to make in this series?
+No, they are not. They are set independently.
 
-Cheers,
-Longman
+Thanks and BR,
+Ricardo
 
