@@ -2,55 +2,55 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 407C9C433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Dec 2021 07:05:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86511C433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Dec 2021 07:17:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231924AbhLIHJJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Dec 2021 02:09:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43096 "EHLO
+        id S233613AbhLIHUp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Dec 2021 02:20:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229919AbhLIHJJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Dec 2021 02:09:09 -0500
+        with ESMTP id S233467AbhLIHUp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Dec 2021 02:20:45 -0500
 Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53915C061746
-        for <linux-doc@vger.kernel.org>; Wed,  8 Dec 2021 23:05:36 -0800 (PST)
-Received: by mail-oi1-x234.google.com with SMTP id r26so7475375oiw.5
-        for <linux-doc@vger.kernel.org>; Wed, 08 Dec 2021 23:05:36 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8815AC061746
+        for <linux-doc@vger.kernel.org>; Wed,  8 Dec 2021 23:17:12 -0800 (PST)
+Received: by mail-oi1-x234.google.com with SMTP id bf8so7509304oib.6
+        for <linux-doc@vger.kernel.org>; Wed, 08 Dec 2021 23:17:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=r2EegmfDqIX5F3f+moeQR8UrE5g5cr98WWIBlm48deI=;
-        b=BXXSOrRPZWm4WST8XOFqn2gYGs+QUWtCm0OVBl1PPW5kwcex80jBK3+DF/hIzcFbgw
-         PH6EveZ2/Pqy/64GrtjQllFYt7OpfgGvUccuZk4mX8VLP1Ebxe23hHsA/nOgFiEZVaYQ
-         txF8moyMnL8XlrYL9IFKYJL02K5pktfkSVxj/GQfw3ZlpDzW4gT/mZB2memOllEtGnJQ
-         UIcALDw8DCb7/rfcucxtiPuquS7Rw/JMBTQvxI36xHK+pkK28wGUhjJJwGmQ6dlHzdnq
-         5GqkWCfpTmr3zN6Rj+xDQUJr1ElnE7XQuLrAhNfZumGHPkmRntTglBZfiK7uk87utYpl
-         Hugg==
+        bh=9O8kyEMYjpXI20RUL49MU5JalAXtL4bPAMMJEeTe53s=;
+        b=qP24wvjuAD9nxPRUwVIxeipowzI3wTCJZW0ApSick3wzodwkV6H9p4GenBJmnEiz7z
+         RW76JthetJLk+V6glUMwJ1zIsXlOH55KWoCyo7OVe3j4PRKwPyYT4MP++VwAvzmxA0Di
+         8rRTCjDo45r8UtkBbyDjBR5dBJpUbXQIVOJ9/GQeJUKgmqtwGjb4fYpWkQVVNqxWNcs8
+         pBNIrgdEvMbViEGEJcw5+xC33z1fnmn09+/ILWJaNeyHkW91CCoejgiBhhscS9k1d5Xj
+         4QlZLSJzcK903k6y5ZxzVQUB3nNVXvs3xymC8RTpbYKDJAJ7Y71J5pqOFuYmnla0BADZ
+         bn+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=r2EegmfDqIX5F3f+moeQR8UrE5g5cr98WWIBlm48deI=;
-        b=rClz0YzwwIY9ehty7oEMit+HaTMjR5dOBajX+7qgp9CZippvskg4ilQSzTM4XzS8Cr
-         3RjOyWyMUbV75cbZqRvqhpc5GsWOOgeNK/nt7WZqTvnmvw5oTwEKWozJQsuCkoxlIRiF
-         K+Kw7RWBLZlalEjFK9FhsQXa1WNwbko8YGBUUMgyo3SlST+PVc0s2QWfIx1B9T+tWQ9p
-         QMnNwWr0DLVePMf3VCf2UIVRI2+gw4ZJLT5sDtjsVqwJZHgcTKutdb057oBFLCtHNVln
-         TLJzhzQRw/JlCeKs43Oc+utM0pL54hU4cYnKjT//xEvVgt/2A9SSxgqQyXYzYn3Dx57A
-         cjAA==
-X-Gm-Message-State: AOAM530vlpPiYxrGWxVnjegbMZfXWh7Z6UCAd4ixj8bytTK1qXU1j9S7
-        DuDRdpMvi+UH/K7r0+QtJZKQU6MJzWP67mLEAkaAlTcNH94=
-X-Google-Smtp-Source: ABdhPJwYtDPHm2bvZYpmdXwIzdi+Q/ykCaeCRoz68JxwYvV6dFB1cXwoZFekA7c0slE2Mqqp24++lYX4n3281hjzwbo=
-X-Received: by 2002:aca:61c6:: with SMTP id v189mr3934588oib.103.1639033535735;
- Wed, 08 Dec 2021 23:05:35 -0800 (PST)
+        bh=9O8kyEMYjpXI20RUL49MU5JalAXtL4bPAMMJEeTe53s=;
+        b=4SgF02GmljyS9OOQB6/SAXJDqWfCu1wygS7yrsSt6V0Zp+NqyXYtnrfhaf/FcAx9Wi
+         SJ5ivltjzhZCAZvfp+5vMAX72cmahYOluPT7WI7Trc8IbsFOSBkiQ6kKnsGqax4cOs23
+         hhg5XvjXq+zGqT7RsDqN0E5DJSnSj/T9WppI8mCwAxgBIibBk/ZhTzqSCtc3Hw7ToG4l
+         BHYiTA8exKNcgvD4XrrxMYJZlgjHHJq57J+m3h8/HxuA78fDa3j+Eur62+oD2Rax4qiZ
+         HeYFZayUjf7C8N0nCmgcOwdV287sXH2kmldmqdPlIB/UQ2ozEz77blDPN6QtAS4aSO9H
+         eOqQ==
+X-Gm-Message-State: AOAM530o6LUJuSKjkYoTtobF0Om1wcppOh0LApxrzxXpb/2eQEpVKBFG
+        H5k43hMJmimv9+3mzFqXlOS557zEgUAI/DcPfHNWdxI9VjQ=
+X-Google-Smtp-Source: ABdhPJyLHhpnZMOtxzNZZvwVBBVcG6Gil7meXDO+ihVCTWCdP7Oys+yex9OeJ207tNFjKeptbNzpFD2cYmeMBx/lnMQ=
+X-Received: by 2002:a05:6808:1709:: with SMTP id bc9mr4204284oib.130.1639034231978;
+ Wed, 08 Dec 2021 23:17:11 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1638706875.git.siyanteng@loongson.cn> <6976a61ec50f837f482751c427af8598b30cc497.1638706875.git.siyanteng@loongson.cn>
- <87tufl39dj.fsf@meer.lwn.net>
-In-Reply-To: <87tufl39dj.fsf@meer.lwn.net>
+References: <cover.1638706875.git.siyanteng@loongson.cn> <761f674199f426431c894c3a2eeda2e57ced925f.1638706875.git.siyanteng@loongson.cn>
+ <87pmq9399y.fsf@meer.lwn.net>
+In-Reply-To: <87pmq9399y.fsf@meer.lwn.net>
 From:   yanteng si <siyanteng01@gmail.com>
-Date:   Thu, 9 Dec 2021 15:05:24 +0800
-Message-ID: <CAEensMw0=ANs+=ZzJ5xdGcP6veatzHek++tcd7vcCmHYvyFmsg@mail.gmail.com>
-Subject: Re: [PATCH 01/11] docs/driver-api: Reformatting serial ngsm
+Date:   Thu, 9 Dec 2021 15:17:00 +0800
+Message-ID: <CAEensMzjgHL9XjL_7H5xbZQJnu=LCoi27Y8irsD8Q12Lr4bHEw@mail.gmail.com>
+Subject: Re: [PATCH 04/11] docs/vm: delele three spaces from page_owner
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Yanteng Si <siyanteng@loongson.cn>,
         Huacai Chen <chenhuacai@kernel.org>,
@@ -62,31 +62,49 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 Jonathan Corbet <corbet@lwn.net> =E4=BA=8E2021=E5=B9=B412=E6=9C=887=E6=97=
-=A5=E5=91=A8=E4=BA=8C 01:56=E5=86=99=E9=81=93=EF=BC=9A
+=A5=E5=91=A8=E4=BA=8C 01:58=E5=86=99=E9=81=93=EF=BC=9A
 >
 > Yanteng Si <siyanteng01@gmail.com> writes:
 >
-> > Added necessary indents and blank lines, optimized typography in html d=
-ocuments.eg:
+> > Fix warning as:
 > >
-> >  "1.3 configure the mux using GSMIOC_GETCONF / GSMIOC_SETCONF ioctl. 1.=
-4 obtain base gsmtty number for the used serial port."
-> >
-> > Here's what they should have looked like:
-> >
-> >  1.3 configure the mux using GSMIOC_GETCONF / GSMIOC_SETCONF ioctl.
-> >
-> >  1.4 obtain base gsmtty number for the used serial port.
-> >
+> > linux-next/Documentation/vm/page_owner.rst:92: WARNING: Unexpected inde=
+ntation.
+> > linux-next/Documentation/vm/page_owner.rst:96: WARNING: Unexpected inde=
+ntation.
+> > linux-next/Documentation/vm/page_owner.rst:107: WARNING: Unexpected ind=
+entation.
+>
+> A general comment: "fixed a warning" is almost never a useful changelog
+> entry.  Instead, talk about what you fixed that was causing the warning;
+> that, not the warning itself, is the real problem.
+OK! get it.
+>
 > > Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 > > ---
-> >  Documentation/driver-api/serial/n_gsm.rst | 246 +++++++++++-----------
-> >  1 file changed, 126 insertions(+), 120 deletions(-)
+> >  Documentation/vm/page_owner.rst | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_ow=
+ner.rst
+> > index 9837fc8147dd..9a3af6aafa09 100644
+> > --- a/Documentation/vm/page_owner.rst
+> > +++ b/Documentation/vm/page_owner.rst
+> > @@ -89,11 +89,11 @@ Usage
+> >
+> >       Page allocated via order XXX, ...
+> >       PFN XXX ...
+> > -      // Detailed stack
+> > +     // Detailed stack
+> >
+> >       Page allocated via order XXX, ...
+> >       PFN XXX ...
+> > -      // Detailed stack
+> > +     // Detailed stack
 >
-> So that is a huge diffstat for just having inserted some blank lines and
-> such.  What did you do that makes it appear that so many lines have been
-> changed?  What change in the code sample, for example?
-oops, I will fix it.
+> I don't think this is the right fix; instead, this text should be in a
+> literal block.
+OK, Thanks!
 
 Thanks,
 Yanteng
