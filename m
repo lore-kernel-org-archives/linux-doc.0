@@ -2,26 +2,29 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5EFCC433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Dec 2021 23:48:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8A4EC433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Dec 2021 23:48:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234615AbhLIXve (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Dec 2021 18:51:34 -0500
-Received: from smtp5-g21.free.fr ([212.27.42.5]:11246 "EHLO smtp5-g21.free.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232760AbhLIXve (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 9 Dec 2021 18:51:34 -0500
+        id S234617AbhLIXvj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Dec 2021 18:51:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53858 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234618AbhLIXvj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Dec 2021 18:51:39 -0500
+Received: from smtp5-g21.free.fr (smtp5-g21.free.fr [IPv6:2a01:e0c:1:1599::14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 072EAC0617A1
+        for <linux-doc@vger.kernel.org>; Thu,  9 Dec 2021 15:48:05 -0800 (PST)
 Received: from localhost.localdomain (unknown [88.120.44.86])
-        by smtp5-g21.free.fr (Postfix) with ESMTP id F02D85FF10;
-        Fri, 10 Dec 2021 00:47:58 +0100 (CET)
+        by smtp5-g21.free.fr (Postfix) with ESMTP id 58B9B5FF67;
+        Fri, 10 Dec 2021 00:48:03 +0100 (CET)
 From:   Yann Dirson <ydirson@free.fr>
 To:     amd-gfx@lists.freedesktop.org
 Cc:     Alex Deucher <alexander.deucher@amd.com>,
         Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
         linux-doc@vger.kernel.org, Yann Dirson <ydirson@free.fr>
-Subject: [PATCH 1/3] Documentation/gpu: split amdgpu/index for readability
-Date:   Fri, 10 Dec 2021 00:47:15 +0100
-Message-Id: <20211209234717.8897-2-ydirson@free.fr>
+Subject: [PATCH 2/3] Documentation/gpu: include description of AMDGPU hardware structure
+Date:   Fri, 10 Dec 2021 00:47:16 +0100
+Message-Id: <20211209234717.8897-3-ydirson@free.fr>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211209234717.8897-1-ydirson@free.fr>
 References: <20211209234717.8897-1-ydirson@free.fr>
@@ -31,700 +34,107 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This starts to make the formated index much more manageable to the reader.
+This is Alex' description from the "gpu block diagram" thread, edited to
+fit as ReST.
 
+Originally-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Yann Dirson <ydirson@free.fr>
 ---
- Documentation/gpu/amdgpu/driver-core.rst      |  65 ++++
- Documentation/gpu/amdgpu/driver-misc.rst      | 112 +++++++
- Documentation/gpu/amdgpu/index.rst            | 298 +-----------------
- .../gpu/amdgpu/module-parameters.rst          |   7 +
- Documentation/gpu/amdgpu/ras.rst              |  62 ++++
- Documentation/gpu/amdgpu/thermal.rst          |  65 ++++
- 6 files changed, 324 insertions(+), 285 deletions(-)
- create mode 100644 Documentation/gpu/amdgpu/driver-core.rst
- create mode 100644 Documentation/gpu/amdgpu/driver-misc.rst
- create mode 100644 Documentation/gpu/amdgpu/module-parameters.rst
- create mode 100644 Documentation/gpu/amdgpu/ras.rst
- create mode 100644 Documentation/gpu/amdgpu/thermal.rst
+ Documentation/gpu/amdgpu/driver-core.rst | 81 ++++++++++++++++++++++++
+ 1 file changed, 81 insertions(+)
 
 diff --git a/Documentation/gpu/amdgpu/driver-core.rst b/Documentation/gpu/amdgpu/driver-core.rst
-new file mode 100644
-index 000000000000..97f9a9b68924
---- /dev/null
+index 97f9a9b68924..909b13fad6a8 100644
+--- a/Documentation/gpu/amdgpu/driver-core.rst
 +++ b/Documentation/gpu/amdgpu/driver-core.rst
-@@ -0,0 +1,65 @@
-+============================
-+ Core Driver Infrastructure
-+============================
-+
-+.. _amdgpu_memory_domains:
-+
-+Memory Domains
-+==============
-+
-+.. kernel-doc:: include/uapi/drm/amdgpu_drm.h
-+   :doc: memory domains
-+
-+Buffer Objects
-+==============
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-+   :doc: amdgpu_object
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-+   :internal:
-+
-+PRIME Buffer Sharing
-+====================
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-+   :doc: PRIME Buffer Sharing
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-+   :internal:
-+
-+MMU Notifier
-+============
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
-+   :doc: MMU Notifier
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
-+   :internal:
-+
-+AMDGPU Virtual Memory
-+=====================
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-+   :doc: GPUVM
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-+   :internal:
-+
-+Interrupt Handling
-+==================
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-+   :doc: Interrupt Handling
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-+   :internal:
-+
-+IP Blocks
-+=========
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/include/amd_shared.h
-+   :doc: IP Blocks
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/include/amd_shared.h
-+   :identifiers: amd_ip_block_type amd_ip_funcs
-diff --git a/Documentation/gpu/amdgpu/driver-misc.rst b/Documentation/gpu/amdgpu/driver-misc.rst
-new file mode 100644
-index 000000000000..e3d6b2fa2493
---- /dev/null
-+++ b/Documentation/gpu/amdgpu/driver-misc.rst
-@@ -0,0 +1,112 @@
-+================================
-+ Misc AMDGPU driver information
-+================================
-+
-+GPU Product Information
-+=======================
-+
-+Information about the GPU can be obtained on certain cards
-+via sysfs
-+
-+product_name
-+------------
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+   :doc: product_name
-+
-+product_number
-+--------------
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+   :doc: product_name
-+
-+serial_number
-+-------------
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+   :doc: serial_number
-+
-+unique_id
-+---------
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-+   :doc: unique_id
-+
-+GPU Memory Usage Information
-+============================
-+
-+Various memory accounting can be accessed via sysfs
-+
-+mem_info_vram_total
-+-------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-+   :doc: mem_info_vram_total
-+
-+mem_info_vram_used
-+------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-+   :doc: mem_info_vram_used
-+
-+mem_info_vis_vram_total
-+-----------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-+   :doc: mem_info_vis_vram_total
-+
-+mem_info_vis_vram_used
-+----------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-+   :doc: mem_info_vis_vram_used
-+
-+mem_info_gtt_total
-+------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-+   :doc: mem_info_gtt_total
-+
-+mem_info_gtt_used
-+-----------------
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-+   :doc: mem_info_gtt_used
-+
-+PCIe Accounting Information
-+===========================
-+
-+pcie_bw
-+-------
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-+   :doc: pcie_bw
-+
-+pcie_replay_count
-+-----------------
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+   :doc: pcie_replay_count
-+
-+GPU SmartShift Information
-+==========================
-+
-+GPU SmartShift information via sysfs
-+
-+smartshift_apu_power
-+--------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-+   :doc: smartshift_apu_power
-+
-+smartshift_dgpu_power
-+---------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-+   :doc: smartshift_dgpu_power
-+
-+smartshift_bias
-+---------------
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-+   :doc: smartshift_bias
-diff --git a/Documentation/gpu/amdgpu/index.rst b/Documentation/gpu/amdgpu/index.rst
-index ff38c360b04e..c9641ace0c0b 100644
---- a/Documentation/gpu/amdgpu/index.rst
-+++ b/Documentation/gpu/amdgpu/index.rst
-@@ -8,76 +8,18 @@ Next (GCN) architecture.
- Module Parameters
- =================
+@@ -2,6 +2,87 @@
+  Core Driver Infrastructure
+ ============================
  
--The amdgpu driver supports the following module parameters:
-+.. toctree::
- 
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+   module-parameters
- 
- Core Driver Infrastructure
- ==========================
- 
- This section covers core driver infrastructure.
- 
--.. _amdgpu_memory_domains:
-+.. toctree::
- 
--Memory Domains
----------------
--
--.. kernel-doc:: include/uapi/drm/amdgpu_drm.h
--   :doc: memory domains
--
--Buffer Objects
----------------
--
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
--   :doc: amdgpu_object
--
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
--   :internal:
--
--PRIME Buffer Sharing
----------------------
--
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
--   :doc: PRIME Buffer Sharing
--
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
--   :internal:
--
--MMU Notifier
--------------
--
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
--   :doc: MMU Notifier
--
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
--   :internal:
--
--AMDGPU Virtual Memory
-----------------------
--
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
--   :doc: GPUVM
--
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
--   :internal:
--
--Interrupt Handling
--------------------
--
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
--   :doc: Interrupt Handling
--
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
--   :internal:
--
--IP Blocks
-----------
--
--.. kernel-doc:: drivers/gpu/drm/amd/include/amd_shared.h
--   :doc: IP Blocks
--
--.. kernel-doc:: drivers/gpu/drm/amd/include/amd_shared.h
--   :identifiers: amd_ip_block_type amd_ip_funcs
-+   driver-core
- 
- Display Core
- ============
-@@ -99,241 +41,27 @@ AMDGPU XGMI Support
- AMDGPU RAS Support
- ==================
- 
--The AMDGPU RAS interfaces are exposed via sysfs (for informational queries) and
--debugfs (for error injection).
--
--RAS debugfs/sysfs Control and Error Injection Interfaces
----------------------------------------------------------
--
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
--   :doc: AMDGPU RAS debugfs control interface
--
--RAS Reboot Behavior for Unrecoverable Errors
----------------------------------------------------------
--
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
--   :doc: AMDGPU RAS Reboot Behavior for Unrecoverable Errors
--
--RAS Error Count sysfs Interface
---------------------------------
--
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
--   :doc: AMDGPU RAS sysfs Error Count Interface
--
--RAS EEPROM debugfs Interface
------------------------------
--
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
--   :doc: AMDGPU RAS debugfs EEPROM table reset interface
--
--RAS VRAM Bad Pages sysfs Interface
------------------------------------
--
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
--   :doc: AMDGPU RAS sysfs gpu_vram_bad_pages Interface
--
--Sample Code
-------------
--Sample code for testing error injection can be found here:
--https://cgit.freedesktop.org/mesa/drm/tree/tests/amdgpu/ras_tests.c
--
--This is part of the libdrm amdgpu unit tests which cover several areas of the GPU.
--There are four sets of tests:
--
--RAS Basic Test
--
--The test verifies the RAS feature enabled status and makes sure the necessary sysfs and debugfs files
--are present.
--
--RAS Query Test
--
--This test checks the RAS availability and enablement status for each supported IP block as well as
--the error counts.
--
--RAS Inject Test
--
--This test injects errors for each IP.
--
--RAS Disable Test
--
--This test tests disabling of RAS features for each IP block.
-+.. toctree::
- 
-+   ras
- 
- GPU Power/Thermal Controls and Monitoring
- =========================================
- 
- This section covers hwmon and power/thermal controls.
- 
--HWMON Interfaces
------------------
-+.. toctree::
- 
--.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
--   :doc: hwmon
-+   thermal
- 
--GPU sysfs Power State Interfaces
----------------------------------
-+Misc information
-+================
- 
--GPU power controls are exposed via sysfs files.
-+This section covers miscellaneous topics not fitting in other sections.
- 
--power_dpm_state
--~~~~~~~~~~~~~~~
-+.. toctree::
- 
--.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
--   :doc: power_dpm_state
--
--power_dpm_force_performance_level
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--
--.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
--   :doc: power_dpm_force_performance_level
--
--pp_table
--~~~~~~~~
--
--.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
--   :doc: pp_table
--
--pp_od_clk_voltage
--~~~~~~~~~~~~~~~~~
--
--.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
--   :doc: pp_od_clk_voltage
--
--pp_dpm_*
--~~~~~~~~
--
--.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
--   :doc: pp_dpm_sclk pp_dpm_mclk pp_dpm_socclk pp_dpm_fclk pp_dpm_dcefclk pp_dpm_pcie
--
--pp_power_profile_mode
--~~~~~~~~~~~~~~~~~~~~~
--
--.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
--   :doc: pp_power_profile_mode
--
--\*_busy_percent
--~~~~~~~~~~~~~~~
--
--.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
--   :doc: gpu_busy_percent
--
--.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
--   :doc: mem_busy_percent
--
--gpu_metrics
--~~~~~~~~~~~~~~~~~~~~~
--
--.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
--   :doc: gpu_metrics
--
--GPU Product Information
--=======================
--
--Information about the GPU can be obtained on certain cards
--via sysfs
--
--product_name
--------------
--
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
--   :doc: product_name
--
--product_number
----------------
--
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
--   :doc: product_name
--
--serial_number
---------------
--
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
--   :doc: serial_number
--
--unique_id
-----------
--
--.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
--   :doc: unique_id
--
--GPU Memory Usage Information
--============================
--
--Various memory accounting can be accessed via sysfs
--
--mem_info_vram_total
---------------------
--
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
--   :doc: mem_info_vram_total
--
--mem_info_vram_used
--------------------
--
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
--   :doc: mem_info_vram_used
--
--mem_info_vis_vram_total
-------------------------
--
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
--   :doc: mem_info_vis_vram_total
--
--mem_info_vis_vram_used
------------------------
--
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
--   :doc: mem_info_vis_vram_used
--
--mem_info_gtt_total
--------------------
--
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
--   :doc: mem_info_gtt_total
--
--mem_info_gtt_used
-------------------
--
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
--   :doc: mem_info_gtt_used
--
--PCIe Accounting Information
--===========================
--
--pcie_bw
---------
--
--.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
--   :doc: pcie_bw
--
--pcie_replay_count
-------------------
--
--.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
--   :doc: pcie_replay_count
--
--GPU SmartShift Information
--==========================
--
--GPU SmartShift information via sysfs
--
--smartshift_apu_power
----------------------
--
--.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
--   :doc: smartshift_apu_power
--
--smartshift_dgpu_power
-----------------------
--
--.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
--   :doc: smartshift_dgpu_power
--
--smartshift_bias
-----------------
--
--.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
--   :doc: smartshift_bias
-+   driver-misc
- 
- AMDGPU Glossary
- ===============
-diff --git a/Documentation/gpu/amdgpu/module-parameters.rst b/Documentation/gpu/amdgpu/module-parameters.rst
-new file mode 100644
-index 000000000000..ea538c8dda35
---- /dev/null
-+++ b/Documentation/gpu/amdgpu/module-parameters.rst
-@@ -0,0 +1,7 @@
-+===================
-+ Module Parameters
-+===================
++GPU hardware structure
++======================
 +
-+The amdgpu driver supports the following module parameters:
++Each asic is a collection of hardware blocks.  We refer to them as
++"IPs" (Intellectual Property blocks).  Each IP encapsulates certain
++functionality. IPs are versioned and can also be mixed and matched.
++E.g., you might have two different asics that both have SDMA 5.x IPs.
++The driver is arranged by IPs.  There are driver components to handle
++the initialization and operation of each IP.  There are also a bunch
++of smaller IPs that don't really need much if any driver interaction.
++Those end up getting lumped into the common stuff in the soc files.
++The soc files (e.g., vi.c, soc15.c nv.c) contain code for aspects of
++the SoC itself rather than specific IPs.  E.g., things like GPU resets
++and register access functions are SoC dependent.
 +
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-diff --git a/Documentation/gpu/amdgpu/ras.rst b/Documentation/gpu/amdgpu/ras.rst
-new file mode 100644
-index 000000000000..047f76e395cf
---- /dev/null
-+++ b/Documentation/gpu/amdgpu/ras.rst
-@@ -0,0 +1,62 @@
-+====================
-+ AMDGPU RAS Support
-+====================
++An APU contains more than just CPU and GPU, it also contains all of
++the platform stuff (audio, usb, gpio, etc.).  Also, a lot of
++components are shared between the CPU, platform, and the GPU (e.g.,
++SMU, PSP, etc.).  Specific components (CPU, GPU, etc.) usually have
++their interface to interact with those common components.  For things
++like S0i3 there is a ton of coordination required across all the
++components, but that is probably a bit beyond the scope of this
++section.
 +
-+The AMDGPU RAS interfaces are exposed via sysfs (for informational queries) and
-+debugfs (for error injection).
++With respect to the GPU, we have the following major IPs:
 +
-+RAS debugfs/sysfs Control and Error Injection Interfaces
-+========================================================
++GMC (Graphics Memory Controller)
++    This was a dedicated IP on older pre-vega chips, but has since
++    become somewhat decentralized on vega and newer chips.  They now
++    have dedicated memory hubs for specific IPs or groups of IPs.  We
++    still treat it as a single component in the driver however since
++    the programming model is still pretty similar.  This is how the
++    different IPs on the GPU get the memory (VRAM or system memory).
++    It also provides the support for per process GPU virtual address
++    spaces.
 +
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-+   :doc: AMDGPU RAS debugfs control interface
++IH (Interrupt Handler)
++    This is the interrupt controller on the GPU.  All of the IPs feed
++    their interrupts into this IP and it aggregates them into a set of
++    ring buffers that the driver can parse to handle interrupts from
++    different IPs.
 +
-+RAS Reboot Behavior for Unrecoverable Errors
-+============================================
++PSP (Platform Security Processor)
++    This handles security policy for the SoC and executes trusted
++    applications, and validates and loads firmwares for other blocks.
 +
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-+   :doc: AMDGPU RAS Reboot Behavior for Unrecoverable Errors
++SMU (System Management Unit)
++    This is the power management microcontroller.  It manages the entire
++    SoC.  The driver interacts with it to control power management
++    features like clocks, voltages, power rails, etc.
 +
-+RAS Error Count sysfs Interface
-+===============================
++DCN (Display Controller Next)
++    This is the display controller.  It handles the display hardware.
 +
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-+   :doc: AMDGPU RAS sysfs Error Count Interface
++SDMA (System DMA)
++    This is a multi-purpose DMA engine.  The kernel driver uses it for
++    various things including paging and GPU page table updates.  It's also
++    exposed to userspace for use by user mode drivers (OpenGL, Vulkan,
++    etc.)
 +
-+RAS EEPROM debugfs Interface
-+============================
++GC (Graphics and Compute)
++    This is the graphics and compute engine, i.e., the block that
++    encompasses the 3D pipeline and and shader blocks.  The is by far the
++    largest block on the GPU.  The 3D pipeline has tons of sub-blocks.  In
++    addition to that, it also contains the CP microcontrollers (ME, PFP,
++    CE, MEC) and the RLC microcontroller.  It's exposed to userspace for
++    user mode drivers (OpenGL, Vulkan, OpenCL, etc.)
 +
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-+   :doc: AMDGPU RAS debugfs EEPROM table reset interface
++VCN (Video Core Next)
++    This is the multi-media engine.  It handles video and image encode and
++    decode.  It's exposed to userspace for user mode drivers (VA-API,
++    OpenMAX, etc.)
 +
-+RAS VRAM Bad Pages sysfs Interface
-+==================================
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-+   :doc: AMDGPU RAS sysfs gpu_vram_bad_pages Interface
-+
-+Sample Code
-+===========
-+Sample code for testing error injection can be found here:
-+https://cgit.freedesktop.org/mesa/drm/tree/tests/amdgpu/ras_tests.c
-+
-+This is part of the libdrm amdgpu unit tests which cover several areas of the GPU.
-+There are four sets of tests:
-+
-+RAS Basic Test
-+
-+The test verifies the RAS feature enabled status and makes sure the necessary sysfs and debugfs files
-+are present.
-+
-+RAS Query Test
-+
-+This test checks the RAS availability and enablement status for each supported IP block as well as
-+the error counts.
-+
-+RAS Inject Test
-+
-+This test injects errors for each IP.
-+
-+RAS Disable Test
-+
-+This test tests disabling of RAS features for each IP block.
-diff --git a/Documentation/gpu/amdgpu/thermal.rst b/Documentation/gpu/amdgpu/thermal.rst
-new file mode 100644
-index 000000000000..8aeb0186c9ef
---- /dev/null
-+++ b/Documentation/gpu/amdgpu/thermal.rst
-@@ -0,0 +1,65 @@
-+===========================================
-+ GPU Power/Thermal Controls and Monitoring
-+===========================================
-+
-+HWMON Interfaces
++Driver structure
 +================
 +
-+.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-+   :doc: hwmon
++In general, the driver has a list of all of the IPs on a particular
++SoC and for things like init/fini/suspend/resume, more or less just
++walks the list and handles each IP.
 +
-+GPU sysfs Power State Interfaces
-+================================
 +
-+GPU power controls are exposed via sysfs files.
-+
-+power_dpm_state
-+---------------
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-+   :doc: power_dpm_state
-+
-+power_dpm_force_performance_level
-+---------------------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-+   :doc: power_dpm_force_performance_level
-+
-+pp_table
-+--------
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-+   :doc: pp_table
-+
-+pp_od_clk_voltage
-+-----------------
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-+   :doc: pp_od_clk_voltage
-+
-+pp_dpm_*
-+--------
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-+   :doc: pp_dpm_sclk pp_dpm_mclk pp_dpm_socclk pp_dpm_fclk pp_dpm_dcefclk pp_dpm_pcie
-+
-+pp_power_profile_mode
-+---------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-+   :doc: pp_power_profile_mode
-+
-+\*_busy_percent
-+---------------
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-+   :doc: gpu_busy_percent
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-+   :doc: mem_busy_percent
-+
-+gpu_metrics
-+-----------
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-+   :doc: gpu_metrics
+ .. _amdgpu_memory_domains:
+ 
+ Memory Domains
 -- 
 2.31.1
 
