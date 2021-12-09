@@ -2,66 +2,71 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C134C433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Dec 2021 20:11:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEBD3C433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Dec 2021 20:31:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229799AbhLIUPV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Dec 2021 15:15:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60702 "EHLO
+        id S232027AbhLIUe5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Dec 2021 15:34:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229478AbhLIUPV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Dec 2021 15:15:21 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57311C061746
-        for <linux-doc@vger.kernel.org>; Thu,  9 Dec 2021 12:11:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:Message-ID:
-        Subject:To:From:Date:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=0LMB/Zrbq20lxF1N6EBTpL6vRG5tAE5ezDL0O2682dw=; b=aGFsAVI+ZC1kaygdyOY0QnHIVR
-        HH4egf9lF031xwHjsrN3sk3V+B0rMqfGDF4fQhsE7v8Tgh1+y686A/0FTfz78HKE2V7ek0Yb9CHPe
-        jIwnqPV1IPTa5ZMzh0/KBk6j2h9SpB757z5ogELAbcxYzOJL/mbnuCqOxIw7hhP1eNdwlVEVx7PvS
-        6CASD1X/EskaDqfQEX6GNu/NTaVESz5Tka3YVlQhOFlNmDKlODfWmOliK63ON6Y3qilsJlYaPbsEl
-        xNREBR8pvOGUgbaKQkBiLIRB0Uq1oczKvoVxK/lLy+rHstdaaMkbVnKvJv2KrXC6X/q5i0czb9ere
-        STPH7GGQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mvPlY-009gsf-Rm
-        for linux-doc@vger.kernel.org; Thu, 09 Dec 2021 20:11:44 +0000
-Date:   Thu, 9 Dec 2021 20:11:44 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     linux-doc@vger.kernel.org
-Subject: Documenting operations structs
-Message-ID: <YbJjAC/dDcaKl9a+@casper.infradead.org>
+        with ESMTP id S229657AbhLIUe4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Dec 2021 15:34:56 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D2E3C061746;
+        Thu,  9 Dec 2021 12:31:22 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id B6730CE286A;
+        Thu,  9 Dec 2021 20:31:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B1A5C341C7;
+        Thu,  9 Dec 2021 20:31:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1639081878;
+        bh=6r/eB8lxbXJXe5tk1w6eUyewlp1rCQ3ywwINxscRZP4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=TlVp4htbLaKOiksL0+1MDrhNtwbuvHq9L+yKgkg67hRZrgfc7y8SSCm7b1fhY6eke
+         bPYmtvvvYIVtjFphKbYsHIBuXUJAtUPb9AsmTgho/h7XvHqyzndnjRCQ0jiCWpUu+o
+         iPdd5jIiRsND4SZIWWhUEZxn/sRykzQA7b17DmIo=
+Date:   Thu, 9 Dec 2021 21:31:15 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     David Brazdil <dbrazdil@google.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Hans de Goede <hdegoede@redhat.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Andrew Scull <ascull@google.com>,
+        Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v2 2/2] misc: dice: Add driver to forward secrets to
+ userspace
+Message-ID: <YbJnk7elmP4kUZEH@kroah.com>
+References: <20211209151123.3759999-1-dbrazdil@google.com>
+ <20211209151123.3759999-3-dbrazdil@google.com>
+ <YbIhaWC8b2DV5C7Y@kroah.com>
+ <20211209193857.GA28088@duo.ucw.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20211209193857.GA28088@duo.ucw.cz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-If one wishes to add kernel-doc for, ohletssay, vm_operations_struct,
-the html output is somewhat underwhelming.
+On Thu, Dec 09, 2021 at 08:38:57PM +0100, Pavel Machek wrote:
+> Hi!
+> 
+> > > +	memzero_explicit(kaddr, dice_rmem->size);
+> > > +	devm_memunmap(dice_misc.this_device, kaddr);
+> > 
+> > Do you really need to call memzero_explicit()?  This isn't "local"
+> > memory, if the compiler "optimizes away" a normal call, it would be
+> > _VERY_ broken.
+> 
+> For clearing secrets, I believe memzero_explicit is nice
+> documentation.
 
--/*
-+/**
-+ * struct vm_operations_struct - Per-VMA methods.
-+ *
-  * These are the virtual MM functions - opening of an area, closing and
-  * unmapping it (needed to keep files on disk up-to-date etc), pointer
-  * to the functions called when a no-page or a wp-page exception occurs.
-  */
- struct vm_operations_struct {
-        void (*open)(struct vm_area_struct * area);
-+       /**
-+         * @close: Called when the VMA is being removed from the MM.
-+         * Context: User context.  May sleep.  Caller holds mmap_lock.
-+         */
-        void (*close)(struct vm_area_struct * area);
-
-That 'Context:' marker is not treated the same way as a Context:
-heading in a function definition.  Adding a blank line between @close
-and Context: improves the appearance somewhat, but it's still not
-presented in the nicest possible way.
-
-Any thoughts?  Do we have examples elsewhere in the kernel of method
-tables being documented using kernel-doc?
+Only if it's really needed please.
