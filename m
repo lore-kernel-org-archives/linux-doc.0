@@ -2,99 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE521C433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Dec 2021 17:33:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CF05C433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Dec 2021 17:40:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243035AbhLIRgg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Dec 2021 12:36:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51382 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243033AbhLIRgg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Dec 2021 12:36:36 -0500
-Received: from mail-ua1-x931.google.com (mail-ua1-x931.google.com [IPv6:2607:f8b0:4864:20::931])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9470C061746
-        for <linux-doc@vger.kernel.org>; Thu,  9 Dec 2021 09:33:02 -0800 (PST)
-Received: by mail-ua1-x931.google.com with SMTP id o1so12149810uap.4
-        for <linux-doc@vger.kernel.org>; Thu, 09 Dec 2021 09:33:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qP3g9nlNYDMENZEHzL2wqEYDRc45i/aGbMBrExAATOo=;
-        b=m3pmqGsc8v9HBk9e9nLU0tB7U2YleEsbO84fu40vMqqFzE/8g5T4adWzkBIh++tT+q
-         XIUCntXkaeDOaBZlJxT7J+sRs6ClUebuGWm4D/PDVXrOkZOWZRY8n7ljzuQs6zW/kX1x
-         ATKMDBws7M7AJ2jZ4X34vtXcQHS2thaEwjkTgMPT5hOs4O3za46thhy8THLpqYh4LdQ+
-         UO/XOeW5tEWx/aLsL9kh5UOT0T8VoICQ7cvbQXQKVNl+pZiOOIOtLJRukG/bsMOGwRHs
-         WblSTjYqgZr1FsDEfNk5An418ViuDE0RFPXzVZK0MaTCUxDXS2QqpFg6ce9fKaBReHU9
-         TcAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qP3g9nlNYDMENZEHzL2wqEYDRc45i/aGbMBrExAATOo=;
-        b=OJagyOOTLXtN48e7V0GSWo6xzc/Gkx+w+QirEbTEEFXCMKzu4HLvYQe9R3nW+ldl7K
-         SJiuOjY6gzKCSW+2kiHvgSjr91EtIaspL/J2deas280n7UbS4xACp5NNsihV6ICayRdJ
-         p1riWS3J5uKzpTZWxJBumDzzGAEsoIM7KQUDytiLMhXJxJwlstOcXp96ocZeD1jB1XY0
-         ZSkXmaNmr4CK540K6vE7YpgGjgEHCGrqi016Lt9T4rm4ixnRY1Vpqt4n8fz7bSEj/KuN
-         qxgH9R9QCfRnGFlolOzEZfO0/yInKxqb5sc0i2vadp9ZjzUqopHD/pOw0/2/76yx2d8V
-         QRqA==
-X-Gm-Message-State: AOAM531YOkNKK1C724HGcxjYURvym5IwZbeOQE/j3/HjVbABnKUMmXzy
-        CBd+dszCnie80MwyBMifeL7BvbJhLV9PiUFsJ6cld0AZuwwXlA==
-X-Google-Smtp-Source: ABdhPJxM2yDBC9m9jvGibJ4CBcR2KmoAtU6TJoQr7TtBkwISP1CrPKABbJDsWddIBHUJvYqGfSb1eQ2q5wcbiPcmXtE=
-X-Received: by 2002:a67:b208:: with SMTP id b8mr8729651vsf.77.1639071179443;
- Thu, 09 Dec 2021 09:32:59 -0800 (PST)
-MIME-Version: 1.0
-References: <20211209090744.544938-1-siyanteng@loongson.cn>
-In-Reply-To: <20211209090744.544938-1-siyanteng@loongson.cn>
-From:   Grant Seltzer Richman <grantseltzer@gmail.com>
-Date:   Thu, 9 Dec 2021 12:32:48 -0500
-Message-ID: <CAO658oUc4gFPA-OW2gXO07_yrPEx7Vxpx7PaVBZmQeZGDTMhzA@mail.gmail.com>
-Subject: Re: [PATCH] docs/bpf: Add libbpf into index/bpf
-To:     Yanteng Si <siyanteng01@gmail.com>
-Cc:     Andrii Nakryiko <andrii@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Yanteng Si <siyanteng@loongson.cn>
+        id S243134AbhLIRng (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Dec 2021 12:43:36 -0500
+Received: from mga07.intel.com ([134.134.136.100]:26441 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S243127AbhLIRng (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 9 Dec 2021 12:43:36 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10193"; a="301546983"
+X-IronPort-AV: E=Sophos;i="5.88,193,1635231600"; 
+   d="scan'208";a="301546983"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2021 09:40:02 -0800
+X-IronPort-AV: E=Sophos;i="5.88,193,1635231600"; 
+   d="scan'208";a="516405372"
+Received: from braj-mobl.gar.corp.intel.com ([10.251.50.179])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2021 09:39:57 -0800
+Message-ID: <10f257b0546690983a1ca7d3c3e8842c9fd98308.camel@linux.intel.com>
+Subject: Re: [PATCH 6/7] thermal: netlink: Add a new event to notify CPU
+ capabilities change
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        linux-pm@vger.kernel.org, x86@kernel.org,
+        linux-doc@vger.kernel.org, Len Brown <len.brown@intel.com>,
+        Aubrey Li <aubrey.li@linux.intel.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Ricardo Neri <ricardo.neri@intel.com>,
+        linux-kernel@vger.kernel.org
+Date:   Thu, 09 Dec 2021 09:39:53 -0800
+In-Reply-To: <f31278f5-7d23-b213-0b5b-321a0d7a048a@linaro.org>
+References: <20211106013312.26698-1-ricardo.neri-calderon@linux.intel.com>
+         <20211106013312.26698-7-ricardo.neri-calderon@linux.intel.com>
+         <b51c9b2a-40d2-6575-7746-3059eec53519@linaro.org>
+         <20211209160346.GA7692@ranerica-svr.sc.intel.com>
+         <f31278f5-7d23-b213-0b5b-321a0d7a048a@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.0-1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 9, 2021 at 4:09 AM Yanteng Si <siyanteng01@gmail.com> wrote:
->
-> Since f42cfb469f9b ("bpf: Add documentation for libbpf including API autogen") which
-> introduced a warning:
->
-> linux/Documentation/bpf/libbpf/index.rst
->
-> Add it into index/bpf.
->
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> ---
->  Documentation/bpf/index.rst | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/Documentation/bpf/index.rst b/Documentation/bpf/index.rst
-> index 610450f59e05..bdf66f57f910 100644
-> --- a/Documentation/bpf/index.rst
-> +++ b/Documentation/bpf/index.rst
-> @@ -17,6 +17,11 @@ libbpf
->
->  Documentation/bpf/libbpf/index.rst is a userspace library for loading and interacting with bpf programs.
->
-> +.. toctree::
-> +   :maxdepth: 1
-> +
-> +   libbpf/index
-> +
+On Thu, 2021-12-09 at 17:57 +0100, Daniel Lezcano wrote:
+> On 09/12/2021 17:03, Ricardo Neri wrote:
+> > On Tue, Nov 30, 2021 at 10:29:46AM +0100, Daniel Lezcano wrote:
+> > > On 06/11/2021 02:33, Ricardo Neri wrote:
+> > > > From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> > > > 
+> > > > Add a new netlink event to notify change in CPU capabilities in
+> > > > terms of
+> > > > performance and efficiency.
+> > > > 
+> > > > Firmware may change CPU capabilities as a result of thermal
+> > > > events in the
+> > > > system or to account for changes in the TDP (thermal design
+> > > > power) level.
+> > > > 
+> > > > This notification type will allow user space to avoid running
+> > > > workloads
+> > > > on certain CPUs or proactively adjust power limits to avoid
+> > > > future events.
+> > > > 
+> > > 
+> > > [ ... ]
+> > > 
+> > > > +       [THERMAL_GENL_ATTR_CPU_CAPABILITY_ID]   = { .type =
+> > > > NLA_U32 },
+> > > > +       [THERMAL_GENL_ATTR_CPU_CAPABILITY_PERF] = { .type =
+> > > > NLA_U32 },
+> > > > +       [THERMAL_GENL_ATTR_CPU_CAPABILITY_EFF]  = { .type =
+> > > > NLA_U32 },
+> > > >  };
+> > > 
+> > > AFAIU, 0 <= perf < 256 and 0 <= eff < 256, right?
+> > > 
+> > > Is the following true?
+> > > 
+> > >         0 <= perf + eff < 256
+> > 
+> > No, they are not. They are set independently.
+> 
+> I understand they can be set independently but is the constraint
+> above
+> correct? For example, can the system send perf=255 and eff=255 or
+> perf=0
+> and eff=0 ?
+perf = 0 and eff = 0 is already the case in the current processors.
+Both FF is not the case as the current generation use real performance
+which can't be FF. Also it is unlikely that at max performance you have
+max efficiency.
 
-I may be wrong (I'm confused easily by mailing lists) but I believe
-your tree is out of date, this was already added in patch
-5931d9a3d0529dc803c792a10e52f0de1d0b9991
+Thanks,
+Srinivas
 
->  BPF Type Format (BTF)
->  =====================
->
-> --
-> 2.27.0
->
+> 
+> May be I misunderstood but I was expecting at least some kind of
+> connection between perf and eff (when eff is high, perf is low and
+> the
+> opposite).
+> 
+> 
+
+
