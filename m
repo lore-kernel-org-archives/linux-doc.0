@@ -2,119 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DDB2C433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  9 Dec 2021 09:26:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E223C433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  9 Dec 2021 09:50:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233367AbhLIJ3j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Dec 2021 04:29:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47568 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231706AbhLIJ3j (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Dec 2021 04:29:39 -0500
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02488C061746
-        for <linux-doc@vger.kernel.org>; Thu,  9 Dec 2021 01:26:06 -0800 (PST)
-Received: by mail-pg1-x534.google.com with SMTP id l64so4549594pgl.9
-        for <linux-doc@vger.kernel.org>; Thu, 09 Dec 2021 01:26:05 -0800 (PST)
+        id S229707AbhLIJxt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Dec 2021 04:53:49 -0500
+Received: from ewsoutbound.kpnmail.nl ([195.121.94.170]:51717 "EHLO
+        ewsoutbound.kpnmail.nl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231328AbhLIJxt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 Dec 2021 04:53:49 -0500
+X-Greylist: delayed 662 seconds by postgrey-1.27 at vger.kernel.org; Thu, 09 Dec 2021 04:53:49 EST
+X-KPN-MessageId: bd6b3fdb-58d3-11ec-8a6e-005056ab378f
+Received: from smtp.kpnmail.nl (unknown [10.31.155.39])
+        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+        id bd6b3fdb-58d3-11ec-8a6e-005056ab378f;
+        Thu, 09 Dec 2021 10:38:18 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rXmcTC3zLzmTGeq11CVVuFcJb4cN2vyDWbgAzHd1dVs=;
-        b=XTquP9+rRPD1MBBJ375AOHsQGPMg9qREVWVyecGZgvJq5iMsqYRtuwYAu0Z9UXnHUI
-         ydO9L8IpByVK+WbAyzfWy/ecg2QnKl/xnhvo5QAbkHOyppJyjGLbIV4byzdMrzNV+B9D
-         spzllDgvtME6vtkisHa+5/2qbcuqpoSAVOZBALLxNuiwE/IzcbWbmL1WlT0r1kEIMrfe
-         OCbNHMOv6BwC1/6IGriuQwnjpJnI90hf4TsDPW1TiFF0YrJyyuNTfrH7d/LKWXMVidXp
-         EYU9ABca8ylPZupPm/Fk4kSb+iX7YNiSD/JmhxBZ5B5zdOUdEPLVNHNFUsbsi/Pk1yef
-         Skug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rXmcTC3zLzmTGeq11CVVuFcJb4cN2vyDWbgAzHd1dVs=;
-        b=BTR26+OEZUY6tJ31iwFeUgCxuGVEtv3Ej67G9MZYvOyA5mPbYNCXcfr44U8tPlWOGa
-         2cbML10v7Q1DyQRVyvEzNB9hGgKAhpzTZkPIA8UZWHbOkcsuCYYNJzbhCU51VYFWVPdR
-         XZed6vcLSOuQH6Oi6ycuRMlUPczxc1i9jr1p8q1LOacDKKcV3l5vxKz6A3w3rrZ7Ijha
-         g7qPQ67zstC0z8hWl+t/odL1/49c1lIWGagqF9pMKZju3FS9+K2bP90qvU5yWcMyfUeP
-         +vF1Zqgwa2L46OyH0Kq3+16CHUfRSVGDIsJ2CnmYYEpjaxg4N9jwtsY3F8Bdud8d2zAU
-         PYpA==
-X-Gm-Message-State: AOAM532YQVomr87UhcxK//OTO9h7od7Um7HWPNIUsb7+kWzt2eGVv0sk
-        1sIiltz2oeCwD0BbNUIHmYk=
-X-Google-Smtp-Source: ABdhPJzN9N1C4g3imvoQOaaSjN1HAc92axb2hzuGtVOoTq2saNuqR0Y7FXuqLc9NaNX9gMrYEI/6mg==
-X-Received: by 2002:a05:6a00:2af:b0:4a2:a6f0:8eec with SMTP id q15-20020a056a0002af00b004a2a6f08eecmr10522313pfs.23.1639041965483;
-        Thu, 09 Dec 2021 01:26:05 -0800 (PST)
-Received: from localhost.localdomain ([8.31.2.21])
-        by smtp.gmail.com with ESMTPSA id n16sm6250218pfv.123.2021.12.09.01.26.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Dec 2021 01:26:05 -0800 (PST)
-From:   Yanteng Si <siyanteng01@gmail.com>
-X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
-To:     Zhenguo.Zhao1@unisoc.com
-Cc:     gregkh@linuxfoundation.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, siyanteng01@gmail.com,
-        Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH] docs/driver-api: Replace a comma in the n_gsm.rst with a double colon
-Date:   Thu,  9 Dec 2021 17:24:39 +0800
-Message-Id: <20211209092439.562433-1-siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.27.0
+        d=xs4all.nl; s=xs4all01;
+        h=content-type:from:to:subject:mime-version:date:message-id;
+        bh=/2Oj4SyeYGLBI2nPdOkSXq5zZCzg9F3x0zRkpn+lWNk=;
+        b=kUgMgzcj93rKFQp79GbDayyQOiKuHOxq5gMZCFpKu4TG7Rj0Uk0+Jt/xLBersDCO+SZ6ugY5Qrm3d
+         sQljOUwgW2Okcyxi8p+V9pPRgLqjpe8HMzV9wIus71KvEgSur3d5/m2sQILWt7VHLQZZkxpGuce0a8
+         LCOBmABlLlk97QtuwIMe5NhO8sI5o0nltJL7UNaKLLx758bfv85h6cGDqYDSOpHA9rN+KzudfEr/Hc
+         vnl0jSCbQYUWxPjZUzH9raRSed56jmrg7WyavpXopAwJHchJvIpB8H/m/R8etdyRG73YCoN8y5Lpq7
+         lCljV+blAkva/tA7NCsBh6og6pLahvQ==
+X-KPN-VerifiedSender: No
+X-CMASSUN: 33|j2Gg76hkz5IBVmEtCItK58Fywvd8OThAxXNOUjlbO4xCrkyMjsQPjoh02jccv8C
+ fM8OAFvyHW32aUWDCd5v8Sg==
+X-Originating-IP: 193.91.129.219
+Received: from [192.168.2.10] (cdb815bc1.dhcp.as2116.net [193.91.129.219])
+        by smtp.xs4all.nl (Halon) with ESMTPSA
+        id dbdde91f-58d3-11ec-81f5-005056ab7447;
+        Thu, 09 Dec 2021 10:39:10 +0100 (CET)
+Message-ID: <d13b108b-31f8-81cc-1317-ca3fbb785586@xs4all.nl>
+Date:   Thu, 9 Dec 2021 10:39:08 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.3.2
+Subject: Re: [PATCH] docs/bpf: Add rkisp1 into index
+Content-Language: en-US
+To:     Yanteng Si <siyanteng01@gmail.com>,
+        heiko.stuebner@theobroma-systems.com
+Cc:     dafna.hirschfeld@collabora.com, mchehab+huawei@kernel.org,
+        corbet@lwn.net, linux-doc@vger.kernel.org,
+        Yanteng Si <siyanteng@loongson.cn>
+References: <20211209090440.544128-1-siyanteng@loongson.cn>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20211209090440.544128-1-siyanteng@loongson.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since b9e851cd4a87 ("tty: n_gsm: Add some instructions and code for requester") which
-introduced a warning:
+On 09/12/2021 10:04, Yanteng Si wrote:
+> Since cd42f8023f1 ("media: rockchip: rkisp1: add support for v12 isp variants") which
+> introduced a warning:
+> 
+> linux/Documentation/driver-api/media/drivers/rkisp1.rst
+> 
+> Add it into index.
+> 
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> ---
+>  Documentation/driver-api/media/drivers/index.rst | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/driver-api/media/drivers/index.rst b/Documentation/driver-api/media/drivers/index.rst
+> index 426cda633bf0..9631115a710e 100644
+> --- a/Documentation/driver-api/media/drivers/index.rst
+> +++ b/Documentation/driver-api/media/drivers/index.rst
+> @@ -27,6 +27,7 @@ Video4Linux (V4L) drivers
+>  	vimc-devel
+>  	zoran
+>  	ccs/ccs
+> +	rkisp1
+>  
+>  
+>  Digital TV drivers
+> 
 
-linux/Documentation/driver-api/serial/n_gsm.rst:23: WARNING: Definition list ends without a blank line; unexpected unindent.
-linux/Documentation/driver-api/serial/n_gsm.rst:100: WARNING: Definition list ends without a blank line; unexpected unindent.
-linux/Documentation/driver-api/serial/n_gsm.rst:115: WARNING: Inline emphasis start-string without end-string.
-linux/Documentation/driver-api/serial/n_gsm.rst:118: WARNING: Inline emphasis start-string without end-string.
-linux/Documentation/driver-api/serial/n_gsm.rst:120: WARNING: Inline emphasis start-string without end-string.
-linux/Documentation/driver-api/serial/n_gsm.rst:122: WARNING: Inline emphasis start-string without end-string.
-linux/Documentation/driver-api/serial/n_gsm.rst:125: WARNING: Inline emphasis start-string without end-string.
-linux/Documentation/driver-api/serial/n_gsm.rst:139: WARNING: Inline emphasis start-string without end-string.
+A similar patch has already been merged into the media tree, so
+this patch can be dropped.
 
-A paragraph consisting of two colons ("::") signifies that the following text block(s) comprise a literal block.
-Add soome blank lines.
+Regards,
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
----
- Documentation/driver-api/serial/n_gsm.rst | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/driver-api/serial/n_gsm.rst b/Documentation/driver-api/serial/n_gsm.rst
-index 8fe723ab9c67..49956509ad73 100644
---- a/Documentation/driver-api/serial/n_gsm.rst
-+++ b/Documentation/driver-api/serial/n_gsm.rst
-@@ -18,9 +18,12 @@ How to use it
- 1.1 initialize the modem in 0710 mux mode (usually AT+CMUX= command) through
-     its serial port. Depending on the modem used, you can pass more or less
-     parameters to this command.
-+
- 1.2 switch the serial line to using the n_gsm line discipline by using
-     TIOCSETD ioctl.
-+
- 1.3 configure the mux using GSMIOC_GETCONF / GSMIOC_SETCONF ioctl.
-+
- 1.4 obtain base gsmtty number for the used serial port.
- 
- Major parts of the initialization program :
-@@ -95,10 +98,13 @@ Major parts of the initialization program :
- 
- 2.1 receive string "AT+CMUX= command" through its serial port,initialize
-     mux mode config
-+
- 2.2 switch the serial line to using the n_gsm line discipline by using
-     TIOCSETD ioctl.
-+
- 2.3 configure the mux using GSMIOC_GETCONF / GSMIOC_SETCONF ioctl.
--2.4 obtain base gsmtty number for the used serial port,
-+
-+2.4 obtain base gsmtty number for the used serial port::
- 
-   #include <stdio.h>
-   #include <stdint.h>
--- 
-2.27.0
-
+	Hans
