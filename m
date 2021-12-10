@@ -2,81 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D2B0C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Dec 2021 21:27:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EE79C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Dec 2021 21:28:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235747AbhLJVae (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Dec 2021 16:30:34 -0500
-Received: from ms.lwn.net ([45.79.88.28]:53648 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235807AbhLJVae (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 10 Dec 2021 16:30:34 -0500
+        id S235807AbhLJVbs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Dec 2021 16:31:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42966 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230509AbhLJVbs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Dec 2021 16:31:48 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6E7DC061746
+        for <linux-doc@vger.kernel.org>; Fri, 10 Dec 2021 13:28:12 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id E76092CC;
-        Fri, 10 Dec 2021 21:26:57 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E76092CC
+        by ms.lwn.net (Postfix) with ESMTPSA id A68572CC;
+        Fri, 10 Dec 2021 21:28:12 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A68572CC
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1639171618; bh=X4CiTWJFSJN/F+ck+oupzcB0TgOMku3lpzfLUKQRz9E=;
+        t=1639171692; bh=D3rxAvM2lpCM9x6AXzPElDM8I+xzJC1BFwPU22pfeVg=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=TzAGLqZ0iJPBiibtFrDQECcXBGxnbpZKnDpbTsucGR8sasrTO9ZRFxRK3E3Y94XXp
-         kZbvmlavyMz2alH54MSMJ38R+Goq6ZBa/iORIh2XyB9LQZMfjhweKKpCln77coQaiB
-         TFmUro48n1Ypo/ENAZ9vJC82iTt2ZEoGkPA3IZDGe7JqxHdufTbUYP+Ajtb7QHIjZQ
-         zSzeIPoZKr5xsuPe0J9K86ODusxEi74fDXxMZT5idcpWIw/AWwlYSslvE02OnWmbPu
-         Pl5Qru+oHITh8Kgx95rwxhmTg9VfvCaS7yuB4oqBZ++uqyuziYg7HfHCNfrUjDQlXw
-         otSYlt7lJXmwg==
+        b=dDlaOisdmbQcnSyGL6540KVKClm6/XbDnq3+NINT73PqAgD9SwD5m0kWRce66QDgC
+         zl0cmyQ57+MrZx52qgGuBdsgPvBOkWJfnR4JKRRdYGJ7TCPIfsvZfTCapH7lKO+LPg
+         po/dJhRtMLsEIotuBKY0E9QIdPUi+xUzF9x+g0mrmrQhwXohd470hB++4xLbzRuhjQ
+         shcTQvqZVyaNXAYU6bahJORmx2GZO7fEeYyDDIBsF9RIA6fyeh9TY9b9zFQZ0+ZrLv
+         qgQo1LS2BTao7vqC74tjeDMopDRzftBVdwmhmwAc213Sx3CACVVCftTWs3B38YdC7f
+         8dhbbR+SiEa+g==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
+To:     Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
+        linux-doc@vger.kernel.org
+Cc:     linux-snps-arc@lists.infradead.org,
+        Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
         Randy Dunlap <rdunlap@infradead.org>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
-        <nfraprado@protonmail.com>, Alex Shi <alexs@kernel.org>
-Subject: Re: [PATCH v4 0/4] docs: add better support for Sphinx themes and CSS
-In-Reply-To: <cover.1638870323.git.mchehab+huawei@kernel.org>
-References: <cover.1638870323.git.mchehab+huawei@kernel.org>
-Date:   Fri, 10 Dec 2021 14:26:57 -0700
-Message-ID: <87ilvwqhge.fsf@meer.lwn.net>
+        Vineet Gupta <vgupta@kernel.org>
+Subject: Re: [PATCH] docs: ARC: Improve readability
+In-Reply-To: <20211202215747.19923-1-abrodkin@synopsys.com>
+References: <20211202215747.19923-1-abrodkin@synopsys.com>
+Date:   Fri, 10 Dec 2021 14:28:12 -0700
+Message-ID: <87ee6kqheb.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+Alexey Brodkin <Alexey.Brodkin@synopsys.com> writes:
 
-> Hi Jon,
+> There were some things which made rendered document
+> look not very elegant. That was because:
 >
-> This series comes after my patch fixing Sphinx support for RTD 1.0.0:
->  https://lore.kernel.org/lkml/80009f0d17ea0840d81e7e16fff6e7677919fdfc.1638004294.git.mchehab+huawei@kernel.org/
+> 1. Numbered lists were formatted in more of Markdown way
+>    rather than true reStructuredText and so were displayed
+>    as a plain text with leading numbers.
 >
-> On this version, I renamed the vars to DOCS_CSS and DOCS_THEME,
-> based on our previous discussion.
+>    Well, moreover numbered lists were not needed as in all cases
+>    we were just listing a couple of options w/o any intention to
+>    follow any particular order, so a simpler unordered list fits
+>    better and looks cleaner.
 >
-> I also changed the description of patch 4, better explaining how to
-> override the CSS theme and giving an example that looks fine,
-> at least for my eyes.
+> 2. URL's of external resources were added as they are
+>    (which is OK in a plain text, but make not much sense in
+>    a HTML where we may use more human-friendly link names
+>    with URL's hidden.
 >
-> -
+> 3. Some URL's had trailing slashes which were not really needed
 >
-> Sphinx allows using different output templates for HTML (and e-pub).
+> Fix all items from above!
 >
-> Right now, the Kernel was hardcoded to use the Read the Docs theme,
-> falling back to whatever default is setup on a given Sphinx version.
->
-> Well, themes and templates are actually an user preference.
->
-> This patch set allows selecting different themes and even provide
-> extra CSS override files.
->
-> With that, one could, for instance, do things like:
->
-> $ echo "body { color: darkgreen; } div.body { color: darkgreen; } " >my_css.css && make SPHINXDIRS=input DOCS_CSS=my_css.css DOCS_THEME=nature htmldocs
+> Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Vineet Gupta <vgupta@kernel.org>
+> ---
+>  Documentation/arc/arc.rst | 62 +++++++++++++++++++++------------------
+>  1 file changed, 33 insertions(+), 29 deletions(-)
 
-I've applied the set, thanks.
+Applied, thanks.
 
 jon
