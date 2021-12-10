@@ -2,77 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75E61C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Dec 2021 16:01:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 281F3C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Dec 2021 16:40:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236014AbhLJQFS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Dec 2021 11:05:18 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:33230 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231806AbhLJQFS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Dec 2021 11:05:18 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 4C933B827BE;
-        Fri, 10 Dec 2021 16:01:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B51CC00446;
-        Fri, 10 Dec 2021 16:01:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1639152101;
-        bh=mSGFDf1CkIFsGekXfmMO0AqQmx5MaFE6V3Bsm58SZG8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NWXzI+IucunN+dQi05Qnbj5uNQFd3uU/DUc4a/2YoHqqrOl/slpnyrJgKBsLQQ7nr
-         yci3st/7U4uyfkBo8+dtD/hd62iaeORwXk8G6dosrfHJai7pY4PGCbxKF0d4a8w5jU
-         FdZhdQa+N9w08pC44ijbOWmNG8S5rYyp6yXDwaDc=
-Date:   Fri, 10 Dec 2021 17:01:38 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     David Brazdil <dbrazdil@google.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Hans de Goede <hdegoede@redhat.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Andrew Scull <ascull@google.com>,
-        Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v2 2/2] misc: dice: Add driver to forward secrets to
- userspace
-Message-ID: <YbN54u4fEKx54Gvc@kroah.com>
-References: <20211209151123.3759999-1-dbrazdil@google.com>
- <20211209151123.3759999-3-dbrazdil@google.com>
- <YbIhaWC8b2DV5C7Y@kroah.com>
- <YbM29thQ7U4oUmhi@google.com>
- <YbNmsFAYDVUYopFO@kroah.com>
- <YbN2tbYZyLBdyEfS@google.com>
+        id S240243AbhLJQne (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Dec 2021 11:43:34 -0500
+Received: from mail-ot1-f46.google.com ([209.85.210.46]:37808 "EHLO
+        mail-ot1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234718AbhLJQne (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Dec 2021 11:43:34 -0500
+Received: by mail-ot1-f46.google.com with SMTP id h19-20020a9d3e53000000b0056547b797b2so10149187otg.4;
+        Fri, 10 Dec 2021 08:39:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=U8AzNdkQs1VFeOH+BSfiPv2cItiIyXIcpLga5ITOTUg=;
+        b=LD8aUDFOwo2E6o21G/fRYBTqh4IVM6NFqa14VqESmo3c15IksVLucr2bsD9LsgSZiq
+         S+PrOINKDut3KqZujO8XcUyFPItqr3arONgc0U6g5l6ik3CmzyW35kJubMPLd6Vr6Qbs
+         WQ47zqte9MUksVFaYO0FYr2QIttMjZO3fU55HWBRVPxjF3Ti6OCGk29FcuydSwx5weq3
+         ma+4ybna04xH47iDPYoEWR0eTiaXTMw5ufslA6RqByanF6SUpFah7GG+I8+uqp9kr9Ns
+         sJDRphaAhQGZSjTt1FXBqPgBbWUCUEPXPyBbfWadUTDEl+JySNg+bkC7nYk4m1hD+hxH
+         NwuQ==
+X-Gm-Message-State: AOAM530Hqfimm6khvLG3elEi+XPQTwRJ68iDNQMcVkRB9zOZ1l1NVY6E
+        ymupAmztSQMmKRgmnxCylg==
+X-Google-Smtp-Source: ABdhPJymSnAwtWRFNniWT4nkI6ZJg0484AHzkAllwJwxXceIA97LSLGuBuaFZadbFlvA0zXECbbnHA==
+X-Received: by 2002:a05:6830:3155:: with SMTP id c21mr11900196ots.183.1639154398721;
+        Fri, 10 Dec 2021 08:39:58 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id w71sm732337oiw.6.2021.12.10.08.39.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Dec 2021 08:39:58 -0800 (PST)
+Received: (nullmailer pid 1492155 invoked by uid 1000);
+        Fri, 10 Dec 2021 16:39:56 -0000
+Date:   Fri, 10 Dec 2021 10:39:56 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Zhen Lei <thunder.leizhen@huawei.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        devicetree@vger.kernel.org, Eric Biederman <ebiederm@xmission.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Borislav Petkov <bp@alien8.de>, linux-kernel@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Dave Young <dyoung@redhat.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "H . Peter Anvin" <hpa@zytor.com>, Will Deacon <will@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>, kexec@lists.infradead.org,
+        Frank Rowand <frowand.list@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, x86@kernel.org,
+        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v17 08/10] of: fdt: Aggregate the processing of
+ "linux,usable-memory-range"
+Message-ID: <YbOC3NmxXsQb/Te/@robh.at.kernel.org>
+References: <20211210065533.2023-1-thunder.leizhen@huawei.com>
+ <20211210065533.2023-9-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YbN2tbYZyLBdyEfS@google.com>
+In-Reply-To: <20211210065533.2023-9-thunder.leizhen@huawei.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 10, 2021 at 03:48:05PM +0000, David Brazdil wrote:
-> In your first email you also mentioned removing the check in dice_probe()
-> that only allows a single instance. On a second thought, I think it's
-> simpler to keep it there for now, even if the memory is dynamically
-> allocated, which I agree makes the code cleaner.
+On Fri, 10 Dec 2021 14:55:31 +0800, Zhen Lei wrote:
+> Currently, we parse the "linux,usable-memory-range" property in
+> early_init_dt_scan_chosen(), to obtain the specified memory range of the
+> crash kernel. We then reserve the required memory after
+> early_init_dt_scan_memory() has identified all available physical memory.
+> Because the two pieces of code are separated far, the readability and
+> maintainability are reduced. So bring them together.
+> 
+> Suggested-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+> Tested-by: Dave Kleikamp <dave.kleikamp@oracle.com>
+> ---
+>  drivers/of/fdt.c | 15 +++++++++++----
+>  1 file changed, 11 insertions(+), 4 deletions(-)
+> 
 
-I don't remember what check you are talking about at all, sorry.
-
-Remember some of us review hundreds of patches each week :(
-
-> The reason being that if we allowed multiple instances, we'd also need
-> some static unique identifier that ties the cdev filename to the DT entry,
-> same as /dev/disk/by-uuid/. Just adding an index number to the misc
-> device nodename based on DT probe order sounds very fragile, and
-> anything more sophisticated sounds like too much trouble for something
-> we don't have a clear use case for right now.
-
-Just add a number to the device node name like every other device in the
-system has.  Nothing new or special here, right?
-
-thanks,
-
-greg k-h
+Reviewed-by: Rob Herring <robh@kernel.org>
