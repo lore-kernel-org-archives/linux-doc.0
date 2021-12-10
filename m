@@ -2,242 +2,134 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C446EC433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Dec 2021 15:14:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A966EC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Dec 2021 15:50:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239443AbhLJPRg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Dec 2021 10:17:36 -0500
-Received: from mail-sn1anam02on2057.outbound.protection.outlook.com ([40.107.96.57]:6275
-        "EHLO NAM02-SN1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S242705AbhLJPRf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 10 Dec 2021 10:17:35 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aDN9620nGm0iQmDWxIMrTqrNlEenGa9Tl6J0soxSmjOKO17DcXH1xmkqVKB5Mr4fI8W4/OtKd0UEEUIzTu5M9laYammjgglhTPGtXUGVamevzULi9drLTi6bRiMH3Y7eqZiJ2YAtS7B/365kOpLYCvLijFrSgco9km0ofubFfyr1RIpiedCIjbGnQ2rAvoz16+QXqfRL0P/mLRo3Q/n78wS9GWNO1ol69W2hknnPAbteUtdix6HKf5HPRFlST6FNSw5bRtu5qCs04hdv/Zf7L3BabOpLXt5XqfZLJjqkJOFPyAC8wIBPiJh1VPTvjh5tzQkz0XbkCxawcEErWroX/A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t8CMOs+Lu1VWdT3EJ1r+egLNZEoS/uaVq1O0px+Y8QA=;
- b=hBEnX31KYvsF5rPAvxRuAl5VbXX5zEmDgbwq7mKV0YbHiDDnVL2kRwy6KLgPM8ImtTZimuKx9tX4xpdzcooT75IYkApdwPS/dLrbMgHvhtUGgHekyOXCacL2EUi+kuCUpHkv9ZcnwCZ0O74XSNOosL6LOIAYbDz94KJZIun5TLWABB0SqeZH9Ua/4+U82lRfJgE+snfJ1eHHNAdUeWVdjtvnfGRwxpvIKyKAwbDyGk0fvX75SW9TjXv2C4gVREwBcUgr9viof323k+jSr7lxmNZehSzGyjyPAN7auKuSbutlKLxVsrbg2/r6rVlGvfMz/x443ySYcGtLxaNRVS0Efg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t8CMOs+Lu1VWdT3EJ1r+egLNZEoS/uaVq1O0px+Y8QA=;
- b=C4nIFU4TcMC54gAIXnalmsljPR52Fvr6w4H9FaPOdlkamjoy6rZvCDUSqSsTOtVi27ec8NK+vR76vHD0dXgDw/CFM7/2TLw1nZoh7L6tcQpYUjABO8RnXH1iI/Gh9hd/rBN5HiNQCjQtDzt9uxl3t622ujlc3aIiPzbkx3rEZAE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
- by CO6PR12MB5410.namprd12.prod.outlook.com (2603:10b6:5:35b::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.21; Fri, 10 Dec
- 2021 15:13:59 +0000
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::e492:c86b:9906:1b46]) by CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::e492:c86b:9906:1b46%6]) with mapi id 15.20.4755.021; Fri, 10 Dec 2021
- 15:13:59 +0000
-Message-ID: <dde84e03-fea1-dd81-00a9-c35f2b18749e@amd.com>
-Date:   Fri, 10 Dec 2021 10:13:56 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-From:   Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [PATCH 2/3] Documentation/gpu: include description of AMDGPU
- hardware structure
-To:     Yann Dirson <ydirson@free.fr>, amd-gfx@lists.freedesktop.org
-Cc:     Alex Deucher <alexander.deucher@amd.com>,
-        Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
-        linux-doc@vger.kernel.org
-References: <20211209234717.8897-1-ydirson@free.fr>
- <20211209234717.8897-3-ydirson@free.fr>
-Content-Language: en-US
-In-Reply-To: <20211209234717.8897-3-ydirson@free.fr>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT3PR01CA0115.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:85::26) To CO6PR12MB5427.namprd12.prod.outlook.com
- (2603:10b6:5:358::13)
+        id S229619AbhLJPxx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Dec 2021 10:53:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46166 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238452AbhLJPxd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Dec 2021 10:53:33 -0500
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F1DDC07E5C1
+        for <linux-doc@vger.kernel.org>; Fri, 10 Dec 2021 07:48:13 -0800 (PST)
+Received: by mail-wr1-x42a.google.com with SMTP id t9so15618311wrx.7
+        for <linux-doc@vger.kernel.org>; Fri, 10 Dec 2021 07:48:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=rwKnwNTYIF1JbBVusqDVQtVgO8XRANKpUbejxrmEDZA=;
+        b=RHzNvV4nHto+KIjYOV1bIo9TcQKpGwssv6Ls7bqOZd4gqrQ0+Db/mCzkNu9zRM+hW/
+         MAp+dcVplm28rY/2JFyIUNo/51RiM2pmBb7hFyhQBpLhvxJA9iawDBpqVTQKL5I/S/Rw
+         Fwk5nS2OgCxyZKLL3jTA+i5oF+md+WjJCpdJ+9gZnyz4/nA1/NQjB5+JtkuNOZFg3CDi
+         UlDJSqMm+Vz9voFby9QBrlGihGwveGaIyUJmylzA8TXelBoRAuBccviLVrSfS2OcZXBh
+         Qad9fbcKoXoXBgzF3AVxJvehzRFzy6TyRuo9DwKMUZiU7mJ9Xzh0kbBJSKwbt8Vpv0iS
+         z9Ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=rwKnwNTYIF1JbBVusqDVQtVgO8XRANKpUbejxrmEDZA=;
+        b=AjHXbWCzwAAboHS5Qd6+fgW5eXcWqedGt3zRdpePaSZLVLHHh82S6wz19xqAZlKXu9
+         XyRxRcxCgjCdosQd/Pwahzn3q57k1w8CrSEohDRLCi40tGGyZ+sg6XsAPhHOc1JqBCa1
+         AF45xw0qduajIruC8IHsRcI6swQ//pnCEjz80HOrOArHrQsVcgznT2c1Zpu4kLaSKb7H
+         l5xAHoCDL1uPStb97X4uUjtqIUMAYauZolPj4h+UJ58U6UGPs/7uhTQrEmBxpWsxANpS
+         C8P7/WdCOESwT1HaDqpi4+miK/Bf17MMlgRxVUzxb9ETlUtARujUFDVdxePebgGHhRre
+         WIGg==
+X-Gm-Message-State: AOAM533ivs7/mQePSwGXdmWfTva7LYZqBgvsL41NfGp4uGCrqKJkvJm0
+        hNRTnOxakN2ciCkhhl7H+j4Kwg==
+X-Google-Smtp-Source: ABdhPJydUvzDch6tNNqZfS4+8/8qTto3mxXcsiqmKEzjowF7DWFUqlggeCHwK7XjA21Meq7g9+frWQ==
+X-Received: by 2002:a5d:47ab:: with SMTP id 11mr15028095wrb.148.1639151291972;
+        Fri, 10 Dec 2021 07:48:11 -0800 (PST)
+Received: from google.com ([2a00:79e0:d:209:57bd:f79b:724a:8b02])
+        by smtp.gmail.com with ESMTPSA id o4sm14592309wmq.31.2021.12.10.07.48.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Dec 2021 07:48:11 -0800 (PST)
+Date:   Fri, 10 Dec 2021 15:48:05 +0000
+From:   David Brazdil <dbrazdil@google.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Rob Herring <robh+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Hans de Goede <hdegoede@redhat.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Andrew Scull <ascull@google.com>,
+        Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v2 2/2] misc: dice: Add driver to forward secrets to
+ userspace
+Message-ID: <YbN2tbYZyLBdyEfS@google.com>
+References: <20211209151123.3759999-1-dbrazdil@google.com>
+ <20211209151123.3759999-3-dbrazdil@google.com>
+ <YbIhaWC8b2DV5C7Y@kroah.com>
+ <YbM29thQ7U4oUmhi@google.com>
+ <YbNmsFAYDVUYopFO@kroah.com>
 MIME-Version: 1.0
-Received: from [192.168.50.4] (198.200.67.107) by YT3PR01CA0115.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:85::26) with Microsoft SMTP Server (version=TLS1_2, cipher=) via Frontend Transport; Fri, 10 Dec 2021 15:13:58 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 83172c28-0ac6-4b6d-ce59-08d9bbefb132
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5410:EE_
-X-Microsoft-Antispam-PRVS: <CO6PR12MB54101739DF3D8F8B9058EBAD8C719@CO6PR12MB5410.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QfuBMt0x6l4HJ50JrBBrhlNXKEnLbgmHPEW/PbJmymNRJrxsS2oVyrPwywZj54Xo5sPLin7B6S2Dzb+DhXXXD7BwRlP+hp7lWyaGtXQB6ljeudxRX2xZzaDSpXxUyY5fNQljiamwe85HtuNznyAMoUXM/5SQQGqpHqRuK99zWeW48AWdCUQQ7e3w3UOei23Sx9uVGvIraW5NrFns6S0Q85D45smqpwwhZVATBmtWqTOvDPYbIm8RbXylEkrS/vy4dDsebxurUy3KV0GFfCkOJAHQRW3hPKZnDKQmxOSipwlP/6939o0OUKHd4XNSxsfHaio8Ji4wxYrQZ2iGpBRp0e5bfr6msBpIglFPdVZa/wYa455z1yyAuLsGIiZsUgpCjXfGVWCo+St+C6vT3ytoc2xHnD/XtI4MA5EKPP8HUvT5zbA7nF8GGVwFCnI1pztRxNk148vVcaFLDvy2MG8nq8N9ZGltLVDpYUVasAZmL0dg84rclloiYPpcCfqganCM6R1YmeiN5ZtAIZXnPYEzQ1Q6pAe/3c8zR3G9o4v/JQ9/61hdU6sx79ypfwHWWvavkpjfbpEce4xWOYqUb/2dL+BEQSzMpJNCl28MHZ1l9qH2nQj/dCLDjmgt5ZWJCB4YPmHvQJvGQkBs5j0j7JQZeG9c2rGqI0CvpkgsRAg1sYZ49ZI7d8YH6zDVOzI6HWMFUP/RP0sR/9kHfp+tQXMk3zgQ5Eutbtzv7ycyOs/GVmOVU7iFnERu4uU+Sk1quV9cdR0f5A/uNRUJjugTQf7hsQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR12MB5427.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(316002)(5660300002)(31696002)(66556008)(36756003)(6486002)(66476007)(2616005)(4326008)(8676002)(8936002)(86362001)(66946007)(186003)(83380400001)(53546011)(54906003)(2906002)(31686004)(956004)(26005)(44832011)(16576012)(508600001)(38100700002)(43740500002)(45980500001)(15866825006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZUVqbXcvcUJUWVpXaVNTUGlPM29QdU9WSHo2UktNRzM5SmE1a2w1RmZoNXFr?=
- =?utf-8?B?YnNSamZpUFNlUmNlcHM1ejRtWXp5d1o1SGRHZG9VTm1QNk54V3g2NHJlSWhp?=
- =?utf-8?B?SXl2U3FFQnZlR05IblhaSllHNE1ZUDRmTGJ2b213c296N1orR3B2djF4WFpE?=
- =?utf-8?B?MDY5eUNmeENwSWpNcHNISEJRVUdrZ2xCbUIwZklIOXdEUWlCU1VIWDBTOWdk?=
- =?utf-8?B?ekhzOStESXN1NWlaTUc4Nis1WWVCamcvK1l1VGp2TW10OGtYVDlkbTF2ZGJT?=
- =?utf-8?B?V1ZsL0xzNytZMDhHVlNsYUo4SWNmTWEwaVBHNzNXaXBwUkVvRVRUSDVjQ2ZP?=
- =?utf-8?B?ck1RdHliaWlxcE1Mait3aGVQQlhzdVVkUnhKTVYydEpRT1RyZzZsL3VaZSs2?=
- =?utf-8?B?YmdiY3I0bHMyVzh0d0xhS1E3bkQrZ1lOVWtCQmt1RmJsM25WTFZ0dWN1V2Zi?=
- =?utf-8?B?aVFsZ2FjOE1Pbk90M0hZSE81UkVtZEVlUm0zTjhZU2RRNHNCNVRuOVFpaDR2?=
- =?utf-8?B?SHAyZE4xWkF0RGl1WXdzaEk3TS9wUFF1Mk5uMXVsOHdzTGp5RGovWW12YVZo?=
- =?utf-8?B?ZDBMVUdvSFArOFRDZGVadXBPZEtVb3BVSU02ZDlsZi9SMDVCL1dzZkdOVGty?=
- =?utf-8?B?M0RBenhGNVk3Tk5VRXRNVG1HelFCNGRBODN0d2tzODdOeW1nV1BTWkJMMjgx?=
- =?utf-8?B?bGhTaFh5cGlnb2t4b3lVb0xsUHl5bWlsSVl4WFMxUFEvbWRhY1BRRVpVMXlo?=
- =?utf-8?B?eHREZFFmaVlaYW03ZmppSXdmMG9jNEZ0MStpMnAxVEVieEhGUjRhTG9EZTZn?=
- =?utf-8?B?cjcrRFNGV3E5azgwdWNvTml2N0ZMbDl5K2hLYmdFZUY1K2VCRE1lMXEvdmls?=
- =?utf-8?B?ZjcyZGx4TGFvNVZqS3prSXErbzFtRkowcWNQSkJwUVhJS0RQcVNBRk0vZnNp?=
- =?utf-8?B?dkF4M09jRHI3QW13ZW03dFZhemV2WUk5TXhrbkxaQXltbjlaYWxSNFVRR3ZC?=
- =?utf-8?B?TzBHZzJKZVZtaEprTi8wUmlQdVM2bnNVYm01ZG54K3VlaGhuVTF2TnhhK05L?=
- =?utf-8?B?ZXBqZlVQM2VRSHQwMjA0RUdMT2VScHJLR0pzK2RzaXN5ekk1c3BCbElWamp4?=
- =?utf-8?B?aGJ1VTBsaDduaGNocncxeVhBbnZuQitnRG51eHNIa2lMeXd2VENad3Rza1Nh?=
- =?utf-8?B?cmhsWHVvdHNhRkJhMW5keWFFS3d1NG1nd3N6VXV1ZnNuWVBqUnRrWkhhUUl1?=
- =?utf-8?B?RzBvRDBzU2p6RDVEMFhHWTNMWG0xN0kyNTRhSGlKR2JlZVNWM2JvUzIvVFBU?=
- =?utf-8?B?eTh1RVFiM1BuZHpiZmRmazRjR3dvK0dPZmY0bDNLWWlPK0pNV3hXa0JmSzl2?=
- =?utf-8?B?ZDFpZWxkRlhrNTVkdEJlM2ZaK3N0eUpscjlvNVo4dVo1RUtHR0ZOQWhYQU1X?=
- =?utf-8?B?K3FkUGFIa2FqWERERmRTT0FabzFBdWxyTGpGOUZXTDdjZ1gwcnBiVEY5dnk1?=
- =?utf-8?B?K0paVWFvalVuTU1IbFBoM0FDb3FyY2ZkbFVuMkRleXlXdll6UW5Ld25ZdWVQ?=
- =?utf-8?B?a1dRaU9wbTh3QTh5YjEvUGN1WW1iUjRQRkJJcU56OU9Nenh1WGZJWVlUUjZL?=
- =?utf-8?B?OSt6WjVWRmMxdTd1RGJ5TTJuWjdhQkNKRWl6V3o2aG9VWUVCNEs3dU9HQzJQ?=
- =?utf-8?B?Qk81VGFZOHhJa1BkUGN0UTc5bk5Ka0ROZmlBOUpieVJra1N1enAvM2d4UGx3?=
- =?utf-8?B?cDRGUUI4RkpRRmxtWCszbnlxUWlYVThDdE1aczg2OE5YNGdSWSs2ZkllWmxa?=
- =?utf-8?B?MzYvZmhRdGRKcDcxMmRCc1A3c2VIbThrVlVFWjZyVEtGUWZadVZvaXRMY3Zs?=
- =?utf-8?B?TUVaQ2tKN00zcTNJdmlHNFR2NDk5NkFnQzVRQU1haldoVzdkNmZMalAxWTBZ?=
- =?utf-8?B?TmZTb2RKVFZBS2tUTzMwOGZzUGZHRTNXc085TENkdHpVajlJTkg0ZDZxUlZ5?=
- =?utf-8?B?eU5rdW5UZ083cGthdFcrckVueU15RzlBVTBvaG12RlF1OTVGQnJUdlRzbktq?=
- =?utf-8?B?STVCNEZKcHV2NHpRc3ZXeExNVjRub0VyczBhYlZ0Q1lZMDhiY2w3V05iVDRy?=
- =?utf-8?B?ZU9tN04wK2hIVi9hb3BUNEVRQ0lFNVBaRVBpOVk2TXowMEJlcHhEWEhtclhQ?=
- =?utf-8?Q?pHADzDPFLjXhksxb7AXNmnc=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 83172c28-0ac6-4b6d-ce59-08d9bbefb132
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2021 15:13:59.5245
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 11VXpUxCBWVtpYySNmYZJj1hUdz2nC1/NaU5DagJyy+q0xoW9Xl9miPz0/AErZb0geeUkNVdWENgTXo8zy8gmA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR12MB5410
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YbNmsFAYDVUYopFO@kroah.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021-12-09 18:47, Yann Dirson wrote:
-> This is Alex' description from the "gpu block diagram" thread, edited to
-> fit as ReST.
+In your first email you also mentioned removing the check in dice_probe()
+that only allows a single instance. On a second thought, I think it's
+simpler to keep it there for now, even if the memory is dynamically
+allocated, which I agree makes the code cleaner.
+The reason being that if we allowed multiple instances, we'd also need
+some static unique identifier that ties the cdev filename to the DT entry,
+same as /dev/disk/by-uuid/. Just adding an index number to the misc
+device nodename based on DT probe order sounds very fragile, and
+anything more sophisticated sounds like too much trouble for something
+we don't have a clear use case for right now.
+
+On Fri, Dec 10, 2021 at 03:39:44PM +0100, Greg Kroah-Hartman wrote:
+> On Fri, Dec 10, 2021 at 11:16:06AM +0000, David Brazdil wrote:
+> > On Thu, Dec 09, 2021 at 04:31:53PM +0100, Greg Kroah-Hartman wrote:
+> > > What is the module name, please add that here.
+> > > 
+> > > And "dice" is a very generic name.  I don't mind, but if you want to
+> > > name it a bit more specific, that might be better.
+> > Does "open-dice" sound good? I think that's the shorthand used on the
+> > official website.
 > 
-> Originally-by: Alex Deucher <alexander.deucher@amd.com>
-> Signed-off-by: Yann Dirson <ydirson@free.fr>
-> ---
->  Documentation/gpu/amdgpu/driver-core.rst | 81 ++++++++++++++++++++++++
->  1 file changed, 81 insertions(+)
+> That might be better.
 > 
-> diff --git a/Documentation/gpu/amdgpu/driver-core.rst b/Documentation/gpu/amdgpu/driver-core.rst
-> index 97f9a9b68924..909b13fad6a8 100644
-> --- a/Documentation/gpu/amdgpu/driver-core.rst
-> +++ b/Documentation/gpu/amdgpu/driver-core.rst
-> @@ -2,6 +2,87 @@
->   Core Driver Infrastructure
->  ============================
->  
-> +GPU hardware structure
-> +======================
-> +
-> +Each asic is a collection of hardware blocks.  We refer to them as
-
-ASIC should probably be capitalized (here and below).
-
-I've been wondering if it's appropriate to call our chips ASICs? I
-know we do it all the time but our chips strike me more as general-
-purpose use devices than application-specific devices.
-
-I might be bike-shedding a bit. Overall this is a great summary of
-AMD GPUs and will surely be helpful for people looking into amdgpu.
-
-Acked-by: Harry Wentland <harry.wentland@amd.com>
-
-Harry
-
-> +"IPs" (Intellectual Property blocks).  Each IP encapsulates certain
-> +functionality. IPs are versioned and can also be mixed and matched.
-> +E.g., you might have two different asics that both have SDMA 5.x IPs.
-> +The driver is arranged by IPs.  There are driver components to handle
-> +the initialization and operation of each IP.  There are also a bunch
-> +of smaller IPs that don't really need much if any driver interaction.
-> +Those end up getting lumped into the common stuff in the soc files.
-> +The soc files (e.g., vi.c, soc15.c nv.c) contain code for aspects of
-> +the SoC itself rather than specific IPs.  E.g., things like GPU resets
-> +and register access functions are SoC dependent.
-> +
-> +An APU contains more than just CPU and GPU, it also contains all of
-> +the platform stuff (audio, usb, gpio, etc.).  Also, a lot of
-> +components are shared between the CPU, platform, and the GPU (e.g.,
-> +SMU, PSP, etc.).  Specific components (CPU, GPU, etc.) usually have
-> +their interface to interact with those common components.  For things
-> +like S0i3 there is a ton of coordination required across all the
-> +components, but that is probably a bit beyond the scope of this
-> +section.
-> +
-> +With respect to the GPU, we have the following major IPs:
-> +
-> +GMC (Graphics Memory Controller)
-> +    This was a dedicated IP on older pre-vega chips, but has since
-> +    become somewhat decentralized on vega and newer chips.  They now
-> +    have dedicated memory hubs for specific IPs or groups of IPs.  We
-> +    still treat it as a single component in the driver however since
-> +    the programming model is still pretty similar.  This is how the
-> +    different IPs on the GPU get the memory (VRAM or system memory).
-> +    It also provides the support for per process GPU virtual address
-> +    spaces.
-> +
-> +IH (Interrupt Handler)
-> +    This is the interrupt controller on the GPU.  All of the IPs feed
-> +    their interrupts into this IP and it aggregates them into a set of
-> +    ring buffers that the driver can parse to handle interrupts from
-> +    different IPs.
-> +
-> +PSP (Platform Security Processor)
-> +    This handles security policy for the SoC and executes trusted
-> +    applications, and validates and loads firmwares for other blocks.
-> +
-> +SMU (System Management Unit)
-> +    This is the power management microcontroller.  It manages the entire
-> +    SoC.  The driver interacts with it to control power management
-> +    features like clocks, voltages, power rails, etc.
-> +
-> +DCN (Display Controller Next)
-> +    This is the display controller.  It handles the display hardware.
-> +
-> +SDMA (System DMA)
-> +    This is a multi-purpose DMA engine.  The kernel driver uses it for
-> +    various things including paging and GPU page table updates.  It's also
-> +    exposed to userspace for use by user mode drivers (OpenGL, Vulkan,
-> +    etc.)
-> +
-> +GC (Graphics and Compute)
-> +    This is the graphics and compute engine, i.e., the block that
-> +    encompasses the 3D pipeline and and shader blocks.  The is by far the
-> +    largest block on the GPU.  The 3D pipeline has tons of sub-blocks.  In
-> +    addition to that, it also contains the CP microcontrollers (ME, PFP,
-> +    CE, MEC) and the RLC microcontroller.  It's exposed to userspace for
-> +    user mode drivers (OpenGL, Vulkan, OpenCL, etc.)
-> +
-> +VCN (Video Core Next)
-> +    This is the multi-media engine.  It handles video and image encode and
-> +    decode.  It's exposed to userspace for user mode drivers (VA-API,
-> +    OpenMAX, etc.)
-> +
-> +Driver structure
-> +================
-> +
-> +In general, the driver has a list of all of the IPs on a particular
-> +SoC and for things like init/fini/suspend/resume, more or less just
-> +walks the list and handles each IP.
-> +
-> +
->  .. _amdgpu_memory_domains:
->  
->  Memory Domains
+> Naming is hard.
 > 
+> > > > +static long dice_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+> > > > +{
+> > > > +	switch (cmd) {
+> > > > +	case DICE_GET_SIZE:
+> > > > +		/* Checked against INT_MAX in dice_probe(). */
+> > > > +		return dice_rmem->size;
+> > > > +	case DICE_WIPE:
+> > > > +		return dice_wipe();
+> > > > +	}
+> > > > +
+> > > > +	return -ENOIOCTLCMD;
+> > > 
+> > > -ENOTTY please.
+> > I have no personal attachment to ENOIOCTLCMD, but it is documented as
+> > "no ioctl command" and converted to ENOTTY before returning to userspace.
+> > That made me think this was the right thing to do.
+> 
+> ENOTTY is better please.
+>
+> 
+> > > As you only have 2 ioctls, why not just use read/write for this?  Write
+> > > would cause dice_wipe() to happen, and read would return the size in the
+> > > buffer provided.  Then no ioctl is needed at all.
+> > Fine by me but does feel like a bit of a hack. Is that a common pattern?
+> 
+> ioctls are hacks too :)
+> 
+> read/write like this is fine to do, might make the code simpler, and
+> allow the code to be used by scripts easier.  At the very least, wipe
+> can be done by any language instead of only those that allow ioctls.
 
+Alright, read/write it is. And that gets rid of ioctls altogether.
 
+-David
