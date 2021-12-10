@@ -2,67 +2,67 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7992DC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Dec 2021 21:00:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4B71C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Dec 2021 21:02:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238910AbhLJVEZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Dec 2021 16:04:25 -0500
-Received: from ms.lwn.net ([45.79.88.28]:53644 "EHLO ms.lwn.net"
+        id S1344281AbhLJVFz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Dec 2021 16:05:55 -0500
+Received: from ms.lwn.net ([45.79.88.28]:53646 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S243371AbhLJVEZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 10 Dec 2021 16:04:25 -0500
+        id S243297AbhLJVFy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 10 Dec 2021 16:05:54 -0500
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 4CAA860C;
-        Fri, 10 Dec 2021 21:00:49 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4CAA860C
+        by ms.lwn.net (Postfix) with ESMTPSA id 4580D2CC;
+        Fri, 10 Dec 2021 21:02:19 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4580D2CC
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1639170049; bh=rgAgtPllHI9naYyvvCzUGL72Gp5tuP5SpnrEtd01nAQ=;
+        t=1639170139; bh=GvSX/ZCZPs8U5XQqMREhp8iTFJQHrxzaFtmJBzs3WBk=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=I6i2f+ph8RY+cpe3funTODgTXGHjB5meH1HmRerrCD3o0y3UIS28zhgJRm2n9OR02
-         S6D3hqodPZf/PZr2jpj30qDs78vgo6xRzUky9CmYD+QxXq6gFKshUDB5cer3xjDTPD
-         fOK12L/t3ETUCF2e9OWjKKcN6h7vNgYegs8wyLkKCm3VTAeg6j06kehICBN+cIfXE2
-         8Rn3Gj3t5yJ5YOQQrV+2W8rPB5xXY51rUE8B4nsEwf/+zxJoCgpSHeqF0243x1lYHs
-         oPlt73Dpg//Ib4u4Vb+36dnGvPenE3YXGVGoseCfjmQWt726k12RuQiCpKbq3kf8TS
-         QqehbtXXL+Nng==
+        b=RnAiA/uyNENHqLJBfKZOsInq156XxL6m9FQWmUBz4EOHEm9nh/h0OGam7Wq9aOYzl
+         tspnUcE5J0UWOHdLMCAqTfa4UYf1DPIM0sQyh+7T1x/Fo4xHnEo+5M48zgUgxMZpZa
+         uDMunCWWORl4bEBid740T/CEXeZqbA04lwO/EHepb7Lolg26fNmtkg7knc5o8PMOBn
+         HxZKAFaXoCLEkH+xkOhrVYv1RR600+7mak2a2/nncWlXYtmRWBTl3f0xk/0ZvwzG/l
+         1J7/GtOs1pZJQMwp0STYT66J+RTObiA9hsl9jDw+VRDyM1U4BpcKUuXpCAddpAzN8T
+         ezL0nD0JqWX6w==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     yanteng si <siyanteng01@gmail.com>, Alex Shi <alexs@kernel.org>
-Cc:     Tang Yizhou <tangyizhou@huawei.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+To:     Shuah Khan <skhan@linuxfoundation.org>
+Cc:     Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] doc/zh_CN: add Chinese document coding style reminder
-In-Reply-To: <CAEensMzQ1keWthwvZ1yDozQ0r3BQ2PYb5bj_5FxXeYtAY2gmwg@mail.gmail.com>
-References: <20211209095604.68954-1-alexs@kernel.org>
- <CAEensMzQ1keWthwvZ1yDozQ0r3BQ2PYb5bj_5FxXeYtAY2gmwg@mail.gmail.com>
-Date:   Fri, 10 Dec 2021 14:00:48 -0700
-Message-ID: <87v8zwqinz.fsf@meer.lwn.net>
+Subject: Re: [PATCH] docs: update self-protection __ro_after_init status
+In-Reply-To: <20211208164051.8783-1-skhan@linuxfoundation.org>
+References: <20211208164051.8783-1-skhan@linuxfoundation.org>
+Date:   Fri, 10 Dec 2021 14:02:18 -0700
+Message-ID: <87r1akqilh.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-yanteng si <siyanteng01@gmail.com> writes:
+Shuah Khan <skhan@linuxfoundation.org> writes:
 
-> <alexs@kernel.org> =E4=BA=8E2021=E5=B9=B412=E6=9C=889=E6=97=A5=E5=91=A8=
-=E5=9B=9B 17:56=E5=86=99=E9=81=93=EF=BC=9A
->>
->> From: Alex Shi <alexs@kernel.org>
->>
->> The coding style requirement for Chinese document is easy to be overlook=
-ed.
->> Add the request as a remdiner.
->>
->> Signed-off-by: Alex Shi <alexs@kernel.org>
->> Cc: Yanteng Si <siyanteng01@gmail.com>
->> Cc: Tang Yizhou <tangyizhou@huawei.com>
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> Cc: linux-doc@vger.kernel.org
->> Cc: linux-kernel@vger.kernel.org
-> Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
-
+> __ro_after_init is no longer new and under development. Update the
+> document to reflect the correct status.
+>
+> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+> ---
+>  Documentation/security/self-protection.rst | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/Documentation/security/self-protection.rst b/Documentation/security/self-protection.rst
+> index f584fb74b4ff..910668e665cb 100644
+> --- a/Documentation/security/self-protection.rst
+> +++ b/Documentation/security/self-protection.rst
+> @@ -81,8 +81,7 @@ of the kernel, gaining the protection of the kernel's strict memory
+>  permissions as described above.
+>  
+>  For variables that are initialized once at ``__init`` time, these can
+> -be marked with the (new and under development) ``__ro_after_init``
+> -attribute.
+> +be marked with the ``__ro_after_init`` attribute.
+>  
 Applied, thanks.
 
 jon
