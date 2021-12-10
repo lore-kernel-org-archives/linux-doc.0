@@ -2,26 +2,26 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73D5DC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Dec 2021 06:56:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 307DFC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Dec 2021 06:56:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237293AbhLJHA1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Dec 2021 02:00:27 -0500
-Received: from szxga03-in.huawei.com ([45.249.212.189]:29167 "EHLO
+        id S237191AbhLJHAa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Dec 2021 02:00:30 -0500
+Received: from szxga03-in.huawei.com ([45.249.212.189]:29168 "EHLO
         szxga03-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237154AbhLJHAP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Dec 2021 02:00:15 -0500
-Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.57])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4J9M8Q43l2z8whN;
-        Fri, 10 Dec 2021 14:54:30 +0800 (CST)
+        with ESMTP id S237181AbhLJHAQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Dec 2021 02:00:16 -0500
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.57])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4J9M8S5Zz5z8wh6;
+        Fri, 10 Dec 2021 14:54:32 +0800 (CST)
 Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Fri, 10 Dec 2021 14:56:37 +0800
+ 15.1.2308.20; Fri, 10 Dec 2021 14:56:40 +0800
 Received: from thunder-town.china.huawei.com (10.174.178.55) by
  dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Fri, 10 Dec 2021 14:56:36 +0800
+ 15.1.2308.20; Fri, 10 Dec 2021 14:56:39 +0800
 From:   Zhen Lei <thunder.leizhen@huawei.com>
 To:     Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
@@ -42,9 +42,9 @@ CC:     Zhen Lei <thunder.leizhen@huawei.com>,
         Feng Zhou <zhoufeng.zf@bytedance.com>,
         Kefeng Wang <wangkefeng.wang@huawei.com>,
         Chen Zhou <dingguo.cz@antgroup.com>
-Subject: [PATCH v17 06/10] arm64: kdump: introduce some macros for crash kernel reservation
-Date:   Fri, 10 Dec 2021 14:55:29 +0800
-Message-ID: <20211210065533.2023-7-thunder.leizhen@huawei.com>
+Subject: [PATCH v17 09/10] of: fdt: Add memory for devices by DT property "linux,usable-memory-range"
+Date:   Fri, 10 Dec 2021 14:55:32 +0800
+Message-ID: <20211210065533.2023-10-thunder.leizhen@huawei.com>
 X-Mailer: git-send-email 2.26.0.windows.1
 In-Reply-To: <20211210065533.2023-1-thunder.leizhen@huawei.com>
 References: <20211210065533.2023-1-thunder.leizhen@huawei.com>
@@ -61,61 +61,89 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Chen Zhou <chenzhou10@huawei.com>
 
-Introduce macro CRASH_ALIGN for alignment, macro CRASH_ADDR_LOW_MAX
-for upper bound of low crash memory, macro CRASH_ADDR_HIGH_MAX for
-upper bound of high crash memory, use macros instead.
+When reserving crashkernel in high memory, some low memory is reserved
+for crash dump kernel devices and never mapped by the first kernel.
+This memory range is advertised to crash dump kernel via DT property
+under /chosen,
+        linux,usable-memory-range = <BASE1 SIZE1 [BASE2 SIZE2]>
 
-Besides, keep consistent with x86, use CRASH_ALIGN as the lower bound
-of crash kernel reservation.
+We reused the DT property linux,usable-memory-range and made the low
+memory region as the second range "BASE2 SIZE2", which keeps compatibility
+with existing user-space and older kdump kernels.
+
+Crash dump kernel reads this property at boot time and call memblock_add()
+to add the low memory region after memblock_cap_memory_range() has been
+called.
 
 Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
 Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
-Tested-by: John Donnelly <John.p.donnelly@oracle.com>
 Tested-by: Dave Kleikamp <dave.kleikamp@oracle.com>
 ---
- arch/arm64/include/asm/kexec.h | 6 ++++++
- arch/arm64/mm/init.c           | 4 ++--
- 2 files changed, 8 insertions(+), 2 deletions(-)
+ drivers/of/fdt.c | 33 +++++++++++++++++++++++----------
+ 1 file changed, 23 insertions(+), 10 deletions(-)
 
-diff --git a/arch/arm64/include/asm/kexec.h b/arch/arm64/include/asm/kexec.h
-index 9839bfc163d7147..1b9edc69f0244ca 100644
---- a/arch/arm64/include/asm/kexec.h
-+++ b/arch/arm64/include/asm/kexec.h
-@@ -25,6 +25,12 @@
+diff --git a/drivers/of/fdt.c b/drivers/of/fdt.c
+index 37b477a51175359..f7b72fa773250ad 100644
+--- a/drivers/of/fdt.c
++++ b/drivers/of/fdt.c
+@@ -967,6 +967,15 @@ static void __init early_init_dt_check_for_elfcorehdr(unsigned long node)
  
- #define KEXEC_ARCH KEXEC_ARCH_AARCH64
+ static unsigned long chosen_node_offset = -FDT_ERR_NOTFOUND;
  
-+/* 2M alignment for crash kernel regions */
-+#define CRASH_ALIGN	SZ_2M
++/*
++ * The main usage of linux,usable-memory-range is for crash dump kernel.
++ * Originally, the number of usable-memory regions is one. Now there may
++ * be two regions, low region and high region.
++ * To make compatibility with existing user-space and older kdump, the low
++ * region is always the last range of linux,usable-memory-range if exist.
++ */
++#define MAX_USABLE_RANGES		2
 +
-+#define CRASH_ADDR_LOW_MAX	arm64_dma_phys_limit
-+#define CRASH_ADDR_HIGH_MAX	MEMBLOCK_ALLOC_ACCESSIBLE
-+
- #ifndef __ASSEMBLY__
- 
  /**
-diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-index a8834434af99ae0..be4595dc7459115 100644
---- a/arch/arm64/mm/init.c
-+++ b/arch/arm64/mm/init.c
-@@ -75,7 +75,7 @@ phys_addr_t arm64_dma_phys_limit __ro_after_init;
- static void __init reserve_crashkernel(void)
+  * early_init_dt_check_for_usable_mem_range - Decode usable memory range
+  * location from flat tree
+@@ -974,10 +983,9 @@ static unsigned long chosen_node_offset = -FDT_ERR_NOTFOUND;
+  */
+ static void __init early_init_dt_check_for_usable_mem_range(unsigned long node)
  {
- 	unsigned long long crash_base, crash_size;
--	unsigned long long crash_max = arm64_dma_phys_limit;
-+	unsigned long long crash_max = CRASH_ADDR_LOW_MAX;
- 	int ret;
+-	const __be32 *prop;
+-	int len;
+-	phys_addr_t cap_mem_addr;
+-	phys_addr_t cap_mem_size;
++	struct memblock_region rgn[MAX_USABLE_RANGES] = {0};
++	const __be32 *prop, *endp;
++	int len, i;
  
- 	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
-@@ -91,7 +91,7 @@ static void __init reserve_crashkernel(void)
- 		crash_max = crash_base + crash_size;
+ 	if ((long)node < 0)
+ 		return;
+@@ -985,16 +993,21 @@ static void __init early_init_dt_check_for_usable_mem_range(unsigned long node)
+ 	pr_debug("Looking for usable-memory-range property... ");
  
- 	/* Current arm64 boot protocol requires 2MB alignment */
--	crash_base = memblock_phys_alloc_range(crash_size, SZ_2M,
-+	crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
- 					       crash_base, crash_max);
- 	if (!crash_base) {
- 		pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
+ 	prop = of_get_flat_dt_prop(node, "linux,usable-memory-range", &len);
+-	if (!prop || (len < (dt_root_addr_cells + dt_root_size_cells)))
++	if (!prop || (len % (dt_root_addr_cells + dt_root_size_cells)))
+ 		return;
+ 
+-	cap_mem_addr = dt_mem_next_cell(dt_root_addr_cells, &prop);
+-	cap_mem_size = dt_mem_next_cell(dt_root_size_cells, &prop);
++	endp = prop + (len / sizeof(__be32));
++	for (i = 0; i < MAX_USABLE_RANGES && prop < endp; i++) {
++		rgn[i].base = dt_mem_next_cell(dt_root_addr_cells, &prop);
++		rgn[i].size = dt_mem_next_cell(dt_root_size_cells, &prop);
+ 
+-	pr_debug("cap_mem_start=%pa cap_mem_size=%pa\n", &cap_mem_addr,
+-		 &cap_mem_size);
++		pr_debug("cap_mem_regions[%d]: base=%pa, size=%pa\n",
++			 i, &rgn[i].base, &rgn[i].size);
++	}
+ 
+-	memblock_cap_memory_range(cap_mem_addr, cap_mem_size);
++	memblock_cap_memory_range(rgn[0].base, rgn[0].size);
++	for (i = 1; i < MAX_USABLE_RANGES && rgn[i].size; i++)
++		memblock_add(rgn[i].base, rgn[i].size);
+ }
+ 
+ #ifdef CONFIG_SERIAL_EARLYCON
 -- 
 2.25.1
 
