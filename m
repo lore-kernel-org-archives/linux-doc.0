@@ -2,114 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA1DCC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Dec 2021 20:00:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA209C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Dec 2021 20:39:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243441AbhLJUDq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Dec 2021 15:03:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50928 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240266AbhLJUDq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Dec 2021 15:03:46 -0500
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC30DC061746;
-        Fri, 10 Dec 2021 12:00:10 -0800 (PST)
-Received: by mail-qk1-x72e.google.com with SMTP id m192so8812709qke.2;
-        Fri, 10 Dec 2021 12:00:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=yLZJvjoofMd+xeF11awcZvcV4Nn3U+z+fMY0sp4o/sA=;
-        b=BjS8Vig6e8gQ4F0ZwsS3QThNYRE1ejxTIXemMKWA/aHL8GjyLyTAhPf/Yn4mdskwdf
-         aGk3YFZk3sckvjvH/XRMg6GqWCMnutMR9SLLbsDTP1CWCGbMFyuGWDDSQPaHvMh5uDPY
-         z3K0J/UJ88uHGHrSEaJG1bGYB13RPUe6ug+5eyDprQAY+8kISqRD/Kokt2j8/3EEjF+w
-         Ij8EsV1Mq18LEA8wgQtDhSBN+KwwoFXMxKkv0Z2fiFWa5YOwIw2jy2ERGW9Ua+or7G2V
-         K+1YH+vLDsvdwnJNUccX+KEsh3seflpRZHOnjBrh8z4QksUW5Fl5x9DJB9B0f+zojjUf
-         OS7Q==
+        id S242877AbhLJUmk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Dec 2021 15:42:40 -0500
+Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122]:39038
+        "EHLO smtp-relay-internal-0.canonical.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S242871AbhLJUmj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Dec 2021 15:42:39 -0500
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com [209.85.208.71])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 1AA404005D
+        for <linux-doc@vger.kernel.org>; Fri, 10 Dec 2021 20:38:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1639168739;
+        bh=5yoGUr7pzPnZBDOdChvpH3bNEBPR4tkHUNd2RR7JJH4=;
+        h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+         To:Cc:Content-Type;
+        b=BRCUsPR06OVqA3BSsD2JDjbk0HpixY2uxOL+YPspNWLiElif4YZ/QmhfKPeNczP17
+         kt7Lm2ZJbHUmiPzO+Ow4d3qOY2kQfEeaUFUnW7TS2SYvychOKysswYMLNh/FSS/CH5
+         a7QEzF7+Tpned5dvgBdKfCfCNoM7+yV6M7DtZJdWJtr2yj3EEOFc6OIo1Fmu/0LbeR
+         BhAmQ29pvEZHK592tlMl5l9hFP5OoCBJDNAJRWoFd/CxH24OR34Xe8HbhZ4yyzd8J3
+         gbIX64rcF1/C/s+ReLqKPbtPFk0z6kySgnRaLhMrigwqK2VLGYVRvH/UER1lgkkUEI
+         5pENmOAe6qpMQ==
+Received: by mail-ed1-f71.google.com with SMTP id n11-20020aa7c68b000000b003e7d68e9874so9201766edq.8
+        for <linux-doc@vger.kernel.org>; Fri, 10 Dec 2021 12:38:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=yLZJvjoofMd+xeF11awcZvcV4Nn3U+z+fMY0sp4o/sA=;
-        b=Dx+NJm6x/C3CHoQepItXqF4lsIPRIZd/9oL3LugMo7WZOZSfFuw/BACPPfX8f+XAyY
-         geiV4x4SfO7gr4BzOlaM2Tf0/A1vG5Ne6MwYwTAMDvGisQREwS9Ioh9BAh9GvmaYoZqM
-         /gAnWWuL3KYipsaiV00SAGjxGhbEqGiHWilt1RyLMAB4OvHRkXAxoWXvyw+A2yS6eFjB
-         WzfEQZgzA9GL3+LxKZSRutZeKRhgh/r+0xy/BJpxa7qzpBD+713s/MlWsBc0yAE9d98D
-         /lraNNCdaV/Olb7b62mpigCnRq/l3qfrrZLfl0lOcjAH8ARCcHVrA5B06pBEDABYsBHA
-         Vwbg==
-X-Gm-Message-State: AOAM5304Lol54WaJk3+sSjzl32oTmfSur9NuPHCAML6d8aJhn2RZ6Fhb
-        bl4moShumQ9aIKATIZSfH8I=
-X-Google-Smtp-Source: ABdhPJxcyt16X640iWzcAvnwZWhPX3Xnns70Dp67SogNqM2UhY/oywrxq/hOGQnDCQLuwDoSew/1nA==
-X-Received: by 2002:a37:e105:: with SMTP id c5mr22591377qkm.777.1639166409684;
-        Fri, 10 Dec 2021 12:00:09 -0800 (PST)
-Received: from dschatzberg-fedora-PC0Y6AEN.dhcp.thefacebook.com ([2620:10d:c091:500::1:a9d6])
-        by smtp.gmail.com with ESMTPSA id v4sm1734537qkp.118.2021.12.10.12.00.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Dec 2021 12:00:09 -0800 (PST)
-Date:   Fri, 10 Dec 2021 15:00:06 -0500
-From:   Dan Schatzberg <schatzberg.dan@gmail.com>
-To:     Shakeel Butt <shakeelb@google.com>
-Cc:     Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <guro@fb.com>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Hocko <mhocko@kernel.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Alex Shi <alexs@kernel.org>,
-        Wei Yang <richard.weiyang@gmail.com>,
-        "open list:CONTROL GROUP (CGROUP)" <cgroups@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" 
-        <linux-mm@kvack.org>
-Subject: Re: [PATCH] mm: add group_oom_kill memory event
-Message-ID: <YbOxxhuQ3a1Myd6v@dschatzberg-fedora-PC0Y6AEN.dhcp.thefacebook.com>
-References: <20211203162426.3375036-1-schatzberg.dan@gmail.com>
- <CALvZod6y+_O49jzuD9wLXncCEGCgun4f-uf_yBzYcsfEiH1WOQ@mail.gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=5yoGUr7pzPnZBDOdChvpH3bNEBPR4tkHUNd2RR7JJH4=;
+        b=umP+/8R0Kb7G/r57GJ7tRe2smw5jWCWxNi5h2lq62ZDLJM/Q/4xq09HIhpzfFqcEaD
+         XVzE1X860ozDnKvNNLqYcAtMaP9TuB69OiXt+7XyBwT4Ur0Wn7K87r9B4bLFdC7UvPAZ
+         vEsJVIdlysaa4ZQLBcV8MVti0aPxCCDaZQrKGO7cKTNZ/5q68wE3sQ6KOPucFIiRd7Kt
+         Li2jbSCwLS7WN6vzDMsMZQVei7Ed1F69ZXpxSYPirwXefHotcPbgjIqLK/d8E3CWOT2+
+         J2rOtKbptbRRdhQ4otJzzPWoUr957CmUs/HPsvunGlDhHDMt1tWCMI+3XxGgF0phLw4u
+         QifA==
+X-Gm-Message-State: AOAM533+CN9U6RDlEUXFMx/BS1nf2po3J0Np4bAtSajtSXRPwT7OpzgK
+        /blFsP3yfyH9yKfoXsKU8qAd/AajsivTMn9SYmpznY3vRZANkYkPRKPoI9otWPEcy7ue01g/7I2
+        cKXbpNXG71Ekneru+3jo3/UM01uireNtSVE/jSdV9yZ73fYYuWTtrzQ==
+X-Received: by 2002:a05:6402:274c:: with SMTP id z12mr43261386edd.294.1639168738735;
+        Fri, 10 Dec 2021 12:38:58 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxgA236x/yjx6TWkXOleXezvnEgrIAVa1yzBQb8Ze+JaO9/0KXgBOBtxlFprZiSdLFnjBlcdw/PZl80G6UL+y4=
+X-Received: by 2002:a05:6402:274c:: with SMTP id z12mr43261361edd.294.1639168738589;
+ Fri, 10 Dec 2021 12:38:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALvZod6y+_O49jzuD9wLXncCEGCgun4f-uf_yBzYcsfEiH1WOQ@mail.gmail.com>
+References: <20211105154334.1841927-1-alexandre.ghiti@canonical.com> <CAK8P3a2AnLJgGNBFvjUQqXd-Az9vjgE7yJQXGDwCav5E0btSsg@mail.gmail.com>
+In-Reply-To: <CAK8P3a2AnLJgGNBFvjUQqXd-Az9vjgE7yJQXGDwCav5E0btSsg@mail.gmail.com>
+From:   Alexandre Ghiti <alexandre.ghiti@canonical.com>
+Date:   Fri, 10 Dec 2021 21:38:47 +0100
+Message-ID: <CA+zEjCtajRJhs8zSdR_oFBOO3P5FWWZJ3L6N-GK+JnUjdymTiA@mail.gmail.com>
+Subject: Re: [PATCH 0/7] Cleanup after removal of configs
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Steve French <sfrench@samba.org>, Jonathan Corbet <corbet@lwn.net>,
+        David Howells <dhowells@redhat.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Jeff Layton <jlayton@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ronnie Sahlberg <lsahlber@redhat.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kalle Valo <kvalo@codeaurora.org>, linux-cifs@vger.kernel.org,
+        samba-technical@lists.samba.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-cachefs@redhat.com,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        linux-power@fi.rohmeurope.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 03, 2021 at 04:45:54PM -0800, Shakeel Butt wrote:
-> On Fri, Dec 3, 2021 at 8:24 AM Dan Schatzberg <schatzberg.dan@gmail.com> wrote:
+On Fri, Nov 5, 2021 at 4:56 PM Arnd Bergmann <arnd@arndb.de> wrote:
+>
+> On Fri, Nov 5, 2021 at 4:43 PM Alexandre Ghiti
+> <alexandre.ghiti@canonical.com> wrote:
 > >
-> > Our container agent wants to know when a container exits if it was OOM
-> > killed or not to report to the user. We use memory.oom.group = 1 to
-> > ensure that OOM kills within the container's cgroup kill
-> > everything. Existing memory.events are insufficient for knowing if
-> > this triggered:
+> > While bumping from 5.13 to 5.15, I found that a few deleted configs had
+> > left some pieces here and there: this patchset cleans that.
 > >
-> > 1) Our current approach reads memory.events oom_kill and reports the
-> > container was killed if the value is non-zero. This is erroneous in
-> > some cases where containers create their children cgroups with
-> > memory.oom.group=1 as such OOM kills will get counted against the
-> > container cgroup's oom_kill counter despite not actually OOM killing
-> > the entire container.
-> >
-> > 2) Reading memory.events.local will fail to identify OOM kills in leaf
-> > cgroups (that don't set memory.oom.group) within the container cgroup.
-> >
-> > This patch adds a new oom_group_kill event when memory.oom.group
-> > triggers to allow userspace to cleanly identify when an entire cgroup
-> > is oom killed.
-> >
-> > Signed-off-by: Dan Schatzberg <schatzberg.dan@gmail.com>
-> 
-> So, with this patch, will you be watching oom_group_kill from
-> memory.events or memory.events.local file for your use-case?
-> 
-> Reviewed-by: Shakeel Butt <shakeelb@google.com>
+> > Alexandre Ghiti (7):
+> >   Documentation, arch: Remove leftovers from fscache/cachefiles
+> >     histograms
+> >   Documentation, arch: Remove leftovers from raw device
+> >   Documentation, arch: Remove leftovers from CIFS_WEAK_PW_HASH
+> >   arch: Remove leftovers from mandatory file locking
+> >   Documentation, arch, fs: Remove leftovers from fscache object list
+> >   include: mfd: Remove leftovers from bd70528 watchdog
+> >   arch: Remove leftovers from prism54 wireless driver
+>
+> Looks all good to me, thanks a lot for the cleanup!
+>
+> For arch/arm/configs:
+>
+> Acked-by: Arnd Bergmann <arnd@arndb.de>
+>
+> assuming this goes through someone else's tree. Let me know if you need me
+> to pick up the patches in the asm-generic tree for cross-architecture work.
 
-We will watch from memory.events.local. If containers want to
-construct their own child cgroups and allow for group oom to occur
-inside, that's fine - a future container exit should not result in us
-claiming the container was OOM killed. If the container exits and
-memory.event.local shows oom_group_kill > 0 then we know the container
-was OOM killed.
+Arnd, do you mind taking the whole series except patch 6 ("include:
+mfd: Remove leftovers from bd70528 watchdog") as this will be handled
+separately. I can ask Jonathan for the doc patches if needed.
+
+Thanks,
+
+Alex
+
+>
+>          Arnd
