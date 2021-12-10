@@ -2,57 +2,33 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B356BC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Dec 2021 12:21:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5F31C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Dec 2021 14:39:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240924AbhLJMYg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Dec 2021 07:24:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54346 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240915AbhLJMYc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Dec 2021 07:24:32 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59565C061746
-        for <linux-doc@vger.kernel.org>; Fri, 10 Dec 2021 04:20:57 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id u1so14540814wru.13
-        for <linux-doc@vger.kernel.org>; Fri, 10 Dec 2021 04:20:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=dyQr2ti9ilz8ECo57KSkq4lKgtmyn1SiEY3nHitXJS0=;
-        b=kKlHf5ufFGS3lqJB0CYLdtxRM/+Zd2tF1TIonrt1jLM+uzJlRXxND1cQdMa32DXTuO
-         PzTGfW9C1I3/pc0hVC20gfSSv4NVqqyRBjtjWZ6xN2e4WRN/Jcyr/zEOSLQmVA7njKdP
-         bbzHxOzNuuE90WMuTIpCk+QzC08zm6Kl8x6wVbkI0vIQH/EkiBWjVZ4KZUgQ6VaaLjLj
-         x7AhE+bd9XDLpJLrmUUEUgJYVZ77YOSLERwlB+A+V0laaJPbnRnEbBMFURiwHl73QnyF
-         WyC+HTA2khTn7xXjZZlpQTZdiiJHYsj6LNwEN3ipEtxvvleQIxbefQPQ4y3wJxxy1VAv
-         rbmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=dyQr2ti9ilz8ECo57KSkq4lKgtmyn1SiEY3nHitXJS0=;
-        b=ElS71W5xWlOrzkUjSBjj+LbZquSNstiXkLV/2gjLza7I7AuxNBdFmpej7ERkOAyORi
-         ZgHpfe40SwP0ZNvZ7zLfVv6q4z2CTYwCyjWe7zS9v+D6ljXegnnTe4yjx2p30NLzC7BH
-         fntAJGqtAFIwuxmKCJXeLVzrL7iHLI4dkqRuwXlXtuyG6DojJWNPmpTuHytAcwtQVy1b
-         QNC85KO6mq3BcQMXHG6mwkK8Xfn8HzzsHFeCuCOdTHjvkjGqwg1TpFlONUJLtqgtjMHa
-         ef/uOR17q04wmQH0sOHMWAlXCqIKYhFy09zSzc/YJTCC8IZf8mdP5ZSkMnksh0rm0Hyi
-         O/1w==
-X-Gm-Message-State: AOAM530iF6HL7kn70pAuhmyD/QGa0avenR3rgvRZeettr7wtk99VBJ1x
-        UCINdVI7Cr0skH4JZP9ZR3AGaQ==
-X-Google-Smtp-Source: ABdhPJzECZyx1gn+Wvql4o7TK0rM8yLNSUmec05SdRZaiWptYAmqVraN+IU+1m90aCiisoO//e59oQ==
-X-Received: by 2002:adf:cd02:: with SMTP id w2mr13812551wrm.269.1639138855743;
-        Fri, 10 Dec 2021 04:20:55 -0800 (PST)
-Received: from google.com ([2a00:79e0:d:209:57bd:f79b:724a:8b02])
-        by smtp.gmail.com with ESMTPSA id b14sm3164792wrd.24.2021.12.10.04.20.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Dec 2021 04:20:54 -0800 (PST)
-Date:   Fri, 10 Dec 2021 12:20:50 +0000
-From:   David Brazdil <dbrazdil@google.com>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S238919AbhLJOnZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Dec 2021 09:43:25 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:51708 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238898AbhLJOnZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Dec 2021 09:43:25 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id D4884B82801;
+        Fri, 10 Dec 2021 14:39:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4F54C00446;
+        Fri, 10 Dec 2021 14:39:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1639147187;
+        bh=NjGZs6PWE81gbPC3h5fTas+11hRzKnJiUy44GMGQxiw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=MpVXuKt6gi0J/aPTHT+aoDvTN1Cz71WbBd9624eObniO3xYHPOZKngEWKp7epDTmm
+         fbijoTNTkr1hEAimnRQVWMM1gK9ZvMW/zYq8T6AIIViy1c9KysDIpCCkV9B0nZXDuF
+         +wKaugxZ/91TTNj02TpJ6kKtuZKfrjFhcTtzVLK0=
+Date:   Fri, 10 Dec 2021 15:39:44 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     David Brazdil <dbrazdil@google.com>
+Cc:     Rob Herring <robh+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
         Derek Kiernan <derek.kiernan@xilinx.com>,
         Dragan Cvetic <dragan.cvetic@xilinx.com>,
         Arnd Bergmann <arnd@arndb.de>,
@@ -60,49 +36,64 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, Andrew Scull <ascull@google.com>,
         Will Deacon <will@kernel.org>
-Subject: Re: DRM? Re: [PATCH v2 2/2] misc: dice: Add driver to forward
- secrets to userspace
-Message-ID: <YbNGIimUI7Cagvwe@google.com>
+Subject: Re: [PATCH v2 2/2] misc: dice: Add driver to forward secrets to
+ userspace
+Message-ID: <YbNmsFAYDVUYopFO@kroah.com>
 References: <20211209151123.3759999-1-dbrazdil@google.com>
  <20211209151123.3759999-3-dbrazdil@google.com>
- <20211209194807.GB28088@duo.ucw.cz>
+ <YbIhaWC8b2DV5C7Y@kroah.com>
+ <YbM29thQ7U4oUmhi@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211209194807.GB28088@duo.ucw.cz>
+In-Reply-To: <YbM29thQ7U4oUmhi@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Pavel,
+On Fri, Dec 10, 2021 at 11:16:06AM +0000, David Brazdil wrote:
+> On Thu, Dec 09, 2021 at 04:31:53PM +0100, Greg Kroah-Hartman wrote:
+> > What is the module name, please add that here.
+> > 
+> > And "dice" is a very generic name.  I don't mind, but if you want to
+> > name it a bit more specific, that might be better.
+> Does "open-dice" sound good? I think that's the shorthand used on the
+> official website.
 
-On Thu, Dec 09, 2021 at 08:48:07PM +0100, Pavel Machek wrote:
-> Hi!
-> 
-> > +config DICE
-> > +	tristate "Open Profile for DICE driver"
-> > +	depends on OF_RESERVED_MEM
-> > +	help
-> > +	  This driver allows to ownership of a reserved memory region
-> > +	  containing DICE secrets and expose them to userspace via
-> > +	  a character device.
-> > +
-> 
-> Explaining what DICE is (and what Open Profile is) would be useful.
-Sure, I'll expand the description.
+That might be better.
 
-> I see it is for some kind of DRM? Why is in non-evil and why do we
-> want it in Linux?
-Best to think of this as an extension to verified boot where each boot
-stage signs the hashes of the software it loaded. The certificate is
-what's passed in this reserved memory region. It is used in the context
-of confidential computing for remote attestation, and it is very similar
-to the EFI-based approach from IBM for SEV:
-https://lore.kernel.org/all/20211007061838.1381129-1-dovmurik@linux.ibm.com/
+Naming is hard.
 
-There's a link to the project's documentation in the cover letter with
-much more technical detail if you're interested.
+> > > +static long dice_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+> > > +{
+> > > +	switch (cmd) {
+> > > +	case DICE_GET_SIZE:
+> > > +		/* Checked against INT_MAX in dice_probe(). */
+> > > +		return dice_rmem->size;
+> > > +	case DICE_WIPE:
+> > > +		return dice_wipe();
+> > > +	}
+> > > +
+> > > +	return -ENOIOCTLCMD;
+> > 
+> > -ENOTTY please.
+> I have no personal attachment to ENOIOCTLCMD, but it is documented as
+> "no ioctl command" and converted to ENOTTY before returning to userspace.
+> That made me think this was the right thing to do.
 
--David
+ENOTTY is better please.
 
+> > As you only have 2 ioctls, why not just use read/write for this?  Write
+> > would cause dice_wipe() to happen, and read would return the size in the
+> > buffer provided.  Then no ioctl is needed at all.
+> Fine by me but does feel like a bit of a hack. Is that a common pattern?
 
+ioctls are hacks too :)
+
+read/write like this is fine to do, might make the code simpler, and
+allow the code to be used by scripts easier.  At the very least, wipe
+can be done by any language instead of only those that allow ioctls.
+
+thanks,
+
+greg k-h
