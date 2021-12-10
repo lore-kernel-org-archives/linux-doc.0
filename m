@@ -2,75 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B972EC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Dec 2021 21:30:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 031AFC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Dec 2021 21:39:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236702AbhLJVd7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Dec 2021 16:33:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43498 "EHLO
+        id S240121AbhLJVnV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Dec 2021 16:43:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344408AbhLJVd7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Dec 2021 16:33:59 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D204BC0617A1
-        for <linux-doc@vger.kernel.org>; Fri, 10 Dec 2021 13:30:23 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 7B9C560C;
-        Fri, 10 Dec 2021 21:30:23 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7B9C560C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1639171823; bh=3WOd+9U3nEUFgs8Y8tTEuh1KhCFo/Azo3Uo2lvmhnHk=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=jtBSEEtQJBpZEDYP1n8oeNX9yDnKFXaJVdiCo9qMiN4NAam4hd9BAc4EY9RnXM2l8
-         TvQ+T9JhKb1vmx3p5zc3UtDuiwRA37tbjN+zZc9eaXD6eJkxvSZ3jroj3/aRcIIfnH
-         U5msjdE8POQQy5Wws3Zen0FUblC7Miv+p6GVY2JiiIVaBXgbrKUVSeEd1uL79UiT+A
-         6wrD7WXxP6oh6eyWHU2fQGJvzcww1wwuWcuc1cTNeAiGQPqhf1OF1SODoCsrFAGuMS
-         Hz3cJ3BL+drR3rvy21WAWIKaD5+YZMAmiTKFxzEX3olfAvDF8SUn9l3F0GV5wmdiV/
-         LfVNa4ZPOi2KA==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Tang Yizhou <tangyizhou@huawei.com>, siyanteng@loongson.cn,
-        alexs@kernel.org, seakeel@gmail.com,
-        yanteng si <siyanteng01@gmail.com>
-Cc:     linux-doc@vger.kernel.org, zhengbin13@huawei.com,
-        tangyeechou@gmail.com
-Subject: Re: [PATCH -next v2] doc/zh-CN: Update cpu-freq/core.rst to make it
- more readable
-In-Reply-To: <0ec7c579-1495-d102-ff5f-07ba089ca47e@huawei.com>
-References: <20211202130240.27942-1-tangyizhou@huawei.com>
- <0ec7c579-1495-d102-ff5f-07ba089ca47e@huawei.com>
-Date:   Fri, 10 Dec 2021 14:30:22 -0700
-Message-ID: <87a6h8qhap.fsf@meer.lwn.net>
+        with ESMTP id S1344479AbhLJVnR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Dec 2021 16:43:17 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E89A9C061746;
+        Fri, 10 Dec 2021 13:39:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=IImUyHw0fYTRLw6PD6GbmYZPbFq6ycRb3COIrcJBmNM=; b=cshpw5exgnpCxe3IJDUVDMQl4O
+        TuzN7v7xORQE5wFkhFbzXOc5tUECKd6uR8Mn/vONWx1Y/FhS+H8vjQD7tf8YeE67qc6WcuanrEVnt
+        c+TcEHZiawu/bbhJ3LWJvDvNEGm3bt9Xg2q/kwmrBhNCQH/R9+ksN4Du0EoOXBMOjFMszV4LviCJz
+        6G2zk0XM7xNkiV96DADT5SPlOvTBUWmdc3u4MEAfUw5/Q7Tc5TAC+z1b4788628eLv0hyJUzMzL7j
+        Lg/7VjzZz4chhCBybmdCL4lTLJuDyrPU6uV0CV1OaoKNy+/RhR+fgs/GBiIhRckkVBtBLxqZhB2rO
+        QcepcvtQ==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mvnc3-003tf7-KO; Fri, 10 Dec 2021 21:39:31 +0000
+Date:   Fri, 10 Dec 2021 13:39:31 -0800
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Greg KH <gregkh@linuxfoundation.org>,
+        Petr Mladek <pmladek@suse.com>
+Cc:     tj@kernel.org, akpm@linux-foundation.org, jeyu@kernel.org,
+        shuah@kernel.org, bvanassche@acm.org, dan.j.williams@intel.com,
+        joe@perches.com, tglx@linutronix.de, keescook@chromium.org,
+        rostedt@goodmis.org, minchan@kernel.org,
+        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        copyleft-next@lists.fedorahosted.org
+Subject: Re: [PATCH v9 3/6] selftests: add tests_sysfs module
+Message-ID: <YbPJEznncIVSKQvH@bombadil.infradead.org>
+References: <20211029184500.2821444-1-mcgrof@kernel.org>
+ <20211029184500.2821444-4-mcgrof@kernel.org>
+ <Yao3vtSKBKLyQY1E@kroah.com>
+ <YbFgaSPPw4Y3pJoB@bombadil.infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YbFgaSPPw4Y3pJoB@bombadil.infradead.org>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Tang Yizhou <tangyizhou@huawei.com> writes:
+On Wed, Dec 08, 2021 at 05:48:25PM -0800, Luis Chamberlain wrote:
+> On Fri, Dec 03, 2021 at 04:29:02PM +0100, Greg KH wrote:
+> > On Fri, Oct 29, 2021 at 11:44:57AM -0700, Luis Chamberlain wrote:
+> > > This adds a new selftest module which can be used to test sysfs, which
+> > > would otherwise require using an existing driver. This lets us muck
+> > > with a template driver to test breaking things without affecting
+> > > system behaviour or requiring the dependencies of a real device
+> > > driver.
+> > 
+> > Test sysfs "how"?  What exactly are you wanting to test?
+> 
+> You can look at the 32 tests added after all patches applied.
+> 
+> > I see lots of things in this code as examples of how to NOT use sysfs,
+> > so are you testing my review cycles?  :)
+> 
+> You are exagerating, there are 32 tests there and only 2 tests deal
+> with a deadlock which we are not yet sure how widespread it could be.
 
-> On 2021/12/2 21:02, Tang Yizhou wrote:
->> These Chinese translations are easier to understand.
->> 
->> Also update the first memeber of struct cpufreq_freqs.
->> 
->> Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
->> Acked-by: Yanteng Si <siyanteng@loongson.cn>
->> Reviewed-by: Alex Shi <alexs@kernel.org>
->> ---
->> v2:
->> 1. Take Yangteng's advice.
->> 2. Add proofreader.
->> 3. Add Acked-by and Reviewed-by tag.
+Also very important is how one test uses failure injection support to proove
+how getting the kernfs active reference suffices to avoid crashes with
+module removal and uses of sysfs ops in a driver, something which *you*
+did not believe to be true but the code speaks for itself. This is also
+why uses of try_module_get() is *safe* if used on sysfs ops.
 
-> Hi, jon! Could you please apply this patch? Thanks.
-
-Done.
-
-Please note, though, that four days is to soon to start nagging
-maintainers to apply patches.
-
-Thanks,
-
-jon
+  Luis
