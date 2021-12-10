@@ -2,124 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21149C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Dec 2021 11:18:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B356BC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Dec 2021 12:21:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233117AbhLJLWV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Dec 2021 06:22:21 -0500
-Received: from www.zeus03.de ([194.117.254.33]:35488 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237711AbhLJLWU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 10 Dec 2021 06:22:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=2Aqud306rFs88j3dyky/UfXf59yS
-        uJqUHmSVrmdZR2I=; b=qIH3Fs+dCthxL+4Gddomzfhgdc23TO3TG2lYe/tVdsVl
-        OP6Xc4DtvXViVi4xZ0UmoPOkAaZONHbfcW8Q5kpnu+Mz5JPxHoshq8xxvRV5WPSc
-        cfXtfqffh0UyXRfQuFT8O2WV2J5lMk/Msz9xvML9563C8Bq7hdn6BtMcWq9rAU8=
-Received: (qmail 1443055 invoked from network); 10 Dec 2021 12:18:43 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Dec 2021 12:18:43 +0100
-X-UD-Smtp-Session: l3s3148p1@wUnA4sjSopEgAQnoAEPjAJzPXF1eIEK3
-Date:   Fri, 10 Dec 2021 12:18:41 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Bartosz Golaszewski <brgl@bgdev.pl>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 1/1] gpio: add sloppy logic analyzer using polling
-Message-ID: <YbM3kcEW7m9Ado1e@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Bartosz Golaszewski <brgl@bgdev.pl>, linux-doc@vger.kernel.org
-References: <20211123164902.35370-1-wsa+renesas@sang-engineering.com>
- <20211123164902.35370-2-wsa+renesas@sang-engineering.com>
- <CACRpkdYJqP7WJuhS9G65abCZHK1_LX9hkXU6o+k10t2LXw100w@mail.gmail.com>
+        id S240924AbhLJMYg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Dec 2021 07:24:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54346 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240915AbhLJMYc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Dec 2021 07:24:32 -0500
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59565C061746
+        for <linux-doc@vger.kernel.org>; Fri, 10 Dec 2021 04:20:57 -0800 (PST)
+Received: by mail-wr1-x42a.google.com with SMTP id u1so14540814wru.13
+        for <linux-doc@vger.kernel.org>; Fri, 10 Dec 2021 04:20:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=dyQr2ti9ilz8ECo57KSkq4lKgtmyn1SiEY3nHitXJS0=;
+        b=kKlHf5ufFGS3lqJB0CYLdtxRM/+Zd2tF1TIonrt1jLM+uzJlRXxND1cQdMa32DXTuO
+         PzTGfW9C1I3/pc0hVC20gfSSv4NVqqyRBjtjWZ6xN2e4WRN/Jcyr/zEOSLQmVA7njKdP
+         bbzHxOzNuuE90WMuTIpCk+QzC08zm6Kl8x6wVbkI0vIQH/EkiBWjVZ4KZUgQ6VaaLjLj
+         x7AhE+bd9XDLpJLrmUUEUgJYVZ77YOSLERwlB+A+V0laaJPbnRnEbBMFURiwHl73QnyF
+         WyC+HTA2khTn7xXjZZlpQTZdiiJHYsj6LNwEN3ipEtxvvleQIxbefQPQ4y3wJxxy1VAv
+         rbmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=dyQr2ti9ilz8ECo57KSkq4lKgtmyn1SiEY3nHitXJS0=;
+        b=ElS71W5xWlOrzkUjSBjj+LbZquSNstiXkLV/2gjLza7I7AuxNBdFmpej7ERkOAyORi
+         ZgHpfe40SwP0ZNvZ7zLfVv6q4z2CTYwCyjWe7zS9v+D6ljXegnnTe4yjx2p30NLzC7BH
+         fntAJGqtAFIwuxmKCJXeLVzrL7iHLI4dkqRuwXlXtuyG6DojJWNPmpTuHytAcwtQVy1b
+         QNC85KO6mq3BcQMXHG6mwkK8Xfn8HzzsHFeCuCOdTHjvkjGqwg1TpFlONUJLtqgtjMHa
+         ef/uOR17q04wmQH0sOHMWAlXCqIKYhFy09zSzc/YJTCC8IZf8mdP5ZSkMnksh0rm0Hyi
+         O/1w==
+X-Gm-Message-State: AOAM530iF6HL7kn70pAuhmyD/QGa0avenR3rgvRZeettr7wtk99VBJ1x
+        UCINdVI7Cr0skH4JZP9ZR3AGaQ==
+X-Google-Smtp-Source: ABdhPJzECZyx1gn+Wvql4o7TK0rM8yLNSUmec05SdRZaiWptYAmqVraN+IU+1m90aCiisoO//e59oQ==
+X-Received: by 2002:adf:cd02:: with SMTP id w2mr13812551wrm.269.1639138855743;
+        Fri, 10 Dec 2021 04:20:55 -0800 (PST)
+Received: from google.com ([2a00:79e0:d:209:57bd:f79b:724a:8b02])
+        by smtp.gmail.com with ESMTPSA id b14sm3164792wrd.24.2021.12.10.04.20.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Dec 2021 04:20:54 -0800 (PST)
+Date:   Fri, 10 Dec 2021 12:20:50 +0000
+From:   David Brazdil <dbrazdil@google.com>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Hans de Goede <hdegoede@redhat.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Andrew Scull <ascull@google.com>,
+        Will Deacon <will@kernel.org>
+Subject: Re: DRM? Re: [PATCH v2 2/2] misc: dice: Add driver to forward
+ secrets to userspace
+Message-ID: <YbNGIimUI7Cagvwe@google.com>
+References: <20211209151123.3759999-1-dbrazdil@google.com>
+ <20211209151123.3759999-3-dbrazdil@google.com>
+ <20211209194807.GB28088@duo.ucw.cz>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ZbgJohPepknqqfKx"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CACRpkdYJqP7WJuhS9G65abCZHK1_LX9hkXU6o+k10t2LXw100w@mail.gmail.com>
+In-Reply-To: <20211209194807.GB28088@duo.ucw.cz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Pavel,
 
---ZbgJohPepknqqfKx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, Dec 09, 2021 at 08:48:07PM +0100, Pavel Machek wrote:
+> Hi!
+> 
+> > +config DICE
+> > +	tristate "Open Profile for DICE driver"
+> > +	depends on OF_RESERVED_MEM
+> > +	help
+> > +	  This driver allows to ownership of a reserved memory region
+> > +	  containing DICE secrets and expose them to userspace via
+> > +	  a character device.
+> > +
+> 
+> Explaining what DICE is (and what Open Profile is) would be useful.
+Sure, I'll expand the description.
 
-Hi Linus!
+> I see it is for some kind of DRM? Why is in non-evil and why do we
+> want it in Linux?
+Best to think of this as an extension to verified boot where each boot
+stage signs the hashes of the software it loaded. The certificate is
+what's passed in this reserved memory region. It is used in the context
+of confidential computing for remote attestation, and it is very similar
+to the EFI-based approach from IBM for SEV:
+https://lore.kernel.org/all/20211007061838.1381129-1-dovmurik@linux.ibm.com/
 
-> I like this patch.
+There's a link to the project's documentation in the cover letter with
+much more technical detail if you're interested.
 
-I am glad!
-
->=20
-> Maybe a small paragraph first saying what this is, the usecase (feel
-> free to steal, rewrite etc):
->=20
-> The sloppy logic analyzer will utilize a few GPIO lines in input mode
-> on a system to rapidly sample these digital lines, which will, if the
-> Nyquist criteria is met, result in a time series log with approximate
-> waveforms as they appeared on these lines.
->=20
-> One way to use it is to analyze external traffic connected to these
-> GPIO lines with wires (i.e. digital probes), acting as a common logic
-> analyzer.
-
-Well, frankly, with the driver depending on EXPERT, this paragraph seems
-a tad superfluous to me. But as it came for free and won't hurt, I took
-the liberty to add this to the beginning of the documentation.
-
-> Another thing it can do is to snoop on on-chip peripherals if the I/O
-> cells of these peripherals can be used in GPIO input mode at the same
-> time as they are being used as inputs or outputs for the peripheral,
-> for example it would be possible to scale down the speed of a certain
-> MMC controller and snoop the traffic between the MMC controller and
-> the SD card by the sloppy logic analyzer. In the pin control subsystem
-> such pin controllers are called "non-strict": a certain pin can be
-> used with a certain peripheral and as a GPIO input line at the same
-> time.
-
-Thanks for pointing out the 'strict' mode. I actually did snoop pins
-muxed to I2C but I had to use a gpiolib hack for it assuming this was
-not supported otherwise. Now, I have a one-liner for the Renesas pinctrl
-driver which makes things work as well. I will work this out with Geert
-hopefully. Would be really great to have this feature without my hack!
-
-That being said, the paragraph above is a bit too long for my taste,
-I'll see if I can make it more concise. But it should be there, yes.
-
-Thanks for your support!
-
-Happy hacking,
-
-   Wolfram
+-David
 
 
---ZbgJohPepknqqfKx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmGzN40ACgkQFA3kzBSg
-KbYDoA//YzZ1PQZYp3ZV9klerZNz8r6wkg4w72xBlW+3z5JUsxVuJLH+JikBgwpF
-t2LiKCBX0MvHX4a9m1q10bhw6p9qGUFSJFT6Q5stfIycnS3r/U9JmMIEyqp09Yd7
-Z4IUUjA40wIkMbJI+YZ70iHYTX1StffmIJQBhMgXcXgk8rwhaY8yafBMFTr/aljU
-A3SvpD3b+pdIvGomXbOpLfknA4k3+e5U8qQYjdgHfvg4qM6V6DTRUgRjrWVVrcli
-PqHNMoj3+g7vtlDjDNaeGYM1Ly+dGP6L/qw0gCb4M2+puRwpfYH2BfIGKQ+mx1Q5
-dUZA+pJ/GWZSY29BrATGlMcjTb0NdnFYY3fqudyY3JDJP1oKIxNeaKkKwKodzu/5
-32VVChWjVCHXy9qvYleY3GSfbSuq7CfSfWqAatm9gXVyxlGOhSACAsjosibaJqUc
-0XoX98DM2Ax2fgShuFwSr+j9MiAmp+/GSeS16W4hk5ZNdlghB1yq26r68pi6oZMN
-tml8Jn7ObbwNrfiAeDiT2BaMwxTVgkvyByWY5CZ3iYKNnhFoG06hhnPqPE65yVoZ
-dqsRe5II/HI2o0PDQmMfZgmtfpH4zAUZFQjzIoG5JNrGdiGzsed6Fnf+CLNZZBB0
-VvgnF15DOm7Js2dVKbkwKG7WpvhekL6JmNuzK/PzIJxUI/+tFlA=
-=uTq2
------END PGP SIGNATURE-----
-
---ZbgJohPepknqqfKx--
