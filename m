@@ -2,426 +2,301 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA330C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Dec 2021 00:47:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B5DFC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Dec 2021 01:25:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234937AbhLJAul (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 9 Dec 2021 19:50:41 -0500
-Received: from mail-bn8nam11on2042.outbound.protection.outlook.com ([40.107.236.42]:32513
-        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
+        id S235377AbhLJB3H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 9 Dec 2021 20:29:07 -0500
+Received: from mail-bn8nam08on2060.outbound.protection.outlook.com ([40.107.100.60]:62593
+        "EHLO NAM04-BN8-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S234930AbhLJAuk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 9 Dec 2021 19:50:40 -0500
+        id S230304AbhLJB3G (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 9 Dec 2021 20:29:06 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VvXn//vVqT8Y1QjcwnKgAy0nqRXlxqULNaTFO/pEBascLM1ml61gTEYDiqZHnrvBsvE+36IgdvIjZSkusd37hIZN++CBNxbklr50za4jmhc/+QAvQE2qxT951Mo7GaG+DplOdHl2HiaGHkFrGWUOkxMYlmru2XezGRqdWODnmSYU9MOhAR6cPa5und5GpOef4bz+CmbsXB2frOW9qNBGCS3U607GNE6xyW4XWtX9PvCiJS9V7cO+cqPiaknCDceLNSdzLeEbrWT4vKginNDIA/FEUQckq3l6d4qiRoOHg5f+s7MuqgUYVIyUNcb1ow6qwxmFnbnFNGM/Z8t4ouppUw==
+ b=CzauoE/boV1lyFU75xhI6EvwbfQRDUyomGhNcIBt6GWWiQldx8wT4QqVE+VnL2kkkC8OVolBEN0/vXFWM5XMd+HxKG3TfzIhhDWA66PhXVg9h0mCIz6R1DfUlkbc7R6nmfjQTRUJRqT5GneDAUlatXP2DDGRMrrwPEjcmloTOX25IXtEo0IiMpRz8opSo9cUexjLAYU3vEGqEyvQAcljHNqwsUNfUEyxQrUUQFAhp5aRlSrIkW3G9MP+XGQmyY31e2Ss1zQ8erUGwgLF8+yFsrYX/EeMh9vEC6zGsNBlnWZgeJ6/AgKs1QqB5abzq9/Cw6uBnCOLUVzFW7deRZeYWA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IaDWplH4hQtieiGhZa9RNzQW8oIF2HBW7sbY/lLzqFs=;
- b=Mty4CIvidBcAaq02O6npcvzUNdalZtaesl/j+BHega9qG8fl4gc9KBSLhwq2/f1+MubBCbhbh6doTlFXS3a1+FDgi7ODZJV5EIgIkmqaNUOtHKgoaRWCWvUo7fX0A+VTgzzIwYLxVVWmu6rl4Ms9kYtHmOgT0rL66Mav41/uPhKoxFGq748l5crsFqqVmcuKzw6vJPNPaUhU4tjd9xM8O+GRyeR+Ul78qmQC8v/45GFpSwrw8t3Dl5zH8CJ5pNr0X8jf5wqKx0/hgu6Zbl1M1O7JoZySbJTnspwvVwjZbrZnhFuT3u2rw2ZW504p+fv9XtH/I6bHhCGgFLLOTbXhWA==
+ bh=ESe6U6dsU0HZpOJaXtcQhjJLenbrQPmV2lf6TXBD2Eg=;
+ b=bkcT2/NquITaUClvj0TLlOJ9XoNqC+z8ZopCeyRhXnNw2L1w2fyqRCoxEbzPrx0vGCcjg1fQMuEV/t7F66SwW0jGbPMR4nmmGtRpmb5mNTmFpN+NN9F8dW5Ua805LO+2M7teD7eqMd6OjhRTdmeiZqhlyMGJ040MQFIhwE7colNRrRwR1LzLE9qw+Nq5S/FRd601qtV4oXQsGJSv+0lNCJ3vQ6S2i7kGzBp8t8NAkv8vt7gnGG/+P0dU1IjLVO/y5wYFzbTsm3XYIH3FyHy4aQQ8k2ZshDljEKq1qHv/5E8vgl9yy/B2mEuqacv5C4L44JYdfKxqhxAOlvnfcbDgUQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IaDWplH4hQtieiGhZa9RNzQW8oIF2HBW7sbY/lLzqFs=;
- b=GHK/3rdmKgOLTL49nrveogqG19lLKUUK7E6EDIxLrf2AHAl/oPzYyFjc/JiIL0qPK1pVGhvAtF3Uxk/2IUQIEFSGTpL8zimZ5WRPWa/TWIfEbn3XBZA4d6hvJAeUjXltu+nCYtSGCCssz/UGNEFxD2FB2h3YLP5iMJBq7r7BcZrZ/DQCcAXojey+UgWcCug1EesAIobRCXbJFsgfwycm/txuHpQLpANCzYORdIRgncO86bvyXTaVVR/oWrTLVNp24tbBksg7dasnMccZQC3XnMtoehkB823bKvRCK/Yg+2gNb1aga8pk5cW0+pa32Nwouh5nmyiyEfjOd+sZVRfy7g==
+ bh=ESe6U6dsU0HZpOJaXtcQhjJLenbrQPmV2lf6TXBD2Eg=;
+ b=QTwlqyBPMHroj45R8QSEDIotetyzrx+9q+UvZP6IVRrSasvFywnk7SrA3YTfiqZkAiIcgrNH4+ksXnXwZxaodU/mTf/bNBPGALjVpKuc/lFTV2cpVgF5T7X/ZRolwBcRl+Q52vvs8qk739cnbrS51MHEBWeSLkqXsJUEGOgBdD85v5thd4V/Jz3+zuAjflURuq7QHV2DoBgkXq+RZ5AqiBq5mulZHdpFJKYwHVO3pDA1YKfIXTE229BHtEEx84lB3UVN0t7q52/uHbFub53918/57Xgei0pFbrzMvVuUfZvxBJ54y8cdwHlEnwoEPdObpq8PgdGpbrBhgsjng1x4IA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
- by BL1PR12MB5205.namprd12.prod.outlook.com (2603:10b6:208:308::17) with
+ by BL1PR12MB5352.namprd12.prod.outlook.com (2603:10b6:208:314::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.20; Fri, 10 Dec
- 2021 00:47:03 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.21; Fri, 10 Dec
+ 2021 01:25:31 +0000
 Received: from BL0PR12MB5506.namprd12.prod.outlook.com
  ([fe80::d8be:e4e4:ce53:6d11]) by BL0PR12MB5506.namprd12.prod.outlook.com
  ([fe80::d8be:e4e4:ce53:6d11%7]) with mapi id 15.20.4778.014; Fri, 10 Dec 2021
- 00:47:03 +0000
-Date:   Thu, 9 Dec 2021 20:46:59 -0400
+ 01:25:31 +0000
+Date:   Thu, 9 Dec 2021 21:25:29 -0400
 From:   Jason Gunthorpe <jgg@nvidia.com>
 To:     Alex Williamson <alex.williamson@redhat.com>
-Cc:     Cornelia Huck <cohuck@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3] vfio: Documentation for the migration region
-Message-ID: <20211210004659.GB6385@nvidia.com>
-References: <0-v3-184b374ad0a8+24c-vfio_mig_doc_jgg@nvidia.com>
- <20211209163457.3e74ebaf.alex.williamson@redhat.com>
+Cc:     cohuck@redhat.com, corbet@lwn.net, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, farman@linux.ibm.com,
+        mjrosato@linux.ibm.com, pasic@linux.ibm.com
+Subject: Re: [RFC PATCH] vfio: Update/Clarify migration uAPI, add NDMA state
+Message-ID: <20211210012529.GC6385@nvidia.com>
+References: <163909282574.728533.7460416142511440919.stgit@omen>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211209163457.3e74ebaf.alex.williamson@redhat.com>
-X-ClientProxiedBy: YT3PR01CA0035.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:82::33) To BL0PR12MB5506.namprd12.prod.outlook.com
+In-Reply-To: <163909282574.728533.7460416142511440919.stgit@omen>
+X-ClientProxiedBy: YT1PR01CA0084.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2d::23) To BL0PR12MB5506.namprd12.prod.outlook.com
  (2603:10b6:208:1cb::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d29e1d69-564f-4863-3324-08d9bb7693eb
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5205:EE_
-X-Microsoft-Antispam-PRVS: <BL1PR12MB520551A02F0B34B0A9474B63C2719@BL1PR12MB5205.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Office365-Filtering-Correlation-Id: 4215445b-d88f-4deb-b11d-08d9bb7bf4c2
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5352:EE_
+X-Microsoft-Antispam-PRVS: <BL1PR12MB53527B76F417BD64CD32B559C2719@BL1PR12MB5352.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KDUUG6nsOjOjw+pKTuINrdsbEYz7TArcFc2AauWRiogC7HUCyHmd5pqzpZjwusj7nLpkvo5OwaN+wfmFprmqC44N0XO9U2LnAcJdLZcRXh44sega49Kw4JO2O6q6HFmDo9tSjn7sIxXnmq4I2Ybj0OCSeNEj53hM4XgVQ0GivF2QTS1/uWBznxjId9QRzonfWMvs7oPL+cqEZExsuKLPxrO6C9tox3O8PW1UzmoIp2SQsHJuYSWMPbknHh6vW30hi511BjpGFyGEHgM6cHUvats13gcSpyMIkpQOONjrlSBP3+KHLoAXKdwxjOhiiklX8TswYh7vk1cvwPP+7nLcvr8LmU5PdOtyToRcve2dyd+RBWvYHWMlCCruFgnpjDg4whZes7TjxppRIgldrwf8hQXtvUBSh2bDZ4r42xUN1AXoIBeWwTGGl9uL7wQEhcdxraJtQOVRHob9sFZDeV4wTh9eiWXJZ1NEys04E/8yxPIsE1cssgTN8ZPFHpHKCK0WPh3n+FXROxZpS1tgZZOlZ1gd0edfUDlSEBmzogX5ILh5cz6+hfwg2zVJ/wxAp2WIU+WQAtmC1HtlYk6L+5LyJzpal41UcVCPp87xQuahDcFHSR0LAsz88kmEojzUTCSWFJCf25vO5bQ6+sTiiRQbhg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB5506.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(6666004)(508600001)(1076003)(83380400001)(66556008)(186003)(316002)(26005)(8936002)(6486002)(2906002)(86362001)(6512007)(6506007)(6916009)(66946007)(4326008)(2616005)(38100700002)(36756003)(5660300002)(8676002)(54906003)(33656002)(30864003)(66476007);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: 146sBX08skqQu4AdtbzufIz9iFXE517iBXaNAKlIYrXLPf11X3rKjepL57RgidJnn0Rz3WJu6k7EgWXiB3iUCWnc3KuaD6xicWvpRBzF9ZU0TfQ6rv165fWKoc2j0EK/QQpa3bxbQ812kCa0WiRvocRjBD+RgMyCbSUPbN9Qwv/544kuJu0g33IGp1bC/Yx/a8T5NCm0EpjldULlOLIQ47Va1MqMQt/7rl1wyYLmpG7ovts8cMPo9OBLWzDwsE/LFcULa0v3W7ElokAvS4fGXAt4rIsH4offSk7j+Hf5iGYH0TQ30Yu1jHWBmOkuNxKCJW7fQFxZMPZDEdF+xjNw1x7GeKSju++27atm8LG/ubjy6WQjGrV3f2PQwZwYWDLcV1TFqWSqEAZCElKI3SdvJRkvjJEkxPOhVgHwRcwFpWVA4acQE8lbL3LJeOdXOcl/dLnlo8WEC6SM/OgP/r1e4nQG23+Tgn9O/pylqlMBjKG6NXsEnbB7AsDz6F5ba5+k74yzcYOVwJBMSQJfY6dh+eyjMnJf9S9w7GebsQO29rBwwzfYCeoQb2IM+KetA3FSye7pmvyBYCE+LQZo3h87K5XrwavGJVc3DrYYGNo5D5u0Il3TcZC35fzyMLW7NS7YlXi1OV6xprALL7lajLIHnA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB5506.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(8676002)(83380400001)(8936002)(2616005)(6506007)(508600001)(5660300002)(36756003)(86362001)(186003)(66476007)(66946007)(66556008)(26005)(33656002)(38100700002)(6916009)(316002)(6486002)(15650500001)(6512007)(2906002)(1076003)(4326008);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?4vx48EuLS/WgdsXr+wLUjLaiyJWfHK5I6ALcAlbbgPqxiwQVhF2Q194ZjcjW?=
- =?us-ascii?Q?1ZxACJgSryZySAwWRqaUtljvAV/Lw//EUf6NA56fWBQqbVAI3Hx0Cgsz7KoM?=
- =?us-ascii?Q?guly1b3xqOyRRocvbxZgSHadXmrtS+SCAYVNEiJ6SZ3fRNRlqNYDnRslTiZ0?=
- =?us-ascii?Q?394830SG66hxILax4dx9RvSgto8i64LxUZdcP4YH500AAVsHJbpwZJ7Ip2Uq?=
- =?us-ascii?Q?5sTJiG1U40OJXS0gIqRA3XQBrHXrWGlaVxFXgpc3f0WlUkp/58ICKeddr4V8?=
- =?us-ascii?Q?GMPzP3pMEPIg1TcCD1lIujgpo+lx4jECXMemjhMPkMKHF+KDcsYUVqFCKZZs?=
- =?us-ascii?Q?p9vOfR2hRdYbEPzWSbK2ynCVBks23xTsug/ptz5HkZ5UgS2PwNbFsSZd6u+U?=
- =?us-ascii?Q?ZNc5OHwJyz4vVjc/i1kl2Z3XhJVeljihPoao+6SRNhIk5MN4lisH9qI7liys?=
- =?us-ascii?Q?XGOhhAkGtl2KDytt4J5PFnAMAixP+o6ESot6WdBOzneWAJDnYuLKyYUZnMwa?=
- =?us-ascii?Q?4kD7+znsaTAJTxxZoasweTSRbplhgXUmWkCz0Fdb5g8hWNRJERx15fUwst69?=
- =?us-ascii?Q?zc67u9KwrsXaOWYhX1RGKbRa/K8Axx8UuOjYH31JlL8ttTMBGfksJi9dvJ13?=
- =?us-ascii?Q?V9apvrxchzFQnYdBeeqn/s8+fX7TH2yDmuGjcfpP3tybwhO069rh2qCDmuYZ?=
- =?us-ascii?Q?1dPLdmbgj4FOtM6IKDmEBznTky8azOpQdjyelNgm5k1GQ7rGifikO3N88ua+?=
- =?us-ascii?Q?RoMXPafTGrqTUFN8SfCnw78+v+FxQhMGwfH8JJGwLVMzf0OqZIJPtgkz6L1Z?=
- =?us-ascii?Q?jJ9POic5u7RWDae4IJ1wYC3FJLbzUtVdNGXv8LS4K3zJSqHPU7oQRl23mD+k?=
- =?us-ascii?Q?TrR4RJIbz3NapZPajIvWIMmJqzQcuC4LWLo+EGQxE2IuvoixnY5ZotvPlNLF?=
- =?us-ascii?Q?+DaKfnOIbPdINPDRMeUZwIT3Y8sMgQcOnlNvAR0pmdHSFWvuiHKHunHhIEWW?=
- =?us-ascii?Q?iEKGEPW8j43eP5Dfo/SxjSqraJE20x0nEwYKL4dQeYQxwg+bO8SY3n1sDs/G?=
- =?us-ascii?Q?fecJPJMslVyrFZr3IKKwTb6X1gZkVjtt02U/LxV8n94EK70J4MntAGTa4dtr?=
- =?us-ascii?Q?eD5Z+9Lpcz5eNc93eXh1mdPi8Jf1rR4VyXkBXrG2VdHXvckv97HGO2NPXVPs?=
- =?us-ascii?Q?/yICwIjAqZ4SpgxPjR/kcxv7Zh56JleGWv19qa3mrXJhTmiSLBqaSirmLS7L?=
- =?us-ascii?Q?C7NluSoZgWG3TUn8NpU5hlFcoiouHLlBNgZebiN8kQv5eXVxqsw6+FGE2ZK2?=
- =?us-ascii?Q?nps5iDepTAxtt/LUWIgm9s4FCuXo4qO1jPZ/NH4880u1bpT1oe6GDx8SGym0?=
- =?us-ascii?Q?h8yRBVFOuIyTQuDC7Gq/8TGNDxA+xpsrvAZiQCPl99njaSjIdMk3tlE73Rjj?=
- =?us-ascii?Q?nSIbUVbfMGN4/cyHSCxS81wGUh/qX0v79tNt4w+hS+73JwgbsCebJ6BOrCq0?=
- =?us-ascii?Q?S+LkpaSqrP24ZV7DH+YIXzU/KUpOvU+CLZoK47pdSwyOp6rxslqythx7GbAg?=
- =?us-ascii?Q?ykjletqLwRfhtkGjHAg=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8QeSTtW1+y3gWCrFh5U/fiUbvkWNiLiE9cHfyhbDofEhK/W1rEd1WJzAGc6P?=
+ =?us-ascii?Q?9OojXr+GlwwXpeW7GcMfZI8ly0t7TrZvM3+zWDv5U8ijwifwKkVFleNgx6p2?=
+ =?us-ascii?Q?XzwDHnFIyGOlX3yi2GccPySSBDoGSf2LzSVbHhUSnYHXX5vaZy3D5zB9m60l?=
+ =?us-ascii?Q?D0O1ok6V9NpHtphyaaqigHbCcjp4g0Ni/2VU/HA0H5Rtalwj7/kkYLsXMzFV?=
+ =?us-ascii?Q?DpsCx4ei7sx/5eMG+Chu3ZemGztS1KWnIzV9+hntGeJcaRZpEUpXsix5ynkb?=
+ =?us-ascii?Q?GQw6Pnq8AcX6yyTX3B94sRq2RL1nsZa85ejeW1wooboyH/z+bXj4BOGX/LxT?=
+ =?us-ascii?Q?EpzetV6dDVPWyx8h7wSzKVL+GFvWrUDyMgZ5yy3kJOMMuhdnNiLFCxCekQrU?=
+ =?us-ascii?Q?YGzr8NqXtvOHw9gws5rXhabH/YjSuet4u6GZxCppisIba1sV02VMxT9rqbDZ?=
+ =?us-ascii?Q?obzrsFmWDiUfchMJg553EOkWTFV4szSS6Pq4eqHs8E3/6gxkHqbNYluakpFd?=
+ =?us-ascii?Q?dFnNyBW+6efUZ0+X6a9hm8HWwvEeBhrvvyIEvuB0uWX2jt77SchrG295qggI?=
+ =?us-ascii?Q?VjVZOrLcOYwEHUvR8X+QnR4VTaashp36lwQJCIQf4EbXMJlKEWpNl1zNjx+t?=
+ =?us-ascii?Q?A9StU3t3WHnAbdX8qyZ5lLty8F1IcTml2SgqpejA7l6Qsz2MTrUVLdmV26KM?=
+ =?us-ascii?Q?Txg29jfmQ2xz1cMT/MHDSTEUuQUzbkm+HShegf6loOGTy6mC4A+0nenV8Htc?=
+ =?us-ascii?Q?/N2Zoy7FW0c5tmd/z8zqj6YImfEMk3hAwObzta05X9PMVAb7NV6HtIMktYPS?=
+ =?us-ascii?Q?ljSG1G/wext5lW7YQxlSDDydkY0vGdX+w/TaC+KdbljJ6YYmWwXAIBadxLv1?=
+ =?us-ascii?Q?sNIZ9vNdNjR65AQxa5rkyBXLXLZ4FcI5GVa03f32ZK0Xz8NqFF2v2j7Z0aUF?=
+ =?us-ascii?Q?JC/vuDwmmh8dCNMGu+AKCYvnoMkWmo0qgqoHsCud7hFA+UMsCCCv43t1f0a4?=
+ =?us-ascii?Q?20SCfEePYa16RvFc5mGi1CQr7C4vee/di/hhS5sL6yS5jgkA4tAutEqy5E6R?=
+ =?us-ascii?Q?MsbAlU2N1tm/9NbOPQk2/DMaseU9tKWxhAZPmBMiE8OtJq69p3UT0sHx9TTM?=
+ =?us-ascii?Q?nVIRtau3frwrVM5hx57DHBw25zFcQ0dDF3WvS0ZbQSUzGRH+/hGRTN0IyWwY?=
+ =?us-ascii?Q?z4Z+SQ3A2fTKE2QEvEodZ8vbuu3d2ondGyhLahV6NOtYxbx7j1z+OUbWiu/d?=
+ =?us-ascii?Q?tkGvLqoaH78Ho5N4IC4CTW9/canzyvIulrZexsn9ogBX6bsCH68W2slxw9xR?=
+ =?us-ascii?Q?/9ZwkFwnd4rAy/XuzzJzU4zs4diNQ3ybxPcLfkixHSxtHw0umuTerSSFmuM/?=
+ =?us-ascii?Q?NbjZ3C4vCm60A7BmKSOQW7WCIF6dCXCj2zsBUX2z4RBLo7fB1oI/SHdMRi60?=
+ =?us-ascii?Q?GyCuRd6YbJE1HxIRtmBghXXdWYBN6NN/YvbrL+0mXokURGpOUHxzh3s/yePB?=
+ =?us-ascii?Q?oHrx3uDpZ5toQ5Q5G/+vEM3dUtS8zSnqZr6i6IX6w+lnHh4tSFDz5s9vXZi5?=
+ =?us-ascii?Q?hWgcDYF7SHTsEUoFJZI=3D?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d29e1d69-564f-4863-3324-08d9bb7693eb
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4215445b-d88f-4deb-b11d-08d9bb7bf4c2
 X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2021 00:47:03.5112
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2021 01:25:31.2969
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NBeYjPO1kqp5K3yfjXShh9ZKxXSqJfn+BwaoLVhowf95m7ibej/T9EycYKamJux0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5205
+X-MS-Exchange-CrossTenant-UserPrincipalName: g70Wds2sgtHKCaNXAy2YAPX11U+OI8hmoiIX4gUghyS2kHa2BGDpiD3Mv+JHlmGC
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5352
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 09, 2021 at 04:34:57PM -0700, Alex Williamson wrote:
-> On Tue,  7 Dec 2021 13:13:00 -0400
-> Jason Gunthorpe <jgg@nvidia.com> wrote:
+On Thu, Dec 09, 2021 at 04:34:29PM -0700, Alex Williamson wrote:
+> A new NDMA state is being proposed to support a quiescent state for
+> contexts containing multiple devices with peer-to-peer DMA support.
+> Formally define it.
 > 
-> > Provide some more complete documentation for the migration regions
-> > behavior, specifically focusing on the device_state bits and the whole
-> > system view from a VMM.
-> > 
-> > To: Alex Williamson <alex.williamson@redhat.com>
-> > Cc: Cornelia Huck <cohuck@redhat.com>
-> > Cc: kvm@vger.kernel.org
-> > Cc: Max Gurtovoy <mgurtovoy@nvidia.com>
-> > Cc: Kirti Wankhede <kwankhede@nvidia.com>
-> > Cc: Yishai Hadas <yishaih@nvidia.com>
-> > Cc: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
-> > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> >  Documentation/driver-api/vfio.rst | 301 +++++++++++++++++++++++++++++-
-> >  1 file changed, 300 insertions(+), 1 deletion(-)
+> Clarify various aspects of the migration region data fields and
+> protocol.  Remove QEMU related terminology and flows from the uAPI;
+> these will be provided in Documentation/ so as not to confuse the
+> device_state bitfield with a finite state machine with restricted
+> state transitions.
 > 
-> I'm sending a rewrite of the uAPI separately.  I hope this brings it
-> more in line with what you consider to be a viable specification and
-> perhaps makes some of the below new documentation unnecessary.
+> Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+>  include/uapi/linux/vfio.h |  405 ++++++++++++++++++++++++---------------------
+>  1 file changed, 214 insertions(+), 191 deletions(-)
 
-It is far better than what was there before, and sufficiently terse it
-is OK in a header file. Really, it is quite a great job what you've
-got there.
+I need other peope to look this over, so these are just some quick
+remarks. Thanks for doing it, it is very good.
 
-Honestly, I don't think I can write something at quite that level, if
-that is your expectation of what we need to achieve here..
+Given I'm almost on vacation till Jan I think we will shortly have to
+table this discussion to January.
 
-> > +-------------------------------------------------------------------------------
-> > +
-> > +VFIO migration driver API
-> > +-------------------------------------------------------------------------------
-> > +
-> > +VFIO drivers that support migration implement a migration control register
-> > +called device_state in the struct vfio_device_migration_info which is in its
-> > +VFIO_REGION_TYPE_MIGRATION region.
-> > +
-> > +The device_state controls both device action and continuous behavior.
-> > +Setting/clearing bit groups triggers device action, and each bit controls a
-> > +continuous device behavior.
-> 
-> This notion of device actions and continuous behavior seems to make
-> such a simple concept incredibly complicated.  We have "is the device
-> running or not" and a new modifier bit to that, and which mode is the
-> migration region, off, saving, or resuming.  Seems simple enough, but I
-> can't follow your bit groups below.
+But, if you are happy with this as all that is needed to do mlx5 we
+can possibly have the v6 updated in early January, after the next
+merge window.
 
-It is an effort to bridge from the very simple view you wrote to a
-fuller understanding what the driver should be implementing.
+Though lets try to quickly decide on what to do about the "change
+multiple bits" below, please.
 
-We must talk about SAVING|RUNING / SAVING|!RUNNING together to be able
-to explain everything that is going on.
+> diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
+> index ef33ea002b0b..1fdbc928f886 100644
+> +++ b/include/uapi/linux/vfio.h
+> @@ -408,199 +408,211 @@ struct vfio_region_gfx_edid {
+>  #define VFIO_REGION_SUBTYPE_MIGRATION           (1)
+>  
+>  /*
+> + * The structure vfio_device_migration_info is placed at the immediate start of
+> + * the per-device VFIO_REGION_SUBTYPE_MIGRATION region to manage the device
+> + * state and migration information for the device.  Field accesses for this
+> + * structure are only supported using their native width and alignment,
+> + * accesses otherwise are undefined and the kernel migration driver should
+> + * return an error.
+>   *
+>   * device_state: (read/write)
+> + *   The device_state field is a bitfield written by the user to transition
+> + *   the associated device between valid migration states using these rules:
+> + *     - The user may read or write the device state register at any time.
+> + *     - The kernel migration driver must fully transition the device to the
+> + *       new state value before the write(2) operation returns to the user.
+> + *     - The user may change multiple bits of the bitfield in the same write
+> + *       operation, so long as the resulting state is valid.
 
-But we probably don't want the introductory paragraphs at all. Lets
-just refer to the header file and explain the following discussion
-elaborates on that.
+I would like to forbid this. It is really too complicated, and if
+there is not a strongly defined device behavior when this is done it
+is not inter-operable for userspace to do it.
 
-> > +Along with the device_state the migration driver provides a data window which
-> > +allows streaming migration data into or out of the device. The entire
-> > +migration data, up to the end of stream must be transported from the saving to
-> > +resuming side.
-> > +
-> > +A lot of flexibility is provided to user-space in how it operates these
-> > +bits. What follows is a reference flow for saving device state in a live
-> > +migration, with all features, and an illustration how other external non-VFIO
-> > +entities (VCPU_RUNNING and DIRTY_TRACKING) the VMM controls fit in.
-> > +
-> > +  RUNNING, VCPU_RUNNING
-> > +     Normal operating state
-> > +  RUNNING, DIRTY_TRACKING, VCPU_RUNNING
-> > +     Log DMAs
-> > +
-> > +     Stream all memory
-> > +  SAVING | RUNNING, DIRTY_TRACKING, VCPU_RUNNING
-> > +     Log internal device changes (pre-copy)
-> > +
-> > +     Stream device state through the migration window
-> > +
-> > +     While in this state repeat as desired:
-> > +
-> > +	Atomic Read and Clear DMA Dirty log
-> > +
-> > +	Stream dirty memory
-> > +  SAVING | NDMA | RUNNING, VCPU_RUNNING
-> > +     vIOMMU grace state
-> > +
-> > +     Complete all in progress IO page faults, idle the vIOMMU
-> > +  SAVING | NDMA | RUNNING
-> > +     Peer to Peer DMA grace state
-> > +
-> > +     Final snapshot of DMA dirty log (atomic not required)
-> > +  SAVING
-> > +     Stream final device state through the migration window
-> > +
-> > +     Copy final dirty data
-> 
-> So yes, let's move use of migration region in support of a VMM here,
-> but as I mentioned in the last round, these notes per state are all
-> over the map and some of them barely provide enough of a clue to know
-> what you're getting at.  Let's start simple and build.
+> + *     - The kernel migration driver must not generate asynchronous device
+> + *       state transitions outside of manipulation by the user or the
+> + *       VFIO_DEVICE_RESET ioctl as described below.
+> + *     - In the event of a device state transition failure, the kernel
+> + *       migration driver must return a write(2) error with appropriate errno
+> + *       to the user.
+> + *     - Upon such an error, re-reading the device_state field must indicate
+> + *       the device migration state as either the same state as prior to the
+> + *       failing write or, at the migration driver discretion, indicate the
+> + *       device state as VFIO_DEVICE_STATE_ERROR.
 
-I'm not sure what you are suggesting?
+It is because this is complete nightmare. Let's say the user goes from
+0 -> SAVING | RUNNING and SAVING fails after we succeed to do
+RUNNING. We have to also backtrack and undo RUNNING, but what if that
+fails too? Oh and we have to keep track of all this backtracking while
+executing the new state and write a bunch of complicated never tested
+error handling code.
 
-Combined with the new header file this is much better, it tersely
-explains from a VMM point of view what each state is about
+Assuming we can even figure out what the precedence of multiple bits
+even means for interoperability.
 
-Do you think this section should be longer and the section below much
-shorter? That might be a better document.
+Backed into this is an assumption that any device transition is fully
+atomic - that just isn't what I see any of the HW has done.
 
-> > +  0
-> > +     Device is halted
-> 
-> We don't care what the device state goes to after we're done collecting
-> data from it.
+I thought we could tackled this when you first suggested it (eg copy
+the mlx5 logic and be OK), but now I'm very skeptical. The idea that
+every driver can do this right in all the corner cases doesn't seem
+reasonable given we've made so many errors here already just in mlx5.
 
-The reference flow is just a reference, choosing to go to 0 is fine,
-right?
+> + *     - Bit 1 (SAVING) [REQUIRED]:
+> + *        - Setting this bit enables and initializes the migration region data
 
-> > +and the reference flow for resuming:
-> > +
-> > +  RUNNING
-> > +     Use ioctl(VFIO_GROUP_GET_DEVICE_FD) to obtain a fresh device
-> > +  RESUMING
-> > +     Push in migration data.
-> > +  NDMA | RUNNING
-> > +     Peer to Peer DMA grace state
-> > +  RUNNING, VCPU_RUNNING
-> > +     Normal operating state
-> > +
-> > +If the VMM has multiple VFIO devices undergoing migration then the grace
-> > +states act as cross device synchronization points. The VMM must bring all
-> > +devices to the grace state before advancing past it.
-> 
-> Why?  (rhetorical)  Describe that we can't stop all device atomically
-> therefore we need to running-but-not-initiating state to quiesce the
-> system to finish up saving and the same because we can't atomically
-> release all devices on the restoring end.
+I would use the word clear instead of initialize - the point of this
+is to throw away any data that may be left over in the window from any
+prior actions.
 
-OK
+> + *          window and associated fields within vfio_device_migration_info for
+> + *          capturing the migration data stream for the device.  The migration
+> + *          driver may perform actions such as enabling dirty logging of device
+> + *          state with this bit.  The SAVING bit is mutually exclusive with the
+> + *          RESUMING bit defined below.
+> + *        - Clearing this bit (ie. !SAVING) de-initializes the migration region
+> + *          data window and indicates the completion or termination of the
+> + *          migration data stream for the device.
 
-> > +Event triggered actions happen when user-space requests a new device_state
-> > +that differs from the current device_state. Actions happen on a bit group
-> > +basis:
-> > +
-> > + SAVING
-> 
-> Does this mean the entire new device_state is (SAVING) or does this
-> mean that we set the SAVING bit independent of all other bits.
+I don't know what "de-initialized" means as something a device should
+do? IMHO there is no need to talk about the migration window here,
+SAVING says initialize/clear - and data_offset/etc say their values
+are undefined outside SAVING/RUNNING. That is enough.
 
-It says "actions happen on a bit group basis", so independent of all
-other bits as you say
+> + *     - Bit 2 (RESUMING) [REQUIRED]:
+> + *        - Setting this bit enables and initializes the migration region data
+> + *          window and associated fields within vfio_device_migration_info for
+> + *          restoring the device from a migration data stream captured from a
+> + *          SAVING session with a compatible device.  The migration driver may
+> + *          perform internal device resets as necessary to reinitialize the
+> + *          internal device state for the incoming migration data.
+> + *        - Clearing this bit (ie. !RESUMING) de-initializes the migration
+> + *          region data window and indicates the end of a resuming session for
+> + *          the device.  The kernel migration driver should complete the
+> + *          incorporation of data written to the migration data window into the
+> + *          device internal state and perform final validity and consistency
+> + *          checking of the new device state.  If the user provided data is
+> + *          found to be incomplete, inconsistent, or otherwise invalid, the
+> + *          migration driver must indicate a write(2) error and follow the
+> + *          previously described protocol to return either the previous state
+> + *          or an error state.
 
-But perhaps we don't need this at all anymore as the header file is
-sufficent enough
+Prefer this is just 'go to an error state' to avoid unnecessary
+implementation differences.
 
-> > +   The device clears the data window and prepares to stream migration data.
-> > +   The entire data from the start of SAVING to the end of stream is transfered
-> > +   to the other side to execute a resume.
-> 
-> "Clearing the data window" is an implementation, each iteration of the
-> migration protocol provides "something" in the data window.  The
-> migration driver could take no action when SAVING is set and simply
-> evaluate what the current device state is when pending_bytes is read.
+> + *     - Bit 3 (NDMA) [OPTIONAL]:
+> + *        The NDMA or "No DMA" state is intended to be a quiescent state for
+> + *        the device for the purposes of managing multiple devices within a
+> + *        user context where peer-to-peer DMA between devices may be active.
+> + *        Support for the NDMA bit is indicated through the presence of the
+> + *        VFIO_REGION_INFO_CAP_MIG_NDMA capability as reported by
+> + *        VFIO_DEVICE_GET_REGION_INFO for the associated device migration
+> + *        region.
+> + *        - Setting this bit must prevent the device from initiating any
+> + *          new DMA or interrupt transactions.  The migration driver must
 
-It is the same as what you said: "initializes the migration region
-data window" 
+I'm not sure about interrupts.
 
-> > + SAVING | RUNNING
-> 
-> If we're trying to model typical usage scenarios, it's confusing that
-> we started with SAVING and jumped back to (SAVING | RUNNING).
+> + *          complete any such outstanding operations prior to completing
+> + *          the transition to the NDMA state.  The NDMA device_state
 
-This section isn't about usage scenarios this is talking about what
-the driver must do in all the state combinations. SAVING is
-"initializing the data window"
+Reading this as you wrote it and I suddenly have a doubt about the PRI
+use case. Is it reasonable that the kernel driver will block on NDMA
+waiting for another userspace thread to resolve any outstanding PRIs?
 
-And then the two variations of RUNNING have their own special behaviors.
+Can that allow userspace to deadlock the kernel or device? Is there an
+alterative?
 
-> > +   This allows the device to implement a dirty log for its internal state.
-> > +   During this state the data window should present the device state being
-> > +   logged and during SAVING | !RUNNING the data window should transfer the
-> > +   dirtied state and conclude the migration data.
-> 
-> As we discussed in the previous revision, invariant data could also
-> reasonably be included here.  We're again sort of pushing an
-> implementation agenda, but the more useful thing to include here would
-> be to say something about how drivers and devices should attempt to
-> support any bulk data in this pre-copy phase in order to allow
-> userspace to perform a migration with minimal actual time in the next
-> state.
+> + *   All combinations for the above defined device_state bits are considered
+> + *   valid with the following exceptions:
+> + *     - RESUMING and SAVING are mutually exclusive, all combinations of
+> + *       (RESUMING | SAVING) are invalid.  Furthermore the specific combination
+> + *       (!NDMA | RESUMING | SAVING | !RUNNING) is reserved to indicate the
+> + *       device error state VFIO_DEVICE_STATE_ERROR.  This variant is
+> + *       specifically chosen due to the !RUNNING state of the device as the
+> + *       migration driver should do everything possible, including an internal
+> + *       reset of the device, to ensure that the device is fully stopped in
+> + *       this state.  
 
-Invarient data is implicitly already "device state being logged" - the
-log is always 'no change'
+Prefer we don't specify this. ERROR is undefined behavior and
+userspace should reset. Any path that leads along to ERROR already
+includes possiblities for wild DMAs and what not, so there is nothing
+to be gained by this other than causing a lot of driver complexity,
+IMHO.
 
-> > +   The state is only concerned with internal device state. External DMAs are
-> > +   covered by the separate DIRTY_TRACKING function.
-> > +
-> > + SAVING | !RUNNING
-> 
-> And this means we set SAVING and cleared RUNNING, and only those bits
-> or independent of other bits?  Give your reader a chance to follow
-> along even if you do expect them to read it a few times for it all to
-> sink in.
+> + *   Migration drivers should attempt to support any transition between valid
 
-None of this is about set or cleared, where did you get that? The top
-paragph said: "requests a new device_state" - that means only the new
-device_state value matters, the change to get there is irrelevant.
+should? must, I think.
 
-> > +   If the migration data is invalid then the ERROR state must be set.
-> 
-> I don't know why we're specifying this, it's at the driver discretion
-> to use the ERROR state, but we tend to suggest it for irrecoverable
-> errors.  Maybe any such error here could be considered irrecoverable,
-> or maybe the last data segment was missing and once it's added we can
-> continue.
+The whole migration window definition seems quite straightforward now!
 
-This was an explicit statement that seems to contridict what you wrote
-in the header. I prefer we are deterministic, if the RESUME fails then
-go to ERROR, always. Devices do not have the choice to do something
-else.
+> + * a) The user reads pending_bytes.  If the read value is zero, no data is
+> + *    currently available for the device.  If the device is !RUNNING and a
+> + *    zero value is read, this indicates the end of the device migration
+> + *    stream and the device must not generate any new migration data.  If
+> + *    the read value is non-zero, the user may proceed to collect device
+> + *    migration data in step b).  Repeated reads of pending_bytes is allowed
+> + *    and must not compromise the migration data stream provided the user does
+> + *    not proceed to the following step.
 
-> > + ERROR
-> > +   The behavior of the device is largely undefined. The device must be
-> > +   recovered by issuing VFIO_DEVICE_RESET or closing the device file
-> > +   descriptor.
-> > +
-> > +   However, devices supporting NDMA must behave as though NDMA is asserted
-> > +   during ERROR to avoid corrupting other devices or a VM during a failed
-> > +   migration.
-> 
-> As clarified in the uAPI, we chose the invalid state that we did as the
-> error state specifically because of the !RUNNING value.  Migration
-> drivers should honor that, therefore NDMA in ERROR state is irrelevant.
+Add what to do in SAVING|RUNNING if pending bytes is 0?
 
-This is another explict statement that you have contridicted in the
-header. I'm not sure mlx5 can implement this. Certainly, it becomes
-very hard if we continue to support precedence.
+>  #define VFIO_DEVICE_STATE_SET_ERROR(state) \
+> -	((state & ~VFIO_DEVICE_STATE_MASK) | VFIO_DEVICE_SATE_SAVING | \
+> -					     VFIO_DEVICE_STATE_RESUMING)
+> +	((state & ~VFIO_DEVICE_STATE_MASK) | VFIO_DEVICE_STATE_ERROR)
 
-Unwinding an error during a multi-bit sequence and guaranteeing that
-we can somehow make it back to !RUNNING is far very complex. Several
-error scenarios mean the driver has lost control of the device.
+We should delete this macro. It only makes sense used in a driver does
+not belong in the uapi header.
 
-I'm not even sure we can do the !NDMA I wrote, in hindsight I don't
-think we checked that enough. Yishai noticed all the error unwinding
-was broken in mlx5 for precedence cases after I wrote this.
-
-> > +  NDMA is made optional to support simple HW implementations that either just
-> > +  cannot do NDMA, or cannot do NDMA without a performance cost. NDMA is only
-> > +  necessary for special features like P2P and PRI, so devices can omit it in
-> > +  exchange for limitations on the guest.
-> 
-> Maybe we can emphasize this a little more as it's potentially pretty
-> significant.  Developers should not just think of their own device in
-> isolation, but their device in the context of devices that may have
-> performance, if not functional, restrictions with those limitations.
-
-Ok
-
-> > +
-> > +- Devices that have their HW migration control MMIO registers inside the same
-> > +  iommu_group as the VFIO device have some special considerations. In this
-> > +  case a driver will be operating HW registers from kernel space that are also
-> > +  subjected to userspace controlled DMA due to the iommu_group.
-> > +
-> > +  This immediately raises a security concern as user-space can use Peer to
-> > +  Peer DMA to manipulate these migration control registers concurrently with
-> > +  any kernel actions.
-> > +
-> > +  A device driver operating such a device must ensure that kernel integrity
-> > +  cannot be broken by hostile user space operating the migration MMIO
-> > +  registers via peer to peer, at any point in the sequence. Further the kernel
-> > +  cannot use DMA to transfer any migration data.
-> > +
-> > +  However, as discussed above in the "Device Peer to Peer DMA" section, it can
-> > +  assume quiet MMIO as a condition to have a successful and uncorrupted
-> > +  migration.
-> > +
-> > +To elaborate details on the reference flows, they assume the following details
-> > +about the external behaviors:
-> > +
-> > + !VCPU_RUNNING
-> > +   User-space must not generate dirty pages or issue MMIO, PIO or equivalent
-> > +   operations to devices.  For a VMM this would typically be controlled by
-> > +   KVM.
-> > +
-> > + DIRTY_TRACKING
-> > +   Clear the DMA log and start DMA logging
-> > +
-> > +   DMA logs should be readable with an "atomic test and clear" to allow
-> > +   continuous non-disruptive sampling of the log.
-> > +
-> > +   This is controlled by VFIO_IOMMU_DIRTY_PAGES_FLAG_START on the container
-> > +   fd.
-> > +
-> > + !DIRTY_TRACKING
-> > +   Freeze the DMA log, stop tracking and allow user-space to read it.
-> > +
-> > +   If user-space is going to have any use of the dirty log it must ensure that
-> > +   all DMA is suspended before clearing DIRTY_TRACKING, for instance by using
-> > +   NDMA or !RUNNING on all VFIO devices.
-> 
-> Minimally there should be reference markers to direct to these
-> definitions before they were thrown at the reader in the beginning, but
-> better yet would be to adjust the flow to make them unnecessary.
-
-The first draft was orderd like this, Connie felt that was confusing,
-so it was moved to the end :)
-
-> > +TDB - discoverable feature flag for NDMA
-> 
-> Updated in the uAPI spec.  Thanks,
-
-It matches what Yishai did
-
+Thanks,
 Jason
