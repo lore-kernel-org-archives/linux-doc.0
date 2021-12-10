@@ -2,28 +2,36 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BE03C4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Dec 2021 06:57:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F7C9C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 10 Dec 2021 07:15:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237368AbhLJHAc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Dec 2021 02:00:32 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:32899 "EHLO
-        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231272AbhLJHAM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Dec 2021 02:00:12 -0500
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.53])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4J9MBY6WfSzcbx1;
-        Fri, 10 Dec 2021 14:56:21 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+        id S237254AbhLJHSj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Dec 2021 02:18:39 -0500
+Received: from szxga03-in.huawei.com ([45.249.212.189]:29171 "EHLO
+        szxga03-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232025AbhLJHSi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Dec 2021 02:18:38 -0500
+Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.54])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4J9MYf5c15z8vnk;
+        Fri, 10 Dec 2021 15:12:54 +0800 (CST)
+Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
+ dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Fri, 10 Dec 2021 14:56:35 +0800
-Received: from thunder-town.china.huawei.com (10.174.178.55) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Fri, 10 Dec 2021 14:56:34 +0800
-From:   Zhen Lei <thunder.leizhen@huawei.com>
-To:     Thomas Gleixner <tglx@linutronix.de>,
+ 15.1.2308.20; Fri, 10 Dec 2021 15:15:02 +0800
+Received: from [10.174.177.243] (10.174.177.243) by
+ dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2308.20; Fri, 10 Dec 2021 15:15:01 +0800
+Message-ID: <afde1574-23b6-a36a-445e-5fb03873fe86@huawei.com>
+Date:   Fri, 10 Dec 2021 15:15:00 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v17 00/10] support reserving crashkernel above 4G on arm64
+ kdump
+Content-Language: en-US
+To:     Zhen Lei <thunder.leizhen@huawei.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
         <linux-kernel@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
@@ -31,103 +39,81 @@ To:     Thomas Gleixner <tglx@linutronix.de>,
         Eric Biederman <ebiederm@xmission.com>,
         <kexec@lists.infradead.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
-        "Will Deacon" <will@kernel.org>,
+        Will Deacon <will@kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         Rob Herring <robh+dt@kernel.org>,
         Frank Rowand <frowand.list@gmail.com>,
-        <devicetree@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        <devicetree@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
         <linux-doc@vger.kernel.org>
-CC:     Zhen Lei <thunder.leizhen@huawei.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
+CC:     Randy Dunlap <rdunlap@infradead.org>,
         Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
         Chen Zhou <dingguo.cz@antgroup.com>
-Subject: [PATCH v17 04/10] x86: kdump: move xen_pv_domain() check and insert_resource() to setup_arch()
-Date:   Fri, 10 Dec 2021 14:55:27 +0800
-Message-ID: <20211210065533.2023-5-thunder.leizhen@huawei.com>
-X-Mailer: git-send-email 2.26.0.windows.1
-In-Reply-To: <20211210065533.2023-1-thunder.leizhen@huawei.com>
 References: <20211210065533.2023-1-thunder.leizhen@huawei.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.174.178.55]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500006.china.huawei.com (7.185.36.236)
+From:   Kefeng Wang <wangkefeng.wang@huawei.com>
+In-Reply-To: <20211210065533.2023-1-thunder.leizhen@huawei.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.177.243]
+X-ClientProxiedBy: dggeme710-chm.china.huawei.com (10.1.199.106) To
+ dggpemm500001.china.huawei.com (7.185.36.107)
 X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Chen Zhou <chenzhou10@huawei.com>
 
-We will make the functions reserve_crashkernel() as generic, the
-xen_pv_domain() check in reserve_crashkernel() is relevant only to
-x86, the same as insert_resource() in reserve_crashkernel[_low]().
-So move xen_pv_domain() check and insert_resource() to setup_arch()
-to keep them in x86.
+On 2021/12/10 14:55, Zhen Lei wrote:
+> There are following issues in arm64 kdump:
+> 1. We use crashkernel=X to reserve crashkernel below 4G, which
+> will fail when there is no enough low memory.
+> 2. If reserving crashkernel above 4G, in this case, crash dump
+> kernel will boot failure because there is no low memory available
+> for allocation.
+>
+> To solve these issues, change the behavior of crashkernel=X.
+> crashkernel=X tries low allocation in DMA zone and fall back to high
+> allocation if it fails.
+>
+> We can also use "crashkernel=X,high" to select a high region above
+> DMA zone, which also tries to allocate at least 256M low memory in
+> DMA zone automatically and "crashkernel=Y,low" can be used to allocate
+> specified size low memory.
+>
+> When reserving crashkernel in high memory, some low memory is reserved
+> for crash dump kernel devices. So there may be two regions reserved for
+> crash dump kernel.
+> In order to distinct from the high region and make no effect to the use
+> of existing kexec-tools, rename the low region as "Crash kernel (low)",
+> and pass the low region by reusing DT property
+> "linux,usable-memory-range". We made the low memory region as the last
+> range of "linux,usable-memory-range" to keep compatibility with existing
+> user-space and older kdump kernels.
+>
+> Besides, we need to modify kexec-tools:
+> arm64: support more than one crash kernel regions(see [1])
+>
+> Another update is document about DT property 'linux,usable-memory-range':
+> schemas: update 'linux,usable-memory-range' node schema(see [2])
+>
+> This patchset contains the following 10 patches:
+>
+> 0001-0004 are some x86 cleanups which prepares for making functionsreserve_crashkernel[_low]() generic.
+> 0005 makes functions reserve_crashkernel[_low]() generic.
+> 0006-0007 reimplements arm64 crashkernel=X.
+> 0008-0009 adds memory for devices by DT property linux,usable-memory-range.
+> 0010 updates the doc.
+>
+> Changes since [v16]
+> - Because no functional changes in this version, so add
+>    "Tested-by: Dave Kleikamp <dave.kleikamp@oracle.com>" for patch 1-9
+> - Add "Reviewed-by: Rob Herring <robh@kernel.org>" for patch 8
+> - Update patch 9 based on the review comments of Rob Herring
+> - As Catalin Marinas's suggestion, merge the implementation of
+>    ARCH_WANT_RESERVE_CRASH_KERNEL into patch 5. Ensure that the
+>    contents of X86 and ARM64 do not overlap, and reduce unnecessary
+>    temporary differences.
 
-Suggested-by: Mike Rapoport <rppt@kernel.org>
-Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
-Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
-Tested-by: John Donnelly <John.p.donnelly@oracle.com>
-Tested-by: Dave Kleikamp <dave.kleikamp@oracle.com>
-Acked-by: Baoquan He <bhe@redhat.com>
----
- arch/x86/kernel/setup.c | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+An Internal review has been done, so for this series,
 
-diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
-index bb2a0973b98059e..7ae00716a208f82 100644
---- a/arch/x86/kernel/setup.c
-+++ b/arch/x86/kernel/setup.c
-@@ -456,7 +456,6 @@ static int __init reserve_crashkernel_low(void)
- 
- 	crashk_low_res.start = low_base;
- 	crashk_low_res.end   = low_base + low_size - 1;
--	insert_resource(&iomem_resource, &crashk_low_res);
- #endif
- 	return 0;
- }
-@@ -480,11 +479,6 @@ static void __init reserve_crashkernel(void)
- 		high = true;
- 	}
- 
--	if (xen_pv_domain()) {
--		pr_info("Ignoring crashkernel for a Xen PV domain\n");
--		return;
--	}
--
- 	/* 0 means: find the address automatically */
- 	if (!crash_base) {
- 		/*
-@@ -531,7 +525,6 @@ static void __init reserve_crashkernel(void)
- 
- 	crashk_res.start = crash_base;
- 	crashk_res.end   = crash_base + crash_size - 1;
--	insert_resource(&iomem_resource, &crashk_res);
- }
- #else
- static void __init reserve_crashkernel(void)
-@@ -1143,7 +1136,17 @@ void __init setup_arch(char **cmdline_p)
- 	 * Reserve memory for crash kernel after SRAT is parsed so that it
- 	 * won't consume hotpluggable memory.
- 	 */
--	reserve_crashkernel();
-+	if (xen_pv_domain())
-+		pr_info("Ignoring crashkernel for a Xen PV domain\n");
-+	else {
-+		reserve_crashkernel();
-+#ifdef CONFIG_KEXEC_CORE
-+		if (crashk_res.end > crashk_res.start)
-+			insert_resource(&iomem_resource, &crashk_res);
-+		if (crashk_low_res.end > crashk_low_res.start)
-+			insert_resource(&iomem_resource, &crashk_low_res);
-+#endif
-+	}
- 
- 	memblock_find_dma_reserve();
- 
--- 
-2.25.1
+Reviewed-by: Kefeng Wang <wangkefeng.wang@huawei.com>
 
