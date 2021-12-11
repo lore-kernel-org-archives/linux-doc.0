@@ -2,340 +2,315 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09D57C433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 11 Dec 2021 12:13:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90E99C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 11 Dec 2021 16:02:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229615AbhLKMNZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 11 Dec 2021 07:13:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39898 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229668AbhLKMNY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 11 Dec 2021 07:13:24 -0500
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A37E3C061751
-        for <linux-doc@vger.kernel.org>; Sat, 11 Dec 2021 04:13:24 -0800 (PST)
-Received: by mail-pj1-x1032.google.com with SMTP id gf14-20020a17090ac7ce00b001a7a2a0b5c3so11297247pjb.5
-        for <linux-doc@vger.kernel.org>; Sat, 11 Dec 2021 04:13:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=DfmjWDlkxvHErGfxQD4DXZyT8PvBxRuGPA5WLkilS+Y=;
-        b=d2Sd+OK+N6QHbRFjW1lo2gbnu0WY5EoYmEjT5YohRBS+Ty2lE9m9D8v+t6znZyV4Ii
-         mfXitoVbepSCKdwyXuAk6hZrkhNRjGojqkkif9c7dhXNzjB9/ESrh67Oq8mvvtUJUPK9
-         1YsgQPlemZWOMPvkKLYi6uldcIIlh+Ub8J9+lo8hzJMXTcjlN3DRxHPwiEopJAfMSAQc
-         wmPjtUrYmml7e1v7bvq+gVdTeQmaP5eVCJ1BjvbuHSAz/EXHHOCkNxGyNLc3Q1nBatNM
-         EphyKyin7CZZ0PD8gRqeU4KXX8bdUjQo9u7pNNvicTW+FxS7sPXBImJTWo8FnWM17niB
-         lfUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=DfmjWDlkxvHErGfxQD4DXZyT8PvBxRuGPA5WLkilS+Y=;
-        b=m796sr0dT9Z4xZln1GSWOCM1UVCUMxTlk1kjM6QJlHNi6achWMqDk7p2vJnEog5Crj
-         Et/T2/UEMsUDgkuT2110uAjonWTZFUeWDunhy5k6RDOZwr6g1ecqjQUW+N1jF4pyAE+P
-         d1Oaa+S2GX9mK7XvPMZ9u2LospxXNN5uBJEZkzbJGPUmozawezAHI2Yepcd4fmEYECzV
-         ax/7/u8W3vFVQQSpsFWxW53DQGtvUBhhGh5NItVtaYF9oUyIes/mTgc6KcWwdIxyU848
-         WyZHqaRyKh3o0UJknegusEX5O4E98efst3BykgwE4N2U1sX4xy9ONlbeA+HKinpJke8J
-         YeSQ==
-X-Gm-Message-State: AOAM533nRzPYVAU6Wod8sItDPFM1UodThLmaYdaPOJekaLE+vrm/gB8d
-        MF7tuzNR8qb8C07iynh/3kY=
-X-Google-Smtp-Source: ABdhPJyG80ZNqGdIvxiuRiyrTqsfCN+BCwHQkJubfCXWvTB7zpNzbKR2FT69yFbqmNI0pPpeh/rXYQ==
-X-Received: by 2002:a17:902:d505:b0:142:175d:1d4 with SMTP id b5-20020a170902d50500b00142175d01d4mr81951843plg.50.1639224799321;
-        Sat, 11 Dec 2021 04:13:19 -0800 (PST)
-Received: from localhost.localdomain ([8.26.182.60])
-        by smtp.gmail.com with ESMTPSA id qe12sm1966676pjb.29.2021.12.11.04.13.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Dec 2021 04:13:18 -0800 (PST)
-From:   Yanteng Si <siyanteng01@gmail.com>
-X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
-To:     corbet@lwn.net, alexs@kernel.org, bobwxc@email.cn,
-        seakeel@gmail.com
-Cc:     Yanteng Si <siyanteng01@gmail.com>, chenhuacai@kernel.org,
-        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
-        realpuyuwang@gmail.com, Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH v4 1/2] docs/zh_CN: add msi-howto translation
-Date:   Sat, 11 Dec 2021 20:11:44 +0800
-Message-Id: <d62846e2e820f600c27dc5e49887b3a2892eec17.1639224005.git.siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1639224005.git.siyanteng@loongson.cn>
-References: <cover.1639224005.git.siyanteng@loongson.cn>
+        id S230328AbhLKQC7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 11 Dec 2021 11:02:59 -0500
+Received: from condef-04.nifty.com ([202.248.20.69]:55849 "EHLO
+        condef-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229953AbhLKQC6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 11 Dec 2021 11:02:58 -0500
+X-Greylist: delayed 305 seconds by postgrey-1.27 at vger.kernel.org; Sat, 11 Dec 2021 11:02:58 EST
+Received: from conssluserg-02.nifty.com ([10.126.8.81])by condef-04.nifty.com with ESMTP id 1BBFsLEV015650;
+        Sun, 12 Dec 2021 00:54:21 +0900
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 1BBFrqFX005993;
+        Sun, 12 Dec 2021 00:53:53 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 1BBFrqFX005993
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1639238033;
+        bh=OnB0zpwoAwMurjphUAtp8uU+9+JVaMiWORrcysltMaU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=gI1mVLvBeXe/apHOHAlBFQKKIUgRxiEWdChVxDGJ4fsI3kuoC/PoDWNKkwQ8+l50n
+         c56iYP9/3ByVZ+196VpisY+ULB2bhl//FFVjMc2YXSxNxgIcp11bJp/p7DG1YdkOAL
+         KdBiI361kZcne82dy7u3JzuuY0xZVFZ5NeFIdF+OHT1uckpOSRdQ3f/8hTDamTbODX
+         Z3FSxvIZXS0959YTasnF39B00jRaA9Apn7JguB4yMwEFSChIny8fLFabMnoRyqz/Hv
+         nrudVqFcJewfqslEKj+iCnyqRz7uhnky2qbwaC//NXuA9b/cyfLRnQd4/dNq53Zg2r
+         45qQLPFzt18/w==
+X-Nifty-SrcIP: [209.85.215.175]
+Received: by mail-pg1-f175.google.com with SMTP id s137so10601195pgs.5;
+        Sat, 11 Dec 2021 07:53:53 -0800 (PST)
+X-Gm-Message-State: AOAM532SG/1Z3Q+EcjODiwM/ZZSUX5zpbutxdnK8XjO6J9cmn+GECOcZ
+        YrU3AxElk9RSD/UIQfNnPSGIQ773h5re2zbn1Pg=
+X-Google-Smtp-Source: ABdhPJwA6pNPRGX5iwZZGN4tY0x/xzcZIrvvAqHfsVMVystJJYLcl9ZLHrzpACGiX8GG/s/ed1fgSYNEPYYNKm8NGt8=
+X-Received: by 2002:a65:50c6:: with SMTP id s6mr45363550pgp.352.1639238032202;
+ Sat, 11 Dec 2021 07:53:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20211206140313.5653-1-ojeda@kernel.org> <20211206140313.5653-16-ojeda@kernel.org>
+In-Reply-To: <20211206140313.5653-16-ojeda@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 12 Dec 2021 00:53:15 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS+eiL-kcdnNyyCUNWjV5qGxrw4PM-oJFfw=o1fbhc2qw@mail.gmail.com>
+Message-ID: <CAK7LNAS+eiL-kcdnNyyCUNWjV5qGxrw4PM-oJFfw=o1fbhc2qw@mail.gmail.com>
+Subject: Re: [PATCH 15/19] Kbuild: add Rust support
+To:     Miguel Ojeda <ojeda@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Finn Behrens <me@kloenk.de>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Sven Van Asbroeck <thesven73@gmail.com>,
+        Gary Guo <gary@garyguo.net>,
+        Boris-Chengbiao Zhou <bobo1239@web.de>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Douglas Su <d0u9.su@outlook.com>,
+        Dariusz Sosnowski <dsosnowski@dsosnowski.pl>,
+        Antonio Terceiro <antonio.terceiro@linaro.org>,
+        Daniel Xu <dxu@dxuuu.xyz>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Yanteng Si <siyanteng01@gmail.com>
+On Mon, Dec 6, 2021 at 11:06 PM Miguel Ojeda <ojeda@kernel.org> wrote:
+>
+> Having all the new files in place, we now enable Rust support
+> in the build system, including `Kconfig` entries related to Rust,
+> the Rust configuration printer, the target definition files,
+> the version detection script and a few other bits.
+>
+> In the future, we will likely want to generate the target files
+> on the fly via a script.
+>
+> Co-developed-by: Alex Gaynor <alex.gaynor@gmail.com>
+> Signed-off-by: Alex Gaynor <alex.gaynor@gmail.com>
+> Co-developed-by: Finn Behrens <me@kloenk.de>
+> Signed-off-by: Finn Behrens <me@kloenk.de>
+> Co-developed-by: Adam Bratschi-Kaye <ark.email@gmail.com>
+> Signed-off-by: Adam Bratschi-Kaye <ark.email@gmail.com>
+> Co-developed-by: Wedson Almeida Filho <wedsonaf@google.com>
+> Signed-off-by: Wedson Almeida Filho <wedsonaf@google.com>
+> Co-developed-by: Michael Ellerman <mpe@ellerman.id.au>
+> Signed-off-by: Michael Ellerman <mpe@ellerman.id.au>
+> Co-developed-by: Sven Van Asbroeck <thesven73@gmail.com>
+> Signed-off-by: Sven Van Asbroeck <thesven73@gmail.com>
+> Co-developed-by: Gary Guo <gary@garyguo.net>
+> Signed-off-by: Gary Guo <gary@garyguo.net>
+> Co-developed-by: Boris-Chengbiao Zhou <bobo1239@web.de>
+> Signed-off-by: Boris-Chengbiao Zhou <bobo1239@web.de>
+> Co-developed-by: Boqun Feng <boqun.feng@gmail.com>
+> Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
+> Co-developed-by: Douglas Su <d0u9.su@outlook.com>
+> Signed-off-by: Douglas Su <d0u9.su@outlook.com>
+> Co-developed-by: Dariusz Sosnowski <dsosnowski@dsosnowski.pl>
+> Signed-off-by: Dariusz Sosnowski <dsosnowski@dsosnowski.pl>
+> Co-developed-by: Antonio Terceiro <antonio.terceiro@linaro.org>
+> Signed-off-by: Antonio Terceiro <antonio.terceiro@linaro.org>
+> Co-developed-by: Daniel Xu <dxu@dxuuu.xyz>
+> Signed-off-by: Daniel Xu <dxu@dxuuu.xyz>
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+> ---
+>  .gitignore                    |   5 +
+>  .rustfmt.toml                 |  12 ++
+>  Makefile                      | 146 +++++++++++++-
+>  arch/arm/rust/target.json     |  27 +++
+>  arch/arm64/rust/target.json   |  34 ++++
+>  arch/powerpc/rust/target.json |  29 +++
+>  arch/riscv/Makefile           |   1 +
+>  arch/riscv/rust/rv32ima.json  |  36 ++++
+>  arch/riscv/rust/rv32imac.json |  36 ++++
+>  arch/riscv/rust/rv64ima.json  |  36 ++++
+>  arch/riscv/rust/rv64imac.json |  36 ++++
+>  arch/x86/rust/target.json     |  36 ++++
+>  init/Kconfig                  |  31 ++-
+>  lib/Kconfig.debug             | 144 ++++++++++++++
+>  rust/.gitignore               |   7 +
+>  rust/Makefile                 | 353 ++++++++++++++++++++++++++++++++++
+>  rust/bindgen_parameters       |  13 ++
+>  scripts/Makefile.build        |  22 +++
+>  scripts/Makefile.debug        |  10 +
+>  scripts/Makefile.lib          |  12 ++
+>  scripts/Makefile.modfinal     |   8 +-
+>  scripts/is_rust_module.sh     |  19 ++
+>  scripts/kconfig/confdata.c    |  75 ++++++++
+>  scripts/rust-version.sh       |  31 +++
+>  24 files changed, 1147 insertions(+), 12 deletions(-)
+>  create mode 100644 .rustfmt.toml
+>  create mode 100644 arch/arm/rust/target.json
+>  create mode 100644 arch/arm64/rust/target.json
+>  create mode 100644 arch/powerpc/rust/target.json
+>  create mode 100644 arch/riscv/rust/rv32ima.json
+>  create mode 100644 arch/riscv/rust/rv32imac.json
+>  create mode 100644 arch/riscv/rust/rv64ima.json
+>  create mode 100644 arch/riscv/rust/rv64imac.json
+>  create mode 100644 arch/x86/rust/target.json
+>  create mode 100644 rust/.gitignore
+>  create mode 100644 rust/Makefile
+>  create mode 100644 rust/bindgen_parameters
+>  create mode 100755 scripts/is_rust_module.sh
+>  create mode 100755 scripts/rust-version.sh
+>
+> diff --git a/.gitignore b/.gitignore
+> index 7afd412dadd2..48c68948f476 100644
+> --- a/.gitignore
+> +++ b/.gitignore
+> @@ -37,6 +37,7 @@
+>  *.o
+>  *.o.*
+>  *.patch
+> +*.rmeta
+>  *.s
+>  *.so
+>  *.so.dbg
+> @@ -96,6 +97,7 @@ modules.order
+>  !.gitattributes
+>  !.gitignore
+>  !.mailmap
+> +!.rustfmt.toml
+>
+>  #
+>  # Generated include files
+> @@ -161,3 +163,6 @@ x509.genkey
+>
+>  # Documentation toolchain
+>  sphinx_*/
+> +
+> +# Rust analyzer configuration
+> +/rust-project.json
+> diff --git a/.rustfmt.toml b/.rustfmt.toml
+> new file mode 100644
+> index 000000000000..3de5cc497465
+> --- /dev/null
+> +++ b/.rustfmt.toml
+> @@ -0,0 +1,12 @@
+> +edition = "2021"
+> +newline_style = "Unix"
+> +
+> +# Unstable options that help catching some mistakes in formatting and that we may want to enable
+> +# when they become stable.
+> +#
+> +# They are kept here since they are useful to run from time to time.
+> +#format_code_in_doc_comments = true
+> +#reorder_impl_items = true
+> +#comment_width = 100
+> +#wrap_comments = true
+> +#normalize_comments = true
+> diff --git a/Makefile b/Makefile
+> index 0a6ecc8bb2d2..0f20ca9bd723 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -120,6 +120,13 @@ endif
+>
+>  export KBUILD_CHECKSRC
+>
+> +# Enable "clippy" (a linter) as part of the Rust compilation.
+> +#
+> +# Use 'make CLIPPY=1' to enable it.
+> +ifeq ("$(origin CLIPPY)", "command line")
+> +  KBUILD_CLIPPY := $(CLIPPY)
+> +endif
 
-Translate .../PCI/msi-howto.rst into Chinese.
+Do you really want to support CLIPPY=1
+in addition to KBUILD_CLIPPY=1 ?
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-Reviewed-by: Alex Shi <alexs@kernel.org>
----
- .../translations/zh_CN/PCI/index.rst          |   4 +-
- .../translations/zh_CN/PCI/msi-howto.rst      | 233 ++++++++++++++++++
- 2 files changed, 235 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/translations/zh_CN/PCI/msi-howto.rst
+(Refer to C=  V=  M=  O=, which checks $(origin ) )
 
-diff --git a/Documentation/translations/zh_CN/PCI/index.rst b/Documentation/translations/zh_CN/PCI/index.rst
-index 67860b7e5ac7..7e2c830b0148 100644
---- a/Documentation/translations/zh_CN/PCI/index.rst
-+++ b/Documentation/translations/zh_CN/PCI/index.rst
-@@ -24,11 +24,11 @@ Linux PCI总线子系统
-    pci
-    pciebus-howto
-    pci-iov-howto
-+   msi-howto
- 
--Todolist:
- 
-+Todolist:
- 
--   msi-howto
-    sysfs-pci
-    acpi-info
-    pci-error-recovery
-diff --git a/Documentation/translations/zh_CN/PCI/msi-howto.rst b/Documentation/translations/zh_CN/PCI/msi-howto.rst
-new file mode 100644
-index 000000000000..7ea4d50cdad2
---- /dev/null
-+++ b/Documentation/translations/zh_CN/PCI/msi-howto.rst
-@@ -0,0 +1,233 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: <isonum.txt>
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/PCI/msi-howto.rst
-+
-+:翻译:
-+
-+ 司延腾 Yanteng Si <siyanteng@loongson.cn>
-+
-+:校译:
-+
-+
-+
-+===========
-+MSI驱动指南
-+===========
-+
-+:作者: Tom L Nguyen; Martine Silbermann; Matthew Wilcox
-+
-+:版权: 2003, 2008 Intel Corporation
-+
-+关于本指南
-+==========
-+
-+本指南介绍了消息标记中断（MSI）的基本知识，使用MSI相对于传统中断机制的优势，如何
-+改变你的驱动程序以使用MSI或MSI-X，以及在设备不支持MSI时可以尝试的一些基本诊断方法。
-+
-+
-+什么是MSI?
-+==========
-+
-+信息信号中断是指从设备写到一个特殊的地址，导致CPU接收到一个中断。
-+
-+MSI能力首次在PCI 2.2中规定，后来在PCI 3.0中得到增强，允许对每个中断进行单独屏蔽。
-+MSI-X功能也随着PCI 3.0被引入。它比MSI支持每个设备更多的中断，并允许独立配置中断。
-+
-+设备可以同时支持MSI和MSI-X，但一次只能启用一个。
-+
-+
-+为什么用MSI?
-+============
-+
-+有三个原因可以说明为什么使用MSI比传统的基于针脚的中断有优势。
-+
-+基于针脚的PCI中断通常在几个设备之间共享。为了支持这一点，内核必须调用每个与中断相
-+关的中断处理程序，这导致了整个系统性能的降低。MSI从不共享，所以这个问题不会出现。
-+
-+当一个设备将数据写入内存，然后引发一个基于引脚的中断时，有可能在所有的数据到达内存
-+之前，中断就已经到达了（这在PCI-PCI桥后面的设备中变得更有可能）。为了确保所有的数
-+据已经到达内存中，中断处理程序必须在引发中断的设备上读取一个寄存器。PCI事务排序规
-+则要求所有的数据在返回寄存器的值之前到达内存。使用MSI可以避免这个问题，因为中断产
-+生的写入不能通过数据写入，所以当中断发生时，驱动程序知道所有的数据已经到达内存中。
-+
-+PCI设备每个功能只能支持一个基于引脚的中断。通常情况下，驱动程序必须查询设备以找出
-+发生了什么事件，这就减慢了对常见情况的中断处理。有了MSI，设备可以支持更多的中断，
-+允许每个中断被专门用于不同的目的。一种可能的设计是给不经常发生的情况（如错误）提供
-+自己的中断，这使得驱动程序可以更有效地处理正常的中断处理路径。其他可能的设计包括给
-+网卡的每个数据包队列或存储控制器的每个端口提供一个中断。
-+
-+
-+如何使用MSI
-+===========
-+
-+PCI设备被初始化为使用基于引脚的中断。设备驱动程序必须将设备设置为使用MSI或MSI-X。
-+并非所有的机器都能正确地支持MSI，对于这些机器，下面描述的API将简单地失败，设备将
-+继续使用基于引脚的中断。
-+
-+加入内核对MSI的支持
-+-------------------
-+
-+为了支持MSI或MSI-X，内核在构建时必须启用CONFIG_PCI_MSI选项。这个选项只在某些架
-+构上可用，而且它可能取决于其他一些选项的设置。例如，在x86上，你必须同时启用X86_UP_APIC
-+或SMP，才能看到CONFIG_PCI_MSI选项。
-+
-+使用MSI
-+-------
-+
-+大部分沉重的工作是在PCI层为驱动程序完成的。驱动程序只需要请求PCI层为这个设备设置
-+MSI功能。
-+
-+要自动使用MSI或MSI-X中断向量，请使用以下函数::
-+
-+  int pci_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
-+		unsigned int max_vecs, unsigned int flags);
-+
-+它为一个PCI设备分配最多至max_vecs的中断向量。它返回分配的向量数量或一个负的错误。
-+如果设备对最小数量的向量有要求，驱动程序可以传递一个min_vecs参数，设置为这个限制，
-+如果PCI核不能满足最小数量的向量，将返回-ENOSPC。
-+
-+flags参数用来指定设备和驱动程序可以使用哪种类型的中断（PCI_IRQ_LEGACY, PCI_IRQ_MSI,
-+PCI_IRQ_MSIX）。一个方便的短语（PCI_IRQ_ALL_TYPES）也可以用来要求任何可能的中断类型。
-+如果PCI_IRQ_AFFINITY标志被设置，pci_alloc_irq_vectors()将把中断分散到可用的CPU上。
-+
-+要获得传递给require_irq()和free_irq()的Linux IRQ号码和向量，请使用以下函数::
-+
-+  int pci_irq_vector(struct pci_dev *dev, unsigned int nr);
-+
-+在删除设备之前，应使用以下功能释放任何已分配的资源::
-+
-+  void pci_free_irq_vectors(struct pci_dev *dev);
-+
-+如果一个设备同时支持MSI-X和MSI功能，这个API将优先使用MSI-X，而不是MSI。MSI-X支
-+持1到2048之间的任何数量的中断。相比之下，MSI被限制为最多32个中断（而且必须是2的幂）。
-+此外，MSI中断向量必须连续分配，所以系统可能无法为MSI分配像MSI-X那样多的向量。在一
-+些平台上，MSI中断必须全部针对同一组CPU，而MSI-X中断可以全部针对不同的CPU。
-+
-+如果一个设备既不支持MSI-X，也不支持MSI，它就会退回到一个传统的IRQ向量。
-+
-+MSI或MSI-X中断的典型用法是分配尽可能多的向量，可能达到设备支持的极限。如果nvec大于
-+设备支持的数量，它将自动被限制在支持的限度内，所以没有必要事先查询支持的向量的数量。::
-+
-+	nvec = pci_alloc_irq_vectors(pdev, 1, nvec, PCI_IRQ_ALL_TYPES)
-+	if (nvec < 0)
-+		goto out_err;
-+
-+如果一个驱动程序不能或不愿意处理可变数量的MSI中断，它可以要求一个特定数量的中断，将该
-+数量作为“min_vecs“和“max_vecs“参数传递给pci_alloc_irq_vectors()函数。::
-+
-+	ret = pci_alloc_irq_vectors(pdev, nvec, nvec, PCI_IRQ_ALL_TYPES);
-+	if (ret < 0)
-+		goto out_err;
-+
-+上述请求类型的最臭名昭著的例子是为一个设备启用单一的MSI模式。它可以通过传递两个1作为
-+'min_vecs'和'max_vecs'来实现::
-+
-+	ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_ALL_TYPES);
-+	if (ret < 0)
-+		goto out_err;
-+
-+一些设备可能不支持使用传统的线路中断，在这种情况下，驱动程序可以指定只接受MSI或MSI-X。::
-+
-+	nvec = pci_alloc_irq_vectors(pdev, 1, nvec, PCI_IRQ_MSI | PCI_IRQ_MSIX);
-+	if (nvec < 0)
-+		goto out_err;
-+
-+传统API
-+-----------
-+
-+以下用于启用和禁用MSI或MSI-X中断的旧API不应该在新代码中使用::
-+
-+  pci_enable_msi()		/* deprecated */
-+  pci_disable_msi()		/* deprecated */
-+  pci_enable_msix_range()	/* deprecated */
-+  pci_enable_msix_exact()	/* deprecated */
-+  pci_disable_msix()		/* deprecated */
-+
-+此外，还有一些API来提供支持的MSI或MSI-X向量的数量：pci_msi_vec_count()和
-+pci_msix_vec_count()。一般来说，应该避免使用这些方法，而是让pci_alloc_irq_vectors()
-+来限制向量的数量。如果你对向量的数量有合法的特殊用例，我们可能要重新审视这个决定，
-+并增加一个pci_nr_irq_vectors()助手，透明地处理MSI和MSI-X。
-+
-+使用MSI时需要考虑的因素
-+-----------------------
-+
-+自旋锁
-+~~~~~~
-+
-+大多数设备驱动程序都有一个每的自旋锁，在中断处理程序中被占用。对于基于引脚的中断
-+或单一的MSI，没有必要禁用中断（Linux保证同一中断不会被重新输入）。如果一个设备
-+使用多个中断，驱动程序必须在锁被持有的时候禁用中断。如果设备发出一个不同的中断，
-+驱动程序将死锁，试图递归地获取自旋锁。这种死锁可以通过使用spin_lock_irqsave()
-+或spin_lock_irq()来避免，它们可以禁用本地中断并获取锁（见《不可靠的锁定指南》）。
-+
-+如何判断一个设备上是否启用了MSI/MSI-X
-+-------------------------------------
-+
-+使用“lspci -v“（以root身份）可能会显示一些具有“MSI“、“Message Signalled Interrupts“
-+或“MSI-X“功能的设备。这些功能中的每一个都有一个“启用“标志，后面是“+“（启用）
-+或“-“（禁用）。
-+
-+
-+MSI特性
-+=======
-+
-+众所周知，一些PCI芯片组或设备不支持MSI。PCI协议栈提供了三种禁用MSI的方法:
-+
-+1. 全局的
-+2. 在一个特定的桥后面的所有设备上
-+3. 在单一设备上
-+
-+全局禁用MSI
-+-----------
-+
-+一些主控芯片组根本无法正确支持MSI。如果我们幸运的话，制造商知道这一点，并在
-+ACPI FADT表中指明了它。在这种情况下，Linux会自动禁用MSI。有些板卡在表中没
-+有包括这一信息，因此我们必须自己检测它们。完整的列表可以在drivers/pci/quirks.c
-+中的quirk_disable_all_msi()函数附近找到。
-+
-+如果你有一块有MSI问题的板子，你可以在内核命令行中传递pci=nomsi来禁用所有设
-+备上的MSI。你最好把问题报告给linux-pci@vger.kernel.org，包括完整的
-+“lspci -v“，这样我们就可以把这些怪癖添加到内核中。
-+
-+禁用桥下的MSI
-+-------------
-+
-+一些PCI桥接器不能在总线之间正确地路由MSI。在这种情况下，必须在桥接器后面的所
-+有设备上禁用MSI。
-+
-+一些桥接器允许你通过改变PCI配置空间的一些位来启用MSI（特别是Hypertransport
-+芯片组，如nVidia nForce和Serverworks HT2000）。与主机芯片组一样，Linux大
-+多知道它们，如果可以的话，会自动启用MSI。如果你有一个Linux不知道的网桥，你可以
-+用你知道的任何方法在配置空间中启用MSI，然后通过以下方式在该网桥上启用MSI::
-+
-+       echo 1 > /sys/bus/pci/devices/$bridge/msi_bus
-+
-+其中$bridge是你所启用的桥的PCI地址（例如0000:00:0e.0）。
-+
-+要禁用MSI，请回显0而不是1。改变这个值应该谨慎进行，因为它可能会破坏这个桥下面所
-+有设备的中断处理。
-+
-+同样，请通知 linux-pci@vger.kernel.org 任何需要特殊处理的桥。
-+
-+在单一设备上关闭MSIs
-+--------------------
-+
-+众所周知，有些设备的MSI实现是有问题的。通常情况下，这是在单个设备驱动程序中处理的，
-+但偶尔也有必要用一个古怪的方法来处理。一些驱动程序有一个选项可以禁用MSI的使用。虽然
-+这对驱动程序的作者来说是一个方便的变通办法，但这不是一个好的做法，不应该被模仿。
-+
-+寻找设备上MSI被禁用的原因
-+-------------------------
-+
-+从以上三个部分，你可以看到有许多原因导致MSI没有在某个设备上被启用。你的第一步应该是
-+仔细检查你的dmesg以确定你的机器是否启用了MSI。你还应该检查你的.config以确定你已经
-+启用了CONFIG_PCI_MSI。
-+
-+然后，“lspci -t“给出一个设备上面的网列表。读取 ``/sys/bus/pci/devices/*/msi_bus``
-+将告诉你MSI是否被启用（1）或禁用（0）。如果在任何属于PCI根和设备之间的桥的msi_bus
-+文件中发现0，说明MSI被禁用。
-+
-+也需要检查设备驱动程序，看它是否支持MSI。例如，它可能包含对带有PCI_IRQ_MSI或
-+PCI_IRQ_MSIX标志的pci_alloc_irq_vectors（）的调用。
+
+
+>
+>  KBUILD_LDFLAGS_MODULE += --build-id=sha1
+>  LDFLAGS_vmlinux += --build-id=sha1
+> @@ -1095,6 +1163,11 @@ ifeq ($(KBUILD_EXTMOD),)
+>  core-y                 += kernel/ certs/ mm/ fs/ ipc/ security/ crypto/
+>  core-$(CONFIG_BLOCK)   += block/
+>
+> +# Keep this one as an `ifdef` block since its `Makefile` runs `rustc`.
+> +ifdef CONFIG_RUST
+> +core-y                 += rust/
+> +endif
+
+
+
+Is there any reason why
+you did not write like
+
+  core-$(CONFIG_RUST)  += rust/
+
+?
+
+
+
+
+
+
+
+
+> diff --git a/rust/.gitignore b/rust/.gitignore
+> new file mode 100644
+> index 000000000000..168cb26a31b9
+> --- /dev/null
+> +++ b/rust/.gitignore
+> @@ -0,0 +1,7 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +bindings_generated.rs
+> +bindings_helpers_generated.rs
+> +exports_*_generated.h
+> +doc/
+> +test/
+> diff --git a/rust/Makefile b/rust/Makefile
+> new file mode 100644
+> index 000000000000..2d08314e7031
+> --- /dev/null
+> +++ b/rust/Makefile
+> @@ -0,0 +1,353 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +obj-$(CONFIG_RUST) += core.o compiler_builtins.o helpers.o
+> +extra-$(CONFIG_RUST) += exports_core_generated.h
+> +
+> +extra-$(CONFIG_RUST) += libmacros.so
+> +
+> +extra-$(CONFIG_RUST) += bindings_generated.rs bindings_helpers_generated.rs
+> +obj-$(CONFIG_RUST) += alloc.o kernel.o
+> +extra-$(CONFIG_RUST) += exports_alloc_generated.h exports_kernel_generated.h
+> +
+> +ifdef CONFIG_RUST_BUILD_ASSERT_DENY
+> +extra-$(CONFIG_RUST) += build_error.o
+> +else
+> +obj-$(CONFIG_RUST) += build_error.o
+> +endif
+
+
+extra-y does nothing for 'make modules'.
+Is this your expected behavior?
+
+(commit d0e628cd817f3)
+
+
+
+
+
+> +$(objtree)/rust/build_error.o: $(srctree)/rust/build_error.rs \
+> +    $(objtree)/rust/compiler_builtins.o FORCE
+> +       $(call if_changed_dep,rustc_library)
+> +
+> +# ICE on `--extern macros`: https://github.com/rust-lang/rust/issues/56935
+> +$(objtree)/rust/kernel.o: private rustc_target_flags = --extern alloc \
+> +    --extern build_error \
+> +    --extern macros=$(objtree)/rust/libmacros.so
+> +$(objtree)/rust/kernel.o: $(srctree)/rust/kernel/lib.rs $(objtree)/rust/alloc.o \
+> +    $(objtree)/rust/build_error.o \
+> +    $(objtree)/rust/libmacros.so $(objtree)/rust/bindings_generated.rs \
+> +    $(objtree)/rust/bindings_helpers_generated.rs FORCE
+> +       $(call if_changed_dep,rustc_library)
+> +
+> +# Targets that need to expand twice
+> +.SECONDEXPANSION:
+
+Why is .SECONDEXPANSION: needed ?
+
+
+
+
+
 -- 
-2.27.0
-
+Best Regards
+Masahiro Yamada
