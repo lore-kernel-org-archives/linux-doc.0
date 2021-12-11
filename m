@@ -2,381 +2,439 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C19DFC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 10 Dec 2021 23:08:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3C17C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 11 Dec 2021 00:33:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344715AbhLJXME (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Dec 2021 18:12:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37744 "EHLO
+        id S244015AbhLKAhK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 10 Dec 2021 19:37:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240546AbhLJXME (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Dec 2021 18:12:04 -0500
-Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com [IPv6:2607:f8b0:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAC9DC0617A1
-        for <linux-doc@vger.kernel.org>; Fri, 10 Dec 2021 15:08:28 -0800 (PST)
-Received: by mail-ot1-x32c.google.com with SMTP id v15-20020a9d604f000000b0056cdb373b82so11154559otj.7
-        for <linux-doc@vger.kernel.org>; Fri, 10 Dec 2021 15:08:28 -0800 (PST)
+        with ESMTP id S237517AbhLKAhK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Dec 2021 19:37:10 -0500
+Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8D4AC061714
+        for <linux-doc@vger.kernel.org>; Fri, 10 Dec 2021 16:33:34 -0800 (PST)
+Received: by mail-io1-xd36.google.com with SMTP id m9so12331801iop.0
+        for <linux-doc@vger.kernel.org>; Fri, 10 Dec 2021 16:33:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=dat5kyZKot4IhlMKiuB4dKQqIsQxOxcE3gpS3KNZLgk=;
-        b=sOrn1km2+Ttm9WOZyPMMIl/kBn17/TbnfKGx/uHYXwNH9eGTUrBSo6lbZQtrr4nKa1
-         MvpPRevYhXpMZPWQ1S/PA4ZC5uPzi2dmoHzhoy8cA9DPSsbxZfYV0crQ8YpCLqd2jDKy
-         D39DQanYyCjasM9aD4TilJ5xx8YvGd7akjl5uAkys33rxfMvB1h7N/aRbl2isYv0proH
-         c1jnIzovZRIL2uHXqoRm1BP1BHdWlGNkaSgmesfEjtMqe254UPnRThlpxKryngX93lUX
-         CGPwsh7jo35/imthbkwYTkXSDYQ3AKbhycNDLq2nviEwap49vbKFrwqTwyzGqcc50Iq8
-         sTkQ==
+        bh=eWPat22ufI2REogLjr2h39yFiWCa0WHBTChMoQswpQQ=;
+        b=WNeO8tESggtbjZEYDi5YBT4J8+JfmQVrKFWSMkyMFI/Ah2HCJZUtCOgLIVvNZSQM0o
+         T+JzkXPH+OOnhNIGt3KNRzGydlY6kA5LBGyfHOa3cQl6ZZje7KIGM75HvCZJxcAcTFVO
+         vVbimJuOnAS6L6x0WvtsN68pKp/cneXTpaCf/mCAxeoKb6N5Wag77hawGCgP06qxy9Au
+         TJ5BZqiZpUL8T0yHkuRMQEWxu9WrJZKy6/28f51V0FX2dbH+Z+h+r+8VSKg9ApCROLny
+         KQdrAVrCdVHmvnDRQu3OLtH+YWsrZWqwK+xJ9jtU5Sirl4XevlW2Un9N+f5d/pSk/wJv
+         2y0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=dat5kyZKot4IhlMKiuB4dKQqIsQxOxcE3gpS3KNZLgk=;
-        b=SamEgnHEQaJALmiMF/2P8xPS7W+Evk5OE2Axp//hVyPJVL67GzJ/WucaOJ5/koMCiC
-         F6AetPhndlj1wA170Dl1hXqpP2doNQ3y3z4ShPUIPNMLQZ+gPXfSQMhCl2BTOHo5Ok7C
-         gTDY09knxAwSZ8PSDBNDz5IHJrWJHCSqiD6yOUc90CwVdmusnQOE1NVUkkUxdNCOnHSy
-         LJF9JHTNvudbi9hstQIj4T+8lYyJWwWG5zDL9/NjruWOOk9F8BbR+SaW5hTHdNcfMH1K
-         1OEElH7anQhycZJ6ZHqhamavfKjoKnuA4pXBV4GMDKcES2WKq9OQrrvWtEHwJWJ17Y4a
-         JfUw==
-X-Gm-Message-State: AOAM530Hp7265g2XQMcpUBocC50RHjHsHMaUJLuBzZOMvnaHe20lQgAQ
-        xsJH23UGUstH1tRJCNBXIVoeLFUncQyTTaoezRyj11dMwgFuLg==
-X-Google-Smtp-Source: ABdhPJy1fOr05bX3PtKi9zjSdRhoxOoeVhC6R6UsQU4dVXwK30j5fpXdbkIesfZoLKccjogt4lfyFXyl2Rx4BeUeEas=
-X-Received: by 2002:a9d:2ae1:: with SMTP id e88mr13060622otb.157.1639177707630;
- Fri, 10 Dec 2021 15:08:27 -0800 (PST)
+        bh=eWPat22ufI2REogLjr2h39yFiWCa0WHBTChMoQswpQQ=;
+        b=66UxUDcqpO1qNULcGha2hNFcbQwlwCBsMLVvy3nEDOHZot4ywE+AfSNgOEOTl0T1qC
+         i4nr4ixI5tFoD6C3u0y1GXQZyDpwYX+dPYqYfx8VYO8xyqDH5oHvgCqTAZUumu/UQFNW
+         qbiukcsHlDxi3XZsMr1+hBibgh95Hx/WpC9dhmP8j7Pmkl+Aw6RN4sW2zDRAjeAR4Bds
+         fxrck1MvZ2SVuesWFZM3w/H/dLBCaip0qeC3BnSJ61nj1an2vvmn/64mADrpzfCMus4m
+         bZN14kHlDOMiL4+a96/r+1W8kKNSpbN7MtgbhqMh+fu8UBEtKIxUx9qcfLyUpm9XQkHY
+         bECA==
+X-Gm-Message-State: AOAM533YqslsQOrbKxOWJ7uDk1KXoQbzKE3DqP6BaDEWDhyA4ZQ8xr+G
+        zffqcPBQa9i7eaUzAc/swCjz2+ihPF08rm6FLjo=
+X-Google-Smtp-Source: ABdhPJw9wMDwVGuaolpOnWdpemUAFHnoS6LiRCUS0RZ06iLB0JOWsH0/aYkqHpPrK8fpKVyKnSluPrFP0prWDeZnsSE=
+X-Received: by 2002:a6b:7a0c:: with SMTP id h12mr21894444iom.176.1639182813749;
+ Fri, 10 Dec 2021 16:33:33 -0800 (PST)
 MIME-Version: 1.0
-References: <20211207054019.1455054-1-sharinder@google.com> <20211207054019.1455054-4-sharinder@google.com>
-In-Reply-To: <20211207054019.1455054-4-sharinder@google.com>
-From:   Marco Elver <elver@google.com>
-Date:   Sat, 11 Dec 2021 00:08:16 +0100
-Message-ID: <CANpmjNORiy0Zq7T=C-izJSZjwhisATDQiv1+fBs1iEnHcx0WQw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/7] Documentation: KUnit: Added KUnit Architecture
-To:     Harinder Singh <sharinder@google.com>
-Cc:     davidgow@google.com, brendanhiggins@google.com, shuah@kernel.org,
-        corbet@lwn.net, linux-kselftest@vger.kernel.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Tim.Bird@sony.com
+References: <20211210100322.1490-1-tangyizhou@huawei.com> <20211210100322.1490-2-tangyizhou@huawei.com>
+ <CAEensMxJwYxNZFJvj3dExVNY2+xzJ5rOx83--faE0C8PQ1A3_g@mail.gmail.com>
+ <CAOB9oOZiJgkRY1L16Z5MNmcL4-zYFCm8MgQ2u0bgdz_026ZdFw@mail.gmail.com> <CAOB9oOaqo6ap5pAxzz36wmc++rhsRf83c775BxG_3bcuUpYvrg@mail.gmail.com>
+In-Reply-To: <CAOB9oOaqo6ap5pAxzz36wmc++rhsRf83c775BxG_3bcuUpYvrg@mail.gmail.com>
+From:   Alex Shi <seakeel@gmail.com>
+Date:   Sat, 11 Dec 2021 08:33:04 +0800
+Message-ID: <CAJy-Am=BsaRYRPvMoCiwb9A2_S6wkpFCHD-PK6Rn3ibhngsjuA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] docs/zh-CN: Add sched-capacity Chinese translation
+To:     Yeechou Tang <tangyeechou@gmail.com>
+Cc:     yanteng si <siyanteng01@gmail.com>,
+        Tang Yizhou <tangyizhou@huawei.com>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Alex Shi <alexs@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, zhengbin13@huawei.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 7 Dec 2021 at 06:41, 'Harinder Singh' via KUnit Development
-<kunit-dev@googlegroups.com> wrote:
->
-> Describe the components of KUnit and how the kernel mode parts
-> interact with kunit_tool.
->
-> Signed-off-by: Harinder Singh <sharinder@google.com>
-> ---
-
-You are including several external links to kernel sources via
-elixir.bootlin.com. This should be avoided, where kernel.org
-alternatives exist.
-
-See one of my comments below which gives an example how you can avoid
-this, either by providing a kernel.org link, or better, rendering the
-kernel-doc in ReST where appropriate. You should be able to test this
-with "make htmldocs".
-
->  .../dev-tools/kunit/architecture.rst          | 206 ++++++++++++++++++
->  Documentation/dev-tools/kunit/index.rst       |   2 +
->  .../kunit/kunit_suitememorydiagram.png        | Bin 0 -> 24174 bytes
->  Documentation/dev-tools/kunit/start.rst       |   1 +
->  4 files changed, 209 insertions(+)
->  create mode 100644 Documentation/dev-tools/kunit/architecture.rst
->  create mode 100644 Documentation/dev-tools/kunit/kunit_suitememorydiagra=
-m.png
->
-> diff --git a/Documentation/dev-tools/kunit/architecture.rst b/Documentati=
-on/dev-tools/kunit/architecture.rst
-> new file mode 100644
-> index 000000000000..bb0fb3e3ed01
-> --- /dev/null
-> +++ b/Documentation/dev-tools/kunit/architecture.rst
-> @@ -0,0 +1,206 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +KUnit Architecture
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +The KUnit architecture can be divided into two parts:
-> +
-> +- Kernel testing library
-> +- kunit_tool (Command line test harness)
-> +
-> +In-Kernel Testing Framework
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-> +
-> +The kernel testing library supports KUnit tests written in C using
-> +KUnit. KUnit tests are kernel code. KUnit does several things:
-> +
-> +- Organizes tests
-> +- Reports test results
-> +- Provides test utilities
-> +
-> +Test Cases
-> +----------
-> +
-> +The fundamental unit in KUnit is the test case. The KUnit test cases are
-> +grouped into KUnit suites. A KUnit test case is a function with type
-> +signature ``void (*)(struct kunit *test)``.
-> +These test case functions are wrapped in a struct called
-> +``struct kunit_case``. For code, see:
-> +https://elixir.bootlin.com/linux/latest/source/include/kunit/test.h#L145
-> +
-> +It includes:
-> +
-> +- ``run_case``: the function implementing the actual test case.
-> +- ``name``: the test case name.
-> +- ``generate_params``: the parameterized tests generator function. This
-> +  is optional for non-parameterized tests.
-> +
-> +Each KUnit test case gets a ``struct kunit`` context
-> +object passed to it that tracks a running test. The KUnit assertion
-> +macros and other KUnit utilities use the ``struct kunit`` context
-> +object. As an exception, there are two fields:
-> +
-> +- ``->priv``: The setup functions can use it to store arbitrary test
-> +  user data.
-> +
-> +- ``->param_value``: It contains the parameter value which can be
-> +  retrieved in the parameterized tests.
-> +
-> +Test Suites
-> +-----------
-> +
-> +A KUnit suite includes a collection of test cases. The KUnit suites
-> +are represented by the ``struct kunit_suite``. For example:
-> +
-> +.. code-block:: c
-> +
-> +       static struct kunit_case example_test_cases[] =3D {
-> +               KUNIT_CASE(example_test_foo),
-> +               KUNIT_CASE(example_test_bar),
-> +               KUNIT_CASE(example_test_baz),
-> +               {}
-> +       };
-> +
-> +       static struct kunit_suite example_test_suite =3D {
-> +               .name =3D "example",
-> +               .init =3D example_test_init,
-> +               .exit =3D example_test_exit,
-> +               .test_cases =3D example_test_cases,
-> +       };
-> +       kunit_test_suite(example_test_suite);
-> +
-> +In the above example, the test suite ``example_test_suite``, runs the
-> +test cases ``example_test_foo``, ``example_test_bar``, and
-> +``example_test_baz``. Before running the test, the ``example_test_init``
-> +is called and after running the test, ``example_test_exit`` is called.
-> +The ``kunit_test_suite(example_test_suite)`` registers the test suite
-> +with the KUnit test framework.
-> +
-> +Executor
-> +--------
-> +
-> +The KUnit executor can list and run built-in KUnit tests on boot.
-> +The Test suites are stored in a linker section
-> +called ``.kunit_test_suites``. For code, see:
-> +https://elixir.bootlin.com/linux/v5.12/source/include/asm-generic/vmlinu=
-x.lds.h#L918.
-> +The linker section consists of an array of pointers to
-> +``struct kunit_suite``, and is populated by the ``kunit_test_suites()``
-> +macro. To run all tests compiled into the kernel, the KUnit executor
-> +iterates over the linker section array.
-> +
-> +.. kernel-figure:: kunit_suitememorydiagram.png
-> +       :alt:   KUnit Suite Memory
-> +
-> +       KUnit Suite Memory Diagram
-> +
-> +On the kernel boot, the KUnit executor uses the start and end addresses
-> +of this section to iterate over and run all tests. For code, see:
-> +https://elixir.bootlin.com/linux/latest/source/lib/kunit/executor.c
-> +
-> +When built as a module, the ``kunit_test_suites()`` macro defines a
-> +``module_init()`` function, which runs all the tests in the compilation
-> +unit instead of utilizing the executor.
-> +
-> +In KUnit tests, some error classes do not affect other tests
-> +or parts of the kernel, each KUnit case executes in a separate thread
-> +context. For code, see:
-> +https://elixir.bootlin.com/linux/latest/source/lib/kunit/try-catch.c#L58
-> +
-> +Assertion Macros
-> +----------------
-> +
-> +KUnit tests verify state using expectations/assertions.
-> +All expectations/assertions are formatted as:
-> +``KUNIT_{EXPECT|ASSERT}_<op>[_MSG](kunit, property[, message])``
-> +
-> +- ``{EXPECT|ASSERT}`` determines whether the check is an assertion or an
-> +  expectation.
-> +
-> +       - For an expectation, if the check fails, marks the test as faile=
-d
-> +         and logs the failure.
-> +
-> +       - An assertion, on failure, causes the test case to terminate
-> +         immediately.
-> +
-> +               - Assertions call function:
-> +                 ``void __noreturn kunit_abort(struct kunit *)``.
-> +
-> +               - ``kunit_abort`` calls function:
-> +                 ``void __noreturn kunit_try_catch_throw(struct kunit_tr=
-y_catch *try_catch)``.
-> +
-> +               - ``kunit_try_catch_throw`` calls function:
-> +                 ``void complete_and_exit(struct completion *, long) __n=
-oreturn;``
-> +                 and terminates the special thread context.
-> +
-> +- ``<op>`` denotes a check with options: ``TRUE`` (supplied property
-> +  has the boolean value =E2=80=9Ctrue=E2=80=9D), ``EQ`` (two supplied pr=
-operties are
-> +  equal), ``NOT_ERR_OR_NULL`` (supplied pointer is not null and does not
-> +  contain an =E2=80=9Cerr=E2=80=9D value).
-> +
-> +- ``[_MSG]`` prints a custom message on failure.
-> +
-> +Test Result Reporting
-> +---------------------
-> +KUnit prints test results in KTAP format. KTAP is based on TAP14, see:
-> +https://github.com/isaacs/testanything.github.io/blob/tap14/tap-version-=
-14-specification.md.
-> +KTAP (yet to be standardized format) works with KUnit and Kselftest.
-> +The KUnit executor prints KTAP results to dmesg, and debugfs
-> +(if configured).
-> +
-> +Parameterized Tests
-> +-------------------
-> +
-> +Each KUnit parameterized test is associated with a collection of
-> +parameters. The test is invoked multiple times, once for each parameter
-> +value and the parameter is stored in the ``param_value`` field.
-> +The test case includes a ``KUNIT_CASE_PARAM()`` macro that accepts a
-> +generator function.
-> +The generator function returns the next parameter given to the
-> +previous parameter in parameterized tests. It also provides a macro to
-> +generate common-case generators based on arrays.
-> +
-> +For code, see:
-> +https://elixir.bootlin.com/linux/v5.12/source/include/kunit/test.h#L1783
-
-This is a link to an external mirror of the kernel, which should not
-be used. If you must point to a specific version and line of the
-kernel, use a kernel.org link:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/inc=
-lude/kunit/test.h?h=3Dv5.15#n1872
-
-and ideally using a ReST link.
-
-Furthermore, ReST actually lets you select to inline certain
-documentation, which would be appropriate in this case. This can be
-done via the ".. kernel-doc: <file>" directive, and you can select
-which identifier you want to render in the final document. See
-https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#including-=
-kernel-doc-comments
-
-> +
-> +kunit_tool (Command Line Test Harness)
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +kunit_tool is a Python script ``(tools/testing/kunit/kunit.py)``
-> +that can be used to configure, build, exec, parse and run (runs other
-> +commands in order) test results. You can either run KUnit tests using
-> +kunit_tool or can include KUnit in kernel and parse manually.
-> +
-> +- ``configure`` command generates the kernel ``.config`` from a
-> +  ``.kunitconfig`` file (and any architecture-specific options).
-> +  For some architectures, additional config options are specified in the
-> +  ``qemu_config`` Python script
-> +  (For example: ``tools/testing/kunit/qemu_configs/powerpc.py``).
-> +  It parses both the existing ``.config`` and the ``.kunitconfig`` files
-> +  and ensures that ``.config`` is a superset of ``.kunitconfig``.
-> +  If this is not the case, it will combine the two and run
-> +  ``make olddefconfig`` to regenerate the ``.config`` file. It then
-> +  verifies that ``.config`` is now a superset. This checks if all
-> +  Kconfig dependencies are correctly specified in ``.kunitconfig``.
-> +  ``kunit_config.py`` includes the parsing Kconfigs code. The code which
-> +  runs ``make olddefconfig`` is a part of ``kunit_kernel.py``. You can
-> +  invoke this command via: ``./tools/testing/kunit/kunit.py config`` and
-> +  generate a ``.config`` file.
-> +- ``build`` runs ``make`` on the kernel tree with required options
-> +  (depends on the architecture and some options, for example: build_dir)
-> +  and reports any errors.
-> +  To build a KUnit kernel from the current ``.config``, you can use the
-> +  ``build`` argument: ``./tools/testing/kunit/kunit.py build``.
-> +- ``exec`` command executes kernel results either directly (using
-> +  User-mode Linux configuration), or via an emulator such
-> +  as QEMU. It reads results from the log via standard
-> +  output (stdout), and passes them to ``parse`` to be parsed.
-> +  If you already have built a kernel with built-in KUnit tests,
-> +  you can run the kernel and display the test results with the ``exec``
-> +  argument: ``./tools/testing/kunit/kunit.py exec``.
-> +- ``parse`` extracts the KTAP output from a kernel log, parses
-> +  the test results, and prints a summary. For failed tests, any
-> +  diagnostic output will be included.
-> diff --git a/Documentation/dev-tools/kunit/index.rst b/Documentation/dev-=
-tools/kunit/index.rst
-> index ebf4bffaa1ca..75e4ae85adbb 100644
-> --- a/Documentation/dev-tools/kunit/index.rst
-> +++ b/Documentation/dev-tools/kunit/index.rst
-> @@ -9,6 +9,7 @@ KUnit - Linux Kernel Unit Testing
->         :caption: Contents:
->
->         start
-> +       architecture
->         usage
->         kunit-tool
->         api/index
-> @@ -96,6 +97,7 @@ How do I use it?
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
->  *   Documentation/dev-tools/kunit/start.rst - for KUnit new users.
-> +*   Documentation/dev-tools/kunit/architecture.rst - KUnit architecture.
->  *   Documentation/dev-tools/kunit/usage.rst - KUnit features.
->  *   Documentation/dev-tools/kunit/tips.rst - best practices with
->      examples.
-> diff --git a/Documentation/dev-tools/kunit/kunit_suitememorydiagram.png b=
-/Documentation/dev-tools/kunit/kunit_suitememorydiagram.png
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..a1aa7c3b0f63edfea83eb1cef=
-3e2257b47b5ca7b
-> GIT binary patch
-
-I think adding binary blobs like this is quite unusual.
-
-There currently are no .png files in the kernel repo, and this would
-be the first.
-
-How difficult is it to create an ascii diagram?
-
-> diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-=
-tools/kunit/start.rst
-> index 55f8df1abd40..5dd2c88fa2bd 100644
-> --- a/Documentation/dev-tools/kunit/start.rst
-> +++ b/Documentation/dev-tools/kunit/start.rst
-> @@ -240,6 +240,7 @@ Congrats! You just wrote your first KUnit test.
->  Next Steps
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
-> +*   Documentation/dev-tools/kunit/architecture.rst - KUnit architecture.
->  *   Documentation/dev-tools/kunit/usage.rst - KUnit features.
->  *   Documentation/dev-tools/kunit/tips.rst - best practices with
->      examples.
-> --
-> 2.34.1.400.ga245620fadb-goog
->
-> --
-> You received this message because you are subscribed to the Google Groups=
- "KUnit Development" group.
-> To unsubscribe from this group and stop receiving emails from it, send an=
- email to kunit-dev+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgi=
-d/kunit-dev/20211207054019.1455054-4-sharinder%40google.com.
+T24gRnJpLCBEZWMgMTAsIDIwMjEgYXQgMTE6MTEgUE0gWWVlY2hvdSBUYW5nIDx0YW5neWVlY2hv
+dUBnbWFpbC5jb20+IHdyb3RlOg0KPg0KPiBZZWVjaG91IFRhbmcgPHRhbmd5ZWVjaG91QGdtYWls
+LmNvbT4g5LqOMjAyMeW5tDEy5pyIMTDml6XlkajkupQgMjI6NTPlhpnpgZPvvJoNCj4+DQo+PiB5
+YW50ZW5nIHNpIDxzaXlhbnRlbmcwMUBnbWFpbC5jb20+IOS6jjIwMjHlubQxMuaciDEw5pel5ZGo
+5LqUIDE5OjAz5YaZ6YGT77yaDQo+Pj4NCj4+PiBUYW5nIFlpemhvdSA8dGFuZ3lpemhvdUBodWF3
+ZWkuY29tPiDkuo4yMDIx5bm0MTLmnIgxMOaXpeWRqOS6lCAxNzozNeWGmemBk++8mg0KPj4+IFN1
+YmplY3QNCj4+PiBkb2NzL3poLUNOOiAtPiBkb2NzL3poX0NOOg0KPj4+DQo+Pj4gPg0KPj4+ID4g
+VHJhbnNsYXRlIHNjaGVkdWxlci9zY2hlZC1jYXBhY2l0eS5yc3QgaW50byBDaGluZXNlLg0KPj4+
+ID4NCj4+PiA+IFNpZ25lZC1vZmYtYnk6IFRhbmcgWWl6aG91IDx0YW5neWl6aG91QGh1YXdlaS5j
+b20+DQo+Pj4gPiAtLS0NCj4+PiA+ICAuLi4vemhfQ04vc2NoZWR1bGVyL3NjaGVkLWNhcGFjaXR5
+LnJzdCAgICAgICAgfCAzOTcgKysrKysrKysrKysrKysrKysrDQo+Pj4gPiAgMSBmaWxlIGNoYW5n
+ZWQsIDM5NyBpbnNlcnRpb25zKCspDQo+Pj4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50
+YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3NjaGVkdWxlci9zY2hlZC1jYXBhY2l0eS5yc3QNCj4+
+PiA+DQo+Pj4gPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04v
+c2NoZWR1bGVyL3NjaGVkLWNhcGFjaXR5LnJzdCBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25z
+L3poX0NOL3NjaGVkdWxlci9zY2hlZC1jYXBhY2l0eS5yc3QNCj4+PiA+IG5ldyBmaWxlIG1vZGUg
+MTAwNjQ0DQo+Pj4gPiBpbmRleCAwMDAwMDAwMDAwMDAuLjlhMTYzM2EyYTU3Yw0KPj4+ID4gLS0t
+IC9kZXYvbnVsbA0KPj4+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04v
+c2NoZWR1bGVyL3NjaGVkLWNhcGFjaXR5LnJzdA0KPj4+ID4gQEAgLTAsMCArMSwzOTcgQEANCj4+
+PiA+ICsuLiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMA0KPj4+ID4gKy4uIGluY2x1
+ZGU6OiAuLi9kaXNjbGFpbWVyLXpoX0NOLnJzdA0KPj4+ID4gKw0KPj4+ID4gKzpPcmlnaW5hbDog
+RG9jdW1lbnRhdGlvbi9zY2hlZHVsZXIvc2NoZWQtY2FwYWNpdHkucnN0DQo+Pj4gPiArDQo+Pj4g
+PiArOue/u+ivkToNCj4+PiA+ICsNCj4+PiA+ICsgICAgICAg5ZSQ6Im66IifIFRhbmcgWWl6aG91
+IDx0YW5neWVlY2hvdUBnbWFpbC5jb20+DQo+Pj4gPiArDQo+Pj4gPiArOuagoeivkToNCj4+PiA+
+ICsNCj4+PiA+ICsgIOaXtuWljuS6riBBbGV4IFNoaSA8YWxleHNAa2VybmVsLm9yZz4NCj4+PiBT
+aWduYXR1cmUgbmVlZHMgdG8gYmUgYWxpZ25lZC4NCj4+PiA+ICsNCj4+PiA+ICs9PT09PT09PT09
+PT09DQo+Pj4gPiAr566X5Yqb5oSf55+l6LCD5bqmDQo+Pj4gPiArPT09PT09PT09PT09PQ0KPj4+
+ID4gKw0KPj4+ID4gKzEuIENQVeeul+WKmw0KPj4+ID4gKz09PT09PT09PT0NCj4+PiA+ICsNCj4+
+PiA+ICsxLjEg566A5LuLDQo+Pj4gPiArLS0tLS0tLS0NCj4+PiA+ICsNCj4+PiA+ICvkuIDoiKzm
+naXor7TvvIzlkIzmnoTnmoRTTVDlubPlj7DnlLHlrozlhajnm7jlkIznmoRDUFXmnoTmiJDjgILl
+vILmnoTnmoTlubPlj7DliJnnlLHmgKfog73nibnlvoHkuI3lkIznmoRDUFXmnoTmiJDvvIwNCj4+
+PiA+ICvlnKjov5nmoLfnmoTlubPlj7DkuK3vvIxDUFXkuI3og73ooqvorqTkuLrmmK/nm7jlkIzn
+moTjgIINCj4+PiA+ICsNCj4+PiA+ICvmiJHku6zlvJXlhaVDUFXnrpflipvvvIhjYXBhY2l0ee+8
+ieeahOamguW/teadpea1i+mHj+avj+S4qkNQVeiDvei+vuWIsOeahOaAp+iDve+8jA0KPj4+ID4g
+K+Wug+eahOWAvOebuOWvueezu+e7n+S4reaAp+iDveacgOW8uueahENQVeWBmui/h+W9kuS4gOWM
+luWkhOeQhuOAguW8guaehOezu+e7n+S5n+iiq+ensOS4uumdnuWvueensENQVeeul+WKm+ezu+e7
+n++8jA0KPj4+ID4gK+WboOS4uuWug+S7rOeUseS4jeWQjOeul+WKm+eahENQVee7hOaIkOOAgg0K
+Pj4+ID4gKw0KPj4+ID4gK+acgOWkp+WPr+i+vuaAp+iDve+8iOaNouiogOS5i++8jOacgOWkp0NQ
+Veeul+WKm++8ieeahOW3ruW8guacieS4pOS4quS4u+imgeadpea6kDoNCj4+PiA+ICsNCj4+PiA+
+ICstIOS4jeaYr+aJgOaciUNQVeeahOW+ruaetuaehOmDveebuOWQjOOAgg0KPj4+ID4gKy0g5Zyo
+5Yqo5oCB55S15Y6L6aKR546H5Y2H6ZmN77yIRHluYW1pYyBWb2x0YWdlIGFuZCBGcmVxdWVuY3kg
+U2NhbGluZ++8jERWRlPvvInmoYbmnrbkuK3vvIwNCj4+PiA+ICsgIOS4jeaYr+aJgOacieeahENQ
+VemDveiDvei+vuWIsOS4gOagt+mrmOeahOaTjeS9nOaAp+iDveWAvA0KPj4+ID4gKyAg77yIT3Bl
+cmF0aW5nIFBlcmZvcm1hbmNlIFBvaW50c++8jE9QUOOAguivkeazqO+8jOS5n+WwseaYr+KAnOmi
+keeOhy3nlLXljovigJ3lr7nvvInjgIINCj4+PiA+ICsNCj4+PiA+ICtBcm3lpKflsI/moLjvvIhi
+aWcuTElUVExF77yJ57O757uf5piv5ZCM5pe25YW35pyJ5Lik56eN5beu5byC55qE5LiA5Liq5L6L
+5a2Q44CC55u46L6D5bCP5qC477yM5aSn5qC46Z2i5ZCR5oCn6IO9DQo+Pj4gPiAr77yI5oul5pyJ
+5pu05aSa55qE5rWB5rC057q/5bGC57qn77yM5pu05aSn55qE57yT5a2Y77yM5pu05pm66IO955qE
+5YiG5pSv6aKE5rWL5Zmo562J77yJ77yM6YCa5bi45Y+v5Lul6L6+5Yiw5pu06auY55qE5pON5L2c
+5oCn6IO95YC844CCDQo+Pj4gPiArDQo+Pj4gPiArQ1BV5oCn6IO96YCa5bi455Sx5q+P56eS55m+
+5LiH5oyH5Luk77yITWlsbGlvbnMgb2YgSW5zdHJ1Y3Rpb25zIFBlciBTZWNvbmTvvIxNSVBT77yJ
+6KGo56S677yMDQo+Pj4gPiAr5Lmf5Y+v6KGo56S65Li6cGVyIEh66IO95omn6KGM55qE5oyH5Luk
+5pWw77yM5pWFOjoNCj4+PiA+ICsNCj4+PiA+ICsgIGNhcGFjaXR5KGNwdSkgPSB3b3JrX3Blcl9o
+eihjcHUpICogbWF4X2ZyZXEoY3B1KQ0KPj4+ID4gKw0KPj4+ID4gKzEuMiDosIPluqblmajmnK/o
+r60NCj4+PiA+ICstLS0tLS0tLS0tLS0tLQ0KPj4+ID4gKw0KPj4+ID4gK+iwg+W6puWZqOS9v+eU
+qOS6huS4pOenjeS4jeWQjOeahOeul+WKm+WAvOOAgkNQVeeahCBgYGNhcGFjaXR5X29yaWdgYCDm
+mK/lroPnmoTmnIDlpKflj6/ovr7nrpflipvvvIwNCj4+PiA+ICvljbPmnIDlpKflj6/ovr7mgKfo
+g73nrYnnuqfjgIJDUFXnmoQgYGBjYXBhY2l0eWBgIOaYryBgYGNhcGFjaXR5X29yaWdgYA0KPj4+
+ID4gK+aJo+mZpOS6huS4gOS6m+aAp+iDveaNn+Wkse+8iOavlOWmguWkhOeQhuS4reaWreeahOiA
+l+aXtu+8ieeahOWAvOOAgg0KPj4+ID4gKw0KPj4+ID4gK+azqOaEj0NQVeeahCBgYGNhcGFjaXR5
+YGAg5LuF5LuF6KKr6K6+6K6h55So5LqOQ0ZT6LCD5bqm57G777yM6ICMIGBgY2FwYWNpdHlfb3Jp
+Z2BgDQo+Pj4gPiAr5piv5LiN5oSf55+l6LCD5bqm57G755qE44CC5Li6566A5rSB6LW36KeB77yM
+5pys5paH5qGj55qE5Ymp5L2Z6YOo5YiG5bCG5LiN5Yqg5Yy65YiG55qE5L2/55So5pyv6K+tDQo+
+Pj4gPiArYGBjYXBhY2l0eWBgIOWSjCBgYGNhcGFjaXR5X29yaWdgYCDjgIINCj4+PiA+ICsNCj4+
+PiA+ICsxLjMg5bmz5Y+w56S65L6LDQo+Pj4gPiArLS0tLS0tLS0tLS0tDQo+Pj4gPiArDQo+Pj4g
+PiArMS4zLjEg5pON5L2c5oCn6IO95YC855u45ZCMDQo+Pj4gPiArfn5+fn5+fn5+fn5+fn5+fn5+
+fn4NCj4+PiA+ICsNCj4+PiA+ICvogIPomZHkuIDkuKrlgYfmg7PnmoTlj4zmoLjpnZ7lr7nnp7BD
+UFXnrpflipvns7vnu5/vvIzlhbbkuK0NCj4+PiA+ICsNCj4+PiA+ICstIHdvcmtfcGVyX2h6KENQ
+VTApID0gVw0KPj4+ID4gKy0gd29ya19wZXJfaHooQ1BVMSkgPSBXLzINCj4+PiA+ICstIOaJgOac
+iUNQVeS7peebuOWQjOeahOWbuuWumumikeeOh+i/kOihjA0KPj4+ID4gKw0KPj4+ID4gK+agueaN
+ruS4iuaWh+Wvueeul+WKm+eahOWumuS5iToNCj4+PiA+ICsNCj4+PiA+ICstIGNhcGFjaXR5KENQ
+VTApID0gQw0KPj4+ID4gKy0gY2FwYWNpdHkoQ1BVMSkgPSBDLzINCj4+PiA+ICsNCj4+PiA+ICvo
+i6Xov5nmmK9Bcm3lpKflsI/moLjns7vnu5/vvIzpgqPkuYhDUFUw5piv5aSn5qC477yM6ICMQ1BV
+MeaYr+Wwj+aguOOAgg0KPj4+ID4gKw0KPj4+ID4gK+iAg+iZkeS4gOenjeWRqOacn+aAp+S6p+eU
+n+WbuuWumuW3peS9nOmHj+eahOW3peS9nOi0n+i9ve+8jOS9oOWwhuS8muW+l+WIsOexu+S8vOS4
+i+WbvueahOaJp+ihjOi9qOi/uTo6DQo+Pj4gPiArDQo+Pj4gPiArIENQVTAgd29yayBeDQo+Pj4g
+PiArICAgICAgICAgICB8ICAgICBfX19fICAgICAgICAgICAgICAgIF9fX18gICAgICAgICAgICAg
+ICAgX19fXw0KPj4+ID4gKyAgICAgICAgICAgfCAgICB8ICAgIHwgICAgICAgICAgICAgIHwgICAg
+fCAgICAgICAgICAgICAgfCAgICB8DQo+Pj4gPiArICAgICAgICAgICArLS0tLSstLS0tKy0tLS0r
+LS0tLSstLS0tKy0tLS0rLS0tLSstLS0tKy0tLS0rLS0tLSstPiB0aW1lDQo+Pj4gPiArDQo+Pj4g
+PiArIENQVTEgd29yayBeDQo+Pj4gPiArICAgICAgICAgICB8ICAgICBfX19fX19fX18gICAgICAg
+ICAgIF9fX19fX19fXyAgICAgICAgICAgX19fXw0KPj4+ID4gKyAgICAgICAgICAgfCAgICB8ICAg
+ICAgICAgfCAgICAgICAgIHwgICAgICAgICB8ICAgICAgICAgfA0KPj4+ID4gKyAgICAgICAgICAg
+Ky0tLS0rLS0tLSstLS0tKy0tLS0rLS0tLSstLS0tKy0tLS0rLS0tLSstLS0tKy0tLS0rLT4gdGlt
+ZQ0KPj4+ID4gKw0KPj4+ID4gK0NQVTDlnKjns7vnu5/kuK3lhbfmnInmnIDpq5jnrpflipvvvIhD
+77yJ77yM5a6D5L2/55SoVOS4quWNleS9jeaXtumXtOWujOaIkOWbuuWumuW3peS9nOmHj1fjgIIN
+Cj4+PiA+ICvlj6bkuIDmlrnpnaLvvIxDUFUx5Y+q5pyJQ1BVMOS4gOWNiueul+WKm++8jOWboOat
+pOWcqFTkuKrljZXkvY3ml7bpl7TlhoXku4XlrozmiJDlt6XkvZzph49XLzLjgIINCj4+PiA+ICsN
+Cj4+PiA+ICsxLjMuMiDmnIDlpKfmk43kvZzmgKfog73lgLzkuI3lkIwNCj4+PiA+ICt+fn5+fn5+
+fn5+fn5+fn5+fn5+fn5+fn4NCj4+PiA+ICsNCj4+PiA+ICvlhbfmnInkuI3lkIznrpflipvlgLzn
+moRDUFXvvIzpgJrluLjmnaXor7TmnIDlpKfmk43kvZzmgKfog73lgLzkuZ/kuI3lkIzjgILogIPo
+mZHkuIrkuIDlsI/oioLmj5DliLDnmoRDUFUNCj4+PiA+ICvvvIjkuZ/lsLHmmK/or7TvvIx3b3Jr
+X3Blcl9oeigp55u45ZCM77yJOg0KPj4+ID4gKw0KPj4+ID4gKy0gbWF4X2ZyZXEoQ1BVMCkgPSBG
+DQo+Pj4gPiArLSBtYXhfZnJlcShDUFUxKSA9IDIvMyAqIEYNCj4+PiA+ICsNCj4+PiA+ICvov5nl
+sIbmjqjlh7rvvJoNCj4+PiA+ICsNCj4+PiA+ICstIGNhcGFjaXR5KENQVTApID0gQw0KPj4+ID4g
+Ky0gY2FwYWNpdHkoQ1BVMSkgPSBDLzMNCj4+PiA+ICsNCj4+PiA+ICvmiafooYwxLjMuMeiKguaP
+j+i/sOeahOW3peS9nOi0n+i9ve+8jOavj+S4qkNQVeaMieacgOWkp+mikeeOh+i/kOihjO+8jOe7
+k+aenOS4ujo6DQo+Pj4gPiArDQo+Pj4gPiArIENQVTAgd29yayBeDQo+Pj4gPiArICAgICAgICAg
+ICB8ICAgICBfX19fICAgICAgICAgICAgICAgIF9fX18gICAgICAgICAgICAgICAgX19fXw0KPj4+
+ID4gKyAgICAgICAgICAgfCAgICB8ICAgIHwgICAgICAgICAgICAgIHwgICAgfCAgICAgICAgICAg
+ICAgfCAgICB8DQo+Pj4gPiArICAgICAgICAgICArLS0tLSstLS0tKy0tLS0rLS0tLSstLS0tKy0t
+LS0rLS0tLSstLS0tKy0tLS0rLS0tLSstPiB0aW1lDQo+Pj4gPiArDQo+Pj4gPiArICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIHdvcmtsb2FkIG9uIENQVTENCj4+PiA+ICsgQ1BVMSB3b3JrIF4N
+Cj4+PiA+ICsgICAgICAgICAgIHwgICAgIF9fX19fX19fX19fX19fICAgICAgX19fX19fX19fX19f
+X18gICAgICBfX19fDQo+Pj4gPiArICAgICAgICAgICB8ICAgIHwgICAgICAgICAgICAgIHwgICAg
+fCAgICAgICAgICAgICAgfCAgICB8DQo+Pj4gPiArICAgICAgICAgICArLS0tLSstLS0tKy0tLS0r
+LS0tLSstLS0tKy0tLS0rLS0tLSstLS0tKy0tLS0rLS0tLSstPiB0aW1lDQo+Pj4gPiArDQo+Pj4g
+PiArMS40IOWFs+S6juiuoeeul+aWueW8j+eahOazqOaEj+S6i+mhuQ0KPj4+ID4gKy0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tDQo+Pj4gPiArDQo+Pj4gPiAr6ZyA6KaB5rOo5oSP55qE5piv77yM
+5L2/55So5Y2V5LiA5YC85p2l6KGo56S6Q1BV5oCn6IO955qE5beu5byC5piv5pyJ5Lqb5LqJ6K6u
+55qE44CCDQo+Pj4gPiAr5Lik5Liq5LiN5ZCM55qE5b6u5p625p6E55qE55u45a+55oCn6IO95beu
+5byC5bqU6K+l5o+P6L+w5Li677yaWCXmlbTmlbDov5Dnrpflt67lvILvvIxZJea1rueCueaVsOi/
+kOeul+W3ruW8gu+8jFol5YiG5pSv6Lez6L2s5beu5byC77yMDQo+Pj4gPiAr562J562J44CC5bC9
+566h5aaC5q2k77yM5L2/55So566A5Y2V6K6h566X5pa55byP55qE57uT5p6c55uu5YmN6L+Y5piv
+5Luk5Lq65ruh5oSP55qE44CCDQo+Pj4gPiArDQo+Pj4gPiArMi4g5Lu75Yqh5L2/55So546HDQo+
+Pj4gPiArPT09PT09PT09PT09PQ0KPj4+ID4gKw0KPj4+ID4gKzIuMSDnroDku4sNCj4+PiA+ICst
+LS0tLS0tLQ0KPj4+ID4gKw0KPj4+ID4gK+eul+WKm+aEn+efpeiwg+W6puimgeaxguaPj+i/sOS7
+u+WKoemcgOaxgu+8jOaPj+i/sOaWueW8j+imgeWSjENQVeeul+WKm+ebuOWFs+OAgg0KPj4+ID4g
+K+avj+S4quiwg+W6puexu+WPr+S7peeUqOS4jeWQjOeahOaWueW8j+aPj+i/sOWug+OAguS7u+WK
+oeS9v+eUqOeOh+aYr0NGU+eLrOacieeahOaPj+i/sOaWueW8j++8jA0KPj4+ID4gK+S4jei/h+Wc
+qOi/memHjOS7i+e7jeWug+acieWKqeS6juW8leWFpeabtOWkmuS4gOiIrOaAp+eahOamguW/teOA
+gg0KPj4+ID4gKw0KPj4+ID4gK+S7u+WKoeS9v+eUqOeOh+aYr+S4gOenjeeUqOeZvuWIhuavlOad
+peaPj+i/sOS7u+WKoeWQnuWQkOeOh+mcgOaxgueahOaWueW8j+OAguS4gOS4queugOWNleeahOi/
+keS8vOaYr+S7u+WKoeeahOWNoOepuuavlO+8jOS5n+WwseaYr+ivtDo6DQo+Pj4gPiArDQo+Pj4g
+PiArICB0YXNrX3V0aWwocCkgPSBkdXR5X2N5Y2xlKHApDQo+Pj4gPiArDQo+Pj4gPiAr5Zyo6aKR
+546H5Zu65a6a55qEU01Q57O757uf5Lit77yMMTAwJeeahOWIqeeUqOeOh+aEj+WRs+edgOS7u+WK
+oeaYr+W/meetieW+heW+queOr+OAguWPjeS5i++8jA0KPj4+ID4gKzEwJeeahOWIqeeUqOeOh+aa
+l+ekuui/meaYr+S4gOS4quWwj+WRqOacn+S7u+WKoe+8jOWug+WcqOedoeecoOS4iuiKsei0ueea
+hOaXtumXtOavlOaJp+ihjOabtOWkmuOAgg0KPj4+ID4gKw0KPj4+ID4gKzIuMiDpopHnjofkuI3l
+j5jmgKcNCj4+PiA+ICstLS0tLS0tLS0tLS0tLQ0KPj4+ID4gKw0KPj4+ID4gK+S4gOS4qumcgOim
+geiAg+iZkeeahOiurumimOaYr++8jOW3peS9nOi0n+i9veeahOWNoOepuuavlOWPl0NQVeato+Wc
+qOi/kOihjOeahOaTjeS9nOaAp+iDveWAvOebtOaOpeW9seWTjeOAgg0KPj4+ID4gK+iAg+iZkeS7
+pee7meWumueahOmikeeOh0bmiafooYzlkajmnJ/mgKflt6XkvZzotJ/ovb06Og0KPj4+ID4gKw0K
+Pj4+ID4gKyAgQ1BVIHdvcmsgXg0KPj4+ID4gKyAgICAgICAgICAgfCAgICAgX19fXyAgICAgICAg
+ICAgICAgICBfX19fICAgICAgICAgICAgICAgIF9fX18NCj4+PiA+ICsgICAgICAgICAgIHwgICAg
+fCAgICB8ICAgICAgICAgICAgICB8ICAgIHwgICAgICAgICAgICAgIHwgICAgfA0KPj4+ID4gKyAg
+ICAgICAgICAgKy0tLS0rLS0tLSstLS0tKy0tLS0rLS0tLSstLS0tKy0tLS0rLS0tLSstLS0tKy0t
+LS0rLT4gdGltZQ0KPj4+ID4gKw0KPj4+ID4gK+WPr+S7peeul+WHuiBkdXR5X2N5Y2xlKHApID09
+IDI1JeOAgg0KPj4+ID4gKw0KPj4+ID4gK+eOsOWcqO+8jOiAg+iZkeS7pee7meWumumikeeOh0Yv
+MuaJp+ihjCAq5ZCM5LiA5LiqKiDlt6XkvZzotJ/ovb06Og0KPj4+ID4gKw0KPj4+ID4gKyAgQ1BV
+IHdvcmsgXg0KPj4+ID4gKyAgICAgICAgICAgfCAgICAgX19fX19fX19fICAgICAgICAgICBfX19f
+X19fX18gICAgICAgICAgIF9fX18NCj4+PiA+ICsgICAgICAgICAgIHwgICAgfCAgICAgICAgIHwg
+ICAgICAgICB8ICAgICAgICAgfCAgICAgICAgIHwNCj4+PiA+ICsgICAgICAgICAgICstLS0tKy0t
+LS0rLS0tLSstLS0tKy0tLS0rLS0tLSstLS0tKy0tLS0rLS0tLSstLS0tKy0+IHRpbWUNCj4+PiA+
+ICsNCj4+PiA+ICvlj6/ku6Xnrpflh7ogZHV0eV9jeWNsZShwKSA9PSA1MCXvvIzlsL3nrqHkuKTm
+rKHmiafooYzkuK3vvIzku7vliqHnmoTooYzkuLrlrozlhajkuIDoh7QNCj4+PiA+ICvvvIjkuZ/l
+sLHmmK/or7TvvIzmiafooYznmoTlt6XkvZzph4/nm7jlkIzvvInjgIINCj4+PiA+ICsNCj4+PiA+
+ICvku7vliqHliKnnlKjnjofkv6Hlj7flj6/mjInkuIvpnaLlhazlvI/lpITnkIbmiJDpopHnjofk
+uI3lj5jnmoTvvIjor5Hms6jvvJrov5nph4znmoTmnK/or63nlKjliLDkuobkv6Hlj7fkuI7ns7vn
+u5/nmoTmpoLlv7XvvIk6Og0KPj4+ID4gKw0KPj4+ID4gKyAgdGFza191dGlsX2ZyZXFfaW52KHAp
+ID0gZHV0eV9jeWNsZShwKSAqIChjdXJyX2ZyZXF1ZW5jeShjcHUpIC8gbWF4X2ZyZXF1ZW5jeShj
+cHUpKQ0KPj4+ID4gKw0KPj4+ID4gK+WvueS4iumdouS4pOS4quS+i+WtkOi/kOeUqOivpeWFrOW8
+j++8jOWPr+S7peeul+WHuumikeeOh+S4jeWPmOeahOS7u+WKoeWIqeeUqOeOh+Wdh+S4ujI1JeOA
+gg0KPj4+ID4gKw0KPj4+ID4gKzIuMyBDUFXkuI3lj5jmgKcNCj4+PiA+ICstLS0tLS0tLS0tLS0t
+DQo+Pj4gPiArDQo+Pj4gPiArQ1BV566X5Yqb5LiO5Lu75Yqh5Yip55So546H5YW35pyJ57G75Z6L
+55qE5pWI5bqU77yM5Zyo566X5Yqb5LiN5ZCM55qEQ1BV5LiK5omn6KGM5a6M5YWo55u45ZCM55qE
+5bel5L2c6LSf6L2977yMDQo+Pj4gPiAr5bCG566X5Ye65LiN5ZCM55qE5Y2g56m65q+U44CCDQo+
+Pj4gPiArDQo+Pj4gPiAr6ICD6JmRMS4zLjLoioLmj5DliLDnmoTns7vnu5/vvIzkuZ/lsLHmmK/o
+r7Q6Og0KPj4+ID4gKw0KPj4+ID4gKy0gY2FwYWNpdHkoQ1BVMCkgPSBDDQo+Pj4gPiArLSBjYXBh
+Y2l0eShDUFUxKSA9IEMvMw0KPj4+ID4gKw0KPj4+ID4gK+avj+S4qkNQVeaMieacgOWkp+mikeeO
+h+aJp+ihjOaMh+WumuWRqOacn+aAp+W3peS9nOi0n+i9ve+8jOe7k+aenOS4ujo6DQo+Pj4gPiAr
+DQo+Pj4gPiArIENQVTAgd29yayBeDQo+Pj4gPiArICAgICAgICAgICB8ICAgICBfX19fICAgICAg
+ICAgICAgICAgIF9fX18gICAgICAgICAgICAgICAgX19fXw0KPj4+ID4gKyAgICAgICAgICAgfCAg
+ICB8ICAgIHwgICAgICAgICAgICAgIHwgICAgfCAgICAgICAgICAgICAgfCAgICB8DQo+Pj4gPiAr
+ICAgICAgICAgICArLS0tLSstLS0tKy0tLS0rLS0tLSstLS0tKy0tLS0rLS0tLSstLS0tKy0tLS0r
+LS0tLSstPiB0aW1lDQo+Pj4gPiArDQo+Pj4gPiArIENQVTEgd29yayBeDQo+Pj4gPiArICAgICAg
+ICAgICB8ICAgICBfX19fX19fX19fX19fXyAgICAgIF9fX19fX19fX19fX19fICAgICAgX19fXw0K
+Pj4+ID4gKyAgICAgICAgICAgfCAgICB8ICAgICAgICAgICAgICB8ICAgIHwgICAgICAgICAgICAg
+IHwgICAgfA0KPj4+ID4gKyAgICAgICAgICAgKy0tLS0rLS0tLSstLS0tKy0tLS0rLS0tLSstLS0t
+Ky0tLS0rLS0tLSstLS0tKy0tLS0rLT4gdGltZQ0KPj4+ID4gKw0KPj4+ID4gK+S5n+WwseaYr+iv
+tO+8jA0KPj4+ID4gKw0KPj4+ID4gKy0gZHV0eV9jeWNsZShwKSA9PSAyNSXvvIzlpoLmnpzku7vl
+iqFw5ZyoQ1BVMOS4iuaMieacgOWkp+mikeeOh+i/kOihjOOAgg0KPj4+ID4gKy0gZHV0eV9jeWNs
+ZShwKSA9PSA3NSXvvIzlpoLmnpzku7vliqFw5ZyoQ1BVMeS4iuaMieacgOWkp+mikeeOh+i/kOih
+jOOAgg0KPj4+ID4gKw0KPj4+ID4gK+S7u+WKoeWIqeeUqOeOh+S/oeWPt+WPr+aMieS4i+mdouWF
+rOW8j+WkhOeQhuaIkENQVeWuuemHj+S4jeWPmOeahDo6DQo+Pj4gPiArDQo+Pj4gPiArICB0YXNr
+X3V0aWxfY3B1X2ludihwKSA9IGR1dHlfY3ljbGUocCkgKiAoY2FwYWNpdHkoY3B1KSAvIG1heF9j
+YXBhY2l0eSkNCj4+PiA+ICsNCj4+PiA+ICvlhbbkuK0gYGBtYXhfY2FwYWNpdHlgYCDmmK/ns7vn
+u5/kuK3mnIDpq5jnmoRDUFXnrpflipvjgILlr7nkuIrpnaLnmoTkvovlrZDov5DnlKjor6Xlhazl
+vI/vvIwNCj4+PiA+ICvlj6/ku6Xnrpflh7pDUFXnrpflipvkuI3lj5jnmoTku7vliqHliKnnlKjn
+joflnYfkuLoyNSXjgIINCj4+PiA+ICsNCj4+PiA+ICsyLjQg5Lu75Yqh5Yip55So546H5LiN5Y+Y
+6YePDQo+Pj4gPiArLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4+PiA+ICsNCj4+PiA+ICvpopHnjofl
+koxDUFXnrpflipvkuI3lj5jmgKfpg73pnIDopoHooqvlupTnlKjliLDku7vliqHliKnnlKjnjofn
+moTorqHnrpfkuK3vvIzku6Xkvr/msYLlh7rnnJ/mraPnmoTkuI3lj5jkv6Hlj7fjgIINCj4+PiA+
+ICvku7vliqHliKnnlKjnjofnmoTkvKrorqHnrpflhazlvI/mmK/lkIzml7blhbflpIdDUFXlkozp
+opHnjofkuI3lj5jmgKfnmoTvvIzkuZ/lsLHmmK/or7TvvIzlr7nkuo7mjIflrprku7vliqFwOjoN
+Cj4+PiA+ICsNCj4+PiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgY3Vy
+cl9mcmVxdWVuY3koY3B1KSAgIGNhcGFjaXR5KGNwdSkNCj4+PiA+ICsgIHRhc2tfdXRpbF9pbnYo
+cCkgPSBkdXR5X2N5Y2xlKHApICogLS0tLS0tLS0tLS0tLS0tLS0tLSAqIC0tLS0tLS0tLS0tLS0N
+Cj4+PiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbWF4X2ZyZXF1ZW5j
+eShjcHUpICAgIG1heF9jYXBhY2l0eQ0KPj4+ID4gKw0KPj4+ID4gK+S5n+WwseaYr+ivtO+8jOS7
+u+WKoeWIqeeUqOeOh+S4jeWPmOmHj+WBh+WumuS7u+WKoeWcqOezu+e7n+S4reacgOmrmOeul+WK
+m0NQVeS4iuS7peacgOmrmOmikeeOh+i/kOihjO+8jOS7peatpOaPj+i/sOS7u+WKoeeahOihjOS4
+uuOAgg0KPj4+ID4gKw0KPj4+ID4gK+WcqOaOpeS4i+adpeeahOeroOiKguS4reaPkOWIsOeahOS7
+u+S9leS7u+WKoeWIqeeUqOeOh++8jOWdh+aYr+S4jeWPmOmHj+eahOW9ouW8j+OAgg0KPj4+ID4g
+Kw0KPj4+ID4gKzIuNSDliKnnlKjnjofkvLDnrpcNCj4+PiA+ICstLS0tLS0tLS0tLS0tLQ0KPj4+
+ID4gKw0KPj4+ID4gK+eUseS6jumihOa1i+acquadpeeahOawtOaZtueQg+S4jeWtmOWcqO+8jOW9
+k+S7u+WKoeesrOS4gOasoeWPmOaIkOWPr+i/kOihjOaXtu+8jOS7u+WKoeeahOihjOS4uuWSjOS7
+u+WKoeWIqeeUqOeOh+Wdh+S4jeiDveiiq+WHhuehrumihOa1i+OAgg0KPj4+ID4gK0NGU+iwg+W6
+puexu+WfuuS6juWunuS9k+i0n+i9vei3n+i4quacuuWItu+8iFBlci1FbnRpdHkgTG9hZCBUcmFj
+a2luZywgUEVMVO+8iee7tOaKpOS6huWwkemHj0NQVeWSjOS7u+WKoeS/oeWPt++8jA0KPj4+ID4g
+K+WFtuS4reS5i+S4gOWPr+S7peeul+WHuuW5s+Wdh+WIqeeUqOeOh++8iOS4jueerOaXtuebuOWP
+je+8ieOAgg0KPj4+ID4gKw0KPj4+ID4gK+i/meaEj+WRs+edgO+8jOWwveeuoei/kOeUqOKAnOec
+n+WunueahOKAneS7u+WKoeWIqeeUqOeOh++8iOWHreWAn+awtOaZtueQg++8ieWGmeWHuueul+WK
+m+aEn+efpeiwg+W6pueahOWHhuWIme+8jA0KPj4+ID4gK+S9huaYr+Wug+eahOWunueOsOWwhuWP
+quiDveeUqOS7u+WKoeWIqeeUqOeOh+eahOS8sOeul+WAvOOAgg0KPj4+ID4gKw0KPj4+ID4gKzMu
+IOeul+WKm+aEn+efpeiwg+W6pueahOmcgOaxgg0KPj4+ID4gKz09PT09PT09PT09PT09PT09PT09
+PQ0KPj4+ID4gKw0KPj4+ID4gKzMuMSBDUFXnrpflipsNCj4+PiA+ICstLS0tLS0tLS0tLQ0KPj4+
+ID4gKw0KPj4+ID4gK+W9k+WJje+8jExpbnV45peg5rOV5Yet6Ieq6Lqr566X5Ye6Q1BV566X5Yqb
+77yM5Zug5q2k5b+F6aG76KaB5pyJ5oqK6L+Z5Liq5L+h5oGv5Lyg6YCS57uZTGludXjnmoTmlrnl
+vI/jgIINCj4+PiA+ICvmr4/kuKrmnrbmnoTlv4XpobvkuLrmraTlrprkuYlhcmNoX3NjYWxlX2Nw
+dV9jYXBhY2l0eSgp5Ye95pWw44CCDQo+Pj4gPiArDQo+Pj4gPiArYXJt5ZKMYXJtNjTmnrbmnoTn
+m7TmjqXmiorov5nkuKrkv6Hmga/mmKDlsITliLBhcmNoX3RvcG9sb2d56amx5Yqo55qEQ1BVIHNj
+YWxpbmfmlbDmja7kuK0NCj4+PiA+ICvvvIjor5Hms6jvvJrlj4LogINhcmNoX3RvcG9sb2d5Lmjn
+moRwZXJjcHXlj5jph49jcHVfc2NhbGXvvInvvIwNCj4+PiA+ICvlroPmmK/ku45jYXBhY2l0eS1k
+bWlwcy1taHogQ1BVIGJpbmRpbmfkuK3ooY3nlJ/orqHnrpflh7rmnaXnmoTjgILlj4Lop4ENCj4+
+PiA+ICtEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvYXJtL2NwdS1jYXBhY2l0eS50
+eHTjgIINCj4+PiA+ICsNCj4+PiA+ICszLjIg6aKR546H5LiN5Y+Y5oCnDQo+Pj4gPiArLS0tLS0t
+LS0tLS0tLS0NCj4+PiA+ICsNCj4+PiA+ICvlpoIyLjLoioLmiYDov7DvvIznrpflipvmhJ/nn6Xo
+sIPluqbpnIDopoHpopHnjofkuI3lj5jnmoTku7vliqHliKnnlKjnjofjgIINCj4+PiA+ICvmr4/k
+uKrmnrbmnoTlv4XpobvkuLrmraTlrprkuYlhcmNoX3NjYWxlX2ZyZXFfY2FwYWNpdHkoY3B1KeWH
+veaVsOOAgg0KPj4+ID4gKw0KPj4+ID4gK+WunueOsOivpeWHveaVsOimgeaxguiuoeeul+WHuuav
+j+S4qkNQVeW9k+WJjeS7peS7gOS5iOmikeeOh+WcqOi/kOihjOOAguWunueOsOWug+eahOS4gOen
+jeaWueW8j+aYr+WIqeeUqOehrOS7tuiuoeaVsOWZqA0KPj4+ID4gK++8iHg4NueahEFQRVJGL01Q
+RVJG77yMYXJtNjTnmoRBTVXvvInvvIzlroPog73mjIlDUFXlvZPliY3popHnjofliqjmgIHlj6/m
+ianlsZXlnLDljYfpmY3pgJLlop7orqHmlbDlmajnmoTpgJ/njofjgIINCj4+PiA+ICvlj6bkuIDn
+p43mlrnlvI/mmK/lnKhjcHVmcmVx6aKR546H5Y+Y5YyW5pe255u05o6l5L2/55So6ZKp5a2Q5Ye9
+5pWw77yM5YaF5qC45q2k5pe25oSf55+l5Yiw5bCG6KaB6KKr5YiH5o2i55qE6aKR546HDQo+Pj4g
+PiAr77yI5Lmf6KKrYXJtL2FybTY05a6e546w5LqG77yJ44CCDQo+Pj4gPiArDQo+Pj4gPiArNC4g
+6LCD5bqm5Zmo5ouT5omR57uT5p6EDQo+Pj4gPiArPT09PT09PT09PT09PT09PT0NCj4+PiA+ICsN
+Cj4+PiA+ICvlnKjmnoTlu7rosIPluqbln5/ml7bvvIzosIPluqblmajlsIbkvJrlj5HnjrDns7vn
+u5/mmK/lkKbooajnjrDkuLrpnZ7lr7nnp7BDUFXnrpflipvjgILlpoLmnpzmmK/vvIzpgqPkuYjv
+vJoNCj4+PiA+ICsNCj4+PiA+ICstIHNjaGVkX2FzeW1fY3B1Y2FwYWNpdHnpnZnmgIHplK7vvIhz
+dGF0aWMga2V577yJ5bCG5L2/6IO944CCDQo+Pj4gPiArLSBTRF9BU1lNX0NQVUNBUEFDSVRZX0ZV
+TEzmoIflv5fkvY3lsIblnKjlsL3ph4/mnIDkvY7osIPluqbln5/lsYLnuqfkuK3ooqvorr7nva7v
+vIzlkIzml7bopoHmu6HotrPmnaHku7bvvJoNCj4+PiA+ICsgIOiwg+W6puWfn+aBsOWlveWujOaV
+tOWMheWQq+afkOS4qkNQVeeul+WKm+WAvOeahOWFqOmDqENQVeOAgg0KPj4+ID4gKy0gU0RfQVNZ
+TV9DUFVDQVBBQ0lUWeagh+W/l+WwhuWcqOaJgOacieWMheWQq+mdnuWvueensENQVeeahOiwg+W6
+puWfn+S4reiiq+iuvue9ruOAgg0KPj4+ID4gKw0KPj4+ID4gK3NjaGVkX2FzeW1fY3B1Y2FwYWNp
+dHnpnZnmgIHplK7nmoTorr7orqHmhI/lm77mmK/vvIzkv53miqTkuLrpnZ7lr7nnp7BDUFXnrpfl
+ipvns7vnu5/miYDlh4blpIfnmoTku6PnoIHjgIINCj4+PiA+ICvkuI3ov4fopoHms6jmhI/nmoTm
+mK/vvIzov5nkuKrplK7mmK/ns7vnu5/ojIPlm7Tlj6/op4HnmoTjgILmg7PosaHkuIvpnaLkvb/n
+lKjkuoZjcHVzZXTnmoTmraXpqqQ6Og0KPj4+ID4gKw0KPj4+ID4gKyAgY2FwYWNpdHkgICAgQy8y
+ICAgICAgICAgIEMNCj4+PiA+ICsgICAgICAgICAgICBfX19fX19fXyAgICBfX19fX19fXw0KPj4+
+ID4gKyAgICAgICAgICAgLyAgICAgICAgXCAgLyAgICAgICAgXA0KPj4+ID4gKyAgQ1BVcyAgICAg
+MCAgMSAgMiAgMyAgNCAgNSAgNiAgNw0KPj4+ID4gKyAgICAgICAgICAgXF9fLyAgXF9fX19fX19f
+X19fX19fLw0KPj4+ID4gKyAgY3B1c2V0cyAgIGNzMCAgICAgICAgIGNzMQ0KPj4+ID4gKw0KPj4+
+ID4gK+WPr+S7pemAmui/h+S4i+mdoueahOaWueW8j+WIm+W7uu+8mg0KPj4+ID4gKw0KPj4+ID4g
+Ky4uIGNvZGUtYmxvY2s6OiBzaA0KPj4+ID4gKw0KPj4+ID4gKyAgbWtkaXIgL3N5cy9mcy9jZ3Jv
+dXAvY3B1c2V0L2NzMA0KPj4+ID4gKyAgZWNobyAwLTEgPiAvc3lzL2ZzL2Nncm91cC9jcHVzZXQv
+Y3MwL2NwdXNldC5jcHVzDQo+Pj4gPiArICBlY2hvIDAgPiAvc3lzL2ZzL2Nncm91cC9jcHVzZXQv
+Y3MwL2NwdXNldC5tZW1zDQo+Pj4gPiArDQo+Pj4gPiArICBta2RpciAvc3lzL2ZzL2Nncm91cC9j
+cHVzZXQvY3MxDQo+Pj4gPiArICBlY2hvIDItNyA+IC9zeXMvZnMvY2dyb3VwL2NwdXNldC9jczEv
+Y3B1c2V0LmNwdXMNCj4+PiA+ICsgIGVjaG8gMCA+IC9zeXMvZnMvY2dyb3VwL2NwdXNldC9jczEv
+Y3B1c2V0Lm1lbXMNCj4+PiA+ICsNCj4+PiA+ICsgIGVjaG8gMCA+IC9zeXMvZnMvY2dyb3VwL2Nw
+dXNldC9jcHVzZXQuc2NoZWRfbG9hZF9iYWxhbmNlDQo+Pj4gPiArDQo+Pj4gPiAr55Sx5LqO4oCc
+6L+Z5piv4oCd6Z2e5a+556ewQ1BV566X5Yqb57O757uf77yMc2NoZWRfYXN5bV9jcHVjYXBhY2l0
+eemdmeaAgemUruWwhuS9v+iDveOAgg0KPj4+ID4gK+eEtuiAjO+8jENQVSAwLS0x5a+55bqU55qE
+6LCD5bqm5Z+f5bGC57qn77yM566X5Yqb5YC85LuF5pyJ5LiA5Liq77yM6K+l5bGC57qn5LitU0Rf
+QVNZTV9DUFVDQVBBQ0lUWeacquiiq+iuvue9ru+8jA0KPj4+ID4gK+Wug+aPj+i/sOeahOaYr+S4
+gOS4qlNNUOWMuuWfn++8jOS5n+W6lOivpeiiq+S7peatpOWkhOeQhuOAgg0KPj4+ID4gKw0KPj4+
+ID4gK+WboOatpO+8jOKAnOWFuOWei+eahOKAneS/neaKpOmdnuWvueensENQVeeul+WKm+S7o+eg
+gei3r+W+hOeahOS7o+eggeaooeW8j+aYr++8mg0KPj4+ID4gKw0KPj4+ID4gKy0g5qOA5p+lc2No
+ZWRfYXN5bV9jcHVjYXBhY2l0eemdmeaAgemUrg0KPj4+ID4gKy0g5aaC5p6c5a6D6KKr5L2/6IO9
+77yM5o6l552A5qOA5p+l6LCD5bqm5Z+f5bGC57qn5LitU0RfQVNZTV9DUFVDQVBBQ0lUWeagh+W/
+l+S9jeaYr+WQpuWHuueOsA0KPj4+ID4gKw0KPj4+ID4gKzUuIOeul+WKm+aEn+efpeiwg+W6puea
+hOWunueOsA0KPj4+ID4gKz09PT09PT09PT09PT09PT09PT09PQ0KPj4+ID4gKw0KPj4+ID4gKzUu
+MSBDRlMNCj4+PiA+ICstLS0tLS0tDQo+Pj4gPiArDQo+Pj4gPiArNS4xLjEg566X5Yqb6YCC5bqU
+5oCn77yIZml0bmVzc++8iQ0KPj4+ID4gK35+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fg0KPj4+
+ID4gKw0KPj4+ID4gK0NGU+acgOS4u+imgeeahOeul+WKm+iwg+W6puWHhuWImeaYrzo6DQo+Pj4g
+PiArDQo+Pj4gPiArICB0YXNrX3V0aWwocCkgPCBjYXBhY2l0eSh0YXNrX2NwdShwKSkNCj4+PiA+
+ICsNCj4+PiA+ICvlroPpgJrluLjooqvnp7DkuLrnrpflipvpgILlupTmgKflh4bliJnjgILkuZ/l
+sLHmmK/or7TvvIxDRlPlv4Xpobvkv53or4Hku7vliqHigJzpgILlkIjigJ3lnKjmn5DkuKpDUFXk
+uIrov5DooYzjgIINCj4+PiA+ICvlpoLmnpzlh4bliJnooqvov53lj43vvIzku7vliqHlsIbopoHm
+m7Tplb/lnLDmtojogJfor6VDUFXvvIzku7vliqHmmK9DUFXlj5fpmZDnmoTvvIhDUFUtYm91bmTv
+vInjgIINCj4+PiA+ICsNCj4+PiA+ICvmraTlpJbvvIx1Y2xhbXDlhYHorrjnlKjmiLfnqbrpl7Tm
+jIflrprku7vliqHnmoTmnIDlsI/lkozmnIDlpKfliKnnlKjnjofvvIzopoHkuYjku6VzY2hlZF9z
+ZXRhdHRyKCnnmoTmlrnlvI/vvIwNCj4+PiA+ICvopoHkuYjku6VjZ3JvdXDmjqXlj6PnmoTmlrnl
+vI/vvIjlj4LpmIVEb2N1bWVudGF0aW9uL2FkbWluLWd1aWRlL2Nncm91cC12Mi5yc3TvvInjgIIN
+Cj4+PiA+ICvlpoLlhbblkI3lrZfmiYDmmpfnpLrvvIx1Y2xhbXDlj6/ku6XooqvnlKjlnKjliY3k
+uIDmnaHlh4bliJnkuK3pmZDliLZ0YXNrX3V0aWwoKeOAgg0KPj4+ID4gKw0KPj4+ID4gKzUuMS4y
+IOiiq+WUpOmGkuS7u+WKoeeahENQVemAieaLqQ0KPj4+ID4gK35+fn5+fn5+fn5+fn5+fn5+fn5+
+fn5+fn4NCj4+PiA+ICsNCj4+PiA+ICtDRlPku7vliqHllKTphpLnmoRDUFXpgInmi6nvvIzpgbXl
+vqrkuIrpnaLmj4/ov7DnmoTnrpflipvpgILlupTmgKflh4bliJnjgILlnKjmraTkuYvkuIrvvIwN
+Cj4+PiA+ICt1Y2xhbXDooqvnlKjmnaXpmZDliLbku7vliqHliKnnlKjnjofvvIzov5nku6TnlKjm
+iLfnqbrpl7Tlr7lDRlPku7vliqHnmoRDUFXpgInmi6nmnInmm7TlpJrnmoTmjqfliLbjgILkuZ/l
+sLHmmK/or7TvvIwNCj4+PiA+ICtDRlPooqvllKTphpLku7vliqHnmoRDUFXpgInmi6nvvIzmkJzn
+tKLmu6HotrPku6XkuIvmnaHku7bnmoRDUFU6Og0KPj4+ID4gKw0KPj4+ID4gKyAgY2xhbXAodGFz
+a191dGlsKHApLCB0YXNrX3VjbGFtcF9taW4ocCksIHRhc2tfdWNsYW1wX21heChwKSkgPCBjYXBh
+Y2l0eShjcHUpDQo+Pj4gPiArDQo+Pj4gPiAr6YCa6L+H5L2/55SodWNsYW1w77yM5Li+5L6L5p2l
+6K+077yM55So5oi356m66Ze05Y+v5Lul5YWB6K645b+Z562J5b6F5b6q546v77yIMTAwJeS9v+eU
+qOeOh++8ieWcqOS7u+aEj0NQVeS4iui/kOihjO+8jA0KPj4+ID4gK+WPquimgee7meWug+iuvue9
+ruS9jueahHVjbGFtcC5tYXjlgLzjgILnm7jlj43vvIx1Y2xhbXDog73lvLrliLbkuIDkuKrlsI/n
+moTlkajmnJ/mgKfku7vliqHvvIjmr5TlpoLvvIwxMCXliKnnlKjnjofvvIkNCj4+PiA+ICvlnKjm
+nIDpq5jmgKfog73nmoRDUFXkuIrov5DooYzvvIzlj6ropoHnu5nlroPorr7nva7pq5jnmoR1Y2xh
+bXAubWlu5YC844CCDQo+Pj4gPiArDQo+Pj4gPiArLi4gbm90ZTo6DQo+Pj4gPiArDQo+Pj4gPiAr
+ICBDRlPnmoTooqvllKTphpLnmoTku7vliqHnmoRDUFXpgInmi6nvvIzlj6/ooqvog73ogJfmhJ/n
+n6XosIPluqbvvIhFbmVyZ3kgQXdhcmUgU2NoZWR1bGluZ++8jEVBU++8iQ0KPj4+ID4gKyAg6KaG
+55uW77yM5ZyoRG9jdW1lbnRhdGlvbi9zY2hlZHVsZXIvc2NoZWQtZW5lcmd5LnJzdOS4reaPj+i/
+sOOAgg0KPj4+ID4gKw0KPj4+ID4gKzUuMS4zIOi0n+i9veWdh+ihoQ0KPj4+ID4gK35+fn5+fn5+
+fn5+fn5+DQo+Pj4gPiArDQo+Pj4gPiAr6KKr5ZSk6YaS5Lu75Yqh55qEQ1BV6YCJ5oup55qE5LiA
+5Liq55eF55CG5oCn55qE5L6L5a2Q5piv77yM5Lu75Yqh5Yeg5LmO5LiN552h55yg77yM6YKj5LmI
+5Lmf5Yeg5LmO5LiN5Y+R55Sf5ZSk6YaS44CC6ICD6JmROjoNCj4+PiA+ICsNCj4+PiA+ICsgIHcg
+PT0gd2FrZXVwIGV2ZW50DQo+Pj4gPiArDQo+Pj4gPiArICBjYXBhY2l0eShDUFUwKSA9IEMNCj4+
+PiA+ICsgIGNhcGFjaXR5KENQVTEpID0gQyAvIDMNCj4+PiA+ICsNCj4+PiA+ICsgICAgICAgICAg
+ICAgICAgICAgICAgICAgICB3b3JrbG9hZCBvbiBDUFUwDQo+Pj4gPiArICBDUFUgd29yayBeDQo+
+Pj4gPiArICAgICAgICAgICB8ICAgICBfX19fX19fX18gICAgICAgICAgIF9fX19fX19fXyAgICAg
+ICAgICAgX19fXw0KPj4+ID4gKyAgICAgICAgICAgfCAgICB8ICAgICAgICAgfCAgICAgICAgIHwg
+ICAgICAgICB8ICAgICAgICAgfA0KPj4+ID4gKyAgICAgICAgICAgKy0tLS0rLS0tLSstLS0tKy0t
+LS0rLS0tLSstLS0tKy0tLS0rLS0tLSstLS0tKy0tLS0rLT4gdGltZQ0KPj4+ID4gKyAgICAgICAg
+ICAgICAgICB3ICAgICAgICAgICAgICAgICAgIHcgICAgICAgICAgICAgICAgICAgdw0KPj4+ID4g
+Kw0KPj4+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgIHdvcmtsb2FkIG9uIENQVTENCj4+
+PiA+ICsgIENQVSB3b3JrIF4NCj4+PiA+ICsgICAgICAgICAgIHwgICAgIF9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQo+Pj4gPiArICAgICAgICAgICB8ICAgIHwN
+Cj4+PiA+ICsgICAgICAgICAgICstLS0tKy0tLS0rLS0tLSstLS0tKy0tLS0rLS0tLSstLS0tKy0t
+LS0rLS0tLSstLS0tKy0+DQo+Pj4gPiArICAgICAgICAgICAgICAgIHcNCj4+PiA+ICsNCj4+PiA+
+ICvor6Xlt6XkvZzotJ/ovb3lupTor6XlnKhDUFUw5LiK6L+Q6KGM77yM5LiN6L+H5aaC5p6c5Lu7
+5Yqh5ruh6Laz5Lul5LiL5p2h5Lu25LmL5LiA77yaDQo+Pj4gPiArDQo+Pj4gPiArLSDkuIDlvIDl
+p4vlj5HnlJ/kuI3lkIjpgILnmoTosIPluqbvvIjkuI3lh4bnoa7nmoTliJ3lp4vliKnnlKjnjofk
+vLDorqHvvIkNCj4+PiA+ICstIOS4gOW8gOWni+iwg+W6puato+ehru+8jOS9hueqgeeEtumcgOim
+geabtOWkmueahOWkhOeQhuWZqOWKn+eOhw0KPj4+IEkgdGhpbmsgYSBwZXJpb2QgY2FuIGJlIGFk
+ZGVkIGJlY2F1c2UgSSBub3RpY2VkIHRoYXQgdGhlIG9yaWdpbmFsDQo+Pj4gZG9jdW1lbnQgc2Vl
+bXMgdG8gaGF2ZSBmb3Jnb3R0ZW4gdG8gYWRkIGl0IGhlcmUsIHdoaWxlIGxpbmUgMjMgd2FzDQo+
+Pj4gYWRkZWQuDQo+Pj4NCj4+PiBIaSBZaXpob3UgQWxleA0KPj4+DQo+Pj4gWWl6aG91LCBIb25l
+c3RseSwgSSBjYW4gYXBwcmVjaWF0ZSB0aGUgZWZmb3J0IHlvdSBwdXQgaW50byB0aGlzLCBidXQN
+Cj4+PiBpcyBpdCByZWFsbHkgd29ydGggYnJlYWtpbmcgYSBuZWF0IGJsb2NrIG9mIHRleHQganVz
+dCB0byBlbGltaW5hdGUgYQ0KPj4+IHNwYWNlIGluIHRoZSBodG1sPyBBZnRlciBhbGwsIHRoZSB0
+ZXh0IGJsb2NrcyBpbiBFbmdsaXNoIGRvY3VtZW50cyBhcmUNCj4+PiBzbyBuZWF0Lg0KPj4+DQo+
+Pj4gSWYgdGhpcyBpc3N1ZSBpcyByZXNvbHZlZCBncmFjZWZ1bGx5IGluIHRoZSBmdXR1cmUsIGl0
+IGlzIG5vIGxvbmdlcg0KPj4+IHBvc3NpYmxlIHRvIGFsaWduIHRoZSB0ZXh0IGJsb2NrcyBpbiB0
+aGUgZG9jdW1lbnRhdGlvbiBjb2RlLiBUaGlzIGlzDQo+Pj4gYmVjYXVzZSBkb2luZyBzbyB3b3Vs
+ZCBiZSBlcXVpdmFsZW50IHRvIHJlZmFjdG9yaW5nIHRoZSBkb2N1bWVudGF0aW9uLA0KPj4+IHdo
+aWNoIHdvdWxkIGRlc3Ryb3kgdGhlIGdpdCBsb2csIGFuZCBtb2RpZnlpbmcgdGhlIGN1cnJlbnRs
+eQ0KPj4+IHRyYW5zbGF0ZWQgZG9jdW1lbnRhdGlvbiB0byBiZSB1bmFsaWduZWQgd291bGQgYWxz
+byBmYWNlIHRoaXMgcHJvYmxlbS4NCj4+Pg0KPj4+IFNvLCBMZXQncyByZWNvbnNpZGVyIGl0IGNh
+cmVmdWxseT8NCj4+Pg0KPj4+ICoqU29ycnkuIE15IEVuZ2xpc2ggaXMgbm90IHZlcnkgd2VsbO+8
+jCBwbGVhc2UgYWxsb3cgbWUgdG8gcmVwZWF0IGluIENoaW5lc2U6KioNCj4+Pg0KPj4+IOiJuuiI
+n+WFhO+8jOS6ruWFhO+8mg0KPj4+DQo+Pj4g6Im66Iif77yM6K+05a6e6K+d77yM5oiR6IO95L2T
+5Lya5Yiw5L2g5Li65LqG6Kej5Yaz572R6aG154mI5paH5qGj5Lit55qE56m65qC86Zeu6aKY5omA
+5YGa55qE5Yqq5Yqb77yM5L2g6IKv5a6a5Zyo57+76K+R5pe25Zug5Li65o2i6KGM6ICM57ue5bC9
+6ISR5rGB44CC5L2G5piv5ZKx5Lus5Li65LqG5LiA5Liq56m65qC86Zeu6aKY5bCx56C05Z2P5o6J
+5pW05pW06b2Q6b2Q55qE5paH5pys5Z2X77yM6L+Z55yf55qE5YC85b6X5ZCX77yf6KaB55+l6YGT
+77yM6Iux5paH5paH5qGj6YO95piv5b6I5pW06b2Q55qE5paH5pys5Z2X5ZGA44CCDQo+Pj4NCj4+
+PiDku47nm67liY3lkrHku6zmi7/liLDnmoTkv6Hmga/mnaXnnIvvvIzov5nkuKrnqbrmoLzpl67p
+opjlnKjlsIbmnaXlvojmnInlj6/og73pgJrov4fmtY/op4jlmajlkozmuLLmn5PlvJXmk47op6Pl
+hrPnmoTvvIzkuIDml6booqvop6PlhrPkuobvvIzlt7Lnu4/lrZjlnKjnmoTkuLrkuobpgb/lhY3n
+qbrmoLzpl67popjnmoTigJzpnZ7lr7npvZDigJ3mlofmoaPlsLHlho3kuZ/msqHmnInmlLnlm57l
+r7npvZDnmoTlj6/og73vvIzlm6DkuLrlpoLmnpzmlLnlm57lr7npvZDlsLHnrYnlkIzkuo7ph43m
+noTmlbTkuKrmlofmoaPvvIzov5nlsIbkvJrnoLTlnY9naXQNCj4+PiBsb2fov5nkuKrlrp3lupPj
+gILlkIzmoLfvvIzlpoLmnpzmiJHku6zmiornjrDlrZjnmoTlt7Lnu4/nv7vor5Hov4fnmoTmlofm
+oaPmlLnmiJDop6PlhrPnqbrmoLzpl67popjnmoTigJzpnZ7lr7npvZDigJ3nirbmgIHvvIzkvp3m
+l6fkvJrpnaLkuLTnoLTlnY9naXQgbG9n55qE6Zeu6aKY44CCDQo+Pj4NCj4+PiDkuKTkvY3ogIHl
+pKflk6XvvIzov5nkuKrpl67popjlkrHku6zmmK/kuI3mmK/lho3mhY7ph43ogIPomZHogIPomZHv
+vJ8NCj4+Pg0KPj4+IFRoYW5rcywNCj4+PiBZYW50ZW5nDQo+Pg0KPj4NCj4+DQo+PiDlj6/ku6Xm
+lLnnmoTvvIzmiJHnibnmhI/nrYnkuobkuIDkuIvvvIzmsqHnnIvliLBBbGV45Zyo5paw6KGl5LiB
+5Lit5Yqg5LiK5Lit5paH6KaB5a+56b2Q55qE6KeE5YiZ77yM5Lul5Li66L+Z5piv5rKh5YWz57O7
+55qE44CCDQoNCnVoLCBhbGlnbm1lbnQgaXMgYSBkZWZhdWx0IGN1c3RvbSBpbiBrZXJuZWwgZG9j
+dW1lbnQuIEkgdGhvdWdodCBpdCBubw0KbmVlZHMgdG8gbWVudGlvbi4uLg0KDQo+Pg0KPj4g5paH
+5qGj5peg6Z2e5piv5Liq57qm5a6a77yMbWFpbnRhaW5lcuiupOS4uuimgeWvuem9kOaIkOaWueWd
+l++8jOaIkeinieW+l+mBteS7juWumuWlveeahOinhOWImeWwseihjOS6huOAgg0KPj4NCj4+IFdp
+bGwgbW9kaWZ5IGluIHRoZSBuZXh0IHBhdGNoLg0KPg0KPg0KPiDov5vkuIDmraXmj5Dpl67vvJrl
+rp7pmYXkuIrmr4/kuIDooYzmmK/kuI3lj6/og73lrozlhajkuI3mj5Dlj4roi7HmlofnmoTvvIzm
+r5TlpoLnrKzkuIDmrKHnv7vor5Hmn5DkuKrmnK/or63vvIzlj4jmr5TlpoLor7RDUFXov5nnp43k
+uI3nv7vor5HnmoTjgIINCj4g6YKj5LmI5Zyo5a+56b2Q55qE5pe25YCZ77yM5Lit6Iux5paH5re3
+5o6S55qE5oOF5Ya15pyA5aSn5YiX5pWw5piv5aSa5bCR77yf5YGH5aaC5pivNTDvvIzpgqPkuYjo
+oYzkuK3mnInoi7Hmlofml7bvvIzmraTooYzlj6/og73lvojmmI7mmL7lgY/nn63vvIwNCj4g5L6d
+54S25peg5rOV5a+56b2Q5oiQ5pa55Z2X54q244CCDQoNCkVuZ2xpc2ggY2hhciB3aWxsIHRha2Ug
+aGFsZiB3aWR0aCBvZiBDaGluZXNlIGNoYXIuIFNvIHdoZW4gdGhlbSBtaXgNCnRvZ2V0aGVyLCB3
+ZSBzdGlsbCBjYW4gY291bnQgdGhlIHdpZHRoL2NvbHVtbg0KdG8gbGVzcyB0aGFuIDEwMCBFbmds
+aXNoIGNoYXIgd2lkdGggaW4gYSBsaW5lLiBPbiB0aGlzIHBvaW50LCAndmknIGRvDQphIGdvb2Qg
+am9iLCBpdCBzaG93IGNvcnJlY3Qgd2lkdGggZm9yIGJvdGguDQpHdWVzcyBvdGhlciBlZGl0b3Ig
+Y291bGQgZG8gdGhpcyB3b3JrIHRvbywgeW91IG1heSBqdXN0IG5lZWQgZmlndXJlDQpvdXQgc29t
+ZSBjb25maWd1cmF0aW9uPw0KDQpUaGFua3MNCkFsZXgNCj4NCj4+DQo+Pg0KPj4gVGhhbmtzLA0K
+Pj4gVGFuZw0KPj4NCj4+DQo=
