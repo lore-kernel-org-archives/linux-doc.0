@@ -2,86 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D901DC433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 11 Dec 2021 19:51:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBA76C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 11 Dec 2021 22:21:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231913AbhLKTvQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 11 Dec 2021 14:51:16 -0500
-Received: from tulikuusama2.dnainternet.net ([83.102.40.151]:49778 "EHLO
-        tulikuusama2.dnainternet.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231911AbhLKTvQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 11 Dec 2021 14:51:16 -0500
-X-Greylist: delayed 520 seconds by postgrey-1.27 at vger.kernel.org; Sat, 11 Dec 2021 14:51:15 EST
-Received: from localhost (localhost [127.0.0.1])
-        by tulikuusama2.dnainternet.net (Postfix) with ESMTP id E68BF2A1AB;
-        Sat, 11 Dec 2021 21:42:33 +0200 (EET)
-X-Virus-Scanned: DNA Internet at dnainternet.net
-Authentication-Results: tulikuusama2.dnainternet.net (DNA Internet);
-        dkim=pass (1024-bit key) header.d=anssih.iki.fi
-Received: from tulikuusama2.dnainternet.net ([83.102.40.151])
-        by localhost (tulikuusama2.dnainternet.net [127.0.0.1]) (DNA Internet, port 10041)
-        with ESMTP id ESKn04tKTPXV; Sat, 11 Dec 2021 21:42:33 +0200 (EET)
-Received: from kirsikkapuu2.dnainternet.net (kirsikkapuu2.dnainternet.net [83.102.40.52])
-        by tulikuusama2.dnainternet.net (Postfix) with ESMTP id 9038A2A15B;
-        Sat, 11 Dec 2021 21:42:33 +0200 (EET)
-Received: from mail.onse.fi (87-95-225-209.bb.dnainternet.fi [87.95.225.209])
-        (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by kirsikkapuu2.dnainternet.net (Postfix) with ESMTPS id 156953BAF;
-        Sat, 11 Dec 2021 21:42:29 +0200 (EET)
-Received: by mail.onse.fi (Postfix, from userid 1000)
-        id B6D623222F7; Sat, 11 Dec 2021 21:42:29 +0200 (EET)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.onse.fi B6D623222F7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=anssih.iki.fi;
-        s=default; t=1639251749;
-        bh=dfpAKXsHLovNd5IBRGBtQtckxsVeTIfHXjPHPxwhPaQ=;
-        h=From:To:Cc:Subject:From;
-        b=YthncdtQzcpVAepZ8OSN41woAeuhD80WiBpk6KaNLjBN1e09B046BcwXHcB8Q8HDw
-         j2pK8iJV32+i5XwLswwTzqwhWipsik7Lf5XVdFwmPgvHZtlQKmd4J3Yy0vA9JHYeVP
-         zPofmB5Oy/VGkBpTexVnraMFQsxHjYF9BHdvXnVE=
-From:   Anssi Hannula <anssi.hannula@iki.fi>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] docs/vm: clarify overcommit amount sysctl behavior
-Date:   Sat, 11 Dec 2021 21:41:59 +0200
-Message-Id: <20211211194159.3137362-1-anssi.hannula@iki.fi>
-X-Mailer: git-send-email 2.31.1
+        id S231588AbhLKWVr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 11 Dec 2021 17:21:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59170 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229605AbhLKWVr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 11 Dec 2021 17:21:47 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6DEBC061714;
+        Sat, 11 Dec 2021 14:21:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=OR7MJxyz9yi9GRif0LyRjFc5JufWB/LgEct4g0DHtRo=; b=NdISd7c+CE9Cr1M5d12kS3JQaJ
+        GpciRXX48yuTdNDcC5lu8PnyY6AFiaMODdiCLCOU0kg/fCLhKoy3Mfuuh6W0gW8iWyagG5vH+VWT3
+        IC75pxmdvGiPCL0HuJKVRNW0+ryiUUJecsHgHef3cx/ytlNUF5GiJEwqDSZYuCmXPWkwirz5DzbHZ
+        02KUCm6PXtoi9kYl7joby42noUw0WnyQthGL8mcOyGqS/iwlUXEOilZlNSIjhmdFaSLs68VDUCfLw
+        lRHvX1HsdWppQ2V02FAJJlq+b1TORWzdFQU0yOwmIOqP++a8OD4QMiK2Q2u+HxiBcJ0vg00w0fAd/
+        79NarRhg==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mwAkQ-00BWe5-6j; Sat, 11 Dec 2021 22:21:42 +0000
+Date:   Sat, 11 Dec 2021 22:21:42 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Anssi Hannula <anssi.hannula@iki.fi>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH] docs/vm: clarify overcommit amount sysctl behavior
+Message-ID: <YbUkdvFBayRwV6ax@casper.infradead.org>
+References: <20211211194159.3137362-1-anssi.hannula@iki.fi>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211211194159.3137362-1-anssi.hannula@iki.fi>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Documentation/vm/overcommit-accounting.rst says that the overcommit
-amount can be set via vm.overcommit_ratio and vm.overcommit_kbytes.
+On Sat, Dec 11, 2021 at 09:41:59PM +0200, Anssi Hannula wrote:
+> Documentation/vm/overcommit-accounting.rst says that the overcommit
+> amount can be set via vm.overcommit_ratio and vm.overcommit_kbytes.
+> 
+> Add a clarification that those only take effect in overcommit handling
+> mode 2 ("Don't overcommit"), i.e. they do not act as an "additional"
+> limit that is always enforced.
+> 
+> Signed-off-by: Anssi Hannula <anssi.hannula@iki.fi>
+> ---
 
-Add a clarification that those only take effect in overcommit handling
-mode 2 ("Don't overcommit"), i.e. they do not act as an "additional"
-limit that is always enforced.
+Simple and clear improvement, IMO.  Cc'ing linux-mm to get more eyes on
+it.
 
-Signed-off-by: Anssi Hannula <anssi.hannula@iki.fi>
----
-
-I've had to look this one up in the code enough times already :)
-
-
- Documentation/vm/overcommit-accounting.rst | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/vm/overcommit-accounting.rst b/Documentation/vm/overcommit-accounting.rst
-index 0dd54bbe4afa..1addb0c374a4 100644
---- a/Documentation/vm/overcommit-accounting.rst
-+++ b/Documentation/vm/overcommit-accounting.rst
-@@ -34,7 +34,8 @@ The Linux kernel supports the following overcommit handling modes
- The overcommit policy is set via the sysctl ``vm.overcommit_memory``.
- 
- The overcommit amount can be set via ``vm.overcommit_ratio`` (percentage)
--or ``vm.overcommit_kbytes`` (absolute value).
-+or ``vm.overcommit_kbytes`` (absolute value). These only have an effect
-+when ``vm.overcommit_memory`` is set to 2.
- 
- The current overcommit limit and amount committed are viewable in
- ``/proc/meminfo`` as CommitLimit and Committed_AS respectively.
--- 
-2.31.1
-
+> I've had to look this one up in the code enough times already :)
+> 
+> 
+>  Documentation/vm/overcommit-accounting.rst | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/vm/overcommit-accounting.rst b/Documentation/vm/overcommit-accounting.rst
+> index 0dd54bbe4afa..1addb0c374a4 100644
+> --- a/Documentation/vm/overcommit-accounting.rst
+> +++ b/Documentation/vm/overcommit-accounting.rst
+> @@ -34,7 +34,8 @@ The Linux kernel supports the following overcommit handling modes
+>  The overcommit policy is set via the sysctl ``vm.overcommit_memory``.
+>  
+>  The overcommit amount can be set via ``vm.overcommit_ratio`` (percentage)
+> -or ``vm.overcommit_kbytes`` (absolute value).
+> +or ``vm.overcommit_kbytes`` (absolute value). These only have an effect
+> +when ``vm.overcommit_memory`` is set to 2.
+>  
+>  The current overcommit limit and amount committed are viewable in
+>  ``/proc/meminfo`` as CommitLimit and Committed_AS respectively.
+> -- 
+> 2.31.1
+> 
