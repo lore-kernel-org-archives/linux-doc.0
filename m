@@ -2,119 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BBB5C433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 11 Dec 2021 04:25:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3D08C433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 11 Dec 2021 08:57:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345882AbhLKE3D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 10 Dec 2021 23:29:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51556 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345848AbhLKE3C (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 Dec 2021 23:29:02 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF854C061714;
-        Fri, 10 Dec 2021 20:25:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:References:Cc:To:Subject:From:MIME-Version:Date:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=hMJaezcaXFjxYvQz76vBf34HY8ePOcN+yipmVud6RxU=; b=CZvDQUgFscVaGgL7QlTR2KyfL9
-        G7DpWBfmnrWgZyJKT6kl03bfskkyJNnw7LmPnH1ryqUvMQcL1UsbaavNe9fpiA5ZQIZK4L+fg7wtF
-        oAiQ5hXlGKRWFISuvy91hr40LOGYW64raZjuICLkRsQCDOQuL2G/GLFtdVwHLe6h+ReqljwjDYhff
-        cezSSsLftp9Zt6N4RTL0S7ws5YvrYilLPMuKeXG5bhlV5k5nCPJiDe327khtoBdVIgTtGR1fhvcI/
-        lf32TBjVES+iWWJZBed6SB+LZyowGMB6j8TaaIaTATqkLHGyT3dTCShXzS0OZKWGybu5l2wi6mLCo
-        pGRmx2KQ==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mvtwo-00AwzR-4Q; Sat, 11 Dec 2021 04:25:23 +0000
-Message-ID: <91c1afe2-a91e-5e67-f9d8-c98301989998@infradead.org>
-Date:   Fri, 10 Dec 2021 20:25:18 -0800
+        id S229846AbhLKI5M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 11 Dec 2021 03:57:12 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:43216 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229586AbhLKI5M (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 11 Dec 2021 03:57:12 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id BAC43B80ED1;
+        Sat, 11 Dec 2021 08:57:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64209C341CA;
+        Sat, 11 Dec 2021 08:57:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1639213029;
+        bh=z2dCHAn1LQ11rBQOVNmWHpOMlWMHQGwFU34kcBgLbkA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=mm0oMyPovY2CCH8mvPdODLHgLPv7XFUW6s072E+MjWDP1hUiqnUslt3OfHDLJhNEq
+         iW0wLKNZa8jMvpcNHALV/JykDXfTBrqlDvxndd6mlCmscrKU33A4wnlyxdOirWpkAi
+         aGvEgD/SrdFWh3LnlOWwT2DlpBsvkslzSmmI/2JNL91Fh1E8Klfs4ZxJ0NNJbRlbUB
+         ovVBpJDuNQ9wtqZWCyzg8etHZNYMqI9kFKbfvT8y4P3X4Y5u/5QPJBnd+xBQFwVPCH
+         dvnuw2lSowaDezlfQNv1fLJE0ylPsLPvII/QH1WSTjsknbbXhCWUd9tl2AmSS5dr4U
+         oH2g9/CHwyPPQ==
+Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1mvyBj-000MlI-GN; Sat, 11 Dec 2021 09:57:03 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= 
+        <nfraprado@protonmail.com>, Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH 0/2] Fix some issues with DOCS_CSS and DOCS_THEME
+Date:   Sat, 11 Dec 2021 09:56:58 +0100
+Message-Id: <cover.1639212812.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v4 0/4] docs: add better support for Sphinx themes and CSS
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
-        <nfraprado@protonmail.com>, Alex Shi <alexs@kernel.org>
-References: <cover.1638870323.git.mchehab+huawei@kernel.org>
-Content-Language: en-US
-In-Reply-To: <cover.1638870323.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mauro-
+Hi Jon,
 
-On 12/7/21 01:52, Mauro Carvalho Chehab wrote:
-> Hi Jon,
-> 
-> This series comes after my patch fixing Sphinx support for RTD 1.0.0:
->  https://lore.kernel.org/lkml/80009f0d17ea0840d81e7e16fff6e7677919fdfc.1638004294.git.mchehab+huawei@kernel.org/
-> 
-> On this version, I renamed the vars to DOCS_CSS and DOCS_THEME,
-> based on our previous discussion.
-> 
-> I also changed the description of patch 4, better explaining how to
-> override the CSS theme and giving an example that looks fine,
-> at least for my eyes.
-> 
-> -
-> 
-> Sphinx allows using different output templates for HTML (and e-pub).
-> 
-> Right now, the Kernel was hardcoded to use the Read the Docs theme,
-> falling back to whatever default is setup on a given Sphinx version.
-> 
-> Well, themes and templates are actually an user preference.
-> 
-> This patch set allows selecting different themes and even provide
-> extra CSS override files.
-> 
-> With that, one could, for instance, do things like:
-> 
-> $ echo "body { color: darkgreen; } div.body { color: darkgreen; } " >my_css.css && make SPHINXDIRS=input DOCS_CSS=my_css.css DOCS_THEME=nature htmldocs
+Randy pointed a couple of issues with the DOCS_CSS and DOCS_THEME patchset.
+The two patches in this series address them.
 
-When testing this one, I get:
+Patch 1 fix the usage of "make O=<dir>".
+Patch 2 fix some documentation issues (a typo and whitespace issues).
+           
+Randy, thanks for reporting those!
 
-make DOCS_THEME=nature DOCS_CSS=my_css.css    O=DOCS SPHINXDIRS=x86 -j9 htmldocs
-make[1]: Entering directory '/work/lnx/next/next-2021-1210/DOCS'
-  SPHINX  htmldocs --> file:///work/lnx/next/next-2021-1210/DOCS/Documentation/output/x86
-make[3]: Nothing to be done for 'html'.
-Using nature theme
-WARNING: Unknown configure key: latex_elements['extrapackages']. ignored.
-source directory: x86
-cp: cannot stat 'my_css.css': No such file or directory
-make[2]: *** [../Documentation/Makefile:96: htmldocs] Error 1
-make[1]: *** [/work/lnx/next/next-2021-1210/Makefile:1783: htmldocs] Error 2
-make[1]: Leaving directory '/work/lnx/next/next-2021-1210/DOCS'
+Regards,
+Mauro
 
+Mauro Carvalho Chehab (2):
+  docs: Makefile: use the right path for DOCS_CSS
+  docs: address some text issues with css/theme support
 
-'my_css.css' is in the top level of the kernel source tree:
-
-$ ls -l  my_css.css
--rw-r--r-- 1 rdunlap users 59 Dec 10 20:16 my_css.css
-
-
-> In order to use the Sphinx nature theme with the normal font in green.
-> 
-> patch 1 adds a theme selection make variable (DOCS_THEME);
-> patch 2 adds a css selection variable (DOCS_CSS);
-> patch 3 sets the classic theme to look a little better, as this will be
->   used if  the RTD theme is not installed;
-> patch 4 adds support for the RTD dark mode theme, which seems to
->   be currently the only theme that allows the user to switch between
->   dark/light mode when visualizing the documentation.
-
-
-Overall this is looking very good. Thanks for your work on it.
+ Documentation/Makefile             | 6 +++---
+ Documentation/doc-guide/sphinx.rst | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
 -- 
-~Randy
+2.33.1
+
+
