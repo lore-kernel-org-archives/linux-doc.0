@@ -2,86 +2,164 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01A26C433EF
-	for <linux-doc@archiver.kernel.org>; Sun, 12 Dec 2021 08:58:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33713C433F5
+	for <linux-doc@archiver.kernel.org>; Sun, 12 Dec 2021 10:38:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229897AbhLLI6d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 12 Dec 2021 03:58:33 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29]:56938 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229593AbhLLI6d (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 Dec 2021 03:58:33 -0500
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id DBA241F3AC;
-        Sun, 12 Dec 2021 08:58:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1639299511; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=RdQERHM96yBBje3WLQrA2u2xMGiyCJwJHqviZnXvKlY=;
-        b=SRDdQrTHKUFY1dasR0do6uLLHNl0S2oR4XOYwu8ppoYOjCkAqOXC4uR+XnvJwIMkLvVhyz
-        GM0ACvzUEyxAxWFIHjLMpjd8XCJXzrhHRLM6fOn+Wde1sJSMO6SMpshLZQryTd6hBYaQfJ
-        Tw3FiLkbcBuT/LXZdFPVPRcZx5W4x0Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1639299511;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=RdQERHM96yBBje3WLQrA2u2xMGiyCJwJHqviZnXvKlY=;
-        b=EKWma8HOpEuFSxv1dXTn0Fsq+UMd5n3dIZUReSjHYmrehd1DRPLRYL6ziXIu0ZFU5dpYeJ
-        ioFzMLoIOPv5qVBw==
-Received: from alsa1.suse.de (alsa1.suse.de [10.160.4.42])
-        by relay2.suse.de (Postfix) with ESMTP id 3C972A3B81;
-        Sun, 12 Dec 2021 08:58:31 +0000 (UTC)
-Date:   Sun, 12 Dec 2021 09:58:31 +0100
-Message-ID: <s5ha6h6fbd4.wl-tiwai@suse.de>
-From:   Takashi Iwai <tiwai@suse.de>
-To:     Bradley Scott <Bradley.Scott@zebra.com>
-Cc:     Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jeremy Szu <jeremy.szu@canonical.com>,
-        Hui Wang <hui.wang@canonical.com>,
-        Werner Sembach <wse@tuxedocomputers.com>,
-        Kailang Yang <kailang@realtek.com>,
-        Cameron Berkenpas <cam@neo-zeon.de>,
-        Sami Loone <sami@loone.fi>, Elia Devito <eliadevito@gmail.com>,
-        alsa-devel@alsa-project.org, linux-doc@vger.kernel.org,
+        id S230077AbhLLKiV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 12 Dec 2021 05:38:21 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:40600 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230056AbhLLKiV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 Dec 2021 05:38:21 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B864DB80AEB;
+        Sun, 12 Dec 2021 10:38:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D306EC341C6;
+        Sun, 12 Dec 2021 10:38:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1639305498;
+        bh=Am+41ubCC8rkSmzoRSTLkBwWB738N2XLeFzWhjzxHlc=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=kFN2xbMfSsQOljYnCTYOkMgJv30ClZR1xAKyLVwy8cy6LFTYAsosuurUa8Or85zLc
+         wfZ7ED1tRcaNqZLJ2eUlD+BYIi0ai4pJEmiduWtREl6e8wg3Gne9Qal02h0qCS3QuE
+         WSwwKEN2DVx5JWmobRDsl4NjEtAHWZ+Jkvoxz40MJyAO3xknul6yP+EZ63RSGvNG3+
+         rAE9uj4BG7NFElWxagVwsvyOig0oFxBI+KYs0foNEq0yEWyTEESc533EfA0zBSLFk+
+         Nkwut4TS4PfRdEcDlB5eLj4Q/XWPNnYo1CGUKiwl0/OBEVVkZFIbCRA+JASV+SxNwx
+         yBEWdZkmoOl7Q==
+Date:   Sun, 12 Dec 2021 11:38:13 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Amp init fixup for HP ZBook 15 G6
-In-Reply-To: <20211210192614.460529-1-Bradley.Scott@zebra.com>
-References: <20211210192614.460529-1-Bradley.Scott@zebra.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI/1.14.6 (Maruoka)
- FLIM/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL/10.8 Emacs/25.3
- (x86_64-suse-linux-gnu) MULE/6.0 (HANACHIRUSATO)
-MIME-Version: 1.0 (generated by SEMI 1.14.6 - "Maruoka")
+Subject: Re: [PATCH 0/3] docs: sphinx/kfigure.py: Improve conversion to PDF
+Message-ID: <20211212113813.058e99fc@coco.lan>
+In-Reply-To: <de8def13-efbc-1d98-acb5-5cc1f6902e4b@gmail.com>
+References: <de8def13-efbc-1d98-acb5-5cc1f6902e4b@gmail.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 10 Dec 2021 20:26:12 +0100,
-Bradley Scott wrote:
+Em Sun, 12 Dec 2021 16:59:53 +0900
+Akira Yokosawa <akiyks@gmail.com> escreveu:
+
+> This patch set improves conversions of DOT -> PDF and SVG -> PDF
+> for PDF docs.
 > 
-> HP ZBook 15 G6 (SSID 103c:860f) needs the same speaker amplifier
-> initialization as used on several other HP laptops using ALC285.
+> * DOT -> PDF conversion
+
+First of all, package requirement for docs generation should be auto
+discovered by:
+
+	scripts/sphinx-pre-install
+
+and should not break the ones detected by check_distros() and that
+supports PDF generation.
+
 > 
-> This commit also adds a new "alc285-hp-amp-init" model that can be used
-> to apply this same amp init fixup to other devices by passing
-> "hda_model=alc285-hp-amp-init" to the snd-sof-intel-hda-common module or
-> "model=alc285-hp-amp-init" to the snd-hda-intel module, depending on
-> which is being used.
+> Current scheme uses "dot -Tpdf" (of graphviz).
 > 
-> Signed-off-by: Bradley Scott <Bradley.Scott@zebra.com>
+> Cons:
+>   - openSUSE's dot(1) does not support -Tpdf.
 
-Thanks for the patch.  Unfortunately, somehow your MUA broke the tabs
-with spaces and the patch wasn't cleanly applicable.
+I'm sure I tested pdf generation in the past with openSUSE by the
+time I wrote sphinx-pre-install script. Perhaps some change at either
+openSUSE or at the docs makefile broke support for it.
 
-Also, I prefer splitting the changes to two, the addition of a quirk
-entry and the addition to the model string.  Then old stable kernels
-have more chance to pick up.
+>   - Other distro's dot(1) generates PDFs with unnecessarily wide
+>     margins for inclusion into LaTeX docs.
+> 
+> Patch 1/3 changes the route to two steps:
+> 
+>   1. DOT -> SVG by "dot -Tsvg"
+>   2. SVG -> PDF by "rsvg-convert -f pdf" with fallback to convert(1).
 
-Could you try to resubmit?  In the worst case, I can take the
-attachments, too.
+rsvg-convert is not present on Fedora (nor on RHEL and CentOS), as far
+as I'm aware.
+
+> Pros:
+>   - Improved portability across distros
+>   - Less space for graphs in final PDF documents
+> 
+> Con:
+>   - On systems without rsvg-convert, generated PDF will be of raster
+>     image.
+
+Raster images are a very bad idea. Why don't keep use "dot -Tpdf" when
+supported by the system? instead of falling back to raster images?
+
+> * SVG -> PDF conversion
+> 
+> Current scheme uses convert(1) (of ImageMagick)
+> 
+> Cons:
+>   - Generated PDFs are of raster image.  Some of them look blurry.
+>   - Raster image tends to be large in size.
+>   - convert(1) delegates SVG decoding to rsvg-convert(1).
+>     It doesn't cover full range of Inkscape specific SVG features
+>     and fails to convert some of SVG figures properly.
+> 
+> Failed conversions are observed with:
+>   - Documentation/userspace-api/media/v4l/selection.svg
+>   - Documentation/userspace-api/media/v4l/vbi_525.svg
+>   - Documentation/userspace-api/media/v4l/vbi_625.svg
+
+What do you mean by failed? With the current way, the VBI ones
+seem OK to me:
+
+	https://linuxtv.org/downloads/v4l-dvb-apis-new/pdf/media.pdf
+
+(This is daily updated. On today's build the raw VBI ones are in
+page 1031/1032)
+
+Do you mean that your changes caused a regression there?
+
+> If you have Inkscape installed as well, convert(1) delegates SVG
+> decoding to inkscape(1) and the above SVGs are rendered correctly.
+> 
+> So if Inkscape is required for converting those SVGs, why not use it
+> directly in the first place?
+
+I remember that the main focus were to be able to generate PDF at the
+major distros. It should be OK to use whatever tool, provided that it
+won't cause regressions with such distros. Not that is should matter
+much for the others, but my particular interest is that it shouldn't
+cause regressions neither on Debian nor on Fedora, as those are the 
+ones I use for PDF generation. Debian is used at linuxtv.org, where we
+do automate builds for PDF, ePUB and HTML. Fedora is what I used locally,
+in order to test and fix issues on media PDF document output.
+
+> Patch 2/3 adds a route of SVG -> PDF conversion by inkscape(1).
+> Patch 3/3 hides warning messages from inkscape(1) which are harmless
+> in command-line uses.
+> 
+> Pros:
+>   - Generated PDFs are of vector graphics.
+>   - Vector graphics tends to be smaller in size and keeps looking nice
+>     while zoomed in.
+>   - SVGs drawn by Inkscape are fully supported.
+> 
+> On systems without Inkscape, there won't be any change in behavior.
+> 
+>         Thanks, Akira
+> --
+> Akira Yokosawa (3):
+>   docs: sphinx/kfigure.py: Use rsvg-convert(1) for DOT -> PDF conversion
+>   docs: sphinx/kfigure.py: Use inkscape(1) for SVG -> PDF conversion
+>   docs: sphinx/kfigure.py: Redirect warnings from inkscape to /dev/null
+> 
+>  Documentation/sphinx/kfigure.py | 109 ++++++++++++++++++++++++++++----
+>  1 file changed, 97 insertions(+), 12 deletions(-)
+> 
+> 
+> base-commit: a32fa6b2e8b4e0b8c03f5218afa0649e188239c5
 
 
-Takashi
+
+Thanks,
+Mauro
