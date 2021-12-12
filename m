@@ -2,219 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81F88C433EF
-	for <linux-doc@archiver.kernel.org>; Sun, 12 Dec 2021 01:25:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B589C433F5
+	for <linux-doc@archiver.kernel.org>; Sun, 12 Dec 2021 08:00:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232413AbhLLBZg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 11 Dec 2021 20:25:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41884 "EHLO
+        id S229644AbhLLH76 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 12 Dec 2021 02:59:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232406AbhLLBZf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 11 Dec 2021 20:25:35 -0500
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82909C061714;
-        Sat, 11 Dec 2021 17:25:34 -0800 (PST)
-Received: by mail-wm1-x32d.google.com with SMTP id o29so9580686wms.2;
-        Sat, 11 Dec 2021 17:25:34 -0800 (PST)
+        with ESMTP id S229449AbhLLH76 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 Dec 2021 02:59:58 -0500
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C19AEC061714;
+        Sat, 11 Dec 2021 23:59:57 -0800 (PST)
+Received: by mail-pf1-x430.google.com with SMTP id z6so12277878pfe.7;
+        Sat, 11 Dec 2021 23:59:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=aeWgIsg9nRx5DjC5z2Qu5CS/pGASfsc5ob34Cm+Pa1M=;
-        b=hB2TqXacA/XsZxvxS6/qIMxG2a7bQZiHfVxQUvfGhsb2VOK8GD1mgMxxNTWOw5YN8q
-         oH6YUjg4/Rin5qWq8Z8mwupJojZ7Qp8qhYlxfDZTrBly06tUJQQgDXhmx9esQw3xFCik
-         KJvvhJtUeTDGv62wp8u065XcQ2/eB1IbsdDQ/5AImQfReFvvLY1+NMzdSiWztbr0Z0xx
-         HGWjjRBnFxlbmUU34DsZNRUg70NEuUXe0U6Y6t317WhVMiI8HFUAEjOe2hcDRS65PpCT
-         XxLzTTDxStoKtUhJu1klHhmy9l16u0z+h64sD3nT9chLclNrBuUo2h2K/uW5lYvri9S4
-         oriA==
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=ioi42BQ6vHLIjYS1+OM6J++/wIyDwKpFVwDudzXdcWY=;
+        b=LFapcroOPUAlIzAi/yrdDlejzL+u8oHR6Nj+kXFPOfscgNU2CKIPaGkSjlUnd1t14r
+         yzOHwWYiZ0NwqmCsg60TOCEYccjJvw6XJk8DUodq/QaFjLS0/COuCE9ZmDP8eGpp48hl
+         A5iQv1WHeRx7NsKdolF4JDKsXryBIb+tyjI9+bGJEzgF4HHC5T5g2r8EyyyUf0aiY7VO
+         EeJYfR1yEX/ebt5rHwGWREIgiznq6wdAm3H7r5jx4s6qZB2Ydl8b6eWxITF8aB6Zsa7x
+         VUnUvXnp/LHjwA73XLDVq8BKCTQEBL9IVXZD3B8rYUM4llZlNLBhgEyn2ienMPfqVUcU
+         VKbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=aeWgIsg9nRx5DjC5z2Qu5CS/pGASfsc5ob34Cm+Pa1M=;
-        b=FeYQq+W6QBkdVhIIDZmGv6oqJ3XhkEfK83W1M4tbmb6iGOVaqPMD2Lt2he0QmQaKQy
-         0zxmJFWXIydnGf9avTjPEEZeB12yOhQbpn2De4RCvi+J9mQmapLarrN3P2Pdh9Hyg8vi
-         fWuKoYQ+o6z9VyUhAxH2AUs021zvmxrfd5Bxhae+sBif+77YCT3VxpLGMNPEMYsRybs0
-         ZtFDlkX9XGO9e3Ds5cI4e216q2Odm+aDGrOsdItZuEXynAB5BBivB74jOzZHecbMeKtB
-         XrD33V1YX2R+2z3qQLTzTqREsgVaHEC/VTYYXRNF83BqfqIl0hvyOylokExBVxS36KoC
-         drJw==
-X-Gm-Message-State: AOAM5302iEE3s+fonByb3yfF86ALnhFp/3VfA9XDP3mI247/Tk1XesaW
-        T4RWO8bP5rJQm21/kM/aBmE=
-X-Google-Smtp-Source: ABdhPJxzzrEKp1UNQInYRNmbtVeKoLKQeM606xQFQdns+T9Jcqh0clV9X2Pg1JhhmCNb7fjkZAtiog==
-X-Received: by 2002:a05:600c:a01:: with SMTP id z1mr5315067wmp.52.1639272332782;
-        Sat, 11 Dec 2021 17:25:32 -0800 (PST)
-Received: from ?IPv6:2003:c7:8f4e:668:2247:20d3:1195:d634? (p200300c78f4e0668224720d31195d634.dip0.t-ipconnect.de. [2003:c7:8f4e:668:2247:20d3:1195:d634])
-        by smtp.gmail.com with ESMTPSA id n13sm6290489wrt.44.2021.12.11.17.25.32
+        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=ioi42BQ6vHLIjYS1+OM6J++/wIyDwKpFVwDudzXdcWY=;
+        b=HtJFeL0pUFYiidZ3xN7eYsxI31AMHDaze4sqeBEX7r+lYK1aUon9Iq83EvB37hVMYv
+         uTqmZMAXDFOSwMN/h9eQJWOcb4JkL5crIgzLrCQGgH5W5WXaH7K+C6FZqLmVVm5Jk/7/
+         Y5WKt8g/XYUimFgCAHh7/y+0spCTHh2q0/0SqpomT9o3h8HKT9roGgXjQ931aHLy89Z4
+         6cZSB6cuzVBTeI4Qa3lsMJbtCM6P6nWLj/I0qTRK/C1ugpL1UtF5HvtjRgiQZKxL1BMr
+         2bJK5dxudqJRVJRaOVFFXx26U/d1ein6zDHSd67n4EsmT4MoAKGMjNTXMZ8GEeuw2zBF
+         NeCQ==
+X-Gm-Message-State: AOAM532jr3Lg4H/CE7R5IUGhG7N3te2bprDIVp6dwBtFxBLCyZbXEHDs
+        AuU94W0CT5NQIY6SkDdIlPWv9fDxvz4=
+X-Google-Smtp-Source: ABdhPJxDkERkWD8OMwnTmiTwjd90Sf8zIM6LHD9t3XrsNNG00JAgvqtzd601F7vZKkwhgQYDVV13JA==
+X-Received: by 2002:a63:790e:: with SMTP id u14mr47675032pgc.478.1639295997327;
+        Sat, 11 Dec 2021 23:59:57 -0800 (PST)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id i9sm3149198pgc.27.2021.12.11.23.59.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 11 Dec 2021 17:25:32 -0800 (PST)
-Subject: Re: [PATCH v3 2/5] Docs: usb: update comment and code near decrement
- our usage count for the device
-To:     Oliver Neukum <oneukum@suse.com>, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     linux-usb@vger.kernel.org, gregkh@linuxfoundation.org
-References: <cover.1638771720.git.philipp.g.hortmann@gmail.com>
- <ca8fd26ccff6521c7477a2035e703e099da56214.1638771720.git.philipp.g.hortmann@gmail.com>
- <bc30a2f4-a913-1f5e-c1fa-e10f8f357128@suse.com>
-From:   Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Message-ID: <54d4056a-7456-523f-7b63-bebdf0cc549b@gmail.com>
-Date:   Sun, 12 Dec 2021 02:25:31 +0100
+        Sat, 11 Dec 2021 23:59:56 -0800 (PST)
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Akira Yokosawa <akiyks@gmail.com>
+From:   Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH 0/3] docs: sphinx/kfigure.py: Improve conversion to PDF
+Message-ID: <de8def13-efbc-1d98-acb5-5cc1f6902e4b@gmail.com>
+Date:   Sun, 12 Dec 2021 16:59:53 +0900
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <bc30a2f4-a913-1f5e-c1fa-e10f8f357128@suse.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/7/21 10:30 AM, Oliver Neukum wrote:
-> On 06.12.21 21:57, Philipp Hortmann wrote:
-> 
->> Update comment: decrement our usage count ..
->> and code according to usb-skeleton.c
-> 
-> Hi,
-> 
-> and that is exactly the problem, I am afraid.
-> Your patch would be correct if the underlying code were correct.
-> 
->>   
->> -    /* decrement our usage count for the device */
->> -    --skel->open_count;
->> +    /* decrement the count on our device */
->> +    kref_put(&dev->kref, skel_delete);
->>   
->>   
->>   One of the more difficult problems that USB drivers must be able to
-> 
-> I am sorry but the code in usb-skel.c is wrong. You grab a reference
-> in skel_open():
-> 
->          /* increment our usage count for the device */
->          kref_get(&dev->kref);
-> 
-> which is good, but in skel_release() we do:
-> 
->          /* decrement the count on our device */
->          kref_put(&dev->kref, skel_delete);
-> 
-> unconditionally.
-> 
-> Think this through:
-> 
-> - Device is plugged in -> device node and internal data is created
-> - open() called -> kref_get(), we get a reference
-> - close() -> kref_put() -> refcount goes to zero -> skel_delete() is called, struct usb_skel is freed:
-> 
-> static void skel_delete(struct kref *kref)
-> {
->          struct usb_skel *dev = to_skel_dev(kref);
-> 
->          usb_free_urb(dev->bulk_in_urb);
->          usb_put_intf(dev->interface);
->          usb_put_dev(dev->udev);
->          kfree(dev->bulk_in_buffer);
->          kfree(dev);
-> }
-> 
-> with intfdata left intact.
-> 
-> - open() is called again -> We are following a dangling pointer into cloud cuckoo land.
-> 
-> Unfortunately this code is older than git, so I cannot just send a revert.
-> What to do?
-> 
-> 	Regards
-> 		Oliver
-> 
-I cannot see the issue you described.
+This patch set improves conversions of DOT -> PDF and SVG -> PDF
+for PDF docs.
 
-Think this through:
-- probe() is called and kref_init() sets refcount to 1
-- open() is called and refcount is increased to 2
-- close() is called and refcount is decreased to 1 -> delete() is not called
-- disconnect() is called and refcount is decreased to 0 -> delete() is 
-called
+* DOT -> PDF conversion
 
-Putting debug messages into the code and follow the log:
-[12820.221534] skeleton 2-1.6:1.0: skel_probe called
-[12820.221658] skeleton 2-1.6:1.0: USB Skeleton device now attached to 
-USBSkel-1
-[12820.221690] usbcore: registered new interface driver skeleton
-[12824.046075] skeleton 2-1.6:1.0: skel_open called
-[12825.047213] skeleton 2-1.6:1.0: skel_release called
-[12826.047854] skeleton 2-1.6:1.0: skel_open called
-[12827.049017] skeleton 2-1.6:1.0: skel_release called
-[12831.035262] usb 2-1.6: USB disconnect, device number 4
-[12831.035500] skeleton 2-1.6:1.0: skel_disconnect call
-[12831.035504] skeleton 2-1.6:1.0: skel_delete called
-[12831.035507] skeleton 2-1.6:1.0: USB Skeleton #1 now disconnected
+Current scheme uses "dot -Tpdf" (of graphviz).
 
-delete() is only called on disconnect and not earlier.
+Cons:
+  - openSUSE's dot(1) does not support -Tpdf.
+  - Other distro's dot(1) generates PDFs with unnecessarily wide
+    margins for inclusion into LaTeX docs.
 
-This seems to be fine to me. Please find position of debug messages below.
+Patch 1/3 changes the route to two steps:
 
-Thanks for your reply.
+  1. DOT -> SVG by "dot -Tsvg"
+  2. SVG -> PDF by "rsvg-convert -f pdf" with fallback to convert(1).
 
-Regards,
+Pros:
+  - Improved portability across distros
+  - Less space for graphs in final PDF documents
 
-Philipp
+Con:
+  - On systems without rsvg-convert, generated PDF will be of raster
+    image.
 
 
+* SVG -> PDF conversion
 
-  /* Define these values to match your devices */
--#define USB_SKEL_VENDOR_ID     0xfff0
--#define USB_SKEL_PRODUCT_ID    0xfff0
-+#define USB_SKEL_VENDOR_ID     0x1a86
-+#define USB_SKEL_PRODUCT_ID    0x7523
+Current scheme uses convert(1) (of ImageMagick)
 
--/* table of devices that work with this driver */
-  static const struct usb_device_id skel_table[] = {
-         { USB_DEVICE(USB_SKEL_VENDOR_ID, USB_SKEL_PRODUCT_ID) },
-         { }                                     /* Terminating entry */
-@@ -73,6 +72,7 @@ static void skel_delete(struct kref *kref)
-  {
-         struct usb_skel *dev = to_skel_dev(kref);
+Cons:
+  - Generated PDFs are of raster image.  Some of them look blurry.
+  - Raster image tends to be large in size.
+  - convert(1) delegates SVG decoding to rsvg-convert(1).
+    It doesn't cover full range of Inkscape specific SVG features
+    and fails to convert some of SVG figures properly.
 
-+       dev_info(&dev->interface->dev, "skel_delete called\n");
-         usb_free_urb(dev->bulk_in_urb);
-         usb_put_intf(dev->interface);
-         usb_put_dev(dev->udev);
-@@ -110,6 +110,7 @@ static int skel_open(struct inode *inode, struct 
-file *file)
-         /* increment our usage count for the device */
-         kref_get(&dev->kref);
+Failed conversions are observed with:
+  - Documentation/userspace-api/media/v4l/selection.svg
+  - Documentation/userspace-api/media/v4l/vbi_525.svg
+  - Documentation/userspace-api/media/v4l/vbi_625.svg
 
-+       dev_info(&interface->dev, "skel_open called\n");
-         /* save our object in the file's private structure */
-         file->private_data = dev;
+If you have Inkscape installed as well, convert(1) delegates SVG
+decoding to inkscape(1) and the above SVGs are rendered correctly.
 
-@@ -125,6 +126,7 @@ static int skel_release(struct inode *inode, struct 
-file *file)
-         if (dev == NULL)
-                 return -ENODEV;
+So if Inkscape is required for converting those SVGs, why not use it
+directly in the first place?
 
-+       dev_info(&dev->interface->dev, "skel_release called\n");
-         /* allow the device to be autosuspended */
-         usb_autopm_put_interface(dev->interface);
+Patch 2/3 adds a route of SVG -> PDF conversion by inkscape(1).
+Patch 3/3 hides warning messages from inkscape(1) which are harmless
+in command-line uses.
 
-@@ -507,6 +509,7 @@ static int skel_probe(struct usb_interface *interface,
-         dev->udev = usb_get_dev(interface_to_usbdev(interface));
-         dev->interface = usb_get_intf(interface);
+Pros:
+  - Generated PDFs are of vector graphics.
+  - Vector graphics tends to be smaller in size and keeps looking nice
+    while zoomed in.
+  - SVGs drawn by Inkscape are fully supported.
 
-+       dev_info(&dev->interface->dev, "skel_probe called\n");
-         /* set up the endpoint information */
-         /* use only the first bulk-in and bulk-out endpoints */
-         retval = usb_find_common_endpoints(interface->cur_altsetting,
-@@ -577,6 +580,7 @@ static void skel_disconnect(struct usb_interface 
-*interface)
-         usb_kill_urb(dev->bulk_in_urb);
-         usb_kill_anchored_urbs(&dev->submitted);
+On systems without Inkscape, there won't be any change in behavior.
 
-+       dev_info(&dev->interface->dev, "skel_disconnect call\n");
-         /* decrement our usage count */
-         kref_put(&dev->kref, skel_delete);
+        Thanks, Akira
+--
+Akira Yokosawa (3):
+  docs: sphinx/kfigure.py: Use rsvg-convert(1) for DOT -> PDF conversion
+  docs: sphinx/kfigure.py: Use inkscape(1) for SVG -> PDF conversion
+  docs: sphinx/kfigure.py: Redirect warnings from inkscape to /dev/null
+
+ Documentation/sphinx/kfigure.py | 109 ++++++++++++++++++++++++++++----
+ 1 file changed, 97 insertions(+), 12 deletions(-)
+
+
+base-commit: a32fa6b2e8b4e0b8c03f5218afa0649e188239c5
+-- 
+2.17.1
 
