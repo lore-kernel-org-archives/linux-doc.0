@@ -2,137 +2,250 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5AA1C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Dec 2021 20:10:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3FC5C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Dec 2021 20:16:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235796AbhLMUK3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Dec 2021 15:10:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33888 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233617AbhLMUK2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Dec 2021 15:10:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1639426228;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=98410SCY73aKt24LcVMxqvWF7akIYNbHy7o+glUPBM4=;
-        b=JQM+2SNRVQLxk0m3dCELXvJupEXT4BC4PtRnn8oShbWOPjXc2XIiMABtayBh5nwnvvq7nP
-        Yqdlo/Bn2vI45BbWJNQT4NwxLvEm4QOkI25bdURsJgb5xiXWz4HOeGN232AYgYdOikC1k6
-        CBuXcMNCN10I+2ZJ2QMVXs9Nx4FlnMw=
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
- [209.85.167.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-520-n1lWkPEVMOWsIWtwA0f8DQ-1; Mon, 13 Dec 2021 15:10:27 -0500
-X-MC-Unique: n1lWkPEVMOWsIWtwA0f8DQ-1
-Received: by mail-oi1-f200.google.com with SMTP id p186-20020aca42c3000000b002bc99d2b74aso11568855oia.18
-        for <linux-doc@vger.kernel.org>; Mon, 13 Dec 2021 12:10:26 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=98410SCY73aKt24LcVMxqvWF7akIYNbHy7o+glUPBM4=;
-        b=NQFS5ZErubpRzmP+gPA7oBITVi4zDQJc8US3cSnR8CkwKqXwrObvMt54rUYj6Tcx3W
-         5H92iGOY9qkqcTKR7NmfX0/qZxD5bcyxAfXFBpLveKgz20IPgtN14MxkiKo1CQbRJ4PN
-         gHvh+Px6/LyH8Cr+7iwxS+x+h8nxDSGLzTa2MBCCk4OSQ9NFPrlPbAznhQqpGO5kvFVK
-         AsQMbdnhThItFCsAJyuvo83ToRPQ70oyiRe0NxZvLNCyoQuJkI/kdlAQ6OPUc/2Pl935
-         s3L9fdfYUAqCTRAjGFFiODkqkqb12zmdYFxwGF2lvEfRcSi65VqHgm9+G4R7bhwv+LK6
-         cXPQ==
-X-Gm-Message-State: AOAM531JBG3MISoEGNas5AthGAAQhNq76su9nGr+t5xbGxgVp/3fjkb9
-        OBs8XMPd4hiOEncdzDZWGK30TSLg3TrYt1yl4UWzQFBxFuDqUNzV0lFspZFH95k0n3/OtswRr70
-        v+S1tz5efkRXcQY2LNkKD
-X-Received: by 2002:a4a:d184:: with SMTP id j4mr448476oor.72.1639426226195;
-        Mon, 13 Dec 2021 12:10:26 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzdF5hmqnDtiL8k0ufA6KXBZMr+XhxgtNNHlmdJ9hKuUpIpa3M2DrnM0v+LSkj9mIo3zup2qw==
-X-Received: by 2002:a4a:d184:: with SMTP id j4mr448461oor.72.1639426225935;
-        Mon, 13 Dec 2021 12:10:25 -0800 (PST)
-Received: from treble ([2600:1700:6e32:6c00::49])
-        by smtp.gmail.com with ESMTPSA id h14sm2392996ots.22.2021.12.13.12.10.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Dec 2021 12:10:25 -0800 (PST)
-Date:   Mon, 13 Dec 2021 12:10:22 -0800
-From:   Josh Poimboeuf <jpoimboe@redhat.com>
-To:     David Vernet <void@manifault.com>
-Cc:     pmladek@suse.com, linux-doc@vger.kernel.org,
-        live-patching@vger.kernel.org, linux-kernel@vger.kernel.org,
-        jikos@kernel.org, mbenes@suse.cz, joe.lawrence@redhat.com,
-        corbet@lwn.net, yhs@fb.com, songliubraving@fb.com
-Subject: Re: [PATCH] livepatch: Fix leak on klp_init_patch_early failure path
-Message-ID: <20211213201022.dhalhtc2bpey55gh@treble>
-References: <20211213191734.3238783-1-void@manifault.com>
+        id S236943AbhLMUQg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Dec 2021 15:16:36 -0500
+Received: from mail-dm6nam11on2040.outbound.protection.outlook.com ([40.107.223.40]:29953
+        "EHLO NAM11-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S233984AbhLMUQf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 13 Dec 2021 15:16:35 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bT90chsV7FyXWo5drUUXxehWiKy8e3Uu0FvhCAG+UbBuR1KlhEFgNY8ozIW3gen9sLCAPZ1sKs+fKACFD91VteRR77Ophx6AyxhgTUb79h/C3ljfAg0ukKi4axW8EKzCIiY7DjZjRD4jk22PTrXt1cM3lyaGpObfn0dUE4nFfYdeCkU+Imd/bV0WiVK1i3eJKPTNNE0Qhc1JRpR1Iq5USpWExlvYeeT4IzaahOGYLqdwLoC1hQUlfGWPaGy/AtxlDhoDA+XEZ7MDkwrRsoylbxKwEzPRDEVR6/A0SwJNexOQTzi2ksGNyHyhq+HcG9dtXn6fvPU0JuyxHmPJm38KBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=msoKE1khMD740RpZ6mcrAS+lUKrNIVcMMkAMlyx8UXk=;
+ b=W8jzrjTGCKmVxn7waEEdKlDZNfhwW5q7yDORmKZM0tcno/jHHEq8TceQaJM6klOZtZp3zquV/B96tb9GQVfsWHpvxRmkjkFyH3gCcxqGq6QysYg9JT0EMdNGWD8jgE9ATOWHM8uP6KUN/JjN1VHBs/rDnZ91KgOd3a80bs8aShD8RheT6U6gJEFS0ZH8f831AJsBx7dIdoOVdL+FNo6uw57swotST7bKTIdN+ykh4f3wA1zsqtZWhWAAHFRwIrbLk0BtM9WOA98pkfRlChoSHkdsUiyxm3NmI6TU/L7h1yH0fqbminqkshybXQdiKa2pR3OstNBnt1guq0O1Bv+sRQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=msoKE1khMD740RpZ6mcrAS+lUKrNIVcMMkAMlyx8UXk=;
+ b=2kqUYg5hvjeufUMLscJCVzvLjXIPr0xyLyvEeWAeXePqCDGIuviRyyhsNlbVQsnjpjYvsLUfPqbiTRu32TpnnJaL48tUYc9gyvxWhNBFW7YOjVvO21KnzoxgvwzN14iz0Yyivw2B7X6PFqAkqqZ1d9uRYTKQ4GEVuZXztS5sHzA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB2896.namprd12.prod.outlook.com (2603:10b6:208:ab::22)
+ by MN2PR12MB3325.namprd12.prod.outlook.com (2603:10b6:208:ce::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.17; Mon, 13 Dec
+ 2021 20:16:32 +0000
+Received: from MN2PR12MB2896.namprd12.prod.outlook.com
+ ([fe80::44f7:66fe:4419:d8d3]) by MN2PR12MB2896.namprd12.prod.outlook.com
+ ([fe80::44f7:66fe:4419:d8d3%7]) with mapi id 15.20.4778.018; Mon, 13 Dec 2021
+ 20:16:32 +0000
+Subject: Re: [PATCH v2 2/3] Documentation/gpu: include description of AMDGPU
+ hardware structure
+To:     Yann Dirson <ydirson@free.fr>, amd-gfx@lists.freedesktop.org
+Cc:     Alex Deucher <alexander.deucher@amd.com>,
+        Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+        linux-doc@vger.kernel.org, Harry Wentland <harry.wentland@amd.com>
+References: <20211210182030.3834-1-ydirson@free.fr>
+ <20211210182030.3834-3-ydirson@free.fr>
+From:   Rodrigo Siqueira Jordao <rjordrigo@amd.com>
+Message-ID: <c5563e17-d978-58ee-8350-5b51593fb5bd@amd.com>
+Date:   Mon, 13 Dec 2021 15:16:29 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+In-Reply-To: <20211210182030.3834-3-ydirson@free.fr>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CH2PR07CA0056.namprd07.prod.outlook.com
+ (2603:10b6:610:5b::30) To MN2PR12MB2896.namprd12.prod.outlook.com
+ (2603:10b6:208:ab::22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20211213191734.3238783-1-void@manifault.com>
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 798a8e5e-fc21-46bd-db38-08d9be7573e5
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3325:EE_
+X-Microsoft-Antispam-PRVS: <MN2PR12MB3325979C870E9C21FD86769A98749@MN2PR12MB3325.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:813;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: nifNjmPe38sPfl5CxXt69T4jbiyFQVWXkISZdUl5t/9Ws65Z0fOofY1wfRHfeRlmbBiEJSP0m1qgex2lr6gJ4VLoWfnbDynyiBs46cZRCb/CvUb7wMgqM+opTTtAuZ4ihxjIharmoBd9EEbssRNTWLZPxbwbIyfcRDh3GHZzHcy+AzRqTxJJNj5gGfrWKZ6YwaD3uP9mmowOwEfrwvYabrtx4vf8rg9oILOKWx9oyCF6X2qzFvl/QzcKkeHFYUV8l3awg6AkGj5PPTekuTwNpkcDYeMbOnhVQ2I85Vg3VRDgMlAApZZmiKdy0vKIgEPg/tlBpz1aeWDPLhzq2jF4dtvUGKNTOMGdsg/IPuUqmxB0eWui0EH/QvrLWeDsTbbqSDjtLsj7rAc92RKmO4EXYstLfkKvtbjZW8zgY+bj9ryo7Qdty83CBn5Q6JafvwPF2e0PEHAT/qh7/jDPd+FNKq3OLCIChQgZ9b8erB2zN12OSv2+wddfos7takeM8hduQEKorzyv2A6TYSRR9Z6n2l+mUDMWWvQevJ588NQMlvsPu7s2uDSTzNJ2IAdUc5WLJLwK9AdWGMBVJgofiwcWmEg+Q4SyudzBePPNLbFO1cRKXeyaHy/6tlTiI9vmGV0bQMewLDjDtyQznU3Axnk+uAPwDxZ3W6iCURcIwlHGOtV/UQ+OzIDN3N71o6R8Y+OLAKy7IDse4Lr5Rd/Umu5izJYgJlJyF1MhaHHlwBrEAAnJIWeRWsM8CINJra+5tF/O95A9nWrn23eWD96jb2r8jFh4ndU+5mOM6zsKLHAZXTBPmYN/+sgm59PLiufkvYs+yNZcMa0ZHhdVLKNJVMOVa3lannGVh+ZT1r3c+4BdzA0=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB2896.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(8676002)(8936002)(6512007)(6666004)(2616005)(83380400001)(2906002)(36756003)(66476007)(38100700002)(53546011)(316002)(66946007)(5660300002)(66556008)(54906003)(6486002)(6506007)(966005)(186003)(31696002)(31686004)(4326008)(4001150100001)(508600001)(15866825006)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?L0wvY1pyT1VLYURqTmhjSWtPYmVGSkgyamd0Y0g0MGxZY3llcTBJQ3JDWG05?=
+ =?utf-8?B?bHdxcG9oOXlZem5wOFArd0hwVTF3b2YvcCs5OVhXV21xbGExNndHSnloRlE0?=
+ =?utf-8?B?elF6eVEwYmloYkdVekpUbi9pSG82NnhBTjlOY3ZLbm9HVUMrelZvYTlaREpO?=
+ =?utf-8?B?YlZuR3dmeCszcDhjU3I4Z0kwTWVYOGlaTW1wako0cUJVeEZCTEIrNG1OeVk0?=
+ =?utf-8?B?VmVucGtYejI4VmQySXYxK2o5NHNvUDlmUUxxaGpxZFBybFBGUGJNYzFSYjdM?=
+ =?utf-8?B?TjdrVlpxNlVzT2lTYllSWGZEbm5kaXUzM05oMDZ2L1FvRzI3c05QNWNYNkF4?=
+ =?utf-8?B?TXJTOFpPWENON1lvTTZnYVd4THY0bnBhRVJWUkxiTis2RDkzQVg3L2dEaDZw?=
+ =?utf-8?B?cVVXV3BuaGI4VUo2ZzJPT21kQ2NMVXM0WDIrTUtNTEJSTUhOMVFRN1ppekdC?=
+ =?utf-8?B?K0s1ZnY2YjFzUlcrY1V1TVlIQXlicjFldEczVkRLLytESEtBQzhncmdCdWdH?=
+ =?utf-8?B?QU9aS3F4SlZObzAzMTZKblRVODAxdnRZUmtqNy92TE5KbzIxeWlHb2Fnb2oz?=
+ =?utf-8?B?cmQyZjRNMkxISURFRlAwY3ZUMGp6eXpnR3FzQm1ZS3F5TW8wWXo5RmcxQ2Nn?=
+ =?utf-8?B?a2JoOHRpQWVMSGtDWW1RY2dhU1B4MDZxcjE3dXkzdGllQWdjc2hSYzJQT1F2?=
+ =?utf-8?B?dTlQZ2wxbyt5czBSTmJYUzFTRlBPNHQyZkxDWnBrd1R4anRMekhLRUE0SytZ?=
+ =?utf-8?B?QTdvc2NUSHBVN3NlT1ZGRk85cjNJQ08yU3E0SE90ZWN3ck5kY09TWG1JTmor?=
+ =?utf-8?B?SzJRZEJscnREWkNMK3M3Nmg4NTBnREZBOGJwcDA3MlFWMDdISEJqZWhDb3N3?=
+ =?utf-8?B?SW9kTnpXZ3BoWG96eFpZcWUxTVJrUVhySlpKT2x6TnphNEtydFFNZmxLT1ZH?=
+ =?utf-8?B?cXRVNEJIb1BYcXV2OWVrV1JRNVpsMC9TYSttTkhNazNHTFA0eGtzK0VyL2lm?=
+ =?utf-8?B?aXgza0dwQm1UeWFVMFRPVTBVb01VREpGRjNrRHdoZTg3UnJxTkk0WHJvSCtS?=
+ =?utf-8?B?N29VNWxRU1RLR0l1elVGc2oxbGtjYkNabEZJWHRTVXI0aDZhaVlLc1RYRTR3?=
+ =?utf-8?B?aENXN3NmS1ByRkxNdW40NmxOeDlaNGhxeXFxckpUa25Bemg2dU01aVJNL0lL?=
+ =?utf-8?B?OE9jTzQ5ZjhrL2UrY2RDV1VLNTdiMzJ3a1NRSk9SalZab2NtNkZONnVYMnBt?=
+ =?utf-8?B?NEQraEVjS1hNQ2wrcitvNUFzQTdUTmpQQ0hEMXdIK05icFZHa3orby94eitM?=
+ =?utf-8?B?TDRFeGVjbldJSTFXcXdsbzFLdjQ4QTJBdHR1dko0OEtEOHY4bHZYR2F1SjlO?=
+ =?utf-8?B?eklvZW5LWjlac1BhM3FmcGpiWjNETlJNTVp2anVnT0NhcWtxNlVVcHN0UG1Z?=
+ =?utf-8?B?WWRWL0lkTnZyMXkramwzbTJKZWlWam1PaTNmUEpOUG44VE9nZHl6OGRpQU94?=
+ =?utf-8?B?OTAyS1k1R0w0Sk91R3dUWithMTJxWGpmYVlxVmJCQ2NOdW9sVFZnUENwUUlK?=
+ =?utf-8?B?N1RFNFlkSGxHOHVKdHpxaG0weFJ0Tlp4dzhzWCswbGRaOHhMczBYeVpuYnNH?=
+ =?utf-8?B?WW9HdFpaeGpJTlZDck5TYXJ6S3BQdVFsUVY0RENaNW1HZ3RDaks4OVNiZWx1?=
+ =?utf-8?B?OGxoK1FZUVdUbXhBQXI3djBlL3prbjFwdCtLcVVYTFFSSWFwdTZJZVVMTThs?=
+ =?utf-8?B?S216RW5mOTJlWEViS2lrSStibWFpRUtnd1FxUHVjYlh2dmxvWXFsUDJySGky?=
+ =?utf-8?B?VnRSaWR0Z2UzZ1RhRk8xUVhXeVFjc3dicE43dFBEYXdsUG9qeG9mVVIzZlNj?=
+ =?utf-8?B?Z25mR3h6VlEvYXhTalM3NlVnQjZlMjk5NWVMb2p5SnoyS0Nsbkc4M0NraDJ0?=
+ =?utf-8?B?dDBEQ05aRnVzcG5ZUStoR2l3elNtUkRZSkVsWnJJRVdRdlpOUVM3b1MxZGJ1?=
+ =?utf-8?B?bVZtY2NYNERXL3pmb1M3QmpsMWxwN0EzUzhwNzZyTmI3UW1vekZRNkt0RDU4?=
+ =?utf-8?B?R3llQ1Y4cDFYV3JLUmQ4MHFyUHI1VFZmOWJSTEFNMlZ3dnphdjUzMTc5cGVX?=
+ =?utf-8?B?K0VOeFhFMjdTYkdPSEk1L2RFTG9xZFlmRkdXOVFZUHR0K05GQXBvNU9JdE5j?=
+ =?utf-8?B?OWJnQUp5V01MRHUvZDF4ZnEraTl3TzJvZFBTdVYxeTkraDVCOVdNRFpkdDVm?=
+ =?utf-8?Q?ZKalHxbKQ8Nec7M+BGpjJJ48kziZ+G8FLn7RLFdt00=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 798a8e5e-fc21-46bd-db38-08d9be7573e5
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB2896.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Dec 2021 20:16:31.9467
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: efx4TURSAA3gUsX1xGOLmKHYVNwLijIxlvpoczbeL3DisUb7TVQQC34HPIvLvZB8PG++Pi6/Z5iicj0bjK7a5Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3325
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 13, 2021 at 11:17:35AM -0800, David Vernet wrote:
-> When enabling a KLP patch with `klp_enable_patch`, we invoke
-> `klp_init_patch_early` to initialize the kobjects for the patch itself, as
-> well as the `struct klp_object*`'s and `struct klp_func*`'s that comprise
-> it. However, there are some paths where we may fail to do an
-> early-initialization of an object or its functions if certain conditions
-> are not met, such as an object having a `NULL` funcs pointer. In these
-> paths, we may currently leak the `struct klp_patch*`'s kobject, as well as
-> any of its objects or functions, as we don't free the patch in
-> `klp_enable_patch` if `klp_init_patch_early` returns an error code. For
-> example, if we added the following object entry to the sample livepatch
-> code, it would cause us to leak the vmlinux `klp_object`, and its `struct
-> klp_func` which updates `cmdline_proc_show`:
+
+
+On 2021-12-10 1:20 p.m., Yann Dirson wrote:
+> This is Alex' description from the "gpu block diagram" thread, edited to
+> fit as ReST.
+
+Maybe you can improve this commit message by describing what you are 
+documenting and also adding a link to the original discussion. Perhaps 
+you can use this link:
+
+https://www.spinics.net/lists/amd-gfx/msg71383.html
+
+
+> Originally-by: Alex Deucher <alexander.deucher@amd.com>
+> Signed-off-by: Yann Dirson <ydirson@free.fr>
+> Acked-by: Harry Wentland <harry.wentland@amd.com>
+> ---
+>   Documentation/gpu/amdgpu/driver-core.rst | 81 ++++++++++++++++++++++++
+>   1 file changed, 81 insertions(+)
 > 
-> ```
-> static struct klp_object objs[] = {
->         {
->                 .name = "kvm",
->         }, { }
-> };
-> ```
+> diff --git a/Documentation/gpu/amdgpu/driver-core.rst b/Documentation/gpu/amdgpu/driver-core.rst
+> index 97f9a9b68924..b870a63c64dd 100644
+> --- a/Documentation/gpu/amdgpu/driver-core.rst
+> +++ b/Documentation/gpu/amdgpu/driver-core.rst
+> @@ -2,6 +2,87 @@
+>    Core Driver Infrastructure
+>   ============================
+>   
+> +GPU hardware structure
+> +======================
+
+How about using the camel case in the titles? I mean "GPU Hardware 
+Structure".
+
+> +
+> +Each ASIC is a collection of hardware blocks.  We refer to them as
+> +"IPs" (Intellectual Property blocks).  Each IP encapsulates certain
+> +functionality. IPs are versioned and can also be mixed and matched.
+> +E.g., you might have two different ASICs that both have SDMA 5.x IPs.
+
+How about using "System DMA (SDMA) 5.x" instead of only saying SDMA?
+
+Anyway, in general lgtm.
+
+Reviewed-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+
+Thanks
+
+> +The driver is arranged by IPs.  There are driver components to handle
+> +the initialization and operation of each IP.  There are also a bunch
+> +of smaller IPs that don't really need much if any driver interaction.
+> +Those end up getting lumped into the common stuff in the soc files.
+> +The soc files (e.g., vi.c, soc15.c nv.c) contain code for aspects of
+> +the SoC itself rather than specific IPs.  E.g., things like GPU resets
+> +and register access functions are SoC dependent.
+> +
+> +An APU contains more than just CPU and GPU, it also contains all of
+> +the platform stuff (audio, usb, gpio, etc.).  Also, a lot of
+> +components are shared between the CPU, platform, and the GPU (e.g.,
+> +SMU, PSP, etc.).  Specific components (CPU, GPU, etc.) usually have
+> +their interface to interact with those common components.  For things
+> +like S0i3 there is a ton of coordination required across all the
+> +components, but that is probably a bit beyond the scope of this
+> +section.
+> +
+> +With respect to the GPU, we have the following major IPs:
+> +
+> +GMC (Graphics Memory Controller)
+> +    This was a dedicated IP on older pre-vega chips, but has since
+> +    become somewhat decentralized on vega and newer chips.  They now
+> +    have dedicated memory hubs for specific IPs or groups of IPs.  We
+> +    still treat it as a single component in the driver however since
+> +    the programming model is still pretty similar.  This is how the
+> +    different IPs on the GPU get the memory (VRAM or system memory).
+> +    It also provides the support for per process GPU virtual address
+> +    spaces.
+> +
+> +IH (Interrupt Handler)
+> +    This is the interrupt controller on the GPU.  All of the IPs feed
+> +    their interrupts into this IP and it aggregates them into a set of
+> +    ring buffers that the driver can parse to handle interrupts from
+> +    different IPs.
+> +
+> +PSP (Platform Security Processor)
+> +    This handles security policy for the SoC and executes trusted
+> +    applications, and validates and loads firmwares for other blocks.
+> +
+> +SMU (System Management Unit)
+> +    This is the power management microcontroller.  It manages the entire
+> +    SoC.  The driver interacts with it to control power management
+> +    features like clocks, voltages, power rails, etc.
+> +
+> +DCN (Display Controller Next)
+> +    This is the display controller.  It handles the display hardware.
+> +
+> +SDMA (System DMA)
+> +    This is a multi-purpose DMA engine.  The kernel driver uses it for
+> +    various things including paging and GPU page table updates.  It's also
+> +    exposed to userspace for use by user mode drivers (OpenGL, Vulkan,
+> +    etc.)
+> +
+> +GC (Graphics and Compute)
+> +    This is the graphics and compute engine, i.e., the block that
+> +    encompasses the 3D pipeline and and shader blocks.  This is by far the
+> +    largest block on the GPU.  The 3D pipeline has tons of sub-blocks.  In
+> +    addition to that, it also contains the CP microcontrollers (ME, PFP,
+> +    CE, MEC) and the RLC microcontroller.  It's exposed to userspace for
+> +    user mode drivers (OpenGL, Vulkan, OpenCL, etc.)
+> +
+> +VCN (Video Core Next)
+> +    This is the multi-media engine.  It handles video and image encode and
+> +    decode.  It's exposed to userspace for user mode drivers (VA-API,
+> +    OpenMAX, etc.)
+> +
+> +Driver structure
+> +================
+> +
+> +In general, the driver has a list of all of the IPs on a particular
+> +SoC and for things like init/fini/suspend/resume, more or less just
+> +walks the list and handles each IP.
+> +
+> +
+>   .. _amdgpu_memory_domains:
+>   
+>   Memory Domains
 > 
-> Without this change, if we enable `CONFIG_DEBUG_KOBJECT` and try to `kpatch
-> load livepatch-sample.ko`, we don't observe the kobjects being released
-> (though of course we do observe `insmod` failing to insert the module).
-> With the change, we do observe that the `kobject` for the patch and its
-> `vmlinux` object are released.
-> 
-> Signed-off-by: David Vernet <void@manifault.com>
-
-Thanks for reporting the issue and submitting the patch!
-
-The patch description needs a few tweaks.  In the kernel we don't use
-Markdown for patch descriptions.
-
-A function can be postfixed with a trailing pair of parentheses, like
-klp_enable_patch().
-
-Other symbols can be enclosed with single quotes, like 'struct
-klp_object'.
-
-I'd also recommend avoiding the excessive use of "we", in favor of more
-imperative-type language.
-
-See Documentation/process/submitting-patches.rst for more details.  It's
-also a good idea to look at some kernel commit logs to get a general
-idea of the kernel patch description style.
-
-> @@ -1052,10 +1052,7 @@ int klp_enable_patch(struct klp_patch *patch)
->  	}
->  
->  	ret = klp_init_patch_early(patch);
-> -	if (ret) {
-> -		mutex_unlock(&klp_mutex);
-> -		return ret;
-> -	}
-> +		goto err;
->  
->  	ret = klp_init_patch(patch);
->  	if (ret)
-
-I don't think the fix will be quite that simple.  For example, if
-klp_init_patch_early() fails, that means try_module_get() hasn't been
-done, so klp_free_patch_finish() will wrongly do a module_put().
-
--- 
-Josh
 
