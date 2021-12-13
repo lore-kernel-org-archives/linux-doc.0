@@ -2,117 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98EA1C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Dec 2021 16:25:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD47EC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Dec 2021 16:47:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239227AbhLMQZz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Dec 2021 11:25:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40178 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238478AbhLMQZx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Dec 2021 11:25:53 -0500
-Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com [IPv6:2607:f8b0:4864:20::f2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83AB0C061574;
-        Mon, 13 Dec 2021 08:25:53 -0800 (PST)
-Received: by mail-qv1-xf2f.google.com with SMTP id jo22so14814345qvb.13;
-        Mon, 13 Dec 2021 08:25:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Nu0e3REkbFkXwUCLY/t28Mz7Y046BFRzaKZrlwttw5A=;
-        b=AfF1bilD8S8n3fyC8TdgEVD0nCb7TFtTyXL6lV8hjUsZ43EkGsaTXH7JrcGFrJkKad
-         Pr2F3aZ53Yy/fyREFZeLULo93p539ZBfTtBZjVqZ1KeD3hDw1e6tPh1RNnrPJdQ9rfAZ
-         4eOT9ab3ciHjBYtgmCBOLE4ed8/N7ROJsj8Ie9VazehcR+BLwFGsmxQ1anpdx/4KuYcm
-         IdSWnsHSGBgRuNtedTLPapppi4nGCMmz2U6RFYFbitW+LXWCSvvalTKzfRxpBi5BMbnZ
-         rXxBOzMs0F6BVaxF29XfcggrKFOPc0TptUvhh+TjJo1Qz5rqFYhzM6GRQyQBGAUeI9un
-         1QGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Nu0e3REkbFkXwUCLY/t28Mz7Y046BFRzaKZrlwttw5A=;
-        b=qKpgRi3EAbJ5OEpzJ9S/sV9klQZlIZBy7/S6zOo4/7nm2hc0EaHzyDeQ/9hzg18rP4
-         7Ahc02izfrKmdZBmiSPapECoZJgly2TuKjxib4snnzgNvBkVQddHxDIvXAynaonS4+ea
-         WKJlt8vzVCd84+L8ohx15kts/SmHtVmwjqF5Yw/9afBEbBEXByVoCge261gvuCXUQkkB
-         y8eBy1ogWA14aNqdmaW0yIHO3yVNoU7iXNmh9rzAr9VlZSH/dCHolRe/5CS6QQu1HN7H
-         oEB1NA9Fg3dhmzG+fg+rjYEAijIhqJu0SweZSif6D/1DUne89gWP3kKgWItjV9TKnrqz
-         MBgQ==
-X-Gm-Message-State: AOAM532gj7a+sz23P4HHZQFyeI9sVmPRgxMwTlTNbKfuN/EdRBozN/Ah
-        anTtvtFjy2/rSZaZMhKsDa8=
-X-Google-Smtp-Source: ABdhPJxGAgKYzBWVUtbmLXtj3Lh4MxUnmxMXzwDBqvwT/sapc4nAy4QeBUtdOyseR2y2m1las0eFyg==
-X-Received: by 2002:a0c:f34d:: with SMTP id e13mr44354703qvm.119.1639412752642;
-        Mon, 13 Dec 2021 08:25:52 -0800 (PST)
-Received: from localhost ([2620:10d:c091:500::3:42c0])
-        by smtp.gmail.com with ESMTPSA id l22sm9262859qtj.68.2021.12.13.08.25.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Dec 2021 08:25:52 -0800 (PST)
-From:   Dan Schatzberg <schatzberg.dan@gmail.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Roman Gushchin <guro@fb.com>, Chris Down <chris@chrisdown.name>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        id S233434AbhLMQrM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Dec 2021 11:47:12 -0500
+Received: from pmta31.teksavvy.com ([76.10.157.38]:30202 "EHLO
+        pmta31.teksavvy.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232517AbhLMQrM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Dec 2021 11:47:12 -0500
+X-Greylist: delayed 426 seconds by postgrey-1.27 at vger.kernel.org; Mon, 13 Dec 2021 11:47:11 EST
+IronPort-SDR: oFYPOYxaCIsiMyR1OxpvP8fRkZVPRS7459J7/Tv2bxiz01PuxDlVuXHW+GdHXTZ11O2OTFxfVG
+ MFvbhNIY8CYg==
+IronPort-Data: =?us-ascii?q?A9a23=3A5KrxR6B8RWWATxVW/8Tiw5YqxClBgxIJ4kV8j?=
+ =?us-ascii?q?S/XYbTApG5z1GABnDMZXjzVafaKYWD0ftsga4zl9UkH75/cytBiTANkpHpgZ?=
+ =?us-ascii?q?kwRpJueD7x1DKtQ0wB+jyH7ocsOA/w2MrEsF+hpCC+MzvuRGuK59yAlj/jTH?=
+ =?us-ascii?q?uGU5NPsY0ideyc1EE/Ntjo+w4bVsqYw6TSIK1vlVeHa+qUzC3f/s9JACV/43?=
+ =?us-ascii?q?orYwP9ZUFQejxtD1rA2TagjUFYzDBD5BrpHTU26ByOQroW5godW7gsepYxV8?=
+ =?us-ascii?q?F81/z91Yj+kupzhe0ERcJTVOgvIgX1QVbW5jxFJrzB01bw0XBYeQR0LzW/Qx?=
+ =?us-ascii?q?ZYrkYgL7MDhIesqFvSkdOA1WQJTFD1iFbFL+6TOP2au98eUyiUqdlO1nKgwX?=
+ =?us-ascii?q?R1rYt1wFuFfRDsmGeYjACwMcRmCr/mr27/9RuQErtwuNsT7FJsSoHxwizrLZ?=
+ =?us-ascii?q?d46QI/KQo3R+MRVmjw3g6hmFvHEbccFQT5walLGbgEnElUaEp87jaGzlGTXe?=
+ =?us-ascii?q?DRer1SUrqMzpWPUyWRZ0KXsdsXcfNOiTsxTmUCZrWvCuW/+B3kyK8eS4SaY4?=
+ =?us-ascii?q?n+ggeTImDvmRI8ID/uz8fsCqF6ax2gaDhI+T1aypeW0iQi1XNc3A0cd/wIoo?=
+ =?us-ascii?q?K935kGsSJ/xUnWQu3eBvzYYXN1WHqs06Wmlx67V6gqUGGkYSRZObdUnsIk9Q?=
+ =?us-ascii?q?jlC/laNhNqsCTFxvbm9QHaG//KMtzSwNCMJa2gYakcsSQoD/smmrIY4pgzAQ?=
+ =?us-ascii?q?8wlE6OviNDxXzbqzFiiqCk4mqVWjsMR0ai/1U7IjijqpZXTSAMxoALNUQqN5?=
+ =?us-ascii?q?BhyY5K5T5Cl6kPS8+hRao2eSzG8UNIs8ySFxLpSSMvUzmnXGbhIRe34of2MO?=
+ =?us-ascii?q?jnRx0JiHIIo6Sq8vXWkeOhtDPhFDB8BGq45lfXBOic/YT9s2aI=3D?=
+IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AdPuVSq1+YobHrBNip5GsUAqjBKskLtp133?=
+ =?us-ascii?q?Aq2lEZdPWaSKGlfqeV7ZcmPHDP5wr5NEtKpTniAsm9qA3nm6KdiLN5VYtKNz?=
+ =?us-ascii?q?OLhILHFutfBPPZogHdJw=3D=3D?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2FUBACJdrdh/5XX1BhaHgEBCxIMSYF?=
+ =?us-ascii?q?FC4N7bI1LiEsBngoLAQEBAQEBAQEBCUEEAQGFAAQCgyYmNwYOAQIEAQEBEgE?=
+ =?us-ascii?q?BAQUBAQEBAQYEAgKBGIV1hwQBIyMpJm8TgnGDGLJSgQGIFoFjgTqJLIVJgUl?=
+ =?us-ascii?q?EgRWDaIpCBJJ3gQ+CLjqVKwGKMoIQnWeDSp8OTadPAZYspkmBd4F/MxoIGxW?=
+ =?us-ascii?q?DJFEZD50OJjA4AgYLAQEDCZBwAQE?=
+X-IPAS-Result: =?us-ascii?q?A2FUBACJdrdh/5XX1BhaHgEBCxIMSYFFC4N7bI1LiEsBn?=
+ =?us-ascii?q?goLAQEBAQEBAQEBCUEEAQGFAAQCgyYmNwYOAQIEAQEBEgEBAQUBAQEBAQYEA?=
+ =?us-ascii?q?gKBGIV1hwQBIyMpJm8TgnGDGLJSgQGIFoFjgTqJLIVJgUlEgRWDaIpCBJJ3g?=
+ =?us-ascii?q?Q+CLjqVKwGKMoIQnWeDSp8OTadPAZYspkmBd4F/MxoIGxWDJFEZD50OJjA4A?=
+ =?us-ascii?q?gYLAQEDCZBwAQE?=
+X-IronPort-AV: E=Sophos;i="5.88,203,1635220800"; 
+   d="scan'208";a="175694578"
+Received: from 24-212-215-149.cable.teksavvy.com (HELO BradsZBook.confuseacat.org) ([24.212.215.149])
+  by smtp13.teksavvy.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 13 Dec 2021 11:40:04 -0500
+From:   Bradley Scott <bscott@teksavvy.com>
+To:     Takashi Iwai <tiwai@suse.de>
+Cc:     Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Michal Hocko <mhocko@kernel.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>,
-        cgroups@vger.kernel.org (open list:CONTROL GROUP (CGROUP)),
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list),
-        linux-mm@kvack.org (open list:CONTROL GROUP - MEMORY RESOURCE
-        CONTROLLER (MEMCG))
-Subject: [PATCH] mm: add group_oom_kill memory.event fix
-Date:   Mon, 13 Dec 2021 08:25:10 -0800
-Message-Id: <20211213162511.2492267-1-schatzberg.dan@gmail.com>
-X-Mailer: git-send-email 2.30.2
+        Jeremy Szu <jeremy.szu@canonical.com>,
+        Hui Wang <hui.wang@canonical.com>,
+        Werner Sembach <wse@tuxedocomputers.com>,
+        Kailang Yang <kailang@realtek.com>,
+        Cameron Berkenpas <cam@neo-zeon.de>,
+        Sami Loone <sami@loone.fi>, Elia Devito <eliadevito@gmail.com>,
+        alsa-devel@alsa-project.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Bradley Scott <bscott@teksavvy.com>
+Subject: [PATCH] ALSA: hda/realtek: Add new alc285-hp-amp-init model
+Date:   Mon, 13 Dec 2021 11:22:47 -0500
+Message-Id: <20211213162246.506838-1-bscott@teksavvy.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Andrew, could you please amend the prior patch "mm: add group_oom_kill
-memory.event" with these changes from Johannes and Chris?
+Adds a new "alc285-hp-amp-init" model that can be used to apply the ALC285
+HP speaker amplifier initialization fixup to devices that are not already
+known by passing "hda_model=alc285-hp-amp-init" to the
+snd-sof-intel-hda-common module or "model=alc285-hp-amp-init" to the
+snd-hda-intel module, depending on which is being used.
 
-Also - small nit: it makes better sense to
-s/group_oom_kill/oom_group_kill/g in the patch title.
-
-Reviewed-by: Roman Gushchin <guro@fb.com>
-Acked-by: Chris Down <chris@chrisdown.name>
-Acked-by: Johannes Weiner <hannes@cmpxchg.org>
-Signed-off-by: Dan Schatzberg <schatzberg.dan@gmail.com>
+Signed-off-by: Bradley Scott <bscott@teksavvy.com>
 ---
- Documentation/admin-guide/cgroup-v2.rst | 3 +--
- mm/memcontrol.c                         | 3 ---
- 2 files changed, 1 insertion(+), 5 deletions(-)
+ Documentation/sound/hd-audio/models.rst | 2 ++
+ sound/pci/hda/patch_realtek.c           | 1 +
+ 2 files changed, 3 insertions(+)
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index eec830ce2068..8269bfa240f4 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1269,8 +1269,7 @@ PAGE_SIZE multiple when read back.
- 		killed by any kind of OOM killer.
+diff --git a/Documentation/sound/hd-audio/models.rst b/Documentation/sound/hd-audio/models.rst
+index 0ea967d34583..d25335993e55 100644
+--- a/Documentation/sound/hd-audio/models.rst
++++ b/Documentation/sound/hd-audio/models.rst
+@@ -326,6 +326,8 @@ usi-headset
+     Headset support on USI machines
+ dual-codecs
+     Lenovo laptops with dual codecs
++alc285-hp-amp-init
++    HP laptops which require speaker amplifier initialization (ALC285)
  
-           oom_group_kill
--                The number of times all tasks in the cgroup were killed
--                due to memory.oom.group.
-+                The number of times a group OOM has occurred.
- 
-   memory.events.local
- 	Similar to memory.events but the fields in the file are local
-diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-index 5ab3b9ce90de..b5454d8fc344 100644
---- a/mm/memcontrol.c
-+++ b/mm/memcontrol.c
-@@ -4390,9 +4390,6 @@ static int mem_cgroup_oom_control_read(struct seq_file *sf, void *v)
- 	seq_printf(sf, "under_oom %d\n", (bool)memcg->under_oom);
- 	seq_printf(sf, "oom_kill %lu\n",
- 		   atomic_long_read(&memcg->memory_events[MEMCG_OOM_KILL]));
--	seq_printf(sf, "oom_group_kill %lu\n",
--		   atomic_long_read(
--			&memcg->memory_events[MEMCG_OOM_GROUP_KILL]));
- 	return 0;
- }
- 
+ ALC680
+ ======
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index d162662fe684..fc41f3e8ddc3 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -9124,6 +9124,7 @@ static const struct hda_model_fixup alc269_fixup_models[] = {
+ 	{.id = ALC287_FIXUP_IDEAPAD_BASS_SPK_AMP, .name = "alc287-ideapad-bass-spk-amp"},
+ 	{.id = ALC623_FIXUP_LENOVO_THINKSTATION_P340, .name = "alc623-lenovo-thinkstation-p340"},
+ 	{.id = ALC255_FIXUP_ACER_HEADPHONE_AND_MIC, .name = "alc255-acer-headphone-and-mic"},
++	{.id = ALC285_FIXUP_HP_GPIO_AMP_INIT, .name = "alc285-hp-amp-init"},
+ 	{}
+ };
+ #define ALC225_STANDARD_PINS \
 -- 
-2.30.2
+2.25.1
 
