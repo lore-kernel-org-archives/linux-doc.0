@@ -2,111 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD47EC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Dec 2021 16:47:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 485E7C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Dec 2021 18:51:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233434AbhLMQrM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Dec 2021 11:47:12 -0500
-Received: from pmta31.teksavvy.com ([76.10.157.38]:30202 "EHLO
-        pmta31.teksavvy.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232517AbhLMQrM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Dec 2021 11:47:12 -0500
-X-Greylist: delayed 426 seconds by postgrey-1.27 at vger.kernel.org; Mon, 13 Dec 2021 11:47:11 EST
-IronPort-SDR: oFYPOYxaCIsiMyR1OxpvP8fRkZVPRS7459J7/Tv2bxiz01PuxDlVuXHW+GdHXTZ11O2OTFxfVG
- MFvbhNIY8CYg==
-IronPort-Data: =?us-ascii?q?A9a23=3A5KrxR6B8RWWATxVW/8Tiw5YqxClBgxIJ4kV8j?=
- =?us-ascii?q?S/XYbTApG5z1GABnDMZXjzVafaKYWD0ftsga4zl9UkH75/cytBiTANkpHpgZ?=
- =?us-ascii?q?kwRpJueD7x1DKtQ0wB+jyH7ocsOA/w2MrEsF+hpCC+MzvuRGuK59yAlj/jTH?=
- =?us-ascii?q?uGU5NPsY0ideyc1EE/Ntjo+w4bVsqYw6TSIK1vlVeHa+qUzC3f/s9JACV/43?=
- =?us-ascii?q?orYwP9ZUFQejxtD1rA2TagjUFYzDBD5BrpHTU26ByOQroW5godW7gsepYxV8?=
- =?us-ascii?q?F81/z91Yj+kupzhe0ERcJTVOgvIgX1QVbW5jxFJrzB01bw0XBYeQR0LzW/Qx?=
- =?us-ascii?q?ZYrkYgL7MDhIesqFvSkdOA1WQJTFD1iFbFL+6TOP2au98eUyiUqdlO1nKgwX?=
- =?us-ascii?q?R1rYt1wFuFfRDsmGeYjACwMcRmCr/mr27/9RuQErtwuNsT7FJsSoHxwizrLZ?=
- =?us-ascii?q?d46QI/KQo3R+MRVmjw3g6hmFvHEbccFQT5walLGbgEnElUaEp87jaGzlGTXe?=
- =?us-ascii?q?DRer1SUrqMzpWPUyWRZ0KXsdsXcfNOiTsxTmUCZrWvCuW/+B3kyK8eS4SaY4?=
- =?us-ascii?q?n+ggeTImDvmRI8ID/uz8fsCqF6ax2gaDhI+T1aypeW0iQi1XNc3A0cd/wIoo?=
- =?us-ascii?q?K935kGsSJ/xUnWQu3eBvzYYXN1WHqs06Wmlx67V6gqUGGkYSRZObdUnsIk9Q?=
- =?us-ascii?q?jlC/laNhNqsCTFxvbm9QHaG//KMtzSwNCMJa2gYakcsSQoD/smmrIY4pgzAQ?=
- =?us-ascii?q?8wlE6OviNDxXzbqzFiiqCk4mqVWjsMR0ai/1U7IjijqpZXTSAMxoALNUQqN5?=
- =?us-ascii?q?BhyY5K5T5Cl6kPS8+hRao2eSzG8UNIs8ySFxLpSSMvUzmnXGbhIRe34of2MO?=
- =?us-ascii?q?jnRx0JiHIIo6Sq8vXWkeOhtDPhFDB8BGq45lfXBOic/YT9s2aI=3D?=
-IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AdPuVSq1+YobHrBNip5GsUAqjBKskLtp133?=
- =?us-ascii?q?Aq2lEZdPWaSKGlfqeV7ZcmPHDP5wr5NEtKpTniAsm9qA3nm6KdiLN5VYtKNz?=
- =?us-ascii?q?OLhILHFutfBPPZogHdJw=3D=3D?=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2FUBACJdrdh/5XX1BhaHgEBCxIMSYF?=
- =?us-ascii?q?FC4N7bI1LiEsBngoLAQEBAQEBAQEBCUEEAQGFAAQCgyYmNwYOAQIEAQEBEgE?=
- =?us-ascii?q?BAQUBAQEBAQYEAgKBGIV1hwQBIyMpJm8TgnGDGLJSgQGIFoFjgTqJLIVJgUl?=
- =?us-ascii?q?EgRWDaIpCBJJ3gQ+CLjqVKwGKMoIQnWeDSp8OTadPAZYspkmBd4F/MxoIGxW?=
- =?us-ascii?q?DJFEZD50OJjA4AgYLAQEDCZBwAQE?=
-X-IPAS-Result: =?us-ascii?q?A2FUBACJdrdh/5XX1BhaHgEBCxIMSYFFC4N7bI1LiEsBn?=
- =?us-ascii?q?goLAQEBAQEBAQEBCUEEAQGFAAQCgyYmNwYOAQIEAQEBEgEBAQUBAQEBAQYEA?=
- =?us-ascii?q?gKBGIV1hwQBIyMpJm8TgnGDGLJSgQGIFoFjgTqJLIVJgUlEgRWDaIpCBJJ3g?=
- =?us-ascii?q?Q+CLjqVKwGKMoIQnWeDSp8OTadPAZYspkmBd4F/MxoIGxWDJFEZD50OJjA4A?=
- =?us-ascii?q?gYLAQEDCZBwAQE?=
-X-IronPort-AV: E=Sophos;i="5.88,203,1635220800"; 
-   d="scan'208";a="175694578"
-Received: from 24-212-215-149.cable.teksavvy.com (HELO BradsZBook.confuseacat.org) ([24.212.215.149])
-  by smtp13.teksavvy.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 13 Dec 2021 11:40:04 -0500
-From:   Bradley Scott <bscott@teksavvy.com>
-To:     Takashi Iwai <tiwai@suse.de>
-Cc:     Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jeremy Szu <jeremy.szu@canonical.com>,
-        Hui Wang <hui.wang@canonical.com>,
-        Werner Sembach <wse@tuxedocomputers.com>,
-        Kailang Yang <kailang@realtek.com>,
-        Cameron Berkenpas <cam@neo-zeon.de>,
-        Sami Loone <sami@loone.fi>, Elia Devito <eliadevito@gmail.com>,
-        alsa-devel@alsa-project.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Bradley Scott <bscott@teksavvy.com>
-Subject: [PATCH] ALSA: hda/realtek: Add new alc285-hp-amp-init model
-Date:   Mon, 13 Dec 2021 11:22:47 -0500
-Message-Id: <20211213162246.506838-1-bscott@teksavvy.com>
-X-Mailer: git-send-email 2.25.1
+        id S230199AbhLMSvE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Dec 2021 13:51:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45874 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229587AbhLMSvE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Dec 2021 13:51:04 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 099D9C061574;
+        Mon, 13 Dec 2021 10:51:04 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3B203611CB;
+        Mon, 13 Dec 2021 18:51:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79D74C34600;
+        Mon, 13 Dec 2021 18:50:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1639421462;
+        bh=kTogJC7jN0dV1AV8N6q4V6WfxDiLOYk49cCUUpKJa9M=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ggKuRJPCDvSwcMfZVINNujnIfNAbGTRYryTvvLtYRF3RuOtE7qh2EwfomkOtSd+pE
+         BdW14lwvU+O5hTIsP+Svl6fQWqU+WN1KE61tRa4vAOQwxUSpuW94BrmS+5n4fOGyBJ
+         TwyxLqYtrLyNgvr4LR9iizp6cqoqgSiGys/OWI+uhYPfxToqXDY3tlBQNksRcOe0ze
+         UylTLnGuPxFuvkngkNennMF1aQLnm3L+sXvnwcyv2MwpxcwBGhf2N2qEHtXvg2JWIG
+         K1gSJbX8kkAvRcEnt+6Yod6TraE+Cgo4/nxmp2rlFm3it5tGFzKADeSSk+jmSl5f9s
+         17tEuOOQ9zAGA==
+Date:   Mon, 13 Dec 2021 18:50:55 +0000
+From:   Will Deacon <will@kernel.org>
+To:     Kefeng Wang <wangkefeng.wang@huawei.com>
+Cc:     Zhen Lei <thunder.leizhen@huawei.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
+        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        kexec@lists.infradead.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>, gregkh@linuxfoundation.org
+Subject: Re: [PATCH v17 00/10] support reserving crashkernel above 4G on
+ arm64 kdump
+Message-ID: <20211213185054.GH12405@willie-the-truck>
+References: <20211210065533.2023-1-thunder.leizhen@huawei.com>
+ <afde1574-23b6-a36a-445e-5fb03873fe86@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <afde1574-23b6-a36a-445e-5fb03873fe86@huawei.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Adds a new "alc285-hp-amp-init" model that can be used to apply the ALC285
-HP speaker amplifier initialization fixup to devices that are not already
-known by passing "hda_model=alc285-hp-amp-init" to the
-snd-sof-intel-hda-common module or "model=alc285-hp-amp-init" to the
-snd-hda-intel module, depending on which is being used.
+On Fri, Dec 10, 2021 at 03:15:00PM +0800, Kefeng Wang wrote:
+> 
+> On 2021/12/10 14:55, Zhen Lei wrote:
+> > There are following issues in arm64 kdump:
+> > 1. We use crashkernel=X to reserve crashkernel below 4G, which
+> > will fail when there is no enough low memory.
+> > 2. If reserving crashkernel above 4G, in this case, crash dump
+> > kernel will boot failure because there is no low memory available
+> > for allocation.
+> > 
+> > To solve these issues, change the behavior of crashkernel=X.
+> > crashkernel=X tries low allocation in DMA zone and fall back to high
+> > allocation if it fails.
+> > 
+> > We can also use "crashkernel=X,high" to select a high region above
+> > DMA zone, which also tries to allocate at least 256M low memory in
+> > DMA zone automatically and "crashkernel=Y,low" can be used to allocate
+> > specified size low memory.
+> > 
+> > When reserving crashkernel in high memory, some low memory is reserved
+> > for crash dump kernel devices. So there may be two regions reserved for
+> > crash dump kernel.
+> > In order to distinct from the high region and make no effect to the use
+> > of existing kexec-tools, rename the low region as "Crash kernel (low)",
+> > and pass the low region by reusing DT property
+> > "linux,usable-memory-range". We made the low memory region as the last
+> > range of "linux,usable-memory-range" to keep compatibility with existing
+> > user-space and older kdump kernels.
+> > 
+> > Besides, we need to modify kexec-tools:
+> > arm64: support more than one crash kernel regions(see [1])
+> > 
+> > Another update is document about DT property 'linux,usable-memory-range':
+> > schemas: update 'linux,usable-memory-range' node schema(see [2])
+> > 
+> > This patchset contains the following 10 patches:
+> > 
+> > 0001-0004 are some x86 cleanups which prepares for making functionsreserve_crashkernel[_low]() generic.
+> > 0005 makes functions reserve_crashkernel[_low]() generic.
+> > 0006-0007 reimplements arm64 crashkernel=X.
+> > 0008-0009 adds memory for devices by DT property linux,usable-memory-range.
+> > 0010 updates the doc.
+> > 
+> > Changes since [v16]
+> > - Because no functional changes in this version, so add
+> >    "Tested-by: Dave Kleikamp <dave.kleikamp@oracle.com>" for patch 1-9
+> > - Add "Reviewed-by: Rob Herring <robh@kernel.org>" for patch 8
+> > - Update patch 9 based on the review comments of Rob Herring
+> > - As Catalin Marinas's suggestion, merge the implementation of
+> >    ARCH_WANT_RESERVE_CRASH_KERNEL into patch 5. Ensure that the
+> >    contents of X86 and ARM64 do not overlap, and reduce unnecessary
+> >    temporary differences.
+> 
+> An Internal review has been done, so for this series,
+> 
+> Reviewed-by: Kefeng Wang <wangkefeng.wang@huawei.com>
 
-Signed-off-by: Bradley Scott <bscott@teksavvy.com>
----
- Documentation/sound/hd-audio/models.rst | 2 ++
- sound/pci/hda/patch_realtek.c           | 1 +
- 2 files changed, 3 insertions(+)
+That's good, but it would be _much_ better if you could do these reviews
+on the public mailing list in future. Is that possible? Otherwise, it's
+hard for maintainers to know what the reviews actually covered.
 
-diff --git a/Documentation/sound/hd-audio/models.rst b/Documentation/sound/hd-audio/models.rst
-index 0ea967d34583..d25335993e55 100644
---- a/Documentation/sound/hd-audio/models.rst
-+++ b/Documentation/sound/hd-audio/models.rst
-@@ -326,6 +326,8 @@ usi-headset
-     Headset support on USI machines
- dual-codecs
-     Lenovo laptops with dual codecs
-+alc285-hp-amp-init
-+    HP laptops which require speaker amplifier initialization (ALC285)
- 
- ALC680
- ======
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index d162662fe684..fc41f3e8ddc3 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -9124,6 +9124,7 @@ static const struct hda_model_fixup alc269_fixup_models[] = {
- 	{.id = ALC287_FIXUP_IDEAPAD_BASS_SPK_AMP, .name = "alc287-ideapad-bass-spk-amp"},
- 	{.id = ALC623_FIXUP_LENOVO_THINKSTATION_P340, .name = "alc623-lenovo-thinkstation-p340"},
- 	{.id = ALC255_FIXUP_ACER_HEADPHONE_AND_MIC, .name = "alc255-acer-headphone-and-mic"},
-+	{.id = ALC285_FIXUP_HP_GPIO_AMP_INIT, .name = "alc285-hp-amp-init"},
- 	{}
- };
- #define ALC225_STANDARD_PINS \
--- 
-2.25.1
+Thanks,
 
+Will
