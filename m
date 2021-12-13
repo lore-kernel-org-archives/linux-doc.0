@@ -2,803 +2,439 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F0B5C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Dec 2021 20:36:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DEB4C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Dec 2021 20:40:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238005AbhLMUgT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Dec 2021 15:36:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42350 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231258AbhLMUgT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Dec 2021 15:36:19 -0500
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E68CFC061574
-        for <linux-doc@vger.kernel.org>; Mon, 13 Dec 2021 12:36:18 -0800 (PST)
-Received: by mail-ot1-x32f.google.com with SMTP id 35-20020a9d08a6000000b00579cd5e605eso18810686otf.0
-        for <linux-doc@vger.kernel.org>; Mon, 13 Dec 2021 12:36:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7ymw4zzbx0fGEGW9oOqaMZw8xenwjMHHLGEYhutDDMI=;
-        b=VqRj8hZn6aVzmGCiI1bqFAsrrdWp2dKCRPrOjRTu8VPhRnGlOBKJTLHeMY1U+v/1Lm
-         Et08IkhtoVY2aIRLiCrFA3Ft6J+zrPBP4SvUOjVi2vLsPu/GvtMnumz38wQPlumjwlGW
-         qsd1PYDswXnoQeZSZhbGxSV2w8TwF3cnpjIbXPMrFZ1SkrTeYBGR0FXKxMD0j6OdQLug
-         rlTcP13JwdVK+dPclSJJ5ad2XO0dpnA+dK1TM6u2edPQxxl7wB+E+ZLgD0nj0JlLb4k4
-         A3zn4amE9as8f333FaP+CKh7nZx7EojXkGq6e+C64pVcS453pNqtCZzVGs66J8e+iQhD
-         hUYg==
+        id S243004AbhLMUko (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Dec 2021 15:40:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26162 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S242303AbhLMUkn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Dec 2021 15:40:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1639428042;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Yc31ZE8ekGUkLJ+TWGrK8RqoXHEMVbzOIpcut2h9qak=;
+        b=MQuqs2U4/C3yjom2b/+diPJ5Jz6eOU/N3imBxc0eiPdEzDCiT5i6EdrrmD28TqS0oU7Uju
+        EDWYuyOX6wZ9UpL3z074wSDF9HiZcfQAF6i+D0YWHyWRuyYYvWxn+aIIN1OrKMSVj8HDgP
+        0vm7gjXqc3C8g9HFkvwPh9cdWVYDFV0=
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
+ [209.85.167.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-278-THriY-5iOc6sGziTo6uSFg-1; Mon, 13 Dec 2021 15:40:41 -0500
+X-MC-Unique: THriY-5iOc6sGziTo6uSFg-1
+Received: by mail-oi1-f197.google.com with SMTP id e3-20020aca3703000000b002c1f9ecb392so5512961oia.3
+        for <linux-doc@vger.kernel.org>; Mon, 13 Dec 2021 12:40:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7ymw4zzbx0fGEGW9oOqaMZw8xenwjMHHLGEYhutDDMI=;
-        b=hsuSDtAd7z5MpW2b/jV5G8riau6jdtXbdfVLiEhhl8JRnJBT1EWeGlG+Quyf19P6HZ
-         3fPDXqi2q86v1hG+62lKxGW8MrTOiq70frRS9V6tvOSnFUN4qRf9R6dCIJHVVe6hXpOW
-         G9cOm025VZkPAShiPRBemaJOOJipi55S58brGuP/+ZoXYydqzJJ0ZMJOPt8N4mbeNISu
-         TE0OG7joNQzIUHKnMfeMvIOHCQwHHzUJ43nuyBMPMcP4rbvY2N4loj2K6v3hFzPFdt7T
-         4tqF2ZfRF7/CVRGEiwyGE9MJnXORBhd3kiFy/TU+UE1JYXNmem5vxlYnZOlxIerBS6Cq
-         faKQ==
-X-Gm-Message-State: AOAM533hhO8UUVE02kBM9GwxezIY0wbOIZA4leoidUuKJZivXuGUGvVn
-        9b2UNxBbCGxkkWaaY+1M1qaCVHWJ58kAALDdjDqZAj/H
-X-Google-Smtp-Source: ABdhPJw21J+2Oiu0OYbofiF9BdcRlQNtwFLgBXvwOvMcNEupDAT8bQ4oFJjaWmh/O5e44Pc+zeHBarTSH1EFBu3EBCE=
-X-Received: by 2002:a9d:67c1:: with SMTP id c1mr703100otn.299.1639427778116;
- Mon, 13 Dec 2021 12:36:18 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Yc31ZE8ekGUkLJ+TWGrK8RqoXHEMVbzOIpcut2h9qak=;
+        b=Mc+nwALTwyhOl19CBH7cTUo4FNMPXLZEaDa7UAGQATCLLcDAIApxp9xDwwEnY9pNsy
+         9Al7n/lMgSDVH95sy5C5+yEmuAzJ+D6MhLeDV6cwsYSEBZi0NXI/LxgSXg8RQ4S+nzD2
+         /JvxIqNTbmud6TWBFOTIMyXHmBkEgK5V3ASrviOA52PWepFINS71pUIC1ybsEkheCLsD
+         7KiQsjN3WYr0Cql6G9f20i5Q5rIZMWyVJhlDMnzFamzU7B3lq30BDg2vMjAMQAH+HIuQ
+         qWlhZepB2p0BRPud+yUBUZx/w+7hqaysJIgULEpagMWitt6F3+3+tM0bug0ZXvq9sjWp
+         V/6g==
+X-Gm-Message-State: AOAM533Q2hKb2K8ynvivMGCrGQseX0JcLn5PjBfCh+bd4zf4ZdAX1Biw
+        Q1ADBSmjVyueoovGjnVocOQKMLavtVgsf7zHvUBoBU8/xzao1qSFsKS1Q8lt8HfGfHls9TdAc+o
+        KFk601ds7AR47lTEFcPeg
+X-Received: by 2002:a05:6830:199:: with SMTP id q25mr748604ota.150.1639428040644;
+        Mon, 13 Dec 2021 12:40:40 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyZdMN+snE1mpRoto1kX+k+b957dECtccYKPOyuC85k2BHVWP2ASH5kiH34s5tKxBuLbFoIOQ==
+X-Received: by 2002:a05:6830:199:: with SMTP id q25mr748571ota.150.1639428040195;
+        Mon, 13 Dec 2021 12:40:40 -0800 (PST)
+Received: from redhat.com ([38.15.36.239])
+        by smtp.gmail.com with ESMTPSA id l39sm2450982otv.63.2021.12.13.12.40.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Dec 2021 12:40:39 -0800 (PST)
+Date:   Mon, 13 Dec 2021 13:40:38 -0700
+From:   Alex Williamson <alex.williamson@redhat.com>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     cohuck@redhat.com, corbet@lwn.net, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, farman@linux.ibm.com,
+        mjrosato@linux.ibm.com, pasic@linux.ibm.com
+Subject: Re: [RFC PATCH] vfio: Update/Clarify migration uAPI, add NDMA state
+Message-ID: <20211213134038.39bb0618.alex.williamson@redhat.com>
+In-Reply-To: <20211210012529.GC6385@nvidia.com>
+References: <163909282574.728533.7460416142511440919.stgit@omen>
+        <20211210012529.GC6385@nvidia.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20211210182030.3834-1-ydirson@free.fr> <20211210182030.3834-2-ydirson@free.fr>
- <c47a7b5b-a77c-6538-97e9-cb665f6e4dae@amd.com>
-In-Reply-To: <c47a7b5b-a77c-6538-97e9-cb665f6e4dae@amd.com>
-From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Mon, 13 Dec 2021 15:36:07 -0500
-Message-ID: <CADnq5_OyHMOyFYXXEYRvZb_Mefm8JH10T8vMMNXqKk-WQHkXzA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] Documentation/gpu: split amdgpu/index for readability
-To:     Rodrigo Siqueira Jordao <rjordrigo@amd.com>
-Cc:     Yann Dirson <ydirson@free.fr>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Applied. thanks!
+On Thu, 9 Dec 2021 21:25:29 -0400
+Jason Gunthorpe <jgg@nvidia.com> wrote:
+
+> On Thu, Dec 09, 2021 at 04:34:29PM -0700, Alex Williamson wrote:
+> > A new NDMA state is being proposed to support a quiescent state for
+> > contexts containing multiple devices with peer-to-peer DMA support.
+> > Formally define it.
+> > 
+> > Clarify various aspects of the migration region data fields and
+> > protocol.  Remove QEMU related terminology and flows from the uAPI;
+> > these will be provided in Documentation/ so as not to confuse the
+> > device_state bitfield with a finite state machine with restricted
+> > state transitions.
+> > 
+> > Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+> >  include/uapi/linux/vfio.h |  405 ++++++++++++++++++++++++---------------------
+> >  1 file changed, 214 insertions(+), 191 deletions(-)  
+> 
+> I need other peope to look this over, so these are just some quick
+> remarks. Thanks for doing it, it is very good.
+> 
+> Given I'm almost on vacation till Jan I think we will shortly have to
+> table this discussion to January.
+> 
+> But, if you are happy with this as all that is needed to do mlx5 we
+> can possibly have the v6 updated in early January, after the next
+> merge window.
+> 
+> Though lets try to quickly decide on what to do about the "change
+> multiple bits" below, please.
+> 
+> > diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
+> > index ef33ea002b0b..1fdbc928f886 100644
+> > +++ b/include/uapi/linux/vfio.h
+> > @@ -408,199 +408,211 @@ struct vfio_region_gfx_edid {
+> >  #define VFIO_REGION_SUBTYPE_MIGRATION           (1)
+> >  
+> >  /*
+> > + * The structure vfio_device_migration_info is placed at the immediate start of
+> > + * the per-device VFIO_REGION_SUBTYPE_MIGRATION region to manage the device
+> > + * state and migration information for the device.  Field accesses for this
+> > + * structure are only supported using their native width and alignment,
+> > + * accesses otherwise are undefined and the kernel migration driver should
+> > + * return an error.
+> >   *
+> >   * device_state: (read/write)
+> > + *   The device_state field is a bitfield written by the user to transition
+> > + *   the associated device between valid migration states using these rules:
+> > + *     - The user may read or write the device state register at any time.
+> > + *     - The kernel migration driver must fully transition the device to the
+> > + *       new state value before the write(2) operation returns to the user.
+> > + *     - The user may change multiple bits of the bitfield in the same write
+> > + *       operation, so long as the resulting state is valid.  
+> 
+> I would like to forbid this. It is really too complicated, and if
+> there is not a strongly defined device behavior when this is done it
+> is not inter-operable for userspace to do it.
+> 
+> > + *     - The kernel migration driver must not generate asynchronous device
+> > + *       state transitions outside of manipulation by the user or the
+> > + *       VFIO_DEVICE_RESET ioctl as described below.
+> > + *     - In the event of a device state transition failure, the kernel
+> > + *       migration driver must return a write(2) error with appropriate errno
+> > + *       to the user.
+> > + *     - Upon such an error, re-reading the device_state field must indicate
+> > + *       the device migration state as either the same state as prior to the
+> > + *       failing write or, at the migration driver discretion, indicate the
+> > + *       device state as VFIO_DEVICE_STATE_ERROR.  
+> 
+> It is because this is complete nightmare. Let's say the user goes from
+> 0 -> SAVING | RUNNING and SAVING fails after we succeed to do
+> RUNNING. We have to also backtrack and undo RUNNING, but what if that
+> fails too? Oh and we have to keep track of all this backtracking while
+> executing the new state and write a bunch of complicated never tested
+> error handling code.
+
+We do specify that a migration driver has discretion in using the error
+state for failed transitions, so there are options to simplify error
+handling.
+
+If we look at bit flips, we have:
+
+Initial state
+|  Resuming
+|  |  Saving
+|  |  |  Running
+|  |  |  |  Next states with multiple bit flips
+
+a) 0, 0, 0  (d)
+b) 0, 0, 1  (c) (e)
+c) 0, 1, 0  (b) (e)
+d) 0, 1, 1  (a) (e)
+e) 1, 0, 0  (b) (c) (d)
+f) 1, 0, 1 UNSUPPORTED
+g) 1, 1, 0 ERROR
+h) 1, 1, 1 INVALID
+
+We specify that we cannot pass through any invalid states during
+transition, so if I consider each bit to be a discrete operation and
+map all these multi-bit changes to a sequence of single bit flips, the
+only requirements are:
+
+  1) RESUMING must be cleared before setting SAVING or RUNNING
+  2) SAVING or RUNNING must be cleared before setting RESUMING
+
+I think the basis of your priority scheme comes from that.  Ordering
+of the remaining items is more subtle though, for instance
+0 -> SAVING | RUNNING can be broken down as:
+
+  0 -> SAVING
+  SAVING -> SAVING | RUNNING 
+
+  vs
+
+  0 -> RUNNING
+  RUNNING -> SAVING | RUNNING
+
+I'd give preference to enabling logging before running and I believe
+that holds for transition (e) -> (d) as well.
+
+In the reverse case, SAVING | RUNNING -> 0
+
+  SAVING | RUNNING -> RUNNING
+  RUNNING -> 0
+
+  vs
+
+  SAVING | RUNNING -> SAVING
+  SAVING -> 0
+
+This one is more arbitrary.  I tend to favor clearing RUNNING to stop
+the device first, largely because it creates nice symmetry in the
+resulting algorithm and follows the general principle that you
+discovered as well, converge towards zero by addressing bit clearing
+before setting.  So a valid algorithm would include:
+
+int set_device_state(u32 old, u32 new, bool is_unwind)
+{
+	if (old.RUNNING && !new.RUNNING) {
+		curr.RUNNING = 0;
+		if (ERROR) goto unwind;
+	}
+	if (old.SAVING && !new.SAVING) {
+		curr.SAVING = 0;
+		if (ERROR) goto unwind;
+	}
+	if (old.RESUMING && !new.RESUMING) {
+		curr.RESUMING = 0;
+		if (ERROR) goto unwind;
+	}
+	if (!old.RESUMING && new.RESUMING) {
+		curr.RESUMING = 1;
+		if (ERROR) goto unwind;
+	}
+	if (!old.SAVING && new.SAVING) {
+		curr.saving = 1;
+		if (ERROR) goto unwind;
+	}
+	if (!old.RUNNING && new.RUNNING) {
+		curr.RUNNING = 1;
+		if (ERROR) goto unwind;
+        }
+
+	return 0;
+
+unwind:
+	if (!is_unwind) {
+		ret = set_device_state(curr, old, true);
+		if (ret) {
+			curr.raw = ERROR;
+			return ret;
+		}
+	}
+
+	return -EIO;
+}
+
+And I think that also addresses the claim that we're doomed to untested
+and complicated error code handling, we unwind by simply swapping the
+args to our set state function and enter the ERROR state should that
+recursive call fail.
+
+I think it would be reasonable for documentation to present similar
+pseudo code as a recommendation, but ultimately the migration driver
+needs to come up with something that fits all the requirements.
+
+(Ignoring NDMA for the moment until we determine if it's even a
+synchronous operations)
+
+If we put it in the user's hands and prescribe only single bit flips,
+they don't really have device knowledge to optimize further than this
+like a migration driver might be able to do.
+
+> Assuming we can even figure out what the precedence of multiple bits
+> even means for interoperability.
+> 
+> Backed into this is an assumption that any device transition is fully
+> atomic - that just isn't what I see any of the HW has done.
+
+We only specify that the transition needs to be complete before the
+write(2) operation returns, there's no specified atomicity versus any
+other event.  "Synchronous" is maybe your concern?
+
+> I thought we could tackled this when you first suggested it (eg copy
+> the mlx5 logic and be OK), but now I'm very skeptical. The idea that
+> every driver can do this right in all the corner cases doesn't seem
+> reasonable given we've made so many errors here already just in mlx5.
+> 
+> > + *     - Bit 1 (SAVING) [REQUIRED]:
+> > + *        - Setting this bit enables and initializes the migration region data  
+> 
+> I would use the word clear instead of initialize - the point of this
+> is to throw away any data that may be left over in the window from any
+> prior actions.
+
+"Clear" to me suggests that there's some sort of internal shared buffer
+implementation that needs to be wiped between different modes.  I chose
+"initialize" because I think it offers more independence to the
+implementation.
+ 
+> > + *          window and associated fields within vfio_device_migration_info for
+> > + *          capturing the migration data stream for the device.  The migration
+> > + *          driver may perform actions such as enabling dirty logging of device
+> > + *          state with this bit.  The SAVING bit is mutually exclusive with the
+> > + *          RESUMING bit defined below.
+> > + *        - Clearing this bit (ie. !SAVING) de-initializes the migration region
+> > + *          data window and indicates the completion or termination of the
+> > + *          migration data stream for the device.  
+> 
+> I don't know what "de-initialized" means as something a device should
+> do? IMHO there is no need to talk about the migration window here,
+> SAVING says initialize/clear - and data_offset/etc say their values
+> are undefined outside SAVING/RUNNING. That is enough.
+
+If "initializing" the migration data region puts in place handlers for
+pending_bytes and friends, "de-initializing" would undo that operation.
+Perhaps I should use "deactivates"?
+
+> > + *     - Bit 2 (RESUMING) [REQUIRED]:
+> > + *        - Setting this bit enables and initializes the migration region data
+> > + *          window and associated fields within vfio_device_migration_info for
+> > + *          restoring the device from a migration data stream captured from a
+> > + *          SAVING session with a compatible device.  The migration driver may
+> > + *          perform internal device resets as necessary to reinitialize the
+> > + *          internal device state for the incoming migration data.
+> > + *        - Clearing this bit (ie. !RESUMING) de-initializes the migration
+> > + *          region data window and indicates the end of a resuming session for
+> > + *          the device.  The kernel migration driver should complete the
+> > + *          incorporation of data written to the migration data window into the
+> > + *          device internal state and perform final validity and consistency
+> > + *          checking of the new device state.  If the user provided data is
+> > + *          found to be incomplete, inconsistent, or otherwise invalid, the
+> > + *          migration driver must indicate a write(2) error and follow the
+> > + *          previously described protocol to return either the previous state
+> > + *          or an error state.  
+> 
+> Prefer this is just 'go to an error state' to avoid unnecessary
+> implementation differences.
+
+Then it becomes a special case versus other device_state changes and
+we're forcing what you've described as an undefined state into the
+protocol.  Use of the error state is at the driver's discretion, but
+the spec is written such a driver only needs to make use of it if it
+encounters some sort of irrecoverable internal error.
+
+> > + *     - Bit 3 (NDMA) [OPTIONAL]:
+> > + *        The NDMA or "No DMA" state is intended to be a quiescent state for
+> > + *        the device for the purposes of managing multiple devices within a
+> > + *        user context where peer-to-peer DMA between devices may be active.
+> > + *        Support for the NDMA bit is indicated through the presence of the
+> > + *        VFIO_REGION_INFO_CAP_MIG_NDMA capability as reported by
+> > + *        VFIO_DEVICE_GET_REGION_INFO for the associated device migration
+> > + *        region.
+> > + *        - Setting this bit must prevent the device from initiating any
+> > + *          new DMA or interrupt transactions.  The migration driver must  
+> 
+> I'm not sure about interrupts.
+
+In the common case an interrupt is a DMA write, so the name, if not
+intention of this state gets a bit shaky if interrupts are allowed.
+ 
+> > + *          complete any such outstanding operations prior to completing
+> > + *          the transition to the NDMA state.  The NDMA device_state  
+> 
+> Reading this as you wrote it and I suddenly have a doubt about the PRI
+> use case. Is it reasonable that the kernel driver will block on NDMA
+> waiting for another userspace thread to resolve any outstanding PRIs?
+> 
+> Can that allow userspace to deadlock the kernel or device? Is there an
+> alterative?
+
+I'd hope we could avoid deadlock in the kernel, but it seems trickier
+for userspace to be waiting on a write(2) operation to the device while
+also handling page request events for that same device.  Is this
+something more like a pending transaction bit where userspace asks the
+device to go quiescent and polls for that to occur?
+
+> > + *   All combinations for the above defined device_state bits are considered
+> > + *   valid with the following exceptions:
+> > + *     - RESUMING and SAVING are mutually exclusive, all combinations of
+> > + *       (RESUMING | SAVING) are invalid.  Furthermore the specific combination
+> > + *       (!NDMA | RESUMING | SAVING | !RUNNING) is reserved to indicate the
+> > + *       device error state VFIO_DEVICE_STATE_ERROR.  This variant is
+> > + *       specifically chosen due to the !RUNNING state of the device as the
+> > + *       migration driver should do everything possible, including an internal
+> > + *       reset of the device, to ensure that the device is fully stopped in
+> > + *       this state.    
+> 
+> Prefer we don't specify this. ERROR is undefined behavior and
+> userspace should reset. Any path that leads along to ERROR already
+> includes possiblities for wild DMAs and what not, so there is nothing
+> to be gained by this other than causing a lot of driver complexity,
+> IMHO.
+
+This seems contrary to your push for consistent, interoperable behavior.
+What's the benefit to actually leaving the state undefined or the
+drawback to preemptively resetting a device if the migration driver
+cannot determine if the device is quiesced, especially when the user
+would need to reset the device to enter a new state anyway?  I added
+this because language in your doc suggested the error state was far
+more undefined that I understood it to be, ie. !RUNNING.
+
+> > + *   Migration drivers should attempt to support any transition between valid  
+> 
+> should? must, I think.
+
+I think that "must" terminology is a bit contrary to the fact that we
+have a defined error state that can be used at the discretion of the
+migration driver.  To me, "should" tells the migration drivers that they
+ought to make an attempt to support all transitions, but userspace
+needs to be be prepared that they might not work.  If a driver fails to
+implement some transitions necessary for a given application, the
+application should fail gracefully, but migration features may not be
+available for the device.
+
+> The whole migration window definition seems quite straightforward now!
+
+Great!
+ 
+> > + * a) The user reads pending_bytes.  If the read value is zero, no data is
+> > + *    currently available for the device.  If the device is !RUNNING and a
+> > + *    zero value is read, this indicates the end of the device migration
+> > + *    stream and the device must not generate any new migration data.  If
+> > + *    the read value is non-zero, the user may proceed to collect device
+> > + *    migration data in step b).  Repeated reads of pending_bytes is allowed
+> > + *    and must not compromise the migration data stream provided the user does
+> > + *    not proceed to the following step.  
+> 
+> Add what to do in SAVING|RUNNING if pending bytes is 0?
+
+Maybe it's too subtle, but that's why I phrased it as "no data is
+currently available" and went on to specify the implications in the
+!RUNNING state.  "Currently", suggesting that in the RUNNING state the
+value is essentially volatile.
+
+> >  #define VFIO_DEVICE_STATE_SET_ERROR(state) \
+> > -	((state & ~VFIO_DEVICE_STATE_MASK) | VFIO_DEVICE_SATE_SAVING | \
+> > -					     VFIO_DEVICE_STATE_RESUMING)
+> > +	((state & ~VFIO_DEVICE_STATE_MASK) | VFIO_DEVICE_STATE_ERROR)  
+> 
+> We should delete this macro. It only makes sense used in a driver does
+> not belong in the uapi header.
+
+I may have gotten sloppy here, I thought I was incorporating what had
+been proposed in the mlx5 series.  Thanks,
 
 Alex
 
-On Mon, Dec 13, 2021 at 3:07 PM Rodrigo Siqueira Jordao
-<rjordrigo@amd.com> wrote:
->
->
->
-> On 2021-12-10 1:20 p.m., Yann Dirson wrote:
-> > This starts to make the formated index much more manageable to the reader.
-> >
-> > Signed-off-by: Yann Dirson <ydirson@free.fr>
-> > ---
-> >   Documentation/gpu/amdgpu/driver-core.rst      |  65 ++++
-> >   Documentation/gpu/amdgpu/driver-misc.rst      | 112 ++++++
-> >   Documentation/gpu/amdgpu/index.rst            | 342 +-----------------
-> >   .../gpu/amdgpu/module-parameters.rst          |   7 +
-> >   Documentation/gpu/amdgpu/ras.rst              |  62 ++++
-> >   Documentation/gpu/amdgpu/thermal.rst          |  65 ++++
-> >   Documentation/gpu/amdgpu/xgmi.rst             |   5 +
-> >   7 files changed, 324 insertions(+), 334 deletions(-)
-> >   create mode 100644 Documentation/gpu/amdgpu/driver-core.rst
-> >   create mode 100644 Documentation/gpu/amdgpu/driver-misc.rst
-> >   create mode 100644 Documentation/gpu/amdgpu/module-parameters.rst
-> >   create mode 100644 Documentation/gpu/amdgpu/ras.rst
-> >   create mode 100644 Documentation/gpu/amdgpu/thermal.rst
-> >   create mode 100644 Documentation/gpu/amdgpu/xgmi.rst
-> >
-> > diff --git a/Documentation/gpu/amdgpu/driver-core.rst b/Documentation/gpu/amdgpu/driver-core.rst
-> > new file mode 100644
-> > index 000000000000..97f9a9b68924
-> > --- /dev/null
-> > +++ b/Documentation/gpu/amdgpu/driver-core.rst
-> > @@ -0,0 +1,65 @@
-> > +============================
-> > + Core Driver Infrastructure
-> > +============================
-> > +
-> > +.. _amdgpu_memory_domains:
-> > +
-> > +Memory Domains
-> > +==============
-> > +
-> > +.. kernel-doc:: include/uapi/drm/amdgpu_drm.h
-> > +   :doc: memory domains
-> > +
-> > +Buffer Objects
-> > +==============
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> > +   :doc: amdgpu_object
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> > +   :internal:
-> > +
-> > +PRIME Buffer Sharing
-> > +====================
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-> > +   :doc: PRIME Buffer Sharing
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-> > +   :internal:
-> > +
-> > +MMU Notifier
-> > +============
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
-> > +   :doc: MMU Notifier
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
-> > +   :internal:
-> > +
-> > +AMDGPU Virtual Memory
-> > +=====================
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> > +   :doc: GPUVM
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> > +   :internal:
-> > +
-> > +Interrupt Handling
-> > +==================
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-> > +   :doc: Interrupt Handling
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-> > +   :internal:
-> > +
-> > +IP Blocks
-> > +=========
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/include/amd_shared.h
-> > +   :doc: IP Blocks
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/include/amd_shared.h
-> > +   :identifiers: amd_ip_block_type amd_ip_funcs
-> > diff --git a/Documentation/gpu/amdgpu/driver-misc.rst b/Documentation/gpu/amdgpu/driver-misc.rst
-> > new file mode 100644
-> > index 000000000000..e3d6b2fa2493
-> > --- /dev/null
-> > +++ b/Documentation/gpu/amdgpu/driver-misc.rst
-> > @@ -0,0 +1,112 @@
-> > +================================
-> > + Misc AMDGPU driver information
-> > +================================
-> > +
-> > +GPU Product Information
-> > +=======================
-> > +
-> > +Information about the GPU can be obtained on certain cards
-> > +via sysfs
-> > +
-> > +product_name
-> > +------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> > +   :doc: product_name
-> > +
-> > +product_number
-> > +--------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> > +   :doc: product_name
-> > +
-> > +serial_number
-> > +-------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> > +   :doc: serial_number
-> > +
-> > +unique_id
-> > +---------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > +   :doc: unique_id
-> > +
-> > +GPU Memory Usage Information
-> > +============================
-> > +
-> > +Various memory accounting can be accessed via sysfs
-> > +
-> > +mem_info_vram_total
-> > +-------------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> > +   :doc: mem_info_vram_total
-> > +
-> > +mem_info_vram_used
-> > +------------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> > +   :doc: mem_info_vram_used
-> > +
-> > +mem_info_vis_vram_total
-> > +-----------------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> > +   :doc: mem_info_vis_vram_total
-> > +
-> > +mem_info_vis_vram_used
-> > +----------------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> > +   :doc: mem_info_vis_vram_used
-> > +
-> > +mem_info_gtt_total
-> > +------------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-> > +   :doc: mem_info_gtt_total
-> > +
-> > +mem_info_gtt_used
-> > +-----------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-> > +   :doc: mem_info_gtt_used
-> > +
-> > +PCIe Accounting Information
-> > +===========================
-> > +
-> > +pcie_bw
-> > +-------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > +   :doc: pcie_bw
-> > +
-> > +pcie_replay_count
-> > +-----------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> > +   :doc: pcie_replay_count
-> > +
-> > +GPU SmartShift Information
-> > +==========================
-> > +
-> > +GPU SmartShift information via sysfs
-> > +
-> > +smartshift_apu_power
-> > +--------------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > +   :doc: smartshift_apu_power
-> > +
-> > +smartshift_dgpu_power
-> > +---------------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > +   :doc: smartshift_dgpu_power
-> > +
-> > +smartshift_bias
-> > +---------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > +   :doc: smartshift_bias
-> > diff --git a/Documentation/gpu/amdgpu/index.rst b/Documentation/gpu/amdgpu/index.rst
-> > index ff38c360b04e..a24e1cfa7407 100644
-> > --- a/Documentation/gpu/amdgpu/index.rst
-> > +++ b/Documentation/gpu/amdgpu/index.rst
-> > @@ -5,339 +5,13 @@
-> >   The drm/amdgpu driver supports all AMD Radeon GPUs based on the Graphics Core
-> >   Next (GCN) architecture.
-> >
-> > -Module Parameters
-> > -=================
-> > -
-> > -The amdgpu driver supports the following module parameters:
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> > -
-> > -Core Driver Infrastructure
-> > -==========================
-> > -
-> > -This section covers core driver infrastructure.
-> > -
-> > -.. _amdgpu_memory_domains:
-> > -
-> > -Memory Domains
-> > ---------------
-> > -
-> > -.. kernel-doc:: include/uapi/drm/amdgpu_drm.h
-> > -   :doc: memory domains
-> > -
-> > -Buffer Objects
-> > ---------------
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> > -   :doc: amdgpu_object
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> > -   :internal:
-> > -
-> > -PRIME Buffer Sharing
-> > ---------------------
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-> > -   :doc: PRIME Buffer Sharing
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-> > -   :internal:
-> > -
-> > -MMU Notifier
-> > -------------
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
-> > -   :doc: MMU Notifier
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
-> > -   :internal:
-> > -
-> > -AMDGPU Virtual Memory
-> > ----------------------
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> > -   :doc: GPUVM
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> > -   :internal:
-> > -
-> > -Interrupt Handling
-> > -------------------
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-> > -   :doc: Interrupt Handling
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-> > -   :internal:
-> > -
-> > -IP Blocks
-> > ----------
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/include/amd_shared.h
-> > -   :doc: IP Blocks
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/include/amd_shared.h
-> > -   :identifiers: amd_ip_block_type amd_ip_funcs
-> > -
-> > -Display Core
-> > -============
-> > -
-> > -This section covers Display core.
-> > -
-> > -.. toctree::
-> > -
-> > -  display/index
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > -   :doc: overview
-> > -
-> > -AMDGPU XGMI Support
-> > -===================
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-> > -
-> > -AMDGPU RAS Support
-> > -==================
-> > -
-> > -The AMDGPU RAS interfaces are exposed via sysfs (for informational queries) and
-> > -debugfs (for error injection).
-> > -
-> > -RAS debugfs/sysfs Control and Error Injection Interfaces
-> > ---------------------------------------------------------
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-> > -   :doc: AMDGPU RAS debugfs control interface
-> > -
-> > -RAS Reboot Behavior for Unrecoverable Errors
-> > ---------------------------------------------------------
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-> > -   :doc: AMDGPU RAS Reboot Behavior for Unrecoverable Errors
-> > -
-> > -RAS Error Count sysfs Interface
-> > --------------------------------
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-> > -   :doc: AMDGPU RAS sysfs Error Count Interface
-> > -
-> > -RAS EEPROM debugfs Interface
-> > -----------------------------
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-> > -   :doc: AMDGPU RAS debugfs EEPROM table reset interface
-> > -
-> > -RAS VRAM Bad Pages sysfs Interface
-> > -----------------------------------
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-> > -   :doc: AMDGPU RAS sysfs gpu_vram_bad_pages Interface
-> > -
-> > -Sample Code
-> > ------------
-> > -Sample code for testing error injection can be found here:
-> > -https://cgit.freedesktop.org/mesa/drm/tree/tests/amdgpu/ras_tests.c
-> > -
-> > -This is part of the libdrm amdgpu unit tests which cover several areas of the GPU.
-> > -There are four sets of tests:
-> > -
-> > -RAS Basic Test
-> > -
-> > -The test verifies the RAS feature enabled status and makes sure the necessary sysfs and debugfs files
-> > -are present.
-> > -
-> > -RAS Query Test
-> > -
-> > -This test checks the RAS availability and enablement status for each supported IP block as well as
-> > -the error counts.
-> > -
-> > -RAS Inject Test
-> > -
-> > -This test injects errors for each IP.
-> > -
-> > -RAS Disable Test
-> > -
-> > -This test tests disabling of RAS features for each IP block.
-> > -
-> > -
-> > -GPU Power/Thermal Controls and Monitoring
-> > -=========================================
-> > -
-> > -This section covers hwmon and power/thermal controls.
-> > -
-> > -HWMON Interfaces
-> > -----------------
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > -   :doc: hwmon
-> > -
-> > -GPU sysfs Power State Interfaces
-> > ---------------------------------
-> > -
-> > -GPU power controls are exposed via sysfs files.
-> > -
-> > -power_dpm_state
-> > -~~~~~~~~~~~~~~~
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > -   :doc: power_dpm_state
-> > -
-> > -power_dpm_force_performance_level
-> > -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > -   :doc: power_dpm_force_performance_level
-> > -
-> > -pp_table
-> > -~~~~~~~~
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > -   :doc: pp_table
-> > -
-> > -pp_od_clk_voltage
-> > -~~~~~~~~~~~~~~~~~
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > -   :doc: pp_od_clk_voltage
-> > -
-> > -pp_dpm_*
-> > -~~~~~~~~
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > -   :doc: pp_dpm_sclk pp_dpm_mclk pp_dpm_socclk pp_dpm_fclk pp_dpm_dcefclk pp_dpm_pcie
-> > -
-> > -pp_power_profile_mode
-> > -~~~~~~~~~~~~~~~~~~~~~
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > -   :doc: pp_power_profile_mode
-> > -
-> > -\*_busy_percent
-> > -~~~~~~~~~~~~~~~
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > -   :doc: gpu_busy_percent
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > -   :doc: mem_busy_percent
-> > -
-> > -gpu_metrics
-> > -~~~~~~~~~~~~~~~~~~~~~
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > -   :doc: gpu_metrics
-> > -
-> > -GPU Product Information
-> > -=======================
-> > -
-> > -Information about the GPU can be obtained on certain cards
-> > -via sysfs
-> > -
-> > -product_name
-> > -------------
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> > -   :doc: product_name
-> > -
-> > -product_number
-> > ---------------
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> > -   :doc: product_name
-> > -
-> > -serial_number
-> > --------------
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> > -   :doc: serial_number
-> > -
-> > -unique_id
-> > ----------
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > -   :doc: unique_id
-> > -
-> > -GPU Memory Usage Information
-> > -============================
-> > -
-> > -Various memory accounting can be accessed via sysfs
-> > -
-> > -mem_info_vram_total
-> > --------------------
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> > -   :doc: mem_info_vram_total
-> > -
-> > -mem_info_vram_used
-> > -------------------
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> > -   :doc: mem_info_vram_used
-> > -
-> > -mem_info_vis_vram_total
-> > ------------------------
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> > -   :doc: mem_info_vis_vram_total
-> > -
-> > -mem_info_vis_vram_used
-> > -----------------------
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> > -   :doc: mem_info_vis_vram_used
-> > -
-> > -mem_info_gtt_total
-> > -------------------
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-> > -   :doc: mem_info_gtt_total
-> > -
-> > -mem_info_gtt_used
-> > ------------------
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-> > -   :doc: mem_info_gtt_used
-> > -
-> > -PCIe Accounting Information
-> > -===========================
-> > -
-> > -pcie_bw
-> > --------
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > -   :doc: pcie_bw
-> > -
-> > -pcie_replay_count
-> > ------------------
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> > -   :doc: pcie_replay_count
-> > -
-> > -GPU SmartShift Information
-> > -==========================
-> > -
-> > -GPU SmartShift information via sysfs
-> > -
-> > -smartshift_apu_power
-> > ---------------------
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > -   :doc: smartshift_apu_power
-> > -
-> > -smartshift_dgpu_power
-> > ----------------------
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > -   :doc: smartshift_dgpu_power
-> > -
-> > -smartshift_bias
-> > ----------------
-> > -
-> > -.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > -   :doc: smartshift_bias
-> > -
-> > -AMDGPU Glossary
-> > -===============
-> > -
-> >   .. toctree::
-> >
-> > -   amdgpu-glossary.rst
-> > +   module-parameters
-> > +   driver-core
-> > +   display/index
-> > +   xgmi
-> > +   ras
-> > +   thermal
-> > +   driver-misc
-> > +   amdgpu-glossary
-> > diff --git a/Documentation/gpu/amdgpu/module-parameters.rst b/Documentation/gpu/amdgpu/module-parameters.rst
-> > new file mode 100644
-> > index 000000000000..ea538c8dda35
-> > --- /dev/null
-> > +++ b/Documentation/gpu/amdgpu/module-parameters.rst
-> > @@ -0,0 +1,7 @@
-> > +===================
-> > + Module Parameters
-> > +===================
-> > +
-> > +The amdgpu driver supports the following module parameters:
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> > diff --git a/Documentation/gpu/amdgpu/ras.rst b/Documentation/gpu/amdgpu/ras.rst
-> > new file mode 100644
-> > index 000000000000..047f76e395cf
-> > --- /dev/null
-> > +++ b/Documentation/gpu/amdgpu/ras.rst
-> > @@ -0,0 +1,62 @@
-> > +====================
-> > + AMDGPU RAS Support
-> > +====================
-> > +
-> > +The AMDGPU RAS interfaces are exposed via sysfs (for informational queries) and
-> > +debugfs (for error injection).
-> > +
-> > +RAS debugfs/sysfs Control and Error Injection Interfaces
-> > +========================================================
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-> > +   :doc: AMDGPU RAS debugfs control interface
-> > +
-> > +RAS Reboot Behavior for Unrecoverable Errors
-> > +============================================
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-> > +   :doc: AMDGPU RAS Reboot Behavior for Unrecoverable Errors
-> > +
-> > +RAS Error Count sysfs Interface
-> > +===============================
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-> > +   :doc: AMDGPU RAS sysfs Error Count Interface
-> > +
-> > +RAS EEPROM debugfs Interface
-> > +============================
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-> > +   :doc: AMDGPU RAS debugfs EEPROM table reset interface
-> > +
-> > +RAS VRAM Bad Pages sysfs Interface
-> > +==================================
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-> > +   :doc: AMDGPU RAS sysfs gpu_vram_bad_pages Interface
-> > +
-> > +Sample Code
-> > +===========
-> > +Sample code for testing error injection can be found here:
-> > +https://cgit.freedesktop.org/mesa/drm/tree/tests/amdgpu/ras_tests.c
-> > +
-> > +This is part of the libdrm amdgpu unit tests which cover several areas of the GPU.
-> > +There are four sets of tests:
-> > +
-> > +RAS Basic Test
-> > +
-> > +The test verifies the RAS feature enabled status and makes sure the necessary sysfs and debugfs files
-> > +are present.
-> > +
-> > +RAS Query Test
-> > +
-> > +This test checks the RAS availability and enablement status for each supported IP block as well as
-> > +the error counts.
-> > +
-> > +RAS Inject Test
-> > +
-> > +This test injects errors for each IP.
-> > +
-> > +RAS Disable Test
-> > +
-> > +This test tests disabling of RAS features for each IP block.
-> > diff --git a/Documentation/gpu/amdgpu/thermal.rst b/Documentation/gpu/amdgpu/thermal.rst
-> > new file mode 100644
-> > index 000000000000..8aeb0186c9ef
-> > --- /dev/null
-> > +++ b/Documentation/gpu/amdgpu/thermal.rst
-> > @@ -0,0 +1,65 @@
-> > +===========================================
-> > + GPU Power/Thermal Controls and Monitoring
-> > +===========================================
-> > +
-> > +HWMON Interfaces
-> > +================
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > +   :doc: hwmon
-> > +
-> > +GPU sysfs Power State Interfaces
-> > +================================
-> > +
-> > +GPU power controls are exposed via sysfs files.
-> > +
-> > +power_dpm_state
-> > +---------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > +   :doc: power_dpm_state
-> > +
-> > +power_dpm_force_performance_level
-> > +---------------------------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > +   :doc: power_dpm_force_performance_level
-> > +
-> > +pp_table
-> > +--------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > +   :doc: pp_table
-> > +
-> > +pp_od_clk_voltage
-> > +-----------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > +   :doc: pp_od_clk_voltage
-> > +
-> > +pp_dpm_*
-> > +--------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > +   :doc: pp_dpm_sclk pp_dpm_mclk pp_dpm_socclk pp_dpm_fclk pp_dpm_dcefclk pp_dpm_pcie
-> > +
-> > +pp_power_profile_mode
-> > +---------------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > +   :doc: pp_power_profile_mode
-> > +
-> > +\*_busy_percent
-> > +---------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > +   :doc: gpu_busy_percent
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > +   :doc: mem_busy_percent
-> > +
-> > +gpu_metrics
-> > +-----------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-> > +   :doc: gpu_metrics
-> > diff --git a/Documentation/gpu/amdgpu/xgmi.rst b/Documentation/gpu/amdgpu/xgmi.rst
-> > new file mode 100644
-> > index 000000000000..23f2856f4524
-> > --- /dev/null
-> > +++ b/Documentation/gpu/amdgpu/xgmi.rst
-> > @@ -0,0 +1,5 @@
-> > +=====================
-> > + AMDGPU XGMI Support
-> > +=====================
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-> >
->
-> lgtm
->
-> Reviewed-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
->
-> Thanks.
