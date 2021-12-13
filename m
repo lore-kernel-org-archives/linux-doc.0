@@ -2,263 +2,803 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F125C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Dec 2021 20:20:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F0B5C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Dec 2021 20:36:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236421AbhLMUUY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Dec 2021 15:20:24 -0500
-Received: from mail-dm6nam12on2082.outbound.protection.outlook.com ([40.107.243.82]:48608
-        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S235878AbhLMUUX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 13 Dec 2021 15:20:23 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Py14EW1lO6+/rK+P1HHvpxk1sXheYUaitRt+KI1ZxC+xEIV5+ow5Of1K5FNrenhn2SOHA1dHlcatT0EQr0znLD3bJxv6E0v26vNFBhftimDevsLNPKQSyvZCIkBmulzGZ4PTUs+1WnNlcPKocaPeDXeLGax7x0wWvXfH6ZYIi47v543MzrO+Xt/I+L27B5EHt4mkUtIf+kjAAZcQK2STqN1bnJY8jInNTuxECqdB4NJjwRp4FccY2HDcUjiD0d65/c4V1RM6ay+wVXsYx5JAx5emSeP8SHD1f1brQXKfl/L0yf/EZIA9pN6/ffRMktxan7Zdtmk1zRCKg2ETmCZV4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xMNomkgdUS2hqIFmQ7EDScD+F7opKVgUKiTSqLKwayw=;
- b=FtcQyQJk0lpbnZGuJiZ2CNmde+pgLWIJI2+CqHeSCuLo+XDBAtNMSmQ4al1PCUJgFAvg5Ydgrg7ipyBbT+mL/IkrzSvtSVLSnljRjqwZQdLclKBM/fO/le/rRAHQeyJNM/M35Jk9RZVzzde59qIn8WqnyUfZgMr4tPBhtxW5+/danx9m21oDnFCeaQkJm1XjTpgzAUBmFuZOWITj/CUW3TFbfeMypxHTtrUIICs7qOL1MXHp4V5sD7uBJUUxVhNObjzErKzQpKbp8QBj+by4rVYvkf4Zl7CvurZjwcXQXMEhHes2TqisBf+y/o5RF3fNOTE3IqMBqq6Nh0oDL8TdKw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xMNomkgdUS2hqIFmQ7EDScD+F7opKVgUKiTSqLKwayw=;
- b=eP9ZBv3+8vWHHxWUtMRKMnD1B+qX508xU1u4prLto1FN7HWmZ7eUhIDf1U9wQZ49OT0Cm8puLJxvy0zpwRdWD3MexKupN1LMVNIupyIiCr26yrWImcNd7l2FZwg5gk5c0GQ4tuH0rgG3TWbPndQwziOBSMoaI6tkpMOYDLhfYYY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB2896.namprd12.prod.outlook.com (2603:10b6:208:ab::22)
- by MN2PR12MB3151.namprd12.prod.outlook.com (2603:10b6:208:d1::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.17; Mon, 13 Dec
- 2021 20:20:21 +0000
-Received: from MN2PR12MB2896.namprd12.prod.outlook.com
- ([fe80::44f7:66fe:4419:d8d3]) by MN2PR12MB2896.namprd12.prod.outlook.com
- ([fe80::44f7:66fe:4419:d8d3%7]) with mapi id 15.20.4778.018; Mon, 13 Dec 2021
- 20:20:21 +0000
-Subject: Re: [PATCH v2 2/3] Documentation/gpu: include description of AMDGPU
- hardware structure
-From:   Rodrigo Siqueira Jordao <rjordrigo@amd.com>
-To:     Yann Dirson <ydirson@free.fr>, amd-gfx@lists.freedesktop.org
-Cc:     Alex Deucher <alexander.deucher@amd.com>,
-        Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
-        linux-doc@vger.kernel.org, Harry Wentland <harry.wentland@amd.com>
-References: <20211210182030.3834-1-ydirson@free.fr>
- <20211210182030.3834-3-ydirson@free.fr>
- <c5563e17-d978-58ee-8350-5b51593fb5bd@amd.com>
-Message-ID: <2750b51f-87ba-9393-8d75-711701a7437e@amd.com>
-Date:   Mon, 13 Dec 2021 15:20:19 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-In-Reply-To: <c5563e17-d978-58ee-8350-5b51593fb5bd@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MN2PR04CA0012.namprd04.prod.outlook.com
- (2603:10b6:208:d4::25) To MN2PR12MB2896.namprd12.prod.outlook.com
- (2603:10b6:208:ab::22)
+        id S238005AbhLMUgT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Dec 2021 15:36:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42350 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231258AbhLMUgT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Dec 2021 15:36:19 -0500
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E68CFC061574
+        for <linux-doc@vger.kernel.org>; Mon, 13 Dec 2021 12:36:18 -0800 (PST)
+Received: by mail-ot1-x32f.google.com with SMTP id 35-20020a9d08a6000000b00579cd5e605eso18810686otf.0
+        for <linux-doc@vger.kernel.org>; Mon, 13 Dec 2021 12:36:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=7ymw4zzbx0fGEGW9oOqaMZw8xenwjMHHLGEYhutDDMI=;
+        b=VqRj8hZn6aVzmGCiI1bqFAsrrdWp2dKCRPrOjRTu8VPhRnGlOBKJTLHeMY1U+v/1Lm
+         Et08IkhtoVY2aIRLiCrFA3Ft6J+zrPBP4SvUOjVi2vLsPu/GvtMnumz38wQPlumjwlGW
+         qsd1PYDswXnoQeZSZhbGxSV2w8TwF3cnpjIbXPMrFZ1SkrTeYBGR0FXKxMD0j6OdQLug
+         rlTcP13JwdVK+dPclSJJ5ad2XO0dpnA+dK1TM6u2edPQxxl7wB+E+ZLgD0nj0JlLb4k4
+         A3zn4amE9as8f333FaP+CKh7nZx7EojXkGq6e+C64pVcS453pNqtCZzVGs66J8e+iQhD
+         hUYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7ymw4zzbx0fGEGW9oOqaMZw8xenwjMHHLGEYhutDDMI=;
+        b=hsuSDtAd7z5MpW2b/jV5G8riau6jdtXbdfVLiEhhl8JRnJBT1EWeGlG+Quyf19P6HZ
+         3fPDXqi2q86v1hG+62lKxGW8MrTOiq70frRS9V6tvOSnFUN4qRf9R6dCIJHVVe6hXpOW
+         G9cOm025VZkPAShiPRBemaJOOJipi55S58brGuP/+ZoXYydqzJJ0ZMJOPt8N4mbeNISu
+         TE0OG7joNQzIUHKnMfeMvIOHCQwHHzUJ43nuyBMPMcP4rbvY2N4loj2K6v3hFzPFdt7T
+         4tqF2ZfRF7/CVRGEiwyGE9MJnXORBhd3kiFy/TU+UE1JYXNmem5vxlYnZOlxIerBS6Cq
+         faKQ==
+X-Gm-Message-State: AOAM533hhO8UUVE02kBM9GwxezIY0wbOIZA4leoidUuKJZivXuGUGvVn
+        9b2UNxBbCGxkkWaaY+1M1qaCVHWJ58kAALDdjDqZAj/H
+X-Google-Smtp-Source: ABdhPJw21J+2Oiu0OYbofiF9BdcRlQNtwFLgBXvwOvMcNEupDAT8bQ4oFJjaWmh/O5e44Pc+zeHBarTSH1EFBu3EBCE=
+X-Received: by 2002:a9d:67c1:: with SMTP id c1mr703100otn.299.1639427778116;
+ Mon, 13 Dec 2021 12:36:18 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1a42b162-c172-485f-b76d-08d9be75fcb7
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3151:EE_
-X-Microsoft-Antispam-PRVS: <MN2PR12MB3151E5F6E568C5B45DB6A64E98749@MN2PR12MB3151.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:813;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xwp0QFCN+skPCKT2WX2RMJJIINYJRwNgyjiwyZQLYlHjsZQbAukzt2XIdP6Z2TRrynweEoPpRF6AVAUJjVo4GAxKiJnp7UBIasIKCrS0HhqyeGkb5Gi/Nz3F6pdivH49ey/3eQvyeftW61xet+sfNvi0SrMOJ9rUze+ROU9nJZxXpTILt8kSd3NUSTEO8ZVepf5uefeEGqhhy2OAmm8QRbmHp3PzKfZIS0gKYPzgSx1Sj47xqr16TFaidOeglsbcPJXgAo3GobB1ZV/dzoq5JjTqC4zXCNBD1B/skAXUMklaf7TRIguIHPKi+WjuybrB1NpPQXZPUwE37ezIulnoxADNtS69ltaQ9DQqIvZH17qajU6mkVp7QWtEvaZLN2fIWFCHjK8ZUhPYYK0hZ9DT2RrOxDC6Nt7zibIBzigplNuYaEg+pSmE4ihr1FOrqlV2uyXuwqkur3r5Fmusc9Qtuk8NSg2mROtsd+0tqp6dQZVMfj6MOVXhMHsMl0Dn27L9VTBthxeP1ewbBYjsrsBCFf6cWlAECpMt4GXVXmeK/Mx4cgMiATZJmeWlFzh2qabRTFIjLiQdqrhKZZws51jJ4JayUZuPHFnDtrevxLok1QvD0QYn3M84SiMKihlUKTa82+UVHgngJTqFSvG5H8hm+zK9C4mHCZlfapcWLU/fmDkIOynjtSyj7XqFvBBS3YVH91kfVB7GkbQjPCmJnzqSQBNqIFQwglZnpsf1aNOWYQ8XUSa/bMU6BM3HFj6drlI0aqQ1naKoF/tfiYHLhDhpBxjXq1mWwV2SXhwmcoKDC4L/aSDI3ojgN7sBoOCqdgYozrfjRuzHI00nX6HfVuQqeblPq//YRSjnb05h7Dp4hug=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB2896.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(186003)(54906003)(6486002)(4326008)(8936002)(966005)(83380400001)(31696002)(6512007)(508600001)(38100700002)(316002)(8676002)(66556008)(4001150100001)(2906002)(66476007)(53546011)(6506007)(31686004)(36756003)(2616005)(66946007)(5660300002)(45980500001)(43740500002)(15866825006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NHdqT00wVkF0Z3U3TzhJRWorcnJHOVBwaGpDWGl0NlRsN3l2eGZXT0RibDhk?=
- =?utf-8?B?c2hZNUV3bFdoR3pFQ2U5aklOc3g5ZDVtZWFuenU1N0VuS0dMZ1FEUVpEOWZY?=
- =?utf-8?B?bUVuQXFwZ2Y0YjdtdG1IRnpvaW4rWlBRQjNMajdLK0VJMDZOVkp5aWFYeVJW?=
- =?utf-8?B?dDh2UXF6VnpBNzlHUzBlcXNmdTBieE1KL08vVlo1QjNDR012S1RVcVp5SnlM?=
- =?utf-8?B?ejROdXBYaTdsWTl6QUsyblFOcHlldld5Q09aMm1zV3BtMndyUUxoOHhnYi90?=
- =?utf-8?B?WDBtSndlMy9XNjhuUk1tRVo3YkNDbHhVNzBiWWtpdHdQeFlqWVhiSU04T2xU?=
- =?utf-8?B?ZnJoMlVtaFFVTG9Oek1zNERzMVFWL01ibVh0cE0rTnFRNFY0RUlPOVpPRi9n?=
- =?utf-8?B?dmxSQ0Q0NnJLQXAxeTNvMXc1VVNvRldSWVdXVkpPNkU0SFJDSklxUGZmeU9S?=
- =?utf-8?B?b2prYUtOeEhPRUJCaTRkcGFKcHl4Zy9sV1BwaExtT1hrVHpKTDBVd3o1ZG1C?=
- =?utf-8?B?bTA1MzE1Nk9YZGJsWEFQZ3UrbVpoRmJKd0dpcVMzMWJJS1FBMlVtTHprc3l2?=
- =?utf-8?B?cDFhNm14dmlzWU0yWmpEeThIaEY5UlhJZk9uQjJxWS9Fbjhacm5ZVExoVm1X?=
- =?utf-8?B?MzFHVGhJOGhrUTNUbXJrR3ZLL0VYYVBiU0kzclN4VWtNQVp4anpJakQ5K3RZ?=
- =?utf-8?B?TGtVdGFEOEdndlMrN2RSWS9DeFlUbVF4RWRSOFdpZzFScHlMZ3pWTzBTalhw?=
- =?utf-8?B?S3pMTFlvUHZiVlQreGk3ZVlxZ0R2MUpvc0ZydWJ6Y1Q0MWZQcjVFWTVBWlp1?=
- =?utf-8?B?TXNMOEdQNjN2RS9XNXloNnpiakI4ejFCeXRqMCt5VWhzc1hSRHYzZHJveXRQ?=
- =?utf-8?B?YTRoRzVMdXBUai9zTFZ1aTJ1bWtEN1JrSjVuWHR5ckpzSGVYK2c3aWFSdmkv?=
- =?utf-8?B?YUZyT0hxa3owdHhWZ1ZVSS9KbnpQOWRQMUhsb0k1T2tlS0NRSlpUQXBPdG9K?=
- =?utf-8?B?Ni95Nkprc0Zwa1FHR0liY2Q3a2cwRnkvenVVTWljeUZoU0RFREtTN0ZrUHIy?=
- =?utf-8?B?Zmc2MTNoczlkOWNsd0IwVXhQeThoOEFyd0dVYnlwNFBFTkNQYm5ieklCVDM0?=
- =?utf-8?B?THYxQVRXWXFtTHBEWTRGSGpETjZCeVlSaTlhUmN5RmZML2JjZmVmRmZwOXFx?=
- =?utf-8?B?bUowdTdzTDdjY0JocSs2WjBvVzVueFBxT0k0QUJZSmtBYlFEaitSQ1ZrZDNr?=
- =?utf-8?B?amE0VXVTSjZqNXgvYWtyaUpjWnowZlh0Yldic0txeUVqbzhrWlNNOWs3a3Ex?=
- =?utf-8?B?b2cwQjZ5T0N6UUlSNFN0VC9hRVk5Y1hBT203Sk85WHBEQmdPZEhqTkJ0TkNX?=
- =?utf-8?B?bmMrNXBQQWg1aGFiSkNTWmErU3JvTm01dmYrSDhBYjl2c3ZXNUduQWdFL3g3?=
- =?utf-8?B?ZlBPUWlDWFBjN2l5aUFvTC9xRDdxdXJJWE1sNjF0eFFRR1dNMllacW1seHFj?=
- =?utf-8?B?R1M2S1dPb1NGUFgrT09aMll1S2NZdTB2QTdLRjAvQ3NhUG1oSGxtaFJyU2dz?=
- =?utf-8?B?Q0cwUnRUWUlkV2pNRnFUeER1VkkxeXZIT3hwTUNPV0RBVjdYaUsyc3FUMzFH?=
- =?utf-8?B?WFpQbWI0aDNmR212cnBGSmhQUENIWG9FQ0xwTkx4UEUvQzJQeWNwdVprKzAz?=
- =?utf-8?B?RTkxZWJvREFLRkoyYlF6S0pvN3lRVDB5TGhBck92aXNQZ0tOUUlLVjFES1hw?=
- =?utf-8?B?YzJGWlpTYnhWR256TGpmOVdiVTZITDhMVTBla2FkUFFWUXc3MjA4VVpHUS9l?=
- =?utf-8?B?aDErU3FVZFQ3bWtjR3VuZ3Y2eWpKYXZpM1p1bUlNZktway9JdUN5dWFsQU94?=
- =?utf-8?B?bVhaT24vQnJucUNXY2ZuR2Z5b3F4Y3UzSHNOOXJvMUl6ejJRbElGS0lpcXV4?=
- =?utf-8?B?REhoT0R3WTVBSzNsaTIrRGNUbE8wNVBTYXdxV3dtQzNadkV2cWsyQ0VOWGh4?=
- =?utf-8?B?cndqeWZHbmxHaVZwVUs1aGJ5dFRSSEJDS0dPVWRXV2I0cm1OeWlTR0FZaDF0?=
- =?utf-8?B?UnpIY0tmQXM3cHc1TkNiZWpacldIVDNYalMyVDk5OWcwZjBpcGJMM3cyUElO?=
- =?utf-8?B?eWtVVFcwUy8vUzh0VzEzTitNa3c4Z05Zb2c0ditZMndVNHY5UzIzTEwxY2VK?=
- =?utf-8?B?aFF6bTVXdkRXM0tEZXFNdmFyU2hLZ2tXRWZ0Zm1vYXZIZDNwWWN4Wnh2YWEx?=
- =?utf-8?Q?pjwqU6GKgL247fW+gKbWIotDSAa3cKBqyzkUhym4Cc=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1a42b162-c172-485f-b76d-08d9be75fcb7
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB2896.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Dec 2021 20:20:21.1414
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: R3na21anTDIfi5OmQZqYYY791Grr0UYdP+jd078Hk39k/fkz6ODnWUKKqma6SoQPUiH2Ihn1Wgn+R5AKhm1RRQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3151
+References: <20211210182030.3834-1-ydirson@free.fr> <20211210182030.3834-2-ydirson@free.fr>
+ <c47a7b5b-a77c-6538-97e9-cb665f6e4dae@amd.com>
+In-Reply-To: <c47a7b5b-a77c-6538-97e9-cb665f6e4dae@amd.com>
+From:   Alex Deucher <alexdeucher@gmail.com>
+Date:   Mon, 13 Dec 2021 15:36:07 -0500
+Message-ID: <CADnq5_OyHMOyFYXXEYRvZb_Mefm8JH10T8vMMNXqKk-WQHkXzA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] Documentation/gpu: split amdgpu/index for readability
+To:     Rodrigo Siqueira Jordao <rjordrigo@amd.com>
+Cc:     Yann Dirson <ydirson@free.fr>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Applied. thanks!
 
+Alex
 
-On 2021-12-13 3:16 p.m., Rodrigo Siqueira Jordao wrote:
-> 
-> 
+On Mon, Dec 13, 2021 at 3:07 PM Rodrigo Siqueira Jordao
+<rjordrigo@amd.com> wrote:
+>
+>
+>
 > On 2021-12-10 1:20 p.m., Yann Dirson wrote:
->> This is Alex' description from the "gpu block diagram" thread, edited to
->> fit as ReST.
-> 
-> Maybe you can improve this commit message by describing what you are 
-> documenting and also adding a link to the original discussion. Perhaps 
-> you can use this link:
-> 
-> https://www.spinics.net/lists/amd-gfx/msg71383.html
-> 
-> 
->> Originally-by: Alex Deucher <alexander.deucher@amd.com>
->> Signed-off-by: Yann Dirson <ydirson@free.fr>
->> Acked-by: Harry Wentland <harry.wentland@amd.com>
->> ---
->>   Documentation/gpu/amdgpu/driver-core.rst | 81 ++++++++++++++++++++++++
->>   1 file changed, 81 insertions(+)
->>
->> diff --git a/Documentation/gpu/amdgpu/driver-core.rst 
->> b/Documentation/gpu/amdgpu/driver-core.rst
->> index 97f9a9b68924..b870a63c64dd 100644
->> --- a/Documentation/gpu/amdgpu/driver-core.rst
->> +++ b/Documentation/gpu/amdgpu/driver-core.rst
->> @@ -2,6 +2,87 @@
->>    Core Driver Infrastructure
->>   ============================
->> +GPU hardware structure
->> +======================
-> 
-> How about using the camel case in the titles? I mean "GPU Hardware 
-> Structure".
-> 
->> +
->> +Each ASIC is a collection of hardware blocks.  We refer to them as
->> +"IPs" (Intellectual Property blocks).  Each IP encapsulates certain
->> +functionality. IPs are versioned and can also be mixed and matched.
->> +E.g., you might have two different ASICs that both have SDMA 5.x IPs.
-> 
-> How about using "System DMA (SDMA) 5.x" instead of only saying SDMA?
-> 
-> Anyway, in general lgtm.
-> 
+> > This starts to make the formated index much more manageable to the reader.
+> >
+> > Signed-off-by: Yann Dirson <ydirson@free.fr>
+> > ---
+> >   Documentation/gpu/amdgpu/driver-core.rst      |  65 ++++
+> >   Documentation/gpu/amdgpu/driver-misc.rst      | 112 ++++++
+> >   Documentation/gpu/amdgpu/index.rst            | 342 +-----------------
+> >   .../gpu/amdgpu/module-parameters.rst          |   7 +
+> >   Documentation/gpu/amdgpu/ras.rst              |  62 ++++
+> >   Documentation/gpu/amdgpu/thermal.rst          |  65 ++++
+> >   Documentation/gpu/amdgpu/xgmi.rst             |   5 +
+> >   7 files changed, 324 insertions(+), 334 deletions(-)
+> >   create mode 100644 Documentation/gpu/amdgpu/driver-core.rst
+> >   create mode 100644 Documentation/gpu/amdgpu/driver-misc.rst
+> >   create mode 100644 Documentation/gpu/amdgpu/module-parameters.rst
+> >   create mode 100644 Documentation/gpu/amdgpu/ras.rst
+> >   create mode 100644 Documentation/gpu/amdgpu/thermal.rst
+> >   create mode 100644 Documentation/gpu/amdgpu/xgmi.rst
+> >
+> > diff --git a/Documentation/gpu/amdgpu/driver-core.rst b/Documentation/gpu/amdgpu/driver-core.rst
+> > new file mode 100644
+> > index 000000000000..97f9a9b68924
+> > --- /dev/null
+> > +++ b/Documentation/gpu/amdgpu/driver-core.rst
+> > @@ -0,0 +1,65 @@
+> > +============================
+> > + Core Driver Infrastructure
+> > +============================
+> > +
+> > +.. _amdgpu_memory_domains:
+> > +
+> > +Memory Domains
+> > +==============
+> > +
+> > +.. kernel-doc:: include/uapi/drm/amdgpu_drm.h
+> > +   :doc: memory domains
+> > +
+> > +Buffer Objects
+> > +==============
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> > +   :doc: amdgpu_object
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> > +   :internal:
+> > +
+> > +PRIME Buffer Sharing
+> > +====================
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> > +   :doc: PRIME Buffer Sharing
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> > +   :internal:
+> > +
+> > +MMU Notifier
+> > +============
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
+> > +   :doc: MMU Notifier
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
+> > +   :internal:
+> > +
+> > +AMDGPU Virtual Memory
+> > +=====================
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> > +   :doc: GPUVM
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> > +   :internal:
+> > +
+> > +Interrupt Handling
+> > +==================
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
+> > +   :doc: Interrupt Handling
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
+> > +   :internal:
+> > +
+> > +IP Blocks
+> > +=========
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/include/amd_shared.h
+> > +   :doc: IP Blocks
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/include/amd_shared.h
+> > +   :identifiers: amd_ip_block_type amd_ip_funcs
+> > diff --git a/Documentation/gpu/amdgpu/driver-misc.rst b/Documentation/gpu/amdgpu/driver-misc.rst
+> > new file mode 100644
+> > index 000000000000..e3d6b2fa2493
+> > --- /dev/null
+> > +++ b/Documentation/gpu/amdgpu/driver-misc.rst
+> > @@ -0,0 +1,112 @@
+> > +================================
+> > + Misc AMDGPU driver information
+> > +================================
+> > +
+> > +GPU Product Information
+> > +=======================
+> > +
+> > +Information about the GPU can be obtained on certain cards
+> > +via sysfs
+> > +
+> > +product_name
+> > +------------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> > +   :doc: product_name
+> > +
+> > +product_number
+> > +--------------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> > +   :doc: product_name
+> > +
+> > +serial_number
+> > +-------------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> > +   :doc: serial_number
+> > +
+> > +unique_id
+> > +---------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > +   :doc: unique_id
+> > +
+> > +GPU Memory Usage Information
+> > +============================
+> > +
+> > +Various memory accounting can be accessed via sysfs
+> > +
+> > +mem_info_vram_total
+> > +-------------------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+> > +   :doc: mem_info_vram_total
+> > +
+> > +mem_info_vram_used
+> > +------------------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+> > +   :doc: mem_info_vram_used
+> > +
+> > +mem_info_vis_vram_total
+> > +-----------------------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+> > +   :doc: mem_info_vis_vram_total
+> > +
+> > +mem_info_vis_vram_used
+> > +----------------------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+> > +   :doc: mem_info_vis_vram_used
+> > +
+> > +mem_info_gtt_total
+> > +------------------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+> > +   :doc: mem_info_gtt_total
+> > +
+> > +mem_info_gtt_used
+> > +-----------------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+> > +   :doc: mem_info_gtt_used
+> > +
+> > +PCIe Accounting Information
+> > +===========================
+> > +
+> > +pcie_bw
+> > +-------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > +   :doc: pcie_bw
+> > +
+> > +pcie_replay_count
+> > +-----------------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> > +   :doc: pcie_replay_count
+> > +
+> > +GPU SmartShift Information
+> > +==========================
+> > +
+> > +GPU SmartShift information via sysfs
+> > +
+> > +smartshift_apu_power
+> > +--------------------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > +   :doc: smartshift_apu_power
+> > +
+> > +smartshift_dgpu_power
+> > +---------------------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > +   :doc: smartshift_dgpu_power
+> > +
+> > +smartshift_bias
+> > +---------------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > +   :doc: smartshift_bias
+> > diff --git a/Documentation/gpu/amdgpu/index.rst b/Documentation/gpu/amdgpu/index.rst
+> > index ff38c360b04e..a24e1cfa7407 100644
+> > --- a/Documentation/gpu/amdgpu/index.rst
+> > +++ b/Documentation/gpu/amdgpu/index.rst
+> > @@ -5,339 +5,13 @@
+> >   The drm/amdgpu driver supports all AMD Radeon GPUs based on the Graphics Core
+> >   Next (GCN) architecture.
+> >
+> > -Module Parameters
+> > -=================
+> > -
+> > -The amdgpu driver supports the following module parameters:
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> > -
+> > -Core Driver Infrastructure
+> > -==========================
+> > -
+> > -This section covers core driver infrastructure.
+> > -
+> > -.. _amdgpu_memory_domains:
+> > -
+> > -Memory Domains
+> > ---------------
+> > -
+> > -.. kernel-doc:: include/uapi/drm/amdgpu_drm.h
+> > -   :doc: memory domains
+> > -
+> > -Buffer Objects
+> > ---------------
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> > -   :doc: amdgpu_object
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> > -   :internal:
+> > -
+> > -PRIME Buffer Sharing
+> > ---------------------
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> > -   :doc: PRIME Buffer Sharing
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> > -   :internal:
+> > -
+> > -MMU Notifier
+> > -------------
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
+> > -   :doc: MMU Notifier
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
+> > -   :internal:
+> > -
+> > -AMDGPU Virtual Memory
+> > ----------------------
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> > -   :doc: GPUVM
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> > -   :internal:
+> > -
+> > -Interrupt Handling
+> > -------------------
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
+> > -   :doc: Interrupt Handling
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
+> > -   :internal:
+> > -
+> > -IP Blocks
+> > ----------
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/include/amd_shared.h
+> > -   :doc: IP Blocks
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/include/amd_shared.h
+> > -   :identifiers: amd_ip_block_type amd_ip_funcs
+> > -
+> > -Display Core
+> > -============
+> > -
+> > -This section covers Display core.
+> > -
+> > -.. toctree::
+> > -
+> > -  display/index
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > -   :doc: overview
+> > -
+> > -AMDGPU XGMI Support
+> > -===================
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
+> > -
+> > -AMDGPU RAS Support
+> > -==================
+> > -
+> > -The AMDGPU RAS interfaces are exposed via sysfs (for informational queries) and
+> > -debugfs (for error injection).
+> > -
+> > -RAS debugfs/sysfs Control and Error Injection Interfaces
+> > ---------------------------------------------------------
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+> > -   :doc: AMDGPU RAS debugfs control interface
+> > -
+> > -RAS Reboot Behavior for Unrecoverable Errors
+> > ---------------------------------------------------------
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+> > -   :doc: AMDGPU RAS Reboot Behavior for Unrecoverable Errors
+> > -
+> > -RAS Error Count sysfs Interface
+> > --------------------------------
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+> > -   :doc: AMDGPU RAS sysfs Error Count Interface
+> > -
+> > -RAS EEPROM debugfs Interface
+> > -----------------------------
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+> > -   :doc: AMDGPU RAS debugfs EEPROM table reset interface
+> > -
+> > -RAS VRAM Bad Pages sysfs Interface
+> > -----------------------------------
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+> > -   :doc: AMDGPU RAS sysfs gpu_vram_bad_pages Interface
+> > -
+> > -Sample Code
+> > ------------
+> > -Sample code for testing error injection can be found here:
+> > -https://cgit.freedesktop.org/mesa/drm/tree/tests/amdgpu/ras_tests.c
+> > -
+> > -This is part of the libdrm amdgpu unit tests which cover several areas of the GPU.
+> > -There are four sets of tests:
+> > -
+> > -RAS Basic Test
+> > -
+> > -The test verifies the RAS feature enabled status and makes sure the necessary sysfs and debugfs files
+> > -are present.
+> > -
+> > -RAS Query Test
+> > -
+> > -This test checks the RAS availability and enablement status for each supported IP block as well as
+> > -the error counts.
+> > -
+> > -RAS Inject Test
+> > -
+> > -This test injects errors for each IP.
+> > -
+> > -RAS Disable Test
+> > -
+> > -This test tests disabling of RAS features for each IP block.
+> > -
+> > -
+> > -GPU Power/Thermal Controls and Monitoring
+> > -=========================================
+> > -
+> > -This section covers hwmon and power/thermal controls.
+> > -
+> > -HWMON Interfaces
+> > -----------------
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > -   :doc: hwmon
+> > -
+> > -GPU sysfs Power State Interfaces
+> > ---------------------------------
+> > -
+> > -GPU power controls are exposed via sysfs files.
+> > -
+> > -power_dpm_state
+> > -~~~~~~~~~~~~~~~
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > -   :doc: power_dpm_state
+> > -
+> > -power_dpm_force_performance_level
+> > -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > -   :doc: power_dpm_force_performance_level
+> > -
+> > -pp_table
+> > -~~~~~~~~
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > -   :doc: pp_table
+> > -
+> > -pp_od_clk_voltage
+> > -~~~~~~~~~~~~~~~~~
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > -   :doc: pp_od_clk_voltage
+> > -
+> > -pp_dpm_*
+> > -~~~~~~~~
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > -   :doc: pp_dpm_sclk pp_dpm_mclk pp_dpm_socclk pp_dpm_fclk pp_dpm_dcefclk pp_dpm_pcie
+> > -
+> > -pp_power_profile_mode
+> > -~~~~~~~~~~~~~~~~~~~~~
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > -   :doc: pp_power_profile_mode
+> > -
+> > -\*_busy_percent
+> > -~~~~~~~~~~~~~~~
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > -   :doc: gpu_busy_percent
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > -   :doc: mem_busy_percent
+> > -
+> > -gpu_metrics
+> > -~~~~~~~~~~~~~~~~~~~~~
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > -   :doc: gpu_metrics
+> > -
+> > -GPU Product Information
+> > -=======================
+> > -
+> > -Information about the GPU can be obtained on certain cards
+> > -via sysfs
+> > -
+> > -product_name
+> > -------------
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> > -   :doc: product_name
+> > -
+> > -product_number
+> > ---------------
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> > -   :doc: product_name
+> > -
+> > -serial_number
+> > --------------
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> > -   :doc: serial_number
+> > -
+> > -unique_id
+> > ----------
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > -   :doc: unique_id
+> > -
+> > -GPU Memory Usage Information
+> > -============================
+> > -
+> > -Various memory accounting can be accessed via sysfs
+> > -
+> > -mem_info_vram_total
+> > --------------------
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+> > -   :doc: mem_info_vram_total
+> > -
+> > -mem_info_vram_used
+> > -------------------
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+> > -   :doc: mem_info_vram_used
+> > -
+> > -mem_info_vis_vram_total
+> > ------------------------
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+> > -   :doc: mem_info_vis_vram_total
+> > -
+> > -mem_info_vis_vram_used
+> > -----------------------
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+> > -   :doc: mem_info_vis_vram_used
+> > -
+> > -mem_info_gtt_total
+> > -------------------
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+> > -   :doc: mem_info_gtt_total
+> > -
+> > -mem_info_gtt_used
+> > ------------------
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+> > -   :doc: mem_info_gtt_used
+> > -
+> > -PCIe Accounting Information
+> > -===========================
+> > -
+> > -pcie_bw
+> > --------
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > -   :doc: pcie_bw
+> > -
+> > -pcie_replay_count
+> > ------------------
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> > -   :doc: pcie_replay_count
+> > -
+> > -GPU SmartShift Information
+> > -==========================
+> > -
+> > -GPU SmartShift information via sysfs
+> > -
+> > -smartshift_apu_power
+> > ---------------------
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > -   :doc: smartshift_apu_power
+> > -
+> > -smartshift_dgpu_power
+> > ----------------------
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > -   :doc: smartshift_dgpu_power
+> > -
+> > -smartshift_bias
+> > ----------------
+> > -
+> > -.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > -   :doc: smartshift_bias
+> > -
+> > -AMDGPU Glossary
+> > -===============
+> > -
+> >   .. toctree::
+> >
+> > -   amdgpu-glossary.rst
+> > +   module-parameters
+> > +   driver-core
+> > +   display/index
+> > +   xgmi
+> > +   ras
+> > +   thermal
+> > +   driver-misc
+> > +   amdgpu-glossary
+> > diff --git a/Documentation/gpu/amdgpu/module-parameters.rst b/Documentation/gpu/amdgpu/module-parameters.rst
+> > new file mode 100644
+> > index 000000000000..ea538c8dda35
+> > --- /dev/null
+> > +++ b/Documentation/gpu/amdgpu/module-parameters.rst
+> > @@ -0,0 +1,7 @@
+> > +===================
+> > + Module Parameters
+> > +===================
+> > +
+> > +The amdgpu driver supports the following module parameters:
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> > diff --git a/Documentation/gpu/amdgpu/ras.rst b/Documentation/gpu/amdgpu/ras.rst
+> > new file mode 100644
+> > index 000000000000..047f76e395cf
+> > --- /dev/null
+> > +++ b/Documentation/gpu/amdgpu/ras.rst
+> > @@ -0,0 +1,62 @@
+> > +====================
+> > + AMDGPU RAS Support
+> > +====================
+> > +
+> > +The AMDGPU RAS interfaces are exposed via sysfs (for informational queries) and
+> > +debugfs (for error injection).
+> > +
+> > +RAS debugfs/sysfs Control and Error Injection Interfaces
+> > +========================================================
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+> > +   :doc: AMDGPU RAS debugfs control interface
+> > +
+> > +RAS Reboot Behavior for Unrecoverable Errors
+> > +============================================
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+> > +   :doc: AMDGPU RAS Reboot Behavior for Unrecoverable Errors
+> > +
+> > +RAS Error Count sysfs Interface
+> > +===============================
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+> > +   :doc: AMDGPU RAS sysfs Error Count Interface
+> > +
+> > +RAS EEPROM debugfs Interface
+> > +============================
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+> > +   :doc: AMDGPU RAS debugfs EEPROM table reset interface
+> > +
+> > +RAS VRAM Bad Pages sysfs Interface
+> > +==================================
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+> > +   :doc: AMDGPU RAS sysfs gpu_vram_bad_pages Interface
+> > +
+> > +Sample Code
+> > +===========
+> > +Sample code for testing error injection can be found here:
+> > +https://cgit.freedesktop.org/mesa/drm/tree/tests/amdgpu/ras_tests.c
+> > +
+> > +This is part of the libdrm amdgpu unit tests which cover several areas of the GPU.
+> > +There are four sets of tests:
+> > +
+> > +RAS Basic Test
+> > +
+> > +The test verifies the RAS feature enabled status and makes sure the necessary sysfs and debugfs files
+> > +are present.
+> > +
+> > +RAS Query Test
+> > +
+> > +This test checks the RAS availability and enablement status for each supported IP block as well as
+> > +the error counts.
+> > +
+> > +RAS Inject Test
+> > +
+> > +This test injects errors for each IP.
+> > +
+> > +RAS Disable Test
+> > +
+> > +This test tests disabling of RAS features for each IP block.
+> > diff --git a/Documentation/gpu/amdgpu/thermal.rst b/Documentation/gpu/amdgpu/thermal.rst
+> > new file mode 100644
+> > index 000000000000..8aeb0186c9ef
+> > --- /dev/null
+> > +++ b/Documentation/gpu/amdgpu/thermal.rst
+> > @@ -0,0 +1,65 @@
+> > +===========================================
+> > + GPU Power/Thermal Controls and Monitoring
+> > +===========================================
+> > +
+> > +HWMON Interfaces
+> > +================
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > +   :doc: hwmon
+> > +
+> > +GPU sysfs Power State Interfaces
+> > +================================
+> > +
+> > +GPU power controls are exposed via sysfs files.
+> > +
+> > +power_dpm_state
+> > +---------------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > +   :doc: power_dpm_state
+> > +
+> > +power_dpm_force_performance_level
+> > +---------------------------------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > +   :doc: power_dpm_force_performance_level
+> > +
+> > +pp_table
+> > +--------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > +   :doc: pp_table
+> > +
+> > +pp_od_clk_voltage
+> > +-----------------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > +   :doc: pp_od_clk_voltage
+> > +
+> > +pp_dpm_*
+> > +--------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > +   :doc: pp_dpm_sclk pp_dpm_mclk pp_dpm_socclk pp_dpm_fclk pp_dpm_dcefclk pp_dpm_pcie
+> > +
+> > +pp_power_profile_mode
+> > +---------------------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > +   :doc: pp_power_profile_mode
+> > +
+> > +\*_busy_percent
+> > +---------------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > +   :doc: gpu_busy_percent
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > +   :doc: mem_busy_percent
+> > +
+> > +gpu_metrics
+> > +-----------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> > +   :doc: gpu_metrics
+> > diff --git a/Documentation/gpu/amdgpu/xgmi.rst b/Documentation/gpu/amdgpu/xgmi.rst
+> > new file mode 100644
+> > index 000000000000..23f2856f4524
+> > --- /dev/null
+> > +++ b/Documentation/gpu/amdgpu/xgmi.rst
+> > @@ -0,0 +1,5 @@
+> > +=====================
+> > + AMDGPU XGMI Support
+> > +=====================
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
+> >
+>
+> lgtm
+>
 > Reviewed-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-> 
-> Thanks
-> 
->> +The driver is arranged by IPs.  There are driver components to handle
->> +the initialization and operation of each IP.  There are also a bunch
->> +of smaller IPs that don't really need much if any driver interaction.
->> +Those end up getting lumped into the common stuff in the soc files.
->> +The soc files (e.g., vi.c, soc15.c nv.c) contain code for aspects of
->> +the SoC itself rather than specific IPs.  E.g., things like GPU resets
->> +and register access functions are SoC dependent.
->> +
->> +An APU contains more than just CPU and GPU, it also contains all of
->> +the platform stuff (audio, usb, gpio, etc.).  Also, a lot of
->> +components are shared between the CPU, platform, and the GPU (e.g.,
->> +SMU, PSP, etc.).  Specific components (CPU, GPU, etc.) usually have
->> +their interface to interact with those common components.  For things
->> +like S0i3 there is a ton of coordination required across all the
->> +components, but that is probably a bit beyond the scope of this
->> +section.
->> +
->> +With respect to the GPU, we have the following major IPs:
->> +
->> +GMC (Graphics Memory Controller)
->> +    This was a dedicated IP on older pre-vega chips, but has since
->> +    become somewhat decentralized on vega and newer chips.  They now
->> +    have dedicated memory hubs for specific IPs or groups of IPs.  We
->> +    still treat it as a single component in the driver however since
->> +    the programming model is still pretty similar.  This is how the
->> +    different IPs on the GPU get the memory (VRAM or system memory).
->> +    It also provides the support for per process GPU virtual address
->> +    spaces.
->> +
->> +IH (Interrupt Handler)
->> +    This is the interrupt controller on the GPU.  All of the IPs feed
->> +    their interrupts into this IP and it aggregates them into a set of
->> +    ring buffers that the driver can parse to handle interrupts from
->> +    different IPs.
->> +
->> +PSP (Platform Security Processor)
->> +    This handles security policy for the SoC and executes trusted
->> +    applications, and validates and loads firmwares for other blocks.
->> +
->> +SMU (System Management Unit)
->> +    This is the power management microcontroller.  It manages the entire
->> +    SoC.  The driver interacts with it to control power management
->> +    features like clocks, voltages, power rails, etc.
->> +
->> +DCN (Display Controller Next)
->> +    This is the display controller.  It handles the display hardware.
-
-I forgot to ask you to add a link to the new DCN documentation here.
-
-Thanks
-
->> +
->> +SDMA (System DMA)
->> +    This is a multi-purpose DMA engine.  The kernel driver uses it for
->> +    various things including paging and GPU page table updates.  It's 
->> also
->> +    exposed to userspace for use by user mode drivers (OpenGL, Vulkan,
->> +    etc.)
->> +
->> +GC (Graphics and Compute)
->> +    This is the graphics and compute engine, i.e., the block that
->> +    encompasses the 3D pipeline and and shader blocks.  This is by 
->> far the
->> +    largest block on the GPU.  The 3D pipeline has tons of 
->> sub-blocks.  In
->> +    addition to that, it also contains the CP microcontrollers (ME, PFP,
->> +    CE, MEC) and the RLC microcontroller.  It's exposed to userspace for
->> +    user mode drivers (OpenGL, Vulkan, OpenCL, etc.)
->> +
->> +VCN (Video Core Next)
->> +    This is the multi-media engine.  It handles video and image 
->> encode and
->> +    decode.  It's exposed to userspace for user mode drivers (VA-API,
->> +    OpenMAX, etc.)
->> +
->> +Driver structure
->> +================
->> +
->> +In general, the driver has a list of all of the IPs on a particular
->> +SoC and for things like init/fini/suspend/resume, more or less just
->> +walks the list and handles each IP.
->> +
->> +
->>   .. _amdgpu_memory_domains:
->>   Memory Domains
->>
-> 
-
+>
+> Thanks.
