@@ -2,256 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 075F3C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Dec 2021 06:33:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D88ECC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Dec 2021 06:51:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230272AbhLMGdh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Dec 2021 01:33:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40788 "EHLO
+        id S232268AbhLMGvQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Dec 2021 01:51:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229656AbhLMGdg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Dec 2021 01:33:36 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 820A4C06173F;
-        Sun, 12 Dec 2021 22:33:35 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id CDA87CE0BAC;
-        Mon, 13 Dec 2021 06:33:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA82BC00446;
-        Mon, 13 Dec 2021 06:33:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1639377212;
-        bh=TzIKARFOBboM5lRCfMll7DQr4HiRrpKP+ecsgRxYMFk=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=IajWd52bP8Q0ZuFL0o1FI3SA2WgwssoHg0cXzcLkIo583J7dBbaXkPdDQQqJCfKcT
-         fjXs6nRs3z5bxt4OUGUFIbL8Bze/g7edsgVcYTPsmu8NE032rj62Qgp+d+qfsSdaTI
-         +clweOCtQexKpEdR8+o6OpgJvXAd6WKhLlwo+rj9awMxydJu8KLdzCbdmk23MDb+Rs
-         frHeVBUTPuI5KJjcfeygb77XYTTnr2MKkSvNCCQN5pBrL+YGEHVmrkzIyq0sorkhca
-         dhGgoTOdtyQirrhCuVB5OD8bw9Uoj+axjTnjEV1IM85NtlkW1nWKx9ktc1QayyIwvL
-         ie9C8iCf86k8A==
-Date:   Mon, 13 Dec 2021 07:33:27 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] docs: sphinx/kfigure.py: Improve conversion to PDF
-Message-ID: <20211213073327.11191087@coco.lan>
-In-Reply-To: <8840a859-ca57-c49a-f542-0a37401ccdfc@gmail.com>
-References: <de8def13-efbc-1d98-acb5-5cc1f6902e4b@gmail.com>
-        <20211212113813.058e99fc@coco.lan>
-        <8840a859-ca57-c49a-f542-0a37401ccdfc@gmail.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
+        with ESMTP id S232267AbhLMGvN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Dec 2021 01:51:13 -0500
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EDFAC06173F
+        for <linux-doc@vger.kernel.org>; Sun, 12 Dec 2021 22:51:13 -0800 (PST)
+Received: by mail-pj1-x1035.google.com with SMTP id fv9-20020a17090b0e8900b001a6a5ab1392so12527793pjb.1
+        for <linux-doc@vger.kernel.org>; Sun, 12 Dec 2021 22:51:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=yMpVC2kpu7YFJ/s6LMhrkQcovk/km/8dHffArUV16q0=;
+        b=oPGvhlBLdePFU+vncJhdgAZjBfHeKjhh6MPusmJt+0IB/EJccsFj7zrhUb/Aja+8Zz
+         EszcTrfoJLa3TkwV8b+m0u+uOSZh79kVe/lc0vRwoEmRxqeQc4LorXEj7MwmhlPWRUQV
+         wIYmWdM/3KTBHocPo0OIzgJ4W/M8jnPKjv+jP+MhKhx9t/mh/A2eH3fZbu96x9o5hREI
+         pN2I4c3T/6fYUR2OLSIQaCu9RYxzGOd5rTsYKT+8dnpHQzFFMf3cTp8qq4FyA8z0DjuR
+         aid1hpYFQBEWppb66PdvAZ1aJ50d23ValXXxDqMUkJtNDsh5pu6Xwli1somJSt5nQGgv
+         zdbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=yMpVC2kpu7YFJ/s6LMhrkQcovk/km/8dHffArUV16q0=;
+        b=NMn8XixoDpkbYZIkGG/bfkeTekSliAUqFegLSrWc1OblitupWCSja+OparhSf74uvD
+         jiAqs9hu1TQPMLtua2ZBO2z37GwobrDKo+pXuwmmw0SL8OMq+PYPSjsjeoPKnprlM0b8
+         xrtxzeNvJcXIe5cKjCTvffJ8DESZZ8eQjhmolMYULYjkZcegTiwqjehqPyVM0/zDqnh/
+         wdsjnyFroYIThHebiROFsO+sOwy0dSUpbJOP/Pd/u0012FnzNJerulnANpj95venWQQY
+         x1H3o36MJgmJ1xFJxl49l2vQBgDNSO+hhod4n6MY9vnEIbTSxH/oYbuYOqiylOh/FF1o
+         v8tQ==
+X-Gm-Message-State: AOAM533v8uyU/IAkMhvDPgmkHIgq7QPVMHMcZa/j/8Hsi/H1Ao4Nm0do
+        hizEblO64NtzoBHMas79eNOaKg==
+X-Google-Smtp-Source: ABdhPJw6Ii106D5I9zYxT/oqiqsbsiSwsVIAzMOg3NbCSBjxDSmPtMPSzECMrPXJQBkaBymf7eS8uQ==
+X-Received: by 2002:a17:90b:3508:: with SMTP id ls8mr42473847pjb.51.1639378271977;
+        Sun, 12 Dec 2021 22:51:11 -0800 (PST)
+Received: from [10.76.43.192] ([61.120.150.76])
+        by smtp.gmail.com with ESMTPSA id f10sm5904851pjm.52.2021.12.12.22.51.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 12 Dec 2021 22:51:11 -0800 (PST)
+Message-ID: <15bbfed1-5b7c-e6ff-07e9-9de3a0ee4728@bytedance.com>
+Date:   Mon, 13 Dec 2021 14:49:48 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.4.0
+Subject: Re: [PATCH v3] sched/numa: add per-process numa_balancing
+Content-Language: en-US
+To:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>
+Cc:     linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20211206024530.11336-1-ligang.bdlg@bytedance.com>
+From:   Gang Li <ligang.bdlg@bytedance.com>
+In-Reply-To: <20211206024530.11336-1-ligang.bdlg@bytedance.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Sun, 12 Dec 2021 20:57:23 +0900
-Akira Yokosawa <akiyks@gmail.com> escreveu:
+Hi,
+Any comments plz ;)
 
-> On Sun, 12 Dec 2021 11:38:13 +0100, Mauro Carvalho Chehab wrote:
+On 2021/12/6 10:45, Gang Li wrote:
+> This patch add a new api PR_NUMA_BALANCING in prctl.
 > 
-> Hi Mauro,
+> A large number of page faults will cause performance loss when numa
+> balancing is performing. Thus those processes which care about worst-case
+> performance need numa balancing disabled. Others, on the contrary, allow a
+> temporary performance loss in exchange for higher average performance, so
+> enable numa balancing is better for them.
 > 
-> I didn't expect such a quick response.
-> Thank you so much!
+> Numa balancing can only be controlled globally by
+> /proc/sys/kernel/numa_balancing. Due to the above case, we want to
+> disable/enable numa_balancing per-process instead.
 > 
-> > Em Sun, 12 Dec 2021 16:59:53 +0900
-> > Akira Yokosawa <akiyks@gmail.com> escreveu:
-> >   
-> >> This patch set improves conversions of DOT -> PDF and SVG -> PDF
-> >> for PDF docs.
-> >>
-> >> * DOT -> PDF conversion  
-> > 
-> > First of all, package requirement for docs generation should be auto
-> > discovered by:
-> > 
-> > 	scripts/sphinx-pre-install  
+> Add numa_balancing under mm_struct. Then use it in task_tick_fair.
 > 
-> Please note that this update does not change any requirement.
-
-Ok.
-
-> I think you are worried by the possible degradation of DOT rendering
-> without rsvg-convert.  Please see comments below.
+> Set per-process numa balancing:
+> 	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_DISABLE); //disable
+> 	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_ENABLE);  //enable
+> 	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_DEFAULT); //follow global
+> Get numa_balancing state:
+> 	prctl(PR_NUMA_BALANCING, PR_GET_NUMAB, &ret);
+> 	cat /proc/<pid>/status | grep NumaB_enabled
 > 
-> > 
-> > and should not break the ones detected by check_distros() and that
-> > supports PDF generation.
-> >   
-> >>
-> >> Current scheme uses "dot -Tpdf" (of graphviz).
-> >>
-> >> Cons:
-> >>   - openSUSE's dot(1) does not support -Tpdf.  
-> > 
-> > I'm sure I tested pdf generation in the past with openSUSE by the
-> > time I wrote sphinx-pre-install script. Perhaps some change at either
-> > openSUSE or at the docs makefile broke support for it.  
-> 
-> dot -T? on openSUSE Tumbleweed says (long line folded):
-> 
-> Format: "?" not recognized. Use one of: canon cmap cmapx cmapx_np dot dot
-> _json eps fig gd gd2 gif gv imap imap_np ismap jpe jpeg jpg json json0 mp
->  pic plain plain-ext png pov ps ps2 svg svgz tk vml vmlz vrml wbmp xdot
->  xdot1.2 xdot1.4 xdot_json
-> 
-> There is no "pdf" here.
-
-Tumbleweed is a rolling distribution. Something could have changed since
-when I added support for it. Anyway, the script could check the output of
-it to enable/disable pdf via dot (not saying it is worth or not).
-
-> >   
-> >>   - Other distro's dot(1) generates PDFs with unnecessarily wide
-> >>     margins for inclusion into LaTeX docs.
-> >>
-> >> Patch 1/3 changes the route to two steps:
-> >>
-> >>   1. DOT -> SVG by "dot -Tsvg"
-> >>   2. SVG -> PDF by "rsvg-convert -f pdf" with fallback to convert(1).  
-> > 
-> > rsvg-convert is not present on Fedora (nor on RHEL and CentOS), as far
-> > as I'm aware.  
-> 
-> It is provided in the "librsvg2-tools" package, which is suggested by
-> sphinx_pre_install.
-> So once you have it installed on Fedora/RHEL/CentOS, this change won't
-> cause any regression.
-> 
-> Don't you agree?
-
-Yeah, I missed that. Thanks for reminding me about that ;-)
-
-> >   
-> >> Pros:
-> >>   - Improved portability across distros
-> >>   - Less space for graphs in final PDF documents
-> >>
-> >> Con:
-> >>   - On systems without rsvg-convert, generated PDF will be of raster
-> >>     image.  
-> > 
-> > Raster images are a very bad idea. Why don't keep use "dot -Tpdf" when
-> > supported by the system? instead of falling back to raster images?  
-> 
-> I suppose I am able to do so.  I just thought installing rsvg-convert
-> wouldn't be that difficult.
-> I can add a patch in v2 if you insist that is necessary.
-> 
-> >   
-> >> * SVG -> PDF conversion
-> >>
-> >> Current scheme uses convert(1) (of ImageMagick)
-> >>
-> >> Cons:
-> >>   - Generated PDFs are of raster image.  Some of them look blurry.
-> >>   - Raster image tends to be large in size.
-> >>   - convert(1) delegates SVG decoding to rsvg-convert(1).
-> >>     It doesn't cover full range of Inkscape specific SVG features
-> >>     and fails to convert some of SVG figures properly.
-> >>
-> >> Failed conversions are observed with:
-> >>   - Documentation/userspace-api/media/v4l/selection.svg
-> >>   - Documentation/userspace-api/media/v4l/vbi_525.svg
-> >>   - Documentation/userspace-api/media/v4l/vbi_625.svg  
-> > 
-> > What do you mean by failed? With the current way, the VBI ones
-> > seem OK to me:
-> > 
-> > 	https://linuxtv.org/downloads/v4l-dvb-apis-new/pdf/media.pdf  
-> 
-> By "fail", I meant "fail to render properly.
-> 
-> selection.svg is rendered on page 810 in your PDF.
-> I think the mask strap is lost in the figure.
-> Well, selection.svg has Inkscape specific elements for the strap.
-> So it is not rendered in a browser, either.
-
-Ok, so we should fix selection.svg to address such issues. The same applies
-to other images and graphs. That may include properly setting the margins.
-
-> If you open it in Inkscape, I think you will see the difference.
-> Actually speaking, I have edited selection.svg so that it can
-> be rendered in a browser.  My plan is to send it as an independent
-> patch once this patch set is accepted.
-
-No matter if this is merged or not, if you find an issue at the images
-at the media docs, please send them to linux-media@vger.org.
-
-> 
-> Figures 10, 11, and 12 on pages 1031 and 1032 don't look good
-> either.  Do you see what I mean?
-> 
-> > 
-> > (This is daily updated. On today's build the raw VBI ones are in
-> > page 1031/1032)
-> > 
-> > Do you mean that your changes caused a regression there?  
-> 
-> Of course not!
-> 
-> >   
-> >> If you have Inkscape installed as well, convert(1) delegates SVG
-> >> decoding to inkscape(1) and the above SVGs are rendered correctly.
-> >>
-> >> So if Inkscape is required for converting those SVGs, why not use it
-> >> directly in the first place?  
-> > 
-> > I remember that the main focus were to be able to generate PDF at the
-> > major distros. It should be OK to use whatever tool, provided that it
-> > won't cause regressions with such distros. Not that is should matter
-> > much for the others, but my particular interest is that it shouldn't
-> > cause regressions neither on Debian nor on Fedora, as those are the 
-> > ones I use for PDF generation. Debian is used at linuxtv.org, where we
-> > do automate builds for PDF, ePUB and HTML. Fedora is what I used locally,
-> > in order to test and fix issues on media PDF document output.  
-> 
-> I have tested this change on Debian and Fedora systems as well as
-> openSUSE, Arch, and other distros.
-> I'd say it works flawlessly.
-> 
-> I'd appreciate if you could give a try on your systems.
-
-I'll try to run some tests today.
-
-> Thanks for your feedback.
-> I am willing to improve the quality of the PDF docs further.
-> 
->         Thanks, Akira
-> 
-> >   
-> >> Patch 2/3 adds a route of SVG -> PDF conversion by inkscape(1).
-> >> Patch 3/3 hides warning messages from inkscape(1) which are harmless
-> >> in command-line uses.
-> >>
-> >> Pros:
-> >>   - Generated PDFs are of vector graphics.
-> >>   - Vector graphics tends to be smaller in size and keeps looking nice
-> >>     while zoomed in.
-> >>   - SVGs drawn by Inkscape are fully supported.
-> >>
-> >> On systems without Inkscape, there won't be any change in behavior.
-> >>
-> >>         Thanks, Akira
-> >> --
-> >> Akira Yokosawa (3):
-> >>   docs: sphinx/kfigure.py: Use rsvg-convert(1) for DOT -> PDF conversion
-> >>   docs: sphinx/kfigure.py: Use inkscape(1) for SVG -> PDF conversion
+> Cc: linux-api@vger.kernel.org
+> Signed-off-by: Gang Li <ligang.bdlg@bytedance.com>
 
 
-> >>   docs: sphinx/kfigure.py: Redirect warnings from inkscape to /dev/null
-
-It sounds too risky to redirect stderr to /dev/null. Yeah, here, the output
-of inkscape is too crowd of warnings. Hacking it with a 
-SPHINX_SHOW_INKSCAPE_WARN variable also seems a bad idea.
-
-Not sure how this could be solved.
-
-Thanks,
-Mauro
