@@ -2,573 +2,215 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC290C4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Dec 2021 13:41:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F35CC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Dec 2021 14:27:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237752AbhLMNlD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Dec 2021 08:41:03 -0500
-Received: from mx1.tq-group.com ([93.104.207.81]:32864 "EHLO mx1.tq-group.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236132AbhLMNlC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 13 Dec 2021 08:41:02 -0500
+        id S239198AbhLMO1d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Dec 2021 09:27:33 -0500
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:54552 "EHLO
+        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S239179AbhLMO1b (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Dec 2021 09:27:31 -0500
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BDBl9J1019704;
+        Mon, 13 Dec 2021 14:26:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2021-07-09;
+ bh=eprfUrIX5oqtvetymSjsS2cx7S+QJWmUO/Kdl33EBy8=;
+ b=adnRRvsjaKwzuaoHGAjtBbWFQQXboZN3rcDd4Ur6Erzvi6JvTH1Ioi/M4pcrulYPLMkD
+ ruEusw9/d299mj3T25Y1gfH/JalRGLpjwNwVphzjpUjG9tYoF7tIql6iYLt9YgV7S0ro
+ kqnIp6CZTlQqW73UxUuHTROXUWwpCu2m5RRJe6QNpgh0bhP3v1a5U5yOlSFZ4lyBnx3K
+ PJ4gE8jlNP5dAeNGrWkL3bJ+PVbJ+lCGMoOFu7adVhsjuJj7U+/hZX1K2wir+Cvwkjxo
+ v+0ALJNXPPB9FRDSkL43RXRcV0n0cuz01wv2b0PU2cQM3wp6Abp1DHCsu6zbJD0yTkQg Cw== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by mx0b-00069f02.pphosted.com with ESMTP id 3cx2nf8t1v-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 13 Dec 2021 14:26:47 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1BDEPl5L105661;
+        Mon, 13 Dec 2021 14:26:46 GMT
+Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam08lp2168.outbound.protection.outlook.com [104.47.73.168])
+        by aserp3030.oracle.com with ESMTP id 3cvj1cbdub-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 13 Dec 2021 14:26:46 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=b0tWEXH/P+1EaY60b6YppJHBHEKJxDowRA9jfrgXngd1clqtHFoIq7ZQDtFZcT8JscMog+CIHUoGPx9JjCajo7+NnAtInSeE7gTcr6DIaKiWFKe8ByImMdevPLXfohsRx0kMVdtD9BPSrOOZ1nPCUUhHjf3zn2iTpVsIcrO0DhyHAhFxIliyQFD55TacX2Pqex8lsZcQUaTIe4LUclCtbhvT63qYDwL+yj+sky/SVfickGoOyTPSwbIfkHc0lYlSbQAXCeQ7CVrK7vHoWmE+tHeBT7/qCFoHmuNfmNUqACJ0b73dThhU6md+DeMQmVwM0NyBNgg9lhdLSL5hcU7AFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eprfUrIX5oqtvetymSjsS2cx7S+QJWmUO/Kdl33EBy8=;
+ b=nRfAu7D+tP5gymxCEjtUlnEONHPLA9l2M5pWQ712RpiFEjIsWEKoctHkAk+qHl4C5hbA2fgmcVwjnEScCLlbusuJ2wmzTwWhPJtVlB+yvYsfKxc9hlzZbokIDKHiQLhwZ6ufMAHOE6MmbdTVpRDVMfuxZ95UhtgQtY8bPjQdEny6dJo/nSSDb9SCHuHodpon7+WtyWwSQkyNV1SjpFRPRwIJOEpNWL8CHFUQTCoDvCtI65XN6RrjpEKWTUuPVMhtZqfc5Af1AUe+gFvF9AL/mf83CLhrRNA5grTqCoMbdDs6jpRiSACXortSyWwHabF1QsQ0oNZssc+xbMdrIJ/Umg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1639402862; x=1670938862;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=i77EbJZH2OrkQD4/jLU05YtwBjVNz43mBU7ZT+zo66U=;
-  b=Xw2xymCqDdxP5QsCZJCj0Yips1YKCiKVihyB72nCy8KBWk/uheC3IpSW
-   4Xz/MrYddwDQVhG+Nj2kiEjpTeJF5+gJ+Azmq0GT0vJ4P/gXmpGgOSjjW
-   uyD1O3x4ZsXyVR+/jlU2MjbwlDFNkEF/uGEwHs/l99z4Cj2/ZOXiQqj7J
-   D7GImh2paZs2R7+jbQRCP7qKszTXI/tk5Pre8BxLenuRkeYkQWJ+iX6Y1
-   0TUiNWt1wy/aVwfk+pDYlAB92iJQAvZ6kxM+AKu0jjDmcoZeOZAztHtJc
-   n1Od3JWnvJpWZr5tTcq6g+EZeSVcSldkKc6mQWzJ90Ct/CVewVsOPmtIe
-   w==;
-X-IronPort-AV: E=Sophos;i="5.88,202,1635199200"; 
-   d="scan'208";a="21012787"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 13 Dec 2021 14:40:58 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Mon, 13 Dec 2021 14:40:58 +0100
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Mon, 13 Dec 2021 14:40:58 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1639402858; x=1670938858;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=i77EbJZH2OrkQD4/jLU05YtwBjVNz43mBU7ZT+zo66U=;
-  b=jfwv8YNSQtWqqrCO0Cq2kPs5oQs5kzADXjCyZHtd5iDkTQ6ImCiQ22rV
-   9Id4A/gAZt6mty8VUWLWQR/H6riXFwu6GXOvrwPQx+cK8HjkAkUQWmxB2
-   fyjqbD/BvRybBJmj0VX0sHOs4mL6MsOdUG+et/AZPrH2Nb9CxJw4P8iBi
-   nLiBkU1JRDdPWwRVN8Djzs8FIgvDVTTMdpG0D4XbE5/w+nHNc7gbez/wG
-   TTY/mlO76jlXhJr3W5Zlil/bTf2z3gy64MWKuUUce4Mwq0HLUbEBICZvd
-   9X8mjDcjbCQRxcynLBhnnABRYacKxsMVnMpgFoun1WwE1Z77sEjVqAqwF
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.88,202,1635199200"; 
-   d="scan'208";a="21012786"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 13 Dec 2021 14:40:58 +0100
-Received: from schifferm-ubuntu (SCHIFFERM-M2.tq-net.de [10.121.201.15])
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPA id 0B598280065;
-        Mon, 13 Dec 2021 14:40:58 +0100 (CET)
-Message-ID: <4decdfb7d4395e967e1bf6c65212616400c8064a.camel@ew.tq-group.com>
-Subject: Re: [PATCH v4 5/5] KEYS: trusted: Introduce support for NXP
- CAAM-based trusted keys
-From:   Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-To:     Ahmad Fatoum <a.fatoum@pengutronix.de>
-Cc:     kernel@pengutronix.de, David Gstir <david@sigma-star.at>,
-        Tim Harvey <tharvey@gateworks.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Horia =?UTF-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>,
-        Aymen Sghaier <aymen.sghaier@nxp.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Udit Agarwal <udit.agarwal@nxp.com>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Jan Luebbe <j.luebbe@pengutronix.de>,
-        Richard Weinberger <richard@nod.at>,
-        Franck LENORMAND <franck.lenormand@nxp.com>,
-        Sumit Garg <sumit.garg@linaro.org>, keyrings@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Howells <dhowells@redhat.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Mimi Zohar <zohar@linux.ibm.com>
-Date:   Mon, 13 Dec 2021 14:40:55 +0100
-In-Reply-To: <59f1f3e6-fcf1-794d-610c-674b826822bf@pengutronix.de>
-References: <cover.8f40b6d1b93adc80aed2cac29a134f7a7fb5ee98.1633946449.git-series.a.fatoum@pengutronix.de>
-         <a0f1d14af8ac8bae16dd29ad1073f7143ba28f26.1633946449.git-series.a.fatoum@pengutronix.de>
-         <b9283c8a4b3b04c7ee9f525208cbb32d798d4439.camel@ew.tq-group.com>
-         <59f1f3e6-fcf1-794d-610c-674b826822bf@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5-0ubuntu1 
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eprfUrIX5oqtvetymSjsS2cx7S+QJWmUO/Kdl33EBy8=;
+ b=nJaEVSh6/eHW3scVXGRbCtWI+14Buh8ldfEV2ZVXFWs2D8wPtUZ0sQ2rTqxC1kms5HMMqZCk7vtSQzF8H9PvPFxzAESD/EjdJokqM1L/91PVOtg6l59Mns/Nlq26Vk4jnAW2WrdXRId56s4eROtJOAxjv5oGusoP6NyC7Hfg03U=
+Received: from CO1PR10MB4722.namprd10.prod.outlook.com (2603:10b6:303:9e::12)
+ by MWHPR10MB1966.namprd10.prod.outlook.com (2603:10b6:300:10d::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.11; Mon, 13 Dec
+ 2021 14:26:44 +0000
+Received: from CO1PR10MB4722.namprd10.prod.outlook.com
+ ([fe80::54ed:be86:184c:7d00]) by CO1PR10MB4722.namprd10.prod.outlook.com
+ ([fe80::54ed:be86:184c:7d00%8]) with mapi id 15.20.4778.018; Mon, 13 Dec 2021
+ 14:26:44 +0000
+Message-ID: <01cf00c1-0371-b896-9a76-78df036e2b02@oracle.com>
+Date:   Mon, 13 Dec 2021 08:26:29 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.4.0
+Subject: Re: [PATCH v17 01/10] x86: kdump: replace the hard-coded alignment
+ with macro CRASH_ALIGN
+Content-Language: en-US
+To:     Zhen Lei <thunder.leizhen@huawei.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
+        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        kexec@lists.infradead.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>
+References: <20211210065533.2023-1-thunder.leizhen@huawei.com>
+ <20211210065533.2023-2-thunder.leizhen@huawei.com>
+From:   john.p.donnelly@oracle.com
+In-Reply-To: <20211210065533.2023-2-thunder.leizhen@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: DB6PR07CA0186.eurprd07.prod.outlook.com
+ (2603:10a6:6:42::16) To CO1PR10MB4722.namprd10.prod.outlook.com
+ (2603:10b6:303:9e::12)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 63a0e1ec-e972-430d-fe6d-08d9be449641
+X-MS-TrafficTypeDiagnostic: MWHPR10MB1966:EE_
+X-Microsoft-Antispam-PRVS: <MWHPR10MB19662E0C1B41FB2D46F3294FC7749@MWHPR10MB1966.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1107;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: GS50XZ6xv6NP6VzvnFBjlDaP7PW9rTF9a2zDyL1FbmFdVJSt1/xBF0J794syOM/7+x8aX3VirEfmErEtuvTWEoq/3aBjaNaXD2KVFG7J/QfoGcr7sI0dsjYe5l6iUyPxf+Kid6AeXh91EsnlR0/WIVS1DBnTa0DVK3pRGy1R2XvvZP8Dn+V248bQFXTvEsE64eGO4u5r621bJs3zcNPa1uEgb/Facj9Qm83ZBqoRznsJnaTnlOnZgfKEjxxQG6mo55iB0gcc55EjOjik5oXwVewyN3NjOFLlPX50w6l67bRc9wzv0JzdDKcKjfF8GUe1r+vFeQYeJkj8+mI4MsytpJasJiWieLI30pQJvVVClIuHwSlfshEbWToMC2ET0hztVXWV2pV2g8wPJ0p5N3VRThZdA8G6qvgMWqNxcTQGIjYzg56mhCjANegYmLfkdztG7wCYbpFKEGzTx0bEQXMRz/97diD9DBA0hDFawR8fFePBRpwzCTlhWILC6A89GxolzpxckFqZsCG0nO/lpKjCQz8g2rbd2UUu+k1NAoJ68UEOCwxbiCUiNrIUaregfUgBhFLxHKsAkn00MFeAbvGbh0PV62ZfO/R/5joxDK0lx06AzRhcjjTz8HbAeb4cCn+QCyh9zTLitok9U5NFre9C3nOkXOSMspOwfUIjDzm3p2BqYEQbB6dcntd9REcv56hYo0M5oKNkd325L+0Em64erWfz9Z16u5CvDBtOjd+Xelo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR10MB4722.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(6512007)(8676002)(86362001)(6506007)(9686003)(36756003)(53546011)(7416002)(83380400001)(8936002)(66476007)(66946007)(508600001)(6486002)(38100700002)(186003)(26005)(66556008)(4326008)(31686004)(316002)(54906003)(110136005)(5660300002)(2906002)(921005)(31696002)(6666004)(2616005)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U0ZJZFhGU1lDeDlLSG9nNGl6bVBCZXpiZzRnWUliRVliVnEwYzBCamQyWFo1?=
+ =?utf-8?B?Rzc3TW1DV01XekYrQ29QUG5rWktVN1VGUTVQMDRKVDhod3lsV2Z4ajNjV1lr?=
+ =?utf-8?B?R3NETlQxdmNselJuT3VCaHp6UUVGbnRTakZ4TWtueS9wZXhWSVU3MWthSHVj?=
+ =?utf-8?B?aWI3Qnc1bEZNdHQ0MFUwamk2TzhnZHJ5NE03RHllTEJuQkdzNlVWWWt6WWJN?=
+ =?utf-8?B?KzZKWHdQSmNtVDFNNE5obFhneTJMeEZLZkhVWWFmQ3dwSkhVQ1Mwdi96WnBj?=
+ =?utf-8?B?cUs1Q1Y0SEE3TVdqSHd1bHF0elAyUmtlNmp0eExRZ04wamFiSEQwb0V2TGJI?=
+ =?utf-8?B?ZUdtUWhzNm1QZ0RhaXVEOFNVTGJTcVlqRXl3OG5RdjJnV1c3SlFKdnpnV1lv?=
+ =?utf-8?B?QkF4N3o1VjRjN1ZKaFdLWEdneTg1TTV2elZDWVFJWTE5OERXNDBPdC9pS242?=
+ =?utf-8?B?SUZhamlycm95ODlITVNQcGVuT0IzeXpOZzc0ejI5RXFORCtZT3dnbTVhaWlI?=
+ =?utf-8?B?UEE1QVNobEdWWnJvazFQc01SaFl4RzJCeTA1c3lxbXI5Yk1qUVdHSXhxS2pz?=
+ =?utf-8?B?WjJNdmdwd0VTakduVG5RQW42dXI2azluK2NZNTBqQlk1OW5Fcm9YOU5rRkVU?=
+ =?utf-8?B?OE53aXc3V3hISVRFZDI0L0lJTEN2M0c0N1owVXFBL3FzdnJEVFdCNE04RmJm?=
+ =?utf-8?B?RjhoTm10dDVCdkIwOHhZWXE3YzlQdSswa2hRRS9GNVI4VzFHdHpaODZuMm90?=
+ =?utf-8?B?WlBPY3ZNMGlIbzdGMk56V2Yyc1BIL2FFYkhtd3hQSlJLVndwMU5uSkI0dm5G?=
+ =?utf-8?B?OFBURzRzOFdhNDRTU1lpeG9Oa1lLb24wY0hBd1AvcENYWGZZOXY5aVdBaFVB?=
+ =?utf-8?B?VENxUEhueUFYNjFLRERHSVJHV2VZQUYvOWFCamtPckxMSTllenJodWJhQk8z?=
+ =?utf-8?B?T24xOEZPQXhjS0JOdnZSdThFNDdHNWtQbWIzY29qT1lwUkNGejlJcDBMN3NG?=
+ =?utf-8?B?cldSK3hlbmgwSkJFVzc0MENsU0RKNTE5VHg3WmFUWm8ycTFCQ2FNN1BhN05s?=
+ =?utf-8?B?YkliWS8wUTV2NVhJcnQ2U2ZUNllFMFZGYXd0Y0J1UnBJUHo3T1dhajZ2ekVm?=
+ =?utf-8?B?eEU2aUxhSUVrMjA4U0tuampnV3dFM1NCR21MM25TTzJJa2h6eVZwM3pVM1RR?=
+ =?utf-8?B?cG5sVHE1Ykh4eXhIdFBQcWxOVmRpMXI1dlVDQWRCeFFaMFE5cXNlVWF6em5l?=
+ =?utf-8?B?Y1lMR2J5ZnVFODRRQloyOWJzOXN4ZWw4bGxFY1UyZElrSWhRYm1OU2hGL0J4?=
+ =?utf-8?B?empTeHUzdlJ2U0hoTXdzMHFteDhxUUpJOG9LRDl4OXRlbFp5ZTZnQmtmSnp4?=
+ =?utf-8?B?L3lBWm9IeW5NbDZsZzlzZ3QzYllCaTliSmNLYk9RR0RJQVVlVEVvVUdaYlJG?=
+ =?utf-8?B?YzIwZGhNbnYxdWlVNk9xVmR0WWludDZZVFcxM21od0pUUCtvSFNpVWxkbGht?=
+ =?utf-8?B?ZkkxT05ySnp1M0dDZWF0cFRubEhYTGV0MnNSa3lIQlZKZEFUTXFFVmVyTVNt?=
+ =?utf-8?B?SlVlZlByM1ZNbDROcHNiSkVBcGlHY3owRWV2ZlQ5ZSs2alBWUUtSZ2l3Z1RT?=
+ =?utf-8?B?OTNvNFhNbUJzbU9OVGRjaEJSOTFtWkc1cnkxT014TnNHNTVTaXVpQ2doSUJ2?=
+ =?utf-8?B?OGtTRzRlc1JhU2gzS1c1U3d1Q05oYUlsRVplckZHZm1ZN1JXclZSSUMveDFL?=
+ =?utf-8?B?QnZGU0pZN0h5TFY0d2dJUnN4dTEvbzlTaksvZU5Kbm0zZDQzSjJtd1U1N3FL?=
+ =?utf-8?B?TXpBYisyOUsvamgxcndBZXhrdExsYTlCNFBiQjhvaHdXK041M21SM1VLOWNP?=
+ =?utf-8?B?NzA4YjlwYXMyVXNhRnh1T3pzaThSZGM0MlAybS9rVXhmaWtpenFvcHVMV0Zy?=
+ =?utf-8?B?N3QwamJnM2hxZjRwczJXNDJnOXZ4bXNZbnR6Nk1vQ3k3VTQxS25KNm1iNzF3?=
+ =?utf-8?B?SUpuTFBGSkdQZXBHRUtCRis3NjBSZXh2am0zK3A5a2dFVjVpcTZKa1ZjUGtG?=
+ =?utf-8?B?dXdJL3hxWVFIZk9qazVDVGQrWlN1em4rVVkvemtqSDZxU2IvQk93RU9ld0RZ?=
+ =?utf-8?B?elp4d0dNZ1dMT1IyMG9EcHlUdmJzUnNJU01KTjNnYU5kVCtTLzBhUGxaMkN3?=
+ =?utf-8?B?OVU2QjVGQmF5VzZNZFdNdjNBMG02aEo0c3JGV1VVRkJzM3UvTDgreTFlTVFl?=
+ =?utf-8?Q?IB6iwfy4ZI3ynw60AXGcxda/ubbsLoLCOkKEKo1qr8=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 63a0e1ec-e972-430d-fe6d-08d9be449641
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4722.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Dec 2021 14:26:43.9632
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +95Db6ydzt6hrVsN9qXRlNJeH/LxWrxQijxqL7BNUpaP6guh6VzWZgPziZZmfKHPT1c36Y2Pv9zVKil/clJxD6zcuH3x5UASRJqcxnkc03w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1966
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10196 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxlogscore=999
+ suspectscore=0 bulkscore=0 mlxscore=0 spamscore=0 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112130092
+X-Proofpoint-ORIG-GUID: Il_pMC_39Pmcc-HAamw6bIVPQMYrzauo
+X-Proofpoint-GUID: Il_pMC_39Pmcc-HAamw6bIVPQMYrzauo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2021-12-13 at 12:36 +0100, Ahmad Fatoum wrote:
-> Hello Matthias,
+On 12/10/21 12:55 AM, Zhen Lei wrote:
+> From: Chen Zhou <chenzhou10@huawei.com>
 > 
-> On 13.12.21 12:00, Matthias Schiffer wrote:
-> > On Mon, 2021-10-11 at 12:02 +0200, Ahmad Fatoum wrote:
-> > > The Cryptographic Acceleration and Assurance Module (CAAM) is an
-> > > IP
-> > > Reviewed-by: David Gstir <david@sigma-star.at>
-> > > Tested-By: Tim Harvey <tharvey@gateworks.com>
-> > > Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
-> > 
-> > Tested-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+> Move CRASH_ALIGN to header asm/kexec.h for later use.
 > 
-> Thanks for testing! Should I add your Tested-by: to the whole series,
-> or only this patch here?
+> Suggested-by: Dave Young <dyoung@redhat.com>
+> Suggested-by: Baoquan He <bhe@redhat.com>
+> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+> Tested-by: John Donnelly <John.p.donnelly@oracle.com>
+> Tested-by: Dave Kleikamp <dave.kleikamp@oracle.com>
+ >
+  Acked-by: John Donnelly <john.p.donnelly@oracle.com>
 
-I didn't really do any tests regarding the RNG, so I think adding it to
-patches 4 and 5 would be appropriate.
 
-
+> ---
+>   arch/x86/include/asm/kexec.h | 3 +++
+>   arch/x86/kernel/setup.c      | 3 ---
+>   2 files changed, 3 insertions(+), 3 deletions(-)
 > 
-> > It is unfortunate that this implementation is incompatible with the
-> > "secure keys" feature found in linux-imx, as that would allow
-> > upgrading
-> > from linux-imx to mainline kernels in the future without losing
-> > access
-> > to keys. I did not follow the discussion of previous versions of
-> > this
-> > patch series, but I assume there is some reason why this code is
-> > not
-> > aligned with the linux-imx implementation?
-> 
-> I don't use the vendor fork, so compatibility with it wasn't a
-> criteria
-> for me. The format used in this series is very straight-forward:
-> Key modifier is kernel:trusted and blob is exactly what's returned by
-> the CAAM. What would you change to make it linux-imx compatible?
-
-It seems that the only difference is the key modifier: linux-imx uses
-"SECURE_KEY". If I apply the following patch, I can load a key that was
-exported on linux-imx:
-
---- a/security/keys/trusted-keys/trusted_caam.c
-+++ b/security/keys/trusted-keys/trusted_caam.c
-@@ -11,7 +11,7 @@
- 
- static struct caam_blob_priv *blobifier;
- 
--#define KEYMOD "kernel:trusted"
-+#define KEYMOD "SECURE_KEY"
- 
- static_assert(MAX_KEY_SIZE + CAAM_BLOB_OVERHEAD <= CAAM_BLOB_MAX_LEN);
- static_assert(MAX_BLOB_SIZE <= CAAM_BLOB_MAX_LEN);
----
-
-
-> 
-> > Should the kernel emit some kind of warning if CAAM-based trusted
-> > keys
-> > are used, but the SoC has not been "closed" (if there is a nice way
-> > to
-> > detect that)? As the CAAM is using a common example key instead of
-> > the
-> > fused master key when HAB/secure boot are disabled, the kernel
-> > would
-> > basically be lying about the keys being trusted in this case.
-> 
-> For now, this is pointed out in the documentation. If you have a
-> suggestion
-> on a specific condition we should check and issue a diagnostic on, I
-> can
-> incorporate it. An exhaustive if WARN_ON(!secure()) is impossible,
-> but
-> having some warning for unsuspecting users would indeed be nice.
-
-I don't know of any condition that doesn't involve looking at SoC-
-specific OTP registers - that's what U-Boot does to determine whether
-HAB is enabled...
-
-Regards,
-Matthias
-
-
-> 
-> Cheers,
-> Ahmad
-> 
-> > > ---
-> > > To: Jonathan Corbet <corbet@lwn.net>
-> > > To: David Howells <dhowells@redhat.com>
-> > > To: Jarkko Sakkinen <jarkko@kernel.org>
-> > > To: James Bottomley <jejb@linux.ibm.com>
-> > > To: Mimi Zohar <zohar@linux.ibm.com>
-> > > Cc: James Morris <jmorris@namei.org>
-> > > Cc: "Serge E. Hallyn" <serge@hallyn.com>
-> > > Cc: "Horia Geantă" <horia.geanta@nxp.com>
-> > > Cc: Aymen Sghaier <aymen.sghaier@nxp.com>
-> > > Cc: Herbert Xu <herbert@gondor.apana.org.au>
-> > > Cc: "David S. Miller" <davem@davemloft.net>
-> > > Cc: Udit Agarwal <udit.agarwal@nxp.com>
-> > > Cc: Eric Biggers <ebiggers@kernel.org>
-> > > Cc: Jan Luebbe <j.luebbe@pengutronix.de>
-> > > Cc: David Gstir <david@sigma-star.at>
-> > > Cc: Richard Weinberger <richard@nod.at>
-> > > Cc: Franck LENORMAND <franck.lenormand@nxp.com>
-> > > Cc: Sumit Garg <sumit.garg@linaro.org>
-> > > Cc: keyrings@vger.kernel.org
-> > > Cc: linux-crypto@vger.kernel.org
-> > > Cc: linux-doc@vger.kernel.org
-> > > Cc: linux-integrity@vger.kernel.org
-> > > Cc: linux-kernel@vger.kernel.org
-> > > Cc: linux-security-module@vger.kernel.org
-> > > ---
-> > >  Documentation/admin-guide/kernel-parameters.txt   |  1 +-
-> > >  Documentation/security/keys/trusted-encrypted.rst | 42 ++++++++-
-> > >  MAINTAINERS                                       |  9 ++-
-> > >  include/keys/trusted_caam.h                       | 11 ++-
-> > >  security/keys/trusted-keys/Kconfig                | 11 +-
-> > >  security/keys/trusted-keys/Makefile               |  2 +-
-> > >  security/keys/trusted-keys/trusted_caam.c         | 74
-> > > ++++++++++++++++-
-> > >  security/keys/trusted-keys/trusted_core.c         |  6 +-
-> > >  8 files changed, 152 insertions(+), 4 deletions(-)
-> > >  create mode 100644 include/keys/trusted_caam.h
-> > >  create mode 100644 security/keys/trusted-keys/trusted_caam.c
-> > > 
-> > > diff --git a/Documentation/admin-guide/kernel-parameters.txt
-> > > b/Documentation/admin-guide/kernel-parameters.txt
-> > > index d5969452f063..0ed1165e0f55 100644
-> > > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > > @@ -5767,6 +5767,7 @@
-> > >  			sources:
-> > >  			- "tpm"
-> > >  			- "tee"
-> > > +			- "caam"
-> > >  			If not specified then it defaults to iterating
-> > > through
-> > >  			the trust source list starting with TPM and
-> > > assigns the
-> > >  			first trust source as a backend which is
-> > > initialized
-> > > diff --git a/Documentation/security/keys/trusted-encrypted.rst
-> > > b/Documentation/security/keys/trusted-encrypted.rst
-> > > index 1d4b4b8f12f0..ad66573ca6fd 100644
-> > > --- a/Documentation/security/keys/trusted-encrypted.rst
-> > > +++ b/Documentation/security/keys/trusted-encrypted.rst
-> > > @@ -35,6 +35,13 @@ safe.
-> > >           Rooted to Hardware Unique Key (HUK) which is generally
-> > > burnt in on-chip
-> > >           fuses and is accessible to TEE only.
-> > >  
-> > > +     (3) CAAM (Cryptographic Acceleration and Assurance Module:
-> > > IP
-> > > on NXP SoCs)
-> > > +
-> > > +         When High Assurance Boot (HAB) is enabled and the CAAM
-> > > is
-> > > in secure
-> > > +         mode, trust is rooted to the OTPMK, a never-disclosed
-> > > 256-
-> > > bit key
-> > > +         randomly generated and fused into each SoC at
-> > > manufacturing
-> > > time.
-> > > +         Otherwise, a common fixed test key is used instead.
-> > > +
-> > >    *  Execution isolation
-> > >  
-> > >       (1) TPM
-> > > @@ -46,6 +53,10 @@ safe.
-> > >           Customizable set of operations running in isolated
-> > > execution
-> > >           environment verified via Secure/Trusted boot process.
-> > >  
-> > > +     (3) CAAM
-> > > +
-> > > +         Fixed set of operations running in isolated execution
-> > > environment.
-> > > +
-> > >    * Optional binding to platform integrity state
-> > >  
-> > >       (1) TPM
-> > > @@ -63,6 +74,11 @@ safe.
-> > >           Relies on Secure/Trusted boot process for platform
-> > > integrity. It can
-> > >           be extended with TEE based measured boot process.
-> > >  
-> > > +     (3) CAAM
-> > > +
-> > > +         Relies on the High Assurance Boot (HAB) mechanism of
-> > > NXP
-> > > SoCs
-> > > +         for platform integrity.
-> > > +
-> > >    *  Interfaces and APIs
-> > >  
-> > >       (1) TPM
-> > > @@ -74,10 +90,13 @@ safe.
-> > >           TEEs have well-documented, standardized client
-> > > interface
-> > > and APIs. For
-> > >           more details refer to
-> > > ``Documentation/staging/tee.rst``.
-> > >  
-> > > +     (3) CAAM
-> > > +
-> > > +         Interface is specific to silicon vendor.
-> > >  
-> > >    *  Threat model
-> > >  
-> > > -     The strength and appropriateness of a particular TPM or TEE
-> > > for
-> > > a given
-> > > +     The strength and appropriateness of a particular trust
-> > > source
-> > > for a given
-> > >       purpose must be assessed when using them to protect
-> > > security-
-> > > relevant data.
-> > >  
-> > >  
-> > > @@ -104,8 +123,14 @@ selected trust source:
-> > >       from platform specific hardware RNG or a software based
-> > > Fortuna
-> > > CSPRNG
-> > >       which can be seeded via multiple entropy sources.
-> > >  
-> > > +  *  CAAM: Kernel RNG
-> > > +
-> > > +     The normal kernel random number generator is used. To seed
-> > > it
-> > > from the
-> > > +     CAAM HWRNG, enable CRYPTO_DEV_FSL_CAAM_RNG_API and ensure
-> > > the
-> > > device
-> > > +     can be probed.
-> > > +
-> > >  Optionally, users may specify ``trusted.kernel_rng=1`` on the
-> > > kernel
-> > > -command-line to override the used RNG with the kernel's random
-> > > number pool.
-> > > +command-line to force use of the kernel's random number pool.
-> > >  
-> > >  Encrypted Keys
-> > >  --------------
-> > > @@ -192,6 +217,19 @@ Usage::
-> > >  specific to TEE device implementation.  The key length for new
-> > > keys
-> > > is always
-> > >  in bytes. Trusted Keys can be 32 - 128 bytes (256 - 1024 bits).
-> > >  
-> > > +Trusted Keys usage: CAAM
-> > > +------------------------
-> > > +
-> > > +Usage::
-> > > +
-> > > +    keyctl add trusted name "new keylen" ring
-> > > +    keyctl add trusted name "load hex_blob" ring
-> > > +    keyctl print keyid
-> > > +
-> > > +"keyctl print" returns an ASCII hex copy of the sealed key,
-> > > which is
-> > > in format
-> > > +specific to CAAM device implementation.  The key length for new
-> > > keys
-> > > is always
-> > > +in bytes. Trusted Keys can be 32 - 128 bytes (256 - 1024 bits).
-> > > +
-> > >  Encrypted Keys usage
-> > >  --------------------
-> > >  
-> > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > index a4a0c2baaf27..2c6514759222 100644
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -10364,6 +10364,15 @@ S:	Supported
-> > >  F:	include/keys/trusted_tee.h
-> > >  F:	security/keys/trusted-keys/trusted_tee.c
-> > >  
-> > > +KEYS-TRUSTED-CAAM
-> > > +M:	Ahmad Fatoum <a.fatoum@pengutronix.de>
-> > > +R:	Pengutronix Kernel Team <kernel@pengutronix.de>
-> > > +L:	linux-integrity@vger.kernel.org
-> > > +L:	keyrings@vger.kernel.org
-> > > +S:	Supported
-> > > +F:	include/keys/trusted_caam.h
-> > > +F:	security/keys/trusted-keys/trusted_caam.c
-> > > +
-> > >  KEYS/KEYRINGS
-> > >  M:	David Howells <dhowells@redhat.com>
-> > >  M:	Jarkko Sakkinen <jarkko@kernel.org>
-> > > diff --git a/include/keys/trusted_caam.h
-> > > b/include/keys/trusted_caam.h
-> > > new file mode 100644
-> > > index 000000000000..2fba0996b0b0
-> > > --- /dev/null
-> > > +++ b/include/keys/trusted_caam.h
-> > > @@ -0,0 +1,11 @@
-> > > +/* SPDX-License-Identifier: GPL-2.0-only */
-> > > +/*
-> > > + * Copyright (C) 2021 Pengutronix, Ahmad Fatoum <
-> > > kernel@pengutronix.de>
-> > > + */
-> > > +
-> > > +#ifndef __CAAM_TRUSTED_KEY_H
-> > > +#define __CAAM_TRUSTED_KEY_H
-> > > +
-> > > +extern struct trusted_key_ops caam_trusted_key_ops;
-> > > +
-> > > +#endif
-> > > diff --git a/security/keys/trusted-keys/Kconfig
-> > > b/security/keys/trusted-keys/Kconfig
-> > > index fc4abd581abb..dbfdd8536468 100644
-> > > --- a/security/keys/trusted-keys/Kconfig
-> > > +++ b/security/keys/trusted-keys/Kconfig
-> > > @@ -24,6 +24,15 @@ config TRUSTED_KEYS_TEE
-> > >  	  Enable use of the Trusted Execution Environment (TEE) as
-> > > trusted
-> > >  	  key backend.
-> > >  
-> > > -if !TRUSTED_KEYS_TPM && !TRUSTED_KEYS_TEE
-> > > +config TRUSTED_KEYS_CAAM
-> > > +	bool "CAAM-based trusted keys"
-> > > +	depends on CRYPTO_DEV_FSL_CAAM_JR >= TRUSTED_KEYS
-> > > +	select CRYPTO_DEV_FSL_CAAM_BLOB_GEN
-> > > +	default y
-> > > +	help
-> > > +	  Enable use of NXP's Cryptographic Accelerator and Assurance
-> > > Module
-> > > +	  (CAAM) as trusted key backend.
-> > > +
-> > > +if !TRUSTED_KEYS_TPM && !TRUSTED_KEYS_TEE && !TRUSTED_KEYS_CAAM
-> > >  comment "No trust source selected!"
-> > >  endif
-> > > diff --git a/security/keys/trusted-keys/Makefile
-> > > b/security/keys/trusted-keys/Makefile
-> > > index 2e2371eae4d5..735aa0bc08ef 100644
-> > > --- a/security/keys/trusted-keys/Makefile
-> > > +++ b/security/keys/trusted-keys/Makefile
-> > > @@ -12,3 +12,5 @@ trusted-$(CONFIG_TRUSTED_KEYS_TPM) +=
-> > > trusted_tpm2.o
-> > >  trusted-$(CONFIG_TRUSTED_KEYS_TPM) += tpm2key.asn1.o
-> > >  
-> > >  trusted-$(CONFIG_TRUSTED_KEYS_TEE) += trusted_tee.o
-> > > +
-> > > +trusted-$(CONFIG_TRUSTED_KEYS_CAAM) += trusted_caam.o
-> > > diff --git a/security/keys/trusted-keys/trusted_caam.c
-> > > b/security/keys/trusted-keys/trusted_caam.c
-> > > new file mode 100644
-> > > index 000000000000..01adfd18adda
-> > > --- /dev/null
-> > > +++ b/security/keys/trusted-keys/trusted_caam.c
-> > > @@ -0,0 +1,74 @@
-> > > +// SPDX-License-Identifier: GPL-2.0-only
-> > > +/*
-> > > + * Copyright (C) 2021 Pengutronix, Ahmad Fatoum <
-> > > kernel@pengutronix.de>
-> > > + */
-> > > +
-> > > +#include <keys/trusted_caam.h>
-> > > +#include <keys/trusted-type.h>
-> > > +#include <linux/build_bug.h>
-> > > +#include <linux/key-type.h>
-> > > +#include <soc/fsl/caam-blob.h>
-> > > +
-> > > +static struct caam_blob_priv *blobifier;
-> > > +
-> > > +#define KEYMOD "kernel:trusted"
-> > > +
-> > > +static_assert(MAX_KEY_SIZE + CAAM_BLOB_OVERHEAD <=
-> > > CAAM_BLOB_MAX_LEN);
-> > > +static_assert(MAX_BLOB_SIZE <= CAAM_BLOB_MAX_LEN);
-> > > +
-> > > +static int trusted_caam_seal(struct trusted_key_payload *p, char
-> > > *datablob)
-> > > +{
-> > > +	int length = p->key_len + CAAM_BLOB_OVERHEAD;
-> > > +	int ret;
-> > > +
-> > > +	ret = caam_encap_blob(blobifier, KEYMOD, p->key, p->blob,
-> > > length);
-> > > +	if (ret)
-> > > +		return ret;
-> > > +
-> > > +	p->blob_len = length;
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static int trusted_caam_unseal(struct trusted_key_payload *p,
-> > > char
-> > > *datablob)
-> > > +{
-> > > +	int length = p->blob_len;
-> > > +	int ret;
-> > > +
-> > > +	ret = caam_decap_blob(blobifier, KEYMOD, p->blob, p->key,
-> > > length);
-> > > +	if (ret)
-> > > +		return ret;
-> > > +
-> > > +	p->key_len = length - CAAM_BLOB_OVERHEAD;
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static int trusted_caam_init(void)
-> > > +{
-> > > +	int ret;
-> > > +
-> > > +	blobifier = caam_blob_gen_init();
-> > > +	if (IS_ERR(blobifier)) {
-> > > +		pr_err("Job Ring Device allocation for transform
-> > > failed\n");
-> > > +		return PTR_ERR(blobifier);
-> > > +	}
-> > > +
-> > > +	ret = register_key_type(&key_type_trusted);
-> > > +	if (ret)
-> > > +		caam_blob_gen_exit(blobifier);
-> > > +
-> > > +	return ret;
-> > > +}
-> > > +
-> > > +static void trusted_caam_exit(void)
-> > > +{
-> > > +	unregister_key_type(&key_type_trusted);
-> > > +	caam_blob_gen_exit(blobifier);
-> > > +}
-> > > +
-> > > +struct trusted_key_ops caam_trusted_key_ops = {
-> > > +	.migratable = 0, /* non-migratable */
-> > > +	.init = trusted_caam_init,
-> > > +	.seal = trusted_caam_seal,
-> > > +	.unseal = trusted_caam_unseal,
-> > > +	.exit = trusted_caam_exit,
-> > > +};
-> > > diff --git a/security/keys/trusted-keys/trusted_core.c
-> > > b/security/keys/trusted-keys/trusted_core.c
-> > > index d2b7626cde8b..305e44651180 100644
-> > > --- a/security/keys/trusted-keys/trusted_core.c
-> > > +++ b/security/keys/trusted-keys/trusted_core.c
-> > > @@ -9,6 +9,7 @@
-> > >  #include <keys/user-type.h>
-> > >  #include <keys/trusted-type.h>
-> > >  #include <keys/trusted_tee.h>
-> > > +#include <keys/trusted_caam.h>
-> > >  #include <keys/trusted_tpm.h>
-> > >  #include <linux/capability.h>
-> > >  #include <linux/err.h>
-> > > @@ -29,7 +30,7 @@ MODULE_PARM_DESC(kernel_rng, "Generate key
-> > > material
-> > > from kernel RNG");
-> > >  
-> > >  static char *trusted_key_source;
-> > >  module_param_named(source, trusted_key_source, charp, 0);
-> > > -MODULE_PARM_DESC(source, "Select trusted keys source (tpm or
-> > > tee)");
-> > > +MODULE_PARM_DESC(source, "Select trusted keys source (tpm, tee
-> > > or
-> > > caam)");
-> > >  
-> > >  static const struct trusted_key_source trusted_key_sources[] = {
-> > >  #if defined(CONFIG_TRUSTED_KEYS_TPM)
-> > > @@ -38,6 +39,9 @@ static const struct trusted_key_source
-> > > trusted_key_sources[] = {
-> > >  #if defined(CONFIG_TRUSTED_KEYS_TEE)
-> > >  	{ "tee", &trusted_key_tee_ops },
-> > >  #endif
-> > > +#if defined(CONFIG_TRUSTED_KEYS_CAAM)
-> > > +	{ "caam", &caam_trusted_key_ops },
-> > > +#endif
-> > >  };
-> > >  
-> > >  DEFINE_STATIC_CALL_NULL(trusted_key_init,
-> > > *trusted_key_sources[0].ops->init);
-> 
-> 
+> diff --git a/arch/x86/include/asm/kexec.h b/arch/x86/include/asm/kexec.h
+> index 11b7c06e2828c30..3a22e65262aa70b 100644
+> --- a/arch/x86/include/asm/kexec.h
+> +++ b/arch/x86/include/asm/kexec.h
+> @@ -18,6 +18,9 @@
+>   
+>   # define KEXEC_CONTROL_CODE_MAX_SIZE	2048
+>   
+> +/* 16M alignment for crash kernel regions */
+> +#define CRASH_ALIGN		SZ_16M
+> +
+>   #ifndef __ASSEMBLY__
+>   
+>   #include <linux/string.h>
+> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+> index 6a190c7f4d71b05..5cc60996eac56d6 100644
+> --- a/arch/x86/kernel/setup.c
+> +++ b/arch/x86/kernel/setup.c
+> @@ -392,9 +392,6 @@ static void __init memblock_x86_reserve_range_setup_data(void)
+>   
+>   #ifdef CONFIG_KEXEC_CORE
+>   
+> -/* 16M alignment for crash kernel regions */
+> -#define CRASH_ALIGN		SZ_16M
+> -
+>   /*
+>    * Keep the crash kernel below this limit.
+>    *
 
