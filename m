@@ -2,38 +2,38 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE255C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Dec 2021 13:17:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB993C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Dec 2021 13:37:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233556AbhLMNRl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Dec 2021 08:17:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50173 "EHLO
+        id S233537AbhLMNhr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Dec 2021 08:37:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37765 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230511AbhLMNRk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Dec 2021 08:17:40 -0500
+        by vger.kernel.org with ESMTP id S237723AbhLMNhq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Dec 2021 08:37:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1639401459;
+        s=mimecast20190719; t=1639402666;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=1z/oXnKbigNR72V6rUxvYybH8ETpkht3CxfyFrpc7CE=;
-        b=SylOnL0a+q1WGg38IaPMfTOdoiHcPai7JLAIUwYQWZZrlFcmVAYGIR0SNmX5IxSF9HdRD7
-        gARayawRjZPx8JHuIsZOT9Imb8iNmWtlcSL87mMyMpA7HZA2siG6vVPp4vnBBvrGQ4lKq/
-        foVoJtqra2Gu9tCdLJ0uuhqYp/jmC/w=
+        bh=g+u/c+H/rcBrTEgKIs3qQRnTecevHVmV6fnVkgG1Vpo=;
+        b=P9L7Zg6wmdCWHlARlO//oFiSjYaR4KCoyG12+yyYGlYyRg08zCuy2mcOX+c1DA0sPSsB6Q
+        Lc01aNQoYv7hwDEdSaOMP7k2s0VUnqRclsyD4y8j+Vd2jWaG0cbhyWVMMkpDVEv4CXoTVm
+        T5lfXmUFF8bfdfCOHEAbgU65kMX0foY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-507-0KdNIwMXNGqYAfCoLdZT8w-1; Mon, 13 Dec 2021 08:17:36 -0500
-X-MC-Unique: 0KdNIwMXNGqYAfCoLdZT8w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+ us-mta-1-jX6aXRXDMYqcbyOxnQElnw-1; Mon, 13 Dec 2021 08:37:42 -0500
+X-MC-Unique: jX6aXRXDMYqcbyOxnQElnw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 810D38015CD;
-        Mon, 13 Dec 2021 13:17:33 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BDC02802C99;
+        Mon, 13 Dec 2021 13:37:38 +0000 (UTC)
 Received: from localhost (ovpn-12-202.pek2.redhat.com [10.72.12.202])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 10B5D18032;
-        Mon, 13 Dec 2021 13:17:15 +0000 (UTC)
-Date:   Mon, 13 Dec 2021 21:17:13 +0800
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 903F4ADCD;
+        Mon, 13 Dec 2021 13:37:37 +0000 (UTC)
+Date:   Mon, 13 Dec 2021 21:37:35 +0800
 From:   Baoquan He <bhe@redhat.com>
 To:     Zhen Lei <thunder.leizhen@huawei.com>
 Cc:     Thomas Gleixner <tglx@linutronix.de>,
@@ -53,17 +53,17 @@ Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Feng Zhou <zhoufeng.zf@bytedance.com>,
         Kefeng Wang <wangkefeng.wang@huawei.com>,
         Chen Zhou <dingguo.cz@antgroup.com>
-Subject: Re: [PATCH v17 01/10] x86: kdump: replace the hard-coded alignment
- with macro CRASH_ALIGN
-Message-ID: <20211213131713.GA23510@MiWiFi-R3L-srv>
+Subject: Re: [PATCH v17 02/10] x86: kdump: make the lower bound of crash
+ kernel reservation consistent
+Message-ID: <20211213133735.GB23510@MiWiFi-R3L-srv>
 References: <20211210065533.2023-1-thunder.leizhen@huawei.com>
- <20211210065533.2023-2-thunder.leizhen@huawei.com>
+ <20211210065533.2023-3-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211210065533.2023-2-thunder.leizhen@huawei.com>
+In-Reply-To: <20211210065533.2023-3-thunder.leizhen@huawei.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -71,55 +71,39 @@ X-Mailing-List: linux-doc@vger.kernel.org
 On 12/10/21 at 02:55pm, Zhen Lei wrote:
 > From: Chen Zhou <chenzhou10@huawei.com>
 > 
-> Move CRASH_ALIGN to header asm/kexec.h for later use.
+> The lower bounds of crash kernel reservation and crash kernel low
+> reservation are different, use the consistent value CRASH_ALIGN.
 > 
 > Suggested-by: Dave Young <dyoung@redhat.com>
-> Suggested-by: Baoquan He <bhe@redhat.com>
+> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
 
-I remember Dave and I discussed and suggested this when reviewing.
-You can remove my Suggested-by.
-
-For this one, I would like to add ack:
+You may need add Co-developed-by to clarify who is author, and who is
+co-author. Please check section "When to use Acked-by:, Cc:, and Co-developed-by:"
+of Documentation/process/submitting-patches.rst. Otherwise, 
 
 Acked-by: Baoquan He <bhe@redhat.com>
 
-> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
-> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
 > Tested-by: John Donnelly <John.p.donnelly@oracle.com>
 > Tested-by: Dave Kleikamp <dave.kleikamp@oracle.com>
 > ---
->  arch/x86/include/asm/kexec.h | 3 +++
->  arch/x86/kernel/setup.c      | 3 ---
->  2 files changed, 3 insertions(+), 3 deletions(-)
+>  arch/x86/kernel/setup.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/arch/x86/include/asm/kexec.h b/arch/x86/include/asm/kexec.h
-> index 11b7c06e2828c30..3a22e65262aa70b 100644
-> --- a/arch/x86/include/asm/kexec.h
-> +++ b/arch/x86/include/asm/kexec.h
-> @@ -18,6 +18,9 @@
->  
->  # define KEXEC_CONTROL_CODE_MAX_SIZE	2048
->  
-> +/* 16M alignment for crash kernel regions */
-> +#define CRASH_ALIGN		SZ_16M
-> +
->  #ifndef __ASSEMBLY__
->  
->  #include <linux/string.h>
 > diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
-> index 6a190c7f4d71b05..5cc60996eac56d6 100644
+> index 5cc60996eac56d6..6424ee4f23da2cf 100644
 > --- a/arch/x86/kernel/setup.c
 > +++ b/arch/x86/kernel/setup.c
-> @@ -392,9 +392,6 @@ static void __init memblock_x86_reserve_range_setup_data(void)
+> @@ -441,7 +441,8 @@ static int __init reserve_crashkernel_low(void)
+>  			return 0;
+>  	}
 >  
->  #ifdef CONFIG_KEXEC_CORE
->  
-> -/* 16M alignment for crash kernel regions */
-> -#define CRASH_ALIGN		SZ_16M
-> -
->  /*
->   * Keep the crash kernel below this limit.
->   *
+> -	low_base = memblock_phys_alloc_range(low_size, CRASH_ALIGN, 0, CRASH_ADDR_LOW_MAX);
+> +	low_base = memblock_phys_alloc_range(low_size, CRASH_ALIGN, CRASH_ALIGN,
+> +			CRASH_ADDR_LOW_MAX);
+>  	if (!low_base) {
+>  		pr_err("Cannot reserve %ldMB crashkernel low memory, please try smaller size.\n",
+>  		       (unsigned long)(low_size >> 20));
 > -- 
 > 2.25.1
 > 
