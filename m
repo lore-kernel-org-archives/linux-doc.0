@@ -2,128 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 485E7C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 13 Dec 2021 18:51:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31170C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 13 Dec 2021 18:56:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230199AbhLMSvE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Dec 2021 13:51:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45874 "EHLO
+        id S235271AbhLMS4v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Dec 2021 13:56:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229587AbhLMSvE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Dec 2021 13:51:04 -0500
+        with ESMTP id S236468AbhLMS4t (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Dec 2021 13:56:49 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 099D9C061574;
-        Mon, 13 Dec 2021 10:51:04 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44655C061574;
+        Mon, 13 Dec 2021 10:56:49 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3B203611CB;
-        Mon, 13 Dec 2021 18:51:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79D74C34600;
-        Mon, 13 Dec 2021 18:50:58 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D9E9461190;
+        Mon, 13 Dec 2021 18:56:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 355EEC34600;
+        Mon, 13 Dec 2021 18:56:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1639421462;
-        bh=kTogJC7jN0dV1AV8N6q4V6WfxDiLOYk49cCUUpKJa9M=;
+        s=k20201202; t=1639421808;
+        bh=lFEPGVcplB2/PUnkl473QALTUhz7KgoAcwA4eLB2eUE=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ggKuRJPCDvSwcMfZVINNujnIfNAbGTRYryTvvLtYRF3RuOtE7qh2EwfomkOtSd+pE
-         BdW14lwvU+O5hTIsP+Svl6fQWqU+WN1KE61tRa4vAOQwxUSpuW94BrmS+5n4fOGyBJ
-         TwyxLqYtrLyNgvr4LR9iizp6cqoqgSiGys/OWI+uhYPfxToqXDY3tlBQNksRcOe0ze
-         UylTLnGuPxFuvkngkNennMF1aQLnm3L+sXvnwcyv2MwpxcwBGhf2N2qEHtXvg2JWIG
-         K1gSJbX8kkAvRcEnt+6Yod6TraE+Cgo4/nxmp2rlFm3it5tGFzKADeSSk+jmSl5f9s
-         17tEuOOQ9zAGA==
-Date:   Mon, 13 Dec 2021 18:50:55 +0000
+        b=mdV7ERkpi5xIZkM+GeAomPGESkR11M/ptbUrlD6g747DJcOcIgbw3JK2z4BNh64of
+         AOvY/6qBrBY+s8JIwGfVyuP250d67ntL7euQPgOnDFRjm8tEeK9HOe3NKFBIquSWyY
+         3GCtWHwrt+5Ce8P2QxM52P4YQHI2aMl/Tg0GU9wpO20/B5tqTGcav0vRCc6me14oJK
+         W5732bSUFOIqT7yW9FI9y7Ujd+3ccAi5qhBJflvoq8H9fgh6N+5fP9CnllwHb0XNSk
+         urahTjjbf+Zp61YJNoeLJ88oiKh2QbWmtWz0n0bDxjaJgnZw324rzzGYc+w4onaeyv
+         1PmD8KQox2C4g==
+Date:   Mon, 13 Dec 2021 18:56:43 +0000
 From:   Will Deacon <will@kernel.org>
-To:     Kefeng Wang <wangkefeng.wang@huawei.com>
-Cc:     Zhen Lei <thunder.leizhen@huawei.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
-        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        kexec@lists.infradead.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>, gregkh@linuxfoundation.org
-Subject: Re: [PATCH v17 00/10] support reserving crashkernel above 4G on
- arm64 kdump
-Message-ID: <20211213185054.GH12405@willie-the-truck>
-References: <20211210065533.2023-1-thunder.leizhen@huawei.com>
- <afde1574-23b6-a36a-445e-5fb03873fe86@huawei.com>
+To:     Weilong Chen <chenweilong@huawei.com>
+Cc:     catalin.marinas@arm.com, corbet@lwn.net,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] cache: Workaround HiSilicon Taishan DC CVAU
+Message-ID: <20211213185643.GA12717@willie-the-truck>
+References: <20211126091139.358114-1-chenweilong@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <afde1574-23b6-a36a-445e-5fb03873fe86@huawei.com>
+In-Reply-To: <20211126091139.358114-1-chenweilong@huawei.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 10, 2021 at 03:15:00PM +0800, Kefeng Wang wrote:
+On Fri, Nov 26, 2021 at 05:11:39PM +0800, Weilong Chen wrote:
+> Taishan's L1/L2 cache is inclusive, and the data is consistent.
+> Any change of L1 does not require DC operation to brush CL in L1 to L2.
+> It's safe that don't clean data cache by address to point of unification.
 > 
-> On 2021/12/10 14:55, Zhen Lei wrote:
-> > There are following issues in arm64 kdump:
-> > 1. We use crashkernel=X to reserve crashkernel below 4G, which
-> > will fail when there is no enough low memory.
-> > 2. If reserving crashkernel above 4G, in this case, crash dump
-> > kernel will boot failure because there is no low memory available
-> > for allocation.
-> > 
-> > To solve these issues, change the behavior of crashkernel=X.
-> > crashkernel=X tries low allocation in DMA zone and fall back to high
-> > allocation if it fails.
-> > 
-> > We can also use "crashkernel=X,high" to select a high region above
-> > DMA zone, which also tries to allocate at least 256M low memory in
-> > DMA zone automatically and "crashkernel=Y,low" can be used to allocate
-> > specified size low memory.
-> > 
-> > When reserving crashkernel in high memory, some low memory is reserved
-> > for crash dump kernel devices. So there may be two regions reserved for
-> > crash dump kernel.
-> > In order to distinct from the high region and make no effect to the use
-> > of existing kexec-tools, rename the low region as "Crash kernel (low)",
-> > and pass the low region by reusing DT property
-> > "linux,usable-memory-range". We made the low memory region as the last
-> > range of "linux,usable-memory-range" to keep compatibility with existing
-> > user-space and older kdump kernels.
-> > 
-> > Besides, we need to modify kexec-tools:
-> > arm64: support more than one crash kernel regions(see [1])
-> > 
-> > Another update is document about DT property 'linux,usable-memory-range':
-> > schemas: update 'linux,usable-memory-range' node schema(see [2])
-> > 
-> > This patchset contains the following 10 patches:
-> > 
-> > 0001-0004 are some x86 cleanups which prepares for making functionsreserve_crashkernel[_low]() generic.
-> > 0005 makes functions reserve_crashkernel[_low]() generic.
-> > 0006-0007 reimplements arm64 crashkernel=X.
-> > 0008-0009 adds memory for devices by DT property linux,usable-memory-range.
-> > 0010 updates the doc.
-> > 
-> > Changes since [v16]
-> > - Because no functional changes in this version, so add
-> >    "Tested-by: Dave Kleikamp <dave.kleikamp@oracle.com>" for patch 1-9
-> > - Add "Reviewed-by: Rob Herring <robh@kernel.org>" for patch 8
-> > - Update patch 9 based on the review comments of Rob Herring
-> > - As Catalin Marinas's suggestion, merge the implementation of
-> >    ARCH_WANT_RESERVE_CRASH_KERNEL into patch 5. Ensure that the
-> >    contents of X86 and ARM64 do not overlap, and reduce unnecessary
-> >    temporary differences.
+> Without IDC featrue, kernel needs to flush icache as well as dcache,
+> causes performance degradation.
 > 
-> An Internal review has been done, so for this series,
+> The flaw refers to V110/V200 variant 1.
 > 
-> Reviewed-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+> Signed-off-by: Weilong Chen <chenweilong@huawei.com>
+> ---
+>  Documentation/arm64/silicon-errata.rst |  2 ++
+>  arch/arm64/Kconfig                     | 11 +++++++++
+>  arch/arm64/include/asm/cputype.h       |  2 ++
+>  arch/arm64/kernel/cpu_errata.c         | 32 ++++++++++++++++++++++++++
+>  arch/arm64/tools/cpucaps               |  1 +
+>  5 files changed, 48 insertions(+)
 
-That's good, but it would be _much_ better if you could do these reviews
-on the public mailing list in future. Is that possible? Otherwise, it's
-hard for maintainers to know what the reviews actually covered.
+Hmm. We don't usually apply optimisations for specific CPUs on arm64, simply
+because the diversity of CPUs out there means it quickly becomes a
+fragmented mess.
+
+Is this patch purely a performance improvement? If so, please can you
+provide some numbers in an attempt to justify it?
 
 Thanks,
 
