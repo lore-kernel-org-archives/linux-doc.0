@@ -2,66 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E323C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Dec 2021 16:31:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 815B3C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Dec 2021 18:09:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233961AbhLNQbf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Dec 2021 11:31:35 -0500
-Received: from fanzine2.igalia.com ([213.97.179.56]:36178 "EHLO
-        fanzine2.igalia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233971AbhLNQbe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Dec 2021 11:31:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version
-        :Date:Message-ID:References:Cc:To:From:Subject:Sender:Reply-To:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=Z6zW5Qd6tfw+PKFZVRrNvKJyywIeqtC44M8EtfxF+44=; b=lKYiGTufYfVnndlG66V4Bdub3C
-        Zjo421LWIhcLg2+9DxHPcvEXuMBcA5CLm67TCPcbyEmgf80iMIEmbz87Y1oleiXY2SbRk26T4VTAJ
-        zyN+SYFYkDH1PlP/Bb5skD6nIfmIutnuuKkovgK0yiseshLTsxP5P0eBZL0PQyjLHIxi8WqiGpa2h
-        HtFlGnz5Ou/f0gahFeDL5yBqhgdKwNreGF3frz89+ZyV3HTkq0a4gXbP6Jan+1x4URJNLG64rPMyu
-        T5pv0cy92da6lb7F1B0ejKmoC/Q9zDy1uUJ+ZUaOKJdsk9KKwggTxL0t4J1QIlcCUtDRHAI7TNND7
-        dmEDTC1Q==;
-Received: from [177.103.99.151] (helo=[192.168.1.60])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1mxAi0-0009ZL-D4; Tue, 14 Dec 2021 17:31:20 +0100
-Subject: Re: [PATCH 0/3] Some improvements on panic_print
-From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-To:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Cc:     linux-doc@vger.kernel.org, mcgrof@kernel.org,
-        keescook@chromium.org, yzaikin@google.com,
-        akpm@linux-foundation.org, feng.tang@intel.com,
-        siglesias@igalia.com, kernel@gpiccoli.net
-References: <20211109202848.610874-1-gpiccoli@igalia.com>
- <4b710b02-b3a7-15ef-d1b9-c636352f41d1@igalia.com>
-Message-ID: <eb19ac0c-b2b2-337a-6b7d-a3bff57d016d@igalia.com>
-Date:   Tue, 14 Dec 2021 13:31:04 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        id S232240AbhLNSJZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Dec 2021 13:09:25 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:59504 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230205AbhLNSJZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Dec 2021 13:09:25 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 16566B81BF7;
+        Tue, 14 Dec 2021 18:09:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB2B5C34604;
+        Tue, 14 Dec 2021 18:09:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1639505362;
+        bh=/xqmz9lrxbUEJFXEd4jkNP8kMOMxCqRlgDKcoEaYJRI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=VxMDAO85DxyMrysBXtPs7Kwg2fSgTWAGbGaytuHSJODT8PEUkCJxjE5gjLHbqe3s6
+         FrDQbLDBChlHlolf8GbH2NZwVHXsD1z8GPjwGL+WN7uIDJ2op60vCXtIRREvf968Xw
+         ggiLP1hUoMuDjL4c72wWQr7XcMQOPuYXYwF5G7YZsV+GFUxk7waUZJwCPLTRBcnoiF
+         vucANR9tDIxfLqpoH+mOWw8m9Za2hUANY88LpMsng0H2zTwQeB7u8wDQC3+L4lmPAf
+         u1+gmvIhTJxHNU7DSh8ftlSzvGRtEkkaCyqCi7kTola39ontbSHHOBiH2Scewm4YaE
+         l2J4Gyzxg9F9w==
+Date:   Tue, 14 Dec 2021 18:09:15 +0000
+From:   Will Deacon <will@kernel.org>
+To:     Palmer Dabbelt <palmer@dabbelt.com>
+Cc:     Atish Patra <atishp@rivosinc.com>, mark.rutland@arm.com,
+        linux-kernel@vger.kernel.org, anup.patel@wdc.com,
+        david.abdurachmanov@sifive.com, devicetree@vger.kernel.org,
+        greentime.hu@sifive.com, guoren@linux.alibaba.com,
+        xypron.glpk@gmx.de, corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
+        mick@ics.forth.gr, Paul Walmsley <paul.walmsley@sifive.com>,
+        robh+dt@kernel.org, vincent.chen@sifive.com
+Subject: Re: [v4 00/11] Improve RISC-V Perf support using SBI PMU and
+ sscofpmf extension
+Message-ID: <20211214180915.GA15780@willie-the-truck>
+References: <20211025195350.242914-1-atish.patra@wdc.com>
+ <mhng-b8ad045e-2022-4e7d-8e64-ab4cc09c15a7@palmer-ri-x1c9>
 MIME-Version: 1.0
-In-Reply-To: <4b710b02-b3a7-15ef-d1b9-c636352f41d1@igalia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <mhng-b8ad045e-2022-4e7d-8e64-ab4cc09c15a7@palmer-ri-x1c9>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 26/11/2021 18:34, Guilherme G. Piccoli wrote:
-> Hi everybody, is there any feedback for this series?
-> Thanks in advance,
+On Mon, Dec 13, 2021 at 05:51:28PM -0800, Palmer Dabbelt wrote:
+> On Mon, 25 Oct 2021 12:53:39 PDT (-0700), Atish Patra wrote:
+> > This series adds improved perf support for RISC-V based system using
+> > SBI PMU extension[1] and Sscofpmf extension[2]. The SBI PMU extension allows
+> > the kernel to program the counters for different events and start/stop counters
+> > while the sscofpmf extension allows the counter overflow interrupt and privilege
+> > mode filtering. An hardware platform can leverage SBI PMU extension without
+> > the sscofpmf extension if it supports mcountinhibit and mcounteren. However,
+> > the reverse is not true. With both of these extension enabled, a platform can
+> > take advantage of all both event counting and sampling using perf tool.
+> > 
+> > This series introduces a platform perf driver instead of a existing arch
+> > specific implementation. The new perf implementation has adopted a modular
+> > approach where most of the generic event handling is done in the core library
+> > while individual PMUs need to only implement necessary features specific to
+> > the PMU. This is easily extensible and any future RISC-V PMU implementation
+> > can leverage this. Currently, SBI PMU driver & legacy PMU driver are implemented
+> > as a part of this series.
+> > 
+> > The legacy driver tries to reimplement the existing minimal perf under a new
+> > config to maintain backward compatibility. This implementation only allows
+> > monitoring of always running cycle/instruction counters. Moreover, they can
+> > not be started or stopped. In general, this is very limited and not very useful.
+> > That's why, I am not very keen to carry the support into the new driver.
+> > However, I don't want to break perf for any existing hardware platforms.
+> > If everybody agrees that we don't need legacy perf implementation for older
+> > implementation, I will be happy to drop PATCH 4.
 > 
+> IMO we should keep it for a bit, so we have a transition period.  These
+> extensions are pretty new so we won't be able to count on everyone having
+> them yet, this way we'll avoid breaking users.
 > 
-> Guilherme
+> This generally looks good, but I don't see any Acks from the perf
+> maintainers.  I'm happy to take this through the RISC-V tree, but I'd
+> generally like to have at least an ack as perf isn't really my subsystem.
+> MAINTAINERS seems to indicate that's Will and Mark, they're not To'd so
+> maybe they just missed this?
+> 
+> I fixed a few trivial checkpatch warnings, updated Atish's email address,
+> and put this on palmer/riscv-pmu.  Happy to hear any comments, if nobody
+> says anything then I'll just put that on riscv/for-next whenever I get back
+> to my own email.
 
-Hey folks, this is a(nother) bi-weekly ping - if anybody has any
-suggestions on how could we move forward with this series, that'd
-greatly appreciated!
+Fine by me! Most (all?) of the other drivers under drivers/perf/ are for
+arm64, so I'm more than happy for you to handle the riscv one yourself.
+If I end up with something that touches all of the drivers then we can
+use a shared branch or something.
 
-Thanks in advance,
-
-
-Guilherme
-
+Will
