@@ -2,101 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1BCFC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Dec 2021 19:22:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9960EC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Dec 2021 19:24:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237331AbhLNTWJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Dec 2021 14:22:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45534 "EHLO
+        id S237381AbhLNTY0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Dec 2021 14:24:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229671AbhLNTWI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Dec 2021 14:22:08 -0500
-Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com [IPv6:2607:f8b0:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97DC4C061574
-        for <linux-doc@vger.kernel.org>; Tue, 14 Dec 2021 11:22:08 -0800 (PST)
-Received: by mail-ot1-x32c.google.com with SMTP id r10-20020a056830080a00b0055c8fd2cebdso22026051ots.6
-        for <linux-doc@vger.kernel.org>; Tue, 14 Dec 2021 11:22:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9yLYDwGx5cg1ntky6MqjaHTJ+/4qss8QGpdcFwkthKk=;
-        b=OyoK+02PlCZX6XlJjNmNZqCTRxarLsNJBXiyftLt5nBAr1pw4dXDJMdhgIELyqvRzX
-         DWvsMC8PBdSp6+84tPYRWeacv+DZjtKIByr4ZRdJuWpQqu3GOVHkWUUkuTNq5eifq6uT
-         cSo5As3kNwMgY6s9gjbcUk++0te2sDT4UpQn8y+YqvRmzfOS9xiGjJJ/+AmON7jBQre1
-         7y4048RBZqhoLN2MqU4YEYD3zOyr9Ah+6J1nzT50oEE86kZ+8MgiU4NY+Z0O8KgxxCgz
-         ne5HPdsBAr3uF+J3UpWLPqQEYIciRegfJB1uSykmdbmcC+b8pluRaKgMi339y+poTBIP
-         piNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9yLYDwGx5cg1ntky6MqjaHTJ+/4qss8QGpdcFwkthKk=;
-        b=stcCdSCeLUKRj3eI/FCD/BkgYKmxJz77Wk32WQ0ou3jZgLRnmMC1jzjjJtZs74VvL+
-         xT3THHLgKT63l1rD68cFYlcgT6JKbHLv3UrjvlXG4oAjcrR7dbwTj5tIVoepP+ExmFkF
-         g3bx1kghiB8mh/MIqi+hMtObD8JhPdmCP1iQ6fIDU1cTuL7/rbR/sAFz0X4xi3FXdBlL
-         WwhPdJrw3804XpP42Fi/VPbSCeQc4gY242nJYMAhXVsxFmucOvIf4kk11hai30UHo3gK
-         RT0BYB7yA1euvGjAYe6vik461GqYBhhG6lc32DhtiXA9jd5CA/jdeZ04tDFdqcrBrCd1
-         8cjw==
-X-Gm-Message-State: AOAM533zLz7sMFEnLkwmg53fcAcBNTe2+9NQpKAoyMWWgUVnOGedSNui
-        m27FDMUMcfaM4zwE7qqI1CZpyJ/vLjM6YYfkgis=
-X-Google-Smtp-Source: ABdhPJy5U8ShA6A8T2UdYV4soDwnZEFxnsVVCvAPqLjBAiCU8aWLy2PA0B1Ma4odPJoR+NRUXKdi38oG13Ho0yJpWlI=
-X-Received: by 2002:a9d:67c1:: with SMTP id c1mr5907475otn.299.1639509728008;
- Tue, 14 Dec 2021 11:22:08 -0800 (PST)
+        with ESMTP id S234275AbhLNTY0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Dec 2021 14:24:26 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6CC2C06173E;
+        Tue, 14 Dec 2021 11:24:25 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id BD7ABCE1A82;
+        Tue, 14 Dec 2021 19:24:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20F59C34604;
+        Tue, 14 Dec 2021 19:24:17 +0000 (UTC)
+Date:   Tue, 14 Dec 2021 19:24:14 +0000
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     Zhen Lei <thunder.leizhen@huawei.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
+        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        kexec@lists.infradead.org, Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>
+Subject: Re: [PATCH v17 02/10] x86: kdump: make the lower bound of crash
+ kernel reservation consistent
+Message-ID: <YbjvXl51hc6GZa71@arm.com>
+References: <20211210065533.2023-1-thunder.leizhen@huawei.com>
+ <20211210065533.2023-3-thunder.leizhen@huawei.com>
+ <YbjrjpehprvoRXbV@zn.tnic>
 MIME-Version: 1.0
-References: <20211213233030.6719-1-ydirson@free.fr>
-In-Reply-To: <20211213233030.6719-1-ydirson@free.fr>
-From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Tue, 14 Dec 2021 14:21:56 -0500
-Message-ID: <CADnq5_Mn+WeLWNoe6FdN=4Ssbfi2v6o=XorQrzwxdda2Hgk7mg@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] Enrich amdgpu docs from recent threads
-To:     Yann Dirson <ydirson@free.fr>
-Cc:     amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YbjrjpehprvoRXbV@zn.tnic>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Applied.  Thanks!
+On Tue, Dec 14, 2021 at 08:07:58PM +0100, Borislav Petkov wrote:
+> On Fri, Dec 10, 2021 at 02:55:25PM +0800, Zhen Lei wrote:
+> > From: Chen Zhou <chenzhou10@huawei.com>
+> > 
+> > The lower bounds of crash kernel reservation and crash kernel low
+> > reservation are different, use the consistent value CRASH_ALIGN.
+> 
+> A big WHY is missing here to explain why the lower bound of the
+> allocation range needs to be 16M and why was 0 wrong?
 
-Alex
+I asked the same here:
 
-On Mon, Dec 13, 2021 at 6:30 PM Yann Dirson <ydirson@free.fr> wrote:
->
-> This series is basically bringing Alex' descriptions of the hardware and
-> driver internals into the doc.
->
-> Changes in v3:
-> * camel case in titles (Rodrigo Siqueira)
-> * link DCN description to DC doc (Rodrigo Siqueira)
-> * links to email archive in commit messages (Rodrigo Siqueira)
-> * acronym expansion in intro (Rodrigo Siqueira)
-> * new commits for kerneldoc content fixes
->
-> Changes in v2:
-> * fix typos (Harry Wentland)
-> * get rid of double headings
->
-> Yann Dirson (4):
->   Documentation/gpu: include description of AMDGPU hardware structure
->   Documentation/gpu: include description of some of the GC
->     microcontrollers
->   amdgpu: fix some kernel-doc markup
->   amdgpu: fix some comment typos
->
->  Documentation/gpu/amdgpu/display/index.rst    |   2 +
->  Documentation/gpu/amdgpu/driver-core.rst      | 117 ++++++++++++++++++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |   6 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        |   2 +-
->  drivers/gpu/drm/amd/amdgpu/soc15.c            |   2 +-
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |   2 +-
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |   4 +-
->  include/uapi/drm/amdgpu_drm.h                 |   2 +-
->  8 files changed, 128 insertions(+), 9 deletions(-)
->
-> --
-> 2.31.1
->
+https://lore.kernel.org/r/20210224143547.GB28965@arm.com
+
+IIRC Baoquan said that there is a 1MB reserved for x86 anyway in the
+lower part, so that's equivalent in practice to starting from
+CRASH_ALIGN.
+
+Anyway, I agree the commit log should describe this.
+
+-- 
+Catalin
