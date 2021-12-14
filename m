@@ -2,89 +2,74 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9951AC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Dec 2021 09:27:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E990C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Dec 2021 09:38:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232338AbhLNJ1c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Dec 2021 04:27:32 -0500
-Received: from szxga08-in.huawei.com ([45.249.212.255]:29130 "EHLO
-        szxga08-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230013AbhLNJ1c (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Dec 2021 04:27:32 -0500
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.57])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4JCtHg4BHXz1DJjB;
-        Tue, 14 Dec 2021 17:24:31 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 14 Dec 2021 17:27:29 +0800
-Received: from [10.174.178.55] (10.174.178.55) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 14 Dec 2021 17:27:28 +0800
-Subject: Re: [PATCH v17 01/10] x86: kdump: replace the hard-coded alignment
- with macro CRASH_ALIGN
-To:     Borislav Petkov <bp@alien8.de>
-CC:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>, <linux-kernel@vger.kernel.org>,
-        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
+        id S230363AbhLNJib (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Dec 2021 04:38:31 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:52262 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229744AbhLNJib (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 Dec 2021 04:38:31 -0500
+Received: from zn.tnic (dslb-088-067-202-008.088.067.pools.vodafone-ip.de [88.67.202.8])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 81FB91EC047E;
+        Tue, 14 Dec 2021 10:38:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1639474705;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=nwilpgo0RFpwvB5rJYhq5v/Latkx2NQJ/R4FvMj0G4M=;
+        b=k6L5Suhp32+FvSN1IeqpfVYeGiv4rWnIOaZwCNkhQIMwE4KBNep5oJM1uM/Q66UBUe2aab
+        fAX5jsG8HhkfWEh7RtRHSgLfQa+ROxQRzIefk7GIbxJV5i8vjqwwisj0plCmJVwzLtwQD6
+        5XvhzMEDQocK1Q7vlu6igrUobgWdqro=
+Date:   Tue, 14 Dec 2021 10:38:31 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Baoquan He <bhe@redhat.com>
+Cc:     Zhen Lei <thunder.leizhen@huawei.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
+        Dave Young <dyoung@redhat.com>,
         Vivek Goyal <vgoyal@redhat.com>,
         Eric Biederman <ebiederm@xmission.com>,
-        <kexec@lists.infradead.org>,
+        kexec@lists.infradead.org,
         Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
+        linux-arm-kernel@lists.infradead.org,
         Rob Herring <robh+dt@kernel.org>,
         Frank Rowand <frowand.list@gmail.com>,
-        <devicetree@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
         Feng Zhou <zhoufeng.zf@bytedance.com>,
         Kefeng Wang <wangkefeng.wang@huawei.com>,
         Chen Zhou <dingguo.cz@antgroup.com>
+Subject: Re: [PATCH v17 03/10] x86: kdump: use macro CRASH_ADDR_LOW_MAX in
+ functions reserve_crashkernel()
+Message-ID: <YbhmF3+AzvRtGimD@zn.tnic>
 References: <20211210065533.2023-1-thunder.leizhen@huawei.com>
- <20211210065533.2023-2-thunder.leizhen@huawei.com> <Ybek4VRr8RaLM7kD@zn.tnic>
-From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Message-ID: <e96d3f88-7f33-5c83-9fdc-5d4180287ea7@huawei.com>
-Date:   Tue, 14 Dec 2021 17:27:27 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ <20211210065533.2023-4-thunder.leizhen@huawei.com>
+ <20211214085440.GA3023@MiWiFi-R3L-srv>
 MIME-Version: 1.0
-In-Reply-To: <Ybek4VRr8RaLM7kD@zn.tnic>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.178.55]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20211214085440.GA3023@MiWiFi-R3L-srv>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Dec 14, 2021 at 04:54:40PM +0800, Baoquan He wrote:
+> If you didn't contribute change, Signed-off-by should be taken off.
 
+The second SOB is correct here. I'll let you figure it out what it
+means.
 
-On 2021/12/14 3:54, Borislav Petkov wrote:
->> Subject: Re: [PATCH v17 01/10] x86: kdump: replace the hard-coded alignment with macro CRASH_ALIGN
-> 
->>From Documentation/process/maintainer-tip.rst:
-> 
-> "Patch subject
->  ^^^^^^^^^^^^^
-> 
-> The tip tree preferred format for patch subject prefixes is
-> 'subsys/component:', e.g. 'x86/apic:', 'x86/mm/fault:', 'sched/fair:',
-> 'genirq/core:'. Please do not use file names or complete file paths as
-> prefix. 'git log path/to/file' should give you a reasonable hint in most
-> cases.
-> 
-> The condensed patch description in the subject line should start with a
-> uppercase letter and should be written in imperative tone."
-> 
-> Please fix 1-5 for your next submission.
+Hint: Documentation/process/submitting-patches.rst
 
-OK. I will update them.
+-- 
+Regards/Gruss,
+    Boris.
 
-> 
-> Thx.
-> 
+https://people.kernel.org/tglx/notes-about-netiquette
