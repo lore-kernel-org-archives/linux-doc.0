@@ -2,145 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C41DC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Dec 2021 02:51:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C94E9C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Dec 2021 03:13:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244830AbhLNCvI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Dec 2021 21:51:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43206 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244875AbhLNCvF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Dec 2021 21:51:05 -0500
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AF50C061751;
-        Mon, 13 Dec 2021 18:51:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-        :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=JQteDTasuhERiQdoO8h3MwzFI2xTS+/dvlyONH5weSI=; b=kvQPmmwpeorODloDO5Gg4cc0/E
-        aKAj5d1E3f69cYwjZJPzHkDA5CQ/bAUtuRSmnWtmBk0ffwb7xKm5sQ/4dlbUUTXN4XkxyAYRrCHxH
-        RtbxI312qTc2c0S+Pn/Z+NXqQTY3mi0G2XlJNwqG6mbU97ghbdUMhv2z2G5/a25USoaX7Fg4qphEC
-        yXdtqUP1RY6SvFi/9dfKWM11wfKLsNgFiSAL2ysCmI0NaFxhqOeSajUUB6uRT19d9Zjb3wonBTld9
-        iuEgiNwSWe6/yorJtBw+Go0iBKZnwGXamTRKShZX60TMlOgxKw97UVxxrXYsGAYw8wrQjxVMCslyd
-        YEEYGA9Q==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mwxu4-001ElU-ME; Tue, 14 Dec 2021 02:50:57 +0000
-Message-ID: <623bad19-49e5-ee34-910c-f3caf39319f5@infradead.org>
-Date:   Mon, 13 Dec 2021 18:50:51 -0800
+        id S232689AbhLNDNS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Dec 2021 22:13:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27388 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S235407AbhLNDNR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Dec 2021 22:13:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1639451596;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=/n9aD3d3fHxDG9Px4q5PGZku+eA71D79JAz4+k/9vSg=;
+        b=I03Ni6bpMFmvufG1voFk2gB1egpLIS0bxw4zvB53lpTqFRdelSS9OJ8klARa+cnwPi7+9b
+        Lm3vqRsd/KRIO90dRf2POldvs4ayhZ5QRD75EFEPvSfj4oqenxVEkB71htmWzluCbcee+x
+        UbkbQGInXzFpiuUYC2ffP+yWymV4Xx0=
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
+ [209.85.210.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-441-zQ7G4-fHOGKYAXGGzKzo9g-1; Mon, 13 Dec 2021 22:13:16 -0500
+X-MC-Unique: zQ7G4-fHOGKYAXGGzKzo9g-1
+Received: by mail-ot1-f69.google.com with SMTP id m9-20020a0568301e6900b0055c8135f148so7321455otr.10
+        for <linux-doc@vger.kernel.org>; Mon, 13 Dec 2021 19:13:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=/n9aD3d3fHxDG9Px4q5PGZku+eA71D79JAz4+k/9vSg=;
+        b=Uee/jkMLHfBVotfb5Wwt0myrtxj2mMABFg+M12EpeX1+v48H1Qher2fJUlT/2BJiaD
+         wxacWyc1bZPxrIcuJu4kpUJCF1E2Yg3ytKHDqNJOKkb8L5oeJzTjJRfwEgTsy/THcTvY
+         kP8fZ5QY85in5WQPZ8C8UvYfV77jmbb2/wqyhfAxSMHxbdofjJTUs7jqc5b2/DM3t7kI
+         ElQbNSBiNJATKG/vjGM5ZeKn6UQg9zsqm1G/J1SwfVVeU8OpaF4XPOk8r+ZLU5+7o9Xm
+         SGI4WdIpxWKgaVcCf8qExZ8/127NfOmXnFlfhsNYtirisLVmclrPYgTZyoecm7/T7uvc
+         WBfA==
+X-Gm-Message-State: AOAM530lbDs12TOISw9r1AeR549JfkbtBfEGmEH2juNAd1DNU9rjpaqk
+        vO18RFBtG+tN2QNOrB0fCA5cLhZ0xp/AMSWSZtZxndhGkReYZaV2xiKdCgnp3TGLbOb4xnPVvr/
+        cmnmaw5ZNxgqwLMxU+Qx2
+X-Received: by 2002:a05:6830:195:: with SMTP id q21mr2069563ota.355.1639451594184;
+        Mon, 13 Dec 2021 19:13:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx2iz3hCs6r9lH/lXETVLAPnC49R3ZFNXhsPRQSXrmKaougoXLA3UjZIBo5VrH12Mh87hPjNg==
+X-Received: by 2002:a05:6830:195:: with SMTP id q21mr2069533ota.355.1639451593954;
+        Mon, 13 Dec 2021 19:13:13 -0800 (PST)
+Received: from treble ([2600:1700:6e32:6c00::49])
+        by smtp.gmail.com with ESMTPSA id 186sm2963571oig.28.2021.12.13.19.13.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Dec 2021 19:13:13 -0800 (PST)
+Date:   Mon, 13 Dec 2021 19:13:10 -0800
+From:   Josh Poimboeuf <jpoimboe@redhat.com>
+To:     David Vernet <void@manifault.com>
+Cc:     pmladek@suse.com, linux-doc@vger.kernel.org,
+        live-patching@vger.kernel.org, linux-kernel@vger.kernel.org,
+        jikos@kernel.org, mbenes@suse.cz, joe.lawrence@redhat.com,
+        corbet@lwn.net, yhs@fb.com, songliubraving@fb.com
+Subject: Re: [PATCH] livepatch: Fix leak on klp_init_patch_early failure path
+Message-ID: <20211214031310.p6kmbvd73kn6j7x3@treble>
+References: <20211213191734.3238783-1-void@manifault.com>
+ <20211213201022.dhalhtc2bpey55gh@treble>
+ <YbfQHjoUO5GTvImR@dev0025.ash9.facebook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH 5/3] docs: sphinx/kfigure.py: Delegate inkscape msgs to
- kernellog
-Content-Language: en-US
-To:     Akira Yokosawa <akiyks@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <de8def13-efbc-1d98-acb5-5cc1f6902e4b@gmail.com>
- <ea41dd96-124a-9132-7659-1ae04d82188b@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <ea41dd96-124a-9132-7659-1ae04d82188b@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YbfQHjoUO5GTvImR@dev0025.ash9.facebook.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Dec 13, 2021 at 02:58:38PM -0800, David Vernet wrote:
+> > I don't think the fix will be quite that simple.  For example, if
+> > klp_init_patch_early() fails, that means try_module_get() hasn't been
+> > done, so klp_free_patch_finish() will wrongly do a module_put().
+> 
+> Ugh, good point and thank you for catching that. Another problem with the
+> current patch is that we'll call kobject_put() on the patch even if we
+> never call kobject_init on the patch due to patch->objs being NULL.
+> 
+> Perhaps we should pull try_module_get() and the NULL check for patch->objs
+> out of klp_init_patch_early()? It feels a bit more intuitive to me if
+> klp_init_patch_early() were only be responsible for initializing kobjects
+> for the patch and its objects / funcs anyways.
+> 
+> Testing it locally seems to work fine. Let me know if this sounds
+> reasonable to you, and I'll send out a v2 patch with the fixes to both the
+> patch description, and logic.
 
-
-On 12/13/21 18:34, Akira Yokosawa wrote:
-> Instead of redirecting to /dev/null, capture inkscape messages and
-> output them via kernelloc.verbose or kerneldoc.warn depending on the
-
-                  kernellog.verbose or kernellog.warn
-
-> exit code.
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> ---
-> Hi Mauro,
-> 
-> On second thought, I took the path of delegating inkscape warnings
-> to kernellog.
-> 
-> Now you can see those warning messages by "SPHINXOPTS=-v".
-> 
-> Does this approach sound reasonable to you?
-> 
->         Thanks, Akira
-> --
->  Documentation/sphinx/kfigure.py | 28 +++++++++++++---------------
->  1 file changed, 13 insertions(+), 15 deletions(-)
-> 
-> diff --git a/Documentation/sphinx/kfigure.py b/Documentation/sphinx/kfigure.py
-> index dbe75ee8ae61..a275ee0fec02 100644
-> --- a/Documentation/sphinx/kfigure.py
-> +++ b/Documentation/sphinx/kfigure.py
-> @@ -126,9 +126,6 @@ rsvg_convert_cmd = None
->  inkscape_cmd = None
->  # Inkscape prior to 1.0 uses different command options
->  inkscape_ver_one = False
-> -# Show warning from inkscape(1), enabled by setting env var
-> -# SPHINX_SHOW_INKSCAPE_WARN
-> -inkscape_show_warn = False
->  
->  
->  def setup(app):
-> @@ -178,7 +175,7 @@ def setupTools(app):
->      This function is called once, when the builder is initiated.
->      """
->      global dot_cmd, dot_Tpdf, convert_cmd, rsvg_convert_cmd   # pylint: disable=W0603
-> -    global inkscape_cmd, inkscape_ver_one, inkscape_show_warn  # pylint: disable=W0603
-> +    global inkscape_cmd, inkscape_ver_one  # pylint: disable=W0603
->      kernellog.verbose(app, "kfigure: check installed tools ...")
->  
->      dot_cmd = which('dot')
-> @@ -211,12 +208,6 @@ def setupTools(app):
->          rsvg_convert_cmd = None
->          dot_Tpdf = False
->  
-> -        try:
-> -            if os.environ['SPHINX_SHOW_INKSCAPE_WARN']:
-> -                inkscape_show_warn = True
-> -        except KeyError:
-> -            pass
-> -
->      else:
->          if convert_cmd:
->              kernellog.verbose(app, "use convert(1) from: " + convert_cmd)
-> @@ -384,14 +375,21 @@ def svg2pdf(app, svg_fname, pdf_fname):
->          else:
->              cmd = [inkscape_cmd, '-z', '--export-pdf=%s' % pdf_fname, svg_fname]
->  
-> -    # use stdout and stderr from parent
-> -    if inkscape_show_warn:
-> -        exit_code = subprocess.call(cmd)
-> -    else:
-> -        exit_code = subprocess.call(cmd, stderr=subprocess.DEVNULL)
-> +    try:
-> +        warning_msg = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
-> +        exit_code = 0
-> +    except subprocess.CalledProcessError as err:
-> +        warning_msg = err.output
-> +        exit_code = 1
-> +        pass
->  
->      if exit_code != 0:
->          kernellog.warn(app, "Error #%d when calling: %s" % (exit_code, " ".join(cmd)))
-> +        kernellog.warn(app, "Warning msg from inkscape: %s" % str(warning_msg, 'utf-8'))
-> +    if warning_msg:
-> +        kernellog.verbose(app, "Warning msg from inkscape (likely harmless):\n%s"
-> +                          % str(warning_msg, 'utf-8'))
-> +
->      return bool(exit_code == 0)
->  
->  def svg2pdf_by_rsvg(app, svg_fname, pdf_fname):
-> 
+Sounds reasonable to me.  Thanks.
 
 -- 
-~Randy
+Josh
+
