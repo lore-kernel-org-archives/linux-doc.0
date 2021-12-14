@@ -2,93 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91323C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Dec 2021 13:48:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66CE3C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Dec 2021 14:04:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231756AbhLNNsx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Dec 2021 08:48:53 -0500
-Received: from smtpbguseast3.qq.com ([54.243.244.52]:56514 "EHLO
-        smtpbguseast3.qq.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230387AbhLNNsw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Dec 2021 08:48:52 -0500
-X-QQ-mid: bizesmtp33t1639489698tnagib73
-Received: from Z2zz.localdomain (unknown [218.17.40.219])
-        by esmtp6.qq.com (ESMTP) with 
-        id ; Tue, 14 Dec 2021 21:48:06 +0800 (CST)
-X-QQ-SSF: 0140000000200060C000B00A0000000
-X-QQ-FEAT: G+mSt178IQpUPdNu2IpKPULMu9tF9iwvGSJ9M9XoXRRNG4f4o/4vqVXy5kPUd
-        x/DMOpX9QoywOXiabDy/MWYJZ8G71NWa42WxoNoJlxSzmp+Fzu9p17oxWKDWjx9LlCZZ4Ka
-        g/f/40IbFrG6W4ejBVT9NzX8h92tJg589gJ6nALaMY02mYSEHBhW2NBb4ep8WE7DDK9DRcQ
-        jPVCQs2c/xjIlLah0JLGbpa6qMD8Xk/4P5s/9vjfLpZmfDtKBFZpC8SSHZgjZDcDFpgLpCv
-        h5xoEZOmB5m1g+OwLE7aJmWNOlDcrd/1sOBXBLAJDjxEn0GvmGOPlzxkd3chrxc6hytqJZ4
-        z/o8XBhBK6ZrmY6u7VPVmA4qtTsK4lZ4dH3s1TZV5FkRqz6Aq4ddJJekRdvjw==
-X-QQ-GoodBg: 2
-From:   Shenghong Han <hanshenghong2019@email.szu.edu.cn>
-To:     corbet@lwn.net
-Cc:     akpm@linux-foundation.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, vbabka@suse.cz,
-        georgi.djakov@linaro.org, lmark@codeaurora.org,
-        tangbin@cmss.chinamobile.com, zhangshengju@cmss.chinamobile.com,
-        weizhenliang@huawei.com, nixiaoming@huawei.com,
-        Shenghong Han <hanshenghong2019@email.szu.edu.cn>
-Subject: [PATCH] Documentation/vm/page_owner.rst: Update the documentation
-Date:   Tue, 14 Dec 2021 21:47:36 +0800
-Message-Id: <20211214134736.2569-1-hanshenghong2019@email.szu.edu.cn>
-X-Mailer: git-send-email 2.30.1
+        id S230334AbhLNOEW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Dec 2021 09:04:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54846 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229744AbhLNOEV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Dec 2021 09:04:21 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95E8EC061574;
+        Tue, 14 Dec 2021 06:04:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+        Content-Type:Content-ID:Content-Description;
+        bh=c3sVg+FOnnrAjIuYNGgmpnKM7+jMk1UCUDYyQOig0Cg=; b=lqYkVhyuYv4cjQ7UZO7XX5oyVy
+        JCC4ZXdLn0MQ1ex/UAn+lzDDlUuzInBZpEK4CJLYyQE8eZDo4BFUZbzV+fr9sGXXFJCQPrVRliHHk
+        x0N4ORjY5JJEdCDrjKYawp7D/dZVMMrkHLnWxu1I8TPkOiWxlw19MW5TGYGwNwjX4tGerJtxFH5aE
+        Wmbdf4l8/lGukKqSz8i6zzkOwnbvzJmK1kEF2V51ejFjig+dAYQATo57guxEvMgCqHQK1c7NH5h7Q
+        9BVGTgfWMxhWYaBTm8/EPcz20rflxxErv14CjmWhwqi2yXvowdVTB62sC9ImpZePUzkF6Ib94hHfK
+        bgL5Mi5g==;
+Received: from [2001:4bb8:180:a1c8:4ccb:3bf7:77a2:141f] (helo=localhost)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mx8PV-00DlVH-Sc; Tue, 14 Dec 2021 14:04:06 +0000
+From:   Christoph Hellwig <hch@lst.de>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>
+Cc:     Martin KaFai Lau <kafai@fb.com>, Song Liu <songliubraving@fb.com>,
+        Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org
+Subject: [PATCH 1/4] bpf, docs: Fix verifier reference
+Date:   Tue, 14 Dec 2021 15:03:59 +0100
+Message-Id: <20211214140402.288101-2-hch@lst.de>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20211214140402.288101-1-hch@lst.de>
+References: <20211214140402.288101-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:email.szu.edu.cn:qybgforeign:qybgforeign5
-X-QQ-Bgrelay: 1
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update the documentation of ``page_owner``.
+Use normal RST file reference instead of linkage copied from the old filter.rst
+document that does not actually work when using HTML output.
 
-Signed-off-by: Shenghong Han <hanshenghong2019@email.szu.edu.cn>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- Documentation/vm/page_owner.rst | 21 ++++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
+ Documentation/bpf/instruction-set.rst | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
-index 9837fc8147dd..7a28e7b0d9c2 100644
---- a/Documentation/vm/page_owner.rst
-+++ b/Documentation/vm/page_owner.rst
-@@ -97,7 +97,7 @@ Usage
+diff --git a/Documentation/bpf/instruction-set.rst b/Documentation/bpf/instruction-set.rst
+index fa7cba59031e5..fa469078301be 100644
+--- a/Documentation/bpf/instruction-set.rst
++++ b/Documentation/bpf/instruction-set.rst
+@@ -203,7 +203,7 @@ Some core changes of the eBPF format from classic BPF:
+     bpf_exit
  
-    The ``page_owner_sort`` tool ignores ``PFN`` rows, puts the remaining rows
-    in buf, uses regexp to extract the page order value, counts the times
--   and pages of buf, and finally sorts them according to the times.
-+   and pages of buf, and finally sorts them according to the parameter(s).
+   After the call the registers R1-R5 contain junk values and cannot be read.
+-  An in-kernel `eBPF verifier`_ is used to validate eBPF programs.
++  An in-kernel verifier.rst is used to validate eBPF programs.
  
-    See the result about who allocated each page
-    in the ``sorted_page_owner.txt``. General output:
-@@ -108,3 +108,22 @@ Usage
+ Also in the new design, eBPF is limited to 4096 insns, which means that any
+ program will terminate quickly and will only call a fixed number of kernel
+@@ -234,7 +234,7 @@ optimizations, socket filters and seccomp are using it as assembler. Tracing
+ filters may use it as assembler to generate code from kernel. In kernel usage
+ may not be bounded by security considerations, since generated eBPF code
+ may be optimizing internal code path and not being exposed to the user space.
+-Safety of eBPF can come from the `eBPF verifier`_. In such use cases as
++Safety of eBPF can come from the verifier.rst. In such use cases as
+ described, it may be used as safe instruction set.
  
-    By default, ``page_owner_sort`` is sorted according to the times of buf.
-    If you want to sort by the pages nums of buf, use the ``-m`` parameter.
-+   The detail parameters are shown as follows:
-+
-+   fundamental function:
-+
-+	Sort:
-+		-a		Sort by memory allocate time.
-+		-m		Sort by total memory.
-+		-p		Sort by pid.
-+		-r		Sort by memory release time.
-+		-s		Sort by the stack trace.
-+		-t		Sort by times (default).
-+
-+   additional function:
-+
-+	Cull:
-+		-c		Cull by comparing stacktrace instead of total block.
-+
-+	Filter:
-+		-f		Filter out the information of blocks whose memory has not been released.
+ Just like the original BPF, eBPF runs within a controlled environment,
+@@ -462,6 +462,3 @@ of two consecutive ``struct bpf_insn`` 8-byte blocks and interpreted as single
+ instruction that loads 64-bit immediate value into a dst_reg.
+ Classic BPF has similar instruction: ``BPF_LD | BPF_W | BPF_IMM`` which loads
+ 32-bit immediate value into a register.
+-
+-.. Links:
+-.. _eBPF verifier: verifiers.rst
 -- 
-2.30.1
-
-
+2.30.2
 
