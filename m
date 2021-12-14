@@ -2,127 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27CD5C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Dec 2021 19:55:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30AFDC433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Dec 2021 20:08:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231757AbhLNTzM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Dec 2021 14:55:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53012 "EHLO
+        id S232382AbhLNUIU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Dec 2021 15:08:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230380AbhLNTzK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Dec 2021 14:55:10 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CFA2C061574;
-        Tue, 14 Dec 2021 11:55:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=iv01Pf6xrNRqNbiIiHIBFnovLsVBu7ZpwLTFS0Q02fI=; b=Zrj5wbU0SzoFaiXAjqyfK4imuu
-        WGxMd6r5exANbz/MatXyC7/8JsmQyHFzvrh110c5ERevUEY6sFgoM5D7WleVK64TQrnuYN6lXa6n4
-        nvRF0exoUYNCOzmhPnp0mAfuODaD8aJZNG4r/o/Tv4B802LZOneEU5OAM5BxkJVYE39tKvw1nYxIs
-        LSIifhxvTKf15bDprYom2PXJHlC0YYbKmVMqmh6nCGAW53cOA0xlGui00qLgeGllCFu1n+MecSmdM
-        lcGYpidpzHagFuMAcSoKKnT2fXeJwV3UhOVHby3Q2gpF1BCjFvdG4kIqcbTCd+O7gqSmfK95PIrKi
-        GdzsonIQ==;
-Received: from [2601:1c0:6280:3f0:7629:afff:fe72:e49d]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mxDtF-00Ffi4-9i; Tue, 14 Dec 2021 19:55:09 +0000
-Subject: Re: [RFC PATCH] Remove mentions of the Trivial Patch Monkey
-To:     Miguel Ojeda <ojeda@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc:     Joe Perches <joe@perches.com>, Jiri Kosina <jikos@kernel.org>,
-        Jiri Kosina <trivial@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>
-References: <20211214191415.GA19070@kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <0f74ba31-aba2-0608-b383-9ab46766485b@infradead.org>
-Date:   Tue, 14 Dec 2021 11:55:08 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        with ESMTP id S229795AbhLNUIU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Dec 2021 15:08:20 -0500
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 383B4C061574;
+        Tue, 14 Dec 2021 12:08:20 -0800 (PST)
+Received: by mail-io1-xd29.google.com with SMTP id x6so26091811iol.13;
+        Tue, 14 Dec 2021 12:08:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=CcClwwT0aibOVAXpgyfdacR5s8e062LtxNDnwr5pduI=;
+        b=jke2JviKVZYjqK3eDLqLuKr7zq2BANQ3c669+t6D3UzrxQFTQCjOTEnpwru8woCWpe
+         ZAetlNiP6qIk6q67QT1hjfTaIOVWY5WZSm9NmukSEdIxW3w4AqQLFFgkbDTExkkLv+Jh
+         1URyOc8ha0g82Xx2XEuwsOziVKlBPCQS+3UFf2wvrBuZmFGySJFrtEx1aXzfQIwlsAab
+         iC1uvL/iJmv7vMzIhSNRHJrnJuI1ckqCG0NX7KtbTGBzbg5uMMZrpDB4Yf7kGjKvwnP1
+         HSEgXkjWdWUwxDy+BAYSKY5YnFJ6PaEj76LsEPOsxC6nHJOijLsyjxkf1AusoKb9xYEX
+         zkqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CcClwwT0aibOVAXpgyfdacR5s8e062LtxNDnwr5pduI=;
+        b=jyenBk6Q++w2y/rUYzDf6C9LR6QSgU7zDBruz74SYAYkRJuSGhT2cl9SIRLS+3Tvl+
+         VqA/+H9twn9Qk0PP7GdP/egn4Li3ahBy5PelU6jC7+fY7e5N/uvSpTMcv81s1Y8G0x1H
+         swkYtk2WfElkybrDcsDEpt/JMzCfJTA83jBzm90Q5IMrFWA7i6D6eEvvzgriMqeOBFZx
+         dobQUydQkXDOOW51FxneknziN0OxHr7WFV5tNQ6v9cOE3fWunpMuggV/h2GZt2fsptV+
+         P+b/sl75Gwb1sCYIyAIsGL56FUuZ0KwvfVdgxISxPQYZR9x7eOwUNGYFEKwu0tYHiCId
+         qFsg==
+X-Gm-Message-State: AOAM530naGaMyCfRcct8C5lNrKN+EZkZ11/yEP/9XrZ38M2cIor8BQ7b
+        VWxJIRNtTKKkynI0lV8T6ct+lgmPIDeaDXnvYbFYJIELn/0=
+X-Google-Smtp-Source: ABdhPJzcxR8nevWNaJ1bvUP6+E7XxRI4o7E1CfcZmkHT7HbVsnBz+ZfyN2MFDde5aXpjC9kTrzPOquf6pPHJL+jKJSU=
+X-Received: by 2002:a05:6638:33a6:: with SMTP id h38mr4364530jav.185.1639512498688;
+ Tue, 14 Dec 2021 12:08:18 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20211214191415.GA19070@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20211214191415.GA19070@kernel.org> <0f74ba31-aba2-0608-b383-9ab46766485b@infradead.org>
+In-Reply-To: <0f74ba31-aba2-0608-b383-9ab46766485b@infradead.org>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Tue, 14 Dec 2021 21:08:06 +0100
+Message-ID: <CANiq72=fHrp=9cbQizyhp1hgiyBYTTunX4odaXpTjxgr+aGqKQ@mail.gmail.com>
+Subject: Re: [RFC PATCH] Remove mentions of the Trivial Patch Monkey
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Miguel Ojeda <ojeda@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Joe Perches <joe@perches.com>, Jiri Kosina <jikos@kernel.org>,
+        Jiri Kosina <trivial@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/14/21 11:14 AM, Miguel Ojeda wrote:
-> Apparently, it was decided that trivial@kernel.org
-> is no longer used.
-> 
-> Link: https://lore.kernel.org/lkml/fe86efbd-4e03-76c8-55cf-dabd33e85823@infradead.org/
-> Co-developed-by: Joe Perches <joe@perches.com>
-> Signed-off-by: Joe Perches <joe@perches.com>
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+On Tue, Dec 14, 2021 at 8:55 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Thanks Randy -- I didn't add your Ack from a couple months ago since I
+added the Doc/ changes.
 
-Cc: akpm
-
-Thanks.
-
-> ---
-> Sending this before we forget about it...
-> 
-> We may want to keep the definition of "trivial patch" somewhere else.
-> 
->  Documentation/process/submitting-patches.rst | 19 -------------------
->  MAINTAINERS                                  |  6 ------
->  2 files changed, 25 deletions(-)
-> 
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> index 6b3aaed66fba..31ea120ce531 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -271,25 +271,6 @@ least a notification of the change, so that some information makes its way
->  into the manual pages.  User-space API changes should also be copied to
->  linux-api@vger.kernel.org.
->  
-> -For small patches you may want to CC the Trivial Patch Monkey
-> -trivial@kernel.org which collects "trivial" patches. Have a look
-> -into the MAINTAINERS file for its current manager.
-> -
-> -Trivial patches must qualify for one of the following rules:
-> -
-> -- Spelling fixes in documentation
-> -- Spelling fixes for errors which could break :manpage:`grep(1)`
-> -- Warning fixes (cluttering with useless warnings is bad)
-> -- Compilation fixes (only if they are actually correct)
-> -- Runtime fixes (only if they actually fix things)
-> -- Removing use of deprecated functions/macros
-> -- Contact detail and documentation fixes
-> -- Non-portable code replaced by portable code (even in arch-specific,
-> -  since people copy, as long as it's trivial)
-> -- Any fix by the author/maintainer of the file (ie. patch monkey
-> -  in re-transmission mode)
-> -
-> -
->  
->  No MIME, no links, no compression, no attachments.  Just plain text
->  -------------------------------------------------------------------
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 13f9a84a617e..c88bac733e9e 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -19334,12 +19334,6 @@ W:	https://github.com/srcres258/linux-doc
->  T:	git git://github.com/srcres258/linux-doc.git doc-zh-tw
->  F:	Documentation/translations/zh_TW/
->  
-> -TRIVIAL PATCHES
-> -M:	Jiri Kosina <trivial@kernel.org>
-> -S:	Maintained
-> -T:	git git://git.kernel.org/pub/scm/linux/kernel/git/jikos/trivial.git
-> -K:	^Subject:.*(?i)trivial
-> -
->  TTY LAYER
->  M:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->  M:	Jiri Slaby <jirislaby@kernel.org>
-> 
-
-
--- 
-~Randy
-Reported-by: Randy Dunlap <rdunlap@infradead.org>
-https://people.kernel.org/tglx/notes-about-netiquette
+Cheers,
+Miguel
