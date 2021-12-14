@@ -2,87 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04295C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Dec 2021 12:38:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91323C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Dec 2021 13:48:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229879AbhLNMip (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Dec 2021 07:38:45 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:32918 "EHLO
-        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234015AbhLNMip (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Dec 2021 07:38:45 -0500
-Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.57])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JCybQ1qB2zcbwK;
-        Tue, 14 Dec 2021 20:38:26 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 14 Dec 2021 20:38:43 +0800
-Received: from [10.174.178.55] (10.174.178.55) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 14 Dec 2021 20:38:42 +0800
-Subject: Re: [PATCH v17 05/10] x86: kdump: move reserve_crashkernel[_low]()
- into crash_core.c
-To:     Baoquan He <bhe@redhat.com>
-CC:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
-        <linux-kernel@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        <kexec@lists.infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        <devicetree@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>
-References: <20211210065533.2023-1-thunder.leizhen@huawei.com>
- <20211210065533.2023-6-thunder.leizhen@huawei.com>
- <20211214104558.GA28607@MiWiFi-R3L-srv>
-From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Message-ID: <097c6a8c-3b96-19b4-2bb9-bf2dcb4a6109@huawei.com>
-Date:   Tue, 14 Dec 2021 20:38:41 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S231756AbhLNNsx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Dec 2021 08:48:53 -0500
+Received: from smtpbguseast3.qq.com ([54.243.244.52]:56514 "EHLO
+        smtpbguseast3.qq.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230387AbhLNNsw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Dec 2021 08:48:52 -0500
+X-QQ-mid: bizesmtp33t1639489698tnagib73
+Received: from Z2zz.localdomain (unknown [218.17.40.219])
+        by esmtp6.qq.com (ESMTP) with 
+        id ; Tue, 14 Dec 2021 21:48:06 +0800 (CST)
+X-QQ-SSF: 0140000000200060C000B00A0000000
+X-QQ-FEAT: G+mSt178IQpUPdNu2IpKPULMu9tF9iwvGSJ9M9XoXRRNG4f4o/4vqVXy5kPUd
+        x/DMOpX9QoywOXiabDy/MWYJZ8G71NWa42WxoNoJlxSzmp+Fzu9p17oxWKDWjx9LlCZZ4Ka
+        g/f/40IbFrG6W4ejBVT9NzX8h92tJg589gJ6nALaMY02mYSEHBhW2NBb4ep8WE7DDK9DRcQ
+        jPVCQs2c/xjIlLah0JLGbpa6qMD8Xk/4P5s/9vjfLpZmfDtKBFZpC8SSHZgjZDcDFpgLpCv
+        h5xoEZOmB5m1g+OwLE7aJmWNOlDcrd/1sOBXBLAJDjxEn0GvmGOPlzxkd3chrxc6hytqJZ4
+        z/o8XBhBK6ZrmY6u7VPVmA4qtTsK4lZ4dH3s1TZV5FkRqz6Aq4ddJJekRdvjw==
+X-QQ-GoodBg: 2
+From:   Shenghong Han <hanshenghong2019@email.szu.edu.cn>
+To:     corbet@lwn.net
+Cc:     akpm@linux-foundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, vbabka@suse.cz,
+        georgi.djakov@linaro.org, lmark@codeaurora.org,
+        tangbin@cmss.chinamobile.com, zhangshengju@cmss.chinamobile.com,
+        weizhenliang@huawei.com, nixiaoming@huawei.com,
+        Shenghong Han <hanshenghong2019@email.szu.edu.cn>
+Subject: [PATCH] Documentation/vm/page_owner.rst: Update the documentation
+Date:   Tue, 14 Dec 2021 21:47:36 +0800
+Message-Id: <20211214134736.2569-1-hanshenghong2019@email.szu.edu.cn>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-In-Reply-To: <20211214104558.GA28607@MiWiFi-R3L-srv>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.178.55]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:email.szu.edu.cn:qybgforeign:qybgforeign5
+X-QQ-Bgrelay: 1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Update the documentation of ``page_owner``.
+
+Signed-off-by: Shenghong Han <hanshenghong2019@email.szu.edu.cn>
+---
+ Documentation/vm/page_owner.rst | 21 ++++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
+index 9837fc8147dd..7a28e7b0d9c2 100644
+--- a/Documentation/vm/page_owner.rst
++++ b/Documentation/vm/page_owner.rst
+@@ -97,7 +97,7 @@ Usage
+ 
+    The ``page_owner_sort`` tool ignores ``PFN`` rows, puts the remaining rows
+    in buf, uses regexp to extract the page order value, counts the times
+-   and pages of buf, and finally sorts them according to the times.
++   and pages of buf, and finally sorts them according to the parameter(s).
+ 
+    See the result about who allocated each page
+    in the ``sorted_page_owner.txt``. General output:
+@@ -108,3 +108,22 @@ Usage
+ 
+    By default, ``page_owner_sort`` is sorted according to the times of buf.
+    If you want to sort by the pages nums of buf, use the ``-m`` parameter.
++   The detail parameters are shown as follows:
++
++   fundamental function:
++
++	Sort:
++		-a		Sort by memory allocate time.
++		-m		Sort by total memory.
++		-p		Sort by pid.
++		-r		Sort by memory release time.
++		-s		Sort by the stack trace.
++		-t		Sort by times (default).
++
++   additional function:
++
++	Cull:
++		-c		Cull by comparing stacktrace instead of total block.
++
++	Filter:
++		-f		Filter out the information of blocks whose memory has not been released.
+-- 
+2.30.1
 
 
-On 2021/12/14 18:45, Baoquan He wrote:
->> +		/* User specifies base address explicitly. */
-> If you plan to repost, please take above sentence off either. Then we
-> can say this patch is only doing code moving.
-> 
->> +		unsigned long long start;
->> +
-> OK, I can see that this patch is only moving code, and introducing
-> CONFIG_ARCH_WANT_RESERVE_CRASH_KERNEL to wrap them appropriately, no
-> extra functionality change added or removed, except of this place.
-> An alignment checking is added for the user specified base address.
-> I love this checking. While I have to say it will be more perfect if
-> it's put in another small patch, that will be look much better from
-> patch splitting and reviewing point of view.
 
-Good eye. I will put it in a new patch.
-
-> 
-> This whole patch looks great to me, thanks for the effort.
-> 
-> 
