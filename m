@@ -2,184 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F33BDC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Dec 2021 12:08:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3959BC4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Dec 2021 12:38:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233878AbhLNMI5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Dec 2021 07:08:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58237 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233837AbhLNMIx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Dec 2021 07:08:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1639483732;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=09N8pjnDvvbprsIxiPa7zXeNfQTeGAO51slZCYiF8IQ=;
-        b=d9iIK0LijJ/X8+3ba3xPyxOt+nFolYMi36z4wOPgiod/IcPn4FZJVdfCHWeHViZwFqOlcM
-        qq87TZm0B5e+WilCPHrhRYuJieUqY9Z3o9VjEkv4VX0SSXxLkHdIFvfRFTXC7v8H5qInqv
-        hwZZOVXtKH0E3iLaGA8p8PF5xe0rEyg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-539-wl2w618aOJuTcv7lc39a_Q-1; Tue, 14 Dec 2021 07:08:47 -0500
-X-MC-Unique: wl2w618aOJuTcv7lc39a_Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A051C1018727;
-        Tue, 14 Dec 2021 12:08:33 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.145])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id ED0767DE50;
-        Tue, 14 Dec 2021 12:08:32 +0000 (UTC)
-From:   Cornelia Huck <cohuck@redhat.com>
-To:     Alex Williamson <alex.williamson@redhat.com>,
-        Jason Gunthorpe <jgg@nvidia.com>
-Cc:     corbet@lwn.net, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        farman@linux.ibm.com, mjrosato@linux.ibm.com, pasic@linux.ibm.com
-Subject: Re: [RFC PATCH] vfio: Update/Clarify migration uAPI, add NDMA state
-In-Reply-To: <20211213134038.39bb0618.alex.williamson@redhat.com>
-Organization: Red Hat GmbH
-References: <163909282574.728533.7460416142511440919.stgit@omen>
- <20211210012529.GC6385@nvidia.com>
- <20211213134038.39bb0618.alex.williamson@redhat.com>
-User-Agent: Notmuch/0.34 (https://notmuchmail.org)
-Date:   Tue, 14 Dec 2021 13:08:31 +0100
-Message-ID: <87ee6fs81s.fsf@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+        id S232176AbhLNMiA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Dec 2021 07:38:00 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:65524 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S229879AbhLNMh7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Dec 2021 07:37:59 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BEC9FVr026528;
+        Tue, 14 Dec 2021 12:37:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=hbZqTvW5RpWfz1tHUyVuzB89t1W/UKtkT/ce8c4PuTM=;
+ b=AiCoTmCmwtSe9EgSNa7rl3KV2YbtNu9tE6yYyOtaOF0NCWSPRrf1vj3q9OPMYf1cyOAA
+ QLD0QP1H746M+zpFvHkWr7BfgZWH636nbCE4kswt4iyFlkTWt1+5wEKIMRKPoP3/IG2f
+ ntFR6EtWhoNvZ0WDmLp/SI03waXgbJ4m4lAWKafXmNBypFfatd2WKW4AASNumlVoCmgj
+ tyaCBSooJJWTRQxB/In/yrH1hp87iQgCWNk1uhIjve4Ye3qn0MVKOiSJjVTriK7UM8AR
+ 3b8r+GBKAZOVMATB+Fah+JpkVZCjfl5hgvfbI3nYiSUwCwrn3sEDHuvLkROkqAPcF5Qh ig== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3cx9raktus-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 14 Dec 2021 12:37:38 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BEBiSas008727;
+        Tue, 14 Dec 2021 12:37:38 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 3cx9raktu2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 14 Dec 2021 12:37:38 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+        by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BECWLqs017901;
+        Tue, 14 Dec 2021 12:37:36 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+        by ppma04ams.nl.ibm.com with ESMTP id 3cvkmaehnn-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 14 Dec 2021 12:37:36 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 1BECbXVC43647348
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 14 Dec 2021 12:37:33 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id EFC87A405B;
+        Tue, 14 Dec 2021 12:37:32 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 6B43FA4066;
+        Tue, 14 Dec 2021 12:37:31 +0000 (GMT)
+Received: from sig-9-65-91-220.ibm.com (unknown [9.65.91.220])
+        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Tue, 14 Dec 2021 12:37:31 +0000 (GMT)
+Message-ID: <ec2ec0a9a7ba1adc6e54bbf7051a83ba90a39c0b.camel@linux.ibm.com>
+Subject: Re: [PATCH v2] Instantiate key with user-provided decrypted data.
+From:   Mimi Zohar <zohar@linux.ibm.com>
+To:     Yael Tiomkin <yaelt@google.com>, linux-integrity@vger.kernel.org
+Cc:     jejb@linux.ibm.com, jarkko@kernel.org, corbet@lwn.net,
+        dhowells@redhat.com, jmorris@namei.org, serge@hallyn.com,
+        keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-security-module <linux-security-module@vger.kernel.org>
+Date:   Tue, 14 Dec 2021 07:37:30 -0500
+In-Reply-To: <20211213192030.125091-1-yaelt@google.com>
+References: <20211213192030.125091-1-yaelt@google.com>
+Content-Type: text/plain; charset="ISO-8859-15"
+X-Mailer: Evolution 3.28.5 (3.28.5-18.el8) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: D5ObSYjxBMxL_UG1wLCE99QXZ86MxLfD
+X-Proofpoint-GUID: YPhVzS-YIZzTG2fikzYR2viNWL3Iff8S
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-14_06,2021-12-14_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ impostorscore=0 malwarescore=0 mlxscore=0 lowpriorityscore=0
+ mlxlogscore=999 phishscore=0 adultscore=0 bulkscore=0 clxscore=1011
+ spamscore=0 priorityscore=1501 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2110150000 definitions=main-2112140072
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 13 2021, Alex Williamson <alex.williamson@redhat.com> wrote:
+Hi Yael,
 
-> We do specify that a migration driver has discretion in using the error
-> state for failed transitions, so there are options to simplify error
-> handling.
->
-> If we look at bit flips, we have:
->
-> Initial state
-> |  Resuming
-> |  |  Saving
-> |  |  |  Running
-> |  |  |  |  Next states with multiple bit flips
->
-> a) 0, 0, 0  (d)
-> b) 0, 0, 1  (c) (e)
-> c) 0, 1, 0  (b) (e)
-> d) 0, 1, 1  (a) (e)
-> e) 1, 0, 0  (b) (c) (d)
-> f) 1, 0, 1 UNSUPPORTED
-> g) 1, 1, 0 ERROR
-> h) 1, 1, 1 INVALID
->
-> We specify that we cannot pass through any invalid states during
-> transition, so if I consider each bit to be a discrete operation and
-> map all these multi-bit changes to a sequence of single bit flips, the
-> only requirements are:
->
->   1) RESUMING must be cleared before setting SAVING or RUNNING
->   2) SAVING or RUNNING must be cleared before setting RESUMING
->
-> I think the basis of your priority scheme comes from that.  Ordering
-> of the remaining items is more subtle though, for instance
-> 0 -> SAVING | RUNNING can be broken down as:
->
->   0 -> SAVING
->   SAVING -> SAVING | RUNNING 
->
->   vs
->
->   0 -> RUNNING
->   RUNNING -> SAVING | RUNNING
->
-> I'd give preference to enabling logging before running and I believe
-> that holds for transition (e) -> (d) as well.
+On Mon, 2021-12-13 at 14:20 -0500, Yael Tiomkin wrote:
+> The encrypted.c class supports instantiation of encrypted keys with
+> either an already-encrypted key material, or by generating new key
+> material based on random numbers. To support encryption of
+> user-provided decrypted data, this patch defines a new datablob
+> format: [<format>] <master-key name> <decrypted data length>
+> <decrypted data>.
+> 
+> Signed-off-by: Yael Tiomkin <yaelt@google.com>
 
-Agreed.
+Other than the comment below,
+    Reviewed-by: Mimi Zohar <zohar@linux.ibm.com>
 
->
-> In the reverse case, SAVING | RUNNING -> 0
->
->   SAVING | RUNNING -> RUNNING
->   RUNNING -> 0
->
->   vs
->
->   SAVING | RUNNING -> SAVING
->   SAVING -> 0
->
-> This one is more arbitrary.  I tend to favor clearing RUNNING to stop
-> the device first, largely because it creates nice symmetry in the
-> resulting algorithm and follows the general principle that you
-> discovered as well, converge towards zero by addressing bit clearing
-> before setting.
+Could you also provide an LTP test for defining, exporting, and loading
+an encrypted key based on user provided key data?
 
-That also makes sense to me.
+thanks,
 
-> So a valid algorithm would include:
->
-> int set_device_state(u32 old, u32 new, bool is_unwind)
-> {
-> 	if (old.RUNNING && !new.RUNNING) {
-> 		curr.RUNNING = 0;
-> 		if (ERROR) goto unwind;
-> 	}
-> 	if (old.SAVING && !new.SAVING) {
-> 		curr.SAVING = 0;
-> 		if (ERROR) goto unwind;
-> 	}
-> 	if (old.RESUMING && !new.RESUMING) {
-> 		curr.RESUMING = 0;
-> 		if (ERROR) goto unwind;
-> 	}
-> 	if (!old.RESUMING && new.RESUMING) {
-> 		curr.RESUMING = 1;
-> 		if (ERROR) goto unwind;
-> 	}
-> 	if (!old.SAVING && new.SAVING) {
-> 		curr.saving = 1;
-> 		if (ERROR) goto unwind;
-> 	}
-> 	if (!old.RUNNING && new.RUNNING) {
-> 		curr.RUNNING = 1;
-> 		if (ERROR) goto unwind;
->         }
->
-> 	return 0;
->
-> unwind:
-> 	if (!is_unwind) {
-> 		ret = set_device_state(curr, old, true);
-> 		if (ret) {
-> 			curr.raw = ERROR;
-> 			return ret;
-> 		}
-> 	}
->
-> 	return -EIO;
-> }
->
+Mimi
 
-I've stared at this and scribbled a bit on paper and I think this would
-work.
+> ---
 
-> And I think that also addresses the claim that we're doomed to untested
-> and complicated error code handling, we unwind by simply swapping the
-> args to our set state function and enter the ERROR state should that
-> recursive call fail.
+> @@ -303,6 +306,16 @@ Load an encrypted key "evm" from saved blob::
+>      82dbbc55be2a44616e4959430436dc4f2a7a9659aa60bb4652aeb2120f149ed197c564e0
+>      24717c64 5972dcb82ab2dde83376d82b2e3c09ffc
+>  
+> +Instantiate an encrypted key "evm" using user-provided decrypted data::
+> +
+> +    $ keyctl add encrypted evm "new default user:kmk 32 `cat evm.blob`" @u
+> +    794890253
 
-Nod. As we clear RUNNING as the first thing and would only set RUNNING
-again as the last step, any transition to ERROR should be save.
+The existing references to "evm.blob" refer to the encrypted key data. 
+Here "evm.blob" is unencrypted data.  Perhaps name it something like
+"evm.user-provided-data" data.
 
->
-> I think it would be reasonable for documentation to present similar
-> pseudo code as a recommendation, but ultimately the migration driver
-> needs to come up with something that fits all the requirements.
-
-Yes, something like this should go into Documentation/.
+> +
+> +    $ keyctl print 794890253
+> +    default user:kmk 32 2375725ad57798846a9bbd240de8906f006e66c03af53b1b382d
+> +    bbc55be2a44616e4959430436dc4f2a7a9659aa60bb4652aeb2120f149ed197c564e0247
+> +    17c64 5972dcb82ab2dde83376d82b2e3c09ffc
+> +
 
