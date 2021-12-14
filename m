@@ -2,86 +2,148 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65A84C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Dec 2021 14:24:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A14C2C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Dec 2021 15:26:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234903AbhLNOYK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Dec 2021 09:24:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59570 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232492AbhLNOYK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Dec 2021 09:24:10 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8774C06173E;
-        Tue, 14 Dec 2021 06:24:09 -0800 (PST)
-Received: from zn.tnic (dslb-088-067-202-008.088.067.pools.vodafone-ip.de [88.67.202.8])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 86B1B1EC0513;
-        Tue, 14 Dec 2021 15:24:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1639491843;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=nztofOAHnNILlfJMC3O7KXR75xgQVsvCriH1qsLGzcc=;
-        b=KmMHii+FF1pXrovIa4v2KZFHMm6frF/8tAoyVyS3H8VQCC+CWhisRFTtTEpEQ52e19DrT0
-        U13xGmpdvXwxPW/TKD9x8ZcwPt+0wyV75D4mdpbLYVC58WkSyKTN93KyWRNbWE8igxKpYA
-        2T7ET76iUgWJOFl+6bO6enxgbdzbIn4=
-Date:   Tue, 14 Dec 2021 15:24:04 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Baoquan He <bhe@redhat.com>
-Cc:     Zhen Lei <thunder.leizhen@huawei.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
-        Dave Young <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        kexec@lists.infradead.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>
-Subject: Re: [PATCH v17 03/10] x86: kdump: use macro CRASH_ADDR_LOW_MAX in
- functions reserve_crashkernel()
-Message-ID: <YbipBGn5saLscIMn@zn.tnic>
-References: <20211210065533.2023-1-thunder.leizhen@huawei.com>
- <20211210065533.2023-4-thunder.leizhen@huawei.com>
- <20211214085440.GA3023@MiWiFi-R3L-srv>
- <YbhmF3+AzvRtGimD@zn.tnic>
- <20211214095657.GB3023@MiWiFi-R3L-srv>
+        id S233548AbhLNP0g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Dec 2021 10:26:36 -0500
+Received: from mail-qt1-f169.google.com ([209.85.160.169]:36496 "EHLO
+        mail-qt1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231787AbhLNP0g (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Dec 2021 10:26:36 -0500
+Received: by mail-qt1-f169.google.com with SMTP id t11so18672589qtw.3;
+        Tue, 14 Dec 2021 07:26:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=P7aZ/QVBkU5v1FDVL+MSPCG24CP265jMOYd4Lci7QAM=;
+        b=XuunziqYaqWgDfWdunecVEay59VyLZXN/DHsPa8K5nbcDEWD/DxyCcEJb4ypgRV7o4
+         huRr5RYquc9SQfo40wagHGnUt8ubh4wiJpVpDc9TWAccDFme4bvg7KkpPpuYpT+XlAiX
+         UmiabCpSR+tUCRJIey8z7x9oqOGaAWFJpvYUhmo1jfAplcETGLJFpyOW2O6KaJhZAZtb
+         a8mXz5II2bOFoOMIuKX/+asxiL5G09J7KXv55QEGorFIEJ4vda5JvRkC6HCoBpj8f8zI
+         PHz0w5L8R/UHv7aH0xTejgpFHTCKNQPsZu+ksgR6ABNGxHshqrYgOV9tmX2bCMXnub/Z
+         pw5w==
+X-Gm-Message-State: AOAM5307rDyrtM4FyDzWVxo0t+SKc+Ylk/8hBSPdT/pqQGcLQa8sgDgh
+        nyoqdIljFNkJld7CgWw/vMY=
+X-Google-Smtp-Source: ABdhPJwtxMV+qPxoSPw/frv+IfoiNQBShz4gj3PDxLQzfGgco5KthFLzi+AcceH5AM9DHu/FHoXxQQ==
+X-Received: by 2002:ac8:7d89:: with SMTP id c9mr6719039qtd.74.1639495595519;
+        Tue, 14 Dec 2021 07:26:35 -0800 (PST)
+Received: from dev0025.ash9.facebook.com (fwdproxy-ash-026.fbsv.net. [2a03:2880:20ff:1a::face:b00c])
+        by smtp.gmail.com with ESMTPSA id w10sm90823qkp.121.2021.12.14.07.26.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Dec 2021 07:26:35 -0800 (PST)
+Date:   Tue, 14 Dec 2021 07:26:33 -0800
+From:   David Vernet <void@manifault.com>
+To:     Miroslav Benes <mbenes@suse.cz>
+Cc:     Petr Mladek <pmladek@suse.com>, linux-doc@vger.kernel.org,
+        live-patching@vger.kernel.org, linux-kernel@vger.kernel.org,
+        jpoimboe@redhat.com, jikos@kernel.org, joe.lawrence@redhat.com,
+        corbet@lwn.net, yhs@fb.com, songliubraving@fb.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH] livepatch: Fix leak on klp_init_patch_early failure path
+Message-ID: <Ybi3qcA5ySDYpyib@dev0025.ash9.facebook.com>
+References: <20211213191734.3238783-1-void@manifault.com>
+ <YbhZwVocHDX9ZBAc@alley>
+ <alpine.LSU.2.21.2112141012090.20187@pobox.suse.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211214095657.GB3023@MiWiFi-R3L-srv>
+In-Reply-To: <alpine.LSU.2.21.2112141012090.20187@pobox.suse.cz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 14, 2021 at 05:56:57PM +0800, Baoquan He wrote:
-> Ah, OK, I see the new paragraph from you added in below commit.
+Miroslav Benes <mbenes@suse.cz> wrote on Tue [2021-Dec-14 10:17:08 +0100]:
+> It would help to share warning outputs (or whatever) from DEBUG_KOBJECTS.
 
-That is supposed to make it absolutely clear and explicit. There are
-other hints as to what a subsequent SOB means in that document already.
+This is the output when running kpatch load livepatch-sample.ko if an extra
+'struct klp_obj' entry is added that has a name but no funcs:
 
-Just the next section says:
+Without patch:
 
-"The Signed-off-by: tag indicates that the signer was involved in the
-development of the patch, or that he/she was in the patch's delivery
-path."
+[   67.285762] livepatch_sample: tainting kernel with TAINT_LIVEPATCH
+[   67.286107] kobject: 'livepatch_sample' (00000000cf89f7b6): kobject_add_internal: parent: 'module', set: 'module'
+[   67.286113] kobject: 'holders' (00000000858b03bf): kobject_add_internal: parent: 'livepatch_sample', set: '<NULL>'
+[   67.286126] kobject: 'notes' (00000000f2a3a4ce): kobject_add_internal: parent: 'livepatch_sample', set: '<NULL>'
+[   67.297856] kobject: 'holders' (00000000858b03bf): kobject_cleanup, parent 00000000cf89f7b6
+[   67.297859] kobject: 'holders' (00000000858b03bf): auto cleanup kobject_del
+[   67.297861] kobject: 'holders' (00000000858b03bf): calling ktype release
+[   67.297862] kobject: (00000000858b03bf): dynamic_kobj_release
+[   67.297863] kobject: 'holders': free name
+[   67.297865] kobject: 'notes' (00000000f2a3a4ce): kobject_cleanup, parent 00000000cf89f7b6
+[   67.297866] kobject: 'notes' (00000000f2a3a4ce): auto cleanup kobject_del
+[   67.297867] kobject: 'notes' (00000000f2a3a4ce): calling ktype release
+[   67.297868] kobject: (00000000f2a3a4ce): dynamic_kobj_release
+[   67.297869] kobject: 'notes': free name
+[   67.297874] kobject: 'livepatch_sample' (00000000cf89f7b6): kobject_cleanup, parent 000000002555fa2d
+[   67.297876] kobject: 'livepatch_sample' (00000000cf89f7b6): auto cleanup kobject_del
+[   67.297877] kobject: 'livepatch_sample' (00000000cf89f7b6): calling ktype release
+[   67.297878] kobject: 'livepatch_sample': free name
+[   99.445938] kobject: '0:40' (000000002a98d11d): kobject_add_internal: parent: 'bdi', set: 'devices'
+[   99.445954] kobject: '0:40' (000000002a98d11d): kobject_uevent_env
+[   99.445957] kobject: '0:40' (000000002a98d11d): fill_kobj_path: path = '/devices/virtual/bdi/0:40'
 
-It wouldn't hurt if people would look at that doc from time to time - we
-end up referring to it on a daily basis.
+With patch:
 
--- 
-Regards/Gruss,
-    Boris.
+[  162.275251] livepatch_sample: tainting kernel with TAINT_LIVEPATCH
+[  162.275985] kobject: 'livepatch_sample' (00000000e688ee30): kobject_add_internal: parent: 'module', set: 'module'
+[  162.275993] kobject: 'holders' (000000004eee7860): kobject_add_internal: parent: 'livepatch_sample', set: '<NULL>'
+[  162.276010] kobject: 'notes' (00000000c4f390ab): kobject_add_internal: parent: 'livepatch_sample', set: '<NULL>'
+[  162.276028] kobject: '(null)' (000000003acccf72): kobject_cleanup, parent 0000000000000000
+[  162.276031] kobject: '(null)' (000000003acccf72): calling ktype release
+[  162.276033] kobject: '(null)' (00000000aeae6326): kobject_cleanup, parent 0000000000000000
+[  162.276035] kobject: '(null)' (00000000aeae6326): calling ktype release
+[  162.276037] kobject: '(null)' (0000000093b68297): kobject_cleanup, parent 0000000000000000
+[  162.276039] kobject: '(null)' (0000000093b68297): calling ktype release
+[  162.294063] kobject: 'holders' (000000004eee7860): kobject_cleanup, parent 00000000e688ee30
+[  162.294070] kobject: 'holders' (000000004eee7860): auto cleanup kobject_del
+[  162.294074] kobject: 'holders' (000000004eee7860): calling ktype release
+[  162.294078] kobject: (000000004eee7860): dynamic_kobj_release
+[  162.294081] kobject: 'holders': free name
+[  162.294086] kobject: 'notes' (00000000c4f390ab): kobject_cleanup, parent 00000000e688ee30
+[  162.294090] kobject: 'notes' (00000000c4f390ab): auto cleanup kobject_del
+[  162.294094] kobject: 'notes' (00000000c4f390ab): calling ktype release
+[  162.294097] kobject: (00000000c4f390ab): dynamic_kobj_release
+[  162.294100] kobject: 'notes': free name
+[  162.294114] kobject: 'livepatch_sample' (00000000e688ee30): kobject_cleanup, parent 00000000f9317c72
+[  162.294118] kobject: 'livepatch_sample' (00000000e688ee30): auto cleanup kobject_del
+[  162.294123] kobject: 'livepatch_sample' (00000000e688ee30): calling ktype release
+[  162.294126] kobject: 'livepatch_sample': free name
 
-https://people.kernel.org/tglx/notes-about-netiquette
+The extra lines are of course the kobject: '(null)' entries, for which we
+*don't* see auto cleanup kobject_del being called. So it seems that what's
+there now is probably not actually leaking memory, and the question is
+really whether or not the documentation in kobject.c is the source of truth
+(i.e. whether the code needs to be "fixed" to honor the API contract).
+
+> I think that this might be, once again, a false positive. We use kobjects 
+> differently than what the kobject implementation and its documentation 
+> assume.
+
+I'm curious to hear what Greg says. As Petr pointed out, it seems that the
+documentation for kobjects is inconsistent. If we're going by the function
+comment header in kobject.c then what we have now should probably be
+considered a bug? If we're going by what's in
+Documentation/core-api/kobject.rst, I think what we have now is correct.
+
+I do think it's a bit of a leaky abstraction to assume that the
+implementation doesn't allocate anything, but I also see Petr's point that
+it could be useful to make it explicit that kobject_init() doesn't allocate
+anything, and instead just affords callers the option of using
+kobject_put() if they want to the objects' destructors to be invoked.
+
+Either way, we should fix the documentation to be consistent, which I'm
+happy to do in another patch.
+
+> And if it is not a false positive, we should implement some rollback for 
+> processed klp_funcs and klp_objects if an error happens. It is not only 
+> klp_patch kobject affected.
+
+The patch (though it needs to be corrected in its current form, as Josh
+pointed out) does already address this for the klp_funcs and klp_objects.
+The 'err' label invokes klp_free_patch_start(), which eventually invokes
+__klp_free_objects(), which itself invokes __klp_free_funcs().
+
+Regards,
+David
