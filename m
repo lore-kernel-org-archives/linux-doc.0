@@ -2,286 +2,159 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFA9DC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Dec 2021 02:03:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3933DC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Dec 2021 02:34:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237362AbhLNCDs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 13 Dec 2021 21:03:48 -0500
-Received: from szxga08-in.huawei.com ([45.249.212.255]:29128 "EHLO
-        szxga08-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231303AbhLNCDs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Dec 2021 21:03:48 -0500
-Received: from dggpeml500023.china.huawei.com (unknown [172.30.72.53])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4JChRh1Hsnz1DLPZ;
-        Tue, 14 Dec 2021 10:00:48 +0800 (CST)
-Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
- dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 14 Dec 2021 10:03:46 +0800
-Received: from huawei.com (10.175.100.227) by dggpeml500006.china.huawei.com
- (7.185.36.76) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Tue, 14 Dec
- 2021 10:03:45 +0800
-From:   Tang Yizhou <tangyizhou@huawei.com>
-To:     <siyanteng@loongson.cn>, <siyanteng01@gmail.com>,
-        <alexs@kernel.org>, <seakeel@gmail.com>
-CC:     <linux-doc@vger.kernel.org>, <corbet@lwn.net>,
-        <zhengbin13@huawei.com>, <tangyeechou@gmail.com>,
-        Tang Yizhou <tangyizhou@huawei.com>
-Subject: [PATCH] docs/zh_CN: Add sched-design-CFS Chinese translation
-Date:   Tue, 14 Dec 2021 10:31:12 +0800
-Message-ID: <20211214023112.9473-1-tangyizhou@huawei.com>
-X-Mailer: git-send-email 2.17.1
+        id S231587AbhLNCek (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 13 Dec 2021 21:34:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39526 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229616AbhLNCek (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 Dec 2021 21:34:40 -0500
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD6F6C06173F;
+        Mon, 13 Dec 2021 18:34:39 -0800 (PST)
+Received: by mail-pl1-x634.google.com with SMTP id b11so12528512pld.12;
+        Mon, 13 Dec 2021 18:34:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=7JoIY6oUJ0zBsCLhP/nsE2AFGgRPq3Re0+GEf3kHWmU=;
+        b=oteFQPRRL3zrtEXyXM7j32VaLTs5731jYrEwIeBviSX3oG3PYXiqN51Q0DzZ/1PjeP
+         wftN6d+1eqyw9YfixGdCNEgigrqd3dnaftboGAjZVrHzwmnuN3ZSu4BAXnbLETMgZLtY
+         3l81YKyCKbFbEHAfELfSFHAfK7mwgPui3kyr1SjqoZq2aVI8J+sn8umiV4FoulAguRIV
+         mCtObZkYGU4w4sHEB4RXy5v5lMrLeBlhC/K8hTChV8y6sQCCBKJ5BQNLhAENuQ2f6/Bl
+         cVsklA35+k2Qz5qlbpYy/eqN+WU2rnwhg0rhmD9UhB076oZXdaPJH3h0RJnlBZMyVCZQ
+         JXPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=7JoIY6oUJ0zBsCLhP/nsE2AFGgRPq3Re0+GEf3kHWmU=;
+        b=BVrojJYJiO1YrlLvpBw5gtpqVjnNMzniQIPXtzlO5Cqeh9kTy42Pi1LBOk6lMSMFXO
+         xBHGyK4pwxuMxSS69hmT2SSRuzZzWvAKTd8mUMW5+VBEkkVwLG0IJ+3vshjbgEaFwTGQ
+         OmXgWUeN+uOiDVpaVRnUwReDsp+hBzrFrqlhoI1v1SMWQB8q4OSeo+BvujTKt7CJqPxM
+         Vtk68Q3am+GNw9E6l7K2yebwssqiJDyL/tk+ZvCkDEd4UjzcbEQUt8zOvgsTjJQjsnTA
+         KsAB2S2DYhq8gUS620UJuCcJgBwe8UH/WJeXpiKuV30bruIjosPVavSDIGL9RX2UeXSy
+         WxdA==
+X-Gm-Message-State: AOAM530RXtrwr8lwMYdpBcCmi+CCpf3mwBmAu5XA5JxJnkfVbHAjXo/S
+        6KOLDKIk1W6zIOOu8qD0Rp8=
+X-Google-Smtp-Source: ABdhPJzQzbStbuGMWTr+zZcjpQH7q21rvxe70VtkljKniN2g47H4jrCDxzMTql7upQmu31Ox8STkFQ==
+X-Received: by 2002:a17:902:bc43:b0:148:9109:c60e with SMTP id t3-20020a170902bc4300b001489109c60emr424702plz.9.1639449279246;
+        Mon, 13 Dec 2021 18:34:39 -0800 (PST)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id lp12sm418422pjb.24.2021.12.13.18.34.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Dec 2021 18:34:38 -0800 (PST)
+Subject: [PATCH 5/3] docs: sphinx/kfigure.py: Delegate inkscape msgs to
+ kernellog
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Akira Yokosawa <akiyks@gmail.com>
+References: <de8def13-efbc-1d98-acb5-5cc1f6902e4b@gmail.com>
+From:   Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <ea41dd96-124a-9132-7659-1ae04d82188b@gmail.com>
+Date:   Tue, 14 Dec 2021 11:34:35 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.175.100.227]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpeml500006.china.huawei.com (7.185.36.76)
-X-CFilter-Loop: Reflected
+In-Reply-To: <de8def13-efbc-1d98-acb5-5cc1f6902e4b@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate scheduler/sched-design-CFS.rst into Chinese.
+Instead of redirecting to /dev/null, capture inkscape messages and
+output them via kernelloc.verbose or kerneldoc.warn depending on the
+exit code.
 
-Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
 ---
- .../translations/zh_CN/scheduler/index.rst    |   2 +-
- .../zh_CN/scheduler/sched-design-CFS.rst      | 204 ++++++++++++++++++
- 2 files changed, 205 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/scheduler/sched-design-CFS.rst
+Hi Mauro,
 
-diff --git a/Documentation/translations/zh_CN/scheduler/index.rst b/Documentation/translations/zh_CN/scheduler/index.rst
-index e97ad7781088..5327c61cb0ab 100644
---- a/Documentation/translations/zh_CN/scheduler/index.rst
-+++ b/Documentation/translations/zh_CN/scheduler/index.rst
-@@ -20,6 +20,7 @@ Linux调度器
-     completion
-     sched-arch
-     sched-bwc
-+    sched-design-CFS
-     sched-capacity
+On second thought, I took the path of delegating inkscape warnings
+to kernellog.
+
+Now you can see those warning messages by "SPHINXOPTS=-v".
+
+Does this approach sound reasonable to you?
+
+        Thanks, Akira
+--
+ Documentation/sphinx/kfigure.py | 28 +++++++++++++---------------
+ 1 file changed, 13 insertions(+), 15 deletions(-)
+
+diff --git a/Documentation/sphinx/kfigure.py b/Documentation/sphinx/kfigure.py
+index dbe75ee8ae61..a275ee0fec02 100644
+--- a/Documentation/sphinx/kfigure.py
++++ b/Documentation/sphinx/kfigure.py
+@@ -126,9 +126,6 @@ rsvg_convert_cmd = None
+ inkscape_cmd = None
+ # Inkscape prior to 1.0 uses different command options
+ inkscape_ver_one = False
+-# Show warning from inkscape(1), enabled by setting env var
+-# SPHINX_SHOW_INKSCAPE_WARN
+-inkscape_show_warn = False
  
  
-@@ -27,7 +28,6 @@ TODOList:
+ def setup(app):
+@@ -178,7 +175,7 @@ def setupTools(app):
+     This function is called once, when the builder is initiated.
+     """
+     global dot_cmd, dot_Tpdf, convert_cmd, rsvg_convert_cmd   # pylint: disable=W0603
+-    global inkscape_cmd, inkscape_ver_one, inkscape_show_warn  # pylint: disable=W0603
++    global inkscape_cmd, inkscape_ver_one  # pylint: disable=W0603
+     kernellog.verbose(app, "kfigure: check installed tools ...")
  
-     sched-bwc
-     sched-deadline
--    sched-design-CFS
-     sched-domains
-     sched-energy
-     sched-nice-design
-diff --git a/Documentation/translations/zh_CN/scheduler/sched-design-CFS.rst b/Documentation/translations/zh_CN/scheduler/sched-design-CFS.rst
-new file mode 100644
-index 000000000000..b604beaa47fd
---- /dev/null
-+++ b/Documentation/translations/zh_CN/scheduler/sched-design-CFS.rst
-@@ -0,0 +1,204 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/scheduler/sched-design-CFS.rst
-+
-+:翻译:
-+
-+  唐艺舟 Tang Yizhou <tangyeechou@gmail.com>
-+
-+===============
-+完全公平调度器
-+===============
-+
-+
-+1. 概述
-+=======
-+
-+CFS表示“完全公平调度器”，它是为桌面新设计的进程调度器，由Ingo Molnar实现并合入Linux
-+2.6.23。它替代了之前原始调度器中SCHED_OTHER策略的交互式代码。
-+
-+CFS 80%的设计可以总结为一句话：CFS在真实硬件上建模了一个“理想的，精确的多任务CPU”。
-+
-+“理想的多任务CPU”是一种（不存在的 :-)）具有100%物理算力的CPU，它能让每个任务精确地以
-+相同的速度并行运行，速度均为1/nr_running。举例来说，如果有两个任务正在运行，那么每个
-+任务获得50%物理算力。 --- 也就是说，真正的并行。
-+
-+在真实的硬件上，一次只能运行一个任务，所以我们需要介绍“虚拟运行时间”的概念。任务的虚拟
-+运行时间表明，它的下一个时间片将在上文描述的理想多任务CPU上开始执行。在实践中，任务的
-+虚拟运行时间由它的真实运行时间相较正在运行的任务总数归一化计算得到。
-+
-+
-+
-+2. 一些实现细节
-+===============
-+
-+在CFS中，虚拟运行时间由每个任务的p->se.vruntime（单位为纳秒）的值表达和跟踪。因此，
-+精确地计时和测量一个任务应得的“预期的CPU时间”是可能的。
-+
-+  一些细节：在“理想的”硬件上，所有的任务在任何时刻都应该具有一样的p->se.vruntime值，
-+  --- 也就是说，任务应当同时执行，没有任务会在“理想的”CPU分时中变得“不平衡”。
-+
-+CFS的任务选择逻辑基于p->se.vruntime的值，因此非常简单：总是试图选择p->se.vruntime值
-+最小的任务运行（也就是说，至今执行时间最少的任务）。CFS总是尽可能尝试按“理想多任务硬件”
-+那样将CPU时间在可运行任务中均分。
-+
-+CFS剩下的其它设计，一般脱离了这个简单的概念，附加的设计包括nice级别，多处理，以及各种
-+用来识别已睡眠任务的算法变体。
-+
-+
-+
-+3. 红黑树
-+=========
-+
-+CFS的设计非常激进：它不使用运行队列的旧数据结构，而是使用按时间排序的红黑树，构建出
-+任务未来执行的“时间线”。因此没有任何“数组切换”的旧包袱（之前的原始调度器和RSDL/SD都
-+被它影响）。
-+
-+CFS同样维护了rq->cfs.min_vruntime值，它是单调递增的，跟踪运行队列中的所有任务的最小
-+虚拟运行时间值。系统做的全部工作是：使用min_vruntime跟踪，然后用它的值将新激活的调度
-+实体尽可能地放在红黑树的左侧。
-+
-+运行队列中正在运行的任务的总数由rq->cfs.load计数，它是运行队列中的任务的权值之和。
-+
-+CFS维护了一个按时间排序的红黑树，所有可运行任务以p->se.vruntime为键值排序。CFS从这颗
-+树上选择“最左侧”的任务并运行。系统继续运行，被执行过的任务越来越被放到树的右侧 --- 缓慢，
-+但很明确每个任务都有成为“最左侧任务”的机会，因此任务将确定性地获得一定量CPU时间。
-+
-+总结一下，CFS工作方式像这样：它运行一个任务一会儿，当任务发生调度（或者调度器时钟滴答
-+tick产生），就会考虑任务的CPU使用率：任务刚刚花在物理CPU上的（少量）时间被加到
-+p->se.vruntime。一旦p->se.vruntime变得足够大，其它的任务将成为按时间排序的红黑树的
-+“最左侧任务”（相较最左侧的任务，还要加上一个很小的“粒度”量，使得我们不会对任务过度调度，
-+导致缓存颠簸），然后新的最左侧任务将被选中，当前任务被抢占。
-+
-+
-+
-+
-+4. CFS的一些特征
-+================
-+
-+CFS使用纳秒粒度的计时，不依赖于任何jiffies或HZ的细节。因此CFS并不像之前的调度器那样
-+有“时间片”的概念，也没有任何启发式的设计。唯一可调的参数（你需要打开CONFIG_SCHED_DEBUG）是：
-+
-+   /proc/sys/kernel/sched_min_granularity_ns
-+
-+它可以用来将调度器从“桌面”模式（也就是低时延）调节为“服务器”（也就是高批处理）模式。
-+它的默认设置是适合桌面的工作负载。SCHED_BATCH也被CFS调度器模块处理。
-+
-+CFS的设计不易受到当前存在的任何针对stock调度器的“攻击”的影响，包括fiftyp.c，thud.c，
-+chew.c，ring-test.c，massive_intr.c，它们都能很好地运行，不会影响交互性，将产生
-+符合预期的行为。
-+
-+CFS调度器处理nice级别和SCHED_BATCH的能力比之前的原始调度器更强：两种类型的工作负载
-+都被更激进地隔离了。
-+
-+SMP负载均衡被重做/清理过：遍历运行队列的假设已经从负载均衡的代码中移除，使用调度模块
-+的迭代器。结果是，负载均衡代码变得简单不少。
-+
-+
-+
-+5. 调度策略
-+===========
-+
-+CFS实现了三种调度策略：
-+  - SCHED_NORMAL：（传统被称为SCHED_OTHER）：该调度策略用于普通任务。
-+
-+  - SCHED_BATCH：抢占不像普通任务那样频繁，因此允许任务运行更长时间，更好地利用缓存，
-+    不过要以交互性为代价。它很适合批处理工作。
-+
-+  - SCHED_IDLE：它比nice 19更弱，不过它不是真正的idle定时器调度器，因为要避免给机器
-+    带来死锁的优先级反转问题。
-+
-+SCHED_FIFO/_RR被实现在sched/rt.c中，它们由POSIX具体说明。
-+
-+util-linux-ng 2.13.1.1中的chrt命令可以设置以上所有策略，除了SCHED_IDLE。
-+
-+
-+
-+6. 调度类
-+=========
-+
-+新的CFS调度器被设计成支持“调度类”，一种调度模块的可扩展层次结构。这些模块封装了调度策略
-+细节，由调度器核心代码处理，且无需对它们做太多假设。
-+
-+sched/fair.c 实现了上文描述的CFS调度器。
-+
-+sched/rt.c 实现了SCHED_FIFO和SCHED_RR语义，且比之前的原始调度器更简洁。它使用了100个
-+运行队列（总共100个实时优先级，替代了之前调度器的140个），且不需要过期数组（expired
-+array）。
-+
-+调度类由sched_class结构体实现，它包括一些函数钩子，当感兴趣的事件发生时，钩子被调用。
-+
-+这是（部分）钩子的列表：
-+
-+ - enqueue_task(...)
-+
-+   当任务进入可运行状态时，被调用。它将调度实体（任务）放到红黑树中，增加nr_running变量
-+   的值。
-+
-+ - dequeue_task(...)
-+
-+   当任务不再可运行时，这个函数被调用，对应的调度实体被移出红黑树。它减少nr_running变量
-+   的值。
-+
-+ - yield_task(...)
-+
-+   这个函数的行为基本上是出队，紧接着入队，除非compat_yield sysctl被开启。在那种情况下，
-+   它将调度实体放在红黑树的最右端。
-+
-+ - check_preempt_curr(...)
-+
-+   这个函数检查进入可运行状态的任务能否抢占当前正在运行的任务。
-+
-+ - pick_next_task(...)
-+
-+   这个函数选择接下来最适合运行的任务。
-+
-+ - set_curr_task(...)
-+
-+   这个函数在任务改变调度类或改变任务组时被调用。
-+
-+ - task_tick(...)
-+
-+   这个函数最常被时间滴答函数调用，它可能导致进程切换。这驱动了运行时抢占。
-+
-+
-+
-+
-+7. CFS的组调度扩展
-+==================
-+
-+通常，调度器操作粒度为任务，努力为每个任务提供公平的CPU时间。有时可能希望将任务编组，
-+并为每个组提供公平的CPU时间。举例来说，可能首先希望为系统中的每个用户提供公平的CPU
-+时间，接下来才是某个用户的每个任务。
-+
-+CONFIG_CGROUP_SCHED 力求实现它。它将任务编组，并为这些组公平地分配CPU时间。
-+
-+CONFIG_RT_GROUP_SCHED 允许将实时（也就是说，SCHED_FIFO和SCHED_RR）任务编组。
-+
-+CONFIG_FAIR_GROUP_SCHED 允许将CFS（也就是说，SCHED_NORMAL和SCHED_BATCH）任务编组。
-+
-+   这些编译选项要求CONFIG_CGROUPS被定义，然后管理员能使用cgroup伪文件系统任意创建任务组。
-+   关于该文件系统的更多信息，参见Documentation/admin-guide/cgroup-v1/cgroups.rst
-+
-+当CONFIG_FAIR_GROUP_SCHED被定义后，通过伪文件系统，每个组被创建一个“cpu.shares”文件。
-+参见下面的例子来创建任务组，并通过“cgroup”伪文件系统修改它们的CPU份额::
-+
-+	# mount -t tmpfs cgroup_root /sys/fs/cgroup
-+	# mkdir /sys/fs/cgroup/cpu
-+	# mount -t cgroup -ocpu none /sys/fs/cgroup/cpu
-+	# cd /sys/fs/cgroup/cpu
-+
-+	# mkdir multimedia	# 创建 "multimedia" 任务组
-+	# mkdir browser		# 创建 "browser" 任务组
-+
-+	# #配置multimedia组，令其获得browser组两倍CPU带宽
-+
-+	# echo 2048 > multimedia/cpu.shares
-+	# echo 1024 > browser/cpu.shares
-+
-+	# firefox &	# 启动firefox并把它移到 "browser" 组
-+	# echo <firefox_pid> > browser/tasks
-+
-+	# #启动gmplayer（或者你最喜欢的电影播放器）
-+	# echo <movie_player_pid> > multimedia/tasks
+     dot_cmd = which('dot')
+@@ -211,12 +208,6 @@ def setupTools(app):
+         rsvg_convert_cmd = None
+         dot_Tpdf = False
+ 
+-        try:
+-            if os.environ['SPHINX_SHOW_INKSCAPE_WARN']:
+-                inkscape_show_warn = True
+-        except KeyError:
+-            pass
+-
+     else:
+         if convert_cmd:
+             kernellog.verbose(app, "use convert(1) from: " + convert_cmd)
+@@ -384,14 +375,21 @@ def svg2pdf(app, svg_fname, pdf_fname):
+         else:
+             cmd = [inkscape_cmd, '-z', '--export-pdf=%s' % pdf_fname, svg_fname]
+ 
+-    # use stdout and stderr from parent
+-    if inkscape_show_warn:
+-        exit_code = subprocess.call(cmd)
+-    else:
+-        exit_code = subprocess.call(cmd, stderr=subprocess.DEVNULL)
++    try:
++        warning_msg = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
++        exit_code = 0
++    except subprocess.CalledProcessError as err:
++        warning_msg = err.output
++        exit_code = 1
++        pass
+ 
+     if exit_code != 0:
+         kernellog.warn(app, "Error #%d when calling: %s" % (exit_code, " ".join(cmd)))
++        kernellog.warn(app, "Warning msg from inkscape: %s" % str(warning_msg, 'utf-8'))
++    if warning_msg:
++        kernellog.verbose(app, "Warning msg from inkscape (likely harmless):\n%s"
++                          % str(warning_msg, 'utf-8'))
++
+     return bool(exit_code == 0)
+ 
+ def svg2pdf_by_rsvg(app, svg_fname, pdf_fname):
 -- 
 2.17.1
+
 
