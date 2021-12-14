@@ -2,107 +2,184 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 028A7C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Dec 2021 12:02:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F33BDC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Dec 2021 12:08:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233746AbhLNMCg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Dec 2021 07:02:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54636 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229525AbhLNMCg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Dec 2021 07:02:36 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13538C061574;
-        Tue, 14 Dec 2021 04:02:36 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S233878AbhLNMI5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Dec 2021 07:08:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58237 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233837AbhLNMIx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Dec 2021 07:08:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1639483732;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=09N8pjnDvvbprsIxiPa7zXeNfQTeGAO51slZCYiF8IQ=;
+        b=d9iIK0LijJ/X8+3ba3xPyxOt+nFolYMi36z4wOPgiod/IcPn4FZJVdfCHWeHViZwFqOlcM
+        qq87TZm0B5e+WilCPHrhRYuJieUqY9Z3o9VjEkv4VX0SSXxLkHdIFvfRFTXC7v8H5qInqv
+        hwZZOVXtKH0E3iLaGA8p8PF5xe0rEyg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-539-wl2w618aOJuTcv7lc39a_Q-1; Tue, 14 Dec 2021 07:08:47 -0500
+X-MC-Unique: wl2w618aOJuTcv7lc39a_Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A2EE3614A6;
-        Tue, 14 Dec 2021 12:02:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CAB6C34601;
-        Tue, 14 Dec 2021 12:02:30 +0000 (UTC)
-Date:   Tue, 14 Dec 2021 12:02:27 +0000
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Yee Lee <yee.lee@mediatek.com>
-Cc:     linux-kernel@vger.kernel.org, nicholas.Tang@mediatek.com,
-        Kuan-Ying.lee@mediatek.com, chinwen.chang@mediatek.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Marc Zyngier <maz@kernel.org>,
-        David Brazdil <dbrazdil@google.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Fuad Tabba <tabba@google.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "moderated list:ARM64 PORT (AARCH64 ARCHITECTURE)" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>
-Subject: Re: [PATCH v3 1/1] arm64/cpufeature: Optionally disable MTE via
- command-line
-Message-ID: <YbiH04yqEqW8p8EM@arm.com>
-References: <20210730144957.30938-1-yee.lee@mediatek.com>
- <20210730144957.30938-2-yee.lee@mediatek.com>
- <20210802153036.GH18685@arm.com>
- <e055e71f0ca7bcb351b9097ba8f8f4a9d324623c.camel@mediatek.com>
- <YapGyozjactAm8vp@arm.com>
- <dc2fd1f8c68e78905f4242c2b530bc720b979cd8.camel@mediatek.com>
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A051C1018727;
+        Tue, 14 Dec 2021 12:08:33 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.145])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id ED0767DE50;
+        Tue, 14 Dec 2021 12:08:32 +0000 (UTC)
+From:   Cornelia Huck <cohuck@redhat.com>
+To:     Alex Williamson <alex.williamson@redhat.com>,
+        Jason Gunthorpe <jgg@nvidia.com>
+Cc:     corbet@lwn.net, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+        farman@linux.ibm.com, mjrosato@linux.ibm.com, pasic@linux.ibm.com
+Subject: Re: [RFC PATCH] vfio: Update/Clarify migration uAPI, add NDMA state
+In-Reply-To: <20211213134038.39bb0618.alex.williamson@redhat.com>
+Organization: Red Hat GmbH
+References: <163909282574.728533.7460416142511440919.stgit@omen>
+ <20211210012529.GC6385@nvidia.com>
+ <20211213134038.39bb0618.alex.williamson@redhat.com>
+User-Agent: Notmuch/0.34 (https://notmuchmail.org)
+Date:   Tue, 14 Dec 2021 13:08:31 +0100
+Message-ID: <87ee6fs81s.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dc2fd1f8c68e78905f4242c2b530bc720b979cd8.camel@mediatek.com>
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 14, 2021 at 04:19:05PM +0800, Yee Lee wrote:
-> On Fri, 2021-12-03 at 16:33 +0000, Catalin Marinas wrote:
-> > On Thu, Nov 25, 2021 at 06:19:29PM +0800, Yee Lee wrote:
-> > > As pointed out earlier, the hardware has been verified that still has
-> > > transaction sending to DRAM due to mair_el1(Normal_tagged) is
-> > > setup.  That means the override in this patch would be incompleted and
-> > > cannot achieve to avoid undesired hardware confliction by disabling MTE.
-> > > 
-> > > Do we have other options to delay the configuration on MAIR_EL1 after
-> > > the override? Or maybe another CONFIG to bypass the init in __cpu_setup?
-> > 
-> > This register is trickier as it may be cached in the TLB (IIRC). I think
-> > deferring the setting of SCTLR_EL1.ATA(0) should be sufficient. Can you
-> > try the diff I sent in the previous email and confirm that the accesses
-> > to the allocation tag storage are blocked?
-> 
-> Yes, the previous diff is already online. 
-> 
-> In our experiment, with cmdline, "arm64.nomte", cpu_enable_mte() is
-> bypassed and the ATA0 is not set, but the access to tag memory still
-> dispatches. Only as MAIR_EL1 remains MAIR_ATTR_NORMAL, instead of
-> MAIR_ATTR_NORMAL_TAGGED, the access will stop.
-> 
-> From the manual, I think ATA only affects TAG instructions like STG,
-> IRG, but not the tag access within normal STR/LDR.
+On Mon, Dec 13 2021, Alex Williamson <alex.williamson@redhat.com> wrote:
 
-The ARM ARM states SCTLR_EL1.ATA0 == 0 means "access to allocation tags
-is prevented". The AArch64.MemSingle[] pseudocode ends up with similar
-checks:
+> We do specify that a migration driver has discretion in using the error
+> state for failed transitions, so there are options to simplify error
+> handling.
+>
+> If we look at bit flips, we have:
+>
+> Initial state
+> |  Resuming
+> |  |  Saving
+> |  |  |  Running
+> |  |  |  |  Next states with multiple bit flips
+>
+> a) 0, 0, 0  (d)
+> b) 0, 0, 1  (c) (e)
+> c) 0, 1, 0  (b) (e)
+> d) 0, 1, 1  (a) (e)
+> e) 1, 0, 0  (b) (c) (d)
+> f) 1, 0, 1 UNSUPPORTED
+> g) 1, 1, 0 ERROR
+> h) 1, 1, 1 INVALID
+>
+> We specify that we cannot pass through any invalid states during
+> transition, so if I consider each bit to be a discrete operation and
+> map all these multi-bit changes to a sequence of single bit flips, the
+> only requirements are:
+>
+>   1) RESUMING must be cleared before setting SAVING or RUNNING
+>   2) SAVING or RUNNING must be cleared before setting RESUMING
+>
+> I think the basis of your priority scheme comes from that.  Ordering
+> of the remaining items is more subtle though, for instance
+> 0 -> SAVING | RUNNING can be broken down as:
+>
+>   0 -> SAVING
+>   SAVING -> SAVING | RUNNING 
+>
+>   vs
+>
+>   0 -> RUNNING
+>   RUNNING -> SAVING | RUNNING
+>
+> I'd give preference to enabling logging before running and I believe
+> that holds for transition (e) -> (d) as well.
 
-https://developer.arm.com/documentation/ddi0596/2021-09/Shared-Pseudocode/AArch64-Functions?lang=en#AArch64.MemSingle.read.5
+Agreed.
 
-before reading the tags from memory in AArch64.CheckTag():
+>
+> In the reverse case, SAVING | RUNNING -> 0
+>
+>   SAVING | RUNNING -> RUNNING
+>   RUNNING -> 0
+>
+>   vs
+>
+>   SAVING | RUNNING -> SAVING
+>   SAVING -> 0
+>
+> This one is more arbitrary.  I tend to favor clearing RUNNING to stop
+> the device first, largely because it creates nice symmetry in the
+> resulting algorithm and follows the general principle that you
+> discovered as well, converge towards zero by addressing bit clearing
+> before setting.
 
-https://developer.arm.com/documentation/ddi0596/2021-09/Shared-Pseudocode/AArch64-Functions?lang=en#AArch64.CheckTag.4
+That also makes sense to me.
 
-My suggestion is to raise this with support@arm.com (feel free to cc me)
-so that we clarify the hardware behaviour. I don't think it's entirely
-correct (it's more like, is there a risk of external aborts caused by
-access to allocation tag storage that's not present?)
+> So a valid algorithm would include:
+>
+> int set_device_state(u32 old, u32 new, bool is_unwind)
+> {
+> 	if (old.RUNNING && !new.RUNNING) {
+> 		curr.RUNNING = 0;
+> 		if (ERROR) goto unwind;
+> 	}
+> 	if (old.SAVING && !new.SAVING) {
+> 		curr.SAVING = 0;
+> 		if (ERROR) goto unwind;
+> 	}
+> 	if (old.RESUMING && !new.RESUMING) {
+> 		curr.RESUMING = 0;
+> 		if (ERROR) goto unwind;
+> 	}
+> 	if (!old.RESUMING && new.RESUMING) {
+> 		curr.RESUMING = 1;
+> 		if (ERROR) goto unwind;
+> 	}
+> 	if (!old.SAVING && new.SAVING) {
+> 		curr.saving = 1;
+> 		if (ERROR) goto unwind;
+> 	}
+> 	if (!old.RUNNING && new.RUNNING) {
+> 		curr.RUNNING = 1;
+> 		if (ERROR) goto unwind;
+>         }
+>
+> 	return 0;
+>
+> unwind:
+> 	if (!is_unwind) {
+> 		ret = set_device_state(curr, old, true);
+> 		if (ret) {
+> 			curr.raw = ERROR;
+> 			return ret;
+> 		}
+> 	}
+>
+> 	return -EIO;
+> }
+>
 
--- 
-Catalin
+I've stared at this and scribbled a bit on paper and I think this would
+work.
+
+> And I think that also addresses the claim that we're doomed to untested
+> and complicated error code handling, we unwind by simply swapping the
+> args to our set state function and enter the ERROR state should that
+> recursive call fail.
+
+Nod. As we clear RUNNING as the first thing and would only set RUNNING
+again as the last step, any transition to ERROR should be save.
+
+>
+> I think it would be reasonable for documentation to present similar
+> pseudo code as a recommendation, but ultimately the migration driver
+> needs to come up with something that fits all the requirements.
+
+Yes, something like this should go into Documentation/.
+
