@@ -2,109 +2,153 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1560FC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Dec 2021 06:32:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C815C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Dec 2021 08:19:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231136AbhLNGcN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Dec 2021 01:32:13 -0500
-Received: from mga01.intel.com ([192.55.52.88]:49234 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230314AbhLNGcN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 Dec 2021 01:32:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1639463533; x=1670999533;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BFTZJHLiFvx9dfj9r67PpNP1+pbqUuTKz8LXfuK6360=;
-  b=YCySEwEmd+AKpsIDnbUBQGgnEYwuIT5r2lpiDNdalzOGPGK62euMQWBg
-   NwTykucNB7C5B3qG5vR9xUyO9Ns3U92IWcI59fAfaMJ74p2P1B73ZRk+I
-   LyL7Vu1sr2QR1QTevdc7JAUBeUKKdMlH+MNnp2dsjCtl4X+QRO+f34W+G
-   gb5h1UYFUltHbDxp0sftXhoGXnPG8aodpK6LBu+Tx/kMb/tVpcKn9l1+I
-   6RYzs7i4mCnxQL6+22XEDSGaVMBcLUBxKwhCEUmgOyT5ca4iJ2Hg3W02o
-   u777ggBfZkHiL7GVHrLYjk3PKkfLDevL6lR/YIagzGrn9OPo2+fMGQsBI
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10197"; a="263047173"
-X-IronPort-AV: E=Sophos;i="5.88,204,1635231600"; 
-   d="scan'208";a="263047173"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2021 22:32:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,204,1635231600"; 
-   d="scan'208";a="464950100"
-Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 13 Dec 2021 22:32:10 -0800
-Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1mx1MA-0007Vk-4g; Tue, 14 Dec 2021 06:32:10 +0000
-Date:   Tue, 14 Dec 2021 14:32:07 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Atish Patra <atish.patra@wdc.com>
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-        Palmer Dabbelt <palmer@rivosinc.com>, linux-doc@vger.kernel.org
-Subject: [palmer:riscv-pmu 4/10] drivers/perf/riscv_pmu_legacy.c:76: warning:
- This comment starts with '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202112141442.yPBMCGPB-lkp@intel.com>
+        id S231779AbhLNITK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Dec 2021 03:19:10 -0500
+Received: from mailgw01.mediatek.com ([60.244.123.138]:34338 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S229565AbhLNITJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Dec 2021 03:19:09 -0500
+X-UUID: 426187845b5740578dcebda14c740936-20211214
+X-UUID: 426187845b5740578dcebda14c740936-20211214
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw01.mediatek.com
+        (envelope-from <yee.lee@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 530296576; Tue, 14 Dec 2021 16:19:06 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 14 Dec 2021 16:19:05 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 14 Dec 2021 16:19:04 +0800
+Message-ID: <dc2fd1f8c68e78905f4242c2b530bc720b979cd8.camel@mediatek.com>
+Subject: Re: [PATCH v3 1/1] arm64/cpufeature: Optionally disable MTE via
+ command-line
+From:   Yee Lee <yee.lee@mediatek.com>
+To:     Catalin Marinas <catalin.marinas@arm.com>
+CC:     <linux-kernel@vger.kernel.org>, <nicholas.Tang@mediatek.com>,
+        <Kuan-Ying.lee@mediatek.com>, <chinwen.chang@mediatek.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        "Randy Dunlap" <rdunlap@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Maciej W. Rozycki" <macro@orcam.me.uk>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Marc Zyngier <maz@kernel.org>,
+        David Brazdil <dbrazdil@google.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Fuad Tabba <tabba@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "moderated list:ARM64 PORT (AARCH64 ARCHITECTURE)" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>
+Date:   Tue, 14 Dec 2021 16:19:05 +0800
+In-Reply-To: <YapGyozjactAm8vp@arm.com>
+References: <20210730144957.30938-1-yee.lee@mediatek.com>
+         <20210730144957.30938-2-yee.lee@mediatek.com>
+         <20210802153036.GH18685@arm.com>
+         <e055e71f0ca7bcb351b9097ba8f8f4a9d324623c.camel@mediatek.com>
+         <YapGyozjactAm8vp@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7bit
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/palmer/linux.git riscv-pmu
-head:   7a94c6fb363cfe62906cb0503d763204b0fe32b8
-commit: e4d5f33e63b1260f378512c0f6e5a117ed6b894a [4/10] RISC-V: Add a simple platform driver for RISC-V legacy perf
-config: riscv-randconfig-r042-20211213 (https://download.01.org/0day-ci/archive/20211214/202112141442.yPBMCGPB-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/palmer/linux.git/commit/?id=e4d5f33e63b1260f378512c0f6e5a117ed6b894a
-        git remote add palmer https://git.kernel.org/pub/scm/linux/kernel/git/palmer/linux.git
-        git fetch --no-tags palmer riscv-pmu
-        git checkout e4d5f33e63b1260f378512c0f6e5a117ed6b894a
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=riscv SHELL=/bin/bash drivers/perf/
+On Fri, 2021-12-03 at 16:33 +0000, Catalin Marinas wrote:
+> On Thu, Nov 25, 2021 at 06:19:29PM +0800, Yee Lee wrote:
+> > On Mon, 2021-08-02 at 16:30 +0100, Catalin Marinas wrote:
+> > > On Fri, Jul 30, 2021 at 10:49:53PM +0800, yee.lee@mediatek.com
+> > > wrote:
+> > > > From: Yee Lee <yee.lee@mediatek.com>
+> > > > 
+> > > > For some low-end devices with limited resources,
+> > > > MTE needs to be optionally disabled to save system
+> > > > costs such as tag memory and firmware controls.
+> > > 
+> > > I understand the cost of using MTE but I don't fully get what you
+> > > mean
+> > > by firmware controls. If the ID_AA64PFR1_EL1.MTE reports that MTE
+> > > is
+> > > present, the firmware should have initialised MTE correctly (e.g.
+> > > tag
+> > > allocation storage, SCR_EL3.ATA) and not rely on a kernel command
+> > > line
+> > > argument that may or may not be present.
+> > > 
+> > > > This allows ID_AA64PFR1_EL1.MTE to be overridden on 
+> > > > its shadow value by giving "arm64.nomte" on cmdline,
+> > > > and to suppress MTE feature.
+> > > > 
+> > > > Suggested-by: Marc Zyngier <maz@kernel.org>
+> > > > Suggested-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+> > > > Signed-off-by: Yee Lee <yee.lee@mediatek.com>
+> > > 
+> > > While this patch appears to disable MTE, I don't think it can
+> > > fully
+> > > prevent the access to the allocation tag storage, so the firmware
+> > > must
+> > > still initialise it correctly.
+> > > 
+> > > The issue is that __cpu_setup already configures the MAIR_EL1
+> > > register
+> > > to use Normal Tagged memory for the kernel mapping and
+> > > SCTLR_EL1.ATA is
+> > > set. The TCF field is zero, so no tag checking, but I couldn't
+> > > figure
+> > > out from the ARM ARM whether this also prevents LDR/STR from
+> > > attempting
+> > > to fetch the allocation tags. I think it's only the ATA bit and
+> > > the MAIR
+> > > configuration.
+> > > 
+> > > With this patch, KASAN_HW_TAGS (if configured) won't be used and
+> > > MTE
+> > > will not be presented to user applications, if that's what you
+> > > want, but
+> > > does not fully disable MTE.
+> > 
+> > As pointed out earlier, the hardware has been verified that still
+> > has
+> > transaction sending to DRAM due to mair_el1(Normal_tagged) is
+> > setup.  That means the override in this patch would be incompleted
+> > and
+> > cannot achieve to avoid undesired hardware confliction by disabling
+> > MTE.
+> > 
+> > Do we have other options to delay the configuration on MAIR_EL1
+> > after
+> > the override? Or maybe another CONFIG to bypass the init in
+> > __cpu_setup?
+> 
+> This register is trickier as it may be cached in the TLB (IIRC). I
+> think
+> deferring the setting of SCTLR_EL1.ATA(0) should be sufficient. Can
+> you
+> try the diff I sent in the previous email and confirm that the
+> accesses
+> to the allocation tag storage are blocked?
+> 
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Yes, the previous diff is already online. 
 
-All warnings (new ones prefixed by >>):
+In our experiment, with cmdline, "arm64.nomte", cpu_enable_mte() is
+bypassed and the ATA0 is not set, but the access to tag memory still
+dispatches. Only as MAIR_EL1 remains MAIR_ATTR_NORMAL, instead of
+MAIR_ATTR_NORMAL_TAGGED, the access will stop.
 
->> drivers/perf/riscv_pmu_legacy.c:76: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * This is just a simple implementation to allow legacy implementations
+From the manual, I think ATA only affects TAG instructions like STG,
+IRG, but not the tag access within normal STR/LDR.
 
 
-vim +76 drivers/perf/riscv_pmu_legacy.c
-
-    74	
-    75	/**
-  > 76	 * This is just a simple implementation to allow legacy implementations
-    77	 * compatible with new RISC-V PMU driver framework.
-    78	 * This driver only allows reading two counters i.e CYCLE & INSTRET.
-    79	 * However, it can not start or stop the counter. Thus, it is not very useful
-    80	 * will be removed in future.
-    81	 */
-    82	static void pmu_legacy_init(struct riscv_pmu *pmu)
-    83	{
-    84		pr_info("Legacy PMU implementation is available\n");
-    85	
-    86		pmu->num_counters = RISCV_PMU_LEGACY_NUM_CTR;
-    87		pmu->ctr_start = pmu_legacy_ctr_start;
-    88		pmu->ctr_stop = NULL;
-    89		pmu->event_map = pmu_legacy_event_map;
-    90		pmu->ctr_get_idx = pmu_legacy_ctr_get_idx;
-    91		pmu->ctr_get_width = NULL;
-    92		pmu->ctr_clear_idx = NULL;
-    93		pmu->ctr_read = pmu_legacy_read_ctr;
-    94	
-    95		perf_pmu_register(&pmu->pmu, "cpu", PERF_TYPE_RAW);
-    96	}
-    97	
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
