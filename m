@@ -2,101 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD4BDC433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 14 Dec 2021 19:32:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27CD5C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 14 Dec 2021 19:55:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237448AbhLNTcC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Dec 2021 14:32:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47792 "EHLO
+        id S231757AbhLNTzM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Dec 2021 14:55:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234350AbhLNTcA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Dec 2021 14:32:00 -0500
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62760C06173F
-        for <linux-doc@vger.kernel.org>; Tue, 14 Dec 2021 11:31:59 -0800 (PST)
-Received: by mail-lf1-x12a.google.com with SMTP id t26so38829670lfk.9
-        for <linux-doc@vger.kernel.org>; Tue, 14 Dec 2021 11:31:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sharpeleven-org.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CSsQizS2Alccn09uVVHMhRrxYpQSyu5zyJjpNQE3tlI=;
-        b=sf8PduFp6j+NjHLIpIDvQ4RC318EDH6SD3pXBY8xfLup36IkrZVN9oQ+iwUc+uldQE
-         XfARii3Mm4ENAJDWhQ2aqollunGkuGZQqDuyEhBie3Qzb4qdcwLZmMc5+0CKeFL3NiRr
-         Lm9gGApSYH53GjDTMQcbbMXqwjFAbIQtPHvpL3uo4xNqUgXY6zdIzQIl8iie1hfdPqwZ
-         lLgv3NrQA9H1tLpvfl/Ti7SwOb/pzX3wIhn6gZfUmExuxM4eZI/omnNoTvAHKthYywNU
-         s8LcP8l8Ye4ax2Vru+5+asaMOfzIr3AXQpo3D2mWkeb6a36bIyJTNPo5LqHk0KI09ETS
-         /fMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CSsQizS2Alccn09uVVHMhRrxYpQSyu5zyJjpNQE3tlI=;
-        b=OGiqWrFoP0V4gSHH+NGy6ACopvSWZw9d7SBwh6udWWW1ktH0qWueWFxSoOIgEFp6Tn
-         3iSYbKK+bkvw3LRaysHxsRE9zmLFfZAbJOjmfmLRx2k0JNc8fi0EB4PKWUVORipG0eQd
-         40Ky7cX6dF1D1wUOqxB7pcYtcH7nxyCvd9DF3P4nAnSJBYzi2tDb09i77K+HAdkAkzfo
-         2LDMigPGohSp1dBpVty3yGo+75Uc9JoUf7SFp5eOFq2rAMhTE69fI8A3BSN9ySKdV7Dm
-         yOgdkLt0shIv4OgGZ8iQqoa6ICi4/ZGgY3yX2LABdWrlXF8gMiPn/4kYp0V/7MEYoEWZ
-         gFSw==
-X-Gm-Message-State: AOAM531IImt4MbENgR6L3xiNLsTaZp2Gdq0nbNqa0wr3Sa131L4EwHIH
-        iCGcAPZKDRurWv46A/St+C0aVWgx4igaMNvaf2f6rw==
-X-Google-Smtp-Source: ABdhPJzLUx4mda4fQ7H0Ga9lBWntpZB7VpWdQX2o1dcRwm3prFV7nNv/EX6mBWmoe0www35mz1g39dVYV3eVfxoc5SQ=
-X-Received: by 2002:ac2:5499:: with SMTP id t25mr6633200lfk.674.1639510317616;
- Tue, 14 Dec 2021 11:31:57 -0800 (PST)
+        with ESMTP id S230380AbhLNTzK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Dec 2021 14:55:10 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CFA2C061574;
+        Tue, 14 Dec 2021 11:55:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=iv01Pf6xrNRqNbiIiHIBFnovLsVBu7ZpwLTFS0Q02fI=; b=Zrj5wbU0SzoFaiXAjqyfK4imuu
+        WGxMd6r5exANbz/MatXyC7/8JsmQyHFzvrh110c5ERevUEY6sFgoM5D7WleVK64TQrnuYN6lXa6n4
+        nvRF0exoUYNCOzmhPnp0mAfuODaD8aJZNG4r/o/Tv4B802LZOneEU5OAM5BxkJVYE39tKvw1nYxIs
+        LSIifhxvTKf15bDprYom2PXJHlC0YYbKmVMqmh6nCGAW53cOA0xlGui00qLgeGllCFu1n+MecSmdM
+        lcGYpidpzHagFuMAcSoKKnT2fXeJwV3UhOVHby3Q2gpF1BCjFvdG4kIqcbTCd+O7gqSmfK95PIrKi
+        GdzsonIQ==;
+Received: from [2601:1c0:6280:3f0:7629:afff:fe72:e49d]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mxDtF-00Ffi4-9i; Tue, 14 Dec 2021 19:55:09 +0000
+Subject: Re: [RFC PATCH] Remove mentions of the Trivial Patch Monkey
+To:     Miguel Ojeda <ojeda@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc:     Joe Perches <joe@perches.com>, Jiri Kosina <jikos@kernel.org>,
+        Jiri Kosina <trivial@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>
+References: <20211214191415.GA19070@kernel.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <0f74ba31-aba2-0608-b383-9ab46766485b@infradead.org>
+Date:   Tue, 14 Dec 2021 11:55:08 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20211029184500.2821444-1-mcgrof@kernel.org> <20211029184500.2821444-4-mcgrof@kernel.org>
- <Yao3vtSKBKLyQY1E@kroah.com> <YbFgaSPPw4Y3pJoB@bombadil.infradead.org>
-In-Reply-To: <YbFgaSPPw4Y3pJoB@bombadil.infradead.org>
-From:   Richard Fontana <fontana@sharpeleven.org>
-Date:   Tue, 14 Dec 2021 14:31:46 -0500
-Message-ID: <CAGT84B35yEjPxtu=cShoxCNzi8kaYDBbHDsu9-g0UhdFrCS6Lg@mail.gmail.com>
-Subject: Re: [copyleft-next] Re: [PATCH v9 3/6] selftests: add tests_sysfs module
-To:     Discussion and development of copyleft-next 
-        <copyleft-next@lists.fedorahosted.org>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Petr Mladek <pmladek@suse.com>, akpm@linux-foundation.org,
-        jeyu@kernel.org, tglx@linutronix.de, linux-kernel@vger.kernel.org,
-        rostedt@goodmis.org, shuah@kernel.org, keescook@chromium.org,
-        linux-fsdevel@vger.kernel.org, linux-spdx@vger.kernel.org,
-        tj@kernel.org, dan.j.williams@intel.com, bvanassche@acm.org,
-        linux-kselftest@vger.kernel.org, joe@perches.com,
-        linux-doc@vger.kernel.org, linux-block@vger.kernel.org,
-        minchan@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20211214191415.GA19070@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
- On Wed, Dec 8, 2021 at 8:52 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
->
-> On Fri, Dec 03, 2021 at 04:29:02PM +0100, Greg KH wrote:
-> > On Fri, Oct 29, 2021 at 11:44:57AM -0700, Luis Chamberlain wrote:
+On 12/14/21 11:14 AM, Miguel Ojeda wrote:
+> Apparently, it was decided that trivial@kernel.org
+> is no longer used.
+> 
+> Link: https://lore.kernel.org/lkml/fe86efbd-4e03-76c8-55cf-dabd33e85823@infradead.org/
+> Co-developed-by: Joe Perches <joe@perches.com>
+> Signed-off-by: Joe Perches <joe@perches.com>
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
-> > > diff --git a/lib/test_sysfs.c b/lib/test_sysfs.c
-> > > new file mode 100644
-> > > index 000000000000..2a6ec072da60
-> > > --- /dev/null
-> > > +++ b/lib/test_sysfs.c
-> > > @@ -0,0 +1,894 @@
-> > > +// SPDX-License-Identifier: GPL-2.0-or-later OR copyleft-next-0.3.1
-> >
-> > Again, sorry, but no, I am going to object to this license as you are
-> > only accessing a GPL-v2-only api.  Any other license on a file that
-> > interacts with that, especially for core stuff like testing the
-> > functionality of this code, needs to have that same license.  Sorry.
->
-> Huh? The license is GPL-v2 compatible, and when used in the kernel the
-> GPLv2 applies.
->
-> Likewise, are you taking the position that permissively licensed code,
-> say BSD or ISC licensed code, cannot use EXPORT_SYMBOL_GPL() symbols?
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-Just chiming in here, not really because of any association with the
-copyleft-next license (or GPLv2 for that matter) but because of
-general personal immersion in open source licensing. I would think
-that code interacting with a GPLv2-only api could be under any
-GPLv2-only-compatible license, such as ISC, GPLv2-or-later, or
-copyleft-next. That said, of course kernel maintainers can establish
-stricter policies around acceptable forms of licensing.
+Cc: akpm
 
-Richard
+Thanks.
+
+> ---
+> Sending this before we forget about it...
+> 
+> We may want to keep the definition of "trivial patch" somewhere else.
+> 
+>  Documentation/process/submitting-patches.rst | 19 -------------------
+>  MAINTAINERS                                  |  6 ------
+>  2 files changed, 25 deletions(-)
+> 
+> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> index 6b3aaed66fba..31ea120ce531 100644
+> --- a/Documentation/process/submitting-patches.rst
+> +++ b/Documentation/process/submitting-patches.rst
+> @@ -271,25 +271,6 @@ least a notification of the change, so that some information makes its way
+>  into the manual pages.  User-space API changes should also be copied to
+>  linux-api@vger.kernel.org.
+>  
+> -For small patches you may want to CC the Trivial Patch Monkey
+> -trivial@kernel.org which collects "trivial" patches. Have a look
+> -into the MAINTAINERS file for its current manager.
+> -
+> -Trivial patches must qualify for one of the following rules:
+> -
+> -- Spelling fixes in documentation
+> -- Spelling fixes for errors which could break :manpage:`grep(1)`
+> -- Warning fixes (cluttering with useless warnings is bad)
+> -- Compilation fixes (only if they are actually correct)
+> -- Runtime fixes (only if they actually fix things)
+> -- Removing use of deprecated functions/macros
+> -- Contact detail and documentation fixes
+> -- Non-portable code replaced by portable code (even in arch-specific,
+> -  since people copy, as long as it's trivial)
+> -- Any fix by the author/maintainer of the file (ie. patch monkey
+> -  in re-transmission mode)
+> -
+> -
+>  
+>  No MIME, no links, no compression, no attachments.  Just plain text
+>  -------------------------------------------------------------------
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 13f9a84a617e..c88bac733e9e 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -19334,12 +19334,6 @@ W:	https://github.com/srcres258/linux-doc
+>  T:	git git://github.com/srcres258/linux-doc.git doc-zh-tw
+>  F:	Documentation/translations/zh_TW/
+>  
+> -TRIVIAL PATCHES
+> -M:	Jiri Kosina <trivial@kernel.org>
+> -S:	Maintained
+> -T:	git git://git.kernel.org/pub/scm/linux/kernel/git/jikos/trivial.git
+> -K:	^Subject:.*(?i)trivial
+> -
+>  TTY LAYER
+>  M:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>  M:	Jiri Slaby <jirislaby@kernel.org>
+> 
+
+
+-- 
+~Randy
+Reported-by: Randy Dunlap <rdunlap@infradead.org>
+https://people.kernel.org/tglx/notes-about-netiquette
