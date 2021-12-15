@@ -2,207 +2,257 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 115FEC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Dec 2021 08:09:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05343C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Dec 2021 08:18:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236058AbhLOIJn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Dec 2021 03:09:43 -0500
-Received: from forward501o.mail.yandex.net ([37.140.190.203]:56330 "EHLO
-        forward501o.mail.yandex.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235661AbhLOIJn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Dec 2021 03:09:43 -0500
-X-Greylist: delayed 438 seconds by postgrey-1.27 at vger.kernel.org; Wed, 15 Dec 2021 03:09:42 EST
-Received: from sas1-369099ba34c4.qloud-c.yandex.net (sas1-369099ba34c4.qloud-c.yandex.net [IPv6:2a02:6b8:c14:3d96:0:640:3690:99ba])
-        by forward501o.mail.yandex.net (Yandex) with ESMTP id 646B845C3FB6;
-        Wed, 15 Dec 2021 11:02:18 +0300 (MSK)
-Received: from sas1-7a2c1d25dbfc.qloud-c.yandex.net (sas1-7a2c1d25dbfc.qloud-c.yandex.net [2a02:6b8:c08:c9f:0:640:7a2c:1d25])
-        by sas1-369099ba34c4.qloud-c.yandex.net (mxback/Yandex) with ESMTP id PtHqElSo2Z-2HfuGowU;
-        Wed, 15 Dec 2021 11:02:18 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maquefel.me; s=mail; t=1639555338;
-        bh=bcZSGKL367ori0UFRkqTy8+oGoWm2KH6xaqkLIRJDZg=;
-        h=In-Reply-To:Subject:To:From:References:Date:Message-ID:Cc;
-        b=hcqh8T87JyccZqYMJrd+7jEZo5+qpM4qpRnVZFUGrDCHq/ZA/Agr0vq3N0c2NwR5L
-         /pj5GAS53e5sapd9LSMTFVt2wA0HYAGJx+tNESH7z7KIgWb0yrZH0U3802B4Fk+R08
-         mz7sjIDtFfSiE3CXDmVCFioR6N9Bo46XUuVefhwo=
-Authentication-Results: sas1-369099ba34c4.qloud-c.yandex.net; dkim=pass header.i=@maquefel.me
-Received: by sas1-7a2c1d25dbfc.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA id 3cfgOP4KNN-2FPqUg6l;
-        Wed, 15 Dec 2021 11:02:15 +0300
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (Client certificate not present)
-X-Yandex-Fwd: 2
-Date:   Wed, 15 Dec 2021 11:02:14 +0300
-From:   Nikita Shubin <nikita.shubin@maquefel.me>
-To:     Atish Patra <atish.patra@wdc.com>
-Cc:     linux-kernel@vger.kernel.org, Anup Patel <anup.patel@wdc.com>,
-        David Abdurachmanov <david.abdurachmanov@sifive.com>,
-        devicetree@vger.kernel.org, Greentime Hu <greentime.hu@sifive.com>,
-        Guo Ren <guoren@linux.alibaba.com>,
-        Heinrich Schuchardt <xypron.glpk@gmx.de>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
-        Nick Kossifidis <mick@ics.forth.gr>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Vincent Chen <vincent.chen@sifive.com>
-Subject: Re: [v4 05/11] RISC-V: Add RISC-V SBI PMU extension definitions
-Message-ID: <20211215110214.62ca2474@redslave.neermore.group>
-In-Reply-To: <20211025195350.242914-6-atish.patra@wdc.com>
-References: <20211025195350.242914-1-atish.patra@wdc.com>
-        <20211025195350.242914-6-atish.patra@wdc.com>
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        id S235739AbhLOISf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Dec 2021 03:18:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49662 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235661AbhLOISf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Dec 2021 03:18:35 -0500
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AD7AC061574;
+        Wed, 15 Dec 2021 00:18:35 -0800 (PST)
+Received: by mail-pg1-x534.google.com with SMTP id k4so19570479pgb.8;
+        Wed, 15 Dec 2021 00:18:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Xvhdlym9UYRkQuYzzCb/2lwV2gQGZyhFU19sImXbCTU=;
+        b=YL5443Jp2k6o1IhYqPMU3fdsGgKF9BZajAwLU4WvsQmuyQ108b4iUrYh0bCttL1hNh
+         KDTM/ooPY1h+wWZ+eDR89qIg5oQmsZzqa/DE90+KwPHjudNNAWiyUXFzyNQ5GDhST7BJ
+         zqqLpCM77rDYqknOdYEC+fvo9UqLagqMF97lDrf5dsOkygbiuCCQmTmw70oCt/2LaMpI
+         pzSnYGTqjjDBm7z+5NS6SCTFt8fkWZVpvLbHoAaZjqQonTYYkfsBjqO2kfpNI4iPMuMS
+         EHWXHF4a21rIISfeuRxzjC7KsnSpkHvWGgPtlgxnOhEGx/n3xuhK69KO4BaRFflv407v
+         zhwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Xvhdlym9UYRkQuYzzCb/2lwV2gQGZyhFU19sImXbCTU=;
+        b=UiX+48ArsJmaz4PHReTdBqOgNH4YUV/gCdPbtyyw2CcFBizrWyA6f6Yg+HAsLU7dS4
+         zKcmD2esbMqjUc1hxO+FUZucam53q3oDi2bygxnJQQZKyEwUyY7Za/rXRjTCbBIPkFO+
+         Xw8BIvzs7OXHuxN3nLgQ1Kk04JKwphbndyl0VbBJco5gmMgH7e2d24TMDZeHhTB5Nwdp
+         rEwuW65uTD65Z7YUb6xShQCl2Ji06/uGzzCrTIrF8/qedHrY91Z3bx+ewa4crfyW5Fqh
+         KfUR6leJnmZ63nt9k7W9Wk/jmVzn+4wn9QnmVkSyZhsQ4dH3H3u/LE3WaJlsaLEhKjho
+         eSzQ==
+X-Gm-Message-State: AOAM532o40plg0DBr/or/cEpcKiSbA3pXXeC+O+D4m/aKdxdNeABozGb
+        ewZb4hSBZhTXsRR0OQL//99XD2pXFNMZBA==
+X-Google-Smtp-Source: ABdhPJxqZ0iRSFD1i/kNvr4TCHfVz+VnR/qZ3C6BJKZw5xklZm6H/Zud3XujPizn56U0smPApHbgLA==
+X-Received: by 2002:a63:5853:: with SMTP id i19mr7070012pgm.331.1639556314515;
+        Wed, 15 Dec 2021 00:18:34 -0800 (PST)
+Received: from shinobu ([37.120.154.45])
+        by smtp.gmail.com with ESMTPSA id b18sm1344254pjo.31.2021.12.15.00.18.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Dec 2021 00:18:33 -0800 (PST)
+Date:   Wed, 15 Dec 2021 17:18:26 +0900
+From:   William Breathitt Gray <vilhelm.gray@gmail.com>
+To:     Yanteng Si <siyanteng01@gmail.com>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-iio@vger.kernel.org, chenhuacai@kernel.org,
+        Yanteng Si <siyanteng@loongson.cn>
+Subject: Re: [PATCH v2] counter: Add the necessary colons and indents to the
+ comments of counter_compi
+Message-ID: <Ybmk0s47ZqpXV2xy@shinobu>
+References: <20211211115315.2255384-1-siyanteng@loongson.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="mSCeIwYAa9zXeMNZ"
+Content-Disposition: inline
+In-Reply-To: <20211211115315.2255384-1-siyanteng@loongson.cn>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Atish!
 
-On Mon, 25 Oct 2021 12:53:44 -0700
-Atish Patra <atish.patra@wdc.com> wrote:
+--mSCeIwYAa9zXeMNZ
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> This patch adds all the definitions defined by the SBI PMU extension.
-> 
-> Signed-off-by: Atish Patra <atish.patra@wdc.com>
+On Sat, Dec 11, 2021 at 07:53:15PM +0800, Yanteng Si wrote:
+> From: Yanteng Si <siyanteng01@gmail.com>
+>=20
+> Since aaec1a0f76ec ("counter: Internalize sysfs interface code") introduc=
+e a warning as:
+>=20
+> linux-next/Documentation/driver-api/generic-counter:234: ./include/linux/=
+counter.h:43: WARNING: Unexpected indentation.
+> linux-next/Documentation/driver-api/generic-counter:234: ./include/linux/=
+counter.h:45: WARNING: Block quote ends without a blank line; unexpected un=
+indent.
+>=20
+> Add the necessary colons and indents.
+>=20
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+
+Hi Yanteng,
+
+Thank you for resubmitting this patch with a reference to the commit
+that introduced the bug. I'll pick this patch up and submit it later
+with the rest of the Counter changes for this cycle.
+
+For future patches, please add information about which commit a patch
+fixes by using the Fixes tag. For example, this patch would have the
+following Fixes tag above your Signed-off-by tag.
+
+Fixes: aaec1a0f76ec ("counter: Internalize sysfs interface code")
+
+I'll add that Fixes tag for you as I pick this up so you won't need to
+resubmit this patch again. :-)
+
+Thanks,
+
+William Breathitt Gray
+
 > ---
->  arch/riscv/include/asm/sbi.h | 97
-> ++++++++++++++++++++++++++++++++++++ 1 file changed, 97 insertions(+)
-> 
-> diff --git a/arch/riscv/include/asm/sbi.h
-> b/arch/riscv/include/asm/sbi.h index 0d42693cb65e..7a14ca06ba8f 100644
-> --- a/arch/riscv/include/asm/sbi.h
-> +++ b/arch/riscv/include/asm/sbi.h
-> @@ -27,6 +27,7 @@ enum sbi_ext_id {
->  	SBI_EXT_IPI = 0x735049,
->  	SBI_EXT_RFENCE = 0x52464E43,
->  	SBI_EXT_HSM = 0x48534D,
-> +	SBI_EXT_PMU = 0x504D55,
->  };
->  
->  enum sbi_ext_base_fid {
-> @@ -70,6 +71,99 @@ enum sbi_hsm_hart_status {
->  	SBI_HSM_HART_STATUS_STOP_PENDING,
->  };
->  
-> +
-> +enum sbi_ext_pmu_fid {
-> +	SBI_EXT_PMU_NUM_COUNTERS = 0,
-> +	SBI_EXT_PMU_COUNTER_GET_INFO,
-> +	SBI_EXT_PMU_COUNTER_CFG_MATCH,
-> +	SBI_EXT_PMU_COUNTER_START,
-> +	SBI_EXT_PMU_COUNTER_STOP,
-> +	SBI_EXT_PMU_COUNTER_FW_READ,
-> +};
-> +
-> +#define RISCV_PMU_RAW_EVENT_MASK GENMASK_ULL(55, 0)
-> +#define RISCV_PMU_RAW_EVENT_IDX 0x20000
-> +
-> +/** General pmu event codes specified in SBI PMU extension */
-> +enum sbi_pmu_hw_generic_events_t {
-> +	SBI_PMU_HW_NO_EVENT			= 0,
-> +	SBI_PMU_HW_CPU_CYCLES			= 1,
-> +	SBI_PMU_HW_INSTRUCTIONS			= 2,
-> +	SBI_PMU_HW_CACHE_REFERENCES		= 3,
-> +	SBI_PMU_HW_CACHE_MISSES			= 4,
-> +	SBI_PMU_HW_BRANCH_INSTRUCTIONS		= 5,
-> +	SBI_PMU_HW_BRANCH_MISSES		= 6,
-> +	SBI_PMU_HW_BUS_CYCLES			= 7,
-> +	SBI_PMU_HW_STALLED_CYCLES_FRONTEND	= 8,
-> +	SBI_PMU_HW_STALLED_CYCLES_BACKEND	= 9,
-> +	SBI_PMU_HW_REF_CPU_CYCLES		= 10,
-> +
-> +	SBI_PMU_HW_GENERAL_MAX,
-> +};
-> +
-> +/**
-> + * Special "firmware" events provided by the firmware, even if the
-> hardware
-> + * does not support performance events. These events are encoded as
-> a raw
-> + * event type in Linux kernel perf framework.
-> + */
-> +enum sbi_pmu_fw_generic_events_t {
-> +	SBI_PMU_FW_MISALIGNED_LOAD	= 0,
-> +	SBI_PMU_FW_MISALIGNED_STORE	= 1,
-> +	SBI_PMU_FW_ACCESS_LOAD		= 2,
-> +	SBI_PMU_FW_ACCESS_STORE		= 3,
-> +	SBI_PMU_FW_ILLEGAL_INSN		= 4,
-> +	SBI_PMU_FW_SET_TIMER		= 5,
-> +	SBI_PMU_FW_IPI_SENT		= 6,
-> +	SBI_PMU_FW_IPI_RECVD		= 7,
-> +	SBI_PMU_FW_FENCE_I_SENT		= 8,
-> +	SBI_PMU_FW_FENCE_I_RECVD	= 9,
-> +	SBI_PMU_FW_SFENCE_VMA_SENT	= 10,
-> +	SBI_PMU_FW_SFENCE_VMA_RCVD	= 11,
-> +	SBI_PMU_FW_SFENCE_VMA_ASID_SENT	= 12,
-> +	SBI_PMU_FW_SFENCE_VMA_ASID_RCVD	= 13,
-> +
-> +	SBI_PMU_FW_HFENCE_GVMA_SENT	= 14,
-> +	SBI_PMU_FW_HFENCE_GVMA_RCVD	= 15,
-> +	SBI_PMU_FW_HFENCE_GVMA_VMID_SENT = 16,
-> +	SBI_PMU_FW_HFENCE_GVMA_VMID_RCVD = 17,
-> +
-> +	SBI_PMU_FW_HFENCE_VVMA_SENT	= 18,
-> +	SBI_PMU_FW_HFENCE_VVMA_RCVD	= 19,
-> +	SBI_PMU_FW_HFENCE_VVMA_ASID_SENT = 20,
-> +	SBI_PMU_FW_HFENCE_VVMA_ASID_RCVD = 21,
-> +	SBI_PMU_FW_MAX,
-> +};
-> +
-> +/* SBI PMU event types */
-> +enum sbi_pmu_event_type {
-> +	SBI_PMU_EVENT_TYPE_HW = 0x0,
-> +	SBI_PMU_EVENT_TYPE_CACHE = 0x1,
-> +	SBI_PMU_EVENT_TYPE_RAW = 0x2,
-> +	SBI_PMU_EVENT_TYPE_FW = 0xf,
-> +};
-> +
-> +/* SBI PMU event types */
-> +enum sbi_pmu_ctr_type {
-> +	SBI_PMU_CTR_TYPE_HW = 0x0,
-> +	SBI_PMU_CTR_TYPE_FW,
-> +};
-> +
-> +/* Flags defined for config matching function */
-> +#define SBI_PMU_CFG_FLAG_SKIP_MATCH	(1 << 0)
-> +#define SBI_PMU_CFG_FLAG_CLEAR_VALUE	(1 << 1)
-> +#define SBI_PMU_CFG_FLAG_AUTO_START	(1 << 2)
-> +#define SBI_PMU_CFG_FLAG_SET_MINH	(1 << 3)
-> +#define SBI_PMU_CFG_FLAG_SET_SINH	(1 << 4)
-> +#define SBI_PMU_CFG_FLAG_SET_UINH	(1 << 5)
-> +#define SBI_PMU_CFG_FLAG_SET_VSINH	(1 << 6)
-> +#define SBI_PMU_CFG_FLAG_SET_VUINH	(1 << 7)
+>  include/linux/counter.h | 40 ++++++++++++++++++++--------------------
+>  1 file changed, 20 insertions(+), 20 deletions(-)
+>=20
+> diff --git a/include/linux/counter.h b/include/linux/counter.h
+> index b7d0a00a61cf..dfbde2808998 100644
+> --- a/include/linux/counter.h
+> +++ b/include/linux/counter.h
+> @@ -38,64 +38,64 @@ enum counter_comp_type {
+>   * @type:		Counter component data type
+>   * @name:		device-specific component name
+>   * @priv:		component-relevant data
+> - * @action_read		Synapse action mode read callback. The read value of the
+> + * @action_read:		Synapse action mode read callback. The read value of t=
+he
+>   *			respective Synapse action mode should be passed back via
+>   *			the action parameter.
+> - * @device_u8_read	Device u8 component read callback. The read value of =
+the
+> + * @device_u8_read:		Device u8 component read callback. The read value o=
+f the
+>   *			respective Device u8 component should be passed back via
+>   *			the val parameter.
+> - * @count_u8_read	Count u8 component read callback. The read value of the
+> + * @count_u8_read:		Count u8 component read callback. The read value of =
+the
+>   *			respective Count u8 component should be passed back via
+>   *			the val parameter.
+> - * @signal_u8_read	Signal u8 component read callback. The read value of =
+the
+> + * @signal_u8_read:		Signal u8 component read callback. The read value o=
+f the
+>   *			respective Signal u8 component should be passed back via
+>   *			the val parameter.
+> - * @device_u32_read	Device u32 component read callback. The read value of
+> + * @device_u32_read:		Device u32 component read callback. The read value=
+ of
+>   *			the respective Device u32 component should be passed
+>   *			back via the val parameter.
+> - * @count_u32_read	Count u32 component read callback. The read value of =
+the
+> + * @count_u32_read:		Count u32 component read callback. The read value o=
+f the
+>   *			respective Count u32 component should be passed back via
+>   *			the val parameter.
+> - * @signal_u32_read	Signal u32 component read callback. The read value of
+> + * @signal_u32_read:		Signal u32 component read callback. The read value=
+ of
+>   *			the respective Signal u32 component should be passed
+>   *			back via the val parameter.
+> - * @device_u64_read	Device u64 component read callback. The read value of
+> + * @device_u64_read:		Device u64 component read callback. The read value=
+ of
+>   *			the respective Device u64 component should be passed
+>   *			back via the val parameter.
+> - * @count_u64_read	Count u64 component read callback. The read value of =
+the
+> + * @count_u64_read:		Count u64 component read callback. The read value o=
+f the
+>   *			respective Count u64 component should be passed back via
+>   *			the val parameter.
+> - * @signal_u64_read	Signal u64 component read callback. The read value of
+> + * @signal_u64_read:		Signal u64 component read callback. The read value=
+ of
+>   *			the respective Signal u64 component should be passed
+>   *			back via the val parameter.
+> - * @action_write	Synapse action mode write callback. The write value of
+> + * @action_write:		Synapse action mode write callback. The write value of
+>   *			the respective Synapse action mode is passed via the
+>   *			action parameter.
+> - * @device_u8_write	Device u8 component write callback. The write value =
+of
+> + * @device_u8_write:		Device u8 component write callback. The write valu=
+e of
+>   *			the respective Device u8 component is passed via the val
+>   *			parameter.
+> - * @count_u8_write	Count u8 component write callback. The write value of
+> + * @count_u8_write:		Count u8 component write callback. The write value =
+of
+>   *			the respective Count u8 component is passed via the val
+>   *			parameter.
+> - * @signal_u8_write	Signal u8 component write callback. The write value =
+of
+> + * @signal_u8_write:		Signal u8 component write callback. The write valu=
+e of
+>   *			the respective Signal u8 component is passed via the val
+>   *			parameter.
+> - * @device_u32_write	Device u32 component write callback. The write valu=
+e of
+> + * @device_u32_write:		Device u32 component write callback. The write va=
+lue of
+>   *			the respective Device u32 component is passed via the
+>   *			val parameter.
+> - * @count_u32_write	Count u32 component write callback. The write value =
+of
+> + * @count_u32_write:		Count u32 component write callback. The write valu=
+e of
+>   *			the respective Count u32 component is passed via the val
+>   *			parameter.
+> - * @signal_u32_write	Signal u32 component write callback. The write valu=
+e of
+> + * @signal_u32_write:		Signal u32 component write callback. The write va=
+lue of
+>   *			the respective Signal u32 component is passed via the
+>   *			val parameter.
+> - * @device_u64_write	Device u64 component write callback. The write valu=
+e of
+> + * @device_u64_write:		Device u64 component write callback. The write va=
+lue of
+>   *			the respective Device u64 component is passed via the
+>   *			val parameter.
+> - * @count_u64_write	Count u64 component write callback. The write value =
+of
+> + * @count_u64_write:		Count u64 component write callback. The write valu=
+e of
+>   *			the respective Count u64 component is passed via the val
+>   *			parameter.
+> - * @signal_u64_write	Signal u64 component write callback. The write valu=
+e of
+> + * @signal_u64_write:		Signal u64 component write callback. The write va=
+lue of
+>   *			the respective Signal u64 component is passed via the
+>   *			val parameter.
+>   */
+> --=20
+> 2.27.0
+>=20
 
-It looks like you have a typo here, the defines in OpenSBI are
-different:
+--mSCeIwYAa9zXeMNZ
+Content-Type: application/pgp-signature; name="signature.asc"
 
-#define SBI_PMU_CFG_FLAG_SET_VUINH	(1 << 3)
-#define SBI_PMU_CFG_FLAG_SET_VSINH	(1 << 4)
-#define SBI_PMU_CFG_FLAG_SET_UINH	(1 << 5)
-#define SBI_PMU_CFG_FLAG_SET_SINH	(1 << 6)
-#define SBI_PMU_CFG_FLAG_SET_MINH	(1 << 7)
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAABCgAdFiEEk5I4PDJ2w1cDf/bghvpINdm7VJIFAmG5pMcACgkQhvpINdm7
+VJL+XBAAzeoH+1oRksDolFZQ/WdMMLEDupB4IqPUWSI1vp7E04fqk7uRJLt14YWN
+/Lq/DrsXwMGfbI9TTXu7LR/faV6GfR79sktQXaTv7AXhgI1uS5DzouDWCeeTuRon
+OxavvUBcpGj/saQPoiqwaf5DYR0ddiDrjiKLONkF4hyr+8AaYek3t7c1xCHvN86D
+VuOx9EHJ0CLSYE6gFWH05STWoM0mu73MGG7hyr+DkPFJAvSg8yqbNYBFzEgzpY3k
+Fh+MvHTP1C4lW5zNDWmbHgc0MJyj89xuXHUkT+FbizFnhyvwCUcFD9CURX8ofcHj
+Pm7vGz3zFUma4r17bwUoBEt3PY8ZqNYXYgPemN1+Py8aCvAiLDu/Cf0fw03uKM+y
+7lG7uEzYmcFjP3TxWdaQUr1J9rrQWbSD4/gZVycPNm7jv45vCm9TNSEDc10Buodf
+drnoDW3l+k3lIagRzbdmDLu75UmDg3b6tacrtPvZKHi0Q4H1MuBo3bkcr9CoujLB
+u55EqJhSTiyjgpAaLo9iVt35KfmYcNFmIaBXzPKEzgqsHY6ad7s8/Lkm5TCoF46Q
+vqanIyfB7r0edHLNESB7m8DQaXoGi1TXnesXtU/pbAWRK2u2/53H7mOVDBGQjBxU
+3PSF5BZCwEluMZz1bQtg64bC5xLUP/GxHD976iL/7ktcNLCUs/M=
+=LvW/
+-----END PGP SIGNATURE-----
 
-> +
-> +/* Flags defined for counter start function */
-> +#define SBI_PMU_START_FLAG_SET_INIT_VALUE (1 << 0)
-> +
-> +/* Flags defined for counter stop function */
-> +#define SBI_PMU_STOP_FLAG_RESET (1 << 0)
-> +
->  #define SBI_SPEC_VERSION_DEFAULT	0x1
->  #define SBI_SPEC_VERSION_MAJOR_SHIFT	24
->  #define SBI_SPEC_VERSION_MAJOR_MASK	0x7f
-> @@ -82,6 +176,9 @@ enum sbi_hsm_hart_status {
->  #define SBI_ERR_INVALID_PARAM	-3
->  #define SBI_ERR_DENIED		-4
->  #define SBI_ERR_INVALID_ADDRESS	-5
-> +#define SBI_ERR_ALREADY_AVAILABLE -6
-> +#define SBI_ERR_ALREADY_STARTED -7
-> +#define SBI_ERR_ALREADY_STOPPED -8
->  
->  extern unsigned long sbi_spec_version;
->  struct sbiret {
-
+--mSCeIwYAa9zXeMNZ--
