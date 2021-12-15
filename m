@@ -2,90 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1E72C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Dec 2021 10:36:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25437C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Dec 2021 11:01:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241699AbhLOKgd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Dec 2021 05:36:33 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29]:39474 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236385AbhLOKgd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Dec 2021 05:36:33 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        id S236676AbhLOLBN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Dec 2021 06:01:13 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:51444 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233928AbhLOLBL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Dec 2021 06:01:11 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id B842C1F39F;
-        Wed, 15 Dec 2021 10:36:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1639564591; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=/aPaR9Uw4ulAkIgHecWl2en5QXeWEK3aOB4cy3NVwDI=;
-        b=N0Oi6iG4jR1Ii/2w8VZGdDCkCls7BxgRGgpITtz5WTEMqIEVtEn64XU5QoylIR/K2x/31p
-        dRUkaE8ntIn9pTwzN1kEQ9S+rdhVnK7upRk8kdKOg/KeAaBeb/daspbclQWbET4VvGyatI
-        iuTmVTTFyDVEZ/YCPSS9aAkJG5W4m/0=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 85BE613B1C;
-        Wed, 15 Dec 2021 10:36:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id /RwjIC/FuWHZdAAAMHmgww
-        (envelope-from <mkoutny@suse.com>); Wed, 15 Dec 2021 10:36:31 +0000
-Date:   Wed, 15 Dec 2021 11:36:29 +0100
-From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>
-Subject: Re: [PATCH v9 2/7] cgroup/cpuset: Allow no-task partition to have
- empty cpuset.cpus.effective
-Message-ID: <20211215103629.GA25459@blackbody.suse.cz>
-References: <20211205183220.818872-1-longman@redhat.com>
- <20211205183220.818872-3-longman@redhat.com>
- <Ybew7d2oE2gLcLNO@slm.duckdns.org>
- <810204ce-7967-e470-1267-7c3cfb521c89@redhat.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4FE7C6189F;
+        Wed, 15 Dec 2021 11:01:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E79F5C34605;
+        Wed, 15 Dec 2021 11:01:06 +0000 (UTC)
+Date:   Wed, 15 Dec 2021 11:01:03 +0000
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Baoquan He <bhe@redhat.com>
+Cc:     Borislav Petkov <bp@alien8.de>,
+        Zhen Lei <thunder.leizhen@huawei.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
+        Dave Young <dyoung@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        kexec@lists.infradead.org, Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>
+Subject: Re: [PATCH v17 02/10] x86: kdump: make the lower bound of crash
+ kernel reservation consistent
+Message-ID: <YbnK79c0YokJ1ahu@arm.com>
+References: <20211210065533.2023-1-thunder.leizhen@huawei.com>
+ <20211210065533.2023-3-thunder.leizhen@huawei.com>
+ <YbjrjpehprvoRXbV@zn.tnic>
+ <YbjvXl51hc6GZa71@arm.com>
+ <20211215034219.GB10336@MiWiFi-R3L-srv>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <810204ce-7967-e470-1267-7c3cfb521c89@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20211215034219.GB10336@MiWiFi-R3L-srv>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 14, 2021 at 10:24:22PM -0500, Waiman Long <longman@redhat.com> wrote:
-> AFAICS, there are code in cpuset.c that disallows the an non-child node to
-> hold tasks, but the check doesn't cover all the possible cases.
-> I remembered that I was able to create such a scenario without using
-> threaded domains.
+On Wed, Dec 15, 2021 at 11:42:19AM +0800, Baoquan He wrote:
+> On 12/14/21 at 07:24pm, Catalin Marinas wrote:
+> > On Tue, Dec 14, 2021 at 08:07:58PM +0100, Borislav Petkov wrote:
+> > > On Fri, Dec 10, 2021 at 02:55:25PM +0800, Zhen Lei wrote:
+> > > > From: Chen Zhou <chenzhou10@huawei.com>
+> > > > 
+> > > > The lower bounds of crash kernel reservation and crash kernel low
+> > > > reservation are different, use the consistent value CRASH_ALIGN.
+> > > 
+> > > A big WHY is missing here to explain why the lower bound of the
+> > > allocation range needs to be 16M and why was 0 wrong?
+> > 
+> > I asked the same here:
+> > 
+> > https://lore.kernel.org/r/20210224143547.GB28965@arm.com
+> > 
+> > IIRC Baoquan said that there is a 1MB reserved for x86 anyway in the
+> > lower part, so that's equivalent in practice to starting from
+> > CRASH_ALIGN.
+> 
+> Yeah, even for i386, there's area reserved by BIOS inside low 1M.
+> Considering the existing alignment CRASH_ALIGN which is 16M, we
+> definitely have no chance to get memory starting from 0. So starting
+> from 16M can skip the useless memblock searching, and make the
+> crashkernel low reservation consisten with crashkernel reservation on
+> allocation code.
 
-On the default hierarchy (with controller(s) enabled)? That sounds like a bug.
+That's the x86 assumption. Is it valid for other architectures once the
+code has been made generic in patch 6? It should be ok for arm64, RAM
+tends to start from higher up but other architectures may start using
+this common code.
 
-> That is why I put in this conditional check. It has nothing to do with the
-> use of threaded domains.
+If you want to keep the same semantics as before, just leave it as 0.
+It's not that the additional lower bound makes the search slower.
 
-But threaded domains are important nevertheless.
-I think that a structure like
-
-	app-cgroup	cgroup.type=threaded domain	cpuset.partition=root
-	`- rt		cgroup.type=threaded		cpuset.partition=isolated
-	`- normal	cgroup.type=threaded
-
-is a valid use case. Therefore I would not disallow partitioning inside
-threaded subtrees (as suggested).
-
-
-Michal
+-- 
+Catalin
