@@ -2,56 +2,48 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCAEAC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Dec 2021 18:36:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB886C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Dec 2021 18:55:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238847AbhLOSgB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Dec 2021 13:36:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52530 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234977AbhLOSgA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Dec 2021 13:36:00 -0500
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D416C061574;
-        Wed, 15 Dec 2021 10:36:00 -0800 (PST)
-Received: by mail-pl1-x62f.google.com with SMTP id k4so17230280plx.8;
-        Wed, 15 Dec 2021 10:36:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=sphiaH5KnmKIhXvaCjxOtnGbcU9KdLom7iLRZ9t9/OM=;
-        b=OXZjFnMocX9uFmrlxixUhWGpHHaV1MbVgChhnY+iiHKbnMpZ0x8KzP0FsxC/s3DdzE
-         87++rrRG6KT0U4LWdkSCOtxJM2j7wSBBmHZ0+K0xnPSB5OHqh2JPdigZr/qy9dtPzF4B
-         pInBtHxZRy3a1+i8e8PAXoKVzDnPlgpSk+yt+TNL6jo1J15RfbGN/iCT6JhBEgiNclJO
-         lTltrL5JttU8S/fKw10ua4K2exbyUUK9nf7jI95EVoSTx3yrW7RJ2rjgjZCpDLquVgfr
-         G3EcqsbIAMBt5nVaGPyof3u5uwik8+RkIw5Rlk8q/CaO1/9ZmU9k7aJHOWcpyhqZwccf
-         J9aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=sphiaH5KnmKIhXvaCjxOtnGbcU9KdLom7iLRZ9t9/OM=;
-        b=uSK/ECtNbgsp4IW9GfBqiAIKGmLXel5yD28l4bduANcFRSnWmTHaCQ2E5QbesEHMCX
-         WIbeuews4FadEUpwTvDC4zrDI5UaSfcAS+GdBD1ytygGObTfuJnVckP0/YLLz3bhI/cW
-         9APq+r/owdduzmfRFeLkfNKiRMB9LCPW5ZJF08Sxp+upD4oYFLfmjvRV7ydvEoyi4Ba3
-         dulRUn6CaJFl4FobKwWemxKR2Md1i9Cb0tFxklvmS7ipK5ERbAFYh99+siJGUmiUIoXQ
-         sQZgWodj/XwMzGeJxoUu8kHz+g13cZVu6UHC6lF7PWP2vjkxtOaYYVk0+HcrM9Zx6cQU
-         JGtg==
-X-Gm-Message-State: AOAM531Pa/i2U5SPKa4nbUB3W8gRNSoNniSqtX3RxKkqtJDEcIkoSyo2
-        kasz45+d3/5f7V9bcght7MQ=
-X-Google-Smtp-Source: ABdhPJyL6Wkm4KA6qbSocm0ua0cPJ9+qzrvLwZOXFLvtrd9hkLMwJtTDyqJpalhD0xhoGuErm7IOig==
-X-Received: by 2002:a17:90b:798:: with SMTP id l24mr1215540pjz.122.1639593359900;
-        Wed, 15 Dec 2021 10:35:59 -0800 (PST)
-Received: from localhost (2603-800c-1a02-1bae-e24f-43ff-fee6-449f.res6.spectrum.com. [2603:800c:1a02:1bae:e24f:43ff:fee6:449f])
-        by smtp.gmail.com with ESMTPSA id nv17sm6501515pjb.55.2021.12.15.10.35.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Dec 2021 10:35:59 -0800 (PST)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Wed, 15 Dec 2021 08:35:58 -1000
-From:   Tejun Heo <tj@kernel.org>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+        id S1344089AbhLOSzi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Dec 2021 13:55:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35469 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1344088AbhLOSzY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Dec 2021 13:55:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1639594524;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=6p2PMg3IHKSv9HJVSyU/jUSPqlHttS0kc0XgSmw+DTI=;
+        b=hl8IHaQd9bZP2SgU4MwkYatpzh7ljsg6o+kc2/XV54qMuzRAVvnbs+rZMUzDiOEj+ZJODV
+        wlMEtnJmgoLabR510J7AqF4zalWRBcuZLf3A9bRS+tYXcqTvHW+6f/O6Et8BUlJuOt4BMl
+        ze7Boljjy0H+LQQmyMwnxu6K9Oy31Fw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-45-eLARbfoFMtubSfuCb0DIwQ-1; Wed, 15 Dec 2021 13:55:21 -0500
+X-MC-Unique: eLARbfoFMtubSfuCb0DIwQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65A3C92502;
+        Wed, 15 Dec 2021 18:55:18 +0000 (UTC)
+Received: from [10.22.10.54] (unknown [10.22.10.54])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 1357A19D9B;
+        Wed, 15 Dec 2021 18:55:05 +0000 (UTC)
+Message-ID: <58c06961-ffc4-27d7-01d2-4c91b0c9161d@redhat.com>
+Date:   Wed, 15 Dec 2021 13:55:05 -0500
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v9 6/7] cgroup/cpuset: Update description of
+ cpuset.cpus.partition in cgroup-v2.rst
+Content-Language: en-US
+To:     Tejun Heo <tj@kernel.org>
+Cc:     =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
         Zefan Li <lizefan.x@bytedance.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -64,48 +56,54 @@ Cc:     Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
         Juri Lelli <juri.lelli@redhat.com>,
         Frederic Weisbecker <frederic@kernel.org>,
         Marcelo Tosatti <mtosatti@redhat.com>
-Subject: Re: [PATCH v9 6/7] cgroup/cpuset: Update description of
- cpuset.cpus.partition in cgroup-v2.rst
-Message-ID: <Ybo1jmNvM6sblcJq@slm.duckdns.org>
 References: <20211205183220.818872-1-longman@redhat.com>
  <20211205183220.818872-7-longman@redhat.com>
- <Ybe0YWEo7Wp7wib9@slm.duckdns.org>
- <20211215144450.GC25459@blackbody.suse.cz>
+ <Ybe0YWEo7Wp7wib9@slm.duckdns.org> <20211215144450.GC25459@blackbody.suse.cz>
  <96018978-6b7f-1e7f-1012-9df7f7996ec5@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <96018978-6b7f-1e7f-1012-9df7f7996ec5@redhat.com>
+ <Ybo1jmNvM6sblcJq@slm.duckdns.org>
+From:   Waiman Long <longman@redhat.com>
+In-Reply-To: <Ybo1jmNvM6sblcJq@slm.duckdns.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello, Waiman.
+On 12/15/21 13:35, Tejun Heo wrote:
+> Hello, Waiman.
+>
+> On Wed, Dec 15, 2021 at 01:16:43PM -0500, Waiman Long wrote:
+>> Allowing direct transition from member to invalid partition doesn't feel
+>> right for me. A casual user may assume a partition is correctly formed
+>> without double checking the "cpuset.partition" value. Returning an error
+>> will prevent this kind of issue. If returning more information about the
+>> failure is the main reason for allowing the invalid partition transition, we
+>> can extend the "cpuset.partition" read syntax to also show the reason for
+>> the previous failure.
+> I don't think it's a good idea to display error messages without a way to
+> link the error to the one who triggered it. This is the same problem we had
+> with resettable counters. It only works for scenarios where one guy is
+> sitting in front of the computer but gets nastry for more complex scnearios
+> and automation.
+Yes, I agree it is not a good way to handle this issue.
+>
+> I understand that allowing transitions to invalid state can feel jarring.
+> There are pros and cons to both approaches. It's similar dynamics tho.
+> Erroring out may be more intuitive for a casual user but makes it harder for
+> more complex scenarios because whether a given operation errors or not is
+> dependent on external asynchronous states, there's no good way of reporting
+> the exact nature of the error or detecting when the operation would succeed
+> in the future, and the error conditions are rather arbitrary.
 
-On Wed, Dec 15, 2021 at 01:16:43PM -0500, Waiman Long wrote:
-> Allowing direct transition from member to invalid partition doesn't feel
-> right for me. A casual user may assume a partition is correctly formed
-> without double checking the "cpuset.partition" value. Returning an error
-> will prevent this kind of issue. If returning more information about the
-> failure is the main reason for allowing the invalid partition transition, we
-> can extend the "cpuset.partition" read syntax to also show the reason for
-> the previous failure.
+Thanks for the explanation. Yes, there are always pros and cons for 
+different approach to a problem. I am not totally against allowing 
+member to invalid partition transition. In that case, reading back 
+"cpuset.partition" is a must to verify that it is really a success.
 
-I don't think it's a good idea to display error messages without a way to
-link the error to the one who triggered it. This is the same problem we had
-with resettable counters. It only works for scenarios where one guy is
-sitting in front of the computer but gets nastry for more complex scnearios
-and automation.
+How about we allow transition to an invalid partition state but still 
+return an error?
 
-I understand that allowing transitions to invalid state can feel jarring.
-There are pros and cons to both approaches. It's similar dynamics tho.
-Erroring out may be more intuitive for a casual user but makes it harder for
-more complex scenarios because whether a given operation errors or not is
-dependent on external asynchronous states, there's no good way of reporting
-the exact nature of the error or detecting when the operation would succeed
-in the future, and the error conditions are rather arbitrary.
+Regards,
+Longman
 
-Thanks.
-
--- 
-tejun
