@@ -2,77 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3C3DC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Dec 2021 13:28:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 006BDC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Dec 2021 14:44:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242841AbhLON2j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Dec 2021 08:28:39 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:55564 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S242840AbhLON2i (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 15 Dec 2021 08:28:38 -0500
-Received: from zn.tnic (dslb-088-067-202-008.088.067.pools.vodafone-ip.de [88.67.202.8])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S230380AbhLOOoy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Dec 2021 09:44:54 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:41970 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229878AbhLOOox (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Dec 2021 09:44:53 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 9EC541EC02AD;
-        Wed, 15 Dec 2021 14:28:32 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1639574912;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=DBsGJHg+XHDclwUguSafgVP2O7oEz3xCwX1JpFporFo=;
-        b=efq/myXT0PhxslOsyt7D50KCthcaBb1BTRG+wbhQdB4fq255OTyMxBX2CYEIe1Hys9KrJ6
-        Ba0vLyDN6/QzrkVNVuZOlrfB1yXYWy+uWwRslC/y7O2nigSQl5YhIZOVYz8zH9Fts7tRoK
-        kzLOqLp+FoDdAlVRDOxcwIRE8WWarVI=
-Date:   Wed, 15 Dec 2021 14:28:22 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Zhen Lei <thunder.leizhen@huawei.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
-        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        kexec@lists.infradead.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>
-Subject: Re: [PATCH v17 03/10] x86: kdump: use macro CRASH_ADDR_LOW_MAX in
- functions reserve_crashkernel()
-Message-ID: <YbntdtQo2jfbO4cO@zn.tnic>
-References: <20211210065533.2023-1-thunder.leizhen@huawei.com>
- <20211210065533.2023-4-thunder.leizhen@huawei.com>
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 868EF1F3CB;
+        Wed, 15 Dec 2021 14:44:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1639579492; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=L+FwlFr7sookecjc9+Z4KJH3P8puADKn4avrNKuh3fg=;
+        b=V2YNGn1ryxEnaOg+uqD0czIqum5A+yvyyOQF3/o+zFpawFNR+AbAXZhquxTqZxu3w7E5n2
+        F0ottN2Pw6JXwcZNGP9VFmAgQ2j6z7rsoVTVmkKucdC1IAv+nbmrE/aj9oaCO4INsLri9u
+        /mi/m484fVNsR3E1xOvslXFMEQJcp6I=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4FE231330B;
+        Wed, 15 Dec 2021 14:44:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id JkXhEmT/uWHWcAAAMHmgww
+        (envelope-from <mkoutny@suse.com>); Wed, 15 Dec 2021 14:44:52 +0000
+Date:   Wed, 15 Dec 2021 15:44:51 +0100
+From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+To:     Tejun Heo <tj@kernel.org>
+Cc:     Waiman Long <longman@redhat.com>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>
+Subject: Re: [PATCH v9 6/7] cgroup/cpuset: Update description of
+ cpuset.cpus.partition in cgroup-v2.rst
+Message-ID: <20211215144450.GC25459@blackbody.suse.cz>
+References: <20211205183220.818872-1-longman@redhat.com>
+ <20211205183220.818872-7-longman@redhat.com>
+ <Ybe0YWEo7Wp7wib9@slm.duckdns.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211210065533.2023-4-thunder.leizhen@huawei.com>
+In-Reply-To: <Ybe0YWEo7Wp7wib9@slm.duckdns.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 10, 2021 at 02:55:26PM +0800, Zhen Lei wrote:
-> @@ -518,7 +519,7 @@ static void __init reserve_crashkernel(void)
->  		}
->  	}
->  
-> -	if (crash_base >= (1ULL << 32) && reserve_crashkernel_low()) {
-> +	if (crash_base >= CRASH_ADDR_LOW_MAX && reserve_crashkernel_low()) {
->  		memblock_phys_free(crash_base, crash_size);
->  		return;
->  	}
+On Mon, Dec 13, 2021 at 11:00:17AM -1000, Tejun Heo <tj@kernel.org> wrote:
+> * When a valid partition turns invalid, now we have a reliable way of
+>   discovering what exactly caused the transition. However, when a user now
+>   fails to turn a member into partition, all they get is -EINVAL and there's
+>   no way to discover why it failed and the failure conditions that -EINVAL
+>   represents aren't simple.
+> 
+> * In an automated configuration scenarios, this operation mode may be
+>   difficult to make reliable and lead to sporadic failures which can be
+>   tricky to track down. The core problem is that whether a given operation
+>   succeeds or not may depend on external states (CPU on/offline) which may
+>   change asynchronously in a way that the configuring entity doesn't have
+>   any control over.
+> 
+> It's true that both are existing problems with the current partition
+> interface and given that this is a pretty spcialized feature, this can be
+> okay. Michal, what are your thoughts?
 
-That's not a equivalent transformation on X86_32.
+Because of asynchronous changes, the return value should not be that
+important and the user should watch cpuset.partitions for the result
+(end state) anyway.
+Furthermore, the reasons should be IMO just informative (i.e. I like
+they're not explicitly documented) and not API.
 
--- 
-Regards/Gruss,
-    Boris.
+But I see there could be a distinction between -EINVAL (the supplied
+input makes no sense) and -EAGAIN(?) denoting that the switch to
+partition root could not happen (due to outer constraints).
 
-https://people.kernel.org/tglx/notes-about-netiquette
+You seem to propose to replace the -EAGAIN above with a success code and
+allow the switch to an invalid root.
+The action of the configuring entity would be different: retry (when?)
+vs wait till transition happens (notification) (although the immediate
+effect (the change did not happen) is same).
+I considered the two variants equal but the clear information about when
+the change can happen I'd favor the variant allowing the switch to
+invalid root now.
+
+
+Michal
