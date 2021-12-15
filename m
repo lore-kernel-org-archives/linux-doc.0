@@ -2,115 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A478CC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Dec 2021 11:46:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D49C5C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Dec 2021 11:47:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230037AbhLOLqC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Dec 2021 06:46:02 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:16816 "EHLO
-        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236943AbhLOLqB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Dec 2021 06:46:01 -0500
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.53])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JDYMZ23lHz91N9;
-        Wed, 15 Dec 2021 19:45:14 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Wed, 15 Dec 2021 19:45:58 +0800
-Received: from [10.174.178.55] (10.174.178.55) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Wed, 15 Dec 2021 19:45:57 +0800
-Subject: Re: [PATCH v17 02/10] x86: kdump: make the lower bound of crash
- kernel reservation consistent
-To:     Baoquan He <bhe@redhat.com>,
-        Catalin Marinas <catalin.marinas@arm.com>
-CC:     Borislav Petkov <bp@alien8.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Ingo Molnar" <mingo@redhat.com>, <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>, <linux-kernel@vger.kernel.org>,
-        Dave Young <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        <kexec@lists.infradead.org>, Will Deacon <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        <devicetree@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        "Chen Zhou" <dingguo.cz@antgroup.com>
-References: <20211210065533.2023-1-thunder.leizhen@huawei.com>
- <20211210065533.2023-3-thunder.leizhen@huawei.com> <YbjrjpehprvoRXbV@zn.tnic>
- <YbjvXl51hc6GZa71@arm.com> <20211215034219.GB10336@MiWiFi-R3L-srv>
- <YbnK79c0YokJ1ahu@arm.com> <20211215111643.GF3023@MiWiFi-R3L-srv>
-From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Message-ID: <b947e66b-1a23-9095-08c1-439e6c70d191@huawei.com>
-Date:   Wed, 15 Dec 2021 19:45:46 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S234145AbhLOLrH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Dec 2021 06:47:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41132 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242205AbhLOLq6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Dec 2021 06:46:58 -0500
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C910C061574
+        for <linux-doc@vger.kernel.org>; Wed, 15 Dec 2021 03:46:58 -0800 (PST)
+Received: by mail-pj1-x1031.google.com with SMTP id np6-20020a17090b4c4600b001a90b011e06so18923755pjb.5
+        for <linux-doc@vger.kernel.org>; Wed, 15 Dec 2021 03:46:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:cc:references:subject:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=qifCQplKpi5wThtiYWvIQIM1UFUZ7s2V3qvlHgTq3Wg=;
+        b=FaIX8FKOHOyopLeHCLnG3Z4pzxYuf5YIKReWrBlrMRRcowLpx/3JXk3nCR8eL4hXl0
+         e0zxmh3EcpMe/HZMR2DQkRZ28cpQPXDOXsfbPVHwPmT8u13QAgPwO01wikYzoS5uJ64T
+         Oe8hEwn/vRy/FMYerXGkZYUCDOufbfiduLg7Jt8Nsoa3T9+YSvEzn5UZ1KTmAEyFw5TO
+         pQGJXtXIhVDbFBjFu92xZerSnJwURLEPtvoSVy4Wi/Pdjg58kMU0v+cBP3M+sQ/ZN0mH
+         8Z/m7Rwjbvn/QrGqX10H8Ft3AxgHbyzt7WCtETHQrArEgO4UZIBOUHt+z0RT3h3ixTFT
+         hCrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:to:cc:references:subject:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=qifCQplKpi5wThtiYWvIQIM1UFUZ7s2V3qvlHgTq3Wg=;
+        b=4RJFuFgrDVJTj6E8VwQvp9eqDCf9q5s+jiUNF6ZX7RsTNU3cNnm32sC15ZAJO1B41n
+         805DnIRPd+4eztfCKLZD8WoFo32/Qn8OzJhsVO08cPjVPnYo349xG7xX4L/6bKdM6s9K
+         PrdKK99dLb7fxVnQsOOyKCKoPdKYGDgrxGlt8Oj5XXCoiOdnPWpcQ968i19m49+gmsCG
+         cvXSMbmF2i2bvEDfn78xeAJSIXcFFG/CAhy0lljs7//Row+Ye8KMxuhDP0BzUf6/RaJa
+         tSWelj1tlwhBQnswqVAWnakJsnOkAzKlcXkwchxee4m4tLbse2Q29NP9Ji4Mgt9cFQ+1
+         AnTw==
+X-Gm-Message-State: AOAM530ymYpVE7NxbQOEtaLYoelMrgP5yHhDu1mki5OjbzlKW5saa9VF
+        B9Cfqy3BchnDTihjVCIRfd4=
+X-Google-Smtp-Source: ABdhPJyK2IpxklKEcAGWUyZRhELKW71Y4IJTFTxyqMgQcuxzI5QGt2eAP6utYVZu4vQnF9y+hUk2tg==
+X-Received: by 2002:a17:90a:1b26:: with SMTP id q35mr11141976pjq.212.1639568817715;
+        Wed, 15 Dec 2021 03:46:57 -0800 (PST)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id rj5sm2094994pjb.14.2021.12.15.03.46.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Dec 2021 03:46:57 -0800 (PST)
+To:     Tang Yizhou <tangyizhou@huawei.com>
+Cc:     alexs@kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org,
+        seakeel@gmail.com, siyanteng01@gmail.com, siyanteng@loongson.cn,
+        tangyeechou@gmail.com, zhengbin13@huawei.com
+References: <ae8d297b-896c-a6b3-b5f4-6cb48223e814@huawei.com>
+Subject: Re: [PATCH] docs/zh_CN: Add cputopology Chinese translation
+From:   Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <5a803a84-5e37-83ae-70b6-d913f703dffb@gmail.com>
+Date:   Wed, 15 Dec 2021 20:46:53 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211215111643.GF3023@MiWiFi-R3L-srv>
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <ae8d297b-896c-a6b3-b5f4-6cb48223e814@huawei.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.178.55]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi,
 
+On Wed, 15 Dec 2021 10:12:34 +0800, Tang Yizhou wrote:
+> On 2021/12/15 10:29, Tang Yizhou wrote:
+>> Translate admin-guide/cputopology.rst into Chinese.
+>>=20
+>> Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
+>> ---
+>>  .../zh_CN/admin-guide/cputopology.rst         | 94 ++++++++++++++++++=
++
+>>  .../translations/zh_CN/admin-guide/index.rst  |  2 +-
+>>  2 files changed, 95 insertions(+), 1 deletion(-)
+>>  create mode 100644 Documentation/translations/zh_CN/admin-guide/cputo=
+pology.rst
+>>=20
+[...]
+>> +
+>> +    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +    kernel_max: =E5=86=85=E6=A0=B8=E9=85=8D=E7=BD=AE=E5=85=81=E8=AE=B8=
+=E7=9A=84=E6=9C=80=E5=A4=A7CPU=E4=B8=8B=E6=A0=87=E5=80=BC=E3=80=82[NR_CPU=
+S-1]
+>> +
+>> +    offline:    =E7=94=B1=E4=BA=8E=E7=83=AD=E6=8F=92=E6=8B=94=E7=A7=BB=
+=E9=99=A4=E6=88=96=E8=80=85=E8=B6=85=E8=BF=87=E5=86=85=E6=A0=B8=E5=85=81=E8=
+=AE=B8=E7=9A=84CPU=E4=B8=8A=E9=99=90=EF=BC=88=E4=B8=8A=E6=96=87=E6=8F=8F=E8=
+=BF=B0=E7=9A=84kernel_max=EF=BC=89=E5=AF=BC=E8=87=B4=E6=9C=AA=E4=B8=8A=E7=
+=BA=BF=E7=9A=84CPU=E3=80=82[~cpu_online_mask + cpus >=3D NR_CPUS]
+>=20
+> Here is an example of poor Chinese support. If a line break is made her=
+e,
+> *make htmldocs* warns 'Malformed table'.
 
-On 2021/12/15 19:16, Baoquan He wrote:
-> On 12/15/21 at 11:01am, Catalin Marinas wrote:
->> On Wed, Dec 15, 2021 at 11:42:19AM +0800, Baoquan He wrote:
->>> On 12/14/21 at 07:24pm, Catalin Marinas wrote:
->>>> On Tue, Dec 14, 2021 at 08:07:58PM +0100, Borislav Petkov wrote:
->>>>> On Fri, Dec 10, 2021 at 02:55:25PM +0800, Zhen Lei wrote:
->>>>>> From: Chen Zhou <chenzhou10@huawei.com>
->>>>>>
->>>>>> The lower bounds of crash kernel reservation and crash kernel low
->>>>>> reservation are different, use the consistent value CRASH_ALIGN.
->>>>>
->>>>> A big WHY is missing here to explain why the lower bound of the
->>>>> allocation range needs to be 16M and why was 0 wrong?
->>>>
->>>> I asked the same here:
->>>>
->>>> https://lore.kernel.org/r/20210224143547.GB28965@arm.com
->>>>
->>>> IIRC Baoquan said that there is a 1MB reserved for x86 anyway in the
->>>> lower part, so that's equivalent in practice to starting from
->>>> CRASH_ALIGN.
->>>
->>> Yeah, even for i386, there's area reserved by BIOS inside low 1M.
->>> Considering the existing alignment CRASH_ALIGN which is 16M, we
->>> definitely have no chance to get memory starting from 0. So starting
->>> from 16M can skip the useless memblock searching, and make the
->>> crashkernel low reservation consisten with crashkernel reservation on
->>> allocation code.
->>
->> That's the x86 assumption. Is it valid for other architectures once the
->> code has been made generic in patch 6? It should be ok for arm64, RAM
->> tends to start from higher up but other architectures may start using
->> this common code.
-> 
-> Good point. I didn't think of this from generic code side, then let's
-> keep it as 0.
-> 
->>
->> If you want to keep the same semantics as before, just leave it as 0.
->> It's not that the additional lower bound makes the search slower.
-> 
-> Agree.
+Just out of curiosity, but I don't think such a line break can
+be flagged as 'Malformed table'.
 
-OK, I will drop this patch.
+Can you share the version of the table "make htmldocs" complained?
 
-> 
-> .
-> 
+I'm suspecting Sphinx might be confused by the widths of UTF-8
+encoded characters/punctuations.
+
+        Thanks, Akira
+
+>=20
+> Meanwhile, the number of '=3D' can be inconsistent with the number of C=
+hinese
+> chars and there won't be any warnings. I've already checked the HTML pa=
+ge,
+> the rendering effect is OK.
+>=20
+> Tang
+
