@@ -2,98 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46E06C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Dec 2021 05:40:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B86BC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Dec 2021 06:01:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235714AbhLOFk6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Dec 2021 00:40:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42504 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235611AbhLOFk6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Dec 2021 00:40:58 -0500
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03E0AC061574;
-        Tue, 14 Dec 2021 21:40:58 -0800 (PST)
-Received: by mail-pl1-x633.google.com with SMTP id n8so15482971plf.4;
-        Tue, 14 Dec 2021 21:40:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kjNCbNe58uR7WK7clmqj8tgvXMlbRh3fhjB+Aq/w/qw=;
-        b=LuWODWD7brLyz/Zz4yk3ZKU/s2UPMR5QdEoSl+TlDVe4mppMzlFLrxJLR4vvoXEto0
-         QvqbSAyJZUDRcY2x7/is1NF9iapGVcS7qRxioiS0RWLqqGZEzFSU2BVPPDjpY422UAvl
-         rASxNP1kNUPsFFtJH044Q2TLaCQZvCENVU41jJNFSFYH8U65h1Chtjxgezk1sY576o+D
-         5GHAH3/nscKhgGQvBOy4aYyUbSRpWwGLwNYY9Hv/xfnuQetKmwvkLflPPBf9UjiOfBcF
-         YLcCUPHrg1vKDJ8A3zp8U9guI3t77LCHXebPnKRpOIzGlcV14L0VajWCOU+Ggn6xckuR
-         XXug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kjNCbNe58uR7WK7clmqj8tgvXMlbRh3fhjB+Aq/w/qw=;
-        b=GbmN0iTMLaJXQedL3whzidnhMu4rn4E/YfF2nn0O4nXCNTXuxocDWmxsFog2AbohZZ
-         4RBY7pYGGv9WzKB7QK/sEtYMATa5SIRi+ucDsEN0cNW9sqPwbOcrC1I2kurqeimeCF1m
-         DfZQIVuzRoEWBE6jORF5GzkCxPEsXkiWftKXyV//5LS8h1kuLrd36lAk/seipaMubt16
-         fiK3KIXxMDiFp3YKLShGeEcBNG/pATbWy2DKJa1J64llfvmsEvVjzf3Hv0dTZJathpLx
-         kaM2N4La8Uck5Wab9yM7dTw/uVIyHrbqkheWLKGKV8vavJQBJW1v9KJOIKzKT5FytWnI
-         jd4g==
-X-Gm-Message-State: AOAM532pzy1Afwp/R2xjLzmij7726BjBBw8bp64T0OnNNfZofidg/IKv
-        pWKITPmirjKN9QpGvYPJr0BJ4fAsH/+b/wG2Keg84xNthjA=
-X-Google-Smtp-Source: ABdhPJxm8eM6TyZAxK2eNHRGWdkpzEGPze/xftSE032sJeFIafjR0E1Shkh7bi2j9rSZNx5+W05zieudyOO/JDkne1Y=
-X-Received: by 2002:a17:90b:4c03:: with SMTP id na3mr9954036pjb.62.1639546857494;
- Tue, 14 Dec 2021 21:40:57 -0800 (PST)
+        id S240031AbhLOGBi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Dec 2021 01:01:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36262 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S240026AbhLOGBg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Dec 2021 01:01:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1639548095;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=73iEIcHZfp/hxpsZzjQwyhoXlM1HDhnt+pSbJnf/ub4=;
+        b=GcDkb1o5Mjy16eR0C3ZfgV9fdmrmvi0WpJdzUNIlkzV7Grcxs7UcC4Op9TWfePyBuL3Ear
+        kDte8+gd8VucVjGgUi1eM6J8BrsBJU9x9BAkUKmkZY7jZTue5OY6BavcDayddnHQ0H7Xq8
+        oY//yUB/PQpzDJ6aenHIGZJ8CefyxsQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-597-33x40GypOAqw-DlPPo-uug-1; Wed, 15 Dec 2021 01:01:31 -0500
+X-MC-Unique: 33x40GypOAqw-DlPPo-uug-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E6C1801B2A;
+        Wed, 15 Dec 2021 06:01:28 +0000 (UTC)
+Received: from localhost (ovpn-12-120.pek2.redhat.com [10.72.12.120])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id C9E3E56339;
+        Wed, 15 Dec 2021 06:01:26 +0000 (UTC)
+Date:   Wed, 15 Dec 2021 14:01:23 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     Zhen Lei <thunder.leizhen@huawei.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
+        Dave Young <dyoung@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        kexec@lists.infradead.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>
+Subject: Re: [PATCH v17 03/10] x86: kdump: use macro CRASH_ADDR_LOW_MAX in
+ functions reserve_crashkernel()
+Message-ID: <20211215060123.GC10336@MiWiFi-R3L-srv>
+References: <20211210065533.2023-1-thunder.leizhen@huawei.com>
+ <20211210065533.2023-4-thunder.leizhen@huawei.com>
+ <20211214085440.GA3023@MiWiFi-R3L-srv>
+ <YbhmF3+AzvRtGimD@zn.tnic>
+ <20211214095657.GB3023@MiWiFi-R3L-srv>
+ <YbipBGn5saLscIMn@zn.tnic>
 MIME-Version: 1.0
-References: <20211214140402.288101-1-hch@lst.de> <20211214140402.288101-4-hch@lst.de>
-In-Reply-To: <20211214140402.288101-4-hch@lst.de>
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date:   Tue, 14 Dec 2021 21:40:46 -0800
-Message-ID: <CAADnVQKakFTQTnW6q-9eWsmgLcc7eTGbPM=a4A9PWNdXGrgKjA@mail.gmail.com>
-Subject: Re: [PATCH 3/4] bpf, docs: Only document eBPF in instruction-set.rst
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
-        bpf <bpf@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YbipBGn5saLscIMn@zn.tnic>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 14, 2021 at 6:04 AM Christoph Hellwig <hch@lst.de> wrote:
->  Three LSB bits store instruction class which is one of:
->
-> -  ===================     ===============
-> -  Classic BPF classes     eBPF classes
-> -  ===================     ===============
-> -  BPF_LD    0x00          BPF_LD    0x00
-> -  BPF_LDX   0x01          BPF_LDX   0x01
-> -  BPF_ST    0x02          BPF_ST    0x02
-> -  BPF_STX   0x03          BPF_STX   0x03
-> -  BPF_ALU   0x04          BPF_ALU   0x04
-> -  BPF_JMP   0x05          BPF_JMP   0x05
-> -  BPF_RET   0x06          BPF_JMP32 0x06
-> -  BPF_MISC  0x07          BPF_ALU64 0x07
-> -  ===================     ===============
+On 12/14/21 at 03:24pm, Borislav Petkov wrote:
+> On Tue, Dec 14, 2021 at 05:56:57PM +0800, Baoquan He wrote:
+> > Ah, OK, I see the new paragraph from you added in below commit.
+> 
+> That is supposed to make it absolutely clear and explicit. There are
+> other hints as to what a subsequent SOB means in that document already.
+> 
+> Just the next section says:
+> 
+> "The Signed-off-by: tag indicates that the signer was involved in the
+> development of the patch, or that he/she was in the patch's delivery
+> path."
+> 
+> It wouldn't hurt if people would look at that doc from time to time - we
+> end up referring to it on a daily basis.
 
-I don't want to lose the classic vs extended visual comparison.
-These were one the most valuable tables to me.
-Maybe instead of intro.rst call it classic_vs_extended.rst ?
-or history.rst ?
 
-That would be patch 2 as-is plus extra tables and text
-that this patch removes.
-There will be a bit of overlap between history.rst
-and instruction-set.rst.
-I think it's ok.
+Thanks, I need read this completely, and often check if anything new
+is added.
 
-The rest makes sense to me.
-
-Maybe Daniel has better ideas.
