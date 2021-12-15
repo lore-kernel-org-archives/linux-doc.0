@@ -2,147 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10CF3C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Dec 2021 09:22:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1E72C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Dec 2021 10:36:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241123AbhLOJWx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Dec 2021 04:22:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59138 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236374AbhLOJWw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Dec 2021 04:22:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1639560171;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=oUh0bcGmELD1OnjdrFkEycYt4atPMShERUPuuPbvtk8=;
-        b=aTbO6+0Gwk9Ml7x2SQXGU8kD9++GmMOk39MEmQAWPKxifc0sY9knalKlSlfgiL0H6/sr80
-        nsUloaS73/QEFXrpIRU861f3xBqYl1y2IcBhy8zRge1w21rSfXCNpTu76hMJFXFkIrkWAP
-        J7qsf2svV1c4H/BO4+pGObvAXYECF/c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-247-j4UYqMpBM5a1H3pa9AG24w-1; Wed, 15 Dec 2021 04:22:49 -0500
-X-MC-Unique: j4UYqMpBM5a1H3pa9AG24w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S241699AbhLOKgd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Dec 2021 05:36:33 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:39474 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236385AbhLOKgd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Dec 2021 05:36:33 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ABC2F190B2A3;
-        Wed, 15 Dec 2021 09:22:46 +0000 (UTC)
-Received: from localhost (ovpn-12-120.pek2.redhat.com [10.72.12.120])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 19135838E1;
-        Wed, 15 Dec 2021 09:22:32 +0000 (UTC)
-Date:   Wed, 15 Dec 2021 17:22:30 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        linux-kernel@vger.kernel.org, Dave Young <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        kexec@lists.infradead.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>
-Subject: Re: [PATCH v17 04/10] x86: kdump: move xen_pv_domain() check and
- insert_resource() to setup_arch()
-Message-ID: <20211215092230.GE3023@MiWiFi-R3L-srv>
-References: <20211210065533.2023-1-thunder.leizhen@huawei.com>
- <20211210065533.2023-5-thunder.leizhen@huawei.com>
- <d328aede-1282-b4d5-f17a-aa9c3e9f6563@huawei.com>
- <03bd43f3-14a1-dbd1-9fff-118c0885653c@huawei.com>
+        by smtp-out2.suse.de (Postfix) with ESMTPS id B842C1F39F;
+        Wed, 15 Dec 2021 10:36:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1639564591; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=/aPaR9Uw4ulAkIgHecWl2en5QXeWEK3aOB4cy3NVwDI=;
+        b=N0Oi6iG4jR1Ii/2w8VZGdDCkCls7BxgRGgpITtz5WTEMqIEVtEn64XU5QoylIR/K2x/31p
+        dRUkaE8ntIn9pTwzN1kEQ9S+rdhVnK7upRk8kdKOg/KeAaBeb/daspbclQWbET4VvGyatI
+        iuTmVTTFyDVEZ/YCPSS9aAkJG5W4m/0=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 85BE613B1C;
+        Wed, 15 Dec 2021 10:36:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id /RwjIC/FuWHZdAAAMHmgww
+        (envelope-from <mkoutny@suse.com>); Wed, 15 Dec 2021 10:36:31 +0000
+Date:   Wed, 15 Dec 2021 11:36:29 +0100
+From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>
+Subject: Re: [PATCH v9 2/7] cgroup/cpuset: Allow no-task partition to have
+ empty cpuset.cpus.effective
+Message-ID: <20211215103629.GA25459@blackbody.suse.cz>
+References: <20211205183220.818872-1-longman@redhat.com>
+ <20211205183220.818872-3-longman@redhat.com>
+ <Ybew7d2oE2gLcLNO@slm.duckdns.org>
+ <810204ce-7967-e470-1267-7c3cfb521c89@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <03bd43f3-14a1-dbd1-9fff-118c0885653c@huawei.com>
+In-Reply-To: <810204ce-7967-e470-1267-7c3cfb521c89@redhat.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/15/21 at 04:56pm, Leizhen (ThunderTown) wrote:
-> 
-> 
-> On 2021/12/14 19:40, Leizhen (ThunderTown) wrote:
-> > 
-> > 
-> > On 2021/12/10 14:55, Zhen Lei wrote:
-> >> From: Chen Zhou <chenzhou10@huawei.com>
-> >>
-> >> We will make the functions reserve_crashkernel() as generic, the
-> >> xen_pv_domain() check in reserve_crashkernel() is relevant only to
-> >> x86, the same as insert_resource() in reserve_crashkernel[_low]().
-> >> So move xen_pv_domain() check and insert_resource() to setup_arch()
-> >> to keep them in x86.
-> >>
-> >> Suggested-by: Mike Rapoport <rppt@kernel.org>
-> >> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
-> >> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
-> >> Tested-by: John Donnelly <John.p.donnelly@oracle.com>
-> >> Tested-by: Dave Kleikamp <dave.kleikamp@oracle.com>
-> >> Acked-by: Baoquan He <bhe@redhat.com>
-> >> ---
-> >>  arch/x86/kernel/setup.c | 19 +++++++++++--------
-> >>  1 file changed, 11 insertions(+), 8 deletions(-)
-> >>
-> >> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
-> >> index bb2a0973b98059e..7ae00716a208f82 100644
-> >> --- a/arch/x86/kernel/setup.c
-> >> +++ b/arch/x86/kernel/setup.c
-> >> @@ -456,7 +456,6 @@ static int __init reserve_crashkernel_low(void)
-> >>  
-> >>  	crashk_low_res.start = low_base;
-> >>  	crashk_low_res.end   = low_base + low_size - 1;
-> >> -	insert_resource(&iomem_resource, &crashk_low_res);
-> >>  #endif
-> >>  	return 0;
-> >>  }
-> >> @@ -480,11 +479,6 @@ static void __init reserve_crashkernel(void)
-> >>  		high = true;
-> >>  	}
-> >>  
-> >> -	if (xen_pv_domain()) {
-> >> -		pr_info("Ignoring crashkernel for a Xen PV domain\n");
-> >> -		return;
-> >> -	}
-> >> -
-> >>  	/* 0 means: find the address automatically */
-> >>  	if (!crash_base) {
-> >>  		/*
-> >> @@ -531,7 +525,6 @@ static void __init reserve_crashkernel(void)
-> >>  
-> >>  	crashk_res.start = crash_base;
-> >>  	crashk_res.end   = crash_base + crash_size - 1;
-> >> -	insert_resource(&iomem_resource, &crashk_res);
-> >>  }
-> >>  #else
-> >>  static void __init reserve_crashkernel(void)
-> >> @@ -1143,7 +1136,17 @@ void __init setup_arch(char **cmdline_p)
-> >>  	 * Reserve memory for crash kernel after SRAT is parsed so that it
-> >>  	 * won't consume hotpluggable memory.
-> >>  	 */
-> >> -	reserve_crashkernel();
-> > 
-> > Hi Baoquan:
-> >   How about move "#ifdef CONFIG_KEXEC_CORE" here, so that we can remove the
-> > empty reserve_crashkernel(). In fact, xen_pv_domain() is invoked only
-> > when CONFIG_KEXEC_CORE is enabled before.
-> 
-> Hi Baoquan:
->   Did you miss this email? If no reply, I will keep it no change.
+On Tue, Dec 14, 2021 at 10:24:22PM -0500, Waiman Long <longman@redhat.com> wrote:
+> AFAICS, there are code in cpuset.c that disallows the an non-child node to
+> hold tasks, but the check doesn't cover all the possible cases.
+> I remembered that I was able to create such a scenario without using
+> threaded domains.
 
-I checked this patch, and it's no update since I acked it. 
+On the default hierarchy (with controller(s) enabled)? That sounds like a bug.
 
-Moving reserve_crashkernel() into the CONFIG_KEXEC_CORE ifdeffery is
-also fine to me.
+> That is why I put in this conditional check. It has nothing to do with the
+> use of threaded domains.
 
+But threaded domains are important nevertheless.
+I think that a structure like
+
+	app-cgroup	cgroup.type=threaded domain	cpuset.partition=root
+	`- rt		cgroup.type=threaded		cpuset.partition=isolated
+	`- normal	cgroup.type=threaded
+
+is a valid use case. Therefore I would not disallow partitioning inside
+threaded subtrees (as suggested).
+
+
+Michal
