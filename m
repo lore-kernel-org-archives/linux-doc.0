@@ -2,265 +2,293 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40271C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Dec 2021 02:56:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5FC7C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Dec 2021 03:09:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239407AbhLOC4r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Dec 2021 21:56:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34932 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229752AbhLOC4r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Dec 2021 21:56:47 -0500
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17A00C061574
-        for <linux-doc@vger.kernel.org>; Tue, 14 Dec 2021 18:56:47 -0800 (PST)
-Received: by mail-oi1-x235.google.com with SMTP id be32so29760342oib.11
-        for <linux-doc@vger.kernel.org>; Tue, 14 Dec 2021 18:56:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=LaLuXHJ0U1MOsosZvLEETulF6X7ZTTBQcnJ7goe/Y40=;
-        b=QLJMjPrKgUBKU/vot2br8stTL90jhh5GPBDi2CTOSeAfKHntGnWxfLBzuLw6u3E8wT
-         N1WVGYC7Pjr/99ywwj975QmKYcHOSLN18cimJoVZhHpWYie4RaTBfyQocXRQEwDMQb38
-         o3QZv89cZqRhBc/jAq0ssu8cVhvZhPGXxyWlwtt558DsgyzXw1bkrLMgb1jAtErzM+S+
-         sZ5+Tj1UknRmaScgeq1RxgNO1hTZkUQ4NmCw0qv/nO8QKW9UToBNrFOnHe+z/3c7PoKx
-         zRMWAIp2d5xWeuQBy8UAY3+cZ9pPy50R7P1wU7mBQZJQVVtdo0mSfX0hEZ39Mpbmbu+t
-         qGzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=LaLuXHJ0U1MOsosZvLEETulF6X7ZTTBQcnJ7goe/Y40=;
-        b=3eA4we5dG/rJ+lFdn6w9BN61aYatfGHPBu5nEkqfQWvdaTLWJTA5RMZUE+RLAxuGtG
-         +7YDlNE5dizhAWXGphZc1FlelGOt6Zr1yRkI/MF0JmnE+QM/MR69G87KKT84R6wXT33J
-         3Dwn5OrTBF1HgHcWm5bSPgoatoIedQFH5dcJ9cHXmkt4yStpumJOrfKsBJoLeDDw9qpe
-         dSKfe5irRHIVuAS86GCKzpDPURIUVHMVa6O9+cnVeWEc09e0dnohZIWQ4uY+YqrcrN8j
-         xAjpIiNqV4tWzGIqW4iVpv1tkU3s/HiRGotnoaIzLpfVUfc2RIXH3X8NuMCeOs3tFard
-         s8wQ==
-X-Gm-Message-State: AOAM533/4LbJafnk1N/IuhG7UAVqyc60b4EbxnrHYeYc1Tv06geJfT7b
-        l1l6g3XdLrlwiggB5ZZ4s16LPbEmsgFgJ/IvySM=
-X-Google-Smtp-Source: ABdhPJyi0MO7dOvUEFzral/Qhr3hdx6zXledWDdjLfZWJrnQknmLL7wWVVlIAdIH5a/ahXh1Ad2dxXS8fpzrN03kd2k=
-X-Received: by 2002:a54:4701:: with SMTP id k1mr36143822oik.37.1639537006151;
- Tue, 14 Dec 2021 18:56:46 -0800 (PST)
+        id S235563AbhLODJt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Dec 2021 22:09:49 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:16811 "EHLO
+        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231363AbhLODJt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Dec 2021 22:09:49 -0500
+Received: from dggpeml500021.china.huawei.com (unknown [172.30.72.54])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JDKvy45G1z91kc;
+        Wed, 15 Dec 2021 11:09:02 +0800 (CST)
+Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
+ dggpeml500021.china.huawei.com (7.185.36.21) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Wed, 15 Dec 2021 11:09:46 +0800
+Received: from huawei.com (10.175.100.227) by dggpeml500006.china.huawei.com
+ (7.185.36.76) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Wed, 15 Dec
+ 2021 11:09:46 +0800
+From:   Tang Yizhou <tangyizhou@huawei.com>
+To:     <siyanteng@loongson.cn>, <siyanteng01@gmail.com>,
+        <alexs@kernel.org>, <seakeel@gmail.com>
+CC:     <linux-doc@vger.kernel.org>, <corbet@lwn.net>,
+        <zhengbin13@huawei.com>, <tangyeechou@gmail.com>,
+        Tang Yizhou <tangyizhou@huawei.com>
+Subject: [PATCH v2] docs/zh_CN: Add sched-design-CFS Chinese translation
+Date:   Wed, 15 Dec 2021 11:37:26 +0800
+Message-ID: <20211215033726.4538-1-tangyizhou@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20211214023112.9473-1-tangyizhou@huawei.com>
-In-Reply-To: <20211214023112.9473-1-tangyizhou@huawei.com>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Wed, 15 Dec 2021 10:56:35 +0800
-Message-ID: <CAEensMzN6jOLL_n=G0zXTjzhO3oN=cEvHcO8NOH_AkQ-pMN3SQ@mail.gmail.com>
-Subject: Re: [PATCH] docs/zh_CN: Add sched-design-CFS Chinese translation
-To:     Tang Yizhou <tangyizhou@huawei.com>
-Cc:     Yanteng Si <siyanteng@loongson.cn>, Alex Shi <alexs@kernel.org>,
-        Alex Shi <seakeel@gmail.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, zhengbin13@huawei.com,
-        Yeechou Tang <tangyeechou@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.175.100.227]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpeml500006.china.huawei.com (7.185.36.76)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-VGFuZyBZaXpob3UgPHRhbmd5aXpob3VAaHVhd2VpLmNvbT4g5LqOMjAyMeW5tDEy5pyIMTTml6Xl
-kajkuowgMTA6MDPlhpnpgZPvvJoNCj4NCj4gVHJhbnNsYXRlIHNjaGVkdWxlci9zY2hlZC1kZXNp
-Z24tQ0ZTLnJzdCBpbnRvIENoaW5lc2UuDQo+DQo+IFNpZ25lZC1vZmYtYnk6IFRhbmcgWWl6aG91
-IDx0YW5neWl6aG91QGh1YXdlaS5jb20+DQo+IC0tLQ0KPiAgLi4uL3RyYW5zbGF0aW9ucy96aF9D
-Ti9zY2hlZHVsZXIvaW5kZXgucnN0ICAgIHwgICAyICstDQo+ICAuLi4vemhfQ04vc2NoZWR1bGVy
-L3NjaGVkLWRlc2lnbi1DRlMucnN0ICAgICAgfCAyMDQgKysrKysrKysrKysrKysrKysrDQo+ICAy
-IGZpbGVzIGNoYW5nZWQsIDIwNSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+ICBjcmVh
-dGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vc2NoZWR1bGVy
-L3NjaGVkLWRlc2lnbi1DRlMucnN0DQo+DQo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3Ry
-YW5zbGF0aW9ucy96aF9DTi9zY2hlZHVsZXIvaW5kZXgucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFu
-c2xhdGlvbnMvemhfQ04vc2NoZWR1bGVyL2luZGV4LnJzdA0KPiBpbmRleCBlOTdhZDc3ODEwODgu
-LjUzMjdjNjFjYjBhYiAxMDA2NDQNCj4gLS0tIGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMv
-emhfQ04vc2NoZWR1bGVyL2luZGV4LnJzdA0KPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0
-aW9ucy96aF9DTi9zY2hlZHVsZXIvaW5kZXgucnN0DQo+IEBAIC0yMCw2ICsyMCw3IEBAIExpbnV4
-6LCD5bqm5ZmoDQo+ICAgICAgY29tcGxldGlvbg0KPiAgICAgIHNjaGVkLWFyY2gNCj4gICAgICBz
-Y2hlZC1id2MNCj4gKyAgICBzY2hlZC1kZXNpZ24tQ0ZTDQo+ICAgICAgc2NoZWQtY2FwYWNpdHkN
-Cj4NCj4NCj4gQEAgLTI3LDcgKzI4LDYgQEAgVE9ET0xpc3Q6DQo+DQo+ICAgICAgc2NoZWQtYndj
-DQo+ICAgICAgc2NoZWQtZGVhZGxpbmUNCj4gLSAgICBzY2hlZC1kZXNpZ24tQ0ZTDQo+ICAgICAg
-c2NoZWQtZG9tYWlucw0KPiAgICAgIHNjaGVkLWVuZXJneQ0KPiAgICAgIHNjaGVkLW5pY2UtZGVz
-aWduDQo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9zY2hl
-ZHVsZXIvc2NoZWQtZGVzaWduLUNGUy5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96
-aF9DTi9zY2hlZHVsZXIvc2NoZWQtZGVzaWduLUNGUy5yc3QNCj4gbmV3IGZpbGUgbW9kZSAxMDA2
-NDQNCj4gaW5kZXggMDAwMDAwMDAwMDAwLi5iNjA0YmVhYTQ3ZmQNCj4gLS0tIC9kZXYvbnVsbA0K
-PiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9zY2hlZHVsZXIvc2NoZWQt
-ZGVzaWduLUNGUy5yc3QNCj4gQEAgLTAsMCArMSwyMDQgQEANCj4gKy4uIFNQRFgtTGljZW5zZS1J
-ZGVudGlmaWVyOiBHUEwtMi4wDQo+ICsuLiBpbmNsdWRlOjogLi4vZGlzY2xhaW1lci16aF9DTi5y
-c3QNCj4gKw0KPiArOk9yaWdpbmFsOiBEb2N1bWVudGF0aW9uL3NjaGVkdWxlci9zY2hlZC1kZXNp
-Z24tQ0ZTLnJzdA0KPiArDQo+ICs657+76K+ROg0KPiArDQo+ICsgIOWUkOiJuuiInyBUYW5nIFlp
-emhvdSA8dGFuZ3llZWNob3VAZ21haWwuY29tPg0KPiArDQo+ICs9PT09PT09PT09PT09PT0NCj4g
-K+WujOWFqOWFrOW5s+iwg+W6puWZqA0KPiArPT09PT09PT09PT09PT09DQo+ICsNCj4gKw0KPiAr
-MS4g5qaC6L+wDQo+ICs9PT09PT09DQo+ICsNCj4gK0NGU+ihqOekuuKAnOWujOWFqOWFrOW5s+iw
-g+W6puWZqOKAne+8jOWug+aYr+S4uuahjOmdouaWsOiuvuiuoeeahOi/m+eoi+iwg+W6puWZqO+8
-jOeUsUluZ28gTW9sbmFy5a6e546w5bm25ZCI5YWlTGludXgNCj4gKzIuNi4yM+OAguWug+abv+S7
-o+S6huS5i+WJjeWOn+Wni+iwg+W6puWZqOS4rVNDSEVEX09USEVS562W55Wl55qE5Lqk5LqS5byP
-5Luj56CB44CCDQo+ICsNCj4gK0NGUyA4MCXnmoTorr7orqHlj6/ku6XmgLvnu5PkuLrkuIDlj6Xo
-r53vvJpDRlPlnKjnnJ/lrp7noazku7bkuIrlu7rmqKHkuobkuIDkuKrigJznkIbmg7PnmoTvvIzn
-sr7noa7nmoTlpJrku7vliqFDUFXigJ3jgIINCj4gKw0KPiAr4oCc55CG5oOz55qE5aSa5Lu75Yqh
-Q1BV4oCd5piv5LiA56eN77yI5LiN5a2Y5Zyo55qEIDotKe+8ieWFt+aciTEwMCXniannkIbnrpfl
-ipvnmoRDUFXvvIzlroPog73orqnmr4/kuKrku7vliqHnsr7noa7lnLDku6UNCj4gK+ebuOWQjOea
-hOmAn+W6puW5tuihjOi/kOihjO+8jOmAn+W6puWdh+S4ujEvbnJfcnVubmluZ+OAguS4vuS+i+ad
-peivtO+8jOWmguaenOacieS4pOS4quS7u+WKoeato+WcqOi/kOihjO+8jOmCo+S5iOavj+S4qg0K
-PiAr5Lu75Yqh6I635b6XNTAl54mp55CG566X5Yqb44CCIC0tLSDkuZ/lsLHmmK/or7TvvIznnJ/m
-raPnmoTlubbooYzjgIINCj4gKw0KPiAr5Zyo55yf5a6e55qE56Gs5Lu25LiK77yM5LiA5qyh5Y+q
-6IO96L+Q6KGM5LiA5Liq5Lu75Yqh77yM5omA5Lul5oiR5Lus6ZyA6KaB5LuL57uN4oCc6Jma5ouf
-6L+Q6KGM5pe26Ze04oCd55qE5qaC5b+144CC5Lu75Yqh55qE6Jma5oufDQo+ICvov5DooYzml7bp
-l7TooajmmI7vvIzlroPnmoTkuIvkuIDkuKrml7bpl7TniYflsIblnKjkuIrmlofmj4/ov7DnmoTn
-kIbmg7PlpJrku7vliqFDUFXkuIrlvIDlp4vmiafooYzjgILlnKjlrp7ot7XkuK3vvIzku7vliqHn
-moQNCj4gK+iZmuaLn+i/kOihjOaXtumXtOeUseWug+eahOecn+Wunui/kOihjOaXtumXtOebuOi+
-g+ato+WcqOi/kOihjOeahOS7u+WKoeaAu+aVsOW9kuS4gOWMluiuoeeul+W+l+WIsOOAgg0KPiAr
-DQo+ICsNCj4gKw0KPiArMi4g5LiA5Lqb5a6e546w57uG6IqCDQo+ICs9PT09PT09PT09PT09PT0N
-Cj4gKw0KPiAr5ZyoQ0ZT5Lit77yM6Jma5ouf6L+Q6KGM5pe26Ze055Sx5q+P5Liq5Lu75Yqh55qE
-cC0+c2UudnJ1bnRpbWXvvIjljZXkvY3kuLrnurPnp5LvvInnmoTlgLzooajovr7lkozot5/ouKrj
-gILlm6DmraTvvIwNCj4gK+eyvuehruWcsOiuoeaXtuWSjOa1i+mHj+S4gOS4quS7u+WKoeW6lOW+
-l+eahOKAnOmihOacn+eahENQVeaXtumXtOKAneaYr+WPr+iDveeahOOAgg0KPiArDQo+ICsgIOS4
-gOS6m+e7huiKgu+8muWcqOKAnOeQhuaDs+eahOKAneehrOS7tuS4iu+8jOaJgOacieeahOS7u+WK
-oeWcqOS7u+S9leaXtuWIu+mDveW6lOivpeWFt+acieS4gOagt+eahHAtPnNlLnZydW50aW1l5YC8
-77yMDQo+ICsgIC0tLSDkuZ/lsLHmmK/or7TvvIzku7vliqHlupTlvZPlkIzml7bmiafooYzvvIzm
-sqHmnInku7vliqHkvJrlnKjigJznkIbmg7PnmoTigJ1DUFXliIbml7bkuK3lj5jlvpfigJzkuI3l
-ubPooaHigJ3jgIINCj4gKw0KPiArQ0ZT55qE5Lu75Yqh6YCJ5oup6YC76L6R5Z+65LqOcC0+c2Uu
-dnJ1bnRpbWXnmoTlgLzvvIzlm6DmraTpnZ7luLjnroDljZXvvJrmgLvmmK/or5Xlm77pgInmi6lw
-LT5zZS52cnVudGltZeWAvA0KPiAr5pyA5bCP55qE5Lu75Yqh6L+Q6KGM77yI5Lmf5bCx5piv6K+0
-77yM6Iez5LuK5omn6KGM5pe26Ze05pyA5bCR55qE5Lu75Yqh77yJ44CCQ0ZT5oC75piv5bC95Y+v
-6IO95bCd6K+V5oyJ4oCc55CG5oOz5aSa5Lu75Yqh56Gs5Lu24oCdDQo+ICvpgqPmoLflsIZDUFXm
-l7bpl7TlnKjlj6/ov5DooYzku7vliqHkuK3lnYfliIbjgIINCj4gKw0KPiArQ0ZT5Ymp5LiL55qE
-5YW25a6D6K6+6K6h77yM5LiA6Iis6ISx56a75LqG6L+Z5Liq566A5Y2V55qE5qaC5b+177yM6ZmE
-5Yqg55qE6K6+6K6h5YyF5ousbmljZee6p+WIq++8jOWkmuWkhOeQhu+8jOS7peWPiuWQhOenjQ0K
-PiAr55So5p2l6K+G5Yir5bey552h55yg5Lu75Yqh55qE566X5rOV5Y+Y5L2T44CCDQo+ICsNCj4g
-Kw0KPiArDQo+ICszLiDnuqLpu5HmoJENCj4gKz09PT09PT09PQ0KPiArDQo+ICtDRlPnmoTorr7o
-rqHpnZ7luLjmv4Dov5vvvJrlroPkuI3kvb/nlKjov5DooYzpmJ/liJfnmoTml6fmlbDmja7nu5Pm
-noTvvIzogIzmmK/kvb/nlKjmjInml7bpl7TmjpLluo/nmoTnuqLpu5HmoJHvvIzmnoTlu7rlh7oN
-Cj4gK+S7u+WKoeacquadpeaJp+ihjOeahOKAnOaXtumXtOe6v+KAneOAguWboOatpOayoeacieS7
-u+S9leKAnOaVsOe7hOWIh+aNouKAneeahOaXp+WMheiise+8iOS5i+WJjeeahOWOn+Wni+iwg+W6
-puWZqOWSjFJTREwvU0Tpg70NCj4gK+iiq+Wug+W9seWTje+8ieOAgg0KPiArDQo+ICtDRlPlkIzm
-oLfnu7TmiqTkuoZycS0+Y2ZzLm1pbl92cnVudGltZeWAvO+8jOWug+aYr+WNleiwg+mAkuWinuea
-hO+8jOi3n+i4qui/kOihjOmYn+WIl+S4reeahOaJgOacieS7u+WKoeeahOacgOWwjw0KPiAr6Jma
-5ouf6L+Q6KGM5pe26Ze05YC844CC57O757uf5YGa55qE5YWo6YOo5bel5L2c5piv77ya5L2/55So
-bWluX3ZydW50aW1l6Lef6Liq77yM54S25ZCO55So5a6D55qE5YC85bCG5paw5r+A5rS755qE6LCD
-5bqmDQo+ICvlrp7kvZPlsL3lj6/og73lnLDmlL7lnKjnuqLpu5HmoJHnmoTlt6bkvqfjgIINCj4g
-Kw0KPiAr6L+Q6KGM6Zif5YiX5Lit5q2j5Zyo6L+Q6KGM55qE5Lu75Yqh55qE5oC75pWw55SxcnEt
-PmNmcy5sb2Fk6K6h5pWw77yM5a6D5piv6L+Q6KGM6Zif5YiX5Lit55qE5Lu75Yqh55qE5p2D5YC8
-5LmL5ZKM44CCDQo+ICsNCj4gK0NGU+e7tOaKpOS6huS4gOS4quaMieaXtumXtOaOkuW6j+eahOe6
-oum7keagke+8jOaJgOacieWPr+i/kOihjOS7u+WKoeS7pXAtPnNlLnZydW50aW1l5Li66ZSu5YC8
-5o6S5bqP44CCQ0ZT5LuO6L+Z6aKXDQo+ICvmoJHkuIrpgInmi6nigJzmnIDlt6bkvqfigJ3nmoTk
-u7vliqHlubbov5DooYzjgILns7vnu5/nu6fnu63ov5DooYzvvIzooqvmiafooYzov4fnmoTku7vl
-iqHotormnaXotorooqvmlL7liLDmoJHnmoTlj7PkvqcgLS0tIOe8k+aFou+8jA0KPiAr5L2G5b6I
-5piO56Gu5q+P5Liq5Lu75Yqh6YO95pyJ5oiQ5Li64oCc5pyA5bem5L6n5Lu75Yqh4oCd55qE5py6
-5Lya77yM5Zug5q2k5Lu75Yqh5bCG56Gu5a6a5oCn5Zyw6I635b6X5LiA5a6a6YePQ1BV5pe26Ze0
-44CCDQo+ICsNCj4gK+aAu+e7k+S4gOS4i++8jENGU+W3peS9nOaWueW8j+WDj+i/meagt++8muWu
-g+i/kOihjOS4gOS4quS7u+WKoeS4gOS8muWEv++8jOW9k+S7u+WKoeWPkeeUn+iwg+W6pu+8iOaI
-luiAheiwg+W6puWZqOaXtumSn+a7tOetlA0KPiArdGlja+S6p+eUn++8ie+8jOWwseS8muiAg+iZ
-keS7u+WKoeeahENQVeS9v+eUqOeOh++8muS7u+WKoeWImuWImuiKseWcqOeJqeeQhkNQVeS4iuea
-hO+8iOWwkemHj++8ieaXtumXtOiiq+WKoOWIsA0KPiArcC0+c2UudnJ1bnRpbWXjgILkuIDml6Zw
-LT5zZS52cnVudGltZeWPmOW+l+i2s+Wkn+Wkp++8jOWFtuWug+eahOS7u+WKoeWwhuaIkOS4uuaM
-ieaXtumXtOaOkuW6j+eahOe6oum7keagkeeahA0KPiAr4oCc5pyA5bem5L6n5Lu75Yqh4oCd77yI
-55u46L6D5pyA5bem5L6n55qE5Lu75Yqh77yM6L+Y6KaB5Yqg5LiK5LiA5Liq5b6I5bCP55qE4oCc
-57KS5bqm4oCd6YeP77yM5L2/5b6X5oiR5Lus5LiN5Lya5a+55Lu75Yqh6L+H5bqm6LCD5bqm77yM
-DQo+ICvlr7zoh7TnvJPlrZjpoqDnsLjvvInvvIznhLblkI7mlrDnmoTmnIDlt6bkvqfku7vliqHl
-sIbooqvpgInkuK3vvIzlvZPliY3ku7vliqHooqvmiqLljaDjgIINCj4gKw0KPiArDQo+ICsNCj4g
-Kw0KPiArNC4gQ0ZT55qE5LiA5Lqb54m55b6BDQo+ICs9PT09PT09PT09PT09PT09DQo+ICsNCj4g
-K0NGU+S9v+eUqOe6s+enkueykuW6pueahOiuoeaXtu+8jOS4jeS+nei1luS6juS7u+S9lWppZmZp
-ZXPmiJZIWueahOe7huiKguOAguWboOatpENGU+W5tuS4jeWDj+S5i+WJjeeahOiwg+W6puWZqOmC
-o+agtw0KPiAr5pyJ4oCc5pe26Ze054mH4oCd55qE5qaC5b+177yM5Lmf5rKh5pyJ5Lu75L2V5ZCv
-5Y+R5byP55qE6K6+6K6h44CC5ZSv5LiA5Y+v6LCD55qE5Y+C5pWw77yI5L2g6ZyA6KaB5omT5byA
-Q09ORklHX1NDSEVEX0RFQlVH77yJ5piv77yaDQo+ICsNCj4gKyAgIC9wcm9jL3N5cy9rZXJuZWwv
-c2NoZWRfbWluX2dyYW51bGFyaXR5X25zDQo+ICsNCj4gK+Wug+WPr+S7peeUqOadpeWwhuiwg+W6
-puWZqOS7juKAnOahjOmdouKAneaooeW8j++8iOS5n+WwseaYr+S9juaXtuW7tu+8ieiwg+iKguS4
-uuKAnOacjeWKoeWZqOKAne+8iOS5n+WwseaYr+mrmOaJueWkhOeQhu+8ieaooeW8j+OAgg0KPiAr
-5a6D55qE6buY6K6k6K6+572u5piv6YCC5ZCI5qGM6Z2i55qE5bel5L2c6LSf6L2944CCU0NIRURf
-QkFUQ0jkuZ/ooqtDRlPosIPluqblmajmqKHlnZflpITnkIbjgIINCj4gKw0KPiArQ0ZT55qE6K6+
-6K6h5LiN5piT5Y+X5Yiw5b2T5YmN5a2Y5Zyo55qE5Lu75L2V6ZKI5a+5c3RvY2vosIPluqblmajn
-moTigJzmlLvlh7vigJ3nmoTlvbHlk43vvIzljIXmi6xmaWZ0eXAuY++8jHRodWQuY++8jA0KPiAr
-Y2hldy5j77yMcmluZy10ZXN0LmPvvIxtYXNzaXZlX2ludHIuY++8jOWug+S7rOmDveiDveW+iOWl
-veWcsOi/kOihjO+8jOS4jeS8muW9seWTjeS6pOS6kuaAp++8jOWwhuS6p+eUnw0KPiAr56ym5ZCI
-6aKE5pyf55qE6KGM5Li644CCDQo+ICsNCj4gK0NGU+iwg+W6puWZqOWkhOeQhm5pY2XnuqfliKvl
-koxTQ0hFRF9CQVRDSOeahOiDveWKm+avlOS5i+WJjeeahOWOn+Wni+iwg+W6puWZqOabtOW8uu+8
-muS4pOenjeexu+Wei+eahOW3peS9nOi0n+i9vQ0KPiAr6YO96KKr5pu05r+A6L+b5Zyw6ZqU56a7
-5LqG44CCDQo+ICsNCj4gK1NNUOi0n+i9veWdh+ihoeiiq+mHjeWBmi/muIXnkIbov4fvvJrpgY3l
-jobov5DooYzpmJ/liJfnmoTlgYforr7lt7Lnu4/ku47otJ/ovb3lnYfooaHnmoTku6PnoIHkuK3n
-p7vpmaTvvIzkvb/nlKjosIPluqbmqKHlnZcNCj4gK+eahOi/reS7o+WZqOOAgue7k+aenOaYr++8
-jOi0n+i9veWdh+ihoeS7o+eggeWPmOW+l+eugOWNleS4jeWwkeOAgg0KPiArDQo+ICsNCj4gKw0K
-PiArNS4g6LCD5bqm562W55WlDQo+ICs9PT09PT09PT09PQ0KPiArDQo+ICtDRlPlrp7njrDkuobk
-uInnp43osIPluqbnrZbnlaXvvJoNCkJsYW5rIGxpbmUuDQoNCldpdGggdGhpczoNClJldmlld2Vk
-LWJ5OiBZYW50ZW5nIFNpIDxzaXlhbnRlbmdAbG9vbmdzb24uY24+DQoNClRoYW5rcywNCllhbnRl
-bmcNCj4gKyAgLSBTQ0hFRF9OT1JNQUzvvJrvvIjkvKDnu5/ooqvnp7DkuLpTQ0hFRF9PVEhFUu+8
-ie+8muivpeiwg+W6puetlueVpeeUqOS6juaZrumAmuS7u+WKoeOAgg0KPiArDQo+ICsgIC0gU0NI
-RURfQkFUQ0jvvJrmiqLljaDkuI3lg4/mma7pgJrku7vliqHpgqPmoLfpopHnuYHvvIzlm6DmraTl
-hYHorrjku7vliqHov5DooYzmm7Tplb/ml7bpl7TvvIzmm7Tlpb3lnLDliKnnlKjnvJPlrZjvvIwN
-Cj4gKyAgICDkuI3ov4fopoHku6XkuqTkupLmgKfkuLrku6Pku7fjgILlroPlvojpgILlkIjmibnl
-pITnkIblt6XkvZzjgIINCj4gKw0KPiArICAtIFNDSEVEX0lETEXvvJrlroPmr5RuaWNlIDE55pu0
-5byx77yM5LiN6L+H5a6D5LiN5piv55yf5q2j55qEaWRsZeWumuaXtuWZqOiwg+W6puWZqO+8jOWb
-oOS4uuimgemBv+WFjee7meacuuWZqA0KPiArICAgIOW4puadpeatu+mUgeeahOS8mOWFiOe6p+WP
-jei9rOmXrumimOOAgg0KPiArDQo+ICtTQ0hFRF9GSUZPL19SUuiiq+WunueOsOWcqHNjaGVkL3J0
-LmPkuK3vvIzlroPku6znlLFQT1NJWOWFt+S9k+ivtOaYjuOAgg0KPiArDQo+ICt1dGlsLWxpbnV4
-LW5nIDIuMTMuMS4x5Lit55qEY2hydOWRveS7pOWPr+S7peiuvue9ruS7peS4iuaJgOacieetlueV
-pe+8jOmZpOS6hlNDSEVEX0lETEXjgIINCj4gKw0KPiArDQo+ICsNCj4gKzYuIOiwg+W6puexuw0K
-PiArPT09PT09PT09DQo+ICsNCj4gK+aWsOeahENGU+iwg+W6puWZqOiiq+iuvuiuoeaIkOaUr+aM
-geKAnOiwg+W6puexu+KAne+8jOS4gOenjeiwg+W6puaooeWdl+eahOWPr+aJqeWxleWxguasoee7
-k+aehOOAgui/meS6m+aooeWdl+WwgeijheS6huiwg+W6puetlueVpQ0KPiAr57uG6IqC77yM55Sx
-6LCD5bqm5Zmo5qC45b+D5Luj56CB5aSE55CG77yM5LiU5peg6ZyA5a+55a6D5Lus5YGa5aSq5aSa
-5YGH6K6+44CCDQo+ICsNCj4gK3NjaGVkL2ZhaXIuYyDlrp7njrDkuobkuIrmlofmj4/ov7DnmoRD
-RlPosIPluqblmajjgIINCj4gKw0KPiArc2NoZWQvcnQuYyDlrp7njrDkuoZTQ0hFRF9GSUZP5ZKM
-U0NIRURfUlLor63kuYnvvIzkuJTmr5TkuYvliY3nmoTljp/lp4vosIPluqblmajmm7TnroDmtIHj
-gILlroPkvb/nlKjkuoYxMDDkuKoNCj4gK+i/kOihjOmYn+WIl++8iOaAu+WFsTEwMOS4quWunuaX
-tuS8mOWFiOe6p++8jOabv+S7o+S6huS5i+WJjeiwg+W6puWZqOeahDE0MOS4qu+8ie+8jOS4lOS4
-jemcgOimgei/h+acn+aVsOe7hO+8iGV4cGlyZWQNCj4gK2FycmF577yJ44CCDQo+ICsNCj4gK+iw
-g+W6puexu+eUsXNjaGVkX2NsYXNz57uT5p6E5L2T5a6e546w77yM5a6D5YyF5ous5LiA5Lqb5Ye9
-5pWw6ZKp5a2Q77yM5b2T5oSf5YW06Laj55qE5LqL5Lu25Y+R55Sf5pe277yM6ZKp5a2Q6KKr6LCD
-55So44CCDQo+ICsNCj4gK+i/meaYr++8iOmDqOWIhu+8iemSqeWtkOeahOWIl+ihqO+8mg0KPiAr
-DQo+ICsgLSBlbnF1ZXVlX3Rhc2soLi4uKQ0KPiArDQo+ICsgICDlvZPku7vliqHov5vlhaXlj6/o
-v5DooYznirbmgIHml7bvvIzooqvosIPnlKjjgILlroPlsIbosIPluqblrp7kvZPvvIjku7vliqHv
-vInmlL7liLDnuqLpu5HmoJHkuK3vvIzlop7liqBucl9ydW5uaW5n5Y+Y6YePDQo+ICsgICDnmoTl
-gLzjgIINCj4gKw0KPiArIC0gZGVxdWV1ZV90YXNrKC4uLikNCj4gKw0KPiArICAg5b2T5Lu75Yqh
-5LiN5YaN5Y+v6L+Q6KGM5pe277yM6L+Z5Liq5Ye95pWw6KKr6LCD55So77yM5a+55bqU55qE6LCD
-5bqm5a6e5L2T6KKr56e75Ye657qi6buR5qCR44CC5a6D5YeP5bCRbnJfcnVubmluZ+WPmOmHjw0K
-PiArICAg55qE5YC844CCDQo+ICsNCj4gKyAtIHlpZWxkX3Rhc2soLi4uKQ0KPiArDQo+ICsgICDo
-v5nkuKrlh73mlbDnmoTooYzkuLrln7rmnKzkuIrmmK/lh7rpmJ/vvIzntKfmjqXnnYDlhaXpmJ/v
-vIzpmaTpnZ5jb21wYXRfeWllbGQgc3lzY3Rs6KKr5byA5ZCv44CC5Zyo6YKj56eN5oOF5Ya15LiL
-77yMDQo+ICsgICDlroPlsIbosIPluqblrp7kvZPmlL7lnKjnuqLpu5HmoJHnmoTmnIDlj7Pnq6/j
-gIINCj4gKw0KPiArIC0gY2hlY2tfcHJlZW1wdF9jdXJyKC4uLikNCj4gKw0KPiArICAg6L+Z5Liq
-5Ye95pWw5qOA5p+l6L+b5YWl5Y+v6L+Q6KGM54q25oCB55qE5Lu75Yqh6IO95ZCm5oqi5Y2g5b2T
-5YmN5q2j5Zyo6L+Q6KGM55qE5Lu75Yqh44CCDQo+ICsNCj4gKyAtIHBpY2tfbmV4dF90YXNrKC4u
-LikNCj4gKw0KPiArICAg6L+Z5Liq5Ye95pWw6YCJ5oup5o6l5LiL5p2l5pyA6YCC5ZCI6L+Q6KGM
-55qE5Lu75Yqh44CCDQo+ICsNCj4gKyAtIHNldF9jdXJyX3Rhc2soLi4uKQ0KPiArDQo+ICsgICDo
-v5nkuKrlh73mlbDlnKjku7vliqHmlLnlj5josIPluqbnsbvmiJbmlLnlj5jku7vliqHnu4Tml7bo
-oqvosIPnlKjjgIINCj4gKw0KPiArIC0gdGFza190aWNrKC4uLikNCj4gKw0KPiArICAg6L+Z5Liq
-5Ye95pWw5pyA5bi46KKr5pe26Ze05ru0562U5Ye95pWw6LCD55So77yM5a6D5Y+v6IO95a+86Ie0
-6L+b56iL5YiH5o2i44CC6L+Z6amx5Yqo5LqG6L+Q6KGM5pe25oqi5Y2g44CCDQo+ICsNCj4gKw0K
-PiArDQo+ICsNCj4gKzcuIENGU+eahOe7hOiwg+W6puaJqeWxlQ0KPiArPT09PT09PT09PT09PT09
-PT09DQo+ICsNCj4gK+mAmuW4uO+8jOiwg+W6puWZqOaTjeS9nOeykuW6puS4uuS7u+WKoe+8jOWK
-quWKm+S4uuavj+S4quS7u+WKoeaPkOS+m+WFrOW5s+eahENQVeaXtumXtOOAguacieaXtuWPr+iD
-veW4jOacm+WwhuS7u+WKoee8lue7hO+8jA0KPiAr5bm25Li65q+P5Liq57uE5o+Q5L6b5YWs5bmz
-55qEQ1BV5pe26Ze044CC5Li+5L6L5p2l6K+077yM5Y+v6IO96aaW5YWI5biM5pyb5Li657O757uf
-5Lit55qE5q+P5Liq55So5oi35o+Q5L6b5YWs5bmz55qEQ1BVDQo+ICvml7bpl7TvvIzmjqXkuIvm
-naXmiY3mmK/mn5DkuKrnlKjmiLfnmoTmr4/kuKrku7vliqHjgIINCj4gKw0KPiArQ09ORklHX0NH
-Uk9VUF9TQ0hFRCDlipvmsYLlrp7njrDlroPjgILlroPlsIbku7vliqHnvJbnu4TvvIzlubbkuLro
-v5nkupvnu4TlhazlubPlnLDliIbphY1DUFXml7bpl7TjgIINCj4gKw0KPiArQ09ORklHX1JUX0dS
-T1VQX1NDSEVEIOWFgeiuuOWwhuWunuaXtu+8iOS5n+WwseaYr+ivtO+8jFNDSEVEX0ZJRk/lkoxT
-Q0hFRF9SUu+8ieS7u+WKoee8lue7hOOAgg0KPiArDQo+ICtDT05GSUdfRkFJUl9HUk9VUF9TQ0hF
-RCDlhYHorrjlsIZDRlPvvIjkuZ/lsLHmmK/or7TvvIxTQ0hFRF9OT1JNQUzlkoxTQ0hFRF9CQVRD
-SO+8ieS7u+WKoee8lue7hOOAgg0KPiArDQo+ICsgICDov5nkupvnvJbor5HpgInpobnopoHmsYJD
-T05GSUdfQ0dST1VQU+iiq+WumuS5ie+8jOeEtuWQjueuoeeQhuWRmOiDveS9v+eUqGNncm91cOS8
-quaWh+S7tuezu+e7n+S7u+aEj+WIm+W7uuS7u+WKoee7hOOAgg0KPiArICAg5YWz5LqO6K+l5paH
-5Lu257O757uf55qE5pu05aSa5L+h5oGv77yM5Y+C6KeBRG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlk
-ZS9jZ3JvdXAtdjEvY2dyb3Vwcy5yc3QNCj4gKw0KPiAr5b2TQ09ORklHX0ZBSVJfR1JPVVBfU0NI
-RUTooqvlrprkuYnlkI7vvIzpgJrov4fkvKrmlofku7bns7vnu5/vvIzmr4/kuKrnu4TooqvliJvl
-u7rkuIDkuKrigJxjcHUuc2hhcmVz4oCd5paH5Lu244CCDQo+ICvlj4Lop4HkuIvpnaLnmoTkvovl
-rZDmnaXliJvlu7rku7vliqHnu4TvvIzlubbpgJrov4figJxjZ3JvdXDigJ3kvKrmlofku7bns7vn
-u5/kv67mlLnlroPku6znmoRDUFXku73pop06Og0KPiArDQo+ICsgICAgICAgIyBtb3VudCAtdCB0
-bXBmcyBjZ3JvdXBfcm9vdCAvc3lzL2ZzL2Nncm91cA0KPiArICAgICAgICMgbWtkaXIgL3N5cy9m
-cy9jZ3JvdXAvY3B1DQo+ICsgICAgICAgIyBtb3VudCAtdCBjZ3JvdXAgLW9jcHUgbm9uZSAvc3lz
-L2ZzL2Nncm91cC9jcHUNCj4gKyAgICAgICAjIGNkIC9zeXMvZnMvY2dyb3VwL2NwdQ0KPiArDQo+
-ICsgICAgICAgIyBta2RpciBtdWx0aW1lZGlhICAgICAgIyDliJvlu7ogIm11bHRpbWVkaWEiIOS7
-u+WKoee7hA0KPiArICAgICAgICMgbWtkaXIgYnJvd3NlciAgICAgICAgICMg5Yib5bu6ICJicm93
-c2VyIiDku7vliqHnu4QNCj4gKw0KPiArICAgICAgICMgI+mFjee9rm11bHRpbWVkaWHnu4TvvIzk
-u6Tlhbbojrflvpdicm93c2Vy57uE5Lik5YCNQ1BV5bim5a69DQo+ICsNCj4gKyAgICAgICAjIGVj
-aG8gMjA0OCA+IG11bHRpbWVkaWEvY3B1LnNoYXJlcw0KPiArICAgICAgICMgZWNobyAxMDI0ID4g
-YnJvd3Nlci9jcHUuc2hhcmVzDQo+ICsNCj4gKyAgICAgICAjIGZpcmVmb3ggJiAgICAgIyDlkK/l
-iqhmaXJlZm945bm25oqK5a6D56e75YiwICJicm93c2VyIiDnu4QNCj4gKyAgICAgICAjIGVjaG8g
-PGZpcmVmb3hfcGlkPiA+IGJyb3dzZXIvdGFza3MNCj4gKw0KPiArICAgICAgICMgI+WQr+WKqGdt
-cGxheWVy77yI5oiW6ICF5L2g5pyA5Zac5qyi55qE55S15b2x5pKt5pS+5Zmo77yJDQo+ICsgICAg
-ICAgIyBlY2hvIDxtb3ZpZV9wbGF5ZXJfcGlkPiA+IG11bHRpbWVkaWEvdGFza3MNCj4gLS0NCj4g
-Mi4xNy4xDQo+DQo=
+Translate scheduler/sched-design-CFS.rst into Chinese.
+
+Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
+Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+Reviewed-by: Alex Shi <alexs@kernel.org>
+---
+v2:
+1. Pick Reviewed-by tags.
+2. Add a missing blank line.
+
+ .../translations/zh_CN/scheduler/index.rst    |   2 +-
+ .../zh_CN/scheduler/sched-design-CFS.rst      | 205 ++++++++++++++++++
+ 2 files changed, 206 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/scheduler/sched-design-CFS.rst
+
+diff --git a/Documentation/translations/zh_CN/scheduler/index.rst b/Documentation/translations/zh_CN/scheduler/index.rst
+index e97ad7781088..5327c61cb0ab 100644
+--- a/Documentation/translations/zh_CN/scheduler/index.rst
++++ b/Documentation/translations/zh_CN/scheduler/index.rst
+@@ -20,6 +20,7 @@ Linux调度器
+     completion
+     sched-arch
+     sched-bwc
++    sched-design-CFS
+     sched-capacity
+ 
+ 
+@@ -27,7 +28,6 @@ TODOList:
+ 
+     sched-bwc
+     sched-deadline
+-    sched-design-CFS
+     sched-domains
+     sched-energy
+     sched-nice-design
+diff --git a/Documentation/translations/zh_CN/scheduler/sched-design-CFS.rst b/Documentation/translations/zh_CN/scheduler/sched-design-CFS.rst
+new file mode 100644
+index 000000000000..26b0f36f793d
+--- /dev/null
++++ b/Documentation/translations/zh_CN/scheduler/sched-design-CFS.rst
+@@ -0,0 +1,205 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/scheduler/sched-design-CFS.rst
++
++:翻译:
++
++  唐艺舟 Tang Yizhou <tangyeechou@gmail.com>
++
++===============
++完全公平调度器
++===============
++
++
++1. 概述
++=======
++
++CFS表示“完全公平调度器”，它是为桌面新设计的进程调度器，由Ingo Molnar实现并合入Linux
++2.6.23。它替代了之前原始调度器中SCHED_OTHER策略的交互式代码。
++
++CFS 80%的设计可以总结为一句话：CFS在真实硬件上建模了一个“理想的，精确的多任务CPU”。
++
++“理想的多任务CPU”是一种（不存在的 :-)）具有100%物理算力的CPU，它能让每个任务精确地以
++相同的速度并行运行，速度均为1/nr_running。举例来说，如果有两个任务正在运行，那么每个
++任务获得50%物理算力。 --- 也就是说，真正的并行。
++
++在真实的硬件上，一次只能运行一个任务，所以我们需要介绍“虚拟运行时间”的概念。任务的虚拟
++运行时间表明，它的下一个时间片将在上文描述的理想多任务CPU上开始执行。在实践中，任务的
++虚拟运行时间由它的真实运行时间相较正在运行的任务总数归一化计算得到。
++
++
++
++2. 一些实现细节
++===============
++
++在CFS中，虚拟运行时间由每个任务的p->se.vruntime（单位为纳秒）的值表达和跟踪。因此，
++精确地计时和测量一个任务应得的“预期的CPU时间”是可能的。
++
++  一些细节：在“理想的”硬件上，所有的任务在任何时刻都应该具有一样的p->se.vruntime值，
++  --- 也就是说，任务应当同时执行，没有任务会在“理想的”CPU分时中变得“不平衡”。
++
++CFS的任务选择逻辑基于p->se.vruntime的值，因此非常简单：总是试图选择p->se.vruntime值
++最小的任务运行（也就是说，至今执行时间最少的任务）。CFS总是尽可能尝试按“理想多任务硬件”
++那样将CPU时间在可运行任务中均分。
++
++CFS剩下的其它设计，一般脱离了这个简单的概念，附加的设计包括nice级别，多处理，以及各种
++用来识别已睡眠任务的算法变体。
++
++
++
++3. 红黑树
++=========
++
++CFS的设计非常激进：它不使用运行队列的旧数据结构，而是使用按时间排序的红黑树，构建出
++任务未来执行的“时间线”。因此没有任何“数组切换”的旧包袱（之前的原始调度器和RSDL/SD都
++被它影响）。
++
++CFS同样维护了rq->cfs.min_vruntime值，它是单调递增的，跟踪运行队列中的所有任务的最小
++虚拟运行时间值。系统做的全部工作是：使用min_vruntime跟踪，然后用它的值将新激活的调度
++实体尽可能地放在红黑树的左侧。
++
++运行队列中正在运行的任务的总数由rq->cfs.load计数，它是运行队列中的任务的权值之和。
++
++CFS维护了一个按时间排序的红黑树，所有可运行任务以p->se.vruntime为键值排序。CFS从这颗
++树上选择“最左侧”的任务并运行。系统继续运行，被执行过的任务越来越被放到树的右侧 --- 缓慢，
++但很明确每个任务都有成为“最左侧任务”的机会，因此任务将确定性地获得一定量CPU时间。
++
++总结一下，CFS工作方式像这样：它运行一个任务一会儿，当任务发生调度（或者调度器时钟滴答
++tick产生），就会考虑任务的CPU使用率：任务刚刚花在物理CPU上的（少量）时间被加到
++p->se.vruntime。一旦p->se.vruntime变得足够大，其它的任务将成为按时间排序的红黑树的
++“最左侧任务”（相较最左侧的任务，还要加上一个很小的“粒度”量，使得我们不会对任务过度调度，
++导致缓存颠簸），然后新的最左侧任务将被选中，当前任务被抢占。
++
++
++
++
++4. CFS的一些特征
++================
++
++CFS使用纳秒粒度的计时，不依赖于任何jiffies或HZ的细节。因此CFS并不像之前的调度器那样
++有“时间片”的概念，也没有任何启发式的设计。唯一可调的参数（你需要打开CONFIG_SCHED_DEBUG）是：
++
++   /proc/sys/kernel/sched_min_granularity_ns
++
++它可以用来将调度器从“桌面”模式（也就是低时延）调节为“服务器”（也就是高批处理）模式。
++它的默认设置是适合桌面的工作负载。SCHED_BATCH也被CFS调度器模块处理。
++
++CFS的设计不易受到当前存在的任何针对stock调度器的“攻击”的影响，包括fiftyp.c，thud.c，
++chew.c，ring-test.c，massive_intr.c，它们都能很好地运行，不会影响交互性，将产生
++符合预期的行为。
++
++CFS调度器处理nice级别和SCHED_BATCH的能力比之前的原始调度器更强：两种类型的工作负载
++都被更激进地隔离了。
++
++SMP负载均衡被重做/清理过：遍历运行队列的假设已经从负载均衡的代码中移除，使用调度模块
++的迭代器。结果是，负载均衡代码变得简单不少。
++
++
++
++5. 调度策略
++===========
++
++CFS实现了三种调度策略：
++
++  - SCHED_NORMAL：（传统被称为SCHED_OTHER）：该调度策略用于普通任务。
++
++  - SCHED_BATCH：抢占不像普通任务那样频繁，因此允许任务运行更长时间，更好地利用缓存，
++    不过要以交互性为代价。它很适合批处理工作。
++
++  - SCHED_IDLE：它比nice 19更弱，不过它不是真正的idle定时器调度器，因为要避免给机器
++    带来死锁的优先级反转问题。
++
++SCHED_FIFO/_RR被实现在sched/rt.c中，它们由POSIX具体说明。
++
++util-linux-ng 2.13.1.1中的chrt命令可以设置以上所有策略，除了SCHED_IDLE。
++
++
++
++6. 调度类
++=========
++
++新的CFS调度器被设计成支持“调度类”，一种调度模块的可扩展层次结构。这些模块封装了调度策略
++细节，由调度器核心代码处理，且无需对它们做太多假设。
++
++sched/fair.c 实现了上文描述的CFS调度器。
++
++sched/rt.c 实现了SCHED_FIFO和SCHED_RR语义，且比之前的原始调度器更简洁。它使用了100个
++运行队列（总共100个实时优先级，替代了之前调度器的140个），且不需要过期数组（expired
++array）。
++
++调度类由sched_class结构体实现，它包括一些函数钩子，当感兴趣的事件发生时，钩子被调用。
++
++这是（部分）钩子的列表：
++
++ - enqueue_task(...)
++
++   当任务进入可运行状态时，被调用。它将调度实体（任务）放到红黑树中，增加nr_running变量
++   的值。
++
++ - dequeue_task(...)
++
++   当任务不再可运行时，这个函数被调用，对应的调度实体被移出红黑树。它减少nr_running变量
++   的值。
++
++ - yield_task(...)
++
++   这个函数的行为基本上是出队，紧接着入队，除非compat_yield sysctl被开启。在那种情况下，
++   它将调度实体放在红黑树的最右端。
++
++ - check_preempt_curr(...)
++
++   这个函数检查进入可运行状态的任务能否抢占当前正在运行的任务。
++
++ - pick_next_task(...)
++
++   这个函数选择接下来最适合运行的任务。
++
++ - set_curr_task(...)
++
++   这个函数在任务改变调度类或改变任务组时被调用。
++
++ - task_tick(...)
++
++   这个函数最常被时间滴答函数调用，它可能导致进程切换。这驱动了运行时抢占。
++
++
++
++
++7. CFS的组调度扩展
++==================
++
++通常，调度器操作粒度为任务，努力为每个任务提供公平的CPU时间。有时可能希望将任务编组，
++并为每个组提供公平的CPU时间。举例来说，可能首先希望为系统中的每个用户提供公平的CPU
++时间，接下来才是某个用户的每个任务。
++
++CONFIG_CGROUP_SCHED 力求实现它。它将任务编组，并为这些组公平地分配CPU时间。
++
++CONFIG_RT_GROUP_SCHED 允许将实时（也就是说，SCHED_FIFO和SCHED_RR）任务编组。
++
++CONFIG_FAIR_GROUP_SCHED 允许将CFS（也就是说，SCHED_NORMAL和SCHED_BATCH）任务编组。
++
++   这些编译选项要求CONFIG_CGROUPS被定义，然后管理员能使用cgroup伪文件系统任意创建任务组。
++   关于该文件系统的更多信息，参见Documentation/admin-guide/cgroup-v1/cgroups.rst
++
++当CONFIG_FAIR_GROUP_SCHED被定义后，通过伪文件系统，每个组被创建一个“cpu.shares”文件。
++参见下面的例子来创建任务组，并通过“cgroup”伪文件系统修改它们的CPU份额::
++
++	# mount -t tmpfs cgroup_root /sys/fs/cgroup
++	# mkdir /sys/fs/cgroup/cpu
++	# mount -t cgroup -ocpu none /sys/fs/cgroup/cpu
++	# cd /sys/fs/cgroup/cpu
++
++	# mkdir multimedia	# 创建 "multimedia" 任务组
++	# mkdir browser		# 创建 "browser" 任务组
++
++	# #配置multimedia组，令其获得browser组两倍CPU带宽
++
++	# echo 2048 > multimedia/cpu.shares
++	# echo 1024 > browser/cpu.shares
++
++	# firefox &	# 启动firefox并把它移到 "browser" 组
++	# echo <firefox_pid> > browser/tasks
++
++	# #启动gmplayer（或者你最喜欢的电影播放器）
++	# echo <movie_player_pid> > multimedia/tasks
+-- 
+2.17.1
+
