@@ -2,117 +2,176 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31580C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Dec 2021 01:05:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 595ABC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Dec 2021 02:02:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238937AbhLOBFu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 14 Dec 2021 20:05:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37672 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238989AbhLOBF2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Dec 2021 20:05:28 -0500
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71C4FC06173F;
-        Tue, 14 Dec 2021 17:05:28 -0800 (PST)
-Received: by mail-pf1-x42d.google.com with SMTP id u80so19251231pfc.9;
-        Tue, 14 Dec 2021 17:05:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:cc:references:subject:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=uRlQqvF6RG8Zsg1nyt0JSPZT8TYRrqVaCal8RO4v+zE=;
-        b=fWB6oS3lFyO6Sdao+Aee3tpYOhqVqkVQ7o9u7nynsuoVNn81beGq0mVT23SY1epDfX
-         HjxweStERrIh1v+C7ge3tECcUtDUNLIQEn3RUiTg/fQOPLQyox7lzknLBL+5/Jusq8IT
-         lJSaLO8K85gssQNmQdBjXoKYw5wjsTL0tyOz57gEMl4VA06h9s1QQbelB1hj5RJeHlnz
-         ugUSQU2pbzatMDN2ROxVbsKgNNbH0w2oPiIF+1jIBlfCam6pZAOYtKGqN9bI0PJduDTF
-         QEgdQlaKiSHbEo8oZx8Qfk1z1607wfjXtKUr+06v74yUNXy50dyi/Bn5LGRv5p5V+Z2R
-         aJZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:to:cc:references:subject:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=uRlQqvF6RG8Zsg1nyt0JSPZT8TYRrqVaCal8RO4v+zE=;
-        b=vjfzz49TpjMJ6Jf3bAJIEtlqaQK89RKEg2t2pXAs0rbotEmvHuUT2refDPfuK9W2Lg
-         h6b8xlVy8960aL8ZMsDE0PR4LUlHdmt3GF0phfXaWYT3pvEWUX8GiljmFYOO1CC4ysG4
-         aEtbw4ppNMRHdDbHQMArGTJoynEg3H4tXcnhKGSXBQtu1Pgoo0E6PlOBdzhrDi8rL884
-         0tmoyEfwh+q9SZoJ2mrKRkmjHnf20Mo8nQjgqvQGRsS0q5BaVVafSDHjlvnUY1Ny1tfv
-         mM4npwi6pAPDratp8066tNQgwwBnra3w208/F5pfipkj0Lru9OQ+UhMJ1XJpwLZ7CJW5
-         AeQg==
-X-Gm-Message-State: AOAM532BiEJxcT8HQ6qclT4mrwNmbwjZcQ4hKvRoR3ou1oKkFGaWsrC1
-        BGTjW2j8fDAfpJG2/yKNEkqrEZnurPU=
-X-Google-Smtp-Source: ABdhPJy/TNd+1wVxgVnqnblxWVOtWxryPBZ+qm2AvWo8XnMsokoPWxmozPvKVcEk4VYa8L2v+dKxlQ==
-X-Received: by 2002:aa7:9207:0:b0:4a4:f59a:9df with SMTP id 7-20020aa79207000000b004a4f59a09dfmr6752405pfo.63.1639530327904;
-        Tue, 14 Dec 2021 17:05:27 -0800 (PST)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id mm22sm175208pjb.28.2021.12.14.17.05.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Dec 2021 17:05:27 -0800 (PST)
-To:     Shuah Khan <skhan@linuxfoundation.org>
-Cc:     akpm@linux-foundation.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20211215001929.47866-1-skhan@linuxfoundation.org>
-Subject: Re: [PATCH] docs/vm: fix Unexpected indentation warns in page_owner
-From:   Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <e3acf716-edd2-91d5-24c9-02c547f0d168@gmail.com>
-Date:   Wed, 15 Dec 2021 10:05:23 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        id S239026AbhLOCCT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 14 Dec 2021 21:02:19 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:16808 "EHLO
+        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238990AbhLOCCT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 Dec 2021 21:02:19 -0500
+Received: from dggpeml500021.china.huawei.com (unknown [172.30.72.53])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JDJQ5024kz91kd;
+        Wed, 15 Dec 2021 10:01:33 +0800 (CST)
+Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
+ dggpeml500021.china.huawei.com (7.185.36.21) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Wed, 15 Dec 2021 10:02:17 +0800
+Received: from huawei.com (10.175.100.227) by dggpeml500006.china.huawei.com
+ (7.185.36.76) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Wed, 15 Dec
+ 2021 10:02:16 +0800
+From:   Tang Yizhou <tangyizhou@huawei.com>
+To:     <siyanteng@loongson.cn>, <siyanteng01@gmail.com>,
+        <alexs@kernel.org>, <seakeel@gmail.com>
+CC:     <linux-doc@vger.kernel.org>, <corbet@lwn.net>,
+        <zhengbin13@huawei.com>, <tangyeechou@gmail.com>,
+        Tang Yizhou <tangyizhou@huawei.com>
+Subject: [PATCH] docs/zh_CN: Add cputopology Chinese translation
+Date:   Wed, 15 Dec 2021 10:29:55 +0800
+Message-ID: <20211215022955.21210-1-tangyizhou@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <20211215001929.47866-1-skhan@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.175.100.227]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpeml500006.china.huawei.com (7.185.36.76)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Translate admin-guide/cputopology.rst into Chinese.
 
-On Tue, 14 Dec 2021 17:19:29 -0700, Shuah Khan wrote:
-> Fix Unexpected indentation warns in page_owner:
-> 
-> Documentation/vm/page_owner.rst:92: WARNING: Unexpected indentation.
-> Documentation/vm/page_owner.rst:96: WARNING: Unexpected indentation.
-> Documentation/vm/page_owner.rst:107: WARNING: Unexpected indentation.
+Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
+---
+ .../zh_CN/admin-guide/cputopology.rst         | 94 +++++++++++++++++++
+ .../translations/zh_CN/admin-guide/index.rst  |  2 +-
+ 2 files changed, 95 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/admin-guide/cputopology.rst
 
-I guess these outputs should have been literal blocks.
-Then Sphinx wouldn't complain about indentations.
+diff --git a/Documentation/translations/zh_CN/admin-guide/cputopology.rst b/Documentation/translations/zh_CN/admin-guide/cputopology.rst
+new file mode 100644
+index 000000000000..f8d5c5025330
+--- /dev/null
++++ b/Documentation/translations/zh_CN/admin-guide/cputopology.rst
+@@ -0,0 +1,94 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/admin-guide/cputopology.rst
++
++:翻译:
++
++  唐艺舟 Tang Yizhou <tangyeechou@gmail.com>
++
++==========================
++如何通过sysfs将CPU拓扑导出
++==========================
++
++CPU拓扑信息通过sysfs导出。显示的项（属性）和某些架构的/proc/cpuinfo输出相似。它们位于
++/sys/devices/system/cpu/cpuX/topology/。请阅读ABI文件：
++Documentation/ABI/stable/sysfs-devices-system-cpu。
++
++drivers/base/topology.c是体系结构中性的，它导出了这些属性。然而，die、cluster、book、
++draw这些层次结构相关的文件仅在体系结构提供了下文描述的宏的条件下被创建。
++
++对于支持这个特性的体系结构，它必须在include/asm-XXX/topology.h中定义这些宏中的一部分::
++
++	#define topology_physical_package_id(cpu)
++	#define topology_die_id(cpu)
++	#define topology_cluster_id(cpu)
++	#define topology_core_id(cpu)
++	#define topology_book_id(cpu)
++	#define topology_drawer_id(cpu)
++	#define topology_sibling_cpumask(cpu)
++	#define topology_core_cpumask(cpu)
++	#define topology_cluster_cpumask(cpu)
++	#define topology_die_cpumask(cpu)
++	#define topology_book_cpumask(cpu)
++	#define topology_drawer_cpumask(cpu)
++
++``**_id macros`` 的类型是int。
++``**_cpumask macros`` 的类型是 ``(const) struct cpumask *`` 。后者和恰当的
++``**_siblings`` sysfs属性对应（除了topology_sibling_cpumask()，它和thread_siblings
++对应）。
++
++为了在所有体系结构上保持一致，include/linux/topology.h提供了上述所有宏的默认定义，以防
++它们未在include/asm-XXX/topology.h中定义:
++
++1) topology_physical_package_id: -1
++2) topology_die_id: -1
++3) topology_cluster_id: -1
++4) topology_core_id: 0
++5) topology_book_id: -1
++6) topology_drawer_id: -1
++7) topology_sibling_cpumask: 仅入参CPU
++8) topology_core_cpumask: 仅入参CPU
++9) topology_cluster_cpumask: 仅入参CPU
++10) topology_die_cpumask: 仅入参CPU
++11) topology_book_cpumask:  仅入参CPU
++12) topology_drawer_cpumask: 仅入参CPU
++
++此外，CPU拓扑信息由/sys/devices/system/cpu提供，包含下述文件。输出对应的内部数据源放在
++方括号（"[]"）中。
++
++    =========== ==================================================
++    kernel_max: 内核配置允许的最大CPU下标值。[NR_CPUS-1]
++
++    offline:    由于热插拔移除或者超过内核允许的CPU上限（上文描述的kernel_max）导致未上线的CPU。[~cpu_online_mask + cpus >= NR_CPUS]
++
++    online:     在线的CPU，可供调度使用。[cpu_online_mask]
++
++    possible:   已被分配资源的CPU，如果它们CPU实际存在，可以上线。[cpu_possible_mask]
++
++    present:    被系统识别实际存在的CPU。[cpu_present_mask]
++    =========== ==================================================
++
++上述输出的格式和cpulist_parse()兼容[参见 <linux/cpumask.h>]。下面给些例子。
++
++在本例中，系统中有64个CPU，但是CPU 32-63超过了kernel_max值，因为NR_CPUS配置项是32，
++取值范围被限制为0..31。此外注意CPU2和4-31未上线，但是可以上线，因为它们同时存在于
++present和possible::
++
++     kernel_max: 31
++        offline: 2,4-31,32-63
++         online: 0-1,3
++       possible: 0-31
++        present: 0-31
++
++在本例中，NR_CPUS配置项是128，但内核启动时设置possible_cpus=144。系统中有4个CPU，
++CPU2被手动设置下线（也是唯一一个可以上线的CPU）::
++
++     kernel_max: 127
++        offline: 2,4-127,128-143
++         online: 0-1,3
++       possible: 0-127
++        present: 0-3
++
++阅读Documentation/core-api/cpu_hotplug.rst可了解开机参数possible_cpus=NUM，同时还
++可以了解各种cpumask的信息。
+diff --git a/Documentation/translations/zh_CN/admin-guide/index.rst b/Documentation/translations/zh_CN/admin-guide/index.rst
+index 83db84282562..548e57f4b3f1 100644
+--- a/Documentation/translations/zh_CN/admin-guide/index.rst
++++ b/Documentation/translations/zh_CN/admin-guide/index.rst
+@@ -65,6 +65,7 @@ Todolist:
+ 
+    clearing-warn-once
+    cpu-load
++   cputopology
+    lockup-watchdogs
+    unicode
+    sysrq
+@@ -84,7 +85,6 @@ Todolist:
+    cgroup-v1/index
+    cgroup-v2
+    cifs/index
+-   cputopology
+    dell_rbu
+    device-mapper/index
+    edid
+-- 
+2.17.1
 
-        Thanks, Akira
-
-> 
-> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
-> ---
->  Documentation/vm/page_owner.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
-> index 9837fc8147dd..9a3af6aafa09 100644
-> --- a/Documentation/vm/page_owner.rst
-> +++ b/Documentation/vm/page_owner.rst
-> @@ -89,11 +89,11 @@ Usage
->  
->  	Page allocated via order XXX, ...
->  	PFN XXX ...
-> -	 // Detailed stack
-> +	// Detailed stack
->  
->  	Page allocated via order XXX, ...
->  	PFN XXX ...
-> -	 // Detailed stack
-> +	// Detailed stack
->  
->     The ``page_owner_sort`` tool ignores ``PFN`` rows, puts the remaining rows
->     in buf, uses regexp to extract the page order value, counts the times
-> @@ -104,7 +104,7 @@ Usage
->  
->  	XXX times, XXX pages:
->  	Page allocated via order XXX, ...
-> -	 // Detailed stack
-> +	// Detailed stack
->  
->     By default, ``page_owner_sort`` is sorted according to the times of buf.
->     If you want to sort by the pages nums of buf, use the ``-m`` parameter.
-> -- 
-> 2.32.0
