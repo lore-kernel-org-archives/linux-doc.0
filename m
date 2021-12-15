@@ -2,240 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E445AC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Dec 2021 16:03:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30257C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 15 Dec 2021 16:29:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244122AbhLOQDN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Dec 2021 11:03:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44094 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232640AbhLOQDM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Dec 2021 11:03:12 -0500
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81D5AC06173E
-        for <linux-doc@vger.kernel.org>; Wed, 15 Dec 2021 08:03:12 -0800 (PST)
-Received: by mail-yb1-xb2b.google.com with SMTP id v203so56478695ybe.6
-        for <linux-doc@vger.kernel.org>; Wed, 15 Dec 2021 08:03:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=atishpatra.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=GiNYQTCx80RqOCWsDr0HEjJB5e/RmxK3bF/dCC29mWU=;
-        b=CzrfEMlCyBNdUXTadBLO4zZaCHbDXbM0FdxnC6Ud6YNLkmLJ4//mLRolRf3zDw/O7a
-         i/LCeqbAo8fZi97Gl9bSAwGR6iFuUNwaCv8BS7x9OIuU6B4LceDcTG9iUAGKgc7JgKP6
-         +20R4ojbe6U4ogKZyJZ8RVIx55iS7RkyjTDwc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=GiNYQTCx80RqOCWsDr0HEjJB5e/RmxK3bF/dCC29mWU=;
-        b=bUVWFfLojyBcOcvIyCPIOKV7oqMo43voLOaquJjDZ8vS+TVN3steqZbRvRI/y28Y5m
-         n/Df7z3hGh66ck7FjYso4qHTofiiFxK+dxmKHjHApq34LoXBHRYeg1aObihJmUZP5ib4
-         M4GLGjQelIRgaIAR2tfi6ZEokbcIKNU+NOl1AK7NkhM3vfHKeT0lEwW35TYd0ySWEi3+
-         xT+mFW0VkFJjLfwxKMjYaR6TPMTTJhLQY3zREmpsfQUIpfXsmUhEkWGYbJZ2IM0RYphl
-         QN8BJZKXzy5yQLIe64yMNMJpFpTu994a/xqzaDXO3smDuRQlC//PWaFsYsUS4CJAeQmh
-         hLyQ==
-X-Gm-Message-State: AOAM533juBx51u3zUx96l7av1v9bB07R0sDLSQxrbjCfMcff4AtE5cJG
-        7Wcn5mzojd4aeaB6gQOcXC59omYpbkLnObkZ3Eb4cfUH7PcZ
-X-Google-Smtp-Source: ABdhPJzXQW8xMk9WFdgxeBv6U5lUUQ9SRQofE4GMEUin6G+Dxb6DFCkBbx7Zd6eNLZ/A1IORIMM+JgB8FwA7V/caBHE=
-X-Received: by 2002:a25:d157:: with SMTP id i84mr6667830ybg.703.1639584191647;
- Wed, 15 Dec 2021 08:03:11 -0800 (PST)
+        id S244807AbhLOQ3v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Dec 2021 11:29:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25261 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S244775AbhLOQ3u (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Dec 2021 11:29:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1639585790;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Yxhcniv4Juf9tUgebwGdqHHxd7keYoCASjyNhDtoduY=;
+        b=gI8ESY4cyiR0X5xovd+kC+eahAE9gNGGgKypPnjGw/X97357HLoNhD9zIeEqcUDVKmD7o/
+        DxjAbPE7sMkmdS4nuZvuMOkGAZ4fQ5u8bM9tCeF07r6hGn5MfLDNQSV30yJ8/23s0JFM2V
+        55CBFUnAmP6GkLLH/PEJ0UXLqXT2pn8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-450-uDIz6gbyNhGd3lqcz7KQxQ-1; Wed, 15 Dec 2021 11:29:46 -0500
+X-MC-Unique: uDIz6gbyNhGd3lqcz7KQxQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CAD4185302B;
+        Wed, 15 Dec 2021 16:29:44 +0000 (UTC)
+Received: from [10.22.10.54] (unknown [10.22.10.54])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id F2AE15BE0B;
+        Wed, 15 Dec 2021 16:29:41 +0000 (UTC)
+Message-ID: <98887e63-51de-f5ad-8fb8-56269aaf4bcf@redhat.com>
+Date:   Wed, 15 Dec 2021 11:29:41 -0500
 MIME-Version: 1.0
-References: <20211025195350.242914-1-atish.patra@wdc.com> <20211025195350.242914-6-atish.patra@wdc.com>
- <20211215110214.62ca2474@redslave.neermore.group>
-In-Reply-To: <20211215110214.62ca2474@redslave.neermore.group>
-From:   Atish Patra <atishp@atishpatra.org>
-Date:   Wed, 15 Dec 2021 08:03:00 -0800
-Message-ID: <CAOnJCU+XGcFtJuYu5AMG07guxoaigx=fKnmnNGrrs4AdxKRLeQ@mail.gmail.com>
-Subject: Re: [v4 05/11] RISC-V: Add RISC-V SBI PMU extension definitions
-To:     Nikita Shubin <nikita.shubin@maquefel.me>
-Cc:     "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
-        Anup Patel <anup.patel@wdc.com>,
-        David Abdurachmanov <david.abdurachmanov@sifive.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        Greentime Hu <greentime.hu@sifive.com>,
-        Guo Ren <guoren@linux.alibaba.com>,
-        Heinrich Schuchardt <xypron.glpk@gmx.de>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v9 3/7] cgroup/cpuset: Refining features and constraints
+ of a partition
+Content-Language: en-US
+To:     =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-perf-users@vger.kernel.org,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        Nick Kossifidis <mick@ics.forth.gr>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Vincent Chen <vincent.chen@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
+        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>
+References: <20211205183220.818872-1-longman@redhat.com>
+ <20211205183220.818872-4-longman@redhat.com>
+ <20211215144944.GE16798@blackbody.suse.cz>
+From:   Waiman Long <longman@redhat.com>
+In-Reply-To: <20211215144944.GE16798@blackbody.suse.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 15, 2021 at 12:10 AM Nikita Shubin
-<nikita.shubin@maquefel.me> wrote:
->
-> Hello Atish!
->
-> On Mon, 25 Oct 2021 12:53:44 -0700
-> Atish Patra <atish.patra@wdc.com> wrote:
->
-> > This patch adds all the definitions defined by the SBI PMU extension.
-> >
-> > Signed-off-by: Atish Patra <atish.patra@wdc.com>
-> > ---
-> >  arch/riscv/include/asm/sbi.h | 97
-> > ++++++++++++++++++++++++++++++++++++ 1 file changed, 97 insertions(+)
-> >
-> > diff --git a/arch/riscv/include/asm/sbi.h
-> > b/arch/riscv/include/asm/sbi.h index 0d42693cb65e..7a14ca06ba8f 100644
-> > --- a/arch/riscv/include/asm/sbi.h
-> > +++ b/arch/riscv/include/asm/sbi.h
-> > @@ -27,6 +27,7 @@ enum sbi_ext_id {
-> >       SBI_EXT_IPI = 0x735049,
-> >       SBI_EXT_RFENCE = 0x52464E43,
-> >       SBI_EXT_HSM = 0x48534D,
-> > +     SBI_EXT_PMU = 0x504D55,
-> >  };
-> >
-> >  enum sbi_ext_base_fid {
-> > @@ -70,6 +71,99 @@ enum sbi_hsm_hart_status {
-> >       SBI_HSM_HART_STATUS_STOP_PENDING,
-> >  };
-> >
-> > +
-> > +enum sbi_ext_pmu_fid {
-> > +     SBI_EXT_PMU_NUM_COUNTERS = 0,
-> > +     SBI_EXT_PMU_COUNTER_GET_INFO,
-> > +     SBI_EXT_PMU_COUNTER_CFG_MATCH,
-> > +     SBI_EXT_PMU_COUNTER_START,
-> > +     SBI_EXT_PMU_COUNTER_STOP,
-> > +     SBI_EXT_PMU_COUNTER_FW_READ,
-> > +};
-> > +
-> > +#define RISCV_PMU_RAW_EVENT_MASK GENMASK_ULL(55, 0)
-> > +#define RISCV_PMU_RAW_EVENT_IDX 0x20000
-> > +
-> > +/** General pmu event codes specified in SBI PMU extension */
-> > +enum sbi_pmu_hw_generic_events_t {
-> > +     SBI_PMU_HW_NO_EVENT                     = 0,
-> > +     SBI_PMU_HW_CPU_CYCLES                   = 1,
-> > +     SBI_PMU_HW_INSTRUCTIONS                 = 2,
-> > +     SBI_PMU_HW_CACHE_REFERENCES             = 3,
-> > +     SBI_PMU_HW_CACHE_MISSES                 = 4,
-> > +     SBI_PMU_HW_BRANCH_INSTRUCTIONS          = 5,
-> > +     SBI_PMU_HW_BRANCH_MISSES                = 6,
-> > +     SBI_PMU_HW_BUS_CYCLES                   = 7,
-> > +     SBI_PMU_HW_STALLED_CYCLES_FRONTEND      = 8,
-> > +     SBI_PMU_HW_STALLED_CYCLES_BACKEND       = 9,
-> > +     SBI_PMU_HW_REF_CPU_CYCLES               = 10,
-> > +
-> > +     SBI_PMU_HW_GENERAL_MAX,
-> > +};
-> > +
-> > +/**
-> > + * Special "firmware" events provided by the firmware, even if the
-> > hardware
-> > + * does not support performance events. These events are encoded as
-> > a raw
-> > + * event type in Linux kernel perf framework.
-> > + */
-> > +enum sbi_pmu_fw_generic_events_t {
-> > +     SBI_PMU_FW_MISALIGNED_LOAD      = 0,
-> > +     SBI_PMU_FW_MISALIGNED_STORE     = 1,
-> > +     SBI_PMU_FW_ACCESS_LOAD          = 2,
-> > +     SBI_PMU_FW_ACCESS_STORE         = 3,
-> > +     SBI_PMU_FW_ILLEGAL_INSN         = 4,
-> > +     SBI_PMU_FW_SET_TIMER            = 5,
-> > +     SBI_PMU_FW_IPI_SENT             = 6,
-> > +     SBI_PMU_FW_IPI_RECVD            = 7,
-> > +     SBI_PMU_FW_FENCE_I_SENT         = 8,
-> > +     SBI_PMU_FW_FENCE_I_RECVD        = 9,
-> > +     SBI_PMU_FW_SFENCE_VMA_SENT      = 10,
-> > +     SBI_PMU_FW_SFENCE_VMA_RCVD      = 11,
-> > +     SBI_PMU_FW_SFENCE_VMA_ASID_SENT = 12,
-> > +     SBI_PMU_FW_SFENCE_VMA_ASID_RCVD = 13,
-> > +
-> > +     SBI_PMU_FW_HFENCE_GVMA_SENT     = 14,
-> > +     SBI_PMU_FW_HFENCE_GVMA_RCVD     = 15,
-> > +     SBI_PMU_FW_HFENCE_GVMA_VMID_SENT = 16,
-> > +     SBI_PMU_FW_HFENCE_GVMA_VMID_RCVD = 17,
-> > +
-> > +     SBI_PMU_FW_HFENCE_VVMA_SENT     = 18,
-> > +     SBI_PMU_FW_HFENCE_VVMA_RCVD     = 19,
-> > +     SBI_PMU_FW_HFENCE_VVMA_ASID_SENT = 20,
-> > +     SBI_PMU_FW_HFENCE_VVMA_ASID_RCVD = 21,
-> > +     SBI_PMU_FW_MAX,
-> > +};
-> > +
-> > +/* SBI PMU event types */
-> > +enum sbi_pmu_event_type {
-> > +     SBI_PMU_EVENT_TYPE_HW = 0x0,
-> > +     SBI_PMU_EVENT_TYPE_CACHE = 0x1,
-> > +     SBI_PMU_EVENT_TYPE_RAW = 0x2,
-> > +     SBI_PMU_EVENT_TYPE_FW = 0xf,
-> > +};
-> > +
-> > +/* SBI PMU event types */
-> > +enum sbi_pmu_ctr_type {
-> > +     SBI_PMU_CTR_TYPE_HW = 0x0,
-> > +     SBI_PMU_CTR_TYPE_FW,
-> > +};
-> > +
-> > +/* Flags defined for config matching function */
-> > +#define SBI_PMU_CFG_FLAG_SKIP_MATCH  (1 << 0)
-> > +#define SBI_PMU_CFG_FLAG_CLEAR_VALUE (1 << 1)
-> > +#define SBI_PMU_CFG_FLAG_AUTO_START  (1 << 2)
-> > +#define SBI_PMU_CFG_FLAG_SET_MINH    (1 << 3)
-> > +#define SBI_PMU_CFG_FLAG_SET_SINH    (1 << 4)
-> > +#define SBI_PMU_CFG_FLAG_SET_UINH    (1 << 5)
-> > +#define SBI_PMU_CFG_FLAG_SET_VSINH   (1 << 6)
-> > +#define SBI_PMU_CFG_FLAG_SET_VUINH   (1 << 7)
->
-> It looks like you have a typo here, the defines in OpenSBI are
-> different:
->
-> #define SBI_PMU_CFG_FLAG_SET_VUINH      (1 << 3)
-> #define SBI_PMU_CFG_FLAG_SET_VSINH      (1 << 4)
-> #define SBI_PMU_CFG_FLAG_SET_UINH       (1 << 5)
-> #define SBI_PMU_CFG_FLAG_SET_SINH       (1 << 6)
-> #define SBI_PMU_CFG_FLAG_SET_MINH       (1 << 7)
->
->
 
-Thanks for catching that. OpenSBI has the correct one as per the
-specification[1].
-I will fix it in the next version.
-
-[1] https://github.com/riscv-software-src/opensbi/blob/master/include/sbi/sbi_ecall_interface.h
-
-> > +
-> > +/* Flags defined for counter start function */
-> > +#define SBI_PMU_START_FLAG_SET_INIT_VALUE (1 << 0)
-> > +
-> > +/* Flags defined for counter stop function */
-> > +#define SBI_PMU_STOP_FLAG_RESET (1 << 0)
-> > +
-> >  #define SBI_SPEC_VERSION_DEFAULT     0x1
-> >  #define SBI_SPEC_VERSION_MAJOR_SHIFT 24
-> >  #define SBI_SPEC_VERSION_MAJOR_MASK  0x7f
-> > @@ -82,6 +176,9 @@ enum sbi_hsm_hart_status {
-> >  #define SBI_ERR_INVALID_PARAM        -3
-> >  #define SBI_ERR_DENIED               -4
-> >  #define SBI_ERR_INVALID_ADDRESS      -5
-> > +#define SBI_ERR_ALREADY_AVAILABLE -6
-> > +#define SBI_ERR_ALREADY_STARTED -7
-> > +#define SBI_ERR_ALREADY_STOPPED -8
-> >
-> >  extern unsigned long sbi_spec_version;
-> >  struct sbiret {
+On 12/15/21 09:49, Michal Koutný wrote:
+> On Sun, Dec 05, 2021 at 01:32:16PM -0500, Waiman Long <longman@redhat.com> wrote:
+>> @@ -1455,34 +1450,16 @@ static void update_cpumasks_hier(struct cpuset *cs, struct tmpmasks *tmp)
+>>   			switch (parent->partition_root_state) {
+>> [...]
+>> -
+>>   			case PRS_ENABLED:
+>> -				if (update_parent_subparts_cpumask(cp, partcmd_update, NULL, tmp))
+>> -					update_tasks_cpumask(parent);
+>> +				update_parent = true;
+>> [...]
+>> +		if (update_parent) {
+>> +			if (update_parent_subparts_cpumask(cp, partcmd_update, NULL, tmp))
+>> +				update_tasks_cpumask(parent);
+>> +			/*
+>> +			 * The cpuset partition_root_state may be changed
+>> +			 * to PRS_ERROR. Capture it.
+>> +			 */
+>> +			new_prs = cp->partition_root_state;
+>> +		}
+> IIUC, this ensures that when a parent becomes partition root again, this
+> would propagate downwards to invalidated children.
 >
+> However, the documentation says:
 >
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+>> +       Changing a partition root (valid or invalid) to "member" is
+>> +       always allowed.  If there are child partition roots underneath
+>> +       it, they will become invalid and unrecoverable.  So care must
+>> +       be taken to double check for this condition before disabling
+>> +       a partition root.
+> I.e. it suggests a child can be trapped in the unrecoverable state (i.e.
+> not fixable by writing into cpuset.cpus.partition).
+> But this does not happen, right?
 
+There are additional checks for the member to partition transition which 
+requires that the target cpuset shouldn't have child cpuset. That 
+prevents the recovering of a invalid partition root under a member 
+cpuset. We could certainly remove that restriction by adding additional 
+code as well as additional tests to verify it works. I haven't done that 
+simply to avoid adding more complexity to the current code.
 
+Cheers,
+Longman
 
--- 
-Regards,
-Atish
