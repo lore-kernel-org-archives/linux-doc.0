@@ -2,104 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0D28C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Dec 2021 02:46:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCBDEC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Dec 2021 05:44:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233001AbhLPCq1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Dec 2021 21:46:27 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:16819 "EHLO
-        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230151AbhLPCq1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Dec 2021 21:46:27 -0500
-Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.56])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JDxLX0hnKz91Px;
-        Thu, 16 Dec 2021 10:45:40 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Thu, 16 Dec 2021 10:46:25 +0800
-Received: from [10.174.178.55] (10.174.178.55) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Thu, 16 Dec 2021 10:46:24 +0800
-Subject: Re: [PATCH v17 03/10] x86: kdump: use macro CRASH_ADDR_LOW_MAX in
- functions reserve_crashkernel()
-To:     Baoquan He <bhe@redhat.com>, Borislav Petkov <bp@alien8.de>
-CC:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>, <linux-kernel@vger.kernel.org>,
-        Dave Young <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        <kexec@lists.infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Will Deacon" <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        <devicetree@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        "Chen Zhou" <dingguo.cz@antgroup.com>
-References: <20211210065533.2023-1-thunder.leizhen@huawei.com>
- <20211210065533.2023-4-thunder.leizhen@huawei.com> <YbntdtQo2jfbO4cO@zn.tnic>
- <20211216011040.GG3023@MiWiFi-R3L-srv>
-From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Message-ID: <9513d74c-d4c7-babd-f823-8999e195d96d@huawei.com>
-Date:   Thu, 16 Dec 2021 10:46:12 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S233976AbhLPFoU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Dec 2021 00:44:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34132 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233913AbhLPFoH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Dec 2021 00:44:07 -0500
+Received: from mail-ua1-x92d.google.com (mail-ua1-x92d.google.com [IPv6:2607:f8b0:4864:20::92d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51D02C061757
+        for <linux-doc@vger.kernel.org>; Wed, 15 Dec 2021 21:44:07 -0800 (PST)
+Received: by mail-ua1-x92d.google.com with SMTP id y23so3434248uay.7
+        for <linux-doc@vger.kernel.org>; Wed, 15 Dec 2021 21:44:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=x007l9CmyG5Mhhl6awj68hvF5+xlJ18gJv8C9c3RB/s=;
+        b=UolJxkM+o0a/L8Ra7hSn1Ky4oY3Pka/VGcJlZdk/d4vFLX56xk+7lp61iVZ6B0j87D
+         C7MkG3zg7SRMOC3y4bNwSrgoKKdTYbB/UlBqoc+CdPTDcP4w+vz+Xj/zyefXgeIzwVNf
+         vr8PUqIOCoJk136IgPGjS93vbKOASExiSmFP1jd6MYz66I3+kbuh5buyl4/bvZdnXViI
+         Mbpw+AoYUJoqBhIckf9koLlW8P/oWXKIDUXKxSIJB7vFeSgkrELwUK3SlJ7vwQ3QCYVz
+         eYNFamX9ptAqG3w2xNUJTxXUqUjJDrUMqPsOmwiQjdwiwCpJ7aAXKJ0XACVmiu1jFb6F
+         2o5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=x007l9CmyG5Mhhl6awj68hvF5+xlJ18gJv8C9c3RB/s=;
+        b=KMBwhcQXZG0DQlaeIp1bKoeWtOF6T6/Kd3KwhkjKhM8XCrXEEfYdBUPTt7deCvPhTZ
+         4PiXGqvAnMkttmILxegEFeRx0JRZrg/tQkFz0ZB9kGU01QxS/dmlvZoU2kR5G8Bfn0BQ
+         5z0IFzxxRlG1FhGc9PqthxtCImh8p5bWrvK6bfiHpWzG7UeWFr9mxh+l77mmQjDiIriY
+         MH2IRpHLqi6ERBQv4X34t0cLGYsey6ms7xfYeXm6G9+4D0UijqZOAiHY2ayTuAgcxj1F
+         aLDgnj1ngKOwsknKl0x1KfZyYwIwsAAFmomAfssXcAF13Szng+A7EXX+r5Z8w2+fQly/
+         yn4g==
+X-Gm-Message-State: AOAM533WcoLOez+/heolBMHMgt2AmFlaYfOC2QzHYzuZfsDgo+tgVBhF
+        PvRcbXreLRyfvMwPA9Kz4hwy3wuS9aZdnfvZ53IYww==
+X-Google-Smtp-Source: ABdhPJy0wqUiatEFEWteWm06fAmno9O7xiq6EHaGvlkmy6QCOhcwxFFBS2wM3t99xh/uKjIGIG5bKPtMnvnEZtpAXFk=
+X-Received: by 2002:a05:6102:a4a:: with SMTP id i10mr4847667vss.47.1639633446329;
+ Wed, 15 Dec 2021 21:44:06 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20211216011040.GG3023@MiWiFi-R3L-srv>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.178.55]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
+References: <20211207054019.1455054-1-sharinder@google.com>
+ <20211207054019.1455054-6-sharinder@google.com> <BYAPR13MB2503EB20A1A804BEA0D08508FD6E9@BYAPR13MB2503.namprd13.prod.outlook.com>
+ <CAHLZCaHWK_oUbnFMeZ7yeCg1XtwTzb1qYNtG8qgi_dOm4ZNafQ@mail.gmail.com> <BYAPR13MB250382B305D19D310AE45916FD719@BYAPR13MB2503.namprd13.prod.outlook.com>
+In-Reply-To: <BYAPR13MB250382B305D19D310AE45916FD719@BYAPR13MB2503.namprd13.prod.outlook.com>
+From:   Harinder Singh <sharinder@google.com>
+Date:   Thu, 16 Dec 2021 11:13:55 +0530
+Message-ID: <CAHLZCaGTercyt_GOFuqjT_OmZRDhA3FGReGTf7e1vVTr1VszkQ@mail.gmail.com>
+Subject: Re: [PATCH v2 5/7] Documentation: KUnit: Rework writing page to focus
+ on writing tests
+To:     Tim.Bird@sony.com
+Cc:     David Gow <davidgow@google.com>,
+        Brendan Higgins <brendanhiggins@google.com>, shuah@kernel.org,
+        corbet@lwn.net, linux-kselftest@vger.kernel.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hello Tim,
 
-
-On 2021/12/16 9:10, Baoquan He wrote:
-> On 12/15/21 at 02:28pm, Borislav Petkov wrote:
->> On Fri, Dec 10, 2021 at 02:55:26PM +0800, Zhen Lei wrote:
->>> @@ -518,7 +519,7 @@ static void __init reserve_crashkernel(void)
->>>  		}
->>>  	}
->>>  
->>> -	if (crash_base >= (1ULL << 32) && reserve_crashkernel_low()) {
->>> +	if (crash_base >= CRASH_ADDR_LOW_MAX && reserve_crashkernel_low()) {
->>>  		memblock_phys_free(crash_base, crash_size);
->>>  		return;
->>>  	}
->>
->> That's not a equivalent transformation on X86_32.
-
-The original value (1ULL << 32) is inaccurate, and it enlarged the CRASH_ADDR_LOW
-upper limit. This is because when the memory is allocated from the low end,
-the address cannot exceed CRASH_ADDR_LOW_MAX, see "if (!high)" branch. If
-the memory is allocated from the high end, 'crash_base' is greater than or
-equal to (1ULL << 32), and naturally, it is greater than CRASH_ADDR_LOW_MAX.
-
-I think I should update the description, thanks.
-
-                if (!high)
-                        crash_base = memblock_phys_alloc_range(crash_size,
-                                                CRASH_ALIGN, CRASH_ALIGN,
-                                                CRASH_ADDR_LOW_MAX);
-                if (!crash_base)
-                        crash_base = memblock_phys_alloc_range(crash_size,
-                                                CRASH_ALIGN, CRASH_ALIGN,
-                                                CRASH_ADDR_HIGH_MAX);
-
-> 
-> reserve_crashkernel_low() always return 0 on x86_32, so the not equivalent
-> transformation for x86_32 doesn't matter, I think.
-> 
-> .
-> 
+On Fri, Dec 10, 2021 at 10:46 PM <Tim.Bird@sony.com> wrote:
+>
+> Thanks for responding to my review.  I reviewed the remaining patches (v3 patches 6 and 7)
+> and found no issues.
+>
+Do you want me add your name as reviewed by you for patches 6 and 7?
+>  -- Tim
+>
+> > -----Original Message-----
+> > From: Harinder Singh <sharinder@google.com>
+> >
+> > Hello Tim,
+> >
+> > Thanks for providing review comments.
+> >
+> > Please see my comments below.
+> ...
+>
+Thanks,
+Harinder Singh
