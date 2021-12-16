@@ -2,129 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B756CC433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Dec 2021 19:27:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACAB8C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Dec 2021 20:53:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234514AbhLPT1P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Dec 2021 14:27:15 -0500
-Received: from foss.arm.com ([217.140.110.172]:47734 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241034AbhLPT1O (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 16 Dec 2021 14:27:14 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 820921474;
-        Thu, 16 Dec 2021 11:27:13 -0800 (PST)
-Received: from e121896.arm.com (unknown [10.57.6.4])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 643C03F774;
-        Thu, 16 Dec 2021 11:27:12 -0800 (PST)
-From:   James Clark <james.clark@arm.com>
-To:     mchehab+huawei@kernel.org, nfraprado@protonmail.com,
-        corbet@lwn.net, linux-doc@vger.kernel.org
-Cc:     James Clark <james.clark@arm.com>, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/1] docs: automarkup.py: Fix invalid HTML link output and broken URI fragments
-Date:   Thu, 16 Dec 2021 19:27:04 +0000
-Message-Id: <20211216192704.413216-2-james.clark@arm.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20211216192704.413216-1-james.clark@arm.com>
-References: <20211216192704.413216-1-james.clark@arm.com>
+        id S241497AbhLPUxf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Dec 2021 15:53:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50398 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234024AbhLPUxf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Dec 2021 15:53:35 -0500
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A36A2C061574;
+        Thu, 16 Dec 2021 12:53:34 -0800 (PST)
+Received: by mail-ed1-x52d.google.com with SMTP id o20so71050eds.10;
+        Thu, 16 Dec 2021 12:53:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=UYWl8N2PhW5Ju/B4C9j+htNcmkHrVxhfOJ/XbLXRxaE=;
+        b=KXp7KhYACJe+eJ/OZnlUBx/WVARig0YkY9XAroEdvqOUel5mbP1RLmVN+VCkWdTs1q
+         YErja46p+kaTMWd9fwpBL7mpKKy1xTe7qB3RfoOEkZmHSOhQLotEUulQRHMlw1QUn577
+         XMucMJ6J1cqPF/CrK9I4xRWN8pOIddxUSXNQuokdie20NxUKDBL2kMZQScpFBiBK0671
+         CJSUFMim2ek1XYUxqMwtviaf3cUZ9ofD2aDfpEyeoj9omrCLPAqvkV31IhYJ8G7pk7dp
+         mOcPg6OITXgR7mruQup7/+Rua7SDKUtGFb0O+KB/xwl8QOC4qGve0cEDncekJ9t+9LzH
+         49rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=UYWl8N2PhW5Ju/B4C9j+htNcmkHrVxhfOJ/XbLXRxaE=;
+        b=nzLz5mc0HoYOfAqcuKsbZPROcpXTdt3rAFXpeAtbJp8i1i3dqXnoLz9Gj+ZiVosmm4
+         xE1AZUp+vk9openn7/cJsrK84431ta4BiPtTA+8DCcH2cU06oWobYkaJnAs54plX/lE0
+         7ysvzbKKc/PKaCRuDDyRX172+olkbFUIFrgMqfwmOJq4GDQuxUZ6jgZRjVktaZooy4YV
+         E3VkXxnhFOxFO/yYYJVmgxDU2zjEbUNG4J6H2Dkbk9NpW/ver1qlW3c46fMVD0Y9B6pB
+         /FE/yOVCC8GsorSCZXWq5+XhWsCsuMPYkiH25xNyvLQnUlhOaJ6wAP/9JwJA8vaLwlQO
+         W94g==
+X-Gm-Message-State: AOAM530Ot08mbhQu9fAY71+Nfxm4irzPJlQeHH85IDRg3i0D03zEwmvS
+        Rzei1jNKk6yWfFfitnj+kKw=
+X-Google-Smtp-Source: ABdhPJyZ6/TD9GmzNNPDOlZrGh0poEb0LV5Qj47nvm7U89Gk4fLF27i81VsVlvVXgqdHenaKc6+9wA==
+X-Received: by 2002:a17:907:1c17:: with SMTP id nc23mr14252126ejc.549.1639688013193;
+        Thu, 16 Dec 2021 12:53:33 -0800 (PST)
+Received: from tiger.museclub.art (p200300cf9f34ba00f711d38e28b691af.dip0.t-ipconnect.de. [2003:cf:9f34:ba00:f711:d38e:28b6:91af])
+        by smtp.googlemail.com with ESMTPSA id h2sm2107842ejo.169.2021.12.16.12.53.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Dec 2021 12:53:32 -0800 (PST)
+From:   Eugene Shalygin <eugene.shalygin@gmail.com>
+Cc:     andy.shevchenko@gmail.com, pauk.denis@gmail.com,
+        Eugene Shalygin <eugene.shalygin@gmail.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 2/3] hwmon: update ASUS EC driver documentation
+Date:   Thu, 16 Dec 2021 21:53:01 +0100
+Message-Id: <20211216205303.768991-2-eugene.shalygin@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20211216205303.768991-1-eugene.shalygin@gmail.com>
+References: <20211216205303.768991-1-eugene.shalygin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since commit d18b01789ae5 ("docs: Add automatic cross-reference for
-documentation pages"), references that were already explicitly defined
-with "ref:" and reffered to other pages with a path have been doubled.
-This is reported as the following error by Firefox:
-
-  Start tag "a" seen but an element of the same type was already open.
-  End tag "a" violates nesting rules.
-
-As well as the invalid HTML, this also obscures the URI fragment links
-to subsections because the second link overrides the first. For example
-on the page admin-guide/hw-vuln/mds.html the last link should be to the
-"Default Mitigations" subsection using a # URI fragment:
-
-  admin-guide/hw-vuln/l1tf.html#default-mitigations
-
-But it is obsured by a second link to the whole page:
-
-  admin-guide/hw-vuln/l1tf.html
-
-The full HTML with the double <a> tags looks like this:
-
-  <a class="reference internal" href="l1tf.html#default-mitigations">
-    <span class="std std-ref">
-      <a class="reference internal" href="l1tf.html">
-        <span class="doc">L1TF - L1 Terminal Fault</span>
-      </a>
-    </span>
-  </a>
-
-After this commit, there is only a single link:
-
-  <a class="reference internal" href="l1tf.html#default-mitigations">
-    <span class="std std-ref">Documentation/admin-guide/hw-vuln//l1tf.rst</span>
-  </a>
-
-Now that the second link is removed, the browser correctly jumps to the
-default-mitigations subsection when clicking the link.
-
-The fix is to check that nodes in the document to be modified are not
-already references. A reference is counted as any text that is a
-descendant of a reference type node. Only plain text should be converted
-to new references, otherwise the doubling occurs.
-
-Testing
-=======
-
- * Test that the build stdout is the same (ignoring ordering), and that
-   no new warnings are printed.
-
- * Diff all .html files and check that the only modifications occur
-   to the bad double links.
-
- * The auto linking of bare references to pages without "ref:" is still
-   working.
-
-Fixes: d18b01789ae5 ("docs: Add automatic cross-reference for
-       documentation pages")
-Signed-off-by: James Clark <james.clark@arm.com>
+Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
 ---
- Documentation/sphinx/automarkup.py | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+ ...wmi_ec_sensors.rst => asus_ec_sensors.rst} | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
+ rename Documentation/hwmon/{asus_wmi_ec_sensors.rst => asus_ec_sensors.rst} (61%)
 
-diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/automarkup.py
-index acf5473002f3..3fee247b55b3 100644
---- a/Documentation/sphinx/automarkup.py
-+++ b/Documentation/sphinx/automarkup.py
-@@ -280,10 +280,22 @@ def auto_markup(app, doctree, name):
-     # avoid adding cross-references to functions that have been explicitly
-     # marked with cc:func:.
-     #
-+    def text_but_not_a_reference(node):
-+        if not isinstance(node, nodes.Text) or isinstance(node.parent, nodes.literal):
-+            return False
-+
-+        child_of_reference = False
-+        parent = node.parent
-+        while parent:
-+            if isinstance(parent, nodes.Referential):
-+                child_of_reference = True
-+                break
-+            parent = parent.parent
-+        return not child_of_reference
-+
-     for para in doctree.traverse(nodes.paragraph):
--        for node in para.traverse(nodes.Text):
--            if not isinstance(node.parent, nodes.literal):
--                node.parent.replace(node, markup_refs(name, app, node))
-+        for node in para.traverse(condition=text_but_not_a_reference):
-+            node.parent.replace(node, markup_refs(name, app, node))
+diff --git a/Documentation/hwmon/asus_wmi_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
+similarity index 61%
+rename from Documentation/hwmon/asus_wmi_ec_sensors.rst
+rename to Documentation/hwmon/asus_ec_sensors.rst
+index 1b287f229e86..8b4baf83116f 100644
+--- a/Documentation/hwmon/asus_wmi_ec_sensors.rst
++++ b/Documentation/hwmon/asus_ec_sensors.rst
+@@ -1,6 +1,6 @@
+ .. SPDX-License-Identifier: GPL-2.0-or-later
  
- def setup(app):
-     app.connect('doctree-resolved', auto_markup)
+-Kernel driver asus_wmi_ec_sensors
++Kernel driver asus_ec_sensors
+ =================================
+ 
+ Supported boards:
+@@ -9,9 +9,11 @@ Supported boards:
+  * ROG CROSSHAIR VIII DARK HERO,
+  * ROG CROSSHAIR VIII FORMULA,
+  * ROG CROSSHAIR VIII HERO,
++ * ROG CROSSHAIR VIII IMPACT,
+  * ROG STRIX B550-E GAMING,
+  * ROG STRIX B550-I GAMING,
+- * ROG STRIX X570-E GAMING.
++ * ROG STRIX X570-E GAMING,
++ * ROG STRIX X570-I GAMING
+ 
+ Authors:
+     - Eugene Shalygin <eugene.shalygin@gmail.com>
+@@ -22,9 +24,7 @@ ASUS mainboards publish hardware monitoring information via Super I/O
+ chip and the ACPI embedded controller (EC) registers. Some of the sensors
+ are only available via the EC.
+ 
+-ASUS WMI interface provides a method (BREC) to read data from EC registers,
+-which is utilized by this driver to publish those sensor readings to the
+-HWMON system. The driver is aware of and reads the following sensors:
++The driver is aware of and reads the following sensors:
+ 
+ 1. Chipset (PCH) temperature
+ 2. CPU package temperature
+@@ -32,7 +32,8 @@ HWMON system. The driver is aware of and reads the following sensors:
+ 4. Readings from the T_Sensor header
+ 5. VRM temperature
+ 6. CPU_Opt fan RPM
+-7. Chipset fan RPM
+-8. Readings from the "Water flow meter" header (RPM)
+-9. Readings from the "Water In" and "Water Out" temperature headers
+-10. CPU current
++7. VRM heatsink fan RPM
++8. Chipset fan RPM
++9. Readings from the "Water flow meter" header (RPM)
++10. Readings from the "Water In" and "Water Out" temperature headers
++11. CPU current
 -- 
-2.28.0
+2.34.1
 
