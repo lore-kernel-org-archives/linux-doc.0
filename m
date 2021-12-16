@@ -2,198 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21F9DC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Dec 2021 06:00:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5E94C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Dec 2021 06:02:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233939AbhLPGAz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Dec 2021 01:00:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38002 "EHLO
+        id S231612AbhLPGCX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Dec 2021 01:02:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233992AbhLPGAo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Dec 2021 01:00:44 -0500
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8AA6C061574
-        for <linux-doc@vger.kernel.org>; Wed, 15 Dec 2021 22:00:43 -0800 (PST)
-Received: by mail-yb1-xb49.google.com with SMTP id y125-20020a25dc83000000b005c2326bf744so47207644ybe.21
-        for <linux-doc@vger.kernel.org>; Wed, 15 Dec 2021 22:00:43 -0800 (PST)
+        with ESMTP id S231276AbhLPGCX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Dec 2021 01:02:23 -0500
+Received: from mail-vk1-xa2b.google.com (mail-vk1-xa2b.google.com [IPv6:2607:f8b0:4864:20::a2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4DDAC06173F
+        for <linux-doc@vger.kernel.org>; Wed, 15 Dec 2021 22:02:22 -0800 (PST)
+Received: by mail-vk1-xa2b.google.com with SMTP id h1so16174852vkh.0
+        for <linux-doc@vger.kernel.org>; Wed, 15 Dec 2021 22:02:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Fkg1mI+Db1oVO87JCisJGaRTIFR9sODJhCV59aBxEMg=;
-        b=O017P+ie46crOdPTJhJR9DzcHOZ+aPlwCsH7l/pUkiWy6snvDW65mH/0WwO78d5N43
-         nlVH8lv8PxyNFtstJRixXh//0tziJnVs+0sj3RmoVTFuInXkW1i3NxhPYwcOPM3eO60w
-         +2SBR90rxA44mEqCAIc1kqhm7PD8hvcn7TM2SQsug6L1pMjQ6nXBE1LWb/gAwSAzM2rd
-         LwRMHqzf53aauhKCT2ck02zJiCMZ26aAuHVB8NhalpCfjIu4CsXaX10tsTakhGHhcQoi
-         8Z1wyXqSabgH7lX+KsEPBQNVDZF1AVT/UhoHyoN8jkXPz5rh0u8uylQGlZ1fDLUr805P
-         A6iA==
+        bh=LdwGdKQjGvZH9L79grF3XVgvb6CZv8Zb6JGr6ownWrM=;
+        b=J74CLVsjoc2AoHlMoS7YBVQaS89g8VB3ZBOEmwrGWTvL4b9Ncuh0qnUS4JaNHAGvFB
+         ooXFYqzSGMOEAWi+KuXgyM31Zd44pLhWYlAEndc/CPe1QM/OfJwhVnX329r8ShZnvvwS
+         qty8J2sYkpzU7f7AIxEF2/hxhRILCACYseRR3bPUdWlYrt2UaS/ja1ykJ6FdZCjuXatD
+         jZmdnswIrAGsBq1hMTpgWH4pGKuUdSanxCcrk7Rj7g0kw06Gs6jhKyFkNgDbQvm0NC2I
+         GZYvQXthCTvO8B3N3UtVVTNfWOEyRl3tXzpNcA7BLl3v7xyZqyNeZbJdiWyCz3SjUg0l
+         LzmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=Fkg1mI+Db1oVO87JCisJGaRTIFR9sODJhCV59aBxEMg=;
-        b=XnGJBbEsHuC6nFsCUUfMa7FaH86Y81o1im8oCg/DqQzz7A88Ww4fAG576gWal55J5T
-         ClclYGqK+mNQoqQzqrtU6687bFJufLHzGIm3FIJEPmA/ExhJ8gRFdemalqhAqBmDY4PD
-         6CDtgGK2RTJLXdnnZ680l2MAcbT8XNaSpwi7TArlmLkfAipEDgRJUjLYUX7YBiyOXnCv
-         CuqhONqw28YQDcGpn1LP5aJw9kPH/1qpQzY0Fa46bghH6t5nKqYxACr0QAIGV1AuN0M5
-         NQ4qwTFSxRosws3cqSzvA9/pzk6dwQ31g2lQabd4B7Isqd/mQNRgBowSlRcAjqb78Z8J
-         is3A==
-X-Gm-Message-State: AOAM532Mmils5YVARRQJ+0xa3k7sG8M4aptJVeMkojYJ0r3TTWgh9uWi
-        2GSd1JqbN4yFW0IHAoxV5S60EIV6Q/PyVeU=
-X-Google-Smtp-Source: ABdhPJw6HYv8bf3reYEV3mb0pRSKKa+5UB5tnPzrM6bZnwL9/+WhHt9N3RcjLsTPynZbXH/sqkta4kHMaLE6YUU=
-X-Received: from sharinder.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:c73])
- (user=sharinder job=sendgmr) by 2002:a25:3dc2:: with SMTP id
- k185mr10839659yba.733.1639634443029; Wed, 15 Dec 2021 22:00:43 -0800 (PST)
-Date:   Thu, 16 Dec 2021 05:59:58 +0000
-In-Reply-To: <20211216055958.634097-1-sharinder@google.com>
-Message-Id: <20211216055958.634097-8-sharinder@google.com>
-Mime-Version: 1.0
-References: <20211216055958.634097-1-sharinder@google.com>
-X-Mailer: git-send-email 2.34.1.173.g76aa8bc2d0-goog
-Subject: [PATCH v4 7/7] Documentation: KUnit: Restyled Frequently Asked Questions
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LdwGdKQjGvZH9L79grF3XVgvb6CZv8Zb6JGr6ownWrM=;
+        b=sx6jHIspIvDxfhUiLcueuw6+SFYAHUXV2cstH/iGAb8bdDBZcMv8WXWqsXsbLK/Ta5
+         ChYRA54x5Jx8b9TDfmQni6wTp6RGCmTJUhTjBSxyV2f9YzyNP2QguegVle7BDrxwvuU7
+         sNjcLjf+oWYMAV3h4c8J1rsFnLZ4t2lmh4dDu8R+6iq9Z5SB2dfWUbHKUG0eYBCyRd5L
+         0qz2eTK33hxlrW056topCXhawesqVmAzXL2tchsc8LhXytQ2SQh6sOxOzJ5AI5jTP0QI
+         ip/AUTKM0BM2YfPnXr7SxR1NXXHQYz//Z1xUPm6lRJeX3hMcwNJeI3CghhtanHuTEIyA
+         IISQ==
+X-Gm-Message-State: AOAM533QnV3M93mNZzwOtfWDAhdVbvGV8eEbIcFwITNT3zN/SzwFgNvT
+        OM4ShKNraYnL0mv39bjKPQhPC7+vLBWN6FhpbnImtA==
+X-Google-Smtp-Source: ABdhPJym00ojgb3ebW6zZh7VI82KIpqGksDPGxfexbTgeWqTQa8VbMS8rODxw6jrfpHe+2b9RUUJzRbVjLIB507YQY0=
+X-Received: by 2002:a1f:2196:: with SMTP id h144mr2276650vkh.7.1639634541848;
+ Wed, 15 Dec 2021 22:02:21 -0800 (PST)
+MIME-Version: 1.0
+References: <20211216055845.633350-1-sharinder@google.com>
+In-Reply-To: <20211216055845.633350-1-sharinder@google.com>
 From:   Harinder Singh <sharinder@google.com>
-To:     davidgow@google.com, brendanhiggins@google.com, shuah@kernel.org,
+Date:   Thu, 16 Dec 2021 11:32:10 +0530
+Message-ID: <CAHLZCaFBVyLm8D0pVEe775JUK97W5eyhvci-N2JWCJQvDuji0Q@mail.gmail.com>
+Subject: Re: [PATCH v3 0/7] Documentation: KUnit: Rework KUnit documentation
+To:     David Gow <davidgow@google.com>,
+        Brendan Higgins <brendanhiggins@google.com>, shuah@kernel.org,
         corbet@lwn.net
 Cc:     linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tim.bird@sony.com, elver@google.com,
-        Harinder Singh <sharinder@google.com>
+        tim.bird@sony.com, elver@google.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Reword to align with other chapters.
+Hello everyone,
 
-Signed-off-by: Harinder Singh <sharinder@google.com>
----
- Documentation/dev-tools/kunit/faq.rst | 73 +++++++++++++--------------
- 1 file changed, 36 insertions(+), 37 deletions(-)
+Sorry by mistake I sent old patch.
 
-diff --git a/Documentation/dev-tools/kunit/faq.rst b/Documentation/dev-tools/kunit/faq.rst
-index 5c6555d020f3..172e239791a8 100644
---- a/Documentation/dev-tools/kunit/faq.rst
-+++ b/Documentation/dev-tools/kunit/faq.rst
-@@ -4,56 +4,55 @@
- Frequently Asked Questions
- ==========================
- 
--How is this different from Autotest, kselftest, etc?
--====================================================
-+How is this different from Autotest, kselftest, and so on?
-+==========================================================
- KUnit is a unit testing framework. Autotest, kselftest (and some others) are
- not.
- 
- A `unit test <https://martinfowler.com/bliki/UnitTest.html>`_ is supposed to
--test a single unit of code in isolation, hence the name. A unit test should be
--the finest granularity of testing and as such should allow all possible code
--paths to be tested in the code under test; this is only possible if the code
--under test is very small and does not have any external dependencies outside of
-+test a single unit of code in isolation and hence the name *unit test*. A unit
-+test should be the finest granularity of testing and should allow all possible
-+code paths to be tested in the code under test. This is only possible if the
-+code under test is small and does not have any external dependencies outside of
- the test's control like hardware.
- 
- There are no testing frameworks currently available for the kernel that do not
--require installing the kernel on a test machine or in a VM and all require
--tests to be written in userspace and run on the kernel under test; this is true
--for Autotest, kselftest, and some others, disqualifying any of them from being
--considered unit testing frameworks.
-+require installing the kernel on a test machine or in a virtual machine. All
-+testing frameworks require tests to be written in userspace and run on the
-+kernel under test. This is true for Autotest, kselftest, and some others,
-+disqualifying any of them from being considered unit testing frameworks.
- 
- Does KUnit support running on architectures other than UML?
- ===========================================================
- 
--Yes, well, mostly.
-+Yes, mostly.
- 
--For the most part, the KUnit core framework (what you use to write the tests)
--can compile to any architecture; it compiles like just another part of the
-+For the most part, the KUnit core framework (what we use to write the tests)
-+can compile to any architecture. It compiles like just another part of the
- kernel and runs when the kernel boots, or when built as a module, when the
--module is loaded.  However, there is some infrastructure,
--like the KUnit Wrapper (``tools/testing/kunit/kunit.py``) that does not support
--other architectures.
-+module is loaded.  However, there is infrastructure, like the KUnit Wrapper
-+(``tools/testing/kunit/kunit.py``) that does not support other architectures.
- 
--In short, this means that, yes, you can run KUnit on other architectures, but
--it might require more work than using KUnit on UML.
-+In short, yes, you can run KUnit on other architectures, but it might require
-+more work than using KUnit on UML.
- 
- For more information, see :ref:`kunit-on-non-uml`.
- 
--What is the difference between a unit test and these other kinds of tests?
--==========================================================================
-+What is the difference between a unit test and other kinds of tests?
-+====================================================================
- Most existing tests for the Linux kernel would be categorized as an integration
- test, or an end-to-end test.
- 
--- A unit test is supposed to test a single unit of code in isolation, hence the
--  name. A unit test should be the finest granularity of testing and as such
--  should allow all possible code paths to be tested in the code under test; this
--  is only possible if the code under test is very small and does not have any
--  external dependencies outside of the test's control like hardware.
-+- A unit test is supposed to test a single unit of code in isolation. A unit
-+  test should be the finest granularity of testing and, as such, allows all
-+  possible code paths to be tested in the code under test. This is only possible
-+  if the code under test is small and does not have any external dependencies
-+  outside of the test's control like hardware.
- - An integration test tests the interaction between a minimal set of components,
-   usually just two or three. For example, someone might write an integration
-   test to test the interaction between a driver and a piece of hardware, or to
-   test the interaction between the userspace libraries the kernel provides and
--  the kernel itself; however, one of these tests would probably not test the
-+  the kernel itself. However, one of these tests would probably not test the
-   entire kernel along with hardware interactions and interactions with the
-   userspace.
- - An end-to-end test usually tests the entire system from the perspective of the
-@@ -62,26 +61,26 @@ test, or an end-to-end test.
-   hardware with a production userspace and then trying to exercise some behavior
-   that depends on interactions between the hardware, the kernel, and userspace.
- 
--KUnit isn't working, what should I do?
--======================================
-+KUnit is not working, what should I do?
-+=======================================
- 
- Unfortunately, there are a number of things which can break, but here are some
- things to try.
- 
--1. Try running ``./tools/testing/kunit/kunit.py run`` with the ``--raw_output``
-+1. Run ``./tools/testing/kunit/kunit.py run`` with the ``--raw_output``
-    parameter. This might show details or error messages hidden by the kunit_tool
-    parser.
- 2. Instead of running ``kunit.py run``, try running ``kunit.py config``,
-    ``kunit.py build``, and ``kunit.py exec`` independently. This can help track
-    down where an issue is occurring. (If you think the parser is at fault, you
--   can run it manually against stdin or a file with ``kunit.py parse``.)
--3. Running the UML kernel directly can often reveal issues or error messages
--   kunit_tool ignores. This should be as simple as running ``./vmlinux`` after
--   building the UML kernel (e.g., by using ``kunit.py build``). Note that UML
--   has some unusual requirements (such as the host having a tmpfs filesystem
--   mounted), and has had issues in the past when built statically and the host
--   has KASLR enabled. (On older host kernels, you may need to run ``setarch
--   `uname -m` -R ./vmlinux`` to disable KASLR.)
-+   can run it manually against ``stdin`` or a file with ``kunit.py parse``.)
-+3. Running the UML kernel directly can often reveal issues or error messages,
-+   ``kunit_tool`` ignores. This should be as simple as running ``./vmlinux``
-+   after building the UML kernel (for example, by using ``kunit.py build``).
-+   Note that UML has some unusual requirements (such as the host having a tmpfs
-+   filesystem mounted), and has had issues in the past when built statically and
-+   the host has KASLR enabled. (On older host kernels, you may need to run
-+   ``setarch `uname -m` -R ./vmlinux`` to disable KASLR.)
- 4. Make sure the kernel .config has ``CONFIG_KUNIT=y`` and at least one test
-    (e.g. ``CONFIG_KUNIT_EXAMPLE_TEST=y``). kunit_tool will keep its .config
-    around, so you can see what config was used after running ``kunit.py run``.
--- 
-2.34.1.173.g76aa8bc2d0-goog
+Please ignore.
 
+Thanks,
+Harinder Singh
+
+On Thu, Dec 16, 2021 at 11:29 AM Harinder Singh <sharinder@google.com> wrote:
+>
+> The KUnit documentation was not very organized. There was little
+> information related to KUnit architecture and the importance of unit
+> testing.
+>
+> Add some new pages, expand and reorganize the existing documentation.
+> Reword pages to make information and style more consistent.
+>
+> Changes since v2:
+> https://lore.kernel.org/linux-kselftest/20211207054019.1455054-1-sharinder@google.com/T/
+>
+> --Reworded sentences as per comments
+> --Expanded the explaination in usage.rst for accessing the current test example
+> --Standardized on US english in style.rst
+>
+> Changes since v1:
+> https://lore.kernel.org/linux-kselftest/20211203042437.740255-1-sharinder@google.com/
+>
+> --Fixed spelling mistakes
+> --Restored paragraph about kunit_tool introduction
+> --Added note about CONFIG_KUNIT_ALL_TESTS (Thanks Tim Bird for review
+> comments)
+> -- Miscellaneous changes
+>
+> Harinder Singh (7):
+>   Documentation: KUnit: Rewrite main page
+>   Documentation: KUnit: Rewrite getting started
+>   Documentation: KUnit: Added KUnit Architecture
+>   Documentation: kunit: Reorganize documentation related to running
+>     tests
+>   Documentation: KUnit: Rework writing page to focus on writing tests
+>   Documentation: KUnit: Restyle Test Style and Nomenclature page
+>   Documentation: KUnit: Restyled Frequently Asked Questions
+>
+>  .../dev-tools/kunit/architecture.rst          | 206 +++++++
+>  Documentation/dev-tools/kunit/faq.rst         |  73 ++-
+>  Documentation/dev-tools/kunit/index.rst       | 172 +++---
+>  .../kunit/kunit_suitememorydiagram.png        | Bin 0 -> 24174 bytes
+>  Documentation/dev-tools/kunit/run_manual.rst  |  57 ++
+>  Documentation/dev-tools/kunit/run_wrapper.rst | 247 ++++++++
+>  Documentation/dev-tools/kunit/start.rst       | 198 +++---
+>  Documentation/dev-tools/kunit/style.rst       | 105 ++--
+>  Documentation/dev-tools/kunit/usage.rst       | 578 ++++++++----------
+>  9 files changed, 1049 insertions(+), 587 deletions(-)
+>  create mode 100644 Documentation/dev-tools/kunit/architecture.rst
+>  create mode 100644 Documentation/dev-tools/kunit/kunit_suitememorydiagram.png
+>  create mode 100644 Documentation/dev-tools/kunit/run_manual.rst
+>  create mode 100644 Documentation/dev-tools/kunit/run_wrapper.rst
+>
+>
+> base-commit: 4c388a8e740d3235a194f330c8ef327deef710f6
+> --
+> 2.34.1.173.g76aa8bc2d0-goog
+>
