@@ -2,93 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C5D3C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Dec 2021 10:15:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12209C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Dec 2021 10:41:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235826AbhLPKPv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Dec 2021 05:15:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39800 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233253AbhLPKPv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Dec 2021 05:15:51 -0500
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com [IPv6:2607:f8b0:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B9E7C06173E
-        for <linux-doc@vger.kernel.org>; Thu, 16 Dec 2021 02:15:51 -0800 (PST)
-Received: by mail-oi1-x22e.google.com with SMTP id w64so1851200oif.10
-        for <linux-doc@vger.kernel.org>; Thu, 16 Dec 2021 02:15:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0ccU4l2gWdShDsgwAqNEPDETHATnNwCJsPsDA5QgM/Y=;
-        b=XmQdVhq0C17djmNUyj3wlktdoOKkm4eWzpJgohNUHt5GLOK704JRnPixIHTzxhjE35
-         L/aBvrCdvrH65uxrQMFkyWR0hklFlraRZb5ofI0XGS/Nw7p8PibJklH3GP8ghfTsAD5j
-         RVnEORaekW+692xz/TgKoCMGN9PpgryF939/YRPg90wINRGgArl60phHyQbnDHVpq9T5
-         kid9x0EXIIU7pvFNJGeN3SEwJzltSu7Z8j9XX2kq2WQV+ohPynzlRlT5l/5N2eDl1xNv
-         KaG0E6+FbRHY2VLcf7LREVBIm6WVyRKUkGX0gBDXtfh1co3O0HHML821/Wi5Js3S3IF/
-         Llrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0ccU4l2gWdShDsgwAqNEPDETHATnNwCJsPsDA5QgM/Y=;
-        b=psGOlnnnddUmhM/l5qapIh4PtBdl6Xy2CxPyy3R4G+F+ccTKjLfS6XmAp+Dk+ugAkd
-         d4uF6FEC0bUnEB+8sR/YPR53PI7W3TXBzX6gnwApiMGDkVoZdEllbrlemIqB3kVsZRUb
-         GIFlAj3/CMrMTq33Ba6zgcMPI1WuzWT5Wxrg3KHdTYkIbIMoGzFZ6FS8fN09Jpixd5mO
-         o5AN0hK+aBvHWWGz6VQO53sWjITkbhkLatgFY33XXS+ceWhPkLATDboQM+bB8CoZb4vT
-         I+FiuRBHEjXuGIOVi6lzTvuGieMbbFtT74YRiq21ZjDTbbU7RIx+y29WBdF6Dkp0B4QS
-         H2QQ==
-X-Gm-Message-State: AOAM531xmCub1MmoBIO7HTEe5KHSk32wvJzDvap2rjc4nA4hHmb68uxf
-        ZiDwv/ovAaNP8t8apWemBhAL8yqW+ADz9r7J0/MeNg==
-X-Google-Smtp-Source: ABdhPJxBKV3JcsaI3lPlUvHwy9E03kvuSxr/FWXDJBdAzNWTsSfW08Cp4vy5XvLNdV3EDG4w9McVNvfhh7s/9A7J/K4=
-X-Received: by 2002:a05:6808:1903:: with SMTP id bf3mr3417400oib.7.1639649750354;
- Thu, 16 Dec 2021 02:15:50 -0800 (PST)
+        id S236153AbhLPKlS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Dec 2021 05:41:18 -0500
+Received: from elvis.franken.de ([193.175.24.41]:50245 "EHLO elvis.franken.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230467AbhLPKlS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 16 Dec 2021 05:41:18 -0500
+Received: from uucp (helo=alpha)
+        by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
+        id 1mxoC2-00089d-00; Thu, 16 Dec 2021 11:40:58 +0100
+Received: by alpha.franken.de (Postfix, from userid 1000)
+        id 5AA86C075D; Thu, 16 Dec 2021 11:40:49 +0100 (CET)
+Date:   Thu, 16 Dec 2021 11:40:49 +0100
+From:   Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+To:     Alexandre Ghiti <alexandre.ghiti@canonical.com>
+Cc:     Steve French <sfrench@samba.org>, Jonathan Corbet <corbet@lwn.net>,
+        David Howells <dhowells@redhat.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Jeff Layton <jlayton@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Ronnie Sahlberg <lsahlber@redhat.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kalle Valo <kvalo@codeaurora.org>, linux-cifs@vger.kernel.org,
+        samba-technical@lists.samba.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-cachefs@redhat.com,
+        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
+        linux-power@fi.rohmeurope.com
+Subject: Re: [PATCH v2 0/6] Cleanup after removal of configs
+Message-ID: <20211216104049.GA10578@alpha.franken.de>
+References: <20211216094426.2083802-1-alexandre.ghiti@canonical.com>
 MIME-Version: 1.0
-References: <20211216055958.634097-1-sharinder@google.com> <20211216055958.634097-4-sharinder@google.com>
-In-Reply-To: <20211216055958.634097-4-sharinder@google.com>
-From:   Marco Elver <elver@google.com>
-Date:   Thu, 16 Dec 2021 11:15:38 +0100
-Message-ID: <CANpmjNOGaVgP25xNOSGOyjcA9Lmk4uFmU=f6RrRNJBP_CMEVrQ@mail.gmail.com>
-Subject: Re: [PATCH v4 3/7] Documentation: KUnit: Added KUnit Architecture
-To:     Harinder Singh <sharinder@google.com>
-Cc:     davidgow@google.com, brendanhiggins@google.com, shuah@kernel.org,
-        corbet@lwn.net, linux-kselftest@vger.kernel.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Tim.Bird@sony.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211216094426.2083802-1-alexandre.ghiti@canonical.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 16 Dec 2021 at 07:00, Harinder Singh <sharinder@google.com> wrote:
->
-> Describe the components of KUnit and how the kernel mode parts
-> interact with kunit_tool.
->
-> Signed-off-by: Harinder Singh <sharinder@google.com>
-> ---
->  .../dev-tools/kunit/architecture.rst          | 204 ++++++++++++++++++
->  Documentation/dev-tools/kunit/index.rst       |   2 +
->  .../kunit/kunit_suitememorydiagram.png        | Bin 0 -> 24174 bytes
->  Documentation/dev-tools/kunit/start.rst       |   1 +
->  4 files changed, 207 insertions(+)
->  create mode 100644 Documentation/dev-tools/kunit/architecture.rst
->  create mode 100644 Documentation/dev-tools/kunit/kunit_suitememorydiagram.png
+On Thu, Dec 16, 2021 at 10:44:20AM +0100, Alexandre Ghiti wrote:
+> While bumping from 5.13 to 5.15, I found that a few deleted configs had
+> left some pieces here and there: this patchset cleans that.
+> 
+> Changes in v2:
+> - Rebase on top of v5.16-rc1
+> - Removed patch 6 since Matti said he would take care of that
+> - Added AB, RB
+> 
+> Alexandre Ghiti (6):
+>   Documentation, arch: Remove leftovers from fscache/cachefiles
+>     histograms
+>   Documentation, arch: Remove leftovers from raw device
+>   Documentation, arch: Remove leftovers from CIFS_WEAK_PW_HASH
+>   arch: Remove leftovers from mandatory file locking
+>   Documentation, arch, fs: Remove leftovers from fscache object list
+>   arch: Remove leftovers from prism54 wireless driver
+> 
+>  Documentation/admin-guide/cifs/usage.rst      |   7 +-
+>  Documentation/admin-guide/devices.txt         |   8 +-
+>  .../filesystems/caching/cachefiles.rst        |  34 -----
+>  Documentation/filesystems/caching/fscache.rst | 123 +-----------------
+>  arch/arm/configs/axm55xx_defconfig            |   3 -
+>  arch/arm/configs/cm_x300_defconfig            |   1 -
+>  arch/arm/configs/ezx_defconfig                |   1 -
+>  arch/arm/configs/imote2_defconfig             |   1 -
+>  arch/arm/configs/nhk8815_defconfig            |   1 -
+>  arch/arm/configs/pxa_defconfig                |   1 -
+>  arch/arm/configs/spear13xx_defconfig          |   1 -
+>  arch/arm/configs/spear3xx_defconfig           |   1 -
+>  arch/arm/configs/spear6xx_defconfig           |   1 -
+>  arch/mips/configs/decstation_64_defconfig     |   1 -
+>  arch/mips/configs/decstation_defconfig        |   1 -
+>  arch/mips/configs/decstation_r4k_defconfig    |   1 -
+>  arch/mips/configs/fuloong2e_defconfig         |   1 -
+>  arch/mips/configs/ip27_defconfig              |   1 -
+>  arch/mips/configs/malta_defconfig             |   1 -
+>  arch/mips/configs/malta_kvm_defconfig         |   1 -
+>  arch/mips/configs/malta_qemu_32r6_defconfig   |   1 -
+>  arch/mips/configs/maltaaprp_defconfig         |   1 -
+>  arch/mips/configs/maltasmvp_defconfig         |   1 -
+>  arch/mips/configs/maltasmvp_eva_defconfig     |   1 -
+>  arch/mips/configs/maltaup_defconfig           |   1 -
+>  arch/mips/configs/maltaup_xpa_defconfig       |   1 -
+>  arch/powerpc/configs/pmac32_defconfig         |   1 -
+>  arch/powerpc/configs/ppc6xx_defconfig         |   1 -
+>  arch/powerpc/configs/pseries_defconfig        |   1 -
+>  arch/sh/configs/titan_defconfig               |   1 -
+>  fs/fscache/object.c                           |   3 -
+>  fs/fscache/proc.c                             |  12 --
+>  32 files changed, 6 insertions(+), 209 deletions(-)
 
-In response to the other email: Adding binary blobs just creates
-problems, for comparing different versions, and general bloating the
-whole repo, where better alternatives exist.
+for the MIPS parts:
 
-I suppose an ASCII diagram is a bit primitive. :-)
+Acked-by: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
 
-However, SVG files on the other hand are not binary blobs, they are
-text-markup based (XML), and e.g. diffing them often provides useful
-information about what changed. SVG also has the benefit of being
-vector graphics, and not being limited to one resolution.
-
-Looking at the diagram you added, I think this can easily be turned
-into vector graphics, and most likely will not use up 24KiB as a
-result.
-
-Thanks,
--- Marco
+-- 
+Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
+good idea.                                                [ RFC1925, 2.3 ]
