@@ -2,91 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E033BC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Dec 2021 14:45:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6D0FC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Dec 2021 14:48:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232371AbhLPOpw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Dec 2021 09:45:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47358 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232285AbhLPOpw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Dec 2021 09:45:52 -0500
-Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com [IPv6:2607:f8b0:4864:20::d2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E793C06173E
-        for <linux-doc@vger.kernel.org>; Thu, 16 Dec 2021 06:45:52 -0800 (PST)
-Received: by mail-io1-xd2a.google.com with SMTP id k21so35415840ioh.4
-        for <linux-doc@vger.kernel.org>; Thu, 16 Dec 2021 06:45:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=/m5IjU8cEr4hhVbp6UPYr7O2aRXlpDEgmWqofIxjBW0=;
-        b=DSRTGLZ6KlenlEJ57G+hFZrDf+Uy0YIUrLrkUnDz4zHJjOlqJJ8hVjWQNMe1eIHnXS
-         Gio2YlVn9I8DDDB18P0CER4KCayZzPviR2c/UYG6Crczf328txP6Lda3Bk8t1MzGVSL3
-         jCSJRbEV70kIWj0Bf2zdMFz9OH5SQm3Tl+TAI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=/m5IjU8cEr4hhVbp6UPYr7O2aRXlpDEgmWqofIxjBW0=;
-        b=1a1xLnLHKrRMdZ475e/w9PoXwto73sh6phb39eol8GtxKbH5GXDv3JSSN8RUk68yTf
-         CdKMPuN+j5toENdhKTqrJE6iiuBSHA96wjC3GEDtjIpiMWqNQOhPjcBs02kiPbEihQmk
-         zT4n5i/gUc1aLdw1xjpYLfQAMrDaVzdITL3ErYfpl9Znvr06M8T8igz2ENu0dZL70FAU
-         bZvY3hBkOG5fsIFfQnD89pYZJDLGxJfpzowyk4CQnjqjgFqLpCEpjTIzRRidAv0GmUcQ
-         RFFwlPE5hG4hOStIrbZptUz1kSP5+mg87SvHpZeG0gfL4+1vOmkAyD7fZa9rH1BFbBJ4
-         zVgg==
-X-Gm-Message-State: AOAM532hJ87/CfOeTQMC3bCgAwM3fBUaVBYF5QS2s6MUG7dpef1r67uk
-        7PVY0LPZuassrsF7k6mo7eKumg==
-X-Google-Smtp-Source: ABdhPJyWe6wBFOOv0X5wiGcnL6hlp/oNiGKu2EMOU0xpIlaZKKd7mJee0N7j0MmhHMsNCE/i/AfRSw==
-X-Received: by 2002:a05:6638:3590:: with SMTP id v16mr10113512jal.159.1639665951446;
-        Thu, 16 Dec 2021 06:45:51 -0800 (PST)
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id j6sm3545139ils.77.2021.12.16.06.45.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Dec 2021 06:45:51 -0800 (PST)
-Subject: Re: [PATCH] docs/vm: fix Unexpected indentation warns in page_owner
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     akpm@linux-foundation.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20211215001929.47866-1-skhan@linuxfoundation.org>
- <e3acf716-edd2-91d5-24c9-02c547f0d168@gmail.com>
- <f41c83f7-95f9-fd70-aa19-60887e7c4039@linuxfoundation.org>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <ef40c328-78a7-3aeb-0dd5-8ccbd7279e53@linuxfoundation.org>
-Date:   Thu, 16 Dec 2021 07:45:50 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S237512AbhLPOsW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Dec 2021 09:48:22 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:45362 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237402AbhLPOsV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 16 Dec 2021 09:48:21 -0500
+Received: from zn.tnic (dslb-088-067-202-008.088.067.pools.vodafone-ip.de [88.67.202.8])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2FB6E1EC04DE;
+        Thu, 16 Dec 2021 15:48:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1639666096;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=yghcZ9SCdjsqe3xvr3DH9VJQok+aWYGqWKGyGqjZksU=;
+        b=oHYx6aYS6tIj6LoZN+GBAYyUBxsWaPwpMGtiSVdRVoeTON1rZA0a52qHjEXKVX7g//ADsi
+        rO3av99YMS8aovAS4KRPWc+BkGVdfnBUhgOZcLNrnAGFnJ+w7jeFi2iDU7u8+Br+ggksuT
+        3S1KzL6GtR5B9qfhTL5iNTHFXoS142Y=
+Date:   Thu, 16 Dec 2021 15:48:19 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Cc:     Baoquan He <bhe@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
+        Dave Young <dyoung@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        kexec@lists.infradead.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>
+Subject: Re: [PATCH v17 03/10] x86: kdump: use macro CRASH_ADDR_LOW_MAX in
+ functions reserve_crashkernel()
+Message-ID: <YbtRs3Tq1UpCOpg8@zn.tnic>
+References: <20211210065533.2023-1-thunder.leizhen@huawei.com>
+ <20211210065533.2023-4-thunder.leizhen@huawei.com>
+ <YbntdtQo2jfbO4cO@zn.tnic>
+ <20211216011040.GG3023@MiWiFi-R3L-srv>
+ <9513d74c-d4c7-babd-f823-8999e195d96d@huawei.com>
+ <YbseAX6X1VHUF12f@zn.tnic>
+ <35810a61-604e-9b90-2a7f-cfca6ae042ac@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <f41c83f7-95f9-fd70-aa19-60887e7c4039@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <35810a61-604e-9b90-2a7f-cfca6ae042ac@huawei.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/15/21 8:10 AM, Shuah Khan wrote:
-> On 12/14/21 6:05 PM, Akira Yokosawa wrote:
->> Hi,
->>
->> On Tue, 14 Dec 2021 17:19:29 -0700, Shuah Khan wrote:
->>> Fix Unexpected indentation warns in page_owner:
->>>
->>> Documentation/vm/page_owner.rst:92: WARNING: Unexpected indentation.
->>> Documentation/vm/page_owner.rst:96: WARNING: Unexpected indentation.
->>> Documentation/vm/page_owner.rst:107: WARNING: Unexpected indentation.
->>
->> I guess these outputs should have been literal blocks.
->> Then Sphinx wouldn't complain about indentations.
-> 
-> Good point. I will take a look and send v2.
-> 
+On Thu, Dec 16, 2021 at 08:08:30PM +0800, Leizhen (ThunderTown) wrote:
+> If the memory of 'crash_base' is successfully allocated at (1), because the last
+> parameter CRASH_ADDR_LOW_MAX is the upper bound, so we can sure that
+> "crash_base < CRASH_ADDR_LOW_MAX". So that, reserve_crashkernel_low() will not be
+> invoked at (3). That's why I said (1ULL << 32) is inaccurate and enlarge the CRASH_ADDR_LOW
+> upper limit.
 
-This is already in a literal block. A few of the lines in a literal block
-are missing indentations - this patch is good as is.
+No, this is actually wrong - that check *must* be 4G. See:
 
-thanks,
--- Shuah
+  eb6db83d1059 ("x86/setup: Do not reserve crashkernel high memory if low reservation failed")
 
+It is even documented:
+
+        crashkernel=size[KMG],low
+                        [KNL, X86-64] range under 4G. When crashkernel=X,high
+                        is passed, kernel could allocate physical memory region
+                        above 4G, that cause second kernel crash on system
+                        that require some amount of low memory, e.g. swiotlb
+                        requires at least 64M+32K low memory, also enough extra
+                        low memory is needed to make sure DMA buffers for 32-bit
+                        devices won't run out.
+
+so you need to do a low allocation for DMA *when* the reserved memory is
+above 4G. *NOT* above 512M. But that works due to the obscure situation,
+as Baoquan stated, that reserve_crashkernel_low() returns 0 on 32-bit.
+
+So all this is telling us is that that function needs serious cleanup.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
