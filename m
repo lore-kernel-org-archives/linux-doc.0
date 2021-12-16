@@ -2,39 +2,39 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD90CC433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Dec 2021 11:07:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FD2DC2BA80
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Dec 2021 11:17:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233719AbhLPLHt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Dec 2021 06:07:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51680 "EHLO
+        id S231818AbhLPLRL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Dec 2021 06:17:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229995AbhLPLHt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Dec 2021 06:07:49 -0500
+        with ESMTP id S231509AbhLPLRK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Dec 2021 06:17:10 -0500
 Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F2F6C061574;
-        Thu, 16 Dec 2021 03:07:49 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A459CC061574;
+        Thu, 16 Dec 2021 03:17:08 -0800 (PST)
 Received: from zn.tnic (dslb-088-067-202-008.088.067.pools.vodafone-ip.de [88.67.202.8])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id EB68F1EC02B9;
-        Thu, 16 Dec 2021 12:07:42 +0100 (CET)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 1BBCD1EC02B9;
+        Thu, 16 Dec 2021 12:17:03 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1639652863;
+        t=1639653423;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=BrVDiCHbnVYMyrljDT1mFBKTxVyUx0D+6RzE7M0+qxw=;
-        b=di2yjhRUDGcgCqkH34oUcizLGQZi0cWtZSc+dBHCpK/y0lPeGyZTJEv1zmLFBX6J/RJFvi
-        yPAuwru4HDrDVDreMFbK9e0ngnPVqb1CJLYovdon+DdSUueHe73fSFpz5Mh3j6i56CB2Bo
-        o9b4Q2gi3X3o/iSTuoKcSfaZKGwRyv4=
-Date:   Thu, 16 Dec 2021 12:07:45 +0100
+        bh=kQgrnGxARMUmyWS4ZfbhCjy6YQvkkQnXAJvFOuNC060=;
+        b=L7MnPaZko5wjUZrAPnMPC6e3uSYv1aMq0IAniLsPJilq9W1kTVuyfjf4+ZNI6J1mv7HS4A
+        N2X1sI2WKXceFI5DHsGIbX4rmNDKoFEGNjdLWKdUE/dwPPGPOY+xNdzDPuLsDgsi81DAF+
+        DcXUeSCqYPaVbT0x03Pra/MXzPt5fB4=
+Date:   Thu, 16 Dec 2021 12:17:10 +0100
 From:   Borislav Petkov <bp@alien8.de>
-To:     "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Cc:     Baoquan He <bhe@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
+To:     Zhen Lei <thunder.leizhen@huawei.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
         "H . Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
-        Dave Young <dyoung@redhat.com>,
+        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
         Vivek Goyal <vgoyal@redhat.com>,
         Eric Biederman <ebiederm@xmission.com>,
         kexec@lists.infradead.org,
@@ -48,55 +48,44 @@ Cc:     Baoquan He <bhe@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
         Feng Zhou <zhoufeng.zf@bytedance.com>,
         Kefeng Wang <wangkefeng.wang@huawei.com>,
         Chen Zhou <dingguo.cz@antgroup.com>
-Subject: Re: [PATCH v17 03/10] x86: kdump: use macro CRASH_ADDR_LOW_MAX in
- functions reserve_crashkernel()
-Message-ID: <YbseAX6X1VHUF12f@zn.tnic>
+Subject: Re: [PATCH v17 05/10] x86: kdump: move reserve_crashkernel[_low]()
+ into crash_core.c
+Message-ID: <YbsgNpPMmp38X+it@zn.tnic>
 References: <20211210065533.2023-1-thunder.leizhen@huawei.com>
- <20211210065533.2023-4-thunder.leizhen@huawei.com>
- <YbntdtQo2jfbO4cO@zn.tnic>
- <20211216011040.GG3023@MiWiFi-R3L-srv>
- <9513d74c-d4c7-babd-f823-8999e195d96d@huawei.com>
+ <20211210065533.2023-6-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <9513d74c-d4c7-babd-f823-8999e195d96d@huawei.com>
+In-Reply-To: <20211210065533.2023-6-thunder.leizhen@huawei.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 16, 2021 at 10:46:12AM +0800, Leizhen (ThunderTown) wrote:
-> The original value (1ULL << 32) is inaccurate
+On Fri, Dec 10, 2021 at 02:55:28PM +0800, Zhen Lei wrote:
+> + * reserve_crashkernel() - reserves memory for crash kernel
+> + *
+> + * This function reserves memory area given in "crashkernel=" kernel command
+> + * line parameter. The memory reserved is used by dump capture kernel when
+> + * primary kernel is crashing.
+> + */
+> +void __init reserve_crashkernel(void)
 
-I keep asking *why*?
+As I've already alluded to in another mail, ontop of this there should
+be a patch or multiple patches which clean this up more and perhaps even
+split it into separate functions doing stuff in this order:
 
-> and it enlarged the CRASH_ADDR_LOW upper limit.
+1. Parse all crashkernel= cmdline options
 
-$ git grep -E "CRASH_ADDR_LOW\W"
-$
+2. Do all crash_base, crash_size etc checks
 
-I have no clue what you mean here.
+3. Do the memory reservations
 
-> This is because when the memory is allocated from the low end, the
-> address cannot exceed CRASH_ADDR_LOW_MAX, see "if (!high)" branch.
+And all that supplied with comments explaining why stuff is being done.
 
-> If
-> the memory is allocated from the high end, 'crash_base' is greater than or
-> equal to (1ULL << 32), and naturally, it is greater than CRASH_ADDR_LOW_MAX.
-> 
-> I think I should update the description, thanks.
+This set of functions is a mess and there's no better time for cleaning
+it up and documenting it properly than when you move it to generic code.
 
-I think you should explain why is (1ULL << 32) wrong.
-
-It came from:
-
-  eb6db83d1059 ("x86/setup: Do not reserve crashkernel high memory if low reservation failed")
-
-which simply frees the high memory portion when the low reservation
-fails. And the test for that is, is crash base > 4G. So that makes
-perfect sense to me.
-
-So your change is a NOP on 64-bit and it is a NOP on 32-bit by virtue of
-the _low() variant always returning 0 on 32-bit.
+Thx.
 
 -- 
 Regards/Gruss,
