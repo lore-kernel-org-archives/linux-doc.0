@@ -2,140 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02BDBC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Dec 2021 10:05:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C5D3C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Dec 2021 10:15:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235551AbhLPKFc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Dec 2021 05:05:32 -0500
-Received: from smtp-relay-internal-1.canonical.com ([185.125.188.123]:51128
-        "EHLO smtp-relay-internal-1.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233445AbhLPKFa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Dec 2021 05:05:30 -0500
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com [209.85.208.72])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 855823F1EF
-        for <linux-doc@vger.kernel.org>; Thu, 16 Dec 2021 10:05:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1639649129;
-        bh=iEjFNSHMwi4aeXpe7cQghYno80kPHKULcTC4SGtg0Js=;
-        h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-         To:Cc:Content-Type;
-        b=nwHvRMuRraIbskS8YaDIW1RjDuNlMdsvKpV7Aa/0en9awLxx31ImhnZrDXn6D2tNo
-         jk9NGEeH22SzMnxaqeXVLCWlWWwk4+m6N/Vw2+NMP5MMAUNpUtUE78UILvnxXunbuC
-         lAL+cTQ8x5serNaTA+Et7Srx64YQZjUXAnG0r5oYxoMrLpnm8qFhM05/2zCaarGyMo
-         7GzxaIw6dHchTLh70rHv8ruDIhwKZO1/E+c3kc0GZNS4CrxOi7G9+r4IXQ9l7c8R2t
-         DWjLIT5oX5kIBvEa0FCN5v4w9zkFsISXm1SHlFD35K0UsQb/FgpD3V5HyTRWEELJ4x
-         DetXQOY0pQwrg==
-Received: by mail-ed1-f72.google.com with SMTP id t2-20020a056402524200b003f7ed6cf4f1so3800666edd.21
-        for <linux-doc@vger.kernel.org>; Thu, 16 Dec 2021 02:05:29 -0800 (PST)
+        id S235826AbhLPKPv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Dec 2021 05:15:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39800 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233253AbhLPKPv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Dec 2021 05:15:51 -0500
+Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com [IPv6:2607:f8b0:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B9E7C06173E
+        for <linux-doc@vger.kernel.org>; Thu, 16 Dec 2021 02:15:51 -0800 (PST)
+Received: by mail-oi1-x22e.google.com with SMTP id w64so1851200oif.10
+        for <linux-doc@vger.kernel.org>; Thu, 16 Dec 2021 02:15:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0ccU4l2gWdShDsgwAqNEPDETHATnNwCJsPsDA5QgM/Y=;
+        b=XmQdVhq0C17djmNUyj3wlktdoOKkm4eWzpJgohNUHt5GLOK704JRnPixIHTzxhjE35
+         L/aBvrCdvrH65uxrQMFkyWR0hklFlraRZb5ofI0XGS/Nw7p8PibJklH3GP8ghfTsAD5j
+         RVnEORaekW+692xz/TgKoCMGN9PpgryF939/YRPg90wINRGgArl60phHyQbnDHVpq9T5
+         kid9x0EXIIU7pvFNJGeN3SEwJzltSu7Z8j9XX2kq2WQV+ohPynzlRlT5l/5N2eDl1xNv
+         KaG0E6+FbRHY2VLcf7LREVBIm6WVyRKUkGX0gBDXtfh1co3O0HHML821/Wi5Js3S3IF/
+         Llrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=iEjFNSHMwi4aeXpe7cQghYno80kPHKULcTC4SGtg0Js=;
-        b=f+1ZsOtq9azeo5J87yHuTvGX23GZB4l9MGFqgQoTxZhZh/t1mVqYUO7K6WnYuZRh6u
-         LNJzAdihW0bqAWWRF/Q6LFmeoVi+OC89rzh//CnHJQV1uKZTEEYsEkNO4rZx27Vcg80V
-         5xyqubWOBqZ0s3GZKZI2W/8RK12jrG36N+KZ6mG/mVU1RE6NeADN0485QjTxa6Id81ja
-         jeAbQNT6oJLg1Y11gKbi2d6XGrzyi4sWDnp83Viy2m5LpFXF1CLgt0segP+BzGNzLgEK
-         kTtHjssS8S8Bv4eirs0/jJSgjAYEeyOfkKAm9fFqxv+dbMJ8vpeGQ/tNK4iGj5JclL4l
-         5v2A==
-X-Gm-Message-State: AOAM531HIPRBPcs6yCeuoAHzTM82ao2Z+7u6wqKrOJ0XANRWQzNMl1TP
-        9dIMri9QdmJChTpbWSSxrnk2U3xAdje7jCthhWJcJ9jv+S4kPgyfsOEKS+jUDKxuNgMOj+e3jDP
-        BEcTN17e8GbdOBdkIXOgE6aakeJNK5+UNgNPH87D/zqZji6rZpWGGYg==
-X-Received: by 2002:a17:906:48d:: with SMTP id f13mr1328922eja.178.1639649129070;
-        Thu, 16 Dec 2021 02:05:29 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw4csYse2ts0CIc+GNT8hFD4S36DkgIwbzgfyBzIjr+nwEiJtuY5m75c6D7//m27d8UIPSjBoFZUfOIoRMOvGc=
-X-Received: by 2002:a17:906:48d:: with SMTP id f13mr1328883eja.178.1639649128845;
- Thu, 16 Dec 2021 02:05:28 -0800 (PST)
+        bh=0ccU4l2gWdShDsgwAqNEPDETHATnNwCJsPsDA5QgM/Y=;
+        b=psGOlnnnddUmhM/l5qapIh4PtBdl6Xy2CxPyy3R4G+F+ccTKjLfS6XmAp+Dk+ugAkd
+         d4uF6FEC0bUnEB+8sR/YPR53PI7W3TXBzX6gnwApiMGDkVoZdEllbrlemIqB3kVsZRUb
+         GIFlAj3/CMrMTq33Ba6zgcMPI1WuzWT5Wxrg3KHdTYkIbIMoGzFZ6FS8fN09Jpixd5mO
+         o5AN0hK+aBvHWWGz6VQO53sWjITkbhkLatgFY33XXS+ceWhPkLATDboQM+bB8CoZb4vT
+         I+FiuRBHEjXuGIOVi6lzTvuGieMbbFtT74YRiq21ZjDTbbU7RIx+y29WBdF6Dkp0B4QS
+         H2QQ==
+X-Gm-Message-State: AOAM531xmCub1MmoBIO7HTEe5KHSk32wvJzDvap2rjc4nA4hHmb68uxf
+        ZiDwv/ovAaNP8t8apWemBhAL8yqW+ADz9r7J0/MeNg==
+X-Google-Smtp-Source: ABdhPJxBKV3JcsaI3lPlUvHwy9E03kvuSxr/FWXDJBdAzNWTsSfW08Cp4vy5XvLNdV3EDG4w9McVNvfhh7s/9A7J/K4=
+X-Received: by 2002:a05:6808:1903:: with SMTP id bf3mr3417400oib.7.1639649750354;
+ Thu, 16 Dec 2021 02:15:50 -0800 (PST)
 MIME-Version: 1.0
-References: <20211105154334.1841927-1-alexandre.ghiti@canonical.com>
- <CAK8P3a2AnLJgGNBFvjUQqXd-Az9vjgE7yJQXGDwCav5E0btSsg@mail.gmail.com>
- <CA+zEjCtajRJhs8zSdR_oFBOO3P5FWWZJ3L6N-GK+JnUjdymTiA@mail.gmail.com> <CAK8P3a3aJJYcONV9JMcn47=mW4P4kvYFdwnTdyZfRqeo+eGndQ@mail.gmail.com>
-In-Reply-To: <CAK8P3a3aJJYcONV9JMcn47=mW4P4kvYFdwnTdyZfRqeo+eGndQ@mail.gmail.com>
-From:   Alexandre Ghiti <alexandre.ghiti@canonical.com>
-Date:   Thu, 16 Dec 2021 11:05:18 +0100
-Message-ID: <CA+zEjCu9KmTMpvXkFqgHX0C1jNZKquZU4owZKaJ_-o4+M_7ACg@mail.gmail.com>
-Subject: Re: [PATCH 0/7] Cleanup after removal of configs
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Steve French <sfrench@samba.org>, Jonathan Corbet <corbet@lwn.net>,
-        David Howells <dhowells@redhat.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Jeff Layton <jlayton@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ronnie Sahlberg <lsahlber@redhat.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kalle Valo <kvalo@codeaurora.org>, linux-cifs@vger.kernel.org,
-        samba-technical@lists.samba.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-cachefs@redhat.com,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        linux-power@fi.rohmeurope.com
+References: <20211216055958.634097-1-sharinder@google.com> <20211216055958.634097-4-sharinder@google.com>
+In-Reply-To: <20211216055958.634097-4-sharinder@google.com>
+From:   Marco Elver <elver@google.com>
+Date:   Thu, 16 Dec 2021 11:15:38 +0100
+Message-ID: <CANpmjNOGaVgP25xNOSGOyjcA9Lmk4uFmU=f6RrRNJBP_CMEVrQ@mail.gmail.com>
+Subject: Re: [PATCH v4 3/7] Documentation: KUnit: Added KUnit Architecture
+To:     Harinder Singh <sharinder@google.com>
+Cc:     davidgow@google.com, brendanhiggins@google.com, shuah@kernel.org,
+        corbet@lwn.net, linux-kselftest@vger.kernel.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Tim.Bird@sony.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 15, 2021 at 10:49 PM Arnd Bergmann <arnd@arndb.de> wrote:
+On Thu, 16 Dec 2021 at 07:00, Harinder Singh <sharinder@google.com> wrote:
 >
-> On Fri, Dec 10, 2021 at 9:38 PM Alexandre Ghiti
-> <alexandre.ghiti@canonical.com> wrote:
-> >
-> > On Fri, Nov 5, 2021 at 4:56 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> > >
-> > > On Fri, Nov 5, 2021 at 4:43 PM Alexandre Ghiti
-> > > <alexandre.ghiti@canonical.com> wrote:
-> > > >
-> > > > While bumping from 5.13 to 5.15, I found that a few deleted configs had
-> > > > left some pieces here and there: this patchset cleans that.
-> > > >
-> > > > Alexandre Ghiti (7):
-> > > >   Documentation, arch: Remove leftovers from fscache/cachefiles
-> > > >     histograms
-> > > >   Documentation, arch: Remove leftovers from raw device
-> > > >   Documentation, arch: Remove leftovers from CIFS_WEAK_PW_HASH
-> > > >   arch: Remove leftovers from mandatory file locking
-> > > >   Documentation, arch, fs: Remove leftovers from fscache object list
-> > > >   include: mfd: Remove leftovers from bd70528 watchdog
-> > > >   arch: Remove leftovers from prism54 wireless driver
-> > >
-> > > Looks all good to me, thanks a lot for the cleanup!
-> > >
-> > > For arch/arm/configs:
-> > >
-> > > Acked-by: Arnd Bergmann <arnd@arndb.de>
-> > >
-> > > assuming this goes through someone else's tree. Let me know if you need me
-> > > to pick up the patches in the asm-generic tree for cross-architecture work.
-> >
-> > Arnd, do you mind taking the whole series except patch 6 ("include:
-> > mfd: Remove leftovers from bd70528 watchdog") as this will be handled
-> > separately. I can ask Jonathan for the doc patches if needed.
+> Describe the components of KUnit and how the kernel mode parts
+> interact with kunit_tool.
 >
-> I tried to apply them, but only three of the patches applied cleanly. Can you
-> resend them based on v5.16-rc1?
+> Signed-off-by: Harinder Singh <sharinder@google.com>
+> ---
+>  .../dev-tools/kunit/architecture.rst          | 204 ++++++++++++++++++
+>  Documentation/dev-tools/kunit/index.rst       |   2 +
+>  .../kunit/kunit_suitememorydiagram.png        | Bin 0 -> 24174 bytes
+>  Documentation/dev-tools/kunit/start.rst       |   1 +
+>  4 files changed, 207 insertions(+)
+>  create mode 100644 Documentation/dev-tools/kunit/architecture.rst
+>  create mode 100644 Documentation/dev-tools/kunit/kunit_suitememorydiagram.png
 
-Sure, I have just sent the v2.
+In response to the other email: Adding binary blobs just creates
+problems, for comparing different versions, and general bloating the
+whole repo, where better alternatives exist.
+
+I suppose an ASCII diagram is a bit primitive. :-)
+
+However, SVG files on the other hand are not binary blobs, they are
+text-markup based (XML), and e.g. diffing them often provides useful
+information about what changed. SVG also has the benefit of being
+vector graphics, and not being limited to one resolution.
+
+Looking at the diagram you added, I think this can easily be turned
+into vector graphics, and most likely will not use up 24KiB as a
+result.
 
 Thanks,
-
-Alex
-
->
->         Arnd
+-- Marco
