@@ -2,36 +2,37 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AB80C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Dec 2021 14:51:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6947C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Dec 2021 14:58:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237799AbhLPOvI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Dec 2021 09:51:08 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:45844 "EHLO mail.skyhub.de"
+        id S238164AbhLPO6z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Dec 2021 09:58:55 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:47026 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230071AbhLPOvI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 16 Dec 2021 09:51:08 -0500
+        id S238162AbhLPO6y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 16 Dec 2021 09:58:54 -0500
 Received: from zn.tnic (dslb-088-067-202-008.088.067.pools.vodafone-ip.de [88.67.202.8])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 0A7DA1EC0419;
-        Thu, 16 Dec 2021 15:51:03 +0100 (CET)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 36B691EC04F0;
+        Thu, 16 Dec 2021 15:58:49 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1639666263;
+        t=1639666729;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=gwd7VxmKKtoTXJLXRGn4CLQ+T8sMLPOOyjX/C/oIjyI=;
-        b=fJWC1UXbUfQg1O0yU1XHJldag2bjEGwzo3HSUIKm0o5vq7whq5jYUvVAgt/ffLPtRT7eO8
-        et04soA+Pv1jP8tHwhtFoMMVvaz6pc1in60j3zM/3L1Zn71Dt0vc0C7BFHIKjyjbZoR7nL
-        bUTVkVnwOuXg9VGhUcgpc7jiG15IVGM=
-Date:   Thu, 16 Dec 2021 15:51:10 +0100
+        bh=bPnAfUL2qkg60kOkbc+GvUrWe3FV49Ti78cms0TCCaw=;
+        b=MsnqJn8uFOT1pz6SXU7T5EbdN02f263mcrgw0HXXo8/ioME2lLYT/8tKVhpgrtQn064RF3
+        kq0sPjdT1z068sHqWT4pHNiGE8QLCu71aLh7dCkVAIDzqdXcOf5UkmOINkKqu6qCmy2V86
+        Rt9veDHrpc3QwC1xLsn6Zfaf82ZrDI4=
+Date:   Thu, 16 Dec 2021 15:58:56 +0100
 From:   Borislav Petkov <bp@alien8.de>
-To:     "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
+To:     Baoquan He <bhe@redhat.com>
+Cc:     Zhen Lei <thunder.leizhen@huawei.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
         "H . Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
-        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
+        Dave Young <dyoung@redhat.com>,
         Vivek Goyal <vgoyal@redhat.com>,
         Eric Biederman <ebiederm@xmission.com>,
         kexec@lists.infradead.org,
@@ -45,28 +46,34 @@ Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Feng Zhou <zhoufeng.zf@bytedance.com>,
         Kefeng Wang <wangkefeng.wang@huawei.com>,
         Chen Zhou <dingguo.cz@antgroup.com>
-Subject: Re: [PATCH v17 05/10] x86: kdump: move reserve_crashkernel[_low]()
- into crash_core.c
-Message-ID: <YbtSXrVGe+1dpanP@zn.tnic>
+Subject: Re: [PATCH v17 03/10] x86: kdump: use macro CRASH_ADDR_LOW_MAX in
+ functions reserve_crashkernel()
+Message-ID: <YbtUME6fjjHjy3Kr@zn.tnic>
 References: <20211210065533.2023-1-thunder.leizhen@huawei.com>
- <20211210065533.2023-6-thunder.leizhen@huawei.com>
- <YbsgNpPMmp38X+it@zn.tnic>
- <217fb106-980c-0bd9-8398-d52ef255d51f@huawei.com>
+ <20211210065533.2023-4-thunder.leizhen@huawei.com>
+ <YbntdtQo2jfbO4cO@zn.tnic>
+ <20211216011040.GG3023@MiWiFi-R3L-srv>
+ <YbsbO1XnrzLAIBEu@zn.tnic>
+ <20211216141115.GA18773@MiWiFi-R3L-srv>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <217fb106-980c-0bd9-8398-d52ef255d51f@huawei.com>
+In-Reply-To: <20211216141115.GA18773@MiWiFi-R3L-srv>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 16, 2021 at 09:15:18PM +0800, Leizhen (ThunderTown) wrote:
-> I agree with you. This makes the code look clear. I will do it, try to
-> post v18 next Monday.
+On Thu, Dec 16, 2021 at 10:11:15PM +0800, Baoquan He wrote:
+>  As for the code refactoring, it can be done in another patchset.
 
-Don't rush it: take your time, do it nice and clean, make sure each
-patch does one logical thing only so that there are no bugs introduced
-and the pile can is reviewable.
+Well, I said "future work" before having seen where this patchset is
+going. So no, in that case, the usual kernel development process is:
+cleanups/fixes first - new features later.
+
+You can see for yourself that piling more crap on what is an already
+unreadable mess is only going to make it worse. So, in order to avoid
+the maintenance nightmare, we clean up, streamline, document and then
+add the new feature and all is shiny.
 
 Thx.
 
