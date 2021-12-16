@@ -2,119 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD092C4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 15 Dec 2021 21:49:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 584F3C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Dec 2021 01:10:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230043AbhLOVtm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Dec 2021 16:49:42 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:57705 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229957AbhLOVtl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Dec 2021 16:49:41 -0500
-Received: from mail-wr1-f51.google.com ([209.85.221.51]) by
- mrelayeu.kundenserver.de (mreue107 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1MdeKd-1mOpV42v2n-00ZhgC; Wed, 15 Dec 2021 22:49:39 +0100
-Received: by mail-wr1-f51.google.com with SMTP id t9so40561711wrx.7;
-        Wed, 15 Dec 2021 13:49:39 -0800 (PST)
-X-Gm-Message-State: AOAM5303tLyEPqp+DZ1578ZBUv0l3AaCo/05okCaN1m84A3lHkG1tIqw
-        gK/D+e5EuNSxXoCwBGrO8BAOqfdEiWyFcr8Yzm4=
-X-Google-Smtp-Source: ABdhPJyI4sFfqi3WV9r3gOmk1U//npIrS4nf8wBAkc7GviXMWmaD3dsHGyhZUXFZ+uysDsSwkLsuIqVlj3CoEC95hIQ=
-X-Received: by 2002:a5d:530e:: with SMTP id e14mr6188596wrv.12.1639604979240;
- Wed, 15 Dec 2021 13:49:39 -0800 (PST)
+        id S229977AbhLPBKw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Dec 2021 20:10:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31121 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229885AbhLPBKw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Dec 2021 20:10:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1639617051;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=7PsHP3o6bLXjBaAh5ST1mpelrJUr8X2zDVlQphXzPvw=;
+        b=AkH1W0lxyBU07Xss4qiDH0/1nerlf/Ma7moeWvPKhusEvPCqqKi4csghu2VN9oap06SqwD
+        jkMWRQI7cblhPSpJ6/encWz9j4ZUlkoSDjT6K/3ygh+LetVoYUAJ5LVGJaMIFn/7geSRP6
+        PG+SRnfsetyOI8mp711JyLU9ABKv7t8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-595-vpEjysboPVCVLvL-enb8MQ-1; Wed, 15 Dec 2021 20:10:48 -0500
+X-MC-Unique: vpEjysboPVCVLvL-enb8MQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE8CC1023F4F;
+        Thu, 16 Dec 2021 01:10:44 +0000 (UTC)
+Received: from localhost (ovpn-12-63.pek2.redhat.com [10.72.12.63])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 34C0C27CC2;
+        Thu, 16 Dec 2021 01:10:43 +0000 (UTC)
+Date:   Thu, 16 Dec 2021 09:10:40 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     Zhen Lei <thunder.leizhen@huawei.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
+        Dave Young <dyoung@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        kexec@lists.infradead.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>
+Subject: Re: [PATCH v17 03/10] x86: kdump: use macro CRASH_ADDR_LOW_MAX in
+ functions reserve_crashkernel()
+Message-ID: <20211216011040.GG3023@MiWiFi-R3L-srv>
+References: <20211210065533.2023-1-thunder.leizhen@huawei.com>
+ <20211210065533.2023-4-thunder.leizhen@huawei.com>
+ <YbntdtQo2jfbO4cO@zn.tnic>
 MIME-Version: 1.0
-References: <20211105154334.1841927-1-alexandre.ghiti@canonical.com>
- <CAK8P3a2AnLJgGNBFvjUQqXd-Az9vjgE7yJQXGDwCav5E0btSsg@mail.gmail.com> <CA+zEjCtajRJhs8zSdR_oFBOO3P5FWWZJ3L6N-GK+JnUjdymTiA@mail.gmail.com>
-In-Reply-To: <CA+zEjCtajRJhs8zSdR_oFBOO3P5FWWZJ3L6N-GK+JnUjdymTiA@mail.gmail.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 15 Dec 2021 22:49:23 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a3aJJYcONV9JMcn47=mW4P4kvYFdwnTdyZfRqeo+eGndQ@mail.gmail.com>
-Message-ID: <CAK8P3a3aJJYcONV9JMcn47=mW4P4kvYFdwnTdyZfRqeo+eGndQ@mail.gmail.com>
-Subject: Re: [PATCH 0/7] Cleanup after removal of configs
-To:     Alexandre Ghiti <alexandre.ghiti@canonical.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Steve French <sfrench@samba.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Howells <dhowells@redhat.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Jeff Layton <jlayton@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ronnie Sahlberg <lsahlber@redhat.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kalle Valo <kvalo@codeaurora.org>, linux-cifs@vger.kernel.org,
-        samba-technical@lists.samba.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-cachefs@redhat.com,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        linux-power@fi.rohmeurope.com
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:Io+rAnOukRGsESnCj52tUXFsPjVCtRLppZBZmKntlAeVeXpSrHi
- qcxK9k04dshwgrWQYiw878XedRH47AsrLy4n/gdfxwlX7u2EYvjqUjIKEXIjY0tuCEb4D4b
- LwE4dKpbjXgggXVUh7oHMARa5sG2Nx8fzgjtBBQhJLpcxn/XzSdD2djB3j6dwZlyKw7hv1G
- drYUyPNFv42Qoql8UBrlg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:c07D+hGrL+w=:9x8C/icw8ntMTFqTZrSJrn
- 6fyDDf4A/Q11iHr55nqwsGbPmkNrTebx43qkhrG1kKn+QweoG2MdgmEAMiSPsM0a18L18+Aur
- rWclUKaX1DLwnkMvBTMNEBclBZYir8NYTvXSxZkzrJqynEv8CDsIwVEO73ysx3dkU79TaUJqq
- ZGIEJjiEnuGE16rReyAdFECgxf6LmiGPDDLM/iBKdx9uO4BQGoXW18Cr/4+W/93SFzg8KuPCl
- 4cO5C618BYZCT/TM34l2u/+7s0zYwWnnG5DneRm5zATDIaOpzQmASCntR1+q10bQ5shpFWfQ9
- 349jAEyhYcUS51FiqkwWtW9U8nugU7PtrsLIOoJvF9O6RLHenDq4UhSZ+4wLl69agk/IGFwdY
- e1pmV61H6prVazhtH0IJav8Tq+SlZA9eEL9ciwmNKDoqBq2UMGDU6NsiVlBC5IBfmFFwwW6vp
- KnJgdSRkvw5StV8PRak8JngW4z38sMAssrPaLhMZnB58ohEI8vyai/WrofA3ZMAhqSXdUVHVW
- MA94AVgnaRrqkS4aBiCwQXpehyyIGYzmaYvHQ5t5Rmcze8cs9pcwXtBm5NMjHJ7zQZh/sjcvD
- 3VDHt9JKKeJ+17u9vpzBc/CqU/JYO47NgWL88LV8n1MafnwPo9YqI9ttnCx66ln9cZui2m3f0
- bGWS9lZmArQRHp8q2TygJ//o8TTWVCEP5dbnuH3rBp3ln7RSib74/2lkOGLR1fuMQcLY=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YbntdtQo2jfbO4cO@zn.tnic>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 10, 2021 at 9:38 PM Alexandre Ghiti
-<alexandre.ghiti@canonical.com> wrote:
->
-> On Fri, Nov 5, 2021 at 4:56 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> >
-> > On Fri, Nov 5, 2021 at 4:43 PM Alexandre Ghiti
-> > <alexandre.ghiti@canonical.com> wrote:
-> > >
-> > > While bumping from 5.13 to 5.15, I found that a few deleted configs had
-> > > left some pieces here and there: this patchset cleans that.
-> > >
-> > > Alexandre Ghiti (7):
-> > >   Documentation, arch: Remove leftovers from fscache/cachefiles
-> > >     histograms
-> > >   Documentation, arch: Remove leftovers from raw device
-> > >   Documentation, arch: Remove leftovers from CIFS_WEAK_PW_HASH
-> > >   arch: Remove leftovers from mandatory file locking
-> > >   Documentation, arch, fs: Remove leftovers from fscache object list
-> > >   include: mfd: Remove leftovers from bd70528 watchdog
-> > >   arch: Remove leftovers from prism54 wireless driver
-> >
-> > Looks all good to me, thanks a lot for the cleanup!
-> >
-> > For arch/arm/configs:
-> >
-> > Acked-by: Arnd Bergmann <arnd@arndb.de>
-> >
-> > assuming this goes through someone else's tree. Let me know if you need me
-> > to pick up the patches in the asm-generic tree for cross-architecture work.
->
-> Arnd, do you mind taking the whole series except patch 6 ("include:
-> mfd: Remove leftovers from bd70528 watchdog") as this will be handled
-> separately. I can ask Jonathan for the doc patches if needed.
+On 12/15/21 at 02:28pm, Borislav Petkov wrote:
+> On Fri, Dec 10, 2021 at 02:55:26PM +0800, Zhen Lei wrote:
+> > @@ -518,7 +519,7 @@ static void __init reserve_crashkernel(void)
+> >  		}
+> >  	}
+> >  
+> > -	if (crash_base >= (1ULL << 32) && reserve_crashkernel_low()) {
+> > +	if (crash_base >= CRASH_ADDR_LOW_MAX && reserve_crashkernel_low()) {
+> >  		memblock_phys_free(crash_base, crash_size);
+> >  		return;
+> >  	}
+> 
+> That's not a equivalent transformation on X86_32.
 
-I tried to apply them, but only three of the patches applied cleanly. Can you
-resend them based on v5.16-rc1?
+reserve_crashkernel_low() always return 0 on x86_32, so the not equivalent
+transformation for x86_32 doesn't matter, I think.
 
-        Arnd
