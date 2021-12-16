@@ -2,88 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 584F3C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Dec 2021 01:10:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85FB2C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 16 Dec 2021 02:03:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229977AbhLPBKw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 15 Dec 2021 20:10:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31121 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229885AbhLPBKw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Dec 2021 20:10:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1639617051;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=7PsHP3o6bLXjBaAh5ST1mpelrJUr8X2zDVlQphXzPvw=;
-        b=AkH1W0lxyBU07Xss4qiDH0/1nerlf/Ma7moeWvPKhusEvPCqqKi4csghu2VN9oap06SqwD
-        jkMWRQI7cblhPSpJ6/encWz9j4ZUlkoSDjT6K/3ygh+LetVoYUAJ5LVGJaMIFn/7geSRP6
-        PG+SRnfsetyOI8mp711JyLU9ABKv7t8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-595-vpEjysboPVCVLvL-enb8MQ-1; Wed, 15 Dec 2021 20:10:48 -0500
-X-MC-Unique: vpEjysboPVCVLvL-enb8MQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE8CC1023F4F;
-        Thu, 16 Dec 2021 01:10:44 +0000 (UTC)
-Received: from localhost (ovpn-12-63.pek2.redhat.com [10.72.12.63])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 34C0C27CC2;
-        Thu, 16 Dec 2021 01:10:43 +0000 (UTC)
-Date:   Thu, 16 Dec 2021 09:10:40 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     Zhen Lei <thunder.leizhen@huawei.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
-        Dave Young <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        kexec@lists.infradead.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>
-Subject: Re: [PATCH v17 03/10] x86: kdump: use macro CRASH_ADDR_LOW_MAX in
- functions reserve_crashkernel()
-Message-ID: <20211216011040.GG3023@MiWiFi-R3L-srv>
-References: <20211210065533.2023-1-thunder.leizhen@huawei.com>
- <20211210065533.2023-4-thunder.leizhen@huawei.com>
- <YbntdtQo2jfbO4cO@zn.tnic>
+        id S232750AbhLPCD0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 15 Dec 2021 21:03:26 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:28321 "EHLO
+        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229652AbhLPCDZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 Dec 2021 21:03:25 -0500
+Received: from dggpeml500026.china.huawei.com (unknown [172.30.72.55])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JDwPP4BcpzbjQZ;
+        Thu, 16 Dec 2021 10:03:05 +0800 (CST)
+Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
+ dggpeml500026.china.huawei.com (7.185.36.106) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Thu, 16 Dec 2021 10:03:24 +0800
+Received: from [10.174.177.232] (10.174.177.232) by
+ dggpeml500006.china.huawei.com (7.185.36.76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Thu, 16 Dec 2021 10:03:23 +0800
+Subject: Re: [PATCH] docs/zh_CN: Add cputopology Chinese translation
+To:     Akira Yokosawa <akiyks@gmail.com>
+CC:     <alexs@kernel.org>, <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+        <seakeel@gmail.com>, <siyanteng01@gmail.com>,
+        <siyanteng@loongson.cn>, <tangyeechou@gmail.com>,
+        <zhengbin13@huawei.com>
+References: <ae8d297b-896c-a6b3-b5f4-6cb48223e814@huawei.com>
+ <5a803a84-5e37-83ae-70b6-d913f703dffb@gmail.com>
+From:   Tang Yizhou <tangyizhou@huawei.com>
+Message-ID: <487fb823-dabe-6606-2291-74fed86018d9@huawei.com>
+Date:   Thu, 16 Dec 2021 10:03:23 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YbntdtQo2jfbO4cO@zn.tnic>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <5a803a84-5e37-83ae-70b6-d913f703dffb@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.177.232]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpeml500006.china.huawei.com (7.185.36.76)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/15/21 at 02:28pm, Borislav Petkov wrote:
-> On Fri, Dec 10, 2021 at 02:55:26PM +0800, Zhen Lei wrote:
-> > @@ -518,7 +519,7 @@ static void __init reserve_crashkernel(void)
-> >  		}
-> >  	}
-> >  
-> > -	if (crash_base >= (1ULL << 32) && reserve_crashkernel_low()) {
-> > +	if (crash_base >= CRASH_ADDR_LOW_MAX && reserve_crashkernel_low()) {
-> >  		memblock_phys_free(crash_base, crash_size);
-> >  		return;
-> >  	}
+On 2021/12/15 19:46, Akira Yokosawa wrote:
+> Hi,
 > 
-> That's not a equivalent transformation on X86_32.
+> On Wed, 15 Dec 2021 10:12:34 +0800, Tang Yizhou wrote:
+>> On 2021/12/15 10:29, Tang Yizhou wrote:
+>>> Translate admin-guide/cputopology.rst into Chinese.
+>>>
+>>> Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
+>>> ---
+>>>  .../zh_CN/admin-guide/cputopology.rst         | 94 +++++++++++++++++++
+>>>  .../translations/zh_CN/admin-guide/index.rst  |  2 +-
+>>>  2 files changed, 95 insertions(+), 1 deletion(-)
+>>>  create mode 100644 Documentation/translations/zh_CN/admin-guide/cputopology.rst
+>>>
+> [...]
+>>> +
+>>> +    =========== ==================================================
+>>> +    kernel_max: 内核配置允许的最大CPU下标值。[NR_CPUS-1]
+>>> +
+>>> +    offline:    由于热插拔移除或者超过内核允许的CPU上限（上文描述的kernel_max）导致未上线的CPU。[~cpu_online_mask + cpus >= NR_CPUS]
+>>
+>> Here is an example of poor Chinese support. If a line break is made here,
+>> *make htmldocs* warns 'Malformed table'.
+> 
+> Just out of curiosity, but I don't think such a line break can
+> be flagged as 'Malformed table'.
+> 
+> Can you share the version of the table "make htmldocs" complained?
+> 
+> I'm suspecting Sphinx might be confused by the widths of UTF-8
+> encoded characters/punctuations.
 
-reserve_crashkernel_low() always return 0 on x86_32, so the not equivalent
-transformation for x86_32 doesn't matter, I think.
+Well, that's my fault. A linebreak followed by tabs or spaces can be okay.
+'Malformed table' warning comes along with inconsistent number of tabs or
+spaces.
 
+However, I'm sure the number of '=' can't be handled correctly when UTF-8
+chars appear. My Sphinx version is 1.8.2.
+
+I will send the v2 patch soon.
+
+Thanks,
+Tang
+
+> 
+>         Thanks, Akira
+> 
+>>
+>> Meanwhile, the number of '=' can be inconsistent with the number of Chinese
+>> chars and there won't be any warnings. I've already checked the HTML page,
+>> the rendering effect is OK.
+>>
+>> Tang
+> 
+> .
+> 
