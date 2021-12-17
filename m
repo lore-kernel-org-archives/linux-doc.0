@@ -2,73 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EECBC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 16 Dec 2021 23:15:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B702C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Dec 2021 02:51:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236640AbhLPXPW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Dec 2021 18:15:22 -0500
-Received: from ms.lwn.net ([45.79.88.28]:50988 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234193AbhLPXPV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 16 Dec 2021 18:15:21 -0500
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 1A254740;
-        Thu, 16 Dec 2021 23:15:21 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1A254740
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1639696521; bh=FlCJxGsmxYNRH17rhgTDBHDYYRmcu2pB+y7gOjFT7Es=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=tFMv9Ym7GPZaAy0FfW5IGPQ1m+pmQ4txtqqkyphlHXq4WZvA9ri76U9T7hJV2qRUQ
-         Ut7ah15RfqiFC/aAwwJruzhX67a99lMwHr0nS7AZI8wKcovbx/vhln5IJg0tvIzCbA
-         OK5n99kO08cRwjp0pIvSlPMbxQmYt4PNE/HeTbzLLZ+dz5iTLQL2m3fSGEvXjVOfEh
-         oidu+f1bqs0o2MVzyzKJypQa9fWEwGrsJ6FrExtBgknU9D3XLM4xgmT9I3OFu/d5X8
-         lngz+Ran6AjDMvJe8cvBHuntSisEBlc0LewgkadCuKVUT+i6GdIoR6RxOC79MFdLsA
-         rYEXdGAHS9B7g==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Marco Elver <elver@google.com>,
-        Harinder Singh <sharinder@google.com>
-Cc:     davidgow@google.com, brendanhiggins@google.com, shuah@kernel.org,
-        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tim.Bird@sony.com
-Subject: Re: [PATCH v4 3/7] Documentation: KUnit: Added KUnit Architecture
-In-Reply-To: <CANpmjNOGaVgP25xNOSGOyjcA9Lmk4uFmU=f6RrRNJBP_CMEVrQ@mail.gmail.com>
-References: <20211216055958.634097-1-sharinder@google.com>
- <20211216055958.634097-4-sharinder@google.com>
- <CANpmjNOGaVgP25xNOSGOyjcA9Lmk4uFmU=f6RrRNJBP_CMEVrQ@mail.gmail.com>
-Date:   Thu, 16 Dec 2021 16:15:20 -0700
-Message-ID: <87czlwcfav.fsf@meer.lwn.net>
+        id S231758AbhLQCvJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Dec 2021 21:51:09 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:28326 "EHLO
+        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229471AbhLQCvJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Dec 2021 21:51:09 -0500
+Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.55])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JFYPz346szbjLQ;
+        Fri, 17 Dec 2021 10:50:47 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Fri, 17 Dec 2021 10:51:06 +0800
+Received: from [10.174.178.55] (10.174.178.55) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Fri, 17 Dec 2021 10:51:05 +0800
+Subject: Re: [PATCH v17 03/10] x86: kdump: use macro CRASH_ADDR_LOW_MAX in
+ functions reserve_crashkernel()
+To:     Borislav Petkov <bp@alien8.de>
+CC:     Baoquan He <bhe@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
+        "Ingo Molnar" <mingo@redhat.com>, <x86@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>, <linux-kernel@vger.kernel.org>,
+        Dave Young <dyoung@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        <kexec@lists.infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        <devicetree@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>
+References: <20211210065533.2023-1-thunder.leizhen@huawei.com>
+ <20211210065533.2023-4-thunder.leizhen@huawei.com> <YbntdtQo2jfbO4cO@zn.tnic>
+ <20211216011040.GG3023@MiWiFi-R3L-srv>
+ <9513d74c-d4c7-babd-f823-8999e195d96d@huawei.com> <YbseAX6X1VHUF12f@zn.tnic>
+ <35810a61-604e-9b90-2a7f-cfca6ae042ac@huawei.com> <YbtRs3Tq1UpCOpg8@zn.tnic>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <d2b199b7-584e-8ad4-9626-09bb86cf92c5@huawei.com>
+Date:   Fri, 17 Dec 2021 10:51:04 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <YbtRs3Tq1UpCOpg8@zn.tnic>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Marco Elver <elver@google.com> writes:
 
-> In response to the other email: Adding binary blobs just creates
-> problems, for comparing different versions, and general bloating the
-> whole repo, where better alternatives exist.
->
-> I suppose an ASCII diagram is a bit primitive. :-)
->
-> However, SVG files on the other hand are not binary blobs, they are
-> text-markup based (XML), and e.g. diffing them often provides useful
-> information about what changed. SVG also has the benefit of being
-> vector graphics, and not being limited to one resolution.
->
-> Looking at the diagram you added, I think this can easily be turned
-> into vector graphics, and most likely will not use up 24KiB as a
-> result.
 
-I agree with all of this; we shouldn't be adding binary images to the
-docs, and we've decided at other times that SVG is generally the best
-compromise there.
+On 2021/12/16 22:48, Borislav Petkov wrote:
+> On Thu, Dec 16, 2021 at 08:08:30PM +0800, Leizhen (ThunderTown) wrote:
+>> If the memory of 'crash_base' is successfully allocated at (1), because the last
+>> parameter CRASH_ADDR_LOW_MAX is the upper bound, so we can sure that
+>> "crash_base < CRASH_ADDR_LOW_MAX". So that, reserve_crashkernel_low() will not be
+>> invoked at (3). That's why I said (1ULL << 32) is inaccurate and enlarge the CRASH_ADDR_LOW
+>> upper limit.
+> 
+> No, this is actually wrong - that check *must* be 4G. See:
+> 
+>   eb6db83d1059 ("x86/setup: Do not reserve crashkernel high memory if low reservation failed")
+> 
+> It is even documented:
+> 
+>         crashkernel=size[KMG],low
+>                         [KNL, X86-64] range under 4G. When crashkernel=X,high
 
-Thanks, Marco, for pointing this out and producing an alternative.
+[KNL, X86-64], This doc is for X86-64, not for X86-32
 
-Once this is all settled, do you want it to go through the docs tree?
+>                         is passed, kernel could allocate physical memory region
+>                         above 4G, that cause second kernel crash on system
+>                         that require some amount of low memory, e.g. swiotlb
+>                         requires at least 64M+32K low memory, also enough extra
+>                         low memory is needed to make sure DMA buffers for 32-bit
+>                         devices won't run out.
 
-jon
+vi arch/x86/kernel/setup.c +398
+
+/*
+ * Keep the crash kernel below this limit.
+ *
+ * Earlier 32-bits kernels would limit the kernel to the low 512 MB range
+ * due to mapping restrictions.
+
+If there is no such restriction, we can make CRASH_ADDR_LOW_MAX equal to (1ULL << 32) minus 1 on X86_32.
+
+> 
+> so you need to do a low allocation for DMA *when* the reserved memory is
+> above 4G. *NOT* above 512M. But that works due to the obscure situation,
+> as Baoquan stated, that reserve_crashkernel_low() returns 0 on 32-bit.
+> 
+> So all this is telling us is that that function needs serious cleanup.
+> 
