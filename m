@@ -2,133 +2,162 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05EC1C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Dec 2021 17:42:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47FFBC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Dec 2021 17:49:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236210AbhLQRmr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Dec 2021 12:42:47 -0500
-Received: from mail-am6eur05on2062.outbound.protection.outlook.com ([40.107.22.62]:6476
-        "EHLO EUR05-AM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229694AbhLQRmr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 17 Dec 2021 12:42:47 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DIOly2OTJ/9CUFJQWANcKGoXmiOtVWE/SK1F3AEAg2WjykJhDHNQvv7bAp98+NgPClMAdPPJ37/UePRyGlJQPs36Sblgg9KnCNw/3vMk8962vb0ljIOFOTRKonrQZuEvIqUCAcQsPhKhexCOAzYr/tbDmHbcqewofUOEeXYH+73rUoioHkwMBJfo5o9T8xJbPlvwzlhjGSFYS0taBlBYeiKCYSo5swi7mX8HGpcsFKVBrrzrTLx7NSMY833NnZ+/OArMIbVbpFhuyt5yEEom/mS+qqQlJbAJfuxXNBsSFMJtx/eO3zB9ZHt8xba05D0bc2VA5xvXmsyHTaLj3/lIwg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6A7cQN2tFBrg5zmhnNVaYTKH25VoZFa2CclqdWmOU5U=;
- b=MMYWwkuJw2t1k8b0Glk7ueGxFXTEjs7MaOodUXvdgNqo60PyoUM0u5s0Zbau9/O2OZUkQ+odzPadbpZmqEnc/8ctxcq+bPJ8hmqalQQ2YoVBRrLkH8nVVYQsj7oDG7eoLJy8fHAX8QxYbo40hrIGFeXfV3b3TFfEcmHTboRiSpPaIuxdvLrTr2imsjL4N5Gmp3yVR9hw1ESu3WKp6g14MQ03e/Nyzoq2WYDeRrYu2Bz6RU+B+aTdXwLvc/LTyF/2AzxUBDcjC/dlwHOkJalpAu9R6a916SWu11t05ybwtDMoyDNdl/uXgnYezx6PuqUzoUZKnpvJJRDXCk8AYCzHYg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
- dkim=pass header.d=seco.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=secospa.onmicrosoft.com; s=selector2-secospa-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6A7cQN2tFBrg5zmhnNVaYTKH25VoZFa2CclqdWmOU5U=;
- b=Dz+25KQ9JOY5G11vRWexQz/r8cmiLpRU3svkzvu3nBSzNdS2P+7idFOBWuytzGwqCjR9aYzwa4yO2EWcHW8H3FbAuH1N/BP0FLwAdlYmslA6t6YGESVeMVbk5p1G6Y8xf/NEPnNjnNhDsCkxemkh0yW9D/vGmxMGdO2i9JzXxeI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=seco.com;
-Received: from DB7PR03MB4523.eurprd03.prod.outlook.com (2603:10a6:10:19::27)
- by DB6PR0302MB2630.eurprd03.prod.outlook.com (2603:10a6:4:ac::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.17; Fri, 17 Dec
- 2021 17:42:44 +0000
-Received: from DB7PR03MB4523.eurprd03.prod.outlook.com
- ([fe80::9093:a60b:46b7:32ee]) by DB7PR03MB4523.eurprd03.prod.outlook.com
- ([fe80::9093:a60b:46b7:32ee%4]) with mapi id 15.20.4778.019; Fri, 17 Dec 2021
- 17:42:44 +0000
-From:   Sean Anderson <sean.anderson@seco.com>
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     Stuart Yoder <stuyoder@gmail.com>, netdev@vger.kernel.org,
-        "David S . Miller" <davem@davemloft.net>,
-        linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
-        Laurentiu Tudor <laurentiu.tudor@nxp.com>,
-        Sean Anderson <sean.anderson@seco.com>
-Subject: [PATCH] docs: networking: dpaa2: Fix DPNI header
-Date:   Fri, 17 Dec 2021 12:42:31 -0500
-Message-Id: <20211217174231.36419-1-sean.anderson@seco.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MN2PR01CA0057.prod.exchangelabs.com (2603:10b6:208:23f::26)
- To DB7PR03MB4523.eurprd03.prod.outlook.com (2603:10a6:10:19::27)
+        id S236290AbhLQRt6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Dec 2021 12:49:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45278 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236285AbhLQRt6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Dec 2021 12:49:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1639763397;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=hH32Mr09T44842vxV3B7WrEoq/VpUbXtp4OtPbsiQ8A=;
+        b=erL70+I9zHgpCdDx8j15YwYvBMpHhGuGp+svmFpFss2CEQY15lX1jIP0LtnIuepyD9Hfg9
+        agJVbqBydceyns5o6LN+KfvHlpr8CzbkWI8lYgwBXzg6Im80WTLAvZQHCcbcUKrTcjPuh7
+        8c6u5KITS+xqxYrXwQ4vUwQ83aR4Dvw=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-62-WBTDR_DmPkqxv0i_ZwjEgA-1; Fri, 17 Dec 2021 12:49:56 -0500
+X-MC-Unique: WBTDR_DmPkqxv0i_ZwjEgA-1
+Received: by mail-wm1-f71.google.com with SMTP id b83-20020a1c1b56000000b0033283ea5facso2094083wmb.1
+        for <linux-doc@vger.kernel.org>; Fri, 17 Dec 2021 09:49:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:from:to:cc:references:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=hH32Mr09T44842vxV3B7WrEoq/VpUbXtp4OtPbsiQ8A=;
+        b=WrdG7m8Iv9mCpbEbV5LefKask3p0RYBR7Vw5hq4GcpORz5Dp4RDlY+RwBZJ9+Mwp4b
+         lf5vrLWeE7qT7bQJv2UW4paTTDP6jgItWjNwt7/IGEL1fnis6ffK2OF7lho0W6iA+E5T
+         uC2cTEbOQeOqn8CA1wt6LzUV5/9zo36PoC1QLdigYQEH5XthBtzrz5oQRBAQgm1TQynv
+         Fd7z0BJq6E7Ojs5/OHfpab0TA7bO+3dty2Ygl32KGaCJEeoo0+hhYM603hLwbPIbTlq7
+         rf8aXGh/5tZXOKiVlrIRdYKtJBxkiW7XZKvI46ulPrwOORmisIk6JYVvh6leebnmrK0Q
+         XZ3g==
+X-Gm-Message-State: AOAM531GKbo8hB2+WYmaCThRF/MYssfeICN9Igkpf1Ocp1ArL0HEdoQ1
+        dae3e/C3//x3fJjcIBVEXBfO5Zf4av+xiCheFy+T1D4G7DHq3eeHnGq5vyp4Am+qoKGTp7JIVBm
+        7fc7qThomJ7o5iwXlA0DE
+X-Received: by 2002:adf:e0cd:: with SMTP id m13mr906512wri.128.1639763395434;
+        Fri, 17 Dec 2021 09:49:55 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyaFASAHJrtnfsNBUE2d+KqbUAQa6kV/aLZsG8AH+xUC0YXxdgETnWUDGLNs6zv4pSGuzN60g==
+X-Received: by 2002:adf:e0cd:: with SMTP id m13mr906488wri.128.1639763395173;
+        Fri, 17 Dec 2021 09:49:55 -0800 (PST)
+Received: from [192.168.3.132] (p4ff234b8.dip0.t-ipconnect.de. [79.242.52.184])
+        by smtp.gmail.com with ESMTPSA id bh16sm12335864wmb.1.2021.12.17.09.49.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 Dec 2021 09:49:54 -0800 (PST)
+Message-ID: <a832ca37-b078-6f62-f99f-b2703674c1d8@redhat.com>
+Date:   Fri, 17 Dec 2021 18:49:50 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c4962dae-d3e7-431d-f87a-08d9c184a1c2
-X-MS-TrafficTypeDiagnostic: DB6PR0302MB2630:EE_
-X-Microsoft-Antispam-PRVS: <DB6PR0302MB2630769BF2554B681516C80B96789@DB6PR0302MB2630.eurprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 81UJgzcU3xtSTA0J5f7CDUokqsaZ5QmzDZCh71/fWeSBVwnMk2tKK2q8kFIyJ5u+2EghO8FdlogSNPEi1nikx3b6qxdawxhS5WWevTLj070w900yrJu2XVdbKXc7ljPsepKcCsTVdEvlX3Ocb37ngIVz0dkz4yKYH8ebBQpG5k7wZzaW6n5eu10jAZqTtu7LVar2c4cPNs5XGZl9eUqBM/HEezVYLbsD10J36I3+qJRysxGS1KzcjWGTIkO1OO76UhWBMRoP8Wi46QXfcY0BiwE2JIfaxMlBfhWIjBv2L5jjksP2gi3IoqVmoYdg6DA9cjL8YKyozWhl1b4SdoIClzYkdgnLazXJNNNswXgKoZ7mFg5sNChA07qEfAWaQaqhOxJgwgh8HoVqN+9fraPfdDUQ6GoSAElaamUR4PxztHxWzpxda+BOD1ul8qeiJLHM4Q6JQXGp8bvzrZ/RLz+nR3tHZlXMbfrF3VY4eCNj9nZ880V/+MGOr8+EUeAMndSQ/+LHFZFAV3vYAeLM8J0ut0mt1YxvYUreNJ0/Ny2uRFyXTfmhxJf0XaQLbB75/CPkewZ7ISy+Nokmc1R8vTfA/Ro5DUnEmOjylocpeURuWDnd/T/LAN8sJHZ5zw3ZrH2fYEDhTuv+LW7vx5SI5Do8f8nQ4+HT95wgx8ia+AhGgWKu/0q0u8YsDx+7DZPcIuV69ocUGKvtDx/qLEv2YsZd2A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR03MB4523.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(8676002)(54906003)(6512007)(38100700002)(2906002)(2616005)(38350700002)(44832011)(8936002)(316002)(66476007)(6486002)(1076003)(6506007)(5660300002)(36756003)(6666004)(52116002)(508600001)(86362001)(66556008)(66946007)(26005)(4326008)(186003)(107886003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?BP98w6wN9c5H88/iZPSp32dCQ1ihq+DpHwmoFAxqptgB3uUGBO/jlPxPI8vY?=
- =?us-ascii?Q?BteTlQ3HVx3DiyFTiSxNZzOROb+sePKgawMoZKffOtGwhX+7H8TdnJi+qP0q?=
- =?us-ascii?Q?KE5lEn7vh0iywCd0ed4WrdM49hr9aEg+tvxMovguY8zye5C7WBCyvy+O493I?=
- =?us-ascii?Q?lWSrva8iKLvyyPe0gXD2RPKnPSWhJHhytkPe0tN2UZxF4hLiXZyYfQdCuZRW?=
- =?us-ascii?Q?aMKqWuxtpkbdO2wpdZ7W/y15u02mBzIbZir9OcDNdkJfiMZUeazMLOsV/oBM?=
- =?us-ascii?Q?h6keDIdu3l73KGk71TwGRBCJEGMrByzF1F0NyeHTU1Xxj+sKPw2DBS9UmfZH?=
- =?us-ascii?Q?J9Dqsxsd6OBsR8rjM+Tr1zj3llGAmlvESSe6FX9HHQ9dsJKUEvdcbEzhcWph?=
- =?us-ascii?Q?pThmbBtFhhO2TFB6TL7oiNFTk9yW40nUKPmHHqcmeGe/MbAKoAykAA9FjjWP?=
- =?us-ascii?Q?y1oGZGl1y1w352xyoJcXFzDOkSO5FocBpe9czx1+ehCEhvm1U554XpI6gMGg?=
- =?us-ascii?Q?K5lcnwNzi+pqot32jIScQl7lkA3Fm+3hyKUvcXGcm2+T2V3i5l121sHs+YUD?=
- =?us-ascii?Q?kaf5MehJTcV8oqrqer006CGavQI6NFTWfpDKc0bwDHgyxKhGJDuA6fYjlETe?=
- =?us-ascii?Q?QxdduAvy85N2NOwer1jvNrsZ895jqg3ukk6V0dxulM1ibE4hQihAIraygfic?=
- =?us-ascii?Q?NDGuEZ433P+XirBgNDGgctaWjEI9cIz6OPyjbvy10bF2MnX9Do8ZKIEMsbLm?=
- =?us-ascii?Q?Eb3pFrTJJKYdge9Im6OY94EC+tJGtq/a6Z61Nq7ZFqpmWWazLWD+bPWTXCo4?=
- =?us-ascii?Q?nDm0EiEowzcqa6cYJZXxhG503zV1E3YXBhJzvmzo4Y1N8PQjAplP6hpC/BI9?=
- =?us-ascii?Q?UH6aVphZ/f8gOVfsWrHMnsG9ELB+xHsUtUnTP6OT/rgfMPPAdUHLA7gtoMof?=
- =?us-ascii?Q?MrLSxdnRIbFynHTF3OcCyYCqHnrZ+KHFpVroUK/h+gVf2MIUBoxoEFiuyJoZ?=
- =?us-ascii?Q?Ms/ukKPgfXS17mPyTip09s//hJs3BO3CeNkPfcE8OUYTCU1fS/NmlXGw/hBU?=
- =?us-ascii?Q?7vH+p8RoHFAL2dAywiLmYglKl3ZH+CsMTDHSnKjC2E3eYXckbkp6lm+ZUW25?=
- =?us-ascii?Q?5+tuAnICxmIkmunHTjiGl+DuJ4tddJp7uuDNT/RDTg97AaaEXTmsJKU6a/T9?=
- =?us-ascii?Q?4xi8pdj0Vtxnr9bj7RrD17AsunhFN1B86BHKGy69FsbpKyftRgSqn9GmD5tw?=
- =?us-ascii?Q?uqkKSYo0uY2BAbyB8v3N3UHsV9/BIEHk37XkBzoSMjYBmEVCCjSmRTKtEC/b?=
- =?us-ascii?Q?hNl15mBo8e/ohEDWv8k5kd1kslVoDtu/IZLCZ3G19wBOACb6yCcGsmUkdn/l?=
- =?us-ascii?Q?SR6H19xXzwAJK4xNlQkcNZBj4IEga8kANcz/0rrg+Owr4qvRpGxwFVmDVW6F?=
- =?us-ascii?Q?XpflhAvAOTXl942fGBtYyU2xrxlXOwus9KO9tzCZRDaW0wKTUu463ycpodwq?=
- =?us-ascii?Q?gVzwYm53dEl1wc+YHs+xZP+887iae6L24GS/P9F+14XPpfxnSs3hhonUIlws?=
- =?us-ascii?Q?jm/73O0ScgDzQGkfwpX0K843IK3V9zP81kZvQ36mUO5beO4GyR3YMYFbFYMX?=
- =?us-ascii?Q?insddazUPL3l2iJst2EFLAg=3D?=
-X-OriginatorOrg: seco.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c4962dae-d3e7-431d-f87a-08d9c184a1c2
-X-MS-Exchange-CrossTenant-AuthSource: DB7PR03MB4523.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2021 17:42:44.5637
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: itjkDoBSUnw68LkKnC0Ax6/prjkMkOfJAcgD2zsZe0ZgIWjZuTWm/HBlTyQ3t1omfKfDFZIE6V63euybTD0yag==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR0302MB2630
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v1 01/11] seqlock: provide lockdep-free raw_seqcount_t
+ variant
+Content-Language: en-US
+From:   David Hildenbrand <david@redhat.com>
+To:     Nadav Amit <namit@vmware.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Hugh Dickins <hughd@google.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Jason Gunthorpe <jgg@nvidia.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Yang Shi <shy828301@gmail.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Roman Gushchin <guro@fb.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Peter Xu <peterx@redhat.com>,
+        Donald Dutile <ddutile@redhat.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Oleg Nesterov <oleg@redhat.com>, Jan Kara <jack@suse.cz>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+        Waiman Long <longman@redhat.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <20211217113049.23850-1-david@redhat.com>
+ <20211217113049.23850-2-david@redhat.com>
+ <38BCB153-7E7C-4AAD-8657-E5C6F9E1EF9B@vmware.com>
+ <058e97eb-1489-3d59-c6ee-94175dc13134@redhat.com>
+Organization: Red Hat
+In-Reply-To: <058e97eb-1489-3d59-c6ee-94175dc13134@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The DPNI object should get its own header, like the rest of the objects.
+On 17.12.21 18:29, David Hildenbrand wrote:
+> On 17.12.21 18:02, Nadav Amit wrote:
+>>
+>>
+>>> On Dec 17, 2021, at 3:30 AM, David Hildenbrand <david@redhat.com> wrote:
+>>>
+>>> Sometimes it is required to have a seqcount implementation that uses
+>>> a structure with a fixed and minimal size -- just a bare unsigned int --
+>>> independent of the kernel configuration. This is especially valuable, when
+>>> the raw_ variants of the seqlock function will be used and the additional
+>>> lockdep part of the seqcount_t structure remains essentially unused.
+>>>
+>>> Let's provide a lockdep-free raw_seqcount_t variant that can be used via
+>>> the raw functions to have a basic seqlock.
+>>>
+>>> The target use case is embedding a raw_seqcount_t in the "struct page",
+>>> where we really want a minimal size and cannot tolerate a sudden grow of
+>>> the seqcount_t structure resulting in a significant "struct page"
+>>> increase or even a layout change.
+>>>
+>>> Provide raw_read_seqcount_retry(), to make it easy to match to
+>>> raw_read_seqcount_begin() in the code.
+>>>
+>>> Let's add a short documentation as well.
+>>>
+>>> Note: There might be other possible users for raw_seqcount_t where the
+>>>      lockdep part might be completely unused and just wastes memory --
+>>>      essentially any users that only use the raw_ function variants.
+>>>
+>>
+>> Is it possible to force some policy when raw_seqcount_t is used to
+>> prevent its abuse? For instance not to allow to acquire other (certain?)
+>> locks when it is held?
+>>
+> 
+> Good question ... in this series we won't be taking additional locks on
+> the reader or the writer side. Something like lockdep_forbid() /
+> lockdep_allow() to disallow any kind of locking. I haven't heard of
+> anything like that, maybe someone reading along has a clue?
+> 
+> The writer side might be easy to handle, but some seqcount operations
+> that don't do the full read()->retry() cycle are problematic
+> (->raw_read_seqcount).
 
-Fixes: 60b91319a349 ("staging: fsl-mc: Convert documentation to rst format")
-Signed-off-by: Sean Anderson <sean.anderson@seco.com>
----
+Sorry, I forgot to mention an important point: the raw_seqcount_t
+doesn't give you any additional "power" to abuse.
 
- .../device_drivers/ethernet/freescale/dpaa2/overview.rst         | 1 +
- 1 file changed, 1 insertion(+)
+You can just use the ordinary seqcount_t with the raw_ functions. One
+example is mm->write_protect_seq . So whatever we would want to "invent"
+should also apply to the raw_ functions in general --  which might be
+undesired or impossible (IIRC IRQ context).
 
-diff --git a/Documentation/networking/device_drivers/ethernet/freescale/dpaa2/overview.rst b/Documentation/networking/device_drivers/ethernet/freescale/dpaa2/overview.rst
-index d638b5a8aadd..199647729251 100644
---- a/Documentation/networking/device_drivers/ethernet/freescale/dpaa2/overview.rst
-+++ b/Documentation/networking/device_drivers/ethernet/freescale/dpaa2/overview.rst
-@@ -183,6 +183,7 @@ PHY and allows physical transmission and reception of Ethernet frames.
-   IRQ config, enable, reset
- 
- DPNI (Datapath Network Interface)
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- Contains TX/RX queues, network interface configuration, and RX buffer pool
- configuration mechanisms.  The TX/RX queues are in memory and are identified
- by queue number.
 -- 
-2.25.1
+Thanks,
+
+David / dhildenb
 
