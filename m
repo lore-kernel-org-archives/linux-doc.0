@@ -2,256 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 810BDC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Dec 2021 03:22:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5143C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Dec 2021 04:37:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232429AbhLQDWW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Dec 2021 22:22:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37260 "EHLO
+        id S229511AbhLQEhr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Dec 2021 23:37:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232355AbhLQDWW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Dec 2021 22:22:22 -0500
-Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB684C061574
-        for <linux-doc@vger.kernel.org>; Thu, 16 Dec 2021 19:22:21 -0800 (PST)
-Received: by mail-io1-xd2e.google.com with SMTP id c3so1158425iob.6
-        for <linux-doc@vger.kernel.org>; Thu, 16 Dec 2021 19:22:21 -0800 (PST)
+        with ESMTP id S231838AbhLQEhr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Dec 2021 23:37:47 -0500
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3D76C06173F
+        for <linux-doc@vger.kernel.org>; Thu, 16 Dec 2021 20:37:46 -0800 (PST)
+Received: by mail-yb1-xb49.google.com with SMTP id y125-20020a25dc83000000b005c2326bf744so2374088ybe.21
+        for <linux-doc@vger.kernel.org>; Thu, 16 Dec 2021 20:37:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ixP6AVqrvpXuXpeKKxuF1taBLb2FMpge0zvIr1X64dw=;
-        b=I1vlKJge6e6iGf+4xrBh5bSqt965TDMNxHNV5kWPqw4tWacWw2PWUPZ+tI65Z6CQDd
-         +oobpsoTtAaSwyRi0cdAlT8zGVS8HeFW/4ptCDVFWppUM5Nzf6mebas7HbqBBJfQD1m5
-         zipcUhsRXyL9vyOEHKb+joXgMtEKvpOW5VWto=
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=xelJswVre1tYVahXwKTZOkblh1Y4r9luAnX/6Rww7JE=;
+        b=eX/gEAi3fmbR2axSllp1ltD6tZwIvalFemFA9465+8cAbjsYszkgeAdmOgioNJ2X2X
+         NiPRr8qTLz97za3yorX1oT3EEXMma7QnpDRX8I2HpEjwneXLlKi1sqL8cXP/bKE+wWIp
+         Quv9+kSv5Gylr/n/KjZedeXhm/D/MIfjEcoV7QrFN+SUhFRQ3S/aaPpTdoeXPZaS9pCy
+         B0f+4sMcNDZRpNQkmj/oG+qCnWvrfd3o9n1xTPxr+0WaEhJFC2MiBRbvylxXAU08/jqq
+         8U6xWdwuZKqmvZizNHxdWz67+zVg0yMr+jou6PCB6D4SUMopD6bG176pc2QHXDfgFlb6
+         Svew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ixP6AVqrvpXuXpeKKxuF1taBLb2FMpge0zvIr1X64dw=;
-        b=qbl1/PXEg+eUzWjvh+LqMWmsugGYm+347wyEkFOANrqICETbnzR5cYgVe0dFSJdbEa
-         C21Uk/KKD60O/yO3k4kBZAdMWs1RS2vpYDaBEW7fEQShtFLZbqWdt5yTExcAJDVaLEBD
-         J8Gu/Ykg6F2x3IzAXW7WxPpkDEu5q0Xa2ijZ1X3i/6Fy4Z2EYE0c67Pp0fU+XOhA/fkn
-         UXRbnSoKh8YoM+67fbVFd3IBzkvGBNs0flfwhl+YUQp3w4uPqKH4TxuH7c6GNtNtNy1N
-         9Mima0u39lGKvCgI3PRiltcrMuo3v8XOpgO9VbGZdBUE8RuJFroHqn8e6kzZh7/MxpIz
-         vE+Q==
-X-Gm-Message-State: AOAM533ydi5d+0j0+YhoD0jocTiwqJEF418H4d1xLwk4Y1Qn7rA9i9pn
-        zU23EkMhZ1gFn/SHJU23JmyBWQ==
-X-Google-Smtp-Source: ABdhPJzbkBBgw32EwS/GK0jn7q/dyAo+ATvN4k0zNDuXw1Bf74wmbjya2M5qjU/PfqMkIRKfBmoI6g==
-X-Received: by 2002:a05:6638:24cd:: with SMTP id y13mr610269jat.247.1639711340073;
-        Thu, 16 Dec 2021 19:22:20 -0800 (PST)
-Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id e9sm3411334ilm.44.2021.12.16.19.22.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Dec 2021 19:22:19 -0800 (PST)
-From:   Shuah Khan <skhan@linuxfoundation.org>
-To:     corbet@lwn.net, akpm@linux-foundation.org
-Cc:     Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] docs/vm: update page owner doc with additional information
-Date:   Thu, 16 Dec 2021 20:22:18 -0700
-Message-Id: <20211217032218.66631-1-skhan@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=xelJswVre1tYVahXwKTZOkblh1Y4r9luAnX/6Rww7JE=;
+        b=ppdKdJ7EpSuNPAefgxlyr6lBfNk8u9tBkNxoN6glcYZwP6uzlXDE5VoqXWkT3TRLA+
+         w7PM00nuSmSjtYoZt6SSpuC3QVMI1j4vLA4I6nm6NyC15+1o3cAipXUt46qNaWQqWsVX
+         tabyPzSlL/nTw2UE+e4W/8m2Ue71f3O2P52psxvNCXdb1j1XM73bFRYIhAOhVLV9ZETe
+         nrWh/mxFSZRVInrksxV45j88h61DrqyU6QZLjpT794Xh+zzzi5qawgiZqM2S0tn0MYSz
+         dlaXu0wwi1fBXkKUJ09JRenxCQu3ZoZ41nQf5It5qxyOuiIjDhrGO4PEleol2DUj1sQA
+         SnOg==
+X-Gm-Message-State: AOAM531IIxez/u5YIY8NRR962McHCc3VY5V2oS+hNxOCD8R0KgoDtU1W
+        3SrCe1oI3qGCp5Zx6w1RAS6YS0QYWkksiPY=
+X-Google-Smtp-Source: ABdhPJxgCYj9kdrU/L7Nuux6pjcDbHKf3PY2daVPoyx3heNOB4dNiDJ6MXuc05/WZcRWeFs4CNHfcPga2Ho96uU=
+X-Received: from sharinder.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:c73])
+ (user=sharinder job=sendgmr) by 2002:a25:42d7:: with SMTP id
+ p206mr1996514yba.765.1639715865881; Thu, 16 Dec 2021 20:37:45 -0800 (PST)
+Date:   Fri, 17 Dec 2021 04:37:09 +0000
+Message-Id: <20211217043716.794289-1-sharinder@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.34.1.173.g76aa8bc2d0-goog
+Subject: [PATCH v5 0/7] Documentation: KUnit: Rework KUnit documentation
+From:   Harinder Singh <sharinder@google.com>
+To:     davidgow@google.com, brendanhiggins@google.com, shuah@kernel.org,
+        corbet@lwn.net
+Cc:     linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tim.bird@sony.com, elver@google.com,
+        Harinder Singh <sharinder@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update page owner doc with additional information such as example
-output, implementation and usages details. Made changes for clarity
-and fix spelling errors.
+The KUnit documentation was not very organized. There was little
+information related to KUnit architecture and the importance of unit
+testing.
 
-Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
----
- Documentation/vm/page_owner.rst | 130 +++++++++++++++++++++-----------
- 1 file changed, 86 insertions(+), 44 deletions(-)
+Add some new pages, expand and reorganize the existing documentation.
+Reword pages to make information and style more consistent.
 
-diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
-index 9a3af6aafa09..af270102b2c6 100644
---- a/Documentation/vm/page_owner.rst
-+++ b/Documentation/vm/page_owner.rst
-@@ -1,38 +1,42 @@
-+.. SPDX-License-Identifier: GPL-2.0
- .. _page_owner:
- 
--==================================================
--page owner: Tracking about who allocated each page
--==================================================
-+============================================
-+page owner: Tracking who allocated each page
-+============================================
- 
- Introduction
--============
-+------------
- 
--page owner is for the tracking about who allocated each page.
--It can be used to debug memory leak or to find a memory hogger.
--When allocation happens, information about allocation such as call stack
--and order of pages is stored into certain storage for each page.
--When we need to know about status of all pages, we can get and analyze
--this information.
-+Kernel debug page owner feature is for the tracking who allocated each
-+page. It can be used to debug memory leaks or to find a memory hogger.
-+When page allocation happens, information about allocation such as
-+call stack and order of pages is stored into certain storage for
-+each page. When we need to know about status of all pages, we can
-+get and analyze this information.
- 
- Although we already have tracepoint for tracing page allocation/free,
--using it for analyzing who allocate each page is rather complex. We need
--to enlarge the trace buffer for preventing overlapping until userspace
--program launched. And, launched program continually dump out the trace
--buffer for later analysis and it would change system behaviour with more
--possibility rather than just keeping it in memory, so bad for debugging.
-+using it for analyzing who allocated each page is rather complex. We
-+need to enlarge the trace buffer for preventing overlapping until
-+userspace program launched. And, launched program continually dump out
-+the trace buffer for later analysis and it would change system behaviour
-+with more possibility rather than just keeping it in memory, so bad for
-+debugging.
- 
- page owner can also be used for various purposes. For example, accurate
- fragmentation statistics can be obtained through gfp flag information of
- each page. It is already implemented and activated if page owner is
- enabled. Other usages are more than welcome.
- 
--page owner is disabled in default. So, if you'd like to use it, you need
--to add "page_owner=on" into your boot cmdline. If the kernel is built
--with page owner and page owner is disabled in runtime due to no enabling
--boot option, runtime overhead is marginal. If disabled in runtime, it
--doesn't require memory to store owner information, so there is no runtime
--memory overhead. And, page owner inserts just two unlikely branches into
--the page allocator hotpath and if not enabled, then allocation is done
-+page owner is disabled by default. So, if you'd like to use it, you need
-+to enable **CONFIG_PAGE_OWNER** configuration option and boot the kernel
-+with "**page_owner=on**" boot parameter to enable page owner at run-time.
-+
-+If the kernel is built with page owner and page owner is disabled in runtime
-+due to no enabling boot option, runtime overhead is marginal. If disabled in
-+runtime, it doesn't require memory to store owner information, so there is no
-+runtime memory overhead. And, page owner inserts just two unlikely branches
-+into the page allocator hot-path and if not enabled, then allocation is done
- like as the kernel without page owner. These two unlikely branches should
- not affect to allocation performance, especially if the static keys jump
- label patching functionality is available. Following is the kernel's code
-@@ -51,7 +55,7 @@ size change due to this facility.
-    1025       8       8    1041     411 mm/page_ext.o
- 
- Although, roughly, 8 KB code is added in total, page_alloc.o increase by
--520 bytes and less than half of it is in hotpath. Building the kernel with
-+520 bytes and less than half of it is in hot-path. Building the kernel with
- page owner and turning it on if needed would be great option to debug
- kernel memory problem.
- 
-@@ -64,47 +68,85 @@ pages are investigated and marked as allocated in initialization phase.
- Although it doesn't mean that they have the right owner information,
- at least, we can tell whether the page is allocated or not,
- more accurately. On 2GB memory x86-64 VM box, 13343 early allocated pages
--are catched and marked, although they are mostly allocated from struct
-+are cached and marked, although they are mostly allocated from struct
- page extension feature. Anyway, after that, no page is left in
- un-tracking state.
- 
- Usage
--=====
-+-----
- 
--1) Build user-space helper::
-+**Build user-space helper**::
- 
- 	cd tools/vm
- 	make page_owner_sort
- 
--2) Enable page owner: add "page_owner=on" to boot cmdline.
-+**Enable page owner config option**::
-+
-+        CONFIG_PAGE_OWNER=y
- 
--3) Do the job what you want to debug
-+**Enable page owner run-time: pass "page_owner=on" to boot parameter**::
- 
--4) Analyze information from page owner::
-+        cat /proc/cmdline
-+        BOOT_IMAGE=/boot/vmlinuz-5.16.0-rc5+ root=UUID=---- page_owner=on
-+
-+**Analyze information from page owner**::
- 
- 	cat /sys/kernel/debug/page_owner > page_owner_full.txt
- 	./page_owner_sort page_owner_full.txt sorted_page_owner.txt
- 
--   The general output of ``page_owner_full.txt`` is as follows:
-+- The general output of ``page_owner_full.txt`` is as follows::
- 
--	Page allocated via order XXX, ...
--	PFN XXX ...
--	// Detailed stack
-+	        Page allocated via order XXX, ...
-+	        PFN XXX ...
-+	        Detailed stack
- 
--	Page allocated via order XXX, ...
--	PFN XXX ...
--	// Detailed stack
-+- Example output::
-+
-+                Page allocated via order 0, mask 0x0(), pid 1, ts 357726668 ns, free_ts 0 ns
-+                PFN 5124 type Unmovable Block 10 type Unmovable Flags 0xfffffc0000000(node=0|zone=1|lastcpupid=0x1fffff)
-+                register_early_stack+0x6d/0xc0
-+                init_page_owner+0x3c/0x370
-+                page_ext_init+0x252/0x26d
-+                kernel_init_freeable+0x2cc/0x495
- 
--   The ``page_owner_sort`` tool ignores ``PFN`` rows, puts the remaining rows
--   in buf, uses regexp to extract the page order value, counts the times
--   and pages of buf, and finally sorts them according to the times.
-+The ``page_owner_sort`` tool ignores ``PFN`` rows, puts the remaining rows
-+in buf, uses regexp to extract the page order value, counts the times
-+and pages of buf, and finally sorts them according to the times.
- 
--   See the result about who allocated each page
--   in the ``sorted_page_owner.txt``. General output:
-+- The general output of ``sorted_page_owner.txt`` is as follows::
- 
- 	XXX times, XXX pages:
- 	Page allocated via order XXX, ...
--	// Detailed stack
-+	Detailed stack
-+
-+- Example output::
-+
-+        1 times, 1 pages:
-+        Page allocated via order 0, mask 0x12a20(GFP_ATOMIC|__GFP_NOWARN|__GFP_NORETRY), pid 1159, ts 57047661660 ns, free_ts 57035322260 ns
-+        register_dummy_stack+0x6d/0xc0
-+        init_page_owner+0x32/0x370
-+        page_ext_init+0x252/0x26d
-+        kernel_init_freeable+0x2cc/0x495
-+
-+By default, ``page_owner_sort`` is sorted according to the times of buf.
-+If you want to sort by the pages nums of buf, use the ``-m`` parameter.
-+
-+Additional Imformation
-+----------------------
-+
-+A few important details to know about this feature:
-+
-+- PAGE_OWNER_STACK_DEPTH is 16
-+
-+- Bulk allocator impact: PAGE_OWNER may recurse into the allocator to
-+  allocate space to save the stack with pagesets.lock held. Releasing
-+  and reacquiring removes much of the performance benefit of bulk
-+  allocation. Hence ``__alloc_pages_bulk()`` forces the caller to allocate
-+  one page at a time when if page_owner_inited is enabled. The reason
-+  being, it'll have similar performance to added complexity to the bulk
-+  allocator.
-+
-+- Eats a fair amount of memory if enabled.
- 
--   By default, ``page_owner_sort`` is sorted according to the times of buf.
--   If you want to sort by the pages nums of buf, use the ``-m`` parameter.
-+- KASAN usage: Enable Page owner (CONFIG_PAGE_OWNER and page_owner=on) to
-+  get include alloc and free stack traces of affected physical pages
+Changes since v4:
+https://lore.kernel.org/linux-kselftest/20211216055958.634097-1-sharinder@google.com/T/
+-- Replaced kunit_suitememorydiagram.png with kunit_suitememorydiagram.svg
+
+
+Changes since v3:
+https://lore.kernel.org/linux-kselftest/20211210052812.1998578-1-sharinder@google.com/T/#m0a85e6a36f13c66470844d92553d19c19239ebed
+
+--Reworded sentences as per comments
+--Replaced Elixir links with kernel.org links or kernel-doc references
+
+
+Changes since v2:
+https://lore.kernel.org/linux-kselftest/20211207054019.1455054-1-sharinder@google.com/T/
+
+--Reworded sentences as per comments
+--Expanded the explaination in usage.rst for accessing the current test example
+--Standardized on US english in style.rst
+
+Changes since v1:
+https://lore.kernel.org/linux-kselftest/20211203042437.740255-1-sharinder@google.com/
+
+--Fixed spelling mistakes
+--Restored paragraph about kunit_tool introduction
+--Added note about CONFIG_KUNIT_ALL_TESTS (Thanks Tim Bird for review
+comments)
+-- Miscellaneous changes
+
+
+Harinder Singh (7):
+  Documentation: KUnit: Rewrite main page
+  Documentation: KUnit: Rewrite getting started
+  Documentation: KUnit: Added KUnit Architecture
+  Documentation: kunit: Reorganize documentation related to running
+    tests
+  Documentation: KUnit: Rework writing page to focus on writing tests
+  Documentation: KUnit: Restyle Test Style and Nomenclature page
+  Documentation: KUnit: Restyled Frequently Asked Questions
+
+ .../dev-tools/kunit/architecture.rst          | 204 +++++++
+ Documentation/dev-tools/kunit/faq.rst         |  73 ++-
+ Documentation/dev-tools/kunit/index.rst       | 172 +++---
+ Documentation/dev-tools/kunit/run_manual.rst  |  57 ++
+ Documentation/dev-tools/kunit/run_wrapper.rst | 247 ++++++++
+ Documentation/dev-tools/kunit/start.rst       | 198 +++---
+ Documentation/dev-tools/kunit/style.rst       | 105 ++--
+ Documentation/dev-tools/kunit/usage.rst       | 578 ++++++++----------
+ 8 files changed, 1047 insertions(+), 587 deletions(-)
+ create mode 100644 Documentation/dev-tools/kunit/architecture.rst
+ create mode 100644 Documentation/dev-tools/kunit/run_manual.rst
+ create mode 100644 Documentation/dev-tools/kunit/run_wrapper.rst
+
+
+base-commit: 4c388a8e740d3235a194f330c8ef327deef710f6
 -- 
-2.32.0
+2.34.1.173.g76aa8bc2d0-goog
 
