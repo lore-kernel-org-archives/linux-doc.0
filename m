@@ -2,67 +2,65 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46E87C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Dec 2021 20:44:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE103C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Dec 2021 20:45:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237170AbhLQUoO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Dec 2021 15:44:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46168 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240926AbhLQUoM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Dec 2021 15:44:12 -0500
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEF2AC06173F
-        for <linux-doc@vger.kernel.org>; Fri, 17 Dec 2021 12:44:11 -0800 (PST)
-Received: by mail-ed1-x52f.google.com with SMTP id g14so12398222edb.8
-        for <linux-doc@vger.kernel.org>; Fri, 17 Dec 2021 12:44:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JJnsIIpunEWMbh/Qgzu/ClbtA+crRRC9ykjwMsxp4Xg=;
-        b=Q7KfwzCp7ey3Od1yatE7bs9sLO+eQCx8S/bb7oiRSzyMiKD0DWQ2xXPhmdnChne7nw
-         86EM0hENEKAQr1TC1SKiTfMK5A+B3tCj9YW0qlShYCfu1WuGRaW1hfigEOBc39FylfMA
-         K1VH5SRGwn742s/Dv9UxpopSjgjurI0JlTzfA=
+        id S234541AbhLQUpS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Dec 2021 15:45:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52794 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234514AbhLQUpR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Dec 2021 15:45:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1639773917;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=mPpPJN7KbPRNIPZSMIG4COjk+/gblJ9JKatIFH/NkxI=;
+        b=eP1MYxRRl035onQPboTyMxsBeXMYeU/EzL3jWLA1HX/+l/Z1CThIxM7/GwBcjDaBqbSHnE
+        lF4WTdSZPnHce/XTwYUL+ybOpY4/mQknbjHYt7SqbbhTSIPKXZ22gT4flvh3jfpdF5LIwM
+        V5CB6+8uc7xTryECXc4dUbj7LxkEMYA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-248-5R879wu1NoeczuPKV8IJDw-1; Fri, 17 Dec 2021 15:45:16 -0500
+X-MC-Unique: 5R879wu1NoeczuPKV8IJDw-1
+Received: by mail-wr1-f71.google.com with SMTP id p15-20020adfaa0f000000b001a240b45c1fso950754wrd.4
+        for <linux-doc@vger.kernel.org>; Fri, 17 Dec 2021 12:45:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JJnsIIpunEWMbh/Qgzu/ClbtA+crRRC9ykjwMsxp4Xg=;
-        b=cy/JGhmMT0kKz1E4xK9THvoSY4GLcRO5SHRC9ADwDPs2Gjz07WgmgsInyTocGmgxgb
-         Gg9sMMkuFTPkFRUjK4fbhCoq0A4bvKpqf2ksKokySn0jcTmLob31wUs5vL2QvpGI+raB
-         /5gFBOn46PR4rNySL8C6ZD3M+qz75k4PDKnsyvM0imQmttpD2wbO0zLM0L/GjIBucMHe
-         E/tHZNhF/ZZl9UyGwez44P81OwB4Pq476ZxOylzoAm4RJD0hyyTWfS+OxPRCo/N4r3fs
-         tre2/WQLmqRiQysfzKCSDpivQM2MZyDPaz1SeZrzai/kMgXk+cG6v/LFWFTtej44smEG
-         okRQ==
-X-Gm-Message-State: AOAM5312BwqZhkK4sWC7z8XRL+7y3dMDRZu5G8iguLqH4C+2gEeng/Ue
-        sTUgJD4xBmSpaHF6EkkWS12ZlaRmf8qo7fcuAhs=
-X-Google-Smtp-Source: ABdhPJxK2ol4rv/HXdG1VGWZWX4P0KgnucVu2/tdIiEGwIrveFlk3y5NbiIySvsVwCY36MC6VSeSRg==
-X-Received: by 2002:a05:6402:3512:: with SMTP id b18mr4523887edd.347.1639773850330;
-        Fri, 17 Dec 2021 12:44:10 -0800 (PST)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com. [209.85.128.41])
-        by smtp.gmail.com with ESMTPSA id e4sm3365895ejs.13.2021.12.17.12.44.09
-        for <linux-doc@vger.kernel.org>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=mPpPJN7KbPRNIPZSMIG4COjk+/gblJ9JKatIFH/NkxI=;
+        b=7E2TGx3QeAFr0dsdNriUuORrGwvrG/WouhNqz2Q60r9W2B2zQjXa1ShnC49SKKc5T6
+         TGf4IZpYshh/OTSXTh1CtlwrWKR8wY+k4qKKqpfI1nB6IH7fisbnwJSEgvpIPjNI6/Kz
+         T9LRF/sTf0+AnfXTkQ2NDDtGha6XSkxEZvHR5VF0SVzTb0BO+I+snv+iBfcnAPgQXTHQ
+         hFOM7MP7F88FA9ImfrBRjLQehFLHuNYAeck4Nrw0O7chvdkmnEsyaZPD0PrJI3oINxUR
+         QaKJodZlFL/zj4EENeSkc12b3LPC6436JQx9hxR6XeLCKLvaJQcsYonPKdpmNwRHJtgB
+         Ud5g==
+X-Gm-Message-State: AOAM531BCb1uSJb5vkO/6gGFZSjfGqOPmOIVLsGAV1Dt9JkuS4Kd2Grh
+        Ebpb4YiUVfCbvNu/xKJsVyCOV71hogcjacMLzes+gbRd4aSpLFkQmi+8QGPXoXiLamwixaeIonS
+        Vj7rrxXAm+6qgcOvMFBRH
+X-Received: by 2002:a5d:4706:: with SMTP id y6mr3943596wrq.435.1639773914798;
+        Fri, 17 Dec 2021 12:45:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxfFap8HkDu143lE7Idu4Dk3kJRb/So/+z+DQIixqjYZjuuVPkfH789mDxQMEKE7OKKkVrJlg==
+X-Received: by 2002:a5d:4706:: with SMTP id y6mr3943579wrq.435.1639773914589;
+        Fri, 17 Dec 2021 12:45:14 -0800 (PST)
+Received: from [192.168.3.132] (p4ff234b8.dip0.t-ipconnect.de. [79.242.52.184])
+        by smtp.gmail.com with ESMTPSA id z11sm8830241wmf.9.2021.12.17.12.45.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 Dec 2021 12:44:10 -0800 (PST)
-Received: by mail-wm1-f41.google.com with SMTP id p36-20020a05600c1da400b003457428ec78so3711250wms.3
-        for <linux-doc@vger.kernel.org>; Fri, 17 Dec 2021 12:44:09 -0800 (PST)
-X-Received: by 2002:a7b:cb17:: with SMTP id u23mr11177984wmj.155.1639773838912;
- Fri, 17 Dec 2021 12:43:58 -0800 (PST)
+        Fri, 17 Dec 2021 12:45:14 -0800 (PST)
+Message-ID: <9c3ba92e-9e36-75a9-9572-a08694048c1d@redhat.com>
+Date:   Fri, 17 Dec 2021 21:45:12 +0100
 MIME-Version: 1.0
-References: <20211217113049.23850-1-david@redhat.com> <20211217113049.23850-7-david@redhat.com>
- <CAHk-=wgL5u3XMgfUN6BOqVO0OvPx3-LEri1ju-1TW4dFhHQO4g@mail.gmail.com>
- <CAHk-=wgKft6E_EeLA1GnEXcQBA9vu8m2B-M-U7PuiNa0+9gpHA@mail.gmail.com>
- <54c492d7-ddcd-dcd0-7209-efb2847adf7c@redhat.com> <CAHk-=wgjOsHAXttQa=csLG10Cp2hh8Dk8CnNC3_WDpBpTzBESQ@mail.gmail.com>
- <CAHk-=wgD1Y_hV3eCRL55m+sGfmwic0wbq+0LV8youYKirHJTog@mail.gmail.com>
-In-Reply-To: <CAHk-=wgD1Y_hV3eCRL55m+sGfmwic0wbq+0LV8youYKirHJTog@mail.gmail.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Fri, 17 Dec 2021 12:43:42 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wge4Pcrhg-uCyCRVaUBb5B4NdSxb3TNhB5pnnqDqw6Ztg@mail.gmail.com>
-Message-ID: <CAHk-=wge4Pcrhg-uCyCRVaUBb5B4NdSxb3TNhB5pnnqDqw6Ztg@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
 Subject: Re: [PATCH v1 06/11] mm: support GUP-triggered unsharing via
  FAULT_FLAG_UNSHARE (!hugetlb)
-To:     David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+To:     Linus Torvalds <torvalds@linux-foundation.org>
 Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Hugh Dickins <hughd@google.com>,
@@ -88,32 +86,106 @@ Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         "open list:KERNEL SELFTEST FRAMEWORK" 
         <linux-kselftest@vger.kernel.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+References: <20211217113049.23850-1-david@redhat.com>
+ <20211217113049.23850-7-david@redhat.com>
+ <CAHk-=wgL5u3XMgfUN6BOqVO0OvPx3-LEri1ju-1TW4dFhHQO4g@mail.gmail.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <CAHk-=wgL5u3XMgfUN6BOqVO0OvPx3-LEri1ju-1TW4dFhHQO4g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 17, 2021 at 12:39 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> At the time of such a shared pin, you can do what we already do:
-> re-use the page if it has a refcount of 1. Or do an early COW event
-> (feel free to avoid the "mark it writable and dirty").
+On 17.12.21 20:04, Linus Torvalds wrote:
+> On Fri, Dec 17, 2021 at 3:34 AM David Hildenbrand <david@redhat.com> wrote:
+>>
+>> + * If the child takes a read-only pin on such a page (i.e., FOLL_WRITE is not
+>> + * set) and then unmaps the target page, we have:
+>> + *
+>> + * * page has mapcount == 1 and refcount > 1
+> 
 
-Note that this also depends on fork() doing the right thing, marking
-things for "a fork() can not share this page any more".
+Hi Linus,
 
-Which it does for regular pages, and is exactly what that
-page_needs_cow_for_dma() logic is all about (and the special
-write_protect_seq around gup/fork).
+> All these games with mapcount makes me think this is still broken.
+> 
+> mapcount has been a horribly broken thing in the past, and I'm not
+> convinced it's not a broken thing now.
 
-I do believe that huge-pages don't do it right. But I think that as
-you try to fix hugepages, you are now breaking the normal case.
+It all started when Jann detected the security issue in GUP – and this
+patch set is fixing the problem exactly there, in GUP itself. Are you
+aware of COW issues regarding the mapcount if we would remove GUP from
+the equation? My point is that COW without GUP works just perfectly
+fine, but I’ll be happy to learn about other cases I was ignoring so far.
 
-If all your logic was only about hugepages, I wouldn't care so much.
-But you are playing questionable games with code that I think is
-correct.
+Unfortunately, page_count() is even more unreliable, and the issues
+we're just detecting (see the link in the cover letter: memory
+corruptions inside user space -- e.g., lost DMA writes) are even worse
+than what we had before -- IMHO of course.
 
-Please explain why.
+> 
+>> +       vmf->page = vm_normal_page(vmf->vma, vmf->address, vmf->orig_pte);
+>> +       if (vmf->page && PageAnon(vmf->page) && !PageKsm(vmf->page) &&
+>> +           page_mapcount(vmf->page) > 1) {
+> 
+> What keeps the mapcount stable in here?
 
-              Linus
+So, we're reading an atomic value here. It’s read via atomic_read for
+regular pages, and the THP mapcount case has also been made atomic (as
+lockless as page_count) in patch #5.
+
+If a page is mapped exactly once, page_mapcount(page) == 1 and there is
+nothing to do.
+
+If the page is mapped more than once, page_mapcount(page) > 1 and we
+would have to trigger unsharing. And it’s true that the value is
+unstable in this case, but we really only care about page_mapcount(page)
+> 1 vs. page_mapcount(page) == 1. In this respect, there is no
+difference from the instability of the page_count and the mapcount – we
+still only care if it’s >1 or == 1.
+
+So the only case we could care about is concurrent additional mappings
+that can increment the mapcount -- which can only happen due to
+concurrent fork. So if we're reading page_mapcount(page) == 1 the only
+way we can get page_mapcount(page) > 1 is due to fork(). But we're
+holding the mmap_lock in read mode during faults and fork requires the
+mmap_lock in write mode.
+
+
+> 
+> And I still believe that the whole notion that "COW should use
+> mapcount" is pure and utter garbage.
+> 
+> If we are doing a COW, we need an *exclusive* access to the page. That
+> is not mapcount, that is the page ref.
+
+I thought about this a lot, because initially I had the same opinion.
+
+But really, we don't care about any speculative references (pagecache,
+migration, daemon, pagevec, ...) or any short-term "I just want to grab
+this reference real quick such that the page can't get freed" references.
+
+All we care about are GUP references, and we attack that problem at the
+root by triggering unsharing exactly at the point where GUP comes into play.
+
+So IMHO GUP is the problem and needs unsharing either:
+* On write access to a shared anonymous page, which is just COW as we
+know it.
+* On read access to a shared anonymous page, which is what we’re
+proposing in this patch set.
+
+So as soon as GUP comes into play, even if only pinning R/O, we have to
+trigger unsharing . Doing so enforces the invariant that it is
+impossible to take a GUP pin on an anonymous page with a mapcount > 1.
+In turn, the COW does not need to worry about the GUP after fork()
+security issue anymore and it can focus on doing optimally the COW
+faults as if GUP just wouldn’t exist.
+
+
+-- 
+Thanks,
+
+David / dhildenb
+
