@@ -2,64 +2,65 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3047C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Dec 2021 20:51:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88A5EC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Dec 2021 20:55:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234738AbhLQUvz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 17 Dec 2021 15:51:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47960 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240924AbhLQUvw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Dec 2021 15:51:52 -0500
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1563C061574
-        for <linux-doc@vger.kernel.org>; Fri, 17 Dec 2021 12:51:51 -0800 (PST)
-Received: by mail-ed1-x52a.google.com with SMTP id z29so12448632edl.7
-        for <linux-doc@vger.kernel.org>; Fri, 17 Dec 2021 12:51:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=TG2f+1lEN9hemuQjgMe4Yp+YI3NU/6U4WSw8/cJzPxw=;
-        b=Yrgcl5joP5IKSH1feNkTltzJLVVG8zrXENqo7vUe3EVV9XknZ07REOeQRBojTzTO86
-         ru0XQjTptmuCTBKHvUxnc0k1m5boTQTeFASvq7tIIKB6yCjG9+KF1TpJp2uSt5cPlXfQ
-         mvyq0AjNx+7bb2we1uo6ifMBNTtiDYvBUnRhg=
+        id S240923AbhLQUzk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 17 Dec 2021 15:55:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35250 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S240911AbhLQUzk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 Dec 2021 15:55:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1639774539;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=gt0DtLTTM3E0C5XUm2JmJz4pNU1PDieeF6+dQqYh0XM=;
+        b=fxL/3KU80an27dPD4irGlzchE2t4TBIvi9s7G77nI9Zct+l8TuaSC9+2ftOG6v0GUi1qm/
+        3Kbrok7PxhXZfLkVa/j0Mk0DySw6xa7rlY9yqlX4qgUdQwwQpKHDM5P/1cq3G096m4cOoN
+        fpap1bPb0iuWHu4/AHskVfRxERPoRYk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-25-LghFh6reOyiJrvs8GA_SoA-1; Fri, 17 Dec 2021 15:55:38 -0500
+X-MC-Unique: LghFh6reOyiJrvs8GA_SoA-1
+Received: by mail-wm1-f72.google.com with SMTP id v62-20020a1cac41000000b0033719a1a714so1221699wme.6
+        for <linux-doc@vger.kernel.org>; Fri, 17 Dec 2021 12:55:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=TG2f+1lEN9hemuQjgMe4Yp+YI3NU/6U4WSw8/cJzPxw=;
-        b=pFM0BmEUckGKAi7n/uc4VXZB8qw5YfZhN65ze30BXuHdH2+bT7dQIjfOhf1HA82FRB
-         VKnU0P7k+ClTBCNa/bxIKGkrdfTke6cfJNB3cSQzBptnAvtJnl3oNg2j9/on5FBDGIGJ
-         +4onBoifjAph1rEf/t6xyL40YVPbktFWN7BByJw8VRKip2b5ZwWSu10h6u+rBIrL1WOI
-         SWblinhkuxfU9I+IpcWR5G2qjrp+znq5JVIA0cXrMKN6UrMHl+v7sktd8XblY65ZLoxZ
-         ksh5tBbZKEKljiHojMSoaxbKDwlShMmS5sE8bmpB5LK0zO0i0FoBCZFfey+g5ro8bwlx
-         z2qw==
-X-Gm-Message-State: AOAM533Og+b7Zn+T2hCkfwluM6KgnsmWDQGNFqid2l2C5vsFOJsrkgzz
-        QEiD2s3Xv4sRYd7MIDyYzXmYprDjzoi/hUtPkA4=
-X-Google-Smtp-Source: ABdhPJw1cklv2c5HiZC1GMTNxLYwzx7RaHBvLQ0+bak89Y3XI+akgyntF2aXp7GyLbM68nWAMstQTg==
-X-Received: by 2002:a17:907:6eaa:: with SMTP id sh42mr3773780ejc.556.1639774310342;
-        Fri, 17 Dec 2021 12:51:50 -0800 (PST)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com. [209.85.128.46])
-        by smtp.gmail.com with ESMTPSA id s16sm3908020edt.30.2021.12.17.12.51.49
-        for <linux-doc@vger.kernel.org>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:organization:in-reply-to
+         :content-transfer-encoding;
+        bh=gt0DtLTTM3E0C5XUm2JmJz4pNU1PDieeF6+dQqYh0XM=;
+        b=H2alKHUBlFUb8qy+BV0H7yn020iIxphOrtEG5X0u3DQfWop9kVZYPwdDqEfrQDG+/I
+         gN4VqmlmS5vvEoUMLjt/CTqBqKR5vdCaDcx8cpNLt/TuU8FCprzgrafvreqhjFRpzJ9a
+         +wyhFPuJ0wzBRk78ac7bbkm3VhOBV7MFrofjec7JO9oSc4v89r7/DZrtrAZYoXiveHJx
+         RYATztTLI/odol72agTpjDi8D9aul3fiq1hb8Icxu7+ZxJkzy8NusSki+KWc3wMbGtVn
+         ZmDapujwyY4f8aNbIbRmpQC7WT8dMxSuDPd2qCOM+l8S1tk5Cuqc1UKuO1KzTgn/F0pr
+         55Jw==
+X-Gm-Message-State: AOAM530s1TBy/45Kne+4bQvbuU5+DV2odILNVrZwEzwWH2/CMKOVTeUO
+        Pq35F/VriEqBQdo5zTFYHkjnmc9GYESQBttyW6R5ZO6uvLwRgodK7Bih1he47o5as8d/8z699v5
+        w25uLiqZ3koXc9PO/hoEr
+X-Received: by 2002:a1c:9d55:: with SMTP id g82mr9035996wme.58.1639774536973;
+        Fri, 17 Dec 2021 12:55:36 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy2VIGy81gYhcxxwp937rzdgjfMqRdg6hjw0UIMF9SiLBF1P2rxY4ZqXf8403kKG7hOqOFIcw==
+X-Received: by 2002:a1c:9d55:: with SMTP id g82mr9035975wme.58.1639774536777;
+        Fri, 17 Dec 2021 12:55:36 -0800 (PST)
+Received: from [192.168.3.132] (p4ff234b8.dip0.t-ipconnect.de. [79.242.52.184])
+        by smtp.gmail.com with ESMTPSA id s189sm9283243wme.0.2021.12.17.12.55.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 Dec 2021 12:51:50 -0800 (PST)
-Received: by mail-wm1-f46.google.com with SMTP id g191-20020a1c9dc8000000b0032fbf912885so2267225wme.4
-        for <linux-doc@vger.kernel.org>; Fri, 17 Dec 2021 12:51:49 -0800 (PST)
-X-Received: by 2002:a05:600c:1914:: with SMTP id j20mr11082980wmq.26.1639774298625;
- Fri, 17 Dec 2021 12:51:38 -0800 (PST)
+        Fri, 17 Dec 2021 12:55:36 -0800 (PST)
+Message-ID: <e93f3fc9-00fd-5404-83f9-136b372e4867@redhat.com>
+Date:   Fri, 17 Dec 2021 21:55:33 +0100
 MIME-Version: 1.0
-References: <20211217113049.23850-1-david@redhat.com> <20211217113049.23850-7-david@redhat.com>
- <CAHk-=wgL5u3XMgfUN6BOqVO0OvPx3-LEri1ju-1TW4dFhHQO4g@mail.gmail.com> <9c3ba92e-9e36-75a9-9572-a08694048c1d@redhat.com>
-In-Reply-To: <9c3ba92e-9e36-75a9-9572-a08694048c1d@redhat.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Fri, 17 Dec 2021 12:51:22 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wghsZByyzCqb5EbKzZtAbrFvQCViD+jK9HQL4viqUb6Ow@mail.gmail.com>
-Message-ID: <CAHk-=wghsZByyzCqb5EbKzZtAbrFvQCViD+jK9HQL4viqUb6Ow@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
 Subject: Re: [PATCH v1 06/11] mm: support GUP-triggered unsharing via
  FAULT_FLAG_UNSHARE (!hugetlb)
-To:     David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+To:     Linus Torvalds <torvalds@linux-foundation.org>
 Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Hugh Dickins <hughd@google.com>,
@@ -85,31 +86,52 @@ Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         "open list:KERNEL SELFTEST FRAMEWORK" 
         <linux-kselftest@vger.kernel.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+References: <20211217113049.23850-1-david@redhat.com>
+ <20211217113049.23850-7-david@redhat.com>
+ <CAHk-=wgL5u3XMgfUN6BOqVO0OvPx3-LEri1ju-1TW4dFhHQO4g@mail.gmail.com>
+ <9c3ba92e-9e36-75a9-9572-a08694048c1d@redhat.com>
+ <CAHk-=wghsZByyzCqb5EbKzZtAbrFvQCViD+jK9HQL4viqUb6Ow@mail.gmail.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <CAHk-=wghsZByyzCqb5EbKzZtAbrFvQCViD+jK9HQL4viqUb6Ow@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 17, 2021 at 12:45 PM David Hildenbrand <david@redhat.com> wrote:
->
-> If a page is mapped exactly once, page_mapcount(page) == 1 and there is
-> nothing to do.
+On 17.12.21 21:51, Linus Torvalds wrote:
+> On Fri, Dec 17, 2021 at 12:45 PM David Hildenbrand <david@redhat.com> wrote:
+>>
+>> If a page is mapped exactly once, page_mapcount(page) == 1 and there is
+>> nothing to do.
+> 
+> Why?
+> 
+> You state that, but you stating that doesn't magically make it so.
+> 
+> What makes "mapcount==1" stable and special? Your "it's an
+> atomic_read()" argument is nonsense - it implies that the count can be
+> changing, but you will get _one_ answer.
 
-Why?
+And I explained how it can not increment. And the only way is via
+fork(), which cannot run concurrently.
 
-You state that, but you stating that doesn't magically make it so.
+> 
+> What makes that one answer of a changing count special?
+> 
+> What if there are other references to that same page, gotten with
+> vmsplice(), and just about to be mapped into another address space?
 
-What makes "mapcount==1" stable and special? Your "it's an
-atomic_read()" argument is nonsense - it implies that the count can be
-changing, but you will get _one_ answer.
+If we have a shared anonymous page we cannot have GUP references, not
+even R/O ones. Because GUP would have unshared and copied the page,
+resulting in a R/O mapped anonymous page.
 
-What makes that one answer of a changing count special?
+What am I missing?
 
-What if there are other references to that same page, gotten with
-vmsplice(), and just about to be mapped into another address space?
 
-This is the meat of my argument. You claim that "mapcount==1" is
-special. I claim that you haven't explained why it would be. And I do
-not believe it is.
+-- 
+Thanks,
 
-                 Linus
+David / dhildenb
+
