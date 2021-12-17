@@ -2,111 +2,256 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B702C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 17 Dec 2021 02:51:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 810BDC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 17 Dec 2021 03:22:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231758AbhLQCvJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 16 Dec 2021 21:51:09 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:28326 "EHLO
-        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229471AbhLQCvJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Dec 2021 21:51:09 -0500
-Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.55])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JFYPz346szbjLQ;
-        Fri, 17 Dec 2021 10:50:47 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Fri, 17 Dec 2021 10:51:06 +0800
-Received: from [10.174.178.55] (10.174.178.55) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Fri, 17 Dec 2021 10:51:05 +0800
-Subject: Re: [PATCH v17 03/10] x86: kdump: use macro CRASH_ADDR_LOW_MAX in
- functions reserve_crashkernel()
-To:     Borislav Petkov <bp@alien8.de>
-CC:     Baoquan He <bhe@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
-        "Ingo Molnar" <mingo@redhat.com>, <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>, <linux-kernel@vger.kernel.org>,
-        Dave Young <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        <kexec@lists.infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        <devicetree@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>
-References: <20211210065533.2023-1-thunder.leizhen@huawei.com>
- <20211210065533.2023-4-thunder.leizhen@huawei.com> <YbntdtQo2jfbO4cO@zn.tnic>
- <20211216011040.GG3023@MiWiFi-R3L-srv>
- <9513d74c-d4c7-babd-f823-8999e195d96d@huawei.com> <YbseAX6X1VHUF12f@zn.tnic>
- <35810a61-604e-9b90-2a7f-cfca6ae042ac@huawei.com> <YbtRs3Tq1UpCOpg8@zn.tnic>
-From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Message-ID: <d2b199b7-584e-8ad4-9626-09bb86cf92c5@huawei.com>
-Date:   Fri, 17 Dec 2021 10:51:04 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S232429AbhLQDWW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 16 Dec 2021 22:22:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37260 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232355AbhLQDWW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 Dec 2021 22:22:22 -0500
+Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB684C061574
+        for <linux-doc@vger.kernel.org>; Thu, 16 Dec 2021 19:22:21 -0800 (PST)
+Received: by mail-io1-xd2e.google.com with SMTP id c3so1158425iob.6
+        for <linux-doc@vger.kernel.org>; Thu, 16 Dec 2021 19:22:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ixP6AVqrvpXuXpeKKxuF1taBLb2FMpge0zvIr1X64dw=;
+        b=I1vlKJge6e6iGf+4xrBh5bSqt965TDMNxHNV5kWPqw4tWacWw2PWUPZ+tI65Z6CQDd
+         +oobpsoTtAaSwyRi0cdAlT8zGVS8HeFW/4ptCDVFWppUM5Nzf6mebas7HbqBBJfQD1m5
+         zipcUhsRXyL9vyOEHKb+joXgMtEKvpOW5VWto=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ixP6AVqrvpXuXpeKKxuF1taBLb2FMpge0zvIr1X64dw=;
+        b=qbl1/PXEg+eUzWjvh+LqMWmsugGYm+347wyEkFOANrqICETbnzR5cYgVe0dFSJdbEa
+         C21Uk/KKD60O/yO3k4kBZAdMWs1RS2vpYDaBEW7fEQShtFLZbqWdt5yTExcAJDVaLEBD
+         J8Gu/Ykg6F2x3IzAXW7WxPpkDEu5q0Xa2ijZ1X3i/6Fy4Z2EYE0c67Pp0fU+XOhA/fkn
+         UXRbnSoKh8YoM+67fbVFd3IBzkvGBNs0flfwhl+YUQp3w4uPqKH4TxuH7c6GNtNtNy1N
+         9Mima0u39lGKvCgI3PRiltcrMuo3v8XOpgO9VbGZdBUE8RuJFroHqn8e6kzZh7/MxpIz
+         vE+Q==
+X-Gm-Message-State: AOAM533ydi5d+0j0+YhoD0jocTiwqJEF418H4d1xLwk4Y1Qn7rA9i9pn
+        zU23EkMhZ1gFn/SHJU23JmyBWQ==
+X-Google-Smtp-Source: ABdhPJzbkBBgw32EwS/GK0jn7q/dyAo+ATvN4k0zNDuXw1Bf74wmbjya2M5qjU/PfqMkIRKfBmoI6g==
+X-Received: by 2002:a05:6638:24cd:: with SMTP id y13mr610269jat.247.1639711340073;
+        Thu, 16 Dec 2021 19:22:20 -0800 (PST)
+Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id e9sm3411334ilm.44.2021.12.16.19.22.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Dec 2021 19:22:19 -0800 (PST)
+From:   Shuah Khan <skhan@linuxfoundation.org>
+To:     corbet@lwn.net, akpm@linux-foundation.org
+Cc:     Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] docs/vm: update page owner doc with additional information
+Date:   Thu, 16 Dec 2021 20:22:18 -0700
+Message-Id: <20211217032218.66631-1-skhan@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-In-Reply-To: <YbtRs3Tq1UpCOpg8@zn.tnic>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.178.55]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Update page owner doc with additional information such as example
+output, implementation and usages details. Made changes for clarity
+and fix spelling errors.
 
+Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+---
+ Documentation/vm/page_owner.rst | 130 +++++++++++++++++++++-----------
+ 1 file changed, 86 insertions(+), 44 deletions(-)
 
-On 2021/12/16 22:48, Borislav Petkov wrote:
-> On Thu, Dec 16, 2021 at 08:08:30PM +0800, Leizhen (ThunderTown) wrote:
->> If the memory of 'crash_base' is successfully allocated at (1), because the last
->> parameter CRASH_ADDR_LOW_MAX is the upper bound, so we can sure that
->> "crash_base < CRASH_ADDR_LOW_MAX". So that, reserve_crashkernel_low() will not be
->> invoked at (3). That's why I said (1ULL << 32) is inaccurate and enlarge the CRASH_ADDR_LOW
->> upper limit.
-> 
-> No, this is actually wrong - that check *must* be 4G. See:
-> 
->   eb6db83d1059 ("x86/setup: Do not reserve crashkernel high memory if low reservation failed")
-> 
-> It is even documented:
-> 
->         crashkernel=size[KMG],low
->                         [KNL, X86-64] range under 4G. When crashkernel=X,high
+diff --git a/Documentation/vm/page_owner.rst b/Documentation/vm/page_owner.rst
+index 9a3af6aafa09..af270102b2c6 100644
+--- a/Documentation/vm/page_owner.rst
++++ b/Documentation/vm/page_owner.rst
+@@ -1,38 +1,42 @@
++.. SPDX-License-Identifier: GPL-2.0
+ .. _page_owner:
+ 
+-==================================================
+-page owner: Tracking about who allocated each page
+-==================================================
++============================================
++page owner: Tracking who allocated each page
++============================================
+ 
+ Introduction
+-============
++------------
+ 
+-page owner is for the tracking about who allocated each page.
+-It can be used to debug memory leak or to find a memory hogger.
+-When allocation happens, information about allocation such as call stack
+-and order of pages is stored into certain storage for each page.
+-When we need to know about status of all pages, we can get and analyze
+-this information.
++Kernel debug page owner feature is for the tracking who allocated each
++page. It can be used to debug memory leaks or to find a memory hogger.
++When page allocation happens, information about allocation such as
++call stack and order of pages is stored into certain storage for
++each page. When we need to know about status of all pages, we can
++get and analyze this information.
+ 
+ Although we already have tracepoint for tracing page allocation/free,
+-using it for analyzing who allocate each page is rather complex. We need
+-to enlarge the trace buffer for preventing overlapping until userspace
+-program launched. And, launched program continually dump out the trace
+-buffer for later analysis and it would change system behaviour with more
+-possibility rather than just keeping it in memory, so bad for debugging.
++using it for analyzing who allocated each page is rather complex. We
++need to enlarge the trace buffer for preventing overlapping until
++userspace program launched. And, launched program continually dump out
++the trace buffer for later analysis and it would change system behaviour
++with more possibility rather than just keeping it in memory, so bad for
++debugging.
+ 
+ page owner can also be used for various purposes. For example, accurate
+ fragmentation statistics can be obtained through gfp flag information of
+ each page. It is already implemented and activated if page owner is
+ enabled. Other usages are more than welcome.
+ 
+-page owner is disabled in default. So, if you'd like to use it, you need
+-to add "page_owner=on" into your boot cmdline. If the kernel is built
+-with page owner and page owner is disabled in runtime due to no enabling
+-boot option, runtime overhead is marginal. If disabled in runtime, it
+-doesn't require memory to store owner information, so there is no runtime
+-memory overhead. And, page owner inserts just two unlikely branches into
+-the page allocator hotpath and if not enabled, then allocation is done
++page owner is disabled by default. So, if you'd like to use it, you need
++to enable **CONFIG_PAGE_OWNER** configuration option and boot the kernel
++with "**page_owner=on**" boot parameter to enable page owner at run-time.
++
++If the kernel is built with page owner and page owner is disabled in runtime
++due to no enabling boot option, runtime overhead is marginal. If disabled in
++runtime, it doesn't require memory to store owner information, so there is no
++runtime memory overhead. And, page owner inserts just two unlikely branches
++into the page allocator hot-path and if not enabled, then allocation is done
+ like as the kernel without page owner. These two unlikely branches should
+ not affect to allocation performance, especially if the static keys jump
+ label patching functionality is available. Following is the kernel's code
+@@ -51,7 +55,7 @@ size change due to this facility.
+    1025       8       8    1041     411 mm/page_ext.o
+ 
+ Although, roughly, 8 KB code is added in total, page_alloc.o increase by
+-520 bytes and less than half of it is in hotpath. Building the kernel with
++520 bytes and less than half of it is in hot-path. Building the kernel with
+ page owner and turning it on if needed would be great option to debug
+ kernel memory problem.
+ 
+@@ -64,47 +68,85 @@ pages are investigated and marked as allocated in initialization phase.
+ Although it doesn't mean that they have the right owner information,
+ at least, we can tell whether the page is allocated or not,
+ more accurately. On 2GB memory x86-64 VM box, 13343 early allocated pages
+-are catched and marked, although they are mostly allocated from struct
++are cached and marked, although they are mostly allocated from struct
+ page extension feature. Anyway, after that, no page is left in
+ un-tracking state.
+ 
+ Usage
+-=====
++-----
+ 
+-1) Build user-space helper::
++**Build user-space helper**::
+ 
+ 	cd tools/vm
+ 	make page_owner_sort
+ 
+-2) Enable page owner: add "page_owner=on" to boot cmdline.
++**Enable page owner config option**::
++
++        CONFIG_PAGE_OWNER=y
+ 
+-3) Do the job what you want to debug
++**Enable page owner run-time: pass "page_owner=on" to boot parameter**::
+ 
+-4) Analyze information from page owner::
++        cat /proc/cmdline
++        BOOT_IMAGE=/boot/vmlinuz-5.16.0-rc5+ root=UUID=---- page_owner=on
++
++**Analyze information from page owner**::
+ 
+ 	cat /sys/kernel/debug/page_owner > page_owner_full.txt
+ 	./page_owner_sort page_owner_full.txt sorted_page_owner.txt
+ 
+-   The general output of ``page_owner_full.txt`` is as follows:
++- The general output of ``page_owner_full.txt`` is as follows::
+ 
+-	Page allocated via order XXX, ...
+-	PFN XXX ...
+-	// Detailed stack
++	        Page allocated via order XXX, ...
++	        PFN XXX ...
++	        Detailed stack
+ 
+-	Page allocated via order XXX, ...
+-	PFN XXX ...
+-	// Detailed stack
++- Example output::
++
++                Page allocated via order 0, mask 0x0(), pid 1, ts 357726668 ns, free_ts 0 ns
++                PFN 5124 type Unmovable Block 10 type Unmovable Flags 0xfffffc0000000(node=0|zone=1|lastcpupid=0x1fffff)
++                register_early_stack+0x6d/0xc0
++                init_page_owner+0x3c/0x370
++                page_ext_init+0x252/0x26d
++                kernel_init_freeable+0x2cc/0x495
+ 
+-   The ``page_owner_sort`` tool ignores ``PFN`` rows, puts the remaining rows
+-   in buf, uses regexp to extract the page order value, counts the times
+-   and pages of buf, and finally sorts them according to the times.
++The ``page_owner_sort`` tool ignores ``PFN`` rows, puts the remaining rows
++in buf, uses regexp to extract the page order value, counts the times
++and pages of buf, and finally sorts them according to the times.
+ 
+-   See the result about who allocated each page
+-   in the ``sorted_page_owner.txt``. General output:
++- The general output of ``sorted_page_owner.txt`` is as follows::
+ 
+ 	XXX times, XXX pages:
+ 	Page allocated via order XXX, ...
+-	// Detailed stack
++	Detailed stack
++
++- Example output::
++
++        1 times, 1 pages:
++        Page allocated via order 0, mask 0x12a20(GFP_ATOMIC|__GFP_NOWARN|__GFP_NORETRY), pid 1159, ts 57047661660 ns, free_ts 57035322260 ns
++        register_dummy_stack+0x6d/0xc0
++        init_page_owner+0x32/0x370
++        page_ext_init+0x252/0x26d
++        kernel_init_freeable+0x2cc/0x495
++
++By default, ``page_owner_sort`` is sorted according to the times of buf.
++If you want to sort by the pages nums of buf, use the ``-m`` parameter.
++
++Additional Imformation
++----------------------
++
++A few important details to know about this feature:
++
++- PAGE_OWNER_STACK_DEPTH is 16
++
++- Bulk allocator impact: PAGE_OWNER may recurse into the allocator to
++  allocate space to save the stack with pagesets.lock held. Releasing
++  and reacquiring removes much of the performance benefit of bulk
++  allocation. Hence ``__alloc_pages_bulk()`` forces the caller to allocate
++  one page at a time when if page_owner_inited is enabled. The reason
++  being, it'll have similar performance to added complexity to the bulk
++  allocator.
++
++- Eats a fair amount of memory if enabled.
+ 
+-   By default, ``page_owner_sort`` is sorted according to the times of buf.
+-   If you want to sort by the pages nums of buf, use the ``-m`` parameter.
++- KASAN usage: Enable Page owner (CONFIG_PAGE_OWNER and page_owner=on) to
++  get include alloc and free stack traces of affected physical pages
+-- 
+2.32.0
 
-[KNL, X86-64], This doc is for X86-64, not for X86-32
-
->                         is passed, kernel could allocate physical memory region
->                         above 4G, that cause second kernel crash on system
->                         that require some amount of low memory, e.g. swiotlb
->                         requires at least 64M+32K low memory, also enough extra
->                         low memory is needed to make sure DMA buffers for 32-bit
->                         devices won't run out.
-
-vi arch/x86/kernel/setup.c +398
-
-/*
- * Keep the crash kernel below this limit.
- *
- * Earlier 32-bits kernels would limit the kernel to the low 512 MB range
- * due to mapping restrictions.
-
-If there is no such restriction, we can make CRASH_ADDR_LOW_MAX equal to (1ULL << 32) minus 1 on X86_32.
-
-> 
-> so you need to do a low allocation for DMA *when* the reserved memory is
-> above 4G. *NOT* above 512M. But that works due to the obscure situation,
-> as Baoquan stated, that reserve_crashkernel_low() returns 0 on 32-bit.
-> 
-> So all this is telling us is that that function needs serious cleanup.
-> 
