@@ -2,239 +2,302 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02092C433FE
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Dec 2021 09:40:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6D82C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Dec 2021 09:58:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232540AbhLRJkk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 18 Dec 2021 04:40:40 -0500
-Received: from www.zeus03.de ([194.117.254.33]:56706 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232533AbhLRJkj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 18 Dec 2021 04:40:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=01B0qNWU0+z7ea4VytjhqQ7lyoMH
-        ToAZMg780ztv3j8=; b=dOBQIh3/6v2yYD2fnPrZL0bJayC2uva12DT+dPQ1dE5/
-        TGr5GRvaQ5ATLStkNXTITamq6IQ8eLTdUmH/W9GptW2nRB4JdZWYssmMqGl/TnoX
-        ZRX02EEGHisurL2lFnpQh3LXmtiebffOzsvkDTA1JEyQ7oqsIlMoPirKFNeJ4Nw=
-Received: (qmail 241675 invoked from network); 18 Dec 2021 10:40:37 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Dec 2021 10:40:37 +0100
-X-UD-Smtp-Session: l3s3148p1@vk52cmjT+uYgAQnoAHcYABNC0nuAbl2v
-Date:   Sat, 18 Dec 2021 10:40:33 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 1/1] gpio: add sloppy logic analyzer using polling
-Message-ID: <Yb2skaWF7cx6PHLO@kunai>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>, linux-doc@vger.kernel.org
-References: <20211123164902.35370-1-wsa+renesas@sang-engineering.com>
- <20211123164902.35370-2-wsa+renesas@sang-engineering.com>
- <YZ024q/r7Hc3TpMt@smile.fi.intel.com>
+        id S232624AbhLRJ6F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 18 Dec 2021 04:58:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35804 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232588AbhLRJ6B (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Dec 2021 04:58:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1639821481;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=HhnlOnE5Zw/akPI9MUS3YPheTam56HL5gZvtQRAMy6s=;
+        b=HCKM3SXPX/VctiFHXecPKNNtf+VZD/whg70XE6KgczvEQvgGtjI0K2LfPLUR7dxwBhmVqd
+        3EkOwyPPhauiwgAYmeb4tu+N7bzl2I3yfOqGscMn/ZszNQFaQoFBMXwiuxG+uk3xkwldL8
+        R9smFg4lvk1DPoHPiOmTrd7lG0F/fRU=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-518-DU2fEk6FPDW-gq-0vb1wHw-1; Sat, 18 Dec 2021 04:57:57 -0500
+X-MC-Unique: DU2fEk6FPDW-gq-0vb1wHw-1
+Received: by mail-wm1-f69.google.com with SMTP id v190-20020a1cacc7000000b003456d598510so4225243wme.6
+        for <linux-doc@vger.kernel.org>; Sat, 18 Dec 2021 01:57:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:to:cc:references:from:organization:subject
+         :in-reply-to:content-transfer-encoding;
+        bh=HhnlOnE5Zw/akPI9MUS3YPheTam56HL5gZvtQRAMy6s=;
+        b=X9u3X+a4qbqjmPf11QmzD5RNABwBh6R3BPAeaTQTXJj5dIK8Byt2xkogvpyiu2OoOI
+         TNhnv0Zv7uFck67NUBfTuX4UusyxAlA4p+yAo3YfBw4kEQrYvXRmPWtFa3RvZdHYINxV
+         UHmwmyxZMpoVqs0Luoh8KEp2PNS0BKajiP9rEZ7+6XJT4ZwB/BLXNwiUYzFBX0KvvPDR
+         uLSSHF5EcuH7a8I3auBAoYCkY0yvsFgP064rHv6nojT4nSugzpDiACoRz+dh+xK05mjs
+         owNj39Lgpc9nhJiYpM6wl51JwSUEqXnU0C/spQuo87kKiFe9w+Q21JFdw8LRYhX/lFIn
+         hOmg==
+X-Gm-Message-State: AOAM533VEhk5YaxjfJEUd+GTVe6mN41ZCq9sPtoO9LMAW6mpd+ijKGe7
+        WtxbHaDIjdaX6T7cgzpcqeE6CKlciP32Mip2IhfCYDtZnOdJdABrhoVFBx7zrl+Ecw+O7DXL8bd
+        H+0sKZ2JJ7dtCGi4I2UEd
+X-Received: by 2002:adf:eb06:: with SMTP id s6mr5893697wrn.96.1639821476609;
+        Sat, 18 Dec 2021 01:57:56 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy9LbEcpllPC7Xh1e1TAUDJFAcJuppWJcec9eB7enbSgMiKNtwU6H4/Sx3BKFYdlbxSdLnFrQ==
+X-Received: by 2002:adf:eb06:: with SMTP id s6mr5893665wrn.96.1639821476253;
+        Sat, 18 Dec 2021 01:57:56 -0800 (PST)
+Received: from [192.168.3.132] (p5b0c6703.dip0.t-ipconnect.de. [91.12.103.3])
+        by smtp.gmail.com with ESMTPSA id i15sm16076211wmq.18.2021.12.18.01.57.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 18 Dec 2021 01:57:55 -0800 (PST)
+Message-ID: <40e7e0ab-0828-b2e7-339f-35f68a228b3d@redhat.com>
+Date:   Sat, 18 Dec 2021 10:57:54 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="uKScydRu35zTx0SP"
-Content-Disposition: inline
-In-Reply-To: <YZ024q/r7Hc3TpMt@smile.fi.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Content-Language: en-US
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Hugh Dickins <hughd@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Jason Gunthorpe <jgg@nvidia.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Yang Shi <shy828301@gmail.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Nadav Amit <namit@vmware.com>, Rik van Riel <riel@surriel.com>,
+        Roman Gushchin <guro@fb.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Peter Xu <peterx@redhat.com>,
+        Donald Dutile <ddutile@redhat.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Oleg Nesterov <oleg@redhat.com>, Jan Kara <jack@suse.cz>,
+        Linux-MM <linux-mm@kvack.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <20211217113049.23850-1-david@redhat.com>
+ <20211217113049.23850-7-david@redhat.com>
+ <CAHk-=wgL5u3XMgfUN6BOqVO0OvPx3-LEri1ju-1TW4dFhHQO4g@mail.gmail.com>
+ <9c3ba92e-9e36-75a9-9572-a08694048c1d@redhat.com>
+ <CAHk-=wghsZByyzCqb5EbKzZtAbrFvQCViD+jK9HQL4viqUb6Ow@mail.gmail.com>
+ <e93f3fc9-00fd-5404-83f9-136b372e4867@redhat.com>
+ <CAHk-=wiFhVXZH_ht_dYQ_g2WNuhvWVrv8MjZ8B8_g6Kz2cZrHw@mail.gmail.com>
+ <02cf4dcf-74e8-9cbd-ffbf-8888f18a9e8a@redhat.com>
+ <CAHk-=wiujJLsLdGQho8oSbEe2-B1k1tJg6pzePkbqZBqEZL56A@mail.gmail.com>
+ <f271bb98-dfdd-1126-d9b9-3103e4398e00@redhat.com>
+ <CAHk-=wjvoTRSb87R-D50yOXqX4mshjiiAyurAKCsdW0_J+sf7A@mail.gmail.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v1 06/11] mm: support GUP-triggered unsharing via
+ FAULT_FLAG_UNSHARE (!hugetlb)
+In-Reply-To: <CAHk-=wjvoTRSb87R-D50yOXqX4mshjiiAyurAKCsdW0_J+sf7A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 18.12.21 00:20, Linus Torvalds wrote:
+> On Fri, Dec 17, 2021 at 2:43 PM David Hildenbrand <david@redhat.com> wrote:
+>>
+>> The pages stay PageAnon(). swap-backed pages simply set a bit IIRC.
+>> mapcount still applies.
+> 
+> Our code-base is too large for me to remember all the details, but if
+> we still end up having PageAnon for swapbacked pages, then mapcount
+> can increase from another process faulting in an pte with that swap
+> entry.
 
---uKScydRu35zTx0SP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+"Our code-base is too large for me to remember all the details". I
+second that.
 
-Hi Andy,
+You might a valid point with the mapcount regarding concurrent swapin in
+the current code, I'll have to think further about that if it could be a
+problem and if it cannot be handled without heavy synchronization (I
+think the concern is that gup unsharing could miss doing an unshare
+because it doesn't detect that there are other page sharers not
+expressed in the mapcount code but via the swap code when seeing
+mapcount == 1).
 
-> > +Result is a .sr file to be consumed with PulseView or sigrok-cli from =
-the free
-> > +`sigrok`_ project. It is a zip file which also contains the binary sam=
-ple data
-> > +which may be consumed by other software. The filename is the logic ana=
-lyzer
-> > +instance name plus a since-epoch timestamp.
-> > +
-> > +.. _sigrok: https://sigrok.org/
->=20
-> Alas, yet another tool required... (Sad thoughts since recently has insta=
-lled
-> PicoScope software).
+Do you have any other concerns regarding the semantics/stability
+regarding the following points (as discussed, fork() is not the issue
+because it can be handled via write_protect_seq or something comparable.
+handling per-process thingies is not the problem):
 
-? For sure, another tool is required. Do you want the analyzer itself to
-output pretty SVG files? :)
+a) Using PageAnon(): It cannot possibly change in the pagefault path or
+   in the gup-fast-only path (otherwise there would be use-after-free
+   already).
+b) Using PageKsm(): It cannot possibly change in the pagefault path or
+   in the gup-fast path (otherwise there would be use-after-free
+   already).
+c) Using mapcount: It cannot possibly change in the way we care about or
+   cannot detect  (mapcount going from == 1 to > 1 concurrently) in the
+   pagefault path or in the gup-fast path due to fork().
 
->=20
-> >     kgdb
-> >     kselftest
-> >     kunit/index
->=20
-> > +   gpio-sloppy-logic-analyzer
->=20
-> Above looks like ordered, do we need some groups here or so?
-
-No feedback from the doc-maintainers so far. Can easily be fixed
-afterwards if needed.
-
-> > +	mutex_lock(&priv->lock);
->=20
-> > +	if (priv->blob_dent) {
->=20
-> Redundant (i.e. duplicate).
-
-Nope, it can be NULL if allocating memory all goes wrong.
-
-> > +gpio_err:
->=20
-> A bit confusing name. What about
->=20
-> enable_irq_and_free_data:
-
-Yes, fixed in v6.
-
-> > +	char *meta =3D NULL;
-> > +	unsigned int i, meta_len =3D 0;
-> > +	int ret;
->=20
-> Perhaps
->=20
-> 	unsigned int i, meta_len =3D 0;
-> 	char *meta =3D NULL;
-> 	int ret;
-
-I'd like to keep the pointers grouped together.
-
-> > +	if (ret >=3D 0 && ret !=3D priv->descs->ndescs)
->=20
-> > +		ret =3D -ENODATA;
->=20
-> Don't remember if we already discussed this error code, but data is there,
-> it's not correct. EBADSLT? EBADR? ECHRNG?
-
-In your V1 review, you suggested -ENODATA. I will pick yet another one,
-but it really matters zero in practice.
-
-> > +		meta_len +=3D snprintf(meta + meta_len, add_len, "probe%02u=3D%s\n",
-> > +				     i + 1, gpio_names[i]);
->=20
-> Do we really need the 'probe%02u=3D' part? It's redundant since it may be=
- derived
-> from the line number of the output (and it always in [1..ndescs+1]).
-
-It makes creating the .sr-file a lot easier. If you feel strong about
-it, then you can later remove it and also update the script, I'd say.
-
-> > +	dev_info(dev, "initialized");
->=20
-> Is it useful?
-
-For the third time, yes!
-
-> > +	cat <<EOF
->=20
-> 	cat << EOF
->=20
-> is slightly easier to read.
-
-I'll fix it.
-
-> > +	[ -d $cpusetdir ] || mkdir $cpusetdir
->=20
-> `mkdir -p` and drop needless test.
-
-It is not the same. I prefer to bail out if e.g. '/dev/' does not exist
-rather than silently create it.
-
-> > +	val=3D$((0x$oldmask & ~(1 << isol_cpu)))
-> > +	newmask=3D$(printf "%x" $val)
->=20
-> Can be on one line (in a single expression).
-
-Ok.
-
-> `> /dev/null 2>&1` is idiomatic. And I think there is actually a subtle
-> difference between two.
-
-What is the difference? Does it matter here?
-
-> > +			[ "$chan" !=3D "$elem" ] && [ "$chan" -le $max_chans ] || fail "Tri=
-gger syntax error: $elem"
->=20
-> No need to execute `test` twice:
->=20
-> 			[ "$chan" !=3D "$elem" -a "$chan" -le $max_chans ] || fail "Trigger sy=
-ntax error: $elem"
-
-I read that '-a' and '-o' are deprecated. Dunno where but looking again
-I found this: https://stackoverflow.com/questions/20449680/boolean-operator=
-s-a-o-in-bash
-
->=20
-> > +			bit=3D$((1 << (chan - 1)))
-> > +			mask=3D$((mask | bit))
-> > +			case $mode in
-> > +				[hH]) val1=3D$((val1 | bit)); val2=3D$((val2 | bit));;
-> > +				[fF]) val1=3D$((val1 | bit));;
-> > +				[rR]) val2=3D$((val2 | bit));;
-> > +			esac
-> > +		done
->=20
-> > +		trigger_bindat=3D"$trigger_bindat$(printf '\\%o\\%o' $mask $val1)"
-> > +		[ $val1 -ne $val2 ] && trigger_bindat=3D"$trigger_bindat$(printf '\\=
-%o\\%o' $mask $val2)"
->=20
-> `printf` with arguments may be split to a separate helper function.
-
-I think this is a micro-optimization, but feel free to change it later.
-
-> > +	taskset "$1" echo 1 > "$lasysfsdir"/capture || fail "Capture error! C=
-heck kernel log"
->=20
-> Shouldn't this function setup signal TRAPs?
-
-To do what?
-
-> $@ is better, actually one should never use $*.
-
-What difference does it make when expanding into a string?
-
-> Wondering, shouldn't be a simple validator before start that we have comm=
-ands
-> present, such as zip?
-
-This is what the variable 'neededcmds' is for...
-
-Kind regards,
-
-   Wolfram
+You're point for c) is that we might currently not handle swap
+correctly. Any other concerns, especially regarding the mapcount or is
+that it?
 
 
---uKScydRu35zTx0SP
-Content-Type: application/pgp-signature; name="signature.asc"
+IIUC, any GUP approach to detect necessary unsharing would at least
+require a check for a) and b). What we're arguing about is c).
 
------BEGIN PGP SIGNATURE-----
+> 
+> And mmap_sem doesn't protect against that. Again, page_lock() does.
+> 
+> And taking the page lock was a big performance issue.
+> 
+> One of the reasons that new COW handling is so nice is that you can do
+> things like
+> 
+>                 if (!trylock_page(page))
+>                         goto copy;
+> 
+> exactly because in the a/b world order, the copy case is always safe.
+> 
+> In your model, as far as I can tell, you leave the page read-only and
+> a subsequent COW fault _can_ happen, which means that now the
+> subsequent COW needs to b every very careful, because if it ever
+> copies a page that was GUP'ed, you just broke the rules.
+> 
+> So COWing too much is a bug (because it breaks the page from the GUP),
+> but COWing too little is an even worse problem (because it measn that
+> now the GUP user can see data it shouldn't have seen).
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmG9rI0ACgkQFA3kzBSg
-KbY3vQ//XZgYs/+nFBed+r2i0GulvWh1/qdmjU5SyG26r2hYQTcOda/Boetjon7L
-GwZFrw3tR8EfDDJnCrBGs7pFHMjBdIAL0u31T8lnf9hBasuPKNx2PFgAJIWmAArH
-xZBw8Xb0NSVMkvkkWsfmLms9DAR/3BHw6vyKcLNFU+hDXySbH5yS22VVYiB7tbwD
-zt+parVny/S+rFBv5CneuDktzKmqrMNWTu/JsrgpqTQAf0Wp0M06aykV35m06OUr
-M3zP04iJAuTPO4r9KjIOpSliT3bSiMi+XQRbR/Ym56JhRrZ8xcEuAHGXNGLgrmls
-IKUYxy1BhDQmsGpEVVMbVTN+XSbz+a1hRhxBTt4X0BObBoPylQ6BvJ+XUJ0nFENm
-da8TsgFpHXQKMTRzVnS8/74Yrg7AI+MkwcAr8wziBITb0zmxkkicQwHfYMt51Yf1
-SxvhoEVJ/scss4RkiD46itzK+xKNCe7a3klHeNkSamBoTuAlT8XgoxiTxrOVSn8D
-Iu4jnbIuGd4zTJYLvpLLyhGlKxACcvPS7EwBDhDgTISY81CdK/z3OlGH5X3nCq/j
-ZU/6wn2TFopn+NEFWhpK4n/0t7WiGC0aEmWm+3lc+oL4MZ1/zxM/4W7bXdSoaWVZ
-SEpobFHJ7VojvRxfm4jO5Q8UVzitrIWRVyz8MuTKZo8/aH+Rs/M=
-=PKTE
------END PGP SIGNATURE-----
+Good summary, I'll extend below.
 
---uKScydRu35zTx0SP--
+> 
+> Our old code literally COWed too  little. It's why all those changes
+> happened in the first place.
+
+Let's see if we can agree on some things to get a common understanding.
+
+
+What can happen with COW is:
+
+1) Missed COW
+
+We miss a COW, therefore someone has access to a wrong page.
+
+This is the security issue as in patch #11. The security issue
+documented in [1].
+
+2) Unnecessary COW
+
+We do a COW, but there are no other valid users, so it's just overhead +
+noise.
+
+The performance issue documented in section 5 in [1].
+
+3) Wrong COW
+
+We do a COW but there are other valid users (-> GUP).
+
+The memory corruption issue documented in section 2 and 3 in [1].
+
+Most notably, the io_uring reproducer which races with the
+page_maybe_dma_pinned() check in current code can trigger this easily,
+and exactly this issues is what gives me nightmares. [2]
+
+
+Does that make sense? If we agree on the above, then here is how the
+currently discussed approaches differ:
+
+page_count != 1:
+* 1) cannot happen
+* 2) can happen easily (speculative references due to pagecache,
+     migration, daemon, pagevec, ...)
+* 3) can happen in the current code
+
+mapcount > 1:
+* 1) your concern is that this can happen due to concurrent swapin
+* 2) cannot happen.
+* 3) your concern is that this can happen due to concurrent swapin
+
+
+If we can agree on that, I can see why you dislike mapcount, can you see
+why I dislike page_count?
+
+Ideally we'd really have a fast and reliable check for "is this page
+shared and could get used by multiple processes -- either multiple
+processes are already mapping it R/O or could map it via the swap R/O
+later".
+
+
+> This is why I'm pushing that whole story line of
+> 
+>  (1) COW is based purely on refcounting, because that's the only thing
+> that obviously can never COW too little.
+
+I am completely missing how 2) or 3) could *ever* be handled properly
+for page_count != 1. 3) is obviously more important and gives me nightmares.
+
+
+And that's what I'm trying to communicate the whole time: page_count is
+absolutely fragile, because anything that results in a page getting
+mapped R/O into a page table can trigger 3). And as [2] proves that can
+even happen with *swap*.
+
+(see how we're running into the same swap issues with both approaches?
+Stupid swap :) )
+
+> 
+>  (2) GUP pre-COWs (the thing I called the "(a)" rule earlier) and then
+> makes sure to not mark pinned pages COW again (that "(b)" rule).
+> 
+> and here "don't use page_mapcount()" really is about that (1).
+> 
+> You do seem to have kept (1) in that your COW rules don't seem to
+> change (but maybe I missed it), but because your GUP-vs-COW semantics
+> are very different indeed, I'm not at all convinced about (2).
+
+Oh yes, sorry, not in the context of this series. The point is that the
+current page_count != 1 covers mapcount > 1, so we can adjust that
+separately later.
+
+
+You mentioned "design", so let's assume we have a nice function:
+
+/*
+ * Check if an anon page is shared or exclusively used by a single
+ * process: if shared, the page is shared by multiple processes either
+ * mapping the page R/O ("active sharing") or having swap entries that
+ * could result in the page getting mapped R/O ("inactive sharing").
+ *
+ * This function is safe to be called under mmap_lock in read/write mode
+ * because it prevents concurrent fork() sharing the page.
+ * This function is safe to be called from gup-fast-only in IRQ context,
+ * as it detects concurrent fork() sharing the page
+ */
+bool page_anon_shared();
+
+
+Can we agree that that would that be a suitable function for (1) and (2)
+instead of using either the page_count or the mapcount directly? (yes,
+how to actually make it reliable due to swapin is to be discussed, but
+it might be a problem worth solving if that's the way to go)
+
+For hugetlb, this would really have to use the mapcount as explained
+(after all, fortunately there is no swap ...).
+
+
+
+[1]
+https://lore.kernel.org/all/3ae33b08-d9ef-f846-56fb-645e3b9b4c66@redhat.com/
+
+[2]
+https://gitlab.com/aarcange/kernel-testcases-for-v5.11/-/blob/main/io_uring_swap.c
+-- 
+Thanks,
+
+David / dhildenb
+
