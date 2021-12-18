@@ -2,137 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C380FC433FE
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Dec 2021 10:07:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C287C433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Dec 2021 11:42:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230263AbhLRKHD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 18 Dec 2021 05:07:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48356 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229831AbhLRKHC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Dec 2021 05:07:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1639822022;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=XZ2/2GDqjwmlPCqWnOt2byTpaYB/3SglXvSt+1GORAs=;
-        b=Jj4Lk7knnQRQTPvI0mCnORufeo3k+Y/hi937bg3o3YVZEK9sqKTkw9x+n0rzBRFGDP+H6V
-        k26Y2nsJIawiaOBlD1J2a27H8ko4x6Ls7SbxaGA7FMSrGRRxP1XQhz9gwnlvqQEn1l69JL
-        AUhaOumItp9o9+naF0izSRmA7x2IBhI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-361-E9HTLMn2MkKdx1gFE_Rjfg-1; Sat, 18 Dec 2021 05:07:01 -0500
-X-MC-Unique: E9HTLMn2MkKdx1gFE_Rjfg-1
-Received: by mail-wm1-f70.google.com with SMTP id f202-20020a1c1fd3000000b00344f1cae317so2407909wmf.0
-        for <linux-doc@vger.kernel.org>; Sat, 18 Dec 2021 02:07:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:organization:in-reply-to
-         :content-transfer-encoding;
-        bh=XZ2/2GDqjwmlPCqWnOt2byTpaYB/3SglXvSt+1GORAs=;
-        b=MaOtzPeS1n0J9DsGvpAyZpe14hg9KdXkQ6hl968UFzVslch5qIzV4beq9hACMr041e
-         TIwRR0PffYsBcq1q6JE2zy5F0bZXjAkNuoO87xf0jGvce/LYJGguEGyzCrajAM4wTROs
-         h8qVEK5QXsxf3PdgvYUPQuS4SdB5Cijj/kU37dOizIWp4uIukaD8bYBgK+df2kEXnOq6
-         k7n9JGnmNYOo0sYf1ONJoGGy3Z4R2B0X+hvbUa9ZCkSopo+Mi0X5vdi2G5NDPLvKPn/0
-         RrgmS8jciwh2PSnyoKXwABX7m0UaWMUiEmWHJ2qm20c+rxF2ViRBhkAb9EHxAzcV3GJw
-         fU3g==
-X-Gm-Message-State: AOAM530nms//kWI7wodpSeno9MGVPMlpcYeudUHa0DtOm3eyw9bME/fe
-        G+2kRvM8REDWB/C6xDtTde2mHwnCvWG2zNWAalU/+wPRbNltXetqnzAHIJLyvGI+x8hWHqWPFVD
-        tnkvA3hfMzFQLF0/oyjMf
-X-Received: by 2002:a5d:64e4:: with SMTP id g4mr5622460wri.510.1639822019746;
-        Sat, 18 Dec 2021 02:06:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyE6IcrxlQD0ttKE3+QlbV92H6zyi5iah32fTwcoLS9Mg22cTAzNLO8d6jIQan1384A88Cdag==
-X-Received: by 2002:a5d:64e4:: with SMTP id g4mr5622424wri.510.1639822019520;
-        Sat, 18 Dec 2021 02:06:59 -0800 (PST)
-Received: from [192.168.3.132] (p5b0c6703.dip0.t-ipconnect.de. [91.12.103.3])
-        by smtp.gmail.com with ESMTPSA id l2sm2726112wru.83.2021.12.18.02.06.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 18 Dec 2021 02:06:59 -0800 (PST)
-Message-ID: <f3479378-48bc-23be-d651-3ec52bb0085d@redhat.com>
-Date:   Sat, 18 Dec 2021 11:06:57 +0100
+        id S232994AbhLRLmt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 18 Dec 2021 06:42:49 -0500
+Received: from mga04.intel.com ([192.55.52.120]:33246 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232991AbhLRLms (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 18 Dec 2021 06:42:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1639827768; x=1671363768;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WP9zqflrkmvZown8R4hE5524WUDL4isfId9iOMCz69A=;
+  b=gt8cyQXR+hVwpCU9+MIPcx5NbQsSPbKKOI+dCwilVec5rndC839QkzOs
+   RcZaKUvNxE6vjrFXivdUF1N4oe0cwr35E5CzPb00ZcbXLCLqtMA6zmSRu
+   RdK9OpyXHGDvn0gnUvkdzvGEk0FZCYvq73QM0iY2n0bMMReL7TXmXPy4d
+   RVnM1z+JF1JV3QRzGjp03vdwMPf2R0jSBUmSzKe2m7cleN2romecoARwI
+   yyEzFa5E2kxZnML/z3flqnfkJ++Hdozprf3fVkbRD6EXIjfWRxdeGBHxh
+   aDC30xioKs4yxLr4LtGrmh/t1gjyvd2RMKxOeIx4tDD8PLJY+LZfe9m04
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10201"; a="238659365"
+X-IronPort-AV: E=Sophos;i="5.88,216,1635231600"; 
+   d="scan'208";a="238659365"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2021 03:42:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,216,1635231600"; 
+   d="scan'208";a="756745917"
+Received: from lkp-server02.sh.intel.com (HELO 9f38c0981d9f) ([10.239.97.151])
+  by fmsmga005.fm.intel.com with ESMTP; 18 Dec 2021 03:42:42 -0800
+Received: from kbuild by 9f38c0981d9f with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1myY6r-0005vf-Qn; Sat, 18 Dec 2021 11:42:41 +0000
+Date:   Sat, 18 Dec 2021 19:41:52 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Atish Patra <atish.patra@wdc.com>
+Cc:     kbuild-all@lists.01.org, Atish Patra <Atish.Patra@wdc.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [atishp04:sbi_pmu_v5 9/12] drivers/perf/riscv_pmu_sbi.c:470:
+ warning: This comment starts with '/**', but isn't a kernel-doc comment.
+ Refer Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202112181958.puDbjktS-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v1 06/11] mm: support GUP-triggered unsharing via
- FAULT_FLAG_UNSHARE (!hugetlb)
-Content-Language: en-US
-To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Nadav Amit <namit@vmware.com>
-Cc:     Jason Gunthorpe <jgg@nvidia.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Hugh Dickins <hughd@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Yang Shi <shy828301@gmail.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Roman Gushchin <guro@fb.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Peter Xu <peterx@redhat.com>,
-        Donald Dutile <ddutile@redhat.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Oleg Nesterov <oleg@redhat.com>, Jan Kara <jack@suse.cz>,
-        Linux-MM <linux-mm@kvack.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <20211217113049.23850-1-david@redhat.com>
- <20211217113049.23850-7-david@redhat.com>
- <CAHk-=wgL5u3XMgfUN6BOqVO0OvPx3-LEri1ju-1TW4dFhHQO4g@mail.gmail.com>
- <CAHk-=wgKft6E_EeLA1GnEXcQBA9vu8m2B-M-U7PuiNa0+9gpHA@mail.gmail.com>
- <54c492d7-ddcd-dcd0-7209-efb2847adf7c@redhat.com>
- <CAHk-=wgjOsHAXttQa=csLG10Cp2hh8Dk8CnNC3_WDpBpTzBESQ@mail.gmail.com>
- <20211217204705.GF6385@nvidia.com>
- <2E28C79D-F79C-45BE-A16C-43678AD165E9@vmware.com>
- <CAHk-=wgw5bEe8+qifra-aY9fAOf2Pscp1vuXX=f4hESyCK_xLg@mail.gmail.com>
- <CAHk-=wjjNx2Ch2j7P+7vDceK39PpmrOqby3gXuTY4aj62dowFw@mail.gmail.com>
- <CAHk-=wj+VpgJ3RfRQNxYS3xN9O01rwWnSBX7mztxFaE6BTLzFw@mail.gmail.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <CAHk-=wj+VpgJ3RfRQNxYS3xN9O01rwWnSBX7mztxFaE6BTLzFw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 18.12.21 03:42, Linus Torvalds wrote:
-> On Fri, Dec 17, 2021 at 6:17 PM Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
->>
->> I think the hugepage code should use the exact same logic that the
->> regular wp fault code does.
-> 
-> IOW, I think that this stupid (AND UNTESTED) patch should likely just
-> fix David's test-case with the hugepage and splice thing..
-> 
-> Or at least be somewhat close.  But it should be paired with the GUP
-> side doing the right thing too, of course. Maybe it already does,
-> maybe it doesn't, I didn't check...
-> 
-> And maybe there's something subtle about the page_count() of a THP
-> entry. Again, I can't really claim to have tested this all, but I'm
-> hoping this makes somebody go "Ahh, now I see what Linus means"
+tree:   https://github.com/atishp04/linux sbi_pmu_v5
+head:   f9c08d001f70231844a69743e2d1655ece0e6628
+commit: 7b33e2daa65b35b1541d0061a5066efdbac70a4d [9/12] RISC-V: Add interrupt support for perf
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20211218/202112181958.puDbjktS-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/atishp04/linux/commit/7b33e2daa65b35b1541d0061a5066efdbac70a4d
+        git remote add atishp04 https://github.com/atishp04/linux
+        git fetch --no-tags atishp04 sbi_pmu_v5
+        git checkout 7b33e2daa65b35b1541d0061a5066efdbac70a4d
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=riscv SHELL=/bin/bash drivers/perf/
 
-Not the reaction you are hoping for: "Gah, Linus still doesn't see why
-the page_count is just wrong". :)
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-See the mail I just wrote, let's get a common understanding of how our
-check should actually look like.
+All warnings (new ones prefixed by >>):
 
--- 
-Thanks,
+   drivers/perf/riscv_pmu_sbi.c:38: warning: cannot understand function prototype: 'union sbi_pmu_ctr_info *pmu_ctr_list; '
+>> drivers/perf/riscv_pmu_sbi.c:470: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * This function starts all the used counters in two step approach.
 
-David / dhildenb
 
+vim +470 drivers/perf/riscv_pmu_sbi.c
+
+   468	
+   469	/**
+ > 470	 * This function starts all the used counters in two step approach.
+   471	 * Any counter that did not overflow can be start in a single step
+   472	 * while the overflowed counters need to be started with updated initialization
+   473	 * value.
+   474	 */
+   475	static inline void pmu_sbi_start_overflow_mask(struct riscv_pmu *pmu,
+   476						       unsigned long ctr_ovf_mask)
+   477	{
+   478		int idx = 0;
+   479		struct cpu_hw_events *cpu_hw_evt = this_cpu_ptr(pmu->hw_events);
+   480		struct perf_event *event;
+   481		unsigned long flag = SBI_PMU_START_FLAG_SET_INIT_VALUE;
+   482		unsigned long ctr_start_mask = 0;
+   483		uint64_t max_period;
+   484		struct hw_perf_event *hwc;
+   485		u64 init_val = 0;
+   486	
+   487		ctr_start_mask = cpu_hw_evt->used_event_ctrs[0] & ~ctr_ovf_mask;
+   488	
+   489		/* Start all the counters that did not overflow in a single shot */
+   490		sbi_ecall(SBI_EXT_PMU, SBI_EXT_PMU_COUNTER_START, 0, ctr_start_mask,
+   491			  0, 0, 0, 0);
+   492	
+   493		/* Reinitialize and start all the counter that overflowed */
+   494		while(ctr_ovf_mask) {
+   495			if (ctr_ovf_mask & 0x01) {
+   496				event = cpu_hw_evt->events[idx];
+   497				hwc = &event->hw;
+   498				max_period = riscv_pmu_ctr_get_width_mask(event);
+   499				init_val = local64_read(&hwc->prev_count) & max_period;
+   500				sbi_ecall(SBI_EXT_PMU, SBI_EXT_PMU_COUNTER_START, idx, 1,
+   501					  flag, init_val, 0, 0);
+   502			}
+   503			ctr_ovf_mask = ctr_ovf_mask >> 1;
+   504			idx++;
+   505		}
+   506	}
+   507	
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
