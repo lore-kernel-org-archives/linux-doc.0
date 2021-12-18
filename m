@@ -2,126 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C287C433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Dec 2021 11:42:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2182C433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Dec 2021 14:24:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232994AbhLRLmt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 18 Dec 2021 06:42:49 -0500
-Received: from mga04.intel.com ([192.55.52.120]:33246 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232991AbhLRLms (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 18 Dec 2021 06:42:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1639827768; x=1671363768;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WP9zqflrkmvZown8R4hE5524WUDL4isfId9iOMCz69A=;
-  b=gt8cyQXR+hVwpCU9+MIPcx5NbQsSPbKKOI+dCwilVec5rndC839QkzOs
-   RcZaKUvNxE6vjrFXivdUF1N4oe0cwr35E5CzPb00ZcbXLCLqtMA6zmSRu
-   RdK9OpyXHGDvn0gnUvkdzvGEk0FZCYvq73QM0iY2n0bMMReL7TXmXPy4d
-   RVnM1z+JF1JV3QRzGjp03vdwMPf2R0jSBUmSzKe2m7cleN2romecoARwI
-   yyEzFa5E2kxZnML/z3flqnfkJ++Hdozprf3fVkbRD6EXIjfWRxdeGBHxh
-   aDC30xioKs4yxLr4LtGrmh/t1gjyvd2RMKxOeIx4tDD8PLJY+LZfe9m04
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10201"; a="238659365"
-X-IronPort-AV: E=Sophos;i="5.88,216,1635231600"; 
-   d="scan'208";a="238659365"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2021 03:42:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,216,1635231600"; 
-   d="scan'208";a="756745917"
-Received: from lkp-server02.sh.intel.com (HELO 9f38c0981d9f) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 18 Dec 2021 03:42:42 -0800
-Received: from kbuild by 9f38c0981d9f with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1myY6r-0005vf-Qn; Sat, 18 Dec 2021 11:42:41 +0000
-Date:   Sat, 18 Dec 2021 19:41:52 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Atish Patra <atish.patra@wdc.com>
-Cc:     kbuild-all@lists.01.org, Atish Patra <Atish.Patra@wdc.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [atishp04:sbi_pmu_v5 9/12] drivers/perf/riscv_pmu_sbi.c:470:
- warning: This comment starts with '/**', but isn't a kernel-doc comment.
- Refer Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202112181958.puDbjktS-lkp@intel.com>
+        id S233378AbhLROYG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 18 Dec 2021 09:24:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51174 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233400AbhLROYF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Dec 2021 09:24:05 -0500
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FF91C061574
+        for <linux-doc@vger.kernel.org>; Sat, 18 Dec 2021 06:24:05 -0800 (PST)
+Received: by mail-lf1-x12d.google.com with SMTP id d10so10846901lfg.6
+        for <linux-doc@vger.kernel.org>; Sat, 18 Dec 2021 06:24:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=shutemov-name.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=YHPIbWRskoI13v7SXXYMBlSshlVSyS/odNCxIx2krDU=;
+        b=R4nqpuf2D2DP8ypequ4V07JdTq+9/RJeA9MphSpqihYX8Oez6G9V072DMW865BY+pq
+         R3g+gZUI4RYthKnmvhW7KfLBafYZFxdCJMedaQr4RvhGkP6i4FiwOlEoWfXFM/rJFn+N
+         G++OvSsj876IZmj+HOXSMaWdSXEfO8PHtTNblHjWbd1zUd1gXnrvUsbdvgovYfO1PxBc
+         37Qm7BkKVy4OPHHpp+nFKfqG1sbC+WhEMSuNyXFgFBmYC9jjWiDJYRhwnBw8qa2T5Phs
+         xug0VS8hsvvto4w1gdHrFyORC20qHxxNVZNzujMu4GMRwwa42C4X3xdj1HepNreKjiyn
+         xaZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=YHPIbWRskoI13v7SXXYMBlSshlVSyS/odNCxIx2krDU=;
+        b=pIFPrV6w/+XY1mrP+75+aGM6TE/579vSqcJYv8QujBB+OInhmC9k86blstM98YO3Rj
+         eOX99/Rg0HS/fmKMKKlb4wSErIDwPVfEdIRFKBzS8QP1ZSkTRSZDxeUqKciQSrGTDamI
+         FJVVv92CvrBdoXGIE95/qAyZhaKRL3OLdRD7LwdMnjp2VEgTumz1Lg/ilAs1UszKTVFR
+         X5OBg/grHsyATBP7lBtRhzD7TCILkq8gvSbQgi8lFNePqHMHuFgWKrWDDCChageMhmFB
+         rjI/aG4jF8m81SDxeDhZ7L7Ce/sKaH+ljb59r1t87Kzfgp8tW5XC5Dyc4M8/AWryCzPn
+         30TQ==
+X-Gm-Message-State: AOAM530aU3z3XXzLUh6wpNXU67k7hchtiveGTXu3TVzOJ8G1CMwFx/5U
+        uDK4fyE3MooLPMKfzuJoJPdsow==
+X-Google-Smtp-Source: ABdhPJwRXwDws7S7mqGeGmMBpf2IbdMmPv3SQLhQ+ZzyCtgk1Wku5XINL0bXpgQs8Ermc0douUUqvA==
+X-Received: by 2002:ac2:46d1:: with SMTP id p17mr4046681lfo.578.1639837443559;
+        Sat, 18 Dec 2021 06:24:03 -0800 (PST)
+Received: from box.localdomain ([86.57.175.117])
+        by smtp.gmail.com with ESMTPSA id bu16sm1259230lfb.276.2021.12.18.06.24.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 18 Dec 2021 06:24:02 -0800 (PST)
+Received: by box.localdomain (Postfix, from userid 1000)
+        id 2E11B103A58; Sat, 18 Dec 2021 17:24:10 +0300 (+03)
+Date:   Sat, 18 Dec 2021 17:24:10 +0300
+From:   "Kirill A. Shutemov" <kirill@shutemov.name>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Hugh Dickins <hughd@google.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        David Rientjes <rientjes@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Jason Gunthorpe <jgg@nvidia.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Yang Shi <shy828301@gmail.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Nadav Amit <namit@vmware.com>, Rik van Riel <riel@surriel.com>,
+        Roman Gushchin <guro@fb.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Peter Xu <peterx@redhat.com>,
+        Donald Dutile <ddutile@redhat.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Oleg Nesterov <oleg@redhat.com>, Jan Kara <jack@suse.cz>,
+        linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v1 02/11] mm: thp: consolidate mapcount logic on THP split
+Message-ID: <20211218142410.rols565bgtwzeruj@box.shutemov.name>
+References: <20211217113049.23850-1-david@redhat.com>
+ <20211217113049.23850-3-david@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20211217113049.23850-3-david@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/atishp04/linux sbi_pmu_v5
-head:   f9c08d001f70231844a69743e2d1655ece0e6628
-commit: 7b33e2daa65b35b1541d0061a5066efdbac70a4d [9/12] RISC-V: Add interrupt support for perf
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20211218/202112181958.puDbjktS-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/atishp04/linux/commit/7b33e2daa65b35b1541d0061a5066efdbac70a4d
-        git remote add atishp04 https://github.com/atishp04/linux
-        git fetch --no-tags atishp04 sbi_pmu_v5
-        git checkout 7b33e2daa65b35b1541d0061a5066efdbac70a4d
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=riscv SHELL=/bin/bash drivers/perf/
+On Fri, Dec 17, 2021 at 12:30:40PM +0100, David Hildenbrand wrote:
+> Let's consolidate the mapcount logic to make it easier to understand and
+> to prepare for further changes.
+> 
+> Reviewed-by: Peter Xu <peterx@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Acked-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
 
-All warnings (new ones prefixed by >>):
-
-   drivers/perf/riscv_pmu_sbi.c:38: warning: cannot understand function prototype: 'union sbi_pmu_ctr_info *pmu_ctr_list; '
->> drivers/perf/riscv_pmu_sbi.c:470: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * This function starts all the used counters in two step approach.
-
-
-vim +470 drivers/perf/riscv_pmu_sbi.c
-
-   468	
-   469	/**
- > 470	 * This function starts all the used counters in two step approach.
-   471	 * Any counter that did not overflow can be start in a single step
-   472	 * while the overflowed counters need to be started with updated initialization
-   473	 * value.
-   474	 */
-   475	static inline void pmu_sbi_start_overflow_mask(struct riscv_pmu *pmu,
-   476						       unsigned long ctr_ovf_mask)
-   477	{
-   478		int idx = 0;
-   479		struct cpu_hw_events *cpu_hw_evt = this_cpu_ptr(pmu->hw_events);
-   480		struct perf_event *event;
-   481		unsigned long flag = SBI_PMU_START_FLAG_SET_INIT_VALUE;
-   482		unsigned long ctr_start_mask = 0;
-   483		uint64_t max_period;
-   484		struct hw_perf_event *hwc;
-   485		u64 init_val = 0;
-   486	
-   487		ctr_start_mask = cpu_hw_evt->used_event_ctrs[0] & ~ctr_ovf_mask;
-   488	
-   489		/* Start all the counters that did not overflow in a single shot */
-   490		sbi_ecall(SBI_EXT_PMU, SBI_EXT_PMU_COUNTER_START, 0, ctr_start_mask,
-   491			  0, 0, 0, 0);
-   492	
-   493		/* Reinitialize and start all the counter that overflowed */
-   494		while(ctr_ovf_mask) {
-   495			if (ctr_ovf_mask & 0x01) {
-   496				event = cpu_hw_evt->events[idx];
-   497				hwc = &event->hw;
-   498				max_period = riscv_pmu_ctr_get_width_mask(event);
-   499				init_val = local64_read(&hwc->prev_count) & max_period;
-   500				sbi_ecall(SBI_EXT_PMU, SBI_EXT_PMU_COUNTER_START, idx, 1,
-   501					  flag, init_val, 0, 0);
-   502			}
-   503			ctr_ovf_mask = ctr_ovf_mask >> 1;
-   504			idx++;
-   505		}
-   506	}
-   507	
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+-- 
+ Kirill A. Shutemov
