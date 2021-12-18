@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47D91C433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 18 Dec 2021 19:22:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 772E6C433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 18 Dec 2021 19:53:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233983AbhLRTWE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 18 Dec 2021 14:22:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58924 "EHLO
+        id S233971AbhLRTxL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 18 Dec 2021 14:53:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233978AbhLRTWE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Dec 2021 14:22:04 -0500
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6B82C06173E
-        for <linux-doc@vger.kernel.org>; Sat, 18 Dec 2021 11:22:03 -0800 (PST)
-Received: by mail-ed1-x536.google.com with SMTP id o20so21110023eds.10
-        for <linux-doc@vger.kernel.org>; Sat, 18 Dec 2021 11:22:03 -0800 (PST)
+        with ESMTP id S234057AbhLRTxL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 18 Dec 2021 14:53:11 -0500
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03A05C06173E
+        for <linux-doc@vger.kernel.org>; Sat, 18 Dec 2021 11:53:10 -0800 (PST)
+Received: by mail-lj1-x22c.google.com with SMTP id i63so8916541lji.3
+        for <linux-doc@vger.kernel.org>; Sat, 18 Dec 2021 11:53:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linux-foundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=jjtEsM+c2EyxYgM67CZlqAl9WiDlSVGEZ5HgXw8/krU=;
-        b=TI7a4DuiAgA8wrGTjTNe4IJqA5QCDWzlI/ak2Au56EB89uo5bkXaUTBrXIKMz7aV//
-         TsHYsaOsVaAeodq3kc4PNAhvLQuCaG+UhiFV2j6pk8NZFPurH0DqDTd5nSDxKgH+44wi
-         r9a0hJm40ZzKEAraB5mo+A0uKuHHt+djZOfLo=
+        bh=FwDKq6c1mQYLU0p0J66kK9b9U2JQzk1+tCZIkkXvJ6I=;
+        b=U5uC3Kaqj3Jyz9ClVkVNdaCklm+oiz2jhIexhCBthnjLmX3U7Wkoqfro6mIgIQYih1
+         fYnIl74HxHVmm4oN5qZYu46cLpq/0a9MM0L7iLgtvdvWn7S16gUCjgjGv0WBg5JYcwY8
+         2t/4p+6P3qYm2phM4iAacdJb1uzh4Bb51ORJI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=jjtEsM+c2EyxYgM67CZlqAl9WiDlSVGEZ5HgXw8/krU=;
-        b=ZLdFr9OPkpZe8YS7YkslhxF2N/xQBmTWxvRnzobM20MD2NPmm5eKVpw6Rzqua2Y2Ea
-         BWrSkL6Tub0v3n+CF7rhkEUygky1GHLBozffEbalTZuVm6u71dU6e9K4fIXCFUd3Khs/
-         6AaLgc2/FHnUNTe/VysVfCdooDyKD5QBiAd2xbcTL2ZVLVTP7syV555xUIQYCawjutwV
-         r/Qjhf4ig8EIQtu+ckdfrDGGliFAq4WADCIHP1CBzEqCGjW4rscuuMMCfagpvkF7liKQ
-         ew6EQdfrkeZrDqKlyCBto4/O/iLFP01IT6avhDZK2G4tf02E73VxupbjgdI5JBAFSzYO
-         4Wmw==
-X-Gm-Message-State: AOAM530yyiHlSWhxdS/naJnYGRJaKrReJJjXljCMDbSxDvC4Gt0nJ5uE
-        rcXatyG/XmP/1IT/2/44/f6jfx6uFR68qJzYb04=
-X-Google-Smtp-Source: ABdhPJyBVVlE3uhURdJMw2bFv/DuB5pp2VsEI7VjT7ngLPDM/KtMAWMjE6DTvdsZw32jbrpbVS9JuA==
-X-Received: by 2002:a17:907:728b:: with SMTP id dt11mr6143027ejc.225.1639855322044;
-        Sat, 18 Dec 2021 11:22:02 -0800 (PST)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com. [209.85.128.49])
-        by smtp.gmail.com with ESMTPSA id e2sm3816507ejm.210.2021.12.18.11.22.01
+        bh=FwDKq6c1mQYLU0p0J66kK9b9U2JQzk1+tCZIkkXvJ6I=;
+        b=YzUNt8Rmy70pNGlRxCDYGH4y749DAOmuC+roz28cU9++8DHB8d5MBmn/q8rgsB7awJ
+         6xLTIforZq8cb/Yrojez5f0L9l0aAEr4+aLeEv+cSA6gHv+4NsrmXT7bSyTYk6lFYMHx
+         SCZEk2/FucpQQDBxVX0dPwGeTbhK2jvWtAoKQN9IL3ZnHq7ZoF4JjYiOjHt0PWd28dt0
+         6gSecmtmWHTmw++atgpRF3al/aGUAd0bJTJsap4E/TDXywPBlz4TpVI+OYCynhCprOn0
+         /mNVNXtm5ElVqGS0FHZNECRUKQ0DE5vzYqAwqMUcOm+nK6x5XjSyLnPtVsLT7xxfZ+zT
+         bC6w==
+X-Gm-Message-State: AOAM532zwoojzYZHv1cAWtXKulPVukGGxEmhoyEPXvC6YhKEo1wq5S8+
+        i6K3nVKc/M1c1XHAHWDrbQGVJa864SyBkVt9PIk=
+X-Google-Smtp-Source: ABdhPJwkzVL1HEcAJUL7qz8lfn7sb6gIloe141313Gmom1CZNr3vYIWob5XQzkSZZHUw46/GdM61Lw==
+X-Received: by 2002:a2e:5c86:: with SMTP id q128mr7652949ljb.245.1639857189063;
+        Sat, 18 Dec 2021 11:53:09 -0800 (PST)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com. [209.85.167.43])
+        by smtp.gmail.com with ESMTPSA id p3sm1798274lfg.205.2021.12.18.11.53.08
         for <linux-doc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 18 Dec 2021 11:22:01 -0800 (PST)
-Received: by mail-wm1-f49.google.com with SMTP id d198-20020a1c1dcf000000b0034569cdd2a2so3722291wmd.5
-        for <linux-doc@vger.kernel.org>; Sat, 18 Dec 2021 11:22:01 -0800 (PST)
-X-Received: by 2002:a05:600c:4e07:: with SMTP id b7mr14586823wmq.8.1639855310502;
- Sat, 18 Dec 2021 11:21:50 -0800 (PST)
+        Sat, 18 Dec 2021 11:53:08 -0800 (PST)
+Received: by mail-lf1-f43.google.com with SMTP id cf39so12107407lfb.8
+        for <linux-doc@vger.kernel.org>; Sat, 18 Dec 2021 11:53:08 -0800 (PST)
+X-Received: by 2002:a05:6000:10d2:: with SMTP id b18mr6423478wrx.193.1639857177671;
+ Sat, 18 Dec 2021 11:52:57 -0800 (PST)
 MIME-Version: 1.0
 References: <20211217113049.23850-1-david@redhat.com> <20211217113049.23850-7-david@redhat.com>
  <CAHk-=wgL5u3XMgfUN6BOqVO0OvPx3-LEri1ju-1TW4dFhHQO4g@mail.gmail.com>
@@ -56,12 +56,12 @@ References: <20211217113049.23850-1-david@redhat.com> <20211217113049.23850-7-da
  <e93f3fc9-00fd-5404-83f9-136b372e4867@redhat.com> <CAHk-=wiFhVXZH_ht_dYQ_g2WNuhvWVrv8MjZ8B8_g6Kz2cZrHw@mail.gmail.com>
  <02cf4dcf-74e8-9cbd-ffbf-8888f18a9e8a@redhat.com> <CAHk-=wiujJLsLdGQho8oSbEe2-B1k1tJg6pzePkbqZBqEZL56A@mail.gmail.com>
  <f271bb98-dfdd-1126-d9b9-3103e4398e00@redhat.com> <CAHk-=wjvoTRSb87R-D50yOXqX4mshjiiAyurAKCsdW0_J+sf7A@mail.gmail.com>
- <40e7e0ab-0828-b2e7-339f-35f68a228b3d@redhat.com>
-In-Reply-To: <40e7e0ab-0828-b2e7-339f-35f68a228b3d@redhat.com>
+ <40e7e0ab-0828-b2e7-339f-35f68a228b3d@redhat.com> <CAHk-=wg95CiyT45ZOxtnWQ7cdKmejXcOydEyJcTTNnp5-nd+xg@mail.gmail.com>
+In-Reply-To: <CAHk-=wg95CiyT45ZOxtnWQ7cdKmejXcOydEyJcTTNnp5-nd+xg@mail.gmail.com>
 From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Sat, 18 Dec 2021 11:21:34 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wg95CiyT45ZOxtnWQ7cdKmejXcOydEyJcTTNnp5-nd+xg@mail.gmail.com>
-Message-ID: <CAHk-=wg95CiyT45ZOxtnWQ7cdKmejXcOydEyJcTTNnp5-nd+xg@mail.gmail.com>
+Date:   Sat, 18 Dec 2021 11:52:41 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wjevjeL44qafYd8=cJHZgNUOUuWVJ28vkS4U4v_Af-xaQ@mail.gmail.com>
+Message-ID: <CAHk-=wjevjeL44qafYd8=cJHZgNUOUuWVJ28vkS4U4v_Af-xaQ@mail.gmail.com>
 Subject: Re: [PATCH v1 06/11] mm: support GUP-triggered unsharing via
  FAULT_FLAG_UNSHARE (!hugetlb)
 To:     David Hildenbrand <david@redhat.com>
@@ -95,176 +95,77 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[ Cutting down ruthlessly to the core of the issue ]
-
-On Sat, Dec 18, 2021 at 1:58 AM David Hildenbrand <david@redhat.com> wrote:
+On Sat, Dec 18, 2021 at 11:21 AM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> 1) Missed COW
+> To recap:
+>  (1) is important, and page_count() is the only thing that guarantees
+> "you get full access to a page only when it's *obviously* exclusively
+> yours".
+>  (2) is NOT important, but could be a performance issue, but we have
+> real data from the past year that it isn't.
+>  (3) is important, and has a really spectacularly simple conceptual
+> fix with quite simple code too.
 >
-> 2) Unnecessary COW
->
-> 3) Wrong COW
+> In contrast, with the "mapcount" games you can't even explain why they
+> should work, and the patches I see are actively buggy because
+> everything is so subtle.
 
-> Does that make sense? If we agree on the above, then here is how the
-> currently discussed approaches differ:
->
-> page_count != 1:
-> * 1) cannot happen
-> * 2) can happen easily (speculative references due to pagecache,
->      migration, daemon, pagevec, ...)
-> * 3) can happen in the current code
+So to challenge you, please explain exactly how mapcount works to
+solve (1) and (3), and how it incidentally guarantees that (2) doesn't
+happen.
 
-I claim that (1) "cannot happen" is a huge mother of a deal. It's
-*LITERALLY* the bug you are chasing, and it's the security issue, so
-on a bug scale, it's about the worst there is.
+And that really involves explaining the actual code too. I can explain
+the high-level concepts in literally a couple of sentences.
 
-I further then claim that (2) "happen easily" is you just making
-things up. Yes, it can happen. But no, it's not actually that common,
-and since (2) is harmless from a correctness standpoint, it is purely
-about performance.
+For (1), "the page_count()==1 guarantees you are the only owner, so a
+COW event can re-use the page" really explains it. And the code is
+pretty simple too. There's nothing subtle about "goto copy" when
+pagecount is not 1. And even the locking is simple: "we hold the page
+table lock, we found a page, it has only one ref to it, we own it"
 
-And as mentioned, not using the mapcount actually makes *common*
-operations much simpler and faster. You don't need the page lock to
-serialize the mapcount.
+Our VM is *incredibly* complicated. There really are serious
+advantages to having simple rules in place.
 
-So (2) is a performance argument, and you haven't actually shown it to
-be a problem.
+And for (2), the simple rule is "yeah, we can cause spurious cow
+events". That's not only simple to explain, it's simple to code for.
+Suddenly you don't need to worry. "Copying the page is always safe".
+That's a really really powerful statement.
 
-Which really only leaves (3). Which I've already explained what the
-fix is: don't ever mark pages that shouldn't be COW'ed as being COW
-pages.
+Now, admittedly (3) is the one that ends up being more complicated,
+but the *concept* sure is simple. "If you don't want to COW this page,
+then don't mark it for COW".
 
-(3) is really that simple, although it ended up depending on Jason and
-John Hubbard and others doing that FOLL_PIN logic to distinguish "I
-just want to see a random page, and I don't care about COW" from "I
-want to get a page, and that page needs to be coherent with this VM
-and not be COW'ed away"
+The *code* for (3) is admittedly a bit more complicated. The "don't
+mark it for COW" is simple to say, but we do have that fairly odd
+locking thing with fork() doing a seqcount_write_begin/end, and then
+GIP does the read-seqcount thing with retry. So it's a bit unusual,
+and I don't think we have that particular pattern anywhere else, but
+it's one well-defined lock and while unusual it's not *complicated* as
+far as kernel locking rules go. It's unusual and perhaps not trivial,
+but in the end those seqcount code sequences are maybe 10 lines total,
+and they don't interact with anything else.
 
-So I'm not claiming (3) is "trivial", but at the same time it's
-certainly not some fundamentally complicated thing, and it's easy to
-explain what is going on.
+And yes, the "don't mark it for COW" means that write-protecting
+something is special, mainly because we sadly do not have extra bits
+in the page tables. It would be *really* easy if we could just hide
+this "don't COW this page" in the page table. Truly trivial. We don't,
+because of portability across different architectures ;(
 
-> mapcount > 1:
-> * 1) your concern is that this can happen due to concurrent swapin
-> * 2) cannot happen.
-> * 3) your concern is that this can happen due to concurrent swapin
+So I'll freely give you that my (3) is somewhat painful, but it's
+painful with a really simple concept.
 
-No, my concern about (1) is that IT IS WRONG.
+And the places that get (3) wrong are generally places that nobody has
+been able to care about. I didn't realize the problem with creating a
+swap page after the fact for a while, so that commit feb889fb40fa
+("mm: don't put pinned pages into the swap cache") came later, but
+it's literally a very simple two-liner.
 
-"mapcount" means nothing for COW. I even gave you an example of
-exactly where it means nothing. It's crazy. It's illogical. And it's
-complicated as hell.
+The commit message for commit feb889fb40fa may be worth reading. It
+very much explains the spirit of the thing, and is much longer than
+the trivial patch itself.
 
-The fact that only one user maps a page is simply not meaningful. That
-page can have other users that you don't know anything about, and that
-don't show up in the mapcount.
+Simple and clear concepts matter. Code gets complicated even then, but
+complex code with complex concepts is a bad combination.
 
-That page can be swapcached, in which case mapcount can change
-radically in ways that you earlier indicated cannot happen. You were
-wrong.
-
-But even if you fix that - by taking the page lock in every single
-place - there are still *other* users that for all you know may want
-the old contents. You don't know.
-
-The only thing that says "no other users" is the page count. Not the mapcount.
-
-In other words, I claim that
-
- (a) mapcount is fundamentally the wrong thing to test. You can be the
-only mapper, without being the "owner" of the page.
-
- (b) it's *LITERALLY* the direct and present source of that bug in the
-testcase you added, where a page with a mapcount of 1 has other
-concurrent users and needs to be COW'ed but isn't.
-
- (c) it's complicated and expensive to calculate (where one big part
-of the expense is the page lock synchronization requirements, but
-there are others)
-
-And this all happens for that "case (1)", which is the worst adn
-scariest of them all.
-
-In contrast to that, your argument that "(2) cannot happen" is a total
-non-argument. (2) isn't the problem.
-
-And I claim that (3) can happen because you're testing the wrong
-counter, so who knows if the COW is wrong or not?
-
-> I am completely missing how 2) or 3) could *ever* be handled properly
-> for page_count != 1. 3) is obviously more important and gives me nightmares.
-
-Ok, so if I tell you how (2) and (3) are handled properly, you will
-just admit you were wrong?
-
-Here's how they are handled properly with page counts. I have told you
-this before, but I'll summarize:
-
- (2) is handled semantically properly by definition - it may be
-"unnecessary", but it has no semantic meaning
-
-This is an IMPORTANT thing to realize. The fact is, (2) is not in the
-same class as (1) or (3).
-
-And honestly - we've been doing this for all the common cases already
-since at least 5.9, and your performance argument simply has not
-really reared its head.  Which makes the whole argument moot. I claim
-that it simplifies lots of common operations and avoids having to
-serialize on a lock that has been a real and major problem. You claim
-it's extra overhead and can cause extra COW events. Neither of has any
-numbers worth anything, but at least I can point to the fact that all
-the *normal* VM paths have been doing the thing I advocate for many
-releases now, and the sky most definitely is NOT falling.
-
-So that only leaves (3).
-
-Handling (3) really is so conceptually simple that I feel silly for
-repeating it: if you don't want a COW to happen, then you mark the
-page as being not-COW.
-
-That sounds so simple as to be stupid. But it really is the solution.
-It's what that pinning logic does, and keeps that "page may be pinned"
-state around, and then operations like fork() that would otherwise
-create a COW mapping of it will just not do it.
-
-So that incredibly simple approach does require actual code: it
-requires that explicit "fork() needs to copy instead of COW" code, it
-requires that "if it's pinned, we don't make a new swapcache entry out
-of it". So it's real code, and it's a real issue, but it's
-conceptually absolutely trivial, and the code is usualyl really simple
-to understand too.
-
-So you have a *trivial* concept, and you have simple code that could
-be described to a slightly developmentally challenged waterfowl.  If
-you're one of the programmers doing the "explain your code to a rubber
-ducky", you can look at code like this:
-
-                /*
-                 * Anonymous process memory has backing store?
-                 * Try to allocate it some swap space here.
-                 * Lazyfree page could be freed directly
-                 */
-                if (PageAnon(page) && PageSwapBacked(page)) {
-                        if (!PageSwapCache(page)) {
-                                if (!(sc->gfp_mask & __GFP_IO))
-                                        goto keep_locked;
-                                if (page_maybe_dma_pinned(page))
-                                        goto keep_locked;
-
-and you can explain that page_maybe_dma_pinned() test to your rubber
-ducky, and that rubber ducky will literally nod its head. It gets it.
-
-To recap:
- (1) is important, and page_count() is the only thing that guarantees
-"you get full access to a page only when it's *obviously* exclusively
-yours".
- (2) is NOT important, but could be a performance issue, but we have
-real data from the past year that it isn't.
- (3) is important, and has a really spectacularly simple conceptual
-fix with quite simple code too.
-
-In contrast, with the "mapcount" games you can't even explain why they
-should work, and the patches I see are actively buggy because
-everything is so subtle.
-
-                  Linus
+              Linus
