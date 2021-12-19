@@ -2,183 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C923FC433FE
-	for <linux-doc@archiver.kernel.org>; Sun, 19 Dec 2021 17:59:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B36E7C433F5
+	for <linux-doc@archiver.kernel.org>; Sun, 19 Dec 2021 20:11:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236229AbhLSR74 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 19 Dec 2021 12:59:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47818 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236226AbhLSR74 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Dec 2021 12:59:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1639936795;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=5t0uLGB88euDBAUi/hIHWgd5nmy1opcjQo/ctPwzp+0=;
-        b=PZF0pycGn+yHd/HDvzlVlvV5nwCsAdNGi1AYGjfJYzSs8ehmVoNMXnao7qm1DOSt/S6hRI
-        e8Ue/raeHAcm2d2R5eY7FapxrKy/+2vDgqB0Vqm3px98SZezW9tu8veJIswqGDzpfxlg8d
-        ET85TUPSFtwljOti1NWhizKXkw2guVk=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-76-rSLfLLDGMw6choHwerXUxA-1; Sun, 19 Dec 2021 12:59:54 -0500
-X-MC-Unique: rSLfLLDGMw6choHwerXUxA-1
-Received: by mail-wr1-f71.google.com with SMTP id s23-20020adf9797000000b001a24674f0f7so2772614wrb.9
-        for <linux-doc@vger.kernel.org>; Sun, 19 Dec 2021 09:59:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent
-         :content-language:to:cc:references:from:organization:subject
-         :in-reply-to:content-transfer-encoding;
-        bh=5t0uLGB88euDBAUi/hIHWgd5nmy1opcjQo/ctPwzp+0=;
-        b=ppoJWxqglDGA1cVj9d4TIED8M8SNc3WNZYOcUcnJ/7TG+idxP6mw5PZA9G7e/ZmJAb
-         dhXflcj7h5Up4FDcn+Y6ieALSW/DhZQVUx2mmIJjgcL4Bo4iL5c7LyxH2Wix0tnthApz
-         gkOXNJapySFRhP19IPWTIO4UOdyjlLyQ5tROtTS2ZrBZmegvXCnThG0zSDNosivu+hMl
-         C98TR2oEBNkIs5kznAKt4g9savR0LiGkbYz6RodKCmGcyHeNIcEwdUjt1byfIaL5FnDq
-         SOPHwe7PUKZYwBBc2lpQ694JX1tUqe50ngq0IivaeCjZxK8QCKFWoEYq9myftulldI7Y
-         agzw==
-X-Gm-Message-State: AOAM532TL3iA5M5bh29RaaqcAJ9QHfmKjSdtuA4CfyHi2kVEXKzPcsTy
-        1yGV9TDbHHl6DDIRBC2S68/O1tH3QB9yPTEOMt5//rJgCugMaSXNQzAGgyd3U8bLDwQaz8T/dvD
-        BO9TIslXDAHduNl1rDUfc
-X-Received: by 2002:a05:600c:2943:: with SMTP id n3mr8015451wmd.167.1639936793328;
-        Sun, 19 Dec 2021 09:59:53 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwsJEpquzSqMiXV3ss+CHHi+TlMEUCcvL8NS/DbzmPPCdr4VFbmvYDBP18cD5LrX1DYfzRajQ==
-X-Received: by 2002:a05:600c:2943:: with SMTP id n3mr8015420wmd.167.1639936793109;
-        Sun, 19 Dec 2021 09:59:53 -0800 (PST)
-Received: from [192.168.3.132] (p4ff23c6f.dip0.t-ipconnect.de. [79.242.60.111])
-        by smtp.gmail.com with ESMTPSA id b197sm13271359wmb.24.2021.12.19.09.59.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 19 Dec 2021 09:59:52 -0800 (PST)
-Message-ID: <fca16906-8e7d-5d04-6990-dfa8392bad8b@redhat.com>
-Date:   Sun, 19 Dec 2021 18:59:51 +0100
+        id S236482AbhLSULp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 19 Dec 2021 15:11:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40420 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229582AbhLSULo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Dec 2021 15:11:44 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A124C061574;
+        Sun, 19 Dec 2021 12:11:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=4h6NPaUlmZgxir2424x/Qf/OO7HJPde/NgVzMLtT4Ig=; b=e0zd389yAG+hzti3DV7WFxKv8c
+        A2Y8qkC1OJ+Siz/+zVwBEQA1dNMbJsg8TCsrbc3dIFx9VDBTxAvkdW3c4b19d8vhbwvEWz2VY1BGn
+        V32jWf0HjcKLIuDlvpORzpEkz6qPys5xBX59QhK0C4mwOyLw5gdfZa6w+3SzMuxkyXiaS+UQGXMMB
+        Dxb+8GROS8t4L89qod7wWnPxMqlu1+3daysJEosN0Lkxd6xViVTDJijvT2QBrsuqA5yxk2Fi47lNB
+        8/WiE4kLFiRZ/Yc9XccsfyDKqEZwLvq3IuA/rM72FilyRb6T+VNXEdUO0GrIvH9G2bkZPZssiTGIC
+        6g6d/4Kw==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mz2Wy-00GvAC-PT; Sun, 19 Dec 2021 20:11:40 +0000
+Date:   Sun, 19 Dec 2021 12:11:40 -0800
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc:     Feng Tang <feng.tang@intel.com>, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        keescook@chromium.org, yzaikin@google.com,
+        akpm@linux-foundation.org, siglesias@igalia.com,
+        kernel@gpiccoli.net
+Subject: Re: [PATCH 2/3] panic: Add option to dump all CPUs backtraces in
+ panic_print
+Message-ID: <Yb+R/OVeBkdYLWeH@bombadil.infradead.org>
+References: <20211109202848.610874-1-gpiccoli@igalia.com>
+ <20211109202848.610874-3-gpiccoli@igalia.com>
+ <20211130051206.GB89318@shbuild999.sh.intel.com>
+ <6f269857-2cbe-b4dd-714a-82372dc3adfc@igalia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Content-Language: en-US
-To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Nadav Amit <namit@vmware.com>
-Cc:     Jason Gunthorpe <jgg@nvidia.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Hugh Dickins <hughd@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Yang Shi <shy828301@gmail.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Roman Gushchin <guro@fb.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Peter Xu <peterx@redhat.com>,
-        Donald Dutile <ddutile@redhat.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Oleg Nesterov <oleg@redhat.com>, Jan Kara <jack@suse.cz>,
-        Linux-MM <linux-mm@kvack.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <CAHk-=wgL5u3XMgfUN6BOqVO0OvPx3-LEri1ju-1TW4dFhHQO4g@mail.gmail.com>
- <54c492d7-ddcd-dcd0-7209-efb2847adf7c@redhat.com>
- <CAHk-=wgjOsHAXttQa=csLG10Cp2hh8Dk8CnNC3_WDpBpTzBESQ@mail.gmail.com>
- <20211217204705.GF6385@nvidia.com>
- <2E28C79D-F79C-45BE-A16C-43678AD165E9@vmware.com>
- <CAHk-=wgw5bEe8+qifra-aY9fAOf2Pscp1vuXX=f4hESyCK_xLg@mail.gmail.com>
- <20211218030509.GA1432915@nvidia.com>
- <5C0A673F-8326-4484-B976-DA844298DB29@vmware.com>
- <CAHk-=wj7eSOhbWDeADL_BJKLzdDF5s_5R9v7d-4P3L6v1T3mpQ@mail.gmail.com>
- <20211218184233.GB1432915@nvidia.com>
- <5CA1D89F-9DDB-4F91-8929-FE29BB79A653@vmware.com>
- <CAHk-=wh-ETqwd6EC2PR6JJzCFHVxJgdbUcMpW5MS7gCa76EDsQ@mail.gmail.com>
- <4D97206A-3B32-4818-9980-8F24BC57E289@vmware.com>
- <CAHk-=whxvVQReBqZeaV41=sAWfT4xTfn6sMSWDfkHKVS3zX85w@mail.gmail.com>
- <5A7D771C-FF95-465E-95F6-CD249FE28381@vmware.com>
- <CAHk-=wgMuSkumYxeaaxbKFoAbw_gjYo1eRXXSFcBHzNG2xauTA@mail.gmail.com>
- <CAHk-=whYT0Q1F=bxG0yi=LN5gXY64zBwefsbkLoRiP5p598d5A@mail.gmail.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v1 06/11] mm: support GUP-triggered unsharing via
- FAULT_FLAG_UNSHARE (!hugetlb)
-In-Reply-To: <CAHk-=whYT0Q1F=bxG0yi=LN5gXY64zBwefsbkLoRiP5p598d5A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6f269857-2cbe-b4dd-714a-82372dc3adfc@igalia.com>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 19.12.21 18:44, Linus Torvalds wrote:
-> David, you said that you were working on some alternative model. Is it
-> perhaps along these same lines below?
+On Fri, Dec 03, 2021 at 12:09:06PM -0300, Guilherme G. Piccoli wrote:
+> On 30/11/2021 02:12, Feng Tang wrote:
+> > On Tue, Nov 09, 2021 at 05:28:47PM -0300, Guilherme G. Piccoli wrote:
+> >> [...]
+> > This looks to be helpful for debugging panic.
+> > 
+> > Reviewed-by: Feng Tang <feng.tang@intel.com>
+> > 
+> > Thanks,
+> > Feng
 > 
-> I was thinking that a bit in the page tables to say "this page is
-> exclusive to this VM" would be a really simple thing to deal with for
-> fork() and swapout and friends.
+> Thanks a lot Feng, for both your reviews! Do you have any opinions about
+> patch 3?
 > 
-> But we don't have such a bit in general, since many architectures have
-> very limited sets of SW bits, and even when they exist we've spent
-> them on things like UDDF_WP.,
-> 
-> But the more I think about the "bit doesn't even have to be in the
-> page tables", the more I think maybe that's the solution.
-> 
-> A bit in the 'struct page' itself.
-> 
+> Also, as a generic question to all CCed, what is the way forward with
+> this thread?
+> Cheers,
 
-Exactly what I am prototyping right now.
+mcgrof@sumo ~/linux-next (git::master)$ ./scripts/get_maintainer.pl
+kernel/printk/
+Petr Mladek <pmladek@suse.com> (maintainer:PRINTK)
+Sergey Senozhatsky <senozhatsky@chromium.org> (maintainer:PRINTK)
+Steven Rostedt <rostedt@goodmis.org> (reviewer:PRINTK)
+John Ogness <john.ogness@linutronix.de> (reviewer:PRINTK)
+linux-kernel@vger.kernel.org (open list)    
 
-> For hugepages, you'd have to distribute said bit when  you split the hugepage.
+So I suggest you email the patches to those.
 
-Yes, that's one tricky part ...
-
-> 
-> But other than that it looks quite simple: anybody who does a virtual
-> copy will inevitably be messing with the page refcount, so clearing
-> the "exclusive ownership" bit wouldn't be costly: the 'struct page'
-> cacheline is already getting dirtied.
-> 
-> Or what was your model you were implying you were thinking about in
-> your other email? You said
-
-I'm playing with the idea of not setting the bit always during COW but
-only on GUP request to set the bit (either manually if possible or via
-FOLL_UNSHARE). That's a bit more tricky but allows for decoupling that
-approach completely from the page_pin() counter.
-
-fork() is allowed to clear the bit if page_count() == 1 and share the
-page. So no GUP->no fork() performance changes (!) . Otherwise the bit
-can only vanish if we swapout/migrate the page: in which case there are
-no additional GUP/references on the page that rely on it!
-
-The bit can be set directly if we have to copy the page in the fault
-handler (COW or unshare). Outside of COW/Unshare code, the bit can only
-be set if page_count() == 1 and we sync against fork(). (and that's the
-problem for gup-fast-only that I'm investigating right now, because it
-would then always have to fallback to the slow variant if the bit isn't
-already set)
-
-So the bit can "vanish" whenever there is no additional reference on the
-page. GUP syncs against fork() and can thereby set the bit/request to
-set the bit.
-
-I'm trying to decouple it completely from the page_pin() counter to also
-be able to handle FOLL_GET (O_DIRECT reproducers unfortunately) correctly.
-
-Not set it stone, just an idea what I'm playing with right now ... and I
-have to tripple-check if
-* page is PTE mapped in the page table I'm walking
-* page_count() == 1
-Really means that "this is the only reference.". I do strongly believe
-so .. :)
-
--- 
-Thanks,
-
-David / dhildenb
-
+  Luis
