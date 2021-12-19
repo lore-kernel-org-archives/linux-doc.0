@@ -2,152 +2,215 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC86FC433EF
-	for <linux-doc@archiver.kernel.org>; Sun, 19 Dec 2021 13:10:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 566D6C433EF
+	for <linux-doc@archiver.kernel.org>; Sun, 19 Dec 2021 17:27:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235731AbhLSNKE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 19 Dec 2021 08:10:04 -0500
-Received: from www.zeus03.de ([194.117.254.33]:60062 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233704AbhLSNKD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 19 Dec 2021 08:10:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=n8AmTf0c8HVOwBRmFjSGPcGmnzKn
-        O61Flxsv3ZdP32Q=; b=TS9f5Fdl9H5fePoSHNBKcA/m8Qjk6n96xx+G3XLX3dfY
-        1N4FY4Yf9Iv0Sdqv5JfuX6O/kykGfPZOI/nz5Y60SUhleVTT4T5dydLYcMETYHqS
-        fJ54cj5Z9m6KKr06XQflRccapk4iCpfdqeAXNDY9QaPZUS1X+0LwtajBrEUAcdY=
-Received: (qmail 608614 invoked from network); 19 Dec 2021 14:10:01 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 Dec 2021 14:10:01 +0100
-X-UD-Smtp-Session: l3s3148p1@TIopfX/T9MUgAQnoAHzOAHbG3MPk/2E5
-Date:   Sun, 19 Dec 2021 14:09:57 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Linux Documentation List <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v5 1/1] gpio: add sloppy logic analyzer using polling
-Message-ID: <Yb8vJRMEbNjtD3R6@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Linux Documentation List <linux-doc@vger.kernel.org>
-References: <20211123164902.35370-1-wsa+renesas@sang-engineering.com>
- <20211123164902.35370-2-wsa+renesas@sang-engineering.com>
- <YZ024q/r7Hc3TpMt@smile.fi.intel.com>
- <Yb2skaWF7cx6PHLO@kunai>
- <CAHp75VcV35r_54FXRGS31VT7W0LV6-U+PJOL46L49ro-T_hp4A@mail.gmail.com>
+        id S233355AbhLSR1s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 19 Dec 2021 12:27:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33416 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233345AbhLSR1r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Dec 2021 12:27:47 -0500
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E421C06173E
+        for <linux-doc@vger.kernel.org>; Sun, 19 Dec 2021 09:27:47 -0800 (PST)
+Received: by mail-lf1-x12c.google.com with SMTP id br40so14119217lfb.1
+        for <linux-doc@vger.kernel.org>; Sun, 19 Dec 2021 09:27:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=KJMrZEXDcM/T7DLnqDgvdZVEREMw/sAHU3NJ11ovNwQ=;
+        b=cgLwCh1hva5/ZFr7b/ckunrr4Un/SrfEk3NNboLI8xh1YV4i5YiQ6V0wF7FUDhGnSp
+         c8K5T/WyCeMD8xhVCc9XL+bcpOjty8tNVo7PFFsqw1ABN7x2xZXxAnAJa1GRflKMBpcr
+         0h+OOKMqmXLfixl3bPNrF7iMsIc1mP3RCBy+8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=KJMrZEXDcM/T7DLnqDgvdZVEREMw/sAHU3NJ11ovNwQ=;
+        b=uGEhs38qpBlNy/bYqhevTCi7SCI01dBZSYp0VnhUQ/2EGoBH8HntvFiIcl4NxyywdO
+         mz14kWTAPZhPDVFzyt0M5IWQ+cJToAn2TgtjjFdWkkiMqI5x0youeCCsDKGGso788VgH
+         zTLJhkNSVWa7AHYfpuNSlPfxdgvLKJa2L+LyewB9vVTd9R+tRVGtQdj+US5FJSHGcw4A
+         X2YnRlSZZlw89t76kSGIVLGk6NCQy/yoPpsU3624lLFHNWJTrfrrhQ1csDn0Q3Dk6M0c
+         cP2NEhFvHcATK/oL/OdLJp1LxR39/wW+Lz2rbw4YpDBBEXJSh/eHxZjrX32sAlYM3rCB
+         lIIw==
+X-Gm-Message-State: AOAM531jUuLr3WBssrlojlZffsHlTiLXWi9lIg+LACUPbXquU2rKsExC
+        DsGmnIusIECuRPhDdumVbZRtC0alBlG5eC0rD64=
+X-Google-Smtp-Source: ABdhPJzS6t9HgYN9UJQuEysj0Eex3bYLxJ1nB8TGIKuo8eutNTSbSkrYFGaiKb1vsOxmGDfn62FbaA==
+X-Received: by 2002:a05:6512:3986:: with SMTP id j6mr7387892lfu.170.1639934865005;
+        Sun, 19 Dec 2021 09:27:45 -0800 (PST)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com. [209.85.208.177])
+        by smtp.gmail.com with ESMTPSA id bt20sm1338629lfb.81.2021.12.19.09.27.44
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 19 Dec 2021 09:27:44 -0800 (PST)
+Received: by mail-lj1-f177.google.com with SMTP id 13so12103968ljj.11
+        for <linux-doc@vger.kernel.org>; Sun, 19 Dec 2021 09:27:44 -0800 (PST)
+X-Received: by 2002:adf:f54e:: with SMTP id j14mr10021527wrp.442.1639934853596;
+ Sun, 19 Dec 2021 09:27:33 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="1olE3+hUhRTydWIJ"
-Content-Disposition: inline
-In-Reply-To: <CAHp75VcV35r_54FXRGS31VT7W0LV6-U+PJOL46L49ro-T_hp4A@mail.gmail.com>
+References: <CAHk-=wgL5u3XMgfUN6BOqVO0OvPx3-LEri1ju-1TW4dFhHQO4g@mail.gmail.com>
+ <CAHk-=wgKft6E_EeLA1GnEXcQBA9vu8m2B-M-U7PuiNa0+9gpHA@mail.gmail.com>
+ <54c492d7-ddcd-dcd0-7209-efb2847adf7c@redhat.com> <CAHk-=wgjOsHAXttQa=csLG10Cp2hh8Dk8CnNC3_WDpBpTzBESQ@mail.gmail.com>
+ <20211217204705.GF6385@nvidia.com> <2E28C79D-F79C-45BE-A16C-43678AD165E9@vmware.com>
+ <CAHk-=wgw5bEe8+qifra-aY9fAOf2Pscp1vuXX=f4hESyCK_xLg@mail.gmail.com>
+ <20211218030509.GA1432915@nvidia.com> <5C0A673F-8326-4484-B976-DA844298DB29@vmware.com>
+ <CAHk-=wj7eSOhbWDeADL_BJKLzdDF5s_5R9v7d-4P3L6v1T3mpQ@mail.gmail.com>
+ <20211218184233.GB1432915@nvidia.com> <5CA1D89F-9DDB-4F91-8929-FE29BB79A653@vmware.com>
+ <CAHk-=wh-ETqwd6EC2PR6JJzCFHVxJgdbUcMpW5MS7gCa76EDsQ@mail.gmail.com>
+ <4D97206A-3B32-4818-9980-8F24BC57E289@vmware.com> <CAHk-=whxvVQReBqZeaV41=sAWfT4xTfn6sMSWDfkHKVS3zX85w@mail.gmail.com>
+ <5A7D771C-FF95-465E-95F6-CD249FE28381@vmware.com>
+In-Reply-To: <5A7D771C-FF95-465E-95F6-CD249FE28381@vmware.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Sun, 19 Dec 2021 09:27:17 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wgMuSkumYxeaaxbKFoAbw_gjYo1eRXXSFcBHzNG2xauTA@mail.gmail.com>
+Message-ID: <CAHk-=wgMuSkumYxeaaxbKFoAbw_gjYo1eRXXSFcBHzNG2xauTA@mail.gmail.com>
+Subject: Re: [PATCH v1 06/11] mm: support GUP-triggered unsharing via
+ FAULT_FLAG_UNSHARE (!hugetlb)
+To:     Nadav Amit <namit@vmware.com>
+Cc:     David Hildenbrand <david@redhat.com>,
+        Jason Gunthorpe <jgg@nvidia.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Hugh Dickins <hughd@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Yang Shi <shy828301@gmail.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Roman Gushchin <guro@fb.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Peter Xu <peterx@redhat.com>,
+        Donald Dutile <ddutile@redhat.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Oleg Nesterov <oleg@redhat.com>, Jan Kara <jack@suse.cz>,
+        Linux-MM <linux-mm@kvack.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Sat, Dec 18, 2021 at 10:02 PM Nadav Amit <namit@vmware.com> wrote:
+>
+> I found my old messy code for the software-PTE thing.
+>
+> I see that eventually I decided to hold a pointer to the =E2=80=9Cextra P=
+TEs=E2=80=9D
+> of each page in the PMD-page-struct. [ I also implemented the 2-adjacent
+> pages approach but this code is long gone. ]
 
---1olE3+hUhRTydWIJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Ok, I understand why that ends up being the choice, but it makes it
+too ugly and messy to look up  to be worth it, I think.
 
-Hi Andy,
+> I still don=E2=80=99t know what exactly you have in mind for making use
+> out of it for the COW issue.
 
-> I mean that there are similar functionality in different tools and for
-> one purpose you need one, for another another and there is no format
-> file convertors available (as far as my shallow googling shows).
+So the truly fundamental question for COW (and for a long-term GUP) is
+fairly simple:
 
-Yes, this is a truth I can't change. So, I chose the Free Software
-solution, so the format is at least documented. Also, you could just try
-sigrok and pulseview, it has a nice set of protocol decoders. GTKWave
-should be able to use the binary data inside the .sr IIRC. For other
-software, you can at least write a converter because the format is open.
+ - Is the page I have truly owned exclusively by this VM?
 
-> > In your V1 review, you suggested -ENODATA. I will pick yet another one,
-> > but it really matters zero in practice.
->=20
-> Ah, okay, then choose the one you think fits most.
+If that _isn't_ the case, you absolutely have to COW.
 
-I took -EBADR now.
+If that _is_ the case, you can re-use the page.
 
-> > What is the difference? Does it matter here?
->=20
-> I'm a bit lost in the context here, but the ' > /dev/null 2>&1' means
-> to redirect stdout to the /dev/null followed by redirecting stderr to
-> stdout (which is redirected to /dev/null). The other construction
-> might have side effects IIRC.
+That is really it, boiled down to the pure basics.
 
-Andy, *if* there is a side effect, I will happily fix it. But "it might
-have a side effect IIRC" leaves all the detective work to me and I am
-not short of other action items. Especially because this is not a
-critical path.
+And if you aren't sure whether you are the ultimate and only authority
+over the page, then COW is the "safer" option, in that breaking
+sharing is fundamentally better than over-sharing.
 
-> > I read that '-a' and '-o' are deprecated. Dunno where but looking again
-> > I found this: https://stackoverflow.com/questions/20449680/boolean-oper=
-ators-a-o-in-bash
->=20
-> The SO talks about _bash_, your script is a plain Shell one, right?
+Now, the reason I like "page_count()=3D=3D1" is that it is a 100% certain
+way to know that you own the page absolutely and clearly.
 
-It talks about being deprecated in POSIX, so quite the opposite of a
-bashism, I'd say.
+There is no question what-so-ever about it.
 
-> > > > +   taskset "$1" echo 1 > "$lasysfsdir"/capture || fail "Capture er=
-ror! Check kernel log"
-> > >
-> > > Shouldn't this function setup signal TRAPs?
-> >
-> > To do what?
->=20
-> To clean up the garbage it may leave in case of the interrupted run, no?
+And the reason I hate "page_mapcount()=3D=3D1" with a passion is that it
+is NOTHING OF THE KIND. It is an entirely meaningless number. It
+doesn't mean anything at all.
 
-I don't see any? Which ones do you have in mind?
+Even if the page mapcount is exactly right, it could easily and
+trivially be a result of "fork, then unmap in either parent or child".
 
-> > > $@ is better, actually one should never use $*.
-> >
-> > What difference does it make when expanding into a string?
->=20
-> The difference is on how the  "foo bar" (with double quotes!) will be
-> represented. In your case it will be translated as "foo" and "bar", in
-> the case I'm saying it will be "foo bar".
+Now that page_mapcount() is unquestionably 1, but despite that, at
+some point the page was shared by another VM, and you can not know
+whether you really have exclusive access.
 
-I very well know the difference. I was interested in what difference you
-see when they get expanded into a string?
+And that "even if page mapcount is exactly right" is a big issue in
+itself, as I hope I've explained.
 
-Happy hacking,
+It requires page locking, it requires that you take swapcache users
+into account, it is just a truly messy and messed up thing.
 
-   Wolfram
+There really is absolutely no reason for page_mapcount to exist. It's
+a mistake. We have it for completely broken historical reasons.
 
+It's WRONG.
 
---1olE3+hUhRTydWIJ
-Content-Type: application/pgp-signature; name="signature.asc"
+Now, if "page_count()=3D=3D1" is so great, what is the issue? Problem solve=
+d.
 
------BEGIN PGP SIGNATURE-----
+No, while page_count()=3D=3D1 is one really fundamental marker (unlike the
+mapcount), it does have problems too.
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmG/LyEACgkQFA3kzBSg
-KbYemw//V2ExEiWOROjcNT1F3yk2DGJq4eBiZ/kWGZomHh5cxnP7KpUs+Np4Ymor
-7Vp5Sl5rLhDob4bF9jR55QhkPNbohyq507Yjjlr7XCktvgcYgEqJWQyi2NTpnaud
-KacEDOe82OxaqODLpQYg6yRy5cZHKJKdJlsk8mjFsWzW83QT/O+IABHtgdsKKJfj
-QXRNMheoEmfgNl0LHinUssfUGbbpE64nQhFTKQqadELCHiXSwCwGJu31TsY32Sq0
-gHa9vJPVVnGYloVhSoZLuusR8cg1hb+0RLChQLGWCYEz0sKCucQ6McZC4fGKXNAa
-j0dCk561j/eBBqKYbiL6MDKvwgqu5AGY0gYsYfYc5R1tiUj+LByP9cNxoj/ziFke
-1kF64a35S3PtaqesUts/YEm0vgjUZBR2PoHNtEM9DfdEGpSNBZrFuoCcd9S6wjtC
-GwsScumYJk+PSHzt2Iei6s/Y/aVcHZNelb5OMvGeQvUWbv3lqw29WE3Jfe0q4Fn0
-PmycL+tu/RT58fiPIo23TFA4Wc24P76jvud8ZbdM/SYddWeLVWLOPE4c7JbKwQa9
-ySA9y/iuMUapUm6mr2Uu5Rfa84JFG+Mj9hmDtic4aAiVdiw36SLs75f5I4eqBjOJ
-cEGPlkS1BkPr+d25ePWACxKNZmzW7OkKrkkI9IDiKFoqJICQkhU=
-=4z74
------END PGP SIGNATURE-----
+Because yes, "page_count()=3D=3D1" does mean that you have truly exclusive
+ownership of the page, but the reverse is not true.
 
---1olE3+hUhRTydWIJ--
+The way the current regular VM code handles that "the reverse is not
+true" is by making "the page is writable" be the second way you can
+say "you clearly have full ownership of the page".
+
+So that's why you then have the "maybe_pinned()" thing in fork() and
+in swap cache creation that keeps such a page writable, and doesn't do
+the virtual copy and make it read-only again.
+
+But that's also why it has problems with write-protect (whether
+mprotect or uddf_wp).
+
+Anyway, that was a long explanation to make the thinking clear, and
+finally come to the actual answer to your question:
+
+Adding another bit in the page tables - *purely* to say "this VM owns
+the page outright" - would be fairly powerful. And fairly simple.
+
+Then any COW event will set that bit - because when you actually COW,
+the page you install is *yours*. No questions asked.
+
+And fork() would simply clear that bit (unless the page was one of the
+pinned pages that we simply copy).
+
+See how simple that kind of concept is.
+
+And please, see how INCREDIBLY BROKEN page_mapcount() is. It really
+fundamentally is pure and utter garbage.  It in no way says "I have
+exclusive ownership of this page", because even if the mapcount is 1
+*now*, it could have been something else earlier, and some other VM
+could have gotten a reference to it before the current VM did so.
+
+This is why I will categoricall NAK any stupid attempt to re-introduce
+page_mapcount() for COW or GUP handling. It's unacceptably
+fundamentally broken.
+
+Btw, the extra bit doesn't really have to be in the page tables. It
+could be a bit in the page itself. We could add another page bit that
+we just clear when we do the "add ref to page as you make a virtual
+copy during fork() etc".
+
+And no, we can't use "pincount" either, because it's not exact. The
+fact that the page count is so elevated that we think it's pinned is a
+_heuristic_, and that's ok when you have the opposite problem, and ask
+"*might* this page be pinned". You want to never get a false negative,
+but it can get a false positive.
+
+                 Linus
