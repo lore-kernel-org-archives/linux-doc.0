@@ -2,164 +2,337 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C50D9C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Dec 2021 17:38:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55DA3C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Dec 2021 18:37:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233419AbhLTRio (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Dec 2021 12:38:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39892 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236696AbhLTRil (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Dec 2021 12:38:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1640021920;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=FTqh4/MwPrq1Z+d4aqOZ1nMLxXrSCTWu4CIR9IAv3Oc=;
-        b=XAUEd+sqW+yYDfIfpi1ERIDWb1HvreGW2QTTGuWCk+otol6pssQ5bC9C1qxOctDchgTFE2
-        fN2HpI/rjARiWjqhaOR8wZkEb4Vm5zWtXnx9Q0/j/FbzIHGXpRPwkEeqoSHrQNzdLcWSQr
-        wUubfKOkLCH410dnkn4iErzKwiEkEfc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-652-MHjPnU2POSC5_ERuldINFQ-1; Mon, 20 Dec 2021 12:38:38 -0500
-X-MC-Unique: MHjPnU2POSC5_ERuldINFQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8538792500;
-        Mon, 20 Dec 2021 17:38:37 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.132])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 15A0F5BE3B;
-        Mon, 20 Dec 2021 17:38:27 +0000 (UTC)
-From:   Cornelia Huck <cohuck@redhat.com>
-To:     Alex Williamson <alex.williamson@redhat.com>,
-        alex.williamson@redhat.com
-Cc:     jgg@nvidia.com, corbet@lwn.net, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, farman@linux.ibm.com,
-        mjrosato@linux.ibm.com, pasic@linux.ibm.com
-Subject: Re: [RFC PATCH] vfio: Update/Clarify migration uAPI, add NDMA state
-In-Reply-To: <163909282574.728533.7460416142511440919.stgit@omen>
-Organization: Red Hat GmbH
-References: <163909282574.728533.7460416142511440919.stgit@omen>
-User-Agent: Notmuch/0.34 (https://notmuchmail.org)
-Date:   Mon, 20 Dec 2021 18:38:26 +0100
-Message-ID: <87v8zjp46l.fsf@redhat.com>
+        id S240457AbhLTShp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Dec 2021 13:37:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59060 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233831AbhLTShp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Dec 2021 13:37:45 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10EAAC061574;
+        Mon, 20 Dec 2021 10:37:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=KcO4IBmwxvdifksiMXcdegNdDzs945uvstWYbC8eA0g=; b=ij4AEN7LQqiZDu0d35Tcr4w5/q
+        WchZs4VQLujjfAk69rlOKg1iqYlr86sP3b+B6IFv13081bZ6oE6FkH/7DANhNp/f4SMCnYNL3cVmQ
+        rExee7sEEU2lW1Jq/jc7GidImzRwQ2YM6k5vvM/ZBA0/4QDMjPG/kChu9Wk/yw+UblEhDmc13+obz
+        lSoHPqEfKuRTDqlq3yMQNzFWWLetiSKtd3ajD8+dTKBOjHytttQDuxb9tyTOgdyp6cymHxgutMGRd
+        jkJC5breq9JdNO/whz9yb0b66DpvXzjhSgXllJMlarMsQ3t7vYubFitT2iWG9ZBMTm5z4oSSQPXbp
+        tKC6/xjA==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mzNXO-001pGj-VB; Mon, 20 Dec 2021 18:37:31 +0000
+Date:   Mon, 20 Dec 2021 18:37:30 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Nadav Amit <namit@vmware.com>,
+        Jason Gunthorpe <jgg@nvidia.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Hugh Dickins <hughd@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Yang Shi <shy828301@gmail.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Roman Gushchin <guro@fb.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Peter Xu <peterx@redhat.com>,
+        Donald Dutile <ddutile@redhat.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Oleg Nesterov <oleg@redhat.com>, Jan Kara <jack@suse.cz>,
+        Linux-MM <linux-mm@kvack.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v1 06/11] mm: support GUP-triggered unsharing via
+ FAULT_FLAG_UNSHARE (!hugetlb)
+Message-ID: <YcDNaoGcGS6ypucg@casper.infradead.org>
+References: <20211218184233.GB1432915@nvidia.com>
+ <5CA1D89F-9DDB-4F91-8929-FE29BB79A653@vmware.com>
+ <CAHk-=wh-ETqwd6EC2PR6JJzCFHVxJgdbUcMpW5MS7gCa76EDsQ@mail.gmail.com>
+ <4D97206A-3B32-4818-9980-8F24BC57E289@vmware.com>
+ <CAHk-=whxvVQReBqZeaV41=sAWfT4xTfn6sMSWDfkHKVS3zX85w@mail.gmail.com>
+ <5A7D771C-FF95-465E-95F6-CD249FE28381@vmware.com>
+ <CAHk-=wgMuSkumYxeaaxbKFoAbw_gjYo1eRXXSFcBHzNG2xauTA@mail.gmail.com>
+ <CAHk-=whYT0Q1F=bxG0yi=LN5gXY64zBwefsbkLoRiP5p598d5A@mail.gmail.com>
+ <fca16906-8e7d-5d04-6990-dfa8392bad8b@redhat.com>
+ <Yb+gId/gXocrlJYD@casper.infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yb+gId/gXocrlJYD@casper.infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 09 2021, Alex Williamson <alex.williamson@redhat.com> wrote:
+On Sun, Dec 19, 2021 at 09:12:01PM +0000, Matthew Wilcox wrote:
+> Can we get rid of ->mapcount altogether?  Three states:
 
-> A new NDMA state is being proposed to support a quiescent state for
-> contexts containing multiple devices with peer-to-peer DMA support.
-> Formally define it.
+This might be a step in the right direction?
 
-[I'm wondering if we would want to use NDMA in other cases as well. Just
-thinking out loud below.]
+From f723fb7cf2519428eee75e9e779907f80258f302 Mon Sep 17 00:00:00 2001
+From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Date: Mon, 20 Dec 2021 13:24:04 -0500
+Subject: [PATCH] mm: reuse_swap_page() no longer needs to return map_swapcount
 
->
-> Clarify various aspects of the migration region data fields and
-> protocol.  Remove QEMU related terminology and flows from the uAPI;
-> these will be provided in Documentation/ so as not to confuse the
-> device_state bitfield with a finite state machine with restricted
-> state transitions.
->
-> Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
-> ---
->  include/uapi/linux/vfio.h |  405 ++++++++++++++++++++++++---------------------
->  1 file changed, 214 insertions(+), 191 deletions(-)
->
-> diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
-> index ef33ea002b0b..1fdbc928f886 100644
-> --- a/include/uapi/linux/vfio.h
-> +++ b/include/uapi/linux/vfio.h
+All callers of reuse_swap_page() currently pass NULL, indicating that
+they don't use the painstakingly calculated map_swapcount.  That lets
+us further remove it from page_trans_huge_map_swapcount() and
+page_trans_huge_mapcount().
 
-(...)
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+---
+I don't know if this is a helpful patch to add at this point or
+whether it will get in the way of David's much more extensive work.
 
-> + *   The device_state field defines the following bitfield use:
-> + *
-> + *     - Bit 0 (RUNNING) [REQUIRED]:
-> + *        - Setting this bit indicates the device is fully operational, the
-> + *          device may generate interrupts, DMA, respond to MMIO, all vfio
-> + *          device regions are functional, and the device may advance its
-> + *          internal state.  The default device_state must indicate the device
-> + *          in exclusively the RUNNING state, with no other bits in this field
-> + *          set.
-> + *        - Clearing this bit (ie. !RUNNING) must stop the operation of the
-> + *          device.  The device must not generate interrupts, DMA, or advance
-> + *          its internal state.  The user should take steps to restrict access
-> + *          to vfio device regions other than the migration region while the
-> + *          device is !RUNNING or risk corruption of the device migration data
-> + *          stream.  The device and kernel migration driver must accept and
-> + *          respond to interaction to support external subsystems in the
-> + *          !RUNNING state, for example PCI MSI-X and PCI config space.
-> + *          Failure by the user to restrict device access while !RUNNING must
-> + *          not result in error conditions outside the user context (ex.
-> + *          host system faults).
+ include/linux/mm.h   | 10 +++-------
+ include/linux/swap.h |  6 +++---
+ mm/huge_memory.c     | 32 +++++++++++---------------------
+ mm/khugepaged.c      |  2 +-
+ mm/memory.c          |  2 +-
+ mm/swapfile.c        | 33 +++++++++++----------------------
+ 6 files changed, 30 insertions(+), 55 deletions(-)
 
-If I consider ccw, this would mean that user space would need to stop
-writing to the regions that initiate start/halt/... when RUNNING is
-cleared (makes sense) and that the subchannel must be idle or even
-disabled (so that it does not become status pending). The question is,
-does it make sense to stop new requests and wait for the subchannel to
-become idle during the !RUNNING transition (or even forcefully kill
-outstanding I/O), or...
-
-> + *     - Bit 1 (SAVING) [REQUIRED]:
-> + *        - Setting this bit enables and initializes the migration region data
-> + *          window and associated fields within vfio_device_migration_info for
-> + *          capturing the migration data stream for the device.  The migration
-> + *          driver may perform actions such as enabling dirty logging of device
-> + *          state with this bit.  The SAVING bit is mutually exclusive with the
-> + *          RESUMING bit defined below.
-> + *        - Clearing this bit (ie. !SAVING) de-initializes the migration region
-> + *          data window and indicates the completion or termination of the
-> + *          migration data stream for the device.
-> + *     - Bit 2 (RESUMING) [REQUIRED]:
-> + *        - Setting this bit enables and initializes the migration region data
-> + *          window and associated fields within vfio_device_migration_info for
-> + *          restoring the device from a migration data stream captured from a
-> + *          SAVING session with a compatible device.  The migration driver may
-> + *          perform internal device resets as necessary to reinitialize the
-> + *          internal device state for the incoming migration data.
-> + *        - Clearing this bit (ie. !RESUMING) de-initializes the migration
-> + *          region data window and indicates the end of a resuming session for
-> + *          the device.  The kernel migration driver should complete the
-> + *          incorporation of data written to the migration data window into the
-> + *          device internal state and perform final validity and consistency
-> + *          checking of the new device state.  If the user provided data is
-> + *          found to be incomplete, inconsistent, or otherwise invalid, the
-> + *          migration driver must indicate a write(2) error and follow the
-> + *          previously described protocol to return either the previous state
-> + *          or an error state.
-> + *     - Bit 3 (NDMA) [OPTIONAL]:
-> + *        The NDMA or "No DMA" state is intended to be a quiescent state for
-> + *        the device for the purposes of managing multiple devices within a
-> + *        user context where peer-to-peer DMA between devices may be active.
-> + *        Support for the NDMA bit is indicated through the presence of the
-> + *        VFIO_REGION_INFO_CAP_MIG_NDMA capability as reported by
-> + *        VFIO_DEVICE_GET_REGION_INFO for the associated device migration
-> + *        region.
-> + *        - Setting this bit must prevent the device from initiating any
-> + *          new DMA or interrupt transactions.  The migration driver must
-> + *          complete any such outstanding operations prior to completing
-> + *          the transition to the NDMA state.  The NDMA device_state
-> + *          essentially represents a sub-set of the !RUNNING state for the
-> + *          purpose of quiescing the device, therefore the NDMA device_state
-> + *          bit is superfluous in combinations including !RUNNING.
-> + *        - Clearing this bit (ie. !NDMA) negates the device operational
-> + *          restrictions required by the NDMA state.
-
-...should we use NDMA as the "stop new requests" state, but allow
-running channel programs to conclude? I'm not entirely sure whether
-that's in the spirit of NDMA (subchannels are independent of each
-other), but it would be kind of "quiescing" already.
-
-(We should probably clarify things like that in the Documentation/
-file.)
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index a7e4a9e7d807..286eb4155c80 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -840,19 +840,15 @@ static inline int page_mapcount(struct page *page)
+ 
+ #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+ int total_mapcount(struct page *page);
+-int page_trans_huge_mapcount(struct page *page, int *total_mapcount);
++int page_trans_huge_mapcount(struct page *page);
+ #else
+ static inline int total_mapcount(struct page *page)
+ {
+ 	return page_mapcount(page);
+ }
+-static inline int page_trans_huge_mapcount(struct page *page,
+-					   int *total_mapcount)
++static inline int page_trans_huge_mapcount(struct page *page)
+ {
+-	int mapcount = page_mapcount(page);
+-	if (total_mapcount)
+-		*total_mapcount = mapcount;
+-	return mapcount;
++	return page_mapcount(page);
+ }
+ #endif
+ 
+diff --git a/include/linux/swap.h b/include/linux/swap.h
+index d1ea44b31f19..1d38d9475c4d 100644
+--- a/include/linux/swap.h
++++ b/include/linux/swap.h
+@@ -514,7 +514,7 @@ extern int __swp_swapcount(swp_entry_t entry);
+ extern int swp_swapcount(swp_entry_t entry);
+ extern struct swap_info_struct *page_swap_info(struct page *);
+ extern struct swap_info_struct *swp_swap_info(swp_entry_t entry);
+-extern bool reuse_swap_page(struct page *, int *);
++extern bool reuse_swap_page(struct page *);
+ extern int try_to_free_swap(struct page *);
+ struct backing_dev_info;
+ extern int init_swap_address_space(unsigned int type, unsigned long nr_pages);
+@@ -680,8 +680,8 @@ static inline int swp_swapcount(swp_entry_t entry)
+ 	return 0;
+ }
+ 
+-#define reuse_swap_page(page, total_map_swapcount) \
+-	(page_trans_huge_mapcount(page, total_map_swapcount) == 1)
++#define reuse_swap_page(page) \
++	(page_trans_huge_mapcount(page) == 1)
+ 
+ static inline int try_to_free_swap(struct page *page)
+ {
+diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+index e5483347291c..6ed86a8f6a5b 100644
+--- a/mm/huge_memory.c
++++ b/mm/huge_memory.c
+@@ -1322,7 +1322,7 @@ vm_fault_t do_huge_pmd_wp_page(struct vm_fault *vmf)
+ 	 * We can only reuse the page if nobody else maps the huge page or it's
+ 	 * part.
+ 	 */
+-	if (reuse_swap_page(page, NULL)) {
++	if (reuse_swap_page(page)) {
+ 		pmd_t entry;
+ 		entry = pmd_mkyoung(orig_pmd);
+ 		entry = maybe_pmd_mkwrite(pmd_mkdirty(entry), vma);
+@@ -2542,38 +2542,28 @@ int total_mapcount(struct page *page)
+  * need full accuracy to avoid breaking page pinning, because
+  * page_trans_huge_mapcount() is slower than page_mapcount().
+  */
+-int page_trans_huge_mapcount(struct page *page, int *total_mapcount)
++int page_trans_huge_mapcount(struct page *page)
+ {
+-	int i, ret, _total_mapcount, mapcount;
++	int i, ret;
+ 
+ 	/* hugetlbfs shouldn't call it */
+ 	VM_BUG_ON_PAGE(PageHuge(page), page);
+ 
+-	if (likely(!PageTransCompound(page))) {
+-		mapcount = atomic_read(&page->_mapcount) + 1;
+-		if (total_mapcount)
+-			*total_mapcount = mapcount;
+-		return mapcount;
+-	}
++	if (likely(!PageTransCompound(page)))
++		return atomic_read(&page->_mapcount) + 1;
+ 
+ 	page = compound_head(page);
+ 
+-	_total_mapcount = ret = 0;
++	ret = 0;
+ 	for (i = 0; i < thp_nr_pages(page); i++) {
+-		mapcount = atomic_read(&page[i]._mapcount) + 1;
++		int mapcount = atomic_read(&page[i]._mapcount) + 1;
+ 		ret = max(ret, mapcount);
+-		_total_mapcount += mapcount;
+ 	}
+-	if (PageDoubleMap(page)) {
++
++	if (PageDoubleMap(page))
+ 		ret -= 1;
+-		_total_mapcount -= thp_nr_pages(page);
+-	}
+-	mapcount = compound_mapcount(page);
+-	ret += mapcount;
+-	_total_mapcount += mapcount;
+-	if (total_mapcount)
+-		*total_mapcount = _total_mapcount;
+-	return ret;
++
++	return ret + compound_mapcount(page);
+ }
+ 
+ /* Racy check whether the huge page can be split */
+diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+index e99101162f1a..11794bdf513a 100644
+--- a/mm/khugepaged.c
++++ b/mm/khugepaged.c
+@@ -681,7 +681,7 @@ static int __collapse_huge_page_isolate(struct vm_area_struct *vma,
+ 			goto out;
+ 		}
+ 		if (!pte_write(pteval) && PageSwapCache(page) &&
+-				!reuse_swap_page(page, NULL)) {
++				!reuse_swap_page(page)) {
+ 			/*
+ 			 * Page is in the swap cache and cannot be re-used.
+ 			 * It cannot be collapsed into a THP.
+diff --git a/mm/memory.c b/mm/memory.c
+index 8f1de811a1dc..dd85fd07cb24 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -3626,7 +3626,7 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
+ 	inc_mm_counter_fast(vma->vm_mm, MM_ANONPAGES);
+ 	dec_mm_counter_fast(vma->vm_mm, MM_SWAPENTS);
+ 	pte = mk_pte(page, vma->vm_page_prot);
+-	if ((vmf->flags & FAULT_FLAG_WRITE) && reuse_swap_page(page, NULL)) {
++	if ((vmf->flags & FAULT_FLAG_WRITE) && reuse_swap_page(page)) {
+ 		pte = maybe_mkwrite(pte_mkdirty(pte), vma);
+ 		vmf->flags &= ~FAULT_FLAG_WRITE;
+ 		ret |= VM_FAULT_WRITE;
+diff --git a/mm/swapfile.c b/mm/swapfile.c
+index e59e08ef46e1..bc0810c3b2a5 100644
+--- a/mm/swapfile.c
++++ b/mm/swapfile.c
+@@ -1601,31 +1601,30 @@ static bool page_swapped(struct page *page)
+ 	return false;
+ }
+ 
+-static int page_trans_huge_map_swapcount(struct page *page, int *total_mapcount,
++static int page_trans_huge_map_swapcount(struct page *page,
+ 					 int *total_swapcount)
+ {
+-	int i, map_swapcount, _total_mapcount, _total_swapcount;
++	int i, map_swapcount, _total_swapcount;
+ 	unsigned long offset = 0;
+ 	struct swap_info_struct *si;
+ 	struct swap_cluster_info *ci = NULL;
+ 	unsigned char *map = NULL;
+-	int mapcount, swapcount = 0;
++	int swapcount = 0;
+ 
+ 	/* hugetlbfs shouldn't call it */
+ 	VM_BUG_ON_PAGE(PageHuge(page), page);
+ 
+ 	if (!IS_ENABLED(CONFIG_THP_SWAP) || likely(!PageTransCompound(page))) {
+-		mapcount = page_trans_huge_mapcount(page, total_mapcount);
+ 		if (PageSwapCache(page))
+ 			swapcount = page_swapcount(page);
+ 		if (total_swapcount)
+ 			*total_swapcount = swapcount;
+-		return mapcount + swapcount;
++		return swapcount + page_trans_huge_mapcount(page);
+ 	}
+ 
+ 	page = compound_head(page);
+ 
+-	_total_mapcount = _total_swapcount = map_swapcount = 0;
++	_total_swapcount = map_swapcount = 0;
+ 	if (PageSwapCache(page)) {
+ 		swp_entry_t entry;
+ 
+@@ -1639,8 +1638,7 @@ static int page_trans_huge_map_swapcount(struct page *page, int *total_mapcount,
+ 	if (map)
+ 		ci = lock_cluster(si, offset);
+ 	for (i = 0; i < HPAGE_PMD_NR; i++) {
+-		mapcount = atomic_read(&page[i]._mapcount) + 1;
+-		_total_mapcount += mapcount;
++		int mapcount = atomic_read(&page[i]._mapcount) + 1;
+ 		if (map) {
+ 			swapcount = swap_count(map[offset + i]);
+ 			_total_swapcount += swapcount;
+@@ -1648,15 +1646,9 @@ static int page_trans_huge_map_swapcount(struct page *page, int *total_mapcount,
+ 		map_swapcount = max(map_swapcount, mapcount + swapcount);
+ 	}
+ 	unlock_cluster(ci);
+-	if (PageDoubleMap(page)) {
++	if (PageDoubleMap(page))
+ 		map_swapcount -= 1;
+-		_total_mapcount -= HPAGE_PMD_NR;
+-	}
+-	mapcount = compound_mapcount(page);
+-	map_swapcount += mapcount;
+-	_total_mapcount += mapcount;
+-	if (total_mapcount)
+-		*total_mapcount = _total_mapcount;
++	map_swapcount += compound_mapcount(page);
+ 	if (total_swapcount)
+ 		*total_swapcount = _total_swapcount;
+ 
+@@ -1673,17 +1665,14 @@ static int page_trans_huge_map_swapcount(struct page *page, int *total_mapcount,
+  * reuse_swap_page() returns false, but it may be always overwritten
+  * (see the other implementation for CONFIG_SWAP=n).
+  */
+-bool reuse_swap_page(struct page *page, int *total_map_swapcount)
++bool reuse_swap_page(struct page *page)
+ {
+-	int count, total_mapcount, total_swapcount;
++	int count, total_swapcount;
+ 
+ 	VM_BUG_ON_PAGE(!PageLocked(page), page);
+ 	if (unlikely(PageKsm(page)))
+ 		return false;
+-	count = page_trans_huge_map_swapcount(page, &total_mapcount,
+-					      &total_swapcount);
+-	if (total_map_swapcount)
+-		*total_map_swapcount = total_mapcount + total_swapcount;
++	count = page_trans_huge_map_swapcount(page, &total_swapcount);
+ 	if (count == 1 && PageSwapCache(page) &&
+ 	    (likely(!PageTransCompound(page)) ||
+ 	     /* The remaining swap count will be freed soon */
+-- 
+2.33.0
 
