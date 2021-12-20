@@ -2,85 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6926FC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Dec 2021 12:38:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEC0FC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Dec 2021 13:41:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230036AbhLTMis (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Dec 2021 07:38:48 -0500
-Received: from fanzine2.igalia.com ([213.97.179.56]:36608 "EHLO
-        fanzine2.igalia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229820AbhLTMir (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Dec 2021 07:38:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version
-        :Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=fX8aLO7bG6Mm38H7q0aoXpd//d9kXKKfvCn5eQeXOvU=; b=kZJtj+YT+YliPtcEGEpBJX7J1e
-        o1nCj49tqM1w2FX0nNXyjmhtf3vpx72RcgrYINyJsUpu79d4B2lN0hX/w0U40ZYybPRPhG3lC84wy
-        vxWu9Q40xtyngmBbHgGSFyK+IX5Lwwjh16baw9Hkan5Xq/C18dvRe0UPtDWSqXYAwttvAiXe9HVP7
-        x0QC+ure8ARnwxm6jEE5QmZRudMcY49iyKIhTCbdSft/YdaK0X9ATqQrlmrZn5dy7cJaSiQ7MD+mo
-        wmJ453A7jdx8xwYmS5dgrLcd7cUT04KNvPgqAtUakC0rkDhWcDU/Lz8+/O9w8rnffqe5jRguqU+Mr
-        u1fklFww==;
-Received: from [177.103.99.151] (helo=[192.168.1.60])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1mzHw7-00037r-8H; Mon, 20 Dec 2021 13:38:39 +0100
-Subject: Re: [PATCH 2/3] panic: Add option to dump all CPUs backtraces in
- panic_print
-To:     Luis Chamberlain <mcgrof@kernel.org>, akpm@linux-foundation.org
-Cc:     Feng Tang <feng.tang@intel.com>, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        keescook@chromium.org, yzaikin@google.com, siglesias@igalia.com,
-        kernel@gpiccoli.net
-References: <20211109202848.610874-1-gpiccoli@igalia.com>
- <20211109202848.610874-3-gpiccoli@igalia.com>
- <20211130051206.GB89318@shbuild999.sh.intel.com>
- <6f269857-2cbe-b4dd-714a-82372dc3adfc@igalia.com>
- <Yb+R/OVeBkdYLWeH@bombadil.infradead.org>
-From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Message-ID: <911e81d3-5ffe-b936-f668-bf1f6a9b6cfb@igalia.com>
-Date:   Mon, 20 Dec 2021 09:38:23 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        id S232206AbhLTNlH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Dec 2021 08:41:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46162 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230300AbhLTNlG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Dec 2021 08:41:06 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78B80C061574;
+        Mon, 20 Dec 2021 05:41:06 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 4E6C9B80EA2;
+        Mon, 20 Dec 2021 13:41:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B994C36AE9;
+        Mon, 20 Dec 2021 13:41:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1640007663;
+        bh=sEhqYPxM4z19kGZYE2peDh+u0pT/5DH5Q0sa/WgLz2s=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=oT13uPmkAxGD5Bshuprq6DF7tVZgmsbYCW7m81SlEheTzmKYwN9cteS2Qm0f+yzG6
+         FxEZ90zHRkBUkkldie3P2GUorJw1P9OF2hEnTx8f/v+ToJqdVDYWB/RZ1XHjnjfRxL
+         fLVSWyLXsF5rXhpcI2KLW7oGXDoL1S/kUska8UuCqrAnXLgCH77Juo+nSxz7bV+YX3
+         3WfuXF6l3rrDlcVq5dlYauRBATyJZitLDYYQCif2MaHz6a5dvEw228kOuvYnysWwa9
+         APhZ9+umMMMIfdZxyvdYYy+6SLkJwLHrNpa2baLRP4StlCKGzXgQu+j2Qe1Fq0Q/Z8
+         2W1x/QxmwJyOQ==
+Received: by mail-ua1-f54.google.com with SMTP id o1so17725858uap.4;
+        Mon, 20 Dec 2021 05:41:02 -0800 (PST)
+X-Gm-Message-State: AOAM533SMp5A/u+oBrZeD2y/zBD71doYSiFNpX9Sa1mxW40hpKMaRaJr
+        PpTwsONAqV+SNvyXUEDHCIMmWPpjSyzD5j+ow4k=
+X-Google-Smtp-Source: ABdhPJwGr/+MFfoW7ipUpJBlTl+ZN+AB5Gr6EIJrZEEcp5Ttg/AYr9iCWiGr8Ukebm4uIUfe9nTB/0FRTqyMvS0jIYU=
+X-Received: by 2002:a05:6102:316e:: with SMTP id l14mr233250vsm.8.1640007662059;
+ Mon, 20 Dec 2021 05:41:02 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <Yb+R/OVeBkdYLWeH@bombadil.infradead.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20211206104657.433304-1-alexandre.ghiti@canonical.com>
+ <20211206104657.433304-13-alexandre.ghiti@canonical.com> <CAJF2gTQEHv1dVzv=JNCYSzD8oh6UxYOFRTdBOp-FFeeeOhSJrQ@mail.gmail.com>
+ <CAMj1kXHmdDKFozkoAfM-mxsxxfanhVq5HcA1qKTrkp=vAt=Umg@mail.gmail.com>
+In-Reply-To: <CAMj1kXHmdDKFozkoAfM-mxsxxfanhVq5HcA1qKTrkp=vAt=Umg@mail.gmail.com>
+From:   Guo Ren <guoren@kernel.org>
+Date:   Mon, 20 Dec 2021 21:40:51 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTR2pDN8vvknmE2s1nj2WSuCfTkXYkU074rCck+CCwQv7Q@mail.gmail.com>
+Message-ID: <CAJF2gTR2pDN8vvknmE2s1nj2WSuCfTkXYkU074rCck+CCwQv7Q@mail.gmail.com>
+Subject: Re: [PATCH v3 12/13] riscv: Initialize thread pointer before calling
+ C functions
+To:     Ard Biesheuvel <ardb@kernel.org>
+Cc:     Alexandre Ghiti <alexandre.ghiti@canonical.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Zong Li <zong.li@sifive.com>, Anup Patel <anup@brainfault.org>,
+        Atish Patra <Atish.Patra@rivosinc.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Alexander Potapenko <glider@google.com>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Kees Cook <keescook@chromium.org>,
+        Guo Ren <guoren@linux.alibaba.com>,
+        Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
+        Mayuresh Chitale <mchitale@ventanamicro.com>,
+        panqinglin2020@iscas.ac.cn,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-efi <linux-efi@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 19/12/2021 17:11, Luis Chamberlain wrote:
-> mcgrof@sumo ~/linux-next (git::master)$ ./scripts/get_maintainer.pl
-> kernel/printk/
-> Petr Mladek <pmladek@suse.com> (maintainer:PRINTK)
-> Sergey Senozhatsky <senozhatsky@chromium.org> (maintainer:PRINTK)
-> Steven Rostedt <rostedt@goodmis.org> (reviewer:PRINTK)
-> John Ogness <john.ogness@linutronix.de> (reviewer:PRINTK)
-> linux-kernel@vger.kernel.org (open list)    
-> 
-> So I suggest you email the patches to those.
-> 
->   Luis
-> 
+On Mon, Dec 20, 2021 at 5:17 PM Ard Biesheuvel <ardb@kernel.org> wrote:
+>
+> On Mon, 20 Dec 2021 at 10:11, Guo Ren <guoren@kernel.org> wrote:
+> >
+> > On Tue, Dec 7, 2021 at 11:55 AM Alexandre Ghiti
+> > <alexandre.ghiti@canonical.com> wrote:
+> > >
+> > > Because of the stack canary feature that reads from the current task
+> > > structure the stack canary value, the thread pointer register "tp" must
+> > > be set before calling any C function from head.S: by chance, setup_vm
+> > Shall we disable -fstack-protector for setup_vm() with __attribute__?
+>
+> Don't use __attribute__((optimize())) for that: it is known to be
+> broken, and documented as debug purposes only in the GCC info pages:
+>
+> https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html
+Oh, thx for the link.
 
-Hi Luis, thank you! But I confess I'm very confused with this series. I
-saw emails from Andrew that the patches had been accepted and were
-available in -mm tree ([0] for example) but I'm not seeing them in
-linux-next nor mmotm/mmots (although I saw them in mmotm directory for a
-while before).
+>
+>
+>
+>
+> > Actually, we've already init tp later.
+> >
+> > > and all the functions that it calls does not seem to be part of the
+> > > functions where the canary check is done, but in the following commits,
+> > > some functions will.
+> > >
+> > > Fixes: f2c9699f65557a31 ("riscv: Add STACKPROTECTOR supported")
+> > > Signed-off-by: Alexandre Ghiti <alexandre.ghiti@canonical.com>
+> > > ---
+> > >  arch/riscv/kernel/head.S | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > >
+> > > diff --git a/arch/riscv/kernel/head.S b/arch/riscv/kernel/head.S
+> > > index c3c0ed559770..86f7ee3d210d 100644
+> > > --- a/arch/riscv/kernel/head.S
+> > > +++ b/arch/riscv/kernel/head.S
+> > > @@ -302,6 +302,7 @@ clear_bss_done:
+> > >         REG_S a0, (a2)
+> > >
+> > >         /* Initialize page tables and relocate to virtual addresses */
+> > > +       la tp, init_task
+> > >         la sp, init_thread_union + THREAD_SIZE
+> > >         XIP_FIXUP_OFFSET sp
+> > >  #ifdef CONFIG_BUILTIN_DTB
+> > > --
+> > > 2.32.0
+> > >
+> >
+> >
+> > --
+> > Best Regards
+> >  Guo Ren
+> >
+> > ML: https://lore.kernel.org/linux-csky/
 
-Andrew, could you clarify the state of them?
-Appreciate that!
-
-Cheers,
 
 
-Guilherme
+-- 
+Best Regards
+ Guo Ren
 
-
-[0]
-https://lore.kernel.org/mm-commits/20211214182909._sQRtXv89%25akpm@linux-foundation.org/
+ML: https://lore.kernel.org/linux-csky/
