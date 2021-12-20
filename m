@@ -2,100 +2,160 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 893B7C433FE
-	for <linux-doc@archiver.kernel.org>; Sun, 19 Dec 2021 22:26:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8927AC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Dec 2021 06:48:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236787AbhLSW00 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 19 Dec 2021 17:26:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41666 "EHLO
+        id S237581AbhLTGsB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Dec 2021 01:48:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231572AbhLSW0Z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 19 Dec 2021 17:26:25 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F83BC061574;
-        Sun, 19 Dec 2021 14:26:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=WrMo2FbvfTHE2R5AHHoM6zUbBYPY7DJveiU7/Kb21KM=; b=eiVsACMV9Ai87OPY8MkPsR+PEn
-        k8h/WwoF9VdHtxnfNWZdzV76qz/DNUUT/ZBihkD8ApttdV7ghAVkLsH6lPgmPqlQ3jZ0o5NRP04r7
-        u/e5kJ4TMPH71pJubK9zyxijsEaWKMlrhuGgUX+IBEJN+0Y3y40IOcLmPwoGtV6nT77ByOry+PGOs
-        87uWJ5piTe8lkdo5Oy/kUPieXahmcFVBao4EwxRfhttHqahlp7Ey8sK5Hs4Ip804LmGYjbbgkC3tj
-        5EFiSoKQUjd9swbgNj2FnCcMSQ8eWLmC40xHh26yMA/kTUxWkhlu06++c2LpsJVzrJDr3UGNyAMyB
-        90IEUvhw==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mz4dB-0014v5-Pz; Sun, 19 Dec 2021 22:26:13 +0000
-Date:   Sun, 19 Dec 2021 22:26:13 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     David Hildenbrand <david@redhat.com>,
-        Nadav Amit <namit@vmware.com>,
-        Jason Gunthorpe <jgg@nvidia.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Hugh Dickins <hughd@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Yang Shi <shy828301@gmail.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Roman Gushchin <guro@fb.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Peter Xu <peterx@redhat.com>,
-        Donald Dutile <ddutile@redhat.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Oleg Nesterov <oleg@redhat.com>, Jan Kara <jack@suse.cz>,
-        Linux-MM <linux-mm@kvack.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v1 06/11] mm: support GUP-triggered unsharing via
- FAULT_FLAG_UNSHARE (!hugetlb)
-Message-ID: <Yb+xhZNp5RADRQ94@casper.infradead.org>
-References: <5A7D771C-FF95-465E-95F6-CD249FE28381@vmware.com>
- <CAHk-=wgMuSkumYxeaaxbKFoAbw_gjYo1eRXXSFcBHzNG2xauTA@mail.gmail.com>
- <CAHk-=whYT0Q1F=bxG0yi=LN5gXY64zBwefsbkLoRiP5p598d5A@mail.gmail.com>
- <fca16906-8e7d-5d04-6990-dfa8392bad8b@redhat.com>
- <Yb+gId/gXocrlJYD@casper.infradead.org>
- <CAHk-=wiAzmB-jiHvF+EZ1-b0X3ts4LAYHaVhzpzXEjmC0X95eg@mail.gmail.com>
- <Yb+oi8fg1dJe1uBm@casper.infradead.org>
- <CAHk-=wgLLRT_KeM5Se1AxGcf-g5MkCS-JmPy169Rpdeky_YkXg@mail.gmail.com>
- <Yb+r2W6RCKhO5toC@casper.infradead.org>
- <CAHk-=wibQevWUPb4V67gs0FsUBKO+bSMvp9tpOU3PM4Mg_4i4Q@mail.gmail.com>
+        with ESMTP id S234258AbhLTGsB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Dec 2021 01:48:01 -0500
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA54BC061574;
+        Sun, 19 Dec 2021 22:48:00 -0800 (PST)
+Received: by mail-lj1-x22c.google.com with SMTP id l7so14331395lja.2;
+        Sun, 19 Dec 2021 22:48:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OZK8I8DJMk78yfNAEBH1J2MfMzMrX2iK0Dh2ltSlAL0=;
+        b=ClCt5pr/wzbDlmKyld3PrMLzGHdkIWrGIBwRmxeSTqDgKHHJkKfWjpqHG52PJk+Fzw
+         d8890MKBRmbzGeQJXHyXqYXfbzMcSQvNrvVNUQNT32l4FRa3uLocDjaDeqMoDB3NNQis
+         UpjGFf9bga9feTIKZhNC+CacEYuMUfVJ+AZqb0vbXfbxd5hCqsLoKEa+A+/0xOjaQBy9
+         WoyBuNCpc9BXZl3pXylv0lLNKHRNwkE0gUYfBZlUDtVguaP8+9cGA1X2KGgXvlI/PMNE
+         o/L432R1GBvUzoL6RO3guDomxg2WV64he+1wIjDKZY9vqDsP2HRpkub6aqu7fOvTqFm7
+         IIdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OZK8I8DJMk78yfNAEBH1J2MfMzMrX2iK0Dh2ltSlAL0=;
+        b=yBMG3EtrqJP0N49eZLkB+61qLpUtXo0zvw/wXf/awoxscyxv31t3bYFZIspw+HKdxb
+         AkMmwhDWwVqDXL2WIG2Cpon73zuM01luNJLwamCDoJnYkuRgYS+lBT5hwGatN5ErizGO
+         0ImFYnW/aKcAm+9M6XcHOYVscCBUtadm16PgRvtXVRJFyhJoC6ftCxCUcjjHC6fd12PJ
+         cWilsFdA11VvwYCQzIdiiXNg4nONrIe8SIZM+yHo88tdEs1GZLIQutHrO8x8j+uiHHFh
+         0uhwBfmmPxroCalns7zSsu3GkwkzWyTFN5R6mkIL79z4H6dIsnd6K2g+AggPvxjlFn4s
+         bXuw==
+X-Gm-Message-State: AOAM530D/p4kBAecJ3EyjXyj4hsw7jtnVMfSd0Y72ub+RQsT74VkvgcC
+        9kREwG6z61KSqSmtGsAOpQ0=
+X-Google-Smtp-Source: ABdhPJyoFKqmYCoDbYJJPG//JduXI2jqovIzqUHIbZG7adJWjV+nOyc7kKa+DKRsQp1FqZTyvjBTdQ==
+X-Received: by 2002:a05:651c:2116:: with SMTP id a22mr8140675ljq.435.1639982878492;
+        Sun, 19 Dec 2021 22:47:58 -0800 (PST)
+Received: from localhost.lan (ip-194-187-74-233.konfederacka.maverick.com.pl. [194.187.74.233])
+        by smtp.gmail.com with ESMTPSA id z39sm210260lfu.52.2021.12.19.22.47.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Dec 2021 22:47:58 -0800 (PST)
+From:   =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>
+To:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>
+Subject: [PATCH 1/2] sysfs: add sysfs_add_bin_file_to_group()
+Date:   Mon, 20 Dec 2021 07:47:29 +0100
+Message-Id: <20211220064730.28806-1-zajec5@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wibQevWUPb4V67gs0FsUBKO+bSMvp9tpOU3PM4Mg_4i4Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Dec 19, 2021 at 02:12:04PM -0800, Linus Torvalds wrote:
-> On Sun, Dec 19, 2021 at 2:02 PM Matthew Wilcox <willy@infradead.org> wrote:
-> >
-> > I'd like to get rid of ->mapcount for file pages too.  And those are
-> > definitely never mapped in the majority of cases.
-> 
-> Fair enough.
-> 
-> You'd probably be better off checking "is this mapping mapped" though.
-> Because otherwise you have to get the page lock to serialize each
-> page.
+From: Rafał Miłecki <rafal@milecki.pl>
 
-Truncate already has the page locked, eg
-truncate_inode_pages_range()
-  find_lock_entries()
-  truncate_cleanup_page()
-    if (page_mapped(page))
-      unmap_mapping_page(page)
+There already is sysfs_add_file_to_group() for adding "attribute" to a
+group. This new function allows adding "bin_attribute" as well.
 
-I think anyone calling unmap_mapping_page() really ought to have the
-page lock.  Oh, we actually have an assert already to that effect ;-)
-        VM_BUG_ON(!PageLocked(page));
+Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
+---
+ fs/sysfs/file.c       | 31 +++++++++++++++++++++++++++----
+ include/linux/sysfs.h |  3 +++
+ 2 files changed, 30 insertions(+), 4 deletions(-)
+
+diff --git a/fs/sysfs/file.c b/fs/sysfs/file.c
+index 42dcf96881b6..30c798c38d89 100644
+--- a/fs/sysfs/file.c
++++ b/fs/sysfs/file.c
+@@ -376,14 +376,19 @@ EXPORT_SYMBOL_GPL(sysfs_create_files);
+  * @attr: attribute descriptor.
+  * @group: group name.
+  */
+-int sysfs_add_file_to_group(struct kobject *kobj,
+-		const struct attribute *attr, const char *group)
++int __sysfs_add_file_to_group(struct kobject *kobj,
++			      const struct attribute *attr,
++			      const struct bin_attribute *battr,
++			      const char *group)
+ {
+ 	struct kernfs_node *parent;
+ 	kuid_t uid;
+ 	kgid_t gid;
+ 	int error;
+ 
++	if (WARN_ON((attr && battr) || (!attr && !battr)))
++		return -EINVAL;
++
+ 	if (group) {
+ 		parent = kernfs_find_and_get(kobj->sd, group);
+ 	} else {
+@@ -395,14 +400,32 @@ int sysfs_add_file_to_group(struct kobject *kobj,
+ 		return -ENOENT;
+ 
+ 	kobject_get_ownership(kobj, &uid, &gid);
+-	error = sysfs_add_file_mode_ns(parent, attr, attr->mode, uid, gid,
+-				       NULL);
++	if (attr)
++		error = sysfs_add_file_mode_ns(parent, attr, attr->mode, uid,
++					       gid, NULL);
++	else
++		error = sysfs_add_bin_file_mode_ns(parent, battr, battr->attr.mode,
++						   uid, gid, NULL);
+ 	kernfs_put(parent);
+ 
+ 	return error;
+ }
++
++int sysfs_add_file_to_group(struct kobject *kobj, const struct attribute *attr,
++			    const char *group)
++{
++	return __sysfs_add_file_to_group(kobj, attr, NULL, group);
++}
+ EXPORT_SYMBOL_GPL(sysfs_add_file_to_group);
+ 
++int sysfs_add_bin_file_to_group(struct kobject *kobj,
++				const struct bin_attribute *battr,
++				const char *group)
++{
++	return __sysfs_add_file_to_group(kobj, NULL, battr, group);
++}
++EXPORT_SYMBOL_GPL(sysfs_add_bin_file_to_group);
++
+ /**
+  * sysfs_chmod_file - update the modified mode value on an object attribute.
+  * @kobj: object we're acting for.
+diff --git a/include/linux/sysfs.h b/include/linux/sysfs.h
+index e3f1e8ac1f85..9b4f9d405604 100644
+--- a/include/linux/sysfs.h
++++ b/include/linux/sysfs.h
+@@ -302,6 +302,9 @@ void sysfs_remove_groups(struct kobject *kobj,
+ 			 const struct attribute_group **groups);
+ int sysfs_add_file_to_group(struct kobject *kobj,
+ 			const struct attribute *attr, const char *group);
++int sysfs_add_bin_file_to_group(struct kobject *kobj,
++				const struct bin_attribute *battr,
++				const char *group);
+ void sysfs_remove_file_from_group(struct kobject *kobj,
+ 			const struct attribute *attr, const char *group);
+ int sysfs_merge_group(struct kobject *kobj,
+-- 
+2.31.1
 
