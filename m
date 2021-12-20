@@ -2,72 +2,78 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2DA3C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Dec 2021 11:24:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81E82C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Dec 2021 11:50:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230489AbhLTLYM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Dec 2021 06:24:12 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29]:54714 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230469AbhLTLYM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Dec 2021 06:24:12 -0500
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id 9AAA41F395;
-        Mon, 20 Dec 2021 11:24:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1639999450; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=wlTVl9ZK/wksVMHatLR7d5Sc5OZUko+D/2yNlrYuunk=;
-        b=WaPu+At9ZWDOgKK98/GxzQujaBbjzeQHm5ukEoTqa3FeB+5IbkkVae0HoWIO04tvUtKJcW
-        Uvy/VghxmMiPgtjaNAkvlmt+n/obUgC3H9q+ij2DNHybpv8ymvmvglbrO5FJwYNTGWz7eo
-        0CvZdsPt1vdlj8xl7aCYsNez02WWJuo=
-Received: from suse.cz (unknown [10.100.224.162])
+        id S230166AbhLTLuK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Dec 2021 06:50:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48896 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230121AbhLTLuK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Dec 2021 06:50:10 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82C74C061574;
+        Mon, 20 Dec 2021 03:50:10 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 6C688A3B81;
-        Mon, 20 Dec 2021 11:24:10 +0000 (UTC)
-Date:   Mon, 20 Dec 2021 12:24:10 +0100
-From:   Petr Mladek <pmladek@suse.com>
-To:     David Vernet <void@manifault.com>
-Cc:     live-patching@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, jpoimboe@redhat.com, jikos@kernel.org,
-        mbenes@suse.cz, joe.lawrence@redhat.com, corbet@lwn.net
-Subject: Re: [PATCH v2] Documentation: livepatch: Add livepatch API page
-Message-ID: <YcBn2mk2hUp4Zt0s@alley>
-References: <20211215174659.2332589-1-void@manifault.com>
- <YbsNcAKzRCxGqXUA@alley>
- <YbtUlkaWSQf4yCIb@dev0025.ash9.facebook.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1F9E660FEC;
+        Mon, 20 Dec 2021 11:50:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7C466C36AE9;
+        Mon, 20 Dec 2021 11:50:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1640001009;
+        bh=U/yA3URX3W3zu/xsOu9eXFZOpLHEIIhfebhdPhQ0L9E=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=JhH+174OlVxx6pHRAEKubT8h60aZy1fHA3Zbv4pLZeNfyCAZBXAf3Y/yDnCZgNxQr
+         MHzqmt9BA1BsnA5RaoEMJt6SlRFKMEFsVSXP9zf0cUw1QOqBuBEVlNx98Utr3sYhyr
+         Xtzroo4A3ZDUgKJaDv9gvdKauPYKKu3AQUkgS+wvOwodwZXe5IsXu8qxf06pZqDO0+
+         j7joQdjL6ozR/Q+rr39N50b3WhqqNJRoD/6L6YjH8WkT8EfL2i5a9U14KDHL61ulHQ
+         Mtj7qpQC0phx2cSE8hZNlaYqj76mLUoRqPcbU9NUwZAsK0y6P8QOdBR0OS/PgPwNyU
+         mK4Mlcy6VCtdw==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 5C8C160A6F;
+        Mon, 20 Dec 2021 11:50:09 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YbtUlkaWSQf4yCIb@dev0025.ash9.facebook.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] docs: networking: dpaa2: Fix DPNI header
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <164000100937.802.18160735404162601229.git-patchwork-notify@kernel.org>
+Date:   Mon, 20 Dec 2021 11:50:09 +0000
+References: <20211217174231.36419-1-sean.anderson@seco.com>
+In-Reply-To: <20211217174231.36419-1-sean.anderson@seco.com>
+To:     Sean Anderson <sean.anderson@seco.com>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org, stuyoder@gmail.com,
+        netdev@vger.kernel.org, davem@davemloft.net,
+        linux-kernel@vger.kernel.org, kuba@kernel.org,
+        laurentiu.tudor@nxp.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 2021-12-16 07:00:38, David Vernet wrote:
-> Petr Mladek <pmladek@suse.com> wrote on Thu [2021-Dec-16 10:57:04 +0100]:
-> 
-> > This change is not good. The function releases all existing shadow
-> > variables with the given @id for any @obj. And it is not longer clear.
-> 
-> > A solution would be replace '*' with something else, for example, < , id>.
-> 
-> I think this is better than just obj, but in my opinion this may be confusing
-> for readers and look like a typo. I think I prefer your second suggestion,
-> though obj really makes more sense in the case where we're actually passing an
-> @obj to the function. I'll probably (deservedly?) get lambasted for suggesting
-> this, but what about taking a page out of rust's book and doing something like
-> this:
-> 
->   * klp_shadow_free_all() - detach and free all <_, id> shadow variables
->   *		with the given @id.
-> 
-> to indicate that in this case we don't care about the obj. Even for a reader
-> unfamiliar with rust, hopefully it would get the point across.
+Hello:
 
-<_, id> looks good to me. And I not even familiar with rust ;-)
+This patch was applied to netdev/net.git (master)
+by David S. Miller <davem@davemloft.net>:
 
-Best Regards,
-Petr
+On Fri, 17 Dec 2021 12:42:31 -0500 you wrote:
+> The DPNI object should get its own header, like the rest of the objects.
+> 
+> Fixes: 60b91319a349 ("staging: fsl-mc: Convert documentation to rst format")
+> Signed-off-by: Sean Anderson <sean.anderson@seco.com>
+> ---
+> 
+>  .../device_drivers/ethernet/freescale/dpaa2/overview.rst         | 1 +
+>  1 file changed, 1 insertion(+)
+
+Here is the summary with links:
+  - docs: networking: dpaa2: Fix DPNI header
+    https://git.kernel.org/netdev/net/c/662f11d55ffd
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
