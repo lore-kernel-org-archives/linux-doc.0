@@ -2,244 +2,164 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50774C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 20 Dec 2021 15:24:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C50D9C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 20 Dec 2021 17:38:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237221AbhLTPYV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Dec 2021 10:24:21 -0500
-Received: from mga11.intel.com ([192.55.52.93]:58159 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235977AbhLTPXF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 20 Dec 2021 10:23:05 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10203"; a="237732829"
-X-IronPort-AV: E=Sophos;i="5.88,220,1635231600"; 
-   d="scan'208";a="237732829"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2021 07:16:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,220,1635231600"; 
-   d="scan'208";a="484086910"
-Received: from ranerica-svr.sc.intel.com ([172.25.110.23])
-  by orsmga002.jf.intel.com with ESMTP; 20 Dec 2021 07:16:06 -0800
-From:   Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-To:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        linux-pm@vger.kernel.org
-Cc:     x86@kernel.org, linux-doc@vger.kernel.org,
-        Len Brown <len.brown@intel.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Aubrey Li <aubrey.li@linux.intel.com>,
-        Amit Kucheria <amitk@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Tim Chen <tim.c.chen@linux.intel.com>,
-        Lukasz Luba <lukasz.luba@arm.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Ricardo Neri <ricardo.neri@intel.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 6/7] thermal: netlink: Add a new event to notify CPU capabilities change
-Date:   Mon, 20 Dec 2021 07:14:37 -0800
-Message-Id: <20211220151438.1196-7-ricardo.neri-calderon@linux.intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211220151438.1196-1-ricardo.neri-calderon@linux.intel.com>
-References: <20211220151438.1196-1-ricardo.neri-calderon@linux.intel.com>
+        id S233419AbhLTRio (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Dec 2021 12:38:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39892 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236696AbhLTRil (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Dec 2021 12:38:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1640021920;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=FTqh4/MwPrq1Z+d4aqOZ1nMLxXrSCTWu4CIR9IAv3Oc=;
+        b=XAUEd+sqW+yYDfIfpi1ERIDWb1HvreGW2QTTGuWCk+otol6pssQ5bC9C1qxOctDchgTFE2
+        fN2HpI/rjARiWjqhaOR8wZkEb4Vm5zWtXnx9Q0/j/FbzIHGXpRPwkEeqoSHrQNzdLcWSQr
+        wUubfKOkLCH410dnkn4iErzKwiEkEfc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-652-MHjPnU2POSC5_ERuldINFQ-1; Mon, 20 Dec 2021 12:38:38 -0500
+X-MC-Unique: MHjPnU2POSC5_ERuldINFQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8538792500;
+        Mon, 20 Dec 2021 17:38:37 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.132])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 15A0F5BE3B;
+        Mon, 20 Dec 2021 17:38:27 +0000 (UTC)
+From:   Cornelia Huck <cohuck@redhat.com>
+To:     Alex Williamson <alex.williamson@redhat.com>,
+        alex.williamson@redhat.com
+Cc:     jgg@nvidia.com, corbet@lwn.net, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, farman@linux.ibm.com,
+        mjrosato@linux.ibm.com, pasic@linux.ibm.com
+Subject: Re: [RFC PATCH] vfio: Update/Clarify migration uAPI, add NDMA state
+In-Reply-To: <163909282574.728533.7460416142511440919.stgit@omen>
+Organization: Red Hat GmbH
+References: <163909282574.728533.7460416142511440919.stgit@omen>
+User-Agent: Notmuch/0.34 (https://notmuchmail.org)
+Date:   Mon, 20 Dec 2021 18:38:26 +0100
+Message-ID: <87v8zjp46l.fsf@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+On Thu, Dec 09 2021, Alex Williamson <alex.williamson@redhat.com> wrote:
 
-Add a new netlink event to notify change in CPU capabilities in terms of
-performance and efficiency.
+> A new NDMA state is being proposed to support a quiescent state for
+> contexts containing multiple devices with peer-to-peer DMA support.
+> Formally define it.
 
-Firmware may change CPU capabilities as a result of thermal events in the
-system or to account for changes in the TDP (thermal design power) level.
+[I'm wondering if we would want to use NDMA in other cases as well. Just
+thinking out loud below.]
 
-This notification type will allow user space to avoid running workloads
-on certain CPUs or proactively adjust power limits to avoid future events.
+>
+> Clarify various aspects of the migration region data fields and
+> protocol.  Remove QEMU related terminology and flows from the uAPI;
+> these will be provided in Documentation/ so as not to confuse the
+> device_state bitfield with a finite state machine with restricted
+> state transitions.
+>
+> Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+> ---
+>  include/uapi/linux/vfio.h |  405 ++++++++++++++++++++++++---------------------
+>  1 file changed, 214 insertions(+), 191 deletions(-)
+>
+> diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
+> index ef33ea002b0b..1fdbc928f886 100644
+> --- a/include/uapi/linux/vfio.h
+> +++ b/include/uapi/linux/vfio.h
 
-The netlink message consists of a nested attribute
-(THERMAL_GENL_ATTR_CPU_CAPABILITY) with three attributes:
+(...)
 
- * THERMAL_GENL_ATTR_CPU_CAPABILITY_ID (type u32):
-   -- logical CPU number
- * THERMAL_GENL_ATTR_CPU_CAPABILITY_PERFORMANCE (type u32):
-   -- Scaled performance from 0-1023
- * THERMAL_GENL_ATTR_CPU_CAPABILITY_EFFICIENCY (type u32):
-   -- Scaled efficiency from 0-1023
+> + *   The device_state field defines the following bitfield use:
+> + *
+> + *     - Bit 0 (RUNNING) [REQUIRED]:
+> + *        - Setting this bit indicates the device is fully operational, the
+> + *          device may generate interrupts, DMA, respond to MMIO, all vfio
+> + *          device regions are functional, and the device may advance its
+> + *          internal state.  The default device_state must indicate the device
+> + *          in exclusively the RUNNING state, with no other bits in this field
+> + *          set.
+> + *        - Clearing this bit (ie. !RUNNING) must stop the operation of the
+> + *          device.  The device must not generate interrupts, DMA, or advance
+> + *          its internal state.  The user should take steps to restrict access
+> + *          to vfio device regions other than the migration region while the
+> + *          device is !RUNNING or risk corruption of the device migration data
+> + *          stream.  The device and kernel migration driver must accept and
+> + *          respond to interaction to support external subsystems in the
+> + *          !RUNNING state, for example PCI MSI-X and PCI config space.
+> + *          Failure by the user to restrict device access while !RUNNING must
+> + *          not result in error conditions outside the user context (ex.
+> + *          host system faults).
 
-Cc: Andi Kleen <ak@linux.intel.com>
-Cc: Aubrey Li <aubrey.li@linux.intel.com>
-Cc: Lukasz Luba <lukasz.luba@arm.com>
-Cc: Tim Chen <tim.c.chen@linux.intel.com>
-Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>
-Reviewed-by: Len Brown <len.brown@intel.com>
-Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
----
-Changes since v1:
-  * Reworded commit message.
-  * Reworded the members of struct cpu_capacity for clarity. (Lukasz)
-  * Defined the CPU capability attributes to be scaled in the [0, 1023]
-    interval. (Lukasz)
----
- drivers/thermal/thermal_netlink.c | 55 +++++++++++++++++++++++++++++++
- drivers/thermal/thermal_netlink.h | 13 ++++++++
- include/uapi/linux/thermal.h      |  6 +++-
- 3 files changed, 73 insertions(+), 1 deletion(-)
+If I consider ccw, this would mean that user space would need to stop
+writing to the regions that initiate start/halt/... when RUNNING is
+cleared (makes sense) and that the subchannel must be idle or even
+disabled (so that it does not become status pending). The question is,
+does it make sense to stop new requests and wait for the subchannel to
+become idle during the !RUNNING transition (or even forcefully kill
+outstanding I/O), or...
 
-diff --git a/drivers/thermal/thermal_netlink.c b/drivers/thermal/thermal_netlink.c
-index a16dd4d5d710..38e6c20f460c 100644
---- a/drivers/thermal/thermal_netlink.c
-+++ b/drivers/thermal/thermal_netlink.c
-@@ -43,6 +43,11 @@ static const struct nla_policy thermal_genl_policy[THERMAL_GENL_ATTR_MAX + 1] =
- 	[THERMAL_GENL_ATTR_CDEV_MAX_STATE]	= { .type = NLA_U32 },
- 	[THERMAL_GENL_ATTR_CDEV_NAME]		= { .type = NLA_STRING,
- 						    .len = THERMAL_NAME_LENGTH },
-+	/* CPU capabilities */
-+	[THERMAL_GENL_ATTR_CPU_CAPABILITY]		= { .type = NLA_NESTED },
-+	[THERMAL_GENL_ATTR_CPU_CAPABILITY_ID]		= { .type = NLA_U32 },
-+	[THERMAL_GENL_ATTR_CPU_CAPABILITY_PERFORMANCE]	= { .type = NLA_U32 },
-+	[THERMAL_GENL_ATTR_CPU_CAPABILITY_EFFICIENCY]	= { .type = NLA_U32 },
- };
- 
- struct param {
-@@ -58,6 +63,8 @@ struct param {
- 	int temp;
- 	int cdev_state;
- 	int cdev_max_state;
-+	struct cpu_capability *cpu_capabilities;
-+	int cpu_capabilities_count;
- };
- 
- typedef int (*cb_t)(struct param *);
-@@ -190,6 +197,45 @@ static int thermal_genl_event_gov_change(struct param *p)
- 	return 0;
- }
- 
-+static int thermal_genl_event_cpu_capability_change(struct param *p)
-+{
-+	struct cpu_capability *cpu_cap = p->cpu_capabilities;
-+	struct sk_buff *msg = p->msg;
-+	struct nlattr *start_cap;
-+	int i, ret;
-+
-+	start_cap = nla_nest_start(msg, THERMAL_GENL_ATTR_CPU_CAPABILITY);
-+	if (!start_cap)
-+		return -EMSGSIZE;
-+
-+	for (i = 0; i < p->cpu_capabilities_count; ++i) {
-+		if (nla_put_u32(msg, THERMAL_GENL_ATTR_CPU_CAPABILITY_ID,
-+				cpu_cap->cpu)) {
-+			ret = -EMSGSIZE;
-+			goto out_cancel_nest;
-+		}
-+		if (nla_put_u32(msg, THERMAL_GENL_ATTR_CPU_CAPABILITY_PERFORMANCE,
-+				cpu_cap->performance)) {
-+			ret = -EMSGSIZE;
-+			goto out_cancel_nest;
-+		}
-+		if (nla_put_u32(msg, THERMAL_GENL_ATTR_CPU_CAPABILITY_EFFICIENCY,
-+				cpu_cap->efficiency)) {
-+			ret = -EMSGSIZE;
-+			goto out_cancel_nest;
-+		}
-+		++cpu_cap;
-+	}
-+
-+	nla_nest_end(msg, start_cap);
-+
-+	return 0;
-+out_cancel_nest:
-+	nla_nest_cancel(msg, start_cap);
-+
-+	return ret;
-+}
-+
- int thermal_genl_event_tz_delete(struct param *p)
- 	__attribute__((alias("thermal_genl_event_tz")));
- 
-@@ -219,6 +265,7 @@ static cb_t event_cb[] = {
- 	[THERMAL_GENL_EVENT_CDEV_DELETE]	= thermal_genl_event_cdev_delete,
- 	[THERMAL_GENL_EVENT_CDEV_STATE_UPDATE]	= thermal_genl_event_cdev_state_update,
- 	[THERMAL_GENL_EVENT_TZ_GOV_CHANGE]	= thermal_genl_event_gov_change,
-+	[THERMAL_GENL_EVENT_CPU_CAPABILITY_CHANGE] = thermal_genl_event_cpu_capability_change,
- };
- 
- /*
-@@ -356,6 +403,14 @@ int thermal_notify_tz_gov_change(int tz_id, const char *name)
- 	return thermal_genl_send_event(THERMAL_GENL_EVENT_TZ_GOV_CHANGE, &p);
- }
- 
-+int thermal_genl_cpu_capability_event(int count, struct cpu_capability *caps)
-+{
-+	struct param p = { .cpu_capabilities_count = count, .cpu_capabilities = caps };
-+
-+	return thermal_genl_send_event(THERMAL_GENL_EVENT_CPU_CAPABILITY_CHANGE, &p);
-+}
-+EXPORT_SYMBOL_GPL(thermal_genl_cpu_capability_event);
-+
- /*************************** Command encoding ********************************/
- 
- static int __thermal_genl_cmd_tz_get_id(struct thermal_zone_device *tz,
-diff --git a/drivers/thermal/thermal_netlink.h b/drivers/thermal/thermal_netlink.h
-index e554f76291f4..44bc3dec5568 100644
---- a/drivers/thermal/thermal_netlink.h
-+++ b/drivers/thermal/thermal_netlink.h
-@@ -4,6 +4,12 @@
-  *  Author: Daniel Lezcano <daniel.lezcano@linaro.org>
-  */
- 
-+struct cpu_capability {
-+	int cpu;
-+	int performance;
-+	int efficiency;
-+};
-+
- /* Netlink notification function */
- #ifdef CONFIG_THERMAL_NETLINK
- int __init thermal_netlink_init(void);
-@@ -23,6 +29,7 @@ int thermal_notify_cdev_add(int cdev_id, const char *name, int max_state);
- int thermal_notify_cdev_delete(int cdev_id);
- int thermal_notify_tz_gov_change(int tz_id, const char *name);
- int thermal_genl_sampling_temp(int id, int temp);
-+int thermal_genl_cpu_capability_event(int count, struct cpu_capability *caps);
- #else
- static inline int thermal_netlink_init(void)
- {
-@@ -101,4 +108,10 @@ static inline int thermal_genl_sampling_temp(int id, int temp)
- {
- 	return 0;
- }
-+
-+static inline int thermal_genl_cpu_capability_event(int count, struct cpu_capability *caps)
-+{
-+	return 0;
-+}
-+
- #endif /* CONFIG_THERMAL_NETLINK */
-diff --git a/include/uapi/linux/thermal.h b/include/uapi/linux/thermal.h
-index 9aa2fedfa309..fc78bf3aead7 100644
---- a/include/uapi/linux/thermal.h
-+++ b/include/uapi/linux/thermal.h
-@@ -44,7 +44,10 @@ enum thermal_genl_attr {
- 	THERMAL_GENL_ATTR_CDEV_MAX_STATE,
- 	THERMAL_GENL_ATTR_CDEV_NAME,
- 	THERMAL_GENL_ATTR_GOV_NAME,
--
-+	THERMAL_GENL_ATTR_CPU_CAPABILITY,
-+	THERMAL_GENL_ATTR_CPU_CAPABILITY_ID,
-+	THERMAL_GENL_ATTR_CPU_CAPABILITY_PERFORMANCE,
-+	THERMAL_GENL_ATTR_CPU_CAPABILITY_EFFICIENCY,
- 	__THERMAL_GENL_ATTR_MAX,
- };
- #define THERMAL_GENL_ATTR_MAX (__THERMAL_GENL_ATTR_MAX - 1)
-@@ -71,6 +74,7 @@ enum thermal_genl_event {
- 	THERMAL_GENL_EVENT_CDEV_DELETE,		/* Cdev unbound */
- 	THERMAL_GENL_EVENT_CDEV_STATE_UPDATE,	/* Cdev state updated */
- 	THERMAL_GENL_EVENT_TZ_GOV_CHANGE,	/* Governor policy changed  */
-+	THERMAL_GENL_EVENT_CPU_CAPABILITY_CHANGE,	/* CPU capability changed */
- 	__THERMAL_GENL_EVENT_MAX,
- };
- #define THERMAL_GENL_EVENT_MAX (__THERMAL_GENL_EVENT_MAX - 1)
--- 
-2.17.1
+> + *     - Bit 1 (SAVING) [REQUIRED]:
+> + *        - Setting this bit enables and initializes the migration region data
+> + *          window and associated fields within vfio_device_migration_info for
+> + *          capturing the migration data stream for the device.  The migration
+> + *          driver may perform actions such as enabling dirty logging of device
+> + *          state with this bit.  The SAVING bit is mutually exclusive with the
+> + *          RESUMING bit defined below.
+> + *        - Clearing this bit (ie. !SAVING) de-initializes the migration region
+> + *          data window and indicates the completion or termination of the
+> + *          migration data stream for the device.
+> + *     - Bit 2 (RESUMING) [REQUIRED]:
+> + *        - Setting this bit enables and initializes the migration region data
+> + *          window and associated fields within vfio_device_migration_info for
+> + *          restoring the device from a migration data stream captured from a
+> + *          SAVING session with a compatible device.  The migration driver may
+> + *          perform internal device resets as necessary to reinitialize the
+> + *          internal device state for the incoming migration data.
+> + *        - Clearing this bit (ie. !RESUMING) de-initializes the migration
+> + *          region data window and indicates the end of a resuming session for
+> + *          the device.  The kernel migration driver should complete the
+> + *          incorporation of data written to the migration data window into the
+> + *          device internal state and perform final validity and consistency
+> + *          checking of the new device state.  If the user provided data is
+> + *          found to be incomplete, inconsistent, or otherwise invalid, the
+> + *          migration driver must indicate a write(2) error and follow the
+> + *          previously described protocol to return either the previous state
+> + *          or an error state.
+> + *     - Bit 3 (NDMA) [OPTIONAL]:
+> + *        The NDMA or "No DMA" state is intended to be a quiescent state for
+> + *        the device for the purposes of managing multiple devices within a
+> + *        user context where peer-to-peer DMA between devices may be active.
+> + *        Support for the NDMA bit is indicated through the presence of the
+> + *        VFIO_REGION_INFO_CAP_MIG_NDMA capability as reported by
+> + *        VFIO_DEVICE_GET_REGION_INFO for the associated device migration
+> + *        region.
+> + *        - Setting this bit must prevent the device from initiating any
+> + *          new DMA or interrupt transactions.  The migration driver must
+> + *          complete any such outstanding operations prior to completing
+> + *          the transition to the NDMA state.  The NDMA device_state
+> + *          essentially represents a sub-set of the !RUNNING state for the
+> + *          purpose of quiescing the device, therefore the NDMA device_state
+> + *          bit is superfluous in combinations including !RUNNING.
+> + *        - Clearing this bit (ie. !NDMA) negates the device operational
+> + *          restrictions required by the NDMA state.
+
+...should we use NDMA as the "stop new requests" state, but allow
+running channel programs to conclude? I'm not entirely sure whether
+that's in the spirit of NDMA (subchannels are independent of each
+other), but it would be kind of "quiescing" already.
+
+(We should probably clarify things like that in the Documentation/
+file.)
 
