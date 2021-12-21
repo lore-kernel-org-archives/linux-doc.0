@@ -2,137 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB235C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Dec 2021 03:46:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B022C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Dec 2021 06:33:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229975AbhLUDqS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Dec 2021 22:46:18 -0500
-Received: from szxga08-in.huawei.com ([45.249.212.255]:30083 "EHLO
-        szxga08-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230090AbhLUDqS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Dec 2021 22:46:18 -0500
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.57])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4JJ2NX6d3bz1DJrQ;
-        Tue, 21 Dec 2021 11:43:08 +0800 (CST)
-Received: from dggpemm500002.china.huawei.com (7.185.36.229) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 21 Dec 2021 11:46:16 +0800
-Received: from localhost.localdomain.localdomain (10.175.113.25) by
- dggpemm500002.china.huawei.com (7.185.36.229) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 21 Dec 2021 11:46:15 +0800
-From:   Xiongfeng Wang <wangxiongfeng2@huawei.com>
-To:     <will@kernel.org>, <catalin.marinas@arm.com>,
-        <mark.rutland@arm.com>, <peterz@infradead.org>, <corbet@lwn.net>
-CC:     <linux-arm-kernel@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <moyufeng@huawei.com>, <wangxiongfeng2@huawei.com>,
-        <linux-arch@vger.kernel.org>
-Subject: [PATCH v2] asm-generic: introduce io_stop_wc() and add implementation for ARM64
-Date:   Tue, 21 Dec 2021 11:55:56 +0800
-Message-ID: <20211221035556.60346-1-wangxiongfeng2@huawei.com>
-X-Mailer: git-send-email 2.20.1
+        id S231266AbhLUGdU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Dec 2021 01:33:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49188 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230245AbhLUGdT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Dec 2021 01:33:19 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C00AC061574;
+        Mon, 20 Dec 2021 22:33:19 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 482AEB811B9;
+        Tue, 21 Dec 2021 06:33:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43E09C36AE7;
+        Tue, 21 Dec 2021 06:33:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1640068397;
+        bh=sqdD4l3YdmDTHMiDXy/DbNEAuliZZYuv8jzGcByEzeA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=kc1FKVdYpx2u2E2SspdWsPJDJsDM0o+0jHuHp/VSjQw2s0m6lTSz7Sb2FvOoCLcG1
+         tCgW7LBlFNCuY/Z/rRz98pu6JCUNszDf9WwmRXDh3+lLjk0FbrSVEbx+S0SvHgoOTs
+         PEPpmr4m4avCAUg0KDhqCQCx83m0IopBMBm/LxeA=
+Date:   Tue, 21 Dec 2021 07:33:14 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+Cc:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+Subject: Re: [PATCH 2/2] nvmem: expose NVMEM cells in sysfs
+Message-ID: <YcF1Kizcvgqa9ZT4@kroah.com>
+References: <20211220064730.28806-1-zajec5@gmail.com>
+ <20211220064730.28806-2-zajec5@gmail.com>
+ <YcA4ArALDTjUedrb@kroah.com>
+ <c49f2d6d-7974-5bc7-9bc1-ac265a23c2c0@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.113.25]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500002.china.huawei.com (7.185.36.229)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c49f2d6d-7974-5bc7-9bc1-ac265a23c2c0@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-For memory accesses with write-combining attributes (e.g. those returned
-by ioremap_wc()), the CPU may wait for prior accesses to be merged with
-subsequent ones. But in some situation, such wait is bad for the
-performance.
+On Mon, Dec 20, 2021 at 09:39:43PM +0100, Rafał Miłecki wrote:
+> Hi Greg,
+> 
+> On 20.12.2021 09:00, Greg Kroah-Hartman wrote:
+> > On Mon, Dec 20, 2021 at 07:47:30AM +0100, Rafał Miłecki wrote:
+> > >   static void nvmem_cell_entry_add(struct nvmem_cell_entry *cell)
+> > >   {
+> > > +	struct device *dev = &cell->nvmem->dev;
+> > > +	int err;
+> > > +
+> > >   	mutex_lock(&nvmem_mutex);
+> > >   	list_add_tail(&cell->node, &cell->nvmem->cells);
+> > >   	mutex_unlock(&nvmem_mutex);
+> > > +
+> > > +	sysfs_attr_init(&cell->battr.attr);
+> > > +	cell->battr.attr.name = cell->name;
+> > > +	cell->battr.attr.mode = 0400;
+> > > +	cell->battr.read = nvmem_cell_attr_read;
+> > > +	err = sysfs_add_bin_file_to_group(&dev->kobj, &cell->battr,
+> > > +					  nvmem_cells_group.name);
+> > 
+> > Why not just use the is_bin_visible attribute instead to determine if
+> > the attribute should be shown or not instead of having to add it
+> > after-the-fact which will race with userspace and loose?
+> 
+> I'm sorry I really don't see how you suggest to get it done.
+> 
+> I can use .is_bin_visible() callback indeed to respect nvmem->root_only.
 
-We introduce io_stop_wc() to prevent the merging of write-combining
-memory accesses before this macro with those after it.
+Great.
 
-We add implementation for ARM64 using DGH instruction and provide NOP
-implementation for other architectures.
+> I don't understand addig-after-the-fact part. How is .is_bin_visible()
+> related to adding attributes for newly created cells?
 
-Signed-off-by: Xiongfeng Wang <wangxiongfeng2@huawei.com>
-Suggested-by: Will Deacon <will@kernel.org>
-Suggested-by: Catalin Marinas <catalin.marinas@arm.com>
----
-v1->v2: change 'Normal-Non Cacheable' to 'write-combining'
----
- Documentation/memory-barriers.txt |  8 ++++++++
- arch/arm64/include/asm/barrier.h  |  9 +++++++++
- include/asm-generic/barrier.h     | 11 +++++++++++
- 3 files changed, 28 insertions(+)
+You are adding a sysfs attribute to a device that is already registered
+in the driver core, and so the creation of that attribute is never seen
+by userspace.  The attribute needs to be attached to the device _BEFORE_
+it is registered.
 
-diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
-index 7367ada13208..b12df9137e1c 100644
---- a/Documentation/memory-barriers.txt
-+++ b/Documentation/memory-barriers.txt
-@@ -1950,6 +1950,14 @@ There are some more advanced barrier functions:
-      For load from persistent memory, existing read memory barriers are sufficient
-      to ensure read ordering.
- 
-+ (*) io_stop_wc();
-+
-+     For memory accesses with write-combining attributes (e.g. those returned
-+     by ioremap_wc(), the CPU may wait for prior accesses to be merged with
-+     subsequent ones. io_stop_wc() can be used to prevent the merging of
-+     write-combining memory accesses before this macro with those after it when
-+     such wait has performance implications.
-+
- ===============================
- IMPLICIT KERNEL MEMORY BARRIERS
- ===============================
-diff --git a/arch/arm64/include/asm/barrier.h b/arch/arm64/include/asm/barrier.h
-index 1c5a00598458..62217be36217 100644
---- a/arch/arm64/include/asm/barrier.h
-+++ b/arch/arm64/include/asm/barrier.h
-@@ -26,6 +26,14 @@
- #define __tsb_csync()	asm volatile("hint #18" : : : "memory")
- #define csdb()		asm volatile("hint #20" : : : "memory")
- 
-+/*
-+ * Data Gathering Hint:
-+ * This instruction prevents merging memory accesses with Normal-NC or
-+ * Device-GRE attributes before the hint instruction with any memory accesses
-+ * appearing after the hint instruction.
-+ */
-+#define dgh()		asm volatile("hint #6" : : : "memory")
-+
- #ifdef CONFIG_ARM64_PSEUDO_NMI
- #define pmr_sync()						\
- 	do {							\
-@@ -46,6 +54,7 @@
- #define dma_rmb()	dmb(oshld)
- #define dma_wmb()	dmb(oshst)
- 
-+#define io_stop_wc()	dgh()
- 
- #define tsb_csync()								\
- 	do {									\
-diff --git a/include/asm-generic/barrier.h b/include/asm-generic/barrier.h
-index 640f09479bdf..4c2c1b830344 100644
---- a/include/asm-generic/barrier.h
-+++ b/include/asm-generic/barrier.h
-@@ -251,5 +251,16 @@ do {									\
- #define pmem_wmb()	wmb()
- #endif
- 
-+/*
-+ * ioremap_wc() maps I/O memory as memory with write-combining attributes. For
-+ * this kind of memory accesses, the CPU may wait for prior accesses to be
-+ * merged with subsequent ones. In some situation, such wait is bad for the
-+ * performance. io_stop_wc() can be used to prevent the merging of
-+ * write-combining memory accesses before this macro with those after it.
-+ */
-+#ifndef io_stop_wc
-+#define io_stop_wc do { } while (0)
-+#endif
-+
- #endif /* !__ASSEMBLY__ */
- #endif /* __ASM_GENERIC_BARRIER_H */
--- 
-2.20.1
+Also, huge hint, if a driver has to call as sysfs_*() call, something is
+wrong.
 
+> Do you mean I can
+> avoid calling sysfs_add_bin_file_to_group()?
+
+Yes.
+
+> Do you recall any existing example of such solution?
+
+Loads.
+
+Just add this attribute group to your driver as a default attribute
+group and the driver core will create it for you if needed.
+
+Or if you always need it, no need to mess sith is_bin_visible() at all,
+I can't really understand what you are trying to do here at all.
+
+thanks,
+
+greg k-h
