@@ -2,82 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A970C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Dec 2021 22:23:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56970C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Dec 2021 23:48:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233746AbhLUWXn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Dec 2021 17:23:43 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:57506 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230085AbhLUWXn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 21 Dec 2021 17:23:43 -0500
-Received: from zn.tnic (dslb-088-067-202-008.088.067.pools.vodafone-ip.de [88.67.202.8])
+        id S238128AbhLUXsT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Dec 2021 18:48:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33584 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229676AbhLUXsT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Dec 2021 18:48:19 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37768C061574;
+        Tue, 21 Dec 2021 15:48:19 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id B21A51EC04F0;
-        Tue, 21 Dec 2021 23:23:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1640125417;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=+O0s3awTUfaTqDNJAoHb8Lz3/d+d4qogTrV38e7gPeU=;
-        b=kddB+2HJyC5J7VPL8ewYZNG1hXr1cSXKktuPdANFMEbNIeSgiD9ofyZCV+bUP9p3m3DnBu
-        DjVmGIWcSRqLhvIWxyZlqXgOiqvbmMIyi1EAgX4LaOgQ5PuJ5XInOgK3ZpudFnUiCCKlF6
-        eSiy/61yh0Fvks9pB7VdYQXcMaphCcg=
-Date:   Tue, 21 Dec 2021 23:23:38 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Cc:     Baoquan He <bhe@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
-        Dave Young <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        kexec@lists.infradead.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>
-Subject: Re: [PATCH v17 03/10] x86: kdump: use macro CRASH_ADDR_LOW_MAX in
- functions reserve_crashkernel()
-Message-ID: <YcJT6lylm1KZ6Hdc@zn.tnic>
-References: <20211210065533.2023-1-thunder.leizhen@huawei.com>
- <20211210065533.2023-4-thunder.leizhen@huawei.com>
- <YbntdtQo2jfbO4cO@zn.tnic>
- <20211216011040.GG3023@MiWiFi-R3L-srv>
- <9513d74c-d4c7-babd-f823-8999e195d96d@huawei.com>
- <YbseAX6X1VHUF12f@zn.tnic>
- <35810a61-604e-9b90-2a7f-cfca6ae042ac@huawei.com>
- <YbtRs3Tq1UpCOpg8@zn.tnic>
- <d2b199b7-584e-8ad4-9626-09bb86cf92c5@huawei.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <d2b199b7-584e-8ad4-9626-09bb86cf92c5@huawei.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 928CE617CD;
+        Tue, 21 Dec 2021 23:48:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80971C36AE9;
+        Tue, 21 Dec 2021 23:48:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1640130497;
+        bh=nkeYhgSpZg8GwUUiGealAh8ivf01200zRJ3+PYAI5F8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Lh6ssbN33FYDgwbEi+9vBxlu2T+MOua02MEpGQyzfKN01ZRCBbrE/do8B3o+73fsR
+         Z/47DiCxrv85LJV0vBqhK6XzEiveRpNugmpuo7OJzQI7cDSCI3pIIXZ/g+p5kHEyEm
+         GljPIXcmGYGWNt9J0C6wHsaoV3BaRvcQ9SyvolDo=
+Date:   Tue, 21 Dec 2021 15:48:16 -0800
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc:     Luis Chamberlain <mcgrof@kernel.org>,
+        Feng Tang <feng.tang@intel.com>, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        keescook@chromium.org, yzaikin@google.com, siglesias@igalia.com,
+        kernel@gpiccoli.net
+Subject: Re: [PATCH 2/3] panic: Add option to dump all CPUs backtraces in
+ panic_print
+Message-Id: <20211221154816.4a7472c55073d06df0c25f74@linux-foundation.org>
+In-Reply-To: <911e81d3-5ffe-b936-f668-bf1f6a9b6cfb@igalia.com>
+References: <20211109202848.610874-1-gpiccoli@igalia.com>
+        <20211109202848.610874-3-gpiccoli@igalia.com>
+        <20211130051206.GB89318@shbuild999.sh.intel.com>
+        <6f269857-2cbe-b4dd-714a-82372dc3adfc@igalia.com>
+        <Yb+R/OVeBkdYLWeH@bombadil.infradead.org>
+        <911e81d3-5ffe-b936-f668-bf1f6a9b6cfb@igalia.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 17, 2021 at 10:51:04AM +0800, Leizhen (ThunderTown) wrote:
-> [KNL, X86-64], This doc is for X86-64, not for X86-32
+On Mon, 20 Dec 2021 09:38:23 -0300 "Guilherme G. Piccoli" <gpiccoli@igalia.com> wrote:
 
-reserve_crashkernel() runs on both.
+> On 19/12/2021 17:11, Luis Chamberlain wrote:
+> > mcgrof@sumo ~/linux-next (git::master)$ ./scripts/get_maintainer.pl
+> > kernel/printk/
+> > Petr Mladek <pmladek@suse.com> (maintainer:PRINTK)
+> > Sergey Senozhatsky <senozhatsky@chromium.org> (maintainer:PRINTK)
+> > Steven Rostedt <rostedt@goodmis.org> (reviewer:PRINTK)
+> > John Ogness <john.ogness@linutronix.de> (reviewer:PRINTK)
+> > linux-kernel@vger.kernel.org (open list)    
+> > 
+> > So I suggest you email the patches to those.
+> > 
+> >   Luis
+> > 
+> 
+> Hi Luis, thank you! But I confess I'm very confused with this series. I
+> saw emails from Andrew that the patches had been accepted and were
+> available in -mm tree ([0] for example) but I'm not seeing them in
+> linux-next nor mmotm/mmots (although I saw them in mmotm directory for a
+> while before).
+> 
+> Andrew, could you clarify the state of them?
 
-> If there is no such restriction, we can make CRASH_ADDR_LOW_MAX equal
-> to (1ULL << 32) minus 1 on X86_32.
-
-Again, the 4G limit check is relevant only for 64-bit kernels - not
-32-bit ones.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+They'll turn up on ozlabs after I've tested it all then uploaded.  I do
+this a couple of times a week, approx.
