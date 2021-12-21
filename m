@@ -2,90 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B548C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Dec 2021 09:17:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96C05C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Dec 2021 11:14:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236231AbhLUJRp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Dec 2021 04:17:45 -0500
-Received: from mout.kundenserver.de ([212.227.126.133]:48633 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236229AbhLUJRp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Dec 2021 04:17:45 -0500
-Received: from mail-wr1-f49.google.com ([209.85.221.49]) by
- mrelayeu.kundenserver.de (mreue012 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1MpTpc-1mgmBH2Ywu-00prv9; Tue, 21 Dec 2021 10:17:43 +0100
-Received: by mail-wr1-f49.google.com with SMTP id v7so18221107wrv.12;
-        Tue, 21 Dec 2021 01:17:43 -0800 (PST)
-X-Gm-Message-State: AOAM532cLczbJqgvgXFFTh0sy4wUIyQzFBKtlI+h0FFCk+/I1J9ekMJO
-        FOdEfS7IRdrPYL/DVgbvtgCgF/TfKojn4LSJCjk=
-X-Google-Smtp-Source: ABdhPJzSg/DkO5oE3IpvcWojgUNLOt2TpzC+WZUyEhNexs7m69kqA5tNkN9T2lwEeM1LC0W2EFxg+0+V0IHyS9nfo1w=
-X-Received: by 2002:a5d:6989:: with SMTP id g9mr1803113wru.12.1640078263218;
- Tue, 21 Dec 2021 01:17:43 -0800 (PST)
+        id S236962AbhLULO2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Dec 2021 06:14:28 -0500
+Received: from mx1.riseup.net ([198.252.153.129]:56436 "EHLO mx1.riseup.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236868AbhLULO1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 21 Dec 2021 06:14:27 -0500
+Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+         client-signature RSA-PSS (2048 bits) client-digest SHA256)
+        (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+        by mx1.riseup.net (Postfix) with ESMTPS id 4JJDPH325mzF3M0;
+        Tue, 21 Dec 2021 03:14:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+        t=1640085267; bh=Tj7iDTGSZ1xlUXWpqXU32Hng6QzgDXW5tIS0pS0Kbs4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=XDR2T6O84QOGYQeNLU5wY9ClmTFM8QtzmIPJ6Xf/ilesCGkDKctltwaOVeow1WVJt
+         7juy3fToPKNyutjw+HuI0ejd+Jo16MFo5P9fbhI57IYPfF6ch02hgFeyFXSqHgrP1D
+         A8mMaoAEGHqC895qNm1DJDafI0y4doqkD4oLPnO0=
+X-Riseup-User-ID: 74F20129CF832BA4FA580CC3FA543893C8361B0903A70FFC32D09A5EAD0041D6
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+         by fews2.riseup.net (Postfix) with ESMTPSA id 4JJDPD4ydKz1yT2;
+        Tue, 21 Dec 2021 03:14:24 -0800 (PST)
+From:   Fernando Fernandez Mancera <ffmancera@riseup.net>
+To:     netdev@vger.kernel.org
+Cc:     j.vosburgh@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org,
+        vfalico@gmail.com, kuba@kernel.org, davem@davemloft.net,
+        andy@greyhouse.net,
+        Fernando Fernandez Mancera <ffmancera@riseup.net>,
+        Jay Vosburgh <jay.vosburgh@canonical.com>
+Subject: [PATCH net v4] bonding: fix ad_actor_system option setting to default
+Date:   Tue, 21 Dec 2021 12:13:45 +0100
+Message-Id: <20211221111345.2462-1-ffmancera@riseup.net>
 MIME-Version: 1.0
-References: <20211221035556.60346-1-wangxiongfeng2@huawei.com>
-In-Reply-To: <20211221035556.60346-1-wangxiongfeng2@huawei.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Tue, 21 Dec 2021 10:17:27 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a2fBdh2kPDo8UGHBD0MhF5k_DoomqUaW+=ZOgksKmGg5A@mail.gmail.com>
-Message-ID: <CAK8P3a2fBdh2kPDo8UGHBD0MhF5k_DoomqUaW+=ZOgksKmGg5A@mail.gmail.com>
-Subject: Re: [PATCH v2] asm-generic: introduce io_stop_wc() and add
- implementation for ARM64
-To:     Xiongfeng Wang <wangxiongfeng2@huawei.com>
-Cc:     Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Yufeng Mo <moyufeng@huawei.com>,
-        linux-arch <linux-arch@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:5MHFck5vnwG8jhfhBH+Q7Xxq+xcPqesO01jOoFKMDNvEqNKBcYU
- x2t82qOX8py4EBFyHHdxUwhqEXVGQOMiOWizlaM3WF/R08gxaE+b9Y0FhaL6XupE1Pdn5he
- D9Y3lxhWmARelPWJFK37XVZPKfsRkJAxSecbAzjk9LlIGVzdnPyh+6obynUjK0I0Jabdq6C
- 5wtnaVzbInaaGVskZLsxw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:MBdxIucVV0U=:ykaQsqWYHGiIqkqflWph+c
- wRm1TVXsyTLIBkdQrgrQA+qmK+wJP/e6OSnHD8T82MuINe8fWj2z4rx1GAblxKkoD9BUaCEsX
- US43uepTHMM3k1Yh560Pe6QbMgEixTT5ATa+/Ek1tnC7nuVze8Pd/TFU1eJl8Ker3gV07pv6X
- k7vPTooiUwe6TvfV0bIQc72MygY9SdmIfCdJrZHT0Ou9Oba7XHuIeriXsl/POSlEMczvi7gKS
- 5F0K6UyyNvMwok61hKsmIj2IrycFTg/Qq/Jf4DCbhpSD4ZmVLJc5Sg5uQ1qLbc8lTSladUijS
- VhmFYXP61k5+VvSkMw9pIhLSaWzGM9qPP9PNnZKZKx/ipdgLcCSNXS8TJYdCLOxFyC5CmKGZa
- qMUZLToAIHLp6Jpb2nrseiyvsb7Koz6JeuBmkt7cZNMotX7i8FAVHlZDVrdqdl+wvSMQN8xCj
- m0rX2qSrZdKV+jNNpS4nC6YV/uG85Y/1IPuKYKT3BPy9xOfQ7e5W19GWTBG5OPXfj0jYeyGd3
- CpsnOG6CawLLdu0Fx0zwCxMMOS34VdmS7IdJP6o934bajUKFvXVhu0KyFTiTUm07fBt6nR/5V
- 6vm9BwBK4F0ARpch7GCj1V5fFIU+yuXyMLtPBOyUCLh/XXiHEsGRIZYB8TybOqlLezUdDEY2m
- e8nP81hqWPCJCu+tMTGTdxRyZvg6Ek12+LQsMbIPkQgMTJFjX/KGjjkts8jzXhxPAewo03YLy
- 6aaI+spTL4ZfDin1TTf6MF3x/iTajdXN77GejJtOFc4e1Hom+gZoECbsUHtn+gW8L7nEbIkSu
- A9dhru8C4vgS8GObEOAIn5/COOguszlyXsdmVVuwt1AqmuoHTw=
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 21, 2021 at 4:55 AM Xiongfeng Wang
-<wangxiongfeng2@huawei.com> wrote:
->
-> For memory accesses with write-combining attributes (e.g. those returned
-> by ioremap_wc()), the CPU may wait for prior accesses to be merged with
-> subsequent ones. But in some situation, such wait is bad for the
-> performance.
->
-> We introduce io_stop_wc() to prevent the merging of write-combining
-> memory accesses before this macro with those after it.
->
-> We add implementation for ARM64 using DGH instruction and provide NOP
-> implementation for other architectures.
->
-> Signed-off-by: Xiongfeng Wang <wangxiongfeng2@huawei.com>
-> Suggested-by: Will Deacon <will@kernel.org>
-> Suggested-by: Catalin Marinas <catalin.marinas@arm.com>
-> ---
-> v1->v2: change 'Normal-Non Cacheable' to 'write-combining'
+When 802.3ad bond mode is configured the ad_actor_system option is set to
+"00:00:00:00:00:00". But when trying to set the all-zeroes MAC as actors'
+system address it was failing with EINVAL.
 
-For asm-generic:
+An all-zeroes ethernet address is valid, only multicast addresses are not
+valid values.
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+Fixes: 171a42c38c6e ("bonding: add netlink support for sys prio, actor sys mac, and port key")
+Signed-off-by: Fernando Fernandez Mancera <ffmancera@riseup.net>
+Acked-by: Jay Vosburgh <jay.vosburgh@canonical.com>
+---
+v2: added documentation changes and modified commit message
+v3: fixed format warning on commit message
+v4: added fixes tag and ACK from Jay Vosburgh
+---
+ Documentation/networking/bonding.rst | 11 ++++++-----
+ drivers/net/bonding/bond_options.c   |  2 +-
+ 2 files changed, 7 insertions(+), 6 deletions(-)
 
-Will, Catalin: if you are happy with this version, please merge it through the
-arm64 tree.
+diff --git a/Documentation/networking/bonding.rst b/Documentation/networking/bonding.rst
+index 31cfd7d674a6..c0a789b00806 100644
+--- a/Documentation/networking/bonding.rst
++++ b/Documentation/networking/bonding.rst
+@@ -196,11 +196,12 @@ ad_actor_sys_prio
+ ad_actor_system
+ 
+ 	In an AD system, this specifies the mac-address for the actor in
+-	protocol packet exchanges (LACPDUs). The value cannot be NULL or
+-	multicast. It is preferred to have the local-admin bit set for this
+-	mac but driver does not enforce it. If the value is not given then
+-	system defaults to using the masters' mac address as actors' system
+-	address.
++	protocol packet exchanges (LACPDUs). The value cannot be a multicast
++	address. If the all-zeroes MAC is specified, bonding will internally
++	use the MAC of the bond itself. It is preferred to have the
++	local-admin bit set for this mac but driver does not enforce it. If
++	the value is not given then system defaults to using the masters'
++	mac address as actors' system address.
+ 
+ 	This parameter has effect only in 802.3ad mode and is available through
+ 	SysFs interface.
+diff --git a/drivers/net/bonding/bond_options.c b/drivers/net/bonding/bond_options.c
+index a8fde3bc458f..b93337b5a721 100644
+--- a/drivers/net/bonding/bond_options.c
++++ b/drivers/net/bonding/bond_options.c
+@@ -1526,7 +1526,7 @@ static int bond_option_ad_actor_system_set(struct bonding *bond,
+ 		mac = (u8 *)&newval->value;
+ 	}
+ 
+-	if (!is_valid_ether_addr(mac))
++	if (is_multicast_ether_addr(mac))
+ 		goto err;
+ 
+ 	netdev_dbg(bond->dev, "Setting ad_actor_system to %pM\n", mac);
+-- 
+2.30.2
+
