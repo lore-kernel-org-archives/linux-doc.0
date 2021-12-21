@@ -2,750 +2,177 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAEE5C43217
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Dec 2021 15:46:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEF90C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Dec 2021 17:05:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236739AbhLUPq6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Dec 2021 10:46:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36490 "EHLO
+        id S232903AbhLURFy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Dec 2021 12:05:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236691AbhLUPq5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Dec 2021 10:46:57 -0500
-Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10355C06173F
-        for <linux-doc@vger.kernel.org>; Tue, 21 Dec 2021 07:46:57 -0800 (PST)
-Received: by mail-qt1-x82b.google.com with SMTP id z9so13209755qtj.9
-        for <linux-doc@vger.kernel.org>; Tue, 21 Dec 2021 07:46:57 -0800 (PST)
+        with ESMTP id S232043AbhLURFy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Dec 2021 12:05:54 -0500
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91259C061574
+        for <linux-doc@vger.kernel.org>; Tue, 21 Dec 2021 09:05:53 -0800 (PST)
+Received: by mail-lf1-x131.google.com with SMTP id bu9so9261193lfb.7
+        for <linux-doc@vger.kernel.org>; Tue, 21 Dec 2021 09:05:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=cI7YVBo+Cohe6VKMVjfceS0qoE/CwWGaUs+lrS/IFhw=;
-        b=j9YnSfPBq3Uj1s+FVmAJaDYoGxPz4B7+SyaV0NM2+GjRboMUIbJXQqvyzkDSGOukFa
-         G13jNSIoE5JSsqf5nBU0FqbHa9KrtdU6umw3dBV9vcEhWI7LLFlZJIogNi02qvXShmyb
-         BrJbgiabYSHPmwtNSqZptFzHSSMUXQ0K43QGHpgwwzjHnfGsw6ivu0gwMnXPKMgpegyQ
-         3st+WrYpN6vJwHS2IjdBsqwM3Q2yaIXybCHMdgSkVbheFO/d7NA+CPpp1EUJRxby+oI2
-         8vUqw9UWOubI2AVpG5Zd9hNotCKDe5nyKukLEyTc5fCxQpEjeSb+IkFTOZ2fsFMdeB+y
-         kPtg==
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Tpumo0oZR7f+gDBFHqsREUmpm9cZIvo2yly46BhRCj0=;
+        b=GnWHKkT8GouwFL0+uYYjXFlw6cUV9SMjR9tfE+ltAxKnlGj6O8fPiy0df016fPcBVF
+         ur7H0ohhQUm1jlCOawmSbmrG+S5D2KrKNMVbGo+rAxsmydeS+L3Nov+E+gzmxlPWmQWG
+         XXN1CVC9l1BhNxY+GTrFGrL4Fw1U5HMdxtV74=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=cI7YVBo+Cohe6VKMVjfceS0qoE/CwWGaUs+lrS/IFhw=;
-        b=bBK86jwVgIAq4nzuYKD5qLGCGkmAA6Bi4R0VMg5kaqL9zzUb6FHrB5DAU3/F7pxI8A
-         AXr2uFN0eobg3cdl+V70bnwbodxAMx1gcoOhWPgjbnOSDZi/Zl3EffiEC+LN4q5t/cUj
-         N1bvjDw5vzJRxrIfWgJXH0BFDLyD2Y8MsyAT10D4nTxoe0NrMcYwUuuSvvuDd85wUn4i
-         n4LFZvdsl3pblz93hxmN1YJo03YypTFMZ4Q3E3smthtFTwLk3wzU52n3MW1asY4dgSE7
-         nEMg3nv/0LAhXdmhB2sHB6qBaFZjSkM2GIxrUkJGtQhksVcmOEgPyik0zitIwn/A2Wml
-         8DxQ==
-X-Gm-Message-State: AOAM531/qK0C5yZdws56w97WuYWjG0cs6bJCVL22z+kcNtSXaJbVPzWv
-        4UD4spul0po0qoh7ny+8XIFpdA==
-X-Google-Smtp-Source: ABdhPJwlMJHxT8pjC4T4DgGsxuBW0b2SGWQjuWAGtDd4XhfZroIVquyM1GZwaRX9tJWbgpmt03OfTQ==
-X-Received: by 2002:a05:622a:54d:: with SMTP id m13mr2685987qtx.33.1640101616027;
-        Tue, 21 Dec 2021 07:46:56 -0800 (PST)
-Received: from soleen.c.googlers.com.com (189.216.85.34.bc.googleusercontent.com. [34.85.216.189])
-        by smtp.gmail.com with ESMTPSA id d20sm224588qtg.73.2021.12.21.07.46.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Dec 2021 07:46:55 -0800 (PST)
-From:   Pasha Tatashin <pasha.tatashin@soleen.com>
-To:     pasha.tatashin@soleen.com, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        akpm@linux-foundation.org, rientjes@google.com, pjt@google.com,
-        weixugc@google.com, gthelen@google.com, mingo@redhat.com,
-        corbet@lwn.net, will@kernel.org, rppt@kernel.org,
-        keescook@chromium.org, tglx@linutronix.de, peterz@infradead.org,
-        masahiroy@kernel.org, samitolvanen@google.com,
-        dave.hansen@linux.intel.com, x86@kernel.org, frederic@kernel.org,
-        hpa@zytor.com, aneesh.kumar@linux.ibm.com, jirislaby@kernel.org,
-        songmuchun@bytedance.com, qydwhotmail@gmail.com, hughd@google.com
-Subject: [PATCH v3 3/4] mm: page table check
-Date:   Tue, 21 Dec 2021 15:46:49 +0000
-Message-Id: <20211221154650.1047963-4-pasha.tatashin@soleen.com>
-X-Mailer: git-send-email 2.34.1.307.g9b7440fafd-goog
-In-Reply-To: <20211221154650.1047963-1-pasha.tatashin@soleen.com>
-References: <20211221154650.1047963-1-pasha.tatashin@soleen.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Tpumo0oZR7f+gDBFHqsREUmpm9cZIvo2yly46BhRCj0=;
+        b=uTL0EOhCGvgDsg10r9pGLAHm39vOeLnLkPp1FdLxwhcxbcVR64knf3TTjHYJM58WTq
+         Rqt2Frp0/fMVwslR3PZDr8kadyBXfaPctx0SBoso0OC9YwsMAmlum0SxNGjLZL4Fvi9Y
+         yCa1u6J6AhO6zY22M/cjtSEV3nBeQ4Ht2JeDZm+faA16gHNtOU9uMAlo9jpYI/BNjBdI
+         5x7dpFjYuu9ajM22r+OQ0sbvPfqz1r15FqgUgZrd0HbGsdrLVOHy830pduPwjmNmWtv9
+         cK6gznpNyYlYdR5Lv7I8EqPCNmatIPexv1gZDIlBY7VZ6gCu698vkwykm8piMzv4NZH9
+         Thmg==
+X-Gm-Message-State: AOAM531BKq4MkEShjbdKqRUDd8/CF5289BDqpC4Z67/B9ayyI2cWK0cu
+        QP5iTN3vwxvtz6wDT86OZBS8dt/ZUiHjI5rIUjk=
+X-Google-Smtp-Source: ABdhPJzs3ERfhW99DwKZQSrn4OtyHCmIEUjTaCtqOsbSex8wH9O80Ml4FmQQMXpDzRMHZZV4cus/yg==
+X-Received: by 2002:a05:6512:39c7:: with SMTP id k7mr3701383lfu.650.1640106351673;
+        Tue, 21 Dec 2021 09:05:51 -0800 (PST)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com. [209.85.167.42])
+        by smtp.gmail.com with ESMTPSA id s17sm1237127lfp.231.2021.12.21.09.05.50
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Dec 2021 09:05:51 -0800 (PST)
+Received: by mail-lf1-f42.google.com with SMTP id bp20so15139589lfb.6
+        for <linux-doc@vger.kernel.org>; Tue, 21 Dec 2021 09:05:50 -0800 (PST)
+X-Received: by 2002:adf:8b0e:: with SMTP id n14mr3335003wra.281.1640106339578;
+ Tue, 21 Dec 2021 09:05:39 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAHk-=wj7eSOhbWDeADL_BJKLzdDF5s_5R9v7d-4P3L6v1T3mpQ@mail.gmail.com>
+ <20211218184233.GB1432915@nvidia.com> <5CA1D89F-9DDB-4F91-8929-FE29BB79A653@vmware.com>
+ <CAHk-=wh-ETqwd6EC2PR6JJzCFHVxJgdbUcMpW5MS7gCa76EDsQ@mail.gmail.com>
+ <4D97206A-3B32-4818-9980-8F24BC57E289@vmware.com> <CAHk-=whxvVQReBqZeaV41=sAWfT4xTfn6sMSWDfkHKVS3zX85w@mail.gmail.com>
+ <5A7D771C-FF95-465E-95F6-CD249FE28381@vmware.com> <CAHk-=wgMuSkumYxeaaxbKFoAbw_gjYo1eRXXSFcBHzNG2xauTA@mail.gmail.com>
+ <CAHk-=whYT0Q1F=bxG0yi=LN5gXY64zBwefsbkLoRiP5p598d5A@mail.gmail.com>
+ <fca16906-8e7d-5d04-6990-dfa8392bad8b@redhat.com> <20211221010312.GC1432915@nvidia.com>
+ <fd7e3195-4f36-3804-1793-d453d5bd3e9f@redhat.com>
+In-Reply-To: <fd7e3195-4f36-3804-1793-d453d5bd3e9f@redhat.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Tue, 21 Dec 2021 09:05:23 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wgQq3H6wfkW7+MmduVgBOqHeiXQN97yCMd+m1mM-1xCLQ@mail.gmail.com>
+Message-ID: <CAHk-=wgQq3H6wfkW7+MmduVgBOqHeiXQN97yCMd+m1mM-1xCLQ@mail.gmail.com>
+Subject: Re: [PATCH v1 06/11] mm: support GUP-triggered unsharing via
+ FAULT_FLAG_UNSHARE (!hugetlb)
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Jason Gunthorpe <jgg@nvidia.com>, Nadav Amit <namit@vmware.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Hugh Dickins <hughd@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Yang Shi <shy828301@gmail.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Roman Gushchin <guro@fb.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Peter Xu <peterx@redhat.com>,
+        Donald Dutile <ddutile@redhat.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Oleg Nesterov <oleg@redhat.com>, Jan Kara <jack@suse.cz>,
+        Linux-MM <linux-mm@kvack.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Check user page table entries at the time they are added and removed.
+On Tue, Dec 21, 2021 at 12:58 AM David Hildenbrand <david@redhat.com> wrote:
+>
+> On 21.12.21 02:03, Jason Gunthorpe wrote:
+>
+> > I'm having a hard time imagining how gup_fast can maintain any sort of
+> > bit - it lacks all forms of locks so how can we do an atomic test and
+> > set between two pieces of data?
+>
+> And exactly that is to be figured out.
 
-Allows to synchronously catch memory corruption issues related to double
-mapping.
+So my preference would be to just always maintain the "exclusive to
+this VM" bit in the 'struct page', because that makes things easier to
+think about.
 
-When a pte for an anonymous page is added into page table, we verify that
-this pte does not already point to a file backed page, and vice versa if
-this is a file backed page that is being added we verify that this page
-does not have an anonymous mapping
+[ Of course - the bit could be reversed, and be a 'not exclusive to
+this VM' bit, semantically the set-or-cleared issue doesn't matter.
+Also, when I talk about some "exclusive to this VM" bit, I'm purely
+talking about pages that are marked PageAnon(), so the bit may or may
+not even exist for other pager types ]
 
-We also enforce that read-only sharing for anonymous pages is allowed
-(i.e.  cow after fork).  All other sharing must be for file pages.
+And then all GUP-fast would need to do is to refuse to look up a page
+that isn't exclusive to that VM. We already have the situation that
+GUP-fast can fail for non-writable pages etc, so it's just another
+test.
 
-Page table check allows to protect and debug cases where "struct page"
-metadata became corrupted for some reason.  For example, when refcnt or
-mapcount become invalid.
+> Note that I am trying to make also any kind of R/O pins on an anonymous
+> page work as expected as well, to fix any kind of GUP after fork() and
+> GUP before fork(). So taking a R/O pin on an !PageAnonExclusive() page
+> similarly has to make sure that the page is exclusive -- even if it's
+> mapped R/O (!).
 
-Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
----
- Documentation/vm/index.rst            |   1 +
- Documentation/vm/page_table_check.rst |  56 ++++++
- MAINTAINERS                           |   9 +
- arch/Kconfig                          |   3 +
- include/linux/page_table_check.h      | 147 ++++++++++++++
- mm/Kconfig.debug                      |  24 +++
- mm/Makefile                           |   1 +
- mm/page_alloc.c                       |   4 +
- mm/page_ext.c                         |   4 +
- mm/page_table_check.c                 | 270 ++++++++++++++++++++++++++
- 10 files changed, 519 insertions(+)
- create mode 100644 Documentation/vm/page_table_check.rst
- create mode 100644 include/linux/page_table_check.h
- create mode 100644 mm/page_table_check.c
+I do think the existing "maybe_pinned()" logic is fine for that. The
+"exclusive to this VM" bit can be used to *help* that decision -
+because only an exclusive page can be pinned - bit I don't think it
+should _replace_ that logic.
 
-diff --git a/Documentation/vm/index.rst b/Documentation/vm/index.rst
-index 6f5ffef4b716..43bb54d897d9 100644
---- a/Documentation/vm/index.rst
-+++ b/Documentation/vm/index.rst
-@@ -31,6 +31,7 @@ algorithms.  If you are looking for advice on simply allocating memory, see the
-    page_migration
-    page_frags
-    page_owner
-+   page_table_check
-    remap_file_pages
-    slub
-    split_page_table_lock
-diff --git a/Documentation/vm/page_table_check.rst b/Documentation/vm/page_table_check.rst
-new file mode 100644
-index 000000000000..81f521ff7ea7
---- /dev/null
-+++ b/Documentation/vm/page_table_check.rst
-@@ -0,0 +1,56 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. _page_table_check:
-+
-+================
-+Page Table Check
-+================
-+
-+Introduction
-+============
-+
-+Page table check allows to hardern the kernel by ensuring that some types of
-+the memory corruptions are prevented.
-+
-+Page table check performs extra verifications at the time when new pages become
-+accessible from the userspace by getting their page table entries (PTEs PMDs
-+etc.) added into the table.
-+
-+In case of detected corruption, the kernel is crashed. There is a small
-+performance and memory overhead associated with the page table check. Therefore,
-+it is disabled by default, but can be optionally enabled on systems where the
-+extra hardening outweighs the performance costs. Also, because page table check
-+is synchronous, it can help with debugging double map memory corruption issues,
-+by crashing kernel at the time wrong mapping occurs instead of later which is
-+often the case with memory corruptions bugs.
-+
-+Double mapping detection logic
-+==============================
-+
-++-------------------+-------------------+-------------------+------------------+
-+| Current Mapping   | New mapping       | Permissions       | Rule             |
-++===================+===================+===================+==================+
-+| Anonymous         | Anonymous         | Read              | Allow            |
-++-------------------+-------------------+-------------------+------------------+
-+| Anonymous         | Anonymous         | Read / Write      | Prohibit         |
-++-------------------+-------------------+-------------------+------------------+
-+| Anonymous         | Named             | Any               | Prohibit         |
-++-------------------+-------------------+-------------------+------------------+
-+| Named             | Anonymous         | Any               | Prohibit         |
-++-------------------+-------------------+-------------------+------------------+
-+| Named             | Named             | Any               | Allow            |
-++-------------------+-------------------+-------------------+------------------+
-+
-+Enabling Page Table Check
-+=========================
-+
-+Build kernel with:
-+
-+- PAGE_TABLE_CHECK=y
-+  Note, it can only be enabled on platforms where ARCH_SUPPORTS_PAGE_TABLE_CHECK
-+  is available.
-+
-+- Boot with 'page_table_check=on' kernel parameter.
-+
-+Optionally, build kernel with PAGE_TABLE_CHECK_ENFORCED in order to have page
-+table support without extra kernel parameter.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4403b348851d..16bc8cdc1492 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14485,6 +14485,15 @@ F:	include/net/page_pool.h
- F:	include/trace/events/page_pool.h
- F:	net/core/page_pool.c
- 
-+PAGE TABLE CHECK
-+M:	Pasha Tatashin <pasha.tatashin@soleen.com>
-+M:	Andrew Morton <akpm@linux-foundation.org>
-+L:	linux-mm@kvack.org
-+S:	Maintained
-+F:	Documentation/vm/page_table_check.rst
-+F:	include/linux/page_table_check.h
-+F:	mm/page_table_check.c
-+
- PANASONIC LAPTOP ACPI EXTRAS DRIVER
- M:	Kenneth Chan <kenneth.t.chan@gmail.com>
- L:	platform-driver-x86@vger.kernel.org
-diff --git a/arch/Kconfig b/arch/Kconfig
-index 75ad877c5c48..fdba59052abc 100644
---- a/arch/Kconfig
-+++ b/arch/Kconfig
-@@ -1307,6 +1307,9 @@ config HAVE_ARCH_PFN_VALID
- config ARCH_SUPPORTS_DEBUG_PAGEALLOC
- 	bool
- 
-+config ARCH_SUPPORTS_PAGE_TABLE_CHECK
-+	bool
-+
- config ARCH_SPLIT_ARG64
- 	bool
- 	help
-diff --git a/include/linux/page_table_check.h b/include/linux/page_table_check.h
-new file mode 100644
-index 000000000000..38cace1da7b6
---- /dev/null
-+++ b/include/linux/page_table_check.h
-@@ -0,0 +1,147 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+/*
-+ * Copyright (c) 2021, Google LLC.
-+ * Pasha Tatashin <pasha.tatashin@soleen.com>
-+ */
-+#ifndef __LINUX_PAGE_TABLE_CHECK_H
-+#define __LINUX_PAGE_TABLE_CHECK_H
-+
-+#ifdef CONFIG_PAGE_TABLE_CHECK
-+#include <linux/jump_label.h>
-+
-+extern struct static_key_true page_table_check_disabled;
-+extern struct page_ext_operations page_table_check_ops;
-+
-+void __page_table_check_zero(struct page *page, unsigned int order);
-+void __page_table_check_pte_clear(struct mm_struct *mm, unsigned long addr,
-+				  pte_t pte);
-+void __page_table_check_pmd_clear(struct mm_struct *mm, unsigned long addr,
-+				  pmd_t pmd);
-+void __page_table_check_pud_clear(struct mm_struct *mm, unsigned long addr,
-+				  pud_t pud);
-+void __page_table_check_pte_set(struct mm_struct *mm, unsigned long addr,
-+				pte_t *ptep, pte_t pte);
-+void __page_table_check_pmd_set(struct mm_struct *mm, unsigned long addr,
-+				pmd_t *pmdp, pmd_t pmd);
-+void __page_table_check_pud_set(struct mm_struct *mm, unsigned long addr,
-+				pud_t *pudp, pud_t pud);
-+
-+static inline void page_table_check_alloc(struct page *page, unsigned int order)
-+{
-+	if (static_branch_likely(&page_table_check_disabled))
-+		return;
-+
-+	__page_table_check_zero(page, order);
-+}
-+
-+static inline void page_table_check_free(struct page *page, unsigned int order)
-+{
-+	if (static_branch_likely(&page_table_check_disabled))
-+		return;
-+
-+	__page_table_check_zero(page, order);
-+}
-+
-+static inline void page_table_check_pte_clear(struct mm_struct *mm,
-+					      unsigned long addr, pte_t pte)
-+{
-+	if (static_branch_likely(&page_table_check_disabled))
-+		return;
-+
-+	__page_table_check_pte_clear(mm, addr, pte);
-+}
-+
-+static inline void page_table_check_pmd_clear(struct mm_struct *mm,
-+					      unsigned long addr, pmd_t pmd)
-+{
-+	if (static_branch_likely(&page_table_check_disabled))
-+		return;
-+
-+	__page_table_check_pmd_clear(mm, addr, pmd);
-+}
-+
-+static inline void page_table_check_pud_clear(struct mm_struct *mm,
-+					      unsigned long addr, pud_t pud)
-+{
-+	if (static_branch_likely(&page_table_check_disabled))
-+		return;
-+
-+	__page_table_check_pud_clear(mm, addr, pud);
-+}
-+
-+static inline void page_table_check_pte_set(struct mm_struct *mm,
-+					    unsigned long addr, pte_t *ptep,
-+					    pte_t pte)
-+{
-+	if (static_branch_likely(&page_table_check_disabled))
-+		return;
-+
-+	__page_table_check_pte_set(mm, addr, ptep, pte);
-+}
-+
-+static inline void page_table_check_pmd_set(struct mm_struct *mm,
-+					    unsigned long addr, pmd_t *pmdp,
-+					    pmd_t pmd)
-+{
-+	if (static_branch_likely(&page_table_check_disabled))
-+		return;
-+
-+	__page_table_check_pmd_set(mm, addr, pmdp, pmd);
-+}
-+
-+static inline void page_table_check_pud_set(struct mm_struct *mm,
-+					    unsigned long addr, pud_t *pudp,
-+					    pud_t pud)
-+{
-+	if (static_branch_likely(&page_table_check_disabled))
-+		return;
-+
-+	__page_table_check_pud_set(mm, addr, pudp, pud);
-+}
-+
-+#else
-+
-+static inline void page_table_check_alloc(struct page *page, unsigned int order)
-+{
-+}
-+
-+static inline void page_table_check_free(struct page *page, unsigned int order)
-+{
-+}
-+
-+static inline void page_table_check_pte_clear(struct mm_struct *mm,
-+					      unsigned long addr, pte_t pte)
-+{
-+}
-+
-+static inline void page_table_check_pmd_clear(struct mm_struct *mm,
-+					      unsigned long addr, pmd_t pmd)
-+{
-+}
-+
-+static inline void page_table_check_pud_clear(struct mm_struct *mm,
-+					      unsigned long addr, pud_t pud)
-+{
-+}
-+
-+static inline void page_table_check_pte_set(struct mm_struct *mm,
-+					    unsigned long addr, pte_t *ptep,
-+					    pte_t pte)
-+{
-+}
-+
-+static inline void page_table_check_pmd_set(struct mm_struct *mm,
-+					    unsigned long addr, pmd_t *pmdp,
-+					    pmd_t pmd)
-+{
-+}
-+
-+static inline void page_table_check_pud_set(struct mm_struct *mm,
-+					    unsigned long addr, pud_t *pudp,
-+					    pud_t pud)
-+{
-+}
-+
-+#endif /* CONFIG_PAGE_TABLE_CHECK */
-+#endif /* __LINUX_PAGE_TABLE_CHECK_H */
-diff --git a/mm/Kconfig.debug b/mm/Kconfig.debug
-index 1e73717802f8..5bd5bb097252 100644
---- a/mm/Kconfig.debug
-+++ b/mm/Kconfig.debug
-@@ -62,6 +62,30 @@ config PAGE_OWNER
- 
- 	  If unsure, say N.
- 
-+config PAGE_TABLE_CHECK
-+	bool "Check for invalid mappings in user page tables"
-+	depends on ARCH_SUPPORTS_PAGE_TABLE_CHECK
-+	select PAGE_EXTENSION
-+	help
-+	  Check that anonymous page is not being mapped twice with read write
-+	  permissions. Check that anonymous and file pages are not being
-+	  erroneously shared. Since the checking is performed at the time
-+	  entries are added and removed to user page tables, leaking, corruption
-+	  and double mapping problems are detected synchronously.
-+
-+	  If unsure say "n".
-+
-+config PAGE_TABLE_CHECK_ENFORCED
-+	bool "Enforce the page table checking by default"
-+	depends on PAGE_TABLE_CHECK
-+	help
-+	  Always enable page table checking.  By default the page table checking
-+	  is disabled, and can be optionally enabled via page_table_check=on
-+	  kernel parameter. This config enforces that page table check is always
-+	  enabled.
-+
-+	  If unsure say "n".
-+
- config PAGE_POISONING
- 	bool "Poison pages after freeing"
- 	help
-diff --git a/mm/Makefile b/mm/Makefile
-index 7919cd7f13f2..588d3113f3b0 100644
---- a/mm/Makefile
-+++ b/mm/Makefile
-@@ -114,6 +114,7 @@ obj-$(CONFIG_GENERIC_EARLY_IOREMAP) += early_ioremap.o
- obj-$(CONFIG_CMA)	+= cma.o
- obj-$(CONFIG_MEMORY_BALLOON) += balloon_compaction.o
- obj-$(CONFIG_PAGE_EXTENSION) += page_ext.o
-+obj-$(CONFIG_PAGE_TABLE_CHECK) += page_table_check.o
- obj-$(CONFIG_CMA_DEBUGFS) += cma_debug.o
- obj-$(CONFIG_SECRETMEM) += secretmem.o
- obj-$(CONFIG_CMA_SYSFS) += cma_sysfs.o
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 77253ea6031e..edfd6c81af82 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -64,6 +64,7 @@
- #include <linux/sched/rt.h>
- #include <linux/sched/mm.h>
- #include <linux/page_owner.h>
-+#include <linux/page_table_check.h>
- #include <linux/kthread.h>
- #include <linux/memcontrol.h>
- #include <linux/ftrace.h>
-@@ -1308,6 +1309,7 @@ static __always_inline bool free_pages_prepare(struct page *page,
- 		if (memcg_kmem_enabled() && PageMemcgKmem(page))
- 			__memcg_kmem_uncharge_page(page, order);
- 		reset_page_owner(page, order);
-+		page_table_check_free(page, order);
- 		return false;
- 	}
- 
-@@ -1347,6 +1349,7 @@ static __always_inline bool free_pages_prepare(struct page *page,
- 	page_cpupid_reset_last(page);
- 	page->flags &= ~PAGE_FLAGS_CHECK_AT_PREP;
- 	reset_page_owner(page, order);
-+	page_table_check_free(page, order);
- 
- 	if (!PageHighMem(page)) {
- 		debug_check_no_locks_freed(page_address(page),
-@@ -2421,6 +2424,7 @@ inline void post_alloc_hook(struct page *page, unsigned int order,
- 	}
- 
- 	set_page_owner(page, order, gfp_flags);
-+	page_table_check_alloc(page, order);
- }
- 
- static void prep_new_page(struct page *page, unsigned int order, gfp_t gfp_flags,
-diff --git a/mm/page_ext.c b/mm/page_ext.c
-index 6242afb24d84..bee3240604dc 100644
---- a/mm/page_ext.c
-+++ b/mm/page_ext.c
-@@ -8,6 +8,7 @@
- #include <linux/kmemleak.h>
- #include <linux/page_owner.h>
- #include <linux/page_idle.h>
-+#include <linux/page_table_check.h>
- 
- /*
-  * struct page extension
-@@ -75,6 +76,9 @@ static struct page_ext_operations *page_ext_ops[] = {
- #if defined(CONFIG_PAGE_IDLE_FLAG) && !defined(CONFIG_64BIT)
- 	&page_idle_ops,
- #endif
-+#ifdef CONFIG_PAGE_TABLE_CHECK
-+	&page_table_check_ops,
-+#endif
- };
- 
- unsigned long page_ext_size = sizeof(struct page_ext);
-diff --git a/mm/page_table_check.c b/mm/page_table_check.c
-new file mode 100644
-index 000000000000..7504e7caa2a1
---- /dev/null
-+++ b/mm/page_table_check.c
-@@ -0,0 +1,270 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+/*
-+ * Copyright (c) 2021, Google LLC.
-+ * Pasha Tatashin <pasha.tatashin@soleen.com>
-+ */
-+#include <linux/mm.h>
-+#include <linux/page_table_check.h>
-+
-+#undef pr_fmt
-+#define pr_fmt(fmt)	"page_table_check: " fmt
-+
-+struct page_table_check {
-+	atomic_t anon_map_count;
-+	atomic_t file_map_count;
-+};
-+
-+static bool __page_table_check_enabled __initdata =
-+				IS_ENABLED(CONFIG_PAGE_TABLE_CHECK_ENFORCED);
-+
-+DEFINE_STATIC_KEY_TRUE(page_table_check_disabled);
-+EXPORT_SYMBOL(page_table_check_disabled);
-+
-+static int __init early_page_table_check_param(char *buf)
-+{
-+	if (!buf)
-+		return -EINVAL;
-+
-+	if (strcmp(buf, "on") == 0)
-+		__page_table_check_enabled = true;
-+	else if (strcmp(buf, "off") == 0)
-+		__page_table_check_enabled = false;
-+
-+	return 0;
-+}
-+
-+early_param("page_table_check", early_page_table_check_param);
-+
-+static bool __init need_page_table_check(void)
-+{
-+	return __page_table_check_enabled;
-+}
-+
-+static void __init init_page_table_check(void)
-+{
-+	if (!__page_table_check_enabled)
-+		return;
-+	static_branch_disable(&page_table_check_disabled);
-+}
-+
-+struct page_ext_operations page_table_check_ops = {
-+	.size = sizeof(struct page_table_check),
-+	.need = need_page_table_check,
-+	.init = init_page_table_check,
-+};
-+
-+static struct page_table_check *get_page_table_check(struct page_ext *page_ext)
-+{
-+	BUG_ON(!page_ext);
-+	return (void *)(page_ext) + page_table_check_ops.offset;
-+}
-+
-+static inline bool pte_user_accessible_page(pte_t pte)
-+{
-+	return (pte_val(pte) & _PAGE_PRESENT) && (pte_val(pte) & _PAGE_USER);
-+}
-+
-+static inline bool pmd_user_accessible_page(pmd_t pmd)
-+{
-+	return pmd_leaf(pmd) && (pmd_val(pmd) & _PAGE_PRESENT) &&
-+		(pmd_val(pmd) & _PAGE_USER);
-+}
-+
-+static inline bool pud_user_accessible_page(pud_t pud)
-+{
-+	return pud_leaf(pud) && (pud_val(pud) & _PAGE_PRESENT) &&
-+		(pud_val(pud) & _PAGE_USER);
-+}
-+
-+/*
-+ * An enty is removed from the page table, decrement the counters for that page
-+ * verify that it is of correct type and counters do not become negative.
-+ */
-+static void page_table_check_clear(struct mm_struct *mm, unsigned long addr,
-+				   unsigned long pfn, unsigned long pgcnt)
-+{
-+	struct page_ext *page_ext;
-+	struct page *page;
-+	bool anon;
-+	int i;
-+
-+	if (!pfn_valid(pfn))
-+		return;
-+
-+	page = pfn_to_page(pfn);
-+	page_ext = lookup_page_ext(page);
-+	anon = PageAnon(page);
-+
-+	for (i = 0; i < pgcnt; i++) {
-+		struct page_table_check *ptc = get_page_table_check(page_ext);
-+
-+		if (anon) {
-+			BUG_ON(atomic_read(&ptc->file_map_count));
-+			BUG_ON(atomic_dec_return(&ptc->anon_map_count) < 0);
-+		} else {
-+			BUG_ON(atomic_read(&ptc->anon_map_count));
-+			BUG_ON(atomic_dec_return(&ptc->file_map_count) < 0);
-+		}
-+		page_ext = page_ext_next(page_ext);
-+	}
-+}
-+
-+/*
-+ * A new enty is added to the page table, increment the counters for that page
-+ * verify that it is of correct type and is not being mapped with a different
-+ * type to a different process.
-+ */
-+static void page_table_check_set(struct mm_struct *mm, unsigned long addr,
-+				 unsigned long pfn, unsigned long pgcnt,
-+				 bool rw)
-+{
-+	struct page_ext *page_ext;
-+	struct page *page;
-+	bool anon;
-+	int i;
-+
-+	if (!pfn_valid(pfn))
-+		return;
-+
-+	page = pfn_to_page(pfn);
-+	page_ext = lookup_page_ext(page);
-+	anon = PageAnon(page);
-+
-+	for (i = 0; i < pgcnt; i++) {
-+		struct page_table_check *ptc = get_page_table_check(page_ext);
-+
-+		if (anon) {
-+			BUG_ON(atomic_read(&ptc->file_map_count));
-+			BUG_ON(atomic_inc_return(&ptc->anon_map_count) > 1 && rw);
-+		} else {
-+			BUG_ON(atomic_read(&ptc->anon_map_count));
-+			BUG_ON(atomic_inc_return(&ptc->file_map_count) < 0);
-+		}
-+		page_ext = page_ext_next(page_ext);
-+	}
-+}
-+
-+/*
-+ * page is on free list, or is being allocated, verify that counters are zeroes
-+ * crash if they are not.
-+ */
-+void __page_table_check_zero(struct page *page, unsigned int order)
-+{
-+	struct page_ext *page_ext = lookup_page_ext(page);
-+	int i;
-+
-+	BUG_ON(!page_ext);
-+	for (i = 0; i < (1 << order); i++) {
-+		struct page_table_check *ptc = get_page_table_check(page_ext);
-+
-+		BUG_ON(atomic_read(&ptc->anon_map_count));
-+		BUG_ON(atomic_read(&ptc->file_map_count));
-+		page_ext = page_ext_next(page_ext);
-+	}
-+}
-+
-+void __page_table_check_pte_clear(struct mm_struct *mm, unsigned long addr,
-+				  pte_t pte)
-+{
-+	if (&init_mm == mm)
-+		return;
-+
-+	if (pte_user_accessible_page(pte)) {
-+		page_table_check_clear(mm, addr, pte_pfn(pte),
-+				       PAGE_SIZE >> PAGE_SHIFT);
-+	}
-+}
-+EXPORT_SYMBOL(__page_table_check_pte_clear);
-+
-+void __page_table_check_pmd_clear(struct mm_struct *mm, unsigned long addr,
-+				  pmd_t pmd)
-+{
-+	if (&init_mm == mm)
-+		return;
-+
-+	if (pmd_user_accessible_page(pmd)) {
-+		page_table_check_clear(mm, addr, pmd_pfn(pmd),
-+				       PMD_PAGE_SIZE >> PAGE_SHIFT);
-+	}
-+}
-+EXPORT_SYMBOL(__page_table_check_pmd_clear);
-+
-+void __page_table_check_pud_clear(struct mm_struct *mm, unsigned long addr,
-+				  pud_t pud)
-+{
-+	if (&init_mm == mm)
-+		return;
-+
-+	if (pud_user_accessible_page(pud)) {
-+		page_table_check_clear(mm, addr, pud_pfn(pud),
-+				       PUD_PAGE_SIZE >> PAGE_SHIFT);
-+	}
-+}
-+EXPORT_SYMBOL(__page_table_check_pud_clear);
-+
-+void __page_table_check_pte_set(struct mm_struct *mm, unsigned long addr,
-+				pte_t *ptep, pte_t pte)
-+{
-+	pte_t old_pte;
-+
-+	if (&init_mm == mm)
-+		return;
-+
-+	old_pte = *ptep;
-+	if (pte_user_accessible_page(old_pte)) {
-+		page_table_check_clear(mm, addr, pte_pfn(old_pte),
-+				       PAGE_SIZE >> PAGE_SHIFT);
-+	}
-+
-+	if (pte_user_accessible_page(pte)) {
-+		page_table_check_set(mm, addr, pte_pfn(pte),
-+				     PAGE_SIZE >> PAGE_SHIFT,
-+				     pte_write(pte));
-+	}
-+}
-+EXPORT_SYMBOL(__page_table_check_pte_set);
-+
-+void __page_table_check_pmd_set(struct mm_struct *mm, unsigned long addr,
-+				pmd_t *pmdp, pmd_t pmd)
-+{
-+	pmd_t old_pmd;
-+
-+	if (&init_mm == mm)
-+		return;
-+
-+	old_pmd = *pmdp;
-+	if (pmd_user_accessible_page(old_pmd)) {
-+		page_table_check_clear(mm, addr, pmd_pfn(old_pmd),
-+				       PMD_PAGE_SIZE >> PAGE_SHIFT);
-+	}
-+
-+	if (pmd_user_accessible_page(pmd)) {
-+		page_table_check_set(mm, addr, pmd_pfn(pmd),
-+				     PMD_PAGE_SIZE >> PAGE_SHIFT,
-+				     pmd_write(pmd));
-+	}
-+}
-+EXPORT_SYMBOL(__page_table_check_pmd_set);
-+
-+void __page_table_check_pud_set(struct mm_struct *mm, unsigned long addr,
-+				pud_t *pudp, pud_t pud)
-+{
-+	pud_t old_pud;
-+
-+	if (&init_mm == mm)
-+		return;
-+
-+	old_pud = *pudp;
-+	if (pud_user_accessible_page(old_pud)) {
-+		page_table_check_clear(mm, addr, pud_pfn(old_pud),
-+				       PUD_PAGE_SIZE >> PAGE_SHIFT);
-+	}
-+
-+	if (pud_user_accessible_page(pud)) {
-+		page_table_check_set(mm, addr, pud_pfn(pud),
-+				     PUD_PAGE_SIZE >> PAGE_SHIFT,
-+				     pud_write(pud));
-+	}
-+}
-+EXPORT_SYMBOL(__page_table_check_pud_set);
--- 
-2.34.1.307.g9b7440fafd-goog
+There's a quite fundamental difference between
 
+ (a) COW and GUP: these two operations _have_ to know that they get an
+exclusive page in order to re-use or look up the page respectively
+
+ (b) the pre-cow logic in fork() or the "add this to the swap cache"
+logic in vmscan that decides whether a page can be turned into a COW
+page by adding a reference coutn to it (whether due to fork or swap
+cache doesn't matter - the end result is the same).
+
+The difference is that in (a) the thing we *have* to get right is
+whether a page is exclusively owned by that VM or not. We can COW too
+much, but we can never share a page unless it's exclusive. That's true
+whether it's pinned or not.
+
+In (b), the "have to get right" is different. In (b), it's perfectly
+ok to COW an exclusive page and turn it non-exclusive. But we must
+never COW a pinned page.
+
+So (a) and (b) are very different situations, and have different logic.
+
+If we always maintain an exclusive bit for AnonPage pages, then both
+(a) and (b) can use that bit, but they'll use it very differently. In
+(a) we'll refuse to look it up and will force a 'handle_mm_fault()' to
+get an exclusive copy. And in (b), we just use it as a "we know only
+exclusive pages can be pinned", so it's just another check for
+page_needs_cow_for_dma(), the same way we currently check
+"MMF_HAS_PINNED" to narrow down the whole "page count indicates this
+may be a pinned page" question.
+
+And the "page is exclusive" would actually be the *common* case for
+almost all pages. Any time you've written to a page and you haven't
+forked after the write (and it hasn't been turned into a swap page),
+that page would be exclusive to that VM.
+
+Doesn't this seem like really straightforward semantics to maintain
+(and think about)?
+
+I'd like the exclusive page bit to *not* be directly about "has this
+page been pinned" exactly because we already have too many special
+cases for GUP. It would be nicer to have a page bit that has very
+clear semantics even in the absence of GUP.
+
+             Linus
