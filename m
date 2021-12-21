@@ -2,102 +2,164 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96C05C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Dec 2021 11:14:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDA3FC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Dec 2021 11:25:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236962AbhLULO2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Dec 2021 06:14:28 -0500
-Received: from mx1.riseup.net ([198.252.153.129]:56436 "EHLO mx1.riseup.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236868AbhLULO1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 21 Dec 2021 06:14:27 -0500
-Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-         client-signature RSA-PSS (2048 bits) client-digest SHA256)
-        (Client CN "mail.riseup.net", Issuer "R3" (not verified))
-        by mx1.riseup.net (Postfix) with ESMTPS id 4JJDPH325mzF3M0;
-        Tue, 21 Dec 2021 03:14:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-        t=1640085267; bh=Tj7iDTGSZ1xlUXWpqXU32Hng6QzgDXW5tIS0pS0Kbs4=;
-        h=From:To:Cc:Subject:Date:From;
-        b=XDR2T6O84QOGYQeNLU5wY9ClmTFM8QtzmIPJ6Xf/ilesCGkDKctltwaOVeow1WVJt
-         7juy3fToPKNyutjw+HuI0ejd+Jo16MFo5P9fbhI57IYPfF6ch02hgFeyFXSqHgrP1D
-         A8mMaoAEGHqC895qNm1DJDafI0y4doqkD4oLPnO0=
-X-Riseup-User-ID: 74F20129CF832BA4FA580CC3FA543893C8361B0903A70FFC32D09A5EAD0041D6
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-         by fews2.riseup.net (Postfix) with ESMTPSA id 4JJDPD4ydKz1yT2;
-        Tue, 21 Dec 2021 03:14:24 -0800 (PST)
-From:   Fernando Fernandez Mancera <ffmancera@riseup.net>
-To:     netdev@vger.kernel.org
-Cc:     j.vosburgh@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org,
-        vfalico@gmail.com, kuba@kernel.org, davem@davemloft.net,
-        andy@greyhouse.net,
-        Fernando Fernandez Mancera <ffmancera@riseup.net>,
-        Jay Vosburgh <jay.vosburgh@canonical.com>
-Subject: [PATCH net v4] bonding: fix ad_actor_system option setting to default
-Date:   Tue, 21 Dec 2021 12:13:45 +0100
-Message-Id: <20211221111345.2462-1-ffmancera@riseup.net>
+        id S237084AbhLULZ0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Dec 2021 06:25:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52568 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S237082AbhLULZ0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Dec 2021 06:25:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1640085925;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=diN0iTqbk/YpDLUk2CRhIggtfhVmy63BxwqSpz9zNkI=;
+        b=fvYafcStOFZnAyQlb39qLPxWnD97QzrdvkFqkqArKcZSdJTpeA3/C2jFnNcWamjYJXPATx
+        kmRt4pOQBLOfbyl8KBLzHbZBGhWLcTV8POFIS8niekselHpky/4F5CaBrKShecoH+/N4L4
+        YJVwiOZA6stzGxYFnEKxg+EESBu3X0I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-169-w5ZqWWAtMbOZ0Ae_Z9NhzA-1; Tue, 21 Dec 2021 06:25:22 -0500
+X-MC-Unique: w5ZqWWAtMbOZ0Ae_Z9NhzA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7ABF410168C0;
+        Tue, 21 Dec 2021 11:25:20 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.154])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 0710378DA0;
+        Tue, 21 Dec 2021 11:24:51 +0000 (UTC)
+From:   Cornelia Huck <cohuck@redhat.com>
+To:     Alex Williamson <alex.williamson@redhat.com>
+Cc:     jgg@nvidia.com, corbet@lwn.net, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, farman@linux.ibm.com,
+        mjrosato@linux.ibm.com, pasic@linux.ibm.com
+Subject: Re: [RFC PATCH] vfio: Update/Clarify migration uAPI, add NDMA state
+In-Reply-To: <20211220154930.071527e3.alex.williamson@redhat.com>
+Organization: Red Hat GmbH
+References: <163909282574.728533.7460416142511440919.stgit@omen>
+ <87v8zjp46l.fsf@redhat.com>
+ <20211220154930.071527e3.alex.williamson@redhat.com>
+User-Agent: Notmuch/0.34 (https://notmuchmail.org)
+Date:   Tue, 21 Dec 2021 12:24:50 +0100
+Message-ID: <87mtku2oal.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When 802.3ad bond mode is configured the ad_actor_system option is set to
-"00:00:00:00:00:00". But when trying to set the all-zeroes MAC as actors'
-system address it was failing with EINVAL.
+On Mon, Dec 20 2021, Alex Williamson <alex.williamson@redhat.com> wrote:
 
-An all-zeroes ethernet address is valid, only multicast addresses are not
-valid values.
+> On Mon, 20 Dec 2021 18:38:26 +0100
+> Cornelia Huck <cohuck@redhat.com> wrote:
+>
+>> On Thu, Dec 09 2021, Alex Williamson <alex.williamson@redhat.com> wrote:
+>> 
+>> > A new NDMA state is being proposed to support a quiescent state for
+>> > contexts containing multiple devices with peer-to-peer DMA support.
+>> > Formally define it.  
+>> 
+>> [I'm wondering if we would want to use NDMA in other cases as well. Just
+>> thinking out loud below.]
+>> 
+>> >
+>> > Clarify various aspects of the migration region data fields and
+>> > protocol.  Remove QEMU related terminology and flows from the uAPI;
+>> > these will be provided in Documentation/ so as not to confuse the
+>> > device_state bitfield with a finite state machine with restricted
+>> > state transitions.
+>> >
+>> > Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+>> > ---
+>> >  include/uapi/linux/vfio.h |  405 ++++++++++++++++++++++++---------------------
+>> >  1 file changed, 214 insertions(+), 191 deletions(-)
+>> >
+>> > diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
+>> > index ef33ea002b0b..1fdbc928f886 100644
+>> > --- a/include/uapi/linux/vfio.h
+>> > +++ b/include/uapi/linux/vfio.h  
+>> 
+>> (...)
+>> 
+>> > + *   The device_state field defines the following bitfield use:
+>> > + *
+>> > + *     - Bit 0 (RUNNING) [REQUIRED]:
+>> > + *        - Setting this bit indicates the device is fully operational, the
+>> > + *          device may generate interrupts, DMA, respond to MMIO, all vfio
+>> > + *          device regions are functional, and the device may advance its
+>> > + *          internal state.  The default device_state must indicate the device
+>> > + *          in exclusively the RUNNING state, with no other bits in this field
+>> > + *          set.
+>> > + *        - Clearing this bit (ie. !RUNNING) must stop the operation of the
+>> > + *          device.  The device must not generate interrupts, DMA, or advance
+>> > + *          its internal state.  The user should take steps to restrict access
+>> > + *          to vfio device regions other than the migration region while the
+>> > + *          device is !RUNNING or risk corruption of the device migration data
+>> > + *          stream.  The device and kernel migration driver must accept and
+>> > + *          respond to interaction to support external subsystems in the
+>> > + *          !RUNNING state, for example PCI MSI-X and PCI config space.
+>> > + *          Failure by the user to restrict device access while !RUNNING must
+>> > + *          not result in error conditions outside the user context (ex.
+>> > + *          host system faults).  
+>> 
+>> If I consider ccw, this would mean that user space would need to stop
+>> writing to the regions that initiate start/halt/... when RUNNING is
+>> cleared (makes sense) and that the subchannel must be idle or even
+>> disabled (so that it does not become status pending). The question is,
+>> does it make sense to stop new requests and wait for the subchannel to
+>> become idle during the !RUNNING transition (or even forcefully kill
+>> outstanding I/O), or...
+>> 
+>
+>> > + *     - Bit 3 (NDMA) [OPTIONAL]:
+>> > + *        The NDMA or "No DMA" state is intended to be a quiescent state for
+>> > + *        the device for the purposes of managing multiple devices within a
+>> > + *        user context where peer-to-peer DMA between devices may be active.
+>> > + *        Support for the NDMA bit is indicated through the presence of the
+>> > + *        VFIO_REGION_INFO_CAP_MIG_NDMA capability as reported by
+>> > + *        VFIO_DEVICE_GET_REGION_INFO for the associated device migration
+>> > + *        region.
+>> > + *        - Setting this bit must prevent the device from initiating any
+>> > + *          new DMA or interrupt transactions.  The migration driver must
+>> > + *          complete any such outstanding operations prior to completing
+>> > + *          the transition to the NDMA state.  The NDMA device_state
+>> > + *          essentially represents a sub-set of the !RUNNING state for the
+>> > + *          purpose of quiescing the device, therefore the NDMA device_state
+>> > + *          bit is superfluous in combinations including !RUNNING.
+>> > + *        - Clearing this bit (ie. !NDMA) negates the device operational
+>> > + *          restrictions required by the NDMA state.  
+>> 
+>> ...should we use NDMA as the "stop new requests" state, but allow
+>> running channel programs to conclude? I'm not entirely sure whether
+>> that's in the spirit of NDMA (subchannels are independent of each
+>> other), but it would be kind of "quiescing" already.
+>> 
+>> (We should probably clarify things like that in the Documentation/
+>> file.)
+>
+> This bumps into the discussion in my other thread with Jason, we need
+> to refine what NDMA means.  Based on my reply there and our previous
+> discussion that QEMU could exclude p2p mappings to support VMs with
+> multiple devices that don't support NDMA, I think that NDMA is only
+> quiescing p2p traffic (if so, maybe should be NOP2P).  So this use of
+> it seems out of scope to me.
 
-Fixes: 171a42c38c6e ("bonding: add netlink support for sys prio, actor sys mac, and port key")
-Signed-off-by: Fernando Fernandez Mancera <ffmancera@riseup.net>
-Acked-by: Jay Vosburgh <jay.vosburgh@canonical.com>
----
-v2: added documentation changes and modified commit message
-v3: fixed format warning on commit message
-v4: added fixes tag and ACK from Jay Vosburgh
----
- Documentation/networking/bonding.rst | 11 ++++++-----
- drivers/net/bonding/bond_options.c   |  2 +-
- 2 files changed, 7 insertions(+), 6 deletions(-)
+Ok, makes sense. If the scope of this flag is indeed to be supposed
+quite narrow, it might make sense to rename it.
 
-diff --git a/Documentation/networking/bonding.rst b/Documentation/networking/bonding.rst
-index 31cfd7d674a6..c0a789b00806 100644
---- a/Documentation/networking/bonding.rst
-+++ b/Documentation/networking/bonding.rst
-@@ -196,11 +196,12 @@ ad_actor_sys_prio
- ad_actor_system
- 
- 	In an AD system, this specifies the mac-address for the actor in
--	protocol packet exchanges (LACPDUs). The value cannot be NULL or
--	multicast. It is preferred to have the local-admin bit set for this
--	mac but driver does not enforce it. If the value is not given then
--	system defaults to using the masters' mac address as actors' system
--	address.
-+	protocol packet exchanges (LACPDUs). The value cannot be a multicast
-+	address. If the all-zeroes MAC is specified, bonding will internally
-+	use the MAC of the bond itself. It is preferred to have the
-+	local-admin bit set for this mac but driver does not enforce it. If
-+	the value is not given then system defaults to using the masters'
-+	mac address as actors' system address.
- 
- 	This parameter has effect only in 802.3ad mode and is available through
- 	SysFs interface.
-diff --git a/drivers/net/bonding/bond_options.c b/drivers/net/bonding/bond_options.c
-index a8fde3bc458f..b93337b5a721 100644
---- a/drivers/net/bonding/bond_options.c
-+++ b/drivers/net/bonding/bond_options.c
-@@ -1526,7 +1526,7 @@ static int bond_option_ad_actor_system_set(struct bonding *bond,
- 		mac = (u8 *)&newval->value;
- 	}
- 
--	if (!is_valid_ether_addr(mac))
-+	if (is_multicast_ether_addr(mac))
- 		goto err;
- 
- 	netdev_dbg(bond->dev, "Setting ad_actor_system to %pM\n", mac);
--- 
-2.30.2
+>
+> Userspace necessarily needs to stop vCPUs before stopping devices,
+> which should mean that there are no new requests when a ccw device is
+> transitioning to !RUNNING.  Therefore I'd expect that the transition to
+> any !RUNNING state would wait from completion of running channel
+> programs.
+
+Indeed, it should not be any problem to do this for !RUNNING, I had just
+been wondering about possible alternative implementations.
 
