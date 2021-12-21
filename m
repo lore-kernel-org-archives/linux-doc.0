@@ -2,244 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D67FC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Dec 2021 15:19:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C64DDC433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Dec 2021 15:33:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239241AbhLUPTq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Dec 2021 10:19:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23086 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S239341AbhLUPTm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Dec 2021 10:19:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1640099981;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=5gm3ZLQRBKvCHbJaSdAbt4E0N/aoi9RgH7ebjbXdmrk=;
-        b=Zu2Vi9GjAiJsHK4DcHzaAS7U0Ij3iZ4/oB4ldM0NUAIeSmBO7wpBo8iDLvb84uY6+maVDM
-        +BxLWg3gHIp46pYysxXHEWG+UF21LRG3rSqMehvYK1XXaW/EHe8J2VacAUCWdzANX17ZCc
-        JRVlc/GHoNDSOr+LoFXLonrNpu8IkKk=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-142-hyNodoSPNauxqIv-mIHrKw-1; Tue, 21 Dec 2021 10:19:40 -0500
-X-MC-Unique: hyNodoSPNauxqIv-mIHrKw-1
-Received: by mail-wr1-f71.google.com with SMTP id t30-20020adfa2de000000b001a24004e1fbso4789338wra.10
-        for <linux-doc@vger.kernel.org>; Tue, 21 Dec 2021 07:19:39 -0800 (PST)
+        id S239343AbhLUPdW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Dec 2021 10:33:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32994 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239307AbhLUPdV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Dec 2021 10:33:21 -0500
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 772DBC061574;
+        Tue, 21 Dec 2021 07:33:21 -0800 (PST)
+Received: by mail-lf1-x130.google.com with SMTP id x7so5655575lfu.8;
+        Tue, 21 Dec 2021 07:33:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:to:cc:references
+         :from:in-reply-to:content-transfer-encoding;
+        bh=FjVlZpnpY4Z310rhKXul6hLFct/iU830gKgqrVH+cMc=;
+        b=MNC9sks+TavMz/UTXnnP9c9gy3MFbqvM73x2uvgzjByMorOfPlOHYb/p8/9CX1hb+d
+         +GAXa2M0D96vRqtbPWq7gAJldAwt8F/guZJQVdbuoGZZPyZ69SoVCnm0/wMsx5Lc81Xm
+         WxFoFmOZ0y82trShQW4eZqgzXAjffMh9CVj27XTLNg3jXVlU9aoJ/bnobDuMzD5ymC7R
+         vfuQ/iknPxcJpvcBJihV/VfWZKp3+BZVP3xcTIo6SJ5FPo3wgJaRLOIRCpOWU1uK5X0r
+         YjStTb8E94xULg2jAxFO+gWwqv8CjpS5XGvZYX9XYraZFt50L+3AOil1sjw4puaSuB2l
+         H/lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent
-         :content-language:to:cc:references:from:organization:subject
-         :in-reply-to:content-transfer-encoding;
-        bh=5gm3ZLQRBKvCHbJaSdAbt4E0N/aoi9RgH7ebjbXdmrk=;
-        b=wycQpTKcmdPT+J1lhX8ztIC8Y+TFabiXjrJGzKXB+IAa8F6iBU5SJmeKKd5LvHZvjU
-         Tp2Oziy6LzhTmyjiSzYe8ELGWvytlIu5ySRLQRVZ5mfss8lArx7TeLj2jwG8YEq11sBI
-         g9xRl2ngT4R1SXktn/VGRfb7uV7s1hI6eK5lzrgrfoZaFy5Qu/BwuP/8V8xIsRxzXES1
-         LbzbUvanrPazpe6qxAOEUcgLqZTCWAy/aliCCR6oW9Zgq+cE9dv65LlzPvGiAQ1pRlAc
-         cqTTjqXnw7KqvHLlR0HfQ5kUO/OQatHu0Yi7qoGZrwZowEbUb2f4lN5Bxa67pPf2xe8l
-         dHrQ==
-X-Gm-Message-State: AOAM532mqQcgfZ1VPIvUqgL62S4BrqoIToI4+FfhTXO9NSOL9qRbh7WI
-        4noLfEVxNp54ewlOIgB+ii52t/SDHs4cQMK1/f9c6bEq/XEh9k7PnwbxHAxUptW9+PmYrp0H47Y
-        Ev26arZDHcrYjvkFE4q0a
-X-Received: by 2002:adf:db04:: with SMTP id s4mr3123267wri.467.1640099978747;
-        Tue, 21 Dec 2021 07:19:38 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwj9M2fdwpVEPT599gXIT3luVo4I7J5XVEWxtoh26mgFPng1aOUYRQ3MOTjaZ8BGRLBTURDIQ==
-X-Received: by 2002:adf:db04:: with SMTP id s4mr3123235wri.467.1640099978458;
-        Tue, 21 Dec 2021 07:19:38 -0800 (PST)
-Received: from [192.168.3.132] (p5b0c64a4.dip0.t-ipconnect.de. [91.12.100.164])
-        by smtp.gmail.com with ESMTPSA id o38sm2925317wms.4.2021.12.21.07.19.35
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :to:cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=FjVlZpnpY4Z310rhKXul6hLFct/iU830gKgqrVH+cMc=;
+        b=Y7NQvnZEgMPxrl4NwRY4+FJhFAL55ycte+Id625RQlh88C1dC8jlQwRIaLeACEfl91
+         Au+VzOrwJl+2Zcv5svzPgHygNPCj9sg/MmtDqxuVyE7U0moQ5Q00qY9Z/SUcuDHTlpLC
+         9Qrk7uWZWZ4vF6W8ntcU9s3y4X+QlovBt1DwbkTWMf/8eV5aZJOQdoOatd495JgWnKAH
+         BsMeBDbZ0xTmRGjzEfbebsQR5gEM7XpGPxUSd7No8jebkLhlLa+czHLyAwblGZpYIQFg
+         YUhasiPtMstydi5H/98PFmE5gar/IeQ0Y0SqDooGnlrFOiGFTV8YL0pIgGKpDRZ8423y
+         L4Jg==
+X-Gm-Message-State: AOAM533upMpLKXqJjJMs2rWbapDgLT0ARbs+xeE1dDfw58VDMSnQEhvU
+        UfRrZPWRFjrBiGBZP+sol9I=
+X-Google-Smtp-Source: ABdhPJxGH9fJxCgJTHdyBCbGxtJaXgQRFGvDM9RlVccZ929DQy80oSK9LxHsX/03MMs6nTipuYM21w==
+X-Received: by 2002:a05:6512:2601:: with SMTP id bt1mr3453703lfb.400.1640100799808;
+        Tue, 21 Dec 2021 07:33:19 -0800 (PST)
+Received: from [192.168.26.149] (ip-194-187-74-233.konfederacka.maverick.com.pl. [194.187.74.233])
+        by smtp.googlemail.com with ESMTPSA id k3sm2760634ljn.55.2021.12.21.07.33.18
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Dec 2021 07:19:37 -0800 (PST)
-Message-ID: <303f21d3-42b4-2f11-3f22-28f89f819080@redhat.com>
-Date:   Tue, 21 Dec 2021 16:19:33 +0100
+        Tue, 21 Dec 2021 07:33:19 -0800 (PST)
+Message-ID: <e6167555-6425-4457-254d-8cba61153b1a@gmail.com>
+Date:   Tue, 21 Dec 2021 16:33:18 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Content-Language: en-US
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Nadav Amit <namit@vmware.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Hugh Dickins <hughd@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Yang Shi <shy828301@gmail.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Roman Gushchin <guro@fb.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Peter Xu <peterx@redhat.com>,
-        Donald Dutile <ddutile@redhat.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Oleg Nesterov <oleg@redhat.com>, Jan Kara <jack@suse.cz>,
-        Linux-MM <linux-mm@kvack.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <5CA1D89F-9DDB-4F91-8929-FE29BB79A653@vmware.com>
- <CAHk-=wh-ETqwd6EC2PR6JJzCFHVxJgdbUcMpW5MS7gCa76EDsQ@mail.gmail.com>
- <4D97206A-3B32-4818-9980-8F24BC57E289@vmware.com>
- <CAHk-=whxvVQReBqZeaV41=sAWfT4xTfn6sMSWDfkHKVS3zX85w@mail.gmail.com>
- <5A7D771C-FF95-465E-95F6-CD249FE28381@vmware.com>
- <CAHk-=wgMuSkumYxeaaxbKFoAbw_gjYo1eRXXSFcBHzNG2xauTA@mail.gmail.com>
- <CAHk-=whYT0Q1F=bxG0yi=LN5gXY64zBwefsbkLoRiP5p598d5A@mail.gmail.com>
- <fca16906-8e7d-5d04-6990-dfa8392bad8b@redhat.com>
- <20211221010312.GC1432915@nvidia.com>
- <fd7e3195-4f36-3804-1793-d453d5bd3e9f@redhat.com>
- <20211221142812.GD1432915@nvidia.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v1 06/11] mm: support GUP-triggered unsharing via
- FAULT_FLAG_UNSHARE (!hugetlb)
-In-Reply-To: <20211221142812.GD1432915@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:96.0) Gecko/20100101
+ Thunderbird/96.0
+Subject: Re: [PATCH 2/2] nvmem: expose NVMEM cells in sysfs
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?= <kw@linux.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+References: <YcF4E82M89huIbSD@kroah.com>
+ <3cb1d0a4-6e20-f751-6d66-c1487ef31f30@gmail.com> <YcF+g0ra5tttXOQF@kroah.com>
+ <0527135c-35f5-bc63-edb3-81cb03eb03f6@gmail.com> <YcHPGQ0FH0kTzpbq@kroah.com>
+ <ab52292c-3065-789b-d5ae-ef24bab5fc90@gmail.com> <YcHWVMa6vjz3Gp51@kroah.com>
+ <d626c2c2-5071-522f-330f-688254087d74@gmail.com> <YcHkS0iDUhplbqUc@kroah.com>
+ <76fae18d-f4aa-450d-b8ba-19fda137fe25@gmail.com> <YcHwPt2Uc8KSy3lG@kroah.com>
+From:   =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+In-Reply-To: <YcHwPt2Uc8KSy3lG@kroah.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 21.12.21 15:28, Jason Gunthorpe wrote:
-> On Tue, Dec 21, 2021 at 09:58:32AM +0100, David Hildenbrand wrote:
->>> I'm having a hard time imagining how gup_fast can maintain any sort of
->>> bit - it lacks all forms of locks so how can we do an atomic test and
->>> set between two pieces of data?
+On 21.12.2021 16:18, Greg Kroah-Hartman wrote:
+> On Tue, Dec 21, 2021 at 04:09:13PM +0100, Rafał Miłecki wrote:
+>> So both: kernel and user space need to access U-Boot environment
+>> variables (NVMEM cells). Each for its own purposes.
 >>
->> And exactly that is to be figured out.
+>> Kernel goes first so it needs its own parser of NVMEM content (data).
 >>
->> Note that I am trying to make also any kind of R/O pins on an anonymous
->> page work as expected as well, to fix any kind of GUP after fork() and
->> GUP before fork(). So taking a R/O pin on an !PageAnonExclusive() page
->> similarly has to make sure that the page is exclusive -- even if it's
->> mapped R/O (!).
+>> User space can either: get NVMEM cells exposed by kernel OR parse NVMEM
+>> content on its own. I thought it'd be nice to avoid parsing code
+>> duplication in user space and let kernel expose NVMEM cells.
 > 
-> Why? AFAIK we don't have bugs here. If the page is RO and has an
-> elevated refcount it cannot be 'PageAnonExclusive' and so any place
-> that wants to drop the WP just cannot. What is the issue?
-
-Sure it can.
-
-1. Map page R/W
-2. Pin it R/W
-3. Swapout
-4. Read access
-
-Page is now mapped R/O and *has to be* marked PageAnonExclusive(), to
-properly skip the COW fault. That's literally 60% of the reproducers we
-have that need fixing.
-
-
-But what I think you actually mean is if we want to get R/O pins right.
+> Ah, so you already have the data parsed, and you just want to also
+> expose it to userspace.  That makes more sense (sorry, it's been a long
+> day of reviewing crappy patches, not yours of course...)
 > 
->> BUT, it would mean that whenever we fork() and there is one additional
->> reference on a page (even if it's from the swapcache), we would slow
->> down fork() even if there was never any GUP. This would apply to any
->> process out there that does a fork() ...
+> So sure, you can dynamically create attributes and then add them to the
+> device before you register it with the driver core.  Be sure to
+> initialize them properly with the call I pointed out previously and you
+> should be good to go.  You will have to keep a list of them around and
+> then free them yourself when the device is cleaned up, so watch out for
+> that.
 > 
-> You mean because we'd copy?
+> And again, don't use a binary attribute, that's not what it is for.
 
-Yes.
+Thanks for review & discussing this! I really appreciate you getting
+this patch details out of me so it's clear how to proceed.
 
-> 
-> Is this common? Linus' prior email was talking as though swap is so
-> rare we should't optimize for it?
-At least in the enterprise segment having swap enabled is mostly a hard
-documented requirement. On customer installations swap is still common,
-and even gets replaced zswap that is enabled automatically in many
-installations ...
-
-So in the world I live and work in, swap is used frequently.
-
->  
->> So the idea is to mark a page only exclusive as soon as someone needs
->> the page to be exclusive and stay exclusive (-> e.g., GUP with FOLL_PIN
->> or selected FOLL_GET like O_DIRECT). This can happen in my current
->> approach using two ways:
->>
->> (1) Set the bit when we know we are the only users
->>
->> We can set PageAnonExclusive() in case *we sync against fork* and the
->> page cannot get unmapped (pt lock) when:
->> * The page is mapped writable
->> * The page is mapped readable and page_count == 1
-> 
-> I'm still not sure I see that all this complexity is netting a gain?
-
-Avoid copy on fork().
-
->  
->> If we cannot set the page exclusive, we have to trigger a page fault.
->>
->> (2) During pagefaults when FOLL_FAULT_UNSHARE is set.
-> 
-> Why do we need FOLL_FAULT_UNSHARE ? AFAICT that was part of this
-> series because of mapcount, once the hugetlb COW is fixed to use
-> refcount properly, as Linus showed, the bugs this was trying to fix go
-> away.
-
-The purpose of FOLL_FAULT_UNSHARE in the !mapcount version is to cleanly
-support R/O pins without the need for FOLL_WRITE.
-
-And it's comparatively easy to add on top. This is not core of the
-complexity, really.
-
-> 
-> And as discussed before it is OK if READ gup becomes incoherent, that
-> is its defined semantic.
-
-And that's where I still disagree.
-
-But anyhow, this is really more about FOLL_FAULT_UNSHARE, which is
-pretty easy and natural to add on top and just gets this right.
-
-> 
->> The above should work fairly reliable with GUP. But indeed,
->> gup-fast-only is the problem. I'm still investigating what kind of
->> lightweight synchronization we could do against fork() such that we
->> wouldn't try setting a page PageAnonExclusive() while fork()
->> concurrently shares the page.
->>
->> We could eventually use the page lock and do a try_lock(), both in
->> fork() and in gup-fast-only. fork() would only clear the bit if the
->> try_lock() succeeded. gup-fast-only would only be able to set the bit
->> and not fallback to the slow path if try_lock() succeeded.
-> 
-> I suspect that is worse than just having fork clear the bit and leave
-> GUP as-is. try lock is an atomic, clearing PageAnonExclusive does not
-> need to be atomic, it is protected by the PTL.
-
-There are 2 models, leaving FOLL_FAULT_UNSHARE out of the picture for now:
-
-1) Whenever mapping an anonymous page R/W (after COW, during ordinary
-fault, on swapin), we mark the page exclusive. We must never lose the
-PageAnonExclusive bit, not during migration, not during swapout.
-
-fork() will process the bit for each and every process, even if there
-was no GUP, and will copy if there are additional references.
-
-2) Whenever GUP wants to pin/ref a page, we try marking it exclusive. We
-can lose the PageAnonExclusive bit during migration and swapout, because
-that can only happen when there are no additional references.
-
-fork() will process the bit only if there was GUP. Ordinary fork() is
-left unchanged.
-
-
-Getting R/O supported in the same way just means that we have to check
-on a R/O pin if the page is PageAnonExclusive, and if that's not the
-case, trigger a FOLL_FAULT_UNSHARE fault. That's really the only
-"complexity" on top which is without the mapcount really easy.
-
--- 
-Thanks,
-
-David / dhildenb
-
+Lesson learnt: spend more time on describing my commits.
