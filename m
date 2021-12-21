@@ -2,74 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BDD4C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Dec 2021 02:50:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80D35C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Dec 2021 03:29:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233848AbhLUCum (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 20 Dec 2021 21:50:42 -0500
-Received: from szxga03-in.huawei.com ([45.249.212.189]:30154 "EHLO
-        szxga03-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233671AbhLUCum (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Dec 2021 21:50:42 -0500
-Received: from dggpeml500020.china.huawei.com (unknown [172.30.72.57])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4JJ19K4KQwz8w0n;
-        Tue, 21 Dec 2021 10:48:21 +0800 (CST)
-Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
- dggpeml500020.china.huawei.com (7.185.36.88) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 21 Dec 2021 10:50:40 +0800
-Received: from huawei.com (10.175.100.227) by dggpeml500006.china.huawei.com
- (7.185.36.76) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Tue, 21 Dec
- 2021 10:50:40 +0800
-From:   Tang Yizhou <tangyizhou@huawei.com>
-To:     <peterz@infradead.org>, <mingo@redhat.com>,
-        <vincent.guittot@linaro.org>, <dietmar.eggemann@arm.com>,
-        <corbet@lwn.net>
-CC:     <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <zhengbin13@huawei.com>, <tangyeechou@gmail.com>,
-        Tang Yizhou <tangyizhou@huawei.com>
-Subject: [PATCH] docs: scheduler: Fix outdated parameter of rebalance_domains
-Date:   Tue, 21 Dec 2021 11:18:18 +0800
-Message-ID: <20211221031818.23186-1-tangyizhou@huawei.com>
-X-Mailer: git-send-email 2.17.1
+        id S229973AbhLUD3u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 20 Dec 2021 22:29:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37304 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229602AbhLUD3u (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 Dec 2021 22:29:50 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D607C061574;
+        Mon, 20 Dec 2021 19:29:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=4/ofnA93MB0dtNJDnD1hlkEoHaSdJsk2n9FUm5M/5P4=; b=jhNWENbQ7taimgHAwhZK+qk4O/
+        B0SrrJQsLG31HJBXTkSiLOYCGMEz38WndNA2sLzuqm4pnZ3fsnMtYQrXD7oa3gDYQV+2/bE6aCZqJ
+        di+T2/wvtz6CotoytzvKvjuiwzsN2wh8iGnrexn0njrRIcc6iKLggwF18gEHWSvMXReRsD5zu19li
+        +dQdybF1DCY1lGff19sXOK8dyQJB/TY7z7Eg2btAzScGrXGefOwOpR1ZXLe3FR1Dbcgzj4oGJV2hi
+        WzK2YXlMvojWbc88kRurNY3+M43ngGye/j3WHnOH/C7RAGSnmB3HRuuUOBPAt/ICwMnX0e4Rvsy5U
+        7hpnFIAA==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mzVqJ-0028lH-RV; Tue, 21 Dec 2021 03:29:35 +0000
+Date:   Tue, 21 Dec 2021 03:29:35 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     David Hildenbrand <david@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Nadav Amit <namit@vmware.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Hugh Dickins <hughd@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Yang Shi <shy828301@gmail.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Roman Gushchin <guro@fb.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Peter Xu <peterx@redhat.com>,
+        Donald Dutile <ddutile@redhat.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Oleg Nesterov <oleg@redhat.com>, Jan Kara <jack@suse.cz>,
+        Linux-MM <linux-mm@kvack.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v1 06/11] mm: support GUP-triggered unsharing via
+ FAULT_FLAG_UNSHARE (!hugetlb)
+Message-ID: <YcFKH2kXFec9/pyn@casper.infradead.org>
+References: <20211218184233.GB1432915@nvidia.com>
+ <5CA1D89F-9DDB-4F91-8929-FE29BB79A653@vmware.com>
+ <CAHk-=wh-ETqwd6EC2PR6JJzCFHVxJgdbUcMpW5MS7gCa76EDsQ@mail.gmail.com>
+ <4D97206A-3B32-4818-9980-8F24BC57E289@vmware.com>
+ <CAHk-=whxvVQReBqZeaV41=sAWfT4xTfn6sMSWDfkHKVS3zX85w@mail.gmail.com>
+ <5A7D771C-FF95-465E-95F6-CD249FE28381@vmware.com>
+ <CAHk-=wgMuSkumYxeaaxbKFoAbw_gjYo1eRXXSFcBHzNG2xauTA@mail.gmail.com>
+ <CAHk-=whYT0Q1F=bxG0yi=LN5gXY64zBwefsbkLoRiP5p598d5A@mail.gmail.com>
+ <fca16906-8e7d-5d04-6990-dfa8392bad8b@redhat.com>
+ <20211221010312.GC1432915@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.100.227]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpeml500006.china.huawei.com (7.185.36.76)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211221010312.GC1432915@nvidia.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-According to the function prototype of rebalance_domains(), its first
-parameter is *rq* and the document need to be updated.
+On Mon, Dec 20, 2021 at 09:03:12PM -0400, Jason Gunthorpe wrote:
+> That just leave the THP splitting.. I suppose we get the PTL, then
+> compute the current value of the new bit based on refcount and diffuse
+> it to all tail pages, then update the PMD and release the PTL. Safe
+> against concurrent WP - don't need DoubleMap horrors because it isn't
+> a counter.
 
-Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
----
- Documentation/scheduler/sched-domains.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/scheduler/sched-domains.rst b/Documentation/scheduler/sched-domains.rst
-index 84dcdcd2911c..e57ad28301bd 100644
---- a/Documentation/scheduler/sched-domains.rst
-+++ b/Documentation/scheduler/sched-domains.rst
-@@ -37,10 +37,10 @@ rebalancing event for the current runqueue has arrived. The actual load
- balancing workhorse, run_rebalance_domains()->rebalance_domains(), is then run
- in softirq context (SCHED_SOFTIRQ).
- 
--The latter function takes two arguments: the current CPU and whether it was idle
--at the time the scheduler_tick() happened and iterates over all sched domains
--our CPU is on, starting from its base domain and going up the ->parent chain.
--While doing that, it checks to see if the current domain has exhausted its
-+The latter function takes two arguments: the runqueue of current CPU and whether
-+the CPU was idle at the time the scheduler_tick() happened and iterates over all
-+sched domains our CPU is on, starting from its base domain and going up the ->parent
-+chain. While doing that, it checks to see if the current domain has exhausted its
- rebalance interval. If so, it runs load_balance() on that domain. It then checks
- the parent sched_domain (if it exists), and the parent of the parent and so
- forth.
--- 
-2.17.1
-
+One of the things I've been trying to figure out is how we do
+can_split_huge_page().  Maybe an rmap walk to figure out how many
+refcounts we would subtract if we did unmap it from everywhere it's
+currently mapped?  (just to be clear, we call unmap_page() as the
+next thing, so I don't mind warming up the rbtree cachelines
+if it's mapped anywhere)
