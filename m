@@ -2,237 +2,233 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4F10C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Dec 2021 14:13:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 505C5C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Dec 2021 14:28:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238364AbhLUONn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Dec 2021 09:13:43 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:16846 "EHLO
-        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232757AbhLUONn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Dec 2021 09:13:43 -0500
-Received: from dggpeml500025.china.huawei.com (unknown [172.30.72.56])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JJJM74966z91mc;
-        Tue, 21 Dec 2021 22:12:51 +0800 (CST)
-Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
- dggpeml500025.china.huawei.com (7.185.36.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 21 Dec 2021 22:13:41 +0800
-Received: from [10.174.177.232] (10.174.177.232) by
- dggpeml500006.china.huawei.com (7.185.36.76) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 21 Dec 2021 22:13:40 +0800
-Subject: Re: [PATCH] docs/zh_CN: Add sched-domains translation
-To:     yanteng si <siyanteng01@gmail.com>
-CC:     Yanteng Si <siyanteng@loongson.cn>, Alex Shi <alexs@kernel.org>,
-        Alex Shi <seakeel@gmail.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, <zhengbin13@huawei.com>,
-        Yeechou Tang <tangyeechou@gmail.com>
-References: <20211221023158.31845-1-tangyizhou@huawei.com>
- <CAEensMz_EytaeBB1qhwTGuBd8SQnhQhjO05XcC8=LSrp7+BAZA@mail.gmail.com>
- <6169f755-a17e-cdf6-8a08-e5da3c358daf@huawei.com>
- <CAEensMzeEXeH5Y05J8uRuq=6R+oxtdzFzKi-WJe=f0VvrzsFYQ@mail.gmail.com>
-From:   Tang Yizhou <tangyizhou@huawei.com>
-Message-ID: <318184bb-3df5-d194-e929-0c95a0c2cb2f@huawei.com>
-Date:   Tue, 21 Dec 2021 22:13:40 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.1.1
+        id S238444AbhLUO2Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Dec 2021 09:28:16 -0500
+Received: from mail-dm6nam11on2054.outbound.protection.outlook.com ([40.107.223.54]:4993
+        "EHLO NAM11-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S232258AbhLUO2Q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 21 Dec 2021 09:28:16 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=I7C/4XJZZrl5nYkGAYhblUMDzBZgrhabLbfTJRfs03nRFtpUhF7auqbjcNcRrq3ojO4ZE/J64elKDUY+UBnh2uoN4XqhfOGfGY7iSkNwXPXVpqK/a2TaFqNjCxsXzEDj9qNeu4sfk4trztOCJF+Z8Eyo8bUG0gSyeoDAbgCE85LmYLtBHD7OJQDWmLgtATKBW5L8/4thj6V9wkPtj9oqpHTFamz/1bB0LvuWYDJs6AKl4dh3bPu7Xws//q6BMtWuAotscXgYeiDvFzX6UKCzIylFXAlKrYYHsolkc3UBNxp3JAkMvzH0NQUFxnEI6t2z+9vAux4vsUZdrGBs5eGWZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Dezp2gh7jjkmOBEOZ0vpRiTlvbGGt/pCn1wUlfguWYg=;
+ b=OOAK+QvFz4UpK3yOOm3QdS84wC2BseeomOb6tde9roqP291kJyjcOJZHDoyc1S21/jaYHjPKR91Bs9oAyZfxO7xQwhWhhMRToU7qmvpxe3WKNN2m5WtXA6tozLznq+xjFIAz3UmrFvt4hvtLrthp9SOuJJWxnBRGfXOEhFcIqkByJ+WHG2IWXwlxXG1tS2okCix/lMw5oHsdeRzrI6MG1zhD90aECz8sJipiBkeY32LV3YHVh+OL1IE43GGFf8s6cFNmOhGZIqswK8qlEqK5X5ztZHtW+e9pNkBDZ7weIAgUrNmjAqpiEgAFbLaaXntl3v3RdEQPxjFTUcIx6L7v3A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Dezp2gh7jjkmOBEOZ0vpRiTlvbGGt/pCn1wUlfguWYg=;
+ b=GgiXLDN5KDdsqHFnPhTEM9MarATh13yNm8R5hT49iKMqgE3nPefhqzVref/tGFNOdSyQIV4i92OCIPG8yXWASUOLXbWLlrS/TALdkGTb41QKnZZ9phqQeQzBHsfOnnBUxK3E//Iyv68aygfze3dyyxT5u/D/Nm+YCveqp8ClSthsu/klJgFR1wy7SqXmPnH5N6aseH+Jquty5faaSB/U7UlPZRubmQuBQ60K8BafE7z9p2HHp+3J6ibVvwYPds0MLL+x81uKpFcOjmV4OtOKYSqfrcIFqC/+Al8k2hTQsiFCXI4MDov7nTC7lMkHyYWitY61G5wVmp8dHoaR8xyMFA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
+ by BL0PR12MB5508.namprd12.prod.outlook.com (2603:10b6:208:1c1::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.14; Tue, 21 Dec
+ 2021 14:28:14 +0000
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::d8be:e4e4:ce53:6d11]) by BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::d8be:e4e4:ce53:6d11%7]) with mapi id 15.20.4823.017; Tue, 21 Dec 2021
+ 14:28:13 +0000
+Date:   Tue, 21 Dec 2021 10:28:12 -0400
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Nadav Amit <namit@vmware.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Hugh Dickins <hughd@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Yang Shi <shy828301@gmail.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Roman Gushchin <guro@fb.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Peter Xu <peterx@redhat.com>,
+        Donald Dutile <ddutile@redhat.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Oleg Nesterov <oleg@redhat.com>, Jan Kara <jack@suse.cz>,
+        Linux-MM <linux-mm@kvack.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v1 06/11] mm: support GUP-triggered unsharing via
+ FAULT_FLAG_UNSHARE (!hugetlb)
+Message-ID: <20211221142812.GD1432915@nvidia.com>
+References: <5CA1D89F-9DDB-4F91-8929-FE29BB79A653@vmware.com>
+ <CAHk-=wh-ETqwd6EC2PR6JJzCFHVxJgdbUcMpW5MS7gCa76EDsQ@mail.gmail.com>
+ <4D97206A-3B32-4818-9980-8F24BC57E289@vmware.com>
+ <CAHk-=whxvVQReBqZeaV41=sAWfT4xTfn6sMSWDfkHKVS3zX85w@mail.gmail.com>
+ <5A7D771C-FF95-465E-95F6-CD249FE28381@vmware.com>
+ <CAHk-=wgMuSkumYxeaaxbKFoAbw_gjYo1eRXXSFcBHzNG2xauTA@mail.gmail.com>
+ <CAHk-=whYT0Q1F=bxG0yi=LN5gXY64zBwefsbkLoRiP5p598d5A@mail.gmail.com>
+ <fca16906-8e7d-5d04-6990-dfa8392bad8b@redhat.com>
+ <20211221010312.GC1432915@nvidia.com>
+ <fd7e3195-4f36-3804-1793-d453d5bd3e9f@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fd7e3195-4f36-3804-1793-d453d5bd3e9f@redhat.com>
+X-ClientProxiedBy: CH2PR04CA0019.namprd04.prod.outlook.com
+ (2603:10b6:610:52::29) To BL0PR12MB5506.namprd12.prod.outlook.com
+ (2603:10b6:208:1cb::22)
 MIME-Version: 1.0
-In-Reply-To: <CAEensMzeEXeH5Y05J8uRuq=6R+oxtdzFzKi-WJe=f0VvrzsFYQ@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.177.232]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpeml500006.china.huawei.com (7.185.36.76)
-X-CFilter-Loop: Reflected
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: af7b0afc-2575-47ba-87f5-08d9c48e1f0e
+X-MS-TrafficTypeDiagnostic: BL0PR12MB5508:EE_
+X-Microsoft-Antispam-PRVS: <BL0PR12MB55084B2349BA2C7524522AB1C27C9@BL0PR12MB5508.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: +wO+E4DI8kqZtssocWdkV146972o0m16srgQjrs0YIV9GeuRB11qC7EzwKNEKMk6sSZ9aBsqREdAnnD1Z3U2QpTH6NMkVk2H+UF8ZUzkum9zafdSAzWSQsOYrokqPQl8fwq5lUqBuMqpU8Y8am05ta+scAcwNEPKPOjUj3+7weQUp25ByxR0TpDO+T7InH0hRWnKl7gbXAo1XYSDMrctzZvFpV+pKQU5671sO3DSlvrxFJcnZ5RvwfZu+q1gtOK0JfzDa7j2gYHRIB3uefZATSqfmiwH3dVOhTqOJthdkv4iQf8UAW++hFB+5SROhU0yyGQ0Rnu8p5PRV3n+fKKhfC3Bojch86Jk07nff4R66DA95za/BJy9wVxY/EQ4Y/C1yOLbXByEJoBHk3xRjTi8x01L78wSZPaT/fkHu2toQi5gihSsH8sibpEw2BqP6EY8DEBG/yzak8SbN1oh+aH2ngjpFUudevZ8G6XVLdfIyZMMd9RmLvCdhnOz6kiDCVVQ0542OFvOH45kgkpiOfB7Ckwm6ojhsWv2FPDWxIEIkfmTyquPWUUvqfnAnjmvOeRhmMp7cXzh6Zu6ZAV+P7QZgjgCl0uANSBCDCjVtGe8w3SV37yxKj5NmnBsTod6dJ2wqFGNkEZeMXOxIyTGIps9mw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB5506.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(6506007)(6512007)(7416002)(2906002)(1076003)(8676002)(86362001)(508600001)(38100700002)(6916009)(36756003)(83380400001)(4326008)(186003)(316002)(54906003)(2616005)(66556008)(66476007)(33656002)(6486002)(66946007)(8936002)(26005)(5660300002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?H8/tE3MKdIFZhFn7MSi09e0Ypqwr7IKxpWbi0HF09TvY5OSciK/+JLXnjX9z?=
+ =?us-ascii?Q?KRoLD8kwUBPtisMWvFtyCTlYifvHztqIkNrlo3Q8nMZNsRX0m3okjO3rbcKA?=
+ =?us-ascii?Q?eeXpvs3yxIfVAuDPcJS16mOeZYv3eTKZCtvjfArxgpOUWBZOCcrXbMhderDN?=
+ =?us-ascii?Q?Xv2K7FiNDY1ibG5P2UebFM0HWrOgDHGvMt06nGhNQVDcPz20NRnfA174pl7D?=
+ =?us-ascii?Q?6VhQGYjY8vV9cq9jxKGDUaXlRd0XwRKWj256pcnDjfNY6IXkNyLs7BbwJfL8?=
+ =?us-ascii?Q?otSxwRyqnC01EkYZv5nPZD21/izXfUafZcEbp9VK644kYktzuhRwPfakMYD+?=
+ =?us-ascii?Q?vJ3JirMPdTJS9lLLGgG1S5YgzD2ZDK7fWymbm2AqBi+xjUhHYUS6gY2ceEaA?=
+ =?us-ascii?Q?hqJyGm1Gvovr3JtZovw6h3cLoB0H0c4gn1sh8gCllxhczChvZZKY9eBlFiUf?=
+ =?us-ascii?Q?S6QPZqjtZgR4Q/NYTJ62tkGEdGWSuPKY/j2aB08FfaXn++pmqiDi+QLHkVOl?=
+ =?us-ascii?Q?572nsQ5Jkvmr69LKwDAeNayy88d7km/noajsSroRTyw27AvrOdCI9ZRZ+AT4?=
+ =?us-ascii?Q?em0XLxwPeXFiOk/BpbztsQ9iCOAQmFePv+M+Ir+VAyXsss1IwQwI9qkuT1F5?=
+ =?us-ascii?Q?2+3G1/Idlbd0acUiGO0E2Kg4HM0alQ28iG3xJa7w6ztMFjKBGoltE0k/y5ke?=
+ =?us-ascii?Q?ck/5FvyN9R7zJQXsXrWfFOgtI2G5lA3yA2CAg/BYjubu/4g7ZjJYU82vZEOL?=
+ =?us-ascii?Q?UKsyQ+Zeokb3o8sJrmLnfTBI4xsHx8gGJU1D6VhsP3NW11kXvaVqkIkjbxpM?=
+ =?us-ascii?Q?GsfrFBGRl2D8WyFB8pkYcstqPgXYJk2PoVQkWOTOmeanHtiozOO+aKKDROlu?=
+ =?us-ascii?Q?IFYXsqRhLkt2JqYe+MNA0RKMU+jlnvFN8E5KlnOH7pc/bL+TsGNveQmLhfTp?=
+ =?us-ascii?Q?j/czblip8ARYxtCffh7uefDwFFkeJbLjkmiTOTC982R849/k7oOgkrLIS6lb?=
+ =?us-ascii?Q?8qwg2Ki87ob2NcDhXMza1U4TDyhVyhDW7FEO82sIzRv1/fov2+Ir+8fQ/SLp?=
+ =?us-ascii?Q?Alvmj79Wsc0Y34PkSzX2loGFjlun6JP/nedgzlSHB+i2TRMnjpr4NcNH5aMl?=
+ =?us-ascii?Q?XYUgiun+7Tz7RZsriY6YuYdictQonzUHA1VjCmMgfj7VK8/vp8Xl5cfG23pP?=
+ =?us-ascii?Q?yzHOII/qcZxqz2/e0FL7QRQ2Zc8UDR+rV2ZjQ4ScgdGQ77jf6dz5QCjJMdgA?=
+ =?us-ascii?Q?Ej3oVNydAQc9mZ/VoVU9LO1Z2xLxx53/MbXD5vT0CaVBdmBlR4S3OWhxM63l?=
+ =?us-ascii?Q?y3VAezLbqySziryjTE2XzlQVfO7GuVVrVE63CIhznRNXL8NV/zltoBP+dO40?=
+ =?us-ascii?Q?ltev6JomWo0zVqkvv3RikUy4lJTpdLjHEJBcJ6cNQcfBjLsQdrWNalrzyqli?=
+ =?us-ascii?Q?4dCL9+x1WniVqWqSxAtVbs77xD5QxwjQHATxm+/T41gPeNeorm+wdHJhRRWw?=
+ =?us-ascii?Q?cvzOc/j0CZm+KmTBANVDfoVEnNpV7yZkLN1WRCSWT73XoTrBcOlRtLk1Kn+e?=
+ =?us-ascii?Q?Q6Js0XeDfDBlkxuuNJk=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: af7b0afc-2575-47ba-87f5-08d9c48e1f0e
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Dec 2021 14:28:13.8206
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qrwfRejtg/ABjKrgBgJzUmG9YwWFt+uLWW8QIHBD4fKp+XVs0ZPsEdM9BzZbayLE
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB5508
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021/12/21 20:04, yanteng si wrote:
-> Tang Yizhou <tangyizhou@huawei.com> 于2021年12月21日周二 15:25写道：
->>
->> On 2021/12/21 14:54, yanteng si wrote:
->>> Tang Yizhou <tangyizhou@huawei.com> 于2021年12月21日周二 10:04写道：
->>>>
->>>> Translate scheduler/sched-domains.rst into Chinese.
->>>>
->>>> Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
->>>> ---
->>>>  .../translations/zh_CN/scheduler/index.rst    |  2 +-
->>>>  .../zh_CN/scheduler/sched-domains.rst         | 67 +++++++++++++++++++
->>>>  2 files changed, 68 insertions(+), 1 deletion(-)
->>>>  create mode 100644 Documentation/translations/zh_CN/scheduler/sched-domains.rst
->>>>
->>>> diff --git a/Documentation/translations/zh_CN/scheduler/index.rst b/Documentation/translations/zh_CN/scheduler/index.rst
->>>> index 5327c61cb0ab..f8f8f35d53c7 100644
->>>> --- a/Documentation/translations/zh_CN/scheduler/index.rst
->>>> +++ b/Documentation/translations/zh_CN/scheduler/index.rst
->>>> @@ -21,6 +21,7 @@ Linux调度器
->>>>      sched-arch
->>>>      sched-bwc
->>>>      sched-design-CFS
->>>> +    sched-domains
->>>>      sched-capacity
->>>>
->>>>
->>>> @@ -28,7 +29,6 @@ TODOList:
->>>>
->>>>      sched-bwc
->>>>      sched-deadline
->>>> -    sched-domains
->>>>      sched-energy
->>>>      sched-nice-design
->>>>      sched-rt-group
->>>> diff --git a/Documentation/translations/zh_CN/scheduler/sched-domains.rst b/Documentation/translations/zh_CN/scheduler/sched-domains.rst
->>>> new file mode 100644
->>>> index 000000000000..7aec24c03357
->>>> --- /dev/null
->>>> +++ b/Documentation/translations/zh_CN/scheduler/sched-domains.rst
->>>> @@ -0,0 +1,67 @@
->>>> +.. SPDX-License-Identifier: GPL-2.0
->>>> +.. include:: ../disclaimer-zh_CN.rst
->>>> +
->>>> +:Original: Documentation/scheduler/sched-domains.rst
->>>> +
->>>> +:翻译:
->>>> +
->>>> +  唐艺舟 Tang Yizhou <tangyeechou@gmail.com>
->>>> +
->>>> +======
->>>> +调度域
->>>> +======
->>>> +
->>>> +每个CPU有一个“基”调度域（struct sched_domain）。调度域层次结构从基调度域构建而来，可
->>>> +通过->parent指针自下而上遍历。->parent必须以NULL结尾，调度域数据结构必须是per-CPU的，
->>
->>> 数据结构 -> 结构体
->> OK
->>
->>>> +因为它们无锁更新。
->>>> +
->>>> +每个调度域管辖数个CPU（存储在->span字段中）。一个调度域的span必须是它的子调度域span的
->>
->>> what stored in the -> field? This needs to be translated clearly.
->> 这里是英文原文的直接翻译。span字段就是调度域管辖的那些CPU。我全文把动词的span翻译成“管辖”了。
-
-> cpu掩码/数量存储在……？
-
-你得结合源码的结构体定义看。并不是掩码或者数量，是可变长数组表示的CPU列表。
-
->>
->>>> +超集（如有需求出现，这个限制可以放宽）。CPU i的基调度域必须至少管辖CPU i。每个CPU的
->>>> +顶层调度域通常将会管辖系统中的全部CPU，尽管严格来说这不是必须的，假如是这样，会导致某些
->>>> +CPU出现永远不会被指定任务运行的情况，直到允许的CPU掩码被显式设定。调度域的span字段意味
->>>> +着“在这些CPU中做进程负载均衡”。
->>>> +
->>>> +每个调度域必须具有一个或多个CPU调度组（struct sched_group），它们以单向循环链表的形式
->>>> +组织，存储在->groups指针中。这些组的CPU掩码的并集必须和调度域span字段一致。->groups
->>>> +指针指向的这些组包含的CPU，必须被调度域管辖。组包含的是只读数据，被创建之后，可能被多个
->>>> +CPU共享。任意两个组的CPU掩码的交集不一定为空，如果是这种情况，对应调度域的SD_OVERLAP
->>>> +标志位被设置，它管辖的调度组可能不能在多个CPU中共享。
->>>> +
->>>> +调度域中的负载均衡发生在调度组中。也就是说，每个组被视为一个实体。组的负载被定义为它
->>>> +管辖的每个CPU的负载之和。仅当组的负载不均衡后，任务在组之间发生迁移。
->>
->>> 才在组之间发生迁移。
->> OK
->>
->>>> +
->>>> +在kernel/sched/core.c中，trigger_load_balance()在每个CPU上通过scheduler_tick()
->>>> +周期执行。在当前运行队列下一个定期调度再平衡事件到达后，它引发一个软中断。负载均衡真正
->>>> +的工作由run_rebalance_domains()->rebalance_domains()完成，在软中断上下文中执行
->>>> +（SCHED_SOFTIRQ）。
->>>> +
->>>> +后一个函数有两个入参：当前CPU的运行队列、它在scheduler_tick()调用时是否空闲。函数会从
->>>> +当前CPU所在的基调度域开始迭代执行，并沿着parent指针链向上进入更高层级的调度域。在迭代
->>>> +过程中，函数会检查当前调度域是否已经耗尽了再平衡的时间间隔，如果是，它在该调度域运行
->>>> +load_balance()。接下来它检查父调度域（如果存在），再后来父调度域的父调度域，以此类推。
->>>> +
->>>> +起初，load_balance()查找当前调度域中最繁忙的调度组。如果成功，在该调度组管辖的全部CPU
->>>> +的运行队列中找出最繁忙的。如能找到，对当前的CPU运行队列和新找到的最繁忙运行队列均加锁，
->>
->>> 找出最繁忙的 **什么**？
->> 我觉得英文原文不够精炼，这里还是保持原样吧：
->> 在该调度组管辖的全部CPU的运行队列中找出最繁忙的运行队列。
-> OK!
->>
->>>> +并把任务从最繁忙队列中迁移到当前CPU上。被迁移的任务数量等于在先前迭代执行中计算出的该
->>>> +调度域的调度组的不均衡值。
->>>> +
->>>> +实现调度域
->>>> +==========
->>>> +
->>>> +基调度域会管辖CPU层次结构中的第一层。对于超线程（SMT）而言，基调度域将会管辖同一个物理
->>>> +CPU的全部虚拟CPU，每个虚拟CPU对应一个调度组。
->>>> +
->>>> +在SMP中，基调度域的父调度域将会管辖同一个结点中的全部物理CPU。接下来，如果是NUMA系统，
->>>> +SMP调度域的父调度域将管辖整个机器，一个结点的CPU掩码对应一个调度组。或者，你可以使用
->>>> +多层次NUMA；或举例来说Opteron处理器，可能仅仅只有一个调度域来覆盖它的一个NUMA层级。
->>
->>> 或者，你可以做多级NUMA或Opteron，例如，可能只有一个域覆盖其一个NUMA级别。
->> 这里的英文原文让我困惑，可以讨论一下。Opteron前的or，作者想表达什么？
-> 表示并列，你可以这么做，你也可以这么做。
+On Tue, Dec 21, 2021 at 09:58:32AM +0100, David Hildenbrand wrote:
+> > I'm having a hard time imagining how gup_fast can maintain any sort of
+> > bit - it lacks all forms of locks so how can we do an atomic test and
+> > set between two pieces of data?
 > 
-> Based on my hours of research, the translation of this paragraph is a
-> bit off and you missed a sentence. [Each group being a single physical
-> CPU]
-
-Right. I'll add that.
-
-> I have a rough idea of what the original passage is talking about, but
-> I can't describe it. I need some time. :)
-
-Sorry, I'm not familiar with this AMD processor.
-
+> And exactly that is to be figured out.
 > 
-> Let's discuss these concepts first：
+> Note that I am trying to make also any kind of R/O pins on an anonymous
+> page work as expected as well, to fix any kind of GUP after fork() and
+> GUP before fork(). So taking a R/O pin on an !PageAnonExclusive() page
+> similarly has to make sure that the page is exclusive -- even if it's
+> mapped R/O (!).
+
+Why? AFAIK we don't have bugs here. If the page is RO and has an
+elevated refcount it cannot be 'PageAnonExclusive' and so any place
+that wants to drop the WP just cannot. What is the issue?
+
+> BUT, it would mean that whenever we fork() and there is one additional
+> reference on a page (even if it's from the swapcache), we would slow
+> down fork() even if there was never any GUP. This would apply to any
+> process out there that does a fork() ...
+
+You mean because we'd copy?
+
+Is this common? Linus' prior email was talking as though swap is so
+rare we should't optimize for it?
+ 
+> So the idea is to mark a page only exclusive as soon as someone needs
+> the page to be exclusive and stay exclusive (-> e.g., GUP with FOLL_PIN
+> or selected FOLL_GET like O_DIRECT). This can happen in my current
+> approach using two ways:
 > 
-> 1）基调度域（它的父调度域是谁？）：
-
-调度域的层次结构参见struct sched_domain_topology_level数组，通常来说是SMT-MC-DIE
-三层。但是根据系统实际情况，也是可以不一样的，原文下文简单提到了。
-
-内核文档太简单了，实际上调度域、调度组的细节蛮复杂的。忠于原文的翻译，基本是个
-辅助作用吧。
-
-> 2）NUMA:
-
-from wikipedia: 非均匀内存访问 / 非统一内存访问 。此外还可以见到 非一致内存访问。
-
-> 3）Opteron:
-
-Name of an AMD processor, I'm not going to translate it.
-
+> (1) Set the bit when we know we are the only users
 > 
+> We can set PageAnonExclusive() in case *we sync against fork* and the
+> page cannot get unmapped (pt lock) when:
+> * The page is mapped writable
+> * The page is mapped readable and page_count == 1
+
+I'm still not sure I see that all this complexity is netting a gain?
+ 
+> If we cannot set the page exclusive, we have to trigger a page fault.
 > 
-> Thanks,
-> Yanteng
->>
->> Thanks,
->> Tang
->>
->>>
->>> Thank you for the translation！
->>> The scheduling domain is quite interesting and I decided to take the
->>> time to study it.
->>>
->>> Thanks,
->>>
->>> Yanteng
->>>> +
->>>> +实现者需要阅读include/linux/sched/sd_flags.h的注释：读SD_*来了解具体情况以及调度域的
->>>> +SD标志位调节了哪些东西。
->>>> +
->>>> +体系结构可以把指定的拓扑层级的通用调度域构建器和默认的SD标志位覆盖掉，方法是创建一个
->>>> +sched_domain_topology_level数组，并以该数组作为入参调用set_sched_topology()。
->>>> +
->>>> +调度域调试基础设施可以通过CONFIG_SCHED_DEBUG开启，并在开机启动命令行中增加
->>>> +“sched_verbose”。如果你忘记调整开机启动命令行了，也可以打开
->>>> +/sys/kernel/debug/sched/verbose开关。这将开启调度域错误检查的解析，它应该能捕获
->>>> +绝大多数错误，同时以可视化格式打印调度域的结构。
->>>> --
->>>> 2.17.1
->>>>
+> (2) During pagefaults when FOLL_FAULT_UNSHARE is set.
+
+Why do we need FOLL_FAULT_UNSHARE ? AFAICT that was part of this
+series because of mapcount, once the hugetlb COW is fixed to use
+refcount properly, as Linus showed, the bugs this was trying to fix go
+away.
+
+And as discussed before it is OK if READ gup becomes incoherent, that
+is its defined semantic.
+
+> The above should work fairly reliable with GUP. But indeed,
+> gup-fast-only is the problem. I'm still investigating what kind of
+> lightweight synchronization we could do against fork() such that we
+> wouldn't try setting a page PageAnonExclusive() while fork()
+> concurrently shares the page.
+> 
+> We could eventually use the page lock and do a try_lock(), both in
+> fork() and in gup-fast-only. fork() would only clear the bit if the
+> try_lock() succeeded. gup-fast-only would only be able to set the bit
+> and not fallback to the slow path if try_lock() succeeded.
+
+I suspect that is worse than just having fork clear the bit and leave
+GUP as-is. try lock is an atomic, clearing PageAnonExclusive does not
+need to be atomic, it is protected by the PTL.
+ 
+> > Then on the WP sides.. Obviously we clear the bit when applying a WP
+> > for copy. So all the bad GUP cases are halted now, as with a cleared
+> > bit and a != 1 refcount COW must happen.
+
+> But we really want to avoid degrading fork() for everybody that doesn't
+> do heavy GUP ...
+
+fork() already has to dirty the struct page cache line for refcount,
+setting a flag seems minor at that point? At least we shouldn't
+discard this nice understandable approach without a measurement....
+
+Remember fork is already incring mapcount so if we kill mapcount it is
+a win for fork to replace the mapcount atomic with a non-atomic flag.
+
+> > AFAIK the only places that can break this are places putting struct
+> > page memory into special PTEs. Which is horrific and is just bugs, but
+> > I think I've seen it from time to time :(
+> 
+> As we only care about anon pages, I think that doesn't apply. At least
+> that's what I hope.
+
+You are optimistic :)
+
+Jason
