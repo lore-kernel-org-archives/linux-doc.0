@@ -2,216 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75878C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Dec 2021 14:59:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B010CC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Dec 2021 15:02:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234027AbhLUO70 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Dec 2021 09:59:26 -0500
-Received: from mail-qt1-f170.google.com ([209.85.160.170]:37568 "EHLO
-        mail-qt1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233766AbhLUO7Z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Dec 2021 09:59:25 -0500
-Received: by mail-qt1-f170.google.com with SMTP id f9so1057486qtk.4;
-        Tue, 21 Dec 2021 06:59:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2IPWxjjiSH3m03vEE8pLIENC0WRU8tftzSUIo1Dg3GE=;
-        b=j1+sa5Y2RNUYYg04Y0ju4qQKptzGhj9K1rXrkoVAAn91KS7Mu+RHuafU1jwQ5KCAda
-         uQzlfHKH02pxfHDCg4WgcO8pL3zsiJDr/bxMF4kAOtxdYmoJn0E7T24Jjx+51OLxgHrM
-         g+hhBPLkxJW6fpehe86H6gnv2JPjR3laT7Xghbkrk3n9TYwRxXtUrVO/KdSiqTb8qWyd
-         1GTq1PmwS2yiP5xDieEkpqCnttqg96tLTWqSSVKESqkfoP20chdKhhj893ap1iu5plGL
-         IVRRuIg5guucZACxpbz0E6LGvDmwg4Te8yuV+svXh7NK2p3afsoVwvpZZkCvmwKtGyvp
-         ZIXw==
-X-Gm-Message-State: AOAM532u91AHhiXCIcmT/VqXe1QXFismxf3RviqJcBoVX5NJs9Fhezju
-        Z2RBuqYVrz9HyjbcnbqlGqaxRKr+1/E=
-X-Google-Smtp-Source: ABdhPJybOV5Cvzb6vjMwKkcKp5IV7W/bC/v1DTyzohybNs6Jj3QRaXfeZmsxu36cnDISWMXb6w+R+g==
-X-Received: by 2002:a05:622a:1745:: with SMTP id l5mr1729243qtk.663.1640098764627;
-        Tue, 21 Dec 2021 06:59:24 -0800 (PST)
-Received: from localhost (fwdproxy-ash-117.fbsv.net. [2a03:2880:20ff:75::face:b00c])
-        by smtp.gmail.com with ESMTPSA id y12sm14153952qko.36.2021.12.21.06.59.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Dec 2021 06:59:24 -0800 (PST)
-From:   David Vernet <void@manifault.com>
-To:     pmladek@suse.com, live-patching@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        jpoimboe@redhat.com, jikos@kernel.org, mbenes@suse.cz,
-        joe.lawrence@redhat.com, corbet@lwn.net
-Cc:     void@manifault.com
-Subject: [PATCH v3] Documentation: livepatch: Add livepatch API page
-Date:   Tue, 21 Dec 2021 06:57:45 -0800
-Message-Id: <20211221145743.4098360-1-void@manifault.com>
-X-Mailer: git-send-email 2.30.2
+        id S235028AbhLUPCr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Dec 2021 10:02:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53574 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234288AbhLUPCq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Dec 2021 10:02:46 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9131CC061574;
+        Tue, 21 Dec 2021 07:02:46 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2DFF461639;
+        Tue, 21 Dec 2021 15:02:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3B5BC36AEB;
+        Tue, 21 Dec 2021 15:02:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1640098965;
+        bh=PNKSsW6U222Ve/AYah5qTkiRKKA3jh4SZumvMFaxkuA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XsXRLJB0NYW7K779m/cF/pjwQbm9wE8X+JvXfR29QrNqsTiC53T0A1MQLHsRc1Pb1
+         NrVX+JIq9r/yJU1mhIIzYXhBXzG6wPSXqbWXe8fNdfpl14DZzY7qUns8qSjmmCSgz7
+         cOsKUJLc+dg57ue61fJ40bbcYTS0bQymV2qqIX+M=
+Date:   Tue, 21 Dec 2021 15:27:23 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+Cc:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+Subject: Re: [PATCH 2/2] nvmem: expose NVMEM cells in sysfs
+Message-ID: <YcHkS0iDUhplbqUc@kroah.com>
+References: <YcF1Kizcvgqa9ZT4@kroah.com>
+ <d68ba301-7877-a8d8-8700-c601a4996818@gmail.com>
+ <YcF4E82M89huIbSD@kroah.com>
+ <3cb1d0a4-6e20-f751-6d66-c1487ef31f30@gmail.com>
+ <YcF+g0ra5tttXOQF@kroah.com>
+ <0527135c-35f5-bc63-edb3-81cb03eb03f6@gmail.com>
+ <YcHPGQ0FH0kTzpbq@kroah.com>
+ <ab52292c-3065-789b-d5ae-ef24bab5fc90@gmail.com>
+ <YcHWVMa6vjz3Gp51@kroah.com>
+ <d626c2c2-5071-522f-330f-688254087d74@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d626c2c2-5071-522f-330f-688254087d74@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The livepatch subsystem has several exported functions and objects with
-kerneldoc comments. Though the livepatch documentation contains handwritten
-descriptions of all of these exported functions, they are currently not
-pulled into the docs build using the kernel-doc directive.
+On Tue, Dec 21, 2021 at 02:52:05PM +0100, Rafał Miłecki wrote:
+> > How are nvmem devices named?
+> 
+> $ ls /sys/bus/nvmem/devices/
+> brcm-nvram0
+> mtd0
+> mtd1
+> u-boot-envvar0
 
-In order to allow readers of the documentation to see the full kerneldoc
-comments in the generated documentation files, this change adds a new
-Documentation/livepatch/api.rst page which contains kernel-doc directives
-to link the kerneldoc comments directly in the documentation.  With this,
-all of the hand-written descriptions of the APIs now cross-reference the
-kerneldoc comments on the new Livepatching APIs page, and running
-./scripts/find-unused-docs.sh on kernel/livepatch no longer shows any files
-as missing documentation.
+So no naming scheme at all.
 
-Note that all of the handwritten API descriptions were left alone with the
-exception of Documentation/livepatch/system-state.rst, which was updated to
-allow the cross-referencing to work correctly. The file now follows the
-cross-referencing formatting guidance specified in
-Documentation/doc-guide/kernel-doc.rst. Furthermore, some comments around
-klp_shadow_free_all() were updated to say <_, id> rather than <*, id> to
-match the rest of the file, and to prevent the docs build from emitting an
-"Inline emphasis start-string without end string" error.
+{sigh}
 
-Signed-off-by: David Vernet <void@manifault.com>
----
-v3:
-  - Updated klp_shadow_free_all() comment updates to say <_, id> rather
-    than <obj, id> (previously they were <*, id>, but this causes sphinx to
-    either spit out an error during the docs build, or to incorrectly
-    render text in italic).
-  - Updated shadow-vars.rst to use <_, id> in its description of
-    klp_shadow_free_all(), as sphinx was previously incorrectly rendering
-    some text in italics when <*, id> was used.
-  - Slightly updated the patch description to match the <_, id> change.
-  - Added SPDX-License-Identifier tag to api.rst.
+> > > Example:
+> > > $ cat /sys/bus/nvmem/devices/foo/cells/bootcmd
+> > > tftp
+> > > $ cat /sys/bus/nvmem/devices/foo/cells/bootdelay
+> > > 5
+> > > 
+> > > As you can see above NVMEM cells are not known at compilation time.
+> > 
+> > Why do you want to expose these in a way that forces the kernel to parse
+> > these key/value pairs?  Why not just do it all in userspace like you can
+> > today?  What forces the kernel to do it and not a perl script?
+> > 
+> > > So I believe the question is: how can I expose cells in sysfs?
+> > 
+> > You can do this by dynamically creating the attributes on the fly, but
+> > your show function is going to be rough and it's not going to be simple
+> > to do so.  One example will be the code that creates the
+> > /sys/devices/system/machinecheck/machinecheckXX/bank* files.
+> > 
+> > But I will push back again, why not just do it all in userspace?  What
+> > userspace tool is requiring the kernel to do this work for it?
+> 
+> Environment data contains info that may be required by kernel.
+> 
+> For example some home routers store two firmwares on flash. Kernel needs
+> to read index of currently booted firmware to make sure MTD subsystem
+> creates partitions correctly.
 
-v2:
-  - Updated patch description to not use markdown, and to use imperative
-    language.
-  - Added a new API page that exports all of the public livepatch functions
-    and types.
-  - Fixed klp_shadow_free_all() documentation to match the rest of the file
-    and avoid an rst error.
-  - Updated system-state.rst to properly cross-reference functions.
+You are talking about a kernel<->kernel api here, that's not what sysfs
+is for at all.
 
- Documentation/livepatch/api.rst          | 30 ++++++++++++++++++++++++
- Documentation/livepatch/index.rst        |  1 +
- Documentation/livepatch/shadow-vars.rst  |  4 ++--
- Documentation/livepatch/system-state.rst |  4 ++--
- kernel/livepatch/shadow.c                |  6 ++---
- 5 files changed, 38 insertions(+), 7 deletions(-)
- create mode 100644 Documentation/livepatch/api.rst
+> Another example: MAC address. Ethernet subsystem supports reading MAC
+> from NVMEM cell.
 
-diff --git a/Documentation/livepatch/api.rst b/Documentation/livepatch/api.rst
-new file mode 100644
-index 000000000000..78944b63d74b
---- /dev/null
-+++ b/Documentation/livepatch/api.rst
-@@ -0,0 +1,30 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=================
-+Livepatching APIs
-+=================
-+
-+Livepatch Enablement
-+====================
-+
-+.. kernel-doc:: kernel/livepatch/core.c
-+   :export:
-+
-+
-+Shadow Variables
-+================
-+
-+.. kernel-doc:: kernel/livepatch/shadow.c
-+   :export:
-+
-+System State Changes
-+====================
-+
-+.. kernel-doc:: kernel/livepatch/state.c
-+   :export:
-+
-+Object Types
-+============
-+
-+.. kernel-doc:: include/linux/livepatch.h
-+   :identifiers: klp_patch klp_object klp_func klp_callbacks klp_state
-diff --git a/Documentation/livepatch/index.rst b/Documentation/livepatch/index.rst
-index 43cce5fad705..cebf1c71d4a5 100644
---- a/Documentation/livepatch/index.rst
-+++ b/Documentation/livepatch/index.rst
-@@ -14,6 +14,7 @@ Kernel Livepatching
-     shadow-vars
-     system-state
-     reliable-stacktrace
-+    api
- 
- .. only::  subproject and html
- 
-diff --git a/Documentation/livepatch/shadow-vars.rst b/Documentation/livepatch/shadow-vars.rst
-index 6a7d43a8787d..7a7098bfb5c8 100644
---- a/Documentation/livepatch/shadow-vars.rst
-+++ b/Documentation/livepatch/shadow-vars.rst
-@@ -82,8 +82,8 @@ to do actions that can be done only once when a new variable is allocated.
-       - call destructor function if defined
-       - free shadow variable
- 
--* klp_shadow_free_all() - detach and free all <*, id> shadow variables
--  - find and remove any <*, id> references from global hashtable
-+* klp_shadow_free_all() - detach and free all <_, id> shadow variables
-+  - find and remove any <_, id> references from global hashtable
- 
-     - if found
- 
-diff --git a/Documentation/livepatch/system-state.rst b/Documentation/livepatch/system-state.rst
-index c6d127c2d9aa..7a3935fd812b 100644
---- a/Documentation/livepatch/system-state.rst
-+++ b/Documentation/livepatch/system-state.rst
-@@ -52,12 +52,12 @@ struct klp_state:
- 
- The state can be manipulated using two functions:
- 
--  - *klp_get_state(patch, id)*
-+  - klp_get_state()
- 
-     - Get struct klp_state associated with the given livepatch
-       and state id.
- 
--  - *klp_get_prev_state(id)*
-+  - klp_get_prev_state()
- 
-     - Get struct klp_state associated with the given feature id and
-       already installed livepatches.
-diff --git a/kernel/livepatch/shadow.c b/kernel/livepatch/shadow.c
-index e5c9fb295ba9..c2e724d97ddf 100644
---- a/kernel/livepatch/shadow.c
-+++ b/kernel/livepatch/shadow.c
-@@ -272,12 +272,12 @@ void klp_shadow_free(void *obj, unsigned long id, klp_shadow_dtor_t dtor)
- EXPORT_SYMBOL_GPL(klp_shadow_free);
- 
- /**
-- * klp_shadow_free_all() - detach and free all <*, id> shadow variables
-+ * klp_shadow_free_all() - detach and free all <_, id> shadow variables
-  * @id:		data identifier
-  * @dtor:	custom callback that can be used to unregister the variable
-  *		and/or free data that the shadow variable points to (optional)
-  *
-- * This function releases the memory for all <*, id> shadow variable
-+ * This function releases the memory for all <_, id> shadow variable
-  * instances, callers should stop referencing them accordingly.
-  */
- void klp_shadow_free_all(unsigned long id, klp_shadow_dtor_t dtor)
-@@ -288,7 +288,7 @@ void klp_shadow_free_all(unsigned long id, klp_shadow_dtor_t dtor)
- 
- 	spin_lock_irqsave(&klp_shadow_lock, flags);
- 
--	/* Delete all <*, id> from hash */
-+	/* Delete all <_, id> from hash */
- 	hash_for_each(klp_shadow_hash, i, shadow, node) {
- 		if (klp_shadow_match(shadow, shadow->obj, id))
- 			klp_shadow_free_struct(shadow, dtor);
--- 
-2.30.2
+Again, internal kernel api, nothing sysfs is ever involved in.
 
+> One could argue those tasks could be handled from userspace but that
+> would get tricky. Sure - we have API for setting MAC address. However
+> other cases (like setting active firmware partition and asking MTD to
+> parse it into subpartitions) would require new user <-> kernel
+> interfaces.
+
+Ok, but again, sysfs is for userspace to get access to these values.
+That's what I'm concerned about.  If you want to make an in-kernel api
+for other subsystems to get these key/value pairs, wonderful, that has
+nothing to do with sysfs.
+
+So I ask again, why do you want to expose these to userspace through
+sysfs in a new format from what you have today.  Who is going to use
+that information and what is it going to be used for.
+
+thanks,
+
+greg k-h
