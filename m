@@ -2,51 +2,51 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBEDFC4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Dec 2021 15:46:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9448FC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Dec 2021 15:47:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236670AbhLUPq5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Dec 2021 10:46:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36480 "EHLO
+        id S236763AbhLUPq7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Dec 2021 10:46:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236633AbhLUPqz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Dec 2021 10:46:55 -0500
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE9ACC061574
-        for <linux-doc@vger.kernel.org>; Tue, 21 Dec 2021 07:46:55 -0800 (PST)
-Received: by mail-qt1-x82a.google.com with SMTP id f9so1207427qtk.4
-        for <linux-doc@vger.kernel.org>; Tue, 21 Dec 2021 07:46:55 -0800 (PST)
+        with ESMTP id S236719AbhLUPq6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Dec 2021 10:46:58 -0500
+Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F11C0C061747
+        for <linux-doc@vger.kernel.org>; Tue, 21 Dec 2021 07:46:57 -0800 (PST)
+Received: by mail-qv1-xf30.google.com with SMTP id q3so5392887qvc.7
+        for <linux-doc@vger.kernel.org>; Tue, 21 Dec 2021 07:46:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=soleen.com; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=8lYwPz/4m3tDnSwW80VP9nsgiF1z9D2++nKEW6hl0KA=;
-        b=kO8yGAwFB3DggVZ93fPld7nNchSHxNZW2NmK+E+Zhg/kPc9IUvAJr7Riv6SFkBYvSS
-         Ch+8U2tozsmQnKCF1kRrpen+bCce4/fnW/fvR6gpy60FmL+f1PH5MT+LPk9Itli4RXPQ
-         mFPsXKYT5fAaH2slrqgjPYEDdMPEcAyYLarVP3uEYLgNajmhicBZUCE/9uOvl3+uK/d+
-         tX57f3ADUC538hwUiPUZx3mVZMKQ1pGZPZ3fqhvsetg9pNFsUQ9if3L2RPeoefEVJdju
-         WPrj0vvglEUYoiXd5zdxvY1LhKIeTyAJIg2sWzBWRAI+aIxGmqe/Nyl/LLRtmZ0xihpt
-         G+Fg==
+        bh=Xmyi2zCZ0qq0KJ7l9kYGd9/NNLTFkYCru9KHZL7RlW0=;
+        b=Zvi8Rg4g886r2e8/bLoT2y0NWG6X3S56t/9kCh4NczClQm07VEJTUryxHSMYWFbEAo
+         p8PMXJ28kOioXPBq0ix99dx2hczfOcjhb56wg27CwaCByKCyeYEsIq/mLoS45sgCBGeM
+         fDMAZ8kDg3haHxKo30vmLRsG3wmmMiyAUkWAsdmlE9K4ZhS/Clmk7D2ouNpwtysNOU+N
+         vt2wiNJ7VNXFzv5pcyJDqBeNFyaPTB6vpEDWgvRVRZtqjd7GkeD75fe5919W+lA7HGg4
+         lMLeSnvReUyHifMEDe2ULS43fvlV/KZTOV2GeuXkTxivarBuppz470cyXZmtg/B6rE5q
+         cwjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=8lYwPz/4m3tDnSwW80VP9nsgiF1z9D2++nKEW6hl0KA=;
-        b=HsEYa0xAExvMRPVH56hS5OqQ3AEkV5FmEYfvJ0lK4gBX+oYotepTwlc7ZRgT2yGAaA
-         C05/22mO1gqO1y1PfBY4zGZG8jeyemNBt9hQPTCVI/3q5TSm1OKMTZ04Q1tPXgjxBzBH
-         1sw0YNYj16NAecN5U5pnq0hJQjwbxXNWehCswVa7+p4NHmX536i591a0eugLerNj4HP4
-         7cKY3eSdbM4OVJteE9GBWfPmcM7exQ13QHXJ3LB3uvHZQPOMygNExy9zf2QeZhUES817
-         Gluu5kPlXqiAEy4DyQFI+Z97Ss9qZvM/owx9A+LymIP6aow36ZZpfnzdb+0NaPIpsK/G
-         Zocg==
-X-Gm-Message-State: AOAM533qeA3bLUwYABTf9S4ytYn1Hp8l5beOv8ZS/J6dyyzZR22kDcme
-        KwkuRbbNmrC2sZZsoBhXRHqeXV+SF6Ec5Q==
-X-Google-Smtp-Source: ABdhPJyeJtPKa7tGYCh0gZkqHjPcdfCZESI0/adSt3JTZTkT3vCpCDexDTbFfki3nLwOQ4rZwOtgMQ==
-X-Received: by 2002:ac8:7774:: with SMTP id h20mr2730148qtu.236.1640101614863;
-        Tue, 21 Dec 2021 07:46:54 -0800 (PST)
+        bh=Xmyi2zCZ0qq0KJ7l9kYGd9/NNLTFkYCru9KHZL7RlW0=;
+        b=T4iJVM26Hc0g9YjnFNMWdB/dSELbezx3e98Lt9n6VYx7whQAJnrp0p+7V5iAO6a8S3
+         kNZdxpdyZ4E924HZuJdkTgmz3rOVdVJewWzJ3v8R81Tz9rhl+uZ9LzDAhLFGSVLHIHxJ
+         SkPEupja5uOcAFurj9d2vcyyjn17DGDsPQTpR2aWRmuKjw/nEmvrRNFgSqR62eigA+MG
+         qOH2dh+EhbVV+ezP6EyUD0Ov4FWrOfxn1pOZ6BCzT6pOYVKsKwo4gQjOE4sO3FJacq2/
+         s3g71igWmRKsTwNKYLoeoLbLejB6rdT6XNu+X3szAbzfewghCZFwiAQ2/gbazJXD+g5F
+         FY6A==
+X-Gm-Message-State: AOAM530RpNwnnn6mE2HXMlBEO2f6b6kumxCPGA7qrBieMgGCVQPIIlz4
+        RZ+7P2TLhVkHdwKk+2HG/6NL4A==
+X-Google-Smtp-Source: ABdhPJwInCo1DVCqL5Hwf+MENbgmDZwkZnQaFs2cfcc4ye0/E2LpBXPTI45RluoaIQIBeUt6O6joMA==
+X-Received: by 2002:ad4:4ee3:: with SMTP id dv3mr3100222qvb.8.1640101617069;
+        Tue, 21 Dec 2021 07:46:57 -0800 (PST)
 Received: from soleen.c.googlers.com.com (189.216.85.34.bc.googleusercontent.com. [34.85.216.189])
-        by smtp.gmail.com with ESMTPSA id d20sm224588qtg.73.2021.12.21.07.46.54
+        by smtp.gmail.com with ESMTPSA id d20sm224588qtg.73.2021.12.21.07.46.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Dec 2021 07:46:54 -0800 (PST)
+        Tue, 21 Dec 2021 07:46:56 -0800 (PST)
 From:   Pasha Tatashin <pasha.tatashin@soleen.com>
 To:     pasha.tatashin@soleen.com, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, linux-doc@vger.kernel.org,
@@ -58,9 +58,9 @@ To:     pasha.tatashin@soleen.com, linux-kernel@vger.kernel.org,
         dave.hansen@linux.intel.com, x86@kernel.org, frederic@kernel.org,
         hpa@zytor.com, aneesh.kumar@linux.ibm.com, jirislaby@kernel.org,
         songmuchun@bytedance.com, qydwhotmail@gmail.com, hughd@google.com
-Subject: [PATCH v3 2/4] mm: ptep_clear() page table helper
-Date:   Tue, 21 Dec 2021 15:46:48 +0000
-Message-Id: <20211221154650.1047963-3-pasha.tatashin@soleen.com>
+Subject: [PATCH v3 4/4] x86: mm: add x86_64 support for page table check
+Date:   Tue, 21 Dec 2021 15:46:50 +0000
+Message-Id: <20211221154650.1047963-5-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.34.1.307.g9b7440fafd-goog
 In-Reply-To: <20211221154650.1047963-1-pasha.tatashin@soleen.com>
 References: <20211221154650.1047963-1-pasha.tatashin@soleen.com>
@@ -70,103 +70,125 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We have ptep_get_and_clear() and ptep_get_and_clear_full() helpers to
-clear PTE from user page tables, but there is no variant for simple clear
-of a present PTE from user page tables without using a low level
-pte_clear() which can be either native or para-virtualised.
-
-Add a new ptep_clear() that can be used in common code to clear PTEs from
-page table.  We will need this call later in order to add a hook for page
-table check.
+Add page table check hooks into routines that modify user page tables.
 
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- Documentation/vm/arch_pgtable_helpers.rst |  6 ++++--
- include/linux/pgtable.h                   |  8 ++++++++
- mm/debug_vm_pgtable.c                     |  2 +-
- mm/khugepaged.c                           | 12 ++----------
- 4 files changed, 15 insertions(+), 13 deletions(-)
+ arch/x86/Kconfig               |  1 +
+ arch/x86/include/asm/pgtable.h | 29 +++++++++++++++++++++++++++--
+ 2 files changed, 28 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/vm/arch_pgtable_helpers.rst b/Documentation/vm/arch_pgtable_helpers.rst
-index 552567d863b8..fbe06ec75370 100644
---- a/Documentation/vm/arch_pgtable_helpers.rst
-+++ b/Documentation/vm/arch_pgtable_helpers.rst
-@@ -66,9 +66,11 @@ PTE Page Table Helpers
- +---------------------------+--------------------------------------------------+
- | pte_mknotpresent          | Invalidates a mapped PTE                         |
- +---------------------------+--------------------------------------------------+
--| ptep_get_and_clear        | Clears a PTE                                     |
-+| ptep_clear                | Clears a PTE                                     |
- +---------------------------+--------------------------------------------------+
--| ptep_get_and_clear_full   | Clears a PTE                                     |
-+| ptep_get_and_clear        | Clears and returns PTE                           |
-++---------------------------+--------------------------------------------------+
-+| ptep_get_and_clear_full   | Clears and returns PTE (batched PTE unmap)       |
- +---------------------------+--------------------------------------------------+
- | ptep_test_and_clear_young | Clears young from a PTE                          |
- +---------------------------+--------------------------------------------------+
-diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
-index e24d2c992b11..bc8713a76e03 100644
---- a/include/linux/pgtable.h
-+++ b/include/linux/pgtable.h
-@@ -258,6 +258,14 @@ static inline int pmdp_clear_flush_young(struct vm_area_struct *vma,
- #endif /* CONFIG_TRANSPARENT_HUGEPAGE */
- #endif
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 5eac1e3610e9..cc91c639acfb 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -104,6 +104,7 @@ config X86
+ 	select ARCH_SUPPORTS_ACPI
+ 	select ARCH_SUPPORTS_ATOMIC_RMW
+ 	select ARCH_SUPPORTS_DEBUG_PAGEALLOC
++	select ARCH_SUPPORTS_PAGE_TABLE_CHECK	if X86_64
+ 	select ARCH_SUPPORTS_NUMA_BALANCING	if X86_64
+ 	select ARCH_SUPPORTS_KMAP_LOCAL_FORCE_MAP	if NR_CPUS <= 4096
+ 	select ARCH_SUPPORTS_LTO_CLANG
+diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
+index dea9fe8a56cc..8a9432fb3802 100644
+--- a/arch/x86/include/asm/pgtable.h
++++ b/arch/x86/include/asm/pgtable.h
+@@ -27,6 +27,7 @@
+ #include <asm/pkru.h>
+ #include <asm/fpu/api.h>
+ #include <asm-generic/pgtable_uffd.h>
++#include <linux/page_table_check.h>
  
-+#ifndef __HAVE_ARCH_PTEP_CLEAR
+ extern pgd_t early_top_pgt[PTRS_PER_PGD];
+ bool __init __early_make_pgtable(unsigned long address, pmdval_t pmd);
+@@ -1007,18 +1008,21 @@ static inline pud_t native_local_pudp_get_and_clear(pud_t *pudp)
+ static inline void set_pte_at(struct mm_struct *mm, unsigned long addr,
+ 			      pte_t *ptep, pte_t pte)
+ {
++	page_table_check_pte_set(mm, addr, ptep, pte);
+ 	set_pte(ptep, pte);
+ }
+ 
+ static inline void set_pmd_at(struct mm_struct *mm, unsigned long addr,
+ 			      pmd_t *pmdp, pmd_t pmd)
+ {
++	page_table_check_pmd_set(mm, addr, pmdp, pmd);
+ 	set_pmd(pmdp, pmd);
+ }
+ 
+ static inline void set_pud_at(struct mm_struct *mm, unsigned long addr,
+ 			      pud_t *pudp, pud_t pud)
+ {
++	page_table_check_pud_set(mm, addr, pudp, pud);
+ 	native_set_pud(pudp, pud);
+ }
+ 
+@@ -1049,6 +1053,7 @@ static inline pte_t ptep_get_and_clear(struct mm_struct *mm, unsigned long addr,
+ 				       pte_t *ptep)
+ {
+ 	pte_t pte = native_ptep_get_and_clear(ptep);
++	page_table_check_pte_clear(mm, addr, pte);
+ 	return pte;
+ }
+ 
+@@ -1064,12 +1069,23 @@ static inline pte_t ptep_get_and_clear_full(struct mm_struct *mm,
+ 		 * care about updates and native needs no locking
+ 		 */
+ 		pte = native_local_ptep_get_and_clear(ptep);
++		page_table_check_pte_clear(mm, addr, pte);
+ 	} else {
+ 		pte = ptep_get_and_clear(mm, addr, ptep);
+ 	}
+ 	return pte;
+ }
+ 
++#define __HAVE_ARCH_PTEP_CLEAR
 +static inline void ptep_clear(struct mm_struct *mm, unsigned long addr,
 +			      pte_t *ptep)
 +{
-+	pte_clear(mm, addr, ptep);
++	if (IS_ENABLED(CONFIG_PAGE_TABLE_CHECK))
++		ptep_get_and_clear(mm, addr, ptep);
++	else
++		pte_clear(mm, addr, ptep);
 +}
-+#endif
 +
- #ifndef __HAVE_ARCH_PTEP_GET_AND_CLEAR
- static inline pte_t ptep_get_and_clear(struct mm_struct *mm,
- 				       unsigned long address,
-diff --git a/mm/debug_vm_pgtable.c b/mm/debug_vm_pgtable.c
-index 228e3954b90c..cd48a34c87a4 100644
---- a/mm/debug_vm_pgtable.c
-+++ b/mm/debug_vm_pgtable.c
-@@ -652,7 +652,7 @@ static void __init pte_clear_tests(struct pgtable_debug_args *args)
- 	set_pte_at(args->mm, args->vaddr, args->ptep, pte);
- 	flush_dcache_page(page);
- 	barrier();
--	pte_clear(args->mm, args->vaddr, args->ptep);
-+	ptep_clear(args->mm, args->vaddr, args->ptep);
- 	pte = ptep_get(args->ptep);
- 	WARN_ON(!pte_none(pte));
+ #define __HAVE_ARCH_PTEP_SET_WRPROTECT
+ static inline void ptep_set_wrprotect(struct mm_struct *mm,
+ 				      unsigned long addr, pte_t *ptep)
+@@ -1110,14 +1126,22 @@ static inline int pmd_write(pmd_t pmd)
+ static inline pmd_t pmdp_huge_get_and_clear(struct mm_struct *mm, unsigned long addr,
+ 				       pmd_t *pmdp)
+ {
+-	return native_pmdp_get_and_clear(pmdp);
++	pmd_t pmd = native_pmdp_get_and_clear(pmdp);
++
++	page_table_check_pmd_clear(mm, addr, pmd);
++
++	return pmd;
  }
-diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-index ed0fa6368706..7720189a2da7 100644
---- a/mm/khugepaged.c
-+++ b/mm/khugepaged.c
-@@ -756,11 +756,7 @@ static void __collapse_huge_page_copy(pte_t *pte, struct page *page,
- 				 * ptl mostly unnecessary.
- 				 */
- 				spin_lock(ptl);
--				/*
--				 * paravirt calls inside pte_clear here are
--				 * superfluous.
--				 */
--				pte_clear(vma->vm_mm, address, _pte);
-+				ptep_clear(vma->vm_mm, address, _pte);
- 				spin_unlock(ptl);
- 			}
- 		} else {
-@@ -774,11 +770,7 @@ static void __collapse_huge_page_copy(pte_t *pte, struct page *page,
- 			 * inside page_remove_rmap().
- 			 */
- 			spin_lock(ptl);
--			/*
--			 * paravirt calls inside pte_clear here are
--			 * superfluous.
--			 */
--			pte_clear(vma->vm_mm, address, _pte);
-+			ptep_clear(vma->vm_mm, address, _pte);
- 			page_remove_rmap(src_page, false);
- 			spin_unlock(ptl);
- 			free_page_and_swap_cache(src_page);
+ 
+ #define __HAVE_ARCH_PUDP_HUGE_GET_AND_CLEAR
+ static inline pud_t pudp_huge_get_and_clear(struct mm_struct *mm,
+ 					unsigned long addr, pud_t *pudp)
+ {
+-	return native_pudp_get_and_clear(pudp);
++	pud_t pud = native_pudp_get_and_clear(pudp);
++
++	page_table_check_pud_clear(mm, addr, pud);
++
++	return pud;
+ }
+ 
+ #define __HAVE_ARCH_PMDP_SET_WRPROTECT
+@@ -1138,6 +1162,7 @@ static inline int pud_write(pud_t pud)
+ static inline pmd_t pmdp_establish(struct vm_area_struct *vma,
+ 		unsigned long address, pmd_t *pmdp, pmd_t pmd)
+ {
++	page_table_check_pmd_set(vma->vm_mm, address, pmdp, pmd);
+ 	if (IS_ENABLED(CONFIG_SMP)) {
+ 		return xchg(pmdp, pmd);
+ 	} else {
 -- 
 2.34.1.307.g9b7440fafd-goog
 
