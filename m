@@ -2,311 +2,237 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C95BC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 21 Dec 2021 13:52:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4F10C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 21 Dec 2021 14:13:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238273AbhLUNwK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 21 Dec 2021 08:52:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37116 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237602AbhLUNwJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Dec 2021 08:52:09 -0500
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BBE1C061574;
-        Tue, 21 Dec 2021 05:52:09 -0800 (PST)
-Received: by mail-lf1-x12a.google.com with SMTP id g11so29573672lfu.2;
-        Tue, 21 Dec 2021 05:52:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:to:cc:references
-         :from:in-reply-to:content-transfer-encoding;
-        bh=BGBHNIaDa4V4mxrjuRXp/DEYGNGQSJnErggbN3lNZVo=;
-        b=IM0PUMIOL3ttaV4EJ6HX8cusYm74wHgY9AYWsyYUJWlc3FpKVVdOx3TKEyUreXSlfD
-         d35TGXuvzMvQdLQIH9HrkQgBvMpzkr1F53Ys4g4ydfxxhQFSab0My1Hvslt+SnM/SsjL
-         6Wq3+nky5aa2h1puX+4vyQCuY/X4rrl5achQ9xpmFKJggm7H5t3y3ZbkHrCpBfr5mCqG
-         j1jMBnjug+KOPnVJTtvrkMEodW0ygLuSm34UxGFADfhWUn4qUaHL1GTEra/Q83CUK0ys
-         wS90a0Xgs9rgsZqS1OacHEvTna4aGOFZgf9X/OGVyXRf8rIWEdjlWIKAmEeZFBPZ0RkC
-         rfYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :to:cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=BGBHNIaDa4V4mxrjuRXp/DEYGNGQSJnErggbN3lNZVo=;
-        b=dKk0b4ZuDJo975xZDjoEypl/7r0jrSaDczK7aJiz6YypcsGTzIM9t15+5Eq7ycw1km
-         nQNl9S/skArt39PVuiw53WkiBs+XmPa5zyxcrh8Kgbhn/wbOdQDGLrVvG+q7GMWXOxIF
-         BG8Cx2eGnbyKTG9zSZ+Nzu0P66qShvI1zZk84oj41stWaEglzfe588JxBmea8+6Jq2ze
-         l/gR2N1axCxlb7Zn7YOcxmR5aRg1hNgQz76dZrtgHBqd+PshWg5wi2zQQcKh7dbK3rSD
-         5MhP1nv1MRt5hgkeWXcnoqpTf/zdqBfrCoyNPd0kowcGjvSC1PiHXIdKcV2JkxZDxJrt
-         8HXg==
-X-Gm-Message-State: AOAM532qyi43lgy6Q+lM+JLmEQaO3UtpLsD3azB43/OJMzmy/+qkUjyW
-        TA4qTz75ZSMWASzi8C1AyOY=
-X-Google-Smtp-Source: ABdhPJx4HT+6y292MTFOH/YaDNlYrecBRd5+HTHr+/E7kyvHaea6H6mS4x1UvriTd4irKCIeG0tYxQ==
-X-Received: by 2002:ac2:5cd5:: with SMTP id f21mr3129952lfq.70.1640094727326;
-        Tue, 21 Dec 2021 05:52:07 -0800 (PST)
-Received: from [192.168.26.149] (ip-194-187-74-233.konfederacka.maverick.com.pl. [194.187.74.233])
-        by smtp.googlemail.com with ESMTPSA id k16sm1484217lfg.257.2021.12.21.05.52.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Dec 2021 05:52:06 -0800 (PST)
-Message-ID: <d626c2c2-5071-522f-330f-688254087d74@gmail.com>
-Date:   Tue, 21 Dec 2021 14:52:05 +0100
+        id S238364AbhLUONn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 21 Dec 2021 09:13:43 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:16846 "EHLO
+        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232757AbhLUONn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 Dec 2021 09:13:43 -0500
+Received: from dggpeml500025.china.huawei.com (unknown [172.30.72.56])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JJJM74966z91mc;
+        Tue, 21 Dec 2021 22:12:51 +0800 (CST)
+Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
+ dggpeml500025.china.huawei.com (7.185.36.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Tue, 21 Dec 2021 22:13:41 +0800
+Received: from [10.174.177.232] (10.174.177.232) by
+ dggpeml500006.china.huawei.com (7.185.36.76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Tue, 21 Dec 2021 22:13:40 +0800
+Subject: Re: [PATCH] docs/zh_CN: Add sched-domains translation
+To:     yanteng si <siyanteng01@gmail.com>
+CC:     Yanteng Si <siyanteng@loongson.cn>, Alex Shi <alexs@kernel.org>,
+        Alex Shi <seakeel@gmail.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, <zhengbin13@huawei.com>,
+        Yeechou Tang <tangyeechou@gmail.com>
+References: <20211221023158.31845-1-tangyizhou@huawei.com>
+ <CAEensMz_EytaeBB1qhwTGuBd8SQnhQhjO05XcC8=LSrp7+BAZA@mail.gmail.com>
+ <6169f755-a17e-cdf6-8a08-e5da3c358daf@huawei.com>
+ <CAEensMzeEXeH5Y05J8uRuq=6R+oxtdzFzKi-WJe=f0VvrzsFYQ@mail.gmail.com>
+From:   Tang Yizhou <tangyizhou@huawei.com>
+Message-ID: <318184bb-3df5-d194-e929-0c95a0c2cb2f@huawei.com>
+Date:   Tue, 21 Dec 2021 22:13:40 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.1.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:96.0) Gecko/20100101
- Thunderbird/96.0
-Subject: Re: [PATCH 2/2] nvmem: expose NVMEM cells in sysfs
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?= <kw@linux.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
-References: <YcA4ArALDTjUedrb@kroah.com>
- <c49f2d6d-7974-5bc7-9bc1-ac265a23c2c0@gmail.com> <YcF1Kizcvgqa9ZT4@kroah.com>
- <d68ba301-7877-a8d8-8700-c601a4996818@gmail.com> <YcF4E82M89huIbSD@kroah.com>
- <3cb1d0a4-6e20-f751-6d66-c1487ef31f30@gmail.com> <YcF+g0ra5tttXOQF@kroah.com>
- <0527135c-35f5-bc63-edb3-81cb03eb03f6@gmail.com> <YcHPGQ0FH0kTzpbq@kroah.com>
- <ab52292c-3065-789b-d5ae-ef24bab5fc90@gmail.com> <YcHWVMa6vjz3Gp51@kroah.com>
-From:   =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
-In-Reply-To: <YcHWVMa6vjz3Gp51@kroah.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <CAEensMzeEXeH5Y05J8uRuq=6R+oxtdzFzKi-WJe=f0VvrzsFYQ@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.177.232]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpeml500006.china.huawei.com (7.185.36.76)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 21.12.2021 14:27, Greg Kroah-Hartman wrote:
-> On Tue, Dec 21, 2021 at 02:05:34PM +0100, Rafał Miłecki wrote:
->> On 21.12.2021 13:56, Greg Kroah-Hartman wrote:
->>> On Tue, Dec 21, 2021 at 01:24:00PM +0100, Rafał Miłecki wrote:
->>>> On 21.12.2021 08:13, Greg Kroah-Hartman wrote:
->>>>> On Tue, Dec 21, 2021 at 07:53:32AM +0100, Rafał Miłecki wrote:
->>>>>> On 21.12.2021 07:45, Greg Kroah-Hartman wrote:
->>>>>>> On Tue, Dec 21, 2021 at 07:39:24AM +0100, Rafał Miłecki wrote:
->>>>>>>> On 21.12.2021 07:33, Greg Kroah-Hartman wrote:
->>>>>>>>> On Mon, Dec 20, 2021 at 09:39:43PM +0100, Rafał Miłecki wrote:
->>>>>>>>>> Hi Greg,
->>>>>>>>>>
->>>>>>>>>> On 20.12.2021 09:00, Greg Kroah-Hartman wrote:
->>>>>>>>>>> On Mon, Dec 20, 2021 at 07:47:30AM +0100, Rafał Miłecki wrote:
->>>>>>>>>>>>        static void nvmem_cell_entry_add(struct nvmem_cell_entry *cell)
->>>>>>>>>>>>        {
->>>>>>>>>>>> +	struct device *dev = &cell->nvmem->dev;
->>>>>>>>>>>> +	int err;
->>>>>>>>>>>> +
->>>>>>>>>>>>        	mutex_lock(&nvmem_mutex);
->>>>>>>>>>>>        	list_add_tail(&cell->node, &cell->nvmem->cells);
->>>>>>>>>>>>        	mutex_unlock(&nvmem_mutex);
->>>>>>>>>>>> +
->>>>>>>>>>>> +	sysfs_attr_init(&cell->battr.attr);
->>>>>>>>>>>> +	cell->battr.attr.name = cell->name;
->>>>>>>>>>>> +	cell->battr.attr.mode = 0400;
->>>>>>>>>>>> +	cell->battr.read = nvmem_cell_attr_read;
->>>>>>>>>>>> +	err = sysfs_add_bin_file_to_group(&dev->kobj, &cell->battr,
->>>>>>>>>>>> +					  nvmem_cells_group.name);
->>>>>>>>>>>
->>>>>>>>>>> Why not just use the is_bin_visible attribute instead to determine if
->>>>>>>>>>> the attribute should be shown or not instead of having to add it
->>>>>>>>>>> after-the-fact which will race with userspace and loose?
->>>>>>>>>>
->>>>>>>>>> I'm sorry I really don't see how you suggest to get it done.
->>>>>>>>>>
->>>>>>>>>> I can use .is_bin_visible() callback indeed to respect nvmem->root_only.
->>>>>>>>>
->>>>>>>>> Great.
->>>>>>>>>
->>>>>>>>>> I don't understand addig-after-the-fact part. How is .is_bin_visible()
->>>>>>>>>> related to adding attributes for newly created cells?
->>>>>>>>>
->>>>>>>>> You are adding a sysfs attribute to a device that is already registered
->>>>>>>>> in the driver core, and so the creation of that attribute is never seen
->>>>>>>>> by userspace.  The attribute needs to be attached to the device _BEFORE_
->>>>>>>>> it is registered.
->>>>>>>>>
->>>>>>>>> Also, huge hint, if a driver has to call as sysfs_*() call, something is
->>>>>>>>> wrong.
->>>>>>>>>
->>>>>>>>>> Do you mean I can
->>>>>>>>>> avoid calling sysfs_add_bin_file_to_group()?
->>>>>>>>>
->>>>>>>>> Yes.
->>>>>>>>>
->>>>>>>>>> Do you recall any existing example of such solution?
->>>>>>>>>
->>>>>>>>> Loads.
->>>>>>>>>
->>>>>>>>> Just add this attribute group to your driver as a default attribute
->>>>>>>>> group and the driver core will create it for you if needed.
->>>>>>>>>
->>>>>>>>> Or if you always need it, no need to mess sith is_bin_visible() at all,
->>>>>>>>> I can't really understand what you are trying to do here at all.
->>>>>>>>
->>>>>>>> Thanks a lot! In nvmem_register() first there is a call to the
->>>>>>>> device_register() and only later cells get added. I suppose I just have
->>>>>>>> to rework nvmem_register() order so that:
->>>>>>>> 1. Cells are collected earlier. For each cell I allocate group attribute
->>>>>>>
->>>>>>> No, add all of the attributes to the device at the beginning before you
->>>>>>> register it, there's no need to allocate anything.
->>>>>>
->>>>>> If you mean static structures I can't do that, because cells almost
->>>>>> never are static. They are not known in advance. nvmem allows cells to
->>>>>> be:
->>>>>> 1. Specified in OF
->>>>>> 2. Submitted as list while registering a NVMEM device
->>>>>>
->>>>>> So every cells gets its own structure allocated dynamically. My plan is
->>>>>> to put bin_attribute in that struct and then create a group collecting
->>>>>> all those cells.
->>>>>
->>>>> A device has a driver associated with it, and that driver has default
->>>>> groups associated with it.  Use that, I am not saying to use static
->>>>> structures, that is not how the driver model works at all.
+On 2021/12/21 20:04, yanteng si wrote:
+> Tang Yizhou <tangyizhou@huawei.com> 于2021年12月21日周二 15:25写道：
+>>
+>> On 2021/12/21 14:54, yanteng si wrote:
+>>> Tang Yizhou <tangyizhou@huawei.com> 于2021年12月21日周二 10:04写道：
 >>>>
->>>> I'm helpless on dealing with attributes.
+>>>> Translate scheduler/sched-domains.rst into Chinese.
 >>>>
->>>> I tried building a list of attributes dynamically but that of course
->>>> fails:
+>>>> Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
+>>>> ---
+>>>>  .../translations/zh_CN/scheduler/index.rst    |  2 +-
+>>>>  .../zh_CN/scheduler/sched-domains.rst         | 67 +++++++++++++++++++
+>>>>  2 files changed, 68 insertions(+), 1 deletion(-)
+>>>>  create mode 100644 Documentation/translations/zh_CN/scheduler/sched-domains.rst
 >>>>
->>>> drivers/nvmem/core.c: In function ‘nvmem_register’:
->>>> drivers/nvmem/core.c:930:31: error: assignment of member ‘bin_attrs’ in read-only object
->>>>     930 |   nvmem_cells_group.bin_attrs = nvmem->cells_bin_attrs;
->>>>         |                               ^
+>>>> diff --git a/Documentation/translations/zh_CN/scheduler/index.rst b/Documentation/translations/zh_CN/scheduler/index.rst
+>>>> index 5327c61cb0ab..f8f8f35d53c7 100644
+>>>> --- a/Documentation/translations/zh_CN/scheduler/index.rst
+>>>> +++ b/Documentation/translations/zh_CN/scheduler/index.rst
+>>>> @@ -21,6 +21,7 @@ Linux调度器
+>>>>      sched-arch
+>>>>      sched-bwc
+>>>>      sched-design-CFS
+>>>> +    sched-domains
+>>>>      sched-capacity
 >>>>
 >>>>
->>>> What I'm trying to achieve is having
->>>> /sys/bus/nvmem/devices/*/cells/*
->>>> with each file being an attribute.
->>>
->>> What is the full path here that you are looking to add these attributes
->>> to?  Where is the struct device in play?  What .c file should I look at?
->>>
->>>> Please kindly point me to a single example of "struct attribute_group"
->>>> that has a variable list of attributes with each attribute having
->>>> runtime set name.
->>>
->>> Why would you ever want each attribute have a runtime-set name?  That's
->>> not what attributes are for.  Think of them as "key/value" pairs.  The
->>> "key" part is the name (i.e. filename), that is well known to everyone,
->>> unique to that struct device type, and documented in Documentation/ABI/.
->>> The "value" part is the value you read from the file (or write to it.)
->>>
->>> That's it, it's not all that complex.
->>>
->>>> Almost all cases in kernel look like:
->>>> static const struct attribute_group foo_attr_group = {
->>>> 	.attrs = foo_attrs,
->>>> };
->>>> with "foo_attrs" being a list of attributes with *predefined* names.
->>>
->>> Yes, because that is what you really want.
->>>
->>> Why do you feel this device is somehow unique to deserve attributes that
->>> are not predefined?  And if they are not predefined, how are you going
->>> to define them when you create them in the code and document them?   :)
->>>
->>>> Every example of dynamic attributes (runtime created) I see in a kernel
->>>> (e.g. drivers/base/node.c) uses sysfs_*().
->>>
->>> drivers/base/* is not the best place to look at for how to implement
->>> bus/driver logic, look at existing busses and drivers instead please.
->>> We have a few hundred to choose from :)
->>>
->>> So, let's break it down, what exactly are you wanting your device on
->>> your bus to look like?  What will be the attributes you want to expose,
->>> and what are the values of those attributes?  You have to start with
->>> that, as Documentation/ABI/ is going to require you to write them down.
+>>>> @@ -28,7 +29,6 @@ TODOList:
+>>>>
+>>>>      sched-bwc
+>>>>      sched-deadline
+>>>> -    sched-domains
+>>>>      sched-energy
+>>>>      sched-nice-design
+>>>>      sched-rt-group
+>>>> diff --git a/Documentation/translations/zh_CN/scheduler/sched-domains.rst b/Documentation/translations/zh_CN/scheduler/sched-domains.rst
+>>>> new file mode 100644
+>>>> index 000000000000..7aec24c03357
+>>>> --- /dev/null
+>>>> +++ b/Documentation/translations/zh_CN/scheduler/sched-domains.rst
+>>>> @@ -0,0 +1,67 @@
+>>>> +.. SPDX-License-Identifier: GPL-2.0
+>>>> +.. include:: ../disclaimer-zh_CN.rst
+>>>> +
+>>>> +:Original: Documentation/scheduler/sched-domains.rst
+>>>> +
+>>>> +:翻译:
+>>>> +
+>>>> +  唐艺舟 Tang Yizhou <tangyeechou@gmail.com>
+>>>> +
+>>>> +======
+>>>> +调度域
+>>>> +======
+>>>> +
+>>>> +每个CPU有一个“基”调度域（struct sched_domain）。调度域层次结构从基调度域构建而来，可
+>>>> +通过->parent指针自下而上遍历。->parent必须以NULL结尾，调度域数据结构必须是per-CPU的，
 >>
->> This patch subject / body is a basic summary. It's about
->> drivers/nvmem/core.c .
+>>> 数据结构 -> 结构体
+>> OK
 >>
+>>>> +因为它们无锁更新。
+>>>> +
+>>>> +每个调度域管辖数个CPU（存储在->span字段中）。一个调度域的span必须是它的子调度域span的
 >>
->> Let me explain it with more details:
+>>> what stored in the -> field? This needs to be translated clearly.
+>> 这里是英文原文的直接翻译。span字段就是调度域管辖的那些CPU。我全文把动词的span翻译成“管辖”了。
+
+> cpu掩码/数量存储在……？
+
+你得结合源码的结构体定义看。并不是掩码或者数量，是可变长数组表示的CPU列表。
+
 >>
->> NVMEM is a data blob.
->> NVMEM consists of entries called cells.
+>>>> +超集（如有需求出现，这个限制可以放宽）。CPU i的基调度域必须至少管辖CPU i。每个CPU的
+>>>> +顶层调度域通常将会管辖系统中的全部CPU，尽管严格来说这不是必须的，假如是这样，会导致某些
+>>>> +CPU出现永远不会被指定任务运行的情况，直到允许的CPU掩码被显式设定。调度域的span字段意味
+>>>> +着“在这些CPU中做进程负载均衡”。
+>>>> +
+>>>> +每个调度域必须具有一个或多个CPU调度组（struct sched_group），它们以单向循环链表的形式
+>>>> +组织，存储在->groups指针中。这些组的CPU掩码的并集必须和调度域span字段一致。->groups
+>>>> +指针指向的这些组包含的CPU，必须被调度域管辖。组包含的是只读数据，被创建之后，可能被多个
+>>>> +CPU共享。任意两个组的CPU掩码的交集不一定为空，如果是这种情况，对应调度域的SD_OVERLAP
+>>>> +标志位被设置，它管辖的调度组可能不能在多个CPU中共享。
+>>>> +
+>>>> +调度域中的负载均衡发生在调度组中。也就是说，每个组被视为一个实体。组的负载被定义为它
+>>>> +管辖的每个CPU的负载之和。仅当组的负载不均衡后，任务在组之间发生迁移。
 >>
+>>> 才在组之间发生迁移。
+>> OK
 >>
->> Example:
+>>>> +
+>>>> +在kernel/sched/core.c中，trigger_load_balance()在每个CPU上通过scheduler_tick()
+>>>> +周期执行。在当前运行队列下一个定期调度再平衡事件到达后，它引发一个软中断。负载均衡真正
+>>>> +的工作由run_rebalance_domains()->rebalance_domains()完成，在软中断上下文中执行
+>>>> +（SCHED_SOFTIRQ）。
+>>>> +
+>>>> +后一个函数有两个入参：当前CPU的运行队列、它在scheduler_tick()调用时是否空闲。函数会从
+>>>> +当前CPU所在的基调度域开始迭代执行，并沿着parent指针链向上进入更高层级的调度域。在迭代
+>>>> +过程中，函数会检查当前调度域是否已经耗尽了再平衡的时间间隔，如果是，它在该调度域运行
+>>>> +load_balance()。接下来它检查父调度域（如果存在），再后来父调度域的父调度域，以此类推。
+>>>> +
+>>>> +起初，load_balance()查找当前调度域中最繁忙的调度组。如果成功，在该调度组管辖的全部CPU
+>>>> +的运行队列中找出最繁忙的。如能找到，对当前的CPU运行队列和新找到的最繁忙运行队列均加锁，
 >>
->> U-Boot environment variables is NVMEM. Example:
->> 00000000  c4 09 30 54 62 6f 6f 74  63 6d 64 3d 74 66 74 70  |..0Tbootcmd=tftp|
->> 00000010  00 62 6f 6f 74 64 65 6c  61 79 3d 35 00 65 74 68  |.bootdelay=5.eth|
+>>> 找出最繁忙的 **什么**？
+>> 我觉得英文原文不够精炼，这里还是保持原样吧：
+>> 在该调度组管辖的全部CPU的运行队列中找出最繁忙的运行队列。
+> OK!
 >>
->> A single environment variable is NVMEM cell. Example:
->> bootcmd=tftp
->> bootdelay=5
+>>>> +并把任务从最繁忙队列中迁移到当前CPU上。被迁移的任务数量等于在先前迭代执行中计算出的该
+>>>> +调度域的调度组的不均衡值。
+>>>> +
+>>>> +实现调度域
+>>>> +==========
+>>>> +
+>>>> +基调度域会管辖CPU层次结构中的第一层。对于超线程（SMT）而言，基调度域将会管辖同一个物理
+>>>> +CPU的全部虚拟CPU，每个虚拟CPU对应一个调度组。
+>>>> +
+>>>> +在SMP中，基调度域的父调度域将会管辖同一个结点中的全部物理CPU。接下来，如果是NUMA系统，
+>>>> +SMP调度域的父调度域将管辖整个机器，一个结点的CPU掩码对应一个调度组。或者，你可以使用
+>>>> +多层次NUMA；或举例来说Opteron处理器，可能仅仅只有一个调度域来覆盖它的一个NUMA层级。
 >>
->>
->> Every NVMEM device is exposed in sysfs as:
->> /sys/bus/nvmem/devices/*/
->>
->> You can read NVMEM blob doing
->> cat /sys/bus/nvmem/devices/*/nvmem | hexdump -C
->>
->>
->> What I'm trying to do is to expose NVMEM cells in sysfs as:
->> /sys/bus/nvmem/devices/cells/*
+>>> 或者，你可以做多级NUMA或Opteron，例如，可能只有一个域覆盖其一个NUMA级别。
+>> 这里的英文原文让我困惑，可以讨论一下。Opteron前的or，作者想表达什么？
+> 表示并列，你可以这么做，你也可以这么做。
 > 
-> You forgot "foo" in there :)
+> Based on my hours of research, the translation of this paragraph is a
+> bit off and you missed a sentence. [Each group being a single physical
+> CPU]
 
-Right!
+Right. I'll add that.
 
+> I have a rough idea of what the original passage is talking about, but
+> I can't describe it. I need some time. :)
 
-> How are nvmem devices named?
+Sorry, I'm not familiar with this AMD processor.
 
-$ ls /sys/bus/nvmem/devices/
-brcm-nvram0
-mtd0
-mtd1
-u-boot-envvar0
+> 
+> Let's discuss these concepts first：
+> 
+> 1）基调度域（它的父调度域是谁？）：
 
+调度域的层次结构参见struct sched_domain_topology_level数组，通常来说是SMT-MC-DIE
+三层。但是根据系统实际情况，也是可以不一样的，原文下文简单提到了。
 
->> Example:
->> $ cat /sys/bus/nvmem/devices/foo/cells/bootcmd
->> tftp
->> $ cat /sys/bus/nvmem/devices/foo/cells/bootdelay
->> 5
+内核文档太简单了，实际上调度域、调度组的细节蛮复杂的。忠于原文的翻译，基本是个
+辅助作用吧。
+
+> 2）NUMA:
+
+from wikipedia: 非均匀内存访问 / 非统一内存访问 。此外还可以见到 非一致内存访问。
+
+> 3）Opteron:
+
+Name of an AMD processor, I'm not going to translate it.
+
+> 
+> 
+> Thanks,
+> Yanteng
 >>
->> As you can see above NVMEM cells are not known at compilation time.
-> 
-> Why do you want to expose these in a way that forces the kernel to parse
-> these key/value pairs?  Why not just do it all in userspace like you can
-> today?  What forces the kernel to do it and not a perl script?
-> 
->> So I believe the question is: how can I expose cells in sysfs?
-> 
-> You can do this by dynamically creating the attributes on the fly, but
-> your show function is going to be rough and it's not going to be simple
-> to do so.  One example will be the code that creates the
-> /sys/devices/system/machinecheck/machinecheckXX/bank* files.
-> 
-> But I will push back again, why not just do it all in userspace?  What
-> userspace tool is requiring the kernel to do this work for it?
-
-Environment data contains info that may be required by kernel.
-
-For example some home routers store two firmwares on flash. Kernel needs
-to read index of currently booted firmware to make sure MTD subsystem
-creates partitions correctly.
-
-Another example: MAC address. Ethernet subsystem supports reading MAC
-from NVMEM cell.
-
-One could argue those tasks could be handled from userspace but that
-would get tricky. Sure - we have API for setting MAC address. However
-other cases (like setting active firmware partition and asking MTD to
-parse it into subpartitions) would require new user <-> kernel
-interfaces.
-
-
-> And none of this is a binary attribute file, which is what you were
-> trying to do in your original patch.  binary attribute files treat the
-> kernel as a pass-through, no parsing of the data is allowed by the
-> kernel.  Which is fine for the "nvmem" sysfs file, but not for your
-> key/value pairs.
-
-Oops, that should be standard attribute then.
+>> Thanks,
+>> Tang
+>>
+>>>
+>>> Thank you for the translation！
+>>> The scheduling domain is quite interesting and I decided to take the
+>>> time to study it.
+>>>
+>>> Thanks,
+>>>
+>>> Yanteng
+>>>> +
+>>>> +实现者需要阅读include/linux/sched/sd_flags.h的注释：读SD_*来了解具体情况以及调度域的
+>>>> +SD标志位调节了哪些东西。
+>>>> +
+>>>> +体系结构可以把指定的拓扑层级的通用调度域构建器和默认的SD标志位覆盖掉，方法是创建一个
+>>>> +sched_domain_topology_level数组，并以该数组作为入参调用set_sched_topology()。
+>>>> +
+>>>> +调度域调试基础设施可以通过CONFIG_SCHED_DEBUG开启，并在开机启动命令行中增加
+>>>> +“sched_verbose”。如果你忘记调整开机启动命令行了，也可以打开
+>>>> +/sys/kernel/debug/sched/verbose开关。这将开启调度域错误检查的解析，它应该能捕获
+>>>> +绝大多数错误，同时以可视化格式打印调度域的结构。
+>>>> --
+>>>> 2.17.1
+>>>>
