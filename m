@@ -2,138 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BD81C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Dec 2021 11:45:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30A48C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Dec 2021 12:34:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240250AbhLVLpm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Dec 2021 06:45:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41279 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S238050AbhLVLpm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Dec 2021 06:45:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1640173541;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=t8hfe6Gfw3N3sm/iHXx5ElkmaS7YGmdkl1wnNMkOIrk=;
-        b=EG4DRgTgn5m3fOZmedxzXpQ6UXa3B8Ntzx2zfRwyxAbbclKkIEjLAnysduX84gxqj9Mj6E
-        DK2c1nIUnWlyRGSIcTgqBSPpud/6p0b3Nr2wlMhr9LuGhjRXw4tWMgcPrbEtaz9OchwE2R
-        gMLaM4t9CCngRN1FtBp0JFW8jEZnI5Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-160-5CSJt_XzNSmqpNF8X7sCyQ-1; Wed, 22 Dec 2021 06:45:36 -0500
-X-MC-Unique: 5CSJt_XzNSmqpNF8X7sCyQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C54651018720;
-        Wed, 22 Dec 2021 11:45:32 +0000 (UTC)
-Received: from dhcp-128-65.nay.redhat.com (ovpn-12-211.pek2.redhat.com [10.72.12.211])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id E96477314B;
-        Wed, 22 Dec 2021 11:45:21 +0000 (UTC)
-Date:   Wed, 22 Dec 2021 19:45:18 +0800
-From:   Dave Young <dyoung@redhat.com>
-To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+        id S240438AbhLVMes (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Dec 2021 07:34:48 -0500
+Received: from fanzine2.igalia.com ([213.97.179.56]:47206 "EHLO
+        fanzine2.igalia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244900AbhLVMer (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Dec 2021 07:34:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version
+        :Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=DpfQr3KI1ooUwMp3zPorNiW327z1VEYdfuthn9gjjBA=; b=O2zVTEsKeXFgO5BaAh+iojUSVD
+        p8/AAne4P5j1sVsARLJ4voHrGo04JADZUb+3p7j+BPhy2civMV1GdxMhHqOUIqyuk6hXSmS/Quk0Y
+        QeFFFqWpJJlb2L+oo1BX5vL7rmXhn6djIibkyidoYOSI5Fs42bXkwKKRM0jDWTh8cshDKCpmC/mmD
+        9CtVD+wj+9mzypHRac1wDVfYlz3q/F+V865Eg058w4+MN8D04Q9+T1c/fhNr1Kv6dU1IVK54BZh1o
+        rOVAjR9c85fM9v88qCYbWxCMbtgq7zeuZhroxbdmWMQ13RM72UmZ/6DwawYKmJqUOJ75nrEFmDbsY
+        DI6S3FjQ==;
+Received: from 200-153-146-242.dsl.telesp.net.br ([200.153.146.242] helo=[192.168.1.60])
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+        id 1n00p9-0003aU-Eq; Wed, 22 Dec 2021 13:34:27 +0100
+Subject: Re: [PATCH 3/3] panic: Allow printing extra panic information on
+ kdump
+To:     Dave Young <dyoung@redhat.com>
 Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-doc@vger.kernel.org, mcgrof@kernel.org,
         keescook@chromium.org, yzaikin@google.com,
         akpm@linux-foundation.org, feng.tang@intel.com,
         siglesias@igalia.com, kernel@gpiccoli.net,
         kexec@lists.infradead.org
-Subject: Re: [PATCH 3/3] panic: Allow printing extra panic information on
- kdump
-Message-ID: <YcMPzs6t8MKpEacq@dhcp-128-65.nay.redhat.com>
 References: <20211109202848.610874-1-gpiccoli@igalia.com>
  <20211109202848.610874-4-gpiccoli@igalia.com>
+ <YcMPzs6t8MKpEacq@dhcp-128-65.nay.redhat.com>
+From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Message-ID: <2d24ea70-e315-beb5-0028-683880c438be@igalia.com>
+Date:   Wed, 22 Dec 2021 09:34:13 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211109202848.610874-4-gpiccoli@igalia.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <YcMPzs6t8MKpEacq@dhcp-128-65.nay.redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Guilherme,
+On 22/12/2021 08:45, Dave Young wrote:
+> Hi Guilherme,
+> 
+> Thanks for you patch.  Could you add kexec list for any following up
+> patches?  This could change kdump behavior so let's see if any comments
+> from kexec list.
+> 
+> Kudos for the lore+lei tool so that I can catch this by seeing this
+> coming into Andrews tree :)
 
-Thanks for you patch.  Could you add kexec list for any following up
-patches?  This could change kdump behavior so let's see if any comments
-from kexec list.
+Hi Dave, I'm really sorry for not adding the kexec list, I forgot. But I
+will do next time for sure, my apologies. And thanks for taking a look
+after you noticed that on lore, I appreciate your feedback!
 
-Kudos for the lore+lei tool so that I can catch this by seeing this
-coming into Andrews tree :)
-On 11/09/21 at 05:28pm, Guilherme G. Piccoli wrote:
-> Currently we have the "panic_print" parameter/sysctl to allow some extra
-> information to be printed in a panic event. On the other hand, the kdump
-> mechanism allows to kexec a new kernel to collect a memory dump for the
-> running kernel in case of panic.
-> Right now these options are incompatible: the user either sets the kdump
-> or makes use of "panic_print". The code path of "panic_print" isn't
-> reached when kdump is configured.
-> 
-> There are situations though in which this would be interesting: for
-> example, in systems that are very memory constrained, a handcrafted
-> tiny kernel/initrd for kdump might be used in order to only collect the
-> dmesg in kdump kernel. Even more common, systems with no disk space for
-> the full (compressed) memory dump might very well rely in this
-> functionality too, dumping only the dmesg with the additional information
-> provided by "panic_print".
-> 
-> So, this is what the patch does: allows both functionality to co-exist;
-> if "panic_print" is set and the system performs a kdump, the extra
-> information is printed on dmesg before the kexec. Some notes about the
-> design choices here:
-> 
-> (a) We could have introduced a sysctl or an extra bit on "panic_print"
-> to allow enabling the co-existence of kdump and "panic_print", but seems
-> that would be over-engineering; we have 3 cases, let's check how this
-> patch change things:
-> 
-> - if the user have kdump set and not "panic_print", nothing changes;
-> - if the user have "panic_print" set and not kdump, nothing changes;
-> - if both are enabled, now we print the extra information before kdump,
-> which is exactly the goal of the patch (and should be the goal of the
-> user, since they enabled both options).
-
-People may enable kdump crashkernel and panic_print together but
-they are not aware the extra panic print could cause kdump not reliable
-(in theory).  So at least some words in kernel-parameters.txt would
-help.
- 
-> 
-> (b) We assume that the code path won't return from __crash_kexec()
-> so we didn't guard against double execution of panic_print_sys_info().
-> 
-> Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
-> ---
->  kernel/panic.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/kernel/panic.c b/kernel/panic.c
-> index 5da71fa4e5f1..439dbf93b406 100644
-> --- a/kernel/panic.c
-> +++ b/kernel/panic.c
-> @@ -243,6 +243,13 @@ void panic(const char *fmt, ...)
->  	 */
->  	kgdb_panic(buf);
+> [...]
+> People may enable kdump crashkernel and panic_print together but
+> they are not aware the extra panic print could cause kdump not reliable
+> (in theory).  So at least some words in kernel-parameters.txt would
+> help.
 >  
-> +	/*
-> +	 * If we have a kdump kernel loaded, give a chance to panic_print
-> +	 * show some extra information on kernel log if it was set...
-> +	 */
-> +	if (kexec_crash_loaded())
-> +		panic_print_sys_info();
-> +
->  	/*
->  	 * If we have crashed and we have a crash kernel loaded let it handle
->  	 * everything else.
-> -- 
-> 2.33.1
-> 
-> 
 
-Thanks
-Dave
+That makes sense, I'll improve that in a follow-up patch, how about
+that? Indeed it's a good idea to let people be sure that panic_print
+might affect kdump reliability, although I consider the risk to be
+pretty low. And I'll loop the kexec list for sure!
 
+Cheers,
+
+
+Guilherme
