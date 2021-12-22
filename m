@@ -2,126 +2,343 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A274AC433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Dec 2021 16:44:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3308FC4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Dec 2021 17:19:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343971AbhLVQo4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Dec 2021 11:44:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36634 "EHLO
+        id S1344260AbhLVRTk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Dec 2021 12:19:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241736AbhLVQoz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Dec 2021 11:44:55 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58DCFC061574;
-        Wed, 22 Dec 2021 08:44:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=OZrPu/M8Hceg766ih22RPa2zy9wilvTWAaB475eNeyA=; b=heWKO8ps0AGajXs8BrNxqvRQjl
-        m7xQxIHpN+ngLUJhGPtz0f2XbHJB56k0M1qMp0M4t2hz05NPrRQ6pGU+pC0oHkuyyde4NdFNusRW0
-        VszzPepp60mZhjTtPk7EwpANozCL0WnQDSM8Z4VWJJLELTya8vM6pCSQLOblJ6qLxwRcTPOdi6Sld
-        onhowzpCdccfg7rhoUWgQ+1WUDlgFF9Wism78juB0cFQ7iIrAgL71Rabkcbpolp30IGNQ4yXXwgHV
-        gf45IZUnI80Fapdgows6u4cSRI7DqAdyCnPbes8xpFinvZMH4WEw39DShQKFBH82vt2IG+tpKonTK
-        Yh0Y/S0w==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1n04jI-003X5C-GC; Wed, 22 Dec 2021 16:44:40 +0000
-Date:   Wed, 22 Dec 2021 16:44:40 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Jan Kara <jack@suse.cz>
-Cc:     David Hildenbrand <david@redhat.com>,
-        Jason Gunthorpe <jgg@nvidia.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Nadav Amit <namit@vmware.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Hugh Dickins <hughd@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Yang Shi <shy828301@gmail.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Roman Gushchin <guro@fb.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Peter Xu <peterx@redhat.com>,
-        Donald Dutile <ddutile@redhat.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Oleg Nesterov <oleg@redhat.com>, Linux-MM <linux-mm@kvack.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v1 06/11] mm: support GUP-triggered unsharing via
- FAULT_FLAG_UNSHARE (!hugetlb)
-Message-ID: <YcNV+C6yeNLRzMH3@casper.infradead.org>
-References: <CAHk-=wgQq3H6wfkW7+MmduVgBOqHeiXQN97yCMd+m1mM-1xCLQ@mail.gmail.com>
- <900b7d4a-a5dc-5c7b-a374-c4a8cc149232@redhat.com>
- <20211221190706.GG1432915@nvidia.com>
- <3e0868e6-c714-1bf8-163f-389989bf5189@redhat.com>
- <dfe1c8d5-6fac-9040-0272-6d77bafa6a16@redhat.com>
- <20211222124141.GA685@quack2.suse.cz>
- <4a28e8a0-2efa-8b5e-10b5-38f1fc143a98@redhat.com>
- <20211222144255.GE685@quack2.suse.cz>
- <505d3d0f-23ee-0eec-0571-8058b8eedb97@redhat.com>
- <20211222160846.GH685@quack2.suse.cz>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211222160846.GH685@quack2.suse.cz>
+        with ESMTP id S1344256AbhLVRTe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Dec 2021 12:19:34 -0500
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8613BC061746
+        for <linux-doc@vger.kernel.org>; Wed, 22 Dec 2021 09:19:34 -0800 (PST)
+Received: by mail-yb1-xb4a.google.com with SMTP id q123-20020a252a81000000b00609e97bb74bso5145270ybq.5
+        for <linux-doc@vger.kernel.org>; Wed, 22 Dec 2021 09:19:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc
+         :content-transfer-encoding;
+        bh=eq8kg+Nq7s6ci7KQ2Pljuhksj8Xw03VdBUWBwy7DJtU=;
+        b=WIMis9rQiP91hFFBxdI4UKQZ5eQXuPUr3fmPwFArzRyCYEboxG3lYWxyZmeAt+JVF1
+         sMb3JBwfvRsaqLr6O7v9LS+AA3tfNZxzfwL9fb3QUYAsRo8iNIhNnGb/q6M2GkHB7oWX
+         HW7GQEAFL9NZZ09q0DVEAbw6lp/EMHYDkCbf4XoYV3mwJ4u7Umkb4IUQEr3JZuXtikQL
+         C9uwfaRNXbuzXFjeyPEjAKOP9FqsXcmTE/jhKo2Eq4sBx5wc0weNqG+KCP/c7R5YrqTF
+         wKL5c1JhM1XVcyDXeIrpDN3FUE617vDxzhABRPHuhwziWDsQYBj32YrAWfqOj9+ARDAT
+         Wi7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
+         :content-transfer-encoding;
+        bh=eq8kg+Nq7s6ci7KQ2Pljuhksj8Xw03VdBUWBwy7DJtU=;
+        b=NgvF9T2sIyyMNIAW9uMP2IGe4J33ScX7AcuFwrrI1p6TtKPwG4NF3DsZl87uA03jpx
+         74s2Eyw7lYBIuSWqIjSXE8sX6GXEGEt65tZwgoRWcVIblTuIkouihNnIq7IpDT0nS5jJ
+         7GN7AwFSkIwgI7naF/xgDcc0ApsK/8cUMV5t+hgApxqB1kJASQJiDcdP3XzjLhBnJllV
+         eTQHz8I0EhTBfqoKNpotTIQxfQwphYOlYDppvfx7M2UHF2YEGJP0d4tJkk7u/QUANRpg
+         pt4T+dvfHRhe9bMmAWQgxR8//kMKpmV3/WisJsECI8KFhL9MO6nqigruZvVXIRIMb2jM
+         AqTA==
+X-Gm-Message-State: AOAM532cg9RCA63jFXc0ZaoZrKVrVdJcBIPMox9l/msbxkMMoexOXOEO
+        eaCpl+K2oaTrdVfl2xPv99wS4Db1SQ==
+X-Google-Smtp-Source: ABdhPJzaBm3F2KCgstVEGJQrVFDDUQCZXabjU35JwKcTfc0amzt8kJz7DsYSgRWz/HqyBOS+UG2Zk9OxxQ==
+X-Received: from yaelt.nyc.corp.google.com ([2620:0:1003:415:6bb1:a282:3a87:2cee])
+ (user=yaelt job=sendgmr) by 2002:a25:6b09:: with SMTP id g9mr5680530ybc.207.1640193573714;
+ Wed, 22 Dec 2021 09:19:33 -0800 (PST)
+Date:   Wed, 22 Dec 2021 12:17:57 -0500
+Message-Id: <20211222171757.851754-1-yaelt@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.34.1.307.g9b7440fafd-goog
+Subject: [PATCH v3] Instantiate key with user-provided decrypted data.
+From:   Yael Tiomkin <yaelt@google.com>
+To:     linux-integrity@vger.kernel.org
+Cc:     jejb@linux.ibm.com, jarkko@kernel.org, zohar@linux.ibm.com,
+        corbet@lwn.net, dhowells@redhat.com, jmorris@namei.org,
+        serge@hallyn.com, keyrings@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        Yael Tiomkin <yaelt@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 22, 2021 at 05:08:46PM +0100, Jan Kara wrote:
-> On Wed 22-12-21 15:48:34, David Hildenbrand wrote:
-> > On 22.12.21 15:42, Jan Kara wrote:
-> > > On Wed 22-12-21 14:09:41, David Hildenbrand wrote:
-> > >>>> IIUC, our COW logic makes sure that a shared anonymous page that might
-> > >>>> still be used by a R/O FOLL_GET cannot be modified, because any attempt
-> > >>>> to modify it would result in a copy.
-> > >>>
-> > >>> Well, we defined FOLL_PIN to mean the intent that the caller wants to access
-> > >>> not only page state (for which is enough FOLL_GET and there are some users
-> > >>> - mostly inside mm - who need this) but also page data. Eventually, we even
-> > >>> wanted to make FOLL_GET unavailable to broad areas of kernel (and keep it
-> > >>> internal to only MM for its dirty deeds ;)) to reduce the misuse of GUP.
-> > >>>
-> > >>> For file pages we need this data vs no-data access distinction so that
-> > >>> filesystems can detect when someone can be accessing page data although the
-> > >>> page is unmapped.  Practically, filesystems care most about when someone
-> > >>> can be *modifying* page data (we need to make sure data is stable e.g. when
-> > >>> writing back data to disk or doing data checksumming or other operations)
-> > >>> so using FOLL_GET when wanting to only read page data should be OK for
-> > >>> filesystems but honestly I would be reluctant to break the rule of "use
-> > >>> FOLL_PIN when wanting to access page data" to keep things simple and
-> > >>> reasonably easy to understand for parties such as filesystem developers or
-> > >>> driver developers who all need to interact with pinned pages...
-> > >>
-> > >> Right, from an API perspective we really want people to use FOLL_PIN.
-> > >>
-> > >> To optimize this case in particular it would help if we would have the
-> > >> FOLL flags on the unpin path. Then we could just decide internally
-> > >> "well, short-term R/O FOLL_PIN can be really lightweight, we can treat
-> > >> this like a FOLL_GET instead". And we would need that as well if we were
-> > >> to keep different counters for R/O vs. R/W pinned.
-> > > 
-> > > Well, I guess the question here is: Which GUP user needs only R/O access to
-> > > page data and is so performance critical that it would be worth it to
-> > > sacrifice API clarity for speed? I'm not aware of any but I was not looking
-> > > really hard...
-> > 
-> > I'd be interested in examples as well. Maybe databases that use O_DIRECT
-> > after fork()?
-> 
-> Well, but O_DIRECT reads must use FOLL_PIN in any case because they modify
-> page data (and so we need to detect them both for COW and filesystem needs).
-> O_DIRECT writes could use FOLL_GET but at this point I'm not convinced it
-> is worth it.
+The encrypted.c class supports instantiation of encrypted keys with
+either an already-encrypted key material, or by generating new key
+material based on random numbers. To support encryption of
+user-provided decrypted data, this patch defines a new datablob
+format: [<format>] <master-key name> <decrypted data length>
+<decrypted data>.
 
-Wow, I didn't realise the plan was to make FOLL_PIN the "default".
-I hoped it was weird crap that was going away soon.  Looks like we'd
-better fix all the bugs in it then ...
+Reviewed-by: Mimi Zohar <zohar@linux.ibm.com>
+Signed-off-by: Yael Tiomkin <yaelt@google.com>
+---
+
+Notes:
+    v -> v2: fixed compilation error.
+   =20
+    v2 -> v3: modified documentation.
+
+ .../security/keys/trusted-encrypted.rst       | 25 ++++++--
+ security/keys/encrypted-keys/encrypted.c      | 61 +++++++++++++------
+ 2 files changed, 62 insertions(+), 24 deletions(-)
+
+diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Documentat=
+ion/security/keys/trusted-encrypted.rst
+index 80d5a5af62a1..f614dad7de12 100644
+--- a/Documentation/security/keys/trusted-encrypted.rst
++++ b/Documentation/security/keys/trusted-encrypted.rst
+@@ -107,12 +107,13 @@ Encrypted Keys
+ --------------
+=20
+ Encrypted keys do not depend on a trust source, and are faster, as they us=
+e AES
+-for encryption/decryption. New keys are created from kernel-generated rand=
+om
+-numbers, and are encrypted/decrypted using a specified =E2=80=98master=E2=
+=80=99 key. The
+-=E2=80=98master=E2=80=99 key can either be a trusted-key or user-key type.=
+ The main disadvantage
+-of encrypted keys is that if they are not rooted in a trusted key, they ar=
+e only
+-as secure as the user key encrypting them. The master user key should ther=
+efore
+-be loaded in as secure a way as possible, preferably early in boot.
++for encryption/decryption. New keys are created either from kernel-generat=
+ed
++random numbers or user-provided decrypted data, and are encrypted/decrypte=
+d
++using a specified =E2=80=98master=E2=80=99 key. The =E2=80=98master=E2=80=
+=99 key can either be a trusted-key or
++user-key type. The main disadvantage of encrypted keys is that if they are=
+ not
++rooted in a trusted key, they are only as secure as the user key encryptin=
+g
++them. The master user key should therefore be loaded in as secure a way as
++possible, preferably early in boot.
+=20
+=20
+ Usage
+@@ -199,6 +200,8 @@ Usage::
+=20
+     keyctl add encrypted name "new [format] key-type:master-key-name keyle=
+n"
+         ring
++    keyctl add encrypted name "new [format] key-type:master-key-name keyle=
+n
++        decrypted-data" ring
+     keyctl add encrypted name "load hex_blob" ring
+     keyctl update keyid "update key-type:master-key-name"
+=20
+@@ -303,6 +306,16 @@ Load an encrypted key "evm" from saved blob::
+     82dbbc55be2a44616e4959430436dc4f2a7a9659aa60bb4652aeb2120f149ed197c564=
+e0
+     24717c64 5972dcb82ab2dde83376d82b2e3c09ffc
+=20
++Instantiate an encrypted key "evm" using user-provided decrypted data::
++
++    $ keyctl add encrypted evm "new default user:kmk 32 `cat evm_decrypted=
+_data.blob`" @u
++    794890253
++
++    $ keyctl print 794890253
++    default user:kmk 32 2375725ad57798846a9bbd240de8906f006e66c03af53b1b38=
+2d
++    bbc55be2a44616e4959430436dc4f2a7a9659aa60bb4652aeb2120f149ed197c564e02=
+47
++    17c64 5972dcb82ab2dde83376d82b2e3c09ffc
++
+ Other uses for trusted and encrypted keys, such as for disk and file encry=
+ption
+ are anticipated.  In particular the new format 'ecryptfs' has been defined
+ in order to use encrypted keys to mount an eCryptfs filesystem.  More deta=
+ils
+diff --git a/security/keys/encrypted-keys/encrypted.c b/security/keys/encry=
+pted-keys/encrypted.c
+index 87432b35d771..9921ed4de488 100644
+--- a/security/keys/encrypted-keys/encrypted.c
++++ b/security/keys/encrypted-keys/encrypted.c
+@@ -159,6 +159,7 @@ static int valid_master_desc(const char *new_desc, cons=
+t char *orig_desc)
+  *
+  * datablob format:
+  * new [<format>] <master-key name> <decrypted data length>
++ * new [<format>] <master-key name> <decrypted data length> <decrypted dat=
+a>
+  * load [<format>] <master-key name> <decrypted data length>
+  *     <encrypted iv + data>
+  * update <new-master-key name>
+@@ -170,7 +171,7 @@ static int valid_master_desc(const char *new_desc, cons=
+t char *orig_desc)
+  */
+ static int datablob_parse(char *datablob, const char **format,
+ 			  char **master_desc, char **decrypted_datalen,
+-			  char **hex_encoded_iv)
++			  char **hex_encoded_iv, char **decrypted_data)
+ {
+ 	substring_t args[MAX_OPT_ARGS];
+ 	int ret =3D -EINVAL;
+@@ -231,6 +232,8 @@ static int datablob_parse(char *datablob, const char **=
+format,
+ 				"when called from .update method\n", keyword);
+ 			break;
+ 		}
++		*decrypted_data =3D strsep(&datablob, " \t");
++
+ 		ret =3D 0;
+ 		break;
+ 	case Opt_load:
+@@ -595,7 +598,8 @@ static int derived_key_decrypt(struct encrypted_key_pay=
+load *epayload,
+ static struct encrypted_key_payload *encrypted_key_alloc(struct key *key,
+ 							 const char *format,
+ 							 const char *master_desc,
+-							 const char *datalen)
++							 const char *datalen,
++							 const char *decrypted_data)
+ {
+ 	struct encrypted_key_payload *epayload =3D NULL;
+ 	unsigned short datablob_len;
+@@ -604,6 +608,7 @@ static struct encrypted_key_payload *encrypted_key_allo=
+c(struct key *key,
+ 	unsigned int encrypted_datalen;
+ 	unsigned int format_len;
+ 	long dlen;
++	int i;
+ 	int ret;
+=20
+ 	ret =3D kstrtol(datalen, 10, &dlen);
+@@ -613,6 +618,20 @@ static struct encrypted_key_payload *encrypted_key_all=
+oc(struct key *key,
+ 	format_len =3D (!format) ? strlen(key_format_default) : strlen(format);
+ 	decrypted_datalen =3D dlen;
+ 	payload_datalen =3D decrypted_datalen;
++
++	if (decrypted_data) {
++		if (strlen(decrypted_data) !=3D decrypted_datalen) {
++			pr_err("encrypted key: decrypted data provided does not match decrypted=
+ data length provided\n");
++			return ERR_PTR(-EINVAL);
++		}
++		for (i =3D 0; i < strlen(decrypted_data); i++) {
++			if (!isalnum(decrypted_data[i])) {
++				pr_err("encrypted key: decrypted data provided must be alphanumeric\n"=
+);
++				return ERR_PTR(-EINVAL);
++			}
++		}
++	}
++
+ 	if (format) {
+ 		if (!strcmp(format, key_format_ecryptfs)) {
+ 			if (dlen !=3D ECRYPTFS_MAX_KEY_BYTES) {
+@@ -740,13 +759,14 @@ static void __ekey_init(struct encrypted_key_payload =
+*epayload,
+ /*
+  * encrypted_init - initialize an encrypted key
+  *
+- * For a new key, use a random number for both the iv and data
+- * itself.  For an old key, decrypt the hex encoded data.
++ * For a new key, use either a random number or user-provided decrypted da=
+ta in
++ * case it is provided. A random number is used for the iv in both cases. =
+For
++ * an old key, decrypt the hex encoded data.
+  */
+ static int encrypted_init(struct encrypted_key_payload *epayload,
+ 			  const char *key_desc, const char *format,
+ 			  const char *master_desc, const char *datalen,
+-			  const char *hex_encoded_iv)
++			  const char *hex_encoded_iv, const char *decrypted_data)
+ {
+ 	int ret =3D 0;
+=20
+@@ -760,21 +780,25 @@ static int encrypted_init(struct encrypted_key_payloa=
+d *epayload,
+ 	}
+=20
+ 	__ekey_init(epayload, format, master_desc, datalen);
+-	if (!hex_encoded_iv) {
+-		get_random_bytes(epayload->iv, ivsize);
+-
+-		get_random_bytes(epayload->decrypted_data,
+-				 epayload->decrypted_datalen);
+-	} else
++	if (hex_encoded_iv) {
+ 		ret =3D encrypted_key_decrypt(epayload, format, hex_encoded_iv);
++	} else if (decrypted_data) {
++		get_random_bytes(epayload->iv, ivsize);
++		memcpy(epayload->decrypted_data, decrypted_data, epayload->decrypted_dat=
+alen);
++	} else {
++		get_random_bytes(epayload->iv, ivsize);
++		get_random_bytes(epayload->decrypted_data, epayload->decrypted_datalen);
++	}
+ 	return ret;
+ }
+=20
+ /*
+  * encrypted_instantiate - instantiate an encrypted key
+  *
+- * Decrypt an existing encrypted datablob or create a new encrypted key
+- * based on a kernel random number.
++ * Instantiates the key:
++ * - by decrypting an existing encrypted datablob, or
++ * - by creating a new encrypted key based on a kernel random number, or
++ * - using provided decrypted data.
+  *
+  * On success, return 0. Otherwise return errno.
+  */
+@@ -787,6 +811,7 @@ static int encrypted_instantiate(struct key *key,
+ 	char *master_desc =3D NULL;
+ 	char *decrypted_datalen =3D NULL;
+ 	char *hex_encoded_iv =3D NULL;
++	char *decrypted_data =3D NULL;
+ 	size_t datalen =3D prep->datalen;
+ 	int ret;
+=20
+@@ -799,18 +824,18 @@ static int encrypted_instantiate(struct key *key,
+ 	datablob[datalen] =3D 0;
+ 	memcpy(datablob, prep->data, datalen);
+ 	ret =3D datablob_parse(datablob, &format, &master_desc,
+-			     &decrypted_datalen, &hex_encoded_iv);
++			     &decrypted_datalen, &hex_encoded_iv, &decrypted_data);
+ 	if (ret < 0)
+ 		goto out;
+=20
+ 	epayload =3D encrypted_key_alloc(key, format, master_desc,
+-				       decrypted_datalen);
++				       decrypted_datalen, decrypted_data);
+ 	if (IS_ERR(epayload)) {
+ 		ret =3D PTR_ERR(epayload);
+ 		goto out;
+ 	}
+ 	ret =3D encrypted_init(epayload, key->description, format, master_desc,
+-			     decrypted_datalen, hex_encoded_iv);
++			     decrypted_datalen, hex_encoded_iv, decrypted_data);
+ 	if (ret < 0) {
+ 		kfree_sensitive(epayload);
+ 		goto out;
+@@ -860,7 +885,7 @@ static int encrypted_update(struct key *key, struct key=
+_preparsed_payload *prep)
+=20
+ 	buf[datalen] =3D 0;
+ 	memcpy(buf, prep->data, datalen);
+-	ret =3D datablob_parse(buf, &format, &new_master_desc, NULL, NULL);
++	ret =3D datablob_parse(buf, &format, &new_master_desc, NULL, NULL, NULL);
+ 	if (ret < 0)
+ 		goto out;
+=20
+@@ -869,7 +894,7 @@ static int encrypted_update(struct key *key, struct key=
+_preparsed_payload *prep)
+ 		goto out;
+=20
+ 	new_epayload =3D encrypted_key_alloc(key, epayload->format,
+-					   new_master_desc, epayload->datalen);
++					   new_master_desc, epayload->datalen, NULL);
+ 	if (IS_ERR(new_epayload)) {
+ 		ret =3D PTR_ERR(new_epayload);
+ 		goto out;
+--=20
+2.34.1.307.g9b7440fafd-goog
+
