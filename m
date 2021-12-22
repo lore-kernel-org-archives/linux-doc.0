@@ -2,158 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1972EC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 22 Dec 2021 13:43:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F16F5C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 22 Dec 2021 14:42:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231953AbhLVNnz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 22 Dec 2021 08:43:55 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:15966 "EHLO
-        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229834AbhLVNnz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Dec 2021 08:43:55 -0500
-Received: from dggpeml500025.china.huawei.com (unknown [172.30.72.53])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JJvbc2XwZzZdjB;
-        Wed, 22 Dec 2021 21:40:44 +0800 (CST)
-Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
- dggpeml500025.china.huawei.com (7.185.36.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Wed, 22 Dec 2021 21:43:53 +0800
-Received: from huawei.com (10.175.100.227) by dggpeml500006.china.huawei.com
- (7.185.36.76) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Wed, 22 Dec
- 2021 21:43:52 +0800
-From:   Tang Yizhou <tangyizhou@huawei.com>
-To:     <siyanteng@loongson.cn>, <siyanteng01@gmail.com>,
-        <alexs@kernel.org>, <seakeel@gmail.com>
-CC:     <linux-doc@vger.kernel.org>, <corbet@lwn.net>,
-        <zhengbin13@huawei.com>, <tangyeechou@gmail.com>,
-        Tang Yizhou <tangyizhou@huawei.com>
-Subject: [PATCH v2] docs/zh_CN: Add sched-domains translation
-Date:   Wed, 22 Dec 2021 22:11:31 +0800
-Message-ID: <20211222141131.10134-1-tangyizhou@huawei.com>
-X-Mailer: git-send-email 2.17.1
+        id S1343519AbhLVOm5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 22 Dec 2021 09:42:57 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:58800 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238818AbhLVOm5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 Dec 2021 09:42:57 -0500
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id 923811F37E;
+        Wed, 22 Dec 2021 14:42:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1640184175; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=TD6SyuS6GP3tP2PxyJFk+oWkTje4JimB4WrUsHB4NpA=;
+        b=vB6Uer+9JxDX9iRUHObopR92ZAOV2bRWMdULdB211qdN/IEBFSEGWFx+CxVN94MvlidGhh
+        vczdaa2zfn8SdAU5vWvhQCS6wePDYrSfJiVQ2u0JDyG+wFbm48wmOvBA49TWRJjYKXo1tu
+        N21nOTWUJ80LHWfAO8QrkHv0M+AoNfw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1640184175;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=TD6SyuS6GP3tP2PxyJFk+oWkTje4JimB4WrUsHB4NpA=;
+        b=Icwwag7tI4SkKcuYo19hnKM42HuXIUwKOhLtuaV5Dy5Ag5dDGibjcOExN58uaX9dSCbQ1y
+        b3T6BlrATDQ3joCA==
+Received: from quack2.suse.cz (unknown [10.163.28.18])
+        by relay2.suse.de (Postfix) with ESMTP id 5C90AA3B81;
+        Wed, 22 Dec 2021 14:42:55 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id 3EFE51F2CEF; Wed, 22 Dec 2021 15:42:55 +0100 (CET)
+Date:   Wed, 22 Dec 2021 15:42:55 +0100
+From:   Jan Kara <jack@suse.cz>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Jan Kara <jack@suse.cz>, Jason Gunthorpe <jgg@nvidia.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Nadav Amit <namit@vmware.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Hugh Dickins <hughd@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Yang Shi <shy828301@gmail.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Roman Gushchin <guro@fb.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Peter Xu <peterx@redhat.com>,
+        Donald Dutile <ddutile@redhat.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Oleg Nesterov <oleg@redhat.com>, Linux-MM <linux-mm@kvack.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v1 06/11] mm: support GUP-triggered unsharing via
+ FAULT_FLAG_UNSHARE (!hugetlb)
+Message-ID: <20211222144255.GE685@quack2.suse.cz>
+References: <fca16906-8e7d-5d04-6990-dfa8392bad8b@redhat.com>
+ <20211221010312.GC1432915@nvidia.com>
+ <fd7e3195-4f36-3804-1793-d453d5bd3e9f@redhat.com>
+ <CAHk-=wgQq3H6wfkW7+MmduVgBOqHeiXQN97yCMd+m1mM-1xCLQ@mail.gmail.com>
+ <900b7d4a-a5dc-5c7b-a374-c4a8cc149232@redhat.com>
+ <20211221190706.GG1432915@nvidia.com>
+ <3e0868e6-c714-1bf8-163f-389989bf5189@redhat.com>
+ <dfe1c8d5-6fac-9040-0272-6d77bafa6a16@redhat.com>
+ <20211222124141.GA685@quack2.suse.cz>
+ <4a28e8a0-2efa-8b5e-10b5-38f1fc143a98@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.175.100.227]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpeml500006.china.huawei.com (7.185.36.76)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4a28e8a0-2efa-8b5e-10b5-38f1fc143a98@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate scheduler/sched-domains.rst into Chinese.
+On Wed 22-12-21 14:09:41, David Hildenbrand wrote:
+> >> IIUC, our COW logic makes sure that a shared anonymous page that might
+> >> still be used by a R/O FOLL_GET cannot be modified, because any attempt
+> >> to modify it would result in a copy.
+> > 
+> > Well, we defined FOLL_PIN to mean the intent that the caller wants to access
+> > not only page state (for which is enough FOLL_GET and there are some users
+> > - mostly inside mm - who need this) but also page data. Eventually, we even
+> > wanted to make FOLL_GET unavailable to broad areas of kernel (and keep it
+> > internal to only MM for its dirty deeds ;)) to reduce the misuse of GUP.
+> > 
+> > For file pages we need this data vs no-data access distinction so that
+> > filesystems can detect when someone can be accessing page data although the
+> > page is unmapped.  Practically, filesystems care most about when someone
+> > can be *modifying* page data (we need to make sure data is stable e.g. when
+> > writing back data to disk or doing data checksumming or other operations)
+> > so using FOLL_GET when wanting to only read page data should be OK for
+> > filesystems but honestly I would be reluctant to break the rule of "use
+> > FOLL_PIN when wanting to access page data" to keep things simple and
+> > reasonably easy to understand for parties such as filesystem developers or
+> > driver developers who all need to interact with pinned pages...
+> 
+> Right, from an API perspective we really want people to use FOLL_PIN.
+> 
+> To optimize this case in particular it would help if we would have the
+> FOLL flags on the unpin path. Then we could just decide internally
+> "well, short-term R/O FOLL_PIN can be really lightweight, we can treat
+> this like a FOLL_GET instead". And we would need that as well if we were
+> to keep different counters for R/O vs. R/W pinned.
 
-Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
----
-v2:
-1. Add Yangteng as proofreader.
-2. Take Yangteng's advice.
+Well, I guess the question here is: Which GUP user needs only R/O access to
+page data and is so performance critical that it would be worth it to
+sacrifice API clarity for speed? I'm not aware of any but I was not looking
+really hard...
 
- .../translations/zh_CN/scheduler/index.rst    |  2 +-
- .../zh_CN/scheduler/sched-domains.rst         | 72 +++++++++++++++++++
- 2 files changed, 73 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/scheduler/sched-domains.rst
-
-diff --git a/Documentation/translations/zh_CN/scheduler/index.rst b/Documentation/translations/zh_CN/scheduler/index.rst
-index 5327c61cb0ab..f8f8f35d53c7 100644
---- a/Documentation/translations/zh_CN/scheduler/index.rst
-+++ b/Documentation/translations/zh_CN/scheduler/index.rst
-@@ -21,6 +21,7 @@ Linux调度器
-     sched-arch
-     sched-bwc
-     sched-design-CFS
-+    sched-domains
-     sched-capacity
- 
- 
-@@ -28,7 +29,6 @@ TODOList:
- 
-     sched-bwc
-     sched-deadline
--    sched-domains
-     sched-energy
-     sched-nice-design
-     sched-rt-group
-diff --git a/Documentation/translations/zh_CN/scheduler/sched-domains.rst b/Documentation/translations/zh_CN/scheduler/sched-domains.rst
-new file mode 100644
-index 000000000000..e814d4c01141
---- /dev/null
-+++ b/Documentation/translations/zh_CN/scheduler/sched-domains.rst
-@@ -0,0 +1,72 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/scheduler/sched-domains.rst
-+
-+:翻译:
-+
-+  唐艺舟 Tang Yizhou <tangyeechou@gmail.com>
-+
-+:校译:
-+
-+  司延腾 Yanteng Si <siyanteng@loongson.cn>
-+
-+======
-+调度域
-+======
-+
-+每个CPU有一个“基”调度域（struct sched_domain）。调度域层次结构从基调度域构建而来，可
-+通过->parent指针自下而上遍历。->parent必须以NULL结尾，调度域结构体必须是per-CPU的，
-+因为它们无锁更新。
-+
-+每个调度域管辖数个CPU（存储在->span字段中）。一个调度域的span必须是它的子调度域span的
-+超集（如有需求出现，这个限制可以放宽）。CPU i的基调度域必须至少管辖CPU i。每个CPU的
-+顶层调度域通常将会管辖系统中的全部CPU，尽管严格来说这不是必须的，假如是这样，会导致某些
-+CPU出现永远不会被指定任务运行的情况，直到允许的CPU掩码被显式设定。调度域的span字段意味
-+着“在这些CPU中做进程负载均衡”。
-+
-+每个调度域必须具有一个或多个CPU调度组（struct sched_group），它们以单向循环链表的形式
-+组织，存储在->groups指针中。这些组的CPU掩码的并集必须和调度域span字段一致。->groups
-+指针指向的这些组包含的CPU，必须被调度域管辖。组包含的是只读数据，被创建之后，可能被多个
-+CPU共享。任意两个组的CPU掩码的交集不一定为空，如果是这种情况，对应调度域的SD_OVERLAP
-+标志位被设置，它管辖的调度组可能不能在多个CPU中共享。
-+
-+调度域中的负载均衡发生在调度组中。也就是说，每个组被视为一个实体。组的负载被定义为它
-+管辖的每个CPU的负载之和。仅当组的负载不均衡后，任务才在组之间发生迁移。
-+
-+在kernel/sched/core.c中，trigger_load_balance()在每个CPU上通过scheduler_tick()
-+周期执行。在当前运行队列下一个定期调度再平衡事件到达后，它引发一个软中断。负载均衡真正
-+的工作由run_rebalance_domains()->rebalance_domains()完成，在软中断上下文中执行
-+（SCHED_SOFTIRQ）。
-+
-+后一个函数有两个入参：当前CPU的运行队列、它在scheduler_tick()调用时是否空闲。函数会从
-+当前CPU所在的基调度域开始迭代执行，并沿着parent指针链向上进入更高层级的调度域。在迭代
-+过程中，函数会检查当前调度域是否已经耗尽了再平衡的时间间隔，如果是，它在该调度域运行
-+load_balance()。接下来它检查父调度域（如果存在），再后来父调度域的父调度域，以此类推。
-+
-+起初，load_balance()查找当前调度域中最繁忙的调度组。如果成功，在该调度组管辖的全部CPU
-+的运行队列中找出最繁忙的运行队列。如能找到，对当前的CPU运行队列和新找到的最繁忙运行
-+队列均加锁，并把任务从最繁忙队列中迁移到当前CPU上。被迁移的任务数量等于在先前迭代执行
-+中计算出的该调度域的调度组的不均衡值。
-+
-+实现调度域
-+==========
-+
-+基调度域会管辖CPU层次结构中的第一层。对于超线程（SMT）而言，基调度域将会管辖同一个物理
-+CPU的全部虚拟CPU，每个虚拟CPU对应一个调度组。
-+
-+在SMP中，基调度域的父调度域将会管辖同一个结点中的全部物理CPU，每个调度组对应一个物理CPU。
-+接下来，如果是非统一内存访问（NUMA）系统，SMP调度域的父调度域将管辖整个机器，一个结点的
-+CPU掩码对应一个调度组。亦或，你可以使用多级NUMA；举例来说Opteron处理器，可能仅用一个
-+调度域来覆盖它的一个NUMA层级。
-+
-+实现者需要阅读include/linux/sched/sd_flags.h的注释：读SD_*来了解具体情况以及调度域的
-+SD标志位调节了哪些东西。
-+
-+体系结构可以把指定的拓扑层级的通用调度域构建器和默认的SD标志位覆盖掉，方法是创建一个
-+sched_domain_topology_level数组，并以该数组作为入参调用set_sched_topology()。
-+
-+调度域调试基础设施可以通过CONFIG_SCHED_DEBUG开启，并在开机启动命令行中增加
-+“sched_verbose”。如果你忘记调整开机启动命令行了，也可以打开
-+/sys/kernel/debug/sched/verbose开关。这将开启调度域错误检查的解析，它应该能捕获（上文
-+描述过的）绝大多数错误，同时以可视化格式打印调度域的结构。
+								Honza
 -- 
-2.17.1
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
