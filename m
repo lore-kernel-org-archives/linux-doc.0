@@ -2,118 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21BA0C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Dec 2021 17:18:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEBB8C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Dec 2021 17:26:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244447AbhLWRS5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Dec 2021 12:18:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55868 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244396AbhLWRS5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Dec 2021 12:18:57 -0500
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F7EDC061401
-        for <linux-doc@vger.kernel.org>; Thu, 23 Dec 2021 09:18:56 -0800 (PST)
-Received: by mail-lj1-x235.google.com with SMTP id p7so9355995ljj.1
-        for <linux-doc@vger.kernel.org>; Thu, 23 Dec 2021 09:18:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ebjUMYzb2XXAsYOtaVdHIf1waqFUxp5nurVKmzFPze0=;
-        b=D0oqXy2kl+rC2TLn8MKJW942+MXJlhDcqQRLu5xkE2CWygIZz0D4Zmm57+murcYldK
-         4UEQf7kPQlmt/Zu9Vj8PzCJx+hTrF4iTZEz/Zlq2tQY1GdPH6ixD2hrlPiPyOOyxDpjC
-         UUPQ6ggzhSxleoC62OuTXUWCgqwRkw7Rjw6Ng=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ebjUMYzb2XXAsYOtaVdHIf1waqFUxp5nurVKmzFPze0=;
-        b=ohmfrXwmeaMWNKoXpEycRoYirs7V+jg0igTrgqZaLA2OaHISCL3eejPtWZgjFtIrry
-         ieKWoPlzHPNcTfIpoL+9da0MHYHPAYc33Pg9QNQ46mjNQvVHgo570edAGUgw9o0X8O4m
-         yaBn4B/v6oSxV6haZrM7hHa8nC0neWTCDh/3e9Nl7bbXloqwosIFSEuV62RgRzJEDyCZ
-         O4GnPdIijwoyzgb16M59yPk+7yWKgVq2TYGlDKqQ04/Zr6ocHzVOueXVYH4KPqz8MDS2
-         pv0hn9TV27LaGVFiwlJIayH4fJOuJyvnkgJuJIaEYgPyQ7mYCWQ61YMhKChjtEFrpA+Y
-         3sig==
-X-Gm-Message-State: AOAM5314pdlOUmI5wiRP+puit8pozGMXrTuRxXpeX43TFpV+QobpY2SQ
-        wXJX+3vEa47bI9q4Pk/H/3fgv4mF1ezq6iL33X8=
-X-Google-Smtp-Source: ABdhPJzadDGuQRAPiPUhZALzivEDQJLe2+Y4Ji/Lb3TnX+dysnYd8jJBCR0kvHDBTEnbzrjyv9h+ng==
-X-Received: by 2002:a2e:9d89:: with SMTP id c9mr2246725ljj.221.1640279934724;
-        Thu, 23 Dec 2021 09:18:54 -0800 (PST)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com. [209.85.208.177])
-        by smtp.gmail.com with ESMTPSA id k32sm555445lfv.196.2021.12.23.09.18.54
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Dec 2021 09:18:54 -0800 (PST)
-Received: by mail-lj1-f177.google.com with SMTP id p8so10119427ljo.5
-        for <linux-doc@vger.kernel.org>; Thu, 23 Dec 2021 09:18:54 -0800 (PST)
-X-Received: by 2002:a5d:6c68:: with SMTP id r8mr1878218wrz.281.1640279923027;
- Thu, 23 Dec 2021 09:18:43 -0800 (PST)
+        id S1349483AbhLWR0L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Dec 2021 12:26:11 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:37560 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233445AbhLWR0K (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 23 Dec 2021 12:26:10 -0500
+Received: from zn.tnic (dslb-088-067-202-008.088.067.pools.vodafone-ip.de [88.67.202.8])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 247051EC050F;
+        Thu, 23 Dec 2021 18:26:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1640280365;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=LMGR+C4m+9735OKWvzE0ovfyOVaNRuViyaqk9TpUU70=;
+        b=pEsc1O/vnUhF2PpdTe0dYzrWZuYPARhmwaANkBfA0WcDaXQGQnq7zL3/WQNXKOFHnO8TyC
+        5U5gxduSv6Qzp+EpkTNBXD2r+RiK5R8qKC8qIOhzjCWBX6Tk0aE/hZHbWG7lbPn+lciTrS
+        NUn+YJWn2Ix4REiuv5J6C57w6h2L45g=
+Date:   Thu, 23 Dec 2021 18:26:06 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Zhen Lei <thunder.leizhen@huawei.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
+        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        kexec@lists.infradead.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>
+Subject: Re: [PATCH v18 02/17] x86/setup: Move xen_pv_domain() check and
+ insert_resource() to setup_arch()
+Message-ID: <YcSxLodOnxXHx0sV@zn.tnic>
+References: <20211222130820.1754-1-thunder.leizhen@huawei.com>
+ <20211222130820.1754-3-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
-References: <900b7d4a-a5dc-5c7b-a374-c4a8cc149232@redhat.com>
- <20211221190706.GG1432915@nvidia.com> <3e0868e6-c714-1bf8-163f-389989bf5189@redhat.com>
- <dfe1c8d5-6fac-9040-0272-6d77bafa6a16@redhat.com> <20211222124141.GA685@quack2.suse.cz>
- <4a28e8a0-2efa-8b5e-10b5-38f1fc143a98@redhat.com> <20211222144255.GE685@quack2.suse.cz>
- <505d3d0f-23ee-0eec-0571-8058b8eedb97@redhat.com> <20211222160846.GH685@quack2.suse.cz>
- <CAHk-=wjUeCUo7dRkzTeqGMJ5-NE4=Xj09mMB0HCkCnMFxsbmwA@mail.gmail.com> <20211223125438.GA19129@quack2.suse.cz>
-In-Reply-To: <20211223125438.GA19129@quack2.suse.cz>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Thu, 23 Dec 2021 09:18:27 -0800
-X-Gmail-Original-Message-ID: <CAHk-=whUEZC2skXPUWy93DpNmC0VF=t2EwmEgWGx8aPstTmWYA@mail.gmail.com>
-Message-ID: <CAHk-=whUEZC2skXPUWy93DpNmC0VF=t2EwmEgWGx8aPstTmWYA@mail.gmail.com>
-Subject: Re: [PATCH v1 06/11] mm: support GUP-triggered unsharing via
- FAULT_FLAG_UNSHARE (!hugetlb)
-To:     Jan Kara <jack@suse.cz>
-Cc:     David Hildenbrand <david@redhat.com>,
-        Jason Gunthorpe <jgg@nvidia.com>,
-        Nadav Amit <namit@vmware.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Hugh Dickins <hughd@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Yang Shi <shy828301@gmail.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Roman Gushchin <guro@fb.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Peter Xu <peterx@redhat.com>,
-        Donald Dutile <ddutile@redhat.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Oleg Nesterov <oleg@redhat.com>, Linux-MM <linux-mm@kvack.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20211222130820.1754-3-thunder.leizhen@huawei.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 23, 2021 at 4:54 AM Jan Kara <jack@suse.cz> wrote:
->
-> So forcing pinning for O_DIRECT reads is IMO mandatory.
+On Wed, Dec 22, 2021 at 09:08:05PM +0800, Zhen Lei wrote:
+> From: Chen Zhou <chenzhou10@huawei.com>
+> 
+> We will make the functions reserve_crashkernel() as generic, the
+> xen_pv_domain() check in reserve_crashkernel() is relevant only to
+> x86,
 
-I don't disagree.
+Why is that so? Is Xen-PV x86-only?
 
-And I do think the eventual aim should be to do it for writes too even
-if they don't necessarily require it (since they write _from_ the VM
-data, not _to_ the VM data - the "read-vs-write direction has always
-been confusing when it comes to GUP").
+> the same as insert_resource() in reserve_crashkernel[_low]().
 
-Partly just for consistency in the IO paths - I think people want to
-share as much as possible in there - but also just to make sure that
-we're all done with the "wrong-way-cow" kind of issues for good.
+Why?
 
-If we get to the point where the legacy GUP is used only for very
-special things (looking up physical pages for debug and trace purposes
-etc), I think that would be lovely.
+Looking at
 
-That may be a pretty long-range goal, though.
+  0212f9159694 ("x86: Add Crash kernel low reservation")
 
-              Linus
+it *surprisingly* explains why that resources thing is being added:
+
+    We need to add another range in /proc/iomem like "Crash kernel low",
+    so kexec-tools could find that info and append to kdump kernel
+    command line.
+
+Then,
+
+  157752d84f5d ("kexec: use Crash kernel for Crash kernel low")
+
+renamed it because, as it states, kexec-tools was taught to handle
+multiple resources of the same name.
+
+So why does kexec-tools on arm *not* need those iomem resources? How
+does it parse the ranges there? Questions over questions...
+
+So last time I told you to sit down and take your time with this cleanup.
+From reading this here, it doesn't look like it. Rather, it looks like
+hastily done in a hurry and hurrying stuff doesn't help you one bit - it
+actually makes it worse.
+
+Your commit messages need to explain *why* a change is being done and
+why is that ok. This one doesn't.
+
+> @@ -1120,7 +1109,17 @@ void __init setup_arch(char **cmdline_p)
+>  	 * Reserve memory for crash kernel after SRAT is parsed so that it
+>  	 * won't consume hotpluggable memory.
+>  	 */
+> -	reserve_crashkernel();
+> +#ifdef CONFIG_KEXEC_CORE
+> +	if (xen_pv_domain())
+> +		pr_info("Ignoring crashkernel for a Xen PV domain\n");
+
+This is wrong - the check is currently being done inside
+reserve_crashkernel(), *after* it has parsed a crashkernel= cmdline
+correctly - and not before.
+
+Your change would print on Xen PV, regardless of whether it has received
+crashkernel= on the cmdline or not.
+
+This is exactly why I say that making those functions generic and shared
+might not be such a good idea, after all, because then you'd have to
+sprinkle around arch-specific stuff.
+
+One of the ways how to address this particular case here would be:
+
+1. Add a x86-specific wrapper around parse_crashkernel() which does
+all the parsing. When that wrapper finishes, you should have parsed
+everything that has crashkernel= on the cmdline.
+
+2. At the end of that wrapper, you do arch-specific checks and setup
+like the xen_pv_domain() one.
+
+3. Now, you do reserve_crashkernel(), if those checks pass.
+
+The question is, whether the flow on arm64 can do the same. Probably but
+it needs careful auditing.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
