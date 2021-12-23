@@ -2,133 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62F46C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Dec 2021 10:20:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C1C3C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Dec 2021 11:08:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347667AbhLWKUb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Dec 2021 05:20:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46412 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347682AbhLWKTf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Dec 2021 05:19:35 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA087C061401;
-        Thu, 23 Dec 2021 02:19:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-        :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=YXA9bNbu70qCMUKMU1gqidDciHX65bz6vVCKVKz0r7I=; b=FVOVE7Nb0V3sHmy/eGPPRBgkp6
-        9IWtM+8HfpxA2qXkQWiH1oyRZYZMEuKIXxr8RaYxoZGH5R5h/iCD2npy6/rX0ILPwxn7ovuv9X8XA
-        hw9TODB5mQeUpqr0sc0WZ+k1bJpoZZB7tdSMUlOWDsS+nimGFGdpp8SR29AcbzWrFAQs1N3Vrdtgz
-        6VD/KPLRhZ8pSr1gmy3tQx6JtTUrfXpUwGs4UYcL456PZh0rfj6f4A19ZvfmvpGN1+zveiXqwrhaO
-        YyaCcRlWKvQsL3m+7zS4zq0iiQYxwA18KNu13hk9VnonGDBQAd+vsxVoxuTxAnOnv/Ji/fZcUdscS
-        8QfVjyQA==;
-Received: from [46.183.103.8] (helo=localhost)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1n0LC3-00CTmy-3G; Thu, 23 Dec 2021 10:19:27 +0000
-From:   Christoph Hellwig <hch@lst.de>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>
-Cc:     Martin KaFai Lau <kafai@fb.com>, Song Liu <songliubraving@fb.com>,
-        Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org
-Subject: [PATCH 4/4] bpf, docs: Move the packet access instructions last in instruction-set.rst
-Date:   Thu, 23 Dec 2021 11:19:06 +0100
-Message-Id: <20211223101906.977624-5-hch@lst.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211223101906.977624-1-hch@lst.de>
-References: <20211223101906.977624-1-hch@lst.de>
+        id S1347898AbhLWLIu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Dec 2021 06:08:50 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28]:59946 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1347895AbhLWLIq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Dec 2021 06:08:46 -0500
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 51CC221128;
+        Thu, 23 Dec 2021 11:08:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1640257725; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=LLyiXrFXVKmCxSGs1dhYd9u4D7SzC6X7urXbFh45ixw=;
+        b=bFS7SZki+gGKtR2A4w1SniEtzRtthqAjszqfCI/sgYaIgp1I6Zs6wmR4JrDAqxV0/TXlmJ
+        Hndl0mkXQvvAypsnLTLq5GfemLxkiv0ilH57tnjkF8CXXQMDuf2IdKnu1ZgGFXS9BU9Agb
+        dJv+3wQMM70MUu566+bild2yacRadkg=
+Received: from suse.cz (unknown [10.100.224.162])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 0D96FA3BAE;
+        Thu, 23 Dec 2021 11:08:45 +0000 (UTC)
+Date:   Thu, 23 Dec 2021 12:08:41 +0100
+From:   Petr Mladek <pmladek@suse.com>
+To:     David Vernet <void@manifault.com>
+Cc:     live-patching@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, jpoimboe@redhat.com, jikos@kernel.org,
+        mbenes@suse.cz, joe.lawrence@redhat.com, corbet@lwn.net
+Subject: Re: [PATCH v3] Documentation: livepatch: Add livepatch API page
+Message-ID: <YcRYuW78jIU+VxIH@alley>
+References: <20211221145743.4098360-1-void@manifault.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211221145743.4098360-1-void@manifault.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The packet access instructions are a convoluted leftover from classic
-BPF.  Move them last past the much more important atomic operations,
-and improve the rendering of the code example.
+On Tue 2021-12-21 06:57:45, David Vernet wrote:
+> The livepatch subsystem has several exported functions and objects with
+> kerneldoc comments. Though the livepatch documentation contains handwritten
+> descriptions of all of these exported functions, they are currently not
+> pulled into the docs build using the kernel-doc directive.
+> 
+> In order to allow readers of the documentation to see the full kerneldoc
+> comments in the generated documentation files, this change adds a new
+> Documentation/livepatch/api.rst page which contains kernel-doc directives
+> to link the kerneldoc comments directly in the documentation.  With this,
+> all of the hand-written descriptions of the APIs now cross-reference the
+> kerneldoc comments on the new Livepatching APIs page, and running
+> ./scripts/find-unused-docs.sh on kernel/livepatch no longer shows any files
+> as missing documentation.
+> 
+> Note that all of the handwritten API descriptions were left alone with the
+> exception of Documentation/livepatch/system-state.rst, which was updated to
+> allow the cross-referencing to work correctly. The file now follows the
+> cross-referencing formatting guidance specified in
+> Documentation/doc-guide/kernel-doc.rst. Furthermore, some comments around
+> klp_shadow_free_all() were updated to say <_, id> rather than <*, id> to
+> match the rest of the file, and to prevent the docs build from emitting an
+> "Inline emphasis start-string without end string" error.
+> 
+> Signed-off-by: David Vernet <void@manifault.com>
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- Documentation/bpf/instruction-set.rst | 55 +++++++++++++--------------
- 1 file changed, 27 insertions(+), 28 deletions(-)
+JFYI, the patch has been committed into livepatch.git, branch
+for-5.17/fixes.
 
-diff --git a/Documentation/bpf/instruction-set.rst b/Documentation/bpf/instruction-set.rst
-index 4e3041cf04325..922635f0c18b7 100644
---- a/Documentation/bpf/instruction-set.rst
-+++ b/Documentation/bpf/instruction-set.rst
-@@ -171,34 +171,6 @@ BPF_MEM | <size> | BPF_LDX means::
- 
- Where size is one of: BPF_B or BPF_H or BPF_W or BPF_DW.
- 
--Packet access instructions
----------------------------
--
--eBPF has two non-generic instructions: (BPF_ABS | <size> | BPF_LD) and
--(BPF_IND | <size> | BPF_LD) which are used to access packet data.
--
--They had to be carried over from classic BPF to have strong performance of
--socket filters running in eBPF interpreter. These instructions can only
--be used when interpreter context is a pointer to ``struct sk_buff`` and
--have seven implicit operands. Register R6 is an implicit input that must
--contain pointer to sk_buff. Register R0 is an implicit output which contains
--the data fetched from the packet. Registers R1-R5 are scratch registers
--and must not be used to store the data across BPF_ABS | BPF_LD or
--BPF_IND | BPF_LD instructions.
--
--These instructions have implicit program exit condition as well. When
--eBPF program is trying to access the data beyond the packet boundary,
--the interpreter will abort the execution of the program. JIT compilers
--therefore must preserve this property. src_reg and imm32 fields are
--explicit inputs to these instructions.
--
--For example::
--
--  BPF_IND | BPF_W | BPF_LD means:
--
--    R0 = ntohl(*(u32 *) (((struct sk_buff *) R6)->data + src_reg + imm32))
--    and R1 - R5 were scratched.
--
- Atomic operations
- -----------------
- 
-@@ -252,3 +224,30 @@ zero.
- eBPF has one 16-byte instruction: ``BPF_LD | BPF_DW | BPF_IMM`` which consists
- of two consecutive ``struct bpf_insn`` 8-byte blocks and interpreted as single
- instruction that loads 64-bit immediate value into a dst_reg.
-+
-+Packet access instructions
-+--------------------------
-+
-+eBPF has two non-generic instructions: (BPF_ABS | <size> | BPF_LD) and
-+(BPF_IND | <size> | BPF_LD) which are used to access packet data.
-+
-+They had to be carried over from classic BPF to have strong performance of
-+socket filters running in eBPF interpreter. These instructions can only
-+be used when interpreter context is a pointer to ``struct sk_buff`` and
-+have seven implicit operands. Register R6 is an implicit input that must
-+contain pointer to sk_buff. Register R0 is an implicit output which contains
-+the data fetched from the packet. Registers R1-R5 are scratch registers
-+and must not be used to store the data across BPF_ABS | BPF_LD or
-+BPF_IND | BPF_LD instructions.
-+
-+These instructions have implicit program exit condition as well. When
-+eBPF program is trying to access the data beyond the packet boundary,
-+the interpreter will abort the execution of the program. JIT compilers
-+therefore must preserve this property. src_reg and imm32 fields are
-+explicit inputs to these instructions.
-+
-+For example, BPF_IND | BPF_W | BPF_LD means::
-+
-+  R0 = ntohl(*(u32 *) (((struct sk_buff *) R6)->data + src_reg + imm32))
-+
-+and R1 - R5 are clobbered.
--- 
-2.30.2
-
+Best Regards,
+Petr
