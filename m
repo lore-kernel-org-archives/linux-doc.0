@@ -2,94 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7845C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Dec 2021 21:52:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2070AC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Dec 2021 23:48:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350379AbhLWVwg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Dec 2021 16:52:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60164 "EHLO
+        id S244968AbhLWXsy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Dec 2021 18:48:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231576AbhLWVwf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Dec 2021 16:52:35 -0500
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0343C061401;
-        Thu, 23 Dec 2021 13:52:35 -0800 (PST)
-Received: by mail-pj1-x102a.google.com with SMTP id v13-20020a17090a088d00b001b0e3a74cf7so6974238pjc.1;
-        Thu, 23 Dec 2021 13:52:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=XNJhIefDBvOLT+950YlhBTlexUY5B2BqtdVad6rn/wA=;
-        b=VTQTqJ0yQ4KIqdrZXZPEZmflASknN5u60MnISGs6kVvU57fI32Uh1pxa9rswX6yFB2
-         Q8f30yQKDzJvSJca0QapFAqMB4F2oQ/z6kkwvKRsD1FlLZF3yHYbzg4KAvTOLoyIM0Nc
-         rHedFIOnE+77LtA6Zz/L8rEsSEe0+vh9QHadaPn1phZFJWpJ8/HpYj7QY6iJjYJyAUXa
-         b37YY4LSQLPDE0Ip5scPVIS6kR+/IwJVwkiftTqGG2L0xZOTAGvcsuGrlVdwBJSHM/tU
-         ojW6WVBplv6YwlcZLpL51c2Q0VA6+z/T+elbl03MeAOVAKMa9AcupZF6LvlQBMXtIBES
-         mUPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=XNJhIefDBvOLT+950YlhBTlexUY5B2BqtdVad6rn/wA=;
-        b=4tkVc//kf9CPiBWK4Qx9FLlQ8N31GAxWCLc+Ug+YhcO854syZQOoptUm0MFNEt8QFP
-         lYdqQDtHB3tEW5s7euK0jqSGhxMzJim8LBGj+buZu4noQ+uY4bOw+DI4QwpbTTteWvE1
-         cQLoLyCYdJ5WhR809r14o4Iud99yjLzi09V0DWfzmfEIxguR8UpXPZ+faRi3WF+WOfXo
-         Xo6x+FgoKmiFxfGx3E6WqhkRsOZiiCiQiqr2euF3FhPqFp7zQ70+nweHR6Z7Yon2QBrv
-         Vrtqe0BUWsKuHKymPLm6T8PukXLIH3W/uyeSMUtti34RWNAVvJuWMdU7G2naJaxUPeo3
-         w7xA==
-X-Gm-Message-State: AOAM5333v/CorNhfjVJ6eJK+ZI+8lN51az6+yl4LYmCEx/3XqICoMjg4
-        P+BmqU+ODtZ/HXZheF7m37V7OosRyNs=
-X-Google-Smtp-Source: ABdhPJw5T+hFgItPd+lI/dkK62qn+iBCy+nEz8ACDpL2c2/eGZak55ocb4OOcY3FeHuK5M63LHHjsQ==
-X-Received: by 2002:a17:90b:4b0d:: with SMTP id lx13mr4852924pjb.89.1640296355204;
-        Thu, 23 Dec 2021 13:52:35 -0800 (PST)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id u15sm7557613pfk.186.2021.12.23.13.52.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Dec 2021 13:52:34 -0800 (PST)
-Subject: Re: [PATCH 0/3] docs: sphinx/kfigure.py: Improve conversion to PDF
-To:     Jonathan Corbet <corbet@lwn.net>
+        with ESMTP id S244950AbhLWXsy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Dec 2021 18:48:54 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB8A3C061401;
+        Thu, 23 Dec 2021 15:48:53 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 9F0046A2;
+        Thu, 23 Dec 2021 23:48:53 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9F0046A2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1640303333; bh=J6zvLXe0T7HHuahURc7GL9EPOB0ELgjkdEIvqFMmgi4=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=ANSwa6Y1gtolaDBx2h5BXiwezmWzxw/moV/+1hkU+Fhzs7c/dusDpIo5vltNan9L/
+         6s3uasJ1tddLme+QCc4DUyliy3lE6Ek/0ihXSvlKYEwGaHFIxbjwlnPaYgfrCYZnCa
+         fpipKToxaw1tZRW3uqGrHquM7UBCI2uhDcx91YaoX30N0bGVnWWH7OE0m9GMqmeanm
+         KldCyz8KXuqslJrrtUqk1UdQ1JCQwQFSECzXY422pqE+/y2HJUXtK4kY3KU2vQi1kS
+         +itV7npzcUpHjlsThOxMoe3C+q4CpNsO2gUCJpmCr5Zyd/9okfwmh/PgW8ug3uQEuj
+         2lS4unCVoOAkg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Akira Yokosawa <akiyks@gmail.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] docs: sphinx/kfigure.py: Improve conversion to PDF
+In-Reply-To: <38207705-f72a-8d79-caf9-d995bcd2a883@gmail.com>
 References: <de8def13-efbc-1d98-acb5-5cc1f6902e4b@gmail.com>
  <87r1a3drhz.fsf@meer.lwn.net>
-From:   Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <38207705-f72a-8d79-caf9-d995bcd2a883@gmail.com>
-Date:   Fri, 24 Dec 2021 06:52:30 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ <38207705-f72a-8d79-caf9-d995bcd2a883@gmail.com>
+Date:   Thu, 23 Dec 2021 16:48:53 -0700
+Message-ID: <87wnjudgre.fsf@meer.lwn.net>
 MIME-Version: 1.0
-In-Reply-To: <87r1a3drhz.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 23 Dec 2021 12:56:56 -0700, Jonathan Corbet wrote:
-> Akira Yokosawa <akiyks@gmail.com> writes:
-> 
->> This patch set improves conversions of DOT -> PDF and SVG -> PDF
->> for PDF docs.
->>
->> * DOT -> PDF conversion
-> 
-> So I'm unclear on the status of these patches; Mauro, are you happy with
-> them?  If so I'd like to get them in before the merge window.
+Akira Yokosawa <akiyks@gmail.com> writes:
 
-Jon, whether Mauro is happy or not, I want to do a respin of this and
-at least fix the typo in PATCH 5/3 Randy pointed out.
-Maybe merge PATCH 5/3 with PATCH 3/3 as well. 
+> On Thu, 23 Dec 2021 12:56:56 -0700, Jonathan Corbet wrote:
+>> Akira Yokosawa <akiyks@gmail.com> writes:
+>> 
+>>> This patch set improves conversions of DOT -> PDF and SVG -> PDF
+>>> for PDF docs.
+>>>
+>>> * DOT -> PDF conversion
+>> 
+>> So I'm unclear on the status of these patches; Mauro, are you happy with
+>> them?  If so I'd like to get them in before the merge window.
+>
+> Jon, whether Mauro is happy or not, I want to do a respin of this and
+> at least fix the typo in PATCH 5/3 Randy pointed out.
+> Maybe merge PATCH 5/3 with PATCH 3/3 as well. 
+>
+> There is no reason to hurry, I suppose.
+>
+> I was kind of distracted by a development in other project lately.
 
-There is no reason to hurry, I suppose.
+No worries, I can wait :)
 
-I was kind of distracted by a development in other project lately.
+Thanks,
 
-        Thanks, Akira
-> 
-> Thanks,
-> 
-> jon
-> 
+jon
