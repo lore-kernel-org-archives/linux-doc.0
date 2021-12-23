@@ -2,76 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C1C3C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 23 Dec 2021 11:08:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 939C2C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 23 Dec 2021 12:54:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347898AbhLWLIu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Dec 2021 06:08:50 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28]:59946 "EHLO
+        id S1348473AbhLWMyn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Dec 2021 07:54:43 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28]:37168 "EHLO
         smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347895AbhLWLIq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Dec 2021 06:08:46 -0500
+        with ESMTP id S232966AbhLWMyn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Dec 2021 07:54:43 -0500
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 51CC221128;
-        Thu, 23 Dec 2021 11:08:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1640257725; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        by smtp-out1.suse.de (Postfix) with ESMTP id BBDCD2114D;
+        Thu, 23 Dec 2021 12:54:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1640264081; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=LLyiXrFXVKmCxSGs1dhYd9u4D7SzC6X7urXbFh45ixw=;
-        b=bFS7SZki+gGKtR2A4w1SniEtzRtthqAjszqfCI/sgYaIgp1I6Zs6wmR4JrDAqxV0/TXlmJ
-        Hndl0mkXQvvAypsnLTLq5GfemLxkiv0ilH57tnjkF8CXXQMDuf2IdKnu1ZgGFXS9BU9Agb
-        dJv+3wQMM70MUu566+bild2yacRadkg=
-Received: from suse.cz (unknown [10.100.224.162])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 0D96FA3BAE;
-        Thu, 23 Dec 2021 11:08:45 +0000 (UTC)
-Date:   Thu, 23 Dec 2021 12:08:41 +0100
-From:   Petr Mladek <pmladek@suse.com>
-To:     David Vernet <void@manifault.com>
-Cc:     live-patching@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, jpoimboe@redhat.com, jikos@kernel.org,
-        mbenes@suse.cz, joe.lawrence@redhat.com, corbet@lwn.net
-Subject: Re: [PATCH v3] Documentation: livepatch: Add livepatch API page
-Message-ID: <YcRYuW78jIU+VxIH@alley>
-References: <20211221145743.4098360-1-void@manifault.com>
+        bh=eU2dAFM5zS+uVh2lRvtlyJRj9FfYeVDEc6APBTOIi+o=;
+        b=bCQMozAdvCr14vBZ9lXLSa8xR5buQDoDBI9oaKvlTwfdb2iMVpph9yXb1olv9eksvk0AUU
+        Cr99QXR6rG9rOYwRgBemO5gY4yDF9XJ79mZ8c3NEQ4/dF3wok3+KD5VU6pKHsdLVYl2Aog
+        uxcb8ZEb4yEafRQoVNHRL2NJ1BuDLe8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1640264081;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=eU2dAFM5zS+uVh2lRvtlyJRj9FfYeVDEc6APBTOIi+o=;
+        b=Y9YrTEVlw4eC4XT5Oi7tGfIe3kKOT3/KSPvS7/ewQsFVhP9vKduTwgXODNn0ggjpqJakdD
+        aMcp/6+MWIp0qmAA==
+Received: from quack2.suse.cz (unknown [10.163.28.18])
+        by relay2.suse.de (Postfix) with ESMTP id 9D1CAA3B84;
+        Thu, 23 Dec 2021 12:54:40 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id 0D2CE1E1328; Thu, 23 Dec 2021 13:54:38 +0100 (CET)
+Date:   Thu, 23 Dec 2021 13:54:38 +0100
+From:   Jan Kara <jack@suse.cz>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Jan Kara <jack@suse.cz>, David Hildenbrand <david@redhat.com>,
+        Jason Gunthorpe <jgg@nvidia.com>,
+        Nadav Amit <namit@vmware.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Hugh Dickins <hughd@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Yang Shi <shy828301@gmail.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Roman Gushchin <guro@fb.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Peter Xu <peterx@redhat.com>,
+        Donald Dutile <ddutile@redhat.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Oleg Nesterov <oleg@redhat.com>, Linux-MM <linux-mm@kvack.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v1 06/11] mm: support GUP-triggered unsharing via
+ FAULT_FLAG_UNSHARE (!hugetlb)
+Message-ID: <20211223125438.GA19129@quack2.suse.cz>
+References: <900b7d4a-a5dc-5c7b-a374-c4a8cc149232@redhat.com>
+ <20211221190706.GG1432915@nvidia.com>
+ <3e0868e6-c714-1bf8-163f-389989bf5189@redhat.com>
+ <dfe1c8d5-6fac-9040-0272-6d77bafa6a16@redhat.com>
+ <20211222124141.GA685@quack2.suse.cz>
+ <4a28e8a0-2efa-8b5e-10b5-38f1fc143a98@redhat.com>
+ <20211222144255.GE685@quack2.suse.cz>
+ <505d3d0f-23ee-0eec-0571-8058b8eedb97@redhat.com>
+ <20211222160846.GH685@quack2.suse.cz>
+ <CAHk-=wjUeCUo7dRkzTeqGMJ5-NE4=Xj09mMB0HCkCnMFxsbmwA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211221145743.4098360-1-void@manifault.com>
+In-Reply-To: <CAHk-=wjUeCUo7dRkzTeqGMJ5-NE4=Xj09mMB0HCkCnMFxsbmwA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue 2021-12-21 06:57:45, David Vernet wrote:
-> The livepatch subsystem has several exported functions and objects with
-> kerneldoc comments. Though the livepatch documentation contains handwritten
-> descriptions of all of these exported functions, they are currently not
-> pulled into the docs build using the kernel-doc directive.
+On Wed 22-12-21 10:40:18, Linus Torvalds wrote:
+> On Wed, Dec 22, 2021 at 8:08 AM Jan Kara <jack@suse.cz> wrote:
+> >
+> > Well, but O_DIRECT reads must use FOLL_PIN in any case because they modify
+> > page data (and so we need to detect them both for COW and filesystem needs).
 > 
-> In order to allow readers of the documentation to see the full kerneldoc
-> comments in the generated documentation files, this change adds a new
-> Documentation/livepatch/api.rst page which contains kernel-doc directives
-> to link the kerneldoc comments directly in the documentation.  With this,
-> all of the hand-written descriptions of the APIs now cross-reference the
-> kerneldoc comments on the new Livepatching APIs page, and running
-> ./scripts/find-unused-docs.sh on kernel/livepatch no longer shows any files
-> as missing documentation.
-> 
-> Note that all of the handwritten API descriptions were left alone with the
-> exception of Documentation/livepatch/system-state.rst, which was updated to
-> allow the cross-referencing to work correctly. The file now follows the
-> cross-referencing formatting guidance specified in
-> Documentation/doc-guide/kernel-doc.rst. Furthermore, some comments around
-> klp_shadow_free_all() were updated to say <_, id> rather than <*, id> to
-> match the rest of the file, and to prevent the docs build from emitting an
-> "Inline emphasis start-string without end string" error.
-> 
-> Signed-off-by: David Vernet <void@manifault.com>
+> Well, O_DIRECT reads do, but not necessarily writes.
 
-JFYI, the patch has been committed into livepatch.git, branch
-for-5.17/fixes.
+I agree.
 
-Best Regards,
-Petr
+> And hey, even reads have been dodgy in the past when we didn't really
+> have the pinning logic - there's been a lot of users that just wanted
+> it to work for their particular use-case rather than in general and in
+> all situations..
+
+Yes, but currently a malicious user can take the system down (BUG_ON) or
+cause DIF/DIX failures if he is nasty and tries hard enough with O_DIRECT
+reads (practically, the window is small so I haven't really seen a report
+that I could trace to O_DIRECT reads but in principle the problem is the
+same as with pinning & dirtying done e.g. by video capture drivers and
+there we've seen these problem happen). So forcing pinning for O_DIRECT
+reads is IMO mandatory.
+
+								Honza
+
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
