@@ -2,243 +2,148 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3ABF8C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Dec 2021 04:15:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A49EEC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Dec 2021 04:53:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351346AbhLXEPq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Dec 2021 23:15:46 -0500
-Received: from mail-co1nam11on2114.outbound.protection.outlook.com ([40.107.220.114]:37953
-        "EHLO NAM11-CO1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1351315AbhLXEPp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 23 Dec 2021 23:15:45 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eC/RauzfLNAT14NhqLUpHuLgKhNKu0wRXmGUggUdG160JbpSH3P5mf2yg31QoSyS3J1/hv5aQcU/WZ1o4kDwmpvtHKRB5WQxXhtqWXxIMKTpzdNhMNPlaTAqIJqfiQ8DI3FSQlOtW+kBg7/TFQwwg4+V8qV084DgvRMOYVcuoARpcvwFX+7TClQ2Bkwyx5VmcNtx+tIrR/8t6usxEYGFDTKEO6mYxMhoS6L8VZ3YmH81q8xBN2WraM0436QyX3zuC/PRAMj6KSfzLT/8Y6oLpV+OZqvKL/v2bmuV65rDfNfdU5CE9JADvwc/ni2/d3yEE5SG+Vun3OBopC7aLkRhFw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=s38IKSR2RFss8Paq83CL2kMZhmzdC/VFzoqi/vXv8JU=;
- b=ci0scw+5NeejBrQ7rx79YjFKonzOJet1jAY38tQ0+kR59tmA7D+/+rTcN3fapY5Va+mpVLbtmHQG+33BHQmYUiAm4qZOHmZJlG1B2/lGzzqzG8nNPTorKDg3HE+Cr1oftBOuMOCdEsh6vdhcKW5zg9leCudrJlV/SLOoVzaXWC6YCASPb7H+pKDUcQLSrvzSAuACHVga4AOD0jahRJc4c0RtztovFMpBbiDC6bUR/VfRTooCl65qYAbhGbL2UIWQqbBGPkDR01GuRAuwuxAIXirQTjIrs1Y5LQ9TlHLpl27LQGtadVYzgCZepuaGAeoNnxBT1ZiUuyIbzkHiHBGm9g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=os.amperecomputing.com; dkim=pass
- header.d=os.amperecomputing.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=s38IKSR2RFss8Paq83CL2kMZhmzdC/VFzoqi/vXv8JU=;
- b=XXJFUdtxjKNbkSBvOG0fFOKP9RYotOyO8HiiZy5aKR5MJ3mOH5HlMBB2wQbThdzOvdEDpin+LmYkCEc2qZYpfpvgswOBK06ycj6m++7PCTdxB9XjhxZ/KCME0udKcjxCvTt7x+RI9jvwpl4WnpKMMAFXl/vry48jk5O133sGwyM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
-Received: from SJ0PR01MB7282.prod.exchangelabs.com (2603:10b6:a03:3f2::24) by
- BYAPR01MB5189.prod.exchangelabs.com (2603:10b6:a03:78::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4823.21; Fri, 24 Dec 2021 04:15:41 +0000
-Received: from SJ0PR01MB7282.prod.exchangelabs.com
- ([fe80::f957:680d:69b0:9999]) by SJ0PR01MB7282.prod.exchangelabs.com
- ([fe80::f957:680d:69b0:9999%4]) with mapi id 15.20.4801.019; Fri, 24 Dec 2021
- 04:15:41 +0000
-From:   Quan Nguyen <quan@os.amperecomputing.com>
-To:     Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
-        openbmc@lists.ozlabs.org, Mark Brown <broonie@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
-Cc:     Open Source Submission <patches@amperecomputing.com>,
-        Phong Vo <phong@os.amperecomputing.com>,
-        "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
-        Quan Nguyen <quan@os.amperecomputing.com>,
-        Thu Nguyen <thu@os.amperecomputing.com>
-Subject: [PATCH v6 9/9] docs: misc-devices: (smpro-misc) Add documentation
-Date:   Fri, 24 Dec 2021 11:13:52 +0700
-Message-Id: <20211224041352.29405-10-quan@os.amperecomputing.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20211224041352.29405-1-quan@os.amperecomputing.com>
-References: <20211224041352.29405-1-quan@os.amperecomputing.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR06CA0134.apcprd06.prod.outlook.com
- (2603:1096:1:1f::12) To SJ0PR01MB7282.prod.exchangelabs.com
- (2603:10b6:a03:3f2::24)
+        id S236563AbhLXExz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 23 Dec 2021 23:53:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39122 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236525AbhLXExz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Dec 2021 23:53:55 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE1F4C061401;
+        Thu, 23 Dec 2021 20:53:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=Q8w6vJlPkDbS/DrH5IOenXLh3tsJgjfSoA1ZgPxsyRg=; b=RLa6CpDWsILp5BM50R2uDaFxLY
+        kckmBXACDfFG18rbWU451uZgJf2XJ6YxtUUeNLNZmEWFd0bzKnYVXpCPc6tGF8TT52vEyvbQIf5bD
+        MdWiWj22xuFFnEWraqZZlU5OFHtDMSJkSyl6WS/CqP+8NzAmJFq/crbD3+u0ycPbxtg6alM7OQAS7
+        0rxKqIjEMrapCBDpChh+XaNVK9bFLaUjZ6T/wbs741J9fKkComlKwv/7xxFAxg3wgl4AVqgrDGBfm
+        fec1iv69kA5NXlRg5KuUaX0Cvdkji5gnIC+RedwkG4oWu9cxd2swHojNuY5D5/rDqLghNmFwOcEx9
+        o/OObrqg==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1n0caI-004px5-1k; Fri, 24 Dec 2021 04:53:38 +0000
+Date:   Fri, 24 Dec 2021 04:53:38 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     David Hildenbrand <david@redhat.com>, Jan Kara <jack@suse.cz>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Nadav Amit <namit@vmware.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Hugh Dickins <hughd@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Yang Shi <shy828301@gmail.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Roman Gushchin <guro@fb.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Peter Xu <peterx@redhat.com>,
+        Donald Dutile <ddutile@redhat.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Oleg Nesterov <oleg@redhat.com>, Linux-MM <linux-mm@kvack.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v1 06/11] mm: support GUP-triggered unsharing via
+ FAULT_FLAG_UNSHARE (!hugetlb)
+Message-ID: <YcVSUmfzTrhjZapc@casper.infradead.org>
+References: <fd7e3195-4f36-3804-1793-d453d5bd3e9f@redhat.com>
+ <CAHk-=wgQq3H6wfkW7+MmduVgBOqHeiXQN97yCMd+m1mM-1xCLQ@mail.gmail.com>
+ <900b7d4a-a5dc-5c7b-a374-c4a8cc149232@redhat.com>
+ <20211221190706.GG1432915@nvidia.com>
+ <3e0868e6-c714-1bf8-163f-389989bf5189@redhat.com>
+ <dfe1c8d5-6fac-9040-0272-6d77bafa6a16@redhat.com>
+ <20211222124141.GA685@quack2.suse.cz>
+ <4a28e8a0-2efa-8b5e-10b5-38f1fc143a98@redhat.com>
+ <YcPA8gJ0OBPTdCdB@casper.infradead.org>
+ <20211224025309.GF1779224@nvidia.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 756b32ae-3772-4052-bd5f-08d9c6940c52
-X-MS-TrafficTypeDiagnostic: BYAPR01MB5189:EE_
-X-Microsoft-Antispam-PRVS: <BYAPR01MB5189D209238234FC89E35AC3F27F9@BYAPR01MB5189.prod.exchangelabs.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RY6f11ZqOS08OYo5CWMvvsgoAxytNdUFFT4z+akDBPtVARt/vO7eUln0S+5VLy639TbBB29llq8jZpH+ieJsVDkuMRaodMKwHLzqZtAHZjvMOYdNHuz9wUEyo/JyhcU7NmicfexAE7Y6PwXt3f47PcaQGbDOMyEOEqGTmDMGBAjhKtOabCb93v3EegkA70Ks1Yha/p7iPnUCaEpvEMJOmzJFxyO1Lgwp6J2v5H9clJ47TXFhYprKRnjp72MKrXTuORTE7CGffe0FJLWbbf9U749HeL9OUDO+MxAxIw5HTX03Mv1YAoA0mZe6I1X263s9qrNNglF46WEpL0VmtygqsCQ2OHWNlO5dRuoW3Opatzxa4BcHF58XeZ7QMcLAwOfrPuaMWzG0o/dbSLLiTm5swV6kb1Eljmg4bkW7fm7oAkNNawy4pJDV3qcLJ1X9i5bWjO1rXEUdDXev9yHTI/vnqYV/9En5P40eGj4fQoR/OC9LPgb8SA27IS4jaYn4sCpgugdumZLCcUKgVwM41APvIRKuMH6Z7fI8Td2vdzQBPVnEUR9dYF5KShzdX9jQzIacGQUAWeRhNtVzWsZnxuXFjYgc96er/j9h5JdWhqyIh9CLscdCB5JvcRt4dGGDPTD0/t4o3KX3kFp/CyCa3FrhQ2RY/RT/yZaivjIMRCMEitHLtPvbx90elOzBSrCkNyMkYUIyRdfRK5SqS1MGhHb40ntVv7KeJtEOrAJQclpzM1Q=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR01MB7282.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(110136005)(54906003)(86362001)(38100700002)(38350700002)(83380400001)(66476007)(52116002)(5660300002)(107886003)(2616005)(8676002)(66946007)(6666004)(66556008)(2906002)(508600001)(1076003)(4326008)(316002)(6506007)(8936002)(6486002)(26005)(186003)(6512007)(7416002)(921005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?awYqxjEsgevOTpb8EMeqo7BGpqGSmeMyS0LTSHnvBzPRZfGecrUWIKTK1FU+?=
- =?us-ascii?Q?oYZpNgwgpaZqKBpxWA83SrHuIuvVOirSDno2vdIwxLcDJO7qgMvOVjpZwvt1?=
- =?us-ascii?Q?IetXyqkNr1b/kUps8PECAVt9Mc5m/ygApqUccWhIfkYkDyGEeKiZLXOnUVoc?=
- =?us-ascii?Q?8XtBXcFgm2xP+uBBq0Sr7IZQK9i3HG5pVadBDK0RPYGOVC18z5Jhd4t9KyLw?=
- =?us-ascii?Q?+OkzPlXs21lOH050JPh8HF4K2/GhRW3Zpk6ukf7afbCMSPuUlNcFOujWjjwf?=
- =?us-ascii?Q?qdopBaFfh3IejqAbw/Ay8yeEdkPg124n1wgInaDlxJ9/ZxKDtsVJH8aMWBka?=
- =?us-ascii?Q?9KNjwDZIrI7GlepR6pQ6bkqsIAT5qkujXAZf9VwnwfSb9YZpnnIDEkf9px+K?=
- =?us-ascii?Q?jf86KWiiQQYiVIM9EI/nETBv8Q5UW5y/2YSZXD3WCjdu6TFWz8uNpqpLGsaj?=
- =?us-ascii?Q?Ttn7h6VlcLmqd1NZR9B5WebqmEe8+gNSpLgi9VHhqP96BT/JP92uEcAW1XKA?=
- =?us-ascii?Q?ptfFCeuhgkNuno8jVfpbp1ejFflL4SdubApqM0NAP0506EmADshumj03kAf7?=
- =?us-ascii?Q?xBz2MEpo3oNSDb7uah/vHjqpF+3QjyWDtuKxFUg4R6TlAH/Ef9NARbm0t1xq?=
- =?us-ascii?Q?W+aZfCZqrUM4EPivvS0sbEn5u0dlmVyEty7bBdDliUFaMSg+z5TUcjNsBk+B?=
- =?us-ascii?Q?M4B1w3pcypvd258vct1gqXo36w+879c/ve0uBuysXiih18ykqLM1xvLkcVVt?=
- =?us-ascii?Q?Cdde/cCES5klkd/6U96ZrJeuD072G/+CJYdKbRhb0vC/KtjCR4k7aI694dda?=
- =?us-ascii?Q?9SFsZToPSPWUKCX/FQPuOlEEmWvePfB5J4GZ82dR+HlnIQTw2Hc6aSMIJ0kO?=
- =?us-ascii?Q?j1WKUwGRNVk+gp+GNIlQ5k/FPgSpcLYCcrJPW/2yuNGz1TCj8OP6jL3QWo7k?=
- =?us-ascii?Q?zVE9FcKPu9jggGXhrIlFgoEJaMVZ8EmhFuAbSz0xxFjkyyI+oxApoEybMnLb?=
- =?us-ascii?Q?ohoNVp9+dYuDEP1PBeZW3yjvXm7JPouydOyCcj/zsAlmM05pYZxdA/Lfs/SM?=
- =?us-ascii?Q?sNlsKcMhx+6dYcowraPnIoBFrb9TXq9u9h37BBD7G7q/bg0SOTd4RxkFlZLN?=
- =?us-ascii?Q?YHuN2K3p/UlnPHscuvvCFV1TQPE7o2Rm2EaU1G4BqgNKfS/0Wr64WdJm173r?=
- =?us-ascii?Q?hAO/bN26hMAiSt17g/zeYkXQzhmsgzwMUT5e01nSsaqF1Oj779qySR/3wx6Z?=
- =?us-ascii?Q?37qdtDzTUrYh+IbvI12jh+ylatJhzttLLUqMvJvFOY9Ie0GHp3q5OUpT0nV+?=
- =?us-ascii?Q?93Kvv+zt4HT5iar6IQQ8FAWMbzeD9tRAATc4G/qF5oy92ULOdsuvTiTxVq7t?=
- =?us-ascii?Q?D9to7nXq73GEPvA2h95F2Ugt5gvE7NEtGIy3ow0lIAM/q5pW6xl0SRAxBplP?=
- =?us-ascii?Q?CpnYPM0WsypP2s02wEa+3u5A/yZnJUa1swcdknJK916CO446RB+203w4epnz?=
- =?us-ascii?Q?6/hhHZnbCSBXuByZOd+Ljz1dS5A6R5b98e25zOVogQohHxdTJNOhKg0Dratr?=
- =?us-ascii?Q?2aXtAwKiz1kR5CyoLcC56qJdUXkoo0HNAyvsXYaZdoRToEFwQmliZYbS2pXA?=
- =?us-ascii?Q?i+dlNF80VCrEy5cXrvCbJ42HZlrMqCeo7nnklMl1EBoaAVKPSbQbu9Gb/w3l?=
- =?us-ascii?Q?pl2AMm7uAMKa0zLVysWibxU2FL0=3D?=
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 756b32ae-3772-4052-bd5f-08d9c6940c52
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR01MB7282.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Dec 2021 04:15:41.7763
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FC68NAzdgdt3YQzQDDjmNG8MaVWhSyUwCAj6qIfJnYSC7fjtrlt8ieZRZbOY6c7NcwF2mScJ88vJK3UnGLv/8JjYHzaYwBJXVku2ooP+IfU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR01MB5189
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211224025309.GF1779224@nvidia.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Adds documentation for the Ampere(R)'s Altra(R) SMpro misc driver.
+On Thu, Dec 23, 2021 at 10:53:09PM -0400, Jason Gunthorpe wrote:
+> On Thu, Dec 23, 2021 at 12:21:06AM +0000, Matthew Wilcox wrote:
+> > On Wed, Dec 22, 2021 at 02:09:41PM +0100, David Hildenbrand wrote:
+> > > Right, from an API perspective we really want people to use FOLL_PIN.
+> > > 
+> > > To optimize this case in particular it would help if we would have the
+> > > FOLL flags on the unpin path. Then we could just decide internally
+> > > "well, short-term R/O FOLL_PIN can be really lightweight, we can treat
+> > > this like a FOLL_GET instead". And we would need that as well if we were
+> > > to keep different counters for R/O vs. R/W pinned.
+> > 
+> > FYI, in my current tree, there's a gup_put_folio() which replaces
+> > put_compound_head:
+> > 
+> > static void gup_put_folio(struct folio *folio, int refs, unsigned int flags)
+> > {
+> >         if (flags & FOLL_PIN) {
+> >                 node_stat_mod_folio(folio, NR_FOLL_PIN_RELEASED, refs);
+> >                 if (hpage_pincount_available(&folio->page))
+> >                         hpage_pincount_sub(&folio->page, refs);
+> >                 else
+> >                         refs *= GUP_PIN_COUNTING_BIAS;
+> >         }
+> > 
+> >         folio_put_refs(folio, refs);
+> > }
+> > 
+> > That can become non-static if it's needed.  I'm still working on that
+> > series, because I'd like to get it to a point where we return one
+> > folio pointer instead of N page pointers.  Not quite there yet.
+> 
+> I'm keen to see what that looks like, every driver I'm working on that
+> calls PUP goes through gyrations to recover contiguous pages, so this
+> is most welcomed!
 
-Signed-off-by: Thu Nguyen <thu@os.amperecomputing.com>
-Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
----
-Change in v6:
-  + First introduced in v6 [Quan]
+I'm about to take some time off, so alas, you won't see it any time
+soon.  It'd be good to talk with some of the interested users because
+it's actually a pretty tricky problem.  We can't just return an array
+of the struct folios because the actual memory you want to access
+might be anywhere in that folio, and you don't want to have to redo
+the lookup just to find out which subpages of the folio are meant.
 
- Documentation/misc-devices/index.rst      |  1 +
- Documentation/misc-devices/smpro-misc.rst | 82 +++++++++++++++++++++++
- 2 files changed, 83 insertions(+)
- create mode 100644 Documentation/misc-devices/smpro-misc.rst
+So I'm currently thinking about returning a bio_vec:
 
-diff --git a/Documentation/misc-devices/index.rst b/Documentation/misc-devices/index.rst
-index 7a6a6263cbab..284568eca747 100644
---- a/Documentation/misc-devices/index.rst
-+++ b/Documentation/misc-devices/index.rst
-@@ -27,6 +27,7 @@ fit into other categories.
-    max6875
-    pci-endpoint-test
-    smpro-errmon
-+   smpro-misc
-    spear-pcie-gadget
-    uacce
-    xilinx_sdfec
-diff --git a/Documentation/misc-devices/smpro-misc.rst b/Documentation/misc-devices/smpro-misc.rst
-new file mode 100644
-index 000000000000..7c856eb1a7f3
---- /dev/null
-+++ b/Documentation/misc-devices/smpro-misc.rst
-@@ -0,0 +1,82 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+Kernel driver Ampere(R) Altra(R) SMpro miscellaneous
-+====================================================
-+
-+Supported chips:
-+
-+  * Ampere(R) Altra(R)
-+
-+    Prefix: 'smpro'
-+
-+    Reference: Altra SoC BMC Interface Specification
-+
-+Author: Thu Nguyen <thu@os.amperecomputing.com>
-+
-+Description
-+-----------
-+
-+This driver support the monitoring and configuration of various miscellaneous
-+data provided by Ampere(R) Altra(R) SMpro processor.
-+At this time, these include:
-+
-+  * Reading Boot Progress information
-+  * Configuring SoC Power Limit
-+
-+Sysfs entries
-+-------------
-+
-+1) Boot progress
-+
-+SMpro misc driver creates the sysfs files ``boot_progress``.
-+The format of ``boot_progress`` file is as below::
-+
-+<boot stage> <boot status> <boot progress>
-+
-+Where:
-+
-+* Boot stage::
-+
-+    0: SMpro firmware booting.
-+    1: PMpro firmware booting.
-+    2: ATF BL1 firmware booting.
-+    3: DDR initialization.
-+    4: DDR training report status.
-+    5: ATF BL2 firmware booting.
-+    6: ATF BL31 firmware booting.
-+    7: ATF BL32 firmware booting.
-+    8: UEFI firmware booting.
-+    9: OS booting.
-+
-+* Boot status::
-+
-+    0: Not started.
-+    1: Started.
-+    2: Complete without error.
-+    3: Failure.
-+
-+* boot progress: 32 bits boot progress code
-+
-+The sysfs ``boot_progress`` only reports the boot state when the host is booting.
-+If the host is already booted, it returns latest state.
-+
-+Example::
-+
-+    #cat boot_progress
-+    0x01 0x02 0x808454A8
-+
-+2) SoC Power Limit
-+
-+SMpro misc driver creates the sysfs file ``soc_power_limit`` to get/set the SoC Power Limit.
-+
-+Reading this sysfs return the current setting of SoC Power Limit (W) in decimal string.
-+Writing the desired value in decimal string to set the SoC Power Limit in Watt (W).
-+The range of SoC Power Limit is 90-500(W) and will be ignored if out of range.
-+
-+Example::
-+
-+    #cat soc_power_limit
-+    90
-+    #echo 95 > soc_power_limit
-+    #cat soc_power_limit
-+    95
--- 
-2.28.0
+struct bio_vec {
+        struct page     *bv_page;
+        unsigned int    bv_len;
+        unsigned int    bv_offset;
+};
 
+In the iomap patchset which should go upstream in the next merge window,
+you can iterate over a bio like this:
+
+        struct folio_iter fi;
+
+        bio_for_each_folio_all(fi, bio)
+                iomap_finish_folio_read(fi.folio, fi.offset, fi.length, error);
+
+There aren't any equivalent helpers for a bvec yet, but obviously we can
+add them so that you can iterate over each folio in a contiguous range.
+
+But now that each component in it is variable length, the caller can't
+know how large an array of bio_vecs to allocate.
+
+1. The callee can allocate the array and let the caller free it when it's
+   finished
+2. The caller passes in a (small, fixed-size, on-stack) array of bio_vecs
+   over (potentially) multiple calls.
+3. The caller can overallocate and ignore that most of the array isn't
+   used.
+
+Any preferences?  I don't like #3.
