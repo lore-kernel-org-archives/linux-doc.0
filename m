@@ -2,148 +2,176 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A49EEC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Dec 2021 04:53:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDEFAC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Dec 2021 06:37:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236563AbhLXExz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 23 Dec 2021 23:53:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39122 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236525AbhLXExz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 Dec 2021 23:53:55 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE1F4C061401;
-        Thu, 23 Dec 2021 20:53:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=Q8w6vJlPkDbS/DrH5IOenXLh3tsJgjfSoA1ZgPxsyRg=; b=RLa6CpDWsILp5BM50R2uDaFxLY
-        kckmBXACDfFG18rbWU451uZgJf2XJ6YxtUUeNLNZmEWFd0bzKnYVXpCPc6tGF8TT52vEyvbQIf5bD
-        MdWiWj22xuFFnEWraqZZlU5OFHtDMSJkSyl6WS/CqP+8NzAmJFq/crbD3+u0ycPbxtg6alM7OQAS7
-        0rxKqIjEMrapCBDpChh+XaNVK9bFLaUjZ6T/wbs741J9fKkComlKwv/7xxFAxg3wgl4AVqgrDGBfm
-        fec1iv69kA5NXlRg5KuUaX0Cvdkji5gnIC+RedwkG4oWu9cxd2swHojNuY5D5/rDqLghNmFwOcEx9
-        o/OObrqg==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1n0caI-004px5-1k; Fri, 24 Dec 2021 04:53:38 +0000
-Date:   Fri, 24 Dec 2021 04:53:38 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     David Hildenbrand <david@redhat.com>, Jan Kara <jack@suse.cz>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Nadav Amit <namit@vmware.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Hugh Dickins <hughd@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Yang Shi <shy828301@gmail.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Roman Gushchin <guro@fb.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Peter Xu <peterx@redhat.com>,
-        Donald Dutile <ddutile@redhat.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Oleg Nesterov <oleg@redhat.com>, Linux-MM <linux-mm@kvack.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v1 06/11] mm: support GUP-triggered unsharing via
- FAULT_FLAG_UNSHARE (!hugetlb)
-Message-ID: <YcVSUmfzTrhjZapc@casper.infradead.org>
-References: <fd7e3195-4f36-3804-1793-d453d5bd3e9f@redhat.com>
- <CAHk-=wgQq3H6wfkW7+MmduVgBOqHeiXQN97yCMd+m1mM-1xCLQ@mail.gmail.com>
- <900b7d4a-a5dc-5c7b-a374-c4a8cc149232@redhat.com>
- <20211221190706.GG1432915@nvidia.com>
- <3e0868e6-c714-1bf8-163f-389989bf5189@redhat.com>
- <dfe1c8d5-6fac-9040-0272-6d77bafa6a16@redhat.com>
- <20211222124141.GA685@quack2.suse.cz>
- <4a28e8a0-2efa-8b5e-10b5-38f1fc143a98@redhat.com>
- <YcPA8gJ0OBPTdCdB@casper.infradead.org>
- <20211224025309.GF1779224@nvidia.com>
+        id S237178AbhLXGhE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Dec 2021 01:37:04 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:33909 "EHLO
+        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229862AbhLXGhE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Dec 2021 01:37:04 -0500
+Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.55])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JKy5J6T09zcbZg;
+        Fri, 24 Dec 2021 14:36:36 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Fri, 24 Dec 2021 14:37:01 +0800
+Received: from [10.174.178.55] (10.174.178.55) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Fri, 24 Dec 2021 14:37:00 +0800
+Subject: Re: [PATCH v18 02/17] x86/setup: Move xen_pv_domain() check and
+ insert_resource() to setup_arch()
+To:     Borislav Petkov <bp@alien8.de>
+CC:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, <x86@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>, <linux-kernel@vger.kernel.org>,
+        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        <kexec@lists.infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        <devicetree@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        "John Donnelly" <John.p.donnelly@oracle.com>
+References: <20211222130820.1754-1-thunder.leizhen@huawei.com>
+ <20211222130820.1754-3-thunder.leizhen@huawei.com> <YcSxLodOnxXHx0sV@zn.tnic>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <d6226aa2-f1f2-24cc-c9d2-9762bd615686@huawei.com>
+Date:   Fri, 24 Dec 2021 14:36:59 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211224025309.GF1779224@nvidia.com>
+In-Reply-To: <YcSxLodOnxXHx0sV@zn.tnic>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 23, 2021 at 10:53:09PM -0400, Jason Gunthorpe wrote:
-> On Thu, Dec 23, 2021 at 12:21:06AM +0000, Matthew Wilcox wrote:
-> > On Wed, Dec 22, 2021 at 02:09:41PM +0100, David Hildenbrand wrote:
-> > > Right, from an API perspective we really want people to use FOLL_PIN.
-> > > 
-> > > To optimize this case in particular it would help if we would have the
-> > > FOLL flags on the unpin path. Then we could just decide internally
-> > > "well, short-term R/O FOLL_PIN can be really lightweight, we can treat
-> > > this like a FOLL_GET instead". And we would need that as well if we were
-> > > to keep different counters for R/O vs. R/W pinned.
-> > 
-> > FYI, in my current tree, there's a gup_put_folio() which replaces
-> > put_compound_head:
-> > 
-> > static void gup_put_folio(struct folio *folio, int refs, unsigned int flags)
-> > {
-> >         if (flags & FOLL_PIN) {
-> >                 node_stat_mod_folio(folio, NR_FOLL_PIN_RELEASED, refs);
-> >                 if (hpage_pincount_available(&folio->page))
-> >                         hpage_pincount_sub(&folio->page, refs);
-> >                 else
-> >                         refs *= GUP_PIN_COUNTING_BIAS;
-> >         }
-> > 
-> >         folio_put_refs(folio, refs);
-> > }
-> > 
-> > That can become non-static if it's needed.  I'm still working on that
-> > series, because I'd like to get it to a point where we return one
-> > folio pointer instead of N page pointers.  Not quite there yet.
+
+
+On 2021/12/24 1:26, Borislav Petkov wrote:
+> On Wed, Dec 22, 2021 at 09:08:05PM +0800, Zhen Lei wrote:
+>> From: Chen Zhou <chenzhou10@huawei.com>
+>>
+>> We will make the functions reserve_crashkernel() as generic, the
+>> xen_pv_domain() check in reserve_crashkernel() is relevant only to
+>> x86,
 > 
-> I'm keen to see what that looks like, every driver I'm working on that
-> calls PUP goes through gyrations to recover contiguous pages, so this
-> is most welcomed!
+> Why is that so? Is Xen-PV x86-only?
+> 
+>> the same as insert_resource() in reserve_crashkernel[_low]().
+> 
+> Why?
+> 
+> Looking at
+> 
+>   0212f9159694 ("x86: Add Crash kernel low reservation")
+> 
+> it *surprisingly* explains why that resources thing is being added:
+> 
+>     We need to add another range in /proc/iomem like "Crash kernel low",
+>     so kexec-tools could find that info and append to kdump kernel
+>     command line.
+> 
+> Then,
+> 
+>   157752d84f5d ("kexec: use Crash kernel for Crash kernel low")
+> 
+> renamed it because, as it states, kexec-tools was taught to handle
+> multiple resources of the same name.
+> 
+> So why does kexec-tools on arm *not* need those iomem resources? How
+> does it parse the ranges there? Questions over questions...
 
-I'm about to take some time off, so alas, you won't see it any time
-soon.  It'd be good to talk with some of the interested users because
-it's actually a pretty tricky problem.  We can't just return an array
-of the struct folios because the actual memory you want to access
-might be anywhere in that folio, and you don't want to have to redo
-the lookup just to find out which subpages of the folio are meant.
+https://lkml.org/lkml/2019/4/4/1758
 
-So I'm currently thinking about returning a bio_vec:
+Chen Zhou has explained before, see below. I'll analyze why x86 and arm64 need
+to process iomem resources at different times.
 
-struct bio_vec {
-        struct page     *bv_page;
-        unsigned int    bv_len;
-        unsigned int    bv_offset;
-};
+ < This very reminds what x86 does. Any chance some of the code can be reused
+ < rather than duplicated?
+As i said in the comment, i transport reserve_crashkernel_low() from x86_64. There are minor
+differences. In arm64, we don't need to do insert_resource(), we do request_resource()
+in request_standard_resources() later.
 
-In the iomap patchset which should go upstream in the next merge window,
-you can iterate over a bio like this:
+> 
+> So last time I told you to sit down and take your time with this cleanup.
+>>From reading this here, it doesn't look like it. Rather, it looks like
+> hastily done in a hurry and hurrying stuff doesn't help you one bit - it
+> actually makes it worse.
+> 
+> Your commit messages need to explain *why* a change is being done and
+> why is that ok. This one doesn't.
 
-        struct folio_iter fi;
+OK, I'll do this in follow-up patches.
 
-        bio_for_each_folio_all(fi, bio)
-                iomap_finish_folio_read(fi.folio, fi.offset, fi.length, error);
+> 
+>> @@ -1120,7 +1109,17 @@ void __init setup_arch(char **cmdline_p)
+>>  	 * Reserve memory for crash kernel after SRAT is parsed so that it
+>>  	 * won't consume hotpluggable memory.
+>>  	 */
+>> -	reserve_crashkernel();
+>> +#ifdef CONFIG_KEXEC_CORE
+>> +	if (xen_pv_domain())
+>> +		pr_info("Ignoring crashkernel for a Xen PV domain\n");
+> 
+> This is wrong - the check is currently being done inside
+> reserve_crashkernel(), *after* it has parsed a crashkernel= cmdline
+> correctly - and not before.
+> 
+> Your change would print on Xen PV, regardless of whether it has received
+> crashkernel= on the cmdline or not.
 
-There aren't any equivalent helpers for a bvec yet, but obviously we can
-add them so that you can iterate over each folio in a contiguous range.
+Yes, you're right. There are changes in code logic, but the print doesn't
+seem to cause any misunderstanding.
 
-But now that each component in it is variable length, the caller can't
-know how large an array of bio_vecs to allocate.
+> 
+> This is exactly why I say that making those functions generic and shared
+> might not be such a good idea, after all, because then you'd have to
+> sprinkle around arch-specific stuff.
 
-1. The callee can allocate the array and let the caller free it when it's
-   finished
-2. The caller passes in a (small, fixed-size, on-stack) array of bio_vecs
-   over (potentially) multiple calls.
-3. The caller can overallocate and ignore that most of the array isn't
-   used.
+Yes, I'm thinking about that too. Perhaps they are not suitable for full
+code sharing, but it looks like there's some code that can be shared.
+For example, the function parse_crashkernel_in_order() that I extracted
+based on your suggestion, it could also be parse_crashkernel_high_low().
+Or the function reserve_crashkernel_low().
 
-Any preferences?  I don't like #3.
+There are two ways to reserve memory above 4G:
+1. Use crashkernel=X,high, with or without crashkernel=X,low
+2. Use crashkernel=X,[offset], but try low memory first. If failed, then
+   try high memory, and retry at least 256M low memory.
+
+I plan to only implement 2 in the next version so that there can be fewer
+changes. Then implement 1 after 2 is applied.
+
+> 
+> One of the ways how to address this particular case here would be:
+> 
+> 1. Add a x86-specific wrapper around parse_crashkernel() which does
+> all the parsing. When that wrapper finishes, you should have parsed
+> everything that has crashkernel= on the cmdline.
+> 
+> 2. At the end of that wrapper, you do arch-specific checks and setup
+> like the xen_pv_domain() one.
+> 
+> 3. Now, you do reserve_crashkernel(), if those checks pass.
+> 
+> The question is, whether the flow on arm64 can do the same. Probably but
+> it needs careful auditing.
+> 
