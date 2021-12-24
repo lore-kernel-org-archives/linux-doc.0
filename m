@@ -2,176 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDEFAC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Dec 2021 06:37:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31C84C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Dec 2021 08:32:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237178AbhLXGhE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Dec 2021 01:37:04 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:33909 "EHLO
-        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229862AbhLXGhE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Dec 2021 01:37:04 -0500
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.55])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JKy5J6T09zcbZg;
-        Fri, 24 Dec 2021 14:36:36 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Fri, 24 Dec 2021 14:37:01 +0800
-Received: from [10.174.178.55] (10.174.178.55) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Fri, 24 Dec 2021 14:37:00 +0800
-Subject: Re: [PATCH v18 02/17] x86/setup: Move xen_pv_domain() check and
- insert_resource() to setup_arch()
-To:     Borislav Petkov <bp@alien8.de>
-CC:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>, <linux-kernel@vger.kernel.org>,
-        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        <kexec@lists.infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
+        id S1351980AbhLXIcy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Dec 2021 03:32:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58852 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1343611AbhLXIcx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Dec 2021 03:32:53 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59E67C061401;
+        Fri, 24 Dec 2021 00:32:53 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 698B1B82234;
+        Fri, 24 Dec 2021 08:32:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7584DC36AE5;
+        Fri, 24 Dec 2021 08:32:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1640334770;
+        bh=oAGJa1eQZdR4k8gaHp+oWjXb51Y31FZ01er7yJKkMOI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=eUv9EiLyLp7rAXeV2DY3PM6Ci3kQf/LPxlARr3ea+c4lU8gY7hDvWmUxS0p6/3XWm
+         q4w4vwFGH6Rk/InS30d/o3V5XGw7C0s4P7lCU8xHnsO65KgGJFTpUrCUndyg6YFy/1
+         lmHAOe6plivc/xHjQWNEqw7aYRNmmztia9FBkrXU=
+Date:   Fri, 24 Dec 2021 09:32:44 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Quan Nguyen <quan@os.amperecomputing.com>
+Cc:     Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
         Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        <devicetree@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        "John Donnelly" <John.p.donnelly@oracle.com>
-References: <20211222130820.1754-1-thunder.leizhen@huawei.com>
- <20211222130820.1754-3-thunder.leizhen@huawei.com> <YcSxLodOnxXHx0sV@zn.tnic>
-From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Message-ID: <d6226aa2-f1f2-24cc-c9d2-9762bd615686@huawei.com>
-Date:   Fri, 24 Dec 2021 14:36:59 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        Lee Jones <lee.jones@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+        openbmc@lists.ozlabs.org, Mark Brown <broonie@kernel.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>,
+        Open Source Submission <patches@amperecomputing.com>,
+        Phong Vo <phong@os.amperecomputing.com>,
+        "Thang Q . Nguyen" <thang@os.amperecomputing.com>
+Subject: Re: [PATCH v6 6/9] misc: smpro-errmon: Add Ampere's SMpro error
+ monitor driver
+Message-ID: <YcWFrCjWSG65KQgb@kroah.com>
+References: <20211224041352.29405-1-quan@os.amperecomputing.com>
+ <20211224041352.29405-7-quan@os.amperecomputing.com>
 MIME-Version: 1.0
-In-Reply-To: <YcSxLodOnxXHx0sV@zn.tnic>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.178.55]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211224041352.29405-7-quan@os.amperecomputing.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, Dec 24, 2021 at 11:13:49AM +0700, Quan Nguyen wrote:
+> This commit adds Ampere's SMpro error monitor driver for monitoring
+> and reporting RAS-related errors as reported by SMpro co-processor
+> found on Ampere's Altra processor family.
+> 
+> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
+> ---
+> Change in v6:
+>   + First introduced in v6 [Quan]
+> 
+>  drivers/mfd/smpro-mfd.c     |   1 +
+>  drivers/misc/Kconfig        |   7 +
+>  drivers/misc/Makefile       |   1 +
+>  drivers/misc/smpro-errmon.c | 571 ++++++++++++++++++++++++++++++++++++
+>  4 files changed, 580 insertions(+)
+>  create mode 100644 drivers/misc/smpro-errmon.c
 
+You need Documentation/ABI/ updates when you add sysfs files.  Please do
+that for your next version of this patch.
 
-On 2021/12/24 1:26, Borislav Petkov wrote:
-> On Wed, Dec 22, 2021 at 09:08:05PM +0800, Zhen Lei wrote:
->> From: Chen Zhou <chenzhou10@huawei.com>
->>
->> We will make the functions reserve_crashkernel() as generic, the
->> xen_pv_domain() check in reserve_crashkernel() is relevant only to
->> x86,
-> 
-> Why is that so? Is Xen-PV x86-only?
-> 
->> the same as insert_resource() in reserve_crashkernel[_low]().
-> 
-> Why?
-> 
-> Looking at
-> 
->   0212f9159694 ("x86: Add Crash kernel low reservation")
-> 
-> it *surprisingly* explains why that resources thing is being added:
-> 
->     We need to add another range in /proc/iomem like "Crash kernel low",
->     so kexec-tools could find that info and append to kdump kernel
->     command line.
-> 
-> Then,
-> 
->   157752d84f5d ("kexec: use Crash kernel for Crash kernel low")
-> 
-> renamed it because, as it states, kexec-tools was taught to handle
-> multiple resources of the same name.
-> 
-> So why does kexec-tools on arm *not* need those iomem resources? How
-> does it parse the ranges there? Questions over questions...
+Also remember that sysfs is only "one value per file", this driver seems
+to violate that in huge ways and is not ok.
 
-https://lkml.org/lkml/2019/4/4/1758
+thanks,
 
-Chen Zhou has explained before, see below. I'll analyze why x86 and arm64 need
-to process iomem resources at different times.
-
- < This very reminds what x86 does. Any chance some of the code can be reused
- < rather than duplicated?
-As i said in the comment, i transport reserve_crashkernel_low() from x86_64. There are minor
-differences. In arm64, we don't need to do insert_resource(), we do request_resource()
-in request_standard_resources() later.
-
-> 
-> So last time I told you to sit down and take your time with this cleanup.
->>From reading this here, it doesn't look like it. Rather, it looks like
-> hastily done in a hurry and hurrying stuff doesn't help you one bit - it
-> actually makes it worse.
-> 
-> Your commit messages need to explain *why* a change is being done and
-> why is that ok. This one doesn't.
-
-OK, I'll do this in follow-up patches.
-
-> 
->> @@ -1120,7 +1109,17 @@ void __init setup_arch(char **cmdline_p)
->>  	 * Reserve memory for crash kernel after SRAT is parsed so that it
->>  	 * won't consume hotpluggable memory.
->>  	 */
->> -	reserve_crashkernel();
->> +#ifdef CONFIG_KEXEC_CORE
->> +	if (xen_pv_domain())
->> +		pr_info("Ignoring crashkernel for a Xen PV domain\n");
-> 
-> This is wrong - the check is currently being done inside
-> reserve_crashkernel(), *after* it has parsed a crashkernel= cmdline
-> correctly - and not before.
-> 
-> Your change would print on Xen PV, regardless of whether it has received
-> crashkernel= on the cmdline or not.
-
-Yes, you're right. There are changes in code logic, but the print doesn't
-seem to cause any misunderstanding.
-
-> 
-> This is exactly why I say that making those functions generic and shared
-> might not be such a good idea, after all, because then you'd have to
-> sprinkle around arch-specific stuff.
-
-Yes, I'm thinking about that too. Perhaps they are not suitable for full
-code sharing, but it looks like there's some code that can be shared.
-For example, the function parse_crashkernel_in_order() that I extracted
-based on your suggestion, it could also be parse_crashkernel_high_low().
-Or the function reserve_crashkernel_low().
-
-There are two ways to reserve memory above 4G:
-1. Use crashkernel=X,high, with or without crashkernel=X,low
-2. Use crashkernel=X,[offset], but try low memory first. If failed, then
-   try high memory, and retry at least 256M low memory.
-
-I plan to only implement 2 in the next version so that there can be fewer
-changes. Then implement 1 after 2 is applied.
-
-> 
-> One of the ways how to address this particular case here would be:
-> 
-> 1. Add a x86-specific wrapper around parse_crashkernel() which does
-> all the parsing. When that wrapper finishes, you should have parsed
-> everything that has crashkernel= on the cmdline.
-> 
-> 2. At the end of that wrapper, you do arch-specific checks and setup
-> like the xen_pv_domain() one.
-> 
-> 3. Now, you do reserve_crashkernel(), if those checks pass.
-> 
-> The question is, whether the flow on arm64 can do the same. Probably but
-> it needs careful auditing.
-> 
+greg k-h
