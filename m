@@ -2,88 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B67FC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Dec 2021 09:46:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49C5BC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Dec 2021 12:25:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236049AbhL0Jq3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Dec 2021 04:46:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43358 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235911AbhL0Jpy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Dec 2021 04:45:54 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E35EBC061757
-        for <linux-doc@vger.kernel.org>; Mon, 27 Dec 2021 01:45:53 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        id S233769AbhL0MZe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Dec 2021 07:25:34 -0500
+Received: from www381.your-server.de ([78.46.137.84]:40562 "EHLO
+        www381.your-server.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233041AbhL0MZe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Dec 2021 07:25:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=metafoo.de;
+         s=default2002; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+        MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID;
+        bh=IDsW1D37Ld46xZP1e1BCxe9r4t30B4LlBb5BPXrT7To=; b=DUkJPJnEAWw/LmOdoNNgVO152V
+        v/rQDMm1dfBoKJPa5RbuYo20KhUz1J9FsobvRK3FZOL3BGrV3bB6ZW5b5kJWI+if8zHxIyAydpq09
+        vJGVN8sB9FuUPpJepWT/4ROdMv7hhmMi5PVGP/sPqfyrptZugp7ZBiZClgEmnKDcEXOF/lyZrPzdu
+        Jf1Jb9pYf62AOJtlB/nSAvybnS6J7aa1XYJ8iHE576t9T/VtJKwaBGC6RikJlEjsG+KT72IslP351
+        BC47EcpEo4keuhzXICiMhd5HS+m0jxdNGa1EPZ+Az3Q6y+MfvBXgGK8jl4da8eGHJQ+rbNmcOQ+Me
+        7+aXTdUw==;
+Received: from sslproxy03.your-server.de ([88.198.220.132])
+        by www381.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+        (Exim 4.92.3)
+        (envelope-from <lars@metafoo.de>)
+        id 1n1p4A-000BLW-B6; Mon, 27 Dec 2021 13:25:26 +0100
+Received: from [2001:a61:2bc8:8501:9e5c:8eff:fe01:8578]
+        by sslproxy03.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
         (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1n1mZU-0006Yh-Vm; Mon, 27 Dec 2021 10:45:37 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1n1mZU-006u9K-Fo; Mon, 27 Dec 2021 10:45:35 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1n1mZT-0005W0-42; Mon, 27 Dec 2021 10:45:35 +0100
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     William Breathitt Gray <vilhelm.gray@gmail.com>
-Cc:     Lars-Peter Clausen <lars@metafoo.de>, kernel@pengutronix.de,
+        (envelope-from <lars@metafoo.de>)
+        id 1n1p49-0005Te-ON; Mon, 27 Dec 2021 13:25:25 +0100
+Subject: Re: [PATCH v2 00/23] counter: cleanups and device lifetime fixes
+To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        William Breathitt Gray <vilhelm.gray@gmail.com>
+Cc:     kernel@pengutronix.de,
         Jonathan Cameron <Jonathan.Cameron@huawei.com>,
         linux-iio@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v2 14/23] counter: Update documentation for new counter registration functions
-Date:   Mon, 27 Dec 2021 10:45:17 +0100
-Message-Id: <20211227094526.698714-15-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211227094526.698714-1-u.kleine-koenig@pengutronix.de>
+        linux-kernel@vger.kernel.org,
+        Patrick Havelange <patrick.havelange@essensium.com>,
+        Kamel Bouhara <kamel.bouhara@bootlin.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Syed Nayyar Waris <syednwaris@gmail.com>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+        David Lechner <david@lechnology.com>,
+        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        "Felipe Balbi (Intel)" <balbi@kernel.org>,
+        Raymond Tan <raymond.tan@intel.com>,
+        Benjamin Gaignard <benjamin.gaignard@st.com>
 References: <20211227094526.698714-1-u.kleine-koenig@pengutronix.de>
+From:   Lars-Peter Clausen <lars@metafoo.de>
+Message-ID: <c8f6446e-748b-5845-ae60-5d6b8f3e8d39@metafoo.de>
+Date:   Mon, 27 Dec 2021 13:25:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Patch-Hashes: v=1; h=sha256; i=JwWwP4Kk92DMBkc2853YlVwW2GZtVpOmi4eNbrbAqOM=; m=8xa0ztoxbc8pXTZ+bVJ9UNVwXDTniwv8lnzxq3YKbKo=; p=hdEi+4ZXao9qa6MHkZ3aC+8cHDmJEmeKboRh2kfI+gM=; g=136907a6200880612a96065c1ff90c379cd4bf57
-X-Patch-Sig: m=pgp; i=u.kleine-koenig@pengutronix.de; s=0x0D2511F322BFAB1C1580266BE2DCDD9132669BD6; b=iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmHJiqkACgkQwfwUeK3K7AkAMAf/SPk xZfzTMX6KWduTlujhhRpkOZhBEujXfw/GtdWR0Q1Y0SQhXLaG5lgTj40vKV3dV3U87AVfvoiUZyZR tUHbpC5/aHEfnkAQHUJzvBMRLbEeMwlolkSXYby9mvIlqJ7xmNOxb5+RZ7fLI8nhco5KZqvGaDtO0 K6aHhYEQ37z/JKQ5MozEnd8NJAaAkFQ2Oir+cSxpT+/a9+cHqaWXg+84CA5Wrtqan6TeS74Uafuej Wm10gKemtWw5TcoUXbGfghAP1YUUqjYynwfAAEB0ltC09csB0J4m/mGQ/GDsPezJXGnEeKyUfv4nP hfr6r907JwjgyBV32vkXA47niinFsqA==
+In-Reply-To: <20211227094526.698714-1-u.kleine-koenig@pengutronix.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Language: en-US
+X-Authenticated-Sender: lars@metafoo.de
+X-Virus-Scanned: Clear (ClamAV 0.103.3/26404/Mon Dec 27 10:34:40 2021)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In order to replace the counter registration API also update the
-documentation to the new way.
+On 12/27/21 10:45 AM, Uwe Kleine-König wrote:
+> [...]
+>
+>   - I wonder why counter is a bus and not a class device type. There is
+>     no driver that would ever bind a counter device, is there? So
+>     /sys/bus/counter/driver is always empty.
+>
+There used to be a time when GKH said that we do not want new driver 
+classes. And all new subsystems should use bus since bus is a superset 
+of class. This restriction has been eased since then.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- Documentation/driver-api/generic-counter.rst | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/driver-api/generic-counter.rst b/Documentation/driver-api/generic-counter.rst
-index 1b487a331467..991b180c7b47 100644
---- a/Documentation/driver-api/generic-counter.rst
-+++ b/Documentation/driver-api/generic-counter.rst
-@@ -262,11 +262,11 @@ order to communicate with the device: to read and write various Signals
- and Counts, and to set and get the "action mode" and "function mode" for
- various Synapses and Counts respectively.
- 
--A defined counter_device structure may be registered to the system by
--passing it to the counter_register function, and unregistered by passing
--it to the counter_unregister function. Similarly, the
--devm_counter_register function may be used if device memory-managed
--registration is desired.
-+A counter_device structure is supposed to be allocated using counter_alloc()
-+and may be registered to the system by passing it to the counter_add()
-+function, and unregistered by passing it to the counter_unregister function.
-+There are device managed variants of these functions: devm_counter_alloc() and
-+devm_counter_add().
- 
- The struct counter_comp structure is used to define counter extensions
- for Signals, Synapses, and Counts.
--- 
-2.33.0
+But it was around when the IIO subsystem was merged and since the 
+counter subsystem originated from the IIO subsystem I assume it just 
+copied this.
 
