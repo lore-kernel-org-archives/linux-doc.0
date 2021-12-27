@@ -2,105 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AEF9C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Dec 2021 03:19:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 361EAC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Dec 2021 04:18:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235065AbhL0DTg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 26 Dec 2021 22:19:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44454 "EHLO
+        id S235191AbhL0ESI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 26 Dec 2021 23:18:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233683AbhL0DTg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Dec 2021 22:19:36 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B80ECC06173E;
-        Sun, 26 Dec 2021 19:19:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=kf/tP0+x+PcG14mcVnYZ+U9SH0RIj9hQSnEdArsxzxY=; b=MtCuALaIeb/dLfa2KTxQ3nYxYH
-        Y9BeioyuLk7vFZqvoKiPaCBMIZHldVpK2lDdZkW7oKZuiV4RtT+fXMYMvxqaYZHL5A6XHIazkokN1
-        LoxDzngZY6fP1L43ItBwVLJDxggUMPYjISfHrU9fUtzlfP9Wj0Di2G/gVyQabiZG5nDHn/vD4tyGA
-        /lUTMmb1Hq18SML0Dv+A7LwSfiAh78sHv+2X4Y9YRFxQzggC5nLcvuh6WoLBBwFaC/EmGN0GaNo8X
-        DUPie5mUG+s0d8oeFU4QVSknrOWuJwr3IoJmja6EoxeefrxpjevLinFNSPV7VzLHrS4+DWbvmNkIu
-        EAo2JvfQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1n1gXg-0076xR-GH; Mon, 27 Dec 2021 03:19:20 +0000
-Date:   Mon, 27 Dec 2021 03:19:20 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Kefeng Wang <wangkefeng.wang@huawei.com>
-Cc:     Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>
-Subject: Re: [PATCH 1/3] mm: vmalloc: Let user to control huge vmalloc
- default behavior
-Message-ID: <YckwuA8CWcQpQdGO@casper.infradead.org>
-References: <20211226083912.166512-1-wangkefeng.wang@huawei.com>
- <20211226083912.166512-2-wangkefeng.wang@huawei.com>
- <6c4bd989-268e-5899-09a7-ac573bd8b4d9@csgroup.eu>
- <c7037a3a-d0b1-6351-5e31-22be0d8e0e01@huawei.com>
+        with ESMTP id S235184AbhL0ESI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Dec 2021 23:18:08 -0500
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2749C06173E
+        for <linux-doc@vger.kernel.org>; Sun, 26 Dec 2021 20:18:07 -0800 (PST)
+Received: by mail-pg1-x52e.google.com with SMTP id f125so12789637pgc.0
+        for <linux-doc@vger.kernel.org>; Sun, 26 Dec 2021 20:18:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=hBwHcbOLbODluezLkfU899o5k+HtfijYIO+0bx3J3EA=;
+        b=wO63sFsISf2zVMzmS2HzyM2Xf1Ao8xLtpBWfuR6oqkHeMlDibp35OIhrVZX7VJL/C4
+         Yij7TZczAIxGmR62A1ZTUCaaCtHr20KwpKBRAQJIQQ1O3KNOXs+dzv59SHNPeDhcaBJ8
+         hG8A+6wdHbVKPTRx+OWGiwWbA3DWYBsABEEVWBARkjieFAHPEy78wYRFDciazuqsqYGi
+         buT7KNQXgE/O/WFJdRMt3CBSzGaiFYdDzlqihmkYHbUG4Xvka4Hvcl0HhzMWk+xuQ0rm
+         i9e/1BQMMhqLB75CGfwS0wqOLoBuqR6UP7avtUQjd1WaI/ZOE1w2XBjq3i0KUARKOKyC
+         6qyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=hBwHcbOLbODluezLkfU899o5k+HtfijYIO+0bx3J3EA=;
+        b=W74v3DUu4pu0X678CIgL7I7abh7VHXcqWOEAlpRAkacow7VO3xQT0eelrMMIulTMuc
+         HwyXVCq7TiFxjE2Q+VjG5AMtIyeQmlMfGoU2HhKHH0baIcksAq1cBAKAHyTmgjwERU7X
+         e6gULCUiv5iGNhPr+Osy1ifsrrrfFkUCgcJh19TE7ZrY+TOGeRVWxCxjopReQ/lLWIT9
+         4Aty0JK5AWKMB8jAvijNyQtUOnEVVkGQS8Z7xabl1VAk4nUddtcedBVNMbLjMdwrCYQf
+         hbH1u3yPnG0e/tXzC1MfwVb70ziXNFMlgcmJcL/FSjrs5hAS4dtFMSFSAKUIxNkNPypi
+         S/rQ==
+X-Gm-Message-State: AOAM532pV3oHnccZMCieetFrQSRyxiGNzz4qIUZjlDxMCHPr2wOV3Lfn
+        9ms8SOFcakIbhnvxhRQjblkPdQ==
+X-Google-Smtp-Source: ABdhPJwzdvVbN3OacQ1pmlJ8L62kW98FhV72kJKnoUS3A5ZCROz0j1Fbum4pCtSepUiKK9joOPhWUg==
+X-Received: by 2002:a63:6f4d:: with SMTP id k74mr5645320pgc.208.1640578687348;
+        Sun, 26 Dec 2021 20:18:07 -0800 (PST)
+Received: from localhost ([106.201.42.111])
+        by smtp.gmail.com with ESMTPSA id f20sm16446187pfe.166.2021.12.26.20.18.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Dec 2021 20:18:06 -0800 (PST)
+Date:   Mon, 27 Dec 2021 09:48:05 +0530
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     Tang Yizhou <tangyizhou@huawei.com>
+Cc:     rafael.j.wysocki@intel.com, rafael@kernel.org,
+        linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, zhengbin13@huawei.com
+Subject: Re: [PATCH] Documentation: power: Update outdated contents in opp.rst
+Message-ID: <20211227041805.47cquwvyfaqco7bm@vireshk-i7>
+References: <20211226081839.13948-1-tangyizhou@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c7037a3a-d0b1-6351-5e31-22be0d8e0e01@huawei.com>
+In-Reply-To: <20211226081839.13948-1-tangyizhou@huawei.com>
+User-Agent: NeoMutt/20180716-391-311a52
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 27, 2021 at 09:44:24AM +0800, Kefeng Wang wrote:
+On 26-12-21, 16:18, Tang Yizhou wrote:
+> Three problems have been revised:
+> 1. CONFIG_PM_OPP no longer depends on CONFIG_PM.
+> 2. opp_find_freq_{ceil, floor} is renamed as dev_pm_opp_find_freq_{ceil,
+>    floor}.
+> 3. Make it clear that the 'opp' struct is actually dev_pm_opp.
 > 
-> On 2021/12/27 1:36, Christophe Leroy wrote:
-> > 
-> > Le 26/12/2021 à 09:39, Kefeng Wang a écrit :
-> > > Add HUGE_VMALLOC_DEFAULT_ENABLED to let user to choose whether or
-> > > not enable huge vmalloc mappings by default, and this could make
-> > > more architectures to enable huge vmalloc mappings feature but
-> > > don't want to enable it by default.
-> > > 
-> > > Add hugevmalloc=on/off parameter to enable or disable this feature
-> > > at boot time, nohugevmalloc is still supported and equivalent to
-> > > hugevmalloc=off.
-> > 
-> > Is there a real added value to have the user be able to select that ?
-> > 
-> > If the architecture supports it, is there any good reason to not use it ?
-> 
-> There are some disadvantages[1],  one of the main concerns is the possible
-> 
-> memory waste, we have backported this feature to our kernel 5.10, but our
-> 
-> downstream in our some scenario(especially in embedded), they don't want
-> 
-> it enabled by default, and others want it, this is why patch1 comes.
-> 
-> > 
-> > Why not just do like PPC and enable it by default ? Why should it be
-> > enabled by default on PPC but disabled by default on ARM64 and X86 ?
-> 
-> The PPC is default enabled, we don't changes this behavior.
-> 
-> Maybe upstream is not care about this, as I said in cover-letter, if
-> arm64/x86
-> 
-> don't want patch1, we could only just select config to enable it.
-> 
-> Let's wait for more feedback.
+> Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
+> ---
+>  Documentation/power/opp.rst | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
 
-We should not have different defaults by architecture.  Either we change
-the default for PPC, or x86 & arm should have the same default as PPC.
+Applied. Thanks.
+
+-- 
+viresh
