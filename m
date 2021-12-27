@@ -2,226 +2,328 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A4A7C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Dec 2021 17:36:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CFB0C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Dec 2021 19:03:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229920AbhL0Rgx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Dec 2021 12:36:53 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:60330 "EHLO
-        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229908AbhL0Rgx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Dec 2021 12:36:53 -0500
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BRGBu2M028204;
-        Mon, 27 Dec 2021 17:35:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=kPaqcnn/Ooh1nfOfX3gR5HA/HOIlXxXxICpUZxBAsqE=;
- b=Y8u4p/Eo3QNNDt8ORI+AqEMfq8ZeIP5Lrioj8Yb/RapSOSOXkhfPYXaO4AIcmhJTVKe0
- yhqmLKse0VXSZQXIXL8MNrdIbY2azc9JczHOn667egN4acp+GsX45SbJvoOGhNM37KOn
- ZI3L1vIyHKXueh79p/BwdUIAoNeRIg6HisXn+QBtuTQmbDRU19W8tBdtmKMA007SK/Dz
- r/nlN7uny2abimupZKQe8lnzRpBxDmW2eRD+Z1bbmpo9p0Vi87SL/149phEzqMaLa5J7
- w6OoC0PDlBc7Vy2Dj90VqOS14/gWbUh18B0qaD7tujQKzVv0czd/3knud8PoeOiLHw8k xg== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3d7gt2r455-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 27 Dec 2021 17:35:40 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1BRHVBU0065034;
-        Mon, 27 Dec 2021 17:35:39 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2100.outbound.protection.outlook.com [104.47.70.100])
-        by aserp3020.oracle.com with ESMTP id 3d5u42xmr3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 27 Dec 2021 17:35:39 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=U2boxHk4XL86CaPPseTqOrsWPJkGG5ohCofKuZWLxWj6AKs8lHFd9hf2Qfuicz7C79RluwBRrUepvaf4duFLB66NfNK7HyY0yizTsjiapHC8jD2rHkBsbcwfExMPhrgrtw9JHCNVwt1OgdQnKVxOaTawa3CDDf4jp/CdmedvDRZmnuouHuRMm4fkO60St1lyL/HsUVBRRWUZWmmdlH5pJcV5syseTM51t9lFgZEF8fDw44DDpQWZSyOR974NaZui7f4uCi0MS+5Lkx2aqrS/J6GkxYbeYVKF4NvNidukeFVYY57iMw3GyrLCttjN+q+YmP3zLk8nIlyeKBAEslyAdQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kPaqcnn/Ooh1nfOfX3gR5HA/HOIlXxXxICpUZxBAsqE=;
- b=T+YhOAEzFqSnkT21i08fkzcXB1b198PJ1bzJBBc1F9UDEkF9HFxy6fX7hPkiwKPuXx16OsYMOTI3ZXRDhwENTLHcw6/psRGWXSfXUu/sUsu6of9zHukvYZ7UG8w6OCfUAEUGhxE1AL2U6fS6nwHG4QG6LaDCDAYJx7e5Wmjc+ku2NQHAyjLkqgjpQ+hwkudkt7l2Xs28AJ4UGq+gmxrbyAGEBi3e6l/2ljvGO25zvc9lk3SZk9XnNdQizTL/ofg21UuCZAqAM7Ke120PEYRbRtsDRa9zXj6dwzyzvYwBL4ervCU9c8xeJoUGDJ3Ki6O7TUAbXGDl7BsS2xL/ch65mg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kPaqcnn/Ooh1nfOfX3gR5HA/HOIlXxXxICpUZxBAsqE=;
- b=ONo5LASMpFLMKxSdkixnaA2bpBTkjePiYv8uAYvzpjZoue2+AE+BP8h/z+xH4rrLS16a15IlZEnYIYdxsHPYn+lShG0DUUR87S9ejCKwegPo4AgfGOSl/u+dij4Ih432OXz44tjTz1l57/bSU3y4FBlJ0EDSNSjE9ajlqyvJHtU=
-Received: from SN4PR10MB5559.namprd10.prod.outlook.com (2603:10b6:806:202::16)
- by SA2PR10MB4620.namprd10.prod.outlook.com (2603:10b6:806:fb::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.21; Mon, 27 Dec
- 2021 17:35:37 +0000
-Received: from SN4PR10MB5559.namprd10.prod.outlook.com
- ([fe80::7514:eec6:460d:a074]) by SN4PR10MB5559.namprd10.prod.outlook.com
- ([fe80::7514:eec6:460d:a074%5]) with mapi id 15.20.4823.023; Mon, 27 Dec 2021
- 17:35:37 +0000
-From:   William Kucharski <william.kucharski@oracle.com>
-To:     Kefeng Wang <wangkefeng.wang@huawei.com>
-CC:     Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Matthew Wilcox <willy@infradead.org>
-Subject: Re: (No subject)
-Thread-Topic: (No subject)
-Thread-Index: AQHX+0gougPWnPQ+60WxMtWyvH/wBQ==
-Date:   Mon, 27 Dec 2021 17:35:37 +0000
-Message-ID: <E2C9DE8E-F5D9-46E9-9298-B632A202B080@oracle.com>
-References: <20211227145903.187152-3-wangkefeng.wang@huawei.com>
-In-Reply-To: <20211227145903.187152-3-wangkefeng.wang@huawei.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 249ad28f-0fa1-40ce-80c2-08d9c95f4b8c
-x-ms-traffictypediagnostic: SA2PR10MB4620:EE_
-x-microsoft-antispam-prvs: <SA2PR10MB462043D4BA7ED544923A2F6D81429@SA2PR10MB4620.namprd10.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3826;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: hmAF40wLdVkwLH0B5M3hKC7pVWhpsktLBcxrlJVFPUL2vI5Lb6JrecnJwdAPCwyTzz6XGDNkwDPARazclsXqy7b9xHFUgq42ZCu960DNCdPV6hHGjI3EwLXZgJy6mDgJwBkb+x+Gv+paZX2njMONgNekyc6NFdGfSOkQG7djVfd1nMJp+udG0gAglaTQxGvsQu9hPwFGaYPMEkIe6Eh9+UfZ46Ppn6O6PprR4p7DGORjf9QU5Uhp+W3rzzjwlYV8mPjVau+B/gSjwDpQTzNOGqPH1zA/b0ISX6a564kNCO2SGlkg4leDtKjfuUOFTaJdPi1fPbp4xJlAy0aBl6gikROcz6QUGAVLljThIE5UGnqFEyDYNSKwX8Y/4r8D7qXABK1dUGvrCyKK8utYsDO0j9UIQQZG0gd8Iq1ckDzpiM6h70NHbpp3Cffzw17sEsyuCbwYQ01w8GASpJmMkF7Z3VMYZfhY/O+NLHMjppHy3Xm5EtyzvXJtYvyRkriY//0szdN9zVr58PGf1wNBiHbhThiU1Ss0j+QVx/WRsu7cfpXNlvV/7xzOhesbDGqIDj83JKi4P0Jzb2VqWtWlqED6wbNBVjh+5mE696nc5tDHclr1YtUAlVBXX43i4O4HAALeLsSzh1iPzx1VLDrv6aMBizi585jzHwzgtD6J0EhylkdhaDgSic7bUGiRIFAVtWE0N8Dh5OtkuVrtsncnSTJayvIfnb+agHjkg0pRqQG8Q+0=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR10MB5559.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(38070700005)(44832011)(2906002)(2616005)(66946007)(36756003)(5660300002)(66556008)(66446008)(91956017)(76116006)(64756008)(66476007)(6506007)(8936002)(38100700002)(83380400001)(4326008)(122000001)(186003)(53546011)(7416002)(33656002)(6916009)(508600001)(86362001)(71200400001)(54906003)(316002)(8676002)(6512007)(6486002)(45980500001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MEdzVzV2TGd0ZTFkdzcxQnNnVzlTaTRJcG91ZXFuaXUrZEhEdDNwai9vakFy?=
- =?utf-8?B?S211bXcvZElNeEw5MXNJd2pHekVKNFg4RUJSNS9FbWVZWXFJM3ppUDF2NGQ1?=
- =?utf-8?B?RzExL2tkWHZ0bGxQNkFuOEtma0pxaW1zdWdvN2RHWnRFbUJFVVptU0dvN3BU?=
- =?utf-8?B?RU1mMFFySStHRTJoR1hOanFVRlc5MnpNQXVnZzQ1dVc3K0dTQkdGeHRxYmtI?=
- =?utf-8?B?NlhRS1gzRVpzalYyWkZBaW4rN2pUZS9wWXRLM0pQN3BRRGZqZzdFUWwxY1l2?=
- =?utf-8?B?VkNQa1c4T2puR09ZRlRvcjlQLzZ3VHppVnlHMGo2b0ZVOFJRVlF2SXg0MXFL?=
- =?utf-8?B?MzcwRzdTQk9vK1duUWg4ODNDVjFqZTFCWnRuMmtUYlVTUnRqbmNIeVF2Sm9V?=
- =?utf-8?B?bkJGc3EvSmVSVTc0d2kvVk15dGlyb1p0NDFCVERmZnhJOUNwWWpXUnVpd0U3?=
- =?utf-8?B?dy9aSU43dmI0ZGhURFkrUmNjVlFIVzU0bGdpY0poVkFWbjNZZnlScFFpUWx3?=
- =?utf-8?B?MmRTOXNKWlVpMk80M1V2RE05eDlnTU5JYy9rOUZVL0hMOW5JMldQR2dpUEJM?=
- =?utf-8?B?RUN1Y0dwR1ZBQVhHNE9CVFh6VW14R3FTbGpNOXgveXh2V0szZVhNWlV3WnVH?=
- =?utf-8?B?by81Y1Nld2xkclBkTll4TWNMTFR6VlNoMHo5Vjh4a29kQTdhNmhmclc2V1hx?=
- =?utf-8?B?M3FBMDZJNjBRd1BUdVBGWHR3aUViZWFTSkE1dW1xTkMxd2dlNVdJQTZnbURH?=
- =?utf-8?B?RW0xaEp0RDYvRGpqYm9KRm9WbGczQngyYWY2NjBjQkNPU2xIeXZiMEtUUktY?=
- =?utf-8?B?aTV4bUM2K0xBTHhrcTl3YlRTQkpsWXBIbVpzQmY3VEE2cGxKN1NPdTF2WlpL?=
- =?utf-8?B?MU1wdUh0UlVESVJWWnBtSEdIR0cxTHN3YnIyNnVCOFROY3JpcDdiaVZTR2VK?=
- =?utf-8?B?alRzZHcrZXlNaWljaWkrTjIrMis0TzdSeGsvQ1B2TUlRbnVROFdxVHE4YzND?=
- =?utf-8?B?YmVhc0hvdkpGcjAwSkc3NGZlTXVLTDhUQTlXbVE1cnBqemxxVlBPU0tUZkV0?=
- =?utf-8?B?dXRYcmJaWkpqTTNIeGVBbzBVaWdhZ2tITWJNeW1sekJ5dWI4aDlMS2EvVVph?=
- =?utf-8?B?QlM3RldKTUFtMUFMbEU3SkV5OGFkdFY2UmtVTHpBRkExQTJRZFpKWFRVU08y?=
- =?utf-8?B?MzlteWMrcUxPTXlpQkNxTXFnT0RlZEtXSy8vOUpLL0VJcHdIUDJrSkh4M3Mw?=
- =?utf-8?B?MFlFS1VhenB3RWYrRlJaVFZJSmRPK2x3QXFnZGdRR3huZG8yMWFuWWEwTEdv?=
- =?utf-8?B?NEhYUnhRNWFPd25QWE9OZ0FIT2FOSm9Ddy84dHc5WFZMdEVEMkZGYlFwZWVp?=
- =?utf-8?B?RlRya0FDOTNqWGQzYmoxMUIyNXpZSFZTZXlVWDgzRzNyRnVpcTRqYmgxR1RR?=
- =?utf-8?B?d3pWRGh6aDlTOTFjY1pBa1htWWRqNnY5dVl2UDBYS0x4K0hJcDlkakQ5eC9G?=
- =?utf-8?B?Sk5NUEV4WGZDeDhENHhTVHBhZ1dTbmZBM0U3OEo4TXNOSzdjN3o5OE4reWxC?=
- =?utf-8?B?ZFJIdVVZdTE5aUdaUXRGdjh1UGVsVXZSRTJra0dqbkVMS21OQ1VsQlNQd0pD?=
- =?utf-8?B?UlF6Z2Z5d1A1VWdnVEJoSm92WXR1WFJvYVNzc09tQ3UranNyREY3dnM0V01z?=
- =?utf-8?B?amgwNisrTEpyay9ORjJ1bHZYeXA3Mk40TXBGcC9QZzF3dzNXbENlVGYrZURM?=
- =?utf-8?B?V2o0TldNNnlMSTVleGxlckJEZTFnenp2RTgxWVJ6eVd1TDhheE1PZnc2S3Zh?=
- =?utf-8?B?b2J4aUZVQnNTKytYWFN6OE9aZytqLzJqOVpaNTNoU1dLMGhxYW9laFU1NHBk?=
- =?utf-8?B?R05hWTRyUVZvR21QWTBjbU5XU1ErNXYvZ3Vib1pQNkpTUUlxY01oV2lOOGlG?=
- =?utf-8?B?czJQUk04WVZpWDVRNlFFb1JObGl4N3RQVHJrMGFJSUhSZzI2M0FsVlpGbkpQ?=
- =?utf-8?B?b21IMFRVSHl2cTBESnV1bGRwRno2bWIrcVVqbmVzSWpZWlNvdU1jNXhXYXY1?=
- =?utf-8?B?Q0V3cGdRVU9vVjBKUXRVSGxxZnRNQ0xvYzREU2Y4UjVxODRRc2tRdFRDTEdk?=
- =?utf-8?B?SmFsTGNzclRIVk5xUUNGK05ka1cwR1pRSHZJSHFwakZ2UmpqKzVzSkI0RHA3?=
- =?utf-8?B?OGl4UTBEc3R2dGRXTnNLZUFkV0pXYmNWUE9yNmVRVTJRUWF0S3VGUkJjQ0xs?=
- =?utf-8?B?QnRzanNKWk1yNnFUQVNXNGNPOWRjNFBGdE9TL2lGMnlIN3hWMVBvb0tvR1VI?=
- =?utf-8?B?bVVGVGs5U0U1NVhjTjNESzhkalFWTmU3MElGOGxhOFFDNzVuMm9CQT09?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <6622DB8763D9724F9D5711FC9E18AD9A@oracle.onmicrosoft.com>
-Content-Transfer-Encoding: base64
+        id S231735AbhL0TDm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Dec 2021 14:03:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56348 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231755AbhL0TDm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Dec 2021 14:03:42 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D396EC06173E;
+        Mon, 27 Dec 2021 11:03:41 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 83CF4B81141;
+        Mon, 27 Dec 2021 19:03:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEF9CC36AEF;
+        Mon, 27 Dec 2021 19:03:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1640631819;
+        bh=UjDwes0/4vw+IBZwkEa7sIlAXCUbGUgsKnvc4DXx43g=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=cGiLxdgzft0AIuuiZZBWIhZU43BjtTPLiOg9lF6EB5uRjRS//6ekjXDA4DNdA2V4h
+         iwmaIJHqTyVJrdsouVWP4WwytXlso2kv7jrf5OUKA2EBKjsOnC0uy+wDn7kWOXWzOL
+         QJT7tZNm05BIwoQew7X2m7u+cexM41m1XS+iwwm3ZW8coj3ILvTBYWYbYQZejvZyk1
+         kkaZXKnrrVMiwbWNTQDHMECaQw9Ml8fr4XEFcQR7MR2WuEvBSdk+8XQxOBsoBe2yJA
+         XHBSQjhwuDu/zn2DtxdHXdJqlzu4odaZq767n47S7nHX6NyJyxaqkfHcz6m050imOs
+         OqxhEHhibL2tw==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Takashi Iwai <tiwai@suse.de>,
+        =?UTF-8?q?Samuel=20=C4=8Cavoj?= <samuel@cavoj.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
+        paulmck@kernel.org, akpm@linux-foundation.org, tglx@linutronix.de,
+        peterz@infradead.org, will@kernel.org, maz@kernel.org,
+        macro@orcam.me.uk, viresh.kumar@linaro.org, robin.murphy@arm.com,
+        rdunlap@infradead.org, vbabka@suse.cz, mpdesouza@suse.com,
+        hdegoede@redhat.com, adobriyan@gmail.com, arnd@arndb.de,
+        tyson@tyson.me, linux-doc@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.15 02/26] Input: i8042 - add deferred probe support
+Date:   Mon, 27 Dec 2021 14:03:03 -0500
+Message-Id: <20211227190327.1042326-2-sashal@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20211227190327.1042326-1-sashal@kernel.org>
+References: <20211227190327.1042326-1-sashal@kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR10MB5559.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 249ad28f-0fa1-40ce-80c2-08d9c95f4b8c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Dec 2021 17:35:37.4996
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 0cglvjwWoGHa7ZWA9iT29GkHxj4W9oIAqIIM+Ld/tXg6bpNHe+LiHYRbZlVbKgCU8osT7KWhPzvaQC4OS+iHLqTnyfq+GuJXF32wE3eF+9E=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR10MB4620
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10210 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 spamscore=0 mlxlogscore=999
- malwarescore=0 phishscore=0 bulkscore=0 adultscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2112270085
-X-Proofpoint-GUID: mxXtanX02KqtiNSVk0nC-ApHIptQ-aMo
-X-Proofpoint-ORIG-GUID: mxXtanX02KqtiNSVk0nC-ApHIptQ-aMo
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-WW91IHNob3VsZCBhbHNvIGZpeCB0aGUgZXhpc3RpbmcgdHlwbyBpbiB0aGUgZG9jdW1lbnRhdGlv
-biAoaW5saW5lKToNCg0KPiBPbiBEZWMgMjcsIDIwMjEsIGF0IDA3OjQ5LCBLZWZlbmcgV2FuZyA8
-d2FuZ2tlZmVuZy53YW5nQGh1YXdlaS5jb20+IHdyb3RlOg0KPiANCj4g77u/VGhpcyBwYXRjaCBz
-ZWxlY3QgSEFWRV9BUkNIX0hVR0VfVk1BTExPQyB0byBsZXQgYXJtNjQgc3VwcG9ydCBodWdlDQo+
-IHZtYWxsb2MgbWFwcGluZ3MuDQo+IA0KPiBDYzogQ2F0YWxpbiBNYXJpbmFzIDxjYXRhbGluLm1h
-cmluYXNAYXJtLmNvbT4NCj4gQ2M6IFdpbGwgRGVhY29uIDx3aWxsQGtlcm5lbC5vcmc+DQo+IFNp
-Z25lZC1vZmYtYnk6IEtlZmVuZyBXYW5nIDx3YW5na2VmZW5nLndhbmdAaHVhd2VpLmNvbT4NCj4g
-LS0tDQo+IERvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUva2VybmVsLXBhcmFtZXRlcnMudHh0IHwg
-NCArKy0tDQo+IGFyY2gvYXJtNjQvS2NvbmZpZyAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IHwgMSArDQo+IGFyY2gvYXJtNjQva2VybmVsL21vZHVsZS5jICAgICAgICAgICAgICAgICAgICAg
-IHwgNSArKystLQ0KPiAzIGZpbGVzIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlv
-bnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2FkbWluLWd1aWRlL2tlcm5l
-bC1wYXJhbWV0ZXJzLnR4dCBiL0RvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUva2VybmVsLXBhcmFt
-ZXRlcnMudHh0DQo+IGluZGV4IDdiMmY5MDBmZDI0My4uZTNmOWZkN2VjMTA2IDEwMDY0NA0KPiAt
-LS0gYS9Eb2N1bWVudGF0aW9uL2FkbWluLWd1aWRlL2tlcm5lbC1wYXJhbWV0ZXJzLnR4dA0KPiAr
-KysgYi9Eb2N1bWVudGF0aW9uL2FkbWluLWd1aWRlL2tlcm5lbC1wYXJhbWV0ZXJzLnR4dA0KPiBA
-QCAtMTYzOSw3ICsxNjM5LDcgQEANCj4gICAgICAgICAgICBwcmVjZWRlbmNlIG92ZXIgbWVtb3J5
-X2hvdHBsdWcubWVtbWFwX29uX21lbW9yeS4NCj4gDQo+IA0KPiAtICAgIGh1Z2V2bWFsbG9jPSAg
-ICBbUFBDXSBSZWd1aXJlcyBDT05GSUdfSEFWRV9BUkNIX0hVR0VfVk1BTExPQw0KPiArICAgIGh1
-Z2V2bWFsbG9jPSAgICBbS05MLFBQQyxBUk02NF0gUmVndWlyZXMgQ09ORklHX0hBVkVfQVJDSF9I
-VUdFX1ZNQUxMT0MNCj4gICAgICAgICAgICBGb3JtYXQ6IHsgb24gfCBvZmYgfQ0KPiAgICAgICAg
-ICAgIERlZmF1bHQgc2V0IGJ5IENPTkZJR19IVUdFX1ZNQUxMT0NfREVGQVVMVF9FTkFCTEVELg0K
-DQoiUmVndWlyZXMiIHNob3VsZCBiZSAiUmVxdWlyZXMuIiANCg0KPiANCj4gQEAgLTM0MjQsNyAr
-MzQyNCw3IEBADQo+IA0KPiAgICBub2h1Z2Vpb21hcCAgICBbS05MLFg4NixQUEMsQVJNNjRdIERp
-c2FibGUga2VybmVsIGh1Z2UgSS9PIG1hcHBpbmdzLg0KPiANCj4gLSAgICBub2h1Z2V2bWFsbG9j
-ICAgIFtQUENdIERpc2FibGUga2VybmVsIGh1Z2Ugdm1hbGxvYyBtYXBwaW5ncy4NCj4gKyAgICBu
-b2h1Z2V2bWFsbG9jICAgIFtLTkwsUFBDLEFSTTY0XSBEaXNhYmxlIGtlcm5lbCBodWdlIHZtYWxs
-b2MgbWFwcGluZ3MuDQo+IA0KPiAgICBub3NtdCAgICAgICAgW0tOTCxTMzkwXSBEaXNhYmxlIHN5
-bW1ldHJpYyBtdWx0aXRocmVhZGluZyAoU01UKS4NCj4gICAgICAgICAgICBFcXVpdmFsZW50IHRv
-IHNtdD0xLg0KPiBkaWZmIC0tZ2l0IGEvYXJjaC9hcm02NC9LY29uZmlnIGIvYXJjaC9hcm02NC9L
-Y29uZmlnDQo+IGluZGV4IDNiYjBiNjcyOTJiNS4uYzM0YmJiNDQ4MmIwIDEwMDY0NA0KPiAtLS0g
-YS9hcmNoL2FybTY0L0tjb25maWcNCj4gKysrIGIvYXJjaC9hcm02NC9LY29uZmlnDQo+IEBAIC0x
-NDIsNiArMTQyLDcgQEAgY29uZmlnIEFSTTY0DQo+ICAgIHNlbGVjdCBIQVZFX0FSQ0hfQVVESVRT
-WVNDQUxMDQo+ICAgIHNlbGVjdCBIQVZFX0FSQ0hfQklUUkVWRVJTRQ0KPiAgICBzZWxlY3QgSEFW
-RV9BUkNIX0NPTVBJTEVSX0gNCj4gKyAgICBzZWxlY3QgSEFWRV9BUkNIX0hVR0VfVk1BTExPQw0K
-PiAgICBzZWxlY3QgSEFWRV9BUkNIX0hVR0VfVk1BUA0KPiAgICBzZWxlY3QgSEFWRV9BUkNIX0pV
-TVBfTEFCRUwNCj4gICAgc2VsZWN0IEhBVkVfQVJDSF9KVU1QX0xBQkVMX1JFTEFUSVZFDQo+IGRp
-ZmYgLS1naXQgYS9hcmNoL2FybTY0L2tlcm5lbC9tb2R1bGUuYyBiL2FyY2gvYXJtNjQva2VybmVs
-L21vZHVsZS5jDQo+IGluZGV4IDMwOWEyNzU1M2M4Ny4uYWY3YjRjYmFjZTJiIDEwMDY0NA0KPiAt
-LS0gYS9hcmNoL2FybTY0L2tlcm5lbC9tb2R1bGUuYw0KPiArKysgYi9hcmNoL2FybTY0L2tlcm5l
-bC9tb2R1bGUuYw0KPiBAQCAtMzYsNyArMzYsOCBAQCB2b2lkICptb2R1bGVfYWxsb2ModW5zaWdu
-ZWQgbG9uZyBzaXplKQ0KPiAgICAgICAgbW9kdWxlX2FsbG9jX2VuZCA9IE1PRFVMRVNfRU5EOw0K
-PiANCj4gICAgcCA9IF9fdm1hbGxvY19ub2RlX3JhbmdlKHNpemUsIE1PRFVMRV9BTElHTiwgbW9k
-dWxlX2FsbG9jX2Jhc2UsDQo+IC0gICAgICAgICAgICAgICAgbW9kdWxlX2FsbG9jX2VuZCwgZ2Zw
-X21hc2ssIFBBR0VfS0VSTkVMLCBWTV9ERUZFUl9LTUVNTEVBSywNCj4gKyAgICAgICAgICAgICAg
-ICBtb2R1bGVfYWxsb2NfZW5kLCBnZnBfbWFzaywgUEFHRV9LRVJORUwsDQo+ICsgICAgICAgICAg
-ICAgICAgVk1fREVGRVJfS01FTUxFQUsgfCBWTV9OT19IVUdFX1ZNQVAsDQo+ICAgICAgICAgICAg
-ICAgIE5VTUFfTk9fTk9ERSwgX19idWlsdGluX3JldHVybl9hZGRyZXNzKDApKTsNCj4gDQo+ICAg
-IGlmICghcCAmJiBJU19FTkFCTEVEKENPTkZJR19BUk02NF9NT0RVTEVfUExUUykgJiYNCj4gQEAg
-LTU1LDcgKzU2LDcgQEAgdm9pZCAqbW9kdWxlX2FsbG9jKHVuc2lnbmVkIGxvbmcgc2l6ZSkNCj4g
-ICAgICAgICAqLw0KPiAgICAgICAgcCA9IF9fdm1hbGxvY19ub2RlX3JhbmdlKHNpemUsIE1PRFVM
-RV9BTElHTiwgbW9kdWxlX2FsbG9jX2Jhc2UsDQo+ICAgICAgICAgICAgICAgIG1vZHVsZV9hbGxv
-Y19iYXNlICsgU1pfMkcsIEdGUF9LRVJORUwsDQo+IC0gICAgICAgICAgICAgICAgUEFHRV9LRVJO
-RUwsIDAsIE5VTUFfTk9fTk9ERSwNCj4gKyAgICAgICAgICAgICAgICBQQUdFX0tFUk5FTCwgVk1f
-Tk9fSFVHRV9WTUFQLCBOVU1BX05PX05PREUsDQo+ICAgICAgICAgICAgICAgIF9fYnVpbHRpbl9y
-ZXR1cm5fYWRkcmVzcygwKSk7DQo+IA0KPiAgICBpZiAocCAmJiAoa2FzYW5fbW9kdWxlX2FsbG9j
-KHAsIHNpemUsIGdmcF9tYXNrKSA8IDApKSB7DQo+IC0tIA0KPiAyLjI2LjINCj4gDQo+IA0K
+From: Takashi Iwai <tiwai@suse.de>
+
+[ Upstream commit 9222ba68c3f4065f6364b99cc641b6b019ef2d42 ]
+
+We've got a bug report about the non-working keyboard on ASUS ZenBook
+UX425UA.  It seems that the PS/2 device isn't ready immediately at
+boot but takes some seconds to get ready.  Until now, the only
+workaround is to defer the probe, but it's available only when the
+driver is a module.  However, many distros, including openSUSE as in
+the original report, build the PS/2 input drivers into kernel, hence
+it won't work easily.
+
+This patch adds the support for the deferred probe for i8042 stuff as
+a workaround of the problem above.  When the deferred probe mode is
+enabled and the device couldn't be probed, it'll be repeated with the
+standard deferred probe mechanism.
+
+The deferred probe mode is enabled either via the new option
+i8042.probe_defer or via the quirk table entry.  As of this patch, the
+quirk table contains only ASUS ZenBook UX425UA.
+
+The deferred probe part is based on Fabio's initial work.
+
+BugLink: https://bugzilla.suse.com/show_bug.cgi?id=1190256
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Tested-by: Samuel Čavoj <samuel@cavoj.net>
+Link: https://lore.kernel.org/r/20211117063757.11380-1-tiwai@suse.de
+
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ .../admin-guide/kernel-parameters.txt         |  2 +
+ drivers/input/serio/i8042-x86ia64io.h         | 14 +++++
+ drivers/input/serio/i8042.c                   | 54 ++++++++++++-------
+ 3 files changed, 51 insertions(+), 19 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 1396fd2d90319..28d028f1af663 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1690,6 +1690,8 @@
+ 			architectures force reset to be always executed
+ 	i8042.unlock	[HW] Unlock (ignore) the keylock
+ 	i8042.kbdreset	[HW] Reset device connected to KBD port
++	i8042.probe_defer
++			[HW] Allow deferred probing upon i8042 probe errors
+ 
+ 	i810=		[HW,DRM]
+ 
+diff --git a/drivers/input/serio/i8042-x86ia64io.h b/drivers/input/serio/i8042-x86ia64io.h
+index aedd055410443..1acc7c8449294 100644
+--- a/drivers/input/serio/i8042-x86ia64io.h
++++ b/drivers/input/serio/i8042-x86ia64io.h
+@@ -995,6 +995,17 @@ static const struct dmi_system_id __initconst i8042_dmi_kbdreset_table[] = {
+ 	{ }
+ };
+ 
++static const struct dmi_system_id i8042_dmi_probe_defer_table[] __initconst = {
++	{
++		/* ASUS ZenBook UX425UA */
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "ZenBook UX425UA"),
++		},
++	},
++	{ }
++};
++
+ #endif /* CONFIG_X86 */
+ 
+ #ifdef CONFIG_PNP
+@@ -1315,6 +1326,9 @@ static int __init i8042_platform_init(void)
+ 	if (dmi_check_system(i8042_dmi_kbdreset_table))
+ 		i8042_kbdreset = true;
+ 
++	if (dmi_check_system(i8042_dmi_probe_defer_table))
++		i8042_probe_defer = true;
++
+ 	/*
+ 	 * A20 was already enabled during early kernel init. But some buggy
+ 	 * BIOSes (in MSI Laptops) require A20 to be enabled using 8042 to
+diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
+index 0b9f1d0a8f8b0..3fc0a89cc785c 100644
+--- a/drivers/input/serio/i8042.c
++++ b/drivers/input/serio/i8042.c
+@@ -45,6 +45,10 @@ static bool i8042_unlock;
+ module_param_named(unlock, i8042_unlock, bool, 0);
+ MODULE_PARM_DESC(unlock, "Ignore keyboard lock.");
+ 
++static bool i8042_probe_defer;
++module_param_named(probe_defer, i8042_probe_defer, bool, 0);
++MODULE_PARM_DESC(probe_defer, "Allow deferred probing.");
++
+ enum i8042_controller_reset_mode {
+ 	I8042_RESET_NEVER,
+ 	I8042_RESET_ALWAYS,
+@@ -711,7 +715,7 @@ static int i8042_set_mux_mode(bool multiplex, unsigned char *mux_version)
+  * LCS/Telegraphics.
+  */
+ 
+-static int __init i8042_check_mux(void)
++static int i8042_check_mux(void)
+ {
+ 	unsigned char mux_version;
+ 
+@@ -740,10 +744,10 @@ static int __init i8042_check_mux(void)
+ /*
+  * The following is used to test AUX IRQ delivery.
+  */
+-static struct completion i8042_aux_irq_delivered __initdata;
+-static bool i8042_irq_being_tested __initdata;
++static struct completion i8042_aux_irq_delivered;
++static bool i8042_irq_being_tested;
+ 
+-static irqreturn_t __init i8042_aux_test_irq(int irq, void *dev_id)
++static irqreturn_t i8042_aux_test_irq(int irq, void *dev_id)
+ {
+ 	unsigned long flags;
+ 	unsigned char str, data;
+@@ -770,7 +774,7 @@ static irqreturn_t __init i8042_aux_test_irq(int irq, void *dev_id)
+  * verifies success by readinng CTR. Used when testing for presence of AUX
+  * port.
+  */
+-static int __init i8042_toggle_aux(bool on)
++static int i8042_toggle_aux(bool on)
+ {
+ 	unsigned char param;
+ 	int i;
+@@ -798,7 +802,7 @@ static int __init i8042_toggle_aux(bool on)
+  * the presence of an AUX interface.
+  */
+ 
+-static int __init i8042_check_aux(void)
++static int i8042_check_aux(void)
+ {
+ 	int retval = -1;
+ 	bool irq_registered = false;
+@@ -1005,7 +1009,7 @@ static int i8042_controller_init(void)
+ 
+ 		if (i8042_command(&ctr[n++ % 2], I8042_CMD_CTL_RCTR)) {
+ 			pr_err("Can't read CTR while initializing i8042\n");
+-			return -EIO;
++			return i8042_probe_defer ? -EPROBE_DEFER : -EIO;
+ 		}
+ 
+ 	} while (n < 2 || ctr[0] != ctr[1]);
+@@ -1320,7 +1324,7 @@ static void i8042_shutdown(struct platform_device *dev)
+ 	i8042_controller_reset(false);
+ }
+ 
+-static int __init i8042_create_kbd_port(void)
++static int i8042_create_kbd_port(void)
+ {
+ 	struct serio *serio;
+ 	struct i8042_port *port = &i8042_ports[I8042_KBD_PORT_NO];
+@@ -1349,7 +1353,7 @@ static int __init i8042_create_kbd_port(void)
+ 	return 0;
+ }
+ 
+-static int __init i8042_create_aux_port(int idx)
++static int i8042_create_aux_port(int idx)
+ {
+ 	struct serio *serio;
+ 	int port_no = idx < 0 ? I8042_AUX_PORT_NO : I8042_MUX_PORT_NO + idx;
+@@ -1386,13 +1390,13 @@ static int __init i8042_create_aux_port(int idx)
+ 	return 0;
+ }
+ 
+-static void __init i8042_free_kbd_port(void)
++static void i8042_free_kbd_port(void)
+ {
+ 	kfree(i8042_ports[I8042_KBD_PORT_NO].serio);
+ 	i8042_ports[I8042_KBD_PORT_NO].serio = NULL;
+ }
+ 
+-static void __init i8042_free_aux_ports(void)
++static void i8042_free_aux_ports(void)
+ {
+ 	int i;
+ 
+@@ -1402,7 +1406,7 @@ static void __init i8042_free_aux_ports(void)
+ 	}
+ }
+ 
+-static void __init i8042_register_ports(void)
++static void i8042_register_ports(void)
+ {
+ 	int i;
+ 
+@@ -1443,7 +1447,7 @@ static void i8042_free_irqs(void)
+ 	i8042_aux_irq_registered = i8042_kbd_irq_registered = false;
+ }
+ 
+-static int __init i8042_setup_aux(void)
++static int i8042_setup_aux(void)
+ {
+ 	int (*aux_enable)(void);
+ 	int error;
+@@ -1485,7 +1489,7 @@ static int __init i8042_setup_aux(void)
+ 	return error;
+ }
+ 
+-static int __init i8042_setup_kbd(void)
++static int i8042_setup_kbd(void)
+ {
+ 	int error;
+ 
+@@ -1535,7 +1539,7 @@ static int i8042_kbd_bind_notifier(struct notifier_block *nb,
+ 	return 0;
+ }
+ 
+-static int __init i8042_probe(struct platform_device *dev)
++static int i8042_probe(struct platform_device *dev)
+ {
+ 	int error;
+ 
+@@ -1600,6 +1604,7 @@ static struct platform_driver i8042_driver = {
+ 		.pm	= &i8042_pm_ops,
+ #endif
+ 	},
++	.probe		= i8042_probe,
+ 	.remove		= i8042_remove,
+ 	.shutdown	= i8042_shutdown,
+ };
+@@ -1610,7 +1615,6 @@ static struct notifier_block i8042_kbd_bind_notifier_block = {
+ 
+ static int __init i8042_init(void)
+ {
+-	struct platform_device *pdev;
+ 	int err;
+ 
+ 	dbg_init();
+@@ -1626,17 +1630,29 @@ static int __init i8042_init(void)
+ 	/* Set this before creating the dev to allow i8042_command to work right away */
+ 	i8042_present = true;
+ 
+-	pdev = platform_create_bundle(&i8042_driver, i8042_probe, NULL, 0, NULL, 0);
+-	if (IS_ERR(pdev)) {
+-		err = PTR_ERR(pdev);
++	err = platform_driver_register(&i8042_driver);
++	if (err)
+ 		goto err_platform_exit;
++
++	i8042_platform_device = platform_device_alloc("i8042", -1);
++	if (!i8042_platform_device) {
++		err = -ENOMEM;
++		goto err_unregister_driver;
+ 	}
+ 
++	err = platform_device_add(i8042_platform_device);
++	if (err)
++		goto err_free_device;
++
+ 	bus_register_notifier(&serio_bus, &i8042_kbd_bind_notifier_block);
+ 	panic_blink = i8042_panic_blink;
+ 
+ 	return 0;
+ 
++err_free_device:
++	platform_device_put(i8042_platform_device);
++err_unregister_driver:
++	platform_driver_unregister(&i8042_driver);
+  err_platform_exit:
+ 	i8042_platform_exit();
+ 	return err;
+-- 
+2.34.1
+
