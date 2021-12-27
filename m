@@ -2,170 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EF7AC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Dec 2021 01:30:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EB69C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Dec 2021 01:46:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234929AbhL0Ba6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 26 Dec 2021 20:30:58 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:29289 "EHLO
-        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233634AbhL0Ba6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Dec 2021 20:30:58 -0500
-Received: from dggpeml500025.china.huawei.com (unknown [172.30.72.54])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JMg8j3DR5zbjdN;
-        Mon, 27 Dec 2021 09:30:29 +0800 (CST)
-Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
- dggpeml500025.china.huawei.com (7.185.36.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Mon, 27 Dec 2021 09:30:56 +0800
-Received: from [10.174.177.232] (10.174.177.232) by
- dggpeml500006.china.huawei.com (7.185.36.76) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Mon, 27 Dec 2021 09:30:55 +0800
-Subject: Re: [PATCH 1/2] docs/zh_CN: Add power/index Chinese translation
-To:     Alex Shi <seakeel@gmail.com>
-CC:     Yanteng Si <siyanteng@loongson.cn>,
-        yanteng si <siyanteng01@gmail.com>,
-        Alex Shi <alexs@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, <zhengbin13@huawei.com>,
-        Yeechou Tang <tangyeechou@gmail.com>
-References: <20211226082923.3261-1-tangyizhou@huawei.com>
- <20211226082923.3261-2-tangyizhou@huawei.com>
- <CAJy-Amkd7YJszrgxmxXCYjHNR1ngwk+irHJvfDUnJXZ5fc_wfw@mail.gmail.com>
-From:   Tang Yizhou <tangyizhou@huawei.com>
-Message-ID: <1bedacab-eeba-8fef-6fae-017653ea6c54@huawei.com>
-Date:   Mon, 27 Dec 2021 09:30:55 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.1.1
+        id S229535AbhL0BqL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 26 Dec 2021 20:46:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47708 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234938AbhL0BqK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Dec 2021 20:46:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1640569570;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=EP0DZntuIs2zJtRh06L63X/Ovho8Wrnvc0Bdbp3iNls=;
+        b=QHOmJfhIZfol+8qcCvrKZjIIUwVLY2UqwF6gxYWVc/nwW9TFZXg7eVkR9aNUfq432Ijx7P
+        kUOoUQ1SXCxjy6GZUdCrBVqEx710VA12+UVFRYznNOAWkwqzYFZOfny1zE6wSIuIbmIZDW
+        v3LNBKt+hHGH+hznzWtzw2MYfjfK/hc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-49-Uk4TCJ8XNeOZr6PFhd7-cw-1; Sun, 26 Dec 2021 20:46:04 -0500
+X-MC-Unique: Uk4TCJ8XNeOZr6PFhd7-cw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C69821006AA4;
+        Mon, 27 Dec 2021 01:46:01 +0000 (UTC)
+Received: from dhcp-128-65.nay.redhat.com (ovpn-13-8.pek2.redhat.com [10.72.13.8])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id A7DCD45D8E;
+        Mon, 27 Dec 2021 01:45:54 +0000 (UTC)
+Date:   Mon, 27 Dec 2021 09:45:51 +0800
+From:   Dave Young <dyoung@redhat.com>
+To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, mcgrof@kernel.org,
+        keescook@chromium.org, yzaikin@google.com,
+        akpm@linux-foundation.org, feng.tang@intel.com,
+        siglesias@igalia.com, kernel@gpiccoli.net,
+        kexec@lists.infradead.org
+Subject: Re: [PATCH 3/3] panic: Allow printing extra panic information on
+ kdump
+Message-ID: <Yckaz79zg5HdEgcH@dhcp-128-65.nay.redhat.com>
+References: <20211109202848.610874-1-gpiccoli@igalia.com>
+ <20211109202848.610874-4-gpiccoli@igalia.com>
+ <YcMPzs6t8MKpEacq@dhcp-128-65.nay.redhat.com>
+ <2d24ea70-e315-beb5-0028-683880c438be@igalia.com>
+ <YcUj0EJvQt77OVs2@dhcp-128-65.nay.redhat.com>
+ <5b817a4f-0bba-7d79-8aab-33c58e922293@igalia.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJy-Amkd7YJszrgxmxXCYjHNR1ngwk+irHJvfDUnJXZ5fc_wfw@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.177.232]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpeml500006.china.huawei.com (7.185.36.76)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5b817a4f-0bba-7d79-8aab-33c58e922293@igalia.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021/12/26 16:30, Alex Shi wrote:
-> On Sun, Dec 26, 2021 at 4:01 PM Tang Yizhou <tangyizhou@huawei.com> wrote:
->>
->> Translate power/index.rst into Chinese.
->>
->> Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
->> ---
->>  Documentation/translations/zh_CN/index.rst    |  4 +-
->>  .../translations/zh_CN/power/index.rst        | 55 +++++++++++++++++++
->>  2 files changed, 57 insertions(+), 2 deletions(-)
->>  create mode 100644 Documentation/translations/zh_CN/power/index.rst
->>
->> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
->> index 46e14ec9963d..7658e2fa6f98 100644
->> --- a/Documentation/translations/zh_CN/index.rst
->> +++ b/Documentation/translations/zh_CN/index.rst
->> @@ -104,13 +104,14 @@ TODOList:
->>     :maxdepth: 2
->>
->>     core-api/index
->> +   accounting/index
+On 12/25/21 at 04:21pm, Guilherme G. Piccoli wrote:
+> On 23/12/2021 22:35, Dave Young wrote:
+> > Hi Guilherme,
+> > [...]
+> > If only the doc update, I think it is fine to be another follup-up
+> > patch.
+> > 
+> > About your 1st option in patch log, there is crash_kexec_post_notifiers
+> > kernel param which can be used to switch on panic notifiers before kdump
+> > bootup.   Another way probably you can try to move panic print to be
+> > panic notifier. Have this been discussed before? 
+> > 
 > 
-> What's this?
+> Hey Dave, thanks for the suggestion. I've considered that but didn't
+> like the idea. My reasoning was: allowing post notifiers on kdump will
+> highly compromise the reliability, whereas the panic_print is a solo
+> option, and not very invasive.
+> 
+> To mix it with all panic notifiers would just increase a lot the risk of
+> a kdump failure. Put in other words: if I'm a kdump user and in order to
+> have this panic_print setting I'd also need to enable post notifiers,
+> certainly I'll not use the feature, 'cause I don't wanna risk kdump too
+> much.
 
-It's https://www.kernel.org/doc/html/latest/accounting/index.html.
+Hi Guilherme, yes, I have the same concern.  But there could be more
+things like the panic_print in the future, it looks odd to have more
+kernel cmdline params though.
 
-The Chinese version is not in the same order as the English version
-and I move it to where it should be.
+> 
+> One other option I've considered however, and I'd appreciate your
+> opinion here, would be a new option on crash_kexec_post_notifiers that
+> allows the users to select *which few notifiers* they want to enable.
+> Currently it's all or nothing, and this approach is too heavy/risky I
+> believe. Allowing customization on which post notifiers the user wants
+> would be much better and in this case, having a post notifier for
+> panic_print makes a lot of sense. What do you think?
+
+It is definitely a good idea, I'm more than glad to see this if you
+would like to work on this! 
 
 > 
-> Thanks
-> Alex
+> Thanks!
 > 
->>     cpu-freq/index
->>     iio/index
->>     sound/index
->>     filesystems/index
->>     virt/index
->>     infiniband/index
->> -   accounting/index
->> +   power/index
->>     scheduler/index
->>
->>  TODOList:
->> @@ -129,7 +130,6 @@ TODOList:
->>  * netlabel/index
->>  * networking/index
->>  * pcmcia/index
->> -* power/index
->>  * target/index
->>  * timers/index
->>  * spi/index
->> diff --git a/Documentation/translations/zh_CN/power/index.rst b/Documentation/translations/zh_CN/power/index.rst
->> new file mode 100644
->> index 000000000000..fd379adfda8e
->> --- /dev/null
->> +++ b/Documentation/translations/zh_CN/power/index.rst
->> @@ -0,0 +1,55 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +.. include:: ../disclaimer-zh_CN.rst
->> +
->> +:Original: Documentation/power/index.rst
->> +
->> +:翻译:
->> +
->> +  唐艺舟 Tang Yizhou <tangyeechou@gmail.com>
->> +
->> +========
->> +电源管理
->> +========
->> +
->> +.. toctree::
->> +    :maxdepth: 1
->> +
->> +TODOList:
->> +
->> +    * apm-acpi
->> +    * basic-pm-debugging
->> +    * charger-manager
->> +    * drivers-testing
->> +    * energy-model
->> +    * freezing-of-tasks
->> +    * opp
->> +    * pci
->> +    * pm_qos_interface
->> +    * power_supply_class
->> +    * runtime_pm
->> +    * s2ram
->> +    * suspend-and-cpuhotplug
->> +    * suspend-and-interrupts
->> +    * swsusp-and-swap-files
->> +    * swsusp-dmcrypt
->> +    * swsusp
->> +    * video
->> +    * tricks
->> +
->> +    * userland-swsusp
->> +
->> +    * powercap/powercap
->> +    * powercap/dtpm
->> +
->> +    * regulator/consumer
->> +    * regulator/design
->> +    * regulator/machine
->> +    * regulator/overview
->> +    * regulator/regulator
->> +
->> +.. only::  subproject and html
->> +
->> +   Indices
->> +   =======
->> +
->> +   * :ref:`genindex`
->> --
->> 2.17.1
->>
-> .
-> 
+
+Thanks
+Dave
+
