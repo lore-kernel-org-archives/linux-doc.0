@@ -2,35 +2,35 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CFB0C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Dec 2021 19:03:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A2EEC433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Dec 2021 19:05:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231735AbhL0TDm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Dec 2021 14:03:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56348 "EHLO
+        id S231428AbhL0TFr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Dec 2021 14:05:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231755AbhL0TDm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Dec 2021 14:03:42 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D396EC06173E;
-        Mon, 27 Dec 2021 11:03:41 -0800 (PST)
+        with ESMTP id S232489AbhL0TFT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Dec 2021 14:05:19 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B4BCC0613A5;
+        Mon, 27 Dec 2021 11:05:14 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 83CF4B81141;
-        Mon, 27 Dec 2021 19:03:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEF9CC36AEF;
-        Mon, 27 Dec 2021 19:03:36 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C2D0B60FB2;
+        Mon, 27 Dec 2021 19:05:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D333C36AEA;
+        Mon, 27 Dec 2021 19:05:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1640631819;
-        bh=UjDwes0/4vw+IBZwkEa7sIlAXCUbGUgsKnvc4DXx43g=;
+        s=k20201202; t=1640631913;
+        bh=59RABCGyhsoJ9jWbPZMrYtcu62UUUvkmKGB0AH9DhFY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cGiLxdgzft0AIuuiZZBWIhZU43BjtTPLiOg9lF6EB5uRjRS//6ekjXDA4DNdA2V4h
-         iwmaIJHqTyVJrdsouVWP4WwytXlso2kv7jrf5OUKA2EBKjsOnC0uy+wDn7kWOXWzOL
-         QJT7tZNm05BIwoQew7X2m7u+cexM41m1XS+iwwm3ZW8coj3ILvTBYWYbYQZejvZyk1
-         kkaZXKnrrVMiwbWNTQDHMECaQw9Ml8fr4XEFcQR7MR2WuEvBSdk+8XQxOBsoBe2yJA
-         XHBSQjhwuDu/zn2DtxdHXdJqlzu4odaZq767n47S7nHX6NyJyxaqkfHcz6m050imOs
-         OqxhEHhibL2tw==
+        b=qaMWw/6pWb6Wn1EA8pPMR5RWjR4oATzozdXvUX4h2D/866/WDYDGR5L+mPK+PFw5P
+         5l6HKBKSbx5Yxl87PttZIJLQjZmo680Z0+0PH0r0mP8yTRKXEaU+HyIcaYlbtf58Jq
+         p1PvnbgG7drZ1lPzm5oS0G6ktVa5EqMDnlMBwlzl4Lbz05CU9yu0suzxfTjEPkf7Ye
+         iGUYdAyNOjgKPjG2GNBPxvSUa24iI7mVRYEVZI8R+eGvfWKMeoduio6CWdup5QxyJE
+         bdzVR7XHW6r77EMP8WIGRzf5czKGLxz1PXQ4wGYu0jFsufMVeS5r6rznoHCS+Tdt8s
+         r5ysmXNOYjq7g==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Takashi Iwai <tiwai@suse.de>,
@@ -41,15 +41,14 @@ Cc:     Takashi Iwai <tiwai@suse.de>,
         peterz@infradead.org, will@kernel.org, maz@kernel.org,
         macro@orcam.me.uk, viresh.kumar@linaro.org, robin.murphy@arm.com,
         rdunlap@infradead.org, vbabka@suse.cz, mpdesouza@suse.com,
-        hdegoede@redhat.com, adobriyan@gmail.com, arnd@arndb.de,
-        tyson@tyson.me, linux-doc@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 02/26] Input: i8042 - add deferred probe support
-Date:   Mon, 27 Dec 2021 14:03:03 -0500
-Message-Id: <20211227190327.1042326-2-sashal@kernel.org>
+        arnd@arndb.de, adobriyan@gmail.com, tyson@tyson.me,
+        linux-doc@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 02/14] Input: i8042 - add deferred probe support
+Date:   Mon, 27 Dec 2021 14:04:40 -0500
+Message-Id: <20211227190452.1042714-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20211227190327.1042326-1-sashal@kernel.org>
-References: <20211227190327.1042326-1-sashal@kernel.org>
+In-Reply-To: <20211227190452.1042714-1-sashal@kernel.org>
+References: <20211227190452.1042714-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -96,10 +95,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  3 files changed, 51 insertions(+), 19 deletions(-)
 
 diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 1396fd2d90319..28d028f1af663 100644
+index 516499f9ccae4..1a29c78e362bf 100644
 --- a/Documentation/admin-guide/kernel-parameters.txt
 +++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1690,6 +1690,8 @@
+@@ -1617,6 +1617,8 @@
  			architectures force reset to be always executed
  	i8042.unlock	[HW] Unlock (ignore) the keylock
  	i8042.kbdreset	[HW] Reset device connected to KBD port
@@ -141,7 +140,7 @@ index aedd055410443..1acc7c8449294 100644
  	 * A20 was already enabled during early kernel init. But some buggy
  	 * BIOSes (in MSI Laptops) require A20 to be enabled using 8042 to
 diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
-index 0b9f1d0a8f8b0..3fc0a89cc785c 100644
+index abae23af0791e..a9f68f535b727 100644
 --- a/drivers/input/serio/i8042.c
 +++ b/drivers/input/serio/i8042.c
 @@ -45,6 +45,10 @@ static bool i8042_unlock;
