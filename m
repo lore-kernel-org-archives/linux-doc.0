@@ -2,53 +2,54 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A2EEC433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Dec 2021 19:05:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6040C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Dec 2021 19:06:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231428AbhL0TFr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Dec 2021 14:05:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56840 "EHLO
+        id S232586AbhL0TGk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Dec 2021 14:06:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232489AbhL0TFT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Dec 2021 14:05:19 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B4BCC0613A5;
-        Mon, 27 Dec 2021 11:05:14 -0800 (PST)
+        with ESMTP id S232738AbhL0TGC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Dec 2021 14:06:02 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C51A0C061394;
+        Mon, 27 Dec 2021 11:06:01 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C2D0B60FB2;
-        Mon, 27 Dec 2021 19:05:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D333C36AEA;
-        Mon, 27 Dec 2021 19:05:10 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 657D0B8113A;
+        Mon, 27 Dec 2021 19:06:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBB8BC36AE7;
+        Mon, 27 Dec 2021 19:05:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1640631913;
-        bh=59RABCGyhsoJ9jWbPZMrYtcu62UUUvkmKGB0AH9DhFY=;
+        s=k20201202; t=1640631959;
+        bh=NLVZLJl5q5LrsRnPo6PI2Vlf221fi6mSDBU6JZK0S2c=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=qaMWw/6pWb6Wn1EA8pPMR5RWjR4oATzozdXvUX4h2D/866/WDYDGR5L+mPK+PFw5P
-         5l6HKBKSbx5Yxl87PttZIJLQjZmo680Z0+0PH0r0mP8yTRKXEaU+HyIcaYlbtf58Jq
-         p1PvnbgG7drZ1lPzm5oS0G6ktVa5EqMDnlMBwlzl4Lbz05CU9yu0suzxfTjEPkf7Ye
-         iGUYdAyNOjgKPjG2GNBPxvSUa24iI7mVRYEVZI8R+eGvfWKMeoduio6CWdup5QxyJE
-         bdzVR7XHW6r77EMP8WIGRzf5czKGLxz1PXQ4wGYu0jFsufMVeS5r6rznoHCS+Tdt8s
-         r5ysmXNOYjq7g==
+        b=OzeVRol31H5rN4OPTvj+J9hilIjxKI9ARgrFVUTJHc1nWytwS5hHRS7JphD0IIZl4
+         iOKRqs1tx1313Aitwa0HN0hRjzykXeVHDl+muz0+vF//DQrRM/NZbMDw/XZpJKqExu
+         /YlR+Vs5jPaNUdjwAgzHOnya0FU0Jq+Gep7lLOF8eUe4bDVZbqzvrqrfx9WuQSA403
+         vleChOZi6Gs+6vPob+doyASbYof7mFUSzg3mqv0s4ByqklfM5P+UGoCCwDn7kSnDIL
+         40+QhiIGsBXp6I4Yt9INnU98Nl2JmHgJ3Dffjf/hgVFBmIZlWs73vGPaudu7fdrYNs
+         v95SKFKAOOU4Q==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Takashi Iwai <tiwai@suse.de>,
         =?UTF-8?q?Samuel=20=C4=8Cavoj?= <samuel@cavoj.net>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
-        paulmck@kernel.org, akpm@linux-foundation.org, tglx@linutronix.de,
+        paulmck@kernel.org, tglx@linutronix.de, akpm@linux-foundation.org,
         peterz@infradead.org, will@kernel.org, maz@kernel.org,
         macro@orcam.me.uk, viresh.kumar@linaro.org, robin.murphy@arm.com,
         rdunlap@infradead.org, vbabka@suse.cz, mpdesouza@suse.com,
-        arnd@arndb.de, adobriyan@gmail.com, tyson@tyson.me,
-        linux-doc@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 02/14] Input: i8042 - add deferred probe support
-Date:   Mon, 27 Dec 2021 14:04:40 -0500
-Message-Id: <20211227190452.1042714-2-sashal@kernel.org>
+        po-hsu.lin@canonical.com, arnd@arndb.de, adobriyan@gmail.com,
+        tyson@tyson.me, linux-doc@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 2/9] Input: i8042 - add deferred probe support
+Date:   Mon, 27 Dec 2021 14:05:29 -0500
+Message-Id: <20211227190536.1042975-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20211227190452.1042714-1-sashal@kernel.org>
-References: <20211227190452.1042714-1-sashal@kernel.org>
+In-Reply-To: <20211227190536.1042975-1-sashal@kernel.org>
+References: <20211227190536.1042975-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -95,10 +96,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  3 files changed, 51 insertions(+), 19 deletions(-)
 
 diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 516499f9ccae4..1a29c78e362bf 100644
+index b11e1fd95ee5f..9d824117ff4ff 100644
 --- a/Documentation/admin-guide/kernel-parameters.txt
 +++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1617,6 +1617,8 @@
+@@ -1487,6 +1487,8 @@
  			architectures force reset to be always executed
  	i8042.unlock	[HW] Unlock (ignore) the keylock
  	i8042.kbdreset	[HW] Reset device connected to KBD port
@@ -108,7 +109,7 @@ index 516499f9ccae4..1a29c78e362bf 100644
  	i810=		[HW,DRM]
  
 diff --git a/drivers/input/serio/i8042-x86ia64io.h b/drivers/input/serio/i8042-x86ia64io.h
-index aedd055410443..1acc7c8449294 100644
+index 202e43a6ffae2..2bd33a28b97cc 100644
 --- a/drivers/input/serio/i8042-x86ia64io.h
 +++ b/drivers/input/serio/i8042-x86ia64io.h
 @@ -995,6 +995,17 @@ static const struct dmi_system_id __initconst i8042_dmi_kbdreset_table[] = {
@@ -129,7 +130,7 @@ index aedd055410443..1acc7c8449294 100644
  #endif /* CONFIG_X86 */
  
  #ifdef CONFIG_PNP
-@@ -1315,6 +1326,9 @@ static int __init i8042_platform_init(void)
+@@ -1314,6 +1325,9 @@ static int __init i8042_platform_init(void)
  	if (dmi_check_system(i8042_dmi_kbdreset_table))
  		i8042_kbdreset = true;
  
@@ -140,10 +141,10 @@ index aedd055410443..1acc7c8449294 100644
  	 * A20 was already enabled during early kernel init. But some buggy
  	 * BIOSes (in MSI Laptops) require A20 to be enabled using 8042 to
 diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
-index abae23af0791e..a9f68f535b727 100644
+index 6ff6b5710dd4e..bb76ff2f6b1d8 100644
 --- a/drivers/input/serio/i8042.c
 +++ b/drivers/input/serio/i8042.c
-@@ -45,6 +45,10 @@ static bool i8042_unlock;
+@@ -44,6 +44,10 @@ static bool i8042_unlock;
  module_param_named(unlock, i8042_unlock, bool, 0);
  MODULE_PARM_DESC(unlock, "Ignore keyboard lock.");
  
@@ -154,7 +155,7 @@ index abae23af0791e..a9f68f535b727 100644
  enum i8042_controller_reset_mode {
  	I8042_RESET_NEVER,
  	I8042_RESET_ALWAYS,
-@@ -711,7 +715,7 @@ static int i8042_set_mux_mode(bool multiplex, unsigned char *mux_version)
+@@ -709,7 +713,7 @@ static int i8042_set_mux_mode(bool multiplex, unsigned char *mux_version)
   * LCS/Telegraphics.
   */
  
@@ -163,7 +164,7 @@ index abae23af0791e..a9f68f535b727 100644
  {
  	unsigned char mux_version;
  
-@@ -740,10 +744,10 @@ static int __init i8042_check_mux(void)
+@@ -738,10 +742,10 @@ static int __init i8042_check_mux(void)
  /*
   * The following is used to test AUX IRQ delivery.
   */
@@ -177,7 +178,7 @@ index abae23af0791e..a9f68f535b727 100644
  {
  	unsigned long flags;
  	unsigned char str, data;
-@@ -770,7 +774,7 @@ static irqreturn_t __init i8042_aux_test_irq(int irq, void *dev_id)
+@@ -768,7 +772,7 @@ static irqreturn_t __init i8042_aux_test_irq(int irq, void *dev_id)
   * verifies success by readinng CTR. Used when testing for presence of AUX
   * port.
   */
@@ -186,7 +187,7 @@ index abae23af0791e..a9f68f535b727 100644
  {
  	unsigned char param;
  	int i;
-@@ -798,7 +802,7 @@ static int __init i8042_toggle_aux(bool on)
+@@ -796,7 +800,7 @@ static int __init i8042_toggle_aux(bool on)
   * the presence of an AUX interface.
   */
  
@@ -195,7 +196,7 @@ index abae23af0791e..a9f68f535b727 100644
  {
  	int retval = -1;
  	bool irq_registered = false;
-@@ -1005,7 +1009,7 @@ static int i8042_controller_init(void)
+@@ -1003,7 +1007,7 @@ static int i8042_controller_init(void)
  
  		if (i8042_command(&ctr[n++ % 2], I8042_CMD_CTL_RCTR)) {
  			pr_err("Can't read CTR while initializing i8042\n");
@@ -204,7 +205,7 @@ index abae23af0791e..a9f68f535b727 100644
  		}
  
  	} while (n < 2 || ctr[0] != ctr[1]);
-@@ -1320,7 +1324,7 @@ static void i8042_shutdown(struct platform_device *dev)
+@@ -1318,7 +1322,7 @@ static void i8042_shutdown(struct platform_device *dev)
  	i8042_controller_reset(false);
  }
  
@@ -213,7 +214,7 @@ index abae23af0791e..a9f68f535b727 100644
  {
  	struct serio *serio;
  	struct i8042_port *port = &i8042_ports[I8042_KBD_PORT_NO];
-@@ -1349,7 +1353,7 @@ static int __init i8042_create_kbd_port(void)
+@@ -1346,7 +1350,7 @@ static int __init i8042_create_kbd_port(void)
  	return 0;
  }
  
@@ -222,7 +223,7 @@ index abae23af0791e..a9f68f535b727 100644
  {
  	struct serio *serio;
  	int port_no = idx < 0 ? I8042_AUX_PORT_NO : I8042_MUX_PORT_NO + idx;
-@@ -1386,13 +1390,13 @@ static int __init i8042_create_aux_port(int idx)
+@@ -1383,13 +1387,13 @@ static int __init i8042_create_aux_port(int idx)
  	return 0;
  }
  
@@ -238,7 +239,7 @@ index abae23af0791e..a9f68f535b727 100644
  {
  	int i;
  
-@@ -1402,7 +1406,7 @@ static void __init i8042_free_aux_ports(void)
+@@ -1399,7 +1403,7 @@ static void __init i8042_free_aux_ports(void)
  	}
  }
  
@@ -247,7 +248,7 @@ index abae23af0791e..a9f68f535b727 100644
  {
  	int i;
  
-@@ -1443,7 +1447,7 @@ static void i8042_free_irqs(void)
+@@ -1440,7 +1444,7 @@ static void i8042_free_irqs(void)
  	i8042_aux_irq_registered = i8042_kbd_irq_registered = false;
  }
  
@@ -256,7 +257,7 @@ index abae23af0791e..a9f68f535b727 100644
  {
  	int (*aux_enable)(void);
  	int error;
-@@ -1485,7 +1489,7 @@ static int __init i8042_setup_aux(void)
+@@ -1482,7 +1486,7 @@ static int __init i8042_setup_aux(void)
  	return error;
  }
  
@@ -265,7 +266,7 @@ index abae23af0791e..a9f68f535b727 100644
  {
  	int error;
  
-@@ -1535,7 +1539,7 @@ static int i8042_kbd_bind_notifier(struct notifier_block *nb,
+@@ -1532,7 +1536,7 @@ static int i8042_kbd_bind_notifier(struct notifier_block *nb,
  	return 0;
  }
  
@@ -274,7 +275,7 @@ index abae23af0791e..a9f68f535b727 100644
  {
  	int error;
  
-@@ -1600,6 +1604,7 @@ static struct platform_driver i8042_driver = {
+@@ -1597,6 +1601,7 @@ static struct platform_driver i8042_driver = {
  		.pm	= &i8042_pm_ops,
  #endif
  	},
@@ -282,7 +283,7 @@ index abae23af0791e..a9f68f535b727 100644
  	.remove		= i8042_remove,
  	.shutdown	= i8042_shutdown,
  };
-@@ -1610,7 +1615,6 @@ static struct notifier_block i8042_kbd_bind_notifier_block = {
+@@ -1607,7 +1612,6 @@ static struct notifier_block i8042_kbd_bind_notifier_block = {
  
  static int __init i8042_init(void)
  {
@@ -290,7 +291,7 @@ index abae23af0791e..a9f68f535b727 100644
  	int err;
  
  	dbg_init();
-@@ -1626,17 +1630,29 @@ static int __init i8042_init(void)
+@@ -1623,17 +1627,29 @@ static int __init i8042_init(void)
  	/* Set this before creating the dev to allow i8042_command to work right away */
  	i8042_present = true;
  
