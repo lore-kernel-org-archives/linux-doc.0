@@ -2,52 +2,52 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A05ECC4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Dec 2021 23:38:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BC90C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Dec 2021 23:54:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237815AbhL1Xi5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Dec 2021 18:38:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37272 "EHLO
+        id S231841AbhL1XyI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Dec 2021 18:54:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231460AbhL1Xi5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Dec 2021 18:38:57 -0500
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61BA9C061574
-        for <linux-doc@vger.kernel.org>; Tue, 28 Dec 2021 15:38:57 -0800 (PST)
-Received: by mail-pl1-x633.google.com with SMTP id l16so2518450plg.10
-        for <linux-doc@vger.kernel.org>; Tue, 28 Dec 2021 15:38:57 -0800 (PST)
+        with ESMTP id S231866AbhL1XyG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Dec 2021 18:54:06 -0500
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB162C061746
+        for <linux-doc@vger.kernel.org>; Tue, 28 Dec 2021 15:54:06 -0800 (PST)
+Received: by mail-pj1-x102d.google.com with SMTP id y16-20020a17090a6c9000b001b13ffaa625so22948314pjj.2
+        for <linux-doc@vger.kernel.org>; Tue, 28 Dec 2021 15:54:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=mLJEKnUeVA+ZJaDeVq7C58HVHq2F7qzWQ7vIWWcH/9I=;
-        b=Eiy8qoIw/+H+Jfx8mcv3/R1UdB2Av9PpBgReHTaaSLr7QNRpRxLq2Xr0kD7QHsDQLc
-         jMqa1zT3VYLLajjYXGcTlBJkLplBff49xgT6WYc+qinCxPYmRcHZqFl1331GvJWLiTPM
-         UMB3HWJWlGt64de9dAl0DBNGEudpy6kP1IT9QM35aydC9vFp3PaU8s3D433UtOgV09Wf
-         USNkA1zZQqpuG59EIU44pHjzNmo61hM+1bBpTMMLERNSDAI0UV/88SjncVcabfNKo1SW
-         OIYUccn9ZusVP6iipAYQiS29AeygpxEa6zqUL+91px6gBunwGQBepHO7GRI2Y+8/xJUM
-         wjBw==
+        bh=qwG3+knHz/y15NSm8VuLqIc8tLJMm1hb1QKvFClBg7k=;
+        b=kBwxTBaN7QgTvA6QsbnhGLCzz4/df0tMalo70CsON6/KKAxoXaWDwHIW8w+7PbCmpa
+         0CQ040wdisE2/xw9XS7lsmPqHTe09yCI9QRWTFWtd9ZtIFY5tZL8CcLJkaq3Qwq/1pjZ
+         hz0F4SSjA9IU+1RP2EHxRxJdAp28aV2MXhoh38aMXdvGvWmZel9cDxEnwDWas1VH7YtM
+         9UUutKlR1wLkOz4Oto6SswemB1TqsfozUHmnwq5ED8PWzd1dygkkWmwB6AwbEw7STFxi
+         XalVTYjeqmejua1y0QCOTNNhp+K5fGI036/y7SbrjrR2isg3KeuHe/Sfo/te2Gktxh87
+         xU9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=mLJEKnUeVA+ZJaDeVq7C58HVHq2F7qzWQ7vIWWcH/9I=;
-        b=ARqVfzcIDC+2QP8x3EuzG7J5tBqk5WARKv5x1IZyyf1exlCH/qWnfohoyYrsqTwyfM
-         +aOHp5FLSKy5nfyU+H6pV88IxMQJaLiMeIb37CvlzrbWnMawYQsYC+1XIn+guzEegSRc
-         /8c59oWrF+12n/4p77G3nEXGxyWzlH1w47xK73D73ElwHSfnST7CtrrzJhbSh7mYuQVQ
-         IXBVTsvmdX1FDUXStUjCT3+EBf5kAbI4ILJcNT05TzjmaSuGgIta5ERYYCTAkahsk26U
-         S23vgAB154+GU4DjLRWPJkP+IUcGz7f7bquWcxmeDJ3Ql1icMUNVEQVOQOH2xOzY5BIx
-         WPEA==
-X-Gm-Message-State: AOAM530ELy151prN41uKREjQYNA3Ksxg5TQuqAS3HdmoZFPed2mKTgYz
-        vfeamzyPE4wdR43BQsZhRl86lw==
-X-Google-Smtp-Source: ABdhPJyznVD+crKQ6G6u0OsCozPGqZlakrH/5IfbsFoLhMCKNUnUBjBp31t4ativuEsftnsU7jqacA==
-X-Received: by 2002:a17:902:c401:b0:149:353c:9705 with SMTP id k1-20020a170902c40100b00149353c9705mr23328628plk.23.1640734736553;
-        Tue, 28 Dec 2021 15:38:56 -0800 (PST)
+        bh=qwG3+knHz/y15NSm8VuLqIc8tLJMm1hb1QKvFClBg7k=;
+        b=soHXwAb3vSuKT1+zxTBD2ymTmqM/pZlxYMINMRJrXtYzharl2HlgI1eFChnVg2u8ji
+         siq7BDG2vOXskSU5ro/bSeDc7iWh/WPOwKeC9DxChy5qiNIBJ2BEu5D2YnA4ZaUggvJB
+         uim0iRXungIAtDzyk4/ilKZdItAvRD2wuuWtEPa9aR0Zr7GLD4uWYFVMiIcjiUQQCgiz
+         VgiiAmQPJPLWWykDdwU5TF7r1gr/CAT5lb4fMX/WWbvGQkLJbslbXv79RWWvJ49nKuyz
+         fO3TJtO2m05j5vyA9D1Z5XwPxlaVSaExg6pn2LEqL5euV/UTdAWrQo6q0m0vPkt/jVeJ
+         IrUg==
+X-Gm-Message-State: AOAM531dEu9ZdS+qpSxxaNAkqlwMTLKLWqBQoBUsYHreYNb2O89lEL+l
+        E5hLWl/NLp8CB8Re6PfnHnm8ew==
+X-Google-Smtp-Source: ABdhPJxxqVLu3MJ+H57Rawx3JssQCVKS5xD1nhF8/2MBGh8YET98U7ys6HIqDxoO06iJGKE/yEOs/g==
+X-Received: by 2002:a17:902:d50e:b0:148:b614:54a1 with SMTP id b14-20020a170902d50e00b00148b61454a1mr23740168plg.163.1640735646088;
+        Tue, 28 Dec 2021 15:54:06 -0800 (PST)
 Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id f7sm19397673pfc.141.2021.12.28.15.38.55
+        by smtp.gmail.com with ESMTPSA id l6sm17236876pjt.54.2021.12.28.15.54.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Dec 2021 15:38:56 -0800 (PST)
-Date:   Tue, 28 Dec 2021 23:38:52 +0000
+        Tue, 28 Dec 2021 15:54:05 -0800 (PST)
+Date:   Tue, 28 Dec 2021 23:54:02 +0000
 From:   Sean Christopherson <seanjc@google.com>
 To:     Jing Liu <jing2.liu@intel.com>
 Cc:     x86@kernel.org, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -57,25 +57,78 @@ Cc:     x86@kernel.org, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
         shuah@kernel.org, jun.nakajima@intel.com, kevin.tian@intel.com,
         jing2.liu@linux.intel.com, guang.zeng@intel.com,
         wei.w.wang@intel.com, yang.zhong@intel.com
-Subject: Re: [PATCH v3 05/22] kvm: x86: Check permitted dynamic xfeatures at
+Subject: Re: [PATCH v3 09/22] kvm: x86: Enable dynamic XSAVE features at
  KVM_SET_CPUID2
-Message-ID: <YcugDN+9d8t4r9bV@google.com>
+Message-ID: <YcujmvvSEuoC2xRz@google.com>
 References: <20211222124052.644626-1-jing2.liu@intel.com>
- <20211222124052.644626-6-jing2.liu@intel.com>
+ <20211222124052.644626-10-jing2.liu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211222124052.644626-6-jing2.liu@intel.com>
+In-Reply-To: <20211222124052.644626-10-jing2.liu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On Wed, Dec 22, 2021, Jing Liu wrote:
-> Guest xstate permissions should be set by userspace VMM before vcpu
-> creation. Extend KVM_SET_CPUID2 to verify that every feature reported
-> in CPUID[0xD] has proper permission set.
+> Statically enable all xfeatures allowed by guest perm in
 
-Why?  Nothing in the changelog, code, or comments explains why KVM _needs_ to prevent
-userspace from advertising bogus features to the guest.  E.g. the virtual address
-width check exists because _KVM_ will do the wrong thing given a width other than 48
-or 57, and explicity says as much in a comment.
+Statically isn't the right word.  It's not dymanic with respect to running the
+vCPU, but it's certainly not static.  I think you can just omit "Statically"
+entirely.
+
+> KVM_SET_CPUID2, with fpstate buffer sized accordingly. This avoids
+> run-time expansion in the emulation and restore path of XCR0 and
+> XFD MSR [1].
+> 
+> Change kvm_vcpu_after_set_cpuid() to return error given fpstate
+> reallocation may fail.
+> 
+> [1] https://lore.kernel.org/all/20211214024948.048572883@linutronix.de/
+> 
+> Suggested-by: Thomas Gleixner <tglx@linutronix.de>
+> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Jing Liu <jing2.liu@intel.com>
+> ---
+>  arch/x86/kvm/cpuid.c | 24 +++++++++++++++++-------
+>  1 file changed, 17 insertions(+), 7 deletions(-)
+> 
+> diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
+> index a068373a7fbd..eb5a5070accb 100644
+> --- a/arch/x86/kvm/cpuid.c
+> +++ b/arch/x86/kvm/cpuid.c
+> @@ -204,10 +204,12 @@ void kvm_update_cpuid_runtime(struct kvm_vcpu *vcpu)
+>  }
+>  EXPORT_SYMBOL_GPL(kvm_update_cpuid_runtime);
+>  
+> -static void kvm_vcpu_after_set_cpuid(struct kvm_vcpu *vcpu)
+> +static int kvm_vcpu_after_set_cpuid(struct kvm_vcpu *vcpu)
+>  {
+>  	struct kvm_lapic *apic = vcpu->arch.apic;
+>  	struct kvm_cpuid_entry2 *best;
+> +	u64 xfeatures;
+> +	int r;
+>  
+>  	best = kvm_find_cpuid_entry(vcpu, 1, 0);
+>  	if (best && apic) {
+> @@ -222,9 +224,17 @@ static void kvm_vcpu_after_set_cpuid(struct kvm_vcpu *vcpu)
+>  	best = kvm_find_cpuid_entry(vcpu, 0xD, 0);
+>  	if (!best)
+>  		vcpu->arch.guest_supported_xcr0 = 0;
+> -	else
+> -		vcpu->arch.guest_supported_xcr0 =
+> -			(best->eax | ((u64)best->edx << 32)) & supported_xcr0;
+> +	else {
+> +		xfeatures = best->eax | ((u64)best->edx << 32);
+> +
+> +		vcpu->arch.guest_supported_xcr0 = xfeatures & supported_xcr0;
+> +
+> +		if (xfeatures != vcpu->arch.guest_fpu.xfeatures) {
+> +			r = fpu_update_guest_perm_features(&vcpu->arch.guest_fpu);
+> +			if (r)
+> +				return r;
+
+IMO, this should be done and check before "committing" state, otherwise KVM will
+set the vCPU's CPUID info and update a variety of state, but then tell userspace
+that it failed.  The -EPERM case in particular falls squarely into the "check"
+category.
