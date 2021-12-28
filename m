@@ -2,26 +2,26 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8178C43219
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Dec 2021 13:29:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 983A6C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Dec 2021 13:29:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233281AbhL1N3I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Dec 2021 08:29:08 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:34858 "EHLO
-        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232835AbhL1N3D (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Dec 2021 08:29:03 -0500
-Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.56])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JNb2n1YVnzccFY;
-        Tue, 28 Dec 2021 21:28:33 +0800 (CST)
+        id S233560AbhL1N3P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Dec 2021 08:29:15 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:29303 "EHLO
+        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233070AbhL1N3G (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Dec 2021 08:29:06 -0500
+Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.53])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JNb2q6Xh9zbjhF;
+        Tue, 28 Dec 2021 21:28:35 +0800 (CST)
 Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
+ dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 28 Dec 2021 21:29:01 +0800
+ 15.1.2308.20; Tue, 28 Dec 2021 21:29:04 +0800
 Received: from thunder-town.china.huawei.com (10.174.178.55) by
  dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 28 Dec 2021 21:28:59 +0800
+ 15.1.2308.20; Tue, 28 Dec 2021 21:29:02 +0800
 From:   Zhen Lei <thunder.leizhen@huawei.com>
 To:     Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
@@ -43,9 +43,9 @@ CC:     Zhen Lei <thunder.leizhen@huawei.com>,
         Kefeng Wang <wangkefeng.wang@huawei.com>,
         Chen Zhou <dingguo.cz@antgroup.com>,
         "John Donnelly" <John.p.donnelly@oracle.com>
-Subject: [PATCH v19 06/13] kexec: move crashk[_low]_res to crash_core module
-Date:   Tue, 28 Dec 2021 21:26:05 +0800
-Message-ID: <20211228132612.1860-7-thunder.leizhen@huawei.com>
+Subject: [PATCH v19 09/13] x86/setup: Use generic reserve_crashkernel_mem[_low]()
+Date:   Tue, 28 Dec 2021 21:26:08 +0800
+Message-ID: <20211228132612.1860-10-thunder.leizhen@huawei.com>
 X-Mailer: git-send-email 2.26.0.windows.1
 In-Reply-To: <20211228132612.1860-1-thunder.leizhen@huawei.com>
 References: <20211228132612.1860-1-thunder.leizhen@huawei.com>
@@ -60,109 +60,130 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Chen Zhou <chenzhou10@huawei.com>
+Use generic reserve_crashkernel_mem[_low]() to replace arch-specific
+reserve_crashkernel_low() and a partial implementation of
+reserve_crashkernel(). The only difference is that
+"insert_resource(&iomem_resource, &crashk_low_res);" is moved into
+reserve_crashkernel(), no functional change.
 
-Move the definition and declaration of global variable crashk[_low]_res
-from kexec module to crash_core module, in preparation of adding generic
-reserve_crashkernel_mem[_low]() to crash_core.c, the latter refers to
-variable crashk[_low]_res. Due to the config KEXEC automatically selects
-CRASH_CORE, and the header crash_core.h is included by kexec.h, so there
-is no functional change.
-
-Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
 Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
 ---
- include/linux/crash_core.h |  4 ++++
- include/linux/kexec.h      |  4 ----
- kernel/crash_core.c        | 16 ++++++++++++++++
- kernel/kexec_core.c        | 17 -----------------
- 4 files changed, 20 insertions(+), 21 deletions(-)
+ arch/x86/kernel/setup.c | 93 ++---------------------------------------
+ 1 file changed, 4 insertions(+), 89 deletions(-)
 
-diff --git a/include/linux/crash_core.h b/include/linux/crash_core.h
-index 598fd55d83c169e..f5437c9c9411fce 100644
---- a/include/linux/crash_core.h
-+++ b/include/linux/crash_core.h
-@@ -73,6 +73,10 @@ extern unsigned char *vmcoreinfo_data;
- extern size_t vmcoreinfo_size;
- extern u32 *vmcoreinfo_note;
+diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+index 22d63dbf5db0a58..ee2606b3b9da662 100644
+--- a/arch/x86/kernel/setup.c
++++ b/arch/x86/kernel/setup.c
+@@ -391,52 +391,6 @@ static void __init memblock_x86_reserve_range_setup_data(void)
+  */
  
-+/* Location of a reserved region to hold the crash kernel. */
-+extern struct resource crashk_res;
-+extern struct resource crashk_low_res;
-+
- Elf_Word *append_elf_note(Elf_Word *buf, char *name, unsigned int type,
- 			  void *data, size_t data_len);
- void final_note(Elf_Word *buf);
-diff --git a/include/linux/kexec.h b/include/linux/kexec.h
-index 0c994ae37729e1e..47e784d66ea8645 100644
---- a/include/linux/kexec.h
-+++ b/include/linux/kexec.h
-@@ -350,10 +350,6 @@ extern int kexec_load_disabled;
- #define KEXEC_FILE_FLAGS	(KEXEC_FILE_UNLOAD | KEXEC_FILE_ON_CRASH | \
- 				 KEXEC_FILE_NO_INITRAMFS)
- 
--/* Location of a reserved region to hold the crash kernel.
-- */
--extern struct resource crashk_res;
--extern struct resource crashk_low_res;
- extern note_buf_t __percpu *crash_notes;
- 
- /* flag to track if kexec reboot is in progress */
-diff --git a/kernel/crash_core.c b/kernel/crash_core.c
-index b7d024eb464d0ae..686d8a65e12a337 100644
---- a/kernel/crash_core.c
-+++ b/kernel/crash_core.c
-@@ -22,6 +22,22 @@ u32 *vmcoreinfo_note;
- /* trusted vmcoreinfo, e.g. we can make a copy in the crash memory */
- static unsigned char *vmcoreinfo_data_safecopy;
- 
-+/* Location of the reserved area for the crash kernel */
-+struct resource crashk_res = {
-+	.name  = "Crash kernel",
-+	.start = 0,
-+	.end   = 0,
-+	.flags = IORESOURCE_BUSY | IORESOURCE_SYSTEM_RAM,
-+	.desc  = IORES_DESC_CRASH_KERNEL
-+};
-+struct resource crashk_low_res = {
-+	.name  = "Crash kernel",
-+	.start = 0,
-+	.end   = 0,
-+	.flags = IORESOURCE_BUSY | IORESOURCE_SYSTEM_RAM,
-+	.desc  = IORES_DESC_CRASH_KERNEL
-+};
-+
- /*
-  * parsing the "crashkernel" commandline
-  *
-diff --git a/kernel/kexec_core.c b/kernel/kexec_core.c
-index 5a5d192a89ac307..1e0d4909bbb6b77 100644
---- a/kernel/kexec_core.c
-+++ b/kernel/kexec_core.c
-@@ -54,23 +54,6 @@ note_buf_t __percpu *crash_notes;
- /* Flag to indicate we are going to kexec a new kernel */
- bool kexec_in_progress = false;
- 
+ #ifdef CONFIG_KEXEC_CORE
 -
--/* Location of the reserved area for the crash kernel */
--struct resource crashk_res = {
--	.name  = "Crash kernel",
--	.start = 0,
--	.end   = 0,
--	.flags = IORESOURCE_BUSY | IORESOURCE_SYSTEM_RAM,
--	.desc  = IORES_DESC_CRASH_KERNEL
--};
--struct resource crashk_low_res = {
--	.name  = "Crash kernel",
--	.start = 0,
--	.end   = 0,
--	.flags = IORESOURCE_BUSY | IORESOURCE_SYSTEM_RAM,
--	.desc  = IORES_DESC_CRASH_KERNEL
--};
+-static int __init reserve_crashkernel_low(unsigned long long low_size)
+-{
+-#ifdef CONFIG_X86_64
+-	unsigned long long low_base = 0;
+-	unsigned long low_mem_limit;
 -
- int kexec_should_crash(struct task_struct *p)
+-	low_mem_limit = min(memblock_phys_mem_size(), CRASH_ADDR_LOW_MAX);
+-
+-	/* crashkernel=Y,low is not specified */
+-	if ((long)low_size < 0) {
+-		/*
+-		 * two parts from kernel/dma/swiotlb.c:
+-		 * -swiotlb size: user-specified with swiotlb= or default.
+-		 *
+-		 * -swiotlb overflow buffer: now hardcoded to 32k. We round it
+-		 * to 8M for other buffers that may need to stay low too. Also
+-		 * make sure we allocate enough extra low memory so that we
+-		 * don't run out of DMA buffers for 32-bit devices.
+-		 */
+-		low_size = max(swiotlb_size_or_default() + (8UL << 20), 256UL << 20);
+-	} else {
+-		/* passed with crashkernel=0,low ? */
+-		if (!low_size)
+-			return 0;
+-	}
+-
+-	low_base = memblock_phys_alloc_range(low_size, CRASH_ALIGN, 0, CRASH_ADDR_LOW_MAX);
+-	if (!low_base) {
+-		pr_err("Cannot reserve %ldMB crashkernel low memory, please try smaller size.\n",
+-		       (unsigned long)(low_size >> 20));
+-		return -ENOMEM;
+-	}
+-
+-	pr_info("Reserving %ldMB of low memory at %ldMB for crashkernel (low RAM limit: %ldMB)\n",
+-		(unsigned long)(low_size >> 20),
+-		(unsigned long)(low_base >> 20),
+-		(unsigned long)(low_mem_limit >> 20));
+-
+-	crashk_low_res.start = low_base;
+-	crashk_low_res.end   = low_base + low_size - 1;
+-	insert_resource(&iomem_resource, &crashk_low_res);
+-#endif
+-	return 0;
+-}
+-
+ static void __init reserve_crashkernel(void)
  {
- 	/*
+ 	unsigned long long crash_size, crash_base, total_mem, low_size;
+@@ -460,51 +414,12 @@ static void __init reserve_crashkernel(void)
+ 		return;
+ 	}
+ 
+-	/* 0 means: find the address automatically */
+-	if (!crash_base) {
+-		/*
+-		 * Set CRASH_ADDR_LOW_MAX upper bound for crash memory,
+-		 * crashkernel=x,high reserves memory over 4G, also allocates
+-		 * 256M extra low memory for DMA buffers and swiotlb.
+-		 * But the extra memory is not required for all machines.
+-		 * So try low memory first and fall back to high memory
+-		 * unless "crashkernel=size[KMG],high" is specified.
+-		 */
+-		if (!high)
+-			crash_base = memblock_phys_alloc_range(crash_size,
+-						CRASH_ALIGN, CRASH_ALIGN,
+-						CRASH_ADDR_LOW_MAX);
+-		if (!crash_base)
+-			crash_base = memblock_phys_alloc_range(crash_size,
+-						CRASH_ALIGN, CRASH_ALIGN,
+-						CRASH_ADDR_HIGH_MAX);
+-		if (!crash_base) {
+-			pr_info("crashkernel reservation failed - No suitable area found.\n");
+-			return;
+-		}
+-	} else {
+-		unsigned long long start;
+-
+-		start = memblock_phys_alloc_range(crash_size, CRASH_BASE_ALIGN, crash_base,
+-						  crash_base + crash_size);
+-		if (start != crash_base) {
+-			pr_info("crashkernel reservation failed - memory is in use.\n");
+-			return;
+-		}
+-	}
+-
+-	if (crash_base >= (1ULL << 32) && reserve_crashkernel_low(low_size)) {
+-		memblock_phys_free(crash_base, crash_size);
++	ret = reserve_crashkernel_mem(total_mem, crash_size, crash_base, low_size, high);
++	if (ret)
+ 		return;
+-	}
+-
+-	pr_info("Reserving %ldMB of memory at %ldMB for crashkernel (System RAM: %ldMB)\n",
+-		(unsigned long)(crash_size >> 20),
+-		(unsigned long)(crash_base >> 20),
+-		(unsigned long)(total_mem >> 20));
+ 
+-	crashk_res.start = crash_base;
+-	crashk_res.end   = crash_base + crash_size - 1;
++	if (crashk_low_res.end > crashk_low_res.start)
++		insert_resource(&iomem_resource, &crashk_low_res);
+ 	insert_resource(&iomem_resource, &crashk_res);
+ }
+ #else
 -- 
 2.25.1
 
