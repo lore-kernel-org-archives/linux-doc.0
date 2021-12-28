@@ -2,100 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7313FC433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Dec 2021 17:10:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 778C3C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Dec 2021 17:30:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236629AbhL1RKD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Dec 2021 12:10:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36106 "EHLO
+        id S236109AbhL1RaX convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Dec 2021 12:30:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236046AbhL1RKC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Dec 2021 12:10:02 -0500
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com [IPv6:2607:f8b0:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A730C061574;
-        Tue, 28 Dec 2021 09:10:02 -0800 (PST)
-Received: by mail-ot1-x32b.google.com with SMTP id i5-20020a05683033e500b0057a369ac614so25147657otu.10;
-        Tue, 28 Dec 2021 09:10:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=m1h8141w0K8XLjyoE9KrDpYHYTgv1VRu4YCN8VN6hyw=;
-        b=YqBldmZfgQmZ4/aHeJrUSjYR6vhUhHfIc2oez650BNeH3a/vI6eKw1YOInY2wWCrPA
-         OhxrV9WuWb5cTPBO7jH/eIVGLjxnPIMBQBZ/Q7zMku2YtqRxBm0z6rAXj2yyBetieMNJ
-         SEkB/odu5UXCBHvbd62L0XzEnSaTh9j7s+tpInS4+WxYrBdOiYUAiWM6LcIJyPFhcClJ
-         ukSDnvTSO+8zGcjwzPhOGzFOEzMa9bUHlL34dMWavsU0vfnagmcPQ0CY/AgMd/CszKDQ
-         CuXiWXf2y/nWGyEBmGUG2gXLVOTBPTQOh5QmEjQ00+w3U4V5i5y3edx2Han1zl3/DJfE
-         +yVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=m1h8141w0K8XLjyoE9KrDpYHYTgv1VRu4YCN8VN6hyw=;
-        b=IpL6eu7j2biX4NZsPkV7gnSvOpdvGFTQbIMFAbCuR5bd59Wf0tu30ZZ5iPd70IrJTp
-         Ay3DmDf/x0lYCbNZgp/ugaK4d/POK1Vc9rMkc8Q4d5Lo62fZNdlPxgQNaW6GhYi/oIk2
-         GZvYfmNX9CoIAHb9BRjql35g7HeRESVRsd6UfTRJBZI8RWhCZEpEAEVY2xMqn/bsrrtF
-         CS4n+2Njo2EzgsK2bz6EZp96Xa/xUg5nLTHi4ckUPNUDfQAFATGnh/Ef+dxk2cEeVhQx
-         I3piPM6J7pr7Esoy9vX/3b0qGvOqbrl7Z3tqAV6Am8tKyrO2D5PvVQqDtL3/H8t4DFLZ
-         3vGQ==
-X-Gm-Message-State: AOAM531xHozu4JM3bPCyU7+on/wMNEEDYHzEhuBHzTD6aHzhxBhS5M4u
-        OU5xnXpy/OHOFJgGA5Gx5/o=
-X-Google-Smtp-Source: ABdhPJzlUXwNK9vvQCQzyiUnDakNNFoJSLCSlWqEZjIRiQvjWYga5TpM/71tn7CLO+uiAOA9UTMj2A==
-X-Received: by 2002:a05:6830:4a9:: with SMTP id l9mr13202967otd.75.1640711402010;
-        Tue, 28 Dec 2021 09:10:02 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id bf17sm4073198oib.27.2021.12.28.09.10.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Dec 2021 09:10:01 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Tue, 28 Dec 2021 09:09:59 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Cosmin Tanislav <demonsingur@gmail.com>
-Cc:     cosmin.tanislav@analog.com, Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] hwmon: Add debugfs register access
-Message-ID: <20211228170959.GH1225572@roeck-us.net>
-References: <20211227224201.508331-1-demonsingur@gmail.com>
- <20211227224201.508331-2-demonsingur@gmail.com>
- <b8dbcf50-8478-02c0-7a94-ff5b2b04aa2e@roeck-us.net>
- <9b82bdf9-25a0-46cd-cfed-b86f114dc303@gmail.com>
+        with ESMTP id S231489AbhL1RaW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Dec 2021 12:30:22 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 774E1C061574;
+        Tue, 28 Dec 2021 09:30:22 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0716A612E2;
+        Tue, 28 Dec 2021 17:30:22 +0000 (UTC)
+Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp.kernel.org (Postfix) with ESMTPSA id EB3CFC36AE8;
+        Tue, 28 Dec 2021 17:30:14 +0000 (UTC)
+Date:   Tue, 28 Dec 2021 17:35:58 +0000
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Lars-Peter Clausen <lars@metafoo.de>
+Cc:     Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= 
+        <u.kleine-koenig@pengutronix.de>,
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        kernel@pengutronix.de,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        linux-iio@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org,
+        Patrick Havelange <patrick.havelange@essensium.com>,
+        Kamel Bouhara <kamel.bouhara@bootlin.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Syed Nayyar Waris <syednwaris@gmail.com>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+        David Lechner <david@lechnology.com>,
+        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        "Felipe Balbi (Intel)" <balbi@kernel.org>,
+        Raymond Tan <raymond.tan@intel.com>,
+        Benjamin Gaignard <benjamin.gaignard@st.com>
+Subject: Re: [PATCH v2 00/23] counter: cleanups and device lifetime fixes
+Message-ID: <20211228173558.3702faa2@jic23-huawei>
+In-Reply-To: <c8f6446e-748b-5845-ae60-5d6b8f3e8d39@metafoo.de>
+References: <20211227094526.698714-1-u.kleine-koenig@pengutronix.de>
+        <c8f6446e-748b-5845-ae60-5d6b8f3e8d39@metafoo.de>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9b82bdf9-25a0-46cd-cfed-b86f114dc303@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 28, 2021 at 06:51:40PM +0200, Cosmin Tanislav wrote:
-> 
-> 
-> On 12/28/21 18:13, Guenter Roeck wrote:
-> > On 12/27/21 2:42 PM, Cosmin Tanislav wrote:
-> > > From: Cosmin Tanislav <cosmin.tanislav@analog.com>
-> > > 
-> > > Similar to IIO, create a device directory inside debugfs
-> > > mount point, and create a direct_reg_access file inside
-> > > that directory, if debugfs_reg_access callback is defined
-> > > inside hwmon_ops.
-> > > 
-> > 
-> > Patch looks good afaics. I don't want to apply it now (ie for 5.17),
-> > though, because it is getting close and we don't have a use case.
-> > If you have one in mind, I'd suggest to submit it together with
-> > this patch, or we'll have to wait until there is a user.
-> > 
-> > Guenter
-> 
-> As I mentioned previously I have a local patch on top of the ADT7X10
-> refactor that uses this. I tested your modifications to my patchset on
-> the ADT7420 part and it seems to work just fine. I can push it on top of
-> either this patch or that patchset, your choice.
-> 
-The adt7x10 patches won't make it into 5.17 either, so all that will
-have to wait until 5.18. If I don't get a use case by then I may write
-one myself, but that won't happen now because I am about to be away
-from my computers for the next two weeks.
+On Mon, 27 Dec 2021 13:25:25 +0100
+Lars-Peter Clausen <lars@metafoo.de> wrote:
 
-Guenter
+> On 12/27/21 10:45 AM, Uwe Kleine-König wrote:
+> > [...]
+> >
+> >   - I wonder why counter is a bus and not a class device type. There is
+> >     no driver that would ever bind a counter device, is there? So
+> >     /sys/bus/counter/driver is always empty.
+> >  
+> There used to be a time when GKH said that we do not want new driver 
+> classes. And all new subsystems should use bus since bus is a superset 
+> of class. This restriction has been eased since then.
+> 
+> But it was around when the IIO subsystem was merged and since the 
+> counter subsystem originated from the IIO subsystem I assume it just 
+> copied this.
+> 
+
+Yup. Discussion about this back then with one view being there
+should never have been class in the first place.
+
+https://lore.kernel.org/lkml/4B571DA4.6070603@cam.ac.uk/
+
+For anyone who loves the history of these things...
+
+FWIW I think Greg suggested IIO should be a bus because we were hanging
+a bunch of different types of device off a class and it was getting messy.
+Kay then gave some history on class vs bus and suggested no new
+subsystem should use class.
+
+Ah well, opinions change over time!
+
+Also interesting to see we were discussing a bridge to input all that
+time ago and it's still not gone beyond various prototypes (with
+exception of touch screens).
+
+Jonathan
