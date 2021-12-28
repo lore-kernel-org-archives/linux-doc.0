@@ -2,95 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4563AC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Dec 2021 18:06:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A05ECC4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Dec 2021 23:38:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231545AbhL1SGm convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Dec 2021 13:06:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48614 "EHLO
+        id S237815AbhL1Xi5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Dec 2021 18:38:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231502AbhL1SGm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Dec 2021 13:06:42 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3011EC061574;
-        Tue, 28 Dec 2021 10:06:42 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A63C0612FA;
-        Tue, 28 Dec 2021 18:06:41 +0000 (UTC)
-Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp.kernel.org (Postfix) with ESMTPSA id 89844C36AE9;
-        Tue, 28 Dec 2021 18:06:37 +0000 (UTC)
-Date:   Tue, 28 Dec 2021 18:12:22 +0000
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     William Breathitt Gray <vilhelm.gray@gmail.com>,
-        Lars-Peter Clausen <lars@metafoo.de>, kernel@pengutronix.de,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        linux-iio@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 14/23] counter: Update documentation for new counter
- registration functions
-Message-ID: <20211228181222.72ab998c@jic23-huawei>
-In-Reply-To: <20211227094526.698714-15-u.kleine-koenig@pengutronix.de>
-References: <20211227094526.698714-1-u.kleine-koenig@pengutronix.de>
-        <20211227094526.698714-15-u.kleine-koenig@pengutronix.de>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-pc-linux-gnu)
+        with ESMTP id S231460AbhL1Xi5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Dec 2021 18:38:57 -0500
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61BA9C061574
+        for <linux-doc@vger.kernel.org>; Tue, 28 Dec 2021 15:38:57 -0800 (PST)
+Received: by mail-pl1-x633.google.com with SMTP id l16so2518450plg.10
+        for <linux-doc@vger.kernel.org>; Tue, 28 Dec 2021 15:38:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=mLJEKnUeVA+ZJaDeVq7C58HVHq2F7qzWQ7vIWWcH/9I=;
+        b=Eiy8qoIw/+H+Jfx8mcv3/R1UdB2Av9PpBgReHTaaSLr7QNRpRxLq2Xr0kD7QHsDQLc
+         jMqa1zT3VYLLajjYXGcTlBJkLplBff49xgT6WYc+qinCxPYmRcHZqFl1331GvJWLiTPM
+         UMB3HWJWlGt64de9dAl0DBNGEudpy6kP1IT9QM35aydC9vFp3PaU8s3D433UtOgV09Wf
+         USNkA1zZQqpuG59EIU44pHjzNmo61hM+1bBpTMMLERNSDAI0UV/88SjncVcabfNKo1SW
+         OIYUccn9ZusVP6iipAYQiS29AeygpxEa6zqUL+91px6gBunwGQBepHO7GRI2Y+8/xJUM
+         wjBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=mLJEKnUeVA+ZJaDeVq7C58HVHq2F7qzWQ7vIWWcH/9I=;
+        b=ARqVfzcIDC+2QP8x3EuzG7J5tBqk5WARKv5x1IZyyf1exlCH/qWnfohoyYrsqTwyfM
+         +aOHp5FLSKy5nfyU+H6pV88IxMQJaLiMeIb37CvlzrbWnMawYQsYC+1XIn+guzEegSRc
+         /8c59oWrF+12n/4p77G3nEXGxyWzlH1w47xK73D73ElwHSfnST7CtrrzJhbSh7mYuQVQ
+         IXBVTsvmdX1FDUXStUjCT3+EBf5kAbI4ILJcNT05TzjmaSuGgIta5ERYYCTAkahsk26U
+         S23vgAB154+GU4DjLRWPJkP+IUcGz7f7bquWcxmeDJ3Ql1icMUNVEQVOQOH2xOzY5BIx
+         WPEA==
+X-Gm-Message-State: AOAM530ELy151prN41uKREjQYNA3Ksxg5TQuqAS3HdmoZFPed2mKTgYz
+        vfeamzyPE4wdR43BQsZhRl86lw==
+X-Google-Smtp-Source: ABdhPJyznVD+crKQ6G6u0OsCozPGqZlakrH/5IfbsFoLhMCKNUnUBjBp31t4ativuEsftnsU7jqacA==
+X-Received: by 2002:a17:902:c401:b0:149:353c:9705 with SMTP id k1-20020a170902c40100b00149353c9705mr23328628plk.23.1640734736553;
+        Tue, 28 Dec 2021 15:38:56 -0800 (PST)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id f7sm19397673pfc.141.2021.12.28.15.38.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Dec 2021 15:38:56 -0800 (PST)
+Date:   Tue, 28 Dec 2021 23:38:52 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Jing Liu <jing2.liu@intel.com>
+Cc:     x86@kernel.org, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, pbonzini@redhat.com, corbet@lwn.net,
+        shuah@kernel.org, jun.nakajima@intel.com, kevin.tian@intel.com,
+        jing2.liu@linux.intel.com, guang.zeng@intel.com,
+        wei.w.wang@intel.com, yang.zhong@intel.com
+Subject: Re: [PATCH v3 05/22] kvm: x86: Check permitted dynamic xfeatures at
+ KVM_SET_CPUID2
+Message-ID: <YcugDN+9d8t4r9bV@google.com>
+References: <20211222124052.644626-1-jing2.liu@intel.com>
+ <20211222124052.644626-6-jing2.liu@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211222124052.644626-6-jing2.liu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 27 Dec 2021 10:45:17 +0100
-Uwe Kleine-König         <u.kleine-koenig@pengutronix.de> wrote:
+On Wed, Dec 22, 2021, Jing Liu wrote:
+> Guest xstate permissions should be set by userspace VMM before vcpu
+> creation. Extend KVM_SET_CPUID2 to verify that every feature reported
+> in CPUID[0xD] has proper permission set.
 
-> In order to replace the counter registration API also update the
-> documentation to the new way.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-Fine either way, but a suggestion below.
-
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-
-> ---
->  Documentation/driver-api/generic-counter.rst | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/driver-api/generic-counter.rst b/Documentation/driver-api/generic-counter.rst
-> index 1b487a331467..991b180c7b47 100644
-> --- a/Documentation/driver-api/generic-counter.rst
-> +++ b/Documentation/driver-api/generic-counter.rst
-> @@ -262,11 +262,11 @@ order to communicate with the device: to read and write various Signals
->  and Counts, and to set and get the "action mode" and "function mode" for
->  various Synapses and Counts respectively.
->  
-> -A defined counter_device structure may be registered to the system by
-> -passing it to the counter_register function, and unregistered by passing
-> -it to the counter_unregister function. Similarly, the
-> -devm_counter_register function may be used if device memory-managed
-> -registration is desired.
-> +A counter_device structure is supposed to be allocated using counter_alloc()
-> +and may be registered to the system by passing it to the counter_add()
-> +function, and unregistered by passing it to the counter_unregister function.
-
-I'd avoid the supposed to and the odd vague use of structure in the origin
-text and just go with
-
-A struct counter_device is allocated using counter_alloc()...
-
-
-> +There are device managed variants of these functions: devm_counter_alloc() and
-> +devm_counter_add().
->  
->  The struct counter_comp structure is used to define counter extensions
->  for Signals, Synapses, and Counts.
-
+Why?  Nothing in the changelog, code, or comments explains why KVM _needs_ to prevent
+userspace from advertising bogus features to the guest.  E.g. the virtual address
+width check exists because _KVM_ will do the wrong thing given a width other than 48
+or 57, and explicity says as much in a comment.
