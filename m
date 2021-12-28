@@ -2,71 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0D9CC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Dec 2021 04:34:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29C56C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Dec 2021 07:11:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233855AbhL1Ee7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Dec 2021 23:34:59 -0500
-Received: from mail-4317.proton.ch ([185.70.43.17]:28447 "EHLO
-        mail-4317.proton.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232698AbhL1Ee6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Dec 2021 23:34:58 -0500
-Date:   Tue, 28 Dec 2021 04:34:49 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alshehhi.io;
-        s=protonmail2; t=1640666096;
-        bh=qa6i7+1SPmqYUkwkNL+tG0H5j8YDywJ1Qf5kw8wim4Y=;
-        h=Date:To:From:Reply-To:Subject:Message-ID:From:To:Cc;
-        b=dx6dEDHVE28dmMvts6iozm3Lorso+hB26X8CEdLdExIgTeU20/sGG96+2l9rrrXZi
-         qO7d7jOGJoiRNAipp1VwvKmtSN6C14tS/EXwfauOnThhe6EAtYwQb5byMhGX0JrGMa
-         Fb3iFeprni0J36T2AubgvALTJRadv2x26vujHTJM1tGsLKettNxCpGEtKDz99zNsT/
-         7ML5MnEeGOlmu5P7Iy7NPnlZgjzxnGco2JRmCj1wl8PFVpeFWIwo5C6RwdzX5+E8/M
-         J1QGMdACbEOtrFBcRhIcC1WMT75lnUCHAV3hn3karkstSNEVhE3DQx8RgRCKL8GwdP
-         lgjk89Slw71eg==
-To:     linux-doc@vger.kernel.org
-From:   Husain Alshehhi <husain@alshehhi.io>
-Reply-To: Husain Alshehhi <husain@alshehhi.io>
-Subject: libelf is not included in the required software for building the kernel
-Message-ID: <87y245e49p.fsf@alshehhi.io>
+        id S235198AbhL1HL4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Dec 2021 02:11:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44804 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233209AbhL1HL4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Dec 2021 02:11:56 -0500
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B997C061574
+        for <linux-doc@vger.kernel.org>; Mon, 27 Dec 2021 23:11:56 -0800 (PST)
+Received: by mail-yb1-xb2e.google.com with SMTP id w13so17562247ybs.13
+        for <linux-doc@vger.kernel.org>; Mon, 27 Dec 2021 23:11:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=becP1jjOyB9Zc5Kpdz/XFloZ2OXY9I33/ixmWWfGveI=;
+        b=D4r5XemJkYeqjCjwvf0R6oUfS7m/ieMIFppExLgL1dMDBsXKbzb+lNrIcvtvoJ4zOr
+         d84t6VM5U8KM1s/kOqigkOIWS6ciWzhP7PzVFy7dSn4hGqKNF12YvCrD9ffsngTAts9m
+         eyAi/69g1BzWnAaZWLISEBcaSNURyrgV00RFOCtFlXtVK4dD3jz1FK/73uozQCWrI7Pb
+         pDS7YMYzdFgDzzcGme8FeZ9PB3Q7KPq7N3unHXggfWxFan3Az7qLuFKdBrS4ACGptW7x
+         lJKFkrtKwVXzwZX/79RGKmlcKpO2y91RgqEgWiGgwRYH4q0odkxMSt4SwaqTFXLtPD/c
+         HUkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=becP1jjOyB9Zc5Kpdz/XFloZ2OXY9I33/ixmWWfGveI=;
+        b=Gk+CgW+hNtZm1qUM324qTCl9XT4Dl6fUoRyvA21P3VxnlCKLoGUaBHU6lmowzlZPWu
+         xEJmxgayGfP5u0jkd+jT6AQb3FrX6FFuHcs7Wxz4TNO8cYhfjid/OcRYOzHevxIOEkz5
+         S1/+UFrbuhOKYILJ6KOAvY4A7+V7cfk/Ci7Y7dK+qtGKZ1PdbBEP6HzKT7kikbMLk+3M
+         Nb9WuZuXBPfm0C9O7Ve/Q/LWn0luct6gvbECx9LF/j2K5wQyHwrJYWuCECil1kSIdNyH
+         pHtAotPFgMqAfsrQYi6RojzxY6/ANmK2f/uCvwHsl0VjoadQ8DFokbDnBI3G2UddoSsx
+         yuCw==
+X-Gm-Message-State: AOAM532uZuzZgawCEgqIF4jnKNP3dVnVpfKIwZnfa9x6euqjnw50Jf1R
+        oRbdRAF3+zNwxgDeLyD3DQGXdtVzFne3BcF4WtI=
+X-Google-Smtp-Source: ABdhPJxYNkZurKm30qJ/e5uKR4Ow3kMUacy7mUZLwTddcduau6G361v8AbM8Lr7bs/y2enQE5rPHF0tp0yM/adsCnK4=
+X-Received: by 2002:a25:ae85:: with SMTP id b5mr13263674ybj.200.1640675514717;
+ Mon, 27 Dec 2021 23:11:54 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20211228021407.12449-1-tangyizhou@huawei.com> <20211228021407.12449-2-tangyizhou@huawei.com>
+In-Reply-To: <20211228021407.12449-2-tangyizhou@huawei.com>
+From:   yanteng si <siyanteng01@gmail.com>
+Date:   Tue, 28 Dec 2021 15:11:43 +0800
+Message-ID: <CAEensMyFYtKRv6bqywW5WY74OKpmXPR6H20B=n17CLx_tDKYCw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] docs/zh_CN: Cleanup index.rst
+To:     Tang Yizhou <tangyizhou@huawei.com>
+Cc:     Yanteng Si <siyanteng@loongson.cn>, Alex Shi <alexs@kernel.org>,
+        Alex Shi <seakeel@gmail.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, zhengbin13@huawei.com,
+        Yeechou Tang <tangyeechou@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The minimum requirement doc[1] does not list libelf. When building without =
-libelf, I got the following error:
-
-<stdin>:1:10: fatal error: libelf.h: No such file or directory
-compilation terminated.
-HOSTCC  /home/husain/src/linux/tools/objtool/fixdep.o
-HOSTLD  /home/husain/src/linux/tools/objtool/fixdep-in.o
-LINK    /home/husain/src/linux/tools/objtool/fixdep
-CC      /home/husain/src/linux/tools/objtool/exec-cmd.o
-CC      /home/husain/src/linux/tools/objtool/help.o
-CC      /home/husain/src/linux/tools/objtool/pager.o
-CC      /home/husain/src/linux/tools/objtool/parse-options.o
-CC      /home/husain/src/linux/tools/objtool/run-command.o
-CC      /home/husain/src/linux/tools/objtool/sigchain.o
-CC      /home/husain/src/linux/tools/objtool/subcmd-config.o
-LD      /home/husain/src/linux/tools/objtool/libsubcmd-in.o
-AR      /home/husain/src/linux/tools/objtool/libsubcmd.a
-CC      /home/husain/src/linux/tools/objtool/arch/x86/special.o
-In file included from /home/husain/src/linux/tools/objtool/include/objtool/=
-objtool.h:13,
-                from /home/husain/src/linux/tools/objtool/include/objtool/a=
-rch.h:11,
-                from /home/husain/src/linux/tools/objtool/include/objtool/c=
-heck.h:11,
-                from /home/husain/src/linux/tools/objtool/include/objtool/s=
-pecial.h:10,
-                from arch/x86/special.c:4:
-/home/husain/src/linux/tools/objtool/include/objtool/elf.h:10:10: fatal err=
-or: gelf.h: No such file or directory
-10 | #include <gelf.h>
- ^~~~~~~~
-
-Should libelf not be part of the list?
-
-[1] <https://www.kernel.org/doc/html/latest/process/changes.html>
-
+Tang Yizhou <tangyizhou@huawei.com> =E4=BA=8E2021=E5=B9=B412=E6=9C=8828=E6=
+=97=A5=E5=91=A8=E4=BA=8C 09:46=E5=86=99=E9=81=93=EF=BC=9A
+>
+> The Chinese version of many */index is not in the same order as the
+> English version. Put them to where they should be.
+>
+> Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
+Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+> ---
+>  Documentation/translations/zh_CN/index.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/t=
+ranslations/zh_CN/index.rst
+> index 46e14ec9963d..e7f5fa3e7502 100644
+> --- a/Documentation/translations/zh_CN/index.rst
+> +++ b/Documentation/translations/zh_CN/index.rst
+> @@ -104,13 +104,13 @@ TODOList:
+>     :maxdepth: 2
+>
+>     core-api/index
+> +   accounting/index
+>     cpu-freq/index
+>     iio/index
+> +   infiniband/index
+> +   virt/index
+>     sound/index
+>     filesystems/index
+> -   virt/index
+> -   infiniband/index
+> -   accounting/index
+>     scheduler/index
+>
+>  TODOList:
+> --
+> 2.17.1
+>
