@@ -2,289 +2,147 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86D99C4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Dec 2021 22:42:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB597C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Dec 2021 01:36:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233897AbhL0Wm1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Dec 2021 17:42:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47770 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229643AbhL0Wm0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Dec 2021 17:42:26 -0500
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6344C06173E;
-        Mon, 27 Dec 2021 14:42:25 -0800 (PST)
-Received: by mail-ed1-x52e.google.com with SMTP id w16so66712231edc.11;
-        Mon, 27 Dec 2021 14:42:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=acGGMkplWtNeHQ2mdvAW/XLbQNWacsZS02d5/9vOayk=;
-        b=BPhICOEdy9n0mW+PxvMqYCj9QMC8jQvQWJroFnUdX9quC6Gy/eDslOWgBoEGsaRcPE
-         /8sUriPw1CgaSnT6b8nDUyxyJFowm64ZMApxqtF44ba57gmEWfCTkZExCXtpg748Tp/A
-         ud2yBm/kHhoj4XiNB29qkBRE4wv/zGCan7PvcUSB6kff9aBJeX809qSss/Sb7BLVqqkV
-         GJ3sVfcE616lH/AbPhuTE3qJPXufCi/TF1YoI+Lr1ks03JTJIQ7+BcSW55rpE+VkK1wj
-         IdAQKZOQoWBiDuIzOqR2jlpLiEn/XKmfbg3Ir+4qblZ9xrk50OzvL2DMoN2DanXVuqIq
-         eeeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=acGGMkplWtNeHQ2mdvAW/XLbQNWacsZS02d5/9vOayk=;
-        b=VuFdMFvqM+4rFrE6Vf2KCwTbPMTCYnbF28w8VOe06maPcEvi9dS+WI7Ir0MK35w7x4
-         c9XQqFMSeufTYzeSdMO+cPRhYmoMwosA72ce+4FIsIoXgxfFcxVja8AN714mM8RjFJmc
-         yX8A7FGpp5qVpgeRx2PYPIKXOcZetPP+HZRyKaBzRIhcGrLGtM/TF0mqd74RUARjorwA
-         p/7B4vEzebd9GN5kTZLpBwmHeMJsFjpaKPUPeFqztBC7Q+CvjZNA9rIhvTUS3/2BjDXK
-         +ZEwOpP3AxmuLPiAHo3aJwMYPVPQkeltt73AfWu6e2r30VAQEwwIgxFa4Pcmf4c5HA4/
-         ja7A==
-X-Gm-Message-State: AOAM5330BMfYlegeH+rAP32EygrMFGd4MncrPBPnzO4fkQvixA8Ne1R4
-        ydytDE8MxIkR442oybh/dS8=
-X-Google-Smtp-Source: ABdhPJzod+OsJmxXBEAnbfCvwmtPpIDMnyLqyTjcX6EO1qknX2r3SZxpqVqR5mSKqfX+k0KnXZc+WQ==
-X-Received: by 2002:a17:906:5501:: with SMTP id r1mr15677804ejp.212.1640644944225;
-        Mon, 27 Dec 2021 14:42:24 -0800 (PST)
-Received: from demon-pc.localdomain ([79.112.215.103])
-        by smtp.gmail.com with ESMTPSA id sb13sm5566806ejc.26.2021.12.27.14.42.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Dec 2021 14:42:23 -0800 (PST)
-From:   Cosmin Tanislav <demonsingur@gmail.com>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     cosmin.tanislav@analog.com, demonsingur@gmail.com,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/1] hwmon: Add debugfs register access
-Date:   Tue, 28 Dec 2021 00:42:01 +0200
-Message-Id: <20211227224201.508331-2-demonsingur@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20211227224201.508331-1-demonsingur@gmail.com>
-References: <20211227224201.508331-1-demonsingur@gmail.com>
+        id S234177AbhL1Bg5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Dec 2021 20:36:57 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:17303 "EHLO
+        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232933AbhL1Bg4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Dec 2021 20:36:56 -0500
+Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.55])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JNHDb4YjGz91ys;
+        Tue, 28 Dec 2021 09:35:59 +0800 (CST)
+Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
+ dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Tue, 28 Dec 2021 09:36:54 +0800
+Received: from [10.174.177.243] (10.174.177.243) by
+ dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2308.20; Tue, 28 Dec 2021 09:36:53 +0800
+Message-ID: <8f30057e-da61-55b4-adf7-e35d91798806@huawei.com>
+Date:   Tue, 28 Dec 2021 09:36:53 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: (No subject)
+Content-Language: en-US
+To:     William Kucharski <william.kucharski@oracle.com>
+CC:     Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        "Matthew Wilcox" <willy@infradead.org>
+References: <20211227145903.187152-3-wangkefeng.wang@huawei.com>
+ <E2C9DE8E-F5D9-46E9-9298-B632A202B080@oracle.com>
+From:   Kefeng Wang <wangkefeng.wang@huawei.com>
+In-Reply-To: <E2C9DE8E-F5D9-46E9-9298-B632A202B080@oracle.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.177.243]
+X-ClientProxiedBy: dggeme702-chm.china.huawei.com (10.1.199.98) To
+ dggpemm500001.china.huawei.com (7.185.36.107)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Cosmin Tanislav <cosmin.tanislav@analog.com>
 
-Similar to IIO, create a device directory inside debugfs
-mount point, and create a direct_reg_access file inside
-that directory, if debugfs_reg_access callback is defined
-inside hwmon_ops.
-
-Signed-off-by: Cosmin Tanislav <cosmin.tanislav@analog.com>
----
- Documentation/hwmon/hwmon-kernel-api.rst |  9 +++
- drivers/hwmon/hwmon.c                    | 97 ++++++++++++++++++++++++
- include/linux/hwmon.h                    | 12 +++
- 3 files changed, 118 insertions(+)
-
-diff --git a/Documentation/hwmon/hwmon-kernel-api.rst b/Documentation/hwmon/hwmon-kernel-api.rst
-index c41eb6108103..d568a0bfa5fb 100644
---- a/Documentation/hwmon/hwmon-kernel-api.rst
-+++ b/Documentation/hwmon/hwmon-kernel-api.rst
-@@ -136,6 +136,8 @@ The list of hwmon operations is defined as::
- 		    u32 attr, int, long *);
- 	int (*write)(struct device *, enum hwmon_sensor_types type,
- 		     u32 attr, int, long);
-+	int (*reg_access)(struct device *dev, unsigned int reg,
-+			  unsigned int writeval, unsigned int *readval);
-   };
- 
- It defines the following operations.
-@@ -152,6 +154,13 @@ It defines the following operations.
-     Pointer to a function for writing a value to the chip. This function is
-     optional, but must be provided if any writeable attributes exist.
- 
-+* reg_access:
-+    Pointer to a function for writing or reading a register to the chip.
-+    This function is optional.
-+    WARNING: Drivers implementing this function must block any access that
-+    may cause issues such as power loss, board resets, flash corruption or
-+    bricking.
-+
- Each sensor channel is described with struct hwmon_channel_info, which is
- defined as follows::
- 
-diff --git a/drivers/hwmon/hwmon.c b/drivers/hwmon/hwmon.c
-index 3501a3ead4ba..027e5fc33114 100644
---- a/drivers/hwmon/hwmon.c
-+++ b/drivers/hwmon/hwmon.c
-@@ -10,6 +10,7 @@
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
- 
- #include <linux/bitops.h>
-+#include <linux/debugfs.h>
- #include <linux/device.h>
- #include <linux/err.h>
- #include <linux/gfp.h>
-@@ -35,6 +36,9 @@ struct hwmon_device {
- 	struct list_head tzdata;
- 	struct attribute_group group;
- 	const struct attribute_group **groups;
-+	unsigned int cached_reg_addr;
-+	char read_buf[20];
-+	unsigned int read_buf_len;
- };
- 
- #define to_hwmon_device(d) container_of(d, struct hwmon_device, dev)
-@@ -64,6 +68,90 @@ struct hwmon_thermal_data {
- 	struct thermal_zone_device *tzd;/* thermal zone device */
- };
- 
-+static struct dentry *hwmon_debugfs_dentry;
-+
-+static ssize_t hwmon_debugfs_read_reg(struct file *file,
-+				      char __user *userbuf,
-+				      size_t count, loff_t *ppos)
-+{
-+	struct hwmon_device *hwdev = file->private_data;
-+	unsigned int val;
-+	int ret;
-+
-+	if (*ppos > 0)
-+		return simple_read_from_buffer(userbuf, count, ppos,
-+					       hwdev->read_buf,
-+					       hwdev->read_buf_len);
-+
-+	ret = hwdev->chip->ops->reg_access(&hwdev->dev, hwdev->cached_reg_addr,
-+					   0, &val);
-+	if (ret)
-+		return ret;
-+
-+	hwdev->read_buf_len = snprintf(hwdev->read_buf, sizeof(hwdev->read_buf),
-+				       "0x%X\n", val);
-+
-+	return simple_read_from_buffer(userbuf, count, ppos, hwdev->read_buf,
-+				       hwdev->read_buf_len);
-+}
-+
-+static ssize_t hwmon_debugfs_write_reg(struct file *file,
-+				       const char __user *userbuf,
-+				       size_t count, loff_t *ppos)
-+{
-+	struct hwmon_device *hwdev = file->private_data;
-+	unsigned int reg, val;
-+	char buf[80];
-+	int ret;
-+
-+	count = min_t(size_t, count, sizeof(buf) - 1);
-+	if (copy_from_user(buf, userbuf, count))
-+		return -EFAULT;
-+
-+	buf[count] = 0;
-+
-+	ret = sscanf(buf, "%i %i", &reg, &val);
-+
-+	switch (ret) {
-+	case 1:
-+		hwdev->cached_reg_addr = reg;
-+		break;
-+	case 2:
-+		hwdev->cached_reg_addr = reg;
-+		ret = hwdev->chip->ops->reg_access(&hwdev->dev, reg, val, NULL);
-+		if (ret)
-+			return ret;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return count;
-+}
-+
-+static const struct file_operations hwmon_debugfs_reg_fops = {
-+	.open = simple_open,
-+	.read = hwmon_debugfs_read_reg,
-+	.write = hwmon_debugfs_write_reg,
-+};
-+
-+static void hwmon_device_register_debugfs(struct hwmon_device *hwdev)
-+{
-+	struct dentry *dir = debugfs_create_dir(dev_name(&hwdev->dev),
-+						hwmon_debugfs_dentry);
-+
-+	debugfs_create_file("direct_reg_access", 0644, dir, hwdev,
-+			    &hwmon_debugfs_reg_fops);
-+}
-+
-+static void hwmon_device_unregister_debugfs(struct hwmon_device *hwdev)
-+{
-+	struct dentry *dir = debugfs_lookup(dev_name(&hwdev->dev),
-+					    hwmon_debugfs_dentry);
-+
-+	debugfs_remove_recursive(dir);
-+}
-+
- static ssize_t
- name_show(struct device *dev, struct device_attribute *attr, char *buf)
- {
-@@ -114,6 +202,8 @@ static void hwmon_dev_release(struct device *dev)
- {
- 	struct hwmon_device *hwdev = to_hwmon_device(dev);
- 
-+	hwmon_device_unregister_debugfs(hwdev);
-+
- 	if (hwdev->group.attrs)
- 		hwmon_free_attrs(hwdev->group.attrs);
- 	kfree(hwdev->groups);
-@@ -817,6 +907,9 @@ __hwmon_device_register(struct device *dev, const char *name, void *drvdata,
- 		}
- 	}
- 
-+	if (chip && chip->ops->reg_access)
-+		hwmon_device_register_debugfs(hwdev);
-+
- 	return hdev;
- 
- free_hwmon:
-@@ -1062,12 +1155,16 @@ static int __init hwmon_init(void)
- 		pr_err("couldn't register hwmon sysfs class\n");
- 		return err;
- 	}
-+
-+	hwmon_debugfs_dentry = debugfs_create_dir("hwmon", NULL);
-+
- 	return 0;
- }
- 
- static void __exit hwmon_exit(void)
- {
- 	class_unregister(&hwmon_class);
-+	debugfs_remove(hwmon_debugfs_dentry);
- }
- 
- subsys_initcall(hwmon_init);
-diff --git a/include/linux/hwmon.h b/include/linux/hwmon.h
-index fad1f1df26df..587fb2931ac1 100644
---- a/include/linux/hwmon.h
-+++ b/include/linux/hwmon.h
-@@ -390,6 +390,16 @@ enum hwmon_intrusion_attributes {
-  *			Channel number
-  *		@val:	Value to write
-  *		The function returns 0 on success or a negative error number.
-+ * @reg_access:
-+ *		Callback to read or write register values.
-+ *		Parameters are:
-+ *		@dev:	Pointer to hardware monitoring device
-+ *		@reg:	Register address to read or write
-+ *		@writeval:
-+ *			Value to write to register. 0 when reading.
-+ *		@readval:
-+ *			Pointer to value read from register. NULL when writing.
-+ *		The function returns 0 on success or a negative error number.
-  */
- struct hwmon_ops {
- 	umode_t (*is_visible)(const void *drvdata, enum hwmon_sensor_types type,
-@@ -400,6 +410,8 @@ struct hwmon_ops {
- 		    u32 attr, int channel, const char **str);
- 	int (*write)(struct device *dev, enum hwmon_sensor_types type,
- 		     u32 attr, int channel, long val);
-+	int (*reg_access)(struct device *dev, unsigned int reg,
-+			  unsigned int writeval, unsigned int *readval);
- };
- 
- /**
--- 
-2.34.1
-
+On 2021/12/28 1:35, William Kucharski wrote:
+> You should also fix the existing typo in the documentation (inline):
+>
+>> On Dec 27, 2021, at 07:49, Kefeng Wang <wangkefeng.wang@huawei.com> wrote:
+>>
+>> ﻿This patch select HAVE_ARCH_HUGE_VMALLOC to let arm64 support huge
+>> vmalloc mappings.
+>>
+>> Cc: Catalin Marinas <catalin.marinas@arm.com>
+>> Cc: Will Deacon <will@kernel.org>
+>> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+>> ---
+>> Documentation/admin-guide/kernel-parameters.txt | 4 ++--
+>> arch/arm64/Kconfig                              | 1 +
+>> arch/arm64/kernel/module.c                      | 5 +++--
+>> 3 files changed, 6 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>> index 7b2f900fd243..e3f9fd7ec106 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -1639,7 +1639,7 @@
+>>             precedence over memory_hotplug.memmap_on_memory.
+>>
+>>
+>> -    hugevmalloc=    [PPC] Reguires CONFIG_HAVE_ARCH_HUGE_VMALLOC
+>> +    hugevmalloc=    [KNL,PPC,ARM64] Reguires CONFIG_HAVE_ARCH_HUGE_VMALLOC
+>>             Format: { on | off }
+>>             Default set by CONFIG_HUGE_VMALLOC_DEFAULT_ENABLED.
+> "Reguires" should be "Requires."
+Will fix, thanks.
+>
+>> @@ -3424,7 +3424,7 @@
+>>
+>>     nohugeiomap    [KNL,X86,PPC,ARM64] Disable kernel huge I/O mappings.
+>>
+>> -    nohugevmalloc    [PPC] Disable kernel huge vmalloc mappings.
+>> +    nohugevmalloc    [KNL,PPC,ARM64] Disable kernel huge vmalloc mappings.
+>>
+>>     nosmt        [KNL,S390] Disable symmetric multithreading (SMT).
+>>             Equivalent to smt=1.
+>> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+>> index 3bb0b67292b5..c34bbb4482b0 100644
+>> --- a/arch/arm64/Kconfig
+>> +++ b/arch/arm64/Kconfig
+>> @@ -142,6 +142,7 @@ config ARM64
+>>     select HAVE_ARCH_AUDITSYSCALL
+>>     select HAVE_ARCH_BITREVERSE
+>>     select HAVE_ARCH_COMPILER_H
+>> +    select HAVE_ARCH_HUGE_VMALLOC
+>>     select HAVE_ARCH_HUGE_VMAP
+>>     select HAVE_ARCH_JUMP_LABEL
+>>     select HAVE_ARCH_JUMP_LABEL_RELATIVE
+>> diff --git a/arch/arm64/kernel/module.c b/arch/arm64/kernel/module.c
+>> index 309a27553c87..af7b4cbace2b 100644
+>> --- a/arch/arm64/kernel/module.c
+>> +++ b/arch/arm64/kernel/module.c
+>> @@ -36,7 +36,8 @@ void *module_alloc(unsigned long size)
+>>         module_alloc_end = MODULES_END;
+>>
+>>     p = __vmalloc_node_range(size, MODULE_ALIGN, module_alloc_base,
+>> -                module_alloc_end, gfp_mask, PAGE_KERNEL, VM_DEFER_KMEMLEAK,
+>> +                module_alloc_end, gfp_mask, PAGE_KERNEL,
+>> +                VM_DEFER_KMEMLEAK | VM_NO_HUGE_VMAP,
+>>                 NUMA_NO_NODE, __builtin_return_address(0));
+>>
+>>     if (!p && IS_ENABLED(CONFIG_ARM64_MODULE_PLTS) &&
+>> @@ -55,7 +56,7 @@ void *module_alloc(unsigned long size)
+>>          */
+>>         p = __vmalloc_node_range(size, MODULE_ALIGN, module_alloc_base,
+>>                 module_alloc_base + SZ_2G, GFP_KERNEL,
+>> -                PAGE_KERNEL, 0, NUMA_NO_NODE,
+>> +                PAGE_KERNEL, VM_NO_HUGE_VMAP, NUMA_NO_NODE,
+>>                 __builtin_return_address(0));
+>>
+>>     if (p && (kasan_module_alloc(p, size, gfp_mask) < 0)) {
+>> -- 
+>> 2.26.2
+>>
+>>
