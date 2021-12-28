@@ -2,88 +2,138 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47475C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Dec 2021 08:34:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 479DCC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Dec 2021 10:26:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235684AbhL1Iev (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Dec 2021 03:34:51 -0500
-Received: from mengyan1223.wang ([89.208.246.23]:39554 "EHLO mengyan1223.wang"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231670AbhL1Iev (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 28 Dec 2021 03:34:51 -0500
-Received: from [IPv6:240e:358:1148:6f00:dc73:854d:832e:4] (unknown [IPv6:240e:358:1148:6f00:dc73:854d:832e:4])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature ECDSA (P-384) server-digest SHA384)
-        (Client did not present a certificate)
-        (Authenticated sender: xry111@mengyan1223.wang)
-        by mengyan1223.wang (Postfix) with ESMTPSA id AB33766215;
-        Tue, 28 Dec 2021 03:34:41 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mengyan1223.wang;
-        s=mail; t=1640680490;
-        bh=E5j+9tgFVq0+iQWcyDX7IvHFLuER19sgJwHZHiTOdJg=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=swfzuJLgiG9rKodcOUC7hK1Q9iGiLZByj83y7Dhnb+0+DfJExwXnD/wj4QfHuhdo7
-         ZsRum9/Q2KJQQzu7AJDbOOPIkp8r2gTZxoOAl7f5e8plvK7Cn4JskrjMOdpJtKbnLj
-         g5LqzaKlQQSMjbX4xtn8iR8S4Wnmd2wAIEd2HpNxCMa6PQNLYLMIsAapFYZFZ2KHE5
-         gixFHUCr+M5UaD/mmiyEj0ySHw7y4OGS2IMMM6SSGyt7quW1fF2EWbvpbw7J9vGSqp
-         jzLuY2LN1LS1Rb4Hy4xZV1DBO2yUH6iQ6D0exmU5/Av1G4Cdo5bjaN2TgT1/JVaGqk
-         Hf12T/vgAjttg==
-Message-ID: <587ab54d77af2fb4cdbe0530cdd5e550c3e968db.camel@mengyan1223.wang>
-Subject: Re: [PATCH V5 00/22] arch: Add basic LoongArch support
-From:   Xi Ruoyao <xry111@mengyan1223.wang>
-To:     Huacai Chen <chenhuacai@gmail.com>
-Cc:     Huacai Chen <chenhuacai@loongson.cn>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>
-Date:   Tue, 28 Dec 2021 16:34:33 +0800
-In-Reply-To: <CAAhV-H40oWqkD+tQ3=XA8ijQGukkeG5O1M1JL3v5i402dFLK+Q@mail.gmail.com>
-References: <20211013063656.3084555-1-chenhuacai@loongson.cn>
-         <722477bcc461238f96c3b038b2e3379ee49efdac.camel@mengyan1223.wang>
-         <CAAhV-H40oWqkD+tQ3=XA8ijQGukkeG5O1M1JL3v5i402dFLK+Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.2 
+        id S234275AbhL1K0o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Dec 2021 05:26:44 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:34852 "EHLO
+        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230112AbhL1K0m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Dec 2021 05:26:42 -0500
+Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.54])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JNW0P01swzccD4;
+        Tue, 28 Dec 2021 18:26:13 +0800 (CST)
+Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
+ dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Tue, 28 Dec 2021 18:26:40 +0800
+Received: from [10.174.177.243] (10.174.177.243) by
+ dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2308.20; Tue, 28 Dec 2021 18:26:39 +0800
+Message-ID: <3858de1f-cdbc-ff52-2890-4254d0f48b0a@huawei.com>
+Date:   Tue, 28 Dec 2021 18:26:39 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+From:   Kefeng Wang <wangkefeng.wang@huawei.com>
+Subject: Re: [PATCH v2 3/3] x86: Support huge vmalloc mappings
+To:     Dave Hansen <dave.hansen@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+        <x86@kernel.org>, <linux-arm-kernel@lists.infradead.org>
+CC:     Nicholas Piggin <npiggin@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        "Benjamin Herrenschmidt" <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Matthew Wilcox <willy@infradead.org>
+References: <20211227145903.187152-1-wangkefeng.wang@huawei.com>
+ <20211227145903.187152-4-wangkefeng.wang@huawei.com>
+ <70ff58bc-3a92-55c2-2da8-c5877af72e44@intel.com>
+Content-Language: en-US
+In-Reply-To: <70ff58bc-3a92-55c2-2da8-c5877af72e44@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.177.243]
+X-ClientProxiedBy: dggeme702-chm.china.huawei.com (10.1.199.98) To
+ dggpemm500001.china.huawei.com (7.185.36.107)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2021-12-21 at 15:53 +0800, Huacai Chen wrote:
 
-> On Mon, Dec 20, 2021 at 5:04 PM Xi Ruoyao <xry111@mengyan1223.wang>
-> wrote:
-> > 
-> > The snapshot panics on my system under high pressure (building and
-> > testing GCC).  The panic message is pasted, but it's kind of broken up
-> > likely because multiple CPU cores were outputing to the serial console
-> > simutaniously.
-> > 
-> > The config is attached.  I'm not sure the reason of the panic (bug in
-> > the patches or bug in mainline kernel?) Do you have some pointers to
-> > diagnostic and fix the issue?
-> > 
-> > [ 5391.004745] CPU 1 Unable to handle kernel paging request at virtual address 000000000040007e, era == 90000000003aa07c, ra == 90000000003aa84c
+On 2021/12/27 23:56, Dave Hansen wrote:
+> On 12/27/21 6:59 AM, Kefeng Wang wrote:
+>> This patch select HAVE_ARCH_HUGE_VMALLOC to let X86_64 and X86_PAE
+>> support huge vmalloc mappings.
+> In general, this seems interesting and the diff is simple.  But, I don't
+> see _any_ x86-specific data.  I think the bare minimum here would be a
+> few kernel compiles and some 'perf stat' data for some TLB events.
 
-/* snip */
+When the feature supported on ppc,
 
-> We also found that the latest github kernel has some stable issues,
-> and we are investigating.
+commit 8abddd968a303db75e4debe77a3df484164f1f33
+Author: Nicholas Piggin <npiggin@gmail.com>
+Date:   Mon May 3 19:17:55 2021 +1000
 
-I rebased the patches onto 438645193e59e91761ccb3fa55f6ce70b615ff93 and
-the problem *seems* gone.  Not sure if it's something fixed in the
-mainline or some more strange thing.
--- 
-Xi Ruoyao <xry111@mengyan1223.wang>
-School of Aerospace Science and Technology, Xidian University
+     powerpc/64s/radix: Enable huge vmalloc mappings
+
+     This reduces TLB misses by nearly 30x on a `git diff` workload on a
+     2-node POWER9 (59,800 -> 2,100) and reduces CPU cycles by 0.54%, due
+     to vfs hashes being allocated with 2MB pages.
+
+But the data could be different on different machine/arch.
+
+>> diff --git a/arch/x86/kernel/module.c b/arch/x86/kernel/module.c
+>> index 95fa745e310a..6bf5cb7d876a 100644
+>> --- a/arch/x86/kernel/module.c
+>> +++ b/arch/x86/kernel/module.c
+>> @@ -75,8 +75,8 @@ void *module_alloc(unsigned long size)
+>>   
+>>   	p = __vmalloc_node_range(size, MODULE_ALIGN,
+>>   				    MODULES_VADDR + get_module_load_offset(),
+>> -				    MODULES_END, gfp_mask,
+>> -				    PAGE_KERNEL, VM_DEFER_KMEMLEAK, NUMA_NO_NODE,
+>> +				    MODULES_END, gfp_mask, PAGE_KERNEL,
+>> +				    VM_DEFER_KMEMLEAK | VM_NO_HUGE_VMAP, NUMA_NO_NODE,
+>>   				    __builtin_return_address(0));
+>>   	if (p && (kasan_module_alloc(p, size, gfp_mask) < 0)) {
+>>   		vfree(p);
+> To figure out what's going on in this hunk, I had to look at the cover
+> letter (which I wasn't cc'd on).  That's not great and it means that
+> somebody who stumbles upon this in the code is going to have a really
+> hard time figuring out what is going on.  Cover letters don't make it
+> into git history.
+Sorry for that, will add more into arch's patch changelog.
+> This desperately needs a comment and some changelog material in *this*
+> patch.
+>
+> But, even the description from the cover letter is sparse:
+>
+>> There are some disadvantages about this feature[2], one of the main
+>> concerns is the possible memory fragmentation/waste in some scenarios,
+>> also archs must ensure that any arch specific vmalloc allocations that
+>> require PAGE_SIZE mappings(eg, module alloc with STRICT_MODULE_RWX)
+>> use the VM_NO_HUGE_VMAP flag to inhibit larger mappings.
+> That just says that x86 *needs* PAGE_SIZE allocations.  But, what
+> happens if VM_NO_HUGE_VMAP is not passed (like it was in v1)?  Will the
+> subsequent permission changes just fragment the 2M mapping?
+> .
+
+Yes, without VM_NO_HUGE_VMAP, it could fragment the 2M mapping.
+
+When module alloc with STRICT_MODULE_RWX on x86, it calls 
+__change_page_attr()
+
+from set_memory_ro/rw/nx which will split large page, so there is no 
+need to make
+
+module alloc with HUGE_VMALLOC.
+
+>                                   
+>
+>      
+>      
+
+
