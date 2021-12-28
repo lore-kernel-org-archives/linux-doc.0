@@ -2,118 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A3BBC4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Dec 2021 13:30:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4196EC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Dec 2021 15:37:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231245AbhL1Naa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Dec 2021 08:30:30 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:29304 "EHLO
-        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233155AbhL1N3H (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Dec 2021 08:29:07 -0500
-Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.55])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JNb2r6k72zbjkC;
-        Tue, 28 Dec 2021 21:28:36 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 28 Dec 2021 21:29:05 +0800
-Received: from thunder-town.china.huawei.com (10.174.178.55) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 28 Dec 2021 21:29:04 +0800
-From:   Zhen Lei <thunder.leizhen@huawei.com>
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
-        <linux-kernel@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
-        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        <kexec@lists.infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Will Deacon" <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        <devicetree@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>
-CC:     Zhen Lei <thunder.leizhen@huawei.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        "John Donnelly" <John.p.donnelly@oracle.com>
-Subject: [PATCH v19 10/13] arm64: kdump: introduce some macros for crash kernel reservation
-Date:   Tue, 28 Dec 2021 21:26:09 +0800
-Message-ID: <20211228132612.1860-11-thunder.leizhen@huawei.com>
-X-Mailer: git-send-email 2.26.0.windows.1
-In-Reply-To: <20211228132612.1860-1-thunder.leizhen@huawei.com>
-References: <20211228132612.1860-1-thunder.leizhen@huawei.com>
+        id S235205AbhL1Phq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Dec 2021 10:37:46 -0500
+Received: from mout.gmx.net ([212.227.17.20]:45653 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233403AbhL1Phq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 28 Dec 2021 10:37:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1640705844;
+        bh=qPVHr1Cdm7utmJPJfaeNrE6YdKsoKYUI7BwWZ99ZbhQ=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=Tie8b68Xkq+iIQPAjdQae+u7yKEvlhGT1riRgk6dqH2dISgwCW5p5ekSO/NV22yJc
+         ZgEQT+p0rtDxjkgK54e0TWH2sRlvU/v9kkKOwbJVY+31313pVXRtbu9kF7/GhqlzT5
+         pOYmgkDkCAUCggVQX5ML5zNLchOm9B3X+cZhxVkQ=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from esprimo-mx.fritz.box ([91.137.126.34]) by mail.gmx.net
+ (mrgmx105 [212.227.17.168]) with ESMTPSA (Nemesis) id
+ 1Mdvqg-1mTiXC2gas-00b3kM; Tue, 28 Dec 2021 16:37:24 +0100
+From:   Armin Wolf <W_Armin@gmx.de>
+To:     pali@kernel.org
+Cc:     jdelvare@suse.com, linux@roeck-us.net, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 2/4] Documentation: admin-guide: Add Documentation for undocumented dell_smm_hwmon parameters
+Date:   Tue, 28 Dec 2021 16:37:07 +0100
+Message-Id: <20211228153709.18317-2-W_Armin@gmx.de>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20211228153709.18317-1-W_Armin@gmx.de>
+References: <20211228153709.18317-1-W_Armin@gmx.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.174.178.55]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:t0q09+dJktMIkYLEje79XHgVMPeSpXRoIe1bj/Eaq6zjWVLdwYS
+ bg6gPAgifd40jlQ0MUzxUxUgGAeO34jIzr6tOhZvaryrWdxkJdGb0JT9ugl0Moh+IVV0lyM
+ 2rRhS4f+Q1qVU1Rrh5U1+RRw096UGCtC3NsYpHhRQpx6NA5q26ekePX4yo+MI/lZckC5kd+
+ 03qyYfidrb97bRBDWCJ7g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:2AsbUAUm/qo=:BNB+dH9GnMisPdEs7E+Gc8
+ ocrP6Myio9Z726EQ7K3FzwaIzxZsLtENRAh06PXv9I+SFPQKPo0EJZ6TuPZnCqRhR9MixxHOl
+ x4TrU+/p7YOnl2YhZ2ws742ow6y8dOnZrY6c+DZHsN55dhLNhoeHzoWUPkgT8u6v/heAbO5og
+ DKtawjuBhfwFKyZ8q3OKlm1O8Y3jjz8IvsYFaJ4q++1bYdnpq1bHbhJXZaXe5USfE4e86CCNH
+ c2SrHEjaaXzEG+tpxDbsEbIutim3vcBXJxOJjU3G6VsJonlBkJxayHKbtkLpd22RbT74XeUcY
+ qUOzhjxt5w09NE9vC0A1ba+TRGmUdWV6EsdFEeY78/q3dYO3remAzueyJblHC8buWJYGoxbXb
+ 8V7XM//OXI6bi5ZBArZhrqa9pCIjdIb8izvII/grFnCCH9IxNeSZinpFA256Gr3ty7zEl5g4B
+ gYE/kceSR42GD1ali1WYezSqTRuOxoJmlz4Gh3aX1CI8vL/h3saqC3ZsPC0vrRkvsnPzRG0zp
+ sfpOPabODErJO9esDBGL9012OZCjXy9W70jDyObxT5cGO1B3C/ajyhhbANR5wUxk3xcWJga8i
+ i0B1rbFH6MCaN77GUha81StlPwWiy1yOjnUwyOlAA23wEHruOq5ffQn1hEnek07vF75nbmlWz
+ B70MV7LivgoJu0B02C/9B3LWBCNR3t14cJM42j7GdIIG7OsJ6tDuqIostIz9znk5VNqbXfQLB
+ WDAphBHqE1n0ido8INEaM4zvS5fp+B64RunS8NOgqNDSyNaCDU/S7gwOO3Zz28QGaC9dinoSa
+ 8uRzTpbzkybf+BIQe7+BsnefudKcxwc0A98kJJA7jvGJdMeC5r9mBpFaLjOv9V5xGrWec9qLy
+ NiOeWGYSVDqxm0t+ryfZkImRC/Nv8pAAhzA7SCiw3deAtxf8Xdu0lHQ6iDR7Mgj43gc2ddwWe
+ +/hhcaL74NmfD5p5lxU4BZpcLcgAq2GOJ3iOWDJbyFvoXvi7a+wFr6jVBefy1MlHNGBBfO4Yd
+ AefL2vTUc2zKFoFXNyE2qA80yfXZ7vUSM9LcjSnr4vfZVWLJqjjFA07wxyKdiw06s+CXuekvz
+ IH9mzpbz7b/GhQ=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Chen Zhou <chenzhou10@huawei.com>
+Add documentation for fan_mult and fan_max.
 
-Introduce macro CRASH_ALIGN for alignment, macro CRASH_ADDR_LOW_MAX
-for upper bound of low crash memory, macro CRASH_ADDR_HIGH_MAX for
-upper bound of high crash memory, use macros instead.
+Signed-off-by: Armin Wolf <W_Armin@gmx.de>
+=2D--
+ Documentation/admin-guide/kernel-parameters.txt | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
-Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
-Tested-by: John Donnelly <John.p.donnelly@oracle.com>
-Tested-by: Dave Kleikamp <dave.kleikamp@oracle.com>
----
- arch/arm64/include/asm/kexec.h | 6 ++++++
- arch/arm64/mm/init.c           | 4 ++--
- 2 files changed, 8 insertions(+), 2 deletions(-)
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentati=
+on/admin-guide/kernel-parameters.txt
+index cb1331f85444..8dd07ca80934 100644
+=2D-- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -953,6 +953,12 @@
+ 			[HW] Allow controlling fans only if SYS_ADMIN
+                         capability is set.
 
-diff --git a/arch/arm64/include/asm/kexec.h b/arch/arm64/include/asm/kexec.h
-index 9839bfc163d7147..f019e78dede02dc 100644
---- a/arch/arm64/include/asm/kexec.h
-+++ b/arch/arm64/include/asm/kexec.h
-@@ -25,6 +25,12 @@
- 
- #define KEXEC_ARCH KEXEC_ARCH_AARCH64
- 
-+/* alignment for crash kernel dynamic regions */
-+#define CRASH_ALIGN		SZ_2M
++	dell_smm_hwmon.fan_mult=3D
++			[HW] Factor to multiply fan speed with.
 +
-+#define CRASH_ADDR_LOW_MAX	arm64_dma_phys_limit
-+#define CRASH_ADDR_HIGH_MAX	MEMBLOCK_ALLOC_ACCESSIBLE
++	dell_smm_hwmon.fan_max=3D
++			[HW] Maximum configurable fan speed.
 +
- #ifndef __ASSEMBLY__
- 
- /**
-diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-index a8834434af99ae0..be4595dc7459115 100644
---- a/arch/arm64/mm/init.c
-+++ b/arch/arm64/mm/init.c
-@@ -75,7 +75,7 @@ phys_addr_t arm64_dma_phys_limit __ro_after_init;
- static void __init reserve_crashkernel(void)
- {
- 	unsigned long long crash_base, crash_size;
--	unsigned long long crash_max = arm64_dma_phys_limit;
-+	unsigned long long crash_max = CRASH_ADDR_LOW_MAX;
- 	int ret;
- 
- 	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
-@@ -91,7 +91,7 @@ static void __init reserve_crashkernel(void)
- 		crash_max = crash_base + crash_size;
- 
- 	/* Current arm64 boot protocol requires 2MB alignment */
--	crash_base = memblock_phys_alloc_range(crash_size, SZ_2M,
-+	crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
- 					       crash_base, crash_max);
- 	if (!crash_base) {
- 		pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
--- 
-2.25.1
+ 	dfltcc=3D		[HW,S390]
+ 			Format: { on | off | def_only | inf_only | always }
+ 			on:       s390 zlib hardware support for compression on
+=2D-
+2.30.2
 
