@@ -2,159 +2,164 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3528DC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Dec 2021 08:19:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F99FC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Dec 2021 08:49:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234803AbhL2ITY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Dec 2021 03:19:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37610 "EHLO
+        id S239379AbhL2Itn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Dec 2021 03:49:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231653AbhL2ITY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Dec 2021 03:19:24 -0500
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 355F5C061574;
-        Wed, 29 Dec 2021 00:19:24 -0800 (PST)
-Received: by mail-pj1-x1032.google.com with SMTP id mj19so17947558pjb.3;
-        Wed, 29 Dec 2021 00:19:24 -0800 (PST)
+        with ESMTP id S234478AbhL2Itn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Dec 2021 03:49:43 -0500
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 444DCC061574;
+        Wed, 29 Dec 2021 00:49:43 -0800 (PST)
+Received: by mail-pl1-x62b.google.com with SMTP id c3so2206280pls.5;
+        Wed, 29 Dec 2021 00:49:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=zPn0YNREPKaJClRU8OUBuv5V6sERBqg4ufLucMLumk0=;
-        b=mgzk9DsAP0eR2g9ltO0Q8KG/EEd3W+u0rVeQ7HKBKvJW3pljnb8rh2yJ3/ojrUD1BT
-         SQyfMGWGPDaoNMgp6jDTxPloykAPJX18xYaMeLoB3u1OwUOPVacreMs6GqBFrSJBk+3Z
-         S51bnQpHj3MkOMUgvTMQhtKz/xzVQNzicpvms+Pz8QLGsR2Oy4fjUG47pelSmUoi2El0
-         3nHvf/b7nZcOsbCstq1DppY9ihBtCtzUQJErA0IiHyxrI0ph0HSAMWiArD8vrT2FMHIX
-         g6GCDfZOo2AvbLjt+Yd7Zk0bNwcEvG6QO2mdangBLDu7g1CgNvRx1GKo+tjFq3UcUMIe
-         /B3Q==
+        bh=mO2cAbVnF3v8h4rhBAATa6/9hT/HObJzVn6RR0z5/AY=;
+        b=fD9Kjs5q7zDK2mneIzHPuhxO8bD+RMXyEKIXls+aPyDcecx//wxzObDOrwIqupMoy2
+         DNOXSY3d3ZGAeYJN7jxSqgvqGqeiRDlpy/TKwsQQ/dW9eplzpE7KEs51W2IKXh2znZX4
+         e4SY0njUaYIY/kyJhYMQG0ssa0mDPU6PJqR0WQav/TBIkZM2jtFQ4730kIGFrtAagIM3
+         Zy50s7miw4gOsqxl2NOwLd0qPg4yyrDY+DZEzJAtRj933oIcVyX2hV8JOUl8StKkYxK0
+         ++H+4gSDCfQi6xr+EgbHyfX5doQq4aSo3bt55mUf+x1KvpDR8hJE8zlSSM1Fgmz0ai2D
+         u19g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=zPn0YNREPKaJClRU8OUBuv5V6sERBqg4ufLucMLumk0=;
-        b=zC+Ja5Q4EQIVICx+xdx/TEyDVlosJMTYpiRbiMH1IyB0U9DlJewRSrG7N+Wk/LSzmO
-         SVYG7VuE/26vyOlWbN3h3seUGxHSvUF7hdryyU9ilOTz8tgYT7VSztink7K45ttwmsf5
-         sX9ai50zZSKHy4es6yuNRqEHg8IkiDhennMTriofPxQJbYltxAvWgbd+YOm3lhd7enLe
-         YthgU1XyO6yZWx6DVZcaZnwlWQZ+FvCOzrxMabWG4ux50gyrURtjCDhb4153+7IiSey/
-         plEmeCYR1oB7OXDOGJjvnsxQz2plCpydL7W9X8uJYKQFeYU8FIotMW3+jgXI7mV/663u
-         hg7A==
-X-Gm-Message-State: AOAM5321NbGYsfzzgjEAJd4PsK01oZ9aNg+9uJloPo+jkQ6+qWe4xz4+
-        A4ICBfDTpjXZgWJvtJKn+xg=
-X-Google-Smtp-Source: ABdhPJzl70tcYj6SxenoavRIdG+UzS83FufJNpSHgFmxCilmYnGvctYhJblG/SxSlYdUMNP5HZMMAg==
-X-Received: by 2002:a17:90a:28c4:: with SMTP id f62mr30673551pjd.207.1640765963703;
-        Wed, 29 Dec 2021 00:19:23 -0800 (PST)
+        bh=mO2cAbVnF3v8h4rhBAATa6/9hT/HObJzVn6RR0z5/AY=;
+        b=evkjcTHywm6nL+FLiGSRtXwpeSrat23AUE9OoZXpQn35o2ZNl6r1LHt2/FsuDweAJ8
+         PKmUisI0TDb8lkYZ6C0M+o93y9KQGSgF7zP4hlwZSohpraFcQ4x9X3AajQZGrYA5iJlz
+         0SF0kC+C1F9BF1V3/r4/WL6OJU1WobDbWeLNRxNWYB0sqd/CudZdofKkgdUcu+Q8jTal
+         DeIgAMlOj3zzSu5DykmQFPsno5f1Oa97Bjy8Ra06YTQR/pQMYy4ljZdK9GXbhHxnNdGw
+         iehZJmGOHQ68+Jyfr+7rSMFtpLJnpZiod7rLoTT5xjrp/WdOoKo2EBIL6ewi/yCM1/er
+         5nzg==
+X-Gm-Message-State: AOAM531DZgIdksMiNVji2Nch6adAUZ7faB0PH0tUu4Awd9vTV5WnMomu
+        VmsgOL/xYIgFcD7PRSf5gh017zZUAickoA==
+X-Google-Smtp-Source: ABdhPJzVJgmgsptgAq+TdPzvOb5SL/XOlJJFyjQHNTX1+0ZlJN9DKairduymjzfmUhbXdYu+HVK07A==
+X-Received: by 2002:a17:90a:eb12:: with SMTP id j18mr31008291pjz.156.1640767782860;
+        Wed, 29 Dec 2021 00:49:42 -0800 (PST)
 Received: from shinobu (113x37x72x24.ap113.ftth.ucom.ne.jp. [113.37.72.24])
-        by smtp.gmail.com with ESMTPSA id o11sm20885308pjs.9.2021.12.29.00.19.19
+        by smtp.gmail.com with ESMTPSA id f16sm20733849pfv.191.2021.12.29.00.49.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Dec 2021 00:19:23 -0800 (PST)
-Date:   Wed, 29 Dec 2021 17:19:16 +0900
+        Wed, 29 Dec 2021 00:49:42 -0800 (PST)
+Date:   Wed, 29 Dec 2021 17:49:30 +0900
 From:   William Breathitt Gray <vilhelm.gray@gmail.com>
 To:     Jonathan Cameron <jic23@kernel.org>
-Cc:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Lars-Peter Clausen <lars@metafoo.de>, kernel@pengutronix.de,
+Cc:     Lars-Peter Clausen <lars@metafoo.de>,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, kernel@pengutronix.de,
         Jonathan Cameron <Jonathan.Cameron@huawei.com>,
         linux-iio@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 14/23] counter: Update documentation for new counter
- registration functions
-Message-ID: <YcwaBLxR5Q0u7Pbh@shinobu>
+        linux-kernel@vger.kernel.org,
+        Patrick Havelange <patrick.havelange@essensium.com>,
+        Kamel Bouhara <kamel.bouhara@bootlin.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Syed Nayyar Waris <syednwaris@gmail.com>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+        David Lechner <david@lechnology.com>,
+        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        "Felipe Balbi (Intel)" <balbi@kernel.org>,
+        Raymond Tan <raymond.tan@intel.com>,
+        Benjamin Gaignard <benjamin.gaignard@st.com>
+Subject: Re: [PATCH v2 00/23] counter: cleanups and device lifetime fixes
+Message-ID: <YcwhGmOdP6QPpB3A@shinobu>
 References: <20211227094526.698714-1-u.kleine-koenig@pengutronix.de>
- <20211227094526.698714-15-u.kleine-koenig@pengutronix.de>
- <20211228181222.72ab998c@jic23-huawei>
+ <c8f6446e-748b-5845-ae60-5d6b8f3e8d39@metafoo.de>
+ <20211228173558.3702faa2@jic23-huawei>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="geXJ3MLhspaaBqeG"
+        protocol="application/pgp-signature"; boundary="ulhIPNF0Gpal2K//"
 Content-Disposition: inline
-In-Reply-To: <20211228181222.72ab998c@jic23-huawei>
+In-Reply-To: <20211228173558.3702faa2@jic23-huawei>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---geXJ3MLhspaaBqeG
+--ulhIPNF0Gpal2K//
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 28, 2021 at 06:12:22PM +0000, Jonathan Cameron wrote:
-> On Mon, 27 Dec 2021 10:45:17 +0100
-> Uwe Kleine-K=C3=B6nig         <u.kleine-koenig@pengutronix.de> wrote:
+On Tue, Dec 28, 2021 at 05:35:58PM +0000, Jonathan Cameron wrote:
+> On Mon, 27 Dec 2021 13:25:25 +0100
+> Lars-Peter Clausen <lars@metafoo.de> wrote:
 >=20
-> > In order to replace the counter registration API also update the
-> > documentation to the new way.
+> > On 12/27/21 10:45 AM, Uwe Kleine-K=C3=B6nig wrote:
+> > > [...]
+> > >
+> > >   - I wonder why counter is a bus and not a class device type. There =
+is
+> > >     no driver that would ever bind a counter device, is there? So
+> > >     /sys/bus/counter/driver is always empty.
+> > > =20
+> > There used to be a time when GKH said that we do not want new driver=20
+> > classes. And all new subsystems should use bus since bus is a superset=
+=20
+> > of class. This restriction has been eased since then.
 > >=20
-> > Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-> Fine either way, but a suggestion below.
->=20
-> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
->=20
-> > ---
-> >  Documentation/driver-api/generic-counter.rst | 10 +++++-----
-> >  1 file changed, 5 insertions(+), 5 deletions(-)
+> > But it was around when the IIO subsystem was merged and since the=20
+> > counter subsystem originated from the IIO subsystem I assume it just=20
+> > copied this.
 > >=20
-> > diff --git a/Documentation/driver-api/generic-counter.rst b/Documentati=
-on/driver-api/generic-counter.rst
-> > index 1b487a331467..991b180c7b47 100644
-> > --- a/Documentation/driver-api/generic-counter.rst
-> > +++ b/Documentation/driver-api/generic-counter.rst
-> > @@ -262,11 +262,11 @@ order to communicate with the device: to read and=
- write various Signals
-> >  and Counts, and to set and get the "action mode" and "function mode" f=
-or
-> >  various Synapses and Counts respectively.
-> > =20
-> > -A defined counter_device structure may be registered to the system by
-> > -passing it to the counter_register function, and unregistered by passi=
-ng
-> > -it to the counter_unregister function. Similarly, the
-> > -devm_counter_register function may be used if device memory-managed
-> > -registration is desired.
-> > +A counter_device structure is supposed to be allocated using counter_a=
-lloc()
-> > +and may be registered to the system by passing it to the counter_add()
-> > +function, and unregistered by passing it to the counter_unregister fun=
-ction.
 >=20
-> I'd avoid the supposed to and the odd vague use of structure in the origin
-> text and just go with
+> Yup. Discussion about this back then with one view being there
+> should never have been class in the first place.
 >=20
-> A struct counter_device is allocated using counter_alloc()...
+> https://lore.kernel.org/lkml/4B571DA4.6070603@cam.ac.uk/
+>=20
+> For anyone who loves the history of these things...
+>=20
+> FWIW I think Greg suggested IIO should be a bus because we were hanging
+> a bunch of different types of device off a class and it was getting messy.
+> Kay then gave some history on class vs bus and suggested no new
+> subsystem should use class.
+>=20
+> Ah well, opinions change over time!
+>=20
+> Also interesting to see we were discussing a bridge to input all that
+> time ago and it's still not gone beyond various prototypes (with
+> exception of touch screens).
+>=20
+> Jonathan
 
-I like this simpler wording as well.
+Yes this is the reason: Counter subsystem just followed the structure of
+the IIO subsystem originally which is how it ended up as a bus; changing
+it to a class now would break userspace expectations so that is why it
+remains a bus still.
 
-Acked-by: William Breathitt Gray <vilhelm.gray@gmail.com>
+William Breathitt Gray
 
->=20
->=20
-> > +There are device managed variants of these functions: devm_counter_all=
-oc() and
-> > +devm_counter_add().
-> > =20
-> >  The struct counter_comp structure is used to define counter extensions
-> >  for Signals, Synapses, and Counts.
->=20
-
---geXJ3MLhspaaBqeG
+--ulhIPNF0Gpal2K//
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEk5I4PDJ2w1cDf/bghvpINdm7VJIFAmHMGgMACgkQhvpINdm7
-VJKEHxAAiM4FpOf1LHAPzY0VW7ZrYmEIyT1WH9atJ4dbXN8JeDRS6OklfZfHcH07
-ZYjulTVrOKg3dEWSil6xQqESAj8tSVtrfotEM8VOD+4x+v0pXGU7u2tgBnlEPcP1
-cB1ze+RvUqGO584fStC81q4huvosT9Jnd/iSd/XzGBVeOj2AY2r0dQjGQygLNuk2
-M2gGv+jvF7ZbZNoqXBl/GlHLuLTeiEcoOXL5YG2d2p7grHUpIPWhPZIsqTS+LjcI
-4oiSKx3MXlYfDYCKmQrIuocOLowkB3rLUAmsBLjOR9SCOqQq/spQeRhzWGQYjEwZ
-E2IB+6F6xQBAzq6wzMjtkRqjUdtJtg/4hFVouaf3PkTB/QVBrSOIeFd7jVPbZaIy
-+4kedob1brY0mxLiOE7Z0cGzNS/Hn0UnwZhduvEaGZLh1rVlIWDQnLLf7NdGpraz
-oVnhEkZGsGzp9TUZdT84E5LDoAHnrTWHr41VmtneIPH1yMiQIi6XrAmGABnolbJR
-8rq5Ob915k9U6A6bfQf6XwLGhZPKNBm0BnxBYr5JcfaXEVdX99TmkQPlA4N4+zpC
-pJ5NeZlHEsnj8JtjKFDPX5Us0zPOTd3lBuirkVLnLf423d5QzPyDgj57ripIT+ZN
-gw2m4kENozFwiRX0cwPzxbbSqTZh1ZBqWsNBZ/IfSMnK7rnewVo=
-=2iIA
+iQIzBAABCgAdFiEEk5I4PDJ2w1cDf/bghvpINdm7VJIFAmHMIRoACgkQhvpINdm7
+VJKdGw/8DSuO6HGcXF2c1ChPZDJ+eF7e4FwznBOmwFZuui+Etz1RjciazjOGXRwC
+qi/+e6qNrOcZoQr5IQ+BNrSbMN+pBR9zFSsxBu1HdfrUAFq6uzmaYdC3cUtrY0OV
+jPPldinP4VhASWRokScS1xR+CFrP8YEwzsIljGAhRpYfXlm87EfY8xPcBLW/EOYb
+Ex4gBeYBaW3E5Ath2Ho6VMTb9Kcni+jIOSrxvhHv/XkewguyGJIXK8yy57BtwhDv
+lLUG8LoV43mFYYQJHi/+UvYC+qoHvvlHGUVPatA6/uRP8JnWp1QN3jO6bQulti3T
+SzWYjrOzjOqfomVfuUakaNK1yYNgjhVEH+gykqcqMC0J+DZtg3+1PyAtNNZ38hxe
+Vp9+lFTA/06YeWHBuW+bAiskbPZ6LRc3jPB6uSlxd4YRpCqr8K9CU9EaAo3SuPV1
+zguKpB3drJ0Ifz6gjcr5mxDrCUoiseTd7Xi9uzDehuOet38g1PXfoisepp5KbYHl
+GKnqkVQzceOpLRpWkbv8ryhoMixVFG3mmwPzuxgkNinnEZWDFPskLNy7wAt7hIK9
+0r2PalzvaFpP+mh+A6kZwAtiCRtTU54yjEL15QerAeo2Cpb7/SQ60PbGr899MWi5
+8GpEW0v8QAjretoQiYeYiuYjcQqKJSiOgWY2FkzLYy01SBfBMSY=
+=PvzH
 -----END PGP SIGNATURE-----
 
---geXJ3MLhspaaBqeG--
+--ulhIPNF0Gpal2K//--
