@@ -2,179 +2,156 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F5AAC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Dec 2021 13:15:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CAAEC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Dec 2021 14:13:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236663AbhL2NPt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Dec 2021 08:15:49 -0500
-Received: from mga07.intel.com ([134.134.136.100]:28047 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236179AbhL2NPU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 29 Dec 2021 08:15:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1640783719; x=1672319719;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=7O+Es7o+eCrwHN35mK6kNOWodcC1efhp1RiDWaOF2Dw=;
-  b=CWOJ8UKq7Q0SJWzLNlMzrhEeDIzIoR7/k/zFXZXFpPF4HQfxcog3W99n
-   IiOKKeNs+cZxXafAWUDESnyemj1G45XQf8YsPqDUZGKXXFvzYcroFDohO
-   uPr+mOK7iiOD5crkh/rbgHxrOvo+rjSdI4Q6AtGeSdPYc+H7eV3xpATV6
-   z3iGIN5qW65+V661/iam4axTN2V/ASmvHeZ24ghReSx7Y653z0b2WB+ID
-   dv6EIQhTFev5eecSGGyoKYQTncwe/vBdWRSXeuX9+Yu3ytI2Vpwws8HLA
-   GmhWSdD1AENBOIwV2iVGHpMC7kEx86IVUiJ1JirANMhiVGA5bMWjhK2po
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10211"; a="304876170"
-X-IronPort-AV: E=Sophos;i="5.88,245,1635231600"; 
-   d="scan'208";a="304876170"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2021 05:13:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,245,1635231600"; 
-   d="scan'208";a="666281231"
-Received: from 984fee00bf64.jf.intel.com ([10.165.54.77])
-  by fmsmga001.fm.intel.com with ESMTP; 29 Dec 2021 05:13:44 -0800
-From:   Yang Zhong <yang.zhong@intel.com>
-To:     x86@kernel.org, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, pbonzini@redhat.com, corbet@lwn.net,
-        shuah@kernel.org
-Cc:     seanjc@google.com, jun.nakajima@intel.com, kevin.tian@intel.com,
-        jing2.liu@linux.intel.com, jing2.liu@intel.com,
-        guang.zeng@intel.com, wei.w.wang@intel.com, yang.zhong@intel.com
-Subject: [PATCH v4 21/21] kvm: x86: Disable interception for IA32_XFD on demand
-Date:   Wed, 29 Dec 2021 05:13:28 -0800
-Message-Id: <20211229131328.12283-22-yang.zhong@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211229131328.12283-1-yang.zhong@intel.com>
-References: <20211229131328.12283-1-yang.zhong@intel.com>
+        id S239896AbhL2ON0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Dec 2021 09:13:26 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:15990 "EHLO
+        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236061AbhL2ON0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Dec 2021 09:13:26 -0500
+Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.55])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JPCwF5HSczVhMD;
+        Wed, 29 Dec 2021 22:10:05 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Wed, 29 Dec 2021 22:13:24 +0800
+Received: from [10.174.178.55] (10.174.178.55) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Wed, 29 Dec 2021 22:13:22 +0800
+Subject: Re: [PATCH v19 02/13] x86/setup: Use parse_crashkernel_high_low() to
+ simplify code
+To:     Dave Young <dyoung@redhat.com>, Borislav Petkov <bp@alien8.de>
+CC:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, <x86@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>, <linux-kernel@vger.kernel.org>,
+        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        <kexec@lists.infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Will Deacon" <will@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        <devicetree@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        "Chen Zhou" <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>
+References: <20211228132612.1860-1-thunder.leizhen@huawei.com>
+ <20211228132612.1860-3-thunder.leizhen@huawei.com> <Ycs3kpZD/vpoo1AX@zn.tnic>
+ <b017a8ea-989b-c251-f5c8-a8a7940877cf@huawei.com>
+ <YcwN9Mfwsh/lPbbd@dhcp-128-65.nay.redhat.com>
+ <YcwSCAuEgO10DFDT@dhcp-128-65.nay.redhat.com> <Ycw0V1CmBPCPqexn@zn.tnic>
+ <Ycw6s6DwZuHjckXL@dhcp-128-65.nay.redhat.com>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <050a33f3-7a87-62ce-00bb-92b5d30915d1@huawei.com>
+Date:   Wed, 29 Dec 2021 22:13:11 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <Ycw6s6DwZuHjckXL@dhcp-128-65.nay.redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Kevin Tian <kevin.tian@intel.com>
 
-Always intercepting IA32_XFD causes non-negligible overhead when this
-register is updated frequently in the guest.
 
-Disable r/w emulation after intercepting the first WRMSR(IA32_XFD)
-with a non-zero value.
+On 2021/12/29 18:38, Dave Young wrote:
+> On 12/29/21 at 11:11am, Borislav Petkov wrote:
+>> On Wed, Dec 29, 2021 at 03:45:12PM +0800, Dave Young wrote:
+>>> BTW, I would suggest to wait for reviewers to response (eg. one week at
+>>> least, or more due to the holidays) before updating another version
+>>>
+>>> Do not worry to miss the 5.17.  I would say take it easy if it will
+>>> miss then let's just leave with it and continue to work on the future
+>>> improvements.  I think one reason this issue takes too long time is that it was
+>>> discussed some time but no followup and later people need to warm up
+>>> again.  Just keep it warm and continue to engage in the improvements, do
+>>> not hurry for the specific mainline release.
+>>
+>> Can you tell this to *all* patch submitters please?
+> 
+> I appreciate you further explanation below to describe the situation.  I do not
+> see how can I tell this to *all* submitters,  but I am and I will try to do this
+> as far as I can.  Maintainers and patch submitters, it would help for both
+> parties show sympathy with each other, some soft reminders will help
+> people to understand each other, especially for new comers.
+> 
+>>
+>> I can't count the times where people simply hurry to send the new
+>> revision just to get it in the next kernel, and make silly mistakes
+>> while doing so. Or not think things straight and misdesign it all.
+>>
+>> And what this causes is the opposite of what they wanna achieve - pissed
+>> maintainers and ignored threads.
 
-Disable WRMSR emulation implies that IA32_XFD becomes out-of-sync
-with the software states in fpstate and the per-cpu xfd cache. Call
-fpu_sync_guest_vmexit_xfd_state() to bring them back in-sync, before
-preemption is enabled.
+I just hope the first 4 patches can be merged into v5.17. It seems to me
+that it is quite clear. Although the goal of the final stage is to modify
+function parse_crashkernel() according to the current opinion. But that's not a
+lightweight change after all. The final parse_crashkernel() change may take
+one version or two. In this process, it maybe OK to do a part of cleanup first.
 
-Always trap #NM once write interception is disabled for IA32_XFD.
-The #NM exception is rare if the guest doesn't use dynamic features.
-Otherwise, there is at most one exception per guest task given a
-dynamic feature.
+It's like someone who wants to buy a luxury car to commute to work six months
+later. He buys a cheap used car and sells it six months later. It sounds right
+to me, don't you think?
 
-p.s. We have confirmed that SDM is being revised to say that
-when setting IA32_XFD[18] the AMX register state is not guaranteed
-to be preserved. This clarification avoids adding mess for a creative
-guest which sets IA32_XFD[18]=1 before saving active AMX state to
-its own storage.
+>>
+>> And they all *know* that the next kernel is around the corner. So why
+>> the hell does it even matter when?
 
-Signed-off-by: Kevin Tian <kevin.tian@intel.com>
-Signed-off-by: Jing Liu <jing2.liu@intel.com>
-Signed-off-by: Yang Zhong <yang.zhong@intel.com>
----
- arch/x86/include/asm/kvm_host.h |  1 +
- arch/x86/kvm/vmx/vmx.c          | 23 ++++++++++++++++++-----
- arch/x86/kvm/vmx/vmx.h          |  2 +-
- arch/x86/kvm/x86.c              |  3 +++
- 4 files changed, 23 insertions(+), 6 deletions(-)
+Because all programmers should have confidence in the code they write. I have
+a new idea, and I'm free these days, so I updated v19. I can't rely on people
+telling me to take a step forward, then take a step forward. Otherwise, stand
+still.
 
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index 555f4de47ef2..a372dfe6f407 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -640,6 +640,7 @@ struct kvm_vcpu_arch {
- 	u64 smi_count;
- 	bool tpr_access_reporting;
- 	bool xsaves_enabled;
-+	bool xfd_no_write_intercept;
- 	u64 ia32_xss;
- 	u64 microcode_version;
- 	u64 arch_capabilities;
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index 638665b3e241..21c4d7409433 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -162,6 +162,7 @@ static u32 vmx_possible_passthrough_msrs[MAX_POSSIBLE_PASSTHROUGH_MSRS] = {
- 	MSR_FS_BASE,
- 	MSR_GS_BASE,
- 	MSR_KERNEL_GS_BASE,
-+	MSR_IA32_XFD,
- 	MSR_IA32_XFD_ERR,
- #endif
- 	MSR_IA32_SYSENTER_CS,
-@@ -766,10 +767,11 @@ void vmx_update_exception_bitmap(struct kvm_vcpu *vcpu)
- 	}
- 
- 	/*
--	 * Trap #NM if guest xfd contains a non-zero value so guest XFD_ERR
--	 * can be saved timely.
-+	 * Disabling xfd interception indicates that dynamically-enabled
-+	 * features might be used in the guest. Always trap #NM in this case
-+	 * for proper virtualization of guest xfd_err.
- 	 */
--	if (vcpu->arch.guest_fpu.fpstate->xfd)
-+	if (vcpu->arch.xfd_no_write_intercept)
- 		eb |= (1u << NM_VECTOR);
- 
- 	vmcs_write32(EXCEPTION_BITMAP, eb);
-@@ -1971,9 +1973,20 @@ static int vmx_set_msr(struct kvm_vcpu *vcpu, struct msr_data *msr_info)
- 		break;
- 	case MSR_IA32_XFD:
- 		ret = kvm_set_msr_common(vcpu, msr_info);
--		/* Update #NM interception according to guest xfd */
--		if (!ret)
-+		/*
-+		 * Always intercepting WRMSR could incur non-negligible
-+		 * overhead given xfd might be touched in guest context
-+		 * switch. Disable write interception upon the first write
-+		 * with a non-zero value (indicate potential guest usage
-+		 * on dynamic xfeatures). Also update exception bitmap
-+		 * to trap #NM for proper virtualization of guest xfd_err.
-+		 */
-+		if (!ret && data) {
-+			vmx_disable_intercept_for_msr(vcpu, MSR_IA32_XFD,
-+						      MSR_TYPE_RW);
-+			vcpu->arch.xfd_no_write_intercept = true;
- 			vmx_update_exception_bitmap(vcpu);
-+		}
- 		break;
- #endif
- 	case MSR_IA32_SYSENTER_CS:
-diff --git a/arch/x86/kvm/vmx/vmx.h b/arch/x86/kvm/vmx/vmx.h
-index bf9d3051cd6c..0a00242a91e7 100644
---- a/arch/x86/kvm/vmx/vmx.h
-+++ b/arch/x86/kvm/vmx/vmx.h
-@@ -340,7 +340,7 @@ struct vcpu_vmx {
- 	struct lbr_desc lbr_desc;
- 
- 	/* Save desired MSR intercept (read: pass-through) state */
--#define MAX_POSSIBLE_PASSTHROUGH_MSRS	14
-+#define MAX_POSSIBLE_PASSTHROUGH_MSRS	15
- 	struct {
- 		DECLARE_BITMAP(read, MAX_POSSIBLE_PASSTHROUGH_MSRS);
- 		DECLARE_BITMAP(write, MAX_POSSIBLE_PASSTHROUGH_MSRS);
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index 76e1941db223..4990d6de5359 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -10027,6 +10027,9 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
- 	if (vcpu->arch.guest_fpu.xfd_err)
- 		wrmsrl(MSR_IA32_XFD_ERR, 0);
- 
-+	if (vcpu->arch.xfd_no_write_intercept)
-+		fpu_sync_guest_vmexit_xfd_state();
-+
- 	/*
- 	 * Consume any pending interrupts, including the possible source of
- 	 * VM-Exit on SVM and any ticks that occur between VM-Exit and now.
+>>
+>> What most submitters fail to realize is, the moment your code hits
+>> upstream, it becomes the maintainers' problem and submitters can relax.
+
+Sorry, I'll make sure all the comments are collected and then send the next
+edition.
+
+>>
+>> But maintainers get to deal with this code forever. So after a while
+>> maintainers learn that they either accept ready code and it all just
+>> works or they make the mistake to take half-baked crap in and then they
+>> themselves get to clean it up and fix it.
+>>
+>> So maintainers learn quickly to push back.
+>>
+>> But it is annoying and it would help immensely if submitters would
+>> consider this and stop hurrying the code in but try to do a *good* job
+>> first, design-wise and code-wise by thinking hard about what they're
+>> trying to do.
+>>
+>> Yeah, things could be a lot simpler and easier - it only takes a little
+>> bit of effort...
+>>
+>> -- 
+>> Regards/Gruss,
+>>     Boris.
+>>
+>> https://people.kernel.org/tglx/notes-about-netiquette
+>>
+> 
+> Thanks
+> Dave
+> 
+> .
+> 
+
+-- 
+Regards,
+  Zhen Lei
