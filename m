@@ -2,125 +2,133 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32190C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Dec 2021 10:18:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF7BBC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Dec 2021 10:39:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239698AbhL2KSm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Dec 2021 05:18:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35532 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235445AbhL2KSm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Dec 2021 05:18:42 -0500
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBF39C061574
-        for <linux-doc@vger.kernel.org>; Wed, 29 Dec 2021 02:18:41 -0800 (PST)
-Received: by mail-wm1-x336.google.com with SMTP id l4so13247299wmq.3
-        for <linux-doc@vger.kernel.org>; Wed, 29 Dec 2021 02:18:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=DhXo7kMC0uPR2/PxJNBSCPHqufGQVkkQQH3q6s5xJ5w=;
-        b=fTW0JdR1ykzRRIY9dw57yS/8M99GGw9D5WoARy8fmCk5IFEFao0lWGNbbjQJkYt+Xy
-         3MNWPza2N21Cne2wpHD7iYG6Tc3pZFdHBl6alGSWaeBja4XGfd2dQLtkK5lYdBoAVuGN
-         7BFoU68lYLsNk0WNUFm6RUb7/Fmudi5PwInGqMFkncUajsRgjCOgl0/Eza4QJQ+7GZt0
-         DG+Us1/Dk7SO2aaYbGqoEo0noHRSFuaycOvCLnGZ6NidMlPa3IKnEhDEZtHpkQvt4wy1
-         fXT9/t0kqPyp+R9mVR+CmJj+0vOOR2/h0+awCHcbxM4HFsiu9vuhjXG6XErcuhQrPAjb
-         NHZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=DhXo7kMC0uPR2/PxJNBSCPHqufGQVkkQQH3q6s5xJ5w=;
-        b=NHZu3hVu0wwQACGHy+Rg9xFj/Lb0aj/ahf1+XSg4kNd01zMCqgsq7ZI/RQIjKUokSk
-         f8GLHVFc4iLgFfU6W8VZUjjyG0AKWNhLxS7+i7gmEPbkeR9SmM8gghjKRCtGNg+EsGIb
-         siHrBlw4XdSGR+vDGVRmjL0uegzfq76TdQhRLoo1rZaNSiKrh0qENhox9fuhrB8xH9db
-         3raLc+lVF7EulzQXR+A1rOH9cSHqr0PnGWN+ddJmOIE5iybxT7FulFlzN0fhnXvIBteZ
-         CSoSk7DTwuVfSCjc5hmVxfhJ3qOkWsrTkJ3/e7T1XOPFN2hFbHE8q07o7cTW+Hi0gQxU
-         uWGA==
-X-Gm-Message-State: AOAM532XWL1CK8ftIsA0usLNZ+pf5Ib9Rn5kUnn52BXhGC8lsmaiFdxl
-        EbtZUOZ380DggNgQdFnBqUgWZA==
-X-Google-Smtp-Source: ABdhPJxlh/wswgV+eWD3Uf/3R7henCTK2h+kQsStrI5za04QhH9jaGk/3Wx/qaAyCvETvukN4Wz1CQ==
-X-Received: by 2002:a05:600c:a54:: with SMTP id c20mr20967140wmq.48.1640773120328;
-        Wed, 29 Dec 2021 02:18:40 -0800 (PST)
-Received: from google.com ([2.31.167.18])
-        by smtp.gmail.com with ESMTPSA id k6sm19938299wrc.38.2021.12.29.02.18.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Dec 2021 02:18:39 -0800 (PST)
-Date:   Wed, 29 Dec 2021 10:18:37 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Quan Nguyen <quan@os.amperecomputing.com>
-Cc:     Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
+        id S235570AbhL2KjI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Dec 2021 05:39:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60399 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231732AbhL2KjH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Dec 2021 05:39:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1640774347;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=gQ3Cw+k3UMeBdiHPh9g0eM12SBQJLgdBY7UIBnA37XI=;
+        b=MLZrw7vMFKPqBXrQQsDPZ+BZ0HR+aG/ED0jd7hw2bqcoYDlc9JuKPHvrY+ls839dt6JGez
+        hN4+DsNHc8qu4wwc4F0mTWCKRjSwRh5kucVa03aDwrqBOgPfmYrZ4Im3qUUm3j8RFkBsCM
+        jd0b2VHfkC97JSgm29l+IZgKgDOKRt8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-344-UEvHSK6OPI6jXkgkAr38Fw-1; Wed, 29 Dec 2021 05:39:03 -0500
+X-MC-Unique: UEvHSK6OPI6jXkgkAr38Fw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6FF581853028;
+        Wed, 29 Dec 2021 10:39:01 +0000 (UTC)
+Received: from dhcp-128-65.nay.redhat.com (ovpn-12-131.pek2.redhat.com [10.72.12.131])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 9634C6F11D;
+        Wed, 29 Dec 2021 10:38:46 +0000 (UTC)
+Date:   Wed, 29 Dec 2021 18:38:43 +0800
+From:   Dave Young <dyoung@redhat.com>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
+        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        kexec@lists.infradead.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
         Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
-        openbmc@lists.ozlabs.org, Mark Brown <broonie@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>,
-        Open Source Submission <patches@amperecomputing.com>,
-        Phong Vo <phong@os.amperecomputing.com>,
-        "Thang Q . Nguyen" <thang@os.amperecomputing.com>
-Subject: Re: [PATCH v6 8/9] misc: smpro-misc: Add Ampere's Altra SMpro misc
- driver
-Message-ID: <Ycw1/XufNWq/FUss@google.com>
-References: <20211224041352.29405-1-quan@os.amperecomputing.com>
- <20211224041352.29405-9-quan@os.amperecomputing.com>
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>
+Subject: Re: [PATCH v19 02/13] x86/setup: Use parse_crashkernel_high_low() to
+ simplify code
+Message-ID: <Ycw6s6DwZuHjckXL@dhcp-128-65.nay.redhat.com>
+References: <20211228132612.1860-1-thunder.leizhen@huawei.com>
+ <20211228132612.1860-3-thunder.leizhen@huawei.com>
+ <Ycs3kpZD/vpoo1AX@zn.tnic>
+ <b017a8ea-989b-c251-f5c8-a8a7940877cf@huawei.com>
+ <YcwN9Mfwsh/lPbbd@dhcp-128-65.nay.redhat.com>
+ <YcwSCAuEgO10DFDT@dhcp-128-65.nay.redhat.com>
+ <Ycw0V1CmBPCPqexn@zn.tnic>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211224041352.29405-9-quan@os.amperecomputing.com>
+In-Reply-To: <Ycw0V1CmBPCPqexn@zn.tnic>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 24 Dec 2021, Quan Nguyen wrote:
-
-> This commit adds driver support for accessing various information
-> reported by Ampere's SMpro co-processor such as Boot Progress and
-> other miscellaneous data.
+On 12/29/21 at 11:11am, Borislav Petkov wrote:
+> On Wed, Dec 29, 2021 at 03:45:12PM +0800, Dave Young wrote:
+> > BTW, I would suggest to wait for reviewers to response (eg. one week at
+> > least, or more due to the holidays) before updating another version
+> > 
+> > Do not worry to miss the 5.17.  I would say take it easy if it will
+> > miss then let's just leave with it and continue to work on the future
+> > improvements.  I think one reason this issue takes too long time is that it was
+> > discussed some time but no followup and later people need to warm up
+> > again.  Just keep it warm and continue to engage in the improvements, do
+> > not hurry for the specific mainline release.
 > 
-> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
-> ---
-> Change in v6:
->   + First introduced in v6 [Quan]
+> Can you tell this to *all* patch submitters please?
+
+I appreciate you further explanation below to describe the situation.  I do not
+see how can I tell this to *all* submitters,  but I am and I will try to do this
+as far as I can.  Maintainers and patch submitters, it would help for both
+parties show sympathy with each other, some soft reminders will help
+people to understand each other, especially for new comers.
+
 > 
->  drivers/mfd/smpro-mfd.c   |   1 +
-
-Please pull all of these patches out.
-
-There are no build dependencies here.
-
->  drivers/misc/Kconfig      |   7 ++
->  drivers/misc/Makefile     |   1 +
->  drivers/misc/smpro-misc.c | 177 ++++++++++++++++++++++++++++++++++++++
->  4 files changed, 186 insertions(+)
->  create mode 100644 drivers/misc/smpro-misc.c
+> I can't count the times where people simply hurry to send the new
+> revision just to get it in the next kernel, and make silly mistakes
+> while doing so. Or not think things straight and misdesign it all.
 > 
-> diff --git a/drivers/mfd/smpro-mfd.c b/drivers/mfd/smpro-mfd.c
-> index a7cd64bf9eaa..5611dd30f8f4 100644
-> --- a/drivers/mfd/smpro-mfd.c
-> +++ b/drivers/mfd/smpro-mfd.c
-> @@ -28,6 +28,7 @@ static const struct regmap_config simple_word_regmap_config = {
->  static const struct mfd_cell smpro_devs[] = {
->  	MFD_CELL_NAME("smpro-hwmon"),
->  	MFD_CELL_NAME("smpro-errmon"),
-> +	MFD_CELL_NAME("smpro-misc"),
+> And what this causes is the opposite of what they wanna achieve - pissed
+> maintainers and ignored threads.
+> 
+> And they all *know* that the next kernel is around the corner. So why
+> the hell does it even matter when?
+> 
+> What most submitters fail to realize is, the moment your code hits
+> upstream, it becomes the maintainers' problem and submitters can relax.
+> 
+> But maintainers get to deal with this code forever. So after a while
+> maintainers learn that they either accept ready code and it all just
+> works or they make the mistake to take half-baked crap in and then they
+> themselves get to clean it up and fix it.
+> 
+> So maintainers learn quickly to push back.
+> 
+> But it is annoying and it would help immensely if submitters would
+> consider this and stop hurrying the code in but try to do a *good* job
+> first, design-wise and code-wise by thinking hard about what they're
+> trying to do.
+> 
+> Yeah, things could be a lot simpler and easier - it only takes a little
+> bit of effort...
+> 
+> -- 
+> Regards/Gruss,
+>     Boris.
+> 
+> https://people.kernel.org/tglx/notes-about-netiquette
+> 
 
-Misc is a Linuxisum which are not allowed in DT.
+Thanks
+Dave
 
-What does this driver actually do?
-
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
