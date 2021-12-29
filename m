@@ -2,163 +2,78 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B3E4C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Dec 2021 01:04:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F525C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Dec 2021 02:14:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238106AbhL2BEq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Dec 2021 20:04:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56220 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238098AbhL2BEp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Dec 2021 20:04:45 -0500
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5E97C06173F
-        for <linux-doc@vger.kernel.org>; Tue, 28 Dec 2021 17:04:45 -0800 (PST)
-Received: by mail-pj1-x102a.google.com with SMTP id y16-20020a17090a6c9000b001b13ffaa625so23068398pjj.2
-        for <linux-doc@vger.kernel.org>; Tue, 28 Dec 2021 17:04:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=RLUvpUldajX/uD1hF4CF9MP1nePIdmqOD0SE6y2fK84=;
-        b=ZAJQUiNgwa7h6tf1b5DH8PL5DwiQB1uiDF6VCT2xJ937ktLUHqlZMr1OrGN3yMHHy7
-         zNavcz5GkHXyE+iyX/2f/QlTZJbm+e6knE075WVt+g3fQhfnsQh7evH8DVkMxMZcbGwl
-         zuJuofe1ImCJuz0y0/15qY6DYdvZyYQzlY1ed0INydoLp5SyFkQJ/Rxb2ZodcYeytW2b
-         EDrJb0m8WuxfIJvxsUu2RyPvkfLnw6yaLAqV3jMJ/zKucENjt5XxXV9DqfaD8HGjBw/M
-         4NbLbAiunbr+hKk47MzhyQhe9LU2qw1sjXO4kRPYblqCY/9deHSaLTDmvJaqW225bYAI
-         HSYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=RLUvpUldajX/uD1hF4CF9MP1nePIdmqOD0SE6y2fK84=;
-        b=lK3eeXVVj48tezcpaTjNLGk1FqftKu6zyXQSITsUwhgrMhXD4YF97DKTyzX9dkWilM
-         QZZukpBFBp3uF00eSGhvKGO+HZSbUJ0DyldmFJnvoxOvo8eLLdMLwx2ms7aWM5Or49Dc
-         tSDO11JEfp/5PrS8yC7+gzlUM2/syMCODSoRMKZGW3sHFPdSP8ytAF4ExFU/UxNqqvsW
-         1B5tWu9pvhkBPkKfQrpu7hzAbcKUdsVNk47bALe2I/M5lbxjnRgkcW3PkWp21FlVwwOo
-         wYbc2MOR3DVtAcwgvdsCOfenVecylBjje6b913A7lICtQsC1C+WWRH2c5XKO0RSHvmkC
-         H3hA==
-X-Gm-Message-State: AOAM533pfG6QXGr55sd38S5/dqfyJJPPOiPc7OVnKtyk/CORf7YmBHXB
-        gfl2Hw3CGRmZwbHpOzMqFSG0NA==
-X-Google-Smtp-Source: ABdhPJxqI/tGgRuoxNXf1qM/sP5Q59qSN4lnMoNghPBa9dHEqeb9RCXuW33Z11sDTzhasWq1HxOiBQ==
-X-Received: by 2002:a17:902:7ed0:b0:149:663a:13d5 with SMTP id p16-20020a1709027ed000b00149663a13d5mr19181930plb.102.1640739884890;
-        Tue, 28 Dec 2021 17:04:44 -0800 (PST)
-Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id n64sm6454137pfn.49.2021.12.28.17.04.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Dec 2021 17:04:44 -0800 (PST)
-Date:   Wed, 29 Dec 2021 01:04:41 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Jing Liu <jing2.liu@intel.com>
-Cc:     x86@kernel.org, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, pbonzini@redhat.com, corbet@lwn.net,
-        shuah@kernel.org, jun.nakajima@intel.com, kevin.tian@intel.com,
-        jing2.liu@linux.intel.com, guang.zeng@intel.com,
-        wei.w.wang@intel.com, yang.zhong@intel.com
-Subject: Re: [PATCH v3 22/22] kvm: x86: Disable interception for IA32_XFD on
- demand
-Message-ID: <Ycu0KVq9PfuygKKx@google.com>
-References: <20211222124052.644626-1-jing2.liu@intel.com>
- <20211222124052.644626-23-jing2.liu@intel.com>
+        id S236890AbhL2COg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Dec 2021 21:14:36 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:17309 "EHLO
+        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230043AbhL2COg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Dec 2021 21:14:36 -0500
+Received: from dggpeml500026.china.huawei.com (unknown [172.30.72.57])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JNw1Z3Rl1z9rws;
+        Wed, 29 Dec 2021 10:13:38 +0800 (CST)
+Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
+ dggpeml500026.china.huawei.com (7.185.36.106) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Wed, 29 Dec 2021 10:14:34 +0800
+Received: from huawei.com (10.175.100.227) by dggpeml500006.china.huawei.com
+ (7.185.36.76) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Wed, 29 Dec
+ 2021 10:14:33 +0800
+From:   Tang Yizhou <tangyizhou@huawei.com>
+To:     <siyanteng@loongson.cn>, <siyanteng01@gmail.com>,
+        <alexs@kernel.org>, <seakeel@gmail.com>
+CC:     <linux-doc@vger.kernel.org>, <corbet@lwn.net>,
+        <zhengbin13@huawei.com>, <tangyeechou@gmail.com>,
+        Tang Yizhou <tangyizhou@huawei.com>
+Subject: [PATCH v3 1/3] docs/zh_CN: Cleanup index.rst
+Date:   Wed, 29 Dec 2021 10:42:10 +0800
+Message-ID: <20211229024212.32752-2-tangyizhou@huawei.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20211229024212.32752-1-tangyizhou@huawei.com>
+References: <20211229024212.32752-1-tangyizhou@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211222124052.644626-23-jing2.liu@intel.com>
+Content-Type: text/plain
+X-Originating-IP: [10.175.100.227]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpeml500006.china.huawei.com (7.185.36.76)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 22, 2021, Jing Liu wrote:
-> @@ -1968,6 +1969,9 @@ static int vmx_set_msr(struct kvm_vcpu *vcpu, struct msr_data *msr_info)
->  	case MSR_IA32_XFD:
->  		ret = kvm_set_msr_common(vcpu, msr_info);
->  		if (!ret && data) {
-> +			vmx_disable_intercept_for_msr(vcpu, MSR_IA32_XFD, MSR_TYPE_RW);
-> +			vcpu->arch.xfd_out_of_sync = true;
+Many */index in the Chinese index.rst are not in the same order as the
+English version. Put them to where they should be.
 
-xfd_out_of_sync is a poor name, as XFD _may_ be out of sync, or it may not.  It's
-also confusing that it's kept set after XFD is explicitly synchronized in
-vcpu_enter_guest().
+Signed-off-by: Tang Yizhou <tangyizhou@huawei.com>
+Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+---
+ Documentation/translations/zh_CN/index.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-> +
->  			vcpu->arch.trap_nm = true;
->  			vmx_update_exception_bitmap(vcpu);
+diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
+index 46e14ec9963d..e7f5fa3e7502 100644
+--- a/Documentation/translations/zh_CN/index.rst
++++ b/Documentation/translations/zh_CN/index.rst
+@@ -104,13 +104,13 @@ TODOList:
+    :maxdepth: 2
+ 
+    core-api/index
++   accounting/index
+    cpu-freq/index
+    iio/index
++   infiniband/index
++   virt/index
+    sound/index
+    filesystems/index
+-   virt/index
+-   infiniband/index
+-   accounting/index
+    scheduler/index
+ 
+ TODOList:
+-- 
+2.17.1
 
-Ah, this is why #NM interception was made sticky many patches ago.  More at the end.
-
->  		}
-> diff --git a/arch/x86/kvm/vmx/vmx.h b/arch/x86/kvm/vmx/vmx.h
-> index bf9d3051cd6c..0a00242a91e7 100644
-> --- a/arch/x86/kvm/vmx/vmx.h
-> +++ b/arch/x86/kvm/vmx/vmx.h
-> @@ -340,7 +340,7 @@ struct vcpu_vmx {
->  	struct lbr_desc lbr_desc;
->  
->  	/* Save desired MSR intercept (read: pass-through) state */
-> -#define MAX_POSSIBLE_PASSTHROUGH_MSRS	14
-> +#define MAX_POSSIBLE_PASSTHROUGH_MSRS	15
->  	struct {
->  		DECLARE_BITMAP(read, MAX_POSSIBLE_PASSTHROUGH_MSRS);
->  		DECLARE_BITMAP(write, MAX_POSSIBLE_PASSTHROUGH_MSRS);
-> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> index 3b756ff13103..10a08aa2aa45 100644
-> --- a/arch/x86/kvm/x86.c
-> +++ b/arch/x86/kvm/x86.c
-> @@ -10024,6 +10024,9 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
->  	if (vcpu->arch.guest_fpu.xfd_err)
->  		wrmsrl(MSR_IA32_XFD_ERR, 0);
->  
-> +	if (vcpu->arch.xfd_out_of_sync)
-
-Rather than adding a flag that tracks whether or not the MSR can be written by
-the guest, can't this be:
-
-	if (!vmx_test_msr_bitmap_write(vcpu->loaded_vmcs->msr_bitmap))
-		fpu_sync_guest_vmexit_xfd_state();
-
-That might be marginally slower than checking a dedicated flag?  But is has the
-advantage of doing the correct thing for nested guests instead of penalizing them
-with an unnecessary sync on every exit.  If performance of the check is an issue,
-we could add a static key to skip the code unless at least one vCPU has triggered
-the XFD crud, a la kvm_has_noapic_vcpu (which may or may not provide any real
-performance benefits).
-
-Speaking of nested, interception of #NM in vmx_update_exception_bitmap() is wrong
-with respect to nested guests.  Until XFD is supported for L2, which I didn't see
-in this series, #NM should not be intercepted while L2 is running.
-
-For the earlier patch that introduced arch.trap_nm, if it's not too gross and not
-racy, the code could be:
-
-	if (is_guest_mode(vcpu))
-		eb |= get_vmcs12(vcpu)->exception_bitmap;
-        else {
-		...
-
-		if (vcpu->arch.guest_fpu.fpstate.xfd)
-			eb |= (1u << NM_VECTOR);
-	}
-
-Though I'm ok with a semi-temporary flag if that's gross/racy.
-
-Then this patch can change it to:
-
-	if (is_guest_mode(vcpu))
-		eb |= get_vmcs12(vcpu)->exception_bitmap;
-        else {
-		...
-
-		if (!vmx_test_msr_bitmap_write(vcpu->vmcs01.msr_bitmap))
-			eb |= (1u << NM_VECTOR);
-	}
-
-> +		fpu_sync_guest_vmexit_xfd_state();
-> +
->  	/*
->  	 * Consume any pending interrupts, including the possible source of
->  	 * VM-Exit on SVM and any ticks that occur between VM-Exit and now.
-> -- 
-> 2.27.0
-> 
