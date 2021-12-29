@@ -2,63 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68351C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Dec 2021 15:23:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD9B7C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Dec 2021 16:51:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240507AbhL2PXl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Dec 2021 10:23:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46596 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237012AbhL2PXl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Dec 2021 10:23:41 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03C3DC061574;
-        Wed, 29 Dec 2021 07:23:40 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        id S240836AbhL2Qve (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Dec 2021 11:51:34 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:32958 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237478AbhL2Qvc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 29 Dec 2021 11:51:32 -0500
+Received: from zn.tnic (dslb-088-067-202-008.088.067.pools.vodafone-ip.de [88.67.202.8])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 8D3C12CA;
-        Wed, 29 Dec 2021 15:23:39 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8D3C12CA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1640791419; bh=Fgd1IEApQgGgD5aA/qn3y4383wZstwGT6BI7GYzaQEY=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Tdzsuej5iFUKN+spl8PMtp6YMOL323W9I0aFHXe7aoyvdPbm0saDXJbC8tLOVOUMY
-         kdG6ecyXQ/pbB0UBDqKa58JsNoSIA3MsUI9Hui0Jott8mb/H4V/VqMasD+zJ94dqhp
-         HqMdhOXAzbbdqsr5fD8ppVpiNUridlnXWpq6G0AdwjJYLxQIFUcApdKSpg/Yeircin
-         B6mWQRG7sYLspY54YxA/pcXHhre8Y2DVczSOFqIH4Ejk0IqGPcWWfkvKy1JoGqSO/G
-         +DHvQXFRi70P4i2hhWtPjfOLXWqj4EiqODTyXsJrf/hb2KrmgPxFYZOpV08Djb8gUu
-         C8q9/l6/8I0FA==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Armin Wolf <W_Armin@gmx.de>, pali@kernel.org
-Cc:     jdelvare@suse.com, linux@roeck-us.net, linux-doc@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/4] docs: hwmon: dell-smm-hwmon.rst: Replace ascii
- table with flat-table
-In-Reply-To: <20211228153709.18317-3-W_Armin@gmx.de>
-References: <20211228153709.18317-1-W_Armin@gmx.de>
- <20211228153709.18317-3-W_Armin@gmx.de>
-Date:   Wed, 29 Dec 2021 08:23:38 -0700
-Message-ID: <87k0fnbfk5.fsf@meer.lwn.net>
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id A47CD1EC0118;
+        Wed, 29 Dec 2021 17:51:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1640796686;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=E1moKrsQeoHGI1o/N+GTzoLPS3V7jDWAsdtjLlUVI54=;
+        b=jQJok61NrMcuSiMUGed5g9Q7L3P1+UcO1DyxVZTBxrGgT49Z0GVfYJjB/kdcRQqgAYvwbM
+        wzWR9utj5QAAKwhuMvNO78aKXshnZ97N46KhGKs4uUIMGdIqb63QF6QFcr3IPhvZh4hKOy
+        IWAqf2MbW4xsccK8NJwoHPKB1r/GDRE=
+Date:   Wed, 29 Dec 2021 17:51:29 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Cc:     Dave Young <dyoung@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
+        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        kexec@lists.infradead.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>
+Subject: Re: [PATCH v19 02/13] x86/setup: Use parse_crashkernel_high_low() to
+ simplify code
+Message-ID: <YcySEdyhXysDSKn/@zn.tnic>
+References: <20211228132612.1860-1-thunder.leizhen@huawei.com>
+ <20211228132612.1860-3-thunder.leizhen@huawei.com>
+ <Ycs3kpZD/vpoo1AX@zn.tnic>
+ <b017a8ea-989b-c251-f5c8-a8a7940877cf@huawei.com>
+ <YcwN9Mfwsh/lPbbd@dhcp-128-65.nay.redhat.com>
+ <YcwyZRDJUMniSaY9@zn.tnic>
+ <Ycw8n2BvJzH9wJKG@dhcp-128-65.nay.redhat.com>
+ <21736ba2-883d-1037-dbe8-299e40f7ad13@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <21736ba2-883d-1037-dbe8-299e40f7ad13@huawei.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Armin Wolf <W_Armin@gmx.de> writes:
+On Wed, Dec 29, 2021 at 11:04:21PM +0800, Leizhen (ThunderTown) wrote:
+> Chen Zhou and I tried to share the code because of a suggestion. After so many
+> attempts, it doesn't seem to fit to make generic. Or maybe I haven't figured
+> out a good solution yet.
 
-> flat-table is recommended over ascii art tables.
->
-> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
-> ---
->  Documentation/hwmon/dell-smm-hwmon.rst | 60 +++++++++++++++++++-------
->  1 file changed, 44 insertions(+), 16 deletions(-)
+Well, you learned a very important lesson and the many attempts are not
+in vain: code sharing does not make sense in every case.
 
-FWIW, I totally disagree with that recommendation and should really just
-take it out.  This patch makes it clear why: the new table is almost
-entirely unreadable in the plain-text form.
+> I will put the patches that make arm64 support crashkernel...high,low to
+> the front, then the parse_crashkernel() unification patches. Even if the
+> second half of the patches is not ready for v5.18, the first half of the
+> patches is ready.
 
-Thanks,
+I think you should concentrate on the arm64 side which is, AFAICT, what
+you're trying to achieve.
 
-jon
+The "parse_crashkernel() unification" needs more thought because, as I
+said already, that doesn't make a whole lot of sense to me.
+
+If you want to enforce the fact that "low" makes sense only when "high"
+is supplied, parse_crashkernel_high_low() is not the right thing to do.
+You need to have a *single* function which does all the parsing where
+you can decide what to do: "if high, parse low", "if no high supplied,
+ignore low" and so on.
+
+And if those are supported on certain architectures only, you can do
+ifdeffery...
+
+But I think I already stated that I don't like such unifications which
+introduce unnecessary dependencies between architectures. Therefore, I
+won't accept them into x86 unless there's a strong compelling reason.
+Which I don't see ATM.
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
