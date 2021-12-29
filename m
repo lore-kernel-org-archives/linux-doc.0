@@ -2,176 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 972DAC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Dec 2021 12:19:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22DC3C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Dec 2021 12:54:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235893AbhL2MTo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Dec 2021 07:19:44 -0500
-Received: from szxga08-in.huawei.com ([45.249.212.255]:30123 "EHLO
-        szxga08-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234936AbhL2MTn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Dec 2021 07:19:43 -0500
-Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.56])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4JP9P34mBfz1DJjH;
-        Wed, 29 Dec 2021 20:16:23 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Wed, 29 Dec 2021 20:19:41 +0800
-Received: from [10.174.178.55] (10.174.178.55) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Wed, 29 Dec 2021 20:19:40 +0800
-Subject: Re: [PATCH v19 02/13] x86/setup: Use parse_crashkernel_high_low() to
- simplify code
-To:     Dave Young <dyoung@redhat.com>
-CC:     Borislav Petkov <bp@alien8.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Ingo Molnar" <mingo@redhat.com>, <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>, <linux-kernel@vger.kernel.org>,
-        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        <kexec@lists.infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Will Deacon" <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        <devicetree@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        "Chen Zhou" <dingguo.cz@antgroup.com>,
-        John Donnelly <John.p.donnelly@oracle.com>
-References: <20211228132612.1860-1-thunder.leizhen@huawei.com>
- <20211228132612.1860-3-thunder.leizhen@huawei.com> <Ycs3kpZD/vpoo1AX@zn.tnic>
- <b017a8ea-989b-c251-f5c8-a8a7940877cf@huawei.com>
- <YcwN9Mfwsh/lPbbd@dhcp-128-65.nay.redhat.com>
-From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Message-ID: <d27dc733-69f1-9f60-db32-fb45cb2db6f1@huawei.com>
-Date:   Wed, 29 Dec 2021 20:19:39 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S236580AbhL2Myv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Dec 2021 07:54:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41706 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236046AbhL2Myv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Dec 2021 07:54:51 -0500
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C049C061574;
+        Wed, 29 Dec 2021 04:54:51 -0800 (PST)
+Received: by mail-pl1-x62c.google.com with SMTP id h1so12614447pls.11;
+        Wed, 29 Dec 2021 04:54:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=KfD9IjU5XhrIZFvgmHtHCmMnkDPWizpAU4g0ttDwCPo=;
+        b=faNUdExLq2iPl4pwYO49xHVJaZamVKlKmGQg++B5h/pGfAdU3AUfISQHCh6dRtBUzz
+         lFhd+xDB7tLz9rTBy4LYAkNZcotRtzldtB5tnbxdxtvyynmskyVuODaqIFfrz+bUK7Ts
+         spEyl6vLOEHcXMJ6FpnQStym7aXZZDgvydCnkInBOxBJx57WwtoljuOA6EuNpsZMutHB
+         OgeJwo6+8FWf4/QxmPPAWvKnRzlO+fOgXp4YYEsaqHLcquIyzD/WXWQBtgq0XY12vuwp
+         hrgT/Y33xB53I6G1iCETitBVN6eDwRid3jFwSz7YjxOhvR/5Ou93pGn6laUUSs9l8R6J
+         clmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=KfD9IjU5XhrIZFvgmHtHCmMnkDPWizpAU4g0ttDwCPo=;
+        b=D6m2UtLpXsxl++crYBrICntE/8u7E1Atpv0z6FnCZTttPJUnFJsnaKAZohgetE134c
+         8MPsBu+XapvHuhjGFChvB8MQZW95sSJxhUZXbPVccmDCixYFTT+EeVmPaa1WvzNzWUOe
+         yv/LmGumUq/rwbAponAYw9nuWkbnTShZGoKQ4+lrcRxeP0ERI72rQ8QGF6pikfNqJIs5
+         EAEsHrwGQ4h7NEY4xnF3K86QGdJCekLKTWJbQp14M5Pi7Eu6Ht/VjdL/Aw32dpy27JXc
+         5oO2bxLyUzP9MxUd+KBZ9jTaWPe3NtMl94SQUcqZWy9Vb2UKJv+JeQPP1Fj5OnRmEjtm
+         Y5RA==
+X-Gm-Message-State: AOAM532UjYvRF7Mv4gfIdUGNHsm5KgisWV65GRNGWlElS0DlpnY/fxgt
+        o5VuerAfrji6SiXeo2f0vDM=
+X-Google-Smtp-Source: ABdhPJwiAFzAHUMNIaNixu7Ieio6O1Y3zH/lbKcIGj2OllRMxoSTStuhjQpt0ZU0d7m2JF3jpk7wSA==
+X-Received: by 2002:a17:90b:1c0b:: with SMTP id oc11mr32046979pjb.174.1640782490713;
+        Wed, 29 Dec 2021 04:54:50 -0800 (PST)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id f8sm7678199pjs.47.2021.12.29.04.54.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Dec 2021 04:54:50 -0800 (PST)
+Subject: Status of selection.svg update (was Re: [PATCH 0/3] docs:
+ sphinx/kfigure.py: Improve conversion to PDF)
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-media@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+References: <de8def13-efbc-1d98-acb5-5cc1f6902e4b@gmail.com>
+ <20211212113813.058e99fc@coco.lan>
+ <8840a859-ca57-c49a-f542-0a37401ccdfc@gmail.com>
+ <20211213073327.11191087@coco.lan>
+ <60d50d23-e236-1105-dc2c-d6daca70e326@gmail.com>
+From:   Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <e135a1fd-78df-d676-6678-9637a12ca8ec@gmail.com>
+Date:   Wed, 29 Dec 2021 21:54:47 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <YcwN9Mfwsh/lPbbd@dhcp-128-65.nay.redhat.com>
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <60d50d23-e236-1105-dc2c-d6daca70e326@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.178.55]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+[+Cc: linux-media, -Cc: lkml]
 
+Hi Mauro,
 
-On 2021/12/29 15:27, Dave Young wrote:
-> On 12/29/21 at 10:27am, Leizhen (ThunderTown) wrote:
->>
->>
->> On 2021/12/29 0:13, Borislav Petkov wrote:
->>> On Tue, Dec 28, 2021 at 09:26:01PM +0800, Zhen Lei wrote:
->>>> Use parse_crashkernel_high_low() to bring the parsing of
->>>> "crashkernel=X,high" and the parsing of "crashkernel=Y,low" together, they
->>>> are strongly dependent, make code logic clear and more readable.
->>>>
->>>> Suggested-by: Borislav Petkov <bp@alien8.de>
->>>
->>> Yeah, doesn't look like something I suggested...
->>>
->>>> @@ -474,10 +472,9 @@ static void __init reserve_crashkernel(void)
->>>>  	/* crashkernel=XM */
->>>>  	ret = parse_crashkernel(boot_command_line, total_mem, &crash_size, &crash_base);
->>>>  	if (ret != 0 || crash_size <= 0) {
->>>> -		/* crashkernel=X,high */
->>>> -		ret = parse_crashkernel_high(boot_command_line, total_mem,
->>>> -					     &crash_size, &crash_base);
->>>> -		if (ret != 0 || crash_size <= 0)
->>>> +		/* crashkernel=X,high and possible crashkernel=Y,low */
->>>> +		ret = parse_crashkernel_high_low(boot_command_line, &crash_size, &low_size);
->>>
->>> So this calls parse_crashkernel() and when that one fails, it calls this
->>> new weird parse high/low helper you added.
->>>
->>> But then all three end up in the same __parse_crashkernel() worker
->>> function which seems to do the actual parsing.
->>>
->>> What I suggested and what would be real clean is if the arches would
->>> simply call a *single* 
->>>
->>> 	parse_crashkernel()
->>>
->>> function and when that one returns, *all* crashkernel= options would
->>> have been parsed properly, low, high, middle crashkernel, whatever...
->>> and the caller would know what crash kernel needs to be allocated.
->>>
->>> Then each arch can do its memory allocations and checks based on that
->>> parsed data and decide to allocate or bail.
->>
->> However, only x86 currently supports "crashkernel=X,high" and "crashkernel=Y,low", and arm64
->> will also support it. It is not supported on other architectures. So changing parse_crashkernel()
->> is not appropriate unless a new function is introduced. But naming this new function isn't easy,
->> and the name parse_crashkernel_in_order() that I've named before doesn't seem to be good.
->> Of course, we can also consider changing parse_crashkernel() to another name, then use
->> parse_crashkernel() to parse all possible "crashkernel=" options in order, but this will cause
->> other architectures to change as well.
+In case you are wondering what is going on in the update of
+selection.svg, here is a status report.
+
+On Mon, 13 Dec 2021 16:53:07 +0900, Akira Yokosawa wrote:
+> On Mon, 13 Dec 2021 07:33:27 +0100, Mauro Carvalho Chehab wrote:
+[...]
+>> No matter if this is merged or not, if you find an issue at the images
+>> at the media docs, please send them to linux-media@vger.org.
 > 
-> Hi, I did not follow up all discussions, but if the only difference is
-> about the low -> high fallback, I think you can add another argument in
-> parse_crashkernel(..., *fallback_high),  and doing some changes in
-> __parse_crashkernel() before it returns.  But since there are two
-> many arguments, you could need a wrapper struct for crashkernel_param if
-> needed.
+> OK. I'll compose a proper change log for it and post it later this
+> week or next.
+> (I'm not a type of person who is good at doing several things in
+> parallel.)
 
-A wrapper struct is needed. Because at least two new output parameters need to be added:
-1. high, to indicate whether "crashkernel=X,high" is specified
-2. low_size, to save the memory size specified by "crashkernel=Y,low"
+I started the patch preparation, but I found the patch would be
+quite large in size (~500kB).
+
+This is because current selection.svg consists of pretty high-
+resolution raster images.
+I see you had done several attempts to reduce the complexity of
+the SVG, but it is still large (> 200kB) and conversion to PDF by
+convert(1) generates a PDF of more than 1MB!
+Even inkscape(1) generates a larger PDF (>1.3MB) with embedded
+raster images.
+
+I don't believe what the figure wants to explain deserves such
+a large size.
+So, from my POV, adding another bitmap image to the SVG for the
+sake of browser compatibility is *not* the right thing to do.
+
+Instead, my suggestion would be to get rid of the embedded raster
+images and to draw some simple vector-graphics-based figure
+instead.
+
+Am I missing something here?
+
+        Thanks, Akira
 
 > 
-> If you do not want to touch other arches, another function maybe
-> something like parse_crashkernel_fallback() for x86 and arm64 to use.
+> And the most easy fix is to install Inkscape on your system for
+> the daily build.
+> Then, convert(1) picks inkscape(1) for SVG rendering and you will
+> see right ones (of raster images, though).
 > 
-> But I may not get all the context, please ignore if this is not the
-> case.  I agree that calling parse_crash_kernel* in the
-> reserve_crashkernel funtions looks not good though. 
+> You know, ImageMagick prefers inkscape over rsvg-convert.
+> I think it is the right thing to do in kfigure.py as well.
 > 
-> OTOH there are bunch of other logics in param parsing code,
-> eg. determin the final size and offset etc. To split the logic out more
-> things need to be done, eg. firstly parsing function just get all the
-> inputs from cmdline string eg. an array of struct crashkernel_param with
-> mem_range, expected size, expected offset, high, or low, and do not do
-> any other things.   Then pass these parsed inputs to another function to
-> determine the final crash_size and crash_base, that part can be arch
-> specific somehow. 
-
-Yes, this way makes the code logic clear. But there's a bit of trouble with
-"crashkernel=range1:size1[,range2:size2,...][@offset]", the array size is dynamic.
-
-> 
-> So I think you can unify the parse_crashkernel* in x86 first with just
-> one function.  And leave the further improvements to later work. But
-> let's see how Boris think about this.
-> 
->>
->>>
->>> So it is getting there but it needs more surgery...
->>>
->>> Thx.
->>>
->>
->> -- 
->> Regards,
->>   Zhen Lei
->>
-> 
-> Thanks
-> Dave
-> 
-> .
-> 
-
--- 
-Regards,
-  Zhen Lei
+[...]
