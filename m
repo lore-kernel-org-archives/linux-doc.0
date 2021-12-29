@@ -2,106 +2,262 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD9B7C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Dec 2021 16:51:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFCD8C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Dec 2021 16:55:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240836AbhL2Qve (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Dec 2021 11:51:34 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:32958 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237478AbhL2Qvc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 29 Dec 2021 11:51:32 -0500
-Received: from zn.tnic (dslb-088-067-202-008.088.067.pools.vodafone-ip.de [88.67.202.8])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id A47CD1EC0118;
-        Wed, 29 Dec 2021 17:51:26 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1640796686;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=E1moKrsQeoHGI1o/N+GTzoLPS3V7jDWAsdtjLlUVI54=;
-        b=jQJok61NrMcuSiMUGed5g9Q7L3P1+UcO1DyxVZTBxrGgT49Z0GVfYJjB/kdcRQqgAYvwbM
-        wzWR9utj5QAAKwhuMvNO78aKXshnZ97N46KhGKs4uUIMGdIqb63QF6QFcr3IPhvZh4hKOy
-        IWAqf2MbW4xsccK8NJwoHPKB1r/GDRE=
-Date:   Wed, 29 Dec 2021 17:51:29 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Cc:     Dave Young <dyoung@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
-        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        kexec@lists.infradead.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        John Donnelly <John.p.donnelly@oracle.com>
-Subject: Re: [PATCH v19 02/13] x86/setup: Use parse_crashkernel_high_low() to
- simplify code
-Message-ID: <YcySEdyhXysDSKn/@zn.tnic>
-References: <20211228132612.1860-1-thunder.leizhen@huawei.com>
- <20211228132612.1860-3-thunder.leizhen@huawei.com>
- <Ycs3kpZD/vpoo1AX@zn.tnic>
- <b017a8ea-989b-c251-f5c8-a8a7940877cf@huawei.com>
- <YcwN9Mfwsh/lPbbd@dhcp-128-65.nay.redhat.com>
- <YcwyZRDJUMniSaY9@zn.tnic>
- <Ycw8n2BvJzH9wJKG@dhcp-128-65.nay.redhat.com>
- <21736ba2-883d-1037-dbe8-299e40f7ad13@huawei.com>
+        id S240967AbhL2QzU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Dec 2021 11:55:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38892 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229890AbhL2QzT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Dec 2021 11:55:19 -0500
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9086AC061574
+        for <linux-doc@vger.kernel.org>; Wed, 29 Dec 2021 08:55:19 -0800 (PST)
+Received: by mail-pg1-x533.google.com with SMTP id i8so10475342pgt.13
+        for <linux-doc@vger.kernel.org>; Wed, 29 Dec 2021 08:55:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=9E7FQ5pJl/0kU2mdKrZHXW9V28GhR+dlDYye/RF2eb8=;
+        b=I2JbWDGrUUngetv4wnjWKzX+2VBf0mXJW4OAMAZaywq39mB15YmYJSFZsasJFQphdT
+         OH5KZca2SwBa2SWWvqeshigcVj4zr6NjUn+A9aw1O3pTr6V48n26aDszseuNytggDE2D
+         AzRBTlUBQwFKHzpdQog8j/af5XenNuTBpHTvwZcTirj1bw6MTE0MEuVMjfPStB3Lvnw+
+         C5lVla6dSDxEK1OfhXvm5om4opW++tQUZ0FygJtgRtW7nRmwzE2/2s2cESGDYY/ItRJm
+         Q/87IPDuYXZmTg0YoMCo8inob31v0eAAghz4gPFI3CLPSOgiS9YleESPIbvkpi69n7bb
+         PeRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=9E7FQ5pJl/0kU2mdKrZHXW9V28GhR+dlDYye/RF2eb8=;
+        b=HF5mU8qGEy8ecEOxSUU2XWiKgzVHlMgE//KyIRgjFfOD1/6U3ZnHuvjTa/xXwRGw6C
+         2AxoBQTxl7r8GhkrftHPhTYPzcUue26ur0gOawj3dEaV6K2vZTsg25nCtCdLvoccu9e1
+         MgQvbbfimYAuci1m9QDRHWNJiZcPfsSjm8YhJ4g8Gob0x0BdYVjFE2eXvysnQEgOr1kY
+         Nu0UzXFKEoFzyeEn8fMuP2k0x1KO/qiLzRpN9lbfnL6jjHzJFrAoBNwPEFEiBaHQG4gu
+         PADqi9lFxAyDZcSjW4idwwArGTmSKWq/int5aMtq/lg45uYW8OqjpSzpM1yvOVzCWBpL
+         eUZw==
+X-Gm-Message-State: AOAM531QhGABMFh5tTVykcLmlSpWxipyt/G+STsuqL+AFUEuji5Zrm25
+        yv7LLNON4WmvJjOEVs1o3ghJ3w==
+X-Google-Smtp-Source: ABdhPJzlgn6bllr4ivr30M22qVwS6kDwa0ZQZvBQWsA1/zseUcIF+o9gXta/SctPyC8G0xXlsvSwoQ==
+X-Received: by 2002:a63:3d4b:: with SMTP id k72mr13943356pga.564.1640796918825;
+        Wed, 29 Dec 2021 08:55:18 -0800 (PST)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id w9sm20241293pge.18.2021.12.29.08.55.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Dec 2021 08:55:18 -0800 (PST)
+Date:   Wed, 29 Dec 2021 16:55:14 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Yang Zhong <yang.zhong@intel.com>
+Cc:     x86@kernel.org, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, pbonzini@redhat.com, corbet@lwn.net,
+        shuah@kernel.org, jun.nakajima@intel.com, kevin.tian@intel.com,
+        jing2.liu@linux.intel.com, jing2.liu@intel.com,
+        guang.zeng@intel.com, wei.w.wang@intel.com
+Subject: Re: [PATCH v4 08/21] kvm: x86: Check and enable permitted dynamic
+ xfeatures at KVM_SET_CPUID2
+Message-ID: <YcyS8lG7vq+jJtLy@google.com>
+References: <20211229131328.12283-1-yang.zhong@intel.com>
+ <20211229131328.12283-9-yang.zhong@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <21736ba2-883d-1037-dbe8-299e40f7ad13@huawei.com>
+In-Reply-To: <20211229131328.12283-9-yang.zhong@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Dec 29, 2021 at 11:04:21PM +0800, Leizhen (ThunderTown) wrote:
-> Chen Zhou and I tried to share the code because of a suggestion. After so many
-> attempts, it doesn't seem to fit to make generic. Or maybe I haven't figured
-> out a good solution yet.
+On Wed, Dec 29, 2021, Yang Zhong wrote:
+> From: Jing Liu <jing2.liu@intel.com>
+> 
+> Guest xstate permissions should be set by userspace VMM before vcpu
+> creation. Extend KVM_SET_CPUID2 to verify that every feature reported
+> in CPUID[0xD] has proper permission set. If permission allows, enable
+> all xfeatures in guest cpuid with fpstate buffer sized accordingly.
+> 
+> This avoids introducing new KVM exit reason for reporting permission
+> violation to userspace VMM at run-time and also removes the need of
+> tricky fpstate buffer expansion in the emulation and restore path of
+> XCR0 and IA32_XFD MSR.
 
-Well, you learned a very important lesson and the many attempts are not
-in vain: code sharing does not make sense in every case.
+How so?  __do_cpuid_func() restricts what is advertised to userspace based on
+xstate_get_guest_group_perm(), so it's not like KVM is advertising something it
+can't provide?  There should never be any danger to KVM that's mitigated by
+restricing guest CPUID because KVM can and should check vcpu->arch.guest_fpu.perm
+instead of guest CPUID.
 
-> I will put the patches that make arm64 support crashkernel...high,low to
-> the front, then the parse_crashkernel() unification patches. Even if the
-> second half of the patches is not ready for v5.18, the first half of the
-> patches is ready.
+In other words, I believe you're conflating the overall approach of requiring
+userspace to pre-acquire the necessary permissions with enforcing what userspace
+advertises to the guest.
 
-I think you should concentrate on the arm64 side which is, AFAICT, what
-you're trying to achieve.
+> Signed-off-by: Jing Liu <jing2.liu@intel.com>
+> Signed-off-by: Kevin Tian <kevin.tian@intel.com>
+> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+> ---
+>  arch/x86/kvm/cpuid.c | 62 +++++++++++++++++++++++++++++++++-----------
+>  1 file changed, 47 insertions(+), 15 deletions(-)
+> 
+> diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
+> index 4855344091b8..acbc10db550e 100644
+> --- a/arch/x86/kvm/cpuid.c
+> +++ b/arch/x86/kvm/cpuid.c
+> @@ -81,9 +81,12 @@ static inline struct kvm_cpuid_entry2 *cpuid_entry2_find(
+>  	return NULL;
+>  }
+>  
+> -static int kvm_check_cpuid(struct kvm_cpuid_entry2 *entries, int nent)
+> +static int kvm_check_cpuid(struct kvm_vcpu *vcpu,
+> +			   struct kvm_cpuid_entry2 *entries,
+> +			   int nent)
+>  {
+>  	struct kvm_cpuid_entry2 *best;
+> +	int r = 0;
+>  
+>  	/*
+>  	 * The existing code assumes virtual address is 48-bit or 57-bit in the
+> @@ -93,11 +96,40 @@ static int kvm_check_cpuid(struct kvm_cpuid_entry2 *entries, int nent)
+>  	if (best) {
+>  		int vaddr_bits = (best->eax & 0xff00) >> 8;
+>  
+> -		if (vaddr_bits != 48 && vaddr_bits != 57 && vaddr_bits != 0)
+> -			return -EINVAL;
+> +		if (vaddr_bits != 48 && vaddr_bits != 57 && vaddr_bits != 0) {
+> +			r = -EINVAL;
+> +			goto out;
 
-The "parse_crashkernel() unification" needs more thought because, as I
-said already, that doesn't make a whole lot of sense to me.
+Please don't change this to a goto, a return is perfectly ok and more readable
+as it doesn't imply there's some functional change that needs to be unwound at
+the end.
 
-If you want to enforce the fact that "low" makes sense only when "high"
-is supplied, parse_crashkernel_high_low() is not the right thing to do.
-You need to have a *single* function which does all the parsing where
-you can decide what to do: "if high, parse low", "if no high supplied,
-ignore low" and so on.
+> +		}
+>  	}
+>  
+> -	return 0;
+> +	/*
+> +	 * Check guest permissions for dynamically-enabled xfeatures.
+> +	 * Userspace VMM is expected to acquire permission before vCPU
+> +	 * creation. If permission allows, enable all xfeatures with
+> +	 * fpstate buffer sized accordingly. This avoids complexity of
+> +	 * run-time expansion in the emulation and restore path of XCR0
+> +	 * and IA32_XFD MSR.
+> +	 */
+> +	best = cpuid_entry2_find(entries, nent, 0xd, 0);
+> +	if (best) {
+> +		u64 xfeatures;
+> +
+> +		xfeatures = best->eax | ((u64)best->edx << 32);
+> +		if (xfeatures & ~vcpu->arch.guest_fpu.perm) {
+> +			r = -ENXIO;
 
-And if those are supported on certain architectures only, you can do
-ifdeffery...
+ENXIO is a rather odd error code for insufficient permissions, especially since
+the FPU returns -EPERM for what is effectively the same check.
 
-But I think I already stated that I don't like such unifications which
-introduce unnecessary dependencies between architectures. Therefore, I
-won't accept them into x86 unless there's a strong compelling reason.
-Which I don't see ATM.
+> +			goto out;
+> +		}
+> +
+> +		if (xfeatures != vcpu->arch.guest_fpu.xfeatures) {
 
-Thx.
+xfeatures is obviously not consumed anywhere, which is super confusing and
+arguably wrong, e.g. if userspace advertises xfeatures that are a subset of
+vcpu->arch.guest_fpu.perm, this will expand XSAVE state beyond what userspace
+actually wants to advertise to the guest.  The really confusing case would be if
+userspace reduced xfeatures relative to vcpu->arch.guest_fpu.xfeatures and got
+an -ENOMEM due to the FPU failing to expand the XSAVE size.
 
--- 
-Regards/Gruss,
-    Boris.
+I don't care about the waste of memory, and IIUC userspace would have to
+intentionally request permissions for the guest that it then ignores, but that
+doesn't make the code any less confusing.  And as written, this check also prevents
+advertising non-XFD features that are not supported in hardware.  I doubt there's
+a production use case for that (though MPX deprecation comes close), but I've
+certainly exposed unsupported features to a guest for testing purposes.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+Rather than bleed details from the FPU into KVM, why not have the FPU do any and
+all checks?  That also gives the FPU access to requested xfeatures so that it
+can opportunistically avoid unnecessary expansion.  We can also tweak the kernel
+APIs to be more particular about input values.
+
+At that point, I would be ok with fpu_update_guest_perm_features() rejecting
+attempts to advertise features that are not permitted, because then it's an FPU
+policy, not a KVM policy, and there's a valid reason for said policy.  It's a bit
+of a pedantic distinction, but to me it matters because having KVM explicitly
+restrict guest CPUID implies that doing so is necessary for KVM correctness, which
+AFAICT is not the case.
+
+E.g. in KVM
+
+	/*
+	 * Exposing dynamic xfeatures to the guest requires additional enabling
+	 * in the FPU, e.g. to expand the guest XSAVE state size.
+	 */
+	best = cpuid_entry2_find(entries, nent, 0xd, 0);
+	if (!best)
+		return 0;
+
+	xfeatures = best->eax | ((u64)best->edx << 32);
+	xfeatures &= XFEATURE_MASK_USER_DYNAMIC;
+	if (!xfeatures)
+		return 0;
+
+	return fpu_enable_guest_xfd_features(&vcpu->arch.guest_fpu, xfeatures);
+
+and then
+
+  int fpu_enable_guest_xfd_features(struct fpu_guest *guest_fpu, u64 xfeatures)
+  {
+	lockdep_assert_preemption_enabled();
+
+	/* Nothing to do if all requested features are already enabled. */
+	xfeatures &= ~guest_fpu->xfeatures;
+	if (!xfeatures)
+		return 0;
+
+	/* Dynamic xfeatures are not supported with 32-bit kernels. */
+	if (!IS_ENABLED(CONFIG_X86_64))
+		return -EPERM;
+
+	return __xfd_enable_feature(xfeatures, guest_fpu);
+  }
+
+with 
+
+  int __xfd_enable_feature(u64 xfd_err, struct fpu_guest *guest_fpu)
+  {
+	struct fpu_state_perm *perm;
+	unsigned int ksize, usize;
+	struct fpu *fpu;
+
+	if (WARN_ON_ONCE(!xfd_err || (xfd_err & ~XFEATURE_MASK_USER_DYNAMIC)))
+		return 0;
+
+	...
+  }
+
+which addresses several things:
+
+  a) avoids explicitly restricing guest CPUID in KVM, and in particular doesn't
+     prevent userspace from advertising non-XFD features that aren't supported in
+     hardware, which for better or worse is allowed today.
+
+  b) returns -EPERM instead of '0' when userspace attempts to enable dynamic
+     xfeatures with 32-bit kernels, which isn't a bug as posted only because
+     KVM pre-checks vcpu->arch.guest_fpu.perm.
+
+  b) avoids reading guest_perm outside of siglock, which was technically a TOCTOU
+     "bug", though it didn't put the kernel at risk because __xstate_request_perm()
+     doesn't allow reducing permissions.
+
+  c) allows __xfd_enable_feature() to require the caller to provide just XFD
+     features
+
+> +			r = fpu_update_guest_perm_features(
+> +						&vcpu->arch.guest_fpu);
+> +			if (r)
+> +				goto out;
+> +		}
+> +	}
+> +
+> +out:
+> +	return r
