@@ -2,440 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33930C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Dec 2021 02:29:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94296C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Dec 2021 02:39:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234714AbhL3C27 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Dec 2021 21:28:59 -0500
-Received: from mga05.intel.com ([192.55.52.43]:60678 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233070AbhL3C27 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 29 Dec 2021 21:28:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1640831339; x=1672367339;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=PRkXvUwKrHAff4FGMIMmVvXr84sFXsIeUDzsmQbWe4Q=;
-  b=JNYRXIKpqPD/TLPBK32rH8+Kr+q9+3FoF+/nQfhnWoDnX1ZuqMnWmCh0
-   /txatCVzNjMwHiDag8thASAnzIeeFFTEoNCACHrOc3I3DbhZBanbS217o
-   LU8YdKQcTjwQ0zTaNlRdKAMxiAUOmRPuLufMcXU/dsJ4YXzv7iT1MhvxI
-   eIyls5ahSTdGB8bzfwbr2xCQpDIJceM9mgVPeNhzrCYPtZAmZm3NXQwQN
-   XnfHyxdpApipgpE25F/Qb9Wm7w4/StrQqoZLWVA23CXHZgyQ8q7iqnj+Z
-   NXvocU0r73S5Fs7zrVmi+WuHbjxQAJAkTh6zuoDNNJpPGem7pWYQbwn/Z
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10212"; a="327934435"
-X-IronPort-AV: E=Sophos;i="5.88,247,1635231600"; 
-   d="scan'208";a="327934435"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2021 18:28:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,247,1635231600"; 
-   d="scan'208";a="554671435"
-Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
-  by orsmga001.jf.intel.com with ESMTP; 29 Dec 2021 18:28:32 -0800
-Received: from fmsmsx604.amr.corp.intel.com (10.18.126.84) by
- fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
+        id S231775AbhL3Cj1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Dec 2021 21:39:27 -0500
+Received: from szxga03-in.huawei.com ([45.249.212.189]:30193 "EHLO
+        szxga03-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230296AbhL3Cj1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Dec 2021 21:39:27 -0500
+Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.57])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4JPXV02Y7Yz8w5m;
+        Thu, 30 Dec 2021 10:36:56 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Wed, 29 Dec 2021 18:28:32 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+ 15.1.2308.20; Thu, 30 Dec 2021 10:39:24 +0800
+Received: from [10.174.178.55] (10.174.178.55) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20 via Frontend Transport; Wed, 29 Dec 2021 18:28:32 -0800
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.174)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.20; Wed, 29 Dec 2021 18:28:32 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Jy8iaIexv2vgBed+mJFukcBgzYV9sKbq3UGjL6bMdTAaCEy7WXMDN9IDqm9OXS9j1kd51YGTWCR88iDQNyhdE/jmMVPMik5qVmaT9FrL9mUNWrIw/GRwAKi27tQCK5wlde+oY39uXSKs/ZHUvDWCNvGhYKmogsRmI0uUWO2lrggl35p+Zi/mR2ey755JwZhAvTcfEEBFAieh9TEZ+DiHETLtrQymQBgfLuN8rY+Tn2+/A/hzKRYQrMCHkXc5J8qiOU3/pcDQVyRv5HmeS6vpx3jXAVcPsnmqzTflsU70eOnhwPpWLMzAxz3mDUucG0UtXgkcUQWuBfYdw6cnpm8iRQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oa2KvMLEQz7wtM/CVk7mmHiWpLU+Js8ajJk6nMRNZZg=;
- b=EH+czcCJ5G8Raz8ykOhfI8b3jqS1n2O8ARjzK2FW/zISxlPYH/HwbJNSPzhVA3lGBg0/lupOaR+8vyViFJ2NdcHnA8FAM48OyIs5oMEMd2F/J3j17fFEJS4a0RFvKeJkpXJYXWLaLkh7iCXJjIsI9C7AjvqHwlaQRY8U4rXzi1a+mBDItSD9aB/Yx3aHuoumQ1YzzEgl6MJQT60pbUuXA+mbaN0iqP+WDAoZSaQUJuQVGxV8lPd6BEBG0+b9h7PzD1g76qj0S+cTXiFARMYBE1LW5CnTsLCRQ9BMW3Yjzb6vcJZoRQatj3NNRIyXtsj6vQHXJCoNHQoUNgZpJiDQtA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
- by BN6PR11MB1490.namprd11.prod.outlook.com (2603:10b6:405:d::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4844.13; Thu, 30 Dec
- 2021 02:28:25 +0000
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::5c8a:9266:d416:3e04]) by BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::5c8a:9266:d416:3e04%2]) with mapi id 15.20.4844.014; Thu, 30 Dec 2021
- 02:28:25 +0000
-From:   "Tian, Kevin" <kevin.tian@intel.com>
-To:     "Christopherson,, Sean" <seanjc@google.com>,
-        "Zhong, Yang" <yang.zhong@intel.com>
-CC:     "x86@kernel.org" <x86@kernel.org>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "pbonzini@redhat.com" <pbonzini@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        "Nakajima, Jun" <jun.nakajima@intel.com>,
-        "jing2.liu@linux.intel.com" <jing2.liu@linux.intel.com>,
-        "Liu, Jing2" <jing2.liu@intel.com>,
-        "Zeng, Guang" <guang.zeng@intel.com>,
-        "Wang, Wei W" <wei.w.wang@intel.com>
-Subject: RE: [PATCH v4 08/21] kvm: x86: Check and enable permitted dynamic
- xfeatures at KVM_SET_CPUID2
-Thread-Topic: [PATCH v4 08/21] kvm: x86: Check and enable permitted dynamic
- xfeatures at KVM_SET_CPUID2
-Thread-Index: AQHX/LXqR7g9C8kko0aEdnXcyLdjPqxJsEYAgACbssA=
-Date:   Thu, 30 Dec 2021 02:28:25 +0000
-Message-ID: <BN9PR11MB5276220CE6BE21025797A7BC8C459@BN9PR11MB5276.namprd11.prod.outlook.com>
-References: <20211229131328.12283-1-yang.zhong@intel.com>
- <20211229131328.12283-9-yang.zhong@intel.com> <YcyS8lG7vq+jJtLy@google.com>
-In-Reply-To: <YcyS8lG7vq+jJtLy@google.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a6cf03d8-ee66-430c-03ab-08d9cb3c0ee2
-x-ms-traffictypediagnostic: BN6PR11MB1490:EE_
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-microsoft-antispam-prvs: <BN6PR11MB1490A8EF0C681C7BB387224D8C459@BN6PR11MB1490.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: GNbW7+UdvmYbikr4vSDNoxEUPRGwk2ZrQtbU8ctdqj5tNiQvovSZ1xyJ0oA3AEe1MtHe0FBiJ+tR6bMVD9/eqZ6wJE64+Ity6RRWvOcexK57jAlURB8y92PPpeSSExLnsTcn/TUjPXZkSHjYlCK7uhGpx4MllQSgtTTOcSpSCAvkFfiIzcDHNDjZkRhhhX4tjgDElubA+8zHjUXInzXS53HyDp1TlfK+sJGlERETZSqEl1Znv7szGGWYwuqFZkc12wNs9PYEn8xRvd41IQf3hBAHychjelbbG1pXsGb/HV9ItWrGOlRKuXMckz6+eEsRSTsEBCIen2emrdDosBL2C0JdI5JfAJQp57qO2SIeWjJreazYLItKQ0xkknWNmH4Wzf67mjYBju0BF39XEg07I8qKyvweDTJFXOW7PgyGcmQzssrBeMSSg485e67Vh8Mv1IFNC7lquNmXlmu+P+QMLoVGQGl7CWw0PcYlW+VKo0Y7jKA597j0zeaDlDlRzeArMyghv8b6AtexFrI4zV5Hk3iF2RmWVyEqZ1yNJZJmsqwLtffQe7Y9Jaevy72QyRnrUCRnca2M0MOkeCJbQCfD6otpqgk1wlwmQpeQaD9v+wNJ+F4zXcCQKzcRRSpjySO/LXcjdOQmk8dH3VV9rOwSUiZT/L04PFxlC/bmthU6ChZFUO658EfSwz0lmdMnsIO/QbHTUvgbhofX1hMPYFINJHfKozfPC8bCnmQMGjFL6xROliyO26WugFTyLk7dywsh1LGdze3Mb85XYbTUsXSgoCltyyHMUqzA0PUZSp24rt0=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5276.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(83380400001)(316002)(38070700005)(6636002)(82960400001)(4326008)(55016003)(64756008)(66556008)(66446008)(76116006)(66476007)(26005)(186003)(66946007)(52536014)(8936002)(110136005)(54906003)(7696005)(6506007)(8676002)(7416002)(508600001)(2906002)(9686003)(71200400001)(38100700002)(86362001)(122000001)(5660300002)(966005)(33656002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?pSNg7hraVIXmx2fpnqq9VNWR0WvjCW9RZ0opEuVgD6amLLa4yzzqsL93cTUf?=
- =?us-ascii?Q?NgjF1pY3ehvQfI+pPp+gNZ94yACD3LhcdnqvVNpWZP54OOvoSucOAtmC84ig?=
- =?us-ascii?Q?G630+TFvzAgC/pc0ez/5aqddKFF2jzz5bsEN1yla0SDdBXN15RRZQ+GRdqC0?=
- =?us-ascii?Q?MCt5T3jpcs8puqZowXLlvzNpaVQrNh/2hWiGuRg9P1ps+E9TdQJ5txwvIX78?=
- =?us-ascii?Q?xoSRVdrXLrHoiDsp2P8OgistMvra8kkj3aHIoN32AvhyqH1BhBDIkZRjmBGi?=
- =?us-ascii?Q?XextZB75kDbf6R/55P6zqzqKd2LDeI4eo+OL6G7V1jN7M6GzsEUXlvQtW25G?=
- =?us-ascii?Q?rXmoYeDsBSNFcqt2tT+vX2j/wyUL883OvNfHVGemLSJu2zzxeXrzbHLB8Cay?=
- =?us-ascii?Q?JZzU833Xx/bptZJksJOk1OQ2tkGmWtEefEocIjNBrLv7lTuz/JlucxSJ0AcK?=
- =?us-ascii?Q?P4g2R4heHEklQ8y7y4vzsY+oMnFLNgUFYfMd2ahEHi0MTWv2eRSRB7QJsSYc?=
- =?us-ascii?Q?6WWzkWhdxJCqrse2nfXDSJ4/ySbr3sMebxex4tciSW0A09RE3aG4FRM1Y+bL?=
- =?us-ascii?Q?+fSuClwzY2doVETUiKlJWk7T33JHqjwQr3lXARMAqKxfnWP0qusL9ssXD+bP?=
- =?us-ascii?Q?DmrtYH0ZD83Pn+1SnjfplpYbH0PzlVDymRYUtKSbuuP3HrI4F8rPBQ9ivnlZ?=
- =?us-ascii?Q?94BHXdxHFpypaKiUN7Iwxq+xn2oWGsUMjjAWiQOESNYjDIUNEfm5Wxv3ihHM?=
- =?us-ascii?Q?NsmrvkR2XGGwqiVuUUSBuxwFTjEGxZUNnIegTsf3cLdsWNum/vT3DCpK5gIG?=
- =?us-ascii?Q?nxqGOa7yx2ErywVhctuT8hJeb7RdGJ4JoYh24xyVhvdvD6ieOscWWYscLBYg?=
- =?us-ascii?Q?z83VNaky7GOcH0ONyOsL9NJE3wRzA+dEIlb1lrZDHXwU4OPgWz7AKiUQA5IJ?=
- =?us-ascii?Q?voyAHvC9wKaeUwu103G+Cm1yrIbptk4jno3/7wX9SXuRlxvoCOdCJfEGQnKx?=
- =?us-ascii?Q?inb1KTRmxskpZFgn6hGuX5RK/Ca+x/QywmtkbYtXeHJ5p90zvXrrkAe1mTCW?=
- =?us-ascii?Q?ePLj+czqDPOplxJTwGk/YuEB9wQ2HNasmfXwMx4pqpNq2O9FP9YWoZ/oqIgJ?=
- =?us-ascii?Q?z5D6WE3Amv3+IyMxX70sNbw6rUM7N1l5d2+atmId+Zx/i48fmESitZYfqsGj?=
- =?us-ascii?Q?CHQdn+10O/aCshOc5dkk5Fckb/FohlbiiI2kRsup/+/cMERkGlijKrD741Kb?=
- =?us-ascii?Q?8KYkmvjtfjsISIall4PzB05ZEIMfe+5yteE627TmanyEphnORnA6m+QXpgz1?=
- =?us-ascii?Q?vED5goBTrKQK9N7/3Y2y99zTQEYZ7aE9Y78rua3uwqi7DvuuFae4+wNlNjCb?=
- =?us-ascii?Q?NflvVOkc3MRBFcpA8twr7HpFo16bSgC/QzhLjXOvMY5K1xgZk6zTnYpOXsQD?=
- =?us-ascii?Q?ktOSQB9YMXdvfeFbiNjCCKCRHm9nmVri5dPw5IbWp52EMuAkBeQCtUsoRb/o?=
- =?us-ascii?Q?HKNFs5N4corcqT8zM/jEgA8wYELLn4LPZ5HDKJ5a9uJUUa7qsVgA97URaPAp?=
- =?us-ascii?Q?rrcGuqDr1nTt9bxRMxwiPTJHnSPBkxz882uuCpPccpLOfWBA+fw9qVPPea31?=
- =?us-ascii?Q?6KtyC9MD+pyrJZ9HddkiBTU=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ 15.1.2308.20; Thu, 30 Dec 2021 10:39:23 +0800
+Subject: Re: [PATCH v19 02/13] x86/setup: Use parse_crashkernel_high_low() to
+ simplify code
+To:     Borislav Petkov <bp@alien8.de>
+CC:     Dave Young <dyoung@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Ingo Molnar" <mingo@redhat.com>, <x86@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>, <linux-kernel@vger.kernel.org>,
+        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        <kexec@lists.infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Will Deacon" <will@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        <devicetree@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        "Chen Zhou" <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>
+References: <20211228132612.1860-1-thunder.leizhen@huawei.com>
+ <20211228132612.1860-3-thunder.leizhen@huawei.com> <Ycs3kpZD/vpoo1AX@zn.tnic>
+ <b017a8ea-989b-c251-f5c8-a8a7940877cf@huawei.com>
+ <YcwN9Mfwsh/lPbbd@dhcp-128-65.nay.redhat.com> <YcwyZRDJUMniSaY9@zn.tnic>
+ <Ycw8n2BvJzH9wJKG@dhcp-128-65.nay.redhat.com>
+ <21736ba2-883d-1037-dbe8-299e40f7ad13@huawei.com> <YcySEdyhXysDSKn/@zn.tnic>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <933554c7-1fc6-8e7a-9569-9f8441e50ddf@huawei.com>
+Date:   Thu, 30 Dec 2021 10:39:12 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a6cf03d8-ee66-430c-03ab-08d9cb3c0ee2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Dec 2021 02:28:25.6222
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 50mq00UAg/4FW4fw5J7Q/7r88woYcUAfViWbVfvjVPT62EBDRDbWQPsQdoL50EcMIUMQu3KoUeJN8+akTy8EKQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR11MB1490
-X-OriginatorOrg: intel.com
+In-Reply-To: <YcySEdyhXysDSKn/@zn.tnic>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> From: Sean Christopherson <seanjc@google.com>
-> Sent: Thursday, December 30, 2021 12:55 AM
->=20
-> On Wed, Dec 29, 2021, Yang Zhong wrote:
-> > From: Jing Liu <jing2.liu@intel.com>
-> >
-> > Guest xstate permissions should be set by userspace VMM before vcpu
-> > creation. Extend KVM_SET_CPUID2 to verify that every feature reported
-> > in CPUID[0xD] has proper permission set. If permission allows, enable
-> > all xfeatures in guest cpuid with fpstate buffer sized accordingly.
-> >
-> > This avoids introducing new KVM exit reason for reporting permission
-> > violation to userspace VMM at run-time and also removes the need of
-> > tricky fpstate buffer expansion in the emulation and restore path of
-> > XCR0 and IA32_XFD MSR.
->=20
-> How so?  __do_cpuid_func() restricts what is advertised to userspace base=
-d
-> on
-> xstate_get_guest_group_perm(), so it's not like KVM is advertising someth=
-ing
-> it
-> can't provide?  There should never be any danger to KVM that's mitigated =
-by
-> restricing guest CPUID because KVM can and should check vcpu-
-> >arch.guest_fpu.perm
-> instead of guest CPUID.
 
-Well, above explains why we choose to expand fpstate buffer at=20
-KVM_SET_CPUID2 instead of in the emulation path when required
-permissions have been set, as discussed here:
 
-https://lore.kernel.org/all/20211214024948.048572883@linutronix.de/
+On 2021/12/30 0:51, Borislav Petkov wrote:
+> On Wed, Dec 29, 2021 at 11:04:21PM +0800, Leizhen (ThunderTown) wrote:
+>> Chen Zhou and I tried to share the code because of a suggestion. After so many
+>> attempts, it doesn't seem to fit to make generic. Or maybe I haven't figured
+>> out a good solution yet.
+> 
+> Well, you learned a very important lesson and the many attempts are not
+> in vain: code sharing does not make sense in every case.
+> 
+>> I will put the patches that make arm64 support crashkernel...high,low to
+>> the front, then the parse_crashkernel() unification patches. Even if the
+>> second half of the patches is not ready for v5.18, the first half of the
+>> patches is ready.
+> 
+> I think you should concentrate on the arm64 side which is, AFAICT, what
+> you're trying to achieve.
 
->=20
-> In other words, I believe you're conflating the overall approach of requi=
-ring
-> userspace to pre-acquire the necessary permissions with enforcing what
-> userspace
-> advertises to the guest.
->=20
-> > Signed-off-by: Jing Liu <jing2.liu@intel.com>
-> > Signed-off-by: Kevin Tian <kevin.tian@intel.com>
-> > Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-> > ---
-> >  arch/x86/kvm/cpuid.c | 62 +++++++++++++++++++++++++++++++++----------
-> -
-> >  1 file changed, 47 insertions(+), 15 deletions(-)
-> >
-> > diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
-> > index 4855344091b8..acbc10db550e 100644
-> > --- a/arch/x86/kvm/cpuid.c
-> > +++ b/arch/x86/kvm/cpuid.c
-> > @@ -81,9 +81,12 @@ static inline struct kvm_cpuid_entry2
-> *cpuid_entry2_find(
-> >  	return NULL;
-> >  }
-> >
-> > -static int kvm_check_cpuid(struct kvm_cpuid_entry2 *entries, int nent)
-> > +static int kvm_check_cpuid(struct kvm_vcpu *vcpu,
-> > +			   struct kvm_cpuid_entry2 *entries,
-> > +			   int nent)
-> >  {
-> >  	struct kvm_cpuid_entry2 *best;
-> > +	int r =3D 0;
-> >
-> >  	/*
-> >  	 * The existing code assumes virtual address is 48-bit or 57-bit in t=
-he
-> > @@ -93,11 +96,40 @@ static int kvm_check_cpuid(struct
-> kvm_cpuid_entry2 *entries, int nent)
-> >  	if (best) {
-> >  		int vaddr_bits =3D (best->eax & 0xff00) >> 8;
-> >
-> > -		if (vaddr_bits !=3D 48 && vaddr_bits !=3D 57 && vaddr_bits !=3D 0)
-> > -			return -EINVAL;
-> > +		if (vaddr_bits !=3D 48 && vaddr_bits !=3D 57 && vaddr_bits !=3D 0) {
-> > +			r =3D -EINVAL;
-> > +			goto out;
->=20
-> Please don't change this to a goto, a return is perfectly ok and more rea=
-dable
-> as it doesn't imply there's some functional change that needs to be unwou=
-nd
-> at
-> the end.
+Right, a patchset should focus on just one thing.
 
-will fix
+> 
+> The "parse_crashkernel() unification" needs more thought because, as I
+> said already, that doesn't make a whole lot of sense to me.
 
->=20
-> > +		}
-> >  	}
-> >
-> > -	return 0;
-> > +	/*
-> > +	 * Check guest permissions for dynamically-enabled xfeatures.
-> > +	 * Userspace VMM is expected to acquire permission before vCPU
-> > +	 * creation. If permission allows, enable all xfeatures with
-> > +	 * fpstate buffer sized accordingly. This avoids complexity of
-> > +	 * run-time expansion in the emulation and restore path of XCR0
-> > +	 * and IA32_XFD MSR.
-> > +	 */
-> > +	best =3D cpuid_entry2_find(entries, nent, 0xd, 0);
-> > +	if (best) {
-> > +		u64 xfeatures;
-> > +
-> > +		xfeatures =3D best->eax | ((u64)best->edx << 32);
-> > +		if (xfeatures & ~vcpu->arch.guest_fpu.perm) {
-> > +			r =3D -ENXIO;
->=20
-> ENXIO is a rather odd error code for insufficient permissions, especially=
- since
-> the FPU returns -EPERM for what is effectively the same check.
->=20
-> > +			goto out;
-> > +		}
-> > +
-> > +		if (xfeatures !=3D vcpu->arch.guest_fpu.xfeatures) {
->=20
-> xfeatures is obviously not consumed anywhere, which is super confusing an=
-d
-> arguably wrong, e.g. if userspace advertises xfeatures that are a subset =
-of
-> vcpu->arch.guest_fpu.perm, this will expand XSAVE state beyond what
-> userspace
-> actually wants to advertise to the guest.  The really confusing case woul=
-d be
-> if
-> userspace reduced xfeatures relative to vcpu->arch.guest_fpu.xfeatures an=
-d
-> got
-> an -ENOMEM due to the FPU failing to expand the XSAVE size.
+Yes, because it's not a functional improvement, it's not a performance optimization,
+it's also not a fix for a known bug, it's just a programmer's artistic pursuit.
 
-You are right.
+> 
+> If you want to enforce the fact that "low" makes sense only when "high"
+> is supplied, parse_crashkernel_high_low() is not the right thing to do.
+> You need to have a *single* function which does all the parsing where
+> you can decide what to do: "if high, parse low", "if no high supplied,
+> ignore low" and so on.
 
->=20
-> I don't care about the waste of memory, and IIUC userspace would have to
-> intentionally request permissions for the guest that it then ignores, but=
- that
-> doesn't make the code any less confusing.  And as written, this check als=
-o
-> prevents
-> advertising non-XFD features that are not supported in hardware.  I doubt
-> there's
-> a production use case for that (though MPX deprecation comes close), but
-> I've
-> certainly exposed unsupported features to a guest for testing purposes.
->=20
-> Rather than bleed details from the FPU into KVM, why not have the FPU do
-> any and
-> all checks?  That also gives the FPU access to requested xfeatures so tha=
-t it
-> can opportunistically avoid unnecessary expansion.  We can also tweak the
-> kernel
-> APIs to be more particular about input values.
+I understand your proposal, but parse_crashkernel_high_low() is a cost-effective
+and profitable change, it makes the current code a little clearer, and avoid passing
+unnecessary parameters "system_ram" and "crash_base" when other architectures use
+parse_crashkernel_{high|low}().
 
-All above makes sense, especially when we combine permission check
-and buffer expansion in one step now.
+I actually followed your advice in the beginning to do "parse_crashkernel() and
+parse_crashkernel_{high|low}() unification". But I found it's difficult and the
+end result may not be as good as expected. So I introduced parse_crashkernel_high_low().
 
->=20
-> At that point, I would be ok with fpu_update_guest_perm_features()
-> rejecting
-> attempts to advertise features that are not permitted, because then it's =
-an
-> FPU
-> policy, not a KVM policy, and there's a valid reason for said policy.  It=
-'s a bit
-> of a pedantic distinction, but to me it matters because having KVM explic=
-itly
-> restrict guest CPUID implies that doing so is necessary for KVM correctne=
-ss,
-> which
-> AFAICT is not the case.
->=20
-> E.g. in KVM
->=20
-> 	/*
-> 	 * Exposing dynamic xfeatures to the guest requires additional
-> enabling
-> 	 * in the FPU, e.g. to expand the guest XSAVE state size.
-> 	 */
-> 	best =3D cpuid_entry2_find(entries, nent, 0xd, 0);
-> 	if (!best)
-> 		return 0;
->=20
-> 	xfeatures =3D best->eax | ((u64)best->edx << 32);
-> 	xfeatures &=3D XFEATURE_MASK_USER_DYNAMIC;
-> 	if (!xfeatures)
-> 		return 0;
->=20
-> 	return fpu_enable_guest_xfd_features(&vcpu->arch.guest_fpu,
-> xfeatures);
->=20
-> and then
->=20
->   int fpu_enable_guest_xfd_features(struct fpu_guest *guest_fpu, u64
-> xfeatures)
->   {
-> 	lockdep_assert_preemption_enabled();
->=20
-> 	/* Nothing to do if all requested features are already enabled. */
-> 	xfeatures &=3D ~guest_fpu->xfeatures;
-> 	if (!xfeatures)
-> 		return 0;
->=20
-> 	/* Dynamic xfeatures are not supported with 32-bit kernels. */
-> 	if (!IS_ENABLED(CONFIG_X86_64))
-> 		return -EPERM;
->=20
-> 	return __xfd_enable_feature(xfeatures, guest_fpu);
->   }
->=20
-> with
->=20
->   int __xfd_enable_feature(u64 xfd_err, struct fpu_guest *guest_fpu)
->   {
-> 	struct fpu_state_perm *perm;
-> 	unsigned int ksize, usize;
-> 	struct fpu *fpu;
->=20
-> 	if (WARN_ON_ONCE(!xfd_err || (xfd_err &
-> ~XFEATURE_MASK_USER_DYNAMIC)))
-> 		return 0;
+The parameter "system_ram" and "crash_base" of parse_crashkernel() is not need by
+"crashkernel=X,[high,low]". And parameter "low_size" of parse_crashkernel_high_low()
+is not need by "crashkernel=X[@offset]". The "parse_crashkernel() unification"
+complicates things. For example, the parameter "crash_size" means "low or high" memory
+size for "crashkernel=X[@offset]", but only means "high" memory size for "crashkernel=X,high".
+So we'd better give it two names with union.
 
-Currently this is done as:
+> 
+> And if those are supported on certain architectures only, you can do
+> ifdeffery...
 
-int __xfd_enable_feature(u64 xfd_err, struct fpu_guest *guest_fpu)
- {
- 	u64 xfd_event =3D xfd_err & XFEATURE_MASK_USER_DYNAMIC;
+I don't think so. These __init functions are small and architecture-independent, and do not
+affect compilation of other architectures. There may be other architectures that use
+it in the future, such as the current arm64.
 
-	...
- 	if (!xfd_event) {
-		if (!guest_fpu)
-			pr_err_once("XFD: Invalid xfd error: %016llx\n", xfd_err);
- 		return 0;
- 	}
-	...
-}
+> 
+> But I think I already stated that I don't like such unifications which
+> introduce unnecessary dependencies between architectures. Therefore, I
+> won't accept them into x86 unless there's a strong compelling reason.
+> Which I don't see ATM.
 
-is it necessary to convert the error print to WARN_ON() (and also
-apply to guest_fpu)?
+OK.
 
->=20
-> 	...
->   }
->=20
-> which addresses several things:
->=20
->   a) avoids explicitly restricing guest CPUID in KVM, and in particular d=
-oesn't
->      prevent userspace from advertising non-XFD features that aren't
-> supported in
->      hardware, which for better or worse is allowed today.
->=20
->   b) returns -EPERM instead of '0' when userspace attempts to enable
-> dynamic
->      xfeatures with 32-bit kernels, which isn't a bug as posted only beca=
-use
->      KVM pre-checks vcpu->arch.guest_fpu.perm.
->=20
->   b) avoids reading guest_perm outside of siglock, which was technically =
-a
-> TOCTOU
->      "bug", though it didn't put the kernel at risk because
-> __xstate_request_perm()
->      doesn't allow reducing permissions.
->=20
->   c) allows __xfd_enable_feature() to require the caller to provide just =
-XFD
->      features
->=20
+> 
+> Thx.
+> 
 
-All the sample code looks good to me, except WARN_ON() introduced in
-the last bullet.
-
-If no objection from other maintainers, we can incorporate it in next versi=
-on.
-
-Thanks
-Kevin
+-- 
+Regards,
+  Zhen Lei
