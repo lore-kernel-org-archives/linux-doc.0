@@ -2,67 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CECDC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Dec 2021 16:19:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66551C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Dec 2021 16:45:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241234AbhL3QTX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Dec 2021 11:19:23 -0500
-Received: from ms.lwn.net ([45.79.88.28]:51044 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241226AbhL3QTX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 30 Dec 2021 11:19:23 -0500
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        id S241349AbhL3Qpi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Dec 2021 11:45:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41368 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240031AbhL3Qph (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Dec 2021 11:45:37 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C112C061574;
+        Thu, 30 Dec 2021 08:45:37 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 2650B4FA;
-        Thu, 30 Dec 2021 16:19:22 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2650B4FA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1640881162; bh=5fkNZwcPwkX/k+UpJY6BR4GKe9HLM6dwHni88myZJHo=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=i0mlkRDfXE6554+exm8Xocq0w+7pAlXEnebo+MdEQMIYXfX9LkxYb5ycYwXy54p+X
-         PRqwARI+7MsVMvTWTsQhVTN1kmDCcT3cRzGHt4wLdPkzw7oiPT6docAATgxs1SANsh
-         Jk28fQgUb7PbMlQ4DrfD+JL9cLrxYsogtpLTg0+M+4hxFEwjgYRYUYjtfAyKHF69y+
-         tYh+DMPutsc9FuGafgS+GZTKLF6bQ476qNy9hFnwfZoaMEDmzsabebbSX9w3dPATSx
-         wUDdmclBvti1rRgRXdOPUVFV6qFwBRceWiqSz+Xo/03Af6F+GgX+fOnjIHkG/ZlYJf
-         4QQ2q8y9r3mRg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "elana.copperman@mobileye.com" <elana.copperman@mobileye.com>
-Subject: Re: Removing the deprecated htmldocs for good?
-In-Reply-To: <CAKXUXMw-Tg7WcfVHaWZ-sK+WFnedL+S-jA_UnsdTR=HFwxAXSw@mail.gmail.com>
-References: <CAKXUXMw-Tg7WcfVHaWZ-sK+WFnedL+S-jA_UnsdTR=HFwxAXSw@mail.gmail.com>
-Date:   Thu, 30 Dec 2021 09:19:21 -0700
-Message-ID: <87wnjm9iba.fsf@meer.lwn.net>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 25EB3616FF;
+        Thu, 30 Dec 2021 16:45:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDA4DC36AE9;
+        Thu, 30 Dec 2021 16:45:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1640882736;
+        bh=kdssX1byXxDeDWcE2+JpAQwaEjllqvPxeFbjcqxyKuU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=cfVYl6pPHWLruTmlhVrgr4GdkrFUU8Felvxf5zxVCjLfhmZVqAhgQeOlJbl3kKuUL
+         wiCseSwR5Btl1bKASzhEJ5fqZwEe7SOxg0Wg7sVvXA5m5LLCfkOqREOo5aB2FlPD0Q
+         gZFsvDyxOTQaBpj4LnoUfM8WB/+1naA/yILoUg84=
+Date:   Thu, 30 Dec 2021 17:44:41 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@pengutronix.de,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Patrick Havelange <patrick.havelange@essensium.com>,
+        Kamel Bouhara <kamel.bouhara@bootlin.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Syed Nayyar Waris <syednwaris@gmail.com>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+        Raymond Tan <raymond.tan@intel.com>,
+        "Felipe Balbi (Intel)" <balbi@kernel.org>,
+        David Lechner <david@lechnology.com>,
+        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 00/23] counter: cleanups and device lifetime fixes
+Message-ID: <Yc3h+fROLZwTFoOU@kroah.com>
+References: <20211230150300.72196-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211230150300.72196-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Lukas Bulwahn <lukas.bulwahn@gmail.com> writes:
+On Thu, Dec 30, 2021 at 04:02:37PM +0100, Uwe Kleine-König wrote:
+> Hello,
+> 
+> On Thu, Dec 30, 2021 at 02:19:25PM +0100, Greg Kroah-Hartman wrote:
+> > Please rebase and resend the series against my char-misc-next branch.
+> 
+> this series is just v3 taken via b4 to collect the latest acks into
+> account and then rebased to Greg's char-misc-next.
 
-> Hi Jonathan, hi Konstantin,
->
-> While scanning through the internet for kernel documentation, I
-> stumbled upon the old deprecated htmldocs under
-> https://www.kernel.org/doc/htmldocs/. I see that on
-> https://www.kernel.org/doc/, we already point out that 'htmldocs -
-> Kernel Documentation in docbook format (deprecated).' is deprecated.
-> If I am not mistaken, all the content from htmldocs has now been
-> transformed into .rst and has potentially evolved further and hence
-> all relevant information should also already be available somewhere in
-> https://www.kernel.org/doc/html/latest/.
->
-> Is it now time to delete the content under
-> https://www.kernel.org/doc/htmldocs/ for good?
+That worked, now queued up.
 
-I think that time may have come, yes; perhaps just have it redirect to
-https://www.kernel.org/doc/html/latest/ instead?
+thanks,
 
-Thanks,
-
-jon
+greg k-h
