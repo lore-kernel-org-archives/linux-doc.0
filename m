@@ -2,98 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CEDBC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Dec 2021 11:09:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E1F9C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Dec 2021 13:30:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238811AbhL3LJM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Dec 2021 06:09:12 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:15993 "EHLO
-        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235057AbhL3LJL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Dec 2021 06:09:11 -0500
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.53])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JPlnB1CBpzZdxH;
-        Thu, 30 Dec 2021 19:05:50 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Thu, 30 Dec 2021 19:09:09 +0800
-Received: from [10.174.178.55] (10.174.178.55) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Thu, 30 Dec 2021 19:09:08 +0800
-Subject: Re: [PATCH v19 01/13] kdump: add helper parse_crashkernel_high_low()
-To:     Borislav Petkov <bp@alien8.de>
-CC:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>, <linux-kernel@vger.kernel.org>,
-        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        <kexec@lists.infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        <devicetree@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        "John Donnelly" <John.p.donnelly@oracle.com>
-References: <20211228132612.1860-1-thunder.leizhen@huawei.com>
- <20211228132612.1860-2-thunder.leizhen@huawei.com>
- <4878dda9-871d-228d-21ac-3ac7c8a84322@huawei.com> <Yc2MprJJsm7LagGc@zn.tnic>
-From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Message-ID: <7a703955-cd1c-e074-17dd-a9155aa7690a@huawei.com>
-Date:   Thu, 30 Dec 2021 19:08:56 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <Yc2MprJJsm7LagGc@zn.tnic>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
+        id S234137AbhL3NaC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Dec 2021 08:30:02 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:38078 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229565AbhL3NaB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Dec 2021 08:30:01 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BUDQBl3019216;
+        Thu, 30 Dec 2021 13:29:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=5wqcwPo+JZPoDs+nJ4na0pONcion1ETEAr0MjPw+iGY=;
+ b=TVaoiEgPBXUnFDiG9uTentqk0CdbRm0N3xB87NO6WoOv79qvcrY1vSZCjKNNJhaF0jzd
+ CHyYZQlR14T85bjVZpnKhIfiFEJ6X6PCa6D2M6fF1FQcRmnOZ4HrHq6m6DGv9BoDoxrw
+ 9jXlpRJpTHvc+8IrWOepZqFM0vaUrH1nD+yab4QmUXg52YX4hiYWGUfCjcVnFn6lXF3j
+ M1rqFrmvDiSsiJE0MrjW1Nq7epMABfAPwAN93//O1AVw08+hLOl0DYm8/4BlUtPbalC7
+ feVzxL8fqghj4IEvoZeoTNl1lAOdY+635+CfhMZXCpjYazKtWVDfmx7eOcuYyT75bRHD 8Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3d9dn48120-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 30 Dec 2021 13:29:42 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BUDTfNP025722;
+        Thu, 30 Dec 2021 13:29:41 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3d9dn4811q-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 30 Dec 2021 13:29:41 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+        by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BUDSPam027214;
+        Thu, 30 Dec 2021 13:29:39 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+        by ppma04ams.nl.ibm.com with ESMTP id 3d5txb4rh4-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 30 Dec 2021 13:29:38 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 1BUDTadf31916526
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 30 Dec 2021 13:29:36 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 617D75204F;
+        Thu, 30 Dec 2021 13:29:36 +0000 (GMT)
+Received: from sig-9-65-79-165.ibm.com (unknown [9.65.79.165])
+        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 5086D5204E;
+        Thu, 30 Dec 2021 13:29:34 +0000 (GMT)
+Message-ID: <5a38824152eeee0fc9ba0a4fd2308bb6e0970059.camel@linux.ibm.com>
+Subject: Re: [PATCH v4] KEYS: encrypted: Instantiate key with user-provided
+ decrypted data
+From:   Mimi Zohar <zohar@linux.ibm.com>
+To:     Sumit Garg <sumit.garg@linaro.org>, Yael Tiomkin <yaelt@google.com>
+Cc:     linux-integrity@vger.kernel.org, jejb@linux.ibm.com,
+        jarkko@kernel.org, corbet@lwn.net, dhowells@redhat.com,
+        jmorris@namei.org, serge@hallyn.com, keyrings@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        Jan =?ISO-8859-1?Q?L=FCbbe?= <jlu@pengutronix.de>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>
+Date:   Thu, 30 Dec 2021 08:29:33 -0500
+In-Reply-To: <CAFA6WYPuPHgcnzt6j+Q-EA2Dos6vBDukrjpheo5srLVXFrifEg@mail.gmail.com>
+References: <20211229215330.4134835-1-yaelt@google.com>
+         <CAFA6WYPuPHgcnzt6j+Q-EA2Dos6vBDukrjpheo5srLVXFrifEg@mail.gmail.com>
+Content-Type: text/plain; charset="ISO-8859-15"
+X-Mailer: Evolution 3.28.5 (3.28.5-18.el8) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: inuARKZRr4S3ita7VKwQ6fg_SLAj8hFM
+X-Proofpoint-ORIG-GUID: ZhnyrrmrNrX89UukoyV91yqvP4mkA-TB
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.178.55]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-30_03,2021-12-30_02,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
+ adultscore=0 clxscore=1011 spamscore=0 priorityscore=1501 suspectscore=0
+ mlxlogscore=999 bulkscore=0 lowpriorityscore=0 phishscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112300075
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Sumit,
 
+On Thu, 2021-12-30 at 15:37 +0530, Sumit Garg wrote:
+> + Jan, Ahmad
+> 
+> On Thu, 30 Dec 2021 at 03:24, Yael Tiomkin <yaelt@google.com> wrote:
+> >
+> > The encrypted.c class supports instantiation of encrypted keys with
+> > either an already-encrypted key material, or by generating new key
+> > material based on random numbers. This patch defines a new datablob
+> > format: [<format>] <master-key name> <decrypted data length>
+> > <decrypted data> that allows to instantiate encrypted keys using
+> > user-provided decrypted data, and therefore allows to perform key
+> > encryption from userspace. The decrypted key material will be
+> > inaccessible from userspace.
+> 
+> This type of user-space key import feature has already been discussed
+> at large in the context of trusted keys here [1]. So what makes it
+> special in case of encrypted keys such that it isn't a "UNSAFE_IMPORT"
+> or "DEBUGGING_IMPORT" or "DEVELOPMENT_IMPORT", ...?
+> 
+> [1] https://lore.kernel.org/linux-integrity/74830d4f-5a76-8ba8-aad0-0d79f7c01af9@pengutronix.de/
+> 
+> -Sumit
+> 
+> >
+> > Reviewed-by: Mimi Zohar <zohar@linux.ibm.com>
+> > Signed-off-by: Yael Tiomkin <yaelt@google.com>
 
-On 2021/12/30 18:40, Borislav Petkov wrote:
-> On Thu, Dec 30, 2021 at 06:14:59PM +0800, Leizhen (ThunderTown) wrote:
->>
->> Hi, Dave, Baoquan, Borislav:
->>   What do you think about the introduction of parse_crashkernel_high_low()? If everyone
->> doesn't object, I'll bring it to the next version. But I'll make some adjustments to the
->> patches, see below. If there's any objection, I still strongly recommend removing the
->> parameters "system_ram" and "crash_base" of parse_crashkernel_{high,low}().
->>
->> How about splitting __parse_crashkernel() into two parts? One for parsing
->> "crashkernel=X[@offset]", another one for parsing "crashkernel=X,{high,low}" and other
->> suffixes in the future. So the parameter requirements are clear at the lowest level.
-> 
-> First of all, please do not top post!
-> 
-> Now, I already explained to you what I'd like to see:
-> 
-> https://lore.kernel.org/r/Ycs3kpZD/vpoo1AX@zn.tnic
-> 
-> yet you still don't get it.
-> 
-> So let me make myself clear: in its current form, this is not really an
-> improvement so for all x86 changes:
-> 
-> NAKed-by: Borislav Petkov <bp@suse.de>
-> 
+There is a difference between trusted and encrypted keys.  So in
+addition to pointing to the rather long discussion thread, please
+summarize the conclusion and, assuming you agree, include why in once
+case it was acceptable and in the other it wasn't to provide userspace
+key data.
 
-OK, thanks for your immediate reply, so I can take less detours.
+thanks,
 
--- 
-Regards,
-  Zhen Lei
+Mimi
+
