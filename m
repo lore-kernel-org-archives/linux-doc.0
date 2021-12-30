@@ -2,93 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 967CFC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Dec 2021 10:40:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CEDBC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Dec 2021 11:09:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238600AbhL3Kkn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Dec 2021 05:40:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45314 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238514AbhL3Kkm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Dec 2021 05:40:42 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FA60C061574;
-        Thu, 30 Dec 2021 02:40:42 -0800 (PST)
-Received: from zn.tnic (dslb-088-067-202-008.088.067.pools.vodafone-ip.de [88.67.202.8])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id CF5641EC04FB;
-        Thu, 30 Dec 2021 11:40:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1640860836;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=hMCPTeDnIJ9H9jmkzRtiX1XZPABKFjQELYVZLBGOkB4=;
-        b=aIY2V3d9y9BrUI1nNsTxU5QvqX4XueKqqpzBbQwO68S1IeZtvRneqZXH0DlSQI5B2vI4Ex
-        hdYb7fth4mOeb4TfAX13SLZ0cnW9oAWs3VYRVOmhdXjzVQKFRgBoV3yjAbEemDB+6rOTUs
-        92CdA3L1MP0CVaH82oAiJ1ypb8xz9OM=
-Date:   Thu, 30 Dec 2021 11:40:38 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
+        id S238811AbhL3LJM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Dec 2021 06:09:12 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:15993 "EHLO
+        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235057AbhL3LJL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Dec 2021 06:09:11 -0500
+Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.53])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JPlnB1CBpzZdxH;
+        Thu, 30 Dec 2021 19:05:50 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Thu, 30 Dec 2021 19:09:09 +0800
+Received: from [10.174.178.55] (10.174.178.55) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Thu, 30 Dec 2021 19:09:08 +0800
+Subject: Re: [PATCH v19 01/13] kdump: add helper parse_crashkernel_high_low()
+To:     Borislav Petkov <bp@alien8.de>
+CC:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, <x86@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>, <linux-kernel@vger.kernel.org>,
         Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
         Vivek Goyal <vgoyal@redhat.com>,
         Eric Biederman <ebiederm@xmission.com>,
-        kexec@lists.infradead.org,
+        <kexec@lists.infradead.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
+        <linux-arm-kernel@lists.infradead.org>,
         Rob Herring <robh+dt@kernel.org>,
         Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        <devicetree@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
         Feng Zhou <zhoufeng.zf@bytedance.com>,
         Kefeng Wang <wangkefeng.wang@huawei.com>,
         Chen Zhou <dingguo.cz@antgroup.com>,
-        John Donnelly <John.p.donnelly@oracle.com>
-Subject: Re: [PATCH v19 01/13] kdump: add helper parse_crashkernel_high_low()
-Message-ID: <Yc2MprJJsm7LagGc@zn.tnic>
+        "John Donnelly" <John.p.donnelly@oracle.com>
 References: <20211228132612.1860-1-thunder.leizhen@huawei.com>
  <20211228132612.1860-2-thunder.leizhen@huawei.com>
- <4878dda9-871d-228d-21ac-3ac7c8a84322@huawei.com>
+ <4878dda9-871d-228d-21ac-3ac7c8a84322@huawei.com> <Yc2MprJJsm7LagGc@zn.tnic>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <7a703955-cd1c-e074-17dd-a9155aa7690a@huawei.com>
+Date:   Thu, 30 Dec 2021 19:08:56 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <4878dda9-871d-228d-21ac-3ac7c8a84322@huawei.com>
+In-Reply-To: <Yc2MprJJsm7LagGc@zn.tnic>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 30, 2021 at 06:14:59PM +0800, Leizhen (ThunderTown) wrote:
+
+
+On 2021/12/30 18:40, Borislav Petkov wrote:
+> On Thu, Dec 30, 2021 at 06:14:59PM +0800, Leizhen (ThunderTown) wrote:
+>>
+>> Hi, Dave, Baoquan, Borislav:
+>>   What do you think about the introduction of parse_crashkernel_high_low()? If everyone
+>> doesn't object, I'll bring it to the next version. But I'll make some adjustments to the
+>> patches, see below. If there's any objection, I still strongly recommend removing the
+>> parameters "system_ram" and "crash_base" of parse_crashkernel_{high,low}().
+>>
+>> How about splitting __parse_crashkernel() into two parts? One for parsing
+>> "crashkernel=X[@offset]", another one for parsing "crashkernel=X,{high,low}" and other
+>> suffixes in the future. So the parameter requirements are clear at the lowest level.
 > 
-> Hi, Dave, Baoquan, Borislav:
->   What do you think about the introduction of parse_crashkernel_high_low()? If everyone
-> doesn't object, I'll bring it to the next version. But I'll make some adjustments to the
-> patches, see below. If there's any objection, I still strongly recommend removing the
-> parameters "system_ram" and "crash_base" of parse_crashkernel_{high,low}().
+> First of all, please do not top post!
 > 
-> How about splitting __parse_crashkernel() into two parts? One for parsing
-> "crashkernel=X[@offset]", another one for parsing "crashkernel=X,{high,low}" and other
-> suffixes in the future. So the parameter requirements are clear at the lowest level.
+> Now, I already explained to you what I'd like to see:
+> 
+> https://lore.kernel.org/r/Ycs3kpZD/vpoo1AX@zn.tnic
+> 
+> yet you still don't get it.
+> 
+> So let me make myself clear: in its current form, this is not really an
+> improvement so for all x86 changes:
+> 
+> NAKed-by: Borislav Petkov <bp@suse.de>
+> 
 
-First of all, please do not top post!
-
-Now, I already explained to you what I'd like to see:
-
-https://lore.kernel.org/r/Ycs3kpZD/vpoo1AX@zn.tnic
-
-yet you still don't get it.
-
-So let me make myself clear: in its current form, this is not really an
-improvement so for all x86 changes:
-
-NAKed-by: Borislav Petkov <bp@suse.de>
+OK, thanks for your immediate reply, so I can take less detours.
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Regards,
+  Zhen Lei
