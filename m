@@ -2,83 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6524EC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Dec 2021 13:57:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7547C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Dec 2021 15:03:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234758AbhL3N53 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Dec 2021 08:57:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60468 "EHLO
+        id S240896AbhL3PDR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Dec 2021 10:03:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234755AbhL3N52 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Dec 2021 08:57:28 -0500
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91AF7C061574;
-        Thu, 30 Dec 2021 05:57:28 -0800 (PST)
-Received: by mail-yb1-xb2d.google.com with SMTP id m19so54935099ybf.9;
-        Thu, 30 Dec 2021 05:57:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=QL46HAFcIby/o1gLWnbN3+VoBbIciVe8uJTUARvDsH0=;
-        b=ef0EufrCF32k/t3f+7A5Lzo7mFwUViZeEji52c2QZQduGYXf5lQIoeXR8R1uQwwv+7
-         MOmcUdx7O+I7SPJzFG2V9N3OimID5qFWQHYKn5mG/RjZ7eH8HS7NmIYuxqlVFTCx/NaT
-         JP4xXQv1au1OtGvyYq/VpABmjPRH4C9TJYegdsm7qSgKGPtbX4hCRM8wW5TgfNYR031L
-         wXbJPBLVWory5veQhtvd8Tjn5rBJT+6rsoRQENeqZDb3TKOemYOLP1h+54tAZqBMOTLN
-         E3A6ixhVBedYAzjRDz9xNQdCvhSLLSvY16+x3GLN6ue9T+eP5KyxOc4Q53xhXzqMrroE
-         Mkiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=QL46HAFcIby/o1gLWnbN3+VoBbIciVe8uJTUARvDsH0=;
-        b=kEaICfOhEBqDSpBWEqUBBYQIA+cT2MsEPPBlgj1Os1L+yx2KNfBoKHRXBt5QpnkRgu
-         3C4Su7r+j0dRIUvkyteZOeGmLpx55a4vN+i0unExh2UXh6iRPOXA+vRH9Z5ArBvMNjen
-         HmmoAW9LqzToU8MXOgAvk8hzAY55Nnk8Pw9iJyhde9XbUKLaA9QBxsEOUC3HsLSDCiMy
-         IE1hec4K8XIs0dGJlt4Kvla3UBwVmt96rr82hz913xJbEp4y0shoFaVIhqZGxAo502z0
-         nfCrQHAlioCRj0/1xefB8/bE7pUFSrIVkAoKERe7vHxwptsK9EWY80Pm9HQiPdZUjHfw
-         Ek8A==
-X-Gm-Message-State: AOAM533T8oDGJhh9xznyLtSajgS3ryQXfhx7o6bIrhsrFVyRZzbdqxnD
-        4FUxknDBZoVtdU+6LCTWbiivxnhErsiGTDALCZYNHpvULLU=
-X-Google-Smtp-Source: ABdhPJwFEhIHu0che5fkku3dBRjwodnxUCvEDnjJPXl+a7STwbDDnBSAlw+Hihml3eBTiE1VqDrMwZ5DQBakmfS10z4=
-X-Received: by 2002:a25:3b04:: with SMTP id i4mr35838815yba.767.1640872647518;
- Thu, 30 Dec 2021 05:57:27 -0800 (PST)
+        with ESMTP id S240513AbhL3PDP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Dec 2021 10:03:15 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC4C8C06173E
+        for <linux-doc@vger.kernel.org>; Thu, 30 Dec 2021 07:03:14 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1n2wxP-0000cY-8J; Thu, 30 Dec 2021 16:03:07 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1n2wxP-007VL9-14; Thu, 30 Dec 2021 16:03:06 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1n2wxN-0007ih-8t; Thu, 30 Dec 2021 16:03:05 +0100
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@pengutronix.de,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        William Breathitt Gray <vilhelm.gray@gmail.com>
+Subject: [PATCH v4 14/23] counter: Update documentation for new counter registration functions
+Date:   Thu, 30 Dec 2021 16:02:51 +0100
+Message-Id: <20211230150300.72196-15-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20211230150300.72196-1-u.kleine-koenig@pengutronix.de>
+References: <20211230150300.72196-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date:   Thu, 30 Dec 2021 14:57:16 +0100
-Message-ID: <CAKXUXMw-Tg7WcfVHaWZ-sK+WFnedL+S-jA_UnsdTR=HFwxAXSw@mail.gmail.com>
-Subject: Removing the deprecated htmldocs for good?
-To:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "elana.copperman@mobileye.com" <elana.copperman@mobileye.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1617; h=from:subject; bh=TASnXEH0lKlhSbBqFcgfSSsxVpWQVBj8v5aw8rDjyLo=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBhzcmYbsujyQnO74nW8GN1Q48yFonVn/gcNuRf6YZz YmlfROKJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCYc3JmAAKCRDB/BR4rcrsCfUWB/ 9Faomy7n8b/MYtxZZPQRuDcj0oxoBwjJRTOx3XGzwxRxvjLn0KPpzn+d3dCkndzZBpkHQYZGJEU8o1 dk+UBA39NgBVE9+8ypxCVRTPmWCC86tXBqEMyAhCfjSnHAN3f5MGR3WOqPRaBX3hvYCUlIjz1uDGbB 6i+fExlTeDn6rJz1csmtY54p3ljkuRrsOOwMYtX2Plu51ggtC5MmXheKaaYidH0DctO3ZHtYgYvMZp strt0aP7160xhFNXb5yQ1JLoPGe5xLvHCdQeJ+YWf5WIYZScR2l7WOcaatw6nJ0cy/iS4+9aRswdFv oof4ozAKHdi/GHXUK9nVYqHP7H5wlO
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jonathan, hi Konstantin,
+In order to replace the counter registration API also update the
+documentation to the new way.
 
-While scanning through the internet for kernel documentation, I
-stumbled upon the old deprecated htmldocs under
-https://www.kernel.org/doc/htmldocs/. I see that on
-https://www.kernel.org/doc/, we already point out that 'htmldocs -
-Kernel Documentation in docbook format (deprecated).' is deprecated.
-If I am not mistaken, all the content from htmldocs has now been
-transformed into .rst and has potentially evolved further and hence
-all relevant information should also already be available somewhere in
-https://www.kernel.org/doc/html/latest/.
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Acked-by: William Breathitt Gray <vilhelm.gray@gmail.com>
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ Documentation/driver-api/generic-counter.rst | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Is it now time to delete the content under
-https://www.kernel.org/doc/htmldocs/ for good?
+diff --git a/Documentation/driver-api/generic-counter.rst b/Documentation/driver-api/generic-counter.rst
+index 1b487a331467..71ccc30e586b 100644
+--- a/Documentation/driver-api/generic-counter.rst
++++ b/Documentation/driver-api/generic-counter.rst
+@@ -262,11 +262,11 @@ order to communicate with the device: to read and write various Signals
+ and Counts, and to set and get the "action mode" and "function mode" for
+ various Synapses and Counts respectively.
+ 
+-A defined counter_device structure may be registered to the system by
+-passing it to the counter_register function, and unregistered by passing
+-it to the counter_unregister function. Similarly, the
+-devm_counter_register function may be used if device memory-managed
+-registration is desired.
++A counter_device structure is allocated using counter_alloc() and then
++registered to the system by passing it to the counter_add() function, and
++unregistered by passing it to the counter_unregister function. There are
++device managed variants of these functions: devm_counter_alloc() and
++devm_counter_add().
+ 
+ The struct counter_comp structure is used to define counter extensions
+ for Signals, Synapses, and Counts.
+-- 
+2.34.1
 
-I doubt that htmldocs serves any good purpose as of now and I fear
-that newcomers might refer to that deprecated kernel documentation
-from v4.12, just because it is available and can be found with Google
-before one might find its copy in
-https://www.kernel.org/doc/html/latest/. Some kernel newcomer actually
-already proved that point to me by example...
-
-
-Best regards,
-
-Lukas
