@@ -2,102 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E8FFC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Dec 2021 17:24:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1420AC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Dec 2021 18:04:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241461AbhL3RYk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Dec 2021 12:24:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49882 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241440AbhL3RYk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Dec 2021 12:24:40 -0500
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5E47C061574;
-        Thu, 30 Dec 2021 09:24:39 -0800 (PST)
-Received: by mail-wm1-x32c.google.com with SMTP id k66-20020a1ca145000000b00345fa984108so7941320wme.2;
-        Thu, 30 Dec 2021 09:24:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id;
-        bh=6vTt0sPTxRfRnwBDC4e+K/XdNIJukWXPcDujgrHoT4o=;
-        b=eJDrVz1NU+ONBzKG4ThrQEtMofLMh5ZhLIay3cQ7wx+ox56pzk0/XLMFosO8hlT45A
-         etxIuzwRZRiId08xrIb0g/0w60BkBjfQH/9HkEHX+8pC2rAr6pIoOvLDqttuL//8ivpn
-         D/XYvWNbru27I+iMpKpTlfNpls7zQKzLQ4eU5iNnhrZQFQ4t69jh9Hu8eL9o7VOw7yKK
-         C7vU4p7Lt5pCd++qOp7XNGTp8wIrF9uQLkaJc2xc0Fdoy6yv0vCfDp4UulRMfNj02P+I
-         iq6nI2HbBTeIofBGNt5MBVbkqZeNCsonfdDT3czbVImvKVYTCH5M5r1oYZsxAJADX+zP
-         2Bhw==
+        id S236803AbhL3SEJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Dec 2021 13:04:09 -0500
+Received: from mail-qv1-f50.google.com ([209.85.219.50]:45692 "EHLO
+        mail-qv1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236001AbhL3SEI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Dec 2021 13:04:08 -0500
+Received: by mail-qv1-f50.google.com with SMTP id a9so22733861qvd.12;
+        Thu, 30 Dec 2021 10:04:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=6vTt0sPTxRfRnwBDC4e+K/XdNIJukWXPcDujgrHoT4o=;
-        b=QkSVisbNcHH39+VhECasJnocIn5kS7e1elyBCKdbfSz/ahAjoIanUznW+HaN03K7a3
-         Xvrjmm3zRheznQEFqqFGX3PKTjpI1IGFCHWTmtyxVmVkSRnJx0Qyyh+xUiLezInFJy5U
-         D82Fanu3shj5339AgL+D39GNDPtmxcEdYbRMGCImv5Pf3ZTfvqNYGtQqxfvMOERKI/MU
-         tRF96iYGgnu6Bq+F+CMnv2ybVqZ2vWbZza3xMGBnmZI2nTf8jos5KAstKO2LZtDJXWOO
-         YC2armFtn6zYTBhVDHyTIOxzrL129IfXkcargyGvO3vPMxPP+dAz1bhLvOpzNNo+6ndc
-         jUuQ==
-X-Gm-Message-State: AOAM532x02dDS2I4uQWfGF78l5eCKWoid2dNsgxLoBb093AJlkezKMVy
-        mP2J7EnJ1/EXtvUGN+P4IpI=
-X-Google-Smtp-Source: ABdhPJzaRsPj9c7kb9qvOWtmeBfPFyfJGIUOuJPs+l8QumnmnvBhQj/v/qhgVjBQz0iibeJndx2YDw==
-X-Received: by 2002:a05:600c:348a:: with SMTP id a10mr26647064wmq.165.1640885078101;
-        Thu, 30 Dec 2021 09:24:38 -0800 (PST)
-Received: from felia.fritz.box ([2001:16b8:2657:9600:789b:54e9:fc28:95aa])
-        by smtp.gmail.com with ESMTPSA id n1sm25951857wri.46.2021.12.30.09.24.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Dec 2021 09:24:37 -0800 (PST)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     Jason Wessel <jason.wessel@windriver.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        kgdb-bugreport@lists.sourceforge.net,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] Documentation: kgdb: properly capitalize the MAGIC_SYSRQ config
-Date:   Thu, 30 Dec 2021 18:24:23 +0100
-Message-Id: <20211230172423.30430-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zb/bNA0qFKAH2Qfkb5pd0YZ3K8frAzEWY5gohOYhh2M=;
+        b=oJGS1a1MhLM/hFLnEzOPSMptAT1rKTQV/qKhbOA62QRcQf+ZTmQ8Mma7EM9dMmlHv5
+         iubT+SVoZnd1NEQ2fPCmBuqGgcMTjtdobjo2PiusvYl12Xr1elvgft7rYMlRaQ64Qq54
+         hGknnTSbnkQZ+gTYy1eRXmmeEVKbPpiaM0kbIoDyNceCRfScghBzvXvTmBb+8yQsKSQZ
+         Aa3yrCHDELPQ39x0H3mkoAv3XAk8eg99suAjdIGi0fqG0EjDyhCdAWRKW9e3x+vCcObM
+         njw8zLje0WE/hBh1kaaNjc7vnRjobt838J4/jEXgnpDieZk9XTSuWdnacY5I76c8J0yI
+         Qcjg==
+X-Gm-Message-State: AOAM530Z+4UvP+YbxeZI8/sRJIfm68SvpmRBjDxSzVCA8nRuuz7ezfkK
+        Q9kmYLmIYNKGqfgAHsuAIzLck8lMsZuAkPmbdiM=
+X-Google-Smtp-Source: ABdhPJwZtjAcrRsCHaQwqhPJCAlk5FSKajqZ2AB7Pz3htM+xdhdMuOkGquyP3e38ot4Tt37KBuJoztZvX53AUvzidaw=
+X-Received: by 2002:a05:6214:20a2:: with SMTP id 2mr28417662qvd.52.1640887447800;
+ Thu, 30 Dec 2021 10:04:07 -0800 (PST)
+MIME-Version: 1.0
+References: <20211220151438.1196-1-ricardo.neri-calderon@linux.intel.com> <20211220151438.1196-3-ricardo.neri-calderon@linux.intel.com>
+In-Reply-To: <20211220151438.1196-3-ricardo.neri-calderon@linux.intel.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Thu, 30 Dec 2021 19:03:57 +0100
+Message-ID: <CAJZ5v0if855q45KOvCkOGq3DZfx4nsH1yzr5qCEYvZCe1bzASw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/7] x86: Add definitions for the Intel Hardware
+ Feedback Interface
+To:     Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Len Brown <len.brown@intel.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Aubrey Li <aubrey.li@linux.intel.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>,
+        Lukasz Luba <lukasz.luba@arm.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Ricardo Neri <ricardo.neri@intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Most readers are probably going to figure out that the config is actually
-all upper-case letters, as all Kconfig symbols are this way.
+On Mon, Dec 20, 2021 at 4:23 PM Ricardo Neri
+<ricardo.neri-calderon@linux.intel.com> wrote:
+>
+> Add the CPUID feature bit and the model-specific registers needed to
+> identify and configure the Intel Hardware Feedback Interface.
+>
+> Cc: Andi Kleen <ak@linux.intel.com>
+> Cc: Aubrey Li <aubrey.li@linux.intel.com>
+> Cc: Len Brown <len.brown@intel.com>
+> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> Cc: Tim Chen <tim.c.chen@linux.intel.com>
+> Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>
+> Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+> ---
+> Changes since v1:
+>   * Renamed X86_FEATURE_INTEL_HFI as X86_FEATURE_HFI. (Boris)
 
-Properly capitalizing makes the script ./scripts/checkkconfigsymbols.py
-happy, which otherwise would report this as a reference to a non-existing
-Kconfig symbol.
+It would be good to get an ACK from the x86 side for this.
 
-So, use the right capitalization for the MAGIC_SYSRQ config in the kgdb
-documentation.
-
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
- Documentation/dev-tools/kgdb.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/dev-tools/kgdb.rst b/Documentation/dev-tools/kgdb.rst
-index 43456244651a..3e3f7bca937d 100644
---- a/Documentation/dev-tools/kgdb.rst
-+++ b/Documentation/dev-tools/kgdb.rst
-@@ -402,7 +402,7 @@ This is a quick example of how to use kdb.
- 2. Enter the kernel debugger manually or by waiting for an oops or
-    fault. There are several ways you can enter the kernel debugger
-    manually; all involve using the :kbd:`SysRq-G`, which means you must have
--   enabled ``CONFIG_MAGIC_SysRq=y`` in your kernel config.
-+   enabled ``CONFIG_MAGIC_SYSRQ=y`` in your kernel config.
- 
-    -  When logged in as root or with a super user session you can run::
- 
-@@ -461,7 +461,7 @@ This is a quick example of how to use kdb with a keyboard.
- 2. Enter the kernel debugger manually or by waiting for an oops or
-    fault. There are several ways you can enter the kernel debugger
-    manually; all involve using the :kbd:`SysRq-G`, which means you must have
--   enabled ``CONFIG_MAGIC_SysRq=y`` in your kernel config.
-+   enabled ``CONFIG_MAGIC_SYSRQ=y`` in your kernel config.
- 
-    -  When logged in as root or with a super user session you can run::
- 
--- 
-2.17.1
-
+> ---
+>  arch/x86/include/asm/cpufeatures.h | 1 +
+>  arch/x86/include/asm/msr-index.h   | 6 ++++++
+>  2 files changed, 7 insertions(+)
+>
+> diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
+> index d5b5f2ab87a0..1a31b3ef15f0 100644
+> --- a/arch/x86/include/asm/cpufeatures.h
+> +++ b/arch/x86/include/asm/cpufeatures.h
+> @@ -327,6 +327,7 @@
+>  #define X86_FEATURE_HWP_ACT_WINDOW     (14*32+ 9) /* HWP Activity Window */
+>  #define X86_FEATURE_HWP_EPP            (14*32+10) /* HWP Energy Perf. Preference */
+>  #define X86_FEATURE_HWP_PKG_REQ                (14*32+11) /* HWP Package Level Request */
+> +#define X86_FEATURE_HFI                        (14*32+19) /* Hardware Feedback Interface */
+>
+>  /* AMD SVM Feature Identification, CPUID level 0x8000000a (EDX), word 15 */
+>  #define X86_FEATURE_NPT                        (15*32+ 0) /* Nested Page Table support */
+> diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
+> index 01e2650b9585..ad958a49b2bb 100644
+> --- a/arch/x86/include/asm/msr-index.h
+> +++ b/arch/x86/include/asm/msr-index.h
+> @@ -687,12 +687,14 @@
+>
+>  #define PACKAGE_THERM_STATUS_PROCHOT           (1 << 0)
+>  #define PACKAGE_THERM_STATUS_POWER_LIMIT       (1 << 10)
+> +#define PACKAGE_THERM_STATUS_HFI_UPDATED       (1 << 26)
+>
+>  #define MSR_IA32_PACKAGE_THERM_INTERRUPT       0x000001b2
+>
+>  #define PACKAGE_THERM_INT_HIGH_ENABLE          (1 << 0)
+>  #define PACKAGE_THERM_INT_LOW_ENABLE           (1 << 1)
+>  #define PACKAGE_THERM_INT_PLN_ENABLE           (1 << 24)
+> +#define PACKAGE_THERM_INT_HFI_ENABLE           (1 << 25)
+>
+>  /* Thermal Thresholds Support */
+>  #define THERM_INT_THRESHOLD0_ENABLE    (1 << 15)
+> @@ -941,4 +943,8 @@
+>  #define MSR_VM_IGNNE                    0xc0010115
+>  #define MSR_VM_HSAVE_PA                 0xc0010117
+>
+> +/* Hardware Feedback Interface */
+> +#define MSR_IA32_HW_FEEDBACK_PTR        0x17d0
+> +#define MSR_IA32_HW_FEEDBACK_CONFIG     0x17d1
+> +
+>  #endif /* _ASM_X86_MSR_INDEX_H */
+> --
+> 2.17.1
+>
