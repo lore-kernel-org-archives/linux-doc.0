@@ -2,117 +2,67 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 092B0C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Dec 2021 15:04:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CECDC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Dec 2021 16:19:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241338AbhL3PEQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Dec 2021 10:04:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46888 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241330AbhL3PDh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Dec 2021 10:03:37 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 011DDC061751
-        for <linux-doc@vger.kernel.org>; Thu, 30 Dec 2021 07:03:37 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1n2wxQ-0000cK-69; Thu, 30 Dec 2021 16:03:08 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1n2wxL-007VKV-F7; Thu, 30 Dec 2021 16:03:02 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1n2wxK-0007fw-3q; Thu, 30 Dec 2021 16:03:02 +0100
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@pengutronix.de,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Patrick Havelange <patrick.havelange@essensium.com>,
-        Kamel Bouhara <kamel.bouhara@bootlin.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Syed Nayyar Waris <syednwaris@gmail.com>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
-        Raymond Tan <raymond.tan@intel.com>,
-        "Felipe Balbi (Intel)" <balbi@kernel.org>,
-        David Lechner <david@lechnology.com>,
-        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH v4 00/23] counter: cleanups and device lifetime fixes
-Date:   Thu, 30 Dec 2021 16:02:37 +0100
-Message-Id: <20211230150300.72196-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.34.1
+        id S241234AbhL3QTX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Dec 2021 11:19:23 -0500
+Received: from ms.lwn.net ([45.79.88.28]:51044 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S241226AbhL3QTX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 30 Dec 2021 11:19:23 -0500
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 2650B4FA;
+        Thu, 30 Dec 2021 16:19:22 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2650B4FA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1640881162; bh=5fkNZwcPwkX/k+UpJY6BR4GKe9HLM6dwHni88myZJHo=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=i0mlkRDfXE6554+exm8Xocq0w+7pAlXEnebo+MdEQMIYXfX9LkxYb5ycYwXy54p+X
+         PRqwARI+7MsVMvTWTsQhVTN1kmDCcT3cRzGHt4wLdPkzw7oiPT6docAATgxs1SANsh
+         Jk28fQgUb7PbMlQ4DrfD+JL9cLrxYsogtpLTg0+M+4hxFEwjgYRYUYjtfAyKHF69y+
+         tYh+DMPutsc9FuGafgS+GZTKLF6bQ476qNy9hFnwfZoaMEDmzsabebbSX9w3dPATSx
+         wUDdmclBvti1rRgRXdOPUVFV6qFwBRceWiqSz+Xo/03Af6F+GgX+fOnjIHkG/ZlYJf
+         4QQ2q8y9r3mRg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "elana.copperman@mobileye.com" <elana.copperman@mobileye.com>
+Subject: Re: Removing the deprecated htmldocs for good?
+In-Reply-To: <CAKXUXMw-Tg7WcfVHaWZ-sK+WFnedL+S-jA_UnsdTR=HFwxAXSw@mail.gmail.com>
+References: <CAKXUXMw-Tg7WcfVHaWZ-sK+WFnedL+S-jA_UnsdTR=HFwxAXSw@mail.gmail.com>
+Date:   Thu, 30 Dec 2021 09:19:21 -0700
+Message-ID: <87wnjm9iba.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2532; h=from:subject; bh=AOu1ipuy51ViJtY8+UrNDZQ8jBgMAGOEi7FVF4Yd7rI=; b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBhzcn5BHBaiDQ8cEt776wfv9nWuKqQqGj/puI+WcPv PA8RpYSJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCYc3J+QAKCRDB/BR4rcrsCUcSCA CfKRDdmC0XRJCNVa+WlilBBS1clYGRm99fyrJzTeKcvzB+TkcfWtSl4Mt3rxrI8MprDol2cltD3Ixg 2othS8Ec3bbw2oJUAMPXjA0bkSczWGlPshbUUmgbCl8f3GUhO24I5JUqXJFDaVzjkOGMxCAnu/440k XYcWqGeV7lJeGaBx+DpV5e/abV1DJY9KvJqNh1ZLdHvCTDZtTTPIkABJTS7+MwCrpgNHsrgO+UGSkF AOm4dgHzzKEwYu4cq6hH64t9qm3XrR/7819gHuYSybV+vf3oomYh+eMFXpVDsI4cVmqBQWBIHoNsxb 5ssNycrLJCAUZLiIYykybN0h3bPHk1
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
+Lukas Bulwahn <lukas.bulwahn@gmail.com> writes:
 
-On Thu, Dec 30, 2021 at 02:19:25PM +0100, Greg Kroah-Hartman wrote:
-> Please rebase and resend the series against my char-misc-next branch.
+> Hi Jonathan, hi Konstantin,
+>
+> While scanning through the internet for kernel documentation, I
+> stumbled upon the old deprecated htmldocs under
+> https://www.kernel.org/doc/htmldocs/. I see that on
+> https://www.kernel.org/doc/, we already point out that 'htmldocs -
+> Kernel Documentation in docbook format (deprecated).' is deprecated.
+> If I am not mistaken, all the content from htmldocs has now been
+> transformed into .rst and has potentially evolved further and hence
+> all relevant information should also already be available somewhere in
+> https://www.kernel.org/doc/html/latest/.
+>
+> Is it now time to delete the content under
+> https://www.kernel.org/doc/htmldocs/ for good?
 
-this series is just v3 taken via b4 to collect the latest acks into
-account and then rebased to Greg's char-misc-next.
+I think that time may have come, yes; perhaps just have it redirect to
+https://www.kernel.org/doc/html/latest/ instead?
 
-Uwe Kleine-König (23):
-  counter: Use container_of instead of drvdata to track counter_device
-  counter: ftm-quaddec: Drop unused platform_set_drvdata()
-  counter: microchip-tcb-capture: Drop unused platform_set_drvdata()
-  counter: Provide a wrapper to access device private data
-  counter: 104-quad-8: Convert to counter_priv() wrapper
-  counter: interrupt-cnt: Convert to counter_priv() wrapper
-  counter: microchip-tcb-capture: Convert to counter_priv() wrapper
-  counter: intel-qep: Convert to counter_priv() wrapper
-  counter: ftm-quaddec: Convert to counter_priv() wrapper
-  counter: ti-eqep: Convert to counter_priv() wrapper
-  counter: stm32-lptimer-cnt: Convert to counter_priv() wrapper
-  counter: stm32-timer-cnt: Convert to counter_priv() wrapper
-  counter: Provide alternative counter registration functions
-  counter: Update documentation for new counter registration functions
-  counter: 104-quad-8: Convert to new counter registration
-  counter: interrupt-cnt: Convert to new counter registration
-  counter: intel-qep: Convert to new counter registration
-  counter: ftm-quaddec: Convert to new counter registration
-  counter: microchip-tcb-capture: Convert to new counter registration
-  counter: stm32-timer-cnt: Convert to new counter registration
-  counter: stm32-lptimer-cnt: Convert to new counter registration
-  counter: ti-eqep: Convert to new counter registration
-  counter: remove old and now unused registration API
+Thanks,
 
- Documentation/driver-api/generic-counter.rst |  10 +-
- drivers/counter/104-quad-8.c                 |  91 ++++-----
- drivers/counter/counter-core.c               | 186 ++++++++++++++-----
- drivers/counter/ftm-quaddec.c                |  36 ++--
- drivers/counter/intel-qep.c                  |  46 ++---
- drivers/counter/interrupt-cnt.c              |  38 ++--
- drivers/counter/microchip-tcb-capture.c      |  44 ++---
- drivers/counter/stm32-lptimer-cnt.c          |  51 ++---
- drivers/counter/stm32-timer-cnt.c            |  48 ++---
- drivers/counter/ti-eqep.c                    |  31 ++--
- include/linux/counter.h                      |  15 +-
- 11 files changed, 355 insertions(+), 241 deletions(-)
-
-
-base-commit: e75a58db41df67e6282104aaae073bc8b43b8dc8
--- 
-2.34.1
-
+jon
