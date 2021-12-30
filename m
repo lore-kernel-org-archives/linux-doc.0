@@ -2,77 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35081C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Dec 2021 13:30:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6524EC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Dec 2021 13:57:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239522AbhL3NaO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Dec 2021 08:30:14 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:52830 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239514AbhL3NaM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Dec 2021 08:30:12 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E0C43B81C52;
-        Thu, 30 Dec 2021 13:30:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 93BB0C36AEC;
-        Thu, 30 Dec 2021 13:30:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1640871009;
-        bh=MBCCPISAwIuV2IgcqTzqAI4VZBsEfHTUkt9lOE8w5bY=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=Jh5Fm5fBuiNsCUUbPIVU8+MFNtaiNCgRosGM6ZBfNdc4SmgjBs6Te8NE4cBNdP3c3
-         s+TTB/GSse9BkV2JH6Bvq0vAWYdHeXdZgzInJoPICMnesRuQjC50qk2vufii6w9dEu
-         drc0w05aNPWjlFmumGBpd6P7tD6ki9EGZOYsH3CMzVjdjqzW8UPsPZKuzWlgjPoRzm
-         +KMFw7NE8vk+S8yREhndtiLHvIxwAClfNRApxqd+G8uhe5lgVItYUArVcXHj3hF7gr
-         UfvouAK0ZSnuZBGARtEtROTDQkqr+6D54IECPu5xLWRhqI8fZMRI3ucsAUVHptjaTZ
-         Mc7LDLWn2+Uhg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 7C474C395E4;
-        Thu, 30 Dec 2021 13:30:09 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        id S234758AbhL3N53 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Dec 2021 08:57:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60468 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234755AbhL3N52 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Dec 2021 08:57:28 -0500
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91AF7C061574;
+        Thu, 30 Dec 2021 05:57:28 -0800 (PST)
+Received: by mail-yb1-xb2d.google.com with SMTP id m19so54935099ybf.9;
+        Thu, 30 Dec 2021 05:57:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=QL46HAFcIby/o1gLWnbN3+VoBbIciVe8uJTUARvDsH0=;
+        b=ef0EufrCF32k/t3f+7A5Lzo7mFwUViZeEji52c2QZQduGYXf5lQIoeXR8R1uQwwv+7
+         MOmcUdx7O+I7SPJzFG2V9N3OimID5qFWQHYKn5mG/RjZ7eH8HS7NmIYuxqlVFTCx/NaT
+         JP4xXQv1au1OtGvyYq/VpABmjPRH4C9TJYegdsm7qSgKGPtbX4hCRM8wW5TgfNYR031L
+         wXbJPBLVWory5veQhtvd8Tjn5rBJT+6rsoRQENeqZDb3TKOemYOLP1h+54tAZqBMOTLN
+         E3A6ixhVBedYAzjRDz9xNQdCvhSLLSvY16+x3GLN6ue9T+eP5KyxOc4Q53xhXzqMrroE
+         Mkiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=QL46HAFcIby/o1gLWnbN3+VoBbIciVe8uJTUARvDsH0=;
+        b=kEaICfOhEBqDSpBWEqUBBYQIA+cT2MsEPPBlgj1Os1L+yx2KNfBoKHRXBt5QpnkRgu
+         3C4Su7r+j0dRIUvkyteZOeGmLpx55a4vN+i0unExh2UXh6iRPOXA+vRH9Z5ArBvMNjen
+         HmmoAW9LqzToU8MXOgAvk8hzAY55Nnk8Pw9iJyhde9XbUKLaA9QBxsEOUC3HsLSDCiMy
+         IE1hec4K8XIs0dGJlt4Kvla3UBwVmt96rr82hz913xJbEp4y0shoFaVIhqZGxAo502z0
+         nfCrQHAlioCRj0/1xefB8/bE7pUFSrIVkAoKERe7vHxwptsK9EWY80Pm9HQiPdZUjHfw
+         Ek8A==
+X-Gm-Message-State: AOAM533T8oDGJhh9xznyLtSajgS3ryQXfhx7o6bIrhsrFVyRZzbdqxnD
+        4FUxknDBZoVtdU+6LCTWbiivxnhErsiGTDALCZYNHpvULLU=
+X-Google-Smtp-Source: ABdhPJwFEhIHu0che5fkku3dBRjwodnxUCvEDnjJPXl+a7STwbDDnBSAlw+Hihml3eBTiE1VqDrMwZ5DQBakmfS10z4=
+X-Received: by 2002:a25:3b04:: with SMTP id i4mr35838815yba.767.1640872647518;
+ Thu, 30 Dec 2021 05:57:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2] Documentation: fix outdated interpretation of
- ip_no_pmtu_disc
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <164087100950.9335.18212536955460808575.git-patchwork-notify@kernel.org>
-Date:   Thu, 30 Dec 2021 13:30:09 +0000
-References: <20211230032856.584972-1-xu.xin16@zte.com.cn>
-In-Reply-To: <20211230032856.584972-1-xu.xin16@zte.com.cn>
-To:     CGEL <cgel.zte@gmail.com>
-Cc:     kuba@kernel.org, davem@davemloft.net, corbet@lwn.net,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, xu.xin16@zte.com.cn, zealci@zte.com.cn
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date:   Thu, 30 Dec 2021 14:57:16 +0100
+Message-ID: <CAKXUXMw-Tg7WcfVHaWZ-sK+WFnedL+S-jA_UnsdTR=HFwxAXSw@mail.gmail.com>
+Subject: Removing the deprecated htmldocs for good?
+To:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "elana.copperman@mobileye.com" <elana.copperman@mobileye.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+Hi Jonathan, hi Konstantin,
 
-This patch was applied to netdev/net.git (master)
-by David S. Miller <davem@davemloft.net>:
+While scanning through the internet for kernel documentation, I
+stumbled upon the old deprecated htmldocs under
+https://www.kernel.org/doc/htmldocs/. I see that on
+https://www.kernel.org/doc/, we already point out that 'htmldocs -
+Kernel Documentation in docbook format (deprecated).' is deprecated.
+If I am not mistaken, all the content from htmldocs has now been
+transformed into .rst and has potentially evolved further and hence
+all relevant information should also already be available somewhere in
+https://www.kernel.org/doc/html/latest/.
 
-On Thu, 30 Dec 2021 03:28:56 +0000 you wrote:
-> From: xu xin <xu.xin16@zte.com.cn>
-> 
-> The updating way of pmtu has changed, but documentation is still in the
-> old way. So this patch updates the interpretation of ip_no_pmtu_disc and
-> min_pmtu.
-> 
-> See commit 28d35bcdd3925 ("net: ipv4: don't let PMTU updates increase
-> route MTU")
-> 
-> [...]
+Is it now time to delete the content under
+https://www.kernel.org/doc/htmldocs/ for good?
 
-Here is the summary with links:
-  - [v2] Documentation: fix outdated interpretation of ip_no_pmtu_disc
-    https://git.kernel.org/netdev/net/c/be1c5b53227b
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+I doubt that htmldocs serves any good purpose as of now and I fear
+that newcomers might refer to that deprecated kernel documentation
+from v4.12, just because it is available and can be found with Google
+before one might find its copy in
+https://www.kernel.org/doc/html/latest/. Some kernel newcomer actually
+already proved that point to me by example...
 
 
+Best regards,
+
+Lukas
