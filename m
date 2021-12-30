@@ -2,142 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94296C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Dec 2021 02:39:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F033C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Dec 2021 02:57:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231775AbhL3Cj1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Dec 2021 21:39:27 -0500
-Received: from szxga03-in.huawei.com ([45.249.212.189]:30193 "EHLO
-        szxga03-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230296AbhL3Cj1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Dec 2021 21:39:27 -0500
-Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.57])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4JPXV02Y7Yz8w5m;
-        Thu, 30 Dec 2021 10:36:56 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Thu, 30 Dec 2021 10:39:24 +0800
-Received: from [10.174.178.55] (10.174.178.55) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Thu, 30 Dec 2021 10:39:23 +0800
-Subject: Re: [PATCH v19 02/13] x86/setup: Use parse_crashkernel_high_low() to
- simplify code
-To:     Borislav Petkov <bp@alien8.de>
-CC:     Dave Young <dyoung@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Ingo Molnar" <mingo@redhat.com>, <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>, <linux-kernel@vger.kernel.org>,
-        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        <kexec@lists.infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Will Deacon" <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        <devicetree@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        "Chen Zhou" <dingguo.cz@antgroup.com>,
-        John Donnelly <John.p.donnelly@oracle.com>
-References: <20211228132612.1860-1-thunder.leizhen@huawei.com>
- <20211228132612.1860-3-thunder.leizhen@huawei.com> <Ycs3kpZD/vpoo1AX@zn.tnic>
- <b017a8ea-989b-c251-f5c8-a8a7940877cf@huawei.com>
- <YcwN9Mfwsh/lPbbd@dhcp-128-65.nay.redhat.com> <YcwyZRDJUMniSaY9@zn.tnic>
- <Ycw8n2BvJzH9wJKG@dhcp-128-65.nay.redhat.com>
- <21736ba2-883d-1037-dbe8-299e40f7ad13@huawei.com> <YcySEdyhXysDSKn/@zn.tnic>
-From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Message-ID: <933554c7-1fc6-8e7a-9569-9f8441e50ddf@huawei.com>
-Date:   Thu, 30 Dec 2021 10:39:12 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S235062AbhL3C5N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Dec 2021 21:57:13 -0500
+Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:60596 "EHLO
+        out30-54.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234683AbhL3C5N (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Dec 2021 21:57:13 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04426;MF=shile.zhang@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0V0HsN6B_1640833023;
+Received: from e18g09479.et15sqa.tbsite.net(mailfrom:shile.zhang@linux.alibaba.com fp:SMTPD_---0V0HsN6B_1640833023)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Thu, 30 Dec 2021 10:57:11 +0800
+From:   Shile Zhang <shile.zhang@linux.alibaba.com>
+To:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Wu XiangCheng <bobwxc@email.cn>
+Cc:     linux-doc@vger.kernel.org,
+        Shile Zhang <shile.zhang@linux.alibaba.com>
+Subject: [PATCH] docs/zh_CN: Update and fix a couple of typos
+Date:   Thu, 30 Dec 2021 10:57:02 +0800
+Message-Id: <20211230025702.186158-1-shile.zhang@linux.alibaba.com>
+X-Mailer: git-send-email 2.33.0.rc2
 MIME-Version: 1.0
-In-Reply-To: <YcySEdyhXysDSKn/@zn.tnic>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.178.55]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Update to the original README.rst and fix some typos.
 
+Signed-off-by: Shile Zhang <shile.zhang@linux.alibaba.com>
+---
+ .../translations/zh_CN/admin-guide/README.rst         | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-On 2021/12/30 0:51, Borislav Petkov wrote:
-> On Wed, Dec 29, 2021 at 11:04:21PM +0800, Leizhen (ThunderTown) wrote:
->> Chen Zhou and I tried to share the code because of a suggestion. After so many
->> attempts, it doesn't seem to fit to make generic. Or maybe I haven't figured
->> out a good solution yet.
-> 
-> Well, you learned a very important lesson and the many attempts are not
-> in vain: code sharing does not make sense in every case.
-> 
->> I will put the patches that make arm64 support crashkernel...high,low to
->> the front, then the parse_crashkernel() unification patches. Even if the
->> second half of the patches is not ready for v5.18, the first half of the
->> patches is ready.
-> 
-> I think you should concentrate on the arm64 side which is, AFAICT, what
-> you're trying to achieve.
-
-Right, a patchset should focus on just one thing.
-
-> 
-> The "parse_crashkernel() unification" needs more thought because, as I
-> said already, that doesn't make a whole lot of sense to me.
-
-Yes, because it's not a functional improvement, it's not a performance optimization,
-it's also not a fix for a known bug, it's just a programmer's artistic pursuit.
-
-> 
-> If you want to enforce the fact that "low" makes sense only when "high"
-> is supplied, parse_crashkernel_high_low() is not the right thing to do.
-> You need to have a *single* function which does all the parsing where
-> you can decide what to do: "if high, parse low", "if no high supplied,
-> ignore low" and so on.
-
-I understand your proposal, but parse_crashkernel_high_low() is a cost-effective
-and profitable change, it makes the current code a little clearer, and avoid passing
-unnecessary parameters "system_ram" and "crash_base" when other architectures use
-parse_crashkernel_{high|low}().
-
-I actually followed your advice in the beginning to do "parse_crashkernel() and
-parse_crashkernel_{high|low}() unification". But I found it's difficult and the
-end result may not be as good as expected. So I introduced parse_crashkernel_high_low().
-
-The parameter "system_ram" and "crash_base" of parse_crashkernel() is not need by
-"crashkernel=X,[high,low]". And parameter "low_size" of parse_crashkernel_high_low()
-is not need by "crashkernel=X[@offset]". The "parse_crashkernel() unification"
-complicates things. For example, the parameter "crash_size" means "low or high" memory
-size for "crashkernel=X[@offset]", but only means "high" memory size for "crashkernel=X,high".
-So we'd better give it two names with union.
-
-> 
-> And if those are supported on certain architectures only, you can do
-> ifdeffery...
-
-I don't think so. These __init functions are small and architecture-independent, and do not
-affect compilation of other architectures. There may be other architectures that use
-it in the future, such as the current arm64.
-
-> 
-> But I think I already stated that I don't like such unifications which
-> introduce unnecessary dependencies between architectures. Therefore, I
-> won't accept them into x86 unless there's a strong compelling reason.
-> Which I don't see ATM.
-
-OK.
-
-> 
-> Thx.
-> 
-
+diff --git a/Documentation/translations/zh_CN/admin-guide/README.rst b/Documentation/translations/zh_CN/admin-guide/README.rst
+index 980eb20521cf..d20949e8bf6f 100644
+--- a/Documentation/translations/zh_CN/admin-guide/README.rst
++++ b/Documentation/translations/zh_CN/admin-guide/README.rst
+@@ -133,7 +133,7 @@ Linux内核5.x版本 <http://kernel.org/>
+ 
+    即使只升级一个小版本，也不要跳过此步骤。每个版本中都会添加新的配置选项，
+    如果配置文件没有按预定设置，就会出现奇怪的问题。如果您想以最少的工作量
+-   将现有配置升级到新版本，请使用 ``makeoldconfig`` ，它只会询问您新配置
++   将现有配置升级到新版本，请使用 ``make oldconfig`` ，它只会询问您新配置
+    选项的答案。
+ 
+  - 其他配置命令包括::
+@@ -161,7 +161,7 @@ Linux内核5.x版本 <http://kernel.org/>
+      "make ${PLATFORM}_defconfig"
+                         使用arch/$arch/configs/${PLATFORM}_defconfig中
+                         的默认选项值创建一个./.config文件。
+-                        用“makehelp”来获取您体系架构中所有可用平台的列表。
++                        用“make help”来获取您体系架构中所有可用平台的列表。
+ 
+      "make allyesconfig"
+                         通过尽可能将选项值设置为“y”，创建一个
+@@ -197,9 +197,10 @@ Linux内核5.x版本 <http://kernel.org/>
+      "make localyesconfig" 与localmodconfig类似，只是它会将所有模块选项转换
+                            为内置（=y）。你可以同时通过LMC_KEEP保留模块。
+ 
+-     "make kvmconfig"   为kvm客体内核支持启用其他选项。
++     "make kvm_guest.config"
++                        为kvm客户机内核支持启用其他选项。
+ 
+-     "make xenconfig"   为xen dom0客体内核支持启用其他选项。
++     "make xen.config"  为xen dom0客户机内核支持启用其他选项。
+ 
+      "make tinyconfig"  配置尽可能小的内核。
+ 
+@@ -229,7 +230,7 @@ Linux内核5.x版本 <http://kernel.org/>
+    请注意，您仍然可以使用此内核运行a.out用户程序。
+ 
+  - 执行 ``make`` 来创建压缩内核映像。如果您安装了lilo以适配内核makefile，
+-   那么也可以进行 ``makeinstall`` ，但是您可能需要先检查特定的lilo设置。
++   那么也可以进行 ``make install`` ，但是您可能需要先检查特定的lilo设置。
+ 
+    实际安装必须以root身份执行，但任何正常构建都不需要。
+    无须徒然使用root身份。
 -- 
-Regards,
-  Zhen Lei
+2.33.0.rc2
+
