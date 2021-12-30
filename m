@@ -2,77 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66551C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Dec 2021 16:45:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF4A5C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Dec 2021 17:20:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241349AbhL3Qpi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Dec 2021 11:45:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41368 "EHLO
+        id S239703AbhL3RUG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Dec 2021 12:20:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240031AbhL3Qph (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Dec 2021 11:45:37 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C112C061574;
-        Thu, 30 Dec 2021 08:45:37 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 25EB3616FF;
-        Thu, 30 Dec 2021 16:45:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDA4DC36AE9;
-        Thu, 30 Dec 2021 16:45:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1640882736;
-        bh=kdssX1byXxDeDWcE2+JpAQwaEjllqvPxeFbjcqxyKuU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cfVYl6pPHWLruTmlhVrgr4GdkrFUU8Felvxf5zxVCjLfhmZVqAhgQeOlJbl3kKuUL
-         wiCseSwR5Btl1bKASzhEJ5fqZwEe7SOxg0Wg7sVvXA5m5LLCfkOqREOo5aB2FlPD0Q
-         gZFsvDyxOTQaBpj4LnoUfM8WB/+1naA/yILoUg84=
-Date:   Thu, 30 Dec 2021 17:44:41 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@pengutronix.de,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Patrick Havelange <patrick.havelange@essensium.com>,
-        Kamel Bouhara <kamel.bouhara@bootlin.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Syed Nayyar Waris <syednwaris@gmail.com>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
-        Raymond Tan <raymond.tan@intel.com>,
-        "Felipe Balbi (Intel)" <balbi@kernel.org>,
-        David Lechner <david@lechnology.com>,
-        Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
+        with ESMTP id S236737AbhL3RUF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Dec 2021 12:20:05 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39581C061574;
+        Thu, 30 Dec 2021 09:20:05 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id v7so51567643wrv.12;
+        Thu, 30 Dec 2021 09:20:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=n/qQDXJk2QbH2NGsjvFVJ3ub2PnKBdYzofoYgc2mPZM=;
+        b=XrPlU1tx5TWNnHIjx83NHVcOfK6mlpBbpa6/8BUJlN94o4v8Y0mSY0zGWEf/hGvZ9L
+         DtR0hvQ63iuj7i0ayJrqmb+dj1HaPslKmm795bNWjD7ajEfs4yLRZSdKoGr/Lklc+wA/
+         hKQOvcEIw8ryMt+CytyyTcPTsXoMeJW8QbdN6zhq7XW7v2/eLicw3a+RobJCX4ayad90
+         dctaa8htJdCK+U74RtDAlXV29k531+mjLHI88wdd09vc4jWFU3rUZC+EyJKOqBiyDl4g
+         /ksAJG5UnfZGR2ybxW+YzobTlY1thsuJX02rNtDadTQcQZDm2asOTq+Ao1fXlvgFCc3L
+         F6TA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=n/qQDXJk2QbH2NGsjvFVJ3ub2PnKBdYzofoYgc2mPZM=;
+        b=dCgEpLazT4ol3l6cQZCtnFYSTsBOO+QY7cyF/GzK2si21CuJQRxQmxU90Yn7kVXazT
+         saOHmF2rNeXCEbGBGvDd1tB+Yz55cVB5AlEr6HQkU1lBBFnEGVarESra91jz/Wz0+13s
+         5b+bxa9D5WEsIR7G7bJiuPr/l7PaXtuzccYR0+DzHcJvpX5tzasBRH46HF66JnKOGPvP
+         Af8Rol6ulUDAH8HkwQsoSW2ljEmHGZKU5RURnmO7Fdw5tZwYJfpvTqjpRyJek+97eHb7
+         MJCZXkI2i5gVk/l3th8EMPl75/yr4DSA288haITeZi0Z6jM6oOUESoBb6v0cV8fgacz9
+         5vnA==
+X-Gm-Message-State: AOAM53377+JEqXV48R/DdLGPy6HW39JHpBKCgdh4QZhvqWQ9CQvhfeVp
+        t2+0flV4BbGplwpYW5SzRDAVwlnMtWQ=
+X-Google-Smtp-Source: ABdhPJz7pk+TZP3KIA3Wu6oebLD35Y7oBH4hmjvWmB6lCBLzTaBGLJqkAUgaOh9+sgYOQjuXLiFIXg==
+X-Received: by 2002:a5d:448f:: with SMTP id j15mr26833990wrq.603.1640884803135;
+        Thu, 30 Dec 2021 09:20:03 -0800 (PST)
+Received: from felia.fritz.box ([2001:16b8:2657:9600:789b:54e9:fc28:95aa])
+        by smtp.gmail.com with ESMTPSA id z5sm23709975wru.87.2021.12.30.09.20.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Dec 2021 09:20:02 -0800 (PST)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Andi Kleen <ak@linux.intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tim Chen <tim.c.chen@linux.intel.com>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 00/23] counter: cleanups and device lifetime fixes
-Message-ID: <Yc3h+fROLZwTFoOU@kroah.com>
-References: <20211230150300.72196-1-u.kleine-koenig@pengutronix.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211230150300.72196-1-u.kleine-koenig@pengutronix.de>
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] Documentation: refer to config RANDOMIZE_BASE for kernel address-space randomization
+Date:   Thu, 30 Dec 2021 18:19:40 +0100
+Message-Id: <20211230171940.27558-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 30, 2021 at 04:02:37PM +0100, Uwe Kleine-König wrote:
-> Hello,
-> 
-> On Thu, Dec 30, 2021 at 02:19:25PM +0100, Greg Kroah-Hartman wrote:
-> > Please rebase and resend the series against my char-misc-next branch.
-> 
-> this series is just v3 taken via b4 to collect the latest acks into
-> account and then rebased to Greg's char-misc-next.
+The config RANDOMIZE_SLAB does not exist, the authors probably intended to
+refer to the config RANDOMIZE_BASE, which provides kernel address-space
+randomization. They probably just confused SLAB with BASE (these two
+four-letter words coincidentally share three common letters), as they also
+point out the config SLAB_FREELIST_RANDOM as further randomization within
+the same sentence.
 
-That worked, now queued up.
+Fix the reference of the config for kernel address-space randomization to
+the config that provides that.
 
-thanks,
+Fixes: 6e88559470f5 ("Documentation: Add section about CPU vulnerabilities for Spectre")
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+ Documentation/admin-guide/hw-vuln/spectre.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-greg k-h
+diff --git a/Documentation/admin-guide/hw-vuln/spectre.rst b/Documentation/admin-guide/hw-vuln/spectre.rst
+index ab7d402c1677..a2b22d5640ec 100644
+--- a/Documentation/admin-guide/hw-vuln/spectre.rst
++++ b/Documentation/admin-guide/hw-vuln/spectre.rst
+@@ -468,7 +468,7 @@ Spectre variant 2
+    before invoking any firmware code to prevent Spectre variant 2 exploits
+    using the firmware.
+ 
+-   Using kernel address space randomization (CONFIG_RANDOMIZE_SLAB=y
++   Using kernel address space randomization (CONFIG_RANDOMIZE_BASE=y
+    and CONFIG_SLAB_FREELIST_RANDOM=y in the kernel configuration) makes
+    attacks on the kernel generally more difficult.
+ 
+-- 
+2.17.1
+
