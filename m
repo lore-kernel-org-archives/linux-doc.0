@@ -2,197 +2,79 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BAD5C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Dec 2021 00:43:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52AF9C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Dec 2021 02:09:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242411AbhLaAn2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Dec 2021 19:43:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33364 "EHLO
+        id S240963AbhLaCJx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Dec 2021 21:09:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233018AbhLaAn1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Dec 2021 19:43:27 -0500
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E8F9C061574;
-        Thu, 30 Dec 2021 16:43:27 -0800 (PST)
-Received: by mail-pg1-x533.google.com with SMTP id 8so22614717pgc.10;
-        Thu, 30 Dec 2021 16:43:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=WnhN3kMe3VENULvjYSV92C/m7+KOrcGSnKmq3Z/qE9s=;
-        b=dcw8ptgqfh3oEWvj1AP2DEYu2tya2xmL+W4mVY8+bdbXqKMtvFH9FNaI5AIt6Uv7QS
-         2w7T3QPbLQsGPgcfNFIFM5muxSMOHVH+r6t/3eTJJimRi32pgyFEvi3Iy5Ax6yVwyRxU
-         9g8xrg/7G31nhNhx+krDP2/SnS05incs2Yu4EUwX12Po8C7BR/HbIlc7pkhcpUPrHlWz
-         44pgUgQdRiaosQaV13iPD50nuXx75qGcAT6nQHEMq4B/bIzloArcDYLxpBgTWNfE/aon
-         n8Ux1kbfVSSJQbxht/wzFOTN7m8I81FuzryWffyBGk3emB959vPwnYV+sBJcMWqkqKwB
-         etBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=WnhN3kMe3VENULvjYSV92C/m7+KOrcGSnKmq3Z/qE9s=;
-        b=msJ6V8KXKyNEtjm3I3evoU7aXjU5ZQ+R3BpA/1JuHdz0cmwyPumlGOC/F8l4o1xkKW
-         UyPRnjT2BTNZQxKWgZU0QQ4HCMiZCllZMhqhQc/QWksAnjCnLcEbaoUc50DIfhNBFte8
-         7/VGBfTy+8e7IOntN4kNhI/kYfDyanan4lKAdZkFpfwNxXKrkOhrSC/boccbQlo1qXQG
-         1CbzELha64UUMwr1aoFmNobp00/lzlAS4ZzraxuXPUQKKQBOUKuNxrfiuntG3hrQKmpS
-         J1vM+i254wastlrTz8ZXXeARfjAzujptePwVg8r5rTg3OsP5dco7LD0eDXqqFfBBYmRH
-         Uobg==
-X-Gm-Message-State: AOAM53238GdrXHQjHxJ8teebMBaGBsPVmhqT3ieFR9AgvEiWVEzOga+9
-        m2zMtSuxFy9hJKm7qw7QfrzGWAM65Dk=
-X-Google-Smtp-Source: ABdhPJxruE0yBw1trj8i+OOtqRwMb2rbVjgaL18Y/pv3YFd1gau2Rcdaiw39aDRg9hFHpoxbnm/jYQ==
-X-Received: by 2002:a63:701b:: with SMTP id l27mr29533945pgc.241.1640911406891;
-        Thu, 30 Dec 2021 16:43:26 -0800 (PST)
-Received: from ast-mbp ([2620:10d:c090:400::5:4e61])
-        by smtp.gmail.com with ESMTPSA id 6sm22430120pgc.90.2021.12.30.16.43.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Dec 2021 16:43:26 -0800 (PST)
-Date:   Thu, 30 Dec 2021 16:43:24 -0800
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org
-Subject: Re: [PATCH 3/4] bpf, docs: Generate nicer tables for instruction
- encodings
-Message-ID: <20211231004324.wvfqqgntnpswhzby@ast-mbp>
-References: <20211223101906.977624-1-hch@lst.de>
- <20211223101906.977624-4-hch@lst.de>
+        with ESMTP id S229890AbhLaCJx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Dec 2021 21:09:53 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA089C061574;
+        Thu, 30 Dec 2021 18:09:52 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 5658AB81CAC;
+        Fri, 31 Dec 2021 02:09:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2997C36AEA;
+        Fri, 31 Dec 2021 02:09:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1640916590;
+        bh=gSzqPQ6IFufxMDlKjpZbLlQez/c+rK8RGCTrCFGHhxU=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=LoaCpH9pkvjfXP4SFT0NyFKJnUkHF0dKM5Yat4hA3+OeZ0nd42MtApzhEGjEGwaoq
+         n+2YgnhSLOEWSvWexCfZTLtfNZxDiKMc7UxuBb9aPeJRZiGo0GNuIJWa013nksqtBv
+         NswdCVooUdtdJfg1PzMbM/eBRNw9Y9gUW5O0Wq7jDjJebvU+aRG5YfQsnA2I4rf+Uk
+         qKMBq10l2ywLz3Fx/Lyoplrziule/+kFhbOMlxCw5hNfRaflcdJdwEKRfhtqG9+feP
+         5VZXnq4AkUdSWdh4uIUtsfdK9tYRl317cjX3biCHZakfwrrIgjuXcRMTfu6wTlHRqh
+         LJQGad7A0tt0g==
+Date:   Thu, 30 Dec 2021 18:09:48 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Yevgeny Kliteynik <kliteyn@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Saeed Mahameed <saeed@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        Muhammad Sammar <muhammads@nvidia.com>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Saeed Mahameed <saeedm@nvidia.com>, linux-doc@vger.kernel.org
+Subject: Re: [net-next  07/16] net/mlx5: DR, Add support for dumping
+ steering info
+Message-ID: <20211230180948.7be1ddb5@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+In-Reply-To: <MW2PR12MB2489C8551828CFE500F4492EC0469@MW2PR12MB2489.namprd12.prod.outlook.com>
+References: <20211229062502.24111-1-saeed@kernel.org>
+        <20211229062502.24111-8-saeed@kernel.org>
+        <20211229181650.33978893@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+        <MW2PR12MB2489C8551828CFE500F4492EC0469@MW2PR12MB2489.namprd12.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211223101906.977624-4-hch@lst.de>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 23, 2021 at 11:19:05AM +0100, Christoph Hellwig wrote:
->  
-> +For class BPF_ALU or BPF_ALU64:
-> +
-> +  ========  =====  =========================
-> +  code      value  description
-> +  ========  =====  =========================
->    BPF_ADD   0x00
->    BPF_SUB   0x10
->    BPF_MUL   0x20
-> @@ -68,26 +76,31 @@ If BPF_CLASS(code) == BPF_ALU or BPF_ALU64 BPF_OP(code) is one of::
->    BPF_NEG   0x80
->    BPF_MOD   0x90
->    BPF_XOR   0xa0
-> -  BPF_MOV   0xb0  /* mov reg to reg */
-> -  BPF_ARSH  0xc0  /* sign extending shift right */
-> -  BPF_END   0xd0  /* endianness conversion */
-> +  BPF_MOV   0xb0   mov reg to reg
-> +  BPF_ARSH  0xc0   sign extending shift right
-> +  BPF_END   0xd0   endianness conversion
-> +  ========  =====  =========================
->  
-> -If BPF_CLASS(code) == BPF_JMP or BPF_JMP32 BPF_OP(code) is one of::
-> +For class BPF_JMP or BPF_JMP32:
->  
-> -  BPF_JA    0x00  /* BPF_JMP only */
-> +  ========  =====  =========================
-> +  code      value  description
-> +  ========  =====  =========================
-> +  BPF_JA    0x00   BPF_JMP only
->    BPF_JEQ   0x10
->    BPF_JGT   0x20
->    BPF_JGE   0x30
->    BPF_JSET  0x40
+On Fri, 31 Dec 2021 01:49:54 +0000 Yevgeny Kliteynik wrote:
+> Actually, this was written based on debugfs functions documentation, where
+> it states that "if an error occurs, NULL will be returned"
+> 
+> https://www.kernel.org/doc/htmldocs/filesystems/API-debugfs-create-dir.html
+> 
+> Looking at the code, I see that it's no longer the case.
 
-Not your fault, but the new table looks odd with
-only some opcodes documented.
-Same issue with BPF_ALU table.
-In the past the documented opcodes were for eBPF only and
-not documented in both, so it wasn't that bad.
-At least there was a reason for discrepancy.
-Now it just odd.
-May be add a comment to all rows?
+Oh, I see. That looks like some old, out of date version of the docs.
+The text was already correct in 5.15, it seems:
 
-> -  BPF_JNE   0x50  /* jump != */
-> -  BPF_JSGT  0x60  /* signed '>' */
-> -  BPF_JSGE  0x70  /* signed '>=' */
-> -  BPF_CALL  0x80  /* function call */
-> -  BPF_EXIT  0x90  /*  function return */
-> -  BPF_JLT   0xa0  /* unsigned '<' */
-> -  BPF_JLE   0xb0  /* unsigned '<=' */
-> -  BPF_JSLT  0xc0  /* signed '<' */
-> -  BPF_JSLE  0xd0  /* signed '<=' */
-> +  BPF_JNE   0x50   jump '!='
-> +  BPF_JSGT  0x60   signed '>'
-> +  BPF_JSGE  0x70   signed '>='
-> +  BPF_CALL  0x80   function call
-> +  BPF_EXIT  0x90   function return
-> +  BPF_JLT   0xa0   unsigned '<'
-> +  BPF_JLE   0xb0   unsigned '<='
-> +  BPF_JSLT  0xc0   signed '<'
-> +  BPF_JSLE  0xd0   signed '<='
-> +  ========  =====  =========================
->  
->  So BPF_ADD | BPF_X | BPF_ALU means::
->  
-> @@ -108,37 +121,58 @@ the return value into register R0 before doing a BPF_EXIT. Class 6 is used as
->  BPF_JMP32 to mean exactly the same operations as BPF_JMP, but with 32-bit wide
->  operands for the comparisons instead.
->  
-> -For load and store instructions the 8-bit 'code' field is divided as::
->  
-> -  +--------+--------+-------------------+
-> -  | 3 bits | 2 bits |   3 bits          |
-> -  |  mode  |  size  | instruction class |
-> -  +--------+--------+-------------------+
-> -  (MSB)                             (LSB)
-> +Load and store instructions
-> +===========================
-> +
-> +For load and store instructions (BPF_LD, BPF_LDX, BPF_ST and BPF_STX), the
-> +8-bit 'opcode' field is divided as:
-> +
-> +  ============  ======  =================
-> +  3 bits (MSB)  2 bits  3 bits (LSB)
-> +  ============  ======  =================
-> +  mode          size    instruction class
-> +  ============  ======  =================
-> +
-> +The size modifier is one of:
->  
-> -Size modifier is one of ...
-> +  =============  =====  =====================
-> +  size modifier  value  description
-> +  =============  =====  =====================
-> +  BPF_W          0x00   word        (4 bytes)
-> +  BPF_H          0x08   half word   (2 bytes)
-> +  BPF_B          0x10   byte
-> +  BPF_DW         0x18   double word (8 bytes)
-> +  =============  =====  =====================
->  
-> -::
-> +The mode modifier is one of:
->  
-> -  BPF_W   0x00    /* word */
-> -  BPF_H   0x08    /* half word */
-> -  BPF_B   0x10    /* byte */
-> -  BPF_DW  0x18    /* double word */
-> +  =============  =====  =====================
-> +  mode modifier  value  description
-> +  =============  =====  =====================
-> +  BPF_IMM        0x00   used for 64-bit mov
-> +  BPF_ABS        0x20
-> +  BPF_IND        0x40
-> +  BPF_MEM        0x60
+https://elixir.bootlin.com/linux/v5.15/source/fs/debugfs/inode.c#L549
 
-May be say here that ABS and IND are legacy for compat with classic only?
-and MEM is the most common modifier for load/store?
+Also this render of the docs is correct:
 
-> +  BPF_ATOMIC     0xc0   atomic operations 
+https://www.kernel.org/doc/html/latest/filesystems/api-summary.html#c.debugfs_create_dir
 
-I removed trailing space in above line.
+I don't really know who's responsible for the kernel.org docs... 
+Let's CC Jon.
 
-And applied all patches to bpf-next. Thanks!
+Jon, is the www.kernel.org/doc/htmldocs/ copy intentionally what it is?
+Anyone we should talk to?
