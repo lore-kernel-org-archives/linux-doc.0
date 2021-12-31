@@ -2,174 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1886C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Dec 2021 12:30:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B143CC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Dec 2021 13:43:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229985AbhLaMaH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 31 Dec 2021 07:30:07 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:34872 "EHLO
-        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229519AbhLaMaH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Dec 2021 07:30:07 -0500
-Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.56])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JQPbL0y0szcc2N;
-        Fri, 31 Dec 2021 20:29:34 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Fri, 31 Dec 2021 20:30:04 +0800
-Received: from [10.174.178.55] (10.174.178.55) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Fri, 31 Dec 2021 20:30:03 +0800
-Subject: Re: [PATCH v19 01/13] kdump: add helper parse_crashkernel_high_low()
-From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-To:     Borislav Petkov <bp@alien8.de>
-CC:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>, <linux-kernel@vger.kernel.org>,
-        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        <kexec@lists.infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        <devicetree@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        "John Donnelly" <John.p.donnelly@oracle.com>
-References: <20211228132612.1860-1-thunder.leizhen@huawei.com>
- <20211228132612.1860-2-thunder.leizhen@huawei.com>
- <4878dda9-871d-228d-21ac-3ac7c8a84322@huawei.com> <Yc2MprJJsm7LagGc@zn.tnic>
- <7a703955-cd1c-e074-17dd-a9155aa7690a@huawei.com>
- <207b6257-22bc-c9fe-6206-4096d8e0d276@huawei.com>
-Message-ID: <e8ff0399-6cd0-8606-3aab-6b7b8e741ed9@huawei.com>
-Date:   Fri, 31 Dec 2021 20:29:51 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S230040AbhLaNnT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 31 Dec 2021 08:43:19 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:54374 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229652AbhLaNnS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Dec 2021 08:43:18 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 67D1D61795;
+        Fri, 31 Dec 2021 13:43:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55BCAC36AEA;
+        Fri, 31 Dec 2021 13:43:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1640958197;
+        bh=riLwjw8krb8OxQcZBIqxR9zTPbsU+dtHc4Y6gmVcaRc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=b0GQhItaBGknP/vQFDElSAT8a9M/Jp72U/iVPQYVaOn8ZNQa06z1ysQpGNQWlDMEJ
+         ngK75KAJ8FsJI/n/2EHnVvOeaLhFgD6kdptzUeodgapqr/ht/FcwwErIF48VnoilBy
+         N1boTHiktp75CQ9HNVJq2P6mFnerzSkVrRJtk+VHWP3/i8r2nLSLL2TmiQQXDFY809
+         2g/HzeB1KMt64ASAsD8FIEoBuWcFbzUN/y5S47exX1G9HVCX0dzuoV29yAC91Pfx+G
+         IVthbazen1jbidDwaQSc20RirPbxY3jluzAKs0IE68gybkDkTwDRdOA2ZhBTz/XKD5
+         4opmHEbjSROrQ==
+Date:   Fri, 31 Dec 2021 14:43:15 +0100
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Deep Majumder <deep@fastmail.in>
+Cc:     linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Docs: Fixes link to I2C specification
+Message-ID: <Yc8I89eEqN8CcgDv@kunai>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        Deep Majumder <deep@fastmail.in>, linux-doc@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20211119061401.19852-1-deep@fastmail.in>
 MIME-Version: 1.0
-In-Reply-To: <207b6257-22bc-c9fe-6206-4096d8e0d276@huawei.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.178.55]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="GW+rflw+5+PYEx5W"
+Content-Disposition: inline
+In-Reply-To: <20211119061401.19852-1-deep@fastmail.in>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+--GW+rflw+5+PYEx5W
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 2021/12/31 17:22, Leizhen (ThunderTown) wrote:
-> 
-> 
-> On 2021/12/30 19:08, Leizhen (ThunderTown) wrote:
->>
->>
->> On 2021/12/30 18:40, Borislav Petkov wrote:
->>> On Thu, Dec 30, 2021 at 06:14:59PM +0800, Leizhen (ThunderTown) wrote:
->>>>
->>>> Hi, Dave, Baoquan, Borislav:
->>>>   What do you think about the introduction of parse_crashkernel_high_low()? If everyone
->>>> doesn't object, I'll bring it to the next version. But I'll make some adjustments to the
->>>> patches, see below. If there's any objection, I still strongly recommend removing the
->>>> parameters "system_ram" and "crash_base" of parse_crashkernel_{high,low}().
->>>>
->>>> How about splitting __parse_crashkernel() into two parts? One for parsing
->>>> "crashkernel=X[@offset]", another one for parsing "crashkernel=X,{high,low}" and other
->>>> suffixes in the future. So the parameter requirements are clear at the lowest level.
->>>
->>> First of all, please do not top post!
->>>
->>> Now, I already explained to you what I'd like to see:
->>>
->>> https://lore.kernel.org/r/Ycs3kpZD/vpoo1AX@zn.tnic
->>>
->>> yet you still don't get it.
->>>
->>> So let me make myself clear: in its current form, this is not really an
->>> improvement so for all x86 changes:
->>>
->>> NAKed-by: Borislav Petkov <bp@suse.de>
-> 
-> Hi Borislav:
->   I'm sorry to bother you again. Do you mind if I make the following changes?
-> I can't stand so many comments appearing twice. Even if the size needs to be
-> changed in the future, mode "low_size = CRASH_LOW_SIZE_MIN + <increment>" can
-> be used for adaptation without affecting other architectures.
+On Fri, Nov 19, 2021 at 11:44:01AM +0530, Deep Majumder wrote:
+> The link to the I2C specification is broken and is replaced in this
+> patch by one that points to Rev 6 (2014) of the specification.
+> Although `https://www.nxp.com" hosts the Rev 7 (2021) of this
+> specification, it is behind a login-wall and thus cannot be used.
+> Thus, an additional link has been added (which doesn't require a login)
+> and the NXP official docs link has been updated. The additional link is
+> not the Wayback Machine link since it seems that the PDF has not been
+> archived.
+>=20
+> Signed-off-by: Deep Majumder <deep@fastmail.in>
 
-I rethink it, the default value of default_nslabs is IO_TLB_DEFAULT_SIZE=64M.
-The value of default_nslabs can only be changed by swiotlb_adjust_size() and
-bootup command line option "swiotlb=". Currently, swiotlb_adjust_size() is
-invoked only on x86, so I can just ignore it on arm64. Then, 64M is much
-smaller than 256M, the first kernel works fine with the default 64M on arm64,
-and I don't think the second kernel needs to grow to 256M. Therefore, I think
-swiotlb_adjust_size() is probably a pseudo requirement for arm64.
+Applied to for-current with minor updates to text and commit message as
+discussed here, thanks!
 
-So I will directly use 256M on arm64. If anyone gets into trouble, he/she can
-add it back. Besides, there is also "crashkernel=Y,low" can be used.
 
-> 
-> 
-> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
-> index e04f5e6eb33f453..da485ee51a9929e 100644
-> --- a/arch/x86/kernel/setup.c
-> +++ b/arch/x86/kernel/setup.c
-> @@ -428,16 +428,7 @@ static int __init reserve_crashkernel_low(void)
->         /* crashkernel=Y,low */
->         ret = parse_crashkernel_low(boot_command_line, low_mem_limit, &low_size, &base);
->         if (ret) {
-> -               /*
-> -                * two parts from kernel/dma/swiotlb.c:
-> -                * -swiotlb size: user-specified with swiotlb= or default.
-> -                *
-> -                * -swiotlb overflow buffer: now hardcoded to 32k. We round it
-> -                * to 8M for other buffers that may need to stay low too. Also
-> -                * make sure we allocate enough extra low memory so that we
-> -                * don't run out of DMA buffers for 32-bit devices.
-> -                */
-> -               low_size = max(swiotlb_size_or_default() + (8UL << 20), 256UL << 20);
-> +               low_size = CRASH_LOW_SIZE_MIN;
->         } else {
->                 /* passed with crashkernel=0,low ? */
->                 if (!low_size)
-> diff --git a/include/linux/crash_core.h b/include/linux/crash_core.h
-> index de62a722431e7db..c85b15814312b7e 100644
-> --- a/include/linux/crash_core.h
-> +++ b/include/linux/crash_core.h
-> @@ -69,6 +69,17 @@ phys_addr_t paddr_vmcoreinfo_note(void);
->  #define VMCOREINFO_CONFIG(name) \
->         vmcoreinfo_append_str("CONFIG_%s=y\n", #name)
-> 
-> +/*
-> + * two parts from kernel/dma/swiotlb.c:
-> + * -swiotlb size: user-specified with swiotlb= or default.
-> + *
-> + * -swiotlb overflow buffer: now hardcoded to 32k. We round it
-> + * to 8M for other buffers that may need to stay low too. Also
-> + * make sure we allocate enough extra low memory so that we
-> + * don't run out of DMA buffers for 32-bit devices.
-> + */
-> +#define CRASH_LOW_SIZE_MIN     max(swiotlb_size_or_default() + (8UL << 20), 256UL << 20)
-> +
->  extern unsigned char *vmcoreinfo_data;
->  extern size_t vmcoreinfo_size;
->  extern u32 *vmcoreinfo_note;
-> 
-> 
->>>
->>
->> OK, thanks for your immediate reply, so I can take less detours.
->>
-> 
+--GW+rflw+5+PYEx5W
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-Regards,
-  Zhen Lei
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmHPCPIACgkQFA3kzBSg
+KbbKeRAAo1baRRpnMxfXlwvvTi2yv1LkZN+CvFKDH7SwMao3B0j+mh/JiVrjOIMT
+E17qBiZAerhIpaoJu2/PBrD5ZiVScUbb41Ij0vHMONjFUytRgdCLkp/WDVWVkskm
+v/l3YvQlLiaMLv+J6rj4/ABwGOq5Ayrzrrl81xsZN4peEiMV2FdUHyS7YIMBmdJW
+BmltfbFboQsMBULiSV2OoJrqKP9mRgbqCrsHdmotUq3zj6WHgVZGg4ebpErWYm4d
+6qgW40MHklJ5r9eqy4LQb6q1pK14hm7zXeepKku/EmNrgC9IqHfngfOWlAj3lYKB
+JAZygZ5tu0aVxZBmYf6ppgwjDZvyzjBnvcKFpTThWQsvAvNdDGNT6pVmDrrH/Uyv
++Po03Tq44/rHBuZDh71uB+B71z5kLVRvpLY6K69ICn/+2T702LdiIWDHkIXGjUNE
+UxdvZpuGSDMjcxpbtA0HvUF5gEABWHRSY2o+A7epG0P4rmWnD3Dy9de24JTxCJ6+
+jhLUifQ1sQM7KM5gAT/5PYKQyX7A1nKbY8NCoE8RRQ/N1yFVh+HxYzesWCA/h+ZU
+0vX/mRKuZaLoch6FW+cnM+tVTnVkx/7+AuN23Mrr9xisdLJOSkJOwqCi69XMOJ1u
+zZylOL1XHINBXgBSBFVEsdTbJwQsXFliCeegiC+o+KKUW3kGfmA=
+=QDyg
+-----END PGP SIGNATURE-----
+
+--GW+rflw+5+PYEx5W--
