@@ -2,92 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B143CC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 31 Dec 2021 13:43:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29346C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 31 Dec 2021 20:01:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230040AbhLaNnT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 31 Dec 2021 08:43:19 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:54374 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229652AbhLaNnS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Dec 2021 08:43:18 -0500
+        id S231524AbhLaUBB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 31 Dec 2021 15:01:01 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:33792 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229649AbhLaUBB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 Dec 2021 15:01:01 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 67D1D61795;
-        Fri, 31 Dec 2021 13:43:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55BCAC36AEA;
-        Fri, 31 Dec 2021 13:43:17 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id DD3FFB81DCF;
+        Fri, 31 Dec 2021 20:00:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6760C36AE9;
+        Fri, 31 Dec 2021 20:00:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1640958197;
-        bh=riLwjw8krb8OxQcZBIqxR9zTPbsU+dtHc4Y6gmVcaRc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=b0GQhItaBGknP/vQFDElSAT8a9M/Jp72U/iVPQYVaOn8ZNQa06z1ysQpGNQWlDMEJ
-         ngK75KAJ8FsJI/n/2EHnVvOeaLhFgD6kdptzUeodgapqr/ht/FcwwErIF48VnoilBy
-         N1boTHiktp75CQ9HNVJq2P6mFnerzSkVrRJtk+VHWP3/i8r2nLSLL2TmiQQXDFY809
-         2g/HzeB1KMt64ASAsD8FIEoBuWcFbzUN/y5S47exX1G9HVCX0dzuoV29yAC91Pfx+G
-         IVthbazen1jbidDwaQSc20RirPbxY3jluzAKs0IE68gybkDkTwDRdOA2ZhBTz/XKD5
-         4opmHEbjSROrQ==
-Date:   Fri, 31 Dec 2021 14:43:15 +0100
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Deep Majumder <deep@fastmail.in>
-Cc:     linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Docs: Fixes link to I2C specification
-Message-ID: <Yc8I89eEqN8CcgDv@kunai>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Deep Majumder <deep@fastmail.in>, linux-doc@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20211119061401.19852-1-deep@fastmail.in>
+        s=k20201202; t=1640980858;
+        bh=J/YhgplwbzCAtQrNHiVFUQO7/JbOvD5UTT8N+uN3SQQ=;
+        h=Date:From:To:Cc:Subject:From;
+        b=ZsC2+GjlMJgo1dKwfQjYFV6Cokbp69TEvWUbc6essnRrp13ymbZIZXlq30k+m+fcq
+         bic1B+Mw25u+8ERtSg48VGbXSPjIxqK1GbeKTab/8kyIjWL7Gopmxzd+7NRxlZLiin
+         sUEk8BhLszCZHFTZYIoAGW0k7aIQf0fjZT5NnvATivVUud9vs0wDCTIf81DRwTCq7T
+         1QB/oieu5QTTS2SLWGeqOgd3YPUSKhg5MFDy2KMmFeq4TihWlz1XWSKmnapiQztyl1
+         lc0H6eh2+GjsonBCHQmg59M9cEYHBXf+tFvo73/ml1md5ye5vgx/UT9SpNccYHDcVL
+         +wEuMA43m+zfQ==
+Date:   Fri, 31 Dec 2021 20:59:25 +0100
+From:   Miguel Ojeda <ojeda@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Miguel Ojeda <ojeda@kernel.org>, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] doc: kbuild: fix default in `imply` table
+Message-ID: <20211231195925.GA1678@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="GW+rflw+5+PYEx5W"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211119061401.19852-1-deep@fastmail.in>
+User-Agent: elm/2
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+`BAZ` takes `FOO`'s value as default (as far as `BAR` allows it).
 
---GW+rflw+5+PYEx5W
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+---
+ Documentation/kbuild/kconfig-language.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Fri, Nov 19, 2021 at 11:44:01AM +0530, Deep Majumder wrote:
-> The link to the I2C specification is broken and is replaced in this
-> patch by one that points to Rev 6 (2014) of the specification.
-> Although `https://www.nxp.com" hosts the Rev 7 (2021) of this
-> specification, it is behind a login-wall and thus cannot be used.
-> Thus, an additional link has been added (which doesn't require a login)
-> and the NXP official docs link has been updated. The additional link is
-> not the Wayback Machine link since it seems that the PDF has not been
-> archived.
->=20
-> Signed-off-by: Deep Majumder <deep@fastmail.in>
+diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+index 98c24183d8c3..93a5b6e1fabd 100644
+--- a/Documentation/kbuild/kconfig-language.rst
++++ b/Documentation/kbuild/kconfig-language.rst
+@@ -176,7 +176,7 @@ applicable everywhere (see syntax).
+ 	y		y		y		Y/m/n
+ 	n		m		n		N/m
+ 	m		m		m		M/n
+-	y		m		n		M/n
++	y		m		m		M/n
+ 	y		n		*		N
+ 	===		===		=============	==============
+ 
+-- 
+2.34.1
 
-Applied to for-current with minor updates to text and commit message as
-discussed here, thanks!
-
-
---GW+rflw+5+PYEx5W
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmHPCPIACgkQFA3kzBSg
-KbbKeRAAo1baRRpnMxfXlwvvTi2yv1LkZN+CvFKDH7SwMao3B0j+mh/JiVrjOIMT
-E17qBiZAerhIpaoJu2/PBrD5ZiVScUbb41Ij0vHMONjFUytRgdCLkp/WDVWVkskm
-v/l3YvQlLiaMLv+J6rj4/ABwGOq5Ayrzrrl81xsZN4peEiMV2FdUHyS7YIMBmdJW
-BmltfbFboQsMBULiSV2OoJrqKP9mRgbqCrsHdmotUq3zj6WHgVZGg4ebpErWYm4d
-6qgW40MHklJ5r9eqy4LQb6q1pK14hm7zXeepKku/EmNrgC9IqHfngfOWlAj3lYKB
-JAZygZ5tu0aVxZBmYf6ppgwjDZvyzjBnvcKFpTThWQsvAvNdDGNT6pVmDrrH/Uyv
-+Po03Tq44/rHBuZDh71uB+B71z5kLVRvpLY6K69ICn/+2T702LdiIWDHkIXGjUNE
-UxdvZpuGSDMjcxpbtA0HvUF5gEABWHRSY2o+A7epG0P4rmWnD3Dy9de24JTxCJ6+
-jhLUifQ1sQM7KM5gAT/5PYKQyX7A1nKbY8NCoE8RRQ/N1yFVh+HxYzesWCA/h+ZU
-0vX/mRKuZaLoch6FW+cnM+tVTnVkx/7+AuN23Mrr9xisdLJOSkJOwqCi69XMOJ1u
-zZylOL1XHINBXgBSBFVEsdTbJwQsXFliCeegiC+o+KKUW3kGfmA=
-=QDyg
------END PGP SIGNATURE-----
-
---GW+rflw+5+PYEx5W--
