@@ -2,62 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EE0BC433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jan 2022 14:01:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09051C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jan 2022 15:06:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233097AbiACOBg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jan 2022 09:01:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32856 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229531AbiACOBf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jan 2022 09:01:35 -0500
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6320C061761;
-        Mon,  3 Jan 2022 06:01:35 -0800 (PST)
+        id S229693AbiACPGZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jan 2022 10:06:25 -0500
+Received: from sin.source.kernel.org ([145.40.73.55]:56990 "EHLO
+        sin.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231166AbiACPGZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jan 2022 10:06:25 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id E89B0CE1102;
-        Mon,  3 Jan 2022 14:01:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DC19C36AED;
-        Mon,  3 Jan 2022 14:01:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1641218492;
-        bh=YFKYMANxHUBm2ZkV0SrjcH7TDlxFufpUx29gN13fwLg=;
+        by sin.source.kernel.org (Postfix) with ESMTPS id 851D6CE1106;
+        Mon,  3 Jan 2022 15:06:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4926FC36AED;
+        Mon,  3 Jan 2022 15:06:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1641222381;
+        bh=N11Fuq6Xju1Dn7isiVwslSPqUV/iaaLmrQuO9d6hYsU=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=m5RM6ASmxjqaZYuKFqBFtLm+zqCxLYJ9pE273n2wa9O5qD9NuLzFcLThIe8h4w1jN
-         M9HDjydI/d4w7i9DQsaxEUQFhZ/kplVhKeIPPy/c6IyEj785c6LKpmuQCTJhHxPUov
-         sNOQyZWrynavuN76Y1tM5oamE05tSDo94kXvROFE=
-Date:   Mon, 3 Jan 2022 15:01:29 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Thorsten Leemhuis <linux@leemhuis.info>
+        b=QyrA+hHEdpnbO4JaJdwYOfpYeA+cKOK7kczxXZQ5cT1sNF2uIoWpgjKH6MYsxxBgU
+         lIkWw+t1td2qa7lU1+Tg+etopa9Lo/zIsDvoJ4f4hocKyRRHCsmlkqFVFCIqSpQ04S
+         gvYbK3rWWJmUPN5XOE0cGxal8EtrXj6hBKG7ilKV4cD8yLxWMGkC9lL+7gemo0GCHT
+         9XONVjgDS0Thygf4dqfVKzlVt39AUGJLb0F/YQ7+volMTLX3R3CetCF1CZ6SA7cBwx
+         257HwSYHl1nvqcG1Jvr/f+aMMCWnmoMAAcU1UR83r/Ze/bxtXcsdz5TsQGrDcpTlbm
+         M4sFta14LM06A==
+Date:   Mon, 3 Jan 2022 09:06:18 -0600
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     linux-block@vger.kernel.org, Jens Axboe <axboe@kernel.dk>
 Cc:     linux-doc@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        workflows@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [RFC PATCH v1 0/2] docs: add a document dedicated to regressions
-Message-ID: <YdMBub0ugeNIOTI2@kroah.com>
-References: <cover.1641203216.git.linux@leemhuis.info>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/8] docs: consolidate sysfs-block into
+ Documentation/ABI/
+Message-ID: <YdMQ6rfSZWSOLptA@quark>
+References: <20211209003833.6396-1-ebiggers@kernel.org>
+ <YcH1uxfdTRHIwl7Y@quark>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1641203216.git.linux@leemhuis.info>
+In-Reply-To: <YcH1uxfdTRHIwl7Y@quark>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 03, 2022 at 10:50:49AM +0100, Thorsten Leemhuis wrote:
-> 'We don't cause regressions' might be the first rule of kernel development, but
-> it and other aspects of regressions nevertheless are hardly described in the
-> Linux kernel's documentation. These patches change this by creating a document
-> dedicated to the topic.
+On Tue, Dec 21, 2021 at 09:41:47AM -0600, Eric Biggers wrote:
+> On Wed, Dec 08, 2021 at 04:38:25PM -0800, Eric Biggers wrote:
+> > This series consolidates the documentation for /sys/block/<disk>/queue/
+> > into Documentation/ABI/, where it is supposed to go (as per Greg KH:
+> > https://lore.kernel.org/r/YaXXpEAwVGTLjp1e@kroah.com).
+> > 
+> > This series also updates MAINTAINERS to associate the block
+> > documentation with the block layer.
+> > 
+> > This series applies to linux-block/for-next.
+> > 
+> > Changed v2 => v3:
+> >    - Improved documentation for stable_writes and virt_boundary_mask.
+> >    - Added more Reviewed-by tags.
+> > 
+> > Changed v1 => v2:
+> >    - Added patch which moves the documentation to the stable directory.
+> >    - Added Reviewed-by tags.
 > 
-> The second patch could easily be folded into the first one, but I kept it
-> separate, as it might be a bit controversial. This also allows the patch
-> description to explain some backgrounds for this part of the text. Additionally,
-> ACKs and Reviewed-by tags can be collected separately this way.
+> Jens, any interest in applying this series?
+> 
+> - Eric
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
+Ping.
