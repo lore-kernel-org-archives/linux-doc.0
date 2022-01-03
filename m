@@ -2,104 +2,55 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66644C433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jan 2022 22:51:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDDBEC433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jan 2022 22:52:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229617AbiACWvi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jan 2022 17:51:38 -0500
-Received: from ms.lwn.net ([45.79.88.28]:51064 "EHLO ms.lwn.net"
+        id S230362AbiACWwh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jan 2022 17:52:37 -0500
+Received: from ms.lwn.net ([45.79.88.28]:51066 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229586AbiACWvi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 3 Jan 2022 17:51:38 -0500
+        id S230361AbiACWwh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 3 Jan 2022 17:52:37 -0500
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 012F04A6;
-        Mon,  3 Jan 2022 22:51:37 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 012F04A6
+        by ms.lwn.net (Postfix) with ESMTPSA id BFBA0380;
+        Mon,  3 Jan 2022 22:52:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BFBA0380
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1641250298; bh=PDtL8wjyQzk+GIvSh7mLsETF6xsAerR38awapGuKR28=;
+        t=1641250356; bh=zZcTSll9169iHI2x8zFRuJHQeRArUKSVKvKv6oTwNII=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=eMeBKVmm/5n0yalPg+QLp6WuGrLb3SoK7BOnHc7YwVRL8rizhDcbIjX91Y4r+exJk
-         j1arpedhCPYELnxA9yDedC216LkLelp0xn+vUN0hX8CN7fWhwnig+s/wvOyUvnyBOo
-         t/uFsvISL0ZEc6OM/yDEF/XmfZhEtu99l8vjfubkUYjpYW7kjm3CdJfsM8FsjVg8F5
-         9cBgTu7S23Ry/eDlKxGLcNWhQHlfHiOzOqcJu6GDAg1A4It2Oxy9Kv2nRgMYzS6aQM
-         rujIEoi0dyj7szRvCZ95JvYNQ3Gj42xrh//Z/MOJp/EaCecHQ+jN1oouuEh21LrKkW
-         009kAsM1Ld4Rw==
+        b=SHTxVh1lYv770kb1MdkUQprki8wMpKhlIrkEbqp0FAua0JFkBroMW3HNK0nvPlYd0
+         RuPuTuJi6r/Vfu8GY5GMFS0biValb66JoE3PlbRN6Xat6rOsmyokFWWXe0dD8uSZS4
+         PgjDBYcwcWPuZ7akQJ7hzLGMZkGD5zTeOG8tMqcXOD098zrH6busYwZSQr/Obyd6Hn
+         kjRQqIvZvT6Lfsg1wXaSDtO8evMFVKMQ40fmqz6DttcvuiczbcPMx+v57gyWGJLACi
+         yM6G5lA+/+08GXwgQ8Dm2FW37lyibBsSx5fsWpAffDJT2F0ap98y1uUa5tpMk4E+UV
+         uV64F2c2tMsSg==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Thorsten Leemhuis <linux@leemhuis.info>, linux-doc@vger.kernel.org
-Cc:     workflows@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Subject: Re: [PATCH v1] docs: 5.Posting.rst: describe Fixes: and Link: tags
-In-Reply-To: <2b9c093339322e2686140a486b978c0b03476f42.1641194004.git.linux@leemhuis.info>
-References: <2b9c093339322e2686140a486b978c0b03476f42.1641194004.git.linux@leemhuis.info>
-Date:   Mon, 03 Jan 2022 15:51:40 -0700
-Message-ID: <87ilv0xwjn.fsf@meer.lwn.net>
+To:     Shile Zhang <shile.zhang@linux.alibaba.com>,
+        Alex Shi <alexs@kernel.org>, Wu XiangCheng <bobwxc@email.cn>
+Cc:     linux-doc@vger.kernel.org,
+        Shile Zhang <shile.zhang@linux.alibaba.com>
+Subject: Re: [PATCH] docs/zh_CN: Update and fix a couple of typos
+In-Reply-To: <20211230025702.186158-1-shile.zhang@linux.alibaba.com>
+References: <20211230025702.186158-1-shile.zhang@linux.alibaba.com>
+Date:   Mon, 03 Jan 2022 15:52:39 -0700
+Message-ID: <87ee5oxwi0.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thorsten Leemhuis <linux@leemhuis.info> writes:
+Shile Zhang <shile.zhang@linux.alibaba.com> writes:
 
-> Explain Fixes: and Link: tags in Documentation/process/5.Posting.rst,
-> which are missing in this file for unknown reasons and only described in
-> Documentation/process/submitting-patches.rst.
+> Update to the original README.rst and fix some typos.
 >
-> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
-> CC: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+> Signed-off-by: Shile Zhang <shile.zhang@linux.alibaba.com>
 > ---
-> Lo! If there is still a chance I'l like to get this patch into v5.17, as
+>  .../translations/zh_CN/admin-guide/README.rst         | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
 
-I think that should be possible.  Send me a version with Randy's
-comments addressed; I also had one nit below...
-
-> during my work as regression tracker I noticed quite a few developers
-> seem to be unaware how the Link: tag should be used. Maybe in parts
-> that's because Documentation/process/5.Posting.rst doesn't describe it
-> yet, which described things from a another different angle than
-> Documentation/process/submitting-patches.rst.
->
-> Ciao, Thorsten
->
-> v1:
-> - First version as stand alone patch. It used to be the first patch of
->   this series that got abandoned after RFC/v2:
->   https://lore.kernel.org/all/cover.1639042966.git.linux@leemhuis.info/
->   Patch itself is unchanged, patch description slighly changed. Might
->   later submit other changes from that series seperately, too, still
->   unsure.
-> ---
->  Documentation/process/5.Posting.rst | 29 ++++++++++++++++++++++-------
->  1 file changed, 22 insertions(+), 7 deletions(-)
->
-> diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
-> index 855a70b80269..e7b919070210 100644
-> --- a/Documentation/process/5.Posting.rst
-> +++ b/Documentation/process/5.Posting.rst
-> @@ -197,14 +197,29 @@ the build process, for example, or editor backup files) in the patch.  The
->  file "dontdiff" in the Documentation directory can help in this regard;
->  pass it to diff with the "-X" option.
->  
-> -The tags mentioned above are used to describe how various developers have
-> -been associated with the development of this patch.  They are described in
-> -detail in
-> -the :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
-> -document; what follows here is a brief summary.  Each of these lines has
-> -the format:
-> +The tags already briefly mentioned above are used to provide insights how
-> +the patch came into being. They are described in detail in the
-> +:ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
-> +document; what follows here is a brief summary.
->  
-> -::
-> +One tag is used to refer to earlier commits which had problems fixed by
-> +the patch::
-
-I would s/had/introduced/
-
-Thanks,
+Applied, thanks.
 
 jon
