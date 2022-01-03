@@ -2,82 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0720AC433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jan 2022 17:56:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CB60C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jan 2022 18:23:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233543AbiACRz7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jan 2022 12:55:59 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:54006 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230489AbiACRz7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jan 2022 12:55:59 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D4B63B80B4C;
-        Mon,  3 Jan 2022 17:55:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 348CBC36AED;
-        Mon,  3 Jan 2022 17:55:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1641232556;
-        bh=Tgzn/rb+HnJQ8o7j1zZ/A7Ix4BYJq+5XmPEjmIm0Hpc=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=lnU5+8bP2RBURZfo/2u3ulvtFggcSdb1Tl1ZOGTtDLscyt8TINm8WQbzP83iWmJUM
-         PKkiqy3iJFKW1MQmyoNAu/SeEXt0znFVfrBcNKNbTG/ZdnPlecuuLrVI7XJERTdZ3B
-         Vcfil6dSv8MPGHdZLOgXm3CCnqq/9oq0e+omRQ9zUAYTUFWWf7TljCEGzNwvAU9r6r
-         YTfbhliUbp+PNWMVUsjyL/NbawBjnkK4HyMQlTdVLCdE9H7kGdtekvNHRBFwiLi13L
-         dATEgYZ0Sd16WKqtCnOi+1/jTnAM0a59SnSoHwi1SR2vZtUywazHc901/Pbzfr7gZX
-         sSe5/Sc1UltFA==
-Date:   Mon, 3 Jan 2022 09:55:54 -0800
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     linux-doc@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        workflows@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [RFC PATCH v1 1/2] docs: add a document about regression
- handling
-Message-ID: <20220103095554.34602944@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
-In-Reply-To: <122bf6e0-8e1f-6567-252e-5120b3f8a573@leemhuis.info>
-References: <cover.1641203216.git.linux@leemhuis.info>
-        <7b71a1262b8b72d30154203bb14f00db7d4170ef.1641203216.git.linux@leemhuis.info>
-        <20220103090746.2599f729@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
-        <122bf6e0-8e1f-6567-252e-5120b3f8a573@leemhuis.info>
+        id S235489AbiACSXU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jan 2022 13:23:20 -0500
+Received: from mga02.intel.com ([134.134.136.20]:40648 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235464AbiACSXT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 3 Jan 2022 13:23:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1641234199; x=1672770199;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=n5k2UhdN+j7gY/E4tkTwvjhub+C6mmhH7yewhVj0DJA=;
+  b=EXanNZ5cAXIoNLRgXv8K9S16keFuO+sDO5ML62SJ04LtF83U2wnAwb+Q
+   isyjb6A+Lp5ZT5Wroh+3Z/+oBqeCPa0+fa0ZScuJZMtMTzVG7TSjLCV6v
+   vJK5fqGMA42KCunDK6Nq99Vkkx9XvqKMLGq4phtVhtj9WlYnfcCWod3if
+   cUnhB8q0kzVtV26OMQopBh0x2HjLZpexAqUGdSrYECNi3AJrbPqNxoTiq
+   ysTzJS38zQudKvGhYpuH2TEMNUj8xnp+48tKCewSBZ/if827GTKkl55E3
+   NrEOdPPqSRCUK6iRJPseAXWvC7AfwzV6iMHljd3H+sdJC1hdD3T93NCrn
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10215"; a="229414668"
+X-IronPort-AV: E=Sophos;i="5.88,258,1635231600"; 
+   d="scan'208";a="229414668"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2022 10:23:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,258,1635231600"; 
+   d="scan'208";a="573775933"
+Received: from ranerica-svr.sc.intel.com ([172.25.110.23])
+  by fmsmga008.fm.intel.com with ESMTP; 03 Jan 2022 10:23:18 -0800
+Date:   Mon, 3 Jan 2022 10:24:59 -0800
+From:   Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+To:     srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Len Brown <len.brown@intel.com>,
+        Aubrey Li <aubrey.li@linux.intel.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>,
+        Lukasz Luba <lukasz.luba@arm.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Ricardo Neri <ricardo.neri@intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 3/7] thermal: intel: hfi: Minimally initialize the
+ Hardware Feedback Interface
+Message-ID: <20220103182459.GA5706@ranerica-svr.sc.intel.com>
+References: <20211220151438.1196-1-ricardo.neri-calderon@linux.intel.com>
+ <20211220151438.1196-4-ricardo.neri-calderon@linux.intel.com>
+ <CAJZ5v0hQUMBw-0t0QzvCfOvzp0WEhE64xiU1JX2jkzdG5BJrMg@mail.gmail.com>
+ <20220102214647.GC14930@ranerica-svr.sc.intel.com>
+ <2f284d197a5cc160d973a81c898ff42fb4a75db1.camel@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2f284d197a5cc160d973a81c898ff42fb4a75db1.camel@linux.intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 3 Jan 2022 18:20:23 +0100 Thorsten Leemhuis wrote:
-> On 03.01.22 18:07, Jakub Kicinski wrote:
-> > On Mon,  3 Jan 2022 10:50:50 +0100 Thorsten Leemhuis wrote:  
-> >> +How to see which regressions regzbot tracks currently?
-> >> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >> +
-> >> +Check `regzbot's web-interface <https://linux-regtracking.leemhuis.info/regzbot/>`_
-> >> +for the latest info; alternatively, `search for the latest regression report
-> >> +<https://lore.kernel.org/lkml/?q=%22Linux+regressions+report%22+f%3Aregzbot>`_,
-> >> +which regzbot normally sends out once a week on Sunday evening (UTC), which is a
-> >> +few hours before Linus usually publishes new (pre-)releases.  
+On Sun, Jan 02, 2022 at 06:22:33PM -0800, srinivas pandruvada wrote:
+> On Sun, 2022-01-02 at 13:46 -0800, Ricardo Neri wrote:
+> > On Thu, Dec 30, 2021 at 07:43:22PM +0100, Rafael J. Wysocki wrote:
+> > > On Mon, Dec 20, 2021 at 4:23 PM Ricardo Neri
+> > > <ricardo.neri-calderon@linux.intel.com> wrote:
+> > > 
+> > > 
+> [...]
+> 
+> > > This looks like it may be too general, because HFI is not a
+> > > thermal-only thing.
 > > 
-> > Cool, I wonder if it would be a useful feature to be able to filter by
-> > mailing lists involved or such to give maintainers a quick overview of
-> > regressions they are on the hook for?  
+> > > 
+> > > Maybe cal it INTEL_HFI_THERMAL?
+> > 
+> > True. The *Enhanced* HFI introduces the concept of thread classes
+> > [1]. I was
+> > planning to wrap this patchset, which parses the HFI table and deals
+> > with updates, as INTEL_HFI. The code that deals with classes would be
+> > wrapped as INTEL_EHFI.
+> > 
+> > After this comment, so you still think that INTEL_HFI_THERMAL makes
+> > more
+> > sense?
+> In general most of the configs for Intel thermal is has THERMAL suffix,
+> so to be consistent may be add THERMAL also at the end.
 > 
-> Ha, that's a great idea, many thx. I have been scratching my head for a
-> while already how to give maintainers a better overview, but the only
-> thing I came up with was "check the merge path a commit causing the
-> regression took", which has a few obvious downsides (it for example
-> won't work if the culprit is not known yet). This should work a lot better.
-> 
-> But be warned, will likely take a few weeks (months?) before I get to
-> implement that: I have less time to work on the regzbot code than in the
-> past weeks, as I have to take care of a few other things first (most of
-> them related to regzbot).
+> You can still add INTEL_EHFI as a silent config, which user will not
+> select. It will be selected by default with INTEL_HFI_THERMAL.
 
-No worries, do ping when you got it ready tho :)
+That makes sense to me. I will add the _THERMAL suffix to the config
+option.
+
+Thanks and BR,
+Ricardo
