@@ -2,91 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61F8FC433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jan 2022 23:01:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D818C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jan 2022 23:56:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229592AbiACXBn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jan 2022 18:01:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42704 "EHLO
+        id S230298AbiACX4U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jan 2022 18:56:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229558AbiACXBn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jan 2022 18:01:43 -0500
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 352CEC061761;
-        Mon,  3 Jan 2022 15:01:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-        :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=3nDVn8ws7/m69Ka3Wq2aZ970s0t94NQxPoFLp0IKM6M=; b=Dn5Whu7Vr7PETcOW1Npz8Sp/do
-        GaeJ8/dNdJdT1M1Zym/mIVHmDh3hUJvgERGCJylWrccvr2zFKGPq542VkkWf0VbGA31Ik3CzAuufT
-        cPXlcduIrrrh/NGZDGmegmzVJ4YKNebTS5PsuFqTe/OJvDXvrBPiO4ELMVHrXfbwRztaM81PPuqz0
-        VxkVYRWHIOEHE+G1octtnJ9khy1n0uV5jTJkGDOjomDEisRf3z49kz+JTjZXjcwQK4t0PTqe9onkY
-        rlwSTf/QFhnT8ceChQmocEv/Saeie7XdAC9kLAqU582fEM+qhuWa2yyCJYDejzcjDdqNYDI3G1jsr
-        Tam8XiSQ==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1n4WKi-005AhY-Fb; Mon, 03 Jan 2022 23:01:40 +0000
-Message-ID: <6e8661ff-b470-10e9-966b-587c7fc2c296@infradead.org>
-Date:   Mon, 3 Jan 2022 15:01:36 -0800
+        with ESMTP id S229487AbiACX4T (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jan 2022 18:56:19 -0500
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4736FC061761;
+        Mon,  3 Jan 2022 15:56:19 -0800 (PST)
+Received: by mail-wr1-x42c.google.com with SMTP id w20so63651274wra.9;
+        Mon, 03 Jan 2022 15:56:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=I1Rz8pAdirwGM9T3HIP+P00havvKoNIpSMikJMk4xuA=;
+        b=l1TLyKDxIWoNP61xoNqAIsR5ZXVTRkwFIIbN39ESptPewJNODXHNlwWBtLoG9HYtEc
+         XRF70sk4h8l3t/yrWjjgTHJXQLdU8V2nqfZRyWpy3IEZ95aXOxJsqRVflmBnYrO70DDI
+         XC3W6dlci58vB+c7I76nY0JsjxNBVrMJUsZiwO794+uk8V+kYjOJ1vcAlXSk2mdSowJp
+         DzyZPjLFVqZ9Z/CrhK9sxT7qHA6m+mrZW2KwObRkDdqF6WpLHqueV+vRIxJrYV593ZoD
+         dsd4KRRWT4np5nLPe2daYgVo3jFrTOKwOFHBG3O+j3PVctfw21NhGROXErQLTye3TxjP
+         FQpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=I1Rz8pAdirwGM9T3HIP+P00havvKoNIpSMikJMk4xuA=;
+        b=SY6KsQ4+oIxVHkyivDol9F2EAAHPl5kenBWVBkcr4wVtQ9nuBEGAXBT2rkYVbJ7x/B
+         X+8WB6XkGVLTPLwGdy29+BvX2jwJXzSkJIjW2ZUcCOJvx7mWgnGoipWvHtnXpKqwf7Ft
+         SQfRZ8aPJ6jSb1YVRt0sk4NWjgpa9i3xxb/OpPwwWiMaEWQMlPBgKn5uZeFUM1sz5aoS
+         ey37NZ1DMrdDVP3rLva42dHxCJ4OcAjZFIFInV/X775YumIucdwWpkTlwQK6noP61x4u
+         dW40sncKkF9bHe4wmW34QTErxnu1/VaZthfwVkU9mYL3LXjve7NV4AR+14sJ8nPxDY8r
+         QmBg==
+X-Gm-Message-State: AOAM531uFMGTkyjG4a+/9cCNFzOHWiUBWuvWm7A7HblRKg08S4EV9Sfz
+        eSqMY6tpgOnKYxxVB/zep4wLsRQJ1UGqJw==
+X-Google-Smtp-Source: ABdhPJydApjo/eUINfLzPGnStLthDkSaE0q2Z2j8ZkMOnh33GyoFB7ZRNdQITakAoHupPo6877Yq+g==
+X-Received: by 2002:a05:6000:1acb:: with SMTP id i11mr39204935wry.244.1641254177336;
+        Mon, 03 Jan 2022 15:56:17 -0800 (PST)
+Received: from fuji.fritz.box (ip-89-161-76-237.tel.tkb.net.pl. [89.161.76.237])
+        by smtp.gmail.com with ESMTPSA id w21sm30996188wmi.19.2022.01.03.15.56.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Jan 2022 15:56:17 -0800 (PST)
+Date:   Tue, 4 Jan 2022 00:56:13 +0100
+From:   Tomasz =?UTF-8?B?V2FybmllxYLFgm8=?= <tomasz.warniello@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Jani Nikula <jani.nikula@linux.intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] scripts: kernel-doc: transform documentation into POD
+Message-ID: <20220104005613.227f0432@fuji.fritz.box>
+In-Reply-To: <8735m4zdlv.fsf@meer.lwn.net>
+References: <20211209225549.69010-1-tomasz.warniello@gmail.com>
+        <87h7b8cfg0.fsf@meer.lwn.net>
+        <0796a780-f5ee-0b6c-e7ef-544ba5f6a429@gmail.com>
+        <87pmp9tcju.fsf@intel.com>
+        <20220103183034.77ba8a8c@fuji.fritz.box>
+        <87bl0sziva.fsf@meer.lwn.net>
+        <20220103224806.2932bac2@fuji.fritz.box>
+        <8735m4zdlv.fsf@meer.lwn.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [PATCH] docs: discourage use of list tables
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org
-References: <87r19oxx87.fsf@meer.lwn.net>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <87r19oxx87.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, 03 Jan 2022 14:57:48 -0700
+Jonathan Corbet <corbet@lwn.net> wrote:
 
+> One thread per version is good; please do not post new versions to old
+> threads.  A tool like "git send-email" can be your friend here.  See
+> Documentation/process/submitting-patches.rst for lots of details on how
+> to submit patches.
 
-On 1/3/22 14:36, Jonathan Corbet wrote:
-> Our documentation encourages the use of list-table formats, but that advice
-> runs counter to the objective of keeping the plain-text documentation as
-> useful and readable as possible.  Turn that advice around the other way so
-> that people don't keep adding these tables.
+Ok, thanks. I'll try to do it correctly this time...
+
+> Along these lines, I appreciate that you broke up the series as I
+> requested, but you overdid it a bit.  Think in terms of logical changes
+> and making things easy to review, and you should be able to coalesce
+> things a bit.
+
+I'm not good at guessing what seems logical to others, especially those I
+don't know much. No sarcasm here. Luckily it's not that many of them, so
+hopefully they'll pass the exam overdone as they are.
+
+> >>  - Stick with current coding conventions  
+> >
+> > To be honest, I need to think this over.  
 > 
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> Think hard; if you're unable to work with the kernel project's
+> conventions, there's not a lot of point in resubmitting the patches. 
 
-for sure.
+Let's finish this one together.
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+As for the actual code corrections, I see I put 1 tab too many in
+two places in the last version. So I guess I just need to reduce them
+by 1? No sarcasm again... So let me know before I've sent the next version,
+if you please.
 
-Thanks.
-
-> ---
->  Documentation/doc-guide/sphinx.rst | 11 +++++------
->  1 file changed, 5 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
-> index 673cbb769c08..bb36f18ae9ac 100644
-> --- a/Documentation/doc-guide/sphinx.rst
-> +++ b/Documentation/doc-guide/sphinx.rst
-> @@ -261,12 +261,11 @@ please feel free to remove it.
->  list tables
->  -----------
->  
-> -We recommend the use of *list table* formats. The *list table* formats are
-> -double-stage lists. Compared to the ASCII-art they might not be as
-> -comfortable for
-> -readers of the text files. Their advantage is that they are easy to
-> -create or modify and that the diff of a modification is much more meaningful,
-> -because it is limited to the modified content.
-> +The list-table formats can be useful for tables that are not easily laid
-> +out in the usual Sphinx ASCII-art formats.  These formats are nearly
-> +impossible for readers of the plain-text documents to understand, though,
-> +and should be avoided in the absence of a strong justification for their
-> +use.
->  
->  The ``flat-table`` is a double-stage list similar to the ``list-table`` with
->  some additional features:
-
--- 
-~Randy
+Ch, TW
