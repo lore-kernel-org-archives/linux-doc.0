@@ -2,56 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24823C433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jan 2022 16:30:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78D28C4167B
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jan 2022 16:41:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234228AbiACQax (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jan 2022 11:30:53 -0500
-Received: from verein.lst.de ([213.95.11.211]:47201 "EHLO verein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233889AbiACQax (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 3 Jan 2022 11:30:53 -0500
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 7096368AFE; Mon,  3 Jan 2022 17:30:50 +0100 (CET)
-Date:   Mon, 3 Jan 2022 17:30:50 +0100
-From:   Christoph Hellwig <hch@lst.de>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: make pdfdocs fails on Debian stable
-Message-ID: <20220103163050.GA3151@lst.de>
+        id S231709AbiACQlk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jan 2022 11:41:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42158 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230517AbiACQlk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jan 2022 11:41:40 -0500
+X-Greylist: delayed 401 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 03 Jan 2022 08:41:40 PST
+Received: from mout-y-111.mailbox.org (mout-y-111.mailbox.org [IPv6:2001:67c:2050:1::465:111])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12F46C061761;
+        Mon,  3 Jan 2022 08:41:40 -0800 (PST)
+Received: from smtp202.mailbox.org (unknown [91.198.250.118])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mout-y-111.mailbox.org (Postfix) with ESMTPS id 4JSLv925YmzQlLQ;
+        Mon,  3 Jan 2022 17:35:01 +0100 (CET)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sylv.io; s=MBO0001;
+        t=1641227700;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=eVaFMeMetbF2chCKkaAP7mGT+Mpn+9qurXFgcY31yEw=;
+        b=Ft18cB8WzNQOXw5b2wYqIlYweCebjU2JnRNNYrh6cxhIfQ9krzjXMF779dY3PqaYcV0KMl
+        OpcPwPa/lm1rNc9sL1CIL7IqeHx5mj0AlfKmkssr52RyOyw6Nmy2JSxb6H57pPjQoQmyW1
+        qBTUFjf1yHyOk9kBZb5fT97rz+F6W1buTm8qF6/5HgLou3IDMhFrCI4+XJjStRNOyHiFBQ
+        bMb/rV8c66vCxJmBVMmxPc0OseF7YNoLPA9rklTaNBVV/9q2w46IdQbhA48hVp/Rp09bNq
+        WnN17Xx9nWdyuMrDYAGUncIFOuSiGuBrTbyiHNPFMkIZ765C/MNV7HfhQIRAKw==
+From:   Marcello Sylvester Bauer <sylv@sylv.io>
+To:     linux-hwmon@vger.kernel.org
+Cc:     Marcello Sylvester Bauer <sylv@sylv.io>,
+        Patrick Rudolph <patrick.rudolph@9elements.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v1 1/4] hwmon: (max6639) Update Datasheet URL
+Date:   Mon,  3 Jan 2022 17:33:51 +0100
+Message-Id: <9de5b23396e4031158a68bfbd47d370b50080e43.1641224715.git.sylv@sylv.io>
+In-Reply-To: <cover.1641224715.git.sylv@sylv.io>
+References: <cover.1641224715.git.sylv@sylv.io>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jon and Mauro,
+The old Datasheet does not exist anymore.
 
-when trying to do a make pdfdocs on my Debian stable system I can't
-get it to complete.  The output below is from linux-next, but mainline
-is the same.
+Signed-off-by: Marcello Sylvester Bauer <sylv@sylv.io>
+---
+ Documentation/hwmon/max6639.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-------------
-Running 'xelatex --no-pdf -interaction=batchmode -no-pdf -recorder  "RCU.tex"'
-------------
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/Debian) (preloaded format=xelatex)
-restricted \write18 enabled.
- entering extended mode
-Latexmk: Examining 'RCU.log'
-=== TeX engine is 'XeTeX'
-Latexmk: Index file 'RCU.idx' was written
-Latexmk: References changed.
-Latexmk: Log file says output to 'RCU.xdv'
-Latexmk: Errors, so I did not complete making targets
-Collected error summary (may duplicate other messages):
-  xelatex: Command for 'xelatex' gave return code 1
-    Refer to 'RCU.log' for details
-Latexmk: Use the -f option to force complete processing,
-  unless error was exceeding maximum runs, or warnings treated as errors.
-make[2]: *** [Makefile:29: RCU.pdf] Error 12
-make[1]: *** [Documentation/Makefile:115: pdfdocs] Error 2
-make: *** [Makefile:1772: pdfdocs] Error 2
+diff --git a/Documentation/hwmon/max6639.rst b/Documentation/hwmon/max6639.rst
+index 3da54225f83c..c85d285a3489 100644
+--- a/Documentation/hwmon/max6639.rst
++++ b/Documentation/hwmon/max6639.rst
+@@ -9,7 +9,7 @@ Supported chips:
+ 
+     Addresses scanned: I2C 0x2c, 0x2e, 0x2f
+ 
+-    Datasheet: http://pdfserv.maxim-ic.com/en/ds/MAX6639.pdf
++    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX6639-MAX6639F.pdf
+ 
+ Authors:
+     - He Changqing <hechangqing@semptian.com>
+-- 
+2.33.1
 
