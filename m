@@ -2,45 +2,51 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EE16C433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jan 2022 16:58:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0827C433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jan 2022 17:07:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232649AbiACQ6X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jan 2022 11:58:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46126 "EHLO
+        id S235017AbiACRHv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jan 2022 12:07:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229972AbiACQ6V (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jan 2022 11:58:21 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC640C061761;
-        Mon,  3 Jan 2022 08:58:20 -0800 (PST)
+        with ESMTP id S231890AbiACRHu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jan 2022 12:07:50 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC0C6C061761;
+        Mon,  3 Jan 2022 09:07:50 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A4D20B80ED3;
-        Mon,  3 Jan 2022 16:58:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5813FC36AEB;
-        Mon,  3 Jan 2022 16:58:17 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 294A5CE117F;
+        Mon,  3 Jan 2022 17:07:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3516CC36AEB;
+        Mon,  3 Jan 2022 17:07:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1641229098;
-        bh=elWwxjQsRl02e3ThNY2iZ0/dAPZeSvK75N2M724ivlM=;
+        s=k20201202; t=1641229667;
+        bh=jkSk31QDIM5s+9ePDN5Jb6L6NRLmwDjSEIOaC/hqZLQ=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=dNMXX+m5VAMO4H9Tth4rABQqEQ/FgpcUNDG3FCSKbnQJ9WLv4Hce9dQoVKT3oVRzk
-         NBxDpgE8xztv5FsBhvd74xOLhwvOQc0zUBauxuH11+huFMgZLZ1XT+efiELpUYhCdS
-         mT0+x5XVPBwBVQj+vGFGBNlLo7irhT7FFkHaN8anuyqUixBfD8KyHeEOFxhk04od25
-         7JaVidWHNFW2tPdDrQM/B2NSQiKE+7OlhX3G2Y22ELTs6+v4s3Jdb+jb6kAzEmI2rE
-         sPzJrG6vtzDffBAdeylI/jMfRQgd7p1ZhpXH8Rg3RmM+v7Gd5nNn5CJkkf7jCT+Hmu
-         0iGldLmGd6hsw==
-Date:   Mon, 3 Jan 2022 17:58:14 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: make pdfdocs fails on Debian stable
-Message-ID: <20220103175814.5b22a6a7@coco.lan>
-In-Reply-To: <20220103163050.GA3151@lst.de>
-References: <20220103163050.GA3151@lst.de>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+        b=d9Nr+X9+U+g6EVJUVmEHwP679adAISFKL46TU16Rl9H4z1Zpd2gYt3Cu7060atTEp
+         qJmLkMs2eQ/p3abHrFizSUnYFwtQS90/S91X1w2ERxYcvtr/yzwuUsw2HcODjclDWC
+         3PEdqK2Twk2Is2G8c3h3pW1s1PGqr7z7UB/KXmumbuTszfYxONRverI8PcLt4ix5EQ
+         y0H071ptdykxjj4rJz372Ksw3KxqEriI1TRNwdxqMpr+BJ6gefjUL2Jet+9ygCuri4
+         RQJhnmziYT4V7GbUxig4UI1y7GE+4sFwam4j+okjnHRj1j/Hwk3Dt9Tpr7T648dkf9
+         jp5GGRhmH7Pcg==
+Date:   Mon, 3 Jan 2022 09:07:45 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     linux-doc@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        workflows@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [RFC PATCH v1 1/2] docs: add a document about regression
+ handling
+Message-ID: <20220103090746.2599f729@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+In-Reply-To: <7b71a1262b8b72d30154203bb14f00db7d4170ef.1641203216.git.linux@leemhuis.info>
+References: <cover.1641203216.git.linux@leemhuis.info>
+        <7b71a1262b8b72d30154203bb14f00db7d4170ef.1641203216.git.linux@leemhuis.info>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -48,50 +54,16 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Mon, 3 Jan 2022 17:30:50 +0100
-Christoph Hellwig <hch@lst.de> escreveu:
+On Mon,  3 Jan 2022 10:50:50 +0100 Thorsten Leemhuis wrote:
+> +How to see which regressions regzbot tracks currently?
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Check `regzbot's web-interface <https://linux-regtracking.leemhuis.info/regzbot/>`_
+> +for the latest info; alternatively, `search for the latest regression report
+> +<https://lore.kernel.org/lkml/?q=%22Linux+regressions+report%22+f%3Aregzbot>`_,
+> +which regzbot normally sends out once a week on Sunday evening (UTC), which is a
+> +few hours before Linus usually publishes new (pre-)releases.
 
-> Hi Jon and Mauro,
-> 
-> when trying to do a make pdfdocs on my Debian stable system I can't
-> get it to complete.  The output below is from linux-next, but mainline
-> is the same.
-> 
-> ------------
-> Running 'xelatex --no-pdf -interaction=batchmode -no-pdf -recorder  "RCU.tex"'
-> ------------
-> This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/Debian) (preloaded format=xelatex)
-> restricted \write18 enabled.
->  entering extended mode
-> Latexmk: Examining 'RCU.log'
-> === TeX engine is 'XeTeX'
-> Latexmk: Index file 'RCU.idx' was written
-> Latexmk: References changed.
-> Latexmk: Log file says output to 'RCU.xdv'
-> Latexmk: Errors, so I did not complete making targets
-> Collected error summary (may duplicate other messages):
->   xelatex: Command for 'xelatex' gave return code 1
->     Refer to 'RCU.log' for details
-> Latexmk: Use the -f option to force complete processing,
->   unless error was exceeding maximum runs, or warnings treated as errors.
-> make[2]: *** [Makefile:29: RCU.pdf] Error 12
-> make[1]: *** [Documentation/Makefile:115: pdfdocs] Error 2
-> make: *** [Makefile:1772: pdfdocs] Error 2
-> 
-
-Weird... when you do a make, it should have checked for all
-dependencies, when it internally runs:
-
-	./scripts/sphinx-pre-install 
-
-Basically, you need the xelatex package for it to work, as PDF
-output is via LaTeX. This is not a mandatory requirement, though,
-as most people are only interested on html output, and LaTeX
-dependencies require to install lots of stuff. it should provide you
-a list of packages required for PDF, with a suggestion of using
-apt-get to install it.
-
-In this specific case, I guess the package name is 'texlive-xetex'.
-
-Thanks,
-Mauro
+Cool, I wonder if it would be a useful feature to be able to filter by
+mailing lists involved or such to give maintainers a quick overview of
+regressions they are on the hook for?
