@@ -2,72 +2,56 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09051C433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jan 2022 15:06:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24823C433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jan 2022 16:30:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229693AbiACPGZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jan 2022 10:06:25 -0500
-Received: from sin.source.kernel.org ([145.40.73.55]:56990 "EHLO
-        sin.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231166AbiACPGZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jan 2022 10:06:25 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 851D6CE1106;
-        Mon,  3 Jan 2022 15:06:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4926FC36AED;
-        Mon,  3 Jan 2022 15:06:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1641222381;
-        bh=N11Fuq6Xju1Dn7isiVwslSPqUV/iaaLmrQuO9d6hYsU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QyrA+hHEdpnbO4JaJdwYOfpYeA+cKOK7kczxXZQ5cT1sNF2uIoWpgjKH6MYsxxBgU
-         lIkWw+t1td2qa7lU1+Tg+etopa9Lo/zIsDvoJ4f4hocKyRRHCsmlkqFVFCIqSpQ04S
-         gvYbK3rWWJmUPN5XOE0cGxal8EtrXj6hBKG7ilKV4cD8yLxWMGkC9lL+7gemo0GCHT
-         9XONVjgDS0Thygf4dqfVKzlVt39AUGJLb0F/YQ7+volMTLX3R3CetCF1CZ6SA7cBwx
-         257HwSYHl1nvqcG1Jvr/f+aMMCWnmoMAAcU1UR83r/Ze/bxtXcsdz5TsQGrDcpTlbm
-         M4sFta14LM06A==
-Date:   Mon, 3 Jan 2022 09:06:18 -0600
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     linux-block@vger.kernel.org, Jens Axboe <axboe@kernel.dk>
-Cc:     linux-doc@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/8] docs: consolidate sysfs-block into
- Documentation/ABI/
-Message-ID: <YdMQ6rfSZWSOLptA@quark>
-References: <20211209003833.6396-1-ebiggers@kernel.org>
- <YcH1uxfdTRHIwl7Y@quark>
+        id S234228AbiACQax (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jan 2022 11:30:53 -0500
+Received: from verein.lst.de ([213.95.11.211]:47201 "EHLO verein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233889AbiACQax (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 3 Jan 2022 11:30:53 -0500
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 7096368AFE; Mon,  3 Jan 2022 17:30:50 +0100 (CET)
+Date:   Mon, 3 Jan 2022 17:30:50 +0100
+From:   Christoph Hellwig <hch@lst.de>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: make pdfdocs fails on Debian stable
+Message-ID: <20220103163050.GA3151@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YcH1uxfdTRHIwl7Y@quark>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 21, 2021 at 09:41:47AM -0600, Eric Biggers wrote:
-> On Wed, Dec 08, 2021 at 04:38:25PM -0800, Eric Biggers wrote:
-> > This series consolidates the documentation for /sys/block/<disk>/queue/
-> > into Documentation/ABI/, where it is supposed to go (as per Greg KH:
-> > https://lore.kernel.org/r/YaXXpEAwVGTLjp1e@kroah.com).
-> > 
-> > This series also updates MAINTAINERS to associate the block
-> > documentation with the block layer.
-> > 
-> > This series applies to linux-block/for-next.
-> > 
-> > Changed v2 => v3:
-> >    - Improved documentation for stable_writes and virt_boundary_mask.
-> >    - Added more Reviewed-by tags.
-> > 
-> > Changed v1 => v2:
-> >    - Added patch which moves the documentation to the stable directory.
-> >    - Added Reviewed-by tags.
-> 
-> Jens, any interest in applying this series?
-> 
-> - Eric
+Hi Jon and Mauro,
 
-Ping.
+when trying to do a make pdfdocs on my Debian stable system I can't
+get it to complete.  The output below is from linux-next, but mainline
+is the same.
+
+------------
+Running 'xelatex --no-pdf -interaction=batchmode -no-pdf -recorder  "RCU.tex"'
+------------
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/Debian) (preloaded format=xelatex)
+restricted \write18 enabled.
+ entering extended mode
+Latexmk: Examining 'RCU.log'
+=== TeX engine is 'XeTeX'
+Latexmk: Index file 'RCU.idx' was written
+Latexmk: References changed.
+Latexmk: Log file says output to 'RCU.xdv'
+Latexmk: Errors, so I did not complete making targets
+Collected error summary (may duplicate other messages):
+  xelatex: Command for 'xelatex' gave return code 1
+    Refer to 'RCU.log' for details
+Latexmk: Use the -f option to force complete processing,
+  unless error was exceeding maximum runs, or warnings treated as errors.
+make[2]: *** [Makefile:29: RCU.pdf] Error 12
+make[1]: *** [Documentation/Makefile:115: pdfdocs] Error 2
+make: *** [Makefile:1772: pdfdocs] Error 2
+
