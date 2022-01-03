@@ -2,73 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75BCFC433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jan 2022 09:57:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AC3BC433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jan 2022 12:31:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232549AbiACJ5R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jan 2022 04:57:17 -0500
-Received: from verein.lst.de ([213.95.11.211]:46058 "EHLO verein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229742AbiACJ5R (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 3 Jan 2022 04:57:17 -0500
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id E26BD68AA6; Mon,  3 Jan 2022 10:57:12 +0100 (CET)
-Date:   Mon, 3 Jan 2022 10:57:12 +0100
-From:   Christoph Hellwig <hch@lst.de>
-To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     Christoph Hellwig <hch@lst.de>, Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org
-Subject: Re: [PATCH 3/4] bpf, docs: Generate nicer tables for instruction
- encodings
-Message-ID: <20220103095712.GA29880@lst.de>
-References: <20211223101906.977624-1-hch@lst.de> <20211223101906.977624-4-hch@lst.de> <20211231004324.wvfqqgntnpswhzby@ast-mbp>
+        id S230048AbiACMbO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jan 2022 07:31:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41104 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229586AbiACMbN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jan 2022 07:31:13 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 568E9C061761;
+        Mon,  3 Jan 2022 04:31:13 -0800 (PST)
+Received: from ip4d173d02.dynamic.kabel-deutschland.de ([77.23.61.2] helo=[192.168.66.200]); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1n4MUY-00075C-2s; Mon, 03 Jan 2022 13:31:10 +0100
+Message-ID: <b7cc0cd0-887e-fd19-d570-1182ec5e7b14@leemhuis.info>
+Date:   Mon, 3 Jan 2022 13:31:09 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211231004324.wvfqqgntnpswhzby@ast-mbp>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Content-Language: en-BS
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
+Cc:     workflows@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <2b9c093339322e2686140a486b978c0b03476f42.1641194004.git.linux@leemhuis.info>
+ <7a9999a4-257c-3428-779e-0fdbf02d4782@infradead.org>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [PATCH v1] docs: 5.Posting.rst: describe Fixes: and Link: tags
+In-Reply-To: <7a9999a4-257c-3428-779e-0fdbf02d4782@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1641213073;74904e5c;
+X-HE-SMSGID: 1n4MUY-00075C-2s
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Dec 30, 2021 at 04:43:24PM -0800, Alexei Starovoitov wrote:
-> > +  ========  =====  =========================
-> > +  code      value  description
-> > +  ========  =====  =========================
-> > +  BPF_JA    0x00   BPF_JMP only
-> >    BPF_JEQ   0x10
-> >    BPF_JGT   0x20
-> >    BPF_JGE   0x30
-> >    BPF_JSET  0x40
+Hi Randy! Thx for taking a look. Your helpful feedback made me CC you on
+the RFC on a document about regressions I sent today as well. Feel free
+to ignore it, if you're not interested.
+
+On 03.01.22 08:36, Randy Dunlap wrote:
+> On 1/2/22 23:15, Thorsten Leemhuis wrote:
+
+>> Lo! If there is still a chance I'l like to get this patch into v5.17, as
+>                                  I'd
+>
+>>   Patch itself is unchanged, patch description slighly changed. Might
+>                                                  slightly
 > 
-> Not your fault, but the new table looks odd with
-> only some opcodes documented.
-> Same issue with BPF_ALU table.
-> In the past the documented opcodes were for eBPF only and
-> not documented in both, so it wasn't that bad.
-> At least there was a reason for discrepancy.
-> Now it just odd.
-> May be add a comment to all rows?
+>>   later submit other changes from that series seperately, too, still
+>                                                 separately,
 
-Yes, having the description everywhere would be good.  But I'll have to
-do research to actually figure out what should go in there for some.
+Note to self: avoid last minute changes. :-/
 
-> > +  =============  =====  =====================
-> > +  mode modifier  value  description
-> > +  =============  =====  =====================
-> > +  BPF_IMM        0x00   used for 64-bit mov
-> > +  BPF_ABS        0x20
-> > +  BPF_IND        0x40
-> > +  BPF_MEM        0x60
-> 
-> May be say here that ABS and IND are legacy for compat with classic only?
-> and MEM is the most common modifier for load/store?
+>> ---
+>>  Documentation/process/5.Posting.rst | 29 ++++++++++++++++++++++-------
+>>  1 file changed, 22 insertions(+), 7 deletions(-)
+> [...]
+>> +A third kind of tags are used to document who was involved in the development of
+>                 of tag is used
 
-Sure.
+Many thx, fixed all of these locally for v2.
+
+Ciao, Thorsten
