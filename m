@@ -2,89 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1976AC433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jan 2022 07:00:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81AF6C433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jan 2022 07:15:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230070AbiACHAY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jan 2022 02:00:24 -0500
-Received: from condef-09.nifty.com ([202.248.20.74]:31340 "EHLO
-        condef-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230009AbiACHAW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jan 2022 02:00:22 -0500
-Received: from conssluserg-01.nifty.com ([10.126.8.80])by condef-09.nifty.com with ESMTP id 2036ui7o023377
-        for <linux-doc@vger.kernel.org>; Mon, 3 Jan 2022 15:56:44 +0900
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 2036uTEH013835;
-        Mon, 3 Jan 2022 15:56:30 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 2036uTEH013835
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1641192990;
-        bh=0+ioftAd/kkHmwKuFy51aEio59K+4lZDLN5BOQt2u3w=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=nTNVKEZrIcpoiz0vXU4cujaLF1XGmzC1qJe3R5nPVJx0RAg8n7ssxzCiFVMdzSozD
-         fBLETiOgXeXRo5jzwfQDqJ8nK6gY6hkzCORFyIwfbS8DhnjIqbeqwgUfOrTxmrqUa6
-         9IycmHvX+n8rZDr4XLCGTyoAJmYe+ZBy3Wbbp7NIFFqOsc6hWnEGD8O37ACiJPJRWQ
-         fiZwbauWULziA8w1PWthBcVHg7QorrhnkoEIufRm9c1ckQtVNW1vQ81kvZ823otkF+
-         DwSOv5DjkyXkodmnjcFqQwoTUO9yYJG8+3jykObtDXwTLNHSByMPbWIXJurJte/j8a
-         BkMDtsBeNgkxQ==
-X-Nifty-SrcIP: [209.85.215.175]
-Received: by mail-pg1-f175.google.com with SMTP id g2so29429969pgo.9;
-        Sun, 02 Jan 2022 22:56:29 -0800 (PST)
-X-Gm-Message-State: AOAM531y7VwaMjDXBtJoRWRaVgOD4TL73huWrTbp78Cbt9I/LVX2f+qo
-        zAFwu3UIbWDfGaBtWJuWyCWC1iKPyOFYO8p9VTU=
-X-Google-Smtp-Source: ABdhPJwJ0lPthz4rrEgHqocpuqBwWw4mWjV43mmunLIwxztjbIqpUr4Xo+cCJayA7GGb/pAS/JRxOvLYbOBKLM9Ovww=
-X-Received: by 2002:a05:6a00:1484:b0:4bb:86a:c061 with SMTP id
- v4-20020a056a00148400b004bb086ac061mr44922472pfu.36.1641192988954; Sun, 02
- Jan 2022 22:56:28 -0800 (PST)
+        id S230211AbiACHPg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jan 2022 02:15:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56386 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229991AbiACHPg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jan 2022 02:15:36 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21955C061761;
+        Sun,  2 Jan 2022 23:15:36 -0800 (PST)
+Received: from ip4d173d02.dynamic.kabel-deutschland.de ([77.23.61.2] helo=truhe.fritz.box); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        id 1n4HZ7-0005ZK-1U; Mon, 03 Jan 2022 08:15:33 +0100
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+To:     linux-doc@vger.kernel.org
+Cc:     workflows@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v1] docs: 5.Posting.rst: describe Fixes: and Link: tags
+Date:   Mon,  3 Jan 2022 08:15:32 +0100
+Message-Id: <2b9c093339322e2686140a486b978c0b03476f42.1641194004.git.linux@leemhuis.info>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20211231195925.GA1678@kernel.org>
-In-Reply-To: <20211231195925.GA1678@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 3 Jan 2022 15:55:51 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASnMu3oBy18SHSkA-cpeXj=oaLQYTjfuBcuoHLi6aVC0Q@mail.gmail.com>
-Message-ID: <CAK7LNASnMu3oBy18SHSkA-cpeXj=oaLQYTjfuBcuoHLi6aVC0Q@mail.gmail.com>
-Subject: Re: [PATCH] doc: kbuild: fix default in `imply` table
-To:     Miguel Ojeda <ojeda@kernel.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1641194136;221604f0;
+X-HE-SMSGID: 1n4HZ7-0005ZK-1U
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jan 1, 2022 at 5:01 AM Miguel Ojeda <ojeda@kernel.org> wrote:
->
-> `BAZ` takes `FOO`'s value as default (as far as `BAR` allows it).
->
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
-> ---
->  Documentation/kbuild/kconfig-language.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-> index 98c24183d8c3..93a5b6e1fabd 100644
-> --- a/Documentation/kbuild/kconfig-language.rst
-> +++ b/Documentation/kbuild/kconfig-language.rst
-> @@ -176,7 +176,7 @@ applicable everywhere (see syntax).
->         y               y               y               Y/m/n
->         n               m               n               N/m
->         m               m               m               M/n
-> -       y               m               n               M/n
-> +       y               m               m               M/n
->         y               n               *               N
->         ===             ===             =============   ==============
->
-> --
-> 2.34.1
->
+Explain Fixes: and Link: tags in Documentation/process/5.Posting.rst,
+which are missing in this file for unknown reasons and only described in
+Documentation/process/submitting-patches.rst.
 
+Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+CC: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+---
+Lo! If there is still a chance I'l like to get this patch into v5.17, as
+during my work as regression tracker I noticed quite a few developers
+seem to be unaware how the Link: tag should be used. Maybe in parts
+that's because Documentation/process/5.Posting.rst doesn't describe it
+yet, which described things from a another different angle than
+Documentation/process/submitting-patches.rst.
 
-Applied to linux-kbuild. Thanks.
+Ciao, Thorsten
 
+v1:
+- First version as stand alone patch. It used to be the first patch of
+  this series that got abandoned after RFC/v2:
+  https://lore.kernel.org/all/cover.1639042966.git.linux@leemhuis.info/
+  Patch itself is unchanged, patch description slighly changed. Might
+  later submit other changes from that series seperately, too, still
+  unsure.
+---
+ Documentation/process/5.Posting.rst | 29 ++++++++++++++++++++++-------
+ 1 file changed, 22 insertions(+), 7 deletions(-)
+
+diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
+index 855a70b80269..e7b919070210 100644
+--- a/Documentation/process/5.Posting.rst
++++ b/Documentation/process/5.Posting.rst
+@@ -197,14 +197,29 @@ the build process, for example, or editor backup files) in the patch.  The
+ file "dontdiff" in the Documentation directory can help in this regard;
+ pass it to diff with the "-X" option.
+ 
+-The tags mentioned above are used to describe how various developers have
+-been associated with the development of this patch.  They are described in
+-detail in
+-the :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
+-document; what follows here is a brief summary.  Each of these lines has
+-the format:
++The tags already briefly mentioned above are used to provide insights how
++the patch came into being. They are described in detail in the
++:ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
++document; what follows here is a brief summary.
+ 
+-::
++One tag is used to refer to earlier commits which had problems fixed by
++the patch::
++
++	Fixes: 1f2e3d4c5b6a ("The first line of the commit specified by the first 12 characters of its SHA-1 ID")
++
++Another tag is used for linking web pages with additional backgrounds or
++details, for example a report about a bug fixed by the patch or a document
++with a specification implemented by the patch::
++
++	Link: https://example.com/somewhere.html  optional-other-stuff
++
++Many maintainers when applying a patch also add this tag to link to the
++latest public review posting of the patch; often this is automatically done
++by tools like b4 or a git hook like the one described in
++'Documentation/maintainer/configure-git.rst'.
++
++A third kind of tags are used to document who was involved in the development of
++the patch. Each of these uses this format::
+ 
+ 	tag: Full Name <email address>  optional-other-stuff
+ 
+
+base-commit: b36064425a18e29a3bad9c007b4dd1223f8aadc5
 -- 
-Best Regards
-Masahiro Yamada
+2.31.1
+
