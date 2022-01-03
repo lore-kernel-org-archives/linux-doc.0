@@ -2,87 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58C08C433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jan 2022 18:36:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B2D5C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jan 2022 20:04:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235906AbiACSge (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jan 2022 13:36:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40282 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235919AbiACSg3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jan 2022 13:36:29 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8C43C061394;
-        Mon,  3 Jan 2022 10:36:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-        :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=bq5JLgDM3t8BkrOTMe1SQwbqoVsrqTMzIyC33K4R1uk=; b=oBkEjgAqF7FRXTYDvwnv1mpZzB
-        DCxEujsulSn/6eHyj43SIeTXqIWRJHc+Oo89mSx9+Sa4aNiJ1bfNIsPq+pUTSbfF9SH/GRIzpwGtI
-        gBD4eEGSuMpYffuAvFK7T4tclIOqvqx7i5tvwjh9lMp+UM2bEVtgGfhM4UORkx1snnFV8cipq4XG4
-        YbuPaYUW2+KM3T+waONpNi0LnkmALB9dG6gEAiG6JjT9pjMavTB3p06YCuD6nGLa+BXnsBw2PROeM
-        KKv0+YJZHZS54YAbaGjb4oV2hF1q0ZcwAcU0FOAwwMuNpX36Ec2nUXRFlV9LBdy7eG/SG7bYnV+Vu
-        5SgD96gA==;
-Received: from [2001:4bb8:184:3f95:b8f7:97d6:6b53:b9be] (helo=localhost)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1n4SBt-009qUs-Gv; Mon, 03 Jan 2022 18:36:18 +0000
-From:   Christoph Hellwig <hch@lst.de>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>
-Cc:     Martin KaFai Lau <kafai@fb.com>, Song Liu <songliubraving@fb.com>,
-        Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, linux-doc@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org
-Subject: [PATCH 6/6] bpf, docs: Fully document the JMP mode modifiers
-Date:   Mon,  3 Jan 2022 19:35:56 +0100
-Message-Id: <20220103183556.41040-7-hch@lst.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220103183556.41040-1-hch@lst.de>
-References: <20220103183556.41040-1-hch@lst.de>
+        id S229705AbiACUEI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jan 2022 15:04:08 -0500
+Received: from ms.lwn.net ([45.79.88.28]:51058 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229651AbiACUEI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 3 Jan 2022 15:04:08 -0500
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id E8A41380;
+        Mon,  3 Jan 2022 20:04:07 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E8A41380
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1641240248; bh=CUz5wuJiPEm91tSMrn8AMl5xdvPNXqlrO5SupqnGfhg=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=AiIobKdBuCpZb/mmN72asEJgtMVoByyuSfckMD6nfIuGAoGakRDe00hTZIY4e1qRE
+         /5fz0yQz8S0z5WMdxLBsGqKOf2TzTUR1dOkx5z6HI0lSsvdpdu08W/Sb3fTUOzuikN
+         X88NwHzMLGOSVacqRs+Kr107ky9Wsqzc9XfMqF25vb99GXY0HGv+1Ef+mfmTN4lCHY
+         90nqM44ycnjVJRdh/ikcQYrbEMB1+qrcpwuSOSMgwQsnIOImd4mgP/gmTcThkdIJ8k
+         potzuvMXI77J+g1N4hko7fH+qvvMUfrfTjYhiFBQhc0Xh1pH3Mdv3tM9jG0MygD7oh
+         8iqB9rjQz5Ncw==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Tomasz =?utf-8?B?V2FybmllxYLFgm8=?= <tomasz.warniello@gmail.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] scripts: kernel-doc: transform documentation into POD
+In-Reply-To: <20220103183034.77ba8a8c@fuji.fritz.box>
+References: <20211209225549.69010-1-tomasz.warniello@gmail.com>
+ <87h7b8cfg0.fsf@meer.lwn.net>
+ <0796a780-f5ee-0b6c-e7ef-544ba5f6a429@gmail.com>
+ <87pmp9tcju.fsf@intel.com> <20220103183034.77ba8a8c@fuji.fritz.box>
+Date:   Mon, 03 Jan 2022 13:04:09 -0700
+Message-ID: <87bl0sziva.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a description for all the modifiers.
+Tomasz Warnie=C5=82=C5=82o <tomasz.warniello@gmail.com> writes:
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- Documentation/bpf/instruction-set.rst | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+> On Mon, 03 Jan 2022 11:04:53 +0200
+> Jani Nikula <jani.nikula@linux.intel.com> wrote:
+>> In kernel, tabs are 8 characters.
+>>=20
+>> See Documentation/process/coding-style.rst
+>>=20
+>
+> I am a heretic then.
+>
+> Except for the initial dogma, I understand and agree with the rationale
+> in coding-style.rst.
+>
+> Only what if I have stared at the screen not for 20 hours, but for
+> 40 hours? Now I want to have indentation even deeper, of 16 spaces.
+> And how do I get this having 8 spaces here and there instead of tabs?
+> The system begins to fall apart.
+>
+> The misleading statement is that tabs are 8 characters long. No. They
+> are exactly 1 character long. And that's ASCII 9.
 
-diff --git a/Documentation/bpf/instruction-set.rst b/Documentation/bpf/instruction-set.rst
-index 88e8d6a9195cd..3704836fe6df6 100644
---- a/Documentation/bpf/instruction-set.rst
-+++ b/Documentation/bpf/instruction-set.rst
-@@ -173,15 +173,15 @@ The size modifier is one of:
- 
- The mode modifier is one of:
- 
--  =============  =====  =====================
-+  =============  =====  ====================================
-   mode modifier  value  description
--  =============  =====  =====================
-+  =============  =====  ====================================
-   BPF_IMM        0x00   used for 64-bit mov
--  BPF_ABS        0x20
--  BPF_IND        0x40
--  BPF_MEM        0x60
-+  BPF_ABS        0x20   legacy BPF packet access
-+  BPF_IND        0x40   legacy BPF packet access
-+  BPF_MEM        0x60   all normal load and store operations
-   BPF_ATOMIC     0xc0   atomic operations
--  =============  =====  =====================
-+  =============  =====  ====================================
- 
- BPF_MEM | <size> | BPF_STX means::
- 
--- 
-2.30.2
+This is not particularly helpful.
 
+I would like to get your work in, but need some cooperation to get
+there.
+
+Please:
+
+ - Post your patch series as a single thread with a coherent cover
+   letter.
+
+ - Stick with current coding conventions
+
+ - Avoid snide comments to reviewers.
+
+Thanks,
+
+jon
