@@ -2,125 +2,74 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FFB9C433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jan 2022 22:28:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54B3BC433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jan 2022 22:36:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230227AbiACW2j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jan 2022 17:28:39 -0500
-Received: from vps-vb.mhejs.net ([37.28.154.113]:43840 "EHLO vps-vb.mhejs.net"
+        id S230173AbiACWgy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jan 2022 17:36:54 -0500
+Received: from ms.lwn.net ([45.79.88.28]:51062 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230229AbiACW2j (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 3 Jan 2022 17:28:39 -0500
-X-Greylist: delayed 1165 seconds by postgrey-1.27 at vger.kernel.org; Mon, 03 Jan 2022 17:28:39 EST
-Received: from MUA
-        by vps-vb.mhejs.net with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <mail@maciej.szmigiero.name>)
-        id 1n4VVo-0001la-7e; Mon, 03 Jan 2022 23:09:04 +0100
-From:   "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
-To:     Seth Jennings <sjenning@redhat.com>,
-        Dan Streetman <ddstreet@ieee.org>,
-        Vitaly Wool <vitaly.wool@konsulko.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] mm/zswap.c: allow handling just same-value filled pages
-Date:   Mon,  3 Jan 2022 23:08:58 +0100
-Message-Id: <7dbafa963e8bab43608189abbe2067f4b9287831.1641247624.git.maciej.szmigiero@oracle.com>
-X-Mailer: git-send-email 2.34.1
+        id S229876AbiACWgy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 3 Jan 2022 17:36:54 -0500
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id EB4FC4A6;
+        Mon,  3 Jan 2022 22:36:53 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EB4FC4A6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1641249414; bh=wdaP/UD105480aBAEV/T+Q8YTQ/bJvNQykTevNi4HK8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=BtWn+UUPRghAT2LUpA02qgiVEwsbq8NnX33g/Nu97i77ddzezFrl1j0hjAl7w0a3H
+         FVYhpwRbzNqEkrvrLiPSzZ7FiWzR/1qrwIleqof9JjBC9LZf1tOnhvTZ1w7iuuZYn7
+         9m479FDJr6nR5/9/3qWr81190Av+4+eWNW942uZukDgL1awDr+Ju4OYY0u/jOEnybT
+         9qOsk3M90mU9YA9WtW+41zhjEi1gSD7+1xW6AjsvdbhJTCQnG1lennG8DDk7OggNqd
+         Op+nNGSDsYGT3db+syjhIDO547Q1vBscVtUp1Cb4wOKB+Hbuw3zM0d3idVHOsSRuOI
+         q60R9CFV3pv9w==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: discourage use of list tables
+Date:   Mon, 03 Jan 2022 15:36:56 -0700
+Message-ID: <87r19oxx87.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>
+Our documentation encourages the use of list-table formats, but that advice
+runs counter to the objective of keeping the plain-text documentation as
+useful and readable as possible.  Turn that advice around the other way so
+that people don't keep adding these tables.
 
-Zswap has an ability to efficiently store same-value filled pages, which
-can be turned on and off using the "same_filled_pages_enabled" parameter.
-
-However, there is currently no way to enable just this (lightweight)
-functionality, while not making use of the whole compressed page storage
-machinery.
-
-Add a "non_same_filled_pages_enabled" parameter which allows disabling
-handling of pages that aren't same-value filled.
-This way zswap can be run in such lightweight same-value filled pages only
-mode.
-
-Signed-off-by: Maciej S. Szmigiero <maciej.szmigiero@oracle.com>
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 ---
- Documentation/admin-guide/mm/zswap.rst | 22 +++++++++++++++++++---
- mm/zswap.c                             | 15 ++++++++++++++-
- 2 files changed, 33 insertions(+), 4 deletions(-)
+ Documentation/doc-guide/sphinx.rst | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/admin-guide/mm/zswap.rst b/Documentation/admin-guide/mm/zswap.rst
-index 8edb8d578caf..6e6f7b0d6562 100644
---- a/Documentation/admin-guide/mm/zswap.rst
-+++ b/Documentation/admin-guide/mm/zswap.rst
-@@ -130,9 +130,25 @@ attribute, e.g.::
- 	echo 1 > /sys/module/zswap/parameters/same_filled_pages_enabled
+diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
+index 673cbb769c08..bb36f18ae9ac 100644
+--- a/Documentation/doc-guide/sphinx.rst
++++ b/Documentation/doc-guide/sphinx.rst
+@@ -261,12 +261,11 @@ please feel free to remove it.
+ list tables
+ -----------
  
- When zswap same-filled page identification is disabled at runtime, it will stop
--checking for the same-value filled pages during store operation. However, the
--existing pages which are marked as same-value filled pages remain stored
--unchanged in zswap until they are either loaded or invalidated.
-+checking for the same-value filled pages during store operation.
-+In other words, every page will be then considered non-same-value filled.
-+However, the existing pages which are marked as same-value filled pages remain
-+stored unchanged in zswap until they are either loaded or invalidated.
-+
-+In some circumstances it might be advantageous to make use of just the zswap
-+ability to efficiently store same-filled pages without enabling the whole
-+compressed page storage.
-+In this case the handling of non-same-value pages by zswap (enabled by default)
-+can be disabled by setting the ``non_same_filled_pages_enabled`` attribute
-+to 0, e.g. ``zswap.non_same_filled_pages_enabled=0``.
-+It can also be enabled and disabled at runtime using the sysfs
-+``non_same_filled_pages_enabled`` attribute, e.g.::
-+
-+	echo 1 > /sys/module/zswap/parameters/non_same_filled_pages_enabled
-+
-+Disabling both ``zswap.same_filled_pages_enabled`` and
-+``zswap.non_same_filled_pages_enabled`` effectively disables accepting any new
-+pages by zswap.
+-We recommend the use of *list table* formats. The *list table* formats are
+-double-stage lists. Compared to the ASCII-art they might not be as
+-comfortable for
+-readers of the text files. Their advantage is that they are easy to
+-create or modify and that the diff of a modification is much more meaningful,
+-because it is limited to the modified content.
++The list-table formats can be useful for tables that are not easily laid
++out in the usual Sphinx ASCII-art formats.  These formats are nearly
++impossible for readers of the plain-text documents to understand, though,
++and should be avoided in the absence of a strong justification for their
++use.
  
- To prevent zswap from shrinking pool when zswap is full and there's a high
- pressure on swap (this will result in flipping pages in and out zswap pool
-diff --git a/mm/zswap.c b/mm/zswap.c
-index 7944e3e57e78..7584ab85c7c7 100644
---- a/mm/zswap.c
-+++ b/mm/zswap.c
-@@ -120,11 +120,19 @@ static unsigned int zswap_accept_thr_percent = 90; /* of max pool size */
- module_param_named(accept_threshold_percent, zswap_accept_thr_percent,
- 		   uint, 0644);
- 
--/* Enable/disable handling same-value filled pages (enabled by default) */
-+/*
-+ * Enable/disable handling same-value filled pages (enabled by default).
-+ * If disabled every page is considered non-same-value filled.
-+ */
- static bool zswap_same_filled_pages_enabled = true;
- module_param_named(same_filled_pages_enabled, zswap_same_filled_pages_enabled,
- 		   bool, 0644);
- 
-+/* Enable/disable handling non-same-value filled pages (enabled by default) */
-+static bool zswap_non_same_filled_pages_enabled = true;
-+module_param_named(non_same_filled_pages_enabled, zswap_non_same_filled_pages_enabled,
-+		   bool, 0644);
-+
- /*********************************
- * data structures
- **********************************/
-@@ -1147,6 +1155,11 @@ static int zswap_frontswap_store(unsigned type, pgoff_t offset,
- 		kunmap_atomic(src);
- 	}
- 
-+	if (!zswap_non_same_filled_pages_enabled) {
-+		ret = -EINVAL;
-+		goto freepage;
-+	}
-+
- 	/* if entry is successfully added, it keeps the reference */
- 	entry->pool = zswap_pool_current_get();
- 	if (!entry->pool) {
+ The ``flat-table`` is a double-stage list similar to the ``list-table`` with
+ some additional features:
+-- 
+2.33.1
+
