@@ -2,63 +2,62 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25666C4332F
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jan 2022 04:51:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6694EC433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Jan 2022 04:56:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231590AbiACEvK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 2 Jan 2022 23:51:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53344 "EHLO
+        id S231620AbiACE4A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 2 Jan 2022 23:56:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231574AbiACEvJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Jan 2022 23:51:09 -0500
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB4D7C061761;
-        Sun,  2 Jan 2022 20:51:08 -0800 (PST)
-Received: by mail-wm1-x330.google.com with SMTP id j140-20020a1c2392000000b003399ae48f58so20535783wmj.5;
-        Sun, 02 Jan 2022 20:51:08 -0800 (PST)
+        with ESMTP id S231574AbiACE4A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Jan 2022 23:56:00 -0500
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22E82C061761;
+        Sun,  2 Jan 2022 20:56:00 -0800 (PST)
+Received: by mail-wm1-x332.google.com with SMTP id n10-20020a7bc5ca000000b00345c520d38eso17779609wmk.1;
+        Sun, 02 Jan 2022 20:56:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=fUpNFk7n1xC8kYBnaIN6s2IV4QPkRGqkGmgZxWFNjR0=;
-        b=D4GN4gnEZX2f5537knsjoNwcViWodA0o3hg/jO9fmfhscAUjpfPpZNoJWJgIcRutDa
-         oSOiKguaPOGtut116jzjZhkcZ4rGGwlRNWP809WayOv0MVnRbAYp9b14fNKZyZyNt9jN
-         pQlDzcOxCP28DFTkLUlNioQLdmwN89KR9MzG3acygiPQC6o6lwJcCNDFFOw8xR7NeFrK
-         +Z+bJgGwaP/klx/cNoEi/wNhKcSrDvhvBQZrSTplgzaCCzWHsaWo/DWGWY5I/ra21d9P
-         5MlgFOi/tnHlK37VcKG11lXvFpWGRpDByNR6BXYI+RmkkNsgHiXazrTrnFNj5vBVAk5d
-         Q1Fw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SS/IXV/uUkA4HFkL+doYrFhDD7IUbckhrneEYozEEDs=;
+        b=mYRXzV34sIRJDSmnf3EfJKVbiJ0W4RYKdh/GDB8oySHUZWbmk5VEtEZpZHy/nvku85
+         aiAoQTgHfwnbKxE/dxN/SkDsAWaX4r7Iq4+dS+GdecpENJ5zbDXu2EatOkyFn7nY56YP
+         uVUFnvb5inPPotjynx2ll3PNmgCzRLdSRLaRuJxOPJuJCA7LCu3xxhQprzxI8n1xdOpr
+         BmY+HSobAIxKlUNz2LpfPxWIdT2nISQD7NFtGI6s/P8UA/MUSKA6RDiiE/uJMJQbYifg
+         GbRnME5fzmPD4QzmxOpeP1CPRYt7W9kUepaTjbHhlA2Eceyi2FIXCjo6cW+ejQ0ECweH
+         YxoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=fUpNFk7n1xC8kYBnaIN6s2IV4QPkRGqkGmgZxWFNjR0=;
-        b=qBK6HQEM54r7w4vNoWfZ9eD6HE6jlKI8UglES+y98Hm+TiB6MwmSn40HU2eNOCpva9
-         NdqYdmSftEjC7C7oWi8wZmfJLyXNjKXTiZcO9zSLoKs1ATjixAom535luXdTw7/JhpeC
-         rWHOplNmUsAhKenc9a63XYJDuwHRJZL2IYN44PD4rmmpZK1lCphDWflQjvWdD/VJ5Mki
-         JvqlISdxLAmI9VvQKR1gWbdHsQdbqmw9jNX4wn3Hik6mU2gT0HVsAFThV8qKZzU6/SVi
-         zto5FeLNEkmMNsRJCPddoamcANpDzUfDz23eeUfPoMLAngkLOxRszPqQ9hOW2qg9b8yx
-         5dJw==
-X-Gm-Message-State: AOAM531HNT1YNnaCVi0ubCS1KNqdn7tJUtxQPK46zYic9mN1RXw9oIjY
-        TwO1ts38RJ20KFKPg+5Nq7wWU5mEphZ4Ww==
-X-Google-Smtp-Source: ABdhPJwSG+E61BiWFkr+QkKy3SzHk8gc2FI96abNeDdfT86kfc8fwekaj6dGCSYonr2/fN6z5p7n1Q==
-X-Received: by 2002:a05:600c:4e86:: with SMTP id f6mr37010528wmq.144.1641185467256;
-        Sun, 02 Jan 2022 20:51:07 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SS/IXV/uUkA4HFkL+doYrFhDD7IUbckhrneEYozEEDs=;
+        b=x/Hi7/W8RDi3agOLJh3Xrj4qJ7+smPNM9I+lQolgzH56xTVCbCmiYV7pTElZrgrZ1E
+         XBIo51bFtN/GzqqJYDXNIa/CrZdzbiPtechWiEfMtnwb9Yrn7clEaJPOKjE7JpN/Y6Eu
+         FmWLSfFIp0N755cYZT2ZNliw/WMKIifPg8jEpj+w04f3baSyFLwmJsGnQaK6Do8tFAj3
+         8OYxUkXO5RFeJ+TUlO0qpH2DH8/qxHn5mEHtP5b1vmPsyu7cZj5iRyK4cfJExrz3Ir/x
+         yEzZ0bIZy7t2kNA+19QIIRBSNgegOUyCR7dw433la4tV0rWfY9OC/YhtWxYJZ+fHcYHN
+         Cr3Q==
+X-Gm-Message-State: AOAM532bqgO435JPJINBElzF+Am5UOg9IVtNX/3b0lg8tueQ1ga9zzrW
+        IFtk/nD0CzWmAvjo4veq65M=
+X-Google-Smtp-Source: ABdhPJzBg0F0WGxf18SlKb9FOnM+vYhuMUPfg6nLlLCD9t5WuvGKJumw0FVSUEAPd4weBeIXQd4h0Q==
+X-Received: by 2002:a05:600c:384c:: with SMTP id s12mr38024443wmr.108.1641185758648;
+        Sun, 02 Jan 2022 20:55:58 -0800 (PST)
 Received: from fuji.fritz.box (ip-89-161-76-237.tel.tkb.net.pl. [89.161.76.237])
-        by smtp.gmail.com with ESMTPSA id r7sm32819090wrt.77.2022.01.02.20.51.06
+        by smtp.gmail.com with ESMTPSA id d5sm34189032wms.28.2022.01.02.20.55.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Jan 2022 20:51:06 -0800 (PST)
+        Sun, 02 Jan 2022 20:55:58 -0800 (PST)
 From:   =?UTF-8?q?Tomasz=20Warnie=C5=82=C5=82o?= 
         <tomasz.warniello@gmail.com>
 To:     corbet@lwn.net
 Cc:     =?UTF-8?q?Tomasz=20Warnie=C5=82=C5=82o?= 
         <tomasz.warniello@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 10/15] scripts: kernel-doc: Transform documentation into POD (10/15)
-Date:   Mon,  3 Jan 2022 05:50:51 +0100
-Message-Id: <20220103045051.506526-5-tomasz.warniello@gmail.com>
+        linux-kernel@vger.kernel.org,
+        Jani Nikula <jani.nikula@linux.intel.com>
+Subject: [PATCH v2 11/15] scripts: kernel-doc: Transform documentation into POD (11/15)
+Date:   Mon,  3 Jan 2022 05:55:43 +0100
+Message-Id: <20220103045547.506783-1-tomasz.warniello@gmail.com>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220103045051.506526-1-tomasz.warniello@gmail.com>
-References: <20220103045051.506526-1-tomasz.warniello@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -66,50 +65,152 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Step 10) Replace the usage function
+Step 11) Remove the "format of comments" comment block
 
-This ends the fundamental POD transformation.
-
-You can see the results with:
-
-$ scripts/kernel-doc -help
+As suggested by Jani Nikula in a reply to my first version of this
+transformation, Documentation/doc-guide/kernel-doc.rst can serve as the
+information hub for comment formatting. The section DESCRIPTION already
+points there, so the original comment block can just be removed.
 
 See step 1 for the series details.
 
+= Meta note =
+
+I guess, I should use the Suggested-by tag for credits.
+Maintainers, please correct this if I'm doing this wrong.
+
+Suggested-by: Jani Nikula <jani.nikula@linux.intel.com>
 Signed-off-by: Tomasz Warniełło <tomasz.warniello@gmail.com>
 ---
- scripts/kernel-doc | 11 +----------
- 1 file changed, 1 insertion(+), 10 deletions(-)
+ scripts/kernel-doc | 115 ---------------------------------------------
+ 1 file changed, 115 deletions(-)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 76018ca81594..bf0c5bb7b026 100755
+index bf0c5bb7b026..8069d1d29841 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -79,15 +79,6 @@ See Documentation/doc-guide/kernel-doc.rst for the documentation comment syntax.
+@@ -79,121 +79,6 @@ See Documentation/doc-guide/kernel-doc.rst for the documentation comment syntax.
  # 25/07/2012 - Added support for HTML5
  # -- Dan Luedtke <mail@danrl.de>
  
--sub usage {
--    my $message = <<"EOF";
--Usage: $0 [OPTION ...] FILE ...
+-#
+-# format of comments.
+-# In the following table, (...)? signifies optional structure.
+-#                         (...)* signifies 0 or more structure elements
+-# /**
+-#  * function_name(:)? (- short description)?
+-# (* @parameterx: (description of parameter x)?)*
+-# (* a blank line)?
+-#  * (Description:)? (Description of function)?
+-#  * (section header: (section description)? )*
+-#  (*)?*/
+-#
+-# So .. the trivial example would be:
+-#
+-# /**
+-#  * my_function
+-#  */
+-#
+-# If the Description: header tag is omitted, then there must be a blank line
+-# after the last parameter specification.
+-# e.g.
+-# /**
+-#  * my_function - does my stuff
+-#  * @my_arg: its mine damnit
+-#  *
+-#  * Does my stuff explained.
+-#  */
+-#
+-#  or, could also use:
+-# /**
+-#  * my_function - does my stuff
+-#  * @my_arg: its mine damnit
+-#  * Description: Does my stuff explained.
+-#  */
+-# etc.
+-#
+-# Besides functions you can also write documentation for structs, unions,
+-# enums and typedefs. Instead of the function name you must write the name
+-# of the declaration;  the struct/union/enum/typedef must always precede
+-# the name. Nesting of declarations is not supported.
+-# Use the argument mechanism to document members or constants.
+-# e.g.
+-# /**
+-#  * struct my_struct - short description
+-#  * @a: first member
+-#  * @b: second member
+-#  *
+-#  * Longer description
+-#  */
+-# struct my_struct {
+-#     int a;
+-#     int b;
+-# /* private: */
+-#     int c;
+-# };
+-#
+-# All descriptions can be multiline, except the short function description.
+-#
+-# For really longs structs, you can also describe arguments inside the
+-# body of the struct.
+-# eg.
+-# /**
+-#  * struct my_struct - short description
+-#  * @a: first member
+-#  * @b: second member
+-#  *
+-#  * Longer description
+-#  */
+-# struct my_struct {
+-#     int a;
+-#     int b;
+-#     /**
+-#      * @c: This is longer description of C
+-#      *
+-#      * You can use paragraphs to describe arguments
+-#      * using this method.
+-#      */
+-#     int c;
+-# };
+-#
+-# This should be use only for struct/enum members.
+-#
+-# You can also add additional sections. When documenting kernel functions you
+-# should document the "Context:" of the function, e.g. whether the functions
+-# can be called form interrupts. Unlike other sections you can end it with an
+-# empty line.
+-# A non-void function should have a "Return:" section describing the return
+-# value(s).
+-# Example-sections should contain the string EXAMPLE so that they are marked
+-# appropriately in DocBook.
+-#
+-# Example:
+-# /**
+-#  * user_function - function that can only be called in user context
+-#  * @a: some argument
+-#  * Context: !in_interrupt()
+-#  *
+-#  * Some description
+-#  * Example:
+-#  *    user_function(22);
+-#  */
+-# ...
+-#
+-#
+-# All descriptive text is further processed, scanning for the following special
+-# patterns, which are highlighted appropriately.
+-#
+-# 'funcname()' - function
+-# '$ENVVAR' - environmental variable
+-# '&struct_name' - name of a structure (up to two words including 'struct')
+-# '&struct_name.member' - name of a structure member
+-# '@parameter' - name of a parameter
+-# '%CONST' - name of a constant.
+-# '``LITERAL``' - literal string without any spaces on it.
 -
--EOF
--    print $message;
--    exit 1;
--}
--
- #
- # format of comments.
- # In the following table, (...)? signifies optional structure.
-@@ -468,7 +459,7 @@ while ($ARGV[0] =~ m/^--?(.*)/) {
-     } elsif ($cmd eq "Werror") {
- 	$Werror = 1;
-     } elsif (($cmd eq "h") || ($cmd eq "help")) {
--	usage();
-+			pod2usage(-exitval => 0, -verbose => 2);
-     } elsif ($cmd eq 'no-doc-sections') {
- 	    $no_doc_sections = 1;
-     } elsif ($cmd eq 'enable-lineno') {
+ ## init lots of data
+ 
+ my $errors = 0;
 -- 
 2.30.2
 
