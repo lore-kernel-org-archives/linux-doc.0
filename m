@@ -2,84 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D1F7C433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Jan 2022 18:02:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C751C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Jan 2022 18:32:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234474AbiADSCG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Jan 2022 13:02:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47596 "EHLO
+        id S236327AbiADScw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Jan 2022 13:32:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234460AbiADSCG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jan 2022 13:02:06 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0253AC061761;
-        Tue,  4 Jan 2022 10:02:06 -0800 (PST)
-Received: from ip4d173d02.dynamic.kabel-deutschland.de ([77.23.61.2] helo=[192.168.66.200]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1n4o8K-0008OH-5f; Tue, 04 Jan 2022 19:02:04 +0100
-Message-ID: <832e4888-f002-6930-ab91-a5d73e16dbd5@leemhuis.info>
-Date:   Tue, 4 Jan 2022 19:02:03 +0100
+        with ESMTP id S233271AbiADScw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jan 2022 13:32:52 -0500
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDDE9C061761;
+        Tue,  4 Jan 2022 10:32:51 -0800 (PST)
+Received: by mail-ed1-x533.google.com with SMTP id bm14so151941344edb.5;
+        Tue, 04 Jan 2022 10:32:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=H++mvP7xNJ7DkJfGLUkbXM0jLfOJX76p9y1OOLe38IQ=;
+        b=dLv9eyr7RYbaApqHcWxnR9DQAJNKH4nos5iEGJ3nd6j3GTVjJCUhVYOm25z6oP90RG
+         b2yubaWsMfweUUKfS9xpTnAlTYD4H1XpBymwiT2OH23jydLTRZPSj9oY8UIS/p7U920F
+         OlnzMQ9yVz48DjOOVgSVyFHYqRxjzqIABZZRQ3gEkp3RXQ/xmSeOOHURA8hEI5NCRMgr
+         1GnQUIVVw+NW8hJFt5+8ilgKCCCQ7S213z3ze+/G8PFQuau+ni9+QWnZPetM/pAY7dT+
+         cmMJ6OMqqr4q83W4AH95Orz/BUJIQQ1NWgGjfnjPuiEMZ6UrP/6X/5AkUCXyjrhzriAh
+         Axmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+         :subject:content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=H++mvP7xNJ7DkJfGLUkbXM0jLfOJX76p9y1OOLe38IQ=;
+        b=5f+sQl3M/XeDZTPyKT1541pNSOi5UkAksKmoHmyNSj6q3+EGKr0f7OJ0pr6cowkjHY
+         Nlb7oCc7kbdz3g6de9KdSY3PGpx/NR6tOezwbv3IH+sWMcChx0PInVK4Rn4efbELZV7N
+         8/u6o/nA2PXm/lnF+BI+GDKKfeklV5rCtITwsWgnBkcO5vQvYlCvzPOxrAPVsN/Ph1aW
+         wbAkOA5810fIAn0HJiLJpCiTuANz2w1FWxqIz0eppdVC7kBM5zRsOMbbuoYGM4Cwv7Xa
+         Wyuh4PdNfGT5GP17ANvpvk+j4TsIC1cH88ar7yBhZMFiQ8a//WjPkrlMsOgHR1H9GbfT
+         vwPQ==
+X-Gm-Message-State: AOAM531fZKEzNjnUiYB5sL/P77LNgA9lo22LpCtfjkOfWS/IcinIeImb
+        tX3F+7/CyEoQQxijTsxLvd8=
+X-Google-Smtp-Source: ABdhPJz1wuD9CF9yh60mz6/O58ZsWK4Aqh+WsdA/rHGDuVs+hncGhVqnjRjWWBMzBt/wD2wJWq2Llg==
+X-Received: by 2002:aa7:c655:: with SMTP id z21mr43537910edr.352.1641321170423;
+        Tue, 04 Jan 2022 10:32:50 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e? ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+        by smtp.googlemail.com with ESMTPSA id jg34sm11710859ejc.74.2022.01.04.10.32.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Jan 2022 10:32:50 -0800 (PST)
+Sender: Paolo Bonzini <paolo.bonzini@gmail.com>
+Message-ID: <ff29b36a-ffe4-8ba9-2856-cf96fcf33c0d@redhat.com>
+Date:   Tue, 4 Jan 2022 19:32:47 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Content-Language: en-BS
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        workflows@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <cover.1641203216.git.linux@leemhuis.info>
- <9a68f2fcb5fe599b76e278a61928e23eb950cd83.1641203216.git.linux@leemhuis.info>
- <CAKXUXMx_J-enVGQtX6ZqKKRZ7SwZe203tLnQoJ=VLPz3tUhK+Q@mail.gmail.com>
- <ed8ffc6c-19cd-6558-7f7e-d7bdde4ecdb9@leemhuis.info>
- <87sfu3woj1.fsf@meer.lwn.net>
- <43cb0393-c161-f853-144d-f28c6557154f@infradead.org>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [RFC PATCH v1 2/2] docs: regressions.rst: rules of thumb for
- handling regressions
-In-Reply-To: <43cb0393-c161-f853-144d-f28c6557154f@infradead.org>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v3 22/22] kvm: x86: Disable interception for IA32_XFD on
+ demand
+Content-Language: en-US
+To:     Sean Christopherson <seanjc@google.com>,
+        Jing Liu <jing2.liu@intel.com>
+Cc:     x86@kernel.org, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, corbet@lwn.net, shuah@kernel.org,
+        jun.nakajima@intel.com, kevin.tian@intel.com,
+        jing2.liu@linux.intel.com, guang.zeng@intel.com,
+        wei.w.wang@intel.com, yang.zhong@intel.com
+References: <20211222124052.644626-1-jing2.liu@intel.com>
+ <20211222124052.644626-23-jing2.liu@intel.com> <Ycu0KVq9PfuygKKx@google.com>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <Ycu0KVq9PfuygKKx@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1641319326;17e607b6;
-X-HE-SMSGID: 1n4o8K-0008OH-5f
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 04.01.22 16:09, Randy Dunlap wrote:
-> On 1/4/22 06:42, Jonathan Corbet wrote:
->> Thorsten Leemhuis <linux@leemhuis.info> writes:
->>
->>> On 04.01.22 13:16, Lukas Bulwahn wrote:
->>>> On Mon, Jan 3, 2022 at 3:23 PM Thorsten Leemhuis <linux@leemhuis.info> wrote:
->>>>> +Try to fix regressions quickly once the culprit got identified. Fixes for most
->>>>
->>>> s/got/gets/ --- at least, that is what the gmail grammar spelling suggests :)
->>>
->>> Hmm, LanguageTool didn't complain. Not totally sure, maybe both
->>> approaches are okay. But the variant suggested by the gmail checker
->>> might be the better one.
->>
->> So we're deeply into nit territory, but "gets" would be the correct
->> tense there.  Even better, though, is to avoid using "to get" in this
->> way at all.  I'm informed that "to get" is one of the hardest verbs for
->> non-native speakers, well, to get, so I try to avoid it in my own
->> writing.  "once the culprit is identified" or "has been identified"
->> would both be good here.
+On 12/29/21 02:04, Sean Christopherson wrote:
 > 
-> Agreed. Any uses of the verb get/got are best avoided.
+> Speaking of nested, interception of #NM in vmx_update_exception_bitmap() is wrong
+> with respect to nested guests.  Until XFD is supported for L2, which I didn't see
+> in this series, #NM should not be intercepted while L2 is running.
 
-Ahh, good to known, thx to both of you. I guess my English teachers
-tried to put that into my head like 30 years ago, but I assume the lossy
-compression algorithm in there threw it away...
+Why wouldn't L2 support XFD, since there are no new VMCS bits?  As long 
+as L0 knows what to do with XFD and XFD_ERR, it will do the right thing 
+no matter if L1 or L2 is running.
 
-Went through the document and removed all get/got, was not that hard
-most of the time.
-
-Ciao, Thorsten
-
-
-
+Paolo
