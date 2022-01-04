@@ -2,60 +2,60 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8679FC43217
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Jan 2022 02:00:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48219C4332F
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Jan 2022 02:00:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232155AbiADCAI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jan 2022 21:00:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54152 "EHLO
+        id S232199AbiADCAJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jan 2022 21:00:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232141AbiADCAG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jan 2022 21:00:06 -0500
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECEE4C061761;
-        Mon,  3 Jan 2022 18:00:05 -0800 (PST)
-Received: by mail-wm1-x336.google.com with SMTP id g191-20020a1c9dc8000000b0032fbf912885so678215wme.4;
-        Mon, 03 Jan 2022 18:00:05 -0800 (PST)
+        with ESMTP id S232144AbiADCAI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jan 2022 21:00:08 -0500
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5906C061792;
+        Mon,  3 Jan 2022 18:00:07 -0800 (PST)
+Received: by mail-wr1-x430.google.com with SMTP id k18so36320295wrg.11;
+        Mon, 03 Jan 2022 18:00:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=qSfgUsvhrjJaj+G06o0Ido86WeZkW3i/4hxs0h3tr6E=;
-        b=CCCgJTZN3rtxZIHNytt4bl8ONJ/DZs2q8wXMlQRKuNULK8O0fRiBzfEGgsHG7AizTL
-         mDosvpqXEywar4Csc1yZ6s+wg/ELCy6bxLasavU2AK5oA7J33QxkslWQgHQpsoKb9LLU
-         nBu5KZ2EBET7TrN7fwJAn0Ca+u557ksK519umuCMM/EDjRd4zbDs7hQ4gd6B/TmzCzsC
-         WD8S4HWmCp51uk6UaUtvZNR7nA5PqtDsp+hkNpyS4d3UQfQ+/HARtezz3swrs35hPgXQ
-         Yr2ZEp00hnp5mDd4oRxQ+mSBYguKHBsbjGQDA9ZQWrKAft07xmoFE+qL/d3rwP7pe/F6
-         CDQw==
+        bh=RvN39auXSxEz3WOh3mbUKrKWbJFq9xjM+ARLeHF7XJA=;
+        b=E+iRebTNc1QINxn+tRVV/ejzbCWTHUHCfCHElzh3GPhWgZkETrYle1m1wAOreOL0kz
+         4TkUvp2cUQde9Sbt+01uBROw8cA/OmJg8g8a+QPGWeN21EH9P6FDdKMZBRWmpPfYlOtX
+         6HKZAhKtLhEd7z95qwuQ4wcOnGMdIWDg64oZxCcVVX/VUxDqWhnWfjAxotSO/bLSnlXB
+         6grn/YXQYYfq9bqUXGKteMyliEfmlu2KmQzAivuM1OP12TiA+n6/qb+wjZVb0iMP+vqH
+         1YJ4H+6sQxToXVGQWJYHhz2xJb5FlcDSNgBUdPBrp1bv/iYTPDC4c+PXbL7orvO5q/b8
+         LNMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=qSfgUsvhrjJaj+G06o0Ido86WeZkW3i/4hxs0h3tr6E=;
-        b=zmxQr8eKERyGjoVzI7SEiUGytIiDNO5PVLa/1AIDgXwR/7Vf/fTEJW5LSs0NrdYADD
-         JS0PTxyde72xFZEnXXk7nY9Hw+MB2WJ5jlpYF8WIHix27nibEf8T8ANj1BBkQJHQ44Ni
-         ZEr5/CXoxHHyxhn9hDqPnDn3PaVCM5kBG22iAtamK/X/NEl+xVoLcgVul/rINK9QVOY6
-         MK6uuKtEMy+UvbYTR52HVd51cSiz68G04O+DCBgWN7N1xrpr8zuVYDLN8EHRUdCaDg+Y
-         Ll1NhGFMK6yt4sV/u5unUFjRT9xMmQienXO/+k8Z6G1Ll2I0Y+DQeG1RCK+bW+nQhZY2
-         RQKw==
-X-Gm-Message-State: AOAM5305EcopFpPOYvJWXel/dFGRJbuF1PNpsom8NV82WMCDZWuIsUdg
-        TH1yzhr5eaiD2yg2P3DejrW2u0vSGwpR/w==
-X-Google-Smtp-Source: ABdhPJz5KcmJIUAqPsM4oWJNIuwJSHwY9vQhpRSr7WP7t+0hVLZ26QiK4awWz2AGcFcw7Rd4pwxibA==
-X-Received: by 2002:a05:600c:4fcc:: with SMTP id o12mr39733215wmq.184.1641261604570;
-        Mon, 03 Jan 2022 18:00:04 -0800 (PST)
+        bh=RvN39auXSxEz3WOh3mbUKrKWbJFq9xjM+ARLeHF7XJA=;
+        b=FdiuIbqFLrUJ9xu96Q0RmynT4hpqDbTeqR8hwkfFwRHPRSF9jXHb17p9g8mW/UUlnZ
+         Kw+PB3M2VplSiTyUGY+awYcSWDN7O8KM3qRoClrSIPJl5SvyMgC+VIGVmQBY9bXJmuqi
+         0l1rHx/gBhtFrmdTrPbyJ3uRwU2ZbooCsOgeOTS7vC4y1eGtlF23bM9a3dk5/r5ROxEH
+         Qrp2GcsvkjMhiOzmsgnI5l6oVWORAgDiSyFJis6lOionhUUkg22X4qpfVx4ovpnipUxC
+         D+dAuXf3LqjA5GMfqVtkpL5Zx/bjrl/479trGFFys+Fppx56b93k0vb5prEAhhzRqNON
+         zVnA==
+X-Gm-Message-State: AOAM531s+J+jYx4liRbcVxCFYQHttwcBb7TvwoFSXXZ+3leNkHIhQqj+
+        t1iLGa9rY0tNaTluhyJlAXM=
+X-Google-Smtp-Source: ABdhPJy7DPvmR/NAUTDj/nYos5SkHQi8UK50RjJ6eh3Z1zOiJCUhBD8fuIlE5x2qyAxsP2Bmx369tw==
+X-Received: by 2002:adf:e74c:: with SMTP id c12mr40695181wrn.200.1641261606380;
+        Mon, 03 Jan 2022 18:00:06 -0800 (PST)
 Received: from fuji.fritz.box (ip-89-161-76-237.tel.tkb.net.pl. [89.161.76.237])
-        by smtp.gmail.com with ESMTPSA id j17sm36422654wrp.68.2022.01.03.18.00.03
+        by smtp.gmail.com with ESMTPSA id j17sm36422654wrp.68.2022.01.03.18.00.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jan 2022 18:00:04 -0800 (PST)
+        Mon, 03 Jan 2022 18:00:06 -0800 (PST)
 From:   =?UTF-8?q?Tomasz=20Warnie=C5=82=C5=82o?= 
         <tomasz.warniello@gmail.com>
 To:     corbet@lwn.net
 Cc:     =?UTF-8?q?Tomasz=20Warnie=C5=82=C5=82o?= 
         <tomasz.warniello@gmail.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v3 06/15] scripts: kernel-doc: Translate the "Output format selection modifier" subsection of OPTIONS
-Date:   Tue,  4 Jan 2022 02:59:37 +0100
-Message-Id: <20220104015946.529524-7-tomasz.warniello@gmail.com>
+Subject: [PATCH v3 08/15] scripts: kernel-doc: Translate the "Output selection modifiers" subsection of OPTIONS
+Date:   Tue,  4 Jan 2022 02:59:39 +0100
+Message-Id: <20220104015946.529524-9-tomasz.warniello@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220104015946.529524-1-tomasz.warniello@gmail.com>
 References: <20220104015946.529524-1-tomasz.warniello@gmail.com>
@@ -66,57 +66,68 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This section is renamed to "Output format modifiers" to make it simple.
-
-To make it even more simple, a subsection is added:
-"reStructuredText only".
+A subsection "reStructuredText only" is added for -enable-lineno.
 
 Other notes:
 - paragraphing correction
-- article correction
 
-* Transform documentation into POD (6/15)
+* Transform documentation into POD (8/15)
 See step 1 for the series details.
 
 Signed-off-by: Tomasz Warniełło <tomasz.warniello@gmail.com>
 ---
- scripts/kernel-doc | 22 +++++++++++++++-------
- 1 file changed, 15 insertions(+), 7 deletions(-)
+ scripts/kernel-doc | 37 +++++++++++++++++++++++++++++--------
+ 1 file changed, 29 insertions(+), 8 deletions(-)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 8213399fd7ec..f26966dd8bde 100755
+index 629ba514db5d..c46d4b9afef2 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -83,13 +83,6 @@ sub usage {
+@@ -83,14 +83,6 @@ sub usage {
      my $message = <<"EOF";
  Usage: $0 [OPTION ...] FILE ...
  
--Output format selection modifier (affects only ReST output):
+-Output selection modifiers:
+-  -no-doc-sections	Do not output DOC: sections.
+-  -enable-lineno        Enable output of #define LINENO lines. Only works with
+-                        reStructuredText format.
+-  -export-file FILE     Specify an additional FILE in which to look for
+-                        EXPORT_SYMBOL() and EXPORT_SYMBOL_GPL(). To be used with
+-                        -export or -internal. May be specified multiple times.
 -
--  -sphinx-version	Use the ReST C domain dialect compatible with an
--			specific Sphinx Version.
--			If not specified, kernel-doc will auto-detect using
--			the sphinx-build version found on PATH.
--
- Output selection (mutually exclusive):
-   -export		Only output documentation for symbols that have been
- 			exported using EXPORT_SYMBOL() or EXPORT_SYMBOL_GPL()
-@@ -2583,4 +2576,19 @@ Do not output documentation, only warnings.
+ Other parameters:
+   -v			Verbose output, more warnings and other information.
+   -h			Print this help.
+@@ -2607,4 +2599,33 @@ May be specified multiple times.
  
  =back
  
-+=head2 Output format modifiers
++=head2 Output selection modifiers:
++
++=over 8
++
++=item -no-doc-sections
++
++Do not output DOC: sections.
++
++=item -export-file FILE
++
++Specify an additional FILE in which to look for EXPORT_SYMBOL() and
++EXPORT_SYMBOL_GPL().
++
++To be used with -export or -internal.
++
++May be specified multiple times.
++
++=back
 +
 +=head3 reStructuredText only
 +
 +=over 8
 +
-+=item -sphinx-version VERSION
++=item -enable-lineno
 +
-+Use the ReST C domain dialect compatible with a specific Sphinx Version.
-+
-+If not specified, kernel-doc will auto-detect using the sphinx-build version
-+found on PATH.
++Enable output of #define LINENO lines.
 +
 +=back
 +
