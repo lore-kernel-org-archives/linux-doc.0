@@ -2,121 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C15FFC433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Jan 2022 01:54:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD6A6C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Jan 2022 02:00:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231895AbiADBy5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jan 2022 20:54:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52774 "EHLO
+        id S230057AbiADCAB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jan 2022 21:00:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230190AbiADBy5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jan 2022 20:54:57 -0500
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECEA2C061761;
-        Mon,  3 Jan 2022 17:54:56 -0800 (PST)
-Received: by mail-pl1-x62a.google.com with SMTP id z3so26009920plg.8;
-        Mon, 03 Jan 2022 17:54:56 -0800 (PST)
+        with ESMTP id S229634AbiADCAB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jan 2022 21:00:01 -0500
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA032C061761;
+        Mon,  3 Jan 2022 18:00:00 -0800 (PST)
+Received: by mail-wr1-x433.google.com with SMTP id q16so73055675wrg.7;
+        Mon, 03 Jan 2022 18:00:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=7XOxlnihJNMmhMJC4frwgCphojMquF9H552ZdaXQfI8=;
-        b=pOdkZCflzdk4ZQkACnghCc7yu/F022dKUXkJxTqD/LpYg0sudjudimpR8u2Xmoojyn
-         nbry6J0Fw8pvawxNu6K6uIjZf1B57ddVupVtLXpPceXaPHB78gLOogEfV2P+k30PDvtp
-         0jUEXWBpZ8gY2elprAXWPR5mqG5jTsjRCntrAMU7/pjBmQ/Sk4WVkI8kG3oqfO6WVvWp
-         9bukPBN3jk6aijW2HZtzsrS5CWw1E6uTnt3/NaGodJCUpoiuQlkiuT08YbYgFtbQVeJw
-         D/O/55r64Rq9R0hj/mb+g9kMNWNmMgCJC6qnkBzj7g3NnnxS761MALyjf9EJDfugtWro
-         WlGg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6bmFeTc+ASL2yNsdNEmUhNJpDw6o3ieqtOPJDyurw4U=;
+        b=jOU18gpNI07BebDSx25i0IEy4j+B13FpovX+vvFFZplKvaxLme6lEYRIZzvqYSLrYG
+         PTBgOsasKKdpjhQFTC+guybHmUjn1HZYrONe7Tai6qCXzSl9Po7OJmwSqu4K6z/UPvJO
+         b/B0ylJ41dCCe3WeLQ0oztorMZ4l6eY+GEUqBED7wPaqu0w5Ct+reycAJWmK4hJowtft
+         5KeuPIBYtTrEJBD0aq189J4q9Vkcm89UofrP3qzO4efJaYHBaaQ6vriU+CshQimNqFm2
+         9vHlIRtKKqG37rQ8XB0xytEInxYcI5tLY/ANnBZw+GBW6gLYWlakGBRNOVz6Oc0i9lQg
+         GtEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=7XOxlnihJNMmhMJC4frwgCphojMquF9H552ZdaXQfI8=;
-        b=I0gJisusG9K0PxW8HJVQfgUqhHxr5PMwQKV3sj+1nKpwcoqabPX/ysxChKxYzuC+qX
-         MKrwF9C7oklEvuZVSamZ4s6T31aeFtuPh3dZCIrKCieygpu/I+xazNtqzLDjt3FSpqCn
-         Nehp1gNnQ9grqxzem5MpDzA0zMx9jw+17/kWdbdf5gSPZ0VqeL2rS8hTfL5mWm6mQhM3
-         Ncpolz/yj1t3I1jbIfPYolvbDvA9y/lHHPltsWT0KRlSw/dc1Bx2o23Y8jT2YJaDT8Bf
-         o5QnG2gn3AaAp6h/ljK+L1Rpc0XXf61ajz07xGA5Qs6nmo/tK2ngMsbHcIsTEzLRIOed
-         mvlQ==
-X-Gm-Message-State: AOAM532EZJACzk0SkxCNHtq53SQjDkCYT0dr5et8wLUIIfuJ9iupzQ6O
-        f4GJPB8z8eKuzCiLvyMoqdA=
-X-Google-Smtp-Source: ABdhPJxWaf35M1NOsyJrhLT3k18/0Kk7ZQ+kKdN9KgbmZvFxlzzAA27cJOaY8cTUvm9eAecF/1uJfg==
-X-Received: by 2002:a17:90b:4a41:: with SMTP id lb1mr57603700pjb.61.1641261296571;
-        Mon, 03 Jan 2022 17:54:56 -0800 (PST)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id z2sm32735121pge.86.2022.01.03.17.54.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Jan 2022 17:54:56 -0800 (PST)
-Subject: Re: [PATCH 1/1] scripts: sphinx-pre-install: add required ctex
- dependency
-From:   Akira Yokosawa <akiyks@gmail.com>
-To:     mchehab@kernel.org
-Cc:     hch@lst.de, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, corbet@lwn.net
-References: <87mtkcxws9.fsf@meer.lwn.net>
- <eeb773ef-0354-be1f-8438-07e3324fa9f6@gmail.com>
-Message-ID: <07f8cf68-525b-4fca-a1f9-fd40150fc6e1@gmail.com>
-Date:   Tue, 4 Jan 2022 10:54:52 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        bh=6bmFeTc+ASL2yNsdNEmUhNJpDw6o3ieqtOPJDyurw4U=;
+        b=qZJMky6cGZQX6d3TTd0bAzVzLZsBzTdBPsauagNwbuvyKYKUvM01vcshPlt4FmiWRF
+         bYrM4SkWug4NDHs9qYQooOVJBdzGG0VFtv81Nd3fDAOJLcyIcibk7Lhuem/oVmqhttIa
+         BqAkJ1oeXHMV1EIhb94vQ4wtvIe7oOSMgo8R6fNoq1F4ufARm9KRAtvGIeRMbOxGOV+h
+         qJ1shwkXd9w7miZkeaNRXcdbO9dxC9thvVaMRsAoXlxS4RDUhkwlmvcVrXrv8TxZ5yTd
+         mZMWE4Y24inC91oXz6NSuFfbpVRblJlyNXwwIllsSU+qUWTqjnFruMqbNA6jTqzTfaSx
+         OGyw==
+X-Gm-Message-State: AOAM532S4F3wN9CdurD0GVhmos8U4K1QFzKdVsXxzuOvpW5FFsSllUE0
+        jy9rISNQj5rWETOdRwV43nbTM5DR6U4Alw==
+X-Google-Smtp-Source: ABdhPJzpk9BAgAbip5RHU77Ozz3FaOjB2Np4QEC/+tTOQ6sTsCwqd4ABSDyfpTA+CrlMaX0inH1w4g==
+X-Received: by 2002:a05:6000:104f:: with SMTP id c15mr40103559wrx.665.1641261599260;
+        Mon, 03 Jan 2022 17:59:59 -0800 (PST)
+Received: from fuji.fritz.box (ip-89-161-76-237.tel.tkb.net.pl. [89.161.76.237])
+        by smtp.gmail.com with ESMTPSA id j17sm36422654wrp.68.2022.01.03.17.59.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Jan 2022 17:59:58 -0800 (PST)
+From:   =?UTF-8?q?Tomasz=20Warnie=C5=82=C5=82o?= 
+        <tomasz.warniello@gmail.com>
+To:     corbet@lwn.net
+Cc:     =?UTF-8?q?Tomasz=20Warnie=C5=82=C5=82o?= 
+        <tomasz.warniello@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3 00/15] Transform documentation into POD
+Date:   Tue,  4 Jan 2022 02:59:31 +0100
+Message-Id: <20220104015946.529524-1-tomasz.warniello@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <eeb773ef-0354-be1f-8438-07e3324fa9f6@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mauro, see inline comments below.
+This series transforms the free-form general comments - mainly the usage
+instructions and the meta information - into the standard Perl
+documentation format. Some of the original text is reduced out.
 
-On Tue, 4 Jan 2022 09:04:30 +0900, Akira Yokosawa wrote:
-> Hi,
-> 
-> On Mon, 03 Jan 2022 15:46:30 -0700, Jonathan Corbet <corbet@lwn.net> wrote:
->> Mauro Carvalho Chehab <mchehab@kernel.org> writes:
->>
->>> After a change meant to fix support for oriental characters
->>> (Chinese, Japanese, Korean), ctex stylesheet is now a requirement
->>> for PDF output.
-> 
-> FWIW, ctexhook.sty is a new requirement of xeCJK.sty v3.8.7 released
-> in June 2021.
-> 
->         Thanks, Akira
-> 
->>>
->>> Reported-by: Christoph Hellwig <hch@lst.de>
->>> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
->>> ---
->>>
->>> See [PATCH 0/1] at: https://lore.kernel.org/all/cover.1641243581.git.mchehab@kernel.org/
->>>
->>>  scripts/sphinx-pre-install | 1 +
->>>  1 file changed, 1 insertion(+)
->>>
->>> diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
->>> index 288e86a9d1e5..46aaab414098 100755
->>> --- a/scripts/sphinx-pre-install
->>> +++ b/scripts/sphinx-pre-install
->>> @@ -78,6 +78,7 @@ my %texlive = (
->>>  	'ucs.sty'            => 'texlive-ucs',
->>>  	'upquote.sty'        => 'texlive-upquote',
->>>  	'wrapfig.sty'        => 'texlive-wrapfig',
->>> +	'ctexhook.sty'       => 'texlive-ctex',
->>>  );
->>
+The transformation includes language, paragraphing and editorial
+corrections.
 
-I'm afraid this update of the list for Fedora/openSUSE won't help
-Debian Stable (bullseye) users.
+The only change in the script execution flow is the replacement of the
+'usage' function with the native standard Perl 'pod2usage'.
 
-ctexhook.sty is in texlive-lang-chinese on Debian/Ubuntu.
+The TODO suggestion to write POD found in the script is ancient, thus
+I can't address its author with a "Suggested-by" tag.
 
-        Thanks, Akria
+The process consists of 15 steps.
+
+Patches beginning with no 4 are disfunctional until no 10 has been
+applied.
+
+This version is in fact the first correction of v1. The first attempt to
+send it was a failure due to my lack of experience. It was weird in other
+ways too. Never mind the details.
+
+What I'm sending now mostly follows the advice received for v1. My reply is
+contained in the patches otherwise. I have also done a few bits differently
+to v1, as I found better solutions, etc.
+
+Ok, let's see how it gets through this time.
+
+PS. Jani Nikula and Jonathan Corbet - sorry for bothering you with a copy of
+		emails with you tagged in them that I sent to myself. This was unexpected.
+
+Tomasz Warniełło (15):
+  scripts: kernel-doc: Add the NAME section
+  scripts: kernel-doc: Add the SYNOPSIS section
+  scripts: kernel-doc: Relink argument parsing error handling to
+    pod2usage
+  scripts: kernel-doc: Translate the DESCRIPTION section
+  scripts: kernel-doc: Translate the "Output format selection"
+    subsection of OPTIONS
+  scripts: kernel-doc: Translate the "Output format selection modifier"
+    subsection of OPTIONS
+  scripts: kernel-doc: Translate the "Output selection" subsection of
+    OPTIONS
+  scripts: kernel-doc: Translate the "Output selection modifiers"
+    subsection of OPTIONS
+  scripts: kernel-doc: Translate the "Other parameters" subsection of
+    OPTIONS
+  scripts: kernel-doc: Replace the usage function
+  scripts: kernel-doc: Remove the "format of comments" comment block
+  scripts: kernel-doc: Archive the pre-git museum
+  scripts: kernel-doc: License cleanup
+  scripts: kernel-doc: Refresh the copyright lines
+  scripts: kernel-doc: Move the TODOs
+
+ scripts/kernel-doc | 390 ++++++++++++++++++++++-----------------------
+ 1 file changed, 194 insertions(+), 196 deletions(-)
 
 
->> I've applied this, thanks.> 
->> jon
-> 
-> 
+base-commit: 2a987e65025e2b79c6d453b78cb5985ac6e5eb26
+-- 
+2.30.2
+
