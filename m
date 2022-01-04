@@ -2,61 +2,61 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACB42C433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Jan 2022 21:34:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5975FC433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Jan 2022 21:40:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234120AbiADVej (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Jan 2022 16:34:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39968 "EHLO
+        id S234299AbiADVkL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Jan 2022 16:40:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234349AbiADVeh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jan 2022 16:34:37 -0500
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AE77C061761
-        for <linux-doc@vger.kernel.org>; Tue,  4 Jan 2022 13:34:37 -0800 (PST)
-Received: by mail-ed1-x52d.google.com with SMTP id o6so153720297edc.4
-        for <linux-doc@vger.kernel.org>; Tue, 04 Jan 2022 13:34:37 -0800 (PST)
+        with ESMTP id S234316AbiADVkK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jan 2022 16:40:10 -0500
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7893C061761
+        for <linux-doc@vger.kernel.org>; Tue,  4 Jan 2022 13:40:09 -0800 (PST)
+Received: by mail-ed1-x535.google.com with SMTP id q14so145909041edi.3
+        for <linux-doc@vger.kernel.org>; Tue, 04 Jan 2022 13:40:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linux-foundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=9sZ4yuZGqCPqkUDnmCAq5OUkSffiqPtJLP/mxilEStc=;
-        b=WTQCJWiv/F+zhihRmn78BQddeC/Aw0oCQZBElMoXRJVG0+X7CNlVU8TYFOV20Oh5WE
-         z0rV8GBZbj47SX8qHPJu6ELaRQdWsC+bROMLvqOZa9L0wZzl3Gw+Gl8cp6ri6RK+G5iT
-         Vk+4igFuBi1wjYknZjhz8qCMITn8347p12Mhk=
+        bh=BJ+v55yUFiLI/4g7mFYq1QZLgbrpUXzZ9wJ+9sDmYqY=;
+        b=dshp9e3zGhy1oAbNcYfkNWToEIOghrWZ0wBynLm22Q25H7Twu0+1Vn2n4vbi7LXHG7
+         yzTSzC+9R9UVB6CXb1YasX8uRVerZbDEuDYu5lMPCZFXFJw8bany1Esz2QXiOcdcWYmU
+         3/R0fH5lIcn9lDrWfU7WvV2t0+2TPrylTlYIw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=9sZ4yuZGqCPqkUDnmCAq5OUkSffiqPtJLP/mxilEStc=;
-        b=i+DtgmhJ9BDWmsX8Lk/qA7NHOPWfyTaZkyHvmk1kZRpm6EK/XU10Ih962MuoK5Wdw0
-         6QbB3Yo8MXTLl1j/D8nDNB5Narq1pSOXLUOVMnZtKQBvfHqVVZ6KAy8i4HsyxO2KTP02
-         XWm/mLx2UwsrF+YJrWMtKwuEQcdFLvVYOA15I13wXNKnZtffeKJylj6CxKYysEDCwrPF
-         nZXFJpvzXAHSomaUU1jZsuRjlj+LICaBgoUcNoZlwfSEODI6NMhlikYM/RHcNXFA8/Dh
-         sCh8zsrmVroLwdncZUDiEV0OPo7cYEpw722AyLWOlOwuba26Lj7Y1Ihzj9UunoDcHtvF
-         DMkA==
-X-Gm-Message-State: AOAM5327pUX7v+wjSmo5Kjo8D1/WoKAbDxEg7aAgUG+04f65T3gE1trX
-        CEy7tktzlZn2dGV7wgOeAQngJA+Qbh7Us02jNEM=
-X-Google-Smtp-Source: ABdhPJwMoKT5RxRG5KpBkhMTCvjGSWOFPabGsjIKjhWVF6mrmo9PcuoRMbg8ABUPkn2xqpPEBXX7Iw==
-X-Received: by 2002:a17:906:c7c9:: with SMTP id dc9mr40855674ejb.559.1641332075897;
-        Tue, 04 Jan 2022 13:34:35 -0800 (PST)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com. [209.85.128.43])
-        by smtp.gmail.com with ESMTPSA id g21sm4285877edt.12.2022.01.04.13.34.34
+        bh=BJ+v55yUFiLI/4g7mFYq1QZLgbrpUXzZ9wJ+9sDmYqY=;
+        b=DfCMwirEQ+Cjn2chiuHx1cvlkBuEMRo2pbdXzPb9zseXXHFMoyBjfSVeDqRlkebrE2
+         8nnDajhqy6OBz+0GZPLkSG1k5/IFqVRMFsQV3wcp6htnYHz0Slk5PDi6adl15zKXeTTz
+         qqKwhtunMSqebtbhQ/TVXvMMjZmNSldqoIPzeaIRWmOefpNN/qUOluFyu84hRlibcy3y
+         M6f7UEvtWooLCxJHMoeZOewGlYUu+a4r1lwMnGYS9t5+5L70zcUWaXsDn6JvBuQJKU04
+         Flrw5fC/6VaabZpcxytNmaM4PJ0eI6AkN/76C7/IbfLk1TNTBkew6a1NYHoagudF561M
+         FMhw==
+X-Gm-Message-State: AOAM53125Biz94zgiNfPalglOoLblnzDZbvaNJwBO2rAZKbU2gFIKeCQ
+        XMpT7J+B6TOxXF1RgtS2ccf7SEhJax56fi/0z7A=
+X-Google-Smtp-Source: ABdhPJxueR2KwMtIoM/scAGJbYOl9E0ZwzeY/XwAl4R8pJqXspNlwy3Mg7c08I/UbsJjObFPV45vcg==
+X-Received: by 2002:a17:906:c156:: with SMTP id dp22mr39620921ejc.283.1641332408042;
+        Tue, 04 Jan 2022 13:40:08 -0800 (PST)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com. [209.85.128.52])
+        by smtp.gmail.com with ESMTPSA id e16sm370375edu.15.2022.01.04.13.40.06
         for <linux-doc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Jan 2022 13:34:35 -0800 (PST)
-Received: by mail-wm1-f43.google.com with SMTP id bg19-20020a05600c3c9300b0034565e837b6so1291002wmb.1
-        for <linux-doc@vger.kernel.org>; Tue, 04 Jan 2022 13:34:34 -0800 (PST)
-X-Received: by 2002:a7b:c305:: with SMTP id k5mr224179wmj.144.1641332074339;
- Tue, 04 Jan 2022 13:34:34 -0800 (PST)
+        Tue, 04 Jan 2022 13:40:07 -0800 (PST)
+Received: by mail-wm1-f52.google.com with SMTP id l4so24113967wmq.3
+        for <linux-doc@vger.kernel.org>; Tue, 04 Jan 2022 13:40:06 -0800 (PST)
+X-Received: by 2002:a05:600c:4f13:: with SMTP id l19mr243370wmq.152.1641332405774;
+ Tue, 04 Jan 2022 13:40:05 -0800 (PST)
 MIME-Version: 1.0
-References: <20220104202227.2903605-1-yuzhao@google.com> <20220104202227.2903605-5-yuzhao@google.com>
-In-Reply-To: <20220104202227.2903605-5-yuzhao@google.com>
+References: <20220104202227.2903605-1-yuzhao@google.com> <20220104202227.2903605-10-yuzhao@google.com>
+In-Reply-To: <20220104202227.2903605-10-yuzhao@google.com>
 From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Tue, 4 Jan 2022 13:34:18 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wib5-tUrf2=zYL9hjCqqFykZmTr_-vMAvSo48boCA+-Wg@mail.gmail.com>
-Message-ID: <CAHk-=wib5-tUrf2=zYL9hjCqqFykZmTr_-vMAvSo48boCA+-Wg@mail.gmail.com>
-Subject: Re: [PATCH v6 4/9] mm: multigenerational lru: groundwork
+Date:   Tue, 4 Jan 2022 13:39:49 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wjc3vpQfSTzJ8DwCVfmj6Mhq16d375cMPOgFB5A1EL2tw@mail.gmail.com>
+Message-ID: <CAHk-=wjc3vpQfSTzJ8DwCVfmj6Mhq16d375cMPOgFB5A1EL2tw@mail.gmail.com>
+Subject: Re: [PATCH v6 9/9] mm: multigenerational lru: Kconfig
 To:     Yu Zhao <yuzhao@google.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Andi Kleen <ak@linux.intel.com>,
@@ -87,52 +87,43 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Tue, Jan 4, 2022 at 12:23 PM Yu Zhao <yuzhao@google.com> wrote:
 >
-
-> index a7e4a9e7d807..fadbf8e6abcd 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
+> Add configuration options for the multigenerational lru.
+>         def_bool ARCH_HAS_SET_DIRECT_MAP && !EMBEDDED
 >
-> +#ifdef CONFIG_LRU_GEN
-> +static inline void task_enter_lru_fault(void)
-> +{
-> +       WARN_ON_ONCE(current->in_lru_fault);
-...
+> +config NR_LRU_GENS
+> +       int "Max number of generations"
+> +       depends on LRU_GEN
+> +       range 4 31
+> +       default 4
+> +       help
+> +         This option uses order_base_2(N+1) bits in page flags.
+> +
+> +         Do not configure more generations than you plan to use. They have a
+> +         per-memcg and per-node memory overhead.
+> +
+> +config TIERS_PER_GEN
+> +       int "Number of tiers per generation"
+> +       depends on LRU_GEN
+> +       range 2 5
+> +       default 4
+> +       help
+> +         This option uses N-2 bits in page flags.
+> +
+> +         Larger values generally provide better protection for page cache when
+> +         under heavy buffered I/O workloads.
 
-Why are these in this very core header file?
+These are not appropriate questions to ask users.
 
-They are used in one single file - mm/memory.c.
+No user has any idea what the answer should be. And no, we don't add
+"benchmark tuning Kconfig questions" to the kernel. We leave those
+kinds of games to companies that need to fake their benchmark numbers.
 
-They should be just static functions there.
+If *you* can't give a good number for these config options, then no
+user or distro can either.
 
-I'm also not sure why the calling convention is
+So just pick a number, and stand by it.
 
-        if (lru_fault)
-                task_enter_lru_fault();
+Don't do this kind of "I don't know what the right number is, so I'll
+just push the blame on the user".
 
-instead of doing just
-
-        task_enter_lru_fault(vma);
-
-and having that function do
-
-        /* Don't do LRU fault accounting for SEQ/RAND files */
-        if (unlikely(vma->vm_flags & (VM_SEQ_READ | VM_RAND_READ)))
-                return;
-
-which would seem to be a lot more legible and straightforward.
-
-In fact, you could do it without any conditionals at all, if you just
-remove the WARN_ON_ONCE() from the exit path, turning it into just
-
-        current->in_lru_fault = !(vma->vm_flags & (VM_SEQ_READ | VM_RAND_READ));
-
-for 'enter' and just
-
-        current->in_lru_fault = 0;
-
-for exit.
-
-It seems pointless to have that extra variable, and the extra
-conditionals, for a case that is probably very unusual indeed.
-
-                  Linus
+                Linus
