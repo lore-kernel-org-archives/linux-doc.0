@@ -2,105 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D818C433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Jan 2022 23:56:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4569C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Jan 2022 00:04:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230298AbiACX4U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jan 2022 18:56:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54752 "EHLO
+        id S231315AbiADAEg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jan 2022 19:04:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229487AbiACX4T (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jan 2022 18:56:19 -0500
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4736FC061761;
-        Mon,  3 Jan 2022 15:56:19 -0800 (PST)
-Received: by mail-wr1-x42c.google.com with SMTP id w20so63651274wra.9;
-        Mon, 03 Jan 2022 15:56:19 -0800 (PST)
+        with ESMTP id S231310AbiADAEf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jan 2022 19:04:35 -0500
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44A69C061761;
+        Mon,  3 Jan 2022 16:04:35 -0800 (PST)
+Received: by mail-pf1-x429.google.com with SMTP id t123so30628902pfc.13;
+        Mon, 03 Jan 2022 16:04:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=I1Rz8pAdirwGM9T3HIP+P00havvKoNIpSMikJMk4xuA=;
-        b=l1TLyKDxIWoNP61xoNqAIsR5ZXVTRkwFIIbN39ESptPewJNODXHNlwWBtLoG9HYtEc
-         XRF70sk4h8l3t/yrWjjgTHJXQLdU8V2nqfZRyWpy3IEZ95aXOxJsqRVflmBnYrO70DDI
-         XC3W6dlci58vB+c7I76nY0JsjxNBVrMJUsZiwO794+uk8V+kYjOJ1vcAlXSk2mdSowJp
-         DzyZPjLFVqZ9Z/CrhK9sxT7qHA6m+mrZW2KwObRkDdqF6WpLHqueV+vRIxJrYV593ZoD
-         dsd4KRRWT4np5nLPe2daYgVo3jFrTOKwOFHBG3O+j3PVctfw21NhGROXErQLTye3TxjP
-         FQpA==
+        h=to:cc:references:subject:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=LfI3AmZKBsaakQUxMJMZxrQzatevP8fdDjHAVNXBEcw=;
+        b=UO+OxBZLwdo8sEZXkJoSQHHXFHdzzTtK2600hNgUHDUUg+immGIdHUl6EQTXPGUDIg
+         SY/EWZ189HqBlX0LF5GPPV9LmSlRvow+yQXsrTAlhFTZcS1HSX0wPgkLoDQR4MNy6Egx
+         k2+N1ASj7q54HkmbwVr01xI/IOoxp/rT+S802bOW3rFmnCgm7gD/98Tj0r5sltj5HGS4
+         M++6KGX6RTm8271c0b57QO69G7PEQDAKgTDMcL+a0ueHHEmoBLloZ5Oh6/NITb9ZA6SC
+         UfYXqjq7poNvOM8pnV96FQn7JtuS4e+id3mUb46USQQ3jxdb6b5vemqgNrnBYLe9YuSa
+         ypgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=I1Rz8pAdirwGM9T3HIP+P00havvKoNIpSMikJMk4xuA=;
-        b=SY6KsQ4+oIxVHkyivDol9F2EAAHPl5kenBWVBkcr4wVtQ9nuBEGAXBT2rkYVbJ7x/B
-         X+8WB6XkGVLTPLwGdy29+BvX2jwJXzSkJIjW2ZUcCOJvx7mWgnGoipWvHtnXpKqwf7Ft
-         SQfRZ8aPJ6jSb1YVRt0sk4NWjgpa9i3xxb/OpPwwWiMaEWQMlPBgKn5uZeFUM1sz5aoS
-         ey37NZ1DMrdDVP3rLva42dHxCJ4OcAjZFIFInV/X775YumIucdwWpkTlwQK6noP61x4u
-         dW40sncKkF9bHe4wmW34QTErxnu1/VaZthfwVkU9mYL3LXjve7NV4AR+14sJ8nPxDY8r
-         QmBg==
-X-Gm-Message-State: AOAM531uFMGTkyjG4a+/9cCNFzOHWiUBWuvWm7A7HblRKg08S4EV9Sfz
-        eSqMY6tpgOnKYxxVB/zep4wLsRQJ1UGqJw==
-X-Google-Smtp-Source: ABdhPJydApjo/eUINfLzPGnStLthDkSaE0q2Z2j8ZkMOnh33GyoFB7ZRNdQITakAoHupPo6877Yq+g==
-X-Received: by 2002:a05:6000:1acb:: with SMTP id i11mr39204935wry.244.1641254177336;
-        Mon, 03 Jan 2022 15:56:17 -0800 (PST)
-Received: from fuji.fritz.box (ip-89-161-76-237.tel.tkb.net.pl. [89.161.76.237])
-        by smtp.gmail.com with ESMTPSA id w21sm30996188wmi.19.2022.01.03.15.56.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jan 2022 15:56:17 -0800 (PST)
-Date:   Tue, 4 Jan 2022 00:56:13 +0100
-From:   Tomasz =?UTF-8?B?V2FybmllxYLFgm8=?= <tomasz.warniello@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Jani Nikula <jani.nikula@linux.intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] scripts: kernel-doc: transform documentation into POD
-Message-ID: <20220104005613.227f0432@fuji.fritz.box>
-In-Reply-To: <8735m4zdlv.fsf@meer.lwn.net>
-References: <20211209225549.69010-1-tomasz.warniello@gmail.com>
-        <87h7b8cfg0.fsf@meer.lwn.net>
-        <0796a780-f5ee-0b6c-e7ef-544ba5f6a429@gmail.com>
-        <87pmp9tcju.fsf@intel.com>
-        <20220103183034.77ba8a8c@fuji.fritz.box>
-        <87bl0sziva.fsf@meer.lwn.net>
-        <20220103224806.2932bac2@fuji.fritz.box>
-        <8735m4zdlv.fsf@meer.lwn.net>
+        h=x-gm-message-state:to:cc:references:subject:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=LfI3AmZKBsaakQUxMJMZxrQzatevP8fdDjHAVNXBEcw=;
+        b=rE7GD15cKI2vvNgcl7UYp83FSO3Gt5IyEQYO/OMC/KyszyHviGRKhFFDvDfYInE0RK
+         CLgsST5TNU6TKd1ZESNb1eSvnOikZWAp9jpT1JqHq4Qer1q1lAvxQf9uebRUbyxrAV5T
+         ukoSet4ARvk6lta+YgKQuCQm11hbXaooZHc6o6qpI1XeyKAkbuNMjpY6YsvgFrViWvBR
+         IlPhEFDBm5YfqU73hXKYqYqTz4CbwyQs+Y4+rmX28zXAD8QXGTPb0HCXiE0acnA8pC6Z
+         M/tFIeYN9szoAj2sbpBBLMC0pUUBM4lZQ+s3V8zgVcm4rNHnmmXAXPywv93kwj7OOV0h
+         cTvA==
+X-Gm-Message-State: AOAM531LNowlYLqgRGfV7KnOnYWYDE+b8uHShV4eypzOnTZ1v8f/omXT
+        A/NJONGktoAb4s1r20EjtQm8s4R0dTY=
+X-Google-Smtp-Source: ABdhPJwdjEZ7s5GS/TDvTueOPszVyYqTxb3u/qx6Kt+dhY+6HUqoZykiYG4U2MjmB20Jz0JxsM4exg==
+X-Received: by 2002:a63:154f:: with SMTP id 15mr41891786pgv.521.1641254674814;
+        Mon, 03 Jan 2022 16:04:34 -0800 (PST)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id s14sm39756399pfk.171.2022.01.03.16.04.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Jan 2022 16:04:34 -0800 (PST)
+To:     corbet@lwn.net, mchehab@kernel.org
+Cc:     hch@lst.de, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <87mtkcxws9.fsf@meer.lwn.net>
+Subject: Re: [PATCH 1/1] scripts: sphinx-pre-install: add required ctex
+ dependency
+From:   Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <eeb773ef-0354-be1f-8438-07e3324fa9f6@gmail.com>
+Date:   Tue, 4 Jan 2022 09:04:30 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <87mtkcxws9.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 03 Jan 2022 14:57:48 -0700
-Jonathan Corbet <corbet@lwn.net> wrote:
+Hi,
 
-> One thread per version is good; please do not post new versions to old
-> threads.  A tool like "git send-email" can be your friend here.  See
-> Documentation/process/submitting-patches.rst for lots of details on how
-> to submit patches.
-
-Ok, thanks. I'll try to do it correctly this time...
-
-> Along these lines, I appreciate that you broke up the series as I
-> requested, but you overdid it a bit.  Think in terms of logical changes
-> and making things easy to review, and you should be able to coalesce
-> things a bit.
-
-I'm not good at guessing what seems logical to others, especially those I
-don't know much. No sarcasm here. Luckily it's not that many of them, so
-hopefully they'll pass the exam overdone as they are.
-
-> >>  - Stick with current coding conventions  
-> >
-> > To be honest, I need to think this over.  
+On Mon, 03 Jan 2022 15:46:30 -0700, Jonathan Corbet <corbet@lwn.net> wrote:
+> Mauro Carvalho Chehab <mchehab@kernel.org> writes:
 > 
-> Think hard; if you're unable to work with the kernel project's
-> conventions, there's not a lot of point in resubmitting the patches. 
+>> After a change meant to fix support for oriental characters
+>> (Chinese, Japanese, Korean), ctex stylesheet is now a requirement
+>> for PDF output.
 
-Let's finish this one together.
+FWIW, ctexhook.sty is a new requirement of xeCJK.sty v3.8.7 released
+in June 2021.
 
-As for the actual code corrections, I see I put 1 tab too many in
-two places in the last version. So I guess I just need to reduce them
-by 1? No sarcasm again... So let me know before I've sent the next version,
-if you please.
+        Thanks, Akira
 
-Ch, TW
+>>
+>> Reported-by: Christoph Hellwig <hch@lst.de>
+>> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+>> ---
+>>
+>> See [PATCH 0/1] at: https://lore.kernel.org/all/cover.1641243581.git.mchehab@kernel.org/
+>>
+>>  scripts/sphinx-pre-install | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
+>> index 288e86a9d1e5..46aaab414098 100755
+>> --- a/scripts/sphinx-pre-install
+>> +++ b/scripts/sphinx-pre-install
+>> @@ -78,6 +78,7 @@ my %texlive = (
+>>  	'ucs.sty'            => 'texlive-ucs',
+>>  	'upquote.sty'        => 'texlive-upquote',
+>>  	'wrapfig.sty'        => 'texlive-wrapfig',
+>> +	'ctexhook.sty'       => 'texlive-ctex',
+>>  );
+> 
+> I've applied this, thanks.> 
+> jon
+
+
