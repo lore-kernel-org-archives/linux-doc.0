@@ -2,125 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECF64C433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Jan 2022 08:05:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EEA0C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Jan 2022 08:07:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232014AbiADIFz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Jan 2022 03:05:55 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:59204 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229634AbiADIFz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jan 2022 03:05:55 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id DC00EB8115E;
-        Tue,  4 Jan 2022 08:05:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88958C36AE9;
-        Tue,  4 Jan 2022 08:05:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1641283552;
-        bh=bBl6GFiQlIpAxFuDZscc9Ed/8davAxBQUYjawmSmJp8=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=U25B1x40JDwVwqiiZ7/jb0pzBKytBy4bjxlaGvwRGJLFL4AbVTxid1g/NTO/z1bRK
-         fVgRlrNisE6oHwIMiq4/zED7o8q6HXh+VA67IxGJxJo4tJlsTeMu3EMx3gH0JmtM6N
-         dzTyOiXsDtv9JbY+jQDLljHZzBhgdog2/TGyAmAnQrdFMdl7Pgvu+kpHnl+7NpuGVb
-         WKwoHMRhHsGtFiula+VbKxsAOrje+uInwZ0P+GYBaj81kb+HD37B8ZZA462riPPgiZ
-         Y+lJQshJaitSKvMgWQAjHcvcc5sZL/HObDiiSXwKE4C9EWGuEjCzggWav+mJ8ynQ7Z
-         eUIk+HjDBs2gQ==
-Date:   Tue, 4 Jan 2022 09:05:48 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     hch@lst.de, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, corbet@lwn.net
-Subject: Re: [PATCH 1/1] scripts: sphinx-pre-install: add required ctex
- dependency
-Message-ID: <20220104090548.76112534@coco.lan>
-In-Reply-To: <07f8cf68-525b-4fca-a1f9-fd40150fc6e1@gmail.com>
-References: <87mtkcxws9.fsf@meer.lwn.net>
-        <eeb773ef-0354-be1f-8438-07e3324fa9f6@gmail.com>
-        <07f8cf68-525b-4fca-a1f9-fd40150fc6e1@gmail.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+        id S232576AbiADIH0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Jan 2022 03:07:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51048 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232556AbiADIHY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jan 2022 03:07:24 -0500
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCDFEC061761;
+        Tue,  4 Jan 2022 00:07:23 -0800 (PST)
+Received: by mail-pj1-x1030.google.com with SMTP id o63-20020a17090a0a4500b001b1c2db8145so40051965pjo.5;
+        Tue, 04 Jan 2022 00:07:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=chAdkmt9mGlLdT8NC3d5bJUWTSNgWZ4fLUZ3IUs+cNM=;
+        b=eqKb7YQrjCYsfxANbusZS7p9ccp8uPrg7PwRXONul7QMhMUBPcx3LCbDpQTnMkCWaW
+         MXbIuMecmfkUhxxkmjB1nvNGzckc20WBMxPwv+KszZBYGQWVDJ7DE0eXrvFvKFtwtNeE
+         9S3KNbWb5CQ1gurleG6zjU6RHqScpPgdrrsOsY5K6BkOGSDk4O3uuIBpb0DA/SHTF5Uy
+         oRfsvp9ZbeLtX8SJq5Icp/thiotYhNG3oAXCWJ426b0oLSp5gqEHnFNdsJDIdFg7HRQn
+         p6ZOXQPJkMrZyA+a4/Iiy6HqRmub31RGWWZDvbMezbM4Y7ZSILsZQDS1MqRFzQspHqhq
+         7JZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=chAdkmt9mGlLdT8NC3d5bJUWTSNgWZ4fLUZ3IUs+cNM=;
+        b=QBIoJf5TPicLEy2Zpj6VQ6XrxgvA4HlHM+Stujcz1NzGWtAH844htjh8si5CcLR3Yh
+         Cq6BApmUxnr2HVD+kstmKc1RKuf72sO2ahxUZZ9gI8ZaRZ1POh2W0ZaTW/rEYOFUzR0G
+         az79YGfrPPrC31N9tYrn0Ir9ci4xK+ZJae9DnnM8WivaoMgzcOg73T2W7YkDth4YEOzq
+         vXKxsR9WUK6jBcxAJxce4ob8IUBXRLF+8KAT41T8XQvo4RPoI2dc3WiXdJmV0S9pX1oB
+         WjV7D25zu2p9l+3A/KMwHMvXqZgp52AIBydOmdL6y4i3+EiGS8zbJ81Hf5r/0CZbu8j4
+         rn3Q==
+X-Gm-Message-State: AOAM532Xhco2fN33LzJwumNmIjOzxQBK2OvjuYW732s/rCaqVjUkEXkO
+        X2cq2ZOuq9QDrXtg+D8SENfE4D+IOAs=
+X-Google-Smtp-Source: ABdhPJyDtfgf4YWv71JHpHdevIW8eEJRiLHSsuo4bL2FUfFayRzoWpgj/X26BORkS3LHqgcFT9gxCw==
+X-Received: by 2002:a17:902:bc86:b0:149:8dd5:a382 with SMTP id bb6-20020a170902bc8600b001498dd5a382mr31988097plb.52.1641283643413;
+        Tue, 04 Jan 2022 00:07:23 -0800 (PST)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id e21sm23924174pff.24.2022.01.04.00.07.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Jan 2022 00:07:23 -0800 (PST)
+Subject: Re: make pdfdocs fails on Debian stable
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mchehab@kernel.org
+References: <20220104064708.GA15446@lst.de>
+ <8f21b702-abc2-c9aa-7593-9aff17e61ed1@gmail.com>
+ <20220104073625.GA16910@lst.de>
+ <df9183cc-aecb-6b8d-0580-92c2a678d69f@gmail.com>
+ <20220104075655.GA17315@lst.de>
+From:   Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <931f9f77-e418-4359-65b1-cb7432e37a0f@gmail.com>
+Date:   Tue, 4 Jan 2022 17:07:20 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20220104075655.GA17315@lst.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 4 Jan 2022 10:54:52 +0900
-Akira Yokosawa <akiyks@gmail.com> escreveu:
-
-> Hi Mauro, see inline comments below.
+On Tue, 4 Jan 2022 08:56:55 +0100, Christoph Hellwig wrote:
+> On Tue, Jan 04, 2022 at 04:53:15PM +0900, Akira Yokosawa wrote:
+>> Hmm, I can't reproduce this on docs-next.
+>> On which tree are you building RCU.pdf?
 > 
-> On Tue, 4 Jan 2022 09:04:30 +0900, Akira Yokosawa wrote:
-> > Hi,
-> > 
-> > On Mon, 03 Jan 2022 15:46:30 -0700, Jonathan Corbet <corbet@lwn.net> wrote:  
-> >> Mauro Carvalho Chehab <mchehab@kernel.org> writes:
-> >>  
-> >>> After a change meant to fix support for oriental characters
-> >>> (Chinese, Japanese, Korean), ctex stylesheet is now a requirement
-> >>> for PDF output.  
-> > 
-> > FWIW, ctexhook.sty is a new requirement of xeCJK.sty v3.8.7 released
-> > in June 2021.
-> > 
-> >         Thanks, Akira
-> >   
-> >>>
-> >>> Reported-by: Christoph Hellwig <hch@lst.de>
-> >>> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> >>> ---
-> >>>
-> >>> See [PATCH 0/1] at: https://lore.kernel.org/all/cover.1641243581.git.mchehab@kernel.org/
-> >>>
-> >>>  scripts/sphinx-pre-install | 1 +
-> >>>  1 file changed, 1 insertion(+)
-> >>>
-> >>> diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-> >>> index 288e86a9d1e5..46aaab414098 100755
-> >>> --- a/scripts/sphinx-pre-install
-> >>> +++ b/scripts/sphinx-pre-install
-> >>> @@ -78,6 +78,7 @@ my %texlive = (
-> >>>  	'ucs.sty'            => 'texlive-ucs',
-> >>>  	'upquote.sty'        => 'texlive-upquote',
-> >>>  	'wrapfig.sty'        => 'texlive-wrapfig',
-> >>> +	'ctexhook.sty'       => 'texlive-ctex',
-> >>>  );  
-> >>  
+> Current linux-next.  But I've also seen it with mainline from a few days
+> ago.
 > 
-> I'm afraid this update of the list for Fedora/openSUSE won't help
-> Debian Stable (bullseye) users.
-> 
-> ctexhook.sty is in texlive-lang-chinese on Debian/Ubuntu.
 
-On such case, it is needed to map it for Debian/Ubuntu.
-Could you please test the enclosed patch, applied on the top
-of the previous one?
+Still can't reproduce with sphinx-build 4.3.2 on Debian bullseye.
 
-Thanks!
-Mauro
+What version of Sphinx are you using?
 
--
-
-[PATCH] scripts: sphinx-pre-install: Fix ctex support on Debian
-
-The name of the package with ctexhook.sty is different on
-Debian/Ubuntu.
-
-Reported-by: Akira Yokosawa <akiyks@gmail.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-
-diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index 46aaab414098..ea96d18ee946 100755
---- a/scripts/sphinx-pre-install
-+++ b/scripts/sphinx-pre-install
-@@ -367,6 +367,7 @@ sub give_debian_hints()
- 		"Pod::Usage"		=> "perl-modules",
- 		"xelatex"		=> "texlive-xetex",
- 		"rsvg-convert"		=> "librsvg2-bin",
-+		"texlive-ctex"		=> "texlive-lang-chinese",
- 	);
- 
- 	if ($pdf) {
