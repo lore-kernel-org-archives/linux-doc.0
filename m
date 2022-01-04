@@ -2,66 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07D46C433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Jan 2022 09:31:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05AEBC433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Jan 2022 10:26:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229727AbiADJbG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Jan 2022 04:31:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41888 "EHLO
+        id S229659AbiADK0P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Jan 2022 05:26:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229693AbiADJbG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jan 2022 04:31:06 -0500
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B27C1C061761;
-        Tue,  4 Jan 2022 01:31:05 -0800 (PST)
-Received: by mail-pl1-x62f.google.com with SMTP id w24so26680751ply.12;
-        Tue, 04 Jan 2022 01:31:05 -0800 (PST)
+        with ESMTP id S229604AbiADK0P (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jan 2022 05:26:15 -0500
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A2FEC061761;
+        Tue,  4 Jan 2022 02:26:15 -0800 (PST)
+Received: by mail-pg1-x536.google.com with SMTP id f5so2990452pgk.12;
+        Tue, 04 Jan 2022 02:26:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=8wSLVbJ788bSEMelyfDlg7YVDiyBwIDDEcwu25/fZFo=;
-        b=qeWDEkGEUOMyQ2Gus0WGkOV7Xj5eW7E9/OX975v2yEILkvaFm2FqgTz9bdYwYS4vGq
-         JqvlmSCl/442VAuvNd0tkKqJkfqtDx7vO3EBu+6YT4V83qZkO61hz6MSjDFP/7RMggJN
-         nSEMqT27UZ8uLBozAPtD/6EKp0GgEReA2OfCNe21vofN3u9M9oE/94hE0XMbv9qKSt6h
-         tuSnJ8FTcypIfepHEvMg6HnlQa8qsFE1zgLioiOYSjj9Ym+cemjPLYvN5nDr1vDstZ/6
-         njMj515pSauXzo+ddPQuMcNKCAI5WxJGyLhgxf+EMGvamkoDBtklJ9pfY54rMJ6+a38t
-         hglA==
+        bh=dgw8eDYqou5ZCuUdcSytV47CYd/9SnsR4ZS8RG4Ba6k=;
+        b=ArMaYkhasIdI5TSdGpezs6x8xFRZP6Rwxnp2+tSzzepO6hodRbHSvtoHVBc9ydkQld
+         cSVgJNHiRsL5msZHH4BXvVL8wd9XEP3UWLG2YvZHoBiF/+d3vFxr7loQweHarIj3ZKbz
+         LaxbwRrKycVGZHJx2ps8s/9ucYdlHWnK21/4ZB2omUM4sBXn9oivDbuvEbZA+j7XJAn/
+         NHDz4sKxVeWSJ8FHWos/NRuW8Q4CF1tKezDBwNdXgqnKOC9WbVPMj8x2qGJVCRRESNLP
+         orw2KeI3awVQyItQ1EoPQnEwsZOfgV3E8C8mvo6ebIIZqCm3xQAjIYQJMFFiGviS5DRF
+         2egw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=8wSLVbJ788bSEMelyfDlg7YVDiyBwIDDEcwu25/fZFo=;
-        b=Zt9MB0bjFSnWKvP8gFtIrI0z4OsDp+WMerVj8PgKE4doVHYN8Db83VEuI6GiSbQNzs
-         bQlmi8abSpYl8WIaEKP4tAJCUG6T+bC2M3oHABgnreaZkJG9HSVlPmmq9yY/SSEF+9Cg
-         7VerXUWFQcbzkXhaE9D9lN1LZO4TEdxhM/fty8Qb+QxtmTrbYCqyl3P0XxzNEjt6Bsez
-         ok1w0Wwa9sG1kY0pFY5xGhAgAC3FAMjvVhYosrzfmorHALw9cPqv6Ur4O8WYSILHfR9K
-         wEmNLZNqMIaWeqUA08UA73Kf/yFAwSdfOmO5qZzHbsA5uctnD46bapAZxSyEErxhH4xl
-         v0Yw==
-X-Gm-Message-State: AOAM531peN+O4uLvDpSir7I0W+c5GF3QEth7R7BB5h1UAxe6ghj4hKmI
-        +ufCqtm0TVxuMXd/jjiS0RgevhdhaJk=
-X-Google-Smtp-Source: ABdhPJzZoR81j8zpFR8ti1ie+tdCtihatEvBXfCeTZVOYxC4st3/lH3gwawdX9AcwM+pqYsS7iTPdQ==
-X-Received: by 2002:a17:902:ced2:b0:148:a3e6:b48d with SMTP id d18-20020a170902ced200b00148a3e6b48dmr48532802plg.103.1641288665316;
-        Tue, 04 Jan 2022 01:31:05 -0800 (PST)
+        bh=dgw8eDYqou5ZCuUdcSytV47CYd/9SnsR4ZS8RG4Ba6k=;
+        b=PRWAQiEMELhEwnjx2R/ULBOKcFXMktoU8Xhwjoz4s8pysj6WTrd8HotN12S9i+34MI
+         xsrK97Njs+t3Q6FDMUbIQxlJIkRRh9Pcg4ZmvnoC0ICctixda0l6g1xxGqBzTlvfk4RR
+         Rf+WPOvwJtH9F1aSrjcnVldRfxtaQCAxlekpyN9aVrPF2V2QWU5gRrnnPCvhbrZ2yPWP
+         vn7+nQC5wO+o73lQhN1bA6MV5x4X9ykYxRtTOKy7BXyklaUPfLNs80brCr0fFA0Qpjt1
+         Mb17jizESWttaX0Y3w0vEEYfBOdjYPKvqJLq8TqJCkArkWyAaTEulKqD3sIBUPGfiQHC
+         sSSQ==
+X-Gm-Message-State: AOAM531FjC2CbxZFSjrkDvqmSV7nsEqMFb8BQCzyfPHBoUfKq1LD3PTF
+        By2KJsI6WFq97kg9sDMbIs8=
+X-Google-Smtp-Source: ABdhPJyUlXC6ovBdJpX4bBP2exJQpw/OKVYkqGMummXWOg6CG3Et4yc2FSpJIwgo68uH8bC5mzkYGQ==
+X-Received: by 2002:a63:8648:: with SMTP id x69mr42903540pgd.9.1641291974741;
+        Tue, 04 Jan 2022 02:26:14 -0800 (PST)
 Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id d34sm22016403pgl.16.2022.01.04.01.31.03
+        by smtp.gmail.com with ESMTPSA id s8sm39932056pfe.196.2022.01.04.02.26.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Jan 2022 01:31:05 -0800 (PST)
-Subject: Re: make pdfdocs fails on Debian stable
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mchehab@kernel.org
-References: <20220104064708.GA15446@lst.de>
- <8f21b702-abc2-c9aa-7593-9aff17e61ed1@gmail.com>
- <20220104073625.GA16910@lst.de>
+        Tue, 04 Jan 2022 02:26:14 -0800 (PST)
+Subject: Re: [PATCH 1/1] scripts: sphinx-pre-install: add required ctex
+ dependency
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     hch@lst.de, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, corbet@lwn.net
+References: <87mtkcxws9.fsf@meer.lwn.net>
+ <eeb773ef-0354-be1f-8438-07e3324fa9f6@gmail.com>
+ <07f8cf68-525b-4fca-a1f9-fd40150fc6e1@gmail.com>
+ <20220104090548.76112534@coco.lan>
 From:   Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <02f6aa77-17b7-ed23-8f39-34239ec6e724@gmail.com>
-Date:   Tue, 4 Jan 2022 18:31:01 +0900
+Message-ID: <73e62b16-7685-ace2-18d4-e1b79f543caf@gmail.com>
+Date:   Tue, 4 Jan 2022 19:26:10 +0900
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20220104073625.GA16910@lst.de>
+In-Reply-To: <20220104090548.76112534@coco.lan>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -69,53 +71,95 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 4 Jan 2022 08:36:25 +0100, Christoph Hellwig wrote:
-> On Tue, Jan 04, 2022 at 04:32:14PM +0900, Akira Yokosawa wrote:
->> I suspect you are suffering from corrupt RCU.aux (or whatever other
->> intermediate files xelatex generates).
+On Tue, 4 Jan 2022 09:05:48 +0100, Mauro Carvalho Chehab wrote:
+> Em Tue, 4 Jan 2022 10:54:52 +0900
+> Akira Yokosawa <akiyks@gmail.com> escreveu:
+> 
+>> Hi Mauro, see inline comments below.
 >>
->> What happens you run
+>> On Tue, 4 Jan 2022 09:04:30 +0900, Akira Yokosawa wrote:
+>>> Hi,
+>>>
+>>> On Mon, 03 Jan 2022 15:46:30 -0700, Jonathan Corbet <corbet@lwn.net> wrote:  
+>>>> Mauro Carvalho Chehab <mchehab@kernel.org> writes:
+>>>>  
+>>>>> After a change meant to fix support for oriental characters
+>>>>> (Chinese, Japanese, Korean), ctex stylesheet is now a requirement
+>>>>> for PDF output.  
+>>>
+>>> FWIW, ctexhook.sty is a new requirement of xeCJK.sty v3.8.7 released
+>>> in June 2021.
+>>>
+>>>         Thanks, Akira
+>>>   
+>>>>>
+>>>>> Reported-by: Christoph Hellwig <hch@lst.de>
+>>>>> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+>>>>> ---
+>>>>>
+>>>>> See [PATCH 0/1] at: https://lore.kernel.org/all/cover.1641243581.git.mchehab@kernel.org/
+>>>>>
+>>>>>  scripts/sphinx-pre-install | 1 +
+>>>>>  1 file changed, 1 insertion(+)
+>>>>>
+>>>>> diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
+>>>>> index 288e86a9d1e5..46aaab414098 100755
+>>>>> --- a/scripts/sphinx-pre-install
+>>>>> +++ b/scripts/sphinx-pre-install
+>>>>> @@ -78,6 +78,7 @@ my %texlive = (
+>>>>>  	'ucs.sty'            => 'texlive-ucs',
+>>>>>  	'upquote.sty'        => 'texlive-upquote',
+>>>>>  	'wrapfig.sty'        => 'texlive-wrapfig',
+>>>>> +	'ctexhook.sty'       => 'texlive-ctex',
+>>>>>  );  
+>>>>  
 >>
->>     $ make cleandocs
+>> I'm afraid this update of the list for Fedora/openSUSE won't help
+>> Debian Stable (bullseye) users.
 >>
->> before
->>
->>     $ make SPHINXDIRS=RCU LATEXOPTS="-interaction=interactive" pdfdocs
->>
->> ?
+>> ctexhook.sty is in texlive-lang-chinese on Debian/Ubuntu.
 > 
-> The last lines of that below:
-> 
-> LaTeX Warning: Float too large for page by 8477.29312pt on input line 10581.
-> 
-> 
-> LaTeX Warning: Hyper reference `Design/Memory-Ordering/Tree-RCU-Memory-Ordering
-> :forcing-quiescent-states' on page 104 undefined on input line 10593.
-> 
-> 
-> LaTeX Warning: Float too large for page by 9533.29312pt on input line 11384.
-> 
-> 
-> LaTeX Warning: Hyper reference `Design/Memory-Ordering/Tree-RCU-Memory-Ordering
-> :forcing-quiescent-states' on page 104 undefined on input line 11394.
-> 
-> [104] [105] [106]
-> ! Dimension too large.
-> \color@b@x ... #3}\kern \fboxsep }\dimen@ \ht \z@ 
->                                                   \advance \dimen@ \fboxsep ...
-> l.12718 \end{sphinxVerbatim}
-> 
-> ? 
-> 
+> On such case, it is needed to map it for Debian/Ubuntu.
+> Could you please test the enclosed patch, applied on the top
+> of the previous one?
 
-Hi, getting back to the error message, I remember seeing a similar error
-when I failed to permit PDF output of ImageMagick.
-
-What I did back then was this (as root):
-
- # cd /etc/ImageMagick-6  
- # sed -i 's+policy domain="coder" rights="none" pattern="PDF"+policy domain="coder" rights="read|write" pattern="PDF"+' policy.xml ; \
-
-In case this resolves your issue.
+Looks like we need an additional hunk.  See below.
 
         Thanks, Akira
+
+> 
+> Thanks!
+> Mauro
+> 
+> -
+> 
+> [PATCH] scripts: sphinx-pre-install: Fix ctex support on Debian
+> 
+> The name of the package with ctexhook.sty is different on
+> Debian/Ubuntu.
+> 
+> Reported-by: Akira Yokosawa <akiyks@gmail.com>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> 
+> diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
+> index 46aaab414098..ea96d18ee946 100755
+> --- a/scripts/sphinx-pre-install
+> +++ b/scripts/sphinx-pre-install
+> @@ -367,6 +367,7 @@ sub give_debian_hints()
+>  		"Pod::Usage"		=> "perl-modules",
+>  		"xelatex"		=> "texlive-xetex",
+>  		"rsvg-convert"		=> "librsvg2-bin",
+> +		"texlive-ctex"		=> "texlive-lang-chinese",
+>  	);
+>  
+>  	if ($pdf) {
+> 
+@@ -380,6 +381,7 @@ sub give_debian_hints()
+        }
+ 
+        check_program("dvipng", 2) if ($pdf);
++       check_missing_tex(2) if ($pdf);
+        check_missing(\%map);
+ 
+        return if (!$need && !$optional);
+
