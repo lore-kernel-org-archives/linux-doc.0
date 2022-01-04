@@ -2,60 +2,60 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97C35C4332F
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Jan 2022 02:00:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98E03C433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Jan 2022 02:00:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232229AbiADCAS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Jan 2022 21:00:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54200 "EHLO
+        id S232300AbiADCA3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Jan 2022 21:00:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232170AbiADCAL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jan 2022 21:00:11 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FDE0C0617A0;
-        Mon,  3 Jan 2022 18:00:11 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id o3so14842685wrh.10;
-        Mon, 03 Jan 2022 18:00:11 -0800 (PST)
+        with ESMTP id S232271AbiADCAO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jan 2022 21:00:14 -0500
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7E3BC0617A1;
+        Mon,  3 Jan 2022 18:00:13 -0800 (PST)
+Received: by mail-wr1-x430.google.com with SMTP id j18so73041146wrd.2;
+        Mon, 03 Jan 2022 18:00:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Ar26/c+kIZBFJb+XnQqNFZG/AVeErXaJRatHs0lNH6o=;
-        b=hQnfUOWNahCdKeWzQ+6ERxXar+t2wmfvf12x7AAfzGg+Uudxo3/oScc9J/keEquxCe
-         Y03x44quqPabgOQSlC2vwK660gqVr6Jlmp+DU66bey/n599HTvB/BzbsyeomqUZbSs6w
-         dpOd9j0OLpKd2PmSoKjxzGPr0LK+3Cg8DJLDGEjpLcmhcKAXlDd50Jd9lVfQ5lQq12ml
-         KuolUTF3mNBKKQnNj4PcqSEa9hwNdFS4d3Y1dZ37iRdOWi+1IdYdFtWXaQTL2Jb8H3pI
-         2he3ppcztMYVhiYIHSyZip4kT+jLi2cZ5DM8zjVZbR+uAl/9k20avTj09B2bE5Vv85L5
-         PGiA==
+        bh=DuzntP1U4quOJkZ2JAisD9olh8sECglpZxZHObJrdk4=;
+        b=CoyAtFh/CfpNkb/WGr+Cz7UFFKBs3s7vP+gw9aFnHOHfnN4/M4ikIz4DxRvVTiE6Qz
+         +baMdqreWcnunMqIyD2qZZ+UpgbOWvBEn77kcJk3UWrJj4mpoRy/D+rn5kW/lu51dDrY
+         4bYFCtW90IWDuMQf7sMb5orIlw82t1/q8JqKViBirKEg7+Isu30dIA2JTZ4lsI50NxtM
+         WdWmva7+64PHy800Pd7xRtoRPKN5MBKBMbzCx4kRpIvoV1UEm0Sz4/uUgNaDGDuAoJe0
+         WMMFHL9BcBjoEAg1qrtpNFyHBVvbNf5ZY8wG9Jf1zJTfF44TzZ0TxQ3PUQeX4xgszN1o
+         MVAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Ar26/c+kIZBFJb+XnQqNFZG/AVeErXaJRatHs0lNH6o=;
-        b=CJN8yERpwCYSqGMrsEF0Tjx80HeP+qNdKlrC9TGxOZj0k6VWaUX55Lb5ixNQ/Kwpx7
-         N0v+tJelV1s+7IxNvba4yPBCgVrdmRpYTY5KVyOVmszRo+OgCz06L8/uyCJcAD6lXtoe
-         DWdd+W89vY3+UJs9h4gSpyh3aU39u1xMIS43KA2Vont+c9zOlctnigAugSzcnN/DcCYb
-         1jztpL0OAf8TbLifYpoq94Suh2C3Vm8fMkg4pt9TKSAf9AcuBu0KThDvViQuhuXc/VRt
-         3tTpnt/VbDlprSeI26RGuEaJF6iWvMEZy1sqbSy9ECsHwuCx+FHeMsup0y+1u/eY6Ik9
-         N+FQ==
-X-Gm-Message-State: AOAM5336797jk3PNuVJLvMnPbK20U1eANmoeb32tja9c9nd1bpeQbrZg
-        VZhJpy5sGMV+o7OlFGV0KFg=
-X-Google-Smtp-Source: ABdhPJyLl5FmLAj4nJx99t3oXtH8nAHyoSwJLjkxd140QLtb9HwsvoxPzIXit5Sz/TeaqN3iFMVoWA==
-X-Received: by 2002:a5d:608c:: with SMTP id w12mr39780774wrt.384.1641261609806;
-        Mon, 03 Jan 2022 18:00:09 -0800 (PST)
+        bh=DuzntP1U4quOJkZ2JAisD9olh8sECglpZxZHObJrdk4=;
+        b=au6AEajUqIZS7PpZTbKbN+eqd8TMm9AVS9WgVW5KtgYbJr0tNd40OAw9pz3gpNk0vO
+         dEl6nTwG/kSXu3IdQWDMFYeKqu2a8ij39bE75i8hUaNSIVXt6Iq6Yj/Zh8sOm3gFKeCI
+         kxdZIyttUxGjzyzDjMMfECwYpVw+x3D0EbBUpGVnopmYAFYPQ1ujRFFtQ3KgpSfDWSnX
+         dQVyzDY3QAjhE2RkSLjX26UaiWwVlr0UkQCrXWJ7CsZRkpFqtBXZ6DI2Q0KQ5x14jVXF
+         B02Zb2lAizsZehK94z21E6vRjBidtp2VYIT/pe3YMYZ5Y53VAJfNmSM3MLo2SaAecjFT
+         deJw==
+X-Gm-Message-State: AOAM532pcaYTP4IwP0GGNLO90XGGAgxZr4MJvm6cI7XIY+KKdO+4+qrR
+        ojMH7ImxXQ4i5XjHv37NJ8g=
+X-Google-Smtp-Source: ABdhPJzHkgYYeXEL3k+bw6r/5h/pLBwAw7ryZHVIgaHqjgAozpXHYqt4eDy3SVoqLzTGwkOKSjsBiA==
+X-Received: by 2002:a05:6000:1866:: with SMTP id d6mr39642223wri.704.1641261612494;
+        Mon, 03 Jan 2022 18:00:12 -0800 (PST)
 Received: from fuji.fritz.box (ip-89-161-76-237.tel.tkb.net.pl. [89.161.76.237])
-        by smtp.gmail.com with ESMTPSA id j17sm36422654wrp.68.2022.01.03.18.00.09
+        by smtp.gmail.com with ESMTPSA id j17sm36422654wrp.68.2022.01.03.18.00.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jan 2022 18:00:09 -0800 (PST)
+        Mon, 03 Jan 2022 18:00:12 -0800 (PST)
 From:   =?UTF-8?q?Tomasz=20Warnie=C5=82=C5=82o?= 
         <tomasz.warniello@gmail.com>
 To:     corbet@lwn.net
 Cc:     =?UTF-8?q?Tomasz=20Warnie=C5=82=C5=82o?= 
         <tomasz.warniello@gmail.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v3 12/15] scripts: kernel-doc: Archive the pre-git museum
-Date:   Tue,  4 Jan 2022 02:59:43 +0100
-Message-Id: <20220104015946.529524-13-tomasz.warniello@gmail.com>
+Subject: [PATCH v3 15/15] scripts: kernel-doc: Move the TODOs
+Date:   Tue,  4 Jan 2022 02:59:46 +0100
+Message-Id: <20220104015946.529524-16-tomasz.warniello@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220104015946.529524-1-tomasz.warniello@gmail.com>
 References: <20220104015946.529524-1-tomasz.warniello@gmail.com>
@@ -66,90 +66,47 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jonathan Corbet suggested in a reply to my version 1, that these records
-can go, since that's what the git log is for. I don't agree.
+Earlier I thought I could take "add perldoc documentation" off
+of this list. Now I think it also means a self-documentation.
+And this is not even started.
 
-The log begins at 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2. That's from
-2005. One of those entries is indeed logged, so kudos for having me check
-this. But not the older ones. Of course they can be found indirectly,
-but then...
+I'm putting this block by the end, where it can quietly evolve.
 
-Why not just let them embellish the script tail?
-
-As you can see, they don't even require any formatting there.
-
-Are you sure you don't want them?
-
-* Transform documentation into POD (12/15)
+* Transform documentation into POD (15/15)
 See step 1 for the series details.
 
 Signed-off-by: Tomasz Warniełło <tomasz.warniello@gmail.com>
 ---
- scripts/kernel-doc | 43 ++++++++++++++++++++++---------------------
- 1 file changed, 22 insertions(+), 21 deletions(-)
+ scripts/kernel-doc | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 493c024744b0..0be723f6e3a2 100755
+index dd5801cad519..b9f381f0fc1b 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -54,31 +54,10 @@ See Documentation/doc-guide/kernel-doc.rst for the documentation comment syntax.
+@@ -53,10 +53,6 @@ See Documentation/doc-guide/kernel-doc.rst for the documentation comment syntax.
  
  # more perldoc at the end of the file
  
--# 18/01/2001 - 	Cleanups
--# 		Functions prototyped as foo(void) same as foo()
--# 		Stop eval'ing where we don't need to.
--# -- huggie@earth.li
--
--# 27/06/2001 -  Allowed whitespace after initial "/**" and
--#               allowed comments before function declarations.
--# -- Christian Kreibich <ck@whoop.org>
--
- # Still to do:
- # 	- add perldoc documentation
- # 	- Look more closely at some of the scarier bits :)
- 
--# 26/05/2001 - 	Support for separate source and object trees.
--#		Return error code.
--# 		Keith Owens <kaos@ocs.com.au>
--
--# 23/09/2001 - Added support for typedefs, structs, enums and unions
--#              Support for Context section; can be terminated using empty line
--#              Small fixes (like spaces vs. \s in regex)
--# -- Tim Jansen <tim@tjansen.de>
--
--# 25/07/2012 - Added support for HTML5
--# -- Dan Luedtke <mail@danrl.de>
+-# Still to do:
+-# 	- add perldoc documentation
+-# 	- Look more closely at some of the scarier bits :)
 -
  ## init lots of data
  
  my $errors = 0;
-@@ -2518,3 +2497,25 @@ Treat warnings as errors.
- =back
+@@ -2497,6 +2493,11 @@ Treat warnings as errors.
  
  =cut
+ 
++TODO
 +
-+PRE-GIT MUSEUM
++- add perldoc documentation
++- Look more closely at some of the scarier bits :)
 +
-+Original formatting preserved for its historical value.
-+
-+# 18/01/2001 - 	Cleanups
-+# 		Functions prototyped as foo(void) same as foo()
-+# 		Stop eval'ing where we don't need to.
-+# -- huggie@earth.li
-+
-+# 27/06/2001 -  Allowed whitespace after initial "/**" and
-+#               allowed comments before function declarations.
-+# -- Christian Kreibich <ck@whoop.org>
-+
-+# 26/05/2001 - 	Support for separate source and object trees.
-+#		Return error code.
-+# 		Keith Owens <kaos@ocs.com.au>
-+
-+# 23/09/2001 - Added support for typedefs, structs, enums and unions
-+#              Support for Context section; can be terminated using empty line
-+#              Small fixes (like spaces vs. \s in regex)
-+# -- Tim Jansen <tim@tjansen.de>
+ PRE-GIT MUSEUM
+ 
+ Original formatting preserved for its historical value.
 -- 
 2.30.2
 
