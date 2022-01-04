@@ -2,53 +2,52 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53EF0C433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Jan 2022 19:46:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07BA6C433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Jan 2022 19:54:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231171AbiADTq0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Jan 2022 14:46:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43348 "EHLO
+        id S231740AbiADTyP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Jan 2022 14:54:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231144AbiADTqZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jan 2022 14:46:25 -0500
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79F5EC061785
-        for <linux-doc@vger.kernel.org>; Tue,  4 Jan 2022 11:46:25 -0800 (PST)
-Received: by mail-pl1-x62d.google.com with SMTP id h1so24541350pls.11
-        for <linux-doc@vger.kernel.org>; Tue, 04 Jan 2022 11:46:25 -0800 (PST)
+        with ESMTP id S231732AbiADTyP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jan 2022 14:54:15 -0500
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D16FBC061792
+        for <linux-doc@vger.kernel.org>; Tue,  4 Jan 2022 11:54:14 -0800 (PST)
+Received: by mail-pg1-x535.google.com with SMTP id t32so2033176pgm.7
+        for <linux-doc@vger.kernel.org>; Tue, 04 Jan 2022 11:54:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=uThA5FJw+dwxP5q++/tTAbh+tNweLJGvh47FjBpqGRo=;
-        b=gYssr4nYDq/Y3+lyFNjL8a/kAr0+h1DoizKirqYRNxRwBPdTiOpC2fClt8PLj5PioV
-         ITC+PZlcZu6Ru2sQvwsBpdFdWpcl6hPw+yTs8CjlNZXG0tUzLuYS5hSTH00jMJAzU8UY
-         uJxWx5mPFh5+FpSj81jveeSvyh7ch4ZpVfE6Z/b9Rf8rCXbCn3UUpOljEANTHqMK7egI
-         geD2OOfkwaa+LXrqvK9mOB2dzYBX1eLpUEE/UnZRBzumC2CkSTPYLUFiskAaXd/6x0rW
-         daUjg6u1wZxKIlPUfo7/DfQgsPeQgIolcStC6AOFc9ZEhI2BE8XdUIUpT0IDPiFSagcT
-         C1Rg==
+         :content-disposition:in-reply-to;
+        bh=cdmT5rfhNkWWjGcnFD7NuwPzzDkVYzXEr/P8sZKTqps=;
+        b=C129iTBGi8h6CtSob4CAxpAQiIkOcQ2FLgoMbKSA9DIAafCrkRlwq+5Qfsn/GP1s+B
+         xikZmG/3k+WSgN+5ZaLdmvqeTzfwgj8TplXAilI8TNQDeSi/tNPUjlGPn4NSfy1UxENO
+         i//ZI+GivXS5RUK7yDPzkN3qRs0Ym+9smT3g1qsuN95Ea87FjdxwDGuODadrif1G+SpH
+         4LKSBfFbXxaABx9uP3nsoBW97Tvvsz/RNEV3kGvBaSrnZf0bIAwYvNoStL07EcIsnfIX
+         XxcMb0PUauPFMPljnZKY+wTE66PWFaw3LHM5P7i9/xxcVK6NHuuuW91h4vh9Tqwde1gu
+         AFJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=uThA5FJw+dwxP5q++/tTAbh+tNweLJGvh47FjBpqGRo=;
-        b=EAWfC1aFg0XKaCpe+ZOvBrlsb5M8AqS02/dcomObv1ESjFYdnZLBX/8Wq3NdInCGNt
-         obumFXxOILzwPV91Cz5Ty420HDiorfqAL1D5VD8QOsFCgTsmIyAF3EqPK6duKQEMufiP
-         YRXd2cux834Y9tSjr+XIQPFoSwmOiR9rs4Ls1DaZH/b2afp9jFtfvgIIrKxOoDsTTYPk
-         wxqgWo+VdEbNLdO+/G1RWn9XUWwODgqZwe5498TbXFWKeleyFj1b6q8OuVK/jdBYeKHT
-         TemJIr0qwNijlqENiJPbyoH3aFsWB8XmwrUcsvQYK4xWgbW9YIZ3EYYfd8jAS6QygIKk
-         RCQA==
-X-Gm-Message-State: AOAM532URV62XYPs5q/rYLS7AdB3zfohexJPJRZ98JUVdANf2UzLYHiC
-        vYvg8Owz3NR0RE67G16lz8FCgw==
-X-Google-Smtp-Source: ABdhPJxOhvfqjVRSu3Uh0kWA/rFpq2kE/HV9U/iDlkJYMs9kVQd/lZ4z4ZSruVEzSWvKrzoEVCeAfg==
-X-Received: by 2002:a17:90b:2247:: with SMTP id hk7mr61350318pjb.126.1641325584736;
-        Tue, 04 Jan 2022 11:46:24 -0800 (PST)
+         :mime-version:content-disposition:in-reply-to;
+        bh=cdmT5rfhNkWWjGcnFD7NuwPzzDkVYzXEr/P8sZKTqps=;
+        b=4F13YgFN+m1xqOIW0cvZwO8f/+awZIXkYzrarqsuCoj5noIvk0MWJZlGTfpVH26iWW
+         iKUfApVeu/nN5BBYbvEwT+1Bqflmu6tCzxRxPveEXDgIzVfTUcMdQqgMr06PNSqvVr7E
+         +kGoYQ5pbdctBCTIeoiqNEg3mcTJu0G3KITWt/otens2OBuomVwdfgVCtTgBvgbPbxmr
+         sWiOMTlxBbyIT1mxAW2VWLxXId7Ui0ttOO35KbyUYKo8vfKoK7BvawtfKvv1j8c6RgIO
+         i7YRD3sYtU6NxWg7mWqMMSAyk5uMv2E2hpDzLFtzaDjfku2G9s/YQGP5hAIMSMboJvjK
+         vv3A==
+X-Gm-Message-State: AOAM533KPZXPdl3BfuESjX1TohCLXj17V6DSTg0wsFX03Elh+P3Rv/XR
+        KcXsfkdRbH8fL08q8811EPp+pw==
+X-Google-Smtp-Source: ABdhPJwbHVoGQWJnx4oFw2JlmF2TRIpvegfLjVIjVehkyjeU2NKQZtaHKzgL82XoXSOhYW8/Eew9aA==
+X-Received: by 2002:a63:207:: with SMTP id 7mr45574965pgc.624.1641326054197;
+        Tue, 04 Jan 2022 11:54:14 -0800 (PST)
 Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id g11sm35641497pgn.26.2022.01.04.11.46.23
+        by smtp.gmail.com with ESMTPSA id p37sm40318945pfh.97.2022.01.04.11.54.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jan 2022 11:46:24 -0800 (PST)
-Date:   Tue, 4 Jan 2022 19:46:20 +0000
+        Tue, 04 Jan 2022 11:54:13 -0800 (PST)
+Date:   Tue, 4 Jan 2022 19:54:10 +0000
 From:   Sean Christopherson <seanjc@google.com>
 To:     Yang Zhong <yang.zhong@intel.com>
 Cc:     x86@kernel.org, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -58,43 +57,56 @@ Cc:     x86@kernel.org, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
         shuah@kernel.org, jun.nakajima@intel.com, kevin.tian@intel.com,
         jing2.liu@linux.intel.com, jing2.liu@intel.com,
         guang.zeng@intel.com, wei.w.wang@intel.com
-Subject: Re: [PATCH v4 18/21] kvm: x86: Add support for getting/setting
- expanded xstate buffer
-Message-ID: <YdSkDAruycpXhNUT@google.com>
+Subject: Re: [PATCH v4 03/21] kvm: x86: Fix xstate_required_size() to follow
+ XSTATE alignment rule
+Message-ID: <YdSl4s78kj/U/5Bl@google.com>
 References: <20211229131328.12283-1-yang.zhong@intel.com>
- <20211229131328.12283-19-yang.zhong@intel.com>
+ <20211229131328.12283-4-yang.zhong@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211229131328.12283-19-yang.zhong@intel.com>
+In-Reply-To: <20211229131328.12283-4-yang.zhong@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On Wed, Dec 29, 2021, Yang Zhong wrote:
-> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> index bdf89c28d2ce..76e1941db223 100644
-> --- a/arch/x86/kvm/x86.c
-> +++ b/arch/x86/kvm/x86.c
-> @@ -4296,6 +4296,11 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
->  		else
->  			r = 0;
->  		break;
-> +	case KVM_CAP_XSAVE2:
-> +		r = kvm->vcpus[0]->arch.guest_fpu.uabi_size;
+> From: Jing Liu <jing2.liu@intel.com>
+> 
+> CPUID.0xD.1.EBX enumerates the size of the XSAVE area (in compacted
+> format) required by XSAVES. If CPUID.0xD.i.ECX[1] is set for a state
+> component (i), this state component should be located on the next
+> 64-bytes boundary following the preceding state component in the
+> compacted layout.
+> 
+> Fix xstate_required_size() to follow the alignment rule. AMX is the
+> first state component with 64-bytes alignment to catch this bug.
+> 
+> Signed-off-by: Jing Liu <jing2.liu@intel.com>
+> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+> ---
+>  arch/x86/kvm/cpuid.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
+> index 07e9215e911d..148003e26cbb 100644
+> --- a/arch/x86/kvm/cpuid.c
+> +++ b/arch/x86/kvm/cpuid.c
+> @@ -42,7 +42,8 @@ static u32 xstate_required_size(u64 xstate_bv, bool compacted)
+>  		if (xstate_bv & 0x1) {
+>  		        u32 eax, ebx, ecx, edx, offset;
+>  		        cpuid_count(0xD, feature_bit, &eax, &ebx, &ecx, &edx);
+> -			offset = compacted ? ret : ebx;
+> +			/* ECX[1]: 64B alignment in compacted form */
+> +			offset = compacted ? ((ecx & 0x2) ? ALIGN(ret, 64) : ret) : ebx;
 
-a) This does not compile against kvm/queue.
+That is impressively difficult to read.
 
-   arch/x86/kvm/x86.c: In function ‘kvm_vm_ioctl_check_extension’:
-   arch/x86/kvm/x86.c:4317:24: error: ‘struct kvm’ has no member named ‘vcpus’
-    4317 |                 r = kvm->vcpus[0]->arch.guest_fpu.uabi_size;
+			if (compacted)
+				offset = (ecx & 0x2) ? ALIGN(ret, 64) : ret;
+			else
+				offset = ebx;
 
-b) vcpu0 is not guaranteed to be non-NULL at this point.
-
-> +		if (r < sizeof(struct kvm_xsave))
-> +			r = sizeof(struct kvm_xsave);
-> +		break;
->  	default:
->  		break;
->  	}
+>  			ret = max(ret, offset + eax);
+>  		}
+>  
