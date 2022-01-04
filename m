@@ -2,123 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 855CEC433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Jan 2022 20:30:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F101C43217
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Jan 2022 20:45:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232712AbiADUaG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Jan 2022 15:30:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53530 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232308AbiADUaG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jan 2022 15:30:06 -0500
-Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com [IPv6:2607:f8b0:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B550C061784
-        for <linux-doc@vger.kernel.org>; Tue,  4 Jan 2022 12:30:06 -0800 (PST)
-Received: by mail-il1-x12c.google.com with SMTP id c4so22834676iln.7
-        for <linux-doc@vger.kernel.org>; Tue, 04 Jan 2022 12:30:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=bul4qlld97QBjtDSOOsdxIpEMimKYTW5dlcNbaowlwI=;
-        b=mtOJsGe1HP0q/Qhh/bycX0h7Jl/2jwzWfmiCyFlRg7R9A2TbdfKxdP8MT5k8D3hwYG
-         dT7Ui1OUrpbhvH9QaHr78W0WdOnp64FBmr+S7Q0Vpeg5LpyfuffPNRR9HI3Xbxe8isPN
-         F1Sjctn+bJI+/w+T9FmffZPNjQUR5pzoQaQXQWByf530JChpNIL06htkS0sLXiE/CxEA
-         gLcuxfQ6BwNSvI3d995Wjh3kaRM06X91TN6q8ctqymYXrDluJ4ns16GLmg4BF0TWfb+K
-         rTRwjSYscljigBMSX1uYI63ZSp0B+NmdoJSZ0rSu3In2kLIawYXWswXTAj4tL5YXTQGP
-         BRSw==
+        id S233274AbiADUpt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Jan 2022 15:45:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59032 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233112AbiADUps (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jan 2022 15:45:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1641329148;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=PYrqbdtdF3TH5qv2dr8q46HQl1ZSosdbS+NCJ8IVZW0=;
+        b=c7P4diTHRWdSP+7srJ1AXnvNwu9c/xNmx+4SEvI1rB/od+OFRn13ekpFW2L2kmiQ+JvzlW
+        RLOu4dHVS1yZxaXRjHr9sMVKJtnRM/vGEBwXkzQzLctFnqItNpM2t/lNIX1VMABm0Y5agh
+        rSUsoiaKTixFQ1gPcjdeRBtz+OgAvFQ=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-277-F62U1n42OXCRZLxSfDZJVQ-1; Tue, 04 Jan 2022 15:45:45 -0500
+X-MC-Unique: F62U1n42OXCRZLxSfDZJVQ-1
+Received: by mail-ed1-f72.google.com with SMTP id l14-20020aa7cace000000b003f7f8e1cbbdso26142002edt.20
+        for <linux-doc@vger.kernel.org>; Tue, 04 Jan 2022 12:45:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=bul4qlld97QBjtDSOOsdxIpEMimKYTW5dlcNbaowlwI=;
-        b=xaAiR0xRcWaM/w4bsRP/jPJ32CH26GdcLMK+b2lb41uk1o6JgyDfsXJK1148JjMg2k
-         MuHsXI2CmEf2nFx2Xm3zrzImNjYvQhBglLzuiQT91y6l0w9ccmQ3iVjAQ577cxbriaA9
-         3gdwgoCPz8JBhofvqdtU4tQm7HAQiSAxyMkmUrTkb4YrMxEwXKnDK4YlWo/HBDLY2opJ
-         LZILm7L8gzav5SvKLXMWUe88Ff2QoAtDSiST/oYU3NNIyjTVAGGiOUv09uKseyoO77j2
-         bu9H3jCdshm5+EJKDHQo9NuixO3sB/icDHqWXGkg7ojX4IzHXGXZQVsiL7WmS4LXZeun
-         FMSA==
-X-Gm-Message-State: AOAM531QVJCeVpXBXIotkERuUmdUXfQHiRMcFMY9+Nltr6oBDbbiuPEd
-        VTw4sBZaRKwUQV2tHhK45muF1Q==
-X-Google-Smtp-Source: ABdhPJwvrfas8nfe+PA6BOX0tHt36uxsoseV9gaRTUzX91V4WBmk/Mv40lM9zPNj86T6Z6k0gl7T1Q==
-X-Received: by 2002:a05:6e02:1567:: with SMTP id k7mr23098838ilu.46.1641328205445;
-        Tue, 04 Jan 2022 12:30:05 -0800 (PST)
-Received: from google.com ([2620:15c:183:200:6c8c:5506:7ca2:9dfd])
-        by smtp.gmail.com with ESMTPSA id k13sm29592220iow.45.2022.01.04.12.30.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jan 2022 12:30:05 -0800 (PST)
-Date:   Tue, 4 Jan 2022 13:30:00 -0700
-From:   Yu Zhao <yuzhao@google.com>
-To:     Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Andi Kleen <ak@linux.intel.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        page-reclaim@google.com, x86@kernel.org
-Subject: Re: [PATCH v6 0/9] Multigenerational LRU Framework
-Message-ID: <YdSuSHa/Vjl6bPkg@google.com>
-References: <20220104202227.2903605-1-yuzhao@google.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=PYrqbdtdF3TH5qv2dr8q46HQl1ZSosdbS+NCJ8IVZW0=;
+        b=pGaV07c6p4vD1z+GqsvqwhbLKosaw7Q4tJr+QvgcIIf22vS0U8v5hy+jYcYpUHP4xi
+         RNAKG5uJ/6bb6YlKoj4hg8Ps66FBKBLVTRmNpxpG3wWbHwu9a+5WQE9QsNXyFY+CzDS8
+         QJhCbGTOvGFtoJcxsbJuuACUMCR7ummD+WYprgtSivF1Yx2eIN+ixShP/VRwGfTu9uyz
+         bszxDiQ7ww68hyIJp2E5+8XpmvWLngLozaXmOZ3ahgoftpUQ4tTJyHj4UCDmLWIATNkI
+         B7b4poaCXr6HSl0vMf2WWz7lAazdESXpzzzdBCS0Wm9ELc/7Yv8usLEIFfFdGBNGTHst
+         fncw==
+X-Gm-Message-State: AOAM530QF0D5usW7+EZIgquyK1qUrBF8pVqk0k85Cx0W6rHHSIe4/vhE
+        r+Ncj1fLySwoILno6UF8parMiRfCPdnovSYKuUURHt3i1fyonDcHHarzEpBFK5WRjyFnUUUdrvE
+        K5CTKnmuyJSWPiwvkwl5W
+X-Received: by 2002:a17:906:9746:: with SMTP id o6mr3103293ejy.112.1641329143959;
+        Tue, 04 Jan 2022 12:45:43 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwMBe92plviw0jlSVwnEa2kU3pf6epuXjoKR1YY7Y5SakD1MSKrYxN09nCveIinmPB1gzQR0w==
+X-Received: by 2002:a17:906:9746:: with SMTP id o6mr3103286ejy.112.1641329143795;
+        Tue, 04 Jan 2022 12:45:43 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:63a7:c72e:ea0e:6045? ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
+        by smtp.googlemail.com with ESMTPSA id f5sm15075159edu.38.2022.01.04.12.45.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Jan 2022 12:45:43 -0800 (PST)
+Message-ID: <c41a0458-1bfa-9dc6-71ce-f0433cd400e7@redhat.com>
+Date:   Tue, 4 Jan 2022 21:45:41 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220104202227.2903605-1-yuzhao@google.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v4 18/21] kvm: x86: Add support for getting/setting
+ expanded xstate buffer
+Content-Language: en-US
+To:     Sean Christopherson <seanjc@google.com>,
+        Yang Zhong <yang.zhong@intel.com>
+Cc:     x86@kernel.org, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, corbet@lwn.net, shuah@kernel.org,
+        jun.nakajima@intel.com, kevin.tian@intel.com,
+        jing2.liu@linux.intel.com, jing2.liu@intel.com,
+        guang.zeng@intel.com, wei.w.wang@intel.com
+References: <20211229131328.12283-1-yang.zhong@intel.com>
+ <20211229131328.12283-19-yang.zhong@intel.com> <YdSkDAruycpXhNUT@google.com>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <YdSkDAruycpXhNUT@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 04, 2022 at 01:22:19PM -0700, Yu Zhao wrote:
-> TLDR
-> ====
-> The current page reclaim is too expensive in terms of CPU usage and it
-> often makes poor choices about what to evict. This patchset offers an
-> alternative solution that is performant, versatile and
-> straightforward.
-
-<snipped>
-
-> Summery
-> =======
-> The facts are:
-> 1. The independent lab results and the real-world applications
->    indicate substantial improvements; there are no known regressions.
-> 2. Thrashing prevention, working set estimation and proactive reclaim
->    work out of the box; there are no equivalent solutions.
-> 3. There is a lot of new code; nobody has demonstrated smaller changes
->    with similar effects.
+On 1/4/22 20:46, Sean Christopherson wrote:
+> On Wed, Dec 29, 2021, Yang Zhong wrote:
+>> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+>> index bdf89c28d2ce..76e1941db223 100644
+>> --- a/arch/x86/kvm/x86.c
+>> +++ b/arch/x86/kvm/x86.c
+>> @@ -4296,6 +4296,11 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+>>   		else
+>>   			r = 0;
+>>   		break;
+>> +	case KVM_CAP_XSAVE2:
+>> +		r = kvm->vcpus[0]->arch.guest_fpu.uabi_size;
 > 
-> Our options, accordingly, are:
-> 1. Given the amount of evidence, the reported improvements will likely
->    materialize for a wide range of workloads.
-> 2. Gauging the interest from the past discussions [14][15][16], the
->    new features will likely be put to use for both personal computers
->    and data centers.
-> 3. Based on Google's track record, the new code will likely be well
->    maintained in the long term. It'd be more difficult if not
->    impossible to achieve similar effects on top of the existing
->    design.
+> a) This does not compile against kvm/queue.
+> 
+>     arch/x86/kvm/x86.c: In function ‘kvm_vm_ioctl_check_extension’:
+>     arch/x86/kvm/x86.c:4317:24: error: ‘struct kvm’ has no member named ‘vcpus’
+>      4317 |                 r = kvm->vcpus[0]->arch.guest_fpu.uabi_size;
+> 
+> b) vcpu0 is not guaranteed to be non-NULL at this point.
 
-Hi Andrew, Linus,
+Yang, you can post an incremental patch for this.  You can use the 
+highest bit of the guest-permitted xcr0 (i.e. the OR of KVM's supported 
+XCR0 an the guest-permitted dynamic features) and pass it to cpuid(0xD).
 
-Can you please take a look at this patchset and let me know if it's
-5.17 material?
+Paolo
 
-My goal is to get it merged asap so that users can reap the benefits
-and I can push the sequels. Please examine the data provided -- I
-think the unprecedented coverage and the magnitude of the improvements
-warrant a green light.
-
-Thanks!
