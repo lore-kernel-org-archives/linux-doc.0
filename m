@@ -2,38 +2,38 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C0A3C4167E
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Jan 2022 12:36:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B2EEC433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Jan 2022 12:37:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240371AbiAEMg4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Jan 2022 07:36:56 -0500
+        id S240118AbiAEMgL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Jan 2022 07:36:11 -0500
 Received: from mga04.intel.com ([192.55.52.120]:6468 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240128AbiAEMgL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 5 Jan 2022 07:36:11 -0500
+        id S240108AbiAEMgK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 5 Jan 2022 07:36:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1641386171; x=1672922171;
+  t=1641386170; x=1672922170;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=QuHvW0YqO/n2BCF1LqnS4+H+14xRfzaHWW/msAICXng=;
-  b=njUHHpYeGh/CAnkuL07G4Y68iBknhWBTiHU5pESbwK9/R00Mv6YSHRHp
-   JXgZIkGmaRA/uePVZpIa/BMNSx+jZ0u2DCjxI7JtlqkLrTvNg1OwzPliw
-   EhjYO65voI7BGqoAsJc25t71poV+MgjvaIer5ubFptXXbKjrrEEIW/Nm2
-   /AiHTyptXYmPnPx/ZfvwJU0K+F7lvC+KGwruwax2Lxxm2CFhczG10rTL7
-   IO5x0lQuqqWLR678kpuk05st+YbOdnYrJGg0S8fMXAGDY3l/ME+9S6Sn/
-   FOx5HnSr1/EZVEn83RPLbFBHuhedpcFzaJM/oxP0kttAouAe4tX7Zcl9t
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="241249388"
+  bh=aeUnQ0nldUif+roAFALWH71NB+TeMdH9FuBi8iRppFs=;
+  b=WzQ3muCk71trGxyKjn548RSEBUxxubl9b9ofv5MntkLYY9rGgtlBBsMN
+   vFi49qZbvs2yaURDfn7GtjRAsUgXxkFLPRssslBhCWs0TrDVPOorqvdsG
+   FP6ZR2SiTQ5aZQSS0q9jYlQ1dOcHx/Wuy7SkPkXhwpDCKv47JSVyduAgn
+   ai8q9qUbvaV8v2A8SJl74o9lyIpNFtyd7TgxXI22qFgYr+EFMFTE5EUDs
+   8hf/EI2QyCUOOPAaYid1ywq2orYDkUfdjTJfc+KXOe/OYqxUrWeCrdb17
+   d7c7lA9niJBBzG6NKSxL5+Fr4Mhwd3+++uE7ng8u6UzQkH7rMp6GYANHT
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="241249373"
 X-IronPort-AV: E=Sophos;i="5.88,263,1635231600"; 
-   d="scan'208";a="241249388"
+   d="scan'208";a="241249373"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2022 04:35:42 -0800
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2022 04:35:37 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.88,263,1635231600"; 
-   d="scan'208";a="591004884"
+   d="scan'208";a="591004843"
 Received: from 984fee00bf64.jf.intel.com ([10.165.54.77])
-  by fmsmga004.fm.intel.com with ESMTP; 05 Jan 2022 04:35:41 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 05 Jan 2022 04:35:36 -0800
 From:   Yang Zhong <yang.zhong@intel.com>
 To:     x86@kernel.org, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
@@ -43,9 +43,9 @@ To:     x86@kernel.org, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
 Cc:     jun.nakajima@intel.com, kevin.tian@intel.com,
         jing2.liu@linux.intel.com, jing2.liu@intel.com,
         guang.zeng@intel.com, wei.w.wang@intel.com, yang.zhong@intel.com
-Subject: [PATCH v5 17/21] x86/fpu: Add uabi_size to guest_fpu
-Date:   Wed,  5 Jan 2022 04:35:28 -0800
-Message-Id: <20220105123532.12586-18-yang.zhong@intel.com>
+Subject: [PATCH v5 08/21] kvm: x86: Enable dynamic xfeatures at KVM_SET_CPUID2
+Date:   Wed,  5 Jan 2022 04:35:19 -0800
+Message-Id: <20220105123532.12586-9-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220105123532.12586-1-yang.zhong@intel.com>
 References: <20220105123532.12586-1-yang.zhong@intel.com>
@@ -55,59 +55,106 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Thomas Gleixner <tglx@linutronix.de>
+From: Jing Liu <jing2.liu@intel.com>
 
-Userspace needs to inquire KVM about the buffer size to work
-with the new KVM_SET_XSAVE and KVM_GET_XSAVE2. Add the size info
-to guest_fpu for KVM to access.
+KVM can request fpstate expansion in two approaches:
 
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Signed-off-by: Wei Wang <wei.w.wang@intel.com>
+  1) When intercepting guest updates to XCR0 and XFD MSR;
+
+  2) Before vcpu runs (e.g. at KVM_SET_CPUID2);
+
+The first option doesn't waste memory for legacy guest if it doesn't
+support XFD. However doing so introduces more complexity and also
+imposes an order requirement in the restoring path, i.e. XCR0/XFD
+must be restored before XSTATE.
+
+Given that the agreement is to do the static approach. This is
+considered a better tradeoff though it does waste 8K memory for
+legacy guest if its CPUID includes dynamically-enabled xfeatures.
+
+Successful fpstate expansion requires userspace VMM to acquire
+guest xstate permissions before calling KVM_SET_CPUID2.
+
+Also take the chance to adjust the indent in kvm_set_cpuid().
+
 Signed-off-by: Jing Liu <jing2.liu@intel.com>
+Signed-off-by: Sean Christopherson <seanjc@google.com>
+Signed-off-by: Kevin Tian <kevin.tian@intel.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
 ---
- arch/x86/include/asm/fpu/types.h | 5 +++++
- arch/x86/kernel/fpu/core.c       | 1 +
- arch/x86/kernel/fpu/xstate.c     | 1 +
- 3 files changed, 7 insertions(+)
+ arch/x86/kvm/cpuid.c | 42 +++++++++++++++++++++++++++++-------------
+ 1 file changed, 29 insertions(+), 13 deletions(-)
 
-diff --git a/arch/x86/include/asm/fpu/types.h b/arch/x86/include/asm/fpu/types.h
-index 3795d0573773..eb7cd1139d97 100644
---- a/arch/x86/include/asm/fpu/types.h
-+++ b/arch/x86/include/asm/fpu/types.h
-@@ -522,6 +522,11 @@ struct fpu_guest {
- 	 */
- 	u64				xfd_err;
+diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
+index eb52dde5deec..a0fedf1514ab 100644
+--- a/arch/x86/kvm/cpuid.c
++++ b/arch/x86/kvm/cpuid.c
+@@ -84,9 +84,12 @@ static inline struct kvm_cpuid_entry2 *cpuid_entry2_find(
+ 	return NULL;
+ }
  
-+	/*
-+	 * @uabi_size:			Size required for save/restore
-+	 */
-+	unsigned int			uabi_size;
-+
+-static int kvm_check_cpuid(struct kvm_cpuid_entry2 *entries, int nent)
++static int kvm_check_cpuid(struct kvm_vcpu *vcpu,
++			   struct kvm_cpuid_entry2 *entries,
++			   int nent)
+ {
+ 	struct kvm_cpuid_entry2 *best;
++	u64 xfeatures;
+ 
  	/*
- 	 * @fpstate:			Pointer to the allocated guest fpstate
- 	 */
-diff --git a/arch/x86/kernel/fpu/core.c b/arch/x86/kernel/fpu/core.c
-index 8f7f9bfc2506..5e7de79c1fe1 100644
---- a/arch/x86/kernel/fpu/core.c
-+++ b/arch/x86/kernel/fpu/core.c
-@@ -240,6 +240,7 @@ bool fpu_alloc_guest_fpstate(struct fpu_guest *gfpu)
- 	gfpu->fpstate		= fpstate;
- 	gfpu->xfeatures		= fpu_user_cfg.default_features;
- 	gfpu->perm		= fpu_user_cfg.default_features;
-+	gfpu->uabi_size		= fpu_user_cfg.default_size;
- 	fpu_init_guest_permissions(gfpu);
- 
- 	return true;
-diff --git a/arch/x86/kernel/fpu/xstate.c b/arch/x86/kernel/fpu/xstate.c
-index 0c0b2323cdec..10fe072f1c92 100644
---- a/arch/x86/kernel/fpu/xstate.c
-+++ b/arch/x86/kernel/fpu/xstate.c
-@@ -1545,6 +1545,7 @@ static int fpstate_realloc(u64 xfeatures, unsigned int ksize,
- 		newfps->is_confidential = curfps->is_confidential;
- 		newfps->in_use = curfps->in_use;
- 		guest_fpu->xfeatures |= xfeatures;
-+		guest_fpu->uabi_size = usize;
+ 	 * The existing code assumes virtual address is 48-bit or 57-bit in the
+@@ -100,7 +103,20 @@ static int kvm_check_cpuid(struct kvm_cpuid_entry2 *entries, int nent)
+ 			return -EINVAL;
  	}
  
- 	fpregs_lock();
+-	return 0;
++	/*
++	 * Exposing dynamic xfeatures to the guest requires additional
++	 * enabling in the FPU, e.g. to expand the guest XSAVE state size.
++	 */
++	best = cpuid_entry2_find(entries, nent, 0xd, 0);
++	if (!best)
++		return 0;
++
++	xfeatures = best->eax | ((u64)best->edx << 32);
++	xfeatures &= XFEATURE_MASK_USER_DYNAMIC;
++	if (!xfeatures)
++		return 0;
++
++	return fpu_enable_guest_xfd_features(&vcpu->arch.guest_fpu, xfeatures);
+ }
+ 
+ static void kvm_update_kvm_cpuid_base(struct kvm_vcpu *vcpu)
+@@ -280,21 +296,21 @@ u64 kvm_vcpu_reserved_gpa_bits_raw(struct kvm_vcpu *vcpu)
+ static int kvm_set_cpuid(struct kvm_vcpu *vcpu, struct kvm_cpuid_entry2 *e2,
+                         int nent)
+ {
+-    int r;
++	int r;
+ 
+-    r = kvm_check_cpuid(e2, nent);
+-    if (r)
+-        return r;
++	r = kvm_check_cpuid(vcpu, e2, nent);
++	if (r)
++		return r;
+ 
+-    kvfree(vcpu->arch.cpuid_entries);
+-    vcpu->arch.cpuid_entries = e2;
+-    vcpu->arch.cpuid_nent = nent;
++	kvfree(vcpu->arch.cpuid_entries);
++	vcpu->arch.cpuid_entries = e2;
++	vcpu->arch.cpuid_nent = nent;
+ 
+-    kvm_update_kvm_cpuid_base(vcpu);
+-    kvm_update_cpuid_runtime(vcpu);
+-    kvm_vcpu_after_set_cpuid(vcpu);
++	kvm_update_kvm_cpuid_base(vcpu);
++	kvm_update_cpuid_runtime(vcpu);
++	kvm_vcpu_after_set_cpuid(vcpu);
+ 
+-    return 0;
++	return 0;
+ }
+ 
+ /* when an old userspace process fills a new kernel module */
