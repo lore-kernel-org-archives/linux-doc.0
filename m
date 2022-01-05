@@ -2,38 +2,38 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE45BC433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Jan 2022 12:36:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBB60C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Jan 2022 12:36:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240110AbiAEMgL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Jan 2022 07:36:11 -0500
-Received: from mga04.intel.com ([192.55.52.120]:6474 "EHLO mga04.intel.com"
+        id S240262AbiAEMgw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Jan 2022 07:36:52 -0500
+Received: from mga04.intel.com ([192.55.52.120]:6468 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230253AbiAEMgK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 5 Jan 2022 07:36:10 -0500
+        id S240132AbiAEMgM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 5 Jan 2022 07:36:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1641386170; x=1672922170;
+  t=1641386172; x=1672922172;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=jLUnxHVvvJWKoR8/tErtDvVgMXBOB2fuv98AdUAsrfo=;
-  b=Y172FMWISTjdmegn3l4rtm0M7dqB9uw8DjuiYaNknLs9VR2Nk4nAlXVt
-   Mv0DE+J7RBOB73FPZNtNqraRidgvSntJUlGSpB+NgpqSzrFZ3dI4mm++k
-   VBOOQgqTserg062arEp5u63McU/Fgw3Mj9l/8ZM2tbOOA4uTUBw97IHX9
-   Kfbkcln0rlJ0VZ8k5/Js0rlGP87Y/c5k4jvbNOob+D8MwG+bdbsxZ0Vin
-   99TVsJmpMUB+V625qzvJ/oKnQcYHdfVCLXuXna/ZCaXVzRa6D7mTVaR1S
-   LEtYGLMh7dUWI1k6+eHHWcflr2hlgHZsDy+VMgPX5UVexMFUnCBl/Olh+
+  bh=uwB8Do+UvWSqh1uXxIm79BiFywBVJAvYlaqDQK4oaUs=;
+  b=nmf7sKGD3g/BxZxpP3Zu/VkqIekJ0+VLK2044WeojgMKV1J4OFhcYR3a
+   QHyMruUbKPXiXvyVjNWvFc9lsX4W6bds06OW1iIz31VmprPQsXd07vmZp
+   ij0jZ1VUA+owV4Xk80Kiq1V0i4ymsMiUaGLd6fuXl+kuHzfyNkrKRbEwY
+   DRrfzoFhE2sCGF8rYHN3YWTW50Nf0NVNdnux1waZmN90zcBUZThZqy9Yc
+   rLHbrD3PgL56sjPr/NeVL81ENcdObTsh6tly9NrMLeU1cgz5O5XV8FCi2
+   VEmq4m+gp9CKVnUuJOp61mDRI1XDJkBuEprRsgM2xR0wmiueBWmu6mKge
    g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="241249368"
+X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="241249394"
 X-IronPort-AV: E=Sophos;i="5.88,263,1635231600"; 
-   d="scan'208";a="241249368"
+   d="scan'208";a="241249394"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2022 04:35:36 -0800
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2022 04:35:43 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.88,263,1635231600"; 
-   d="scan'208";a="591004833"
+   d="scan'208";a="591004900"
 Received: from 984fee00bf64.jf.intel.com ([10.165.54.77])
-  by fmsmga004.fm.intel.com with ESMTP; 05 Jan 2022 04:35:35 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 05 Jan 2022 04:35:43 -0800
 From:   Yang Zhong <yang.zhong@intel.com>
 To:     x86@kernel.org, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
@@ -43,9 +43,9 @@ To:     x86@kernel.org, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
 Cc:     jun.nakajima@intel.com, kevin.tian@intel.com,
         jing2.liu@linux.intel.com, jing2.liu@intel.com,
         guang.zeng@intel.com, wei.w.wang@intel.com, yang.zhong@intel.com
-Subject: [PATCH v5 06/21] x86/fpu: Add guest support to xfd_enable_feature()
-Date:   Wed,  5 Jan 2022 04:35:17 -0800
-Message-Id: <20220105123532.12586-7-yang.zhong@intel.com>
+Subject: [PATCH v5 20/21] x86/fpu: Provide fpu_sync_guest_vmexit_xfd_state()
+Date:   Wed,  5 Jan 2022 04:35:31 -0800
+Message-Id: <20220105123532.12586-21-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220105123532.12586-1-yang.zhong@intel.com>
 References: <20220105123532.12586-1-yang.zhong@intel.com>
@@ -57,219 +57,75 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Thomas Gleixner <tglx@linutronix.de>
 
-Guest support for dynamically enabled FPU features requires a few
-modifications to the enablement function which is currently invoked from
-the #NM handler:
+KVM can disable the write emulation for the XFD MSR when the vCPU's fpstate
+is already correctly sized to reduce the overhead.
 
-  1) Use guest permissions and sizes for the update
+When write emulation is disabled the XFD MSR state after a VMEXIT is
+unknown and therefore not in sync with the software states in fpstate and
+the per CPU XFD cache.
 
-  2) Update fpu_guest state accordingly
+Provide fpu_sync_guest_vmexit_xfd_state() which has to be invoked after a
+VMEXIT before enabling interrupts when write emulation is disabled for the
+XFD MSR.
 
-  3) Take into account that the enabling can be triggered either from a
-     running guest via XSETBV and MSR_IA32_XFD write emulation or from
-     a guest restore. In the latter case the guests fpstate is not the
-     current tasks active fpstate.
-
-Split the function and implement the guest mechanics throughout the
-callchain.
+It could be invoked unconditionally even when write emulation is enabled
+for the price of a pointless MSR read.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Signed-off-by: Jing Liu <jing2.liu@intel.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
 ---
- arch/x86/kernel/fpu/xstate.c | 93 +++++++++++++++++++++---------------
- arch/x86/kernel/fpu/xstate.h |  2 +
- 2 files changed, 56 insertions(+), 39 deletions(-)
+ arch/x86/include/asm/fpu/api.h |  2 ++
+ arch/x86/kernel/fpu/core.c     | 24 ++++++++++++++++++++++++
+ 2 files changed, 26 insertions(+)
 
-diff --git a/arch/x86/kernel/fpu/xstate.c b/arch/x86/kernel/fpu/xstate.c
-index 5f01d463859d..0c0b2323cdec 100644
---- a/arch/x86/kernel/fpu/xstate.c
-+++ b/arch/x86/kernel/fpu/xstate.c
-@@ -1499,29 +1499,6 @@ void fpstate_free(struct fpu *fpu)
- 		vfree(fpu->fpstate);
- }
+diff --git a/arch/x86/include/asm/fpu/api.h b/arch/x86/include/asm/fpu/api.h
+index e4d10155290b..a467eb80f9ed 100644
+--- a/arch/x86/include/asm/fpu/api.h
++++ b/arch/x86/include/asm/fpu/api.h
+@@ -142,8 +142,10 @@ extern int fpu_enable_guest_xfd_features(struct fpu_guest *guest_fpu, u64 xfeatu
  
--/**
-- * fpu_install_fpstate - Update the active fpstate in the FPU
-- *
-- * @fpu:	A struct fpu * pointer
-- * @newfps:	A struct fpstate * pointer
-- *
-- * Returns:	A null pointer if the last active fpstate is the embedded
-- *		one or the new fpstate is already installed;
-- *		otherwise, a pointer to the old fpstate which has to
-- *		be freed by the caller.
-- */
--static struct fpstate *fpu_install_fpstate(struct fpu *fpu,
--					   struct fpstate *newfps)
--{
--	struct fpstate *oldfps = fpu->fpstate;
--
--	if (fpu->fpstate == newfps)
--		return NULL;
--
--	fpu->fpstate = newfps;
--	return oldfps != &fpu->__fpstate ? oldfps : NULL;
--}
--
- /**
-  * fpstate_realloc - Reallocate struct fpstate for the requested new features
-  *
-@@ -1529,6 +1506,7 @@ static struct fpstate *fpu_install_fpstate(struct fpu *fpu,
-  *		of that task
-  * @ksize:	The required size for the kernel buffer
-  * @usize:	The required size for user space buffers
-+ * @guest_fpu:	Pointer to a guest FPU container. NULL for host allocations
-  *
-  * Note vs. vmalloc(): If the task with a vzalloc()-allocated buffer
-  * terminates quickly, vfree()-induced IPIs may be a concern, but tasks
-@@ -1537,13 +1515,13 @@ static struct fpstate *fpu_install_fpstate(struct fpu *fpu,
-  * Returns: 0 on success, -ENOMEM on allocation error.
-  */
- static int fpstate_realloc(u64 xfeatures, unsigned int ksize,
--			   unsigned int usize)
-+			   unsigned int usize, struct fpu_guest *guest_fpu)
- {
- 	struct fpu *fpu = &current->thread.fpu;
- 	struct fpstate *curfps, *newfps = NULL;
- 	unsigned int fpsize;
-+	bool in_use;
+ #ifdef CONFIG_X86_64
+ extern void fpu_update_guest_xfd(struct fpu_guest *guest_fpu, u64 xfd);
++extern void fpu_sync_guest_vmexit_xfd_state(void);
+ #else
+ static inline void fpu_update_guest_xfd(struct fpu_guest *guest_fpu, u64 xfd) { }
++static inline void fpu_sync_guest_vmexit_xfd_state(void) { }
+ #endif
  
--	curfps = fpu->fpstate;
- 	fpsize = ksize + ALIGN(offsetof(struct fpstate, regs), 64);
- 
- 	newfps = vzalloc(fpsize);
-@@ -1553,28 +1531,55 @@ static int fpstate_realloc(u64 xfeatures, unsigned int ksize,
- 	newfps->user_size = usize;
- 	newfps->is_valloc = true;
- 
-+	/*
-+	 * When a guest FPU is supplied, use @guest_fpu->fpstate
-+	 * as reference independent whether it is in use or not.
-+	 */
-+	curfps = guest_fpu ? guest_fpu->fpstate : fpu->fpstate;
-+
-+	/* Determine whether @curfps is the active fpstate */
-+	in_use = fpu->fpstate == curfps;
-+
-+	if (guest_fpu) {
-+		newfps->is_guest = true;
-+		newfps->is_confidential = curfps->is_confidential;
-+		newfps->in_use = curfps->in_use;
-+		guest_fpu->xfeatures |= xfeatures;
-+	}
-+
- 	fpregs_lock();
- 	/*
--	 * Ensure that the current state is in the registers before
--	 * swapping fpstate as that might invalidate it due to layout
--	 * changes.
-+	 * If @curfps is in use, ensure that the current state is in the
-+	 * registers before swapping fpstate as that might invalidate it
-+	 * due to layout changes.
- 	 */
--	if (test_thread_flag(TIF_NEED_FPU_LOAD))
-+	if (in_use && test_thread_flag(TIF_NEED_FPU_LOAD))
- 		fpregs_restore_userregs();
- 
- 	newfps->xfeatures = curfps->xfeatures | xfeatures;
- 	newfps->user_xfeatures = curfps->user_xfeatures | xfeatures;
- 	newfps->xfd = curfps->xfd & ~xfeatures;
- 
--	curfps = fpu_install_fpstate(fpu, newfps);
--
- 	/* Do the final updates within the locked region */
- 	xstate_init_xcomp_bv(&newfps->regs.xsave, newfps->xfeatures);
--	xfd_update_state(newfps);
- 
-+	if (guest_fpu) {
-+		guest_fpu->fpstate = newfps;
-+		/* If curfps is active, update the FPU fpstate pointer */
-+		if (in_use)
-+			fpu->fpstate = newfps;
-+	} else {
-+		fpu->fpstate = newfps;
-+	}
-+
-+	if (in_use)
-+		xfd_update_state(fpu->fpstate);
+ extern void fpu_copy_guest_fpstate_to_uabi(struct fpu_guest *gfpu, void *buf, unsigned int size, u32 pkru);
+diff --git a/arch/x86/kernel/fpu/core.c b/arch/x86/kernel/fpu/core.c
+index 5e7de79c1fe1..e5dfd8b9825a 100644
+--- a/arch/x86/kernel/fpu/core.c
++++ b/arch/x86/kernel/fpu/core.c
+@@ -289,6 +289,30 @@ void fpu_update_guest_xfd(struct fpu_guest *guest_fpu, u64 xfd)
  	fpregs_unlock();
- 
--	vfree(curfps);
-+	/* Only free valloc'ed state */
-+	if (curfps && curfps->is_valloc)
-+		vfree(curfps);
-+
- 	return 0;
  }
- 
-@@ -1682,14 +1687,16 @@ static int xstate_request_perm(unsigned long idx, bool guest)
- 	return ret;
- }
- 
--int xfd_enable_feature(u64 xfd_err)
-+int __xfd_enable_feature(u64 xfd_err, struct fpu_guest *guest_fpu)
- {
- 	u64 xfd_event = xfd_err & XFEATURE_MASK_USER_DYNAMIC;
-+	struct fpu_state_perm *perm;
- 	unsigned int ksize, usize;
- 	struct fpu *fpu;
- 
- 	if (!xfd_event) {
--		pr_err_once("XFD: Invalid xfd error: %016llx\n", xfd_err);
-+		if (!guest_fpu)
-+			pr_err_once("XFD: Invalid xfd error: %016llx\n", xfd_err);
- 		return 0;
- 	}
- 
-@@ -1697,14 +1704,16 @@ int xfd_enable_feature(u64 xfd_err)
- 	spin_lock_irq(&current->sighand->siglock);
- 
- 	/* If not permitted let it die */
--	if ((xstate_get_host_group_perm() & xfd_event) != xfd_event) {
-+	if ((xstate_get_group_perm(!!guest_fpu) & xfd_event) != xfd_event) {
- 		spin_unlock_irq(&current->sighand->siglock);
- 		return -EPERM;
- 	}
- 
- 	fpu = &current->group_leader->thread.fpu;
--	ksize = fpu->perm.__state_size;
--	usize = fpu->perm.__user_state_size;
-+	perm = guest_fpu ? &fpu->guest_perm : &fpu->perm;
-+	ksize = perm->__state_size;
-+	usize = perm->__user_state_size;
+ EXPORT_SYMBOL_GPL(fpu_update_guest_xfd);
 +
- 	/*
- 	 * The feature is permitted. State size is sufficient.  Dropping
- 	 * the lock is safe here even if more features are added from
-@@ -1717,10 +1726,16 @@ int xfd_enable_feature(u64 xfd_err)
- 	 * Try to allocate a new fpstate. If that fails there is no way
- 	 * out.
- 	 */
--	if (fpstate_realloc(xfd_event, ksize, usize))
-+	if (fpstate_realloc(xfd_event, ksize, usize, guest_fpu))
- 		return -EFAULT;
- 	return 0;
- }
-+
-+int xfd_enable_feature(u64 xfd_err)
++/**
++ * fpu_sync_guest_vmexit_xfd_state - Synchronize XFD MSR and software state
++ *
++ * Must be invoked from KVM after a VMEXIT before enabling interrupts when
++ * XFD write emulation is disabled. This is required because the guest can
++ * freely modify XFD and the state at VMEXIT is not guaranteed to be the
++ * same as the state on VMENTER. So software state has to be udpated before
++ * any operation which depends on it can take place.
++ *
++ * Note: It can be invoked unconditionally even when write emulation is
++ * enabled for the price of a then pointless MSR read.
++ */
++void fpu_sync_guest_vmexit_xfd_state(void)
 +{
-+	return __xfd_enable_feature(xfd_err, NULL);
++	struct fpstate *fps = current->thread.fpu.fpstate;
++
++	lockdep_assert_irqs_disabled();
++	if (fpu_state_size_dynamic()) {
++		rdmsrl(MSR_IA32_XFD, fps->xfd);
++		__this_cpu_write(xfd_state, fps->xfd);
++	}
 +}
-+
- #else /* CONFIG_X86_64 */
- static inline int xstate_request_perm(unsigned long idx, bool guest)
- {
-diff --git a/arch/x86/kernel/fpu/xstate.h b/arch/x86/kernel/fpu/xstate.h
-index 98a472775c97..3e63f723525b 100644
---- a/arch/x86/kernel/fpu/xstate.h
-+++ b/arch/x86/kernel/fpu/xstate.h
-@@ -55,6 +55,8 @@ extern void fpu__init_system_xstate(unsigned int legacy_size);
++EXPORT_SYMBOL_GPL(fpu_sync_guest_vmexit_xfd_state);
+ #endif /* CONFIG_X86_64 */
  
- extern void *get_xsave_addr(struct xregs_state *xsave, int xfeature_nr);
- 
-+extern int __xfd_enable_feature(u64 which, struct fpu_guest *guest_fpu);
-+
- static inline u64 xfeatures_mask_supervisor(void)
- {
- 	return fpu_kernel_cfg.max_features & XFEATURE_MASK_SUPERVISOR_SUPPORTED;
+ int fpu_swap_kvm_fpstate(struct fpu_guest *guest_fpu, bool enter_guest)
