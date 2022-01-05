@@ -2,90 +2,66 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E91A6C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Jan 2022 17:21:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A007AC4332F
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Jan 2022 20:12:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242183AbiAERVw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Jan 2022 12:21:52 -0500
-Received: from mengyan1223.wang ([89.208.246.23]:53730 "EHLO mengyan1223.wang"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230323AbiAERVw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 5 Jan 2022 12:21:52 -0500
-Received: from localhost.localdomain (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature ECDSA (P-384) server-digest SHA384)
-        (Client did not present a certificate)
-        (Authenticated sender: xry111@mengyan1223.wang)
-        by mengyan1223.wang (Postfix) with ESMTPSA id E325B65A9A;
-        Wed,  5 Jan 2022 12:21:47 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mengyan1223.wang;
-        s=mail; t=1641403311;
-        bh=lQqSduRsA0o4a6IM8NvLfUF17x9jJ4pL2pbwCbpBxGk=;
+        id S243898AbiAEUMe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Jan 2022 15:12:34 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:60114 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243875AbiAEUMd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jan 2022 15:12:33 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A9F256183C;
+        Wed,  5 Jan 2022 20:12:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFB3DC36AE0;
+        Wed,  5 Jan 2022 20:12:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1641413552;
+        bh=VKtAIConpbBFA6GqxUHN4Ht5xmPdKeItLVEssC8Va1I=;
         h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=CD8a5zlaG4oMTVKQcjfPEvVw3OAsjNPOenLOzpJp4z7vHcJxn5sgd6xK/Bo85swjr
-         NpvPed3l/CMmy6sdRN/f8SJ9Cs6fGOu1CaSkiJxnzkoQSWRORevjPfwDu776xw3Rti
-         T8YRP2GWWHJoHth74vppw0ZMD+p+CKfWp9qz0PLBc3vKzum3Xqxr6dgK1811DLSBSs
-         VYTneXQhGWcwQyQo7mvD54eOyzq0NwOJsO21UQKc3PFAzl3c+ZbuYR6RJh210V0zfI
-         yPfRrzzpfwdi4YDkGOwsNCmawJsbZ0vZW6czapW3ULBgJhXXJnjuVC+mt365heLm+y
-         +K8EgwolkMWKg==
-Message-ID: <211edcb700db30c4a6b37db87139e5fa47aeece0.camel@mengyan1223.wang>
-Subject: Re: [PATCH V5 00/22] arch: Add basic LoongArch support
-From:   Xi Ruoyao <xry111@mengyan1223.wang>
-To:     Huacai Chen <chenhuacai@gmail.com>
-Cc:     Huacai Chen <chenhuacai@loongson.cn>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>
-Date:   Thu, 06 Jan 2022 01:21:46 +0800
-In-Reply-To: <6d0169ca8c9e417308d3b9f96cd0ef446ee36fe7.camel@mengyan1223.wang>
-References: <20211013063656.3084555-1-chenhuacai@loongson.cn>
-         <722477bcc461238f96c3b038b2e3379ee49efdac.camel@mengyan1223.wang>
-         <CAAhV-H40oWqkD+tQ3=XA8ijQGukkeG5O1M1JL3v5i402dFLK+Q@mail.gmail.com>
-         <587ab54d77af2fb4cdbe0530cdd5e550c3e968db.camel@mengyan1223.wang>
-         <CAAhV-H6R=xWL18AH7HzeXHOVD_d-5m7RvdQCLkOR1NeDZ_0HMw@mail.gmail.com>
-         <6d0169ca8c9e417308d3b9f96cd0ef446ee36fe7.camel@mengyan1223.wang>
+        b=Isjb6nB8batMswToanbNXUml8r8wH4WSeugz+Hr84UYHiH7dlo9tjAhZwx+ClrmeK
+         ahBbeCGAqlVNrB7ke+ptPWuZ2OD2SnZdTbRrPTBiqbF9IUZikURO17wUyUjjDSlnZ3
+         qsu2kITz6cxMK0ovuobEdC/TmBfFTDtWjNuV+J1HP6tSHQB6dylKSECi66sTAMb/TD
+         p5muKmpGAobQUUHg38SbLzBCFIbJ0+tZ2CsFFJ865Z93mynpn7FKoDCMbbbO6ADvqI
+         aP5g06Nnjx9lusr4vte/UdNcSTx6kbXekd4EcWgdBW7sOMQVtt9Bo/L+QIPxumegzG
+         UWXrD0Zb+Aiog==
+Message-ID: <db88a381739e08806e2370e8fbe8fdde82731464.camel@kernel.org>
+Subject: Re: [PATCH v4] KEYS: encrypted: Instantiate key with user-provided
+ decrypted data
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     Yael Tiomkin <yaelt@google.com>, linux-integrity@vger.kernel.org
+Cc:     jejb@linux.ibm.com, zohar@linux.ibm.com, corbet@lwn.net,
+        dhowells@redhat.com, jmorris@namei.org, serge@hallyn.com,
+        keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org
+Date:   Wed, 05 Jan 2022 22:12:27 +0200
+In-Reply-To: <20211229215330.4134835-1-yaelt@google.com>
+References: <20211229215330.4134835-1-yaelt@google.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.42.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2022-01-05 at 19:51 +0800, Xi Ruoyao wrote:
-> On Wed, 2022-01-05 at 17:40 +0800, Huacai Chen wrote:
-> > Hi, Ruoyao,
-> > 
-> > The problem still exists in 5.16-rc8, can you try to change
-> > cpu_relax() definition to smp_mb()? It seems can fix the problem.
-> 
-> Is there any workload which can triggers the panic?  I can't trigger it
-> by building and testing GCC, or building the kernel anymore.
-> 
-> And is your "stable" issue the same one I'd encountered?  To me changing
-> barrier() to smp_mb() may fix some deadlock, but not a panic.  (I'm not
-> an expert on CPU architecture or kernel programming, so maybe I'm wrong
-> here.)
-> 
-> I'll put my 3A5000 machine into a loop building kernel and see if I can
-> trigger the panic again...
+On Wed, 2021-12-29 at 16:53 -0500, Yael Tiomkin wrote:
+> The encrypted.c class supports instantiation of encrypted keys with
+> either an already-encrypted key material, or by generating new key
+> material based on random numbers. This patch defines a new datablob
+> format: [<format>] <master-key name> <decrypted data length>
+> <decrypted data> that allows to instantiate encrypted keys using
+> user-provided decrypted data, and therefore allows to perform key
+> encryption from userspace. The decrypted key material will be
+> inaccessible from userspace.
 
-I can't reproduce the issue on 5.16-rc8.  But I can reproduce it on
-5.16-rc5 and the s/barrier/smp_mb/ change fixes the issue.
+The 2nd to last sentence is essentially a tautology but fails to
+be even that, as you can already "perform key encryption" from user
+space, just not with arbitrary key material.
 
-I'm still puzzled: if there some workload which can reproduce the issue
-more deterministic?
--- 
-Xi Ruoyao <xry111@mengyan1223.wang>
-School of Aerospace Science and Technology, Xidian University
+It does not elighten any applications of this feature.
+
+/Jarkko
