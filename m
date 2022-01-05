@@ -2,317 +2,153 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AFA2C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Jan 2022 21:42:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34A73C433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Jan 2022 22:22:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234361AbiAEVml (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Jan 2022 16:42:41 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:38442 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235076AbiAEVmi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jan 2022 16:42:38 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 138D261958;
-        Wed,  5 Jan 2022 21:42:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB9F8C36AEF;
-        Wed,  5 Jan 2022 21:42:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1641418955;
-        bh=Z62ZGw97M5RnmKYhjj7JfThBBVv+a2Z2kxNkIBQi58U=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=W0dwsUfuOWclBN5inU2x/cTojBZtAQk+RrkvLvXzPZu3vLDwZgyz/n2C6L0b4iD3B
-         RALBXd6YmhgkGhiIhGzBjeGLfMJbX7KqHhYzg9kSNwjKrHagEpDH6K9qu9+Ok6uJvi
-         eTWhqJ58X+yWCHwzQynjgnPseq6v/GmNIWaCuNmT0BFKL2aM4yxQcUMJLacd5LweMi
-         RhJS12tfrzEp6PjLROj4ChOTtB8Z058jPK+ED423ixyzOv/2REdBz4htd2O50GDeTz
-         +z2EtPbKZwceLFo93w6Kd6acWsg77H3FN6KMcHZM/DgXADo52RLoyLyMA+z7ZoaTHD
-         2SJsRXDuo++4Q==
-Date:   Wed, 5 Jan 2022 22:42:30 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     hch@lst.de, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, corbet@lwn.net
-Subject: Re: [PATCH 1/1] scripts: sphinx-pre-install: add required ctex
- dependency
-Message-ID: <20220105224230.0700351f@coco.lan>
-In-Reply-To: <241d31e4-5447-a075-69b6-11c14427582d@gmail.com>
-References: <87mtkcxws9.fsf@meer.lwn.net>
-        <eeb773ef-0354-be1f-8438-07e3324fa9f6@gmail.com>
-        <07f8cf68-525b-4fca-a1f9-fd40150fc6e1@gmail.com>
-        <20220104090548.76112534@coco.lan>
-        <73e62b16-7685-ace2-18d4-e1b79f543caf@gmail.com>
-        <20220105084809.157e3f34@coco.lan>
-        <241d31e4-5447-a075-69b6-11c14427582d@gmail.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+        id S244866AbiAEWW3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Jan 2022 17:22:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37546 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244858AbiAEWW1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jan 2022 17:22:27 -0500
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCA35C061201
+        for <linux-doc@vger.kernel.org>; Wed,  5 Jan 2022 14:22:27 -0800 (PST)
+Received: by mail-pl1-x62b.google.com with SMTP id l15so609096pls.7
+        for <linux-doc@vger.kernel.org>; Wed, 05 Jan 2022 14:22:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=sUkgqFDFiDtGVPAUgU6Xa5ITE/sInAze9iX46Pb2MMM=;
+        b=hsw8ppEFMFavAQBLMRV81zeXSO4N9aaulrhq4zBMNKCIvOHYGwhepxxDE5YbvBogUL
+         PqHhS6Xmpa0TYh63N01wJPn4zqRQpFNgm9oxqA4d5AlYKRYwrsUsP65RPp8OyR3x+ail
+         OmUsFdsXixIG/2HXpIkLMYZX38j5tamqjcxIBeIznNt8gusyjVJD/odIX1Gvpd7Co0v/
+         yvduhyMO2zYaEUvNaQBpHOOe+2sT1UUuduZli34eSLImebr84FFfnHJWIY7W9T/Do/7w
+         ExMUUg37iCz/843yWtOeNScDqfXqPolmYi9Ksa2As5Lnc2cgxMWKs9rm2kKACJiQ4p+h
+         dNqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=sUkgqFDFiDtGVPAUgU6Xa5ITE/sInAze9iX46Pb2MMM=;
+        b=UikrT5l62R0uN8pnxlo2iMU3Bmw+jxV/42kzO56R8yp/z5LPlKxdEletxlckT9cViH
+         0WdGyYSH3OKRxLYzCWnHf/s9J7ktV2KRNx/BrNlwFJFle12bJ/5J+SWVhzIqKR7B2sTR
+         lYD64zdHpUvJbDKDToaR7RjQNNWo+sY4bcAfu7lunr/fFpfTJiCK8VJNyI9QSZtWFZvX
+         G8ZXlILqpuadYLVUw1Cm/3Aqc0Fxg17Fvk1pAZDeRdmNq/owIURiUTA4wpc/jrtoNP1t
+         kWbuYM8vpXvaIUpQm8Bvisid8C6cLcc6uj82mQRS+Rp4qfGx1EbQjhlescrpsVTDni0P
+         xyIw==
+X-Gm-Message-State: AOAM532UeSOsy82BOUH0VlnV24aV1nmEeuvXamy0t86Zk5M4GVs6iVsO
+        U/Td117OkmAGcrLhvAU5omJc3Q==
+X-Google-Smtp-Source: ABdhPJzV0453KxEmLbbliY/F1QMex40PViYGaR8yL4+U0XEANUOTELIy6hs/rP6QmX4zFV3P9pUY2Q==
+X-Received: by 2002:a17:90b:180a:: with SMTP id lw10mr6597393pjb.57.1641421346908;
+        Wed, 05 Jan 2022 14:22:26 -0800 (PST)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id x40sm102352pfu.185.2022.01.05.14.22.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Jan 2022 14:22:26 -0800 (PST)
+Date:   Wed, 5 Jan 2022 22:22:23 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Yang Zhong <yang.zhong@intel.com>
+Cc:     x86@kernel.org, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, pbonzini@redhat.com, corbet@lwn.net,
+        shuah@kernel.org, jun.nakajima@intel.com, kevin.tian@intel.com,
+        jing2.liu@linux.intel.com, jing2.liu@intel.com,
+        guang.zeng@intel.com, wei.w.wang@intel.com
+Subject: Re: [PATCH v5 12/21] kvm: x86: Intercept #NM for saving IA32_XFD_ERR
+Message-ID: <YdYaH7buoApEVPOg@google.com>
+References: <20220105123532.12586-1-yang.zhong@intel.com>
+ <20220105123532.12586-13-yang.zhong@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220105123532.12586-13-yang.zhong@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 5 Jan 2022 21:09:59 +0900
-Akira Yokosawa <akiyks@gmail.com> escreveu:
+On Wed, Jan 05, 2022, Yang Zhong wrote:
+> @@ -6399,6 +6424,26 @@ static void handle_interrupt_nmi_irqoff(struct kvm_vcpu *vcpu,
+>  	kvm_after_interrupt(vcpu);
+>  }
+>  
+> +static void handle_nm_fault_irqoff(struct kvm_vcpu *vcpu)
+> +{
+> +	/*
+> +	 * Save xfd_err to guest_fpu before interrupt is enabled, so the
+> +	 * MSR value is not clobbered by the host activity before the guest
+> +	 * has chance to consume it.
+> +	 *
+> +	 * We should not blindly read xfd_err here, since this exception
 
-> On Wed, 5 Jan 2022 08:48:09 +0100, Mauro Carvalho Chehab wrote:
-> > Em Tue, 4 Jan 2022 19:26:10 +0900
-> > Akira Yokosawa <akiyks@gmail.com> escreveu:
-> > 
-> >> On Tue, 4 Jan 2022 09:05:48 +0100, Mauro Carvalho Chehab wrote:
-> >>> Em Tue, 4 Jan 2022 10:54:52 +0900
-> >>> Akira Yokosawa <akiyks@gmail.com> escreveu:
-> >>>   
-> >>>> Hi Mauro, see inline comments below.
-> >>>>
-> >>>> On Tue, 4 Jan 2022 09:04:30 +0900, Akira Yokosawa wrote:  
-> >>>>> Hi,
-> >>>>>
-> >>>>> On Mon, 03 Jan 2022 15:46:30 -0700, Jonathan Corbet <corbet@lwn.net> wrote:    
-> >>>>>> Mauro Carvalho Chehab <mchehab@kernel.org> writes:
-> >>>>>>    
-> >>>>>>> After a change meant to fix support for oriental characters
-> >>>>>>> (Chinese, Japanese, Korean), ctex stylesheet is now a requirement
-> >>>>>>> for PDF output.    
-> >>>>>
-> >>>>> FWIW, ctexhook.sty is a new requirement of xeCJK.sty v3.8.7 released
-> >>>>> in June 2021.
-> >>>>>
-> >>>>>         Thanks, Akira
-> >>>>>     
-> >>>>>>>
-> >>>>>>> Reported-by: Christoph Hellwig <hch@lst.de>
-> >>>>>>> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> >>>>>>> ---
-> >>>>>>>
-> >>>>>>> See [PATCH 0/1] at: https://lore.kernel.org/all/cover.1641243581.git.mchehab@kernel.org/
-> >>>>>>>
-> >>>>>>>  scripts/sphinx-pre-install | 1 +
-> >>>>>>>  1 file changed, 1 insertion(+)
-> >>>>>>>
-> >>>>>>> diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-> >>>>>>> index 288e86a9d1e5..46aaab414098 100755
-> >>>>>>> --- a/scripts/sphinx-pre-install
-> >>>>>>> +++ b/scripts/sphinx-pre-install
-> >>>>>>> @@ -78,6 +78,7 @@ my %texlive = (
-> >>>>>>>  	'ucs.sty'            => 'texlive-ucs',
-> >>>>>>>  	'upquote.sty'        => 'texlive-upquote',
-> >>>>>>>  	'wrapfig.sty'        => 'texlive-wrapfig',
-> >>>>>>> +	'ctexhook.sty'       => 'texlive-ctex',
-> >>>>>>>  );    
-> >>>>>>    
-> >>>>
-> >>>> I'm afraid this update of the list for Fedora/openSUSE won't help
-> >>>> Debian Stable (bullseye) users.
-> >>>>
-> >>>> ctexhook.sty is in texlive-lang-chinese on Debian/Ubuntu.  
-> >>>
-> >>> On such case, it is needed to map it for Debian/Ubuntu.
-> >>> Could you please test the enclosed patch, applied on the top
-> >>> of the previous one?  
-> >>
-> >> Looks like we need an additional hunk.  See below.
-> >>
-> >>         Thanks, Akira
-> >>
-> >>>
-> >>> Thanks!
-> >>> Mauro
-> >>>
-> >>> -
-> >>>
-> >>> [PATCH] scripts: sphinx-pre-install: Fix ctex support on Debian
-> >>>
-> >>> The name of the package with ctexhook.sty is different on
-> >>> Debian/Ubuntu.
-> >>>
-> >>> Reported-by: Akira Yokosawa <akiyks@gmail.com>
-> >>> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> >>>
-> >>> diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-> >>> index 46aaab414098..ea96d18ee946 100755
-> >>> --- a/scripts/sphinx-pre-install
-> >>> +++ b/scripts/sphinx-pre-install
-> >>> @@ -367,6 +367,7 @@ sub give_debian_hints()
-> >>>  		"Pod::Usage"		=> "perl-modules",
-> >>>  		"xelatex"		=> "texlive-xetex",
-> >>>  		"rsvg-convert"		=> "librsvg2-bin",
-> >>> +		"texlive-ctex"		=> "texlive-lang-chinese",
-> >>>  	);
-> >>>  
-> >>>  	if ($pdf) {
-> >>>   
-> >> @@ -380,6 +381,7 @@ sub give_debian_hints()
-> >>         }
-> >>  
-> >>         check_program("dvipng", 2) if ($pdf);
-> >> +       check_missing_tex(2) if ($pdf);
-> >>         check_missing(\%map);
-> >>  
-> >>         return if (!$need && !$optional);
-> >>
-> > 
-> > This would be more complex than that, and per-distro tests are
-> > required, in order to avoid the script to fail on other
-> > distros.
-> 
-> Thank you for looking into this!
-> I must admit I'm far from grasping how this perl script works...
-> 
-> > 
-> > Something like the following (possibly incomplete) patch.
-> 
-> I'll test it under various distros/setups.
-> It may take a while.
+Nit, avoid "we", and explain what KVM does (or doesn't) do, not what KVM "should"
+do, e.g. just say
 
-Did a quick test here with this lxc container:
+	 * Do not blindly read ...
 
-	$ OS=debian REL=bullseye ;lxc-create -n ${OS} -t /usr/share/lxc/templates/lxc-download -- --dist ${OS} --release ${REL} --arch amd64
+> +	 * might be caused by L1 interception on a platform which doesn't
+> +	 * support xfd at all.
+> +	 *
+> +	 * Do it conditionally upon guest_fpu::xfd. xfd_err matters
+> +	 * only when xfd contains a non-zero value.
+> +	 *
+> +	 * Queuing exception is done in vmx_handle_exit. See comment there.
 
-If we add check_missing_tex(), it will then complain about lots
-of packages that don't exist in Debian (se logs at the end).
+Another nit, it's worth explaining why XFD_ERR needs to be read here regardless
+of is_guest_mode().  E.g.
 
-That's one of the biggest issue with texlive: each distro splits it on
-different ways. So, basically, the %texlive hash at the script is meant
-to the way Fedora and openSuse distros usually map packages. I would
-expect that Mageia would also be similar if not identical, but other
-distros map packages on different ways.
+	 * Injecting the #NM back into the guest is handled in the standard path
+	 * as an #NM in L2 may be reflected into L1 as a VM-Exit.  Read XFD_ERR
+	 * even if the #NM is from L2, as L1 may have exposed XFD to L2.
 
-I'll prepare another patch for fixing the debian issue.
+Side topic, in a follow up series/patch, it's probably worth adding support in
+nested_vmx_prepare_msr_bitmap() to allow passthrough of the MSRs to L2.
 
-Regards,
-Mauro
+> +	 */
+> +	if (vcpu->arch.guest_fpu.fpstate->xfd)
+> +		rdmsrl(MSR_IA32_XFD_ERR, vcpu->arch.guest_fpu.xfd_err);
+> +}
+> +
+>  static void handle_exception_nmi_irqoff(struct vcpu_vmx *vmx)
+>  {
+>  	const unsigned long nmi_entry = (unsigned long)asm_exc_nmi_noist;
+> @@ -6407,6 +6452,9 @@ static void handle_exception_nmi_irqoff(struct vcpu_vmx *vmx)
+>  	/* if exit due to PF check for async PF */
+>  	if (is_page_fault(intr_info))
+>  		vmx->vcpu.arch.apf.host_apf_flags = kvm_read_and_reset_apf_flags();
+> +	/* if exit due to NM, handle before interrupts are enabled */
 
----
+Nit, drop this comment, it's slightly misleading since the #NM isn't fully handled
+here.  The comment in handle_nm_fault_irqoff() is more than sufficient.
 
-mchehab@debian:~/docs$ make pdfdocs
-Documentation/Makefile:41: The 'sphinx-build' command was not found. Make sure you have Sphinx installed and in PATH, or set the SPHINXBUILD make variable to point to the full path of the 'sphinx-build' executable.
-
-Detected OS: Debian GNU/Linux 11.
-Warning: better to also install "convert".
-Warning: better to also install "dot".
-Warning: better to also install "dvipng".
-Warning: better to also install "fonts-dejavu".
-Warning: better to also install "fonts-noto-cjk".
-ERROR: please install "gcc", otherwise, build won't work.
-Warning: better to also install "latexmk".
-ERROR: please install "python", otherwise, build won't work.
-Warning: better to also install "rsvg-convert".
-Warning: better to also install "texlive-amscls".
-Warning: better to also install "texlive-amsfonts".
-Warning: better to also install "texlive-amsmath".
-Warning: better to also install "texlive-anyfontsize".
-Warning: better to also install "texlive-capt-of".
-Warning: better to also install "texlive-cmap".
-Warning: better to also install "texlive-ctex".
-Warning: better to also install "texlive-ec".
-Warning: better to also install "texlive-eqparbox".
-Warning: better to also install "texlive-euenc".
-Warning: better to also install "texlive-fancybox".
-Warning: better to also install "texlive-fancyvrb".
-Warning: better to also install "texlive-float".
-Warning: better to also install "texlive-fncychap".
-Warning: better to also install "texlive-framed".
-Warning: better to also install "texlive-luatex85".
-Warning: better to also install "texlive-mdwtools".
-Warning: better to also install "texlive-multirow".
-Warning: better to also install "texlive-needspace".
-Warning: better to also install "texlive-oberdiek".
-Warning: better to also install "texlive-parskip".
-Warning: better to also install "texlive-polyglossia".
-Warning: better to also install "texlive-psnfss".
-Warning: better to also install "texlive-tabulary".
-Warning: better to also install "texlive-threeparttable".
-Warning: better to also install "texlive-titlesec".
-Warning: better to also install "texlive-tools".
-Warning: better to also install "texlive-ucs".
-Warning: better to also install "texlive-upquote".
-Warning: better to also install "texlive-wrapfig".
-Warning: better to also install "xelatex".
-You should run:
-
-	sudo apt-get install imagemagick graphviz dvipng fonts-dejavu fonts-noto-cjk gcc latexmk python librsvg2-bin texlive-amscls texlive-amsfonts texlive-amsmath texlive-anyfontsize texlive-capt-of texlive-cmap texlive-lang-chinese texlive-ec texlive-eqparbox texlive-euenc texlive-fancybox texlive-fancyvrb texlive-float texlive-fncychap texlive-framed texlive-luatex85 texlive-mdwtools texlive-multirow texlive-needspace texlive-oberdiek texlive-parskip texlive-polyglossia texlive-psnfss texlive-tabulary texlive-threeparttable texlive-titlesec texlive-tools texlive-ucs texlive-upquote texlive-wrapfig texlive-xetex
-Can't build as 2 mandatory dependencies are missing at ./scripts/sphinx-pre-install line 943.
-Documentation/Makefile:41: The 'sphinx-build' command was not found. Make sure you have Sphinx installed and in PATH, or set the SPHINXBUILD make variable to point to the full path of the 'sphinx-build' executable.
-
-Detected OS: Debian GNU/Linux 11.
-Warning: better to also install "convert".
-Warning: better to also install "dot".
-Warning: better to also install "dvipng".
-Warning: better to also install "fonts-dejavu".
-Warning: better to also install "fonts-noto-cjk".
-ERROR: please install "gcc", otherwise, build won't work.
-Warning: better to also install "latexmk".
-ERROR: please install "python", otherwise, build won't work.
-Warning: better to also install "rsvg-convert".
-Warning: better to also install "texlive-amscls".
-Warning: better to also install "texlive-amsfonts".
-Warning: better to also install "texlive-amsmath".
-Warning: better to also install "texlive-anyfontsize".
-Warning: better to also install "texlive-capt-of".
-Warning: better to also install "texlive-cmap".
-Warning: better to also install "texlive-ctex".
-Warning: better to also install "texlive-ec".
-Warning: better to also install "texlive-eqparbox".
-Warning: better to also install "texlive-euenc".
-Warning: better to also install "texlive-fancybox".
-Warning: better to also install "texlive-fancyvrb".
-Warning: better to also install "texlive-float".
-Warning: better to also install "texlive-fncychap".
-Warning: better to also install "texlive-framed".
-Warning: better to also install "texlive-luatex85".
-Warning: better to also install "texlive-mdwtools".
-Warning: better to also install "texlive-multirow".
-Warning: better to also install "texlive-needspace".
-Warning: better to also install "texlive-oberdiek".
-Warning: better to also install "texlive-parskip".
-Warning: better to also install "texlive-polyglossia".
-Warning: better to also install "texlive-psnfss".
-Warning: better to also install "texlive-tabulary".
-Warning: better to also install "texlive-threeparttable".
-Warning: better to also install "texlive-titlesec".
-Warning: better to also install "texlive-tools".
-Warning: better to also install "texlive-ucs".
-Warning: better to also install "texlive-upquote".
-Warning: better to also install "texlive-wrapfig".
-Warning: better to also install "xelatex".
-You should run:
-
-	sudo apt-get install imagemagick graphviz dvipng fonts-dejavu fonts-noto-cjk gcc latexmk python librsvg2-bin texlive-amscls texlive-amsfonts texlive-amsmath texlive-anyfontsize texlive-capt-of texlive-cmap texlive-lang-chinese texlive-ec texlive-eqparbox texlive-euenc texlive-fancybox texlive-fancyvrb texlive-float texlive-fncychap texlive-framed texlive-luatex85 texlive-mdwtools texlive-multirow texlive-needspace texlive-oberdiek texlive-parskip texlive-polyglossia texlive-psnfss texlive-tabulary texlive-threeparttable texlive-titlesec texlive-tools texlive-ucs texlive-upquote texlive-wrapfig texlive-xetex
-Can't build as 2 mandatory dependencies are missing at ./scripts/sphinx-pre-install line 943.
-make[1]: *** [Documentation/Makefile:43: pdfdocs] Error 2
-make: *** [Makefile:1772: pdfdocs] Error 2
-mchehab@debian:~/docs$ sudo apt-get install imagemagick graphviz dvipng fonts-dejavu fonts-noto-cjk gcc latexmk python librsvg2-bin texlive-amscls texlive-amsfonts texlive-amsmath texlive-anyfontsize texlive-capt-of texlive-cmap texlive-lang-chinese texlive-ec texlive-eqparbox texlive-euenc texlive-fancybox texlive-fancyvrb texlive-float texlive-fncychap texlive-framed texlive-luatex85 texlive-mdwtools texlive-multirow texlive-needspace texlive-oberdiek texlive-parskip texlive-polyglossia texlive-psnfss texlive-tabulary texlive-threeparttable texlive-titlesec texlive-tools texlive-ucs texlive-upquote texlive-wrapfig texlive-xetex
-Reading package lists... Done
-Building dependency tree... Done
-Reading state information... Done
-Note, selecting 'python-is-python2' instead of 'python'
-E: Unable to locate package texlive-amscls
-E: Unable to locate package texlive-amsfonts
-E: Unable to locate package texlive-amsmath
-E: Unable to locate package texlive-anyfontsize
-E: Unable to locate package texlive-capt-of
-E: Unable to locate package texlive-cmap
-E: Unable to locate package texlive-ec
-E: Unable to locate package texlive-eqparbox
-E: Unable to locate package texlive-euenc
-E: Unable to locate package texlive-fancybox
-E: Unable to locate package texlive-fancyvrb
-E: Unable to locate package texlive-float
-E: Unable to locate package texlive-fncychap
-E: Unable to locate package texlive-framed
-E: Unable to locate package texlive-luatex85
-E: Unable to locate package texlive-mdwtools
-E: Unable to locate package texlive-multirow
-E: Unable to locate package texlive-needspace
-E: Unable to locate package texlive-oberdiek
-E: Unable to locate package texlive-parskip
-E: Unable to locate package texlive-polyglossia
-E: Unable to locate package texlive-psnfss
-E: Unable to locate package texlive-tabulary
-E: Unable to locate package texlive-threeparttable
-E: Unable to locate package texlive-titlesec
-E: Unable to locate package texlive-tools
-E: Unable to locate package texlive-ucs
-E: Unable to locate package texlive-upquote
-E: Unable to locate package texlive-wrapfig
+> +	else if (is_nm_fault(intr_info))
+> +		handle_nm_fault_irqoff(&vmx->vcpu);
+>  	/* Handle machine checks before interrupts are enabled */
+>  	else if (is_machine_check(intr_info))
+>  		kvm_machine_check();
+> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> index 21ce65220e38..2c988f8ca616 100644
+> --- a/arch/x86/kvm/x86.c
+> +++ b/arch/x86/kvm/x86.c
+> @@ -9953,6 +9953,9 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
+>  	if (test_thread_flag(TIF_NEED_FPU_LOAD))
+>  		switch_fpu_return();
+>  
+> +	if (vcpu->arch.guest_fpu.xfd_err)
+> +		wrmsrl(MSR_IA32_XFD_ERR, vcpu->arch.guest_fpu.xfd_err);
+> +
+>  	if (unlikely(vcpu->arch.switch_db_regs)) {
+>  		set_debugreg(0, 7);
+>  		set_debugreg(vcpu->arch.eff_db[0], 0);
+> @@ -10016,6 +10019,9 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
+>  
+>  	static_call(kvm_x86_handle_exit_irqoff)(vcpu);
+>  
+> +	if (vcpu->arch.guest_fpu.xfd_err)
+> +		wrmsrl(MSR_IA32_XFD_ERR, 0);
+> +
+>  	/*
+>  	 * Consume any pending interrupts, including the possible source of
+>  	 * VM-Exit on SVM and any ticks that occur between VM-Exit and now.
