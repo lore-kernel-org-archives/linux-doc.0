@@ -2,147 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA11AC433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Jan 2022 15:16:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E91A6C433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Jan 2022 17:21:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241341AbiAEPQw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Jan 2022 10:16:52 -0500
-Received: from aposti.net ([89.234.176.197]:42302 "EHLO aposti.net"
+        id S242183AbiAERVw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Jan 2022 12:21:52 -0500
+Received: from mengyan1223.wang ([89.208.246.23]:53730 "EHLO mengyan1223.wang"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241296AbiAEPQd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 5 Jan 2022 10:16:33 -0500
-From:   Paul Cercueil <paul@crapouillou.net>
-To:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, list@opendingux.net,
-        Paul Cercueil <paul@crapouillou.net>,
-        Cosmin Tanislav <cosmin.tanislav@analog.com>
-Subject: [PATCH v2 2/2] hwmon: Add "label" attribute
-Date:   Wed,  5 Jan 2022 15:15:51 +0000
-Message-Id: <20220105151551.20285-3-paul@crapouillou.net>
-In-Reply-To: <20220105151551.20285-1-paul@crapouillou.net>
-References: <20220105151551.20285-1-paul@crapouillou.net>
+        id S230323AbiAERVw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 5 Jan 2022 12:21:52 -0500
+Received: from localhost.localdomain (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature ECDSA (P-384) server-digest SHA384)
+        (Client did not present a certificate)
+        (Authenticated sender: xry111@mengyan1223.wang)
+        by mengyan1223.wang (Postfix) with ESMTPSA id E325B65A9A;
+        Wed,  5 Jan 2022 12:21:47 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mengyan1223.wang;
+        s=mail; t=1641403311;
+        bh=lQqSduRsA0o4a6IM8NvLfUF17x9jJ4pL2pbwCbpBxGk=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=CD8a5zlaG4oMTVKQcjfPEvVw3OAsjNPOenLOzpJp4z7vHcJxn5sgd6xK/Bo85swjr
+         NpvPed3l/CMmy6sdRN/f8SJ9Cs6fGOu1CaSkiJxnzkoQSWRORevjPfwDu776xw3Rti
+         T8YRP2GWWHJoHth74vppw0ZMD+p+CKfWp9qz0PLBc3vKzum3Xqxr6dgK1811DLSBSs
+         VYTneXQhGWcwQyQo7mvD54eOyzq0NwOJsO21UQKc3PFAzl3c+ZbuYR6RJh210V0zfI
+         yPfRrzzpfwdi4YDkGOwsNCmawJsbZ0vZW6czapW3ULBgJhXXJnjuVC+mt365heLm+y
+         +K8EgwolkMWKg==
+Message-ID: <211edcb700db30c4a6b37db87139e5fa47aeece0.camel@mengyan1223.wang>
+Subject: Re: [PATCH V5 00/22] arch: Add basic LoongArch support
+From:   Xi Ruoyao <xry111@mengyan1223.wang>
+To:     Huacai Chen <chenhuacai@gmail.com>
+Cc:     Huacai Chen <chenhuacai@loongson.cn>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Xuefeng Li <lixuefeng@loongson.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>
+Date:   Thu, 06 Jan 2022 01:21:46 +0800
+In-Reply-To: <6d0169ca8c9e417308d3b9f96cd0ef446ee36fe7.camel@mengyan1223.wang>
+References: <20211013063656.3084555-1-chenhuacai@loongson.cn>
+         <722477bcc461238f96c3b038b2e3379ee49efdac.camel@mengyan1223.wang>
+         <CAAhV-H40oWqkD+tQ3=XA8ijQGukkeG5O1M1JL3v5i402dFLK+Q@mail.gmail.com>
+         <587ab54d77af2fb4cdbe0530cdd5e550c3e968db.camel@mengyan1223.wang>
+         <CAAhV-H6R=xWL18AH7HzeXHOVD_d-5m7RvdQCLkOR1NeDZ_0HMw@mail.gmail.com>
+         <6d0169ca8c9e417308d3b9f96cd0ef446ee36fe7.camel@mengyan1223.wang>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.2 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-If a label is defined in the device tree for this device add that
-to the device specific attributes. This is useful for userspace to
-be able to identify an individual device when multiple identical
-chips are present in the system.
+On Wed, 2022-01-05 at 19:51 +0800, Xi Ruoyao wrote:
+> On Wed, 2022-01-05 at 17:40 +0800, Huacai Chen wrote:
+> > Hi, Ruoyao,
+> > 
+> > The problem still exists in 5.16-rc8, can you try to change
+> > cpu_relax() definition to smp_mb()? It seems can fix the problem.
+> 
+> Is there any workload which can triggers the panic?  I can't trigger it
+> by building and testing GCC, or building the kernel anymore.
+> 
+> And is your "stable" issue the same one I'd encountered?  To me changing
+> barrier() to smp_mb() may fix some deadlock, but not a panic.  (I'm not
+> an expert on CPU architecture or kernel programming, so maybe I'm wrong
+> here.)
+> 
+> I'll put my 3A5000 machine into a loop building kernel and see if I can
+> trigger the panic again...
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-Tested-by: Cosmin Tanislav <cosmin.tanislav@analog.com>
----
+I can't reproduce the issue on 5.16-rc8.  But I can reproduce it on
+5.16-rc5 and the s/barrier/smp_mb/ change fixes the issue.
 
-Notes:
-    v2: - Cache label into hwmon_device
-        - Rename hwmon_dev_name_is_visible() to hwmon_dev_attr_is_visible()
-	- Add missing <linux/property.h> include
-
- drivers/hwmon/hwmon.c | 34 +++++++++++++++++++++++++++++++---
- 1 file changed, 31 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/hwmon/hwmon.c b/drivers/hwmon/hwmon.c
-index 3501a3ead4ba..22e1b47c09fc 100644
---- a/drivers/hwmon/hwmon.c
-+++ b/drivers/hwmon/hwmon.c
-@@ -18,6 +18,7 @@
- #include <linux/list.h>
- #include <linux/module.h>
- #include <linux/pci.h>
-+#include <linux/property.h>
- #include <linux/slab.h>
- #include <linux/string.h>
- #include <linux/thermal.h>
-@@ -30,6 +31,7 @@
- 
- struct hwmon_device {
- 	const char *name;
-+	const char *label;
- 	struct device dev;
- 	const struct hwmon_chip_info *chip;
- 	struct list_head tzdata;
-@@ -71,17 +73,29 @@ name_show(struct device *dev, struct device_attribute *attr, char *buf)
- }
- static DEVICE_ATTR_RO(name);
- 
-+static ssize_t
-+label_show(struct device *dev, struct device_attribute *attr, char *buf)
-+{
-+	return sysfs_emit(buf, "%s\n", to_hwmon_device(dev)->label);
-+}
-+static DEVICE_ATTR_RO(label);
-+
- static struct attribute *hwmon_dev_attrs[] = {
- 	&dev_attr_name.attr,
-+	&dev_attr_label.attr,
- 	NULL
- };
- 
--static umode_t hwmon_dev_name_is_visible(struct kobject *kobj,
-+static umode_t hwmon_dev_attr_is_visible(struct kobject *kobj,
- 					 struct attribute *attr, int n)
- {
- 	struct device *dev = kobj_to_dev(kobj);
-+	struct hwmon_device *hdev = to_hwmon_device(dev);
- 
--	if (to_hwmon_device(dev)->name == NULL)
-+	if (attr == &dev_attr_name.attr && hdev->name == NULL)
-+		return 0;
-+
-+	if (attr == &dev_attr_label.attr && hdev->label == NULL)
- 		return 0;
- 
- 	return attr->mode;
-@@ -89,7 +103,7 @@ static umode_t hwmon_dev_name_is_visible(struct kobject *kobj,
- 
- static const struct attribute_group hwmon_dev_attr_group = {
- 	.attrs		= hwmon_dev_attrs,
--	.is_visible	= hwmon_dev_name_is_visible,
-+	.is_visible	= hwmon_dev_attr_is_visible,
- };
- 
- static const struct attribute_group *hwmon_dev_attr_groups[] = {
-@@ -117,6 +131,7 @@ static void hwmon_dev_release(struct device *dev)
- 	if (hwdev->group.attrs)
- 		hwmon_free_attrs(hwdev->group.attrs);
- 	kfree(hwdev->groups);
-+	kfree(hwdev->label);
- 	kfree(hwdev);
- }
- 
-@@ -733,6 +748,7 @@ __hwmon_device_register(struct device *dev, const char *name, void *drvdata,
- 			const struct attribute_group **groups)
- {
- 	struct hwmon_device *hwdev;
-+	const char *label;
- 	struct device *hdev;
- 	int i, err, id;
- 
-@@ -752,6 +768,18 @@ __hwmon_device_register(struct device *dev, const char *name, void *drvdata,
- 		goto ida_remove;
- 	}
- 
-+	if (device_property_present(dev, "label")) {
-+		err = device_property_read_string(dev, "label", &label);
-+		if (err < 0)
-+			goto free_hwmon;
-+
-+		hwdev->label = kstrdup(label, GFP_KERNEL);
-+		if (hwdev->label == NULL) {
-+			err = -ENOMEM;
-+			goto free_hwmon;
-+		}
-+	}
-+
- 	hdev = &hwdev->dev;
- 
- 	if (chip) {
+I'm still puzzled: if there some workload which can reproduce the issue
+more deterministic?
 -- 
-2.34.1
-
+Xi Ruoyao <xry111@mengyan1223.wang>
+School of Aerospace Science and Technology, Xidian University
