@@ -2,323 +2,243 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32E62C433EF
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Jan 2022 23:30:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4391C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Jan 2022 00:10:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236137AbiADXaY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Jan 2022 18:30:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38030 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234152AbiADXaX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jan 2022 18:30:23 -0500
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 874EDC061761;
-        Tue,  4 Jan 2022 15:30:23 -0800 (PST)
-Received: by mail-wm1-x32d.google.com with SMTP id m20so103338wmi.0;
-        Tue, 04 Jan 2022 15:30:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:from:subject
-         :content-language:to:cc:content-transfer-encoding;
-        bh=h7G/5X2QIlVNIJuOayORE2ZhbFCF8S0DRHDEddBlr7k=;
-        b=GJeRdNK3LXMnTATNKBM7FpBK9jT/4IN4vfVBBkoZYlNAtFpu+j925n84jhcmfIh4Ea
-         tIsVaUMf/EhosszVv2nhGHw52FT//Eo5RUiPaTWHOH809ca3qfr+qFWPO6uRE4m7xtvl
-         Y/788zTpJOVBirQTS2ObqbileG+0sFyTLvM9NmUrXbCmWgEB+LY5Dt+p7ufCez/8w+sz
-         4FsGRtUS2CoxyB6t+NAtuco6xr2yOPWtj8e3SanDWMChyU6qjuV0mGDip82EJCYqoqGI
-         /18j498w9bmSOPGnC8AGuuSo4gqMOfC/Q1/dAy3Kqk1O1FedOBDq7TyX94mUTvSdDl4N
-         8hew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:from
-         :subject:content-language:to:cc:content-transfer-encoding;
-        bh=h7G/5X2QIlVNIJuOayORE2ZhbFCF8S0DRHDEddBlr7k=;
-        b=Wfdm9iwwQwIfn/E9Wk5lqjIVPLIP9RQ5ydWM3MTCXvTm5OUUqW4Npr54r7Co8mKjvK
-         dplRjPLEjF1LQQb9sveyeKA0/wjs7BEU9Mg0Nmomahk9aVTTXxTSLBNS+sIrYUc4mpYY
-         uE5Ix4BJYiQsjCjZMHSTu48kYK+YEONirQbVa6iK7T79cYtPei+OqnweEBewm+3WtBqa
-         qdpWg7sGjCnjWI12HkCf+UgmlMpgliu30X4xuuuiSmMBNFe8Wzj7gi0rMBlml4LgbMW3
-         rVp3oFFPy3z6Hwx30PDHcm4paCO5IWFja05g0Ku9Z40M7aH3pyq0b+7yLUHRMxdnWpSP
-         TvJg==
-X-Gm-Message-State: AOAM533d/buCDcoPj4KDypAdfs2dRKVIzfuTXqm++zoLa2Cc1Kn22qQW
-        /OSXLeH26v3E965XnZS+vAS1psVzwLEmxhgT
-X-Google-Smtp-Source: ABdhPJyTsy4Ea3yqT7d+FehJupz6Q8fg3+ve13UcRv+nkFzjDScTvToS19F27QzM9dbEadJ0gw60zg==
-X-Received: by 2002:a1c:7903:: with SMTP id l3mr501132wme.103.1641339022118;
-        Tue, 04 Jan 2022 15:30:22 -0800 (PST)
-Received: from 168.52.45.77 (201.ip-51-68-45.eu. [51.68.45.201])
-        by smtp.gmail.com with ESMTPSA id z5sm38286171wru.87.2022.01.04.15.30.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Jan 2022 15:30:21 -0800 (PST)
-Message-ID: <401b1d94-1348-15fd-b48f-a80e8885c7a4@gmail.com>
-Date:   Wed, 5 Jan 2022 00:30:20 +0100
-MIME-Version: 1.0
-User-Agent: nano 6.4
-From:   Ismael Ferreras Morezuelas <swyterzone@gmail.com>
-Subject: [PATCH v2] xpad: Spelling fixes for "Xbox", improve and proofread the
- listed xpad device names
+        id S233511AbiAEAKq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Jan 2022 19:10:46 -0500
+Received: from mga02.intel.com ([134.134.136.20]:28795 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231153AbiAEAKp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 4 Jan 2022 19:10:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1641341445; x=1672877445;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=DwsWjk4ZQCVQMpcffQUBdFmNt6ZNKm6PQ6uBvVLZIbw=;
+  b=JJh//a8tLJnSXfw+B4dLyLluRG7VcJJL/7vwVw8ROexuYl1sTUpMTYXO
+   T7cpd/jbXhKTOGsrOKK7aAmVqaPKnxGRc7jrwyfl5ksJdHePIJ0v279Wx
+   6P4K0gFZBxpffzRgQQUSW2MQtUuYeaIzQthcsj7WmrN0PWiOmxQhZVgEx
+   mdfZawI1rxsdIo5xwOJE6U/K/xONv3FLMDIdCdBgOQGlO0OxKc68tAaLU
+   DhI4AofD/eAy6M+RFic2UvE42vd44028CC5eTA1Yo1mb9Mjkum2jW6PYK
+   KghxwPr/ImlAekf2QQNLBVxOn6Rr9i9GKe3Xa1fVNJwlz38f6FlBrrIZk
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="229649496"
+X-IronPort-AV: E=Sophos;i="5.88,262,1635231600"; 
+   d="scan'208";a="229649496"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2022 16:10:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,262,1635231600"; 
+   d="scan'208";a="688772634"
+Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
+  by orsmga005.jf.intel.com with ESMTP; 04 Jan 2022 16:10:44 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Tue, 4 Jan 2022 16:10:44 -0800
+Received: from fmsmsx607.amr.corp.intel.com (10.18.126.87) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Tue, 4 Jan 2022 16:10:43 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx607.amr.corp.intel.com (10.18.126.87) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20 via Frontend Transport; Tue, 4 Jan 2022 16:10:43 -0800
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.108)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.20; Tue, 4 Jan 2022 16:10:43 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bQLiaWbG2uXt4gXT0e8EosDN3eJAF4uIWpz2pdr04WWjkdYlXXMMon3oMHRwgc3z49trJFH08XKvKjWpXs7RNg1IFDe5lK1meH5sn2heO8SyzPgTK4M41LirXbbk68dXvtFaU9EnmQT6fQ8U47QqVXcCBRiiJgeQp++w5Zuna0kXks3csREG9S/QSKQyA4EFko1TfqZ3KRNUtbv9gUvKM2ghk7KuLYwShgBIY7dTSjU018+74GVuebJ1+WbVvUOYpT0YItHieh1ex9wU3447JNgzhM3EVrjRXLDXXNToT1a3N2ks41jg6fO7u1VSpUos5ocuRwGu4q4lD1o+ZWxWRw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=l5iaMNfrOF4K149XFY18mnsZEwIVyk+sUSvwSe9wyXA=;
+ b=f/xHsdXoSvs9oJWM57bQAiyWfRNGS1EOMFPl1TClExlG+8GWhz/9O/xBqGnRdocBRQn54yLn427WFzpK3IC9eZlhJFM1Fkz/8HqlLa9e/BcrZ8wTYyTseguFXI5Qtxu9SJYtlKUb6cJVpwMutxy/7OrypP2RGMkxCq01GVGvrUO2EeN7l9i0JRKTRaxxMiSgN8MTtFUJtk/zqEDV36JwrTCMpmq6OxBSvbAFCr3d5e7KFOLCQKPxiewjgM57TynEoqMU25sVWyXjetgK8lp6nfHs985YqK5G3fboDKmO3yCfjDtbnlP4ZKO97Wc2vHQnbIwzbGz3zRoOv9mxgQYu8Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
+ by BN6PR11MB1316.namprd11.prod.outlook.com (2603:10b6:404:3c::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4844.14; Wed, 5 Jan
+ 2022 00:10:38 +0000
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::5c8a:9266:d416:3e04]) by BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::5c8a:9266:d416:3e04%2]) with mapi id 15.20.4844.016; Wed, 5 Jan 2022
+ 00:10:38 +0000
+From:   "Tian, Kevin" <kevin.tian@intel.com>
+To:     "Christopherson,, Sean" <seanjc@google.com>,
+        Paolo Bonzini <pbonzini@redhat.com>
+CC:     "Zhong, Yang" <yang.zhong@intel.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "Nakajima, Jun" <jun.nakajima@intel.com>,
+        "jing2.liu@linux.intel.com" <jing2.liu@linux.intel.com>,
+        "Liu, Jing2" <jing2.liu@intel.com>,
+        "Zeng, Guang" <guang.zeng@intel.com>,
+        "Wang, Wei W" <wei.w.wang@intel.com>
+Subject: RE: [PATCH v4 00/21] AMX Support in KVM
+Thread-Topic: [PATCH v4 00/21] AMX Support in KVM
+Thread-Index: AQHX/LXk0wxp7FYH3EiGHHPzVpo8CaxTOqQAgAAE9ACAAFcC8A==
+Date:   Wed, 5 Jan 2022 00:10:38 +0000
+Message-ID: <BN9PR11MB5276900E6C273485C59B65608C4B9@BN9PR11MB5276.namprd11.prod.outlook.com>
+References: <20211229131328.12283-1-yang.zhong@intel.com>
+ <d43887b6-630c-446e-caee-dcbaa72f2466@redhat.com>
+ <YdSX6NANtx0SXjfK@google.com>
+In-Reply-To: <YdSX6NANtx0SXjfK@google.com>
+Accept-Language: en-US
 Content-Language: en-US
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-input@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Cameron Gutman <aicommander@gmail.com>, swyterzone@gmail.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: e3d3cc71-a956-4e5e-be84-08d9cfdfcd92
+x-ms-traffictypediagnostic: BN6PR11MB1316:EE_
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-microsoft-antispam-prvs: <BN6PR11MB13163D832F6212E9D6551F208C4B9@BN6PR11MB1316.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: k9ZHGy0Bsryq9soVhWp49CRpo3aWCBONUzcuwmh1guBAnqxSO9dgOh60xMYxDt5J9nEAHcdVngoyjfQHlnvAmRYWnU5+t4uAK3ij/tT0ZvxrG+BdnxZRmauiM3scSFxaOzMLiYFrW+w4s+nG3AqlQBCCybujn3uBlpwgP4ZmOKWnrF7aeEQhRONbPnODFkAFzTTzz/Z2FU2nUmyQbKV78H9Tj89EPPrtdUBKR5S0SLUBSPCMVzFE+/H8BPKmIRNdFvMPdplx7XM8lNAO21+GfqlcdBl/s5AI2oKzUxbKQPnCqNYo5pcMWbYDJn1jFXlwMGyrms8hEt69X8qf+IzaefxidDaZYWwuVGc8Zl9NNHCMeNimRgT8gJiW1RHH2Mms7SseM2oNFNbMCvkeZYYTEl35Ut2L894Q9sU3rBK2T7lO67+M8XTqPB1HENqMfuG+KOXQXczipvQd2ot96KNBFnZwxYCOo1O3rUOy10R17mmZ3hp3kYrVh5y/Cwj7zRm6+MDdHcPYZaDNHi87sVHODaKpk43oTg6f2wQKxUnoPejpaVTBqIyWMhA5RFCA94TESrrK5ne6sfo5FTHxDiw+M+c7i6E+1Uy/axcq2tUmS0K41MWgZIDq/i5ta2lHhuwl3TYVL/d0w1e1tA0nGVmJOH77a8A3VsAu2NEdO1NyC01wZiJsAONB4mpHvEWXljPURPwrP5J7s4gnZB6C38kdXw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5276.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(8676002)(8936002)(38100700002)(26005)(508600001)(55016003)(86362001)(186003)(2906002)(71200400001)(7696005)(7416002)(54906003)(6506007)(4326008)(66446008)(38070700005)(316002)(53546011)(33656002)(83380400001)(9686003)(66556008)(66476007)(64756008)(5660300002)(82960400001)(110136005)(52536014)(76116006)(122000001)(66946007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?xzPB7hBj59bNSfIP2RuG9LAhteQ5fAGvVJqr3RtjAXhykZCR61mRJiM05f1M?=
+ =?us-ascii?Q?vA+UCU/Y+4xDsnbE5KxmoS/Lf29/NfaslOXhV8FlIxOWfQq15uEO2r87Q6pk?=
+ =?us-ascii?Q?XyZN/hJ/20GDjHRiJjSscTd3Rv2WIKpMJ8pbJCNhU8fd+dSXtyRee9MfVXAE?=
+ =?us-ascii?Q?bHaBvi5S01HZgDb9yTTvB/sHiQM5djerp1bt1/2/NlOgUDBhjkv2Jfns28qD?=
+ =?us-ascii?Q?cllPz0kBYx909+Pc/msMkIUAoe3f+Y+1tMwvXaRw1RAQNnoCV4hCA4aYeT+Y?=
+ =?us-ascii?Q?SfwG0JJ0GfYxKjnJxByT4j/rKYdcLggikZQmce0+tYuWksZ7oedGu8yAcbFq?=
+ =?us-ascii?Q?6VlFKi47qLLgohB6WK5cDF+9U9QeEy//WKs6TT60Obwvsz0zB5ZiijmVmUWM?=
+ =?us-ascii?Q?yHxmf3TgGALWynDwdv1V1CgHwwXbtCJ5HrwKNVbHQuHSm/Pxs3ayd9+4vgCs?=
+ =?us-ascii?Q?6x7OBovf5UtqFUj+u6XcsbuiZlUZp12AXQe8HJR6QUYMR4MuWhiQYUYdkGJR?=
+ =?us-ascii?Q?WCpFMPQDa3B4AlcFhIQqTxsedA9oOQK63ufqgI7wjSiI3T/dEw/oVVReXpgr?=
+ =?us-ascii?Q?qKZwKTjQHOQBLdf9qWUgoP5dnXU8A3zNV2vjKpxn7Q2JaP+va/ZF8voyKWak?=
+ =?us-ascii?Q?01GnRElmxZ/DC2W+3W+GvfXN0hHucKwVqED3ctArCy5hVhmxTA1/2ZRTwV0C?=
+ =?us-ascii?Q?Z7Cfsdk+Ud6SfHj7hzCpbWCLwpalYudTmL2TgRtgNQDKDj8dBlbviJkchIKz?=
+ =?us-ascii?Q?3eun900uOkvuwU6PyrcZq6WOiBpbJePjNcEgOAD74jn0CWL0nfzLcNbgR+3b?=
+ =?us-ascii?Q?Do2Dl6wlKfHh75Dw6RXn1ewJfBkVl1LuKu13KzG/bEsBmIO+xjPi4Akhs1xT?=
+ =?us-ascii?Q?8/tD56sYdx8+LgaKicTlm0I7h39oCIo200R7K9h2prHTq7NImJ5OgWGQelHv?=
+ =?us-ascii?Q?6Ge9frZk6YIIWHkSnjC9MvEu9sv/vfkmX1gDRQikbvAO3CB750G9IEuaWx6l?=
+ =?us-ascii?Q?3ddCpZelxCJUE0/7eTBl3mANdDVLGU+ybmRjpVIMv6PnJocVMoAE1gf3pg2e?=
+ =?us-ascii?Q?R7vgNfQqSxsDHNm9nxa84J9xUxobjpdjqjJlF09OnNLrRIRAPODPYRH4gdmq?=
+ =?us-ascii?Q?HC0/tdzwr8Aa3hMHSdaFM+VtAUWf7pQixtRPOxNgXvdyeWjiig2801BTaptN?=
+ =?us-ascii?Q?2M29xMAyVIDvft5UU9aNk6KXrxQpkgtBLvpOCchaW9XvlP3PaEDjT9+rZI6Y?=
+ =?us-ascii?Q?8ctP+8qKA/Vei92Qsn7SP7J/sEwzIfT6/ftxlkyQ1Q0P8+8IgkXlX/6AW0or?=
+ =?us-ascii?Q?2cnDxwQH8HoaFJANVekxlZFcAB5XY8bGEcZrH5QQM8MJPG5b/9Ok73wcNa3e?=
+ =?us-ascii?Q?hzOOBzHnGIJJzLlt2WVjYHFn0L9bV+3Z0LlRL90QjabsyaNBTa921TV7IlH/?=
+ =?us-ascii?Q?19EPbbUaq85a2mCXJ2LI87btXvY9ik0yiO9SZhNRvaHFID9l2Bqp3v8bfMv4?=
+ =?us-ascii?Q?kkigoDKyBUT2iDoIxFHUg4AOqHP0brvHY3YYuGRQlylrin1XE60+Uo35+4lS?=
+ =?us-ascii?Q?9KXiHux7npuI4w/dv+MAUW1g0J4kQ4qW5J1zSDSLf/K/ena2DuN4j42grWul?=
+ =?us-ascii?Q?YsAY6UHpr5/+XG+g8Bh5IDA=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e3d3cc71-a956-4e5e-be84-08d9cfdfcd92
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Jan 2022 00:10:38.1586
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: HBJjmfXJAQaHI2xfE+JJylf5qQR0tU3I19VUgI0uXveRpDbF766TsvoQ00UUkTxXCF44YheZbl2t2cLQa4/Oiw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR11MB1316
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The Linux kernel is notorious for misspelling X-Box, X-box, XBox or XBOX;
-the official spelling is actually just Xbox. Plain and simple.
+> From: Sean Christopherson <seanjc@google.com>
+> Sent: Wednesday, January 5, 2022 2:55 AM
+>=20
+> On Tue, Jan 04, 2022, Paolo Bonzini wrote:
+> > On 12/29/21 14:13, Yang Zhong wrote:
+> > > Highly appreciate for your review. This version mostly addressed the
+> comments
+> > > from Sean. Most comments are adopted except three which are not
+> closed and
+> > > need more discussions:
+> > >
+> > >    - Move the entire xfd write emulation code to x86.c. Doing so requ=
+ires
+> > >      introducing a new kvm_x86_ops callback to disable msr write bitm=
+ap.
+> > >      According to Paolo's earlier comment he prefers to handle it in =
+vmx.c.
+> >
+> > Yes, I do.
+>=20
+> No objection, my comments were prior to seeing the patches that
+> manipulated the
+> bitmap, e.g. in the earlier patches, having anything in vmx.c is unnecess=
+ary.
+>=20
+> > >    - Directly check msr_bitmap in update_exception_bitmap() (for
+> > >      trapping #NM) and vcpu_enter_guest() (for syncing guest xfd afte=
+r
+> > >      vm-exit) instead of introducing an extra flag in the last patch.=
+ However,
+> > >      doing so requires another new kvm_x86_ops callback for checking
+> > >      msr_bitmap since vcpu_enter_guest() is x86 common code. Having a=
+n
+> > >      extra flag sounds simpler here (at least for the initial AMX sup=
+port).
+> > >      It does penalize nested guest with one xfd sync per exit, but it=
+'s not
+> > >      worse than a normal guest which initializes xfd but doesn't run
+> > >      AMX applications at all. Those could be improved afterwards.
+> >
+> > The thing to do here would be to move
+> > MAX_POSSIBLE_PASSTHROUGH_MSRS/MAX_DIRECT_ACCESS_MSRS from
+> VMX/SVM to core
+> > code.  For now we can keep the flag.
 
-Tried to respect the existing notes but still following the style guide.
-No functional changes intended. This only affects ancillary parts.
+sounds good.
 
-Sounds trivial, but this makes it easier to search the correct
-entries in xmenu by name. It has always been a pet peeve of mine.
+> >
+> > >    - Disable #NM trap for nested guest. This version still chooses to=
+ always
+> > >      trap #NM (regardless in L1 or L2) as long as xfd write intercept=
+ion is
+> disabled.
+> > >      In reality #NM is rare if nested guest doesn't intend to run AMX
+> applications
+> > >      and always-trap is safer than dynamic trap for the basic support=
+ in
+> case
+> > >      of any oversight here.
+> >
+> > Sean was justifying this with lack of support for nested AMX, but I'm n=
+ot
+> > sure actually what is missing at all.  That is, an L1 hypervisor could
+> > expose AMX to L2, and then an L2->L0->L2 exit/reentry would have to tra=
+p
+> > #NM.  Otherwise it would miss an XFD_ERR update.
+>=20
+> Ya, I was assuming there was something L0 needed to do to supported
+> nested AMX,
+> but as Paolo pointed out there are no VMCS bits, so L0 just needs to corr=
+ectly
+> handle #NM and MSR interceptions according to vmcs12.
 
-Signed-off-by: Ismael Ferreras Morezuelas <swyterzone@gmail.com>
----
+btw Sean still made a good point on exception queuing part. Current=20
+version blindly queues a #NM even when L1 wants to intercept #NM
+itself. We had that fixed internally and will send out a new version
+very soon.
 
-This is sort of a re-send from July 30, 2020: https://patchwork.kernel.org/project/linux-input/patch/e864b39b-27e0-c6f2-76e8-db465916f310@gmail.com/
-
-Changes in v2:
-* I have gotten rid of/split off the actual gamepad name cleanup
-  for easier merging and now this only covers comments and other
-  miscellaneous tags in the build system.
-
-  Cameron Gutman wasn't sure if changing the existing pad names
-  would affect userland applications. So now it's simpler.
-
-  Maybe I'll resubmit the rest in the future, if I have more time.
-
- Documentation/input/devices/xpad.rst | 10 ++---
- Documentation/input/gamepad.rst      |  2 +-
- drivers/input/joystick/Kconfig       | 14 +++---
- drivers/input/joystick/xpad.c        | 64 ++++++++++++++--------------
- 4 files changed, 45 insertions(+), 45 deletions(-)
-
-diff --git a/Documentation/input/devices/xpad.rst b/Documentation/input/devices/xpad.rst
-index 173c2acda..a480bc781 100644
---- a/Documentation/input/devices/xpad.rst
-+++ b/Documentation/input/devices/xpad.rst
-@@ -4,16 +4,16 @@ xpad - Linux USB driver for Xbox compatible controllers
- 
- This driver exposes all first-party and third-party Xbox compatible
- controllers. It has a long history and has enjoyed considerable usage
--as Window's xinput library caused most PC games to focus on Xbox
-+as Windows' xinput library caused most PC games to focus on Xbox
- controller compatibility.
- 
- Due to backwards compatibility all buttons are reported as digital.
--This only effects Original Xbox controllers. All later controller models
-+This only affects Original Xbox controllers. All later controller models
- have only digital face buttons.
- 
- Rumble is supported on some models of Xbox 360 controllers but not of
- Original Xbox controllers nor on Xbox One controllers. As of writing
--the Xbox One's rumble protocol has not been reverse engineered but in
-+the Xbox One's rumble protocol has not been reverse-engineered but in
- the future could be supported.
- 
- 
-@@ -82,7 +82,7 @@ I've tested this with Stepmania, and it works quite well.
- Unknown Controllers
- -------------------
- 
--If you have an unknown xbox controller, it should work just fine with
-+If you have an unknown Xbox controller, it should work just fine with
- the default settings.
- 
- HOWEVER if you have an unknown dance pad not listed below, it will not
-@@ -123,7 +123,7 @@ can be found on the net ([1]_, [2]_, [3]_).
- 
- Thanks to the trip splitter found on the cable you don't even need to cut the
- original one. You can buy an extension cable and cut that instead. That way,
--you can still use the controller with your X-Box, if you have one ;)
-+you can still use the controller with your Xbox, if you have one ;)
- 
- 
- 
-diff --git a/Documentation/input/gamepad.rst b/Documentation/input/gamepad.rst
-index 4d5e7fb80..968e07056 100644
---- a/Documentation/input/gamepad.rst
-+++ b/Documentation/input/gamepad.rst
-@@ -184,7 +184,7 @@ Gamepads report the following events:
- 
-   Many pads also have a third button which is branded or has a special symbol
-   and meaning. Such buttons are mapped as BTN_MODE. Examples are the Nintendo
--  "HOME" button, the XBox "X"-button or Sony "PS" button.
-+  "HOME" button, the Xbox "X" button or the Sony PlayStation "PS" button.
- 
- - Rumble:
- 
-diff --git a/drivers/input/joystick/Kconfig b/drivers/input/joystick/Kconfig
-index 3b23078bc..99947b4ce 100644
---- a/drivers/input/joystick/Kconfig
-+++ b/drivers/input/joystick/Kconfig
-@@ -291,33 +291,33 @@ config JOYSTICK_JOYDUMP
- 	  module will be called joydump.
- 
- config JOYSTICK_XPAD
--	tristate "X-Box gamepad support"
-+	tristate "Xbox gamepad support"
- 	depends on USB_ARCH_HAS_HCD
- 	select USB
- 	help
--	  Say Y here if you want to use the X-Box pad with your computer.
-+	  Say Y here if you want to use Xbox pads with your computer.
- 	  Make sure to say Y to "Joystick support" (CONFIG_INPUT_JOYDEV)
- 	  and/or "Event interface support" (CONFIG_INPUT_EVDEV) as well.
- 
--	  For information about how to connect the X-Box pad to USB, see
-+	  For information about how to connect the Xbox pad to USB, see
- 	  <file:Documentation/input/devices/xpad.rst>.
- 
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called xpad.
- 
- config JOYSTICK_XPAD_FF
--	bool "X-Box gamepad rumble support"
-+	bool "Xbox gamepad rumble support"
- 	depends on JOYSTICK_XPAD && INPUT
- 	select INPUT_FF_MEMLESS
- 	help
--	  Say Y here if you want to take advantage of xbox 360 rumble features.
-+	  Say Y here if you want to take advantage of Xbox 360 rumble features.
- 
- config JOYSTICK_XPAD_LEDS
--	bool "LED Support for Xbox360 controller 'BigX' LED"
-+	bool "LED Support for the Xbox 360 controller Guide button"
- 	depends on JOYSTICK_XPAD && (LEDS_CLASS=y || LEDS_CLASS=JOYSTICK_XPAD)
- 	help
- 	  This option enables support for the LED which surrounds the Big X on
--	  XBox 360 controller.
-+	  Xbox 360 controllers.
- 
- config JOYSTICK_WALKERA0701
- 	tristate "Walkera WK-0701 RC transmitter"
-diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index 4c914f75a..813b3863e 100644
---- a/drivers/input/joystick/xpad.c
-+++ b/drivers/input/joystick/xpad.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-or-later
- /*
-- * X-Box gamepad driver
-+ * Xbox gamepad driver
-  *
-  * Copyright (c) 2002 Marko Friedemann <mfr@bmx-chemnitz.de>
-  *               2004 Oliver Schwartz <Oliver.Schwartz@gmx.de>,
-@@ -23,8 +23,8 @@
-  *  - ITO Takayuki for providing essential xpad information on his website
-  *  - Vojtech Pavlik     - iforce driver / input subsystem
-  *  - Greg Kroah-Hartman - usb-skeleton driver
-- *  - XBOX Linux project - extra USB id's
-- *  - Pekka Pöyry (quantus) - Xbox One controller reverse engineering
-+ *  - Xbox Linux project - extra USB IDs
-+ *  - Pekka Pöyry (quantus) - Xbox One controller reverse-engineering
-  *
-  * TODO:
-  *  - fine tune axes (especially trigger axes)
-@@ -52,7 +52,7 @@
-  * 2002-07-17 - 0.0.5 : simplified d-pad handling
-  *
-  * 2004-10-02 - 0.0.6 : DDR pad support
-- *  - borrowed from the XBOX linux kernel
-+ *  - borrowed from the Xbox Linux kernel
-  *  - USB id's for commonly used dance pads are present
-  *  - dance pads will map D-PAD to buttons, not axes
-  *  - pass the module paramater 'dpad_to_buttons' to force
-@@ -417,41 +417,41 @@ static const signed short xpad_abs_triggers[] = {
- 	{ XPAD_XBOXONE_VENDOR_PROTOCOL((vend), 208) }
- 
- static const struct usb_device_id xpad_table[] = {
--	{ USB_INTERFACE_INFO('X', 'B', 0) },	/* X-Box USB-IF not approved class */
--	XPAD_XBOX360_VENDOR(0x0079),		/* GPD Win 2 Controller */
--	XPAD_XBOX360_VENDOR(0x044f),		/* Thrustmaster X-Box 360 controllers */
--	XPAD_XBOX360_VENDOR(0x045e),		/* Microsoft X-Box 360 controllers */
--	XPAD_XBOXONE_VENDOR(0x045e),		/* Microsoft X-Box One controllers */
--	XPAD_XBOX360_VENDOR(0x046d),		/* Logitech X-Box 360 style controllers */
-+	{ USB_INTERFACE_INFO('X', 'B', 0) },	/* Xbox USB-IF not-approved class */
-+	XPAD_XBOX360_VENDOR(0x0079),		/* GPD Win 2 controller */
-+	XPAD_XBOX360_VENDOR(0x044f),		/* Thrustmaster Xbox 360 controllers */
-+	XPAD_XBOX360_VENDOR(0x045e),		/* Microsoft Xbox 360 controllers */
-+	XPAD_XBOXONE_VENDOR(0x045e),		/* Microsoft Xbox One controllers */
-+	XPAD_XBOX360_VENDOR(0x046d),		/* Logitech Xbox 360-style controllers */
- 	XPAD_XBOX360_VENDOR(0x056e),		/* Elecom JC-U3613M */
- 	XPAD_XBOX360_VENDOR(0x06a3),		/* Saitek P3600 */
--	XPAD_XBOX360_VENDOR(0x0738),		/* Mad Catz X-Box 360 controllers */
-+	XPAD_XBOX360_VENDOR(0x0738),		/* Mad Catz Xbox 360 controllers */
- 	{ USB_DEVICE(0x0738, 0x4540) },		/* Mad Catz Beat Pad */
- 	XPAD_XBOXONE_VENDOR(0x0738),		/* Mad Catz FightStick TE 2 */
--	XPAD_XBOX360_VENDOR(0x07ff),		/* Mad Catz GamePad */
--	XPAD_XBOX360_VENDOR(0x0e6f),		/* 0x0e6f X-Box 360 controllers */
--	XPAD_XBOXONE_VENDOR(0x0e6f),		/* 0x0e6f X-Box One controllers */
--	XPAD_XBOX360_VENDOR(0x0f0d),		/* Hori Controllers */
--	XPAD_XBOXONE_VENDOR(0x0f0d),		/* Hori Controllers */
--	XPAD_XBOX360_VENDOR(0x1038),		/* SteelSeries Controllers */
-+	XPAD_XBOX360_VENDOR(0x07ff),		/* Mad Catz Gamepad */
-+	XPAD_XBOX360_VENDOR(0x0e6f),		/* 0x0e6f Xbox 360 controllers */
-+	XPAD_XBOXONE_VENDOR(0x0e6f),		/* 0x0e6f Xbox One controllers */
-+	XPAD_XBOX360_VENDOR(0x0f0d),		/* Hori controllers */
-+	XPAD_XBOXONE_VENDOR(0x0f0d),		/* Hori controllers */
-+	XPAD_XBOX360_VENDOR(0x1038),		/* SteelSeries controllers */
- 	XPAD_XBOX360_VENDOR(0x11c9),		/* Nacon GC100XF */
- 	XPAD_XBOX360_VENDOR(0x1209),		/* Ardwiino Controllers */
--	XPAD_XBOX360_VENDOR(0x12ab),		/* X-Box 360 dance pads */
--	XPAD_XBOX360_VENDOR(0x1430),		/* RedOctane X-Box 360 controllers */
--	XPAD_XBOX360_VENDOR(0x146b),		/* BigBen Interactive Controllers */
-+	XPAD_XBOX360_VENDOR(0x12ab),		/* Xbox 360 dance pads */
-+	XPAD_XBOX360_VENDOR(0x1430),		/* RedOctane Xbox 360 controllers */
-+	XPAD_XBOX360_VENDOR(0x146b),		/* Bigben Interactive controllers */
- 	XPAD_XBOX360_VENDOR(0x1532),		/* Razer Sabertooth */
- 	XPAD_XBOXONE_VENDOR(0x1532),		/* Razer Wildcat */
--	XPAD_XBOX360_VENDOR(0x15e4),		/* Numark X-Box 360 controllers */
--	XPAD_XBOX360_VENDOR(0x162e),		/* Joytech X-Box 360 controllers */
-+	XPAD_XBOX360_VENDOR(0x15e4),		/* Numark Xbox 360 controllers */
-+	XPAD_XBOX360_VENDOR(0x162e),		/* Joytech Xbox 360 controllers */
- 	XPAD_XBOX360_VENDOR(0x1689),		/* Razer Onza */
- 	XPAD_XBOX360_VENDOR(0x1949),		/* Amazon controllers */
--	XPAD_XBOX360_VENDOR(0x1bad),		/* Harminix Rock Band Guitar and Drums */
--	XPAD_XBOX360_VENDOR(0x20d6),		/* PowerA Controllers */
--	XPAD_XBOXONE_VENDOR(0x20d6),		/* PowerA Controllers */
--	XPAD_XBOX360_VENDOR(0x24c6),		/* PowerA Controllers */
--	XPAD_XBOXONE_VENDOR(0x24c6),		/* PowerA Controllers */
--	XPAD_XBOXONE_VENDOR(0x2e24),		/* Hyperkin Duke X-Box One pad */
--	XPAD_XBOX360_VENDOR(0x2f24),		/* GameSir Controllers */
-+	XPAD_XBOX360_VENDOR(0x1bad),		/* Harmonix Rock Band guitar and drums */
-+	XPAD_XBOX360_VENDOR(0x20d6),		/* PowerA controllers */
-+	XPAD_XBOXONE_VENDOR(0x20d6),		/* PowerA controllers */
-+	XPAD_XBOX360_VENDOR(0x24c6),		/* PowerA controllers */
-+	XPAD_XBOXONE_VENDOR(0x24c6),		/* PowerA controllers */
-+	XPAD_XBOXONE_VENDOR(0x2e24),		/* Hyperkin Duke Xbox One pad */
-+	XPAD_XBOX360_VENDOR(0x2f24),		/* GameSir controllers */
- 	XPAD_XBOX360_VENDOR(0x3285),		/* Nacon GC-100 */
- 	{ }
- };
-@@ -623,7 +623,7 @@ static void xpadone_ack_mode_report(struct usb_xpad *xpad, u8 seq_num);
-  *	Completes a request by converting the data into events for the
-  *	input subsystem.
-  *
-- *	The used report descriptor was taken from ITO Takayukis website:
-+ *	The used report descriptor was taken from ITO Takayuki's website:
-  *	 http://euc.jp/periphs/xbox-controller.ja.html
-  */
- static void xpad_process_packet(struct usb_xpad *xpad, u16 cmd, unsigned char *data)
-@@ -1364,7 +1364,7 @@ struct xpad_led {
- };
- 
- /*
-- * set the LEDs on Xbox360 / Wireless Controllers
-+ * set the LEDs on Xbox 360 / Wireless Controllers
-  * @param command
-  *  0: off
-  *  1: all blink, then previous setting
-@@ -1979,5 +1979,5 @@ static struct usb_driver xpad_driver = {
- module_usb_driver(xpad_driver);
- 
- MODULE_AUTHOR("Marko Friedemann <mfr@bmx-chemnitz.de>");
--MODULE_DESCRIPTION("X-Box pad driver");
-+MODULE_DESCRIPTION("Xbox pad driver");
- MODULE_LICENSE("GPL");
--- 
-2.34.1
-
+Thanks
+Kevin
