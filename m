@@ -2,55 +2,37 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1924C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Jan 2022 10:53:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBAC5C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Jan 2022 11:12:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234908AbiAEKxV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Jan 2022 05:53:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49278 "EHLO
+        id S239607AbiAELMY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Jan 2022 06:12:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239529AbiAEKxQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jan 2022 05:53:16 -0500
-Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E653FC061784
-        for <linux-doc@vger.kernel.org>; Wed,  5 Jan 2022 02:53:15 -0800 (PST)
-Received: by mail-io1-xd29.google.com with SMTP id e128so47911174iof.1
-        for <linux-doc@vger.kernel.org>; Wed, 05 Jan 2022 02:53:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=u91RUSIYT5p0XTVAkEJuiBed73+WwWLBIzad/kDfbek=;
-        b=E4nEpcuzA0T/R6uxEioFi0RrB2az7KwqsGwFdMCjOZXcSUO1B6wruAm0MmbllUEzIb
-         mAadOdJFnrBnnz+0N9HwUakmLRlhq96+51MdFDPf1n7fHMPWEt+4PGZ+zwZ2OOD84eIK
-         7sdmkeao9NtFW7hfR4+ij7ori7FNJv3QsYKEvlUmabA52HzKGs+iMmA5rAMVkaUje1rR
-         YBVte7h87V/qre6UqtrMX/jJxGrbuYGHJhC8hFG6cNb5HjfAKT3mqwzUzZbh7hWDZJ0b
-         9YHlA+R1X3uMV81Ni3PdMJvmm6bGD4+NynyM7urgZGiE/9c8DhIRX6aBIDLS6/dMg2UF
-         iRzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=u91RUSIYT5p0XTVAkEJuiBed73+WwWLBIzad/kDfbek=;
-        b=4Uw0aDttGpEKy7C+axNpysW2PGHWmhMtu7cJgHHUN4eml3jKXmUDhx5l33PPqvhGR7
-         XYuOeWWwPdC1QtRXGr3Qb5EZw/VbcabvUSNYmHLDRfEb97b6zFBjxrEtEwYaG6LxqKhd
-         EqIhXoYKkgFu1UcjktYVF7QXanmyn3X+EYI4Eebh4dqpzEpKNiRDIAKhHN9eyeHMHCB/
-         XQ3P/9GOG4sYHiBLtPdjm0JueqFOZMenDpa4Glz2FQbPCLe6e3hQ6pj6189moAd5FkwG
-         sstHeH14UfcRvKNJCNd7eNb4D+3pchU66FeGjCPn6/ICX9/Acb4OQ36b7vjppaE6OkG/
-         JkrA==
-X-Gm-Message-State: AOAM532r77RtD6VPohJVqq1DwaOb2++JXn3gPFll2rg9Q00KfUivJ6xK
-        /MAJ9HEhL06qGojajfIEd1lHig==
-X-Google-Smtp-Source: ABdhPJzs+sAfmI2Gp6IGVCopvN0kL6sh3lpkuMa1O7dzJPwnmBMMPnj+98RQ5sR5sKBemYkMpYjM9g==
-X-Received: by 2002:a05:6602:2a44:: with SMTP id k4mr25896072iov.43.1641379994997;
-        Wed, 05 Jan 2022 02:53:14 -0800 (PST)
-Received: from google.com ([2620:15c:183:200:6c8c:5506:7ca2:9dfd])
-        by smtp.gmail.com with ESMTPSA id f14sm19073576ila.0.2022.01.05.02.53.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Jan 2022 02:53:14 -0800 (PST)
-Date:   Wed, 5 Jan 2022 03:53:07 -0700
-From:   Yu Zhao <yuzhao@google.com>
-To:     SeongJae Park <sj@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        with ESMTP id S231725AbiAELMY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jan 2022 06:12:24 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23D67C061761;
+        Wed,  5 Jan 2022 03:12:24 -0800 (PST)
+Received: from zn.tnic (dslb-088-067-202-008.088.067.pools.vodafone-ip.de [88.67.202.8])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 9FB221EC00F4;
+        Wed,  5 Jan 2022 12:12:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1641381138;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=1PC4ZwioAXCt2f/k2N13mQc197AOanSe8z/TnLKgbpU=;
+        b=I9A8EM86AD163L4BKSU1pVWJ8YRBMXDmzGJgY8H86BN5Z3KDkbCYDJ0oBAeHYbU9CxqlM9
+        GeZeMOCZYlBymd+7n8pgyQTiBfxwVNNMwA+SvyXks3tXK5Xgb7Y/R+hc9C5l4JJ4JXbpmr
+        lkowCm4k6cIub5OIde0CoPjK8HDnVgk=
+Date:   Wed, 5 Jan 2022 12:12:20 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yu Zhao <yuzhao@google.com>
+Cc:     SeongJae Park <sj@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Andi Kleen <ak@linux.intel.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
@@ -71,118 +53,37 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         page-reclaim@google.com, x86@kernel.org
 Subject: Re: [PATCH v6 0/9] Multigenerational LRU Framework
-Message-ID: <YdV4k1+zEbtzmUkK@google.com>
+Message-ID: <YdV9FNxYDRrgiejD@zn.tnic>
 References: <20220104202227.2903605-1-yuzhao@google.com>
  <20220105085534.22981-1-sj@kernel.org>
+ <YdV4k1+zEbtzmUkK@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220105085534.22981-1-sj@kernel.org>
+In-Reply-To: <YdV4k1+zEbtzmUkK@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 05, 2022 at 08:55:34AM +0000, SeongJae Park wrote:
-> Hi Yu,
-> 
-> On Tue, 4 Jan 2022 13:22:19 -0700 Yu Zhao <yuzhao@google.com> wrote:
-> 
-> > TLDR
-> > ====
-> > The current page reclaim is too expensive in terms of CPU usage and it
-> > often makes poor choices about what to evict. This patchset offers an
-> > alternative solution that is performant, versatile and
-> > straightforward.
-> >  
-> [...]
-> > Summery
-> > =======
-> > The facts are:
-> > 1. The independent lab results and the real-world applications
-> >    indicate substantial improvements; there are no known regressions.
-> 
-> So impressive results!
-> 
-> > 2. Thrashing prevention, working set estimation and proactive reclaim
-> >    work out of the box; there are no equivalent solutions.
-> 
-> I think similar works are already available out of the box with the latest
-> mainline tree, though it might be suboptimal in some cases.
+On Wed, Jan 05, 2022 at 03:53:07AM -0700, Yu Zhao wrote:
+> Look, I'm open to your suggestion. I probably should have been nicer.
+> So I'm sorry. I just don't appreciate alternative facts.
 
-Ok, I will sound harsh because I hate it when people challenge facts
-while having no idea what they are talking about.
+Yes, you should've been *much* nicer. I'm reading lkml for pretty much
+20 years now and you just made my eyebrows go up - something which
+pretty much never happens these days.
 
-Our jobs are help the leadership make best decisions by providing them
-with facts, not feeding them crap.
+So you need to check yourself before replying. Looking at git history,
+you're not a newbie so you've probably picked up - at least from the
+sidelines - all those code of conduct discussions. And I'm not going to
+point you to it - I'm sure you can find it yourself and peruse it at
+your own convenience.
 
-Don't get me wrong -- you are welcome to start another thread and have
-a casual discussion with me. But this thread is not for that; it's for
-the leadership and stakeholder to make a decision. Check who are in
-"To" and "Cc" and what my request is.
+Long story short: we all try to be civil to each other now, even if it
+is hard sometimes.
 
-> I didn't read this patchset thoroughly yet, so I might missing many things.  If
-> so, please feel free to let me know.
+-- 
+Regards/Gruss,
+    Boris.
 
-Yes, apparently you didn't read this patchset thoroughly, and you have
-missed all things that matter to this thread.
-
-> First, you can do thrashing prevention using DAMON-based Operation Scheme
-> (DAMOS)[1] with MADV_COLD action.
-
-Here is thrashing prevention really means, from patch 8:
-  +Personal computers
-  +------------------
-  +:Thrashing prevention: Write ``N`` to
-  + ``/sys/kernel/mm/lru_gen/min_ttl_ms`` to prevent the working set of
-  + ``N`` milliseconds from getting evicted. The OOM killer is invoked if
-  + this working set can't be kept in memory. Based on the average human
-  + detectable lag (~100ms), ``N=1000`` usually eliminates intolerable
-  + lags due to thrashing. Larger values like ``N=3000`` make lags less
-  + noticeable at the cost of more OOM kills.
-
-It's about when to trigger OOM kills. Got it? Or probably you don't
-understand what MADV_COLD is either?
-
-> Second, for working set estimation, you can either use the DAMOS
-> again with statistics action, or the damon_aggregated tracepoint[2].
-
-This is you are suggesting:
-  TRACE_EVENT(damon_aggregated,
-    TP_printk("target_id=%lu nr_regions=%u %lu-%lu: %u",
-              __entry->target_id, __entry->nr_regions,
-              __entry->start, __entry->end, __entry->nr_accesses)
-
-Now read my doc again:
-  +Data centers
-  +------------
-  +:Debugfs interface: ``/sys/kernel/debug/lru_gen`` has the following
-  + format:
-  +   memcg  memcg_id  memcg_path
-  +     node  node_id
-
-Have you heard of something called memcg? And NUMA node? How exactly
-can this tracepoint provide information about different memcgs and
-NUMA node?
-
-> The DAMON user space tool[3] helps the tracepoint analysis and
-> visualization.
-
-What does "work out of box" mean? Should every Linux desktop, laptop
-and phone user install this tool?
-
-> Finally, for the proactive reclaim, you can again use the DAMOS
-> with MADV_PAGEOUT action
-
-How exactly does MADV_PAGEOUT find pages that are NOT mapped in page
-tables? Let me tell you another fact: they are usually the cheapest to
-reclaim.
-
-> or simply the DAMON-based proactive reclaim module (DAMON_RECLAIM)[4].
-> [4] https://docs.kernel.org/admin-guide/mm/damon/reclaim.html
-
-How many knob does DAMON_RECLAIM have? 14? I lost count.
-
-> Of course, the integration might not be so simple as seems to me now.
-
-Look, I'm open to your suggestion. I probably should have been nicer.
-So I'm sorry. I just don't appreciate alternative facts.
+https://people.kernel.org/tglx/notes-about-netiquette
