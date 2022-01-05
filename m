@@ -2,285 +2,290 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31D8FC433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Jan 2022 12:10:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 595A5C433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Jan 2022 12:36:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236446AbiAEMKF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Jan 2022 07:10:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38282 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235413AbiAEMKD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jan 2022 07:10:03 -0500
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6CB7C061761;
-        Wed,  5 Jan 2022 04:10:03 -0800 (PST)
-Received: by mail-pl1-x631.google.com with SMTP id n16so29208634plc.2;
-        Wed, 05 Jan 2022 04:10:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=sAj671otIWFV/u2RNPxxpcN+b27OaCYf0DUMoxLWnZo=;
-        b=EpQDfqILS1350ToC4C6Y6JUKdAWBP18SdTZPsxBbL2jtskPRj06Mv8RVWF4rG1RbqF
-         V6b1Ol/6BOkgOVoUwzUX3lVD6bwWnWE2hVkbfa8hLbusKeSL7XuSa9KC4ptcw8Dv7r1H
-         jWCPIbP8C32VVseERINRow0caXToXbuw+PcmPE9pkj5g9U1XMo2804tpNvrUkL07jwuq
-         SVGaaVuE9IwGWEKGaaN+vsD7QQd9EA817RXdFybgbsIbSB7V0HjVhQH+AgOS6fAmv4hA
-         tUH16b9BVm5Gn+N6UJkx3GuFMovyoe1x3P8rIxQ6ZCmnmBz4AxKbDo3N87o77K4rY7Is
-         mBuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=sAj671otIWFV/u2RNPxxpcN+b27OaCYf0DUMoxLWnZo=;
-        b=gW7QvohwQleF7jShkztyNez0IPDnCG1cEjjb48ruuny35Hbq20GmdTtQY3j6uPBMjz
-         /V+YV8fj7MyurBYs1VuxizbYjdl33eMzR6bZ8M2Y3pRwQ5sx2sV6dvN5Sn2XjwfYy19w
-         wep9T/SXnwT+Xf2k+30SFMJRsAI5EHaCzKxJT+HSIE4wRth7HS33LjtW+1d/56u1DpbN
-         T/BGxzLEOF4+mBCdCtOFf5DTbJCZH5OjODneeHTeT5iYTG3R7wIXEkdEs85x/90kHWwp
-         iT/Vzs6YPaxhbyraFFWytHDfRLfoF2BnMwLXqlHFyfwpkdVvvy6bIUS3qysU8cScQ3CN
-         ELbA==
-X-Gm-Message-State: AOAM531bpllLgvY89zZ+DxfSaQWqxxt98kDH5oERSs91iEMVnOsKaYP/
-        h62q9DeWGcqVNzZus6lPsCg=
-X-Google-Smtp-Source: ABdhPJxWdw1PjvM0Jc5luZAegv6c5JON4C42KHMxd6aMoiUv7Xkic7cS0zNz/3F7iSQbJeYUGkSY5g==
-X-Received: by 2002:a17:902:d650:b0:149:c6b7:c02d with SMTP id y16-20020a170902d65000b00149c6b7c02dmr5789094plh.30.1641384602570;
-        Wed, 05 Jan 2022 04:10:02 -0800 (PST)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id ot6sm2878908pjb.32.2022.01.05.04.10.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Jan 2022 04:10:02 -0800 (PST)
-Subject: Re: [PATCH 1/1] scripts: sphinx-pre-install: add required ctex
- dependency
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     hch@lst.de, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, corbet@lwn.net
-References: <87mtkcxws9.fsf@meer.lwn.net>
- <eeb773ef-0354-be1f-8438-07e3324fa9f6@gmail.com>
- <07f8cf68-525b-4fca-a1f9-fd40150fc6e1@gmail.com>
- <20220104090548.76112534@coco.lan>
- <73e62b16-7685-ace2-18d4-e1b79f543caf@gmail.com>
- <20220105084809.157e3f34@coco.lan>
-From:   Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <241d31e4-5447-a075-69b6-11c14427582d@gmail.com>
-Date:   Wed, 5 Jan 2022 21:09:59 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        id S236636AbiAEMgG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Jan 2022 07:36:06 -0500
+Received: from mga04.intel.com ([192.55.52.120]:6467 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S240159AbiAEMfd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 5 Jan 2022 07:35:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1641386132; x=1672922132;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=VEqAy8ljivbR1XuZxw8NUD6wiac615/eJq3HkWG9Szs=;
+  b=DXnfSnwPRM94uJUg1sDssf5cMEuenSNCV4BVzLgCEDHUSyzcY+WMAUuB
+   93hWpjKqE5iNLsRwiY95HoUIusUVb/onh0fL6RtPpfjcR2ncq0iFJmWrg
+   jX8RslcFZSCTGrT5WYC1ldEiyFZlAJXftNFOCa9W2sWnodBqd1FFwEIAY
+   +WOWAz+PQ+/m5hREk0BNhBeeFreNwqu3IRDWQnkkHqq/jfnJ9RFnx7NMn
+   urXH16hOmq5mbCoMD2utFJrARPSpXWMxsMPKzUDsLcpNMtKQW8ZhpD1C2
+   ekIYEBuykbjckME/sAETzGAhJc0vLpyGqII/gWrd0wV8YV/CYUhrPVzms
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="241249347"
+X-IronPort-AV: E=Sophos;i="5.88,263,1635231600"; 
+   d="scan'208";a="241249347"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2022 04:35:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,263,1635231600"; 
+   d="scan'208";a="591004800"
+Received: from 984fee00bf64.jf.intel.com ([10.165.54.77])
+  by fmsmga004.fm.intel.com with ESMTP; 05 Jan 2022 04:35:32 -0800
+From:   Yang Zhong <yang.zhong@intel.com>
+To:     x86@kernel.org, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, pbonzini@redhat.com, corbet@lwn.net,
+        shuah@kernel.org, seanjc@google.com
+Cc:     jun.nakajima@intel.com, kevin.tian@intel.com,
+        jing2.liu@linux.intel.com, jing2.liu@intel.com,
+        guang.zeng@intel.com, wei.w.wang@intel.com, yang.zhong@intel.com
+Subject: [PATCH v5 00/21] AMX Support in KVM
+Date:   Wed,  5 Jan 2022 04:35:11 -0800
+Message-Id: <20220105123532.12586-1-yang.zhong@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20220105084809.157e3f34@coco.lan>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 5 Jan 2022 08:48:09 +0100, Mauro Carvalho Chehab wrote:
-> Em Tue, 4 Jan 2022 19:26:10 +0900
-> Akira Yokosawa <akiyks@gmail.com> escreveu:
-> 
->> On Tue, 4 Jan 2022 09:05:48 +0100, Mauro Carvalho Chehab wrote:
->>> Em Tue, 4 Jan 2022 10:54:52 +0900
->>> Akira Yokosawa <akiyks@gmail.com> escreveu:
->>>   
->>>> Hi Mauro, see inline comments below.
->>>>
->>>> On Tue, 4 Jan 2022 09:04:30 +0900, Akira Yokosawa wrote:  
->>>>> Hi,
->>>>>
->>>>> On Mon, 03 Jan 2022 15:46:30 -0700, Jonathan Corbet <corbet@lwn.net> wrote:    
->>>>>> Mauro Carvalho Chehab <mchehab@kernel.org> writes:
->>>>>>    
->>>>>>> After a change meant to fix support for oriental characters
->>>>>>> (Chinese, Japanese, Korean), ctex stylesheet is now a requirement
->>>>>>> for PDF output.    
->>>>>
->>>>> FWIW, ctexhook.sty is a new requirement of xeCJK.sty v3.8.7 released
->>>>> in June 2021.
->>>>>
->>>>>         Thanks, Akira
->>>>>     
->>>>>>>
->>>>>>> Reported-by: Christoph Hellwig <hch@lst.de>
->>>>>>> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
->>>>>>> ---
->>>>>>>
->>>>>>> See [PATCH 0/1] at: https://lore.kernel.org/all/cover.1641243581.git.mchehab@kernel.org/
->>>>>>>
->>>>>>>  scripts/sphinx-pre-install | 1 +
->>>>>>>  1 file changed, 1 insertion(+)
->>>>>>>
->>>>>>> diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
->>>>>>> index 288e86a9d1e5..46aaab414098 100755
->>>>>>> --- a/scripts/sphinx-pre-install
->>>>>>> +++ b/scripts/sphinx-pre-install
->>>>>>> @@ -78,6 +78,7 @@ my %texlive = (
->>>>>>>  	'ucs.sty'            => 'texlive-ucs',
->>>>>>>  	'upquote.sty'        => 'texlive-upquote',
->>>>>>>  	'wrapfig.sty'        => 'texlive-wrapfig',
->>>>>>> +	'ctexhook.sty'       => 'texlive-ctex',
->>>>>>>  );    
->>>>>>    
->>>>
->>>> I'm afraid this update of the list for Fedora/openSUSE won't help
->>>> Debian Stable (bullseye) users.
->>>>
->>>> ctexhook.sty is in texlive-lang-chinese on Debian/Ubuntu.  
->>>
->>> On such case, it is needed to map it for Debian/Ubuntu.
->>> Could you please test the enclosed patch, applied on the top
->>> of the previous one?  
->>
->> Looks like we need an additional hunk.  See below.
->>
->>         Thanks, Akira
->>
->>>
->>> Thanks!
->>> Mauro
->>>
->>> -
->>>
->>> [PATCH] scripts: sphinx-pre-install: Fix ctex support on Debian
->>>
->>> The name of the package with ctexhook.sty is different on
->>> Debian/Ubuntu.
->>>
->>> Reported-by: Akira Yokosawa <akiyks@gmail.com>
->>> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
->>>
->>> diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
->>> index 46aaab414098..ea96d18ee946 100755
->>> --- a/scripts/sphinx-pre-install
->>> +++ b/scripts/sphinx-pre-install
->>> @@ -367,6 +367,7 @@ sub give_debian_hints()
->>>  		"Pod::Usage"		=> "perl-modules",
->>>  		"xelatex"		=> "texlive-xetex",
->>>  		"rsvg-convert"		=> "librsvg2-bin",
->>> +		"texlive-ctex"		=> "texlive-lang-chinese",
->>>  	);
->>>  
->>>  	if ($pdf) {
->>>   
->> @@ -380,6 +381,7 @@ sub give_debian_hints()
->>         }
->>  
->>         check_program("dvipng", 2) if ($pdf);
->> +       check_missing_tex(2) if ($pdf);
->>         check_missing(\%map);
->>  
->>         return if (!$need && !$optional);
->>
-> 
-> This would be more complex than that, and per-distro tests are
-> required, in order to avoid the script to fail on other
-> distros.
+Thanks a lot for all the review comments and guidance! Hope this
+version is in a good state now. :)
 
-Thank you for looking into this!
-I must admit I'm far from grasping how this perl script works...
+(Jing is temporarily leave for family reason, Yang helped work out
+this version)
 
-> 
-> Something like the following (possibly incomplete) patch.
+----
+v4->v5:
+  - Directly call fpu core to expand fpstate buffer in kvm_check_cpuid()
+    and remove duplicated permission check there (Sean)
+  - Accordingly remove Thomas's reviewed-by as a different wrapper is
+    introduced now (patch-7)
+  - Properly queue #NM exception in nested scenario (Sean)
+  - Verify non-XFD related #NM usage in nested scenario (Sean)
+  - Hide XFD in kvm_cpu_cap on 32bit host kernels (Sean)
+  - Use xstate_required_size() in KVM_CAP_XSAVE2 which may be called
+    before any vcpu is created (Sean/Paolo)
+  - Replace boot_cpu_has with kvm_cpu_cap_has when disabling RDMSR
+    interception for xfd_err (Sean)
 
-I'll test it under various distros/setups.
-It may take a while.
+v3->v4:
+  - Verify kvm selftest for AMX (Paolo)
+  - Expand fpstate buffer in kvm_check_cpuid() and improve patch
+    description (Sean)
+  - Drop 'preemption' word in #NM interception patch (Sean)
+  - Remove 'trap_nm' flag. Replace it by: (Sean)
+    * Trapping #NM according to guest_fpu::xfd when write to xfd is
+      intercepted.
+    * Always trapping #NM when xfd write interception is disabled
+  - Use better name for #NM related functions (Sean)
+  - Drop '#ifdef CONFIG_X86_64' in __kvm_set_xcr (Sean)
+  - Update description for KVM_CAP_XSAVE2 and prevent the guest from
+    using the wrong ioctl (Sean)
+  - Replace 'xfd_out_of_sync' with a better name (Sean)
 
-        Thanks, Akira
+v2->v3:
+  - Trap #NM until write IA32_XFD with a non-zero value (Thomas)
+  - Revise return value in __xstate_request_perm() (Thomas)
+  - Revise doc for KVM_GET_SUPPORTED_CPUID (Paolo)
+  - Add Thomas's reviewed-by on one patch
+  - Reorder disabling read interception of XFD_ERR patch (Paolo)
+  - Move disabling r/w interception of XFD from x86.c to vmx.c (Paolo)
+  - Provide the API doc together with the new KVM_GET_XSAVE2 ioctl (Paolo)
+  - Make KVM_CHECK_EXTENSION(KVM_CAP_XSAVE2) return minimum size of struct
+    kvm_xsave (4K) (Paolo)
+  - Request permission at the start of vm_create_with_vcpus() in selftest
+  - Request permission conditionally when XFD is supported (Paolo)
 
-> 
-> Thanks,
-> Mauro
-> 
-> [PATCH RFC] scripts: sphinx-pre-install: better handle pdf dependencies
-> 
-> Not all distro hints check for missing LaTeX dependencies.
-> So add a call for it for check_missing_tex() to all distros.
-> 
-> While here, change the parameters to pass the map hash, as
-> distro-specific mapping could be needed.
-> 
-> Reported-by: Akira Yokosawa <akiyks@gmail.com>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> 
-> diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-> index ea96d18ee946..03c252590e54 100755
-> --- a/scripts/sphinx-pre-install
-> +++ b/scripts/sphinx-pre-install
-> @@ -227,7 +227,8 @@ sub check_pacman_missing($$)
->  
->  sub check_missing_tex($)
->  {
-> -	my $is_optional = shift;
-> +	my $map = %{$_[0]};
-> +	my $is_optional = 2;
->  	my $kpsewhich = findprog("kpsewhich");
->  
->  	foreach my $prog(keys %texlive) {
-> @@ -381,6 +382,7 @@ sub give_debian_hints()
->  	}
->  
->  	check_program("dvipng", 2) if ($pdf);
-> +	check_missing_tex(\%map) if ($pdf);
->  	check_missing(\%map);
->  
->  	return if (!$need && !$optional);
-> @@ -449,7 +451,7 @@ sub give_redhat_hints()
->  
->  	check_rpm_missing(\@fedora26_opt_pkgs, 2) if ($pdf && !$old);
->  	check_rpm_missing(\@fedora_tex_pkgs, 2) if ($pdf);
-> -	check_missing_tex(2) if ($pdf);
-> +	check_missing_tex(\%map) if ($pdf);
->  	check_missing(\%map);
->  
->  	return if (!$need && !$optional);
-> @@ -503,7 +505,7 @@ sub give_opensuse_hints()
->  	# "Noto Sans CJK SC" on openSUSE
->  
->  	check_rpm_missing(\@suse_tex_pkgs, 2) if ($pdf);
-> -	check_missing_tex(2) if ($pdf);
-> +	check_missing_tex(\%map) if ($pdf);
->  	check_missing(\%map);
->  
->  	return if (!$need && !$optional);
-> @@ -548,6 +550,7 @@ sub give_mageia_hints()
->  	}
->  
->  	check_rpm_missing(\@tex_pkgs, 2) if ($pdf);
-> +	# check_missing_tex(\%map) if ($pdf);
->  	check_missing(\%map);
->  
->  	return if (!$need && !$optional);
-> @@ -578,6 +581,7 @@ sub give_arch_linux_hints()
->  				   "noto-fonts-cjk", 2);
->  	}
->  
-> +	check_missing_tex(\%map) if ($pdf);
->  	check_missing(\%map);
->  
->  	return if (!$need && !$optional);
-> @@ -604,6 +608,8 @@ sub give_gentoo_hints()
->  				   "media-fonts/noto-cjk", 2);
->  	}
->  
-> +	# Gentoo doesn't need to map tex, as there's a single package,
-> +	# and extra fonts are mapped via check_missing_file()
->  	check_missing(\%map);
->  
->  	return if (!$need && !$optional);
-> @@ -622,7 +628,7 @@ sub give_gentoo_hints()
->  		printf("\tsudo su -c 'echo \"$cairo\" > $portage_cairo'\n");
->  	}
->  
-> -	printf("\tsudo emerge --ask $install\n");
-> +	printf("\tsudo USE="-cjk" emerge --ask $install\n");
->  
->  }
->  
-> @@ -685,7 +691,7 @@ sub check_distros()
->  	my %map = (
->  		"sphinx-build" => "sphinx"
->  	);
-> -	check_missing_tex(2) if ($pdf);
-> +	check_missing_tex(\%map) if ($pdf);
->  	check_missing(\%map);
->  	print "I don't know distro $system_release.\n";
->  	print "So, I can't provide you a hint with the install procedure.\n";
-> 
+v1->v2:
+  - Live migration supported and verified with a selftest
+  - Rebase to Thomas's new series for guest fpstate reallocation [1]
+  - Expand fpstate at KVM_SET_CPUID2 instead of when emulating XCR0
+    and IA32_XFD (Thomas/Paolo)
+  - Accordingly remove all exit-to-userspace stuff
+  - Intercept #NM to save guest XFD_ERR and restore host/guest value
+    at preemption on/off boundary (Thomas)
+  - Accordingly remove all xfd_err logic in preemption callback and
+    fpu_swap_kvm_fpstate()
+  - Reuse KVM_SET_XSAVE to handle both legacy and expanded buffer (Paolo)
+  - Don't return dynamic bits w/o prctl() in KVM_GET_SUPPORTED_CPUID (Paolo)
+  - Check guest permissions for dynamic features in CPUID[0xD] instead
+    of only for AMX at KVM_SET_CPUID (Paolo)
+  - Remove dynamic bit check for 32-bit guest in __kvm_set_xcr() (Paolo)
+  - Fix CPUID emulation for 0x1d and 0x1e (Paolo)
+  - Move "disable interception" to the end of the series (Paolo)
+
+This series brings AMX (Advanced Matrix eXtensions) virtualization support to
+KVM. The preparatory series from Thomas [1] is also included. 
+
+A large portion of the changes in this series is to deal with eXtended Feature
+Disable (XFD) which allows resizing of the fpstate buffer to support
+dynamically-enabled XSTATE features with large state component (e.g. 8K for AMX).
+
+There are a lot of simplications when comparing v5 to the original proposal [2]
+and the first version [3]. Thanks to Thomas, Paolo and Sean for many good
+suggestions. 
+
+The support is based on following key changes:
+
+  - Guest permissions for dynamically-enabled XSAVE features
+
+    Native tasks have to request permission via prctl() before touching
+    a dynamic-resized XSTATE compoenent. Introduce guest permissions 
+    for the similar purpose. Userspace VMM is expected to request guest
+    permission only once when the first vCPU is created.
+
+    KVM checks guest permission in KVM_SET_CPUID2. Setting XFD in guest
+    cpuid w/o proper permissions fails this operation. In the meantime,
+    unpermitted features are also excluded in KVM_GET_SUPPORTED_CPUID.
+
+  - Extend fpstate reallocation mechanism to cover guest fpu
+
+    Unlike native tasks which have reallocation triggered from #NM 
+    handler, guest fpstate reallocation is requested by KVM when it
+    identifies the intention on using dynamically-enabled XSAVE
+    features inside guest.
+
+    Extend fpu core to allow KVM request fpstate buffer expansion
+    for a guest fpu containter.
+
+  - Trigger fpstate reallocation in KVM
+
+    This could be done either before guest runs or until xfd is updated
+    in the emulation path. According to discussion [1] we decide to 
+    go the former option in KVM_SET_CPUID2, with fpstate buffer sized
+    accordingly. This spares a lot of code and also avoid imposing an
+    ordered restore sequence (XCR0, XFD and XSTATE) to userspace VMM.
+
+  - RDMSR/WRMSR emulation for IA32_XFD
+
+    Because fpstate expansion is completed in KVM_SET_CPUID2, emulating
+    r/w access to IA32_XFD simply involves the xfd field in the guest 
+    fpu container. If write and guest fpu is currently active, the 
+    software state (guest_fpstate::xfd and per-cpu xfd cache) is also
+    updated.
+
+  - RDMSR/WRMSR emulation for XFD_ERR
+
+    When XFD causes an instruction to generate #NM, XFD_ERR contains
+    information about which disabled state components are being accessed.
+    It'd be problematic if the XFD_ERR value generated in guest is 
+    consumed/clobbered by the host before the guest itself doing so. 
+
+    Intercept #NM exception to save the guest XFD_ERR value when write
+    IA32_XFD with a non-zero value for 1st time. There is at most one
+    interception per guest task given a dynamic feature.
+
+    RDMSR/WRMSR emulation uses the saved value. The host value (always
+    ZERO outside of the host #NM handler) is restored before enabling
+    interrupts. The saved guest value is restored right before entering
+    the guest (with interrupts disabled).
+
+  - Get/set dynamic xfeature state for migration
+
+    Introduce new capability (KVM_CAP_XSAVE2) to deal with >4KB fpstate
+    buffer. Reading this capability returns the size of the current 
+    guest fpstate (e.g. after expansion). Userspace VMM uses a new ioctl
+    (KVM_GET_XSAVE2) to read guest fpstate from the kernel and reuses
+    the existing ioctl (KVM_SET_XSAVE) to update guest fpsate to the
+    kernel. KVM_SET_XSAVE is extended to do properly_sized memdup_user()
+    based on the guest fpstate.
+
+  - Expose related cpuid bits to guest
+
+    The last step is to allow exposing XFD, AMX_TILE, AMX_INT8 and
+    AMX_BF16 in guest cpuid. Adding those bits into kvm_cpu_caps finally
+    activates all previous logics in this series
+
+  - Optimization: disable interception for IA32_XFD
+
+    IA32_XFD can be frequently updated by the guest, as it is part of
+    the task state and swapped in context switch when prev and next have
+    different XFD setting. Always intercepting WRMSR can easily cause
+    non-negligible overhead.
+
+    Disable r/w emulation for IA32_XFD after intercepting the first
+    WRMSR(IA32_XFD) with a non-zero value. However MSR passthrough 
+    implies the software state (guest_fpstate::xfd and per-cpu xfd
+    cache) might be out of sync with MSR. This suggests KVM needs to
+    re-sync them at VM-exit before preemption is enabled.
+
+Thanks Jun Nakajima and Kevin Tian for the design suggestions when this was
+being internally worked on.
+
+[1] https://lore.kernel.org/all/20211214022825.563892248@linutronix.de/
+[2] https://www.spinics.net/lists/kvm/msg259015.html
+[3] https://lore.kernel.org/lkml/20211208000359.2853257-1-yang.zhong@intel.com/
+
+Thanks,
+Yang
+----
+
+Guang Zeng (1):
+  kvm: x86: Add support for getting/setting expanded xstate buffer
+
+Jing Liu (11):
+  kvm: x86: Fix xstate_required_size() to follow XSTATE alignment rule
+  kvm: x86: Exclude unpermitted xfeatures at KVM_GET_SUPPORTED_CPUID
+  x86/fpu: Make XFD initialization in __fpstate_reset() a function
+    argument
+  kvm: x86: Enable dynamic xfeatures at KVM_SET_CPUID2
+  kvm: x86: Add emulation for IA32_XFD
+  x86/fpu: Prepare xfd_err in struct fpu_guest
+  kvm: x86: Intercept #NM for saving IA32_XFD_ERR
+  kvm: x86: Emulate IA32_XFD_ERR for guest
+  kvm: x86: Disable RDMSR interception of IA32_XFD_ERR
+  kvm: x86: Add XCR0 support for Intel AMX
+  kvm: x86: Add CPUID support for Intel AMX
+
+Kevin Tian (2):
+  x86/fpu: Provide fpu_update_guest_xfd() for IA32_XFD emulation
+  kvm: x86: Disable interception for IA32_XFD on demand
+
+Sean Christopherson (1):
+  x86/fpu: Provide fpu_enable_guest_xfd_features() for KVM
+
+Thomas Gleixner (5):
+  x86/fpu: Extend fpu_xstate_prctl() with guest permissions
+  x86/fpu: Prepare guest FPU for dynamically enabled FPU features
+  x86/fpu: Add guest support to xfd_enable_feature()
+  x86/fpu: Add uabi_size to guest_fpu
+  x86/fpu: Provide fpu_sync_guest_vmexit_xfd_state()
+
+Wei Wang (1):
+  kvm: selftests: Add support for KVM_CAP_XSAVE2
+
+ Documentation/virt/kvm/api.rst                |  46 +++++-
+ arch/x86/include/asm/cpufeatures.h            |   2 +
+ arch/x86/include/asm/fpu/api.h                |  11 ++
+ arch/x86/include/asm/fpu/types.h              |  32 ++++
+ arch/x86/include/asm/kvm_host.h               |   1 +
+ arch/x86/include/uapi/asm/kvm.h               |  16 +-
+ arch/x86/include/uapi/asm/prctl.h             |  26 ++--
+ arch/x86/kernel/fpu/core.c                    |  94 ++++++++++-
+ arch/x86/kernel/fpu/xstate.c                  | 147 +++++++++++-------
+ arch/x86/kernel/fpu/xstate.h                  |  15 +-
+ arch/x86/kernel/process.c                     |   2 +
+ arch/x86/kvm/cpuid.c                          |  86 +++++++---
+ arch/x86/kvm/cpuid.h                          |   2 +
+ arch/x86/kvm/vmx/vmcs.h                       |   5 +
+ arch/x86/kvm/vmx/vmx.c                        |  68 ++++++++
+ arch/x86/kvm/vmx/vmx.h                        |   2 +-
+ arch/x86/kvm/x86.c                            | 112 ++++++++++++-
+ include/uapi/linux/kvm.h                      |   4 +
+ tools/arch/x86/include/uapi/asm/kvm.h         |  16 +-
+ tools/include/uapi/linux/kvm.h                |   3 +
+ .../testing/selftests/kvm/include/kvm_util.h  |   2 +
+ .../selftests/kvm/include/x86_64/processor.h  |  10 ++
+ tools/testing/selftests/kvm/lib/kvm_util.c    |  32 ++++
+ .../selftests/kvm/lib/x86_64/processor.c      |  67 +++++++-
+ .../testing/selftests/kvm/x86_64/evmcs_test.c |   2 +-
+ tools/testing/selftests/kvm/x86_64/smm_test.c |   2 +-
+ .../testing/selftests/kvm/x86_64/state_test.c |   2 +-
+ .../kvm/x86_64/vmx_preemption_timer_test.c    |   2 +-
+ 28 files changed, 702 insertions(+), 107 deletions(-)
+
