@@ -2,110 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 808FDC433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Jan 2022 09:40:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADF40C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Jan 2022 09:58:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234032AbiAEJkv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Jan 2022 04:40:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60908 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229645AbiAEJku (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jan 2022 04:40:50 -0500
-Received: from mail-ua1-x932.google.com (mail-ua1-x932.google.com [IPv6:2607:f8b0:4864:20::932])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70EB0C061761;
-        Wed,  5 Jan 2022 01:40:50 -0800 (PST)
-Received: by mail-ua1-x932.google.com with SMTP id c36so42429485uae.13;
-        Wed, 05 Jan 2022 01:40:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Z1JabUfioaXQzQJ9cyfx4bPbapY2g1hoPELFMnBeqJw=;
-        b=G7N8XSF+kA5XWE1zgOstxJvehCpGUEZNO5dt96BFGSWnakr+tcAYbKh6C3hs4GOoyu
-         Yhdo0/6j6EYnE6dWUYfN/foAc9o8Q/mFEQfELPEUn5M6/EN3NpmtBRob4BSPydMEuRft
-         Zuc7xVhZy4hy7KQ71MDbvq/60q09Ls8n0//sM5h1yHR/pBVN6qClzOOBNMpjVEhFZket
-         sD6tucMhDg3NDunnoqvq3/iIVSCs4pTVBnCmgDHEMAmnJwiDQrnAOwNE1jrUQCiwEsTm
-         4KVfwV+NoZRomdBuTDEwlm1qHrQgLLWvi5GukJG7u/1phHUErZGVIonPrgrevkuZjk0x
-         +ETA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Z1JabUfioaXQzQJ9cyfx4bPbapY2g1hoPELFMnBeqJw=;
-        b=OReKEHzxdRHZ4my4+lUuaIRK/UgtTurJCM7GfvxnGs08UQwQpW3YL1K5PzLaD5ci/2
-         bSiczkSWDpmxQnPY0IAjZn8YLIou/sEDVoBH8c0ar+6EIFArx55E5hb2ShfuQCoJMTv/
-         CzMDgHCqAGR4gcbGg+lZqkvaa0bf5DVaMGdgFJju3X22XfQKTjWzlBz/0CU/KMzE+iwi
-         KMfUAlan1l7RtWbQoa1nuQHJOL9XH0vOt4aVqAmodWoTYeOgbZrV/Cuc33v7rpfTMmXM
-         8QWE13ufNvUfTWfQ5EBmj45SwgEeGAoIiSGzTkxTMJ7C637vPKOCaymTrdS4R5rMeqWA
-         /3IA==
-X-Gm-Message-State: AOAM533q4x352/CsVh48CSvan0zzdyLKe85qf7tb2oMNQ2QkduOYM6KX
-        M8J44EFh1eCU7FyB0gaXixCyUxlAU3Eb8zH1rJH+u7F/S1E=
-X-Google-Smtp-Source: ABdhPJwHDpzSWJ/HD9aDpmk46Nd2vRr9D/1sJ/QYCx0rcjjI2aiEOYE0Fh+nDGNm45mVSwWAf7u5ojdUjsBROja5WTw=
-X-Received: by 2002:a05:6102:ec2:: with SMTP id m2mr17000808vst.6.1641375649657;
- Wed, 05 Jan 2022 01:40:49 -0800 (PST)
+        id S239134AbiAEJ6r convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Jan 2022 04:58:47 -0500
+Received: from mail4.swissbit.com ([176.95.1.100]:51806 "EHLO
+        mail4.swissbit.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239114AbiAEJ6k (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jan 2022 04:58:40 -0500
+Received: from mail4.swissbit.com (localhost [127.0.0.1])
+        by DDEI (Postfix) with ESMTP id D4934122F5A;
+        Wed,  5 Jan 2022 10:58:38 +0100 (CET)
+Received: from mail4.swissbit.com (localhost [127.0.0.1])
+        by DDEI (Postfix) with ESMTP id C30E11220B4;
+        Wed,  5 Jan 2022 10:58:38 +0100 (CET)
+X-TM-AS-ERS: 10.149.2.84-127.5.254.253
+X-TM-AS-SMTP: 1.0 ZXguc3dpc3NiaXQuY29t Y2xvZWhsZUBoeXBlcnN0b25lLmNvbQ==
+X-DDEI-TLS-USAGE: Used
+Received: from ex.swissbit.com (SBDEEX02.sbitdom.lan [10.149.2.84])
+        by mail4.swissbit.com (Postfix) with ESMTPS;
+        Wed,  5 Jan 2022 10:58:38 +0100 (CET)
+Received: from sbdeex02.sbitdom.lan (10.149.2.84) by sbdeex02.sbitdom.lan
+ (10.149.2.84) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Wed, 5 Jan 2022
+ 10:58:38 +0100
+Received: from sbdeex02.sbitdom.lan ([fe80::e0eb:ade8:2d90:1f74]) by
+ sbdeex02.sbitdom.lan ([fe80::e0eb:ade8:2d90:1f74%8]) with mapi id
+ 15.02.0986.014; Wed, 5 Jan 2022 10:58:38 +0100
+From:   =?iso-8859-1?Q?Christian_L=F6hle?= <CLoehle@hyperstone.com>
+To:     "jason.wessel@windriver.com" <jason.wessel@windriver.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "daniel.thompson@linaro.org" <daniel.thompson@linaro.org>
+CC:     "dianders@chromium.org" <dianders@chromium.org>,
+        "corbet@lwn.net" <corbet@lwn.net>
+Subject: [PATCHv2] Documentation: kgdb: Replace deprecated remotebaud
+Thread-Topic: [PATCHv2] Documentation: kgdb: Replace deprecated remotebaud
+Thread-Index: AQHYAhrP68jNDNfAGESeJuyhR8BXsQ==
+Date:   Wed, 5 Jan 2022 09:58:38 +0000
+Message-ID: <4050689967ed46baaa3bfadda53a0e73@hyperstone.com>
+References: <13287b7914344c7995de27224cd2fa73@hyperstone.com>
+In-Reply-To: <13287b7914344c7995de27224cd2fa73@hyperstone.com>
+Accept-Language: en-US, de-DE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.154.1.4]
+Content-Type: text/plain;
+        charset="iso-8859-1"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-References: <20211013063656.3084555-1-chenhuacai@loongson.cn>
- <722477bcc461238f96c3b038b2e3379ee49efdac.camel@mengyan1223.wang>
- <CAAhV-H40oWqkD+tQ3=XA8ijQGukkeG5O1M1JL3v5i402dFLK+Q@mail.gmail.com> <587ab54d77af2fb4cdbe0530cdd5e550c3e968db.camel@mengyan1223.wang>
-In-Reply-To: <587ab54d77af2fb4cdbe0530cdd5e550c3e968db.camel@mengyan1223.wang>
-From:   Huacai Chen <chenhuacai@gmail.com>
-Date:   Wed, 5 Jan 2022 17:40:49 +0800
-Message-ID: <CAAhV-H6R=xWL18AH7HzeXHOVD_d-5m7RvdQCLkOR1NeDZ_0HMw@mail.gmail.com>
-Subject: Re: [PATCH V5 00/22] arch: Add basic LoongArch support
-To:     Xi Ruoyao <xry111@mengyan1223.wang>
-Cc:     Huacai Chen <chenhuacai@loongson.cn>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Xuefeng Li <lixuefeng@loongson.cn>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>
-Content-Type: text/plain; charset="UTF-8"
+X-TMASE-Version: DDEI-5.1-8.6.1018-26634.007
+X-TMASE-Result: 10--0.454300-10.000000
+X-TMASE-MatchedRID: lywBov0pR41+wAuSUWlj5BIRh9wkXSlFVFeUPAjsd8ZbCSrW8+l8cULr
+        rcXwOuf4Rjuuru99Q9KPQi9XuOWoOCoJw+vEfUGtv4p3+B4TK3t9LQinZ4QefIFD/hZ+jeim3n8
+        eBZjGmUzkwjHXXC/4I7I7zVffJqTz8D0Hf2JT8FAKFoY6SUw56Ho6sQJvhZcTcdAmokxK8CbaWa
+        pPJ7+JSH7cGd19dSFd
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+X-TMASE-INERTIA: 0-0;;;;
+X-TMASE-XGENCLOUD: f2581985-86f5-4cef-9e87-1671d902defa-0-0-200-0
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Ruoyao,
+Using set remotebaud to set the baud rate was deprecated in
+gdb-7.7 and completely removed from the command parser in gdb-7.8
+(released in 2014). Adopt set serial baud instead.
 
-The problem still exists in 5.16-rc8, can you try to change
-cpu_relax() definition to smp_mb()? It seems can fix the problem.
+Signed-off-by: Christian Loehle <cloehle@hyperstone.com>
+---
+ Documentation/dev-tools/kgdb.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Huacai
+diff --git a/Documentation/dev-tools/kgdb.rst b/Documentation/dev-tools/kgdb.rst
+index 43456244651a..7c90e111b364 100644
+--- a/Documentation/dev-tools/kgdb.rst
++++ b/Documentation/dev-tools/kgdb.rst
+@@ -557,7 +557,7 @@ Connecting with gdb to a serial port
+    Example (using a directly connected port)::
+ 
+            % gdb ./vmlinux
+-           (gdb) set remotebaud 115200
++           (gdb) set serial baud 115200
+            (gdb) target remote /dev/ttyS0
+ 
+ 
+-- 
+2.34.1
+Hyperstone GmbH | Reichenaustr. 39a  | 78467 Konstanz
+Managing Director: Dr. Jan Peter Berns.
+Commercial register of local courts: Freiburg HRB381782
 
-On Tue, Dec 28, 2021 at 4:34 PM Xi Ruoyao <xry111@mengyan1223.wang> wrote:
->
-> On Tue, 2021-12-21 at 15:53 +0800, Huacai Chen wrote:
->
-> > On Mon, Dec 20, 2021 at 5:04 PM Xi Ruoyao <xry111@mengyan1223.wang>
-> > wrote:
-> > >
-> > > The snapshot panics on my system under high pressure (building and
-> > > testing GCC).  The panic message is pasted, but it's kind of broken up
-> > > likely because multiple CPU cores were outputing to the serial console
-> > > simutaniously.
-> > >
-> > > The config is attached.  I'm not sure the reason of the panic (bug in
-> > > the patches or bug in mainline kernel?) Do you have some pointers to
-> > > diagnostic and fix the issue?
-> > >
-> > > [ 5391.004745] CPU 1 Unable to handle kernel paging request at virtual address 000000000040007e, era == 90000000003aa07c, ra == 90000000003aa84c
->
-> /* snip */
->
-> > We also found that the latest github kernel has some stable issues,
-> > and we are investigating.
->
-> I rebased the patches onto 438645193e59e91761ccb3fa55f6ce70b615ff93 and
-> the problem *seems* gone.  Not sure if it's something fixed in the
-> mainline or some more strange thing.
-> --
-> Xi Ruoyao <xry111@mengyan1223.wang>
-> School of Aerospace Science and Technology, Xidian University
