@@ -2,129 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69CF0C433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Jan 2022 08:46:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6D1EC433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Jan 2022 08:55:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238598AbiAEIqR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Jan 2022 03:46:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48456 "EHLO
+        id S238689AbiAEIzl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Jan 2022 03:55:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238594AbiAEIqL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jan 2022 03:46:11 -0500
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BF45C061761;
-        Wed,  5 Jan 2022 00:46:09 -0800 (PST)
-Received: by mail-yb1-xb2c.google.com with SMTP id 139so84312778ybd.3;
-        Wed, 05 Jan 2022 00:46:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=yLB7IVB0dD9yr5YnGhjjp/a2jSmJoziesxnjCGMoDoY=;
-        b=gAVBjNrmdb+d3COR6tf2hQ+x0SSML3S7ERiWKgpKItRITaD3VfmKJMUY5TtdlGLWGs
-         wHZ6ILuHatqoSIfnAqQUrrv1+jddN8tdNNUlqsbklOOvZPsjI5PQUZi1AZf/7QB6qZh+
-         9Gg+uH2Mx18SN5KLJ0vu2RCkWCBBY2aMSqkyxrDAF1pXvjBJnxp5p++NEArkVLiThp9c
-         +Hg617J5FmXjDd9m1dWqkIxta13vliEqWsHXwTemoiKniatyAvWjCm/TJaNJx9U3zCkB
-         Nq9LZO3a9EL4vKk40l/cgGa4B0zDGk9U2GUKcRcNRN7oRKCJtVNjJPWqPx0gv1q2BInB
-         4uQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yLB7IVB0dD9yr5YnGhjjp/a2jSmJoziesxnjCGMoDoY=;
-        b=QoMGsNIMWmnWQX0v9ntuv0xiiO6pJNHI6bTnqbCP0zeQnBoWQ2Cd6eU0f3mapl3lJW
-         gr/wo9tWX8o0P9E7oOMpnN0OX2z6MAAEUENwgKeqK9oFSZ5bQXxpgrQMCcGPSgrCdu80
-         ZmUSffhUzP+liC3vP1jx3YqtAyNLX8fGi+KXgSksMzaT8FQTIDNXMSyIKLiov5UyFeJm
-         7NVvM6XTA8OR8MxXXu8u9TNic/aSvK1Cydcsg4ajqJwUcUaI3p8ONc9PJwu8PQQE5O0J
-         6re4hFuZg1S2h2HhrQvTO3KBcdlneeWSG/q5ckrMhl/M4jm9c0l4Vp08Z0vupipNYrxK
-         rkBQ==
-X-Gm-Message-State: AOAM533W0eStVf4bVNztkWZZxCCHOt3W58FB5SJhmoys6WSUULmZi7mt
-        eWL6h2IJhdfOUNFthGRgs0E57WHPa9nc3b2wmfI=
-X-Google-Smtp-Source: ABdhPJxKZjdguPQpuQsvmAp5F1BhlZCZ6ebR5Bj5fxyFwSy+2/nGEQi7EBQlFxacNNdKDpomt4+Gd78R6DmVXO9YSf4=
-X-Received: by 2002:a25:d44:: with SMTP id 65mr56328146ybn.510.1641372368709;
- Wed, 05 Jan 2022 00:46:08 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1641203216.git.linux@leemhuis.info> <7b71a1262b8b72d30154203bb14f00db7d4170ef.1641203216.git.linux@leemhuis.info>
- <CAKXUXMy-RT5kc5yzafQyxRQ1pfY2-K3KE9iAxFXvcB2o0V+ceQ@mail.gmail.com> <72fcaa40-5884-710f-58b6-bf40a1f58e57@leemhuis.info>
-In-Reply-To: <72fcaa40-5884-710f-58b6-bf40a1f58e57@leemhuis.info>
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date:   Wed, 5 Jan 2022 09:45:57 +0100
-Message-ID: <CAKXUXMwJU2vZp2C8Q6xEUCgKox2z_Qt5gH_UpSa5BJiVeRkoyg@mail.gmail.com>
-Subject: Re: [RFC PATCH v1 1/2] docs: add a document about regression handling
-To:     Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        with ESMTP id S230087AbiAEIzk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jan 2022 03:55:40 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D8FFC061761;
+        Wed,  5 Jan 2022 00:55:40 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CF9636167C;
+        Wed,  5 Jan 2022 08:55:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40542C36AED;
+        Wed,  5 Jan 2022 08:55:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1641372939;
+        bh=8g2/BPq40vc0NB9YrpqVmK/MOPITFPSqe8IDisKitYM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:From;
+        b=RhlC90KRwV78uVdBiA0YhKQFavgF1UGclkv2HRA99uEzfv/1Ohf7wWXR1DCOmJwdX
+         aZQayzLZ0i3HGIycHmFH7u6kK7dYQzmLliPYYH3l5Zf7Hr3N+gLloYw7M4+2zC4wNd
+         pu3RUfIzIai7MzOFl7KdUgS/qvI730/nCYneNqMQkTSLZczGyT8yGXD0v4MYgyXBmQ
+         FlMQeSqH+tPmJpqIjlOWkppbyF4Ejv3WaqwhlcyJcRpS1DVFiRsIk/DUX7COleX4Nl
+         xuWw5stqjVgl5WOrX8JOPSLw4FgD2azP+z09MWNl1fdU7nFnRCzVhrqiblUxQPrSC1
+         Ahpc97PzKVbqw==
+From:   SeongJae Park <sj@kernel.org>
+To:     Yu Zhao <yuzhao@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        workflows@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
+        Andi Kleen <ak@linux.intel.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, x86@kernel.org
+Subject: Re: [PATCH v6 0/9] Multigenerational LRU Framework
+Date:   Wed,  5 Jan 2022 08:55:34 +0000
+Message-Id: <20220105085534.22981-1-sj@kernel.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220104202227.2903605-1-yuzhao@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 4, 2022 at 6:57 PM Thorsten Leemhuis <linux@leemhuis.info> wrote:
->
->
-> On 04.01.22 15:17, Lukas Bulwahn wrote:
-> > On Mon, Jan 3, 2022 at 3:23 PM Thorsten Leemhuis <linux@leemhuis.info> wrote:
-> >>
-> >> Create a document explaining various aspects around regression handling
-> >> and tracking both for users and developers. Among others describe the
-> >> first rule of Linux kernel development and what it means in practice.
-> >> Also explain what a regression actually is and how to report them
-> >> properly. The text additionally provides a brief introduction to the bot
-> >> the kernel's regression tracker users to facilitate the work. To sum
-> >> things up, provide a few quotes from Linus to show how serious the he
-> >> takes regressions.
-> >>
-> >> [...]
-> >
-> > [lots of helpful suggestions for fixes and small improvements]
->
-> Many thx, addressed all of them, not worth commenting on each of them
-> individually.
->
->
-> >> +What is the goal of the 'no regressions rule'?
-> >> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >> +
-> >> +Users should feel safe when updating kernel versions and not have to worry
-> >> +something might break. This is in the interest of the kernel developers to make
-> >> +updating attractive: they don't want users to stay on stable or longterm Linux
-> >> +series either abandoned or more than one and a half year old, as `those might
-> >> +have known problems, security issues, or other aspects already improved in later
-> >> +versions
-> >> +<http://www.kroah.com/log/blog/2018/08/24/what-stable-kernel-should-i-use/>`_.
-> >> +
-> > Maybe add something like this:
-> >
-> > A larger user community means more exposure and more confidence that
-> > any critical bug introduced is likely to be found closer to the point
-> > in time it was introduced, and hence the shipped kernels have less
-> > critical bugs.
-> >
-> > Just to close the line of thought here.
->
-> Hmmm. How about this instead:
->
-> The kernel developers also want to make it simple and appealing for
-> users to test the latest (pre-)release, as it's a lot easier to track
-> down and fix problems, if they are reported shortly after being introduced.
+Hi Yu,
 
-Yes, your sentence conveys the same point and is much more down to
-earth. My sentence looks much more "academic".
+On Tue, 4 Jan 2022 13:22:19 -0700 Yu Zhao <yuzhao@google.com> wrote:
 
-> > Okay, that is how far I got reading for now.
->
-> Great, many thx for your help, much appreciated. FWIW, find below the
-> current version of the plain text which contains a few more fixes. Note,
-> thunderbird will insert wrong line breaks here.
->
-> Ciao, Thorsten
->
+> TLDR
+> ====
+> The current page reclaim is too expensive in terms of CPU usage and it
+> often makes poor choices about what to evict. This patchset offers an
+> alternative solution that is performant, versatile and
+> straightforward.
+>  
+[...]
+> Summery
+> =======
+> The facts are:
+> 1. The independent lab results and the real-world applications
+>    indicate substantial improvements; there are no known regressions.
 
-All good, I will wait until the next version of this patch series shows up.
+So impressive results!
 
-Lukas
+> 2. Thrashing prevention, working set estimation and proactive reclaim
+>    work out of the box; there are no equivalent solutions.
+
+I think similar works are already available out of the box with the latest
+mainline tree, though it might be suboptimal in some cases.
+
+First, you can do thrashing prevention using DAMON-based Operation Scheme
+(DAMOS)[1] with MADV_COLD action.  Second, for working set estimation, you can
+either use the DAMOS again with statistics action, or the damon_aggregated
+tracepoint[2].  The DAMON user space tool[3] helps the tracepoint analysis and
+visualization.  Finally, for the proactive reclaim, you can again use the DAMOS
+with MADV_PAGEOUT action, or simply the DAMON-based proactive reclaim
+module (DAMON_RECLAIM)[4].
+
+Nevertheless, as noted above, current DAMON based solutions might be suboptimal
+for some cases.  First of all, DAMON currently doesn't provide page granularity
+monitoring.  Though its monitoring results were useful for our users'
+production usages, there could be different requirements and situations.
+Secondly, the DAMON-based thrashing prevention wouldn't reduce the CPU usage of
+the reclamation logic's access scanning.
+
+So, to me, MGLRU patchset looks providing something that DAMON doesn't provide,
+but also something that DAMON is already providing.  Specifically, the
+efficient page granularity access scanning is what DAMON doesn't provide for
+now.  However, the utilization of the access information for LRU list
+manipulation (thrashing prevention) and proactive reclamation is similar to
+what DAMON (specifically, DAMOS) provides.  Also, this patchset is reducing the
+reclamation logic's CPU usage using the efficient page granularity access
+scanning.
+
+IMHO, we might be able to reduce the duplicates by integrating MGLRU in DAMON.
+What I'm saying is, we could 1) introduce the efficient page granularity access
+scanning, 2) reduce the reclamation logic's CPU usage by making it to use the
+efficient page granularity access scanning, and 3) extend DAMON for page
+granularity monitoring with the efficient access sacanning[5].  Then, users
+could get the benefit of MGLRU by using DAMOS but setting it to use your
+efficient page granularity access scanning.  To make it more simple, we can
+extend existing kernel logics to use DAMON in the way, or implement a new
+kernel module.  Additional advantages of this approach would be 1) reducing the
+changes to the existing code, and 2) making the efficient page granularity
+access information be utilized for more general cases.
+
+Of course, the integration might not be so simple as seems to me now.  We could
+put DAMON and MGLRU together as those are for now, and let users select what
+they really want.  I think it's up to you.
+
+I didn't read this patchset thoroughly yet, so I might missing many things.  If
+so, please feel free to let me know.
+
+[1] https://docs.kernel.org/admin-guide/mm/damon/usage.html#schemes
+[2] https://docs.kernel.org/admin-guide/mm/damon/usage.html#tracepoint-for-monitoring-results
+[3] https://github.com/awslabs/damo
+[4] https://docs.kernel.org/admin-guide/mm/damon/reclaim.html
+[5] https://docs.kernel.org/vm/damon/design.html#configurable-layers
+
+
+Thanks,
+SJ
+
+[...]
