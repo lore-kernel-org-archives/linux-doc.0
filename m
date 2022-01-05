@@ -2,153 +2,237 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34A73C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Jan 2022 22:22:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30521C433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Jan 2022 22:28:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244866AbiAEWW3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Jan 2022 17:22:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37546 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244858AbiAEWW1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jan 2022 17:22:27 -0500
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCA35C061201
-        for <linux-doc@vger.kernel.org>; Wed,  5 Jan 2022 14:22:27 -0800 (PST)
-Received: by mail-pl1-x62b.google.com with SMTP id l15so609096pls.7
-        for <linux-doc@vger.kernel.org>; Wed, 05 Jan 2022 14:22:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=sUkgqFDFiDtGVPAUgU6Xa5ITE/sInAze9iX46Pb2MMM=;
-        b=hsw8ppEFMFavAQBLMRV81zeXSO4N9aaulrhq4zBMNKCIvOHYGwhepxxDE5YbvBogUL
-         PqHhS6Xmpa0TYh63N01wJPn4zqRQpFNgm9oxqA4d5AlYKRYwrsUsP65RPp8OyR3x+ail
-         OmUsFdsXixIG/2HXpIkLMYZX38j5tamqjcxIBeIznNt8gusyjVJD/odIX1Gvpd7Co0v/
-         yvduhyMO2zYaEUvNaQBpHOOe+2sT1UUuduZli34eSLImebr84FFfnHJWIY7W9T/Do/7w
-         ExMUUg37iCz/843yWtOeNScDqfXqPolmYi9Ksa2As5Lnc2cgxMWKs9rm2kKACJiQ4p+h
-         dNqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=sUkgqFDFiDtGVPAUgU6Xa5ITE/sInAze9iX46Pb2MMM=;
-        b=UikrT5l62R0uN8pnxlo2iMU3Bmw+jxV/42kzO56R8yp/z5LPlKxdEletxlckT9cViH
-         0WdGyYSH3OKRxLYzCWnHf/s9J7ktV2KRNx/BrNlwFJFle12bJ/5J+SWVhzIqKR7B2sTR
-         lYD64zdHpUvJbDKDToaR7RjQNNWo+sY4bcAfu7lunr/fFpfTJiCK8VJNyI9QSZtWFZvX
-         G8ZXlILqpuadYLVUw1Cm/3Aqc0Fxg17Fvk1pAZDeRdmNq/owIURiUTA4wpc/jrtoNP1t
-         kWbuYM8vpXvaIUpQm8Bvisid8C6cLcc6uj82mQRS+Rp4qfGx1EbQjhlescrpsVTDni0P
-         xyIw==
-X-Gm-Message-State: AOAM532UeSOsy82BOUH0VlnV24aV1nmEeuvXamy0t86Zk5M4GVs6iVsO
-        U/Td117OkmAGcrLhvAU5omJc3Q==
-X-Google-Smtp-Source: ABdhPJzV0453KxEmLbbliY/F1QMex40PViYGaR8yL4+U0XEANUOTELIy6hs/rP6QmX4zFV3P9pUY2Q==
-X-Received: by 2002:a17:90b:180a:: with SMTP id lw10mr6597393pjb.57.1641421346908;
-        Wed, 05 Jan 2022 14:22:26 -0800 (PST)
-Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id x40sm102352pfu.185.2022.01.05.14.22.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Jan 2022 14:22:26 -0800 (PST)
-Date:   Wed, 5 Jan 2022 22:22:23 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Yang Zhong <yang.zhong@intel.com>
-Cc:     x86@kernel.org, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, pbonzini@redhat.com, corbet@lwn.net,
-        shuah@kernel.org, jun.nakajima@intel.com, kevin.tian@intel.com,
-        jing2.liu@linux.intel.com, jing2.liu@intel.com,
-        guang.zeng@intel.com, wei.w.wang@intel.com
-Subject: Re: [PATCH v5 12/21] kvm: x86: Intercept #NM for saving IA32_XFD_ERR
-Message-ID: <YdYaH7buoApEVPOg@google.com>
-References: <20220105123532.12586-1-yang.zhong@intel.com>
- <20220105123532.12586-13-yang.zhong@intel.com>
+        id S244958AbiAEW2P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Jan 2022 17:28:15 -0500
+Received: from mga02.intel.com ([134.134.136.20]:51551 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S244956AbiAEW2M (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 5 Jan 2022 17:28:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1641421692; x=1672957692;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6LIBXyaKFJEHPtRwlnepVZes39DKURgaN+zkOlHhy5M=;
+  b=itTYGYP7HGjB6JtNrnbcZrAJvLH/8snqKbnaEObiHh8cFfYA0WsZH96O
+   pywFiIRsyuKvgfRROIbpQKiFizNL6wm4PrAW/yupwlAouR/9JVu9rh+tM
+   nog4/jPe/et3aYOkE/cotTVa0DQ6YGHZF3+BBfGocA+mxzopkO2UeIIMz
+   /N4DhhAFMDjyeZPr0OGd/4yTra0rBLxO7hyZQv06KTetJ/3kcOLyzBvLp
+   ZzSJKyZUN9exT8E2bX7d4YtAf8L6kn8bq1EmSOy5SVWMK4tQZvJDyOtxJ
+   htd+u6AGUujV19kJ5cj+STtlIih3UPpE/GJ1CqazrAVWBltuJHVhhTJsw
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="229870981"
+X-IronPort-AV: E=Sophos;i="5.88,265,1635231600"; 
+   d="scan'208";a="229870981"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2022 14:27:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,265,1635231600"; 
+   d="scan'208";a="470732360"
+Received: from lkp-server01.sh.intel.com (HELO e357b3ef1427) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 05 Jan 2022 14:27:55 -0800
+Received: from kbuild by e357b3ef1427 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1n5El8-000H5a-Vi; Wed, 05 Jan 2022 22:27:54 +0000
+Date:   Thu, 6 Jan 2022 06:27:15 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Paul Cercueil <paul@crapouillou.net>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, list@opendingux.net,
+        Paul Cercueil <paul@crapouillou.net>,
+        Cosmin Tanislav <cosmin.tanislav@analog.com>
+Subject: Re: [PATCH v2 2/2] hwmon: Add "label" attribute
+Message-ID: <202201060630.vsp02mfB-lkp@intel.com>
+References: <20220105151551.20285-3-paul@crapouillou.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220105123532.12586-13-yang.zhong@intel.com>
+In-Reply-To: <20220105151551.20285-3-paul@crapouillou.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 05, 2022, Yang Zhong wrote:
-> @@ -6399,6 +6424,26 @@ static void handle_interrupt_nmi_irqoff(struct kvm_vcpu *vcpu,
->  	kvm_after_interrupt(vcpu);
->  }
->  
-> +static void handle_nm_fault_irqoff(struct kvm_vcpu *vcpu)
-> +{
-> +	/*
-> +	 * Save xfd_err to guest_fpu before interrupt is enabled, so the
-> +	 * MSR value is not clobbered by the host activity before the guest
-> +	 * has chance to consume it.
-> +	 *
-> +	 * We should not blindly read xfd_err here, since this exception
+Hi Paul,
 
-Nit, avoid "we", and explain what KVM does (or doesn't) do, not what KVM "should"
-do, e.g. just say
+I love your patch! Perhaps something to improve:
 
-	 * Do not blindly read ...
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on v5.16-rc8 next-20220105]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-> +	 * might be caused by L1 interception on a platform which doesn't
-> +	 * support xfd at all.
-> +	 *
-> +	 * Do it conditionally upon guest_fpu::xfd. xfd_err matters
-> +	 * only when xfd contains a non-zero value.
-> +	 *
-> +	 * Queuing exception is done in vmx_handle_exit. See comment there.
+url:    https://github.com/0day-ci/linux/commits/Paul-Cercueil/hwmon-Add-label-attribute-v2/20220105-231930
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+config: arm64-randconfig-r026-20220105 (https://download.01.org/0day-ci/archive/20220106/202201060630.vsp02mfB-lkp@intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project d5b6e30ed3acad794dd0aec400e617daffc6cc3d)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/0day-ci/linux/commit/57dab49995d01d638d9fa9aaddb5fa48e17b3c48
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Paul-Cercueil/hwmon-Add-label-attribute-v2/20220105-231930
+        git checkout 57dab49995d01d638d9fa9aaddb5fa48e17b3c48
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/hwmon/
 
-Another nit, it's worth explaining why XFD_ERR needs to be read here regardless
-of is_guest_mode().  E.g.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-	 * Injecting the #NM back into the guest is handled in the standard path
-	 * as an #NM in L2 may be reflected into L1 as a VM-Exit.  Read XFD_ERR
-	 * even if the #NM is from L2, as L1 may have exposed XFD to L2.
+All warnings (new ones prefixed by >>):
 
-Side topic, in a follow up series/patch, it's probably worth adding support in
-nested_vmx_prepare_msr_bitmap() to allow passthrough of the MSRs to L2.
+>> drivers/hwmon/hwmon.c:777:7: warning: variable 'hdev' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+                   if (hwdev->label == NULL) {
+                       ^~~~~~~~~~~~~~~~~~~~
+   drivers/hwmon/hwmon.c:851:20: note: uninitialized use occurs here
+           hwmon_dev_release(hdev);
+                             ^~~~
+   drivers/hwmon/hwmon.c:777:3: note: remove the 'if' if its condition is always false
+                   if (hwdev->label == NULL) {
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hwmon/hwmon.c:773:7: warning: variable 'hdev' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+                   if (err < 0)
+                       ^~~~~~~
+   drivers/hwmon/hwmon.c:851:20: note: uninitialized use occurs here
+           hwmon_dev_release(hdev);
+                             ^~~~
+   drivers/hwmon/hwmon.c:773:3: note: remove the 'if' if its condition is always false
+                   if (err < 0)
+                   ^~~~~~~~~~~~
+   drivers/hwmon/hwmon.c:752:21: note: initialize the variable 'hdev' to silence this warning
+           struct device *hdev;
+                              ^
+                               = NULL
+   2 warnings generated.
 
-> +	 */
-> +	if (vcpu->arch.guest_fpu.fpstate->xfd)
-> +		rdmsrl(MSR_IA32_XFD_ERR, vcpu->arch.guest_fpu.xfd_err);
-> +}
-> +
->  static void handle_exception_nmi_irqoff(struct vcpu_vmx *vmx)
->  {
->  	const unsigned long nmi_entry = (unsigned long)asm_exc_nmi_noist;
-> @@ -6407,6 +6452,9 @@ static void handle_exception_nmi_irqoff(struct vcpu_vmx *vmx)
->  	/* if exit due to PF check for async PF */
->  	if (is_page_fault(intr_info))
->  		vmx->vcpu.arch.apf.host_apf_flags = kvm_read_and_reset_apf_flags();
-> +	/* if exit due to NM, handle before interrupts are enabled */
 
-Nit, drop this comment, it's slightly misleading since the #NM isn't fully handled
-here.  The comment in handle_nm_fault_irqoff() is more than sufficient.
+vim +777 drivers/hwmon/hwmon.c
 
-> +	else if (is_nm_fault(intr_info))
-> +		handle_nm_fault_irqoff(&vmx->vcpu);
->  	/* Handle machine checks before interrupts are enabled */
->  	else if (is_machine_check(intr_info))
->  		kvm_machine_check();
-> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> index 21ce65220e38..2c988f8ca616 100644
-> --- a/arch/x86/kvm/x86.c
-> +++ b/arch/x86/kvm/x86.c
-> @@ -9953,6 +9953,9 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
->  	if (test_thread_flag(TIF_NEED_FPU_LOAD))
->  		switch_fpu_return();
->  
-> +	if (vcpu->arch.guest_fpu.xfd_err)
-> +		wrmsrl(MSR_IA32_XFD_ERR, vcpu->arch.guest_fpu.xfd_err);
-> +
->  	if (unlikely(vcpu->arch.switch_db_regs)) {
->  		set_debugreg(0, 7);
->  		set_debugreg(vcpu->arch.eff_db[0], 0);
-> @@ -10016,6 +10019,9 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
->  
->  	static_call(kvm_x86_handle_exit_irqoff)(vcpu);
->  
-> +	if (vcpu->arch.guest_fpu.xfd_err)
-> +		wrmsrl(MSR_IA32_XFD_ERR, 0);
-> +
->  	/*
->  	 * Consume any pending interrupts, including the possible source of
->  	 * VM-Exit on SVM and any ticks that occur between VM-Exit and now.
+   744	
+   745	static struct device *
+   746	__hwmon_device_register(struct device *dev, const char *name, void *drvdata,
+   747				const struct hwmon_chip_info *chip,
+   748				const struct attribute_group **groups)
+   749	{
+   750		struct hwmon_device *hwdev;
+   751		const char *label;
+   752		struct device *hdev;
+   753		int i, err, id;
+   754	
+   755		/* Complain about invalid characters in hwmon name attribute */
+   756		if (name && (!strlen(name) || strpbrk(name, "-* \t\n")))
+   757			dev_warn(dev,
+   758				 "hwmon: '%s' is not a valid name attribute, please fix\n",
+   759				 name);
+   760	
+   761		id = ida_simple_get(&hwmon_ida, 0, 0, GFP_KERNEL);
+   762		if (id < 0)
+   763			return ERR_PTR(id);
+   764	
+   765		hwdev = kzalloc(sizeof(*hwdev), GFP_KERNEL);
+   766		if (hwdev == NULL) {
+   767			err = -ENOMEM;
+   768			goto ida_remove;
+   769		}
+   770	
+   771		if (device_property_present(dev, "label")) {
+   772			err = device_property_read_string(dev, "label", &label);
+   773			if (err < 0)
+   774				goto free_hwmon;
+   775	
+   776			hwdev->label = kstrdup(label, GFP_KERNEL);
+ > 777			if (hwdev->label == NULL) {
+   778				err = -ENOMEM;
+   779				goto free_hwmon;
+   780			}
+   781		}
+   782	
+   783		hdev = &hwdev->dev;
+   784	
+   785		if (chip) {
+   786			struct attribute **attrs;
+   787			int ngroups = 2; /* terminating NULL plus &hwdev->groups */
+   788	
+   789			if (groups)
+   790				for (i = 0; groups[i]; i++)
+   791					ngroups++;
+   792	
+   793			hwdev->groups = kcalloc(ngroups, sizeof(*groups), GFP_KERNEL);
+   794			if (!hwdev->groups) {
+   795				err = -ENOMEM;
+   796				goto free_hwmon;
+   797			}
+   798	
+   799			attrs = __hwmon_create_attrs(drvdata, chip);
+   800			if (IS_ERR(attrs)) {
+   801				err = PTR_ERR(attrs);
+   802				goto free_hwmon;
+   803			}
+   804	
+   805			hwdev->group.attrs = attrs;
+   806			ngroups = 0;
+   807			hwdev->groups[ngroups++] = &hwdev->group;
+   808	
+   809			if (groups) {
+   810				for (i = 0; groups[i]; i++)
+   811					hwdev->groups[ngroups++] = groups[i];
+   812			}
+   813	
+   814			hdev->groups = hwdev->groups;
+   815		} else {
+   816			hdev->groups = groups;
+   817		}
+   818	
+   819		hwdev->name = name;
+   820		hdev->class = &hwmon_class;
+   821		hdev->parent = dev;
+   822		hdev->of_node = dev ? dev->of_node : NULL;
+   823		hwdev->chip = chip;
+   824		dev_set_drvdata(hdev, drvdata);
+   825		dev_set_name(hdev, HWMON_ID_FORMAT, id);
+   826		err = device_register(hdev);
+   827		if (err) {
+   828			put_device(hdev);
+   829			goto ida_remove;
+   830		}
+   831	
+   832		INIT_LIST_HEAD(&hwdev->tzdata);
+   833	
+   834		if (dev && dev->of_node && chip && chip->ops->read &&
+   835		    chip->info[0]->type == hwmon_chip &&
+   836		    (chip->info[0]->config[0] & HWMON_C_REGISTER_TZ)) {
+   837			err = hwmon_thermal_register_sensors(hdev);
+   838			if (err) {
+   839				device_unregister(hdev);
+   840				/*
+   841				 * Don't worry about hwdev; hwmon_dev_release(), called
+   842				 * from device_unregister(), will free it.
+   843				 */
+   844				goto ida_remove;
+   845			}
+   846		}
+   847	
+   848		return hdev;
+   849	
+   850	free_hwmon:
+   851		hwmon_dev_release(hdev);
+   852	ida_remove:
+   853		ida_simple_remove(&hwmon_ida, id);
+   854		return ERR_PTR(err);
+   855	}
+   856	
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
