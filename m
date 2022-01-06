@@ -2,41 +2,43 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 780EFC433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Jan 2022 16:27:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93125C433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Jan 2022 16:43:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241165AbiAFQ1r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Jan 2022 11:27:47 -0500
-Received: from fanzine2.igalia.com ([213.97.179.56]:48506 "EHLO
-        fanzine2.igalia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241130AbiAFQ1r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jan 2022 11:27:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
-        Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
-        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=Ffi4OVxuXbWWBnuJPOpg4V8HSkXdxU2ejGHKL7qeiGc=; b=ZNwbBVHhSPVSNWUDBobDawL/Vi
-        OKdlQC7Gni42TEu/uw4uzrbLRea1fjdhZn9vtthlut9y7zo7KWwJV8Ghpqmuv+WeClOiJLn72o7Rg
-        ppRpMbTuHcWC/q8nJC1iJlSjjqz1533oUlHLKfiXfATxOCeqkouqOa3MaRIaVxgQ7UBQTQSduhx69
-        ZZFf0a6nhpDqd7V+LozGVt4jOCisOpCyWU6LD4mfq8m2ePL08obEwKbLJuj+FbqSsuoBKKUqKuzmi
-        qXbY38E3Ro/LM8e8VeBT//alrTWPsUgEBufT0P8nuKslF2Xevzu45AK0EHT/9p5u+0Re9/XWboSO8
-        77V914SQ==;
-Received: from [179.113.53.20] (helo=localhost)
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-        id 1n5Vc6-00032F-D3; Thu, 06 Jan 2022 17:27:43 +0100
-From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-To:     kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
-        dyoung@redhat.com
-Cc:     linux-doc@vger.kernel.org, bhe@redhat.com, vgoyal@redhat.com,
-        stern@rowland.harvard.edu, akpm@linux-foundation.org,
-        andriy.shevchenko@linux.intel.com, corbet@lwn.net,
-        halves@canonical.com, gpiccoli@igalia.com, kernel@gpiccoli.net
-Subject: [PATCH] notifier/panic: Introduce panic_notifier_filter
-Date:   Thu,  6 Jan 2022 13:27:10 -0300
-Message-Id: <20220106162710.97544-1-gpiccoli@igalia.com>
+        id S241337AbiAFQnq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Jan 2022 11:43:46 -0500
+Received: from mo4-p00-ob.smtp.rzone.de ([81.169.146.219]:40777 "EHLO
+        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241308AbiAFQnp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jan 2022 11:43:45 -0500
+X-Greylist: delayed 358 seconds by postgrey-1.27 at vger.kernel.org; Thu, 06 Jan 2022 11:43:45 EST
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1641487060;
+    s=strato-dkim-0002; d=thson.de;
+    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+    bh=wAcftMYvpxNI2AzULy3ljKiRHW2rqgQ/ch64sBX3nsc=;
+    b=r6e/tGpjew7UdqfJNL9/oiyOAekFl7ZyXuM2QhP19bSSmSu/O5oac+uLfLsw2Kz4hU
+    oAIqxUOKD5pvLRWIN5O1c4rgbPocQ9DAsL9eSoerkGI4a1buiVu7izlmi4qv1CDQAeie
+    tr/ECBg39zbJ6v5ZQp99ky9+vSrAK4Pyk9Rij1Eg2n4+sJgiynE/BjXYIXK+qOuZxPii
+    I2I8WdLYbreLXRLEN+RFdDmVno1k1/y5tvR+tuys+YG2T6gkRthNbqbWFRo/V6ciHJ9E
+    Q3cBDkYb/6HwofjKPK4EARqSWUzlA8D/d/ymmAeZ445+2gD+EihWP8AkXpqSM9dhTeUU
+    g/6g==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":PHkGeUmrW+uCZmxs998QJRUX30nOwJd7nOD9sw/xoauycprg5uef7cgCEpy7sPc="
+X-RZG-CLASS-ID: mo00
+Received: from USER-PC.fritz.box
+    by smtp.strato.de (RZmta 47.37.4 DYNA|AUTH)
+    with ESMTPSA id u2923ay06Gbe8Gt
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+        (Client did not present a certificate);
+    Thu, 6 Jan 2022 17:37:40 +0100 (CET)
+From:   Thore Sommer <public@thson.de>
+To:     dm-devel@redhat.com, agk@redhat.com, snitzer@redhat.com
+Cc:     linux-doc@vger.kernel.org, tusharsu@linux.microsoft.com,
+        Thore Sommer <public@thson.de>
+Subject: [PATCH] dm ima: updates to grammar and some details in documentation
+Date:   Thu,  6 Jan 2022 17:37:31 +0100
+Message-Id: <20220106163731.165391-1-public@thson.de>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -44,309 +46,105 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The kernel notifier infrastructure allows function callbacks to be
-added in multiple lists, which are then called in the proper time,
-like in a reboot or panic event. The panic_notifier_list specifically
-contains the callbacks that are executed during a panic event. As any
-other notifier list, the panic one has no filtering and all functions
-previously registered are executed.
+The grammar for the events dm_device_remove, device_resume and
+dm_table_clear did not include the no_data entry when device data
+and hash are missing.
 
-The kdump infrastructure, on the other hand, enables users to set
-a crash kernel that is kexec'ed in a panic event, and vmcore/logs
-are collected in such crash kernel. When kdump is set, by default
-the panic notifiers are ignored - the kexec jumps to the crash kernel
-before the list is checked and callbacks executed.
+For the device uuid or name "=" is also escaped with a "\".
 
-There are some cases though in which kdump users might want to
-allow panic notifier callbacks to execute _before_ the kexec to
-the crash kernel, for a variety of reasons - for example, users
-may think kexec is very prone to fail and want to give a chance
-to kmsg dumpers to run (and save logs using pstore), or maybe
-some panic notifier is required to properly quiesce some hardware
-that must be used to the crash kernel. For these cases, we have
-the kernel parameter "crash_kexec_post_notifiers".
+Add a note that dm_table_load might split its target measurements over
+multiple IMA events.
 
-But there's a problem: currently it's an "all-or-nothing" situation,
-the kdump user choice is either to execute all panic notifiers or
-none of them. Given that panic notifiers may increase the risk of a
-kdump failure, this is a tough decision and may affect the debug of
-hard to reproduce bugs, if for some reason the user choice is to
-enable panic notifiers, but kdump then fails.
-
-So, this patch aims to ease this decision: we hereby introduce a filter
-for the panic notifier list, in which users may select specifically
-which callbacks they wish to run, allowing a safer kdump. The allowlist
-should be provided using the parameter "panic_notifier_filter=a,b,..."
-where a, b are valid callback names. Invalid symbols are discarded.
-
-Currently up to 16 symbols may be passed in this list, we consider
-that this numbers allows enough flexibility (and no matter what
-architecture is used, at most 30 panic callbacks are registered).
-In an experiment using a qemu x86 virtual machine, by default only
-six callbacks are registered in the panic notifier list.
-Once a valid callback name is provided in the list, such function
-is allowed to be registered/unregistered in the panic_notifier_list;
-all other panic callbacks are ignored. Notice that this filter is
-only for the panic notifiers and has no effect in the other notifiers.
-
-Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
+Signed-off-by: Thore Sommer <public@thson.de>
 ---
+ .../admin-guide/device-mapper/dm-ima.rst      | 26 ++++++++++++++-----
+ 1 file changed, 20 insertions(+), 6 deletions(-)
 
-Hi folks, thanks in advance for reviews/suggestions! Some design
-decisions are worth to mention:
-
-(a) I've played first with a list approach instead of a static
-array, but noticed that..it'd require relying in memblock allocs,
-since we need to set the filter pretty early in boot process. So,
-decided to abandon that - a small array is cheap and much easier to
-implement.
-
-(b) The size of the array: I've counted < 30 panic notifiers for
-any architecture, and in my experiment only six are registered by
-default, in a qemu x86 guest. Also, doesn't make sense for the
-filter users to add a bunch of callbacks to the list, or else
-why are they using the filter in first place? So 16 seems a
-good trade-off.
-
-(c) Allowlist vs. denylist: this is something to consider. My
-approach is that functions listed in the filter are *allowed*
-to execute in the panic notifier, because this seems to me
-the most appropriate use case - kdump users might want one or 2
-callbacks to execute, and block all the other in a denylist
-seems bummer. But I'm open to ideas, of course, if the denylist
-approach seems more reasonable.
-
-(d) I've also tested __setup() instead of early_param(), but
-seems we don't catch all notifiers by then, so decided to set
-the filter really early.
-
-(e) Finally, an alternative would be to check the filter during
-the notifier call chain, but I thought it is simple and likely
-less invasive to just prevent registering the disallowed functions.
-
-Cheers,
-
-Guilherme
-
-
- .../admin-guide/kernel-parameters.txt         | 14 +++++-
- include/linux/panic_notifier.h                | 10 +++++
- kernel/notifier.c                             | 42 +++++++++++++++++-
- kernel/panic.c                                | 44 +++++++++++++++++++
- 4 files changed, 107 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 2fba82431efb..2dc4e98823ae 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3727,13 +3727,25 @@
- 	panic_on_warn	panic() instead of WARN().  Useful to cause kdump
- 			on a WARN().
+diff --git a/Documentation/admin-guide/device-mapper/dm-ima.rst b/Documentation/admin-guide/device-mapper/dm-ima.rst
+index a4aa50a828e0..fb6e4148b426 100644
+--- a/Documentation/admin-guide/device-mapper/dm-ima.rst
++++ b/Documentation/admin-guide/device-mapper/dm-ima.rst
+@@ -100,6 +100,9 @@ When a new table is loaded in a device's inactive table slot,
+ the device information and target specific details from the
+ targets in the table are measured.
  
-+	panic_notifier_filter=[function-list]
-+			Limit the functions registered by the panic notifier
-+			infrastructure. This allowlist is composed by function
-+			names, comma separated (invalid symbols are filtered
-+			out). Such functionality is useful for kdump users
-+			that set "crash_kexec_post_notifiers" in order to
-+			execute	panic notifiers, but at the same time wish to
-+			have just a subset of notifiers, not all of them. The
-+			list of functions is limited to 16 entries currently.
++Note that if there are too many targets to measure at once multiple IMA
++measurements will be generated.
 +
- 	crash_kexec_post_notifiers
- 			Run kdump after running panic-notifiers and dumping
- 			kmsg. This only for the users who doubt kdump always
- 			succeeds in any situation.
- 			Note that this also increases risks of kdump failure,
- 			because some panic notifiers can make the crashed
--			kernel more unstable.
-+			kernel more unstable. See the "panic_notifier_filter"
-+			parameter to have more control of which notifiers to
-+			execute.
+ The IMA measurement log has the following format for 'dm_table_load':
  
- 	parkbd.port=	[HW] Parallel port number the keyboard adapter is
- 			connected to, default is 0.
-diff --git a/include/linux/panic_notifier.h b/include/linux/panic_notifier.h
-index 41e32483d7a7..c84b31c342fd 100644
---- a/include/linux/panic_notifier.h
-+++ b/include/linux/panic_notifier.h
-@@ -5,6 +5,16 @@
- #include <linux/notifier.h>
- #include <linux/types.h>
+ ::
+@@ -118,9 +121,9 @@ The IMA measurement log has the following format for 'dm_table_load':
+  device_minor := "minor=" <N>
+  minor_count := "minor_count=" <N>
+  num_device_targets := "num_targets=" <N>
+- dm-device-name := Name of the device. If it contains special characters like '\', ',', ';',
++ dm-device-name := Name of the device. If it contains special characters like '\', ',', ';',"=",
+                    they are prefixed with '\'.
+- dm-device-uuid := UUID of the device. If it contains special characters like '\', ',', ';',
++ dm-device-uuid := UUID of the device. If it contains special characters like '\', ',', ';',"=",
+                    they are prefixed with '\'.
  
-+/*
-+ * The panic notifier filter infrastructure - each array element holds a
-+ * function address, to be checked against panic_notifier register/unregister
-+ * operations; these functions are allowed to be registered in the panic
-+ * notifier list. This setting is useful for kdump, since users may want
-+ * some panic notifiers to execute, but not all of them.
-+ */
-+extern unsigned int panic_nf_functions[];
-+extern long panic_nf_count;
-+
- extern struct atomic_notifier_head panic_notifier_list;
+  table_load_data := <target_data>
+@@ -175,8 +178,9 @@ The IMA measurement log has the following format for 'dm_device_resume':
+ ::
  
- extern bool crash_kexec_post_notifiers;
-diff --git a/kernel/notifier.c b/kernel/notifier.c
-index b8251dc0bc0f..04cb9e956058 100644
---- a/kernel/notifier.c
-+++ b/kernel/notifier.c
-@@ -1,4 +1,5 @@
- // SPDX-License-Identifier: GPL-2.0-only
-+#include <linux/panic_notifier.h>
- #include <linux/kdebug.h>
- #include <linux/kprobes.h>
- #include <linux/export.h>
-@@ -127,12 +128,34 @@ static int notifier_call_chain_robust(struct notifier_block **nl,
-  *	use a spinlock, and call_chain is synchronized by RCU (no locks).
-  */
+  EVENT_NAME := "dm_device_resume"
+- EVENT_DATA := <dm_version_str> ";" <device_metadata> ";" <active_table_hash> ";" <current_device_capacity> ";"
++ EVENT_DATA := <dm_version_str> ";" device_data ";" <current_device_capacity> ";"
  
-+/*
-+ * The following helper is part of the panic notifier filter infrastructure;
-+ * users can filter what functions they wish to allow being registered in the
-+ * notifier system, restricted to the panic notifier. This is useful for kdump
-+ * for example, when some notifiers are relevant but running all of them imposes
-+ * risks to the kdump kernel reliability.
-+ */
-+static bool is_panic_notifier_filtered(struct notifier_block *n)
-+{
-+	int i;
-+
-+	for (i = 0; i < panic_nf_count; i++) {
-+		if ((unsigned long)(n->notifier_call) == panic_nf_functions[i])
-+			return true;
-+	}
-+
-+	return false;
-+}
-+
- /**
-  *	atomic_notifier_chain_register - Add notifier to an atomic notifier chain
-  *	@nh: Pointer to head of the atomic notifier chain
-  *	@n: New entry in notifier chain
-  *
-  *	Adds a notifier to an atomic notifier chain.
-+ *	If "panic_notifier_filter" is provided, we hereby filter the
-+ *	panic_notifier_list and only allow registering the functions
-+ *	that are present in the filter.
-  *
-  *	Currently always returns zero.
-  */
-@@ -140,10 +163,16 @@ int atomic_notifier_chain_register(struct atomic_notifier_head *nh,
- 		struct notifier_block *n)
- {
- 	unsigned long flags;
--	int ret;
-+	int ret = 0;
++ device_data := <device_metadata> ";" <active_table_hash> | device_resume_no_data
+  dm_version_str := As described in the 'Table load' section above.
+  device_metadata := As described in the 'Table load' section above.
+  active_table_hash := "active_table_hash=" <table_hash_alg> ":" <table_hash>
+@@ -189,6 +193,9 @@ The IMA measurement log has the following format for 'dm_device_resume':
+                events for a given device, the hash is computed combining all the event data
+                i.e. (<dm_version_str> ";" <device_metadata> ";" <table_load_data> ";")
+                across all those events.
++ device_resume_no_data := "device_resume=no_data"
++                           If device metadata and hash for the active table do not exists this value gets measured.
++                           Note: the hash should always exist if the device metadata is present.
+  current_device_capacity := "current_device_capacity=" <N>
  
- 	spin_lock_irqsave(&nh->lock, flags);
-+	if (unlikely(panic_nf_count) && nh == &panic_notifier_list)
-+		if (!is_panic_notifier_filtered(n))
-+			goto panic_filtered_out;
-+
- 	ret = notifier_chain_register(&nh->head, n);
-+
-+panic_filtered_out:
- 	spin_unlock_irqrestore(&nh->lock, flags);
- 	return ret;
- }
-@@ -155,6 +184,9 @@ EXPORT_SYMBOL_GPL(atomic_notifier_chain_register);
-  *	@n: Entry to remove from notifier chain
-  *
-  *	Removes a notifier from an atomic notifier chain.
-+ *	If "panic_notifier_filter" is provided, we hereby filter the
-+ *	panic_notifier_list and only allow unregistering the functions
-+ *	that are present in the filter.
-  *
-  *	Returns zero on success or %-ENOENT on failure.
-  */
-@@ -162,10 +194,16 @@ int atomic_notifier_chain_unregister(struct atomic_notifier_head *nh,
- 		struct notifier_block *n)
- {
- 	unsigned long flags;
--	int ret;
-+	int ret = 0;
+  For instance, if a linear device is resumed with the following command,
+@@ -213,10 +220,10 @@ The IMA measurement log has the following format for 'dm_device_remove':
+ ::
  
- 	spin_lock_irqsave(&nh->lock, flags);
-+	if (unlikely(panic_nf_count) && nh == &panic_notifier_list)
-+		if (!is_panic_notifier_filtered(n))
-+			goto panic_filtered_out;
-+
- 	ret = notifier_chain_unregister(&nh->head, n);
-+
-+panic_filtered_out:
- 	spin_unlock_irqrestore(&nh->lock, flags);
- 	synchronize_rcu();
- 	return ret;
-diff --git a/kernel/panic.c b/kernel/panic.c
-index cefd7d82366f..c23fa2012be1 100644
---- a/kernel/panic.c
-+++ b/kernel/panic.c
-@@ -31,6 +31,7 @@
- #include <linux/console.h>
- #include <linux/bug.h>
- #include <linux/ratelimit.h>
-+#include <linux/kallsyms.h>
- #include <linux/debugfs.h>
- #include <asm/sections.h>
+  EVENT_NAME := "dm_device_remove"
+- EVENT_DATA := <dm_version_str> ";" <device_active_metadata> ";" <device_inactive_metadata> ";"
+-               <active_table_hash> "," <inactive_table_hash> "," <remove_all> ";" <current_device_capacity> ";"
++ EVENT_DATA := <dm_version_str> ";" <device_data> <remove_all> ";" <current_device_capacity> ";"
  
-@@ -67,6 +68,16 @@ EXPORT_SYMBOL_GPL(panic_timeout);
- #define PANIC_PRINT_ALL_PRINTK_MSG	0x00000020
- unsigned long panic_print;
+  dm_version_str := As described in the 'Table load' section above.
++ device_data := <device_active_metadata> ";" <device_inactive_metadata> ";" <active_table_hash> "," <inactive_table_hash> "," | <device_remove_no_data> ";"
+  device_active_metadata := Device metadata that reflects the currently loaded active table.
+                            The format is same as 'device_metadata' described in the 'Table load' section above.
+  device_inactive_metadata := Device metadata that reflects the inactive table.
+@@ -225,6 +232,9 @@ The IMA measurement log has the following format for 'dm_device_remove':
+                       The format is same as 'active_table_hash' described in the 'Device resume' section above.
+  inactive_table_hash :=  Hash of the inactive table.
+                          The format is same as 'active_table_hash' described in the 'Device resume' section above.
++ device_remove_no_data := "device_remove=no_data"
++                          If device metadata and hash for the active and inactive table do not exists this value gets measured.
++                          Note: the hash should always exist if the device metadata is present.
+  remove_all := "remove_all=" <yes_no>
+  yes_no := "y" | "n"
+  current_device_capacity := "current_device_capacity=" <N>
+@@ -254,9 +264,13 @@ The IMA measurement log has the following format for 'dm_table_clear':
+ ::
  
-+/*
-+ * Kernel has currently < 30 panic handlers no matter the arch,
-+ * based on some code counting; so 16 items seems a good amount;
-+ * users that are filtering panic notifiers shouldn't add all
-+ * of them in theory, that doesn't make sense...
-+ */
-+#define	PANIC_NF_MAX	16
-+unsigned long panic_nf_functions[PANIC_NF_MAX];
-+int panic_nf_count;
-+
- ATOMIC_NOTIFIER_HEAD(panic_notifier_list);
+  EVENT_NAME := "dm_table_clear"
+- EVENT_DATA := <dm_version_str> ";" <device_inactive_metadata> ";" <inactive_table_hash> ";" <current_device_capacity> ";"
++ EVENT_DATA := <dm_version_str> ";" <device_data> ";" <current_device_capacity> ";"
  
- EXPORT_SYMBOL(panic_notifier_list);
-@@ -146,6 +157,39 @@ void nmi_panic(struct pt_regs *regs, const char *msg)
- }
- EXPORT_SYMBOL(nmi_panic);
- 
-+static int __init panic_notifier_filter_setup(char *buf)
-+{
-+	char *func;
-+	unsigned long addr;
-+
-+	if (!buf)
-+		return -EINVAL;
-+
-+	while (buf) {
-+		func = strsep(&buf, ",");
-+		addr = kallsyms_lookup_name(func);
-+
-+		if (!addr) {
-+			pr_info("panic_notifier_filter: invalid symbol %s\n", func);
-+			continue;
-+		}
-+
-+		if (panic_nf_count < PANIC_NF_MAX) {
-+			panic_nf_functions[panic_nf_count] = addr;
-+			panic_nf_count++;
-+			pr_debug("panic_notifier_filter: added symbol %s\n", func);
-+		} else {
-+			pr_warn("panic_notifier_filter: exceeded maximum notifiers (%d), aborting\n",
-+				PANIC_NF_MAX);
-+			panic_nf_count = 0;
-+			break;
-+		}
-+	}
-+
-+	return 0;
-+}
-+early_param("panic_notifier_filter", panic_notifier_filter_setup);
-+
- static void panic_print_sys_info(void)
- {
- 	if (panic_print & PANIC_PRINT_ALL_PRINTK_MSG)
+  dm_version_str := As described in the 'Table load' section above.
++ device_data := <device_inactive_metadata> ";" <inactive_table_hash> | <table_clear_no_data>
++ table_clear_no_data := "table_clear=no_data"
++                        If device metadata and hash for the inactive table do not exists this value gets measured.
++                        Note: the hash should always exist if the device metadata is present.
+  device_inactive_metadata := Device metadata that was captured during the load time inactive table being cleared.
+                              The format is same as 'device_metadata' described in the 'Table load' section above.
+  inactive_table_hash := Hash of the inactive table being cleared from the device.
 -- 
 2.34.1
 
