@@ -2,52 +2,52 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BD50C433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Jan 2022 21:28:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FC7AC433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Jan 2022 21:41:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244231AbiAFV2B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Jan 2022 16:28:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39686 "EHLO
+        id S244184AbiAFVlS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Jan 2022 16:41:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244183AbiAFV2B (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jan 2022 16:28:01 -0500
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6D33C061201
-        for <linux-doc@vger.kernel.org>; Thu,  6 Jan 2022 13:28:00 -0800 (PST)
-Received: by mail-io1-xd2b.google.com with SMTP id o7so4724146ioo.9
-        for <linux-doc@vger.kernel.org>; Thu, 06 Jan 2022 13:28:00 -0800 (PST)
+        with ESMTP id S244342AbiAFVlS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jan 2022 16:41:18 -0500
+Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com [IPv6:2607:f8b0:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF12AC0611FF
+        for <linux-doc@vger.kernel.org>; Thu,  6 Jan 2022 13:41:17 -0800 (PST)
+Received: by mail-il1-x12d.google.com with SMTP id v18so3116066ilm.11
+        for <linux-doc@vger.kernel.org>; Thu, 06 Jan 2022 13:41:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=eWXKe6ofHR5YtEe8ndfEgo9MmkCiJN00xcKWgTh/Pis=;
-        b=BolcB8rWOsXln3zfSDdLRY0wY8sV7BCnJsuEW8CPCdM9aJ6RY9bTUa8knlVhmhYUt8
-         NEQrSyQs08aIzjvdat/3newfT1mEmXsSrMZ6su0ICLx4aHSXiSB9u5zf9PRWihodxYV1
-         +2iaeoZ1G7VaxI33AnURMolAn4S88Z0iu4FxK3d5Ek2Ky0bLhUCRMhP90iUt2NJLQmvJ
-         o/cj5d3ivi9oK5yB5Z2Khq/l3hecz3coEcCOQxJfOszbMtlE3lYaweDMqpvIrxz7CeR8
-         SLqCx+lmvrPt7RklREA3WFFi82Hak/gqh8NlDgUoL7QpkiwnJ2XOUckhKwtKkR+PEPpL
-         pZUQ==
+        bh=VE61gMKhpnWZvU6qcog2kgqC/TE+2QO5LS6iHCKhdqo=;
+        b=X5251x9gOvT9jJO0fIYrghZ2dmsDZAjI/XaWW0c5hgerIpNSgvl0jSew1p/PD5Wl19
+         Vty9fxDz85jiNwo2PyrzeAVr0Qh4AvnoRBKBwKjqqN+gzpApKSZBr6PBW1Haplrbva6W
+         fgVBMIb7yopx0RKQtKxR50gNsFKTWHXlfqc8oQFDrabFDnXtqIegt0iG6irvi38YWFd4
+         cgfZmbJs9Pm7/xTPZRLe5dj3S3L3BXmcfUDx4bs89c9lfEzBCjKIC2rQMHR8y1knN7k1
+         n9W9uyTNFGgs6Rt4Z59saMbeT0VmyuJ8EgZ8HHnKRgS+SJ6qUqkzzObvE1zCp+mjQO+F
+         5N6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=eWXKe6ofHR5YtEe8ndfEgo9MmkCiJN00xcKWgTh/Pis=;
-        b=7hgzyWpUyvjZgHbf8qseqQJ7NVUmT7H5Qryf4bOLqSOwV9bOveP4J24S0YwEaoL2de
-         JsaBcSU0cqQXRYb0QkXZ+OJ6yCeefVlXJ7684j/IxFW6jfnGtdc7DDpKhecLK169JaAT
-         kH+/HrEQyvPPe8ZahCKpcbvrdgJo1bJ0ou3hTcFOm8PSNlY5/1TXYfJbD2TaGafuDMP2
-         ZBcEAvhIqgM1EFBrihW9nMY2/UCKyuYzQrwiERk9iue1Cns4O/fWrvF1jyk02PrgSmT7
-         TfYBiYf8eJQciQ35r7CekXo1L2okhgM4thOW8ZtBgQDTxioXsH/B5M1BgO6nmTE9qGbd
-         4wSg==
-X-Gm-Message-State: AOAM5327HW+U3FnP9kQNZ9/FT81jweXJiQIHNI2wGbiZhAdWsZ4zl+H7
-        f+N+fR6K3rpFjPRsEu70/meKCA==
-X-Google-Smtp-Source: ABdhPJz3ylKxooCGfJpO0rKP+86X+4pj60biR0zjBJEL77j+Y9m/Z8ljRDcrsoM24gj56IOBzSZTYw==
-X-Received: by 2002:a05:6602:2f0e:: with SMTP id q14mr4472905iow.75.1641504479938;
-        Thu, 06 Jan 2022 13:27:59 -0800 (PST)
+        bh=VE61gMKhpnWZvU6qcog2kgqC/TE+2QO5LS6iHCKhdqo=;
+        b=2vy8UH+p46ljMdvIS/wMiHtXr1tdP/ESm+651oYH1UMToth9QzVrAzcdN06+VzrHVe
+         IMyMBqrUDB6ZTQZLaMyC+TosSfDclnWICC52o24Ro/5NyYZyj9v0Jvj+cdSBO202O+OV
+         357LBqQx+sRXnhXk5/y7996cXS1s2FqMypJBffDpc6wwDBD7/RqZs0nSMG0vo24b7oXN
+         QS4TLz85EwF5sqyt8IZYJ+1bYulraDtXXMWlVRfAaHOu9ddBWDXg+5LYCzyddQt/vCSk
+         DUcQGmAtUhNSDZOy93wS5kfUAH3mVtc7bX1rWS1is4R8Nm0px/wjexmbyHe9ps8XYxNV
+         FV1g==
+X-Gm-Message-State: AOAM531CTCg9UGDlpEyNxSCMG3BfBUFk20sTlpVSJtHctIBNPJCd/lya
+        UmbtDoVCOEf8agcGNadOJkR6Zg==
+X-Google-Smtp-Source: ABdhPJy/UG+ITMyG2/Mn4Uwf8UspkeO6+lrYf7WWF5pbE5NdbTB0zBoFHkgaWyjBjeOtQvNFfxzAEw==
+X-Received: by 2002:a05:6e02:1945:: with SMTP id x5mr2005197ilu.288.1641505277173;
+        Thu, 06 Jan 2022 13:41:17 -0800 (PST)
 Received: from google.com ([2620:15c:183:200:2e0a:5e5e:fac:e07b])
-        by smtp.gmail.com with ESMTPSA id o1sm1656628ilj.41.2022.01.06.13.27.55
+        by smtp.gmail.com with ESMTPSA id r1sm1688447ilo.38.2022.01.06.13.41.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jan 2022 13:27:56 -0800 (PST)
-Date:   Thu, 6 Jan 2022 14:27:52 -0700
+        Thu, 06 Jan 2022 13:41:16 -0800 (PST)
+Date:   Thu, 6 Jan 2022 14:41:12 -0700
 From:   Yu Zhao <yuzhao@google.com>
 To:     Michal Hocko <mhocko@suse.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
@@ -71,173 +71,43 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         page-reclaim@google.com, x86@kernel.org,
         Konstantin Kharlamov <Hi-Angel@yandex.ru>
 Subject: Re: [PATCH v6 6/9] mm: multigenerational lru: aging
-Message-ID: <Ydde2F4Oi0wKx//y@google.com>
+Message-ID: <Yddh+APQGg8dKRgw@google.com>
 References: <20220104202227.2903605-1-yuzhao@google.com>
  <20220104202227.2903605-7-yuzhao@google.com>
- <YdcTkrl84Xzg2dSz@dhcp22.suse.cz>
+ <YdcU4P+XWkbDUUoO@dhcp22.suse.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YdcTkrl84Xzg2dSz@dhcp22.suse.cz>
+In-Reply-To: <YdcU4P+XWkbDUUoO@dhcp22.suse.cz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 06, 2022 at 05:06:42PM +0100, Michal Hocko wrote:
-> I am still reading through the series. It is a lot of code and quite
-> hard to wrap ones head around so these are mostly random things I have
-> run into. More will likely follow up.
-> 
+On Thu, Jan 06, 2022 at 05:12:16PM +0100, Michal Hocko wrote:
 > On Tue 04-01-22 13:22:25, Yu Zhao wrote:
-> [...]
-> > diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
-> > index aba18cd101db..028afdb81c10 100644
-> > --- a/include/linux/memcontrol.h
-> > +++ b/include/linux/memcontrol.h
-> > @@ -1393,18 +1393,24 @@ mem_cgroup_print_oom_meminfo(struct mem_cgroup *memcg)
-> >  
-> >  static inline void lock_page_memcg(struct page *page)
-> >  {
-> > +	/* to match folio_memcg_rcu() */
-> > +	rcu_read_lock();
-> >  }
-> >  
-> >  static inline void unlock_page_memcg(struct page *page)
-> >  {
-> > +	rcu_read_unlock();
-> >  }
-> >  
-> >  static inline void folio_memcg_lock(struct folio *folio)
-> >  {
-> > +	/* to match folio_memcg_rcu() */
-> > +	rcu_read_lock();
-> >  }
-> >  
-> >  static inline void folio_memcg_unlock(struct folio *folio)
-> >  {
-> > +	rcu_read_unlock();
-> >  }
-> 
-> This should go into a separate patch and merge it independently. I
-> haven't really realized that !MEMCG configuration has a different
-> locking scopes.
-
-Considered it done.
-
-> > diff --git a/include/linux/oom.h b/include/linux/oom.h
-> > index 2db9a1432511..9c7a4fae0661 100644
-> > --- a/include/linux/oom.h
-> > +++ b/include/linux/oom.h
-> > @@ -57,6 +57,22 @@ struct oom_control {
-> >  extern struct mutex oom_lock;
-> >  extern struct mutex oom_adj_mutex;
-> >  
-> > +#ifdef CONFIG_MMU
-> > +extern struct task_struct *oom_reaper_list;
-> > +extern struct wait_queue_head oom_reaper_wait;
+> > +static struct lru_gen_mm_walk *alloc_mm_walk(void)
+> > +{
+> > +	if (!current->reclaim_state || !current->reclaim_state->mm_walk)
+> > +		return kvzalloc(sizeof(struct lru_gen_mm_walk), GFP_KERNEL);
 > > +
-> > +static inline bool oom_reaping_in_progress(void)
-> > +{
-> > +	/* a racy check can be used to reduce the chance of overkilling */
-> > +	return READ_ONCE(oom_reaper_list) || !waitqueue_active(&oom_reaper_wait);
+> > +	return current->reclaim_state->mm_walk;
 > > +}
-> > +#else
-> > +static inline bool oom_reaping_in_progress(void)
-> > +{
-> > +	return false;
-> > +}
-> > +#endif
-> 
-> I do not like this. These are internal oom reaper's and no code should
-> really make any decisions based on that. oom_reaping_in_progress is not
-> telling much anyway.
-
-There is a perfectly legitimate reason for this.
-
-If there is already a oom kill victim and the oom reaper is making
-progress, the system may still be under memory pressure until the oom
-reaping is done. The page reclaim has two choices in this transient
-state: kill more processes or keep reclaiming (a few more) hot pages.
-
-The first choice, AKA overkilling, is generally a bad one. The oom
-reaper is single threaded and it can't go faster with additional
-victims. Additional processes are sacrificed for nothing -- this is
-an overcorrection of a system that tries to strike a balance between
-the tendencies to release memory pressure and to improve memory
-utilization.
-
-> This is a global queue for oom reaper that can
-> contain oom victims from different oom scopes (e.g. global OOM, memcg
-> OOM or memory policy OOM).
-
-True, but this is a wrong reason to make the conclusion below. Oom
-kill scopes do NOT matter; only the pool the freed memory goes into
-does. And there is only one global pool free pages.
-
-> Your lru_gen_age_node uses this to decide whether to trigger
-> out_of_memory and that is clearly wrong for the above reasons.
-
-I hope my explanation above is clear enough. There is nothing wrong
-with the purpose and the usage of oom_reaping_in_progress(), and it
-has been well tested in the Arch Linux Zen kernel.
-
-Without it, overkills can be easily reproduced by the following simple
-script. That is additional oom kills happen to processes other than
-"tail".
-
-  # enable zram
-  while true;
-  do
-      tail /dev/zero
-  done
-
-> out_of_memory is designed to skip over any action if there is an oom
-> victim pending from the oom domain (have a look at oom_evaluate_task).
-
-Where exactly? Point me to the code please.
-
-I don't see such a logic inside out_of_memory() or
-oom_evaluate_task(). Currently the only thing that could remotely
-prevent overkills is oom_lock. But it's inadequate.
-
-This is the entire pipeline:
-low on memory -> out_of_memory() -> oom_reaper() -> free memory
-
-To avoid overkills, we need to consider the later half of it too.
-oom_reaping_in_progress() is exactly for this purpose.
-
-> > +static bool age_lruvec(struct lruvec *lruvec, struct scan_control *sc,
-> > +		       unsigned long min_ttl)
-> > +{
-> > +	bool need_aging;
-> > +	long nr_to_scan;
-> > +	struct mem_cgroup *memcg = lruvec_memcg(lruvec);
-> > +	int swappiness = get_swappiness(memcg);
-> > +	DEFINE_MAX_SEQ(lruvec);
-> > +	DEFINE_MIN_SEQ(lruvec);
 > > +
-> > +	if (mem_cgroup_below_min(memcg))
-> > +		return false;
+> > +static void free_mm_walk(struct lru_gen_mm_walk *walk)
+> > +{
+> > +	if (!current->reclaim_state || !current->reclaim_state->mm_walk)
+> > +		kvfree(walk);
+> > +}
 > 
-> mem_cgroup_below_min requires effective values to be calculated for the
-> reclaimed hierarchy. Have a look at mem_cgroup_calculate_protection
+> Do I get it right that you are allocating from the reclaim context? What
+> prevents this to completely deplete the memory as the reclaim context is
+> PF_MEMALLOC?
 
-I always keep that in mind, and age_lruvec() is called *after*
-mem_cgroup_calculate_protection():
+Yes, and in general the same reason zram/zswap/etc. allocate memory in
+the reclaim context: to make more free memory.
 
-  balance_pgdat()
-    memcgs_need_aging = 0
-    do {
-      lru_gen_age_node()
-        if (!memcgs_need_aging) {
-            memcgs_need_aging = 1
-            return
-        }
-        age_lruvec()
-
-      shrink_node_memcgs()
-        mem_cgroup_calculate_protection()
-        lru_gen_shrink_lruvec()
-          if ...
-            memcgs_need_aging = 0
-    } while ...
+In this case, lru_gen_mm_walk is small (160 bytes); it's per direct
+reclaimer; and direct reclaimers rarely come here, i.e., only when
+kswapd can't keep up in terms of the aging, which is similar to the
+condition where the inactive list is empty for the active/inactive
+lru.
