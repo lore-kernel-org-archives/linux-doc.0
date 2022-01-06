@@ -2,149 +2,424 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93125C433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Jan 2022 16:43:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86FCFC433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Jan 2022 18:17:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241337AbiAFQnq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Jan 2022 11:43:46 -0500
-Received: from mo4-p00-ob.smtp.rzone.de ([81.169.146.219]:40777 "EHLO
-        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241308AbiAFQnp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jan 2022 11:43:45 -0500
-X-Greylist: delayed 358 seconds by postgrey-1.27 at vger.kernel.org; Thu, 06 Jan 2022 11:43:45 EST
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1641487060;
-    s=strato-dkim-0002; d=thson.de;
-    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
-    bh=wAcftMYvpxNI2AzULy3ljKiRHW2rqgQ/ch64sBX3nsc=;
-    b=r6e/tGpjew7UdqfJNL9/oiyOAekFl7ZyXuM2QhP19bSSmSu/O5oac+uLfLsw2Kz4hU
-    oAIqxUOKD5pvLRWIN5O1c4rgbPocQ9DAsL9eSoerkGI4a1buiVu7izlmi4qv1CDQAeie
-    tr/ECBg39zbJ6v5ZQp99ky9+vSrAK4Pyk9Rij1Eg2n4+sJgiynE/BjXYIXK+qOuZxPii
-    I2I8WdLYbreLXRLEN+RFdDmVno1k1/y5tvR+tuys+YG2T6gkRthNbqbWFRo/V6ciHJ9E
-    Q3cBDkYb/6HwofjKPK4EARqSWUzlA8D/d/ymmAeZ445+2gD+EihWP8AkXpqSM9dhTeUU
-    g/6g==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":PHkGeUmrW+uCZmxs998QJRUX30nOwJd7nOD9sw/xoauycprg5uef7cgCEpy7sPc="
-X-RZG-CLASS-ID: mo00
-Received: from USER-PC.fritz.box
-    by smtp.strato.de (RZmta 47.37.4 DYNA|AUTH)
-    with ESMTPSA id u2923ay06Gbe8Gt
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-        (Client did not present a certificate);
-    Thu, 6 Jan 2022 17:37:40 +0100 (CET)
-From:   Thore Sommer <public@thson.de>
-To:     dm-devel@redhat.com, agk@redhat.com, snitzer@redhat.com
-Cc:     linux-doc@vger.kernel.org, tusharsu@linux.microsoft.com,
-        Thore Sommer <public@thson.de>
-Subject: [PATCH] dm ima: updates to grammar and some details in documentation
-Date:   Thu,  6 Jan 2022 17:37:31 +0100
-Message-Id: <20220106163731.165391-1-public@thson.de>
-X-Mailer: git-send-email 2.34.1
+        id S240540AbiAFSRY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Jan 2022 13:17:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38387 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S240387AbiAFSRX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jan 2022 13:17:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1641493042;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=/j4cxBc6rKegUkMMwuJt6SPOIyiy3SX3KpJBSpYn888=;
+        b=GCuUYrI3gy1POFLLIydSHinxHZReUKCoVgpW9t59muWTXhJvul6iD48TnGMs1dcycZLIwy
+        OTpURjRDIHg5pBy9fQr2x1VjZrdkorL+BjAk0Jd3c0DDCoEMaQud8nfq6zV4ZYFqwls6x1
+        iq66AGYh+80F/Z9SXuksq/1Qe2EFdNA=
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
+ [209.85.210.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-622-XnTvQSzQNeSrPjKG9OHcVQ-1; Thu, 06 Jan 2022 13:17:21 -0500
+X-MC-Unique: XnTvQSzQNeSrPjKG9OHcVQ-1
+Received: by mail-ot1-f72.google.com with SMTP id 68-20020a9d05ca000000b0058f21da6adcso867565otd.4
+        for <linux-doc@vger.kernel.org>; Thu, 06 Jan 2022 10:17:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=/j4cxBc6rKegUkMMwuJt6SPOIyiy3SX3KpJBSpYn888=;
+        b=LIfa70cXANeEehjRkylQZNPfyZmV4uJrxsP0DXP+3HFuiDGQpskWjGy2bK9/bOZwkg
+         UDgb0QG6JyFSfY/yhe13B742uoXHFC36OVXZ06H3SB9ZEptl2stCbohGowhcNEsoznga
+         nE19b9SRdx7VrzI2bcGbxcxZnsxoUVsNrOBzUG1QmCJIiNYwzJ7IUwVMeeStFeXl4vpa
+         qorHk3DtsU97t3H+9HWtmQ+Vf3qPgNE7XsK3G/V8Ze1bPGDCzG+n3bv6x8xgo2043+Mk
+         3D35U6LgIhG4DMHc8c9c6V30gEuG1Ofx7um+HJ5VJe3Cn9grkTAyPyv8Gx1jm2TKTKsG
+         pQSg==
+X-Gm-Message-State: AOAM532anWi9EShkLn9feOBT2CgmSueZWNlEaC4B5HzWfnGorCbGQh7w
+        H3zyJ8zz6nWMkU6xQbIyPx9zn4ktT9BbzR3RdiJ2rhT9GlNrW/kE8drCC96rMVdiZuZLVNoy/B5
+        f773slixDSk31QpBE/MFP
+X-Received: by 2002:a9d:7c86:: with SMTP id q6mr40078otn.229.1641493040840;
+        Thu, 06 Jan 2022 10:17:20 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzdBW3TmdVELU3zlzTEGuP5O8HUrm1lnIKLYHatMhqiXwGRILH3lMnCIsI8VRgiJurtN4aK1Q==
+X-Received: by 2002:a9d:7c86:: with SMTP id q6mr40023otn.229.1641493040020;
+        Thu, 06 Jan 2022 10:17:20 -0800 (PST)
+Received: from redhat.com ([38.15.36.239])
+        by smtp.gmail.com with ESMTPSA id bq5sm534812oib.55.2022.01.06.10.17.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Jan 2022 10:17:19 -0800 (PST)
+Date:   Thu, 6 Jan 2022 11:17:18 -0700
+From:   Alex Williamson <alex.williamson@redhat.com>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     cohuck@redhat.com, corbet@lwn.net, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, farman@linux.ibm.com,
+        mjrosato@linux.ibm.com, pasic@linux.ibm.com
+Subject: Re: [RFC PATCH] vfio: Update/Clarify migration uAPI, add NDMA state
+Message-ID: <20220106111718.0e5f5ed6.alex.williamson@redhat.com>
+In-Reply-To: <20220104202834.GM2328285@nvidia.com>
+References: <163909282574.728533.7460416142511440919.stgit@omen>
+        <20211210012529.GC6385@nvidia.com>
+        <20211213134038.39bb0618.alex.williamson@redhat.com>
+        <20211214162654.GJ6385@nvidia.com>
+        <20211220152623.50d753ec.alex.williamson@redhat.com>
+        <20220104202834.GM2328285@nvidia.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The grammar for the events dm_device_remove, device_resume and
-dm_table_clear did not include the no_data entry when device data
-and hash are missing.
+On Tue, 4 Jan 2022 16:28:34 -0400
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-For the device uuid or name "=" is also escaped with a "\".
+> On Mon, Dec 20, 2021 at 03:26:23PM -0700, Alex Williamson wrote:
+> 
+> > > It also raises the question that it seems not well defined what the
+> > > sequence:
+> > > 
+> > > SAVING -> SAVING | RUNNING
+> > > 
+> > > Even does to the migration window?
+> > > 
+> > > Nor can I imagine what mlx5 could do beyond fail this or corrupt the
+> > > migration..  
+> > 
+> > I think this comes down to the robustness of the migration driver.  The
+> > migration data window and control of how userspace is to interact with
+> > it is essentially meant to allow the migration driver to implement its
+> > own transport protocol.  In the case of mlx5 where it expects only to
+> > apply the received migration data on the RESUMING -> RUNNING
+> > transition, a "short" data segment might be reserved for providing
+> > sequencing information.  Each time the device enters SAVING | !RUNNING
+> > the driver might begin by presenting a new sequence header.  On the
+> > target, a new sequence header would cause any previously received
+> > migration data to be discarded.  A similar header would also be
+> > suggested to validate the migration data stream is appropriate for the
+> > target device.  
+> 
+> Honestly, I have no interest in implementing something so complicated
+> for what should be a simple operation. We have no use case for this,
+> no desire to test it, it is just pure kernel cruft and complexity to
+> do this kind of extra work.
 
-Add a note that dm_table_load might split its target measurements over
-multiple IMA events.
+Migration is not a simple operation, we have a device with a host
+kernel driver exporting and importing device state through userspace.
+It's a playground for potential exploit vectors.  I assume this also
+means that you're not performing any sort of validation that the
+incoming data is from a compatible device or providing any versioning
+accommodations in the data stream, all features that would generally be
+considered best practices.
 
-Signed-off-by: Thore Sommer <public@thson.de>
----
- .../admin-guide/device-mapper/dm-ima.rst      | 26 ++++++++++++++-----
- 1 file changed, 20 insertions(+), 6 deletions(-)
+> I think it is very telling that we are, what, 10 weeks into this now,
+> we have seen two HW drivers posted, and NOTHING implements like you
+> are imagining here. I doubt the closed drivers do any better.
+>
+> Let's not make up busy work that can't be strongly justified! 
 
-diff --git a/Documentation/admin-guide/device-mapper/dm-ima.rst b/Documentation/admin-guide/device-mapper/dm-ima.rst
-index a4aa50a828e0..fb6e4148b426 100644
---- a/Documentation/admin-guide/device-mapper/dm-ima.rst
-+++ b/Documentation/admin-guide/device-mapper/dm-ima.rst
-@@ -100,6 +100,9 @@ When a new table is loaded in a device's inactive table slot,
- the device information and target specific details from the
- targets in the table are measured.
+I think I'm portraying the uAPI as it was designed and envisioned to
+work.  Of course I also have doubts whether the closed drivers perform
+any sort of validation or consistency checking, and we can only guess
+what sort of attack vectors might exist as a result.
  
-+Note that if there are too many targets to measure at once multiple IMA
-+measurements will be generated.
-+
- The IMA measurement log has the following format for 'dm_table_load':
+> That is substantially what I see as wrong with this whole line of
+> thinking that the device_state must be independent bits, not a
+> constrained FSM.
+> 
+> We are actively failing, again and again, to tell if drivers are
+> implementing this mulit-bit vision correctly, or even specify properly
+> how it should work in an implementable way.
+> 
+> > > IMHO, we should be simplifing this before it becomes permanent API,
+> > > not trying to force it to work.  
+> > 
+> > I agree, this is our opportunity to simplify before we're committed,
+> > but I don't see how we can throw out perfectly valid transitions like
+> > SAVING -> SAVING | RUNNING just because the driver hasn't accounted for
+> > managing data in the data stream.  
+> 
+> Don't see? What do you mean? We showed how to do this exactly in the
+> v1.
+> 
+> We define the meaning of device_state to be actual FSM and write out
+> the allowed FSM arcs and then properly describe them.
+> 
+> This is what everyone else though this was already.
+> 
+> AFAICT you are the only person to view this as a bunch of bits. It is
+> why the original header file comment gave names to each of the states
+> and roughtly sketches out legal state transition arcs with the odd
+> ascii art.
+> 
+> So I want to stop trying to make the bunch of bits idea work. Let's
+> make it a FSM, let's define exactly the legal arcs, and then define
+> the behaviors in each FSM state. It is easy to understand and we have
+> a hope to get inter-operable implementations.
+> 
+> All the driver postings so far are demonstrating they don't get
+> oddball transition arcs correct, and we are clearly not able to find
+> these things during review.
+> 
+> And now you are asking for alot of extra work and complications in the
+> driver to support arcs that will never be used - that is really too
+> far, sorry.
+
+It's the uAPI as I understand it.  If you want a new uAPI, propose one.
+I'm not willing to accept a driver that partially implements the uAPI
+with an addendum document vaguely hinting at the ways it might be
+limited, with the purpose of subverting the written uAPI by a de facto
+standard.
+
+> > > Most of things I brought up in this post are resolved by the forced
+> > > FSM.  
+> > 
+> > Until userspace tries to do something different than exactly what it
+> > does today, and then what?  
+> 
+> It can't. We define the API to be exactly the permited arcs and no
+> others. That is what simplify means.
+
+IOW, define the uAPI based on what happens to be the current QEMU
+implementation and limitations.  That's exactly what we were trying to
+avoid in the uAPI design.
  
- ::
-@@ -118,9 +121,9 @@ The IMA measurement log has the following format for 'dm_table_load':
-  device_minor := "minor=" <N>
-  minor_count := "minor_count=" <N>
-  num_device_targets := "num_targets=" <N>
-- dm-device-name := Name of the device. If it contains special characters like '\', ',', ';',
-+ dm-device-name := Name of the device. If it contains special characters like '\', ',', ';',"=",
-                    they are prefixed with '\'.
-- dm-device-uuid := UUID of the device. If it contains special characters like '\', ',', ';',
-+ dm-device-uuid := UUID of the device. If it contains special characters like '\', ',', ';',"=",
-                    they are prefixed with '\'.
+> If we need to add new FSM arcs and new states later then their support
+> can be exposed via a cap flag.
+> 
+> This is much better than trying to define all arcs as legal, only
+> testing/using a small subset and hoping the somehow in the future this
+> results in extensible interoperability.
+
+A proposal of which states transitions you want to keep would be useful
+here.  Let's look at all the possibilities:
+
+{}
+	-> {RUNNING}
+	-> {SAVING}
+	-> {RESUMING}
+	-> {RUNNING|SAVING}
+
+{RUNNING}
+	-> {} (a)*
+	-> {SAVING} (a)
+	-> {RESUMING} (a)
+	-> {RUNNING|SAVING} (a)
+
+{SAVING}
+	-> {} (a)*
+	-> {RUNNING} (b)
+	-> {RESUMING}
+	-> {RUNNING|SAVING}
+
+{RESUMING}
+	-> {}
+	-> {RUNNING} (a)
+	-> {SAVING}
+	-> {RUNNING|SAVING}
+
+{RUNNING|SAVING}
+	-> {}
+	-> {RUNNING} (b)
+	-> {SAVING} (a)
+	-> {RESUMING}
+
+We have 20 possible transitions.  I've marked those available via the
+"odd ascii art" diagram as (a), that's 7 transitions.  We could
+essentially remove the NULL state as unreachable as there seems little
+value in the 2 transitions marked (a)* if we look only at migration,
+that would bring us down to 5 of 12 possible transitions.  We need to
+give userspace an abort path though, so we minimally need the 2
+transitions marked (b) (7/12).
+
+So now we can discuss the remaining 5 transitions:
+
+{SAVING} -> {RESUMING}
+	If not supported, user can achieve this via:
+		{SAVING}->{RUNNING}->{RESUMING}
+		{SAVING}-RESET->{RUNNING}->{RESUMING}
+	It would likely be dis-recommended to return a device to
+	{RUNNING} for this use case, so the latter would be preferred.
+
+	Potential use case: ping-pong migration
+
+{SAVING} -> {RUNNING|SAVING}
+	If not supported, user can achieve this via:
+		{SAVING}->{RUNNING}->{RUNNING|SAVING}
+
+	Potential use case: downtime exceeded, avoid full migration
+	restart (likely not achieved with the alternative flow).
+
+{RESUMING} -> {SAVING}
+	If not supported:
+		{RESUMING}->{RUNNING}->{SAVING}
+		{RESUMING}-RESET->{RUNNING}->{SAVING}
+
+	Potential use case: validate migration data in = data out (also
+	cannot be achieved with alternative flow, as device passes
+	through RUNNING)
+
+{RESUMING} -> {RUNNING|SAVING}
+	If not supported:
+		{RESUMING}->{RUNNING}->{RUNNING|SAVING}
+
+	Potential use case: live ping-pong migration (alternative flow
+	is likely sufficient)
+
+{RUNNING|SAVING} -> {RESUMING}
+	If not supported:
+		{RUNNING|SAVING}->{RUNNING}->{RESUMING}
+		{RUNNING|SAVING}-RESET->{RUNNING}->{RESUMING}
+	(again former is likely dis-recommended)
+
+	Potential use case: ???
+
+So what's the proposal?  Do we ditch all of these?  Some of these?  If
+drivers follow the previously provided pseudo algorithm with the
+requirement that they cannot pass through an invalid state, we need to
+formally address whether the NULL state is invalid or just not
+reachable by the user.
+
+> > > Another view is that staying in a useless state is also pointless and
+> > > we may as well return ERROR anyhow. Eg if exiting RESUMING failed
+> > > there is no other action to take besides RESET, so why didn't we
+> > > return ERROR to tell this directly to userspace?  
+> > 
+> > And then the last packet arrives, gets written to the device that's
+> > still in RESUMING, and now can transition to RUNNING.  
+> 
+> Huh? If the device indicated error during RESUMING userspace should
+> probably stop shoving packets into it or it will possibly corrupt the
+> migration stream.
+
+If a {RESUMING}->{RUNNING} transition fails and the device remains in
+{RESUMING}, it should be valid for userspace to push data to it.  If
+the driver wants to indicate the transition attempt failed AND it won't
+accept continuing data or a re-initialized data stream, it probably
+should put the device into {ERROR} instead.
  
-  table_load_data := <target_data>
-@@ -175,8 +178,9 @@ The IMA measurement log has the following format for 'dm_device_resume':
- ::
+> > But I think we're really only after that p2p behavior and we've
+> > discussed that disabling p2p mappings in the VM would be a sufficient
+> > condition to support multiple devices without NDMA support.  I think
+> > that means DMA to memory is fine and DMA related to MSI is fine... but
+> > how does a device know which DMA is memory and which DMA is another
+> > device?  
+> 
+> The device doesn't know if a particular DMA is P2P or not. This is why
+> the device action is called 'NO DMA'.
+> 
+> MSI is fine to be left unspecified because we currently virtualize all
+> the MSI register writes and it is impossible for a hostile guest to
+> corrupt them to point the address to anything but the interrupt
+> controller. If a MSI triggers or not in NDMA doesn't practically
+> matter.
+
+The vector table is directly accessible via the region mmap.  It
+previously was not, but that becomes a problem with 64k page sizes, and
+even some poorly designed devices on 4k systems when they don't honor
+the PCI spec recommended alignments.  But I think that's beside the
+point, if the user has vectors pointed at memory or other devices,
+they've rather already broken their contract for using the device.
+
+But I think you've identified two classes of DMA, MSI and everything
+else.  The device can assume that an MSI is special and not included in
+NDMA, but it can't know whether other arbitrary DMAs are p2p or memory.
+If we define that the minimum requirement for multi-device migration is
+to quiesce p2p DMA, ex. by not allowing it at all, then NDMA is
+actually significantly more restrictive while it's enabled.
+
+> It only starts to matter someday if we get the world Thomas is
+> thinking about where the guest can directly program the MSI registers.
+> 
+> > > Even if it did work reliably, the requirement is userspace must issue
+> > > RESET to exit ERROR and if we say the driver has to issue reset to
+> > > enter ERROR we are just doing a pointless double RESET.  
+> > 
+> > Please read what I wrote:
+> > 
+> >     This variant is specifically chosen due to the !RUNNING state of
+> >     the device as the migration driver should do everything possible,
+> >     including an internal reset of the device, to ensure that the
+> >     device is fully stopped in this state.
+> > 
+> > That does not say that a driver must issue a reset to enter the ERROR
+> > state.    
+> 
+> Huh? "everything possible including an internal reset" sure sounds
+> like a device must issue a reset in some cases. If we keep with your
+> idea to rarely use ERROR then I think all the mlx5 cases that would
+> hit it are already so messed up that RESET will be mandatory.
+> 
+> > I don't have a problem if the reset is redundant to one the user needs
+> > to do anyway, I'd rather see any externally visible operation of the
+> > device stopped ASAP.    
+> 
+> Why? It was doing all those things before it had an error, why
+> should it suddenly stop now? What is this extra work helping?
+> 
+> Remember if we choose to return an error code instead of ERROR the
+> device is still running as it was, I don't see an benifit to making
+> ERROR different here.
+> 
+> ERROR just means the device has to be reset, we don't need the device
+> to stop doing what it was doing.
+
+Should a device in the ERROR state continue operation or be in a
+quiesced state?  It seems obvious to me that since the ERROR state is
+essentially undefined, the device should cease operations and be
+quiesced by the driver.  If the device is continuing to operate in the
+previous state, why would the driver place the device in the ERROR
+state?  It should have returned an errno and left the device in the
+previous state.
  
-  EVENT_NAME := "dm_device_resume"
-- EVENT_DATA := <dm_version_str> ";" <device_metadata> ";" <active_table_hash> ";" <current_device_capacity> ";"
-+ EVENT_DATA := <dm_version_str> ";" device_data ";" <current_device_capacity> ";"
- 
-+ device_data := <device_metadata> ";" <active_table_hash> | device_resume_no_data
-  dm_version_str := As described in the 'Table load' section above.
-  device_metadata := As described in the 'Table load' section above.
-  active_table_hash := "active_table_hash=" <table_hash_alg> ":" <table_hash>
-@@ -189,6 +193,9 @@ The IMA measurement log has the following format for 'dm_device_resume':
-                events for a given device, the hash is computed combining all the event data
-                i.e. (<dm_version_str> ";" <device_metadata> ";" <table_load_data> ";")
-                across all those events.
-+ device_resume_no_data := "device_resume=no_data"
-+                           If device metadata and hash for the active table do not exists this value gets measured.
-+                           Note: the hash should always exist if the device metadata is present.
-  current_device_capacity := "current_device_capacity=" <N>
- 
-  For instance, if a linear device is resumed with the following command,
-@@ -213,10 +220,10 @@ The IMA measurement log has the following format for 'dm_device_remove':
- ::
- 
-  EVENT_NAME := "dm_device_remove"
-- EVENT_DATA := <dm_version_str> ";" <device_active_metadata> ";" <device_inactive_metadata> ";"
--               <active_table_hash> "," <inactive_table_hash> "," <remove_all> ";" <current_device_capacity> ";"
-+ EVENT_DATA := <dm_version_str> ";" <device_data> <remove_all> ";" <current_device_capacity> ";"
- 
-  dm_version_str := As described in the 'Table load' section above.
-+ device_data := <device_active_metadata> ";" <device_inactive_metadata> ";" <active_table_hash> "," <inactive_table_hash> "," | <device_remove_no_data> ";"
-  device_active_metadata := Device metadata that reflects the currently loaded active table.
-                            The format is same as 'device_metadata' described in the 'Table load' section above.
-  device_inactive_metadata := Device metadata that reflects the inactive table.
-@@ -225,6 +232,9 @@ The IMA measurement log has the following format for 'dm_device_remove':
-                       The format is same as 'active_table_hash' described in the 'Device resume' section above.
-  inactive_table_hash :=  Hash of the inactive table.
-                          The format is same as 'active_table_hash' described in the 'Device resume' section above.
-+ device_remove_no_data := "device_remove=no_data"
-+                          If device metadata and hash for the active and inactive table do not exists this value gets measured.
-+                          Note: the hash should always exist if the device metadata is present.
-  remove_all := "remove_all=" <yes_no>
-  yes_no := "y" | "n"
-  current_device_capacity := "current_device_capacity=" <N>
-@@ -254,9 +264,13 @@ The IMA measurement log has the following format for 'dm_table_clear':
- ::
- 
-  EVENT_NAME := "dm_table_clear"
-- EVENT_DATA := <dm_version_str> ";" <device_inactive_metadata> ";" <inactive_table_hash> ";" <current_device_capacity> ";"
-+ EVENT_DATA := <dm_version_str> ";" <device_data> ";" <current_device_capacity> ";"
- 
-  dm_version_str := As described in the 'Table load' section above.
-+ device_data := <device_inactive_metadata> ";" <inactive_table_hash> | <table_clear_no_data>
-+ table_clear_no_data := "table_clear=no_data"
-+                        If device metadata and hash for the inactive table do not exists this value gets measured.
-+                        Note: the hash should always exist if the device metadata is present.
-  device_inactive_metadata := Device metadata that was captured during the load time inactive table being cleared.
-                              The format is same as 'device_metadata' described in the 'Table load' section above.
-  inactive_table_hash := Hash of the inactive table being cleared from the device.
--- 
-2.34.1
+> > The new and old state NDMA-like properties is also irrelevant, if a
+> > device enters an ERROR state moving from RUNNING -> SAVING | RUNNING
+> > it shouldn't continue manipulating memory and generating interrupts
+> > in the background.  
+> 
+> I prefer a model where the device is allowed to keep doing whatever it
+> was doing before it hit the error. You are pushing for a model where
+> upon error we must force the device to stop.
+
+If the device continues operating in the previous mode then it
+shouldn't enter the ERROR state, it should return errno and re-reading
+device_state should indicate it's in the previous state.
+
+> For this view it is why the old state matters, if it was previously
+> allowed to DMA then it continues to be allowed to do DMA, etc.
+
+If it's still running normally, it shouldn't have been reported in the
+ERROR state.
+
+> > > The mlx5 v1 with the FSM didn't have alot of these problems we are
+> > > discussing. It didn't have precedence issues, it didn't have problems
+> > > executing odd combinations it can't support, it worked and was simple
+> > > to understand.  
+> > 
+> > And an audit of that driver during review found that it grossly failed
+> > to meet the spirit of a "should" requirement.  
+> 
+> That isn't how I see things.. The v1 driver implemented the uAPI we
+> all thought existed, was the FSM based uAPI the original patch authors
+> intended, and implemented only the FSM arcs discussed in the header
+> file comment.
+> 
+> Your idea that this is not a FSM seems to be unique here. I think
+> we've explored it to a reasonable conclusion to find it isn't working
+> out. Let's stop please.
+> 
+> Yishai can prepare a version with the FSM design back in including
+> NDMA and we can look at it.
+
+Sorry, but I was actually there and participating in original
+development of the uAPI.  If you'd like to propose a different uAPI do
+so, but again, I'm not going to accept a driver specifically looking to
+compromise what I understand to be the intent of the current
+specification in order to create a de facto standard outside of that
+specification.  Thanks,
+
+Alex
 
