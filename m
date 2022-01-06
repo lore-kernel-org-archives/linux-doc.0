@@ -2,79 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60A73C433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Jan 2022 22:28:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B036C433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Jan 2022 22:29:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245062AbiAFW2B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Jan 2022 17:28:01 -0500
-Received: from ms.lwn.net ([45.79.88.28]:51092 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S245078AbiAFW2B (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 6 Jan 2022 17:28:01 -0500
+        id S245078AbiAFW3i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Jan 2022 17:29:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54190 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S245095AbiAFW3i (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jan 2022 17:29:38 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51609C061245;
+        Thu,  6 Jan 2022 14:29:38 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 53E314A6;
-        Thu,  6 Jan 2022 22:28:00 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 53E314A6
+        by ms.lwn.net (Postfix) with ESMTPSA id CF7564A6;
+        Thu,  6 Jan 2022 22:29:37 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CF7564A6
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1641508080; bh=/n2EyPXXJQgHyMAHasj4t1toel9J8whl5UU0RPx/C/8=;
+        t=1641508178; bh=5nihu8RlJCQgeS4a5geT49tU31i3B7MpQB0TVfiDUOY=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Y/7it+4C7JtsXjntnqu3WVW2KrY4camzafYLe3yLPkL+7wAglvIb2RaiOdXqEijq/
-         BDAKiTRVpTU+qoKqX76q8zt3Es0SmPNvPyNmbUK3kN7NSxm19+yS4J/cvr94OTVp4n
-         aQnUp9UsyQjvVubwOLePjPIhtvuXZ9tlpi8qdBMrW1wMeCmSjT13raeEUTcyh+/tqM
-         CYXXiBbOOPi0kyWuxdiAGeExaGzqQa6FFGIYfYIW7rwsPNrOdMJLX1gUY7vbAkuYrs
-         Wf8bFuJcgMqrRhRybV0fvIzErYkp2QUkFXK6TAyb46n4/O7z2qF9zhwvO6QTyiHf7O
-         22g0d6qwKGECQ==
+        b=KQvFzyypLpXIPoRAgZMjqUPsZHFLxPUOCbIiJTMs1oJrg8m/mXSQehmILpG/7pH4S
+         C5FcAC+NBE5oRrzWJgPLVuul634UCd/LYuT2B5Cj3186neritEkwhEcILiTVR23QVW
+         5P6Se7kw60juw8tHqXmISJQlheDTBV5MqDVb/E/9y66jUtAKmSE8sNr47HLLBIwk5C
+         ksvQZxBCUBx97JPCP7VxOgDHl2Sqq/AoUhZQi/3wmEQOBb6Tv1oT2WE60Yb6P09q//
+         z+7JpmUE8lnJUVySaw+CT0hHMSkm66QSh3ZFun6/Sbs3y9qafH6gnZ8OYi6R0F1p+u
+         Ey41H2lnAlKMg==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Christian =?utf-8?Q?L=C3=B6hle?= <CLoehle@hyperstone.com>,
-        "jason.wessel@windriver.com" <jason.wessel@windriver.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "daniel.thompson@linaro.org" <daniel.thompson@linaro.org>
-Cc:     "dianders@chromium.org" <dianders@chromium.org>
-Subject: Re: [PATCHv2] Documentation: kgdb: Replace deprecated remotebaud
-In-Reply-To: <4050689967ed46baaa3bfadda53a0e73@hyperstone.com>
-References: <13287b7914344c7995de27224cd2fa73@hyperstone.com>
- <4050689967ed46baaa3bfadda53a0e73@hyperstone.com>
-Date:   Thu, 06 Jan 2022 15:28:06 -0700
-Message-ID: <87ee5kpki1.fsf@meer.lwn.net>
+To:     Thorsten Leemhuis <linux@leemhuis.info>, linux-doc@vger.kernel.org
+Cc:     workflows@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v2] docs: 5.Posting.rst: describe Fixes: and Link: tags
+In-Reply-To: <c4a5f5e25fa84b26fd383bba6eafde4ab57c9de7.1641314856.git.linux@leemhuis.info>
+References: <c4a5f5e25fa84b26fd383bba6eafde4ab57c9de7.1641314856.git.linux@leemhuis.info>
+Date:   Thu, 06 Jan 2022 15:29:44 -0700
+Message-ID: <87bl0opkfb.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Christian L=C3=B6hle <CLoehle@hyperstone.com> writes:
+Thorsten Leemhuis <linux@leemhuis.info> writes:
 
-> Using set remotebaud to set the baud rate was deprecated in
-> gdb-7.7 and completely removed from the command parser in gdb-7.8
-> (released in 2014). Adopt set serial baud instead.
+> Explain Fixes: and Link: tags in Documentation/process/5.Posting.rst,
+> which are missing in this file for unknown reasons and only described in
+> Documentation/process/submitting-patches.rst.
 >
-> Signed-off-by: Christian Loehle <cloehle@hyperstone.com>
-> ---
->  Documentation/dev-tools/kgdb.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/dev-tools/kgdb.rst b/Documentation/dev-tools/k=
-gdb.rst
-> index 43456244651a..7c90e111b364 100644
-> --- a/Documentation/dev-tools/kgdb.rst
-> +++ b/Documentation/dev-tools/kgdb.rst
-> @@ -557,7 +557,7 @@ Connecting with gdb to a serial port
->     Example (using a directly connected port)::
->=20=20
->             % gdb ./vmlinux
-> -           (gdb) set remotebaud 115200
-> +           (gdb) set serial baud 115200
->             (gdb) target remote /dev/ttyS0
+> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+> CC: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
 
-I've applied this, thanks.
-
-I can help but wonder, though, whether the historical information in the
-changelog actually belongs in the document itself.  A user on some
-ancient system who can't make the example work is probably unlikely to
-consult the git history when looking for a solution.
+Applied, thanks.
 
 jon
