@@ -2,60 +2,79 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DD1DC433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Jan 2022 22:24:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60A73C433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Jan 2022 22:28:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244714AbiAFWY6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Jan 2022 17:24:58 -0500
-Received: from ms.lwn.net ([45.79.88.28]:51090 "EHLO ms.lwn.net"
+        id S245062AbiAFW2B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Jan 2022 17:28:01 -0500
+Received: from ms.lwn.net ([45.79.88.28]:51092 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S244638AbiAFWY6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 6 Jan 2022 17:24:58 -0500
+        id S245078AbiAFW2B (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 6 Jan 2022 17:28:01 -0500
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 3D4AE5BF;
-        Thu,  6 Jan 2022 22:24:57 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3D4AE5BF
+        by ms.lwn.net (Postfix) with ESMTPSA id 53E314A6;
+        Thu,  6 Jan 2022 22:28:00 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 53E314A6
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1641507897; bh=6mEAHDrv0nvuTG1xKnA33KLkJmQKOzodBO65//BEm0g=;
+        t=1641508080; bh=/n2EyPXXJQgHyMAHasj4t1toel9J8whl5UU0RPx/C/8=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=D2ofowbfbQN04i6JhH0LvDu1OXNyN3vYnTlm5Bfysq6TOUTQsrk8DBHCigruBHWZ0
-         d+hQ/4IpmL+qp6CToKMQLLeMnoD/Lv/qgjsi/3bWDQa6bda5afSl8d1h/i49tS17Yg
-         Tk4qM3yG9sTlj1NDmHlUgaaFEPooZV5reioE1XKOXWHsdmwVLI/nURZ4OTjr4unHYh
-         yZNL/PYUFwqfUVy/HV11ih+OhIMAqnxRgEdcGn7/B8m8uCYybc8UJBNH8pXWkALDO3
-         MaQnSC6Q13StgJL2wzVTKJ0AU+MmhY5gdym0h77Qqy6qLf2vphEkboaojt4bGLXffS
-         LdR/1Z1nauLrQ==
+        b=Y/7it+4C7JtsXjntnqu3WVW2KrY4camzafYLe3yLPkL+7wAglvIb2RaiOdXqEijq/
+         BDAKiTRVpTU+qoKqX76q8zt3Es0SmPNvPyNmbUK3kN7NSxm19+yS4J/cvr94OTVp4n
+         aQnUp9UsyQjvVubwOLePjPIhtvuXZ9tlpi8qdBMrW1wMeCmSjT13raeEUTcyh+/tqM
+         CYXXiBbOOPi0kyWuxdiAGeExaGzqQa6FFGIYfYIW7rwsPNrOdMJLX1gUY7vbAkuYrs
+         Wf8bFuJcgMqrRhRybV0fvIzErYkp2QUkFXK6TAyb46n4/O7z2qF9zhwvO6QTyiHf7O
+         22g0d6qwKGECQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     James Clark <james.clark@arm.com>, nfraprado@protonmail.com,
-        n@nfraprado.net, linux-doc@vger.kernel.org
-Cc:     mchehab+huawei@kernel.org, James Clark <james.clark@arm.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] docs: automarkup.py: Fix invalid HTML link
- output and broken URI fragments
-In-Reply-To: <20220105143640.330602-2-james.clark@arm.com>
-References: <20220105143640.330602-1-james.clark@arm.com>
- <20220105143640.330602-2-james.clark@arm.com>
-Date:   Thu, 06 Jan 2022 15:25:03 -0700
-Message-ID: <87h7agpkn4.fsf@meer.lwn.net>
+To:     Christian =?utf-8?Q?L=C3=B6hle?= <CLoehle@hyperstone.com>,
+        "jason.wessel@windriver.com" <jason.wessel@windriver.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "daniel.thompson@linaro.org" <daniel.thompson@linaro.org>
+Cc:     "dianders@chromium.org" <dianders@chromium.org>
+Subject: Re: [PATCHv2] Documentation: kgdb: Replace deprecated remotebaud
+In-Reply-To: <4050689967ed46baaa3bfadda53a0e73@hyperstone.com>
+References: <13287b7914344c7995de27224cd2fa73@hyperstone.com>
+ <4050689967ed46baaa3bfadda53a0e73@hyperstone.com>
+Date:   Thu, 06 Jan 2022 15:28:06 -0700
+Message-ID: <87ee5kpki1.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-James Clark <james.clark@arm.com> writes:
+Christian L=C3=B6hle <CLoehle@hyperstone.com> writes:
 
-> Since commit d18b01789ae5 ("docs: Add automatic cross-reference for
-> documentation pages"), references that were already explicitly defined
-> with "ref:" and referred to other pages with a path have been doubled.
-> This is reported as the following error by Firefox:
-[...]
-> The fix is to check that nodes in the document to be modified are not
-> already references. A reference is counted as any text that is a
-> descendant of a reference type node. Only plain text should be converted
-> to new references, otherwise the doubling occurs.
+> Using set remotebaud to set the baud rate was deprecated in
+> gdb-7.7 and completely removed from the command parser in gdb-7.8
+> (released in 2014). Adopt set serial baud instead.
+>
+> Signed-off-by: Christian Loehle <cloehle@hyperstone.com>
+> ---
+>  Documentation/dev-tools/kgdb.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/dev-tools/kgdb.rst b/Documentation/dev-tools/k=
+gdb.rst
+> index 43456244651a..7c90e111b364 100644
+> --- a/Documentation/dev-tools/kgdb.rst
+> +++ b/Documentation/dev-tools/kgdb.rst
+> @@ -557,7 +557,7 @@ Connecting with gdb to a serial port
+>     Example (using a directly connected port)::
+>=20=20
+>             % gdb ./vmlinux
+> -           (gdb) set remotebaud 115200
+> +           (gdb) set serial baud 115200
+>             (gdb) target remote /dev/ttyS0
 
-This seems like a good fix.  Applied, thanks.
+I've applied this, thanks.
+
+I can help but wonder, though, whether the historical information in the
+changelog actually belongs in the document itself.  A user on some
+ancient system who can't make the example work is probably unlikely to
+consult the git history when looking for a solution.
 
 jon
