@@ -2,150 +2,203 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45EB7C433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Jan 2022 02:00:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 117A3C433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Jan 2022 02:49:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344545AbiAFCAP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Jan 2022 21:00:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59010 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344555AbiAFCAO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jan 2022 21:00:14 -0500
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB18DC061245;
-        Wed,  5 Jan 2022 18:00:13 -0800 (PST)
-Received: by mail-pl1-x62e.google.com with SMTP id q14so1455093plx.4;
-        Wed, 05 Jan 2022 18:00:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=4XiU3DBBBdtI9LoTZW+DPMRG7ojDY/j0JWWI8IOcxhQ=;
-        b=f0eCT5qfLiKgZKOvPMSYCy4gzpv5BZ98sYIBmXjgj8ZHREigT3U3Ow7qKUyEv3TmGg
-         a9yE40II91EBnjbyu09EVYPwvP0wXyJqiD4h2k7ax1JQbAPbIpssshnMg10junWoLsss
-         S0Be9DnShE2aC8T2hzsUuMzq9LbfuKIxBB+kiV3RuPd0vjGier4DGo9gBf1OkvLPblwd
-         2nx4IptkRwExqY3BJRyLYASjJ33KBELu3irdQa8Dha+ANwd0Pl4RUZ5hADAxTannb/1e
-         XWh5Dm0WFJSKhmFlrjO+6aYenbtkNrU8NtZGEQCQgDx5v1U+dTMkqnfzs/e1tHpElsRt
-         bgCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=4XiU3DBBBdtI9LoTZW+DPMRG7ojDY/j0JWWI8IOcxhQ=;
-        b=hfkFMGC7RbRsLBrVNL/3c3J9ScznFoCWbQLL/FRiWf37wGYJdQ/cT8UavD84T8XkLv
-         zFi/p0dFG2KWgDO9wbClhD2YAwRUfzwbQVqM5V2Y+1vNjmWa8NJCOgtIo7v52AwG/2lL
-         QjG9MeV32XW+b+pV0RMHoawqViLdxYL07Cy8ty+lSQWnC1EiRyh0z95qEWQjT7whF6ae
-         N4ExGSt/Pxgdd3qWkDFWQn97rQO9Norr0dV3vFuiwyqYbTtBAwiCdW+aqJ7un2CpFWGi
-         LTHnfrinjoBLVKAuBwR3LsPJm1gerojvwl9zhzkMw67bSYB6CUQKHZU+wq9rej+zJ1xS
-         v00A==
-X-Gm-Message-State: AOAM530tcSXh6F6Gij6leSrIpunoVmsCQrDKIKxhtX/u+S0cvS7Xo7Ok
-        DolIMQbrFvE3dZQamtdgKg4=
-X-Google-Smtp-Source: ABdhPJwMnXcUWGTDjYob15XFZ8DowbM6D/nkeb20M3ljhhRkYX6k7GZHkhOK89tMfn9RACIsrOC1+Q==
-X-Received: by 2002:a17:90a:d510:: with SMTP id t16mr7492468pju.84.1641434413375;
-        Wed, 05 Jan 2022 18:00:13 -0800 (PST)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id v10sm834263pjs.8.2022.01.05.18.00.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Jan 2022 18:00:13 -0800 (PST)
-Subject: Re: [PATCH v2] scripts: sphinx-pre-install: Fix ctex support on
- Debian
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <84f90b41-7a18-d83c-8739-1d394175f74a@gmail.com>
- <63882425609a2820fac78f5e94620abeb7ed5f6f.1641429634.git.mchehab@kernel.org>
-From:   Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <15aa5e03-8aac-af55-badc-b905ca91f281@gmail.com>
-Date:   Thu, 6 Jan 2022 11:00:08 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-MIME-Version: 1.0
-In-Reply-To: <63882425609a2820fac78f5e94620abeb7ed5f6f.1641429634.git.mchehab@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1344981AbiAFCt1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Jan 2022 21:49:27 -0500
+Received: from mga14.intel.com ([192.55.52.115]:49584 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1344972AbiAFCtW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 5 Jan 2022 21:49:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1641437362; x=1672973362;
+  h=from:to:cc:subject:date:message-id;
+  bh=sWOtdGi8py39apk6V9+1Cc3HvrPCoQjwl0XE0pBSkSE=;
+  b=KjMgeMy5W0DoNhkFh31cjwMIisMwTdm3WjYB/fLMGQV9t0b9F0xBQAzK
+   eqgscsCdxKez0tWtjfQ8w2sdlOXqp7+0sUm1XrYtyX+wzyMeNdsl6intL
+   0uM2bhMQQxoAn85T8bhiuNQIPbOHkwIH0+v0IEjC4vD79jYLxg2xRGVnw
+   xaUmJt7CSl0EN0Z6jwakCAfgOgFcJuuWr2ZJ2tbx59PUGdDDr/mUhuBWd
+   WU/dYX617EBndqUEz7c6Dw6TneQy3D+I/CBD3VZuwV1Q+t3Xm/qxmZFqr
+   uJH8Al87u3n5f573b89OgFWhD4o9xmcwGItcu7/sokUtXXbUaswr0Anm7
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="242784654"
+X-IronPort-AV: E=Sophos;i="5.88,265,1635231600"; 
+   d="scan'208";a="242784654"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2022 18:49:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,265,1635231600"; 
+   d="scan'208";a="488796520"
+Received: from ranerica-svr.sc.intel.com ([172.25.110.23])
+  by orsmga002.jf.intel.com with ESMTP; 05 Jan 2022 18:49:19 -0800
+From:   Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+To:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        linux-pm@vger.kernel.org
+Cc:     x86@kernel.org, linux-doc@vger.kernel.org,
+        Len Brown <len.brown@intel.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Aubrey Li <aubrey.li@linux.intel.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>,
+        Lukasz Luba <lukasz.luba@arm.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Ricardo Neri <ricardo.neri@intel.com>,
+        linux-kernel@vger.kernel.org,
+        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+Subject: [PATCH v3 0/7] Thermal: Introduce the Hardware Feedback Interface for thermal and performance management
+Date:   Wed,  5 Jan 2022 18:50:52 -0800
+Message-Id: <20220106025059.25847-1-ricardo.neri-calderon@linux.intel.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu,  6 Jan 2022 01:41:02 +0100, Mauro Carvalho Chehab wrote:
-> The name of the package with ctexhook.sty is different on
-> Debian/Ubuntu.
-> 
-> Reported-by: Akira Yokosawa <akiyks@gmail.com>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+Hi,
 
-Tested-by: Akira Yokosawa <akiyks@gmail.com>
+This is v3 of this patchset after having incorporated the feedback from
+reviewers. Please find v1 and v2 in [1] and [2], respectively.
 
-> ---
->  scripts/sphinx-pre-install | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-> index 46aaab414098..f126ecbb0494 100755
-> --- a/scripts/sphinx-pre-install
-> +++ b/scripts/sphinx-pre-install
-> @@ -370,6 +370,9 @@ sub give_debian_hints()
->  	);
->  
->  	if ($pdf) {
-> +		check_missing_file(["/usr/share/texlive/texmf-dist/tex/latex/ctex/ctexhook.sty"],
-> +				   "texlive-lang-chinese", 2);
-> +
->  		check_missing_file(["/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"],
->  				   "fonts-dejavu", 2);
->  
-> -- 
-> 2.33.1
+The Intel Hardware Feedback Interface (HFI) [3] provides information about
+the performance and energy efficiency of each CPU in the system. It uses a
+table that is shared between hardware and the operating system. The
+contents of the table may be updated as a result of changes in the
+operating conditions of the system (e.g., reaching a thermal limit) or the
+action of external factors (e.g., changes in the thermal design power).
 
-So are you planing to add similar checks incrementally for the
-other distros ?
+The information that HFI provides are specified as numeric, unit-less
+capabilities relative to other CPUs in the system. These capabilities have
+a range of [0-255] where higher numbers represent higher capabilities.
+Energy efficiency and performance are reported in separate capabilities.
+If either the performance or energy capabilities efficiency of a CPU are 0,
+the hardware recommends to not schedule any tasks on such CPU for
+performance, energy efficiency or thermal reasons, respectively.
 
-There are two things I'd like to mention.
+The kernel or user space may use the information from the HFI to modify
+task placement and/or adjust power limits. This patchset focuses on the
+user space. The thermal notification framework is extended to relay
+updates of CPU capacity. Thus, a userspace daemon can affinitize workloads
+to certain CPUs and/or offline CPUs whose capabilities are zero.
 
-First, on Debian buster, Ubuntu Bionic, and Ubuntu Focal,
-xeCJK.sty are younger then v3.8.3 and ctexhook.sty is not necessary.
-As texlive-lang-chinese is a fairly large package, it would be better
-not to require the unnecessary package.
+The frequency of HFI updates is specific to each processor model. On some
+systems, there is just a single HFI update at boot. On other systems, there
+may be updates every tens of milliseconds. In order to not overwhelm
+userspace with too many updates, they are limited to one update every
+CONFIG_HZ jiffies.
 
-The new dependency can be checked by:
+Thanks and BR,
+Ricardo
 
-    $ grep ctex `kpsewhich xeCJK.sty`
+[1]. https://lore.kernel.org/lkml/20211106013312.26698-1-ricardo.neri-calderon@linux.intel.com/
+[2]. https://lore.kernel.org/lkml/20211220151438.1196-1-ricardo.neri-calderon@linux.intel.com/
+[3]. https://www.intel.com/sdm
 
-If there is no hit, no need of ctexhook.sty.
+Changes since v2:
+ ++ Unchanged patches: 1, 6, 7.
+ * Replaced subject prefix to be "x86/cpu:". (Patch 2; Boris)
+ * Rename the INTEL_HFI Kconfig option as INTEL_HFI_THERMAL to reflect
+   better the nature of the feature. (Patch 3; Rafael)
+ * Removed hfi_instance::initialized. Instead, use hfi_instance::
+   hdr to determine if the instance has been initialized. (Patch 4; Rafael)
+ * Renamed hfi_lock as hfi_instance_lock to reflect the fact that it is
+   used to protect accesses to HFI instances. (Patch 4; Rafael)
+ * Removed unnecessary locking when linking a CPU to an HFI instance
+   in intel_hfi_online(). (Patch 4; Rafael)
+ * Unconditionally link the hfi_instance of a package/die to CPUs in
+   the same package in intel_hfi_online(). Initialization is taken care
+   of separately. (Patch 4)
+ * Improved locking in error paths in intel_hfi_online(). (Patch 4; Rafael)
+ * Removed a pointless check for NULL when taking a pointer of an element
+   of hfi_instances. (Patch 4)
+ * Added missing #include files. (Patches 3, 4, 5)
 
-It would be nice if the check can be made conditional.
-But it would not be possible to check before you have xeCJK.sty
-on your system.
+Changes since v1:
+ ++ Unchanged patches: none
+ * Clarified that HFI capabilities are independent. (Patch 1; Daniel)
+ * Provided examples on changes reflected in the HFI table.
+   (Patch 1; Daniel)
+ * Renamed X86_FEATURE_INTEL_HFI as X86_FEATURE_HFI. (Patch 2, 3, 4, 5;
+   Boris)
+ * Reworked parsing of HFI features using bitfields instead of bitmasks.
+   (Patch 3; PeterZ).
+ * Removed hfi_instance::parsed. (Patch 3; Rafael)
+ * Converted pr_err() to pr_debug(). (Patch 3; Srinivas, Rafael)
+ * Removed unnecessary dependency on CONFIG_SCHED_MC. (Patch 3)
+ * Renamed hfi_instance::ts_counter as hfi_instance::timestamp.
+   (Patch 3)
+ * Renamed hfi_instance::table_base as hfi_instance::local_table and
+   relocated its definition to this patch. (Patch 3)
+ * Wrapped hfi_instance::timestamp and hfi_instance:local_table in an
+   anonymous union, since both point at the same location. (Patch 3)
+ * Relocated definitions of MSR bits from intel_hfi.h to intel_hfi.c.
+   (Patch 4)
+ * Renamed HFI_PTR_VALID_BIT as HW_FEEDBACK_PTR_VALID_BIT for clarity.
+   (Patch 4).
+ * Reworked init_hfi_cpu_index() to take a pointer of type struct
+   hfi_cpu_info. (Patch 4; Rafael)
+ * In intel_hfi_online(), check for null hfi_instances and improve checks
+   of the die_id. (Patch 4; Rafael)
+ * Use a local cpumask_var_t to keep track of the CPUs of each
+   hfi_instance. (Patch 4; Rafael)
+ * Removed hfi_instance::die_id. It is not used anywhere. (Patch 4)
+ * Renamed hfi_instance::table_base as hfi_instance::local_table for
+   clarity. (Patch 4)
+ * Repurposed hfi_instance::event_lock to handle HFI interrupt
+   events to avoid keeping CPUs spinning needlessly. Added a new
+   hfi_instance::table_lock to serialize access to an HFI table.
+   (Patch 5; PeterZ)
+ * Replaced raw_spin_[un]lock[restore|save]() with raw_spin_[un]lock().
+   intel_hfi_process_event() runs in interrupt context and hence there
+   is no need to save interrupt flags. (Patch 5)
+ * Renamed HFI_CONFIG_ENABLE_BIT as HW_FEEDBACK_CONFIG_HFI_ENABLE_BIT
+   for clarity. (Patch 5)
+ * Relaxed checks on timestamp to allow time wrap around. (Patch 5)
+ * Reworded the members of struct cpu_capacity for clarity. (Patch 6;
+   Lukasz)
+ * Defined the CPU capability attributes to be scaled in the [0, 1023]
+   interval. (Patch 6; Lukasz)
+ * Made get_one_hfi_cap() return void. Removed unnecessary checks.
+   (Patch 7; Rafael)
+ * Replaced raw_spin_[un]lock_irq[restore|save]() with raw_spin_
+   [un]lock_irq() in get_one_hfi_cap(). This function is only called from
+   a workqueue and there is no need to save and restore irq flags.
+ * Scaled performance and energy efficiency values to a [0, 1023] interval
+   when reporting values to user space via thermal netlink notifications.
+   (Patch 7; Lucasz).
 
-Hmm??
 
-Second, on CentOS stream8, texlive-ctex is not available.
-Following is the error from "dnf install":
+Ricardo Neri (5):
+  x86/Documentation: Describe the Intel Hardware Feedback Interface
+  x86/cpu: Add definitions for the Intel Hardware Feedback Interface
+  thermal: intel: hfi: Minimally initialize the Hardware Feedback
+    Interface
+  thermal: intel: hfi: Handle CPU hotplug events
+  thermal: intel: hfi: Enable notification interrupt
 
-    $ sudo dnf install texlive-ctex
-    Last metadata expiration check: 0:00:35 ago on Thu Jan  6 01:43:50 2022.
-    No match for argument: texlive-ctex
-    Error: Unable to find a match: texlive-ctex
+Srinivas Pandruvada (2):
+  thermal: netlink: Add a new event to notify CPU capabilities change
+  thermal: intel: hfi: Notify user space for HFI events
 
-xeCJK.sty there is also younger then v3.8.3.
+ Documentation/x86/index.rst         |   1 +
+ Documentation/x86/intel-hfi.rst     |  72 ++++
+ arch/x86/include/asm/cpufeatures.h  |   1 +
+ arch/x86/include/asm/msr-index.h    |   6 +
+ drivers/thermal/intel/Kconfig       |  13 +
+ drivers/thermal/intel/Makefile      |   1 +
+ drivers/thermal/intel/intel_hfi.c   | 542 ++++++++++++++++++++++++++++
+ drivers/thermal/intel/intel_hfi.h   |  17 +
+ drivers/thermal/intel/therm_throt.c |  21 ++
+ drivers/thermal/thermal_netlink.c   |  55 +++
+ drivers/thermal/thermal_netlink.h   |  13 +
+ include/uapi/linux/thermal.h        |   6 +-
+ 12 files changed, 747 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/x86/intel-hfi.rst
+ create mode 100644 drivers/thermal/intel/intel_hfi.c
+ create mode 100644 drivers/thermal/intel/intel_hfi.h
 
-So again, if the check of ctexhook.sty could be made conditional,
-we would be able to list CentOS stream8 (or RHEL 8) as capable
-of "make pdfdocs".
+-- 
+2.17.1
 
-Longer term (for CentOS stream9 or RHEL 9), we might need to ask
-EPEL maintainers to add texlive-ctex.
-
-Thoughts?
-
-List of xeCJK.sty version:
-
-    Debian buster   v3.7.1
-    Ubuntu Bionic   v3.6.1
-    Ubuntu Focal    v3.8.1
-    CentOS stream8  v3.5.0
-
-        Thanks, Akira
