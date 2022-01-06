@@ -2,60 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46EFFC433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Jan 2022 20:01:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70B20C433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Jan 2022 20:25:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243514AbiAFUBr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Jan 2022 15:01:47 -0500
-Received: from fanzine2.igalia.com ([213.97.179.56]:40320 "EHLO
-        fanzine2.igalia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235093AbiAFUBq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jan 2022 15:01:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version
-        :Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=o8kRybl/YJgPm/1Ty3u9DM+5Rzg6IGnfZRnQegwM+t4=; b=gPQNFgKAS4rglFYgGNu7VAjybC
-        2w+rucssHo907rCMWYFlfg8SsR1JzGhpQu2NFFiHmgEV5w7yK47x6cMxi4Pp4PEyoaIEmFCfvkE+/
-        VfQralstZerzNmH5TlDrUg75Njo83K6XQhk6BDxPZKEL3Rbya+MsbBXHq8L+mfmQA4CcdnI3HCej8
-        mM/uKwhd+s1hmwVltoHls3Dbu/GmpsnUX7jNKrsEHBrwwqlIGTLoQg6R5wobQKqNJ/RRFdtwhdW23
-        JR0Fz5e1/rK3gvdUOcz5WXq7m3RSmhiDy6PkUlrdHhnxLbDqS/YpTMw2o+SwO0dZvQtGGIpbJahUT
-        0M/iC3CA==;
-Received: from [179.113.53.20] (helo=[192.168.1.60])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1n5Yx7-0009bd-JD; Thu, 06 Jan 2022 21:01:37 +0100
-Subject: Re: [PATCH] notifier/panic: Introduce panic_notifier_filter
-To:     kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
-        dyoung@redhat.com
-Cc:     linux-doc@vger.kernel.org, bhe@redhat.com, vgoyal@redhat.com,
-        stern@rowland.harvard.edu, akpm@linux-foundation.org,
+        id S243721AbiAFUZd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Jan 2022 15:25:33 -0500
+Received: from netrider.rowland.org ([192.131.102.5]:56839 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S243749AbiAFUZb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jan 2022 15:25:31 -0500
+Received: (qmail 86633 invoked by uid 1000); 6 Jan 2022 15:25:28 -0500
+Date:   Thu, 6 Jan 2022 15:25:28 -0500
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc:     kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        dyoung@redhat.com, linux-doc@vger.kernel.org, bhe@redhat.com,
+        vgoyal@redhat.com, akpm@linux-foundation.org,
         andriy.shevchenko@linux.intel.com, corbet@lwn.net,
         halves@canonical.com, kernel@gpiccoli.net
-References: <20220106162710.97544-1-gpiccoli@igalia.com>
-From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Message-ID: <1615e409-aa19-a798-03e6-d0abb111bd7d@igalia.com>
-Date:   Thu, 6 Jan 2022 17:01:21 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Subject: Re: [PATCH V2] notifier/panic: Introduce panic_notifier_filter
+Message-ID: <YddQOFye7Rhr9NDl@rowland.harvard.edu>
+References: <20220106200007.112357-1-gpiccoli@igalia.com>
 MIME-Version: 1.0
-In-Reply-To: <20220106162710.97544-1-gpiccoli@igalia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220106200007.112357-1-gpiccoli@igalia.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 06/01/2022 13:27, Guilherme G. Piccoli wrote:
-> [...]
+On Thu, Jan 06, 2022 at 05:00:07PM -0300, Guilherme G. Piccoli wrote:
+> The kernel notifier infrastructure allows function callbacks to be
+> added in multiple lists, which are then called in the proper time,
+> like in a reboot or panic event. The panic_notifier_list specifically
+> contains the callbacks that are executed during a panic event. As any
+> other notifier list, the panic one has no filtering and all functions
+> previously registered are executed.
+> 
+> The kdump infrastructure, on the other hand, enables users to set
+> a crash kernel that is kexec'ed in a panic event, and vmcore/logs
+> are collected in such crash kernel. When kdump is set, by default
+> the panic notifiers are ignored - the kexec jumps to the crash kernel
+> before the list is checked and callbacks executed.
+> 
+> There are some cases though in which kdump users might want to
+> allow panic notifier callbacks to execute _before_ the kexec to
+> the crash kernel, for a variety of reasons - for example, users
+> may think kexec is very prone to fail and want to give a chance
+> to kmsg dumpers to run (and save logs using pstore), or maybe
+> some panic notifier is required to properly quiesce some hardware
+> that must be used to the crash kernel. For these cases, we have
+> the kernel parameter "crash_kexec_post_notifiers".
+> 
+> But there's a problem: currently it's an "all-or-nothing" situation,
+> the kdump user choice is either to execute all panic notifiers or
+> none of them. Given that panic notifiers may increase the risk of a
+> kdump failure, this is a tough decision and may affect the debug of
+> hard to reproduce bugs, if for some reason the user choice is to
+> enable panic notifiers, but kdump then fails.
+> 
+> So, this patch aims to ease this decision: we hereby introduce a filter
+> for the panic notifier list, in which users may select specifically
+> which callbacks they wish to run, allowing a safer kdump. The allowlist
+> should be provided using the parameter "panic_notifier_filter=a,b,..."
+> where a, b are valid callback names. Invalid symbols are discarded.
+> 
+> Currently up to 16 symbols may be passed in this list, we consider
+> that this numbers allows enough flexibility (and no matter what
+> architecture is used, at most 30 panic callbacks are registered).
+> In an experiment using a qemu x86 virtual machine, by default only
+> six callbacks are registered in the panic notifier list.
+> Once a valid callback name is provided in the list, such function
+> is allowed to be registered/unregistered in the panic_notifier_list;
+> all other panic callbacks are ignored. Notice that this filter is
+> only for the panic notifiers and has no effect in the other notifiers.
+> 
+> Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
 
-I'm sorry, I've made a mistake in the header file - just sent a V2.
+> diff --git a/kernel/notifier.c b/kernel/notifier.c
+> index b8251dc0bc0f..04cb9e956058 100644
+> --- a/kernel/notifier.c
+> +++ b/kernel/notifier.c
+> @@ -140,10 +163,16 @@ int atomic_notifier_chain_register(struct atomic_notifier_head *nh,
+>  		struct notifier_block *n)
+>  {
+>  	unsigned long flags;
+> -	int ret;
+> +	int ret = 0;
+>  
+>  	spin_lock_irqsave(&nh->lock, flags);
+> +	if (unlikely(panic_nf_count) && nh == &panic_notifier_list)
+> +		if (!is_panic_notifier_filtered(n))
+> +			goto panic_filtered_out;
 
-Please *ignore* this version.
-Apologies,
+Forget the unlikely(); this is not a hot path.
 
+> +
+>  	ret = notifier_chain_register(&nh->head, n);
+> +
+> +panic_filtered_out:
+>  	spin_unlock_irqrestore(&nh->lock, flags);
+>  	return ret;
+>  }
 
-Guilherme
+It would be simpler to do:
+
+	if (!(nh == &panic_notifier_list && panic_nf_count > 0 &&
+			is_panic_notifier_filtered(n)))
+		ret = notifier_chain_register(&nh->head, n);
+
+If there were special-purpose functions just for registering and 
+unregistering callbacks on the panic_notifier_list, the design would be 
+cleaner (no need to modify core notifier code).  But making that change 
+would mean altering a lot of call sites.  :-(
+
+> @@ -162,10 +194,16 @@ int atomic_notifier_chain_unregister(struct atomic_notifier_head *nh,
+>  		struct notifier_block *n)
+>  {
+>  	unsigned long flags;
+> -	int ret;
+> +	int ret = 0;
+>  
+>  	spin_lock_irqsave(&nh->lock, flags);
+> +	if (unlikely(panic_nf_count) && nh == &panic_notifier_list)
+> +		if (!is_panic_notifier_filtered(n))
+> +			goto panic_filtered_out;
+> +
+>  	ret = notifier_chain_unregister(&nh->head, n);
+> +
+> +panic_filtered_out:
+
+Same idea here.
+
+Alan Stern
