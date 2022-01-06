@@ -2,83 +2,60 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3338DC433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Jan 2022 21:42:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DD1DC433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Jan 2022 22:24:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244353AbiAFVmE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Jan 2022 16:42:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42870 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244330AbiAFVmC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jan 2022 16:42:02 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71981C061245;
-        Thu,  6 Jan 2022 13:42:01 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        id S244714AbiAFWY6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Jan 2022 17:24:58 -0500
+Received: from ms.lwn.net ([45.79.88.28]:51090 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S244638AbiAFWY6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 6 Jan 2022 17:24:58 -0500
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id BE289B82436;
-        Thu,  6 Jan 2022 21:41:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 537ADC36AE3;
-        Thu,  6 Jan 2022 21:41:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1641505318;
-        bh=cidqH6XbnKiV6LK8kzCyBqLMG5qV1IbZVq3gWyCa/Gc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RDk+a37Bpl5DLv9vRcXj7UYKcFCou6wAizwQocEPougcoNeFnwCoJocwodXlBW1MD
-         LfctZXNpiRWaL9K53KihcXAUxJZqUOEVSCLZrgOy50DMUBx1lqkYtPo5RUxqjIHQ90
-         DwNZAxSUlqPJIZcjUzQZpC2A9aMKIIHrhmbdwYcmIdkhjFmi7nOoTKvEd9s47B/E/8
-         yqkwQrlS3FUTakczE/Umzh/Us+Xr0sV9ESc8kGMSLxz9dX2qPR91JgKRnoXfN7HlRd
-         87hzo8+DYMuIE5Mv4fOaRZILjJ+ZZneZGe6G251pLY0ca+VT1HpD8mzw/IRCpKuMdL
-         r8/xgsCMSObdQ==
-Date:   Thu, 6 Jan 2022 13:41:56 -0800
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Jens Axboe <axboe@kernel.dk>
-Cc:     linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        by ms.lwn.net (Postfix) with ESMTPSA id 3D4AE5BF;
+        Thu,  6 Jan 2022 22:24:57 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3D4AE5BF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1641507897; bh=6mEAHDrv0nvuTG1xKnA33KLkJmQKOzodBO65//BEm0g=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=D2ofowbfbQN04i6JhH0LvDu1OXNyN3vYnTlm5Bfysq6TOUTQsrk8DBHCigruBHWZ0
+         d+hQ/4IpmL+qp6CToKMQLLeMnoD/Lv/qgjsi/3bWDQa6bda5afSl8d1h/i49tS17Yg
+         Tk4qM3yG9sTlj1NDmHlUgaaFEPooZV5reioE1XKOXWHsdmwVLI/nURZ4OTjr4unHYh
+         yZNL/PYUFwqfUVy/HV11ih+OhIMAqnxRgEdcGn7/B8m8uCYybc8UJBNH8pXWkALDO3
+         MaQnSC6Q13StgJL2wzVTKJ0AU+MmhY5gdym0h77Qqy6qLf2vphEkboaojt4bGLXffS
+         LdR/1Z1nauLrQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     James Clark <james.clark@arm.com>, nfraprado@protonmail.com,
+        n@nfraprado.net, linux-doc@vger.kernel.org
+Cc:     mchehab+huawei@kernel.org, James Clark <james.clark@arm.com>,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/8] docs: consolidate sysfs-block into
- Documentation/ABI/
-Message-ID: <YddiJFr+ba7Veh82@sol.localdomain>
-References: <20211209003833.6396-1-ebiggers@kernel.org>
- <YcH1uxfdTRHIwl7Y@quark>
- <YdMQ6rfSZWSOLptA@quark>
+Subject: Re: [PATCH v2 1/1] docs: automarkup.py: Fix invalid HTML link
+ output and broken URI fragments
+In-Reply-To: <20220105143640.330602-2-james.clark@arm.com>
+References: <20220105143640.330602-1-james.clark@arm.com>
+ <20220105143640.330602-2-james.clark@arm.com>
+Date:   Thu, 06 Jan 2022 15:25:03 -0700
+Message-ID: <87h7agpkn4.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YdMQ6rfSZWSOLptA@quark>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 03, 2022 at 09:06:18AM -0600, Eric Biggers wrote:
-> On Tue, Dec 21, 2021 at 09:41:47AM -0600, Eric Biggers wrote:
-> > On Wed, Dec 08, 2021 at 04:38:25PM -0800, Eric Biggers wrote:
-> > > This series consolidates the documentation for /sys/block/<disk>/queue/
-> > > into Documentation/ABI/, where it is supposed to go (as per Greg KH:
-> > > https://lore.kernel.org/r/YaXXpEAwVGTLjp1e@kroah.com).
-> > > 
-> > > This series also updates MAINTAINERS to associate the block
-> > > documentation with the block layer.
-> > > 
-> > > This series applies to linux-block/for-next.
-> > > 
-> > > Changed v2 => v3:
-> > >    - Improved documentation for stable_writes and virt_boundary_mask.
-> > >    - Added more Reviewed-by tags.
-> > > 
-> > > Changed v1 => v2:
-> > >    - Added patch which moves the documentation to the stable directory.
-> > >    - Added Reviewed-by tags.
-> > 
-> > Jens, any interest in applying this series?
-> > 
-> > - Eric
-> 
-> Ping.
+James Clark <james.clark@arm.com> writes:
 
-Jens, any reason you haven't applied this series yet?  It looks like you've been
-applying other patches.  To be clear, I've been expecting that this would go in
-through the block tree, rather than the docs tree.
+> Since commit d18b01789ae5 ("docs: Add automatic cross-reference for
+> documentation pages"), references that were already explicitly defined
+> with "ref:" and referred to other pages with a path have been doubled.
+> This is reported as the following error by Firefox:
+[...]
+> The fix is to check that nodes in the document to be modified are not
+> already references. A reference is counted as any text that is a
+> descendant of a reference type node. Only plain text should be converted
+> to new references, otherwise the doubling occurs.
 
-- Eric
+This seems like a good fix.  Applied, thanks.
+
+jon
