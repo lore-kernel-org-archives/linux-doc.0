@@ -2,169 +2,351 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEA08C433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Jan 2022 16:17:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 780EFC433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Jan 2022 16:27:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241093AbiAFQRn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Jan 2022 11:17:43 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29]:48812 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241052AbiAFQRm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jan 2022 11:17:42 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 6FED71F37F;
-        Thu,  6 Jan 2022 16:17:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1641485861; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=jiujcEw1K7Aihwam1nGHQCL1WPhq/6cKdLiFVo++R3c=;
-        b=ufwsRGd/FAFSnNurr1idklThXc8LwBLYgJV1EMzyI+FcwXo4765ZgS1rrPr2SeIcuIzAnr
-        Qz4oPL+EShKMJyF/TCs94cyS3cFUxMuOwWgiXtUwbuPcHE6tPcT5sfgFyaEmSqXyyPurGp
-        WTGPEzwD6r+hPpBJqRPJK6LRMaR/z5k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1641485861;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=jiujcEw1K7Aihwam1nGHQCL1WPhq/6cKdLiFVo++R3c=;
-        b=226XJuqQmhTHAxGxJccyOlu2FmeDoOd5e59bAFWXy3zITmcJmXbjP4qXgwZ7rlGZs25eRZ
-        SylzAKQ0qBaZkMBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2A6C113C5E;
-        Thu,  6 Jan 2022 16:17:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id rt3wOCIW12FhCgAAMHmgww
-        (envelope-from <colyli@suse.de>); Thu, 06 Jan 2022 16:17:38 +0000
-Message-ID: <bd98488b-dbb8-0510-3ccc-f80cbfe5e3ff@suse.de>
-Date:   Fri, 7 Jan 2022 00:17:36 +0800
+        id S241165AbiAFQ1r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Jan 2022 11:27:47 -0500
+Received: from fanzine2.igalia.com ([213.97.179.56]:48506 "EHLO
+        fanzine2.igalia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241130AbiAFQ1r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jan 2022 11:27:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+        Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=Ffi4OVxuXbWWBnuJPOpg4V8HSkXdxU2ejGHKL7qeiGc=; b=ZNwbBVHhSPVSNWUDBobDawL/Vi
+        OKdlQC7Gni42TEu/uw4uzrbLRea1fjdhZn9vtthlut9y7zo7KWwJV8Ghpqmuv+WeClOiJLn72o7Rg
+        ppRpMbTuHcWC/q8nJC1iJlSjjqz1533oUlHLKfiXfATxOCeqkouqOa3MaRIaVxgQ7UBQTQSduhx69
+        ZZFf0a6nhpDqd7V+LozGVt4jOCisOpCyWU6LD4mfq8m2ePL08obEwKbLJuj+FbqSsuoBKKUqKuzmi
+        qXbY38E3Ro/LM8e8VeBT//alrTWPsUgEBufT0P8nuKslF2Xevzu45AK0EHT/9p5u+0Re9/XWboSO8
+        77V914SQ==;
+Received: from [179.113.53.20] (helo=localhost)
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+        id 1n5Vc6-00032F-D3; Thu, 06 Jan 2022 17:27:43 +0100
+From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+To:     kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        dyoung@redhat.com
+Cc:     linux-doc@vger.kernel.org, bhe@redhat.com, vgoyal@redhat.com,
+        stern@rowland.harvard.edu, akpm@linux-foundation.org,
+        andriy.shevchenko@linux.intel.com, corbet@lwn.net,
+        halves@canonical.com, gpiccoli@igalia.com, kernel@gpiccoli.net
+Subject: [PATCH] notifier/panic: Introduce panic_notifier_filter
+Date:   Thu,  6 Jan 2022 13:27:10 -0300
+Message-Id: <20220106162710.97544-1-gpiccoli@igalia.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.4.1
-Subject: Re: [PATCH] bcache: make stripe_size configurable and persistent for
- hardware raid5/6
-Content-Language: en-US
-To:     Eric Wheeler <bcache@lists.ewheeler.net>
-Cc:     linux-block@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Kent Overstreet <kent.overstreet@gmail.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:BCACHE (BLOCK LAYER CACHE)" <linux-bcache@vger.kernel.org>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>
-References: <d3f7fd44-9287-c7fa-ee95-c3b8a4d56c93@suse.de>
- <1561245371-10235-1-git-send-email-bcache@lists.ewheeler.net>
- <200638b0-7cba-38b4-20c4-b325f3cfe862@suse.de>
- <alpine.LRH.2.11.1906241800350.1114@mx.ewheeler.net>
- <8a9131dc-9bf7-a24a-f7b8-35e0c019e905@suse.de>
- <fdb85dc1-eee6-e55e-8e9c-fa1f36b4a37@ewheeler.net>
-From:   Coly Li <colyli@suse.de>
-In-Reply-To: <fdb85dc1-eee6-e55e-8e9c-fa1f36b4a37@ewheeler.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/6/22 11:29 AM, Eric Wheeler wrote:
-> On Tue, 25 Jun 2019, Coly Li wrote:
->> On 2019/6/25 2:14 上午, Eric Wheeler wrote:
->>> On Mon, 24 Jun 2019, Coly Li wrote:
->>>
->>>> On 2019/6/23 7:16 上午, Eric Wheeler wrote:
->>>>> From: Eric Wheeler <git@linux.ewheeler.net>
->>>>>
->>>>> While some drivers set queue_limits.io_opt (e.g., md raid5), there are
->>>>> currently no SCSI/RAID controller drivers that do.  Previously stripe_size
->>>>> and partial_stripes_expensive were read-only values and could not be
->>>>> tuned by users (eg, for hardware RAID5/6).
->>>>>
->>>>> This patch enables users to save the optimal IO size via sysfs through
->>>>> the backing device attributes stripe_size and partial_stripes_expensive
->>>>> into the bcache superblock.
->>>>>
->>>>> Superblock changes are backwards-compatable:
->>>>>
->>>>> *  partial_stripes_expensive: One bit was used in the superblock flags field
->>>>>
->>>>> *  stripe_size: There are eight 64-bit "pad" fields for future use in
->>>>>     the superblock which default to 0; from those, 32-bits are now used
->>>>>     to save the stripe_size and load at device registration time.
->>>>>
->>>>> Signed-off-by: Eric Wheeler <bcache@linux.ewheeler.net>
->>>> Hi Eric,
->>>>
->>>> In general I am OK with this patch. Since Peter comments lots of SCSI
->>>> RAID devices reports a stripe width, could you please list the hardware
->>>> raid devices which don't list stripe size ? Then we can make decision
->>>> whether it is necessary to have such option enabled.
->>> Perhaps they do not set stripe_width using io_opt? I did a grep to see if
->>> any of them did, but I didn't see them. How is stripe_width indicated by
->>> RAID controllers?
->>>
->>> If they do set io_opt, then at least my Areca 1883 does not set io_opt as
->>> of 4.19.x. I also have a LSI MegaRAID 3108 which does not report io_opt as
->>> of 4.1.x, but that is an older kernel so maybe support has been added
->>> since then.
->>>
->>> Martin,
->>>
->>> Where would stripe_width be configured in the SCSI drivers? Is it visible
->>> through sysfs or debugfs so I can check my hardware support without
->>> hacking debugging the kernel?
->>>
->>>> Another point is, this patch changes struct cache_sb, it is no problem
->>>> to change on-disk format. I plan to update the super block version soon,
->>>> to store more configuration persistently into super block. stripe_size
->>>> can be added to cache_sb with other on-disk changes.
->> Hi Eric,
->>
->>> Maybe bumping version makes sense, but even if you do not, this is safe to
->>> use on systems without bumping the version because the values are unused
->>> and default to 0.
->> Yes, I understand you, it works as you suggested. I need to think how to
->> organize all options in struct cache_sb, stripe_size will be arranged
->> then. And I will ask help to you for reviewing the changes of on-disk
->> format.
-> Hi Coli,
->
-> Just checking in, its been a while and I didn't see any more discussion on
-> the topic:
+The kernel notifier infrastructure allows function callbacks to be
+added in multiple lists, which are then called in the proper time,
+like in a reboot or panic event. The panic_notifier_list specifically
+contains the callbacks that are executed during a panic event. As any
+other notifier list, the panic one has no filtering and all functions
+previously registered are executed.
 
-Hi Eric,
+The kdump infrastructure, on the other hand, enables users to set
+a crash kernel that is kexec'ed in a panic event, and vmcore/logs
+are collected in such crash kernel. When kdump is set, by default
+the panic notifiers are ignored - the kexec jumps to the crash kernel
+before the list is checked and callbacks executed.
 
-Thank you for reminding me. The persistent on-disk options were that 
-much as I thought, so using a reserved space from the on-disk super 
-block is fine.
+There are some cases though in which kdump users might want to
+allow panic notifier callbacks to execute _before_ the kexec to
+the crash kernel, for a variety of reasons - for example, users
+may think kexec is very prone to fail and want to give a chance
+to kmsg dumpers to run (and save logs using pstore), or maybe
+some panic notifier is required to properly quiesce some hardware
+that must be used to the crash kernel. For these cases, we have
+the kernel parameter "crash_kexec_post_notifiers".
 
-> This would benefit users with older RAID controllers using RAID-5/6 that
-> don't set io_opt.
->
-> Even new new RAID controlers that _do_ provide `io_opt` still do _not_
-> indicate partial_stripes_expensive (which is an mdraid feature, but Martin
-> please correct me if I'm wrong here).  Thus, all hardware RAID-5/6 users
-> could benefit by manually flagging partial_stripes_expensive to get burst
-> writes out of bcache that fit their stride width.
+But there's a problem: currently it's an "all-or-nothing" situation,
+the kdump user choice is either to execute all panic notifiers or
+none of them. Given that panic notifiers may increase the risk of a
+kdump failure, this is a tough decision and may affect the debug of
+hard to reproduce bugs, if for some reason the user choice is to
+enable panic notifiers, but kdump then fails.
 
-Yeah, I agree with you.
+So, this patch aims to ease this decision: we hereby introduce a filter
+for the panic notifier list, in which users may select specifically
+which callbacks they wish to run, allowing a safer kdump. The allowlist
+should be provided using the parameter "panic_notifier_filter=a,b,..."
+where a, b are valid callback names. Invalid symbols are discarded.
 
-> This patch probably needs rebased and documentation updated about io_opt,
-> but here is the original patch with documentation for your reference:
-> 	https://lkml.org/lkml/2019/6/22/298
->
-> What do you think?
+Currently up to 16 symbols may be passed in this list, we consider
+that this numbers allows enough flexibility (and no matter what
+architecture is used, at most 30 panic callbacks are registered).
+In an experiment using a qemu x86 virtual machine, by default only
+six callbacks are registered in the panic notifier list.
+Once a valid callback name is provided in the list, such function
+is allowed to be registered/unregistered in the panic_notifier_list;
+all other panic callbacks are ignored. Notice that this filter is
+only for the panic notifiers and has no effect in the other notifiers.
 
-Yes please rebase the patch with latest mainline kernel and let's start 
-the review.
+Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
+---
 
-Thank you.
+Hi folks, thanks in advance for reviews/suggestions! Some design
+decisions are worth to mention:
 
-Coly Li
+(a) I've played first with a list approach instead of a static
+array, but noticed that..it'd require relying in memblock allocs,
+since we need to set the filter pretty early in boot process. So,
+decided to abandon that - a small array is cheap and much easier to
+implement.
+
+(b) The size of the array: I've counted < 30 panic notifiers for
+any architecture, and in my experiment only six are registered by
+default, in a qemu x86 guest. Also, doesn't make sense for the
+filter users to add a bunch of callbacks to the list, or else
+why are they using the filter in first place? So 16 seems a
+good trade-off.
+
+(c) Allowlist vs. denylist: this is something to consider. My
+approach is that functions listed in the filter are *allowed*
+to execute in the panic notifier, because this seems to me
+the most appropriate use case - kdump users might want one or 2
+callbacks to execute, and block all the other in a denylist
+seems bummer. But I'm open to ideas, of course, if the denylist
+approach seems more reasonable.
+
+(d) I've also tested __setup() instead of early_param(), but
+seems we don't catch all notifiers by then, so decided to set
+the filter really early.
+
+(e) Finally, an alternative would be to check the filter during
+the notifier call chain, but I thought it is simple and likely
+less invasive to just prevent registering the disallowed functions.
+
+Cheers,
+
+Guilherme
+
+
+ .../admin-guide/kernel-parameters.txt         | 14 +++++-
+ include/linux/panic_notifier.h                | 10 +++++
+ kernel/notifier.c                             | 42 +++++++++++++++++-
+ kernel/panic.c                                | 44 +++++++++++++++++++
+ 4 files changed, 107 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 2fba82431efb..2dc4e98823ae 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3727,13 +3727,25 @@
+ 	panic_on_warn	panic() instead of WARN().  Useful to cause kdump
+ 			on a WARN().
+ 
++	panic_notifier_filter=[function-list]
++			Limit the functions registered by the panic notifier
++			infrastructure. This allowlist is composed by function
++			names, comma separated (invalid symbols are filtered
++			out). Such functionality is useful for kdump users
++			that set "crash_kexec_post_notifiers" in order to
++			execute	panic notifiers, but at the same time wish to
++			have just a subset of notifiers, not all of them. The
++			list of functions is limited to 16 entries currently.
++
+ 	crash_kexec_post_notifiers
+ 			Run kdump after running panic-notifiers and dumping
+ 			kmsg. This only for the users who doubt kdump always
+ 			succeeds in any situation.
+ 			Note that this also increases risks of kdump failure,
+ 			because some panic notifiers can make the crashed
+-			kernel more unstable.
++			kernel more unstable. See the "panic_notifier_filter"
++			parameter to have more control of which notifiers to
++			execute.
+ 
+ 	parkbd.port=	[HW] Parallel port number the keyboard adapter is
+ 			connected to, default is 0.
+diff --git a/include/linux/panic_notifier.h b/include/linux/panic_notifier.h
+index 41e32483d7a7..c84b31c342fd 100644
+--- a/include/linux/panic_notifier.h
++++ b/include/linux/panic_notifier.h
+@@ -5,6 +5,16 @@
+ #include <linux/notifier.h>
+ #include <linux/types.h>
+ 
++/*
++ * The panic notifier filter infrastructure - each array element holds a
++ * function address, to be checked against panic_notifier register/unregister
++ * operations; these functions are allowed to be registered in the panic
++ * notifier list. This setting is useful for kdump, since users may want
++ * some panic notifiers to execute, but not all of them.
++ */
++extern unsigned int panic_nf_functions[];
++extern long panic_nf_count;
++
+ extern struct atomic_notifier_head panic_notifier_list;
+ 
+ extern bool crash_kexec_post_notifiers;
+diff --git a/kernel/notifier.c b/kernel/notifier.c
+index b8251dc0bc0f..04cb9e956058 100644
+--- a/kernel/notifier.c
++++ b/kernel/notifier.c
+@@ -1,4 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0-only
++#include <linux/panic_notifier.h>
+ #include <linux/kdebug.h>
+ #include <linux/kprobes.h>
+ #include <linux/export.h>
+@@ -127,12 +128,34 @@ static int notifier_call_chain_robust(struct notifier_block **nl,
+  *	use a spinlock, and call_chain is synchronized by RCU (no locks).
+  */
+ 
++/*
++ * The following helper is part of the panic notifier filter infrastructure;
++ * users can filter what functions they wish to allow being registered in the
++ * notifier system, restricted to the panic notifier. This is useful for kdump
++ * for example, when some notifiers are relevant but running all of them imposes
++ * risks to the kdump kernel reliability.
++ */
++static bool is_panic_notifier_filtered(struct notifier_block *n)
++{
++	int i;
++
++	for (i = 0; i < panic_nf_count; i++) {
++		if ((unsigned long)(n->notifier_call) == panic_nf_functions[i])
++			return true;
++	}
++
++	return false;
++}
++
+ /**
+  *	atomic_notifier_chain_register - Add notifier to an atomic notifier chain
+  *	@nh: Pointer to head of the atomic notifier chain
+  *	@n: New entry in notifier chain
+  *
+  *	Adds a notifier to an atomic notifier chain.
++ *	If "panic_notifier_filter" is provided, we hereby filter the
++ *	panic_notifier_list and only allow registering the functions
++ *	that are present in the filter.
+  *
+  *	Currently always returns zero.
+  */
+@@ -140,10 +163,16 @@ int atomic_notifier_chain_register(struct atomic_notifier_head *nh,
+ 		struct notifier_block *n)
+ {
+ 	unsigned long flags;
+-	int ret;
++	int ret = 0;
+ 
+ 	spin_lock_irqsave(&nh->lock, flags);
++	if (unlikely(panic_nf_count) && nh == &panic_notifier_list)
++		if (!is_panic_notifier_filtered(n))
++			goto panic_filtered_out;
++
+ 	ret = notifier_chain_register(&nh->head, n);
++
++panic_filtered_out:
+ 	spin_unlock_irqrestore(&nh->lock, flags);
+ 	return ret;
+ }
+@@ -155,6 +184,9 @@ EXPORT_SYMBOL_GPL(atomic_notifier_chain_register);
+  *	@n: Entry to remove from notifier chain
+  *
+  *	Removes a notifier from an atomic notifier chain.
++ *	If "panic_notifier_filter" is provided, we hereby filter the
++ *	panic_notifier_list and only allow unregistering the functions
++ *	that are present in the filter.
+  *
+  *	Returns zero on success or %-ENOENT on failure.
+  */
+@@ -162,10 +194,16 @@ int atomic_notifier_chain_unregister(struct atomic_notifier_head *nh,
+ 		struct notifier_block *n)
+ {
+ 	unsigned long flags;
+-	int ret;
++	int ret = 0;
+ 
+ 	spin_lock_irqsave(&nh->lock, flags);
++	if (unlikely(panic_nf_count) && nh == &panic_notifier_list)
++		if (!is_panic_notifier_filtered(n))
++			goto panic_filtered_out;
++
+ 	ret = notifier_chain_unregister(&nh->head, n);
++
++panic_filtered_out:
+ 	spin_unlock_irqrestore(&nh->lock, flags);
+ 	synchronize_rcu();
+ 	return ret;
+diff --git a/kernel/panic.c b/kernel/panic.c
+index cefd7d82366f..c23fa2012be1 100644
+--- a/kernel/panic.c
++++ b/kernel/panic.c
+@@ -31,6 +31,7 @@
+ #include <linux/console.h>
+ #include <linux/bug.h>
+ #include <linux/ratelimit.h>
++#include <linux/kallsyms.h>
+ #include <linux/debugfs.h>
+ #include <asm/sections.h>
+ 
+@@ -67,6 +68,16 @@ EXPORT_SYMBOL_GPL(panic_timeout);
+ #define PANIC_PRINT_ALL_PRINTK_MSG	0x00000020
+ unsigned long panic_print;
+ 
++/*
++ * Kernel has currently < 30 panic handlers no matter the arch,
++ * based on some code counting; so 16 items seems a good amount;
++ * users that are filtering panic notifiers shouldn't add all
++ * of them in theory, that doesn't make sense...
++ */
++#define	PANIC_NF_MAX	16
++unsigned long panic_nf_functions[PANIC_NF_MAX];
++int panic_nf_count;
++
+ ATOMIC_NOTIFIER_HEAD(panic_notifier_list);
+ 
+ EXPORT_SYMBOL(panic_notifier_list);
+@@ -146,6 +157,39 @@ void nmi_panic(struct pt_regs *regs, const char *msg)
+ }
+ EXPORT_SYMBOL(nmi_panic);
+ 
++static int __init panic_notifier_filter_setup(char *buf)
++{
++	char *func;
++	unsigned long addr;
++
++	if (!buf)
++		return -EINVAL;
++
++	while (buf) {
++		func = strsep(&buf, ",");
++		addr = kallsyms_lookup_name(func);
++
++		if (!addr) {
++			pr_info("panic_notifier_filter: invalid symbol %s\n", func);
++			continue;
++		}
++
++		if (panic_nf_count < PANIC_NF_MAX) {
++			panic_nf_functions[panic_nf_count] = addr;
++			panic_nf_count++;
++			pr_debug("panic_notifier_filter: added symbol %s\n", func);
++		} else {
++			pr_warn("panic_notifier_filter: exceeded maximum notifiers (%d), aborting\n",
++				PANIC_NF_MAX);
++			panic_nf_count = 0;
++			break;
++		}
++	}
++
++	return 0;
++}
++early_param("panic_notifier_filter", panic_notifier_filter_setup);
++
+ static void panic_print_sys_info(void)
+ {
+ 	if (panic_print & PANIC_PRINT_ALL_PRINTK_MSG)
+-- 
+2.34.1
+
