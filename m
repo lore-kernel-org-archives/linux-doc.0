@@ -2,52 +2,52 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2DB4C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Jan 2022 21:12:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 581E6C433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Jan 2022 23:36:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229619AbiAGVMv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Jan 2022 16:12:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51156 "EHLO
+        id S231614AbiAGXgQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Jan 2022 18:36:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229536AbiAGVMu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jan 2022 16:12:50 -0500
-Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB1BDC06173E
-        for <linux-doc@vger.kernel.org>; Fri,  7 Jan 2022 13:12:50 -0800 (PST)
-Received: by mail-io1-xd36.google.com with SMTP id i14so8660628ioj.12
-        for <linux-doc@vger.kernel.org>; Fri, 07 Jan 2022 13:12:50 -0800 (PST)
+        with ESMTP id S231609AbiAGXgQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jan 2022 18:36:16 -0500
+Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com [IPv6:2607:f8b0:4864:20::d2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3239DC06173E
+        for <linux-doc@vger.kernel.org>; Fri,  7 Jan 2022 15:36:16 -0800 (PST)
+Received: by mail-io1-xd2a.google.com with SMTP id p65so9104894iof.3
+        for <linux-doc@vger.kernel.org>; Fri, 07 Jan 2022 15:36:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=/qENwt6av9FoqyUmbkRyUdLHXz0uXpkP35VFB8ZVzzE=;
-        b=jfxGfDYOu0dSQMwGr5IAP4X9BaDPuiSk7xjdjsjCrFY2zC+35P/OcN51Cz8yi90OEE
-         KFWp0IAy7GbW4Q/wXWeiYV7kmDEZNHZyD8zsQoMEHvWEBQLJGVTyxtTf1XjUfbFMB2bc
-         9xhaA1U1RI4zDatJmBaugrtU1M0M1JXkQqZfc2HizWWiOYTOaBKZb4gKG2TuqHdEdyaD
-         IrHpHSiL1Iqmiw2hBwl86qmbyuh+UsGjhmXBh1Ga7durRlVhyJYwjNKJcfBw6oXEiqdH
-         RzJgxKMVEXHX428t1qnLUHMCx9Dhn5NzTNa83gIhlNFed58zS6pTKeA8ah2G63f5mZGQ
-         wo0g==
+        bh=xYu9qteuFVNrHyo1i7aEmcfHOTj3gefz8I1p+xu99cE=;
+        b=KVMWEcwAp4WTr2X5uSFAYSIb1gUJnxmuasFdE3TRGGuc9UPxRC1uEOaA//819Vna+R
+         e9pELwJ72UnnP7NVDJw7XrozwhzL7wNV4H0GV2T4b8gpxk7axMm4pExfS9/MaG3i6JGJ
+         Z8S4aOFzx5B381qYvSPzTu5BJTrmtIv1ta/fUPycwLNiPf1Pym5MuhqHYhl89EwEfffD
+         dxpEejJr/Qlyh1TY1lKhv+BBjEtQhaYJFnqsK8x+2h5JwQlcsGqV/YIBJPMCubPsaWsX
+         q8NP4iA/07CScovcAUk4KMBQ/aNkFtrHYjB2enZvlLociLWQWb9+rmYQARL8qQ7iRn6D
+         eAaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=/qENwt6av9FoqyUmbkRyUdLHXz0uXpkP35VFB8ZVzzE=;
-        b=TF7eQkysA/qWpKoanffNDQ/HL/vZFYHEZ9Lf0PqIiQJPLsmPCs4yjgaXr6rcfxwBKK
-         sXCrtkNObqLsEW6JsiZbvbNADLjR/+yMMkHFNyhbY8RKJrSze+OzH/lFEkyYBy/MnbXl
-         8UTxls4XpMV1i8gCb5pD8iUg2WdCbuuBxXlk/7UCqOM3yEbnYMMSY7Dn9TnI2quOIYto
-         Qmgc1bZW5hqB7hB67pF+GE17KrvH1zT5SbCD+3O0y3lEYqIX0kDF9iR+M1xjwotsX3Jg
-         xwkBGHjs1w+uYU/wEMQcS0LTs5NJGQ1R8EBbbjE7jKNG/rqQ5PyvSC+EkBgoVDC5lDeI
-         XXRw==
-X-Gm-Message-State: AOAM530eEaai6e3hrrbrksL8v0SHDD2/30/POrivATUO+/5ndRzGlJGF
-        Cm4CPAHHc7jNgdQmKqBVU5RCtg==
-X-Google-Smtp-Source: ABdhPJy0iyR/1W/D1Pa0d93wK2dzWbtMJCV8eAQVzix+/W1m+ArtGufnaVAl4z1KizTD7hp1ws8WOw==
-X-Received: by 2002:a05:6602:330e:: with SMTP id b14mr28576817ioz.192.1641589969960;
-        Fri, 07 Jan 2022 13:12:49 -0800 (PST)
+        bh=xYu9qteuFVNrHyo1i7aEmcfHOTj3gefz8I1p+xu99cE=;
+        b=hOprpyLWoVGAcebrNLNeaO4PXV5292S+KLaIuyR0Mm9lR3WVZarbC6DtEdMrJEn/fD
+         gGr8wVXiY/AjAiznvy9vE2kjhjz6ZyOmBwuV8I4bujKPdW9X8tC0i9SktZc+MwF6BY4r
+         iBNcqpa/Tg6vGXaBcv4Xpkn+Qo4KuYPqHSATKYNA7zDgVAgK8BAXknFpdcN0WZ4Ygn0s
+         0Uy4c9RVECnGcUjGvNJ5tUZj4COOo9WcvrFFRjDv21xmeiLbbjOzeTbbT7FftslDB+NR
+         2w37s63JOXszDxv2db1PTPRwGWQ6t+AVCcNRNSfQ7MfPMVAuiAwfNjBLwTHe5tnBhbR0
+         7LTw==
+X-Gm-Message-State: AOAM530gE/i3INNut/VkMAevt9yI9ZXbbXCar9tmWJO40fosrwyr8nra
+        5CR39Gyz6DnajaRZ3H1FzkkVIQ==
+X-Google-Smtp-Source: ABdhPJzDj049VbsKt/EYYdSUgiTzJatv/z9OgEricIXR1zpNkxJjKeELDnzLfrvVCz7m4TJ/mII9Dg==
+X-Received: by 2002:a05:6602:1410:: with SMTP id t16mr32400729iov.160.1641598575473;
+        Fri, 07 Jan 2022 15:36:15 -0800 (PST)
 Received: from google.com ([2620:15c:183:200:8b41:537d:f5d3:269c])
-        by smtp.gmail.com with ESMTPSA id s12sm3485688ilv.88.2022.01.07.13.12.48
+        by smtp.gmail.com with ESMTPSA id w7sm48105ilu.27.2022.01.07.15.36.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jan 2022 13:12:49 -0800 (PST)
-Date:   Fri, 7 Jan 2022 14:12:45 -0700
+        Fri, 07 Jan 2022 15:36:15 -0800 (PST)
+Date:   Fri, 7 Jan 2022 16:36:11 -0700
 From:   Yu Zhao <yuzhao@google.com>
 To:     Michal Hocko <mhocko@suse.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
@@ -71,181 +71,74 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         page-reclaim@google.com, x86@kernel.org,
         Konstantin Kharlamov <Hi-Angel@yandex.ru>
 Subject: Re: [PATCH v6 6/9] mm: multigenerational lru: aging
-Message-ID: <Ydisze9ZR/QBtjpX@google.com>
+Message-ID: <YdjOazilBEkdUT7x@google.com>
 References: <20220104202227.2903605-1-yuzhao@google.com>
  <20220104202227.2903605-7-yuzhao@google.com>
- <YdcTkrl84Xzg2dSz@dhcp22.suse.cz>
- <Ydde2F4Oi0wKx//y@google.com>
- <Ydf9RXPch5ddg/WC@dhcp22.suse.cz>
+ <Ydg8AeE6JIUnC+ps@dhcp22.suse.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Ydf9RXPch5ddg/WC@dhcp22.suse.cz>
+In-Reply-To: <Ydg8AeE6JIUnC+ps@dhcp22.suse.cz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 07, 2022 at 09:43:49AM +0100, Michal Hocko wrote:
-> On Thu 06-01-22 14:27:52, Yu Zhao wrote:
-> > On Thu, Jan 06, 2022 at 05:06:42PM +0100, Michal Hocko wrote:
+On Fri, Jan 07, 2022 at 02:11:29PM +0100, Michal Hocko wrote:
+> On Tue 04-01-22 13:22:25, Yu Zhao wrote:
 > [...]
-> > > > diff --git a/include/linux/oom.h b/include/linux/oom.h
-> > > > index 2db9a1432511..9c7a4fae0661 100644
-> > > > --- a/include/linux/oom.h
-> > > > +++ b/include/linux/oom.h
-> > > > @@ -57,6 +57,22 @@ struct oom_control {
-> > > >  extern struct mutex oom_lock;
-> > > >  extern struct mutex oom_adj_mutex;
-> > > >  
-> > > > +#ifdef CONFIG_MMU
-> > > > +extern struct task_struct *oom_reaper_list;
-> > > > +extern struct wait_queue_head oom_reaper_wait;
-> > > > +
-> > > > +static inline bool oom_reaping_in_progress(void)
-> > > > +{
-> > > > +	/* a racy check can be used to reduce the chance of overkilling */
-> > > > +	return READ_ONCE(oom_reaper_list) || !waitqueue_active(&oom_reaper_wait);
-> > > > +}
-> > > > +#else
-> > > > +static inline bool oom_reaping_in_progress(void)
-> > > > +{
-> > > > +	return false;
-> > > > +}
-> > > > +#endif
-> > > 
-> > > I do not like this. These are internal oom reaper's and no code should
-> > > really make any decisions based on that. oom_reaping_in_progress is not
-> > > telling much anyway.
-> > 
-> > There is a perfectly legitimate reason for this.
-> > 
-> > If there is already a oom kill victim and the oom reaper is making
-> > progress, the system may still be under memory pressure until the oom
-> > reaping is done. The page reclaim has two choices in this transient
-> > state: kill more processes or keep reclaiming (a few more) hot pages.
-> > 
-> > The first choice, AKA overkilling, is generally a bad one. The oom
-> > reaper is single threaded and it can't go faster with additional
-> > victims. Additional processes are sacrificed for nothing -- this is
-> > an overcorrection of a system that tries to strike a balance between
-> > the tendencies to release memory pressure and to improve memory
-> > utilization.
-> > 
-> > > This is a global queue for oom reaper that can
-> > > contain oom victims from different oom scopes (e.g. global OOM, memcg
-> > > OOM or memory policy OOM).
-> > 
-> > True, but this is a wrong reason to make the conclusion below. Oom
-> > kill scopes do NOT matter; only the pool the freed memory goes into
-> > does. And there is only one global pool free pages.
-> > 
-> > > Your lru_gen_age_node uses this to decide whether to trigger
-> > > out_of_memory and that is clearly wrong for the above reasons.
-> > 
-> > I hope my explanation above is clear enough. There is nothing wrong
-> > with the purpose and the usage of oom_reaping_in_progress(), and it
-> > has been well tested in the Arch Linux Zen kernel.
+> > +static void lru_gen_age_node(struct pglist_data *pgdat, struct scan_control *sc)
+> > +{
+> > +	struct mem_cgroup *memcg;
+> > +	bool success = false;
+> > +	unsigned long min_ttl = READ_ONCE(lru_gen_min_ttl);
+> > +
+> > +	VM_BUG_ON(!current_is_kswapd());
+> > +
+> > +	current->reclaim_state->mm_walk = &pgdat->mm_walk;
+> > +
+> > +	memcg = mem_cgroup_iter(NULL, NULL, NULL);
+> > +	do {
+> > +		struct lruvec *lruvec = mem_cgroup_lruvec(memcg, pgdat);
+> > +
+> > +		if (age_lruvec(lruvec, sc, min_ttl))
+> > +			success = true;
+> > +
+> > +		cond_resched();
+> > +	} while ((memcg = mem_cgroup_iter(NULL, memcg, NULL)));
+> > +
+> > +	if (!success && mutex_trylock(&oom_lock)) {
+> > +		struct oom_control oc = {
+> > +			.gfp_mask = sc->gfp_mask,
+> > +			.order = sc->order,
+> > +		};
+> > +
+> > +		if (!oom_reaping_in_progress())
+> > +			out_of_memory(&oc);
+> > +
+> > +		mutex_unlock(&oom_lock);
+> > +	}
 > 
-> I disagree. An ongoing oom kill in one domain (say memcg A) shouldn't be
-> any base for any decisions in reclaim in other domain (say memcg B or
-> even a global reclaim). Those are fundamentally different conditions.
+> Why do you need to trigger oom killer from this path? Why cannot you
+> rely on the page allocator to do that like we do now?
 
-I agree for the memcg A oom and memcg B reclaim case, because memory
-freed from A doesn't go to B.
+This is per desktop users' (repeated) requests. The can't tolerate
+thrashing as servers do because of UI lags; and they usually don't
+have fancy tools like oomd.
 
-I still think for the memcg A and the global reclaim case, memory
-freed from A can be considered when deciding whether to make more
-kills during global reclaim.
+Related discussions I saw:
+https://github.com/zen-kernel/zen-kernel/issues/218
+https://lore.kernel.org/lkml/20101028191523.GA14972@google.com/
+https://lore.kernel.org/lkml/20211213051521.21f02dd2@mail.inbox.lv/
+https://lore.kernel.org/lkml/54C2C89C.8080002@gmail.com/
+https://lore.kernel.org/lkml/d9802b6a-949b-b327-c4a6-3dbca485ec20@gmx.com/
 
-But this is something really minor, and I'll go with your suggestion,
-i.e., getting rid of oom_reaping_in_progress().
-
-> > Without it, overkills can be easily reproduced by the following simple
-> > script. That is additional oom kills happen to processes other than
-> > "tail".
-> > 
-> >   # enable zram
-> >   while true;
-> >   do
-> >       tail /dev/zero
-> >   done
-> 
-> I would be interested to hear more (care to send oom reports?).
-
-I agree with what said below. I think those additional ooms might have
-been from different oom domains. I plan to leave this for now and go
-with your suggestion as mentioned above.
-
-> > > out_of_memory is designed to skip over any action if there is an oom
-> > > victim pending from the oom domain (have a look at oom_evaluate_task).
-> > 
-> > Where exactly? Point me to the code please.
-> > 
-> > I don't see such a logic inside out_of_memory() or
-> > oom_evaluate_task(). Currently the only thing that could remotely
-> > prevent overkills is oom_lock. But it's inadequate.
-> 
-> OK, let me try to exaplain. The protocol is rather convoluted. Once the
-> oom killer is invoked it choses a victim to kill. oom_evaluate_task will
-> evaluate _all_ tasks from the oom respective domain (select_bad_process
-> which distinguishes memcg vs global oom kill and oom_cpuset_eligible for
-> the cpuset domains). If there is any pre-existing oom victim
-> (tsk_is_oom_victim) then the scan is aborted and the oom killer bails
-> out. OOM victim stops being considered as relevant once the oom reaper
-> manages to release its address space (or give up on the mmap_sem
-> contention) and sets MMF_OOM_SKIP flag for the mm.
-> 
-> That being said the out_of_memory automatically backs off and relies on
-> the oom reaper to process its queue.
-> 
-> Does it make more clear for you now?
-
-Yes, you are right, thanks.
-
-> > This is the entire pipeline:
-> > low on memory -> out_of_memory() -> oom_reaper() -> free memory
-> > 
-> > To avoid overkills, we need to consider the later half of it too.
-> > oom_reaping_in_progress() is exactly for this purpose.
-> > 
-> > > > +static bool age_lruvec(struct lruvec *lruvec, struct scan_control *sc,
-> > > > +		       unsigned long min_ttl)
-> > > > +{
-> > > > +	bool need_aging;
-> > > > +	long nr_to_scan;
-> > > > +	struct mem_cgroup *memcg = lruvec_memcg(lruvec);
-> > > > +	int swappiness = get_swappiness(memcg);
-> > > > +	DEFINE_MAX_SEQ(lruvec);
-> > > > +	DEFINE_MIN_SEQ(lruvec);
-> > > > +
-> > > > +	if (mem_cgroup_below_min(memcg))
-> > > > +		return false;
-> > > 
-> > > mem_cgroup_below_min requires effective values to be calculated for the
-> > > reclaimed hierarchy. Have a look at mem_cgroup_calculate_protection
-> > 
-> > I always keep that in mind, and age_lruvec() is called *after*
-> > mem_cgroup_calculate_protection():
-> 
-> >   balance_pgdat()
-> >     memcgs_need_aging = 0
-> >     do {
-> >       lru_gen_age_node()
-> >         if (!memcgs_need_aging) {
-> >             memcgs_need_aging = 1
-> >             return
-> >         }
-> >         age_lruvec()
-> > 
-> >       shrink_node_memcgs()
-> >         mem_cgroup_calculate_protection()
-> >         lru_gen_shrink_lruvec()
-> >           if ...
-> >             memcgs_need_aging = 0
-> >     } while ...
-> 
-> Uff, this is really subtle. I really think you should be following the
-> existing pattern when the effective values are calculated right in the
-> same context as they are evaluated.
-
-Consider it done.
+From patch 8:
+  Personal computers
+  ------------------
+  :Thrashing prevention: Write ``N`` to
+   ``/sys/kernel/mm/lru_gen/min_ttl_ms`` to prevent the working set of
+   ``N`` milliseconds from getting evicted. The OOM killer is invoked if
+   this working set can't be kept in memory. Based on the average human
+   detectable lag (~100ms), ``N=1000`` usually eliminates intolerable
+   lags due to thrashing. Larger values like ``N=3000`` make lags less
+   noticeable at the cost of more OOM kills.
