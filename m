@@ -2,96 +2,71 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97E15C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Jan 2022 16:27:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 318A2C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Jan 2022 16:28:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348237AbiAGQ1t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Jan 2022 11:27:49 -0500
-Received: from foss.arm.com ([217.140.110.172]:42170 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1348231AbiAGQ1r (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 7 Jan 2022 11:27:47 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4FD1A13D5;
-        Fri,  7 Jan 2022 08:27:47 -0800 (PST)
-Received: from FVFF77S0Q05N (unknown [10.57.7.134])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E9F3E3F66F;
-        Fri,  7 Jan 2022 08:27:45 -0800 (PST)
-Date:   Fri, 7 Jan 2022 16:27:43 +0000
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Andre Przywara <andre.przywara@arm.com>
-Cc:     Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
+        id S240002AbiAGQ2k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Jan 2022 11:28:40 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:50484 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239960AbiAGQ2j (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jan 2022 11:28:39 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7402F611F9;
+        Fri,  7 Jan 2022 16:28:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D96DC36AE0;
+        Fri,  7 Jan 2022 16:28:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1641572918;
+        bh=O7GVv9TCvTOEnZXB0zu68wx7KxRZ3e86I7G552kyMiE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=mGD0zNm46gvEqdY8RPEaVergHfJWrHy52ju6wMFl/W45ewHvn5P4Q3XVQufRMar1d
+         d8U76avrN7Uh/I71Ihy4tZ9D1yi2/7TCOTKVX5gAdRdHdRjkp6NjSmZEWjybrzYZEe
+         A/ysI0HpVRdTWw/iBJT394HBzB2kj0zZwgJdub64=
+Date:   Fri, 7 Jan 2022 17:28:36 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     linux-doc@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        workflows@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] arm64: booting.rst: Cover Armv8-R64
-Message-ID: <Ydhp/yMxdLHT7B01@FVFF77S0Q05N>
-References: <20220107160056.322141-1-andre.przywara@arm.com>
- <20220107160056.322141-3-andre.przywara@arm.com>
+        Randy Dunlap <rdunlap@infradead.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: Re: [RFC PATCH v2 0/2] docs: add a text about regressions to the
+ Linux kernel's documentation
+Message-ID: <YdhqNHI/f2B/SlcE@kroah.com>
+References: <cover.1641565030.git.linux@leemhuis.info>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220107160056.322141-3-andre.przywara@arm.com>
+In-Reply-To: <cover.1641565030.git.linux@leemhuis.info>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 07, 2022 at 04:00:56PM +0000, Andre Przywara wrote:
-> There is a new revision of the ARMv8-R architecture [1], which
-> optionally introduces kernel compatibility - by introducing an MMU
-> into EL1 and EL0.
-> Linux can run on such an implementation, if it is entered in EL1 and
-> VMSA is both implemented and enabled for that exception level.
+On Fri, Jan 07, 2022 at 03:21:00PM +0100, Thorsten Leemhuis wrote:
+> 'We don't cause regressions' might be the first rule of Linux kernel
+> development, but it and other aspects of regressions nevertheless are hardly
+> described in the Linux kernel's documentation. The following two patches change
+> this by creating a document dedicated to the topic.
 > 
-> Clarify our kernel boot protocol to make this an officially supported
-> mode of operation, but also limit the expectations about running in
-> secure state (which is the only security state in v8-R).
+> The second patch could easily be folded into the first one, but was kept
+> separate, as it might be a bit controversial. This also allows the patch
+> description to explain some backgrounds for this part of the document.
+> Additionally, ACKs and Reviewed-by tags can be collected separately this way.
 > 
-> Also we heavily rely on the Virtual Memory System Architecture (VMSA),
-> make this explicit in the text, as this allows to cover v8-R64 as well.
-> 
-> [1] https://developer.arm.com/documentation/ddi0600/latest/
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  Documentation/arm64/booting.rst | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/arm64/booting.rst b/Documentation/arm64/booting.rst
-> index 07cb34ed4200..99fab4d7e7ad 100644
-> --- a/Documentation/arm64/booting.rst
-> +++ b/Documentation/arm64/booting.rst
-> @@ -167,8 +167,13 @@ Before jumping into the kernel, the following conditions must be met:
->  
->    All forms of interrupts must be masked in PSTATE.DAIF (Debug, SError,
->    IRQ and FIQ).
-> -  The CPU must be in non-secure state, either in EL2 (RECOMMENDED in order
-> -  to have access  to the virtualisation extensions), or in EL1.
-> +  If the CPU supports two security states, Linux must be entered in
-> +  non-secure state, either in EL2 (RECOMMENDED in order to have access
-> +  to the virtualisation extensions) or in EL1.
-> +  If the CPU only supports a single security state, Linux can be run even
-> +  when this single state is "secure".
+> v2/RFC:
+> - a lot of small fixes, most are for spelling mistakes and grammar
+>   errors/problems pointed out in the review feedback I got so far
+> - add ACK for the series from Greg
 
-Hmm... we've never supported running on the secure side so far, so are we
-certain that everything actually works in such configs?
+My ack seems not to be here :(
 
-I know that some control fields (e.g. for filtering debug/tracing and so on)
-differ across S/NS, and IIRC there's a bunch of GIC configuration that could
-differ (but I could be mistaken).
+Also, this is a "real" series, no need for a RFC anymore, right?
 
-Is there anything we need to have initialized differently by firmware?
+thanks,
 
-Thanks,
-Mark.
-
-> +  The exception level the kernel is entered in must support the VMSA
-> +  memory model.
->  
->  - Caches, MMUs
->  
-> -- 
-> 2.25.1
-> 
+greg k-h
