@@ -2,153 +2,195 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02BC3C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Jan 2022 12:09:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57F87C433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Jan 2022 12:26:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238215AbiAGMJm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Jan 2022 07:09:42 -0500
-Received: from mga06.intel.com ([134.134.136.31]:33735 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231474AbiAGMJm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 7 Jan 2022 07:09:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1641557382; x=1673093382;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ONVVAebltRAi6Zc1gaT7ckSeHNyIUvdQOS3c0wVuDT4=;
-  b=dSvVEqF+uj1kBbQmxM47u06nfkR31p2/9oHdxTkqHR9++qPcOMllwEQh
-   6WwzA6y/yPjE4na19JzwslZmHcoW5HCK2LSprdtJMN5MH7XRhIs5A/mDB
-   iA20Lt8XJJFckOQSPF9JsWUVb4ztzcnCEVnuZsgLz2lZpIIFdqhdtd6Q+
-   y12l6wdLNOLiBwqjzS+iu1vBZ7nMY40smhsNlHTZThOUxSFoR2y4EZeU6
-   L+q3bDr+gAZGsi6LqOzSG+jI0lP+gpsuqIrZfYeJ0PC4n/MA7utOtvngc
-   3MBbqY4suHmaMS9AdefsVY0HsKdSYZ/AKhgTruCK92uWIgiJCYo/NbJZQ
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10219"; a="303602281"
-X-IronPort-AV: E=Sophos;i="5.88,269,1635231600"; 
-   d="scan'208";a="303602281"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2022 04:09:41 -0800
-X-IronPort-AV: E=Sophos;i="5.88,269,1635231600"; 
-   d="scan'208";a="575081146"
-Received: from smile.fi.intel.com ([10.237.72.61])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2022 04:09:38 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1n5o2g-007Ml3-Cn;
-        Fri, 07 Jan 2022 14:08:22 +0200
-Date:   Fri, 7 Jan 2022 14:08:22 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Cc:     kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
-        dyoung@redhat.com, linux-doc@vger.kernel.org, bhe@redhat.com,
-        vgoyal@redhat.com, stern@rowland.harvard.edu,
-        akpm@linux-foundation.org, corbet@lwn.net, halves@canonical.com,
-        kernel@gpiccoli.net
-Subject: Re: [PATCH V2] notifier/panic: Introduce panic_notifier_filter
-Message-ID: <YdgtNvd68kWakErr@smile.fi.intel.com>
-References: <20220106200007.112357-1-gpiccoli@igalia.com>
+        id S231223AbiAGM0i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Jan 2022 07:26:38 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:16691 "EHLO
+        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231148AbiAGM0i (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jan 2022 07:26:38 -0500
+Received: from dggpeml500022.china.huawei.com (unknown [172.30.72.54])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JVj6c2tXszZf1F;
+        Fri,  7 Jan 2022 20:23:04 +0800 (CST)
+Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
+ dggpeml500022.china.huawei.com (7.185.36.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Fri, 7 Jan 2022 20:26:34 +0800
+Received: from [10.174.177.232] (10.174.177.232) by
+ dggpeml500006.china.huawei.com (7.185.36.76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Fri, 7 Jan 2022 20:26:33 +0800
+Subject: Re: [PATCH 3/3] docs/zh_CN: add balance translation
+To:     Yanteng Si <siyanteng01@gmail.com>, <corbet@lwn.net>,
+        <alexs@kernel.org>, <seakeel@gmail.com>
+CC:     Yanteng Si <siyanteng@loongson.cn>, <chenhuacai@kernel.org>,
+        <jiaxun.yang@flygoat.com>, <linux-doc@vger.kernel.org>
+References: <cover.1641522956.git.siyanteng@loongson.cn>
+ <db7c8ce73e551ef5b855505f4eb2ebd233693174.1641522956.git.siyanteng@loongson.cn>
+From:   Tang Yizhou <tangyizhou@huawei.com>
+Message-ID: <0f451c3e-0b5c-ffad-75a8-f1c4bec73a9e@huawei.com>
+Date:   Fri, 7 Jan 2022 20:26:33 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220106200007.112357-1-gpiccoli@igalia.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <db7c8ce73e551ef5b855505f4eb2ebd233693174.1641522956.git.siyanteng@loongson.cn>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.177.232]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpeml500006.china.huawei.com (7.185.36.76)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 06, 2022 at 05:00:07PM -0300, Guilherme G. Piccoli wrote:
-> The kernel notifier infrastructure allows function callbacks to be
-> added in multiple lists, which are then called in the proper time,
-> like in a reboot or panic event. The panic_notifier_list specifically
-> contains the callbacks that are executed during a panic event. As any
-> other notifier list, the panic one has no filtering and all functions
-> previously registered are executed.
+On 2022/1/7 10:40, Yanteng Si wrote:
+> Translate .../vm/balance.rst into Chinese.
 > 
-> The kdump infrastructure, on the other hand, enables users to set
-> a crash kernel that is kexec'ed in a panic event, and vmcore/logs
-> are collected in such crash kernel. When kdump is set, by default
-> the panic notifiers are ignored - the kexec jumps to the crash kernel
-> before the list is checked and callbacks executed.
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> ---
+>  .../translations/zh_CN/vm/balance.rst         | 81 +++++++++++++++++++
+>  Documentation/translations/zh_CN/vm/index.rst |  2 +-
+>  2 files changed, 82 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/vm/balance.rst
 > 
-> There are some cases though in which kdump users might want to
-> allow panic notifier callbacks to execute _before_ the kexec to
-> the crash kernel, for a variety of reasons - for example, users
-> may think kexec is very prone to fail and want to give a chance
-> to kmsg dumpers to run (and save logs using pstore), or maybe
-> some panic notifier is required to properly quiesce some hardware
-> that must be used to the crash kernel. For these cases, we have
-> the kernel parameter "crash_kexec_post_notifiers".
+> diff --git a/Documentation/translations/zh_CN/vm/balance.rst b/Documentation/translations/zh_CN/vm/balance.rst
+> new file mode 100644
+> index 000000000000..1cc7555650de
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/vm/balance.rst
+> @@ -0,0 +1,81 @@
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/vm/balance.rst
+> +
+> +:翻译:
+> +
+> + 司延腾 Yanteng Si <siyanteng@loongson.cn>
+> +
+> +:校译:
+> +
+> +
+> +========
+> +内存平衡
+> +========
+> +
+> +2000年1月开始，作者：Kanoj Sarcar <kanoj@sgi.com>
+> +
+> +对于 !__GFP_HIGH 和 !__GFP_KSWAPD_RECLAIM 以及非 __GFP_IO 的分配，需要进行
+> +内存平衡。
+> +
+> +调用者避免回收的第一个原因是调用者由于持有自旋锁或处于中断环境中而无法睡眠。第二个
+> +原因可能是，调用者愿意在不产生页面回收开销的情况下失败分配。这可能发生在有0阶回退
+
+失败分配 -> 分配失败
+
+> +选项的机会主义高阶分配请求中。在这种情况下，调用者可能也希望避免唤醒kswapd。
+> +
+> +__GFP_IO分配请求是为了防止文件系统死锁。
+> +
+> +在没有非睡眠分配请求的情况下，做平衡似乎是有害的。页面回收可以被懒散地启动，也就是
+
+启动：这里可能可以翻译成“踢出”。大意就是不用的时候不启动。
+
+> +说，只有在需要的时候（也就是空闲内存为0的区域），而不是让它成为一个主动的过程。
+
+空闲内存为0的区域 -> 区域的空闲内存为0
+
+> +
+> +也就是说，内核应该尝试从直接映射池中满足对直接映射页的请求，而不是回落到dma池中，
+
+回落 -> 回退，这个应该是比较通行的翻译
+
+> +这样就可以保持dma池为dma请求（不管是不是原子的）所填充。类似的说法也适用于高内存
+
+说法 -> 争论
+
+> +和直接映射的页面。相反，如果有很多空闲的dma页，最好是通过从dma池中分配一个来满足
+> +常规的内存请求，而不是产生常规区域平衡的开销。
+> +
+> +在2.2中，只有当空闲页总数低于总内存的1/64时，才会启动内存平衡/页面回收。如果dma
+
+这里翻译没问题。对照上文的kick off，可知就是踢出或者不运行的意思。
+
+> +和普通内存的比例合适，即使dma区完全空了，也很可能不会进行平衡。2.2已经在不同内存
+
+普通内存：注意你在上文翻译了“常规区域”。普通和常规，两个词统一一下吧。
+
+> +大小的生产机器上运行，即使有这个问题存在，似乎也做得不错。在2.3中，由于HIGHMEM的
+> +存在，这个问题变得更加严重。
+> +
+> +在2.3中，区域平衡可以用两种方式之一来完成：根据区域的大小（可能还有低级区域的大小），
+
+可能还有 -> 可能是
+
+> +我们可以在初始化阶段决定在平衡任何区域时应该争取多少空闲页。好的方面是，在平衡的时
+> +候，我们不需要看低级区的大小，坏的方面是，我们可能会因为忽略低级区可能较低的使用率
+> +而做过于频繁的平衡。另外，只要对分配程序稍作修改，就有可能将memclass()宏简化为一
+> +个简单的等式。
+> +
+> +另一个可能的解决方案是，我们只在一个区 **和** 其所有低级区的空闲内存低于该区及其
+> +低级区总内存的1/64时进行平衡。这就解决了2.2的平衡问题，并尽可能地保持了与2.2行为
+> +的接近。另外，平衡算法在各种架构上的工作方式也是一样的，这些架构有不同数量和类型的
+> +内存区。如果我们想变得更花哨一点，我们可以在未来为不同区域的自由页面分配不同的权重。
+> +
+> +请注意，如果普通区的大小与dma区相比是巨大的，那么在决定是否平衡普通区的时候，考虑
+> +空闲的dma页就变得不那么重要了。那么第一个解决方案就变得更有吸引力。
+> +
+> +所附的补丁实现了第二个解决方案。它还 “修复”了两个问题：首先，在低内存条件下，kswapd
+> +被唤醒，就像2.2中的非睡眠分配。第二，HIGHMEM区也被平衡了，以便给replace_with_highmem()
+> +一个争取获得HIGHMEM页的机会，同时确保HIGHMEM分配不会落回普通区。这也确保了HIGHMEM
+> +页不会被泄露（例如，在一个HIGHMEM页在交换缓存中但没有被任何人使用的情况下）。
+> +
+> +kswapd还需要知道它应该平衡哪些区。kswapd主要是在无法进行平衡的情况下需要的，可能
+> +是因为所有的分配请求都来自intr context，而所有的进程上下文都在睡眠。对于2.3，
+
+intr context -> 中断上下文
+
+> +kswapd并不真正需要平衡高内存区，因为intr context并不请求高内存页。kswapd看zone
+> +结构体中的zone_wake_kswapd字段来决定一个区是否需要平衡。
+> +
+> +如果从进程内存和shm中偷取页面可以减轻该页面节点中任何区的内存压力，而该区的内存压力
+> +已经低于其水位，则会进行偷取。
+> +
+> +watemark[WMARK_MIN/WMARK_LOW/WMARK_HIGH]/low_on_memory/zone_wake_kswapd：
+> +这些是每个区的字段，用于确定一个区何时需要平衡。当页面数低于水位[WMARK_MIN]时，
+> +hysteric 的字段low_on_memory被设置。这个字段会一直被设置，直到空闲页数变成水位
+> +[WMARK_HIGH]。当low_on_memory被设置时，页面分配请求将尝试释放该区域的一些页面（如果
+> +请求中设置了GFP_WAIT）。与此正交的是，决定戳开kswapd以释放一些区的页。这个决定不是基于
+
+正交 -> 相反。戳开 -> 唤醒。
+
+> +hysteresis 的，而是当空闲页的数量低于watermark[WMARK_LOW]时就会进行；在这种情况下，
+> +zone_wake_kswapd也被设置。
+> +
+> +
+> +我所听到的（超棒的）想法：
+> +
+> +1. 动态实践应该影响平衡：可以跟踪一个区的失败请求的数量，并反馈到平衡方案中（jalvo@mbay.net）。
+
+实践 -> 经历
+
+> +
+> +2. 实现一个类似于replace_with_highmem()的replace_with_regular()，以保留dma页面。
+> +   (lkd@tantalophile.demon.co.uk)
+> diff --git a/Documentation/translations/zh_CN/vm/index.rst b/Documentation/translations/zh_CN/vm/index.rst
+> index 5fcdb75d8682..fc39f0d60318 100644
+> --- a/Documentation/translations/zh_CN/vm/index.rst
+> +++ b/Documentation/translations/zh_CN/vm/index.rst
+> @@ -22,10 +22,10 @@ TODO:待引用文档集被翻译完毕后请及时修改此处）
+>     :maxdepth: 1
+>  
+>     active_mm
+> +   balance
+>  
+>  TODOLIST:
+>  * arch_pgtable_helpers
+> -* balance
+>  * damon/index
+>  * free_page_reporting
+>  * frontswap
 > 
-> But there's a problem: currently it's an "all-or-nothing" situation,
-> the kdump user choice is either to execute all panic notifiers or
-> none of them. Given that panic notifiers may increase the risk of a
-> kdump failure, this is a tough decision and may affect the debug of
-> hard to reproduce bugs, if for some reason the user choice is to
-> enable panic notifiers, but kdump then fails.
-> 
-> So, this patch aims to ease this decision: we hereby introduce a filter
-> for the panic notifier list, in which users may select specifically
-> which callbacks they wish to run, allowing a safer kdump. The allowlist
-> should be provided using the parameter "panic_notifier_filter=a,b,..."
-> where a, b are valid callback names. Invalid symbols are discarded.
-> 
-> Currently up to 16 symbols may be passed in this list, we consider
-> that this numbers allows enough flexibility (and no matter what
-> architecture is used, at most 30 panic callbacks are registered).
-> In an experiment using a qemu x86 virtual machine, by default only
-> six callbacks are registered in the panic notifier list.
-> Once a valid callback name is provided in the list, such function
-> is allowed to be registered/unregistered in the panic_notifier_list;
-> all other panic callbacks are ignored. Notice that this filter is
-> only for the panic notifiers and has no effect in the other notifiers.
-
-...
-
-> +static int __init panic_notifier_filter_setup(char *buf)
-> +{
-> +	char *func;
-> +	unsigned long addr;
-> +
-> +	if (!buf)
-> +		return -EINVAL;
-> +
-> +	while (buf) {
-> +		func = strsep(&buf, ",");
-
-Don't we have a parser of this format already?
-Anyway, you may reduce code by
-
-	unsigned long addr;
-	char *func = buf;
-
-	while ((func = strsep(&func, ",")) {
-
-> +		addr = kallsyms_lookup_name(func);
-> +
-> +		if (!addr) {
-> +			pr_info("panic_notifier_filter: invalid symbol %s\n", func);
-> +			continue;
-> +		}
-> +
-> +		if (panic_nf_count < PANIC_NF_MAX) {
-> +			panic_nf_functions[panic_nf_count] = addr;
-> +			panic_nf_count++;
-> +			pr_debug("panic_notifier_filter: added symbol %s\n", func);
-> +		} else {
-> +			pr_warn("panic_notifier_filter: exceeded maximum notifiers (%d), aborting\n",
-> +				PANIC_NF_MAX);
-> +			panic_nf_count = 0;
-> +			break;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +early_param("panic_notifier_filter", panic_notifier_filter_setup);
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
