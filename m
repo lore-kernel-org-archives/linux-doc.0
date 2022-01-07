@@ -2,65 +2,153 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5A50C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Jan 2022 11:58:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02BC3C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Jan 2022 12:09:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231684AbiAGL6d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Jan 2022 06:58:33 -0500
-Received: from foss.arm.com ([217.140.110.172]:40074 "EHLO foss.arm.com"
+        id S238215AbiAGMJm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Jan 2022 07:09:42 -0500
+Received: from mga06.intel.com ([134.134.136.31]:33735 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229624AbiAGL6c (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 7 Jan 2022 06:58:32 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 18C0413D5;
-        Fri,  7 Jan 2022 03:58:32 -0800 (PST)
-Received: from [10.57.85.117] (unknown [10.57.85.117])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 697E33F774;
-        Fri,  7 Jan 2022 03:58:30 -0800 (PST)
-Message-ID: <fb1fb13b-a685-ccda-f381-6e6919fdb707@arm.com>
-Date:   Fri, 7 Jan 2022 11:58:28 +0000
+        id S231474AbiAGMJm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 7 Jan 2022 07:09:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1641557382; x=1673093382;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ONVVAebltRAi6Zc1gaT7ckSeHNyIUvdQOS3c0wVuDT4=;
+  b=dSvVEqF+uj1kBbQmxM47u06nfkR31p2/9oHdxTkqHR9++qPcOMllwEQh
+   6WwzA6y/yPjE4na19JzwslZmHcoW5HCK2LSprdtJMN5MH7XRhIs5A/mDB
+   iA20Lt8XJJFckOQSPF9JsWUVb4ztzcnCEVnuZsgLz2lZpIIFdqhdtd6Q+
+   y12l6wdLNOLiBwqjzS+iu1vBZ7nMY40smhsNlHTZThOUxSFoR2y4EZeU6
+   L+q3bDr+gAZGsi6LqOzSG+jI0lP+gpsuqIrZfYeJ0PC4n/MA7utOtvngc
+   3MBbqY4suHmaMS9AdefsVY0HsKdSYZ/AKhgTruCK92uWIgiJCYo/NbJZQ
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10219"; a="303602281"
+X-IronPort-AV: E=Sophos;i="5.88,269,1635231600"; 
+   d="scan'208";a="303602281"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2022 04:09:41 -0800
+X-IronPort-AV: E=Sophos;i="5.88,269,1635231600"; 
+   d="scan'208";a="575081146"
+Received: from smile.fi.intel.com ([10.237.72.61])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2022 04:09:38 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1n5o2g-007Ml3-Cn;
+        Fri, 07 Jan 2022 14:08:22 +0200
+Date:   Fri, 7 Jan 2022 14:08:22 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc:     kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        dyoung@redhat.com, linux-doc@vger.kernel.org, bhe@redhat.com,
+        vgoyal@redhat.com, stern@rowland.harvard.edu,
+        akpm@linux-foundation.org, corbet@lwn.net, halves@canonical.com,
+        kernel@gpiccoli.net
+Subject: Re: [PATCH V2] notifier/panic: Introduce panic_notifier_filter
+Message-ID: <YdgtNvd68kWakErr@smile.fi.intel.com>
+References: <20220106200007.112357-1-gpiccoli@igalia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.4.1
-Subject: Re: [PATCH V2 4/7] arm64: errata: Add detection for TRBE trace data
- corruption
-To:     Anshuman Khandual <anshuman.khandual@arm.com>,
-        linux-arm-kernel@lists.infradead.org
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        coresight@lists.linaro.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <1641517808-5735-1-git-send-email-anshuman.khandual@arm.com>
- <1641517808-5735-5-git-send-email-anshuman.khandual@arm.com>
-From:   Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <1641517808-5735-5-git-send-email-anshuman.khandual@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220106200007.112357-1-gpiccoli@igalia.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/01/2022 01:10, Anshuman Khandual wrote:
-> TRBE implementations affected by Arm erratum #1902691 might corrupt trace
-> data or deadlock, when it's being written into the memory. So effectively
-> TRBE is broken and hence cannot be used to capture trace data. This adds
-> a new errata ARM64_ERRATUM_1902691 in arm64 errata framework.
+On Thu, Jan 06, 2022 at 05:00:07PM -0300, Guilherme G. Piccoli wrote:
+> The kernel notifier infrastructure allows function callbacks to be
+> added in multiple lists, which are then called in the proper time,
+> like in a reboot or panic event. The panic_notifier_list specifically
+> contains the callbacks that are executed during a panic event. As any
+> other notifier list, the panic one has no filtering and all functions
+> previously registered are executed.
 > 
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
-> Cc: Suzuki Poulose <suzuki.poulose@arm.com>
-> Cc: coresight@lists.linaro.org
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
-> ---
->   Documentation/arm64/silicon-errata.rst |  2 ++
->   arch/arm64/Kconfig                     | 18 ++++++++++++++++++
->   arch/arm64/kernel/cpu_errata.c         |  9 +++++++++
->   arch/arm64/tools/cpucaps               |  1 +
->   4 files changed, 30 insertions(+)
+> The kdump infrastructure, on the other hand, enables users to set
+> a crash kernel that is kexec'ed in a panic event, and vmcore/logs
+> are collected in such crash kernel. When kdump is set, by default
+> the panic notifiers are ignored - the kexec jumps to the crash kernel
+> before the list is checked and callbacks executed.
+> 
+> There are some cases though in which kdump users might want to
+> allow panic notifier callbacks to execute _before_ the kexec to
+> the crash kernel, for a variety of reasons - for example, users
+> may think kexec is very prone to fail and want to give a chance
+> to kmsg dumpers to run (and save logs using pstore), or maybe
+> some panic notifier is required to properly quiesce some hardware
+> that must be used to the crash kernel. For these cases, we have
+> the kernel parameter "crash_kexec_post_notifiers".
+> 
+> But there's a problem: currently it's an "all-or-nothing" situation,
+> the kdump user choice is either to execute all panic notifiers or
+> none of them. Given that panic notifiers may increase the risk of a
+> kdump failure, this is a tough decision and may affect the debug of
+> hard to reproduce bugs, if for some reason the user choice is to
+> enable panic notifiers, but kdump then fails.
+> 
+> So, this patch aims to ease this decision: we hereby introduce a filter
+> for the panic notifier list, in which users may select specifically
+> which callbacks they wish to run, allowing a safer kdump. The allowlist
+> should be provided using the parameter "panic_notifier_filter=a,b,..."
+> where a, b are valid callback names. Invalid symbols are discarded.
+> 
+> Currently up to 16 symbols may be passed in this list, we consider
+> that this numbers allows enough flexibility (and no matter what
+> architecture is used, at most 30 panic callbacks are registered).
+> In an experiment using a qemu x86 virtual machine, by default only
+> six callbacks are registered in the panic notifier list.
+> Once a valid callback name is provided in the list, such function
+> is allowed to be registered/unregistered in the panic_notifier_list;
+> all other panic callbacks are ignored. Notice that this filter is
+> only for the panic notifiers and has no effect in the other notifiers.
 
-Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+...
+
+> +static int __init panic_notifier_filter_setup(char *buf)
+> +{
+> +	char *func;
+> +	unsigned long addr;
+> +
+> +	if (!buf)
+> +		return -EINVAL;
+> +
+> +	while (buf) {
+> +		func = strsep(&buf, ",");
+
+Don't we have a parser of this format already?
+Anyway, you may reduce code by
+
+	unsigned long addr;
+	char *func = buf;
+
+	while ((func = strsep(&func, ",")) {
+
+> +		addr = kallsyms_lookup_name(func);
+> +
+> +		if (!addr) {
+> +			pr_info("panic_notifier_filter: invalid symbol %s\n", func);
+> +			continue;
+> +		}
+> +
+> +		if (panic_nf_count < PANIC_NF_MAX) {
+> +			panic_nf_functions[panic_nf_count] = addr;
+> +			panic_nf_count++;
+> +			pr_debug("panic_notifier_filter: added symbol %s\n", func);
+> +		} else {
+> +			pr_warn("panic_notifier_filter: exceeded maximum notifiers (%d), aborting\n",
+> +				PANIC_NF_MAX);
+> +			panic_nf_count = 0;
+> +			break;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +early_param("panic_notifier_filter", panic_notifier_filter_setup);
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
