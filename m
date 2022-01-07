@@ -2,63 +2,52 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71B7EC433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Jan 2022 10:04:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C411C433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Jan 2022 10:57:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346614AbiAGKEs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Jan 2022 05:04:48 -0500
-Received: from foss.arm.com ([217.140.110.172]:37836 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1346620AbiAGKEr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 7 Jan 2022 05:04:47 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A698D13D5;
-        Fri,  7 Jan 2022 02:04:46 -0800 (PST)
-Received: from [10.57.38.163] (unknown [10.57.38.163])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C3C213F66F;
-        Fri,  7 Jan 2022 02:04:45 -0800 (PST)
-Subject: Re: [PATCH v2 1/1] docs: automarkup.py: Fix invalid HTML link output
- and broken URI fragments
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     mchehab+huawei@kernel.org, linux-kernel@vger.kernel.org,
-        nfraprado@protonmail.com, n@nfraprado.net,
-        linux-doc@vger.kernel.org
-References: <20220105143640.330602-1-james.clark@arm.com>
- <20220105143640.330602-2-james.clark@arm.com> <87h7agpkn4.fsf@meer.lwn.net>
-From:   James Clark <james.clark@arm.com>
-Message-ID: <0fce859e-4ac5-3e41-a4cf-ec1c22f2c3cc@arm.com>
-Date:   Fri, 7 Jan 2022 10:04:44 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        id S237562AbiAGK5I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Jan 2022 05:57:08 -0500
+Received: from sin.source.kernel.org ([145.40.73.55]:55074 "EHLO
+        sin.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1346728AbiAGK5G (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jan 2022 05:57:06 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id F1020CE29BE;
+        Fri,  7 Jan 2022 10:57:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2789C36AE9;
+        Fri,  7 Jan 2022 10:57:01 +0000 (UTC)
+Date:   Fri, 7 Jan 2022 10:56:58 +0000
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Anshuman Khandual <anshuman.khandual@arm.com>
+Cc:     linux-arm-kernel@lists.infradead.org,
+        Will Deacon <will@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Suzuki Poulose <suzuki.poulose@arm.com>,
+        coresight@lists.linaro.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V2 1/7] arm64: Add Cortex-A510 CPU part definition
+Message-ID: <YdgcegdfpV6eCvXl@arm.com>
+References: <1641517808-5735-1-git-send-email-anshuman.khandual@arm.com>
+ <1641517808-5735-2-git-send-email-anshuman.khandual@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <87h7agpkn4.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1641517808-5735-2-git-send-email-anshuman.khandual@arm.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 06/01/2022 22:25, Jonathan Corbet wrote:
-> James Clark <james.clark@arm.com> writes:
+On Fri, Jan 07, 2022 at 06:40:02AM +0530, Anshuman Khandual wrote:
+> Add the CPU Partnumbers for the new Arm designs.
 > 
->> Since commit d18b01789ae5 ("docs: Add automatic cross-reference for
->> documentation pages"), references that were already explicitly defined
->> with "ref:" and referred to other pages with a path have been doubled.
->> This is reported as the following error by Firefox:
-> [...]
->> The fix is to check that nodes in the document to be modified are not
->> already references. A reference is counted as any text that is a
->> descendant of a reference type node. Only plain text should be converted
->> to new references, otherwise the doubling occurs.
-> 
-> This seems like a good fix.  Applied, thanks.
-> 
-> jon
-> 
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Suzuki Poulose <suzuki.poulose@arm.com>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-kernel@vger.kernel.org
+> Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
 
-Thanks Jonathan. Do you have a git repo that these get applied to?
-I wasn't able to find it on https://git.kernel.org/
-
+Acked-by: Catalin Marinas <catalin.marinas@arm.com>
