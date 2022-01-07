@@ -2,182 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06D14C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Jan 2022 02:43:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 418EDC433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Jan 2022 03:07:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344723AbiAGCnG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Jan 2022 21:43:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55536 "EHLO
+        id S1345741AbiAGDH2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Jan 2022 22:07:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344689AbiAGCnG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jan 2022 21:43:06 -0500
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CB8BC061245
-        for <linux-doc@vger.kernel.org>; Thu,  6 Jan 2022 18:43:06 -0800 (PST)
-Received: by mail-pj1-x102d.google.com with SMTP id n30-20020a17090a5aa100b001b2b6509685so5096267pji.3
-        for <linux-doc@vger.kernel.org>; Thu, 06 Jan 2022 18:43:06 -0800 (PST)
+        with ESMTP id S229462AbiAGDH1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jan 2022 22:07:27 -0500
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E137C061245;
+        Thu,  6 Jan 2022 19:07:27 -0800 (PST)
+Received: by mail-pg1-x543.google.com with SMTP id 200so4286350pgg.3;
+        Thu, 06 Jan 2022 19:07:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=+TZ5I/SK34uCyPfDbCtvutMs7WmVd23nTWnlfDm3A5k=;
-        b=cELqsiViT//G7WIQbwOhLoqXeI7dfGiPjg/cxb1jwznYGE4LH9XJ6pRX59tcS9iBMZ
-         D0hbQmuScKVlVO9BtH1v0tz6HeWF5uVJ082B28ZrcUlIM6u15H/utQlCGm1nJyu5gYB+
-         aHJr5+6CqGGxr/q+s2V4ID6ItktCMAg3tYsXKvR/SXOsGNAuNVfiZIym5yupznH1J9jc
-         IVaBrRmhah+LLBDkpDeWOOrFO65xrXk4soGrylpzxFYMp9jMf/95Y/HFUubOCF8VE5dq
-         rWg6akmNmG3Fu17d2+mROaQQcqD3MhT37//RLlsHL9LeQnPzNGK5HndYSXvAv+jldvHW
-         iYhw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MrHlmIX3ye0jx29v1ryUPTnUa+JQoFItY+qNfZbdSu8=;
+        b=WT2C/Z93DPpWF4hga6hm/qiEapwtzLQAIigP7KHMqMD40QW1Htj8X5p1+RwT+EhovO
+         aTutOXerK0n0j6i93u/kCaZGxea9v2M1BMa3YnzvNV/x5ZrhN4Pe5cj2XIpqfhEMhH3H
+         Nyv63niP0L9p0/IWPc6bE5wInzNRVkuCpdGtw7eLHHqCba+i0GkAGq0Q7xnfLTNF8SUx
+         1tufdZcX9h6xpewBnwWccpcKuhQsgMnFN9YGZp4syBEAuc8uIPzQvL3z+BDUUPi7WdrT
+         PGHz5z5sARFmC/vdRsDP9ED+Tf6vsa+zf5lwbSIzQ7zA5hCZZIdbEpjvqaEVCTqR6SAY
+         2sew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=+TZ5I/SK34uCyPfDbCtvutMs7WmVd23nTWnlfDm3A5k=;
-        b=EjnKEj44SN8cMDB06ZKyUoJINDWjVdZ52vZi0+V/pXdcFAQLlWAzYtgTfMnEP99Bdn
-         E1aN8iV4RqQNHlZX7IamyAdW4EBSn/LyR8DPa85SWV0C4BOxPgB5aaA5kdo01+WfT3ho
-         lxfmB1EhH7nScckOOEFil7BJcooYFwiECV6GNDs0y4SSZTpADH2iJB/4ymmXuaZyBWi3
-         Ab7gqkeEWmoaR5q6cux9/BzivPExi2RZ6Kt9WFV/3a0Phq9QV2RhZPPBy/P4IEu3rI9W
-         NUKdb31U11FlRl47yx5eo24BQyWudma1gobj5d5tk1w9lstssj6S69W7ThwhBnLeGP9g
-         Io3A==
-X-Gm-Message-State: AOAM533oUU3TCNQ6olMw7C+jCKzOQpI8NB2hZQEwsLKyGuiAl0tWokfI
-        2ELyEePOFnjRfSe+dF6k/8I=
-X-Google-Smtp-Source: ABdhPJyqP4lXgvavaQbQZTOLSiW5sZJlrm+zqVqFgVkWB8R0ufWd3CKQ3eG/FGadwpRReMyQxogFGA==
-X-Received: by 2002:a17:90b:3e8e:: with SMTP id rj14mr13296063pjb.195.1641523385563;
-        Thu, 06 Jan 2022 18:43:05 -0800 (PST)
-Received: from localhost.localdomain ([45.11.1.11])
-        by smtp.gmail.com with ESMTPSA id g22sm3874833pfc.130.2022.01.06.18.42.59
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MrHlmIX3ye0jx29v1ryUPTnUa+JQoFItY+qNfZbdSu8=;
+        b=MX+cculV5tP3gtK3tOP1swaWvoOl0ElABfU14umCykzFdU87qBXbp2W3e4E5ey3oj/
+         gXzybZP5/5MBOnVY76wSW3F0b8RCX4Tcbkx3F1+a6k6EmhCAHsgF10lkFYBYe5rcilkl
+         Y7BV/xLMuIkLnVI/Ple1ZEebVJ1ydFgtraWzxIcpsxrkWbEwlrtUjue7uW3qdlai3zqv
+         hO19YkFHX3+KzXK3oujX+4AW4TKfzjrl45HxP1KrqcWQePBCYp1lo08HDhcyAA1KS9wp
+         aqG11BVyIUz+Rm7ArmERHsP4e1Z9QgmN16ALxrKyxi51zMPqyuZLyncW8Z256WA2dwrw
+         /5FQ==
+X-Gm-Message-State: AOAM533OYMIa8F6QmQR3cOqTGcMTI9V9+05sVRwlk7PgQ6ZLioOEPzm5
+        KNutcCxgS/uT2t1dSXmNPE0=
+X-Google-Smtp-Source: ABdhPJwWxca6Qy0lf9jKV5ryVkTp5hCx2FTfSEvqOCrsTSR8XEBBMjrGh9t24daNdH0PCFUTy74FeQ==
+X-Received: by 2002:a63:348a:: with SMTP id b132mr49836144pga.204.1641524847102;
+        Thu, 06 Jan 2022 19:07:27 -0800 (PST)
+Received: from localhost.localdomain ([94.177.118.38])
+        by smtp.googlemail.com with ESMTPSA id s29sm3062584pgo.34.2022.01.06.19.07.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jan 2022 18:43:05 -0800 (PST)
-From:   Yanteng Si <siyanteng01@gmail.com>
-X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
-To:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com
-Cc:     Yanteng Si <siyanteng@loongson.cn>, tangyizhou@huawei.com,
-        chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
-        linux-doc@vger.kernel.org, siyanteng01@gmail.com
-Subject: [PATCH 3/3] docs/zh_CN: add balance translation
-Date:   Fri,  7 Jan 2022 10:40:33 +0800
-Message-Id: <db7c8ce73e551ef5b855505f4eb2ebd233693174.1641522956.git.siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1641522956.git.siyanteng@loongson.cn>
-References: <cover.1641522956.git.siyanteng@loongson.cn>
+        Thu, 06 Jan 2022 19:07:26 -0800 (PST)
+From:   Qinghua Jin <qhjin.dev@gmail.com>
+Cc:     Qinghua Jin <qhjin.dev@gmail.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: kunit: Fix typo
+Date:   Fri,  7 Jan 2022 11:05:53 +0800
+Message-Id: <20220107030553.398321-1-qhjin.dev@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate .../vm/balance.rst into Chinese.
+Fix a typo: actualy -> actual
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+Signed-off-by: Qinghua Jin <qhjin.dev@gmail.com>
 ---
- .../translations/zh_CN/vm/balance.rst         | 81 +++++++++++++++++++
- Documentation/translations/zh_CN/vm/index.rst |  2 +-
- 2 files changed, 82 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/vm/balance.rst
+ Documentation/dev-tools/kunit/usage.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/translations/zh_CN/vm/balance.rst b/Documentation/translations/zh_CN/vm/balance.rst
-new file mode 100644
-index 000000000000..1cc7555650de
---- /dev/null
-+++ b/Documentation/translations/zh_CN/vm/balance.rst
-@@ -0,0 +1,81 @@
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/vm/balance.rst
-+
-+:翻译:
-+
-+ 司延腾 Yanteng Si <siyanteng@loongson.cn>
-+
-+:校译:
-+
-+
-+========
-+内存平衡
-+========
-+
-+2000年1月开始，作者：Kanoj Sarcar <kanoj@sgi.com>
-+
-+对于 !__GFP_HIGH 和 !__GFP_KSWAPD_RECLAIM 以及非 __GFP_IO 的分配，需要进行
-+内存平衡。
-+
-+调用者避免回收的第一个原因是调用者由于持有自旋锁或处于中断环境中而无法睡眠。第二个
-+原因可能是，调用者愿意在不产生页面回收开销的情况下失败分配。这可能发生在有0阶回退
-+选项的机会主义高阶分配请求中。在这种情况下，调用者可能也希望避免唤醒kswapd。
-+
-+__GFP_IO分配请求是为了防止文件系统死锁。
-+
-+在没有非睡眠分配请求的情况下，做平衡似乎是有害的。页面回收可以被懒散地启动，也就是
-+说，只有在需要的时候（也就是空闲内存为0的区域），而不是让它成为一个主动的过程。
-+
-+也就是说，内核应该尝试从直接映射池中满足对直接映射页的请求，而不是回落到dma池中，
-+这样就可以保持dma池为dma请求（不管是不是原子的）所填充。类似的说法也适用于高内存
-+和直接映射的页面。相反，如果有很多空闲的dma页，最好是通过从dma池中分配一个来满足
-+常规的内存请求，而不是产生常规区域平衡的开销。
-+
-+在2.2中，只有当空闲页总数低于总内存的1/64时，才会启动内存平衡/页面回收。如果dma
-+和普通内存的比例合适，即使dma区完全空了，也很可能不会进行平衡。2.2已经在不同内存
-+大小的生产机器上运行，即使有这个问题存在，似乎也做得不错。在2.3中，由于HIGHMEM的
-+存在，这个问题变得更加严重。
-+
-+在2.3中，区域平衡可以用两种方式之一来完成：根据区域的大小（可能还有低级区域的大小），
-+我们可以在初始化阶段决定在平衡任何区域时应该争取多少空闲页。好的方面是，在平衡的时
-+候，我们不需要看低级区的大小，坏的方面是，我们可能会因为忽略低级区可能较低的使用率
-+而做过于频繁的平衡。另外，只要对分配程序稍作修改，就有可能将memclass()宏简化为一
-+个简单的等式。
-+
-+另一个可能的解决方案是，我们只在一个区 **和** 其所有低级区的空闲内存低于该区及其
-+低级区总内存的1/64时进行平衡。这就解决了2.2的平衡问题，并尽可能地保持了与2.2行为
-+的接近。另外，平衡算法在各种架构上的工作方式也是一样的，这些架构有不同数量和类型的
-+内存区。如果我们想变得更花哨一点，我们可以在未来为不同区域的自由页面分配不同的权重。
-+
-+请注意，如果普通区的大小与dma区相比是巨大的，那么在决定是否平衡普通区的时候，考虑
-+空闲的dma页就变得不那么重要了。那么第一个解决方案就变得更有吸引力。
-+
-+所附的补丁实现了第二个解决方案。它还 “修复”了两个问题：首先，在低内存条件下，kswapd
-+被唤醒，就像2.2中的非睡眠分配。第二，HIGHMEM区也被平衡了，以便给replace_with_highmem()
-+一个争取获得HIGHMEM页的机会，同时确保HIGHMEM分配不会落回普通区。这也确保了HIGHMEM
-+页不会被泄露（例如，在一个HIGHMEM页在交换缓存中但没有被任何人使用的情况下）。
-+
-+kswapd还需要知道它应该平衡哪些区。kswapd主要是在无法进行平衡的情况下需要的，可能
-+是因为所有的分配请求都来自intr context，而所有的进程上下文都在睡眠。对于2.3，
-+kswapd并不真正需要平衡高内存区，因为intr context并不请求高内存页。kswapd看zone
-+结构体中的zone_wake_kswapd字段来决定一个区是否需要平衡。
-+
-+如果从进程内存和shm中偷取页面可以减轻该页面节点中任何区的内存压力，而该区的内存压力
-+已经低于其水位，则会进行偷取。
-+
-+watemark[WMARK_MIN/WMARK_LOW/WMARK_HIGH]/low_on_memory/zone_wake_kswapd：
-+这些是每个区的字段，用于确定一个区何时需要平衡。当页面数低于水位[WMARK_MIN]时，
-+hysteric 的字段low_on_memory被设置。这个字段会一直被设置，直到空闲页数变成水位
-+[WMARK_HIGH]。当low_on_memory被设置时，页面分配请求将尝试释放该区域的一些页面（如果
-+请求中设置了GFP_WAIT）。与此正交的是，决定戳开kswapd以释放一些区的页。这个决定不是基于
-+hysteresis 的，而是当空闲页的数量低于watermark[WMARK_LOW]时就会进行；在这种情况下，
-+zone_wake_kswapd也被设置。
-+
-+
-+我所听到的（超棒的）想法：
-+
-+1. 动态实践应该影响平衡：可以跟踪一个区的失败请求的数量，并反馈到平衡方案中（jalvo@mbay.net）。
-+
-+2. 实现一个类似于replace_with_highmem()的replace_with_regular()，以保留dma页面。
-+   (lkd@tantalophile.demon.co.uk)
-diff --git a/Documentation/translations/zh_CN/vm/index.rst b/Documentation/translations/zh_CN/vm/index.rst
-index 5fcdb75d8682..fc39f0d60318 100644
---- a/Documentation/translations/zh_CN/vm/index.rst
-+++ b/Documentation/translations/zh_CN/vm/index.rst
-@@ -22,10 +22,10 @@ TODO:待引用文档集被翻译完毕后请及时修改此处）
-    :maxdepth: 1
- 
-    active_mm
-+   balance
- 
- TODOLIST:
- * arch_pgtable_helpers
--* balance
- * damon/index
- * free_page_reporting
- * frontswap
+diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
+index 63f1bb89ebf5..b9940758787c 100644
+--- a/Documentation/dev-tools/kunit/usage.rst
++++ b/Documentation/dev-tools/kunit/usage.rst
+@@ -615,7 +615,7 @@ kunit_tool) only fully supports running tests inside of UML and QEMU; however,
+ this is only due to our own time limitations as humans working on KUnit. It is
+ entirely possible to support other emulators and even actual hardware, but for
+ now QEMU and UML is what is fully supported within the KUnit Wrapper. Again, to
+-be clear, this is just the Wrapper. The actualy KUnit tests and the KUnit
++be clear, this is just the Wrapper. The actual KUnit tests and the KUnit
+ library they are written in is fully architecture agnostic and can be used in
+ virtually any setup, you just won't have the benefit of typing a single command
+ out of the box and having everything magically work perfectly.
 -- 
-2.27.0
+2.30.2
 
