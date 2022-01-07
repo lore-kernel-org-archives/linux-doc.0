@@ -2,172 +2,192 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BB65C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Jan 2022 17:23:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88F7FC433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Jan 2022 17:44:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348553AbiAGRX2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Jan 2022 12:23:28 -0500
-Received: from mail-mw2nam10on2086.outbound.protection.outlook.com ([40.107.94.86]:46911
-        "EHLO NAM10-MW2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1348550AbiAGRX1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 7 Jan 2022 12:23:27 -0500
+        id S1348628AbiAGRos (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Jan 2022 12:44:48 -0500
+Received: from de-smtp-delivery-102.mimecast.com ([194.104.111.102]:25625 "EHLO
+        de-smtp-delivery-102.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S240265AbiAGRor (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jan 2022 12:44:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=mimecast20200619;
+        t=1641577485;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=85EdgHrgHg3qUCuA6FdAsAJjWEA2obgbOb8NGr3fKkU=;
+        b=cZf1PP/j2r1Oq3FXoKTBeiAGKNH9617qCOYw9rL4RqDLSLIfYJDkBucnOpSZlL/Ab7RTtc
+        uXFMTZqleE3hPivF5xhl27F99xFcsSbzS8Ho9gLz2BtaMPW5GHa/gXSluDDrEVeb4NMmCv
+        zeFAZ1h2KOK57hX30tCzVOfCQ8w63vw=
+Received: from EUR03-VE1-obe.outbound.protection.outlook.com
+ (mail-ve1eur03lp2050.outbound.protection.outlook.com [104.47.9.50]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ de-mta-6-UYFNG53ANuOtGiJSmsWQTw-1; Fri, 07 Jan 2022 18:44:44 +0100
+X-MC-Unique: UYFNG53ANuOtGiJSmsWQTw-1
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kUQy97s65hDD9v2MNtCCaX/4vYS0sZ3V5V0+6CWYkvGYmJY8a1RmiVUTJqdAjuRrWayfbG/WgSDWmYuiFIqO9eG551aTV9YOjTyNflbV6Y6iVNN85YYHfZ/e8ff+k5hOI82bMPorQdbTg0GYPF75esIEK6GotZL46ieVIRKNXeF/WtuPpCR9jFEr3XxN7ypNb6OyZh5/LonPAHsAJdmOparxJDRzYWqmhrAKwqwOd/gVZUmqCTUuXO2pzJkpLIgUcF519H4hY6dtULAfvP3pEzV6/faLzMMR3T+4QhIEwrfO2D3kEyDCTETf7MLJU+sHzudIrfS8V4jQrF7QcD1c7w==
+ b=jpCXTuvR/QzB6/HMSYejJE0d+vPSC99HT9IFb/lVKgNhIvEcF+MQUzrqFUbg1GpEl44C1xORXaHBZVaTwa/rKuOOp7yh/IZGSgFLn6qVc0OCkvdqrukvA4lzgWGMXaUSQpN2n+NB9KLqmInWbDr6s7dptC7KWN6j0wQgLoIIUBe9ETMGGHCVxHbif8egqLXSq/xlQ9fmRusHA4Q+GKPtS2Qj5PLei/XfZcLGh2hfuShOt4ZLEDfE6mHCfUudJKY9RRvcJmQnaP4pyXlZL6bQoogpE52z69kEd9Jc6QN2zL72opY5lwE03gFs2Hr3golEhnYV0Pj2f5RKk0ZxS5ELMQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Nv6k3UcDja0vNIj//NyewVuiviyqurm0nZr8SceV0qQ=;
- b=Rd8xv24mC2vQUPvxrjcBhWFZBOaKThPBbbQ8oDqf2Ub6E1YY1voadVLu+vENqdrDNg4+FYhP14h7lY876qVIPSqwInyrJT0DDGNI0ag0YlcmWDzTGV8DDAmiXBKHp8bqpC7BYvWrdDhsh9ngTxS9AdsFft0dUnoAMqksu5SgFM9p55KzYRSayeFm0Qbrorxgnm+fbGJ603Qrmgdga4qiZ9ifzLvC8/cD5CrumGTsSjQVBUL6Q7Z+8BIEpzc0NdMsfr/0dz2Zt84S5i4MYm6Z0/1R40lTcMwc4ipfS42s/BN8gFuyyzlVzJuKWa3OH6KAZtlcM5JFc9M1vDKU2UDjyA==
+ bh=85EdgHrgHg3qUCuA6FdAsAJjWEA2obgbOb8NGr3fKkU=;
+ b=Di5TTG3RIaUHncpPJVUGHS90w6TmflOAF5brJwxm4RBt2pciSo0jR1lhob4+Vdr7EcEExEDi8XcB6B+AnAk+LYbQTE4vWzlRSiZlU3M6dNt4wcgAHTONV3qRTdQmP3cJID/RYEQ4nT7cBFHvR+Oe9T2F6rJ2hBw7njIYXaO0He+126SMAQ6j8/Wzb1WWJXwiIy7CX+Z9EVOHsfpyA3OE4Wy168/Dz+oY/32J9tI7YTDbHOhUgMltxBww057CyYYzlPRYr2onchTfM7W2bFm49NayabjZDSYccpSnqf8wquV3wNtKycETTIq5uxnJDQmBgLyLE9lFhdT0zak2KrnahQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Nv6k3UcDja0vNIj//NyewVuiviyqurm0nZr8SceV0qQ=;
- b=pfQi+a15ka0o1XeOxxHe50yuCPqnYOfu3LwJlltqrM/o21hlOcX1hK0Vl8MXGWhtVvXfoi+4GebGPN0+ELQRhTGsdmcdsI/9iGelMFVOPAXlAZFArR0a+wlg2aPJ7fgEd7aFrshQ6l6Oegj/oBU20Q6YcAFGipo207W9ZO4hdgVfv5DpkE1thK2EfXf+r0bJQz23PvZIZ9MsR5yiR5VXMrsD4u7wMN8a/m2PsOcFO/JFxfToz4GAtkL+xWChJ94pDtHyvBV3Qr+XKMCqXTPFJXe7YzrhhdbPIP99vs3efJH4Z+tBERua1DoL3CA4DsCprE95yauToATi+6F5Uwjl6w==
+ smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
+ dkim=pass header.d=suse.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
- by BL1PR12MB5240.namprd12.prod.outlook.com (2603:10b6:208:319::21) with
+ header.d=none;dmarc=none action=none header.from=suse.com;
+Received: from AM6PR04MB5366.eurprd04.prod.outlook.com (2603:10a6:20b:9d::19)
+ by AM6PR04MB4983.eurprd04.prod.outlook.com (2603:10a6:20b:10::23) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4867.9; Fri, 7 Jan
- 2022 17:23:25 +0000
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::464:eb3d:1fde:e6af]) by BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::464:eb3d:1fde:e6af%5]) with mapi id 15.20.4867.011; Fri, 7 Jan 2022
- 17:23:25 +0000
-Date:   Fri, 7 Jan 2022 13:23:24 -0400
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     "Tian, Kevin" <kevin.tian@intel.com>
-Cc:     Alex Williamson <alex.williamson@redhat.com>,
-        "cohuck@redhat.com" <cohuck@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "farman@linux.ibm.com" <farman@linux.ibm.com>,
-        "mjrosato@linux.ibm.com" <mjrosato@linux.ibm.com>,
-        "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
-        "Lu, Baolu" <baolu.lu@intel.com>
-Subject: Re: [RFC PATCH] vfio: Update/Clarify migration uAPI, add NDMA state
-Message-ID: <20220107172324.GV2328285@nvidia.com>
-References: <20211214162654.GJ6385@nvidia.com>
- <BN9PR11MB5276145C1D82FAFBDCF70AEF8C4A9@BN9PR11MB5276.namprd11.prod.outlook.com>
- <20220104160959.GJ2328285@nvidia.com>
- <BN9PR11MB527662CA4820107EA7B6CC278C4B9@BN9PR11MB5276.namprd11.prod.outlook.com>
- <20220105124533.GP2328285@nvidia.com>
- <BN9PR11MB5276E5F4C19FB368414500368C4C9@BN9PR11MB5276.namprd11.prod.outlook.com>
- <20220106154216.GF2328285@nvidia.com>
- <BN9PR11MB5276E587A02FC231343C87F98C4D9@BN9PR11MB5276.namprd11.prod.outlook.com>
- <20220107002950.GO2328285@nvidia.com>
- <BN9PR11MB5276177829EE5ED89AAD82398C4D9@BN9PR11MB5276.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BN9PR11MB5276177829EE5ED89AAD82398C4D9@BN9PR11MB5276.namprd11.prod.outlook.com>
-X-ClientProxiedBy: BLAPR03CA0134.namprd03.prod.outlook.com
- (2603:10b6:208:32e::19) To BL0PR12MB5506.namprd12.prod.outlook.com
- (2603:10b6:208:1cb::22)
+ 2022 17:44:42 +0000
+Received: from AM6PR04MB5366.eurprd04.prod.outlook.com
+ ([fe80::20b0:37b8:c5a:b186]) by AM6PR04MB5366.eurprd04.prod.outlook.com
+ ([fe80::20b0:37b8:c5a:b186%6]) with mapi id 15.20.4867.011; Fri, 7 Jan 2022
+ 17:44:42 +0000
+Message-ID: <8e6f07ef-10fe-381c-3a8d-db497492036c@suse.com>
+Date:   Fri, 7 Jan 2022 18:44:40 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [RFC PATCH v2 1/2] docs: add a document about regression handling
+Content-Language: en-US
+To:     Thorsten Leemhuis <linux@leemhuis.info>, linux-doc@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     workflows@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+References: <cover.1641565030.git.linux@leemhuis.info>
+ <f71246e0999520d681c7b35d24f7eed2f53ee2b4.1641565030.git.linux@leemhuis.info>
+ <28b56512-d681-4a3a-98f0-a2eae34a217e@suse.com>
+ <1126ce91-f22b-c397-4d1e-13d290a424a5@leemhuis.info>
+From:   Matthias Brugger <mbrugger@suse.com>
+In-Reply-To: <1126ce91-f22b-c397-4d1e-13d290a424a5@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MR2P264CA0151.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:501:1::14) To AM6PR04MB5366.eurprd04.prod.outlook.com
+ (2603:10a6:20b:9d::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8e6f54bb-a4ef-41ed-64ac-08d9d20269a5
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5240:EE_
-X-Microsoft-Antispam-PRVS: <BL1PR12MB5240B67610E8BCD12AE6DFCEC24D9@BL1PR12MB5240.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
+X-MS-Office365-Filtering-Correlation-Id: f6029f87-da47-4d73-1635-08d9d20562f8
+X-MS-TrafficTypeDiagnostic: AM6PR04MB4983:EE_
+X-Microsoft-Antispam-PRVS: <AM6PR04MB49832EE9DA7956BADA468585BA4D9@AM6PR04MB4983.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vnN/rR8uib0QaoGBXd4/34AeaqFEBQzKqAwsIZFpsMSib9uspS8TkVtp/y2YFK9R5RQHoEizqEVd/sLNvrJRiGMvZnzCKk3d2667C7IN+rrFDm57o0iuwl3BKVo5U38UoudeYcqeBAwe60RO2kKtk/vyrrCc+h1E7BzukoFH44kNQ3JJI3nZ/kcn+ONu9Bh+///uWfDBvs5lntbIwf2dnd4YCiOrRfzQp9dAghKbd/oEYXZHvKEGgn5pAvt4u49duLl613PYioIWPzFmTW9Z0oU8hcK3wBlAa7AP0RbGBjRX+EUB1tSwze+b+WPMvwrsaSHOuo1nKwrPIYcruD3p15EHCFV34C6577PCdtkAZZg2gdKf8B8GNKZyzFWJj7YhzBiswnqeM0G5mh1CWGYV0qnI7y9rwuLNksrkmTRJSOArNX4CeXkpRgx4Y0umdV/TVVA+lHT5w1jwLkg/cv3dtNX8ws057+WC+0xeln4yrVeu3+MIsurTusibRhSFylY635DTv+o8b0rGOqhiFYA/Z0rnSYPL/vb0wY0KQQT3IJtJu9E0Tc+G7W6DK6N1S0e9dmK8feid7+r14P1Oa9hrY2AAst4Ben1l+S9Sm8GyhM7lmYjMt6GTRl5bpYWjOQBqShD9Bt5mKciG+V84Ut89bg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB5506.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(2616005)(66946007)(7416002)(36756003)(8936002)(54906003)(5660300002)(66556008)(508600001)(2906002)(26005)(6512007)(8676002)(4326008)(186003)(33656002)(66476007)(1076003)(6506007)(83380400001)(316002)(6486002)(86362001)(38100700002)(6916009);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: 2UXU/MSR7Bmm5YX3cCatDMFyYmDz6Pz9bYQLTvtZTLGrl6cjoPeNv4ua2PxvCjkvcVwE7j1Z10IvFtVb1kEB78CuDkZa/XVMbuHu4oMjLUtyiiV1/WaB5GnaF12MfGWyM5nlGHOobpLzBWQeY+JihM9Hqv166wj8PT6lujLWmHj0kMDgp4QfBgUpg3tNfc1XNjAnLqt2MUPmH/kdPwhnNLMtHCUN2kvClvruIpF0AhxyLkaaTFAMsenDr333sKzolPz5liFaYlNx2MUHHPIZn5s+ipmwA+liBGM0apqaV+zOb3ZbjQIeerjJ6gqTQOebUJEaP6ZBhYXKcJfVsT9CSOuGnlbg9GYNCbWMWdK10W948smKMwoUxjEOG+SBusx3iHwguqZOIh7pG20xJCEpTRBHalHiVY35nraWO9MyGXGfo6c6nRS3SwozyN31TPlWfaSjKZNOZB8E1fpO37ObmitT4prN2CbJQiAP9MqjlXu+TAvK/2gt8bQG5h8VdbXuVF+NaZ30Cnarqc5fvOp5yLQwgswiIZC1vMEBq8JyuZistYQFLspJdwK+fxNpT73hDsyMWAVNI8LPDY7mhrNmwMmwEk5v4qXY96OH7qLBay0kj2ZpJzaTckEeAQt4yb9V8PtvZ1HpD6+0z7h+xseWaKJbUsNtgT9kvGBWnQkOHovWgLyw1yyHpd5+pFfw6IpVJfm/j1tju+64bXeYY3zJeO54uxQ+hJMt+a5bf4ACLCSWcbuwFNvnfFDXJj3gZuMsMtgC0qca1vWyTljVpb9GEMAhI1asYjNY9TKkR701EADyI5nyvemU5JndffMxWM3/
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB5366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(2906002)(6512007)(36756003)(66556008)(66476007)(6486002)(5660300002)(38100700002)(86362001)(26005)(8936002)(186003)(8676002)(54906003)(2616005)(6506007)(53546011)(110136005)(31696002)(508600001)(66946007)(31686004)(316002)(4326008)(45980500001)(43740500002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?EATVHUYv/lIDGK2CZkowH9qgahDkKZhsKL9QCdTl0o1Qrk/nZysnVacHI7n0?=
- =?us-ascii?Q?x08f4rPLc2kJ1OeAbHUoCZz3xpUhGJRHsQlqC9ESo7D9434UYHcgvTqA10FD?=
- =?us-ascii?Q?Dt6sAndbICvbDJaAEaWtKfTyiqCRl4Pk73D/tel2i5uVXAscmg9J02xa+wqv?=
- =?us-ascii?Q?psQxhQQXt5UQJAm8RE+NEtr6kLemxhN7kg8BSZP/ktEVqsE0v7Hh+mR4wShU?=
- =?us-ascii?Q?UO5vcUx28ji6DsTxMr8NrTseXJZV4ihefEROpJ1b6gyRx2PF9jMosQdY6X+E?=
- =?us-ascii?Q?Wykma5nmkQJdIota0NfuNuGWT1mMpmPkm+8YiaHYo6KA6HN7xWkEV9P2MwrZ?=
- =?us-ascii?Q?Jj2X45YGV70IYr38plD/PX2WME/rG+B3kr5B5FMKOa1PjN9HiCkFqkr8mPJW?=
- =?us-ascii?Q?C1Rcgh7vXMB0dHCoQQTfAC21XntzBMLlScrPE6nbEkKJiBzbZ0lDrWXrLQXU?=
- =?us-ascii?Q?dVNJHs/jxonvIzP5s1I3VPDryEllnSFm95qakzhQnk8bzRlI+XPS66+Kus2D?=
- =?us-ascii?Q?+IZhDeA0L4c2Pb77cOUJT/yvFVD3Q3WxZS4WBYTxI8if6e/X0EExZs5ZK5Ll?=
- =?us-ascii?Q?32YIr7+q2sGJ/g+x0+EFD9+Y0jhU7S9yhH+bPaAMj0hDZFzPNE+UAog6XINz?=
- =?us-ascii?Q?4FeL8coAPpwPzBZsfZVOVIsb4dbltHBElMm9ck9ml336VxFZhqHdD7DvhQGO?=
- =?us-ascii?Q?ud7Eof+7M1u2dTIEA725nDhXV8GS/u6cgnlADGn3JPnaGTHK6uvokAH4fqXo?=
- =?us-ascii?Q?0AwuCMSqAe5iGwZNYwQXXYkMjYIzm8uGClxKF8h9SjnlRTSJ7RAc/eg7Ukht?=
- =?us-ascii?Q?Tl/WYucvhrVHnxdU5Psz8ZdQhpvNoRMVOGkGp4WzCEa9uFpeyGE8kY6NwoJW?=
- =?us-ascii?Q?Wo4BLzSwmcIjUoRDpadFTcRt6I/P8hge+4L/wPlFZBHXQxJGzCIbK9nvQVDS?=
- =?us-ascii?Q?WN9YkIZ5e1W4idsHQ/cPFkXGHwGWwyj58f3rddBVyjhptz9uBOi+Nsz0Yqzx?=
- =?us-ascii?Q?mOeIWyNPcc86b8sHQjUvITUjZ7WTksfU/9xMQLhTN2yY2G/UBNX+piufB5jc?=
- =?us-ascii?Q?M0UTNZst6zzOSZw3dKPj3Vj/2yd+bJN4CT481J4xk5zJG1NHCQ4EJsVFol/F?=
- =?us-ascii?Q?mqqDfe2lInvkJ11HSfyCUTEypAftne9J8er8zidgfKK0ta3troRnY+EyqqAL?=
- =?us-ascii?Q?9xtiP55JK6kSOhZYYEFNvOgb0ofQVmMfK8M/UhMDbogBz+ps1PrjOeT231Dn?=
- =?us-ascii?Q?Lv9Y8cckPlwKSQ/jpP/uixVawUaJQ9lj8CbpQwdMXHsAMWnWZsOoOwlseEp9?=
- =?us-ascii?Q?Tjw1Us1C/vUdeGEFo42s+OqjKoumUYR0GC0rEu3+YUQwPoxRwqxIavgAG+ZM?=
- =?us-ascii?Q?Ce92ZYGnJOYikQtlXnaq90s5iBBUHMue6GTeSwYNGBdoTtlvHYZt9ecFBPKv?=
- =?us-ascii?Q?JUpdPaMowejw5WoSCL/9GQd2Cy9QcI8reBPHDJIMHWMwSPTrkogVvbf/axvx?=
- =?us-ascii?Q?pLyR9WqTA5vK+CvV+arM5XrW3GSEO1HUF9Shnf3d15Uu83KizTO/yqohUrpD?=
- =?us-ascii?Q?4T71guU9t35NfxHI3SU=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e6f54bb-a4ef-41ed-64ac-08d9d20269a5
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YWhJaENiQ0NpbmdBZXlzNmk2eUJ4Z1NkbTNtTWZoY2M1L3lhWVlVa29NbnNC?=
+ =?utf-8?B?RVpPRkJkSkl6TXdxRUpNWTdURjkrOTdqQktXNnNDZngwcnVCQ0dKa1pMaGpr?=
+ =?utf-8?B?c29VT0NkVjdrajFkZGlhRWk1WkFySkVwRS9aVnBGNWVHZU1GTytlWXpZNUFJ?=
+ =?utf-8?B?NkpDMVJyUGdPbW1EeWo5OUg0dlV5OWVjQ3dTTHU3SFVpckk2ZnVMejdFV0l2?=
+ =?utf-8?B?em01cFUvb3JlMTVveE1WWk1HU1EwV09RN1pUYlJ4RmVRdis1ZUN2Sm1rcHdm?=
+ =?utf-8?B?bDZxSHFCOXdOZ2NrWFZrUmUzd0w3dFY0SnE1cVpJUVlQalJKMTJjdzhlaER5?=
+ =?utf-8?B?WEJBTC9HNCtKYXQzajdHL2JuS1FINm83REFUVTJpNXhldmo1RnROVHhUWHRN?=
+ =?utf-8?B?OGRDUCswL240Mmd2ZWp2SDczdFZMNmhnSEFtcVlvNXZndFA5czVWZ1VRc2s0?=
+ =?utf-8?B?Qy9leGFFV2NSSzNPd2p5WnMyeTFyN1BnRVd3M3AxQmFicjcwN0dPK01TSEI1?=
+ =?utf-8?B?YXNDTUlvN0liMktiVUQ2V3dCZmI4NWVpL2ovaGFoVmJpU0g1cXh3TUhFNHFU?=
+ =?utf-8?B?Zi9YQ1kzYjRRNjY3bTZoRG8yQjMwRHRpY1JTZE5KMW1PM2JPNGgzQ1N2T1Y0?=
+ =?utf-8?B?SHVZd1pkZC8xaGp5RUVOaDFkWmtWa25BMTg4SlFNY0xKMnJ6RUE5TWpQcXBR?=
+ =?utf-8?B?b3RxOFVLYkRadm5nd1g5bDVyR2RZa2tZMGlINU1KQVArMDJMVU5rZVYrOWFU?=
+ =?utf-8?B?OVAxdjFMb01HNWNLaC9YZFM3OGZ3SXQ3Y2RUZHdlUUpkdSt6Z0xhampvNnFo?=
+ =?utf-8?B?dkRldHdzWUNTclZ6d2xldzdFaFAzN3dIaXdtSGFQL2FwQWFidnY4TklleWxu?=
+ =?utf-8?B?TE9VbWl5U3lVbWdRQjE3QzRhL1pLb01XNWpWSE9EMHJjUndUMTJ3YzIwUnZR?=
+ =?utf-8?B?RUdnYVRrM2g2UGJzWU9hSEd2dVhFZ1BDUmVnbktiNHlBTng2blNITmxnTi9v?=
+ =?utf-8?B?SXVSRkdwYzQ3czlTWEQ1eFowNmU0c01PcGgwVUxybFh1Z01NaEFBNUxydFpL?=
+ =?utf-8?B?eVQrb1BFaXNqWjUydXc5bzJmVGFoOURGUE5kdTBBVk9aZ1dERkRlZkZnZEJ1?=
+ =?utf-8?B?clhIc0RITVJOWGR5YjBISGNkSDZJNGMyS25JSHNFTWQrbkFTN0NONHBvYkE1?=
+ =?utf-8?B?cng3M3lRMXhOV1RkN21tb0RoNWptWnZaLzl0VDR6S0YxenNJcHdab0VjVmdl?=
+ =?utf-8?B?SzZUWkllcEY1ZnJpTFZ0S3A1RE5qTjJPUTQ2QmRnYjl0YkM3UWVjRmRUM0w2?=
+ =?utf-8?B?ZEd0UDBtMVROSmlxZHF0b1RNWlIrZnArZkFxUlJpMHZZNnZDSGNBNUI0L2dT?=
+ =?utf-8?B?VmZRVk9jb2ZnaWdvWHJ3Q3FlUFF1YlZseXBhOElNc25UQVFVVk5jWEZNTDFD?=
+ =?utf-8?B?c1gzOG5mRmF5Z0wxQU1yaWpnUHdKWFdmSnF2V0t3TWlaVFpWam00T1ZteFFn?=
+ =?utf-8?B?bHlGaSswcWZCaUQra3Yzd3dVSEYzb25sMDZta2cyYnB6a2xIeFYvdjZCa3Yw?=
+ =?utf-8?B?OHFhWXVXMkJqL3B5a0lXcnZVbDMva0gzNTdtT0NpTityaTlIOFF5V3FIUXh4?=
+ =?utf-8?B?dmlxVXZIOXFBUGxZUE1kL3JFNUdHMkc0a2hhaEROeGViRTJxd3NJN0w4ZEY5?=
+ =?utf-8?B?c3IxTVhNRitRcmpvZkdiVVR5OVN0eWxkOEY1cFlScVJ6d3owWnFSVGtrbXVP?=
+ =?utf-8?B?VlhvZDh1UTcrOFJDQmJLb25hL0RLQytzRnF0TWZNa3FZd0lQZVFTaVp1Q1hU?=
+ =?utf-8?B?KzVpeGFoN0N0aDREVnBvbFNTdy9LdUNMNjQ2WldDMlFYSUFqd3pLMG5yM1px?=
+ =?utf-8?B?cWQ3c2Z3WDR0YnlMdnh2NHM3VVlSTGs3WGpZdjMxSy9NUXU0Y2szUER2ZU1z?=
+ =?utf-8?B?N2JEWWZFK2w1WkJyNmk4NnVaZWV4Z2RScFY1OTJCcjhBOUc0OXoxTit1Tk1F?=
+ =?utf-8?B?QVQvb3ozdEh3VDNHazNyL0JkTW1OQmxVQlUvZnF1OCtBT3BFcDJUeFphLy9k?=
+ =?utf-8?B?OVR3MEE3cmZ1VFlHamhHWVhheG9oYzlBTHB2N25ISWxGMWVNYnppNkdtaElu?=
+ =?utf-8?B?TXlrRDdnU2JiSmt2Y3J1YXMwY09yVlNBR2VYcWlKM1NtRzNVc2ZDL0VERTF2?=
+ =?utf-8?Q?yoy7VkF/VF/b6qXKDN4qA0w=3D?=
+X-OriginatorOrg: suse.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f6029f87-da47-4d73-1635-08d9d20562f8
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB5366.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2022 17:23:25.5099
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2022 17:44:42.8230
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iL5115aFGPCHEmFA5Toxws4BV9K9p2FnnPH9KMIltmxFnmpwH3AlzIUhFLYvMigq
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5240
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5wPaOMdcZSePGlFephK7Pn0SznJVQiacqqT87jU1se+NpB+hQPDrDSSaQPzXRgyHAS3/E+ZBbE9Y+UYrJiHhMw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR04MB4983
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 07, 2022 at 02:01:55AM +0000, Tian, Kevin wrote:
-> > From: Jason Gunthorpe <jgg@nvidia.com>
-> > Sent: Friday, January 7, 2022 8:30 AM
-> > 
-> > On Fri, Jan 07, 2022 at 12:00:13AM +0000, Tian, Kevin wrote:
-> > > > Devices that are poorly designed here will have very long migration
-> > > > downtime latencies and people simply won't want to use them.
-> > >
-> > > Different usages have different latency requirement. Do we just want
-> > > people to decide whether to manage state for a device by
-> > > measurement?
-> > 
-> > It doesn't seem unreasonable to allow userspace to set max timer for
-> > NDMA for SLA purposes on devices that have unbounded NDMA times. It
-> > would probably be some new optional ioctl for devices that can
-> > implement it.
+
+
+On 07/01/2022 17:51, Thorsten Leemhuis wrote:
+> On 07.01.22 16:37, Matthias Brugger wrote:
+>> On 07/01/2022 15:21, Thorsten Leemhuis wrote:
+>>> Create a document explaining various aspects around regression handling
+>>> and tracking both for users and developers. Among others describe the
+>>> first rule of Linux kernel development and what it means in practice.
+>>> Also explain what a regression actually is and how to report one
+>>> properly. The text additionally provides a brief introduction to the bot
+>>> the kernel's regression tracker uses to facilitate his work. To sum
+>>> things up, provide a few quotes from Linus to show how serious he takes
+>>> regressions.
+>>>
+>>> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+>> [...]
+>>> +The important bits for people fixing regressions
+>>> +================================================
+>>> +
+>>> +When receiving regression reports by mail, check if the reporter CCed
+>>> `the
+>>> +regression mailing list <https://lore.kernel.org/regressions/>`_
+>>> +(regressions@lists.linux.dev). If not, forward or bounce the report
+>>> to the Linux
+>>> +kernel's regression tracker (regressions@leemhuis.info), unless you
+>>> plan on
+>>
+>> I would have expected it to be the same mailing list
+>> (regressions@lists.linux.dev), is this a typo maybe?
 > 
-> Yes, that's my point.
+> Thx for taking a look. Hmm. That's possible, but I (and the grep call I
+> just ran) fail to spot the typo.
 > 
-> > 
-> > However, this basically gives up on the idea that a VM can be migrated
-> > as any migration can timeout and fail under this philosophy. I think
-> > that is still very poor.
-> > 
-> > Optional migration really can't be sane path forward.
-> > 
+> Maybe the wording is to confusing: regressions@lists.linux.dev is the
+> list, regressions@leemhuis.info is a dedicated email address I (the
+> kernel's regression tracker) use for regression tracking (which reminds
+> me: maybe I should ask for a alias like regressions@kernel.org or
+> regression-tracker@kernel.org).
+
+Yes it's the wording then :)
+Anyway I just wonder why you we should send the regression to the regressions 
+email list, but only to the tracker email address. For me that's the confusing 
+part. I'd expect to send it to the list as well and the tracker takes it from 
+there. If for any reason someone does not want to send a regression to the list, 
+then he can send it to the tracker directly. That's my understanding of how this 
+works. If that's correct then I'd say we should just explain the difference.
+
+Regards,
+Matthias
+
 > 
-> How is it different from the scenario where the guest generates a very
-> high dirty rate so the precopy phase can never converge to a pre-defined
-> threshold then abort the migration after certain timeout?
+> Ciao, Thorsten
+> 
 
-The hypervisor can halt the VCPU and put a stop to this and complete
-the migration.
-
-There is a difference between optional migration under a SLA and
-mandatory migration with no SLA - I think both must be supported to be
-sane.
-
-> IMHO live migration is always a try-and-fail flavor. A previous migration
-> failure doesn't prevent the orchestration stack to retry at a later point.
-
-An operator might need to emergency migrate a VM without the
-possibility for failure. For instance there is something wrong with
-the base HW. SLA ignored, migration must be done.
-
-IMHO it is completely wrong to view migration as optional, that is a
-terrible standard to design HW to.
-
-Jason
