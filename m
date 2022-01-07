@@ -2,174 +2,148 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FB49C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Jan 2022 05:15:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6446EC433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Jan 2022 07:25:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346130AbiAGFPN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Jan 2022 00:15:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32838 "EHLO
+        id S235048AbiAGHZN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Jan 2022 02:25:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346122AbiAGFPL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jan 2022 00:15:11 -0500
-Received: from mail-oo1-xc30.google.com (mail-oo1-xc30.google.com [IPv6:2607:f8b0:4864:20::c30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CEC8C0611FF
-        for <linux-doc@vger.kernel.org>; Thu,  6 Jan 2022 21:15:11 -0800 (PST)
-Received: by mail-oo1-xc30.google.com with SMTP id r18-20020a4a7252000000b002c5f52d1834so1251003ooe.0
-        for <linux-doc@vger.kernel.org>; Thu, 06 Jan 2022 21:15:11 -0800 (PST)
+        with ESMTP id S231286AbiAGHZM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jan 2022 02:25:12 -0500
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C49FC061245
+        for <linux-doc@vger.kernel.org>; Thu,  6 Jan 2022 23:25:12 -0800 (PST)
+Received: by mail-io1-xd31.google.com with SMTP id y11so6067653iod.6
+        for <linux-doc@vger.kernel.org>; Thu, 06 Jan 2022 23:25:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/lXYTMqTPQj6nVYc2LjkC+PRXcEeKHgZlGRbidIcOIo=;
-        b=L3zHbWNYc53NMKrX6Sl1d3PRn29b66vuiNXviFr8GA4a+SYGpiSAyvS18jms6d8qVB
-         fKs3D+Nbr+M6SNOoFZDyMEvRSdPvzFrzzEGDWpLMQWGidJTOSq1Iqpx53jH1xd4YXitS
-         SSGZeD8LGKgJig/FEGdCluCKQl2Oe2NwjhtHQpWiii5utKHQBmtfn6tScZX6Kakzb2TF
-         EP0qNy52kdQQDeE0/CzqJ36Xhn6zZGmaoniKY5iaEE+FoazTqn1MIU0UX+METLAKof5P
-         IzzC0+07tN5TPfH60atp5u5kgV5lP7qVsaQzSBeSiN0T3CFVtqm2p2FVW9BXdVs6KNB/
-         cx8g==
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Dt5wFTIivnEVZNJ35QfigYoIPkloAu9LxIwiM8cfNlM=;
+        b=KEUgoAw/F9G/n+DL3vPDPzqUuCnfnBzCRczFO16S99KbAcoAyrV9Vpb2AD74ahCjh8
+         uf8VigJL/FmZUKO+jofCVvFOHZuM7q+xtWDz53MAO4BA0Mn2zHV0OH6UxkAKRJl5TaAY
+         SUMPxqRnmW04h8A9GnZu7raeMdpapoBAMIqGKj4vLsfHIqnGc4ROdp9a0I4kXG2ahw9d
+         XRUltLOLGcfkj+RMWNT+3kyWS7LdregbHr/zh8eNY6EorURFTH4Egx1INGlForVlX1BH
+         p2w0dBHu+Ap8teOi/dGdqzp8u93hW6oyVDaMJTA4hopr+3AasJCRGO7TSKgwVQ4jSC74
+         LOgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/lXYTMqTPQj6nVYc2LjkC+PRXcEeKHgZlGRbidIcOIo=;
-        b=IRwPN8/k2CTdLYf/gDtfhna4NVxGv0pZPLSOWfVb9MD1j1qnc7EAqMShbZgssJf/+T
-         /JX7BpGoVzOYQqanXHZcPbZJEVVTaIMpqphdaJuH/a3pWD+uAhPl9mvXHYGLMHr/V7Rc
-         lDPoZS/zzex3LvGRQDDGZALiZgPW89PpaxnhevZtYHbxUA0p591CGdwi2u15y6iee2zi
-         slBhAPO2EDgkF1lDKhjSAWRAOrEOjZ6Utm2nhjhcKzs+1GmyMkw4bhOUUQdQLfj/zfKj
-         XDMMS5RaJ16hG/hZTcObQ4C7iJAEWFiwtm9WB1w3HVdhz9Jh7TnKAh7XfUtDxYbysNZX
-         v+oQ==
-X-Gm-Message-State: AOAM530eh/f81Cc5TbgAI/uZyBod9Q0LDbLX/zKxa04ojq73xyEC8xnl
-        Hu4/SU5YQdTIsoN9G/vePTEZLH8g2n3I7RAcBEIARA==
-X-Google-Smtp-Source: ABdhPJwJ2NaeNTYz8jr/Bz1rJEZfuZ5XHAT20ivQM2kiMSToIXtUl8uQhMexLkbtkzTkHr/nOhstN/RfFJf7Y6M22uk=
-X-Received: by 2002:a4a:5403:: with SMTP id t3mr3926068ooa.72.1641532510072;
- Thu, 06 Jan 2022 21:15:10 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Dt5wFTIivnEVZNJ35QfigYoIPkloAu9LxIwiM8cfNlM=;
+        b=Z6z8bNMSssyLWR+JAlTSxo39b7kzQNtjcSG8OOtHEiPqOPtFx3S0LnMW/gRxqwRUlf
+         vH4Cq0Lu5PKfksIVflvQR0X9f7J+iToYUHuTc5D1cW1WZ16G7jrCKmxV1gduaKJ5+7Dw
+         rsvdoTKbYp7qvLBSYSasNXoBiDBk+fC98YJ4LAbkra4O+lgX9ca+PHXK10/+cAx22KjC
+         2hrJesGKdxE3Iav3eN9LKiM6V5b1TeM53sQatJTZ7zdDnh+YXYIa24jq0y/RTHwU6iqS
+         hijxvwIhSJQ0evuHrYvuSNAnU74VGkMH/WB6sWX2XhLFMHCfF4KIEY7LMZqnVZ0/XRg4
+         apFQ==
+X-Gm-Message-State: AOAM533wkOz/w92oAT8ViX6MNrXQAqsLVF7wa4nmkHhraGjUGRhpqjcX
+        ZQw+WJg9xjzG8SvY6C2tjbsHbg==
+X-Google-Smtp-Source: ABdhPJz3x1HWzD5i0AVExGboPsVu371NgLICgXvka4rbxX4XJLCTLcI+ZJ0R+n6BnSvFqM8bGhULrw==
+X-Received: by 2002:a5e:9905:: with SMTP id t5mr26785346ioj.16.1641540311737;
+        Thu, 06 Jan 2022 23:25:11 -0800 (PST)
+Received: from google.com ([2620:15c:183:200:2e0a:5e5e:fac:e07b])
+        by smtp.gmail.com with ESMTPSA id g1sm2528097ila.26.2022.01.06.23.25.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Jan 2022 23:25:11 -0800 (PST)
+Date:   Fri, 7 Jan 2022 00:25:07 -0700
+From:   Yu Zhao <yuzhao@google.com>
+To:     Will Deacon <will@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Ying Huang <ying.huang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, x86@kernel.org,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>
+Subject: Re: [PATCH v6 1/9] mm: x86, arm64: add arch_has_hw_pte_young()
+Message-ID: <Ydfq051mnCeZjG3G@google.com>
+References: <20220104202227.2903605-1-yuzhao@google.com>
+ <20220104202227.2903605-2-yuzhao@google.com>
+ <20220105104526.GA3015@willie-the-truck>
+ <YdYDzKvYbBwjfU3W@google.com>
+ <20220106103009.GA4420@willie-the-truck>
 MIME-Version: 1.0
-References: <20211229215330.4134835-1-yaelt@google.com> <CAFA6WYPuPHgcnzt6j+Q-EA2Dos6vBDukrjpheo5srLVXFrifEg@mail.gmail.com>
- <5a38824152eeee0fc9ba0a4fd2308bb6e0970059.camel@linux.ibm.com>
- <CAFA6WYOJt3=YMTt_QQSq6Z-MK42hwWspgSpasw2fuPtVFcP3uA@mail.gmail.com> <CAKoutNvW1c7MkTaFwyrD7MjUVXvTtcBOGFULMittJ5vzjMN0mg@mail.gmail.com>
-In-Reply-To: <CAKoutNvW1c7MkTaFwyrD7MjUVXvTtcBOGFULMittJ5vzjMN0mg@mail.gmail.com>
-From:   Sumit Garg <sumit.garg@linaro.org>
-Date:   Fri, 7 Jan 2022 10:44:57 +0530
-Message-ID: <CAFA6WYPQRagZF8-grn_LC8_SAaxBzh=cSgHhFAQQOYK+L2KuBQ@mail.gmail.com>
-Subject: Re: [PATCH v4] KEYS: encrypted: Instantiate key with user-provided
- decrypted data
-To:     Yael Tiomkin <yaelt@google.com>
-Cc:     Mimi Zohar <zohar@linux.ibm.com>, linux-integrity@vger.kernel.org,
-        jejb@linux.ibm.com, Jarkko Sakkinen <jarkko@kernel.org>,
-        corbet@lwn.net, dhowells@redhat.com, jmorris@namei.org,
-        serge@hallyn.com, keyrings@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        =?UTF-8?Q?Jan_L=C3=BCbbe?= <jlu@pengutronix.de>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220106103009.GA4420@willie-the-truck>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Yael,
+On Thu, Jan 06, 2022 at 10:30:09AM +0000, Will Deacon wrote:
+> On Wed, Jan 05, 2022 at 01:47:08PM -0700, Yu Zhao wrote:
+> > On Wed, Jan 05, 2022 at 10:45:26AM +0000, Will Deacon wrote:
+> > > On Tue, Jan 04, 2022 at 01:22:20PM -0700, Yu Zhao wrote:
+> > > > diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
+> > > > index 870c39537dd0..56e4ef5d95fa 100644
+> > > > --- a/arch/arm64/tools/cpucaps
+> > > > +++ b/arch/arm64/tools/cpucaps
+> > > > @@ -36,6 +36,7 @@ HAS_STAGE2_FWB
+> > > >  HAS_SYSREG_GIC_CPUIF
+> > > >  HAS_TLB_RANGE
+> > > >  HAS_VIRT_HOST_EXTN
+> > > > +HW_AF
+> > > >  HW_DBM
+> > > >  KVM_PROTECTED_MODE
+> > > >  MISMATCHED_CACHE_TYPE
+> > > 
+> > > As discussed in the previous threads, we really don't need the complexity
+> > > of the additional cap for the arm64 part. Please can you just use the
+> > > existing code instead? It's both simpler and, as you say, it's equivalent
+> > > for existing hardware.
+> > > 
+> > > That way, this patch just ends up being a renaming exercise and we're all
+> > > good.
+> > 
+> > No, renaming alone isn't enough. A caller needs to disable preemption
+> > before calling system_has_hw_af(), and I don't think it's reasonable
+> > to ask this caller to do it on x86 as well.
+> > 
+> > It seems you really prefer not to have HW_AF. So the best I can
+> > accommodate, considering other potential archs, e.g., risc-v (I do
+> > plan to provide benchmark results on risc-v, btw), is:
+> > 
+> >   static inline bool arch_has_hw_pte_young(bool local)
+> >   {
+> > 	bool hw_af;
+> > 
+> >   	if (local) {
+> >   		WARN_ON(preemptible());
+> >   		return cpu_has_hw_af();
+> >   	}
+> >   
+> > 	preempt_disable();
+> >   	hw_af = system_has_hw_af();
+> > 	preempt_enable();
+> > 
+> > 	return hw_af;
+> >   }
+> > 
+> > Or please give me something else I can call without disabling
+> > preemption, sounds good?
+> 
+> Sure thing, let me take a look. Do you have your series on a public git
+> tree someplace?
 
-On Thu, 6 Jan 2022 at 01:48, Yael Tiomkin <yaelt@google.com> wrote:
->
-> Hi Sumit,
->
-> On Mon, Jan 3, 2022 at 1:51 AM Sumit Garg <sumit.garg@linaro.org> wrote:
-> >
-> > Hi Mimi,
-> >
-> > Apologies for the delayed reply as I was on leave for a long new year weekend.
-> >
-> > On Thu, 30 Dec 2021 at 18:59, Mimi Zohar <zohar@linux.ibm.com> wrote:
-> > >
-> > > Hi Sumit,
-> > >
-> > > On Thu, 2021-12-30 at 15:37 +0530, Sumit Garg wrote:
-> > > > + Jan, Ahmad
-> > > >
-> > > > On Thu, 30 Dec 2021 at 03:24, Yael Tiomkin <yaelt@google.com> wrote:
-> > > > >
-> > > > > The encrypted.c class supports instantiation of encrypted keys with
-> > > > > either an already-encrypted key material, or by generating new key
-> > > > > material based on random numbers. This patch defines a new datablob
-> > > > > format: [<format>] <master-key name> <decrypted data length>
-> > > > > <decrypted data> that allows to instantiate encrypted keys using
-> > > > > user-provided decrypted data, and therefore allows to perform key
-> > > > > encryption from userspace. The decrypted key material will be
-> > > > > inaccessible from userspace.
-> > > >
-> > > > This type of user-space key import feature has already been discussed
-> > > > at large in the context of trusted keys here [1]. So what makes it
-> > > > special in case of encrypted keys such that it isn't a "UNSAFE_IMPORT"
-> > > > or "DEBUGGING_IMPORT" or "DEVELOPMENT_IMPORT", ...?
-> > > >
-> > > > [1] https://lore.kernel.org/linux-integrity/74830d4f-5a76-8ba8-aad0-0d79f7c01af9@pengutronix.de/
-> > > >
-> > > > -Sumit
-> > > >
-> > > > >
-> > > > > Reviewed-by: Mimi Zohar <zohar@linux.ibm.com>
-> > > > > Signed-off-by: Yael Tiomkin <yaelt@google.com>
-> > >
-> > > There is a difference between trusted and encrypted keys.
-> >
-> > Yeah I understand the implementation differences.
-> >
-> > >  So in
-> > > addition to pointing to the rather long discussion thread, please
-> > > summarize the conclusion and, assuming you agree, include why in once
-> > > case it was acceptable and in the other it wasn't to provide userspace
-> > > key data.
-> >
-> > My major concern with importing user-space key data in *plain* format
-> > is that if import is *not* done in a safe (manufacturing or
-> > production) environment then the plain key data is susceptible to
-> > user-space compromises when the device is in the field.
->
-> I agree this can happen. Key distribution in any scenario needs to be
-> secure and this could also potentially be an issue if the key is first
-> encrypted and then imported.
+Thanks!
 
-Currently its not the case with encrypted keys. These are random keys
-generated within the kernel and encrypted with master key within the
-kernel and then exposed to user-space as encrypted blob only.
+This patch (updated) on Gerrit:
+https://linux-mm-review.googlesource.com/c/page-reclaim/+/1500/1
 
-> We can make sure the documentation
-> highlights the safety requirement.
->
-
-IMO, you should enable this feature as a compile time option. The help
-text for that config option should highlight the use-case along with a
-safety warning.
-
--Sumit
-
-> >
-> > And it sounds like we are diverting from basic definition [1] of encrypted keys:
-> >
-> > "Trusted and Encrypted Keys are two new key types added to the
-> > existing kernel key ring service. Both of these new types are variable
-> > length symmetric keys, and in both cases all keys are created in the
-> > kernel, and **user space sees, stores, and loads** only encrypted
-> > blobs."
-> >
-> > Also, as Jarrko mentioned earlier the use-case is still not clear to
-> > me as well. Isn't user logon keys an alternative option for
-> > non-readable user-space keys?
->
-> The goal in this change is to allow key encryption from userspace,
-> using user-provided decrypted data. This cannot be achieved in logon
-> keys, which as you mentioned, are simply non-readable user type keys.
->
->
-> >
-> > [1] https://www.kernel.org/doc/html/v4.13/security/keys/trusted-encrypted.html
-> >
-> > -Sumit
-> >
-> > >
-> > > thanks,
-> > >
-> > > Mimi
-> > >
->
-> Yael
+And the entire series:
+git fetch https://linux-mm.googlesource.com/page-reclaim refs/changes/08/1508/1
