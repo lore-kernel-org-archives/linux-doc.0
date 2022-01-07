@@ -2,73 +2,220 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA981C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Jan 2022 16:33:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27940C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Jan 2022 16:36:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240186AbiAGQdi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Jan 2022 11:33:38 -0500
-Received: from relay12.mail.gandi.net ([217.70.178.232]:51543 "EHLO
-        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239847AbiAGQdi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jan 2022 11:33:38 -0500
-Received: (Authenticated sender: n@nfraprado.net)
-        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 92956200008;
-        Fri,  7 Jan 2022 16:33:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nfraprado.net;
-        s=gm1; t=1641573212;
+        id S1348245AbiAGQgQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Jan 2022 11:36:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50561 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S240146AbiAGQgQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jan 2022 11:36:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1641573375;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=hHdZgPYW9rFfoT+k2DpyMR90GZCLDdAlv6cFmdVm01Y=;
-        b=P73W5p5QxMUTaNnxtmdWJZQ+WmuG/i3ztLIgIlo4j88hCkDY9TAh2CzsRyXmtFVD6abqS1
-        VUJwqJ3csLCDxYOs88ynsGF2M4EGvWgtcwZbx5e7Usu4osbuKfJRfwHcaJL8KJffHvYZO+
-        /mvmZyQasbT8fpd4UL6jlPBFDe2uarGUwCEJfgOuF3s/+EgN91BWQzqZgPSLVFGTQRFoFt
-        Ax5D22qLsn+NGaVLkw97MtFpxd6MZ1Z1Kmk5EfbLLyPdR81hfyt/sxYIwjn/KNqDlx7Y/R
-        2xNhTX1pMqSEyKJly+HspNeY/E89ujuP8pqG9jXxahjgLWRY0NApb6UL5I32Eg==
-Date:   Fri, 7 Jan 2022 11:33:27 -0500
-From:   =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <n@nfraprado.net>
-To:     James Clark <james.clark@arm.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, mchehab+huawei@kernel.org,
-        linux-kernel@vger.kernel.org, nfraprado@protonmail.com,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] docs: automarkup.py: Fix invalid HTML link output
- and broken URI fragments
-Message-ID: <20220107163327.hf26hfinbhhyike3@notapiano>
-References: <20220105143640.330602-1-james.clark@arm.com>
- <20220105143640.330602-2-james.clark@arm.com>
- <87h7agpkn4.fsf@meer.lwn.net>
- <0fce859e-4ac5-3e41-a4cf-ec1c22f2c3cc@arm.com>
+        bh=cun0JDRu3u3ODu6kzvsjmIGMUsdWD/PRPhnibbXzPgs=;
+        b=iS4N1PDxQ7GF0+6G8Q6HLRVa4XxPCRSoewJD7OZsvjR7++fucQCCgm1QsQk5pOzCyTPhDc
+        GpF4zwYO1t+IDqywLx1GGDBKe9X6cFOc6ApFkaNmNzIIpBlpC0fD/KK2r9sQ4LQVCGIDKc
+        noGgOqOVm8f7BURtF3cfQoue09arGj0=
+Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
+ [209.85.161.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-413-Q0dzV6jxPWeaMH8_i0RmFA-1; Fri, 07 Jan 2022 11:36:14 -0500
+X-MC-Unique: Q0dzV6jxPWeaMH8_i0RmFA-1
+Received: by mail-oo1-f70.google.com with SMTP id v30-20020a4a9761000000b002daad3afaf6so3804539ooi.18
+        for <linux-doc@vger.kernel.org>; Fri, 07 Jan 2022 08:36:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=cun0JDRu3u3ODu6kzvsjmIGMUsdWD/PRPhnibbXzPgs=;
+        b=nODWUlYl4rCWYIqFwiZeqkbH9DBWQRdKgCTIj8Gj8KWcP2lDvEkASckObNcUYKCaAs
+         iGgy3QaOV1g1JvLhxxzITPK/f21IvIsoXQTi6yVk1WMLf37i331ZvWrCgcDRzllXk2qK
+         4ihB+llKUY4EqoGeugbAxNBWeURRD2UEkgR48wGKGXZoiYs7If2ojCbRM/FJdrVstkWl
+         xfW6/va/8VR/wRh82t8V5micAVtWCxAYNa4pDZmdTEzgVZh/KzoQCrz+lEiXVW2BM/UW
+         7wra5WYhACEcrBscO0eBpEimNbY/ryglBC4fONvo+s2Q2alDzBlJ2mDoyjwEAhVRVDPh
+         4GEg==
+X-Gm-Message-State: AOAM530uf/bJY96P8iW+RfJBBwqQWct8MJ0PysIN0R09L5cCpx4USxVM
+        WSwuGNgi2cw7OnyCUIOkWDZ9iwZEKxgN3xxRXx7BZmvG9Gds+vUDKfH3nH6hn/5JX7niJwiOUkq
+        elmcryq0LU330Ych7y1WV
+X-Received: by 2002:a05:6830:1d78:: with SMTP id l24mr44499677oti.13.1641573373806;
+        Fri, 07 Jan 2022 08:36:13 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxno3eB1gaxBNMa43a5j1kp38lbfxuPqbEYKMMF5c+INctlkOV8jk7m93OFr9raz7NAHc54zg==
+X-Received: by 2002:a05:6830:1d78:: with SMTP id l24mr44499657oti.13.1641573373514;
+        Fri, 07 Jan 2022 08:36:13 -0800 (PST)
+Received: from redhat.com ([38.15.36.239])
+        by smtp.gmail.com with ESMTPSA id i28sm954062otf.12.2022.01.07.08.36.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Jan 2022 08:36:13 -0800 (PST)
+Date:   Fri, 7 Jan 2022 09:36:11 -0700
+From:   Alex Williamson <alex.williamson@redhat.com>
+To:     "Tian, Kevin" <kevin.tian@intel.com>
+Cc:     "jgg@nvidia.com" <jgg@nvidia.com>,
+        "cohuck@redhat.com" <cohuck@redhat.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "farman@linux.ibm.com" <farman@linux.ibm.com>,
+        "mjrosato@linux.ibm.com" <mjrosato@linux.ibm.com>,
+        "pasic@linux.ibm.com" <pasic@linux.ibm.com>
+Subject: Re: [RFC PATCH] vfio: Update/Clarify migration uAPI, add NDMA state
+Message-ID: <20220107093611.6cbc6166.alex.williamson@redhat.com>
+In-Reply-To: <BN9PR11MB52769D49A29D1CD7A0C87C888C4D9@BN9PR11MB5276.namprd11.prod.outlook.com>
+References: <163909282574.728533.7460416142511440919.stgit@omen>
+        <BN9PR11MB52769D49A29D1CD7A0C87C888C4D9@BN9PR11MB5276.namprd11.prod.outlook.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0fce859e-4ac5-3e41-a4cf-ec1c22f2c3cc@arm.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 07, 2022 at 10:04:44AM +0000, James Clark wrote:
-> 
-> 
-> On 06/01/2022 22:25, Jonathan Corbet wrote:
-> > James Clark <james.clark@arm.com> writes:
-> > 
-> >> Since commit d18b01789ae5 ("docs: Add automatic cross-reference for
-> >> documentation pages"), references that were already explicitly defined
-> >> with "ref:" and referred to other pages with a path have been doubled.
-> >> This is reported as the following error by Firefox:
-> > [...]
-> >> The fix is to check that nodes in the document to be modified are not
-> >> already references. A reference is counted as any text that is a
-> >> descendant of a reference type node. Only plain text should be converted
-> >> to new references, otherwise the doubling occurs.
-> > 
-> > This seems like a good fix.  Applied, thanks.
-> > 
-> > jon
-> > 
-> 
-> Thanks Jonathan. Do you have a git repo that these get applied to?
-> I wasn't able to find it on https://git.kernel.org/
+On Fri, 7 Jan 2022 08:03:57 +0000
+"Tian, Kevin" <kevin.tian@intel.com> wrote:
 
-Yeah, it's not listed there. His tree lives at git://git.lwn.net/linux . I can
-see your patch in the docs-next branch.
+> Hi, Alex,
+> 
+> Thanks for cleaning up this part, which is very helpful! 
+> 
+> > From: Alex Williamson <alex.williamson@redhat.com>
+> > Sent: Friday, December 10, 2021 7:34 AM
+> > 
+> > + *
+> > + *   The device_state field defines the following bitfield use:
+> > + *
+> > + *     - Bit 0 (RUNNING) [REQUIRED]:
+> > + *        - Setting this bit indicates the device is fully operational, the
+> > + *          device may generate interrupts, DMA, respond to MMIO, all vfio
+> > + *          device regions are functional, and the device may advance its
+> > + *          internal state.  The default device_state must indicate the device
+> > + *          in exclusively the RUNNING state, with no other bits in this field
+> > + *          set.
+> > + *        - Clearing this bit (ie. !RUNNING) must stop the operation of the
+> > + *          device.  The device must not generate interrupts, DMA, or advance
+> > + *          its internal state.   
+> 
+> I'm curious about what it means for the mediated device. I suppose this 
+> 'must not' clause is from user p.o.v i.e. no event delivered to the user, 
+> no DMA to user memory and no user visible change on mdev state. Physically 
+> the device resource backing the mdev may still generate interrupt/DMA 
+> to the host according to the mediation policy.
+> 
+> Is this understanding correct?
+
+Yes, one mediated device stopped running can't cause the backing
+device to halt, it must continue performing activities for other child
+devices as well as any host duties.  The user owned device should
+effectively stop.
+
+> > +*           The user should take steps to restrict access
+> > + *          to vfio device regions other than the migration region while the
+> > + *          device is !RUNNING or risk corruption of the device migration data
+> > + *          stream.  The device and kernel migration driver must accept and
+> > + *          respond to interaction to support external subsystems in the
+> > + *          !RUNNING state, for example PCI MSI-X and PCI config space.  
+> 
+> and also respond to mmio access if some state is saved via reading mmio?
+
+The device must not generate a host fault, ex. PCIe UR, but the idea
+here is that the device stops and preventing further access is the
+user's responsibility.  Failure to stop those accesses may result in
+corrupting the migration data.
+
+> > + *          Failure by the user to restrict device access while !RUNNING must
+> > + *          not result in error conditions outside the user context (ex.
+> > + *          host system faults).
+> > + *     - Bit 1 (SAVING) [REQUIRED]:
+> > + *        - Setting this bit enables and initializes the migration region data
+> > + *          window and associated fields within vfio_device_migration_info for
+> > + *          capturing the migration data stream for the device.  The migration
+> > + *          driver may perform actions such as enabling dirty logging of device
+> > + *          state with this bit.  The SAVING bit is mutually exclusive with the
+> > + *          RESUMING bit defined below.
+> > + *        - Clearing this bit (ie. !SAVING) de-initializes the migration region
+> > + *          data window and indicates the completion or termination of the
+> > + *          migration data stream for the device.
+> > + *     - Bit 2 (RESUMING) [REQUIRED]:
+> > + *        - Setting this bit enables and initializes the migration region data
+> > + *          window and associated fields within vfio_device_migration_info for
+> > + *          restoring the device from a migration data stream captured from a
+> > + *          SAVING session with a compatible device.  The migration driver may
+> > + *          perform internal device resets as necessary to reinitialize the
+> > + *          internal device state for the incoming migration data.
+> > + *        - Clearing this bit (ie. !RESUMING) de-initializes the migration
+> > + *          region data window and indicates the end of a resuming session for
+> > + *          the device.  The kernel migration driver should complete the
+> > + *          incorporation of data written to the migration data window into the
+> > + *          device internal state and perform final validity and consistency
+> > + *          checking of the new device state.  If the user provided data is
+> > + *          found to be incomplete, inconsistent, or otherwise invalid, the
+> > + *          migration driver must indicate a write(2) error and follow the
+> > + *          previously described protocol to return either the previous state
+> > + *          or an error state.
+> > + *     - Bit 3 (NDMA) [OPTIONAL]:
+> > + *        The NDMA or "No DMA" state is intended to be a quiescent state for
+> > + *        the device for the purposes of managing multiple devices within a
+> > + *        user context where peer-to-peer DMA between devices may be active.  
+> 
+> As discussed with Jason in another thread, this is also required for vPRI
+> when stopping DMA involves completing (instead of preempting) in-fly
+> requests then any vPRI for those requests must be completed when vcpu 
+> is running. This cannot be done in !RUNNING which is typically transitioned 
+> to after stopping vcpu.
+> 
+> It is also useful when the time of stopping device DMA is unbound (even
+> without vPRI). Having a failure path when vcpu is running avoids breaking 
+> SLA (if only capturing it after stopping vcpu). This further requires certain
+> interface for the user to specify a timeout value for entering NDMA, though
+> unclear to me what it will be now.
+> 
+> > + *        Support for the NDMA bit is indicated through the presence of the
+> > + *        VFIO_REGION_INFO_CAP_MIG_NDMA capability as reported by
+> > + *        VFIO_DEVICE_GET_REGION_INFO for the associated device migration
+> > + *        region.
+> > + *        - Setting this bit must prevent the device from initiating any
+> > + *          new DMA or interrupt transactions.  The migration driver must  
+> 
+> Why also disabling interrupt? vcpu is still running at this point thus interrupt
+> could be triggered for many reasons other than DMA...
+
+It's my understanding that the vCPU would be halted for the NDMA use
+case, we can't very well have vCPUs demanding requests to devices that
+are prevented from completing them.  The NDMA phase is intended to
+support completion of outstanding requests without concurrently
+accepting new requests, AIUI.
+
+Further conversations in this thread allow for interrupts and deduce
+that the primary requirement of NDMA is to restrict P2P DMA, which can
+be approximated as all non-MSI DMA.
+
+> > + *          complete any such outstanding operations prior to completing
+> > + *          the transition to the NDMA state.  The NDMA device_state
+> > + *          essentially represents a sub-set of the !RUNNING state for the
+> > + *          purpose of quiescing the device, therefore the NDMA device_state
+> > + *          bit is superfluous in combinations including !RUNNING.  
+> 
+> 'superfluous' means doing so will get a failure, or just not recommended?
+
+Superfluous meaning redundant.  It's allowed, but DMA is already
+restricted when !RUNNING, so setting NDMA when !RUNNING is meaningless.
+ 
+> > + *        - Clearing this bit (ie. !NDMA) negates the device operational
+> > + *          restrictions required by the NDMA state.
+> > + *     - Bits [31:4]:
+> > + *        Reserved for future use, users should use read-modify-write
+> > + *        operations to the device_state field for manipulation of the above
+> > + *        defined bits for optimal compatibility.
+> > + *  
+
+FWIW, I'm expecting to see an alternative uAPI propose using a FSM
+machine in the near future, so while this clarifies what I believe is
+the intention of the existing uAPI, it might be deprecated before we
+bother to commit such clarifications.  Thanks,
+
+Alex
+
