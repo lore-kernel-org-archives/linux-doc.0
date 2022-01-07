@@ -2,182 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1BC6C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Jan 2022 13:45:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D2A0C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Jan 2022 14:21:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347647AbiAGNpx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Jan 2022 08:45:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34676 "EHLO
+        id S1347770AbiAGOVI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Jan 2022 09:21:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347641AbiAGNpx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jan 2022 08:45:53 -0500
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77CDDC061574;
-        Fri,  7 Jan 2022 05:45:53 -0800 (PST)
-Received: by mail-pj1-x102f.google.com with SMTP id iy13so5243803pjb.5;
-        Fri, 07 Jan 2022 05:45:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=i+lccBWZs92uwFfTHiY+C7P7w5QeQD6HvfPbWszHYKA=;
-        b=WB3POu3MvaFnI14GT7AEAhJA/EAkXen3J6K8rXO3cqKNeQkXI9mDdbPRNyD1fhY/QK
-         mtQWQ6U+2TGtgvsWxlCwm/3PcnfLxpEjCm/EKgBhhvJrO32HKufu6u6QAKs4zmgzQBSZ
-         7t47bObKphlzgKBH126EHAk3y9nruMzegPyh1Leze8Sve6MGC/2Rd8dg1v0WGuRAyge0
-         wTJiPEeXWSJw7Jbv3IR7gaOND9MhQPwp1JZ1yWO2OTcVQN1It7q1dGkUvKR1Zna5ziQO
-         3p7rSTKmCZUCzNyxXc7dv3hhKCj/puhMyyHsu7+zpzYVFB90hXX86d/OMAPuRFIbLcvM
-         EiJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=i+lccBWZs92uwFfTHiY+C7P7w5QeQD6HvfPbWszHYKA=;
-        b=M1vnVxzJiA3BoNi0Pn9ICSz/5/4qcBNfdcfsk8mHwTJt7z9h7Ipi6WNqS00Dl+08PH
-         51+Qbzje1nK/T/xR38Yaw3N1UY1eCNFT/oVoOU271EnS6gadM6U4YEhOOFtqJARY4ta8
-         dKdTnJxLLOiSV4r/HSqs/Iv0A8hksABbbjFN1OxFNGv1RqX4ZvbX3jc97XBYYoo6YfXH
-         uPw41DDC+iaQmvCxAVtfmuTsDx24xQk7D0fFPRMepFqRA9vAGHvfXzJ/3ovRDgfWoWHU
-         J6RPlPcTLlK5oMJLW8VIL2ZHHj7adYO6HbsMkXt0D2GAmaLZrlokQMxs3oUW0++OFteP
-         69Rw==
-X-Gm-Message-State: AOAM533zgBuWNesIau2k/oPcNXnQOrPWb4wYBFaixbaTxDeCXQXGHmVD
-        GhCa0Q2aau2s9oloQUrU5Jo=
-X-Google-Smtp-Source: ABdhPJzN3koh93SG9baH8JM1gF3tNPNzQNNPHi3o3DE2ULeT07sBlCdaPY/yvvCkBZLgGgUAzCQ7iQ==
-X-Received: by 2002:a17:903:22c2:b0:148:fcc0:aae8 with SMTP id y2-20020a17090322c200b00148fcc0aae8mr64042522plg.148.1641563152990;
-        Fri, 07 Jan 2022 05:45:52 -0800 (PST)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id e30sm4566471pgb.10.2022.01.07.05.45.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Jan 2022 05:45:52 -0800 (PST)
-Subject: Re: [PATCH v2 0/4] docs: sphinx/kfigure.py: Improve conversion to PDF
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-References: <e01fe9f9-f600-c2fc-c6b3-ef6395655ffe@gmail.com>
-From:   Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <e545803a-8f09-f0e7-4ca0-16b673ef1796@gmail.com>
-Date:   Fri, 7 Jan 2022 22:45:47 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        with ESMTP id S1347627AbiAGOVH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jan 2022 09:21:07 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99EDBC06173E;
+        Fri,  7 Jan 2022 06:21:06 -0800 (PST)
+Received: from ip4d173d02.dynamic.kabel-deutschland.de ([77.23.61.2] helo=truhe.fritz.box); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        id 1n5q75-0007s5-SL; Fri, 07 Jan 2022 15:21:03 +0100
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+To:     linux-doc@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     workflows@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [RFC PATCH v2 0/2] docs: add a text about regressions to the Linux kernel's documentation
+Date:   Fri,  7 Jan 2022 15:21:00 +0100
+Message-Id: <cover.1641565030.git.linux@leemhuis.info>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <e01fe9f9-f600-c2fc-c6b3-ef6395655ffe@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1641565266;60e5e95e;
+X-HE-SMSGID: 1n5q75-0007s5-SL
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 29 Dec 2021 20:42:00 +0900, Akira Yokosawa wrote:
-> This patch set improves conversions of DOT -> PDF and SVG -> PDF
-> for PDF docs.
+'We don't cause regressions' might be the first rule of Linux kernel
+development, but it and other aspects of regressions nevertheless are hardly
+described in the Linux kernel's documentation. The following two patches change
+this by creating a document dedicated to the topic.
 
-Gentle ping.
+The second patch could easily be folded into the first one, but was kept
+separate, as it might be a bit controversial. This also allows the patch
+description to explain some backgrounds for this part of the document.
+Additionally, ACKs and Reviewed-by tags can be collected separately this way.
 
-Mauro, any comments?
+v2/RFC:
+- a lot of small fixes, most are for spelling mistakes and grammar
+  errors/problems pointed out in the review feedback I got so far
+- add ACK for the series from Greg
 
-> 
-> * DOT -> PDF conversion
-> 
-> Current scheme uses "dot -Tpdf" (of graphviz).
-> 
-> Cons:
->   - openSUSE's dot(1) does not support -Tpdf.
->   - Other distro's dot(1) generates PDFs with unnecessarily wide
->     margins for inclusion into LaTeX docs.
-> 
-> Patch 1/4 changes the route to the following two steps:
-> 
->   1. DOT -> SVG by "dot -Tsvg"
->   2. SVG -> PDF by "rsvg-convert -f pdf" with fallback to convert(1)
-> 
-> Pros:
->   - Improved portability across distros
->   - Less space around graphs in final PDF documents
-> 
-> Con:
->   - On systems without rsvg-convert, generated PDF will be of raster
->     image.
-> 
-> Patch 2/4 avoids raster-image PDF by using "dot -Tpdf" on systems where
-> the option is available.
-> 
-> * SVG -> PDF conversion
-> 
-> Current scheme uses convert(1) (of ImageMagick)
+v1/RFC (https://lore.kernel.org/linux-doc/cover.1641203216.git.linux@leemhuis.info/):
+- initial version
 
-I was not aware of security concerns regarding ImageMagick until
-Christoph brought them up in another thread [1].
+---
 
-[1]: https://lore.kernel.org/linux-doc/20220104131952.GA21933@lst.de/
+Hi! Here is a quick update to the patches I sent a few days with a lot of fixes,
+in case anyone has some spare cycles and looks for something to read over the
+weekend.
 
-Now I can add another Con as bellow.
+Ciao, Thorsten
 
-> 
-> Cons:
-    - ImageMagick is not allowed to read/write PDF by default under
-      Debian/Ubuntu and Gentoo systems.  The policy is a band-aide
-      fix to its security issues.
->   - Generated PDFs are of raster image.  Some of them look blurry.
->   - Raster images tend to be large in size.
->   - convert(1) delegates SVG decoding to rsvg-convert(1).
->     It doesn't cover full range of Inkscape-specific SVG features
->     and fails to convert some of SVG figures properly.
+Thorsten Leemhuis (2):
+  docs: add a document about regression handling
+  docs: regressions.rst: rules of thumb for handling regressions
 
-        Thanks, Akira
+ Documentation/admin-guide/index.rst       |   1 +
+ Documentation/admin-guide/regressions.rst | 965 ++++++++++++++++++++++
+ MAINTAINERS                               |   1 +
+ 3 files changed, 967 insertions(+)
+ create mode 100644 Documentation/admin-guide/regressions.rst
 
-> 
-> Improper conversions are observed with SVGs listed below (incomplete,
-> conversion quality depends on the version of rsvg-convert):
->   - Documentation/userspace-api/media/v4l/selection.svg
->   - Documentation/userspace-api/media/v4l/vbi_525.svg
->   - Documentation/userspace-api/media/v4l/vbi_625.svg
->   - Documentation/userspace-api/media/v4l/vbi_hsync.svg
->   - Documentation/admin-guide/blockdev/drbd/DRBD-8.3-data-packets.svg
->   - Documentation/admin-guide/blockdev/drbd/DRBD-data-packages.svg
-> 
-> If you have Inkscape installed as well, convert(1) delegates SVG
-> decoding to inkscape(1) rather than to rsvg-convert(1) and SVGs listed
-> above can be rendered properly.
-> 
-> So if Inkscape is required for converting those SVGs properly, why not
-> use it directly in the first place?
-> 
-> Patches 3/4 and 4/4 add code to utilize inkscape(1) for SVG -> PDF
-> conversion when it is available.  They don't modify any existing
-> requirements for kernel-doc.
-> 
-> Patch 3/4 adds the alternative route of SVG -> PDF conversion by
-> inkscape(1).
-> Patch 4/4 delegates warning messages from inkscape(1) to kernellog.verbose
-> as they are likely harmless in command-line uses.
-> 
-> Pros:
->   - Generated PDFs are of vector graphics.
->   - Vector graphics tends to be smaller in size and looks nicer when
->     zoomed in.
->   - SVGs drawn by Inkscape are fully supported.
-> 
-> On systems without Inkscape, no regression is expected by these two
-> patches.
-> 
-> Changes since v1 (as of Patch 5/3) [1]:
-> 
-> - Reorder and merge patches to reduce/eliminate regression windows of
->   raster-image PDF and stderr redirection.
->     v1        v2
->     1/3       1/4
->     4/3       2/4
->     2/3       3/4
->     3/3+5/3   4/4
-> 
-> - Massage kernellog.verbose/warn messages. They now show command(s)
->   used in DOT -> PDF conversion.
-> 
-> - Pass actual exit code of inkscape(1) to kernellog.warn.
-> 
-> FWIW, diff of v1 vs. v2 follows:
-> 
-> --------------------------------------------------------------
-[...]
+
+base-commit: 82ca67321f55a8d1da6ac3ed611da3c32818bb37
+-- 
+2.31.1
 
