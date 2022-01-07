@@ -2,195 +2,186 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57F87C433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Jan 2022 12:26:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8752C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Jan 2022 12:53:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231223AbiAGM0i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Jan 2022 07:26:38 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:16691 "EHLO
-        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231148AbiAGM0i (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jan 2022 07:26:38 -0500
-Received: from dggpeml500022.china.huawei.com (unknown [172.30.72.54])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JVj6c2tXszZf1F;
-        Fri,  7 Jan 2022 20:23:04 +0800 (CST)
-Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
- dggpeml500022.china.huawei.com (7.185.36.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Fri, 7 Jan 2022 20:26:34 +0800
-Received: from [10.174.177.232] (10.174.177.232) by
- dggpeml500006.china.huawei.com (7.185.36.76) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Fri, 7 Jan 2022 20:26:33 +0800
-Subject: Re: [PATCH 3/3] docs/zh_CN: add balance translation
-To:     Yanteng Si <siyanteng01@gmail.com>, <corbet@lwn.net>,
-        <alexs@kernel.org>, <seakeel@gmail.com>
-CC:     Yanteng Si <siyanteng@loongson.cn>, <chenhuacai@kernel.org>,
-        <jiaxun.yang@flygoat.com>, <linux-doc@vger.kernel.org>
-References: <cover.1641522956.git.siyanteng@loongson.cn>
- <db7c8ce73e551ef5b855505f4eb2ebd233693174.1641522956.git.siyanteng@loongson.cn>
-From:   Tang Yizhou <tangyizhou@huawei.com>
-Message-ID: <0f451c3e-0b5c-ffad-75a8-f1c4bec73a9e@huawei.com>
-Date:   Fri, 7 Jan 2022 20:26:33 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.1.1
+        id S1346598AbiAGMxx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Jan 2022 07:53:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51184 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238650AbiAGMxw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jan 2022 07:53:52 -0500
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F852C061245
+        for <linux-doc@vger.kernel.org>; Fri,  7 Jan 2022 04:53:52 -0800 (PST)
+Received: by mail-yb1-xb36.google.com with SMTP id c6so14429036ybk.3
+        for <linux-doc@vger.kernel.org>; Fri, 07 Jan 2022 04:53:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zY4p5e+UHBIq6EO7zUDr20HLdZCFv6UbC5KnzdtPUQA=;
+        b=mWTKBQGiGE4YpQ/MzAmuuTcf5kIfWRptbLmjkMjqbMSeBApem7Z/3MEtsXmFNtiOZ3
+         U/DPva1JQ3OK8rS8hMHHEN88LU2oqrbek7Gc02jFqhHD1tZk9Zhz3TxrNC74S+XRkWkI
+         GmEvsez6RAEiNv41HzKK9Xqe6jZjwd27FsjjO/R7uw2MHT0kvum6shgtn5Iwb9wL7ymh
+         Wv3FXCjOlhYOV55h4gOc++PNKTmUg6xjkXvfewc/RUDO3TgySXvYlO3Ey3QTzex9l6Eq
+         UOOPuXCNg+WUDqQ9hstFkUhfFwZB1QMNo3FksVFyKt3OUeHG54DJYOyjGx+oSLLSrh1l
+         3NSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zY4p5e+UHBIq6EO7zUDr20HLdZCFv6UbC5KnzdtPUQA=;
+        b=mGPvvde2SgPQ86/XZ1eCTNzw+5B31T0OUrEoa9CRprxYgpP98drsVy6pIxMmjBWaRX
+         3AmuSl0Xk+zDL6fL14hL7u6hTMlgEdL7G3UPeIFxknR1W2//PLBA2HIRL1kKOwytXMHr
+         c3bEV0AlPJ1vuxoYae0qICg3gKtjfw6iAMj06TdgIRcHD8WnHr08gBO513PgqlMzrHqa
+         deFWaJVnYmCVZ2gspa3wnwNBsdyXhoceav35rlLkPRTP3QXQ+/KUAYZyWdY6FcsLd/Xa
+         dJkdY2GtyxugsYxKVD3yFoSM5P+ls0POdxEZdMyK2/qPIAt0K1BI4RqV04C82rGylGHr
+         PCYg==
+X-Gm-Message-State: AOAM532IqRTpoXzMKqUJA97UxxIJLITKgTgPktD9Nll945JFjgAGoe4N
+        KTzTkF6lJZR3LVfPKtvM049hoR/Gi3sgrIPppTjUyg==
+X-Google-Smtp-Source: ABdhPJw/BgcNtl2GSGA7pLvP9n9FYBqdC3sqrdp8aquloqKiMD2XdBa3Gbj3EF8mOc79ImUq+nt4uUDsuf1y9UCtvnU=
+X-Received: by 2002:a25:bbc7:: with SMTP id c7mr75676072ybk.725.1641560031641;
+ Fri, 07 Jan 2022 04:53:51 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <db7c8ce73e551ef5b855505f4eb2ebd233693174.1641522956.git.siyanteng@loongson.cn>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.177.232]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpeml500006.china.huawei.com (7.185.36.76)
-X-CFilter-Loop: Reflected
+References: <20211229215330.4134835-1-yaelt@google.com> <CAFA6WYPuPHgcnzt6j+Q-EA2Dos6vBDukrjpheo5srLVXFrifEg@mail.gmail.com>
+ <5a38824152eeee0fc9ba0a4fd2308bb6e0970059.camel@linux.ibm.com>
+ <CAFA6WYOJt3=YMTt_QQSq6Z-MK42hwWspgSpasw2fuPtVFcP3uA@mail.gmail.com>
+ <CAKoutNvW1c7MkTaFwyrD7MjUVXvTtcBOGFULMittJ5vzjMN0mg@mail.gmail.com> <CAFA6WYPQRagZF8-grn_LC8_SAaxBzh=cSgHhFAQQOYK+L2KuBQ@mail.gmail.com>
+In-Reply-To: <CAFA6WYPQRagZF8-grn_LC8_SAaxBzh=cSgHhFAQQOYK+L2KuBQ@mail.gmail.com>
+From:   Yael Tiomkin <yaelt@google.com>
+Date:   Fri, 7 Jan 2022 07:53:40 -0500
+Message-ID: <CAKoutNtuY0+L29d6xzn6BgEKBytFsBHZ_kgkCOJZuicb_uNPHg@mail.gmail.com>
+Subject: Re: [PATCH v4] KEYS: encrypted: Instantiate key with user-provided
+ decrypted data
+To:     Sumit Garg <sumit.garg@linaro.org>
+Cc:     Mimi Zohar <zohar@linux.ibm.com>, linux-integrity@vger.kernel.org,
+        jejb@linux.ibm.com, Jarkko Sakkinen <jarkko@kernel.org>,
+        corbet@lwn.net, dhowells@redhat.com, jmorris@namei.org,
+        serge@hallyn.com, keyrings@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        =?UTF-8?Q?Jan_L=C3=BCbbe?= <jlu@pengutronix.de>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022/1/7 10:40, Yanteng Si wrote:
-> Translate .../vm/balance.rst into Chinese.
-> 
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> ---
->  .../translations/zh_CN/vm/balance.rst         | 81 +++++++++++++++++++
->  Documentation/translations/zh_CN/vm/index.rst |  2 +-
->  2 files changed, 82 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/translations/zh_CN/vm/balance.rst
-> 
-> diff --git a/Documentation/translations/zh_CN/vm/balance.rst b/Documentation/translations/zh_CN/vm/balance.rst
-> new file mode 100644
-> index 000000000000..1cc7555650de
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/vm/balance.rst
-> @@ -0,0 +1,81 @@
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/vm/balance.rst
-> +
-> +:翻译:
-> +
-> + 司延腾 Yanteng Si <siyanteng@loongson.cn>
-> +
-> +:校译:
-> +
-> +
-> +========
-> +内存平衡
-> +========
-> +
-> +2000年1月开始，作者：Kanoj Sarcar <kanoj@sgi.com>
-> +
-> +对于 !__GFP_HIGH 和 !__GFP_KSWAPD_RECLAIM 以及非 __GFP_IO 的分配，需要进行
-> +内存平衡。
-> +
-> +调用者避免回收的第一个原因是调用者由于持有自旋锁或处于中断环境中而无法睡眠。第二个
-> +原因可能是，调用者愿意在不产生页面回收开销的情况下失败分配。这可能发生在有0阶回退
+Hi Sumit,
 
-失败分配 -> 分配失败
+On Fri, Jan 7, 2022 at 12:15 AM Sumit Garg <sumit.garg@linaro.org> wrote:
+>
+> Hi Yael,
+>
+> On Thu, 6 Jan 2022 at 01:48, Yael Tiomkin <yaelt@google.com> wrote:
+> >
+> > Hi Sumit,
+> >
+> > On Mon, Jan 3, 2022 at 1:51 AM Sumit Garg <sumit.garg@linaro.org> wrote:
+> > >
+> > > Hi Mimi,
+> > >
+> > > Apologies for the delayed reply as I was on leave for a long new year weekend.
+> > >
+> > > On Thu, 30 Dec 2021 at 18:59, Mimi Zohar <zohar@linux.ibm.com> wrote:
+> > > >
+> > > > Hi Sumit,
+> > > >
+> > > > On Thu, 2021-12-30 at 15:37 +0530, Sumit Garg wrote:
+> > > > > + Jan, Ahmad
+> > > > >
+> > > > > On Thu, 30 Dec 2021 at 03:24, Yael Tiomkin <yaelt@google.com> wrote:
+> > > > > >
+> > > > > > The encrypted.c class supports instantiation of encrypted keys with
+> > > > > > either an already-encrypted key material, or by generating new key
+> > > > > > material based on random numbers. This patch defines a new datablob
+> > > > > > format: [<format>] <master-key name> <decrypted data length>
+> > > > > > <decrypted data> that allows to instantiate encrypted keys using
+> > > > > > user-provided decrypted data, and therefore allows to perform key
+> > > > > > encryption from userspace. The decrypted key material will be
+> > > > > > inaccessible from userspace.
+> > > > >
+> > > > > This type of user-space key import feature has already been discussed
+> > > > > at large in the context of trusted keys here [1]. So what makes it
+> > > > > special in case of encrypted keys such that it isn't a "UNSAFE_IMPORT"
+> > > > > or "DEBUGGING_IMPORT" or "DEVELOPMENT_IMPORT", ...?
+> > > > >
+> > > > > [1] https://lore.kernel.org/linux-integrity/74830d4f-5a76-8ba8-aad0-0d79f7c01af9@pengutronix.de/
+> > > > >
+> > > > > -Sumit
+> > > > >
+> > > > > >
+> > > > > > Reviewed-by: Mimi Zohar <zohar@linux.ibm.com>
+> > > > > > Signed-off-by: Yael Tiomkin <yaelt@google.com>
+> > > >
+> > > > There is a difference between trusted and encrypted keys.
+> > >
+> > > Yeah I understand the implementation differences.
+> > >
+> > > >  So in
+> > > > addition to pointing to the rather long discussion thread, please
+> > > > summarize the conclusion and, assuming you agree, include why in once
+> > > > case it was acceptable and in the other it wasn't to provide userspace
+> > > > key data.
+> > >
+> > > My major concern with importing user-space key data in *plain* format
+> > > is that if import is *not* done in a safe (manufacturing or
+> > > production) environment then the plain key data is susceptible to
+> > > user-space compromises when the device is in the field.
+> >
+> > I agree this can happen. Key distribution in any scenario needs to be
+> > secure and this could also potentially be an issue if the key is first
+> > encrypted and then imported.
+>
+> Currently its not the case with encrypted keys. These are random keys
+> generated within the kernel and encrypted with master key within the
+> kernel and then exposed to user-space as encrypted blob only.
 
-> +选项的机会主义高阶分配请求中。在这种情况下，调用者可能也希望避免唤醒kswapd。
-> +
-> +__GFP_IO分配请求是为了防止文件系统死锁。
-> +
-> +在没有非睡眠分配请求的情况下，做平衡似乎是有害的。页面回收可以被懒散地启动，也就是
 
-启动：这里可能可以翻译成“踢出”。大意就是不用的时候不启动。
+There are two different ways to create encrypted keys. One is to have
+them generated within the kernel using random numbers, and the other
+is by importing them in their encrypted form from user-space.
+I was referring to the latter in my previous statement.
 
-> +说，只有在需要的时候（也就是空闲内存为0的区域），而不是让它成为一个主动的过程。
-
-空闲内存为0的区域 -> 区域的空闲内存为0
-
-> +
-> +也就是说，内核应该尝试从直接映射池中满足对直接映射页的请求，而不是回落到dma池中，
-
-回落 -> 回退，这个应该是比较通行的翻译
-
-> +这样就可以保持dma池为dma请求（不管是不是原子的）所填充。类似的说法也适用于高内存
-
-说法 -> 争论
-
-> +和直接映射的页面。相反，如果有很多空闲的dma页，最好是通过从dma池中分配一个来满足
-> +常规的内存请求，而不是产生常规区域平衡的开销。
-> +
-> +在2.2中，只有当空闲页总数低于总内存的1/64时，才会启动内存平衡/页面回收。如果dma
-
-这里翻译没问题。对照上文的kick off，可知就是踢出或者不运行的意思。
-
-> +和普通内存的比例合适，即使dma区完全空了，也很可能不会进行平衡。2.2已经在不同内存
-
-普通内存：注意你在上文翻译了“常规区域”。普通和常规，两个词统一一下吧。
-
-> +大小的生产机器上运行，即使有这个问题存在，似乎也做得不错。在2.3中，由于HIGHMEM的
-> +存在，这个问题变得更加严重。
-> +
-> +在2.3中，区域平衡可以用两种方式之一来完成：根据区域的大小（可能还有低级区域的大小），
-
-可能还有 -> 可能是
-
-> +我们可以在初始化阶段决定在平衡任何区域时应该争取多少空闲页。好的方面是，在平衡的时
-> +候，我们不需要看低级区的大小，坏的方面是，我们可能会因为忽略低级区可能较低的使用率
-> +而做过于频繁的平衡。另外，只要对分配程序稍作修改，就有可能将memclass()宏简化为一
-> +个简单的等式。
-> +
-> +另一个可能的解决方案是，我们只在一个区 **和** 其所有低级区的空闲内存低于该区及其
-> +低级区总内存的1/64时进行平衡。这就解决了2.2的平衡问题，并尽可能地保持了与2.2行为
-> +的接近。另外，平衡算法在各种架构上的工作方式也是一样的，这些架构有不同数量和类型的
-> +内存区。如果我们想变得更花哨一点，我们可以在未来为不同区域的自由页面分配不同的权重。
-> +
-> +请注意，如果普通区的大小与dma区相比是巨大的，那么在决定是否平衡普通区的时候，考虑
-> +空闲的dma页就变得不那么重要了。那么第一个解决方案就变得更有吸引力。
-> +
-> +所附的补丁实现了第二个解决方案。它还 “修复”了两个问题：首先，在低内存条件下，kswapd
-> +被唤醒，就像2.2中的非睡眠分配。第二，HIGHMEM区也被平衡了，以便给replace_with_highmem()
-> +一个争取获得HIGHMEM页的机会，同时确保HIGHMEM分配不会落回普通区。这也确保了HIGHMEM
-> +页不会被泄露（例如，在一个HIGHMEM页在交换缓存中但没有被任何人使用的情况下）。
-> +
-> +kswapd还需要知道它应该平衡哪些区。kswapd主要是在无法进行平衡的情况下需要的，可能
-> +是因为所有的分配请求都来自intr context，而所有的进程上下文都在睡眠。对于2.3，
-
-intr context -> 中断上下文
-
-> +kswapd并不真正需要平衡高内存区，因为intr context并不请求高内存页。kswapd看zone
-> +结构体中的zone_wake_kswapd字段来决定一个区是否需要平衡。
-> +
-> +如果从进程内存和shm中偷取页面可以减轻该页面节点中任何区的内存压力，而该区的内存压力
-> +已经低于其水位，则会进行偷取。
-> +
-> +watemark[WMARK_MIN/WMARK_LOW/WMARK_HIGH]/low_on_memory/zone_wake_kswapd：
-> +这些是每个区的字段，用于确定一个区何时需要平衡。当页面数低于水位[WMARK_MIN]时，
-> +hysteric 的字段low_on_memory被设置。这个字段会一直被设置，直到空闲页数变成水位
-> +[WMARK_HIGH]。当low_on_memory被设置时，页面分配请求将尝试释放该区域的一些页面（如果
-> +请求中设置了GFP_WAIT）。与此正交的是，决定戳开kswapd以释放一些区的页。这个决定不是基于
-
-正交 -> 相反。戳开 -> 唤醒。
-
-> +hysteresis 的，而是当空闲页的数量低于watermark[WMARK_LOW]时就会进行；在这种情况下，
-> +zone_wake_kswapd也被设置。
-> +
-> +
-> +我所听到的（超棒的）想法：
-> +
-> +1. 动态实践应该影响平衡：可以跟踪一个区的失败请求的数量，并反馈到平衡方案中（jalvo@mbay.net）。
-
-实践 -> 经历
-
-> +
-> +2. 实现一个类似于replace_with_highmem()的replace_with_regular()，以保留dma页面。
-> +   (lkd@tantalophile.demon.co.uk)
-> diff --git a/Documentation/translations/zh_CN/vm/index.rst b/Documentation/translations/zh_CN/vm/index.rst
-> index 5fcdb75d8682..fc39f0d60318 100644
-> --- a/Documentation/translations/zh_CN/vm/index.rst
-> +++ b/Documentation/translations/zh_CN/vm/index.rst
-> @@ -22,10 +22,10 @@ TODO:待引用文档集被翻译完毕后请及时修改此处）
->     :maxdepth: 1
->  
->     active_mm
-> +   balance
->  
->  TODOLIST:
->  * arch_pgtable_helpers
-> -* balance
->  * damon/index
->  * free_page_reporting
->  * frontswap
-> 
+>
+> > We can make sure the documentation
+> > highlights the safety requirement.
+> >
+>
+> IMO, you should enable this feature as a compile time option. The help
+> text for that config option should highlight the use-case along with a
+> safety warning.
+>
+> -Sumit
+>
+> > >
+> > > And it sounds like we are diverting from basic definition [1] of encrypted keys:
+> > >
+> > > "Trusted and Encrypted Keys are two new key types added to the
+> > > existing kernel key ring service. Both of these new types are variable
+> > > length symmetric keys, and in both cases all keys are created in the
+> > > kernel, and **user space sees, stores, and loads** only encrypted
+> > > blobs."
+> > >
+> > > Also, as Jarrko mentioned earlier the use-case is still not clear to
+> > > me as well. Isn't user logon keys an alternative option for
+> > > non-readable user-space keys?
+> >
+> > The goal in this change is to allow key encryption from userspace,
+> > using user-provided decrypted data. This cannot be achieved in logon
+> > keys, which as you mentioned, are simply non-readable user type keys.
+> >
+> >
+> > >
+> > > [1] https://www.kernel.org/doc/html/v4.13/security/keys/trusted-encrypted.html
+> > >
+> > > -Sumit
+> > >
+> > > >
+> > > > thanks,
+> > > >
+> > > > Mimi
+> > > >
+> >
+> > Yael
