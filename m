@@ -2,78 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE8CBC433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Jan 2022 14:40:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB81EC433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Jan 2022 14:44:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239029AbiAGOkQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Jan 2022 09:40:16 -0500
-Received: from fanzine2.igalia.com ([213.97.179.56]:56804 "EHLO
-        fanzine2.igalia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230012AbiAGOkQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jan 2022 09:40:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=J1DyS14Ehf45YNkMTdYATp+WR6rWMt9aGDPVcqj75fo=; b=H2svyVkPl/vrZ9Tav8Su/VGLEv
-        V0KCDgXDzpzOjpwG8YqyvmLXUV86i/tPGpmB9d5woOdDmn1vcgf28QSV3yf+ARP9E3EVIhioI0MFA
-        Oe/a+aJMuGIORot1UzzQmRskuq3+lPKB/hgnW8U87jylUhvUS8MaMMdqAHV0vlt0UofIjsgcFPIUO
-        FtjbxNMgLKuabRHIRNf+/60lCAVR2NEPS/3T6uXAOK3CJxRpgE7hnSXvklE8d0w52BAD3lGm2KFoj
-        nhzK54H5FbSHsRzAnRH+7z0+FnneFnS3isA+TFJtyHSsO6BaWT6DxOLDsWnP4pug1iwX4Xoh9UfuH
-        C3AJxBqg==;
-Received: from [179.113.53.20] (helo=[192.168.1.60])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1n5qPY-0009q7-KN; Fri, 07 Jan 2022 15:40:08 +0100
-Message-ID: <9a6e628e-a6fc-9879-288b-eedc32151234@igalia.com>
-Date:   Fri, 7 Jan 2022 11:39:52 -0300
+        id S1347811AbiAGOo5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Jan 2022 09:44:57 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28]:58138 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1347793AbiAGOo4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jan 2022 09:44:56 -0500
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id EFB46212C7;
+        Fri,  7 Jan 2022 14:44:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1641566694; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=h+izeRbXwrcTs43CEeqEXv+4wDW5wqLoC+ZvbrCEav4=;
+        b=m3hga6iQl2WdcE2aPXfiLHIDIlm90X2+/UUEe5oBUxt1WKdURAf4jx8f7kkkPymSP1I+ad
+        kF55jxo7kAuCghJXeVUMqfESh/pQi0j8mDLAFcbEqvmoARN0dSUHtvsk1sQTwYYomJICL5
+        S6BjW+1PsU9wseHfa5980DYfHTG8dr4=
+Received: from suse.cz (unknown [10.100.201.86])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 3EA46A3B88;
+        Fri,  7 Jan 2022 14:44:54 +0000 (UTC)
+Date:   Fri, 7 Jan 2022 15:44:50 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Yu Zhao <yuzhao@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, x86@kernel.org,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>
+Subject: Re: [PATCH v6 6/9] mm: multigenerational lru: aging
+Message-ID: <YdhR4vWdWksBALtM@dhcp22.suse.cz>
+References: <20220104202227.2903605-1-yuzhao@google.com>
+ <20220104202227.2903605-7-yuzhao@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [PATCH V2] notifier/panic: Introduce panic_notifier_filter
-Content-Language: en-US
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
-        dyoung@redhat.com, linux-doc@vger.kernel.org, bhe@redhat.com,
-        vgoyal@redhat.com, stern@rowland.harvard.edu,
-        akpm@linux-foundation.org, corbet@lwn.net, halves@canonical.com,
-        kernel@gpiccoli.net
-References: <20220106200007.112357-1-gpiccoli@igalia.com>
- <YdgtNvd68kWakErr@smile.fi.intel.com>
-From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <YdgtNvd68kWakErr@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220104202227.2903605-7-yuzhao@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/01/2022 09:08, Andy Shevchenko wrote:
-> [...]
->> +	while (buf) {
->> +		func = strsep(&buf, ",");
-> 
-> Don't we have a parser of this format already?
-> Anyway, you may reduce code by
-> 
-> 	unsigned long addr;
-> 	char *func = buf;
-> 
-> 	while ((func = strsep(&func, ",")) {
-> 
+On Tue 04-01-22 13:22:25, Yu Zhao wrote:
+[...]
+> +static void walk_mm(struct lruvec *lruvec, struct mm_struct *mm, struct lru_gen_mm_walk *walk)
+> +{
+> +	static const struct mm_walk_ops mm_walk_ops = {
+> +		.test_walk = should_skip_vma,
+> +		.p4d_entry = walk_pud_range,
+> +	};
+> +
+> +	int err;
+> +#ifdef CONFIG_MEMCG
+> +	struct mem_cgroup *memcg = lruvec_memcg(lruvec);
+> +#endif
+> +
+> +	walk->next_addr = FIRST_USER_ADDRESS;
+> +
+> +	do {
+> +		unsigned long start = walk->next_addr;
+> +		unsigned long end = mm->highest_vm_end;
+> +
+> +		err = -EBUSY;
+> +
+> +		rcu_read_lock();
+> +#ifdef CONFIG_MEMCG
+> +		if (memcg && atomic_read(&memcg->moving_account))
+> +			goto contended;
+> +#endif
+> +		if (!mmap_read_trylock(mm))
+> +			goto contended;
 
-Hi Andy, thanks for the review! Looking the kernel code for some similar
-parameters, I couldn't see any better alternative (like a helper) to do
-this parsing - checked for example the ftrace parameters (borrowed my
-code from there, in fact heh), initcall_blacklist, module_blacklist,
-usbcore.quirks, etc.
+Have you evaluated the behavior under mmap_sem contention? I mean what
+would be an effect of some mms being excluded from the walk? This path
+is called from direct reclaim and we do allocate with exclusive mmap_sem
+IIRC and the trylock can fail in a presence of pending writer if I am
+not mistaken so even the read lock holder (e.g. an allocation from the #PF)
+can bypass the walk.
 
-I'll try to follow your suggestion, to reduce a bit the code...though I
-confess the original code reads more clearly for me.
-
-Cheers,
-
-
-Guilherme
+Or is this considered statistically insignificant thus a theoretical
+problem?
+-- 
+Michal Hocko
+SUSE Labs
