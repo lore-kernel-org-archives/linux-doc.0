@@ -2,94 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACDC7C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Jan 2022 19:20:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F7D7C433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Jan 2022 20:58:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231439AbiAGTUa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Jan 2022 14:20:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54464 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231425AbiAGTU3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jan 2022 14:20:29 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21199C061574
-        for <linux-doc@vger.kernel.org>; Fri,  7 Jan 2022 11:20:29 -0800 (PST)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mkl@pengutronix.de>)
-        id 1n5umh-00036Z-Fo; Fri, 07 Jan 2022 20:20:19 +0100
-Received: from pengutronix.de (2a03-f580-87bc-d400-a092-a409-034d-fe76.ip6.dokom21.de [IPv6:2a03:f580:87bc:d400:a092:a409:34d:fe76])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        (Authenticated sender: mkl-all@blackshift.org)
-        by smtp.blackshift.org (Postfix) with ESMTPSA id 90EC06D3397;
-        Fri,  7 Jan 2022 19:20:15 +0000 (UTC)
-Date:   Fri, 7 Jan 2022 20:20:14 +0100
-From:   Marc Kleine-Budde <mkl@pengutronix.de>
-To:     Dario Binacchi <dario.binacchi@amarulasolutions.com>
-Cc:     linux-kernel@vger.kernel.org, linux-can@vger.kernel.org,
-        Coiby Xu <coiby.xu@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        M Chetan Kumar <m.chetan.kumar@intel.com>,
-        linux-doc@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [RFC PATCH 0/2] Add the first documentation for a CAN driver
-Message-ID: <20220107192014.pyxgn22ztrppr7zx@pengutronix.de>
-References: <20220107081306.3681899-1-dario.binacchi@amarulasolutions.com>
+        id S229634AbiAGU6O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Jan 2022 15:58:14 -0500
+Received: from mail-pl1-f174.google.com ([209.85.214.174]:45000 "EHLO
+        mail-pl1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229486AbiAGU6O (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jan 2022 15:58:14 -0500
+Received: by mail-pl1-f174.google.com with SMTP id h1so5744729pls.11;
+        Fri, 07 Jan 2022 12:58:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=oGg6eEoyVeP3AsWSET5vQXpARWWBJj2efG9QJ7/Rr00=;
+        b=YLVgqrl7Y3kn2OILpy1lQy7qFiX5L2mXexV+eUyY4cW3XCmpkxmkmcXZEgSHc9ceYS
+         tdG/zb2pJ65H6pM/ddwqqVU7gMPA6zjTFt4obrremJF+s2cENKomhbXZGBRnknylmm1n
+         5zdJfZ0HvaUymBiqfNZNFA4uTkee+JFVrS0OD/Lxh7yhuLTalX8AWTloZ9dIt3rtLoRs
+         JKDPICgv9+wR41RJ6EKty/lTb4KuM3atiR2Gr6E/kaiHN51uJr2dh4F678b+XmXTNFyf
+         dM92yrbf5WuwJiiH4nCETPsEPdwtmsczWxtCcdOaLOZQ5zbz2L71FX7PkzogVHlQ8AOk
+         Bfgg==
+X-Gm-Message-State: AOAM533xe9Lrf14O04w7D0baIx4ADRu8iAz8Pj3TlNvZkDh6rTcmZBL2
+        17GQJ1BnFoHJx+spuSTBYmk5Pn3Dlkk=
+X-Google-Smtp-Source: ABdhPJyZMDQwYg25LmbxhXmRoavew5HZXicqdbehbXyIjNxXyVMTLPDIQSJ5/cpns4UpDcSoMLYYYQ==
+X-Received: by 2002:a17:903:1c4:b0:149:45fb:d6f0 with SMTP id e4-20020a17090301c400b0014945fbd6f0mr63257885plh.143.1641589093673;
+        Fri, 07 Jan 2022 12:58:13 -0800 (PST)
+Received: from ?IPV6:2620:15c:211:201:d201:bcd0:fc75:8697? ([2620:15c:211:201:d201:bcd0:fc75:8697])
+        by smtp.gmail.com with ESMTPSA id l6sm6840272pfu.63.2022.01.07.12.58.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 07 Jan 2022 12:58:12 -0800 (PST)
+Message-ID: <65376e36-579b-76c4-0642-4582d6679914@acm.org>
+Date:   Fri, 7 Jan 2022 12:58:11 -0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="fzbitevbj72paz57"
-Content-Disposition: inline
-In-Reply-To: <20220107081306.3681899-1-dario.binacchi@amarulasolutions.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH v3 0/8] docs: consolidate sysfs-block into
+ Documentation/ABI/
+Content-Language: en-US
+To:     Eric Biggers <ebiggers@kernel.org>, Jens Axboe <axboe@kernel.dk>
+Cc:     linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org
+References: <20211209003833.6396-1-ebiggers@kernel.org>
+ <YcH1uxfdTRHIwl7Y@quark> <YdMQ6rfSZWSOLptA@quark>
+ <YddiJFr+ba7Veh82@sol.localdomain>
+From:   Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <YddiJFr+ba7Veh82@sol.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 1/6/22 13:41, Eric Biggers wrote:
+> Jens, any reason you haven't applied this series yet?  It looks like you've been
+> applying other patches.  To be clear, I've been expecting that this would go in
+> through the block tree, rather than the docs tree.
 
---fzbitevbj72paz57
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+We are close to the v5.17 merge window so this is not a good time for a maintainer to
+apply a large patch series. If Jens does not reply I propose to repost this patch
+series after the v5.17 merge window has closed (three weeks from now?).
 
-On 07.01.2022 09:13:04, Dario Binacchi wrote:
-> The series was born from the need to document the enabling at runtime
-> reception of RTR frames for the Flexcan CAN controller.
-> For more details see https://lore.kernel.org/all/20220106105415.pdmrdgnx6=
-p2tyff6@pengutronix.de/
+See also https://lore.kernel.org/lkml/CAHk-=wg=3dEpPGhz8YvJUDWhFW_GUeASBGmqyw3aPQRfB3ki9w@mail.gmail.com/
 
-Thanks for the work, looks good. I've added some more text and send a
-v3.
+Thanks,
 
-regards,
-Marc
-
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde           |
-Embedded Linux                   | https://www.pengutronix.de  |
-Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
-
---fzbitevbj72paz57
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEK3kIWJt9yTYMP3ehqclaivrt76kFAmHYkmsACgkQqclaivrt
-76lebQf/fyVNMM16d957P9Z+Bc7bY0HlxfqFts6+IEQGJfc147sFPcsLbW2+5h2T
-/pZ09W9ff2I3S3P5b9rIg/G1UyxGs3/IKrLQPB4cWSvjIC+9b3prQ/w3NKXKJjyR
-JLrJDLr8qd8JuYIEhW/NMfbN6mJWZfmw6GCTHIpgaVaevcJpS92iQ74p9Eae43So
-w1ihZ+8/kOc0sxvejJyRwWWmOvKCmTe02EpTFApAlJFhJR+jFf5WLmx3Z8lk7K/3
-DwP03dLpYkDUuueUwgYfo4vVsnCS8qyBi+q43lR4ryvcnBt4xbxRh5QKOZzVdMf6
-XjvvXYkZ5uYpgD6G2+ZT/km8hpP6Rw==
-=MmDg
------END PGP SIGNATURE-----
-
---fzbitevbj72paz57--
+Bart.
