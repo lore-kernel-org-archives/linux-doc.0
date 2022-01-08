@@ -2,205 +2,203 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7ECEC433EF
-	for <linux-doc@archiver.kernel.org>; Sat,  8 Jan 2022 09:58:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 953DCC433F5
+	for <linux-doc@archiver.kernel.org>; Sat,  8 Jan 2022 11:13:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233858AbiAHJ6R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 8 Jan 2022 04:58:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49540 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233849AbiAHJ6Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Jan 2022 04:58:16 -0500
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DBA3C061574
-        for <linux-doc@vger.kernel.org>; Sat,  8 Jan 2022 01:58:16 -0800 (PST)
-Received: by mail-yb1-xb32.google.com with SMTP id 127so7584258ybb.4
-        for <linux-doc@vger.kernel.org>; Sat, 08 Jan 2022 01:58:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=CP5ZD47yIsYRe4Ehk3/Y5bUdv6hwmxFrmEeAf7zliIo=;
-        b=K81bDIv6oMy0UuVEeEGoKJtTBZofJn82CbxAwiT0Fh0esY0SaUDUNxrqF0jxtjUjLR
-         y7QvgmfgZg7u1gFBaC90wsBrrKsgsD/jZM5y7bxHNDhuSlm56XEBYuaLohuaWrMg3aVQ
-         F11dBp3P4yb+IDSYk8pFEVR5Jorlm5mj4A0u/yV7zyct4xos/sW4uhDrM7wHSO1YaMNz
-         Lgs7Avu1LCu//FrR+nxzVsPaDl5bNi67PyB9ugp+b/wojs29zeUVqTjj/+GejJMg5d7v
-         tag80DhgfpPscUGK+VffeBimC0H+bmVrJww+8M8xkCouwf0Qqi7MtOyapCaUnamI+YJn
-         FHqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=CP5ZD47yIsYRe4Ehk3/Y5bUdv6hwmxFrmEeAf7zliIo=;
-        b=ZSKx8O5C7U/NXyb+UzDl1m/eVWb95aHAUnjU6iZayKkmr0hOG0NFyYPmaSSJvQVtYU
-         KDZ/syMB4xWFMhykOrO1yUdxEdBxsw8EH9vdCEcS5JHvEJP4ZBNpCrD7I53Gnj5eSaeQ
-         BJmE4e5kEdIfQQDrOyUAmPhQ8iBmGLIjdl/oalitjXrWgq1LTTYo84TjK177MhN0wEX+
-         kPoADHeCzlPU+AQyMjg0wQpvY1erBW1B3i/uBK8b9iGvqgKuqIJzthCnzUVNw+Se+KIJ
-         WX5UFdqX2d/Jw4mhS3bFyhc+TWSDrYoGUHzWIrtzaX4cxJ5bFbJYGveFwohIzNCHdF0U
-         FhMg==
-X-Gm-Message-State: AOAM5309pEdiJSFnLxKuTAn9CtnbGFuyWx/r02qdg4jUJ6Rh8PmhP3R2
-        oNOaf+2Smqhn8ajCIyx8/hZRAJxRDebo1P8itmE=
-X-Google-Smtp-Source: ABdhPJwR9p/xIP1ibEzkYnAsZVKO/2KFIzvwmgALK0WD35F7ul0i67wijYWUrHCWhvMFMhcEc8Hk8kqqe0RIp6NVOp8=
-X-Received: by 2002:a25:b126:: with SMTP id g38mr1396957ybj.200.1641635895226;
- Sat, 08 Jan 2022 01:58:15 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1641522956.git.siyanteng@loongson.cn> <db7c8ce73e551ef5b855505f4eb2ebd233693174.1641522956.git.siyanteng@loongson.cn>
- <0f451c3e-0b5c-ffad-75a8-f1c4bec73a9e@huawei.com>
-In-Reply-To: <0f451c3e-0b5c-ffad-75a8-f1c4bec73a9e@huawei.com>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Sat, 8 Jan 2022 17:57:56 +0800
-Message-ID: <CAEensMzMD6y3KTNYZp1YejD=bDvzBf6CMOftDuHzZPS5NX113A@mail.gmail.com>
-Subject: Re: [PATCH 3/3] docs/zh_CN: add balance translation
-To:     Tang Yizhou <tangyizhou@huawei.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        id S231448AbiAHLNN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 8 Jan 2022 06:13:13 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:16692 "EHLO
+        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229973AbiAHLNM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Jan 2022 06:13:12 -0500
+Received: from dggpeml500022.china.huawei.com (unknown [172.30.72.55])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JWHRR3wjRzZcD4;
+        Sat,  8 Jan 2022 19:09:39 +0800 (CST)
+Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
+ dggpeml500022.china.huawei.com (7.185.36.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Sat, 8 Jan 2022 19:13:10 +0800
+Received: from [10.174.177.232] (10.174.177.232) by
+ dggpeml500006.china.huawei.com (7.185.36.76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Sat, 8 Jan 2022 19:13:10 +0800
+Subject: Re: [PATCH 2/3] docs_zh_CN: add active_mm translation
+To:     yanteng si <siyanteng01@gmail.com>
+CC:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
         Alex Shi <seakeel@gmail.com>,
         Yanteng Si <siyanteng@loongson.cn>,
         Huacai Chen <chenhuacai@kernel.org>,
         Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+        "Linux Doc Mailing List" <linux-doc@vger.kernel.org>
+References: <cover.1641522956.git.siyanteng@loongson.cn>
+ <163ebc7052e00f001c5813186899ff42b1c176ab.1641522956.git.siyanteng@loongson.cn>
+ <2b2c9418-29df-5087-915b-88051ac1275a@huawei.com>
+ <CAEensMwEsHnkEF1Bod2zE_Tz7QBURJANEDBoXpNZqpoE-ufj2w@mail.gmail.com>
+From:   Tang Yizhou <tangyizhou@huawei.com>
+Message-ID: <8615f06c-e85b-8eb6-2888-e599bee43713@huawei.com>
+Date:   Sat, 8 Jan 2022 19:13:09 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.1.1
+MIME-Version: 1.0
+In-Reply-To: <CAEensMwEsHnkEF1Bod2zE_Tz7QBURJANEDBoXpNZqpoE-ufj2w@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.177.232]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpeml500006.china.huawei.com (7.185.36.76)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-VGFuZyBZaXpob3UgPHRhbmd5aXpob3VAaHVhd2VpLmNvbT4g5LqOMjAyMuW5tDHmnIg35pel5ZGo
-5LqUIDIwOjI25YaZ6YGT77yaDQo+DQo+IE9uIDIwMjIvMS83IDEwOjQwLCBZYW50ZW5nIFNpIHdy
-b3RlOg0KPiA+IFRyYW5zbGF0ZSAuLi4vdm0vYmFsYW5jZS5yc3QgaW50byBDaGluZXNlLg0KPiA+
-DQo+ID4gU2lnbmVkLW9mZi1ieTogWWFudGVuZyBTaSA8c2l5YW50ZW5nQGxvb25nc29uLmNuPg0K
-PiA+IC0tLQ0KPiA+ICAuLi4vdHJhbnNsYXRpb25zL3poX0NOL3ZtL2JhbGFuY2UucnN0ICAgICAg
-ICAgfCA4MSArKysrKysrKysrKysrKysrKysrDQo+ID4gIERvY3VtZW50YXRpb24vdHJhbnNsYXRp
-b25zL3poX0NOL3ZtL2luZGV4LnJzdCB8ICAyICstDQo+ID4gIDIgZmlsZXMgY2hhbmdlZCwgODIg
-aW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPiA+ICBjcmVhdGUgbW9kZSAxMDA2NDQgRG9j
-dW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdm0vYmFsYW5jZS5yc3QNCj4gPg0KPiA+IGRp
-ZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi92bS9iYWxhbmNlLnJz
-dCBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3ZtL2JhbGFuY2UucnN0DQo+ID4g
-bmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gPiBpbmRleCAwMDAwMDAwMDAwMDAuLjFjYzc1NTU2NTBk
-ZQ0KPiA+IC0tLSAvZGV2L251bGwNCj4gPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9u
-cy96aF9DTi92bS9iYWxhbmNlLnJzdA0KPiA+IEBAIC0wLDAgKzEsODEgQEANCj4gPiArLi4gaW5j
-bHVkZTo6IC4uL2Rpc2NsYWltZXItemhfQ04ucnN0DQo+ID4gKw0KPiA+ICs6T3JpZ2luYWw6IERv
-Y3VtZW50YXRpb24vdm0vYmFsYW5jZS5yc3QNCj4gPiArDQo+ID4gKzrnv7vor5E6DQo+ID4gKw0K
-PiA+ICsg5Y+45bu26IW+IFlhbnRlbmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nvbi5jbj4NCj4gPiAr
-DQo+ID4gKzrmoKHor5E6DQo+ID4gKw0KPiA+ICsNCj4gPiArPT09PT09PT0NCj4gPiAr5YaF5a2Y
-5bmz6KGhDQo+ID4gKz09PT09PT09DQo+ID4gKw0KPiA+ICsyMDAw5bm0MeaciOW8gOWni++8jOS9
-nOiAhe+8mkthbm9qIFNhcmNhciA8a2Fub2pAc2dpLmNvbT4NCj4gPiArDQo+ID4gK+WvueS6jiAh
-X19HRlBfSElHSCDlkowgIV9fR0ZQX0tTV0FQRF9SRUNMQUlNIOS7peWPiumdniBfX0dGUF9JTyDn
-moTliIbphY3vvIzpnIDopoHov5vooYwNCj4gPiAr5YaF5a2Y5bmz6KGh44CCDQo+ID4gKw0KPiA+
-ICvosIPnlKjogIXpgb/lhY3lm57mlLbnmoTnrKzkuIDkuKrljp/lm6DmmK/osIPnlKjogIXnlLHk
-uo7mjIHmnInoh6rml4vplIHmiJblpITkuo7kuK3mlq3njq/looPkuK3ogIzml6Dms5XnnaHnnKDj
-gILnrKzkuozkuKoNCj4gPiAr5Y6f5Zug5Y+v6IO95piv77yM6LCD55So6ICF5oS/5oSP5Zyo5LiN
-5Lqn55Sf6aG16Z2i5Zue5pS25byA6ZSA55qE5oOF5Ya15LiL5aSx6LSl5YiG6YWN44CC6L+Z5Y+v
-6IO95Y+R55Sf5Zyo5pyJMOmYtuWbnumAgA0KPg0KPiDlpLHotKXliIbphY0gLT4g5YiG6YWN5aSx
-6LSlDQpPSywgVGhhbmtzIQ0KPg0KPiA+ICvpgInpobnnmoTmnLrkvJrkuLvkuYnpq5jpmLbliIbp
-hY3or7fmsYLkuK3jgILlnKjov5nnp43mg4XlhrXkuIvvvIzosIPnlKjogIXlj6/og73kuZ/luIzm
-nJvpgb/lhY3llKTphpJrc3dhcGTjgIINCj4gPiArDQo+ID4gK19fR0ZQX0lP5YiG6YWN6K+35rGC
-5piv5Li65LqG6Ziy5q2i5paH5Lu257O757uf5q276ZSB44CCDQo+ID4gKw0KPiA+ICvlnKjmsqHm
-nInpnZ7nnaHnnKDliIbphY3or7fmsYLnmoTmg4XlhrXkuIvvvIzlgZrlubPooaHkvLzkuY7mmK/m
-nInlrrPnmoTjgILpobXpnaLlm57mlLblj6/ku6Xooqvmh5LmlaPlnLDlkK/liqjvvIzkuZ/lsLHm
-mK8NCj4NCj4g5ZCv5Yqo77ya6L+Z6YeM5Y+v6IO95Y+v5Lul57+76K+R5oiQ4oCc6Lii5Ye64oCd
-44CC5aSn5oSP5bCx5piv5LiN55So55qE5pe25YCZ5LiN5ZCv5Yqo44CCDQoia2lja2VkIG9mZiIg
-aXMgYSBmb290YmFsbCB0ZXJtLCBJbiBDaGluZXNlLCBpdCBtZWFucyDlvIDnkIMuDQrml6XluLjk
-vb/nlKjkuK3pg73mmK/nlKjlgZrvvJrlkK/liqjjgIHmiafooYwNCmVnOiBBcGFydCBmcm9tIE5h
-c2EsIG1pc3Npb25zIGZyb20gdGhlIFVBRSBhbmQgQ2hpbmEgdG8gTWFycyBhbHNvDQpraWNrZWQg
-b2ZmIGxhc3QgeWVhci4NCkNoaW5hIGtpY2tlZCBvZmYgdGhlIHByb3RlY3Rpb24gcHJvZ3JhbSBp
-biAyMDEyLg0KDQoNCj4gPiAr6K+077yM5Y+q5pyJ5Zyo6ZyA6KaB55qE5pe25YCZ77yI5Lmf5bCx
-5piv56m66Zey5YaF5a2Y5Li6MOeahOWMuuWfn++8ie+8jOiAjOS4jeaYr+iuqeWug+aIkOS4uuS4
-gOS4quS4u+WKqOeahOi/h+eoi+OAgg0KPg0KPiDnqbrpl7LlhoXlrZjkuLow55qE5Yy65Z+fIC0+
-IOWMuuWfn+eahOepuumXsuWGheWtmOS4ujANCk9LLCBUaGFua3MhDQo+DQo+ID4gKw0KPiA+ICvk
-uZ/lsLHmmK/or7TvvIzlhoXmoLjlupTor6XlsJ3or5Xku47nm7TmjqXmmKDlsITmsaDkuK3mu6Ho
-trPlr7nnm7TmjqXmmKDlsITpobXnmoTor7fmsYLvvIzogIzkuI3mmK/lm57okL3liLBkbWHmsaDk
-uK3vvIwNCj4NCj4g5Zue6JC9IC0+IOWbnumAgO+8jOi/meS4quW6lOivpeaYr+avlOi+g+mAmuih
-jOeahOe/u+ivkQ0KZ3JlYXQhDQo+DQo+ID4gK+i/meagt+WwseWPr+S7peS/neaMgWRtYeaxoOS4
-umRtYeivt+axgu+8iOS4jeeuoeaYr+S4jeaYr+WOn+WtkOeahO+8ieaJgOWhq+WFheOAguexu+S8
-vOeahOivtOazleS5n+mAgueUqOS6jumrmOWGheWtmA0KPg0KPiDor7Tms5UgLT4g5LqJ6K66DQpP
-SywgVGhhbmtzIQ0KPg0KPiA+ICvlkoznm7TmjqXmmKDlsITnmoTpobXpnaLjgILnm7jlj43vvIzl
-poLmnpzmnInlvojlpJrnqbrpl7LnmoRkbWHpobXvvIzmnIDlpb3mmK/pgJrov4fku45kbWHmsaDk
-uK3liIbphY3kuIDkuKrmnaXmu6HotrMNCj4gPiAr5bi46KeE55qE5YaF5a2Y6K+35rGC77yM6ICM
-5LiN5piv5Lqn55Sf5bi46KeE5Yy65Z+f5bmz6KGh55qE5byA6ZSA44CCDQo+ID4gKw0KPiA+ICvl
-nKgyLjLkuK3vvIzlj6rmnInlvZPnqbrpl7LpobXmgLvmlbDkvY7kuo7mgLvlhoXlrZjnmoQxLzY0
-5pe277yM5omN5Lya5ZCv5Yqo5YaF5a2Y5bmz6KGhL+mhtemdouWbnuaUtuOAguWmguaenGRtYQ0K
-Pg0KPiDov5nph4znv7vor5HmsqHpl67popjjgILlr7nnhafkuIrmlofnmoRraWNrIG9mZu+8jOWP
-r+efpeWwseaYr+i4ouWHuuaIluiAheS4jei/kOihjOeahOaEj+aAneOAgg0KPg0KPiA+ICvlkozm
-ma7pgJrlhoXlrZjnmoTmr5TkvovlkIjpgILvvIzljbPkvb9kbWHljLrlrozlhajnqbrkuobvvIzk
-uZ/lvojlj6/og73kuI3kvJrov5vooYzlubPooaHjgIIyLjLlt7Lnu4/lnKjkuI3lkIzlhoXlrZgN
-Cj4NCj4g5pmu6YCa5YaF5a2Y77ya5rOo5oSP5L2g5Zyo5LiK5paH57+76K+R5LqG4oCc5bi46KeE
-5Yy65Z+f4oCd44CC5pmu6YCa5ZKM5bi46KeE77yM5Lik5Liq6K+N57uf5LiA5LiA5LiL5ZCn44CC
-DQpPSywgVGhhbmtzIQ0KPg0KPiA+ICvlpKflsI/nmoTnlJ/kuqfmnLrlmajkuIrov5DooYzvvIzl
-jbPkvb/mnInov5nkuKrpl67popjlrZjlnKjvvIzkvLzkuY7kuZ/lgZrlvpfkuI3plJnjgILlnKgy
-LjPkuK3vvIznlLHkuo5ISUdITUVN55qEDQo+ID4gK+WtmOWcqO+8jOi/meS4qumXrumimOWPmOW+
-l+abtOWKoOS4pemHjeOAgg0KPiA+ICsNCj4gPiAr5ZyoMi4z5Lit77yM5Yy65Z+f5bmz6KGh5Y+v
-5Lul55So5Lik56eN5pa55byP5LmL5LiA5p2l5a6M5oiQ77ya5qC55o2u5Yy65Z+f55qE5aSn5bCP
-77yI5Y+v6IO96L+Y5pyJ5L2O57qn5Yy65Z+f55qE5aSn5bCP77yJ77yMDQo+DQo+IOWPr+iDvei/
-mOaciSAtPiDlj6/og73mmK8NCk9LLCBUaGFua3MhDQo+DQo+ID4gK+aIkeS7rOWPr+S7peWcqOWI
-neWni+WMlumYtuauteWGs+WumuWcqOW5s+ihoeS7u+S9leWMuuWfn+aXtuW6lOivpeS6ieWPluWk
-muWwkeepuumXsumhteOAguWlveeahOaWuemdouaYr++8jOWcqOW5s+ihoeeahOaXtg0KPiA+ICvl
-gJnvvIzmiJHku6zkuI3pnIDopoHnnIvkvY7nuqfljLrnmoTlpKflsI/vvIzlnY/nmoTmlrnpnaLm
-mK/vvIzmiJHku6zlj6/og73kvJrlm6DkuLrlv73nlaXkvY7nuqfljLrlj6/og73ovoPkvY7nmoTk
-vb/nlKjnjocNCj4gPiAr6ICM5YGa6L+H5LqO6aKR57mB55qE5bmz6KGh44CC5Y+m5aSW77yM5Y+q
-6KaB5a+55YiG6YWN56iL5bqP56iN5L2c5L+u5pS577yM5bCx5pyJ5Y+v6IO95bCGbWVtY2xhc3Mo
-KeWuj+eugOWMluS4uuS4gA0KPiA+ICvkuKrnroDljZXnmoTnrYnlvI/jgIINCj4gPiArDQo+ID4g
-K+WPpuS4gOS4quWPr+iDveeahOino+WGs+aWueahiOaYr++8jOaIkeS7rOWPquWcqOS4gOS4quWM
-uiAqKuWSjCoqIOWFtuaJgOacieS9jue6p+WMuueahOepuumXsuWGheWtmOS9juS6juivpeWMuuWP
-iuWFtg0KPiA+ICvkvY7nuqfljLrmgLvlhoXlrZjnmoQxLzY05pe26L+b6KGM5bmz6KGh44CC6L+Z
-5bCx6Kej5Yaz5LqGMi4y55qE5bmz6KGh6Zeu6aKY77yM5bm25bC95Y+v6IO95Zyw5L+d5oyB5LqG
-5LiOMi4y6KGM5Li6DQo+ID4gK+eahOaOpei/keOAguWPpuWklu+8jOW5s+ihoeeul+azleWcqOWQ
-hOenjeaetuaehOS4iueahOW3peS9nOaWueW8j+S5n+aYr+S4gOagt+eahO+8jOi/meS6m+aetuae
-hOacieS4jeWQjOaVsOmHj+WSjOexu+Wei+eahA0KPiA+ICvlhoXlrZjljLrjgILlpoLmnpzmiJHk
-u6zmg7Plj5jlvpfmm7ToirHlk6jkuIDngrnvvIzmiJHku6zlj6/ku6XlnKjmnKrmnaXkuLrkuI3l
-kIzljLrln5/nmoToh6rnlLHpobXpnaLliIbphY3kuI3lkIznmoTmnYPph43jgIINCj4gPiArDQo+
-ID4gK+ivt+azqOaEj++8jOWmguaenOaZrumAmuWMuueahOWkp+Wwj+S4jmRtYeWMuuebuOavlOaY
-r+W3qOWkp+eahO+8jOmCo+S5iOWcqOWGs+WumuaYr+WQpuW5s+ihoeaZrumAmuWMuueahOaXtuWA
-me+8jOiAg+iZkQ0KPiA+ICvnqbrpl7LnmoRkbWHpobXlsLHlj5jlvpfkuI3pgqPkuYjph43opoHk
-uobjgILpgqPkuYjnrKzkuIDkuKrop6PlhrPmlrnmoYjlsLHlj5jlvpfmm7TmnInlkLjlvJXlipvj
-gIINCj4gPiArDQo+ID4gK+aJgOmZhOeahOihpeS4geWunueOsOS6huesrOS6jOS4quino+WGs+aW
-ueahiOOAguWug+i/mCDigJzkv67lpI3igJ3kuobkuKTkuKrpl67popjvvJrpppblhYjvvIzlnKjk
-vY7lhoXlrZjmnaHku7bkuIvvvIxrc3dhcGQNCj4gPiAr6KKr5ZSk6YaS77yM5bCx5YOPMi4y5Lit
-55qE6Z2e552h55yg5YiG6YWN44CC56ys5LqM77yMSElHSE1FTeWMuuS5n+iiq+W5s+ihoeS6hu+8
-jOS7peS+v+e7mXJlcGxhY2Vfd2l0aF9oaWdobWVtKCkNCj4gPiAr5LiA5Liq5LqJ5Y+W6I635b6X
-SElHSE1FTemhteeahOacuuS8mu+8jOWQjOaXtuehruS/nUhJR0hNRU3liIbphY3kuI3kvJrokL3l
-m57mma7pgJrljLrjgILov5nkuZ/noa7kv53kuoZISUdITUVNDQo+ID4gK+mhteS4jeS8muiiq+az
-hOmcsu+8iOS+i+Wmgu+8jOWcqOS4gOS4qkhJR0hNRU3pobXlnKjkuqTmjaLnvJPlrZjkuK3kvYbm
-sqHmnInooqvku7vkvZXkurrkvb/nlKjnmoTmg4XlhrXkuIvvvInjgIINCj4gPiArDQo+ID4gK2tz
-d2FwZOi/mOmcgOimgeefpemBk+Wug+W6lOivpeW5s+ihoeWTquS6m+WMuuOAgmtzd2FwZOS4u+im
-geaYr+WcqOaXoOazlei/m+ihjOW5s+ihoeeahOaDheWGteS4i+mcgOimgeeahO+8jOWPr+iDvQ0K
-PiA+ICvmmK/lm6DkuLrmiYDmnInnmoTliIbphY3or7fmsYLpg73mnaXoh6ppbnRyIGNvbnRleHTv
-vIzogIzmiYDmnInnmoTov5vnqIvkuIrkuIvmlofpg73lnKjnnaHnnKDjgILlr7nkuo4yLjPvvIwN
-Cj4NCj4gaW50ciBjb250ZXh0IC0+IOS4reaWreS4iuS4i+aWhw0KT0ssIFRoYW5rcyENCj4NCj4g
-PiAra3N3YXBk5bm25LiN55yf5q2j6ZyA6KaB5bmz6KGh6auY5YaF5a2Y5Yy677yM5Zug5Li6aW50
-ciBjb250ZXh05bm25LiN6K+35rGC6auY5YaF5a2Y6aG144CCa3N3YXBk55yLem9uZQ0KPiA+ICvn
-u5PmnoTkvZPkuK3nmoR6b25lX3dha2Vfa3N3YXBk5a2X5q615p2l5Yaz5a6a5LiA5Liq5Yy65piv
-5ZCm6ZyA6KaB5bmz6KGh44CCDQo+ID4gKw0KPiA+ICvlpoLmnpzku47ov5vnqIvlhoXlrZjlkoxz
-aG3kuK3lgbflj5bpobXpnaLlj6/ku6Xlh4/ovbvor6XpobXpnaLoioLngrnkuK3ku7vkvZXljLrn
-moTlhoXlrZjljovlipvvvIzogIzor6XljLrnmoTlhoXlrZjljovlipsNCj4gPiAr5bey57uP5L2O
-5LqO5YW25rC05L2N77yM5YiZ5Lya6L+b6KGM5YG35Y+W44CCDQo+ID4gKw0KPiA+ICt3YXRlbWFy
-a1tXTUFSS19NSU4vV01BUktfTE9XL1dNQVJLX0hJR0hdL2xvd19vbl9tZW1vcnkvem9uZV93YWtl
-X2tzd2FwZO+8mg0KPiA+ICvov5nkupvmmK/mr4/kuKrljLrnmoTlrZfmrrXvvIznlKjkuo7noa7l
-rprkuIDkuKrljLrkvZXml7bpnIDopoHlubPooaHjgILlvZPpobXpnaLmlbDkvY7kuo7msLTkvY1b
-V01BUktfTUlOXeaXtu+8jA0KPiA+ICtoeXN0ZXJpYyDnmoTlrZfmrrVsb3dfb25fbWVtb3J56KKr
-6K6+572u44CC6L+Z5Liq5a2X5q615Lya5LiA55u06KKr6K6+572u77yM55u05Yiw56m66Zey6aG1
-5pWw5Y+Y5oiQ5rC05L2NDQo+ID4gK1tXTUFSS19ISUdIXeOAguW9k2xvd19vbl9tZW1vcnnooqvo
-rr7nva7ml7bvvIzpobXpnaLliIbphY3or7fmsYLlsIblsJ3or5Xph4rmlL7or6XljLrln5/nmoTk
-uIDkupvpobXpnaLvvIjlpoLmnpwNCj4gPiAr6K+35rGC5Lit6K6+572u5LqGR0ZQX1dBSVTvvInj
-gILkuI7mraTmraPkuqTnmoTmmK/vvIzlhrPlrprmiLPlvIBrc3dhcGTku6Xph4rmlL7kuIDkupvl
-jLrnmoTpobXjgILov5nkuKrlhrPlrprkuI3mmK/ln7rkuo4NCj4NCj4g5q2j5LqkIC0+IOebuOWP
-jeOAguaIs+W8gCAtPiDllKTphpLjgIINCk9LLCBUaGFua3MhDQo+DQo+ID4gK2h5c3RlcmVzaXMg
-55qE77yM6ICM5piv5b2T56m66Zey6aG155qE5pWw6YeP5L2O5LqOd2F0ZXJtYXJrW1dNQVJLX0xP
-V13ml7blsLHkvJrov5vooYzvvJvlnKjov5nnp43mg4XlhrXkuIvvvIwNCj4gPiArem9uZV93YWtl
-X2tzd2FwZOS5n+iiq+iuvue9ruOAgg0KPiA+ICsNCj4gPiArDQo+ID4gK+aIkeaJgOWQrOWIsOea
-hO+8iOi2heajkueahO+8ieaDs+azle+8mg0KPiA+ICsNCj4gPiArMS4g5Yqo5oCB5a6e6Le15bqU
-6K+l5b2x5ZON5bmz6KGh77ya5Y+v5Lul6Lef6Liq5LiA5Liq5Yy655qE5aSx6LSl6K+35rGC55qE
-5pWw6YeP77yM5bm25Y+N6aaI5Yiw5bmz6KGh5pa55qGI5Lit77yIamFsdm9AbWJheS5uZXTvvInj
-gIINCj4NCj4g5a6e6Le1IC0+IOe7j+WOhg0KT0ssIFRoYW5rcyENCg0KVGhhbmsgeW91IHZlcnkg
-bXVjaCENCg0KVGhhbmtzLA0KWWFudGVuZw0KPg0KPiA+ICsNCj4gPiArMi4g5a6e546w5LiA5Liq
-57G75Ly85LqOcmVwbGFjZV93aXRoX2hpZ2htZW0oKeeahHJlcGxhY2Vfd2l0aF9yZWd1bGFyKCnv
-vIzku6Xkv53nlZlkbWHpobXpnaLjgIINCj4gPiArICAgKGxrZEB0YW50YWxvcGhpbGUuZGVtb24u
-Y28udWspDQo+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NO
-L3ZtL2luZGV4LnJzdCBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3ZtL2luZGV4
-LnJzdA0KPiA+IGluZGV4IDVmY2RiNzVkODY4Mi4uZmMzOWYwZDYwMzE4IDEwMDY0NA0KPiA+IC0t
-LSBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3ZtL2luZGV4LnJzdA0KPiA+ICsr
-KyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3ZtL2luZGV4LnJzdA0KPiA+IEBA
-IC0yMiwxMCArMjIsMTAgQEAgVE9ETzrlvoXlvJXnlKjmlofmoaPpm4booqvnv7vor5Hlrozmr5Xl
-kI7or7flj4rml7bkv67mlLnmraTlpITvvIkNCj4gPiAgICAgOm1heGRlcHRoOiAxDQo+ID4NCj4g
-PiAgICAgYWN0aXZlX21tDQo+ID4gKyAgIGJhbGFuY2UNCj4gPg0KPiA+ICBUT0RPTElTVDoNCj4g
-PiAgKiBhcmNoX3BndGFibGVfaGVscGVycw0KPiA+IC0qIGJhbGFuY2UNCj4gPiAgKiBkYW1vbi9p
-bmRleA0KPiA+ICAqIGZyZWVfcGFnZV9yZXBvcnRpbmcNCj4gPiAgKiBmcm9udHN3YXANCj4gPg0K
+On 2022/1/8 17:37, yanteng si wrote:
+> Tang Yizhou <tangyizhou@huawei.com> 于2022年1月7日周五 16:04写道：
+>>
+>> On 2022/1/7 10:40, Yanteng Si wrote:> Translatr .../vm/active_mm.rst into Chinese.
+>>>
+>>> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+>>> ---
+>>>  .../translations/zh_CN/vm/active_mm.rst       | 85 +++++++++++++++++++
+>>>  Documentation/translations/zh_CN/vm/index.rst |  2 +-
+>>>  2 files changed, 86 insertions(+), 1 deletion(-)
+>>>  create mode 100644 Documentation/translations/zh_CN/vm/active_mm.rst
+>>>
+>>> diff --git a/Documentation/translations/zh_CN/vm/active_mm.rst b/Documentation/translations/zh_CN/vm/active_mm.rst
+>>> new file mode 100644
+>>> index 000000000000..33f8193e6135
+>>> --- /dev/null
+>>> +++ b/Documentation/translations/zh_CN/vm/active_mm.rst
+>>> @@ -0,0 +1,85 @@
+>>> +.. include:: ../disclaimer-zh_CN.rst
+>>> +
+>>> +:Original: Documentation/vm/active_mm.rst
+>>> +
+>>> +:翻译:
+>>> +
+>>> + 司延腾 Yanteng Si <siyanteng@loongson.cn>
+>>> +
+>>> +:校译:
+>>> +
+>>> +
+>>> +=========
+>>> +Active MM
+>>> +=========
+>>> +
+>>> +这是一封linux之父回复开发者的一封邮件，所以翻译时我尽量保持邮件格式的完整。
+>>> +
+>>> +::
+>>> +
+>>> + List:       linux-kernel
+>>> + Subject:    Re: active_mm
+>>> + From:       Linus Torvalds <torvalds () transmeta ! com>
+>>> + Date:       1999-07-30 21:36:24
+>>> +
+>>> + 因为我并不经常写解释，所以已经抄送到linux-kernel邮件列表，而当我做这些，
+>>> + 且更多的人在阅读它们时，我觉得棒极了。
+>>> +
+>>> + 1999年7月30日 星期五， David Mosberger 写道：
+>>> + >
+>>> + > 是否有一个简短的描述，说明task_struct中的
+>>> + >  "mm" 和 "active_mm"应该如何使用？ (如果
+>>> + > 这个问题在邮件列表中讨论过，我表示歉意--我刚
+>>> + > 刚度假回来，有一段时间没能关注linux-kernel了）。
+>>> +
+>>> + 基本上，新的设定是：
+>>> +
+>>> +  - 我们有“真实地址空间”和“匿名地址空间”。区别在于，匿名地址空间根本不关心用
+>>> +    户级页表，所以当我们做上下文切换到匿名地址空间时，我们只是让以前的地址空间
+>>> +    处于活动状态。
+>>> +
+>>> +    一个“匿名地址空间”的明显用途是任何不需要任何用户映射的线程--所有的内核线
+>>> +    程基本上都属于这一类，但即使是“真正的”线程也可以暂时说在一定时间内它们不
+>>> +    会对用户空间感兴趣，调度器不妨试着避免在切换VM状态上浪费时间。目前只有老
+>>> +    式的bdflush sync能做到这一点。
+>>> +
+>>> +  - “tsk->mm” 指向 “真实地址空间”。对于一个匿名进程来说，tsk->mm将是NULL，
+>>> +    其逻辑原因是匿名进程实际上根本就 “没有” 真正的地址空间。
+>>> +
+>>> +  - 然而，我们显然需要跟踪我们为这样的匿名用户“偷用”了哪个地址空间。为此，我们
+>>> +    有 “tsk->active_mm”，它显示了当前活动的地址空间是什么。
+>>> +
+>>> +    规则是，对于一个有真实地址空间的进程（即tsk->mm是 non-NULL），active_mm
+>>> +    显然必须与realone相同。
+>>
+>> please translate: realone
+> OK, realone -> 真实地址
+
+真实的mm
+
+>>
+>>> +
+>>> +    对于一个匿名进程，tsk->mm == NULL，而tsk->active_mm是匿名进程运行时
+>>> +    “借用”的mm。当匿名进程被调度走时，借用的地址空间被返回并清除。
+>>> +
+>>> + 为了支持所有这些，“struct mm_struct”现在有两个计数器：一个是 “mm_users”
+>>> + 计数器，即有多少 “真正的地址空间用户”，另一个是 “mm_count”计数器，即 “lazy”
+>>> + 用户（即匿名用户）的数量，如果有任何真正的用户，则加1。
+>>> +
+>>> + 通常情况下，至少有一个真正的用户，但也可能是真正的用户在另一个CPU上退出，而
+>>> + 一个lazy的用户仍在活动，所以你实际上得到的情况是，你有一个地址空间 **只**
+>>> + 被lazy的用户使用。这通常是一个短暂的生命周期状态，因为一旦这个线程被安排给一
+>>> + 个真正的线程，这个 “僵尸” mm就会被释放，因为 “mm_count”变成了零。
+>>> +
+>>> + 另外，一个新的规则是，**没有人** 再把 “init_mm” 作为一个真正的MM了。
+>>> + “init_mm”应该被认为只是一个 “没有其他上下文时的lazy上下文”，事实上，它主
+>>> + 要是在启动时使用，当时还没有真正的VM被创建。因此，用来检查的代码
+>>> +
+>>> +   if (current->mm == &init_mm)
+>>> +
+>>> + 一般来说，应该仅执行
+>>> +
+>>> +   if (!current->mm)
+>>> +
+>>> + 反之（这更有意义--测试基本上是 “我们是否有一个用户环境”，并且通常由缺页
+>>
+>> 这里的翻译有问题。原文是current->mm == &init_mm的写法通常应当替换成!current->mm
+> how about:
+> 
+> 一般来说，应该用
+> 
+> if (!current->mm)
+> 
+> 取代以上上面的写法（这更有意义--测试基本上是 “我们是否有一个用户环境”，并且通常由缺页
+
+OK
+
+> 
+> 
+>>
+>>
+>>> + 异常处理程序和类似的东西来完成）。
+>>> +
+>>> + 总之，我刚才在ftp.kernel.org上放了一个pre-patch-2.3.13-1，因为它稍微改
+>>> + 变了接口以适应alpha（谁会想到呢，但alpha实际上最终有一个最难看的上下文切换
+>>
+>> 适应 -> 适配。 alpha -> alpah体系结构
+>> 实际上最终有一个最难看的上下文切换代码 -> 上下文切换代码实际上最终是最丑陋的之一。
+> OK, Thanks!
+>>
+>>> + 代码--不像其他架构的MM和寄存器状态是分开的，alpha的PALcode将两者连接起来，
+>>> + 你需要同时切换两者）。
+>>> +
+>>> + (文档来源 http://marc.info/?l=linux-kernel&m=93337278602211&w=2)
+>>> diff --git a/Documentation/translations/zh_CN/vm/index.rst b/Documentation/translations/zh_CN/vm/index.rst
+>>> index 0fda40c602ac..5fcdb75d8682 100644
+>>> --- a/Documentation/translations/zh_CN/vm/index.rst
+>>> +++ b/Documentation/translations/zh_CN/vm/index.rst
+>>> @@ -21,9 +21,9 @@ TODO:待引用文档集被翻译完毕后请及时修改此处）
+>>>  .. toctree::
+>>>     :maxdepth: 1
+>>>
+>>> +   active_mm
+>>>
+>>>  TODOLIST:
+>>> -* active_mm
+>>>  * arch_pgtable_helpers
+>>>  * balance
+>>>  * damon/index
+>>>
+>>
+>> Thanks,
+>> Tang
