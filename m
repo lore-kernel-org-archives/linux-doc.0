@@ -2,52 +2,52 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 581E6C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Jan 2022 23:36:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02382C433F5
+	for <linux-doc@archiver.kernel.org>; Sat,  8 Jan 2022 00:19:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231614AbiAGXgQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Jan 2022 18:36:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55000 "EHLO
+        id S229633AbiAHATf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Jan 2022 19:19:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231609AbiAGXgQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jan 2022 18:36:16 -0500
-Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com [IPv6:2607:f8b0:4864:20::d2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3239DC06173E
-        for <linux-doc@vger.kernel.org>; Fri,  7 Jan 2022 15:36:16 -0800 (PST)
-Received: by mail-io1-xd2a.google.com with SMTP id p65so9104894iof.3
-        for <linux-doc@vger.kernel.org>; Fri, 07 Jan 2022 15:36:16 -0800 (PST)
+        with ESMTP id S231808AbiAHATe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jan 2022 19:19:34 -0500
+Received: from mail-il1-x131.google.com (mail-il1-x131.google.com [IPv6:2607:f8b0:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43C31C061574
+        for <linux-doc@vger.kernel.org>; Fri,  7 Jan 2022 16:19:34 -0800 (PST)
+Received: by mail-il1-x131.google.com with SMTP id v10so5896570ilj.3
+        for <linux-doc@vger.kernel.org>; Fri, 07 Jan 2022 16:19:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=xYu9qteuFVNrHyo1i7aEmcfHOTj3gefz8I1p+xu99cE=;
-        b=KVMWEcwAp4WTr2X5uSFAYSIb1gUJnxmuasFdE3TRGGuc9UPxRC1uEOaA//819Vna+R
-         e9pELwJ72UnnP7NVDJw7XrozwhzL7wNV4H0GV2T4b8gpxk7axMm4pExfS9/MaG3i6JGJ
-         Z8S4aOFzx5B381qYvSPzTu5BJTrmtIv1ta/fUPycwLNiPf1Pym5MuhqHYhl89EwEfffD
-         dxpEejJr/Qlyh1TY1lKhv+BBjEtQhaYJFnqsK8x+2h5JwQlcsGqV/YIBJPMCubPsaWsX
-         q8NP4iA/07CScovcAUk4KMBQ/aNkFtrHYjB2enZvlLociLWQWb9+rmYQARL8qQ7iRn6D
-         eAaA==
+        bh=U8P8SmP0qPdbiyx8lx3McbNzmYprIh1snsE0Jac/l90=;
+        b=KlrSCUQ6zoHS28F0Wu1tDFI/yNUJ8ArVvaUy+uTlL/FeUDKBCOJYPtMyLINNBObFp4
+         YJ/EHx8ZtZ+S3b8u0YIKugkK9cmlbEod3BbXfucFCWP6ZzduECXW6Pkfy015WbnNuwpP
+         jB/Dest13d5zIEhocs5RgEIniAQIpDBec6GHjTkBybmuKEpiXs5U/ignu8Zq+y3URSPh
+         vFWB9tlWVyi1MpRHKGgcTY20bPrw1CKE7US7Gau6TVAqHyKg64DnrZQCY/tuvrNQdBYM
+         qmcp58mJ61kqY3gwXNPlnOinlU8RG7OrfA7fQFpbbcavndFJlbgT6lc79ozILLgKkA/l
+         0n+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=xYu9qteuFVNrHyo1i7aEmcfHOTj3gefz8I1p+xu99cE=;
-        b=hOprpyLWoVGAcebrNLNeaO4PXV5292S+KLaIuyR0Mm9lR3WVZarbC6DtEdMrJEn/fD
-         gGr8wVXiY/AjAiznvy9vE2kjhjz6ZyOmBwuV8I4bujKPdW9X8tC0i9SktZc+MwF6BY4r
-         iBNcqpa/Tg6vGXaBcv4Xpkn+Qo4KuYPqHSATKYNA7zDgVAgK8BAXknFpdcN0WZ4Ygn0s
-         0Uy4c9RVECnGcUjGvNJ5tUZj4COOo9WcvrFFRjDv21xmeiLbbjOzeTbbT7FftslDB+NR
-         2w37s63JOXszDxv2db1PTPRwGWQ6t+AVCcNRNSfQ7MfPMVAuiAwfNjBLwTHe5tnBhbR0
-         7LTw==
-X-Gm-Message-State: AOAM530gE/i3INNut/VkMAevt9yI9ZXbbXCar9tmWJO40fosrwyr8nra
-        5CR39Gyz6DnajaRZ3H1FzkkVIQ==
-X-Google-Smtp-Source: ABdhPJzDj049VbsKt/EYYdSUgiTzJatv/z9OgEricIXR1zpNkxJjKeELDnzLfrvVCz7m4TJ/mII9Dg==
-X-Received: by 2002:a05:6602:1410:: with SMTP id t16mr32400729iov.160.1641598575473;
-        Fri, 07 Jan 2022 15:36:15 -0800 (PST)
+        bh=U8P8SmP0qPdbiyx8lx3McbNzmYprIh1snsE0Jac/l90=;
+        b=nuhb5sKsJDXZkwopbbF0oEZrLJbygZ7EDgjoh5KIdosau7/QSNFTAPpCmIHkbvWwJy
+         tzTzIBay0GvCvDAS2Y1NeVllKOmN4/vfGG9jtf1GbMRSAocwSoGl/pNlvmN8GqOz6YQi
+         T21kaqQRCjbUgQ4Amd0ErUUB0plQ4hXzeSku0RbxUBRbLDrqdQHNME8CRcIOYR6OHuNI
+         Dw7YNzlOo0f7kKGdrupn/Mdgzw86UdMB0HHcBgZo8QGmsZA15xSFVVcVw+c7si0yV1gJ
+         XfFWRU+M2AsPwlLGWjvMzk2AIjBr9ZyxZQ8Myj8zPfCbqEX4S9tWogxLHfWHGJrQxTCg
+         BBPg==
+X-Gm-Message-State: AOAM5314CdWdJF70SmYHXlsFJK5r3PS6ZOTDB7Z0/qF+GeNBBfyQCA9G
+        2AU4LIdfD7Em8+/NYYbq9xPFmA==
+X-Google-Smtp-Source: ABdhPJzjBo4KzV0lFm0oheRxOqHhBQQ40kQO3JFbzrqyVzJYHo4OK2LeVQNGaPOUbBZTIP3KSFsvkA==
+X-Received: by 2002:a92:c744:: with SMTP id y4mr32084011ilp.124.1641601173525;
+        Fri, 07 Jan 2022 16:19:33 -0800 (PST)
 Received: from google.com ([2620:15c:183:200:8b41:537d:f5d3:269c])
-        by smtp.gmail.com with ESMTPSA id w7sm48105ilu.27.2022.01.07.15.36.14
+        by smtp.gmail.com with ESMTPSA id s6sm90741ilq.21.2022.01.07.16.19.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jan 2022 15:36:15 -0800 (PST)
-Date:   Fri, 7 Jan 2022 16:36:11 -0700
+        Fri, 07 Jan 2022 16:19:33 -0800 (PST)
+Date:   Fri, 7 Jan 2022 17:19:28 -0700
 From:   Yu Zhao <yuzhao@google.com>
 To:     Michal Hocko <mhocko@suse.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
@@ -70,75 +70,50 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         page-reclaim@google.com, x86@kernel.org,
         Konstantin Kharlamov <Hi-Angel@yandex.ru>
-Subject: Re: [PATCH v6 6/9] mm: multigenerational lru: aging
-Message-ID: <YdjOazilBEkdUT7x@google.com>
+Subject: Re: [PATCH v6 5/9] mm: multigenerational lru: mm_struct list
+Message-ID: <YdjYkFmtMdrYg736@google.com>
 References: <20220104202227.2903605-1-yuzhao@google.com>
- <20220104202227.2903605-7-yuzhao@google.com>
- <Ydg8AeE6JIUnC+ps@dhcp22.suse.cz>
+ <20220104202227.2903605-6-yuzhao@google.com>
+ <YdgChw4vNb43XsU/@dhcp22.suse.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Ydg8AeE6JIUnC+ps@dhcp22.suse.cz>
+In-Reply-To: <YdgChw4vNb43XsU/@dhcp22.suse.cz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 07, 2022 at 02:11:29PM +0100, Michal Hocko wrote:
-> On Tue 04-01-22 13:22:25, Yu Zhao wrote:
-> [...]
-> > +static void lru_gen_age_node(struct pglist_data *pgdat, struct scan_control *sc)
-> > +{
-> > +	struct mem_cgroup *memcg;
-> > +	bool success = false;
-> > +	unsigned long min_ttl = READ_ONCE(lru_gen_min_ttl);
-> > +
-> > +	VM_BUG_ON(!current_is_kswapd());
-> > +
-> > +	current->reclaim_state->mm_walk = &pgdat->mm_walk;
-> > +
-> > +	memcg = mem_cgroup_iter(NULL, NULL, NULL);
-> > +	do {
-> > +		struct lruvec *lruvec = mem_cgroup_lruvec(memcg, pgdat);
-> > +
-> > +		if (age_lruvec(lruvec, sc, min_ttl))
-> > +			success = true;
-> > +
-> > +		cond_resched();
-> > +	} while ((memcg = mem_cgroup_iter(NULL, memcg, NULL)));
-> > +
-> > +	if (!success && mutex_trylock(&oom_lock)) {
-> > +		struct oom_control oc = {
-> > +			.gfp_mask = sc->gfp_mask,
-> > +			.order = sc->order,
-> > +		};
-> > +
-> > +		if (!oom_reaping_in_progress())
-> > +			out_of_memory(&oc);
-> > +
-> > +		mutex_unlock(&oom_lock);
-> > +	}
+On Fri, Jan 07, 2022 at 10:06:15AM +0100, Michal Hocko wrote:
+> On Tue 04-01-22 13:22:24, Yu Zhao wrote:
+> > To exploit spatial locality, the aging prefers to walk page tables to
+> > search for young PTEs. And this patch paves the way for that.
+> > 
+> > An mm_struct list is maintained for each memcg, and an mm_struct
+> > follows its owner task to the new memcg when this task is migrated.
 > 
-> Why do you need to trigger oom killer from this path? Why cannot you
-> rely on the page allocator to do that like we do now?
+> How does this work actually for the memcg reclaim? I can see you
+> lru_gen_migrate_mm on the task migration. My concern is, though, that
+> such a task leaves all the memory behind in the previous memcg (in
+> cgroup v2, in v1 you can opt in for charge migration). If you move the
+> mm to a new memcg then you age it somewhere where the memory is not
+> really consumed.
 
-This is per desktop users' (repeated) requests. The can't tolerate
-thrashing as servers do because of UI lags; and they usually don't
-have fancy tools like oomd.
+There are two options to gather the accessed bit: page table walks and
+rmap walks. Page table walks sweep dense hotspots that are NOT
+misplaced in terms of reclaim scope (lruvec); rmap walks cover what
+page table walks miss, e.g., misplaced dense hotspots or sparse ones.
 
-Related discussions I saw:
-https://github.com/zen-kernel/zen-kernel/issues/218
-https://lore.kernel.org/lkml/20101028191523.GA14972@google.com/
-https://lore.kernel.org/lkml/20211213051521.21f02dd2@mail.inbox.lv/
-https://lore.kernel.org/lkml/54C2C89C.8080002@gmail.com/
-https://lore.kernel.org/lkml/d9802b6a-949b-b327-c4a6-3dbca485ec20@gmx.com/
+Dense hotspots are stored in Bloom filters for each lruvec.
 
-From patch 8:
-  Personal computers
-  ------------------
-  :Thrashing prevention: Write ``N`` to
-   ``/sys/kernel/mm/lru_gen/min_ttl_ms`` to prevent the working set of
-   ``N`` milliseconds from getting evicted. The OOM killer is invoked if
-   this working set can't be kept in memory. Based on the average human
-   detectable lag (~100ms), ``N=1000`` usually eliminates intolerable
-   lags due to thrashing. Larger values like ``N=3000`` make lags less
-   noticeable at the cost of more OOM kills.
+If an mm leaves everything in the old memcg, page table walks in the
+new memcg reclaim path basically ignore this mm after the first scan,
+because everything is misplaced.
+
+In the old memcg reclaim path, page table walks won't see this mm
+at all. But rmap walks will catch everything later in the eviction
+path, i.e., lru_gen_look_around(). This function is less efficient
+compared with page table walks because, for each rmap walk of a
+non-shared page, it only can gather the accessed bit from 64 PTEs at
+most. But it's still a lot faster than the original rmap, which only
+gathers the accessed bit from a single PTE, for each walk of a
+non-shared page.
