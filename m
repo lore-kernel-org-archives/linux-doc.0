@@ -2,74 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1368C433F5
-	for <linux-doc@archiver.kernel.org>; Sun,  9 Jan 2022 21:25:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4E2EC433FE
+	for <linux-doc@archiver.kernel.org>; Sun,  9 Jan 2022 21:43:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237091AbiAIVZz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 9 Jan 2022 16:25:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58136 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232039AbiAIVZy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Jan 2022 16:25:54 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE7D4C06173F;
-        Sun,  9 Jan 2022 13:25:54 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CEA3A60DBF;
-        Sun,  9 Jan 2022 21:25:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2889C36AE3;
-        Sun,  9 Jan 2022 21:25:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1641763553;
-        bh=L/paTrcUsrXaeUe0V0GPEPrSSn2bsBSIX9D3COqKh2Q=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=dFQnUDMBv9ya2R9Lnp2kK3kp1OUjhyyBPE5n4LorweT7FgaUNta/9YBteBE2iRXGP
-         tJv9CNMJu+pDhdG27sab2KqJbdoAWPd4PzFxajnIR/pRscps/Im6vEWNlirIN2WJJn
-         e9+ntVAwwNDMFrAESH65beReVM9k9Q01WQ3hKmDbHxTzqI6CZMQM6MDmV4sd4PlYCb
-         mfn8Ye5wn3LwJ3xU6Y1oBySQr+7fAGgQboQcEfHT75cYHe01BNsvAdnVRRtnrbMjSM
-         VuDLfUfYMp2t/1qIK6AVjgbvR//XQ2kyXt4SxOPl6FKDYhG9pO8zW62meFYB4b1diU
-         OdP+4D4CSYqEQ==
-Date:   Sun, 9 Jan 2022 13:25:51 -0800
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Jens Axboe <axboe@kernel.dk>
-Cc:     Bart Van Assche <bvanassche@acm.org>, linux-block@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/8] docs: consolidate sysfs-block into
- Documentation/ABI/
-Message-ID: <YdtS3x0M1qFcN3R1@sol.localdomain>
-References: <20211209003833.6396-1-ebiggers@kernel.org>
- <YcH1uxfdTRHIwl7Y@quark>
- <YdMQ6rfSZWSOLptA@quark>
- <YddiJFr+ba7Veh82@sol.localdomain>
- <65376e36-579b-76c4-0642-4582d6679914@acm.org>
- <ef487b83-a1cc-d8a5-8a45-d0fec5eed94b@kernel.dk>
+        id S232806AbiAIVnY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 9 Jan 2022 16:43:24 -0500
+Received: from mout.gmx.net ([212.227.15.15]:48005 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232082AbiAIVnX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 9 Jan 2022 16:43:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1641764575;
+        bh=3x+v7R3ju7oe0DQ35tUAN40lu4j6NIpcZ7Lfqw69hMU=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=fszMRJzPCn5GfKcBlCZPDm3pPcf+nZ1F/08WXm5olwSNEupSlYVSL2lgZcDTLwZlp
+         13J9ctATUWpq8HUtoWhZzz8QQFtsD1DZMmTWk4Zyg5FpyRk2SizYX0nVQ54zcqAp4k
+         dJozU4rcYIibPW2ssVDglE/lmTmCrB3BoJqsapYw=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from esprimo-mx.fritz.box ([91.137.126.34]) by mail.gmx.net
+ (mrgmx004 [212.227.17.190]) with ESMTPSA (Nemesis) id
+ 1M26vL-1n4D7X3QmP-002bT1; Sun, 09 Jan 2022 22:42:54 +0100
+From:   Armin Wolf <W_Armin@gmx.de>
+To:     pali@kernel.org
+Cc:     jdelvare@suse.com, linux@roeck-us.net, corbet@lwn.net,
+        rdunlap@infradead.org, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/3] Documenation: Update documentation regarding dell_smm_hwmon
+Date:   Sun,  9 Jan 2022 22:42:45 +0100
+Message-Id: <20220109214248.61759-1-W_Armin@gmx.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ef487b83-a1cc-d8a5-8a45-d0fec5eed94b@kernel.dk>
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:me0TX6y7z5mdDv9apuImQ+q5X8S3vyWFOUTYfvjfQclCreksfdp
+ CDCWsDXkC5Nl5mRUNYICgFj4g+v0zuzQtgInBgqehVg/Igg3usUf0e8L720lVkxls2ru1nG
+ xlACeNAgQPbuKUAgDaxd4LvOOITn5LoCPNuoFqrkEjVWso5CX+pphp4g6i2b9kBPMC0LFb3
+ 9RCA39/XvqP9as2w6ZM0w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:aSCVoSPDLaY=:pf/DlERRNX0LvX8p6AE9pM
+ JhtJKS7FvqjyVADWS0nkAB0ixx90RWZQZksBzWFTo+HA3PDC4GT3KnSd8Kk5QpDj9DOGQz2K8
+ gr5zar0ombl98oPoJxxng2tpWH+m0KBO8839pkk3Ugc2thK1r+OHh4J7EE8/EzcLyZmRxcPfr
+ IEi9W6Z7m24P1eo1qfi8OqBtXMJ6YqQ6HWoG1LfCZeA/1w79IuXsSkyfSQuJCSBl/NLNJgii9
+ f5unZiOxat4GKflXbpq+bq/k2ALOnVO76f+MNINL/XwSLVKUWyn2Q6lzTZAdzsIxjM3cJrUHi
+ 0jNoWTTbPM3Qoq1vQfpnwGq640opwVOSOAUwodyt0Ykcfix0fIbU/iRaXsTmN7Ghaj9+WUKGB
+ 7x8zT+Wg42VkSW4vWKfxxaZ5QHM5j6uuBU4zCbJfPRo3UFdjC6zF/1DttQlkIRBWgGe20kqYy
+ hR1/q+dwEhiDuGlq4foevOo7RjjEzz2eIBsTg/NAyznrs6RrqlOyR1iC9PSQh0tlzJgMOFTle
+ xB574QFaMqSS+hbt1yyWem+ApSkxqrJGx+USebC0FpBdC8r1iMG33luRGPZckknWo+bKutM0v
+ OWztOuMrb3UpvIoqkekFcSVppaa6Tg1zFv4LPjPVRnZIsz44wHxvONvnEyvuwMeXlsz5gH/bg
+ xR1OKQRpt3alWfG529oIthMu8YX6txYFVEdbM3+nz8eUL/wPe+Q6cm/OJEKazAH7/6sSzq40F
+ ee5bVTjBZEFaw2cbnAwscqOGdV8Ry3VnVc8aO1XLWneObc2mFXJcdavVaaMzbMIloXmOJei9K
+ LnwU1RGmojbI+PIqHs7MqVSryeEB4uUK1nT6tNvUQYcT/su4/aPVBDZMWoC5N+Aa1kJE59LF3
+ IjL4ipfz90jP/gBKfzTfu8tqrx/UcwJlJAqYiM11+j9O1R+c9mHm3ab7ipmU+Ffwl/ZwXGlqe
+ KALYWMStF+OgKMY4qzr+n32BFixcfozHGkNHvHPaRolfDGGu1XiiPUakBldOLi5NN/izWIl5d
+ weMjlxtAfhp7Twbwxub8C/AOFhXhpv6rFxqnOQQKq06AywhpwPjsh+1eVWByhQujvSBfl4S2N
+ 54uhZZjYHvX20U=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jan 09, 2022 at 10:01:11AM -0700, Jens Axboe wrote:
-> On 1/7/22 1:58 PM, Bart Van Assche wrote:
-> > On 1/6/22 13:41, Eric Biggers wrote:
-> >> Jens, any reason you haven't applied this series yet?  It looks like you've been
-> >> applying other patches.  To be clear, I've been expecting that this would go in
-> >> through the block tree, rather than the docs tree.
-> > 
-> > We are close to the v5.17 merge window so this is not a good time for a maintainer to
-> > apply a large patch series. If Jens does not reply I propose to repost this patch
-> > series after the v5.17 merge window has closed (three weeks from now?).
-> 
-> I'm fine with it, but it should probably just go through the doc tree.
+Update documentation regarding dell_smm_hwmon in preparation for
+future changes.
 
-I think it makes much more sense for subsystems to be responsible for their own
-documentation; that's why patch 8 in this series adds the block layer
-documentation to the block layer MAINTAINERS entry.  Do you disagree with that?
+=2D--
+Changes in v3:
+- indent everything with tabs in first patch
+Changes in v2:
+- omit unneccessary patch
 
-- Eric
+Armin Wolf (3):
+  Documentation: admin-guide: Update i8k driver name
+  Documentation: admin-guide: Add Documentation for undocumented
+    dell_smm_hwmon parameters
+  Documentation: ABI: Add ABI file for legacy /proc/i8k interface
+
+ Documentation/ABI/obsolete/procfs-i8k         | 10 ++++++
+ .../admin-guide/kernel-parameters.txt         | 35 +++++++++++++------
+ MAINTAINERS                                   |  1 +
+ 3 files changed, 35 insertions(+), 11 deletions(-)
+ create mode 100644 Documentation/ABI/obsolete/procfs-i8k
+
+=2D-
+2.30.2
+
