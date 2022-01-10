@@ -2,52 +2,52 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C4E2C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Jan 2022 03:58:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EB63C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Jan 2022 04:48:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233170AbiAJD6L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 9 Jan 2022 22:58:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59070 "EHLO
+        id S230516AbiAJEsF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 9 Jan 2022 23:48:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233092AbiAJD6H (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Jan 2022 22:58:07 -0500
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A102C061748
-        for <linux-doc@vger.kernel.org>; Sun,  9 Jan 2022 19:58:07 -0800 (PST)
-Received: by mail-io1-xd2b.google.com with SMTP id s6so15911637ioj.0
-        for <linux-doc@vger.kernel.org>; Sun, 09 Jan 2022 19:58:07 -0800 (PST)
+        with ESMTP id S230453AbiAJEsE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Jan 2022 23:48:04 -0500
+Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B737C061748
+        for <linux-doc@vger.kernel.org>; Sun,  9 Jan 2022 20:48:04 -0800 (PST)
+Received: by mail-io1-xd2e.google.com with SMTP id u8so15972948iol.5
+        for <linux-doc@vger.kernel.org>; Sun, 09 Jan 2022 20:48:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=KxSZiZRQdqgzdFlRO54VlTYfuoCWD/E1gz0LmgTtY38=;
-        b=REoii0frtVOfZhhAxIh91rJdHCGK7bn45fqrjPAxVpQymjoFztAMtMZT0KcktH3hRh
-         01aHhky4dPCdWvQTdWvrpXnUFvQ4QC+xYCMJN01V+uu5/FKRFI6gDxLvulQX6cOqZOfh
-         Cjs+QR2qzbEiYQfMFE8OCh7ApgufOuAqP2NBJgz4JcskpiDNfsjADISE0VvJxpl40/li
-         whaTVnRIvCvYKkjVnEHI/HmUKm1HVIQXB3m1N9DeQAcvYaTpQ3HjtMa30tqp3n2ozp4/
-         CtOYHvutdoUuynzRQXPt6nKPvX52HPvW2X+QvHu7NCUOTUuWVhOGoz/0G6KEcTm4ILse
-         e0OA==
+        bh=guDTMY1gDKbuEeHSjJBqpytUvSIpcoxzveWlee08C0k=;
+        b=cLjKHl/ZssXUW2pXxDtVnoKKLcr+3KmiIUZANhNj1odZoOSUuOnEcRUk3/GzhfwX9l
+         I2d55GavHG9UBfE9O7qOBDicVTSC3VgU2oQzb74lP7ThokGz0p61MCDol/m5Y5ZKu9pn
+         SVpDBX5LfcNJDDUn4yyS2cdlmaI78ysmlsvuyWQzxsievAshuB6rWKX8DHp92ldMt3zY
+         B4ne5V6CrxYJGLdzok22NDcHnJ888zHEEYrF3wi5/SWDuDbeFyaUPN56nH0Ld2N46MwE
+         f6ZAH1f8EYlHkNc4dNQ1swga9w9EtS1u5p3L8IVZA4FMXKGSjfCsGVu19Qu2Vzzx9+vI
+         LTBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=KxSZiZRQdqgzdFlRO54VlTYfuoCWD/E1gz0LmgTtY38=;
-        b=cZN4gcuotfoAIYkx4Pj2rqQBu70t91YfZ3h4V8gfTXJ7mZJ7Hz/l+qT195yNKqIz5G
-         QPHCDEnhfYA3n5X5TuDWW8riNm0vLUPLUj3RrZiQGfPw3y57klhltUF2cVlO7JDCTIE8
-         eLN3nK+Xm2AdQwrnm88+Wlx0A2OERQ9pOLNPY6e/I1rlSeDqTeeHYiOeZebFIgNObrvu
-         C3Gb5e+raFjplIi2jd0NqemSBMyHPd5mW9KQYFm3/9nS5ah+1WeUUjNDLlPm7tvkLtF4
-         mrisbrUqIAliEdccZx+LxOSjY9PhmE827RlcdgVKTpVoDnN5S0cE9/riXpIeshtohcnY
-         EIGQ==
-X-Gm-Message-State: AOAM531ZhZoNYzUSKAvlfsqpgVYA1aCwzH5cACkce6WXu97HmJ7rfGBQ
-        CFPTEjyiT0Ax047f4oyamSRtnw==
-X-Google-Smtp-Source: ABdhPJz7TEYmMxMwyDgcG8hn/K2tGWPANlpL5C2Rd+UacwgE3SCcvv0POx4pvE+v0p2KoHgDYwDDKg==
-X-Received: by 2002:a02:3342:: with SMTP id k2mr25038656jak.231.1641787086863;
-        Sun, 09 Jan 2022 19:58:06 -0800 (PST)
+        bh=guDTMY1gDKbuEeHSjJBqpytUvSIpcoxzveWlee08C0k=;
+        b=GkQ/j4tUFOu2R10ZBKRw5id6+v7TfOxfZxkFFv8Jjn3m6/kIwBa/Gs+VEphYaaYtWY
+         2HFJaxpERMfAQuvoR7zBc2ji1sGXm13NAhhz8yy3s6kefGM2WVTKcj3w5Gaug/5DXBEF
+         8+SMhyMn3gZ5IeeetLDFozkLfJpvVGRXXF0UZzl/f5l+t/0n5LPBJh9h5Mug6Ur4tlMN
+         0kfCs5ykiQg4ES+P5PuLmc+GJLIzb7xmPxN+w+FcqF5byOzkjNNqfyi+JG0iTV2CKsQi
+         SUgVw4tL+Jcq6GTum7a39yz1gfTr76Y7KQbjxiJ1DTyFaNFkeNOd9NT3VIyeKF16R3eB
+         p3VQ==
+X-Gm-Message-State: AOAM533vvnzC+oTbAv06INrRqUBSgmlyKy4BGHBJrIH8K23wN8RyTVr6
+        aXbXy7Dac5oZzK7GDl0rlskHiw==
+X-Google-Smtp-Source: ABdhPJxFUbrC0ZIhFKmqo908OFMH2pxK5vT/Vqqp8hKFWDmgoGpLXOANCv2QbMHi2EceqWLqE78zrg==
+X-Received: by 2002:a05:6638:4192:: with SMTP id az18mr34204838jab.252.1641790083298;
+        Sun, 09 Jan 2022 20:48:03 -0800 (PST)
 Received: from google.com ([2620:15c:183:200:d17d:9fe6:6a18:f270])
-        by smtp.gmail.com with ESMTPSA id d11sm3582345ilv.6.2022.01.09.19.58.05
+        by smtp.gmail.com with ESMTPSA id h23sm1907101ila.81.2022.01.09.20.48.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Jan 2022 19:58:06 -0800 (PST)
-Date:   Sun, 9 Jan 2022 20:58:02 -0700
+        Sun, 09 Jan 2022 20:48:02 -0800 (PST)
+Date:   Sun, 9 Jan 2022 21:47:57 -0700
 From:   Yu Zhao <yuzhao@google.com>
 To:     Michal Hocko <mhocko@suse.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
@@ -71,65 +71,82 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         page-reclaim@google.com, x86@kernel.org,
         Konstantin Kharlamov <Hi-Angel@yandex.ru>
 Subject: Re: [PATCH v6 6/9] mm: multigenerational lru: aging
-Message-ID: <Yduuyrk/AZG717Hs@google.com>
+Message-ID: <Ydu6fXg2FmrseQOn@google.com>
 References: <20220104202227.2903605-1-yuzhao@google.com>
  <20220104202227.2903605-7-yuzhao@google.com>
- <YdcU4P+XWkbDUUoO@dhcp22.suse.cz>
- <Yddh+APQGg8dKRgw@google.com>
- <Ydf/7DDu94fMs0CG@dhcp22.suse.cz>
- <YdgBL1dRk1KmyXJS@dhcp22.suse.cz>
+ <YdhR4vWdWksBALtM@dhcp22.suse.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YdgBL1dRk1KmyXJS@dhcp22.suse.cz>
+In-Reply-To: <YdhR4vWdWksBALtM@dhcp22.suse.cz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 07, 2022 at 10:00:31AM +0100, Michal Hocko wrote:
-> On Fri 07-01-22 09:55:09, Michal Hocko wrote:
+On Fri, Jan 07, 2022 at 03:44:50PM +0100, Michal Hocko wrote:
+> On Tue 04-01-22 13:22:25, Yu Zhao wrote:
 > [...]
-> > > In this case, lru_gen_mm_walk is small (160 bytes); it's per direct
-> > > reclaimer; and direct reclaimers rarely come here, i.e., only when
-> > > kswapd can't keep up in terms of the aging, which is similar to the
-> > > condition where the inactive list is empty for the active/inactive
-> > > lru.
-> > 
-> > Well, this is not a strong argument to be honest. Kswapd being stuck
-> > and the majority of the reclaim being done in the direct reclaim
-> > context is a situation I have seen many many times.
+> > +static void walk_mm(struct lruvec *lruvec, struct mm_struct *mm, struct lru_gen_mm_walk *walk)
+> > +{
+> > +	static const struct mm_walk_ops mm_walk_ops = {
+> > +		.test_walk = should_skip_vma,
+> > +		.p4d_entry = walk_pud_range,
+> > +	};
+> > +
+> > +	int err;
+> > +#ifdef CONFIG_MEMCG
+> > +	struct mem_cgroup *memcg = lruvec_memcg(lruvec);
+> > +#endif
+> > +
+> > +	walk->next_addr = FIRST_USER_ADDRESS;
+> > +
+> > +	do {
+> > +		unsigned long start = walk->next_addr;
+> > +		unsigned long end = mm->highest_vm_end;
+> > +
+> > +		err = -EBUSY;
+> > +
+> > +		rcu_read_lock();
+> > +#ifdef CONFIG_MEMCG
+> > +		if (memcg && atomic_read(&memcg->moving_account))
+> > +			goto contended;
+> > +#endif
+> > +		if (!mmap_read_trylock(mm))
+> > +			goto contended;
 > 
-> Also do not forget that memcg reclaim is effectivelly only direct
-> reclaim. Not that the memcg reclaim indicates a global memory shortage
-> but it can add up and race with the global reclaim as well.
+> Have you evaluated the behavior under mmap_sem contention? I mean what
+> would be an effect of some mms being excluded from the walk? This path
+> is called from direct reclaim and we do allocate with exclusive mmap_sem
+> IIRC and the trylock can fail in a presence of pending writer if I am
+> not mistaken so even the read lock holder (e.g. an allocation from the #PF)
+> can bypass the walk.
 
-I don't dispute any of the above, and I probably don't like this code
-more than you do.
+You are right. Here it must be a trylock; otherwise it can deadlock.
 
-But let's not forget the purposes of PF_MEMALLOC, besides preventing
-recursive reclaims, include letting reclaim dip into reserves so that
-it can make more free memory. So I think it's acceptable if the
-following conditions are met:
-1. The allocation size is small.
-2. The number of allocations is bounded.
-3. Its failure doesn't stall reclaim.
-And it'd be nice if
-4. The allocation happens rarely, e.g., slow path only.
+I think there might be a misunderstanding: the aging doesn't
+exclusively rely on page table walks to gather the accessed bit. It
+prefers page table walks but it can also fallback to the rmap-based
+function, i.e., lru_gen_look_around(), which only gathers the accessed
+bit from at most 64 PTEs and therefore is less efficient. But it still
+retains about 80% of the performance gains.
 
-The code in question meets all of them.
+> Or is this considered statistically insignificant thus a theoretical
+> problem?
 
-1. This allocation is 160 bytes.
-2. It's bounded by the number of page table walkers which, in the
-   worst, is same as the number of mm_struct's.
-3. Most importantly, its failure doesn't stall the aging. The aging
-   will fallback to the rmap-based function lru_gen_look_around().
-   But this function only gathers the accessed bit from at most 64
-   PTEs, meaning it's less efficient (retains ~80% performance gains).
-4. This allocation is rare, i.e., only when the aging is required,
-   which is similar to the low inactive case for the active/inactive
-   lru.
+Yes. People who work on the maple tree and SPF at Google expressed the
+same concern during the design review meeting (all stakeholders on the
+mailing list were also invited). So we had a counter to monitor the
+contention in previous versions, i.e., MM_LOCK_CONTENTION in v4 here:
+https://lore.kernel.org/lkml/20210818063107.2696454-8-yuzhao@google.com/
 
-The bottom line is I can try various optimizations, e.g., preallocate
-a few buffers for a limited number of page walkers and if this number
-has been reached, fallback to the rmap-based function. But I have yet
-to see evidence that calls for additional complexity.
+And we also combined this patchset with the SPF patchset to see if the
+latter makes any difference. Our conclusion was the contention is
+statistically insignificant to the performance under memory pressure.
+
+This can be explained by how often we create a new generation. (We
+only walk page tables when we create a new generation. And it's
+similar to the low inactive condition for the active/inactive lru.)
+
+Usually we only do so every few seconds. We'd run into problems with
+other parts of the kernel, e.g., lru lock contention, i/o congestion,
+etc. if we create more than a few generation every second.
