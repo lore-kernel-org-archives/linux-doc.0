@@ -2,36 +2,33 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4C93C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Jan 2022 14:49:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3201FC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Jan 2022 15:01:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234973AbiAJOtu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Jan 2022 09:49:50 -0500
-Received: from shark1.inbox.lv ([194.152.32.81]:45432 "EHLO shark1.inbox.lv"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230426AbiAJOtt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 10 Jan 2022 09:49:49 -0500
-Received: from shark1.inbox.lv (localhost [127.0.0.1])
-        by shark1-out.inbox.lv (Postfix) with ESMTP id 048B61118140;
-        Mon, 10 Jan 2022 16:49:48 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=inbox.lv; s=30062014;
-        t=1641826188; bh=v8M5awXlRgm8CQPFWrxz5Yn/2aXPYkjUaIMnTlnA2j4=;
-        h=Date:From:To:Subject:Message-ID:In-Reply-To:References:
-         Content-Type:X-ESPOL:from:date;
-        b=ETkKyFBSqlmwxhHpOAPlyeai+0JG5EsOAxPGfHaxqA+mKrNVrafW5wHuqE9QQOdMj
-         fkYp9FiHF5ouPE742u0Z4OYws+vdRodvMKwZg4yPdnwSk2m8KG7fxrtK2j6yOU0Fju
-         hYNdJxDDysBQmZCy8v1k5aZExcslKHO6gl19u3Sw=
-Received: from localhost (localhost [127.0.0.1])
-        by shark1-in.inbox.lv (Postfix) with ESMTP id EDA2011180B4;
-        Mon, 10 Jan 2022 16:49:47 +0200 (EET)
-Received: from shark1.inbox.lv ([127.0.0.1])
-        by localhost (shark1.inbox.lv [127.0.0.1]) (spamfilter, port 35)
-        with ESMTP id 49NQ99mX1Zp1; Mon, 10 Jan 2022 16:49:47 +0200 (EET)
-Received: from mail.inbox.lv (pop1 [127.0.0.1])
-        by shark1-in.inbox.lv (Postfix) with ESMTP id 9C3971118085;
-        Mon, 10 Jan 2022 16:49:47 +0200 (EET)
-Date:   Mon, 10 Jan 2022 23:49:32 +0900
-From:   Alexey Avramov <hakavlad@inbox.lv>
+        id S235853AbiAJPBS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Jan 2022 10:01:18 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:42332 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231182AbiAJPBP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jan 2022 10:01:15 -0500
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id 8EAE91F393;
+        Mon, 10 Jan 2022 15:01:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1641826874; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Q76Wyz+nI4/dcgRGawE+N5Thsz9mJBqCX+eGoAKYvPo=;
+        b=CjkZ7+V6QTNv2Tsl/GKUB9gnqie3olVoeDmQa34/K9GA1F/u0kSpjWeWi6Znj+zn0Xhc+Q
+        TTR2PoDZZJlwaJ/Cz0NbTu4lHYo3gmSCGkVRQQIOizAZwyl3SgmuzPls/PNH7T5LQ4wLe+
+        c3NzO7AP8oqw2TD+h9vA+JKojRFbpVE=
+Received: from suse.cz (unknown [10.100.201.86])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id B8613A3B87;
+        Mon, 10 Jan 2022 15:01:13 +0000 (UTC)
+Date:   Mon, 10 Jan 2022 16:01:13 +0100
+From:   Michal Hocko <mhocko@suse.com>
 To:     Yu Zhao <yuzhao@google.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
@@ -45,46 +42,48 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Matthew Wilcox <willy@infradead.org>,
         Mel Gorman <mgorman@suse.de>,
         Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
         Rik van Riel <riel@surriel.com>,
         Vlastimil Babka <vbabka@suse.cz>,
         Will Deacon <will@kernel.org>,
         Ying Huang <ying.huang@intel.com>,
         linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        page-reclaim@google.com, x86@kernel.org, hakavlad@gmail.com
-Subject: Re: [PATCH v6 0/9] Multigenerational LRU Framework
-Message-ID: <20220110234932.6eb6c356@mail.inbox.lv>
-In-Reply-To: <20220104202227.2903605-1-yuzhao@google.com>
+        page-reclaim@google.com, x86@kernel.org,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>
+Subject: Re: [PATCH v6 6/9] mm: multigenerational lru: aging
+Message-ID: <YdxKORU9OWCv114O@dhcp22.suse.cz>
 References: <20220104202227.2903605-1-yuzhao@google.com>
-X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+ <20220104202227.2903605-7-yuzhao@google.com>
+ <YdcU4P+XWkbDUUoO@dhcp22.suse.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: OK
-X-ESPOL: AJqEQH8B6gpL2qWiUuRh4Or6x9a2SFs9vyXmrMk96HRYtbrGu9h2dXPmZYmvRkKl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YdcU4P+XWkbDUUoO@dhcp22.suse.cz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Note that with vm.swappiness=0, the vm.watermark_scale_factor value does
-not affect the swap possibility: MGLRU ignores sc->file_is_tiny.
+On Thu 06-01-22 17:12:18, Michal Hocko wrote:
+> On Tue 04-01-22 13:22:25, Yu Zhao wrote:
+> > +static struct lru_gen_mm_walk *alloc_mm_walk(void)
+> > +{
+> > +	if (!current->reclaim_state || !current->reclaim_state->mm_walk)
+> > +		return kvzalloc(sizeof(struct lru_gen_mm_walk), GFP_KERNEL);
 
-With the classic 2-gen LRU swapping goes well at swappiness=0 and
-high vm.watermark_scale_factor, which is expected according to the
-documentation:
-"At 0, the kernel will not initiate swap until the amount of free and
-file-backed pages is less than the high watermark in a zone." [1]
+One thing I have overlooked completely. You cannot really use GFP_KERNEL
+allocation here because the reclaim context can be constrained (e.g.
+GFP_NOFS). This allocation will not do any reclaim as it is PF_MEMALLOC
+but I suspect that the lockdep will complain anyway.
 
-With vm.swappiness=0, no swap occurs with any vm.watermark_scale_factor
-value with MGLRU.
+Also kvmalloc is not really great here. a) vmalloc path is never
+executed for small objects and b) we do not really want to make a
+dependency between vmalloc and the reclaim (by vmalloc -> reclaim ->
+vmalloc).
 
-I used to see in practice (with MGLRU v3) the impossibility of swapping 
-when vm.swappiness=0 and vm.watermark_scale_factor=1000.
-
-At a minimum, this will require updating the documentation for
-vm.swappiness.
-
-BTW, why MGLRU doesn't use something like sc->file_is_tiny?
-
-[1] https://github.com/torvalds/linux/blob/v5.16/Documentation/admin-guide/sysctl/vm.rst#swappiness
+Even if we rule out vmalloc and look at kmalloc alone. Is this really
+safe? I do not see any recursion prevention in the SL.B code. Maybe this
+just happens to work but the dependency should be really documented so
+that future SL.B changes won't break the whole scheme. 
+-- 
+Michal Hocko
+SUSE Labs
