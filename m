@@ -2,149 +2,150 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 868E1C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Jan 2022 10:54:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4833AC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Jan 2022 11:03:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244267AbiAJKyt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Jan 2022 05:54:49 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28]:46496 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244285AbiAJKyr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jan 2022 05:54:47 -0500
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 97F2E21108;
-        Mon, 10 Jan 2022 10:54:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1641812086; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=oKacWBSN/ZXwXmFrEa9nCB5WmYPzYr2A9hT2GRYd14M=;
-        b=Z43I/eSbXXVkSr86SLVEM+mrL1i4j2GQBi70dciJ2aG1HwuNDRMRFM1wjl0kf1gMf8f3HD
-        pGZvcIqzVgDrjLyK0elQSOHqU+gH5Jito4dOdMg/I5gMXUZ7j+AGE9cCFRC7QF/kqqU5cV
-        jWCNf5Ta3ex9HQcy3swcNF33faKgh2s=
-Received: from suse.cz (unknown [10.100.201.86])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id A58EFA3B81;
-        Mon, 10 Jan 2022 10:54:45 +0000 (UTC)
-Date:   Mon, 10 Jan 2022 11:54:42 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     Yu Zhao <yuzhao@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        page-reclaim@google.com, x86@kernel.org,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>
-Subject: Re: [PATCH v6 6/9] mm: multigenerational lru: aging
-Message-ID: <YdwQcl6D5Mbp9Z4h@dhcp22.suse.cz>
-References: <20220104202227.2903605-1-yuzhao@google.com>
- <20220104202227.2903605-7-yuzhao@google.com>
- <YdhR4vWdWksBALtM@dhcp22.suse.cz>
- <Ydu6fXg2FmrseQOn@google.com>
+        id S244361AbiAJLDI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Jan 2022 06:03:08 -0500
+Received: from foss.arm.com ([217.140.110.172]:60994 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S244358AbiAJLDI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 Jan 2022 06:03:08 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 05F002B;
+        Mon, 10 Jan 2022 03:03:08 -0800 (PST)
+Received: from [10.57.85.117] (unknown [10.57.85.117])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 970C03F5A1;
+        Mon, 10 Jan 2022 03:03:06 -0800 (PST)
+Message-ID: <0ce7622a-0c61-ea80-6c53-0388a8b620fe@arm.com>
+Date:   Mon, 10 Jan 2022 11:03:05 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Ydu6fXg2FmrseQOn@google.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.4.1
+Subject: Re: [PATCH V2 5/7] coresight: trbe: Work around the ignored system
+ register writes
+To:     Anshuman Khandual <anshuman.khandual@arm.com>,
+        linux-arm-kernel@lists.infradead.org
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        coresight@lists.linaro.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1641517808-5735-1-git-send-email-anshuman.khandual@arm.com>
+ <1641517808-5735-6-git-send-email-anshuman.khandual@arm.com>
+From:   Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <1641517808-5735-6-git-send-email-anshuman.khandual@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun 09-01-22 21:47:57, Yu Zhao wrote:
-> On Fri, Jan 07, 2022 at 03:44:50PM +0100, Michal Hocko wrote:
-> > On Tue 04-01-22 13:22:25, Yu Zhao wrote:
-> > [...]
-> > > +static void walk_mm(struct lruvec *lruvec, struct mm_struct *mm, struct lru_gen_mm_walk *walk)
-> > > +{
-> > > +	static const struct mm_walk_ops mm_walk_ops = {
-> > > +		.test_walk = should_skip_vma,
-> > > +		.p4d_entry = walk_pud_range,
-> > > +	};
-> > > +
-> > > +	int err;
-> > > +#ifdef CONFIG_MEMCG
-> > > +	struct mem_cgroup *memcg = lruvec_memcg(lruvec);
-> > > +#endif
-> > > +
-> > > +	walk->next_addr = FIRST_USER_ADDRESS;
-> > > +
-> > > +	do {
-> > > +		unsigned long start = walk->next_addr;
-> > > +		unsigned long end = mm->highest_vm_end;
-> > > +
-> > > +		err = -EBUSY;
-> > > +
-> > > +		rcu_read_lock();
-> > > +#ifdef CONFIG_MEMCG
-> > > +		if (memcg && atomic_read(&memcg->moving_account))
-> > > +			goto contended;
-> > > +#endif
-> > > +		if (!mmap_read_trylock(mm))
-> > > +			goto contended;
-> > 
-> > Have you evaluated the behavior under mmap_sem contention? I mean what
-> > would be an effect of some mms being excluded from the walk? This path
-> > is called from direct reclaim and we do allocate with exclusive mmap_sem
-> > IIRC and the trylock can fail in a presence of pending writer if I am
-> > not mistaken so even the read lock holder (e.g. an allocation from the #PF)
-> > can bypass the walk.
+On 07/01/2022 01:10, Anshuman Khandual wrote:
+> TRBE implementations affected by Arm erratum #2064142 might fail to write
+> into certain system registers after the TRBE has been disabled. Under some
+> conditions after TRBE has been disabled, writes into certain TRBE registers
+> TRBLIMITR_EL1, TRBPTR_EL1, TRBBASER_EL1, TRBSR_EL1 and TRBTRG_EL1 will be
+> ignored and not be effected.
 > 
-> You are right. Here it must be a trylock; otherwise it can deadlock.
-
-Yeah, this is clear.
-
-> I think there might be a misunderstanding: the aging doesn't
-> exclusively rely on page table walks to gather the accessed bit. It
-> prefers page table walks but it can also fallback to the rmap-based
-> function, i.e., lru_gen_look_around(), which only gathers the accessed
-> bit from at most 64 PTEs and therefore is less efficient. But it still
-> retains about 80% of the performance gains.
-
-I have to say that I really have hard time to understand the runtime
-behavior depending on that interaction. How does the reclaim behave when
-the virtual scan is enabled, partially enabled and almost completely
-disabled due to different constrains? I do not see any such an
-evaluation described in changelogs and I consider this to be a rather
-important information to judge the overall behavior.
- 
-> > Or is this considered statistically insignificant thus a theoretical
-> > problem?
+> Work around this problem in the TRBE driver by executing TSB CSYNC and DSB
+> just after the trace collection has stopped and before performing a system
+> register write to one of the affected registers. This just updates the TRBE
+> driver as required.
 > 
-> Yes. People who work on the maple tree and SPF at Google expressed the
-> same concern during the design review meeting (all stakeholders on the
-> mailing list were also invited). So we had a counter to monitor the
-> contention in previous versions, i.e., MM_LOCK_CONTENTION in v4 here:
-> https://lore.kernel.org/lkml/20210818063107.2696454-8-yuzhao@google.com/
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
+> Cc: Suzuki Poulose <suzuki.poulose@arm.com>
+> Cc: coresight@lists.linaro.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+> ---
+>   arch/arm64/Kconfig                           |  2 +-
+>   drivers/hwtracing/coresight/coresight-trbe.c | 54 ++++++++++++++------
+>   drivers/hwtracing/coresight/coresight-trbe.h |  8 ---
+>   3 files changed, 39 insertions(+), 25 deletions(-)
 > 
-> And we also combined this patchset with the SPF patchset to see if the
-> latter makes any difference. Our conclusion was the contention is
-> statistically insignificant to the performance under memory pressure.
-> 
-> This can be explained by how often we create a new generation. (We
-> only walk page tables when we create a new generation. And it's
-> similar to the low inactive condition for the active/inactive lru.)
-> 
-> Usually we only do so every few seconds. We'd run into problems with
-> other parts of the kernel, e.g., lru lock contention, i/o congestion,
-> etc. if we create more than a few generation every second.
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index f1651cb71ef3..b6d62672bf7d 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -780,7 +780,7 @@ config ARM64_ERRATUM_2224489
+>   
+>   config ARM64_ERRATUM_2064142
+>   	bool "Cortex-A510: 2064142: workaround TRBE register writes while disabled"
+> -	depends on COMPILE_TEST # Until the CoreSight TRBE driver changes are in
+> +	depends on CORESIGHT_TRBE
+>   	default y
+>   	help
+>   	  This option adds the workaround for ARM Cortex-A510 erratum 2064142.
+> diff --git a/drivers/hwtracing/coresight/coresight-trbe.c b/drivers/hwtracing/coresight/coresight-trbe.c
+> index 276862c07e32..850e9fca6847 100644
+> --- a/drivers/hwtracing/coresight/coresight-trbe.c
+> +++ b/drivers/hwtracing/coresight/coresight-trbe.c
+> @@ -91,10 +91,12 @@ struct trbe_buf {
+>    */
+>   #define TRBE_WORKAROUND_OVERWRITE_FILL_MODE	0
+>   #define TRBE_WORKAROUND_WRITE_OUT_OF_RANGE	1
+> +#define TRBE_NEEDS_DRAIN_AFTER_DISABLE		2
+>   
+>   static int trbe_errata_cpucaps[] = {
+>   	[TRBE_WORKAROUND_OVERWRITE_FILL_MODE] = ARM64_WORKAROUND_TRBE_OVERWRITE_FILL_MODE,
+>   	[TRBE_WORKAROUND_WRITE_OUT_OF_RANGE] = ARM64_WORKAROUND_TRBE_WRITE_OUT_OF_RANGE,
+> +	[TRBE_NEEDS_DRAIN_AFTER_DISABLE] = ARM64_WORKAROUND_2064142,
+>   	-1,		/* Sentinel, must be the last entry */
+>   };
+>   
+> @@ -167,6 +169,11 @@ static inline bool trbe_may_write_out_of_range(struct trbe_cpudata *cpudata)
+>   	return trbe_has_erratum(cpudata, TRBE_WORKAROUND_WRITE_OUT_OF_RANGE);
+>   }
+>   
+> +static inline bool trbe_needs_drain_after_disable(struct trbe_cpudata *cpudata)
+> +{
+> +	return trbe_has_erratum(cpudata, TRBE_NEEDS_DRAIN_AFTER_DISABLE);
+> +}
+> +
+>   static int trbe_alloc_node(struct perf_event *event)
+>   {
+>   	if (event->cpu == -1)
+> @@ -174,30 +181,42 @@ static int trbe_alloc_node(struct perf_event *event)
+>   	return cpu_to_node(event->cpu);
+>   }
+>   
+> -static void trbe_drain_buffer(void)
+> +static inline void trbe_drain_buffer(void)
+>   {
+>   	tsb_csync();
+>   	dsb(nsh);
+>   }
+>   
+> -static void trbe_drain_and_disable_local(void)
+> +static inline void set_trbe_disabled(struct trbe_cpudata *cpudata)
+>   {
+>   	u64 trblimitr = read_sysreg_s(SYS_TRBLIMITR_EL1);
+>   
+> -	trbe_drain_buffer();
+> -
+>   	/*
+>   	 * Disable the TRBE without clearing LIMITPTR which
+>   	 * might be required for fetching the buffer limits.
+>   	 */
+>   	trblimitr &= ~TRBLIMITR_ENABLE;
+>   	write_sysreg_s(trblimitr, SYS_TRBLIMITR_EL1);
+> +
+> +	/*
+> +	 * Errata affected TRBE implementation will need TSB CSYNC and
+> +	 * DSB in order to prevent subsequent writes into certain TRBE
+> +	 * system registers from being ignored and not effected.
+> +	 */
 
-This would be a very good information to have in changelogs. Ideally
-with some numbers and analysis.
+minor nit: This comment could be moved to the definition of the
+function "trbe_needs_drain_after_disable()" to make more sense.
+The name is implicit here indicating, why we are doing a drain.
 
--- 
-Michal Hocko
-SUSE Labs
+Either ways:
+
+Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+
