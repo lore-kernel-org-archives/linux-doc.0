@@ -2,394 +2,277 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DFC1C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Jan 2022 06:01:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B56AC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Jan 2022 06:45:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238854AbiAJGBt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Jan 2022 01:01:49 -0500
-Received: from mga02.intel.com ([134.134.136.20]:12263 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238848AbiAJGBs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 10 Jan 2022 01:01:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1641794508; x=1673330508;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=YunOolNa+CAUSbf612/jN9ikldLAhGqq5nYbI8hpvp4=;
-  b=br/A6KI0qmmvAz6Iku/oUyKiORwap9DMFEPrbWU3dXEsw3ve/e2Z/K5p
-   56atVmI41/7GLUAq3xDj3CtytDtCBdVTDoA8tqJJDTYwXqaKvZRa89chW
-   7FhOVBtc6R4eAiDox+UOXxKip9xpp+zBMxunwovsyejRwDcdSMXxFldZW
-   HfWedMDs5czZJXco7tD0V8BxL3SYYZPfQPamH3T2Jep/Nh2ID+3gieJuQ
-   W5bRDAQBLKGRs+LU5BI7aS4oOCXjoFRMn8MyBteHZQt96sC2Hm65jr9VG
-   6ggK4ZMtjrtX8+nlzQ57UO0CbFhBgZ2eUvnP7EhcP2PvItO1LpNLQC1wy
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10222"; a="230499997"
-X-IronPort-AV: E=Sophos;i="5.88,276,1635231600"; 
-   d="scan'208";a="230499997"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2022 22:01:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,276,1635231600"; 
-   d="scan'208";a="612753714"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by FMSMGA003.fm.intel.com with ESMTP; 09 Jan 2022 22:01:47 -0800
-Received: from orsmsx605.amr.corp.intel.com (10.22.229.18) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Sun, 9 Jan 2022 22:01:47 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20 via Frontend Transport; Sun, 9 Jan 2022 22:01:47 -0800
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.101)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.20; Sun, 9 Jan 2022 22:01:46 -0800
+        id S233679AbiAJGpW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Jan 2022 01:45:22 -0500
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:13376 "EHLO
+        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229991AbiAJGpV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jan 2022 01:45:21 -0500
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20A0qrWN007008;
+        Mon, 10 Jan 2022 06:44:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : content-type : in-reply-to : mime-version;
+ s=corp-2021-07-09; bh=Z8kpINvJP58D1HkOkDLag6JHWgTMaqcirVhZpqoePts=;
+ b=yb3RClyIhecWMIFiT/R2Alh0FQk+Cl81DVdWQqVP7taS+s9ka3UaDe/DLENHFxQ0DsLf
+ dyJ31eb93QRdj5gA/l27txVqxa7ZbQPqAnBpB7dHS2GJa+LcG/FsAYN/pGolAouT6Tr6
+ t/aBsTYddCKsoVhpdqe5judxR1o6U3kEpQRjCtoQPxaB9tiw8mW+CcyFpowvPjpQW+9m
+ IreUBXB7rT31XTUUox8okKwgZHaDxLhLDr9kYkqZkvdl7qTF4ItqLUlVI5atSoQsufSC
+ UeXm+QbO4N9zniLh3vc8HyX9DBMt8F/ZPH9dfbwPn2Qyo6ncYWpeHji03zNs6rTTzPXh qg== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by mx0b-00069f02.pphosted.com with ESMTP id 3df1d2tah1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 10 Jan 2022 06:44:27 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20A6fsTi025660;
+        Mon, 10 Jan 2022 06:44:26 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2103.outbound.protection.outlook.com [104.47.70.103])
+        by aserp3020.oracle.com with ESMTP id 3df2e2vtr1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 10 Jan 2022 06:44:26 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oCJ98XPKnz9JEbWRboqauf+eMF0cAzKQYgFdWhclCh+fP2RV4LfiDPQiC4z0VS4TYqYDiLXfzSadJB2h5xkaRnMrVwsTnkFCtczE5Qqb8ozMP7aiQ5fnJ4q9/uaqb1rmZSZR8O2X7D84sjMMCWfee5a6fQ0vlmvHHRCpdTHsZYecLCht20kwuzuz4TTU3rHJ+GJIFUkI2hTsecCaogLsDlmkbvfz8llJH8Gvx+dyNoDYrZob2FEY79OjHxliqOTM/60/j5Xj6INavN3HtQqj8kVDKaeSyhV8Ei9v35B3ObqwI6Z6shIW/ypIiWTy44vyMd/IinCm0FTnpg8JcouKBQ==
+ b=Gc6i3K00Uej2vXphS/e6w8hUAVSVnHJNn4oSKzz+U9+RRRl64cBNfDWUrefry5Zw+JEPHjsoFMqAwAXPuev5O8GeghGnOYVLKaPWcTjXrDV3TlTpQisbD06xDlh0WxtlIzGDuTZQ+MGDxaDQbuiS5cULbapzsFyrKiORX5d5gs/v3C982z22bhij3+wkhcdyyyHG3HbKjIRh7+fJqPCX7jWVLHvlRoYXvVAMMC8cQrlKjM7u4QJdAms2288UomNSJqkYis39sv7GD8YtD/UXDYKkYCCvltvHJsD22eTel9E323I3qlN+Q/2MMNDdBB+MG43n0iB8ZhTElC0/v1ncdQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ftNAb3UDJCPg498ODFNvLhrOYycIsOWIrs7hKIX2Bbg=;
- b=HTXzCThCDEzYQjqWFztWipU8hLBH9mfBjL4qwJfdMZQVojORQqkGxAVr+jamn/rSx5xuIJvrUXvL/evcGhQ+yuf80raqITsy73Yk4oIJUmTrfzEK3qX4co6jgLjO31wGISwa6r7mBRXnFrXZu4q7PLhM+LkeEG0RVRyPQE+ED6XcZDnvp1L+buFeItjW0QvJfXIQ/hNkyo8pdOKsIr9aprXfa2yomcFRR6ft63i63RlltFmW5C3sVKWrYXz2htKWv1QI7axDNB32jRDXHg508K/HMu2XyA8BOrjzGtbIQcxgy6erlH7UVLO/AQOiGL2XngKcvk5UCTE0Nyu3hMNpaw==
+ bh=Z8kpINvJP58D1HkOkDLag6JHWgTMaqcirVhZpqoePts=;
+ b=Wv/OVckD8oI7h10doCUQzooUgOOXVxpWTiTo1uaNfz0DSmYCEOt7VVR6rhg7Ti00IVIipBYingWxSFpgHmvwmL2tKw8yskqNcsf6mYx0+Fv2hvYeg6wVLYHNs96WBQlfAqGaxvIDlf0ViiRePuRDfaVgspO2+EFcGIWAO69T6FB/Wq21l7o3870WDHDQac2CPJODblxmsUblm+aKXALMz8vcKDsxe7EcbbbqlnPCtbVb5ya1ko6XyQDogWwsebUsE8bzEqd4lnNAZkyxYeaNhRU9TswpJrAnFC0QOyT26Y3x/FXp9w/jMh4t7n3+8orhTs0jX7bp2PgkIUDWn/u3cQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
- by BN9PR11MB5484.namprd11.prod.outlook.com (2603:10b6:408:105::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4867.7; Mon, 10 Jan
- 2022 06:01:45 +0000
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::5c8a:9266:d416:3e04]) by BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::5c8a:9266:d416:3e04%2]) with mapi id 15.20.4867.011; Mon, 10 Jan 2022
- 06:01:45 +0000
-From:   "Tian, Kevin" <kevin.tian@intel.com>
-To:     Alex Williamson <alex.williamson@redhat.com>
-CC:     "jgg@nvidia.com" <jgg@nvidia.com>,
-        "cohuck@redhat.com" <cohuck@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "farman@linux.ibm.com" <farman@linux.ibm.com>,
-        "mjrosato@linux.ibm.com" <mjrosato@linux.ibm.com>,
-        "pasic@linux.ibm.com" <pasic@linux.ibm.com>
-Subject: RE: [RFC PATCH] vfio: Update/Clarify migration uAPI, add NDMA state
-Thread-Topic: [RFC PATCH] vfio: Update/Clarify migration uAPI, add NDMA state
-Thread-Index: AQHX7VV0XQcySACwoUuiLSnTAAZEGKxXTBHggACin4CAA/2tAA==
-Date:   Mon, 10 Jan 2022 06:01:45 +0000
-Message-ID: <BN9PR11MB5276701E9AF2C6167E0D3FCC8C509@BN9PR11MB5276.namprd11.prod.outlook.com>
-References: <163909282574.728533.7460416142511440919.stgit@omen>
-        <BN9PR11MB52769D49A29D1CD7A0C87C888C4D9@BN9PR11MB5276.namprd11.prod.outlook.com>
- <20220107093611.6cbc6166.alex.williamson@redhat.com>
-In-Reply-To: <20220107093611.6cbc6166.alex.williamson@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-version: 11.6.200.16
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9a39bbdc-aed4-4c3b-e5d0-08d9d3feae9d
-x-ms-traffictypediagnostic: BN9PR11MB5484:EE_
-x-microsoft-antispam-prvs: <BN9PR11MB54840A115223C5D828EDDEDD8C509@BN9PR11MB5484.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Lrd250gd2R0p7qTLcUPUdTGdlCM+358lh0M1rO4i8gbpMiXSC7Q7kP5CcoZbHu0BDRLSbrMG6qBgvKF2esjjpULKhqG+XZkObf5Cg64Hr/g+RBqNFkPkNWq+8yqMbhOZVZnt2be+S4619PO3DOmcr+2YwTFlQs93Iha4A8lxrsf3ASczx04iRy7/8dGYQJaAabBJOSZSoGx2/iQhLANB39kyh12KqC/Ln9/Slaszulsa04wjC2C//tjX8/eI2hOblHMdbuP2arqtXNyKp1r+8JbZgtuXji5IuirY3pZQhoGECtkUByapJt4oTKN5qoUvFXE63AsJLN0L0O+u0Zymufk0gzTWVfZYSiTjrKEKbLC7XAIT5wLuVxX84dhwmMms4xBK3bQOX6bC0mEFiyfeA60h0fYX78LPW8QBWZqdw17JavSCS6ltjUJro+8JJIYs9trKuZJuAE7c3gppSzwaJmDwG0PzN84/5Y0WMQzZKMhY1FZeN/z287BVYhuJ5HZFNP6ia0BWhIx/CCjSkF7TyHg2jlYTTv0ZR0kVoJZElwbTnGzqK6if77s4EYIZE5oPGyFNCuFqtXtAlZ10Pjpy6L+WHF/fGhNUq0+BVZhqxWeXTApKkar3HbSDE3lOIYA8RuWXJkxG23Q4Q3KgQKEmB9oKJJ4v3zPMQbcM2JNajeSMpIV/RqDjqRmUYDsYfDvAgLnYj/e180W/GbhvtB4VYg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5276.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(316002)(508600001)(66946007)(55016003)(33656002)(9686003)(71200400001)(4326008)(8676002)(82960400001)(7696005)(6916009)(122000001)(5660300002)(26005)(86362001)(38100700002)(83380400001)(54906003)(76116006)(38070700005)(66476007)(64756008)(186003)(8936002)(66556008)(52536014)(66446008)(2906002)(6506007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?hBgkeHIE/FfYSY/6ac2k+71zonUfwZUd2Caq0rm4lVhSK10eul/w5Gp0Sh5a?=
- =?us-ascii?Q?D9UqM7AoG89ffxxFsWLC3daEkDKR02ZmSAle2H9Gu2cYCMeBgDvwfu5OWaa0?=
- =?us-ascii?Q?KXVzMp21CdGOaafjgJFKSQAEVKOvkHz8iXMY3A/tkKKEAJswHxbKUfPzXRT6?=
- =?us-ascii?Q?rTs1qjh1ie9QIVuqSqnhK5fV998RRsZ2teLBVfvjPE1Mp04607pPvsJljdiR?=
- =?us-ascii?Q?diWx6SlbLLFuJTqK1YyrzG4ryO3T0pBiKRKcLbtKTdAnwFlZ3lp+SpOnOGy7?=
- =?us-ascii?Q?Jfuyi0bm5nufUqfycMe4FWCpnXjFUGhpDRibIOoeJ784yDOdpD5zLT64wQcP?=
- =?us-ascii?Q?k/RVxESzawSInkuOd6YY6Hsi5PeyWbuYMwQnKey72Jo7uN9dZ7KzbQBydLuM?=
- =?us-ascii?Q?Y8FM/x5XOjUjwkh2c09AtY6hMC8RVCrqW2jjSmzn1uRZUoTpBKFVRjXX6XRO?=
- =?us-ascii?Q?l+vQWON/xkW2EpFE2vmvWxrLR/zBy5ZdFwhZjsxxybWSilTN1Vx44D1s345C?=
- =?us-ascii?Q?KjfOE5K6aNh2x5SIUVzllN3iTtXyRI8ph9OakfDsgT01sM5TYP9hWnoFBl3P?=
- =?us-ascii?Q?/TTW8NmkNl6bjWk8xfjg1AU6U0gSKQdrOo9LRZ6rvPjSxGYOsnjN79vtcJ5R?=
- =?us-ascii?Q?GXbdlqYLsFpDPyoCBnKhgHTWZ1bcn9MVY59F7SUqILvnHif+WBJp0oqmk0dE?=
- =?us-ascii?Q?5h52XeOwbipC8oxnH2iw1h9zlGqTk0IMJQCJEQSWozfIp5osigYLm3iEtFQ6?=
- =?us-ascii?Q?usKi7Kdypy/MR7ZiDg+JH+5fwFaO/deP7jPopjnYGPRZsOB9ktk6Nv/m56eU?=
- =?us-ascii?Q?hgSnbHkIsAl03U49nzHCglh4kVsxmi+lgHaErxN/635BF3PLcRek9K6su/qH?=
- =?us-ascii?Q?/YAC91ZGJ32kY13wqSpX3o0J9Grr5zN5aASKRYn4p3W1EX/h5YQ2RWT542eu?=
- =?us-ascii?Q?vTGC1hy92DyIwNYi2/cQ+zzsh1yUiA0DNW6xFgDhbAj+V3xuP4ewXquEUNXM?=
- =?us-ascii?Q?w7hbMQREbe3gELmW0v2zhThSoZiJJO5o3X+KcIg7YQG0gQElBdtPKuicSiEs?=
- =?us-ascii?Q?XE0A/+ELhSWEQEZmRLBA1P9RbbiMRv9PuOTFOGm/+3yztz5VIt9i3OnnxcJQ?=
- =?us-ascii?Q?ivEg1KPdm+l9I0SnSiKzmyn8tfTISvEENx2NI4BkAHz23gWV0KWbO6Cu/L1s?=
- =?us-ascii?Q?xwDfwACocIU/btcZn00SFrI7mF9ZPF5zCgP2dCYuhMPAcLH3B7epfsNsrWAP?=
- =?us-ascii?Q?XGX6W9j/E+B0bAsQzmA1lJo0I/IMg/RdJa9aM3LBGBAoVgs7cZ/wlglzcgLk?=
- =?us-ascii?Q?xs5Nu5vgmgJVeOMZNRU+BZlR2KryiaSj2FEibKJaLONLr1I+I11t0719mIlZ?=
- =?us-ascii?Q?SYYg6mhQCaYvv1QXC6FEYFbn6ZQqUNcgjOiNEkpd6noqhoB9bFBUCgmTw2Jn?=
- =?us-ascii?Q?7wntZ6sJKub72hv4dDQxxROaJgqR0bwCjT+GZe4HB79qjkNkhqhrBqQQGiBG?=
- =?us-ascii?Q?qFbDP5EWihZnILu8H1a67a2WDdmGwFs6tCM3seErgbnbYNzFdP5oOd6Au+9Y?=
- =?us-ascii?Q?inh5bIkRhxAjFh9yFRx0SeTw8yf4raeVtUS7iCNRoFM4x832jdobGscJDCnD?=
- =?us-ascii?Q?j76feupuNLEsoRGD1+pAVd8=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Z8kpINvJP58D1HkOkDLag6JHWgTMaqcirVhZpqoePts=;
+ b=nMDBUu9xn7SHj6UaHSzTGbBFpRz97qNCjNzczuhDnzTDer1VxUUAVpmxOOa+u9J8AQPBMO7QPErviVup+7qT1WnxWlM0TH77FTjWh1/MKA4yfdrp0Iw5hnDZzChZDbcSKZuL9l1DZhLinMaYEdPjSZhlJiof5ZavgW7M8BE4SsQ=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by MW5PR10MB5807.namprd10.prod.outlook.com
+ (2603:10b6:303:19a::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4844.16; Mon, 10 Jan
+ 2022 06:44:24 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::b889:5c86:23c0:82b8]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::b889:5c86:23c0:82b8%4]) with mapi id 15.20.4867.012; Mon, 10 Jan 2022
+ 06:44:24 +0000
+Date:   Mon, 10 Jan 2022 09:44:02 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     kbuild@lists.01.org, Paul Cercueil <paul@crapouillou.net>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     lkp@intel.com, kbuild-all@lists.01.org,
+        linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, list@opendingux.net,
+        Paul Cercueil <paul@crapouillou.net>,
+        Cosmin Tanislav <cosmin.tanislav@analog.com>
+Subject: Re: [PATCH v2 2/2] hwmon: Add "label" attribute
+Message-ID: <202201081730.TlHZabuC-lkp@intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220105151551.20285-3-paul@crapouillou.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JN2P275CA0043.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:2::31)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 0274bbe0-b0b8-4a23-e046-08d9d404a3b3
+X-MS-TrafficTypeDiagnostic: MW5PR10MB5807:EE_
+X-Microsoft-Antispam-PRVS: <MW5PR10MB58072D51F443CFA9D6B166B08E509@MW5PR10MB5807.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2582;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 9AQONrfTG2rtVmUJV1utik/WwNn04MBKJC3KsfvrpWXa+y+5eLc8kofEdBxQz3BvKjsaQaMQo1wgTpnAdrnh/mWUk6uOF8SbRnv3CD7M2Nmzi71BXm29tWnEiQUNtggNFa1Mej89RybNLWTt/aHMHQ1gnZfkn/NsDM/NGcLOgji/oBwTuUSGNkH7mQRMzivo8Xz76sW9jrhzhP4QN626s0xCLvCdKj62M9EX6uepNubIy9GU0nsgeKxNbzOwLXFj7NKfYwMtoXzo1HvwerVnY0Z4zPwAayf+TL06g1Ke7wyAhgsJ/vFsDMr7P0rx8rlEofk+f0xAiiY/uIZduqJFO125qIY7ZpzQvq2GEO7h1oiMF3pGdWargYRqvXTItFmLxOCKByNCoSjb+ir3c9+zCwdsE6YLEslAiFkQ/qHwH1+5SW+bOGWaMrJA134wtQzZTJNc93SouefUInJPQNqdawsmONNrCQXnzxrCGENOj2gkJa5z+AQ861VzhLIlu11u/sion71yAcKLUshH8WPernu0prqyy+UFYphP7O+VA4fxYcnKDsWgpzNKgXy3+67w7oNlJSFVpjGry9ouLrVCFaAAaap5iFGlWwNXVl4GFyi26CYysfQd6W5qH6JNiUwI0FUWaL13a/fpNCgpBo5QlBZGbPEf5C56tVEL4SHhALme5ccuK/WVr91x5tDVbzBzpc/nzvhU1YL3bheM4XDzUI3Yz5fZByBK9jdO8+D47JcMVBFB4v/dNh83aiBTSul3jPRrYrsv7HfvUqsDGfCchZS3ZTTdqJZGG6zK998Ph/C3WI+Jbe7SZvvc7GETOwSvu9z9z3uUBco3/Ki3GviLIw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(6666004)(26005)(186003)(54906003)(38350700002)(38100700002)(6512007)(4326008)(110136005)(508600001)(4001150100001)(7416002)(8936002)(44832011)(6486002)(6506007)(316002)(5660300002)(8676002)(9686003)(52116002)(83380400001)(66556008)(86362001)(36756003)(66946007)(66476007)(2906002)(1076003)(966005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?G2GyM98Q6VMRsJX3xEVqDc9mo6PU2IcAbcy45XQRls51HwJcpPebf2SUJyO5?=
+ =?us-ascii?Q?Az0gvvSLxJMY40nPX9OCatqyWJ6xVk+Lamq2cpWociinut9BKKRva81xC550?=
+ =?us-ascii?Q?42blad1cwidD+m4xZ+rRA5nUU/AaCzItWffvMsZdfB4Sv+bRZ5/oruXRNP8K?=
+ =?us-ascii?Q?f9KDIb/OOHL51tPBrTQCvmENYa4/+QXG3m7q/VpHjhoD4Ju94ngkUbm8Je7V?=
+ =?us-ascii?Q?6d5DuQ9uvpqqLaJDMyD4y/GD5WsjZAB7gsJFH8+iprCUEUiHNxPLm0wAZM/0?=
+ =?us-ascii?Q?gy2gh76b5M5Bs7/wFrnLtnjilY0QGfpGUob07GRONMYhbYRycM2txUhOmNO4?=
+ =?us-ascii?Q?J1guprpg3aZq8GiDH0tiSsHv5y2mS6q1WYAcdnBiPzpJ9TkrIrJQPzbsxeEI?=
+ =?us-ascii?Q?cmb/J7R2X291SARoPnURVU2eq3S0gsmLDbbSZ2mVgQn2qDz0JaYzfeqDkiCc?=
+ =?us-ascii?Q?+FxOYURSdwcW2O6rcLsyrs8gUUF5HOSP+cGkKb1XqjuGjq3ZbkylQg0FErB5?=
+ =?us-ascii?Q?S4L9IaxWmQEP+6VY74csST9uB2CSXkVFcoXpEwXLImajMGJKQLEATLcCFBr0?=
+ =?us-ascii?Q?SamBYacfgXookUJQb6EiTJRaLLUuneUwR2AcyVg5n27Y9h2qk3Dch6BmxkDq?=
+ =?us-ascii?Q?WsWKl8cM7znBpq8asAUUYeqxsOx0QcIUM/NgTCkBU1YuaJjzZDPBinkWIrav?=
+ =?us-ascii?Q?WCfG8dFO437CFJXzxdnQwvTrJ0ONFtqlc+IFB6ohDvecnyD02a+W+bvxcSCJ?=
+ =?us-ascii?Q?Jxs3PsLV6kPYikAyKg32PlEqq4ZuT6/GA5kehN7vEmBmilHOxAOB9FgsaLbJ?=
+ =?us-ascii?Q?TTtW2xJQMQ36+ZtUbWEl/jIIqOycMXFrDom1yhF3gS9jfWhH1ZwjwpkUbTPp?=
+ =?us-ascii?Q?bgXh/5X1AlaWE5TSOBLJYXvSYNDzWhZzI3b/FrYHDQxCBZIF8VOpyGjE8o5z?=
+ =?us-ascii?Q?XW/8gn/V8tDf3fCM5HGe8X5Tu2IybfEF6HFFfg2VeH8kGACqtnIiPnLPXEal?=
+ =?us-ascii?Q?qcRtOXq69polgaEiWeMhDb6kI95jwtjjyL3UcFgxLfQHBNjdhF68XiGPZKch?=
+ =?us-ascii?Q?E2GrN6ZtpqWM5qy9CkIXu79LTvsuNZ1l0uy1ZoLSkMyxg+IJxw1A7FkIBW8+?=
+ =?us-ascii?Q?U2TJ9jOX9JVAOUIbgxTuNZVufxhBcIkPu8DwCD1VI4rlz2SULg8caqcsW75T?=
+ =?us-ascii?Q?u7cRvtzsuuJHV2BcjZ7qy4PxFSZ/RrT2dq9jUaAGU4QP/LfYJvx0zCyRE41r?=
+ =?us-ascii?Q?I5IbUTVGEKZQK6uTILL3rANl86M9mk4lOPrO+I/ciZefaoBelqOKxI7wuV+2?=
+ =?us-ascii?Q?+IvUNLVfxOv60FqcBpWq5EEyLO1LqmLXh3pR+tXPzcQWYh8XbawYJNg0rThi?=
+ =?us-ascii?Q?GDiMYi+8IfHF3K1nBnk4EoqbL2zubDvuaiP2O30W2MeydMCdmc/GNj11biO4?=
+ =?us-ascii?Q?2deZhE9+h9DE4YG3VPPiGaf0BbVe7hSXMBajqco4GAKOwnaaFDnFYL8wa04F?=
+ =?us-ascii?Q?QR1YJRRw6x2rU1Drh3AL2ss0BHVxo7B1ROyKWMWGbrY7CT/KQVHWDRvXRinv?=
+ =?us-ascii?Q?/Tl9OODh6xYlmew1LO32LLcsIN619l5//pzKH9EnANkCtOkX54AMrZQdOnm5?=
+ =?us-ascii?Q?T8xiSIbYTaTkTJTqzD5RS92iwJaDiZhqn3Z1tgBO3twvABBXLRk5evfwLZwm?=
+ =?us-ascii?Q?QX4shd8m6jIgMA8/FkWTUoVSKOM=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0274bbe0-b0b8-4a23-e046-08d9d404a3b3
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a39bbdc-aed4-4c3b-e5d0-08d9d3feae9d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jan 2022 06:01:45.2909
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jan 2022 06:44:24.3255
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: IbZjgFT4XqGB45h1ncHCAa4tlhn5gu3Tbj6/gJa5Yrz/J4r5UTy8k3SyH9IvLAfT+EFDYVetxv89sFwvqunkxQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5484
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DkPuZGJcs1lUiSZcblNRYaq52xkSH7LtQLjdlHv+qrtnz2jmW+fSHhWIDWVcbo7ZPxhOwPyBAPMyGkHOusOYGFzB2nNYGQbis0+Zawv6FoQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR10MB5807
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10222 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxscore=0 adultscore=0
+ suspectscore=0 mlxlogscore=999 bulkscore=0 phishscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2201100045
+X-Proofpoint-GUID: nUxqHSks-ZiyxOimFL5-SVazC0cRUW43
+X-Proofpoint-ORIG-GUID: nUxqHSks-ZiyxOimFL5-SVazC0cRUW43
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> From: Alex Williamson <alex.williamson@redhat.com>
-> Sent: Saturday, January 8, 2022 12:36 AM
->=20
-> On Fri, 7 Jan 2022 08:03:57 +0000
-> "Tian, Kevin" <kevin.tian@intel.com> wrote:
->=20
-> > Hi, Alex,
-> >
-> > Thanks for cleaning up this part, which is very helpful!
-> >
-> > > From: Alex Williamson <alex.williamson@redhat.com>
-> > > Sent: Friday, December 10, 2021 7:34 AM
-> > >
-> > > + *
-> > > + *   The device_state field defines the following bitfield use:
-> > > + *
-> > > + *     - Bit 0 (RUNNING) [REQUIRED]:
-> > > + *        - Setting this bit indicates the device is fully operation=
-al, the
-> > > + *          device may generate interrupts, DMA, respond to MMIO, al=
-l vfio
-> > > + *          device regions are functional, and the device may advanc=
-e its
-> > > + *          internal state.  The default device_state must indicate =
-the device
-> > > + *          in exclusively the RUNNING state, with no other bits in =
-this field
-> > > + *          set.
-> > > + *        - Clearing this bit (ie. !RUNNING) must stop the operation=
- of the
-> > > + *          device.  The device must not generate interrupts, DMA, o=
-r
-> advance
-> > > + *          its internal state.
-> >
-> > I'm curious about what it means for the mediated device. I suppose this
-> > 'must not' clause is from user p.o.v i.e. no event delivered to the use=
-r,
-> > no DMA to user memory and no user visible change on mdev state.
-> Physically
-> > the device resource backing the mdev may still generate interrupt/DMA
-> > to the host according to the mediation policy.
-> >
-> > Is this understanding correct?
->=20
-> Yes, one mediated device stopped running can't cause the backing
-> device to halt, it must continue performing activities for other child
-> devices as well as any host duties.  The user owned device should
-> effectively stop.
->=20
-> > > +*           The user should take steps to restrict access
-> > > + *          to vfio device regions other than the migration region w=
-hile the
-> > > + *          device is !RUNNING or risk corruption of the device migr=
-ation
-> data
-> > > + *          stream.  The device and kernel migration driver must acc=
-ept and
-> > > + *          respond to interaction to support external subsystems in=
- the
-> > > + *          !RUNNING state, for example PCI MSI-X and PCI config spa=
-ce.
-> >
-> > and also respond to mmio access if some state is saved via reading mmio=
-?
->=20
-> The device must not generate a host fault, ex. PCIe UR, but the idea
-> here is that the device stops and preventing further access is the
-> user's responsibility.  Failure to stop those accesses may result in
-> corrupting the migration data.
+Hi Paul,
 
-ok. With this background I can understand what the last sentence tries
-to say. It basically clarifies that while user access to the device is rest=
-ricted
-(by user itself) the kernel access (e.g. pci core, or the mediation driver=
-=20
-itself) is allowed as long as doing so doesn't advance the to-be-saved stat=
-e.
+url:    https://github.com/0day-ci/linux/commits/Paul-Cercueil/hwmon-Add-label-attribute-v2/20220105-231930
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+config: i386-randconfig-m021-20220105 (https://download.01.org/0day-ci/archive/20220108/202201081730.TlHZabuC-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
->=20
-> > > + *          Failure by the user to restrict device access while !RUN=
-NING must
-> > > + *          not result in error conditions outside the user context =
-(ex.
-> > > + *          host system faults).
-> > > + *     - Bit 1 (SAVING) [REQUIRED]:
-> > > + *        - Setting this bit enables and initializes the migration r=
-egion data
-> > > + *          window and associated fields within vfio_device_migratio=
-n_info
-> for
-> > > + *          capturing the migration data stream for the device.  The
-> migration
-> > > + *          driver may perform actions such as enabling dirty loggin=
-g of
-> device
-> > > + *          state with this bit.  The SAVING bit is mutually exclusi=
-ve with the
-> > > + *          RESUMING bit defined below.
-> > > + *        - Clearing this bit (ie. !SAVING) de-initializes the migra=
-tion region
-> > > + *          data window and indicates the completion or termination =
-of the
-> > > + *          migration data stream for the device.
-> > > + *     - Bit 2 (RESUMING) [REQUIRED]:
-> > > + *        - Setting this bit enables and initializes the migration r=
-egion data
-> > > + *          window and associated fields within vfio_device_migratio=
-n_info
-> for
-> > > + *          restoring the device from a migration data stream captur=
-ed from
-> a
-> > > + *          SAVING session with a compatible device.  The migration =
-driver
-> may
-> > > + *          perform internal device resets as necessary to reinitial=
-ize the
-> > > + *          internal device state for the incoming migration data.
-> > > + *        - Clearing this bit (ie. !RESUMING) de-initializes the mig=
-ration
-> > > + *          region data window and indicates the end of a resuming s=
-ession
-> for
-> > > + *          the device.  The kernel migration driver should complete=
- the
-> > > + *          incorporation of data written to the migration data wind=
-ow into
-> the
-> > > + *          device internal state and perform final validity and con=
-sistency
-> > > + *          checking of the new device state.  If the user provided =
-data is
-> > > + *          found to be incomplete, inconsistent, or otherwise inval=
-id, the
-> > > + *          migration driver must indicate a write(2) error and foll=
-ow the
-> > > + *          previously described protocol to return either the previ=
-ous state
-> > > + *          or an error state.
-> > > + *     - Bit 3 (NDMA) [OPTIONAL]:
-> > > + *        The NDMA or "No DMA" state is intended to be a quiescent s=
-tate
-> for
-> > > + *        the device for the purposes of managing multiple devices w=
-ithin a
-> > > + *        user context where peer-to-peer DMA between devices may be
-> active.
-> >
-> > As discussed with Jason in another thread, this is also required for vP=
-RI
-> > when stopping DMA involves completing (instead of preempting) in-fly
-> > requests then any vPRI for those requests must be completed when vcpu
-> > is running. This cannot be done in !RUNNING which is typically transiti=
-oned
-> > to after stopping vcpu.
-> >
-> > It is also useful when the time of stopping device DMA is unbound (even
-> > without vPRI). Having a failure path when vcpu is running avoids breaki=
-ng
-> > SLA (if only capturing it after stopping vcpu). This further requires c=
-ertain
-> > interface for the user to specify a timeout value for entering NDMA, th=
-ough
-> > unclear to me what it will be now.
-> >
-> > > + *        Support for the NDMA bit is indicated through the presence=
- of the
-> > > + *        VFIO_REGION_INFO_CAP_MIG_NDMA capability as reported by
-> > > + *        VFIO_DEVICE_GET_REGION_INFO for the associated device
-> migration
-> > > + *        region.
-> > > + *        - Setting this bit must prevent the device from initiating=
- any
-> > > + *          new DMA or interrupt transactions.  The migration driver=
- must
-> >
-> > Why also disabling interrupt? vcpu is still running at this point thus
-> interrupt
-> > could be triggered for many reasons other than DMA...
->=20
-> It's my understanding that the vCPU would be halted for the NDMA use
-> case, we can't very well have vCPUs demanding requests to devices that
-> are prevented from completing them.  The NDMA phase is intended to
-> support completion of outstanding requests without concurrently
-> accepting new requests, AIUI.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-By current definition NDMA doesn't require the user to restrict access
-to vfio device regions as for !RUNNING. So it's probably not good to tie it
-with vcpu stopped.
+smatch warnings:
+drivers/hwmon/hwmon.c:851 __hwmon_device_register() error: uninitialized symbol 'hdev'.
+drivers/hwmon/hwmon.c:854 __hwmon_device_register() warn: possible memory leak of 'hwdev'
 
-As explained above it's also required when vPRI is enabled. At least for
-current SVA-capable devices from Intel and Huawei they all require
-waiting for vPRI completion before transitioning to NDMA can be done
-while completing vPRI requires running vcpu.
+vim +/hdev +851 drivers/hwmon/hwmon.c
 
-New requests between NDMA and !RUNNING need to be mediated/
-queued by the migration driver and then re-submitted on the=20
-destination node. This further requires certain mechanism to allow=20
-dynamically changing the mediation vs. passthru policy on the submit
-portal.
+d560168b5d0fb4 Guenter Roeck    2015-08-26  745  static struct device *
+d560168b5d0fb4 Guenter Roeck    2015-08-26  746  __hwmon_device_register(struct device *dev, const char *name, void *drvdata,
+d560168b5d0fb4 Guenter Roeck    2015-08-26  747  			const struct hwmon_chip_info *chip,
+bab2243ce18978 Guenter Roeck    2013-07-06  748  			const struct attribute_group **groups)
+1236441f38b6a9 Mark M. Hoffman  2005-07-15  749  {
+bab2243ce18978 Guenter Roeck    2013-07-06  750  	struct hwmon_device *hwdev;
+57dab49995d01d Paul Cercueil    2022-01-05  751  	const char *label;
+d560168b5d0fb4 Guenter Roeck    2015-08-26  752  	struct device *hdev;
+44e3ad882bb268 Akinobu Mita     2020-05-04  753  	int i, err, id;
+ded2b666156130 Mark M. Hoffman  2006-03-05  754  
+74d3b6419772e4 Guenter Roeck    2017-01-27  755  	/* Complain about invalid characters in hwmon name attribute */
+648cd48c9e566f Guenter Roeck    2014-02-28  756  	if (name && (!strlen(name) || strpbrk(name, "-* \t\n")))
+74d3b6419772e4 Guenter Roeck    2017-01-27  757  		dev_warn(dev,
+74d3b6419772e4 Guenter Roeck    2017-01-27  758  			 "hwmon: '%s' is not a valid name attribute, please fix\n",
+74d3b6419772e4 Guenter Roeck    2017-01-27  759  			 name);
+648cd48c9e566f Guenter Roeck    2014-02-28  760  
+4ca5f468cc2a0b Jonathan Cameron 2011-10-31  761  	id = ida_simple_get(&hwmon_ida, 0, 0, GFP_KERNEL);
+4ca5f468cc2a0b Jonathan Cameron 2011-10-31  762  	if (id < 0)
+4ca5f468cc2a0b Jonathan Cameron 2011-10-31  763  		return ERR_PTR(id);
+1236441f38b6a9 Mark M. Hoffman  2005-07-15  764  
+bab2243ce18978 Guenter Roeck    2013-07-06  765  	hwdev = kzalloc(sizeof(*hwdev), GFP_KERNEL);
+bab2243ce18978 Guenter Roeck    2013-07-06  766  	if (hwdev == NULL) {
+bab2243ce18978 Guenter Roeck    2013-07-06  767  		err = -ENOMEM;
+bab2243ce18978 Guenter Roeck    2013-07-06  768  		goto ida_remove;
+bab2243ce18978 Guenter Roeck    2013-07-06  769  	}
+1236441f38b6a9 Mark M. Hoffman  2005-07-15  770  
+57dab49995d01d Paul Cercueil    2022-01-05  771  	if (device_property_present(dev, "label")) {
+57dab49995d01d Paul Cercueil    2022-01-05  772  		err = device_property_read_string(dev, "label", &label);
+57dab49995d01d Paul Cercueil    2022-01-05  773  		if (err < 0)
+57dab49995d01d Paul Cercueil    2022-01-05  774  			goto free_hwmon;
 
->=20
-> Further conversations in this thread allow for interrupts and deduce
-> that the primary requirement of NDMA is to restrict P2P DMA, which can
-> be approximated as all non-MSI DMA.
->=20
-> > > + *          complete any such outstanding operations prior to comple=
-ting
-> > > + *          the transition to the NDMA state.  The NDMA device_state
-> > > + *          essentially represents a sub-set of the !RUNNING state f=
-or the
-> > > + *          purpose of quiescing the device, therefore the NDMA
-> device_state
-> > > + *          bit is superfluous in combinations including !RUNNING.
-> >
-> > 'superfluous' means doing so will get a failure, or just not recommende=
-d?
->=20
-> Superfluous meaning redundant.  It's allowed, but DMA is already
-> restricted when !RUNNING, so setting NDMA when !RUNNING is meaningless.
->=20
-> > > + *        - Clearing this bit (ie. !NDMA) negates the device operati=
-onal
-> > > + *          restrictions required by the NDMA state.
-> > > + *     - Bits [31:4]:
-> > > + *        Reserved for future use, users should use read-modify-writ=
-e
-> > > + *        operations to the device_state field for manipulation of t=
-he above
-> > > + *        defined bits for optimal compatibility.
-> > > + *
->=20
-> FWIW, I'm expecting to see an alternative uAPI propose using a FSM
-> machine in the near future, so while this clarifies what I believe is
-> the intention of the existing uAPI, it might be deprecated before we
-> bother to commit such clarifications.  Thanks,
->=20
+"hwdev" not freed on this goto path and "hdev" is uninitialized.  Sort
+of related bugs.
 
-got it.
+57dab49995d01d Paul Cercueil    2022-01-05  775  
+57dab49995d01d Paul Cercueil    2022-01-05  776  		hwdev->label = kstrdup(label, GFP_KERNEL);
+57dab49995d01d Paul Cercueil    2022-01-05  777  		if (hwdev->label == NULL) {
+57dab49995d01d Paul Cercueil    2022-01-05  778  			err = -ENOMEM;
+57dab49995d01d Paul Cercueil    2022-01-05  779  			goto free_hwmon;
+57dab49995d01d Paul Cercueil    2022-01-05  780  		}
+57dab49995d01d Paul Cercueil    2022-01-05  781  	}
+57dab49995d01d Paul Cercueil    2022-01-05  782  
+d560168b5d0fb4 Guenter Roeck    2015-08-26  783  	hdev = &hwdev->dev;
+d560168b5d0fb4 Guenter Roeck    2015-08-26  784  
+239552f495b91f Guenter Roeck    2016-10-16  785  	if (chip) {
+d560168b5d0fb4 Guenter Roeck    2015-08-26  786  		struct attribute **attrs;
+b2a4cc3a060da0 Guenter Roeck    2016-10-16  787  		int ngroups = 2; /* terminating NULL plus &hwdev->groups */
+d560168b5d0fb4 Guenter Roeck    2015-08-26  788  
+d560168b5d0fb4 Guenter Roeck    2015-08-26  789  		if (groups)
+d560168b5d0fb4 Guenter Roeck    2015-08-26  790  			for (i = 0; groups[i]; i++)
+d560168b5d0fb4 Guenter Roeck    2015-08-26  791  				ngroups++;
+d560168b5d0fb4 Guenter Roeck    2015-08-26  792  
+3bf8bdcf3bada7 Guenter Roeck    2020-01-16  793  		hwdev->groups = kcalloc(ngroups, sizeof(*groups), GFP_KERNEL);
+38d8ed65092ed2 Colin Ian King   2016-10-23  794  		if (!hwdev->groups) {
+38d8ed65092ed2 Colin Ian King   2016-10-23  795  			err = -ENOMEM;
+38d8ed65092ed2 Colin Ian King   2016-10-23  796  			goto free_hwmon;
+38d8ed65092ed2 Colin Ian King   2016-10-23  797  		}
+d560168b5d0fb4 Guenter Roeck    2015-08-26  798  
+3bf8bdcf3bada7 Guenter Roeck    2020-01-16  799  		attrs = __hwmon_create_attrs(drvdata, chip);
+d560168b5d0fb4 Guenter Roeck    2015-08-26  800  		if (IS_ERR(attrs)) {
+d560168b5d0fb4 Guenter Roeck    2015-08-26  801  			err = PTR_ERR(attrs);
+d560168b5d0fb4 Guenter Roeck    2015-08-26  802  			goto free_hwmon;
+d560168b5d0fb4 Guenter Roeck    2015-08-26  803  		}
+d560168b5d0fb4 Guenter Roeck    2015-08-26  804  
+d560168b5d0fb4 Guenter Roeck    2015-08-26  805  		hwdev->group.attrs = attrs;
+d560168b5d0fb4 Guenter Roeck    2015-08-26  806  		ngroups = 0;
+d560168b5d0fb4 Guenter Roeck    2015-08-26  807  		hwdev->groups[ngroups++] = &hwdev->group;
+d560168b5d0fb4 Guenter Roeck    2015-08-26  808  
+d560168b5d0fb4 Guenter Roeck    2015-08-26  809  		if (groups) {
+d560168b5d0fb4 Guenter Roeck    2015-08-26  810  			for (i = 0; groups[i]; i++)
+d560168b5d0fb4 Guenter Roeck    2015-08-26  811  				hwdev->groups[ngroups++] = groups[i];
+d560168b5d0fb4 Guenter Roeck    2015-08-26  812  		}
+d560168b5d0fb4 Guenter Roeck    2015-08-26  813  
+d560168b5d0fb4 Guenter Roeck    2015-08-26  814  		hdev->groups = hwdev->groups;
+d560168b5d0fb4 Guenter Roeck    2015-08-26  815  	} else {
+d560168b5d0fb4 Guenter Roeck    2015-08-26  816  		hdev->groups = groups;
+d560168b5d0fb4 Guenter Roeck    2015-08-26  817  	}
+d560168b5d0fb4 Guenter Roeck    2015-08-26  818  
+bab2243ce18978 Guenter Roeck    2013-07-06  819  	hwdev->name = name;
+d560168b5d0fb4 Guenter Roeck    2015-08-26  820  	hdev->class = &hwmon_class;
+d560168b5d0fb4 Guenter Roeck    2015-08-26  821  	hdev->parent = dev;
+d560168b5d0fb4 Guenter Roeck    2015-08-26  822  	hdev->of_node = dev ? dev->of_node : NULL;
+d560168b5d0fb4 Guenter Roeck    2015-08-26  823  	hwdev->chip = chip;
+d560168b5d0fb4 Guenter Roeck    2015-08-26  824  	dev_set_drvdata(hdev, drvdata);
+d560168b5d0fb4 Guenter Roeck    2015-08-26  825  	dev_set_name(hdev, HWMON_ID_FORMAT, id);
+d560168b5d0fb4 Guenter Roeck    2015-08-26  826  	err = device_register(hdev);
+ada61aa0b1184a Yang Yingliang   2021-10-12  827  	if (err) {
+ada61aa0b1184a Yang Yingliang   2021-10-12  828  		put_device(hdev);
+ada61aa0b1184a Yang Yingliang   2021-10-12  829  		goto ida_remove;
+ada61aa0b1184a Yang Yingliang   2021-10-12  830  	}
+d560168b5d0fb4 Guenter Roeck    2015-08-26  831  
+1597b374af2226 Guenter Roeck    2020-05-28  832  	INIT_LIST_HEAD(&hwdev->tzdata);
+1597b374af2226 Guenter Roeck    2020-05-28  833  
+c41dd48e21fae3 Eduardo Valentin 2019-05-29  834  	if (dev && dev->of_node && chip && chip->ops->read &&
+d560168b5d0fb4 Guenter Roeck    2015-08-26  835  	    chip->info[0]->type == hwmon_chip &&
+d560168b5d0fb4 Guenter Roeck    2015-08-26  836  	    (chip->info[0]->config[0] & HWMON_C_REGISTER_TZ)) {
+44e3ad882bb268 Akinobu Mita     2020-05-04  837  		err = hwmon_thermal_register_sensors(hdev);
+74e3512731bd5c Dmitry Osipenko  2018-10-24  838  		if (err) {
+74e3512731bd5c Dmitry Osipenko  2018-10-24  839  			device_unregister(hdev);
+792eac18431967 Guenter Roeck    2019-06-06  840  			/*
+44e3ad882bb268 Akinobu Mita     2020-05-04  841  			 * Don't worry about hwdev; hwmon_dev_release(), called
+44e3ad882bb268 Akinobu Mita     2020-05-04  842  			 * from device_unregister(), will free it.
+792eac18431967 Guenter Roeck    2019-06-06  843  			 */
+74e3512731bd5c Dmitry Osipenko  2018-10-24  844  			goto ida_remove;
+74e3512731bd5c Dmitry Osipenko  2018-10-24  845  		}
+47c332deb8e89f Linus Walleij    2017-12-05  846  	}
+bab2243ce18978 Guenter Roeck    2013-07-06  847  
+d560168b5d0fb4 Guenter Roeck    2015-08-26  848  	return hdev;
+bab2243ce18978 Guenter Roeck    2013-07-06  849  
+d560168b5d0fb4 Guenter Roeck    2015-08-26  850  free_hwmon:
+3bf8bdcf3bada7 Guenter Roeck    2020-01-16 @851  	hwmon_dev_release(hdev);
+bab2243ce18978 Guenter Roeck    2013-07-06  852  ida_remove:
+4ca5f468cc2a0b Jonathan Cameron 2011-10-31  853  	ida_simple_remove(&hwmon_ida, id);
+bab2243ce18978 Guenter Roeck    2013-07-06 @854  	return ERR_PTR(err);
+bab2243ce18978 Guenter Roeck    2013-07-06  855  }
 
-Thanks
-Kevin
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+
