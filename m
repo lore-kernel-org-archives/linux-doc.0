@@ -2,108 +2,188 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D95E9C433F5
-	for <linux-doc@archiver.kernel.org>; Sun,  9 Jan 2022 22:59:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FA7FC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Jan 2022 01:29:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237341AbiAIW7z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 9 Jan 2022 17:59:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50270 "EHLO
+        id S233443AbiAJB3e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 9 Jan 2022 20:29:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235684AbiAIW7y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Jan 2022 17:59:54 -0500
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE8A8C06173F;
-        Sun,  9 Jan 2022 14:59:53 -0800 (PST)
-Received: by mail-ed1-x532.google.com with SMTP id b13so46470225edd.8;
-        Sun, 09 Jan 2022 14:59:53 -0800 (PST)
+        with ESMTP id S233122AbiAJB31 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Jan 2022 20:29:27 -0500
+Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com [IPv6:2607:f8b0:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F511C06173F;
+        Sun,  9 Jan 2022 17:29:27 -0800 (PST)
+Received: by mail-oi1-x233.google.com with SMTP id w80so17193677oie.9;
+        Sun, 09 Jan 2022 17:29:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JichIxBzlu+gabrOqQBbMPOsNHYmhCY/t5tbp7G0B7M=;
-        b=kgHkAD5+T6PvIvnKRVStbR9axj45u0zQZQ5Ajh++vJu5m6K31ArZpk2IN3u29P6Ts8
-         0Kcj9/w6x1pMK0BkEOzWRIt1AhFmg/UoG6PQg5hESnlGa3qh9bDzv7ekWmnYQqmHVAcA
-         v1v9x7La9ewcyLBOiBqC5yl/V/Zj5lHi7+3j1d6iQbfHVT9uJp/7a1otpbFshIBTKDSh
-         wsRr0V0vkjIP56fu6yCPFayVkLH2+jhcJ0ru+G/qECb57GxGOHDhaqM1ef3pBVGbMhDm
-         6DsxE9Sjrl4/6Pu+PiVrpzUYePkyzWxI268lzABt4FJvjUTak3G4GAlv2gpd3a0kv7lr
-         oabg==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=5NJsp6be1lDKy86aBY7oerPwqcIndNeWLcYbCjf9beU=;
+        b=kEYKB6Wv10ZDy/9KoqkVIgPSDI3gSJw6BxAlKKcMNUBpHdHNb6ORXxmtT0jTzDhRRd
+         xc61mbcztokyGXgeG0qfYyBFFH41NQoySZPA1tZyIi54BC8hb5YydmXrn9pRSFamPpaZ
+         5XOAgxyAuw+UeVxhmmeRrMorjfvAqLDIclBagc83TlilEI3JRqv0Ey37w/IpackUI7Ov
+         kvNGJfJ423+Y+FD2tqM+2r1KECN8oqQRETr9a5OVC4tBmp5k5+Cmv3NkPMVNVOsVtBrz
+         qjx2mdcBRZmHObe2Vrg52+G76j5FGiwzodt5uzvUHHl76kM2OqLUM1WPJ3rqn9jczjTj
+         22xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JichIxBzlu+gabrOqQBbMPOsNHYmhCY/t5tbp7G0B7M=;
-        b=kmZEIcIV993OzOAFdQDYZGmplrm68HhKtVTzna0YVVCU0mNd1hjJ/5hQhBEF4FylZA
-         8N5WK4WRvsOyjMCsq9MfUG1CdFU9RL836TPzsx5+SB9D++6Cpr5zbkFOJuqNveIkqgJp
-         +YjH12nAnNMLtQHoPW5QuTcU0jZtffGLYuBevRz9pPH/NUiIylFRrz+D86q3jkomFWfj
-         OyZYwETUtI2CSxTKC6w2wVLMxfPYjQkz1r8tgDVeGir1mrLt4t9niVsTL+Ut1KrlS28n
-         m5acia0Tbu+JETrN7EaaVy768jP+imxW0xvJb/0uia5ac6diujth6n7f0a1Uqu0esL2x
-         T8mA==
-X-Gm-Message-State: AOAM530Df8pCWPDHqzvlHOFLXB7nv8QstYh6LFUHX5EWq3hceX9Et0Ag
-        mbBTWRM/g5B12VuofmE7WwCTqFNL7vrQ5zlzAuM=
-X-Google-Smtp-Source: ABdhPJxNWqr5kmxsLYsT/zArMcv16U9D8HQ6t/tgYp/axFuIl3brCOR+Lnj9TzrscWzwvbef3kkV5mYvAuiVz+llCQk=
-X-Received: by 2002:aa7:d554:: with SMTP id u20mr73148751edr.322.1641769192522;
- Sun, 09 Jan 2022 14:59:52 -0800 (PST)
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=5NJsp6be1lDKy86aBY7oerPwqcIndNeWLcYbCjf9beU=;
+        b=7MDFipIsEFm2E9QUQaSRECzb1cABU/XY20fy2wd3BAAhW/x7yTRmS8AIy2DTTKAL/x
+         gx3N2QuXSmjCyCcgXy3nU9WpGLUKQzO1d89+aZ8cnmuFbEZvowQhra3MFyH0wCv929S7
+         gMGjxfBYmpX5L102D0g2wsNuH15maeo7rEHx9/SAm+rsh0w996wac+IL2mbSxXfsafeH
+         7kyvBYFC1BiyW0yzAeDXvc7EBt1cPE2gQVCvRRWhwBJqXwfctwUhO99ueQ/cv8TgS5h0
+         jO4fpbBG64vTc/gzh90XJmrkO/vk35+yR+st/07p4uQb3FEy6Zx6+PAVkJAKduX5D2Hj
+         spoA==
+X-Gm-Message-State: AOAM5332VLf1qTixnV9K77cDQXU0FV2LHEeSHhssKAK/EOYofDXlFNPX
+        zOvS3gHwxdsE2k9Jh+UAPXo=
+X-Google-Smtp-Source: ABdhPJy1CubCLBAfS65bpmHdWrQ28kXWhczcd7+x3zqlJGKwgEhanhD6nCIAO6uGgpv0sP2OKdTDRQ==
+X-Received: by 2002:aca:f14:: with SMTP id 20mr17178875oip.143.1641778166614;
+        Sun, 09 Jan 2022 17:29:26 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id g22sm1191209otj.0.2022.01.09.17.29.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 Jan 2022 17:29:26 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Sun, 9 Jan 2022 17:29:24 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Paul Cercueil <paul@crapouillou.net>
+Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, list@opendingux.net,
+        Cosmin Tanislav <cosmin.tanislav@analog.com>
+Subject: Re: [PATCH v2 2/2] hwmon: Add "label" attribute
+Message-ID: <20220110012924.GA1197630@roeck-us.net>
+References: <20220105151551.20285-1-paul@crapouillou.net>
+ <20220105151551.20285-3-paul@crapouillou.net>
 MIME-Version: 1.0
-References: <20211130201652.2218636d@mail.inbox.lv> <2dc51fc8-f14e-17ed-a8c6-0ec70423bf54@valdikss.org.ru>
- <20211202135824.33d2421bf5116801cfa2040d@linux-foundation.org>
- <cca17e9f-0d4f-f23a-2bc4-b36e834f7ef8@suse.cz> <20211203222710.3f0ba239@mail.inbox.lv>
- <Ya3fG2rp+860Yb+t@dhcp22.suse.cz>
-In-Reply-To: <Ya3fG2rp+860Yb+t@dhcp22.suse.cz>
-From:   Barry Song <21cnbao@gmail.com>
-Date:   Mon, 10 Jan 2022 11:59:40 +1300
-Message-ID: <CAGsJ_4zaumNC7QT=J1NmmcWD4GE1XZtRZ3xVdsTfv8gLJPU7kA@mail.gmail.com>
-Subject: Re: [PATCH] mm/vmscan: add sysctl knobs for protecting the working set
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Alexey Avramov <hakavlad@inbox.lv>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        ValdikSS <iam@valdikss.org.ru>, Linux-MM <linux-mm@kvack.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, mcgrof@kernel.org,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>, oleksandr@natalenko.name,
-        kernel@xanmod.org, aros@gmx.com, hakavlad@gmail.com,
-        Yu Zhao <yuzhao@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220105151551.20285-3-paul@crapouillou.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Dec 7, 2021 at 4:51 PM Michal Hocko <mhocko@suse.com> wrote:
->
-> On Fri 03-12-21 22:27:10, Alexey Avramov wrote:
-> > >I'd also like to know where that malfunction happens in this case.
-> >
-> > User-space processes need to always access shared libraries to work.
-> > It can be tens or hundreds of megabytes, depending on the type of workload.
-> > This is a hot cache, which is pushed out and then read leads to thrashing.
-> > There is no way in the kernel to forbid evicting the minimum file cache.
-> > This is the problem that the patch solves. And the malfunction is exactly
-> > that - the inability of the kernel to hold the minimum amount of the
-> > hottest cache in memory.
->
-> Executable pages are a protected resource already page_check_references.
-> Shared libraries have more page tables pointing to them so they are more
-> likely to be referenced and thus kept around. What is the other memory
-> demand to push those away and cause a trashing?
+On Wed, Jan 05, 2022 at 03:15:51PM +0000, Paul Cercueil wrote:
+> If a label is defined in the device tree for this device add that
+> to the device specific attributes. This is useful for userspace to
+> be able to identify an individual device when multiple identical
+> chips are present in the system.
+> 
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> Tested-by: Cosmin Tanislav <cosmin.tanislav@analog.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> ---
+> 
+> Notes:
+>     v2: - Cache label into hwmon_device
+>         - Rename hwmon_dev_name_is_visible() to hwmon_dev_attr_is_visible()
+> 	- Add missing <linux/property.h> include
+> 
+>  drivers/hwmon/hwmon.c | 34 +++++++++++++++++++++++++++++++---
+>  1 file changed, 31 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/hwmon/hwmon.c b/drivers/hwmon/hwmon.c
+> index 3501a3ead4ba..22e1b47c09fc 100644
+> --- a/drivers/hwmon/hwmon.c
+> +++ b/drivers/hwmon/hwmon.c
+> @@ -18,6 +18,7 @@
+>  #include <linux/list.h>
+>  #include <linux/module.h>
+>  #include <linux/pci.h>
+> +#include <linux/property.h>
+>  #include <linux/slab.h>
+>  #include <linux/string.h>
+>  #include <linux/thermal.h>
+> @@ -30,6 +31,7 @@
+>  
+>  struct hwmon_device {
+>  	const char *name;
+> +	const char *label;
+>  	struct device dev;
+>  	const struct hwmon_chip_info *chip;
+>  	struct list_head tzdata;
+> @@ -71,17 +73,29 @@ name_show(struct device *dev, struct device_attribute *attr, char *buf)
+>  }
+>  static DEVICE_ATTR_RO(name);
+>  
+> +static ssize_t
+> +label_show(struct device *dev, struct device_attribute *attr, char *buf)
+> +{
+> +	return sysfs_emit(buf, "%s\n", to_hwmon_device(dev)->label);
+> +}
+> +static DEVICE_ATTR_RO(label);
+> +
+>  static struct attribute *hwmon_dev_attrs[] = {
+>  	&dev_attr_name.attr,
+> +	&dev_attr_label.attr,
+>  	NULL
+>  };
+>  
+> -static umode_t hwmon_dev_name_is_visible(struct kobject *kobj,
+> +static umode_t hwmon_dev_attr_is_visible(struct kobject *kobj,
+>  					 struct attribute *attr, int n)
+>  {
+>  	struct device *dev = kobj_to_dev(kobj);
+> +	struct hwmon_device *hdev = to_hwmon_device(dev);
+>  
+> -	if (to_hwmon_device(dev)->name == NULL)
+> +	if (attr == &dev_attr_name.attr && hdev->name == NULL)
+> +		return 0;
+> +
+> +	if (attr == &dev_attr_label.attr && hdev->label == NULL)
+>  		return 0;
+>  
+>  	return attr->mode;
+> @@ -89,7 +103,7 @@ static umode_t hwmon_dev_name_is_visible(struct kobject *kobj,
+>  
+>  static const struct attribute_group hwmon_dev_attr_group = {
+>  	.attrs		= hwmon_dev_attrs,
+> -	.is_visible	= hwmon_dev_name_is_visible,
+> +	.is_visible	= hwmon_dev_attr_is_visible,
+>  };
+>  
+>  static const struct attribute_group *hwmon_dev_attr_groups[] = {
+> @@ -117,6 +131,7 @@ static void hwmon_dev_release(struct device *dev)
+>  	if (hwdev->group.attrs)
+>  		hwmon_free_attrs(hwdev->group.attrs);
+>  	kfree(hwdev->groups);
+> +	kfree(hwdev->label);
+>  	kfree(hwdev);
+>  }
+>  
+> @@ -733,6 +748,7 @@ __hwmon_device_register(struct device *dev, const char *name, void *drvdata,
+>  			const struct attribute_group **groups)
+>  {
+>  	struct hwmon_device *hwdev;
+> +	const char *label;
+>  	struct device *hdev;
+>  	int i, err, id;
+>  
+> @@ -752,6 +768,18 @@ __hwmon_device_register(struct device *dev, const char *name, void *drvdata,
+>  		goto ida_remove;
+>  	}
+>  
+> +	if (device_property_present(dev, "label")) {
+> +		err = device_property_read_string(dev, "label", &label);
+> +		if (err < 0)
+> +			goto free_hwmon;
+> +
+> +		hwdev->label = kstrdup(label, GFP_KERNEL);
+> +		if (hwdev->label == NULL) {
+> +			err = -ENOMEM;
+> +			goto free_hwmon;
 
-I've heard a lot of complaints that shared libraries can be swapped
-out and thrashing.
-it seems page_check_references won't be able to relieve the thrashing for them.
-on the other hand, exec pages could have a very big mapcount, that means reverse
-mapping of them will take a lot of time while they are reclaimed, so
-this makes the user
-experience even much worse while memory is under high pressure.
+The code after free_hwmon: uses hdev, so 0-day has a point. Please fix.
 
-Are we actually able to make mapcount a factor for memory reclaim in
-some way? The
-difficulty might be that a big mapcount doesn't necessarily mean the
-page is active. for
-For example,  all processes mapping the page might be inactive. but
-reclaiming pages
-with a big mapcount has been a big pain as far as i know.
+Guenter
 
-Thanks
-Barry
+> +		}
+> +	}
+> +
+>  	hdev = &hwdev->dev;
+>  
+>  	if (chip) {
