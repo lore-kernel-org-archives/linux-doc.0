@@ -2,91 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7543C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Jan 2022 08:06:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBC26C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Jan 2022 08:26:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229885AbiAJIGf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Jan 2022 03:06:35 -0500
-Received: from relay1-d.mail.gandi.net ([217.70.183.193]:44877 "EHLO
-        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239639AbiAJIER (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jan 2022 03:04:17 -0500
-Received: (Authenticated sender: alex@ghiti.fr)
-        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 6A184240003;
-        Mon, 10 Jan 2022 08:03:50 +0000 (UTC)
-Message-ID: <44e6e00e-0b80-8329-bcc9-820940e02023@ghiti.fr>
-Date:   Mon, 10 Jan 2022 09:03:49 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.1
-Subject: Re: [PATCH v3 12/13] riscv: Initialize thread pointer before calling
- C functions
+        id S240299AbiAJI0K convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Jan 2022 03:26:10 -0500
+Received: from mail3.swissbit.com ([176.95.1.57]:48684 "EHLO
+        mail3.swissbit.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240383AbiAJI0I (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jan 2022 03:26:08 -0500
+Received: from mail3.swissbit.com (localhost [127.0.0.1])
+        by DDEI (Postfix) with ESMTP id 0C241462AA3;
+        Mon, 10 Jan 2022 09:26:03 +0100 (CET)
+Received: from mail3.swissbit.com (localhost [127.0.0.1])
+        by DDEI (Postfix) with ESMTP id E373E462A93;
+        Mon, 10 Jan 2022 09:26:02 +0100 (CET)
+X-TM-AS-ERS: 10.149.2.84-127.5.254.253
+X-TM-AS-SMTP: 1.0 ZXguc3dpc3NiaXQuY29t Y2xvZWhsZUBoeXBlcnN0b25lLmNvbQ==
+X-DDEI-TLS-USAGE: Used
+Received: from ex.swissbit.com (SBDEEX02.sbitdom.lan [10.149.2.84])
+        by mail3.swissbit.com (Postfix) with ESMTPS;
+        Mon, 10 Jan 2022 09:26:02 +0100 (CET)
+Received: from sbdeex02.sbitdom.lan (10.149.2.84) by sbdeex02.sbitdom.lan
+ (10.149.2.84) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Mon, 10 Jan
+ 2022 09:26:02 +0100
+Received: from sbdeex02.sbitdom.lan ([fe80::e0eb:ade8:2d90:1f74]) by
+ sbdeex02.sbitdom.lan ([fe80::e0eb:ade8:2d90:1f74%8]) with mapi id
+ 15.02.0986.014; Mon, 10 Jan 2022 09:26:02 +0100
+From:   =?iso-8859-1?Q?Christian_L=F6hle?= <CLoehle@hyperstone.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        "jason.wessel@windriver.com" <jason.wessel@windriver.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "daniel.thompson@linaro.org" <daniel.thompson@linaro.org>,
+        =?iso-8859-1?Q?Christian_L=F6hle?= <CLoehle@hyperstone.com>
+Subject: [PATCHv3] Documentation: kgdb: Replace deprecated remotebaud
+Thread-Topic: [PATCHv3] Documentation: kgdb: Replace deprecated remotebaud
+Thread-Index: AQHYBfuzQ/xkgkc310q0gpUtO+y3YQ==
+Date:   Mon, 10 Jan 2022 08:26:02 +0000
+Message-ID: <efa448f3c8074fac9e07e258d327cbae@hyperstone.com>
+References: <13287b7914344c7995de27224cd2fa73@hyperstone.com>
+ <4050689967ed46baaa3bfadda53a0e73@hyperstone.com>,<87ee5kpki1.fsf@meer.lwn.net>
+In-Reply-To: <87ee5kpki1.fsf@meer.lwn.net>
+Accept-Language: en-US, de-DE
 Content-Language: en-US
-To:     Alexandre Ghiti <alexandre.ghiti@canonical.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Zong Li <zong.li@sifive.com>, Anup Patel <anup@brainfault.org>,
-        Atish Patra <Atish.Patra@rivosinc.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Alexander Potapenko <glider@google.com>,
-        Andrey Konovalov <andreyknvl@gmail.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Kees Cook <keescook@chromium.org>,
-        Guo Ren <guoren@linux.alibaba.com>,
-        Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
-        Mayuresh Chitale <mchitale@ventanamicro.com>,
-        panqinglin2020@iscas.ac.cn, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kasan-dev@googlegroups.com, linux-efi@vger.kernel.org,
-        linux-arch@vger.kernel.org
-References: <20211206104657.433304-1-alexandre.ghiti@canonical.com>
- <20211206104657.433304-13-alexandre.ghiti@canonical.com>
-From:   Alexandre ghiti <alex@ghiti.fr>
-In-Reply-To: <20211206104657.433304-13-alexandre.ghiti@canonical.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.154.1.4]
+Content-Type: text/plain;
+        charset="iso-8859-1"
+Content-Transfer-Encoding: 8BIT
+MIME-Version: 1.0
+X-TMASE-Version: DDEI-5.1-8.6.1018-26644.006
+X-TMASE-Result: 10--1.590300-10.000000
+X-TMASE-MatchedRID: BFQSNthdAqJ+wAuSUWlj5BIRh9wkXSlFVFeUPAjsd8YE71b5Svg0gCGu
+        zVLLKJdOBjIbat56Enk5suuA6RHmUZzAN0sNcMp5PwKTD1v8YV5MkOX0UoduuXQDcRg9v/E4Jzf
+        pn/oR511RU8+vUCslgMpjK4dbPxs8aDAi8sBNMoELbigRnpKlKWxlRJiH4397SNmQ01MKRa3cfM
+        7WJ5cTywI/v7yt3viNlL8mYas79H+kIttNw5TROQ==
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+X-TMASE-INERTIA: 0-0;;;;
+X-TMASE-XGENCLOUD: 6b9b5f45-ab67-4eb3-ae6a-58e97cd18256-0-0-200-0
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Palmer,
+Using set remotebaud to set the baud rate was deprecated in
+gdb-7.7 and completely removed from the command parser in gdb-7.8
+(released in 2014). Adopt set serial baud instead.
 
-I fell onto this issue again today, do you think you could take this 
-patch in for-next? Because I assume it is too late now to take the sv48 
-patchset: if not, I can respin it today or tomorrow.
+Change since v2:
+  - Add historical example in the documentation
 
-Thanks,
+Signed-off-by: Christian Loehle <cloehle@hyperstone.com>
+---
+ Documentation/dev-tools/kgdb.rst | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Alex
+diff --git a/Documentation/dev-tools/kgdb.rst b/Documentation/dev-tools/kgdb.rst
+index 43456244651a..d7acb2bdb0ba 100644
+--- a/Documentation/dev-tools/kgdb.rst
++++ b/Documentation/dev-tools/kgdb.rst
+@@ -557,9 +557,14 @@ Connecting with gdb to a serial port
+    Example (using a directly connected port)::
+ 
+            % gdb ./vmlinux
+-           (gdb) set remotebaud 115200
++           (gdb) set serial baud 115200
+            (gdb) target remote /dev/ttyS0
+ 
++   Example (using a directly connected port with gdb version < 7.8)::
++
++           % gdb ./vmlinux
++           (gdb) set remotebaud 115200
++           (gdb) target remote /dev/ttyS0
+ 
+    Example (kgdb to a terminal server on TCP port 2012)::
+ 
+-- 
+2.34.1
+Hyperstone GmbH | Reichenaustr. 39a  | 78467 Konstanz
+Managing Director: Dr. Jan Peter Berns.
+Commercial register of local courts: Freiburg HRB381782
 
-On 12/6/21 11:46, Alexandre Ghiti wrote:
-> Because of the stack canary feature that reads from the current task
-> structure the stack canary value, the thread pointer register "tp" must
-> be set before calling any C function from head.S: by chance, setup_vm
-> and all the functions that it calls does not seem to be part of the
-> functions where the canary check is done, but in the following commits,
-> some functions will.
->
-> Fixes: f2c9699f65557a31 ("riscv: Add STACKPROTECTOR supported")
-> Signed-off-by: Alexandre Ghiti <alexandre.ghiti@canonical.com>
-> ---
->   arch/riscv/kernel/head.S | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/arch/riscv/kernel/head.S b/arch/riscv/kernel/head.S
-> index c3c0ed559770..86f7ee3d210d 100644
-> --- a/arch/riscv/kernel/head.S
-> +++ b/arch/riscv/kernel/head.S
-> @@ -302,6 +302,7 @@ clear_bss_done:
->   	REG_S a0, (a2)
->   
->   	/* Initialize page tables and relocate to virtual addresses */
-> +	la tp, init_task
->   	la sp, init_thread_union + THREAD_SIZE
->   	XIP_FIXUP_OFFSET sp
->   #ifdef CONFIG_BUILTIN_DTB
