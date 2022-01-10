@@ -2,107 +2,203 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBC26C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Jan 2022 08:26:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FDD3C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Jan 2022 10:27:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240299AbiAJI0K convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Jan 2022 03:26:10 -0500
-Received: from mail3.swissbit.com ([176.95.1.57]:48684 "EHLO
-        mail3.swissbit.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240383AbiAJI0I (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jan 2022 03:26:08 -0500
-Received: from mail3.swissbit.com (localhost [127.0.0.1])
-        by DDEI (Postfix) with ESMTP id 0C241462AA3;
-        Mon, 10 Jan 2022 09:26:03 +0100 (CET)
-Received: from mail3.swissbit.com (localhost [127.0.0.1])
-        by DDEI (Postfix) with ESMTP id E373E462A93;
-        Mon, 10 Jan 2022 09:26:02 +0100 (CET)
-X-TM-AS-ERS: 10.149.2.84-127.5.254.253
-X-TM-AS-SMTP: 1.0 ZXguc3dpc3NiaXQuY29t Y2xvZWhsZUBoeXBlcnN0b25lLmNvbQ==
-X-DDEI-TLS-USAGE: Used
-Received: from ex.swissbit.com (SBDEEX02.sbitdom.lan [10.149.2.84])
-        by mail3.swissbit.com (Postfix) with ESMTPS;
-        Mon, 10 Jan 2022 09:26:02 +0100 (CET)
-Received: from sbdeex02.sbitdom.lan (10.149.2.84) by sbdeex02.sbitdom.lan
- (10.149.2.84) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Mon, 10 Jan
- 2022 09:26:02 +0100
-Received: from sbdeex02.sbitdom.lan ([fe80::e0eb:ade8:2d90:1f74]) by
- sbdeex02.sbitdom.lan ([fe80::e0eb:ade8:2d90:1f74%8]) with mapi id
- 15.02.0986.014; Mon, 10 Jan 2022 09:26:02 +0100
-From:   =?iso-8859-1?Q?Christian_L=F6hle?= <CLoehle@hyperstone.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        "jason.wessel@windriver.com" <jason.wessel@windriver.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "daniel.thompson@linaro.org" <daniel.thompson@linaro.org>,
-        =?iso-8859-1?Q?Christian_L=F6hle?= <CLoehle@hyperstone.com>
-Subject: [PATCHv3] Documentation: kgdb: Replace deprecated remotebaud
-Thread-Topic: [PATCHv3] Documentation: kgdb: Replace deprecated remotebaud
-Thread-Index: AQHYBfuzQ/xkgkc310q0gpUtO+y3YQ==
-Date:   Mon, 10 Jan 2022 08:26:02 +0000
-Message-ID: <efa448f3c8074fac9e07e258d327cbae@hyperstone.com>
-References: <13287b7914344c7995de27224cd2fa73@hyperstone.com>
- <4050689967ed46baaa3bfadda53a0e73@hyperstone.com>,<87ee5kpki1.fsf@meer.lwn.net>
-In-Reply-To: <87ee5kpki1.fsf@meer.lwn.net>
-Accept-Language: en-US, de-DE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.154.1.4]
-Content-Type: text/plain;
-        charset="iso-8859-1"
-Content-Transfer-Encoding: 8BIT
+        id S243885AbiAJK1f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Jan 2022 05:27:35 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:58122 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239431AbiAJK1f (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jan 2022 05:27:35 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 52D64B815C5;
+        Mon, 10 Jan 2022 10:27:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 541D5C36AED;
+        Mon, 10 Jan 2022 10:27:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1641810452;
+        bh=4V2mYGkQ8sFMZ8Ms+z7I9NjIX4+82SQALjd6W6fYZts=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=cHNKEyB9tcUPrzemQRBHz069uyhkjAFVYPdksL3Anc/mYN7WJchOI+ps98TOPFfTp
+         BVksVUHULFtCoiuMbkUlIPsrvCKOQHVdVLRUNm32BSJ8CTBOZY8FZC07NWH80V9IGW
+         fi3V35AW0eCY9RPwDdYXR8NPJBbUG4rrW7JfgL5l16rSK5qfwBoeXSYNyqaQQj9C/p
+         3cr510HKsdhck4g5Mwk7xzffUsX/IE67SovZmZJFMBWGYfzjkuYEND0OlsFzsQorid
+         WAT1qIKdFL+Mt6A62D/tDfJLHzqCaJbJ6CxdsNLI1IiMVaR+po0GJh1N/Tgo8tgO2G
+         xvJJZ0PzFLrqA==
+Date:   Mon, 10 Jan 2022 12:27:19 +0200
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Yu Zhao <yuzhao@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, x86@kernel.org,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>
+Subject: Re: [PATCH v6 8/9] mm: multigenerational lru: user interface
+Message-ID: <YdwKB3SfF7hkB9Xv@kernel.org>
+References: <20220104202227.2903605-1-yuzhao@google.com>
+ <20220104202227.2903605-9-yuzhao@google.com>
 MIME-Version: 1.0
-X-TMASE-Version: DDEI-5.1-8.6.1018-26644.006
-X-TMASE-Result: 10--1.590300-10.000000
-X-TMASE-MatchedRID: BFQSNthdAqJ+wAuSUWlj5BIRh9wkXSlFVFeUPAjsd8YE71b5Svg0gCGu
-        zVLLKJdOBjIbat56Enk5suuA6RHmUZzAN0sNcMp5PwKTD1v8YV5MkOX0UoduuXQDcRg9v/E4Jzf
-        pn/oR511RU8+vUCslgMpjK4dbPxs8aDAi8sBNMoELbigRnpKlKWxlRJiH4397SNmQ01MKRa3cfM
-        7WJ5cTywI/v7yt3viNlL8mYas79H+kIttNw5TROQ==
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
-X-TMASE-INERTIA: 0-0;;;;
-X-TMASE-XGENCLOUD: 6b9b5f45-ab67-4eb3-ae6a-58e97cd18256-0-0-200-0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220104202227.2903605-9-yuzhao@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Using set remotebaud to set the baud rate was deprecated in
-gdb-7.7 and completely removed from the command parser in gdb-7.8
-(released in 2014). Adopt set serial baud instead.
+Hi,
 
-Change since v2:
-  - Add historical example in the documentation
+On Tue, Jan 04, 2022 at 01:22:27PM -0700, Yu Zhao wrote:
+> Add /sys/kernel/mm/lru_gen/enabled as a runtime kill switch.
+> 
+> Add /sys/kernel/mm/lru_gen/min_ttl_ms for thrashing prevention.
+> Compared with the size-based approach, e.g., [1], this time-based
+> approach has the following advantages:
+> 1) It's easier to configure because it's agnostic to applications and
+>    memory sizes.
+> 2) It's more reliable because it's directly wired to the OOM killer.
+> 
+> Add /sys/kernel/debug/lru_gen for working set estimation and proactive
+> reclaim. Compared with the page table-based approach and the PFN-based
+> approach, e.g., mm/damon/[vp]addr.c, this lruvec-based approach has
+> the following advantages:
+> 1) It offers better choices because it's aware of memcgs, NUMA nodes,
+>    shared mappings and unmapped page cache.
+> 2) It's more scalable because it's O(nr_hot_evictable_pages), whereas
+>    the PFN-based approach is O(nr_total_pages).
+> 
+> Add /sys/kernel/debug/lru_gen_full for debugging.
+> 
+> [1] https://lore.kernel.org/lkml/20211130201652.2218636d@mail.inbox.lv/
+> 
+> Signed-off-by: Yu Zhao <yuzhao@google.com>
+> Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
+> ---
+>  Documentation/vm/index.rst        |   1 +
+>  Documentation/vm/multigen_lru.rst |  62 +++++
 
-Signed-off-by: Christian Loehle <cloehle@hyperstone.com>
----
- Documentation/dev-tools/kgdb.rst | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+The description of user visible interfaces should go to
+Documentation/admin-guide/mm
 
-diff --git a/Documentation/dev-tools/kgdb.rst b/Documentation/dev-tools/kgdb.rst
-index 43456244651a..d7acb2bdb0ba 100644
---- a/Documentation/dev-tools/kgdb.rst
-+++ b/Documentation/dev-tools/kgdb.rst
-@@ -557,9 +557,14 @@ Connecting with gdb to a serial port
-    Example (using a directly connected port)::
- 
-            % gdb ./vmlinux
--           (gdb) set remotebaud 115200
-+           (gdb) set serial baud 115200
-            (gdb) target remote /dev/ttyS0
- 
-+   Example (using a directly connected port with gdb version < 7.8)::
-+
-+           % gdb ./vmlinux
-+           (gdb) set remotebaud 115200
-+           (gdb) target remote /dev/ttyS0
- 
-    Example (kgdb to a terminal server on TCP port 2012)::
- 
+Documentation/vm/multigen_lru.rst should have contained design description
+and the implementation details and it would be great to actually have such
+document.
+
+>  include/linux/nodemask.h          |   1 +
+>  mm/vmscan.c                       | 415 ++++++++++++++++++++++++++++++
+>  4 files changed, 479 insertions(+)
+>  create mode 100644 Documentation/vm/multigen_lru.rst
+> 
+> diff --git a/Documentation/vm/index.rst b/Documentation/vm/index.rst
+> index 6f5ffef4b716..f25e755b4ff4 100644
+> --- a/Documentation/vm/index.rst
+> +++ b/Documentation/vm/index.rst
+> @@ -38,3 +38,4 @@ algorithms.  If you are looking for advice on simply allocating memory, see the
+>     unevictable-lru
+>     z3fold
+>     zsmalloc
+> +   multigen_lru
+> diff --git a/Documentation/vm/multigen_lru.rst b/Documentation/vm/multigen_lru.rst
+> new file mode 100644
+> index 000000000000..6f9e0181348b
+> --- /dev/null
+> +++ b/Documentation/vm/multigen_lru.rst
+> @@ -0,0 +1,62 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=====================
+> +Multigenerational LRU
+> +=====================
+> +
+> +Quick start
+> +===========
+> +Runtime configurations
+> +----------------------
+> +:Required: Write ``1`` to ``/sys/kernel/mm/lru_gen/enable`` if the
+> + feature wasn't enabled by default.
+
+Required for what? This sentence seem to lack context. Maybe add an
+overview what is Multigenerational LRU so that users will have an idea what
+these knobs control.
+
+> +
+> +Recipes
+> +=======
+
+Some more context here will be also helpful.
+
+> +Personal computers
+> +------------------
+> +:Thrashing prevention: Write ``N`` to
+> + ``/sys/kernel/mm/lru_gen/min_ttl_ms`` to prevent the working set of
+> + ``N`` milliseconds from getting evicted. The OOM killer is invoked if
+> + this working set can't be kept in memory. Based on the average human
+> + detectable lag (~100ms), ``N=1000`` usually eliminates intolerable
+> + lags due to thrashing. Larger values like ``N=3000`` make lags less
+> + noticeable at the cost of more OOM kills.
+> +
+> +Data centers
+> +------------
+> +:Debugfs interface: ``/sys/kernel/debug/lru_gen`` has the following
+> + format:
+> + ::
+> +
+> +   memcg  memcg_id  memcg_path
+> +     node  node_id
+> +       min_gen  birth_time  anon_size  file_size
+> +       ...
+> +       max_gen  birth_time  anon_size  file_size
+> +
+> + ``min_gen`` is the oldest generation number and ``max_gen`` is the
+> + youngest generation number. ``birth_time`` is in milliseconds.
+> + ``anon_size`` and ``file_size`` are in pages.
+
+And what does oldest and youngest generations mean from the user
+perspective?
+
+> +
+> + This file also accepts commands in the following subsections.
+> + Multiple command lines are supported, so does concatenation with
+> + delimiters ``,`` and ``;``.
+> +
+> + ``/sys/kernel/debug/lru_gen_full`` contains additional stats for
+> + debugging.
+> +
+> +:Working set estimation: Write ``+ memcg_id node_id max_gen
+> + [can_swap [full_scan]]`` to ``/sys/kernel/debug/lru_gen`` to trigger
+> + the aging. It scans PTEs for accessed pages and promotes them to the
+> + youngest generation ``max_gen``. Then it creates a new generation
+> + ``max_gen+1``. Set ``can_swap`` to 1 to scan for accessed anon pages
+> + when swap is off. Set ``full_scan`` to 0 to reduce the overhead as
+> + well as the coverage when scanning PTEs.
+> +
+> +:Proactive reclaim: Write ``- memcg_id node_id min_gen [swappiness
+> + [nr_to_reclaim]]`` to ``/sys/kernel/debug/lru_gen`` to trigger the
+> + eviction. It evicts generations less than or equal to ``min_gen``.
+> + ``min_gen`` should be less than ``max_gen-1`` as ``max_gen`` and
+> + ``max_gen-1`` aren't fully aged and therefore can't be evicted. Use
+> + ``nr_to_reclaim`` to limit the number of pages to evict.
+
+...
+
 -- 
-2.34.1
-Hyperstone GmbH | Reichenaustr. 39a  | 78467 Konstanz
-Managing Director: Dr. Jan Peter Berns.
-Commercial register of local courts: Freiburg HRB381782
-
+Sincerely yours,
+Mike.
