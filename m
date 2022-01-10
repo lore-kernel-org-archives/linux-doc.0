@@ -2,203 +2,170 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FDD3C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Jan 2022 10:27:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01C91C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Jan 2022 10:49:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243885AbiAJK1f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Jan 2022 05:27:35 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:58122 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239431AbiAJK1f (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jan 2022 05:27:35 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 52D64B815C5;
-        Mon, 10 Jan 2022 10:27:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 541D5C36AED;
-        Mon, 10 Jan 2022 10:27:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1641810452;
-        bh=4V2mYGkQ8sFMZ8Ms+z7I9NjIX4+82SQALjd6W6fYZts=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cHNKEyB9tcUPrzemQRBHz069uyhkjAFVYPdksL3Anc/mYN7WJchOI+ps98TOPFfTp
-         BVksVUHULFtCoiuMbkUlIPsrvCKOQHVdVLRUNm32BSJ8CTBOZY8FZC07NWH80V9IGW
-         fi3V35AW0eCY9RPwDdYXR8NPJBbUG4rrW7JfgL5l16rSK5qfwBoeXSYNyqaQQj9C/p
-         3cr510HKsdhck4g5Mwk7xzffUsX/IE67SovZmZJFMBWGYfzjkuYEND0OlsFzsQorid
-         WAT1qIKdFL+Mt6A62D/tDfJLHzqCaJbJ6CxdsNLI1IiMVaR+po0GJh1N/Tgo8tgO2G
-         xvJJZ0PzFLrqA==
-Date:   Mon, 10 Jan 2022 12:27:19 +0200
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Yu Zhao <yuzhao@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        page-reclaim@google.com, x86@kernel.org,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>
-Subject: Re: [PATCH v6 8/9] mm: multigenerational lru: user interface
-Message-ID: <YdwKB3SfF7hkB9Xv@kernel.org>
-References: <20220104202227.2903605-1-yuzhao@google.com>
- <20220104202227.2903605-9-yuzhao@google.com>
+        id S244210AbiAJKtD convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Jan 2022 05:49:03 -0500
+Received: from aposti.net ([89.234.176.197]:36686 "EHLO aposti.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S244189AbiAJKtA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 Jan 2022 05:49:00 -0500
+Date:   Mon, 10 Jan 2022 10:48:46 +0000
+From:   Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v2 2/2] hwmon: Add "label" attribute
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, list@opendingux.net,
+        Cosmin Tanislav <cosmin.tanislav@analog.com>
+Message-Id: <A1QH5R.BM5NF8G10CEB@crapouillou.net>
+In-Reply-To: <20220110012924.GA1197630@roeck-us.net>
+References: <20220105151551.20285-1-paul@crapouillou.net>
+        <20220105151551.20285-3-paul@crapouillou.net>
+        <20220110012924.GA1197630@roeck-us.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220104202227.2903605-9-yuzhao@google.com>
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 Hi,
 
-On Tue, Jan 04, 2022 at 01:22:27PM -0700, Yu Zhao wrote:
-> Add /sys/kernel/mm/lru_gen/enabled as a runtime kill switch.
+Le dim., janv. 9 2022 at 17:29:24 -0800, Guenter Roeck 
+<linux@roeck-us.net> a écrit :
+> On Wed, Jan 05, 2022 at 03:15:51PM +0000, Paul Cercueil wrote:
+>>  If a label is defined in the device tree for this device add that
+>>  to the device specific attributes. This is useful for userspace to
+>>  be able to identify an individual device when multiple identical
+>>  chips are present in the system.
+>> 
+>>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+>>  Tested-by: Cosmin Tanislav <cosmin.tanislav@analog.com>
+>>  Reported-by: kernel test robot <lkp@intel.com>
+>>  ---
+>> 
+>>  Notes:
+>>      v2: - Cache label into hwmon_device
+>>          - Rename hwmon_dev_name_is_visible() to 
+>> hwmon_dev_attr_is_visible()
+>>  	- Add missing <linux/property.h> include
+>> 
+>>   drivers/hwmon/hwmon.c | 34 +++++++++++++++++++++++++++++++---
+>>   1 file changed, 31 insertions(+), 3 deletions(-)
+>> 
+>>  diff --git a/drivers/hwmon/hwmon.c b/drivers/hwmon/hwmon.c
+>>  index 3501a3ead4ba..22e1b47c09fc 100644
+>>  --- a/drivers/hwmon/hwmon.c
+>>  +++ b/drivers/hwmon/hwmon.c
+>>  @@ -18,6 +18,7 @@
+>>   #include <linux/list.h>
+>>   #include <linux/module.h>
+>>   #include <linux/pci.h>
+>>  +#include <linux/property.h>
+>>   #include <linux/slab.h>
+>>   #include <linux/string.h>
+>>   #include <linux/thermal.h>
+>>  @@ -30,6 +31,7 @@
+>> 
+>>   struct hwmon_device {
+>>   	const char *name;
+>>  +	const char *label;
+>>   	struct device dev;
+>>   	const struct hwmon_chip_info *chip;
+>>   	struct list_head tzdata;
+>>  @@ -71,17 +73,29 @@ name_show(struct device *dev, struct 
+>> device_attribute *attr, char *buf)
+>>   }
+>>   static DEVICE_ATTR_RO(name);
+>> 
+>>  +static ssize_t
+>>  +label_show(struct device *dev, struct device_attribute *attr, char 
+>> *buf)
+>>  +{
+>>  +	return sysfs_emit(buf, "%s\n", to_hwmon_device(dev)->label);
+>>  +}
+>>  +static DEVICE_ATTR_RO(label);
+>>  +
+>>   static struct attribute *hwmon_dev_attrs[] = {
+>>   	&dev_attr_name.attr,
+>>  +	&dev_attr_label.attr,
+>>   	NULL
+>>   };
+>> 
+>>  -static umode_t hwmon_dev_name_is_visible(struct kobject *kobj,
+>>  +static umode_t hwmon_dev_attr_is_visible(struct kobject *kobj,
+>>   					 struct attribute *attr, int n)
+>>   {
+>>   	struct device *dev = kobj_to_dev(kobj);
+>>  +	struct hwmon_device *hdev = to_hwmon_device(dev);
+>> 
+>>  -	if (to_hwmon_device(dev)->name == NULL)
+>>  +	if (attr == &dev_attr_name.attr && hdev->name == NULL)
+>>  +		return 0;
+>>  +
+>>  +	if (attr == &dev_attr_label.attr && hdev->label == NULL)
+>>   		return 0;
+>> 
+>>   	return attr->mode;
+>>  @@ -89,7 +103,7 @@ static umode_t hwmon_dev_name_is_visible(struct 
+>> kobject *kobj,
+>> 
+>>   static const struct attribute_group hwmon_dev_attr_group = {
+>>   	.attrs		= hwmon_dev_attrs,
+>>  -	.is_visible	= hwmon_dev_name_is_visible,
+>>  +	.is_visible	= hwmon_dev_attr_is_visible,
+>>   };
+>> 
+>>   static const struct attribute_group *hwmon_dev_attr_groups[] = {
+>>  @@ -117,6 +131,7 @@ static void hwmon_dev_release(struct device 
+>> *dev)
+>>   	if (hwdev->group.attrs)
+>>   		hwmon_free_attrs(hwdev->group.attrs);
+>>   	kfree(hwdev->groups);
+>>  +	kfree(hwdev->label);
+>>   	kfree(hwdev);
+>>   }
+>> 
+>>  @@ -733,6 +748,7 @@ __hwmon_device_register(struct device *dev, 
+>> const char *name, void *drvdata,
+>>   			const struct attribute_group **groups)
+>>   {
+>>   	struct hwmon_device *hwdev;
+>>  +	const char *label;
+>>   	struct device *hdev;
+>>   	int i, err, id;
+>> 
+>>  @@ -752,6 +768,18 @@ __hwmon_device_register(struct device *dev, 
+>> const char *name, void *drvdata,
+>>   		goto ida_remove;
+>>   	}
+>> 
+>>  +	if (device_property_present(dev, "label")) {
+>>  +		err = device_property_read_string(dev, "label", &label);
+>>  +		if (err < 0)
+>>  +			goto free_hwmon;
+>>  +
+>>  +		hwdev->label = kstrdup(label, GFP_KERNEL);
+>>  +		if (hwdev->label == NULL) {
+>>  +			err = -ENOMEM;
+>>  +			goto free_hwmon;
 > 
-> Add /sys/kernel/mm/lru_gen/min_ttl_ms for thrashing prevention.
-> Compared with the size-based approach, e.g., [1], this time-based
-> approach has the following advantages:
-> 1) It's easier to configure because it's agnostic to applications and
->    memory sizes.
-> 2) It's more reliable because it's directly wired to the OOM killer.
+> The code after free_hwmon: uses hdev, so 0-day has a point. Please 
+> fix.
+
+Yes indeed. I was going to send a v3.
+
+-Paul
+
 > 
-> Add /sys/kernel/debug/lru_gen for working set estimation and proactive
-> reclaim. Compared with the page table-based approach and the PFN-based
-> approach, e.g., mm/damon/[vp]addr.c, this lruvec-based approach has
-> the following advantages:
-> 1) It offers better choices because it's aware of memcgs, NUMA nodes,
->    shared mappings and unmapped page cache.
-> 2) It's more scalable because it's O(nr_hot_evictable_pages), whereas
->    the PFN-based approach is O(nr_total_pages).
-> 
-> Add /sys/kernel/debug/lru_gen_full for debugging.
-> 
-> [1] https://lore.kernel.org/lkml/20211130201652.2218636d@mail.inbox.lv/
-> 
-> Signed-off-by: Yu Zhao <yuzhao@google.com>
-> Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
-> ---
->  Documentation/vm/index.rst        |   1 +
->  Documentation/vm/multigen_lru.rst |  62 +++++
+>>  +		}
+>>  +	}
+>>  +
+>>   	hdev = &hwdev->dev;
+>> 
+>>   	if (chip) {
 
-The description of user visible interfaces should go to
-Documentation/admin-guide/mm
 
-Documentation/vm/multigen_lru.rst should have contained design description
-and the implementation details and it would be great to actually have such
-document.
-
->  include/linux/nodemask.h          |   1 +
->  mm/vmscan.c                       | 415 ++++++++++++++++++++++++++++++
->  4 files changed, 479 insertions(+)
->  create mode 100644 Documentation/vm/multigen_lru.rst
-> 
-> diff --git a/Documentation/vm/index.rst b/Documentation/vm/index.rst
-> index 6f5ffef4b716..f25e755b4ff4 100644
-> --- a/Documentation/vm/index.rst
-> +++ b/Documentation/vm/index.rst
-> @@ -38,3 +38,4 @@ algorithms.  If you are looking for advice on simply allocating memory, see the
->     unevictable-lru
->     z3fold
->     zsmalloc
-> +   multigen_lru
-> diff --git a/Documentation/vm/multigen_lru.rst b/Documentation/vm/multigen_lru.rst
-> new file mode 100644
-> index 000000000000..6f9e0181348b
-> --- /dev/null
-> +++ b/Documentation/vm/multigen_lru.rst
-> @@ -0,0 +1,62 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=====================
-> +Multigenerational LRU
-> +=====================
-> +
-> +Quick start
-> +===========
-> +Runtime configurations
-> +----------------------
-> +:Required: Write ``1`` to ``/sys/kernel/mm/lru_gen/enable`` if the
-> + feature wasn't enabled by default.
-
-Required for what? This sentence seem to lack context. Maybe add an
-overview what is Multigenerational LRU so that users will have an idea what
-these knobs control.
-
-> +
-> +Recipes
-> +=======
-
-Some more context here will be also helpful.
-
-> +Personal computers
-> +------------------
-> +:Thrashing prevention: Write ``N`` to
-> + ``/sys/kernel/mm/lru_gen/min_ttl_ms`` to prevent the working set of
-> + ``N`` milliseconds from getting evicted. The OOM killer is invoked if
-> + this working set can't be kept in memory. Based on the average human
-> + detectable lag (~100ms), ``N=1000`` usually eliminates intolerable
-> + lags due to thrashing. Larger values like ``N=3000`` make lags less
-> + noticeable at the cost of more OOM kills.
-> +
-> +Data centers
-> +------------
-> +:Debugfs interface: ``/sys/kernel/debug/lru_gen`` has the following
-> + format:
-> + ::
-> +
-> +   memcg  memcg_id  memcg_path
-> +     node  node_id
-> +       min_gen  birth_time  anon_size  file_size
-> +       ...
-> +       max_gen  birth_time  anon_size  file_size
-> +
-> + ``min_gen`` is the oldest generation number and ``max_gen`` is the
-> + youngest generation number. ``birth_time`` is in milliseconds.
-> + ``anon_size`` and ``file_size`` are in pages.
-
-And what does oldest and youngest generations mean from the user
-perspective?
-
-> +
-> + This file also accepts commands in the following subsections.
-> + Multiple command lines are supported, so does concatenation with
-> + delimiters ``,`` and ``;``.
-> +
-> + ``/sys/kernel/debug/lru_gen_full`` contains additional stats for
-> + debugging.
-> +
-> +:Working set estimation: Write ``+ memcg_id node_id max_gen
-> + [can_swap [full_scan]]`` to ``/sys/kernel/debug/lru_gen`` to trigger
-> + the aging. It scans PTEs for accessed pages and promotes them to the
-> + youngest generation ``max_gen``. Then it creates a new generation
-> + ``max_gen+1``. Set ``can_swap`` to 1 to scan for accessed anon pages
-> + when swap is off. Set ``full_scan`` to 0 to reduce the overhead as
-> + well as the coverage when scanning PTEs.
-> +
-> +:Proactive reclaim: Write ``- memcg_id node_id min_gen [swappiness
-> + [nr_to_reclaim]]`` to ``/sys/kernel/debug/lru_gen`` to trigger the
-> + eviction. It evicts generations less than or equal to ``min_gen``.
-> + ``min_gen`` should be less than ``max_gen-1`` as ``max_gen`` and
-> + ``max_gen-1`` aren't fully aged and therefore can't be evicted. Use
-> + ``nr_to_reclaim`` to limit the number of pages to evict.
-
-...
-
--- 
-Sincerely yours,
-Mike.
