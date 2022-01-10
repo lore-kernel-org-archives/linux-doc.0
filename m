@@ -2,252 +2,170 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DC0AC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Jan 2022 03:14:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C4ACC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Jan 2022 03:53:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238310AbiAJDOv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 9 Jan 2022 22:14:51 -0500
-Received: from mga01.intel.com ([192.55.52.88]:53725 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232735AbiAJDOu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 9 Jan 2022 22:14:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1641784490; x=1673320490;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=MNSQ60qc0c5A/j10FNlj4lHVO0VL67gFxNtX+6O3cok=;
-  b=NlErkrkimzmtAeXVKqKoInOGlnXxbXxDiz7slhZog00mSn5PwYCZIjY7
-   4dLxn4kMAjIuX1fjM9ZxTMPCAUqNzy9eJbfJAD+s046YrdogcQBvObUBU
-   mre0GqBGE+pTEeiafjNr3LhFhtQ2x4GjQCxgXY3js7vv9Kge9LjBnwHsa
-   UydbWkJvFijjWyygJ7SpEW9wktnitIk1AOiLzUYKt+sPMXiMh6KIVD9Rf
-   ahWzuA4p6FsDFJiNg3lomiH4PapP0Tp5sOGTNrnrB0sRDtxWlyET8YMXz
-   GKFsACuNVpwu2V/YMvXctcbch8vgsiLBwvIq4kHJaO7fhfVVZ1xR2CcOE
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10222"; a="267467133"
-X-IronPort-AV: E=Sophos;i="5.88,275,1635231600"; 
-   d="scan'208";a="267467133"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2022 19:14:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,275,1635231600"; 
-   d="scan'208";a="527830298"
-Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
-  by fmsmga007.fm.intel.com with ESMTP; 09 Jan 2022 19:14:49 -0800
-Received: from orsmsx607.amr.corp.intel.com (10.22.229.20) by
- ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
+        id S232983AbiAJDxf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 9 Jan 2022 22:53:35 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:34891 "EHLO
+        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232952AbiAJDxd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Jan 2022 22:53:33 -0500
+Received: from dggpeml500023.china.huawei.com (unknown [172.30.72.54])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JXKfZ3Sw1zccL5;
+        Mon, 10 Jan 2022 11:52:54 +0800 (CST)
+Received: from dggpeml500006.china.huawei.com (7.185.36.76) by
+ dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Sun, 9 Jan 2022 19:14:49 -0800
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX607.amr.corp.intel.com (10.22.229.20) with Microsoft SMTP Server
+ 15.1.2308.20; Mon, 10 Jan 2022 11:53:31 +0800
+Received: from [10.174.177.232] (10.174.177.232) by
+ dggpeml500006.china.huawei.com (7.185.36.76) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Sun, 9 Jan 2022 19:14:48 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20 via Frontend Transport; Sun, 9 Jan 2022 19:14:48 -0800
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.172)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.20; Sun, 9 Jan 2022 19:14:45 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aIUAgbJiaF0X9RH2emk1NqXPapAlx11ZLKLQNDUEMQEgsiz/mggDhpWRjInKriQdqo8KcKlojnPjRrg4ZrIjCoaBMeIu1Vp+iD2OoGAGV4nv47Ep49soA/VWRmVKq2PbCEtwXv8AaO81WLXCqje7GujxzDbyr9Nj0EjlfTT64UOjHU7cMCBkOOZCkjeRxtr2FIVx4hwt7QErZUZpKf6uHh1jFX+gEQ++yJr5dDCkzhSKmMHV5gr3V1rNbSkl4ke0qCipvhQAKUGB0n8PAtXwcSHz78mKbyqnnXTAJwVDmLXArEiZm1lerfGSbQ+HZCdOyD9etKR3+/oxmJdJFDXV8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ulkki1XtzkcYiHifxf30cwaeMRSf8TbWbLz/MoAQr0s=;
- b=TFLExm6ntcxPxeFBlPX0Q4He0L5cF/hUNRt7hU7LU6+a78I86IA6nCF1du7meU7M/cIS7jnFN7/JrJpevVgtHTS8m4MipEEC7aEGgA5MqrPqJIx9xyXcikkStAxWCfWoNRyROKhnrjvCN4iychV8+WXZXPb+ywVba1VOQel0g5/vTZDj+2b6rcw/dH0xPtEkG7IdnldmjIiykanePw2S4SUqryJwsBzW6CGgAvHmIglqsp/Lodd+gEq5mNWr4iuRqvCSeDPPgFtK4W2FGW9j1gFoHS0LeQ6wdvbcvOnYlcJIwnwNqKroF4UZZmTDgHSS8P60RejMRNdCrBWjKDqVnQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
- by BN6PR11MB1859.namprd11.prod.outlook.com (2603:10b6:404:104::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4867.10; Mon, 10 Jan
- 2022 03:14:44 +0000
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::5c8a:9266:d416:3e04]) by BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::5c8a:9266:d416:3e04%2]) with mapi id 15.20.4867.011; Mon, 10 Jan 2022
- 03:14:44 +0000
-From:   "Tian, Kevin" <kevin.tian@intel.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-CC:     Alex Williamson <alex.williamson@redhat.com>,
-        "cohuck@redhat.com" <cohuck@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "farman@linux.ibm.com" <farman@linux.ibm.com>,
-        "mjrosato@linux.ibm.com" <mjrosato@linux.ibm.com>,
-        "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
-        "Lu, Baolu" <baolu.lu@intel.com>
-Subject: RE: [RFC PATCH] vfio: Update/Clarify migration uAPI, add NDMA state
-Thread-Topic: [RFC PATCH] vfio: Update/Clarify migration uAPI, add NDMA state
-Thread-Index: AQHX7VV0XQcySACwoUuiLSnTAAZEGKwq7veAgAX5vQCAAUtwAIAgHtaAgADdZoCAAJj9IIAAwDmAgAES3TCAALDYAIAAhPxggAAOagCAABW50IABBXcAgAO9hLA=
-Date:   Mon, 10 Jan 2022 03:14:44 +0000
-Message-ID: <BN9PR11MB52766CFF8183099A16DFEFC68C509@BN9PR11MB5276.namprd11.prod.outlook.com>
-References: <20211214162654.GJ6385@nvidia.com>
- <BN9PR11MB5276145C1D82FAFBDCF70AEF8C4A9@BN9PR11MB5276.namprd11.prod.outlook.com>
- <20220104160959.GJ2328285@nvidia.com>
- <BN9PR11MB527662CA4820107EA7B6CC278C4B9@BN9PR11MB5276.namprd11.prod.outlook.com>
- <20220105124533.GP2328285@nvidia.com>
- <BN9PR11MB5276E5F4C19FB368414500368C4C9@BN9PR11MB5276.namprd11.prod.outlook.com>
- <20220106154216.GF2328285@nvidia.com>
- <BN9PR11MB5276E587A02FC231343C87F98C4D9@BN9PR11MB5276.namprd11.prod.outlook.com>
- <20220107002950.GO2328285@nvidia.com>
- <BN9PR11MB5276177829EE5ED89AAD82398C4D9@BN9PR11MB5276.namprd11.prod.outlook.com>
- <20220107172324.GV2328285@nvidia.com>
-In-Reply-To: <20220107172324.GV2328285@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-version: 11.6.200.16
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 8af65438-03bf-485a-cbe1-08d9d3e7598e
-x-ms-traffictypediagnostic: BN6PR11MB1859:EE_
-x-microsoft-antispam-prvs: <BN6PR11MB1859ED9BB73AECF456EF4DB58C509@BN6PR11MB1859.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: C9GS/peji1r5oF4+sX89UWR9ink7/9NhW5OR9+rQCJgzS0dJ7U3masqe8Q7RAbhfgWHtemBusU5EOZxGSLj9ky8OGz2HfgFLVWRTfU0tQtvexL5DZOTXYJCVwuBdMfn/sY+dx8wMglBgNJsR3TyhVQZnqqP6krRXNLjGxYqf1qOjuysHOPJHlKAc/xaAwVhcEG9Oq+gM6osXmA4g5STbFc/pyCFkBAf/Mx2GYfX7HXw0PI9nlIIqywwpEX4qN1PuYdFvCM0yn8MB8yKiy2Gf+A338Ve82s9P6eRw5XQi5zKUBBn+Fn9BVojntD1IZCR41tqIMB35ZRg/NQZwnSjRkBsv4BPP6cs3L3p3C5gz4cKZVqauBk0GgFog6xDDQd9ICiZOyhV1fNzOVqQIUVfeHOQcjbGNvxZaV39vs4AP7/q1eTfkumwYai1PeXZ+BHD9iJPB1auEXMNoAoEBwzbH7p1SLAeP+qwJ315qTt0t2ZGKX+krDUmaD5w4dLZ53EvAq4mcKUsIJVrSNKF4Q2g4rb9sWSa97zA9PI+h6Cv5XXhPJxsXOB074G4X01QF1tubx+68DKRcQg2A9UbJ6fq7mpldJ7kElhveAiGv9CFaIJKqh23OOqdyjkor7wgdm1baKu+KWyvY1jRYh+Y8CwQY2Yzh3swGGi9RZDi7wTAm84rqsd6x4y+l5eZyvF/XvBfajKVMmuLzKdMWFBWueQxkHw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5276.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(107886003)(66946007)(86362001)(71200400001)(6916009)(66556008)(4326008)(5660300002)(83380400001)(7696005)(82960400001)(55016003)(316002)(122000001)(66446008)(52536014)(186003)(38100700002)(508600001)(8936002)(66476007)(76116006)(6506007)(33656002)(8676002)(9686003)(38070700005)(2906002)(26005)(64756008)(54906003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?1sgQAmXr8kyayYmGCxKxxurBwggKNeKRK9l0spZ6MEH6pX0ewKAxaTQ8+ZAu?=
- =?us-ascii?Q?xy05Ex8Kx7LRxWn5ti6DdSXcA2p3zD3mgZO3kPpJaO2XnWNB4AEOdm0PnhmW?=
- =?us-ascii?Q?gCUhy3J5dYR1U6sBe17PcH+cPrG1he4ngscSAgbR/yAqcIu96Kd+zB5HLN5D?=
- =?us-ascii?Q?KVf29xdS3Mkyv4qooVbXDzer1n0sqTv/aSZXi3q9kcQWXQZP3hDSpS4yHHR6?=
- =?us-ascii?Q?H0Cg/fvP3RHqUruMnYMBxFgDAl+6auwQt1S57TeZJAcjmCZAxG9mNLthOGKn?=
- =?us-ascii?Q?xwbuEKzSB5SeWEfmYkm/gqbuhX2j60GwpUtdQPjUPuV923iAdtfaPXSHVFvl?=
- =?us-ascii?Q?BrAfxayqi75stFgJ/+jZOXcndbUPDNVI9uzU2XmVLh1YCxkvpZk32hH7wEv6?=
- =?us-ascii?Q?oSZTWLCM7AC+Au/GBXBIxy3/s3DN1/jK2nf+54+hzZxuBaJs2mtB+CetS488?=
- =?us-ascii?Q?V0aBZSru2pBH9XBTRE+8ercz/H57vdCP7bsjo7s9ZC9Q5P8L1btAxwKp0HiI?=
- =?us-ascii?Q?fH9ONOfUe9CS3/22reRjzAgQh0Bl3GQpFGZwytCEBJduKz4UEwwWIol4UwOV?=
- =?us-ascii?Q?dUoYIdr+vDN6u/T14OulUJVT0Sjd03BjqmD6CjBM8AmO8rCFEGbVZ5cT/EgM?=
- =?us-ascii?Q?+Nnoh8TtD10lECi9I83F+yH9n5r/1KGQBeysaIrMaFHPdlj9jJmBZu0wrNMX?=
- =?us-ascii?Q?fmrUGaeyZDw4AM4Qq4GwUHoIaVjy7JeQQdS4899OBK9RpnArje1RTzQBKtVy?=
- =?us-ascii?Q?b/TlhZjm7jia/j9U98AtqTvkYih8YVS53guyIYN5hdohK+nOctktDXwIPtpJ?=
- =?us-ascii?Q?ktcc6sdxUC3oW22tje/vSgB5wzPAOuGgs6BbBU3/w135xn5G0NIuWfeYjByL?=
- =?us-ascii?Q?rUubt3l43WDdSfE3nP5kGYaiz5lAxi5QQyEYcDiMbrWYtn08ZGHWOoBwhnH+?=
- =?us-ascii?Q?eSnOFGvbQiuB+Pryv1sbIAzPuXoQfZ40cefpFQAjyvylA4x4V+biQvtTGi2D?=
- =?us-ascii?Q?OFB2L2tpLY3mrNoKR0xaesMPJXYkXpxRf0b8Zya7PAZFpxiBENVZrBYmBWYV?=
- =?us-ascii?Q?sTrUIOwgeC7k+PVAKsWzJpFGMuEfC7Z7k4AAHKH7t2I5sK4eOTUoZfQVU1y5?=
- =?us-ascii?Q?qVHkwF8lNbNc9nGQsEVhqv8+TCxxN/rauqKXr0iwFT2KrFLkBEwxLgWA8kNN?=
- =?us-ascii?Q?QhLJnl/jn8ZmvdCgaWBvKBhF8vQOd8OES8wen53JFvwdPprCuSykdM1RRSzC?=
- =?us-ascii?Q?pE96WgcxnvW++uWXw+kf4vX3XkBYSZ6NNjTjZSNZf72Jzjrs/bbvpnYXrFYT?=
- =?us-ascii?Q?1YpcRbKwUr6KLsZkboG8HPBn1ihwBclQLRTnayjAuy9Us4LOWiBCjmljJizy?=
- =?us-ascii?Q?LHtUbi0bEwNt9WIQ19MUAewvdkumxW+LJWjF1GzVJlShviJ0DgURH9s0ymAS?=
- =?us-ascii?Q?HnkrchrmxIMeu7TLkZEI9+8l754E/rRFTrzNoHnjs1dB36pFLmZzoDQejwsi?=
- =?us-ascii?Q?ar0tAnOytC7GlxGdhTOOTeCs6vOFsY1JnxbcpsjAZCT3UC2SEP4+RoHmjSvE?=
- =?us-ascii?Q?rEm+hOkI+oaeCw0QcXi8h4F3b6Bly4LF0S/WKLJGsDZf3Oqy2PWVyUA/f3/Y?=
- =?us-ascii?Q?Xdk45Aq6Y4LAvXps4okmgls=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ 15.1.2308.20; Mon, 10 Jan 2022 11:53:31 +0800
+Subject: Re: [PATCH v2 2/3] docs_zh_CN: add active_mm translation
+To:     Yanteng Si <siyanteng01@gmail.com>, <corbet@lwn.net>,
+        <alexs@kernel.org>, <seakeel@gmail.com>
+CC:     <chenhuacai@kernel.org>, <jiaxun.yang@flygoat.com>,
+        <linux-doc@vger.kernel.org>, Yanteng Si <siyanteng@loongson.cn>
+References: <cover.1641782124.git.siyanteng@loongson.cn>
+ <a90be6b9c444c1df921496f430005d3ca6b679ce.1641782124.git.siyanteng@loongson.cn>
+From:   Tang Yizhou <tangyizhou@huawei.com>
+Message-ID: <af88a180-17d6-ad43-960e-8f2a0712945d@huawei.com>
+Date:   Mon, 10 Jan 2022 11:53:30 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.1.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8af65438-03bf-485a-cbe1-08d9d3e7598e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jan 2022 03:14:44.2116
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 9IRNY0ZaHndkm19c3+CkvX3bjFMskwOHxG1jDVW2dR6FCTFdWIOEEqs/Xke0BpdaZpWDMlY7DUaPTZvE5NOGgQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR11MB1859
-X-OriginatorOrg: intel.com
+In-Reply-To: <a90be6b9c444c1df921496f430005d3ca6b679ce.1641782124.git.siyanteng@loongson.cn>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.177.232]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpeml500006.china.huawei.com (7.185.36.76)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> From: Jason Gunthorpe <jgg@nvidia.com>
-> Sent: Saturday, January 8, 2022 1:23 AM
->=20
-> On Fri, Jan 07, 2022 at 02:01:55AM +0000, Tian, Kevin wrote:
-> > > From: Jason Gunthorpe <jgg@nvidia.com>
-> > > Sent: Friday, January 7, 2022 8:30 AM
-> > >
-> > > On Fri, Jan 07, 2022 at 12:00:13AM +0000, Tian, Kevin wrote:
-> > > > > Devices that are poorly designed here will have very long migrati=
-on
-> > > > > downtime latencies and people simply won't want to use them.
-> > > >
-> > > > Different usages have different latency requirement. Do we just wan=
-t
-> > > > people to decide whether to manage state for a device by
-> > > > measurement?
-> > >
-> > > It doesn't seem unreasonable to allow userspace to set max timer for
-> > > NDMA for SLA purposes on devices that have unbounded NDMA times. It
-> > > would probably be some new optional ioctl for devices that can
-> > > implement it.
-> >
-> > Yes, that's my point.
-> >
-> > >
-> > > However, this basically gives up on the idea that a VM can be migrate=
-d
-> > > as any migration can timeout and fail under this philosophy. I think
-> > > that is still very poor.
-> > >
-> > > Optional migration really can't be sane path forward.
-> > >
-> >
-> > How is it different from the scenario where the guest generates a very
-> > high dirty rate so the precopy phase can never converge to a pre-define=
-d
-> > threshold then abort the migration after certain timeout?
->=20
-> The hypervisor can halt the VCPU and put a stop to this and complete
-> the migration.
->=20
-> There is a difference between optional migration under a SLA and
-> mandatory migration with no SLA - I think both must be supported to be
-> sane.
->=20
-> > IMHO live migration is always a try-and-fail flavor. A previous migrati=
-on
-> > failure doesn't prevent the orchestration stack to retry at a later poi=
-nt.
->=20
-> An operator might need to emergency migrate a VM without the
-> possibility for failure. For instance there is something wrong with
-> the base HW. SLA ignored, migration must be done.
+On 2022/1/10 10:40, Yanteng Si wrote:
+> From: Yanteng Si <siyanteng01@gmail.com>
+> 
+> Translatr .../vm/active_mm.rst into Chinese.
+> 
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 
-How is it done today when no assigned device supports migration?
-If any constraint is tolerable today, I don't see why supporting only
-optional migration cannot be accepted  which removes some=20
-constraints while still bears a subset in those deployments. This can
-be seen as an intermediate step in the transition path toward the=20
-perfect world where both optional and mandatory migration are=20
-supported.
+Reviewed-by: Tang Yizhou <tangyizhou@huawei.com>
 
->=20
-> IMHO it is completely wrong to view migration as optional, that is a
-> terrible standard to design HW to.
->=20
-
-I don't want to argue 'wrong' or 'terrible' here since different person
-certainly has different view based their own usages.
-
-But based on the whole discussion I hope we are aligned on:
-
-- It's necessary to support existing HW though it may only supports
-  optional migration due to unbounded time of stopping DMA;
-
-- We should influence IP designers to design HW to allow preempting
-  in-fly requests and stop DMA quickly (also implying the capability of
-  aborting/resuming in-fly PRI requests);
-
-- Specific to the device state management uAPI, it should not assume
-  a specific usage and instead allow the user to set a timeout value so
-  transitioning to NDMA is failed if the operation cannot be completed
-  within the specified timeout value. If the user doesn't set it, the=20
-  migration driver could conservatively use a default timeout value to
-  gate any potentially unbounded operation.
-
-Thanks
-Kevin
+> ---
+>  .../translations/zh_CN/vm/active_mm.rst       | 85 +++++++++++++++++++
+>  Documentation/translations/zh_CN/vm/index.rst |  2 +-
+>  2 files changed, 86 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/vm/active_mm.rst
+> 
+> diff --git a/Documentation/translations/zh_CN/vm/active_mm.rst b/Documentation/translations/zh_CN/vm/active_mm.rst
+> new file mode 100644
+> index 000000000000..366609ea4f37
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/vm/active_mm.rst
+> @@ -0,0 +1,85 @@
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/vm/active_mm.rst
+> +
+> +:翻译:
+> +
+> + 司延腾 Yanteng Si <siyanteng@loongson.cn>
+> +
+> +:校译:
+> +
+> +
+> +=========
+> +Active MM
+> +=========
+> +
+> +这是一封linux之父回复开发者的一封邮件，所以翻译时我尽量保持邮件格式的完整。
+> +
+> +::
+> +
+> + List:       linux-kernel
+> + Subject:    Re: active_mm
+> + From:       Linus Torvalds <torvalds () transmeta ! com>
+> + Date:       1999-07-30 21:36:24
+> +
+> + 因为我并不经常写解释，所以已经抄送到linux-kernel邮件列表，而当我做这些，
+> + 且更多的人在阅读它们时，我觉得棒极了。
+> +
+> + 1999年7月30日 星期五， David Mosberger 写道：
+> + >
+> + > 是否有一个简短的描述，说明task_struct中的
+> + >  "mm" 和 "active_mm"应该如何使用？ (如果
+> + > 这个问题在邮件列表中讨论过，我表示歉意--我刚
+> + > 刚度假回来，有一段时间没能关注linux-kernel了）。
+> +
+> + 基本上，新的设定是：
+> +
+> +  - 我们有“真实地址空间”和“匿名地址空间”。区别在于，匿名地址空间根本不关心用
+> +    户级页表，所以当我们做上下文切换到匿名地址空间时，我们只是让以前的地址空间
+> +    处于活动状态。
+> +
+> +    一个“匿名地址空间”的明显用途是任何不需要任何用户映射的线程--所有的内核线
+> +    程基本上都属于这一类，但即使是“真正的”线程也可以暂时说在一定时间内它们不
+> +    会对用户空间感兴趣，调度器不妨试着避免在切换VM状态上浪费时间。目前只有老
+> +    式的bdflush sync能做到这一点。
+> +
+> +  - “tsk->mm” 指向 “真实地址空间”。对于一个匿名进程来说，tsk->mm将是NULL，
+> +    其逻辑原因是匿名进程实际上根本就 “没有” 真正的地址空间。
+> +
+> +  - 然而，我们显然需要跟踪我们为这样的匿名用户“偷用”了哪个地址空间。为此，我们
+> +    有 “tsk->active_mm”，它显示了当前活动的地址空间是什么。
+> +
+> +    规则是，对于一个有真实地址空间的进程（即tsk->mm是 non-NULL），active_mm
+> +    显然必须与真实的mm相同。
+> +
+> +    对于一个匿名进程，tsk->mm == NULL，而tsk->active_mm是匿名进程运行时
+> +    “借用”的mm。当匿名进程被调度走时，借用的地址空间被返回并清除。
+> +
+> + 为了支持所有这些，“struct mm_struct”现在有两个计数器：一个是 “mm_users”
+> + 计数器，即有多少 “真正的地址空间用户”，另一个是 “mm_count”计数器，即 “lazy”
+> + 用户（即匿名用户）的数量，如果有任何真正的用户，则加1。
+> +
+> + 通常情况下，至少有一个真正的用户，但也可能是真正的用户在另一个CPU上退出，而
+> + 一个lazy的用户仍在活动，所以你实际上得到的情况是，你有一个地址空间 **只**
+> + 被lazy的用户使用。这通常是一个短暂的生命周期状态，因为一旦这个线程被安排给一
+> + 个真正的线程，这个 “僵尸” mm就会被释放，因为 “mm_count”变成了零。
+> +
+> + 另外，一个新的规则是，**没有人** 再把 “init_mm” 作为一个真正的MM了。
+> + “init_mm”应该被认为只是一个 “没有其他上下文时的lazy上下文”，事实上，它主
+> + 要是在启动时使用，当时还没有真正的VM被创建。因此，用来检查的代码
+> +
+> +   if (current->mm == &init_mm)
+> +
+> + 一般来说，应该用
+> +
+> +   if (!current->mm)
+> +
+> + 取代上面的写法（这更有意义--测试基本上是 “我们是否有一个用户环境”，并且通常
+> + 由缺页异常处理程序和类似的东西来完成）。
+> +
+> + 总之，我刚才在ftp.kernel.org上放了一个pre-patch-2.3.13-1，因为它稍微改
+> + 变了接口以适配alpha（谁会想到呢，但alpha体系结构上下文切换代码实际上最终是
+> + 最丑陋的之一--不像其他架构的MM和寄存器状态是分开的，alpha的PALcode将两者
+> + 连接起来，你需要同时切换两者）。
+> +
+> + (文档来源 http://marc.info/?l=linux-kernel&m=93337278602211&w=2)
+> diff --git a/Documentation/translations/zh_CN/vm/index.rst b/Documentation/translations/zh_CN/vm/index.rst
+> index 0fda40c602ac..5fcdb75d8682 100644
+> --- a/Documentation/translations/zh_CN/vm/index.rst
+> +++ b/Documentation/translations/zh_CN/vm/index.rst
+> @@ -21,9 +21,9 @@ TODO:待引用文档集被翻译完毕后请及时修改此处）
+>  .. toctree::
+>     :maxdepth: 1
+>  
+> +   active_mm
+>  
+>  TODOLIST:
+> -* active_mm
+>  * arch_pgtable_helpers
+>  * balance
+>  * damon/index
+> 
