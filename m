@@ -2,266 +2,225 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81F7FC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Jan 2022 19:06:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DFC4C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Jan 2022 22:05:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243087AbiAJTGX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Jan 2022 14:06:23 -0500
-Received: from ms.lwn.net ([45.79.88.28]:51110 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S242273AbiAJTGW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 10 Jan 2022 14:06:22 -0500
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 6A3C836E;
-        Mon, 10 Jan 2022 19:06:22 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6A3C836E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1641841582; bh=I27HtCbenu1YUK+88801ssWNiY6yTKRNWPPcmHtLwiU=;
-        h=From:To:Cc:Subject:Date:From;
-        b=WCf0gOnTm8Ov9mqov8iOQY2xdFedGCTtw5wBrb50U2eqXkbRA8WDNMdmRLVUW2VHT
-         C+S33rO20jIXiPn6fVXvCNCYjXdB2+03natY8L9ru34b294e0I6cQnJfA8Tcwq1kDo
-         CjeYGYnmbLsc6BWKgDTaTzblQddBJCD6C7Xr8WNILC8huVMhOleSQGcRhziXEs8QRi
-         Bb+2MnJrBh18LyDqRqa9whySFBMRsy7XpGZA5Q68mWCza6QyTVz5h/oXzoNCL1tUcm
-         NaPOUd2Jceji5F3MC/K0SU14Mn9UJ2ACqApQNmFVp3+4SiWh2wDRIlacojICSFToIu
-         KR3WePGSsRLYw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [GIT PULL] Documentation for 5.17
-Date:   Mon, 10 Jan 2022 12:06:33 -0700
-Message-ID: <87v8yrjtqe.fsf@meer.lwn.net>
+        id S1345186AbiAJWFG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Jan 2022 17:05:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56116 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1345143AbiAJWFB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jan 2022 17:05:01 -0500
+Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com [IPv6:2607:f8b0:4864:20::d2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9776C061748
+        for <linux-doc@vger.kernel.org>; Mon, 10 Jan 2022 14:05:00 -0800 (PST)
+Received: by mail-io1-xd2a.google.com with SMTP id o7so19641687ioo.9
+        for <linux-doc@vger.kernel.org>; Mon, 10 Jan 2022 14:05:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=ZF1CJQBzh/80v0BtRZispFGHTetfiJtaTzECzTUh4ls=;
+        b=dx0D386bXH4QfkdfHO50yb/ut/bhAD5N6GmCuKkMh4mmQQbt9bw3Ok/yfATHoc+iQI
+         qAeFeHqFnnPW4sGu8eYXyyD9lU3rQ7rcd72g2G4L1gxA/PhC1T8w5gwMsm4VLr4UZJCn
+         j7pYB7yDIldEzkB7XE3UPev7QKCCceR1V7oIsEu0s7T8aKqjJDkc+nEue19/Q4IRcGBp
+         eWinzrVVnAoWsRrtgxPJi5QLe9blKyBY9ylmdPHxkdIyszk1rHTvVVmHq0O2epJSIcC3
+         Xdftd7hExeHdJjDYgmeifiP8P+lBocrEIQ8Hi8kLOEzuC0HrpmIVkAHu86Fx3sjCo+64
+         VxNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ZF1CJQBzh/80v0BtRZispFGHTetfiJtaTzECzTUh4ls=;
+        b=WR/B1EUb9s/py+zW40Ec6VsxVgMZm8Dm+j2nq4XNa7KrMtZ1yYreRL6LW3vNwn/92d
+         T9Po7YHpXiqnz86RFn58pAEBId8IuUbAK6iSILHZvAjtriT0XeND8JtenElE3W7pwnlg
+         wgeSvaOxiuFcF8E6IUN2ckLWQood+F9NEqo6D3uz5Oaxzg2dDoXCXpxmlUAGAosnTB5Q
+         560p/ZVAG+usyH/wn0R73M9U/aF3T2CD6O2OQSVtViHlgDxRAjKEY04GVNLr5s0Iira/
+         3PcgjOnysIRfKTBke/UtkmSUj5Qe5bKw3Wli2o3KaSpVz78PfUN7hC+OalvJBhKDLCg/
+         Gc/A==
+X-Gm-Message-State: AOAM533uGj2xtIbl22JebTXAQv/inelkxWaEZlxxouV+gdWMHk2rG6nh
+        QLxAbF5avoPHEjiNIUTRbHlT6g==
+X-Google-Smtp-Source: ABdhPJziaqAPZyGTfrPdWvsoPVFD8RNO6WlMKxKetxjQmQbenL9eNyAzlV+ZGAmku4iALDqt7TKy8Q==
+X-Received: by 2002:a6b:8f0b:: with SMTP id r11mr875799iod.20.1641852299693;
+        Mon, 10 Jan 2022 14:04:59 -0800 (PST)
+Received: from google.com ([2620:15c:183:200:d17d:9fe6:6a18:f270])
+        by smtp.gmail.com with ESMTPSA id f1sm4986646iow.33.2022.01.10.14.04.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Jan 2022 14:04:59 -0800 (PST)
+Date:   Mon, 10 Jan 2022 15:04:54 -0700
+From:   Yu Zhao <yuzhao@google.com>
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, x86@kernel.org
+Subject: Re: [PATCH v6 0/9] Multigenerational LRU Framework
+Message-ID: <YdythmxHpSksJiXs@google.com>
+References: <20220104202227.2903605-1-yuzhao@google.com>
+ <YdSuSHa/Vjl6bPkg@google.com>
+ <YdgKClGAuHlkzVbQ@dhcp22.suse.cz>
+ <YdiKVJlClB3h1Kmg@google.com>
+ <YdxTR4+FL08XyFuO@dhcp22.suse.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YdxTR4+FL08XyFuO@dhcp22.suse.cz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The following changes since commit 0fcfb00b28c0b7884635dacf38e46d60bf3d4eb1:
+On Mon, Jan 10, 2022 at 04:39:51PM +0100, Michal Hocko wrote:
+> On Fri 07-01-22 11:45:40, Yu Zhao wrote:
+> [...]
+> > Next, I argue that the benefits of this patchset outweigh its risks,
+> > because, drawing from my past experience,
+> > 1. There have been many larger and/or riskier patchsets taken; I'll
+> >    assemble a list if you disagree.
+> 
+> No question about that. Changes in the reclaim path are paved with
+> failures and reverts and fine tuning on top of existing fine tuning.
+> The difference from your patchset is that they tend to be much much
+> smaller and go incremental and therefore easier to review.
 
-  Linux 5.16-rc4 (2021-12-05 14:08:22 -0800)
+No argument here.
 
-are available in the Git repository at:
+> >    And this patchset is fully guarded
+> >    by #ifdef; Linus has also assessed on this point.
+> 
+> I appreciate you made the new behavior an opt-in and therefore existing
+> workloads are less likely to regress. I do not think ifdefs help
+> all that much, though, because a) realistically the config will
+> likely be enabled for most distribution kernels
 
-  git://git.lwn.net/linux.git tags/docs-5.17
+There is also a runtime kill switch.
 
-for you to fetch changes up to 87d6576ddf8ac25f36597bc93ca17f6628289c16:
+> b) the parallel
+> reclaim implementation adds a maintenance overhead regardless of those
+> ifdef. The later point is especially worrying because the memory reclaim
+> is a complex and hard to review beast already. Any future changes would
+> need to consider both reclaim algorithms of course.
 
-  scripts: sphinx-pre-install: Fix ctex support on Debian (2022-01-07 09:33=
-:13 -0700)
+A perfectly legitimate concern.
 
-----------------------------------------------------------------
-This isn't a hugely busy cycle for documentation, but a few significant
-things still showed up:
+If this patchset is taken:
+1. There will be refactoring that makes the long-term maintenance as
+   affordable as possible, i.e., similar to the SL.B model, but can
+   also make runtime switch.
+2. There will also be optimizations for mmu notifier (KVM), THP, etc.
+3. Most importantly, Google will be committing more resource on this.
+   And that's why we need to hear a decision -- our resource planning
+   depends on it.
 
- - A documentation section for ARC processors
- - Reworked and enhanced KUnit documentation
- - The ability to pick your own theme for HTML builds; if the default
-   "Read the Docs" theme isn't ugly enough for you, you can now pick
-   an uglier one.
- - More Chinese translation work
+> Hence I argue we really need a wider consensus this is the right
+> direction we want to pursue.
 
-Plus the usual assortment of fixes and cleanups.
+We've been doing our best to get this consensus -- we invited all
+the stakeholders to meetings a long time ago -- but unfortunately we
+couldn't move the needle.
 
-The KUnit documentation update leads to a couple of simple conflicts
-with the KUnit tree - but they wanted this work to go via this path.
-----------------------------------------------------------------
-Ahmed Zaki (1):
-      Doc: networking: Fix the title's Sphinx overline in rds.rst
+I agree consensus is important. But, IMO, progress is even more
+important. And personally, I'd rather try something wrong than do
+nothing.
 
-Alex Shi (1):
-      doc/zh_CN: add Chinese document coding style reminder
+> > 2. There have been none that came with the testing/benchmarking
+> >    coverage as this one did. Please point me to some if I'm mistaken,
+> >    and I'll gladly match them.
+> 
+> I do appreciate your numbers but you should realize that this is an area
+> that is really hard to get any conclusive testing for.
 
-Alexey Brodkin (2):
-      docs: Add documentation for ARC processors
-      docs: ARC: Improve readability
+Fully agreed. That's why we started a new initiative, and we hope more
+people will following these practices:
+1. All results in this area should be reported with at least standard
+   deviations, or preferably confidence intervals.
+2. Real applications should be benchmarked (with synthetic load
+   generator), not just synthetic benchmarks (not real applications).
+3. A wide range of devices should be covered, i.e., servers, desktops,
+   laptops and phones.
 
-Anssi Hannula (1):
-      docs/vm: clarify overcommit amount sysctl behavior
+I'm very confident to say our benchmark reports were hold to the
+highest standards. We have worked with MariaDB (company), EnterpriseDB
+(Postgres), Redis (company), etc. on these reports. They have copies
+of these reports (PDF version):
+https://linux-mm.googlesource.com/benchmarks/
 
-Christian L=C3=B6hle (1):
-      Documentation: kgdb: Replace deprecated remotebaud
+We welcome any expert in those applications to examine our reports,
+and we'll be happy to run any other benchmarks or same benchmarks with
+different configurations that anybody thinks it's important and we've
+missed.
 
-Harinder Singh (7):
-      Documentation: KUnit: Rewrite main page
-      Documentation: KUnit: Rewrite getting started
-      Documentation: KUnit: Added KUnit Architecture
-      Documentation: kunit: Reorganize documentation related to running tes=
-ts
-      Documentation: KUnit: Rework writing page to focus on writing tests
-      Documentation: KUnit: Restyle Test Style and Nomenclature page
-      Documentation: KUnit: Restyled Frequently Asked Questions
+> We keep learning
+> about fallouts on workloads we haven't really anticipated or where the
+> runtime effects happen to disagree with our intuition. So while those
+> numbers are nice there are other important aspects to consider like the
+> maintenance cost for example.
 
-James Clark (1):
-      docs: automarkup.py: Fix invalid HTML link output and broken URI frag=
-ments
+I assume we agree this is not an easy decision. Can I also assume we
+agree that this decision should be make within a reasonable time frame?
 
-Jonathan Corbet (2):
-      Merge tag 'v5.16-rc4' into docs-next
-      docs: discourage use of list tables
+> > The numbers might not materialize in the real world; the code is not
+> > perfect; and many other risks... But all the top eight open source
+> > memory hogs were covered, which is unprecedented; memcached and fio
+> > showed significant improvements and it only takes a few commands to
+> > see for yourselves.
+> > 
+> > Regarding the acks and the reviewed-bys, I certainly can ask people
+> > who have reaped the benefits of this patchset to do them, if it's
+> > required. But I see less fun in that. I prefer to provide empirical
+> > evidence and convince people who are on the other side of the aisle.
+> 
+> I like to hear from users who benefit from your work and that certainly
+> gives more credit to it. But it will be the MM community to maintain the
+> code and address future issues.
 
-Lukas Bulwahn (2):
-      Documentation: kgdb: properly capitalize the MAGIC_SYSRQ config
-      Documentation: refer to config RANDOMIZE_BASE for kernel address-spac=
-e randomization
+I'll ask downstream kernel maintainers (from different distros) that
+have taken this patchset to ACK.
 
-Mauro Carvalho Chehab (8):
-      docs: allow selecting a Sphinx theme
-      docs: allow to pass extra DOCS_CSS themes via make
-      docs: set format for the classic mode
-      docs: add support for RTD dark mode
-      docs: Makefile: use the right path for DOCS_CSS
-      docs: address some text issues with css/theme support
-      scripts: sphinx-pre-install: add required ctex dependency
-      scripts: sphinx-pre-install: Fix ctex support on Debian
+I'll ask credible testers who are professionals, researchers,
+contributors to other subsystems to provide Test-by's. There are many
+other individual testers I may not be able to acknowledge their
+efforts, e.g., my coworker just sent this to me:
 
-Miguel Ojeda (1):
-      Remove mentions of the Trivial Patch Monkey
+   Using that v5 for some time and confirm that difference under heavy
+   load and memory pressure is significant."
+https://www.phoronix.com/forums/forum/software/general-linux-open-source/1301258-mglru-is-a-very-enticing-enhancement-for-linux-in-2022#post1301275
 
-Rae Moar (1):
-      Documentation: dev-tools: Add KTAP specification
+I'll leave the reviews in your capable hands. As I said, I prefer to
+convince people with empirical evidence.
 
-Randy Dunlap (1):
-      Documentation/sphinx: fix typos of "its"
+> We do not have a dedicated maintainer for the memory reclaim but
+> certainly there are people who have helped shaping the existing code and
+> have learned a lot from the past issues - like Johannes, Rik, Mel just
+> to name few. If I were you I would be really looking into finding an
+> agreement with them. I myself can help you with memcg and oom side of
+> the things (we already have discussions about those).
 
-Shile Zhang (1):
-      docs/zh_CN: Update and fix a couple of typos
+Unfortunately people have different priorities. As I said, we tried
+to get all the stakeholders in the same (conference) room so that we
+can make some good progress. But we failed.
 
-Shuah Khan (1):
-      docs: update self-protection __ro_after_init status
+Rest assured, we'll keep trying. But please understand we need to do
+cost control and therefore we can't keep investing in this effort
+forever. So I think it's not unreasonable, after I've addressed all
+pending comments, to ask for some clear instructions from the
+leadership:
+    Yes
+    No
+    Or something specific
 
-Tang Yizhou (7):
-      doc/zh-CN: Update cpufreq-stats.rst to make it more readable
-      doc/zh-CN: Update cpu-freq/cpu-drivers.rst to make it more readable
-      doc/zh-CN: Update cpu-freq/core.rst to make it more readable
-      docs/zh_CN: Add cputopology Chinese translation
-      docs/zh_CN: Add sched-capacity Chinese translation
-      docs/zh_CN: Add sched-design-CFS Chinese translation
-      docs/zh_CN: Add sched-domains translation
-
-Thorsten Leemhuis (1):
-      docs: 5.Posting.rst: describe Fixes: and Link: tags
-
-Yang Yang (2):
-      docs/zh_CN: Add zh_CN/accounting/taskstats.rst
-      docs/zh_CN: Add zh_CN/accounting/delay-accounting.rst
-
-Yanteng Si (12):
-      docs/zh_CN: add pciebus-howto translation
-      docs/zh_CN: add pci-iov-howto translation
-      docs/zh_CN: move sparse into dev-tools
-      docs/zh_CN: update sparse translation
-      docs/zh_CN: add scheduler index translation
-      docs/zh_CN: add completion translation
-      docs/zh_CN: add scheduler sched-arch translation
-      docs/zh_CN: add scheduler sched-bwc translation
-      docs/scheduler: fix typo and warning in sched-bwc
-      docs/trace: fix a label of boottime-trace
-      docs/zh_CN: add msi-howto translation
-      docs/zh_CN: add sysfs-pci trnaslation
-
-Zhiqiang Liu (1):
-      doc: fs: remove bdev_try_to_free_page related doc
-
- Documentation/Makefile                             |  11 +-
- .../admin-guide/blockdev/drbd/figures.rst          |   4 +-
- .../drbd/{node-states-8.dot =3D> peer-states-8.dot}  |   5 -
- Documentation/admin-guide/hw-vuln/spectre.rst      |   2 +-
- Documentation/arc/arc.rst                          |  85 +++
- Documentation/arc/features.rst                     |   3 +
- Documentation/arc/index.rst                        |  17 +
- Documentation/arch.rst                             |   1 +
- Documentation/conf.py                              |  97 +++-
- Documentation/dev-tools/index.rst                  |   1 +
- Documentation/dev-tools/kgdb.rst                   |   6 +-
- Documentation/dev-tools/ktap.rst                   | 298 +++++++++++
- Documentation/dev-tools/kunit/architecture.rst     | 204 ++++++++
- Documentation/dev-tools/kunit/faq.rst              |  73 ++-
- Documentation/dev-tools/kunit/index.rst            | 172 +++---
- .../dev-tools/kunit/kunit_suitememorydiagram.svg   |  81 +++
- Documentation/dev-tools/kunit/run_manual.rst       |  57 ++
- Documentation/dev-tools/kunit/run_wrapper.rst      | 247 +++++++++
- Documentation/dev-tools/kunit/start.rst            | 198 +++----
- Documentation/dev-tools/kunit/style.rst            | 105 ++--
- Documentation/dev-tools/kunit/usage.rst            | 578 +++++++++--------=
-----
- Documentation/doc-guide/sphinx.rst                 |  22 +-
- Documentation/filesystems/locking.rst              |   5 -
- Documentation/networking/rds.rst                   |   2 +-
- Documentation/process/5.Posting.rst                |  29 +-
- Documentation/process/changes.rst                  |  11 +
- Documentation/process/submitting-patches.rst       |  22 +-
- Documentation/scheduler/sched-bwc.rst              |   5 +-
- Documentation/security/self-protection.rst         |   3 +-
- Documentation/sphinx-static/theme_overrides.css    |  16 +-
- Documentation/sphinx-static/theme_rtd_colors.css   |  37 ++
- Documentation/sphinx/automarkup.py                 |  25 +-
- Documentation/sphinx/kernel_abi.py                 |   2 +-
- Documentation/sphinx/kernel_feat.py                |   2 +-
- Documentation/trace/boottime-trace.rst             |   4 +-
- Documentation/translations/zh_CN/PCI/index.rst     |   7 +-
- Documentation/translations/zh_CN/PCI/msi-howto.rst | 233 +++++++++
- .../translations/zh_CN/PCI/pci-iov-howto.rst       | 170 ++++++
- .../translations/zh_CN/PCI/pciebus-howto.rst       | 192 +++++++
- Documentation/translations/zh_CN/PCI/sysfs-pci.rst | 126 +++++
- .../zh_CN/accounting/delay-accounting.rst          | 111 ++++
- .../translations/zh_CN/accounting/index.rst        |   4 +-
- .../translations/zh_CN/accounting/taskstats.rst    | 145 ++++++
- .../translations/zh_CN/admin-guide/README.rst      |  11 +-
- .../translations/zh_CN/admin-guide/cputopology.rst |  96 ++++
- .../translations/zh_CN/admin-guide/index.rst       |   2 +-
- Documentation/translations/zh_CN/cpu-freq/core.rst |  24 +-
- .../translations/zh_CN/cpu-freq/cpu-drivers.rst    | 139 ++---
- .../translations/zh_CN/cpu-freq/cpufreq-stats.rst  |  45 +-
- .../translations/zh_CN/dev-tools/index.rst         |   2 +-
- .../zh_CN/{sparse.txt =3D> dev-tools/sparse.rst}     |  67 ++-
- Documentation/translations/zh_CN/index.rst         |   7 +-
- .../translations/zh_CN/scheduler/completion.rst    | 256 +++++++++
- .../translations/zh_CN/scheduler/index.rst         |  44 ++
- .../translations/zh_CN/scheduler/sched-arch.rst    |  76 +++
- .../translations/zh_CN/scheduler/sched-bwc.rst     | 204 ++++++++
- .../zh_CN/scheduler/sched-capacity.rst             | 390 ++++++++++++++
- .../zh_CN/scheduler/sched-design-CFS.rst           | 205 ++++++++
- .../translations/zh_CN/scheduler/sched-domains.rst |  72 +++
- Documentation/vm/overcommit-accounting.rst         |   3 +-
- MAINTAINERS                                        |   7 +-
- scripts/sphinx-pre-install                         |   4 +
- 62 files changed, 4239 insertions(+), 833 deletions(-)
- rename Documentation/admin-guide/blockdev/drbd/{node-states-8.dot =3D> pee=
-r-states-8.dot} (71%)
- create mode 100644 Documentation/arc/arc.rst
- create mode 100644 Documentation/arc/features.rst
- create mode 100644 Documentation/arc/index.rst
- create mode 100644 Documentation/dev-tools/ktap.rst
- create mode 100644 Documentation/dev-tools/kunit/architecture.rst
- create mode 100644 Documentation/dev-tools/kunit/kunit_suitememorydiagram.=
-svg
- create mode 100644 Documentation/dev-tools/kunit/run_manual.rst
- create mode 100644 Documentation/dev-tools/kunit/run_wrapper.rst
- create mode 100644 Documentation/sphinx-static/theme_rtd_colors.css
- create mode 100644 Documentation/translations/zh_CN/PCI/msi-howto.rst
- create mode 100644 Documentation/translations/zh_CN/PCI/pci-iov-howto.rst
- create mode 100644 Documentation/translations/zh_CN/PCI/pciebus-howto.rst
- create mode 100644 Documentation/translations/zh_CN/PCI/sysfs-pci.rst
- create mode 100644 Documentation/translations/zh_CN/accounting/delay-accou=
-nting.rst
- create mode 100644 Documentation/translations/zh_CN/accounting/taskstats.r=
-st
- create mode 100644 Documentation/translations/zh_CN/admin-guide/cputopolog=
-y.rst
- rename Documentation/translations/zh_CN/{sparse.txt =3D> dev-tools/sparse.=
-rst} (58%)
- create mode 100644 Documentation/translations/zh_CN/scheduler/completion.r=
-st
- create mode 100644 Documentation/translations/zh_CN/scheduler/index.rst
- create mode 100644 Documentation/translations/zh_CN/scheduler/sched-arch.r=
-st
- create mode 100644 Documentation/translations/zh_CN/scheduler/sched-bwc.rst
- create mode 100644 Documentation/translations/zh_CN/scheduler/sched-capaci=
-ty.rst
- create mode 100644 Documentation/translations/zh_CN/scheduler/sched-design=
--CFS.rst
- create mode 100644 Documentation/translations/zh_CN/scheduler/sched-domain=
-s.rst
+Thanks!
