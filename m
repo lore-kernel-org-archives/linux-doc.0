@@ -2,34 +2,57 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEE28C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Jan 2022 15:39:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE94EC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Jan 2022 16:01:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236339AbiAJPjy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Jan 2022 10:39:54 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28]:51354 "EHLO
+        id S236806AbiAJQBK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Jan 2022 11:01:10 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28]:54214 "EHLO
         smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236373AbiAJPjy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jan 2022 10:39:54 -0500
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id B460421124;
-        Mon, 10 Jan 2022 15:39:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1641829192; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=FpgD/z1tH1n4z25ssRiC8BwrRHCQmq0t20cgjahtksA=;
-        b=a5nL7FD8WAScsrFn7oClSv1bqemNsF2dJoGD/wehxxpMVPytSTcqwnKSQ5wCUv8KKG6s8k
-        yn3Yq4JQCE1YyY4GlQKkiO31jokIJkxJ8FCsP95m7oEwzL+LHmPqye4nUZny4PxI+IhEIx
-        Lmrz78siT39fe0YgQ6PngSztc4docRw=
-Received: from suse.cz (unknown [10.100.201.86])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S236654AbiAJQBK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jan 2022 11:01:10 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 46A64A3B83;
-        Mon, 10 Jan 2022 15:39:52 +0000 (UTC)
-Date:   Mon, 10 Jan 2022 16:39:51 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     Yu Zhao <yuzhao@google.com>
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 8AF5B21124;
+        Mon, 10 Jan 2022 16:01:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1641830468; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=D00Bu/OaqQp+xz1jioGkH/uBLlzxER4lIrUiLnDYdbA=;
+        b=XXfMLcPMKwNIoNavoLEUxu7bT2AMpgVsU/4ywbhb/MoA6zyK1fzLmvS+cdpWwGMFTQd3xC
+        8WaIxLLqFURAgv58tdE8zDi+KI0bEkinf+WlZ7TT46gP13zum5MnX2GBWfnUL0x5VRSkH0
+        4qXdKKkM6L436naE/jsw2yzF7D3vs+g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1641830468;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=D00Bu/OaqQp+xz1jioGkH/uBLlzxER4lIrUiLnDYdbA=;
+        b=2W8/0bZvAs0zdxQD3IZy/iDtNVVDd2YMfz4l64Xn8aDXpq0GYpwXBYXzCvNgzTsl6Ah5Rx
+        UWl0AdEamC8IcQCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3571F13D88;
+        Mon, 10 Jan 2022 16:01:08 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id H1NJDERY3GFrEgAAMHmgww
+        (envelope-from <vbabka@suse.cz>); Mon, 10 Jan 2022 16:01:08 +0000
+Message-ID: <8edfd643-888b-fbe6-97c0-21f900767c27@suse.cz>
+Date:   Mon, 10 Jan 2022 17:01:07 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [PATCH v6 6/9] mm: multigenerational lru: aging
+Content-Language: en-US
+To:     Michal Hocko <mhocko@suse.com>, Yu Zhao <yuzhao@google.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Andi Kleen <ak@linux.intel.com>,
@@ -43,87 +66,47 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Mel Gorman <mgorman@suse.de>,
         Michael Larabel <Michael@michaellarabel.com>,
         Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
         Will Deacon <will@kernel.org>,
         Ying Huang <ying.huang@intel.com>,
         linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        page-reclaim@google.com, x86@kernel.org
-Subject: Re: [PATCH v6 0/9] Multigenerational LRU Framework
-Message-ID: <YdxTR4+FL08XyFuO@dhcp22.suse.cz>
+        page-reclaim@google.com, x86@kernel.org,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>
 References: <20220104202227.2903605-1-yuzhao@google.com>
- <YdSuSHa/Vjl6bPkg@google.com>
- <YdgKClGAuHlkzVbQ@dhcp22.suse.cz>
- <YdiKVJlClB3h1Kmg@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YdiKVJlClB3h1Kmg@google.com>
+ <20220104202227.2903605-7-yuzhao@google.com>
+ <YdcU4P+XWkbDUUoO@dhcp22.suse.cz> <YdxKORU9OWCv114O@dhcp22.suse.cz>
+From:   Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <YdxKORU9OWCv114O@dhcp22.suse.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri 07-01-22 11:45:40, Yu Zhao wrote:
-[...]
-> Next, I argue that the benefits of this patchset outweigh its risks,
-> because, drawing from my past experience,
-> 1. There have been many larger and/or riskier patchsets taken; I'll
->    assemble a list if you disagree.
-
-No question about that. Changes in the reclaim path are paved with
-failures and reverts and fine tuning on top of existing fine tuning.
-The difference from your patchset is that they tend to be much much
-smaller and go incremental and therefore easier to review.
-
->    And this patchset is fully guarded
->    by #ifdef; Linus has also assessed on this point.
-
-I appreciate you made the new behavior an opt-in and therefore existing
-workloads are less likely to regress. I do not think ifdefs help
-all that much, though, because a) realistically the config will
-likely be enabled for most distribution kernels and b) the parallel
-reclaim implementation adds a maintenance overhead regardless of those
-ifdef. The later point is especially worrying because the memory reclaim
-is a complex and hard to review beast already. Any future changes would
-need to consider both reclaim algorithms of course.
-
-Hence I argue we really need a wider consensus this is the right
-direction we want to pursue.
-
-> 2. There have been none that came with the testing/benchmarking
->    coverage as this one did. Please point me to some if I'm mistaken,
->    and I'll gladly match them.
-
-I do appreciate your numbers but you should realize that this is an area
-that is really hard to get any conclusive testing for. We keep learning
-about fallouts on workloads we haven't really anticipated or where the
-runtime effects happen to disagree with our intuition. So while those
-numbers are nice there are other important aspects to consider like the
-maintenance cost for example.
-
-> The numbers might not materialize in the real world; the code is not
-> perfect; and many other risks... But all the top eight open source
-> memory hogs were covered, which is unprecedented; memcached and fio
-> showed significant improvements and it only takes a few commands to
-> see for yourselves.
+On 1/10/22 16:01, Michal Hocko wrote:
+> On Thu 06-01-22 17:12:18, Michal Hocko wrote:
+>> On Tue 04-01-22 13:22:25, Yu Zhao wrote:
+>> > +static struct lru_gen_mm_walk *alloc_mm_walk(void)
+>> > +{
+>> > +	if (!current->reclaim_state || !current->reclaim_state->mm_walk)
+>> > +		return kvzalloc(sizeof(struct lru_gen_mm_walk), GFP_KERNEL);
 > 
-> Regarding the acks and the reviewed-bys, I certainly can ask people
-> who have reaped the benefits of this patchset to do them, if it's
-> required. But I see less fun in that. I prefer to provide empirical
-> evidence and convince people who are on the other side of the aisle.
+> One thing I have overlooked completely. You cannot really use GFP_KERNEL
+> allocation here because the reclaim context can be constrained (e.g.
+> GFP_NOFS). This allocation will not do any reclaim as it is PF_MEMALLOC
+> but I suspect that the lockdep will complain anyway.
+> 
+> Also kvmalloc is not really great here. a) vmalloc path is never
+> executed for small objects and b) we do not really want to make a
+> dependency between vmalloc and the reclaim (by vmalloc -> reclaim ->
+> vmalloc).
+> 
+> Even if we rule out vmalloc and look at kmalloc alone. Is this really
+> safe? I do not see any recursion prevention in the SL.B code. Maybe this
+> just happens to work but the dependency should be really documented so
+> that future SL.B changes won't break the whole scheme. 
 
-I like to hear from users who benefit from your work and that certainly
-gives more credit to it. But it will be the MM community to maintain the
-code and address future issues.
-
-We do not have a dedicated maintainer for the memory reclaim but
-certainly there are people who have helped shaping the existing code and
-have learned a lot from the past issues - like Johannes, Rik, Mel just
-to name few. If I were you I would be really looking into finding an
-agreement with them. I myself can help you with memcg and oom side of
-the things (we already have discussions about those).
-
-Thanks!
--- 
-Michal Hocko
-SUSE Labs
+Slab implementations drop all locks before calling into page allocator (thus
+possibly reclaim) so slab itself should be fine and I don't expect it to
+change. But we could eventually reach the page allocator recursively again,
+that's true and not great.
