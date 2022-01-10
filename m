@@ -2,161 +2,151 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64785C4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Jan 2022 11:40:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18FFEC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Jan 2022 12:00:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244857AbiAJLky (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Jan 2022 06:40:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51564 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244875AbiAJLkx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jan 2022 06:40:53 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9511AC06173F;
-        Mon, 10 Jan 2022 03:40:52 -0800 (PST)
-Received: from ip4d173d02.dynamic.kabel-deutschland.de ([77.23.61.2] helo=[192.168.66.200]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1n6t2f-000747-Ab; Mon, 10 Jan 2022 12:40:49 +0100
-Message-ID: <4398ddfe-9db4-bf67-902d-e0416b815878@leemhuis.info>
-Date:   Mon, 10 Jan 2022 12:40:48 +0100
+        id S230296AbiAJMAL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Jan 2022 07:00:11 -0500
+Received: from foss.arm.com ([217.140.110.172]:33488 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S245174AbiAJL7m (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 Jan 2022 06:59:42 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C8CA42B;
+        Mon, 10 Jan 2022 03:59:41 -0800 (PST)
+Received: from [10.163.72.167] (unknown [10.163.72.167])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 21C463F5A1;
+        Mon, 10 Jan 2022 03:59:38 -0800 (PST)
+Subject: Re: [PATCH V2 5/7] coresight: trbe: Work around the ignored system
+ register writes
+To:     Suzuki K Poulose <suzuki.poulose@arm.com>,
+        linux-arm-kernel@lists.infradead.org
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        coresight@lists.linaro.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1641517808-5735-1-git-send-email-anshuman.khandual@arm.com>
+ <1641517808-5735-6-git-send-email-anshuman.khandual@arm.com>
+ <0ce7622a-0c61-ea80-6c53-0388a8b620fe@arm.com>
+From:   Anshuman Khandual <anshuman.khandual@arm.com>
+Message-ID: <3d549672-5e03-9f36-1331-49ff4dcb3edd@arm.com>
+Date:   Mon, 10 Jan 2022 17:29:42 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Content-Language: en-BS
-To:     Matthias Brugger <mbrugger@suse.com>, linux-doc@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     workflows@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-References: <cover.1641565030.git.linux@leemhuis.info>
- <f71246e0999520d681c7b35d24f7eed2f53ee2b4.1641565030.git.linux@leemhuis.info>
- <28b56512-d681-4a3a-98f0-a2eae34a217e@suse.com>
- <1126ce91-f22b-c397-4d1e-13d290a424a5@leemhuis.info>
- <8e6f07ef-10fe-381c-3a8d-db497492036c@suse.com>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [RFC PATCH v2 1/2] docs: add a document about regression handling
-In-Reply-To: <8e6f07ef-10fe-381c-3a8d-db497492036c@suse.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1641814852;ff1feeda;
-X-HE-SMSGID: 1n6t2f-000747-Ab
+In-Reply-To: <0ce7622a-0c61-ea80-6c53-0388a8b620fe@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07.01.22 18:44, Matthias Brugger wrote:
-> On 07/01/2022 17:51, Thorsten Leemhuis wrote:
->> On 07.01.22 16:37, Matthias Brugger wrote:
->>> On 07/01/2022 15:21, Thorsten Leemhuis wrote:
->>>> Create a document explaining various aspects around regression handling
->>>> and tracking both for users and developers. Among others describe the
->>>> first rule of Linux kernel development and what it means in practice.
->>>> Also explain what a regression actually is and how to report one
->>>> properly. The text additionally provides a brief introduction to the
->>>> bot
->>>> the kernel's regression tracker uses to facilitate his work. To sum
->>>> things up, provide a few quotes from Linus to show how serious he takes
->>>> regressions.
->>>>
->>>> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
->>> [...]
->>>> +The important bits for people fixing regressions
->>>> +================================================
->>>> +
->>>> +When receiving regression reports by mail, check if the reporter CCed
->>>> `the
->>>> +regression mailing list <https://lore.kernel.org/regressions/>`_
->>>> +(regressions@lists.linux.dev). If not, forward or bounce the report
->>>> to the Linux
->>>> +kernel's regression tracker (regressions@leemhuis.info), unless you
->>>> plan on
->>>
->>> I would have expected it to be the same mailing list
->>> (regressions@lists.linux.dev), is this a typo maybe?
+
+
+On 1/10/22 4:33 PM, Suzuki K Poulose wrote:
+> On 07/01/2022 01:10, Anshuman Khandual wrote:
+>> TRBE implementations affected by Arm erratum #2064142 might fail to write
+>> into certain system registers after the TRBE has been disabled. Under some
+>> conditions after TRBE has been disabled, writes into certain TRBE registers
+>> TRBLIMITR_EL1, TRBPTR_EL1, TRBBASER_EL1, TRBSR_EL1 and TRBTRG_EL1 will be
+>> ignored and not be effected.
 >>
->> Thx for taking a look. Hmm. That's possible, but I (and the grep call I
->> just ran) fail to spot the typo.
+>> Work around this problem in the TRBE driver by executing TSB CSYNC and DSB
+>> just after the trace collection has stopped and before performing a system
+>> register write to one of the affected registers. This just updates the TRBE
+>> driver as required.
 >>
->> Maybe the wording is to confusing: regressions@lists.linux.dev is the
->> list, regressions@leemhuis.info is a dedicated email address I (the
->> kernel's regression tracker) use for regression tracking (which reminds
->> me: maybe I should ask for a alias like regressions@kernel.org or
->> regression-tracker@kernel.org).
+>> Cc: Catalin Marinas <catalin.marinas@arm.com>
+>> Cc: Will Deacon <will@kernel.org>
+>> Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
+>> Cc: Suzuki Poulose <suzuki.poulose@arm.com>
+>> Cc: coresight@lists.linaro.org
+>> Cc: linux-doc@vger.kernel.org
+>> Cc: linux-arm-kernel@lists.infradead.org
+>> Cc: linux-kernel@vger.kernel.org
+>> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+>> ---
+>>   arch/arm64/Kconfig                           |  2 +-
+>>   drivers/hwtracing/coresight/coresight-trbe.c | 54 ++++++++++++++------
+>>   drivers/hwtracing/coresight/coresight-trbe.h |  8 ---
+>>   3 files changed, 39 insertions(+), 25 deletions(-)
+>>
+>> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+>> index f1651cb71ef3..b6d62672bf7d 100644
+>> --- a/arch/arm64/Kconfig
+>> +++ b/arch/arm64/Kconfig
+>> @@ -780,7 +780,7 @@ config ARM64_ERRATUM_2224489
+>>     config ARM64_ERRATUM_2064142
+>>       bool "Cortex-A510: 2064142: workaround TRBE register writes while disabled"
+>> -    depends on COMPILE_TEST # Until the CoreSight TRBE driver changes are in
+>> +    depends on CORESIGHT_TRBE
+>>       default y
+>>       help
+>>         This option adds the workaround for ARM Cortex-A510 erratum 2064142.
+>> diff --git a/drivers/hwtracing/coresight/coresight-trbe.c b/drivers/hwtracing/coresight/coresight-trbe.c
+>> index 276862c07e32..850e9fca6847 100644
+>> --- a/drivers/hwtracing/coresight/coresight-trbe.c
+>> +++ b/drivers/hwtracing/coresight/coresight-trbe.c
+>> @@ -91,10 +91,12 @@ struct trbe_buf {
+>>    */
+>>   #define TRBE_WORKAROUND_OVERWRITE_FILL_MODE    0
+>>   #define TRBE_WORKAROUND_WRITE_OUT_OF_RANGE    1
+>> +#define TRBE_NEEDS_DRAIN_AFTER_DISABLE        2
+>>     static int trbe_errata_cpucaps[] = {
+>>       [TRBE_WORKAROUND_OVERWRITE_FILL_MODE] = ARM64_WORKAROUND_TRBE_OVERWRITE_FILL_MODE,
+>>       [TRBE_WORKAROUND_WRITE_OUT_OF_RANGE] = ARM64_WORKAROUND_TRBE_WRITE_OUT_OF_RANGE,
+>> +    [TRBE_NEEDS_DRAIN_AFTER_DISABLE] = ARM64_WORKAROUND_2064142,
+>>       -1,        /* Sentinel, must be the last entry */
+>>   };
+>>   @@ -167,6 +169,11 @@ static inline bool trbe_may_write_out_of_range(struct trbe_cpudata *cpudata)
+>>       return trbe_has_erratum(cpudata, TRBE_WORKAROUND_WRITE_OUT_OF_RANGE);
+>>   }
+>>   +static inline bool trbe_needs_drain_after_disable(struct trbe_cpudata *cpudata)
+>> +{
+>> +    return trbe_has_erratum(cpudata, TRBE_NEEDS_DRAIN_AFTER_DISABLE);
+>> +}
+>> +
+>>   static int trbe_alloc_node(struct perf_event *event)
+>>   {
+>>       if (event->cpu == -1)
+>> @@ -174,30 +181,42 @@ static int trbe_alloc_node(struct perf_event *event)
+>>       return cpu_to_node(event->cpu);
+>>   }
+>>   -static void trbe_drain_buffer(void)
+>> +static inline void trbe_drain_buffer(void)
+>>   {
+>>       tsb_csync();
+>>       dsb(nsh);
+>>   }
+>>   -static void trbe_drain_and_disable_local(void)
+>> +static inline void set_trbe_disabled(struct trbe_cpudata *cpudata)
+>>   {
+>>       u64 trblimitr = read_sysreg_s(SYS_TRBLIMITR_EL1);
+>>   -    trbe_drain_buffer();
+>> -
+>>       /*
+>>        * Disable the TRBE without clearing LIMITPTR which
+>>        * might be required for fetching the buffer limits.
+>>        */
+>>       trblimitr &= ~TRBLIMITR_ENABLE;
+>>       write_sysreg_s(trblimitr, SYS_TRBLIMITR_EL1);
+>> +
+>> +    /*
+>> +     * Errata affected TRBE implementation will need TSB CSYNC and
+>> +     * DSB in order to prevent subsequent writes into certain TRBE
+>> +     * system registers from being ignored and not effected.
+>> +     */
 > 
-> Yes it's the wording then :)
-> Anyway I just wonder why you we should send the regression to the
-> regressions email list, but only to the tracker email address. For me
-> that's the confusing part. I'd expect to send it to the list as well and
-> the tracker takes it from there. If for any reason someone does not want
-> to send a regression to the list, then he can send it to the tracker
-> directly. That's my understanding of how this works. If that's correct
-> then I'd say we should just explain the difference.
+> minor nit: This comment could be moved to the definition of the
+> function "trbe_needs_drain_after_disable()" to make more sense.
+> The name is implicit here indicating, why we are doing a drain.
 
-You comments made be revisit the section and made me spot a few other
-issues I found less than ideal. So I rewrote it over the weekend (more
-than once, to be precise...). I hope this clears things up.
+Sure, will move the comment just before the function definition.
 
-```
-The important bits for people fixing regressions
-================================================
-
-When submitting fixes for regressions, add "Link:" tags pointing to all
-places where the issue was reported, as tools like the Linux kernel
-regression bot 'regzbot' heavily rely on these; these pointers are also
-of great value for people looking into the issue some time in the
-future, as explained in `Documentation/process/submitting-patches.rst`
-and :ref:`Documentation/process/5.Posting.rst <development_posting>`::
-
-       Link:
-https://lore.kernel.org/r/30th.anniversary.repost@klaava.Helsinki.FI/
-       Link: https://bugzilla.kernel.org/show_bug.cgi?id=1234567890
-
-Let the Linux kernel's regression tracker and all other subscribers of
-the `regression mailing list <https://lore.kernel.org/regressions/>`_
-(regressions@lists.linux.dev) quickly known about newly reported
-regressions:
-
- * When receiving a mailed report that did not CC the list, immediately
-send at least a brief "Reply-all" with the list CCed to get it into the
-loop; also ensure its CCed on all future replies, in case it got lost.
-
- * If you receive a report from a bug tracker, forward or bounce the
-report to the list, unless the reporter followed
-`Documentation/admin-guide/reporting-issues.rst` instructions and did it
-already.
-
-[Optional] Ensure the Linux kernel regression bot 'regzbot' tracks the
-issue:
-
- * For mailed reports, check if the reporter included a 'regzbot
-command' like the ``#regzbot introduced v5.13..v5.14-rc1`` described
-above. If not, send a reply with the regressions list in CC, which
-includes a paragraph like the following:
-
-       #regzbot ^introduced v5.13..v5.14-rc1
-
-  Note, in this case there is a caret (^) before the `introduced` to
-make regzbot treat the parent mail (the one you reply to) as the report
-for the regression you want to see tracked.
-
-  Instead of specifying a version range you can also state a commit-id,
-in case the reporter identified the culprit.
-
- * When receiving a report from a bug tracker and forwarding it to the
-regressions list (see above), include a paragraph like this:
-
-       #regzbot introduced: v5.13..v5.14-rc1
-       #regzbot from: Some N. Ice Human <some.human@example.com>
-       #regzbot monitor:
-http://some.bugtracker.example.com/ticket?id=123456789
-```
-
-Note, regzbot does not yet support "#regzbot from" and "#regzbot monitor
-<bugtracker>", but I wanted to work on that soon anyway -- and this text
-will likely take weeks before it hits mailine, so this shouldn't be a
-problem.
-
-Ciao, Thorsten
+> 
+> Either ways:
+> 
+> Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+> 
