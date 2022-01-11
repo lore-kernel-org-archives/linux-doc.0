@@ -2,35 +2,40 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8096C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Jan 2022 09:01:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 553D8C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Jan 2022 10:25:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349097AbiAKJBQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jan 2022 04:01:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37720 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236319AbiAKJBQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jan 2022 04:01:16 -0500
-X-Greylist: delayed 457 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 11 Jan 2022 01:01:16 PST
-Received: from mail.itouring.de (mail.itouring.de [IPv6:2a01:4f8:a0:4463::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C1A4C06173F;
-        Tue, 11 Jan 2022 01:01:16 -0800 (PST)
-Received: from tux.applied-asynchrony.com (p5b07ee01.dip0.t-ipconnect.de [91.7.238.1])
-        by mail.itouring.de (Postfix) with ESMTPSA id E4900103765;
-        Tue, 11 Jan 2022 09:53:36 +0100 (CET)
-Received: from [192.168.100.221] (hho.applied-asynchrony.com [192.168.100.221])
-        by tux.applied-asynchrony.com (Postfix) with ESMTP id 75FA3F01624;
-        Tue, 11 Jan 2022 09:53:36 +0100 (CET)
-Subject: Re: [PATCH v6 0/9] Multigenerational LRU Framework
-To:     Yu Zhao <yuzhao@google.com>, Alexandre Frade <kernel@xanmod.org>,
-        Brian Geffon <bgeffon@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>
-Cc:     Andi Kleen <ak@linux.intel.com>,
+        id S237779AbiAKKZJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Jan 2022 05:25:09 -0500
+Received: from shark4.inbox.lv ([194.152.32.84]:36826 "EHLO shark4.inbox.lv"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237737AbiAKKZJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 11 Jan 2022 05:25:09 -0500
+Received: from shark4.inbox.lv (localhost [127.0.0.1])
+        by shark4-out.inbox.lv (Postfix) with ESMTP id CA769C01C2;
+        Tue, 11 Jan 2022 12:25:05 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=inbox.lv; s=30062014;
+        t=1641896705; bh=VRwkhrPflUcUAwu4sRDNMn5rSRlD5FjXnGFErmqRxs8=;
+        h=Date:From:To:Subject:Message-ID:In-Reply-To:References:
+         Content-Type:X-ESPOL:from:date;
+        b=XR79L/Uygzf+mK1tEAn+kgVGjXvysfxJUNY3sSDQNZ69Fuqp8rWadpeFdNnKZDqhN
+         YMrnnrLK/PvU5vUATpWqqjK1xP20CyFUcTrcWKEpkDzjHbS+nmjsgd5G94UpSdeokr
+         0KZ5MgsmBEtF0rZKxiHP8SB4FTLc9yxH+XbEBdTg=
+Received: from localhost (localhost [127.0.0.1])
+        by shark4-in.inbox.lv (Postfix) with ESMTP id BBAFEC0187;
+        Tue, 11 Jan 2022 12:25:05 +0200 (EET)
+Received: from shark4.inbox.lv ([127.0.0.1])
+        by localhost (shark4.inbox.lv [127.0.0.1]) (spamfilter, port 35)
+        with ESMTP id 5wbv1OlHIic4; Tue, 11 Jan 2022 12:25:05 +0200 (EET)
+Received: from mail.inbox.lv (pop1 [127.0.0.1])
+        by shark4-in.inbox.lv (Postfix) with ESMTP id 55137C00FC;
+        Tue, 11 Jan 2022 12:25:05 +0200 (EET)
+Date:   Tue, 11 Jan 2022 19:24:51 +0900
+From:   Alexey Avramov <hakavlad@inbox.lv>
+To:     Yu Zhao <yuzhao@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
@@ -47,113 +52,38 @@ Cc:     Andi Kleen <ak@linux.intel.com>,
         Ying Huang <ying.huang@intel.com>,
         linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        page-reclaim@google.com, x86@kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
+        page-reclaim@google.com, x86@kernel.org, hakavlad@gmail.com
+Subject: Re: [PATCH v6 0/9] Multigenerational LRU Framework
+Message-ID: <20220111192451.1a853019@mail.inbox.lv>
+In-Reply-To: <20220104202227.2903605-1-yuzhao@google.com>
 References: <20220104202227.2903605-1-yuzhao@google.com>
- <YdSuSHa/Vjl6bPkg@google.com> <Yd1Css8+jsspeZHh@google.com>
-From:   =?UTF-8?Q?Holger_Hoffst=c3=a4tte?= <holger@applied-asynchrony.com>
-Organization: Applied Asynchrony, Inc.
-Message-ID: <ca3a7d27-150d-ed06-c8f8-0c74c4f00667@applied-asynchrony.com>
-Date:   Tue, 11 Jan 2022 09:53:36 +0100
+X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <Yd1Css8+jsspeZHh@google.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: OK
+X-ESPOL: AJ2EQ38cmnBBsMa9Lpgfme6kmZavNCkuvyHmvc49ixdFz9PMtNdrcW+QBYXxGwCl
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022-01-11 09:41, Yu Zhao wrote:
-> On Tue, Jan 04, 2022 at 01:30:00PM -0700, Yu Zhao wrote:
->> On Tue, Jan 04, 2022 at 01:22:19PM -0700, Yu Zhao wrote:
->>> TLDR
->>> ====
->>> The current page reclaim is too expensive in terms of CPU usage and it
->>> often makes poor choices about what to evict. This patchset offers an
->>> alternative solution that is performant, versatile and
->>> straightforward.
->>
->> <snipped>
->>
->>> Summery
->>> =======
->>> The facts are:
->>> 1. The independent lab results and the real-world applications
->>>     indicate substantial improvements; there are no known regressions.
->>> 2. Thrashing prevention, working set estimation and proactive reclaim
->>>     work out of the box; there are no equivalent solutions.
->>> 3. There is a lot of new code; nobody has demonstrated smaller changes
->>>     with similar effects.
->>>
->>> Our options, accordingly, are:
->>> 1. Given the amount of evidence, the reported improvements will likely
->>>     materialize for a wide range of workloads.
->>> 2. Gauging the interest from the past discussions [14][15][16], the
->>>     new features will likely be put to use for both personal computers
->>>     and data centers.
->>> 3. Based on Google's track record, the new code will likely be well
->>>     maintained in the long term. It'd be more difficult if not
->>>     impossible to achieve similar effects on top of the existing
->>>     design.
->>
->> Hi Andrew, Linus,
->>
->> Can you please take a look at this patchset and let me know if it's
->> 5.17 material?
->>
->> My goal is to get it merged asap so that users can reap the benefits
->> and I can push the sequels. Please examine the data provided -- I
->> think the unprecedented coverage and the magnitude of the improvements
->> warrant a green light.
-> 
-> Downstream kernel maintainers who have been carrying MGLRU for more than
-> 3 versions, can you please provide your Acked-by tags?
-> 
-> Having this patchset in the mainline will make your job easier :)
-> 
->     Alexandre - the XanMod Kernel maintainer
->                 https://xanmod.org
->     
->     Brian     - the Chrome OS kernel memory maintainer
->                 https://www.chromium.org
->     
->     Jan       - the Arch Linux Zen kernel maintainer
->                 https://archlinux.org
->     
->     Steven    - the Liquorix kernel maintainer
->                 https://liquorix.net
->     
->     Suleiman  - the ARCVM (Android downstream) kernel memory maintainer
->                 https://chromium.googlesource.com/chromiumos/third_party/kernel
-> 
-> Also my gratitude to those who have helped test MGLRU:
-> 
->     Daniel - researcher at Michigan Tech
->              benchmarked memcached
->     
->     Holger - who has been testing/patching/contributing to various
->              subsystems since ~2008
->     
->     Shuang - researcher at University of Rochester
->              benchmarked fio and provided a report
->     
->     Sofia  - EDI https://www.edi.works
->              benchmarked the top eight memory hogs and provided reports
-> 
-> Can you please provide your Tested-by tags? This will ensure the credit
-> for your contributions.
-> 
-> Thanks!
-> 
+In some of my benchmarks MGLRU really gave unrivaled performance.
+I assume the adoption of MGLRU into the kernel would save billions of
+dollars and greatly reduce carbon dioxide emissions.
 
-Have been pounding on this "in production" on several different machines
-(server, desktop, laptop) and 5.15.x without any issues, so:
+However, there are also cases where MGLRU loses.
+There are cases where MGLRU does not achieve the performance that the
+classic LRU gives (at least I got such results when testing MGLRU before[1],
+but I did not report them here).
 
-Tested-by: Holger Hoffstätte <holger@applied-asynchrony.com>
+As a Linux user, I would like to see both variants of LRU in the kernel, so
+that it is possible to switch to the suitable variant when needed: none of
+the LRU variants allowed me to squeeze the maximum for all cases.
 
-Looking forward to seeing this in mainline!
+I hope to test MGLRU v6 later and show you some of its weaknesses and
+anomalies with specific logs and benchmarks. 
 
-cheers,
-Holger
+[1] I didn't have enough time and energy to decipher the results at that time:
+    https://github.com/hakavlad/cache-tests/tree/main/mg-LRU-v3_vs_classic-LRU
+    (but you can try to guess what it all means)
+
