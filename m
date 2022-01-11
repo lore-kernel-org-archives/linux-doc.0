@@ -2,81 +2,64 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B5BBC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Jan 2022 17:50:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2803BC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Jan 2022 18:03:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344713AbiAKRu6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jan 2022 12:50:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47746 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344022AbiAKRu6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jan 2022 12:50:58 -0500
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0524BC061748
-        for <linux-doc@vger.kernel.org>; Tue, 11 Jan 2022 09:50:58 -0800 (PST)
-Received: by mail-ed1-x52c.google.com with SMTP id o6so70379076edc.4
-        for <linux-doc@vger.kernel.org>; Tue, 11 Jan 2022 09:50:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=S+o36HqJyPabSJM6qxiXAbPNSzH3hT+Ar4koIOaCZD0=;
-        b=fkLdJd8K8wdXwYwvY0osqkiYuLRASRV7iBfN8SZv/EKDgP0s0+LCVi0O3e6PonZ3qJ
-         ecYvUOMstnQGXFphVswgObo8yA29aRGxzyOiBr6Y48lppQlGPBm/EmUaEu4eZhiIZp5g
-         PhhhTNkHlBahJ2BulJEjbNG+r8oJMjOo0vlMM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=S+o36HqJyPabSJM6qxiXAbPNSzH3hT+Ar4koIOaCZD0=;
-        b=juzTklAq4Y9DnhbGeQilke/cGAxqEzNRzby/283NeZ0UOnab6CmSO5mn/oTftBI/Dz
-         ykP8iCXKKTPHGnpKSayAa1z6/wJ/jySWm3Xx+gTM2fgysc2Q9Y9lc8LQHx+lXZOwO7au
-         21Jv3qA1cUy2l9IznoJlEKweYTYXGQg/Rk1r5QD7eu9WIBT4Sw6rzxIuf5+bwZkJd2ZK
-         46CFmVLiG2u2nPxeO6KZrq35z5V8TdsDcTU9cRHiEwlna/dAR4rJH880HTFouSf6hmVK
-         3ArAZ9j//bvKYdHp1uEms/ysb9ybN9JY34oA07GbyLZnv9hXU1dSiXdxkDDWp/I3CPT6
-         BPfA==
-X-Gm-Message-State: AOAM532F3T2jmQkvMxf6B0moqtGuJThMU54/3iXMS0IY0EBytIfhoj5N
-        JEeLKvPdQ0IimydCMxZ9DT/Z+GlNDcZC8dqZnfg=
-X-Google-Smtp-Source: ABdhPJzPNZ5u8HORzbf9XYxaMM+dV0gEe5IetPV4yxrGezITKo5P0t+3C5lLQiRdYYA7MeGl86k7KA==
-X-Received: by 2002:a17:907:7247:: with SMTP id ds7mr4745384ejc.401.1641923456205;
-        Tue, 11 Jan 2022 09:50:56 -0800 (PST)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com. [209.85.221.45])
-        by smtp.gmail.com with ESMTPSA id s20sm5317383edd.41.2022.01.11.09.50.55
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Jan 2022 09:50:55 -0800 (PST)
-Received: by mail-wr1-f45.google.com with SMTP id r28so6060435wrc.3
-        for <linux-doc@vger.kernel.org>; Tue, 11 Jan 2022 09:50:55 -0800 (PST)
-X-Received: by 2002:adf:f54e:: with SMTP id j14mr4682353wrp.442.1641923455029;
- Tue, 11 Jan 2022 09:50:55 -0800 (PST)
-MIME-Version: 1.0
-References: <87v8yrjtqe.fsf@meer.lwn.net>
-In-Reply-To: <87v8yrjtqe.fsf@meer.lwn.net>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Tue, 11 Jan 2022 09:50:39 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wiR_RfCq+ckZOEoV14CAV1+Vua3DM9XU30fxaVhqJ9RMQ@mail.gmail.com>
-Message-ID: <CAHk-=wiR_RfCq+ckZOEoV14CAV1+Vua3DM9XU30fxaVhqJ9RMQ@mail.gmail.com>
+        id S1345329AbiAKSDt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Jan 2022 13:03:49 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:58178 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1345345AbiAKSDi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jan 2022 13:03:38 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E7FF760EB0;
+        Tue, 11 Jan 2022 18:03:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 59DA6C36AF8;
+        Tue, 11 Jan 2022 18:03:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1641924217;
+        bh=27Pj7NJmA0sfSl7pbF9zuIvyV34N2muz8AqMDzVP9GM=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=VDGe9+VCfQeK2K4SAYC1S3mLGL/p3SpXTf7dTuyPGeOPoKHIk7YUp73KKAAhzyG2B
+         Mxz0oZZwV6r0YAogz3SVlG6657H6zbrH+Z009TmC0E4FbMAaWEhDHkIBEHL+4RJGXk
+         MsHiH6nm8eFqnYd9K5/r4gNREW4V2AYvV4KBgeX5V8xPKmdQQACjHaF+phzrS46hoN
+         RV1ioxahwdLVeDcXK1eN4P4/PrG0FCLz2ixN7PmEtvoPUrcy8L5igaRlLPMSf5Znxl
+         fQSI31CNMplA0A28qCJsFMLBBk9TJEFyVRRl8MTVYfVG8UrFnpMHI4XC+q+656oWSv
+         7AYpTRJshhn0w==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 41D93F60794;
+        Tue, 11 Jan 2022 18:03:37 +0000 (UTC)
 Subject: Re: [GIT PULL] Documentation for 5.17
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <87v8yrjtqe.fsf@meer.lwn.net>
+References: <87v8yrjtqe.fsf@meer.lwn.net>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87v8yrjtqe.fsf@meer.lwn.net>
+X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-5.17
+X-PR-Tracked-Commit-Id: 87d6576ddf8ac25f36597bc93ca17f6628289c16
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 6f38be8f2ccd9babf04b9b23539108542a59fcb8
+Message-Id: <164192421726.4972.11947953348934997002.pr-tracker-bot@kernel.org>
+Date:   Tue, 11 Jan 2022 18:03:37 +0000
 To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 10, 2022 at 11:06 AM Jonathan Corbet <corbet@lwn.net> wrote:
->
->  - The ability to pick your own theme for HTML builds; if the default
->    "Read the Docs" theme isn't ugly enough for you, you can now pick
->    an uglier one.
+The pull request you sent on Mon, 10 Jan 2022 12:06:33 -0700:
 
-Wingdings isn't a choice, it's a way of life.
+> git://git.lwn.net/linux.git tags/docs-5.17
 
-> The KUnit documentation update leads to a couple of simple conflicts
-> with the KUnit tree - but they wanted this work to go via this path.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/6f38be8f2ccd9babf04b9b23539108542a59fcb8
 
-Well, I had to pick one of the configuration note rewrites, and who
-knows if I picked the right one.
+Thank you!
 
-            Linus
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
