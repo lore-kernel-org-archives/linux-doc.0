@@ -2,138 +2,179 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21E88C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Jan 2022 16:07:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67CD0C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Jan 2022 16:09:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349786AbiAKQHA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jan 2022 11:07:00 -0500
-Received: from slate.cs.rochester.edu ([128.151.167.14]:60622 "EHLO
-        slate.cs.rochester.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240042AbiAKQHA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jan 2022 11:07:00 -0500
-Received: from node1x10a.cs.rochester.edu (node1x10a.cs.rochester.edu [192.5.53.74])
-        by slate.cs.rochester.edu (8.14.7/8.14.7) with ESMTP id 20BG55iO020545
-        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-        Tue, 11 Jan 2022 11:05:05 -0500
-Received: from node1x10a.cs.rochester.edu (localhost [127.0.0.1])
-        by node1x10a.cs.rochester.edu (8.15.2/8.15.1) with ESMTP id 20BG55J9002813;
-        Tue, 11 Jan 2022 11:05:05 -0500
-Received: (from szhai2@localhost)
-        by node1x10a.cs.rochester.edu (8.15.2/8.15.1/Submit) id 20BG4vuZ002812;
-        Tue, 11 Jan 2022 11:04:57 -0500
-From:   Shuang Zhai <szhai2@cs.rochester.edu>
-To:     yuzhao@google.com
-Cc:     Michael@michaellarabel.com, ak@linux.intel.com,
-        akpm@linux-foundation.org, axboe@kernel.dk, bgeffon@google.com,
-        catalin.marinas@arm.com, corbet@lwn.net,
-        dave.hansen@linux.intel.com, djbyrne@mtu.edu, hannes@cmpxchg.org,
-        hdanton@sina.com, heftig@archlinux.org,
-        holger@applied-asynchrony.com, jsbarnes@google.com,
-        kernel@xanmod.org, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, mgorman@suse.de, mhocko@kernel.org,
-        page-reclaim@google.com, riel@surriel.com, sofia.trinh@edi.works,
-        steven@liquorix.net, suleiman@google.com, szhai2@cs.rochester.edu,
-        torvalds@linux-foundation.org, vbabka@suse.cz, will@kernel.org,
-        willy@infradead.org, x86@kernel.org, ying.huang@intel.com
-Subject: Re: [PATCH v6 0/9] Multigenerational LRU Framework
-Date:   Tue, 11 Jan 2022 11:04:55 -0500
-Message-Id: <20220111160455.2773-1-szhai2@cs.rochester.edu>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <Yd1Css8+jsspeZHh@google.com>
-References: <Yd1Css8+jsspeZHh@google.com>
+        id S1349801AbiAKQJ3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Jan 2022 11:09:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51558 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1349820AbiAKQJ3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jan 2022 11:09:29 -0500
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B81DC061756;
+        Tue, 11 Jan 2022 08:09:29 -0800 (PST)
+Received: by mail-ed1-x530.google.com with SMTP id i5so15566509edf.9;
+        Tue, 11 Jan 2022 08:09:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=ytXs+tjsOQIVzwgdEv3Dia185hW2en+OLpnkYRjyU0M=;
+        b=lu8DRZ40VurCmlmYr7Cx3SygD5WwgZoTmOxOi/98LBvp+zZsLzteo1jlY6vqi720rX
+         C56y08ljc0XA7/CFsS6gBeF9Evmf/Q3dvoJdRiGi9S5su3L32UC8kqhU/dHlOcHl103/
+         1uOC4tKfqTknlnGaI7iPX3BqKvhDfhKCBJp5pACj9JHNigj8VVhjfH3S86dXnYojZtid
+         V8nkISXFdkrx4Qs8aKQl7HqVXF6pFe859xx6ZZfi5P5E+PloU1eHkkE21PCo96W4sa14
+         gvRojsXL+JtruZHTL3BXotCE8pCt8WbyAa7cSfrNRTzQ7wwpvOOFeeIy9t++sra6gfU2
+         Q+1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ytXs+tjsOQIVzwgdEv3Dia185hW2en+OLpnkYRjyU0M=;
+        b=Quj+fxvoH+MqIVobbJBkrigtHMRBF3Blvmo5W2PBz7wrIeQvU17b+RPHxABXoVWqVU
+         K84GKXdxs/TLjLaxhjtElp7vaGdRfWONr84VzVTL8RQPqWFmXEdzlA49MOQ7PGiGs0+Q
+         Z6gesGMEzL5x7Oz3rguZqKSzqsjd9HAKn2E4LY/UU+f8fOH9VJ4hm7Os8H4O7LKRv3ZT
+         P8qcgl5E8IYf373uKnyPTFm3gRGhplUJO+q48xbIlZNQv0sA5fLjF7iZkKZ5Nqa8bOQ9
+         Jj8H8mpPiFtaJA3HGs5OZXd2qvttX5u36l20SaFv/n0df8j7CZTnBNZVziJT4O/6bdtl
+         04SA==
+X-Gm-Message-State: AOAM5307s7zMLvRyoFSMcJU3Hu9zjk6O8j3Z07arzAXhVHo7NrVVupG8
+        wdr4wixSZsUSYCFqvEI0sOU=
+X-Google-Smtp-Source: ABdhPJwVXzVciZKE5XTDYrI9CqSDECOGXPwvjlbZsff74PAHll25aMHm6L320ECw2QPYSPyR38WT8Q==
+X-Received: by 2002:a17:907:3e0b:: with SMTP id hp11mr4117975ejc.584.1641917367618;
+        Tue, 11 Jan 2022 08:09:27 -0800 (PST)
+Received: from tiger.museclub.art (p200300cf9f0b7c00c3a5ee4155775dd9.dip0.t-ipconnect.de. [2003:cf:9f0b:7c00:c3a5:ee41:5577:5dd9])
+        by smtp.googlemail.com with ESMTPSA id s4sm3790158ejm.146.2022.01.11.08.09.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jan 2022 08:09:27 -0800 (PST)
+From:   Eugene Shalygin <eugene.shalygin@gmail.com>
+To:     eugene.shalygin@gmail.com
+Cc:     andy.shevchenko@gmail.com, pauk.denis@gmail.com,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 2/3] hwmon: (asus-ec-sensors) update documentation
+Date:   Tue, 11 Jan 2022 17:08:53 +0100
+Message-Id: <20220111160900.1150050-3-eugene.shalygin@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220111160900.1150050-1-eugene.shalygin@gmail.com>
+References: <20220111160900.1150050-1-eugene.shalygin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Yu Zhao wrote:
-> On Tue, Jan 04, 2022 at 01:30:00PM -0700, Yu Zhao wrote:
->> On Tue, Jan 04, 2022 at 01:22:19PM -0700, Yu Zhao wrote:
->>> TLDR
->>> ====
->>> The current page reclaim is too expensive in terms of CPU usage and it
->>> often makes poor choices about what to evict. This patchset offers an
->>> alternative solution that is performant, versatile and
->>> straightforward.
->>
->> <snipped>
->>
->>> Summery
->>> =======
->>> The facts are:
->>> 1. The independent lab results and the real-world applications
->>>     indicate substantial improvements; there are no known regressions.
->>> 2. Thrashing prevention, working set estimation and proactive reclaim
->>>     work out of the box; there are no equivalent solutions.
->>> 3. There is a lot of new code; nobody has demonstrated smaller changes
->>>     with similar effects.
->>>
->>> Our options, accordingly, are:
->>> 1. Given the amount of evidence, the reported improvements will likely
->>>     materialize for a wide range of workloads.
->>> 2. Gauging the interest from the past discussions [14][15][16], the
->>>     new features will likely be put to use for both personal computers
->>>     and data centers.
->>> 3. Based on Google's track record, the new code will likely be well
->>>     maintained in the long term. It'd be more difficult if not
->>>     impossible to achieve similar effects on top of the existing
->>>     design.
->>
->> Hi Andrew, Linus,
->>
->> Can you please take a look at this patchset and let me know if it's
->> 5.17 material?
->>
->> My goal is to get it merged asap so that users can reap the benefits
->> and I can push the sequels. Please examine the data provided -- I
->> think the unprecedented coverage and the magnitude of the improvements
->> warrant a green light.
-> 
-> Downstream kernel maintainers who have been carrying MGLRU for more than
-> 3 versions, can you please provide your Acked-by tags?
-> 
-> Having this patchset in the mainline will make your job easier :)
-> 
->     Alexandre - the XanMod Kernel maintainer
->                 https://xanmod.org
->     
->     Brian     - the Chrome OS kernel memory maintainer
->                 https://www.chromium.org
->     
->     Jan       - the Arch Linux Zen kernel maintainer
->                 https://archlinux.org
->     
->     Steven    - the Liquorix kernel maintainer
->                 https://liquorix.net
->     
->     Suleiman  - the ARCVM (Android downstream) kernel memory maintainer
->                 https://chromium.googlesource.com/chromiumos/third_party/kernel
-> 
-> Also my gratitude to those who have helped test MGLRU:
-> 
->     Daniel - researcher at Michigan Tech
->              benchmarked memcached
->     
->     Holger - who has been testing/patching/contributing to various
->              subsystems since ~2008
->     
->     Shuang - researcher at University of Rochester
->              benchmarked fio and provided a report
->     
->     Sofia  - EDI https://www.edi.works
->              benchmarked the top eight memory hogs and provided reports
-> 
-> Can you please provide your Tested-by tags? This will ensure the credit
-> for your contributions.
-> 
-> Thanks!
+Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
+---
+ Documentation/hwmon/asus_ec_sensors.rst     | 51 +++++++++++++++++++++
+ Documentation/hwmon/asus_wmi_ec_sensors.rst | 38 ---------------
+ 2 files changed, 51 insertions(+), 38 deletions(-)
+ create mode 100644 Documentation/hwmon/asus_ec_sensors.rst
+ delete mode 100644 Documentation/hwmon/asus_wmi_ec_sensors.rst
 
-I have tested MGLRU using fio [1]. The performance improvement is fabulous.
-I hope this patchset could eventually get merged to enable large scale test
-and let more users talk about their experience.
+diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
+new file mode 100644
+index 000000000000..b8820cd1bd62
+--- /dev/null
++++ b/Documentation/hwmon/asus_ec_sensors.rst
+@@ -0,0 +1,51 @@
++.. SPDX-License-Identifier: GPL-2.0-or-later
++
++Kernel driver asus_ec_sensors
++=================================
++
++Supported boards:
++ * PRIME X570-PRO,
++ * Pro WS X570-ACE,
++ * ROG CROSSHAIR VIII DARK HERO,
++ * ROG CROSSHAIR VIII FORMULA,
++ * ROG CROSSHAIR VIII HERO,
++ * ROG CROSSHAIR VIII IMPACT,
++ * ROG STRIX B550-E GAMING,
++ * ROG STRIX B550-I GAMING,
++ * ROG STRIX X570-E GAMING,
++ * ROG STRIX X570-I GAMING
++
++Authors:
++    - Eugene Shalygin <eugene.shalygin@gmail.com>
++
++Description:
++------------
++ASUS mainboards publish hardware monitoring information via Super I/O
++chip and the ACPI embedded controller (EC) registers. Some of the sensors
++are only available via the EC.
++
++The driver is aware of and reads the following sensors:
++
++1. Chipset (PCH) temperature
++2. CPU package temperature
++3. Motherboard temperature
++4. Readings from the T_Sensor header
++5. VRM temperature
++6. CPU_Opt fan RPM
++7. VRM heatsink fan RPM
++8. Chipset fan RPM
++9. Readings from the "Water flow meter" header (RPM)
++10. Readings from the "Water In" and "Water Out" temperature headers
++11. CPU current
++
++Sensor values are read from EC registers, and to avoid race with the board
++firmware the driver acquires ACPI mutex, the one used by the WMI when its
++methods access the EC.
++
++Module Parameters
++-----------------
++ * mutex_path: string
++		The driver holds path to the ACPI mutex for each board (actually,
++		the path is mostly identical for them). If ASUS changes this path
++		in a future BIOS update, this parameter can be used to override
++		the stored in the driver value until it gets updated.
+diff --git a/Documentation/hwmon/asus_wmi_ec_sensors.rst b/Documentation/hwmon/asus_wmi_ec_sensors.rst
+deleted file mode 100644
+index 1b287f229e86..000000000000
+--- a/Documentation/hwmon/asus_wmi_ec_sensors.rst
++++ /dev/null
+@@ -1,38 +0,0 @@
+-.. SPDX-License-Identifier: GPL-2.0-or-later
+-
+-Kernel driver asus_wmi_ec_sensors
+-=================================
+-
+-Supported boards:
+- * PRIME X570-PRO,
+- * Pro WS X570-ACE,
+- * ROG CROSSHAIR VIII DARK HERO,
+- * ROG CROSSHAIR VIII FORMULA,
+- * ROG CROSSHAIR VIII HERO,
+- * ROG STRIX B550-E GAMING,
+- * ROG STRIX B550-I GAMING,
+- * ROG STRIX X570-E GAMING.
+-
+-Authors:
+-    - Eugene Shalygin <eugene.shalygin@gmail.com>
+-
+-Description:
+-------------
+-ASUS mainboards publish hardware monitoring information via Super I/O
+-chip and the ACPI embedded controller (EC) registers. Some of the sensors
+-are only available via the EC.
+-
+-ASUS WMI interface provides a method (BREC) to read data from EC registers,
+-which is utilized by this driver to publish those sensor readings to the
+-HWMON system. The driver is aware of and reads the following sensors:
+-
+-1. Chipset (PCH) temperature
+-2. CPU package temperature
+-3. Motherboard temperature
+-4. Readings from the T_Sensor header
+-5. VRM temperature
+-6. CPU_Opt fan RPM
+-7. Chipset fan RPM
+-8. Readings from the "Water flow meter" header (RPM)
+-9. Readings from the "Water In" and "Water Out" temperature headers
+-10. CPU current
+-- 
+2.34.1
 
-Tested-by: Shuang Zhai <szhai2@cs.rochester.edu>
-
-[1] https://lore.kernel.org/lkml/20220105024423.26409-1-szhai2@cs.rochester.edu/
