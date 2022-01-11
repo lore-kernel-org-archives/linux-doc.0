@@ -2,91 +2,63 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9E67C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Jan 2022 05:53:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73957C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Jan 2022 06:32:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347476AbiAKFxn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jan 2022 00:53:43 -0500
-Received: from foss.arm.com ([217.140.110.172]:42064 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1347510AbiAKFxk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 11 Jan 2022 00:53:40 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D96181FB;
-        Mon, 10 Jan 2022 21:53:39 -0800 (PST)
-Received: from p8cg001049571a15.arm.com (unknown [10.163.72.245])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C024A3F774;
-        Mon, 10 Jan 2022 21:53:36 -0800 (PST)
-From:   Anshuman Khandual <anshuman.khandual@arm.com>
-To:     linux-mm@kvack.org
-Cc:     Anshuman Khandual <anshuman.khandual@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] mm/debug_vm_pgtable: Update comments regarding migration swap entries
-Date:   Tue, 11 Jan 2022 11:23:37 +0530
-Message-Id: <1641880417-24848-1-git-send-email-anshuman.khandual@arm.com>
-X-Mailer: git-send-email 2.7.4
+        id S233570AbiAKGcu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Jan 2022 01:32:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60362 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232940AbiAKGct (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jan 2022 01:32:49 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9684C06173F;
+        Mon, 10 Jan 2022 22:32:48 -0800 (PST)
+Received: from ip4d173d02.dynamic.kabel-deutschland.de ([77.23.61.2] helo=[192.168.66.200]); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1n7Ai6-0005D6-Ff; Tue, 11 Jan 2022 07:32:46 +0100
+Message-ID: <51654a51-4264-c333-40d5-4f755e69d54b@leemhuis.info>
+Date:   Tue, 11 Jan 2022 07:32:46 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Content-Language: en-BS
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Subject: Re: Add a few more FAQs to the [kernel.org] releases page
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1641882768;4ae60de2;
+X-HE-SMSGID: 1n7Ai6-0005D6-Ff
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The commit 4dd845b5a3e5 ("mm/swapops: rework swap entry manipulation code")
-had changed migtation entry related helpers. Just update debug_vm_pgatble()
-synced documentation to reflect those changes.
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-mm@kvack.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
----
-This applies on v5.16
+Hi Konstantin! I noticed commit 8d6ee9149676 ("Add a few more FAQs to
+the releases page") to websites.git, which holds the source for the
+pages published on kernel.org
+(https://git.kernel.org/pub/scm/docs/kernel/website.git/commit/?id=8d6ee91496762c3e4955756a28fe92763d81d4dc
+).
 
- Documentation/vm/arch_pgtable_helpers.rst | 14 +++++++-------
- mm/debug_vm_pgtable.c                     |  4 ++--
- 2 files changed, 9 insertions(+), 9 deletions(-)
+Nice additions, thx for doing this. Two quick notes:
 
-diff --git a/Documentation/vm/arch_pgtable_helpers.rst b/Documentation/vm/arch_pgtable_helpers.rst
-index 552567d863b8..b3166c33db39 100644
---- a/Documentation/vm/arch_pgtable_helpers.rst
-+++ b/Documentation/vm/arch_pgtable_helpers.rst
-@@ -247,12 +247,12 @@ SWAP Page Table Helpers
- | __swp_to_pmd_entry        | Creates a mapped PMD from a swapped entry (arch) |
- +---------------------------+--------------------------------------------------+
- | is_migration_entry        | Tests a migration (read or write) swapped entry  |
--+---------------------------+--------------------------------------------------+
--| is_write_migration_entry  | Tests a write migration swapped entry            |
--+---------------------------+--------------------------------------------------+
--| make_migration_entry_read | Converts into read migration swapped entry       |
--+---------------------------+--------------------------------------------------+
--| make_migration_entry      | Creates a migration swapped entry (read or write)|
--+---------------------------+--------------------------------------------------+
-++-------------------------------+----------------------------------------------+
-+| is_writable_migration_entry   | Tests a write migration swapped entry        |
-++-------------------------------+----------------------------------------------+
-+| make_readable_migration_entry | Creates a read migration swapped entry       |
-++-------------------------------+----------------------------------------------+
-+| make_writable_migration_entry | Creates a write migration swapped entry      |
-++-------------------------------+----------------------------------------------+
- 
- [1] https://lore.kernel.org/linux-mm/20181017020930.GN30832@redhat.com/
-diff --git a/mm/debug_vm_pgtable.c b/mm/debug_vm_pgtable.c
-index 228e3954b90c..2a2b24e87877 100644
---- a/mm/debug_vm_pgtable.c
-+++ b/mm/debug_vm_pgtable.c
-@@ -888,8 +888,8 @@ static void __init swap_migration_tests(struct pgtable_debug_args *args)
- 	pr_debug("Validating swap migration\n");
- 
- 	/*
--	 * make_migration_entry() expects given page to be
--	 * locked, otherwise it stumbles upon a BUG_ON().
-+	 * make_[readable|writable]_migration_entry() expects given page to
-+	 * be locked, otherwise it stumbles upon a BUG_ON().
- 	 */
- 	__SetPageLocked(page);
- 	swp = make_writable_migration_entry(page_to_pfn(page));
--- 
-2.20.1
+* you added two sections that use the term "LTS", which is not explained
+on that page and wasn't used on it earlier. I wonder if it might be
+better to use "Longterm series" or something like that instead, as that
+it the term used on the page (and the official one afaics).
 
+This was also added:
+
+> Does the odd-even number still mean anything?
+> 
+> Not since 2.5 days.
+
+I guess a lot of users won't known how long ago that was, so how about
+using an answer like this instead:
+
+"Not since December 2003, when Linux 2.6 got released."
+
+Ciao, Thorsten
