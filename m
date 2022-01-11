@@ -2,34 +2,34 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 799F0C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Jan 2022 10:41:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 911FEC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Jan 2022 12:15:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238006AbiAKKlB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jan 2022 05:41:01 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29]:53328 "EHLO
+        id S239718AbiAKMP4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Jan 2022 07:15:56 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:36196 "EHLO
         smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237719AbiAKKlA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jan 2022 05:41:00 -0500
+        with ESMTP id S239729AbiAKMPz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jan 2022 07:15:55 -0500
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id 961B11F3BC;
-        Tue, 11 Jan 2022 10:40:56 +0000 (UTC)
+        by smtp-out2.suse.de (Postfix) with ESMTP id 1C3881F37D;
+        Tue, 11 Jan 2022 12:15:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1641897656; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1641903354; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=8tXeRv7DhsV8A4kgG96JKb+ooN8FGJmMT2qjmnVJdFM=;
-        b=tsmznYE2jLMTjgsWybfYPdWV6ZmysS+YpqB7RBHhLr+0hUC3/+gaxQtgZ8T4L321qBItwX
-        3zD7HRNDrmMTBQNUvxbqwTw9aUe8lo6q1EjspgaMoWHdD1eBWhZqadcLnbxxvU5sfk+OI0
-        10fbxsFKCF/mUkl69ntlaY83Q5G9h5s=
+        bh=6+JAry045TLIOVRVpHkscU6H5JvReU1Ni4x9xqAc5Hs=;
+        b=Q0wToMB5B4fvkvap3Tl92vK1gx4lEu7ovBe+cTlvJsvrggKAzQsPLdTpOmVhZyPSHKLbZY
+        Sn0hP6aBONEgsTmox0pllqW/7tXn8g9wOGZtEfYzwXl6Fjxr3YXkZtNdDthQEc7nmAASyO
+        BSPTrPIz7/d1WkwPOzm2AaUbzompPPU=
 Received: from suse.cz (unknown [10.100.201.86])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id DB8A2A3B83;
-        Tue, 11 Jan 2022 10:40:55 +0000 (UTC)
-Date:   Tue, 11 Jan 2022 11:40:55 +0100
+        by relay2.suse.de (Postfix) with ESMTPS id 4A460A3B83;
+        Tue, 11 Jan 2022 12:15:53 +0000 (UTC)
+Date:   Tue, 11 Jan 2022 13:15:50 +0100
 From:   Michal Hocko <mhocko@suse.com>
-To:     Jesse Barnes <jsbarnes@google.com>
+To:     Alexey Avramov <hakavlad@inbox.lv>
 Cc:     Yu Zhao <yuzhao@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
@@ -37,6 +37,7 @@ Cc:     Yu Zhao <yuzhao@google.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Matthew Wilcox <willy@infradead.org>,
@@ -47,127 +48,93 @@ Cc:     Yu Zhao <yuzhao@google.com>,
         Will Deacon <will@kernel.org>,
         Ying Huang <ying.huang@intel.com>,
         linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-mm@kvack.org, page-reclaim@google.com,
-        X86 ML <x86@kernel.org>
-Subject: Re: [PATCH v6 0/9] Multigenerational LRU Framework
-Message-ID: <Yd1et2VFOX4xxgly@dhcp22.suse.cz>
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, x86@kernel.org,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>
+Subject: Re: [PATCH v6 6/9] mm: multigenerational lru: aging
+Message-ID: <Yd109jeRllJbjV9o@dhcp22.suse.cz>
 References: <20220104202227.2903605-1-yuzhao@google.com>
- <YdSuSHa/Vjl6bPkg@google.com>
- <YdgKClGAuHlkzVbQ@dhcp22.suse.cz>
- <YdiKVJlClB3h1Kmg@google.com>
- <YdxTR4+FL08XyFuO@dhcp22.suse.cz>
- <YdythmxHpSksJiXs@google.com>
- <CAJmaN=n=kn9-gC8if5wp8Gfj7uN+QVrX0ex=9JPXC7rPvGf1Qg@mail.gmail.com>
+ <20220104202227.2903605-7-yuzhao@google.com>
+ <Ydg8AeE6JIUnC+ps@dhcp22.suse.cz>
+ <YdjOazilBEkdUT7x@google.com>
+ <YdxSUuDc3OC4pe+f@dhcp22.suse.cz>
+ <1641900108.61dd684cb0e59@mail.inbox.lv>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAJmaN=n=kn9-gC8if5wp8Gfj7uN+QVrX0ex=9JPXC7rPvGf1Qg@mail.gmail.com>
+In-Reply-To: <1641900108.61dd684cb0e59@mail.inbox.lv>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon 10-01-22 14:46:08, Jesse Barnes wrote:
-> > > > 2. There have been none that came with the testing/benchmarking
-> > > >    coverage as this one did. Please point me to some if I'm mistaken,
-> > > >    and I'll gladly match them.
-> > >
-> > > I do appreciate your numbers but you should realize that this is an area
-> > > that is really hard to get any conclusive testing for.
-> >
-> > Fully agreed. That's why we started a new initiative, and we hope more
-> > people will following these practices:
-> > 1. All results in this area should be reported with at least standard
-> >    deviations, or preferably confidence intervals.
-> > 2. Real applications should be benchmarked (with synthetic load
-> >    generator), not just synthetic benchmarks (not real applications).
-> > 3. A wide range of devices should be covered, i.e., servers, desktops,
-> >    laptops and phones.
-> >
-> > I'm very confident to say our benchmark reports were hold to the
-> > highest standards. We have worked with MariaDB (company), EnterpriseDB
-> > (Postgres), Redis (company), etc. on these reports. They have copies
-> > of these reports (PDF version):
-> > https://linux-mm.googlesource.com/benchmarks/
-> >
-> > We welcome any expert in those applications to examine our reports,
-> > and we'll be happy to run any other benchmarks or same benchmarks with
-> > different configurations that anybody thinks it's important and we've
-> > missed.
+On Tue 11-01-22 11:21:48, Alexey Avramov wrote:
+> > I do not really see any arguments why an userspace based trashing
+> > detection cannot be used for those.
 > 
-> I really think this gets at the heart of the issue with mm
-> development, and is one of the reasons it's been extra frustrating to
-> not have an MM conf for the past couple of years; I think sorting out
-> how we measure & proceed on changes would be easier done f2f.  E.g.
-> concluding with a consensus that if something doesn't regress on X, Y,
-> and Z, and has reasonably maintainable and readable code, we should
-> merge it and try it out.
+> Firsly,
+> because this is the task of the kernel, not the user space.
+> Memory is managed by the kernel, not by the user space.
+> The absence of such a mechanism in the kernel is a fundamental problem.
+> The userspace tools are ugly hacks:
+> some of them consume a lot of CPU [1],
+> some of them consume a lot of memory [2],
+> some of them cannot into process_mrelease() (earlyoom, nohang),
+> some of them kill only the whole cgroup (systemd-oomd, oomd) [3]
+> and depends on systemd and cgroup_v2 (oomd, systemd-oomd).
 
-I am fully with you on that! I hope we can have LSFMM this year finally.
+Thanks for those links. Read through them and my understanding is that
+most of those are very specific to the tool used and nothing really
+fundamental because of lack of kernel support.
 
-> But since f2f isn't an option until 2052 at the earliest...
+> One of the biggest challenges for userspace oom-killers is to potentially
+> function under intense memory pressure and are prone to getting stuck in
+> memory reclaim themselves [4].
 
-Let's be more optimistic than that ;)
+This one is more interesting and the truth is that handling the complete
+OOM situation from the userspace is really tricky. Especially when with
+a more complex oom decision policy. In the past we have discussed
+potential ways to implement a oom kill policy be kernel modules or eBPF.
+Without anybody following up on that.
 
-> I understand the desire for an "incremental approach that gets us from
-> A->B".  In the abstract it sounds great.  However, with a change like
-> this one, I think it's highly likely that such a path would be
-> littered with regressions both large and small, and would probably be
-> more difficult to reason about than the relatively clean design of
-> MGLRU.
+But I suspect you are mixing up two things here. One of them is out
+of memory situation where no memory can be reclaimed and allocated.
 
-There are certainly things that do not make much sense to split up of
-course. On the other hand the patchset is making a lot of decisions and
-assumptions that are neither documented in the code nor in the
-changelog. From my past experience these are really problematic from a
-long term maintenance POV. We are struggling with those already because
-changelog tend to be much more coarse in the past yet the code stays
-with us and we have been really "great" at not touching many of those
-because "something might break". This results in the complexity grow and
-further maintenance burden.
+The other is one where the memory can be reclaimed, a progress is made,
+but that leads to a trashing when the most of the time is spent on
+refaulting a memory reclaimed shortly before.
 
-> On top of that, I don't think we'll get the kind of user
-> feedback we need for something like this *without* merging it.  Yu has
-> done a tremendous job collecting data here (and the results are really
-> incredible), but I think we can all agree that without extensive
-> testing in the field with all sorts of weird codes, we're not going to
-> find the problematic behaviors we're concerned about.
+The first one is addressed by the global oom killer and it tries to
+be really conservative as much as possible because this is a very
+disruptive operation. But the later one is more complex and a proper
+handling really depends on the particular workload to be handled
+properly because it is more of a QoS than an emergency action to keep
+the system alive.
 
-This is understood.
+There are workloads which prefer a temporary trashing over its working
+set during a peak memory demand rather than an OOM kill because way too
+much work would be thrown away. On the other side workloads that are
+latency sensitive can see even the direct reclaim as a runtime visible
+problem.
 
-> So unless we want to eschew big mm changes entirely (we shouldn't!
-> look at net or scheduling for how important big rewrites are to
-> progress), I think we should be open to experimenting with new stuff.
-> We can always revert if things get too unwieldy.
+I hope you can imagine there is a really large gap between those
+two cases and no simple solution can be applied to the whole
+range. Therefore we have PSI and refault stats exported to the userspace
+so that a workload specific policy can be implemented there.
 
-As long as the patchset doesn't include new user visible interfaces
-which have proven to be really hard to revert.
+If userspace has hard time to use that data and action upon then let's
+talk about specifics. For the most steady trashing situations I have
+seen the userspace with mlocked memory and the code can make a forward
+progress and mediate the situation.
 
-> None of this is to say that there may not be lots more comments on the
-> code or potential fixes/changes to incorporate before merging; I'm
-> mainly arguing about the mindset we should have to changes like this,
-> not all the stuff the community is already really good at (i.e.
-> testing and reviewing code on a nuts & bolts level).
+[...]
 
-From my reading of this and previous discussions I have gathered that
-there was no opposition just for the sake of it. There have been very
-specific questions regarding the implementation and/or future plans to
-address issues expressed in the past.
-
-So far I have only managed to check the memcg and oom integration
-finding some issues there. All of them should be fixable reasonably
-easily but it also points that a deep dive into this is really
-necessary.
-
-I have also raised questions about future maintainability of the
-resulting code. As you could have noticed the review power in the MM
-community is lacking behind and we tend to have more code producers than
-reviewers and maintainers.
-Not to mention other things like page flags depletion which is something
-we have been struggling for quite some time already.
-
-All that being said there is a lot of work for such a large change to be
-merged.
+> [1] https://github.com/facebookincubator/oomd/issues/79
+> [2] https://github.com/hakavlad/nohang#memory-and-cpu-usage
+> [3] https://github.com/facebookincubator/oomd/issues/125
+> [4] https://lore.kernel.org/all/CALvZod7vtDxJZtNhn81V=oE-EPOf=4KZB2Bv6Giz+u3bFFyOLg@mail.gmail.com/
+> [5] https://github.com/zen-kernel/zen-kernel/issues/223
+> [6] https://raw.githubusercontent.com/hakavlad/cache-tests/main/mg-LRU-v3_vs_classic-LRU/3-firefox-tail-OOM/mg-LRU-1/psi2
+> [7] https://lore.kernel.org/linux-mm/20211202150614.22440-1-mgorman@techsingularity.net/
 -- 
 Michal Hocko
 SUSE Labs
