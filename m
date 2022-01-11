@@ -2,67 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E63DFC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Jan 2022 15:04:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81E2FC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Jan 2022 15:04:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240903AbiAKPER (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jan 2022 10:04:17 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:39380 "EHLO
-        mx0a-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S240338AbiAKPEQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jan 2022 10:04:16 -0500
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20BDBtL4019436;
-        Tue, 11 Jan 2022 15:03:41 GMT
+        id S243923AbiAKPEy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Jan 2022 10:04:54 -0500
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:33912 "EHLO
+        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S243891AbiAKPEx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jan 2022 10:04:53 -0500
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20BDDtlW015422;
+        Tue, 11 Jan 2022 15:04:22 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
  subject : to : cc : references : from : in-reply-to : content-type :
  content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=VBAn9GmpmF+nkAmMrgs/brG9lHBl+XY/LyxeQmn6OBA=;
- b=JNOpTLpLmJi3FgnBhXqWzAQi7ljYFrEd9xmehHLpKsghv/Fc3QUy0gF/dEiFXZ4C1Mdw
- 0yBIbNCPH2Iy7Zl68rQzx9s1g/0xjtK4/SDSoVlAlSrVn5DTgnzvI+4eEVro/+4z/NM2
- QshTCIbYfYxlwNYTP4gnpk9MmaFbrIAclMm8bgtCBOOg3YJT21rC9Ga86mZvqIfSOKNO
- hXkTmxQN9wyLeLap/pP1ilZ/21j4kGp8ZmcADGNvKx99YSTXS3M2q2VuMUiAcKlhLHzv
- EifMQaKfuQy6JaPbcOx+6Luntya7NO/4Gx2ICbg/7PshcmxC1e0LxKRtZPbHfOJARItp Jw== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by mx0b-00069f02.pphosted.com with ESMTP id 3dgn74b776-1
+ bh=JJ6ga51doBz3pEJaGfs9ymaQW9MK/EpPs3Ui4IHpj98=;
+ b=kflZX6EtiAcMh3BCR3il+RDlZBIetcnr2Lrqyk+uMwhfwpa6YX+DuUkHmfmB2+o7eYYQ
+ P4eISvadj5vDTGS/a0/A32GZwgpcvHOm/OLiom+vnIj76J7Lye0Fmn3NLIFsywgSTMHw
+ ESGMUiyu1aCxm/5IUnTwX2T9XIoFx1GMZgZPaAJUeQ5s3EvOaCgup2Sk/HveFcO8fZ2Q
+ fGqUy22Atx9fNFJt7C7s0Ek70BXpzcXI+wGIsxqGjVqAH9ldWUukL/PyxHnXozTvZROh
+ FdJXal+ez06oJJ+rxUSVFkAe7Tvwpw8dWMFkz+tLFeEbndpawhNoLr6SoGbaYbpW8v3n nQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by mx0b-00069f02.pphosted.com with ESMTP id 3dgmk9bb20-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 11 Jan 2022 15:03:41 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20BF20pc065813;
-        Tue, 11 Jan 2022 15:03:40 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2048.outbound.protection.outlook.com [104.47.66.48])
-        by aserp3020.oracle.com with ESMTP id 3df2e4vw19-1
+        Tue, 11 Jan 2022 15:04:22 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20BF1dHC183881;
+        Tue, 11 Jan 2022 15:04:21 GMT
+Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam07lp2040.outbound.protection.outlook.com [104.47.51.40])
+        by userp3020.oracle.com with ESMTP id 3df42mve6s-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 11 Jan 2022 15:03:40 +0000
+        Tue, 11 Jan 2022 15:04:21 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RrjaFDzaLx/iCKzRPdl/ujzTBVuRiNCwtxNOM4elPy3is0aLNmHcaGOAXsNyCfvNxyLM711lOqfM8c3A+CMw5QkWNe4FTUGSZIA2BjdHeKo51jtnIjxpVU+ci98CKss4Gp2mCiVC4BheDvCjJCDfVL5qWYFW4EOd3JmeDqSRy9E6232QcZeklBwOYZUaUR6zCy6wvm5wJKlQ7wOdJqsCmjwW4alEkyXBjJngBNZKH4oTos/m81p0ozNV2OutA8cIwRvBm2151LfikMuXj5DlXkbWyhm8gr46K0HAYr/abBSvme2RL38Ml3qHa2Mt9E93ee5HsorxsEmn9abBXI5CKw==
+ b=SI8aoRnp4QdHc8O9Rfa6scu/SBV9SpM6D/UbFRRL/mLrQQHPgu1wQ0gr0CvlsMXkhaFcwaaiTj4prPvL6NQJtJwc2XWrHG6D/ni6VGyYM0X9px5mnuJdsAAAf/k/BxE1lpxOKJzHLSud+wlPiCRVg9gmIhjBf+Kxu3UlEogxZoggzjQ6WkwT7Hfw5gSQD28BQAf3BD+b8bTwXUAo2wgtpO7wJE9GbAeSk2zgJC20Ts9RoCCVPfz/vrNIEclT9wBv3NWcS0wAQ2PInOPclMM7TkkWpywhvjpKxwXLEtUB53Sav0pTvB+CnQMMdSbkcCKcagodci7Lu1CnhFeuiyJUOA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VBAn9GmpmF+nkAmMrgs/brG9lHBl+XY/LyxeQmn6OBA=;
- b=W6JZKvXfdqFCnVaE78TXCvrbE+j+ahpEQzp/3uvDRXKRW9ekk5d/JclmcYFBU+5wA87OgdHc6VyjUUjNOcnnyxwqAo0+5rPHCv+AGkRJGw/7sIeoidAe6VCR04Qa2MXWBZa/cv+NLhvq6HFJV+1n8lBXqkVaHiuNShRisi5v+ZNLdbiaNLER/59J26eWg2XbCtYd5xNqGfTdAquUQv716zXuf5FHdIaNlvuXGAP+7uD8uuoWXBacqpR7qvvZI1kPwgyPuOnpAxigrizdK04Is1cqBONEcFwdb9FMhDBBkym3JKILJG2nQDJLWkCg5DtWOv2aYlirXmsUarMrUqOVxA==
+ bh=JJ6ga51doBz3pEJaGfs9ymaQW9MK/EpPs3Ui4IHpj98=;
+ b=W729xWO1obUgVh7D3UbyN2FLxoDOvogjhm5c0nS9iJTe4ALWxFNRXXRtRhxXajhz++g8wponxmvxTX51KvM2xsO+G5gbnj4RqvION7as+jBFKuqcNHVOIlxVHI39C7h1vQBq3JVRi/rnNw4ZWRbjTu/jwCUU1eU0nxnmTJSfJuWBUOvOvKcZoVh/Cy5R3XoepUdKGyQckuh6E7TFpD7EHazohcwgS4zDXGkEV8SGQk7sI3KHMTm8lOsr+yUM8K7jj3Zk+mcmVoEQWOLivFDiLbIcQywh6tSMVkE+EBEG/De4IMRvzfnIs+7d9P12TqouTVUFqBs81zTk+8QpEV+T1g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VBAn9GmpmF+nkAmMrgs/brG9lHBl+XY/LyxeQmn6OBA=;
- b=Ut145/F7FD2CD29M65dRmYYj+2cli71BNC/5nPCWyRXT0FkUNAVnua4GJvHjxNQnIJ/wv1FAHuHMnoeLMFX468g7gYxIbnoex1Y7buP29vVDyNHAz52HQBG6NFSSmknNisELdkgzl297hJHZ4fJtDAfAbDyi10GRIPvkRXPu0PU=
+ bh=JJ6ga51doBz3pEJaGfs9ymaQW9MK/EpPs3Ui4IHpj98=;
+ b=sU9VsvLJRAbwajHnk9bDeGpj++tVGhNz0kYF/O4nfYQkRI7WPP3slCW4GNQoc81j4dGLxUQcOARsC7PRNMPi4azgE+M2y3uQYkvycsvF+jF9N1dxvnvp6jgl748bJEcUZYbSyQtmBRapGgJlC6i3zScnhREkD9YfKaeCOamnWCA=
 Received: from CO1PR10MB4722.namprd10.prod.outlook.com (2603:10b6:303:9e::12)
- by CO1PR10MB4562.namprd10.prod.outlook.com (2603:10b6:303:93::22) with
+ by MW4PR10MB5881.namprd10.prod.outlook.com (2603:10b6:303:18e::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4888.9; Tue, 11 Jan
- 2022 15:03:38 +0000
+ 2022 15:04:18 +0000
 Received: from CO1PR10MB4722.namprd10.prod.outlook.com
  ([fe80::30b4:4c4c:82df:29f6]) by CO1PR10MB4722.namprd10.prod.outlook.com
  ([fe80::30b4:4c4c:82df:29f6%4]) with mapi id 15.20.4867.012; Tue, 11 Jan 2022
- 15:03:38 +0000
-Message-ID: <7f420af1-9fce-5a36-5788-8de52502781f@oracle.com>
-Date:   Tue, 11 Jan 2022 09:03:22 -0600
+ 15:04:18 +0000
+Message-ID: <097d4a87-1981-7848-6553-079d63cf6410@oracle.com>
+Date:   Tue, 11 Jan 2022 09:04:02 -0600
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.4.0
-Subject: Re: [PATCH v19 01/13] kdump: add helper parse_crashkernel_high_low()
+Subject: Re: [PATCH v19 02/13] x86/setup: Use parse_crashkernel_high_low() to
+ simplify code
 Content-Language: en-US
 To:     Zhen Lei <thunder.leizhen@huawei.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -84,158 +85,156 @@ Cc:     Randy Dunlap <rdunlap@infradead.org>,
         Kefeng Wang <wangkefeng.wang@huawei.com>,
         Chen Zhou <dingguo.cz@antgroup.com>
 References: <20211228132612.1860-1-thunder.leizhen@huawei.com>
- <20211228132612.1860-2-thunder.leizhen@huawei.com>
+ <20211228132612.1860-3-thunder.leizhen@huawei.com>
 From:   john.p.donnelly@oracle.com
-In-Reply-To: <20211228132612.1860-2-thunder.leizhen@huawei.com>
+In-Reply-To: <20211228132612.1860-3-thunder.leizhen@huawei.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P123CA0127.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:193::6) To CO1PR10MB4722.namprd10.prod.outlook.com
+X-ClientProxiedBy: LO2P265CA0374.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:a3::26) To CO1PR10MB4722.namprd10.prod.outlook.com
  (2603:10b6:303:9e::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ecd636c8-2a6a-4cd0-ccb3-08d9d5138b9e
-X-MS-TrafficTypeDiagnostic: CO1PR10MB4562:EE_
-X-Microsoft-Antispam-PRVS: <CO1PR10MB45629F30404CE6788F7B8D80C7519@CO1PR10MB4562.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:826;
+X-MS-Office365-Filtering-Correlation-Id: 1bc9b5df-ba86-445c-feee-08d9d513a3da
+X-MS-TrafficTypeDiagnostic: MW4PR10MB5881:EE_
+X-Microsoft-Antispam-PRVS: <MW4PR10MB58817FACE2FD701004485E1CC7519@MW4PR10MB5881.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:651;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XekoRyW27++tWPhpT6YOMUlA4COc4mjHNPsEX5VmZJliyuPNipGhCkDHGOIuxd3x5Veo3xrK1BP6W5aqDJZ5dEZiNKHTgTa7mmYGLB5kKtUAnK5glT7mBtzAU+xayChR99ZJpIrC4dVFZAYYP7hHedq5jQDZNi3gLtHiVpIVMawgT+/A4J5Y3S/969jfVpqye+iPOYtymRM/Ov+sEm+9StLNSEBtKakKIMI64wEGKWycAmNhAjXBuZAanYC6XPm/LkPJQkJbL1eFgQHJRKkbN76UCJ08nKG+SvbWZSJNaFr/T7AqZdtzdnHkYkyuRWjBUoJ02Sv+ZkdSbYeLJw/VzLk/+ip2XPFzK2K2Ku189ficUfoyzp9OdBEtj05Uy86eM+cae8APZJZU2KmPlpkWuyyFhyeXwFZzUtg6/E5+Qc/MLzgkl8MBdG3DGXG8He6cTu0TyuNHwJlGizmK4PvdXW6bJH7FeotaH3Tuqn8uOHFRJrWUpa6MStFVB1sWqkLI9OGBQrAO3qjqgLEpHE5L5X/r3z1OybhYoyYieQRR5SJh2iXEyqxGLTc4DqNelfh1bzx4g9xfB0usdmAkP3h7848MwYf+x2YZXfEii+vCxCXrth03eRQ+XGkv/JmDQdUnJTZNvUeteF8B46pgVBFDH0Z4rsz1yydttLVt+4hnioJynefYeHuDRp/Bp3D3GPWWerEEV489Haaue08O+l/qYroU186qSZwNWK7OarV9ORU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR10MB4722.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(2906002)(54906003)(110136005)(66476007)(6486002)(5660300002)(921005)(508600001)(2616005)(66556008)(316002)(36756003)(86362001)(4326008)(38100700002)(6666004)(53546011)(31696002)(8936002)(26005)(7416002)(8676002)(66946007)(6512007)(31686004)(9686003)(6506007)(186003)(43740500002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: fnJlIzEIEu8eL30CsfVfY7XK0FpfA0n7vuRDONUCE9A1t2XFR3V41M99nSW/s3ajZToMyeNgQ5BUMm61+sBDsSiZV8dDmVrTHV/vTTDA174C46RtQxakkuoTyUaIyIV9QwklLh552bKxAfJNteYUqL6DAbDTqsmgHEDTxfXA2Hib5XNSFYMYifeVEr8zb8hRvVI55+GpJ8c0R0CZD0l6wqQyTPHD0p0fLbbttzw7kQ8CVaZuoZr9Ha9mAjbcq+Fw9ltiHi92Ohl0aGRHOF30qe1THM3B3aZP1i2X5n5f1cFAOysiJ6YCPpB/4UC2ei+2pPjyiICKuFZkPFoTJqwZvVIawcJbBD4muzVSSc+8bhxhf4zEU9Zk5s7ITWc6IR5u4zAVEfFfvrFCOtEgLZUNBp1hMlv66kI35oxCpTHh5WlXg9ei/IEdvF9LDoItLAHYAx2LVWig+ZmZEcb5nSn0e6vqX9PDsI70XECWI803Hdy28UC+l7QOPk4IiWrA345ZEVAxRZVN/JOcvIlsZ6PIlKz5yx2Tgdv9ZFLGZSwpDwm09Ml5KnTJB+YCXSdbIwUfXBZrDi/+ceVGNu+VrzvPaYGHeA8lvkjattBmg/4h8+FMzIOmhC8TK7pmPXBzgReAg4M6d7iyfQcVl3G9EPrkA196DRbr2FHpkkn3qkR1w217ciH3au2MucY+7Kt0t4qkEdH4T4fyXkTZVYbVndhqvGmnzgt7L+SinhfHZ7KoKPg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR10MB4722.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(8936002)(26005)(6486002)(921005)(2906002)(38100700002)(110136005)(86362001)(5660300002)(54906003)(31686004)(53546011)(4326008)(508600001)(186003)(6506007)(9686003)(6512007)(66476007)(66946007)(36756003)(66556008)(8676002)(31696002)(6666004)(83380400001)(2616005)(316002)(7416002)(43740500002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NzgxYVg1Y0lxNmMyVnpHZTFHa1FMbUxNSWxib1FjNzZMZ2pnczFxVzNuODhy?=
- =?utf-8?B?bEJ4aDZ2OHUveFhXVzJtL1VhMDFhQUVjendmMEZKOHoyVDlEa3N2clU2Yys4?=
- =?utf-8?B?T214cU9HWVM4S2lwOXp2azlqazNXMW5VcFVMeU5PYVphUmdxaHpDd201Rkhi?=
- =?utf-8?B?ZU02UXFEK2JSSThLVEhhMUNqNk5iaXdQRlZSOE9PUXo3aENzT05IZUorUXBT?=
- =?utf-8?B?YVQ0c0NIUUlPTE5aTEJCd3JVcDdjMkNFK3BzWEM4d0RSRFhqenJ6ejJHd1Iz?=
- =?utf-8?B?aUlTdXVyUEMvY1VtZHZOL2RwVUlYUUZOZ2tkQkRIYUhtMXllZ0QwUmQzMmFV?=
- =?utf-8?B?NTd3REw4YlNJVlVnOVdMckl3OVdzUzgwbkl6ZUlkZk5kN1NkSWJDOHo3bTMr?=
- =?utf-8?B?V0c3VW0rR2syZ3VXQXFyM1B0VVkrNUk1UUpOUzJtaVVobGREbVZ1T0lXSnd5?=
- =?utf-8?B?ajBlTVUyUU1GRGRyU0RVN3puQmNicU5BWUd3MGRaVlp5Y2lNTTJyeUtTRWpv?=
- =?utf-8?B?emRhQzQyZG1nY21YWG51YVJOVnNkei9VY0p5cUVJUjlaR2VuZW5TVnMzMVR5?=
- =?utf-8?B?NUNrMmI0TU9XMUo1cDNwWDZVNnlHV2dJQkJ4dm1wZktBb2ZtUHMrYTFOWGhl?=
- =?utf-8?B?RXU4MFF3WGIzUHM2Y1N5bWkrS3pIR3JxSnBqN3EyQXpNNGYwNVVJK1pQZTV0?=
- =?utf-8?B?V3VkcStBVFRKQXZIQVg3ZGxUL1RDQUo5TDA5WXBlQmNUaXRjNWZSMWRELzZG?=
- =?utf-8?B?cW1IV3pTenEwL01XVUtibFRDM0hCMTZVRGtSSUNzTngzYjJlb250WG8yekRr?=
- =?utf-8?B?UGduOFFCQXBCajN3elhmUXNoclZXK0dpZkpsMkdUL1JIa0s0ZW5BQU54TTJF?=
- =?utf-8?B?M1QwWTR2WTBPZzFNdWVTTUxlZWNpNURLSytqMnM0M3NsMCtNMVpTT2FLb0hh?=
- =?utf-8?B?a285RnNKeDlXb3lyRVZBdUpOU2pOWlFISEwzVjdhWS9pNWpPdld3Wm81eUhV?=
- =?utf-8?B?aUk5bGZJTHNTTjNVeFdGVzNsam9ObGVSU29WV055NW1EMDUvcjA1Z2FsUHJW?=
- =?utf-8?B?QVdnYkY3OTZsd2tlc212MitNY1dUanh4Nys4Ym1iQ0hpY0tOT1RQR2RQZzYz?=
- =?utf-8?B?VDVqeS9XZlNxOFhrZXkwcjdsVUM2NE9udnNFcVlhT3ZhNFFTWnc4MnBUQkxs?=
- =?utf-8?B?TzdkZVhEd3YzaW10OW94MnoxQXVqODVPK3ZjSEFRdlBPWFNIU0c2dlc0NHVG?=
- =?utf-8?B?eEZyVkFOYWFCTlZ0RVR1M2JtMmtaaHloY0xmb2N5bjN0SndKNnhwd2NoS2JE?=
- =?utf-8?B?b2ZhM2hXWVhNVU82UkI5UmNzSUwrSFU5NkVrSjdnMmF2bUFQM2pYWkMrMmxi?=
- =?utf-8?B?WjJSMmNhNU01VWxNTW44Uko0MUhIcjNhdE5CNWxlbkZ4eWJSbTA1QXlld0pa?=
- =?utf-8?B?L3htK1JEN2NGNDUrTE1OaWtUWDZ2N1RPRHlaUGRIVDlEdlNLSjIxb3dBS3pr?=
- =?utf-8?B?cTJaL2htS3N3QUlYTS9ETXVCNVFRZTdZWVVWcHh4eFpTYVZ0aForbndXZnBB?=
- =?utf-8?B?WmxsOVNrYWdZbFFiZkIvNU1paHBMMnR2ZlVPbnVGYnhURkllclRTMUJGZzd5?=
- =?utf-8?B?UXRQR2F1aERDWjdNWERWRW9qVnY0bkNBc1FMaVJITkYwZkdOOXdHdkI4MU94?=
- =?utf-8?B?Z28vWTA0WVhrSnJTUjJKa1BIYk1MSUNDa2k0UlZ4cVdHVWMwR0VYZzBqYlUx?=
- =?utf-8?B?ZWhzR3B5N1k1MVNSZDNQT1RhR3ZhQWZqTGJwZTNHbjJlOHVCSXowYXduRnlz?=
- =?utf-8?B?Z0hOWnJ6aHdzMjdRMzlNVjJIWTBkTFQrMUR5cnNPcHB5VTUzRE1HZ1pzRkhj?=
- =?utf-8?B?UHpIajBNMGpIVm5IbTJQWGFza3p3aFF2Vm1CWHR0LzVsemxKWkV6cEpNSEN5?=
- =?utf-8?B?WHlNZ3lNWWd3Z2xFMzhac2cwVEltWnBmTGhWVXo5MDNhN0lDanhXM2hQazQy?=
- =?utf-8?B?bHhuVHFFUTFXd21KdU1lQUhOaWVGZnJyd1ZmNktaREVseDgrNkVoMkw4RE5j?=
- =?utf-8?B?c1hJQ3l4bk50TVFqREhvQkpTTVFaU2RWS0owaFRXcFZKaWdRek1LV1EzNkY1?=
- =?utf-8?B?N3ovN1E3T0hocUQ0Uno1OVRoeTUxbk9tM2dBb2krK0dUSWxEdzVUeDJOM2Vr?=
- =?utf-8?B?UFF6VkxhenkwT1hXS3lCbjRtaStFWXFBMWFFdkY2NGt3bmlCUW9uMlRSU1JG?=
- =?utf-8?B?WW1RL3ZXSmU0QXU1OXBSZW9yODh3PT0=?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bTQxUUlSVURLRVVuUVpMdlFPVkN5b0VvVGRlV2RJZHV5SjU3bEd5UHpQcjVE?=
+ =?utf-8?B?OXRyVTJXaTFVVjBUQXdXTE5qTWcxdVIzQnE1aGtaYmVYenV3cE9hUEZjTm1O?=
+ =?utf-8?B?dGRweGpPdWFJSGlXRFpsRW9BMHYvRXZUb3dxYVpnSDZEWTEvTVRQWVFNdDJT?=
+ =?utf-8?B?NFBWTFlpSVdFWTN2b3FQKzEzbkY0NTR0cm0zWDJZcy90TVYzYldBQkFPY010?=
+ =?utf-8?B?dk83M2w4RXl1M0VvaVVsVWFpUVREbW1vUlkvbENoTUJ0aUZBdnRSTVEyUUM5?=
+ =?utf-8?B?V0pwTEpNRjNXOVAzNlhpTzExY3BLQUZlZ2Rkc21ja3Ywd3U1UkI3MmR5c1A0?=
+ =?utf-8?B?akdMT2lDWlF3em9tUkhvUTNSSjYwRW4vMmpway82Z1VTM0VkYXFscW9jUWJN?=
+ =?utf-8?B?MDZ1YVMvVFd0VWRzY3d6ZkNLV1lQTWZDZTEycUFzZmVKZXhscnAwTERhMjcw?=
+ =?utf-8?B?NVM3aStDaEVtOG0zalRmTTZXNjZPb0lXbVNQWVkrRVUwTU9jTWNoYkVnOWFu?=
+ =?utf-8?B?amIvR054SUxlRzdzajVUWWlMYjVBeERkU1dKblBUN052WEtZNkJDbXl6R3l1?=
+ =?utf-8?B?Y053S0NwY2dLWFdpd2RqSldrVWRVVXZsZzUxdkFVS1dkWFhhcFNtaUk3c3dy?=
+ =?utf-8?B?L05sYmpaVE9ROU85Q3BWVnEvU1p2U09VY256eUNIZVJueG1nSnVPMzIra3pu?=
+ =?utf-8?B?bHNqYVNJY292djRZZ1Fma0puQlpaTys0dlJ4c0t5VGw4TE9LeXBwTVI1a1ZT?=
+ =?utf-8?B?bDlFRm4wOFpJREdGZzhWOExib2YvSGtFZkgvOVM4d1hnTXhkYlVReGhBQ3pr?=
+ =?utf-8?B?WGhXUzhkUDI0ZFVJcElNRm5mNERZQ0ozdFBReDNONnltVkd6cTR6N2dJblJV?=
+ =?utf-8?B?c0xBSHdPY2JGdm8rVS9icTIvNXQ5cFZ1RCtXQ1RPSUxsQVljbk9Ka2Y4M1Zs?=
+ =?utf-8?B?Tko0c3V1TmJMa2poUGhtMWh3UHNRL2djYTY1UHdxWTY5Lytpbi9tVzlSTzhw?=
+ =?utf-8?B?cVY4b3FYeU01U05MRSt5TjNpREVueTRVRnFyUnNRZ1BlWGs0Y3p1eGF0Lzl6?=
+ =?utf-8?B?YllyQmJoLzJtaG90RGZYRHBtWmtVaEdTT3FZQm1zY0ZzRUtvU0MwT3d1d0Jk?=
+ =?utf-8?B?YnNXdkJ2Tys4SGlCWTB2MWdKVkt1T2FHY012UkFBMHBObzlKUFBRK2hvVmJH?=
+ =?utf-8?B?bVJYV0tjbkgzcGg0RU1KbjNvb1RGYlJVOWEydlpaV0dzZWNzS1c1eEVEWWVw?=
+ =?utf-8?B?TUxOekhVUVJ3d01jeUNBZDNIZFZZUEZVMEtWTjZxM3hQTTVRSVdmVDgwRklv?=
+ =?utf-8?B?emZNUldOVUVlT1hrd3dtV01Zc3FQVExzbzloSVA4dkxpbkl6NHZ6TFZxV242?=
+ =?utf-8?B?bEhmMHlwR0NhT29QV0xzVnN2NVFxaHl5Q3U4TWFYSmFJOW03bUNuams2N041?=
+ =?utf-8?B?RVJaUE96QW5NVGZSWG9SL21qeG1DUWtEQmhtT0k3alVhSlFCeThwMytITzM4?=
+ =?utf-8?B?eTB3cllwdlNkM3JMTkl2cTBPRXJ0RnprVVR5b2p6ZVB4aytodmMxbGFkc3Ir?=
+ =?utf-8?B?cHgveWRmNkFLb2hzVTVUbHhTNHRGd3ZmOUduVTRQdTUrRDN3V3hVOGhKdFc0?=
+ =?utf-8?B?ZVJhRVg0MlVnMlh2QUFmKzBWMExMTlYraXBJTG9vcDVJUVpZcHZaeFoxRmRa?=
+ =?utf-8?B?NTNSajZRU1p5MEc2Ukp1d3F3K1J0VjVVTkRHUFF4WHpOOWNGR0xtQUc5bm5W?=
+ =?utf-8?B?Qk16K3pLbmNvRFNsc0VrbFQ1Q1ROQ056VEM3V1ZseDdpL1JVUHhJYXRDelJu?=
+ =?utf-8?B?NXlWd3JGV2xydjdqbm9nMXBxUjJWeTBQdEVxN25qNGZEc05EZGlHS2dnV0ha?=
+ =?utf-8?B?WXEyYWo1dWdHNnovK2xKenVzSzlpbldjdnRlTk1zR09SVTlxVEI5Ykdnc3Fr?=
+ =?utf-8?B?Z0tuTk53b3BMMmRFWU5OMlc4SHgvUDlSN2hrc014QUlkNDQxVFZ0V0JZLzdN?=
+ =?utf-8?B?RTNJUVJFeWVpSGdzM0l1NEpXRDNXK2hXeGkrNC9SU0kwU0NHa0Fhdkw5alpx?=
+ =?utf-8?B?bXd2VXhpQ0FHemdvQmMrZjZiL29pOFFLWERrVGk1WDY4aG4yM2tXZzhUaXlD?=
+ =?utf-8?B?TGFzNmh1andSNkU1RjRFQmR5eVIxWjREakJUNDd0Mk1aOENrNnZwRWJYNHlP?=
+ =?utf-8?B?ZnRtT2RBald0L0VkdlA3d3BvcmFxVVNoZGtxWUJoQ1ErUGRCblhNbisxUWVl?=
+ =?utf-8?B?RFAvK1o0SU05eEw5WWhCdFpQelFnPT0=?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ecd636c8-2a6a-4cd0-ccb3-08d9d5138b9e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1bc9b5df-ba86-445c-feee-08d9d513a3da
 X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4722.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2022 15:03:37.9107
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2022 15:04:18.1331
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gtBhydoKYCgNg/JjSshknLiQ8KJiIpWdiV0cOB4ogMrGrtmD5+0KoYQWP2eUii4mV5IHqR3X/fVBmWtfwnmrXueIy+24/EnTlPNDrkWfPtU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4562
+X-MS-Exchange-CrossTenant-UserPrincipalName: HvMpzqSj4KysZfctzcFAuHGOv2B6QjGym0yB3r+UBEuf6BoSUUcGV8GclGkPvD4MZkZJkSMoWXKQWNYGKfdsq5mKAqyi7veGTwvzzK4Ijic=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR10MB5881
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10223 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxscore=0 adultscore=0
- suspectscore=0 mlxlogscore=999 bulkscore=0 phishscore=0 malwarescore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxscore=0 phishscore=0
+ mlxlogscore=999 spamscore=0 bulkscore=0 malwarescore=0 suspectscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
  definitions=main-2201110089
-X-Proofpoint-ORIG-GUID: l4IiQfj8S4PZG_Wx-idRffAGkxJRrazU
-X-Proofpoint-GUID: l4IiQfj8S4PZG_Wx-idRffAGkxJRrazU
+X-Proofpoint-GUID: ne4JJQq8jTZ1tRniCR_E8E5Hcvd19K39
+X-Proofpoint-ORIG-GUID: ne4JJQq8jTZ1tRniCR_E8E5Hcvd19K39
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 12/28/21 7:26 AM, Zhen Lei wrote:
-> The bootup command line option crashkernel=Y,low is valid only when
-> crashkernel=X,high is specified. Putting their parsing into a separate
-> function makes the code logic clearer and easier to understand the strong
-> dependencies between them.
+> Use parse_crashkernel_high_low() to bring the parsing of
+> "crashkernel=X,high" and the parsing of "crashkernel=Y,low" together, they
+> are strongly dependent, make code logic clear and more readable.
 > 
+> Suggested-by: Borislav Petkov <bp@alien8.de>
 > Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
  >
 Acked-by: John Donnelly  <john.p.donnelly@oracle.com>
-
 > ---
->   include/linux/crash_core.h |  3 +++
->   kernel/crash_core.c        | 35 +++++++++++++++++++++++++++++++++++
->   2 files changed, 38 insertions(+)
+>   arch/x86/kernel/setup.c | 21 +++++++++------------
+>   1 file changed, 9 insertions(+), 12 deletions(-)
 > 
-> diff --git a/include/linux/crash_core.h b/include/linux/crash_core.h
-> index de62a722431e7db..2d3a64761d18998 100644
-> --- a/include/linux/crash_core.h
-> +++ b/include/linux/crash_core.h
-> @@ -83,5 +83,8 @@ int parse_crashkernel_high(char *cmdline, unsigned long long system_ram,
->   		unsigned long long *crash_size, unsigned long long *crash_base);
->   int parse_crashkernel_low(char *cmdline, unsigned long long system_ram,
->   		unsigned long long *crash_size, unsigned long long *crash_base);
-> +int __init parse_crashkernel_high_low(char *cmdline,
-> +				      unsigned long long *high_size,
-> +				      unsigned long long *low_size);
+> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+> index 6a190c7f4d71b05..93d78aae1937db3 100644
+> --- a/arch/x86/kernel/setup.c
+> +++ b/arch/x86/kernel/setup.c
+> @@ -416,18 +416,16 @@ static void __init memblock_x86_reserve_range_setup_data(void)
+>   # define CRASH_ADDR_HIGH_MAX	SZ_64T
+>   #endif
 >   
->   #endif /* LINUX_CRASH_CORE_H */
-> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
-> index eb53f5ec62c900f..8966beaf7c4fd52 100644
-> --- a/kernel/crash_core.c
-> +++ b/kernel/crash_core.c
-> @@ -295,6 +295,41 @@ int __init parse_crashkernel_low(char *cmdline,
->   				"crashkernel=", suffix_tbl[SUFFIX_LOW]);
->   }
->   
-> +/**
-> + * parse_crashkernel_high_low - Parsing "crashkernel=X,high" and possible
-> + *				"crashkernel=Y,low".
-> + * @cmdline:	The bootup command line.
-> + * @high_size:	Save the memory size specified by "crashkernel=X,high".
-> + * @low_size:	Save the memory size specified by "crashkernel=Y,low" or "-1"
-> + *		if it's not specified.
-> + *
-> + * Returns 0 on success, else a negative status code.
-> + */
-> +int __init parse_crashkernel_high_low(char *cmdline,
-> +				      unsigned long long *high_size,
-> +				      unsigned long long *low_size)
-> +{
-> +	int ret;
-> +	unsigned long long base;
-> +
-> +	BUG_ON(!high_size || !low_size);
-> +
-> +	/* crashkernel=X,high */
-> +	ret = parse_crashkernel_high(cmdline, 0, high_size, &base);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (*high_size <= 0)
-> +		return -EINVAL;
-> +
-> +	/* crashkernel=Y,low */
-> +	ret = parse_crashkernel_low(cmdline, 0, low_size, &base);
-> +	if (ret)
-> +		*low_size = -1;
-> +
-> +	return 0;
-> +}
-> +
->   Elf_Word *append_elf_note(Elf_Word *buf, char *name, unsigned int type,
->   			  void *data, size_t data_len)
+> -static int __init reserve_crashkernel_low(void)
+> +static int __init reserve_crashkernel_low(unsigned long long low_size)
 >   {
+>   #ifdef CONFIG_X86_64
+> -	unsigned long long base, low_base = 0, low_size = 0;
+> +	unsigned long long low_base = 0;
+>   	unsigned long low_mem_limit;
+> -	int ret;
+>   
+>   	low_mem_limit = min(memblock_phys_mem_size(), CRASH_ADDR_LOW_MAX);
+>   
+> -	/* crashkernel=Y,low */
+> -	ret = parse_crashkernel_low(boot_command_line, low_mem_limit, &low_size, &base);
+> -	if (ret) {
+> +	/* crashkernel=Y,low is not specified */
+> +	if ((long)low_size < 0) {
+>   		/*
+>   		 * two parts from kernel/dma/swiotlb.c:
+>   		 * -swiotlb size: user-specified with swiotlb= or default.
+> @@ -465,7 +463,7 @@ static int __init reserve_crashkernel_low(void)
+>   
+>   static void __init reserve_crashkernel(void)
+>   {
+> -	unsigned long long crash_size, crash_base, total_mem;
+> +	unsigned long long crash_size, crash_base, total_mem, low_size;
+>   	bool high = false;
+>   	int ret;
+>   
+> @@ -474,10 +472,9 @@ static void __init reserve_crashkernel(void)
+>   	/* crashkernel=XM */
+>   	ret = parse_crashkernel(boot_command_line, total_mem, &crash_size, &crash_base);
+>   	if (ret != 0 || crash_size <= 0) {
+> -		/* crashkernel=X,high */
+> -		ret = parse_crashkernel_high(boot_command_line, total_mem,
+> -					     &crash_size, &crash_base);
+> -		if (ret != 0 || crash_size <= 0)
+> +		/* crashkernel=X,high and possible crashkernel=Y,low */
+> +		ret = parse_crashkernel_high_low(boot_command_line, &crash_size, &low_size);
+> +		if (ret)
+>   			return;
+>   		high = true;
+>   	}
+> @@ -520,7 +517,7 @@ static void __init reserve_crashkernel(void)
+>   		}
+>   	}
+>   
+> -	if (crash_base >= (1ULL << 32) && reserve_crashkernel_low()) {
+> +	if (crash_base >= (1ULL << 32) && reserve_crashkernel_low(low_size)) {
+>   		memblock_phys_free(crash_base, crash_size);
+>   		return;
+>   	}
 
