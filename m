@@ -2,89 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F497C4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Jan 2022 00:37:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 719DDC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Jan 2022 01:18:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238864AbiAKAhI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Jan 2022 19:37:08 -0500
-Received: from ms.lwn.net ([45.79.88.28]:51112 "EHLO ms.lwn.net"
+        id S1346057AbiAKBSk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Jan 2022 20:18:40 -0500
+Received: from mga02.intel.com ([134.134.136.20]:38140 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S243194AbiAKAhI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 10 Jan 2022 19:37:08 -0500
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id AEEBC378;
-        Tue, 11 Jan 2022 00:37:07 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AEEBC378
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1641861427; bh=061YdezqR5dKI/s7KvDyFuJ0KmD4Akd4qE617b2KoiA=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=AnWixQy2UwGOWY3tLumAeQQ9tG6hGqHXUUGsDECy2YnZnPPoEA6XlBCYywS3TQif/
-         NKqJ+1JMdqu9exJllhs+j1iJksUKr+uKs0nmuH+nt74FkTOwcu8wgJ8goxFZu/tynm
-         BPFUMYu0+aC0wzDvB+wzlydiZH4WqClekNuWgHILIdh71/Vfb36vcEwhuu1xYZ7ZqL
-         3mD3OBUdML/LCTwMVZv9ChhAtevF6xxH9SBiZyPj9Zbx+4nZnNfEyiEPHDkGhPCtvO
-         WEeZWtarx1iKsPKfxaBEnPSOiQd/Q/Tp52WQynAaMVlHFWXfs19msAVa68zUVHbhio
-         PUchTDGb0GSQA==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jens Axboe <axboe@kernel.dk>, Eric Biggers <ebiggers@kernel.org>
-Cc:     Bart Van Assche <bvanassche@acm.org>, linux-block@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/8] docs: consolidate sysfs-block into
- Documentation/ABI/
-In-Reply-To: <fff11146-f759-2887-5c80-6449dbc16717@kernel.dk>
-References: <20211209003833.6396-1-ebiggers@kernel.org>
- <YcH1uxfdTRHIwl7Y@quark> <YdMQ6rfSZWSOLptA@quark>
- <YddiJFr+ba7Veh82@sol.localdomain>
- <65376e36-579b-76c4-0642-4582d6679914@acm.org>
- <ef487b83-a1cc-d8a5-8a45-d0fec5eed94b@kernel.dk>
- <YdtS3x0M1qFcN3R1@sol.localdomain>
- <fff11146-f759-2887-5c80-6449dbc16717@kernel.dk>
-Date:   Mon, 10 Jan 2022 17:37:19 -0700
-Message-ID: <87k0f7hzuo.fsf@meer.lwn.net>
+        id S243319AbiAKBSj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 Jan 2022 20:18:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1641863919; x=1673399919;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OKcoqAuTqG3PJ0a2unikEAGf2NNr+JOqEdT5YxOnB3M=;
+  b=YhYko4Xe5ezfd8CIJUasu+79ANLlpay6CsOqwJ9Z2yCcNzwoSL1v4HHp
+   g92TNKxwk3axJzZLxUvu5Y2IzS8BKSohm94fjDqKU2ernTeoC20BEpViV
+   e+QZ3W4dJ+4fARsMcgziW6QDXQwhqKZgC3K+rwj0CR8OylOcilACUwcTc
+   oL11GblMYQaMyh53KytRn680E5vZ+cXEKU9+kTsi5MZFhn2jRKDs87FR/
+   NoOOVq16l9EjspFn3NtHNuOWQOrqDCGbDwP/vos/SMdgL4T0nYsSgzwKO
+   3nxXJrP2tGUdbFbz0Val3Hg56P07BVzq4d1XOh/7eFxaGELhm5ROsaS8i
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10223"; a="230716842"
+X-IronPort-AV: E=Sophos;i="5.88,278,1635231600"; 
+   d="scan'208";a="230716842"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2022 17:18:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,278,1635231600"; 
+   d="scan'208";a="514897284"
+Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 10 Jan 2022 17:18:18 -0800
+Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1n75nm-0004AI-18; Tue, 11 Jan 2022 01:18:18 +0000
+Date:   Tue, 11 Jan 2022 09:17:45 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     David Brazdil <dbrazdil@google.com>
+Cc:     kbuild-all@lists.01.org, GNU/Weeb Mailing List <gwml@gnuweeb.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [ammarfaizi2-block:google/android/kernel/common/android13-5.15
+ 2562/2575] arch/arm64/kvm/iommu/s2mpu.c:129: warning: This comment starts
+ with '/**', but isn't a kernel-doc comment. Refer
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202201110931.duyXOD4g-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jens Axboe <axboe@kernel.dk> writes:
+tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/common/android13-5.15
+head:   d52e3e4473075ddf199c9ae763e747302d729468
+commit: 4a75e1b060286edbc814df36ab6b314826d2dc5e [2562/2575] ANDROID: KVM: arm64: Implement IRQ handler for S2MPU faults
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20220111/202201110931.duyXOD4g-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/ammarfaizi2/linux-block/commit/4a75e1b060286edbc814df36ab6b314826d2dc5e
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
+        git fetch --no-tags ammarfaizi2-block google/android/kernel/common/android13-5.15
+        git checkout 4a75e1b060286edbc814df36ab6b314826d2dc5e
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arm64 SHELL=/bin/bash arch/arm64/kvm/iommu/
 
-> On 1/9/22 2:25 PM, Eric Biggers wrote:
->> I think it makes much more sense for subsystems to be responsible for
->> their own documentation; that's why patch 8 in this series adds the
->> block layer documentation to the block layer MAINTAINERS entry.  Do
->> you disagree with that?
->
-> I agree, but then we often end up with merge conflicts between the doc
-> tree and others. That's why it's usually punted there. As a maintainer,
-> any conflicts is a pain in the butt to deal with, something the
-> contributor doesn't necessarily see or understand.
->
-> If there are no conflicts this time around, I can queue them up.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-[Docs maintainer not copied on any of this, but you can't escape :)]
+All warnings (new ones prefixed by >>):
 
-Maintaining docs is a bit of a challenge for the reason Jens mentions:
-everybody puts their fingers into it, and the result is lots of merge
-conflicts.  For that reason, I'd prefer that big changes go through the
-docs tree.  Changes to directories like Documentation/ABI can be
-especially prone to conflicts, FWIW.
+>> arch/arm64/kvm/iommu/s2mpu.c:129: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Parse interrupt information from DT and if found, register IRQ handler.
 
-I also tend to be a bit more attentive to things like the addition of
-docs-build warnings than maintainers from other subsystems.
 
-That said, the real goal is to get more and better documentation merged,
-and it often does make the most sense for docs changes to go through
-other trees.  Forcing the separation of documentation changes from the
-code changes they reflect would be kind of silly at best, for example.
-So if the block tree is the best path for these changes, then all I can
-say is:
+vim +129 arch/arm64/kvm/iommu/s2mpu.c
 
-  Acked-by: Jonathan Corbet <corbet@lwn.net>
+   127	
+   128	/**
+ > 129	 * Parse interrupt information from DT and if found, register IRQ handler.
+   130	 * This is considered optional and will not fail even if the initialization is
+   131	 * unsuccessful. In that case the IRQ will remain masked.
+   132	 */
+   133	static void s2mpu_probe_irq(struct platform_device *pdev, void __iomem *kaddr)
+   134	{
+   135		struct s2mpu_irq_info *irq_info;
+   136		int ret, irq;
+   137	
+   138		irq = platform_get_irq_optional(pdev, 0);
+   139	
+   140		if (irq == -ENXIO)
+   141			return; /* No IRQ specified. */
+   142	
+   143		if (irq < 0) {
+   144			/* IRQ specified but failed to parse. */
+   145			dev_err(&pdev->dev, "failed to parse IRQ, IRQ not enabled");
+   146			return;
+   147		}
+   148	
+   149		irq_info = devm_kmalloc(&pdev->dev, sizeof(*irq_info), GFP_KERNEL);
+   150		if (!irq_info)
+   151			return;
+   152	
+   153		*irq_info = (struct s2mpu_irq_info){
+   154			.dev = &pdev->dev,
+   155			.va = kaddr,
+   156		};
+   157	
+   158		ret = devm_request_irq(&pdev->dev, irq, s2mpu_irq_handler, 0,
+   159				       dev_name(&pdev->dev), irq_info);
+   160		if (ret) {
+   161			dev_err(&pdev->dev, "failed to register IRQ, IRQ not enabled");
+   162			return;
+   163		}
+   164	}
+   165	
 
-Thanks,
-
-jon
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
