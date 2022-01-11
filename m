@@ -2,222 +2,227 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD36EC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Jan 2022 08:52:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77DF8C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Jan 2022 09:00:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349019AbiAKIw3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jan 2022 03:52:29 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28]:42004 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236443AbiAKIw0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jan 2022 03:52:26 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 98259212BC;
-        Tue, 11 Jan 2022 08:52:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1641891145; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        id S1349112AbiAKJAg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Jan 2022 04:00:36 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:41354 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1349097AbiAKJAf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jan 2022 04:00:35 -0500
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id 1CD5A1F3B6;
+        Tue, 11 Jan 2022 09:00:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1641891634; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=YdaLao7sQ3hp1ENT2rZBs8PXqqa7MrZLMaEIV3+L2Xg=;
-        b=BDstn9Ow4SqDmeTH8JIYqALqmOJbrqtstIvb5BcMVNSs/2RXNdBHphZ5UeWEuf2PxEjxSw
-        yI4C1kfimD9nSiitIzkvKBoDp+5XsIjRl/EUpIroQRCgUEp5aLROrIzS4JzgrXwtauPygS
-        WjieWG9nI0JugOk27OovFfBdq30UPas=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1641891145;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=YdaLao7sQ3hp1ENT2rZBs8PXqqa7MrZLMaEIV3+L2Xg=;
-        b=sIkNVIWkxtPOYsf7ynPgvm0ueGFZomFUft1rVquFSLcjVkJfPM2dsJxScR2jJxc10OWY1b
-        03kmNKOxM1hlIbAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        bh=OeasfAigrOwxNyBh17klLqWDReCRAIT8+9bALhOBBTE=;
+        b=OMEOsmUPz8Sg5EGy0PNoyTTlWBHkVa2PxtC09u3JHkWldsYJD3LDsOF2LQXxRkUQ+wrIz9
+        kcASeAyImPhvK10QPGGJBnFhD4+6Ifeni3fz+rJutCz7kPryrVDu9fMuWjvffV0B/2cRYu
+        QcGlA6B7IXEkYO+V2VC7xQyW7LQxBQ4=
+Received: from suse.cz (unknown [10.100.201.86])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F066313AC9;
-        Tue, 11 Jan 2022 08:52:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id tkCNOUhF3WGCIgAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Tue, 11 Jan 2022 08:52:24 +0000
-Message-ID: <1a5bd538-063b-c2cf-bb3e-96a6fdb0da0f@suse.de>
-Date:   Tue, 11 Jan 2022 09:52:24 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [PATCH v3 00/10] drm: Make drivers to honour the nomodeset
- parameter
-Content-Language: en-US
-To:     Javier Martinez Canillas <javierm@redhat.com>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc:     Brian Starkey <brian.starkey@arm.com>,
-        Chen Feng <puck.chen@hisilicon.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Airlie <airlied@redhat.com>,
-        David Airlie <airlied@linux.ie>,
-        Fabio Estevam <festevam@gmail.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        "James (Qian) Wang" <james.qian.wang@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
+        by relay2.suse.de (Postfix) with ESMTPS id 49F73A3B9B;
+        Tue, 11 Jan 2022 09:00:33 +0000 (UTC)
+Date:   Tue, 11 Jan 2022 10:00:32 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Yu Zhao <yuzhao@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Mihail Atanassov <mihail.atanassov@arm.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Tian Tao <tiantao6@hisilicon.com>,
-        Xinliang Liu <xinliang.liu@linaro.org>,
-        Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
         linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        virtualization@lists.linux-foundation.org
-References: <20211222082831.196562-1-javierm@redhat.com>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20211222082831.196562-1-javierm@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------S57LvTDmYkVbG2Rpo7NPhccF"
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, x86@kernel.org,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>
+Subject: Re: [PATCH v6 6/9] mm: multigenerational lru: aging
+Message-ID: <Yd1HMDqiySwVxbF7@dhcp22.suse.cz>
+References: <20220104202227.2903605-1-yuzhao@google.com>
+ <20220104202227.2903605-7-yuzhao@google.com>
+ <Ydg8AeE6JIUnC+ps@dhcp22.suse.cz>
+ <YdjOazilBEkdUT7x@google.com>
+ <YdxSUuDc3OC4pe+f@dhcp22.suse.cz>
+ <Ydza/zXKY9ATRoh6@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Ydza/zXKY9ATRoh6@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------S57LvTDmYkVbG2Rpo7NPhccF
-Content-Type: multipart/mixed; boundary="------------iunzZnus0OOvar6uRVQ63mo9";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: Brian Starkey <brian.starkey@arm.com>, Chen Feng
- <puck.chen@hisilicon.com>, Daniel Vetter <daniel@ffwll.ch>,
- Dave Airlie <airlied@redhat.com>, David Airlie <airlied@linux.ie>,
- Fabio Estevam <festevam@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "James (Qian) Wang" <james.qian.wang@arm.com>,
- John Stultz <john.stultz@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Lucas Stach <l.stach@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Mihail Atanassov <mihail.atanassov@arm.com>,
- NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Philipp Zabel <p.zabel@pengutronix.de>, Sascha Hauer
- <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Tian Tao <tiantao6@hisilicon.com>, Xinliang Liu <xinliang.liu@linaro.org>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- virtualization@lists.linux-foundation.org
-Message-ID: <1a5bd538-063b-c2cf-bb3e-96a6fdb0da0f@suse.de>
-Subject: Re: [PATCH v3 00/10] drm: Make drivers to honour the nomodeset
- parameter
-References: <20211222082831.196562-1-javierm@redhat.com>
-In-Reply-To: <20211222082831.196562-1-javierm@redhat.com>
+On Mon 10-01-22 18:18:55, Yu Zhao wrote:
+> On Mon, Jan 10, 2022 at 04:35:46PM +0100, Michal Hocko wrote:
+> > On Fri 07-01-22 16:36:11, Yu Zhao wrote:
+> > > On Fri, Jan 07, 2022 at 02:11:29PM +0100, Michal Hocko wrote:
+> > > > On Tue 04-01-22 13:22:25, Yu Zhao wrote:
+> > > > [...]
+> > > > > +static void lru_gen_age_node(struct pglist_data *pgdat, struct scan_control *sc)
+> > > > > +{
+> > > > > +	struct mem_cgroup *memcg;
+> > > > > +	bool success = false;
+> > > > > +	unsigned long min_ttl = READ_ONCE(lru_gen_min_ttl);
+> > > > > +
+> > > > > +	VM_BUG_ON(!current_is_kswapd());
+> > > > > +
+> > > > > +	current->reclaim_state->mm_walk = &pgdat->mm_walk;
+> > > > > +
+> > > > > +	memcg = mem_cgroup_iter(NULL, NULL, NULL);
+> > > > > +	do {
+> > > > > +		struct lruvec *lruvec = mem_cgroup_lruvec(memcg, pgdat);
+> > > > > +
+> > > > > +		if (age_lruvec(lruvec, sc, min_ttl))
+> > > > > +			success = true;
+> > > > > +
+> > > > > +		cond_resched();
+> > > > > +	} while ((memcg = mem_cgroup_iter(NULL, memcg, NULL)));
+> > > > > +
+> > > > > +	if (!success && mutex_trylock(&oom_lock)) {
+> > > > > +		struct oom_control oc = {
+> > > > > +			.gfp_mask = sc->gfp_mask,
+> > > > > +			.order = sc->order,
+> > > > > +		};
+> > > > > +
+> > > > > +		if (!oom_reaping_in_progress())
+> > > > > +			out_of_memory(&oc);
+> > > > > +
+> > > > > +		mutex_unlock(&oom_lock);
+> > > > > +	}
+> > > > 
+> > > > Why do you need to trigger oom killer from this path? Why cannot you
+> > > > rely on the page allocator to do that like we do now?
+> > > 
+> > > This is per desktop users' (repeated) requests. The can't tolerate
+> > > thrashing as servers do because of UI lags; and they usually don't
+> > > have fancy tools like oomd.
+> > > 
+> > > Related discussions I saw:
+> > > https://github.com/zen-kernel/zen-kernel/issues/218
+> > > https://lore.kernel.org/lkml/20101028191523.GA14972@google.com/
+> > > https://lore.kernel.org/lkml/20211213051521.21f02dd2@mail.inbox.lv/
+> > > https://lore.kernel.org/lkml/54C2C89C.8080002@gmail.com/
+> > > https://lore.kernel.org/lkml/d9802b6a-949b-b327-c4a6-3dbca485ec20@gmx.com/
+> > 
+> > I do not really see any arguments why an userspace based trashing
+> > detection cannot be used for those. Could you clarify?
+> 
+> It definitely can be done. But who is going to do it for every distro
+> and all individual users? AFAIK, not a single distro provides such a
+> solution for desktop/laptop/phone users.
 
---------------iunzZnus0OOvar6uRVQ63mo9
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+If existing interfaces provides sufficient information to make those
+calls then I would definitely prefer a userspace solution.
 
-SGkNCg0KcGF0Y2hlcyA2IHRvIDEwIGFyZQ0KDQpBY2tlZC1ieTogVGhvbWFzIFppbW1lcm1h
-bm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCkFt
-IDIyLjEyLjIxIHVtIDA5OjI4IHNjaHJpZWIgSmF2aWVyIE1hcnRpbmV6IENhbmlsbGFzOg0K
-PiBUaGUgbm9tb2Rlc2V0IGtlcm5lbCBjb21tYW5kIGxpbmUgcGFyYW1ldGVyIGlzIHVzZWQg
-dG8gcHJldmVudCB0aGUgS01TL0RSTQ0KPiBkcml2ZXJzIHRvIGJlIHJlZ2lzdGVyZWQvcHJv
-YmVkLiBCdXQgb25seSBhIGZldyBkcml2ZXJzIGltcGxlbWVudCBzdXBwb3J0DQo+IGZvciB0
-aGlzIGFuZCBtb3N0IERSTSBkcml2ZXJzIGp1c3QgaWdub3JlIGl0Lg0KPiANCj4gVGhpcyBw
-YXRjaCBzZXJpZXMgaXMgYSB2MyB0byBtYWtlIERSTSBkcml2ZXJzIHRvIGhvbm91ciBub21v
-ZGVzZXQuIEl0IGlzDQo+IHBvc3RlZCBhcyBzZXBhcmF0ZSBwYXRjaGVzIHRvIG1ha2UgZWFz
-aWVyIGZvciBkcml2ZXJzIG1haW50YWluZXJzIHRvIGFjaw0KPiBvciBwaWNrIHRoZW0gaW5k
-ZXBlbmRlbnRseSBhdCB0aGVpciBvd24gcGFjZS4NCj4gDQo+IFRoZSBkcm1fbW9kdWxlX3tw
-Y2kscGxhdGZvcm19X2RyaXZlcigpIGhlbHBlciBtYWNyb3MgYXJlIGFkZGVkLCB3aGljaCBh
-cmUNCj4ganVzdCB3cmFwcGVycyBhcm91bmQgbW9kdWxlX3twY2kscGxhdGZvcm19X2RyaXZl
-cigpIGJ1dCBhZGRpbmcgYSBjaGVjayBmb3INCj4gZHJtX2Zpcm13YXJlX2RyaXZlcnNfb25s
-eSgpIGFuZCByZXR1cm5pbmcgLUVOT0RFViBpZiB0aGF0IGlzIHRydWUuDQo+IA0KPiBQQ0kg
-YW5kIHBsYXRmb3JtIERSTSBkcml2ZXJzIGFyZSB0aGVuIG1vZGlmaWVkIGluIHRoZSBmb2xs
-b3dpbmcgcGF0Y2hlcyB0bw0KPiBtYWtlIHVzZSBvZiB0aG9zZSBtYWNyb3MuDQo+IA0KPiBP
-bmx5IEtNUyBkcml2ZXJzIHdpbGwgYmUgcG9ydGVkIHRvIHVzZSB0aGVzZSBuZXcgbWFjcm9z
-LCBhbmQgb25seSBmb3IgUENJDQo+IGFuZCBwbGF0Zm9ybSBEUk0gZHJpdmVycy4gQSBmb2xs
-b3ctdXAgc2VyaWVzIG1pZ2h0IGRvIHRoZSBzYW1lIGZvciBkcml2ZXJzDQo+IHRoYXQgYXJl
-IHJlbmRlcmluZy1vbmx5IGFuZCBmb3IgVVNCL1NQSS9JMkMgZGV2aWNlcywgYnV0IGl0IHdp
-bGwgbmVlZCBtb3JlDQo+IGRpc2N1c3Npb24gdG8gYWdyZWUgd2hldGhlciB0aGF0J3MgZGVz
-aXJhYmxlIG9yIG5vdC4NCj4gDQo+IE5vdCBhbGwgZHJpdmVycyB3ZXJlIHBvc3RlZCBpbiB2
-MyB0byBhdm9pZCBmbG9vZGluZyB0aGUgbGlzdCB3aXRoIHRvbyBtYW55DQo+IHBhdGNoZXMu
-IEknbSBvbmx5IGluY2x1ZGluZyB0aGUgcGF0Y2hlcyBhZGRpbmcgdGhlIG1hY3JvcyBhbmQg
-c29tZSBwYXRjaGVzDQo+IGFzIGFuIGV4YW1wbGUgb2YgdGhlaXIgdXNhZ2UuDQo+IA0KPiBJ
-J3ZlIGJ1aWx0IHRlc3RlZCB3aXRoICdtYWtlIGFsbG1vZGNvbmZpZyAmJiBtYWtlIE09ZHJp
-dmVycy9ncHUvZHJtJyBidXQgSQ0KPiBkb24ndCBoYXZlIGhhcmR3YXJlIHRvIHRlc3QgdGhl
-IGRyaXZlcnMsIHNvIHJldmlldy90ZXN0aW5nIGlzIGFwcHJlY2lhdGVkLg0KPiANCj4gQmVz
-dCByZWdhcmRzLA0KPiBKYXZpZXINCj4gDQo+IENoYW5nZXMgaW4gdjM6DQo+IC0gSW5jbHVk
-ZSBUaG9tYXMgWmltbWVybWFubidzIHBhdGNoZXMgaW4gdGhlIHNlcmllcyBhbmQgcmViYXNl
-IG9uIHRvcC4NCj4gLSBBZGQgY29sbGVjdGVkIEFja2VkLWJ5IHRhZ3MgZnJvbSB2Mi4NCj4g
-DQo+IENoYW5nZXMgaW4gdjI6DQo+IC0gQWRkIGRybV9tb2R1bGVfe3BjaSxwbGF0Zm9ybX1f
-ZHJpdmVyKCkgbWFjcm9zIGFuZCBwdXQgdGhlIGNoZWNrIHRoZXJlDQo+ICAgIChUaG9tYXMg
-WmltbWVybWFubikuDQo+IC0gVXNlIHRoZSBkcm1fbW9kdWxlXypfZHJpdmVyKCkgbWFjcm9z
-IGlmIHBvc3NpYmxlIChUaG9tYXMgWmltbWVybWFubikuDQo+IC0gTGVhdmUgdGhlIERSTSBk
-cml2ZXJzIHRoYXQgZG9uJ3Qgc2V0IHRoZSBEUklWRVJfTU9ERVNFVCBkcml2ZXIgZmVhdHVy
-ZQ0KPiAgICAoTHVjYXMgU3RhY2gpLg0KPiAtIExlYXZlIFVTQi9TUEkvSTJDIGRyaXZlcnMg
-YW5kIG9ubHkgaW5jbHVkZSBQQ0kgYW5kIHBsYXRmb3JtIG9uZXMNCj4gICAgKE5vcmFsZiBU
-csO4bm5lcykuDQo+IC0gQWRkIGNvbGxlY3RlZCBSZXZpZXdlZC1ieSB0YWdzDQo+IA0KPiBK
-YXZpZXIgTWFydGluZXogQ2FuaWxsYXMgKDUpOg0KPiAgICBkcm06IFByb3ZpZGUgcGxhdGZv
-cm0gbW9kdWxlLWluaXQgbWFjcm8NCj4gICAgZHJtL2lteC9kY3NzOiBSZXBsYWNlIG1vZHVs
-ZSBpbml0aWFsaXphdGlvbiB3aXRoIERSTSBoZWxwZXJzDQo+ICAgIGRybS9rb21lZGE6IFJl
-cGxhY2UgbW9kdWxlIGluaXRpYWxpemF0aW9uIHdpdGggRFJNIGhlbHBlcnMNCj4gICAgZHJt
-L2FybS9oZGxjZDogUmVwbGFjZSBtb2R1bGUgaW5pdGlhbGl6YXRpb24gd2l0aCBEUk0gaGVs
-cGVycw0KPiAgICBkcm0vbWFsaWRwOiBSZXBsYWNlIG1vZHVsZSBpbml0aWFsaXphdGlvbiB3
-aXRoIERSTSBoZWxwZXJzDQo+IA0KPiBUaG9tYXMgWmltbWVybWFubiAoNSk6DQo+ICAgIGRy
-bTogUHJvdmlkZSBQQ0kgbW9kdWxlLWluaXQgbWFjcm9zDQo+ICAgIGRybS9hc3Q6IFJlcGxh
-Y2UgbW9kdWxlLWluaXQgYm9pbGVyLXBsYXRlIGNvZGUgd2l0aCBEUk0gaGVscGVycw0KPiAg
-ICBkcm0vYm9jaHM6IFJlcGxhY2UgbW9kdWxlLWluaXQgYm9pbGVyLXBsYXRlIGNvZGUgd2l0
-aCBEUk0gaGVscGVycw0KPiAgICBkcm0vY2lycnVzOiBSZXBsYWNlIG1vZHVsZS1pbml0IGJv
-aWxlci1wbGF0ZSBjb2RlIHdpdGggRFJNIGhlbHBlcnMNCj4gICAgZHJtL2hpc2lsaWNvbi9o
-aWJtYzogUmVwbGFjZSBtb2R1bGUgaW5pdGlhbGl6YXRpb24gd2l0aCBEUk0gaGVscGVycw0K
-PiANCj4gICBEb2N1bWVudGF0aW9uL2dwdS9kcm0taW50ZXJuYWxzLnJzdCAgICAgICAgICAg
-fCAgIDYgKw0KPiAgIC4uLi9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfZHJ2
-LmMgICB8ICAgMyArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9hcm0vaGRsY2RfZHJ2LmMgICAg
-ICAgICAgICAgICB8ICAgMyArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX2Ry
-di5jICAgICAgICAgICAgICB8ICAgMyArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9hc3QvYXN0
-X2Rydi5jICAgICAgICAgICAgICAgICB8ICAxOCArLS0NCj4gICAuLi4vZ3B1L2RybS9oaXNp
-bGljb24vaGlibWMvaGlibWNfZHJtX2Rydi5jICAgfCAgIDMgKy0NCj4gICBkcml2ZXJzL2dw
-dS9kcm0vaW14L2Rjc3MvZGNzcy1kcnYuYyAgICAgICAgICAgfCAgIDMgKy0NCj4gICBkcml2
-ZXJzL2dwdS9kcm0vdGlueS9ib2Nocy5jICAgICAgICAgICAgICAgICAgfCAgMjAgKy0tDQo+
-ICAgZHJpdmVycy9ncHUvZHJtL3RpbnkvY2lycnVzLmMgICAgICAgICAgICAgICAgIHwgIDE3
-ICstLQ0KPiAgIGluY2x1ZGUvZHJtL2RybV9tb2R1bGUuaCAgICAgICAgICAgICAgICAgICAg
-ICB8IDEyNSArKysrKysrKysrKysrKysrKysNCj4gICAxMCBmaWxlcyBjaGFuZ2VkLCAxNDcg
-aW5zZXJ0aW9ucygrKSwgNTQgZGVsZXRpb25zKC0pDQo+ICAgY3JlYXRlIG1vZGUgMTAwNjQ0
-IGluY2x1ZGUvZHJtL2RybV9tb2R1bGUuaA0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFu
-bg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMg
-R2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkN
-CihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90
-ZXYNCg==
+> And also there is the theoretical question how reliable a userspace
+> solution can be. What if this usespace solution itself gets stuck in
+> the direct reclaim path. I'm sure if nobody has done some search to
+> prove or debunk it.
 
---------------iunzZnus0OOvar6uRVQ63mo9--
+I have to confess I haven't checked oomd or other solutions but with a
+sufficient care (all the code mlocked in + no allocations done while
+collecting data) I believe this should be achieveable.
 
---------------S57LvTDmYkVbG2Rpo7NPhccF
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> In addition, what exactly PSI values should be used on different
+> models of consumer electronics? Nobody knows. We have a team working
+> on this and we haven't figured it out for all our Chromebook models.
 
------BEGIN PGP SIGNATURE-----
+I believe this is a matter of tuning for a specific deployment. We do
+not have only psi but also refault counters that can be used.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmHdRUgFAwAAAAAACgkQlh/E3EQov+An
-yw/+PqLQFIu9LBnng6lhUGfNB5ZqConOgdctjJWhLNtpFI/AHcnly8Qnqqjoo2va2Z7LwDPhOTxZ
-avQYDTjyJGTTvMTuTq7PCx+mJdgHIv/xRFN46VX/bmHQBKPgUlz9zW99HZUrIJeliSE5AWmIto15
-tfP7yj/1/ABelQGCofNYJIqPqNkxLJ2GedY8SVY0hPQfpR+ZijWEgo65PxkhW82N3qyUJI74+00w
-q4UWcP3/jnTo7Ag9jXfjZZRutE5Pl69lcvKAgBZJx8ehXFU9Hpc9DpCoSXpIK/yoKrxECQ8x9e6H
-3DNR1ey/wHxRGCPNR+d/OI9ugH2ZtZuW3oXCx4WzEBp8oLSFHLIifreH1y/Fu181cghfnjn+FYHn
-PMYhCGZjpOefYEdVCN8FQzbzO4Cgidit5dQYLKkx/YExe8q+d36sA7GODaKCvyg/zEVqrnVf2WjQ
-wIxtelo4lyYZQdpX662RB+Fm5qpOBn9G7S4uIOwCBMw7RS3WDmCtFJ3zGe+qlwJzl2Rez1N8VuIU
-wbejrZO5lC6VPPOrozFyLHJL2hJJc4q5fODYLnmHpyF3gMNH0rEpR6//DY62y1wY+C2+2NU0P5Bt
-ghPKFt/AdTyKdfZXWrxxYeTP3CUUG2/D3hpG7LuVf1HbfrI6on4rL6kqv2fPu/6c0RmMU6HLuR2J
-I0I=
-=dCKg
------END PGP SIGNATURE-----
+> As Andrew said, "a blunt instrument like this would be useful".
+> https://lore.kernel.org/lkml/20211202135824.33d2421bf5116801cfa2040d@linux-foundation.org/
+> 
+> I'd like to have less code in kernel too, but I've learned never to
+> walk over users. If I remove this and they come after me asking why,
+> I'd have a hard time convincing them.
+> 
+> > Also my question was pointing to why out_of_memory is called from the
+> > reclaim rather than the allocator (memcg charging path). It is the
+> > caller of the reclaim to control different reclaim strategies and tell
+> > when all the hopes are lost and the oom killer should be invoked. This
+> > allows for a different policies at the allocator level and this change
+> > will break that AFAICS. E.g. what if the underlying allocation context
+> > is __GFP_NORETRY?
+> 
+> This is called in kswapd only, and by default (min_ttl=0) it doesn't
+> do anything. So __GFP_NORETRY doesn't apply.
 
---------------S57LvTDmYkVbG2Rpo7NPhccF--
+My bad. I must have got lost when traversing the code but I can see you
+are enforcing that by a VM_BUG_ON. So the limited scope reclaim is not a
+problem indeed.
+
+> The question would be
+> more along the lines of long-term ABI support.
+> 
+> And I'll add the following comments, if you think we can keep this
+> logic:
+>    OOM kill if every generation from all memcgs is younger than min_ttl.
+>    Another theoretical possibility is all memcgs are either below min or
+>    ineligible at priority 0, but this isn't the main goal.
+> 
+> (Please read my reply at the bottom to decide whether we should keep
+>  it or not. Thanks.)
+> 
+> > > >From patch 8:
+> > >   Personal computers
+> > >   ------------------
+> > >   :Thrashing prevention: Write ``N`` to
+> > >    ``/sys/kernel/mm/lru_gen/min_ttl_ms`` to prevent the working set of
+> > >    ``N`` milliseconds from getting evicted. The OOM killer is invoked if
+> > >    this working set can't be kept in memory. Based on the average human
+> > >    detectable lag (~100ms), ``N=1000`` usually eliminates intolerable
+> > >    lags due to thrashing. Larger values like ``N=3000`` make lags less
+> > >    noticeable at the cost of more OOM kills.
+> > 
+> > This is a very good example of something that should be a self contained
+> > patch with its own justification.
+> 
+> Consider it done.
+> 
+> > TBH it is really not all that clear to
+> > me that we want to provide any user visible knob to control OOM behavior
+> > based on a time based QoS.
+> 
+> Agreed, and it didn't exist until v4, i.e., after I was demanded to
+> provide it for several times.
+> 
+> For example:
+> https://github.com/zen-kernel/zen-kernel/issues/223
+> 
+> And another example:
+>    Your Multigenerational LRU patchset is pretty complex and
+>    effective, but does not eliminate thrashing condition fully on an
+>    old PCs with slow HDD.
+> 
+>    I'm kindly asking you to cooperate with hakavlad if it's possible
+>    and maybe re-implement parts of le9 patch in your patchset wherever
+>    acceptable, as they are quite similar in the core concept.
+> 
+> This is excerpt of an email from iam@valdikss.org.ru, and he has
+> posted demo videos in this discussion:
+> https://lore.kernel.org/lkml/2dc51fc8-f14e-17ed-a8c6-0ec70423bf54@valdikss.org.ru/
+
+That is all an interesting feedback but we should be really craful about
+ABI constrains and future maintainability of the knob. I still stand
+behind my statement that kernel should implement such features only if
+it is clear that we cannot really implement a similar logic in the
+userspace.
+
+-- 
+Michal Hocko
+SUSE Labs
