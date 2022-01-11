@@ -2,90 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24FDDC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Jan 2022 05:20:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9E67C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Jan 2022 05:53:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234576AbiAKFUl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jan 2022 00:20:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44542 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233798AbiAKFUl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jan 2022 00:20:41 -0500
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1343BC06173F;
-        Mon, 10 Jan 2022 21:20:41 -0800 (PST)
-Received: by mail-pj1-x1030.google.com with SMTP id r16-20020a17090a0ad000b001b276aa3aabso3044947pje.0;
-        Mon, 10 Jan 2022 21:20:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rVTQrxq8gWwOCWfb8L3X/MWGyTwgjaV02YyDhdXm2CA=;
-        b=jMp9T8hhnAzNrk6T7C1TrJpjyOSjPUQBxFXgKmxqTT9SsSOa981JtEhFKMsbGlQ7Dg
-         HCmIHKhlC1u9QsJuYy6FaTBy3VB9k4fgViLTYBORZNNeTQe1XDJ7GMUcwjIEEb8c61vb
-         rPbeDib6FAAeDZP6DZzrF3H6HY4iYIm9Mra0aI3F6lU5Kgrg7WUhkiw37I3tdMHYgkP8
-         /CFtifrvopCybLm5SXX/PT/giTlgSseoqyn7j982tyWEHEpyVOj48RLWHQBNq91Dx1RU
-         J0FqZS4PWeuXswLV5RGLXneGiWF2OGbJD85fgHZWpViPOAMtoWKi5uQEbb95alPEr7RO
-         4i7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rVTQrxq8gWwOCWfb8L3X/MWGyTwgjaV02YyDhdXm2CA=;
-        b=6ksa0y5To7hjpj6nkk40G2YA3PMgAlcadjDoskLwvIyyYgo8GWMUePR3iim1MbGmSR
-         kPHzwLN2PoaThj0AJwch98nNRfLcCzZwT7ZXtLTDiglYKyD93sx62v58PkfuibY8tHub
-         3xXUzWL6GEJ0lZ4LwK4qzNBorsQOuQfCuwYjZKU02G83BAuYvWZYEMYz+r3yn3xNR5HH
-         7Y3mddtdhFGMKGRJFrgGf/YFbNTYIAmVUY1cIzmVwO5pPL+/83TfyEhLp/cz+1V0FueX
-         SXLUnT29YFcR2BTtFueOKliivZ1E776NCFEmFBCG/uN95DdWCS2izo1y7ui/6kWx/lEe
-         SDxw==
-X-Gm-Message-State: AOAM530qLorL6blDD+IZoALQ+3z6PVRuc0DAd1z5z6B2uYVfZpTkKLLK
-        NgMacpPOAxMsgCSN7S96aoF7weelOQyO3yVJ
-X-Google-Smtp-Source: ABdhPJxgrID7aYlmb57xT1LdjiDw7CEZjcdac6NPfDlWs2OHXy35NqiIWoARgFWVzqbV0ckqcjpOXw==
-X-Received: by 2002:a05:6a00:1990:b0:4bb:4cad:be3 with SMTP id d16-20020a056a00199000b004bb4cad0be3mr2981072pfl.58.1641878440218;
-        Mon, 10 Jan 2022 21:20:40 -0800 (PST)
-Received: from archlinux.localdomain ([140.121.198.213])
-        by smtp.gmail.com with ESMTPSA id w6sm6762251pga.25.2022.01.10.21.20.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Jan 2022 21:20:39 -0800 (PST)
-From:   Huichun Feng <foxhoundsk.tw@gmail.com>
-To:     corbet@lwn.net
-Cc:     rostedt@goodmis.org, mingo@redhat.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Huichun Feng <foxhoundsk.tw@gmail.com>,
-        Ching-Chun Huang <jserv@ccns.ncku.edu.tw>,
-        Chun-Hung Tseng <henrybear327@gmail.com>
-Subject: [PATCH] docs: ftrace: fix ambiguous sentence
-Date:   Tue, 11 Jan 2022 13:20:01 +0800
-Message-Id: <20220111052000.2675944-1-foxhoundsk.tw@gmail.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1347476AbiAKFxn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Jan 2022 00:53:43 -0500
+Received: from foss.arm.com ([217.140.110.172]:42064 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1347510AbiAKFxk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 11 Jan 2022 00:53:40 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D96181FB;
+        Mon, 10 Jan 2022 21:53:39 -0800 (PST)
+Received: from p8cg001049571a15.arm.com (unknown [10.163.72.245])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C024A3F774;
+        Mon, 10 Jan 2022 21:53:36 -0800 (PST)
+From:   Anshuman Khandual <anshuman.khandual@arm.com>
+To:     linux-mm@kvack.org
+Cc:     Anshuman Khandual <anshuman.khandual@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] mm/debug_vm_pgtable: Update comments regarding migration swap entries
+Date:   Tue, 11 Jan 2022 11:23:37 +0530
+Message-Id: <1641880417-24848-1-git-send-email-anshuman.khandual@arm.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The sentence looks ambiguous, rephrase it by adding ", there".
+The commit 4dd845b5a3e5 ("mm/swapops: rework swap entry manipulation code")
+had changed migtation entry related helpers. Just update debug_vm_pgatble()
+synced documentation to reflect those changes.
 
-Signed-off-by: Huichun Feng <foxhoundsk.tw@gmail.com>
-Signed-off-by: Ching-Chun (Jim) Huang <jserv@ccns.ncku.edu.tw>
-Signed-off-by: Chun-Hung Tseng <henrybear327@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-doc@vger.kernel.org
+Cc: linux-mm@kvack.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
 ---
- Documentation/trace/ftrace.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This applies on v5.16
 
-diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-index b3166c4a7..45b8c56af 100644
---- a/Documentation/trace/ftrace.rst
-+++ b/Documentation/trace/ftrace.rst
-@@ -3370,7 +3370,7 @@ one of the latency tracers, you will get the following results.
+ Documentation/vm/arch_pgtable_helpers.rst | 14 +++++++-------
+ mm/debug_vm_pgtable.c                     |  4 ++--
+ 2 files changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/Documentation/vm/arch_pgtable_helpers.rst b/Documentation/vm/arch_pgtable_helpers.rst
+index 552567d863b8..b3166c33db39 100644
+--- a/Documentation/vm/arch_pgtable_helpers.rst
++++ b/Documentation/vm/arch_pgtable_helpers.rst
+@@ -247,12 +247,12 @@ SWAP Page Table Helpers
+ | __swp_to_pmd_entry        | Creates a mapped PMD from a swapped entry (arch) |
+ +---------------------------+--------------------------------------------------+
+ | is_migration_entry        | Tests a migration (read or write) swapped entry  |
+-+---------------------------+--------------------------------------------------+
+-| is_write_migration_entry  | Tests a write migration swapped entry            |
+-+---------------------------+--------------------------------------------------+
+-| make_migration_entry_read | Converts into read migration swapped entry       |
+-+---------------------------+--------------------------------------------------+
+-| make_migration_entry      | Creates a migration swapped entry (read or write)|
+-+---------------------------+--------------------------------------------------+
+++-------------------------------+----------------------------------------------+
++| is_writable_migration_entry   | Tests a write migration swapped entry        |
+++-------------------------------+----------------------------------------------+
++| make_readable_migration_entry | Creates a read migration swapped entry       |
+++-------------------------------+----------------------------------------------+
++| make_writable_migration_entry | Creates a write migration swapped entry      |
+++-------------------------------+----------------------------------------------+
  
- Instances
- ---------
--In the tracefs tracing directory is a directory called "instances".
-+In the tracefs tracing directory, there is a directory called "instances".
- This directory can have new directories created inside of it using
- mkdir, and removing directories with rmdir. The directory created
- with mkdir in this directory will already contain files and other
+ [1] https://lore.kernel.org/linux-mm/20181017020930.GN30832@redhat.com/
+diff --git a/mm/debug_vm_pgtable.c b/mm/debug_vm_pgtable.c
+index 228e3954b90c..2a2b24e87877 100644
+--- a/mm/debug_vm_pgtable.c
++++ b/mm/debug_vm_pgtable.c
+@@ -888,8 +888,8 @@ static void __init swap_migration_tests(struct pgtable_debug_args *args)
+ 	pr_debug("Validating swap migration\n");
+ 
+ 	/*
+-	 * make_migration_entry() expects given page to be
+-	 * locked, otherwise it stumbles upon a BUG_ON().
++	 * make_[readable|writable]_migration_entry() expects given page to
++	 * be locked, otherwise it stumbles upon a BUG_ON().
+ 	 */
+ 	__SetPageLocked(page);
+ 	swp = make_writable_migration_entry(page_to_pfn(page));
 -- 
-2.34.1
+2.20.1
 
