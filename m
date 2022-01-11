@@ -2,124 +2,308 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99D81C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Jan 2022 23:17:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 615DCC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Jan 2022 23:23:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346767AbiAKXRD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jan 2022 18:17:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39892 "EHLO
+        id S1346786AbiAKXXO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Jan 2022 18:23:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346765AbiAKXRC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jan 2022 18:17:02 -0500
-Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B67AC061748
-        for <linux-doc@vger.kernel.org>; Tue, 11 Jan 2022 15:17:02 -0800 (PST)
-Received: by mail-io1-xd2e.google.com with SMTP id w9so1032975iol.13
-        for <linux-doc@vger.kernel.org>; Tue, 11 Jan 2022 15:17:02 -0800 (PST)
+        with ESMTP id S1346781AbiAKXXO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jan 2022 18:23:14 -0500
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC38BC06173F
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jan 2022 15:23:13 -0800 (PST)
+Received: by mail-yb1-xb49.google.com with SMTP id s7-20020a5b0447000000b005fb83901511so1241699ybp.11
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jan 2022 15:23:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=+BNyhiKbMm4RyIg8JNrtqDxZgbHGdo0J7XNrf0piRew=;
-        b=iskzbXe5xMvIxCUIg2oP1wUuouDfhgLnCC+sQJPAAAZEHx/x1j5Al9PEfKyyAXPPL0
-         8cv4uckuhLYcffGBt04dCVj17g9Bx9b3LLN4XH14iZtpWuxjHsDC+6fM5paFu0GZ7ZOc
-         OPSe0TwDLDOQBnMk5VrrS2x7TJvIhgv9+SOESCKNl0sM50g+kb8sjRU9VXmsCgSlB7Pk
-         Sq0yuZLlWA/XbIf4jLqEv9rrIPGbRiXCNb/WHEkTua98LZ7UGm7jeNIauz9xcODpbM38
-         ONSBKKdQR8MmmejnouArJBl/1Vl4tiNj2Lkr5VwJyJE0IoBNbgSbtK2hLXLSf3//qmTk
-         nv1g==
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=WJtCU62+zd2viH8ZEDhohgQA1jUArx5Wqsl+teREo50=;
+        b=nquznW4JbnT39yj9GBIdjt99TFghzHBgRoC/qjVWpcjXko7GRilQ0Zjc3ZRYju4gQR
+         3txai4+OEZVohlhTn784zFny9Lu+D3MHXhnzwYAZGHjz3h/KiTq7BcZhRm+R6UnAWAtW
+         /c7e77wRX5eSRFclpBZSYle/Zi/oeDYIOFkjmaJ0Sxxblg9QuJ8EjgubMhFOGfcY3lBw
+         Lkz6LmzCfdf4kdJp4Mv396aUACz8o7+U+vWyGSQ1JnBkuAoD57q/a9GJTu+9WFZah/wD
+         XCco+1nH8gcO/MC6q+yI5JEHK+ckblDTWldc/ckic329hrvYSgCT6lnCXyGLLp9p4W/8
+         iBvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=+BNyhiKbMm4RyIg8JNrtqDxZgbHGdo0J7XNrf0piRew=;
-        b=tF/XVAiW9t08BS/V9xMhB5XvMCo/rmpyXD/EKskNiIFlfPwxGyGlQtxA9bR89eGZLt
-         op/u97x7WLdk5tdBl8BRGzh08SLV927+GpfSjd2HCbRDrnoYrruCJfg+/b5V3HOkbNfC
-         RksnSuoas3wXCcsuP8Be8QH4r5wLMYUV/p0OjDM8NrJk/dedS/Kl6CAIVSlwmkWd2hbE
-         uO6acFQka4PdysLiA3ScYiK4MXV8MKaWq7gZlDkCY8HYTwek7nfFlMbGhpoZTmJvJlL/
-         uNQdp59ivcJFcfPa5vBSuVXumu+Oz5/1XFbiNdIB8TqOUEyxcccpPSi9boXHpDpEtJ8S
-         SuBQ==
-X-Gm-Message-State: AOAM530gN2j60fhso6GWZtZaxf42OJsNMis2eePqvJq75AvtzLLg5QDb
-        AHqoAiCweLZ4QdbNergSQuJhIA==
-X-Google-Smtp-Source: ABdhPJyF9jePSeHs9NHaVjjmJYEtoTSK60Y5oIKEaaIgZtxgs/ZSrSvwH+4hyESidsEw5kW2XjQauQ==
-X-Received: by 2002:a02:aa10:: with SMTP id r16mr3590702jam.36.1641943021690;
-        Tue, 11 Jan 2022 15:17:01 -0800 (PST)
-Received: from google.com ([2620:15c:183:200:b6b6:70f4:b540:6383])
-        by smtp.gmail.com with ESMTPSA id o12sm6722264ilu.86.2022.01.11.15.17.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jan 2022 15:17:01 -0800 (PST)
-Date:   Tue, 11 Jan 2022 16:16:57 -0700
-From:   Yu Zhao <yuzhao@google.com>
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        page-reclaim@google.com, x86@kernel.org,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>
-Subject: Re: [PATCH v6 6/9] mm: multigenerational lru: aging
-Message-ID: <Yd4P6bEJI8YlXq0H@google.com>
-References: <20220104202227.2903605-1-yuzhao@google.com>
- <20220104202227.2903605-7-yuzhao@google.com>
- <YdcU4P+XWkbDUUoO@dhcp22.suse.cz>
- <YdxKORU9OWCv114O@dhcp22.suse.cz>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YdxKORU9OWCv114O@dhcp22.suse.cz>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=WJtCU62+zd2viH8ZEDhohgQA1jUArx5Wqsl+teREo50=;
+        b=gCBqmxdgRqSr7zvCdc68Q4wZKtjPk36BMKSzFWGt0e5raxU4qtD3txUopBQqsSmgY4
+         B6/4gkG9jznkl+gwPp13sdaYahXLLyRn/2RcVduBv4LiOrS4jaq12xk6VDetZobyhtrC
+         Apt32kqFr3Ni/1qEcBFq1cz6prnZ2v3z+d/O3Owqq5IK4tXvmL8Oe29yjKVvuWMi2f+G
+         f5X+MIGBsNGBxw3QJtUTZuQqW4QuKjuPO2BG0pCJEqdIujpex6ZpDUrB1bDNmMHs2EVe
+         dCEuc61uKXIo3DxHiQCWARg+sEJifBcM9PY9TNc4T63GcVdE0/jXKgmvzR0PQ2eT3Rka
+         9JSA==
+X-Gm-Message-State: AOAM530ub62btJ48K9EopJm5hSBs8YqsvpJeTRleNlH42yDDPP65B1C8
+        xflwSoPaAprxX3ODE5rcf3wUz1HT7eA=
+X-Google-Smtp-Source: ABdhPJwZsg+rAhxbaaiUUFHNRrXAcnVsHp2GbfUCAStsrSkg9+rcCSYdgwMKBnkbh/p+vAU40PFCrso4+Bw=
+X-Received: from surenb-desktop.mtv.corp.google.com ([2620:15c:211:200:424:4bfc:912c:7f5f])
+ (user=surenb job=sendgmr) by 2002:a25:db07:: with SMTP id g7mr8934871ybf.74.1641943393083;
+ Tue, 11 Jan 2022 15:23:13 -0800 (PST)
+Date:   Tue, 11 Jan 2022 15:23:09 -0800
+Message-Id: <20220111232309.1786347-1-surenb@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.34.1.575.g55b058a8bb-goog
+Subject: [PATCH v3 1/1] psi: Fix uaf issue when psi trigger is destroyed while
+ being polled
+From:   Suren Baghdasaryan <surenb@google.com>
+To:     hannes@cmpxchg.org
+Cc:     torvalds@linux-foundation.org, ebiggers@kernel.org, tj@kernel.org,
+        lizefan.x@bytedance.com, mingo@redhat.com, peterz@infradead.org,
+        juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        mgorman@suse.de, bristot@redhat.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        cgroups@vger.kernel.org, stable@vger.kernel.org,
+        kernel-team@android.com, surenb@google.com,
+        syzbot+cdb5dd11c97cc532efad@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 10, 2022 at 04:01:13PM +0100, Michal Hocko wrote:
-> On Thu 06-01-22 17:12:18, Michal Hocko wrote:
-> > On Tue 04-01-22 13:22:25, Yu Zhao wrote:
-> > > +static struct lru_gen_mm_walk *alloc_mm_walk(void)
-> > > +{
-> > > +	if (!current->reclaim_state || !current->reclaim_state->mm_walk)
-> > > +		return kvzalloc(sizeof(struct lru_gen_mm_walk), GFP_KERNEL);
-> 
-> One thing I have overlooked completely.
+With write operation on psi files replacing old trigger with a new one,
+the lifetime of its waitqueue is totally arbitrary. Overwriting an
+existing trigger causes its waitqueue to be freed and pending poll()
+will stumble on trigger->event_wait which was destroyed.
+Fix this by disallowing to redefine an existing psi trigger. If a write
+operation is used on a file descriptor with an already existing psi
+trigger, the operation will fail with EBUSY error.
+Also bypass a check for psi_disabled in the psi_trigger_destroy as the
+flag can be flipped after the trigger is created, leading to a memory
+leak.
 
-I appreciate your attention to details but GFP_KERNEL is legit in the
-reclaim path. It's been used many years in our production, e.g.,
-  page reclaim
-    swap_writepage()
-      frontswap_store()
-        zswap_frontswap_store()
-          zswap_entry_cache_alloc(GFP_KERNEL)
+Fixes: 0e94682b73bf ("psi: introduce psi monitor")
+Cc: stable@vger.kernel.org
+Reported-by: syzbot+cdb5dd11c97cc532efad@syzkaller.appspotmail.com
+Analyzed-by: Eric Biggers <ebiggers@kernel.org>
+Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+---
+Changes in v3:
+- Use smp_load_acquire/smp_store_release to read/write trigger pointer,
+per Eric and Linus
 
-(And I always test my changes with lockdep, kasan, DEBUG_VM, etc., no
- warnings ever seen from using GFP_KERNEL in the reclaim path.)
+ Documentation/accounting/psi.rst |  3 +-
+ include/linux/psi.h              |  2 +-
+ include/linux/psi_types.h        |  3 --
+ kernel/cgroup/cgroup.c           | 11 ++++--
+ kernel/sched/psi.c               | 66 ++++++++++++++------------------
+ 5 files changed, 40 insertions(+), 45 deletions(-)
 
-> You cannot really use GFP_KERNEL
-> allocation here because the reclaim context can be constrained (e.g.
-> GFP_NOFS). This allocation will not do any reclaim as it is PF_MEMALLOC
-> but I suspect that the lockdep will complain anyway.
-> 
-> Also kvmalloc is not really great here. a) vmalloc path is never
-> executed for small objects and b) we do not really want to make a
-> dependency between vmalloc and the reclaim (by vmalloc -> reclaim ->
-> vmalloc).
-> 
-> Even if we rule out vmalloc and look at kmalloc alone. Is this really
-> safe? I do not see any recursion prevention in the SL.B code. Maybe this
-> just happens to work but the dependency should be really documented so
-> that future SL.B changes won't break the whole scheme. 
+diff --git a/Documentation/accounting/psi.rst b/Documentation/accounting/psi.rst
+index f2b3439edcc2..860fe651d645 100644
+--- a/Documentation/accounting/psi.rst
++++ b/Documentation/accounting/psi.rst
+@@ -92,7 +92,8 @@ Triggers can be set on more than one psi metric and more than one trigger
+ for the same psi metric can be specified. However for each trigger a separate
+ file descriptor is required to be able to poll it separately from others,
+ therefore for each trigger a separate open() syscall should be made even
+-when opening the same psi interface file.
++when opening the same psi interface file. Write operations to a file descriptor
++with an already existing psi trigger will fail with EBUSY.
+ 
+ Monitors activate only when system enters stall state for the monitored
+ psi metric and deactivates upon exit from the stall state. While system is
+diff --git a/include/linux/psi.h b/include/linux/psi.h
+index 65eb1476ac70..74f7148dfb9f 100644
+--- a/include/linux/psi.h
++++ b/include/linux/psi.h
+@@ -32,7 +32,7 @@ void cgroup_move_task(struct task_struct *p, struct css_set *to);
+ 
+ struct psi_trigger *psi_trigger_create(struct psi_group *group,
+ 			char *buf, size_t nbytes, enum psi_res res);
+-void psi_trigger_replace(void **trigger_ptr, struct psi_trigger *t);
++void psi_trigger_destroy(struct psi_trigger *t);
+ 
+ __poll_t psi_trigger_poll(void **trigger_ptr, struct file *file,
+ 			poll_table *wait);
+diff --git a/include/linux/psi_types.h b/include/linux/psi_types.h
+index 0a23300d49af..6537d0c92825 100644
+--- a/include/linux/psi_types.h
++++ b/include/linux/psi_types.h
+@@ -129,9 +129,6 @@ struct psi_trigger {
+ 	 * events to one per window
+ 	 */
+ 	u64 last_event_time;
+-
+-	/* Refcounting to prevent premature destruction */
+-	struct kref refcount;
+ };
+ 
+ struct psi_group {
+diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
+index cafb8c114a21..d18c2ef3180e 100644
+--- a/kernel/cgroup/cgroup.c
++++ b/kernel/cgroup/cgroup.c
+@@ -3642,6 +3642,12 @@ static ssize_t cgroup_pressure_write(struct kernfs_open_file *of, char *buf,
+ 	cgroup_get(cgrp);
+ 	cgroup_kn_unlock(of->kn);
+ 
++	/* Allow only one trigger per file descriptor */
++	if (ctx->psi.trigger) {
++		cgroup_put(cgrp);
++		return -EBUSY;
++	}
++
+ 	psi = cgroup_ino(cgrp) == 1 ? &psi_system : &cgrp->psi;
+ 	new = psi_trigger_create(psi, buf, nbytes, res);
+ 	if (IS_ERR(new)) {
+@@ -3649,8 +3655,7 @@ static ssize_t cgroup_pressure_write(struct kernfs_open_file *of, char *buf,
+ 		return PTR_ERR(new);
+ 	}
+ 
+-	psi_trigger_replace(&ctx->psi.trigger, new);
+-
++	smp_store_release(&ctx->psi.trigger, new);
+ 	cgroup_put(cgrp);
+ 
+ 	return nbytes;
+@@ -3689,7 +3694,7 @@ static void cgroup_pressure_release(struct kernfs_open_file *of)
+ {
+ 	struct cgroup_file_ctx *ctx = of->priv;
+ 
+-	psi_trigger_replace(&ctx->psi.trigger, NULL);
++	psi_trigger_destroy(ctx->psi.trigger);
+ }
+ 
+ bool cgroup_psi_enabled(void)
+diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
+index 1652f2bb54b7..232b4c05eebc 100644
+--- a/kernel/sched/psi.c
++++ b/kernel/sched/psi.c
+@@ -1151,7 +1151,6 @@ struct psi_trigger *psi_trigger_create(struct psi_group *group,
+ 	t->event = 0;
+ 	t->last_event_time = 0;
+ 	init_waitqueue_head(&t->event_wait);
+-	kref_init(&t->refcount);
+ 
+ 	mutex_lock(&group->trigger_lock);
+ 
+@@ -1180,15 +1179,19 @@ struct psi_trigger *psi_trigger_create(struct psi_group *group,
+ 	return t;
+ }
+ 
+-static void psi_trigger_destroy(struct kref *ref)
++void psi_trigger_destroy(struct psi_trigger *t)
+ {
+-	struct psi_trigger *t = container_of(ref, struct psi_trigger, refcount);
+-	struct psi_group *group = t->group;
++	struct psi_group *group;
+ 	struct task_struct *task_to_destroy = NULL;
+ 
+-	if (static_branch_likely(&psi_disabled))
++	/*
++	 * We do not check psi_disabled since it might have been disabled after
++	 * the trigger got created.
++	 */
++	if (!t)
+ 		return;
+ 
++	group = t->group;
+ 	/*
+ 	 * Wakeup waiters to stop polling. Can happen if cgroup is deleted
+ 	 * from under a polling process.
+@@ -1224,9 +1227,9 @@ static void psi_trigger_destroy(struct kref *ref)
+ 	mutex_unlock(&group->trigger_lock);
+ 
+ 	/*
+-	 * Wait for both *trigger_ptr from psi_trigger_replace and
+-	 * poll_task RCUs to complete their read-side critical sections
+-	 * before destroying the trigger and optionally the poll_task
++	 * Wait for psi_schedule_poll_work RCU to complete its read-side
++	 * critical section before destroying the trigger and optionally the
++	 * poll_task.
+ 	 */
+ 	synchronize_rcu();
+ 	/*
+@@ -1243,18 +1246,6 @@ static void psi_trigger_destroy(struct kref *ref)
+ 	kfree(t);
+ }
+ 
+-void psi_trigger_replace(void **trigger_ptr, struct psi_trigger *new)
+-{
+-	struct psi_trigger *old = *trigger_ptr;
+-
+-	if (static_branch_likely(&psi_disabled))
+-		return;
+-
+-	rcu_assign_pointer(*trigger_ptr, new);
+-	if (old)
+-		kref_put(&old->refcount, psi_trigger_destroy);
+-}
+-
+ __poll_t psi_trigger_poll(void **trigger_ptr,
+ 				struct file *file, poll_table *wait)
+ {
+@@ -1264,24 +1255,15 @@ __poll_t psi_trigger_poll(void **trigger_ptr,
+ 	if (static_branch_likely(&psi_disabled))
+ 		return DEFAULT_POLLMASK | EPOLLERR | EPOLLPRI;
+ 
+-	rcu_read_lock();
+-
+-	t = rcu_dereference(*(void __rcu __force **)trigger_ptr);
+-	if (!t) {
+-		rcu_read_unlock();
++	t = smp_load_acquire(trigger_ptr);
++	if (!t)
+ 		return DEFAULT_POLLMASK | EPOLLERR | EPOLLPRI;
+-	}
+-	kref_get(&t->refcount);
+-
+-	rcu_read_unlock();
+ 
+ 	poll_wait(file, &t->event_wait, wait);
+ 
+ 	if (cmpxchg(&t->event, 1, 0) == 1)
+ 		ret |= EPOLLPRI;
+ 
+-	kref_put(&t->refcount, psi_trigger_destroy);
+-
+ 	return ret;
+ }
+ 
+@@ -1305,14 +1287,24 @@ static ssize_t psi_write(struct file *file, const char __user *user_buf,
+ 
+ 	buf[buf_size - 1] = '\0';
+ 
+-	new = psi_trigger_create(&psi_system, buf, nbytes, res);
+-	if (IS_ERR(new))
+-		return PTR_ERR(new);
+-
+ 	seq = file->private_data;
++
+ 	/* Take seq->lock to protect seq->private from concurrent writes */
+ 	mutex_lock(&seq->lock);
+-	psi_trigger_replace(&seq->private, new);
++
++	/* Allow only one trigger per file descriptor */
++	if (seq->private) {
++		mutex_unlock(&seq->lock);
++		return -EBUSY;
++	}
++
++	new = psi_trigger_create(&psi_system, buf, nbytes, res);
++	if (IS_ERR(new)) {
++		mutex_unlock(&seq->lock);
++		return PTR_ERR(new);
++	}
++
++	smp_store_release(&seq->private, new);
+ 	mutex_unlock(&seq->lock);
+ 
+ 	return nbytes;
+@@ -1347,7 +1339,7 @@ static int psi_fop_release(struct inode *inode, struct file *file)
+ {
+ 	struct seq_file *seq = file->private_data;
+ 
+-	psi_trigger_replace(&seq->private, NULL);
++	psi_trigger_destroy(seq->private);
+ 	return single_release(inode, file);
+ }
+ 
+-- 
+2.34.1.575.g55b058a8bb-goog
 
-Affirmative, as Vlastimil has clarified.
-
-Thanks!
