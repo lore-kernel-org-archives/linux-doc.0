@@ -2,62 +2,63 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 675AEC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Jan 2022 08:17:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E87C0C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Jan 2022 08:41:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348851AbiAKIRs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jan 2022 03:17:48 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54426 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1348845AbiAKIRs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jan 2022 03:17:48 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20B6M6fI006533;
-        Tue, 11 Jan 2022 08:16:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=WW4nRJCrp2O0gmlqArh2zi0Ono1qZ4cRDB/3IMS2aU4=;
- b=F91MrIljTuD+yqE/J7rLSUXlYJwR7FjT3DJp4v2gHxrlIm5kVFBGDb4Zdx83RZmsuSRG
- SF8s2D5vGLnzgC1EbXeO9zlLNBw7zXOYmZdZD06OLGzUThZjesb8R8NAKBgeNV6zIvzL
- X0bnkO+COXh/g5U5oT5bI5Lhg2rSJQYaqRUoqImwhLu4i1wZOXRrjkeMhsuViWkro7yS
- D07OADMNqsa9UJQuGANUGBEwyzFt3QnsafhRDdqortHtAY6bOeVs7AdIFEpEeNk11Gg2
- TohqEsi+pNkSFx4JhTlU9pmT6ts/zKc6jTe0yYdHF6a2pSOl2LFTGwVu5XEm6+DA2TJM mg== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3dh4jdan2t-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 11 Jan 2022 08:16:39 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20B860hQ016146;
-        Tue, 11 Jan 2022 08:16:38 GMT
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com [169.63.214.131])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3dh4jdan2f-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 11 Jan 2022 08:16:38 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
-        by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20B8CJPZ018038;
-        Tue, 11 Jan 2022 08:16:37 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com [9.57.198.26])
-        by ppma01dal.us.ibm.com with ESMTP id 3df28a9jb6-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 11 Jan 2022 08:16:37 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com [9.57.199.110])
-        by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 20B8GaIp5767784
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 11 Jan 2022 08:16:36 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 44FAFAE064;
-        Tue, 11 Jan 2022 08:16:36 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id DF998AE066;
-        Tue, 11 Jan 2022 08:16:27 +0000 (GMT)
-Received: from skywalker.linux.ibm.com (unknown [9.43.112.216])
-        by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
-        Tue, 11 Jan 2022 08:16:27 +0000 (GMT)
-X-Mailer: emacs 28.0.90 (via feedmail 11-beta-1 I)
-From:   "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
-To:     Yu Zhao <yuzhao@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
+        id S236526AbiAKIl2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Jan 2022 03:41:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33200 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236510AbiAKIl2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jan 2022 03:41:28 -0500
+Received: from mail-il1-x134.google.com (mail-il1-x134.google.com [IPv6:2607:f8b0:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4374AC061748
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jan 2022 00:41:28 -0800 (PST)
+Received: by mail-il1-x134.google.com with SMTP id y18so4575711iln.3
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jan 2022 00:41:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=xX7Gq7dSe8DMwSIkCUtWe06zZqgHCLqeOiZuhAMOfEc=;
+        b=PHzOcbVcszy2bKR29hJ+Af1iQ0dNN/t0YShcO6hJHZqdhd2UVBlgUg2b+8MITZ0nuG
+         1OxEufbZHzGu0bbxMQxlgVPTBBSeotQWg+dWvMbDFGWzmWl/XODpOVfpIkLNk6Ocatua
+         v4R7bGxy9QZnfB3VbYTb040eG0A93C3zJH2QjNj8QEvFNauLZT6mw2ulcyt9ON4c+0iW
+         NYC4erM7bGdYS2696R2a6XuuFweQE9xWGkc/ef6DSImQqUt0UlqBevsEp9sTfEhd1EuU
+         xql5vguuIdFZDn+Pn3UpVsu3iFkmmMPStJUnfpvDtEQzgBbO34+jAXj6i44zOMCy8uyS
+         jIag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=xX7Gq7dSe8DMwSIkCUtWe06zZqgHCLqeOiZuhAMOfEc=;
+        b=hFGu5P2ZZHsD+2jz2zxB0EsHGcAnuKFiEJREvpZlgSb4380ZccinkK1y0AtEVFxlob
+         oI8XfYyFU6Neb/JPyhNhajXhON/Vu/asuFen2wltAhFDd5Zf5xpxnWvr1jEmHStDzel7
+         GhpcQljuYz84AG6mz1Xl6KlyOgJ7GgNh8Pgz1LewPTQr4lOQ8taS+VVcDICCq/6XMgoB
+         6sCA4hxnSZ6d2rE+tKVxSFJe1/E4TLrjta/lrbGls6LK0v30BXjhiZ+7fVtSWkaAAAko
+         v1V9Jbknw5H7Z016lGymJpSNggn82WSl+3m2WkeLm+mPjcdJU9Ukj53O1EsjicITZScr
+         dS6g==
+X-Gm-Message-State: AOAM533uoxQK/CWXMlkvNovlgLq8iAvme+1tos9VXH8ZG/faCcGVt9BR
+        hpYzlCSiCVUb84OfVAxED7ge8g==
+X-Google-Smtp-Source: ABdhPJziZssrNELt1lJT+4x3MZrqM40ggyrOhKXbbZYK9sI5IPQui65L4eTgmTI9kYJPjSbNbJMG4w==
+X-Received: by 2002:a92:d2cc:: with SMTP id w12mr1927157ilg.303.1641890487437;
+        Tue, 11 Jan 2022 00:41:27 -0800 (PST)
+Received: from google.com ([2620:15c:183:200:bdd9:6181:19a:9d62])
+        by smtp.gmail.com with ESMTPSA id p16sm5977777iov.3.2022.01.11.00.41.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jan 2022 00:41:26 -0800 (PST)
+Date:   Tue, 11 Jan 2022 01:41:22 -0700
+From:   Yu Zhao <yuzhao@google.com>
+To:     Alexandre Frade <kernel@xanmod.org>,
+        Brian Geffon <bgeffon@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Holger =?iso-8859-1?Q?Hoffst=E4tte?= 
+        <holger@applied-asynchrony.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>
 Cc:     Andi Kleen <ak@linux.intel.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
@@ -76,111 +77,97 @@ Cc:     Andi Kleen <ak@linux.intel.com>,
         linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         page-reclaim@google.com, x86@kernel.org,
-        Yu Zhao <yuzhao@google.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>
-Subject: Re: [PATCH v6 4/9] mm: multigenerational lru: groundwork
-In-Reply-To: <20220104202227.2903605-5-yuzhao@google.com>
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH v6 0/9] Multigenerational LRU Framework
+Message-ID: <Yd1Css8+jsspeZHh@google.com>
 References: <20220104202227.2903605-1-yuzhao@google.com>
- <20220104202227.2903605-5-yuzhao@google.com>
-Date:   Tue, 11 Jan 2022 13:46:24 +0530
-Message-ID: <878rvm661z.fsf@linux.ibm.com>
+ <YdSuSHa/Vjl6bPkg@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: viEjU2U4v_MgGJbxkWFac0_jQpUME9Y3
-X-Proofpoint-ORIG-GUID: ycq6qDeljNjiG_kVdl1MGjZTm8vdgF-2
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-11_03,2022-01-10_02,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 impostorscore=0
- mlxscore=0 adultscore=0 clxscore=1011 mlxlogscore=999 lowpriorityscore=0
- priorityscore=1501 suspectscore=0 phishscore=0 bulkscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2201110044
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YdSuSHa/Vjl6bPkg@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Yu Zhao <yuzhao@google.com> writes:
+On Tue, Jan 04, 2022 at 01:30:00PM -0700, Yu Zhao wrote:
+> On Tue, Jan 04, 2022 at 01:22:19PM -0700, Yu Zhao wrote:
+> > TLDR
+> > ====
+> > The current page reclaim is too expensive in terms of CPU usage and it
+> > often makes poor choices about what to evict. This patchset offers an
+> > alternative solution that is performant, versatile and
+> > straightforward.
+> 
+> <snipped>
+> 
+> > Summery
+> > =======
+> > The facts are:
+> > 1. The independent lab results and the real-world applications
+> >    indicate substantial improvements; there are no known regressions.
+> > 2. Thrashing prevention, working set estimation and proactive reclaim
+> >    work out of the box; there are no equivalent solutions.
+> > 3. There is a lot of new code; nobody has demonstrated smaller changes
+> >    with similar effects.
+> > 
+> > Our options, accordingly, are:
+> > 1. Given the amount of evidence, the reported improvements will likely
+> >    materialize for a wide range of workloads.
+> > 2. Gauging the interest from the past discussions [14][15][16], the
+> >    new features will likely be put to use for both personal computers
+> >    and data centers.
+> > 3. Based on Google's track record, the new code will likely be well
+> >    maintained in the long term. It'd be more difficult if not
+> >    impossible to achieve similar effects on top of the existing
+> >    design.
+> 
+> Hi Andrew, Linus,
+> 
+> Can you please take a look at this patchset and let me know if it's
+> 5.17 material?
+> 
+> My goal is to get it merged asap so that users can reap the benefits
+> and I can push the sequels. Please examine the data provided -- I
+> think the unprecedented coverage and the magnitude of the improvements
+> warrant a green light.
 
-.....
+Downstream kernel maintainers who have been carrying MGLRU for more than
+3 versions, can you please provide your Acked-by tags?
 
- +
-> +/*
-> + * Evictable pages are divided into multiple generations. The youngest and the
-> + * oldest generation numbers, max_seq and min_seq, are monotonically increasing.
-> + * They form a sliding window of a variable size [MIN_NR_GENS, MAX_NR_GENS]. An
-> + * offset within MAX_NR_GENS, gen, indexes the lru list of the corresponding
-> + * generation. The gen counter in folio->flags stores gen+1 while a page is on
-> + * lrugen->lists[]. Otherwise, it stores 0.
-> + *
-> + * A page is added to the youngest generation on faulting. The aging needs to
-> + * check the accessed bit at least twice before handing this page over to the
-> + * eviction. The first check takes care of the accessed bit set on the initial
-> + * fault; the second check makes sure this page hasn't been used since then.
-> + * This process, AKA second chance, requires a minimum of two generations,
-> + * hence MIN_NR_GENS. And to be compatible with the active/inactive lru, these
-> + * two generations are mapped to the active; the rest of generations, if they
-> + * exist, are mapped to the inactive. PG_active is always cleared while a page
-> + * is on lrugen->lists[] so that demotion, which happens consequently when the
-> + * aging creates a new generation, needs not to worry about it.
-> + */
+Having this patchset in the mainline will make your job easier :)
 
-Where do we clear PG_active in the code? Is this the reason we endup
-with
+   Alexandre - the XanMod Kernel maintainer
+               https://xanmod.org
+   
+   Brian     - the Chrome OS kernel memory maintainer
+               https://www.chromium.org
+   
+   Jan       - the Arch Linux Zen kernel maintainer
+               https://archlinux.org
+   
+   Steven    - the Liquorix kernel maintainer
+               https://liquorix.net
+   
+   Suleiman  - the ARCVM (Android downstream) kernel memory maintainer
+               https://chromium.googlesource.com/chromiumos/third_party/kernel
 
-  void deactivate_page(struct page *page)
-  {
- -	if (PageLRU(page) && PageActive(page) && !PageUnevictable(page)) {
- +	if (PageLRU(page) && !PageUnevictable(page) && (PageActive(page) || lru_gen_enabled())) {
+Also my gratitude to those who have helped test MGLRU:
 
+   Daniel - researcher at Michigan Tech
+            benchmarked memcached
+   
+   Holger - who has been testing/patching/contributing to various
+            subsystems since ~2008
+   
+   Shuang - researcher at University of Rochester
+            benchmarked fio and provided a report
+   
+   Sofia  - EDI https://www.edi.works
+            benchmarked the top eight memory hogs and provided reports
 
+Can you please provide your Tested-by tags? This will ensure the credit
+for your contributions.
 
-
-> +#define MIN_NR_GENS		2U
-> +#define MAX_NR_GENS		((unsigned int)CONFIG_NR_LRU_GENS)
-> +
-> +struct lru_gen_struct {
-> +	/* the aging increments the youngest generation number */
-> +	unsigned long max_seq;
-> +	/* the eviction increments the oldest generation numbers */
-> +	unsigned long min_seq[ANON_AND_FILE];
-> +	/* the birth time of each generation in jiffies */
-> +	unsigned long timestamps[MAX_NR_GENS];
-> +	/* the multigenerational lru lists */
-> +	struct list_head lists[MAX_NR_GENS][ANON_AND_FILE][MAX_NR_ZONES];
-> +	/* the sizes of the above lists */
-> +	unsigned long nr_pages[MAX_NR_GENS][ANON_AND_FILE][MAX_NR_ZONES];
-> +	/* whether the multigenerational lru is enabled */
-> +	bool enabled;
-> +};
-> +
-
-....
-
->  static void __meminit zone_init_internals(struct zone *zone, enum zone_type idx, int nid,
-> diff --git a/mm/swap.c b/mm/swap.c
-> index e8c9dc6d0377..d7dde3b7d4b5 100644
-> --- a/mm/swap.c
-> +++ b/mm/swap.c
-> @@ -462,6 +462,11 @@ void folio_add_lru(struct folio *folio)
->  	VM_BUG_ON_FOLIO(folio_test_active(folio) && folio_test_unevictable(folio), folio);
->  	VM_BUG_ON_FOLIO(folio_test_lru(folio), folio);
->  
-> +	/* see the comment in lru_gen_add_folio() */
-> +	if (lru_gen_enabled() && !folio_test_unevictable(folio) &&
-> +	    task_in_lru_fault() && !(current->flags & PF_MEMALLOC))
-> +		folio_set_active(folio);
-> +
-
-
-Can you explain this better? What is the significance of marking the
-folio active here. Do we need to differentiate parallel page faults (across
-different vmas) w.r.t task_in_lru_fault()?
-
-
->  	folio_get(folio);
->  	local_lock(&lru_pvecs.lock);
->  	pvec = this_cpu_ptr(&lru_pvecs.lru_add);
-> @@ -563,7 +568,7 @@ static void lru_deactivate_file_fn(struct page *page, struct lruvec *lruvec)
->  
+Thanks!
