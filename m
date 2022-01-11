@@ -2,143 +2,172 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DDB7C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Jan 2022 10:39:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 799F0C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Jan 2022 10:41:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237556AbiAKKjV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jan 2022 05:39:21 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:22264 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237905AbiAKKjU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jan 2022 05:39:20 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20B8ugoD023411;
-        Tue, 11 Jan 2022 10:38:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=2KSWVqEuYdeVeXQVkUDMn8UjL/H2Nqn1KJweQMRZxow=;
- b=FGY6T3AfTA44nno4Xj+ElYs2S3RoHXDyErvQ+8kB6mWMEx4VHl4kiGncE5PCeGVfHt62
- nX0NPtm6m7D1pF52JuejjGh1MMEElb4gCf2bp8UtExB1A2x7JJ7B1khr1gTRElop0zM9
- VT0CQ1w0Ws5n2rHAJv7HXrReU7A478TC5uCM0EU5bY5DbW4HE7TXlPLIutlSicTv8dUe
- ybaaGQAY5QQ2eOwgZO1P6JbHonmu5cRdB04iTKr3yLlEBgr9sbSlBRQTwr3v1pe8pKp0
- tkEAfGjsd8U4p1kz3OXMCCjQU5VKUyjmDRL5TN2zbxsq3JzHHl0TaEN3vhxCl4BVDtwT kA== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3dh6u11xkq-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 11 Jan 2022 10:38:12 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20BARfvZ026334;
-        Tue, 11 Jan 2022 10:38:12 GMT
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com [169.47.144.27])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3dh6u11xkc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 11 Jan 2022 10:38:12 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
-        by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20BAc6lZ012575;
-        Tue, 11 Jan 2022 10:38:10 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
-        by ppma05wdc.us.ibm.com with ESMTP id 3df28ag8mg-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 11 Jan 2022 10:38:10 +0000
-Received: from b03ledav006.gho.boulder.ibm.com (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
-        by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 20BAc9Bv12189976
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 11 Jan 2022 10:38:10 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id D8840C605D;
-        Tue, 11 Jan 2022 10:38:09 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 2AACDC6055;
-        Tue, 11 Jan 2022 10:38:01 +0000 (GMT)
-Received: from skywalker.linux.ibm.com (unknown [9.43.92.234])
-        by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Tue, 11 Jan 2022 10:38:00 +0000 (GMT)
-X-Mailer: emacs 28.0.90 (via feedmail 11-beta-1 I)
-From:   "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
-To:     Yu Zhao <yuzhao@google.com>,
+        id S238006AbiAKKlB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Jan 2022 05:41:01 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:53328 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237719AbiAKKlA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jan 2022 05:41:00 -0500
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id 961B11F3BC;
+        Tue, 11 Jan 2022 10:40:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1641897656; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=8tXeRv7DhsV8A4kgG96JKb+ooN8FGJmMT2qjmnVJdFM=;
+        b=tsmznYE2jLMTjgsWybfYPdWV6ZmysS+YpqB7RBHhLr+0hUC3/+gaxQtgZ8T4L321qBItwX
+        3zD7HRNDrmMTBQNUvxbqwTw9aUe8lo6q1EjspgaMoWHdD1eBWhZqadcLnbxxvU5sfk+OI0
+        10fbxsFKCF/mUkl69ntlaY83Q5G9h5s=
+Received: from suse.cz (unknown [10.100.201.86])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id DB8A2A3B83;
+        Tue, 11 Jan 2022 10:40:55 +0000 (UTC)
+Date:   Tue, 11 Jan 2022 11:40:55 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Jesse Barnes <jsbarnes@google.com>
+Cc:     Yu Zhao <yuzhao@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Andi Kleen <ak@linux.intel.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Matthew Wilcox <willy@infradead.org>,
         Mel Gorman <mgorman@suse.de>,
         Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
         Rik van Riel <riel@surriel.com>,
         Vlastimil Babka <vbabka@suse.cz>,
         Will Deacon <will@kernel.org>,
         Ying Huang <ying.huang@intel.com>,
         linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        page-reclaim@google.com, x86@kernel.org,
-        Yu Zhao <yuzhao@google.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>
-Subject: Re: [PATCH v6 7/9] mm: multigenerational lru: eviction
-In-Reply-To: <20220104202227.2903605-8-yuzhao@google.com>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-mm@kvack.org, page-reclaim@google.com,
+        X86 ML <x86@kernel.org>
+Subject: Re: [PATCH v6 0/9] Multigenerational LRU Framework
+Message-ID: <Yd1et2VFOX4xxgly@dhcp22.suse.cz>
 References: <20220104202227.2903605-1-yuzhao@google.com>
- <20220104202227.2903605-8-yuzhao@google.com>
-Date:   Tue, 11 Jan 2022 16:07:57 +0530
-Message-ID: <87czkyzhfe.fsf@linux.ibm.com>
+ <YdSuSHa/Vjl6bPkg@google.com>
+ <YdgKClGAuHlkzVbQ@dhcp22.suse.cz>
+ <YdiKVJlClB3h1Kmg@google.com>
+ <YdxTR4+FL08XyFuO@dhcp22.suse.cz>
+ <YdythmxHpSksJiXs@google.com>
+ <CAJmaN=n=kn9-gC8if5wp8Gfj7uN+QVrX0ex=9JPXC7rPvGf1Qg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Pg5gpO9q8jfjUxexhw0xTbVE_geykH2H
-X-Proofpoint-ORIG-GUID: eYTBPwHrLMKJHelQZVIX0_2Z4auf6jKB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-11_04,2022-01-11_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- suspectscore=0 mlxscore=0 mlxlogscore=999 clxscore=1015 spamscore=0
- bulkscore=0 impostorscore=0 adultscore=0 phishscore=0 lowpriorityscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2201110061
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJmaN=n=kn9-gC8if5wp8Gfj7uN+QVrX0ex=9JPXC7rPvGf1Qg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-...
+On Mon 10-01-22 14:46:08, Jesse Barnes wrote:
+> > > > 2. There have been none that came with the testing/benchmarking
+> > > >    coverage as this one did. Please point me to some if I'm mistaken,
+> > > >    and I'll gladly match them.
+> > >
+> > > I do appreciate your numbers but you should realize that this is an area
+> > > that is really hard to get any conclusive testing for.
+> >
+> > Fully agreed. That's why we started a new initiative, and we hope more
+> > people will following these practices:
+> > 1. All results in this area should be reported with at least standard
+> >    deviations, or preferably confidence intervals.
+> > 2. Real applications should be benchmarked (with synthetic load
+> >    generator), not just synthetic benchmarks (not real applications).
+> > 3. A wide range of devices should be covered, i.e., servers, desktops,
+> >    laptops and phones.
+> >
+> > I'm very confident to say our benchmark reports were hold to the
+> > highest standards. We have worked with MariaDB (company), EnterpriseDB
+> > (Postgres), Redis (company), etc. on these reports. They have copies
+> > of these reports (PDF version):
+> > https://linux-mm.googlesource.com/benchmarks/
+> >
+> > We welcome any expert in those applications to examine our reports,
+> > and we'll be happy to run any other benchmarks or same benchmarks with
+> > different configurations that anybody thinks it's important and we've
+> > missed.
+> 
+> I really think this gets at the heart of the issue with mm
+> development, and is one of the reasons it's been extra frustrating to
+> not have an MM conf for the past couple of years; I think sorting out
+> how we measure & proceed on changes would be easier done f2f.  E.g.
+> concluding with a consensus that if something doesn't regress on X, Y,
+> and Z, and has reasonably maintainable and readable code, we should
+> merge it and try it out.
 
- +static int isolate_folios(struct lruvec *lruvec, struct scan_control *sc, int swappiness,
-> +			  int *type_scanned, struct list_head *list)
-> +{
-> +	int i;
-> +	int type;
-> +	int scanned;
-> +	int tier = -1;
-> +	DEFINE_MIN_SEQ(lruvec);
-> +
-> +	VM_BUG_ON(!seq_is_valid(lruvec));
-> +
-> +	/*
-> +	 * Try to make the obvious choice first. When anon and file are both
-> +	 * available from the same generation, interpret swappiness 1 as file
-> +	 * first and 200 as anon first.
-> +	 */
-> +	if (!swappiness)
-> +		type = 1;
-> +	else if (min_seq[0] < min_seq[1])
-> +		type = 0;
-> +	else if (swappiness == 1)
-> +		type = 1;
-> +	else if (swappiness == 200)
-> +		type = 0;
-> +	else
-> +		type = get_type_to_scan(lruvec, swappiness, &tier);
-> +
+I am fully with you on that! I hope we can have LSFMM this year finally.
 
-Wondering wether it will make it simpler to use
-#define ANON 0
-#define FILE 1
+> But since f2f isn't an option until 2052 at the earliest...
 
-and then
-	else if (min_seq[ANON] < min_seq[FILE])
-		type = ANON;
+Let's be more optimistic than that ;)
 
-The usage of 0/1 across code do confuse
+> I understand the desire for an "incremental approach that gets us from
+> A->B".  In the abstract it sounds great.  However, with a change like
+> this one, I think it's highly likely that such a path would be
+> littered with regressions both large and small, and would probably be
+> more difficult to reason about than the relatively clean design of
+> MGLRU.
 
--aneesh
+There are certainly things that do not make much sense to split up of
+course. On the other hand the patchset is making a lot of decisions and
+assumptions that are neither documented in the code nor in the
+changelog. From my past experience these are really problematic from a
+long term maintenance POV. We are struggling with those already because
+changelog tend to be much more coarse in the past yet the code stays
+with us and we have been really "great" at not touching many of those
+because "something might break". This results in the complexity grow and
+further maintenance burden.
+
+> On top of that, I don't think we'll get the kind of user
+> feedback we need for something like this *without* merging it.  Yu has
+> done a tremendous job collecting data here (and the results are really
+> incredible), but I think we can all agree that without extensive
+> testing in the field with all sorts of weird codes, we're not going to
+> find the problematic behaviors we're concerned about.
+
+This is understood.
+
+> So unless we want to eschew big mm changes entirely (we shouldn't!
+> look at net or scheduling for how important big rewrites are to
+> progress), I think we should be open to experimenting with new stuff.
+> We can always revert if things get too unwieldy.
+
+As long as the patchset doesn't include new user visible interfaces
+which have proven to be really hard to revert.
+
+> None of this is to say that there may not be lots more comments on the
+> code or potential fixes/changes to incorporate before merging; I'm
+> mainly arguing about the mindset we should have to changes like this,
+> not all the stuff the community is already really good at (i.e.
+> testing and reviewing code on a nuts & bolts level).
+
+From my reading of this and previous discussions I have gathered that
+there was no opposition just for the sake of it. There have been very
+specific questions regarding the implementation and/or future plans to
+address issues expressed in the past.
+
+So far I have only managed to check the memcg and oom integration
+finding some issues there. All of them should be fixable reasonably
+easily but it also points that a deep dive into this is really
+necessary.
+
+I have also raised questions about future maintainability of the
+resulting code. As you could have noticed the review power in the MM
+community is lacking behind and we tend to have more code producers than
+reviewers and maintainers.
+Not to mention other things like page flags depletion which is something
+we have been struggling for quite some time already.
+
+All that being said there is a lot of work for such a large change to be
+merged.
+-- 
+Michal Hocko
+SUSE Labs
