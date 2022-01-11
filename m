@@ -2,112 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD4AAC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Jan 2022 14:23:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05FBCC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Jan 2022 14:50:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241470AbiAKOXD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jan 2022 09:23:03 -0500
-Received: from shark1.inbox.lv ([194.152.32.81]:42170 "EHLO shark1.inbox.lv"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241320AbiAKOXC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 11 Jan 2022 09:23:02 -0500
-Received: from shark1.inbox.lv (localhost [127.0.0.1])
-        by shark1-out.inbox.lv (Postfix) with ESMTP id 9691A1118111;
-        Tue, 11 Jan 2022 16:23:00 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=inbox.lv; s=30062014;
-        t=1641910980; bh=B3zsr1uon94rGfrYjljVprXCVNZ2sigVuz8YLB4vUUA=;
-        h=Date:From:To:Subject:Message-ID:In-Reply-To:References:
-         Content-Type:X-ESPOL:from:date;
-        b=JK87VbXvkOz1CYeEvjisnByo3iRn6ANTTZf6nyRROSoGK+1vUzuoM1wQI6qTP8TjL
-         0rS+Sc7zZEeS+eyUSupsICe/9A3Xun9amhUMAWH+sW6n2hSK7vYMih5merlhaAB2AR
-         4Xk2wDn2nf9h/x0aDl+19LheJtAcw5tTcXFa5SfY=
-Received: from localhost (localhost [127.0.0.1])
-        by shark1-in.inbox.lv (Postfix) with ESMTP id 8F78E11180F5;
-        Tue, 11 Jan 2022 16:23:00 +0200 (EET)
-Received: from shark1.inbox.lv ([127.0.0.1])
-        by localhost (shark1.inbox.lv [127.0.0.1]) (spamfilter, port 35)
-        with ESMTP id y1a1K5F5vyMK; Tue, 11 Jan 2022 16:23:00 +0200 (EET)
-Received: from mail.inbox.lv (pop1 [127.0.0.1])
-        by shark1-in.inbox.lv (Postfix) with ESMTP id 09BF311180EC;
-        Tue, 11 Jan 2022 16:23:00 +0200 (EET)
-Date:   Tue, 11 Jan 2022 23:22:48 +0900
-From:   Alexey Avramov <hakavlad@inbox.lv>
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Yu Zhao <yuzhao@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        page-reclaim@google.com, x86@kernel.org,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>, hakavlad@gmail.com
-Subject: Re: [PATCH v6 6/9] mm: multigenerational lru: aging
-Message-ID: <20220111232248.1629f794@mail.inbox.lv>
-In-Reply-To: <YdxSUuDc3OC4pe+f@dhcp22.suse.cz>
-References: <20220104202227.2903605-1-yuzhao@google.com>
-        <20220104202227.2903605-7-yuzhao@google.com>
-        <Ydg8AeE6JIUnC+ps@dhcp22.suse.cz>
-        <YdjOazilBEkdUT7x@google.com>
-        <YdxSUuDc3OC4pe+f@dhcp22.suse.cz>
-X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+        id S242631AbiAKOue (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Jan 2022 09:50:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33172 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242627AbiAKOue (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jan 2022 09:50:34 -0500
+Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03B4BC061748
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jan 2022 06:50:33 -0800 (PST)
+Received: by mail-qv1-xf29.google.com with SMTP id r6so18519076qvr.13
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jan 2022 06:50:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=ovolvUsascnevhDKjeXUk8JnrR7qw0Sy1rTIWP6UURw=;
+        b=SXDaUER4SjZRivKmWriruCdvqGXQdX/I+B+csGE9hO34rlL3Q4sO68h1VphU/1ou70
+         jYa30oqAkwBW8rj2wX3ihaJZ8bNkP4BKWvRBxHdy1Xsha8BTO05P+1nGQXDgS8EN48sD
+         xx+Pt3b+EeTq/3bMINQ1UYpDVCbgY/I86YZoM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ovolvUsascnevhDKjeXUk8JnrR7qw0Sy1rTIWP6UURw=;
+        b=sw7KPuBVcWD53Hi707RZWzQaNAyQ0h1yuDcQbbZuWS/ZXZVMO3R+AS+xgNiBkhZEyy
+         Y56CbKM7JepUD8oTb4tM1458uoe1RV0MZAx9z7bOPtq8B02rM3Z+9XgkFnde+NsKzOkm
+         JKt+fss2V54AkKi1Lpj/iXzbZPHbiGe5i9HFtfHvBljl3lDHAy6P+yfAcSmcwm78KbEA
+         ngU0LUVd5/DBdf/y3oMYGvgp0E/srT3iNW6Fe9p9IVAGYxxyFmhnAoRQtUmEovtvXUax
+         ZdkWRxxQucSHvAVv11YpNY3z3Qg04u93HQa93qOrPQsI+oWm7bKwMZxHBLJa6UxC07hz
+         hCyg==
+X-Gm-Message-State: AOAM531l6aFYz9AWwHQpTdDgW/rE78P5aHgbVAuSRccuFIsMgr1M3S1g
+        ymsO4EHZAfwlIYhEPBG4pCA0K5GhrwvaKg==
+X-Google-Smtp-Source: ABdhPJz+EU85bHG07gUWz9RVNgCZdK/NpBXsxtsizfS2xx0ovkmREI9GrrVurUMtCh2l8eWZefX0/w==
+X-Received: by 2002:ad4:5dc6:: with SMTP id m6mr4256075qvh.74.1641912633140;
+        Tue, 11 Jan 2022 06:50:33 -0800 (PST)
+Received: from meerkat.local (bras-base-mtrlpq5031w-grc-32-216-209-220-181.dsl.bell.ca. [216.209.220.181])
+        by smtp.gmail.com with ESMTPSA id g13sm2474704qko.34.2022.01.11.06.50.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jan 2022 06:50:32 -0800 (PST)
+Date:   Tue, 11 Jan 2022 09:50:31 -0500
+From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To:     Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Subject: Re: Add a few more FAQs to the [kernel.org] releases page
+Message-ID: <20220111145031.cfkyxffmps3swakv@meerkat.local>
+References: <51654a51-4264-c333-40d5-4f755e69d54b@leemhuis.info>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: OK
-X-ESPOL: AJ2EQ38cmnBBsMa9Lpgfme6kmZavLzouui7kz70193NHtLHdwK14EgqJeffiGwWl
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <51654a51-4264-c333-40d5-4f755e69d54b@leemhuis.info>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> I do not really see any arguments why an userspace based trashing
-> detection cannot be used for those.
+On Tue, Jan 11, 2022 at 07:32:46AM +0100, Thorsten Leemhuis wrote:
+> * you added two sections that use the term "LTS", which is not explained
+> on that page and wasn't used on it earlier. I wonder if it might be
+> better to use "Longterm series" or something like that instead, as that
+> it the term used on the page (and the official one afaics).
 
-Firsly,
-because this is the task of the kernel, not the user space. 
-Memory is managed by the kernel, not by the user space. 
-The absence of such a mechanism in the kernel is a fundamental problem.
-The userspace tools are ugly hacks:
-some of them consume a lot of CPU [1], 
-some of them consume a lot of memory [2], 
-some of them cannot into process_mrelease() (earlyoom, nohang), 
-some of them kill only the whole cgroup (systemd-oomd, oomd) [3]
-and depends on systemd and cgroup_v2 (oomd, systemd-oomd).
-One of the biggest challenges for userspace oom-killers is to potentially
-function under intense memory pressure and are prone to getting stuck in
-memory reclaim themselves [4].
+Thanks for the feedback, I switched to using "longterm" uniformly on that
+page.
 
-It is strange that after decades of user complaints about thrashing and
-not-working OOM killer I have to explain the obvious things.
-The basic mechanism must be implemented in the kernel.
-Stop shifting responsibility to the user space!
+> This was also added:
+> 
+> > Does the odd-even number still mean anything?
+> > 
+> > Not since 2.5 days.
+> 
+> I guess a lot of users won't known how long ago that was, so how about
+> using an answer like this instead:
+> 
+> "Not since December 2003, when Linux 2.6 got released."
 
-Secondly,
-the real reason for the min_ttl_ms mechanism is that without it, 
-multi-minute stalls are possible [5] even when the killer is expected to
-arrive, and memory pressure is closed to 100 at this period [6].
-This fixes a bug that does not exist in the mainline LRU (this is
-MGLRU-specific bug). BTW, the similar symptoms were recently fixed in the
-mainline [7].
+I've expanded a bit more on that topic, just to avoid confusion.
 
-[1] https://github.com/facebookincubator/oomd/issues/79
-[2] https://github.com/hakavlad/nohang#memory-and-cpu-usage
-[3] https://github.com/facebookincubator/oomd/issues/125
-[4] https://lore.kernel.org/all/CALvZod7vtDxJZtNhn81V=oE-EPOf=4KZB2Bv6Giz+u3bFFyOLg@mail.gmail.com/
-[5] https://github.com/zen-kernel/zen-kernel/issues/223
-[6] https://raw.githubusercontent.com/hakavlad/cache-tests/main/mg-LRU-v3_vs_classic-LRU/3-firefox-tail-OOM/mg-LRU-1/psi2
-[7] https://lore.kernel.org/linux-mm/20211202150614.22440-1-mgorman@techsingularity.net/
-
-[I am duplicating a previous message here - it was not delivered to mailing lists]
+Best regards,
+-K
