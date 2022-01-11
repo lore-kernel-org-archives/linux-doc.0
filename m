@@ -2,51 +2,51 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67CD0C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Jan 2022 16:09:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F4EAC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Jan 2022 16:56:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349801AbiAKQJ3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jan 2022 11:09:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51558 "EHLO
+        id S242395AbiAKQ4z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Jan 2022 11:56:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349820AbiAKQJ3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jan 2022 11:09:29 -0500
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B81DC061756;
-        Tue, 11 Jan 2022 08:09:29 -0800 (PST)
-Received: by mail-ed1-x530.google.com with SMTP id i5so15566509edf.9;
-        Tue, 11 Jan 2022 08:09:29 -0800 (PST)
+        with ESMTP id S241757AbiAKQ4w (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jan 2022 11:56:52 -0500
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDB9AC06173F;
+        Tue, 11 Jan 2022 08:56:51 -0800 (PST)
+Received: by mail-ed1-x531.google.com with SMTP id b13so16408112edn.0;
+        Tue, 11 Jan 2022 08:56:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
         bh=ytXs+tjsOQIVzwgdEv3Dia185hW2en+OLpnkYRjyU0M=;
-        b=lu8DRZ40VurCmlmYr7Cx3SygD5WwgZoTmOxOi/98LBvp+zZsLzteo1jlY6vqi720rX
-         C56y08ljc0XA7/CFsS6gBeF9Evmf/Q3dvoJdRiGi9S5su3L32UC8kqhU/dHlOcHl103/
-         1uOC4tKfqTknlnGaI7iPX3BqKvhDfhKCBJp5pACj9JHNigj8VVhjfH3S86dXnYojZtid
-         V8nkISXFdkrx4Qs8aKQl7HqVXF6pFe859xx6ZZfi5P5E+PloU1eHkkE21PCo96W4sa14
-         gvRojsXL+JtruZHTL3BXotCE8pCt8WbyAa7cSfrNRTzQ7wwpvOOFeeIy9t++sra6gfU2
-         Q+1Q==
+        b=CUY8VWUhGwTf2JxMxuhYU9q2TEn1/2OalimB7ff1m1Nmr7rt3KPepEiLz2w2NpcNA2
+         xqwdXWYY++n3A9JLS0c9rMrwgPQoVw/FfyYBDfBQdyKYLA2R7ZZ2+lIwfDwKjTTpZmTN
+         SANgOVfvOOIPLgVGYc2LX/yUJIYEtIhHaMaWA972aAHYvTSQMvZfaZfR5panwLT97EDS
+         +XP/UnHJ8JvuNPfmo+9G797KWix1Uy2r3wIly5McL3xJddOXrbQUeBUqUCT6FS8Nfhye
+         N72MgA0nW5m3kFYvMyts3vTSZPMT5ZQYMJ23CpQseadaTUWm16K7o3VdpuYp3kuoJJ9q
+         tN+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
         bh=ytXs+tjsOQIVzwgdEv3Dia185hW2en+OLpnkYRjyU0M=;
-        b=Quj+fxvoH+MqIVobbJBkrigtHMRBF3Blvmo5W2PBz7wrIeQvU17b+RPHxABXoVWqVU
-         K84GKXdxs/TLjLaxhjtElp7vaGdRfWONr84VzVTL8RQPqWFmXEdzlA49MOQ7PGiGs0+Q
-         Z6gesGMEzL5x7Oz3rguZqKSzqsjd9HAKn2E4LY/UU+f8fOH9VJ4hm7Os8H4O7LKRv3ZT
-         P8qcgl5E8IYf373uKnyPTFm3gRGhplUJO+q48xbIlZNQv0sA5fLjF7iZkKZ5Nqa8bOQ9
-         Jj8H8mpPiFtaJA3HGs5OZXd2qvttX5u36l20SaFv/n0df8j7CZTnBNZVziJT4O/6bdtl
-         04SA==
-X-Gm-Message-State: AOAM5307s7zMLvRyoFSMcJU3Hu9zjk6O8j3Z07arzAXhVHo7NrVVupG8
-        wdr4wixSZsUSYCFqvEI0sOU=
-X-Google-Smtp-Source: ABdhPJwVXzVciZKE5XTDYrI9CqSDECOGXPwvjlbZsff74PAHll25aMHm6L320ECw2QPYSPyR38WT8Q==
-X-Received: by 2002:a17:907:3e0b:: with SMTP id hp11mr4117975ejc.584.1641917367618;
-        Tue, 11 Jan 2022 08:09:27 -0800 (PST)
+        b=SEdAisV6QF6NKEbp3rh7qrewP71XmBUoE/zpzl2JNTiGlYwSodqIOQVGR3s1h4SUJV
+         RHD++aAyLwCjbgiBUQpMqOMYpZI2Zm8Bj+bU56oG7xFdyTkEvEajEHnKE3PkNNFzhMsy
+         CG3CsxeVRgQXpsqCtY5tkvjfZj8HPcNp3DOIqj2aMJLet85wILTnXW5TSRJY0ULybGVg
+         S4kXncVPV27QkVkcvVwt5p2qfV28uEzf/nKRWgMZ42+oWTcYvcGMd44HVJVAwopPm3ax
+         Huj27A40E3gbmNDPk2VUn/PbyoFY08uXjLzIehAYdbUIOCrB6/EawQroCB2n12tMtuDR
+         wAjA==
+X-Gm-Message-State: AOAM5336rUYGWZq/0TV9Wu8p5UV7eOjlBnDHkKP/74ZVUmvDvaAlb+3G
+        DnzWdQ6KPeCjx6pdviP8Duw=
+X-Google-Smtp-Source: ABdhPJxJ/qOdzMx1JJz9rtCvit10BWygNTYoqTNmCfjf7Cgb/MYclGhfBZnf6dZgYh+PF/z8agIQyw==
+X-Received: by 2002:a05:6402:2696:: with SMTP id w22mr5030679edd.253.1641920210340;
+        Tue, 11 Jan 2022 08:56:50 -0800 (PST)
 Received: from tiger.museclub.art (p200300cf9f0b7c00c3a5ee4155775dd9.dip0.t-ipconnect.de. [2003:cf:9f0b:7c00:c3a5:ee41:5577:5dd9])
-        by smtp.googlemail.com with ESMTPSA id s4sm3790158ejm.146.2022.01.11.08.09.26
+        by smtp.googlemail.com with ESMTPSA id d14sm5220986edu.57.2022.01.11.08.56.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jan 2022 08:09:27 -0800 (PST)
+        Tue, 11 Jan 2022 08:56:50 -0800 (PST)
 From:   Eugene Shalygin <eugene.shalygin@gmail.com>
 To:     eugene.shalygin@gmail.com
 Cc:     andy.shevchenko@gmail.com, pauk.denis@gmail.com,
@@ -54,12 +54,12 @@ Cc:     andy.shevchenko@gmail.com, pauk.denis@gmail.com,
         Guenter Roeck <linux@roeck-us.net>,
         Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/3] hwmon: (asus-ec-sensors) update documentation
-Date:   Tue, 11 Jan 2022 17:08:53 +0100
-Message-Id: <20220111160900.1150050-3-eugene.shalygin@gmail.com>
+Subject: [PATCH v4 2/3] hwmon: (asus-ec-sensors) update documentation
+Date:   Tue, 11 Jan 2022 17:56:26 +0100
+Message-Id: <20220111165630.1155135-3-eugene.shalygin@gmail.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220111160900.1150050-1-eugene.shalygin@gmail.com>
-References: <20220111160900.1150050-1-eugene.shalygin@gmail.com>
+In-Reply-To: <20220111165630.1155135-1-eugene.shalygin@gmail.com>
+References: <20220111165630.1155135-1-eugene.shalygin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
