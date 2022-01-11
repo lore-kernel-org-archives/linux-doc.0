@@ -2,197 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC6BFC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Jan 2022 03:56:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B65CFC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Jan 2022 04:10:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346956AbiAKD4H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Jan 2022 22:56:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53698 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346553AbiAKD4H (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jan 2022 22:56:07 -0500
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F28BAC061748
-        for <linux-doc@vger.kernel.org>; Mon, 10 Jan 2022 19:56:06 -0800 (PST)
-Received: by mail-yb1-xb2e.google.com with SMTP id 127so27483215ybb.4
-        for <linux-doc@vger.kernel.org>; Mon, 10 Jan 2022 19:56:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=HVGAaZCv1PtP8nOdf8xI+Otrs0pFsPi16+2M9IA8PMA=;
-        b=PMIR9AavQUxk2P1t/gnE4Ha0f/Wgo4AGsu7oSS5EfdhLWF8hH2BmwauKecM1SCvCc8
-         ZPNsxv3Pv6UF/oAzDxrHn5CnM183oJ6eGMdLuw5ubV3lsrrymJRvS+0lo6Js59b/ogs+
-         789aymY4wOEYcHOnccO148G4FXL1zTw4TU7yDu4Hw07B0aDffLc178WULiA1vQUOa9m/
-         Y+eNn1w8PU3VtZ9kIbZQ/R2GUczSOgbu3mPHfzjh/RXIMfYApAz7eSHYCxD89Fg10h4t
-         2kC7d6BkUZO+EdnOqnOAan9LvAm2tSQFtoDhLD/1VWO2MI73ddmTFQ7CFE26E9k/BI6q
-         E8+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=HVGAaZCv1PtP8nOdf8xI+Otrs0pFsPi16+2M9IA8PMA=;
-        b=u/Kvgty+87RRuV1ruSwjy3klC/l7FQ4F453MOPuYn7fHhqlKpgminRHnkZQxocrId5
-         NL/a6ELUFYqUHtT5Ct5zkv5CwOFfNqI6Cbl4kfGUKnu2zrUnZrte6BIlLMJMwL7yznOx
-         Jhpcbok/2VOstGaqQ4fr+L1ntBZNT3wGbK7ufQfJpLoPjY7a93usPitURwWdR3aJOBIf
-         snK493PIg+3n0kbTWP+gEl13M/DpDUy68X1J59lw1n2pI+DZ8bI2h8BHsGmWjimlaj8z
-         ZZqugkyAurc0UpiaDwsFVm7kos6ZFzBmVXK85JOzEdg2qEC1HX5xavNRCJIg4bH0Zvza
-         pfqg==
-X-Gm-Message-State: AOAM533WlvsJHMgZ23UuMvaUBfX7t0XmEA6TvGRY4mRDZZBwK7jsrJ80
-        3m5dUZsr/pzBob/CENBOW6+/QTtZT9128zsOyg0WNg==
-X-Google-Smtp-Source: ABdhPJxP/fz5XneWYrZ3Wx1cmiJh3a6xFU3LDIaZKHY5WJjLnN6RdXEfwpfNlsi8HICN32LtNR4GsvrIMEGQVaYk/0s=
-X-Received: by 2002:a05:6902:703:: with SMTP id k3mr3737793ybt.225.1641873365850;
- Mon, 10 Jan 2022 19:56:05 -0800 (PST)
+        id S1347450AbiAKEKZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Jan 2022 23:10:25 -0500
+Received: from mga09.intel.com ([134.134.136.24]:6906 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234203AbiAKEKZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 Jan 2022 23:10:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1641874225; x=1673410225;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Fko5tSHAqkpnrbRvu4UMb7PHCxpyhJg0p+Ve7Au1TpI=;
+  b=GH2k6ahY2Ottai3Bc7QkNhsmEitl1290qkhTei74ajQ+MS4w5dS5I/Mc
+   ViEadSdtPFJT6gh7N0zgIvaQIKchjf01ylSjfubdhRW/na+aCFoOFYw0y
+   OSzxeI+WZ77iFeYiwuIfojxc+VkyfPlQCkbYroFLrlvfvpdo6PM1batrN
+   mdbt54DP7T5ykPwknZzf4YjN9Fiec438gxGmXIQ12g7axl7pKDC56E2Ko
+   XMGdVtx7oN6mz+i6Z5oDzCvbap1EMoICOOtEbJPNRQ8Xab5eKOvj3+PX9
+   ErWJdHqCO8/vnwQd075GV4K9w0cy13Rs5Zc20PAUorDINX3quclNuzlSz
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10223"; a="243194191"
+X-IronPort-AV: E=Sophos;i="5.88,279,1635231600"; 
+   d="scan'208";a="243194191"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2022 20:10:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,279,1635231600"; 
+   d="scan'208";a="514937789"
+Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 10 Jan 2022 20:10:23 -0800
+Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1n78UI-0004JB-L6; Tue, 11 Jan 2022 04:10:22 +0000
+Date:   Tue, 11 Jan 2022 12:10:01 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     David Brazdil <dbrazdil@google.com>
+Cc:     kbuild-all@lists.01.org, GNU/Weeb Mailing List <gwml@gnuweeb.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [ammarfaizi2-block:google/android/kernel/common/android13-5.15
+ 2564/2575] arch/arm64/kvm/hyp/nvhe/iommu/s2mpu.c:104: warning: This comment
+ starts with '/**', but isn't a kernel-doc comment. Refer
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202201111216.YaxndGDc-lkp@intel.com>
 MIME-Version: 1.0
-References: <20220111025138.1071848-1-surenb@google.com> <Ydz1jAp6RW3t0owj@sol.localdomain>
-In-Reply-To: <Ydz1jAp6RW3t0owj@sol.localdomain>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Mon, 10 Jan 2022 19:55:54 -0800
-Message-ID: <CAJuCfpGtnzLJNpUhq2dG97Vm-NDue3v747Fr77RVSKxC_Sfx8Q@mail.gmail.com>
-Subject: Re: [PATCH 1/1] psi: Fix uaf issue when psi trigger is destroyed
- while being polled
-To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     Johannes Weiner <hannes@cmpxchg.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Benjamin Segall <bsegall@google.com>,
-        Mel Gorman <mgorman@suse.de>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        cgroups mailinglist <cgroups@vger.kernel.org>,
-        kernel-team <kernel-team@android.com>,
-        syzbot <syzbot+cdb5dd11c97cc532efad@syzkaller.appspotmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 10, 2022 at 7:12 PM Eric Biggers <ebiggers@kernel.org> wrote:
->
-> On Mon, Jan 10, 2022 at 06:51:38PM -0800, Suren Baghdasaryan wrote:
-> > With write operation on psi files replacing old trigger with a new one,
-> > the lifetime of its waitqueue is totally arbitrary. Overwriting an
-> > existing trigger causes its waitqueue to be freed and pending poll()
-> > will stumble on trigger->event_wait which was destroyed.
-> > Fix this by disallowing to redefine an existing psi trigger. If a write
-> > operation is used on a file descriptor with an already existing psi
-> > trigger, the operation will fail with EBUSY error.
-> > Also bypass a check for psi_disabled in the psi_trigger_destroy as the
-> > flag can be flipped after the trigger is created, leading to a memory
-> > leak.
-> >
-> > Reported-by: syzbot+cdb5dd11c97cc532efad@syzkaller.appspotmail.com
-> > Analyzed-by: Eric Biggers <ebiggers@kernel.org>
-> > Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
->
-> Please include Fixes and Cc stable tags.
+tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/common/android13-5.15
+head:   d52e3e4473075ddf199c9ae763e747302d729468
+commit: f6b90bb6f59d0dab524f623b255f29c149557270 [2564/2575] ANDROID: KVM: arm64: Enable S2MPUs in __pkvm_init_stage2_iommu
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20220111/202201111216.YaxndGDc-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/ammarfaizi2/linux-block/commit/f6b90bb6f59d0dab524f623b255f29c149557270
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
+        git fetch --no-tags ammarfaizi2-block google/android/kernel/common/android13-5.15
+        git checkout f6b90bb6f59d0dab524f623b255f29c149557270
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arm64 SHELL=/bin/bash
 
-Ack.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
->
-> > diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
-> > index cafb8c114a21..e6878238fb19 100644
-> > --- a/kernel/cgroup/cgroup.c
-> > +++ b/kernel/cgroup/cgroup.c
-> > @@ -3642,6 +3642,12 @@ static ssize_t cgroup_pressure_write(struct kernfs_open_file *of, char *buf,
-> >       cgroup_get(cgrp);
-> >       cgroup_kn_unlock(of->kn);
-> >
-> > +     /* Allow only one trigger per file descriptor */
-> > +     if (READ_ONCE(ctx->psi.trigger)) {
-> > +             cgroup_put(cgrp);
-> > +             return -EBUSY;
-> > +     }
-> > +
->
-> Doesn't the task have exclusive access to the file at this point?  READ_ONCE()
-> is only needed instead of a plain load when the field can be concurrently
-> changed by another thread.
+All warnings (new ones prefixed by >>):
 
-Yeah, you are right. Concurrent writes are serialized by of->mutex and
-kernfs_release_file documents "@of is guaranteed to have no other file
-operations in flight", so ->release() can't race with ->write(). Will
-fix.
+>> arch/arm64/kvm/hyp/nvhe/iommu/s2mpu.c:104: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Initialize S2MPU device and set all GB regions to 1G granularity with
 
->
-> > diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
-> > index 1652f2bb54b7..882bf62cc247 100644
-> > --- a/kernel/sched/psi.c
-> > +++ b/kernel/sched/psi.c
-> > @@ -1151,7 +1151,6 @@ struct psi_trigger *psi_trigger_create(struct psi_group *group,
-> >       t->event = 0;
-> >       t->last_event_time = 0;
-> >       init_waitqueue_head(&t->event_wait);
-> > -     kref_init(&t->refcount);
-> >
-> >       mutex_lock(&group->trigger_lock);
-> >
-> > @@ -1180,15 +1179,21 @@ struct psi_trigger *psi_trigger_create(struct psi_group *group,
-> >       return t;
-> >  }
-> >
-> > -static void psi_trigger_destroy(struct kref *ref)
-> > +void psi_trigger_destroy(void **trigger_ptr)
-> >  {
-> > -     struct psi_trigger *t = container_of(ref, struct psi_trigger, refcount);
-> > -     struct psi_group *group = t->group;
-> > +     struct psi_trigger *t;
-> > +     struct psi_group *group;
-> >       struct task_struct *task_to_destroy = NULL;
-> >
-> > -     if (static_branch_likely(&psi_disabled))
-> > +     /*
-> > +      * We do not check psi_disabled since it might have been disabled after
-> > +      * the trigger got created.
-> > +      */
-> > +     t = xchg(trigger_ptr, NULL);
-> > +     if (!t)
-> >               return;
->
-> Likewise, doesn't the task have exclusive access to the file at this point?
-> This is only called during ->release().
 
-Yes, will fix.
+vim +104 arch/arm64/kvm/hyp/nvhe/iommu/s2mpu.c
 
->
-> And why does this take a pointer to a pointer instead of just the pointer?
+   102	
+   103	/**
+ > 104	 * Initialize S2MPU device and set all GB regions to 1G granularity with
+   105	 * given protection bits.
+   106	 */
+   107	static void initialize_with_prot(struct s2mpu *dev, enum mpt_prot prot)
+   108	{
+   109		unsigned int gb, vid;
+   110	
+   111		/* Must write CONTEXT_CFG_VALID_VID before setting L1ENTRY registers. */
+   112		__set_context_ids(dev);
+   113	
+   114		for_each_gb_and_vid(gb, vid)
+   115			__set_l1entry_attr_with_prot(dev, gb, vid, prot);
+   116		__all_invalidation(dev);
+   117	
+   118		/* Set control registers, enable the S2MPU. */
+   119		__set_control_regs(dev);
+   120	}
+   121	
 
-That was done to do atomic xchg, but as you mentioned, it's not needed
-here. Will change.
-
->
-> > @@ -1305,14 +1289,24 @@ static ssize_t psi_write(struct file *file, const char __user *user_buf,
-> >
-> >       buf[buf_size - 1] = '\0';
-> >
-> > -     new = psi_trigger_create(&psi_system, buf, nbytes, res);
-> > -     if (IS_ERR(new))
-> > -             return PTR_ERR(new);
-> > -
-> >       seq = file->private_data;
-> > +
-> >       /* Take seq->lock to protect seq->private from concurrent writes */
-> >       mutex_lock(&seq->lock);
-> > -     psi_trigger_replace(&seq->private, new);
-> > +
-> > +     /* Allow only one trigger per file descriptor */
-> > +     if (READ_ONCE(seq->private)) {
-> > +             mutex_unlock(&seq->lock);
-> > +             return -EBUSY;
-> > +     }
->
-> Likewise, what does this race against that would require the use of READ_ONCE()?
-
-Will fix.
-Thanks!
-
->
-> - Eric
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
