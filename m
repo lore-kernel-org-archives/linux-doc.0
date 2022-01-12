@@ -2,132 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DDE4C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 21:21:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B10F7C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 21:21:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231928AbiALVVM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jan 2022 16:21:12 -0500
-Received: from mga03.intel.com ([134.134.136.65]:1421 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231161AbiALVUp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 12 Jan 2022 16:20:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1642022445; x=1673558445;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references;
-  bh=Y7vUb3993/gKq7Iq/z+ecYFTAiwmKKnl35KRSrlsQO4=;
-  b=gepMl4fwZM5WRd05j4IfYF3oXeN8BRWqsi4/zL21shkvPacvjaklggWB
-   MX267mJaFe941itrTgWWCbiI+WsfqkKuFWtNGhQFRvyVJDmG3TeoWU2sM
-   h04AV9B1UGGyywSivYICVO5WqaQL1LN1w16b2YSEnTV4qBvD8of6LXb5T
-   GOLCkv5YzrV2saXFxNtLIRuuSKjl9F9za5+HKa0NYsuTQQXGLQBKwz2Ct
-   Qdi/+fDCGomXZLRIXQ9ESKjpYq4iE9Ace7CSteVytsEGz1HW5U9LJO0Nk
-   60zc9Zhv9MA6xuhkyRz+6UxPp1yySDiuIOmTl9Qeptzaon7Ta1KU2DTgu
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10225"; a="243810798"
-X-IronPort-AV: E=Sophos;i="5.88,284,1635231600"; 
-   d="scan'208";a="243810798"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2022 13:20:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,284,1635231600"; 
-   d="scan'208";a="529378272"
-Received: from chang-linux-3.sc.intel.com ([172.25.66.175])
-  by orsmga008.jf.intel.com with ESMTP; 12 Jan 2022 13:20:41 -0800
-From:   "Chang S. Bae" <chang.seok.bae@intel.com>
-To:     linux-crypto@vger.kernel.org, dm-devel@redhat.com,
-        herbert@gondor.apana.org.au, ebiggers@kernel.org, ardb@kernel.org,
-        x86@kernel.org, luto@kernel.org, tglx@linutronix.de, bp@suse.de,
-        dave.hansen@linux.intel.com, mingo@kernel.org
-Cc:     linux-kernel@vger.kernel.org, dan.j.williams@intel.com,
-        charishma1.gairuboyina@intel.com, kumar.n.dwarakanath@intel.com,
-        ravi.v.shankar@intel.com, chang.seok.bae@intel.com,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v5 09/12] x86/cpu: Add a configuration and command line option for Key Locker
-Date:   Wed, 12 Jan 2022 13:12:55 -0800
-Message-Id: <20220112211258.21115-10-chang.seok.bae@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220112211258.21115-1-chang.seok.bae@intel.com>
-References: <20220112211258.21115-1-chang.seok.bae@intel.com>
+        id S231433AbiALVVV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jan 2022 16:21:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58682 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231587AbiALVVC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 16:21:02 -0500
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6DCFC061751;
+        Wed, 12 Jan 2022 13:21:02 -0800 (PST)
+Received: by mail-pj1-x1029.google.com with SMTP id b1-20020a17090a990100b001b14bd47532so7525589pjp.0;
+        Wed, 12 Jan 2022 13:21:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=rMcwZZyzD4aLSfK+vIDiFeDvvWtNOlRHmP8s8YMbIOw=;
+        b=cFPRS+JHB1Ou8jEaT14elVfUqR6AB4wKvYBEFO27k2tF4/lrAdI4f0HyAhDpya/8aq
+         SrxqhX8tP4MI5XV07OmN2PrmxE6y7yWDkS4TX2B1INkQeStdjgsMy5W0OXIFVNWGT+gu
+         +e3d0s49VBZnfheeE9DgxcL43vHldgvfMEoYrGz21MXCYL7qgfpt56PSaDwqjGYHwSZu
+         NEd6rDSnG7qTwCZ/rOefH96fXbEToEeEUu174yrHx/F4pPyEXUUwfrDSJy9lYYawK/TL
+         7+VcwPqszEk03hVL1tXf4YEaW2ESnnOW9ZhGRWWDqjasA64N3q3tQZ9PdCxJl+AKvKIr
+         bvnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=rMcwZZyzD4aLSfK+vIDiFeDvvWtNOlRHmP8s8YMbIOw=;
+        b=wUW9zmYr3S4d9sQ7rwy+B6zWnSyrDO0htNDvZkAeJL4vppjb+7Lc1/UoBbuPRsxbNI
+         4jyfNDdiPJgXCcSbxN2+/2Lb0OOAEYwAHxvpE8wps+uBL35pnB/lF5lRh/LkfMp++fBO
+         OQDN5gJ5IeiPk9vSMdUzANhUoyF1kqi44J9PzahFFJeRPqOYbc8eZeuuZBx4hqgYx1sa
+         oAkDQGj776ByhRXY95ITG0JIGU7S6eUS5zujWw76Ue6w4JpwAMxlm3A8UKXjDzvjlrre
+         q4XdWbKrJfON3VeQnxHtGFMdB/reDgw9txbgjVMIbzSL1i9zAHmUVTW7DSZzin8hkNZA
+         q5ZA==
+X-Gm-Message-State: AOAM532jwBYTkKVl1Aiba2KW3hN2xxQ2iga0+/wOwxVAvWL3eZ7pHWPu
+        oUOGtCORK9A/UKcv2uuDSHI=
+X-Google-Smtp-Source: ABdhPJyAf1N23q1Z+y569d/oGHSUMK3ZqiDI1J0ppOHjHBz1ppS+GNRHMMUILf7nso6azh/5JAiElQ==
+X-Received: by 2002:a17:90b:1651:: with SMTP id il17mr10096286pjb.151.1642022462103;
+        Wed, 12 Jan 2022 13:21:02 -0800 (PST)
+Received: from localhost (2603-800c-1a02-1bae-e24f-43ff-fee6-449f.res6.spectrum.com. [2603:800c:1a02:1bae:e24f:43ff:fee6:449f])
+        by smtp.gmail.com with ESMTPSA id q18sm519156pfn.50.2022.01.12.13.21.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Jan 2022 13:21:01 -0800 (PST)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Wed, 12 Jan 2022 11:21:00 -1000
+From:   Tejun Heo <tj@kernel.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>
+Subject: Re: [PATCH v9 6/7] cgroup/cpuset: Update description of
+ cpuset.cpus.partition in cgroup-v2.rst
+Message-ID: <Yd9GPLytGQ6XpYK6@slm.duckdns.org>
+References: <20211205183220.818872-1-longman@redhat.com>
+ <20211205183220.818872-7-longman@redhat.com>
+ <Ybe0YWEo7Wp7wib9@slm.duckdns.org>
+ <20211215144450.GC25459@blackbody.suse.cz>
+ <96018978-6b7f-1e7f-1012-9df7f7996ec5@redhat.com>
+ <Ybo1jmNvM6sblcJq@slm.duckdns.org>
+ <58c06961-ffc4-27d7-01d2-4c91b0c9161d@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <58c06961-ffc4-27d7-01d2-4c91b0c9161d@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add CONFIG_X86_KEYLOCKER to gate whether Key Locker is initialized at boot.
-The option is selected by the Key Locker cipher module CRYPTO_AES_KL (to be
-added in a later patch).
+Hello,
 
-Add a new command line option "nokeylocker" to optionally override the
-default CONFIG_X86_KEYLOCKER=y behavior.
+On Wed, Dec 15, 2021 at 01:55:05PM -0500, Waiman Long wrote:
+> How about we allow transition to an invalid partition state but still return
+> an error?
 
-Signed-off-by: Chang S. Bae <chang.seok.bae@intel.com>
-Reviewed-by: Dan Williams <dan.j.williams@intel.com>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
----
-Changes from RFC v2:
-* Make the option selected by CRYPTO_AES_KL. (Dan Williams)
-* Massage the changelog and the config option description.
----
- Documentation/admin-guide/kernel-parameters.txt |  2 ++
- arch/x86/Kconfig                                |  3 +++
- arch/x86/kernel/cpu/common.c                    | 16 ++++++++++++++++
- 3 files changed, 21 insertions(+)
+Like -EAGAIN as Michal suggested? I don't know. I understand the motivation
+but one problem is that error return usually means that the operation didn't
+change the state of the system and that holds even for -EAGAIN. So, we'd be
+trading one locally jarring thing (this thing is asynchrnous and the actual
+state transitions should be monitored separately) to another one which is
+jarring in a wider context (this thing returned error but the system state
+changed anyway). To me, the latter seems noticeably worse given how common
+the assumption that an error return indicate that nothing actually happened.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 2fba82431efb..30ed18fbdea3 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3405,6 +3405,8 @@
- 
- 	nohugevmalloc	[PPC] Disable kernel huge vmalloc mappings.
- 
-+	nokeylocker	[X86] Disable Key Locker hardware feature.
-+
- 	nosmt		[KNL,S390] Disable symmetric multithreading (SMT).
- 			Equivalent to smt=1.
- 
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 5c2ccb85f2ef..191bd4a941eb 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -1864,6 +1864,9 @@ config X86_INTEL_MEMORY_PROTECTION_KEYS
- 
- 	  If unsure, say y.
- 
-+config X86_KEYLOCKER
-+	bool
-+
- choice
- 	prompt "TSX enable mode"
- 	depends on CPU_SUP_INTEL
-diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-index 23b4aa437c1e..db1fc9ff0fe3 100644
---- a/arch/x86/kernel/cpu/common.c
-+++ b/arch/x86/kernel/cpu/common.c
-@@ -364,6 +364,22 @@ static __always_inline void setup_umip(struct cpuinfo_x86 *c)
- /* These bits should not change their value after CPU init is finished. */
- static const unsigned long cr4_pinned_mask =
- 	X86_CR4_SMEP | X86_CR4_SMAP | X86_CR4_UMIP | X86_CR4_FSGSBASE;
-+
-+static __init int x86_nokeylocker_setup(char *arg)
-+{
-+	/* Expect an exact match without trailing characters. */
-+	if (strlen(arg))
-+		return 0;
-+
-+	if (!cpu_feature_enabled(X86_FEATURE_KEYLOCKER))
-+		return 1;
-+
-+	setup_clear_cpu_cap(X86_FEATURE_KEYLOCKER);
-+	pr_info("x86/keylocker: Disabled by kernel command line.\n");
-+	return 1;
-+}
-+__setup("nokeylocker", x86_nokeylocker_setup);
-+
- static DEFINE_STATIC_KEY_FALSE_RO(cr_pinning);
- static unsigned long cr4_pinned_bits __ro_after_init;
- 
+We have other cases where we split operation submissions and completions
+(aios being the obvious one) but I don't think we have any where -EAGAIN
+indicates successful initiation of an operation. At least I hope not.
+
+Thanks.
+
 -- 
-2.17.1
-
+tejun
