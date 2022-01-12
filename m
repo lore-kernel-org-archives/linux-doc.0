@@ -2,124 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11D39C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 08:55:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67C8CC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 10:04:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351777AbiALIy7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jan 2022 03:54:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55598 "EHLO
+        id S239166AbiALKEX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jan 2022 05:04:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351771AbiALIy5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 03:54:57 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 434E4C06173F;
-        Wed, 12 Jan 2022 00:54:57 -0800 (PST)
-Received: from ip4d173d02.dynamic.kabel-deutschland.de ([77.23.61.2] helo=[192.168.66.200]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1n7ZPD-0004z1-6n; Wed, 12 Jan 2022 09:54:55 +0100
-Message-ID: <0a79a9be-eddc-fa2b-d7d9-8a2680ed370a@leemhuis.info>
-Date:   Wed, 12 Jan 2022 09:54:54 +0100
+        with ESMTP id S239196AbiALKEW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 05:04:22 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 209BAC06173F;
+        Wed, 12 Jan 2022 02:04:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=Kh/HKj3/o1WOFn9L3CDxPNGxXJ5OR1S9mBMFhWz9mXY=; b=Inj4tqlAk9DWNVe9v6+4CQ6Xhe
+        FWOdQX8JvqI/7oePa/z66spHCoPa/5xqHj8tZpSjqJDFIOojup1PaO+6R0MCymfVsXdCJ9TNPlgrA
+        hm8GM1IbQTs2nENXPRwRIEu+309+J20VXtvD5kcHstRRhDWDasaCeN0NzuiLZ+WEzOTNC9fRAweYZ
+        1zVnbBBN1HKqMueamY1H0hFVgEBiUm9bsrZYfsKmxj0DVhptvsT8upBEWoPzJjuvZEdLvz2EdrDTW
+        gqUctnWJpjoo1SPh6JlMNKLAe8Zr5+PXmvk92vCrUFCTGiZ2GKzC5J7r3IyTagGVf6AjVFOHIlMeC
+        9cpQyi2Q==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1n7aTz-0040I5-6b; Wed, 12 Jan 2022 10:03:55 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id D7F08300222;
+        Wed, 12 Jan 2022 11:03:52 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id B578920139FF2; Wed, 12 Jan 2022 11:03:52 +0100 (CET)
+Date:   Wed, 12 Jan 2022 11:03:52 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     hannes@cmpxchg.org, torvalds@linux-foundation.org,
+        ebiggers@kernel.org, tj@kernel.org, lizefan.x@bytedance.com,
+        mingo@redhat.com, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+        bristot@redhat.com, corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
+        stable@vger.kernel.org, kernel-team@android.com,
+        syzbot+cdb5dd11c97cc532efad@syzkaller.appspotmail.com
+Subject: Re: [PATCH v3 1/1] psi: Fix uaf issue when psi trigger is destroyed
+ while being polled
+Message-ID: <Yd6niK1gzKc5lIJ8@hirez.programming.kicks-ass.net>
+References: <20220111232309.1786347-1-surenb@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Content-Language: en-BS
-To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-References: <51654a51-4264-c333-40d5-4f755e69d54b@leemhuis.info>
- <20220111145031.cfkyxffmps3swakv@meerkat.local>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: Add a few more FAQs to the [kernel.org] releases page
-In-Reply-To: <20220111145031.cfkyxffmps3swakv@meerkat.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1641977697;ad489ecd;
-X-HE-SMSGID: 1n7ZPD-0004z1-6n
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220111232309.1786347-1-surenb@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11.01.22 15:50, Konstantin Ryabitsev wrote:
-> On Tue, Jan 11, 2022 at 07:32:46AM +0100, Thorsten Leemhuis wrote:
->> * you added two sections that use the term "LTS", which is not explained
->> on that page and wasn't used on it earlier. I wonder if it might be
->> better to use "Longterm series" or something like that instead, as that
->> it the term used on the page (and the official one afaics).
-> Thanks for the feedback, I switched to using "longterm" uniformly on that
-> page.
-
-Ahh, nice, thx.
-
->> This was also added:
->>
->>> Does the odd-even number still mean anything?
->>>
->>> Not since 2.5 days.
->>
->> I guess a lot of users won't known how long ago that was, so how about
->> using an answer like this instead:
->>
->> "Not since December 2003, when Linux 2.6 got released."
+On Tue, Jan 11, 2022 at 03:23:09PM -0800, Suren Baghdasaryan wrote:
+> With write operation on psi files replacing old trigger with a new one,
+> the lifetime of its waitqueue is totally arbitrary. Overwriting an
+> existing trigger causes its waitqueue to be freed and pending poll()
+> will stumble on trigger->event_wait which was destroyed.
+> Fix this by disallowing to redefine an existing psi trigger. If a write
+> operation is used on a file descriptor with an already existing psi
+> trigger, the operation will fail with EBUSY error.
+> Also bypass a check for psi_disabled in the psi_trigger_destroy as the
+> flag can be flipped after the trigger is created, leading to a memory
+> leak.
 > 
-> I've expanded a bit more on that topic, just to avoid confusion.
+> Fixes: 0e94682b73bf ("psi: introduce psi monitor")
+> Cc: stable@vger.kernel.org
+> Reported-by: syzbot+cdb5dd11c97cc532efad@syzkaller.appspotmail.com
+> Analyzed-by: Eric Biggers <ebiggers@kernel.org>
+> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> ---
 
-Great.
-
-BTW, also a big "thank you" from my side for linking "reporting issues".
-
-I looked a little more at the two pages you changed. Most of what
-follows is nitpicking, feel free to ignore it. Quotes from here on are
-from the linked pages, not from the mail I'm replying to:
-
-
-# https://www.kernel.org/category/releases.html
-
-> What is the next longterm release going to be?
->
-> Longterm kernels are picked based on various factors -- major new
-> features, popular commercial distribution needs, device manufacturer
-> demand, maintainer workload and availability, etc. You can roughly
-> estimate when the new longterm version will become available based on
-> how much time has elapsed since the last longterm version was
-> chosen.
-
-This is not true anymore afaics (or is it vague on purpose?). Greg (now
-CCed) since a few years always makes the last mainline release of a year
-the next longterm kernel. He said that a few times, for example here:
-https://twitter.com/kernellogger/status/1321081399730970626
-
-So something like this maybe?
-"""
-What is the next longterm release going to be?
-
-The last Linux mainline version released in a year becomes a longterm
-kernel.
-"""
-
-# https://www.kernel.org/category/faq.html
-
-> Why is an LTS kernel marked as "stable" on the front page?
->  
-> Long-term support ("LTS") kernels announced on the Releases page […]
-
-Maybe get rid of the LTS here, too?
-
-"""
-Why is a longterm kernel described as "stable" on the front page?
-
-Longterm kernels announced on the Releases page […]
-"""
-
-FWIW, in reporting issues I did it like this: "Longterm kernels
-(sometimes called 'LTS kernels') are […]"
-
-> How do I report a problem with the kernel?
-
-I'd sort the list of distribution bug trackers alphabetically to avoid
-people thinking things like "why is x listed earlier than my favourite
-distro, which is way better".
-
-Ohh, and I guess you make some people happy if you do
-s/OpenSUSE/openSUSE/ :-D
-
-Ciao, Thorsten
+Thanks, I'll go stick this in sched/urgent unless Linus picks it up
+himself.
