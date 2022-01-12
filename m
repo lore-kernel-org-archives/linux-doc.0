@@ -2,82 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67C8CC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 10:04:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4873EC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 10:17:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239166AbiALKEX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jan 2022 05:04:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43378 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239196AbiALKEW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 05:04:22 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 209BAC06173F;
-        Wed, 12 Jan 2022 02:04:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=Kh/HKj3/o1WOFn9L3CDxPNGxXJ5OR1S9mBMFhWz9mXY=; b=Inj4tqlAk9DWNVe9v6+4CQ6Xhe
-        FWOdQX8JvqI/7oePa/z66spHCoPa/5xqHj8tZpSjqJDFIOojup1PaO+6R0MCymfVsXdCJ9TNPlgrA
-        hm8GM1IbQTs2nENXPRwRIEu+309+J20VXtvD5kcHstRRhDWDasaCeN0NzuiLZ+WEzOTNC9fRAweYZ
-        1zVnbBBN1HKqMueamY1H0hFVgEBiUm9bsrZYfsKmxj0DVhptvsT8upBEWoPzJjuvZEdLvz2EdrDTW
-        gqUctnWJpjoo1SPh6JlMNKLAe8Zr5+PXmvk92vCrUFCTGiZ2GKzC5J7r3IyTagGVf6AjVFOHIlMeC
-        9cpQyi2Q==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1n7aTz-0040I5-6b; Wed, 12 Jan 2022 10:03:55 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id D7F08300222;
-        Wed, 12 Jan 2022 11:03:52 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id B578920139FF2; Wed, 12 Jan 2022 11:03:52 +0100 (CET)
-Date:   Wed, 12 Jan 2022 11:03:52 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     hannes@cmpxchg.org, torvalds@linux-foundation.org,
-        ebiggers@kernel.org, tj@kernel.org, lizefan.x@bytedance.com,
-        mingo@redhat.com, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-        bristot@redhat.com, corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
-        stable@vger.kernel.org, kernel-team@android.com,
-        syzbot+cdb5dd11c97cc532efad@syzkaller.appspotmail.com
-Subject: Re: [PATCH v3 1/1] psi: Fix uaf issue when psi trigger is destroyed
- while being polled
-Message-ID: <Yd6niK1gzKc5lIJ8@hirez.programming.kicks-ass.net>
-References: <20220111232309.1786347-1-surenb@google.com>
+        id S1352447AbiALKR6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jan 2022 05:17:58 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:34614 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1346594AbiALKR4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 05:17:56 -0500
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id AF6DE1F3D0;
+        Wed, 12 Jan 2022 10:17:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1641982675; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=g/PcfchBevR47yLCk2MvJMcIoOeey+Dc7tFuclOHyHY=;
+        b=ihOEkN8DjQyUt0ipnU90uMOZ2gXOVMRbLDzXwZb6s6F8FLHvme9bzA1Up283oRsVgW8TRI
+        3snyjvVlAjeBn09Iscu8aTJ2GMnUcRLx0jwB0ZIVXuvPDja9V5BdcKNwCLFIhyLOFsuMpE
+        lL6uy541yhuj4resrieM6V346Nz/eO4=
+Received: from suse.cz (unknown [10.100.201.86])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 71453A3B81;
+        Wed, 12 Jan 2022 10:17:54 +0000 (UTC)
+Date:   Wed, 12 Jan 2022 11:17:53 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Yu Zhao <yuzhao@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, x86@kernel.org,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>
+Subject: Re: [PATCH v6 6/9] mm: multigenerational lru: aging
+Message-ID: <Yd6q0QdLVTS53vu4@dhcp22.suse.cz>
+References: <20220104202227.2903605-1-yuzhao@google.com>
+ <20220104202227.2903605-7-yuzhao@google.com>
+ <Ydxlg5rI4ZvODQvF@dhcp22.suse.cz>
+ <Yd4oaUwHkpadAKwe@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220111232309.1786347-1-surenb@google.com>
+In-Reply-To: <Yd4oaUwHkpadAKwe@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 11, 2022 at 03:23:09PM -0800, Suren Baghdasaryan wrote:
-> With write operation on psi files replacing old trigger with a new one,
-> the lifetime of its waitqueue is totally arbitrary. Overwriting an
-> existing trigger causes its waitqueue to be freed and pending poll()
-> will stumble on trigger->event_wait which was destroyed.
-> Fix this by disallowing to redefine an existing psi trigger. If a write
-> operation is used on a file descriptor with an already existing psi
-> trigger, the operation will fail with EBUSY error.
-> Also bypass a check for psi_disabled in the psi_trigger_destroy as the
-> flag can be flipped after the trigger is created, leading to a memory
-> leak.
+On Tue 11-01-22 18:01:29, Yu Zhao wrote:
+> On Mon, Jan 10, 2022 at 05:57:39PM +0100, Michal Hocko wrote:
+> > On Tue 04-01-22 13:22:25, Yu Zhao wrote:
+> > [...]
+> > > +static void walk_mm(struct lruvec *lruvec, struct mm_struct *mm, struct lru_gen_mm_walk *walk)
+> > > +{
+> > > +	static const struct mm_walk_ops mm_walk_ops = {
+> > > +		.test_walk = should_skip_vma,
+> > > +		.p4d_entry = walk_pud_range,
+> > > +	};
+> > > +
+> > > +	int err;
+> > > +#ifdef CONFIG_MEMCG
+> > > +	struct mem_cgroup *memcg = lruvec_memcg(lruvec);
+> > > +#endif
+> > > +
+> > > +	walk->next_addr = FIRST_USER_ADDRESS;
+> > > +
+> > > +	do {
+> > > +		unsigned long start = walk->next_addr;
+> > > +		unsigned long end = mm->highest_vm_end;
+> > > +
+> > > +		err = -EBUSY;
+> > > +
+> > > +		rcu_read_lock();
+> > > +#ifdef CONFIG_MEMCG
+> > > +		if (memcg && atomic_read(&memcg->moving_account))
+> > > +			goto contended;
+> > > +#endif
+> > 
+> > Why do you need to check for moving_account?
 > 
-> Fixes: 0e94682b73bf ("psi: introduce psi monitor")
-> Cc: stable@vger.kernel.org
-> Reported-by: syzbot+cdb5dd11c97cc532efad@syzkaller.appspotmail.com
-> Analyzed-by: Eric Biggers <ebiggers@kernel.org>
-> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> ---
+> This check, if succeeds, blocks memcg migration.
 
-Thanks, I'll go stick this in sched/urgent unless Linus picks it up
-himself.
+OK, I can see that you rely on the RCU here for the synchronization. A
+comment which mentions mem_cgroup_move_charge would be helpful for
+clarity. Is there any reason you are not using folio_memcg_lock in the
+pte walk instead?
+-- 
+Michal Hocko
+SUSE Labs
