@@ -2,94 +2,187 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A221C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 21:25:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A91DC433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 21:33:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230447AbiALVZh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jan 2022 16:25:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59784 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230309AbiALVZg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 16:25:36 -0500
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D32A4C06173F;
-        Wed, 12 Jan 2022 13:25:35 -0800 (PST)
-Received: by mail-pj1-x102c.google.com with SMTP id b1-20020a17090a990100b001b14bd47532so7554696pjp.0;
-        Wed, 12 Jan 2022 13:25:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=71MHWWgwv/fcd6sVQlX/nQYgJbOKyivyKZ2pLN/ooAE=;
-        b=MBKN0ogjzTfVJcRRMglHt5ESyQHxLRwHCERWBzWPgi83VsoxTi/Fbn8BYq/uobfLzZ
-         gHZp+dt9q700lzX2CllbNPEzFxC2mi2HCC6jQZGf3GM+tSFkr4RxazZlKiX52oxuYdHO
-         u27qqIDERnsUEtWROk2gV3xo3MCQPV+p61qlPOqHxVW5IZ0o67fe93e8aiV9efjo2z0R
-         EhHLVlGg4Pa0/P3so+qZE3kbaDSJMsts+HEvdWoUH07QFmfRW7WMEN4HtpMsW/xHTIf0
-         m+MHVNTyDXpXyh2xH5gY7ShdMbrOlFuqW1s45u/xNjJ+33GeSfqzTgTkSRD1RyUDdC6Q
-         hcsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to;
-        bh=71MHWWgwv/fcd6sVQlX/nQYgJbOKyivyKZ2pLN/ooAE=;
-        b=qRBWz9VGm++UX7vuOTsi10OsuPlwZoZYHnE59V46fOKEhXKI4MPryueuRg9kRU12mt
-         LWY9HI1LO+kh4I2sY+fWCgoQY5cnVAx4F1r1ndzVYIsv5VxN/9IP3depfhZsxdkBd1nI
-         y8R5veV36AqVz1ewGYb9OodUydPcwf4u3+RBxo/ZgkijWS+uVMCpe69xEHaYqS32lWds
-         /LoXkmlY0lCyW5nmxAiq1O2NOS/rkIhoryYSTzN5w1Qaxz1sCbP+ZXFRS06c2i9Mvr60
-         SS7Ty7YLhU66DuuLyMB3ggQCJbYJMtkr5EUuovs43CsqG92m3H5iXIpIo8uZg2m+/m8u
-         x8Vg==
-X-Gm-Message-State: AOAM532f+sRlXOjDzZIjpBHIW3bYjYXK0nCn5zU02f6JMEqeNLX1Ezhs
-        UW50PGCx8ki/S3MawaweSRg=
-X-Google-Smtp-Source: ABdhPJw+N7bRQaNyf8Dv9Y3SYFf4IM95GVtc1OynWB0qzu4QMpIzFmCg9jbdNsBBQS9lT15Yv88qbA==
-X-Received: by 2002:a62:e217:0:b0:4be:3ce4:17a7 with SMTP id a23-20020a62e217000000b004be3ce417a7mr1164361pfi.55.1642022735256;
-        Wed, 12 Jan 2022 13:25:35 -0800 (PST)
-Received: from localhost (2603-800c-1a02-1bae-e24f-43ff-fee6-449f.res6.spectrum.com. [2603:800c:1a02:1bae:e24f:43ff:fee6:449f])
-        by smtp.gmail.com with ESMTPSA id c19sm509955pfl.118.2022.01.12.13.25.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jan 2022 13:25:34 -0800 (PST)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Wed, 12 Jan 2022 11:25:33 -1000
-From:   Tejun Heo <tj@kernel.org>
-To:     Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
-Cc:     longman@redhat.com, akpm@linux-foundation.org,
-        cgroups@vger.kernel.org, corbet@lwn.net, frederic@kernel.org,
-        guro@fb.com, hannes@cmpxchg.org, juri.lelli@redhat.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, lizefan.x@bytedance.com,
-        mtosatti@redhat.com, pauld@redhat.com, peterz@infradead.org,
-        shuah@kernel.org
-Subject: Re: [PATCH] cgroup/cpuset: Make child cpusets restrict parents on v1
- hierarchy
-Message-ID: <Yd9HTVxEPo2/zfou@slm.duckdns.org>
-References: <8d73dc26-74e1-d763-d897-6e03cdac3c8c@redhat.com>
- <20211217154854.41409-1-mkoutny@suse.com>
+        id S233321AbiALVdX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jan 2022 16:33:23 -0500
+Received: from mga17.intel.com ([192.55.52.151]:62940 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233150AbiALVcw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 12 Jan 2022 16:32:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1642023172; x=1673559172;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=eN7exeTCR29Wy4LB7pYWXx9koMDYosg8aVNTC5CSc2g=;
+  b=gjQ6sNdq39Ljpl3UeRMwqph6xlXrqz5mjjlh2BhsyzghvkY6ZYBsmFIf
+   IOSid7+U8+E3kZuJ9IqqP5ObZCknYCgqKbWXBYkBbG+yKH8SkBvOJe+ys
+   /oiW75z/SkTV+FFBGnWwLEMfUILZEnxDZmQLamnCu3KQQn3i7FMhz5kM1
+   Zojk4YaEzr2cQ8gdB2eqlhTT0k9AwjTAaoYRY/aiK5BSrQdRAkpQqnzr2
+   YWW411J5opupqIELQbPHPvnN/2HzBfaANyPv0K4yT8vjbD7t+bthDNowK
+   qf82wD34hmqC0+I5fqZIbkX2fYcI24ESnaD/eaKXdOnj0EhlFTll5U0sl
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10225"; a="224550308"
+X-IronPort-AV: E=Sophos;i="5.88,284,1635231600"; 
+   d="scan'208";a="224550308"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2022 13:32:51 -0800
+X-IronPort-AV: E=Sophos;i="5.88,284,1635231600"; 
+   d="scan'208";a="475067451"
+Received: from japete-mobl1.amr.corp.intel.com ([10.212.252.179])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2022 13:32:47 -0800
+Message-ID: <7dde8e84961e09066c6bf02198e429d3a702a496.camel@linux.intel.com>
+Subject: Re: [PATCH v3 6/7] thermal: netlink: Add a new event to notify CPU
+ capabilities change
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Len Brown <len.brown@intel.com>,
+        Aubrey Li <aubrey.li@linux.intel.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>,
+        Lukasz Luba <lukasz.luba@arm.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Ricardo Neri <ricardo.neri@intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Wed, 12 Jan 2022 13:32:46 -0800
+In-Reply-To: <CAJZ5v0ioQ7UQt58NraPAG=M8k-joSy5pmszFjp=NcS6z==6RQg@mail.gmail.com>
+References: <20220106025059.25847-1-ricardo.neri-calderon@linux.intel.com>
+         <20220106025059.25847-7-ricardo.neri-calderon@linux.intel.com>
+         <CAJZ5v0ioQ7UQt58NraPAG=M8k-joSy5pmszFjp=NcS6z==6RQg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211217154854.41409-1-mkoutny@suse.com>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Dec 17, 2021 at 04:48:54PM +0100, Michal Koutný wrote:
-> The commit 1f1562fcd04a ("cgroup/cpuset: Don't let child cpusets
-> restrict parent in default hierarchy") inteded to relax the check only
-> on the default hierarchy (or v2 mode) but it dropped the check in v1
-> too.
+On Wed, 2022-01-12 at 20:25 +0100, Rafael J. Wysocki wrote:
+> On Thu, Jan 6, 2022 at 3:49 AM Ricardo Neri
+> <ricardo.neri-calderon@linux.intel.com> wrote:
+> > From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> > 
+> > Add a new netlink event to notify change in CPU capabilities in
+> > terms of
+> > performance and efficiency.
+> > 
+> > Firmware may change CPU capabilities as a result of thermal events
+> > in the
+> > system or to account for changes in the TDP (thermal design power)
+> > level.
+> > 
+> > This notification type will allow user space to avoid running
+> > workloads
+> > on certain CPUs or proactively adjust power limits to avoid future
+> > events.
+> > 
+> > The netlink message consists of a nested attribute
+> > (THERMAL_GENL_ATTR_CPU_CAPABILITY) with three attributes:
+> > 
+> >  * THERMAL_GENL_ATTR_CPU_CAPABILITY_ID (type u32):
+> >    -- logical CPU number
+> >  * THERMAL_GENL_ATTR_CPU_CAPABILITY_PERFORMANCE (type u32):
+> >    -- Scaled performance from 0-1023
+> >  * THERMAL_GENL_ATTR_CPU_CAPABILITY_EFFICIENCY (type u32):
+> >    -- Scaled efficiency from 0-1023
+> > 
+> > Cc: Andi Kleen <ak@linux.intel.com>
+> > Cc: Aubrey Li <aubrey.li@linux.intel.com>
+> > Cc: Lukasz Luba <lukasz.luba@arm.com>
+> > Cc: Tim Chen <tim.c.chen@linux.intel.com>
+> > Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>
+> > Reviewed-by: Len Brown <len.brown@intel.com>
+> > Signed-off-by: Srinivas Pandruvada <
+> > srinivas.pandruvada@linux.intel.com>
 > 
-> This patch returns and separates the legacy-only validations so that
-> they can be considered only in the v1 mode, which should enforce the old
-> constraints for the sake of compatibility.
+> Of course, I need to know if Daniel and Lukasz agree with this patch.
 > 
-> Fixes: 1f1562fcd04a ("cgroup/cpuset: Don't let child cpusets restrict parent in default hierarchy")
-> Suggested-by: Waiman Long <longman@redhat.com>
-> Signed-off-by: Michal Koutný <mkoutny@suse.com>
+I pinged Daniel offline. I accommodated comments from Lukasz.
 
-Applied to cgroup/for-5.17-fixes.
+> > ---
+> > 
 
-Thanks.
+[...]
 
--- 
-tejun
+> > +static int thermal_genl_event_cpu_capability_change(struct param
+> > *p)
+> > +{
+> > +       struct cpu_capability *cpu_cap = p->cpu_capabilities;
+> > +       struct sk_buff *msg = p->msg;
+> > +       struct nlattr *start_cap;
+> > +       int i, ret;
+> > +
+> > +       start_cap = nla_nest_start(msg,
+> > THERMAL_GENL_ATTR_CPU_CAPABILITY);
+> > +       if (!start_cap)
+> > +               return -EMSGSIZE;
+> > +
+> > +       for (i = 0; i < p->cpu_capabilities_count; ++i) {
+> > +               if (nla_put_u32(msg,
+> > THERMAL_GENL_ATTR_CPU_CAPABILITY_ID,
+> > +                               cpu_cap->cpu)) {
+> > +                       ret = -EMSGSIZE;
+> > +                       goto out_cancel_nest;
+> > +               }
+> > +               if (nla_put_u32(msg,
+> > THERMAL_GENL_ATTR_CPU_CAPABILITY_PERFORMANCE,
+> > +                               cpu_cap->performance)) {
+> > +                       ret = -EMSGSIZE;
+> > +                       goto out_cancel_nest;
+> > +               }
+> > +               if (nla_put_u32(msg,
+> > THERMAL_GENL_ATTR_CPU_CAPABILITY_EFFICIENCY,
+> > +                               cpu_cap->efficiency)) {
+> > +                       ret = -EMSGSIZE;
+> > +                       goto out_cancel_nest;
+> > +               }
+> > +               ++cpu_cap;
+> > +       }
+> > +
+> > +       nla_nest_end(msg, start_cap);
+> > +
+> > +       return 0;
+> > +out_cancel_nest:
+> > +       nla_nest_cancel(msg, start_cap);
+> > +
+> > +       return ret;
+> 
+> It looks like ret is never different from -EMSGSIZE here, so I'd just
+> return that error and drop the ret variable.
+> 
+ret is initialized for every case when it will be returned. But agree
+that we can just return -EMSGSIZE as there is no other return value
+here.
+
+> > +}
+> > +
+> > 
+
+[...]
+
+> > +struct cpu_capability {
+> 
+> I'm wondering if the struct name is not too generic as the purpose it
+> is used for is rather narrow and specific.
+> 
+This was named something else before. What about cpu_energy_perf_cap?
+
+
+> > +       int cpu;
+> > +       int performance;
+> > +       int efficiency;
+> > +};
+> > +
+> > 
+Thanks,
+Srinivas
+
