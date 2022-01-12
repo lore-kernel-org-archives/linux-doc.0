@@ -2,160 +2,172 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08D9CC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 16:51:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D934C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 17:44:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355362AbiALQvh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jan 2022 11:51:37 -0500
-Received: from mo4-p00-ob.smtp.rzone.de ([85.215.255.24]:43457 "EHLO
-        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355356AbiALQve (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 11:51:34 -0500
-X-Greylist: delayed 7724 seconds by postgrey-1.27 at vger.kernel.org; Wed, 12 Jan 2022 11:51:33 EST
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1642006289;
-    s=strato-dkim-0002; d=thson.de;
-    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
-    bh=J3CqP3XxbqvGVH2Ovn/72z94n2Ys62oWqz8aEN+JrTU=;
-    b=G0EvUXwWsiSNpKLN+QEFh59iFQ04Ke54ol9+ilJxvXziVRM8Eqq4p0I2xRgCp8BNV+
-    Niu0d5TxDq43u5am5fJWSj7vJtW4iolyZJskupazMhz3dR1B+RpWo/fhQhHU7uYlM+np
-    hBFwp/jHkn8MgGJCtA9VOMHtuBjRfgrMs9QsOqw1aU4ht0WEKVTYd7CSpMIw01L6Npkk
-    F+GCsK82Ys5Fhq5cyTz4YlzlOlvJvMvUZN1NiXMG9JWLyoL7dzY0jVJOnTc/0wkgaKYJ
-    R+dwkuopvKwB2KO46B40aSoztevs+Zy7ObrAkNuMlst6mn+hLI8iUr5NTX7dzCkhBv4D
-    A5hg==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":PHkGeUmrW+uCZmxs998QJRUX30nOwJd7nOD9sw/xoauycprg5uef7cgCEpy7sPc="
-X-RZG-CLASS-ID: mo00
-Received: from USER-PC.fritz.box
-    by smtp.strato.de (RZmta 47.37.6 DYNA|AUTH)
-    with ESMTPSA id k3f463y0CGpTRQi
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-        (Client did not present a certificate);
-    Wed, 12 Jan 2022 17:51:29 +0100 (CET)
-From:   Thore Sommer <public@thson.de>
-To:     dm-devel@redhat.com, agk@redhat.com, snitzer@redhat.com
-Cc:     linux-doc@vger.kernel.org, tusharsu@linux.microsoft.com,
-        Thore Sommer <public@thson.de>
-Subject: [PATCH v3] dm ima: updates to grammar and some details in documentation
-Date:   Wed, 12 Jan 2022 17:51:17 +0100
-Message-Id: <20220112165117.2030908-1-public@thson.de>
-X-Mailer: git-send-email 2.34.1
+        id S243956AbiALRn7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jan 2022 12:43:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36230 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241185AbiALRn4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 12:43:56 -0500
+Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1919AC061756
+        for <linux-doc@vger.kernel.org>; Wed, 12 Jan 2022 09:43:56 -0800 (PST)
+Received: by mail-qk1-x736.google.com with SMTP id t66so4008033qkb.4
+        for <linux-doc@vger.kernel.org>; Wed, 12 Jan 2022 09:43:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=eP5J8KdvwPTzx2Kh8QKLifNfox7/NjpkOpmG9av6VCk=;
+        b=KOnNi/erjJKDmXshSZZv7C3gKcJm3IwJxMouUmE8kJwjg35FNi2J3VpRJJE/XQaq+f
+         ouYLgnZDFAaNV/dqxDZDk6O3Fv6kndvxJTf9AH6O4akiYKs9CyjyX3pWSP26jU17VEXI
+         6ErUlQZ3+TUb2xsmk1ccCDw9ox3MzN4DbY+Gik5rJVQOkCfjDDk7H1g7Yf66gTgdMZ0B
+         xX7ItBjgp1QlQISrAdgTibHYblom3PdgqvpX8tr+VOTUf+X4TBASg+486PvrMw4KlZD7
+         CYY5L51LKMZK8LUaHHFZsldW3arkrea20wfWQ0cJ5wMJObXD8DPKu+feJ+i17rNp84mq
+         Jraw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=eP5J8KdvwPTzx2Kh8QKLifNfox7/NjpkOpmG9av6VCk=;
+        b=0eu2grVzZ5Nt82KA1MU1l5QvQgu9PIRQoVvxrxfMBYG36+2X4djazVE3XWKuQpjQfj
+         CwmoBG6I6OVmiSx5zvGcqbXftu0lL8BnXYwAx7ODJp5zFpjWDcp9WDxjH04lu2i/7Bvz
+         YeXuJYW+ZrekJb/MJ/QEUzPXQtinkbkb/pwfCeyKKRC9y6x5lugB/nK4FgGR75+xslRi
+         vEbJmzGLtWoXiWCICBjzly6JtA/V3mgbLaumlFX7kE/dkn2d3Pvi6sgpf5n5cF5tiW3M
+         +OfUXEuJs3CNOV0ppYsFLCuliEc1ryNddHYmkSdgDEIN/fNhwD8tDCISD3mdrXE2MlGb
+         P3NA==
+X-Gm-Message-State: AOAM530uZppabxt6v9OHLaJAyas+04SzXKB8MKWQokFvuJxJ45rSzr3w
+        N99JuaxmyHbGcw86ZrNxW1byN+OaUD2YEeA1oNpKXw==
+X-Google-Smtp-Source: ABdhPJxLWwmyro/LoBJqQDlBZtRxFKL0M6eFBNtTxql56a0+Bl0VWjyjB5YOXPDVFGgaUWS7krAoLWZb5Bhs1xjIjtM=
+X-Received: by 2002:a05:6902:703:: with SMTP id k3mr987928ybt.225.1642009434832;
+ Wed, 12 Jan 2022 09:43:54 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220111232309.1786347-1-surenb@google.com> <Yd7oPlxCpnzNmFzc@cmpxchg.org>
+In-Reply-To: <Yd7oPlxCpnzNmFzc@cmpxchg.org>
+From:   Suren Baghdasaryan <surenb@google.com>
+Date:   Wed, 12 Jan 2022 09:43:43 -0800
+Message-ID: <CAJuCfpGHLXDvMU1GLMcgK_K72_ErPhbcFh1ZvEeHg025yinNuw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/1] psi: Fix uaf issue when psi trigger is destroyed
+ while being polled
+To:     Johannes Weiner <hannes@cmpxchg.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Eric Biggers <ebiggers@kernel.org>, Tejun Heo <tj@kernel.org>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Benjamin Segall <bsegall@google.com>,
+        Mel Gorman <mgorman@suse.de>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        cgroups mailinglist <cgroups@vger.kernel.org>,
+        stable <stable@vger.kernel.org>,
+        kernel-team <kernel-team@android.com>,
+        syzbot <syzbot+cdb5dd11c97cc532efad@syzkaller.appspotmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The grammar for the events dm_device_remove, device_resume and
-dm_table_clear did not include the no_data entry when device data
-and hash are missing.
+)
 
-For the device uuid or name "=" is also escaped with a "\".
+On Wed, Jan 12, 2022 at 6:40 AM Johannes Weiner <hannes@cmpxchg.org> wrote:
+>
+> On Tue, Jan 11, 2022 at 03:23:09PM -0800, Suren Baghdasaryan wrote:
+> > With write operation on psi files replacing old trigger with a new one,
+> > the lifetime of its waitqueue is totally arbitrary. Overwriting an
+> > existing trigger causes its waitqueue to be freed and pending poll()
+> > will stumble on trigger->event_wait which was destroyed.
+> > Fix this by disallowing to redefine an existing psi trigger. If a write
+> > operation is used on a file descriptor with an already existing psi
+> > trigger, the operation will fail with EBUSY error.
+> > Also bypass a check for psi_disabled in the psi_trigger_destroy as the
+> > flag can be flipped after the trigger is created, leading to a memory
+> > leak.
+> >
+> > Fixes: 0e94682b73bf ("psi: introduce psi monitor")
+> > Cc: stable@vger.kernel.org
+> > Reported-by: syzbot+cdb5dd11c97cc532efad@syzkaller.appspotmail.com
+> > Analyzed-by: Eric Biggers <ebiggers@kernel.org>
+> > Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+>
+> Acked-by: Johannes Weiner <hannes@cmpxchg.org>
 
-Add a note that dm_table_load might split its target measurements over
-multiple IMA events.
+Hmm. kernel test robot notified me of new (which are not really new)
+warnings but I don't think this patch specifically introduced them:
 
-Signed-off-by: Thore Sommer <public@thson.de>
----
-v3: fixed missing spaces
-v2:
-- include also device name and uuid in grammar for no_data
-- fixed spelling mistakes
+kernel/sched/psi.c:1112:21: warning: no previous prototype for
+function 'psi_trigger_create' [-Wmissing-prototypes]
+   struct psi_trigger *psi_trigger_create(struct psi_group *group,
+                       ^
+   kernel/sched/psi.c:1112:1: note: declare 'static' if the function
+is not intended to be used outside of this translation unit
+   struct psi_trigger *psi_trigger_create(struct psi_group *group,
+   ^
+   static
+>> kernel/sched/psi.c:1182:6: warning: no previous prototype for function 'psi_trigger_destroy' [-Wmissing-prototypes]
+   void psi_trigger_destroy(struct psi_trigger *t)
+        ^
+   kernel/sched/psi.c:1182:1: note: declare 'static' if the function
+is not intended to be used outside of this translation unit
+   void psi_trigger_destroy(struct psi_trigger *t)
+   ^
+   static
+   kernel/sched/psi.c:1249:10: warning: no previous prototype for
+function 'psi_trigger_poll' [-Wmissing-prototypes]
+   __poll_t psi_trigger_poll(void **trigger_ptr,
+            ^
+   kernel/sched/psi.c:1249:1: note: declare 'static' if the function
+is not intended to be used outside of this translation unit
+   __poll_t psi_trigger_poll(void **trigger_ptr,
+   ^
 
- .../admin-guide/device-mapper/dm-ima.rst      | 32 +++++++++++++++----
- 1 file changed, 26 insertions(+), 6 deletions(-)
+This happens with the following config:
 
-diff --git a/Documentation/admin-guide/device-mapper/dm-ima.rst b/Documentation/admin-guide/device-mapper/dm-ima.rst
-index a4aa50a828e0..b9f80c543350 100644
---- a/Documentation/admin-guide/device-mapper/dm-ima.rst
-+++ b/Documentation/admin-guide/device-mapper/dm-ima.rst
-@@ -100,6 +100,9 @@ When a new table is loaded in a device's inactive table slot,
- the device information and target specific details from the
- targets in the table are measured.
- 
-+Note that if there are too many targets to measure at once multiple IMA
-+measurements will be generated.
-+
- The IMA measurement log has the following format for 'dm_table_load':
- 
- ::
-@@ -118,9 +121,9 @@ The IMA measurement log has the following format for 'dm_table_load':
-  device_minor := "minor=" <N>
-  minor_count := "minor_count=" <N>
-  num_device_targets := "num_targets=" <N>
-- dm-device-name := Name of the device. If it contains special characters like '\', ',', ';',
-+ dm-device-name := Name of the device. If it contains special characters like '\', ',', ';', '=',
-                    they are prefixed with '\'.
-- dm-device-uuid := UUID of the device. If it contains special characters like '\', ',', ';',
-+ dm-device-uuid := UUID of the device. If it contains special characters like '\', ',', ';', '=',
-                    they are prefixed with '\'.
- 
-  table_load_data := <target_data>
-@@ -175,8 +178,9 @@ The IMA measurement log has the following format for 'dm_device_resume':
- ::
- 
-  EVENT_NAME := "dm_device_resume"
-- EVENT_DATA := <dm_version_str> ";" <device_metadata> ";" <active_table_hash> ";" <current_device_capacity> ";"
-+ EVENT_DATA := <dm_version_str> ";" <device_data> ";" <current_device_capacity> ";"
- 
-+ device_data := <device_metadata> ";" <active_table_hash> | <device_resume_no_data>
-  dm_version_str := As described in the 'Table load' section above.
-  device_metadata := As described in the 'Table load' section above.
-  active_table_hash := "active_table_hash=" <table_hash_alg> ":" <table_hash>
-@@ -189,6 +193,11 @@ The IMA measurement log has the following format for 'dm_device_resume':
-                events for a given device, the hash is computed combining all the event data
-                i.e. (<dm_version_str> ";" <device_metadata> ";" <table_load_data> ";")
-                across all those events.
-+ device_resume_no_data := <device_name> "," <device_uuid> ";" "device_resume=no_data"
-+                           If device metadata and hash for the active table do not exists, this value gets measured.
-+                           Note: the hash should always exist if the device metadata is present.
-+ device_name := As described in the 'Table load' section above.
-+ device_uuid := As described in the 'Table load' section above.
-  current_device_capacity := "current_device_capacity=" <N>
- 
-  For instance, if a linear device is resumed with the following command,
-@@ -213,10 +222,10 @@ The IMA measurement log has the following format for 'dm_device_remove':
- ::
- 
-  EVENT_NAME := "dm_device_remove"
-- EVENT_DATA := <dm_version_str> ";" <device_active_metadata> ";" <device_inactive_metadata> ";"
--               <active_table_hash> "," <inactive_table_hash> "," <remove_all> ";" <current_device_capacity> ";"
-+ EVENT_DATA := <dm_version_str> ";" <device_data> <remove_all> ";" <current_device_capacity> ";"
- 
-  dm_version_str := As described in the 'Table load' section above.
-+ device_data := <device_active_metadata> ";" <device_inactive_metadata> ";" <active_table_hash> "," <inactive_table_hash> "," | <device_remove_no_data> ";"
-  device_active_metadata := Device metadata that reflects the currently loaded active table.
-                            The format is same as 'device_metadata' described in the 'Table load' section above.
-  device_inactive_metadata := Device metadata that reflects the inactive table.
-@@ -225,6 +234,11 @@ The IMA measurement log has the following format for 'dm_device_remove':
-                       The format is same as 'active_table_hash' described in the 'Device resume' section above.
-  inactive_table_hash :=  Hash of the inactive table.
-                          The format is same as 'active_table_hash' described in the 'Device resume' section above.
-+ device_remove_no_data := <device_name> "," <device_uuid> ";" "device_remove=no_data"
-+                          If device metadata and hash for the active and inactive table do not exists, this value gets measured.
-+                          Note: the hash should always exist if the device metadata is present.
-+ device_name := As described in the 'Table load' section above.
-+ device_uuid := As described in the 'Table load' section above.
-  remove_all := "remove_all=" <yes_no>
-  yes_no := "y" | "n"
-  current_device_capacity := "current_device_capacity=" <N>
-@@ -254,9 +268,15 @@ The IMA measurement log has the following format for 'dm_table_clear':
- ::
- 
-  EVENT_NAME := "dm_table_clear"
-- EVENT_DATA := <dm_version_str> ";" <device_inactive_metadata> ";" <inactive_table_hash> ";" <current_device_capacity> ";"
-+ EVENT_DATA := <dm_version_str> ";" <device_data> ";" <current_device_capacity> ";"
- 
-  dm_version_str := As described in the 'Table load' section above.
-+ device_data := <device_inactive_metadata> ";" <inactive_table_hash> | <table_clear_no_data>
-+ table_clear_no_data := <device_name> "," <device_uuid> ";" "table_clear=no_data"
-+                        If device metadata and hash for the inactive table do not exists, this value gets measured.
-+                        Note: the hash should always exist if the device metadata is present.
-+ device_name := As described in the 'Table load' section above.
-+ device_uuid := As described in the 'Table load' section above.
-  device_inactive_metadata := Device metadata that was captured during the load time inactive table being cleared.
-                              The format is same as 'device_metadata' described in the 'Table load' section above.
-  inactive_table_hash := Hash of the inactive table being cleared from the device.
--- 
-2.34.1
+CONFIG_CGROUPS=n
+CONFIG_PSI=y
 
+With cgroups disabled these functions are defined as non-static but
+are not defined in the header
+(https://elixir.bootlin.com/linux/latest/source/include/linux/psi.h#L28)
+since the only external user cgroup.c is disabled. The cleanest way to
+fix these I think is by doing smth like this in psi.c:
+
+struct psi_trigger *_psi_trigger_create(struct psi_group *group, char
+*buf, size_t nbytes, enum psi_res res)
+{
+  // original psi_trigger_create code
+}
+
+#ifdef CONFIG_CGROUPS
+
+struct psi_trigger *psi_trigger_create(struct psi_group *group, char
+*buf, size_t nbytes, enum psi_res res)
+{
+    return _psi_trigger_create(group, buf, nbytes, res);
+}
+
+#else
+
+static struct psi_trigger *psi_trigger_create(struct psi_group *group,
+char *buf, size_t nbytes, enum psi_res res)
+{
+    return _psi_trigger_create(group, buf, nbytes, res);
+}
+
+#endif
+
+Two questions:
+1. Is this even worth fixing?
+2. If so, I would like to do that as a separate patch (these warnings
+are unrelated to the changes in this patch). Would that be ok?
+Thanks,
+Suren.
