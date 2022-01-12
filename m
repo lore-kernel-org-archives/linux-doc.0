@@ -2,132 +2,279 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CB4FC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 23:43:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9605FC433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 23:54:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235560AbiALXnW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jan 2022 18:43:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33770 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235550AbiALXnV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 18:43:21 -0500
-Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9EB4C061748
-        for <linux-doc@vger.kernel.org>; Wed, 12 Jan 2022 15:43:20 -0800 (PST)
-Received: by mail-io1-xd34.google.com with SMTP id v1so5985167ioj.10
-        for <linux-doc@vger.kernel.org>; Wed, 12 Jan 2022 15:43:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=BaIEd4azRffEg4unDNu3vsM967zzodtSvI+HO9xblew=;
-        b=L8O+0OVX45MTK0bIwZtr0Xzs4Q8XHHPBf0k+YHk1TfBnsWsX6/eh9SUyPwi6iG3kwK
-         0iRhOsvBovQoAUaLCU6lkfmXa2bQv09r3ziUwv8plzoDrnXAL+LCmK+Gh93Gr9G2f1Xi
-         +fBCf+WKROvUyqQI8zr56hOdcK7pYa1MSLCsh/dQWKy89Zyu8o3Qts+TYFW47ig/AxXe
-         WcLnJPcdEvPRs10Jz/86rnfHcgUAk3HMOTiiQJ8+3eT6tJ2pE6cMLpDLHzhMB7Irj0V7
-         Gc5RlGs2TgG2NGpk4Y//DcGwpcbmYiXbiN+ZV4ezeAxjRn9AnHXQ7KikX7PsdSTZqVfL
-         zavw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=BaIEd4azRffEg4unDNu3vsM967zzodtSvI+HO9xblew=;
-        b=nHBWZcovWFD2yniIhGa17SLgB8sGYHK0nZcZqcWG+96PLjMm0q1Q2NDfqPHgqcOJDk
-         EJX+ZWPXCStccVepWgiAOqKvffJtT2T7Kjyw8t3zATfxpmpk7PJaPpS2gO8WOPFh+51Z
-         riyFEzLUvXr1pG+inQn1brZPZ5EQ30A7T0omWQsb/zzHvYoZ3LRvOa/zA69Q+brAbA37
-         JPJvCPTy3MHfc1lUu/V+UZPJhIHnd6k+t6Pv/pepGz0pb07je2SgeqvWYiS1x0Zj+qdd
-         adGFZUGW65ddi9ggqkW+nNhiUeUXoLk9+Iluo4LlfdtDOkR9M2SOoVg4l0QQR9GJRNIV
-         f1vg==
-X-Gm-Message-State: AOAM533NRzpuSmp85z1DzqOLX8vNdutiF2rWZkTBXpTjwMJXPuSegAQ4
-        2fts10ff61jC7aO5Aicbk1RX0A==
-X-Google-Smtp-Source: ABdhPJwjyIAd/qG5g5lRDwYWNJCUGBoB3cLknLrXPs+wVsBV2bmPfZwZAO5qzY0E/Fj5GwfSdS77gQ==
-X-Received: by 2002:a6b:dc0d:: with SMTP id s13mr1002999ioc.186.1642030999695;
-        Wed, 12 Jan 2022 15:43:19 -0800 (PST)
-Received: from google.com ([2620:15c:183:200:ac2b:c4ef:2b56:374c])
-        by smtp.gmail.com with ESMTPSA id y8sm914835ilu.72.2022.01.12.15.43.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jan 2022 15:43:19 -0800 (PST)
-Date:   Wed, 12 Jan 2022 16:43:15 -0700
-From:   Yu Zhao <yuzhao@google.com>
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+        id S236081AbiALXyG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jan 2022 18:54:06 -0500
+Received: from mga17.intel.com ([192.55.52.151]:9041 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235950AbiALXyE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 12 Jan 2022 18:54:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1642031644; x=1673567644;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=MsJ01NEB5/+GcJN3nwB3l68x5NhNXBn9leynEnIlVJY=;
+  b=ZHej9/l/hVjdi18ZEeVwnPWZK2LssNkl+Fs0r4eyLBDi91tEuo65pYZh
+   IoMhqG/U2/yaCyro9PnYUFC8sHz6ylgW7yKYQnACXSufACT7VEr3z5T2J
+   BlaBtPzRlpOeG9fEb1OOtfBDbo60z8p3NN2c6C0sUGKrGCrBQLMDDauwe
+   rRnI+pnkBZ4ttZW5+hbhr/wwMMYThYriE1IP7gOio01odYHlpy4i4oLjq
+   PwGOcoO6j3uJJcTMaNz9f2pkfLBljfpDaBjWX45NCI2g33/JEIu1a4k1K
+   PVMvioFm+MJod5UaJFdrbycXXc6rUsv39q53cqA/Y4tkzl0TQhM7sIcPj
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10225"; a="224570473"
+X-IronPort-AV: E=Sophos;i="5.88,284,1635231600"; 
+   d="scan'208";a="224570473"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2022 15:54:03 -0800
+X-IronPort-AV: E=Sophos;i="5.88,284,1635231600"; 
+   d="scan'208";a="576746108"
+Received: from japete-mobl1.amr.corp.intel.com ([10.212.252.179])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2022 15:54:01 -0800
+Message-ID: <a41853fdaee888761ac2a34708118991b70cb904.camel@linux.intel.com>
+Subject: Re: [PATCH v4 7/7] thermal: intel: hfi: Notify user space for HFI
+ events
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Len Brown <len.brown@intel.com>,
+        Aubrey Li <aubrey.li@linux.intel.com>,
+        Amit Kucheria <amitk@kernel.org>,
         Andi Kleen <ak@linux.intel.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        page-reclaim@google.com, x86@kernel.org,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>
-Subject: Re: [PATCH v6 6/9] mm: multigenerational lru: aging
-Message-ID: <Yd9nk0qlK3jK9baN@google.com>
-References: <20220104202227.2903605-1-yuzhao@google.com>
- <20220104202227.2903605-7-yuzhao@google.com>
- <Ydxlg5rI4ZvODQvF@dhcp22.suse.cz>
- <Yd4oaUwHkpadAKwe@google.com>
- <Yd6q0QdLVTS53vu4@dhcp22.suse.cz>
+        Tim Chen <tim.c.chen@linux.intel.com>,
+        Lukasz Luba <lukasz.luba@arm.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Ricardo Neri <ricardo.neri@intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Wed, 12 Jan 2022 15:54:00 -0800
+In-Reply-To: <CAJZ5v0h5-xsYCfs=c+wE4tWrcmvkdbgrc+fnwytSghwuAWnu0A@mail.gmail.com>
+References: <20220108034743.31277-1-ricardo.neri-calderon@linux.intel.com>
+         <20220108034743.31277-8-ricardo.neri-calderon@linux.intel.com>
+         <CAJZ5v0h5-xsYCfs=c+wE4tWrcmvkdbgrc+fnwytSghwuAWnu0A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yd6q0QdLVTS53vu4@dhcp22.suse.cz>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 12, 2022 at 11:17:53AM +0100, Michal Hocko wrote:
-> On Tue 11-01-22 18:01:29, Yu Zhao wrote:
-> > On Mon, Jan 10, 2022 at 05:57:39PM +0100, Michal Hocko wrote:
-> > > On Tue 04-01-22 13:22:25, Yu Zhao wrote:
-> > > [...]
-> > > > +static void walk_mm(struct lruvec *lruvec, struct mm_struct *mm, struct lru_gen_mm_walk *walk)
-> > > > +{
-> > > > +	static const struct mm_walk_ops mm_walk_ops = {
-> > > > +		.test_walk = should_skip_vma,
-> > > > +		.p4d_entry = walk_pud_range,
-> > > > +	};
-> > > > +
-> > > > +	int err;
-> > > > +#ifdef CONFIG_MEMCG
-> > > > +	struct mem_cgroup *memcg = lruvec_memcg(lruvec);
-> > > > +#endif
-> > > > +
-> > > > +	walk->next_addr = FIRST_USER_ADDRESS;
-> > > > +
-> > > > +	do {
-> > > > +		unsigned long start = walk->next_addr;
-> > > > +		unsigned long end = mm->highest_vm_end;
-> > > > +
-> > > > +		err = -EBUSY;
-> > > > +
-> > > > +		rcu_read_lock();
-> > > > +#ifdef CONFIG_MEMCG
-> > > > +		if (memcg && atomic_read(&memcg->moving_account))
-> > > > +			goto contended;
-> > > > +#endif
-> > > 
-> > > Why do you need to check for moving_account?
+On Wed, 2022-01-12 at 20:53 +0100, Rafael J. Wysocki wrote:
+> On Sat, Jan 8, 2022 at 4:46 AM Ricardo Neri
+> <ricardo.neri-calderon@linux.intel.com> wrote:
+> > From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 > > 
-> > This check, if succeeds, blocks memcg migration.
+> > When the hardware issues an HFI event, relay a notification to user
+> > space.
+> > This allows user space to respond by reading performance and
+> > efficiency of
+> > each CPU and take appropriate action.
+> > 
+> > For example, when performance and efficiency of a CPU is 0, user
+> > space can
+> > either offline the CPU or inject idle. Also, if user space notices
+> > a
+> > downward trend in performance, it may proactively adjust power
+> > limits to
+> > avoid future situations in which performance drops to 0.
+> > 
+> > To avoid excessive notifications, the rate is limited by one HZ per
+> > event.
+> > To limit the netlink message size, parameters for only 16 CPUs at
+> > max are
+> > sent in one message. If there are more than 16 CPUs, issue as many
+> > messages
+> > as needed to notify the status of all CPUs.
+> > 
+> > In the HFI specification, both performance and efficiency
+> > capabilities are
+> > set in the [0, 255] range. The existing implementations of HFI
+> > hardware
+> > do not scale the maximum values to 255. Since userspace cares about
+> > capability values that are either 0 or show a downward/upward
+> > trend, this
+> > fact does not matter much. Relative changes in capabilities are
+> > enough. To
+> > comply with the thermal netlink ABI, scale both performance and
+> > efficiency
+> > capabilities to the [0, 1023] interval.
+> > 
+> > Cc: Andi Kleen <ak@linux.intel.com>
+> > Cc: Aubrey Li <aubrey.li@linux.intel.com>
+> > Cc: Lukasz Luba <lukasz.luba@arm.com>
+> > Cc: Tim Chen <tim.c.chen@linux.intel.com>
+> > Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>
+> > Reviewed-by: Len Brown <len.brown@intel.com>
+> > Signed-off-by: Srinivas Pandruvada <
+> > srinivas.pandruvada@linux.intel.com>
+> > ---
+> > Changes since v3:
+> >   * None
+> > 
+> > Changes since v2:
+> >   * None
+> > 
+> > Changes since v1:
+> >   * Made get_one_hfi_cap() return void. Removed unnecessary checks.
+> >     (Rafael)
+> >   * Replaced raw_spin_[un]lock_irq[restore|save]() with raw_spin_
+> >     [un]lock_irq() in get_one_hfi_cap(). This function is only
+> > called from
+> >     a workqueue and there is no need to save and restore irq flags.
+> >   * Scaled performance and energy efficiency values to a [0, 1023]
+> > interval
+> >     when reporting values to user space via thermal netlink
+> > notifications.
+> >     (Lucasz).
+> >   * Reworded commit message to comment on the scaling of HFI
+> > capabilities
+> >     to comply with the proposed thermal netlink ABI.
+> > ---
+> >  drivers/thermal/intel/Kconfig     |  1 +
+> >  drivers/thermal/intel/intel_hfi.c | 57
+> > ++++++++++++++++++++++++++++++-
+> >  2 files changed, 57 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/thermal/intel/Kconfig
+> > b/drivers/thermal/intel/Kconfig
+> > index e9d2925227d4..6cf3fe36a4ae 100644
+> > --- a/drivers/thermal/intel/Kconfig
+> > +++ b/drivers/thermal/intel/Kconfig
+> > @@ -104,6 +104,7 @@ config INTEL_HFI_THERMAL
+> >         bool "Intel Hardware Feedback Interface"
+> >         depends on CPU_SUP_INTEL
+> >         depends on X86_THERMAL_VECTOR
+> > +       select THERMAL_NETLINK
+> >         help
+> >           Select this option to enable the Hardware Feedback
+> > Interface. If
+> >           selected, hardware provides guidance to the operating
+> > system on
+> > diff --git a/drivers/thermal/intel/intel_hfi.c
+> > b/drivers/thermal/intel/intel_hfi.c
+> > index 1a08c58f26f6..9fd66f176948 100644
+> > --- a/drivers/thermal/intel/intel_hfi.c
+> > +++ b/drivers/thermal/intel/intel_hfi.c
+> > @@ -40,6 +40,7 @@
+> > 
+> >  #include <asm/msr.h>
+> > 
+> > +#include "../thermal_core.h"
+> >  #include "intel_hfi.h"
+> > 
+> >  #define THERM_STATUS_CLEAR_PKG_MASK (BIT(1) | BIT(3) | BIT(5) |
+> > BIT(7) | \
+> > @@ -162,6 +163,60 @@ static struct hfi_features hfi_features;
+> >  static DEFINE_MUTEX(hfi_instance_lock);
+> > 
+> >  #define HFI_UPDATE_INTERVAL    HZ
+> > +#define HFI_MAX_THERM_NOTIFY_COUNT     16
+> > +
+> > +static void get_one_hfi_cap(struct hfi_instance *hfi_instance, s16
+> > index,
+> > +                           struct hfi_cpu_data *hfi_caps)
+> > +{
+> > +       struct hfi_cpu_data *caps;
+> > +
+> > +       /* Find the capabilities of @cpu */
+> > +       raw_spin_lock_irq(&hfi_instance->table_lock);
+> > +       caps = hfi_instance->data + index *
+> > hfi_features.cpu_stride;
+> > +       memcpy(hfi_caps, caps, sizeof(*hfi_caps));
+> > +       raw_spin_unlock_irq(&hfi_instance->table_lock);
+> > +}
+> > +
+> > +/*
+> > + * Call update_capabilities() when there are changes in the HFI
+> > table.
+> > + */
+> > +static void update_capabilities(struct hfi_instance *hfi_instance)
+> > +{
+> > +       struct cpu_capability cpu_caps[HFI_MAX_THERM_NOTIFY_COUNT];
+> > +       int i = 0, cpu;
+> > +
 > 
-> OK, I can see that you rely on the RCU here for the synchronization. A
-> comment which mentions mem_cgroup_move_charge would be helpful for
-> clarity.
+> Wouldn't it be better to hold hfi_instance_lock for the duration of
+> this loop?
+As you expressed concern with more CPUs per package in future + netlink
+processing the interrupts will be disabled for longer time.
 
-Will do
+But this can be optimized to have
+void get_one_hfi_cap(struct hfi_instance *hfi_instance, s16 index,
+struct hfi_cpu_data *hfi_caps)
+with something like
+void get_hfi_caps(struct hfi_instance *hfi_instance, s16 *cpu_count,
+struct hfi_cpu_data **hfi_caps)
+and take one lock for all
+HFI_MAX_THERM_NOTIFY_COUNT CPUs.
 
-> Is there any reason you are not using folio_memcg_lock in the
-> pte walk instead?
+Then keep thermal_genl_cpu_capability_event outside.
+This ends up in calling thermal_genl_send_event() which has a long call
+chain to netlink_broadcast() to format and broadcast message.
 
-We have a particular lruvec (the first arg), hence a particular memcg
-to lock. But we don't have a particular page to lock.
+Thanks,
+Srinivas
+
+> 
+> Surely, CPU offline or online during it can be confusing.
+> 
+> > +       for_each_cpu(cpu, hfi_instance->cpus) {
+> > +               struct hfi_cpu_data caps;
+> > +               s16 index;
+> > +
+> > +               /*
+> > +                * We know index is valid because this CPU is
+> > present
+> > +                * in this instance.
+> > +                */
+> > +               index = per_cpu(hfi_cpu_info, cpu).index;
+> > +
+> > +               get_one_hfi_cap(hfi_instance, index, &caps);
+> > +
+> > +               cpu_caps[i].cpu = cpu;
+> > +
+> > +               /*
+> > +                * Scale performance and energy efficiency to
+> > +                * the [0, 1023] interval that thermal netlink
+> > uses.
+> > +                */
+> > +               cpu_caps[i].performance = caps.perf_cap << 2;
+> > +               cpu_caps[i].efficiency = caps.ee_cap << 2;
+> > +               ++i;
+> > +
+> > +               if (i >= HFI_MAX_THERM_NOTIFY_COUNT) {
+> > +                       thermal_genl_cpu_capability_event(HFI_MAX_T
+> > HERM_NOTIFY_COUNT,
+> > +                                                         cpu_caps)
+> > ;
+> > +                       i = 0;
+> > +               }
+> > +       }
+> > +
+> > +       if (i)
+> > +               thermal_genl_cpu_capability_event(i, cpu_caps);
+> > +}
+> > 
+> >  static void hfi_update_work_fn(struct work_struct *work)
+> >  {
+> > @@ -172,7 +227,7 @@ static void hfi_update_work_fn(struct
+> > work_struct *work)
+> >         if (!hfi_instance)
+> >                 return;
+> > 
+> > -       /* TODO: Consume update here. */
+> > +       update_capabilities(hfi_instance);
+> >  }
+> > 
+> >  void intel_hfi_process_event(__u64 pkg_therm_status_msr_val)
+> > --
+> > 2.17.1
+> > 
+
