@@ -2,103 +2,158 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16C60C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 14:44:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0F1BC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 14:45:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242849AbiALOoQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jan 2022 09:44:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50768 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241952AbiALOoO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 09:44:14 -0500
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD34DC06173F;
-        Wed, 12 Jan 2022 06:44:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=qlFlkECPRVUfbaXMoD/8vlzFEq0cbbwMCSchJ4LcKmA=; b=ETiOH3cX3l64g4+xs3cWHLUrdN
-        7WR6s0Q0zlVj69t0YQ65pnGYn4EismXW1LBUlOOvnE31JkoIkXUv5M63Zyy4bapawDeqbgov6qqwK
-        X45/FT76S+b9mdv8iiwlis1MZ8pMQeWw4Ku9VGsU9qKu9kao7NpElqX+qFDoLwn1QshZn/sdewSVI
-        kl0pN1N86BrdV8X6dVgNvb7J4DmbHj5WCJuxwRBTbrBrmmaemjQMG2jIj5WMxdPkj8mc6mCUgjQAN
-        EiUugVc26avg9zr1YZVanW80LAZGRExwd/Yq337LmHGZ7OY7c95K81iGaYey7WzRcKrst8+gdw02p
-        wUopTTpg==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1n7eqz-000ocW-2C; Wed, 12 Jan 2022 14:43:57 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id AB48B3001CD;
-        Wed, 12 Jan 2022 15:43:54 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 660E82006F92B; Wed, 12 Jan 2022 15:43:54 +0100 (CET)
-Date:   Wed, 12 Jan 2022 15:43:54 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Gang Li <ligang.bdlg@bytedance.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3] sched/numa: add per-process numa_balancing
-Message-ID: <Yd7pKuvjayH4q14L@hirez.programming.kicks-ass.net>
-References: <20211206024530.11336-1-ligang.bdlg@bytedance.com>
+        id S242802AbiALOpv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jan 2022 09:45:51 -0500
+Received: from mo4-p00-ob.smtp.rzone.de ([81.169.146.162]:46653 "EHLO
+        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242081AbiALOps (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 09:45:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1641998563;
+    s=strato-dkim-0002; d=thson.de;
+    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+    bh=ObLJ0ToskwbWlZOSOYbUa4ygBhsWxnXN3Cg1EE6Jf4c=;
+    b=FP9Syf5jFw8KSN8eRPQ1ZIgHRL4Lk+1nZhOpWWIdaG0jiMwFAVGxPegWOLUFr+k960
+    9bdpojPT+urz5+e5eA1VWua7EBe0hOnbdkYsTppnVVQ2KbXV2vd9TesWFU9fsjxjghqo
+    qz12TF1lGbAIyeyT209ZugPhtVY9pO8uZJR7xpjPkYUbqZeSM9YzrCtjZCYMf9RymVdH
+    kfi1WjWFFJJrMZ9Zi7E8Xc/nCLVw+9SbsQYtegOqSbA376CQ2gu5SgPGYDgGX4bm6mUP
+    OJAdqdOyyig7VLLmbGWtqpLLt2XCIYS/HpissMvq1KiDtU4eEGlWMW5iTMXZkdsZ8oGU
+    vIgA==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":PHkGeUmrW+uCZmxs998QJRUX30nOwJd7nOD9sw/xoauycprg5uef7cgCEpy7sPc="
+X-RZG-CLASS-ID: mo00
+Received: from USER-PC.fritz.box
+    by smtp.strato.de (RZmta 47.37.6 DYNA|AUTH)
+    with ESMTPSA id k3f463y0CEghQrR
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+        (Client did not present a certificate);
+    Wed, 12 Jan 2022 15:42:43 +0100 (CET)
+From:   Thore Sommer <public@thson.de>
+To:     dm-devel@redhat.com, agk@redhat.com, snitzer@redhat.com
+Cc:     linux-doc@vger.kernel.org, tusharsu@linux.microsoft.com,
+        Thore Sommer <public@thson.de>
+Subject: [PATCH v2] dm ima: updates to grammar and some details in documentation
+Date:   Wed, 12 Jan 2022 15:42:30 +0100
+Message-Id: <20220112144230.1978290-1-public@thson.de>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211206024530.11336-1-ligang.bdlg@bytedance.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Dec 06, 2021 at 10:45:28AM +0800, Gang Li wrote:
-> This patch add a new api PR_NUMA_BALANCING in prctl.
-> 
-> A large number of page faults will cause performance loss when numa
-> balancing is performing. Thus those processes which care about worst-case
-> performance need numa balancing disabled. Others, on the contrary, allow a
-> temporary performance loss in exchange for higher average performance, so
-> enable numa balancing is better for them.
-> 
-> Numa balancing can only be controlled globally by
-> /proc/sys/kernel/numa_balancing. Due to the above case, we want to
-> disable/enable numa_balancing per-process instead.
-> 
-> Add numa_balancing under mm_struct. Then use it in task_tick_fair.
-> 
-> Set per-process numa balancing:
-> 	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_DISABLE); //disable
-> 	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_ENABLE);  //enable
-> 	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_DEFAULT); //follow global
+The grammar for the events dm_device_remove, device_resume and
+dm_table_clear did not include the no_data entry when device data
+and hash are missing.
 
-This seems to imply you can prctl(ENABLE) even if the global is
-disabled, IOW sched_numa_balancing is off.
+For the device uuid or name "=" is also escaped with a "\".
 
-> diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-> index 884f29d07963..2980f33ac61f 100644
-> --- a/kernel/sched/fair.c
-> +++ b/kernel/sched/fair.c
-> @@ -11169,8 +11169,12 @@ static void task_tick_fair(struct rq *rq, struct task_struct *curr, int queued)
->  		entity_tick(cfs_rq, se, queued);
->  	}
->  
-> -	if (static_branch_unlikely(&sched_numa_balancing))
-> +#ifdef CONFIG_NUMA_BALANCING
-> +	if (curr->mm && (curr->mm->numab_enabled == NUMAB_ENABLED
-> +	    || (static_branch_unlikely(&sched_numa_balancing)
-> +	    && curr->mm->numab_enabled == NUMAB_DEFAULT)))
->  		task_tick_numa(rq, curr);
-> +#endif
->  
->  	update_misfit_status(curr, rq);
->  	update_overutilized_status(task_rq(curr));
+Add a note that dm_table_load might split its target measurements over
+multiple IMA events.
 
-There's just about everything wrong there... not least of all the
-horrific coding style.
+Signed-off-by: Thore Sommer <public@thson.de>
+---
+v2:
+- include also device name and uuid in grammar for no_data
+- fixed spelling mistakes
+
+ .../admin-guide/device-mapper/dm-ima.rst      | 32 +++++++++++++++----
+ 1 file changed, 26 insertions(+), 6 deletions(-)
+
+diff --git a/Documentation/admin-guide/device-mapper/dm-ima.rst b/Documentation/admin-guide/device-mapper/dm-ima.rst
+index a4aa50a828e0..ef386a71e015 100644
+--- a/Documentation/admin-guide/device-mapper/dm-ima.rst
++++ b/Documentation/admin-guide/device-mapper/dm-ima.rst
+@@ -100,6 +100,9 @@ When a new table is loaded in a device's inactive table slot,
+ the device information and target specific details from the
+ targets in the table are measured.
+ 
++Note that if there are too many targets to measure at once multiple IMA
++measurements will be generated.
++
+ The IMA measurement log has the following format for 'dm_table_load':
+ 
+ ::
+@@ -118,9 +121,9 @@ The IMA measurement log has the following format for 'dm_table_load':
+  device_minor := "minor=" <N>
+  minor_count := "minor_count=" <N>
+  num_device_targets := "num_targets=" <N>
+- dm-device-name := Name of the device. If it contains special characters like '\', ',', ';',
++ dm-device-name := Name of the device. If it contains special characters like '\', ',', ';','=',
+                    they are prefixed with '\'.
+- dm-device-uuid := UUID of the device. If it contains special characters like '\', ',', ';',
++ dm-device-uuid := UUID of the device. If it contains special characters like '\', ',', ';','=',
+                    they are prefixed with '\'.
+ 
+  table_load_data := <target_data>
+@@ -175,8 +178,9 @@ The IMA measurement log has the following format for 'dm_device_resume':
+ ::
+ 
+  EVENT_NAME := "dm_device_resume"
+- EVENT_DATA := <dm_version_str> ";" <device_metadata> ";" <active_table_hash> ";" <current_device_capacity> ";"
++ EVENT_DATA := <dm_version_str> ";" <device_data> ";" <current_device_capacity> ";"
+ 
++ device_data := <device_metadata> ";" <active_table_hash> | <device_resume_no_data>
+  dm_version_str := As described in the 'Table load' section above.
+  device_metadata := As described in the 'Table load' section above.
+  active_table_hash := "active_table_hash=" <table_hash_alg> ":" <table_hash>
+@@ -189,6 +193,11 @@ The IMA measurement log has the following format for 'dm_device_resume':
+                events for a given device, the hash is computed combining all the event data
+                i.e. (<dm_version_str> ";" <device_metadata> ";" <table_load_data> ";")
+                across all those events.
++ device_resume_no_data := <device_name> "," <device_uuid> ";" "device_resume=no_data"
++                           If device metadata and hash for the active table do not exists, this value gets measured.
++                           Note: the hash should always exist if the device metadata is present.
++ device_name := As described in the 'Table load' section above.
++ device_uuid := As described in the 'Table load' section above.
+  current_device_capacity := "current_device_capacity=" <N>
+ 
+  For instance, if a linear device is resumed with the following command,
+@@ -213,10 +222,10 @@ The IMA measurement log has the following format for 'dm_device_remove':
+ ::
+ 
+  EVENT_NAME := "dm_device_remove"
+- EVENT_DATA := <dm_version_str> ";" <device_active_metadata> ";" <device_inactive_metadata> ";"
+-               <active_table_hash> "," <inactive_table_hash> "," <remove_all> ";" <current_device_capacity> ";"
++ EVENT_DATA := <dm_version_str> ";" <device_data> <remove_all> ";" <current_device_capacity> ";"
+ 
+  dm_version_str := As described in the 'Table load' section above.
++ device_data := <device_active_metadata> ";" <device_inactive_metadata> ";" <active_table_hash> "," <inactive_table_hash> "," | <device_remove_no_data> ";"
+  device_active_metadata := Device metadata that reflects the currently loaded active table.
+                            The format is same as 'device_metadata' described in the 'Table load' section above.
+  device_inactive_metadata := Device metadata that reflects the inactive table.
+@@ -225,6 +234,11 @@ The IMA measurement log has the following format for 'dm_device_remove':
+                       The format is same as 'active_table_hash' described in the 'Device resume' section above.
+  inactive_table_hash :=  Hash of the inactive table.
+                          The format is same as 'active_table_hash' described in the 'Device resume' section above.
++ device_remove_no_data := <device_name> "," <device_uuid> ";" "device_remove=no_data"
++                          If device metadata and hash for the active and inactive table do not exists, this value gets measured.
++                          Note: the hash should always exist if the device metadata is present.
++ device_name := As described in the 'Table load' section above.
++ device_uuid := As described in the 'Table load' section above.
+  remove_all := "remove_all=" <yes_no>
+  yes_no := "y" | "n"
+  current_device_capacity := "current_device_capacity=" <N>
+@@ -254,9 +268,15 @@ The IMA measurement log has the following format for 'dm_table_clear':
+ ::
+ 
+  EVENT_NAME := "dm_table_clear"
+- EVENT_DATA := <dm_version_str> ";" <device_inactive_metadata> ";" <inactive_table_hash> ";" <current_device_capacity> ";"
++ EVENT_DATA := <dm_version_str> ";" <device_data> ";" <current_device_capacity> ";"
+ 
+  dm_version_str := As described in the 'Table load' section above.
++ device_data := <device_inactive_metadata> ";" <inactive_table_hash> | <table_clear_no_data>
++ table_clear_no_data := <device_name> "," <device_uuid> ";" "table_clear=no_data"
++                        If device metadata and hash for the inactive table do not exists, this value gets measured.
++                        Note: the hash should always exist if the device metadata is present.
++ device_name := As described in the 'Table load' section above.
++ device_uuid := As described in the 'Table load' section above.
+  device_inactive_metadata := Device metadata that was captured during the load time inactive table being cleared.
+                              The format is same as 'device_metadata' described in the 'Table load' section above.
+  inactive_table_hash := Hash of the inactive table being cleared from the device.
+-- 
+2.34.1
+
