@@ -2,213 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE437C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 08:35:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11D39C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 08:55:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351668AbiALIf6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jan 2022 03:35:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51298 "EHLO
+        id S1351777AbiALIy7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jan 2022 03:54:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351672AbiALIf6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 03:35:58 -0500
-Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B43CC061757
-        for <linux-doc@vger.kernel.org>; Wed, 12 Jan 2022 00:35:58 -0800 (PST)
-Received: by mail-io1-xd36.google.com with SMTP id s6so2662351ioj.0
-        for <linux-doc@vger.kernel.org>; Wed, 12 Jan 2022 00:35:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=pHnk4u7CVnW4YX08e13GAG2PhlcG7TaAHrFaqBnUaMM=;
-        b=gx2Kq4XVtiikSnxRzFDbx0NQVXHhzL0l+bHFfCMP2xlRMkr/vmevVZ8IT/q5b+WYJs
-         eaFjydh5vORIST5f+Ac8TvlzBEDdCCJUbjGTHKWRBPXqpZwPPu0sKbs0A1mQ6FwYF6Q0
-         +/ZxF5v+AJdoCHnGOPoTn+UHUD2WSAt3sFFWwm9bdBV6VDbMc1hbxQxjkZjNjOE4aoo0
-         lDxwgeWu5w+yHW93cC4rtxq3O1Whl/ivLMO/y26cbq2zsMZaiJovijbxl/HvkB9uZwI/
-         6jNnGuRao0y5e3EqpY1DMWEnJ2psHyQxJ+BVFKamfMrQHr4gftGqnD1yezMR7w1NnuDa
-         Gcxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=pHnk4u7CVnW4YX08e13GAG2PhlcG7TaAHrFaqBnUaMM=;
-        b=0w2pl9mNk8odvHQoKWBLDDD/oE5gWo0Y5kMG6i2ippN4yt2vQOHSjzjO7k5/hgTcQb
-         XEeJUKmFP4SDcoVx9Sdp85v8ZEEvUscghgdOslW6nLq99OUx6Bl6H0gpr3+1cwqqG+2U
-         Jo8ghSsK0jqv0btKuhgoljeAlvwYGEWiEBb/pcj4uYnfeolPYAdOvV1nOJvPLd61Jc/J
-         RHIVcry+fYdrQRrvCLwmM98nXjgqCeqlSRE6OHRkSA1NLHCPLTsPykzkL3o5AUsz+iga
-         O/4CXDDsILsk6kY1YZrVfKJK4Aqu4NZV3RI6x3WTnkvSBtEEkqQ3Hfh8nPmlWxMx6PXr
-         E7wg==
-X-Gm-Message-State: AOAM532FTXyiBLFtj01aAvG0IMLBT+QIBJsGj4jX+hR2N0UERVISha6u
-        P0F8kSMV7LZVCP1l8OTPA3VWIw==
-X-Google-Smtp-Source: ABdhPJxZlNJrPU030MfCBCkKKlxLKP0SEloQRCq8kLfrAAW8D7t9fRq/tmsOnP5SuyHHRUX2Od2o2g==
-X-Received: by 2002:a05:6638:4192:: with SMTP id az18mr3846460jab.212.1641976557500;
-        Wed, 12 Jan 2022 00:35:57 -0800 (PST)
-Received: from google.com ([2620:15c:183:200:b6b6:70f4:b540:6383])
-        by smtp.gmail.com with ESMTPSA id a1sm7136939iol.55.2022.01.12.00.35.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jan 2022 00:35:56 -0800 (PST)
-Date:   Wed, 12 Jan 2022 01:35:52 -0700
-From:   Yu Zhao <yuzhao@google.com>
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        page-reclaim@google.com, x86@kernel.org,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>
-Subject: Re: [PATCH v6 8/9] mm: multigenerational lru: user interface
-Message-ID: <Yd6S6Js1W4AnFFmv@google.com>
-References: <20220104202227.2903605-1-yuzhao@google.com>
- <20220104202227.2903605-9-yuzhao@google.com>
- <YdwKB3SfF7hkB9Xv@kernel.org>
+        with ESMTP id S1351771AbiALIy5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 03:54:57 -0500
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 434E4C06173F;
+        Wed, 12 Jan 2022 00:54:57 -0800 (PST)
+Received: from ip4d173d02.dynamic.kabel-deutschland.de ([77.23.61.2] helo=[192.168.66.200]); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1n7ZPD-0004z1-6n; Wed, 12 Jan 2022 09:54:55 +0100
+Message-ID: <0a79a9be-eddc-fa2b-d7d9-8a2680ed370a@leemhuis.info>
+Date:   Wed, 12 Jan 2022 09:54:54 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YdwKB3SfF7hkB9Xv@kernel.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Content-Language: en-BS
+To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+References: <51654a51-4264-c333-40d5-4f755e69d54b@leemhuis.info>
+ <20220111145031.cfkyxffmps3swakv@meerkat.local>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: Add a few more FAQs to the [kernel.org] releases page
+In-Reply-To: <20220111145031.cfkyxffmps3swakv@meerkat.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1641977697;ad489ecd;
+X-HE-SMSGID: 1n7ZPD-0004z1-6n
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 10, 2022 at 12:27:19PM +0200, Mike Rapoport wrote:
-> Hi,
+On 11.01.22 15:50, Konstantin Ryabitsev wrote:
+> On Tue, Jan 11, 2022 at 07:32:46AM +0100, Thorsten Leemhuis wrote:
+>> * you added two sections that use the term "LTS", which is not explained
+>> on that page and wasn't used on it earlier. I wonder if it might be
+>> better to use "Longterm series" or something like that instead, as that
+>> it the term used on the page (and the official one afaics).
+> Thanks for the feedback, I switched to using "longterm" uniformly on that
+> page.
+
+Ahh, nice, thx.
+
+>> This was also added:
+>>
+>>> Does the odd-even number still mean anything?
+>>>
+>>> Not since 2.5 days.
+>>
+>> I guess a lot of users won't known how long ago that was, so how about
+>> using an answer like this instead:
+>>
+>> "Not since December 2003, when Linux 2.6 got released."
 > 
-> On Tue, Jan 04, 2022 at 01:22:27PM -0700, Yu Zhao wrote:
-> > Add /sys/kernel/mm/lru_gen/enabled as a runtime kill switch.
-> > 
-> > Add /sys/kernel/mm/lru_gen/min_ttl_ms for thrashing prevention.
-> > Compared with the size-based approach, e.g., [1], this time-based
-> > approach has the following advantages:
-> > 1) It's easier to configure because it's agnostic to applications and
-> >    memory sizes.
-> > 2) It's more reliable because it's directly wired to the OOM killer.
-> > 
-> > Add /sys/kernel/debug/lru_gen for working set estimation and proactive
-> > reclaim. Compared with the page table-based approach and the PFN-based
-> > approach, e.g., mm/damon/[vp]addr.c, this lruvec-based approach has
-> > the following advantages:
-> > 1) It offers better choices because it's aware of memcgs, NUMA nodes,
-> >    shared mappings and unmapped page cache.
-> > 2) It's more scalable because it's O(nr_hot_evictable_pages), whereas
-> >    the PFN-based approach is O(nr_total_pages).
-> > 
-> > Add /sys/kernel/debug/lru_gen_full for debugging.
-> > 
-> > [1] https://lore.kernel.org/lkml/20211130201652.2218636d@mail.inbox.lv/
-> > 
-> > Signed-off-by: Yu Zhao <yuzhao@google.com>
-> > Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
-> > ---
-> >  Documentation/vm/index.rst        |   1 +
-> >  Documentation/vm/multigen_lru.rst |  62 +++++
-> 
-> The description of user visible interfaces should go to
-> Documentation/admin-guide/mm
-> 
-> Documentation/vm/multigen_lru.rst should have contained design description
-> and the implementation details and it would be great to actually have such
-> document.
+> I've expanded a bit more on that topic, just to avoid confusion.
 
-Will do, thanks.
+Great.
 
-> >  include/linux/nodemask.h          |   1 +
-> >  mm/vmscan.c                       | 415 ++++++++++++++++++++++++++++++
-> >  4 files changed, 479 insertions(+)
-> >  create mode 100644 Documentation/vm/multigen_lru.rst
-> > 
-> > diff --git a/Documentation/vm/index.rst b/Documentation/vm/index.rst
-> > index 6f5ffef4b716..f25e755b4ff4 100644
-> > --- a/Documentation/vm/index.rst
-> > +++ b/Documentation/vm/index.rst
-> > @@ -38,3 +38,4 @@ algorithms.  If you are looking for advice on simply allocating memory, see the
-> >     unevictable-lru
-> >     z3fold
-> >     zsmalloc
-> > +   multigen_lru
-> > diff --git a/Documentation/vm/multigen_lru.rst b/Documentation/vm/multigen_lru.rst
-> > new file mode 100644
-> > index 000000000000..6f9e0181348b
-> > --- /dev/null
-> > +++ b/Documentation/vm/multigen_lru.rst
-> > @@ -0,0 +1,62 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +=====================
-> > +Multigenerational LRU
-> > +=====================
-> > +
-> > +Quick start
-> > +===========
-> > +Runtime configurations
-> > +----------------------
-> > +:Required: Write ``1`` to ``/sys/kernel/mm/lru_gen/enable`` if the
-> > + feature wasn't enabled by default.
-> 
-> Required for what? This sentence seem to lack context. Maybe add an
-> overview what is Multigenerational LRU so that users will have an idea what
-> these knobs control.
+BTW, also a big "thank you" from my side for linking "reporting issues".
 
-Apparently I left an important part of this quick start in the next
-patch, where Kconfig options are added. I'm wonder whether I should
-squash the next patch into this one.
+I looked a little more at the two pages you changed. Most of what
+follows is nitpicking, feel free to ignore it. Quotes from here on are
+from the linked pages, not from the mail I'm replying to:
 
-I always separate Kconfig changes and leave them in the last patch
-because it gives me peace of mind knowing it'll never give any auto
-bisectors a hard time.
 
-But I saw people not following this practice, and I'm also tempted to
-do so. Can anybody remind me whether it's considered a bad practice to
-have code changes and Kconfig changes in the same patch?
+# https://www.kernel.org/category/releases.html
 
-> > +
-> > +Recipes
-> > +=======
-> 
-> Some more context here will be also helpful.
+> What is the next longterm release going to be?
+>
+> Longterm kernels are picked based on various factors -- major new
+> features, popular commercial distribution needs, device manufacturer
+> demand, maintainer workload and availability, etc. You can roughly
+> estimate when the new longterm version will become available based on
+> how much time has elapsed since the last longterm version was
+> chosen.
 
-Will do.
+This is not true anymore afaics (or is it vague on purpose?). Greg (now
+CCed) since a few years always makes the last mainline release of a year
+the next longterm kernel. He said that a few times, for example here:
+https://twitter.com/kernellogger/status/1321081399730970626
 
-> > +Personal computers
-> > +------------------
-> > +:Thrashing prevention: Write ``N`` to
-> > + ``/sys/kernel/mm/lru_gen/min_ttl_ms`` to prevent the working set of
-> > + ``N`` milliseconds from getting evicted. The OOM killer is invoked if
-> > + this working set can't be kept in memory. Based on the average human
-> > + detectable lag (~100ms), ``N=1000`` usually eliminates intolerable
-> > + lags due to thrashing. Larger values like ``N=3000`` make lags less
-> > + noticeable at the cost of more OOM kills.
-> > +
-> > +Data centers
-> > +------------
-> > +:Debugfs interface: ``/sys/kernel/debug/lru_gen`` has the following
-> > + format:
-> > + ::
-> > +
-> > +   memcg  memcg_id  memcg_path
-> > +     node  node_id
-> > +       min_gen  birth_time  anon_size  file_size
-> > +       ...
-> > +       max_gen  birth_time  anon_size  file_size
-> > +
-> > + ``min_gen`` is the oldest generation number and ``max_gen`` is the
-> > + youngest generation number. ``birth_time`` is in milliseconds.
-> > + ``anon_size`` and ``file_size`` are in pages.
-> 
-> And what does oldest and youngest generations mean from the user
-> perspective?
+So something like this maybe?
+"""
+What is the next longterm release going to be?
 
-Good question. Will add more details in the next spin.
+The last Linux mainline version released in a year becomes a longterm
+kernel.
+"""
+
+# https://www.kernel.org/category/faq.html
+
+> Why is an LTS kernel marked as "stable" on the front page?
+>  
+> Long-term support ("LTS") kernels announced on the Releases page […]
+
+Maybe get rid of the LTS here, too?
+
+"""
+Why is a longterm kernel described as "stable" on the front page?
+
+Longterm kernels announced on the Releases page […]
+"""
+
+FWIW, in reporting issues I did it like this: "Longterm kernels
+(sometimes called 'LTS kernels') are […]"
+
+> How do I report a problem with the kernel?
+
+I'd sort the list of distribution bug trackers alphabetically to avoid
+people thinking things like "why is x listed earlier than my favourite
+distro, which is way better".
+
+Ohh, and I guess you make some people happy if you do
+s/OpenSUSE/openSUSE/ :-D
+
+Ciao, Thorsten
