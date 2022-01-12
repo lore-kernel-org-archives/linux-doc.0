@@ -2,165 +2,78 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B3A9C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 06:07:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C87C4C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 06:46:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348113AbiALGHc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jan 2022 01:07:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46386 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347912AbiALGHc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 01:07:32 -0500
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85974C06173F
-        for <linux-doc@vger.kernel.org>; Tue, 11 Jan 2022 22:07:31 -0800 (PST)
-Received: by mail-ed1-x535.google.com with SMTP id u21so5532827edd.5
-        for <linux-doc@vger.kernel.org>; Tue, 11 Jan 2022 22:07:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=edi.works; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7Uim4PQO9GRX6Ml1nDaTb+DvyJmBeJ+eZYwrgMJj3yI=;
-        b=1LNNzA/ve9YQhIzt6mswt+L1KOC7ztP+uZRonN3zpQtMe8zsMGUM76zV3r09+Y4RDv
-         TCs/ixX6b8fHXxQWGqNp1NkolJFZ1dW/YUwuOpBQBnEgl+Mq/UP31vw5LgqtwuygtItT
-         jItgFp2TVagFEfu1tEUBVZMjK2qXEsOyob2zweFygDPXCEnB14Vd3M+QvPy4A2jvHfW0
-         mghcntQKfhuX8jClj88njP798Shb9uY70Zrz9uZoS9XhStHeqw5E5Vl4+zlbmPiCZuYD
-         05yGJ+4GOPENbEW3Ma6B4PMLMH0BUoJkXGvqtejqQGkq6/FBQftP3qz+axHBcUCvenL3
-         uw6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7Uim4PQO9GRX6Ml1nDaTb+DvyJmBeJ+eZYwrgMJj3yI=;
-        b=73dN9TIzrfDyW0vFBsc8k2n4AccbNWV9jMHwczH1aH2Sy7wYexdoyKz0OkY88uvgDG
-         B1zDOFaIPS+qzu43tC1kknnEyFmZ+kDRk8vU/ZwFCyz9CYIULJ1iDu8/B3eXRpXTScqU
-         E5RiNsQhw1v0G/7DOPsdjdY2WguSX0lsRkt4lic/5XNZgex75MTAAWuMnM9it8081dTp
-         VuAgOmJYrUmpdUuuLVPYP3T0K3a5WxfH37ADdNfqDuXVMqVFvR0tzy5iuv8i8DlM65PJ
-         578Qg0cdonX0fX1wGYu6qKhg5Xsne/1PVfT7GEGJrm3oCEMsHFAKLAQ6Hhr9q9P2ZQvw
-         CXwA==
-X-Gm-Message-State: AOAM533BSzSsnD4aGXXQDpXreEeNW3TQC2UOG5MGeztI2pj/fbup8XRi
-        4U0nCfQwze46S5eW83znLMB6eDxgjxYhnPXdJMfqJg==
-X-Google-Smtp-Source: ABdhPJw5cTsO1kWiUiVqpgI3OeCcBg5JTs4BMkeLBxLQDWWc+i6xh5tf47WN9LuD12xfZNO/D9j9J7A3wl/25P/c31s=
-X-Received: by 2002:aa7:c7cf:: with SMTP id o15mr7598673eds.176.1641967650078;
- Tue, 11 Jan 2022 22:07:30 -0800 (PST)
+        id S1351048AbiALGqN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jan 2022 01:46:13 -0500
+Received: from sin.source.kernel.org ([145.40.73.55]:60690 "EHLO
+        sin.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1351044AbiALGqM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 01:46:12 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 60BECCE1BCF;
+        Wed, 12 Jan 2022 06:46:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B469C36AE9;
+        Wed, 12 Jan 2022 06:46:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1641969968;
+        bh=4Tn/USo8KXboTynK6KqLOmV0gnZLDsBgsgeyLJRL42U=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=KPBg50AG2faZ8N/dkKJzcmsW0yf4+tZqhCuQn+FFCR6kc2LkIgOS6StWmkVzv0WOT
+         xBb+gILh/BDRFnnrCnrG/CF9hRYe/34tqdNvlFZU3P0bKcCIdBtaF0Ekhip3FZOHnU
+         4ax4ZDl2jRoPJwOQj1iZWfUaFrDbOJYSdFps7gUK/HcmyKUFRRZT4f7K1qcJ972sxI
+         15MLR5c/BlgsMvRDUIaIAV5KAg8KdDk3AhV0oOxKh2c9EcN0K7cTgCEkwKog49VHPh
+         +R6aYIPs+srU9pWbkDcZK3xM5tibGLjp9mkmdZm5/dMBbfOSjEhf1e48Yvr3Berhn6
+         JJJh+q5HmRWVA==
+Date:   Tue, 11 Jan 2022 22:46:06 -0800
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     hannes@cmpxchg.org, torvalds@linux-foundation.org, tj@kernel.org,
+        lizefan.x@bytedance.com, mingo@redhat.com, peterz@infradead.org,
+        juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        mgorman@suse.de, bristot@redhat.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        cgroups@vger.kernel.org, stable@vger.kernel.org,
+        kernel-team@android.com,
+        syzbot+cdb5dd11c97cc532efad@syzkaller.appspotmail.com
+Subject: Re: [PATCH v3 1/1] psi: Fix uaf issue when psi trigger is destroyed
+ while being polled
+Message-ID: <Yd55LpWuuKHm26L2@sol.localdomain>
+References: <20220111232309.1786347-1-surenb@google.com>
 MIME-Version: 1.0
-References: <20220104202227.2903605-1-yuzhao@google.com> <YdSuSHa/Vjl6bPkg@google.com>
- <Yd1Css8+jsspeZHh@google.com>
-In-Reply-To: <Yd1Css8+jsspeZHh@google.com>
-From:   Sofia Trinh <sofia.trinh@edi.works>
-Date:   Tue, 11 Jan 2022 22:07:19 -0800
-Message-ID: <CAMwLHrZi0ZGFsuc74Yj3DErT1zyG2DEudS3ZgPEsexj0XfZJyA@mail.gmail.com>
-Subject: Re: [PATCH v6 0/9] Multigenerational LRU Framework
-To:     Yu Zhao <yuzhao@google.com>
-Cc:     Alexandre Frade <kernel@xanmod.org>,
-        Brian Geffon <bgeffon@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        page-reclaim@google.com, x86@kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220111232309.1786347-1-surenb@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 11, 2022 at 12:41 AM Yu Zhao <yuzhao@google.com> wrote:
->
-> On Tue, Jan 04, 2022 at 01:30:00PM -0700, Yu Zhao wrote:
-> > On Tue, Jan 04, 2022 at 01:22:19PM -0700, Yu Zhao wrote:
-> > > TLDR
-> > > ====
-> > > The current page reclaim is too expensive in terms of CPU usage and it
-> > > often makes poor choices about what to evict. This patchset offers an
-> > > alternative solution that is performant, versatile and
-> > > straightforward.
-> >
-> > <snipped>
-> >
-> > > Summery
-> > > =======
-> > > The facts are:
-> > > 1. The independent lab results and the real-world applications
-> > >    indicate substantial improvements; there are no known regressions.
-> > > 2. Thrashing prevention, working set estimation and proactive reclaim
-> > >    work out of the box; there are no equivalent solutions.
-> > > 3. There is a lot of new code; nobody has demonstrated smaller changes
-> > >    with similar effects.
-> > >
-> > > Our options, accordingly, are:
-> > > 1. Given the amount of evidence, the reported improvements will likely
-> > >    materialize for a wide range of workloads.
-> > > 2. Gauging the interest from the past discussions [14][15][16], the
-> > >    new features will likely be put to use for both personal computers
-> > >    and data centers.
-> > > 3. Based on Google's track record, the new code will likely be well
-> > >    maintained in the long term. It'd be more difficult if not
-> > >    impossible to achieve similar effects on top of the existing
-> > >    design.
-> >
-> > Hi Andrew, Linus,
-> >
-> > Can you please take a look at this patchset and let me know if it's
-> > 5.17 material?
-> >
-> > My goal is to get it merged asap so that users can reap the benefits
-> > and I can push the sequels. Please examine the data provided -- I
-> > think the unprecedented coverage and the magnitude of the improvements
-> > warrant a green light.
->
-> Downstream kernel maintainers who have been carrying MGLRU for more than
-> 3 versions, can you please provide your Acked-by tags?
->
-> Having this patchset in the mainline will make your job easier :)
->
->    Alexandre - the XanMod Kernel maintainer
->                https://xanmod.org
->
->    Brian     - the Chrome OS kernel memory maintainer
->                https://www.chromium.org
->
->    Jan       - the Arch Linux Zen kernel maintainer
->                https://archlinux.org
->
->    Steven    - the Liquorix kernel maintainer
->                https://liquorix.net
->
->    Suleiman  - the ARCVM (Android downstream) kernel memory maintainer
->                https://chromium.googlesource.com/chromiumos/third_party/kernel
->
-> Also my gratitude to those who have helped test MGLRU:
->
->    Daniel - researcher at Michigan Tech
->             benchmarked memcached
->
->    Holger - who has been testing/patching/contributing to various
->             subsystems since ~2008
->
->    Shuang - researcher at University of Rochester
->             benchmarked fio and provided a report
->
->    Sofia  - EDI https://www.edi.works
->             benchmarked the top eight memory hogs and provided reports
+On Tue, Jan 11, 2022 at 03:23:09PM -0800, Suren Baghdasaryan wrote:
+> With write operation on psi files replacing old trigger with a new one,
+> the lifetime of its waitqueue is totally arbitrary. Overwriting an
+> existing trigger causes its waitqueue to be freed and pending poll()
+> will stumble on trigger->event_wait which was destroyed.
+> Fix this by disallowing to redefine an existing psi trigger. If a write
+> operation is used on a file descriptor with an already existing psi
+> trigger, the operation will fail with EBUSY error.
+> Also bypass a check for psi_disabled in the psi_trigger_destroy as the
+> flag can be flipped after the trigger is created, leading to a memory
+> leak.
+> 
+> Fixes: 0e94682b73bf ("psi: introduce psi monitor")
+> Cc: stable@vger.kernel.org
+> Reported-by: syzbot+cdb5dd11c97cc532efad@syzkaller.appspotmail.com
+> Analyzed-by: Eric Biggers <ebiggers@kernel.org>
+> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> ---
 
-Tested-by: Sofia Trinh <sofia.trinh@edi.works>
+Looks good,
+
+Reviewed-by: Eric Biggers <ebiggers@google.com>
+
+- Eric
