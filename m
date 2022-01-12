@@ -2,53 +2,54 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D934C433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 17:44:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A45DC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 17:49:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243956AbiALRn7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jan 2022 12:43:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36230 "EHLO
+        id S1344287AbiALRtO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jan 2022 12:49:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241185AbiALRn4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 12:43:56 -0500
-Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1919AC061756
-        for <linux-doc@vger.kernel.org>; Wed, 12 Jan 2022 09:43:56 -0800 (PST)
-Received: by mail-qk1-x736.google.com with SMTP id t66so4008033qkb.4
-        for <linux-doc@vger.kernel.org>; Wed, 12 Jan 2022 09:43:56 -0800 (PST)
+        with ESMTP id S1344263AbiALRtN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 12:49:13 -0500
+Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D39CFC061756
+        for <linux-doc@vger.kernel.org>; Wed, 12 Jan 2022 09:49:12 -0800 (PST)
+Received: by mail-qk1-x729.google.com with SMTP id 193so3360139qkh.13
+        for <linux-doc@vger.kernel.org>; Wed, 12 Jan 2022 09:49:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=eP5J8KdvwPTzx2Kh8QKLifNfox7/NjpkOpmG9av6VCk=;
-        b=KOnNi/erjJKDmXshSZZv7C3gKcJm3IwJxMouUmE8kJwjg35FNi2J3VpRJJE/XQaq+f
-         ouYLgnZDFAaNV/dqxDZDk6O3Fv6kndvxJTf9AH6O4akiYKs9CyjyX3pWSP26jU17VEXI
-         6ErUlQZ3+TUb2xsmk1ccCDw9ox3MzN4DbY+Gik5rJVQOkCfjDDk7H1g7Yf66gTgdMZ0B
-         xX7ItBjgp1QlQISrAdgTibHYblom3PdgqvpX8tr+VOTUf+X4TBASg+486PvrMw4KlZD7
-         CYY5L51LKMZK8LUaHHFZsldW3arkrea20wfWQ0cJ5wMJObXD8DPKu+feJ+i17rNp84mq
-         Jraw==
+        bh=FGEfHWlf9UMI6v4enCzCD7r7seKvBt4wr+xOvzAydtg=;
+        b=WbGG70yB5ix1xJm1WZIdyIccnKWNDVsMGBobYnUvRJtVGwRDFABrhR3HRodaO2H2gT
+         o+mvzdaj9LW0ogQ/fZRLZ/G14ELweRvxby5HD2yygkGanrwyi0saa1PLA/b2HANEP9wP
+         uVBQAarQx5wX6tUlOrtGMc8zeFxL6B2vOiWjnaC9BUVZle/bRqhOpgFK7qozPGiliRpF
+         KQaDAmpG3GhdrpqiN7KljC2pW8M/Z/6NhEvocoQhtnW+0wIJ3qYItndrv8QOCrbR/Jxa
+         UB+N+Y+r+k/dW13lG7nxHXxFVvAgkFh1FoS5a/O9Z9S/tPGYbuQ9WwEOG5hY/jGGrlg2
+         U5EA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=eP5J8KdvwPTzx2Kh8QKLifNfox7/NjpkOpmG9av6VCk=;
-        b=0eu2grVzZ5Nt82KA1MU1l5QvQgu9PIRQoVvxrxfMBYG36+2X4djazVE3XWKuQpjQfj
-         CwmoBG6I6OVmiSx5zvGcqbXftu0lL8BnXYwAx7ODJp5zFpjWDcp9WDxjH04lu2i/7Bvz
-         YeXuJYW+ZrekJb/MJ/QEUzPXQtinkbkb/pwfCeyKKRC9y6x5lugB/nK4FgGR75+xslRi
-         vEbJmzGLtWoXiWCICBjzly6JtA/V3mgbLaumlFX7kE/dkn2d3Pvi6sgpf5n5cF5tiW3M
-         +OfUXEuJs3CNOV0ppYsFLCuliEc1ryNddHYmkSdgDEIN/fNhwD8tDCISD3mdrXE2MlGb
-         P3NA==
-X-Gm-Message-State: AOAM530uZppabxt6v9OHLaJAyas+04SzXKB8MKWQokFvuJxJ45rSzr3w
-        N99JuaxmyHbGcw86ZrNxW1byN+OaUD2YEeA1oNpKXw==
-X-Google-Smtp-Source: ABdhPJxLWwmyro/LoBJqQDlBZtRxFKL0M6eFBNtTxql56a0+Bl0VWjyjB5YOXPDVFGgaUWS7krAoLWZb5Bhs1xjIjtM=
-X-Received: by 2002:a05:6902:703:: with SMTP id k3mr987928ybt.225.1642009434832;
- Wed, 12 Jan 2022 09:43:54 -0800 (PST)
+        bh=FGEfHWlf9UMI6v4enCzCD7r7seKvBt4wr+xOvzAydtg=;
+        b=XwIxOuJjkYR5KHYXKG64w77VtFaxkE+8fXPifnkf4Y38aeXTkYkN+dGa3wSmxkkYoj
+         gL9sXhRWSxPX2lZ9id1Rn0SdSMOpnir7UVyzCPVP3UFPccKWtygIbjbJK5RZwQJ6fTWk
+         /0HPkXF2n+vJnYRMnU8h3EzFUJXaJgPlJnirmVcNSxClgmW9FG2OxHGvuXm7abHU6Nhu
+         D//aXyyQeloMnzl9iq0fQKdmtclPP7LB5Jf7BhG9girFrFSSsRFbRBe9FXdVxVhvmpp7
+         VRSDqMSMvGyH0hDeg9lLCqIUeeKFr2bFjnlQVCn/lclGe+6pXW73HDJ70C29u44/GMSX
+         kxYQ==
+X-Gm-Message-State: AOAM531BZOkckgBEMsJ1jI7GdUK/0KMLrjhKh0sU7M2YWnd2Rijc8+ng
+        AE/+j1R8wKZgdC3lylQa+srMZProPaTiDqrT/+1dJQ==
+X-Google-Smtp-Source: ABdhPJxfN2XJ4LOiyU4hogddx6yOZvk/BIWqCAvRPuDRWYY6wyEn2p4yI9Sa7X55t3Lg1CYmOJU4b8GfjXSbXBZJY5g=
+X-Received: by 2002:a25:7807:: with SMTP id t7mr1066672ybc.488.1642009751595;
+ Wed, 12 Jan 2022 09:49:11 -0800 (PST)
 MIME-Version: 1.0
 References: <20220111232309.1786347-1-surenb@google.com> <Yd7oPlxCpnzNmFzc@cmpxchg.org>
-In-Reply-To: <Yd7oPlxCpnzNmFzc@cmpxchg.org>
+ <CAJuCfpGHLXDvMU1GLMcgK_K72_ErPhbcFh1ZvEeHg025yinNuw@mail.gmail.com>
+In-Reply-To: <CAJuCfpGHLXDvMU1GLMcgK_K72_ErPhbcFh1ZvEeHg025yinNuw@mail.gmail.com>
 From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Wed, 12 Jan 2022 09:43:43 -0800
-Message-ID: <CAJuCfpGHLXDvMU1GLMcgK_K72_ErPhbcFh1ZvEeHg025yinNuw@mail.gmail.com>
+Date:   Wed, 12 Jan 2022 09:49:00 -0800
+Message-ID: <CAJuCfpEaM3KoPy3MUG7HW2yzcT6oJ5gdceyHPNpHrqTErq27eQ@mail.gmail.com>
 Subject: Re: [PATCH v3 1/1] psi: Fix uaf issue when psi trigger is destroyed
  while being polled
 To:     Johannes Weiner <hannes@cmpxchg.org>
@@ -76,98 +77,119 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-)
-
-On Wed, Jan 12, 2022 at 6:40 AM Johannes Weiner <hannes@cmpxchg.org> wrote:
+On Wed, Jan 12, 2022 at 9:43 AM Suren Baghdasaryan <surenb@google.com> wrote:
 >
-> On Tue, Jan 11, 2022 at 03:23:09PM -0800, Suren Baghdasaryan wrote:
-> > With write operation on psi files replacing old trigger with a new one,
-> > the lifetime of its waitqueue is totally arbitrary. Overwriting an
-> > existing trigger causes its waitqueue to be freed and pending poll()
-> > will stumble on trigger->event_wait which was destroyed.
-> > Fix this by disallowing to redefine an existing psi trigger. If a write
-> > operation is used on a file descriptor with an already existing psi
-> > trigger, the operation will fail with EBUSY error.
-> > Also bypass a check for psi_disabled in the psi_trigger_destroy as the
-> > flag can be flipped after the trigger is created, leading to a memory
-> > leak.
+> )
+>
+> On Wed, Jan 12, 2022 at 6:40 AM Johannes Weiner <hannes@cmpxchg.org> wrote:
 > >
-> > Fixes: 0e94682b73bf ("psi: introduce psi monitor")
-> > Cc: stable@vger.kernel.org
-> > Reported-by: syzbot+cdb5dd11c97cc532efad@syzkaller.appspotmail.com
-> > Analyzed-by: Eric Biggers <ebiggers@kernel.org>
-> > Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> > On Tue, Jan 11, 2022 at 03:23:09PM -0800, Suren Baghdasaryan wrote:
+> > > With write operation on psi files replacing old trigger with a new one,
+> > > the lifetime of its waitqueue is totally arbitrary. Overwriting an
+> > > existing trigger causes its waitqueue to be freed and pending poll()
+> > > will stumble on trigger->event_wait which was destroyed.
+> > > Fix this by disallowing to redefine an existing psi trigger. If a write
+> > > operation is used on a file descriptor with an already existing psi
+> > > trigger, the operation will fail with EBUSY error.
+> > > Also bypass a check for psi_disabled in the psi_trigger_destroy as the
+> > > flag can be flipped after the trigger is created, leading to a memory
+> > > leak.
+> > >
+> > > Fixes: 0e94682b73bf ("psi: introduce psi monitor")
+> > > Cc: stable@vger.kernel.org
+> > > Reported-by: syzbot+cdb5dd11c97cc532efad@syzkaller.appspotmail.com
+> > > Analyzed-by: Eric Biggers <ebiggers@kernel.org>
+> > > Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+> > > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> >
+> > Acked-by: Johannes Weiner <hannes@cmpxchg.org>
 >
-> Acked-by: Johannes Weiner <hannes@cmpxchg.org>
+> Hmm. kernel test robot notified me of new (which are not really new)
+> warnings but I don't think this patch specifically introduced them:
+>
+> kernel/sched/psi.c:1112:21: warning: no previous prototype for
+> function 'psi_trigger_create' [-Wmissing-prototypes]
+>    struct psi_trigger *psi_trigger_create(struct psi_group *group,
+>                        ^
+>    kernel/sched/psi.c:1112:1: note: declare 'static' if the function
+> is not intended to be used outside of this translation unit
+>    struct psi_trigger *psi_trigger_create(struct psi_group *group,
+>    ^
+>    static
+> >> kernel/sched/psi.c:1182:6: warning: no previous prototype for function 'psi_trigger_destroy' [-Wmissing-prototypes]
+>    void psi_trigger_destroy(struct psi_trigger *t)
+>         ^
+>    kernel/sched/psi.c:1182:1: note: declare 'static' if the function
+> is not intended to be used outside of this translation unit
+>    void psi_trigger_destroy(struct psi_trigger *t)
+>    ^
+>    static
+>    kernel/sched/psi.c:1249:10: warning: no previous prototype for
+> function 'psi_trigger_poll' [-Wmissing-prototypes]
+>    __poll_t psi_trigger_poll(void **trigger_ptr,
+>             ^
+>    kernel/sched/psi.c:1249:1: note: declare 'static' if the function
+> is not intended to be used outside of this translation unit
+>    __poll_t psi_trigger_poll(void **trigger_ptr,
+>    ^
+>
+> This happens with the following config:
+>
+> CONFIG_CGROUPS=n
+> CONFIG_PSI=y
+>
+> With cgroups disabled these functions are defined as non-static but
+> are not defined in the header
+> (https://elixir.bootlin.com/linux/latest/source/include/linux/psi.h#L28)
+> since the only external user cgroup.c is disabled. The cleanest way to
+> fix these I think is by doing smth like this in psi.c:
+>
+> struct psi_trigger *_psi_trigger_create(struct psi_group *group, char
+> *buf, size_t nbytes, enum psi_res res)
+> {
+>   // original psi_trigger_create code
+> }
+>
+> #ifdef CONFIG_CGROUPS
+>
+> struct psi_trigger *psi_trigger_create(struct psi_group *group, char
+> *buf, size_t nbytes, enum psi_res res)
+> {
+>     return _psi_trigger_create(group, buf, nbytes, res);
+> }
+>
+> #else
+>
+> static struct psi_trigger *psi_trigger_create(struct psi_group *group,
+> char *buf, size_t nbytes, enum psi_res res)
+> {
+>     return _psi_trigger_create(group, buf, nbytes, res);
+> }
+>
+> #endif
 
-Hmm. kernel test robot notified me of new (which are not really new)
-warnings but I don't think this patch specifically introduced them:
+Actually this would be enough:
 
-kernel/sched/psi.c:1112:21: warning: no previous prototype for
-function 'psi_trigger_create' [-Wmissing-prototypes]
-   struct psi_trigger *psi_trigger_create(struct psi_group *group,
-                       ^
-   kernel/sched/psi.c:1112:1: note: declare 'static' if the function
-is not intended to be used outside of this translation unit
-   struct psi_trigger *psi_trigger_create(struct psi_group *group,
-   ^
-   static
->> kernel/sched/psi.c:1182:6: warning: no previous prototype for function 'psi_trigger_destroy' [-Wmissing-prototypes]
-   void psi_trigger_destroy(struct psi_trigger *t)
-        ^
-   kernel/sched/psi.c:1182:1: note: declare 'static' if the function
-is not intended to be used outside of this translation unit
-   void psi_trigger_destroy(struct psi_trigger *t)
-   ^
-   static
-   kernel/sched/psi.c:1249:10: warning: no previous prototype for
-function 'psi_trigger_poll' [-Wmissing-prototypes]
-   __poll_t psi_trigger_poll(void **trigger_ptr,
-            ^
-   kernel/sched/psi.c:1249:1: note: declare 'static' if the function
-is not intended to be used outside of this translation unit
-   __poll_t psi_trigger_poll(void **trigger_ptr,
-   ^
-
-This happens with the following config:
-
-CONFIG_CGROUPS=n
-CONFIG_PSI=y
-
-With cgroups disabled these functions are defined as non-static but
-are not defined in the header
-(https://elixir.bootlin.com/linux/latest/source/include/linux/psi.h#L28)
-since the only external user cgroup.c is disabled. The cleanest way to
-fix these I think is by doing smth like this in psi.c:
-
-struct psi_trigger *_psi_trigger_create(struct psi_group *group, char
-*buf, size_t nbytes, enum psi_res res)
+static struct psi_trigger *_psi_trigger_create(struct psi_group
+*group, char *buf, size_t nbytes, enum psi_res res)
 {
-  // original psi_trigger_create code
+   // original psi_trigger_create code
 }
 
 #ifdef CONFIG_CGROUPS
-
-struct psi_trigger *psi_trigger_create(struct psi_group *group, char
+ struct psi_trigger *psi_trigger_create(struct psi_group *group, char
 *buf, size_t nbytes, enum psi_res res)
-{
-    return _psi_trigger_create(group, buf, nbytes, res);
-}
-
-#else
-
-static struct psi_trigger *psi_trigger_create(struct psi_group *group,
-char *buf, size_t nbytes, enum psi_res res)
-{
-    return _psi_trigger_create(group, buf, nbytes, res);
-}
-
+ {
+     return _psi_trigger_create(group, buf, nbytes, res);
+ }
 #endif
 
-Two questions:
-1. Is this even worth fixing?
-2. If so, I would like to do that as a separate patch (these warnings
-are unrelated to the changes in this patch). Would that be ok?
-Thanks,
-Suren.
+and locally we use _psi_trigger_create().
+
+>
+> Two questions:
+> 1. Is this even worth fixing?
+> 2. If so, I would like to do that as a separate patch (these warnings
+> are unrelated to the changes in this patch). Would that be ok?
+> Thanks,
+> Suren.
