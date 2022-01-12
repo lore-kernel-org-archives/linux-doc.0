@@ -2,54 +2,54 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FB7DC4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 08:08:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE437C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 08:35:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351426AbiALIIU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jan 2022 03:08:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44832 "EHLO
+        id S1351668AbiALIf6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jan 2022 03:35:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351416AbiALIIU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 03:08:20 -0500
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F957C06173F
-        for <linux-doc@vger.kernel.org>; Wed, 12 Jan 2022 00:08:20 -0800 (PST)
-Received: by mail-io1-xd32.google.com with SMTP id o7so2459377ioo.9
-        for <linux-doc@vger.kernel.org>; Wed, 12 Jan 2022 00:08:20 -0800 (PST)
+        with ESMTP id S1351672AbiALIf6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 03:35:58 -0500
+Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B43CC061757
+        for <linux-doc@vger.kernel.org>; Wed, 12 Jan 2022 00:35:58 -0800 (PST)
+Received: by mail-io1-xd36.google.com with SMTP id s6so2662351ioj.0
+        for <linux-doc@vger.kernel.org>; Wed, 12 Jan 2022 00:35:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=WFX0A5hPtLq2y+4vv8Glr1WeFBcLpToPaecrV540Urk=;
-        b=OBoRktJAv2XSBOFIYv6FTRsogQts1376KLhe7+5DMuFh7zRq5yAzGpqqXyDHj9Xjlb
-         zotg52mPLRjGo6JHqs8a8N3MNFQXCWj/igX/71yKCdvHpQKVu0yd31fWY1gSFmUlwJ6X
-         ZMSVBsO2CuLPHnyELp6xcWP2DErwfVG70j4xM2qnfBrXMI1aRbbazUqGDTiqtRrpqTbZ
-         9xV45uFJmSmfaJmdQKyEP3ks97tS5WK6/jLQ+x9FEdirZ2JWpo0rTci8disi/gFeyrJf
-         CPpop5aA7QFRTB9cPJm4sFRxoK1R67hphj6jIur2TBzKWeY8Gj0aZAFIrw6WPXx6O3z5
-         WdwA==
+        bh=pHnk4u7CVnW4YX08e13GAG2PhlcG7TaAHrFaqBnUaMM=;
+        b=gx2Kq4XVtiikSnxRzFDbx0NQVXHhzL0l+bHFfCMP2xlRMkr/vmevVZ8IT/q5b+WYJs
+         eaFjydh5vORIST5f+Ac8TvlzBEDdCCJUbjGTHKWRBPXqpZwPPu0sKbs0A1mQ6FwYF6Q0
+         +/ZxF5v+AJdoCHnGOPoTn+UHUD2WSAt3sFFWwm9bdBV6VDbMc1hbxQxjkZjNjOE4aoo0
+         lDxwgeWu5w+yHW93cC4rtxq3O1Whl/ivLMO/y26cbq2zsMZaiJovijbxl/HvkB9uZwI/
+         6jNnGuRao0y5e3EqpY1DMWEnJ2psHyQxJ+BVFKamfMrQHr4gftGqnD1yezMR7w1NnuDa
+         Gcxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=WFX0A5hPtLq2y+4vv8Glr1WeFBcLpToPaecrV540Urk=;
-        b=JOhxKU735Q5JioDhLC6kV6r3NtZJf1+6k6Tw/LccoxbgdpuncVRKANHtQkyJ4gHO9T
-         jHZL2Ol9Jio+ZUBsWVYCdnjEd/aUBrPEsXJ7hqPNlgfWAoFuAtkEl6UKoe6b9g9LQrkn
-         QdozvZoPYQ9kNqRBdwNjhtQ/YdEzAYCb/G5J/W4UFpsa7+ADTCw2IyJzTQovt4YvAxM+
-         cI3ibvA9oo+elJg2RiBPYr6snV/1KMDnG6sljctoxbLHvFhL4sAOOr4jz0LTqfmU8kCl
-         0K3iDw7aVJ8/LbI30b8Fx4zJrvwZyGWX5DsYNmjK3KphTUUALlYjrbzK9/BNJ0lSDZyt
-         R4Xw==
-X-Gm-Message-State: AOAM530gf7sdc2fhK4o01J/iviZGbpqDgR4qNv59GB6UJdejOfK6JR/u
-        DgApG1DJZ9xslGANaH9DWfiwkw==
-X-Google-Smtp-Source: ABdhPJxO3An+3xlKK9bsJDfMFJ5VcX2bkSlQ27yXvyOjxBnpGUi93F7uIIXHnwXvCww63eGPNQJTkQ==
-X-Received: by 2002:a05:6638:35a3:: with SMTP id v35mr3884475jal.137.1641974899399;
-        Wed, 12 Jan 2022 00:08:19 -0800 (PST)
+        bh=pHnk4u7CVnW4YX08e13GAG2PhlcG7TaAHrFaqBnUaMM=;
+        b=0w2pl9mNk8odvHQoKWBLDDD/oE5gWo0Y5kMG6i2ippN4yt2vQOHSjzjO7k5/hgTcQb
+         XEeJUKmFP4SDcoVx9Sdp85v8ZEEvUscghgdOslW6nLq99OUx6Bl6H0gpr3+1cwqqG+2U
+         Jo8ghSsK0jqv0btKuhgoljeAlvwYGEWiEBb/pcj4uYnfeolPYAdOvV1nOJvPLd61Jc/J
+         RHIVcry+fYdrQRrvCLwmM98nXjgqCeqlSRE6OHRkSA1NLHCPLTsPykzkL3o5AUsz+iga
+         O/4CXDDsILsk6kY1YZrVfKJK4Aqu4NZV3RI6x3WTnkvSBtEEkqQ3Hfh8nPmlWxMx6PXr
+         E7wg==
+X-Gm-Message-State: AOAM532FTXyiBLFtj01aAvG0IMLBT+QIBJsGj4jX+hR2N0UERVISha6u
+        P0F8kSMV7LZVCP1l8OTPA3VWIw==
+X-Google-Smtp-Source: ABdhPJxZlNJrPU030MfCBCkKKlxLKP0SEloQRCq8kLfrAAW8D7t9fRq/tmsOnP5SuyHHRUX2Od2o2g==
+X-Received: by 2002:a05:6638:4192:: with SMTP id az18mr3846460jab.212.1641976557500;
+        Wed, 12 Jan 2022 00:35:57 -0800 (PST)
 Received: from google.com ([2620:15c:183:200:b6b6:70f4:b540:6383])
-        by smtp.gmail.com with ESMTPSA id d11sm7352276ilv.6.2022.01.12.00.08.18
+        by smtp.gmail.com with ESMTPSA id a1sm7136939iol.55.2022.01.12.00.35.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jan 2022 00:08:18 -0800 (PST)
-Date:   Wed, 12 Jan 2022 01:08:14 -0700
+        Wed, 12 Jan 2022 00:35:56 -0800 (PST)
+Date:   Wed, 12 Jan 2022 01:35:52 -0700
 From:   Yu Zhao <yuzhao@google.com>
-To:     Michal Hocko <mhocko@suse.com>
+To:     Mike Rapoport <rppt@kernel.org>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Andi Kleen <ak@linux.intel.com>,
@@ -62,6 +62,7 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Matthew Wilcox <willy@infradead.org>,
         Mel Gorman <mgorman@suse.de>,
         Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
         Rik van Riel <riel@surriel.com>,
         Vlastimil Babka <vbabka@suse.cz>,
         Will Deacon <will@kernel.org>,
@@ -70,66 +71,144 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         page-reclaim@google.com, x86@kernel.org,
         Konstantin Kharlamov <Hi-Angel@yandex.ru>
-Subject: Re: [PATCH v6 5/9] mm: multigenerational lru: mm_struct list
-Message-ID: <Yd6MbsVkU7fChCrc@google.com>
+Subject: Re: [PATCH v6 8/9] mm: multigenerational lru: user interface
+Message-ID: <Yd6S6Js1W4AnFFmv@google.com>
 References: <20220104202227.2903605-1-yuzhao@google.com>
- <20220104202227.2903605-6-yuzhao@google.com>
- <YdgChw4vNb43XsU/@dhcp22.suse.cz>
- <YdjYkFmtMdrYg736@google.com>
- <YdxPEdsfl771Z7IX@dhcp22.suse.cz>
+ <20220104202227.2903605-9-yuzhao@google.com>
+ <YdwKB3SfF7hkB9Xv@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YdxPEdsfl771Z7IX@dhcp22.suse.cz>
+In-Reply-To: <YdwKB3SfF7hkB9Xv@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 10, 2022 at 04:21:53PM +0100, Michal Hocko wrote:
-> On Fri 07-01-22 17:19:28, Yu Zhao wrote:
-> > On Fri, Jan 07, 2022 at 10:06:15AM +0100, Michal Hocko wrote:
-> > > On Tue 04-01-22 13:22:24, Yu Zhao wrote:
-> > > > To exploit spatial locality, the aging prefers to walk page tables to
-> > > > search for young PTEs. And this patch paves the way for that.
-> > > > 
-> > > > An mm_struct list is maintained for each memcg, and an mm_struct
-> > > > follows its owner task to the new memcg when this task is migrated.
-> > > 
-> > > How does this work actually for the memcg reclaim? I can see you
-> > > lru_gen_migrate_mm on the task migration. My concern is, though, that
-> > > such a task leaves all the memory behind in the previous memcg (in
-> > > cgroup v2, in v1 you can opt in for charge migration). If you move the
-> > > mm to a new memcg then you age it somewhere where the memory is not
-> > > really consumed.
-> > 
-> > There are two options to gather the accessed bit: page table walks and
-> > rmap walks. Page table walks sweep dense hotspots that are NOT
-> > misplaced in terms of reclaim scope (lruvec); rmap walks cover what
-> > page table walks miss, e.g., misplaced dense hotspots or sparse ones.
-> > 
-> > Dense hotspots are stored in Bloom filters for each lruvec.
-> > 
-> > If an mm leaves everything in the old memcg, page table walks in the
-> > new memcg reclaim path basically ignore this mm after the first scan,
-> > because everything is misplaced.
+On Mon, Jan 10, 2022 at 12:27:19PM +0200, Mike Rapoport wrote:
+> Hi,
 > 
-> OK, so do I get it right that pages mapped from a different memcg than
-> the reclaimed one are considered effectivelly non-present from the the
-> reclaim logic POV? This would be worth mentioning in the migration
-> callback because it is not really that straightforward to put those two
-> together.
-
-That's correct. Will document this in detail.
-
-> > In the old memcg reclaim path, page table walks won't see this mm
-> > at all. But rmap walks will catch everything later in the eviction
-> > path, i.e., lru_gen_look_around(). This function is less efficient
-> > compared with page table walks because, for each rmap walk of a
-> > non-shared page, it only can gather the accessed bit from 64 PTEs at
-> > most. But it's still a lot faster than the original rmap, which only
-> > gathers the accessed bit from a single PTE, for each walk of a
-> > non-shared page.
+> On Tue, Jan 04, 2022 at 01:22:27PM -0700, Yu Zhao wrote:
+> > Add /sys/kernel/mm/lru_gen/enabled as a runtime kill switch.
+> > 
+> > Add /sys/kernel/mm/lru_gen/min_ttl_ms for thrashing prevention.
+> > Compared with the size-based approach, e.g., [1], this time-based
+> > approach has the following advantages:
+> > 1) It's easier to configure because it's agnostic to applications and
+> >    memory sizes.
+> > 2) It's more reliable because it's directly wired to the OOM killer.
+> > 
+> > Add /sys/kernel/debug/lru_gen for working set estimation and proactive
+> > reclaim. Compared with the page table-based approach and the PFN-based
+> > approach, e.g., mm/damon/[vp]addr.c, this lruvec-based approach has
+> > the following advantages:
+> > 1) It offers better choices because it's aware of memcgs, NUMA nodes,
+> >    shared mappings and unmapped page cache.
+> > 2) It's more scalable because it's O(nr_hot_evictable_pages), whereas
+> >    the PFN-based approach is O(nr_total_pages).
+> > 
+> > Add /sys/kernel/debug/lru_gen_full for debugging.
+> > 
+> > [1] https://lore.kernel.org/lkml/20211130201652.2218636d@mail.inbox.lv/
+> > 
+> > Signed-off-by: Yu Zhao <yuzhao@google.com>
+> > Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
+> > ---
+> >  Documentation/vm/index.rst        |   1 +
+> >  Documentation/vm/multigen_lru.rst |  62 +++++
 > 
-> Again, something that should be really documented.
+> The description of user visible interfaces should go to
+> Documentation/admin-guide/mm
+> 
+> Documentation/vm/multigen_lru.rst should have contained design description
+> and the implementation details and it would be great to actually have such
+> document.
 
-Noted.
+Will do, thanks.
+
+> >  include/linux/nodemask.h          |   1 +
+> >  mm/vmscan.c                       | 415 ++++++++++++++++++++++++++++++
+> >  4 files changed, 479 insertions(+)
+> >  create mode 100644 Documentation/vm/multigen_lru.rst
+> > 
+> > diff --git a/Documentation/vm/index.rst b/Documentation/vm/index.rst
+> > index 6f5ffef4b716..f25e755b4ff4 100644
+> > --- a/Documentation/vm/index.rst
+> > +++ b/Documentation/vm/index.rst
+> > @@ -38,3 +38,4 @@ algorithms.  If you are looking for advice on simply allocating memory, see the
+> >     unevictable-lru
+> >     z3fold
+> >     zsmalloc
+> > +   multigen_lru
+> > diff --git a/Documentation/vm/multigen_lru.rst b/Documentation/vm/multigen_lru.rst
+> > new file mode 100644
+> > index 000000000000..6f9e0181348b
+> > --- /dev/null
+> > +++ b/Documentation/vm/multigen_lru.rst
+> > @@ -0,0 +1,62 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +=====================
+> > +Multigenerational LRU
+> > +=====================
+> > +
+> > +Quick start
+> > +===========
+> > +Runtime configurations
+> > +----------------------
+> > +:Required: Write ``1`` to ``/sys/kernel/mm/lru_gen/enable`` if the
+> > + feature wasn't enabled by default.
+> 
+> Required for what? This sentence seem to lack context. Maybe add an
+> overview what is Multigenerational LRU so that users will have an idea what
+> these knobs control.
+
+Apparently I left an important part of this quick start in the next
+patch, where Kconfig options are added. I'm wonder whether I should
+squash the next patch into this one.
+
+I always separate Kconfig changes and leave them in the last patch
+because it gives me peace of mind knowing it'll never give any auto
+bisectors a hard time.
+
+But I saw people not following this practice, and I'm also tempted to
+do so. Can anybody remind me whether it's considered a bad practice to
+have code changes and Kconfig changes in the same patch?
+
+> > +
+> > +Recipes
+> > +=======
+> 
+> Some more context here will be also helpful.
+
+Will do.
+
+> > +Personal computers
+> > +------------------
+> > +:Thrashing prevention: Write ``N`` to
+> > + ``/sys/kernel/mm/lru_gen/min_ttl_ms`` to prevent the working set of
+> > + ``N`` milliseconds from getting evicted. The OOM killer is invoked if
+> > + this working set can't be kept in memory. Based on the average human
+> > + detectable lag (~100ms), ``N=1000`` usually eliminates intolerable
+> > + lags due to thrashing. Larger values like ``N=3000`` make lags less
+> > + noticeable at the cost of more OOM kills.
+> > +
+> > +Data centers
+> > +------------
+> > +:Debugfs interface: ``/sys/kernel/debug/lru_gen`` has the following
+> > + format:
+> > + ::
+> > +
+> > +   memcg  memcg_id  memcg_path
+> > +     node  node_id
+> > +       min_gen  birth_time  anon_size  file_size
+> > +       ...
+> > +       max_gen  birth_time  anon_size  file_size
+> > +
+> > + ``min_gen`` is the oldest generation number and ``max_gen`` is the
+> > + youngest generation number. ``birth_time`` is in milliseconds.
+> > + ``anon_size`` and ``file_size`` are in pages.
+> 
+> And what does oldest and youngest generations mean from the user
+> perspective?
+
+Good question. Will add more details in the next spin.
