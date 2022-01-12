@@ -2,56 +2,64 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4684AC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 01:01:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7171CC433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 01:46:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347460AbiALBBg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jan 2022 20:01:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35034 "EHLO
+        id S235152AbiALBqf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Jan 2022 20:46:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234143AbiALBBg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jan 2022 20:01:36 -0500
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A481AC06173F
-        for <linux-doc@vger.kernel.org>; Tue, 11 Jan 2022 17:01:35 -0800 (PST)
-Received: by mail-io1-xd31.google.com with SMTP id j1so1432407iob.1
-        for <linux-doc@vger.kernel.org>; Tue, 11 Jan 2022 17:01:35 -0800 (PST)
+        with ESMTP id S1347942AbiALBqd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jan 2022 20:46:33 -0500
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2EE0C061751
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jan 2022 17:46:32 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id a5so1468097wrh.5
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jan 2022 17:46:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=jNmx8g8QULTnXgWyiPIunnbTModfNMXbNul38tS9+t8=;
-        b=NAulvy+CL4jLdg6in4jpNyX7o1OXHQdkwuFvwX5K7RgDZTz13OcR7WH1DzcE9KdXbA
-         nS7L/OR8QQxsClaVTxzf9z85k5DGUPK7XFCezMiE+490Ascv4a0eUEOWBTuv1nDuhdEa
-         PHmeQ9GVNAa+ra/y7o7UcKabUURkxZ962JH1oMlEaPb0qwqwexHFud8ogggWGV0SCDC4
-         KAi0rVVB2AufTMb4+Ia2SPkN3jrhN28krE3UUjdvECd6LMIq4tvHOO61cuMaCe6V6RBr
-         oL71D/7sN0O7wAfSrcaZurdbRBV7LcoPv2BEVpr10nte+y4wyG+7xGfDpqhxqv/KiPoN
-         Wdjg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Jfvsr8PR3GjeTvciCbxfFgfs5vC3rlXelyaQOInqWns=;
+        b=jpZOnqubfJ0hnEhpOd1UgVHFjcFGZvUD1EvP6SUEZcQOhrbAaa/xGlMNgtViJBEN9b
+         TS3Onjx6QOHUseMhJ6AfbRR2PDachzWW+PUvAdKLONL7MyYYGMUJ78xcqa/j7jyBNv/E
+         dRhbsnB3ka3OxcsW7aSwD2gLXVIQvG1sFSpl/7JE/9V/+eFAathAKk49OJlM9DLNszjz
+         XySZdrGz3n2rjofi9CcsyOShAntfICBUPa8Rf3BKmlOHDdC+yCeviyV+OHx4JU5P7HFu
+         QQ79C5sDc5LafR3I85TgyVETbURK8Sw7vAKO8XyaL7XO/OMZ2OIqy5cCNL4pwoCKyFeS
+         Xj0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=jNmx8g8QULTnXgWyiPIunnbTModfNMXbNul38tS9+t8=;
-        b=BCAL7cFyHqFcNhYVAN9fnkO5zxX/9gwlaijkeIKoPZL4u400Z0U2jTNnS2EL4ZSQ4D
-         gKZat4Wm4I3aFQsIdb3jsxfyP4JW4Iw06yC19kUOWDVdm+IAF9G9zW/QQsDzfkarwtxU
-         I/5y/QMsKPcchQxgRDMiNBDMO4uKUX+Wmww5QLjSLbfGDfsvhVnJXR6XY2serB4JvwPY
-         FdDfQltNYoQQ7Yka6nXORMEfC9dNu7E6RlfdZKzURVGAI1s0rGPUmVDFpFrMFrFwXRfw
-         Y6JvbHYOPa8ox1aqff8SQrviLMKtpLZdMsVWYKck9vJgir3m5ISEuvBHt/6gl8qbeT1p
-         ZakQ==
-X-Gm-Message-State: AOAM5326ohTnlWy/vDcjSGcVC9HfhuATsPfaR+NF9EU5Zh2b/UPEKiF6
-        OxIOMgRNY7HPvCtrBazKw6/fcQ==
-X-Google-Smtp-Source: ABdhPJy6+Q9GpyROLohTnAHgRnpGuFaV485DidDlkI1AelSWNPEo/Rk4V8VZWl64qjBRxmXni7NRhA==
-X-Received: by 2002:a02:cc70:: with SMTP id j16mr2271558jaq.72.1641949294228;
-        Tue, 11 Jan 2022 17:01:34 -0800 (PST)
-Received: from google.com ([2620:15c:183:200:b6b6:70f4:b540:6383])
-        by smtp.gmail.com with ESMTPSA id s6sm6758158ild.5.2022.01.11.17.01.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jan 2022 17:01:33 -0800 (PST)
-Date:   Tue, 11 Jan 2022 18:01:29 -0700
-From:   Yu Zhao <yuzhao@google.com>
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Jfvsr8PR3GjeTvciCbxfFgfs5vC3rlXelyaQOInqWns=;
+        b=zAKRxB7Fd5ssNFfTKmAniAnf7FfB7IsF8ebNzzKRB+lHwFzwp7d5oY19oPVtOObvA2
+         toq1nqm95dIkLp+yyf/caRmppvK1qwV/OTLoogmXuA8DwoXj/uar4JNX4+UhIJSqUafl
+         Q2+vDtqqaqCsiX1F/tE4+eF6iRCPwTbfg8rao7YMb0+NAuRFa7mYOTNkh3rMTz4AQNzt
+         bdMcR/8qw9VpyomVsnMhlhb+poWOWc3Fj21jFZBz95bo6f+8h+fHDSd2kbftZRre5XrI
+         DOMkwBZLrP2SzDjocv8GSnvln3AWDKZUYa2fLt139018plrEvb5mo7t/ttwBuSucQHLn
+         XzXw==
+X-Gm-Message-State: AOAM531U9RivO7QWAN8rKcmIwjAH7WC5BJI/jy7IVGRWy5m7/th0NIzA
+        Ec4sE9uzGsytj2PW5Xaxz79i4Cv9CJWoDw4IpMrhyA==
+X-Google-Smtp-Source: ABdhPJwtHkljLUOCxyakqEbUb2j/J0vIrKEKy0mZ5iJW02TGkn+sQPf3J4n7Od0UkQ8UTmgDmDmQZVMrdAYemlDlCY0=
+X-Received: by 2002:adf:f151:: with SMTP id y17mr5748842wro.547.1641951991215;
+ Tue, 11 Jan 2022 17:46:31 -0800 (PST)
+MIME-Version: 1.0
+References: <20220104202227.2903605-1-yuzhao@google.com> <YdSuSHa/Vjl6bPkg@google.com>
+ <Yd1Css8+jsspeZHh@google.com>
+In-Reply-To: <Yd1Css8+jsspeZHh@google.com>
+From:   Suleiman Souhlal <suleiman@google.com>
+Date:   Wed, 12 Jan 2022 10:46:19 +0900
+Message-ID: <CABCjUKBiECMEgnMaCrfApVbWPgw3UuwNH+-Y9ME+2ogJSm+p-Q@mail.gmail.com>
+Subject: Re: [PATCH v6 0/9] Multigenerational LRU Framework
+To:     Yu Zhao <yuzhao@google.com>
+Cc:     Alexandre Frade <kernel@xanmod.org>,
+        Brian Geffon <bgeffon@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Steven Barrett <steven@liquorix.net>,
         Andi Kleen <ak@linux.intel.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
@@ -62,72 +70,88 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Matthew Wilcox <willy@infradead.org>,
         Mel Gorman <mgorman@suse.de>,
         Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
         Rik van Riel <riel@surriel.com>,
         Vlastimil Babka <vbabka@suse.cz>,
         Will Deacon <will@kernel.org>,
         Ying Huang <ying.huang@intel.com>,
         linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        page-reclaim@google.com, x86@kernel.org,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>
-Subject: Re: [PATCH v6 6/9] mm: multigenerational lru: aging
-Message-ID: <Yd4oaUwHkpadAKwe@google.com>
-References: <20220104202227.2903605-1-yuzhao@google.com>
- <20220104202227.2903605-7-yuzhao@google.com>
- <Ydxlg5rI4ZvODQvF@dhcp22.suse.cz>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Ydxlg5rI4ZvODQvF@dhcp22.suse.cz>
+        Linux Kernel <linux-kernel@vger.kernel.org>,
+        linux-mm@kvack.org, page-reclaim@google.com, x86@kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jan 10, 2022 at 05:57:39PM +0100, Michal Hocko wrote:
-> On Tue 04-01-22 13:22:25, Yu Zhao wrote:
-> [...]
-> > +static void walk_mm(struct lruvec *lruvec, struct mm_struct *mm, struct lru_gen_mm_walk *walk)
-> > +{
-> > +	static const struct mm_walk_ops mm_walk_ops = {
-> > +		.test_walk = should_skip_vma,
-> > +		.p4d_entry = walk_pud_range,
-> > +	};
-> > +
-> > +	int err;
-> > +#ifdef CONFIG_MEMCG
-> > +	struct mem_cgroup *memcg = lruvec_memcg(lruvec);
-> > +#endif
-> > +
-> > +	walk->next_addr = FIRST_USER_ADDRESS;
-> > +
-> > +	do {
-> > +		unsigned long start = walk->next_addr;
-> > +		unsigned long end = mm->highest_vm_end;
-> > +
-> > +		err = -EBUSY;
-> > +
-> > +		rcu_read_lock();
-> > +#ifdef CONFIG_MEMCG
-> > +		if (memcg && atomic_read(&memcg->moving_account))
-> > +			goto contended;
-> > +#endif
-> 
-> Why do you need to check for moving_account?
+On Tue, Jan 11, 2022 at 5:41 PM Yu Zhao <yuzhao@google.com> wrote:
+>
+> On Tue, Jan 04, 2022 at 01:30:00PM -0700, Yu Zhao wrote:
+> > On Tue, Jan 04, 2022 at 01:22:19PM -0700, Yu Zhao wrote:
+> > > TLDR
+> > > ====
+> > > The current page reclaim is too expensive in terms of CPU usage and it
+> > > often makes poor choices about what to evict. This patchset offers an
+> > > alternative solution that is performant, versatile and
+> > > straightforward.
+> >
+> > <snipped>
+> >
+> > > Summery
+> > > =======
+> > > The facts are:
+> > > 1. The independent lab results and the real-world applications
+> > >    indicate substantial improvements; there are no known regressions.
+> > > 2. Thrashing prevention, working set estimation and proactive reclaim
+> > >    work out of the box; there are no equivalent solutions.
+> > > 3. There is a lot of new code; nobody has demonstrated smaller changes
+> > >    with similar effects.
+> > >
+> > > Our options, accordingly, are:
+> > > 1. Given the amount of evidence, the reported improvements will likely
+> > >    materialize for a wide range of workloads.
+> > > 2. Gauging the interest from the past discussions [14][15][16], the
+> > >    new features will likely be put to use for both personal computers
+> > >    and data centers.
+> > > 3. Based on Google's track record, the new code will likely be well
+> > >    maintained in the long term. It'd be more difficult if not
+> > >    impossible to achieve similar effects on top of the existing
+> > >    design.
+> >
+> > Hi Andrew, Linus,
+> >
+> > Can you please take a look at this patchset and let me know if it's
+> > 5.17 material?
+> >
+> > My goal is to get it merged asap so that users can reap the benefits
+> > and I can push the sequels. Please examine the data provided -- I
+> > think the unprecedented coverage and the magnitude of the improvements
+> > warrant a green light.
+>
+> Downstream kernel maintainers who have been carrying MGLRU for more than
+> 3 versions, can you please provide your Acked-by tags?
+>
+> Having this patchset in the mainline will make your job easier :)
+>
+>    Alexandre - the XanMod Kernel maintainer
+>                https://xanmod.org
+>
+>    Brian     - the Chrome OS kernel memory maintainer
+>                https://www.chromium.org
+>
+>    Jan       - the Arch Linux Zen kernel maintainer
+>                https://archlinux.org
+>
+>    Steven    - the Liquorix kernel maintainer
+>                https://liquorix.net
+>
+>    Suleiman  - the ARCVM (Android downstream) kernel memory maintainer
+>                https://chromium.googlesource.com/chromiumos/third_party/kernel
 
-This check, if succeeds, blocks memcg migration.
+Android on ChromeOS has been using MGLRU for a while now, with great results.
+It would be great for more people to more easily be able to benefit from it.
 
-Our goal is to move pages between different generations of the same
-lruvec (the first arg). Meanwhile, pages can also be migrated between
-different memcgs (different lruvecs).
+Acked-by: Suleiman Souhlal <suleiman@google.com>
 
-The active/inactive lru uses isolation to block memcg migration.
-
-Generations account pages similarly to the active/inactive lru, i.e.,
-each generation has nr_pages counter. However, unlike the active/
-inactive lru, a page can be moved to a different generation without
-getting isolated or even without being under the lru lock, as long as
-the delta is eventually accounted for (which does require the lru lock
-when it happens).
-
-The generation counter in page->flags (folio->flags to be precise)
-stores 0 when a page is isolated, to synchronize with isolation.
+-- Suleiman
