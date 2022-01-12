@@ -2,162 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADAA6C4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Jan 2022 23:37:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4684AC433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 01:01:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346872AbiAKXhw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jan 2022 18:37:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44508 "EHLO
+        id S1347460AbiALBBg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Jan 2022 20:01:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346869AbiAKXht (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jan 2022 18:37:49 -0500
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30BC1C061756
-        for <linux-doc@vger.kernel.org>; Tue, 11 Jan 2022 15:37:49 -0800 (PST)
-Received: by mail-yb1-xb2c.google.com with SMTP id g14so1489894ybs.8
-        for <linux-doc@vger.kernel.org>; Tue, 11 Jan 2022 15:37:49 -0800 (PST)
+        with ESMTP id S234143AbiALBBg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jan 2022 20:01:36 -0500
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A481AC06173F
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jan 2022 17:01:35 -0800 (PST)
+Received: by mail-io1-xd31.google.com with SMTP id j1so1432407iob.1
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jan 2022 17:01:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=y4s8SWu6oC0jBwQaJEtDME4KEjn8XnX1dHweILOZNLw=;
-        b=tSyF53acF27OqNgvWqbVMB4rrrAYr/G3ysoCmjIQ/DaL271SFRSP9RaoVkMOYsWjkG
-         ZAh/G8g1ZVadBZsGFH5qPak4LK4vm+smNDxvyfLbi93tZ18mFzO1F2hDPQMHLX5dBIsr
-         5d1kMzt3sJdE7pgOingjfcwZ+mEVWyW1qXaowK0H4IRT5I4jBEhjI3+h7nt/bjknrGED
-         gqlZPxyPkgn1taVWcOXcDy1aihgFYTIfS9B5uiZln7zNU/5M1LElC18H5MoMQC1Z6Jfb
-         serIeUcjt6cll+oqIu7J1g6Uh0ILigdyCTsbA81cViGAUm+Yvdjjz6KDrxShdp6XzC1I
-         hODQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=jNmx8g8QULTnXgWyiPIunnbTModfNMXbNul38tS9+t8=;
+        b=NAulvy+CL4jLdg6in4jpNyX7o1OXHQdkwuFvwX5K7RgDZTz13OcR7WH1DzcE9KdXbA
+         nS7L/OR8QQxsClaVTxzf9z85k5DGUPK7XFCezMiE+490Ascv4a0eUEOWBTuv1nDuhdEa
+         PHmeQ9GVNAa+ra/y7o7UcKabUURkxZ962JH1oMlEaPb0qwqwexHFud8ogggWGV0SCDC4
+         KAi0rVVB2AufTMb4+Ia2SPkN3jrhN28krE3UUjdvECd6LMIq4tvHOO61cuMaCe6V6RBr
+         oL71D/7sN0O7wAfSrcaZurdbRBV7LcoPv2BEVpr10nte+y4wyG+7xGfDpqhxqv/KiPoN
+         Wdjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=y4s8SWu6oC0jBwQaJEtDME4KEjn8XnX1dHweILOZNLw=;
-        b=TXBrq00VbZjf165Haa2C2UECP9EHfZnM3N8Xm+ETngppN++dCo85LvqPB+d0aB+vR5
-         DwjTQzooy5rIap+6vlQu1hIeovmuenA74YtZ6NkDDkXx5ILyZ0iRbQ0I6bFeEyhQ21Tq
-         oqJJUrMzOev/21iBKi5xz4nZ6vBBm3WQHAWzcmwq07O0KXbMnTBrcvbpoK6gYtKjj2eA
-         cWJdS7Y7TCOiOwmZbAjkp/6xNDLsa6I4ovELlgF7vUia3jWx6ySrQNAlJGrKouu3f15z
-         NGeDXXVGnT3Wj5XhjyQGdNT5OdUk6dC0ZraWz3l6ddsqo6Ac2P7ViDRQpJnt1rZOPmtM
-         X9vw==
-X-Gm-Message-State: AOAM532wvG6+llevoBIxaTZGTos+XcvKuBJMr8fa2fxuccoeiw1KcAqK
-        dEUdVHsY8K1Z1R5c4CbmvRmJnijmtiP+gsw5/RkUmg==
-X-Google-Smtp-Source: ABdhPJyqLXKJ6gdjLMc9e2tpdFFZizV6Y14c+znv0Z5ZDaav7clivseLS2LsVXah/dHpL9Qrebnu61t1tKCpI8Oex8w=
-X-Received: by 2002:a25:c3c4:: with SMTP id t187mr8315382ybf.634.1641944268131;
- Tue, 11 Jan 2022 15:37:48 -0800 (PST)
-MIME-Version: 1.0
-References: <20220111071212.1210124-1-surenb@google.com> <Yd3RClhoz24rrU04@sol.localdomain>
- <CAHk-=wgwb6pJjvHYmOMT-yp5RYvw0pbv810Wcxdm5S7dWc-s0g@mail.gmail.com>
- <Yd3dZklleDnJCQ46@gmail.com> <CAHk-=wiQ-qzKU8vyhgm8xsWE8DG6rR4jmbvOfBvbjVYq4SKQMA@mail.gmail.com>
-In-Reply-To: <CAHk-=wiQ-qzKU8vyhgm8xsWE8DG6rR4jmbvOfBvbjVYq4SKQMA@mail.gmail.com>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Tue, 11 Jan 2022 15:37:37 -0800
-Message-ID: <CAJuCfpGHgkgUVQY=FRGfpKDg1QbR2mMaYKbsF2RDiDkratwL_w@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] psi: Fix uaf issue when psi trigger is destroyed
- while being polled
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Eric Biggers <ebiggers@kernel.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=jNmx8g8QULTnXgWyiPIunnbTModfNMXbNul38tS9+t8=;
+        b=BCAL7cFyHqFcNhYVAN9fnkO5zxX/9gwlaijkeIKoPZL4u400Z0U2jTNnS2EL4ZSQ4D
+         gKZat4Wm4I3aFQsIdb3jsxfyP4JW4Iw06yC19kUOWDVdm+IAF9G9zW/QQsDzfkarwtxU
+         I/5y/QMsKPcchQxgRDMiNBDMO4uKUX+Wmww5QLjSLbfGDfsvhVnJXR6XY2serB4JvwPY
+         FdDfQltNYoQQ7Yka6nXORMEfC9dNu7E6RlfdZKzURVGAI1s0rGPUmVDFpFrMFrFwXRfw
+         Y6JvbHYOPa8ox1aqff8SQrviLMKtpLZdMsVWYKck9vJgir3m5ISEuvBHt/6gl8qbeT1p
+         ZakQ==
+X-Gm-Message-State: AOAM5326ohTnlWy/vDcjSGcVC9HfhuATsPfaR+NF9EU5Zh2b/UPEKiF6
+        OxIOMgRNY7HPvCtrBazKw6/fcQ==
+X-Google-Smtp-Source: ABdhPJy6+Q9GpyROLohTnAHgRnpGuFaV485DidDlkI1AelSWNPEo/Rk4V8VZWl64qjBRxmXni7NRhA==
+X-Received: by 2002:a02:cc70:: with SMTP id j16mr2271558jaq.72.1641949294228;
+        Tue, 11 Jan 2022 17:01:34 -0800 (PST)
+Received: from google.com ([2620:15c:183:200:b6b6:70f4:b540:6383])
+        by smtp.gmail.com with ESMTPSA id s6sm6758158ild.5.2022.01.11.17.01.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jan 2022 17:01:33 -0800 (PST)
+Date:   Tue, 11 Jan 2022 18:01:29 -0700
+From:   Yu Zhao <yuzhao@google.com>
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
         Johannes Weiner <hannes@cmpxchg.org>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Cgroups <cgroups@vger.kernel.org>,
-        stable <stable@vger.kernel.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        syzbot <syzbot+cdb5dd11c97cc532efad@syzkaller.appspotmail.com>
-Content-Type: text/plain; charset="UTF-8"
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, x86@kernel.org,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>
+Subject: Re: [PATCH v6 6/9] mm: multigenerational lru: aging
+Message-ID: <Yd4oaUwHkpadAKwe@google.com>
+References: <20220104202227.2903605-1-yuzhao@google.com>
+ <20220104202227.2903605-7-yuzhao@google.com>
+ <Ydxlg5rI4ZvODQvF@dhcp22.suse.cz>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Ydxlg5rI4ZvODQvF@dhcp22.suse.cz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 11, 2022 at 12:15 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Tue, Jan 11, 2022 at 11:41 AM Eric Biggers <ebiggers@kernel.org> wrote:
-> >
-> > This is yet another case of "one time init".
->
-> Ehh. It's somewhat debatable.
->
-> For a flag that sets a value once, the rules are somewhat different.
-> In that case, people may simply not care about memory ordering at all,
-> because all they care about is the actual flag value, and - thanks to
-> the one-time behavior - basically whether some transition had happened
-> or not. That's not all that unusual.
->
-> But when you fetch a pointer, things are at least conceptually
-> slightly different.
->
-> Of course, you may use the existence of the pointer itself as a flag
-> (ie just a "NULL or not"), in which case it's the same as any other
-> one-time flag thing.
->
-> But if you use it to dereference something, then _by_definition_
-> you're not just fetching a one-time flag - even if the pointer is only
-> set once. At that point, at a minimum, you require that that thing has
-> been initialized.
->
-> Now, it's then absolutely true that the stuff behind the pointer may
-> then have other reasons not to care about memory ordering again, and
-> you may be able to avoid memory ordering even then. If you're just
-> switching the pointer around between different objects that has been
-> statically allocated and initialized, then there is no memory ordering
-> required, for example. You might be back to the "I just want one or
-> the other of these two pointers".
->
-> But if you have something that was initialized before the pointer was
-> assigned, you really do hit the problem we had on alpha, where even if
-> you order the pointer write side accesses, the dereferencing of the
-> pointer may not be ordered on the read side.
->
-> Now, alpha is basically dead, and we probably don't really care. Even
-> on alpha, the whole "data dependency isn't a memory ordering" is
-> almost impossible to trigger.
->
-> And in fact, to avoid too much pain we ended up saying "screw alpha"
-> and added a memory barrier to READ_ONCE(), so it turns out that
-> smp_store_release -> READ_ONCE() does work because we just couldn't be
-> bothered to try something more proper.
->
-> So yeah, READ_ONCE() ends up making the "access through a pointer"
-> thing safe, but that's less of a "it should be safe" and more of a "we
-> can't waste time dealing with braindamage on platforms that don't
-> matter".
->
-> In general, I think the rule should be that READ_ONCE() is for things
-> that simply don't care about memory ordering at all (or do whatever
-> ordering they want explicitly). And yes, one such very common case is
-> the "one-way flag" where once a certain state has been reached, it's
-> idempotent.
->
-> Of course, then we have the fact that READ_ONCE() can be more
-> efficient than "smp_load_acquire()" on some platforms, so if something
-> is *hugely* performance-critical, you might use READ_ONCE() even if
-> it's not really technically the right thing.
->
-> So it's complicated.
->
-> A lot of READ_ONCE() users exist just for historical reasons because
-> they predated smp_store_release/smp_load_acquire. They may well have
-> been using ACCESS_ONCE() long ago.
->
-> And some are there because it's a very critical piece of code, and
-> it's very intentional.
->
-> But if you don't have some huge reasons, I really would prefer people
-> use "smp_store_release -> smp_load_acquire" as a very clear "handoff"
-> event.
+On Mon, Jan 10, 2022 at 05:57:39PM +0100, Michal Hocko wrote:
+> On Tue 04-01-22 13:22:25, Yu Zhao wrote:
+> [...]
+> > +static void walk_mm(struct lruvec *lruvec, struct mm_struct *mm, struct lru_gen_mm_walk *walk)
+> > +{
+> > +	static const struct mm_walk_ops mm_walk_ops = {
+> > +		.test_walk = should_skip_vma,
+> > +		.p4d_entry = walk_pud_range,
+> > +	};
+> > +
+> > +	int err;
+> > +#ifdef CONFIG_MEMCG
+> > +	struct mem_cgroup *memcg = lruvec_memcg(lruvec);
+> > +#endif
+> > +
+> > +	walk->next_addr = FIRST_USER_ADDRESS;
+> > +
+> > +	do {
+> > +		unsigned long start = walk->next_addr;
+> > +		unsigned long end = mm->highest_vm_end;
+> > +
+> > +		err = -EBUSY;
+> > +
+> > +		rcu_read_lock();
+> > +#ifdef CONFIG_MEMCG
+> > +		if (memcg && atomic_read(&memcg->moving_account))
+> > +			goto contended;
+> > +#endif
+> 
+> Why do you need to check for moving_account?
 
-Posted v3 with smp_store_release/smp_load_acquire:
-https://lore.kernel.org/all/20220111232309.1786347-1-surenb@google.com
-Thanks!
+This check, if succeeds, blocks memcg migration.
 
->
->               Linus
+Our goal is to move pages between different generations of the same
+lruvec (the first arg). Meanwhile, pages can also be migrated between
+different memcgs (different lruvecs).
+
+The active/inactive lru uses isolation to block memcg migration.
+
+Generations account pages similarly to the active/inactive lru, i.e.,
+each generation has nr_pages counter. However, unlike the active/
+inactive lru, a page can be moved to a different generation without
+getting isolated or even without being under the lru lock, as long as
+the delta is eventually accounted for (which does require the lru lock
+when it happens).
+
+The generation counter in page->flags (folio->flags to be precise)
+stores 0 when a page is isolated, to synchronize with isolation.
