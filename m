@@ -2,32 +2,32 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4873EC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 10:17:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81A85C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 10:29:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352447AbiALKR6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jan 2022 05:17:58 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29]:34614 "EHLO
+        id S239498AbiALK3D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jan 2022 05:29:03 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:35690 "EHLO
         smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346594AbiALKR4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 05:17:56 -0500
+        with ESMTP id S239391AbiALK3A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 05:29:00 -0500
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id AF6DE1F3D0;
-        Wed, 12 Jan 2022 10:17:55 +0000 (UTC)
+        by smtp-out2.suse.de (Postfix) with ESMTP id EE1A51F3CA;
+        Wed, 12 Jan 2022 10:28:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1641982675; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1641983338; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=g/PcfchBevR47yLCk2MvJMcIoOeey+Dc7tFuclOHyHY=;
-        b=ihOEkN8DjQyUt0ipnU90uMOZ2gXOVMRbLDzXwZb6s6F8FLHvme9bzA1Up283oRsVgW8TRI
-        3snyjvVlAjeBn09Iscu8aTJ2GMnUcRLx0jwB0ZIVXuvPDja9V5BdcKNwCLFIhyLOFsuMpE
-        lL6uy541yhuj4resrieM6V346Nz/eO4=
+        bh=ioyVnpN3K6fNhs+IEe7aVsyN+KrufIvhdGNWWrmI3JA=;
+        b=qA94ONzIs4uB2pR3BTbt8lg3/96/Y38YAMcV7cOYTaUW8EuHvMn5oJsISzeqOjc26MBK/0
+        H92wU1dghL/np4cg9lwZeon9d2awSYlsbKrolCzdJObL0Zw8ywEXHX4w6vT+gkQ5QjI/H1
+        cNQn+crVBa9yWVlPheo9PWGsEYHgcz8=
 Received: from suse.cz (unknown [10.100.201.86])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 71453A3B81;
-        Wed, 12 Jan 2022 10:17:54 +0000 (UTC)
-Date:   Wed, 12 Jan 2022 11:17:53 +0100
+        by relay2.suse.de (Postfix) with ESMTPS id 3E91FA3B83;
+        Wed, 12 Jan 2022 10:28:58 +0000 (UTC)
+Date:   Wed, 12 Jan 2022 11:28:57 +0100
 From:   Michal Hocko <mhocko@suse.com>
 To:     Yu Zhao <yuzhao@google.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
@@ -51,57 +51,53 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         page-reclaim@google.com, x86@kernel.org,
         Konstantin Kharlamov <Hi-Angel@yandex.ru>
 Subject: Re: [PATCH v6 6/9] mm: multigenerational lru: aging
-Message-ID: <Yd6q0QdLVTS53vu4@dhcp22.suse.cz>
+Message-ID: <Yd6tafG3CS7BoRYn@dhcp22.suse.cz>
 References: <20220104202227.2903605-1-yuzhao@google.com>
  <20220104202227.2903605-7-yuzhao@google.com>
- <Ydxlg5rI4ZvODQvF@dhcp22.suse.cz>
- <Yd4oaUwHkpadAKwe@google.com>
+ <YdcU4P+XWkbDUUoO@dhcp22.suse.cz>
+ <YdxKORU9OWCv114O@dhcp22.suse.cz>
+ <Yd4P6bEJI8YlXq0H@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Yd4oaUwHkpadAKwe@google.com>
+In-Reply-To: <Yd4P6bEJI8YlXq0H@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue 11-01-22 18:01:29, Yu Zhao wrote:
-> On Mon, Jan 10, 2022 at 05:57:39PM +0100, Michal Hocko wrote:
-> > On Tue 04-01-22 13:22:25, Yu Zhao wrote:
-> > [...]
-> > > +static void walk_mm(struct lruvec *lruvec, struct mm_struct *mm, struct lru_gen_mm_walk *walk)
-> > > +{
-> > > +	static const struct mm_walk_ops mm_walk_ops = {
-> > > +		.test_walk = should_skip_vma,
-> > > +		.p4d_entry = walk_pud_range,
-> > > +	};
-> > > +
-> > > +	int err;
-> > > +#ifdef CONFIG_MEMCG
-> > > +	struct mem_cgroup *memcg = lruvec_memcg(lruvec);
-> > > +#endif
-> > > +
-> > > +	walk->next_addr = FIRST_USER_ADDRESS;
-> > > +
-> > > +	do {
-> > > +		unsigned long start = walk->next_addr;
-> > > +		unsigned long end = mm->highest_vm_end;
-> > > +
-> > > +		err = -EBUSY;
-> > > +
-> > > +		rcu_read_lock();
-> > > +#ifdef CONFIG_MEMCG
-> > > +		if (memcg && atomic_read(&memcg->moving_account))
-> > > +			goto contended;
-> > > +#endif
+On Tue 11-01-22 16:16:57, Yu Zhao wrote:
+> On Mon, Jan 10, 2022 at 04:01:13PM +0100, Michal Hocko wrote:
+> > On Thu 06-01-22 17:12:18, Michal Hocko wrote:
+> > > On Tue 04-01-22 13:22:25, Yu Zhao wrote:
+> > > > +static struct lru_gen_mm_walk *alloc_mm_walk(void)
+> > > > +{
+> > > > +	if (!current->reclaim_state || !current->reclaim_state->mm_walk)
+> > > > +		return kvzalloc(sizeof(struct lru_gen_mm_walk), GFP_KERNEL);
 > > 
-> > Why do you need to check for moving_account?
+> > One thing I have overlooked completely.
 > 
-> This check, if succeeds, blocks memcg migration.
+> I appreciate your attention to details but GFP_KERNEL is legit in the
+> reclaim path. It's been used many years in our production, e.g.,
+>   page reclaim
+>     swap_writepage()
+>       frontswap_store()
+>         zswap_frontswap_store()
+>           zswap_entry_cache_alloc(GFP_KERNEL)
+> 
+> (And I always test my changes with lockdep, kasan, DEBUG_VM, etc., no
+>  warnings ever seen from using GFP_KERNEL in the reclaim path.)
 
-OK, I can see that you rely on the RCU here for the synchronization. A
-comment which mentions mem_cgroup_move_charge would be helpful for
-clarity. Is there any reason you are not using folio_memcg_lock in the
-pte walk instead?
+OK, I can see it now. __need_reclaim will check for PF_MEMALLOC and skip
+the fs_reclaim tracking.
+
+I still maintain I am not really happy about (nor in the zswap example)
+allocations from the direct reclaim context. I would really recommend
+using a pre-allocated pool of objects.
+
+If there are strong reasons for not doing so then at lease change that
+to kzalloc.
+
+Thanks!
 -- 
 Michal Hocko
 SUSE Labs
