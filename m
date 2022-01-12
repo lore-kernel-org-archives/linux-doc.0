@@ -2,156 +2,273 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A63EC433F5
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 19:06:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 651C0C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 19:27:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343955AbiALTGp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jan 2022 14:06:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55490 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241871AbiALTGn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 14:06:43 -0500
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDBE6C06173F
-        for <linux-doc@vger.kernel.org>; Wed, 12 Jan 2022 11:06:42 -0800 (PST)
-Received: by mail-yb1-xb34.google.com with SMTP id d7so8383270ybo.5
-        for <linux-doc@vger.kernel.org>; Wed, 12 Jan 2022 11:06:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1N4+Xk2A1HV9Zz01S+vjdjuhpy9VXBL+0Xdf9UxVggQ=;
-        b=Tsv0x4UhaAW7q8o0pJBbbyHs41au6t+Y+O8b2zY5Bq5f4RWLAfruyRblcTzN17ZiUy
-         8EbQyjLIf50EdPX6iiu+yTQHVTCyaME4QJnfK/DR0BF0/Hefdez1kbYOGFKAlTUIFvj4
-         7XWRYScoAFZzziDppLB2eGR+YxREcjskE7e8JshG3fETc96Pe1G64D5sQSbjCCAyYh1v
-         R/9S0aYJyUdsauazoYSbqu+UGuVMhyTIDpd0vEX05cgFNzfMVHa4Ef3I8L2OsgLF7OZb
-         75aaGtZIA+8VUGsiPOVMOZdFShrjKZSreG3G21YkBjWdyLeVF8wOeC2Lp5GiWLlI/Eok
-         999g==
+        id S1345009AbiALT1L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jan 2022 14:27:11 -0500
+Received: from mail-qt1-f179.google.com ([209.85.160.179]:46896 "EHLO
+        mail-qt1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1345003AbiALT0L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 14:26:11 -0500
+Received: by mail-qt1-f179.google.com with SMTP id v7so4200362qtw.13;
+        Wed, 12 Jan 2022 11:26:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=1N4+Xk2A1HV9Zz01S+vjdjuhpy9VXBL+0Xdf9UxVggQ=;
-        b=STxjCjO0DcrONbF3+3xbZmetG9JHLN30eSJDseCp6GxY3zcW/XJy3v7aE5OFp/yAhZ
-         PDWnIYH6MsA9JjL4KbRLPmoiG/af7UIiXSo0yDMQjZrMVfDhEky49J1AQnyHjphUMdCw
-         f/NFkFaY8OUwGf526wnmL9O5msuuA3usJ8Un1TjJ2gZDLva6N4uYP+g/WzmE8Ybfd6Ur
-         ooQgnF7HJSGFSrnzYsncdVSbEDndZBYy7vqf42k+sENGdXWA576nPlToq9gCfGiC9ULT
-         UzAC4iTEid+EiKYrO+397bVgYdD+7p7QNouArcCDAb80rlk3fCpPt/fdO3lBpqTnJSpP
-         NrWA==
-X-Gm-Message-State: AOAM532O3EMY24cyEvAQjSIGefR/QIqzN6h2/Wy3lTgsggDAhjaT4f7g
-        1hYmD3B7MkmCUR0io31khTEeVfeK83wYDuK0NYqKFA==
-X-Google-Smtp-Source: ABdhPJzV8D8NEZA+hx+YEnSJtLVuC2jwO1yJEkjitVKUN8jWSUnfF6+WmaxZnHg54OZdg7cl3lSNBoAHMQJZ5csIrsE=
-X-Received: by 2002:a25:c3c4:: with SMTP id t187mr1313832ybf.634.1642014401927;
- Wed, 12 Jan 2022 11:06:41 -0800 (PST)
+        bh=2OdLpMkE2Acb+qyy0VLgKmSLDMsqxL4iDRMnwTvWvo4=;
+        b=Df+XV2aRp4lprTsUyOnO5eHLEPye13FpHlQ+kiHMFdbRuoafzWAUPX/QcmfXFJeDGg
+         k0YdRpkXSfugmORDM5e2OE9GyZpFzVHlZREYnK3+L46vpzBcJ1bti2VhsfYSCFkOYdxB
+         3nPgwD16WR7KeYydmH3BGSxpZkr1pwXCNusI+hgqU4TiJ4jqSVS4uqwYHwtaO0Dh73ME
+         GlQrOFeqxXD8//MNvAg1hFTqhEEJokx59X7b8r6T+M2s+ghKuCw7DNPpwDfpelOKHENn
+         Q5eaa8+ll+txetBBDV5sovo3iztMuHgy0J5YCHZJj7LZKRdNLfM9qYKEEaObYhQHPm50
+         fwUQ==
+X-Gm-Message-State: AOAM531Wf8FIPXo84pSeKBlpOZhQJR0PrpDmUZAvf8F/WJoRMidHJBzV
+        ku7VbPzCCPkrrVt2Xgj5tBbWcnuXiIp41XwgpuA=
+X-Google-Smtp-Source: ABdhPJx1aWGsGy+DZCQpo3w29Z+cZ5A3P9bcxtWN7LIJdJrayKGtcTlLBLeJhDQioFdlyGdiwS9VToSEXBXcEca3Y5Y=
+X-Received: by 2002:a05:622a:44e:: with SMTP id o14mr901295qtx.369.1642015569811;
+ Wed, 12 Jan 2022 11:26:09 -0800 (PST)
 MIME-Version: 1.0
-References: <20220111232309.1786347-1-surenb@google.com> <Yd7oPlxCpnzNmFzc@cmpxchg.org>
- <CAJuCfpGHLXDvMU1GLMcgK_K72_ErPhbcFh1ZvEeHg025yinNuw@mail.gmail.com>
- <CAJuCfpEaM3KoPy3MUG7HW2yzcT6oJ5gdceyHPNpHrqTErq27eQ@mail.gmail.com>
- <Yd8a8TdThrGHsf2o@casper.infradead.org> <CAJuCfpF45VY_7esx7p2yEK+eK-ufSMsBETEdJPF=Mzxj+BTnLA@mail.gmail.com>
- <Yd8hpPwsIT2pbKUN@gmail.com> <CAJuCfpF_aZ7OnDRYr2MNa-x=ctO-daw-U=k+-GCYkJR1_yTHQg@mail.gmail.com>
- <Yd8mIY5IxwOKTK+D@gmail.com>
-In-Reply-To: <Yd8mIY5IxwOKTK+D@gmail.com>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Wed, 12 Jan 2022 11:06:30 -0800
-Message-ID: <CAJuCfpG9o5Z7x6hvPXy-Tfgom31sm4rjAA=f4KiY9pppGRGSHQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/1] psi: Fix uaf issue when psi trigger is destroyed
- while being polled
-To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Benjamin Segall <bsegall@google.com>,
-        Mel Gorman <mgorman@suse.de>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+References: <20220106025059.25847-1-ricardo.neri-calderon@linux.intel.com> <20220106025059.25847-7-ricardo.neri-calderon@linux.intel.com>
+In-Reply-To: <20220106025059.25847-7-ricardo.neri-calderon@linux.intel.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Wed, 12 Jan 2022 20:25:59 +0100
+Message-ID: <CAJZ5v0ioQ7UQt58NraPAG=M8k-joSy5pmszFjp=NcS6z==6RQg@mail.gmail.com>
+Subject: Re: [PATCH v3 6/7] thermal: netlink: Add a new event to notify CPU
+ capabilities change
+To:     Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        cgroups mailinglist <cgroups@vger.kernel.org>,
-        stable <stable@vger.kernel.org>,
-        kernel-team <kernel-team@android.com>,
-        syzbot <syzbot+cdb5dd11c97cc532efad@syzkaller.appspotmail.com>
+        Len Brown <len.brown@intel.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Aubrey Li <aubrey.li@linux.intel.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>,
+        Lukasz Luba <lukasz.luba@arm.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Ricardo Neri <ricardo.neri@intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 12, 2022 at 11:04 AM Eric Biggers <ebiggers@kernel.org> wrote:
+On Thu, Jan 6, 2022 at 3:49 AM Ricardo Neri
+<ricardo.neri-calderon@linux.intel.com> wrote:
 >
-> On Wed, Jan 12, 2022 at 10:53:48AM -0800, Suren Baghdasaryan wrote:
-> > On Wed, Jan 12, 2022 at 10:44 AM Eric Biggers <ebiggers@kernel.org> wrote:
-> > >
-> > > On Wed, Jan 12, 2022 at 10:26:08AM -0800, Suren Baghdasaryan wrote:
-> > > > On Wed, Jan 12, 2022 at 10:16 AM Matthew Wilcox <willy@infradead.org> wrote:
-> > > > >
-> > > > > On Wed, Jan 12, 2022 at 09:49:00AM -0800, Suren Baghdasaryan wrote:
-> > > > > > > This happens with the following config:
-> > > > > > >
-> > > > > > > CONFIG_CGROUPS=n
-> > > > > > > CONFIG_PSI=y
-> > > > > > >
-> > > > > > > With cgroups disabled these functions are defined as non-static but
-> > > > > > > are not defined in the header
-> > > > > > > (https://elixir.bootlin.com/linux/latest/source/include/linux/psi.h#L28)
-> > > > > > > since the only external user cgroup.c is disabled. The cleanest way to
-> > > > > > > fix these I think is by doing smth like this in psi.c:
-> > > > >
-> > > > > A cleaner way to solve these is simply:
-> > > > >
-> > > > > #ifndef CONFIG_CGROUPS
-> > > > > static struct psi_trigger *psi_trigger_create(...);
-> > > > > ...
-> > > > > #endif
-> > > > >
-> > > > > I tested this works:
-> > > > >
-> > > > > $ cat foo5.c
-> > > > > static int psi(void *);
-> > > > >
-> > > > > int psi(void *x)
-> > > > > {
-> > > > >         return (int)(long)x;
-> > > > > }
-> > > > >
-> > > > > int bar(void *x)
-> > > > > {
-> > > > >         return psi(x);
-> > > > > }
-> > > > > $ gcc -W -Wall -O2 -c -o foo5.o foo5.c
-> > > > > $ readelf -s foo5.o
-> > > > >
-> > > > > Symbol table '.symtab' contains 4 entries:
-> > > > >    Num:    Value          Size Type    Bind   Vis      Ndx Name
-> > > > >      0: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT  UND
-> > > > >      1: 0000000000000000     0 FILE    LOCAL  DEFAULT  ABS foo5.c
-> > > > >      2: 0000000000000000     0 SECTION LOCAL  DEFAULT    1 .text
-> > > > >      3: 0000000000000000     3 FUNC    GLOBAL DEFAULT    1 bar
-> > > > >
-> > > >
-> > > > Thanks Matthew!
-> > > > That looks much cleaner. I'll post a separate patch to fix these. My
-> > > > main concern was whether it's worth adding more code to satisfy this
-> > > > warning but with this approach the code changes are minimal, so I'll
-> > > > go ahead and post it shortly.
-> > >
-> > > Why not simply move the declarations of psi_trigger_create() and
-> > > psi_trigger_destroy() in include/linux/psi.h outside of the
-> > > '#ifdef CONFIG_CGROUPS' block, to match the .c file?
-> >
-> > IIRC this was done to avoid another warning that these functions are
-> > not used outside of psi.c when CONFIG_CGROUPS=n
-> >
+> From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 >
-> What tool gave that warning?
+> Add a new netlink event to notify change in CPU capabilities in terms of
+> performance and efficiency.
+>
+> Firmware may change CPU capabilities as a result of thermal events in the
+> system or to account for changes in the TDP (thermal design power) level.
+>
+> This notification type will allow user space to avoid running workloads
+> on certain CPUs or proactively adjust power limits to avoid future events.
+>
+> The netlink message consists of a nested attribute
+> (THERMAL_GENL_ATTR_CPU_CAPABILITY) with three attributes:
+>
+>  * THERMAL_GENL_ATTR_CPU_CAPABILITY_ID (type u32):
+>    -- logical CPU number
+>  * THERMAL_GENL_ATTR_CPU_CAPABILITY_PERFORMANCE (type u32):
+>    -- Scaled performance from 0-1023
+>  * THERMAL_GENL_ATTR_CPU_CAPABILITY_EFFICIENCY (type u32):
+>    -- Scaled efficiency from 0-1023
+>
+> Cc: Andi Kleen <ak@linux.intel.com>
+> Cc: Aubrey Li <aubrey.li@linux.intel.com>
+> Cc: Lukasz Luba <lukasz.luba@arm.com>
+> Cc: Tim Chen <tim.c.chen@linux.intel.com>
+> Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>
+> Reviewed-by: Len Brown <len.brown@intel.com>
+> Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 
-Let me double-check by building it. It has been a while since I
-developed the code and I don't want to mislead by making false claims.
+Of course, I need to know if Daniel and Lukasz agree with this patch.
 
+> ---
+> Changes since v2:
+>   * None
 >
-> - Eric
+> Changes since v1:
+>   * Reworded commit message.
+>   * Reworded the members of struct cpu_capacity for clarity. (Lukasz)
+>   * Defined the CPU capability attributes to be scaled in the [0, 1023]
+>     interval. (Lukasz)
+> ---
+>  drivers/thermal/thermal_netlink.c | 55 +++++++++++++++++++++++++++++++
+>  drivers/thermal/thermal_netlink.h | 13 ++++++++
+>  include/uapi/linux/thermal.h      |  6 +++-
+>  3 files changed, 73 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/thermal/thermal_netlink.c b/drivers/thermal/thermal_netlink.c
+> index a16dd4d5d710..38e6c20f460c 100644
+> --- a/drivers/thermal/thermal_netlink.c
+> +++ b/drivers/thermal/thermal_netlink.c
+> @@ -43,6 +43,11 @@ static const struct nla_policy thermal_genl_policy[THERMAL_GENL_ATTR_MAX + 1] =
+>         [THERMAL_GENL_ATTR_CDEV_MAX_STATE]      = { .type = NLA_U32 },
+>         [THERMAL_GENL_ATTR_CDEV_NAME]           = { .type = NLA_STRING,
+>                                                     .len = THERMAL_NAME_LENGTH },
+> +       /* CPU capabilities */
+> +       [THERMAL_GENL_ATTR_CPU_CAPABILITY]              = { .type = NLA_NESTED },
+> +       [THERMAL_GENL_ATTR_CPU_CAPABILITY_ID]           = { .type = NLA_U32 },
+> +       [THERMAL_GENL_ATTR_CPU_CAPABILITY_PERFORMANCE]  = { .type = NLA_U32 },
+> +       [THERMAL_GENL_ATTR_CPU_CAPABILITY_EFFICIENCY]   = { .type = NLA_U32 },
+>  };
+>
+>  struct param {
+> @@ -58,6 +63,8 @@ struct param {
+>         int temp;
+>         int cdev_state;
+>         int cdev_max_state;
+> +       struct cpu_capability *cpu_capabilities;
+> +       int cpu_capabilities_count;
+>  };
+>
+>  typedef int (*cb_t)(struct param *);
+> @@ -190,6 +197,45 @@ static int thermal_genl_event_gov_change(struct param *p)
+>         return 0;
+>  }
+>
+> +static int thermal_genl_event_cpu_capability_change(struct param *p)
+> +{
+> +       struct cpu_capability *cpu_cap = p->cpu_capabilities;
+> +       struct sk_buff *msg = p->msg;
+> +       struct nlattr *start_cap;
+> +       int i, ret;
+> +
+> +       start_cap = nla_nest_start(msg, THERMAL_GENL_ATTR_CPU_CAPABILITY);
+> +       if (!start_cap)
+> +               return -EMSGSIZE;
+> +
+> +       for (i = 0; i < p->cpu_capabilities_count; ++i) {
+> +               if (nla_put_u32(msg, THERMAL_GENL_ATTR_CPU_CAPABILITY_ID,
+> +                               cpu_cap->cpu)) {
+> +                       ret = -EMSGSIZE;
+> +                       goto out_cancel_nest;
+> +               }
+> +               if (nla_put_u32(msg, THERMAL_GENL_ATTR_CPU_CAPABILITY_PERFORMANCE,
+> +                               cpu_cap->performance)) {
+> +                       ret = -EMSGSIZE;
+> +                       goto out_cancel_nest;
+> +               }
+> +               if (nla_put_u32(msg, THERMAL_GENL_ATTR_CPU_CAPABILITY_EFFICIENCY,
+> +                               cpu_cap->efficiency)) {
+> +                       ret = -EMSGSIZE;
+> +                       goto out_cancel_nest;
+> +               }
+> +               ++cpu_cap;
+> +       }
+> +
+> +       nla_nest_end(msg, start_cap);
+> +
+> +       return 0;
+> +out_cancel_nest:
+> +       nla_nest_cancel(msg, start_cap);
+> +
+> +       return ret;
+
+It looks like ret is never different from -EMSGSIZE here, so I'd just
+return that error and drop the ret variable.
+
+> +}
+> +
+>  int thermal_genl_event_tz_delete(struct param *p)
+>         __attribute__((alias("thermal_genl_event_tz")));
+>
+> @@ -219,6 +265,7 @@ static cb_t event_cb[] = {
+>         [THERMAL_GENL_EVENT_CDEV_DELETE]        = thermal_genl_event_cdev_delete,
+>         [THERMAL_GENL_EVENT_CDEV_STATE_UPDATE]  = thermal_genl_event_cdev_state_update,
+>         [THERMAL_GENL_EVENT_TZ_GOV_CHANGE]      = thermal_genl_event_gov_change,
+> +       [THERMAL_GENL_EVENT_CPU_CAPABILITY_CHANGE] = thermal_genl_event_cpu_capability_change,
+>  };
+>
+>  /*
+> @@ -356,6 +403,14 @@ int thermal_notify_tz_gov_change(int tz_id, const char *name)
+>         return thermal_genl_send_event(THERMAL_GENL_EVENT_TZ_GOV_CHANGE, &p);
+>  }
+>
+> +int thermal_genl_cpu_capability_event(int count, struct cpu_capability *caps)
+> +{
+> +       struct param p = { .cpu_capabilities_count = count, .cpu_capabilities = caps };
+> +
+> +       return thermal_genl_send_event(THERMAL_GENL_EVENT_CPU_CAPABILITY_CHANGE, &p);
+> +}
+> +EXPORT_SYMBOL_GPL(thermal_genl_cpu_capability_event);
+> +
+>  /*************************** Command encoding ********************************/
+>
+>  static int __thermal_genl_cmd_tz_get_id(struct thermal_zone_device *tz,
+> diff --git a/drivers/thermal/thermal_netlink.h b/drivers/thermal/thermal_netlink.h
+> index e554f76291f4..44bc3dec5568 100644
+> --- a/drivers/thermal/thermal_netlink.h
+> +++ b/drivers/thermal/thermal_netlink.h
+> @@ -4,6 +4,12 @@
+>   *  Author: Daniel Lezcano <daniel.lezcano@linaro.org>
+>   */
+>
+> +struct cpu_capability {
+
+I'm wondering if the struct name is not too generic as the purpose it
+is used for is rather narrow and specific.
+
+> +       int cpu;
+> +       int performance;
+> +       int efficiency;
+> +};
+> +
+>  /* Netlink notification function */
+>  #ifdef CONFIG_THERMAL_NETLINK
+>  int __init thermal_netlink_init(void);
+> @@ -23,6 +29,7 @@ int thermal_notify_cdev_add(int cdev_id, const char *name, int max_state);
+>  int thermal_notify_cdev_delete(int cdev_id);
+>  int thermal_notify_tz_gov_change(int tz_id, const char *name);
+>  int thermal_genl_sampling_temp(int id, int temp);
+> +int thermal_genl_cpu_capability_event(int count, struct cpu_capability *caps);
+>  #else
+>  static inline int thermal_netlink_init(void)
+>  {
+> @@ -101,4 +108,10 @@ static inline int thermal_genl_sampling_temp(int id, int temp)
+>  {
+>         return 0;
+>  }
+> +
+> +static inline int thermal_genl_cpu_capability_event(int count, struct cpu_capability *caps)
+> +{
+> +       return 0;
+> +}
+> +
+>  #endif /* CONFIG_THERMAL_NETLINK */
+> diff --git a/include/uapi/linux/thermal.h b/include/uapi/linux/thermal.h
+> index 9aa2fedfa309..fc78bf3aead7 100644
+> --- a/include/uapi/linux/thermal.h
+> +++ b/include/uapi/linux/thermal.h
+> @@ -44,7 +44,10 @@ enum thermal_genl_attr {
+>         THERMAL_GENL_ATTR_CDEV_MAX_STATE,
+>         THERMAL_GENL_ATTR_CDEV_NAME,
+>         THERMAL_GENL_ATTR_GOV_NAME,
+> -
+> +       THERMAL_GENL_ATTR_CPU_CAPABILITY,
+> +       THERMAL_GENL_ATTR_CPU_CAPABILITY_ID,
+> +       THERMAL_GENL_ATTR_CPU_CAPABILITY_PERFORMANCE,
+> +       THERMAL_GENL_ATTR_CPU_CAPABILITY_EFFICIENCY,
+>         __THERMAL_GENL_ATTR_MAX,
+>  };
+>  #define THERMAL_GENL_ATTR_MAX (__THERMAL_GENL_ATTR_MAX - 1)
+> @@ -71,6 +74,7 @@ enum thermal_genl_event {
+>         THERMAL_GENL_EVENT_CDEV_DELETE,         /* Cdev unbound */
+>         THERMAL_GENL_EVENT_CDEV_STATE_UPDATE,   /* Cdev state updated */
+>         THERMAL_GENL_EVENT_TZ_GOV_CHANGE,       /* Governor policy changed  */
+> +       THERMAL_GENL_EVENT_CPU_CAPABILITY_CHANGE,       /* CPU capability changed */
+>         __THERMAL_GENL_EVENT_MAX,
+>  };
+>  #define THERMAL_GENL_EVENT_MAX (__THERMAL_GENL_EVENT_MAX - 1)
+> --
+> 2.17.1
+>
