@@ -2,156 +2,172 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE335C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 15:45:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 111DEC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 16:05:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343647AbiALPp6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jan 2022 10:45:58 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:45270 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241305AbiALPpz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 10:45:55 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 22279B81F71;
-        Wed, 12 Jan 2022 15:45:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC018C36AEB;
-        Wed, 12 Jan 2022 15:45:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642002352;
-        bh=qvNUE+XEvrVFgXHoMNSmjIwIHFkv7dTUFs/H0UfnT7g=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gtQzJzJSziO7bzJCT8MJwa1ic1D49bD/T9hoh/GkUFvIH5EsAmwjkls73JMEfn8Y2
-         arb3u+tbfhy/+t4b/D0LdH0/j7MAcY80iguSoYMP+2V7LxZd53scEMHVEEJ5ez+6Md
-         ldcwiJtsMKCs5kXV5jajxoM8RAOcDnww/iEnGpSt/FpuPniEaYcJJ2Ixh3JqacaCtK
-         ikt0yS2T2tvjFpstNn9i+dcmHWKCEPVgGTv2oxWjHSKdk7Cmx/pp7dfH1aTS0jDd3i
-         F9PSP/p3CDnmpLif7jtzGB5zG1MFtl4LUg0O5O8NcGrmJF1IgYer3TkukHbIaAmujy
-         NV5MEIPsdMuPQ==
-Date:   Wed, 12 Jan 2022 17:45:40 +0200
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Yu Zhao <yuzhao@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        page-reclaim@google.com, x86@kernel.org,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>
-Subject: Re: [PATCH v6 8/9] mm: multigenerational lru: user interface
-Message-ID: <Yd73pDkMOMVHhXzu@kernel.org>
-References: <20220104202227.2903605-1-yuzhao@google.com>
- <20220104202227.2903605-9-yuzhao@google.com>
- <YdwKB3SfF7hkB9Xv@kernel.org>
- <Yd6S6Js1W4AnFFmv@google.com>
+        id S1349628AbiALQFB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jan 2022 11:05:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41558 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240010AbiALQE6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 11:04:58 -0500
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EE8FC06173F;
+        Wed, 12 Jan 2022 08:04:58 -0800 (PST)
+Received: by mail-pj1-x102c.google.com with SMTP id m13so5823460pji.3;
+        Wed, 12 Jan 2022 08:04:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=p9vDS7ou1+K0jTUYDpO057Bsl73tb9hvAFDeAhdEnkg=;
+        b=MXWP+LqLo5weL9eKi1XWJ8ZN2oPbD5LfoJB0Ew569LonPEQIaH2ebzF4unLsuTpb1X
+         FhAD6mlmgYTkz6itTdqWP8YofB8WKWSOZh+TlqG4tukI3AifSrDIy3seUEaJJ7z2H7b/
+         tqgrEFue4Y5oRJ2vuQYHcSw6x5BeWXuQmcAF4lVePFaa8gSHi/Er8AIA9vypcLQbDdnQ
+         l1CXxvuOLnBNhie+rC5z7wnM8oYgWHt6918HnXFCI7cD3nBdwKtfX/LWHQ9DcRGOAccn
+         3NLO0h4/odsPrjfhZIa2FKJsIplh+v8ZYgICI9DdQFX04G+AeajhoE/EZvRG7mFdPwaG
+         hrPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=p9vDS7ou1+K0jTUYDpO057Bsl73tb9hvAFDeAhdEnkg=;
+        b=qlTdvySDOXYP9cZ7SsM7TL/0s6ZFMLK4WuLYNF1rACFYyg7yxql1egCpb3vJhHu9Tg
+         1h3PNZ6Rp8NVhQ8y8UkQXiOx9cXkWMrDAAQ82KmnTkgg2a0+riqzudh7n8SPd66Pa109
+         c+donF7QxY+VrlEAXA66T6q6fP+yYjz6kSSL3E6YF5Azg6yqalGmXSfyXq28h2vUaQc9
+         rDZxWucujwb5I82GMmHRRen+wwIdcgbz7B4vugrBMV4p3Ou2Bu9xKCPAlD8a59uDZn1X
+         Wi7X8MJ6MyusbNcUFzXfK3WEP+Lsx9w4KXqK/rFt3spwrn83NsfSXKLkgEto2nl1UQC/
+         pQJw==
+X-Gm-Message-State: AOAM530voLNVnbHf+ZxP/cTzJfRfHjuVcSxeUZs8x7V5xwwt4iujMkhn
+        Ww01+VMCIrG9dLdxXTvV3qw=
+X-Google-Smtp-Source: ABdhPJw/5EmtPQ4pqAF9nzNkFBcXsKnPk0aGXdobZEznOBMSaixKn2hhPXJIDcuFSe1NWrzRpGoApg==
+X-Received: by 2002:a17:902:ecc6:b0:148:a65d:842d with SMTP id a6-20020a170902ecc600b00148a65d842dmr430395plh.56.1642003497591;
+        Wed, 12 Jan 2022 08:04:57 -0800 (PST)
+Received: from localhost.localdomain ([218.88.125.213])
+        by smtp.gmail.com with ESMTPSA id e15sm104808pfv.23.2022.01.12.08.04.54
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 12 Jan 2022 08:04:57 -0800 (PST)
+From:   yongw.pur@gmail.com
+X-Google-Original-From: wang.yong12@zte.com.cn
+To:     alexs@kernel.org, siyanteng@loongson.cn, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        wang.yong12@zte.com.cn, yang.yang29@zte.com.cn
+Subject: [PATCH] docs/zh_CN: Update zh_CN/accounting/delay-accounting.rst
+Date:   Wed, 12 Jan 2022 08:04:42 -0800
+Message-Id: <1642003482-48935-1-git-send-email-wang.yong12@zte.com.cn>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yd6S6Js1W4AnFFmv@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 12, 2022 at 01:35:52AM -0700, Yu Zhao wrote:
-> On Mon, Jan 10, 2022 at 12:27:19PM +0200, Mike Rapoport wrote:
-> > Hi,
-> > 
-> > On Tue, Jan 04, 2022 at 01:22:27PM -0700, Yu Zhao wrote:
-> > > Add /sys/kernel/mm/lru_gen/enabled as a runtime kill switch.
-> > > 
-> > > Add /sys/kernel/mm/lru_gen/min_ttl_ms for thrashing prevention.
-> > > Compared with the size-based approach, e.g., [1], this time-based
-> > > approach has the following advantages:
-> > > 1) It's easier to configure because it's agnostic to applications and
-> > >    memory sizes.
-> > > 2) It's more reliable because it's directly wired to the OOM killer.
-> > > 
-> > > Add /sys/kernel/debug/lru_gen for working set estimation and proactive
-> > > reclaim. Compared with the page table-based approach and the PFN-based
-> > > approach, e.g., mm/damon/[vp]addr.c, this lruvec-based approach has
-> > > the following advantages:
-> > > 1) It offers better choices because it's aware of memcgs, NUMA nodes,
-> > >    shared mappings and unmapped page cache.
-> > > 2) It's more scalable because it's O(nr_hot_evictable_pages), whereas
-> > >    the PFN-based approach is O(nr_total_pages).
-> > > 
-> > > Add /sys/kernel/debug/lru_gen_full for debugging.
-> > > 
-> > > [1] https://lore.kernel.org/lkml/20211130201652.2218636d@mail.inbox.lv/
-> > > 
-> > > Signed-off-by: Yu Zhao <yuzhao@google.com>
-> > > Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
-> > > ---
-> > >  Documentation/vm/index.rst        |   1 +
-> > >  Documentation/vm/multigen_lru.rst |  62 +++++
-> > 
-> > The description of user visible interfaces should go to
-> > Documentation/admin-guide/mm
-> > 
-> > Documentation/vm/multigen_lru.rst should have contained design description
-> > and the implementation details and it would be great to actually have such
-> > document.
-> 
-> Will do, thanks.
-> 
-> > >  include/linux/nodemask.h          |   1 +
-> > >  mm/vmscan.c                       | 415 ++++++++++++++++++++++++++++++
-> > >  4 files changed, 479 insertions(+)
-> > >  create mode 100644 Documentation/vm/multigen_lru.rst
-> > > 
-> > > diff --git a/Documentation/vm/index.rst b/Documentation/vm/index.rst
-> > > index 6f5ffef4b716..f25e755b4ff4 100644
-> > > --- a/Documentation/vm/index.rst
-> > > +++ b/Documentation/vm/index.rst
-> > > @@ -38,3 +38,4 @@ algorithms.  If you are looking for advice on simply allocating memory, see the
-> > >     unevictable-lru
-> > >     z3fold
-> > >     zsmalloc
-> > > +   multigen_lru
-> > > diff --git a/Documentation/vm/multigen_lru.rst b/Documentation/vm/multigen_lru.rst
-> > > new file mode 100644
-> > > index 000000000000..6f9e0181348b
-> > > --- /dev/null
-> > > +++ b/Documentation/vm/multigen_lru.rst
-> > > @@ -0,0 +1,62 @@
-> > > +.. SPDX-License-Identifier: GPL-2.0
-> > > +
-> > > +=====================
-> > > +Multigenerational LRU
-> > > +=====================
-> > > +
-> > > +Quick start
-> > > +===========
-> > > +Runtime configurations
-> > > +----------------------
-> > > +:Required: Write ``1`` to ``/sys/kernel/mm/lru_gen/enable`` if the
-> > > + feature wasn't enabled by default.
-> > 
-> > Required for what? This sentence seem to lack context. Maybe add an
-> > overview what is Multigenerational LRU so that users will have an idea what
-> > these knobs control.
-> 
-> Apparently I left an important part of this quick start in the next
-> patch, where Kconfig options are added. I'm wonder whether I should
-> squash the next patch into this one.
+From: wangyong <wang.yong12@zte.com.cn>
 
-I think documentation deserves a separate patch.
+Update zh_CN/accounting/delay-accounting.rst.
+The document modification has been merged which refers to the following link:
+https://lore.kernel.org/all/1639583021-92977-1-git-send-email-wang.yong12@zte.com.cn/
+
+Signed-off-by: wangyong <wang.yong12@zte.com.cn>
+Reviewed-by: Yang Yang <yang.yang29@zte.com.cn>
+---
+ .../zh_CN/accounting/delay-accounting.rst          | 62 +++++++++++-----------
+ 1 file changed, 30 insertions(+), 32 deletions(-)
+
+diff --git a/Documentation/translations/zh_CN/accounting/delay-accounting.rst b/Documentation/translations/zh_CN/accounting/delay-accounting.rst
+index 67d5606..f184941 100644
+--- a/Documentation/translations/zh_CN/accounting/delay-accounting.rst
++++ b/Documentation/translations/zh_CN/accounting/delay-accounting.rst
+@@ -17,6 +17,8 @@ a) 等待一个CPU（任务为可运行）
+ b) 完成由该任务发起的块I/O同步请求
+ c) 页面交换
+ d) 内存回收
++e) 页缓存抖动
++f) 直接规整
  
-
+ 并将这些统计信息通过taskstats接口提供给用户空间。
+ 
+@@ -37,10 +39,10 @@ d) 内存回收
+ 向用户态返回一个通用数据结构，对应每pid或每tgid的统计信息。延时计数功能填写
+ 该数据结构的特定字段。见
+ 
+-     include/linux/taskstats.h
++     include/uapi/linux/taskstats.h
+ 
+ 其描述了延时计数相关字段。系统通常以计数器形式返回 CPU、同步块 I/O、交换、内存
+-回收等的累积延时。
++回收、页缓存抖动、直接规整等的累积延时。
+ 
+ 取任务某计数器两个连续读数的差值，将得到任务在该时间间隔内等待对应资源的总延时。
+ 
+@@ -72,40 +74,36 @@ kernel.task_delayacct进行开关。注意，只有在启用延时计数后启
+ 
+ getdelays命令的一般格式::
+ 
+-	getdelays [-t tgid] [-p pid] [-c cmd...]
++	getdelays [-dilv] [-t tgid] [-p pid]
+ 
+ 获取pid为10的任务从系统启动后的延时信息::
+ 
+-	# ./getdelays -p 10
++	# ./getdelays -d -p 10
+ 	（输出信息和下例相似）
+ 
+ 获取所有tgid为5的任务从系统启动后的总延时信息::
+ 
+-	# ./getdelays -t 5
+-
+-
+-	CPU	count	real total	virtual total	delay total
+-		7876	92005750	100000000	24001500
+-	IO	count	delay total
+-		0	0
+-	SWAP	count	delay total
+-		0	0
+-	RECLAIM	count	delay total
+-		0	0
+-
+-获取指定简单命令运行时的延时信息::
+-
+-  # ./getdelays -c ls /
+-
+-  bin   data1  data3  data5  dev  home  media  opt   root  srv        sys  usr
+-  boot  data2  data4  data6  etc  lib   mnt    proc  sbin  subdomain  tmp  var
+-
+-
+-  CPU	count	real total	virtual total	delay total
+-	6	4000250		4000000		0
+-  IO	count	delay total
+-	0	0
+-  SWAP	count	delay total
+-	0	0
+-  RECLAIM	count	delay total
+-	0	0
++	# ./getdelays -d -t 5
++	print delayacct stats ON
++	TGID	5
++
++
++	CPU             count     real total  virtual total    delay total  delay average
++	                    8        7000000        6872122        3382277          0.423ms
++	IO              count    delay total  delay average
++	                    0              0              0ms
++	SWAP            count    delay total  delay average
++	                    0              0              0ms
++	RECLAIM         count    delay total  delay average
++	                    0              0              0ms
++	THRASHING       count    delay total  delay average
++	                    0              0              0ms
++	COMPACT         count    delay total  delay average
++	                    0              0              0ms
++
++获取pid为1的IO计数，它只和-p一起使用::
++	# ./getdelays -i -p 1
++	printing IO accounting
++	linuxrc: read=65536, write=0, cancelled_write=0
++
++上面的命令与-v一起使用，可以获取更多调试信息。
 -- 
-Sincerely yours,
-Mike.
+2.7.4
+
