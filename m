@@ -2,92 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03101C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 14:40:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16C60C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 14:44:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354166AbiALOkF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jan 2022 09:40:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49740 "EHLO
+        id S242849AbiALOoQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jan 2022 09:44:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354167AbiALOkA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 09:40:00 -0500
-Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44789C061757
-        for <linux-doc@vger.kernel.org>; Wed, 12 Jan 2022 06:40:00 -0800 (PST)
-Received: by mail-qt1-x82c.google.com with SMTP id y10so3230231qtw.1
-        for <linux-doc@vger.kernel.org>; Wed, 12 Jan 2022 06:40:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=azTS6tnDk3tgwE9tswmIFeSjakmtEkN/3qV9mBsYccQ=;
-        b=lTRxPpgHABlbCins2TOnLV9LVjCQ26SweG5q5/C2dMrN7f4+7+CdEQaKc4xcdS/zs3
-         DnnJODvxalPzEBmfycggfJ4lZoZUdSfkcT1FFajWBuoDH4tbJJLL2YuL6VbiKPY23zjT
-         s9abyL/GVEQlgdsFh47XnaBAIlnd4r3ZyvPyN5/9fVlr23f1ZQ+zFnmJ2EknoM6EVijq
-         DtrWB4hpPieJhguRemvh6pArWmjvKs5iO38IbvNSIbHAERKk9TjFr3Jxk2ED+QMTUtWB
-         yC+ONdLHxP7q+hbMjaRXE0DQCgYR737mTcvby6eksJwvQM1crqiY6MklMC7KIIBeXrYS
-         SJPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=azTS6tnDk3tgwE9tswmIFeSjakmtEkN/3qV9mBsYccQ=;
-        b=OF9H1VRfwoaEQl0ZXuxdYZ1cA1uVOu9FuQ8U5s86tZddzTo5srTjRlF2dzX/alaMM3
-         0KWzdKi8I9jYsyVOX2KX7f1bbPb04qSJ3WFBSkXq+ffqnmOroqLipfouDd6FeCZXS7cy
-         7sHPrsYF4vOaiSdmSlwIl2IV3FhZ9jLYv5ucesHrImYg7HQfwORpaDjN3Y1+gbzSn7ia
-         8SAHwn9t6jskxOg2+blWjzdE1Ca0q2uzHIHnKFLIv1FJIlD3lrmDc1evI9loahSmhUwz
-         hK8L1AWSw9UCUNOFPvZXkwIwt7/uNDH4RrTHGy+sH8VHHVkbTcC6HfeWhwYeg022FaBg
-         frbw==
-X-Gm-Message-State: AOAM531vKdcAjIWPjmunMd3lB8GalU5QATon2vtQ3Fe4wC7Z5qADLfae
-        rJrPcWLV56uDtE/mmcwElR0+xg==
-X-Google-Smtp-Source: ABdhPJzrrSK3m7ltAbl1maAKx6vtdpBbyflm+yV6TugFLnybhDj8DR7ye+TY80jvOr5AzdzXhoJBmg==
-X-Received: by 2002:ac8:5a4a:: with SMTP id o10mr7834867qta.617.1641998399438;
-        Wed, 12 Jan 2022 06:39:59 -0800 (PST)
-Received: from localhost (cpe-98-15-154-102.hvc.res.rr.com. [98.15.154.102])
-        by smtp.gmail.com with ESMTPSA id 2sm129843qtx.66.2022.01.12.06.39.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jan 2022 06:39:59 -0800 (PST)
-Date:   Wed, 12 Jan 2022 09:39:58 -0500
-From:   Johannes Weiner <hannes@cmpxchg.org>
-To:     Suren Baghdasaryan <surenb@google.com>
-Cc:     torvalds@linux-foundation.org, ebiggers@kernel.org, tj@kernel.org,
-        lizefan.x@bytedance.com, mingo@redhat.com, peterz@infradead.org,
-        juri.lelli@redhat.com, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        mgorman@suse.de, bristot@redhat.com, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        cgroups@vger.kernel.org, stable@vger.kernel.org,
-        kernel-team@android.com,
-        syzbot+cdb5dd11c97cc532efad@syzkaller.appspotmail.com
-Subject: Re: [PATCH v3 1/1] psi: Fix uaf issue when psi trigger is destroyed
- while being polled
-Message-ID: <Yd7oPlxCpnzNmFzc@cmpxchg.org>
-References: <20220111232309.1786347-1-surenb@google.com>
+        with ESMTP id S241952AbiALOoO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 09:44:14 -0500
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD34DC06173F;
+        Wed, 12 Jan 2022 06:44:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=qlFlkECPRVUfbaXMoD/8vlzFEq0cbbwMCSchJ4LcKmA=; b=ETiOH3cX3l64g4+xs3cWHLUrdN
+        7WR6s0Q0zlVj69t0YQ65pnGYn4EismXW1LBUlOOvnE31JkoIkXUv5M63Zyy4bapawDeqbgov6qqwK
+        X45/FT76S+b9mdv8iiwlis1MZ8pMQeWw4Ku9VGsU9qKu9kao7NpElqX+qFDoLwn1QshZn/sdewSVI
+        kl0pN1N86BrdV8X6dVgNvb7J4DmbHj5WCJuxwRBTbrBrmmaemjQMG2jIj5WMxdPkj8mc6mCUgjQAN
+        EiUugVc26avg9zr1YZVanW80LAZGRExwd/Yq337LmHGZ7OY7c95K81iGaYey7WzRcKrst8+gdw02p
+        wUopTTpg==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1n7eqz-000ocW-2C; Wed, 12 Jan 2022 14:43:57 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id AB48B3001CD;
+        Wed, 12 Jan 2022 15:43:54 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 660E82006F92B; Wed, 12 Jan 2022 15:43:54 +0100 (CET)
+Date:   Wed, 12 Jan 2022 15:43:54 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Gang Li <ligang.bdlg@bytedance.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3] sched/numa: add per-process numa_balancing
+Message-ID: <Yd7pKuvjayH4q14L@hirez.programming.kicks-ass.net>
+References: <20211206024530.11336-1-ligang.bdlg@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220111232309.1786347-1-surenb@google.com>
+In-Reply-To: <20211206024530.11336-1-ligang.bdlg@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 11, 2022 at 03:23:09PM -0800, Suren Baghdasaryan wrote:
-> With write operation on psi files replacing old trigger with a new one,
-> the lifetime of its waitqueue is totally arbitrary. Overwriting an
-> existing trigger causes its waitqueue to be freed and pending poll()
-> will stumble on trigger->event_wait which was destroyed.
-> Fix this by disallowing to redefine an existing psi trigger. If a write
-> operation is used on a file descriptor with an already existing psi
-> trigger, the operation will fail with EBUSY error.
-> Also bypass a check for psi_disabled in the psi_trigger_destroy as the
-> flag can be flipped after the trigger is created, leading to a memory
-> leak.
+On Mon, Dec 06, 2021 at 10:45:28AM +0800, Gang Li wrote:
+> This patch add a new api PR_NUMA_BALANCING in prctl.
 > 
-> Fixes: 0e94682b73bf ("psi: introduce psi monitor")
-> Cc: stable@vger.kernel.org
-> Reported-by: syzbot+cdb5dd11c97cc532efad@syzkaller.appspotmail.com
-> Analyzed-by: Eric Biggers <ebiggers@kernel.org>
-> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> A large number of page faults will cause performance loss when numa
+> balancing is performing. Thus those processes which care about worst-case
+> performance need numa balancing disabled. Others, on the contrary, allow a
+> temporary performance loss in exchange for higher average performance, so
+> enable numa balancing is better for them.
+> 
+> Numa balancing can only be controlled globally by
+> /proc/sys/kernel/numa_balancing. Due to the above case, we want to
+> disable/enable numa_balancing per-process instead.
+> 
+> Add numa_balancing under mm_struct. Then use it in task_tick_fair.
+> 
+> Set per-process numa balancing:
+> 	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_DISABLE); //disable
+> 	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_ENABLE);  //enable
+> 	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_DEFAULT); //follow global
 
-Acked-by: Johannes Weiner <hannes@cmpxchg.org>
+This seems to imply you can prctl(ENABLE) even if the global is
+disabled, IOW sched_numa_balancing is off.
+
+> diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
+> index 884f29d07963..2980f33ac61f 100644
+> --- a/kernel/sched/fair.c
+> +++ b/kernel/sched/fair.c
+> @@ -11169,8 +11169,12 @@ static void task_tick_fair(struct rq *rq, struct task_struct *curr, int queued)
+>  		entity_tick(cfs_rq, se, queued);
+>  	}
+>  
+> -	if (static_branch_unlikely(&sched_numa_balancing))
+> +#ifdef CONFIG_NUMA_BALANCING
+> +	if (curr->mm && (curr->mm->numab_enabled == NUMAB_ENABLED
+> +	    || (static_branch_unlikely(&sched_numa_balancing)
+> +	    && curr->mm->numab_enabled == NUMAB_DEFAULT)))
+>  		task_tick_numa(rq, curr);
+> +#endif
+>  
+>  	update_misfit_status(curr, rq);
+>  	update_overutilized_status(task_rq(curr));
+
+There's just about everything wrong there... not least of all the
+horrific coding style.
