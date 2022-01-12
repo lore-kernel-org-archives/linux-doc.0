@@ -2,64 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48D63C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 16:08:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D55C2C433F5
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 16:30:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343658AbiALQII (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jan 2022 11:08:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42274 "EHLO
+        id S1355198AbiALQaR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jan 2022 11:30:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343557AbiALQIH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 11:08:07 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29E62C06173F;
-        Wed, 12 Jan 2022 08:08:07 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id A239C37B;
-        Wed, 12 Jan 2022 16:08:06 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A239C37B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1642003686; bh=DPkFpdepY3Xq7hZkHRQrmZI4H683BGoTUeNeCtekHXw=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=LkKlvPgtuvCUGj1J9qdf6fmizE5nxd5eUS3yUtvSnc3ZcFeOc4SeU8if+4KNgJASG
-         eJ/yLBUG8MEHwq1+DbrsdA9w5/xnI+o9ks/iOVubS4n++1O/CTvw7xFEEkXtMsugDt
-         eZJn+m+LJXKziSn6hFzkMoOiwkFzqPCGgzf+tyyLawxgEwQ8lgVigieTo3ePgpMKhG
-         j9TRXyiDppflG5Hlcc69V1awbnCZGy4KSmMZPtAx72rsTtKKd4cvhwA+bksbq/yD7P
-         xGXabiNXGp2d+MC5wgYZZLAnUPen4j0OOJtJaldyPTGU+4li0AetYIl/fxFovceLff
-         mbYDV+WEKhQrw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     teng sterling <sterlingteng@gmail.com>, CGEL <cgel.zte@gmail.com>
-Cc:     Alex Shi <alexs@kernel.org>, xu.xin16@zte.com.cn,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Zeal Robot <zealci@zte.com.cn>
-Subject: Re: [PATCH 1/4] Add zh_CN/admin-guide/mm/ksm.rst
-In-Reply-To: <CAMU9jJqY5Ty-w3_tf+zxotE5CB+VdM5ZprMiZ5KbNinbDJ1F2w@mail.gmail.com>
-References: <20220110122929.647573-1-xu.xin16@zte.com.cn>
- <20220110123144.647635-1-xu.xin16@zte.com.cn>
- <CAMU9jJqY5Ty-w3_tf+zxotE5CB+VdM5ZprMiZ5KbNinbDJ1F2w@mail.gmail.com>
-Date:   Wed, 12 Jan 2022 09:08:19 -0700
-Message-ID: <87v8ypey30.fsf@meer.lwn.net>
+        with ESMTP id S240059AbiALQaQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 11:30:16 -0500
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 206B8C06173F
+        for <linux-doc@vger.kernel.org>; Wed, 12 Jan 2022 08:30:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+        :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+        Sender:Reply-To:Content-ID:Content-Description;
+        bh=DjyuBgNZ6ZS0VNqBLDAcuaTkMu0N9okdZ/4lvwch7z8=; b=IXx0HOZfgl00yI5LJVdPLqyrCq
+        0WaeGuGiHkiCkCR0JoIViWL0bH6+7DoywVSR8Vva/rEhpJgnp5OUfcuCmMxtpSH+5ldZBK7nZknl4
+        z+ZcyOqMXZyPdwxJpbZII/MhJkpgFCogkIWOq0mxM/6wO4NSna1xsFmuc1OXFXqGEC+80BVfWyK+l
+        Lg+3T+SWYvs8byxvTa6Yj4wKQHKNFtTFrOapGc4vVFgmb4CYLosOI+ZK3x8I9euL0fFeDUSNN2FHQ
+        uHNFHiUD76KYnodMjy/VPqL9V4VvsSOS52xlyODQ5xgSmTw3qP2Txh9KYvrOdB80P3GeEPAOT2ddu
+        G2P0jOhg==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1n7gVi-000pWI-Rq; Wed, 12 Jan 2022 16:30:07 +0000
+Message-ID: <a2fa0ba9-8b93-eb00-9b7f-a5280f304c64@infradead.org>
+Date:   Wed, 12 Jan 2022 08:30:02 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [PATCH v2] dm ima: updates to grammar and some details in
+ documentation
+Content-Language: en-US
+To:     Thore Sommer <public@thson.de>, dm-devel@redhat.com,
+        agk@redhat.com, snitzer@redhat.com
+Cc:     linux-doc@vger.kernel.org, tusharsu@linux.microsoft.com
+References: <20220112144230.1978290-1-public@thson.de>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20220112144230.1978290-1-public@thson.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-teng sterling <sterlingteng@gmail.com> writes:
+Hi--
 
-> <cgel.zte@gmail.com> =E4=BA=8E2022=E5=B9=B41=E6=9C=8811=E6=97=A5=E5=91=A8=
-=E4=BA=8C 11:07=E5=86=99=E9=81=93=EF=BC=9A
->> +.. _ksm_sysfs:
-> Too many tags will cause a compilation warning, because an identical
-> one already exists for the Origin document.
+On 1/12/22 06:42, Thore Sommer wrote:
+> The grammar for the events dm_device_remove, device_resume and
+> dm_table_clear did not include the no_data entry when device data
+> and hash are missing.
+> 
+> For the device uuid or name "=" is also escaped with a "\".
+> 
+> Add a note that dm_table_load might split its target measurements over
+> multiple IMA events.
+> 
+> Signed-off-by: Thore Sommer <public@thson.de>
+> ---
+> v2:
+> - include also device name and uuid in grammar for no_data
+> - fixed spelling mistakes
+> 
+>  .../admin-guide/device-mapper/dm-ima.rst      | 32 +++++++++++++++----
+>  1 file changed, 26 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/device-mapper/dm-ima.rst b/Documentation/admin-guide/device-mapper/dm-ima.rst
+> index a4aa50a828e0..ef386a71e015 100644
+> --- a/Documentation/admin-guide/device-mapper/dm-ima.rst
+> +++ b/Documentation/admin-guide/device-mapper/dm-ima.rst
 
-They are also simply pointless clutter in the text files.  Unless you
-need to explicitly refer to a label somewhere, please don't add it to
-the text.
+> @@ -118,9 +121,9 @@ The IMA measurement log has the following format for 'dm_table_load':
+>   device_minor := "minor=" <N>
+>   minor_count := "minor_count=" <N>
+>   num_device_targets := "num_targets=" <N>
 
-Thanks,
+These 2 changes still need a space before the '=',
 
-jon
+> - dm-device-name := Name of the device. If it contains special characters like '\', ',', ';',
+> + dm-device-name := Name of the device. If it contains special characters like '\', ',', ';','=',
+>                     they are prefixed with '\'.
+> - dm-device-uuid := UUID of the device. If it contains special characters like '\', ',', ';',
+> + dm-device-uuid := UUID of the device. If it contains special characters like '\', ',', ';','=',
+>                     they are prefixed with '\'.
+>  
+>   table_load_data := <target_data>
+
+
+-- 
+~Randy
