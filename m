@@ -2,64 +2,56 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7171CC433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 01:46:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDAFAC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 02:16:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235152AbiALBqf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Jan 2022 20:46:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45236 "EHLO
+        id S236214AbiALCQV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Jan 2022 21:16:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347942AbiALBqd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jan 2022 20:46:33 -0500
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2EE0C061751
-        for <linux-doc@vger.kernel.org>; Tue, 11 Jan 2022 17:46:32 -0800 (PST)
-Received: by mail-wr1-x431.google.com with SMTP id a5so1468097wrh.5
-        for <linux-doc@vger.kernel.org>; Tue, 11 Jan 2022 17:46:32 -0800 (PST)
+        with ESMTP id S235919AbiALCQV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jan 2022 21:16:21 -0500
+Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BC19C061748
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jan 2022 18:16:21 -0800 (PST)
+Received: by mail-il1-x12a.google.com with SMTP id d14so972598ila.1
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jan 2022 18:16:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Jfvsr8PR3GjeTvciCbxfFgfs5vC3rlXelyaQOInqWns=;
-        b=jpZOnqubfJ0hnEhpOd1UgVHFjcFGZvUD1EvP6SUEZcQOhrbAaa/xGlMNgtViJBEN9b
-         TS3Onjx6QOHUseMhJ6AfbRR2PDachzWW+PUvAdKLONL7MyYYGMUJ78xcqa/j7jyBNv/E
-         dRhbsnB3ka3OxcsW7aSwD2gLXVIQvG1sFSpl/7JE/9V/+eFAathAKk49OJlM9DLNszjz
-         XySZdrGz3n2rjofi9CcsyOShAntfICBUPa8Rf3BKmlOHDdC+yCeviyV+OHx4JU5P7HFu
-         QQ79C5sDc5LafR3I85TgyVETbURK8Sw7vAKO8XyaL7XO/OMZ2OIqy5cCNL4pwoCKyFeS
-         Xj0g==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=gY3L/ohoJT+LGnrwf3WbcW3Sm7Rhragj/gK43AHxeKI=;
+        b=R20ghVrn5UJ8eOBbViYvB+y95FXvSM8YsY4jkyuom2uoij7S7LrAgIeSEOGDRPA+oS
+         iWVwWaRMk3A9koqyfHaYY9Y2G9eMU5QZyqz03157b2D11Afz7+CmJuQCQLYTiGBq4YkZ
+         8bPsYi1DASShARCETRBXl8tVBmtAFMefDw0YuY6ENC+5x4YAaMpx3hUfuwvkEe9rYIN/
+         P+l6g0Dk4LnR7DfjXPgHR2NNHq+1bFxFzcKyg4jxeZXEJi89+6bF/NNeVg/MKE2JY7W2
+         7PdCn+yfRYn9hVjBeZoOQyiQs7xq7ZZiUTE6gkwtk5+674JvmqMN+QdjMmExYWGZAQu+
+         5u7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Jfvsr8PR3GjeTvciCbxfFgfs5vC3rlXelyaQOInqWns=;
-        b=zAKRxB7Fd5ssNFfTKmAniAnf7FfB7IsF8ebNzzKRB+lHwFzwp7d5oY19oPVtOObvA2
-         toq1nqm95dIkLp+yyf/caRmppvK1qwV/OTLoogmXuA8DwoXj/uar4JNX4+UhIJSqUafl
-         Q2+vDtqqaqCsiX1F/tE4+eF6iRCPwTbfg8rao7YMb0+NAuRFa7mYOTNkh3rMTz4AQNzt
-         bdMcR/8qw9VpyomVsnMhlhb+poWOWc3Fj21jFZBz95bo6f+8h+fHDSd2kbftZRre5XrI
-         DOMkwBZLrP2SzDjocv8GSnvln3AWDKZUYa2fLt139018plrEvb5mo7t/ttwBuSucQHLn
-         XzXw==
-X-Gm-Message-State: AOAM531U9RivO7QWAN8rKcmIwjAH7WC5BJI/jy7IVGRWy5m7/th0NIzA
-        Ec4sE9uzGsytj2PW5Xaxz79i4Cv9CJWoDw4IpMrhyA==
-X-Google-Smtp-Source: ABdhPJwtHkljLUOCxyakqEbUb2j/J0vIrKEKy0mZ5iJW02TGkn+sQPf3J4n7Od0UkQ8UTmgDmDmQZVMrdAYemlDlCY0=
-X-Received: by 2002:adf:f151:: with SMTP id y17mr5748842wro.547.1641951991215;
- Tue, 11 Jan 2022 17:46:31 -0800 (PST)
-MIME-Version: 1.0
-References: <20220104202227.2903605-1-yuzhao@google.com> <YdSuSHa/Vjl6bPkg@google.com>
- <Yd1Css8+jsspeZHh@google.com>
-In-Reply-To: <Yd1Css8+jsspeZHh@google.com>
-From:   Suleiman Souhlal <suleiman@google.com>
-Date:   Wed, 12 Jan 2022 10:46:19 +0900
-Message-ID: <CABCjUKBiECMEgnMaCrfApVbWPgw3UuwNH+-Y9ME+2ogJSm+p-Q@mail.gmail.com>
-Subject: Re: [PATCH v6 0/9] Multigenerational LRU Framework
-To:     Yu Zhao <yuzhao@google.com>
-Cc:     Alexandre Frade <kernel@xanmod.org>,
-        Brian Geffon <bgeffon@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Steven Barrett <steven@liquorix.net>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=gY3L/ohoJT+LGnrwf3WbcW3Sm7Rhragj/gK43AHxeKI=;
+        b=gh5EFrBMlPWEDlc8BX0Kzhngmtom4NB84TcxJnAMYik75dD1fV0qsfkPnGEqEBueVz
+         JDgzCUPHTuQjN8c0EL+D2tjgvz+8oGn1aiM+bhAJg3Ja7jOMkNimlYBxMP+NB4awJ3md
+         WCB7P1Ok7PXKJB2aIiaaFBlz0firuB9DUbrF0ksaZdEubmyF3RYTS2hwPc6BeXZ/tm6G
+         svql+v5m0rw1GTivFohlIYG7sNEJ+ZyFbQSttw5AHEiRlQIhS+d33J8Uasp6itYm62Bq
+         4tW7QZge/d0fjcr+3O3lLuh6/h7qGgvvJ4rEEPFYtnDxko4IQAj1oK0nYiUh5yeV8UEQ
+         Erhw==
+X-Gm-Message-State: AOAM531+/J1QJCgRelhJbu8oNsCcnwcC/iqtWbdqkTtFGwgyZ4gwfUR9
+        //AWDHltP5USUBOEtTNog5N8sg==
+X-Google-Smtp-Source: ABdhPJy1/vlLDtXylu7HegiyqkVdh1jTeQZXKMC3AuUfrN9c+AdF/siL+FtwpT5W+sz9AGxGn8ptaQ==
+X-Received: by 2002:a05:6e02:12e8:: with SMTP id l8mr3848743iln.111.1641953780261;
+        Tue, 11 Jan 2022 18:16:20 -0800 (PST)
+Received: from google.com ([2620:15c:183:200:b6b6:70f4:b540:6383])
+        by smtp.gmail.com with ESMTPSA id o16sm972436ioo.36.2022.01.11.18.16.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jan 2022 18:16:19 -0800 (PST)
+Date:   Tue, 11 Jan 2022 19:16:15 -0700
+From:   Yu Zhao <yuzhao@google.com>
+To:     "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Andi Kleen <ak@linux.intel.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
@@ -76,82 +68,158 @@ Cc:     Alexandre Frade <kernel@xanmod.org>,
         Will Deacon <will@kernel.org>,
         Ying Huang <ying.huang@intel.com>,
         linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        Linux Kernel <linux-kernel@vger.kernel.org>,
-        linux-mm@kvack.org, page-reclaim@google.com, x86@kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, x86@kernel.org,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>
+Subject: Re: [PATCH v6 4/9] mm: multigenerational lru: groundwork
+Message-ID: <Yd457900iUIzwpnc@google.com>
+References: <20220104202227.2903605-1-yuzhao@google.com>
+ <20220104202227.2903605-5-yuzhao@google.com>
+ <878rvm661z.fsf@linux.ibm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <878rvm661z.fsf@linux.ibm.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jan 11, 2022 at 5:41 PM Yu Zhao <yuzhao@google.com> wrote:
->
-> On Tue, Jan 04, 2022 at 01:30:00PM -0700, Yu Zhao wrote:
-> > On Tue, Jan 04, 2022 at 01:22:19PM -0700, Yu Zhao wrote:
-> > > TLDR
-> > > ====
-> > > The current page reclaim is too expensive in terms of CPU usage and it
-> > > often makes poor choices about what to evict. This patchset offers an
-> > > alternative solution that is performant, versatile and
-> > > straightforward.
-> >
-> > <snipped>
-> >
-> > > Summery
-> > > =======
-> > > The facts are:
-> > > 1. The independent lab results and the real-world applications
-> > >    indicate substantial improvements; there are no known regressions.
-> > > 2. Thrashing prevention, working set estimation and proactive reclaim
-> > >    work out of the box; there are no equivalent solutions.
-> > > 3. There is a lot of new code; nobody has demonstrated smaller changes
-> > >    with similar effects.
-> > >
-> > > Our options, accordingly, are:
-> > > 1. Given the amount of evidence, the reported improvements will likely
-> > >    materialize for a wide range of workloads.
-> > > 2. Gauging the interest from the past discussions [14][15][16], the
-> > >    new features will likely be put to use for both personal computers
-> > >    and data centers.
-> > > 3. Based on Google's track record, the new code will likely be well
-> > >    maintained in the long term. It'd be more difficult if not
-> > >    impossible to achieve similar effects on top of the existing
-> > >    design.
-> >
-> > Hi Andrew, Linus,
-> >
-> > Can you please take a look at this patchset and let me know if it's
-> > 5.17 material?
-> >
-> > My goal is to get it merged asap so that users can reap the benefits
-> > and I can push the sequels. Please examine the data provided -- I
-> > think the unprecedented coverage and the magnitude of the improvements
-> > warrant a green light.
->
-> Downstream kernel maintainers who have been carrying MGLRU for more than
-> 3 versions, can you please provide your Acked-by tags?
->
-> Having this patchset in the mainline will make your job easier :)
->
->    Alexandre - the XanMod Kernel maintainer
->                https://xanmod.org
->
->    Brian     - the Chrome OS kernel memory maintainer
->                https://www.chromium.org
->
->    Jan       - the Arch Linux Zen kernel maintainer
->                https://archlinux.org
->
->    Steven    - the Liquorix kernel maintainer
->                https://liquorix.net
->
->    Suleiman  - the ARCVM (Android downstream) kernel memory maintainer
->                https://chromium.googlesource.com/chromiumos/third_party/kernel
+On Tue, Jan 11, 2022 at 01:46:24PM +0530, Aneesh Kumar K.V wrote:
+> Yu Zhao <yuzhao@google.com> writes:
+> 
+> .....
+> 
+>  +
+> > +/*
+> > + * Evictable pages are divided into multiple generations. The youngest and the
+> > + * oldest generation numbers, max_seq and min_seq, are monotonically increasing.
+> > + * They form a sliding window of a variable size [MIN_NR_GENS, MAX_NR_GENS]. An
+> > + * offset within MAX_NR_GENS, gen, indexes the lru list of the corresponding
+> > + * generation. The gen counter in folio->flags stores gen+1 while a page is on
+> > + * lrugen->lists[]. Otherwise, it stores 0.
+> > + *
+> > + * A page is added to the youngest generation on faulting. The aging needs to
+> > + * check the accessed bit at least twice before handing this page over to the
+> > + * eviction. The first check takes care of the accessed bit set on the initial
+> > + * fault; the second check makes sure this page hasn't been used since then.
+> > + * This process, AKA second chance, requires a minimum of two generations,
+> > + * hence MIN_NR_GENS. And to be compatible with the active/inactive lru, these
+> > + * two generations are mapped to the active; the rest of generations, if they
+> > + * exist, are mapped to the inactive. PG_active is always cleared while a page
+> > + * is on lrugen->lists[] so that demotion, which happens consequently when the
+> > + * aging creates a new generation, needs not to worry about it.
+> > + */
+> 
+> Where do we clear PG_active in the code? Is this the reason we endup
+> with
 
-Android on ChromeOS has been using MGLRU for a while now, with great results.
-It would be great for more people to more easily be able to benefit from it.
+We clear PG_active when we add a page (folio) to MGLRU lists:
+  include/linux/mm_inline.h
+    lru_gen_add_folio()
+	do {
+		new_flags = old_flags = READ_ONCE(folio->flags);
 
-Acked-by: Suleiman Souhlal <suleiman@google.com>
+		...
 
--- Suleiman
+		new_flags &= ~(LRU_GEN_MASK | BIT(PG_active));
+                                                  ^^^^^^^^^
+		...
+
+	} while (cmpxchg(&folio->flags, old_flags, new_flags) != old_flags);
+
+We also set it when we isolate a page (for page migration):
+  include/linux/mm_inline.h
+    lru_gen_del_folio()
+	do {
+		new_flags = old_flags = READ_ONCE(folio->flags);
+
+		...
+
+		else if (lru_gen_is_active(lruvec, gen))
+			new_flags |= BIT(PG_active);
+                                         ^^^^^^^^^
+	} while (cmpxchg(&folio->flags, old_flags, new_flags) != old_flags);
+
+> 
+>   void deactivate_page(struct page *page)
+>   {
+>  -	if (PageLRU(page) && PageActive(page) && !PageUnevictable(page)) {
+>  +	if (PageLRU(page) && !PageUnevictable(page) && (PageActive(page) || lru_gen_enabled())) {
+
+That's correct.
+
+> > +#define MIN_NR_GENS		2U
+> > +#define MAX_NR_GENS		((unsigned int)CONFIG_NR_LRU_GENS)
+> > +
+> > +struct lru_gen_struct {
+> > +	/* the aging increments the youngest generation number */
+> > +	unsigned long max_seq;
+> > +	/* the eviction increments the oldest generation numbers */
+> > +	unsigned long min_seq[ANON_AND_FILE];
+> > +	/* the birth time of each generation in jiffies */
+> > +	unsigned long timestamps[MAX_NR_GENS];
+> > +	/* the multigenerational lru lists */
+> > +	struct list_head lists[MAX_NR_GENS][ANON_AND_FILE][MAX_NR_ZONES];
+> > +	/* the sizes of the above lists */
+> > +	unsigned long nr_pages[MAX_NR_GENS][ANON_AND_FILE][MAX_NR_ZONES];
+> > +	/* whether the multigenerational lru is enabled */
+> > +	bool enabled;
+> > +};
+> > +
+> 
+> ....
+> 
+> >  static void __meminit zone_init_internals(struct zone *zone, enum zone_type idx, int nid,
+> > diff --git a/mm/swap.c b/mm/swap.c
+> > index e8c9dc6d0377..d7dde3b7d4b5 100644
+> > --- a/mm/swap.c
+> > +++ b/mm/swap.c
+> > @@ -462,6 +462,11 @@ void folio_add_lru(struct folio *folio)
+> >  	VM_BUG_ON_FOLIO(folio_test_active(folio) && folio_test_unevictable(folio), folio);
+> >  	VM_BUG_ON_FOLIO(folio_test_lru(folio), folio);
+> >  
+> > +	/* see the comment in lru_gen_add_folio() */
+> > +	if (lru_gen_enabled() && !folio_test_unevictable(folio) &&
+> > +	    task_in_lru_fault() && !(current->flags & PF_MEMALLOC))
+> > +		folio_set_active(folio);
+> > +
+> 
+> 
+> Can you explain this better? What is the significance of marking the
+> folio active here. Do we need to differentiate parallel page faults (across
+> different vmas) w.r.t task_in_lru_fault()?
+
+All pages faulted in need to be added to the youngest generation. But
+without PG_active, lru_gen_add_folio() doesn't know whether a page was
+faulted in, or something else, e.g., page cache readahead. This is
+because pages aren't immediately sent to lru_gen_add_folio(). They are
+batched by lru_pvecs:
+
+/**
+ * folio_add_lru - Add a folio to an LRU list.
+ * @folio: The folio to be added to the LRU.
+ *
+ * Queue the folio for addition to the LRU. The decision on whether
+ * to add the page to the [in]active [file|anon] list is deferred until the
+ * pagevec is drained. This gives a chance for the caller of folio_add_lru()
+ * have the folio added to the active list using folio_mark_accessed().
+ */
+void folio_add_lru(struct folio *folio)
+{
+	struct pagevec *pvec;
+
+	VM_BUG_ON_FOLIO(folio_test_active(folio) && folio_test_unevictable(folio), folio);
+	VM_BUG_ON_FOLIO(folio_test_lru(folio), folio);
+
+	/* see the comment in lru_gen_add_folio() */
+	if (lru_gen_enabled() && !folio_test_unevictable(folio) &&
+	    lru_gen_in_pgfault() && !(current->flags & PF_MEMALLOC))
+		folio_set_active(folio);
+
+	folio_get(folio);
+	local_lock(&lru_pvecs.lock);
+	pvec = this_cpu_ptr(&lru_pvecs.lru_add);
+	if (pagevec_add_and_need_flush(pvec, &folio->page))
+		__pagevec_lru_add(pvec);
+	local_unlock(&lru_pvecs.lock);
+}
