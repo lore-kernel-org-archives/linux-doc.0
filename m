@@ -2,64 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9090DC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Jan 2022 06:41:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E561DC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Jan 2022 07:54:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231248AbiAMGlY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Jan 2022 01:41:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41624 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230453AbiAMGlY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jan 2022 01:41:24 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03F76C06173F;
-        Wed, 12 Jan 2022 22:41:23 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id e9so8312347wra.2;
-        Wed, 12 Jan 2022 22:41:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=0Xg+BOiKiD1c2FZJR0vaNFinKRSO6AntnP3Rze4jrAw=;
-        b=nu9Qw8D9KS1z4byrhCWEi5hjccg8BLk2Rw0FN6LOz1dYXg3ww3KHMSAGrf/v3OHHfQ
-         zYr3GOdhdgzLLdr58ZndCQNI1YAUjFkwDKmXzE+4EThY5w5Nsa0c60aXzWlTE9vry8XM
-         iQ0/Tna0pWNY/T8tdlNs+Ve24lRUUsLMG1M0IfrjTuPeJVxBOKfqT4XviFhIz6vnFxFh
-         KtAa2cqEM7/KEuOfjELc356c0RnVdwTWSMiAQFPLjXVgEA8A0KaHzUKvLST48ui/8r6k
-         lkaTISS1/vhzWZPJGv597g4wW7cNkz3Tc/PIKFa7HPuJ28QO9gS7dUWQtducTEP/5owb
-         yo6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=0Xg+BOiKiD1c2FZJR0vaNFinKRSO6AntnP3Rze4jrAw=;
-        b=N1fhTC9pGKNNL5dU3cOp9ma0O6geYrfZg1Kf6u8gaT4YHYphu7SvAcx4LGSn4zGQl2
-         rzttW/+L+Voyq95tVRkjfvTDExvbTYeAU1F/v0nn9IhS75Nj8ssdCWkZxNW1iYkiI8Z2
-         YBoez0ZS0ANiVqwoWdwCUc7LDE+FIVJ/T4P+wEHygCtnmDxa/ZK2YvhmEnHKwU9Jy6Xc
-         VTnRkVmpercbKIV3hjthFeakGjUPU05ikujjmGH9X6f0zSaHQs9hvEf+CxlNIW4UHAEO
-         1FdDh3QibihGOj5BTLj3FQwHT8J9to8ww7xwExOiDcrYRY84VrEI60bIQer6mJyXNn9S
-         pchQ==
-X-Gm-Message-State: AOAM531CFTP78q5JXaBGGCxDIhMFd+mqAOQFeeyQvUvacum+qog4Q/4B
-        1VwcfV0l+H5rl3EWbtNn0d+22Epqoy0=
-X-Google-Smtp-Source: ABdhPJxf0SFvSpJ8mrrbExlOC7LfWtdpSMqUWplKTO2KutQEu9VJXG72BOcpKPP4TXaZ/nDeJRHung==
-X-Received: by 2002:a05:6000:114d:: with SMTP id d13mr2706840wrx.32.1642056082529;
-        Wed, 12 Jan 2022 22:41:22 -0800 (PST)
-Received: from fuji.fritz.box (ip-89-161-76-237.tel.tkb.net.pl. [89.161.76.237])
-        by smtp.gmail.com with ESMTPSA id c185sm1569402wma.24.2022.01.12.22.41.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jan 2022 22:41:22 -0800 (PST)
-Date:   Thu, 13 Jan 2022 07:41:16 +0100
-From:   Tomasz =?UTF-8?B?V2FybmllxYLFgm8=?= <tomasz.warniello@gmail.com>
-To:     corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 00/15] Transform documentation into POD
-Message-ID: <20220113074116.3c9883d0@fuji.fritz.box>
-In-Reply-To: <20220104015946.529524-1-tomasz.warniello@gmail.com>
-References: <20220104015946.529524-1-tomasz.warniello@gmail.com>
+        id S232829AbiAMHyk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Jan 2022 02:54:40 -0500
+Received: from mga04.intel.com ([192.55.52.120]:4776 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229533AbiAMHyk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 13 Jan 2022 02:54:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1642060480; x=1673596480;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tBSjCUr5LQ/WmW8KrgBUGf3PU+8WqY/65bcLq1A2bvk=;
+  b=LOY91u2qL5NheFbGAl+yXrXoXvWKt9xQbN5wYA6pTXxyWMhq4w8MCVgo
+   0E4Y//D//4i/jAY0Teut3eUB7ENDnXDsLTD7ex2Kh05L+kdlw0yvQZ8kO
+   ecjdykkqnWDYjkvOI73rlrO8AmJOq2jCYjzf+1UbafFc+/JECCKaRrwxF
+   MQFCmXfJKdpuJcFiwbTg6dDY5icudY5J1SqsGxZ2ed+em8tU9YSyqCIJO
+   ExReC7Q7YnHNQtF/tGge+RB/Av+DG95YZ9AuVa2yJ0DrxhoqwsFqEheIN
+   nZz8WHqJa2c49IsJoLYJ6awn3AlvgmOQFT+4riOqvEPvOBkYLQQqzhQ2u
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10225"; a="242770800"
+X-IronPort-AV: E=Sophos;i="5.88,284,1635231600"; 
+   d="scan'208";a="242770800"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2022 23:54:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,284,1635231600"; 
+   d="scan'208";a="623769451"
+Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 12 Jan 2022 23:54:36 -0800
+Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1n7uwN-0006yg-Jf; Thu, 13 Jan 2022 07:54:35 +0000
+Date:   Thu, 13 Jan 2022 15:54:26 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Iwona Winiarska <iwona.winiarska@intel.com>,
+        linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+        linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Joel Stanley <joel@jms.id.au>
+Subject: Re: [PATCH v5 08/13] peci: Add support for PECI device drivers
+Message-ID: <202201131534.HcDrC30f-lkp@intel.com>
+References: <20220112230247.982212-9-iwona.winiarska@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220112230247.982212-9-iwona.winiarska@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Any news here?
+Hi Iwona,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on linux/master linus/master v5.16 next-20220112]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Iwona-Winiarska/Introduce-PECI-subsystem/20220113-071131
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+config: hexagon-randconfig-r033-20220113 (https://download.01.org/0day-ci/archive/20220113/202201131534.HcDrC30f-lkp@intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project d1021978b8e7e35dcc30201ca1731d64b5a602a8)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/0c9888d465568adc8526df1407c9a75be5ce6cd4
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Iwona-Winiarska/Introduce-PECI-subsystem/20220113-071131
+        git checkout 0c9888d465568adc8526df1407c9a75be5ce6cd4
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/peci/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/peci/request.c:111:23: warning: address of array 'req->rx.buf' will always evaluate to 'true' [-Wpointer-bool-conversion]
+           if (WARN_ON(!req->rx.buf))
+                       ~~~~~~~~~^~~
+   include/asm-generic/bug.h:121:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on = !!(condition);                              \
+                                  ^~~~~~~~~
+   1 warning generated.
+
+
+vim +111 drivers/peci/request.c
+
+   101	
+   102	static int peci_request_xfer_retry(struct peci_request *req)
+   103	{
+   104		long wait_interval = PECI_RETRY_INTERVAL_MIN;
+   105		struct peci_device *device = req->device;
+   106		struct peci_controller *controller = to_peci_controller(device->dev.parent);
+   107		unsigned long start = jiffies;
+   108		int ret;
+   109	
+   110		/* Don't try to use it for ping */
+ > 111		if (WARN_ON(!req->rx.buf))
+   112			return 0;
+   113	
+   114		do {
+   115			ret = peci_request_xfer(req);
+   116			if (ret) {
+   117				dev_dbg(&controller->dev, "xfer error: %d\n", ret);
+   118				return ret;
+   119			}
+   120	
+   121			if (peci_request_status(req) != -EAGAIN)
+   122				return 0;
+   123	
+   124			/* Set the retry bit to indicate a retry attempt */
+   125			req->tx.buf[1] |= PECI_RETRY_BIT;
+   126	
+   127			if (schedule_timeout_interruptible(wait_interval))
+   128				return -ERESTARTSYS;
+   129	
+   130			wait_interval = min_t(long, wait_interval * 2, PECI_RETRY_INTERVAL_MAX);
+   131		} while (time_before(jiffies, start + PECI_RETRY_TIMEOUT));
+   132	
+   133		dev_dbg(&controller->dev, "request timed out\n");
+   134	
+   135		return -ETIMEDOUT;
+   136	}
+   137	
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
