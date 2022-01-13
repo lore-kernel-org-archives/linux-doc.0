@@ -2,142 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E561DC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Jan 2022 07:54:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE960C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Jan 2022 09:00:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232829AbiAMHyk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Jan 2022 02:54:40 -0500
-Received: from mga04.intel.com ([192.55.52.120]:4776 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229533AbiAMHyk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 13 Jan 2022 02:54:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1642060480; x=1673596480;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tBSjCUr5LQ/WmW8KrgBUGf3PU+8WqY/65bcLq1A2bvk=;
-  b=LOY91u2qL5NheFbGAl+yXrXoXvWKt9xQbN5wYA6pTXxyWMhq4w8MCVgo
-   0E4Y//D//4i/jAY0Teut3eUB7ENDnXDsLTD7ex2Kh05L+kdlw0yvQZ8kO
-   ecjdykkqnWDYjkvOI73rlrO8AmJOq2jCYjzf+1UbafFc+/JECCKaRrwxF
-   MQFCmXfJKdpuJcFiwbTg6dDY5icudY5J1SqsGxZ2ed+em8tU9YSyqCIJO
-   ExReC7Q7YnHNQtF/tGge+RB/Av+DG95YZ9AuVa2yJ0DrxhoqwsFqEheIN
-   nZz8WHqJa2c49IsJoLYJ6awn3AlvgmOQFT+4riOqvEPvOBkYLQQqzhQ2u
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10225"; a="242770800"
-X-IronPort-AV: E=Sophos;i="5.88,284,1635231600"; 
-   d="scan'208";a="242770800"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2022 23:54:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,284,1635231600"; 
-   d="scan'208";a="623769451"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 12 Jan 2022 23:54:36 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1n7uwN-0006yg-Jf; Thu, 13 Jan 2022 07:54:35 +0000
-Date:   Thu, 13 Jan 2022 15:54:26 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Iwona Winiarska <iwona.winiarska@intel.com>,
-        linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
-        linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Joel Stanley <joel@jms.id.au>
-Subject: Re: [PATCH v5 08/13] peci: Add support for PECI device drivers
-Message-ID: <202201131534.HcDrC30f-lkp@intel.com>
-References: <20220112230247.982212-9-iwona.winiarska@intel.com>
+        id S231237AbiAMJAV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Jan 2022 04:00:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44658 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232165AbiAMJAC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jan 2022 04:00:02 -0500
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A8F6C061748
+        for <linux-doc@vger.kernel.org>; Thu, 13 Jan 2022 01:00:01 -0800 (PST)
+Received: by mail-io1-xd2c.google.com with SMTP id w9so7445524iol.13
+        for <linux-doc@vger.kernel.org>; Thu, 13 Jan 2022 01:00:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=TCw1GfHPeWJbnERy4xEg3GTF1yG8dQgLTkiWN1Lhx7M=;
+        b=LALRlCh10PAc2bMPcvCm3naDkNyaorzpK7LKTAzW8WcrfS+3qduoVJglwUvwzpz/rI
+         Hiav0QqojwxXr+qinZ2+8cHUcpguJl8rZcgH5uLqcJLimZRP2Lj4mLAPuWb7fpGDW236
+         raP1bMtESLJyb4emruZI5IKskHl4kyTb+mCXBYiuxh8s/e+qVk7AIMI+qhLRCuX9E+jw
+         jh/nRY+5FxshSj+m6Bm0MSDY9Uc/+FAvGvefg9VnEHJuHnnGxW1f5f5Dr68eOcjXWYSM
+         Qo3v+n9PiJm0CNhU3WBtkH5TtYPl2RzilyL4OcMeLUZhVL3gDCt5Bn8DdVFpz+/2tppm
+         IN9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=TCw1GfHPeWJbnERy4xEg3GTF1yG8dQgLTkiWN1Lhx7M=;
+        b=NwYk7BUaZQzX7saKLZmzS6Q2kNBqwPvl/IAa81rbYnRnKeQuYvy59CoMgOJBq9/ba/
+         AUvSNQ76YCch4v4kgFvyvvyestPKo8cDCLW3aDBtMpYioVNnUIHvJsvSCZJp16NSXkJI
+         86G/JyXFZ4/ladKUPk54UrXJNZ9HQgV1QPHaKXvoBE5libdG0Uo4PxrScKzuop/ohwqN
+         Sowa8UHfTuvludkrMVlauJ6jXp0WjXQDTAAT7fI3Ws86jadB55xv12gVnlr/Zfg2toE5
+         /WuxbSbA8257iS930sqbon2FbH5PCjqm3fHdMe9s0lRkMd+/lFjpQ6USZZ8R11+MpNZy
+         DKGA==
+X-Gm-Message-State: AOAM530PPxUstCdJPXwxwhDScZX8uexJibIFpdM3glhNc+nGjXjx+9ea
+        UXyI8VXJOdLbVBMdFfg6MRnqYQ==
+X-Google-Smtp-Source: ABdhPJxGrNEwdDTbSmbuKwltjfvyZ/ZjlF56GY0VO4e9TxcYm3q1KqtWE2AnPXYSj3SmpSSvCxff4Q==
+X-Received: by 2002:a05:6638:2204:: with SMTP id l4mr1147691jas.142.1642064399718;
+        Thu, 13 Jan 2022 00:59:59 -0800 (PST)
+Received: from google.com ([2620:15c:183:200:ac2b:c4ef:2b56:374c])
+        by smtp.gmail.com with ESMTPSA id f20sm1810130ile.14.2022.01.13.00.59.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Jan 2022 00:59:59 -0800 (PST)
+Date:   Thu, 13 Jan 2022 01:59:54 -0700
+From:   Yu Zhao <yuzhao@google.com>
+To:     Oleksandr Natalenko <oleksandr@natalenko.name>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, x86@kernel.org
+Subject: Re: [PATCH v6 0/9] Multigenerational LRU Framework
+Message-ID: <Yd/qClw7x7SxmnJw@google.com>
+References: <20220104202227.2903605-1-yuzhao@google.com>
+ <11900935.O9o76ZdvQC@natalenko.name>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220112230247.982212-9-iwona.winiarska@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <11900935.O9o76ZdvQC@natalenko.name>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Iwona,
+On Wed, Jan 12, 2022 at 09:56:58PM +0100, Oleksandr Natalenko wrote:
+> Hello.
+> 
+> On úterý 4. ledna 2022 21:22:19 CET Yu Zhao wrote:
+> > TLDR
+> > ====
+> > The current page reclaim is too expensive in terms of CPU usage and it
+> > often makes poor choices about what to evict. This patchset offers an
+> > alternative solution that is performant, versatile and
+> > straightforward.
 
-I love your patch! Perhaps something to improve:
+<snipped>
 
-[auto build test WARNING on groeck-staging/hwmon-next]
-[also build test WARNING on linux/master linus/master v5.16 next-20220112]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+> For the series:
+> 
+> Tested-by: Oleksandr Natalenko <oleksandr@natalenko.name>
+> 
+> I run this (and one of the previous spins) on nine machines (physical, virtual, workstations, servers) for quite some time with no hassle.
+> 
+> Thanks for your job, and please keep me in Cc once you post new spins. I'm more than happy to deploy those across the fleet.
 
-url:    https://github.com/0day-ci/linux/commits/Iwona-Winiarska/Introduce-PECI-subsystem/20220113-071131
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-config: hexagon-randconfig-r033-20220113 (https://download.01.org/0day-ci/archive/20220113/202201131534.HcDrC30f-lkp@intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project d1021978b8e7e35dcc30201ca1731d64b5a602a8)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/0c9888d465568adc8526df1407c9a75be5ce6cd4
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Iwona-Winiarska/Introduce-PECI-subsystem/20220113-071131
-        git checkout 0c9888d465568adc8526df1407c9a75be5ce6cd4
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/peci/
+Thanks, Oleksandr. And if I may take the liberty of introducing you as:
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+   Oleksandr - the post-factum kernel maintainer
+               https://gitlab.com/post-factum/pf-kernel
 
-All warnings (new ones prefixed by >>):
+in addition to other downstream kernel maintainers I've introduced:
 
->> drivers/peci/request.c:111:23: warning: address of array 'req->rx.buf' will always evaluate to 'true' [-Wpointer-bool-conversion]
-           if (WARN_ON(!req->rx.buf))
-                       ~~~~~~~~~^~~
-   include/asm-generic/bug.h:121:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on = !!(condition);                              \
-                                  ^~~~~~~~~
-   1 warning generated.
-
-
-vim +111 drivers/peci/request.c
-
-   101	
-   102	static int peci_request_xfer_retry(struct peci_request *req)
-   103	{
-   104		long wait_interval = PECI_RETRY_INTERVAL_MIN;
-   105		struct peci_device *device = req->device;
-   106		struct peci_controller *controller = to_peci_controller(device->dev.parent);
-   107		unsigned long start = jiffies;
-   108		int ret;
-   109	
-   110		/* Don't try to use it for ping */
- > 111		if (WARN_ON(!req->rx.buf))
-   112			return 0;
-   113	
-   114		do {
-   115			ret = peci_request_xfer(req);
-   116			if (ret) {
-   117				dev_dbg(&controller->dev, "xfer error: %d\n", ret);
-   118				return ret;
-   119			}
-   120	
-   121			if (peci_request_status(req) != -EAGAIN)
-   122				return 0;
-   123	
-   124			/* Set the retry bit to indicate a retry attempt */
-   125			req->tx.buf[1] |= PECI_RETRY_BIT;
-   126	
-   127			if (schedule_timeout_interruptible(wait_interval))
-   128				return -ERESTARTSYS;
-   129	
-   130			wait_interval = min_t(long, wait_interval * 2, PECI_RETRY_INTERVAL_MAX);
-   131		} while (time_before(jiffies, start + PECI_RETRY_TIMEOUT));
-   132	
-   133		dev_dbg(&controller->dev, "request timed out\n");
-   134	
-   135		return -ETIMEDOUT;
-   136	}
-   137	
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+>   Alexandre - the XanMod kernel maintainer
+>               https://xanmod.org
+>
+>   Brian     - the Chrome OS kernel memory maintainer
+>               https://www.chromium.org
+>
+>   Jan       - the Arch Linux Zen kernel maintainer
+>               https://archlinux.org
+>
+>   Steven    - the Liquorix kernel maintainer
+>               https://liquorix.net
+>
+>   Suleiman  - the ARCVM (Android downstream) kernel memory maintainer
+>               https://chromium.googlesource.com/chromiumos/third_party/kernel
