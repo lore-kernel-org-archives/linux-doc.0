@@ -2,130 +2,223 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06DFDC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Jan 2022 03:21:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71B3DC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Jan 2022 04:14:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232007AbiAMDVf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jan 2022 22:21:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54040 "EHLO
+        id S229902AbiAMEOv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jan 2022 23:14:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231983AbiAMDVe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 22:21:34 -0500
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8057EC06173F
-        for <linux-doc@vger.kernel.org>; Wed, 12 Jan 2022 19:21:34 -0800 (PST)
-Received: by mail-pj1-x102b.google.com with SMTP id r16-20020a17090a0ad000b001b276aa3aabso16644458pje.0
-        for <linux-doc@vger.kernel.org>; Wed, 12 Jan 2022 19:21:34 -0800 (PST)
+        with ESMTP id S233102AbiAMENi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 23:13:38 -0500
+Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3603AC06175B;
+        Wed, 12 Jan 2022 20:12:29 -0800 (PST)
+Received: by mail-qk1-x72e.google.com with SMTP id bl18so5882521qkb.5;
+        Wed, 12 Jan 2022 20:12:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Icu5OMS16I5XUkGKCCogOq7i0HQI6U6DlQ3Ekigmp2g=;
-        b=WcIMK/IxuCNt/OvBb5ovwJKHWeC14J6zhJ1nASQvY2EWaHqie4gIydqS1L34wKmIqP
-         XU3N4ivwybBG5VCPnPSc1E1HrarYvzTib3BrzEqypPvCTxLsXCluOaVxibqwVDgiUSDl
-         G3xA5vFNnYdypfatL8a6XYzc6O8v0ppuPlUStfJv695TFQQe07npm7HN2uvRpsCCcKR3
-         deesWCZmi94xZlwypcGzC2u20TtkV6A+9gYhnAID/xwVMJjoWb+a/J1Weakn2iSFoRFX
-         FnZuZXOgzTVDu7ZomjleuGnFnBHvcsiGsutPBxxR8MqT+OKhWLbH7m1pg2nMJ0yclQ6g
-         MZCg==
+        d=jms.id.au; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=pbtW5GNEznZHiafA75unnHcFZvdczANI1PgQ6YwC50I=;
+        b=ibjmvFEuzUnUj0P4/dhygtlpXkwqsmCbtqtSnsfMo8cpFNuhzqPWC58ZSdU3L1JTwt
+         0JbiyhvXcxCguvtxAY6qa9hCdayN57icMXEHv5DOV32DSMkflySg0TSy0Uod6ngnhHaT
+         A+M5uaveL8e8wlbe7AJqTbAjOrKQ1vG8fia6k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Icu5OMS16I5XUkGKCCogOq7i0HQI6U6DlQ3Ekigmp2g=;
-        b=dpzIaWgCICedvGb3VjTDP0rRIoavxDPi5ee1RrE+cJAhwsziVpxqJ1+B6Jssu8r4lR
-         wjHns5MKNLbHtxout/wLxLO6Z9cKf3mc3obZaVLrEA4wiHHOLTZDxbvDnInhp8qcwYKy
-         xTXNPXxNwPvkHELnh9xNeYA+n1b1QowPMn3OG+n4iGpGn5qzxqYNHwCHRmMwSB1+L8NQ
-         OFXKdtV3Abu0A0jeTv0ldRZ9nrCprW+cD9U0EkICd99Y9wwjWnRlQDgEFb2SkJXKWVik
-         yZp0Qlo2gRHLpvrOSXCGK4cUfAv4VVQ7lMEoZ26zuo3JfUVE5vQzEIDbmRSMcSiqNz/f
-         lIDg==
-X-Gm-Message-State: AOAM533AZhGGLYmK/Dcl57mbF03GsG9RlMuWxlXshOm2q/c7LkbaRmKv
-        FNEoowM7o1Xk4AnCOzjbg00=
-X-Google-Smtp-Source: ABdhPJzaWF4Z9/+FY4//GPjKaoLSjBjNiVzG+HoGdKFFjz6NMvVEd3nsBU9fwdUCaMAyQTgCvPRvRQ==
-X-Received: by 2002:a63:6ecf:: with SMTP id j198mr2292458pgc.287.1642044094101;
-        Wed, 12 Jan 2022 19:21:34 -0800 (PST)
-Received: from localhost.localdomain (pcd454075.netvigator.com. [203.218.244.75])
-        by smtp.gmail.com with ESMTPSA id x2sm1757573pjq.40.2022.01.12.19.21.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jan 2022 19:21:33 -0800 (PST)
-From:   Yanteng Si <siyanteng01@gmail.com>
-X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
-To:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com
-Cc:     Yanteng Si <siyanteng@loongson.cn>, tangyizhou@huawei.com,
-        chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
-        linux-doc@vger.kernel.org, siyanteng01@gmail.com
-Subject: [PATCH 4/4] docs/zh_CN: add damon api translation
-Date:   Thu, 13 Jan 2022 11:18:04 +0800
-Message-Id: <b30a06d42ed8f528f77be343d300c472f49536d1.1642043630.git.siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1642043630.git.siyanteng@loongson.cn>
-References: <cover.1642043630.git.siyanteng@loongson.cn>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=pbtW5GNEznZHiafA75unnHcFZvdczANI1PgQ6YwC50I=;
+        b=DCSq349x/8mLa4oBTbhmPe9amY8CCKiXSqQY2EkMvaLiFTOQE0/rYViIkX1Y652tl+
+         vH3UWVYsvRaDPFvzEIS1eTQ9QLY+mAfmUHx8y7za9oZschFQS1SALOqXBz9J3wIiCzX6
+         L+Wg1IW+iI4lvpS+XORYkK58G3LjNIQUD0RxAKGF0KtI71UjL8xgvTjaxyaRjYKuEYnG
+         WLauJ95mxDtL0VB7xKwA8LXYH3eO8vPeTb+PHLS3p0OoRvw8zMVc5e+4eLvdBw3+MzXl
+         +XoEUyMDkMr+KoywviXWaVJUP7HN6eTGvkaOh4ojGymnTynf4EcPSW9VJD2pY6Lvbaqw
+         KEtQ==
+X-Gm-Message-State: AOAM532ze74qwpbmEdKRkKuOS4rL1JIpPwTBz2H8Orr/gtXUImxuzPBB
+        czWX/QQH1g1OY/5T8a12PiQqldo5szdPS4pHibE=
+X-Google-Smtp-Source: ABdhPJwOVBaayKDH/i9TEqiJA4jUpG5Q9ZPM20KYYIs0XA0wcVXkAniMBmivwNgSlbtXPJKggVHdozQRsoV+5JJNw5E=
+X-Received: by 2002:a37:a342:: with SMTP id m63mr272966qke.347.1642047148268;
+ Wed, 12 Jan 2022 20:12:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20220112230247.982212-1-iwona.winiarska@intel.com> <20220112230247.982212-6-iwona.winiarska@intel.com>
+In-Reply-To: <20220112230247.982212-6-iwona.winiarska@intel.com>
+From:   Joel Stanley <joel@jms.id.au>
+Date:   Thu, 13 Jan 2022 04:12:16 +0000
+Message-ID: <CACPK8XewQJBvwssM6zQKQoxT=JLpk-qjGhsiTAa980OtbU7JBw@mail.gmail.com>
+Subject: Re: [PATCH v5 05/13] peci: Add peci-aspeed controller driver
+To:     Iwona Winiarska <iwona.winiarska@intel.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Borislav Petkov <bp@alien8.de>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Zev Weiss <zweiss@equinix.com>,
+        David Muller <d.mueller@elsoft.ch>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Billy Tsai <billy_tsai@aspeedtech.com>,
+        Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate .../vm/damon/api.rst into Chinese.
+On Wed, 12 Jan 2022 at 23:06, Iwona Winiarska <iwona.winiarska@intel.com> wrote:
+>
+> From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+>
+> ASPEED AST24xx/AST25xx/AST26xx SoCs support the PECI electrical
+> interface (a.k.a PECI wire) that provides a communication channel with
+> Intel processors.
+> This driver allows BMC to discover devices connected to it and
+> communicate with them using PECI protocol.
+>
+> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+> Co-developed-by: Iwona Winiarska <iwona.winiarska@intel.com>
+> Signed-off-by: Iwona Winiarska <iwona.winiarska@intel.com>
+> Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
----
- .../translations/zh_CN/vm/damon/api.rst       | 32 +++++++++++++++++++
- .../translations/zh_CN/vm/damon/index.rst     |  4 +--
- 2 files changed, 33 insertions(+), 3 deletions(-)
- create mode 100644 Documentation/translations/zh_CN/vm/damon/api.rst
+The driver looks good to me. I would be happy to see it merged in its
+current state.
 
-diff --git a/Documentation/translations/zh_CN/vm/damon/api.rst b/Documentation/translations/zh_CN/vm/damon/api.rst
-new file mode 100644
-index 000000000000..21143eea4ebe
---- /dev/null
-+++ b/Documentation/translations/zh_CN/vm/damon/api.rst
-@@ -0,0 +1,32 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+:Original: Documentation/vm/damon/api.rst
-+
-+:翻译:
-+
-+ 司延腾 Yanteng Si <siyanteng@loongson.cn>
-+
-+:校译:
-+
-+
-+=======
-+API参考
-+=======
-+
-+内核空间的程序可以使用下面的API来使用DAMON的每个功能。你所需要做的就是引用 ``damon.h`` ，
-+它位于源代码树的include/linux/。
-+
-+结构体
-+======
-+
-+该API在以下内核代码中:
-+
-+include/linux/damon.h
-+
-+
-+函数
-+====
-+
-+该API在以下内核代码中:
-+
-+mm/damon/core.c
-diff --git a/Documentation/translations/zh_CN/vm/damon/index.rst b/Documentation/translations/zh_CN/vm/damon/index.rst
-index 077db7e4326f..84d36d90c9b0 100644
---- a/Documentation/translations/zh_CN/vm/damon/index.rst
-+++ b/Documentation/translations/zh_CN/vm/damon/index.rst
-@@ -29,7 +29,5 @@ DAMON是Linux内核的一个数据访问监控框架子系统。DAMON的核心
- 
-    faq
-    design
-+   api
- 
--TODOLIST:
--
--*   api
--- 
-2.27.0
+Reviewed-by: Joel Stanley <joel@jms.id.au>
 
+I've a few questions below that can be followed up later if need be.
+
+> +
+> +static void aspeed_peci_init_regs(struct aspeed_peci *priv)
+> +{
+> +       u32 val;
+> +
+> +       /* Clear interrupts */
+> +       val = readl(priv->base + ASPEED_PECI_INT_STS) | ASPEED_PECI_INT_MASK;
+
+Should that be & MASK?
+
+As you're just sanitising the registers, you could clear the status
+unconditionally:
+
+ writel(ASPEED_PECI_INT_MASK, priv->base + ASPEED_PECI_INT_STS);
+
+> +       writel(val, priv->base + ASPEED_PECI_INT_STS);
+> +
+> +       /* Set timing negotiation mode and enable interrupts */
+> +       val = FIELD_PREP(ASPEED_PECI_TIMING_NEGO_SEL_MASK, ASPEED_PECI_1ST_BIT_OF_ADDR_NEGO);
+
+That's a complicated way to set val to zero :)
+
+> +       val |= ASPEED_PECI_INT_MASK;
+> +       writel(val, priv->base + ASPEED_PECI_INT_CTRL);
+> +
+> +       val = FIELD_PREP(ASPEED_PECI_CTRL_SAMPLING_MASK, ASPEED_PECI_RD_SAMPLING_POINT_DEFAULT);
+> +       writel(val, priv->base + ASPEED_PECI_CTRL);
+
+This will clear the rest of the ctrl register, including the divisor
+settings. Was that your intention?
+
+Reading the rest of your driver you only call _init_regs after
+_controller_enable, so I guess you're fine.
+
+> +}
+> +
+> +static int aspeed_peci_check_idle(struct aspeed_peci *priv)
+> +{
+> +       u32 cmd_sts = readl(priv->base + ASPEED_PECI_CMD);
+> +       int ret;
+> +
+> +       /*
+> +        * Under normal circumstances, we expect to be idle here.
+> +        * In case there were any errors/timeouts that led to the situation
+> +        * where the hardware is not in idle state - we need to reset and
+> +        * reinitialize it to avoid potential controller hang.
+> +        */
+> +       if (FIELD_GET(ASPEED_PECI_CMD_STS_MASK, cmd_sts)) {
+> +               reset_control_assert(priv->rst);
+> +
+> +               ret = reset_control_deassert(priv->rst);
+> +               if (ret) {
+> +                       dev_err(priv->dev, "cannot deassert reset control\n");
+> +                       return ret;
+> +               }
+> +
+> +               aspeed_peci_init_regs(priv);
+> +
+> +               ret = clk_set_rate(priv->clk, priv->clk_frequency);
+> +               if (ret < 0) {
+> +                       dev_err(priv->dev, "cannot set clock frequency\n");
+> +                       return ret;
+> +               }
+> +
+> +               aspeed_peci_controller_enable(priv);
+> +       }
+> +
+> +       return readl_poll_timeout(priv->base + ASPEED_PECI_CMD,
+> +                                 cmd_sts,
+> +                                 !(cmd_sts & ASPEED_PECI_CMD_IDLE_MASK),
+> +                                 ASPEED_PECI_IDLE_CHECK_INTERVAL_US,
+> +                                 ASPEED_PECI_IDLE_CHECK_TIMEOUT_US);
+> +}
+> +
+> +static int aspeed_peci_xfer(struct peci_controller *controller,
+> +                           u8 addr, struct peci_request *req)
+> +{
+> +       struct aspeed_peci *priv = dev_get_drvdata(controller->dev.parent);
+> +       unsigned long timeout = msecs_to_jiffies(priv->cmd_timeout_ms);
+> +       u32 peci_head;
+> +       int ret;
+> +
+> +       if (req->tx.len > ASPEED_PECI_DATA_BUF_SIZE_MAX ||
+> +           req->rx.len > ASPEED_PECI_DATA_BUF_SIZE_MAX)
+> +               return -EINVAL;
+> +
+> +       /* Check command sts and bus idle state */
+> +       ret = aspeed_peci_check_idle(priv);
+> +       if (ret)
+> +               return ret; /* -ETIMEDOUT */
+> +
+> +       spin_lock_irq(&priv->lock);
+> +       reinit_completion(&priv->xfer_complete);
+> +
+> +       peci_head = FIELD_PREP(ASPEED_PECI_TARGET_ADDR_MASK, addr) |
+> +                   FIELD_PREP(ASPEED_PECI_WR_LEN_MASK, req->tx.len) |
+> +                   FIELD_PREP(ASPEED_PECI_RD_LEN_MASK, req->rx.len);
+> +
+> +       writel(peci_head, priv->base + ASPEED_PECI_RW_LENGTH);
+> +
+> +       memcpy_toio(priv->base + ASPEED_PECI_WR_DATA0, req->tx.buf, min_t(u8, req->tx.len, 16));
+> +       if (req->tx.len > 16)
+> +               memcpy_toio(priv->base + ASPEED_PECI_WR_DATA4, req->tx.buf + 16,
+> +                           req->tx.len - 16);
+> +
+> +#if IS_ENABLED(CONFIG_DYNAMIC_DEBUG)
+> +       dev_dbg(priv->dev, "HEAD : %#08x\n", peci_head);
+> +       print_hex_dump_bytes("TX : ", DUMP_PREFIX_NONE, req->tx.buf, req->tx.len);
+> +#endif
+
+The ifdef is unfortunate. Could you do this?
+
+dev_dbg(priv->dev, "HEAD : %#08x\n", peci_head);
+if (IS_ENABLED(CONFIG_DYNAMIC_DEBUG))
+       print_hex_dump_bytes("TX : ", DUMP_PREFIX_NONE, req->tx.buf,
+req->tx.len);
+
+Not a biggie though, don't let this hold up merging.
+
+> +       priv->status = 0;
+> +       writel(ASPEED_PECI_CMD_FIRE, priv->base + ASPEED_PECI_CMD);
+> +       spin_unlock_irq(&priv->lock);
+> +
