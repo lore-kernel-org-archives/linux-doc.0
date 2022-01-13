@@ -2,279 +2,237 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9605FC433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Jan 2022 23:54:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC7B8C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Jan 2022 01:17:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236081AbiALXyG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jan 2022 18:54:06 -0500
-Received: from mga17.intel.com ([192.55.52.151]:9041 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235950AbiALXyE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 12 Jan 2022 18:54:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1642031644; x=1673567644;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=MsJ01NEB5/+GcJN3nwB3l68x5NhNXBn9leynEnIlVJY=;
-  b=ZHej9/l/hVjdi18ZEeVwnPWZK2LssNkl+Fs0r4eyLBDi91tEuo65pYZh
-   IoMhqG/U2/yaCyro9PnYUFC8sHz6ylgW7yKYQnACXSufACT7VEr3z5T2J
-   BlaBtPzRlpOeG9fEb1OOtfBDbo60z8p3NN2c6C0sUGKrGCrBQLMDDauwe
-   rRnI+pnkBZ4ttZW5+hbhr/wwMMYThYriE1IP7gOio01odYHlpy4i4oLjq
-   PwGOcoO6j3uJJcTMaNz9f2pkfLBljfpDaBjWX45NCI2g33/JEIu1a4k1K
-   PVMvioFm+MJod5UaJFdrbycXXc6rUsv39q53cqA/Y4tkzl0TQhM7sIcPj
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10225"; a="224570473"
-X-IronPort-AV: E=Sophos;i="5.88,284,1635231600"; 
-   d="scan'208";a="224570473"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2022 15:54:03 -0800
-X-IronPort-AV: E=Sophos;i="5.88,284,1635231600"; 
-   d="scan'208";a="576746108"
-Received: from japete-mobl1.amr.corp.intel.com ([10.212.252.179])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2022 15:54:01 -0800
-Message-ID: <a41853fdaee888761ac2a34708118991b70cb904.camel@linux.intel.com>
-Subject: Re: [PATCH v4 7/7] thermal: intel: hfi: Notify user space for HFI
- events
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Len Brown <len.brown@intel.com>,
-        Aubrey Li <aubrey.li@linux.intel.com>,
-        Amit Kucheria <amitk@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Tim Chen <tim.c.chen@linux.intel.com>,
-        Lukasz Luba <lukasz.luba@arm.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Ricardo Neri <ricardo.neri@intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Date:   Wed, 12 Jan 2022 15:54:00 -0800
-In-Reply-To: <CAJZ5v0h5-xsYCfs=c+wE4tWrcmvkdbgrc+fnwytSghwuAWnu0A@mail.gmail.com>
-References: <20220108034743.31277-1-ricardo.neri-calderon@linux.intel.com>
-         <20220108034743.31277-8-ricardo.neri-calderon@linux.intel.com>
-         <CAJZ5v0h5-xsYCfs=c+wE4tWrcmvkdbgrc+fnwytSghwuAWnu0A@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5-0ubuntu1 
+        id S231237AbiAMBRn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Jan 2022 20:17:43 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:16706 "EHLO
+        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229546AbiAMBRm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 20:17:42 -0500
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.56])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JZ5zv0ktWzZfB8;
+        Thu, 13 Jan 2022 09:14:03 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Thu, 13 Jan 2022 09:17:40 +0800
+Received: from [10.174.178.55] (10.174.178.55) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Thu, 13 Jan 2022 09:17:39 +0800
+Subject: Re: [PATCH v19 11/13] arm64: kdump: reimplement crashkernel=X
+To:     Dave Kleikamp <dave.kleikamp@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+        <linux-kernel@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
+        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        <kexec@lists.infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        <devicetree@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>
+CC:     Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        "Chen Zhou" <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>
+References: <20211228132612.1860-1-thunder.leizhen@huawei.com>
+ <20211228132612.1860-12-thunder.leizhen@huawei.com>
+ <e48ac849-cc3d-3c0b-e159-7408af61eece@oracle.com>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <6bcea8a4-c244-bb0c-ff55-92cbe463b4cc@huawei.com>
+Date:   Thu, 13 Jan 2022 09:17:38 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <e48ac849-cc3d-3c0b-e159-7408af61eece@oracle.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2022-01-12 at 20:53 +0100, Rafael J. Wysocki wrote:
-> On Sat, Jan 8, 2022 at 4:46 AM Ricardo Neri
-> <ricardo.neri-calderon@linux.intel.com> wrote:
-> > From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> > 
-> > When the hardware issues an HFI event, relay a notification to user
-> > space.
-> > This allows user space to respond by reading performance and
-> > efficiency of
-> > each CPU and take appropriate action.
-> > 
-> > For example, when performance and efficiency of a CPU is 0, user
-> > space can
-> > either offline the CPU or inject idle. Also, if user space notices
-> > a
-> > downward trend in performance, it may proactively adjust power
-> > limits to
-> > avoid future situations in which performance drops to 0.
-> > 
-> > To avoid excessive notifications, the rate is limited by one HZ per
-> > event.
-> > To limit the netlink message size, parameters for only 16 CPUs at
-> > max are
-> > sent in one message. If there are more than 16 CPUs, issue as many
-> > messages
-> > as needed to notify the status of all CPUs.
-> > 
-> > In the HFI specification, both performance and efficiency
-> > capabilities are
-> > set in the [0, 255] range. The existing implementations of HFI
-> > hardware
-> > do not scale the maximum values to 255. Since userspace cares about
-> > capability values that are either 0 or show a downward/upward
-> > trend, this
-> > fact does not matter much. Relative changes in capabilities are
-> > enough. To
-> > comply with the thermal netlink ABI, scale both performance and
-> > efficiency
-> > capabilities to the [0, 1023] interval.
-> > 
-> > Cc: Andi Kleen <ak@linux.intel.com>
-> > Cc: Aubrey Li <aubrey.li@linux.intel.com>
-> > Cc: Lukasz Luba <lukasz.luba@arm.com>
-> > Cc: Tim Chen <tim.c.chen@linux.intel.com>
-> > Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>
-> > Reviewed-by: Len Brown <len.brown@intel.com>
-> > Signed-off-by: Srinivas Pandruvada <
-> > srinivas.pandruvada@linux.intel.com>
-> > ---
-> > Changes since v3:
-> >   * None
-> > 
-> > Changes since v2:
-> >   * None
-> > 
-> > Changes since v1:
-> >   * Made get_one_hfi_cap() return void. Removed unnecessary checks.
-> >     (Rafael)
-> >   * Replaced raw_spin_[un]lock_irq[restore|save]() with raw_spin_
-> >     [un]lock_irq() in get_one_hfi_cap(). This function is only
-> > called from
-> >     a workqueue and there is no need to save and restore irq flags.
-> >   * Scaled performance and energy efficiency values to a [0, 1023]
-> > interval
-> >     when reporting values to user space via thermal netlink
-> > notifications.
-> >     (Lucasz).
-> >   * Reworded commit message to comment on the scaling of HFI
-> > capabilities
-> >     to comply with the proposed thermal netlink ABI.
-> > ---
-> >  drivers/thermal/intel/Kconfig     |  1 +
-> >  drivers/thermal/intel/intel_hfi.c | 57
-> > ++++++++++++++++++++++++++++++-
-> >  2 files changed, 57 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/thermal/intel/Kconfig
-> > b/drivers/thermal/intel/Kconfig
-> > index e9d2925227d4..6cf3fe36a4ae 100644
-> > --- a/drivers/thermal/intel/Kconfig
-> > +++ b/drivers/thermal/intel/Kconfig
-> > @@ -104,6 +104,7 @@ config INTEL_HFI_THERMAL
-> >         bool "Intel Hardware Feedback Interface"
-> >         depends on CPU_SUP_INTEL
-> >         depends on X86_THERMAL_VECTOR
-> > +       select THERMAL_NETLINK
-> >         help
-> >           Select this option to enable the Hardware Feedback
-> > Interface. If
-> >           selected, hardware provides guidance to the operating
-> > system on
-> > diff --git a/drivers/thermal/intel/intel_hfi.c
-> > b/drivers/thermal/intel/intel_hfi.c
-> > index 1a08c58f26f6..9fd66f176948 100644
-> > --- a/drivers/thermal/intel/intel_hfi.c
-> > +++ b/drivers/thermal/intel/intel_hfi.c
-> > @@ -40,6 +40,7 @@
-> > 
-> >  #include <asm/msr.h>
-> > 
-> > +#include "../thermal_core.h"
-> >  #include "intel_hfi.h"
-> > 
-> >  #define THERM_STATUS_CLEAR_PKG_MASK (BIT(1) | BIT(3) | BIT(5) |
-> > BIT(7) | \
-> > @@ -162,6 +163,60 @@ static struct hfi_features hfi_features;
-> >  static DEFINE_MUTEX(hfi_instance_lock);
-> > 
-> >  #define HFI_UPDATE_INTERVAL    HZ
-> > +#define HFI_MAX_THERM_NOTIFY_COUNT     16
-> > +
-> > +static void get_one_hfi_cap(struct hfi_instance *hfi_instance, s16
-> > index,
-> > +                           struct hfi_cpu_data *hfi_caps)
-> > +{
-> > +       struct hfi_cpu_data *caps;
-> > +
-> > +       /* Find the capabilities of @cpu */
-> > +       raw_spin_lock_irq(&hfi_instance->table_lock);
-> > +       caps = hfi_instance->data + index *
-> > hfi_features.cpu_stride;
-> > +       memcpy(hfi_caps, caps, sizeof(*hfi_caps));
-> > +       raw_spin_unlock_irq(&hfi_instance->table_lock);
-> > +}
-> > +
-> > +/*
-> > + * Call update_capabilities() when there are changes in the HFI
-> > table.
-> > + */
-> > +static void update_capabilities(struct hfi_instance *hfi_instance)
-> > +{
-> > +       struct cpu_capability cpu_caps[HFI_MAX_THERM_NOTIFY_COUNT];
-> > +       int i = 0, cpu;
-> > +
+
+
+On 2022/1/12 22:45, Dave Kleikamp wrote:
+> On 12/28/21 7:26AM, Zhen Lei wrote:
+>> From: Chen Zhou <chenzhou10@huawei.com>
+>>
+>> There are following issues in arm64 kdump:
+>> 1. We use crashkernel=X to reserve crashkernel below 4G, which
+>> will fail when there is no enough low memory.
+>> 2. If reserving crashkernel above 4G, in this case, crash dump
+>> kernel will boot failure because there is no low memory available
+>> for allocation.
+>>
+>> To solve these issues, change the behavior of crashkernel=X and
+>> introduce crashkernel=X,[high,low]. crashkernel=X tries low allocation
+>> in DMA zone, and fall back to high allocation if it fails.
+>> We can also use "crashkernel=X,high" to select a region above DMA zone,
+>> which also tries to allocate at least 256M in DMA zone automatically.
+>> "crashkernel=Y,low" can be used to allocate specified size low memory.
+>>
+>> Another minor change, there may be two regions reserved for crash
+>> dump kernel, in order to distinct from the high region and make no
+>> effect to the use of existing kexec-tools, rename the low region as
+>> "Crash kernel (low)".
+>>
+>> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+>> Co-developed-by: Zhen Lei <thunder.leizhen@huawei.com>
+>> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+>> ---
+>>   arch/arm64/kernel/machine_kexec.c      |  5 +++-
+>>   arch/arm64/kernel/machine_kexec_file.c | 12 ++++++--
+>>   arch/arm64/kernel/setup.c              | 13 +++++++-
+>>   arch/arm64/mm/init.c                   | 41 ++++++++++----------------
+>>   4 files changed, 42 insertions(+), 29 deletions(-)
+>>
+>> diff --git a/arch/arm64/kernel/machine_kexec.c b/arch/arm64/kernel/machine_kexec.c
+>> index 6fb31c117ebe08c..6665bf31f6b6a19 100644
+>> --- a/arch/arm64/kernel/machine_kexec.c
+>> +++ b/arch/arm64/kernel/machine_kexec.c
+>> @@ -327,7 +327,10 @@ bool crash_is_nosave(unsigned long pfn)
+>>         /* in reserved memory? */
+>>       addr = __pfn_to_phys(pfn);
+>> -    if ((addr < crashk_res.start) || (crashk_res.end < addr))
+>> +    if (((addr < crashk_res.start) || (crashk_res.end < addr)) && !crashk_low_res.end)
+>> +        return false;
+>> +
+>> +    if ((addr < crashk_low_res.start) || (crashk_low_res.end < addr))
+>>           return false;
+>>         if (!kexec_crash_image)
+>> diff --git a/arch/arm64/kernel/machine_kexec_file.c b/arch/arm64/kernel/machine_kexec_file.c
+>> index 59c648d51848886..889951291cc0f9c 100644
+>> --- a/arch/arm64/kernel/machine_kexec_file.c
+>> +++ b/arch/arm64/kernel/machine_kexec_file.c
+>> @@ -65,10 +65,18 @@ static int prepare_elf_headers(void **addr, unsigned long *sz)
+>>         /* Exclude crashkernel region */
+>>       ret = crash_exclude_mem_range(cmem, crashk_res.start, crashk_res.end);
+>> +    if (ret)
+>> +        goto out;
+>> +
+>> +    if (crashk_low_res.end) {
+>> +        ret = crash_exclude_mem_range(cmem, crashk_low_res.start, crashk_low_res.end);
+>> +        if (ret)
+>> +            goto out;
+>> +    }
+>>   -    if (!ret)
+>> -        ret =  crash_prepare_elf64_headers(cmem, true, addr, sz);
+>> +    ret = crash_prepare_elf64_headers(cmem, true, addr, sz);
+>>   +out:
+>>       kfree(cmem);
+>>       return ret;
+>>   }
+>> diff --git a/arch/arm64/kernel/setup.c b/arch/arm64/kernel/setup.c
+>> index be5f85b0a24de69..4bb2e55366be64d 100644
+>> --- a/arch/arm64/kernel/setup.c
+>> +++ b/arch/arm64/kernel/setup.c
+>> @@ -248,7 +248,18 @@ static void __init request_standard_resources(void)
+>>               kernel_data.end <= res->end)
+>>               request_resource(res, &kernel_data);
+>>   #ifdef CONFIG_KEXEC_CORE
+>> -        /* Userspace will find "Crash kernel" region in /proc/iomem. */
+>> +        /*
+>> +         * Userspace will find "Crash kernel" or "Crash kernel (low)"
+>> +         * region in /proc/iomem.
+>> +         * In order to distinct from the high region and make no effect
+>> +         * to the use of existing kexec-tools, rename the low region as
+>> +         * "Crash kernel (low)".
+>> +         */
+>> +        if (crashk_low_res.end && crashk_low_res.start >= res->start &&
+>> +                crashk_low_res.end <= res->end) {
+>> +            crashk_low_res.name = "Crash kernel (low)";
+>> +            request_resource(res, &crashk_low_res);
+>> +        }
+>>           if (crashk_res.end && crashk_res.start >= res->start &&
+>>               crashk_res.end <= res->end)
+>>               request_resource(res, &crashk_res);
+>> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+>> index be4595dc7459115..91b8038a1529068 100644
+>> --- a/arch/arm64/mm/init.c
+>> +++ b/arch/arm64/mm/init.c
+>> @@ -74,41 +74,32 @@ phys_addr_t arm64_dma_phys_limit __ro_after_init;
+>>    */
+>>   static void __init reserve_crashkernel(void)
+>>   {
+>> -    unsigned long long crash_base, crash_size;
+>> -    unsigned long long crash_max = CRASH_ADDR_LOW_MAX;
+>> +    unsigned long long crash_size, crash_base, total_mem, low_size;
 > 
-> Wouldn't it be better to hold hfi_instance_lock for the duration of
-> this loop?
-As you expressed concern with more CPUs per package in future + netlink
-processing the interrupts will be disabled for longer time.
+> low_size needs to be initialized to -1.
+> 
+> If parse_crashkernel() succeeds, then an uninitialized low_size will be passed to reserve_crashkernel_mem().
 
-But this can be optimized to have
-void get_one_hfi_cap(struct hfi_instance *hfi_instance, s16 index,
-struct hfi_cpu_data *hfi_caps)
-with something like
-void get_hfi_caps(struct hfi_instance *hfi_instance, s16 *cpu_count,
-struct hfi_cpu_data **hfi_caps)
-and take one lock for all
-HFI_MAX_THERM_NOTIFY_COUNT CPUs.
+Right, thanks, I noticed that too. I'm waiting for v5.17-rc1 to release v20.
 
-Then keep thermal_genl_cpu_capability_event outside.
-This ends up in calling thermal_genl_send_event() which has a long call
-chain to netlink_broadcast() to format and broadcast message.
-
-Thanks,
-Srinivas
+In addition, I found that the current implementation on x86 was problematic in case
+"crashkernel=4G crashkernel=512M,low". According to the document, "crashkernel=512M,low"
+should not take effect at this case. But reserve_crashkernel_low() didn't do that well.
 
 > 
-> Surely, CPU offline or online during it can be confusing.
+>> +    bool high = false;
+>>       int ret;
+>>   -    ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
+>> -                &crash_size, &crash_base);
+>> -    /* no crashkernel= or invalid value specified */
+>> -    if (ret || !crash_size)
+>> -        return;
+>> -
+>> -    crash_size = PAGE_ALIGN(crash_size);
+>> -
+>> -    /* User specifies base address explicitly. */
+>> -    if (crash_base)
+>> -        crash_max = crash_base + crash_size;
+>> +    total_mem = memblock_phys_mem_size();
+>>   -    /* Current arm64 boot protocol requires 2MB alignment */
+>> -    crash_base = memblock_phys_alloc_range(crash_size, CRASH_ALIGN,
+>> -                           crash_base, crash_max);
+>> -    if (!crash_base) {
+>> -        pr_warn("cannot allocate crashkernel (size:0x%llx)\n",
+>> -            crash_size);
+>> -        return;
+>> +    ret = parse_crashkernel(boot_command_line, total_mem, &crash_size, &crash_base);
+>> +    if (ret != 0 || crash_size <= 0) {
+>> +        /* crashkernel=X,high and possible crashkernel=Y,low */
+>> +        ret = parse_crashkernel_high_low(boot_command_line, &crash_size, &low_size);
+>> +        if (ret)
+>> +            return;
+>> +        high = true;
+>>       }
+>>   -    pr_info("crashkernel reserved: 0x%016llx - 0x%016llx (%lld MB)\n",
+>> -        crash_base, crash_base + crash_size, crash_size >> 20);
+>> +    ret = reserve_crashkernel_mem(total_mem, crash_size, crash_base, low_size, high);
+>> +    if (ret)
+>> +        return;
+>>         /*
+>>        * The crashkernel memory will be removed from the kernel linear
+>>        * map. Inform kmemleak so that it won't try to access it.
+>>        */
+>> -    kmemleak_ignore_phys(crash_base);
+>> -    crashk_res.start = crash_base;
+>> -    crashk_res.end = crash_base + crash_size - 1;
+>> +    kmemleak_ignore_phys(crashk_res.start);
+>> +    if (crashk_low_res.end)
+>> +        kmemleak_ignore_phys(crashk_low_res.start);
+>>   }
+>>   #else
+>>   static void __init reserve_crashkernel(void)
 > 
-> > +       for_each_cpu(cpu, hfi_instance->cpus) {
-> > +               struct hfi_cpu_data caps;
-> > +               s16 index;
-> > +
-> > +               /*
-> > +                * We know index is valid because this CPU is
-> > present
-> > +                * in this instance.
-> > +                */
-> > +               index = per_cpu(hfi_cpu_info, cpu).index;
-> > +
-> > +               get_one_hfi_cap(hfi_instance, index, &caps);
-> > +
-> > +               cpu_caps[i].cpu = cpu;
-> > +
-> > +               /*
-> > +                * Scale performance and energy efficiency to
-> > +                * the [0, 1023] interval that thermal netlink
-> > uses.
-> > +                */
-> > +               cpu_caps[i].performance = caps.perf_cap << 2;
-> > +               cpu_caps[i].efficiency = caps.ee_cap << 2;
-> > +               ++i;
-> > +
-> > +               if (i >= HFI_MAX_THERM_NOTIFY_COUNT) {
-> > +                       thermal_genl_cpu_capability_event(HFI_MAX_T
-> > HERM_NOTIFY_COUNT,
-> > +                                                         cpu_caps)
-> > ;
-> > +                       i = 0;
-> > +               }
-> > +       }
-> > +
-> > +       if (i)
-> > +               thermal_genl_cpu_capability_event(i, cpu_caps);
-> > +}
-> > 
-> >  static void hfi_update_work_fn(struct work_struct *work)
-> >  {
-> > @@ -172,7 +227,7 @@ static void hfi_update_work_fn(struct
-> > work_struct *work)
-> >         if (!hfi_instance)
-> >                 return;
-> > 
-> > -       /* TODO: Consume update here. */
-> > +       update_capabilities(hfi_instance);
-> >  }
-> > 
-> >  void intel_hfi_process_event(__u64 pkg_therm_status_msr_val)
-> > --
-> > 2.17.1
-> > 
+> .
+> 
 
+-- 
+Regards,
+  Zhen Lei
