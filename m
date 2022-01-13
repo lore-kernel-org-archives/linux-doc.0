@@ -2,56 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 864F1C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Jan 2022 16:19:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62F03C433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Jan 2022 17:05:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230445AbiAMQTo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Jan 2022 11:19:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33148 "EHLO
+        id S230349AbiAMRFE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Jan 2022 12:05:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229533AbiAMQTn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jan 2022 11:19:43 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C628DC061574;
-        Thu, 13 Jan 2022 08:19:43 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 68DFF2B0;
-        Thu, 13 Jan 2022 16:19:43 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 68DFF2B0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1642090783; bh=3xTeg/mcRJ6jj1tM41hsqtdxji8c0oQ9bVtrSi/02NU=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=hMetqMN57yFlHq3sM/I40DDe/NgBItpFkdb5pO/w1DjoE5S/t6QVcFa8M2tBWNRfg
-         ehzSV4K93FCH0d8/4wS6B7tv5joiChlUczjobLgmOPQ5NfYFXUFA8kg87KduhD5fME
-         X2xUl4JKzhqj1zIqygiG2CZrORYbN9zqV5bEGdpSsBYTngpYrjs4gno568X1mJQ03D
-         nIzHLKMiPe8znpjOhWqlO0gnDW4CJ3d4sMCudN7ZrTJflce6yHK4gY5IHUPsn0BfaH
-         ibBMNw9Zxp0hsWDGJDKdKzNJDTFO8Dpf9+INB/V07udxLhi0LscQ6MeZtk69L7AybR
-         MSagzJg6bWdIg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Tomasz =?utf-8?B?V2FybmllxYLFgm8=?= <tomasz.warniello@gmail.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 00/15] Transform documentation into POD
-In-Reply-To: <20220113074116.3c9883d0@fuji.fritz.box>
-References: <20220104015946.529524-1-tomasz.warniello@gmail.com>
- <20220113074116.3c9883d0@fuji.fritz.box>
-Date:   Thu, 13 Jan 2022 09:19:57 -0700
-Message-ID: <87tue7d2vm.fsf@meer.lwn.net>
+        with ESMTP id S232460AbiAMRFD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jan 2022 12:05:03 -0500
+X-Greylist: delayed 101 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 13 Jan 2022 09:05:02 PST
+Received: from mxs2.seznam.cz (mxs2.seznam.cz [IPv6:2a02:598:2::125])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81F8EC06161C;
+        Thu, 13 Jan 2022 09:05:02 -0800 (PST)
+Received: from email.seznam.cz
+        by email-smtpc19b.ng.seznam.cz (email-smtpc19b.ng.seznam.cz [10.23.18.23])
+        id 2656d399b264a100214bc97d;
+        Thu, 13 Jan 2022 18:05:00 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seznam.cz; s=beta;
+        t=1642093500; bh=btXCnBKUj5koh5OuAW6tIKoKtTa1voPx12sh0qgT0Og=;
+        h=Received:Date:From:To:Cc:Subject:Message-ID:X-Mailer:In-Reply-To:
+         MIME-Version:Content-Type:Content-Transfer-Encoding:X-szn-frgn:
+         X-szn-frgc;
+        b=GU6ftit2zUb+E3qPl6eg1MZb35en4pXm6oWP2j7+ejrbceP4/Lv3kLwgAJPnqCMIk
+         47WuwGOXoeAyNCXUhMDqsZ3X1WmvEGwldanpQIrhSfsYWFIQTdTePaZyhDFIxsflTr
+         P+lo8yd+T4MlAs81xDJe7XL3SJAvHi8nLZsO/EzY=
+Received: from PC (79.105.116.90 [79.105.116.90])
+        by email-relay10.ng.seznam.cz (Seznam SMTPD 1.3.136) with ESMTP;
+        Thu, 13 Jan 2022 18:01:04 +0100 (CET)  
+Date:   Fri, 14 Jan 2022 02:00:55 +0900
+From:   Alexey Avramov <hakavlad0@seznam.cz>
+To:     mhocko@suse.com
+Cc:     Hi-Angel@yandex.ru, Michael@michaellarabel.com, ak@linux.intel.com,
+        akpm@linux-foundation.org, axboe@kernel.dk,
+        catalin.marinas@arm.com, corbet@lwn.net,
+        dave.hansen@linux.intel.com, hakavlad@inbox.lv, hannes@cmpxchg.org,
+        hdanton@sina.com, jsbarnes@google.com,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org, mgorman@suse.de,
+        page-reclaim@google.com, riel@surriel.com,
+        torvalds@linux-foundation.org, vbabka@suse.cz, will@kernel.org,
+        willy@infradead.org, x86@kernel.org, ying.huang@intel.com,
+        yuzhao@google.com
+Subject: Re: [PATCH v6 6/9] mm: multigenerational lru: aging
+Message-ID: <20220114020055.0cd8697a@PC>
+X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+In-Reply-To: <Yd109jeRllJbjV9o@dhcp22.suse.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-szn-frgn: <092108c3-2aa1-4d4d-a385-941d2bc0ef66>
+X-szn-frgc: <0>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Tomasz Warnie=C5=82=C5=82o <tomasz.warniello@gmail.com> writes:
+> But the later one is more complex and a proper
+> handling really depends on the particular workload
 
-> Any news here?
+That is why I advocate the introduction of new tunables.
 
-Merge window is open; I'll look more closely at stuff like this toward
-the end.
+> There are workloads which prefer a temporary trashing over its working
+> set during a peak memory demand rather than an OOM kill
 
-Thanks,
+OK, for such cases, the OOM handles can be set to 0.
+It can even be the default value.
 
-jon
+> On the other side workloads that are
+> latency sensitive
+
+I daresay that this is the case with most workloads.
+An internet server that falls into thrashing is a dead server.
+
+> no simple solution can be applied to the whole
+
+There are several solutions and they can be taken into the kernel
+at the same time, they all work:
+- min_ttl_ms + MGLRU
+- vm.min_filelist_kbytes-like knobs
+- PSI-based solutions.
+
+> For the most steady trashing situations I have
+> seen the userspace with mlocked memory and the code can make a forward
+> progress and mediate the situation.
+
+I still don't see a problem in making all the kernel-space solutions
+in the kernel.
