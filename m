@@ -2,223 +2,515 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71B3DC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Jan 2022 04:14:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B4C4C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Jan 2022 05:50:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229902AbiAMEOv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Jan 2022 23:14:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37534 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233102AbiAMENi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jan 2022 23:13:38 -0500
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3603AC06175B;
-        Wed, 12 Jan 2022 20:12:29 -0800 (PST)
-Received: by mail-qk1-x72e.google.com with SMTP id bl18so5882521qkb.5;
-        Wed, 12 Jan 2022 20:12:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jms.id.au; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pbtW5GNEznZHiafA75unnHcFZvdczANI1PgQ6YwC50I=;
-        b=ibjmvFEuzUnUj0P4/dhygtlpXkwqsmCbtqtSnsfMo8cpFNuhzqPWC58ZSdU3L1JTwt
-         0JbiyhvXcxCguvtxAY6qa9hCdayN57icMXEHv5DOV32DSMkflySg0TSy0Uod6ngnhHaT
-         A+M5uaveL8e8wlbe7AJqTbAjOrKQ1vG8fia6k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pbtW5GNEznZHiafA75unnHcFZvdczANI1PgQ6YwC50I=;
-        b=DCSq349x/8mLa4oBTbhmPe9amY8CCKiXSqQY2EkMvaLiFTOQE0/rYViIkX1Y652tl+
-         vH3UWVYsvRaDPFvzEIS1eTQ9QLY+mAfmUHx8y7za9oZschFQS1SALOqXBz9J3wIiCzX6
-         L+Wg1IW+iI4lvpS+XORYkK58G3LjNIQUD0RxAKGF0KtI71UjL8xgvTjaxyaRjYKuEYnG
-         WLauJ95mxDtL0VB7xKwA8LXYH3eO8vPeTb+PHLS3p0OoRvw8zMVc5e+4eLvdBw3+MzXl
-         +XoEUyMDkMr+KoywviXWaVJUP7HN6eTGvkaOh4ojGymnTynf4EcPSW9VJD2pY6Lvbaqw
-         KEtQ==
-X-Gm-Message-State: AOAM532ze74qwpbmEdKRkKuOS4rL1JIpPwTBz2H8Orr/gtXUImxuzPBB
-        czWX/QQH1g1OY/5T8a12PiQqldo5szdPS4pHibE=
-X-Google-Smtp-Source: ABdhPJwOVBaayKDH/i9TEqiJA4jUpG5Q9ZPM20KYYIs0XA0wcVXkAniMBmivwNgSlbtXPJKggVHdozQRsoV+5JJNw5E=
-X-Received: by 2002:a37:a342:: with SMTP id m63mr272966qke.347.1642047148268;
- Wed, 12 Jan 2022 20:12:28 -0800 (PST)
-MIME-Version: 1.0
-References: <20220112230247.982212-1-iwona.winiarska@intel.com> <20220112230247.982212-6-iwona.winiarska@intel.com>
-In-Reply-To: <20220112230247.982212-6-iwona.winiarska@intel.com>
-From:   Joel Stanley <joel@jms.id.au>
-Date:   Thu, 13 Jan 2022 04:12:16 +0000
-Message-ID: <CACPK8XewQJBvwssM6zQKQoxT=JLpk-qjGhsiTAa980OtbU7JBw@mail.gmail.com>
-Subject: Re: [PATCH v5 05/13] peci: Add peci-aspeed controller driver
-To:     Iwona Winiarska <iwona.winiarska@intel.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-aspeed <linux-aspeed@lists.ozlabs.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Borislav Petkov <bp@alien8.de>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Zev Weiss <zweiss@equinix.com>,
-        David Muller <d.mueller@elsoft.ch>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Billy Tsai <billy_tsai@aspeedtech.com>,
-        Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+        id S229923AbiAMFuY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Jan 2022 00:50:24 -0500
+Received: from mga01.intel.com ([192.55.52.88]:49980 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229764AbiAMFuX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 13 Jan 2022 00:50:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1642053023; x=1673589023;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=5GpldVg/pogJ3OD2r58bImlRjUuAeXS4vjw0Lmmtj90=;
+  b=DOo+lMVaqEOcCPyZzvHLMWYBjJJDx39UIGG2D0YzlCqxIgKacj6tbyo5
+   VGcbRLJghdyqhXBNK36yBgBk+WIRgi8iEZC8NIY4L4chXRAEZpChvUI2H
+   lbp4iKk3sb67bSh0Njozubd+OrLBWQMFJRTnUrMTegeRco7UHTPqnndGl
+   +SnxdosyTpBznQLItJlATocRQBiuXteUI9ow08uIaU/6uNW7llF+6giXM
+   97JOqD4GqKteKkTpXadZVtiBV0yPVLCF7fgaUYiCco1pP5cLwFM71jaZB
+   /dmRW2aK8UZhvRQr/0ec1b9s9HrlJ8RdNVbxE4ObfZvzBCIt5rZEMUSGI
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10225"; a="268288076"
+X-IronPort-AV: E=Sophos;i="5.88,284,1635231600"; 
+   d="scan'208";a="268288076"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2022 21:50:22 -0800
+X-IronPort-AV: E=Sophos;i="5.88,284,1635231600"; 
+   d="scan'208";a="623744601"
+Received: from mjjanin-mobl1.amr.corp.intel.com ([10.209.25.129])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2022 21:50:22 -0800
+Message-ID: <90262b7d330c48503c5b16d5e455eac91243ccf0.camel@linux.intel.com>
+Subject: Re: [PATCH v4 7/7] thermal: intel: hfi: Notify user space for HFI
+ events
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Len Brown <len.brown@intel.com>,
+        Aubrey Li <aubrey.li@linux.intel.com>,
+        Amit Kucheria <amitk@kernel.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Tim Chen <tim.c.chen@linux.intel.com>,
+        Lukasz Luba <lukasz.luba@arm.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Ricardo Neri <ricardo.neri@intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Wed, 12 Jan 2022 21:50:21 -0800
+In-Reply-To: <a41853fdaee888761ac2a34708118991b70cb904.camel@linux.intel.com>
+References: <20220108034743.31277-1-ricardo.neri-calderon@linux.intel.com>
+         <20220108034743.31277-8-ricardo.neri-calderon@linux.intel.com>
+         <CAJZ5v0h5-xsYCfs=c+wE4tWrcmvkdbgrc+fnwytSghwuAWnu0A@mail.gmail.com>
+         <a41853fdaee888761ac2a34708118991b70cb904.camel@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5-0ubuntu1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 12 Jan 2022 at 23:06, Iwona Winiarska <iwona.winiarska@intel.com> wrote:
->
-> From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
->
-> ASPEED AST24xx/AST25xx/AST26xx SoCs support the PECI electrical
-> interface (a.k.a PECI wire) that provides a communication channel with
-> Intel processors.
-> This driver allows BMC to discover devices connected to it and
-> communicate with them using PECI protocol.
->
-> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-> Co-developed-by: Iwona Winiarska <iwona.winiarska@intel.com>
-> Signed-off-by: Iwona Winiarska <iwona.winiarska@intel.com>
-> Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+On Wed, 2022-01-12 at 15:54 -0800, Srinivas Pandruvada wrote:
+> On Wed, 2022-01-12 at 20:53 +0100, Rafael J. Wysocki wrote:
+> > On Sat, Jan 8, 2022 at 4:46 AM Ricardo Neri
+> > <ricardo.neri-calderon@linux.intel.com> wrote:
+> > > From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> > > 
+> > > When the hardware issues an HFI event, relay a notification to
+> > > user
+> > > space.
+> > > This allows user space to respond by reading performance and
+> > > efficiency of
+> > > each CPU and take appropriate action.
+> > > 
+> > > For example, when performance and efficiency of a CPU is 0, user
+> > > space can
+> > > either offline the CPU or inject idle. Also, if user space
+> > > notices
+> > > a
+> > > downward trend in performance, it may proactively adjust power
+> > > limits to
+> > > avoid future situations in which performance drops to 0.
+> > > 
+> > > To avoid excessive notifications, the rate is limited by one HZ
+> > > per
+> > > event.
+> > > To limit the netlink message size, parameters for only 16 CPUs at
+> > > max are
+> > > sent in one message. If there are more than 16 CPUs, issue as
+> > > many
+> > > messages
+> > > as needed to notify the status of all CPUs.
+> > > 
+> > > In the HFI specification, both performance and efficiency
+> > > capabilities are
+> > > set in the [0, 255] range. The existing implementations of HFI
+> > > hardware
+> > > do not scale the maximum values to 255. Since userspace cares
+> > > about
+> > > capability values that are either 0 or show a downward/upward
+> > > trend, this
+> > > fact does not matter much. Relative changes in capabilities are
+> > > enough. To
+> > > comply with the thermal netlink ABI, scale both performance and
+> > > efficiency
+> > > capabilities to the [0, 1023] interval.
+> > > 
+> > > Cc: Andi Kleen <ak@linux.intel.com>
+> > > Cc: Aubrey Li <aubrey.li@linux.intel.com>
+> > > Cc: Lukasz Luba <lukasz.luba@arm.com>
+> > > Cc: Tim Chen <tim.c.chen@linux.intel.com>
+> > > Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>
+> > > Reviewed-by: Len Brown <len.brown@intel.com>
+> > > Signed-off-by: Srinivas Pandruvada <
+> > > srinivas.pandruvada@linux.intel.com>
+> > > ---
+> > > Changes since v3:
+> > >   * None
+> > > 
+> > > Changes since v2:
+> > >   * None
+> > > 
+> > > Changes since v1:
+> > >   * Made get_one_hfi_cap() return void. Removed unnecessary
+> > > checks.
+> > >     (Rafael)
+> > >   * Replaced raw_spin_[un]lock_irq[restore|save]() with raw_spin_
+> > >     [un]lock_irq() in get_one_hfi_cap(). This function is only
+> > > called from
+> > >     a workqueue and there is no need to save and restore irq
+> > > flags.
+> > >   * Scaled performance and energy efficiency values to a [0,
+> > > 1023]
+> > > interval
+> > >     when reporting values to user space via thermal netlink
+> > > notifications.
+> > >     (Lucasz).
+> > >   * Reworded commit message to comment on the scaling of HFI
+> > > capabilities
+> > >     to comply with the proposed thermal netlink ABI.
+> > > ---
+> > >  drivers/thermal/intel/Kconfig     |  1 +
+> > >  drivers/thermal/intel/intel_hfi.c | 57
+> > > ++++++++++++++++++++++++++++++-
+> > >  2 files changed, 57 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/thermal/intel/Kconfig
+> > > b/drivers/thermal/intel/Kconfig
+> > > index e9d2925227d4..6cf3fe36a4ae 100644
+> > > --- a/drivers/thermal/intel/Kconfig
+> > > +++ b/drivers/thermal/intel/Kconfig
+> > > @@ -104,6 +104,7 @@ config INTEL_HFI_THERMAL
+> > >         bool "Intel Hardware Feedback Interface"
+> > >         depends on CPU_SUP_INTEL
+> > >         depends on X86_THERMAL_VECTOR
+> > > +       select THERMAL_NETLINK
+> > >         help
+> > >           Select this option to enable the Hardware Feedback
+> > > Interface. If
+> > >           selected, hardware provides guidance to the operating
+> > > system on
+> > > diff --git a/drivers/thermal/intel/intel_hfi.c
+> > > b/drivers/thermal/intel/intel_hfi.c
+> > > index 1a08c58f26f6..9fd66f176948 100644
+> > > --- a/drivers/thermal/intel/intel_hfi.c
+> > > +++ b/drivers/thermal/intel/intel_hfi.c
+> > > @@ -40,6 +40,7 @@
+> > > 
+> > >  #include <asm/msr.h>
+> > > 
+> > > +#include "../thermal_core.h"
+> > >  #include "intel_hfi.h"
+> > > 
+> > >  #define THERM_STATUS_CLEAR_PKG_MASK (BIT(1) | BIT(3) | BIT(5) |
+> > > BIT(7) | \
+> > > @@ -162,6 +163,60 @@ static struct hfi_features hfi_features;
+> > >  static DEFINE_MUTEX(hfi_instance_lock);
+> > > 
+> > >  #define HFI_UPDATE_INTERVAL    HZ
+> > > +#define HFI_MAX_THERM_NOTIFY_COUNT     16
+> > > +
+> > > +static void get_one_hfi_cap(struct hfi_instance *hfi_instance,
+> > > s16
+> > > index,
+> > > +                           struct hfi_cpu_data *hfi_caps)
+> > > +{
+> > > +       struct hfi_cpu_data *caps;
+> > > +
+> > > +       /* Find the capabilities of @cpu */
+> > > +       raw_spin_lock_irq(&hfi_instance->table_lock);
+> > > +       caps = hfi_instance->data + index *
+> > > hfi_features.cpu_stride;
+> > > +       memcpy(hfi_caps, caps, sizeof(*hfi_caps));
+> > > +       raw_spin_unlock_irq(&hfi_instance->table_lock);
+> > > +}
+> > > +
+> > > +/*
+> > > + * Call update_capabilities() when there are changes in the HFI
+> > > table.
+> > > + */
+> > > +static void update_capabilities(struct hfi_instance
+> > > *hfi_instance)
+> > > +{
+> > > +       struct cpu_capability
+> > > cpu_caps[HFI_MAX_THERM_NOTIFY_COUNT];
+> > > +       int i = 0, cpu;
+> > > +
+> > 
+> > Wouldn't it be better to hold hfi_instance_lock for the duration of
+> > this loop?
 
-The driver looks good to me. I would be happy to see it merged in its
-current state.
+diff --git a/drivers/thermal/intel/intel_hfi.c
+b/drivers/thermal/intel/intel_hfi.c
+index 77e54f2b2455..a386a3462738 100644
+--- a/drivers/thermal/intel/intel_hfi.c
++++ b/drivers/thermal/intel/intel_hfi.c
+@@ -392,45 +392,74 @@ static void get_one_hfi_cap(struct hfi_instance
+*hfi_instance, s16 index,
+        raw_spin_unlock_irq(&hfi_instance->table_lock);
+ }
+ 
+-/*
+- * Call update_capabilities() when there are changes in the HFI table.
+- */
+-static void update_capabilities(struct hfi_instance *hfi_instance)
++static void get_hfi_caps(struct hfi_instance *hfi_instance, int
+*count, struct cpu_capability **cpu_caps)
+ {
+-       struct cpu_capability cpu_caps[HFI_MAX_THERM_NOTIFY_COUNT];
+-       int i = 0, cpu;
++       struct cpu_capability *_cpu_caps;
++       int _count, cpu, i = 0;
++
++       *count = 0;
++
++       raw_spin_lock_irq(&hfi_instance->table_lock);
++       _count = cpumask_weight(hfi_instance->cpus);
++       if (!_count)
++               goto unlock;
++
++       _cpu_caps = kcalloc(_count, sizeof(*_cpu_caps), GFP_ATOMIC);
++       if (!_cpu_caps)
++               goto unlock;
+ 
+        for_each_cpu(cpu, hfi_instance->cpus) {
+-               struct hfi_cpu_data caps;
++               struct hfi_cpu_data *caps;
+                s16 index;
+ 
+-               /*
+-                * We know index is valid because this CPU is present
+-                * in this instance.
+-                */
+                index = per_cpu(hfi_cpu_info, cpu).index;
+-
+-               get_one_hfi_cap(hfi_instance, index, &caps, 0);
+-
+-               cpu_caps[i].cpu = cpu;
++               caps = hfi_instance->data + index *
+hfi_features.cpu_stride;
++               _cpu_caps[i].cpu = cpu;
+ 
+                /*
+                 * Scale performance and energy efficiency to
+                 * the [0, 1023] interval that thermal netlink uses.
+                 */
+-               cpu_caps[i].performance = caps.perf_cap << 2;
+-               cpu_caps[i].efficiency = caps.ee_cap << 2;
++               _cpu_caps[i].performance = caps->perf_cap << 2;
++               _cpu_caps[i].efficiency = caps->ee_cap << 2;
++
+                ++i;
++               if (i >= _count)
++                       break;
++       }
++       *count = i;
++       *cpu_caps = _cpu_caps;
+ 
+-               if (i >= HFI_MAX_THERM_NOTIFY_COUNT) {
+-                       thermal_genl_cpu_capability_event(HFI_MAX_THERM
+_NOTIFY_COUNT,
+-                                                         cpu_caps);
+-                       i = 0;
+-               }
++unlock:
++       raw_spin_unlock_irq(&hfi_instance->table_lock);
++}
++
++/*
++ * Call update_capabilities() when there are changes in the HFI table.
++ */
++static void update_capabilities(struct hfi_instance *hfi_instance)
++{
++       struct cpu_capability *cpu_caps;
++       int i, j = 0, count;
++
++       get_hfi_caps(hfi_instance, &count, &cpu_caps);
++       if (!count)
++               return;
++
++       if (count < HFI_MAX_THERM_NOTIFY_COUNT)
++               goto last_cmd;
++
++       for (i = 0; i < count; i += HFI_MAX_THERM_NOTIFY_COUNT) {
++               thermal_genl_cpu_capability_event(HFI_MAX_THERM_NOTIFY_
+COUNT, &cpu_caps[i]);
++               j = i;
+        }
+ 
+-       if (i)
+-               thermal_genl_cpu_capability_event(i, cpu_caps);
++       count = i - count;
++last_cmd:
++       if (count)
++               thermal_genl_cpu_capability_event(count, &cpu_caps[j]);
++
++       kfree(cpu_caps);
+ }
 
-Reviewed-by: Joel Stanley <joel@jms.id.au>
+> As you expressed concern with more CPUs per package in future +
+> netlink
+> processing the interrupts will be disabled for longer time.
+> 
+> But this can be optimized to have
+> void get_one_hfi_cap(struct hfi_instance *hfi_instance, s16 index,
+> struct hfi_cpu_data *hfi_caps)
+> with something like
+> void get_hfi_caps(struct hfi_instance *hfi_instance, s16 *cpu_count,
+> struct hfi_cpu_data **hfi_caps)
 
-I've a few questions below that can be followed up later if need be.
+something like this:
 
-> +
-> +static void aspeed_peci_init_regs(struct aspeed_peci *priv)
-> +{
-> +       u32 val;
-> +
-> +       /* Clear interrupts */
-> +       val = readl(priv->base + ASPEED_PECI_INT_STS) | ASPEED_PECI_INT_MASK;
+diff --git a/drivers/thermal/intel/intel_hfi.c
+b/drivers/thermal/intel/intel_hfi.c
+index 77e54f2b2455..a386a3462738 100644
+--- a/drivers/thermal/intel/intel_hfi.c
++++ b/drivers/thermal/intel/intel_hfi.c
+@@ -392,45 +392,74 @@ static void get_one_hfi_cap(struct hfi_instance
+*hfi_instance, s16 index,
+        raw_spin_unlock_irq(&hfi_instance->table_lock);
+ }
+ 
+-/*
+- * Call update_capabilities() when there are changes in the HFI table.
+- */
+-static void update_capabilities(struct hfi_instance *hfi_instance)
++static void get_hfi_caps(struct hfi_instance *hfi_instance, int
+*count, struct cpu_capability **cpu_caps)
+ {
+-       struct cpu_capability cpu_caps[HFI_MAX_THERM_NOTIFY_COUNT];
+-       int i = 0, cpu;
++       struct cpu_capability *_cpu_caps;
++       int _count, cpu, i = 0;
++
++       *count = 0;
++
++       raw_spin_lock_irq(&hfi_instance->table_lock);
++       _count = cpumask_weight(hfi_instance->cpus);
++       if (!_count)
++               goto unlock;
++
++       _cpu_caps = kcalloc(_count, sizeof(*_cpu_caps), GFP_ATOMIC);
++       if (!_cpu_caps)
++               goto unlock;
+ 
+        for_each_cpu(cpu, hfi_instance->cpus) {
+-               struct hfi_cpu_data caps;
++               struct hfi_cpu_data *caps;
+                s16 index;
+ 
+-               /*
+-                * We know index is valid because this CPU is present
+-                * in this instance.
+-                */
+                index = per_cpu(hfi_cpu_info, cpu).index;
+-
+-               get_one_hfi_cap(hfi_instance, index, &caps, 0);
+-
+-               cpu_caps[i].cpu = cpu;
++               caps = hfi_instance->data + index *
+hfi_features.cpu_stride;
++               _cpu_caps[i].cpu = cpu;
+ 
+                /*
+                 * Scale performance and energy efficiency to
+                 * the [0, 1023] interval that thermal netlink uses.
+                 */
+-               cpu_caps[i].performance = caps.perf_cap << 2;
+-               cpu_caps[i].efficiency = caps.ee_cap << 2;
++               _cpu_caps[i].performance = caps->perf_cap << 2;
++               _cpu_caps[i].efficiency = caps->ee_cap << 2;
++
+                ++i;
++               if (i >= _count)
++                       break;
++       }
++       *count = i;
++       *cpu_caps = _cpu_caps;
+ 
+-               if (i >= HFI_MAX_THERM_NOTIFY_COUNT) {
+-                       thermal_genl_cpu_capability_event(HFI_MAX_THERM
+_NOTIFY_COUNT,
+-                                                         cpu_caps);
+-                       i = 0;
+-               }
++unlock:
++       raw_spin_unlock_irq(&hfi_instance->table_lock);
++}
++
++/*
++ * Call update_capabilities() when there are changes in the HFI table.
++ */
++static void update_capabilities(struct hfi_instance *hfi_instance)
++{
++       struct cpu_capability *cpu_caps;
++       int i, j = 0, count;
++
++       get_hfi_caps(hfi_instance, &count, &cpu_caps);
++       if (!count)
++               return;
++
++       if (count < HFI_MAX_THERM_NOTIFY_COUNT)
++               goto last_cmd;
++
++       for (i = 0; i < count; i += HFI_MAX_THERM_NOTIFY_COUNT) {
++               thermal_genl_cpu_capability_event(HFI_MAX_THERM_NOTIFY_
+COUNT, &cpu_caps[i]);
++               j = i;
+        }
+ 
+-       if (i)
+-               thermal_genl_cpu_capability_event(i, cpu_caps);
++       count = i - count;
++last_cmd:
++       if (count)
++               thermal_genl_cpu_capability_event(count, &cpu_caps[j]);
++
++       kfree(cpu_caps);
+ }
 
-Should that be & MASK?
+> and take one lock for all
+> HFI_MAX_THERM_NOTIFY_COUNT CPUs.
+> 
+> Then keep thermal_genl_cpu_capability_event outside.
+> This ends up in calling thermal_genl_send_event() which has a long
+> call
+> chain to netlink_broadcast() to format and broadcast message.
+> 
+> Thanks,
+> Srinivas
+> 
+> > Surely, CPU offline or online during it can be confusing.
+> > 
+> > > +       for_each_cpu(cpu, hfi_instance->cpus) {
+> > > +               struct hfi_cpu_data caps;
+> > > +               s16 index;
+> > > +
+> > > +               /*
+> > > +                * We know index is valid because this CPU is
+> > > present
+> > > +                * in this instance.
+> > > +                */
+> > > +               index = per_cpu(hfi_cpu_info, cpu).index;
+> > > +
+> > > +               get_one_hfi_cap(hfi_instance, index, &caps);
+> > > +
+> > > +               cpu_caps[i].cpu = cpu;
+> > > +
+> > > +               /*
+> > > +                * Scale performance and energy efficiency to
+> > > +                * the [0, 1023] interval that thermal netlink
+> > > uses.
+> > > +                */
+> > > +               cpu_caps[i].performance = caps.perf_cap << 2;
+> > > +               cpu_caps[i].efficiency = caps.ee_cap << 2;
+> > > +               ++i;
+> > > +
+> > > +               if (i >= HFI_MAX_THERM_NOTIFY_COUNT) {
+> > > +                       thermal_genl_cpu_capability_event(HFI_MAX
+> > > _T
+> > > HERM_NOTIFY_COUNT,
+> > > +                                                         cpu_cap
+> > > s)
+> > > ;
+> > > +                       i = 0;
+> > > +               }
+> > > +       }
+> > > +
+> > > +       if (i)
+> > > +               thermal_genl_cpu_capability_event(i, cpu_caps);
+> > > +}
+> > > 
+> > >  static void hfi_update_work_fn(struct work_struct *work)
+> > >  {
+> > > @@ -172,7 +227,7 @@ static void hfi_update_work_fn(struct
+> > > work_struct *work)
+> > >         if (!hfi_instance)
+> > >                 return;
+> > > 
+> > > -       /* TODO: Consume update here. */
+> > > +       update_capabilities(hfi_instance);
+> > >  }
+> > > 
+> > >  void intel_hfi_process_event(__u64 pkg_therm_status_msr_val)
+> > > --
+> > > 2.17.1
+> > > 
 
-As you're just sanitising the registers, you could clear the status
-unconditionally:
-
- writel(ASPEED_PECI_INT_MASK, priv->base + ASPEED_PECI_INT_STS);
-
-> +       writel(val, priv->base + ASPEED_PECI_INT_STS);
-> +
-> +       /* Set timing negotiation mode and enable interrupts */
-> +       val = FIELD_PREP(ASPEED_PECI_TIMING_NEGO_SEL_MASK, ASPEED_PECI_1ST_BIT_OF_ADDR_NEGO);
-
-That's a complicated way to set val to zero :)
-
-> +       val |= ASPEED_PECI_INT_MASK;
-> +       writel(val, priv->base + ASPEED_PECI_INT_CTRL);
-> +
-> +       val = FIELD_PREP(ASPEED_PECI_CTRL_SAMPLING_MASK, ASPEED_PECI_RD_SAMPLING_POINT_DEFAULT);
-> +       writel(val, priv->base + ASPEED_PECI_CTRL);
-
-This will clear the rest of the ctrl register, including the divisor
-settings. Was that your intention?
-
-Reading the rest of your driver you only call _init_regs after
-_controller_enable, so I guess you're fine.
-
-> +}
-> +
-> +static int aspeed_peci_check_idle(struct aspeed_peci *priv)
-> +{
-> +       u32 cmd_sts = readl(priv->base + ASPEED_PECI_CMD);
-> +       int ret;
-> +
-> +       /*
-> +        * Under normal circumstances, we expect to be idle here.
-> +        * In case there were any errors/timeouts that led to the situation
-> +        * where the hardware is not in idle state - we need to reset and
-> +        * reinitialize it to avoid potential controller hang.
-> +        */
-> +       if (FIELD_GET(ASPEED_PECI_CMD_STS_MASK, cmd_sts)) {
-> +               reset_control_assert(priv->rst);
-> +
-> +               ret = reset_control_deassert(priv->rst);
-> +               if (ret) {
-> +                       dev_err(priv->dev, "cannot deassert reset control\n");
-> +                       return ret;
-> +               }
-> +
-> +               aspeed_peci_init_regs(priv);
-> +
-> +               ret = clk_set_rate(priv->clk, priv->clk_frequency);
-> +               if (ret < 0) {
-> +                       dev_err(priv->dev, "cannot set clock frequency\n");
-> +                       return ret;
-> +               }
-> +
-> +               aspeed_peci_controller_enable(priv);
-> +       }
-> +
-> +       return readl_poll_timeout(priv->base + ASPEED_PECI_CMD,
-> +                                 cmd_sts,
-> +                                 !(cmd_sts & ASPEED_PECI_CMD_IDLE_MASK),
-> +                                 ASPEED_PECI_IDLE_CHECK_INTERVAL_US,
-> +                                 ASPEED_PECI_IDLE_CHECK_TIMEOUT_US);
-> +}
-> +
-> +static int aspeed_peci_xfer(struct peci_controller *controller,
-> +                           u8 addr, struct peci_request *req)
-> +{
-> +       struct aspeed_peci *priv = dev_get_drvdata(controller->dev.parent);
-> +       unsigned long timeout = msecs_to_jiffies(priv->cmd_timeout_ms);
-> +       u32 peci_head;
-> +       int ret;
-> +
-> +       if (req->tx.len > ASPEED_PECI_DATA_BUF_SIZE_MAX ||
-> +           req->rx.len > ASPEED_PECI_DATA_BUF_SIZE_MAX)
-> +               return -EINVAL;
-> +
-> +       /* Check command sts and bus idle state */
-> +       ret = aspeed_peci_check_idle(priv);
-> +       if (ret)
-> +               return ret; /* -ETIMEDOUT */
-> +
-> +       spin_lock_irq(&priv->lock);
-> +       reinit_completion(&priv->xfer_complete);
-> +
-> +       peci_head = FIELD_PREP(ASPEED_PECI_TARGET_ADDR_MASK, addr) |
-> +                   FIELD_PREP(ASPEED_PECI_WR_LEN_MASK, req->tx.len) |
-> +                   FIELD_PREP(ASPEED_PECI_RD_LEN_MASK, req->rx.len);
-> +
-> +       writel(peci_head, priv->base + ASPEED_PECI_RW_LENGTH);
-> +
-> +       memcpy_toio(priv->base + ASPEED_PECI_WR_DATA0, req->tx.buf, min_t(u8, req->tx.len, 16));
-> +       if (req->tx.len > 16)
-> +               memcpy_toio(priv->base + ASPEED_PECI_WR_DATA4, req->tx.buf + 16,
-> +                           req->tx.len - 16);
-> +
-> +#if IS_ENABLED(CONFIG_DYNAMIC_DEBUG)
-> +       dev_dbg(priv->dev, "HEAD : %#08x\n", peci_head);
-> +       print_hex_dump_bytes("TX : ", DUMP_PREFIX_NONE, req->tx.buf, req->tx.len);
-> +#endif
-
-The ifdef is unfortunate. Could you do this?
-
-dev_dbg(priv->dev, "HEAD : %#08x\n", peci_head);
-if (IS_ENABLED(CONFIG_DYNAMIC_DEBUG))
-       print_hex_dump_bytes("TX : ", DUMP_PREFIX_NONE, req->tx.buf,
-req->tx.len);
-
-Not a biggie though, don't let this hold up merging.
-
-> +       priv->status = 0;
-> +       writel(ASPEED_PECI_CMD_FIRE, priv->base + ASPEED_PECI_CMD);
-> +       spin_unlock_irq(&priv->lock);
-> +
