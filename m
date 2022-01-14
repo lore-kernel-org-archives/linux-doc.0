@@ -2,142 +2,150 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95EC4C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jan 2022 02:53:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C0AFC433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jan 2022 05:22:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238917AbiANCxw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Jan 2022 21:53:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34396 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238923AbiANCxw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jan 2022 21:53:52 -0500
-Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com [IPv6:2607:f8b0:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3631C061574
-        for <linux-doc@vger.kernel.org>; Thu, 13 Jan 2022 18:53:51 -0800 (PST)
-Received: by mail-il1-x12f.google.com with SMTP id u5so3050217ilq.9
-        for <linux-doc@vger.kernel.org>; Thu, 13 Jan 2022 18:53:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=mrULFvql7urnTeBnFSKO1DSH1yv2NTJRlMHKMvjwREY=;
-        b=UFRELbdI4DGDvq+O36G6mfNdwWBtHgToikzb+665vNn8x7PKoMJf2C3dGl0RADHScp
-         8DZozrFy0LBSo8r+Ry6/jqf2ObRnpI3eR2jrgl8pT12cMtR6qbBgOu8TyYhZNS5Il6Od
-         ZsjSNmxMjfRLZrKWTSOs4w7KOxIyyeoYojUwjXW7HF54BDgV1IZL8uwNpi/P0x89CqTd
-         gYTyV8u1UB6HC182nNxl0I1wWDHFgAE7pbLaJes4ugonREymENfZInMwmT2u5vHHasoh
-         bxoLq2Z/wK6XC+JzPYy//CpHshauK+o4AAOIV3CBAfpIvz63/2vBgiFsFcio87vg5vq6
-         CtSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=mrULFvql7urnTeBnFSKO1DSH1yv2NTJRlMHKMvjwREY=;
-        b=PfbmabS7xTIY2UhDL1FulBDAizpMkAjiyq53cbbxEDe/OnxN/tGBbhk1UCWVkww1nk
-         DvXaZtXszBAZsMOsBEnmBJH9hTSaAjqOafQGEFr48eSvWjZ3iB4g1ydva4qcbhszEKEc
-         6GKRFEgguWBGP36GK0MAxiIewcCjLJFMHV3EjPFguEm9O4Sk5IynKkX1uMTAiEpfhhtR
-         hnYQXCO5zRylDRUMElaWvc21AbBfjClol2QwRsZjKOxatImFnLXmMx7K7a6MO3t84LZg
-         5yFKjFCbu1jj9yiJ8jMSK2h1GnF7MZf3DFKAm0gUHgx3kK74kpBM5B99x0YRgcc+lks+
-         LWPQ==
-X-Gm-Message-State: AOAM5310bAkgM4a9EOj0Z5IoxDPlWF0+S3ZaWIJCATYu0Rpd248OpNUf
-        qic9MdR2eNphUw2OjSIHWgfhAi9pZMB45/OJ5Tlld4GGG/1jXgFI
-X-Google-Smtp-Source: ABdhPJzGG+gdIxAJSInd/WL3Q0pwt89hja2xAgTqCBuLyb1ZL57zz0tXBe0pCtWUBugOkZLiEI5tqNdBxb6Cvow5xy0=
-X-Received: by 2002:a92:8750:: with SMTP id d16mr3582444ilm.103.1642128831423;
- Thu, 13 Jan 2022 18:53:51 -0800 (PST)
+        id S233923AbiANFWZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jan 2022 00:22:25 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:31272 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229379AbiANFWZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jan 2022 00:22:25 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20E4fKP4011211;
+        Fri, 14 Jan 2022 05:21:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=GU/FKNbFwLs/b5lIMVaEWTo4/R6UQBdKJknPAPObmBU=;
+ b=sj3jYsZtvf3NqZPIstlapKRyNfNBOBaagJu2XZh40HsKTZCBs8JllFP6lZHZ1GdXKbpl
+ Og35YNNyPmAkGzZlsoiUsuAAbzruIpKqcoGDnafnaJ99pZmiuhpyfYSVsLi5H+zvNnbb
+ 2Yw360g5kuxE42s4WXRfF17wGACwYvUiTEEHpnL6rZUfmD+tlxFLcqmqxkGsr/cOE4Kh
+ GEEPkpH6EV/YccpudT1YXLxq4cr3Vu75ufXgIaakvLe9/wzHnL8O/FRaSnSGbWtr91+S
+ GhLnmDDlM+IvLKmpr220xpRTv2pGSgtz6+u2UseJlvTLuh9QNU8pnBPk5TwWtPVfJim1 bw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3dk1ncs7qt-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 14 Jan 2022 05:21:20 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 20E552nV008520;
+        Fri, 14 Jan 2022 05:21:20 GMT
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com [169.47.144.26])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3dk1ncs7q5-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 14 Jan 2022 05:21:20 +0000
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+        by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 20E5Jekp016537;
+        Fri, 14 Jan 2022 05:20:18 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com [9.57.198.26])
+        by ppma04wdc.us.ibm.com with ESMTP id 3df28caq0u-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 14 Jan 2022 05:20:17 +0000
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 20E5KG988979420
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 14 Jan 2022 05:20:16 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id A723DB2068;
+        Fri, 14 Jan 2022 05:20:16 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 208AFB2066;
+        Fri, 14 Jan 2022 05:20:08 +0000 (GMT)
+Received: from skywalker.linux.ibm.com (unknown [9.43.70.147])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Fri, 14 Jan 2022 05:20:07 +0000 (GMT)
+X-Mailer: emacs 28.0.91 (via feedmail 11-beta-1 I)
+From:   "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
+To:     Yu Zhao <yuzhao@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Rik van Riel <riel@surriel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Ying Huang <ying.huang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, x86@kernel.org,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>
+Subject: Re: [PATCH v6 8/9] mm: multigenerational lru: user interface
+In-Reply-To: <YeCvd4UBPy27SYGZ@google.com>
+References: <20220104202227.2903605-1-yuzhao@google.com>
+ <20220104202227.2903605-9-yuzhao@google.com>
+ <87a6g0nczg.fsf@linux.ibm.com> <YeCvd4UBPy27SYGZ@google.com>
+Date:   Fri, 14 Jan 2022 10:50:05 +0530
+Message-ID: <877db2opve.fsf@linux.ibm.com>
 MIME-Version: 1.0
-References: <cover.1642043630.git.siyanteng@loongson.cn> <b30a06d42ed8f528f77be343d300c472f49536d1.1642043630.git.siyanteng@loongson.cn>
-In-Reply-To: <b30a06d42ed8f528f77be343d300c472f49536d1.1642043630.git.siyanteng@loongson.cn>
-From:   Alex Shi <seakeel@gmail.com>
-Date:   Fri, 14 Jan 2022 10:53:15 +0800
-Message-ID: <CAJy-AmmSbze+iVZAaLb4Zjz=sSC1z2iNJ=LT4wyYZLa1EctuZg@mail.gmail.com>
-Subject: Re: [PATCH 4/4] docs/zh_CN: add damon api translation
-To:     Yanteng Si <siyanteng01@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Tang Yizhou <tangyizhou@huawei.com>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: w0zLCMx7I8ACP2bcHnPMWQfTMXA4eiBN
+X-Proofpoint-GUID: diAQzLOWBg25n-lH32_6yQSkFrBmtws_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-14_01,2022-01-13_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ impostorscore=0 bulkscore=0 mlxlogscore=986 priorityscore=1501 spamscore=0
+ suspectscore=0 lowpriorityscore=0 clxscore=1015 mlxscore=0 adultscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2201140034
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 13, 2022 at 11:21 AM Yanteng Si <siyanteng01@gmail.com> wrote:
->
-> Translate .../vm/damon/api.rst into Chinese.
->
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+Yu Zhao <yuzhao@google.com> writes:
 
-Reviewed-by: Alex Shi <alexs@kernel.org>
-> ---
->  .../translations/zh_CN/vm/damon/api.rst       | 32 +++++++++++++++++++
->  .../translations/zh_CN/vm/damon/index.rst     |  4 +--
->  2 files changed, 33 insertions(+), 3 deletions(-)
->  create mode 100644 Documentation/translations/zh_CN/vm/damon/api.rst
+> On Thu, Jan 13, 2022 at 04:01:31PM +0530, Aneesh Kumar K.V wrote:
+>> Yu Zhao <yuzhao@google.com> writes:
+>> 
+>> > Add /sys/kernel/mm/lru_gen/enabled as a runtime kill switch.
+>> 
+>> 
+>> Got the below lockdep warning while using the above kill/enable switch
+>> 
+>> 
+>> [   84.252952] ======================================================
+>> [   84.253012] WARNING: possible circular locking dependency detected
+>> [   84.253074] 5.16.0-rc8-16204-g1cdcf1120b31 #511 Not tainted
+>> [   84.253135] ------------------------------------------------------
+>> [   84.253194] bash/2862 is trying to acquire lock:
+>> [   84.253243] c0000000021ff740 (cgroup_mutex){+.+.}-{3:3}, at: store_enable+0x80/0x1510
+>> [   84.253340]
+>>                but task is already holding lock:
+>> [   84.253410] c000000002221348 (mem_hotplug_lock){++++}-{0:0}, at: mem_hotplug_begin+0x30/0x50
+>> [   84.253503]
+>>                which lock already depends on the new lock.
+>> 
+>> [   84.255933] Chain exists of:
+>>                  cgroup_mutex --> cpu_hotplug_lock --> mem_hotplug_lock
 >
-> diff --git a/Documentation/translations/zh_CN/vm/damon/api.rst b/Document=
-ation/translations/zh_CN/vm/damon/api.rst
-> new file mode 100644
-> index 000000000000..21143eea4ebe
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/vm/damon/api.rst
-> @@ -0,0 +1,32 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +:Original: Documentation/vm/damon/api.rst
-> +
-> +:=E7=BF=BB=E8=AF=91:
-> +
-> + =E5=8F=B8=E5=BB=B6=E8=85=BE Yanteng Si <siyanteng@loongson.cn>
-> +
-> +:=E6=A0=A1=E8=AF=91:
-> +
-> +
-> +=3D=3D=3D=3D=3D=3D=3D
-> +API=E5=8F=82=E8=80=83
-> +=3D=3D=3D=3D=3D=3D=3D
-> +
-> +=E5=86=85=E6=A0=B8=E7=A9=BA=E9=97=B4=E7=9A=84=E7=A8=8B=E5=BA=8F=E5=8F=AF=
-=E4=BB=A5=E4=BD=BF=E7=94=A8=E4=B8=8B=E9=9D=A2=E7=9A=84API=E6=9D=A5=E4=BD=BF=
-=E7=94=A8DAMON=E7=9A=84=E6=AF=8F=E4=B8=AA=E5=8A=9F=E8=83=BD=E3=80=82=E4=BD=
-=A0=E6=89=80=E9=9C=80=E8=A6=81=E5=81=9A=E7=9A=84=E5=B0=B1=E6=98=AF=E5=BC=95=
-=E7=94=A8 ``damon.h`` =EF=BC=8C
-> +=E5=AE=83=E4=BD=8D=E4=BA=8E=E6=BA=90=E4=BB=A3=E7=A0=81=E6=A0=91=E7=9A=84=
-include/linux/=E3=80=82
-> +
-> +=E7=BB=93=E6=9E=84=E4=BD=93
-> +=3D=3D=3D=3D=3D=3D
-> +
-> +=E8=AF=A5API=E5=9C=A8=E4=BB=A5=E4=B8=8B=E5=86=85=E6=A0=B8=E4=BB=A3=E7=A0=
-=81=E4=B8=AD:
-> +
-> +include/linux/damon.h
-> +
-> +
-> +=E5=87=BD=E6=95=B0
-> +=3D=3D=3D=3D
-> +
-> +=E8=AF=A5API=E5=9C=A8=E4=BB=A5=E4=B8=8B=E5=86=85=E6=A0=B8=E4=BB=A3=E7=A0=
-=81=E4=B8=AD:
-> +
-> +mm/damon/core.c
-> diff --git a/Documentation/translations/zh_CN/vm/damon/index.rst b/Docume=
-ntation/translations/zh_CN/vm/damon/index.rst
-> index 077db7e4326f..84d36d90c9b0 100644
-> --- a/Documentation/translations/zh_CN/vm/damon/index.rst
-> +++ b/Documentation/translations/zh_CN/vm/damon/index.rst
-> @@ -29,7 +29,5 @@ DAMON=E6=98=AFLinux=E5=86=85=E6=A0=B8=E7=9A=84=E4=B8=80=
-=E4=B8=AA=E6=95=B0=E6=8D=AE=E8=AE=BF=E9=97=AE=E7=9B=91=E6=8E=A7=E6=A1=86=E6=
-=9E=B6=E5=AD=90=E7=B3=BB=E7=BB=9F=E3=80=82DAMON=E7=9A=84=E6=A0=B8=E5=BF=83
->
->     faq
->     design
-> +   api
->
-> -TODOLIST:
-> -
-> -*   api
-> --
-> 2.27.0
->
+> Thanks. Will reverse the order between mem_hotplug_lock and
+> cgroup_mutex in the next spin.
+
+It also needs the unlocked variant of static_key_enable/disable.
+
+[   71.204397][ T2819] bash/2819 is trying to acquire lock:                                       
+[   71.204446][ T2819] c0000000020e5cd0 (cpu_hotplug_lock){++++}-{0:0}, at: static_key_disable+0x24/0x50
+[   71.204542][ T2819]                                                                                                 
+[   71.204542][ T2819] but task is already holding lock:                                                               
+[   71.204613][ T2819] c0000000020e5cd0 (cpu_hotplug_lock){++++}-{0:0}, at: mem_hotplug_begin+0x20/0x50
+[   71.204710][ T2819]                                                                                                 
+[   71.204710][ T2819] other info that might help us debug this:
+[   71.204787][ T2819]  Possible unsafe locking scenario:
+[   71.204787][ T2819]                    
+[   71.204860][ T2819]        CPU0                                                                                                                                                                                                            
+[   71.204901][ T2819]        ----
+[   71.204941][ T2819]   lock(cpu_hotplug_lock);
+[   71.204998][ T2819]   lock(cpu_hotplug_lock);
+[   71.205053][ T2819] 
+[   71.205053][ T2819]  *** DEADLOCK ***
+
+-aneesh
