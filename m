@@ -2,184 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B455C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jan 2022 08:45:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F3D1C43219
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jan 2022 16:41:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234195AbiANIpm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jan 2022 03:45:42 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:43470 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231339AbiANIpl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jan 2022 03:45:41 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6157D61682;
-        Fri, 14 Jan 2022 08:45:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 789CEC36AEA;
-        Fri, 14 Jan 2022 08:45:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642149940;
-        bh=ALcCanfjAhMekqhMxi4ZwisyFo7m5c0BQYGrxo+oabQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=L3jf+9uMfQNFKk1ms8EH7R2MmwSlh8FGivmpE911Txmh2mhLDV5IOX/PkD4Z8ErtH
-         XTuN7lVPZpamqinI+NLVj4XygjWKBNbIbf4qZ06vHQsgiaaCdwlo1IGX/LhHkBrRJv
-         e5WC05bS4Mi5vTY0UzWM0695ssRGeXg8qQ/QCnzYMURky6tRNB+6Gvw7be0fq1sGBl
-         5wiG21hibt069DECb8lITTx39s4NwA4ZzY1969vJctwvXOByrHp1CPAr5KYbRdEDqj
-         IF76Bn7cuniTPihLuDaJ9toJEaik2p6s7PaPWxAlPFOjiPBMZl+9Fjk0xPsCR4axe3
-         74iODocYzk8LA==
-Date:   Fri, 14 Jan 2022 09:45:35 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/4] docs: sphinx/kfigure.py: Improve conversion to
- PDF
-Message-ID: <20220114094535.5bb9ba94@coco.lan>
-In-Reply-To: <e545803a-8f09-f0e7-4ca0-16b673ef1796@gmail.com>
-References: <e01fe9f9-f600-c2fc-c6b3-ef6395655ffe@gmail.com>
-        <e545803a-8f09-f0e7-4ca0-16b673ef1796@gmail.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+        id S236485AbiANQlK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jan 2022 11:41:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53814 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243535AbiANQlE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jan 2022 11:41:04 -0500
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5F14C06173F;
+        Fri, 14 Jan 2022 08:41:03 -0800 (PST)
+Received: by mail-ot1-x32d.google.com with SMTP id 60-20020a9d0142000000b0059103eb18d4so10655240otu.2;
+        Fri, 14 Jan 2022 08:41:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=J1UmNq+ppbWs7SoY4W/B9ZNYoHZxk1ZPFDGTpv499T0=;
+        b=ogX3bmAtSD1H1xotF/dhn4f+3dQPEp2ja1Z5/m6qJHIiVkk+Qiwur9EtL7ZUsAvWxy
+         0xFg0XWCMXa0YtzknYGzMlXzupTyZQJw4QmafQDkS0IZEdZuvIuTju/gISvtYWSqN3FN
+         Li/CNXjqiVbYhmb7lwQQUbVix9EEWP8XcAMa+OKco3s0yQv8gsnNufC3KuJQ1ulHhhoc
+         MVb3sFumTBKgvJlbm8sD7/9ofIu0EQXo1xQCptUSb40/f2pmcVcNRj2pcGuzUDXSR6k3
+         TT1jM/UWWLOyIhsyPKeKGkkBi3pOWm7HgMpe+gcAkNtrNUpW5V47OhxmQqIlrcEI4Uio
+         oSlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=J1UmNq+ppbWs7SoY4W/B9ZNYoHZxk1ZPFDGTpv499T0=;
+        b=Fm98bIYOofPjgFQX+cCtCo6hh4rlAAOa86FOiFINATByKpFKNvNmaZnfzjmDUE6TYp
+         wtMZw5fqxr2OYnKtDMPZnK1UM7YoOkPVIl4v1jeOjOOLNJuIlMqNUL4fOgB/VzYtK1wI
+         YtPfuTJuTuJp8/j1DXJ/15wHdfKL+UgqYKtpkmljOBrasTdakLho35GBo/pn6Yz+mJgU
+         cKN9Y3Sm3bhZwSLKbZXFtOVz8PjWhQSxeB/XLz0REHIf3TvK5jo38hoDL5UKUIZ0hrER
+         61kZMg4YLj+ieYmUNFFiOBJ+bDhimuLUEXXCjT4LJrpkZAoW2DxaHByoVbyXgLjI140/
+         /3DQ==
+X-Gm-Message-State: AOAM531kyX3ehuHjg8CBUlR+R05Lvi3jrftx2qEhNlBm1WB2GDEicFNN
+        8tF2hkPBngjd668dhnGe2SU=
+X-Google-Smtp-Source: ABdhPJw+1p+KEEbcR0VhkRosaEjIU/CCI42cmD1knhH+f0UgrwtNxXJwLEh8udS6IHQmAvts4tOdDw==
+X-Received: by 2002:a9d:7451:: with SMTP id p17mr7216739otk.159.1642178463336;
+        Fri, 14 Jan 2022 08:41:03 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id g7sm1493949otn.72.2022.01.14.08.41.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Jan 2022 08:41:02 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Fri, 14 Jan 2022 08:41:01 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Paul Cercueil <paul@crapouillou.net>
+Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, list@opendingux.net
+Subject: Re: [PATCH v3 1/2] ABI: hwmon: Document "label" sysfs attribute
+Message-ID: <20220114164101.GA1270407@roeck-us.net>
+References: <20220110182256.30763-1-paul@crapouillou.net>
+ <20220110182256.30763-2-paul@crapouillou.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220110182256.30763-2-paul@crapouillou.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Fri, 7 Jan 2022 22:45:47 +0900
-Akira Yokosawa <akiyks@gmail.com> escreveu:
+On Mon, Jan 10, 2022 at 06:22:55PM +0000, Paul Cercueil wrote:
+> Add the "label" sysfs attribute, which can contain a descriptive label
+> that allows to uniquely identify a device within the system.
+> 
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 
-> On Wed, 29 Dec 2021 20:42:00 +0900, Akira Yokosawa wrote:
-> > This patch set improves conversions of DOT -> PDF and SVG -> PDF
-> > for PDF docs.  
-> 
-> Gentle ping.
-> 
-> Mauro, any comments?
-
-Sorry, have been busy those days with not much time to test it,
-and I'm not expecting any time to test it on the next couple of
-weeks.
-
-The main concern from my last review is that inkscape is too noisy 
-(well, frankly, textlive is also too noisy). If this was solved
-on a nice way, and provided that the output files on both html and
-pdf are working fine with those conversions, I don't have any 
-objections to this series.
-
-Regards,
-Mauro
-
-> 
-> > 
-> > * DOT -> PDF conversion
-> > 
-> > Current scheme uses "dot -Tpdf" (of graphviz).
-> > 
-> > Cons:
-> >   - openSUSE's dot(1) does not support -Tpdf.
-> >   - Other distro's dot(1) generates PDFs with unnecessarily wide
-> >     margins for inclusion into LaTeX docs.
-> > 
-> > Patch 1/4 changes the route to the following two steps:
-> > 
-> >   1. DOT -> SVG by "dot -Tsvg"
-> >   2. SVG -> PDF by "rsvg-convert -f pdf" with fallback to convert(1)
-> > 
-> > Pros:
-> >   - Improved portability across distros
-> >   - Less space around graphs in final PDF documents
-> > 
-> > Con:
-> >   - On systems without rsvg-convert, generated PDF will be of raster
-> >     image.
-> > 
-> > Patch 2/4 avoids raster-image PDF by using "dot -Tpdf" on systems where
-> > the option is available.
-> > 
-> > * SVG -> PDF conversion
-> > 
-> > Current scheme uses convert(1) (of ImageMagick)  
-> 
-> I was not aware of security concerns regarding ImageMagick until
-> Christoph brought them up in another thread [1].
-> 
-> [1]: https://lore.kernel.org/linux-doc/20220104131952.GA21933@lst.de/
-> 
-> Now I can add another Con as bellow.
-> 
-> > 
-> > Cons:  
->     - ImageMagick is not allowed to read/write PDF by default under
->       Debian/Ubuntu and Gentoo systems.  The policy is a band-aide
->       fix to its security issues.
-> >   - Generated PDFs are of raster image.  Some of them look blurry.
-> >   - Raster images tend to be large in size.
-> >   - convert(1) delegates SVG decoding to rsvg-convert(1).
-> >     It doesn't cover full range of Inkscape-specific SVG features
-> >     and fails to convert some of SVG figures properly.  
-> 
->         Thanks, Akira
-> 
-> > 
-> > Improper conversions are observed with SVGs listed below (incomplete,
-> > conversion quality depends on the version of rsvg-convert):
-> >   - Documentation/userspace-api/media/v4l/selection.svg
-> >   - Documentation/userspace-api/media/v4l/vbi_525.svg
-> >   - Documentation/userspace-api/media/v4l/vbi_625.svg
-> >   - Documentation/userspace-api/media/v4l/vbi_hsync.svg
-> >   - Documentation/admin-guide/blockdev/drbd/DRBD-8.3-data-packets.svg
-> >   - Documentation/admin-guide/blockdev/drbd/DRBD-data-packages.svg
-> > 
-> > If you have Inkscape installed as well, convert(1) delegates SVG
-> > decoding to inkscape(1) rather than to rsvg-convert(1) and SVGs listed
-> > above can be rendered properly.
-> > 
-> > So if Inkscape is required for converting those SVGs properly, why not
-> > use it directly in the first place?
-> > 
-> > Patches 3/4 and 4/4 add code to utilize inkscape(1) for SVG -> PDF
-> > conversion when it is available.  They don't modify any existing
-> > requirements for kernel-doc.
-> > 
-> > Patch 3/4 adds the alternative route of SVG -> PDF conversion by
-> > inkscape(1).
-> > Patch 4/4 delegates warning messages from inkscape(1) to kernellog.verbose
-> > as they are likely harmless in command-line uses.
-> > 
-> > Pros:
-> >   - Generated PDFs are of vector graphics.
-> >   - Vector graphics tends to be smaller in size and looks nicer when
-> >     zoomed in.
-> >   - SVGs drawn by Inkscape are fully supported.
-> > 
-> > On systems without Inkscape, no regression is expected by these two
-> > patches.
-> > 
-> > Changes since v1 (as of Patch 5/3) [1]:
-> > 
-> > - Reorder and merge patches to reduce/eliminate regression windows of
-> >   raster-image PDF and stderr redirection.
-> >     v1        v2
-> >     1/3       1/4
-> >     4/3       2/4
-> >     2/3       3/4
-> >     3/3+5/3   4/4
-> > 
-> > - Massage kernellog.verbose/warn messages. They now show command(s)
-> >   used in DOT -> PDF conversion.
-> > 
-> > - Pass actual exit code of inkscape(1) to kernellog.warn.
-> > 
-> > FWIW, diff of v1 vs. v2 follows:
-> > 
-> > --------------------------------------------------------------  
-> [...]
-> 
-
-
+Applied to hwmon-next.
 
 Thanks,
-Mauro
+Guenter
+
+> ---
+> 
+> Notes:
+>     v2: New patch
+>     v3: No change
+> 
+>  Documentation/ABI/testing/sysfs-class-hwmon | 8 ++++++++
+>  Documentation/hwmon/sysfs-interface.rst     | 4 ++++
+>  2 files changed, 12 insertions(+)
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-class-hwmon b/Documentation/ABI/testing/sysfs-class-hwmon
+> index 1f20687def44..653d4c75eddb 100644
+> --- a/Documentation/ABI/testing/sysfs-class-hwmon
+> +++ b/Documentation/ABI/testing/sysfs-class-hwmon
+> @@ -9,6 +9,14 @@ Description:
+>  
+>  		RO
+>  
+> +What:		/sys/class/hwmon/hwmonX/label
+> +Description:
+> +		A descriptive label that allows to uniquely identify a
+> +		device within the system.
+> +		The contents of the label are free-form.
+> +
+> +		RO
+> +
+>  What:		/sys/class/hwmon/hwmonX/update_interval
+>  Description:
+>  		The interval at which the chip will update readings.
+> diff --git a/Documentation/hwmon/sysfs-interface.rst b/Documentation/hwmon/sysfs-interface.rst
+> index 85652a6aaa3e..209626fb2405 100644
+> --- a/Documentation/hwmon/sysfs-interface.rst
+> +++ b/Documentation/hwmon/sysfs-interface.rst
+> @@ -99,6 +99,10 @@ Global attributes
+>  `name`
+>  		The chip name.
+>  
+> +`label`
+> +		A descriptive label that allows to uniquely identify a device
+> +		within the system.
+> +
+>  `update_interval`
+>  		The interval at which the chip will update readings.
+>  
