@@ -2,133 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8979FC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jan 2022 16:52:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35F01C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jan 2022 17:05:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239356AbiANQwY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jan 2022 11:52:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56468 "EHLO
+        id S243718AbiANRFq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jan 2022 12:05:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234458AbiANQwX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jan 2022 11:52:23 -0500
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43D54C061574;
-        Fri, 14 Jan 2022 08:52:23 -0800 (PST)
-Received: by mail-ot1-x32e.google.com with SMTP id a12-20020a0568301dcc00b005919e149b4cso10700824otj.8;
-        Fri, 14 Jan 2022 08:52:23 -0800 (PST)
+        with ESMTP id S243708AbiANRFq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jan 2022 12:05:46 -0500
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFA42C061574
+        for <linux-doc@vger.kernel.org>; Fri, 14 Jan 2022 09:05:45 -0800 (PST)
+Received: by mail-wm1-x329.google.com with SMTP id ay4-20020a05600c1e0400b0034a81a94607so5874454wmb.1
+        for <linux-doc@vger.kernel.org>; Fri, 14 Jan 2022 09:05:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=s3wh3cC6yyoQMZRxCMqS3JvTbsWp7oWzeYAy/77DLWA=;
-        b=fy61NF0QGqGVf782Gq5KAJHCOmTpFoek9VOckXt7zUVnDbJItl+LtzZ3b7JS4UmUc0
-         /FF2rrLc00+CKlqvDzAsKVK9PkUt7gPKuU55/5ejk8M0SrejS37BbP9VK+5Dz+IxM3VF
-         irgyLUlNNoMOWKammNT0yag1kPIJLjmmFX9WuDkakvK44XoM3uzWQQ+Q1M3pTGuKav5i
-         iyDPSDUBQHrfUQLrHNgiQXKi/97H3OzqLgdX9vNW8D9713GYMN/a1tvAEh/BsGCvzzV+
-         AxGtOxB4/bWRzyQSSSgKqt8N54jf48vCE+SuVPJoudEb8Xz+EQ7mHz2zgVAP1aVE/Uyl
-         Z0NA==
+        d=colorfullife-com.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:content-language:to:from
+         :subject:content-transfer-encoding;
+        bh=Oi/sccizMMux3skA0N3TzagjaFYSgV4TjzVapq+TuHI=;
+        b=0hZkBfS+GfTMpJJEUrBkQ7FBLCNDmbgCa9mPkhSPYmQIqtCCfuVS5l585y54mybF9t
+         zy3rYFG2r9MQKvMd6uqEWdvPgAiaOaEhW7DTxkTz3hGqQqL/SrMsbHWhPGE6C6ePF5Fc
+         ZkspvZxlrZc+7KQ/+GjJ0ym1/XhcA8dAKVtMtiqdw5Wutidi7wok9CfU5J2TskNOIl+Z
+         O9D+ysthMr0IQq2q7F1D4h1T1L34W9e7S1KpnNZu2eTQLCpAEQH0x9c/5uEAO46d9bDl
+         HUzmhs0cPJE8SoyWDpMxYAzk3RnSMQMhevdDdQCqn8bCvZlB9q2FLbwZ4sFPXOPkghZO
+         BtvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=s3wh3cC6yyoQMZRxCMqS3JvTbsWp7oWzeYAy/77DLWA=;
-        b=5au/Yiep8U264tS//TKRO/LPTeLtZzuLxzBw550sQNjG6Z0WhZCvnkTPdVn9iVQfaF
-         peX/JvUVmUu/gHg2X8BtptvDUS02oTK9XBHtrdlprAiE1Eyj+9KHlXC6SemUzDS77dkw
-         ZnMYF6+mN5yGnINx+AImYHas2PtfWFLsQnMoVPrNMZbm/+lC5b2SzfUhSfP5bflbKQde
-         7qlCsUPdf8LSV9G4/04pinFWxFvK9QlKA16vZOPBTs9bMGNZ4JLLUrgwxDHlBCAXKrpw
-         PKD7UIK5qVz4Lsk6nkyfQPPkPU+0CKXK3Uw+7D4Z0dfKI9OCQuxMOXf40P/PI7IOpHGH
-         dtFA==
-X-Gm-Message-State: AOAM530MGiepO4SOPbECUXkMtBKDIwiZLbS7f16eZtqu6Vvim77HSXCc
-        dsh1+KbWxNA6rFGulT89Wtk=
-X-Google-Smtp-Source: ABdhPJwgk/8tfnaow1CaDn/VYB4ACfm0iTYufaTIJT7XNgK3j6QmmfUoGbwRuqPb0dUQFzL3f/hm+Q==
-X-Received: by 2002:a9d:60f:: with SMTP id 15mr7014877otn.266.1642179142681;
-        Fri, 14 Jan 2022 08:52:22 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id j15sm1892691otp.57.2022.01.14.08.52.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jan 2022 08:52:22 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Fri, 14 Jan 2022 08:52:20 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Armin Wolf <W_Armin@gmx.de>
-Cc:     pali@kernel.org, jdelvare@suse.com, corbet@lwn.net,
-        rdunlap@infradead.org, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/3] Documentation: admin-guide: Update i8k driver name
-Message-ID: <20220114165220.GA1602432@roeck-us.net>
-References: <20220109214248.61759-1-W_Armin@gmx.de>
- <20220109214248.61759-2-W_Armin@gmx.de>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:to:from:subject:content-transfer-encoding;
+        bh=Oi/sccizMMux3skA0N3TzagjaFYSgV4TjzVapq+TuHI=;
+        b=BTKvFF5Gzt2M/Ns0uCqCZKFopaI91UrIVqTJ8Jx0HSoBvNND3YII4vfLeCEL2Ac1cW
+         tKrAGFC9OjOn+8X7xJl7FyIuxhTEwdfuwTpKTyRRCzSw+S176ssxpcH4mn6d1veCwXyK
+         wCMQe921QZzWqGYa3lG9zVh/ABt916I1HyhFuNJg/Ubv1VGFuIYGn57p9y/AEgLAI7/t
+         pZDNw7/bqTIQ0eiXxywaH1VHYEMT1V8tvC+hb0V33ow4cpwLQQcqIo6T71xxEbymwK6/
+         cdrF3T8kIsp1zVeSJx5roENqMvPZv3oj/CQq6GD7C7L04AFDUB58Ye2LanCc1knA39w1
+         lL0w==
+X-Gm-Message-State: AOAM5321c2COXOiIxS+ZEJwVR0adtgZix0UwlKUCB1HUr3htCy6OuaKm
+        aEu7jd14iIILg+OkWEp7m3/MEg==
+X-Google-Smtp-Source: ABdhPJx67yWEqB8JIrHCGYE1hLnj8O9Irzy563iOk6CpBiG2dZZ87WJBIMw98vyoV1+9D8EbM5/jUA==
+X-Received: by 2002:adf:f791:: with SMTP id q17mr9318595wrp.311.1642179944551;
+        Fri, 14 Jan 2022 09:05:44 -0800 (PST)
+Received: from ?IPV6:2003:d9:9709:5700:d6b9:b73a:e78d:7d87? (p200300d997095700d6b9b73ae78d7d87.dip0.t-ipconnect.de. [2003:d9:9709:5700:d6b9:b73a:e78d:7d87])
+        by smtp.googlemail.com with ESMTPSA id a3sm7344011wri.89.2022.01.14.09.05.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Jan 2022 09:05:44 -0800 (PST)
+Message-ID: <4327e77e-4f65-0b2d-f1d4-039a728a3958@colorfullife.com>
+Date:   Fri, 14 Jan 2022 18:05:43 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220109214248.61759-2-W_Armin@gmx.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Content-Language: en-US
+To:     nbd@other.debian.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+From:   Manfred Spraul <manfred@colorfullife.com>
+Subject: Magics 0x12560953 and 0x96744668 for nbd.h
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jan 09, 2022 at 10:42:46PM +0100, Armin Wolf wrote:
-> The driver should be called dell_smm_hwmon, i8k is only
-> an alias now.
-> 
-> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Hi,
 
-Series applied to hwmon-next.
+I've tried to figure out details about the "do *not* use" magic values 
+for nbd.
 
-Thanks,
-Guenter
+They are referenced from the documentation in the current linux kernel!
 
-> ---
->  .../admin-guide/kernel-parameters.txt         | 29 ++++++++++++-------
->  1 file changed, 18 insertions(+), 11 deletions(-)
-> 
-> --
-> 2.30.2
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 2fba82431efb..52de7cd06858 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -935,6 +935,24 @@
->  			dump out devices still on the deferred probe list after
->  			retrying.
-> 
-> +	dell_smm_hwmon.ignore_dmi=
-> +			[HW] Continue probing hardware even if DMI data
-> +			indicates that the driver is running on unsupported
-> +			hardware.
-> +
-> +	dell_smm_hwmon.force=
-> +			[HW] Activate driver even if SMM BIOS signature does
-> +			not match list of supported models and enable otherwise
-> +			blacklisted features.
-> +
-> +	dell_smm_hwmon.power_status=
-> +			[HW] Report power status in /proc/i8k
-> +			(disabled by default).
-> +
-> +	dell_smm_hwmon.restricted=
-> +			[HW] Allow controlling fans only if SYS_ADMIN
-> +			capability is set.
-> +
->  	dfltcc=		[HW,S390]
->  			Format: { on | off | def_only | inf_only | always }
->  			on:       s390 zlib hardware support for compression on
-> @@ -1694,17 +1712,6 @@
-> 
->  	i810=		[HW,DRM]
-> 
-> -	i8k.ignore_dmi	[HW] Continue probing hardware even if DMI data
-> -			indicates that the driver is running on unsupported
-> -			hardware.
-> -	i8k.force	[HW] Activate i8k driver even if SMM BIOS signature
-> -			does not match list of supported models.
-> -	i8k.power_status
-> -			[HW] Report power status in /proc/i8k
-> -			(disabled by default)
-> -	i8k.restricted	[HW] Allow controlling fans only if SYS_ADMIN
-> -			capability is set.
-> -
->  	i915.invert_brightness=
->  			[DRM] Invert the sense of the variable that is used to
->  			set the brightness of the panel backlight. Normally a
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/magic-number.rst?h=v5.16#n99
+
+ > NBD_REQUEST_MAGIC 0x12560953 nbd_request ``include/linux/nbd.h``
+
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/magic-number.rst?h=v5.16#n137
+
+> NBD_REPLY_MAGIC       0x96744668       nbd_reply                ``include/linux/nbd.h``
+
+
+That is stale, correct?
+
+Still in use:
+https://elixir.bootlin.com/linux/2.1.116pre2/source/include/linux/nbd.h
+
+Not used anymore, replaced with new values
+https://elixir.bootlin.com/linux/2.1.116/source/include/linux/nbd.h
+
+Thus a bit outdated.
+Should I send a patch to update it?
+And: The translations are manually maintained, correct? Thus all files need to be updated.
+
+--
+	Manfred
+
