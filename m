@@ -2,132 +2,184 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A551CC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jan 2022 06:50:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B455C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Jan 2022 08:45:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232800AbiANGuW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jan 2022 01:50:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57988 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232616AbiANGuV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jan 2022 01:50:21 -0500
-Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 664FAC061574
-        for <linux-doc@vger.kernel.org>; Thu, 13 Jan 2022 22:50:21 -0800 (PST)
-Received: by mail-io1-xd33.google.com with SMTP id v1so11248126ioj.10
-        for <linux-doc@vger.kernel.org>; Thu, 13 Jan 2022 22:50:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=/uAIslgp7ONq6Ddd5/X8dnsCVfeQok8EwfpuDdopIBA=;
-        b=aelyoHTVyggA4VE8b2pomJTP4FTQJnMiNt3Yk6nHA5ZrfLep8xNJhn8NA4XTaiKpcd
-         wjp1S1gFpg6TbmlWxDYoZV6LJ1KosYKL0I+yt2KHduWnx+2H/nOy6iQT6vYv3K6XEb9e
-         +xPSOQE1hXMkQ0IV2yWwo1ebyvo2dS0Rik6/W++J4z9Q9pLS7i2vn6jXXy6YFDuc9D3E
-         UOPZ6SySmvkuI3NeAjFS3vJ6jecQZMuaRCRL+EGWla/bQDyEDaXPeHS5R2Ba4MYT5QBy
-         oJYMSj4gGV/3QWO9gZZYJKEVIXBeuC9GR+ardniSfG5ehuAMGPhNlaSU5RrZxgIWKlAA
-         c9FA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=/uAIslgp7ONq6Ddd5/X8dnsCVfeQok8EwfpuDdopIBA=;
-        b=oy3kOk3GmxrG/C0AhzRNfaEUAgZa+IK6jxBAktOxMBoN+1hSuQG3omQldNb/R+hpRH
-         vl69GopHIo4klloMM+lFiT6RNh2u2+uqLEGe/GA3hNvkYtaG1ZcYZSKdv75vyZNaNIdm
-         3W9UBB8dCRBwm1t63atCdxg6MGqkVjU+z8e4bmXcPw/xWF6JVBYK0euRXj0HBqvROblo
-         sAgFc0FiKBGR3eorGhjLnD9CPN8P9t2KOuJ8oEhLF1MhwSmQRPILpgf4cHS1bc0ftdT1
-         Lw8g3Ww1oBhQcxEkdpGvJOLHaycmHI+xEV5bY9xTc1l3Ut6ErkxAmDhk+XS2sp+Xzg3P
-         lVTQ==
-X-Gm-Message-State: AOAM531FZoV2dX7Gvjnaf5DM1/6hrMzVMTfPJy7YF+Z/iv4Rp9SOR/BX
-        nLyxDrF+YlCAtu2lwTyr5KohPA==
-X-Google-Smtp-Source: ABdhPJyOWiBBNEtN/fpYQONgoCQeeIW6abrdFufzxfrdvPmlu6061PGP7cx2UON7MtXNbTIgq9KkJg==
-X-Received: by 2002:a05:6602:2b0b:: with SMTP id p11mr3595653iov.116.1642143020636;
-        Thu, 13 Jan 2022 22:50:20 -0800 (PST)
-Received: from google.com ([2620:15c:183:200:2ee3:2c3c:a8c8:b1bf])
-        by smtp.gmail.com with ESMTPSA id o5sm4261525iow.8.2022.01.13.22.50.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jan 2022 22:50:20 -0800 (PST)
-Date:   Thu, 13 Jan 2022 23:50:15 -0700
-From:   Yu Zhao <yuzhao@google.com>
-To:     "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Rik van Riel <riel@surriel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Ying Huang <ying.huang@intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        page-reclaim@google.com, x86@kernel.org,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>
-Subject: Re: [PATCH v6 8/9] mm: multigenerational lru: user interface
-Message-ID: <YeEdJxLdUaxEGBBP@google.com>
-References: <20220104202227.2903605-1-yuzhao@google.com>
- <20220104202227.2903605-9-yuzhao@google.com>
- <87a6g0nczg.fsf@linux.ibm.com>
- <YeCvd4UBPy27SYGZ@google.com>
- <877db2opve.fsf@linux.ibm.com>
+        id S234195AbiANIpm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jan 2022 03:45:42 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:43470 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231339AbiANIpl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jan 2022 03:45:41 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6157D61682;
+        Fri, 14 Jan 2022 08:45:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 789CEC36AEA;
+        Fri, 14 Jan 2022 08:45:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1642149940;
+        bh=ALcCanfjAhMekqhMxi4ZwisyFo7m5c0BQYGrxo+oabQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=L3jf+9uMfQNFKk1ms8EH7R2MmwSlh8FGivmpE911Txmh2mhLDV5IOX/PkD4Z8ErtH
+         XTuN7lVPZpamqinI+NLVj4XygjWKBNbIbf4qZ06vHQsgiaaCdwlo1IGX/LhHkBrRJv
+         e5WC05bS4Mi5vTY0UzWM0695ssRGeXg8qQ/QCnzYMURky6tRNB+6Gvw7be0fq1sGBl
+         5wiG21hibt069DECb8lITTx39s4NwA4ZzY1969vJctwvXOByrHp1CPAr5KYbRdEDqj
+         IF76Bn7cuniTPihLuDaJ9toJEaik2p6s7PaPWxAlPFOjiPBMZl+9Fjk0xPsCR4axe3
+         74iODocYzk8LA==
+Date:   Fri, 14 Jan 2022 09:45:35 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/4] docs: sphinx/kfigure.py: Improve conversion to
+ PDF
+Message-ID: <20220114094535.5bb9ba94@coco.lan>
+In-Reply-To: <e545803a-8f09-f0e7-4ca0-16b673ef1796@gmail.com>
+References: <e01fe9f9-f600-c2fc-c6b3-ef6395655ffe@gmail.com>
+        <e545803a-8f09-f0e7-4ca0-16b673ef1796@gmail.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <877db2opve.fsf@linux.ibm.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jan 14, 2022 at 10:50:05AM +0530, Aneesh Kumar K.V wrote:
-> Yu Zhao <yuzhao@google.com> writes:
-> > On Thu, Jan 13, 2022 at 04:01:31PM +0530, Aneesh Kumar K.V wrote:
-> >> Yu Zhao <yuzhao@google.com> writes:
-> >> 
-> >> > Add /sys/kernel/mm/lru_gen/enabled as a runtime kill switch.
-> >> 
-> >> Got the below lockdep warning while using the above kill/enable switch
-> >> 
-> >> 
-> >> [   84.252952] ======================================================
-> >> [   84.253012] WARNING: possible circular locking dependency detected
-> >> [   84.253074] 5.16.0-rc8-16204-g1cdcf1120b31 #511 Not tainted
-> >> [   84.253135] ------------------------------------------------------
-> >> [   84.253194] bash/2862 is trying to acquire lock:
-> >> [   84.253243] c0000000021ff740 (cgroup_mutex){+.+.}-{3:3}, at: store_enable+0x80/0x1510
-> >> [   84.253340]
-> >>                but task is already holding lock:
-> >> [   84.253410] c000000002221348 (mem_hotplug_lock){++++}-{0:0}, at: mem_hotplug_begin+0x30/0x50
-> >> [   84.253503]
-> >>                which lock already depends on the new lock.
-> >> 
-> >> [   84.255933] Chain exists of:
-> >>                  cgroup_mutex --> cpu_hotplug_lock --> mem_hotplug_lock
-> >
-> > Thanks. Will reverse the order between mem_hotplug_lock and
-> > cgroup_mutex in the next spin.
+Em Fri, 7 Jan 2022 22:45:47 +0900
+Akira Yokosawa <akiyks@gmail.com> escreveu:
+
+> On Wed, 29 Dec 2021 20:42:00 +0900, Akira Yokosawa wrote:
+> > This patch set improves conversions of DOT -> PDF and SVG -> PDF
+> > for PDF docs.  
 > 
-> It also needs the unlocked variant of static_key_enable/disable.
+> Gentle ping.
+> 
+> Mauro, any comments?
 
-Right. This is what I have at the moment. Tested with QEMU memory
-hotplug. Can you please give it try too? Thanks.
+Sorry, have been busy those days with not much time to test it,
+and I'm not expecting any time to test it on the next couple of
+weeks.
 
-    cgroup_lock()
-    cpus_read_lock()
-    get_online_mems()
+The main concern from my last review is that inkscape is too noisy 
+(well, frankly, textlive is also too noisy). If this was solved
+on a nice way, and provided that the output files on both html and
+pdf are working fine with those conversions, I don't have any 
+objections to this series.
 
-        if (enable)
-            static_branch_enable_cpuslocked()
-        else
-            static_branch_disable_cpuslocked()
+Regards,
+Mauro
 
-    put_online_mems()
-    cpus_read_unlock()
-    cgroup_unlock()
+> 
+> > 
+> > * DOT -> PDF conversion
+> > 
+> > Current scheme uses "dot -Tpdf" (of graphviz).
+> > 
+> > Cons:
+> >   - openSUSE's dot(1) does not support -Tpdf.
+> >   - Other distro's dot(1) generates PDFs with unnecessarily wide
+> >     margins for inclusion into LaTeX docs.
+> > 
+> > Patch 1/4 changes the route to the following two steps:
+> > 
+> >   1. DOT -> SVG by "dot -Tsvg"
+> >   2. SVG -> PDF by "rsvg-convert -f pdf" with fallback to convert(1)
+> > 
+> > Pros:
+> >   - Improved portability across distros
+> >   - Less space around graphs in final PDF documents
+> > 
+> > Con:
+> >   - On systems without rsvg-convert, generated PDF will be of raster
+> >     image.
+> > 
+> > Patch 2/4 avoids raster-image PDF by using "dot -Tpdf" on systems where
+> > the option is available.
+> > 
+> > * SVG -> PDF conversion
+> > 
+> > Current scheme uses convert(1) (of ImageMagick)  
+> 
+> I was not aware of security concerns regarding ImageMagick until
+> Christoph brought them up in another thread [1].
+> 
+> [1]: https://lore.kernel.org/linux-doc/20220104131952.GA21933@lst.de/
+> 
+> Now I can add another Con as bellow.
+> 
+> > 
+> > Cons:  
+>     - ImageMagick is not allowed to read/write PDF by default under
+>       Debian/Ubuntu and Gentoo systems.  The policy is a band-aide
+>       fix to its security issues.
+> >   - Generated PDFs are of raster image.  Some of them look blurry.
+> >   - Raster images tend to be large in size.
+> >   - convert(1) delegates SVG decoding to rsvg-convert(1).
+> >     It doesn't cover full range of Inkscape-specific SVG features
+> >     and fails to convert some of SVG figures properly.  
+> 
+>         Thanks, Akira
+> 
+> > 
+> > Improper conversions are observed with SVGs listed below (incomplete,
+> > conversion quality depends on the version of rsvg-convert):
+> >   - Documentation/userspace-api/media/v4l/selection.svg
+> >   - Documentation/userspace-api/media/v4l/vbi_525.svg
+> >   - Documentation/userspace-api/media/v4l/vbi_625.svg
+> >   - Documentation/userspace-api/media/v4l/vbi_hsync.svg
+> >   - Documentation/admin-guide/blockdev/drbd/DRBD-8.3-data-packets.svg
+> >   - Documentation/admin-guide/blockdev/drbd/DRBD-data-packages.svg
+> > 
+> > If you have Inkscape installed as well, convert(1) delegates SVG
+> > decoding to inkscape(1) rather than to rsvg-convert(1) and SVGs listed
+> > above can be rendered properly.
+> > 
+> > So if Inkscape is required for converting those SVGs properly, why not
+> > use it directly in the first place?
+> > 
+> > Patches 3/4 and 4/4 add code to utilize inkscape(1) for SVG -> PDF
+> > conversion when it is available.  They don't modify any existing
+> > requirements for kernel-doc.
+> > 
+> > Patch 3/4 adds the alternative route of SVG -> PDF conversion by
+> > inkscape(1).
+> > Patch 4/4 delegates warning messages from inkscape(1) to kernellog.verbose
+> > as they are likely harmless in command-line uses.
+> > 
+> > Pros:
+> >   - Generated PDFs are of vector graphics.
+> >   - Vector graphics tends to be smaller in size and looks nicer when
+> >     zoomed in.
+> >   - SVGs drawn by Inkscape are fully supported.
+> > 
+> > On systems without Inkscape, no regression is expected by these two
+> > patches.
+> > 
+> > Changes since v1 (as of Patch 5/3) [1]:
+> > 
+> > - Reorder and merge patches to reduce/eliminate regression windows of
+> >   raster-image PDF and stderr redirection.
+> >     v1        v2
+> >     1/3       1/4
+> >     4/3       2/4
+> >     2/3       3/4
+> >     3/3+5/3   4/4
+> > 
+> > - Massage kernellog.verbose/warn messages. They now show command(s)
+> >   used in DOT -> PDF conversion.
+> > 
+> > - Pass actual exit code of inkscape(1) to kernellog.warn.
+> > 
+> > FWIW, diff of v1 vs. v2 follows:
+> > 
+> > --------------------------------------------------------------  
+> [...]
+> 
+
+
+
+Thanks,
+Mauro
