@@ -2,159 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EC22C433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Jan 2022 02:16:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72587C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Jan 2022 07:17:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230202AbiAOCQj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jan 2022 21:16:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42078 "EHLO
+        id S230032AbiAOHRX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 15 Jan 2022 02:17:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230195AbiAOCQi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jan 2022 21:16:38 -0500
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FEADC061574;
-        Fri, 14 Jan 2022 18:16:38 -0800 (PST)
-Received: by mail-pf1-x429.google.com with SMTP id a5so4351171pfo.5;
-        Fri, 14 Jan 2022 18:16:38 -0800 (PST)
+        with ESMTP id S229529AbiAOHRW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Jan 2022 02:17:22 -0500
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34879C061574
+        for <linux-doc@vger.kernel.org>; Fri, 14 Jan 2022 23:17:22 -0800 (PST)
+Received: by mail-pf1-x435.google.com with SMTP id 128so4810560pfe.12
+        for <linux-doc@vger.kernel.org>; Fri, 14 Jan 2022 23:17:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=GhtO3G0vvXRrIVaPWG9MifsIuKW68vqTseRFdmwK/VA=;
-        b=jRA3u11br7x72YzaahbRFWeZDSDFC8+gLKnrudbYwKnbLICQmCljXTelR/nCZMo1iP
-         PdYYtt58ABapVq6g9lRZkDPzAwquMi57j8T9mek26lIAHmvKkoedu316bWQroBGXuxnb
-         +auwxZ+69PB6GOOB5c6T4DaTBsZSRpUGiFsuDh4BfzKEF078RIbj36FZgLgQEHJNNT/f
-         KfzEQQfBjD0OxJwGOuFhgOCoTYfpPF/E8+YKEVuM0hS707LlfDVPVHCw93VpuTavrPa7
-         FPtTgnrEZ/01jEzJ5KHfJqRB5y68/NY40Es/+8PEMv/4gs8m9tDHLHCANl3yV5uwLLmt
-         KCvQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oFs7Sf3VyEc2Q2siyyQooXBX8bqlbXgps1Z8FYBk6Ko=;
+        b=PXIWOlLWwrikiDwOtgAo6Pm4RJWeiEtw1cgwtZGZyKZ8KDSGFZtVXXKW4ztcclop12
+         lWnSTZ3QHdDa0CeXX7BHZCTs5TefrF4YNkDUX1CVPy4SAYbCLVmPNCix++dsYfbJPEmS
+         c0IK+QmltgxOkFn8uhNaga3OjRI+jrkyajKKc55MI0U0MDTUiIn/TpmA2kgCVSvM+2A/
+         cyHaGGujzK7FPf6DHJo6PYWo2qDzXfEiXPsYEZ61roktq+KhKxf0g4yaqDgw348nrbuX
+         XtjfFJROAXHtf13CBFXQoXzv9soRQjnuycrrvM3zfR5Flp533fK+a9KswpNb4zBZrUcI
+         Nlxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=GhtO3G0vvXRrIVaPWG9MifsIuKW68vqTseRFdmwK/VA=;
-        b=EfF1X5SID2ypLv79JQx9itryBvT7aTaVl3PJh7i1kw7xjhWLcbvhxv+RM9JVth/YRv
-         wSyYki2oQm1MAKLUXO9FF+sHj7i0lr4SINo/KpgxbU6RfSbi7P9OHNLqLu2MCjzZvTIi
-         27DdKLeCDlb0cvEZbEKOBwnSyvDFsMRHLJuRdfQvG5qRtn06eMF49VqdERUSzLKdi8Gx
-         iA48oQmzj0kzqTWWKuNEzSX2sAe7vbVhBaLma+TwVVYn0rUYNwFTlDBmtdB4NVCF6zQ3
-         pscvHTtfjJEjrvoVHVe6OjLsrjPIAtikXig5QAxmi8Wmkbi2stzx0IealDieDMhjgFto
-         +qsQ==
-X-Gm-Message-State: AOAM530qoTHL+vH2VXsEMHgvq2Cz0WtgZR0BiO6oEEzb+O2Bel5R2PtO
-        /6dmnJJ6+/jV2YfSLc+N87U=
-X-Google-Smtp-Source: ABdhPJx828tltAw+f8FrEdwoh/U2ENETHc1ygIMUCwIE4h04CnFDvVxVf+auOSv+GKcwgKaaDEuP0A==
-X-Received: by 2002:a05:6a00:1c6c:b0:4be:ac47:c045 with SMTP id s44-20020a056a001c6c00b004beac47c045mr11405393pfw.57.1642212997791;
-        Fri, 14 Jan 2022 18:16:37 -0800 (PST)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id p10sm6885880pfw.87.2022.01.14.18.16.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Jan 2022 18:16:37 -0800 (PST)
-Subject: Re: [PATCH v2 0/4] docs: sphinx/kfigure.py: Improve conversion to PDF
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <e01fe9f9-f600-c2fc-c6b3-ef6395655ffe@gmail.com>
- <e545803a-8f09-f0e7-4ca0-16b673ef1796@gmail.com>
- <20220114094535.5bb9ba94@coco.lan>
-From:   Akira Yokosawa <akiyks@gmail.com>
-Message-ID: <e03de287-4eef-8a68-89f3-8614db66a74b@gmail.com>
-Date:   Sat, 15 Jan 2022 11:16:34 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        bh=oFs7Sf3VyEc2Q2siyyQooXBX8bqlbXgps1Z8FYBk6Ko=;
+        b=5EE+Jr6GMhK9BUNcjX2fQWUld2UVURWdXGpP5BhxTq33yF3GRNTA+X700vuMolPXjB
+         uZRNa4RFGKZmOHvlHY6ZK8P5MlYzNreek0PQJuUKzeM4NKx76F8dmAG+Wyv96UrxQPwu
+         KV6hee+UGmQ/f+5DIuIELckZQBU0MzgtPjN8Oc8epyes5KxvmipKG8hekICakp93EnDh
+         Zm691/KOyjl1RwJ7Lev1JDFDaNdfkqCzoDAS8H8xTDx7Z9Hljowmt6Fs62/9JH4gwTtP
+         knTEs/N7SbZVRKO8dLx61jHNAvgGJ3wl7dwrC+zhUP0CoUsDifYUFJeZhJa0RhcUsBlz
+         OgAA==
+X-Gm-Message-State: AOAM532F/OmYC31GdPE4+4FHX2q3dPI5WXhbyIGDxz7TBObcwNGVRuEe
+        TP+zwPfSE0JcjVtCayGQe6c=
+X-Google-Smtp-Source: ABdhPJxzj2Q/xEGUMz2DLLXcLJHp04dr1DWeIi3v16BeG1nJ1Q+R18Y7ljcQj97b3GGpiqx0onVFwg==
+X-Received: by 2002:a63:eb0f:: with SMTP id t15mr11032606pgh.145.1642231041465;
+        Fri, 14 Jan 2022 23:17:21 -0800 (PST)
+Received: from localhost.localdomain (cm218-252-25-221.hkcable.com.hk. [218.252.25.221])
+        by smtp.gmail.com with ESMTPSA id u8sm7888909pfi.147.2022.01.14.23.17.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Jan 2022 23:17:21 -0800 (PST)
+From:   Yanteng Si <siyanteng01@gmail.com>
+X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
+To:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com
+Cc:     Yanteng Si <siyanteng@loongson.cn>, tangyizhou@huawei.com,
+        chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
+        linux-doc@vger.kernel.org, siyanteng01@gmail.com
+Subject: [PATCH v2 0/4] docs/zh_CN: add vm damon translation
+Date:   Sat, 15 Jan 2022 15:14:59 +0800
+Message-Id: <cover.1642230669.git.siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20220114094535.5bb9ba94@coco.lan>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 14 Jan 2022 09:45:35 +0100,
-Mauro Carvalho Chehab wrote:
-> Em Fri, 7 Jan 2022 22:45:47 +0900
-> Akira Yokosawa <akiyks@gmail.com> escreveu:
-> 
->> On Wed, 29 Dec 2021 20:42:00 +0900, Akira Yokosawa wrote:
->>> This patch set improves conversions of DOT -> PDF and SVG -> PDF
->>> for PDF docs.  
->>
->> Gentle ping.
->>
->> Mauro, any comments?
-> 
-> Sorry, have been busy those days with not much time to test it,
-> and I'm not expecting any time to test it on the next couple of
-> weeks.
+v2：
+* Pick Alex's Reviewed-by tag.
 
-Mauro, no need of apologies.
+v1；
+* Translate .../vm/damon/* into Chinese.
 
-We are in the middle of the v5.17 merge window, and I think of this
-series as a v5.18 material.
-Which means it won't be merged into doc-next until v5.17-rc5 or -rc6
-(mid March or so), unless Jon thinks otherwise.
+Yanteng Si (4):
+  docs/zh_CN: add damon index tronslation
+  docs/zh_CN: add damon faq translation
+  docs/zh_CN: add damon design translation
+  docs/zh_CN: add damon api translation
 
-I'd like to have your Tested-by: and/or Reviewed-by: tags if you
-could manage to spare time for testing.
+ .../translations/zh_CN/vm/damon/api.rst       |  32 ++++
+ .../translations/zh_CN/vm/damon/design.rst    | 139 ++++++++++++++++++
+ .../translations/zh_CN/vm/damon/faq.rst       |  48 ++++++
+ .../translations/zh_CN/vm/damon/index.rst     |  33 +++++
+ Documentation/translations/zh_CN/vm/index.rst |   2 +-
+ 5 files changed, 253 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/vm/damon/api.rst
+ create mode 100644 Documentation/translations/zh_CN/vm/damon/design.rst
+ create mode 100644 Documentation/translations/zh_CN/vm/damon/faq.rst
+ create mode 100644 Documentation/translations/zh_CN/vm/damon/index.rst
 
-> 
-> The main concern from my last review is that inkscape is too noisy 
-> (well, frankly, textlive is also too noisy).
+-- 
+2.27.0
 
-You mean the harmless warning msgs delegated to kernellog.verbose()?
-Or the direct redirection to /dev/null as of v1's 3/3?
-
->                                               If this was solved
-> on a nice way,
-
-An excerpt of messages from Inkscape is as follows
-(on Debian bullseye, with "make SPHINXOPTS=-v SPHINXDIRS=doc-guide pdfdocs"):
-
-----------
-convert SVG to: {out}/svg_image.pdf
-Warning msg from inkscape(1) (likely harmless):
-Unable to init server: Could not connect: Connection refused
-Failed to get connection
-** (inkscape:119): CRITICAL **: 01:58:03.988: dbus_g_proxy_new_for_name: assertion 'connection != NULL' failed
-
-** (inkscape:119): CRITICAL **: 01:58:03.988: dbus_g_proxy_call: assertion 'DBUS_IS_G_PROXY (proxy)' failed
-
-** (inkscape:119): CRITICAL **: 01:58:03.988: dbus_g_connection_register_g_object: assertion 'connection != NULL' failed
-
-** (inkscape:119): WARNING **: 01:58:04.300: Fonts dir '/usr/share/inkscape/fonts' does not exist and will be ignored.
-
-assert best format for: hello.dot
-convert DOT to: {out}/hello.pdf
-Warning msg from inkscape(1) (likely harmless):
-Unable to init server: Could not connect: Connection refused
-Failed to get connection
-** (inkscape:129): CRITICAL **: 01:58:04.454: dbus_g_proxy_new_for_name: assertion 'connection != NULL' failed
-
-** (inkscape:129): CRITICAL **: 01:58:04.454: dbus_g_proxy_call: assertion 'DBUS_IS_G_PROXY (proxy)' failed
-
-** (inkscape:129): CRITICAL **: 01:58:04.454: dbus_g_connection_register_g_object: assertion 'connection != NULL' failed
-
-** (inkscape:129): WARNING **: 01:58:04.628: Fonts dir '/usr/share/inkscape/fonts' does not exist and will be ignored.
-[...]
-----------
-
-On Fedora 35, I don't see any message from Inkscape.
-
-Is this acceptable to you?
-
->                 and provided that the output files on both html and
-> pdf are working fine with those conversions, I don't have any 
-> objections to this series.
-
-This series affects only PDF.
-My test coverage is not perfect, but I don't expect any regression
-in "make pdfdocs" or "make htmldocs".
-
-        Thanks, Akira
-
-> 
-> Regards,
-> Mauro
-> 
-[...]
