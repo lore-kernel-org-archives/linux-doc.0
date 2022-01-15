@@ -2,182 +2,153 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58C89C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Jan 2022 19:35:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8D6BC433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Jan 2022 01:06:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237168AbiANTfw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jan 2022 14:35:52 -0500
-Received: from mail-qt1-f174.google.com ([209.85.160.174]:45979 "EHLO
-        mail-qt1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232351AbiANTfw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jan 2022 14:35:52 -0500
-Received: by mail-qt1-f174.google.com with SMTP id x8so5723892qta.12;
-        Fri, 14 Jan 2022 11:35:51 -0800 (PST)
+        id S231757AbiAOBG4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jan 2022 20:06:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54734 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231750AbiAOBGz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jan 2022 20:06:55 -0500
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76DC4C061574
+        for <linux-doc@vger.kernel.org>; Fri, 14 Jan 2022 17:06:55 -0800 (PST)
+Received: by mail-yb1-xb49.google.com with SMTP id s7-20020a5b0447000000b005fb83901511so21684011ybp.11
+        for <linux-doc@vger.kernel.org>; Fri, 14 Jan 2022 17:06:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=wG/PbGVmKjgf1eOd11ftVQTDqJEywAnSirRvk8YQoEA=;
+        b=ra40WJSnTd+Sg9D3TIvHREEZJO5QmFxwXzwakhy95Pj15AdCn96Rg7F+gGkzzdoPHL
+         /LCXltr47kWOGGC4J/j+jKdN7xu6RyW7gUeuH5vavWrndAu7BzKurEIyahiOS6sTnazd
+         kjhutzh5GjtqfNnBjsMi1N1OKm+eTNmejUCgViGcOUkB/EFui5twnu1ZKaXi21WPA1C7
+         hDv3dAKWpj1mixAwX1dUro0zgPo6Npzf7sXOSvaZIstusYMToZmeNzSzidVL3FAMroY6
+         HrShrnaUArO3g2alaInh2tQWQ8dpEbE6FBLnde1xIXMV4W2bjw4NgeUFBmdKReIihG44
+         DGmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Qdn/VSBgWsg66OG0unhwyC/L4RktepqcOC0tWwqS/+g=;
-        b=rTMIr/x019cswQjd01qjASHKx0vrs4bGIL342Qg3cZNMdd2mSGha50DlNMUjMDYpMt
-         RYXhmAu9hV3BR49affhGjgyPqwXH2OWF6MZU9DQW3CrBEXez189LnXQn9EdhKOhQCCKX
-         Iyx3G5yq8Ff8dlArlSMAUIextzmVqaIRwZ0eSC91v2tLF2wae6veuGgdcbbLyy43pVye
-         k6E6VqHbHDUvMySEnot+J+QyJg66H1SAchU5XDlaYGbpNxQ9FCM0CUUzVptIaSO69Xaf
-         rka0G4AImd1MT5Zx/5HM3mVOwoVQFrlm94YelPUKH6aP5GemK5dSujo2pn6ku72WCkKP
-         tCwQ==
-X-Gm-Message-State: AOAM533+43rQ4oT9HkWlGsjlLyHNXTib+Fo1EjBaShgMnlndB9l0QxZg
-        iyeuOQ61EIR8WlqQM7ooMDhUoUhtCCLvgssd4/A=
-X-Google-Smtp-Source: ABdhPJx4F3VCQjqRzVSs0ZBAYGlp5ZKEJ7hhcV6WHhmgeLLWntYC0ifmJr3Egfz3u9QElET9lX1gG0VmIZnc8yjN2EM=
-X-Received: by 2002:ac8:5991:: with SMTP id e17mr9096424qte.344.1642188951451;
- Fri, 14 Jan 2022 11:35:51 -0800 (PST)
-MIME-Version: 1.0
-References: <20220106025059.25847-1-ricardo.neri-calderon@linux.intel.com>
- <20220106025059.25847-7-ricardo.neri-calderon@linux.intel.com>
- <CAJZ5v0ioQ7UQt58NraPAG=M8k-joSy5pmszFjp=NcS6z==6RQg@mail.gmail.com> <7dde8e84961e09066c6bf02198e429d3a702a496.camel@linux.intel.com>
-In-Reply-To: <7dde8e84961e09066c6bf02198e429d3a702a496.camel@linux.intel.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Fri, 14 Jan 2022 20:35:40 +0100
-Message-ID: <CAJZ5v0iEkpGTCSho4vYUAzgo3tvGc0UArbpUebehNSt-39QgGw@mail.gmail.com>
-Subject: Re: [PATCH v3 6/7] thermal: netlink: Add a new event to notify CPU
- capabilities change
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Len Brown <len.brown@intel.com>,
-        Aubrey Li <aubrey.li@linux.intel.com>,
-        Amit Kucheria <amitk@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Tim Chen <tim.c.chen@linux.intel.com>,
-        Lukasz Luba <lukasz.luba@arm.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Ricardo Neri <ricardo.neri@intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=wG/PbGVmKjgf1eOd11ftVQTDqJEywAnSirRvk8YQoEA=;
+        b=O/mchiM8Gb1JN17uNQHjyhaEwT31nzis/NtIhpnPCwx/O8qe5NwixSppwayE2l44st
+         /vTwVbSIV1tk+1KqYvd54783n3DNQrACVT9zmg+urgDcfkuZWRU1wFXb0U9nQCwfUKvQ
+         kWSC15jXhcLKSyVBy/mnoMjxkMx1TciDXMofbNL+NvI1E4jTyvtDKCiE4N5+ZadUJ5yj
+         WtNHktbM0PRbFbMZP3Grsn07N19VYjxEzHdZRyxwyyqr6uo3RE8B6UoSJbjk1NFsBHHv
+         rCvVNv7vHIpn9xsBvwWOLS2h7uogybWR4xtylvoCrORZ65QiTXLkj/ujQBSnz4kgGq75
+         upww==
+X-Gm-Message-State: AOAM530FoLPCV7EQclgZVG9eBRfCyAkC39fJ/4a4IYnAkqljxRSWAszN
+        CXAnoIJRIWL/4vTvAGv26B8QEHZHlto=
+X-Google-Smtp-Source: ABdhPJxSKZys321+eazB1Vl7zKy4uxTVihorRmwSE2zTWXqOqP6AasI2307MgWBIYRtdeCJygiVD+3F2pr8=
+X-Received: from hridya.mtv.corp.google.com ([2620:15c:211:200:5860:362a:3112:9d85])
+ (user=hridya job=sendgmr) by 2002:a25:874a:: with SMTP id e10mr15875623ybn.422.1642208814583;
+ Fri, 14 Jan 2022 17:06:54 -0800 (PST)
+Date:   Fri, 14 Jan 2022 17:05:58 -0800
+Message-Id: <20220115010622.3185921-1-hridya@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.34.1.703.g22d0c6ccf7-goog
+Subject: [RFC 0/6] Proposal for a GPU cgroup controller
+From:   Hridya Valsaraju <hridya@google.com>
+To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "=?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?=" <arve@android.com>,
+        Todd Kjos <tkjos@android.com>,
+        Martijn Coenen <maco@android.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Christian Brauner <christian@brauner.io>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
+        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Dave Airlie <airlied@redhat.com>,
+        Matthew Brost <matthew.brost@intel.com>,
+        Kenneth Graunke <kenneth@whitecape.org>,
+        Matthew Auld <matthew.auld@intel.com>,
+        Li Li <dualli@google.com>, Marco Ballesio <balejs@google.com>,
+        Finn Behrens <me@kloenk.de>, Hang Lu <hangl@codeaurora.org>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Vipin Sharma <vipinsh@google.com>,
+        Chris Down <chris@chrisdown.name>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        cgroups@vger.kernel.org
+Cc:     Kenny.Ho@amd.com, daniels@collabora.com, kaleshsingh@google.com,
+        tjmercier@google.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jan 12, 2022 at 10:32 PM Srinivas Pandruvada
-<srinivas.pandruvada@linux.intel.com> wrote:
->
-> On Wed, 2022-01-12 at 20:25 +0100, Rafael J. Wysocki wrote:
-> > On Thu, Jan 6, 2022 at 3:49 AM Ricardo Neri
-> > <ricardo.neri-calderon@linux.intel.com> wrote:
-> > > From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> > >
-> > > Add a new netlink event to notify change in CPU capabilities in
-> > > terms of
-> > > performance and efficiency.
-> > >
-> > > Firmware may change CPU capabilities as a result of thermal events
-> > > in the
-> > > system or to account for changes in the TDP (thermal design power)
-> > > level.
-> > >
-> > > This notification type will allow user space to avoid running
-> > > workloads
-> > > on certain CPUs or proactively adjust power limits to avoid future
-> > > events.
-> > >
-> > > The netlink message consists of a nested attribute
-> > > (THERMAL_GENL_ATTR_CPU_CAPABILITY) with three attributes:
-> > >
-> > >  * THERMAL_GENL_ATTR_CPU_CAPABILITY_ID (type u32):
-> > >    -- logical CPU number
-> > >  * THERMAL_GENL_ATTR_CPU_CAPABILITY_PERFORMANCE (type u32):
-> > >    -- Scaled performance from 0-1023
-> > >  * THERMAL_GENL_ATTR_CPU_CAPABILITY_EFFICIENCY (type u32):
-> > >    -- Scaled efficiency from 0-1023
-> > >
-> > > Cc: Andi Kleen <ak@linux.intel.com>
-> > > Cc: Aubrey Li <aubrey.li@linux.intel.com>
-> > > Cc: Lukasz Luba <lukasz.luba@arm.com>
-> > > Cc: Tim Chen <tim.c.chen@linux.intel.com>
-> > > Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>
-> > > Reviewed-by: Len Brown <len.brown@intel.com>
-> > > Signed-off-by: Srinivas Pandruvada <
-> > > srinivas.pandruvada@linux.intel.com>
-> >
-> > Of course, I need to know if Daniel and Lukasz agree with this patch.
-> >
-> I pinged Daniel offline. I accommodated comments from Lukasz.
->
-> > > ---
-> > >
->
-> [...]
->
-> > > +static int thermal_genl_event_cpu_capability_change(struct param
-> > > *p)
-> > > +{
-> > > +       struct cpu_capability *cpu_cap = p->cpu_capabilities;
-> > > +       struct sk_buff *msg = p->msg;
-> > > +       struct nlattr *start_cap;
-> > > +       int i, ret;
-> > > +
-> > > +       start_cap = nla_nest_start(msg,
-> > > THERMAL_GENL_ATTR_CPU_CAPABILITY);
-> > > +       if (!start_cap)
-> > > +               return -EMSGSIZE;
-> > > +
-> > > +       for (i = 0; i < p->cpu_capabilities_count; ++i) {
-> > > +               if (nla_put_u32(msg,
-> > > THERMAL_GENL_ATTR_CPU_CAPABILITY_ID,
-> > > +                               cpu_cap->cpu)) {
-> > > +                       ret = -EMSGSIZE;
-> > > +                       goto out_cancel_nest;
-> > > +               }
-> > > +               if (nla_put_u32(msg,
-> > > THERMAL_GENL_ATTR_CPU_CAPABILITY_PERFORMANCE,
-> > > +                               cpu_cap->performance)) {
-> > > +                       ret = -EMSGSIZE;
-> > > +                       goto out_cancel_nest;
-> > > +               }
-> > > +               if (nla_put_u32(msg,
-> > > THERMAL_GENL_ATTR_CPU_CAPABILITY_EFFICIENCY,
-> > > +                               cpu_cap->efficiency)) {
-> > > +                       ret = -EMSGSIZE;
-> > > +                       goto out_cancel_nest;
-> > > +               }
-> > > +               ++cpu_cap;
-> > > +       }
-> > > +
-> > > +       nla_nest_end(msg, start_cap);
-> > > +
-> > > +       return 0;
-> > > +out_cancel_nest:
-> > > +       nla_nest_cancel(msg, start_cap);
-> > > +
-> > > +       return ret;
-> >
-> > It looks like ret is never different from -EMSGSIZE here, so I'd just
-> > return that error and drop the ret variable.
-> >
-> ret is initialized for every case when it will be returned.
+This patch series revisits the proposal for a GPU cgroup controller to
+track and limit memory allocations by various device/allocator
+subsystems. The patch series also contains a simple prototype to
+illustrate how Android intends to implement DMA-BUF allocator
+attribution using the GPU cgroup controller. The prototype does not
+include resource limit enforcements.
 
-Right, but it is redundant.
+History of the GPU cgroup controller
+====================================
+The GPU/DRM cgroup controller came into being when a consensus[1]
+was reached that the resources it tracked were unsuitable to be integrated
+into memcg. Originally, the proposed controller was specific to the DRM
+subsystem and was intended to track GEM buffers and GPU-specific resources[2].
+In order to help establish a unified memory accounting model for all GPU and
+all related subsystems, Daniel Vetter put forth a suggestion to move it out of
+the DRM subsystem so that it can be used by other DMA-BUF exporters as well[3].
+This RFC proposes an interface that does the same.
 
-> But agree
-> that we can just return -EMSGSIZE as there is no other return value
-> here.
->
-> > > +}
-> > > +
-> > >
->
-> [...]
->
-> > > +struct cpu_capability {
-> >
-> > I'm wondering if the struct name is not too generic as the purpose it
-> > is used for is rather narrow and specific.
-> >
-> This was named something else before. What about cpu_energy_perf_cap?
+[1]: https://patchwork.kernel.org/project/dri-devel/cover/20190501140438.9506-1-brian.welty@intel.com/#22624705
+[2]: https://lore.kernel.org/amd-gfx/20210126214626.16260-1-brian.welty@intel.com/
+[3]: https://lore.kernel.org/amd-gfx/YCVOl8%2F87bqRSQei@phenom.ffwll.local/
 
-Because it is only used in the thermal_genl_cpu_capability_event()
-interface, it would be good to make the name reflect that IMO.
-Something like thermal_genl_cpu_caps would work in this regard.
+Hridya Valsaraju (6):
+  gpu: rfc: Proposal for a GPU cgroup controller
+  cgroup: gpu: Add a cgroup controller for allocator attribution of GPU
+    memory
+  dmabuf: heaps: Use the GPU cgroup charge/uncharge APIs
+  dma-buf: Add DMA-BUF exporter op to charge a DMA-BUF to a cgroup.
+  dmabuf: system_heap: implement dma-buf op for GPU cgroup charge
+    transfer
+  android: binder: Add a buffer flag to relinquish ownership of fds
+
+ Documentation/gpu/rfc/gpu-cgroup.rst | 192 +++++++++++++++++
+ Documentation/gpu/rfc/index.rst      |   4 +
+ drivers/android/binder.c             |  32 +++
+ drivers/dma-buf/dma-heap.c           |  27 +++
+ drivers/dma-buf/heaps/system_heap.c  |  68 ++++++
+ include/linux/cgroup_gpu.h           | 120 +++++++++++
+ include/linux/cgroup_subsys.h        |   4 +
+ include/linux/dma-buf.h              |  18 ++
+ include/linux/dma-heap.h             |  11 +
+ include/uapi/linux/android/binder.h  |   1 +
+ init/Kconfig                         |   7 +
+ kernel/cgroup/Makefile               |   1 +
+ kernel/cgroup/gpu.c                  | 305 +++++++++++++++++++++++++++
+ 13 files changed, 790 insertions(+)
+ create mode 100644 Documentation/gpu/rfc/gpu-cgroup.rst
+ create mode 100644 include/linux/cgroup_gpu.h
+ create mode 100644 kernel/cgroup/gpu.c
+
+-- 
+2.34.1.703.g22d0c6ccf7-goog
+
