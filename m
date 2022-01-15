@@ -2,60 +2,60 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AF65C433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Jan 2022 07:17:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69613C433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Jan 2022 07:17:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230041AbiAOHR0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 15 Jan 2022 02:17:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50214 "EHLO
+        id S230047AbiAOHR2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 15 Jan 2022 02:17:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbiAOHRZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Jan 2022 02:17:25 -0500
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01EE2C061574
-        for <linux-doc@vger.kernel.org>; Fri, 14 Jan 2022 23:17:25 -0800 (PST)
-Received: by mail-pl1-x62e.google.com with SMTP id u11so9834585plh.13
-        for <linux-doc@vger.kernel.org>; Fri, 14 Jan 2022 23:17:24 -0800 (PST)
+        with ESMTP id S229529AbiAOHR2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Jan 2022 02:17:28 -0500
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3776C061574
+        for <linux-doc@vger.kernel.org>; Fri, 14 Jan 2022 23:17:27 -0800 (PST)
+Received: by mail-pf1-x436.google.com with SMTP id i17so4806950pfk.11
+        for <linux-doc@vger.kernel.org>; Fri, 14 Jan 2022 23:17:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=p+Q68LfMNDqM5IhTRepEPBAm+My8ZLk6EgzM6WkWFOw=;
-        b=mNcfyiGriMezlbJ7UDE/esNkttzoRBVJqU0DtkB4ym+SpUXOQXkHNHwLxqr3aMs1Nw
-         feala/YpuWvoFDN+3lVmXAX5a2w1lg5OnN8CfXOYLU7snb0b0t3EaiKOVz1ZevujL4Py
-         cKI1M3UKUUPCtFRn+9x5BxMLQsvfhpuR/WpwYRPOK3NBUSuiia3u45M/edYvA554hc4p
-         8KrVse9CIGnlYh/TeDQ+yBwzVclzPAoOjK0xbaa1R0q7NofAkqex3StQgmG/Fl3A+o2V
-         AjsVL4WhfulPqEHueqNzqTkSih1RPgFbPM8k7VVWCazxIIInlUVoQYSIb/ap6Mz1JP6+
-         lhBw==
+        bh=NCkwP2gRKfiSZucJFLWEEbIo6HMIT7s1clw7UsUNX+Y=;
+        b=M0cKkXyir4m2XR4BAzHXXIfk63qxZn9cptm04oUDrMs3fCDb3sVucSzbVXCS8QCbLn
+         vF++Igr3vtGTnxQ/va+VTJH5KphE++gCKhHB6eUKyQ5i8qnN0S6bomokObPijv5V0S9H
+         dr9xtLu84rYUA4z53OQFKRAlWWbWRa5SeLhPEONjKLrmHKmFfuZfQdOc3n4AMkBsKP7i
+         knsXQ5KiL4yqZw29eRqRIBzo99aznxeVMSeI87gKZ5mMLwwDGc3Sq6ylpiIykbGX34b7
+         8kOSmCeGzCgEadvVbED9cizHlvLtkRwP+9AkuDBIEm0FCrQcn/uKzoEhKVa2uboPe/zA
+         tqzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=p+Q68LfMNDqM5IhTRepEPBAm+My8ZLk6EgzM6WkWFOw=;
-        b=xnar5kXwr1LCFs/X7Z9TfSefrzJcV4jIVn4EkvPa1TBWCKBACVoMVJUixWvuZH+XT+
-         GQa1fxWpuNuDBEqEZpGG12eNv9ESb6nOSnsbkaWofjs+12UmGx6TfxdWX3Lp1ca2zhp/
-         CXIslIrvYYLv5uhipMO+djMV5OXOAvNxSgLHOwlo4ypmslVFxc8y91cYTlBTOHsLCsHz
-         qpngWW/v4SDBggTR3+NiBhOLfb7q9nGSlOTsgapVJPoJaICz9gYn4peXEiyy6DbWz8hm
-         4CTmwxzCerRc624assecV5vzt51d5DepzbkmWPBqKBb1hs13G/vGlgONBGrBiCQw3xeV
-         zUTw==
-X-Gm-Message-State: AOAM532Huf6FcQ5mw1Cvh+fxSDcsBsQRYYFL2U3HunbzpO/snYwsRJUS
-        EgQShSEqgoi5XB6eVDZ9Iq0=
-X-Google-Smtp-Source: ABdhPJxRy36FGdCUkN2FTwo9X2/WTConkzDJCropQWSq2VHkdTP3qf6sHnIm5eA5bcXdih6x+rrHjA==
-X-Received: by 2002:a17:903:228e:b0:14a:82b9:a967 with SMTP id b14-20020a170903228e00b0014a82b9a967mr9775047plh.141.1642231044497;
-        Fri, 14 Jan 2022 23:17:24 -0800 (PST)
+        bh=NCkwP2gRKfiSZucJFLWEEbIo6HMIT7s1clw7UsUNX+Y=;
+        b=APO3b0eboT4jfUOpUlQj/qqR2/xU3qS6XnbkdNCu2SRcWNwpBZab8sI/8QYymQBOs8
+         7gslGq1vWj4er6kdkzu41/VP9mqVID93NJmJug/iv4im/kq7MBai5BBV8xwSGbPOPh/Y
+         qrVVqDuadcuHcfIV2PFGbv7Wuy283vikXOgtWEXzOFxv6JR5yICjoH5F3AvJG8wujbaP
+         PlzShxARJIaEmFuVLzWjv/YDqF99hFwx9YAA/ag6zvH7gJxWKKYLW/+XlX4rB/G2tdJ3
+         5aSkrVH0IgxwN5opNmrD7OwLvnWT2kiwXH1FWXBJOXMfmcxO8e+8TD6MvMlAbMWakHb5
+         kaXQ==
+X-Gm-Message-State: AOAM5339a/P+tg+CU84g1fPs2mIqQX1Aerko66UCjIPFCRxX8xHktx7N
+        t2D7oZW6qLkPtE1XV1XrR6Y=
+X-Google-Smtp-Source: ABdhPJw6bOeJ4KTZ+rEzR4TtQgqvsITnRlkvs/DTCHHesoAD+D69DuVfjgT9akxx5C7yFZ8gG/wtKA==
+X-Received: by 2002:a63:fd53:: with SMTP id m19mr10663989pgj.563.1642231047510;
+        Fri, 14 Jan 2022 23:17:27 -0800 (PST)
 Received: from localhost.localdomain (cm218-252-25-221.hkcable.com.hk. [218.252.25.221])
-        by smtp.gmail.com with ESMTPSA id u8sm7888909pfi.147.2022.01.14.23.17.21
+        by smtp.gmail.com with ESMTPSA id u8sm7888909pfi.147.2022.01.14.23.17.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jan 2022 23:17:24 -0800 (PST)
+        Fri, 14 Jan 2022 23:17:27 -0800 (PST)
 From:   Yanteng Si <siyanteng01@gmail.com>
 X-Google-Original-From: Yanteng Si <siyanteng@loongson.cn>
 To:     corbet@lwn.net, alexs@kernel.org, seakeel@gmail.com
 Cc:     Yanteng Si <siyanteng01@gmail.com>, tangyizhou@huawei.com,
         chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
         linux-doc@vger.kernel.org, Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH v2 1/4] docs/zh_CN: add damon index tronslation
-Date:   Sat, 15 Jan 2022 15:15:00 +0800
-Message-Id: <8e8c7651785f1ce20766bc1b3a4fc44faedb84bb.1642230669.git.siyanteng@loongson.cn>
+Subject: [PATCH v2 2/4] docs/zh_CN: add damon faq translation
+Date:   Sat, 15 Jan 2022 15:15:01 +0800
+Message-Id: <30507f807a835360f57bb9498c37f4c3644b33b7.1642230669.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1642230669.git.siyanteng@loongson.cn>
 References: <cover.1642230669.git.siyanteng@loongson.cn>
@@ -68,26 +68,25 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Yanteng Si <siyanteng01@gmail.com>
 
-1) Translate .../vm/damon/index.rst into Chinese.
-2) add damon into .../zh_CN/vm/index.rst
+Translate .../vm/damon/faq.rst into Chinese.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 Reviewed-by: Alex Shi <alexs@kernel.org>
 ---
- .../translations/zh_CN/vm/damon/index.rst     | 33 +++++++++++++++++++
- Documentation/translations/zh_CN/vm/index.rst |  2 +-
- 2 files changed, 34 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/vm/damon/index.rst
+ .../translations/zh_CN/vm/damon/faq.rst       | 48 +++++++++++++++++++
+ .../translations/zh_CN/vm/damon/index.rst     |  4 +-
+ 2 files changed, 51 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/vm/damon/faq.rst
 
-diff --git a/Documentation/translations/zh_CN/vm/damon/index.rst b/Documentation/translations/zh_CN/vm/damon/index.rst
+diff --git a/Documentation/translations/zh_CN/vm/damon/faq.rst b/Documentation/translations/zh_CN/vm/damon/faq.rst
 new file mode 100644
-index 000000000000..9a7b4ea91cb8
+index 000000000000..07b4ac19407d
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/vm/damon/index.rst
-@@ -0,0 +1,33 @@
++++ b/Documentation/translations/zh_CN/vm/damon/faq.rst
+@@ -0,0 +1,48 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+:Original: Documentation/vm/damon/index.rst
++:Original: Documentation/vm/damon/faq.rst
 +
 +:翻译:
 +
@@ -96,44 +95,58 @@ index 000000000000..9a7b4ea91cb8
 +:校译:
 +
 +
-+==========================
-+DAMON:数据访问监视器
-+==========================
++========
++常见问题
++========
 +
-+DAMON是Linux内核的一个数据访问监控框架子系统。DAMON的核心机制使其成为
-+（该核心机制详见(Documentation/translations/zh_CN/vm/damon/design.rst)）
++为什么是一个新的子系统，而不是扩展perf或其他用户空间工具？
++==========================================================
 +
-+ - *准确度* （监测输出对DRAM级别的内存管理足够有用；但可能不适合CPU Cache级别），
-+ - *轻量级* （监控开销低到可以在线应用），以及
-+ - *可扩展* （无论目标工作负载的大小，开销的上限值都在恒定范围内）。
++首先，因为它需要尽可能的轻量级，以便可以在线使用，所以应该避免任何不必要的开销，如内核-用户
++空间的上下文切换成本。第二，DAMON的目标是被包括内核在内的其他程序所使用。因此，对特定工具
++（如perf）的依赖性是不可取的。这就是DAMON在内核空间实现的两个最大的原因。
 +
-+因此，利用这个框架，内核的内存管理机制可以做出高级决策。会导致高数据访问监控开销的实
-+验性内存管理优化工作可以再次进行。同时，在用户空间，有一些特殊工作负载的用户可以编写
-+个性化的应用程序，以便更好地了解和优化他们的工作负载和系统。
 +
-+.. toctree::
-+   :maxdepth: 2
++“闲置页面跟踪” 或 “perf mem” 可以替代DAMON吗？
++==============================================
 +
-+TODOLIST:
-+*   faq
-+*   design
-+*   api
-diff --git a/Documentation/translations/zh_CN/vm/index.rst b/Documentation/translations/zh_CN/vm/index.rst
-index fc39f0d60318..432bc3ef1c18 100644
---- a/Documentation/translations/zh_CN/vm/index.rst
-+++ b/Documentation/translations/zh_CN/vm/index.rst
-@@ -23,10 +23,10 @@ TODO:待引用文档集被翻译完毕后请及时修改此处）
++闲置页跟踪是物理地址空间访问检查的一个低层次的原始方法。“perf mem”也是类似的，尽管它可以
++使用采样来减少开销。另一方面，DAMON是一个更高层次的框架，用于监控各种地址空间。它专注于内
++存管理优化，并提供复杂的精度/开销处理机制。因此，“空闲页面跟踪” 和 “perf mem” 可以提供
++DAMON输出的一个子集，但不能替代DAMON。
++
++
++DAMON是否只支持虚拟内存？
++=========================
++
++不，DAMON的核心是独立于地址空间的。用户可以在DAMON核心上实现和配置特定地址空间的低级原始
++部分，包括监测目标区域的构造和实际的访问检查。通过这种方式，DAMON用户可以用任何访问检查技
++术来监测任何地址空间。
++
++尽管如此，DAMON默认为虚拟内存和物理内存提供了基于vma/rmap跟踪和PTE访问位检查的地址空间
++相关功能的实现，以供参考和方便使用。
++
++
++我可以简单地监测页面的粒度吗？
++==============================
++
++是的，你可以通过设置 ``min_nr_regions`` 属性高于工作集大小除以页面大小的值来实现。
++因为监视目标区域的大小被强制为 ``>=page size`` ，所以区域分割不会产生任何影响。
+diff --git a/Documentation/translations/zh_CN/vm/damon/index.rst b/Documentation/translations/zh_CN/vm/damon/index.rst
+index 9a7b4ea91cb8..dfa82244cbe8 100644
+--- a/Documentation/translations/zh_CN/vm/damon/index.rst
++++ b/Documentation/translations/zh_CN/vm/damon/index.rst
+@@ -27,7 +27,9 @@ DAMON是Linux内核的一个数据访问监控框架子系统。DAMON的核心
+ .. toctree::
+    :maxdepth: 2
  
-    active_mm
-    balance
-+   damon/index
- 
++   faq
++
  TODOLIST:
- * arch_pgtable_helpers
--* damon/index
- * free_page_reporting
- * frontswap
- * highmem
+-*   faq
++
+ *   design
+ *   api
 -- 
 2.27.0
 
