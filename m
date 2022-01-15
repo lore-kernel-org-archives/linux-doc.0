@@ -2,214 +2,159 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 994ABC433F5
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Jan 2022 01:09:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EC22C433F5
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Jan 2022 02:16:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231854AbiAOBJJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Jan 2022 20:09:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55374 "EHLO
+        id S230202AbiAOCQj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Jan 2022 21:16:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231826AbiAOBJJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jan 2022 20:09:09 -0500
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2B5EC06173F
-        for <linux-doc@vger.kernel.org>; Fri, 14 Jan 2022 17:09:08 -0800 (PST)
-Received: by mail-yb1-xb4a.google.com with SMTP id s7-20020a5b0447000000b005fb83901511so21696172ybp.11
-        for <linux-doc@vger.kernel.org>; Fri, 14 Jan 2022 17:09:08 -0800 (PST)
+        with ESMTP id S230195AbiAOCQi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jan 2022 21:16:38 -0500
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FEADC061574;
+        Fri, 14 Jan 2022 18:16:38 -0800 (PST)
+Received: by mail-pf1-x429.google.com with SMTP id a5so4351171pfo.5;
+        Fri, 14 Jan 2022 18:16:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=kkjQvBHUpUsPJOcuRnb4FbpqpDLYZFNC/PGNH3Zg5WU=;
-        b=B7HrMalKbOrQ0jLo+t2k5LKQyXsYTrKPSnoCQbJTFt3xXAdNgf+Y3bG0OwuuV3conm
-         9YDTffSi81yddsv2BoH3Yepu0Qf4t9Yufib51okExGf5c00BzhktLBE/1fgctRjU17A0
-         FE5Q2yG/2zZsbcQO5KIgRMuIdtuJb3ntKNdMvUrJDIlln1wNgH3uN1Xs3Tq4HUuo2nQw
-         vX/4a2fLq5zN8JuJ/ROXboM4iqrNUfkxyQzzeG4K6rLmd0dL8lZlsn2U8cU340A6r7rt
-         CrzHH2yHQihIsNpJ9nYxK0RZUUVox7TiNHvKS/20HXPEnTeOhUMt/SoHjy/YrqoHfDGB
-         975A==
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=GhtO3G0vvXRrIVaPWG9MifsIuKW68vqTseRFdmwK/VA=;
+        b=jRA3u11br7x72YzaahbRFWeZDSDFC8+gLKnrudbYwKnbLICQmCljXTelR/nCZMo1iP
+         PdYYtt58ABapVq6g9lRZkDPzAwquMi57j8T9mek26lIAHmvKkoedu316bWQroBGXuxnb
+         +auwxZ+69PB6GOOB5c6T4DaTBsZSRpUGiFsuDh4BfzKEF078RIbj36FZgLgQEHJNNT/f
+         KfzEQQfBjD0OxJwGOuFhgOCoTYfpPF/E8+YKEVuM0hS707LlfDVPVHCw93VpuTavrPa7
+         FPtTgnrEZ/01jEzJ5KHfJqRB5y68/NY40Es/+8PEMv/4gs8m9tDHLHCANl3yV5uwLLmt
+         KCvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=kkjQvBHUpUsPJOcuRnb4FbpqpDLYZFNC/PGNH3Zg5WU=;
-        b=HzeX8qdZF5hx4WUBZfviLvuWVl5Mz653W+3GypbS1w3X8mid0fjUZCvMLdOMhKYnOy
-         ZnlzItWbOJxNuba12aFdS2eIdhAFxuE8IBV0uSawFrSZcz4qRtZ+ZM2V5Z/p6ZL60wer
-         BFksp1RxjmKd4eAGqYPVgokCRXHb/3LWK2k8gYisZq3gzQg2bFDXc5zvsELvT2exmNuA
-         4gha2DGu0bt0wfrEY47Jna9HqQLiNyVsyITmL9u439c4yEameeUEaE1gJR79O04LsXOX
-         It/eBmQHpekaQ4oFFlK11g2EFvp+s1grDU8IX7CRdhir93UDxFnz2lQe6LZHItYJ+rtN
-         5bpw==
-X-Gm-Message-State: AOAM532gexenFq8jtCxUQd/gtgNr5nOkvLS1EYvieSQyw2OgQiufJXQL
-        JoUTBPkrYQZPFY8G2SJ3hp3VuRDOzt4=
-X-Google-Smtp-Source: ABdhPJz9CR2IoAwevLCGCWJ5VPMm/mBeIOkcx7f8CHh3K/XQY53M+B3vhZstfGoP5vWHDyFMJE3GX6t7YyU=
-X-Received: from hridya.mtv.corp.google.com ([2620:15c:211:200:5860:362a:3112:9d85])
- (user=hridya job=sendgmr) by 2002:a25:7b44:: with SMTP id w65mr15284933ybc.59.1642208948043;
- Fri, 14 Jan 2022 17:09:08 -0800 (PST)
-Date:   Fri, 14 Jan 2022 17:06:04 -0800
-In-Reply-To: <20220115010622.3185921-1-hridya@google.com>
-Message-Id: <20220115010622.3185921-7-hridya@google.com>
-Mime-Version: 1.0
-References: <20220115010622.3185921-1-hridya@google.com>
-X-Mailer: git-send-email 2.34.1.703.g22d0c6ccf7-goog
-Subject: [RFC 6/6] android: binder: Add a buffer flag to relinquish ownership
- of fds
-From:   Hridya Valsaraju <hridya@google.com>
-To:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "=?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?=" <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Christian Brauner <christian@brauner.io>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Dave Airlie <airlied@redhat.com>,
-        Kenneth Graunke <kenneth@whitecape.org>,
-        Jason Ekstrand <jason@jlekstrand.net>,
-        Matthew Auld <matthew.auld@intel.com>,
-        Matthew Brost <matthew.brost@intel.com>,
-        Li Li <dualli@google.com>, Marco Ballesio <balejs@google.com>,
-        Hang Lu <hangl@codeaurora.org>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Chris Down <chris@chrisdown.name>,
-        Vipin Sharma <vipinsh@google.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=GhtO3G0vvXRrIVaPWG9MifsIuKW68vqTseRFdmwK/VA=;
+        b=EfF1X5SID2ypLv79JQx9itryBvT7aTaVl3PJh7i1kw7xjhWLcbvhxv+RM9JVth/YRv
+         wSyYki2oQm1MAKLUXO9FF+sHj7i0lr4SINo/KpgxbU6RfSbi7P9OHNLqLu2MCjzZvTIi
+         27DdKLeCDlb0cvEZbEKOBwnSyvDFsMRHLJuRdfQvG5qRtn06eMF49VqdERUSzLKdi8Gx
+         iA48oQmzj0kzqTWWKuNEzSX2sAe7vbVhBaLma+TwVVYn0rUYNwFTlDBmtdB4NVCF6zQ3
+         pscvHTtfjJEjrvoVHVe6OjLsrjPIAtikXig5QAxmi8Wmkbi2stzx0IealDieDMhjgFto
+         +qsQ==
+X-Gm-Message-State: AOAM530qoTHL+vH2VXsEMHgvq2Cz0WtgZR0BiO6oEEzb+O2Bel5R2PtO
+        /6dmnJJ6+/jV2YfSLc+N87U=
+X-Google-Smtp-Source: ABdhPJx828tltAw+f8FrEdwoh/U2ENETHc1ygIMUCwIE4h04CnFDvVxVf+auOSv+GKcwgKaaDEuP0A==
+X-Received: by 2002:a05:6a00:1c6c:b0:4be:ac47:c045 with SMTP id s44-20020a056a001c6c00b004beac47c045mr11405393pfw.57.1642212997791;
+        Fri, 14 Jan 2022 18:16:37 -0800 (PST)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id p10sm6885880pfw.87.2022.01.14.18.16.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Jan 2022 18:16:37 -0800 (PST)
+Subject: Re: [PATCH v2 0/4] docs: sphinx/kfigure.py: Improve conversion to PDF
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        cgroups@vger.kernel.org
-Cc:     Kenny.Ho@amd.com, daniels@collabora.com, kaleshsingh@google.com,
-        tjmercier@google.com
-Content-Type: text/plain; charset="UTF-8"
+        Akira Yokosawa <akiyks@gmail.com>
+References: <e01fe9f9-f600-c2fc-c6b3-ef6395655ffe@gmail.com>
+ <e545803a-8f09-f0e7-4ca0-16b673ef1796@gmail.com>
+ <20220114094535.5bb9ba94@coco.lan>
+From:   Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <e03de287-4eef-8a68-89f3-8614db66a74b@gmail.com>
+Date:   Sat, 15 Jan 2022 11:16:34 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+MIME-Version: 1.0
+In-Reply-To: <20220114094535.5bb9ba94@coco.lan>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch introduces a buffer flag BINDER_BUFFER_FLAG_SENDER_NO_NEED
-that a process sending an fd array to another process over binder IPC
-can set to relinquish ownership of the fds being sent for memory
-accounting purposes. If the flag is found to be set during the fd array
-translation and the fd is for a DMA-BUF, the buffer is uncharged from
-the sender's cgroup and charged to the receiving process's cgroup
-instead.
+On Fri, 14 Jan 2022 09:45:35 +0100,
+Mauro Carvalho Chehab wrote:
+> Em Fri, 7 Jan 2022 22:45:47 +0900
+> Akira Yokosawa <akiyks@gmail.com> escreveu:
+> 
+>> On Wed, 29 Dec 2021 20:42:00 +0900, Akira Yokosawa wrote:
+>>> This patch set improves conversions of DOT -> PDF and SVG -> PDF
+>>> for PDF docs.  
+>>
+>> Gentle ping.
+>>
+>> Mauro, any comments?
+> 
+> Sorry, have been busy those days with not much time to test it,
+> and I'm not expecting any time to test it on the next couple of
+> weeks.
 
-It is upto the sending process to ensure that it closes the fds
-regardless of whether the transfer failed or succeeded.
+Mauro, no need of apologies.
 
-Most graphics shared memory allocations in Android are done by the
-graphics allocator HAL process. On requests from clients, the HAL process
-allocates memory and sends the fds to the clients over binder IPC.
-The graphics allocator HAL will not retain any references to the
-buffers. When the HAL sets the BINDER_BUFFER_FLAG_SENDER_NO_NEED for fd
-arrays holding DMA-BUF fds, the gpu cgroup controller will be able to
-correctly charge the buffers to the client processes instead of the
-graphics allocator HAL.
+We are in the middle of the v5.17 merge window, and I think of this
+series as a v5.18 material.
+Which means it won't be merged into doc-next until v5.17-rc5 or -rc6
+(mid March or so), unless Jon thinks otherwise.
 
-Signed-off-by: Hridya Valsaraju <hridya@google.com>
----
- drivers/android/binder.c            | 32 +++++++++++++++++++++++++++++
- include/uapi/linux/android/binder.h |  1 +
- 2 files changed, 33 insertions(+)
+I'd like to have your Tested-by: and/or Reviewed-by: tags if you
+could manage to spare time for testing.
 
-diff --git a/drivers/android/binder.c b/drivers/android/binder.c
-index 5497797ab258..83082fd1ab6a 100644
---- a/drivers/android/binder.c
-+++ b/drivers/android/binder.c
-@@ -42,6 +42,7 @@
- 
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
- 
-+#include <linux/dma-buf.h>
- #include <linux/fdtable.h>
- #include <linux/file.h>
- #include <linux/freezer.h>
-@@ -2482,8 +2483,11 @@ static int binder_translate_fd_array(struct list_head *pf_head,
- {
- 	binder_size_t fdi, fd_buf_size;
- 	binder_size_t fda_offset;
-+	bool transfer_gpu_charge = false;
- 	const void __user *sender_ufda_base;
- 	struct binder_proc *proc = thread->proc;
-+	struct binder_proc *target_proc = t->to_proc;
-+
- 	int ret;
- 
- 	fd_buf_size = sizeof(u32) * fda->num_fds;
-@@ -2520,8 +2524,15 @@ static int binder_translate_fd_array(struct list_head *pf_head,
- 	if (ret)
- 		return ret;
- 
-+	if (IS_ENABLED(CONFIG_CGROUP_GPU) &&
-+	    parent->flags & BINDER_BUFFER_FLAG_SENDER_NO_NEED)
-+		transfer_gpu_charge = true;
-+
- 	for (fdi = 0; fdi < fda->num_fds; fdi++) {
- 		u32 fd;
-+		struct dma_buf *dmabuf;
-+		struct gpucg *gpucg;
-+
- 		binder_size_t offset = fda_offset + fdi * sizeof(fd);
- 		binder_size_t sender_uoffset = fdi * sizeof(fd);
- 
-@@ -2531,6 +2542,27 @@ static int binder_translate_fd_array(struct list_head *pf_head,
- 						  in_reply_to);
- 		if (ret)
- 			return ret > 0 ? -EINVAL : ret;
-+
-+		if (!transfer_gpu_charge)
-+			continue;
-+
-+		dmabuf = dma_buf_get(fd);
-+		if (IS_ERR(dmabuf))
-+			continue;
-+
-+		if (dmabuf->ops->charge_to_cgroup) {
-+			gpucg = gpucg_get(target_proc->tsk);
-+			ret = dmabuf->ops->charge_to_cgroup(dmabuf, gpucg);
-+			if (ret) {
-+				pr_warn("%d:%d Unable to transfer DMA-BUF fd charge to %d",
-+					proc->pid, thread->pid, target_proc->pid);
-+				gpucg_put(gpucg);
-+			}
-+		} else {
-+			pr_warn("%d:%d DMA-BUF exporter %s is not configured correctly for GPU cgroup memory accounting",
-+				proc->pid, thread->pid, dmabuf->exp_name);
-+		}
-+		dma_buf_put(dmabuf);
- 	}
- 	return 0;
- }
-diff --git a/include/uapi/linux/android/binder.h b/include/uapi/linux/android/binder.h
-index ad619623571e..c85f0014c341 100644
---- a/include/uapi/linux/android/binder.h
-+++ b/include/uapi/linux/android/binder.h
-@@ -137,6 +137,7 @@ struct binder_buffer_object {
- 
- enum {
- 	BINDER_BUFFER_FLAG_HAS_PARENT = 0x01,
-+	BINDER_BUFFER_FLAG_SENDER_NO_NEED = 0x02,
- };
- 
- /* struct binder_fd_array_object - object describing an array of fds in a buffer
--- 
-2.34.1.703.g22d0c6ccf7-goog
+> 
+> The main concern from my last review is that inkscape is too noisy 
+> (well, frankly, textlive is also too noisy).
 
+You mean the harmless warning msgs delegated to kernellog.verbose()?
+Or the direct redirection to /dev/null as of v1's 3/3?
+
+>                                               If this was solved
+> on a nice way,
+
+An excerpt of messages from Inkscape is as follows
+(on Debian bullseye, with "make SPHINXOPTS=-v SPHINXDIRS=doc-guide pdfdocs"):
+
+----------
+convert SVG to: {out}/svg_image.pdf
+Warning msg from inkscape(1) (likely harmless):
+Unable to init server: Could not connect: Connection refused
+Failed to get connection
+** (inkscape:119): CRITICAL **: 01:58:03.988: dbus_g_proxy_new_for_name: assertion 'connection != NULL' failed
+
+** (inkscape:119): CRITICAL **: 01:58:03.988: dbus_g_proxy_call: assertion 'DBUS_IS_G_PROXY (proxy)' failed
+
+** (inkscape:119): CRITICAL **: 01:58:03.988: dbus_g_connection_register_g_object: assertion 'connection != NULL' failed
+
+** (inkscape:119): WARNING **: 01:58:04.300: Fonts dir '/usr/share/inkscape/fonts' does not exist and will be ignored.
+
+assert best format for: hello.dot
+convert DOT to: {out}/hello.pdf
+Warning msg from inkscape(1) (likely harmless):
+Unable to init server: Could not connect: Connection refused
+Failed to get connection
+** (inkscape:129): CRITICAL **: 01:58:04.454: dbus_g_proxy_new_for_name: assertion 'connection != NULL' failed
+
+** (inkscape:129): CRITICAL **: 01:58:04.454: dbus_g_proxy_call: assertion 'DBUS_IS_G_PROXY (proxy)' failed
+
+** (inkscape:129): CRITICAL **: 01:58:04.454: dbus_g_connection_register_g_object: assertion 'connection != NULL' failed
+
+** (inkscape:129): WARNING **: 01:58:04.628: Fonts dir '/usr/share/inkscape/fonts' does not exist and will be ignored.
+[...]
+----------
+
+On Fedora 35, I don't see any message from Inkscape.
+
+Is this acceptable to you?
+
+>                 and provided that the output files on both html and
+> pdf are working fine with those conversions, I don't have any 
+> objections to this series.
+
+This series affects only PDF.
+My test coverage is not perfect, but I don't expect any regression
+in "make pdfdocs" or "make htmldocs".
+
+        Thanks, Akira
+
+> 
+> Regards,
+> Mauro
+> 
+[...]
