@@ -2,57 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37FCEC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Jan 2022 11:14:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7917BC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Jan 2022 12:59:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233990AbiAQLO2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Jan 2022 06:14:28 -0500
-Received: from mx3.molgen.mpg.de ([141.14.17.11]:59005 "EHLO mx1.molgen.mpg.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233906AbiAQLO2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 17 Jan 2022 06:14:28 -0500
-Received: from localhost.localdomain (ip5f5aeb79.dynamic.kabel-deutschland.de [95.90.235.121])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: pmenzel)
-        by mx.molgen.mpg.de (Postfix) with ESMTPSA id 7A7EE61EA1922;
-        Mon, 17 Jan 2022 12:14:25 +0100 (CET)
-From:   Paul Menzel <pmenzel@molgen.mpg.de>
-To:     Pasha Tatashin <pasha.tatashin@soleen.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Paul Menzel <pmenzel@molgen.mpg.de>, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] docs/vm: Fix typo in *harden*
-Date:   Mon, 17 Jan 2022 12:13:37 +0100
-Message-Id: <20220117111338.115455-1-pmenzel@molgen.mpg.de>
-X-Mailer: git-send-email 2.34.1
+        id S240051AbiAQM7x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Jan 2022 07:59:53 -0500
+Received: from fanzine2.igalia.com ([213.97.179.56]:33880 "EHLO
+        fanzine2.igalia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229563AbiAQM7x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jan 2022 07:59:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=Eg4+CosmprUBdxkImyooL59klv9lZlKadW6+i0O7cP8=; b=sntxkZuvPeh6aFkf1a9ueaM5Ju
+        3FwcaI0mWgaeqFQRJwR4etxyrW4UWuW5tLL/6YC2cwHiqjHZBB+zaZF4/9BYHlwHtHMf9cPhd4QjN
+        IVfar5wwSIJTvaQOUNkTSOYTm71RjzulBlKh4dAtSByp2t6yop+nHmundgg8IbDC5epDiTv7p0lLD
+        lETSa2rSK8F82qt+w+hWSCIsOHmVLITeHJR2qYfJlTQuJNi8ORH1sIXgJM9YhuhxKkv9c4VawqPv1
+        asCoR5jHBMCLLqGPLpApoDBBya+E87A1rDm2QXMpdUj/vHHe1VdsLxaG6pJPAdQrqym1zXKwb+i64
+        XQO8lJtg==;
+Received: from [179.98.77.138] (helo=[192.168.1.60])
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+        id 1n9Rbv-0003zn-Gb; Mon, 17 Jan 2022 13:59:47 +0100
+Message-ID: <7fd2b15c-0b62-2501-5078-0ee6046c8d04@igalia.com>
+Date:   Mon, 17 Jan 2022 09:59:30 -0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [PATCH V4] notifier/panic: Introduce panic_notifier_filter
+Content-Language: en-US
+To:     Baoquan He <bhe@redhat.com>
+Cc:     kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        dyoung@redhat.com, linux-doc@vger.kernel.org, vgoyal@redhat.com,
+        stern@rowland.harvard.edu, akpm@linux-foundation.org,
+        andriy.shevchenko@linux.intel.com, corbet@lwn.net,
+        halves@canonical.com, kernel@gpiccoli.net
+References: <20220108153451.195121-1-gpiccoli@igalia.com>
+ <20220116131129.GD2388@MiWiFi-R3L-srv>
+From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+In-Reply-To: <20220116131129.GD2388@MiWiFi-R3L-srv>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fixes: df4e817b7108 ("mm: page table check")
-Signed-off-by: Paul Menzel <pmenzel@molgen.mpg.de>
----
- Documentation/vm/page_table_check.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 16/01/2022 10:11, Baoquan He wrote:
+> [...]
+> This patch looks good to me, thx.
+> 
+> Acked-by: Baoquan He <bhe@redhat.com>
+> 
 
-diff --git a/Documentation/vm/page_table_check.rst b/Documentation/vm/page_table_check.rst
-index 81f521ff7ea7..1a09472f10a3 100644
---- a/Documentation/vm/page_table_check.rst
-+++ b/Documentation/vm/page_table_check.rst
-@@ -9,7 +9,7 @@ Page Table Check
- Introduction
- ============
- 
--Page table check allows to hardern the kernel by ensuring that some types of
-+Page table check allows to harden the kernel by ensuring that some types of
- the memory corruptions are prevented.
- 
- Page table check performs extra verifications at the time when new pages become
--- 
-2.34.1
-
+Thanks a lot Baoquan He !
