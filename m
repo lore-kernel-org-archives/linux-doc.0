@@ -2,158 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 984C9C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Jan 2022 04:39:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65B17C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Jan 2022 04:45:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237074AbiAQEjA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 16 Jan 2022 23:39:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44300 "EHLO
+        id S237086AbiAQEpj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 16 Jan 2022 23:45:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229563AbiAQEi7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Jan 2022 23:38:59 -0500
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5D9BC061574
-        for <linux-doc@vger.kernel.org>; Sun, 16 Jan 2022 20:38:58 -0800 (PST)
-Received: by mail-pf1-x42d.google.com with SMTP id 128so9152061pfe.12
-        for <linux-doc@vger.kernel.org>; Sun, 16 Jan 2022 20:38:58 -0800 (PST)
+        with ESMTP id S229563AbiAQEpi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Jan 2022 23:45:38 -0500
+Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 569C8C061574;
+        Sun, 16 Jan 2022 20:45:38 -0800 (PST)
+Received: by mail-il1-x130.google.com with SMTP id d3so13787322ilr.10;
+        Sun, 16 Jan 2022 20:45:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=cVspTmQiD7N10E/j9zVFtc5PSwWpl19B4kuRGHViMFg=;
-        b=Hry57dgM88WbvUO4ztPiJ5ygUHdglCTxnisupCThcSPBvtAjcjLEjzwNMlYTp2j7o+
-         jiAZw7ABHerwAmqgGnmWSwzZ35/5s57RE1J3iTY6bvl3W2yJgx9BmeOPWPHLYanedd2Z
-         XWdOc+VSSym1/ozWPGvFgs2+8KSgfobIdnv6DS2Fn6SWWroJzgkUxX9apmavG/YQpznA
-         YUxTNlnBlpMspun+G6Ubeq8cC/Ah1GOjwn8Dx6Aq+/rHrOYmtY9FioVNde4Aef9HmkIg
-         XeokY94jVRvbmRd4b5JF8uDzkvJsSiTTaUlQpaAQCxQU7UXutd7x5K+sNw8kxtuZbEJf
-         dyeg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=NXJNU8A/vrNI4Y+ivgE9K8Fmf8JFY+TijAbHrzk15XA=;
+        b=PzG00sgeoimoo1zcwhcGVtlDlW3/+n1GDlK7V+RyNpRuHCMClBHy0YdteLUK1u/Qd+
+         uR+lG457kbxkO4LTBEt5Rq1APHSKpT1xSp19GmSjJLUoMgT3D2W6v2jumaYJ0UzEXJ3T
+         vFd3zTLgbvSFjcZ4pgjzM6dNI9V/05BQyBlzCapxqKrFtRvM7n1YQfXgsOZAhwJRDHWF
+         nP9DK/6G6XuhF4if4s7BccDxwgNNE5zF4I1MYlNfoG6eNLlmEPpichojwoYsCQNUgImM
+         YSRM+511RAMm3djS5h4cOb0gN3TBDJz3LvPHI0s1W2n0iWRO/1TRD1/pe7kpP7CCKs72
+         JUrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=cVspTmQiD7N10E/j9zVFtc5PSwWpl19B4kuRGHViMFg=;
-        b=0TzFrWSAAkz02QVglIl21yaJHLYWgR/nnbgT3nxd3CTRfcaGt/lW0v76W12eGutZO0
-         dcveF5pOhMJjVH7u2ETbLPoRngInrBt7p3ELIHxTNidQ6i/cKhmPHOrnM4TQIML+QIoQ
-         Lhx8wApn/UjDwtKGmp9uwlVfTwyM0T6v7Zj5FNSrL7FWGGJhFjmWAGEQptZWBu5G6k/x
-         ND58xFxwhsqt0l1/dBWnZWKXEyPz9B6L/pZsnpfe95tYlCOINQ19hZGNGA/q634faocs
-         pKUS3MdsleylTXk3zIZV6BWN72zD3HSOqYFbtg4kXvQ6z8bfVx3m5ozGqnSpKjkz8l47
-         55Ug==
-X-Gm-Message-State: AOAM531AISJc7cQgDvy7+OK8vGIao+XN48tr6E9PjAU57JpOlSmke4PU
-        jgx6grm6Dmsb84aIt3OIxY0=
-X-Google-Smtp-Source: ABdhPJyjyG/aZqq8M4K+muAuKdyWLi7V9gBf3PvgrLEgo0oeSa0LY4MtaTRrCjt66V1LWwjyqYOMLg==
-X-Received: by 2002:a63:8748:: with SMTP id i69mr10221868pge.253.1642394338432;
-        Sun, 16 Jan 2022 20:38:58 -0800 (PST)
-Received: from localhost.localdomain ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id p4sm12612376pfo.21.2022.01.16.20.38.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Jan 2022 20:38:58 -0800 (PST)
-From:   cgel.zte@gmail.com
-X-Google-Original-From: xu.xin16@zte.com.cn
-To:     sterlingteng@gmail.com, seakeel@gmail.com, corbet@lwn.net
-Cc:     siyanteng01@gmail.com, linux-doc@vger.kernel.org,
-        xu.xin16@zte.com.cn, cgel.zte@gmail.com,
-        Yang Yang <yang.yang29@zte.com.cn>
-Subject: [PATCH v2 3/3] zh_CN: Add translation for admin-guide/mm/index.rst
-Date:   Mon, 17 Jan 2022 04:38:54 +0000
-Message-Id: <20220117043854.861773-1-xu.xin16@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220117043455.861550-1-xu.xin16@zte.com.cn>
-References: <20220117043455.861550-1-xu.xin16@zte.com.cn>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=NXJNU8A/vrNI4Y+ivgE9K8Fmf8JFY+TijAbHrzk15XA=;
+        b=HiaZXqH2QUEUFSJxbd/95TgJ4LKK7caktx5swsbBZKaZ7uxrnj27Q3DcbuR9vumJV2
+         r7IzZrLaoGgu380HfWEMMfxQd5sQD3OUzuEq3uAMuhqR1xsczvywpE5QGN/IwlsqOtAz
+         z3Pm71NlifALfRJDVs8naGXEHRP91fNp8y48NLpyI0vzOQ7/Z2uDBUPD+VJyR5pl19cl
+         dpkqpwWRUIf+au0wCX6+r2an2krGRqKd3CPllPTSRrJPKaSlBK98I/AIZqVUxgLaIoMi
+         RtvQ4QFTYCOFrh3EZtapsjV6QYJPxR9gUZ1q1Fxgx3VFPVzzoJmQ/R0KD05jckEXcPPT
+         p2Eg==
+X-Gm-Message-State: AOAM532ilXJZuyWuv4UsLb2s1nt8GYU+bm10sjDaUpvFjwl2mDCCPOo4
+        TUyc3O1JoHQ7pl9IaGrkS69J0R9RzzDPRRXcTvXwcuwg
+X-Google-Smtp-Source: ABdhPJxRhKFpEsFdyKcte+Zsj7MrW5IXWNB4xcrRU37urSdE65MYsL2fH1bp9UCr9Pbs6bP+ay49DBuxJszsX8sSj9k=
+X-Received: by 2002:a05:6e02:1a41:: with SMTP id u1mr1776348ilv.151.1642394737646;
+ Sun, 16 Jan 2022 20:45:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=y
-Content-Transfer-Encoding: 8bit
+References: <20211206140313.5653-1-ojeda@kernel.org> <20211206140313.5653-16-ojeda@kernel.org>
+ <CAK7LNAS+eiL-kcdnNyyCUNWjV5qGxrw4PM-oJFfw=o1fbhc2qw@mail.gmail.com>
+In-Reply-To: <CAK7LNAS+eiL-kcdnNyyCUNWjV5qGxrw4PM-oJFfw=o1fbhc2qw@mail.gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Mon, 17 Jan 2022 05:45:26 +0100
+Message-ID: <CANiq72n4aM6RG+mcGyG-U_fahRw4H9XLUyp4_Jayf1-uq=qY_g@mail.gmail.com>
+Subject: Re: [PATCH 15/19] Kbuild: add Rust support
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Finn Behrens <me@kloenk.de>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Sven Van Asbroeck <thesven73@gmail.com>,
+        Gary Guo <gary@garyguo.net>,
+        Boris-Chengbiao Zhou <bobo1239@web.de>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Douglas Su <d0u9.su@outlook.com>,
+        Dariusz Sosnowski <dsosnowski@dsosnowski.pl>,
+        Antonio Terceiro <antonio.terceiro@linaro.org>,
+        Daniel Xu <dxu@dxuuu.xyz>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: xu xin <xu.xin16@zte.com.cn>
+Hi Masahiro,
 
-Translate Documentation/admin-guide/mm/index.rst into Chinese.
-Update Documentation/admin-guide/index.rst.
+On Sat, Dec 11, 2021 at 4:54 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> Do you really want to support CLIPPY=1
+> in addition to KBUILD_CLIPPY=1 ?
+>
+> (Refer to C=  V=  M=  O=, which checks $(origin ) )
 
-Reviewed-by: Yang Yang <yang.yang29@zte.com.cn>
-Signed-off-by: xu xin <xu.xin16@zte.com.cn>
----
- .../translations/zh_CN/admin-guide/index.rst       |  2 +-
- .../translations/zh_CN/admin-guide/mm/index.rst    | 49 ++++++++++++++++++++++
- 2 files changed, 50 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/admin-guide/mm/index.rst
+I implemented both because I saw the pattern used for `V=`, `W=` etc.,
+and I thought I should follow it too. If I understand correctly, the
+split between `KBUILD_*` and the shorthands is there to avoid
+conflicts if the caller had set very short environment variables for
+some reason -- is this correct?
 
-diff --git a/Documentation/translations/zh_CN/admin-guide/index.rst b/Documentation/translations/zh_CN/admin-guide/index.rst
-index 548e57f..763055f 100644
---- a/Documentation/translations/zh_CN/admin-guide/index.rst
-+++ b/Documentation/translations/zh_CN/admin-guide/index.rst
-@@ -69,6 +69,7 @@ Todolist:
-    lockup-watchdogs
-    unicode
-    sysrq
-+   mm/index
- 
- Todolist:
- 
-@@ -105,7 +106,6 @@ Todolist:
-    LSM/index
-    md
-    media/index
--   mm/index
-    module-signing
-    mono
-    namespaces/index
-diff --git a/Documentation/translations/zh_CN/admin-guide/mm/index.rst b/Documentation/translations/zh_CN/admin-guide/mm/index.rst
-new file mode 100644
-index 0000000..b2c1140
---- /dev/null
-+++ b/Documentation/translations/zh_CN/admin-guide/mm/index.rst
-@@ -0,0 +1,49 @@
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original:   Documentation/admin-guide/mm/index.rst
-+
-+:翻译:
-+
-+  徐鑫 xu xin <xu.xin16@zte.com.cn>
-+
-+
-+========
-+内存管理
-+========
-+
-+Linux内存管理子系统，顾名思义，是负责系统中的内存管理。它包括了虚拟内存与请求
-+分页的实现，内核内部结构和用户空间程序的内存分配、将文件映射到进程地址空间以
-+及许多其他很酷的事情。
-+
-+Linux内存管理是一个具有许多可配置设置的复杂系统, 且这些设置中的大多数都可以通
-+过 ``/proc`` 文件系统获得，并且可以使用 ``sysctl`` 进行查询和调整。这些API接
-+口被描述在Documentation/admin-guide/sysctl/vm.rst文件和 `man 5 proc`_ 中。
-+
-+.. _man 5 proc: http://man7.org/linux/man-pages/man5/proc.5.html
-+
-+Linux内存管理有它自己的术语，如果你还不熟悉它，请考虑阅读下面参考：
-+:ref:`Documentation/admin-guide/mm/concepts.rst <mm_concepts>`.
-+
-+在此目录下，我们详细描述了如何与Linux内存管理中的各种机制交互。
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   ksm
-+
-+Todolist:
-+* concepts
-+* cma_debugfs
-+* damon/index
-+* hugetlbpage
-+* idle_page_tracking
-+* memory-hotplug
-+* nommu-mmap
-+* numa_memory_policy
-+* numaperf
-+* pagemap
-+* soft-dirty
-+* swap_numa
-+* transhuge
-+* userfaultfd
-+* zswap
--- 
-2.15.2
+If you prefer only one, I think writing `KBUILD_CLIPPY=1` would be too
+long for command line usage; so I would prefer `CLIPPY=1` in that
+case.
 
+> Is there any reason why
+> you did not write like
+>
+>   core-$(CONFIG_RUST)  += rust/
+>
+> ?
+
+I have moved it inside the `rust/Makefile` -- please take a look at
+the next round I am sending in a bit.
+
+> extra-y does nothing for 'make modules'.
+> Is this your expected behavior?
+>
+> (commit d0e628cd817f3)
+
+Thanks for the reference! Changed to `always-y`. Indeed, this is
+needed in `make modules` because we need to trigger the compilation of
+`core.o` etc. for the `.rmeta` files.
+
+> Why is .SECONDEXPANSION: needed ?
+
+It was needed at some point for the prototype more than a year ago;
+however, it isn't the case anymore, so I have removed it. I have also
+made those variables simply expanded ones.
+
+Cheers,
+Miguel
